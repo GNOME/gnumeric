@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-08 23:59-0400\n"
-"PO-Revision-Date: 2004-02-10 13:50+0900\n"
+"POT-Creation-Date: 2004-09-10 20:40+0900\n"
+"PO-Revision-Date: 2004-09-10 20:41+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -510,7 +510,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:731
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,"
@@ -536,11 +536,11 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_FRENCH\n"
-"@SYNTAX=OPT_FRENCH(fjäril;avista;slag;tid;t2;flyktighet[;cost_of_carry])\n"
+"@SYNTAX=OPT_FRENCH(fjäril;avista;slag;tid;t2;ränta;flyktighet[;"
+"cost_of_carry])\n"
 "@DESCRIPTION=OPT_FRENCH beräknar det teoretiska priset på en europeisk "
 "option justerad för handelsdagsflyktighet, slagen vid @slag på en tillgång "
 "med avistan @avista.\n"
-"\n"
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
 "@flyktighet är den årliga flyktigheten, i procent, av tillgången för "
@@ -549,22 +549,17 @@ msgstr ""
 "handelsdagar under året.\n"
 "@t2 är antalet handelsdagar till förfallodatumet delat med antalet "
 "handelsdagar under året.\n"
-"@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
-"aktier är det den årliga utdelningen.\n"
-"@flyktighet är den årliga flyktigheten, i procent, av tillgången för "
-"perioden fram till förfallodatumet. @dagar_till_mognad är antalet dagar till "
-"lösen, och @inhemsk_ränta är den inhemska riskfria räntesatsen till "
-"förfallodatumet i procent, @utländsk_ränta är den utländska  riskfria "
-"räntesatsen till förfallodatumet i procent.\n"
+"@ränta är den riskfria räntan,\n"
+"@cost_of_carry är värdeläckaget på den underliggande tillgången, fram till "
+"förfallodatumet, i procent.\n"
+"för vanliga aktier är det den årliga utdelningen.\n"
 "\n"
-"* Det returnerade värdet uttrycks som förändringen av optionsvärdet per 100% "
-"volatilitet.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:793
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -587,7 +582,7 @@ msgstr ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(fjäril;avista;slag;tid;ränta;flyktighet;lambda;gamma)\n"
 "@DESCRIPTION=OPT_JUMP_DIFF modellerar det teoretiska priset på en option "
-"enligt hopp-diffusionsprocessen.\n"
+"enligt hopp-diffusionsprocessen (Merton).\n"
 "@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
 "@avista är avistapriset för den underliggande\n"
 "@slag är slagpriset på optionen\n"
@@ -603,7 +598,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:887
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
@@ -694,7 +689,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1051
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
@@ -733,7 +728,7 @@ msgstr ""
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:1234
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJERSTENS\n"
 "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -757,7 +752,7 @@ msgstr ""
 "@SYNTAX=OPT_BJERSTENS(fjäril;avista;slag;tid;ränta;flyktighet[;"
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BJERSTENS modellerar det teoretiska priset på amerikanska "
-"optioner enligt  Bjerksund & Stenslands approximationsteknik.\n"
+"optioner enligt Bjerksund & Stenslands approximationsteknik.\n"
 "@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag är slagpriset på optionen\n"
@@ -772,7 +767,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1318
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -816,7 +811,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1366
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -940,7 +935,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1547
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -985,7 +980,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1662
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -1018,21 +1013,22 @@ msgstr ""
 "@typflagga är \"cc\" för köp påköp, \"cp\" för sälj på köp och så vidare för "
 "\"pc\" och \"pp\"\n"
 "@avista är avistapriset för den underliggande tillgången.\n"
-"@slag1 är slagpriset på optionen.\n"
-"@slag1 är slagpriset på optionen.\n"
+"@slag1 är slagpriset på optionen som värderas.\n"
+"@slag1 är slagpriset på optionen som värderas.\n"
 "@tid1 är tiden till förfallodatumet i år på optionen.\n"
 "@tid2 är tiden till förfallodatumet i år på den underliggande optionen.\n"
 "(@tid2 >= @tid1)\n"
 "@ränta är den riskfria årliga räntan\n"
-"@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
-"aktier är det den årliga utdelningen.\n"
-"@flyktighet är den årliga flyktigheten av tillgången\n"
+"@cost_of_carry är värdeläckaget på den underliggande tillgången på den "
+"underliggande optionen, för vanliga aktier är det den årliga utdelningen.\n"
+"@flyktighet är den årliga flyktigheten av priset på den underliggande "
+"tillgången på den underliggande optionen\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1747
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1067,14 +1063,17 @@ msgstr ""
 "@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag1 är slagpriset på optionen\n"
-"@slag2 är slagpriset på optionen\n"
-"@tid1 är tiden till förfallodatumet i år på första inlösentiden\n"
+"@slag2 är slagpriset då optionen slås igen om det inte finns pengar kvar vid "
+"@tid1.\n"
+"@tid1 är tiden till förfallodatumet i år på första inlösentiden.\n"
 "@tid2 är tiden till förfallodatumet i år på den utökade inlösentiden om "
-"vald\n"
+"vald.\n"
 "@ränta är den riskfria årliga räntan\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
-"@flyktighet är den årliga flyktigheten av tillgången\n"
+"@flyktighet är den årliga flyktigheten av priset på den underliggande "
+"tillgången\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -1497,7 +1496,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5666
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5669
 #: plugins/mps/mps.c:547 src/xml-io.c:4134
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -1622,12 +1621,12 @@ msgstr "Diagram%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2985
+#: plugins/excel/ms-excel-read.c:2988
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fel vid tolkning av namn \"%s\""
 
-#: plugins/excel/ms-excel-read.c:3078
+#: plugins/excel/ms-excel-read.c:3081
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1636,7 +1635,7 @@ msgstr ""
 "DDE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:3084
+#: plugins/excel/ms-excel-read.c:3087
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1645,15 +1644,15 @@ msgstr ""
 "OLE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:5022
+#: plugins/excel/ms-excel-read.c:5025
 msgid "external references"
 msgstr "externa referenser"
 
-#: plugins/excel/ms-excel-read.c:5045
+#: plugins/excel/ms-excel-read.c:5048
 msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
-#: plugins/excel/ms-excel-read.c:5895
+#: plugins/excel/ms-excel-read.c:5898
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -1735,14 +1734,12 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
-msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
+msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP och 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
-#, fuzzy
 msgid "MS Excel (tm) SpreadsheetML"
-msgstr "MS Excel (tm) XML"
+msgstr "MS Excel (tm) SpreadsheetML"
 
 #: plugins/fn-complex/functions.c:80
 msgid ""
@@ -8774,7 +8771,7 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1421
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1428
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
 #: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
@@ -17598,8 +17595,7 @@ msgid "Unable to parse the html."
 msgstr "Kan inte tolka html-koden."
 
 #: plugins/html/plugin.xml.in.h:1
-#, fuzzy
-msgid "HTML &amp; TeX"
+msgid "HTML & TeX"
 msgstr "HTML och TeX"
 
 #: plugins/html/plugin.xml.in.h:2
@@ -17607,9 +17603,8 @@ msgid "HTML (*.html) fragment"
 msgstr "HTML-fragment (*.html)"
 
 #: plugins/html/plugin.xml.in.h:3
-#, fuzzy
 msgid "HTML (*.html, *.htm)"
-msgstr "XHTML (*.html)"
+msgstr "HTML (*.html, *.htm)"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
@@ -17652,9 +17647,8 @@ msgid "Lotus 123"
 msgstr "Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lotus 123 (*.wk1, *.wks)"
-msgstr "Lotus 123 (*.wk1)"
+msgstr "Lotus 123 (*.wk1, *.wks)"
 
 #: plugins/mps/mps.c:181
 msgid "Program Name"
@@ -18058,12 +18052,11 @@ msgstr "OpenCalc/StarCalc"
 
 #: plugins/openoffice/plugin.xml.in.h:4
 msgid "OpenOffice OASIS _UNFINISHED_"
-msgstr ""
+msgstr "OpenOffice OASIS _UNFINISHED_"
 
 #: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:106
-#, fuzzy
 msgid "Error while opening paradox file."
-msgstr "Fel vid öppnande av xbase-fil."
+msgstr "Fel vid öppnande av paradox-fil."
 
 #: plugins/paradox/paradox.c:104
 #, fuzzy
@@ -18073,17 +18066,15 @@ msgstr "Kunde inte skapa uttrycksgurun."
 #: plugins/paradox/paradox.c:180
 #, c-format
 msgid "Field type %d is not unsupported."
-msgstr ""
+msgstr "Fälttyp %d stöds inte."
 
 #: plugins/paradox/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Paradox files"
-msgstr "Importerar en fil"
+msgstr "Importerar Paradox-filer"
 
 #: plugins/paradox/plugin.xml.in.h:2
-#, fuzzy
 msgid "Paradox"
-msgstr "Pareto"
+msgstr "Paradox"
 
 #: plugins/paradox/plugin.xml.in.h:3
 msgid "Paradox database or primary index file"
@@ -19902,7 +19893,7 @@ msgid "O_utside"
 msgstr "U_tanför"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1443
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
 msgid "_Cross"
 msgstr "_Kors"
 
@@ -19937,73 +19928,73 @@ msgstr "_Visa etiketter"
 msgid "_Type:"
 msgstr "T_yp:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:623
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:630
 #: src/dialogs/dialog-random-generator.c:118
 #: src/tools/solver/reports-write.c:712
 msgid "Discrete"
 msgstr "Diskret"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:623
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:630
 #, fuzzy
 msgid "Discrete mapping"
 msgstr "Diskret"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:632
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:639
 #, fuzzy
 msgid "Linear"
 msgstr "_Linjär"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:632
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:639
 msgid "Linear mapping"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:638
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:645
 #, fuzzy
 msgid "Log"
 msgstr "Logik"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:638
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:645
 #, fuzzy
 msgid "Logarithm mapping"
 msgstr "Logaritmisk"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1384
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1391
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1428
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1435
 msgid "Categories between _ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1429
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1436
 msgid "Categories between _labels"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1430
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1437
 #, fuzzy
 msgid "_Cross at category #"
 msgstr "_Kategori"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1436
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1443
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
 msgid "Bounds"
 msgstr "Gränser"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1439
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1446
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1440
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1447
 msgid "M_ax"
 msgstr "M_ax"
 
 # ZZZ
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1441
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1448
 msgid "Ma_jor Ticks"
 msgstr "S_tora skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1442
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1449
 msgid "Mi_nor Ticks"
 msgstr "S_må skalstreck"
 
@@ -20011,14 +20002,14 @@ msgstr "S_må skalstreck"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1472
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1501
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1508
 #: src/sheet-object-graphic.c:1443 src/wbcg-actions.c:1881
 msgid "Label"
 msgstr "Rubrik"
@@ -20886,16 +20877,15 @@ msgstr "Multidimensionella punkter, med cirkel i varje punkt."
 msgid "Plot X, Y and bubble size."
 msgstr "Plotta X, Y och bubbelstorlek."
 
-#. really 3_1
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY Lines"
 msgstr "XY-linjer"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Points"
 msgstr "XY-punkter"
 
