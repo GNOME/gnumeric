@@ -144,10 +144,50 @@ go_basename_from_uri (const char *uri)
 
 #endif
 	{
-		char *basename_utf8 = basename ? g_filename_to_utf8 (basename, -1, NULL, NULL, NULL) : NULL;
+		char *basename_utf8 = basename
+			? g_filename_to_utf8 (basename, -1, NULL, NULL, NULL)
+			: NULL;
 		g_free (basename);
 		return basename_utf8;
 	}
+}
+
+/**
+ * go_dirname_from_uri:
+ * @uri :
+ * @brief: if TRUE, hide "file://" if present.
+ *
+ * Decode the all but the final path component.  Returns as UTF-8 encoded.
+ **/
+char *
+go_dirname_from_uri (const char *uri, gboolean brief)
+{
+	char *dirname_utf8, *dirname;
+
+#ifdef WITH_GNOME
+	char *raw_uri = gnome_vfs_unescape_string (uri, G_DIR_SEPARATOR_S);
+	dirname = raw_uri ? g_path_get_dirname (raw_uri) : NULL;
+	g_free (raw_uri);
+#else
+	char *uri_dirname = g_path_get_dirname (filename);
+	char *dir = uri_dirname ? go_filename_from_uri (uri_dirname) : NULL;
+	dirname = dirname ? g_strconcat ("file://", dirname, NULL) : NULL;
+	g_free (dir);
+	g_free (uri_dirname);
+#endif
+
+	if (brief && dirname &&
+	    g_ascii_strncasecmp (dirname, "file:///", 8) == 0) {
+		char *temp = g_strdup (dirname + 7);
+		g_free (dirname);
+		dirname = temp;
+	}
+
+	dirname_utf8 = dirname
+		? g_filename_to_utf8 (dirname, -1, NULL, NULL, NULL)
+		: NULL;
+	g_free (dirname);
+	return dirname_utf8;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -454,8 +454,7 @@ static void
 render_path (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-#warning "FIXME: we should have go_dirname_from_uri"
-		char *path = g_path_get_dirname (workbook_get_uri (info->sheet->workbook));
+		char *path = go_dirname_from_uri (workbook_get_uri (info->sheet->workbook), TRUE);
 		g_string_append (target, path);
 		g_free (path);
 	} else 

@@ -405,7 +405,7 @@ go_file_is_writable (char const *uri, GtkWindow *parent)
 		g_free (msg);
 		result = FALSE;
 	} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
-		char *dirname = g_path_get_dirname (uri);
+		char *dirname = go_dirname_from_uri (uri, TRUE);
 		char *basename = go_basename_from_uri (uri);
 		char *msg = g_markup_printf_escaped (
 			_("A file called <i>%s</i> already exists in %s.\n\n"

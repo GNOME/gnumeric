@@ -1,3 +1,12 @@
+2004-10-19  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (render_path): Use go_dirname_from_uri.
+
+	* src/workbook-view.c (cb_cleanup_sendto): Remove directory using
+	rmdir, not unlink.
+
+	* src/gui-file.c (go_file_is_writable): Use go_dirname_from_uri.
+
 2004-10-18  Jody Goldberg <jody@gnome.org>
 
 	* src/print-info.c (print_info_dup) : copy the margins.
@@ -2737,5 +2746,4 @@
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post BRANCH bump
-	  require gtk/glib 2.3.0, that will probably go up shortly
-	  as we depend more on head directly
+	  require gtk/glib 2.3.0, that will 

@@ -1,3 +1,7 @@
+2004-10-19  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-file.c (go_dirname_from_uri): New function.
+
 2004-10-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis.c (gog_axis_dim_changed): call gog_axis_update in
