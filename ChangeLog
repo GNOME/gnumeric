@@ -479,15 +479,15 @@
 
 2003-05-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/stf-parse.c (compare_terminator) : return the byte 
+	* src/stf-parse.c (compare_terminator) : return the byte
 	  length of the used terminator
 	(stf_parse_paresoptions_new): initialize the string indicator
 	  to our default
-	(stf_parse_next_token): pass all parse options, check also for 
+	(stf_parse_next_token): pass all parse options, check also for
 	  separators and terminators
-	(stf_parse_options_csv_set_stringindicator): the string 
+	(stf_parse_options_csv_set_stringindicator): the string
 	  indicator could be a non-ascii character
-	(stf_parse_csv_cell): use the type information returned by 
+	(stf_parse_csv_cell): use the type information returned by
 	  stf_parse_next_token
 	(stf_parse_eat_separators): Don't eat null bytes.
 	(stf_parse_get_rowcount): use stf_parse_next_token to avoid
@@ -542,13 +542,13 @@
 	(stf_parse_options_clear_line_terminator): new
 	(stf_parse_options_add_line_terminator): new
 	(stf_parse_options_remove_line_terminator): new
-	
+
 
 2003-05-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=99649
-	* src/GNOME_Gnumeric.xml: insert separator between Open and 
-	  Save of the File menu. 
+	* src/GNOME_Gnumeric.xml: insert separator between Open and
+	  Save of the File menu.
 	* src/workbook-control-gui.c (workbook_menu_file): ditto
 
 
@@ -557,7 +557,7 @@
 	* stf-export.c (stf_export_cell): transliterate if
 	  requested
 	(stf_export_options_set_transliterate_mode): new
-	(stf_export_can_transliterate): new	
+	(stf_export_can_transliterate): new
 
 	* stf-export.h: Add StfTransliterateMode_t
 	(stf_export_options_set_transliterate_mode): new
@@ -605,10 +605,10 @@
 	* src/stf-export.c
 	(stf_export_options_set_charset): new
 	(stf_export_cell): add conversion to selected charset
-	
+
 	* src/stf-export.h
 	(StfExportOptions_t): add charset
-	
+
 2003-05-07  Andreas Guelzow <aguelzow@taliesin.ca>
 
 	* src/regutf8.c (ISASCII): last ASCII is 0x7f
@@ -653,8 +653,8 @@
 	(stf_parse_options_set_line_terminator): change argument type
 	(stf_parse_options_set_line_terminator_char): new
 	(stf_parse_next_token): new
-	
-	* src/stf-parse.c 
+
+	* src/stf-parse.c
 	(stf_parse_options_set_line_terminator): change argument type
 	(stf_parse_options_set_line_terminator_char): new
 	(stf_parse_next_token): new
@@ -664,7 +664,7 @@
 	(stf_parse_csv_cell): rewrite
 	(stf_parse_eat_separators): new
 	(stf_parse_csv_line): make UTF-8 clean
-	
+
 	* src/stf.c (stf_read_workbook): fix released memory access (thanks Morten)
 	(stf_read_workbook_auto_csvtab): make UTF-8 clean and adjust guess to make
 	  it more likely to guess tsv rather than csv
@@ -683,8 +683,8 @@
 	* configure.in: Added "hi" in ALL_LINGUAS.
 
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
-	
-	* stf.c (stf_read_workbook_auto_csvtab): make guesswork UTF-8 
+
+	* stf.c (stf_read_workbook_auto_csvtab): make guesswork UTF-8
 	  clean and make it more likely to guess tsv
 
 2003-05-05  Morten Welinder  <terra@gnome.org>
@@ -698,9 +698,9 @@
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
 
 	* src/Makefile.am: removed src/charset.[ch]
-	* src/charset.[ch]: removed (replaced by 
+	* src/charset.[ch]: removed (replaced by
 	  src/widgets/widget-charmap-selector.[ch])
-	* src/gui-file.c: replaced data block CharmapChooser by 
+	* src/gui-file.c: replaced data block CharmapChooser by
 	  widget CharmapSelector including the corresponding
 	  function calls
 
@@ -711,69 +711,69 @@
 
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
 
-	* src/charset.c (set_encodings_menu): handle unknown 
+	* src/charset.c (set_encodings_menu): handle unknown
 	  locale encoding
 
 2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
 
 	* src/bonobo-io.c (gnm_persist_stream_load): add argument
 	  to call of wb_view_new_from_input
-	
+
 	* src/charset.c: new file
 	* src/charset.h: new file
 	* src/file-priv.h: (_GnmFileOpenerClass): add argument to
 	  declaration of open method
 	(_GnmFileOpener): add encoding_dependent field
 	(gnm_file_opener_setup): add argument
-	
-	* src/file.c (gnm_file_opener_open_real): new argument to pass 
+
+	* src/file.c (gnm_file_opener_open_real): new argument to pass
 	  to open call
-	(gnm_file_opener_setup): new argument to be used for 
+	(gnm_file_opener_setup): new argument to be used for
 	  initialization of added field
-	(gnm_file_opener_new): add argument to call of 
+	(gnm_file_opener_new): add argument to call of
 	  gnm_file_opener_setup
 	(gnm_file_opener_new_with_enc): new function
 	(gnm_file_opener_is_encoding_dependent): new function
 	(gnm_file_opener_open): new argument
-	
+
 	* src/file.h (GnmFileOpenerOpenFuncWithEnc): new type
 	(gnm_file_opener_new_with_enc): new function
 	(gnm_file_opener_open): new argument
 	(gnm_file_opener_is_encoding_dependent): new function
-	
+
 	* src/gui-clipboard.c (table_cellregion_read): add argument
 	  to call of wb_view_new_from_input
-	
+
 	* src/gui-file.c (file_format_changed_cb_data): new type
 	(make_format_chooser): only make option menu
-	(gui_file_read): new argument to be passed to call of 
+	(gui_file_read): new argument to be passed to call of
 	  wb_view_new_from_file
 	(file_format_changed_cb): new callback
 	(gui_file_open): add encoding selector to load file dialog
-	
+
 	* src/gui-file.h (gui_file_read): new argument
-	* src/history.c (file_history_cmd): add argument to call of 
+	* src/history.c (file_history_cmd): add argument to call of
 	  gui_file_read
-	
-	* src/main-application.c (main): add argument to call of 
+
+	* src/main-application.c (main): add argument to call of
 	  wb_view_new_from_file
-	
-	* src/plugin-service.c (gnm_plugin_file_opener_open): new 
+
+	* src/plugin-service.c (gnm_plugin_file_opener_open): new
 	  argument
 	(gnm_plugin_file_opener_new): add argument to call of
 	  gnm_file_opener_setup
-	
+
 	* src/stf.c (stf_open_and_read): new argument
 	(stf_preparse): handle encoding conversion
 	(stf_read_workbook_auto_csvtab): new argument to be passed to
 	  the call of stf_parse
 	(stf_init): setup encoding
-	
-	* src/workbook-view.c (wb_view_new_from_input): new argument to be 
+
+	* src/workbook-view.c (wb_view_new_from_input): new argument to be
 	  passed to the call of gnm_file_opener_open
-	(wb_view_new_from_file): new argument to be passed to the call of 
+	(wb_view_new_from_file): new argument to be passed to the call of
 	  wb_view_new_from_input
-	
+
 	* src/workbook-view.h (wb_view_new_from_input): new argument
 	(wb_view_new_from_file): new argument
 
@@ -805,7 +805,7 @@
 
 	* src/gutils.c (g_unichar_strstr_utf8, g_unichar_strchr,
 	g_unichar_strncmp, g_unichar_strlen): Delete.
-	
+
 	* src/sheet.c (cb_sheet_get_extent): Per Jody, let's respan here
 	when needed.
 
@@ -925,7 +925,7 @@
 	(xml_node_get_value): Wrote.
 	(xml_sheet_write): Added a call to write scenarios.
 	(xml_sheet_read): Added a call to read scenarios.
-	
+
 2003-04-12  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_graph_guru_done) : new.
@@ -1380,7 +1380,7 @@
  	2.2. It is an API-incompatible, parallel-installable separate library.
  	* src/print.c, src/dialogs/dialog-printer-setup.c:
  	Made code changes (search/replace) as per Chema's instructions.
- 
+
 2003-01-23  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (table_cellregion_read): Initalize wb and
@@ -1403,7 +1403,7 @@
 	  don't save the x and y attributes, but just the x attribute for
 	  general percentage scaling.
 
-	* plugins/excel/ms-excel-read.c (excel_read_SETUP): Ditto. 
+	* plugins/excel/ms-excel-read.c (excel_read_SETUP): Ditto.
 	* plugins/xml_sax/xml-sax-read.c (xml_sax_print_scale): Ditto.
 
 2003-01-22  Jody Goldberg <jody@gnome.org>
@@ -1435,7 +1435,7 @@
 	Fix leak of clipboard_paste_callback_data.
 	(x_clipboard_received): Accept html and OpenOffice archive
 	format. Factor out receipt of text and other formats to
-	text_received and complex_content_received. 
+	text_received and complex_content_received.
 
 2003-01-14  Jon K Hellan  <hellan@acm.org>
 
@@ -1515,7 +1515,7 @@
 
 2003-01-04  Jon K Hellan  <hellan@acm.org>
 
-	* src/sheet-object-widget.c (sheet_widget_scrollbar_user_config) 
+	* src/sheet-object-widget.c (sheet_widget_scrollbar_user_config)
 	(sheet_widget_checkbox_user_config): Remove grab_focus. Not needed
 	in GTK2, plus didn't work since expr_entry no longer is a subclass
 	of GtkEntry.
@@ -1605,9 +1605,9 @@
 
 	* src/workbook-control-gui.c (cb_accept_password): Move to
 	dialogs/dialog-password.c.
-	(wbcg_get_password): Most of it moved to dialog_get_password in 
+	(wbcg_get_password): Most of it moved to dialog_get_password in
 	dialogs/dialog-password.c.
-	
+
 	* src/io-context-gtk.c (icg_get_password): New function which
 	implements CommandContext::get_password.
 	(icg_class_init): Connect icg_get_password.
@@ -2113,7 +2113,7 @@
 	* src/sheet-control-gui.c (sheet_control_gui_new) : take a wbcg as a
 	  an argument so that we can assign it at creation rather than later.
 
-	* src/sheet-object.c (sheet_object_new_view) : only create a 
+	* src/sheet-object.c (sheet_object_new_view) : only create a
 	  view if there isn't one already.
 
 	* src/sheet-filter.c (cb_filter_blanks) : Use colrow_set_visibility.
@@ -2195,7 +2195,7 @@
 
 	* src/Makefile.am: Don't link component with IOContextGtk.
 
-	* src/io-context-gtk.c (icg_progress_set) 
+	* src/io-context-gtk.c (icg_progress_set)
 	(icg_progress_message_set): Respect no-splash flag.
 
 	* src/main-application.c: Add no-splash argument.
@@ -2685,7 +2685,7 @@
 	properties.
 	(plugin_service_file_opener_activate): Don't use
 	register_file_opener_as_importer or
-	register_file_opener_as_importer_as_default. 
+	register_file_opener_as_importer_as_default.
 
 	(plugin_service_file_opener_deactivate): Don't use
 	unregister_file_opener_as_importer.
@@ -2871,7 +2871,7 @@
 
 2002-11-05   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/workbook-edit.c (wbcg_set_entry) : stop editing before 
+	* src/workbook-edit.c (wbcg_set_entry) : stop editing before
 	  changing the entry.
 
 2002-11-05   Andreas J. Guelzow  <aguelzow@taliesin.ca> for:
@@ -2934,9 +2934,9 @@
 2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* acconfig.h: obsoleted.
-	* configure.in: Added template descriptions to AC_DEFINE and 
+	* configure.in: Added template descriptions to AC_DEFINE and
 	  AC_DEFINE_UNQUOTED to obsolete acconfig.h .
-	  Removed AC_ARG_PROGRAM as AM_INIT_AUTOMAKE already calls it on our 
+	  Removed AC_ARG_PROGRAM as AM_INIT_AUTOMAKE already calls it on our
 	  behalf.
 	  Actually honour --enable-compile-warnings=... .
 	  Upped libgsf(-gnome) checks to consistently require 1.5.0 or newer.
@@ -2947,7 +2947,7 @@
 	  gnm_plugin_type_module_unload): Made static.
 	* src/gnumeric-gconf.h: Added gnm_gconf_get_printer_command prototype.
 	* src/sheet.h: Added sheet_redraw_headers prototype.
-	* src/xml-io.c (xml_check_version, xml_workbook_write, 
+	* src/xml-io.c (xml_check_version, xml_workbook_write,
 	  xml_workbook_read, gnumeric_xml_read_workbook,
 	  gnumeric_xml_write_workbook): Made static.
 	* src/xml-io.c: Casts and type changes to fix signedness.
@@ -3016,7 +3016,7 @@
 
 	* debian/TODO, debian/gnumeric.postinst: New.
 	* debian/gnumeric-doc.doc-base: Removed.
-	* debian/README.Debian, debian/changelog, debian/control, 
+	* debian/README.Debian, debian/changelog, debian/control,
 	  debian/gnumeric-doc.dirs, debian/gnumeric-doc.files, debian/rules:
 	  Updated.
 
@@ -3462,7 +3462,7 @@
 	* src/cellspan.c (row_calc_spans) : some simple optimizations
 	  to prune the length we check based on col/row maxima and sparseness.
 	  This can be significantly faster when we add per row maxima.
-	 
+
 	* src/symbol.c (symbol_install) : use g_warning and table_replace in
 	  case of a collison.
 
@@ -3533,7 +3533,7 @@
 	  handle that in the intersection case.
 	For constant cellranges we now use value_intersection too.
 
-	* src/dependent.c (dependent_types_init) : register DynamicDep 
+	* src/dependent.c (dependent_types_init) : register DynamicDep
 	(dependent_queue_recalc_list) : when we find a dynamic depend queue
 	  its container.
 	(dependent_queue_recalc) : rename from cb_dependent_queue_recalc and
@@ -3829,7 +3829,7 @@
 	  and dirty, but will do the job for now.  Later it would be nice to
 	  abstract the parse state a bit more so that we don't need to
 	  re-initialize every time.
-	(yylex) : handle xml escaping for opencalc. 
+	(yylex) : handle xml escaping for opencalc.
 
 	* src/parse-util.c (row_parse) : fix.
 
@@ -3854,7 +3854,7 @@
 2002-09-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook.c (workbook_sheet_reorder): new
-	(workbook_sheet_reorganize): extract reorder code into 
+	(workbook_sheet_reorganize): extract reorder code into
 	  workbook_sheet_reorder
 	* src/workbook.h (workbook_sheet_reorder): new
 
@@ -3888,7 +3888,7 @@
 
 2002-09-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/workbook.c (workbook_sheet_reorganize): add missing call 
+	* src/workbook.c (workbook_sheet_reorganize): add missing call
 	  to post_sheet_index_change
 
 2002-09-25  Jody Goldberg <jody@gnome.org>
@@ -3910,7 +3910,7 @@
 
 2002-09-24  Lutz Müller <lutz@users.sourceforge.net>
 
-	* src/dialogs/dialog-sheet-order.c: Be aware of changes in the 
+	* src/dialogs/dialog-sheet-order.c: Be aware of changes in the
 	  sheet order.
 	* src/workbook.[c,h]: Provide a "sheet_order_changed" signal.
 	* src/workbook-control-gui.c: Remove debugging messages. Allow
@@ -5125,7 +5125,7 @@
 	Set callbacks using plugin_service_get_cbs and PluginService*Callbacks
 	structs, instead of settings PluginService* fields directly (they are
 	private now).
-	"has_probe" field has been removed, always get a pointer to 
+	"has_probe" field has been removed, always get a pointer to
     *_file_probe pointer function if it's available.
 	Less assertions, use GNM_INIT_RET_ERROR_INFO macro everywhere.
 
@@ -5402,7 +5402,7 @@
 
 2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
-	* src/mathfunc.[ch]: Added random_levy, random_levy_skew, 
+	* src/mathfunc.[ch]: Added random_levy, random_levy_skew,
 	random_gumbel1 and random_gumbel2.
 
 2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
@@ -5752,9 +5752,9 @@
 	(application_clipboard_cut_copy) : ditto
 	* src/libgnumeric.c (gnm_common_init) : remove debug spew, no need
 	  to keep an app pointer
-	(gnm_shutdown) : use gnumeric_application_get_app rather than a static 
+	(gnm_shutdown) : use gnumeric_application_get_app rather than a static
 	  app pointer
-	* src/workbook-control-priv.h : new clipboard_changed_signal field in 
+	* src/workbook-control-priv.h : new clipboard_changed_signal field in
 	  WorkbookControl
 	* src/workbook-control.c (cb_wbc_clipboard_modified) : new
 	(wbc_finalize) : disconnect signal handler
@@ -5883,7 +5883,7 @@
 	* src/sheet-control-gui.c (sheet_control_gui_new) : A control now takes a
 	  view in place of a model.
 
-	* src/selection.c (sheet_selection_redraw) : adjustment to 
+	* src/selection.c (sheet_selection_redraw) : adjustment to
 	  SHEET_FOREACH_CONTROL.
 
 	* src/gnumeric.h : Add SheetView
@@ -5920,9 +5920,9 @@
 
 2002-06-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/commands.c (cmd_cell_range_is_locked_effective) : use 
+	* src/commands.c (cmd_cell_range_is_locked_effective) : use
 	  gnumeric_error_invalid rather than gnumeric_notice,
-	  change arguments to cmd_cell_range_is_locked_effective 
+	  change arguments to cmd_cell_range_is_locked_effective
 	  throughout.
 	(cmd_selection_is_locked_effective) : change arguments
 	(cmd_clear_redo) : check for locked cells
@@ -5937,7 +5937,7 @@
 2002-06-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/application.c : add pixmaps
-	* src/commands.c (cmd_reorganize_sheets_undo) : change call to 
+	* src/commands.c (cmd_reorganize_sheets_undo) : change call to
 	  cmd_reorganize_sheets
 	(cmd_reorganize_sheets_redo) : ditto
 	(cmd_reorganize_sheets_finalize) : handle lock lists
@@ -9857,5 +9857,3 @@
 
 	* README:
 	* configure.in: increased minimum libgda versions
-2003-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
-
