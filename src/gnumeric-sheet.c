@@ -550,18 +550,33 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		}
 	}
 
-	if ((event->state & GDK_CONTROL_MASK) != 0) {
-		switch (event->keyval) {
-		case GDK_a:	/* Select all */
-			sheet_select_all (gsheet->sheet_view->sheet);
-			sheet_redraw_all (gsheet->sheet_view->sheet);
-			break;
-		case GDK_space:	/* Select row */
-			break;
-		default:
-			break;
+	/*
+	 * The following sequences do not trigger an editor-start
+	 * but if the editor is running we forward the events to it.
+	 */
+	if (!gsheet->item_editor){
+		
+		if ((event->state & GDK_CONTROL_MASK) != 0) {
+
+			switch (event->keyval) {
+
+				/* Select all */
+			case GDK_a:
+				sheet_select_all (sheet);
+				sheet_redraw_all (sheet);
+				return 1;
+
+			case GDK_space:
+				sheet_selection_reset_only (sheet);
+				sheet_selection_append_range (
+					sheet,
+					sheet->cursor_col, sheet->cursor_row,
+					sheet->cursor_col, 0,
+					sheet->cursor_col, SHEET_MAX_ROWS-1);
+				sheet_redraw_all (sheet);
+				return 1;
+			}
 		}
-		return 1;
 	}
 
 	switch (event->keyval){
@@ -623,7 +638,7 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		
 	case GDK_F2:
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
-		/* fallback */
+		/* fall down */
 
 	default:
 		if (!gsheet->item_editor){

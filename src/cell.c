@@ -805,22 +805,26 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 			inter_space = font_height;
 			break;
 			
-		case VALIGN_BOTTOM:
-			y_offset = cell_pixel_height - (line_count * font_height);
-			inter_space = font_height;
-			break;
-			
 		case VALIGN_CENTER:
 			y_offset = (cell_pixel_height - (line_count * font_height))/2;
 			inter_space = font_height;
 			break;
 			
 		case VALIGN_JUSTIFY:
-			y_offset = 0;
-			inter_space = font_height + 
-				(cell_pixel_height - (line_count * font_height))
-				/ line_count;
+			if (line_count > 1){
+				y_offset = 0;
+				inter_space = font_height + 
+					(cell_pixel_height - (line_count * font_height))
+					/ (line_count-1);
+				break;
+			} 
+			/* Else, we become a VALIGN_BOTTOM line */
+			
+		case VALIGN_BOTTOM:
+			y_offset = cell_pixel_height - (line_count * font_height);
+			inter_space = font_height;
 			break;
+			
 		default:
 			g_warning ("Unhandled cell vertical alignment\n");
 			y_offset = 0;

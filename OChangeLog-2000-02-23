@@ -1,5 +1,16 @@
 1998-09-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_key): Fix the way the
+	hotkeys were processed (c-a specifically is annoying and all of
+	the control-keys were being consumed before reaching the
+	item-edit). 
+	(gnumeric_sheet_key): implemenet control-space
+
+	* src/dialog-cell-format.c (create_align_page): Connect to the
+	toggled signal of auto return.
+
+	* src/cell.c (cell_draw): Fix the VALIGN_JUSTIFY case. 
+
 	* src/item-grid.c (item_grid_draw): Redone the cell draw driver. 
 
 	* src/cell.c (cell_draw): Now it returns the number of cells it

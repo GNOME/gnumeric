@@ -12,21 +12,9 @@ GNOME Spread Sheet task list
 
 ** Style
 
-  Alignment:
-    Horizontal:
-      General/Left/Right/Center/Justify/
-          Center with respect to selection.
-    Vertical
-      Up/Center/Fown/Justify
-
-    Automatic return check box
-      This automatically "wraps" text when it overflows the cell
-
     Orientation
       horizontal
       vertical: 3 types of string display.
-
-  Fonts:
 
   Borders:
 

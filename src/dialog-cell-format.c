@@ -480,6 +480,8 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 
 	auto_return = gtk_check_button_new_with_label (_("Auto return"));
 	gtk_table_attach (t, auto_return, 0, 3, 2, 3, 0, 0, 0, 0);
+	gtk_signal_connect (GTK_OBJECT (auto_return), "toggled",
+			    GTK_SIGNAL_FUNC (prop_modified), prop_win);
 	
 	/* Check if all cells have the same properties */
 	/*
@@ -667,20 +669,20 @@ create_stipples (GnomeCanvas *canvas)
 		item = GNOME_CANVAS_RE (gnome_canvas_item_new (
 			group,
 			gnome_canvas_rect_get_type (),
-			"x1",           (double) x * 1.0 + 0.1,
-			"y1",           (double) y * 1.0 + 0.1,
-			"x2",           (double) x * 1.0 + 1.2,
-			"y2",           (double) y * 1.0 + 1.2,
+			"x1",           (double) x * 10.0,
+			"y1",           (double) y * 10.0,
+			"x2",           (double) x * 10.0 + 8.0,
+			"y2",           (double) y * 10.0 + 8.0,
 			"fill_color",   "black",
 			"width_pixels", (int) 1,
+			"outline_color","black",
 			NULL));
-#if 0
+
 		patterns [i] = gdk_bitmap_create_from_data (
 			window, gnumeric_sheet_patterns [i].pattern, 8, 8);
 
 		gdk_gc_set_stipple (item->fill_gc, patterns [i]);
 		gdk_gc_set_fill (item->fill_gc, GDK_STIPPLED);
-#endif
 	}
 }
 
@@ -691,8 +693,10 @@ create_pattern_preview (GtkWidget *prop_win)
 
 	canvas = (GnomeCanvas *) gnome_canvas_new ();
 	
-	gnome_canvas_set_scroll_region (canvas, 0.0, 0.0, 14.0, 4.0);
-	gnome_canvas_set_size (canvas, 112, 112);
+	gnome_canvas_set_size (canvas, 280, 80);
+	gnome_canvas_set_scroll_region (canvas, 0.0, 0.0, 70.0, 80.0);
+	gnome_canvas_set_pixels_per_unit (canvas, 1.0);
+	
 	gtk_signal_connect_after (
 		GTK_OBJECT (canvas), "realize",
 		GTK_SIGNAL_FUNC (create_stipples), NULL);
@@ -731,7 +735,7 @@ create_background_radio (GtkWidget *prop_win)
 
 	gtk_table_attach (GTK_TABLE (table), cs1, 1, 2, 1, 2, 0, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), cs2, 1, 2, 2, 3, 0, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0);
 	return frame;
 }
 
