@@ -123,10 +123,14 @@ scm_to_value (SCM scm)
 	}
 	else if (SCM_NFALSEP(scm_number_p(scm)))
 	{
-		if (scm_integer_p(scm))
-			return value_new_int ((int)scm_num2int(scm));
-		else
-			return value_new_float ((float)scm_num2dbl(scm, 0));
+		/* We do not need to do any distinction between an integer or 
+		 *  a float here. If we do so, we can crash gnumeric if the
+                 *  size of scm is bigger than the size of int 
+		 */
+
+		//return value_new_int((int)scm_num2int(scm));
+
+		return value_new_float ((float)scm_num2dbl(scm, 0));
 	}
 	else if (SCM_NIMP(scm) && SCM_CONSP(scm))
 	{

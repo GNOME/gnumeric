@@ -68,11 +68,8 @@ is greater than 0 and 0 if NUMBER is equal 0."
              (if (<= n 2)
                  b
                  (fibof (- n 1) b (+ a b))))))
-    ((lambda(n)
-       (if (>= n (expt 2 32))
-	   (number->string n)
-	   n))
-    (fibof n 1 1)) ))
+
+    (fibof n 1 1)))
 
 
 
