@@ -13,12 +13,19 @@
 			<functions>
 				<function name="rand"/>
 				<function name="randbernoulli"/>
+				<function name="randbeta"/>
 				<function name="randbetween"/>
 				<function name="randbinom"/>
 				<function name="randcauchy"/>
+				<function name="randchisq"/>
 				<function name="randexp"/>
+				<function name="randfdist"/>
 				<function name="randgamma"/>
+				<function name="randgeom"/>
+				<function name="randhyperg"/>
 				<function name="randlaplace"/>
+				<function name="randlog"/>
+				<function name="randlogistic"/>
 				<function name="randlognorm"/>
 				<function name="randnegbinom"/>
 				<function name="randnorm"/>

@@ -475,6 +475,189 @@ gnumeric_randpareto (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (random_pareto (a, b));
 }
 
+/***************************************************************************/
+
+static const char *help_randfdist = {
+        N_("@FUNCTION=RANDFDIST\n"
+           "@SYNTAX=RANDFDIST(nu1,nu2)\n"
+
+           "@DESCRIPTION="
+           "RANDFDIST returns a F-distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDFDIST(1,2).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDGAMMA")
+};
+
+static Value *
+gnumeric_randfdist (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float nu1 = value_get_as_float (argv[0]);
+	gnum_float nu2 = value_get_as_float (argv[1]);
+
+        return value_new_float (random_fdist (nu1, nu2));
+}
+
+/***************************************************************************/
+
+static const char *help_randbeta = {
+        N_("@FUNCTION=RANDBETA\n"
+           "@SYNTAX=RANDBETA(a,b)\n"
+
+           "@DESCRIPTION="
+           "RANDBETA returns a Beta-distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDBETA(1,2).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDGAMMA")
+};
+
+static Value *
+gnumeric_randbeta (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+
+        return value_new_float (random_beta (a, b));
+}
+
+/***************************************************************************/
+
+static const char *help_randlogistic = {
+        N_("@FUNCTION=RANDLOGISTIC\n"
+           "@SYNTAX=RANDLOGISTIC(a)\n"
+
+           "@DESCRIPTION="
+           "RANDLOGISTIC returns a logistic-distributed random number.  The "
+	   "distribution function is, p(x) dx = { exp(-x/a) over a "
+	   "(1 + exp(-x/a))^2 } dx for -infty < x < +infty."
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDLOGISTIC(1).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randlogistic (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+
+        return value_new_float (random_logistic (a));
+}
+
+/***************************************************************************/
+
+static const char *help_randgeom = {
+        N_("@FUNCTION=RANDGEOM\n"
+           "@SYNTAX=RANDGEOM(p)\n"
+
+           "@DESCRIPTION="
+           "RANDGEOM returns a geometric-distributed random number. The "
+	   "number of independent trials with probability @p until the "
+	   "first success. The probability distribution for geometric "
+	   "variates is, p(k) =  p (1-p)^(k-1), for k >= 1. "
+           "\n"
+           "If @p < 0 or @p > 1 RANDGEOM returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "RANDGEOM(0.4).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randgeom (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float p = value_get_as_float (argv[0]);
+
+	if (p < 0 || p > 1)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_int (random_geometric (p));
+}
+
+/***************************************************************************/
+
+static const char *help_randhyperg = {
+        N_("@FUNCTION=RANDHYPERG\n"
+           "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
+
+           "@DESCRIPTION="
+           "RANDHYPERG returns a hypergeometric-distributed random number. "
+	   "The probability distribution for hypergeometric random variates "
+	   "is, p(k) =  C(n_1,k) C(n_2, t-k) / C(n_1 + n_2,k), where C(a,b) "
+	   "= a!/(b!(a-b)!). The domain of k is max(0,t-n_2), ..., max(t,n_1)."
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDHYPERG(21,1,9).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randhyperg (FunctionEvalInfo *ei, Value **argv)
+{
+	unsigned int n1 = value_get_as_int (argv[0]);
+	unsigned int n2 = value_get_as_int (argv[1]);
+	unsigned int t = value_get_as_int (argv[2]);
+
+        return value_new_int (random_hypergeometric (n1, n2, t));
+}
+
+/***************************************************************************/
+
+static const char *help_randlog = {
+        N_("@FUNCTION=RANDLOG\n"
+           "@SYNTAX=RANDLOG(p)\n"
+
+           "@DESCRIPTION="
+           "RANDLOG returns a logarithmic-distributed random number. "
+           "\n"
+           "If @p < 0 or @p > 1 RANDLOG returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "RANDHYPERG(0.72).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randlog (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float p = value_get_as_float (argv[0]);
+
+	if (p < 0 || p > 1)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_int (random_logarithmic (p));
+}
+
+/***************************************************************************/
+
+static const char *help_randchisq = {
+        N_("@FUNCTION=RANDCHISQ\n"
+           "@SYNTAX=RANDCHISQ(nu)\n"
+
+           "@DESCRIPTION="
+           "RANDCHISQ returns a Chi-Square-distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDCHISQ(0.5).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDGAMMA")
+};
+
+static Value *
+gnumeric_randchisq (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float nu = value_get_as_float (argv[0]);
+
+        return value_new_float (random_chisq (nu));
+}
+
 
 /***************************************************************************/
 
@@ -483,18 +666,32 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_rand, NULL, NULL, NULL },
         { "randbernoulli", "f", N_("p"),   &help_randbernoulli,
 	  gnumeric_randbernoulli, NULL, NULL, NULL },
+        { "randbeta", "ff", N_("a,b"),   &help_randbeta,
+	  gnumeric_randbeta, NULL, NULL, NULL },
         { "randbetween", "ff", N_("bottom,top"), &help_randbetween,
 	  gnumeric_randbetween, NULL, NULL, NULL },
         { "randbinom", "ff", N_("p,trials"), &help_randbinom,
 	  gnumeric_randbinom, NULL, NULL, NULL },
         { "randcauchy", "f", N_("a"),   &help_randcauchy,
 	  gnumeric_randcauchy, NULL, NULL, NULL },
+        { "randchisq", "f", N_("nu"),   &help_randchisq,
+	  gnumeric_randchisq, NULL, NULL, NULL },
         { "randexp", "f", N_("b"),         &help_randexp,
 	  gnumeric_randexp, NULL, NULL, NULL },
+        { "randfdist", "ff", N_("nu1,nu2"),      &help_randfdist,
+	  gnumeric_randfdist, NULL, NULL, NULL },
         { "randgamma", "ff", N_("a,b"),    &help_randgamma,
 	  gnumeric_randgamma, NULL, NULL, NULL },
+        { "randgeom", "f", N_("p"),    &help_randgeom,
+	  gnumeric_randgeom, NULL, NULL, NULL },
+        { "randhyperg", "fff", N_("n1,n2,t"),    &help_randhyperg,
+	  gnumeric_randhyperg, NULL, NULL, NULL },
         { "randlaplace", "f", N_("a"), &help_randlaplace,
 	  gnumeric_randlaplace, NULL, NULL, NULL },
+        { "randlog", "f", N_("p"), &help_randlog,
+	  gnumeric_randlog, NULL, NULL, NULL },
+        { "randlogistic", "f", N_("a"), &help_randlogistic,
+	  gnumeric_randlogistic, NULL, NULL, NULL },
         { "randlognorm", "ff", N_("zeta,sigma"), &help_randlognorm,
 	  gnumeric_randlognorm, NULL, NULL, NULL },
         { "randnegbinom", "ff", N_("p,failures"), &help_randnegbinom,
