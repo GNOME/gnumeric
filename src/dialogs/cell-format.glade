@@ -1086,6 +1086,7 @@
 		<label>_Underline:</label>
 		<justify>GTK_JUSTIFY_LEFT</justify>
 		<wrap>False</wrap>
+	        <focus_target>combo-entry2</focus_target>
 		<xalign>0</xalign>
 		<yalign>0.5</yalign>
 		<xpad>0</xpad>
@@ -1197,7 +1198,6 @@ Double
 	      <widget>
 		<class>GtkCheckButton</class>
 		<name>checkbutton2</name>
-		<sensitive>False</sensitive>
 		<can_focus>True</can_focus>
 		<label>Stri_kethrough</label>
 		<active>False</active>
