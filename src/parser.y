@@ -643,12 +643,11 @@ value_dump (Value *value)
 		break;
 
 	case VALUE_ARRAY: {
-		GList *l;
-
+		int lpx, lpy;
 		printf ("Array: { ");
-		for (l = value->v.array; l; l = l->next){
-			value_dump (l->data);
-		}
+		for (lpx=0;lpx<value->v.array.x;lpx++)
+			for (lpy=0;lpy<value->v.array.y;lpy++)
+				value_dump (&value->v.array.vals[lpx][lpy]);
 		printf ("}\n");
 	}
 	default:

@@ -73,19 +73,20 @@ function_iterate_do_value (Sheet                   *sheet,
 			break;
 			
 	case VALUE_ARRAY:
-		for (list = value->v.array; list; list = list->next){
-			Value *array_v = (Value *) list->data;
-
-			ret = function_iterate_do_value (
-				sheet, callback, closure,
-				eval_col, eval_row,
-				array_v, error_string);
-			
-			if (ret == FALSE)
-				return FALSE;
+	{
+		int lpx, lpy;
+		for (lpx=0;lpx<value->v.array.x;lpx++) {
+			for (lpy=0;lpy<value->v.array.y;lpy++) {
+				ret = function_iterate_do_value (
+					sheet, callback, closure,
+					eval_col, eval_row,
+					&value->v.array.vals[lpx][lpy], error_string);
+				if (ret == FALSE)
+					return FALSE;
+			}
 		}
 		break;
-
+	}
 	case VALUE_CELLRANGE: {
 		IterateCallbackClosure data;
 		int start_col, start_row, end_col, end_row;

@@ -143,7 +143,7 @@ add_cell_range_deps (Cell *cell, CellRef *a, CellRef *b)
  * Adds the dependencies for a Value
  */
 static void
-add_value_deps (Cell *cell, Value *value)
+add_value_deps (Cell *cell, const Value *value)
 {
 	GList *l;
 	
@@ -156,10 +156,14 @@ add_value_deps (Cell *cell, Value *value)
 		
 		/* Check every element of the array */
 	case VALUE_ARRAY:
-		for (l = value->v.array; l; l = l->next)
-			add_value_deps (cell, l->data);
+	{
+		int lpx, lpy ;
+		for (lpx=0;lpx<value->v.array.x;lpx++)
+			for (lpy=0;lpy<value->v.array.y;lpy++)
+				add_value_deps (cell,
+						&value->v.array.vals[lpx][lpy]);
 		break;
-		
+	}
 	case VALUE_CELLRANGE:
 		add_cell_range_deps (
 			cell,

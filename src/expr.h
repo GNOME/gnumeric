@@ -39,7 +39,7 @@ typedef struct {
 	unsigned int row_relative:1;
 } CellRef;
 
-typedef struct {
+typedef struct _Value {
 	ValueType type;
 	union {
 		CellRef cell;
@@ -48,7 +48,10 @@ typedef struct {
 			CellRef cell_b;
 		} cell_range;
 
-		GList  *array;	        /* a list of Values */
+		struct {
+			int x, y ;
+			struct _Value **vals;   /* Array [x][y] */
+		} array ;
 		String *str;
 		Symbol *sym;
 		float_t v_float;	/* floating point */
@@ -108,11 +111,13 @@ struct FunctionDefinition {
 	char  *name;
 
 	/**
-	 *  The types accepted:
+	 *  The types accepted: see writing-functions.smgl ( bottom )
 	 * f for float
 	 * s for string
 	 * b for boolean
-	 * r for cell range eg. A1:C3
+	 * r for cell range
+	 * a for cell array
+	 * A for 'area': either range or array
 	 * ? for any kind
 	 *  For optional arguments do:
 	 * "ff|ss" where the strings are optional
@@ -155,14 +160,23 @@ Value      *eval_expr            (void *asheet, ExprTree *tree,
 
 void        value_release        (Value *value);
 Value      *value_cast_to_float  (Value *v);
-int         value_get_bool       (Value *v, int *err);
-float_t     value_get_as_double  (Value *v);
-int         value_get_as_int     (Value *v);
-void        value_copy_to        (Value *dest, Value *source);
-				 
+int         value_get_bool       (const Value *v, int *err);
+float_t     value_get_as_double  (const Value *v);
+int         value_get_as_int     (const Value *v);
+void        value_copy_to        (Value *dest, const Value *source);
+
+/* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
+guint        value_area_get_width  (Value *v);
+guint        value_area_get_height (Value *v);
+const Value *value_area_get_at_x_y (Value *v, guint x, guint y);
+
+Value       *value_array_new       (guint width, guint height);
+void         value_array_resize    (Value *v, guint width, guint height);
+void         value_array_copy_to   (Value *dest, const Value *src);
+			 
 void        value_dump           (Value *value);
-char       *value_string         (Value *value);
-Value      *value_duplicate      (Value *value);
+char       *value_string         (const Value *value);
+Value      *value_duplicate      (const Value *value);
 
 Value      *value_float          (float_t f);
 Value      *value_int            (int i);

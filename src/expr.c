@@ -174,7 +174,7 @@ expr_tree_unref (ExprTree *tree)
  * simplistic value rendering
  */
 char *
-value_string (Value *value)
+value_string (const Value *value)
 {
 	switch (value->type){
 	case VALUE_STRING:
@@ -215,13 +215,12 @@ value_release (Value *value)
 		break;
 
 	case VALUE_ARRAY: {
-		GList *l;
-
-		for (l = value->v.array; l; l = l->next)
-			value_release (l->data);
-		g_list_free (l);
+		guint lp ;
+		for (lp=0;lp<value->v.array.x;lp++)
+			g_free (value->v.array.vals[lp]) ;
+		g_free (value->v.array.vals) ;
 	}
-	
+
 	case VALUE_CELLRANGE:
 		break;
 
@@ -233,7 +232,7 @@ value_release (Value *value)
  * Copies a Value.
  */
 void
-value_copy_to (Value *dest, Value *source)
+value_copy_to (Value *dest, const Value *source)
 {
 	g_return_if_fail (dest != NULL);
 	g_return_if_fail (source != NULL);
@@ -255,16 +254,7 @@ value_copy_to (Value *dest, Value *source)
 		break;
 
 	case VALUE_ARRAY: {
-		GList *l, *new = NULL;
-
-		for (l = source->v.array; l; l = l->next){
-			Value *copy;
-
-			copy = value_duplicate (l->data);
-			
-			new = g_list_append (new, copy);
-		}
-		dest->v.array = new;
+		value_array_copy_to (dest, source) ;
 		break;
 	}
 	case VALUE_CELLRANGE:
@@ -277,7 +267,7 @@ value_copy_to (Value *dest, Value *source)
  * Makes a copy of a Value
  */
 Value *
-value_duplicate (Value *value)
+value_duplicate (const Value *value)
 {
 	Value *new_value;
 
@@ -344,7 +334,7 @@ value_cast_to_float (Value *v)
 }
 
 int
-value_get_bool (Value *v, int *err)
+value_get_bool (const Value *v, int *err)
 {
 	*err = 0;
 
@@ -371,7 +361,7 @@ value_get_bool (Value *v, int *err)
 }
 
 float_t
-value_get_as_double (Value *v)
+value_get_as_double (const Value *v)
 {
 	if (v->type == VALUE_STRING){
 		return atof (v->v.str->str);
@@ -392,7 +382,7 @@ value_get_as_double (Value *v)
 }
 
 int
-value_get_as_int (Value *v)
+value_get_as_int (const Value *v)
 {
 	if (v->type == VALUE_STRING){
 		return atoi (v->v.str->str);
@@ -410,6 +400,139 @@ value_get_as_int (Value *v)
 		return 0.0;
 	
 	return (int) v->v.v_float;
+}
+
+Value *
+value_array_new (guint width, guint height)
+{
+	int lpx, lpy;
+
+	Value *v = g_new (Value, 1);
+	v->type = VALUE_ARRAY;
+	v->v.array.x = width;
+	v->v.array.y = height;
+	v->v.array.vals = g_new (Value *, width);
+	for (lpx=0;lpx<width;lpx++) {
+		v->v.array.vals[lpx] = g_new (Value,height);
+		for (lpy=0;lpy<height;lpy++) {
+			v->v.array.vals[lpx][lpy].type = VALUE_INTEGER;
+			v->v.array.vals[lpx][lpy].v.v_int = 0;
+		}
+	}
+	return v;
+}
+
+void
+value_array_resize (Value *v, guint width, guint height)
+{
+	int lpx, lpy, xcpy, ycpy;
+	Value *newval;
+
+	g_return_if_fail (v);
+	g_return_if_fail (v->type == VALUE_ARRAY);
+
+	newval = value_array_new (width, height);
+
+	if (width>v->v.array.x)
+		xcpy = v->v.array.x;
+	else
+		ycpy = width;
+
+	if (height>v->v.array.y)
+		ycpy = v->v.array.y;
+	else
+		ycpy = height;
+
+	for (lpx=0;lpx<xcpy;lpx++) {
+		memcpy (newval->v.array.vals[lpx],
+			v->v.array.vals[lpx],
+			sizeof(Value)*ycpy);
+	}
+	v->v.array.vals = newval->v.array.vals;
+	v->v.array.x = width;
+	v->v.array.y = height;
+	value_release (newval) ;
+}
+
+void
+value_array_copy_to (Value *v, const Value *src)
+{
+	int lpx, lpy;
+
+	g_return_if_fail (src->type == VALUE_ARRAY);
+	v->type = VALUE_ARRAY;
+	v->v.array.x = src->v.array.x;
+	v->v.array.y = src->v.array.y;
+	v->v.array.vals = g_new (Value *, v->v.array.x);
+	for (lpx=0;lpx<v->v.array.x;lpx++) {
+		v->v.array.vals[lpx] = g_new (Value,v->v.array.y);
+		memcpy (v->v.array.vals[lpx], src->v.array.vals[lpx],
+			sizeof(Value)*v->v.array.y) ;
+	}
+}
+
+guint
+value_area_get_width (Value *v)
+{
+	g_return_val_if_fail (v, 0);
+	g_return_val_if_fail (v->type == VALUE_ARRAY ||
+			      v->type == VALUE_CELLRANGE, 1);
+	if (v->type == VALUE_ARRAY)
+		return v->v.array.x;
+	else
+		return v->v.cell_range.cell_b.col -
+		       v->v.cell_range.cell_a.col + 1;
+}
+
+guint
+value_area_get_height (Value *v)
+{
+	g_return_val_if_fail (v, 0);
+	g_return_val_if_fail (v->type == VALUE_ARRAY ||
+			      v->type == VALUE_CELLRANGE, 1);
+	if (v->type == VALUE_ARRAY)
+		return v->v.array.y;
+	else
+		return v->v.cell_range.cell_b.row -
+		       v->v.cell_range.cell_a.row + 1;
+}
+
+const Value *
+value_area_get_at_x_y (Value *v, guint x, guint y)
+{
+	g_return_val_if_fail (v, 0);
+	g_return_val_if_fail (v->type == VALUE_ARRAY ||
+			      v->type == VALUE_CELLRANGE,
+			      value_int(0));
+	if (v->type == VALUE_ARRAY) {
+		g_return_val_if_fail (v->v.array.x<x ||
+				      v->v.array.y<y,
+				      value_int(0));
+		return &v->v.array.vals[x][y];
+	} else {
+		CellRef *a, *b;
+		Cell *cell;
+		a = &v->v.cell_range.cell_a;
+		b = &v->v.cell_range.cell_b;
+		g_return_val_if_fail (!a->col_relative,
+				      value_int(0)) ;
+		g_return_val_if_fail (!b->col_relative,
+				      value_int(0)) ;
+		g_return_val_if_fail (!a->row_relative,
+				      value_int(0)) ;
+		g_return_val_if_fail (!b->row_relative,
+				      value_int(0)) ;
+		g_return_val_if_fail (a->col<=b->col,
+				      value_int(0)) ;
+		g_return_val_if_fail (a->row<=b->row,
+				      value_int(0)) ;
+		cell = sheet_cell_get (a->sheet, a->col+x, a->row+y);
+		if (cell && cell->value)
+			return cell->value;
+		else
+			return value_int(0) ;
+	}
+	return value_int(0) ;
 }
 
 static void
@@ -517,6 +640,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 		
 		for (arg = 0; l; l = l->next, arg++, arg_type++) {
 			ExprTree *t = (ExprTree *) l->data;
+			int type_mismatch = 0;
 			
 			v = eval_expr (sheet, t, eval_col, eval_row, error_string);
 			if (v == NULL)
@@ -527,31 +651,36 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 			
 			switch (*arg_type){
 			case 'f':
-				if (v->type == VALUE_INTEGER ||
-				    v->type == VALUE_FLOAT)
-					break;
-				
+				if (v->type != VALUE_INTEGER &&
+				    v->type != VALUE_FLOAT)
+					type_mismatch = 1;
+				break;
+			case 's':
+				if (v->type != VALUE_STRING)
+					type_mismatch = 1;
+				break;
+			case 'r':
+				if (v->type != VALUE_CELLRANGE)
+					type_mismatch = 1;
+				else {
+					cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row);
+					cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row);
+				}
+				break;
+			case 'a':
+				if (v->type != VALUE_ARRAY)
+					type_mismatch = 1;
+				break;
+			case 'A':
+				if (v->type != VALUE_ARRAY &&
+				    v->type != VALUE_CELLRANGE)
+					type_mismatch = 1;
+				break;
+			}
+			if (type_mismatch) {
 				free_values (values, arg);
 				*error_string = _("Type mismatch");
 				return NULL;
-
-			case 's':
-				if (v->type != VALUE_STRING){
-					free_values (values, arg);
-					*error_string = _("Type mismatch");
-					return NULL;
-				}
-				break;
-				
-			case 'r':
-				if (v->type != VALUE_CELLRANGE) {
-					free_values (values, arg);
-					*error_string = _("Type mismatch");
-					return NULL;
-				}
-				cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row);
-				cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row);
-				break;
 			}
 			values [arg] = v;
 		}

@@ -1,3 +1,37 @@
+1999-04-11 Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (eval_funccall): New array / 'area' tokens added,
+	error strings simplified ( int type_mismatch added )
+	(value_area_get_width, value_area_get_height): Implemented,
+	(value_area_get_at_x_y): Implemented.
+	(value_array_new, value_array_resize): Implemented.
+	(value_release): Updated.
+	(value_copy_to, value_array_copy_to): Updated, created.
+	Added const to a scad of helper 'value_get' style functions.
+	
+	* src/expr.h: Value: Changed 'array' from GList to a
+	structure.
+	Added struct _Value for self reference.
+	Added const to a scad of helper 'value_get' style functions.
+
+	* src/func.c (function_iterate_do_value): Updated Array code.
+	
+	* src/eval.c (add_value_deps): Updated Array stuff.
+	(add_value_deps): const added to Value *
+	
+	* src/dialog-function-wizard.c (function_type_input):
+	Updated text for new tokens.
+
+	* src/fn-sheet.c (gnumeric_selection): Update to new array code.
+	
+	* src/fn-lookup.c (columns, rows): Updated to clean new API.
+	(vlookup, hlookup): Large clean.
+
+	* src/parser.y (value_dump): Updated Array section.
+
+	* docs/C/writing-functions.smgl: Added section explaining tokens,
+	and new API.
+	
 1999-04-09 Michael Meeks  <michael@imaginator.com>
 
 	* src/sheet.c (sheet_destroy): Move destruction of cell_hash to

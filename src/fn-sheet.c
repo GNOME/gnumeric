@@ -85,7 +85,8 @@ gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_
 {
 	Sheet *sheet = (Sheet *) tsheet;
 	Value *value;
-	GList *l, *array;
+	GList *l ;
+	int numrange,lp;
 	
 	/* Type checking */
 	if (expr_node_list != NULL){
@@ -93,18 +94,16 @@ gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_
 		return NULL;
 	}
 
-	value = g_new (Value, 1);
-	value->type = VALUE_ARRAY;
+	numrange=g_list_length (sheet->selections);
+	value = value_array_new (numrange,1) ;
 	
-	/* Create an array */
-	array = NULL;
+	lp=0;
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = (SheetSelection *) l->data;
 		Value *single_value;
 		CellRef *cell_ref;
 
-		/* Create the value */
-		single_value = g_new (Value, 1);
+		single_value = &value->v.array.vals[lp++][0];
 		single_value->type = VALUE_CELLRANGE;
 
 		/* Fill it in */
@@ -125,11 +124,7 @@ gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_
 		
 		cell_ref->col = ss->end_col;
 		cell_ref->row = ss->end_row;
-
-		array = g_list_prepend (array, single_value);
-
 	}
-	value->v.array = array;
 
 	return value;
 }

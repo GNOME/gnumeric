@@ -203,6 +203,12 @@ function_type_input (ARG_DATA *ad)
 		txt = _("Boolean");
 		break;
 	case 'r':
+		txt = _("Range");
+		break;
+	case 'a':
+		txt = _("Array");
+		break;
+	case 'A':
 		txt = _("Range/Array");
 		break;
 	case '?':

@@ -31,7 +31,7 @@ static char *help_vlookup = {
 };
 
 static int
-lookup_similar (Value *data, Value *templ, Value *next_largest, int approx)
+lookup_similar (const Value *data, const Value *templ, const Value *next_largest, int approx)
 {
 	int ans ;
 
@@ -93,28 +93,16 @@ lookup_similar (Value *data, Value *templ, Value *next_largest, int approx)
 static Value *
 gnumeric_vlookup (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	CellRef *a, *b ;
-	Value *next_largest = NULL ;
+	const Value *next_largest = NULL ;
 	int height, lp, approx, col_idx, next_largest_row=0 ;
 	
-	a = &argv[1]->v.cell_range.cell_a ;
-	b = &argv[1]->v.cell_range.cell_b ;
-	g_return_val_if_fail (a->sheet != NULL, NULL) ;
-/* a->sheet must be used as inter-sheet references specify the other sheet in 'a' */
-/*	g_return_val_if_fail (a->sheet == b->sheet, NULL) ; */
-	g_return_val_if_fail (!a->col_relative, NULL) ;
-	g_return_val_if_fail (!b->col_relative, NULL) ;
-	g_return_val_if_fail (!a->row_relative, NULL) ;
-	g_return_val_if_fail (!b->row_relative, NULL) ;
-	g_return_val_if_fail (a->col<=b->col, NULL) ;
-	g_return_val_if_fail (a->row<=b->row, NULL) ;
-
+	height = value_area_get_height (argv[1]) ;
 	col_idx = value_get_as_int (argv[2]) ;
 	if (col_idx<=0) {
 		*error_string = _("#NUM!") ;
 		return NULL ;
 	}
-	if (col_idx>b->col-a->col+1) {
+	if (col_idx>value_area_get_width(argv[1])) {
 		*error_string = _("#REF!") ;
 		return NULL ;
 	}
@@ -130,32 +118,28 @@ gnumeric_vlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 	else
 		approx = 1 ;
 
-	height = b->row - a->row + 1 ;
 	for (lp=0;lp<height;lp++) {
-		int compare ;
-		Cell *cell = sheet_cell_get (a->sheet, a->col, a->row+lp) ;
+		int compare;
+		const Value *v = value_area_get_at_x_y(argv[1], 0, lp);
 
-		g_return_val_if_fail (cell != NULL, NULL) ;
-		g_return_val_if_fail (cell->value != NULL, NULL) ;
+		g_return_val_if_fail (v != NULL, NULL) ;
 
-		compare = lookup_similar (cell->value, argv[0], next_largest, approx) ;
+		compare = lookup_similar (v, argv[0], next_largest, approx) ;
 /*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_string(cell->value), value_string(argv[0]), compare, approx) ; */
 		if (compare == 1) {
-			Cell *cell = sheet_cell_get (a->sheet, a->col+col_idx-1, a->row+lp) ;
-			g_return_val_if_fail (cell != NULL, NULL) ;
-			g_return_val_if_fail (cell->value != NULL, NULL) ;
-			return value_duplicate (cell->value) ;
+			const Value *v = value_area_get_at_x_y(argv[1],col_idx-1, lp);
+			g_return_val_if_fail (v != NULL, NULL);
+			return value_duplicate (v);
 		}
 		if (compare < 0) {
-			next_largest = cell->value ;
+			next_largest = v ;
 			next_largest_row = lp ;
 		}
 	}
 	if (approx && next_largest) {
-		Cell *cell = sheet_cell_get (a->sheet, a->col+col_idx-1, a->row+next_largest_row) ;
-		g_return_val_if_fail (cell != NULL, NULL) ;
-		g_return_val_if_fail (cell->value != NULL, NULL) ;
-		return value_duplicate (cell->value) ;
+	        const Value *v= value_area_get_at_x_y(argv[1],col_idx-1, next_largest_row);
+		g_return_val_if_fail (v != NULL, NULL) ;
+		return value_duplicate (v) ;
 	}
 	else
 		*error_string = _("#N/A") ;
@@ -183,28 +167,16 @@ static char *help_hlookup = {
 static Value *
 gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	CellRef *a, *b ;
-	Value *next_largest = NULL ;
+	const Value *next_largest = NULL ;
 	int height, lp, approx, row_idx, next_largest_col=0 ;
 	
-	a = &argv[1]->v.cell_range.cell_a ;
-	b = &argv[1]->v.cell_range.cell_b ;
-	g_return_val_if_fail (a->sheet != NULL, NULL) ;
-/* a->sheet must be used as inter-sheet references specify the other sheet in 'a' */
-/*	g_return_val_if_fail (a->sheet == b->sheet, NULL) ; */
-	g_return_val_if_fail (!a->col_relative, NULL) ;
-	g_return_val_if_fail (!b->col_relative, NULL) ;
-	g_return_val_if_fail (!a->row_relative, NULL) ;
-	g_return_val_if_fail (!b->row_relative, NULL) ;
-	g_return_val_if_fail (a->col<=b->col, NULL) ;
-	g_return_val_if_fail (a->row<=b->row, NULL) ;
-
 	row_idx = value_get_as_int (argv[2]) ;
+	height  = value_area_get_width (argv[1]);
 	if (row_idx<=0) {
 		*error_string = _("#NUM!") ;
 		return NULL ;
 	}
-	if (row_idx>b->row-a->row+1) {
+	if (row_idx>value_area_get_height(argv[1])) {
 		*error_string = _("#REF!") ;
 		return NULL ;
 	}
@@ -220,32 +192,28 @@ gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 	else
 		approx = 1 ;
 
-	height = b->col - a->col + 1 ;
 	for (lp=0;lp<height;lp++) {
-		int compare ;
-		Cell *cell = sheet_cell_get (a->sheet, a->col+lp, a->row) ;
+		int compare;
+		const Value *v = value_area_get_at_x_y (argv[1],lp, 0);
 
-		g_return_val_if_fail (cell != NULL, NULL) ;
-		g_return_val_if_fail (cell->value != NULL, NULL) ;
+		g_return_val_if_fail (v != NULL, NULL) ;
 
-		compare = lookup_similar (cell->value, argv[0], next_largest, approx) ;
+		compare = lookup_similar (v, argv[0], next_largest, approx) ;
 /*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_string(cell->value), value_string(argv[0]), compare, approx) ; */
 		if (compare == 1) {
-			Cell *cell = sheet_cell_get (a->sheet, a->col+lp, a->row+row_idx-1) ;
-			g_return_val_if_fail (cell != NULL, NULL) ;
-			g_return_val_if_fail (cell->value != NULL, NULL) ;
-			return value_duplicate (cell->value) ;
+			const Value *v = value_area_get_at_x_y (argv[1],lp, row_idx-1) ;
+			g_return_val_if_fail (v != NULL, NULL) ;
+			return value_duplicate (v) ;
 		}
 		if (compare < 0) {
-			next_largest = cell->value ;
+			next_largest = v ;
 			next_largest_col = lp ;
 		}
 	}
 	if (approx && next_largest) {
-		Cell *cell = sheet_cell_get (a->sheet, a->col+next_largest_col, a->row+row_idx-1) ;
-		g_return_val_if_fail (cell != NULL, NULL) ;
-		g_return_val_if_fail (cell->value != NULL, NULL) ;
-		return value_duplicate (cell->value) ;
+		const Value *v = value_area_get_at_x_y (argv[1], next_largest_col, row_idx-1);
+		g_return_val_if_fail (v != NULL, NULL) ;
+		return value_duplicate (v) ;
 	}
 	else
 		*error_string = _("#N/A") ;
@@ -307,16 +275,7 @@ static char *help_columns = {
 static Value *
 gnumeric_columns (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	switch (argv[0]->type) {
-	case VALUE_CELLRANGE:
-		return value_int (argv[0]->v.cell_range.cell_b.col - argv[0]->v.cell_range.cell_a.col + 1) ;
-	case VALUE_ARRAY:
-		*error_string = _("Unimplemented\n") ;
-		return NULL ;
-	default:
-		*error_string = _("#VALUE!") ;
-		return NULL ;
-	}
+	return value_int(value_area_get_width (argv[0])) ;
 }
 
 static char *help_row = {
@@ -373,25 +332,16 @@ static char *help_rows = {
 static Value *
 gnumeric_rows (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	switch (argv[0]->type) {
-	case VALUE_CELLRANGE:
-		return value_int (argv[0]->v.cell_range.cell_b.row - argv[0]->v.cell_range.cell_a.row + 1) ;
-	case VALUE_ARRAY:
-		*error_string = _("Unimplemented\n") ;
-		return NULL ;
-	default:
-		*error_string = _("#VALUE!") ;
-		return NULL ;
-	}
+	return value_int(value_area_get_height (argv[0])) ;
 }
 
 
 FunctionDefinition lookup_functions [] = {
 	{ "column",    "?",    "ref",                      &help_column,   gnumeric_column, NULL },
-	{ "columns",   "?",    "ref",                      &help_column,   NULL, gnumeric_columns },
+	{ "columns",   "A",    "ref",                      &help_column,   NULL, gnumeric_columns },
 	{ "hlookup",   "?rf|b","val,range,col_idx,approx", &help_hlookup,  NULL, gnumeric_hlookup },
 	{ "row",       "?",    "ref",                      &help_row,      gnumeric_row, NULL },
-	{ "rows",      "?",    "ref",                      &help_rows,     NULL, gnumeric_rows },
+	{ "rows",      "A",    "ref",                      &help_rows,     NULL, gnumeric_rows },
 	{ "vlookup",   "?rf|b","val,range,col_idx,approx", &help_vlookup,  NULL, gnumeric_vlookup },
 	{ NULL, NULL }
 } ;
