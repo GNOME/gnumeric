@@ -223,7 +223,7 @@ static char const *help_var = {
 
 	   "@DESCRIPTION="
 	   "VAR estimates the variance of a sample of a population. "
-	   "To get the true variance of a complete population use @VARP.\n"
+	   "To get the true variance of a complete population use VARP.\n"
 	   "\n"
 	   "* VAR is also known as the N-1-variance. Under reasonable "
 	   "conditions, it is the maximum-likelihood estimator for the "
@@ -630,15 +630,15 @@ gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_lognormdist = {
         N_("@FUNCTION=LOGNORMDIST\n"
-           "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
+           "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
 
            "@DESCRIPTION="
            "LOGNORMDIST function returns the lognormal distribution. "
 	   "@x is the value for which you want the distribution, @mean is "
-	   "the mean of the distribution, and @stdev is the standard "
+	   "the mean of the distribution, and @stddev is the standard "
 	   "deviation of the distribution.\n\n"
-	   "* If @stdev = 0 LOGNORMDIST returns #DIV/0! error.\n"
-	   "* If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! "
+	   "* If @stddev = 0 LOGNORMDIST returns #DIV/0! error.\n"
+	   "* If @x <= 0, @mean < 0 or @stddev < 0 LOGNORMDIST returns #NUM! "
 	   "error.\n"
            "* This function is Excel compatible.\n"
            "\n"
@@ -651,35 +651,35 @@ static char const *help_lognormdist = {
 static Value *
 gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
 {
-        gnm_float x, mean, stdev;
+        gnm_float x, mean, stddev;
 
         x = value_get_as_float (argv[0]);
         mean = value_get_as_float (argv[1]);
-        stdev = value_get_as_float (argv[2]);
+        stddev = value_get_as_float (argv[2]);
 
-        if (stdev == 0)
+        if (stddev == 0)
                 return value_new_error_DIV0 (ei->pos);
 
-        if (x <= 0 || mean < 0 || stdev < 0)
+        if (x <= 0 || mean < 0 || stddev < 0)
                 return value_new_error_NUM (ei->pos);
 
-	return value_new_float (plnorm (x, mean, stdev, TRUE, FALSE));
+	return value_new_float (plnorm (x, mean, stddev, TRUE, FALSE));
 }
 
 /***************************************************************************/
 
 static char const *help_loginv = {
         N_("@FUNCTION=LOGINV\n"
-           "@SYNTAX=LOGINV(p,mean,stdev)\n"
+           "@SYNTAX=LOGINV(p,mean,stddev)\n"
 
            "@DESCRIPTION="
            "LOGINV function returns the inverse of the lognormal "
 	   "cumulative distribution. @p is the given probability "
 	   "corresponding to the normal distribution, @mean is the "
-	   "arithmetic mean of the distribution, and @stdev is the "
+	   "arithmetic mean of the distribution, and @stddev is the "
 	   "standard deviation of the distribution.\n"
            "\n"
-	   "* If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error.\n"
+	   "* If @p < 0 or @p > 1 or @stddev <= 0 LOGINV returns #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
  	   "\n"
 	   "@EXAMPLES=\n"
@@ -691,16 +691,16 @@ static char const *help_loginv = {
 static Value *
 gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnm_float p, mean, stdev;
+        gnm_float p, mean, stddev;
 
         p = value_get_as_float (argv[0]);
         mean = value_get_as_float (argv[1]);
-        stdev = value_get_as_float (argv[2]);
+        stddev = value_get_as_float (argv[2]);
 
-	if (p < 0 || p > 1 || stdev <= 0)
+	if (p < 0 || p > 1 || stddev <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (qlnorm (p, mean, stdev, TRUE, FALSE));
+	return value_new_float (qlnorm (p, mean, stddev, TRUE, FALSE));
 }
 
 /***************************************************************************/
@@ -954,7 +954,7 @@ static char const *help_min = {
 
 	   "@DESCRIPTION="
 	   "MIN returns the value of the element of the values passed "
-	   "that has the smallest value. With negative numbers considered "
+	   "that has the smallest value, with negative numbers considered "
 	   "smaller than positive numbers.\n\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
@@ -996,7 +996,7 @@ static char const *help_max = {
 
 	   "@DESCRIPTION="
 	   "MAX returns the value of the element of the values passed "
-	   "that has the largest value. With negative numbers considered "
+	   "that has the largest value, with negative numbers considered "
 	   "smaller than positive numbers.\n\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
@@ -1043,7 +1043,7 @@ static char const *help_skew = {
 	   "distribution really has a third moment.  The skewness of a "
 	   "symmetric (e.g., normal) distribution is zero.\n"
            "\n"
-	   "* Strings and empty cells are simply ignored."
+	   "* Strings and empty cells are simply ignored.\n"
 	   "* If less than three numbers are given, SKEW returns #DIV/0! "
 	   "error.\n"
 	   "* This function is Excel compatible.\n"
@@ -1517,8 +1517,9 @@ static char const *help_betadist = {
 	   "@DESCRIPTION="
 	   "BETADIST function returns the cumulative beta distribution. @a "
 	   "is the optional lower bound of @x and @b is the optional upper "
-	   "bound of @x.  If @a is not given, BETADIST uses 0.\n"
+	   "bound of @x."
 	   "\n"
+	   "* If @a is not given, BETADIST uses 0.\n"
 	   "* If @b is not given, BETADIST uses 1.\n"
 	   "* If @x < @a or @x > @b BETADIST returns #NUM! error.\n"
 	   "* If @alpha <= 0 or @beta <= 0, BETADIST returns #NUM! error.\n"
@@ -1557,9 +1558,9 @@ static char const *help_betainv = {
 	   "@DESCRIPTION="
 	   "BETAINV function returns the inverse of cumulative beta "
 	   "distribution.  @a is the optional lower bound of @x and @b "
-	   "is the optinal upper bound of @x.  If @a is not given, "
-	   "BETAINV uses 0.\n"
+	   "is the optinal upper bound of @x.\n"
 	   "\n"
+	   "* If @a is not given, BETAINV uses 0.\n"
 	   "* If @b is not given, BETAINV uses 1.\n"
 	   "* If @p < 0 or @p > 1 BETAINV returns #NUM! error.\n"
 	   "* If @alpha <= 0 or @beta <= 0, BETAINV returns #NUM! error.\n"
@@ -1885,12 +1886,12 @@ static char const *help_binomdist = {
 	   "BINOMDIST function returns the binomial distribution. "
 	   "@n is the number of successes, @trials is the total number of "
            "independent trials, @p is the probability of success in trials, "
-           "and @cumulative describes whether to return the sum of the"
+           "and @cumulative describes whether to return the sum of the "
            "binomial function from 0 to @n.\n"
 	   "\n"
 	   "* If @n or @trials are non-integer they are truncated.\n"
 	   "* If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error.\n"
-	   "* If @n > trials BINOMDIST returns #NUM! error.\n"
+	   "* If @n > @trials BINOMDIST returns #NUM! error.\n"
 	   "* If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
@@ -1968,7 +1969,7 @@ static char const *help_critbinom = {
            "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
 
            "@DESCRIPTION="
-           "CRITBINOM function returns the smallest value for which the"
+           "CRITBINOM function returns the smallest value for which the "
            "cumulative is greater than or equal to a given value. "
            "@n is the number of trials, @p is the probability of success in "
            "trials, and @alpha is the criterion value.\n"
@@ -2120,12 +2121,12 @@ gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_standardize = {
 	N_("@FUNCTION=STANDARDIZE\n"
-	   "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
+	   "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
 
 	   "@DESCRIPTION="
 	   "STANDARDIZE function returns a normalized value. "
 	   "@x is the number to be normalized, @mean is the mean of the "
-	   "distribution, @stdev is the standard deviation of the "
+	   "distribution, @stddev is the standard deviation of the "
 	   "distribution.\n"
 	   "\n"
 	   "* If @stddev is 0 STANDARDIZE returns #DIV/0! error.\n"
@@ -2204,14 +2205,14 @@ gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_normdist = {
         N_("@FUNCTION=NORMDIST\n"
-           "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
+           "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
 
            "@DESCRIPTION="
            "NORMDIST function returns the normal cumulative distribution. "
 	   "@x is the value for which you want the distribution, @mean is "
-	   "the mean of the distribution, @stdev is the standard deviation.\n"
+	   "the mean of the distribution, @stddev is the standard deviation.\n"
            "\n"
-           "* If @stdev is 0 NORMDIST returns #DIV/0! error.\n"
+           "* If @stddev is 0 NORMDIST returns #DIV/0! error.\n"
 	   "* This function is Excel compatible.\n"
            "\n"
 	   "@EXAMPLES=\n"
@@ -2224,15 +2225,15 @@ static char const *help_normdist = {
 static Value *
 gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
 {
-        gnm_float x, mean, stdev;
+        gnm_float x, mean, stddev;
         int cuml;
 	gboolean err;
 
         x = value_get_as_float (argv[0]);
         mean = value_get_as_float (argv[1]);
-        stdev = value_get_as_float (argv[2]);
+        stddev = value_get_as_float (argv[2]);
 
-        if (stdev <= 0)
+        if (stddev <= 0)
                 return value_new_error_DIV0 (ei->pos);
 
         cuml = value_get_as_bool (argv[3], &err);
@@ -2240,25 +2241,25 @@ gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
                 return value_new_error_VALUE (ei->pos);
 
         if (cuml)
-		return value_new_float (pnorm (x, mean, stdev, TRUE, FALSE));
+		return value_new_float (pnorm (x, mean, stddev, TRUE, FALSE));
         else
-		return value_new_float (dnorm (x, mean, stdev, FALSE));
+		return value_new_float (dnorm (x, mean, stddev, FALSE));
 }
 
 /***************************************************************************/
 
 static char const *help_norminv = {
         N_("@FUNCTION=NORMINV\n"
-           "@SYNTAX=NORMINV(p,mean,stdev)\n"
+           "@SYNTAX=NORMINV(p,mean,stddev)\n"
 
            "@DESCRIPTION="
            "NORMINV function returns the inverse of the normal "
 	   "cumulative distribution. @p is the given probability "
 	   "corresponding to the normal distribution, @mean is the "
-	   "arithmetic mean of the distribution, and @stdev is the "
+	   "arithmetic mean of the distribution, and @stddev is the "
 	   "standard deviation of the distribution.\n"
            "\n"
-	   "* If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error.\n"
+	   "* If @p < 0 or @p > 1 or @stddev <= 0 NORMINV returns #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -2270,16 +2271,16 @@ static char const *help_norminv = {
 static Value *
 gnumeric_norminv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnm_float p, mean, stdev;
+        gnm_float p, mean, stddev;
 
         p = value_get_as_float (argv[0]);
 	mean = value_get_as_float (argv[1]);
-	stdev = value_get_as_float (argv[2]);
+	stddev = value_get_as_float (argv[2]);
 
-	if (p < 0 || p > 1 || stdev <= 0)
+	if (p < 0 || p > 1 || stddev <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (qnorm (p, mean, stdev, TRUE, FALSE));
+	return value_new_float (qnorm (p, mean, stddev, TRUE, FALSE));
 }
 
 
@@ -2292,7 +2293,7 @@ static char const *help_kurt = {
            "@DESCRIPTION="
            "KURT returns an unbiased estimate of the kurtosis of a data set."
            "\n"
-	   "Note, that this is only meaningful is the underlying "
+	   "Note, that this is only meaningful if the underlying "
 	   "distribution really has a fourth moment.  The kurtosis is "
 	   "offset by three such that a normal distribution will have zero "
 	   "kurtosis.\n"
@@ -2428,8 +2429,8 @@ static char const *help_fisher = {
            "@DESCRIPTION="
            "FISHER function returns the Fisher transformation at @x.\n"
            "\n"
-           "* If @x is not-number FISHER returns #VALUE! error.\n"
-           "* If @x <= -1 or @x >= 1 FISHER returns #NUM! error.\n"
+           "* If @x is not a number, FISHER returns #VALUE! error.\n"
+           "* If @x <= -1 or @x >= 1, FISHER returns #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
            "\n"
 	   "@EXAMPLES=\n"
@@ -2590,7 +2591,7 @@ gnumeric_median (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 static char const *help_ssmedian = {
 	N_("@FUNCTION=SSMEDIAN\n"
-	   "@SYNTAX=SSMEDIAN(array,interval)\n"
+	   "@SYNTAX=SSMEDIAN(array[,interval)]\n"
 
 	   "@DESCRIPTION="
 	   "The SSMEDIAN function returns the median "
@@ -2600,6 +2601,7 @@ static char const *help_ssmedian = {
 	   "grouping data "
 	   "into intervals of length @interval\n"
 	   "\n"
+	   "* If @interval is not given, SSMEDIAN uses 1.\n"
 	   "* If @array is empty, SSMEDIAN returns #NUM! error.\n"
 	   "* If @interval <= 0, SSMEDIAN returns #NUM! error.\n"
 	   "* SSMEDIAN does not check whether the data points are "
@@ -2649,7 +2651,8 @@ gnumeric_ssmedian (FunctionEvalInfo *ei, Value **argv)
 				     COLLECT_IGNORE_BLANKS,
 				     &n, &result);
 	if (!result) {
-		gnm_float interval = value_get_as_float (argv[1]);
+		gnm_float interval = argv[1] ? 
+			value_get_as_float (argv[1]) : 1.0;
 
 		if (interval <= 0 || n == 0)
 			result = value_new_error_NUM (ei->pos);
@@ -3107,7 +3110,7 @@ gnumeric_ztest (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	stat_ztest_t p;
 	Value       *status;
-	gnm_float   stdev;
+	gnm_float   stddev;
 
 	p.num    = 0;
 	p.sum    = 0;
@@ -3123,13 +3126,13 @@ gnumeric_ztest (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	if (p.num < 2)
 	        return value_new_error_DIV0 (ei->pos);
 
-	stdev = sqrtgnum ((p.sqrsum - p.sum * p.sum / p.num) / (p.num - 1));
+	stddev = sqrtgnum ((p.sqrsum - p.sum * p.sum / p.num) / (p.num - 1));
 
-	if (stdev == 0)
+	if (stddev == 0)
 	        return value_new_error_DIV0 (ei->pos);
 
 	return value_new_float (pnorm ((p.sum / p.num - p.x) /
-				       (stdev / sqrtgnum (p.num)),
+				       (stddev / sqrtgnum (p.num)),
 				       0, 1, FALSE, FALSE));
 }
 
@@ -3298,7 +3301,7 @@ static char const *help_varpa = {
 	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
 	   "VARPA(A1:A5) equals 182.8904.\n"
 	   "\n"
-	   "@SEEALSO=VARP,VARP")
+	   "@SEEALSO=VARA,VARP")
 };
 
 static Value *
@@ -3920,9 +3923,8 @@ static char const *help_linest = {
 	   "of squares.\n"
 	   "\n"
 	   "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
-	   "If @known_y's and @known_x's have unequal number of data points, "
-	   "LINEST returns #NUM! error."
-	   "\n"
+	   "* If @known_y's and @known_x's have unequal number of data "
+	   "points, LINEST returns #NUM! error.\n"
 	   "* If @const is FALSE, the line will be forced to go through the "
 	   "origin, i.e., b will be zero. The default is TRUE.\n"
 	   "* The default of @stat is FALSE.\n"
@@ -4545,7 +4547,7 @@ numbers */
 
 static char const *help_trend = {
 	N_("@FUNCTION=TREND\n"
-	   "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
+	   "@SYNTAX=TREND(known_y's[,known_x's,new_x's])\n"
 
 	   "@DESCRIPTION="
 	   "TREND function estimates future values of a given data set "
@@ -4685,7 +4687,7 @@ static char const *help_logest = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=LOGEST,GROWTH,TREND")
+	   "@SEEALSO=GROWTH,TREND")
 };
 
 static Value *
@@ -5796,7 +5798,7 @@ const GnmFuncDescriptor stat_functions[] = {
 	{ "loginv",       "fff",  N_("p,mean,stddev"),
 	  &help_loginv, gnumeric_loginv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "lognormdist",  "fff",  N_("x,meean,stdev"),
+	{ "lognormdist",  "fff",  N_("x,meean,stddev"),
 	  &help_lognormdist, gnumeric_lognormdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "logreg",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
@@ -5829,10 +5831,10 @@ const GnmFuncDescriptor stat_functions[] = {
 	{ "negbinomdist", "fff", N_("f,t,p"),
 	  &help_negbinomdist, gnumeric_negbinomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "normdist",     "fffb",  N_("x,mean,stdev,cumulative"),
+	{ "normdist",     "fffb",  N_("x,mean,stddev,cumulative"),
 	  &help_normdist, gnumeric_normdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "norminv",      "fff",  N_("p,mean,stdev"),
+	{ "norminv",      "fff",  N_("p,mean,stddev"),
 	  &help_norminv, gnumeric_norminv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "normsdist",    "f",  N_("number"),
@@ -5875,7 +5877,7 @@ const GnmFuncDescriptor stat_functions[] = {
 	{ "standardize",  "fff",  N_("x,mean,stddev"),
 	  &help_standardize, gnumeric_standardize, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "ssmedian",   "Af",  N_("array,interval"),
+        { "ssmedian",   "A|f",  N_("array,interval"),
 	  &help_ssmedian, gnumeric_ssmedian, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdev",        0,      N_("number,number,"),

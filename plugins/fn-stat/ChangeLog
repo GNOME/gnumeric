@@ -1,3 +1,8 @@
+2003-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c : make second argumanet to SSMEDIAN optional
+	  and fix a bunch of documentation errors
+
 2003-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c : added new function SSMEDIAN
