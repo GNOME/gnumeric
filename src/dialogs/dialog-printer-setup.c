@@ -612,7 +612,7 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 
 	target->adj = GTK_ADJUSTMENT (gtk_adjustment_new (
 		target->value,
-		0.0, 1000.0, 0.5, 1.0, 1.0));
+		0.0, 100000.0, 0.5, 1.0, 0));
 	target->spin = spin;
 	gtk_spin_button_configure (spin, target->adj, 1, 1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),

@@ -1,5 +1,10 @@
 2002-05-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-printer-setup.c (unit_editor_configure) : page size should be 0
+	* print.glade : ditto
+
+2002-05-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-printer-setup.c : replace UnitName by GnomePrintUnit* in
 	  state, use gnome-print unit selector rather than our own
 	(unit_into_to_points) : remove

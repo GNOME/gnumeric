@@ -512,7 +512,7 @@
                         <property name="wrap">no</property>
                         <property name="snap_to_ticks">no</property>
                         <property name="visible">yes</property>
-                        <property name="adjustment">99 0 100 1 10 10</property>
+                        <property name="adjustment">99 0 100 1 10 0</property>
                       </widget>
                       <packing>
                         <property name="left_attach">0</property>
@@ -604,7 +604,7 @@
                         <property name="wrap">no</property>
                         <property name="snap_to_ticks">no</property>
                         <property name="visible">yes</property>
-                        <property name="adjustment">99 0 100 1 10 10</property>
+                        <property name="adjustment">99 0 100 1 10 0</property>
                       </widget>
                       <packing>
                         <property name="left_attach">0</property>
