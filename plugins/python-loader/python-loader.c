@@ -275,7 +275,7 @@ typedef struct {
 
 static gboolean
 gnumeric_plugin_loader_python_func_file_probe (GnumFileOpener const *fo, PluginService *service,
-                                               const gchar *file_name)
+                                               const gchar *file_name, FileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 	PyObject *probe_result;
