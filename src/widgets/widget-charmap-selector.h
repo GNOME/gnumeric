@@ -35,8 +35,14 @@ G_BEGIN_DECLS
 
 typedef struct _CharmapSelector CharmapSelector;
 
+typedef enum {
+     CHARMAP_SELECTOR_TO_UTF8 = 0,
+     CHARMAP_SELECTOR_FROM_UTF8
+} CharmapSelectorTestDirection;
+
+
 GType    charmap_selector_get_type (void);
-GtkWidget *charmap_selector_new      (void);
+GtkWidget *charmap_selector_new    (CharmapSelectorTestDirection test);
 
 gchar const *charmap_selector_get_encoding     (CharmapSelector *cs);
 void charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive);

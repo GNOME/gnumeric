@@ -1,3 +1,27 @@
+2003-05-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-optionmenu.c: remove some unused code
+	(gnumeric_option_menu_get_history): change return type
+	* gnumeric-optionmenu.h 
+	(gnumeric_option_menu_get_history): change return type
+	* widget-charmap-selector.c (cs_init): don't build menu yet
+	(cs_build_menu): new
+	(CharsetImportance): new enum
+	(CharsetInfo): new `imp' field
+	(lgroups): remove preferred encoding
+	(charset_trans_array): add importance level
+	(cs_set_property): new
+	(cs_get_property): new
+	(encodings_changed_cb): simplify
+	(set_menu_to_default): don't hard code item numbers
+	(cs_emphasize_label): new
+	(cs_class_init): set up properties
+	(charmap_selector_new): pass property to constructor
+	(charmap_selector_get_encoding): simplify
+	* widget-charmap-selector.h 
+	(CharmapSelectorTestDirection): new enum
+	(charmap_selector_new): add argument
+
 2003-05-13  Morten Welinder  <terra@gnome.org>
 
 	* widget-charmap-selector.c (cs_init): Filter out unsupported

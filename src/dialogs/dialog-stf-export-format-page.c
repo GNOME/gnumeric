@@ -91,7 +91,7 @@ stf_export_dialog_format_page_init (GladeXML *gui)
 	data->format_custom      = GTK_ENTRY       (glade_xml_get_widget (gui, "format_custom"));
 	data->format_quote       = GTK_OPTION_MENU (glade_xml_get_widget (gui, "format_quote"));
 	data->format_quotechar   = GTK_COMBO       (glade_xml_get_widget (gui, "format_quotechar"));
-	data->format_charset	 = CHARMAP_SELECTOR (charmap_selector_new ());
+	data->format_charset	 = CHARMAP_SELECTOR (charmap_selector_new (CHARMAP_SELECTOR_FROM_UTF8));
 	data->format_transliterate = GTK_OPTION_MENU (glade_xml_get_widget (gui, "format_transliterate"));
 
 	if (stf_export_can_transliterate ()) {

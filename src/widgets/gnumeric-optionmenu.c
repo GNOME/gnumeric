@@ -302,7 +302,7 @@ connect_menu_signals (GtkMenu *menu, gpointer data)
 
 void
 gnumeric_option_menu_set_menu (GnumericOptionMenu *option_menu,
-			  GtkWidget     *menu)
+			       GtkWidget *menu)
 {
   g_return_if_fail (GNUMERIC_IS_OPTION_MENU (option_menu));
   g_return_if_fail (GTK_IS_MENU (menu));
@@ -381,16 +381,20 @@ gnumeric_option_menu_set_history (GnumericOptionMenu *option_menu, GSList *selec
  * gnumeric_option_menu_get_history:
  * @option_menu: a #GnumericOptionMenu
  * 
- * Retrieves the index of the currently selected menu item. The menu
+ * Retrieves the currently selected menu item. The menu
  * items are numbered from top to bottom, starting with 0. 
  * 
- * Return value: a lsit of  indices of the selected menu item, or -1 if there are no menu items
+ * Return value: the selected menu_item
  **/
-GSList *
+
+GtkWidget *
 gnumeric_option_menu_get_history (GnumericOptionMenu *option_menu)
 {
-	return g_slist_copy (option_menu->selection);
+     return GTK_WIDGET(option_menu->menu_item);
 }
+
+
+
 
 static void
 gnumeric_option_menu_set_property (GObject            *object,
@@ -648,46 +652,10 @@ gnumeric_option_menu_expose (GtkWidget      *widget,
     {
       gnumeric_option_menu_paint (widget, &event->area);
 
-
-      /* The following code tries to draw the child in two places at
-       * once. It fails miserably for several reasons
-       *
-       * - If the child is not no-window, removing generates
-       *   more expose events. Bad, bad, bad.
-       * 
-       * - Even if the child is no-window, removing it now (properly)
-       *   clears the space where it was, so it does no good
-       */
-      
-#if 0
-      remove_child = FALSE;
-      child = GTK_BUTTON (widget)->child;
-
-      if (!child)
-	{
-	  if (!GNUMERIC_OPTION_MENU (widget)->menu)
-	    return FALSE;
-	  gnumeric_option_menu_update_contents (GNUMERIC_OPTION_MENU (widget), NULL);
-	  child = GTK_BUTTON (widget)->child;
-	  if (!child)
-	    return FALSE;
-	  remove_child = TRUE;
-	}
-
-      child_event = *event;
-
-      if (GTK_WIDGET_NO_WINDOW (child) &&
-	  gtk_widget_intersect (child, &event->area, &child_event.area))
-	gtk_widget_event (child, (GdkEvent*) &child_event);
-
-      if (remove_child)
-	gnumeric_option_menu_remove_contents (GNUMERIC_OPTION_MENU (widget));
-#else
       if (GTK_BIN (widget)->child)
 	gtk_container_propagate_expose (GTK_CONTAINER (widget),
 					GTK_BIN (widget)->child,
 					event);
-#endif /* 0 */
     }
 
   return FALSE;
@@ -792,24 +760,6 @@ gnumeric_option_menu_changed (GnumericOptionMenu *option_menu)
 static void
 gnumeric_option_menu_select_first_sensitive (GnumericOptionMenu *option_menu)
 {
-/*   if (option_menu->menu) */
-/*     { */
-/*       GList *children = GTK_MENU_SHELL (option_menu->menu)->children; */
-      
-/*       gint index = 0; */
-
-/*       while (children) */
-/* 	{ */
-/* 	  if (GTK_WIDGET_SENSITIVE (children->data)) */
-/* 	    { */
-/* 	      gnumeric_option_menu_set_history (option_menu, index); */
-/* 	      return; */
-/* 	    } */
-	  
-/* 	  children = children->next; */
-/* 	  index++; */
-/* 	} */
-/*     } */
 }
 
 static void
@@ -1103,46 +1053,6 @@ static gint
 gnumeric_option_menu_scroll_event (GtkWidget          *widget,
 			      GdkEventScroll     *event)
 {
-/*   GnumericOptionMenu *option_menu = GNUMERIC_OPTION_MENU (widget); */
-/*   gint index; */
-/*   gint n_children; */
-/*   gint index_dir; */
-/*   GList *l; */
-/*   GtkMenuItem *item; */
-    
-/*   index = gnumeric_option_menu_get_history (option_menu); */
-
-/*   if (index != -1) */
-/*     { */
-/*       n_children = g_list_length (GTK_MENU_SHELL (option_menu->menu)->children); */
-      
-/*       if (event->direction == GDK_SCROLL_UP) */
-/* 	index_dir = -1; */
-/*       else */
-/* 	index_dir = 1; */
-
-
-/*       while (TRUE) */
-/* 	{ */
-/* 	  index += index_dir; */
-
-/* 	  if (index < 0) */
-/* 	    break; */
-/* 	  if (index >= n_children) */
-/* 	    break; */
-
-/* 	  l = g_list_nth (GTK_MENU_SHELL (option_menu->menu)->children, index); */
-/* 	  item = GTK_MENU_ITEM (l->data); */
-/* 	  if (GTK_WIDGET_VISIBLE (item) && GTK_WIDGET_IS_SENSITIVE (item)) */
-/* 	    { */
-/* 	      gnumeric_option_menu_set_history (option_menu, index); */
-/* 	      gtk_menu_item_activate (GTK_MENU_ITEM (item)); */
-/* 	      break; */
-/* 	    } */
-	      
-/* 	} */
-/*     } */
-
   return TRUE;
 }
 

@@ -92,9 +92,9 @@ GtkWidget* gnumeric_option_menu_get_menu    (GnumericOptionMenu *option_menu);
 void       gnumeric_option_menu_set_menu    (GnumericOptionMenu *option_menu,
 					     GtkWidget *menu);
 void       gnumeric_option_menu_remove_menu (GnumericOptionMenu *option_menu);
-GSList    *gnumeric_option_menu_get_history (GnumericOptionMenu *option_menu);
 void       gnumeric_option_menu_set_history (GnumericOptionMenu *option_menu,
 					     GSList *selection);
+GtkWidget *gnumeric_option_menu_get_history (GnumericOptionMenu *option_menu);
 
 
 #ifdef __cplusplus

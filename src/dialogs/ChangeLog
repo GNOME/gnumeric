@@ -1,3 +1,9 @@
+2003-05-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export-format-page.c 
+	(stf_export_dialog_format_page_init): change in charmap_selector_new
+	  argument
+
 2003-05-14  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-export-format-page.c

@@ -164,7 +164,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	format_chooser = make_format_chooser (openers, omenu);
 
 	/* Make charmap chooser */
-	charmap_selector = charmap_selector_new ();
+	charmap_selector = charmap_selector_new (CHARMAP_SELECTOR_TO_UTF8);
 	data.charmap_selector = CHARMAP_SELECTOR(charmap_selector);
 	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:")),
 	

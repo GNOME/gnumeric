@@ -2,6 +2,8 @@ Gnumeric 1.1.18
 
 Andreas:
 	* Some more utf-8 cleaning in the stf parsers.
+	* Improve the encoding selector by only showing
+	  supported encodings
  
 Jody:
 	* Set alwaysCalc flag when xls exporting dynamic dependencies.
