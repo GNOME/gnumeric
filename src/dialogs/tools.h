@@ -52,6 +52,10 @@ int exp_smoothing_tool    (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gnum_float damp_fact, int std_error_flag,
 			   data_analysis_output_t *dao);
+int fourier_tool           (WorkbookControl *context, Sheet *sheet,
+			   GSList *input, group_by_t group_by,
+			   int inverse_flag,
+			   data_analysis_output_t *dao);
 int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gboolean av_ties_flag,

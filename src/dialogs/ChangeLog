@@ -1,3 +1,11 @@
+2002-01-10  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (fourier_tool_ok_clicked_cb) : call
+	  fourier_tool !
+	(dialog_fourier_tool) Use correct key.
+	* fourier-analysis.glade : Small formatting change.
+	* tools.h : Add fourier_tool.
+
 2002-01-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* histogram.glade : Redesign and add fields and buttons for 

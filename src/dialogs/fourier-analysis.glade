@@ -249,6 +249,7 @@
       <widget>
 	<class>GtkCheckButton</class>
 	<name>inverse_button</name>
+	<border_width>5</border_width>
 	<can_focus>True</can_focus>
 	<label>I_nverse</label>
 	<active>False</active>

@@ -3914,3 +3914,223 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		g_warning ("TODO : tie this into the graph generator");
 	return 0;
 }
+
+
+/************* Fourier Analysis Tool **************************************
+ *
+ * This tool performa a fast fourier transform calculating the fourier 
+ * transform as defined in Weaver: THeory of dis and cont Fouriere Analysis
+ * 
+ * If the length of the given sequence is not a power of 2, an appropriate
+ * number of 0s are added.
+ *
+ * 
+ *
+ **/
+
+typedef struct {
+	gnum_float *real;
+	gnum_float *imaginary;
+	int        skip;
+        int        n;
+} fourier_t;
+
+static void
+fourier_fft (fourier_t *in, fourier_t *fourier)
+{
+	fourier_t     in_1 = {NULL, NULL, 1, 0};
+	fourier_t     fourier_1 = {NULL, NULL, 1, 0};
+	fourier_t     in_2 = {NULL, NULL, 1, 0};
+	fourier_t     fourier_2 = {NULL, NULL, 1, 0};
+	int           i;
+
+	g_return_if_fail (in != NULL);
+	g_return_if_fail (fourier != NULL);
+
+	if (in->n == 1) {
+		fourier->real = g_new (gnum_float, 1);
+		fourier->imaginary = g_new (gnum_float, 1);
+		fourier->skip = 1;
+		fourier->n = 1;
+		*(fourier->real) = *(in->real);
+		*(fourier->imaginary) = 0.0; 
+		return;
+	}
+
+	in_1.real = in->real;
+	in_1.skip = in->skip * 2;
+	in_1.n    = in->n / 2;
+	in_2.real = in->real + in->skip;
+	in_2.skip = in->skip * 2;
+	in_2.n    = in->n / 2;
+
+	fourier_fft (&in_1, &fourier_1);
+	fourier_fft (&in_2, &fourier_2);
+
+	fourier->n = 2 * fourier_1.n;
+	fourier->real = g_new (gnum_float, fourier->n);
+	fourier->imaginary = g_new (gnum_float, fourier->n);
+	fourier->skip = 1;
+	
+	for (i = 0; i < fourier_1.n; i++) {
+		gnum_float arg = M_PI * i / fourier_1.n;
+
+		fourier->real[i] = (fourier_1.real[i] + 
+			fourier_2.real[i] * cos (arg) +
+			fourier_2.imaginary[i] * sin (arg))/2;
+		fourier->imaginary[i] = (fourier_1.imaginary[i] + 
+			fourier_2.imaginary[i] * cos (arg) -
+			fourier_2.real[i] * sin (arg))/2;
+
+		fourier->real[i + fourier_1.n] = (fourier_1.real[i] - 
+			fourier_2.real[i] * cos (arg) -
+			fourier_2.imaginary[i] * sin (arg))/2;
+		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] - 
+			fourier_2.imaginary[i] * cos (arg) +
+			fourier_2.real[i] * sin (arg))/2;
+	}
+
+
+	g_free (fourier_1.real);
+	g_free (fourier_1.imaginary);
+	g_free (fourier_2.real);
+	g_free (fourier_2.imaginary);	
+}
+
+static void
+fourier_fft_inv (fourier_t *in, fourier_t *fourier)
+{
+	fourier_t     in_1 = {NULL, NULL, 1, 0};
+	fourier_t     fourier_1 = {NULL, NULL, 1, 0};
+	fourier_t     in_2 = {NULL, NULL, 1, 0};
+	fourier_t     fourier_2 = {NULL, NULL, 1, 0};
+	int           i;
+
+	g_return_if_fail (in != NULL);
+	g_return_if_fail (fourier != NULL);
+
+	if (in->n == 1) {
+		fourier->real = g_new (gnum_float, 1);
+		fourier->imaginary = g_new (gnum_float, 1);
+		fourier->skip = 1;
+		fourier->n = 1;
+		*(fourier->real) = *(in->real);
+		*(fourier->imaginary) = 0.0; 
+		return;
+	}
+
+	in_1.real = in->real;
+	in_1.skip = in->skip * 2;
+	in_1.n    = in->n / 2;
+	in_2.real = in->real + in->skip;
+	in_2.skip = in->skip * 2;
+	in_2.n    = in->n / 2;
+
+	fourier_fft_inv (&in_1, &fourier_1);
+	fourier_fft_inv (&in_2, &fourier_2);
+
+	fourier->n = 2 * fourier_1.n;
+	fourier->real = g_new (gnum_float, fourier->n);
+	fourier->imaginary = g_new (gnum_float, fourier->n);
+	fourier->skip = 1;
+	
+	for (i = 0; i < fourier_1.n; i++) {
+		gnum_float arg = M_PI * i / fourier_1.n;
+
+		fourier->real[i] = (fourier_1.real[i] + 
+			fourier_2.real[i] * cos (arg) -
+			fourier_2.imaginary[i] * sin (arg))/2;
+		fourier->imaginary[i] = (fourier_1.imaginary[i] + 
+			fourier_2.imaginary[i] * cos (arg) +
+			fourier_2.real[i] * sin (arg))/2;
+
+		fourier->real[i + fourier_1.n] = (fourier_1.real[i] - 
+			fourier_2.real[i] * cos (arg) +
+			fourier_2.imaginary[i] * sin (arg))/2;
+		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] - 
+			fourier_2.imaginary[i] * cos (arg) -
+			fourier_2.real[i] * sin (arg))/2;
+	}
+
+
+	g_free (fourier_1.real);
+	g_free (fourier_1.imaginary);
+	g_free (fourier_2.real);
+	g_free (fourier_2.imaginary);	
+}
+
+int
+fourier_tool (WorkbookControl *wbc, Sheet *sheet,
+		    GSList *input, group_by_t group_by,
+		    int inverse_flag,
+		    data_analysis_output_t *dao)
+{
+	GSList        *input_range;
+	GPtrArray     *data;
+	guint         dataset;
+	gint          col = 0;
+
+	input_range = input;
+	prepare_input_range (&input_range, group_by);
+	data = new_data_set_list (input_range, group_by,
+				  TRUE, dao->labels_flag, sheet);
+
+	prepare_output (wbc, dao, _("Fourier Analysis"));
+
+	for (dataset = 0; dataset < data->len; dataset++) {
+		data_set_t    *current;
+		fourier_t     in = {NULL, NULL, 1, 0};
+		fourier_t     fourier = {NULL, NULL, 1, 0};
+		int           row;
+		int           given_length;
+		int           desired_length = 1;
+		int           i;
+		gnum_float    zero_val = 0.0;
+
+		current = g_ptr_array_index (data, dataset);
+		given_length = current->data->len;
+		while (given_length > desired_length)
+			desired_length *= 2;
+		for (i = given_length; i < desired_length; i++)
+			current->data = g_array_append_val(current->data, zero_val);
+
+		set_cell_printf (dao, col, 0, current->label);
+		set_cell_printf (dao, col, 1, _("Real"));
+		set_cell_printf (dao, col+1, 1, _("Imaginary"));
+
+		in.real = (gnum_float *) current->data->data;
+		in.skip = 1;
+		in.n = current->data->len;
+		
+		if (inverse_flag == 0)
+			fourier_fft (&in, &fourier);
+		else
+			fourier_fft_inv (&in, &fourier);
+
+		if (fourier.real != NULL && fourier.imaginary != NULL) {
+			gnum_float  *imag =  fourier.imaginary;
+			gnum_float  *real =  fourier.real;
+			
+			for (row = 0; row < given_length; row++) {
+				set_cell_float (dao, col, row + 2, *real);
+				set_cell_float (dao, col + 1, row + 2, *imag);
+				imag += fourier.skip;
+				real += fourier.skip;
+			}
+			g_free(fourier.real);
+			g_free(fourier.imaginary);
+		}
+
+		col += 2;
+	}
+	set_italic (dao, 0, 0, col - 1, 1);
+	autofit_columns (dao, 0, col - 1);
+
+	destroy_data_set_list (data);
+	range_list_destroy (input_range);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
+
+	return 0;
+}

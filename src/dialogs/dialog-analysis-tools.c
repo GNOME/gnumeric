@@ -3531,7 +3531,7 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * @button:
  * @state:
  *
- * Retrieve the information from the dialog and call the fourier_tool.
+ * Retrieve the information from the dialog and call the average_tool.
  * Note that we assume that the ok_button is only active if the entry fields
  * contain sensible data.
  **/
@@ -3711,6 +3711,8 @@ fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	GSList                  *input;
 	GtkWidget               *w;
 	gint                    inverse;
+	gint                    err;
+	char                    *text;
 
 	input = gnumeric_expr_entry_parse_to_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -3723,11 +3725,20 @@ fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	w = glade_xml_get_widget (state->gui, "inverse_button");
 	inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-/* 	err = fourier_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input, */
-/* 			    gnumeric_glade_group_value (state->gui, grouped_by_group), */
-/* 			    inverse, &dao); */
-	error_in_entry (state->wbcg, GTK_WIDGET (state->output_entry),
-			_("Fourier analysis is not implemented yet.  Sorry."));
+	err = fourier_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
+			    gnumeric_glade_group_value (state->gui, grouped_by_group),
+			    inverse, &dao);
+
+	switch (err) {
+	case 0:
+		gtk_widget_destroy (state->dialog);
+		break;
+	default:
+		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
+		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		g_free (text);
+		break;
+	}
 
 	return;
 }
@@ -3776,7 +3787,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	}
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       COVARIANCE_KEY);
+			       FOURIER_KEY);
 
 	tool_update_sensitivity_cb (NULL, state);
 	gtk_widget_show (state->dialog);
@@ -4549,8 +4560,8 @@ static tool_list_t tools[] = {
 	  dialog_exp_smoothing_tool },
         { N_("F-Test: Two-Sample for Variances"),
 	  dialog_ftest_tool },
-/*  	{ N_("Fourier Analysis"), */
-/*  	  dialog_fourier_tool }, */
+ 	{ N_("Fourier Analysis"),
+ 	  dialog_fourier_tool },
         { N_("Histogram"),
 	  dialog_histogram_tool },
         { N_("Moving Average"),
