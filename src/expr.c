@@ -368,7 +368,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 				value_release (expr->array.corner.value);
 			do_gnm_expr_unref (expr->array.corner.expr);
 		}
-		
+		break;
 
 	case GNM_EXPR_OP_SET:
 		gnm_expr_list_unref (expr->set.set);

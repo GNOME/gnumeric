@@ -166,6 +166,19 @@ gboolean
 gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
 {
 	gboolean result = FALSE;
+	Workbook *wb;
+	const gchar *wb_file_name;
+
+	/* Select current directory if we have one */
+	wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	wb_file_name = (wb != NULL) ? workbook_get_filename (wb) : NULL;
+	if (wb_file_name != NULL && strchr (wb_file_name, G_DIR_SEPARATOR) != NULL) {
+		gchar *tmp	= g_dirname (wb_file_name);
+		gchar *dir_name = g_strconcat (tmp, G_DIR_SEPARATOR_S, NULL);
+		gtk_file_selection_set_filename (fsel, dir_name);
+		g_free (dir_name);
+		g_free (tmp);
+	}
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));

@@ -12,7 +12,8 @@ Release Critical
 - 3D reference fixes on sheet deletion
 - Dependencies for constructed ranges
 - Finish support for named ranges in applix.
-- mps importer fails to import the mps sample files afiro.mps and blend.mps
+- range sel for expressions that start with +
+- 'discard' for invalid expressions enters text as string
 
 1.2 Targets
 -----------

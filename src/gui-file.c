@@ -78,6 +78,42 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 	return (GTK_WIDGET (box));
 }
 
+gboolean
+gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
+	       GnumFileOpener const *optional_format)
+{
+	IOContext *io_context;
+	WorkbookView *wbv;
+
+	wb_control_set_sensitive (WORKBOOK_CONTROL (wbcg), FALSE);
+	io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
+	wbv = wb_view_new_from_file  (file_name, optional_format, io_context);
+
+	if (gnumeric_io_error_occurred (io_context))
+		gnumeric_io_error_display (io_context);
+
+	g_object_unref (G_OBJECT (io_context));
+	wb_control_set_sensitive (WORKBOOK_CONTROL (wbcg), TRUE);
+
+	if (wbv != NULL) {
+		Workbook *tmp_wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		if (workbook_is_pristine (tmp_wb)) {
+			g_object_ref (G_OBJECT (wbcg));
+			workbook_unref (tmp_wb);
+			workbook_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
+			workbook_control_init_state (WORKBOOK_CONTROL (wbcg));
+		} else
+			(void) wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg), wbv, NULL);
+
+		workbook_recalc (wb_view_workbook (wbv)); 
+		g_return_val_if_fail (!workbook_is_dirty (wb_view_workbook (wbv)), FALSE);
+
+		sheet_update (wb_view_cur_sheet (wbv));
+		return TRUE;
+	}
+	return FALSE;
+}
+
 /*
  * Lets the user choose an import filter for selected file, and
  * uses that to load the file.
@@ -124,7 +160,7 @@ gui_file_import (WorkbookControlGUI *wbcg)
 	fo = g_list_nth_data (importers, gnumeric_option_menu_get_selected_index (omenu));
 	file_name = gtk_file_selection_get_filename (fsel);
 	if (fo != NULL)
-		wb_view_open (file_name, WORKBOOK_CONTROL (wbcg), TRUE, fo);
+		gui_file_read (wbcg, file_name, fo);
 
 	gtk_object_destroy (GTK_OBJECT (fsel));
 	g_list_free (importers);
@@ -303,29 +339,12 @@ void
 gui_file_open (WorkbookControlGUI *wbcg)
 {
 	GtkFileSelection *fsel;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb;
-	const gchar *wb_file_name;
 
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
 	gtk_file_selection_hide_fileop_buttons (fsel);
 
-	/* Select current directory if we have one */
-	wb = wb_control_workbook (wbc);
-	wb_file_name = wb != NULL ? workbook_get_filename (wb) : NULL;
-	if (wb_file_name != NULL && strchr (wb_file_name, G_DIR_SEPARATOR) != NULL) {
-		gchar *tmp, *dir_name;
-
-		tmp = g_dirname (wb_file_name);
-		dir_name = g_strconcat (tmp, G_DIR_SEPARATOR_S, NULL);
-		gtk_file_selection_set_filename (fsel, dir_name);
-		g_free (dir_name);
-		g_free (tmp);
-	}
-
 	if (gnumeric_dialog_file_selection (wbcg, fsel))
-		wb_view_open (gtk_file_selection_get_filename (fsel),
-			wbc, TRUE, NULL);
+		gui_file_read (wbcg, gtk_file_selection_get_filename (fsel), NULL);
 
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 }

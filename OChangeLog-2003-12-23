@@ -1,3 +1,14 @@
+2002-06-26  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (do_gnm_expr_unref) : add missing break.
+
+2002-06-26  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gui_file_open) : move the magic directory selector
+	  for here.
+	(gnumeric_dialog_file_selection) : to here, so that it works for other
+	  situations too.
+
 2002-06-26  Jon K Hellan  <hellan@acm.org>
 
 	* GNOME_Gnumeric.server.in.in: Add mime types for lotus, applix,

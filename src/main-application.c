@@ -154,7 +154,8 @@ main (int argc, char *argv [])
 	if (startup_files) {
 		int i;
 		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {
- 			if (wb_view_open (startup_files[i], wbc, TRUE, NULL))
+ 			if (gui_file_read (WORKBOOK_CONTROL_GUI (wbc),
+					   startup_files[i], NULL))
   				opened_workbook = TRUE;
 
 			/* cheesy attempt to keep the ui from freezing during load */

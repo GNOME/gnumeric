@@ -41,7 +41,6 @@ void       gnumeric_io_error_display      (IOContext *context);
 
 void       gnumeric_io_clear_error        (IOContext *context);
 gboolean   gnumeric_io_error_occurred     (IOContext *context);
-gboolean   gnumeric_io_error_occurred     (IOContext *context);
 
 void       io_progress_message      (IOContext *io_context, const gchar *msg);
 void       io_progress_update       (IOContext *io_context, gdouble f);

@@ -600,121 +600,109 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 	return !error;
 }
 
-/**
- * wb_view_open :
- * @file_name   : File name
- * @wbc         : Workbook Control
- * @display_errors :
- * @fo          : Optional GnumFileOpener
- *
- * Reads @file_name file using given file opener @fo, or probes for a valid
- * possibility if @fo is NULL.
- *
- * Return value: TRUE if file was successfully read and FALSE otherwise.
- */
-gboolean
-wb_view_open (char const *file_name,
-	      WorkbookControl *wbc,
-	      gboolean display_errors,
-	      GnumFileOpener const *fo)
+WorkbookView *
+wb_view_new_from_input  (GsfInput *input,
+			 GnumFileOpener const *optional_fmt,
+			 IOContext *io_context)
 {
-	Workbook *new_wb = NULL;
 	WorkbookView *new_wbv = NULL;
-	GsfInput *input;
-	GError *err = NULL;
 
-	g_return_val_if_fail (file_name != NULL, FALSE);
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), FALSE);
-	g_return_val_if_fail (fo == NULL || IS_GNUM_FILE_OPENER (fo), FALSE);
-
-	/* Only report error if stdio fails too */
-	input = gsf_input_mmap_new (file_name, NULL);
-	if (input == NULL)
-		input = gsf_input_stdio_new (file_name, &err);
+	g_return_val_if_fail (GSF_IS_INPUT(input), NULL);
+	g_return_val_if_fail (optional_fmt == NULL ||
+			      IS_GNUM_FILE_OPENER (optional_fmt), NULL);
 
 	/* NOTE : we could support gzipped anything here if we wanted to
 	 * by adding a wrapper, but there is no framework for remembering that
 	 * the file was gzipped so lets not just yet.
 	 */
 
-	if (input != NULL) {
-		IOContext *io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
-		wb_control_set_sensitive (wbc, FALSE);
+	/* Search for an applicable opener */
+	if (optional_fmt == NULL) {
+		FileProbeLevel pl;
+		GList *l;
 
-		/* Search for an applicable opener */
-		if (fo == NULL) {
-			FileProbeLevel pl;
-			GList *l;
-
-			for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && fo == NULL; pl++) {
-				for (l = get_file_openers (); l != NULL; l = l->next) {
-					GnumFileOpener const *tmp_fo = GNUM_FILE_OPENER (l->data);
-					if (gnum_file_opener_probe (tmp_fo, input, pl)) {
-						fo = tmp_fo;
-						break;
-					}
+		for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
+			for (l = get_file_openers (); l != NULL; l = l->next) {
+				GnumFileOpener const *tmp_fo = GNUM_FILE_OPENER (l->data);
+				if (gnum_file_opener_probe (tmp_fo, input, pl)) {
+					optional_fmt = tmp_fo;
+					break;
 				}
 			}
 		}
-
-		if (fo != NULL) {
-			gboolean old;
-
-			new_wbv = workbook_view_new (NULL);
-			new_wb = wb_view_workbook (new_wbv);
-
-			/* disable recursive dirtying while loading */
-			old = workbook_enable_recursive_dirty (new_wb, FALSE);
-			gnum_file_opener_open (fo, io_context, new_wbv, input);
-			workbook_enable_recursive_dirty (new_wb, old);
-
-			if (!gnumeric_io_error_occurred (io_context) &&
-			    workbook_sheet_count (new_wb) == 0)
-				gnumeric_io_error_read (io_context, _("No sheets in workbook."));
-
-			if (!gnumeric_io_error_occurred (io_context)) {
-				workbook_set_dirty (new_wb, FALSE);
-			} else {
-				g_object_unref (G_OBJECT (new_wb));
-				new_wb = NULL;
-				new_wbv = NULL;
-			}
-		} else
-			gnumeric_io_error_read (io_context, _("Unsupported file format."));
-
-		if (gnumeric_io_error_occurred (io_context))
-			gnumeric_io_error_display (io_context);
-
-		wb_control_set_sensitive (wbc, TRUE);
-		g_object_unref (G_OBJECT (io_context));
-	} else {
-		new_wb = workbook_new_with_sheets (1);
-		new_wbv = workbook_view_new (new_wb);
-		workbook_set_saveinfo (new_wb, file_name, FILE_FL_NEW, NULL);
 	}
 
-	if (new_wbv != NULL) {
-		Workbook *old_wb;
+	if (optional_fmt != NULL) {
+		Workbook *new_wb;
+		gboolean old;
 
-		g_return_val_if_fail (new_wb != NULL, FALSE);
+		new_wbv = workbook_view_new (NULL);
+		new_wb = wb_view_workbook (new_wbv);
 
-		old_wb = wb_control_workbook (wbc);
-		if (workbook_is_pristine (old_wb)) {
-			g_object_ref (G_OBJECT (wbc));
-			workbook_unref (old_wb);
-			workbook_control_set_view (wbc, new_wbv, NULL);
-			workbook_control_init_state (wbc);
+		/* disable recursive dirtying while loading */
+		old = workbook_enable_recursive_dirty (new_wb, FALSE);
+		gnum_file_opener_open (optional_fmt, io_context, new_wbv, input);
+		workbook_enable_recursive_dirty (new_wb, old);
+
+		if (!gnumeric_io_error_occurred (io_context) &&
+		    workbook_sheet_count (new_wb) == 0)
+			gnumeric_io_error_read (io_context, _("No sheets in workbook."));
+
+		if (gnumeric_io_error_occurred (io_context)) {
+			g_object_unref (G_OBJECT (new_wb));
+			new_wbv = NULL;
 		} else
-			(void) wb_control_wrapper_new (wbc, new_wbv, NULL);
+			workbook_set_dirty (new_wb, FALSE);
+	} else
+		gnumeric_io_error_read (io_context, _("Unsupported file format."));
 
-		workbook_recalc (new_wb);
+	if (gnumeric_io_error_occurred (io_context))
+		gnumeric_io_error_display (io_context);
 
-		g_return_val_if_fail (!workbook_is_dirty (new_wb), FALSE);
+	return new_wbv;
+}
 
-		sheet_update (wb_view_cur_sheet (new_wbv));
-		return TRUE;
-	} else {
-		g_return_val_if_fail (new_wb == NULL, FALSE);
-		return FALSE;
+/**
+ * wb_view_new_from_file :
+ * @file_name    : File name
+ * @optional_fmt : Optional GnumFileOpener
+ * @io_context   : Optional context to display errors.
+ *
+ * Reads @file_name file using given file opener @optional_fmt, or probes for a valid
+ * possibility if @optional_fmt is NULL.  Reports problems to @io_context.
+ *
+ * Return value: TRUE if file was successfully read and FALSE otherwise.
+ */
+WorkbookView *
+wb_view_new_from_file (char const *file_name,
+		       GnumFileOpener const *optional_fmt,
+		       IOContext *io_context)
+{
+	GError *err = NULL;
+	char *msg = NULL;
+	GsfInput *input;
+
+	/* Only report error if stdio fails too */
+	input = gsf_input_mmap_new (file_name, NULL);
+	if (input == NULL)
+		input = gsf_input_stdio_new (file_name, &err);
+
+	if (input != NULL) {
+		WorkbookView *res = wb_view_new_from_input  (input,
+			optional_fmt, io_context);
+		g_object_unref (G_OBJECT (input));
+		return res;
 	}
+
+	if (err != NULL) {
+		if (err->message != NULL)
+			msg = g_strdup (err->message);
+		g_error_free (err);
+	}
+	if (msg == NULL)
+		msg = g_strdup_printf (_("An unexplained error happened while opening '%s'"),
+				       file_name);
+	gnumeric_io_error_read (io_context, msg);
+
+	return NULL;
 }

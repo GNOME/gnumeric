@@ -10,6 +10,7 @@
 #include "history.h"
 
 #include "application.h"
+#include "gui-file.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -31,7 +32,7 @@ static void
 file_history_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	char *filename = gtk_object_get_data (GTK_OBJECT (widget), UGLY_GNOME_UI_KEY);
-	wb_view_open (filename, WORKBOOK_CONTROL (wbcg), TRUE, NULL);
+	gui_file_read (wbcg, filename, NULL);
 }
 
 #else
@@ -42,7 +43,7 @@ file_history_cmd (BonoboUIComponent *uic, WorkbookControlGUI *wbcg, const char *
 	char *filename = bonobo_ui_component_get_prop (wbcg->uic, fullpath,
 						       "tip", NULL);
 
-	wb_view_open (filename, WORKBOOK_CONTROL (wbcg), TRUE, NULL);
+	gui_file_read (wbcg, filename, NULL);
 	g_free (filename);
 	g_free (fullpath);
 }

@@ -24,6 +24,7 @@ typedef struct _SolverParameters	SolverParameters;
 typedef struct _SheetObject		SheetObject;
 typedef struct _SheetObjectAnchor	SheetObjectAnchor;
 
+typedef struct _GnmDepContainer		GnmDepContainer;
 typedef struct _Dependent		Dependent;
 typedef struct _Cell			Cell;
 typedef struct _CellComment		CellComment;
@@ -88,7 +89,7 @@ typedef struct _ErrorInfo		ErrorInfo;
 typedef struct _PrintInformation        PrintInformation;
 typedef struct _String	 	        String;
 
-typedef struct _GnmDepContainer		GnmDepContainer;
+typedef struct _GnumFileOpener		GnumFileOpener;	/* TODO rename to GnmFileFormatReader */
 
 typedef struct _StyleFormat	        StyleFormat;
 typedef struct _StyleFont	        StyleFont;

@@ -82,15 +82,12 @@ gboolean wb_view_save_as     (WorkbookView *wbv, GnumFileSaver *fs,
 			      char const *file_name, CommandContext *context);
 gboolean wb_view_save        (WorkbookView *wbv, CommandContext *context);
 
-gboolean wb_view_open_input  (GsfInput *input,
-			      WorkbookControl *wbc,
-			      gboolean display_errors,
-                              GnumFileOpener const *fo);
-/* convenience wrapper */
-gboolean wb_view_open        (char const *file_name,
-			      WorkbookControl *wbc,
-			      gboolean display_errors,
-                              GnumFileOpener const *fo);
+WorkbookView *wb_view_new_from_input  (GsfInput *input,
+				       GnumFileOpener const *optional_format,
+				       IOContext *io_context);
+WorkbookView *wb_view_new_from_file  (char const *file_name,
+				      GnumFileOpener const *optional_format,
+				      IOContext *io_context);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
 do {										\

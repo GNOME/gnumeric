@@ -53,7 +53,6 @@ typedef enum {
  * GnumFileOpener
  */
 
-typedef struct _GnumFileOpener GnumFileOpener;
 typedef struct _GnumFileOpenerClass GnumFileOpenerClass;
 
 #define TYPE_GNUM_FILE_OPENER             (gnum_file_opener_get_type ())
