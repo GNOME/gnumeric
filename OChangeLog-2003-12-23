@@ -1,3 +1,8 @@
+2001-09-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/func.c (function_dump_defs) : dump the functions in alphabetical
+	  order.  FIXME : when we have translated names we should use them.
+
 2001-09-14  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric.xsd : reference v8, and make Max{Col,Row} optional.

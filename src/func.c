@@ -8,11 +8,6 @@
  *  Jody Goldberg   (jgoldberg@home.org)
  */
 #include <config.h>
-#include <string.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <math.h>
 #include "func.h"
 #include "portability.h"
 #include "parse-util.h"
@@ -22,6 +17,12 @@
 #include "symbol.h"
 #include "workbook.h"
 #include "sheet.h"
+
+#include <string.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <stdlib.h>
 
 /* These are not supported yet */
 typedef enum {
@@ -92,23 +93,30 @@ functions_init (void)
 }
 
 static void
-dump_func_help (gpointer key, gpointer value, void *output_file)
+copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 {
 	Symbol *sym = value;
-	FunctionDefinition *fn_def;
+	FunctionDefinition *fd = sym->data;
+	if (sym->type == SYMBOL_FUNCTION &&
+	    fd->help != NULL && fd->name != NULL)
+		g_ptr_array_add (array, fd);
+}
 
-	if (sym->type != SYMBOL_FUNCTION)
-		return;
-	fn_def = sym->data;
+static int
+func_def_cmp (gconstpointer a, gconstpointer b)
+{
+	FunctionDefinition const *fda = *(FunctionDefinition const **)a ;
+	FunctionDefinition const *fdb = *(FunctionDefinition const **)b ;
 
-	if (fn_def->help)
-		fprintf (output_file, "%s\n\n", _( *(fn_def->help) ) );
+	return g_strcasecmp (fda->name, fdb->name);
 }
 
 void
 function_dump_defs (const char *filename)
 {
 	FILE *output_file;
+	unsigned i;
+	GPtrArray *ordered;
 
 	g_return_if_fail (filename != NULL);
 
@@ -117,11 +125,25 @@ function_dump_defs (const char *filename)
 		exit (1);
 	}
 
+	/* TODO : Use the translated names and split by category. */
+	ordered = g_ptr_array_new ();
 	g_hash_table_foreach (global_symbol_table->hash,
-			      &dump_func_help, output_file);
+		copy_hash_table_to_ptr_array, ordered);
 
+	if (ordered->len > 0)
+		qsort (&g_ptr_array_index (ordered, 0),
+		       ordered->len, sizeof (gpointer),
+		       func_def_cmp);
+
+	for (i = 0; i < ordered->len; i++) {
+		FunctionDefinition const *fd = g_ptr_array_index (ordered, i);
+		fprintf (output_file, "%s\n\n", _( *(fd->help) ) );
+	}
+
+	g_ptr_array_free (ordered,TRUE);
 	fclose (output_file);
 }
+
 /* ------------------------------------------------------------------------- */
 
 static gint
