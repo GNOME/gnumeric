@@ -29,8 +29,8 @@ IMAGES = @STRIP_BEGIN@ 						\
 	\
 	add_decimals.xpm	\
 	remove_decimals.xpm	\
-	money.png		\
-	percent.png		\
+	format_money_24.png		\
+	format_percent_24.png		\
 	thousands.xpm		\
 	\
 	auto-sum.xpm		\
@@ -47,10 +47,10 @@ IMAGES = @STRIP_BEGIN@ 						\
 	\
 	button.xpm		\
 	object_checkbox_24.png 	\
-	combo.png		\
+	object_combo_24.png		\
 	object_frame_24.png 	\
 	object_label_24.png 	\
-	list.png		\
+	object_list_24.png		\
 	radiobutton.xpm		\
 	object_scrollbar_24.png \
 	\
@@ -120,8 +120,8 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	\
 	gnm_add_decimals			$(srcdir)/add_decimals.xpm			\
 	gnm_remove_decimals			$(srcdir)/remove_decimals.xpm			\
-	gnm_money				$(srcdir)/money.xpm				\
-	gnm_percent				$(srcdir)/percent.xpm				\
+	gnm_money				$(srcdir)/format_money_24.png				\
+	gnm_percent				$(srcdir)/format_percent_24.png				\
 	gnm_thousand				$(srcdir)/thousands.xpm				\
 	\
 	gnm_auto				$(srcdir)/auto-sum.xpm				\
@@ -138,10 +138,10 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	\
 	gnm_object_button_24			$(srcdir)/button.xpm				\
 	gnm_object_checkbox_24			$(srcdir)/object_checkbox_24.png		\
-	gnm_object_combo_24			$(srcdir)/combo.xpm				\
+	gnm_object_combo_24			$(srcdir)/object_combo_24.png				\
 	gnm_object_frame_24			$(srcdir)/object_frame_24.png			\
 	gnm_object_label_24			$(srcdir)/object_label_24.png			\
-	gnm_object_list_24			$(srcdir)/list.xpm				\
+	gnm_object_list_24			$(srcdir)/object_list_24.png				\
 	gnm_object_radiobutton_24		$(srcdir)/radiobutton.xpm			\
 	gnm_object_scrollbar_24			$(srcdir)/object_scrollbar_24.png		\
 	\
