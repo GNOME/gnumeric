@@ -138,10 +138,9 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 			gdk_gc_set_foreground (gc, back);
 		}
 		return TRUE;
-	} else {
-		/* Set this in case we have a spanning column */
+	} else if (is_selected) {
 		gdk_gc_set_fill (gc, GDK_SOLID);
-		gdk_gc_set_foreground (gc, is_selected ? &gs_lavender : &gs_white);
+		gdk_gc_set_foreground (gc, &gs_lavender);
 	}
 	return FALSE;
 }

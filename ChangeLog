@@ -1,3 +1,30 @@
+2001-01-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_colrow_select) : If we are not
+	  selecting a range for an expression then we should cancel editing.
+	(scg_context_menu) : cancel editing.
+
+2001-01-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c : Use the new wrapper function in scg (for now) rather
+	  than a direct call to gsheet.
+
+	* src/sheet-control-gui.c (scg_set_cursor_bounds) : new function to
+	  wrap direct calls to gsheet.  This is prep for supporting panes.
+	(scg_compute_visible_region) : new function
+	(scg_make_cell_visible) : new function
+	(scg_create_editor) : new function
+	(scg_stop_editing) : new function
+	(scg_stop_cell_selection) : new function
+
+	* src/pattern.c (gnumeric_background_set_gc) : no need for setting GC
+	  in non selection case.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_create_editor) : renamed from
+	  gnumeric_sheet_create_editing_cursor.
+	(gsheet_compute_visible_region) : rename from
+	  gnumeric_sheet_compute_visible_ranges
+
 2001-01-22  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (match_is_word): I got this right-end condition

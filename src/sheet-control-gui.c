@@ -383,6 +383,9 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
 	gboolean const rangesel = gnumeric_sheet_can_select_expr_range (gsheet);
 
+	if (!rangesel)
+		workbook_finish_editing (scg->wbcg, FALSE);
+
 	if (rangesel && !gsheet->selecting_cell)
 		gnumeric_sheet_start_cell_selection (gsheet, index, index);
 
@@ -1053,7 +1056,7 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 }
 
 void
-scg_context_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
+scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		  gboolean is_col, gboolean is_row)
 {
 	enum {
@@ -1141,8 +1144,10 @@ scg_context_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
 	    (application_clipboard_contents_get () != NULL))
 	? CONTEXT_ENABLE_PASTE_SPECIAL : 0;
 
+	workbook_finish_editing (scg->wbcg, FALSE);
+
 	gnumeric_create_popup_menu (popup_elements, &context_menu_hander,
-				    sheet_view, display_filter,
+				    scg, display_filter,
 				    sensitivity_filter, event);
 }
 
@@ -1996,4 +2001,47 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 	}
 
 	return pixels*sign;
+}
+
+/*************************************************************************/
+
+void
+scg_set_cursor_bounds (SheetControlGUI *scg,
+		       int start_col, int start_row, int end_col, int end_row)
+{
+	gnumeric_sheet_set_cursor_bounds (GNUMERIC_SHEET (scg->canvas),
+					  start_col, start_row,
+					  end_col, end_row);
+}
+
+void
+scg_compute_visible_region (SheetControlGUI *scg, gboolean full_recompute)
+{
+	gsheet_compute_visible_region (GNUMERIC_SHEET (scg->canvas),
+				       full_recompute);
+}
+
+void
+scg_make_cell_visible (SheetControlGUI  *scg, int col, int row,
+		       gboolean force_scroll)
+{
+	gnumeric_sheet_make_cell_visible (GNUMERIC_SHEET (scg->canvas),
+					  col, row, FALSE);
+}
+
+void
+scg_create_editor (SheetControlGUI *scg)
+{
+	gnumeric_sheet_create_editor (GNUMERIC_SHEET (scg->canvas));
+}
+void
+scg_stop_editing (SheetControlGUI *scg)
+{
+	gnumeric_sheet_stop_editing (GNUMERIC_SHEET (scg->canvas));
+}
+
+void
+scg_stop_cell_selection	(SheetControlGUI *scg, gboolean clear_string)
+{
+	gnumeric_sheet_stop_cell_selection (GNUMERIC_SHEET (scg->canvas), clear_string);
 }

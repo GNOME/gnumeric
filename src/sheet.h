@@ -197,7 +197,6 @@ void        sheet_flag_format_update_range(Sheet const *sheet, Range const *rang
 void        sheet_flag_selection_change   (Sheet const *sheet);
 void	    sheet_update_only_grid	  (Sheet const *sheet);
 void        sheet_update                  (Sheet const *sheet);
-void        sheet_compute_visible_ranges  (Sheet const *sheet);
 
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
@@ -212,9 +211,9 @@ char       *sheet_name_quote              (const char *unquoted_name);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 /* Utilities for various flavours of cursor */
-void        sheet_create_edit_cursor         (Sheet *sheet);
+void        sheet_create_editor		     (Sheet *sheet);
 void        sheet_stop_editing               (Sheet *sheet);
-void        sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_string);
+void        sheet_stop_cell_selection	     (Sheet *sheet, gboolean clear_string);
 
 /*
  * Utilities to set cell contents, queueing recalcs,

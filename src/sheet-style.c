@@ -865,6 +865,9 @@ style_row (MStyle *style, int start_col, int end_col, StyleRow *sr)
 	StyleBorder *left, *right, *v;
 	int const end = MIN (end_col, sr->end_col);
 	int i = MAX (start_col, sr->start_col);
+#if 0
+	gboolean const has_back = mstyle_get_pattern (mstyle) > 0;
+#endif
 
 	top = mstyle_get_border (style, MSTYLE_BORDER_TOP);
 	bottom = mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);

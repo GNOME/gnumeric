@@ -18,7 +18,6 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "workbook-edit.h"
-#include "gnumeric-sheet.h"
 #include "parse-util.h"
 #include "gnumeric-util.h"
 #include "eval.h"
@@ -40,8 +39,6 @@
 #include "rendered-value.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
-
-#define GNUMERIC_SHEET_CONTROL_GUI(p) GNUMERIC_SHEET (SHEET_CONTROL_GUI (p)->canvas)
 
 static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 				      int const start_col, int const end_col);
@@ -90,7 +87,7 @@ sheet_new_sheet_view (Sheet *sheet)
 
 	sheet_view = sheet_view_new (sheet);
 
-	gnumeric_sheet_set_cursor_bounds (GNUMERIC_SHEET_CONTROL_GUI (sheet_view),
+	scg_set_cursor_bounds (SHEET_CONTROL_GUI (sheet_view),
 		sheet->cursor.base_corner.col, sheet->cursor.base_corner.row,
 		sheet->cursor.move_corner.col, sheet->cursor.move_corner.row);
 	sheet->s_controls = g_list_prepend (sheet->s_controls, sheet_view);
@@ -720,14 +717,15 @@ sheet_update_only_grid (Sheet const *sheet)
 	if (p->recompute_visibility) {
 		/* TODO : There is room for some opimization
 		 * We only need to force complete visibility recalculation
-		 * (which we do in sheet_compute_visible_ranges)
-		 * if a row or col before the start of the visible range.
+		 * (which we do in sheet_compute_visible_region)
+		 * if a row or col before the start of the visible region.
 		 * If we are REALLY smart we could even accumulate the size differential
 		 * and use that.
 		 */
 		p->recompute_visibility = FALSE;
-		p->resize_scrollbar = FALSE; /* compute_visible_ranges does this */
-		sheet_compute_visible_ranges (sheet);
+		p->resize_scrollbar = FALSE; /* compute_visible_region does this */
+		SHEET_FOREACH_CONTROL(sheet, control,
+			scg_compute_visible_region (control, TRUE););
 		sheet_update_cursor_pos (sheet);
 		sheet_redraw_all (sheet);
 	}
@@ -795,23 +793,6 @@ sheet_update (Sheet const *sheet)
 			if (wb_view_cur_sheet (view) == sheet)
 				wb_view_auto_expr_recalc (view, TRUE);
 		});
-	}
-}
-
-/*
- * sheet_compute_visible_ranges : Keeps the top left col/row the same and
- *     recalculates the visible boundaries.  Recalculates the pixel offsets
- *     of the top left corner then recalculates the visible boundaries.
- */
-void
-sheet_compute_visible_ranges (Sheet const *sheet)
-{
-	GList *l;
-
-	for (l = sheet->s_controls; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
-
-		gnumeric_sheet_compute_visible_ranges (gsheet, TRUE);
 	}
 }
 
@@ -1325,7 +1306,7 @@ sheet_redraw_cell_region (Sheet const *sheet,
 	}
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sheet_view_redraw_cell_region ( control,
+		sheet_view_redraw_cell_region (control,
 			min_col, min_row, max_col, max_row););
 }
 
@@ -2480,15 +2461,9 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 void
 sheet_make_cell_visible (Sheet *sheet, int col, int row)
 {
-	GList *l;
-
 	g_return_if_fail (IS_SHEET (sheet));
-
-	for (l = sheet->s_controls; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
-
-		gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
-	}
+	SHEET_FOREACH_CONTROL(sheet, control,
+		scg_make_cell_visible (control, col, row, FALSE););
 }
 
 void
@@ -2538,8 +2513,6 @@ sheet_cursor_set (Sheet *sheet,
 		  int base_col, int base_row,
 		  int move_col, int move_row)
 {
-	GList *l;
-
 	g_return_if_fail (IS_SHEET (sheet));
 
 #if 0
@@ -2570,13 +2543,10 @@ sheet_cursor_set (Sheet *sheet,
 	sheet->cursor.move_corner.col = move_col;
 	sheet->cursor.move_corner.row = move_row;
 
-	for (l = sheet->s_controls; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
-
-		gnumeric_sheet_set_cursor_bounds (gsheet,
+	SHEET_FOREACH_CONTROL(sheet, scg,
+		scg_set_cursor_bounds (scg,
 			base_col, base_row,
-			move_col, move_row);
-	}
+			move_col, move_row););
 }
 
 void
@@ -3577,35 +3547,27 @@ sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 /****************************************************************************/
 
 void
-sheet_create_edit_cursor (Sheet *sheet)
+sheet_create_editor (Sheet *sheet)
 {
-	GList *l;
-
-	for (l = sheet->s_controls; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
-		gnumeric_sheet_create_editing_cursor (gsheet);
-	}
+	g_return_if_fail (IS_SHEET (sheet));
+	SHEET_FOREACH_CONTROL (sheet, control,
+		scg_create_editor (control););
 }
+
 void
 sheet_stop_editing (Sheet *sheet)
 {
-	GList *l;
-	for (l = sheet->s_controls; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
-
-		gnumeric_sheet_stop_editing (gsheet);
-	}
+	g_return_if_fail (IS_SHEET (sheet));
+	SHEET_FOREACH_CONTROL (sheet, control,
+		scg_stop_editing (control););
 }
 
 void
-sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_string)
+sheet_stop_cell_selection (Sheet *sheet, gboolean clear_string)
 {
-	GList *l;
-	for (l = sheet->s_controls; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
-
-		gnumeric_sheet_stop_cell_selection (gsheet, clear_string);
-	}
+	g_return_if_fail (IS_SHEET (sheet));
+	SHEET_FOREACH_CONTROL (sheet, control,
+		scg_stop_cell_selection (control, clear_string););
 }
 
 typedef struct

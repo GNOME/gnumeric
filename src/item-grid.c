@@ -395,7 +395,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 		}
 		first_row = FALSE;
 
-		/* DO NOT increment the column here, spanning cols are different */
 		for (col = start_col, x = -diff_x; col <= end_col ; ++col) {
 			MStyle const *style;
 			CellSpanInfo const *span;

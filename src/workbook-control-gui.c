@@ -2759,9 +2759,9 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (wbcg->updating_ui)
 		return;
 
-	/* Remove the cell seletion cursor if it exists */
+	/* Remove the cell selection cursor if it exists */
 	if (old_sheet != NULL)
-		sheet_destroy_cell_select_cursor (old_sheet, TRUE);
+		sheet_stop_cell_selection (sheet, TRUE);
 
 	if (wbcg->editing) {
 		/* If we are not at a subexpression boundary then finish editing */

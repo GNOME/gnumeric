@@ -235,7 +235,7 @@ workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
 	} else
 		gtk_entry_set_text (workbook_get_entry (wbcg), "");
 
-	sheet_create_edit_cursor (sheet);
+	sheet_create_editor (sheet);
 
 	/* Redraw the cell contents in case there was a span */
 	sheet_redraw_cell_region (sheet, col, row, col, row);
@@ -307,7 +307,7 @@ workbook_set_entry (WorkbookControlGUI *wbcg, GtkEntry *entry)
 
 	if (wbcg->edit_line.temp_entry != entry) {
 		wbcg->edit_line.temp_entry = entry;
-		sheet_destroy_cell_select_cursor (sheet, FALSE);
+		sheet_stop_cell_selection (sheet, FALSE);
 	}
 }
 

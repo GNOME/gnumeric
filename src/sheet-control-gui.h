@@ -125,6 +125,16 @@ void scg_colrow_size_set	(SheetControlGUI *scg,
 int  scg_colrow_distance_get	(SheetControlGUI const *scg,
 				 gboolean is_cols, int from, int to);
 
+void scg_set_cursor_bounds	(SheetControlGUI *scg,
+				 int start_col, int start_row,
+				 int end_col, int end_row);
+void scg_compute_visible_region (SheetControlGUI *scg, gboolean full_recompute);
+void scg_make_cell_visible	(SheetControlGUI  *scg, int col, int row,
+				 gboolean force_scroll);
+void scg_create_edit_cursor	(SheetControlGUI *scg);
+void scg_stop_editing		(SheetControlGUI *scg);
+void scg_stop_cell_selection	(SheetControlGUI *scg, gboolean clear_string);
+
 /* FIXME : Move these around to a more reasonable location */
 SheetControlGUI *sheet_new_sheet_view (Sheet *sheet);
 void       sheet_detach_sheet_view (SheetControlGUI *scg);

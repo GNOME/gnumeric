@@ -325,7 +325,7 @@ gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet, gboolean const clear_
 }
 
 void
-gnumeric_sheet_create_editing_cursor (GnumericSheet *gsheet)
+gnumeric_sheet_create_editor (GnumericSheet *gsheet)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasItem *item;
@@ -942,7 +942,7 @@ gnumeric_sheet_unrealize (GtkWidget *widget)
 }
 
 /*
- * gnumeric_sheet_compute_visible_ranges : Keeps the top left col/row the same and
+ * gsheet_compute_visible_region : Keeps the top left col/row the same and
  *     recalculates the visible boundaries.
  *
  * @full_recompute :
@@ -950,8 +950,8 @@ gnumeric_sheet_unrealize (GtkWidget *widget)
  *       else assumes that the pixel offsets of the top left have not changed.
  */
 void
-gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
-				       gboolean const full_recompute)
+gsheet_compute_visible_region (GnumericSheet *gsheet,
+			       gboolean const full_recompute)
 {
 	SheetControlGUI const * const scg = gsheet->scg;
 	Sheet const * const sheet = scg->sheet;
@@ -1080,12 +1080,11 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_first_row)
 
 	if (gsheet->row.first != new_first_row) {
 		int x;
-		GnomeCanvas * const canvas =
-		    GNOME_CANVAS(gsheet);
-		int const distance =
-		    gnumeric_sheet_bar_set_top_row (gsheet, new_first_row);
+		GnomeCanvas * const canvas = GNOME_CANVAS(gsheet);
+		int const distance = gnumeric_sheet_bar_set_top_row (gsheet,
+					     new_first_row);
 
-		gnumeric_sheet_compute_visible_ranges (gsheet, FALSE);
+		gsheet_compute_visible_region (gsheet, FALSE);
 
 		/* Scroll the cell canvas */
 		gnome_canvas_get_scroll_offsets (canvas, &x, NULL);
@@ -1124,12 +1123,11 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 
 	if (gsheet->col.first != new_first_col) {
 		int y;
-		GnomeCanvas * const canvas =
-		    GNOME_CANVAS(gsheet);
-		int const distance =
-		    gnumeric_sheet_bar_set_left_col (gsheet, new_first_col);
+		GnomeCanvas * const canvas = GNOME_CANVAS(gsheet);
+		int const distance = gnumeric_sheet_bar_set_left_col (gsheet,
+					      new_first_col);
 
-		gnumeric_sheet_compute_visible_ranges (gsheet, FALSE);
+		gsheet_compute_visible_region (gsheet, FALSE);
 
 		/* Scroll the cell canvas */
 		gnome_canvas_get_scroll_offsets (canvas, NULL, &y);
@@ -1234,7 +1232,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 	if (!did_change && !force_scroll)
 		return;
 
-	gnumeric_sheet_compute_visible_ranges (gsheet, FALSE);
+	gsheet_compute_visible_region (gsheet, FALSE);
 
 	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), col_distance, row_distance);
 }
@@ -1244,7 +1242,7 @@ gnumeric_sheet_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	(*GTK_WIDGET_CLASS (sheet_parent_class)->size_allocate)(widget, allocation);
 
-	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (widget), FALSE);
+	gsheet_compute_visible_region (GNUMERIC_SHEET (widget), FALSE);
 }
 
 static void
