@@ -8,6 +8,7 @@
 #include <gnome.h>
 #include <locale.h>
 #include <string.h>
+#include <ctype.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"
@@ -196,24 +197,19 @@ do_clipboard_paste_cell_region (CommandContext *context,
 }
 
 static GList *
-new_node (GList *list, char *data, char *p, int col, int row)
+new_node (GList *list, char const *data, char const *p, int col, int row)
 {
 	CellCopy *c_copy;
-	char *text;
 
 	/* Eliminate spaces */
 	while (*data == ' ' && *data)
 		data++;
 
-	text = g_malloc (p-data+1);
-	text = strncpy (text, data, p-data);
-	text [p-data] = 0;
-
 	c_copy = g_new (CellCopy, 1);
 	c_copy->type = CELL_COPY_TYPE_TEXT;
 	c_copy->col_offset = col;
 	c_copy->row_offset = row;
-	c_copy->u.text = text;
+	c_copy->u.text = g_strndup (data, p-data);
 
 	return g_list_prepend (list, c_copy);
 }
@@ -229,16 +225,32 @@ new_node (GList *list, char *data, char *p, int col, int row)
  * \n is a line separator
  */
 static CellRegion *
-x_selection_to_cell_region (char *data, int len)
+x_selection_to_cell_region (char const * data, int len)
 {
 	CellRegion *cr;
 	int cols = 1, cur_col = 0;
 	int rows = 0;
 	GList *list = NULL;
-	char *p = data;
+	char const *p = data;
+	gboolean	not_comma_decimal, not_semicolon_decimal;
 
-	for (;len >= 0; len--, p++){
-		if (*p == '\t' || *p == ';' || *p == ',' || *p == '\n'){
+	/* Points to the locale information for number display */
+	static struct lconv *lc = NULL;
+
+	if (!lc)
+		lc = localeconv ();
+	g_return_val_if_fail (lc != NULL, NULL);
+
+	/* Do not use something as a seperator if it is a decimal point.
+	 * This is not perfect.  There is no way to handle thousands seperators
+	 */
+	not_comma_decimal     = NULL == strchr (lc->decimal_point, ',');
+	not_semicolon_decimal = NULL == strchr (lc->decimal_point, ';');
+
+	for (;--len >= 0; p++){
+		if (*p == '\t' || *p == '\n' ||
+		    (*p == ',' && not_comma_decimal) ||
+		    (*p == ';' && not_semicolon_decimal)) {
 			if (p != data)
 				list = new_node (list, data, p, cur_col, rows);
 
