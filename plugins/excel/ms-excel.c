@@ -1580,8 +1580,8 @@ find_workbook (MS_OLE * ptr)
 		/*
 		 * printf ("Checking '%s'\n", d->name); 
 		 */
-		hit |= (strncasecmp (d->name, "book", 4) == 0);
-		hit |= (strncasecmp (d->name, "workbook", 8) == 0);
+		hit |= (g_strncasecmp (d->name, "book", 4) == 0);
+		hit |= (g_strncasecmp (d->name, "workbook", 8) == 0);
 		if (hit) {
 			MS_OLE_STREAM *stream ;
 			printf ("Found Excel Stream : %s\n", d->name);
