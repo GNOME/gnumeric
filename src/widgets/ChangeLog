@@ -1,3 +1,8 @@
+2003-07-28  Jody Goldberg <jody@gnome.org>
+
+	* widget-format-selector.c (funny_currency_order) : kludge even more
+	  to get euro to the top.
+
 2003-07-23  Morten Welinder  <terra@gnome.org>
 
 	* widget-format-selector.c (cb_format_class_changed): Plug leak.
