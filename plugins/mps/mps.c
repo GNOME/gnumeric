@@ -2,7 +2,7 @@
  * mps.c: MPS file importer.
  *
  * Authors:
- *   Jukka-Pekka Iivonen <jiivonen@cs.helsinki.fi>
+ *   Jukka-Pekka Iivonen <jiivonen@hucs.cs.hut.fi>
  *   File handling code copied from Dif module.
  *
  *      MPS importer module.  MPS format is a de facto standard ASCII format
@@ -75,13 +75,13 @@ typedef struct {
 /* MPS Bound type (LO, UP, FX, FR, MI, BV, LI, or UI) */
 typedef enum {
         LowerBound, UpperBound, FixedVariable, FreeVariable, LowerBoundInf,
-	  BinaryVariable, LowerBoundInt, UpperBoundInt
+	BinaryVariable, LowerBoundInt, UpperBoundInt
 } MpsBoundType;
 
 /* MPS Bound */
 typedef struct {
         char         *name;
-        MpsCol       *column;
+        gint         col_index;
         gnum_float   value;
         MpsBoundType type;
 } MpsBound;
@@ -110,14 +110,15 @@ typedef struct {
         gint   line_no;
         gchar *line;
         gint   line_len, alloc_line_len;
-
+  
         Sheet  *sheet;
 
         gchar      *name;
         GSList     *rows;
         GSList     *cols;
         GSList     *rhs;
-        gint       n_rows, n_cols;
+        GSList     *bounds;
+        gint       n_rows, n_cols, n_bounds;
         GHashTable *row_hash;
         GHashTable *col_hash;
         gchar      **col_name_tbl;
@@ -157,23 +158,7 @@ mps_file_open (GnumFileOpener const *fo, IOContext *io_context,
 /*************************************************************************/
 
 static gboolean
-get_token (char **line, char *dst, int maxlen)
-{
-	int i;
-
-	while (isspace ((unsigned char)**line))
-		(*line)++;
-
-	for (i = 0; !isspace ((unsigned char)**line); i++) {
-		if (i == maxlen)
-			return FALSE;  /* name too long */
-		dst[i] = **line;
-		(*line)++;
-	}
-	dst[i] = 0;
-	return TRUE;
-}
-
+mps_add_row (MpsInputContext *ctxt, MpsRowType type, gchar *txt);
 
 /* Writes a string into a cell. */
 static void
@@ -203,10 +188,10 @@ put_into_index (gpointer key, gpointer value, gpointer user_data)
 
 /* Make the constraint coefficient matrix and other preparations. */
 static void
-mps_prepare (MpsInputContext *ctxt)
+mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 {
         gint i, n;
-        GSList *current;
+        GSList *current, *tmp;
 
         ctxt->rows = g_slist_reverse (ctxt->rows);
 	ctxt->cols = g_slist_reverse (ctxt->cols);
@@ -214,10 +199,10 @@ mps_prepare (MpsInputContext *ctxt)
 	ctxt->col_name_tbl = g_new (gchar *, ctxt->n_cols);
 	g_hash_table_foreach (ctxt->col_hash, put_into_index, (gpointer) ctxt);
 
-	ctxt->matrix = g_new (gnum_float *, ctxt->n_rows);
-	for (i = 0; i < ctxt->n_rows; i++) {
+	ctxt->matrix = g_new (gnum_float *, ctxt->n_rows + ctxt->n_bounds);
+	for (i=0; i<ctxt->n_rows + ctxt->n_bounds; i++) {
 	          ctxt->matrix[i] = g_new (gnum_float, ctxt->n_cols);
-		  for (n = 0; n < ctxt->n_cols; n++)
+		  for (n=0; n<ctxt->n_cols; n++)
 		            ctxt->matrix[i][n] = 0.0;
 	}
 
@@ -231,6 +216,28 @@ mps_prepare (MpsInputContext *ctxt)
 		  ctxt->matrix[col->row->index][info->index] = col->value;
 		  current = current->next;
 	}
+
+	current = ctxt->bounds;
+	tmp = ctxt->rows;
+	ctxt->rows = NULL;
+	i = ctxt->n_rows + ctxt->n_bounds - 2;
+	while (current != NULL) {
+	        MpsBound *bound = (MpsBound *) current->data;
+		static const MpsRowType type_map[] = {
+		        LessOrEqualRow, GreaterOrEqualRow
+		};
+
+		ctxt->matrix[ctxt->n_rows][bound->col_index] = 1.0;
+
+		mps_set_cell_float (wbv->current_sheet, ctxt->n_cols + 3,
+				    i-- + CONSTRAINT_ROW,
+				    bound->value);
+
+		mps_add_row (ctxt, type_map[(gint) bound->type], bound->name);
+
+		current = current->next;
+	}
+	ctxt->rows = g_slist_concat (tmp, ctxt->rows);
 }
 
 
@@ -250,9 +257,9 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 	Cell *cell;
 	SolverParameters *param = &sh->solver_parameters;
 
-	mps_prepare (ctxt);
+	mps_prepare (wbv, ctxt);
 
-	/* Initialize var_range to contain the range name of the
+	/* Initialize var_range to contain the range name of the 
 	 * objective function variables. */
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW, ctxt->n_cols,
 		    VARIABLE_ROW);
@@ -264,12 +271,12 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 
 	/* Print 'Program Name'. */
 	mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW - 1,
-		      _("Program Name"));
+		      "Program Name");
 	mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW, ctxt->name);
 
 	/* Print 'Objective value'. */
 	mps_set_cell (sh, MAIN_INFO_COL + 1, MAIN_INFO_ROW - 1,
-		      _("Objective Value"));
+		      "Objective Value");
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW + 1,
 		    ctxt->n_cols, VARIABLE_ROW + 1);
 	buf = g_string_new ("");
@@ -280,7 +287,7 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 	g_string_free (buf, FALSE);
 
 	/* Print 'Status'. */
-	mps_set_cell (sh, MAIN_INFO_COL + 3, MAIN_INFO_ROW - 1, _("Feasible"));
+	mps_set_cell (sh, MAIN_INFO_COL + 3, MAIN_INFO_ROW - 1, "Feasible");
 	range_init (&range, ctxt->n_cols + 5, CONSTRAINT_ROW,
 		    ctxt->n_cols + 5, CONSTRAINT_ROW + ctxt->n_rows - 2);
 	buf = g_string_new ("=IF(COUNTIF(");
@@ -295,10 +302,10 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 	 */
 
 	/* Print 'Objective function:' */
-	mps_set_cell (sh, VARIABLE_COL, VARIABLE_ROW - 2, _("Objective function:"));
+	mps_set_cell (sh, VARIABLE_COL, VARIABLE_ROW - 2, "Objective function:");
 
 	/* Print 'Current values' */
-	mps_set_cell (sh, VARIABLE_COL - 1, VARIABLE_ROW, _("Current values"));
+	mps_set_cell (sh, VARIABLE_COL - 1, VARIABLE_ROW, "Current values");
 
 	/* Print the name of the objective function */
 	mps_set_cell (sh, VARIABLE_COL - 1, VARIABLE_ROW + 1,
@@ -306,7 +313,7 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 
 	/* Print the column names, initialize the variables to 0, and
 	 * print the coefficients of the objective function. */
-	for (i = 0; i < ctxt->n_cols; i++) {
+	for (i=0; i<ctxt->n_cols; i++) {
 	          mps_set_cell (sh, i + VARIABLE_COL, VARIABLE_ROW - 1,
 				ctxt->col_name_tbl[i]);
 		  mps_set_cell_float (sh, i + VARIABLE_COL, VARIABLE_ROW, 0.0);
@@ -317,20 +324,20 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 	/*
 	 * Add constraints into the sheet.
 	 */
-
+	
 	/* Print 'Constraints:'. */
-	mps_set_cell (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2, _("Constraints:"));
+	mps_set_cell (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2, "Constraints:");
 
 	/* Print constraint titles. */
-	mps_set_cell (sh, CONSTRAINT_COL - 1, CONSTRAINT_ROW - 1, _("Name"));
-	for (i = 0; i < ctxt->n_cols; i++)
+	mps_set_cell (sh, CONSTRAINT_COL - 1, CONSTRAINT_ROW - 1, "Name");
+	for (i=0; i<ctxt->n_cols; i++)
 	          mps_set_cell (sh, i + CONSTRAINT_COL, CONSTRAINT_ROW - 1,
 				ctxt->col_name_tbl[i]);
-	mps_set_cell (sh, ctxt->n_cols + 1, CONSTRAINT_ROW - 1, _("Value"));
-	mps_set_cell (sh, ctxt->n_cols + 2, CONSTRAINT_ROW - 1, _("Type"));
-	mps_set_cell (sh, ctxt->n_cols + 3, CONSTRAINT_ROW - 1, _("RHS"));
-	mps_set_cell (sh, ctxt->n_cols + 4, CONSTRAINT_ROW - 1, _("Slack"));
-	mps_set_cell (sh, ctxt->n_cols + 5, CONSTRAINT_ROW - 1, _("Status"));
+	mps_set_cell (sh, ctxt->n_cols + 1, CONSTRAINT_ROW - 1, "Value");
+	mps_set_cell (sh, ctxt->n_cols + 2, CONSTRAINT_ROW - 1, "Type");
+	mps_set_cell (sh, ctxt->n_cols + 3, CONSTRAINT_ROW - 1, "RHS");
+	mps_set_cell (sh, ctxt->n_cols + 4, CONSTRAINT_ROW - 1, "Slack");
+	mps_set_cell (sh, ctxt->n_cols + 5, CONSTRAINT_ROW - 1, "Status");
 
 	/* Print constraints. */
 	i = 0;
@@ -341,9 +348,9 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 		  row = (MpsRow *) current->data;
 		  if (row->type == ObjectiveRow)
 		          continue;
-
+			  
 		  /* Add row name */
-		  mps_set_cell (sh, CONSTRAINT_COL - 1, i + CONSTRAINT_ROW,
+		  mps_set_cell (sh, CONSTRAINT_COL - 1, i+CONSTRAINT_ROW, 
 				row->name);
 
 		  /* Add Type field */
@@ -362,30 +369,30 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 					   i + CONSTRAINT_ROW);
 		  cell_set_text (cell, buf->str);
 		  g_string_free (buf, FALSE);
-
+			  
 		  /* Add Slack calculation */
 		  buf = g_string_new ("");
 		  if (row->type == LessOrEqualRow) {
-		          g_string_sprintfa (buf, "=%s-",
-					     cell_coord_name (ctxt->n_cols + 3,
-							      i + CONSTRAINT_ROW));
-			  g_string_sprintfa (buf, "%s",
-					     cell_coord_name (ctxt->n_cols + 1,
-							      i + CONSTRAINT_ROW));
+		          g_string_sprintfa(buf, "=%s-",
+					    cell_coord_name (ctxt->n_cols + 3,
+							     i+CONSTRAINT_ROW));
+			  g_string_sprintfa(buf, "%s",
+					    cell_coord_name (ctxt->n_cols + 1,
+							     i+CONSTRAINT_ROW));
 		  } else if (row->type == GreaterOrEqualRow) {
-		          g_string_sprintfa (buf, "=%s-",
-					     cell_coord_name (ctxt->n_cols + 1,
-							      i + CONSTRAINT_ROW));
-			  g_string_sprintfa (buf, "%s",
-					     cell_coord_name (ctxt->n_cols + 3,
-							      i + CONSTRAINT_ROW));
+		          g_string_sprintfa(buf, "=%s-",
+					    cell_coord_name (ctxt->n_cols + 1,
+							     i+CONSTRAINT_ROW));
+			  g_string_sprintfa(buf, "%s",
+					    cell_coord_name (ctxt->n_cols + 3,
+							     i+CONSTRAINT_ROW));
 		  } else {
-		          g_string_sprintfa (buf, "=ABS(%s-",
-					     cell_coord_name (ctxt->n_cols + 1,
-							      i + CONSTRAINT_ROW));
-			  g_string_sprintfa (buf, "%s",
-					     cell_coord_name (ctxt->n_cols + 3,
-							      i + CONSTRAINT_ROW));
+		          g_string_sprintfa(buf, "=ABS(%s-",
+					    cell_coord_name (ctxt->n_cols + 1,
+							     i+CONSTRAINT_ROW));
+			  g_string_sprintfa(buf, "%s",
+					    cell_coord_name (ctxt->n_cols + 3,
+							     i+CONSTRAINT_ROW));
 			  g_string_sprintfa (buf, ")");
 		  }
 		  cell = sheet_cell_fetch (sh, ctxt->n_cols + 4,
@@ -396,34 +403,36 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 		  /* Add Status field */
 		  buf = g_string_new ("");
 		  if (row->type == EqualityRow) {
-		          g_string_sprintfa (buf,
-					     "=IF(%s>%s,\"NOK\", \"Binding\")",
-					     cell_coord_name (ctxt->n_cols + 4,
-							      i + CONSTRAINT_ROW),
-					     BINDING_LIMIT);
+		          g_string_sprintfa(buf,
+					    "=IF(%s>%s,\"NOK\", \"Binding\")",
+					    cell_coord_name (ctxt->n_cols + 4,
+							     i + CONSTRAINT_ROW),
+					    BINDING_LIMIT);
 		  } else {
-		          g_string_sprintfa (buf,
-					     "=IF(%s<0,\"NOK\", ",
-					     cell_coord_name (ctxt->n_cols + 4,
-							      i + CONSTRAINT_ROW));
-			  g_string_sprintfa (buf,
-					     "IF(%s<=%s,\"Binding\","
-					     "\"Not Binding\"))",
-					     cell_coord_name (ctxt->n_cols + 4,
-							      i + CONSTRAINT_ROW),
-					     BINDING_LIMIT);
+		          g_string_sprintfa(buf,
+					    "=IF(%s<0,\"NOK\", ",
+					    cell_coord_name (ctxt->n_cols + 4,
+							     i+CONSTRAINT_ROW));
+			  g_string_sprintfa(buf,
+					    "IF(%s<=%s,\"Binding\","
+					    "\"Not Binding\"))",
+					    cell_coord_name (ctxt->n_cols + 4,
+							     i + CONSTRAINT_ROW),
+					    BINDING_LIMIT);
 		  }
 		  cell = sheet_cell_fetch (sh, ctxt->n_cols + 5,
 					   i + CONSTRAINT_ROW);
 		  cell_set_text (cell, buf->str);
 		  g_string_free (buf, FALSE);
 
-		  for (n = 0; n < ctxt->n_cols; n++)
-		          mps_set_cell_float (sh, n + 1, i + CONSTRAINT_ROW,
+		  for (n=0; n<ctxt->n_cols; n++)
+		          mps_set_cell_float (sh, n + 1, i + CONSTRAINT_ROW, 
 					      ctxt->matrix[row->index][n]);
 		  /* Initialize RHS to 0 */
-		  mps_set_cell_float (sh, n + 3, i + CONSTRAINT_ROW, 0.0);
-
+		  if (i < ctxt->n_rows - ctxt->n_bounds - 1)
+		          mps_set_cell_float (sh, n + 3, i + CONSTRAINT_ROW,
+					      0.0);
+		  
 		  /* Add Solver constraint */
 		  c = g_new (SolverConstraint, 1);
 		  c->lhs.col = ctxt->n_cols + 1;
@@ -435,7 +444,7 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 		  c->rows = 1;
 		  c->str = write_constraint_str (c->lhs.col, c->lhs.row,
 						 c->rhs.col, c->rhs.row,
-						 c->type, c->cols,
+						 c->type, c->cols, 
 						 c->rows);
 
 		  param->constraints = g_slist_append (param->constraints, c);
@@ -553,8 +562,9 @@ mps_input_context_new (IOContext *io_context, Workbook *wb, char const *file_nam
 	ctxt->rows           = NULL;
 	ctxt->cols           = NULL;
 	ctxt->rhs            = NULL;
+	ctxt->bounds         = NULL;
 
-	ctxt->n_rows = ctxt->n_cols = 0;
+	ctxt->n_rows = ctxt->n_cols = ctxt->n_bounds = 0;
 
 	g_slist_free (ctxt->rows);
 
@@ -612,15 +622,23 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 		   g_free (current->data);
 	}
 
+	/* Free BOUNDS */
+	for (current = ctxt->bounds; current!=NULL; current = current->next) {
+	           MpsBound *bound = (MpsBound *) current->data;
+		   g_free (bound->name);
+		   g_free (current->data);
+	}
+	
 	g_slist_free (ctxt->rows);
 	g_slist_free (ctxt->cols);
 	g_slist_free (ctxt->rhs);
+	g_slist_free (ctxt->bounds);
 
 	g_hash_table_foreach_remove (ctxt->row_hash, (GHRFunc) rh_rm_cb, NULL);
 	g_hash_table_foreach_remove (ctxt->col_hash, (GHRFunc) ch_rm_cb, NULL);
 	g_hash_table_destroy (ctxt->row_hash);
 	g_hash_table_destroy (ctxt->col_hash);
-
+	
 	g_free (ctxt->col_name_tbl);
 	g_free (ctxt->matrix);
 	g_free (ctxt->line);
@@ -635,6 +653,7 @@ mps_get_line (MpsInputContext *ctxt)
 {
         gchar *p, *p_limit;
 
+ try_again:
 	p_limit = ctxt->data + ctxt->data_size;
 	if (ctxt->cur >= p_limit) {
 	        ctxt->line[0] = '\0';
@@ -656,7 +675,7 @@ mps_get_line (MpsInputContext *ctxt)
 	}
 	ctxt->line[ctxt->line_len] = '\0';
 
-	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' ||
+	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' || 
 						  p[0] == '\r'))) {
 	        ctxt->cur = p_limit;
 	} else if ((p[0] == '\n' && p[1] == '\r') || (p[0] == '\r' &&
@@ -670,27 +689,141 @@ mps_get_line (MpsInputContext *ctxt)
 	        memory_io_progress_update (ctxt->io_context, ctxt->cur);
 	}
 
+	/* Check if a comment line */
+	if (ctxt->line[0] == '*')
+	        goto try_again;
+
 	return TRUE;
 }
 
+static gboolean
+mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2, 
+		gchar *value1, gchar *name3, gchar *value2)
+{
+        gint i;
+	gchar *n1 = name1;
+	gchar *n2 = name2;
+	gchar *n3 = name3;
+
+	for (i=0; i<8; i++)
+	        name1[i] = name2[i] = name3[i] = ' ';
+	*value2 = *name3 = '\0';
+        if (!(*str) || *str++ != ' ' || !(*str))
+	        return FALSE;
+
+	/* Type field is present */
+	if (*str != ' ') {
+	        *type++ = *str++;
+		if (!(*str))
+		        return FALSE;
+		if (*str != ' ')
+		        *type++ = *str++;
+		else
+		        str++;
+		*type = '\0';
+	} else
+	        str += 2;
+
+	/* Label 1 */
+	if (!(*str) || *str++ != ' ')
+	        return FALSE;
+	for (i=5; i<=12; i++, str++) {
+	        *name1++ = *str;
+	        if (!(*str))
+		        goto ok_out;
+	}
+	*name1 = '\0';
+
+	/* Label 2 */
+	if (*str == '\0')
+	        goto ok_out;
+	if (*str++ != ' ')
+	        return FALSE;
+	if (*str == '\0')
+	        goto ok_out;
+	if (*str++ != ' ')
+	        return FALSE;
+	for (i=15; i<=22; i++, str++) {
+	        *name2++ = *str;
+		if (!(*str))
+		        return FALSE;
+	}
+	*name2 = '\0';
+
+	/* Value 1 */
+	if (!(*str) || *str++ != ' ' || !(*str) || *str++ != ' ')
+	        return FALSE;
+	for (i=25; i<=36; i++, str++) {
+	        *value1++ = *str;
+		if (!(*str))
+		        goto ok_out;
+	}
+	*value1 = '\0';
+
+	/* Label 3 */
+	if (!(*str))
+	        goto ok_out;
+	if (*str++ != ' ')
+	        return FALSE;
+	if (!(*str))
+	        goto ok_out;
+	if (*str++ != ' ')
+	        return FALSE;
+	if (!(*str))
+	        goto ok_out;
+	if (*str++ != ' ')
+	        return FALSE;
+	for (i=40; i<=47; i++, str++) {
+	        *name3++ = *str;
+		if (!(*str))
+		        return FALSE;
+	}
+	*name3 = '\0';
+
+	/* Value 2 */
+	if (!(*str) || *str++ != ' ' || !(*str) || *str++ != ' ')
+	        return FALSE;
+	for (i=50; i<=61; i++, str++) {
+	        *value2++ = *str;
+		if (!(*str))
+		        goto ok_out;
+	}
+	*value2 = '\0';
+
+ ok_out:
+	for (i=7; i>=0; i--)
+	        if (n1[i] != ' ')
+		        break;
+	n1[i+1] = '\0';
+	for (i=7; i>=0; i--)
+	        if (n2[i] != ' ')
+		        break;
+	n2[i+1] = '\0';
+	for (i=7; i>=0; i--)
+	        if (n3[i] != ' ')
+		        break;
+	n3[i+1] = '\0';
+
+	return TRUE;
+}
 
 /* Add one ROW definition. */
 static gboolean
 mps_add_row (MpsInputContext *ctxt, MpsRowType type, gchar *txt)
 {
         MpsRow *row;
-	int    size;
+	int    len;
 
-        while (isspace ((unsigned char)*txt))
+        while (isspace ((unsigned char) *txt))
 	          txt++;
 
 	row = g_new (MpsRow, 1);
-	size = ctxt->line_len - (txt - ctxt->line);
+	len = strlen(txt);
 
-	if (size == 0)
+	if (len == 0)
 	          return FALSE;
 
-	row->name = strcpy (g_malloc (size + 1), txt);
+	row->name = strcpy (g_malloc (len + 1), txt);
 	row->type = type;
 	row->index = ctxt->n_rows;
 	ctxt->n_rows += 1;
@@ -705,13 +838,14 @@ mps_add_row (MpsInputContext *ctxt, MpsRowType type, gchar *txt)
 
 /* Add one COLUMN definition. */
 static gboolean
-mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name,
-		const gchar *value_str)
+mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name, 
+		gchar *value_str)
 {
         MpsCol *col;
-	MpsRow *row = (MpsRow *) g_hash_table_lookup (ctxt->row_hash, row_name);
+	MpsRow *row;
 	MpsColInfo *i;
 
+	row = (MpsRow *) g_hash_table_lookup(ctxt->row_hash, row_name);
 	if (row == NULL)
 	          return FALSE;
 	col = g_new (MpsCol, 1);
@@ -724,11 +858,11 @@ mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name,
 	if (i == NULL) {
 	          i = g_new (MpsColInfo, 1);
 		  i->index = ctxt->n_cols;
-		  i->name = g_strdup (col_name);
+		  i->name = strcpy (g_malloc (strlen (col_name) + 1), col_name);
 		  ctxt->n_cols += 1;
 		  g_hash_table_insert (ctxt->col_hash, col->name, (gpointer) i);
 	}
-
+	
 	return TRUE;
 }
 
@@ -736,17 +870,40 @@ mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name,
 /* Add one RHS definition. */
 static gboolean
 mps_add_rhs (MpsInputContext *ctxt, gchar *rhs_name, gchar *row_name,
-	     const gchar *value_str)
+	     gchar *value_str)
 {
         MpsRhs *rhs;
 
 	rhs = g_new (MpsRhs, 1);
 	rhs->name = g_strdup (rhs_name);
-	rhs->row = (MpsRow *) g_hash_table_lookup (ctxt->row_hash, row_name);
+	rhs->row = (MpsRow *) g_hash_table_lookup(ctxt->row_hash, row_name);
 	if (rhs->row == NULL)
 	          return FALSE;
 	rhs->value = atof (value_str);
 	ctxt->rhs = g_slist_prepend (ctxt->rhs, rhs);
+
+	return TRUE;
+}
+
+/* Add one BOUND definition. */
+static gboolean
+mps_add_bound (MpsInputContext *ctxt, MpsBoundType type, gchar *bound_name,
+	       gchar *col_name, gchar *value_str)
+{
+        MpsBound   *bound;
+	MpsColInfo *info;
+
+	info = (MpsColInfo *) g_hash_table_lookup (ctxt->col_hash, col_name);
+	if (info == NULL)
+	        return FALSE;  /* Column is not defined */
+
+	bound = g_new (MpsBound, 1);
+	bound->name = g_new (gchar, strlen (bound_name) + 13);
+	sprintf(bound->name, "Bound #%d: %s", ctxt->n_bounds + 1, bound_name);
+	bound->col_index = info->index;
+	bound->value = atof (value_str);
+	ctxt->bounds = g_slist_prepend (ctxt->bounds, bound);
+	(ctxt->n_bounds)++;
 
 	return TRUE;
 }
@@ -764,9 +921,9 @@ mps_parse_name (MpsInputContext *ctxt)
 		        return FALSE;
 
 		if (strncmp (ctxt->line, "NAME", 4) == 0
-		    && isspace ((unsigned char)ctxt->line[4])) {
+		    && isspace ((unsigned char) ctxt->line[4])) {
 		        line = ctxt->line + 5;
-			while (isspace ((unsigned char)*line))
+			while (isspace ((unsigned char) *line))
 			        line++;
 
 			ctxt->name = strcpy (g_malloc (ctxt->line_len -
@@ -787,7 +944,7 @@ mps_parse_name (MpsInputContext *ctxt)
 static gboolean
 mps_parse_rows (MpsInputContext *ctxt)
 {
-        gchar  *line;
+	gchar  type[3], n1[10], n2[10], n3[10], v1[20], v2[20];
 	GSList *tmp;
 
 	while (1) {
@@ -804,32 +961,34 @@ mps_parse_rows (MpsInputContext *ctxt)
 	        if (!mps_get_line (ctxt))
 		        return FALSE;
 
-		if (isspace ((unsigned char)*ctxt->line)) {
-		        line = ctxt->line + 1;
-			if (*line == 'E') {
-			        if (!mps_add_row (ctxt, EqualityRow, line + 1))
-				        return FALSE;
-			} else if (*line == 'L') {
-			        if (!mps_add_row (ctxt, LessOrEqualRow,
-						  line + 1))
-				  return FALSE;
-			} else if (*line == 'G') {
-			        if (!mps_add_row (ctxt, GreaterOrEqualRow,
-						  line + 1))
-				  return FALSE;
-			} else if (*line == 'N') {
-			        if (!mps_add_row (ctxt, ObjectiveRow, line + 1))
-				        return FALSE;
-			} else
+		if (!mps_parse_data (ctxt->line, type, n1, n2, v1, n3, v2)) {
+		        if (ctxt->line[0] != ' ')
+			        goto ok_out;
+			else
+			        return FALSE;
+		}
+
+		if (strcmp(type, "E") == 0) {
+		        if (!mps_add_row (ctxt, EqualityRow, n1))
+			        return FALSE;
+		} else if (strcmp(type, "L") == 0) {
+		        if (!mps_add_row (ctxt, LessOrEqualRow, n1))
+			        return FALSE;
+		} else if (strcmp(type, "G") == 0) {
+		        if (!mps_add_row (ctxt, GreaterOrEqualRow, n1))
+			        return FALSE;
+		} else if (strcmp(type, "N") == 0) {
+		        if (!mps_add_row (ctxt, ObjectiveRow, n1))
 			        return FALSE;
 		} else
-		        break;
+		        return FALSE;
 	}
 
+ ok_out:
 	ctxt->row_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	for (tmp = ctxt->rows; tmp != NULL; tmp = tmp->next) {
-	          MpsRow *row = (MpsRow *) tmp->data;
-		  g_hash_table_insert (ctxt->row_hash, row->name, (gpointer) row);
+	        MpsRow *row = (MpsRow *) tmp->data;
+		g_hash_table_insert(ctxt->row_hash, row->name, (gpointer) row);
 	}
 
 	return TRUE;
@@ -842,6 +1001,8 @@ mps_parse_rows (MpsInputContext *ctxt)
 static gboolean
 mps_parse_columns (MpsInputContext *ctxt)
 {
+	gchar type[3], n1[10], n2[10], n3[10], v1[20], v2[20];
+
 	ctxt->col_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	while (1) {
 	        if (strncmp (ctxt->line, "COLUMNS", 7) == 0)
@@ -854,49 +1015,23 @@ mps_parse_columns (MpsInputContext *ctxt)
 	}
 
 	while (1) {
-		gchar *line;
-		gchar col_name[50], row_name[50], value[100];
-
 	        if (!mps_get_line (ctxt))
 		        return FALSE;
 
-		line = ctxt->line;
-
-		if (!isspace ((unsigned char)*line))
-			break;
-
-		/* Column name */
-		if (!get_token (&line, col_name, sizeof (col_name) - 2))
-			return FALSE;
-
-		/* Row name */
-		if (!get_token (&line, row_name, sizeof (row_name) - 2))
-			return FALSE;
-
-		/* Value */
-		if (!get_token (&line, value, sizeof (value) - 2))
-			return FALSE;
-
-		if (!mps_add_column (ctxt, row_name, col_name, value))
-			return FALSE;
-
-		while (*line && isspace ((unsigned char )*line))
-			line++;
-
-		/* Optional second column */
-		if (*line) {
-			/* Row name */
-			if (!get_token (&line, row_name, sizeof (row_name) - 2))
-				return FALSE;
-
-			/* Value */
-			if (!get_token (&line, value, sizeof (value) - 2))
-				return FALSE;
-
-			if (!mps_add_column (ctxt, row_name, col_name,
-					     value))
-				return FALSE;
+		if (!mps_parse_data (ctxt->line, type, n1, n2, v1, n3, v2)) {
+		        if (ctxt->line[0] != ' ')
+			        return TRUE;
+			else
+			        return FALSE;
 		}
+
+		if (!mps_add_column (ctxt, n2, n1, v1))
+		        return FALSE;
+
+		/* Optional second column definition */
+		if (*v2)
+		        if (!mps_add_column (ctxt, n3, n1, v2))
+			        return FALSE;
 	}
 
 	return TRUE;
@@ -909,84 +1044,86 @@ mps_parse_columns (MpsInputContext *ctxt)
 static gboolean
 mps_parse_rhs (MpsInputContext *ctxt)
 {
-	while (1) {
-	        if (strncmp (ctxt->line, "RHS", 3) == 0)
-		        break;
-		else
-		        return FALSE;
+	gchar type[3], rhs_name[10], row_name[10], value[20], n2[10], v2[20];
 
-		if (!mps_get_line (ctxt))
-		        return FALSE;
-	}
+	if (strncmp (ctxt->line, "RHS", 3) != 0 || ctxt->line[3] != '\0')
+	        return FALSE;
 
 	while (1) {
-		gchar *line;
-		gchar rhs_name[50], row_name[50], value[100];
-
 	        if (!mps_get_line (ctxt))
 		        return FALSE;
 
-		line = ctxt->line;
-
-		if (!isspace ((unsigned char)*line))
-			break;
-
-		/* RHS name */
-		if (!get_token (&line, rhs_name, sizeof (rhs_name) - 2))
-			return FALSE;
-
-		/* Row name */
-		if (!get_token (&line, row_name, sizeof (row_name) - 2))
-			return FALSE;
-
-		/* Value */
-		if (!get_token (&line, value, sizeof (value) - 2))
-			return FALSE;
+		if (!mps_parse_data (ctxt->line, type, rhs_name, row_name,
+				     value, n2, v2)) {
+		        if (ctxt->line[0] != ' ')
+			        return TRUE;
+			else
+			        return FALSE;
+		}
 
 		if (!mps_add_rhs (ctxt, rhs_name, row_name, value))
 		        return FALSE;
 
-		while (*line && isspace ((unsigned char)*line))
-		        line++;
-
 		/* Optional second RHS definition */
-		if (*line) {
-			/* Row name */
-			if (!get_token (&line, row_name, sizeof (row_name) - 2))
-				return FALSE;
-
-			/* Value */
-			if (!get_token (&line, value, sizeof (value) - 2))
-				return FALSE;
-
-			if (!mps_add_rhs (ctxt, rhs_name, row_name, value))
+		if (*v2)
+			if (!mps_add_rhs (ctxt, rhs_name, n2, v2))
 			        return FALSE;
-		}
 	}
 
 	return TRUE;
 }
 
+/* BOUNDS section parsing.
+ * Returns FALSE on error.
+ */
+static gboolean
+mps_parse_bounds (MpsInputContext *ctxt)
+{
+	gchar type[3], n1[10], n2[10], v1[20], n3[10], v2[20];
+
+	if (strncmp (ctxt->line, "ENDATA", 6) == 0)
+	        return TRUE;
+
+	if (strncmp (ctxt->line, "BOUNDS", 6) != 0 || ctxt->line[6] != '\0')
+	        return FALSE;
+
+	while (1) {
+	        if (!mps_get_line (ctxt))
+		        return FALSE;
+
+		if (!mps_parse_data (ctxt->line, type, n1, n2, v1, n3, v2)) {
+		        if (ctxt->line[0] != ' ')
+			        return TRUE;
+			else
+			        return FALSE;
+		}
+
+		if (strncmp (type, "UP", 2) == 0) {
+			if (!mps_add_bound (ctxt, UpperBound, n1, n2, v1))
+			        return FALSE;
+		} else
+		        return FALSE; /* Only upper bounds are implemented */
+	}
+}
 
 static void
 mps_parse_sheet (MpsInputContext *ctxt)
 {
         if (!mps_parse_name (ctxt)) {
 	        gnumeric_io_error_info_set (ctxt->io_context,
-					    error_info_new_printf (
-						    _("Problem name was not defined in the file.")));
+					    error_info_new_printf (_("Problem name was not defined in the file.")));
 	} else if (!mps_parse_rows (ctxt)) {
 	        gnumeric_io_error_info_set (ctxt->io_context,
-					    error_info_new_printf (
-						    _("Invalid ROWS section in the file.")));
+					    error_info_new_printf (_("Invalid ROWS section in the file.")));
 	} else if (!mps_parse_columns (ctxt)) {
-	        gnumeric_io_error_info_set (ctxt->io_context,
-					    error_info_new_printf (
-						    _("Invalid COLUMNS section in the file.")));
+	        gnumeric_io_error_info_set (ctxt->io_context, 
+					    error_info_new_printf (_("Invalid COLUMNS section in the file.")));
 	} else if (!mps_parse_rhs (ctxt)) {
 	        gnumeric_io_error_info_set (ctxt->io_context,
-					    error_info_new_printf (
-						    _("Invalid RHS section in the file.")));
+					    error_info_new_printf (_("Invalid RHS section in the file.")));
+	} else if (!mps_parse_bounds (ctxt)) {
+	        gnumeric_io_error_info_set (ctxt->io_context,
+					    error_info_new_printf (_("Invalid BOUNDS section in the file.")));
 	}
 }
 

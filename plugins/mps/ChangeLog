@@ -1,3 +1,10 @@
+2001-10-25  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c: Moved to character position based scanning since many MPS
+	files (like Netlib's blend) skip tokens.  MPS is actually position
+	based according to its definition.  Some work towards BOUND
+	support.
+
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.72
