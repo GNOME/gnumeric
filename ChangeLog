@@ -1,5 +1,9 @@
 2003-05-14  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-export.c (stf_export_can_transliterate): Don't use
+	fallback.  I think we want it to fail if it cannot transliterate
+	the test string.
+
 	* src/stf-export.h (StfExportOptions_t): Make quoting_char and
 	cell_separator gunichars.
 

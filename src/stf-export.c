@@ -454,15 +454,16 @@ stf_export (StfExportOptions_t *export_options)
  * Return value: TRUE iff //TRANSLIT is supported
  **/
 
-gboolean stf_export_can_transliterate (void)
+gboolean
+stf_export_can_transliterate (void)
 {
      char const *text = "G\xc3\xbclzow";
-     char *encoded_text = NULL;
-     GError * error = NULL;
+     char *encoded_text;
+     GError *error = NULL;
 
-     encoded_text = g_convert_with_fallback (text, strlen (text),
-					     "ASCII//TRANSLIT", "UTF-8",
-					     NULL, NULL, NULL, &error);
+     encoded_text = g_convert (text, -1,
+			       "ASCII//TRANSLIT", "UTF-8",
+			       NULL, NULL, &error);
      g_free (encoded_text);
 
      if (error == NULL)
@@ -471,4 +472,3 @@ gboolean stf_export_can_transliterate (void)
      g_error_free (error);
      return FALSE;
 }
-
