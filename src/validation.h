@@ -42,12 +42,12 @@ struct _Validation {
 
 	String          *title;
 	String          *msg;
-	GnmExpr	const *expr [2];
+	GnmExpr	const   *expr [2];
 	ValidationStyle  style;
 	ValidationType	 type;
 	ValidationOp	 op;
-	gboolean	 allow_blank : 1;
-	gboolean	 use_dropdown : 1;
+	gboolean	 allow_blank;
+	gboolean	 use_dropdown;
 };
 
 Validation *validation_new   (ValidationStyle style,

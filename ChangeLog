@@ -1,3 +1,17 @@
+2002-10-09  Morten Welinder  <terra@diku.dk>
+
+	* src/gnumeric-graph.c (struct _GnmGraphVector): Avoid "gboolean
+	... : 1".
+	* src/item-bar.c (struct _ItemBar): Ditto.
+	* src/item-cursor.c (struct _ItemCursor): Ditto.
+	* src/formats.h (FormatCharacteristics): Ditto.
+	* src/format-template.h (struct _FormatTemplate): Ditto.
+	* src/sheet-private.h (struct _SheetPrivate): Ditto.
+	* src/sheet-view.h (struct _SheetView): Ditto.
+	* src/validation.h (struct _Validation): Ditto.
+	* src/workbook-priv.h (struct _Workbook): Ditto.
+	* src/expr-name.h (struct _GnmNamedExpr): Ditto.
+
 2002-10-09  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_define_name_redo) : fix ref counting.

@@ -99,8 +99,8 @@ struct _MSObj {
 	int		 excel_type;
 	char const	*excel_type_name;
 
-	gboolean	 ignore_combo_in_filter : 1;
-	gboolean	 is_linked : 1;
+	gboolean	 ignore_combo_in_filter;
+	gboolean	 is_linked;
 	GHashTable	*attrs;
 };
 

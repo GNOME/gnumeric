@@ -44,9 +44,9 @@ struct _ItemBar {
 	GdkCursor       *change_cursor;
 	StyleFont	*normal_font, *bold_font;
 	GtkWidget       *tip;			/* Tip for scrolling */
-	gboolean	 dragging : 1;
-	gboolean	 is_col_header : 1;
-	gboolean	 has_resize_guides : 1;
+	gboolean	 dragging;
+	gboolean	 is_col_header;
+	gboolean	 has_resize_guides;
 	int		 indent, cell_width, cell_height;
 	int		 start_selection;	/* Where selection started */
 	int		 colrow_being_resized;

@@ -75,17 +75,17 @@ struct _FormatTemplate {
 	char *description;
 
 	/* what to enable */
-	gboolean number : 1;
-	gboolean border : 1;
-	gboolean font : 1;
-	gboolean patterns : 1;
-	gboolean alignment : 1;
+	gboolean number;
+	gboolean border;
+	gboolean font;
+	gboolean patterns;
+	gboolean alignment;
 
 	struct {
-		gboolean left : 1;
-		gboolean right : 1;
-		gboolean top : 1;
-		gboolean bottom : 1;
+		gboolean left;
+		gboolean right;
+		gboolean top;
+		gboolean bottom;
 	} edges;
 	
 /* <private> */

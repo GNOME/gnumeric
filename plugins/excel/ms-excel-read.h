@@ -26,7 +26,7 @@ struct _ExcelSheet {
 	ExcelWorkbook	*wb;
 	GHashTable	*shared_formulae, *tables;
 
-	gboolean freeze_panes : 1;
+	gboolean freeze_panes;
 };
 
 typedef struct _BiffBoundsheetData {

@@ -69,10 +69,10 @@ struct _ItemCursor {
 	int      cached_x, cached_y, cached_w, cached_h;
 	int	 drag_button;
 
-	gboolean visible		  :1;
-	gboolean use_color		  :1;
-	gboolean auto_fill_handle_at_top  :1;
-	gboolean auto_fill_handle_at_left :1;
+	gboolean visible;
+	gboolean use_color;
+	gboolean auto_fill_handle_at_top;
+	gboolean auto_fill_handle_at_left;
 
 	GdkPixmap *stipple;
 	GdkColor  color;

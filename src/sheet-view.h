@@ -32,19 +32,19 @@ struct _SheetView {
 	CellPos unfrozen_top_left;
 
 	/* state flags */
-	gboolean         enable_insert_rows		: 1;
-	gboolean         enable_insert_cols		: 1;
-	gboolean         enable_insert_cells		: 1;
-	gboolean	 reposition_selection		: 1;
+	unsigned char enable_insert_rows;
+	unsigned char enable_insert_cols;
+	unsigned char enable_insert_cells;
+	unsigned char reposition_selection;
 
 	/* TODO : these should be replaced with Dependents when we support
 	 * format based dependents
 	 */
-	gboolean	 selection_content_changed	: 1;
+	unsigned char selection_content_changed;
 	struct {
-		gboolean location;
-		gboolean content; /* entered content NOT value */
-		gboolean format;
+		unsigned char location;
+		unsigned char content; /* entered content NOT value */
+		unsigned char format;
 	} edit_pos_changed;
 	guint            auto_expr_timer;
 };

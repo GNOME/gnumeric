@@ -86,7 +86,7 @@ struct _GnmGraphVector {
 	Value		*value;
 	GnmGraph	*graph;
 	int		 id;
-	gboolean	 is_header : 1;
+	gboolean	 is_header;
 	GnmGraphVector  *header;
 };
 

@@ -62,8 +62,8 @@ typedef struct {
 	ParsePos 	pos;
 
 	int 		 col_inc;
-	gboolean 	 simple_content : 1;
-	gboolean 	 error_content : 1;
+	gboolean 	 simple_content;
+	gboolean 	 error_content;
 	GHashTable	*styles;
 	GHashTable	*formats;
 	MStyle		*style;

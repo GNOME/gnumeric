@@ -38,9 +38,9 @@ struct _Workbook {
 	} iteration;
 	gboolean auto_recalc;
 
-	gboolean during_destruction : 1;
-	gboolean being_reordered : 1;
-	gboolean recursive_dirty_enabled : 1;
+	gboolean during_destruction;
+	gboolean being_reordered;
+	gboolean recursive_dirty_enabled;
 };
 
 typedef struct {

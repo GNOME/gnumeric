@@ -1,3 +1,8 @@
+2002-10-09  Morten Welinder  <welinder@rentec.com>
+
+	* ms-obj.h (struct _MSObj): Avoid "gboolean ... : 1".
+	* ms-excel-read.h (struct _ExcelSheet): Avoid "gboolean ... : 1".
+
 2002-10-10  Nick Lamb <njl98r@ecs.soton.ac.uk>
 
 	* plugin.xml.in: Excel 4.x had .XLW workbooks as well as .XLS

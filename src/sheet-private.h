@@ -5,14 +5,14 @@ struct _SheetPrivate {
 	Range		 unhidden_region;
 
 	/* State of menu items */
-	gboolean         enable_showhide_detail		: 1;
+	unsigned char    enable_showhide_detail;
 
-	gboolean	 recompute_visibility		: 1;
-	gboolean	 recompute_spans		: 1;
-	gboolean	 recompute_max_col_group	: 1;
-	gboolean	 recompute_max_row_group	: 1;
-	gboolean	 resize_scrollbar		: 1;
-	gboolean	 resize				: 1;
+	unsigned char	 recompute_visibility;
+	unsigned char	 recompute_spans;
+	unsigned char	 recompute_max_col_group;
+	unsigned char	 recompute_max_row_group;
+	unsigned char	 resize_scrollbar;
+	unsigned char	 resize;
 	CellPos		 reposition_objects;
 };
 
