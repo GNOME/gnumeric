@@ -137,6 +137,7 @@ sheet_merge_add (WorkbookControl *wbc,
 	if (comment != NULL)
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 
+	sheet_flag_status_update_range (sheet, r);
 	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }
@@ -178,6 +179,7 @@ sheet_merge_remove (WorkbookControl *wbc, Sheet *sheet, Range const *r)
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 
 	g_free (r_copy);
+	sheet_flag_status_update_range (sheet, r);
 	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }

@@ -1,5 +1,9 @@
 2001-12-29  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-merge.c (sheet_merge_add) : update the status of the
+	  merged region.
+	(sheet_merge_remove) : ditto.
+
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : Use
 	  cmd_object_delete so that deleting an object with the keyboard is
 	  undoable.
