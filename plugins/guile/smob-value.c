@@ -277,7 +277,7 @@ void
 init_value_type ()
 {
 
-	value_tag = scm_make_smob_type ("value", sizeof (SCM_Value));
+	value_tag = scm_make_smob_type ((char *) "value", sizeof (SCM_Value));
 	scm_set_smob_mark (value_tag, mark_value);
 	scm_set_smob_free (value_tag, free_value);
 	scm_set_smob_print (value_tag, print_value);

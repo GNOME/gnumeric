@@ -53,18 +53,21 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  */
 static EvalPos const *eval_pos = NULL;
 
-
 static Value*
-func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
+func_scm_apply (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	int i;
+	int i, argc;
 	Value *value;
+	GnmExprList *l;
 	char *symbol;
 	SCM args = SCM_EOL,
 		function,
 		result;
 
-	if (g_list_length(expr_node_list) < 1)
+	/* Count actual arguments */
+	argc = gnm_expr_list_length (expr_node_list);
+
+	if (argc < 1)
 		return value_new_error (ei->pos, _("Invalid number of arguments"));
 
 	/* Retrieve the function name,  This can be empty, but not a non scalar */
@@ -83,8 +86,7 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 
 	value_release(value);
 
-	for (i = g_list_length(expr_node_list) - 1; i >= 1; --i)
-	{
+	for (i = 0, l = expr_node_list; i < argc && l; i++, l = l->next) {
 		CellRef eval_cell;
 
 		eval_cell.col = ei->pos->eval.col;
@@ -94,9 +96,8 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		eval_cell.sheet = NULL;
 
 		/* Evaluate each argument, non scalar is ok, but empty is not */
-		value = gnm_expr_eval (g_list_nth(expr_node_list, i)->data,
-				   ei->pos,
-				   GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+		value = gnm_expr_eval (l->data, ei->pos,
+				       GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		if (value == NULL)
 			return value_new_error (ei->pos, _("Could not evaluate argument"));
 
@@ -167,7 +168,7 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 {
 	FunctionDefinition *fndef;
 	FunctionCategory   *cat;
-	char              **help;
+	char const         **help;
 
 
 	SCM_ASSERT (SCM_NIMP (scm_name) && SCM_STRINGP (scm_name), scm_name, SCM_ARG1, "scm_register_function");
@@ -179,7 +180,7 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 
 	scm_permanent_object (scm_function);
 
-	help  = g_new (char *, 1);
+	help  = g_new (char const *, 1);
 	*help = g_strdup (SCM_CHARS (scm_help));
 	cat   = function_get_category (SCM_CHARS (scm_category));
 	fndef = function_add_args (cat, g_strdup (SCM_CHARS (scm_name)),

@@ -1,3 +1,12 @@
+2002-03-24  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (scm_register_function) constify help.
+	(func_scm_apply): Make expr_node_list a GnmExprList.
+
+	* smob-value.c (init_value_type): Guile API doesn't expect
+	arguments to be declared const. So cast constants to non-const to
+	silence warning.
+
 2002-03-22  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.c: Include expr-impl.h
