@@ -1449,7 +1449,7 @@ static /* const 142334 */ GtkActionEntry permanent_actions[] = {
 		G_CALLBACK (cb_edit_paste) },
 
 	{ "HelpDocs", GTK_STOCK_HELP, N_("_Contents"),
-		NULL, N_("Open a viewer for Gnumeric's documentation"),
+		"F1", N_("Open a viewer for Gnumeric's documentation"),
 		G_CALLBACK (cb_help_docs) },
 	{ "HelpWeb", NULL, N_("Gnumeric on the _Web"),
 		NULL, N_("Browse to Gnumeric's website"),
@@ -1521,7 +1521,7 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 		NULL, N_("Clear the selected cells' comments"),
 		G_CALLBACK (cb_edit_clear_comments) },
 	{ "EditClearContent", NULL, N_("_Contents"),
-		"F1", N_("Clear the selected cells' contents"),
+		NULL, N_("Clear the selected cells' contents"),
 		G_CALLBACK (cb_edit_clear_content) },
 
 /* Edit -> Delete */

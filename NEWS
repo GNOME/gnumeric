@@ -37,6 +37,7 @@ Morten:
 	* Fix rich text problem when starting from empty.  [#161723].
 	* Vastly improve sorting speed for large ranges with formulas.
 	  [#161909]
+	* Fix Help->Contents accelerator.  [#162865]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

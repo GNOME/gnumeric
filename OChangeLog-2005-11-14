@@ -1,3 +1,8 @@
+2005-01-04  Morten Welinder  <terra@gnome.org>
+
+	* src/wbcg-actions.c: Fix Help->Contents and Edit->Clear->Contents
+	accelerators.
+
 2005-01-03  Morten Welinder  <terra@gnome.org>
 
 	Patch for 161909:
