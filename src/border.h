@@ -26,19 +26,21 @@ struct _MStyleBorder {
 	/* Key elements */
 	StyleBorderType	 line_type;
 	StyleColor     	*color;
-	gboolean	 is_vertical;
 
 	/* Private */
 	GdkGC	*gc;
 	gint	ref_count;
 };
 
-void		border_ref (MStyleBorder *border);
 void		border_unref (MStyleBorder *border);
+MStyleBorder *	border_ref (MStyleBorder *border);
 MStyleBorder *	border_fetch (StyleBorderType const	 line_type,
 			      StyleColor 		*color,
 			      MStyleElementType const	 orientation);
 
 GdkGC *	border_get_gc (MStyleBorder * border, GdkWindow * window);
+
+void border_draw (GdkDrawable * drawable, MStyleBorder * border,
+		  int x1, int y1, int x2, int y2);
 
 #endif /* GNUMERIC_BORDER_H */

@@ -262,39 +262,28 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
+
+	if (style->valid_flags & STYLE_BORDER_TOP)
+		border_draw (drawable, style->border_top,
+			     x1, y1, x1+w, y1);
+	if (style->valid_flags & STYLE_BORDER_LEFT)
+		border_draw (drawable, style->border_left,
+			     x1, y1, x1, y1+h);
+	if (style->valid_flags & STYLE_BORDER_BOTTOM)
+		border_draw (drawable, style->border_bottom,
+			     x1, y1+h, x1+w, y1+h);
+	if (style->valid_flags & STYLE_BORDER_RIGHT)
+		border_draw (drawable, style->border_right,
+			     x1+w, y1, x1+w, y1+h);
 #if 0
-	if ((style->valid_flags & STYLE_BORDER) && style->border) {
-		StyleBorder     *b = style->border;
-		GdkGC           *gc;
-		StyleBorderType  t;
-
-		t = b->type [STYLE_TOP];
-		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc [t];
-			gdk_draw_line (drawable, gc, x1, y1, x1 + w, y1);
-		}
-
-		t = b->type [STYLE_BOTTOM];
-		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc [t];
-			gdk_draw_line (drawable, gc, x1, y1 + h, x1 + w, y1 + h);
-		}
-
-		t = b->type [STYLE_LEFT];
-		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc [t];
-			gdk_draw_line (drawable, gc, x1, y1, x1, y1 + h);
-		}
-
-		t = b->type [STYLE_RIGHT];
-		if (t != BORDER_NONE) {
-			gc = item_grid->border_gc [t];
-			gdk_draw_line (drawable, gc, x1 + w, y1, x1 + w, y1 + h);
-		}
-	}
+	/* These would look ugly and should be ignored for now */
+	if (style->valid_flags & STYLE_BORDER_DIAGONAL)
+		border_draw (drawable, style->border_diagonal,
+			     x1, y1, x1+w, y1+h);
+	if (style->valid_flags & STYLE_BORDER_REV_DIAGONAL)
+		border_draw (drawable, style->border_rev_diagonal,
+			     x1+w, y1+h, x1, y1);
 #endif
-
-	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
 	return count;
 }

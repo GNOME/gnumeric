@@ -42,8 +42,8 @@ sheet_style_optimize (Sheet *sheet, Range range)
 	GList *l;
 	GList *style_list;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	g_warning ("implement the sheet style optimizer");
 
@@ -59,7 +59,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 	for (l = style_list; l; l = l->next) {
 		GList *a;
 		for (a = l->next; a; a = a->next) {
-			if (range_adjacent (l->data, a->data) {
+			if (range_adjacent (l->data, a->data)) {
 				/* We need to compare MStyleElements's quickly: hash ? */
 				/* If equal we need to merge up */
 			}

@@ -42,12 +42,15 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
-/* TODO : Add diagonals */
-#define STYLE_TOP     (MSTYLE_BORDER_TOP    - MSTYLE_BORDER_TOP)
-#define STYLE_BOTTOM  (MSTYLE_BORDER_BOTTOM - MSTYLE_BORDER_TOP)
-#define STYLE_LEFT    (MSTYLE_BORDER_LEFT   - MSTYLE_BORDER_TOP)
-#define STYLE_RIGHT   (MSTYLE_BORDER_RIGHT  - MSTYLE_BORDER_TOP)
-#define STYLE_ORIENT_MAX 6
+#define STYLE_TOP		(MSTYLE_BORDER_TOP	    - MSTYLE_BORDER_TOP)
+#define STYLE_BOTTOM		(MSTYLE_BORDER_BOTTOM	    - MSTYLE_BORDER_TOP)
+#define STYLE_LEFT		(MSTYLE_BORDER_LEFT	    - MSTYLE_BORDER_TOP)
+#define STYLE_RIGHT		(MSTYLE_BORDER_RIGHT	    - MSTYLE_BORDER_TOP)
+#define STYLE_DIAGONAL		(MSTYLE_BORDER_DIAGONAL     - MSTYLE_BORDER_TOP)
+#define STYLE_REV_DIAGONAL	(MSTYLE_BORDER_REV_DIAGONAL - MSTYLE_BORDER_TOP)
+
+/* TODO : enable diagonal */
+#define STYLE_ORIENT_MAX 4
 
 /*static guint16
 ms_bug_get_padding (const BiffQuery *q, guint16 opcode)

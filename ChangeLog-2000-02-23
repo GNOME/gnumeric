@@ -1,3 +1,18 @@
+1999-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw_cell) : Draw borders.
+
+	* src/border.[ch] : Since stipples won't work, we don't need
+	  is_vertical.
+	(border_draw) : new function.
+
+	* src/mstyle.c (mstyle_element_dump) : Add borders.
+
+	* src/sheet-style.c : Kill some warnings and make it compile.
+
+	* src/style.c (style_new) : Support borders.
+	(style_mstyle_new) : Ditto.
+
 1999-10-09  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet-style.c (sheet_style_optimize): hack.

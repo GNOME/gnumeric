@@ -80,6 +80,26 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_FONT_SIZE:
 		g_string_sprintf (ans, "size %f", e->u.font.size);
 		break;
+
+	case MSTYLE_BORDER_TOP :
+		g_string_sprintf (ans, "border top %d", e->u.border.top->line_type);
+		break;
+	case MSTYLE_BORDER_BOTTOM :
+		g_string_sprintf (ans, "border bottom %d", e->u.border.bottom->line_type);
+		break;
+	case MSTYLE_BORDER_LEFT :
+		g_string_sprintf (ans, "border left %d", e->u.border.left->line_type);
+		break;
+	case MSTYLE_BORDER_RIGHT :
+		g_string_sprintf (ans, "border right %d", e->u.border.right->line_type);
+		break;
+	case MSTYLE_BORDER_DIAGONAL :
+		g_string_sprintf (ans, "border diagonal %d", e->u.border.diagonal->line_type);
+		break;
+	case MSTYLE_BORDER_REV_DIAGONAL :
+		g_string_sprintf (ans, "border reverse diagonal %d", e->u.border.rev_diagonal->line_type);
+		break;
+
 	default:
 		g_string_sprintf (ans, "Unknown type %d", e->type);
 		break;

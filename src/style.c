@@ -333,10 +333,17 @@ style_new (void)
 	style->format      = style_format_new ("General");
 	style->font        = style_font_new (DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, FALSE);
 	style->fore_color  = style_color_new (0, 0, 0);
+	style->pattern_color  = style_color_new (0, 0, 0);
 	style->back_color  = style_color_new (0xffff, 0xffff, 0xffff);
 	style->halign      = HALIGN_GENERAL;
 	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
+	style->border_top = NULL;
+	style->border_left = NULL;
+	style->border_bottom = NULL;
+	style->border_right = NULL;
+	style->border_diagonal = NULL;		/* Unsupported */
+	style->border_rev_diagonal = NULL;	/* Unsupported */
 
 	g_warning ("Style new is deprecated: root it out");
 	if (0) {
@@ -404,35 +411,60 @@ style_mstyle_new (MStyleElement *e, guint len)
 
 		if (e[MSTYLE_ORIENTATION].type)
 			style->orientation = e[MSTYLE_ORIENTATION].u.orientation;
+
+		if (e[MSTYLE_COLOR_FORE].type) {
+			style->fore_color = e[MSTYLE_COLOR_FORE].u.color.fore;
+			style_color_ref (style->fore_color);
+		} else
+			style->fore_color = style_color_new (0, 0, 0);
 	} else
-		style->valid_flags = STYLE_FORE_COLOR | STYLE_BACK_COLOR |
-			STYLE_PATTERN | STYLE_BORDER;
+		style->valid_flags = STYLE_PATTERN_COLOR | STYLE_BACK_COLOR | STYLE_PATTERN
+			| STYLE_BORDER_TOP | STYLE_BORDER_LEFT
+			| STYLE_BORDER_BOTTOM | STYLE_BORDER_RIGHT;
 
 	/* Styles that will show up on blank cells */
-	if (e[MSTYLE_COLOR_FORE].type) {
-		style->fore_color = e[MSTYLE_COLOR_FORE].u.color.fore;
-		style_color_ref (style->fore_color);
-	} else
-		style->fore_color = style_color_new (0, 0, 0);
-
 	if (e[MSTYLE_COLOR_BACK].type) {
 		style->back_color = e[MSTYLE_COLOR_BACK].u.color.back;
 		style_color_ref (style->back_color);
 	} else
 		style->back_color = style_color_new (0xffff, 0xffff, 0xffff);
 
+	if (e[MSTYLE_COLOR_PATTERN].type) {
+		style->pattern_color = e[MSTYLE_COLOR_PATTERN].u.color.pattern;
+		style_color_ref (style->pattern_color);
+	} else
+		style->pattern_color = style_color_new (0x0000, 0x0000, 0x0000);
+
 	if (e[MSTYLE_FIT_IN_CELL].type)
 		style->fit_in_cell = e[MSTYLE_FIT_IN_CELL].u.fit_in_cell;
 	else
 		style->fit_in_cell = 0;
 
-	if (e[MSTYLE_BORDER_TOP].type ||
-	    e[MSTYLE_BORDER_BOTTOM].type ||
-	    e[MSTYLE_BORDER_LEFT].type ||
-	    e[MSTYLE_BORDER_RIGHT].type) {
-		g_warning ("Re-vamp borders");
-	}
-	
+	if (e[MSTYLE_BORDER_TOP].type)
+		style->border_top = e[MSTYLE_BORDER_TOP].u.border.top;
+	else
+		style->border_top = NULL;
+	if (e[MSTYLE_BORDER_LEFT].type)
+		style->border_left = e[MSTYLE_BORDER_LEFT].u.border.left;
+	else
+		style->border_left = NULL;
+	if (e[MSTYLE_BORDER_BOTTOM].type)
+		style->border_bottom = e[MSTYLE_BORDER_BOTTOM].u.border.bottom;
+	else
+		style->border_bottom = NULL;
+	if (e[MSTYLE_BORDER_RIGHT].type)
+		style->border_right = e[MSTYLE_BORDER_RIGHT].u.border.right;
+	else
+		style->border_right = NULL;
+	if (e[MSTYLE_BORDER_DIAGONAL].type)
+		style->border_diagonal = e[MSTYLE_BORDER_DIAGONAL].u.border.diagonal;
+	else
+		style->border_diagonal = NULL;
+	if (e[MSTYLE_BORDER_REV_DIAGONAL].type)
+		style->border_rev_diagonal = e[MSTYLE_BORDER_REV_DIAGONAL].u.border.rev_diagonal;
+	else
+		style->border_rev_diagonal = NULL;
+
 	return style;
 }
 
