@@ -228,7 +228,7 @@ execSQL(void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **e
     }
   else
     {
-      result = value_str(display_recordset(rs, sheet, eval_col, eval_row));
+      result = value_new_string (display_recordset(rs, sheet, eval_col, eval_row));
       gda_recordset_free(rs);
     }
   gda_command_free(cmd);

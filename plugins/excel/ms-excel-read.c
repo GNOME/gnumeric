@@ -1439,16 +1439,16 @@ biff_get_rk (guint8 *ptr)
 
 		answer = BIFF_GETDOUBLE(tmp);
 		answer /= (type == eIEEEx100)?100.0:1.0;
-		ans = value_float (answer);
+		ans = value_new_float (answer);
 		break;
 	case eInt:
-		ans = value_int ((number>>2));
+		ans = value_new_int ((number>>2));
 		break;
 	case eIntx100:
 		if (number%100==0)
-			ans = value_int ((number>>2)/100);
+			ans = value_new_int ((number>>2)/100);
 		else
-			ans = value_float ((number>>2)/100.0);
+			ans = value_new_float ((number>>2)/100.0);
 		break;
 	}
 	return ans;
@@ -1546,7 +1546,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		/* Can be ignored on read side */
 		break ;
 	case BIFF_NUMBER: {
-		Value *v = value_float (BIFF_GETDOUBLE (q->data + 6));
+		Value *v = value_new_float (BIFF_GETDOUBLE (q->data + 6));
 		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
 					   EX_GETROW (q), v);
 		break;

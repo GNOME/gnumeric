@@ -91,17 +91,17 @@ lookup_similar (const Value *data, const Value *templ, const Value *next_largest
 	case VALUE_FLOAT:
 		{
 			float_t a, b;
-			a = value_get_as_double (data);
-			b = value_get_as_double (templ);
+			a = value_get_as_float (data);
+			b = value_get_as_float (templ);
 			
-/*			printf ("Num: %f %f %f\n", a, b, next_largest?value_get_as_double(next_largest):9999.0) ; */
+/*			printf ("Num: %f %f %f\n", a, b, next_largest?value_get_as_float (next_largest):9999.0) ; */
 			if (a == b)
 				return 1;
 			
 			else if (approx && a < b){
 				if (!next_largest)
 					return -1;
-				else if (value_get_as_double (next_largest) <= a)
+				else if (value_get_as_float (next_largest) <= a)
 					return -1;
 			}
 			return 0;
@@ -111,13 +111,13 @@ lookup_similar (const Value *data, const Value *templ, const Value *next_largest
 	default:
 		{
 			char *a, *b;
-			a = value_string (data);
-			b = value_string (templ);
+			a = value_get_as_string (data);
+			b = value_get_as_string (templ);
 			if (approx){
 				ans = strcasecmp (a,b);
 				if (approx && ans < 0){
 					if (next_largest){
-						char *c = value_string (next_largest);
+						char *c = value_get_as_string (next_largest);
 						int cmp = strcasecmp (a,c);
 						g_free (c);
 						if (cmp >= 0) {
@@ -164,7 +164,7 @@ gnumeric_vlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 	if (argv [3]){
 		int err;
 
-		approx = value_get_bool (argv [3], &err);
+		approx = value_get_as_bool (argv [3], &err);
 
 		if (err){
 			*error_string = _("#VALUE!");
@@ -182,7 +182,7 @@ gnumeric_vlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 		g_return_val_if_fail (v != NULL, NULL);
 
 		compare = lookup_similar (v, argv[0], next_largest, approx);
-/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_string(cell->value), value_string(argv[0]), compare, approx); */
+/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_get_as_string (cell->value), value_get_as_string (argv[0]), compare, approx); */
 
 		if (compare == 1){
 			const Value *v;
@@ -247,7 +247,7 @@ gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 	if (argv [3]){
 		int err;
-		approx = value_get_bool (argv [3], &err);
+		approx = value_get_as_bool (argv [3], &err);
 
 		if (err){
 			*error_string = _("#VALUE!");
@@ -265,7 +265,7 @@ gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 		g_return_val_if_fail (v != NULL, NULL);
 
 		compare = lookup_similar (v, argv[0], next_largest, approx);
-/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_string(cell->value), value_string(argv[0]), compare, approx); */
+/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_get_as_string (cell->value), value_get_as_string (argv[0]), compare, approx); */
 
 		if (compare == 1){
 			const Value *v;
@@ -413,7 +413,7 @@ gnumeric_column (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row
 	Value *v;
 
 	if (!expr_node_list || !expr_node_list->data)
-		return value_int (eval_col+1);
+		return value_new_int (eval_col+1);
 
 	v = eval_expr (sheet, expr_node_list->data, eval_col, eval_row, error_string);
 	if (!v)
@@ -451,7 +451,7 @@ static char *help_columns = {
 static Value *
 gnumeric_columns (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return value_int (value_area_get_width (argv [0]));
+	return value_new_int (value_area_get_width (argv [0]));
 }
 
 static char *help_offset = {
@@ -492,7 +492,7 @@ gnumeric_offset (struct FunctionDefinition *i, Value *argv [], char **error_stri
 
 	b.row+=tw;
 	b.col+=th;
-	return value_cellrange (&a, &b);
+	return value_new_cellrange (&a, &b);
 }
 
 static char *help_row = {
@@ -515,7 +515,7 @@ gnumeric_row (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, c
 	Value *v;
 
 	if (!expr_node_list || !expr_node_list->data)
-		return value_int (eval_row+1);
+		return value_new_int (eval_row+1);
 
 	v = eval_expr (sheet, expr_node_list->data, eval_col, eval_row, error_string);
 	if (!v)
@@ -553,7 +553,7 @@ static char *help_rows = {
 static Value *
 gnumeric_rows (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return value_int (value_area_get_height (argv [0]));
+	return value_new_int (value_area_get_height (argv [0]));
 }
 
 FunctionDefinition lookup_functions [] = {

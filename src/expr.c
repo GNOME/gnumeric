@@ -131,7 +131,7 @@ expr_tree_unref (ExprTree *tree)
  * simplistic value rendering
  */
 char *
-value_string (const Value *value)
+value_get_as_string (const Value *value)
 {
 	switch (value->type){
 	case VALUE_STRING:
@@ -248,7 +248,7 @@ value_duplicate (const Value *value)
 }
 
 Value *
-value_float (float_t f)
+value_new_float (float_t f)
 {
 	Value *v = g_new (Value, 1);
 
@@ -259,7 +259,7 @@ value_float (float_t f)
 }
 
 Value *
-value_int (int i)
+value_new_int (int i)
 {
 	Value *v = g_new (Value, 1);
 
@@ -270,7 +270,7 @@ value_int (int i)
 }
 
 Value *
-value_str (const char *str)
+value_new_string (const char *str)
 {
 	Value *v = g_new (Value, 1);
 
@@ -281,7 +281,7 @@ value_str (const char *str)
 }
 
 Value *
-value_cellrange (const CellRef *a, const CellRef *b)
+value_new_cellrange (const CellRef *a, const CellRef *b)
 {
 	Value *v = g_new (Value, 1);
 
@@ -315,7 +315,7 @@ value_cast_to_float (Value *v)
 }
 
 int
-value_get_bool (const Value *v, int *err)
+value_get_as_bool (const Value *v, int *err)
 {
 	*err = 0;
 
@@ -343,7 +343,7 @@ value_get_bool (const Value *v, int *err)
 }
 
 float_t
-value_get_as_double (const Value *v)
+value_get_as_float (const Value *v)
 {
 	switch (v->type)
 	{
@@ -363,7 +363,7 @@ value_get_as_double (const Value *v)
 	case VALUE_FLOAT:
 		return (float_t) v->v.v_float;
 	default:
-		g_warning ("value_get_as_double type error\n");
+		g_warning ("value_get_as_float type error\n");
 		break;
 	}
 	return 0.0;
@@ -517,12 +517,12 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
 			      v->type == VALUE_CELLRANGE,
-			      value_int (0));
+			     value_new_int (0));
 
 	if (v->type == VALUE_ARRAY){
 		g_return_val_if_fail (v->v.array.x < x &&
 				      v->v.array.y < y,
-				      value_int (0));
+				     value_new_int (0));
 		return &v->v.array.vals [x][y];
 	} else {
 		CellRef *a, *b;
@@ -531,17 +531,17 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 		a = &v->v.cell_range.cell_a;
 		b = &v->v.cell_range.cell_b;
 		g_return_val_if_fail (!a->col_relative,
-				      value_int (0));
+				     value_new_int (0));
 		g_return_val_if_fail (!b->col_relative,
-				      value_int (0));
+				      value_new_int (0));
 		g_return_val_if_fail (!a->row_relative,
-				      value_int (0));
+				     value_new_int (0));
 		g_return_val_if_fail (!b->row_relative,
-				      value_int (0));
+				     value_new_int (0));
 		g_return_val_if_fail (a->col<=b->col,
-				      value_int (0));
+				     value_new_int (0));
 		g_return_val_if_fail (a->row<=b->row,
-				      value_int (0));
+				     value_new_int (0));
 
 		cell = sheet_cell_get (a->sheet, a->col+x, a->row+y);
 
@@ -550,7 +550,7 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 	}
 	
 	g_warning ("Leaked on array\n");
-	return value_int (0);
+	return value_new_int (0);
 }
 
 static void
@@ -689,8 +689,8 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 					goto free_list;
 			} else {
 				g_assert (t->oper == OPER_VAR);
-				v = value_cellrange (&t->u.ref,
-						     &t->u.ref);
+				v =value_new_cellrange (&t->u.ref,
+							 &t->u.ref);
 				if (!v->v.cell_range.cell_a.sheet)
 					v->v.cell_range.cell_a.sheet = sheet;
 				if (!v->v.cell_range.cell_b.sheet)
@@ -874,7 +874,7 @@ compare (Value *a, Value *b)
 			return compare_float_float (a->v.v_int, b->v.v_float);
 
 		case VALUE_STRING:
-			f = value_get_as_double (b);
+			f =value_get_as_float (b);
 			return compare_float_float (a->v.v_int, f);
 
 		default:
@@ -893,7 +893,7 @@ compare (Value *a, Value *b)
 			return compare_float_float (a->v.v_float, b->v.v_float);
 
 		case VALUE_STRING:
-			f = value_get_as_double (b);
+			f =value_get_as_float (b);
 			return compare_float_float (a->v.v_float, f);
 
 		default:
@@ -1134,8 +1134,8 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 
 		res = g_new (Value, 1);
 		res->type = VALUE_STRING;
-		sa = value_string (a);
-		sb = value_string (b);
+		sa = value_get_as_string (a);
+		sb = value_get_as_string (b);
 
 		tmp = g_strconcat (sa, sb, NULL);
 		res->v.str = string_get (tmp);
@@ -1384,7 +1384,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 			if (v->type == VALUE_STRING){
 				return g_strconcat ("\"", v->v.str->str, "\"", NULL);
 			} else
-				return value_string (v);
+				return value_get_as_string (v);
 		}
 	}
 	}
@@ -1489,7 +1489,7 @@ build_error_string (const char *txt)
 	val = g_new (ExprTree, 1);
 	val->oper = OPER_CONSTANT;
 	val->ref_count = 1;
-	val->u.constant = value_str (txt);
+	val->u.constant = value_new_string (txt);
 
 	func = symbol_lookup (global_symbol_table, "ERROR");
 	if (func == NULL) {

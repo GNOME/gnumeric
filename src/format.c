@@ -1028,7 +1028,7 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 
 	/* Format error, return a default value */
 	if (v == NULL)
-		return value_string (value);
+		return value_get_as_string (value);
 
 	return v;
 }

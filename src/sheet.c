@@ -672,7 +672,7 @@ sheet_update_auto_expr (Sheet *sheet)
 	if (v){
 		char *s;
 
-		s = value_string (v);
+		s = value_get_as_string (v);
 		workbook_auto_expr_label_set (wb, s);
 		g_free (s);
 		value_release (v);
@@ -732,7 +732,7 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 		StyleFormat *sf;
 		char *new_text;
 		char buffer [50];
-		Value *vf = value_float (v);
+		Value *vf = value_new_float (v);
 
 		/* Render it */
 		sf = style_format_new (format);

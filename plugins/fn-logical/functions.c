@@ -106,7 +106,7 @@ gnumeric_not (struct FunctionDefinition *i,
 	
 	b = value_get_as_int (argv [0]);
 	
-	return value_int (!b);
+	return value_new_int (!b);
 }
 
 static char *help_or = {
@@ -215,7 +215,7 @@ gnumeric_if (Sheet *sheet, GList *expr_node_list,
 		return NULL;
 
 	/* Choose which expression we will evaluate */
-	ret = value_get_bool (value, &err);
+	ret = value_get_as_bool (value, &err);
 	value_release (value);
 	if (err)
 		return NULL;
@@ -224,13 +224,13 @@ gnumeric_if (Sheet *sheet, GList *expr_node_list,
 		if (expr_node_list->next)
 			expr = (ExprTree *) expr_node_list->next->data;
 		else
-			return value_int (1);
+			return value_new_int (1);
 	} else {
 		if (expr_node_list->next && 
 		    expr_node_list->next->next)
 			expr = (ExprTree *) expr_node_list->next->next->data;
 		else
-			return value_int (0);
+			return value_new_int (0);
 	}
 
 	/* Return the result */

@@ -28,7 +28,7 @@ int
 criteria_test_equal(Value *x, Value *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
-	        if (value_get_as_double(x) == value_get_as_double(y))
+	        if (value_get_as_float (x) == value_get_as_float (y))
 		        return 1;
 		else
 		        return 0;
@@ -43,7 +43,7 @@ int
 criteria_test_unequal(Value *x, Value *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
-	        if (value_get_as_double(x) != value_get_as_double(y))
+	        if (value_get_as_float (x) != value_get_as_float (y))
 		        return 1;
 		else
 		        return 0;
@@ -58,7 +58,7 @@ int
 criteria_test_less(Value *x, Value *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
-	        if (value_get_as_double(x) < value_get_as_double(y))
+	        if (value_get_as_float (x) < value_get_as_float (y))
 		        return 1;
 		else
 		        return 0;
@@ -70,7 +70,7 @@ int
 criteria_test_greater(Value *x, Value *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
-	        if (value_get_as_double(x) > value_get_as_double(y))
+	        if (value_get_as_float (x) > value_get_as_float (y))
 		        return 1;
 		else
 		        return 0;
@@ -82,7 +82,7 @@ int
 criteria_test_less_or_equal(Value *x, Value *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
-	        if (value_get_as_double(x) <= value_get_as_double(y))
+	        if (value_get_as_float (x) <= value_get_as_float (y))
 		        return 1;
 		else
 		        return 0;
@@ -94,7 +94,7 @@ int
 criteria_test_greater_or_equal(Value *x, Value *y)
 {
         if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
-	        if (value_get_as_double(x) >= value_get_as_double(y))
+	        if (value_get_as_float (x) >= value_get_as_float (y))
 		        return 1;
 		else
 		        return 0;
@@ -124,7 +124,7 @@ find_column_of_field(Value *database, Value *field)
 	        return -1;
 
 	sheet = (Sheet *) database->v.cell_range.cell_a.sheet;
-	field_name = value_string(field);
+	field_name = value_get_as_string (field);
 	column = -1;
 
 	/* find the column that is labeled with `field_name' */
@@ -201,9 +201,9 @@ parse_criteria(char *criteria, criteria_test_fun_t *fun, Value **test_value)
 	tmp = strtod(criteria+len, &p);
 
 	if (p == criteria+len || *p != '\0')
-	        *test_value = value_str(criteria+len);
+	        *test_value = value_new_string (criteria+len);
 	else
-	        *test_value = value_float(tmp);
+	        *test_value = value_new_float (tmp);
 
 }
 
@@ -382,14 +382,14 @@ gnumeric_daverage (struct FunctionDefinition *i,
 	        Cell *cell = current->data;
 
 	        count++;
-		sum += value_get_as_double(cell->value);
+		sum += value_get_as_float (cell->value);
 		current = g_slist_next(current);
 	}
 
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return value_float (sum / count);
+        return value_new_float (sum / count);
 }
 
 static char *help_dcount = {
@@ -455,7 +455,7 @@ gnumeric_dcount (struct FunctionDefinition *i,
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return value_int (count);
+        return value_new_int (count);
 }
 
 static char *help_dcounta = {
@@ -518,7 +518,7 @@ gnumeric_dcounta (struct FunctionDefinition *i,
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return value_int (count);
+        return value_new_int (count);
 }
 
 static char *help_dget = {
@@ -601,7 +601,7 @@ gnumeric_dget (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-        return value_float (value_get_as_double(cell->value));
+        return value_new_float (value_get_as_float (cell->value));
 }
 
 static char *help_dmax = {
@@ -659,13 +659,13 @@ gnumeric_dmax (struct FunctionDefinition *i,
 	}
 	current = cells;
 	cell = current->data;
-	max = value_get_as_double (cell->value);
+	max = value_get_as_float (cell->value);
 
 	while (current != NULL) {
 	        float_t v;
 
 	        cell = current->data;
-		v = value_get_as_double (cell->value);
+		v = value_get_as_float (cell->value);
 		if (max < v)
 		        max = v;
 		current = g_slist_next(current);
@@ -674,7 +674,7 @@ gnumeric_dmax (struct FunctionDefinition *i,
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return value_float (max);
+        return value_new_float (max);
 }
 
 static char *help_dmin = {
@@ -732,13 +732,13 @@ gnumeric_dmin (struct FunctionDefinition *i,
 	}
 	current = cells;
 	cell = current->data;
-	min = value_get_as_double (cell->value);
+	min = value_get_as_float (cell->value);
 
 	while (current != NULL) {
 	        float_t v;
 
 	        cell = current->data;
-		v = value_get_as_double (cell->value);
+		v = value_get_as_float (cell->value);
 		if (min > v)
 		        min = v;
 		current = g_slist_next(current);
@@ -747,7 +747,7 @@ gnumeric_dmin (struct FunctionDefinition *i,
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return value_float (min);
+        return value_new_float (min);
 }
 
 static char *help_dproduct = {
@@ -811,7 +811,7 @@ gnumeric_dproduct (struct FunctionDefinition *i,
 	        float_t v;
 
 	        cell = current->data;
-		v = value_get_as_double (cell->value);
+		v = value_get_as_float (cell->value);
 		product *= v;
 		current = g_slist_next(current);
 	}
@@ -819,7 +819,7 @@ gnumeric_dproduct (struct FunctionDefinition *i,
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return value_float (product);
+        return value_new_float (product);
 }
 
 static char *help_dstdev = {
@@ -895,7 +895,7 @@ gnumeric_dstdev (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-        return value_float (sqrt(p.Q / (p.N - 1)));
+        return value_new_float (sqrt(p.Q / (p.N - 1)));
 }
 
 static char *help_dstdevp = {
@@ -971,7 +971,7 @@ gnumeric_dstdevp (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-        return value_float (sqrt(p.Q / p.N));
+        return value_new_float (sqrt(p.Q / p.N));
 }
 
 static char *help_dsum = {
@@ -1035,7 +1035,7 @@ gnumeric_dsum (struct FunctionDefinition *i,
 	        float_t v;
 
 	        cell = current->data;
-		v = value_get_as_double (cell->value);
+		v = value_get_as_float (cell->value);
 		sum += v;
 		current = g_slist_next(current);
 	}
@@ -1043,7 +1043,7 @@ gnumeric_dsum (struct FunctionDefinition *i,
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return value_float (sum);
+        return value_new_float (sum);
 }
 
 static char *help_dvar = {
@@ -1119,7 +1119,7 @@ gnumeric_dvar (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-        return value_float (p.Q / (p.N - 1));
+        return value_new_float (p.Q / (p.N - 1));
 }
 
 static char *help_dvarp = {
@@ -1195,7 +1195,7 @@ gnumeric_dvarp (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-        return value_float (p.Q / p.N);
+        return value_new_float (p.Q / p.N);
 }
 
 

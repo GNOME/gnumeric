@@ -1,5 +1,21 @@
 1999-05-13  Michael Meeks  <michael@imaginator.com>
 
+	* src/expr.h: Updated all prototypes.
+
+	* *.c: 
+	s/\<value_float *(/value_new_float (/g
+	s/\<value_int *(/value_new_int (/g
+	s/\<value_str *(/value_new_string (/g
+	s/\<value_string *(/value_get_as_string (/g
+	s/\<value_cellrange *(/value_new_cellrange (/g
+	s/\<value_get_as_double *(/value_get_as_float (/g
+	s/\<value_get_bool *(/value_get_as_bool (/g
+
+	* src/expr.c: Moved all pertainant Value functions to the
+	same place to aid possible splitting.
+
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
 	* src/expr.c (value_area_get_at_x_y): Added warning
 	in safety case.
 

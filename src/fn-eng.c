@@ -94,7 +94,7 @@ val_to_base (Value *value, Value *val_places,
 		v = -v;
 
 	if (dest_base == 10)
-		return (value_int(v));
+		return (value_new_int (v));
 
 	if (v<0){
 		neg = 1;
@@ -141,7 +141,7 @@ val_to_base (Value *value, Value *val_places,
 		}
 	}
 	ans[max] = '\0';
-	return value_str(ans);
+	return value_new_string (ans);
 }
 
 static char *help_bin2dec = {
@@ -422,7 +422,7 @@ gnumeric_besselj (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	return value_float (jn (y, value_get_as_double (argv [0])));
+	return value_new_float (jn (y, value_get_as_float (argv [0])));
 }
 
 static char *help_bessely = {
@@ -459,7 +459,7 @@ gnumeric_bessely (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	return value_float (yn (y, value_get_as_double (argv [0])));
+	return value_new_float (yn (y, value_get_as_float (argv [0])));
 }
 
 
@@ -571,7 +571,7 @@ create_inumber (float_t real, float_t im, char *suffix)
 	static char buf[256];
 
 	if (im == 0)
-	        return value_float (real);
+	        return value_new_float (real);
 
 	if (suffix == NULL)
 	        suffix = "i";
@@ -591,7 +591,7 @@ create_inumber (float_t real, float_t im, char *suffix)
 	else  
 	        sprintf(buf, "%g%+g%s", real, im, suffix);
 
-	return value_str (buf);
+	return value_new_string (buf);
 }
 
 static char *help_complex = {
@@ -616,8 +616,8 @@ gnumeric_complex (struct FunctionDefinition *fd,
         float_t     r, i;
 	char        *suffix;
 
-	r = value_get_as_double (argv[0]);
-	i = value_get_as_double (argv[1]);
+	r = value_get_as_float (argv[0]);
+	i = value_get_as_float (argv[1]);
 
 	if (argv[2] == NULL)
 	        suffix = "i";
@@ -651,7 +651,7 @@ gnumeric_imaginary (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0]))
-	        return value_int (0);
+	        return value_new_int (0);
 
 	if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -663,7 +663,7 @@ gnumeric_imaginary (struct FunctionDefinition *fd,
 		return NULL;
 	}
 	
-	return value_float (im);
+	return value_new_float (im);
 }
 
 static char *help_imreal = {
@@ -684,7 +684,7 @@ gnumeric_imreal (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0]))
-	        return value_float (value_get_as_double (argv[0]));
+	        return value_new_float (value_get_as_float (argv[0]));
 
 	if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -696,7 +696,7 @@ gnumeric_imreal (struct FunctionDefinition *fd,
 		return NULL;
 	}
 	
-	return value_float (real);
+	return value_new_float (real);
 }
 
 static char *help_imabs = {
@@ -717,8 +717,8 @@ gnumeric_imabs (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
-	        return value_float (sqrt(real * real));
+	        real = value_get_as_float (argv[0]);
+	        return value_new_float (sqrt(real * real));
 	}
 
 	if (argv[0]->type != VALUE_STRING) {
@@ -731,7 +731,7 @@ gnumeric_imabs (struct FunctionDefinition *fd,
 		return NULL;
 	}
 	
-	return value_float (sqrt(real*real + im*im));
+	return value_new_float (sqrt(real*real + im*im));
 }
 
 static char *help_imconjugate = {
@@ -751,8 +751,8 @@ gnumeric_imconjugate (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
-	        return value_float (real);
+	        real = value_get_as_float (argv[0]);
+	        return value_new_float (real);
 	}
 
 	if (argv[0]->type != VALUE_STRING) {
@@ -785,7 +785,7 @@ gnumeric_imcos (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -817,7 +817,7 @@ gnumeric_imexp (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -850,7 +850,7 @@ gnumeric_imargument (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -863,7 +863,7 @@ gnumeric_imargument (struct FunctionDefinition *fd,
 
 	theta = atan(im / real);
 
-	return value_float (theta);
+	return value_new_float (theta);
 }
 
 static char *help_imln = {
@@ -894,7 +894,7 @@ gnumeric_imln (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -933,7 +933,7 @@ gnumeric_imlog2 (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -973,7 +973,7 @@ gnumeric_imlog10 (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1014,7 +1014,7 @@ gnumeric_impower (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1025,7 +1025,7 @@ gnumeric_impower (struct FunctionDefinition *fd,
 		return NULL;
 	}
 
-	n = value_get_as_double(argv[1]);
+	n = value_get_as_float (argv[1]);
 	
 	if (real == 0) {
 		*error_string = _("#DIV/0!");
@@ -1057,7 +1057,7 @@ gnumeric_imdiv (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        a = value_get_as_double (argv[0]);
+	        a = value_get_as_float (argv[0]);
 	        b = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1069,7 +1069,7 @@ gnumeric_imdiv (struct FunctionDefinition *fd,
 	}
 
 	if (VALUE_IS_NUMBER(argv[1])) {
-	        c = value_get_as_double (argv[1]);
+	        c = value_get_as_float (argv[1]);
 	        d = 0;
 	} else if (argv[1]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1107,7 +1107,7 @@ gnumeric_imsin (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1139,7 +1139,7 @@ gnumeric_imsqrt (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_double (argv[0]);
+	        real = value_get_as_float (argv[0]);
 	        im = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1173,7 +1173,7 @@ gnumeric_imsub (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        a = value_get_as_double (argv[0]);
+	        a = value_get_as_float (argv[0]);
 	        b = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1185,7 +1185,7 @@ gnumeric_imsub (struct FunctionDefinition *fd,
 	}
 
 	if (VALUE_IS_NUMBER(argv[1])) {
-	        c = value_get_as_double (argv[1]);
+	        c = value_get_as_float (argv[1]);
 	        d = 0;
 	} else if (argv[1]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1216,7 +1216,7 @@ gnumeric_improduct (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        a = value_get_as_double (argv[0]);
+	        a = value_get_as_float (argv[0]);
 	        b = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1228,7 +1228,7 @@ gnumeric_improduct (struct FunctionDefinition *fd,
 	}
 
 	if (VALUE_IS_NUMBER(argv[1])) {
-	        c = value_get_as_double (argv[1]);
+	        c = value_get_as_float (argv[1]);
 	        d = 0;
 	} else if (argv[1]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1259,7 +1259,7 @@ gnumeric_imsum (struct FunctionDefinition *fd,
 	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
-	        a = value_get_as_double (argv[0]);
+	        a = value_get_as_float (argv[0]);
 	        b = 0;
 	} else if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1271,7 +1271,7 @@ gnumeric_imsum (struct FunctionDefinition *fd,
 	}
 
 	if (VALUE_IS_NUMBER(argv[1])) {
-	        c = value_get_as_double (argv[1]);
+	        c = value_get_as_float (argv[1]);
 	        d = 0;
 	} else if (argv[1]->type != VALUE_STRING) {
 		*error_string = _("#VALUE!");
@@ -1430,7 +1430,7 @@ convert(eng_convert_unit_t units[],
 			*v = NULL;
 			return 1;
 		}
-		*v = value_float(((n*from_prefix) / from_c) * 
+		*v = value_new_float (((n*from_prefix) / from_c) * 
 				 to_c / to_prefix);
 		return 1;
 	}
@@ -1622,24 +1622,24 @@ gnumeric_convert (struct FunctionDefinition *fd,
 	char    *from_unit, *to_unit;
 	Value   *v;
 
-	n = value_get_as_double(argv[0]);
+	n = value_get_as_float (argv[0]);
 	from_unit = argv[1]->v.str->str;
 	to_unit = argv[2]->v.str->str;
 
 	if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "F") == 0)
-	        return value_float (1.8*n+32);
+	        return value_new_float (1.8*n+32);
 	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "C") == 0)
-	        return value_float ((n-32)/1.8);
+	        return value_new_float ((n-32)/1.8);
 	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "F") == 0)
-	        return value_float (n);
+	        return value_new_float (n);
 	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "K") == 0)
-	        return value_float ((n-32)/1.8 + one_C_to_K-1);
+	        return value_new_float ((n-32)/1.8 + one_C_to_K-1);
 	else if (strcmp(from_unit, "K") == 0 && strcmp(to_unit, "F") == 0)
-	        return value_float (1.8*(n-one_C_to_K+1)+32);
+	        return value_new_float (1.8*(n-one_C_to_K+1)+32);
 	else if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "K") == 0)
-	        return value_float (n + one_C_to_K-1);
+	        return value_new_float (n + one_C_to_K-1);
 	else if (strcmp(from_unit, "K") == 0 && strcmp(to_unit, "C") == 0)
-	        return value_float (n - one_C_to_K+1);
+	        return value_new_float (n - one_C_to_K+1);
 
 	if (convert(weight_units, prefixes, from_unit, to_unit, n, &v,
 		    error_string))
@@ -1699,9 +1699,9 @@ gnumeric_erf (struct FunctionDefinition *i,
 {
 	float_t ans, lower, upper=0.0;
 
-	lower = value_get_as_double(argv[0]);
+	lower = value_get_as_float (argv[0]);
 	if (argv[1])
-		upper = value_get_as_double(argv[1]);
+		upper = value_get_as_float (argv[1]);
 	
 	if (lower < 0.0 || upper < 0.0){
 		*error_string = _("#NUM!");
@@ -1712,7 +1712,7 @@ gnumeric_erf (struct FunctionDefinition *i,
 	if (argv[1])
 		ans = erf(upper) - ans;
 	
-	return value_float (ans);
+	return value_new_float (ans);
 }
 
 static char *help_erfc = {
@@ -1735,11 +1735,11 @@ gnumeric_erfc (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
 	float_t x;
-	if ((x=value_get_as_double(argv[0]))<0){
+	if ((x=value_get_as_float (argv[0]))<0){
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	return value_float (erfc (x));
+	return value_new_float (erfc (x));
 }
 
 static char *help_delta = {
@@ -1769,7 +1769,7 @@ gnumeric_delta (struct FunctionDefinition *i,
 	if (argv[1])
 		vy = argv[1];
 	else
-		vy = value_int(0);
+		vy = value_new_int (0);
 
 	switch (vx->type)
 	{
@@ -1812,7 +1812,7 @@ gnumeric_delta (struct FunctionDefinition *i,
 	       
 	if (!argv[1])
 		value_release (vy);
-	return value_int (ans);
+	return value_new_int (ans);
 }
 
 static char *help_gestep = {
@@ -1841,7 +1841,7 @@ gnumeric_gestep (struct FunctionDefinition *i,
 	if (argv[1])
 		vy = argv[1];
 	else
-		vy = value_int (0);
+		vy = value_new_int (0);
 
 	switch (vx->type)
 	{
@@ -1884,7 +1884,7 @@ gnumeric_gestep (struct FunctionDefinition *i,
 	       
 	if (!argv[1])
 		value_release (vy);
-	return value_int (ans);
+	return value_new_int (ans);
 }
 
 FunctionDefinition eng_functions [] = {

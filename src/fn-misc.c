@@ -36,9 +36,9 @@ gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_ro
 	}
 	v = eval_expr (sheet, (ExprTree *) expr_node_list->data, eval_col, eval_row, error_string);
 	if (v == NULL)
-		retval = value_int (1);
+		retval = value_new_int (1);
 	else {
-		retval = value_int (0);
+		retval = value_new_int (0);
 		value_release (v);
 	}
 	

@@ -294,8 +294,8 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 			return;
 		}
 
-		a = value_get_as_double (lfi->v.value);
-		b = value_get_as_double (fi->v.value);
+		a = value_get_as_float (lfi->v.value);
+		b = value_get_as_float (fi->v.value);
 
 		fi->delta_is_float = TRUE;
 		fi->delta.d_float = b - a;

@@ -124,11 +124,11 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 	cb = bin->cells[bin->clauses[clause].col_offset];
 
 	if (!ca)
-		a = value_int(0);
+		a = value_new_int (0);
 	else
 		a = ca->value;
 	if (!cb)
-		b = value_int(0);
+		b = value_new_int (0);
 	else
 		b = cb->value;
 
@@ -140,8 +140,8 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 		case VALUE_INTEGER:
 			{
 				float_t fa, fb;
-				fa = value_get_as_double(a);
-				fb = value_get_as_double(b);
+				fa = value_get_as_float (a);
+				fb = value_get_as_float (b);
 				if (fa < fb)
 					ans = -1;
 				else if (fa == fb)
@@ -163,8 +163,8 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 				break;
 			default:{
 					char *sa, *sb;
-					sa = value_string(a);
-					sb = value_string(b);
+					sa = value_get_as_string (a);
+					sb = value_get_as_string (b);
 					ans = strcasecmp(sa, sb);
 					g_free(sa);
 					g_free(sb);
@@ -236,7 +236,7 @@ sort_cell_range (Sheet * sheet, ClauseData * clauses, int num_clause, int start_
 		for (lp = 0; lp < height; lp++){
 			for (lp2 = 0; lp2 < width; lp2++){
 				cell = array[lp].cells[lp2];
-/*                              printf ("%s\n", cell?value_string(cell->value):"Null"); */
+/*                              printf ("%s\n", cell?value_get_as_string (cell->value):"Null"); */
 				if (cell)
 					sheet_cell_add(sheet, cell, start_col + lp2, start_row + lp);
 			}

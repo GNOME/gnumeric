@@ -236,15 +236,15 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 
 	switch (value->_d){
 	case GNOME_Gnumeric_VALUE_STRING:
-		v = value_str (value->_u.str);
+		v = value_new_string (value->_u.str);
 		break;
 
 	case GNOME_Gnumeric_VALUE_INTEGER:
-		v = value_int (value->_u.v_int);
+		v = value_new_int (value->_u.v_int);
 		break;
 
 	case GNOME_Gnumeric_VALUE_FLOAT:
-		v = value_float (value->_u.v_float);
+		v = value_new_float (value->_u.v_float);
 		break;
 
 	case GNOME_Gnumeric_VALUE_CELLRANGE: {
@@ -258,7 +258,7 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 		b.col_relative = 0;
 		a.row_relative = 0;
 		b.row_relative = 0;
-		v = value_cellrange (&a, &b);
+		v = value_new_cellrange (&a, &b);
 		break;
 	}
 		

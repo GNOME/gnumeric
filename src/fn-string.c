@@ -33,7 +33,7 @@ gnumeric_char (struct FunctionDefinition *i, Value *argv [], char **error_string
 	result [0] = value_get_as_int (argv [0]);
 	result [1] = 0;
 
-	return value_str (result);
+	return value_new_string (result);
 }
 
 static char *help_code = {
@@ -55,7 +55,7 @@ gnumeric_code (struct FunctionDefinition *i, Value *argv [], char **error_string
 		return NULL;
 	}
 
-	return value_int (argv [0]->v.str->str [0]);
+	return value_new_int (argv [0]->v.str->str [0]);
 }
 
 static char *help_exact = {
@@ -77,7 +77,7 @@ gnumeric_exact (struct FunctionDefinition *i, Value *argv [], char **error_strin
 		return NULL;
 	}
 
-	return value_int (strcmp (argv [0]->v.str->str, argv [1]->v.str->str) == 0);
+	return value_new_int (strcmp (argv [0]->v.str->str, argv [1]->v.str->str) == 0);
 }
 
 static char *help_len = {
@@ -99,7 +99,7 @@ gnumeric_len (struct FunctionDefinition *i, Value *argv [], char **error_string)
 		return NULL;
 	}
 
-	return value_int (strlen (argv [0]->v.str->str));
+	return value_new_int (strlen (argv [0]->v.str->str));
 }
 
 static char *help_left = {
@@ -129,7 +129,7 @@ gnumeric_left (struct FunctionDefinition *i, Value *argv [], char **error_string
 	strncpy (s, argv[0]->v.str->str, count);
 	s [count] = 0;
 
-	v = value_str (s);
+	v = value_new_string (s);
 	g_free (s);
 	
 	return v;
@@ -203,12 +203,12 @@ gnumeric_mid (struct FunctionDefinition *i, Value *argv [], char **error)
 
 	source = argv [0]->v.str->str;
 	if (pos > strlen (source))
-		return value_str ("");
+		return value_new_string ("");
 	pos--;
 	s = g_new (gchar, len+1);
 	strncpy (s, &source[pos], len);
 	s[len] = '\0';
-	v = value_str (s);
+	v = value_new_string (s);
 	g_free (s);
 	
 	return v;
@@ -245,7 +245,7 @@ gnumeric_right (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	strncpy (s, argv[0]->v.str->str+len-count, count);
 	s [count] = 0;
 
-	v = value_str (s);
+	v = value_new_string (s);
 	g_free (s);
 	
 	return v;
@@ -313,7 +313,7 @@ gnumeric_concatenate (Sheet *sheet, GList *l, int eval_col, int eval_row, char *
 			return NULL;
 		}
 */
-		tmp = value_string (v);
+		tmp = value_get_as_string (v);
 		/* FIXME: this could be massively sped-up with strlen's etc... */
 		p = g_strconcat (s, tmp, NULL);
 		g_free (tmp);
@@ -464,14 +464,14 @@ gnumeric_fixed (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	gint dec, commas, tmp;
 	float_t num;
 
-	num = value_get_as_double (argv[0]);
+	num = value_get_as_float (argv[0]);
 	if (argv[1])
 		dec = value_get_as_int (argv[1]);
 	else
 		dec = 2;
 
 	if (argv[2])
-		commas = !value_get_bool (argv[2], &tmp);
+		commas = !value_get_as_bool (argv[2], &tmp);
 	else
 		commas = TRUE;
 
@@ -728,7 +728,7 @@ gnumeric_value (struct FunctionDefinition *i, Value *argv [], char **error_strin
 	}
 	v = g_new (Value, 1);
 	v->type = VALUE_FLOAT;
-	v->v.v_float = value_get_as_double(argv[0]);
+	v->v.v_float = value_get_as_float (argv[0]);
 	return v;
 }
 
@@ -788,9 +788,9 @@ gnumeric_substitute (struct FunctionDefinition *i, Value *argv [], char **error_
 	guint oldlen, newlen, len, inst;
 	struct subs_string *s;
 
-	text = value_string (argv[0]);
-	old  = value_string (argv[1]);
-	new  = value_string (argv[2]);
+	text = value_get_as_string (argv[0]);
+	old  = value_get_as_string (argv[1]);
+	new  = value_get_as_string (argv[2]);
 
 	if (argv[3])
 		num = value_get_as_int (argv[3]);

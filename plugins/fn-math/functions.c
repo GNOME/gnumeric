@@ -119,13 +119,13 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 
         switch (cell->value->type) {
 	case VALUE_INTEGER:
-	        v = value_int(cell->value->v.v_int);
+	        v = value_new_int (cell->value->v.v_int);
 		break;
 	case VALUE_FLOAT:
-	        v = value_float(cell->value->v.v_float);
+	        v = value_new_float (cell->value->v.v_float);
 		break;
 	case VALUE_STRING:
-	        v = value_str(cell->value->v.str->str);
+	        v = value_new_string (cell->value->v.str->str);
 		break;
 	default:
 	        return TRUE;
@@ -161,15 +161,15 @@ gnumeric_gcd (struct FunctionDefinition *i,
 {
         float_t a, b;
 
-	a = value_get_as_double(argv[0]);
-	b = value_get_as_double(argv[1]);
+	a = value_get_as_float (argv[0]);
+	b = value_get_as_float (argv[1]);
 
         if (a < 0 || b < 0) {
 		*error_string = _("#NUM!");
 		return NULL;
 	}
 	        
-	return value_int (gcd(a, b));
+	return value_new_int (gcd(a, b));
 }
 
 static char *help_abs = {
@@ -189,7 +189,7 @@ static Value *
 gnumeric_abs (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
-	return value_float (fabs (value_get_as_double (argv [0])));
+	return value_new_float (fabs (value_get_as_float (argv [0])));
 }
 
 static char *help_acos = {
@@ -214,12 +214,12 @@ gnumeric_acos (struct FunctionDefinition *i,
 {
 	float_t t;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 	if ((t < -1.0) || (t > 1.0)){
 		*error_string = _("acos - domain error");
 		return NULL;
 	}
-	return value_float (acos (t));
+	return value_new_float (acos (t));
 }
 
 static char *help_acosh = {
@@ -244,12 +244,12 @@ gnumeric_acosh (struct FunctionDefinition *i,
 {
 	float_t t;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 	if (t < 1.0){
 		*error_string = _("acosh - domain error");
 		return NULL;
 	}
-	return value_float (acosh (t));
+	return value_new_float (acosh (t));
 }
 
 static char *help_asin = {
@@ -273,12 +273,12 @@ gnumeric_asin (struct FunctionDefinition *i,
 {
 	float_t t;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 	if ((t < -1.0) || (t > 1.0)){
 		*error_string = _("asin - domain error");
 		return NULL;
 	}
-	return value_float (asin (t));
+	return value_new_float (asin (t));
 }
 
 static char *help_asinh = {
@@ -300,7 +300,7 @@ static Value *
 gnumeric_asinh (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
-	return value_float (asinh (value_get_as_double (argv [0])));
+	return value_new_float (asinh (value_get_as_float (argv [0])));
 }
 
 static char *help_atan = {
@@ -324,7 +324,7 @@ static Value *
 gnumeric_atan (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	return value_float (atan (value_get_as_double (argv [0])));
+	return value_new_float (atan (value_get_as_float (argv [0])));
 }
 
 static char *help_atanh = {
@@ -350,12 +350,12 @@ gnumeric_atanh (struct FunctionDefinition *i,
 {
 	float_t t;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 	if ((t <= -1.0) || (t >= 1.0)){
 		*error_string = _("atanh: domain error");
 		return NULL;
 	}
-	return value_float (atanh (value_get_as_double (argv [0])));
+	return value_new_float (atanh (value_get_as_float (argv [0])));
 }
 
 static char *help_atan2 = {
@@ -379,8 +379,8 @@ static Value *
 gnumeric_atan2 (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
-	return value_float (atan2 (value_get_as_double (argv [0]),
-				   value_get_as_double (argv [1])));
+	return value_new_float (atan2 (value_get_as_float (argv [0]),
+				   value_get_as_float (argv [1])));
 }
 
 static char *help_ceil = {
@@ -400,7 +400,7 @@ static Value *
 gnumeric_ceil (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	return value_float (ceil (value_get_as_double (argv [0])));
+	return value_new_float (ceil (value_get_as_float (argv [0])));
 }
 
 static char *help_countif = {
@@ -462,7 +462,7 @@ gnumeric_countif (struct FunctionDefinition *i,
 	}
 	g_slist_free(items.list);
 
-	return value_int (items.num);
+	return value_new_int (items.num);
 }
 
 static char *help_sumif = {
@@ -524,13 +524,13 @@ gnumeric_sumif (struct FunctionDefinition *i,
 	        Value *v = *((Value **) list->data);
 
 		if (v != NULL)
-		       sum += value_get_as_double(v);
+		       sum += value_get_as_float (v);
 		g_free(list->data);
 		list = list->next;
 	}
 	g_slist_free(items.list);
 
-	return value_float (sum);
+	return value_new_float (sum);
 }
 
 static char *help_ceiling = {
@@ -562,8 +562,8 @@ gnumeric_ceiling (struct FunctionDefinition *i,
                 *error_string = _("#VALUE!") ;
                 return NULL;
 	}
-	x = value_get_as_double(argv[0]);
-	significance = value_get_as_double(argv[1]);
+	x = value_get_as_float (argv[0]);
+	significance = value_get_as_float (argv[1]);
 	if ((x < 0.0 && significance > 0.0) || 
 	    (x > 0.0 && significance < 0.0)) {
                 *error_string = _("#NUM!") ;
@@ -586,7 +586,7 @@ gnumeric_ceiling (struct FunctionDefinition *i,
 	div = ceil ((x * k * 10) / ceiled);
 	mod = ((x * k * 10) / ceiled) - div;
 
-	return value_float (sign * ceiled * div / (k*10) -
+	return value_new_float (sign * ceiled * div / (k*10) -
 			    sign * significance * (mod > 0));
 }
 
@@ -608,7 +608,7 @@ static Value *
 gnumeric_cos (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
-	return value_float (cos (value_get_as_double (argv [0])));
+	return value_new_float (cos (value_get_as_float (argv [0])));
 }
 
 static char *help_cosh = {
@@ -630,7 +630,7 @@ static Value *
 gnumeric_cosh (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	return value_float (cosh (value_get_as_double (argv [0])));
+	return value_new_float (cosh (value_get_as_float (argv [0])));
 }
 
 static char *help_degrees = {
@@ -652,7 +652,7 @@ static Value *
 gnumeric_degrees (struct FunctionDefinition *i,
 		  Value *argv [], char **error_string)
 {
-	return value_float ((value_get_as_double (argv [0]) * 180.0) / M_PI);
+	return value_new_float ((value_get_as_float (argv [0]) * 180.0) / M_PI);
 }
 
 static char *help_exp = {
@@ -672,7 +672,7 @@ static Value *
 gnumeric_exp (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
-	return value_float (exp (value_get_as_double (argv [0])));
+	return value_new_float (exp (value_get_as_float (argv [0])));
 }
 
 float_t
@@ -771,7 +771,7 @@ gnumeric_combin (struct FunctionDefinition *id,
 	k = value_get_as_int (argv[1]);
 
 	if (k >= 0 && n >= k)
-		return value_float (combin (n ,k));
+		return value_new_float (combin (n ,k));
 
 	*error_string = _("#NUM!");
 	return NULL;
@@ -794,7 +794,7 @@ static Value *
 gnumeric_floor (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
-	return value_float (floor (value_get_as_double (argv [0])));
+	return value_new_float (floor (value_get_as_float (argv [0])));
 }
 
 static char *help_int = {
@@ -819,9 +819,9 @@ gnumeric_int (struct FunctionDefinition *i,
 {
 	float_t t;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 	
-	return value_float (t > 0.0 ? floor (t) : ceil (t));
+	return value_new_float (t > 0.0 ? floor (t) : ceil (t));
 }
 
 static char *help_log = {
@@ -841,19 +841,19 @@ gnumeric_log (struct FunctionDefinition *i,
 {
 	float_t t, base;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 
 	if (argv[1] == NULL)
 	        base = 10;
 	else
-	        base = value_get_as_double (argv[1]);
+	        base = value_get_as_float (argv[1]);
 
 	if (t <= 0.0) {
 		*error_string = _("#VALUE!");
 		return NULL;
 	}
 
-	return value_float (log (t) / log (base));
+	return value_new_float (log (t) / log (base));
 }
 
 static char *help_ln = {
@@ -872,14 +872,14 @@ gnumeric_ln (struct FunctionDefinition *i,
 {
 	float_t t;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 
 	if (t <= 0.0){
 		*error_string = _("#VALUE!");
 		return NULL;
 	}
 
-	return value_float (log (t));
+	return value_new_float (log (t));
 }
 
 static char *help_power = {
@@ -898,8 +898,8 @@ static Value *
 gnumeric_power (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
-	return value_float (pow(value_get_as_double (argv [0]),
-				value_get_as_double (argv [1]))) ;
+	return value_new_float (pow(value_get_as_float (argv [0]),
+				value_get_as_float (argv [1]))) ;
 }
 
 static char *help_log2 = {
@@ -920,12 +920,12 @@ gnumeric_log2 (struct FunctionDefinition *i,
 {
 	float_t t;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 	if (t <= 0.0){
 		*error_string = _("log2: domain error");
 		return NULL;
 	}
-	return value_float (log (t) / M_LN2);
+	return value_new_float (log (t) / M_LN2);
 }
 
 static char *help_log10 = {
@@ -947,12 +947,12 @@ gnumeric_log10 (struct FunctionDefinition *i,
 {
 	float_t t;
 
-	t = value_get_as_double (argv [0]);
+	t = value_get_as_float (argv [0]);
 	if (t <= 0.0){
 		*error_string = _("log10: domain error");
 		return NULL;
 	}
-	return value_float (log10 (t));
+	return value_new_float (log10 (t));
 }
 
 static char *help_mod = {
@@ -994,7 +994,7 @@ gnumeric_mod (struct FunctionDefinition *i,
 		return NULL ;
 	}
 	
-	return value_int(a%b) ;
+	return value_new_int (a%b) ;
 }
 
 static char *help_radians = {
@@ -1016,7 +1016,7 @@ static Value *
 gnumeric_radians (struct FunctionDefinition *i,
 		  Value *argv [], char **error_string)
 {
-	return value_float ((value_get_as_double (argv [0]) * M_PI) / 180);
+	return value_new_float ((value_get_as_float (argv [0]) * M_PI) / 180);
 }
 
 static char *help_rand = {
@@ -1035,7 +1035,7 @@ static Value *
 gnumeric_rand (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	return value_float (rand()/(RAND_MAX + 1.0)) ;
+	return value_new_float (rand()/(RAND_MAX + 1.0)) ;
 }
 
 static char *help_sin = {
@@ -1056,7 +1056,7 @@ static Value *
 gnumeric_sin (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
-	return value_float (sin (value_get_as_double (argv [0])));
+	return value_new_float (sin (value_get_as_float (argv [0])));
 }
 
 static char *help_sinh = {
@@ -1078,7 +1078,7 @@ static Value *
 gnumeric_sinh (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	return value_float (sinh (value_get_as_double (argv [0])));
+	return value_new_float (sinh (value_get_as_float (argv [0])));
 }
 
 static char *help_sqrt = {
@@ -1098,12 +1098,12 @@ static Value *
 gnumeric_sqrt (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	float_t x = value_get_as_double (argv[0]) ;
+	float_t x = value_get_as_float (argv[0]) ;
 	if (x<0) {
 		*error_string = _("#NUM!") ;
 		return NULL ;
 	}
-	return value_float (sqrt(x)) ;
+	return value_new_float (sqrt(x)) ;
 }
 
 static char *help_sum = {
@@ -1249,7 +1249,7 @@ gnumeric_sumsq (Sheet *sheet, GList *expr_node_list, int eval_col,
 					  &p, expr_node_list,
 					  eval_col, eval_row, error_string);
 
-	return value_float (p.sum);
+	return value_new_float (p.sum);
 }
 
 static char *help_multinomial = {
@@ -1307,7 +1307,7 @@ gnumeric_multinomial (Sheet *sheet, GList *expr_node_list, int eval_col,
 		return NULL;
 	}
 
-	return value_float (fact(p.sum) / p.product);
+	return value_new_float (fact(p.sum) / p.product);
 }
 
 static char *help_product = {
@@ -1362,7 +1362,7 @@ gnumeric_product (Sheet *sheet, GList *expr_node_list, int eval_col,
 					  &p, expr_node_list,
 					  eval_col, eval_row, error_string);
 
-	return value_float (p.product);
+	return value_new_float (p.product);
 }
 
 static char *help_tan = {
@@ -1383,7 +1383,7 @@ static Value *
 gnumeric_tan (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
-	return value_float (tan (value_get_as_double (argv [0])));
+	return value_new_float (tan (value_get_as_float (argv [0])));
 }
 
 static char *help_tanh = {
@@ -1404,7 +1404,7 @@ static Value *
 gnumeric_tanh (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	return value_float (tanh (value_get_as_double (argv [0])));
+	return value_new_float (tanh (value_get_as_float (argv [0])));
 }
 
 static char *help_pi = {
@@ -1424,7 +1424,7 @@ static Value *
 gnumeric_pi (struct FunctionDefinition *i,
 	     Value *argv [], char **error_string)
 {
-	return value_float (M_PI);
+	return value_new_float (M_PI);
 }
 
 static char *help_trunc = {
@@ -1479,9 +1479,9 @@ gnumeric_trunc (Sheet *sheet, GList *expr_node_list,
 	if (decimals){
 		double pot = pow (10, decimals);
 		
-		return value_float (integral + floor (fraction * pot) / pot);
+		return value_new_float (integral + floor (fraction * pot) / pot);
 	} else
-		return value_float (integral);
+		return value_new_float (integral);
 }
 
 static char *help_even = {
@@ -1501,7 +1501,7 @@ gnumeric_even (struct FunctionDefinition *i,
         float_t number, ceiled;
 	int     sign = 1;
 
-	number = value_get_as_double (argv[0]);
+	number = value_get_as_float (argv[0]);
 	if (number < 0) {
 	        sign = -1;
 		number = -number;
@@ -1509,11 +1509,11 @@ gnumeric_even (struct FunctionDefinition *i,
 	ceiled = ceil(number);
 	if (fmod(ceiled, 2) == 0)
 	        if (number > ceiled)
-		        return value_int ((int) (sign * (ceiled + 2)));
+		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
-		        return value_int ((int) (sign * ceiled));
+		        return value_new_int ((int) (sign * ceiled));
 	else
-	        return value_int ((int) (sign * (ceiled + 1)));
+	        return value_new_int ((int) (sign * (ceiled + 1)));
 }
 
 static char *help_odd = {
@@ -1533,7 +1533,7 @@ gnumeric_odd (struct FunctionDefinition *i,
         float_t number, ceiled;
 	int     sign = 1;
 
-	number = value_get_as_double (argv[0]);
+	number = value_get_as_float (argv[0]);
 	if (number < 0) {
 	        sign = -1;
 		number = -number;
@@ -1541,11 +1541,11 @@ gnumeric_odd (struct FunctionDefinition *i,
 	ceiled = ceil(number);
 	if (fmod(ceiled, 2) == 1)
 	        if (number > ceiled)
-		        return value_int ((int) (sign * (ceiled + 2)));
+		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
-		        return value_int ((int) (sign * ceiled));
+		        return value_new_int ((int) (sign * ceiled));
 	else
-	        return value_int ((int) (sign * (ceiled + 1)));
+	        return value_new_int ((int) (sign * (ceiled + 1)));
 }
 
 static char *help_factdouble = {
@@ -1576,7 +1576,7 @@ gnumeric_factdouble (struct FunctionDefinition *i,
 	}
 	for (n=number; n > 0; n-=2)
 	        product *= n;
-	return value_int (product);
+	return value_new_int (product);
 }
 
 static char *help_quotient = {
@@ -1595,10 +1595,10 @@ gnumeric_quotient (struct FunctionDefinition *i,
 {
         float_t num, den;
 
-	num = value_get_as_double (argv[0]);
-	den = value_get_as_double (argv[1]);
+	num = value_get_as_float (argv[0]);
+	den = value_get_as_float (argv[1]);
 
-	return value_int ((int) (num / den));
+	return value_new_int ((int) (num / den));
 }
 
 static char *help_sign = {
@@ -1617,14 +1617,14 @@ gnumeric_sign (struct FunctionDefinition *i,
 {
         float_t n;
 
-	n = value_get_as_double (argv[0]);
+	n = value_get_as_float (argv[0]);
 
 	if (n > 0)
-	      return value_int (1);
+	      return value_new_int (1);
 	else if (n == 0)
-	      return value_int (0);
+	      return value_new_int (0);
 	else
-	      return value_int (-1);
+	      return value_new_int (-1);
 }
 
 static char *help_sqrtpi = {
@@ -1643,13 +1643,13 @@ gnumeric_sqrtpi (struct FunctionDefinition *i,
 {
         float_t n;
 
-	n = value_get_as_double (argv[0]);
+	n = value_get_as_float (argv[0]);
 	if (n < 0) {
 		*error_string = _("#NUM!");
 		return NULL;
 	}
 
-	return value_float (sqrt (M_PI * n));
+	return value_new_float (sqrt (M_PI * n));
 }
 
 static char *help_randbetween = {
@@ -1683,7 +1683,7 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 		return NULL ;
 	}
 
-	return value_int (r % (top-bottom+1) + bottom);
+	return value_new_int (r % (top-bottom+1) + bottom);
 }
 
 static char *help_rounddown = {
@@ -1712,7 +1712,7 @@ gnumeric_rounddown (struct FunctionDefinition *i,
         float_t number;
         int     digits, k, n;
 
-	number = value_get_as_double (argv[0]);
+	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
 	        digits = 0;
 	else
@@ -1722,14 +1722,14 @@ gnumeric_rounddown (struct FunctionDefinition *i,
 	        k=1;
 		for (n=0; n<digits; n++)
 		        k *= 10;
-	        return value_float ((float_t) ((int) (number * k)) / k);
+	        return value_new_float ((float_t) ((int) (number * k)) / k);
 	} else if (digits == 0) {
-	        return value_int ((int) number);
+	        return value_new_int ((int) number);
 	} else {
 	        k=1;
 		for (n=0; n<-digits; n++)
 		        k *= 10;
-		return value_float ((float_t) ((int) (number / k)) * k);
+		return value_new_float ((float_t) ((int) (number / k)) * k);
 	}
 }
 
@@ -1759,7 +1759,7 @@ gnumeric_round (struct FunctionDefinition *i,
         float_t number;
         int     digits, k, n;
 
-	number = value_get_as_double (argv[0]);
+	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
 	        digits = 0;
 	else
@@ -1769,14 +1769,14 @@ gnumeric_round (struct FunctionDefinition *i,
 	        k=1;
 		for (n=0; n<digits; n++)
 		        k *= 10;
-	        return value_float ( rint(number * k) / k);
+	        return value_new_float ( rint(number * k) / k);
 	} else if (digits == 0) {
-	        return value_int ((int) number);
+	        return value_new_int ((int) number);
 	} else {
 	        k=1;
 		for (n=0; n<-digits; n++)
 		        k *= 10;
-		return value_float (rint(number / k) * k);
+		return value_new_float (rint(number / k) * k);
 	}
 }
 
@@ -1806,7 +1806,7 @@ gnumeric_roundup (struct FunctionDefinition *i,
         float_t number, sign;
         int     digits, k, n;
 
-	number = value_get_as_double (argv[0]);
+	number = value_get_as_float (argv[0]);
 	if (argv[1] == NULL)
 	        digits = 0;
 	else
@@ -1818,16 +1818,16 @@ gnumeric_roundup (struct FunctionDefinition *i,
 	        k=1;
 		for (n=0; n<digits; n++)
 		        k *= 10;
-	        return value_float (sign * (ceil (fabs(number) * k)) / k);
+	        return value_new_float (sign * (ceil (fabs(number) * k)) / k);
 	} else if (digits == 0) {
-	        return value_int (sign * ceil(fabs(number)));
+	        return value_new_int (sign * ceil(fabs(number)));
 	} else {
 	        k=1;
 		for (n=0; n<-digits; n++)
 		        k *= 10;
 		if (fabs(number) < k)
-		        return value_float (0);
-		return value_float (sign * (ceil (fabs(number) / k)) * k);
+		        return value_new_float (0);
+		return value_new_float (sign * (ceil (fabs(number) / k)) * k);
 	}
 }
 
@@ -1856,8 +1856,8 @@ gnumeric_mround (struct FunctionDefinition *i,
 	float_t div, mod;
 	int     sign = 1;
 
-	number = value_get_as_double (argv[0]);
-	multiple = value_get_as_double (argv[1]);
+	number = value_get_as_float (argv[0]);
+	multiple = value_get_as_float (argv[1]);
 
 	if ((number > 0 && multiple < 0) 
 	    || (number < 0 && multiple > 0)) {
@@ -1873,7 +1873,7 @@ gnumeric_mround (struct FunctionDefinition *i,
 	mod = fmod(number, multiple);
 	div = number-mod;
 
-        return value_float(sign * (
+        return value_new_float (sign * (
 	  div + ((mod + accuracy_limit >= multiple/2) ? multiple : 0)));
 }
 
@@ -1919,7 +1919,7 @@ gnumeric_roman (struct FunctionDefinition *fd,
 	}
 
 	if (n == 0)
-	        return value_str ("");
+	        return value_new_string ("");
 
 	if (form < 0 || form > 4) {
 		*error_string = _("#NUM!") ;
@@ -1956,7 +1956,7 @@ gnumeric_roman (struct FunctionDefinition *fd,
 	}
 	buf[i] = '\0';
 
-	return value_str (buf);
+	return value_new_string (buf);
 }
 
 static char *help_sumx2my2 = {
@@ -2053,7 +2053,7 @@ gnumeric_sumx2my2 (struct FunctionDefinition *i,
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
 	
-	return value_float (sum);
+	return value_new_float (sum);
 }
 
 static char *help_sumx2py2 = {
@@ -2150,7 +2150,7 @@ gnumeric_sumx2py2 (struct FunctionDefinition *i,
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
 	
-	return value_float (sum);
+	return value_new_float (sum);
 }
 
 static char *help_sumxmy2 = {
@@ -2247,7 +2247,7 @@ gnumeric_sumxmy2 (struct FunctionDefinition *i,
 	g_slist_free(items_x.list);
 	g_slist_free(items_y.list);
 	
-	return value_float (sum);
+	return value_new_float (sum);
 }
 
 FunctionDefinition math_functions [] = {

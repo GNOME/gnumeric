@@ -31,7 +31,7 @@ static int test_cell_with_value (Cell *set_cell, Cell *change_cell,
 	cell_eval(set_cell);
 
 	if (set_cell->value)
-	        *value = value_get_as_double (set_cell->value);
+	        *value = value_get_as_float (set_cell->value);
 	else
 	        return -1;
 	return 0;
@@ -78,7 +78,7 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 		cell_set_text (change_cell, "");
 	}
 
-	initial_value = value_get_as_double (change_cell->value);
+	initial_value = value_get_as_float (change_cell->value);
 
 	/* Check if a linear problem */
 	if (test_cell_with_value (target_cell, change_cell,
@@ -341,7 +341,7 @@ dialog_loop:
 						      change_cell_row);
 			cell_set_text (change_cell, "");
 		}
-		old_value = value_get_as_double(change_cell->value);
+		old_value = value_get_as_float (change_cell->value);
 		value = gnumeric_goal_seek(wb, sheet,
 					   set_cell_col, set_cell_row,
 					   target_value,

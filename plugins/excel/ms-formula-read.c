@@ -443,7 +443,7 @@ expr_tree_string (const char *str)
 {
 	ExprTree *e = expr_tree_new();
 	e->oper = OPER_CONSTANT;
-	e->u.constant = value_str (str);
+	e->u.constant = value_new_string (str);
 	return e;
 }
 
@@ -737,9 +737,9 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				ptg_length = 24 ;
 			}
 			if ((txt = biff_name_data_get_name (sheet, extn_name_idx)))
-				parse_list_push_raw (&stack, value_str (txt));
+				parse_list_push_raw (&stack, value_new_string (txt));
 			else
-				parse_list_push_raw (&stack, value_str ("DuffName"));
+				parse_list_push_raw (&stack, value_new_string ("DuffName"));
 			break ;
 		}
 		case FORMULA_PTG_REF_3D: /* see S59E2B.HTM */
@@ -778,7 +778,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 						 fn_col, fn_row, 0) ;
 
 				make_inter_sheet_ref (sheet->wb, extn_idx, first, last) ;
-				parse_list_push_raw (&stack, value_cellrange (first, last));
+				parse_list_push_raw (&stack, value_new_cellrange (first, last));
 				ptg_length = 10 ;
 			}
 			else
@@ -810,7 +810,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				ptg_length = 6 ;
 			}
 
-			parse_list_push_raw (&stack, value_cellrange (first, last));
+			parse_list_push_raw (&stack, value_new_cellrange (first, last));
 
 			if (first) g_free (first) ;
 			if (last)  g_free (last) ;
@@ -835,7 +835,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 					guint8 opts=BIFF_GETBYTE(data);
 					if (opts == 1) {
 						value_array_set (v, lpx, lpy,
-								 value_float (BIFF_GETDOUBLE(data+1)));
+								 value_new_float (BIFF_GETDOUBLE(data+1)));
 						data+=9;
 						ptg_length+=9;
 					} else if (opts == 2) {
@@ -843,7 +843,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 						char *str = biff_get_text (data+2,
 									   BIFF_GETBYTE(data+1),
 									   &len);
-						value_array_set (v, lpx, lpy, value_str(str));
+						value_array_set (v, lpx, lpy, value_new_string (str));
 						g_free (str);
 						data+=len+2;
 						ptg_length+=2+len;
@@ -916,7 +916,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			ptg_length = 0 ;
 			break ;
 		case FORMULA_PTG_MISSARG: /* FIXME: Need Null Arg. type. */
-			parse_list_push_raw (&stack, value_str (""));
+			parse_list_push_raw (&stack, value_new_string (""));
 			ptg_length = 0 ;
 			break ;
 		case FORMULA_PTG_ATTR: /* FIXME: not fully implemented */
@@ -939,7 +939,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 								      fn_col, fn_row, shared,
 								      w) ;
 				else
-					tr = expr_tree_value (value_str (""));
+					tr = expr_tree_value (value_new_string (""));
 				parse_list_push (&stack, tr);
 				ptg_length += w ;
 			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
@@ -994,27 +994,27 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		case FORMULA_PTG_ERR:
 		{
 			parse_list_push_raw (&stack,
-					     value_str(biff_get_error_text(BIFF_GETBYTE(cur))));
+					     value_new_string (biff_get_error_text(BIFF_GETBYTE(cur))));
 			ptg_length = 1 ;
 			break ;
 		}
 		case FORMULA_PTG_INT:
 		{
 			guint16 num = BIFF_GETWORD(cur) ;
-			parse_list_push_raw (&stack, value_int(num));
+			parse_list_push_raw (&stack, value_new_int (num));
 			ptg_length = 2 ;
 			break;
 		}
 		case FORMULA_PTG_BOOL:  /* FIXME: True / False */
 		{
-			parse_list_push_raw (&stack, value_int (BIFF_GETBYTE(cur)));
+			parse_list_push_raw (&stack, value_new_int (BIFF_GETBYTE(cur)));
 			ptg_length = 1 ;
 			break ;
 		}
 		case FORMULA_PTG_NUM:
 		{
 			double tmp = BIFF_GETDOUBLE(cur) ;
-			parse_list_push_raw (&stack, value_float (tmp));
+			parse_list_push_raw (&stack, value_new_float (tmp));
 			ptg_length = 8 ;
 			break ;
 		}
@@ -1036,7 +1036,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 /*				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length) ; */
 			}
 			if (!str) str = g_strdup("");
-			parse_list_push_raw (&stack, value_str (str));
+			parse_list_push_raw (&stack, value_new_string (str));
 			if (str)  g_free (str);
 			break ;
 		}

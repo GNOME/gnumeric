@@ -179,12 +179,22 @@ Value      *eval_expr            (Sheet *sheet, ExprTree *tree,
 				  int  col, int row,
 				  char **error_string);
 
+Value       *value_new_float       (float_t f);
+Value       *value_new_int         (int i);
+Value       *value_new_string      (const char *str);
+Value       *value_new_cellrange   (const CellRef *a, const CellRef *b);
+
 void         value_release         (Value *value);
-Value       *value_cast_to_float   (Value *v);
-int          value_get_bool        (const Value *v, int *err);
-float_t      value_get_as_double   (const Value *v);
-int          value_get_as_int      (const Value *v);
+Value       *value_duplicate       (const Value *value);
 void         value_copy_to         (Value *dest, const Value *source);
+Value       *value_cast_to_float   (Value *v);
+
+int          value_get_as_bool     (const Value *v, int *err);
+float_t      value_get_as_float    (const Value *v);
+int          value_get_as_int      (const Value *v);
+char        *value_get_as_string   (const Value *value);
+
+void         value_dump            (Value *value);
 
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
 guint        value_area_get_width  (Value *v);
@@ -196,16 +206,6 @@ void         value_array_set       (Value *array, guint col, guint row, Value *v
 void         value_array_resize    (Value *v, guint width, guint height);
 void         value_array_copy_to   (Value *dest, const Value *src);
 
-Value       *value_cellrange       (const CellRef *a, const CellRef *b);
-			 
-void         value_dump            (Value *value);
-char        *value_string          (const Value *value);
-Value       *value_duplicate       (const Value *value);
-
-Value       *value_float           (float_t f);
-Value       *value_int             (int i);
-Value       *value_str             (const char *str);
-	
 /* Setup of the symbol table */
 void         functions_init        (void);
 void         constants_init        (void);

@@ -147,7 +147,7 @@ gnumeric_effect (struct FunctionDefinition *i, Value *argv [], char **error_stri
 	double rate;
 	int nper;
 
-	rate = value_get_as_double (argv [0]);
+	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_int (argv [1]);
 
 	/* Rate or number of periods cannot be negative */
@@ -156,7 +156,7 @@ gnumeric_effect (struct FunctionDefinition *i, Value *argv [], char **error_stri
 		return NULL;
 	}
 
-        return value_float  ( pow( (1 + rate/nper) , nper) - 1 );
+        return value_new_float ( pow( (1 + rate/nper) , nper) - 1 );
 
 }
 
@@ -184,7 +184,7 @@ gnumeric_nominal (struct FunctionDefinition *i, Value *argv [], char **error_str
 	double rate;
 	int nper;
 
-	rate = value_get_as_double (argv [0]);
+	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_int (argv [1]);
 
 	/* Rate or number of periods cannot be negative */
@@ -193,7 +193,7 @@ gnumeric_nominal (struct FunctionDefinition *i, Value *argv [], char **error_str
 		return NULL;
 	}
 
-        return value_float  ( nper * ( pow( 1 + rate, 1.0/nper ) - 1 ) );
+        return value_new_float ( nper * ( pow( 1 + rate, 1.0/nper ) - 1 ) );
 
 }
 
@@ -223,9 +223,9 @@ gnumeric_sln (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	double cost,salvage_value,life;
 
-	cost = value_get_as_double (argv [0]);
+	cost = value_get_as_float (argv [0]);
 	salvage_value = value_get_as_int (argv [1]);
-	life = value_get_as_double (argv [2]);
+	life = value_get_as_float (argv [2]);
 
 	/* Life of an asset cannot be negative */
 
@@ -234,7 +234,7 @@ gnumeric_sln (struct FunctionDefinition *i, Value *argv [], char **error_string)
 		return NULL;
 	}
 
-        return value_float  ( (cost - salvage_value) / life ) ;
+        return value_new_float ( (cost - salvage_value) / life ) ;
 
 }
 
@@ -262,12 +262,12 @@ gnumeric_syd (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	double cost,salvage_value,life,period;
 
-	cost = value_get_as_double (argv [0]);
+	cost = value_get_as_float (argv [0]);
 	salvage_value = value_get_as_int (argv [1]);
-	life = value_get_as_double (argv [2]);
-	period = value_get_as_double (argv [3]);
+	life = value_get_as_float (argv [2]);
+	period = value_get_as_float (argv [3]);
 
-        return value_float  ( ( (cost - salvage_value) * (life-period+1) * 2 ) / ( life * (life + 1.0) )) ;
+        return value_new_float ( ( (cost - salvage_value) * (life-period+1) * 2 ) / ( life * (life + 1.0) )) ;
 
 }
 
@@ -290,7 +290,7 @@ gnumeric_dollarde (struct FunctionDefinition *i, Value *argv [], char **error_st
 	int     fraction, n, tmp;
 	float_t floored, rest;
 
-	fractional_dollar = value_get_as_double (argv [0]) ;
+	fractional_dollar = value_get_as_float (argv [0]) ;
 	fraction = value_get_as_int (argv [1]) ;
 
 	if (fraction <= 0) {
@@ -307,7 +307,7 @@ gnumeric_dollarde (struct FunctionDefinition *i, Value *argv [], char **error_st
 	rest = fractional_dollar - floored;
 	tmp = (int) (rest * pow(10, n));
 
-	return value_float (floored + ((float_t) tmp / fraction)) ;
+	return value_new_float (floored + ((float_t) tmp / fraction)) ;
 }
 
 static char *help_dollarfr = {
@@ -329,7 +329,7 @@ gnumeric_dollarfr (struct FunctionDefinition *i, Value *argv [], char **error_st
 	int     fraction, n, tmp;
 	float_t floored, rest;
 
-	fractional_dollar = value_get_as_double (argv [0]) ;
+	fractional_dollar = value_get_as_float (argv [0]) ;
 	fraction = value_get_as_int (argv [1]) ;
 
 	if (fraction <= 0) {
@@ -346,7 +346,7 @@ gnumeric_dollarfr (struct FunctionDefinition *i, Value *argv [], char **error_st
 	rest = fractional_dollar - floored;
 	tmp = (int) (rest * fraction);
 
-	return value_float (floored + ((float_t) tmp / pow(10, n))) ;
+	return value_new_float (floored + ((float_t) tmp / pow(10, n))) ;
 }
 
 
@@ -366,10 +366,10 @@ gnumeric_pv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 	
 	double pvif,fvifa;
 
-	rate = value_get_as_double (argv [0]);
-	nper = value_get_as_double (argv [1]);
-	pmt = value_get_as_double (argv [2]);
-	fv = value_get_as_double (argv [3]);
+	rate = value_get_as_float (argv [0]);
+	nper = value_get_as_float (argv [1]);
+	pmt = value_get_as_float (argv [2]);
+	fv = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
 	/* Calculate the PVIF and FVIFA */
@@ -378,7 +378,7 @@ gnumeric_pv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 	fvifa = calculate_fvifa(rate,nper);
 
-        return value_float  ( ( (-1.0) * fv - pmt * ( 1.0 + rate * type ) * fvifa ) / pvif );
+        return value_new_float ( ( (-1.0) * fv - pmt * ( 1.0 + rate * type ) * fvifa ) / pvif );
 
 }
 
@@ -437,7 +437,7 @@ gnumeric_npv (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, c
         function_iterate_argument_values (sheet, callback_function_npv,
                                           &p, expr_node_list,
                                           eval_col, eval_row, error_string);
-	return value_float (p.sum);
+	return value_new_float (p.sum);
 }
 
 
@@ -457,16 +457,16 @@ gnumeric_fv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 	
 	double pvif,fvifa;
 
-	rate = value_get_as_double (argv [0]);
-	nper = value_get_as_double (argv [1]);
-	pmt = value_get_as_double (argv [2]);
-	pv = value_get_as_double (argv [3]);
+	rate = value_get_as_float (argv [0]);
+	nper = value_get_as_float (argv [1]);
+	pmt = value_get_as_float (argv [2]);
+	pv = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
 	pvif = calculate_pvif(rate,nper);
 	fvifa = calculate_fvifa(rate,nper);
 
-        return value_float  ( -1.0 * ( ( pv * pvif ) + pmt * ( 1.0 + rate * type ) * fvifa )  );
+        return value_new_float ( -1.0 * ( ( pv * pvif ) + pmt * ( 1.0 + rate * type ) * fvifa )  );
 
 }
 
@@ -485,13 +485,13 @@ gnumeric_pmt (struct FunctionDefinition *i, Value *argv [], char **error_string)
 	double rate,pv,fv,nper;
 	int type;
 	
-	rate = value_get_as_double (argv [0]);
-	nper = value_get_as_double (argv [1]);
-	pv = value_get_as_double (argv [2]);
-	fv = value_get_as_double (argv [3]);
+	rate = value_get_as_float (argv [0]);
+	nper = value_get_as_float (argv [1]);
+	pv = value_get_as_float (argv [2]);
+	fv = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
-        return value_float  ( calculate_pmt(rate,nper,pv,fv,type) );
+        return value_new_float ( calculate_pmt(rate,nper,pv,fv,type) );
 
 }
 
@@ -521,11 +521,11 @@ gnumeric_ipmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 	double pmt;
 	int type;
 	
-	rate = value_get_as_double (argv [0]);
-	nper = value_get_as_double (argv [1]);
-	per = value_get_as_double (argv [2]);
-	pv = value_get_as_double (argv [3]);
-	fv = value_get_as_double (argv [4]);
+	rate = value_get_as_float (argv [0]);
+	nper = value_get_as_float (argv [1]);
+	per = value_get_as_float (argv [2]);
+	pv = value_get_as_float (argv [3]);
+	fv = value_get_as_float (argv [4]);
 	type = value_get_as_int (argv [5]);
 
 	/* First calculate the payment */
@@ -535,7 +535,7 @@ gnumeric_ipmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 	/* Now we need to calculate the amount of money going towards the 
 	   principal */
 
-	return value_float ( calculate_principal(pv,pmt,rate,per-1) * rate * (-1.0)  );
+	return value_new_float ( calculate_principal(pv,pmt,rate,per-1) * rate * (-1.0)  );
 
 }
 
@@ -565,11 +565,11 @@ gnumeric_ppmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 	double ipmt,pmt;
 	int type;
 	
-	rate = value_get_as_double (argv [0]);
-	nper = value_get_as_double (argv [1]);
-	per = value_get_as_double (argv [2]);
-	pv = value_get_as_double (argv [3]);
-	fv = value_get_as_double (argv [4]);
+	rate = value_get_as_float (argv [0]);
+	nper = value_get_as_float (argv [1]);
+	per = value_get_as_float (argv [2]);
+	pv = value_get_as_float (argv [3]);
+	fv = value_get_as_float (argv [4]);
 	type = value_get_as_int (argv [5]);
 
 	/* First calculate the payment */
@@ -583,7 +583,7 @@ gnumeric_ppmt (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 	ipmt = ( calculate_principal(pv,pmt,rate,per-1) * rate * (-1.0)  );
 
-	return value_float ( pmt - ipmt );
+	return value_new_float ( pmt - ipmt );
 
 }
 
@@ -601,13 +601,13 @@ gnumeric_nper (struct FunctionDefinition *i, Value *argv [], char **error_string
 	double rate,pmt,pv,fv;
 	int type;
 	
-	rate = value_get_as_double (argv [0]);
-	pmt = value_get_as_double (argv [1]);
-	pv = value_get_as_double (argv [2]);
-	fv = value_get_as_double (argv [3]);
+	rate = value_get_as_float (argv [0]);
+	pmt = value_get_as_float (argv [1]);
+	pv = value_get_as_float (argv [2]);
+	fv = value_get_as_float (argv [3]);
 	type = value_get_as_int (argv [4]);
 
-        return value_float  ( log (( pmt * ( 1.0 + rate * type ) - fv * rate ) / ( pv * rate + pmt * ( 1.0 + rate * type ) ) ) / log ( 1.0 + rate ));
+        return value_new_float ( log (( pmt * ( 1.0 + rate * type ) - fv * rate ) / ( pv * rate + pmt * ( 1.0 + rate * type ) ) ) / log ( 1.0 + rate ));
 
 }
 
@@ -629,16 +629,16 @@ gnumeric_duration (struct FunctionDefinition *i, Value *argv [], char **error_st
 {
 	double rate,pv,fv;
 	
-	rate = value_get_as_double (argv [0]);
-	pv = value_get_as_double (argv [1]);
-	fv = value_get_as_double (argv [2]);
+	rate = value_get_as_float (argv [0]);
+	pv = value_get_as_float (argv [1]);
+	fv = value_get_as_float (argv [2]);
 
 	if ( rate < 0 ){
 		*error_string = _("duration - domain error");
 		return NULL;
 	}
 
-        return value_float  (  log( fv / pv ) / log(1.0 + rate) );
+        return value_new_float (  log( fv / pv ) / log(1.0 + rate) );
 
 }
 

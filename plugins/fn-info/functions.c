@@ -51,7 +51,7 @@ gnumeric_countblank (struct FunctionDefinition *n,
 			        count++;
 		}
 
-	return value_int (count);
+	return value_new_int (count);
 }
 
 

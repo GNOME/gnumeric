@@ -1770,7 +1770,7 @@ cell_get_content (Cell *cell)
 	 * Return the value wihtout parsing.
 	 */
 	if (cell->value)
-		str = value_string (cell->value);
+		str = value_get_as_string (cell->value);
 	else
 		str = g_strdup (cell->entered_text->str);
 	

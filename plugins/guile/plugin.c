@@ -104,9 +104,9 @@ scm_to_value (SCM scm)
 	else if (SCM_NFALSEP(scm_number_p(scm)))
 	{
 		if (scm_integer_p(scm))
-			return value_int((int)scm_num2int(scm));
+			return value_new_int ((int)scm_num2int(scm));
 		else
-			return value_float((float)scm_num2dbl(scm, 0));
+			return value_new_float ((float)scm_num2dbl(scm, 0));
 	}
 	else if (SCM_NIMP(scm) && SCM_CONSP(scm))
 	{
@@ -248,7 +248,7 @@ func_scm_apply (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 		*error_string = _("First argument to SCM must be a Guile expression");
 		return NULL;
 	}
-	symbol = value_string(value);
+	symbol = value_get_as_string (value);
 	if (symbol == NULL)
 	{
 		*error_string = _("First argument to SCM must be a Guile expression");

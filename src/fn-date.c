@@ -38,9 +38,9 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 	int year, month, day;
 	GDate date;
 	
-	year  = value_get_as_double (argv [0]);
-	month = value_get_as_double (argv [1]);
-	day   = value_get_as_double (argv [2]);
+	year  = value_get_as_float (argv [0]);
+	month = value_get_as_float (argv [1]);
+	day   = value_get_as_float (argv [2]);
 
         if (!g_date_valid_dmy(1, month, year))
           {
@@ -63,7 +63,7 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
                   return NULL;
           }
 
-	v = value_int (g_date_serial (&date));
+	v = value_new_int (g_date_serial (&date));
 
 	return v;
 }
@@ -101,7 +101,7 @@ gnumeric_datevalue (struct FunctionDefinition *fd,
                   return NULL;
 	}
 
-	return value_int (g_date_serial (&date));
+	return value_new_int (g_date_serial (&date));
 }
 
 static char *help_edate = {
@@ -148,7 +148,7 @@ gnumeric_edate (struct FunctionDefinition *fd,
                   return NULL;
 	}
 		
-	return value_int (g_date_serial (date));
+	return value_new_int (g_date_serial (date));
 }
 
 static char *help_today = {
@@ -175,7 +175,7 @@ gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 	
 	g_date_set_time (&date, time (NULL));
 	
-	v = value_int (g_date_serial (&date));
+	v = value_new_int (g_date_serial (&date));
 
 	return v;
 }
@@ -213,7 +213,7 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 	
 	g_date_set_time (&date, t);
 
-	v = value_float (g_date_serial(&date) +
+	v = value_new_float (g_date_serial(&date) +
 			 ((tm->tm_hour * 3600 + tm->tm_min * 60 
 			   + tm->tm_sec)/(double)DAY_SECONDS));
 
@@ -238,11 +238,11 @@ gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
 	Value *v;
 	float_t hours, minutes, seconds;
 
-	hours   = value_get_as_double (argv [0]);
-	minutes = value_get_as_double (argv [1]);
-	seconds = value_get_as_double (argv [2]);
+	hours   = value_get_as_float (argv [0]);
+	minutes = value_get_as_float (argv [1]);
+	seconds = value_get_as_float (argv [2]);
 
-	v = value_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
+	v = value_new_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
 
 	return v;
 }
@@ -301,7 +301,7 @@ gnumeric_hour_min_sec (FunctionDefinition *fd, Value *argv [], char **error_stri
 	Value *v = g_new (Value, 1);
 	float_t serial;
 
-	serial   = value_get_as_double (argv [0]);
+	serial   = value_get_as_float (argv [0]);
 	serial = serial - floor (serial);
 	
 	v->type = VALUE_INTEGER;
@@ -361,7 +361,7 @@ static Value *
 gnumeric_year_month_day (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
-	guint32 serial = floor (value_get_as_double (argv [0]));
+	guint32 serial = floor (value_get_as_float (argv [0]));
 	GDate* date = g_date_new_serial (serial);
 
 	v->type = VALUE_INTEGER;
