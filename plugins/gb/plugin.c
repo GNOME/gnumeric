@@ -29,6 +29,7 @@
 
 #include "gnumeric.h"
 #include "plugin.h"
+#include "plugin-util.h"
 #include "expr.h"
 #include "func.h"
 
@@ -38,6 +39,8 @@
 #include "excel-gb-worksheet.h"
 #include "excel-gb-context.h"
 #include "../excel/excel.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 #ifndef MAP_FAILED
 /* Someone needs their head examining - BSD ? */

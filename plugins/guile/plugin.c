@@ -31,6 +31,7 @@
 
 #include "gnumeric.h"
 #include "plugin.h"
+#include "plugin-util.h"
 #include "expr.h"
 #include "gutils.h"
 #include "func.h"
@@ -41,6 +42,7 @@
 #include "guile-support.h"
 #include "smob-value.h"
 
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)

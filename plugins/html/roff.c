@@ -183,7 +183,7 @@ write_wb_roff (IOContext *context, WorkbookView *wb_view, FILE *fp)
  */
 int
 html_write_wb_roff_dvi (IOContext *context, WorkbookView *wb_view,
-			const char *filename)
+                        const char *filename, gpointer user_data)
 {
 	FILE *fp;
 	int rc = 0;
@@ -216,7 +216,7 @@ out:
  */
 int
 html_write_wb_roff_pdf (IOContext *context, WorkbookView *wb_view,
-			const char *filename)
+                        const char *filename, gpointer user_data)
 {
 	FILE *fp;
 	int rc = 0;
@@ -252,7 +252,7 @@ out:
  */
 int
 html_write_wb_roff (IOContext *context, WorkbookView *wb_view,
-		    const char *filename)
+                    const char *filename, gpointer user_data)
 {
 	FILE *fp;
 	int rc = 0;

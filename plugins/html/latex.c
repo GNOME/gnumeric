@@ -84,7 +84,7 @@ latex_fprintf_cell (FILE *fp, const Cell *cell)
  */
 int
 html_write_wb_latex (IOContext *context, WorkbookView *wb_view,
-		     const char *filename)
+                     const char *filename, gpointer user_data)
 {
 	FILE *fp;
 	GList *sheet_list;
@@ -181,7 +181,7 @@ html_write_wb_latex (IOContext *context, WorkbookView *wb_view,
  */
 int
 html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
-		       const char *filename)
+                       const char *filename, gpointer user_data)
 {
 	FILE *fp;
 	GList *sheet_list;

@@ -26,11 +26,11 @@
 #include "gnumeric-util.h"
 
 int html_write_wb_roff_dvi (IOContext *context, WorkbookView *wb_view,
-			    const char *filename);
+                            const char *filename, gpointer user_data);
 int html_write_wb_roff_pdf (IOContext *context, WorkbookView *wb_view,
-			    const char *filename);
+                            const char *filename, gpointer user_data);
 int html_write_wb_roff	   (IOContext *context, WorkbookView *wb_view,
-			    const char *filename);
+                            const char *filename, gpointer user_data);
 
 #endif
 

@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <gnome.h>
 #include "plugin.h"
+#include "plugin-util.h"
 #include "gnumeric.h"
 #include "cell.h"
 #include "value.h"
@@ -26,9 +27,14 @@
 #include "workbook-view.h"
 #include "workbook.h"
 
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+
+static FileOpenerId dif_opener_id;
+static FileSaverId dif_saver_id;
+
 static int
-dif_write_workbook (IOContext *context,
-		    WorkbookView *wb_view, const char *filename);
+dif_write_workbook (IOContext *context, WorkbookView *wb_view,
+                    const char *filename, gpointer user_data);
 
 typedef struct {
 	char const *data, *cur;
@@ -245,7 +251,7 @@ g_warning("DIF SUCCESS");
 
 static int
 dif_read_workbook (IOContext *context, WorkbookView *wb_view,
-		   char const *filename)
+                   char const *filename, gpointer user_data)
 {
 	int result = 0;
 	int len;
@@ -278,10 +284,9 @@ dif_read_workbook (IOContext *context, WorkbookView *wb_view,
 			gnumeric_io_error_read (context,
 					     _("DIF : Failed to load sheet"));
 			result = -1;
-		} else
-			workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL,
-					       dif_write_workbook);
-
+		} else {
+			workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, dif_saver_id);
+		}
 		munmap((char *)data, len);
 	} else {
 		result = -1;
@@ -320,8 +325,8 @@ dif_write_cell (FILE *f, Cell const *cell)
  * write every sheet of the workbook to a DIF format file
  */
 static int
-dif_write_workbook (IOContext *context,
-		    WorkbookView *wb_view, const char *filename)
+dif_write_workbook (IOContext *context, WorkbookView *wb_view,
+                    const char *filename, gpointer user_data)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	GList *sheet_list;
@@ -389,38 +394,29 @@ out:
 }
 
 
-static int
-dif_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
-	/* We can always unload */
 	return TRUE;
 }
 
-
-static void
-dif_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_open (NULL, dif_read_workbook);
-	file_format_unregister_save (dif_write_workbook);
+	file_format_unregister_open (dif_opener_id);
+	file_format_unregister_save (dif_saver_id);
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData * pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
+	dif_opener_id = file_format_register_open (
+	                1, _("Data Interchange Format (*.dif) file format"),
+	                NULL, &dif_read_workbook, NULL);
+	dif_saver_id = file_format_register_save (
+	               ".dif", _("Data Interchange Format (*.dif)"),
+	               FILE_FL_MANUAL, &dif_write_workbook, NULL);
 
-	file_format_register_open (1,
-				   _("Data Interchange Format (*.dif) file format"),
-				   NULL, &dif_read_workbook);
-	file_format_register_save (".dif",
-				   _("Data Interchange Format (*.dif)"),
-				   FILE_FL_MANUAL, &dif_write_workbook);
-
-	if (plugin_data_init (pd, &dif_can_unload, &dif_cleanup_plugin,
-			      _("Data Interchange Format (CSV) module"),
-			      _("Reads and writes information stored in the Data Interchange Format (*.dif)")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
+	return TRUE;
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_html">
+	<information name="HTML" description="Import/Export of HTML, TeX, DVI, roff and pdf"/>
+	<activation type="g_module" module_file="html.so"/>
+</plugin>
+</gnumeric_plugin_group>

@@ -3,9 +3,11 @@ INCLUDES = \
     -I$(includedir)	-I$(top_srcdir)/src		\
     $(GNOME_INCLUDEDIR)
 
-gnumeric_plugin_LTLIBRARIES = gnum_html.la
-gnum_html_la_LDFLAGS = -module -avoid-version
-gnum_html_la_SOURCES = \
+gnumeric_plugin_htmldir = $(gnumeric_plugindir)/html
+gnumeric_plugin_html_DATA = plugin.xml
+gnumeric_plugin_html_LTLIBRARIES = html.la
+html_la_LDFLAGS = -module -avoid-version
+html_la_SOURCES = \
     boot.h boot.c \
     html.h html.c \
     latex.h latex.c \

@@ -18,6 +18,7 @@
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "plugin-util.h"
 
 #include "excel.h"
 #include "ms-summary.h"
@@ -26,12 +27,15 @@
 extern int ms_excel_read_debug;
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
+static FileOpenerId excel_opener_id;
+static FileSaverId excel95_saver_id, excel98_saver_id;
+
 static int
 excel_save_95 (IOContext *context, WorkbookView *wb_view,
-	       const char *filename);
+               const char *filename, gpointer user_data);
 
 static gboolean
-excel_probe (const char *filename)
+excel_probe (const char *filename, gpointer user_data)
 {
 	MsOle    *file;
 
@@ -58,15 +62,16 @@ excel_probe (const char *filename)
 /*
  * excel_load
  * @context:   	Command context
- * @wb:    	Workbook
+ * @wb:    	    Workbook
  * @filename:  	File name
+ * @user_data:  ignored
  *
  * Load en excel workbook.
  * Returns 0 on success, -1 on failure.
  */
 static int
 excel_load (IOContext *context, WorkbookView *new_wb_view,
-	    const char *filename)
+            const char *filename, gpointer user_data)
 {
 	MsOleErr  ole_error;
 	MsOle	 *f;
@@ -95,8 +100,7 @@ excel_load (IOContext *context, WorkbookView *new_wb_view,
 				g_warning ("Failed to read Basic scripts");
 		}
 
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL,
-				       excel_save_95);
+		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, excel95_saver_id);
 	}
 
 	ms_ole_destroy (&f);
@@ -161,14 +165,14 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 
 static int
 excel_save_98 (IOContext *context, WorkbookView *wb_view,
-	       const char *filename)
+               const char *filename, gpointer user_data)
 {
 	return excel_save (context, wb_view, filename, MS_BIFF_V8);
 }
 
 static int
 excel_save_95 (IOContext *context, WorkbookView *wb_view,
-	       const char *filename)
+               const char *filename, gpointer user_data)
 {
 	return excel_save (context, wb_view, filename, MS_BIFF_V7);
 }
@@ -177,17 +181,17 @@ void
 excel_init (void)
 {
 	/* We register Excel format with a precendence of 100 */
-	file_format_register_open (100,
-				   _("Microsoft(R) Excel file format"),
-				   &excel_probe, &excel_load);
-	if (gnumeric_debugging > 0)
-		file_format_register_save (".xls",
-					   _("Excel(R) 97 file format"),
-					   FILE_FL_MANUAL, &excel_save_98);
-
-	file_format_register_save (".xls",
-				   _("Excel(R) 95 file format"),
-				   FILE_FL_MANUAL, &excel_save_95);
+	excel_opener_id = file_format_register_open (
+	                  100, _("Microsoft(R) Excel file format"),
+	                  &excel_probe, &excel_load, NULL);
+	if (gnumeric_debugging > 0) {
+		excel98_saver_id = file_format_register_save (
+		                   ".xls", _("Excel(R) 97 file format"),
+		                   FILE_FL_MANUAL, &excel_save_98, NULL);
+	}
+	excel95_saver_id = file_format_register_save (
+	                   ".xls", _("Excel(R) 95 file format"),
+	                   FILE_FL_MANUAL, &excel_save_95, NULL);
 }
 
 void

@@ -35,11 +35,22 @@
 #include "epsf.h"
 #endif
 
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+
+static FileOpenerId html_opener_id;
+static FileSaverId html32_saver_id, html40_saver_id,
+                   latex_saver_id, latex2e_saver_id,
+                   dvi_saver_id, troff_saver_id,
+                   pdf_saver_id;
+#ifdef SUPPORT_OLD_EPSF
+static FileSaverId eps_saver_id;
+#endif
+
 /*
  * We can unload
  */
-static int
-html_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	return TRUE;
 }
@@ -47,20 +58,24 @@ html_can_unload (PluginData *pd)
 /*
  * called when unloading the plugin
  */
-static void
-html_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_save (html_write_wb_html32);
-	file_format_unregister_save (html_write_wb_html40);
-	file_format_unregister_save (html_write_wb_latex);
-	file_format_unregister_save (html_write_wb_latex2e);
-	file_format_unregister_save (html_write_wb_roff_dvi);
-	file_format_unregister_save (html_write_wb_roff_pdf);
-	file_format_unregister_save (html_write_wb_roff);
+	file_format_unregister_save (html32_saver_id);
+	file_format_unregister_save (html40_saver_id);
+	file_format_unregister_save (latex_saver_id);
+	file_format_unregister_save (latex2e_saver_id);
+	file_format_unregister_save (dvi_saver_id);
+	file_format_unregister_save (pdf_saver_id);
+	file_format_unregister_save (troff_saver_id);
 #ifdef SUPPORT_OLD_EPSF
-	file_format_unregister_save (epsf_write_wb);
+	file_format_unregister_save (eps_saver_id);
 #endif
-	file_format_unregister_open (NULL,html_read);
+	file_format_unregister_open (html_opener_id);
+
+	set_default_file_saver_id (html32_saver_id);
+
+	return TRUE;
 }
 
 /*
@@ -69,64 +84,53 @@ html_cleanup_plugin (PluginData *pd)
 static void
 html_init (void)
 {
-	char *desc;
+	html32_saver_id = file_format_register_save (
+	                  ".html", _("HTML 3.2 file format (*.html)"),
+	                  FILE_FL_AUTO, html_write_wb_html32, NULL);
 
-	desc = _("HTML 3.2 file format (*.html)");
-	file_format_register_save (".html", desc, FILE_FL_AUTO,
-				   html_write_wb_html32);
+	html40_saver_id = file_format_register_save (
+	                  ".html", _("HTML 4.0 file format (*.html)"),
+	                  FILE_FL_AUTO, html_write_wb_html40, NULL);
 
-	desc = _("HTML 4.0 file format (*.html)");
-	file_format_register_save (".html", desc, FILE_FL_AUTO,
-				   html_write_wb_html40);
+	/* Register file format with priority 100 */
+	html_opener_id = file_format_register_open (
+	                 100, _("HTML file made by gnumeric"),
+	                 NULL, html_read, NULL);
 
-	desc = _("HTML file made by gnumeric");
-		/* Register file format with priority 100 */
-	file_format_register_open (100, desc, NULL, html_read);
+	latex_saver_id = file_format_register_save (
+	               ".tex", _("LaTeX file format (*.tex)"),
+	               FILE_FL_WRITE_ONLY, html_write_wb_latex, NULL);
 
-	desc = _("LaTeX file format (*.tex)");
-	file_format_register_save (".tex", desc, FILE_FL_WRITE_ONLY,
-				   html_write_wb_latex);
+	latex2e_saver_id = file_format_register_save (
+	                   ".tex", _("LaTeX2e file format (*.tex)"),
+	                   FILE_FL_WRITE_ONLY, html_write_wb_latex2e, NULL);
 
-	desc = _("LaTeX2e file format (*.tex)");
-	file_format_register_save (".tex", desc, FILE_FL_WRITE_ONLY,
-				   html_write_wb_latex2e);
+	dvi_saver_id = file_format_register_save (
+	               ".dvi", _("DVI TeX file format (via groff)"),
+	               FILE_FL_WRITE_ONLY, html_write_wb_roff_dvi, NULL);
 
-	desc = _("DVI TeX file format (via groff)");
-	file_format_register_save (".dvi", desc, FILE_FL_WRITE_ONLY,
-				   html_write_wb_roff_dvi);
+	troff_saver_id = file_format_register_save (
+	                 ".me", _("TROFF file format (*.me)"),
+	                 FILE_FL_WRITE_ONLY, html_write_wb_roff, NULL);
 
-	desc = _("TROFF file format (*.me)");
-	file_format_register_save (".me", desc, FILE_FL_WRITE_ONLY,
-				   html_write_wb_roff);
-
-	desc = _("PDF file format (via groff/gs)");
-	file_format_register_save (".pdf", desc, FILE_FL_WRITE_ONLY,
-				   html_write_wb_roff_pdf);
+	pdf_saver_id = file_format_register_save (
+	               ".pdf", _("PDF file format (via groff/gs)"),
+	               FILE_FL_WRITE_ONLY, html_write_wb_roff_pdf, NULL);
 
 #ifdef SUPPORT_OLD_EPSF
-	desc = _("EPS file format (*.eps)");
-	file_format_register_save (".eps", desc, FILE_FL_WRITE_ONLY,
-				   epsf_write_wb);
+	eps_saver_id = file_format_register_save (
+	               ".eps", _("EPS file format (*.eps)"),
+	               FILE_FL_WRITE_ONLY, epsf_write_wb, NULL);
 #endif
 }
 
 /*
  * called by gnumeric to load the plugin
  */
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
-
 	html_init ();
 
-	if (plugin_data_init (pd, &html_can_unload, &html_cleanup_plugin,
-			      _("HTML"),
-			      _("Import/Export of HTML, TeX, DVI, roff and pdf")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
-
+	return TRUE;
 }
-

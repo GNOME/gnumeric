@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_dif">
+	<information name="Data Interchange Format (CSV) module" description="Reads and writes information stored in the Data Interchange Format (*.dif)"/>
+	<activation type="g_module" module_file="dif.so"/>
+</plugin>
+</gnumeric_plugin_group>

@@ -35,8 +35,12 @@
 #include <string.h>
 #include <gnome.h>
 
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+
+static FileOpenerId applix_opener_id;
+
 static gboolean
-applix_probe (const char *filename)
+applix_probe (const char *filename, gpointer user_data)
 {
 	gboolean res;
 	FILE *file;
@@ -60,7 +64,7 @@ applix_probe (const char *filename)
 
 static int
 applix_load (IOContext *context, WorkbookView *wb_view,
-	     const char *filename)
+             const char *filename, gpointer user_data)
 {
 	int res;
 	FILE *file = gnumeric_fopen (context, filename, "r");
@@ -72,37 +76,30 @@ applix_load (IOContext *context, WorkbookView *wb_view,
 
 	if (res == 0)
 		workbook_set_saveinfo (wb_view_workbook (wb_view),
-				       filename, FILE_FL_MANUAL, NULL);
+                               filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
 
 	return res;
 }
 
-static int
-applix_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	return TRUE;
 }
 
-static void
-applix_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_open (applix_probe, applix_load);
+	file_format_unregister_open (applix_opener_id);
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
+	applix_opener_id = file_format_register_open (
+	                   100, _("Applix (*.as) file format"),
+	                   &applix_probe, &applix_load, NULL);
 
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
-
-	file_format_register_open (100,
-				   _("Applix (*.as) file format"),
-				   &applix_probe, &applix_load);
-
-	if (plugin_data_init (pd, &applix_can_unload, &applix_cleanup_plugin,
-			      _("Applix"),
-			      _("Imports version 4.[234] spreadsheets")))
-	        return PLUGIN_OK;
-	return PLUGIN_ERROR;
+	return TRUE;
 }

@@ -1,5 +1,42 @@
 2001-01-25  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* plugins/applix/boot.c plugins/dif/dif.c plugins/excel/boot.c
+	plugins/gb/plugin.c plugins/gda/plugin-gda.c plugins/guile/plugin.c
+	plugins/html/boot.c plugins/html/boot.h plugins/html/html.c
+	plugins/html/html.h plugins/html/latex.c plugins/html/latex.h
+	plugins/html/roff.c plugins/html/roff.h plugins/lotus-123/boot.c
+	plugins/numtheory/numtheory.c plugins/oleo/boot.c
+	plugins/plan-perfect/pln.c plugins/python/python.c plugins/sc/sc.c
+	plugins/sylk/sylk.c plugins/xbase/boot.c plugins/xml2/xml2.c:
+	Defined gnumeric_plugin_version variable containing Gnumeric version
+	string for every plugin.
+	Added user_data parameter to "probe", "open" and "save" functions.
+	Changed PluginData to PluginInfo.
+	Modified can_deactivate_plugin, cleanup_plugin and init_plugin
+	functions to match new prototypes in plugin.h.
+	Storing registered opener_id/saver_id in variables and using them
+	while unregistering.
+
+	* plugins/applix/Makefile.am plugins/dif/Makefile.am
+	plugins/gda/Makefile.am plugins/html/Makefile.am
+	plugins/lotus-123/Makefile.am plugins/numtheory/Makefile.am
+	plugins/oleo/Makefile.am plugins/plan-perfect/Makefile.am
+	plugins/sc/Makefile.am plugins/sylk/Makefile.am
+	plugins/xbase/Makefile.am plugins/xml2/Makefile.am:
+	Installing every plugin in separate directory, together with plugin
+	descriptions (plugin.xml files).
+
+	* plugins/applix/plugin.xml, plugins/dif/plugin.xml,
+	plugins/gda/plugin.xml, plugins/html/plugin.xml,
+	plugins/lotus-123/plugin.xml, plugins/numtheory/plugin.xml,
+	plugins/oleo/plugin.xml, plugins/plan-perfect/plugin.xml,
+	plugins/python/plugin.xml, plugins/sc/plugin.xml,
+	plugins/sylk/plugin.xml, plugins/xbase/plugin.xml,
+	plugins/xml2/plugin.xml:
+	New files - plugin descriptions in XML files.
+
+2001-01-25  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Added error-info.[ch]
 
 	* error-info.[ch]: New files.

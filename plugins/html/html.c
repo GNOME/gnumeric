@@ -37,6 +37,14 @@
 #include "font.h"
 #include "rendered-value.h"
 
+static FileSaverId default_file_saver_id;
+
+void
+set_default_file_saver_id (FileSaverId file_saver_id)
+{
+	default_file_saver_id = file_saver_id; 
+}
+
 /*
  * escape special characters
  */
@@ -201,7 +209,7 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
  */
 int
 html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
-		      const char *filename)
+                      const char *filename, gpointer user_data)
 {
 	FILE *fp;
 	GList *sheet_list;
@@ -269,7 +277,7 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
  */
 int
 html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
-		      const char *filename)
+                      const char *filename, gpointer user_data)
 {
 	FILE *fp;
 	GList *sheet_list;
@@ -388,7 +396,7 @@ html_get_string (char *s, int *flags)
  */
 int
 html_read (IOContext *context, WorkbookView *wb_view,
-	   const char *filename)
+           const char *filename, gpointer user_data)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	FILE *fp;
@@ -400,8 +408,7 @@ html_read (IOContext *context, WorkbookView *wb_view,
 
 	g_return_val_if_fail (filename != NULL, -1);
 
-	workbook_set_saveinfo (wb, filename, FILE_FL_AUTO,
-			       html_write_wb_html32);
+	workbook_set_saveinfo (wb, filename, FILE_FL_AUTO, default_file_saver_id);
 
 	fp = fopen (filename, "r");
 	if (!fp) {

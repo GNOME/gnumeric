@@ -23,14 +23,17 @@
 #define GNUMERIC_PLUGIN_HTML_H
 
 #include "gnumeric.h"
+#include "file.h"
 #include "gnumeric-util.h"
 
+void set_default_file_saver_id (FileSaverId file_saver_id);
+
 int html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
-			  const char *filename);
+                          const char *filename, gpointer user_data);
 int html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
-			  const char *filename);
+                          const char *filename, gpointer user_data);
 int html_read		 (IOContext *context, WorkbookView *view,
-			  const char *filename);
+                      const char *filename, gpointer user_data);
 
 #define G_PLUGIN_FOR_HTML "GPFH/0.5"
 

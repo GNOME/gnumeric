@@ -4,6 +4,8 @@ INCLUDES = \
     -I$(includedir)	-I$(top_srcdir)/src		\
     $(GNOME_INCLUDEDIR)
 
-gnumeric_plugin_LTLIBRARIES = gnum_applix.la
-gnum_applix_la_LDFLAGS = -module -avoid-version
-gnum_applix_la_SOURCES = boot.c applix.h applix-read.c
+gnumeric_plugin_applixdir = $(gnumeric_plugindir)/applix
+gnumeric_plugin_applix_DATA = plugin.xml
+gnumeric_plugin_applix_LTLIBRARIES = applix.la
+applix_la_LDFLAGS = -module -avoid-version
+applix_la_SOURCES = boot.c applix.h applix-read.c

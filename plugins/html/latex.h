@@ -26,7 +26,7 @@
 #include "gnumeric-util.h"
 
 int html_write_wb_latex   (IOContext *context, WorkbookView *wb_view,
-			   const char *filename);
+                           const char *filename, gpointer user_data);
 int html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
-			   const char *filename);
+                           const char *filename, gpointer user_data);
 #endif

@@ -24,7 +24,10 @@
 #include "gnumeric.h"
 #include "func.h"
 #include "plugin.h"
+#include "plugin-util.h"
 #include "expr.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 static Gda_ConnectionPool* connection_pool = NULL;
 
@@ -156,11 +159,8 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	return ret;
 }
 
-/*
- + Plugin initialization
- */
-static int
-can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	FunctionDefinition *func;
 
@@ -168,8 +168,8 @@ can_unload (PluginData *pd)
 	return func != NULL && func->ref_count <= 1;
 }
 
-static void
-cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
 	FunctionDefinition *func;
 
@@ -183,25 +183,18 @@ cleanup_plugin (PluginData *pd)
 		gda_connection_pool_free(connection_pool);
 		connection_pool = NULL;
 	}
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
 	FunctionCategory *cat;
 
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
-	
 	/* register functions */
 	cat = function_get_category(_("Database"));
 	
 	function_add_args(cat, "execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, gnumeric_execSQL);
 	
-	if (plugin_data_init (pd, can_unload, cleanup_plugin,
-			      _("Database"),
-			      _("Database functions for allowing the retrieval of data from a database")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
+	return TRUE;
 }

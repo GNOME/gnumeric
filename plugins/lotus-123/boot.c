@@ -27,9 +27,14 @@
 #include "lotus.h"
 #include "lotus-types.h"
 #include "plugin.h"
+#include "plugin-util.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+
+static FileOpenerId lotus_opener_id;
 
 static gboolean
-lotus_probe (const char *filename)
+lotus_probe (const char *filename, gpointer user_data)
 {
 	const char *ext;
 	char magic[4];
@@ -62,7 +67,7 @@ lotus_probe (const char *filename)
 
 static int
 lotus_load (IOContext *context, WorkbookView *wb_view,
-	    const char *filename)
+            const char *filename, gpointer user_data)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	int ret;
@@ -70,38 +75,30 @@ lotus_load (IOContext *context, WorkbookView *wb_view,
 	ret = lotus_read (context, wb, filename);
 
 	if (ret == 0)
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
+		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
 
 	return ret;
 }
 
-static int
-lotus_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	return TRUE;
 }
 
-static void
-lotus_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_open (lotus_probe, lotus_load);
+	file_format_unregister_open (lotus_opener_id);
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
+	lotus_opener_id = file_format_register_open (
+	                  50, _("Lotus file format (*.wk1)"),
+	                  &lotus_probe, &lotus_load, NULL);
 
-	file_format_register_open (50,
-				   _("Lotus file format (*.wk1)"),
-				   &lotus_probe, &lotus_load);
-
-	if (plugin_data_init (pd, &lotus_can_unload, &lotus_cleanup_plugin,
-			      _("Lotus 123"),
-			      _("Imports Lotus 123 files")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
-
+	return TRUE;
 }
