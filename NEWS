@@ -43,6 +43,8 @@ Jody:
 	* Have 'MATCH/LOOKUP/HLOOKUP/VLOOKUP' handle blank criteria XLishly.
 	http://bugzilla.gnome.org/show_bug.cgi?id=123325    [countif]
 	* COUNTIF counts empties
+	* xls import for manual axis bounds and step
+	* xls import for chart and axis labels
 
 John Gill:
 	* Heuristics to improve finger feel of autofilter range selection

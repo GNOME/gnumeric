@@ -1,3 +1,14 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (role_label_post_add) : put y axis labels to the
+	  left or right not at the top.
+	(gog_axis_class_init) : enable y axis labels
+
+2003-10-07  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_dataset_dims) : enable setting the cross
+	  point.
+
 2003-10-07  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_update): Fake floor, not fake trunc.

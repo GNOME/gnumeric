@@ -46,9 +46,12 @@ libgoffice_graph_la_SOURCES = \
 	gog-data-allocator.h		\
 	gog-data-set.c			\
 	gog-data-set.h			\
+	\
 	go-data.c			\
 	go-data.h			\
 	go-data-impl.h			\
+	go-data-simple.c		\
+	go-data-simple.h		\
 	\
 	gog-guru.c			\
 	gog-guru.h			\

@@ -117,7 +117,8 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 {
 	Dependent *dep = gnm_go_data_get_dep (dat);
 
-	g_return_if_fail (dep != NULL);
+	if (dep == NULL)
+		return;
 
 	if (sheet != NULL) {
 		/* no expression ?
@@ -659,6 +660,7 @@ gnm_go_data_get_dep (GOData const *dat)
 {
 	if (IS_GNM_GO_DATA_SCALAR (dat))
 		return &((GnmGODataScalar *)dat)->dep;
-	g_return_val_if_fail (IS_GNM_GO_DATA_VECTOR (dat), NULL);
-	return &((GnmGODataVector *)dat)->dep;
+	if (IS_GNM_GO_DATA_VECTOR (dat))
+		return &((GnmGODataVector *)dat)->dep;
+	return NULL;
 }

@@ -1,3 +1,8 @@
+2003-10-07  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_get_dep) : Its ok to have other GOData's.
+	(gnm_go_data_set_sheet) : ditto.
+
 2003-10-06  Jody Goldberg <jody@gnome.org>
 
 	* src/value.c (criteria_test_equal) : privatize

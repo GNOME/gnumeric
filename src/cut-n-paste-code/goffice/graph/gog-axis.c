@@ -97,18 +97,21 @@ role_label_post_add (GogObject *parent, GogObject *label)
 	if (axis->pos == GOG_AXIS_AT_LOW)
 		label->position = (axis->type == GOG_AXIS_X)
 			? (GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER)
-			: (GOG_POSITION_N|GOG_POSITION_ALIGN_START);
+			: (GOG_POSITION_W|GOG_POSITION_ALIGN_CENTER);
 	else
 		label->position = (axis->type == GOG_AXIS_X)
 			? (GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER)
-			: (GOG_POSITION_N|GOG_POSITION_ALIGN_END);
+			: (GOG_POSITION_E|GOG_POSITION_ALIGN_CENTER);
 }
+
+#if 0
 static gboolean
 role_label_can_add (GogObject const *parent)
 {
 	GogAxis const *axis = GOG_AXIS (parent);
 	return axis->type == GOG_AXIS_X;
 }
+#endif
 
 static gboolean
 gog_axis_set_pos (GogAxis *axis, GogAxisPosition pos)
@@ -541,7 +544,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	static GogObjectRole const roles[] = {
 		{ N_("Label"), "GogLabel", 0,
 		  GOG_POSITION_COMPASS, GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
-		  role_label_can_add, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } }
+		  NULL, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } }
 	};
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
@@ -636,14 +639,14 @@ static void
 gog_axis_dataset_dims (GogDataset const *set, int *first, int *last)
 {
 	*first = AXIS_ELEM_MIN;
-	*last  = AXIS_ELEM_MINOR_TICK;
+	*last  = AXIS_ELEM_CROSS_POINT;
 }
 
 static GogDatasetElement *
 gog_axis_dataset_get_elem (GogDataset const *set, int dim_i)
 {
 	GogAxis *axis = GOG_AXIS (set);
-	if (AXIS_ELEM_MIN <= dim_i && dim_i <= AXIS_ELEM_MINOR_TICK)
+	if (AXIS_ELEM_MIN <= dim_i && dim_i <= AXIS_ELEM_CROSS_POINT)
 		return &axis->source[dim_i];
 	return NULL;
 }
