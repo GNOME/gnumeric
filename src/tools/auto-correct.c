@@ -27,11 +27,13 @@
 #include "gnumeric.h"
 #include "auto-correct.h"
 #include "dates.h"
+#include "application.h"
 
 #include <ctype.h>
 #include <string.h>
-#include <libgnome/gnome-config.h>
+#include <gnumeric-gconf.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 
 static struct {
 	gboolean init_caps	: 1;
@@ -40,35 +42,75 @@ static struct {
 	gboolean replace	: 1;
 
 	struct {
-		GList *first_letter;
-		GList *init_caps;
+		GSList *first_letter;
+		GSList *init_caps;
 	} exceptions;
+	
+	guint notification_id;
 } autocorrect;
+
+
+static void
+cb_autocorrect_notification (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     gpointer ignore)
+{
+	autocorrect_init ();
+}
 
 void
 autocorrect_init (void)
 {
-	gnome_config_push_prefix ("Gnumeric/AutoCorrect/");
-	autocorrect.init_caps = gnome_config_get_bool ("init_caps=true");
-	autocorrect.first_letter = gnome_config_get_bool ("first_letter=true");
-	autocorrect.names_of_days = gnome_config_get_bool ("names_of_days=true");
-	autocorrect.replace = gnome_config_get_bool ("replace=true");
-	gnome_config_pop_prefix ();
+	GConfClient *client = application_get_gconf_client ();
 
-	/* TODO */
+	autocorrect.init_caps =  gconf_client_get_bool (client, AUTOCORRECT_INIT_CAPS, NULL);
+	autocorrect.first_letter = gconf_client_get_bool (client, AUTOCORRECT_FIRST_LETTER, NULL);
+	autocorrect.names_of_days = gconf_client_get_bool (client, AUTOCORRECT_NAMES_OF_DAYS, 
+							   NULL);
+	autocorrect.replace = gconf_client_get_bool (client, AUTOCORRECT_REPLACE, NULL);
+
+	e_free_string_slist (autocorrect.exceptions.first_letter);
+	autocorrect.exceptions.first_letter = gconf_client_get_list (client, 
+								     AUTOCORRECT_FIRST_LETTER_LIST,
+								     GCONF_VALUE_STRING, NULL);
+	e_free_string_slist (autocorrect.exceptions.init_caps);
+	autocorrect.exceptions.init_caps = gconf_client_get_list (client, 
+								  AUTOCORRECT_INIT_CAPS_LIST,
+								  GCONF_VALUE_STRING, NULL);
+
+	autocorrect.notification_id = gconf_client_notify_add (client, AUTOCORRECT_DIRECTORY,
+				   (GConfClientNotifyFunc) cb_autocorrect_notification,
+				   NULL, NULL, NULL);
+}
+
+void
+autocorrect_shutdown (void)
+{
+	gconf_client_notify_remove (application_get_gconf_client (), 
+				    autocorrect.notification_id);
+	
+	e_free_string_slist (autocorrect.exceptions.first_letter);
 	autocorrect.exceptions.first_letter = NULL;
+	e_free_string_slist (autocorrect.exceptions.init_caps);
 	autocorrect.exceptions.init_caps = NULL;
 }
 
 void
 autocorrect_store_config (void)
 {
-	gnome_config_push_prefix ("Gnumeric/AutoCorrect/");
-	gnome_config_set_bool ("init_caps", autocorrect.init_caps);
-	gnome_config_set_bool ("first_letter", autocorrect.first_letter);
-	gnome_config_set_bool ("names_of_days", autocorrect.names_of_days);
-	gnome_config_set_bool ("replace", autocorrect.replace);
-	gnome_config_pop_prefix ();
+	GConfClient *client = application_get_gconf_client ();
+
+	gconf_client_set_bool (client, AUTOCORRECT_INIT_CAPS, autocorrect.init_caps, NULL);
+	gconf_client_set_bool (client, AUTOCORRECT_FIRST_LETTER, autocorrect.first_letter, 
+			       NULL);
+	gconf_client_set_bool (client, AUTOCORRECT_NAMES_OF_DAYS, autocorrect.names_of_days, 
+			       NULL);
+	gconf_client_set_bool (client, AUTOCORRECT_REPLACE, autocorrect.replace, NULL);
+	gconf_client_set_list (client, AUTOCORRECT_INIT_CAPS_LIST, GCONF_VALUE_STRING,
+                                       autocorrect.exceptions.init_caps, NULL);
+	gconf_client_set_list (client, AUTOCORRECT_FIRST_LETTER_LIST, GCONF_VALUE_STRING,
+                                       autocorrect.exceptions.first_letter, NULL);
+
+	gconf_client_suggest_sync (client, NULL);
 }
 
 gboolean
@@ -98,11 +140,11 @@ autocorrect_set_feature (AutoCorrectFeature feature, gboolean val)
 	};
 }
 
-GList *
+GSList const*
 autocorrect_get_exceptions (AutoCorrectFeature feature)
 {
 	switch (feature) {
-	case AC_INIT_CAPS :	return autocorrect.exceptions.init_caps;
+	case AC_INIT_CAPS :     return autocorrect.exceptions.init_caps;
 	case AC_FIRST_LETTER :	return autocorrect.exceptions.first_letter;
 	default :
 		g_warning ("Invalid autocorrect feature %d.", feature);
@@ -111,11 +153,23 @@ autocorrect_get_exceptions (AutoCorrectFeature feature)
 }
 
 void
-autocorrect_set_exceptions (AutoCorrectFeature feature, GList *list)
+autocorrect_set_exceptions (AutoCorrectFeature feature, GSList const *list)
 {
+	GSList *new_list = NULL, *this;
+	
+	for (this = (GSList *)list; this; this = this->next)
+		new_list = g_slist_prepend (new_list, g_strdup ((char *) this->data));
+	new_list = g_slist_reverse (new_list);
+		
 	switch (feature) {
-	case AC_INIT_CAPS :    autocorrect.exceptions.init_caps = list;	   break;
-	case AC_FIRST_LETTER : autocorrect.exceptions.first_letter = list; break;
+	case AC_INIT_CAPS :    
+		e_free_string_slist (autocorrect.exceptions.init_caps);
+		autocorrect.exceptions.init_caps = new_list;	   
+		break;
+	case AC_FIRST_LETTER : 
+		e_free_string_slist (autocorrect.exceptions.first_letter);
+		autocorrect.exceptions.first_letter = new_list; 
+		break;
 	default :
 		g_warning ("Invalid autocorrect feature %d.", feature);
 	};
@@ -141,7 +195,7 @@ autocorrect_tool (char const *command)
 		skip_ic_correct:
 			if (isupper (*s) && isupper (s[1])) {
 				if (islower (s[2])) {
-					GList *c = autocorrect.exceptions.init_caps;
+					GSList *c = autocorrect.exceptions.init_caps;
 					while (c != NULL) {
 						guchar *a = (guchar *)c->data;
 						if (strncmp (s, a, strlen (a))
@@ -175,7 +229,7 @@ autocorrect_tool (char const *command)
 			while (isspace(*s))
 				++s;
 			if (islower (*s) && (s == ucommand || isspace (s[-1]))) {
-				GList *cur = autocorrect.exceptions.first_letter;
+				GSList *cur = autocorrect.exceptions.first_letter;
 
 				for ( ; cur != NULL; cur = cur->next) {
 					guchar *t, *c = (guchar *)cur->data;

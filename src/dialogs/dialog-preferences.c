@@ -310,8 +310,7 @@ cb_value_edited (GtkCellRendererText *cell,
 		value = format_match_number (new_text, NULL);
 		if (value != NULL) {
 			the_float =  value_get_as_float (value);
-			gconf_client_set_float (application_get_gconf_client (),
-					      key, the_float, NULL);
+			gconf_client_set_float (client, key, the_float, NULL);
 		}
 		if (value)
 			value_release (value);
@@ -320,8 +319,7 @@ cb_value_edited (GtkCellRendererText *cell,
 		value = format_match_number (new_text, NULL);
 		if (value != NULL) {
 			the_int =  value_get_as_int (value);
-			gconf_client_set_int (application_get_gconf_client (),
-					      key, the_int, NULL);
+			gconf_client_set_int (client, key, the_int, NULL);
 		}
 		if (value)
 			value_release (value);
@@ -331,8 +329,7 @@ cb_value_edited (GtkCellRendererText *cell,
 		if (value != NULL) {
 			err = FALSE;
 			the_bool =  value_get_as_bool (value, &err);
-			gconf_client_set_bool (application_get_gconf_client (),
-					       key, the_bool, NULL);
+			gconf_client_set_bool (client, key, the_bool, NULL);
 		}
 		if (value)
 			value_release (value);
@@ -437,16 +434,11 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data,
 /*                     Default Font Selector                                               */
 /*******************************************************************************************/
 
-#define GCONF_FONT_NAME "/apps/gnumeric/core/defaultfont/name"
-#define GCONF_FONT_SIZE "/apps/gnumeric/core/defaultfont/size"
-#define GCONF_FONT_BOLD "/apps/gnumeric/core/defaultfont/bold"
-#define GCONF_FONT_ITALIC "/apps/gnumeric/core/defaultfont/italic"
-
 static void 
 pref_font_page_open (PrefState *state, gpointer data, 
 					  GtkNotebook *notebook, gint page_num)
 {
-	dialog_pref_load_description_from_schema (state, "/schemas" GCONF_FONT_NAME);
+	dialog_pref_load_description_from_schema (state, "/schemas" GNUMERIC_GCONF_FONT_NAME);
 }
 
 static void
@@ -454,26 +446,26 @@ cb_pref_font_set_fonts (GConfClient *gconf, guint cnxn_id, GConfEntry *entry,
 		     GtkWidget *page)
 {
 	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry), 
-					  GCONF_FONT_NAME)) {
+					  GNUMERIC_GCONF_FONT_NAME)) {
 		char      *font_name = gconf_client_get_string (gconf,
-					  GCONF_FONT_NAME, NULL);
+					  GNUMERIC_GCONF_FONT_NAME, NULL);
 		font_selector_set_name      (FONT_SELECTOR (page), font_name);
 		g_free (font_name);	
 	}
 	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry), 
-					  GCONF_FONT_SIZE)) {
+					  GNUMERIC_GCONF_FONT_SIZE)) {
 		double    size = gconf_client_get_float (gconf,
-					  GCONF_FONT_SIZE, NULL);
+					  GNUMERIC_GCONF_FONT_SIZE, NULL);
 		font_selector_set_points    (FONT_SELECTOR (page), size);
 	}
 	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry), 
-					  GCONF_FONT_BOLD)
+					  GNUMERIC_GCONF_FONT_BOLD)
 	    || 0 == strcmp (gconf_entry_get_key (entry), 
-			    GCONF_FONT_ITALIC)) {
+			    GNUMERIC_GCONF_FONT_ITALIC)) {
 		gboolean  is_bold = gconf_client_get_bool (gconf,
-			    GCONF_FONT_BOLD, NULL);
+			    GNUMERIC_GCONF_FONT_BOLD, NULL);
 		gboolean  is_italic = gconf_client_get_bool (gconf,
-			    GCONF_FONT_ITALIC, NULL);
+			    GNUMERIC_GCONF_FONT_ITALIC, NULL);
 		font_selector_set_style     (FONT_SELECTOR (page), is_bold, is_italic);
 	}
 }
@@ -483,19 +475,19 @@ cb_pref_font_has_changed (FontSelector *fs, MStyle *mstyle, PrefState *state)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
 		gconf_client_set_float (state->gconf,
-					GCONF_FONT_SIZE,
+					GNUMERIC_GCONF_FONT_SIZE,
 					mstyle_get_font_size (mstyle), NULL);
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
 		gconf_client_set_string (state->gconf,
-					 GCONF_FONT_NAME,
+					 GNUMERIC_GCONF_FONT_NAME,
 					 mstyle_get_font_name (mstyle), NULL);
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
 		gconf_client_set_bool (state->gconf,
-				       GCONF_FONT_BOLD,
+				       GNUMERIC_GCONF_FONT_BOLD,
 				       mstyle_get_font_bold (mstyle), NULL);
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
 		gconf_client_set_bool (state->gconf,
-				       GCONF_FONT_ITALIC,
+				       GNUMERIC_GCONF_FONT_ITALIC,
 				       mstyle_get_font_italic (mstyle), NULL);
 	return TRUE;
 }
@@ -509,7 +501,7 @@ GtkWidget *pref_font_initializer (PrefState *state, gpointer data,
 
 	cb_pref_font_set_fonts (state->gconf, 0, NULL, page);
 
-	notification = gconf_client_notify_add (state->gconf, "/apps/gnumeric/core/defaultfont",
+	notification = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_FONT_DIRECTORY,
 						(GConfClientNotifyFunc) cb_pref_font_set_fonts,
 						page, NULL, NULL);
 	
@@ -764,6 +756,9 @@ static page_info_t page_info[] = {
 static gboolean
 cb_preferences_destroy (GtkWidget *widget, PrefState *state)
 {
+	if (state->gconf)
+		gconf_client_suggest_sync (state->gconf, NULL);
+
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;

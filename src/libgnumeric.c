@@ -40,6 +40,7 @@
 #include "expr.h"
 #include "rendered-value.h"
 #include "gnumeric-gconf.h"
+#include "auto-correct.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -222,6 +223,7 @@ main (int argc, char *argv [])
 	print_init ();
 	autofill_init ();
 	sheet_object_register ();
+	autocorrect_init ();
 
 	/* The statically linked in file formats */
 	xml_init ();
@@ -325,6 +327,7 @@ main (int argc, char *argv [])
 
 	application_release_pref_dialog ();
 
+	autocorrect_shutdown ();
 	plugins_shutdown ();
 	print_shutdown ();
 	auto_format_shutdown ();

@@ -22,6 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
+
+
+/*
+ *  FIXME:  since we are displaying gconf data, we should register a notification and 
+ *          update our info on gconf changes!
+ *
+ */
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
@@ -32,13 +40,14 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <gal/util/e-util.h>
 
 typedef struct {
 	gboolean   changed;
 	gint       row;
         GtkWidget *entry;
         GtkWidget *list;
-	GList	  *exceptions;
+	GSList	  *exceptions;
 } AutoCorrectExceptionState;
 
 typedef struct {
@@ -56,7 +65,7 @@ cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 {
 	gchar const *txt;
         gchar    *dumy[2], *str;
-	GList    *ptr;
+	GSList    *ptr;
 	gboolean new_flag = TRUE;
 
 	txt = gtk_entry_get_text (GTK_ENTRY (s->entry));
@@ -77,7 +86,7 @@ cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 		str = g_strdup (txt);
 		row = gtk_clist_append(GTK_CLIST (s->list), dumy);
 		gtk_clist_set_row_data (GTK_CLIST (s->list), row, str);
-		s->exceptions = g_list_prepend (s->exceptions, str);
+		s->exceptions = g_slist_prepend (s->exceptions, str);
 		s->changed = TRUE;
 	}
 	gtk_entry_set_text (GTK_ENTRY (s->entry), "");
@@ -90,7 +99,7 @@ cb_remove_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 	        gpointer x = gtk_clist_get_row_data (GTK_CLIST (s->list),
 						     s->row);
 	        gtk_clist_remove (GTK_CLIST (s->list), s->row);
-		s->exceptions = g_list_remove (s->exceptions, x);
+		s->exceptions = g_slist_remove (s->exceptions, x);
 		g_free (x);
 		s->changed = TRUE;
 	}
@@ -106,18 +115,18 @@ cb_select_row (GtkWidget *widget, gint row, gint col, GdkEventButton *event,
 static void
 autocorrect_init_exception_list (AutoCorrectState *state,
 				 AutoCorrectExceptionState *exception,
-				 GList *exceptions,
+				 GSList const *exceptions,
 				 char const *entry_name,
 				 char const *list_name,
 				 char const *add_name,
 				 char const *remove_name)
 {
 	GtkWidget *w;
-	GList     *ptr;
+	GSList     *ptr;
 
 	exception->changed = FALSE;
 	exception->row = -1;
-	exception->exceptions = exceptions;
+	exception->exceptions = NULL;
 	exception->entry = glade_xml_get_widget (state->glade, entry_name);
 	exception->list = glade_xml_get_widget (state->glade, list_name);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -125,15 +134,19 @@ autocorrect_init_exception_list (AutoCorrectState *state,
 	g_signal_connect (G_OBJECT (exception->list),
 		"select_row",
 		G_CALLBACK (cb_select_row), exception);
-	for (ptr = exceptions; ptr != NULL; ptr = ptr->next) {
+	for (ptr = (GSList *)exceptions; ptr != NULL; ptr = ptr->next) {
 	        gchar *s[2], *txt = (gchar *) ptr->data;
 		gint  row;
+
+		exception->exceptions = g_slist_prepend (exception->exceptions,
+							 g_strdup (txt));
 
 	        s[0] = txt;
 		s[1] = NULL;
 		row = gtk_clist_append(GTK_CLIST (exception->list), s);
 		gtk_clist_set_row_data (GTK_CLIST (exception->list), row, txt);
 	}
+	exception->exceptions = g_slist_reverse (exception->exceptions);
 
 	w = glade_xml_get_widget (state->glade, add_name);
 	g_signal_connect (G_OBJECT (w),
@@ -170,6 +183,11 @@ ac_dialog_toggle_init (AutoCorrectState *state, char const *name,
 static gboolean
 cb_autocorrect_destroy (GtkObject *w, AutoCorrectState *state)
 {
+	e_free_string_slist (state->init_caps.exceptions);
+	state->init_caps.exceptions = NULL;
+	e_free_string_slist (state->first_letter.exceptions);
+	state->first_letter.exceptions = NULL;
+
 	if (state->glade != NULL) {
 		g_object_unref (G_OBJECT (state->glade));
 		state->glade = NULL;

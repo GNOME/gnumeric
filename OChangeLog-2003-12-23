@@ -1,3 +1,10 @@
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-dialogs.schemas : add more preferences
+	* src/application.c : move autocorrect_init into src/main.c
+	* src/gnumeric-gconf.h : added defines and comments
+	* src/main.c : add autocorrect_init and autocorrect_shutdown
+
 2002-04-15  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (sheet_cell_add_to_hash): Plug leak.

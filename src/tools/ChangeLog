@@ -1,3 +1,9 @@
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* auto-correct.[ch] : switch from gnome-config to gconf and make
+	  preserve autocorrect exceptions. Make exception lists into 
+	  GSList
+
 2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.c (dao_command_descriptor) : use cmd_range_to_str_utility

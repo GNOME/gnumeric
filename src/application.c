@@ -199,7 +199,6 @@ application_init (void)
 	if (err || app.auto_expr_recalc_lag == 0)
 		app.auto_expr_recalc_lag = 200;
 
-	autocorrect_init ();
 }
 
 static GList *workbook_list = NULL;

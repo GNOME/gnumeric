@@ -21,6 +21,70 @@
         <long>The function selector keeps a list of recently used functions. This is the maximum length of that list.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/init-caps</key>
+        <applyto>/apps/gnumeric/autocorrect/init-caps</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocorrect Initial Caps</short>
+        <long>Autocorrect initial caps</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/init-caps-list</key>
+        <applyto>/apps/gnumeric/autocorrect/init-caps-list</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of Init Caps Exceptions</short>
+        <long>The autocorrect engine does not correct the inital caps for words in this list.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/first-letter</key>
+        <applyto>/apps/gnumeric/autocorrect/first-letter</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocorrect First Letter</short>
+        <long>Autocorrect first letter</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/first-letter-list</key>
+        <applyto>/apps/gnumeric/autocorrect//first-letter-list</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of First Letter Exceptions</short>
+        <long>The autocorrect engine does not correct the first letter for words in this list.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/names-of-days</key>
+        <applyto>/apps/gnumeric/autocorrect/names-of-days</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocorrect Names od Days</short>
+        <long>Autocorrect names of days</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/replace</key>
+        <applyto>/apps/gnumeric/autocorrect/replace</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocorrect Replace</short>
+        <long>Autocorrect replace</long>
+        </locale>
+      </schema>
     </schemalist>
 </gconfschemafile>
   

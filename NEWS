@@ -26,6 +26,7 @@ Andreas:
 	* Fix CONCATENATE (#78610)
 	* Add number of sheets preference
 	* Start to UTF8 some of the string functions
+	* Preserve autocorrect exception lists
 
 Jody:
 	* Add password dialog to support encrypted input.
