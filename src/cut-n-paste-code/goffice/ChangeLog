@@ -2,6 +2,7 @@
 
 	* Makefile.am (INCLUDES): Remove -I$(top_srcdir)/src/cut-n-paste-code/goffice.
 	Fix the remaining includes.
+	* goffice.c (go_sys_icon_dir): Fix typo.
 
 2005-02-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 

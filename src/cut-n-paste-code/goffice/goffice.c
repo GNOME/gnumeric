@@ -60,7 +60,7 @@ go_sys_data_dir ()
 char const *
 go_sys_icon_dir ()
 {
-	return libgoffice_data_dir;
+	return libgoffice_icon_dir;
 }
 
 void
