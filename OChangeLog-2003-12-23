@@ -1,3 +1,9 @@
+2000-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_set_expr_unsafe) : Split from cell_set_expr.
+
+	* src/eval.c (invalidate_refs) : Use cell_set_expr_unsafe.
+
 2000-05-06  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/stf-parse.c (stf_parse_is_valid_data) : Add
@@ -31,6 +37,9 @@
 	deps of all sheets up front.
 
 2000-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_set_zoom_factor) : Depending on the order of
+	  initialization we may also need to render some unrendered values.
 
 	* src/parse-util.c (parse_text_value_or_expr) : Be sure the clear the
 	  expr if we are returning a value.

@@ -457,8 +457,10 @@ sheet_set_zoom_factor (Sheet *sheet, double const f)
 	/*
 	 * The font size does not scale linearly with the zoom factor
 	 * we will need to recalculate the pixel sizes of all cells.
+	 * We also need to render any cells which have not yet been
+	 * rendered.
 	 */
-	sheet_calc_spans (sheet, SPANCALC_SIMPLE);
+	sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RENDER);
 
 	sheet_update_zoom_controls (sheet);
 }

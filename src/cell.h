@@ -73,6 +73,8 @@ void        cell_set_value               (Cell *cell,
 void        cell_set_expr_and_value      (Cell *cell, ExprTree *expr, Value *v);
 void        cell_set_expr                (Cell *cell, ExprTree *formula,
 					  char const * optional_format);
+void	    cell_set_expr_unsafe 	 (Cell *cell, ExprTree *expr,
+					  char const *optional_format);
 void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
 					  int rowb, int colb,
 					  ExprTree *formula,

@@ -461,7 +461,7 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
  * 	- render value, calc dimension, compute spans
  * 	- link the expression into the master list.
  */
-static void
+void
 cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
 {
 	StyleFormat * fmt;
@@ -481,9 +481,9 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
 }
 
 /*
- * cell_set_expr : A routine that stores and references the supplied
- *         expression.  It marks the sheet as dirty.  Intented for use by
- *         import routines that do bulk assignment.
+ * cell_set_expr_unsafe : Stores and references the supplied expression.  It
+ *         marks the sheet as dirty.  Intented for use by import routines that
+ *         do bulk assignment.
  *
  * The cell IS marked for recalc.
  *
@@ -491,18 +491,29 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
  *
  * WARNING : This is an internal routine that does not queue redraws,
  *           does not auto-resize, and does not calculate spans.
- *
- * NOTE : This DOES check for array partitioning.
+ *           It also DOES NOT CHECK FOR ARRAY DIVISION.  Be very careful
+ *           using this.
+ */
+void
+cell_set_expr_unsafe (Cell *cell, ExprTree *expr, char const *optional_format)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (expr != NULL);
+
+	cell_set_expr_internal (cell, expr, optional_format);
+	cell_formula_changed (cell, TRUE);
+}
+
+/**
+ * cell_set_expr : A utility wrapper for cell_set_expr_unsafe.  That adds
+ *      checks for array subdivision.
  */
 void
 cell_set_expr (Cell *cell, ExprTree *expr, char const *optional_format)
 {
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (expr != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	cell_set_expr_internal (cell, expr, optional_format);
-	cell_formula_changed (cell, TRUE);
+	cell_set_expr_unsafe (cell, expr, optional_format);
 }
 
 /**

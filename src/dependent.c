@@ -224,11 +224,18 @@ invalidate_refs (Cell *cell, ExprRewriteInfo *rwinfo)
 	 * ( ie. serious breakage ) or we had a duplicate reference
 	 * and we have already removed it.
 	 */
-/*	fprintf (stderr, "Invalidating to #REF! in %s!%s %p\n",
-	cell->sheet->name_quoted, cell_name (cell), newtree); */
+	g_return_if_fail (newtree != NULL);
 
-	sheet_cell_set_expr (cell, newtree);
-	
+#if 0
+	fprintf (stderr, "Invalidating to #REF! in %s!%s %p\n",
+	cell->sheet->name_quoted, cell_name (cell), newtree);
+#endif
+
+	/*
+	 * Explicitly do not check for array subdivision, we may be replacing
+	 * the corner of an array.
+	 */
+	cell_set_expr_unsafe (cell, newtree, NULL);
 }
 
 static void
@@ -249,7 +256,7 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo *rwinfo)
 	if (deps->range_hash) {
 		g_hash_table_foreach (deps->range_hash,
 				      &cb_range_hash_to_list, &c);
-		
+
 		while (c.cell_list) {
 			invalidate_refs (c.cell_list->data, rwinfo);
 			c.cell_list = g_slist_remove (c.cell_list, c.cell_list->data);
@@ -267,7 +274,7 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo *rwinfo)
 	if (deps->single_hash) {
 		g_hash_table_foreach (deps->single_hash,
 				      &cb_single_hash_to_list, &c);
-		
+
 		while (c.cell_list) {
 			invalidate_refs (c.cell_list->data, rwinfo);
 			c.cell_list = g_slist_remove (c.cell_list, c.cell_list->data);
@@ -294,7 +301,7 @@ sheet_deps_destroy (Sheet *sheet)
 
 	rwinfo.type = EXPR_REWRITE_SHEET;
 	rwinfo.u.sheet = sheet;
-	
+
 	do_deps_destroy (sheet, &rwinfo);
 }
 
@@ -693,12 +700,12 @@ handle_tree_deps (Cell *cell, ExprTree *tree, DepOperation operation)
 
 /**
  * cell_add_dependencies:
- * @cell: 
- * 
+ * @cell:
+ *
  * This registers the dependencies for this cell
  * by scanning all of the references made in the
  * parsed expression.
- * 
+ *
  **/
 void
 cell_add_dependencies (Cell *cell)
@@ -730,8 +737,8 @@ cell_add_explicit_dependency (Cell *cell, const CellRef *ref)
 
 /**
  * cell_drop_dependencies:
- * @cell: 
- * 
+ * @cell:
+ *
  * Remove the Cell from the DependencyRange hash tables
  **/
 void

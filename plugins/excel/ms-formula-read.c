@@ -773,6 +773,17 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 }
 
 /**
+ * ms_excel_dump_cellname : internal utility to dump the current location safely.
+ */
+static void
+ms_excel_dump_cellname (ExcelSheet *sheet, int fn_col, int fn_row)
+{
+	if (sheet && sheet->gnum_sheet && sheet->gnum_sheet->name_unquoted)
+		printf ("%s!", sheet->gnum_sheet->name_unquoted);
+	printf ("%s%d : ", col_name(fn_col), fn_row+1);
+}
+
+/**
  * Parse that RP Excel formula, see S59E2B.HTM
  * Return a dynamicly allocated ExprTree containing the formula, or NULL
  **/
@@ -1156,11 +1167,11 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			guint16 w     = MS_OLE_GET_GUINT16(cur+1) ;
 			ptg_length = 3 ;
 			if (grbit == 0x00) {
-				static gboolean need_warn = TRUE;
-				if (need_warn) {
-					printf ("pgtAttr grbits == 0 ??  What is this, it is not documented.\n") ;
-					need_warn = FALSE;
-				}
+				ms_excel_dump_cellname (sheet, fn_col, fn_row);
+				printf ("Hmm, ptgAttr with flag of 0 ??\n"
+					"This appears to indicate a 1x1 array formula, what do the flags mean.\n"
+					"I have seen flags of 0x3, and 0xA.  What values does this one have ?\n"
+					"flags = 0x%X\n", w);
 			} else if (grbit & 0x01) {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 0) {
@@ -1243,10 +1254,8 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 				;
 #endif
 			} else {
-				if (sheet && sheet->gnum_sheet && sheet->gnum_sheet->name_unquoted)
-					printf ("%s!", sheet->gnum_sheet->name_unquoted);
-				printf ("%s%d : Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n",
-					col_name(fn_col), fn_row+1, grbit, w, ptg) ;
+				ms_excel_dump_cellname (sheet, fn_col, fn_row);
+				printf ("Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg) ;
 				error = TRUE ;
 			}
 		}
