@@ -1,0 +1,249 @@
+#
+# import-GLPK: Use this script to import GLPK into the Gnumeric
+#              Tested with glpk 3.2.
+#
+# GLPK is the GNU Linear Programming Kit. You can get the latest version
+# from any GNU mirror ftp site in the glpk directory.
+#
+# The script performs the following modifications to the original source
+# code:
+#       - imports only the selected files from the original source code
+#         distribution
+#       - creates the necessary 'Makefile.am's
+#       - uses gnum_float instead of double in all places
+#
+#
+# Author:
+#         Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+#
+
+
+#
+# Check the command line arguments.
+#
+
+$glpk_path = @ARGV[0];
+$dest_path = @ARGV[1];
+
+# Check paths.
+if ($glpk_path eq "" || $dest_path eq "") {
+    print "Usage: import-GLPK <glpk-path> <destination-path>\n";
+    print "Both paths should be directories.\n\n";
+    exit;
+}
+
+
+#
+# Create destination directory hierarchy
+#
+
+#system "rm -rf $dest_path";
+mkdir $dest_path;
+mkdir "$dest_path/doc";
+mkdir "$dest_path/include";
+mkdir "$dest_path/source";
+
+
+#
+# Select files that are copied as is, like documentation etc.
+#
+
+$x=0;
+
+$files[$x++] = "AUTHORS";
+$files[$x++] = "ChangeLog";
+$files[$x++] = "NEWS";
+$files[$x++] = "README";
+$files[$x++] = "doc/bench.txt";
+$files[$x++] = "doc/lang.latex";
+$files[$x++] = "doc/refman.latex";
+$files[$x++] = "@";
+
+for ($i = 0; $files[$i] ne "@"; $i++) {
+    system "cp $glpk_path/$files[$i] $dest_path/$files[$i]";
+}
+
+
+#
+# Select source code files that are filtered to be Gnumeric friedly.
+#
+
+# Add these Gnumeric headers
+$x=0;
+
+$gnumeric_inc[$x++] = "gnumeric.h";
+$gnumeric_inc[$x++] = "numbers.h";
+$gnumeric_inc[$x++] = "@";
+
+
+# Select these sources to be imported into Gnumeric
+$x=0;
+
+#$src[$x++] = "include/glpavl.h";
+$src[$x++] = "include/glphbsm.h";
+$src[$x++] = "include/glpipm.h";
+$src[$x++] = "include/glplib.h";
+$src[$x++] = "include/glpluf.h";
+$src[$x++] = "include/glpqmd.h";
+$src[$x++] = "include/glpspx.h";
+$src[$x++] = "include/glpbbm.h";
+##$src[$x++] = "include/glpimg.h";
+$src[$x++] = "include/glpk.h";
+$src[$x++] = "include/glplp.h";
+$src[$x++] = "include/glpmat.h";
+$src[$x++] = "include/glprsm.h";
+$src[$x++] = "include/glpstr.h";
+##$src[$x++] = "include/glpchol.h";
+$src[$x++] = "include/glpinv.h";
+$src[$x++] = "include/glplang.h";
+$src[$x++] = "include/glplpx.h";
+##$src[$x++] = "include/glpmps.h";
+$src[$x++] = "include/glpspm.h";
+##$src[$x++] = "include/glptext.h";
+
+##$src[$x++] = "source/glplpx1.c";
+##$src[$x++] = "source/glpavl.c";
+$src[$x++] = "source/glpinv.c";      # inv_btran, ...
+##$src[$x++] = "source/glplan5.c";
+$src[$x++] = "source/glplp.c";       # delete_lp, ...
+$src[$x++] = "source/glplpx6a.c";    # lpx_simplex
+$src[$x++] = "source/glpmat1.c";     # delete_mat, ...
+$src[$x++] = "source/glpspm.c";      # spm_delete, ...
+$src[$x++] = "source/glpbbm.c";      # bbm1_driver
+##$src[$x++] = "source/glpipm.c";
+##$src[$x++] = "source/glplan6.c";
+$src[$x++] = "source/glplpx1.c";     # lpx_set_row_bnds, lpx_create_prob,...
+##$src[$x++] = "source/glplpx6b.c";
+##$src[$x++] = "source/glpmat2.c";
+$src[$x++] = "source/glpspx1.c";     # spx_update, ...
+##$src[$x++] = "source/glpchol.c";
+##$src[$x++] = "source/glplan1.c";
+##$src[$x++] = "source/glplan7.c";
+$src[$x++] = "source/glplpx2.c";     # lpx_get_mat_col, ...
+$src[$x++] = "source/glplpx6c.c";    # lpx_integer
+##$src[$x++] = "source/glpmps.c";
+$src[$x++] = "source/glpspx2.c";     # spx_reset_refsp, ...
+##$src[$x++] = "source/glphbsm.c";
+##$src[$x++] = "source/glplan2.c";
+$src[$x++] = "source/glplib1.c";     # lib_get_ptr
+$src[$x++] = "source/glplpx3.c";     # lpx_reset_parms
+##$src[$x++] = "source/glplpx7.c";
+##$src[$x++] = "source/glpqmd.c";
+##$src[$x++] = "source/glpstr1.c";
+##$src[$x++] = "source/glpimg1.c";
+##$src[$x++] = "source/glplan3.c";
+$src[$x++] = "source/glplib2.c";     # ucalloc, ...
+$src[$x++] = "source/glplpx4.c";     # lpx_scale_prob, lpx_unscale_prob
+##$src[$x++] = "source/glplpx8.c";
+$src[$x++] = "source/glprsm1.c";     # harris_col, check_dvec, ...
+$src[$x++] = "source/glpstr2.c";     # delete_str, get_str, ...
+##$src[$x++] = "source/glpimg2.c";
+##$src[$x++] = "source/glplan4.c";
+$src[$x++] = "source/glplib3.c";     # get_atom
+##$src[$x++] = "source/glplpx5.c";
+$src[$x++] = "source/glpluf.c";      # luf_create
+$src[$x++] = "source/glprsm2.c";     # rsm_primal, rsm_dual, rsm_feas
+##$src[$x++] = "source/glptext.c";
+$src[$x++] = "@";
+
+#
+# Filter sources
+#
+
+for ($i = 0; $src[$i] ne "@"; $i++) {
+    open in, "$glpk_path/$src[$i]";
+    open outfile, ">$dest_path/$src[$i]";
+    $flag = 0;
+
+    while (<in>) {
+	if (/(.*)/) {
+	    $line = $1;
+ 
+	    # Use gnum_float instead of double
+	    while ($line =~s/double/gnum_float/) {}
+
+	    # Use sqrtgnum instead of sqrt
+	    while ($line =~s/sqrt\(/sqrtgnum \(/) {}
+
+	    # Use g_malloc instead of malloc
+	    while ($line =~s/[^u]malloc\(/g_malloc \(/) {}
+
+	    # Use g_free instead of free
+	    while ($line =~s/[^u]free\(/g_free \(/) {}
+
+	    print outfile "$line\n";
+
+	    # Add Gnumeric headers
+	    if ($flag && $line=~/\#define _(\w+)_H/) {
+		if ($1 eq $header_name) {
+		    print outfile "\n";
+		    for ($t = 0; $gnumeric_inc[$t] ne "@"; $t++) {
+			print outfile "\#include \"$gnumeric_inc[$t]\"\n";
+		    }
+		    $flag = 0;
+		    $header_name = "";
+		}
+	    } elsif ($line =~/\#ifndef _(\w+)_H/) {
+		$flag = 1;
+		$header_name = $1;
+	    } else {
+		$flag = 0;
+		$header_name = "";
+	    }
+	}
+    }
+
+    close outfile;
+    close in;
+}
+
+#
+# Create 'Makefile.am's
+#
+
+# glpk/Makefile.am
+open outfile, ">$dest_path/Makefile.am";
+print outfile "SUBDIRS = source\n\n";
+print outfile "INCLUDES =\t\t\t\t\t\t\\\n";
+print outfile "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
+print outfile "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
+print outfile "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
+print outfile "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
+print outfile "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
+print outfile "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
+print outfile "\t\$(GNUMERIC_CFLAGS)\n\n";
+print outfile "noinst_LIBRARIES = dummy.a\n\n";
+print outfile "dummy_a_SOURCES =\t\t\t\t\t\\\n";
+print outfile "\thello.c\n";
+close outfile;
+
+# glpk/source/Makefile.am
+open outfile, ">$dest_path/source/Makefile.am";
+print outfile "SUBDIRS = \n\n";
+print outfile "INCLUDES =\t\t\t\t\t\t\\\n";
+print outfile "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
+print outfile "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
+print outfile "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
+print outfile "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
+print outfile "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
+print outfile "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
+print outfile "\t\$(GNUMERIC_CFLAGS)\n\n";
+print outfile "noinst_LIBRARIES = libglpk.a\n\n";
+print outfile "libglpk_a_SOURCES =\t\t\t\t\t\\\n";
+for ($i = 0; $src[$i] ne "@"; $i++) {
+    $name = $src[$i];
+    if ($name=~/include\//) {
+	next;
+    }
+    $name =~s/source\///;
+    print outfile "\t$name\t\t\t\t";
+    if ($src[$i + 1] eq "@") {
+	print outfile "\n";
+    } else {
+	print outfile "\\\n";
+    }
+}
+print outfile "\t\n";
+print outfile "\t\n";
+print outfile "\t\n";
+close outfile;
