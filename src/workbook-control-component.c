@@ -317,9 +317,6 @@ workbook_control_component_init (WorkbookControlComponent *wbcc,
 	wbcg_edit_ctor (wbcg);
 
 	/* We are not in edit mode */
-	wbcg->editing = FALSE;
-	wbcg->editing_sheet = NULL;
-	wbcg->editing_cell = NULL;
 	wbcg->rangesel = NULL;
 
 	wbcc->bcontrol = NULL;
