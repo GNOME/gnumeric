@@ -61,7 +61,7 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 	if (doc != NULL && doc->xmlRootNode != NULL
 	    && xmlSearchNsByHref (doc, doc->xmlRootNode, (xmlChar *)"http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
 	    && strcmp (doc->xmlRootNode->name, "FormatTemplateCategory") == 0
-	    && (translated_info_node = e_xml_get_child_by_name_by_lang_list (doc->xmlRootNode, "Information", NULL)) != NULL) {
+	    && (translated_info_node = e_xml_get_child_by_name_by_lang (doc->xmlRootNode, "Information")) != NULL) {
 		xmlChar *orig_name, *name, *description, *lang;
 
 		orig_info_node = e_xml_get_child_by_name_no_lang (doc->xmlRootNode, "Information");

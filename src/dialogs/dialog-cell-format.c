@@ -349,16 +349,17 @@ setup_pattern_button (GladeXML  *gui,
 
 static void
 setup_color_pickers (ColorPicker *picker,
-	             char const *const color_group,
-	             char const *const container,
-		     char const *const default_caption,
-		     char const *const caption,
+	             char const *color_group,
+	             char const *container,
+	             char const *label,
+		     char const *default_caption,
+		     char const *caption,
 		     FormatState *state,
 		     GCallback preview_update,
-		     MStyleElementType const e,
+		     MStyleElementType e,
 		     GnmStyle	 *mstyle)
 {
-	GtkWidget *combo, *box, *frame;
+	GtkWidget *combo, *w, *frame;
 	GOColorGroup *cg;
 	GnmColor *mcolor = NULL;
 	GnmColor *def_sc = NULL;
@@ -404,9 +405,12 @@ setup_color_pickers (ColorPicker *picker,
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_container_add (GTK_CONTAINER (frame), combo);
 
-	box = glade_xml_get_widget (state->gui, container);
-	gtk_box_pack_start (GTK_BOX (box), frame, FALSE, FALSE, 0);
+	w = glade_xml_get_widget (state->gui, container);
+	gtk_box_pack_start (GTK_BOX (w), frame, FALSE, FALSE, 0);
 	gtk_widget_show_all (frame);
+
+	w = glade_xml_get_widget (state->gui, label);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (w), combo);
 
 	if (def_sc)
 		style_color_unref (def_sc);
@@ -1013,6 +1017,9 @@ fmt_dialog_init_font_page (FormatState *state)
 		"entry_changed",
 		G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
+
+	tmp = glade_xml_get_widget (state->gui, "underline_label");
+	gtk_label_set_mnemonic_widget (GTK_LABEL (tmp), uline);
 
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_STRIKETHROUGH))
 		strikethrough = mstyle_get_font_strike (state->style);
@@ -2271,22 +2278,22 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 			default_border_style);
 
 	setup_color_pickers (&state->border.color, "border_color_group",
-			     "border_color_hbox",
+			     "border_color_hbox",	"border_color_label",
 			     _("Automatic"), _("Border"), state,
 			     G_CALLBACK (cb_border_color),
 			     MSTYLE_ELEMENT_UNSET, state->style);
 	setup_color_pickers (&state->font.color, "fore_color_group",
-			     "font_color_hbox",
+			     "font_color_hbox",		"font_color_label",
 			     _("Automatic"), _("Foreground"), state,
 			     G_CALLBACK (cb_font_preview_color),
 			     MSTYLE_COLOR_FORE, state->style);
 	setup_color_pickers (&state->back.back_color, "back_color_group",
-			     "back_color_hbox",
+			     "back_color_hbox",		"back_color_label",
 			     _("Clear Background"), _("Background"), state,
 			     G_CALLBACK (cb_back_preview_color),
 			     MSTYLE_COLOR_BACK, state->style);
 	setup_color_pickers (&state->back.pattern_color, "pattern_color_group",
-			     "pattern_color_hbox",
+			     "pattern_color_hbox",	"pattern_color_label",
 			     _("Automatic"), _("Pattern"), state,
 			     G_CALLBACK (cb_pattern_preview_color),
 			     MSTYLE_COLOR_PATTERN, state->style);

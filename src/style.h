@@ -7,8 +7,6 @@
 
 #define DEFAULT_FONT "Sans"
 #define DEFAULT_SIZE 10.0
-#define GCONF_DEFAULT_FONT "/apps/gnumeric/core/defaultfont/name"
-#define GCONF_DEFAULT_SIZE "/apps/gnumeric/core/defaultfont/size"
 
 /* Alignment definitions */
 /* Do not change these flags they are used as keys in the 1.0.x xml format.  */

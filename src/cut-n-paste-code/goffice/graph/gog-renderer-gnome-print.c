@@ -21,7 +21,7 @@
 
 #include <gnumeric-config.h>
 /* <style.h> is only needed for gnm_font_find_closest_from_weight_slant */
-#include <style.h>  
+#include <style.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -102,7 +102,7 @@ print_make_rectangle_path (GnomePrintContext *pc,
                            double right, double top)
 {
         g_return_if_fail (pc != NULL);
-                                                                                
+
         gnome_print_newpath   (pc);
         gnome_print_moveto    (pc, left, bottom);
         gnome_print_lineto    (pc, left, top);
@@ -149,11 +149,11 @@ static void
 gog_renderer_gnome_print_start_clipping (GogRenderer *rend)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
-	
+
 	gnome_print_gsave (prend->gp_context);
-	print_make_rectangle_path (prend->gp_context, 
+	print_make_rectangle_path (prend->gp_context,
 				   rend->clip_rectangle.x, -rend->clip_rectangle.y,
-				   rend->clip_rectangle.w + rend->clip_rectangle.x, 
+				   rend->clip_rectangle.w + rend->clip_rectangle.x,
 				   -rend->clip_rectangle.h - rend->clip_rectangle.y);
 	gnome_print_clip (prend->gp_context);
 }
@@ -204,7 +204,7 @@ gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path,
 	GogStyle const *style = renderer->cur_style;
 
 	set_color (prend, style->line.color);
-	gnome_print_setlinewidth (prend->gp_context, 
+	gnome_print_setlinewidth (prend->gp_context,
 		gog_renderer_line_size (renderer, style->line.width));
 	if (bound != NULL)
 		setup_clip (prend, bound);
@@ -289,7 +289,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 			gnome_print_gsave (prend->gp_context);
 			gnome_print_clip (prend->gp_context);
 			render = art_render_new (0, 0, PIXBUF_SIZE, PIXBUF_SIZE,
-				gdk_pixbuf_get_pixels (image), 
+				gdk_pixbuf_get_pixels (image),
 				gdk_pixbuf_get_rowstride (image),
 				gdk_pixbuf_get_n_channels (image) - 1,
 				8, ART_ALPHA_SEPARATE, NULL);
@@ -320,6 +320,18 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 			gnome_print_gsave (prend->gp_context);
 			gnome_print_clip (prend->gp_context);
 			switch (style->fill.u.image.type) {
+			case GOG_IMAGE_CENTERED:
+				w = (bbox.x1 - bbox.x0) - gdk_pixbuf_get_width (image);
+				if (w > 0) w /= 2.; else w = 0.;
+				h = (bbox.y1 - bbox.y0) - gdk_pixbuf_get_height (image);
+				if (h > 0) h /= 2.; else h = 0.;
+
+				gnome_print_translate (prend->gp_context,
+					bbox.x0 + w, - bbox.y1 - h);
+				print_image (prend, image,
+					gdk_pixbuf_get_width (image),
+					gdk_pixbuf_get_height (image));
+				break;
 			case GOG_IMAGE_STRETCHED:
 				gnome_print_translate (prend->gp_context, bbox.x0, - bbox.y1);
 				gnome_print_scale (prend->gp_context, bbox.x1 - bbox.x0, bbox.y1 - bbox.y0);
@@ -379,7 +391,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 
 	if (with_outline) {
 		set_color (prend, style->outline.color);
-		gnome_print_setlinewidth (prend->gp_context, 
+		gnome_print_setlinewidth (prend->gp_context,
 			gog_renderer_line_size (renderer, style->outline.width));
 		gnome_print_stroke (prend->gp_context);
 	}
@@ -477,7 +489,7 @@ gog_renderer_gnome_print_draw_marker (GogRenderer *renderer, double x, double y)
 
 	outline_path = art_vpath_affine_transform (outline_path_raw, affine);
 	fill_path = art_vpath_affine_transform (fill_path_raw, affine);
-	
+
 	gnome_print_setlinecap (prend->gp_context, ART_PATH_STROKE_CAP_ROUND);
 	set_color (prend, marker->fill_color);
 	draw_path (prend, fill_path);
@@ -485,13 +497,13 @@ gog_renderer_gnome_print_draw_marker (GogRenderer *renderer, double x, double y)
 	gnome_print_fill (prend->gp_context);
 
 	set_color (prend, marker->outline_color);
-	gnome_print_setlinewidth (prend->gp_context, 
-		gog_renderer_line_size (renderer, 
+	gnome_print_setlinewidth (prend->gp_context,
+		gog_renderer_line_size (renderer,
 					go_marker_get_outline_width (marker)));
 	draw_path (prend, outline_path);
 	gnome_print_stroke (prend->gp_context);
 	gnome_print_newpath (prend->gp_context);
-	
+
 	gnome_print_grestore (prend->gp_context);
 
 	g_free (outline_path);

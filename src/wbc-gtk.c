@@ -474,14 +474,22 @@ wbc_gtk_init_color_back (WBCgtk *gtk)
 /****************************************************************************/
 
 static void
-cb_font_name_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
+cb_font_name_changed (GOActionComboText *a, WBCgtk *gtk)
 {
-#if 0
-	MStyle *style = mstyle_new ();
-	mstyle_set_font_name (style, font_name);
-	cmd_selection_format (WORKBOOK_CONTROL (wbcg),
-		style, NULL, _("Set Font"));
-#endif
+	char const *new_name = go_action_combo_text_get_entry (gtk->font_name);
+
+	while (g_ascii_isspace (*new_name))
+		++new_name;
+
+	if (*new_name) {
+		GnmStyle *style = mstyle_new ();
+		char *title = g_strdup_printf (_("Font Name %s"), new_name);
+		mstyle_set_font_name (style, new_name);
+		cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
+		g_free (title);
+	} else
+		wb_control_style_feedback (WORKBOOK_CONTROL (gtk), NULL);
+
 }
 
 static void
@@ -506,25 +514,24 @@ wbc_gtk_init_font_name (WBCgtk *gtk)
 /****************************************************************************/
 
 static void
-cb_font_size_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
+cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
 {
-#if 0
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	GnmStyle *style;
-	double size;
+	char const *new_size = go_action_combo_text_get_entry (gtk->font_size);
+	char *end;
+	float size;
 
-#warning "Check what happens when user enters size < 1 (should check too large too)"
-	/* Make 1pt a minimum size for fonts */
-	size = atof (sizetext);
-	if (size < 1.0) {
-		/* gtk_entry_set_text (entry, "10"); */
-		return FALSE;
-	}
+	errno = 0; /* strtol sets errno, but does not clear it.  */
+	size = strtod (new_size, &end);
+	size = ((int)floor ((size * 20.) + .5)) / 20.;	/* round .05 */
 
-	style = mstyle_new ();
-	mstyle_set_font_size (style, size);
-	cmd_selection_format (wbc, style, NULL, _("Set Font Size"));
-#endif
+	if (new_size != end && errno != ERANGE && 1. <= size && size <= 400.) {
+		GnmStyle *style = mstyle_new ();
+		char *title = g_strdup_printf (_("Font Size %f"), size);
+		mstyle_set_font_size (style, size);
+		cmd_selection_format (WORKBOOK_CONTROL (gtk), style, NULL, title);
+		g_free (title);
+	} else
+		wb_control_style_feedback (WORKBOOK_CONTROL (gtk), NULL);
 }
 
 static void
@@ -808,10 +815,11 @@ static void
 cb_show_menu_tip (GtkWidget *proxy, GnmCmdContext *cc)
 {
 	GtkAction *action = g_object_get_data (G_OBJECT (proxy), "GtkAction");
-	char const *tip;
+	char *tip;
 	g_object_get (action, "tooltip", &tip, NULL);
-	if (tip == NULL) tip = " "; /* empty has no height */
+	if (tip == NULL) tip = g_strdup (" "); /* empty has no height */
 	cmd_context_progress_message_set (cc, _(tip));
+	g_free (tip);
 }
 
 static void

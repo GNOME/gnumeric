@@ -59,7 +59,6 @@ struct _GnmApp {
 	GSList           *history_list;
 
 	/* Others */
-	GConfClient     *gconf_client;
 	GtkWidget       *pref_dialog;
 
 	GList		*workbook_list;
@@ -487,31 +486,6 @@ void     gnm_app_set_transition_keys  (gboolean state)
 	((GnmAppPrefs *)gnm_app_prefs)->transition_keys = state;
 }
 
-GConfClient *
-gnm_app_get_gconf_client (void)
-{
-	g_return_val_if_fail (app != NULL, NULL);
-	if (!app->gconf_client) {
-		app->gconf_client = gconf_client_get_default ();
-		gconf_client_add_dir (app->gconf_client, "/apps/gnumeric",
-				      GCONF_CLIENT_PRELOAD_RECURSIVE,
-				      NULL);
-	}
-	return app->gconf_client;
-}
-
-void
-gnm_app_release_gconf_client (void)
-{
-	g_return_if_fail (app != NULL);
-	if (app->gconf_client) {
-		gconf_client_remove_dir (app->gconf_client,
-					 "/apps/gnumeric", NULL);
-		g_object_unref (G_OBJECT (app->gconf_client));
-	}
-	app->gconf_client = NULL;
-}
-
 /*
  * Get a named pixbuf.
  */
@@ -790,8 +764,6 @@ gnm_app_init (GObject *obj)
 
 	gnm_app->clipboard_copied_contents = NULL;
 	gnm_app->clipboard_sheet_view = NULL;
-
-	gnm_app->gconf_client = NULL;
 
 	gnm_app->workbook_list = NULL;
 

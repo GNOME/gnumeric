@@ -2,7 +2,7 @@
 /*
  * gog-style.h : 
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -87,6 +87,7 @@ typedef enum {
 typedef enum {
 	GOG_IMAGE_STRETCHED,
 	GOG_IMAGE_WALLPAPER,
+	GOG_IMAGE_CENTERED
 } GogImageType;
 
 typedef struct {
@@ -153,7 +154,9 @@ void	   gog_style_merge		(GogStyle *dst, GogStyle const *src);
 void	   gog_style_set_marker		(GogStyle *style, GOMarker *marker);
 void	   gog_style_set_font		(GogStyle *style,
 					 PangoFontDescription *desc);
-void	   gog_style_set_fill_brightness(GogStyle *style, float brightness);
+void	   gog_style_set_fill_brightness	(GogStyle *style, float brightness);
+void	   gog_style_set_fill_image_filename	(GogStyle *style, char *filename);
+
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);

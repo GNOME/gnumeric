@@ -67,9 +67,6 @@ base_files =					\
 	dialog-stf-preview.h			\
 	dialog-stf-export.c			\
 	dialog-stf-export.h			\
-	dialog-stf-export-private.h		\
-	dialog-stf-export-sheet-page.c		\
-	dialog-stf-export-format-page.c		\
 	dialog-tabulate.c			\
 	dialog-summary.c			\
 	dialog-view.c				\

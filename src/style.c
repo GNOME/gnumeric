@@ -21,6 +21,7 @@
 
 #include "gui-util.h"
 #include "mathfunc.h"
+#include "gnumeric-gconf.h"
 
 #include <pango/pangoft2.h>
 #include <gtk/gtkmain.h>
@@ -407,22 +408,14 @@ gnm_pango_context_get (void)
 static void
 font_init (void)
 {
-	GConfClient *client = gnm_app_get_gconf_client ();
 	PangoContext *context;
 	GnmFont *gnumeric_default_font = NULL;
 	int n_families, i;
 
-	gnumeric_default_font_name =
-		gconf_client_get_string (client,
-					 GCONF_DEFAULT_FONT,
-					 NULL);
-	gnumeric_default_font_size =
-		gconf_client_get_float (client,
-					GCONF_DEFAULT_SIZE,
-					NULL);
+	gnumeric_default_font_name = g_strdup (gnm_app_prefs->default_font.name);
+	gnumeric_default_font_size = gnm_app_prefs->default_font.size;
 
 	context = gnm_pango_context_get ();
-
 	if (gnumeric_default_font_name && gnumeric_default_font_size >= 1)
 		gnumeric_default_font = style_font_new_simple (context,
 			gnumeric_default_font_name, gnumeric_default_font_size,

@@ -14,6 +14,8 @@ libgoffice_utils_la_SOURCES =	\
 	go-marker.h		\
 	go-pattern.c		\
 	go-pattern.h		\
+	go-locale.c		\
+	go-locale.h		\
 	go-units.h
 
 # prune this when the code moves

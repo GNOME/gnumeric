@@ -212,8 +212,6 @@ src/dialogs/dialog-shuffle.c
 src/dialogs/dialog-simulation.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-stf-csv-page.c
-src/dialogs/dialog-stf-export-format-page.c
-src/dialogs/dialog-stf-export-sheet-page.c
 src/dialogs/dialog-stf-export.c
 src/dialogs/dialog-stf-export.glade
 src/dialogs/dialog-stf-fixed-page.c
@@ -350,7 +348,6 @@ src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/gnumeric-cell-renderer-toggle.c
 src/widgets/gnumeric-expr-entry.c
 src/widgets/gnumeric-optionmenu.c
-src/widgets/preview-file-selection.c
 src/widgets/widget-charmap-selector.c
 src/widgets/widget-font-selector.c
 src/widgets/widget-format-selector.c

@@ -71,6 +71,7 @@ two_way_table_new (GHashFunc      hash_func,
 	table->unique_keys = g_hash_table_new (hash_func, key_compare_func);
 	table->idx_to_key  = g_ptr_array_new ();
 	table->base        = base;
+	table->key_destroy_func = key_destroy_func;
 
 	return table;
 }
@@ -125,7 +126,8 @@ two_way_table_put (const TwoWayTable *table, gpointer key,
 						     GINT_TO_POINTER (index + 1));
 			g_hash_table_insert (table->unique_keys, key,
 					     GINT_TO_POINTER (index + 1));
-		}
+		} else if (table->key_destroy_func)
+			(table->key_destroy_func) (key);
 		g_ptr_array_add (table->idx_to_key, key);
 	}
 

@@ -178,6 +178,10 @@ static gboolean y_axis_can_add (GogObject const *parent) { return axis_can_add (
 static void y_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Y); }
 static gboolean z_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Z); }
 static void z_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Z); }
+static gboolean circular_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_CIRCULAR); }
+static void circular_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_CIRCULAR); }
+static gboolean radial_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_RADIAL); }
+static void radial_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_RADIAL); }
 
 static GogObjectRole const roles[] = {
 	{ N_("Legend"), "GogLegend",	0,
@@ -201,6 +205,14 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  z_axis_can_add, axis_can_remove, NULL, z_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Z } },
+	{ N_("Circular-Axis"), "GogAxis", 1,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  circular_axis_can_add, axis_can_remove, NULL, circular_axis_post_add, axis_pre_remove, NULL,
+	  { GOG_AXIS_CIRCULAR } },
+	{ N_("Radial-Axis"), "GogAxis",	2,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  radial_axis_can_add, axis_can_remove, NULL, radial_axis_post_add, axis_pre_remove, NULL,
+	  { GOG_AXIS_RADIAL } },
 	{ N_("Plot"), "GogPlot",	4,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } }
@@ -497,34 +509,36 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 	(cview_parent_klass->size_allocate) (view, &res);
 
 	res = view->residual;
-	if (chart->axis_set == GOG_AXIS_SET_XY) {
-		/* position the X & Y axes */
-		double pre_x = 0., post_x = 0., pre_y = 0, post_y = 0.;
-		double old_pre_x, old_post_x, old_pre_y, old_post_y;
+	switch (chart->axis_set) {
+	case GOG_AXIS_SET_XY:
+		{
+			/* position the X & Y axes */
+			double pre_x = 0., post_x = 0., pre_y = 0, post_y = 0.;
+			double old_pre_x, old_post_x, old_pre_y, old_post_y;
 
-		do {
-			old_pre_x  = pre_x;	old_post_x = post_x;
-			old_pre_y  = pre_y;	old_post_y = post_y;
-			pre_x = post_x = pre_y = post_y = 0.;
-			for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
-				child = ptr->data;
-				if (child->model->position != GOG_POSITION_SPECIAL ||
-				    !IS_GOG_AXIS (child->model))
-					continue;
+			do {
+				old_pre_x  = pre_x;	old_post_x = post_x;
+				old_pre_y  = pre_y;	old_post_y = post_y;
+				pre_x = post_x = pre_y = post_y = 0.;
+				for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+					child = ptr->data;
+					if (child->model->position != GOG_POSITION_SPECIAL ||
+					    !IS_GOG_AXIS (child->model))
+						continue;
 
-				axis = GOG_AXIS (child->model);
+					axis = GOG_AXIS (child->model);
 
-				req.w = res.w - pre_x - post_x;
-				req.h = res.h - pre_y - post_y;
-				gog_view_size_request (child, &req);
+					req.w = res.w - pre_x - post_x;
+					req.h = res.h - pre_y - post_y;
+					gog_view_size_request (child, &req);
 
-				switch (gog_axis_get_atype (axis)) {
-				case GOG_AXIS_X:
-					/* X axis fill the bottom and top */
-					tmp.x = res.x;
-					tmp.w = res.w;
-					tmp.h = req.h;
-					switch (gog_axis_get_pos (axis)) {
+					switch (gog_axis_get_atype (axis)) {
+					case GOG_AXIS_X:
+						/* X axis fill the bottom and top */
+						tmp.x = res.x;
+						tmp.w = res.w;
+						tmp.h = req.h;
+						switch (gog_axis_get_pos (axis)) {
 						case GOG_AXIS_AT_LOW:
 							post_y += req.h;
 							tmp.y   = res.y + res.h - post_y;
@@ -535,15 +549,15 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 							break;
 						default:
 							break;
-					}
-				break;
-				case GOG_AXIS_Y:
-					/* Y axis take just the previous middle,
-					 * if it changes we'll iterate back */
-					tmp.y = res.y + old_pre_y;
-					tmp.h = res.h - old_pre_y - old_post_y;
-					tmp.w = req.w;
-					switch (gog_axis_get_pos (axis)) {
+						}
+						break;
+					case GOG_AXIS_Y:
+						/* Y axis take just the previous middle,
+						 * if it changes we'll iterate back */
+						tmp.y = res.y + old_pre_y;
+						tmp.h = res.h - old_pre_y - old_post_y;
+						tmp.w = req.w;
+						switch (gog_axis_get_pos (axis)) {
 						case GOG_AXIS_AT_LOW:
 							tmp.x = res.x + pre_x;
 							pre_x  += req.w;
@@ -554,25 +568,39 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 							break;
 						default:
 							break;
+						}
+						break;
+
+					default: break;
 					}
-					break;
-
-				default: break;
+					gog_view_size_allocate (child, &tmp);
 				}
-				gog_view_size_allocate (child, &tmp);
-			}
-		/* as things get narrower their size may change */
-		} while (fabs (old_pre_x - pre_x) > 1e-4 ||
-			 fabs (old_post_x- post_x) > 1e-4 ||
-			 fabs (old_pre_y - pre_y) > 1e-4 ||
-			 fabs (old_post_y- post_y) > 1e-4);
+				/* as things get narrower their size may change */
+			} while (fabs (old_pre_x - pre_x) > 1e-4 ||
+				 fabs (old_post_x- post_x) > 1e-4 ||
+				 fabs (old_pre_y - pre_y) > 1e-4 ||
+				 fabs (old_post_y- post_y) > 1e-4);
 
-		cview->pre_x  = pre_x;
-		cview->post_x = post_x;
-		res.x += pre_x;	res.w -= pre_x + post_x;
-		res.y += pre_y;	res.h -= pre_y + post_y;
-	} else if (chart->axis_set > GOG_AXIS_SET_NONE) { /* catch unknown or none */
-		g_warning ("only have layout engine for xy and none currently");
+			cview->pre_x  = pre_x;
+			cview->post_x = post_x;
+			res.x += pre_x;	res.w -= pre_x + post_x;
+			res.y += pre_y;	res.h -= pre_y + post_y;
+		}
+		break;
+	case GOG_AXIS_SET_RADAR:
+		/* Give the axes the whole residual area. */
+		for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+			child = ptr->data;
+			gog_view_size_allocate (child, &res);
+		}
+		break;
+	case GOG_AXIS_SET_NONE:
+		break;
+
+	case GOG_AXIS_SET_UNKNOWN:
+		return;
+	default:
+		g_warning ("only have layout engine for xy, radar, and none currently");
 		return;
 	}
 

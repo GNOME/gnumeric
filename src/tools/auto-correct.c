@@ -34,6 +34,7 @@
 #include "gutils.h"
 #include <gsf/gsf-impl-utils.h>
 
+#include <gconf/gconf-client.h>
 #include <string.h>
 
 static struct {
@@ -51,15 +52,12 @@ static struct {
 } autocorrect;
 
 #define AUTOCORRECT_DIRECTORY "/apps/gnumeric/autocorrect"
-#define AUTOCORRECT_INIT_CAPS AUTOCORRECT_DIRECTORY "/init-caps"
-#define AUTOCORRECT_INIT_CAPS_LIST AUTOCORRECT_DIRECTORY "/init-caps-list"
-#define AUTOCORRECT_FIRST_LETTER AUTOCORRECT_DIRECTORY "/first-letter"
-#define AUTOCORRECT_FIRST_LETTER_LIST AUTOCORRECT_DIRECTORY "/first-letter-list"
-#define AUTOCORRECT_NAMES_OF_DAYS AUTOCORRECT_DIRECTORY "/names-of-days"
-#define AUTOCORRECT_REPLACE AUTOCORRECT_DIRECTORY "/replace"
-
-static void cb_autocorrect_update (GConfClient *gconf, guint cnxn_id,
-				   GConfEntry *entry, gpointer ignore);
+#define AUTOCORRECT_INIT_CAPS		AUTOCORRECT_DIRECTORY "/init-caps"
+#define AUTOCORRECT_INIT_CAPS_LIST	AUTOCORRECT_DIRECTORY "/init-caps-list"
+#define AUTOCORRECT_FIRST_LETTER	AUTOCORRECT_DIRECTORY "/first-letter"
+#define AUTOCORRECT_FIRST_LETTER_LIST	AUTOCORRECT_DIRECTORY "/first-letter-list"
+#define AUTOCORRECT_NAMES_OF_DAYS	AUTOCORRECT_DIRECTORY "/names-of-days"
+#define AUTOCORRECT_REPLACE		AUTOCORRECT_DIRECTORY "/replace"
 
 static void
 autocorrect_clear (void)
@@ -90,6 +88,13 @@ autocorrect_load (void)
 }
 
 static void
+cb_autocorrect_update ()
+{
+	autocorrect_clear ();
+	autocorrect_load ();
+}
+
+static void
 autocorrect_init (void)
 {
 	if (autocorrect.notification_id != 0)
@@ -97,22 +102,12 @@ autocorrect_init (void)
 
 	autocorrect_load ();
 	autocorrect.notification_id = gconf_client_notify_add (
-		gnm_app_get_gconf_client (),
-		AUTOCORRECT_DIRECTORY, cb_autocorrect_update,
+		gnm_app_get_gconf_client (), AUTOCORRECT_DIRECTORY,
+		(GConfClientNotifyFunc) cb_autocorrect_update,
 		NULL, NULL, NULL);
 	g_object_set_data_full (gnm_app_get_app (),
 		"ToolsAutoCorrect", GINT_TO_POINTER (1),
 		(GDestroyNotify) autocorrect_clear);
-}
-
-static void
-cb_autocorrect_update (G_GNUC_UNUSED GConfClient *gconf,
-		       G_GNUC_UNUSED guint cnxn_id,
-		       G_GNUC_UNUSED GConfEntry *entry,
-		       G_GNUC_UNUSED gpointer ignore)
-{
-	autocorrect_clear ();
-	autocorrect_load ();
 }
 
 void

@@ -959,9 +959,9 @@ dao_convert_to_values (data_analysis_output_t *dao)
 	workbook_recalc (dao->sheet->workbook);
 	for (row = 0; row < dao->rows; row++) {
 		for (col = 0; col < dao->cols; col++) {
-			GnmCell *cell = sheet_cell_fetch (dao->sheet, 
+			GnmCell *cell = sheet_cell_get (dao->sheet, 
 				dao->start_col + col, dao->start_row + row);
-			if (cell_has_expr (cell))
+			if (cell != NULL && cell_has_expr (cell))
 				cell_convert_expr_to_value (cell);
 		}
 	}

@@ -1,3 +1,46 @@
+2004-02-21  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-locale.c : Some cut-n-paste for the without_gnome case
+
+	* gui-utils/go-action-combo-text.c : some initial implementation
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_plot_foreach_elem) :
+	  handle mismatched numbers of elements and labels.
+	(gog_pie_view_render) : take the outline into account when sizing.
+
+	* graph/gog-style.h : add weak notion of centered image.  This needs
+	  to be stronger to specify alignement.
+
+	* graph/gog-style.c (gog_style_set_fill_image_filename) : new.
+	(cb_image_file_select) : Use it.
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_polygon) :
+	supported centered images.
+
+	* graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_polygon) : support centered images.
+
+	* graph/gog-object.c (gog_object_get_children) : add a filter parm.
+	(gog_object_get_child_by_role) : new utility routine.
+
+	* graph/gog-legend.c (gog_legend_update) : set up the editor properly
+	  for fonts.
+
+	* graph/gog-graph.c (gog_graph_view_size_allocate) : typo.  Only
+	  effected manually created plots
+
+	* graph/gog-control-foocanvas.c (gog_control_foocanvas_draw) : make
+	  more resistent to out of memory situations.
+
+	* graph/go-data-simple.c : Add some quick and dirty constant vectors
+	  for double [], and char const *[].  These could certainly be more
+	  robust.
+
+	From Michael Devine <mdevine@cs.stanford.edu> :
+	* graph/goffice-graph.h : Add a first pass at 'radar' plots
+	* graph/gog-axis.c : ditto.
+	* goffice/graph/gog-chart.c : ditto
+
 2004-02-13  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-style.c (gog_style_extension_editor): Fix declaration

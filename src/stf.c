@@ -386,7 +386,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 /***********************************************************************************/
 
 static gboolean
-stf_write_func (const char *string, GsfOutput *output)
+stf_write_func (char const *string, GsfOutput *output)
 {
 	return (gsf_output_puts (output, string) >= 0);
 }
@@ -395,7 +395,7 @@ static void
 stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 		    WorkbookView const *wbv, GsfOutput *output)
 {
-	StfE_Result_t *result = NULL;
+	StfExportOptions_t *result = NULL;
 
 	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
 		result = stf_export_dialog (WORKBOOK_CONTROL_GUI (context->impl),
@@ -406,12 +406,12 @@ stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 		return;
 	}
 
-	stf_export_options_set_write_callback (result->export_options,
+	stf_export_options_set_write_callback (result,
 		(StfEWriteFunc) stf_write_func, (gpointer) output);
-	if (stf_export (result->export_options) == FALSE)
+	if (stf_export (result) == FALSE)
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			_("Error while trying to export file as text"));
-	stf_export_dialog_result_free (result);
+	stf_export_options_free (result);
 }
 
 static void

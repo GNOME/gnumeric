@@ -15,6 +15,12 @@
 #define FUNCTION_SELECT_GCONF_RECENT "/apps/gnumeric/functionselector/recentfunctions"
 #define FUNCTION_SELECT_GCONF_NUM_OF_RECENT "/apps/gnumeric/functionselector/num-of-recent"
 
+#define CONF_DEFAULT_FONT_DIR	"/apps/gnumeric/core/defaultfont/"
+#define CONF_DEFAULT_FONT_NAME	  CONF_DEFAULT_FONT_DIR "name"
+#define CONF_DEFAULT_FONT_SIZE	  CONF_DEFAULT_FONT_DIR "size"
+#define CONF_DEFAULT_FONT_BOLD	  CONF_DEFAULT_FONT_DIR "bold"
+#define CONF_DEFAULT_FONT_ITALIC  CONF_DEFAULT_FONT_DIR "italic"
+
 #define PLUGIN_GCONF_DIRECTORY "/apps/gnumeric/plugins"
 #define PLUGIN_GCONF_ACTIVATE_NEW PLUGIN_GCONF_DIRECTORY "/activate-new"
 #define PLUGIN_GCONF_ACTIVE PLUGIN_GCONF_DIRECTORY "/active"

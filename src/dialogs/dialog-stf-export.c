@@ -21,427 +21,447 @@
  */
 
 #undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialog-stf-export.h"
-#include "dialog-stf-export-private.h"
 
 #include <command-context.h>
-#include <gdk/gdkkeysyms.h>
 #include <workbook.h>
+#include <sheet.h>
+#include <gui-util.h>
+#include <widgets/widget-charmap-selector.h>
 
-/**
- * stf_export_dialog_druid_page_cancel
- * @page : Active druid page
- * @druid : The parent Druid widget
- * @druid_data : mother struct
- *
- * Presents the user with a nice cancel y/n dialognn
- *
- * returns : TRUE if the user actually wants to cancel, FALSE otherwise.
- **/
-static gboolean
-stf_export_dialog_druid_page_cancel (G_GNUC_UNUSED GnomeDruidPage *page,
-				     G_GNUC_UNUSED GnomeDruid *druid,
-				     StfE_DruidData_t *druid_data)
-{
-	return !gnumeric_dialog_question_yes_no (druid_data->wbcg,
-		_("Are you sure you want to cancel?"), FALSE);
-}
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcellrenderertoggle.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkcombo.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtklabel.h>
+#include <glib/gi18n.h>
 
-/**
- * stf_dialog_set_initial_keyboard_focus
- * @druid_data : mother struct
- *
- * Sets keyboard focus to the an appropriate widget on the page.
- *
- * returns : nothing
- **/
+typedef enum {
+	PAGE_SHEETS,
+	PAGE_FORMAT
+} TextExportPage;
+enum {
+	STF_EXPORT_COL_EXPORTED,
+	STF_EXPORT_COL_SHEET_NAME,
+	STF_EXPORT_COL_SHEET,
+	STF_EXPORT_COL_MAX
+};
+
+typedef struct {
+	Workbook		*wb;
+
+	GladeXML		*gui;
+	WorkbookControlGUI	*wbcg;
+	GtkWindow		*window;
+	GtkWidget		*notebook;
+	GtkWidget		*back_button, *next_button, *next_label, *next_image;
+
+	struct {
+		GtkListStore *model;
+		GtkTreeView  *view;
+		GtkWidget    *select_all, *select_none, *up, *down;
+		int num, num_selected;
+	} sheets;
+	struct {
+		GtkOptionMenu 	*termination;
+		GtkOptionMenu 	*separator;
+		GtkWidget      	*custom;
+		GtkOptionMenu 	*quote;
+		GtkCombo      	*quotechar;
+		GtkWidget	*charset;
+		GtkOptionMenu 	*transliterate;
+		GtkWidget	*preserve;
+	} format;
+
+	TextExportPage	cur_page;
+	StfExportOptions_t *result;
+} TextExportState;
+
 static void
-stf_export_dialog_set_initial_keyboard_focus (StfE_DruidData_t *druid_data)
+sheet_page_separator_menu_deactivate (TextExportState *state)
 {
-	GtkWidget *focus_widget = NULL;
-	g_return_if_fail (druid_data != NULL);
-
-	switch (druid_data->active_page) {
-	case DPG_SHEET  :
-		focus_widget = (GtkWidget *) druid_data->sheet_page_data->sheet_avail;
-		break;
-	case DPG_FORMAT :
-		focus_widget = (GtkWidget *) druid_data->format_page_data->format_termination;
-		break;
-	default :
-		g_warning ("Unknown druid position");
-	}
-
-	if (focus_widget)
-		gtk_widget_grab_focus (focus_widget);
-}
-
-/**
- * stf_export_dialog_format_page_druid_finish
- * @druid : a druid
- * @page : a druidpage
- * @druid_data : mother struct
- *
- * Stops the druid but does not set the cancel property of @data.
- * The main routine (stf_export_dialog()) will know that the druid has successfully
- * been completed.
- *
- * returns : nothing
- **/
-static void
-stf_export_dialog_druid_format_page_finish (GnomeDruid *druid, GnomeDruidPage *page, StfE_DruidData_t *druid_data)
-{
-	g_return_if_fail (page != NULL);
-	g_return_if_fail (druid != NULL);
-	g_return_if_fail (druid_data != NULL);
-
-	gtk_main_quit ();
-}
-
-/**
- * stf_export_dialog_druid_position_to_page
- * @druid_data : mother struct
- * @pos : Position in the druid
- *
- * Will translate a DPG_* position into a pointer to the page.
- *
- * returns : A pointer to the GnomeDruidPage indicated by @pos
- **/
-static GnomeDruidPage*
-stf_export_dialog_druid_position_to_page (StfE_DruidData_t *druid_data, StfE_StfDialogPage pos)
-{
-	switch (pos) {
-	case DPG_SHEET  : return druid_data->sheet_page;
-	case DPG_FORMAT : return druid_data->format_page;
-	default :
-		g_warning ("Unknown druid position");
-		return NULL;
+	/* 9 == the custom entry */
+	if (gtk_option_menu_get_history (state->format.separator) == 9) {
+		gtk_widget_set_sensitive (state->format.custom, TRUE);
+		gtk_widget_grab_focus      (state->format.custom);
+		gtk_editable_select_region (GTK_EDITABLE (state->format.custom), 0, -1);
+	} else {
+		gtk_widget_set_sensitive (state->format.custom, FALSE);
+		/* If we don't use this the selection will remain blue */
+		gtk_editable_select_region (GTK_EDITABLE (state->format.custom), 0, 0);
 	}
 }
 
-/**
- * stf_export_dialog_druid_page_next
- * @page : A druid page
- * @druid : The druid itself
- * @druid_data : mother struct
- *
- * This function will determine and set the next page depending on choices
- * made in previous pages
- *
- * returns : always TRUE, because it always sets the new page manually
- **/
-static gboolean
-stf_export_dialog_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, StfE_DruidData_t *druid_data)
+static void
+stf_export_dialog_format_page_init (TextExportState *state)
 {
-	StfE_StfDialogPage newpos;
-	GnomeDruidPage *nextpage;
+	GtkWidget *table;
 
-	g_return_val_if_fail (page != NULL, FALSE);
-	g_return_val_if_fail (druid != NULL, FALSE);
-	g_return_val_if_fail (druid_data != NULL, FALSE);
+	state->format.termination = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "format_termination"));
+	state->format.separator   = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "format_separator"));
+	state->format.custom      = glade_xml_get_widget (state->gui, "format_custom");
+	state->format.quote       = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "format_quote"));
+	state->format.quotechar   = GTK_COMBO       (glade_xml_get_widget (state->gui, "format_quotechar"));
+	state->format.charset	  = charmap_selector_new (CHARMAP_SELECTOR_FROM_UTF8);
+	state->format.transliterate = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "format_transliterate"));
+	gnumeric_editable_enters (state->window, state->format.custom);
+	gnumeric_combo_enters (state->window, GTK_WIDGET (state->format.quotechar));
 
-	switch (druid_data->active_page) {
-	case DPG_SHEET : {
-		if (!stf_export_dialog_sheet_page_can_continue (GTK_WIDGET (druid_data->window),
-								druid_data->sheet_page_data)) {
-			return TRUE; /* If we are not ready to continue stick to the current page */
+	if (stf_export_can_transliterate ()) {
+		gtk_option_menu_set_history (state->format.transliterate,
+			TRANSLITERATE_MODE_TRANS);
+	} else {
+		gtk_option_menu_set_history (state->format.transliterate,
+			TRANSLITERATE_MODE_ESCAPE);
+		gtk_widget_set_sensitive (
+			GTK_WIDGET (g_list_nth_data (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->format.transliterate))->children,
+			TRANSLITERATE_MODE_TRANS)),
+			FALSE);
+	}
+
+	state->format.preserve = glade_xml_get_widget (state->gui, "format_preserve");
+
+	table = glade_xml_get_widget (state->gui, "format_table");
+	gtk_table_attach_defaults (GTK_TABLE (table), state->format.charset, 1, 2, 5, 6);
+	gtk_widget_show_all (table);
+
+	g_signal_connect_swapped (gtk_option_menu_get_menu (state->format.separator),
+		"deactivate",
+		G_CALLBACK (sheet_page_separator_menu_deactivate), state);
+}
+
+static gboolean
+cb_collect_exported_sheets (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+			    TextExportState *state)
+{
+	gboolean exported;
+	Sheet *sheet;
+
+	gtk_tree_model_get (model, iter,
+		STF_EXPORT_COL_EXPORTED, &exported,
+		STF_EXPORT_COL_SHEET,	 &sheet,
+		-1);
+	if (exported)
+		stf_export_options_sheet_list_add (state->result, sheet);
+	return FALSE;
+}
+static void
+stf_export_dialog_finish (TextExportState *state)
+{
+	StfTerminatorType_t	terminator;
+	StfQuotingMode_t	quotingmode;
+	StfTransliterateMode_t	transliteratemode;
+	char *text;
+	gunichar separator;
+
+	state->result = stf_export_options_new ();
+
+	/* Which sheets */
+	stf_export_options_sheet_list_clear (state->result);
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
+		(GtkTreeModelForeachFunc) cb_collect_exported_sheets, state);
+
+	/* What options */
+	switch (gtk_option_menu_get_history (state->format.termination)) {
+	case 0 :  terminator = TERMINATOR_TYPE_LINEFEED; break;
+	case 1 :  terminator = TERMINATOR_TYPE_RETURN; break;
+	case 2 :  terminator = TERMINATOR_TYPE_RETURN_LINEFEED; break;
+	default : terminator = TERMINATOR_TYPE_UNKNOWN; break;
+	}
+	stf_export_options_set_terminator_type (state->result, terminator);
+
+	switch (gtk_option_menu_get_history (state->format.quote)) {
+	case 0 :  quotingmode = QUOTING_MODE_AUTO; break;
+	case 1 :  quotingmode = QUOTING_MODE_ALWAYS; break;
+	case 2 :  quotingmode = QUOTING_MODE_NEVER; break;
+	default : quotingmode = QUOTING_MODE_UNKNOWN; break;
+	}
+	stf_export_options_set_quoting_mode (state->result, quotingmode);
+
+	switch (gtk_option_menu_get_history (state->format.transliterate)) {
+	case 0 :  transliteratemode = TRANSLITERATE_MODE_TRANS; break;
+	case 1 :  transliteratemode = TRANSLITERATE_MODE_ESCAPE; break;
+	default : transliteratemode  = TRANSLITERATE_MODE_UNKNOWN; break;
+	}
+	stf_export_options_set_transliterate_mode (state->result, transliteratemode);
+
+	stf_export_options_set_format_mode (state->result,
+		 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->format.preserve)));
+
+	text = gtk_editable_get_chars (GTK_EDITABLE (state->format.quotechar->entry), 0, -1);
+	stf_export_options_set_quoting_char (state->result, g_utf8_get_char (text));
+	g_free (text);
+
+	separator = 0;
+	switch (gtk_option_menu_get_history (state->format.separator)) {
+	case 0 : separator = ' '; break;
+	case 1 : separator = '\t'; break;
+	case 2 : separator = '!'; break;
+	case 3 : separator = ':'; break;
+	case 4 : separator = ','; break;
+	case 5 : separator = '-'; break;
+	case 6 : separator = '|'; break;
+	case 7 : separator = ';'; break;
+	case 8 : separator = '/'; break;
+	case 9 :
+		text = gtk_editable_get_chars (GTK_EDITABLE (state->format.custom), 0, -1);
+		separator = g_utf8_get_char (text);
+		g_free (text);
+		break;
+	default :
+		g_warning ("Unknown separator");
+		break;
+	}
+	stf_export_options_set_cell_separator (state->result, separator);
+
+	stf_export_options_set_charset (state->result,
+		charmap_selector_get_encoding (CHARMAP_SELECTOR (state->format.charset)));
+
+	gtk_dialog_response (GTK_DIALOG (state->window), GTK_RESPONSE_OK);
+}
+
+static void
+set_sheet_selection_count (TextExportState *state, int n)
+{
+	state->sheets.num_selected = n;
+	gtk_widget_set_sensitive (state->sheets.select_all, state->sheets.num != n);
+	gtk_widget_set_sensitive (state->sheets.select_none, n != 0);
+	gtk_widget_set_sensitive (state->next_button, n != 0);
+}
+
+static gboolean
+cb_set_sheet (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+	      gpointer data)
+{
+	gtk_list_store_set (GTK_LIST_STORE (model), iter,
+		STF_EXPORT_COL_EXPORTED, GPOINTER_TO_INT (data),
+		-1);
+	return FALSE;
+}
+
+static void
+cb_sheet_select_all (TextExportState *state)
+{
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
+		cb_set_sheet, GINT_TO_POINTER (TRUE));
+	set_sheet_selection_count (state, 0);
+}
+static void
+cb_sheet_select_none (TextExportState *state)
+{
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
+		cb_set_sheet, GINT_TO_POINTER (FALSE));
+	set_sheet_selection_count (state, state->sheets.num);
+}
+
+static void
+move_element (TextExportState *state, gboolean move_up)
+{
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheets.view);
+	GtkTreeModel *model;
+	GtkTreeIter  a, b;
+
+	if (!gtk_tree_selection_get_selected  (selection, &model, &a))
+		return;
+
+	b = a;
+	if (move_up) {
+		GtkTreePath *path = gtk_tree_model_get_path (model, &a);
+		if (gtk_tree_path_prev (path) &&
+		    gtk_tree_model_get_iter (model, &b, path)) {
+			gtk_tree_path_free (path);
+			return;
 		}
-		newpos = DPG_FORMAT;
-		break;
-	}
-	default :
-		g_warning ("Page Cycle Error : Unknown page %d", druid_data->active_page);
-		return FALSE;
-	}
+		gtk_tree_path_free (path);
+	} else if (!gtk_tree_model_iter_next (model, &b))
+		return;
 
-	nextpage = stf_export_dialog_druid_position_to_page (druid_data, newpos);
-	if (!nextpage)
-		return FALSE;
-
-	gnome_druid_set_page (druid, nextpage);
-	druid_data->active_page = newpos;
-
-	stf_export_dialog_set_initial_keyboard_focus (druid_data);
-
-	if (newpos == DPG_FORMAT) {
-
-		gnome_druid_set_show_finish (druid_data->druid, TRUE);
-		gtk_widget_grab_default (druid_data->druid->finish);
-	}
-
-	return TRUE;
+	gtk_list_store_swap (state->sheets.model, &a, &b);
 }
 
-/**
- * stf_export_dialog_druid_page_previous
- * @page : a druid page
- * @druid : a druid
- * @druid_data : mother struct
- *
- * Determines the previous page based on choices made earlier on
- *
- * returns : always TRUE, because it always cycles to the previous page manually
- **/
-static gboolean
-stf_export_dialog_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, StfE_DruidData_t *druid_data)
+static void cb_sheet_up   (TextExportState *state) { move_element (state, TRUE); }
+static void cb_sheet_down (TextExportState *state) { move_element (state, FALSE); }
+
+static void
+cb_sheet_export_toggled (GtkCellRendererToggle *cell,
+			 gchar                 *path_string,
+			 TextExportState *state)
 {
-	StfE_StfDialogPage newpos;
-	GnomeDruidPage *previouspage;
+	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+	GtkTreeIter  iter;
+	gboolean value;
 
-	g_return_val_if_fail (page != NULL, FALSE);
-	g_return_val_if_fail (druid != NULL, FALSE);
-	g_return_val_if_fail (druid_data != NULL, FALSE);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->sheets.model), &iter, path);
+	gtk_tree_path_free (path);
+	gtk_tree_model_get (GTK_TREE_MODEL (state->sheets.model), &iter,
+		STF_EXPORT_COL_EXPORTED,	&value,
+		-1);
+	gtk_list_store_set (state->sheets.model, &iter,
+		STF_EXPORT_COL_EXPORTED,	!value,
+		-1);
+	set_sheet_selection_count (state,
+		state->sheets.num_selected + (value ? -1 : 1));
+}
 
-	switch (druid_data->active_page) {
-	case DPG_FORMAT : newpos = DPG_SHEET; break;
-	default :
-		g_warning ("Page Cycle Error : Unknown page %d", druid_data->active_page);
-		return FALSE;
+static void
+stf_export_dialog_sheet_page_init (TextExportState *state)
+{
+	int i;
+	Sheet *sheet, *cur_sheet;
+	GtkTreeSelection  *selection;
+	GtkTreeIter iter;
+	GtkCellRenderer *renderer;
+
+	state->sheets.select_all  = glade_xml_get_widget (state->gui, "sheet_select_all");
+	state->sheets.select_none = glade_xml_get_widget (state->gui, "sheet_select_none");
+	state->sheets.up	  = glade_xml_get_widget (state->gui, "sheet_up");
+	state->sheets.down	  = glade_xml_get_widget (state->gui, "sheet_down");
+	gtk_button_set_alignment (GTK_BUTTON (state->sheets.up), 0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->sheets.down), 0., .5);
+
+	state->sheets.model	  = gtk_list_store_new (STF_EXPORT_COL_MAX,
+		G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_OBJECT);
+	state->sheets.view	  = GTK_TREE_VIEW (
+		glade_xml_get_widget (state->gui, "sheet_list"));
+	gtk_tree_view_set_model (state->sheets.view, GTK_TREE_MODEL (state->sheets.model));
+
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer),
+		"toggled",
+		G_CALLBACK (cb_sheet_export_toggled), state);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (state->sheets.view),
+		gtk_tree_view_column_new_with_attributes (_("Export"),
+			renderer, "active", STF_EXPORT_COL_EXPORTED, NULL));
+	gtk_tree_view_append_column (GTK_TREE_VIEW (state->sheets.view),
+		gtk_tree_view_column_new_with_attributes (_("Sheet"),
+			gtk_cell_renderer_text_new (),
+			"text", STF_EXPORT_COL_SHEET_NAME, NULL));
+
+	selection = gtk_tree_view_get_selection (state->sheets.view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+
+	cur_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
+	state->sheets.num = workbook_sheet_count (state->wb);
+	state->sheets.num_selected = 0;
+	for (i = 0 ; i < state->sheets.num ; i++) {
+		sheet = workbook_sheet_by_index (state->wb, i);
+		gtk_list_store_append (state->sheets.model, &iter);
+		gtk_list_store_set (state->sheets.model, &iter,
+				    STF_EXPORT_COL_EXPORTED,	sheet == cur_sheet,
+				    STF_EXPORT_COL_SHEET_NAME,	sheet->name_quoted,
+				    STF_EXPORT_COL_SHEET,	sheet,
+				    -1);
+		if (sheet == cur_sheet) {
+			state->sheets.num_selected = 1;
+			gtk_tree_selection_select_iter (selection, &iter);
+		}
 	}
+	set_sheet_selection_count (state, state->sheets.num_selected);
 
-	previouspage = stf_export_dialog_druid_position_to_page (druid_data, newpos);
-	if (!previouspage)
-		return FALSE;
+	g_signal_connect_swapped (G_OBJECT (state->sheets.select_all),
+		"clicked",
+		G_CALLBACK (cb_sheet_select_all), state);
+	g_signal_connect_swapped (G_OBJECT (state->sheets.select_none),
+		"clicked",
+		G_CALLBACK (cb_sheet_select_none), state);
+	g_signal_connect_swapped (G_OBJECT (state->sheets.up),
+		"clicked",
+		G_CALLBACK (cb_sheet_up), state);
+	g_signal_connect_swapped (G_OBJECT (state->sheets.down),
+		"clicked",
+		G_CALLBACK (cb_sheet_down), state);
+}
 
-	gnome_druid_set_page (druid_data->druid, previouspage);
-	druid_data->active_page = newpos;
+static void
+stf_export_dialog_switch_page (TextExportState *state, TextExportPage new_page)
+{
+	char const *label, *image;
 
-	stf_export_dialog_set_initial_keyboard_focus (druid_data);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (state->notebook),
+		state->cur_page = new_page);
+	if (state->cur_page != PAGE_FORMAT) {
+		label = _("_Next");
+		image = GTK_STOCK_GO_FORWARD;
+	} else {
+		label = _("_Finish");
+		image = GTK_STOCK_APPLY;
+	}
+	gtk_widget_set_sensitive (state->back_button, state->cur_page != PAGE_SHEETS);
+	gtk_label_set_label (GTK_LABEL (state->next_label), label);
+	gtk_image_set_from_stock (GTK_IMAGE (state->next_image),
+		image, GTK_ICON_SIZE_BUTTON);
+}
 
-	if (newpos == DPG_SHEET)
-		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE, TRUE);
+static void
+cb_back_page (TextExportState *state)
+{
+	stf_export_dialog_switch_page (state, state->cur_page-1);
+}
+
+static void
+cb_next_page (TextExportState *state)
+{
+	if (state->cur_page == PAGE_FORMAT)
+		stf_export_dialog_finish (state);
 	else
-		gtk_widget_grab_default (druid_data->druid->next);
-
-	return TRUE;
-}
-
-/**
- * stf_export_dialog_druid_cancel
- * @druid : a druid
- * @druid_data : mother struct
- *
- * Stops the druid and indicates the user has cancelled
- *
- * returns : nothing
- **/
-static void
-stf_export_dialog_druid_cancel (GnomeDruid *druid, StfE_DruidData_t *druid_data)
-{
-	g_return_if_fail (druid != NULL);
-	g_return_if_fail (druid_data != NULL);
-
-	druid_data->canceled = TRUE;
-	gtk_main_quit ();
-}
-
-/**
- * stf_export_dialog_check_escape
- * @druid : a druid
- * @event : the event
- * @druid_data : mother struct
- *
- * Stops the druid if the user pressed escape.
- *
- * returns : TRUE if we handled the keypress, FALSE if we pass it on.
- **/
-static gint
-stf_export_dialog_check_escape (GnomeDruid *druid, GdkEventKey *event,
-				StfE_DruidData_t *druid_data)
-{
-	g_return_val_if_fail (druid != NULL, FALSE);
-	g_return_val_if_fail (event != NULL, FALSE);
-	g_return_val_if_fail (druid_data != NULL, FALSE);
-
-	if (event->keyval == GDK_Escape) {
-		gtk_button_clicked (GTK_BUTTON (druid_data->druid->cancel));
-		return TRUE;
-	} else
-		return FALSE;
-}
-
-/**
- * stf_dialog_window_delete
- *
- * Stops the import and indicates the user has cancelled
- **/
-static gboolean
-stf_dialog_window_delete (G_GNUC_UNUSED GtkDialog *dialog,
-			  G_GNUC_UNUSED GdkEventKey *event,
-			  StfE_DruidData_t *druid_data)
-{
-	druid_data->canceled = TRUE;
-	gtk_main_quit ();
-	return TRUE;
-}
-
-
-
-/**
- * stf_export_dialog_attach_page_signals
- * @gui : the glade gui of the dialog
- * @druid_data : mother struct
- *
- * Connects all signals to all pages and fills the mother struct
- *
- * returns : nothing
- **/
-static void
-stf_export_dialog_attach_page_signals (GladeXML *gui, StfE_DruidData_t *druid_data)
-{
-	g_return_if_fail (gui != NULL);
-	g_return_if_fail (druid_data != NULL);
-
-	druid_data->window     = GTK_WINDOW  (glade_xml_get_widget (gui, "window"));
-	druid_data->druid      = GNOME_DRUID (glade_xml_get_widget (gui, "druid"));
-
-	druid_data->sheet_page   = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "sheet_page"));
-	druid_data->format_page  = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "format_page"));
-
-	druid_data->active_page  = DPG_SHEET;
-
-	gnome_druid_set_buttons_sensitive (druid_data->druid, FALSE, TRUE, TRUE, TRUE);
-
-	/* Signals for individual pages */
-
-	g_signal_connect (G_OBJECT (druid_data->sheet_page),
-		"next",
-		G_CALLBACK (stf_export_dialog_druid_page_next), druid_data);
-
-        g_signal_connect (G_OBJECT (druid_data->format_page),
-		"back",
-		G_CALLBACK (stf_export_dialog_druid_page_previous), druid_data);
-	g_signal_connect (G_OBJECT (druid_data->format_page),
-		"finish",
-		G_CALLBACK (stf_export_dialog_druid_format_page_finish), druid_data);
-
-	g_signal_connect (G_OBJECT (druid_data->sheet_page),
-		"cancel",
-		G_CALLBACK (stf_export_dialog_druid_page_cancel), druid_data);
-	g_signal_connect (G_OBJECT (druid_data->format_page),
-		"cancel",
-		G_CALLBACK (stf_export_dialog_druid_page_cancel), druid_data);
-
-	/* Signals for the druid itself */
-
-	g_signal_connect (G_OBJECT (druid_data->druid),
-		"cancel",
-		G_CALLBACK (stf_export_dialog_druid_cancel), druid_data);
-
-	/* And for the surrounding window */
-
-	g_signal_connect (G_OBJECT (druid_data->window),
-		"key_press_event",
-		G_CALLBACK (stf_export_dialog_check_escape), druid_data);
-	g_signal_connect (G_OBJECT (druid_data->window),
-		"delete_event",
-		G_CALLBACK (stf_dialog_window_delete), druid_data);
-}
-
-/**
- * stf_export_dialog_editables_enter
- * @druid_date : mother struct
- *
- * Make <Ret> in text fields activate default.
- *
- * returns : nothing
- **/
-static void
-stf_export_dialog_editables_enter (StfE_DruidData_t *druid_data)
-{
-	gnumeric_editable_enters (druid_data->window,
-		GTK_WIDGET (druid_data->format_page_data->format_custom));
-	gnumeric_combo_enters (druid_data->window,
-		GTK_WIDGET (druid_data->format_page_data->format_quotechar));
+		stf_export_dialog_switch_page (state, state->cur_page+1);
 }
 
 /**
  * stf_dialog
- * @wbc : a Commandcontext (can be NULL)
- * @wb : The workbook to export
+ * @wbcg : #WorkbookControlGUI (can be NULL)
+ * @wb : The #Workbook to export
  *
- * This will start the export druid.
- * (NOTE : you have to free the DialogStfResult_t that this function returns by
- *  using the stf_export_dialog_result_free function)
- *
- * returns : A StfE_Result_t struct on success, NULL otherwise.
+ * This will start the export assistant.
+ * returns : A newly allocated StfExportOptions_t struct on success, NULL otherwise.
  **/
-StfE_Result_t *
+StfExportOptions_t *
 stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 {
-	GladeXML *gui;
-	StfE_Result_t *dialogresult;
-	StfE_DruidData_t druid_data;
+	TextExportState state;
 
-	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	state.gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
 		"dialog-stf-export.glade", NULL, NULL);
-	if (gui == NULL)
+	if (state.gui == NULL)
 		return NULL;
 
-	druid_data.wbcg             = wbcg;
-	druid_data.canceled         = FALSE;
-	druid_data.sheet_page_data  = stf_export_dialog_sheet_page_init (gui, wb);
-	druid_data.format_page_data = stf_export_dialog_format_page_init (gui);
+	state.wb	  = wb;
+	state.wbcg	  = wbcg;
+	state.window	  = GTK_WINDOW (glade_xml_get_widget (state.gui, "text-export"));
+	state.notebook	  = glade_xml_get_widget (state.gui, "text-export-notebook");
+	state.back_button = glade_xml_get_widget (state.gui, "button-back");
+	state.next_button = glade_xml_get_widget (state.gui, "button-next");
+	state.next_label  = glade_xml_get_widget (state.gui, "button-next-label");
+	state.next_image  = glade_xml_get_widget (state.gui, "button-next-image");
+	state.result	  = NULL;
+	stf_export_dialog_sheet_page_init (&state);
+	stf_export_dialog_format_page_init (&state);
+	stf_export_dialog_switch_page (&state, PAGE_SHEETS);
+	gtk_widget_grab_default (state.next_button);
+	g_signal_connect_swapped (G_OBJECT (state.back_button),
+		"clicked",
+		G_CALLBACK (cb_back_page), &state);
+	g_signal_connect_swapped (G_OBJECT (state.next_button),
+		"clicked",
+		G_CALLBACK (cb_next_page), &state);
 
-	stf_export_dialog_attach_page_signals (gui, &druid_data);
+	gnumeric_dialog_run (wbcg, GTK_DIALOG (state.window));
+	g_object_unref (G_OBJECT (state.gui));
 
-	stf_export_dialog_editables_enter (&druid_data);
-	gtk_widget_grab_default (druid_data.druid->next);
-
-	gnumeric_set_transient (wbcg_toplevel (wbcg), druid_data.window);
-	if (workbook_sheet_count (wb) == 1) {
-		stf_export_dialog_druid_page_next (druid_data.sheet_page,
-						   druid_data.druid,
-						   &druid_data);
-		gnome_druid_set_buttons_sensitive (druid_data.druid,
-						   FALSE, TRUE, TRUE, TRUE);	}
-	gtk_widget_show (GTK_WIDGET (druid_data.window));
-
-	gtk_main ();
-
-	if (druid_data.canceled) {
-
-		dialogresult = NULL;
-	} else {
-
-		dialogresult = g_new (StfE_Result_t, 1);
-
-		/* Construct the export options */
-		dialogresult->export_options = stf_export_options_new ();
-
-		stf_export_dialog_sheet_page_result (druid_data.sheet_page_data,
-						     dialogresult->export_options);
-		stf_export_dialog_format_page_result (druid_data.format_page_data,
-						     dialogresult->export_options);
-
-
-	}
-
-	stf_export_dialog_sheet_page_cleanup (druid_data.sheet_page_data);
-	stf_export_dialog_format_page_cleanup (druid_data.format_page_data);
-
-	gtk_widget_destroy (GTK_WIDGET (druid_data.window));
-	g_object_unref (G_OBJECT (gui));
-
-	return dialogresult;
-}
-
-/**
- * stf_export_dialog_result_free:
- * @result: an StfE_Result_t struct
- *
- * This routine will properly free @result and its members
- **/
-void
-stf_export_dialog_result_free (StfE_Result_t *result)
-{
-	stf_export_options_free (result->export_options);
-
-	g_free (result);
+	return state.result;
 }

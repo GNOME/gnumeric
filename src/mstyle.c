@@ -21,6 +21,7 @@
 #include "sheet-style.h"
 #include "application.h"
 #include "gutils.h"
+#include "gnumeric-gconf.h"
 
 #include <stdio.h>
 
@@ -677,32 +678,15 @@ mstyle_copy_merge (const GnmStyle *orig, const GnmStyle *overlay)
  * Return value: the default style.
  **/
 
-#define GCONF_FONT_BOLD "/apps/gnumeric/core/defaultfont/bold"
-#define GCONF_FONT_ITALIC "/apps/gnumeric/core/defaultfont/italic"
-
 GnmStyle *
 mstyle_new_default (void)
 {
-	GConfClient *client = gnm_app_get_gconf_client ();
-	char *font_name;
-	double font_size;
 	GnmStyle *mstyle = mstyle_new ();
 
-	/* From the gconf configuration */
-	font_name =  gconf_client_get_string (client,
-					      GCONF_DEFAULT_FONT, NULL);
-	if (!font_name)
-		font_name = g_strdup (DEFAULT_FONT);
-	mstyle_set_font_name   (mstyle, font_name);
-	g_free (font_name);
-
-	font_size = gconf_client_get_float (client, GCONF_DEFAULT_SIZE, NULL);
-	mstyle_set_font_size   (mstyle, font_size >= 1 ? font_size : DEFAULT_SIZE);
-	mstyle_set_font_bold   (mstyle, gconf_client_get_bool (client,
-							       GCONF_FONT_BOLD, NULL));
-	mstyle_set_font_italic (mstyle, gconf_client_get_bool (client,
-							       GCONF_FONT_ITALIC, NULL));
-	/* others */
+	mstyle_set_font_name	(mstyle, gnm_app_prefs->default_font.name);
+	mstyle_set_font_size	(mstyle, gnm_app_prefs->default_font.size);
+	mstyle_set_font_bold	(mstyle, gnm_app_prefs->default_font.is_bold);
+	mstyle_set_font_italic	(mstyle, gnm_app_prefs->default_font.is_italic);
 
 	mstyle_set_format_text (mstyle, "General");
 	mstyle_set_align_v     (mstyle, VALIGN_BOTTOM);

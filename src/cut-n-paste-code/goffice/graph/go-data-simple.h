@@ -38,6 +38,24 @@ GOData	*go_data_scalar_val_new      (double val);
 
 typedef struct _GODataScalarStr GODataScalarStr;
 GType	 go_data_scalar_str_get_type (void);
-GOData	*go_data_scalar_str_new      (char const *str, gboolean needs_free);
+GOData	*go_data_scalar_str_new      (char const *text, gboolean needs_free);
+void     go_data_scalar_str_set_str  (GODataScalarStr *str,
+				      char const *text, gboolean needs_free);
+
+#define GO_DATA_VECTOR_VAL_TYPE  (go_data_vector_val_get_type ())
+#define GO_DATA_VECTOR_VAL(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_VECTOR_VAL_TYPE, GODataVectorVal))
+#define IS_GO_DATA_VECTOR_VAL(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_VECTOR_VAL_TYPE))
+
+typedef struct _GODataVectorVal GODataVectorVal;
+GType	 go_data_vector_val_get_type (void);
+GOData	*go_data_vector_val_new      (double const *val, unsigned n);
+
+#define GO_DATA_VECTOR_STR_TYPE  (go_data_vector_str_get_type ())
+#define GO_DATA_VECTOR_STR(o)	 (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_VECTOR_STR_TYPE, GODataVectorStr))
+#define IS_GO_DATA_VECTOR_STR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_VECTOR_STR_TYPE))
+
+typedef struct _GODataVectorStr GODataVectorStr;
+GType	 go_data_vector_str_get_type (void);
+GOData	*go_data_vector_str_new      (char const * const *str, unsigned n);
 
 #endif /* GO_DATA_SIMPLE_H */

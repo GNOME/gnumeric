@@ -172,7 +172,6 @@ gnm_shutdown (void)
 	gnm_conf_shutdown ();
 	mstyle_shutdown ();
 	gnm_string_shutdown ();
-	gnm_app_release_gconf_client ();
 	libgoffice_shutdown ();
 	plugin_services_shutdown ();
 	g_object_unref (gnm_app_get_app ());

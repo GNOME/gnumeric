@@ -268,16 +268,14 @@ gnumeric_sys_data_dir (char const *subdir)
 {
 	if (subdir == NULL)
 		return (char *)gnumeric_data_dir;
-	return g_strconcat (gnumeric_data_dir, G_DIR_SEPARATOR_S,
-			    subdir, G_DIR_SEPARATOR_S, NULL);
+	return g_build_path (G_DIR_SEPARATOR_S, gnumeric_data_dir, subdir, NULL);
 }
 
 extern char *gnumeric_lib_dir;
 char *
 gnumeric_sys_lib_dir (char const *subdir)
 {
-	return g_strconcat (gnumeric_lib_dir, G_DIR_SEPARATOR_S,
-			    subdir, G_DIR_SEPARATOR_S, NULL);
+	return g_build_path (G_DIR_SEPARATOR_S, gnumeric_lib_dir, subdir, NULL);
 }
 
 #define GLADE_SUFFIX	"glade"

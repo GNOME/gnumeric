@@ -31,8 +31,6 @@
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 
-#include <bonobo/bonobo-ui-node.h>
-
 #include <string.h>
 
 static GHashTable *services = NULL;
@@ -395,8 +393,8 @@ plugin_service_file_opener_read_xml (GnmPluginService *service, xmlNode *tree, E
 		xmlNode *node;
 		xmlChar *val;
 
-		node = e_xml_get_child_by_name_by_lang_list (
-		       information_node, "description", NULL);
+		node = e_xml_get_child_by_name_by_lang (
+		       information_node, "description");
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
 			description = g_strdup ((gchar *)val);
@@ -727,8 +725,8 @@ plugin_service_file_saver_read_xml (GnmPluginService *service, xmlNode *tree, Er
 		xmlNode *node;
 		xmlChar *val;
 
-		node = e_xml_get_child_by_name_by_lang_list (
-		       information_node, "description", NULL);
+		node = e_xml_get_child_by_name_by_lang (
+		       information_node, "description");
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
 			description = g_strdup ((gchar *)val);
@@ -980,7 +978,7 @@ plugin_service_function_group_read_xml (GnmPluginService *service, xmlNode *tree
 	} else {
 		category_name = NULL;
 	}
-	translated_category_node = e_xml_get_child_by_name_by_lang_list (tree, "category", NULL);
+	translated_category_node = e_xml_get_child_by_name_by_lang (tree, "category");
 	if (translated_category_node != NULL) {
 		gchar *lang;
 

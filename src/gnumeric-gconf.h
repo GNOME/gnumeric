@@ -4,6 +4,7 @@
 #include <numbers.h>
 #include <gnumeric.h>
 #include <print-info.h>
+#include <gconf/gconf-client.h>
 
 typedef struct {
 	struct {
@@ -11,6 +12,12 @@ typedef struct {
 		char	*sys_dir;
 		char	*usr_dir;
 	} autoformat;
+
+	struct {
+		char const *name;
+		float size;
+		gboolean is_bold, is_italic;
+	} default_font;
 
 	gint     	 file_history_max;
 	GSList const	*file_history_files;
@@ -79,6 +86,7 @@ extern GnmAppPrefs const *gnm_app_prefs;
 void     gnm_conf_init (gboolean fast);
 void     gnm_conf_shutdown (void);
 void     gnm_conf_sync (void);
+GConfClient *gnm_app_get_gconf_client (void);
 
 /* autocorrect */
 void     gnm_gconf_set_autocorrect_init_caps (gboolean val);

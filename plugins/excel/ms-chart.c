@@ -1238,7 +1238,7 @@ BC_R(radar)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogRadialPlot UNIMPLEMENTED");
+	s->plot = gog_plot_new_by_name ("GogRadarPlot");
 
 	return FALSE;
 }
@@ -1250,7 +1250,8 @@ BC_R(radararea)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
-	s->plot = gog_plot_new_by_name ("GogFilledRadialPlot UNIMPLEMENTED");
+	s->plot = gog_plot_new_by_name ("GogRadarPlot");
+#warning filled
 
 	return FALSE;
 }

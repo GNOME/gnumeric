@@ -105,6 +105,7 @@ void	 int_to_entry	(GtkEntry *entry, gint the_int);
 
 GtkWidget *gnumeric_load_image  (char const *name);
 GdkPixbuf *gnumeric_load_pixbuf (char const *name);
+char	  *gnumeric_icondir     (char const *subdir);
 
 GdkPixbuf *gnm_pixbuf_tile (GdkPixbuf const *src, int w, int h);
 

@@ -38,7 +38,6 @@
 #include "mstyle.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <libgnome/gnome-url.h>
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GNM_HLINK_TYPE, GnmHLinkClass)
 
@@ -206,6 +205,10 @@ typedef struct {
 	GnmHLink hlink;
 } GnmHLinkURL;
 
+#ifdef WITH_GNOME
+#include <libgnome/gnome-url.h>
+#endif
+
 static gboolean
 gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
@@ -215,7 +218,11 @@ gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 	if (lnk->target == NULL)
 		return FALSE;
 
+#ifdef WITH_GNOME
 	res = gnome_url_show (lnk->target, &err);
+#else
+	err = g_error_new (0, 0, "No browser connected on this platform");
+#endif
 
 	if (err != NULL) {
 		char *msg = g_strdup_printf(_("Unable to activate the url '%s'"), lnk->target);

@@ -20,6 +20,7 @@ struct _TwoWayTable {
 	GHashTable *unique_keys;
 	GPtrArray  *idx_to_key;
 	gint       base;	/* Indices assigned consecutively from base */
+	GDestroyNotify key_destroy_func;
 };
 
 typedef void (*AfterPutFunc) (gconstpointer key,

@@ -1,11 +1,13 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * main-application.c: Main entry point for the Gnumeric application
  *
  * Author:
  *   Jon Kåre Hellan <hellan@acm.org>
  *   Morten Welinder <terra@gnome.org>
+ *   Jody Goldberg <jody@gnome.org>
  *
- * Copyright (C) 2002, Jon Kåre Hellan
+ * Copyright (C) 2002-2004, Jon Kåre Hellan
  */
 
 #include <gnumeric-config.h>
@@ -36,7 +38,7 @@
 #include <time.h>
 #include <string.h>
 
-#ifdef WITH_BONOBO
+#ifdef WITH_GNOME
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-ui-main.h>
 #endif
@@ -49,7 +51,7 @@ int gnumeric_no_splash = FALSE;
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 
-const struct poptOption
+static struct poptOption const
 gnumeric_popt_options[] = {
 	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,
 	  N_("Display Gnumeric's version"), NULL  },
@@ -83,7 +85,8 @@ gnumeric_popt_options[] = {
 	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
 	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
 
-	{ NULL, '\0', 0, NULL, 0 }
+	POPT_AUTOHELP
+	POPT_TABLEEND
 };
 
 static void
@@ -111,22 +114,125 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 		handle_paint_events ();
 
 		gnm_cmd_context_error_system (GNM_CMD_CONTEXT (ioc),
-				       _("Thank you for using Gnumeric!\n"
-					 "\n"
-					 "The version of Gnumeric you are using is quite old\n"
-					 "by now.  It is likely that many bugs have been fixed\n"
-					 "and that new features have been added in the meantime.\n"
-					 "\n"
-					 "Please consider upgrading before reporting any bugs.\n"
-					 "Consult http://www.gnome.org/projects/gnumeric/ for details.\n"
-					 "\n"
-					 "-- The Gnumeric Team."));
+			_("Thank you for using Gnumeric!\n"
+			  "\n"
+			  "The version of Gnumeric you are using is quite old\n"
+			  "by now.  It is likely that many bugs have been fixed\n"
+			  "and that new features have been added in the meantime.\n"
+			  "\n"
+			  "Please consider upgrading before reporting any bugs.\n"
+			  "Consult http://www.gnome.org/projects/gnumeric/ for details.\n"
+			  "\n"
+			  "-- The Gnumeric Team."));
 	}
 }
 
+#ifdef WITH_GNOME
+#include <libgnome/gnome-program.h>
+#include <libgnome/gnome-init.h>
+#include <libgnomeui/gnome-ui-init.h>
+
+static GnomeProgram *program;
+
+static void
+gnumeric_arg_shutdown (void)
+{
+	g_object_unref (program);
+	program = NULL;
+}
+
+static poptContext
+gnumeric_arg_parse (int argc, char *argv [])
+{
+	poptContext ctx = NULL;
+	int i;
+
+	/* no need to init gtk when dumping function info */
+	for (i = 0 ; i < argc ; i++)
+		if (argv[i] && 0 == strncmp ("--dump-func", argv[i], 11))
+			break;
+
+	program = gnome_program_init (PACKAGE, VERSION,
+		(i < argc) ? LIBGNOME_MODULE : LIBGNOMEUI_MODULE,
+		argc, argv,
+		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
+		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,
+		GNOME_PARAM_APP_DATADIR,	GNUMERIC_DATADIR,
+		GNOME_PARAM_APP_LIBDIR,		GNUMERIC_LIBDIR,
+		GNOME_PARAM_POPT_TABLE,		gnumeric_popt_options,
+		NULL);
+
+	g_object_get (G_OBJECT (program),
+		GNOME_PARAM_POPT_CONTEXT,	&ctx,
+		NULL);
+	return ctx;
+}
+#else
+#include <gtk/gtkmain.h>
+
+static poptContext arg_context;
+
+static void
+gnumeric_arg_shutdown (void)
+{
+	poptFreeContext (arg_context);
+}
+
+static poptContext
+gnumeric_arg_parse (int argc, char const *argv [])
+{
+	static struct poptOption const gtk_options [] = {
+		{ "gdk-debug", '\0', POPT_ARG_STRING, NULL, 0,
+		  N_("Gdk debugging flags to set"), N_("FLAGS")},
+		{ "gdk-no-debug", '\0', POPT_ARG_STRING, NULL, 0,
+		  N_("Gdk debugging flags to unset"), N_("FLAGS")},
+		{ "display", '\0', POPT_ARG_STRING, NULL, 0,
+		  N_("X display to use"), N_("DISPLAY")},
+		{ "screen", '\0', POPT_ARG_INT, NULL, 0,
+		  N_("X screen to use"), N_("SCREEN")},
+		{ "sync", '\0', POPT_ARG_NONE, NULL, 0,
+		  N_("Make X calls synchronous"), NULL},
+		{ "name", '\0', POPT_ARG_STRING, NULL, 0,
+		  N_("Program name as used by the window manager"), N_("NAME")},
+		{ "class", '\0', POPT_ARG_STRING, NULL, 0,
+		  N_("Program class as used by the window manager"), N_("CLASS")},
+		{ "gtk-debug", '\0', POPT_ARG_STRING, NULL, 0,
+		  N_("Gtk+ debugging flags to set"), N_("FLAGS")},
+		{ "gtk-no-debug", '\0', POPT_ARG_STRING, NULL, 0,
+		  N_("Gtk+ debugging flags to unset"), N_("FLAGS")},
+		{ "g-fatal-warnings", '\0', POPT_ARG_NONE, NULL, 0,
+		  N_("Make all warnings fatal"), NULL},
+		{ "gtk-module", '\0', POPT_ARG_STRING, NULL, 0,
+		  N_("Load an additional Gtk module"), N_("MODULE")},
+		POPT_TABLEEND
+	};
+	static struct poptOption const options [] = {
+		{ NULL, '\0', POPT_ARG_INTL_DOMAIN, (char *)GETTEXT_PACKAGE, 0, NULL, NULL },
+		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, (poptOption *)gnumeric_popt_options, 0,
+		  N_("Gnumeric options"), NULL },
+		{ NULL, '\0', POPT_ARG_INCLUDE_TABLE, (poptOption *)gtk_options, 0,
+		  N_("GTK+ options"), NULL },
+		POPT_TABLEEND
+	};
+
+	int i;
+
+	/* no need to init gtk when dumping function info */
+	for (i = 0 ; i < argc ; i++)
+		if (argv[i] && 0 == strncmp ("--dump-func", argv[i], 11))
+			break;
+	if (i >= argc)
+		gtk_init (&argc, (char ***)&argv);
+
+	arg_context = poptGetContext (PACKAGE, argc, argv, options, 0);
+	while (poptGetNextOpt (arg_context) > 0)
+		;
+	return arg_context;
+}
+#endif
 
 int
-main (int argc, char *argv [])
+main (int argc, char const *argv [])
 {
 	char const **startup_files;
 	gboolean opened_workbook = FALSE;
@@ -180,7 +286,7 @@ main (int argc, char *argv [])
 	else
 		startup_files = NULL;
 
-#ifdef WITH_BONOBO
+#ifdef WITH_GNOME
 	bonobo_activate ();
 #endif
 	if (startup_files) {
@@ -242,7 +348,7 @@ main (int argc, char *argv [])
 	gnumeric_arg_shutdown ();
 	gnm_shutdown ();
 
-#ifdef WITH_BONOBO
+#ifdef WITH_GNOME
 	bonobo_ui_debug_shutdown ();
 #endif
 

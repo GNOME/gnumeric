@@ -44,7 +44,6 @@
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-help.h>
 
 #include <string.h>
 
@@ -272,7 +271,8 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 		"key-press-event",
 		G_CALLBACK (cb_modal_dialog_keypress), NULL);
 
-	result = gtk_dialog_run (dialog);
+	while ((result = gtk_dialog_run (dialog)) >= 0)
+	       ;
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	return result;
 }
@@ -865,11 +865,18 @@ go_combo_color_get_style_color (GtkWidget *go_combo_color)
 	return sc;
 }
 
+#ifdef WITH_GNOME
+#include <libgnome/gnome-help.h>
+#endif
 void
 gnumeric_help_display (char const *link)
 {
         g_return_if_fail (link != NULL);
+#ifdef WITH_GNOME
 	gnome_help_display ("gnumeric", link, NULL);
+#else
+	g_warning ("TODO : launch help browser for %s", link);
+#endif
 }
 
 static void
@@ -1049,10 +1056,16 @@ int_to_entry (GtkEntry *entry, gint the_int)
 		value_release(val);
 }
 
+char *
+gnumeric_icondir (char const *filename)
+{
+	return g_build_path (G_DIR_SEPARATOR_S, GNUMERIC_ICONDIR, filename, NULL);
+}
+
 GtkWidget *
 gnumeric_load_image (char const *filename)
 {
-	char *path = g_strconcat (GNUMERIC_ICONDIR "/", filename, NULL);
+	char *path = gnumeric_icondir (filename);
 	GtkWidget *image = gtk_image_new_from_file (path);
 	g_free (path);
 
@@ -1069,7 +1082,7 @@ gnumeric_load_image (char const *filename)
 GdkPixbuf *
 gnumeric_load_pixbuf (char const *filename)
 {
-	char *path = g_strconcat (GNUMERIC_ICONDIR "/", filename, NULL);
+	char *path = gnumeric_icondir (filename);
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 	g_free (path);
 	return pixbuf;

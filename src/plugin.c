@@ -744,8 +744,7 @@ plugin_info_read (GnmPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_erro
 		xmlNode *node;
 		xmlChar *val;
 
-		node = e_xml_get_child_by_name_by_lang_list (
-		       information_node, "name", NULL);
+		node = e_xml_get_child_by_name_by_lang (information_node, "name");
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
 			name = g_strdup ((gchar *)val);
@@ -753,8 +752,7 @@ plugin_info_read (GnmPlugin *plugin, const gchar *dir_name, ErrorInfo **ret_erro
 		} else
 			name = NULL;
 
-		node = e_xml_get_child_by_name_by_lang_list (
-		       information_node, "description", NULL);
+		node = e_xml_get_child_by_name_by_lang (information_node, "description");
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
 			description = g_strdup ((gchar *)val);

@@ -414,7 +414,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 
 	g_return_val_if_fail (!strcmp (tree->name, "FormatTemplate"), FALSE);
 
-	child = e_xml_get_child_by_name_by_lang_list (tree, "Information", NULL);
+	child = e_xml_get_child_by_name_by_lang (tree, "Information");
 	if (child) {
 		xmlChar *author = xml_node_get_cstr (child, "author");
 		xmlChar *name   = xml_node_get_cstr (child, "name");

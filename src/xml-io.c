@@ -53,6 +53,7 @@
 #include "plugin-util.h"
 #include "gnumeric-gconf.h"
 
+#include <goffice/utils/go-locale.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-gzip.h>
@@ -62,7 +63,6 @@
 #include <gsf/gsf-input-memory.h>
 
 #include <libgnomeprint/gnome-print-config.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <locale.h>
 #include <errno.h>
@@ -186,64 +186,45 @@ e_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
 	return NULL;
 }
 
-static xmlNode *
-e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
-						 const gchar *name,
-						 const GList *lang_list,
-						 gint *best_lang_score)
+
+xmlNode *
+e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
 {
-	xmlNodePtr best_node = NULL, node;
+	xmlNodePtr   best_node = NULL, node;
+	gint         best_lang_score = INT_MAX;
+	GList const *lang_list = go_locale_languages ();
+
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
 
 	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
 		xmlChar *lang;
 
-		if (node->name == NULL || strcmp (node->name, name) != 0) {
+		if (node->name == NULL || strcmp (node->name, name) != 0)
 			continue;
-		}
+
 		lang = xmlGetProp (node, "xml:lang");
 		if (lang != NULL) {
 			const GList *l;
 			gint i;
 
 			for (l = lang_list, i = 0;
-			     l != NULL && i < *best_lang_score;
+			     l != NULL && i < best_lang_score;
 			     l = l->next, i++) {
 				if (strcmp ((gchar *) l->data, lang) == 0) {
 					best_node = node;
-					*best_lang_score = i;
+					best_lang_score = i;
 				}
 			}
-		} else {
-			if (best_node == NULL) {
-				best_node = node;
-			}
-		}
+		} else if (best_node == NULL)
+			best_node = node;
+
 		xmlFree (lang);
-		if (*best_lang_score == 0) {
+		if (best_lang_score == 0) 
 			return best_node;
-		}
 	}
 
 	return best_node;
-}
-
-xmlNode *
-e_xml_get_child_by_name_by_lang_list (const xmlNode *parent,
-				      const gchar *name,
-				      const GList *lang_list)
-{
-	gint best_lang_score = INT_MAX;
-
-	g_return_val_if_fail (parent != NULL, NULL);
-	g_return_val_if_fail (name != NULL, NULL);
-
-	if (lang_list == NULL) {
-		lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
-	}
-	return e_xml_get_child_by_name_by_lang_list_with_score
-		(parent,name,
-		 lang_list,
-		 &best_lang_score);
 }
 
 /* ------------------------------------------------------------------------- */

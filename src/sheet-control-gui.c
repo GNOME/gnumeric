@@ -1749,6 +1749,7 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 	if (scg_mode_clear (scg)) {
 		scg->new_object = so;
 		scg_cursor_visible (scg, FALSE);
+		scg_take_focus (scg);
 		scg_set_display_cursor (scg);
 		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
 			MS_CLIPBOARD);

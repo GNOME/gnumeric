@@ -97,9 +97,6 @@ GNUMERIC_BASE =					\
 	gnumeric-simple-canvas.h		\
 	gnumeric-canvas.c			\
 	gnumeric-canvas.h			\
-	gnumeric-gconf.c			\
-	gnumeric-gconf.h			\
-	gnumeric-gconf-priv.h			\
 	gnumeric-pane.c				\
 	gnumeric-pane.h				\
 	gnumeric.h				\
@@ -269,9 +266,12 @@ GNUMERIC_BASE =					\
 	xml-io.h				\
 	xml-io-version.h			\
 	xml-io-autoft.c				\
-	xml-io-autoft.h
+	xml-io-autoft.h				\
+	gnumeric-gconf.c			\
+	gnumeric-gconf.h			\
+	gnumeric-gconf-priv.h
 
-GNUMERIC_BONOBO = 				\
+GNUMERIC_GNOME = 				\
 	bonobo-io.c				\
 	bonobo-io.h				\
 	sheet-object-bonobo.c			\
@@ -291,8 +291,7 @@ gnumeric_SOURCES =				\
 	$(GNUMERIC_SOURCE)			\
 	io-context-gtk.c			\
 	io-context-gtk.h			\
-	main-application.c			\
-	normal-args.c
+	main-application.c
 
 gnumeric_LDADD = 				\
 	$(gnumeric_app_libs)			\
@@ -369,7 +368,7 @@ EXTRA_DIST = GNOME_Gnumeric-gtk.xml				\
 	    gnm-marshalers.list	                        	\
 	    main-application.c normal-args.c 			\
 	    main-component.c					\
-	    $(GNUMERIC_BONOBO) README.gnm_float			\
+	    $(GNUMERIC_GNOME) README.gnm_float			\
 	    gnumeric-paths.sh.in ssconvert.c
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c

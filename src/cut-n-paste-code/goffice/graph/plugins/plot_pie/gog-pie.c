@@ -115,7 +115,7 @@ gog_pie_plot_editor (GogObject *item,
 static gboolean
 gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 {
-	unsigned i, n;
+	unsigned i, n, num_labels = 0;
 	GogPiePlot const *model = GOG_PIE_PLOT (plot);
 	GogSeries const *series;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
@@ -131,13 +131,16 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 	n = model->base.cardinality;
 	style = gog_style_dup (series->base.style);
 	labels = NULL;
-	if (series->values[0].data != NULL)
+	if (series->values[0].data != NULL) {
 		labels = GO_DATA_VECTOR (series->values[0].data);
+		num_labels = go_data_vector_get_len (labels);
+	}
 	for ( ; i < n ; i++) {
 		gog_theme_init_style (theme, style, GOG_OBJECT (series),
 			model->base.index_num + i);
-		label = (labels != NULL)
-			? go_data_vector_get_str (labels, i) : NULL;
+		if (labels != NULL)
+ 			label = (i < num_labels)
+ 				? go_data_vector_get_str (labels, i) : g_strdup ("");
 		if (label == NULL)
 			label = g_strdup_printf ("%d", i);
 		(handler) (i, style, label, data);
@@ -369,14 +372,18 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (index > num_series) /* people snuck extra series into a pie */
 			break;
 
-		has_hole = center_radius > 0.;
-		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;
-		r_ext = center_radius + r * (double)index / (double)num_series;
-
 		style = GOG_STYLED_OBJECT (series)->style;
 		if (model->base.vary_style_by_element)
 			style = gog_style_dup (style);
 		gog_renderer_push_style (view->renderer, style);
+
+		if (num_series == index)
+			r -= 2 * gog_renderer_line_size (
+				view->renderer, style->outline.width);
+
+		has_hole = center_radius > 0.;
+		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;
+		r_ext = center_radius + r * (double)index / (double)num_series;
 
 		theta = (model->initial_angle + series->initial_angle) * 2. * M_PI / 360. - M_PI / 2.;
 

@@ -75,8 +75,6 @@
 #include "sort.h"
 #include <goffice/graph/gog-data-set.h>
 
-#include <libgnomevfs/gnome-vfs-uri.h>
-
 #include <gsf/gsf-impl-utils.h>
 
 #include <gdk/gdkkeysyms.h>
@@ -1934,6 +1932,10 @@ cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
 	}
 }
 
+#if 0
+#include <libgnomevfs/gnome-vfs-uri.h>
+#endif
+
 static void
 cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		gint x, gint y, GtkSelectionData *selection_data,
@@ -1943,6 +1945,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 
 	target_type = gdk_atom_name (selection_data->target);
 
+#if 0
 	/* First possibility: User dropped some filenames. */
 	if (!strcmp (target_type, "text/uri-list")) {
 		GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
@@ -1968,7 +1971,9 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		gnome_vfs_uri_list_free (uris);
 
 	/* Second possibility: User dropped a sheet. */
-	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {
+	} else
+#endif
+	if (!strcmp (target_type, "GNUMERIC_SHEET")) {
 		GtkWidget *label;
 		GtkWidget *source_widget;
 

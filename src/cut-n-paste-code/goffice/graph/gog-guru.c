@@ -479,10 +479,9 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 }
 
 static void
-cb_canvas_realized (G_GNUC_UNUSED GtkWidget *widget,
-		    G_GNUC_UNUSED gpointer data)
+cb_canvas_realized (GtkLayout *widget)
 {
-	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
+	gdk_window_set_back_pixmap (widget->bin_window, NULL, FALSE);
 }
 
 static void
@@ -898,7 +897,7 @@ populate_graph_item_list (GogObject *obj, GogObject *select, GraphGuruState *s,
 		"child-removed",
 		closure, FALSE);
 
-	children = gog_object_get_children (obj);
+	children = gog_object_get_children (obj, NULL);
 	for (ptr = children ; ptr != NULL ; ptr = ptr->next)
 		populate_graph_item_list (ptr->data, select, s, &iter, FALSE);
 	g_slist_free (children);

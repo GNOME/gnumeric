@@ -57,6 +57,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <string.h>
+#include <gconf/gconf-client.h>
 
 enum {
 	ITEM_ICON,
@@ -112,10 +113,10 @@ dialog_pref_add_item (PrefState *state, char const *page_name, char const *icon_
 
 
 static gboolean
-cb_pref_notification_destroy (G_GNUC_UNUSED GtkWidget *page,
-			      guint notification)
+cb_pref_notification_destroy (gpointer notification)
 {
-	gconf_client_notify_remove (gnm_app_get_gconf_client (), notification);
+	gconf_client_notify_remove (gnm_app_get_gconf_client (),
+		GPOINTER_TO_INT (notification));
 	return TRUE;
 }
 
@@ -183,7 +184,7 @@ dialog_pref_create_int_spin (char const *key, char const *schema_key,
 	notif = gconf_client_notify_add (state->gconf, key,
 			  (GConfClientNotifyFunc) pref_window_set,
 			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (table),
+	g_signal_connect_swapped (G_OBJECT (table),
 		"destroy",
 		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
 	g_signal_connect (G_OBJECT (item),
@@ -225,7 +226,7 @@ dialog_pref_create_float_spin (char const *key, char const *schema_key,
 	notif = gconf_client_notify_add (state->gconf, key,
 			  (GConfClientNotifyFunc) pref_window_set,
 			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (table),
+	g_signal_connect_swapped (G_OBJECT (table),
 		"destroy",
 		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
 	g_signal_connect (G_OBJECT (item),
@@ -265,7 +266,7 @@ dialog_pref_create_checkbox (char const *key, char const *schema_key,
 	notif = gconf_client_notify_add (state->gconf, key,
 			  (GConfClientNotifyFunc) pref_window_set,
 			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (table),
+	g_signal_connect_swapped (G_OBJECT (table),
 		"destroy",
 		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
 	g_signal_connect (G_OBJECT (item),
@@ -601,7 +602,7 @@ pref_tree_initializer (PrefState *state, gpointer data,
 			 (GConfClientNotifyFunc) cb_pref_tree_changed_notification,
 			 model, NULL, NULL);
 
-		g_signal_connect (G_OBJECT (page),
+		g_signal_connect_swapped (G_OBJECT (page),
 			"destroy",
 			G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
 	}
@@ -696,7 +697,7 @@ pref_font_initializer (PrefState *state,
 						(GConfClientNotifyFunc) cb_pref_font_set_fonts,
 						page, NULL, NULL);
 
-	g_signal_connect (G_OBJECT (page),
+	g_signal_connect_swapped (G_OBJECT (page),
 		"destroy",
 		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
 	g_signal_connect (G_OBJECT (page),
@@ -789,7 +790,7 @@ pref_font_hf_initializer (PrefState *state,
 						(GConfClientNotifyFunc) cb_pref_font_hf_set_fonts,
 						page, NULL, NULL);
 
-	g_signal_connect (G_OBJECT (page),
+	g_signal_connect_swapped (G_OBJECT (page),
 		"destroy",
 		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
 	g_signal_connect (G_OBJECT (page),

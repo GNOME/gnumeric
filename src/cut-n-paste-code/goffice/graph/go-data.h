@@ -38,6 +38,7 @@ gboolean  go_data_eq		(GOData const *a, GOData const *b);
 GOFormat *go_data_preferred_fmt (GOData const *dat);
 char     *go_data_as_str	(GOData const *dat);
 gboolean  go_data_from_str	(GOData *dat, char const *str);
+void	  go_data_emit_changed  (GOData *dat);
 
 /*************************************************************************/
 

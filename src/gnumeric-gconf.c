@@ -34,6 +34,19 @@
 
 static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;
+static GConfClient *gconf_client = NULL;
+
+GConfClient *
+gnm_app_get_gconf_client (void)
+{
+	if (!gconf_client) {
+		gconf_client = gconf_client_get_default ();
+		gconf_client_add_dir (gconf_client, "/apps/gnumeric",
+				      GCONF_CLIENT_PRELOAD_RECURSIVE,
+				      NULL);
+	}
+	return gconf_client;
+}
 
 static GConfValue *
 gnm_gconf_get (GConfClient *client, char const *key, GConfValueType t)
@@ -161,6 +174,17 @@ static void
 gnm_conf_init_essential (void)
 {
 	GConfClient *client = gnm_app_get_gconf_client ();
+
+	prefs.default_font.name = gconf_client_get_string (client,
+		CONF_DEFAULT_FONT_NAME, NULL);
+	if (prefs.default_font.name == NULL)
+		prefs.default_font.name = g_strdup (DEFAULT_FONT);
+	prefs.default_font.size = gnm_gconf_get_float (client,
+		CONF_DEFAULT_FONT_SIZE, 1., 100., DEFAULT_SIZE);
+	prefs.default_font.is_bold = gnm_gconf_get_bool (client,
+		CONF_DEFAULT_FONT_BOLD, FALSE);
+	prefs.default_font.is_italic = gnm_gconf_get_bool (client,
+		CONF_DEFAULT_FONT_ITALIC, FALSE);
 
 	prefs.file_history_max = gnm_gconf_get_int (client,
 		GNUMERIC_GCONF_FILE_HISTORY_N, 0, 20, 4);
@@ -337,6 +361,11 @@ gnm_conf_shutdown (void)
 {
 	mstyle_unref (prefs.printer_decoration_font);
 	prefs.printer_decoration_font = NULL;
+	if (gconf_client) {
+		gconf_client_remove_dir (gconf_client, "/apps/gnumeric", NULL);
+		g_object_unref (G_OBJECT (gconf_client));
+		gconf_client = NULL;
+	}
 }
 
 void

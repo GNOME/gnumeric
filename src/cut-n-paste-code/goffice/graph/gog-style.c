@@ -65,7 +65,7 @@ static void
 gog_style_extension_class_init (GogStyleExtensionClass *klass)
 {
 	gse_parent_klass = g_type_class_peek_parent (klass);
-	
+
 	gog_style_extension_signals [CHANGED] = g_signal_new ("changed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -96,9 +96,9 @@ gog_style_extension_dup (GogStyleExtension *gse)
 {
 	GogStyleExtension *new_gse;
 
-	if (gse == NULL) 
+	if (gse == NULL)
 		return NULL;
-	
+
 	g_return_val_if_fail (IS_GOG_STYLE_EXTENSION (gse), NULL);
 
 	new_gse = g_object_new (G_TYPE_FROM_INSTANCE (gse), NULL);
@@ -113,7 +113,7 @@ gog_style_extension_assign (GogStyleExtension *gse_dst, GogStyleExtension const 
 {
 	GogStyleExtensionClass *klass = GOG_STYLE_EXTENSION_GET_CLASS (gse_dst);
 
-	g_return_if_fail (IS_GOG_STYLE_EXTENSION (gse_dst) && 
+	g_return_if_fail (IS_GOG_STYLE_EXTENSION (gse_dst) &&
 			  IS_GOG_STYLE_EXTENSION (gse_src));
 
 	g_return_if_fail (G_TYPE_FROM_INSTANCE (gse_dst) == G_TYPE_FROM_INSTANCE (gse_src));
@@ -139,12 +139,12 @@ gog_style_extension_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 	GogStyleExtensionClass *klass = GOG_STYLE_EXTENSION_GET_CLASS (gpd);
 
 	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "extension", NULL);
-	xmlSetProp (node, (xmlChar const *) "type", 
+	xmlSetProp (node, (xmlChar const *) "type",
 		G_OBJECT_TYPE_NAME (gpd));
-	
+
 	if (klass->save)
 		(*klass->save) (gpd, node);
-	
+
 	xmlAddChild (parent, node);
 }
 
@@ -153,7 +153,7 @@ gog_style_extension_new_from_xml (xmlNode *node)
 {
 	xmlChar *type_name = xmlGetProp (node, (xmlChar const *) "type");
 	gpointer object = NULL;
-	
+
 	if (type_name != NULL) {
 		GType type = g_type_from_name (type_name);
 		if (type != 0)
@@ -176,11 +176,11 @@ void
 gog_style_extension_emit_changed (GogStyleExtension *gse)
 {
 	g_signal_emit (G_OBJECT (gse),
-		gog_style_extension_signals [CHANGED], 0);		
+		gog_style_extension_signals [CHANGED], 0);
 }
 
 char const *
-gog_style_extension_get_name (GogStyleExtension *gse) 
+gog_style_extension_get_name (GogStyleExtension *gse)
 {
 	GogStyleExtensionClass *klass = GOG_STYLE_EXTENSION_GET_CLASS (gse);
 
@@ -231,7 +231,7 @@ typedef struct {
 			guint	   timer;
 		} gradient;
 		struct {
-			GdkPixbuf *image;	
+			GdkPixbuf *image;
 		} image;
 	} fill;
 	struct {
@@ -313,15 +313,15 @@ gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
 	}
 
 	w = glade_xml_get_widget (state->gui, "fill_image_sample");
-	
+
 	scaled = gnm_pixbuf_intelligent_scale (pix, HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
-	
+
 	w = glade_xml_get_widget (state->gui, "image-size-label");
 	width = gdk_pixbuf_get_width (pix);
 	height = gdk_pixbuf_get_height (pix);
-	
+
 	size = g_strdup_printf (_("%d x %d"), width, height);
 	gtk_label_set_text (GTK_LABEL (w), size);
 	g_free (size);
@@ -332,7 +332,7 @@ static void
 cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	
+
 	g_return_if_fail (style != NULL);
 
 	style->outline.width = adj->value;
@@ -346,7 +346,7 @@ cb_outline_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 			  gboolean  is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	
+
 	g_return_if_fail (style != NULL);
 
 	style->outline.color = color;
@@ -374,7 +374,7 @@ outline_init (StylePrefState *state, gboolean enable)
 
 	w = create_go_combo_color (state,
 		style->outline.color, default_style->outline.color,
-		"outline_color", "outline_color_label", 
+		"outline_color", "outline_color_label",
 		G_CALLBACK (cb_outline_color_changed));
 	table = glade_xml_get_widget (state->gui, "outline_table");
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 0, 1, 0, 0, 0, 0);
@@ -388,9 +388,9 @@ static void
 cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 {
 	GogStyle *style = state->style;
-	
+
 	g_return_if_fail (style != NULL);
-	
+
 	style->line.width = adj->value;
 	set_style (state);
 }
@@ -402,9 +402,9 @@ cb_line_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 		       gboolean  is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	
+
 	g_return_if_fail (style != NULL);
-	
+
 	style->line.color = color;
 	style->line.auto_color = is_default;
 	set_style (state);
@@ -493,10 +493,10 @@ cb_fg_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
-	
+
 	style->fill.u.pattern.pat.fore = color;
 	style->fill.pattern_fore_auto = is_default;
-	style->fill.is_auto = (style->fill.pattern_fore_auto & 
+	style->fill.is_auto = (style->fill.pattern_fore_auto &
 			       style->fill.pattern_back_auto);
 	set_style (state);
 	populate_pattern_combo (state);
@@ -512,10 +512,10 @@ cb_bg_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
-	
+
 	style->fill.u.pattern.pat.back = color;
 	style->fill.pattern_back_auto = is_default;
-	style->fill.is_auto = (style->fill.pattern_fore_auto & 
+	style->fill.is_auto = (style->fill.pattern_fore_auto &
 			       style->fill.pattern_back_auto);
 	set_style (state);
 	populate_pattern_combo (state);
@@ -595,7 +595,7 @@ cb_fill_gradient_start_color (G_GNUC_UNUSED GOComboColor *cc, GOColor  color,
 	GogStyle *style = state->style;
 	style->fill.u.gradient.start = color;
 	style->fill.gradient_start_auto = is_default;
-	style->fill.is_auto = (style->fill.gradient_start_auto & 
+	style->fill.is_auto = (style->fill.gradient_start_auto &
 			       style->fill.gradient_end_auto);
 	set_style (state);
 	populate_gradient_combo (state);
@@ -619,7 +619,7 @@ cb_fill_gradient_end_color (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 
 	style->fill.u.gradient.end = color;
 	style->fill.gradient_end_auto = is_default;
-	style->fill.is_auto = (style->fill.gradient_start_auto & 
+	style->fill.is_auto = (style->fill.gradient_start_auto &
 			       style->fill.gradient_end_auto);
 	set_style (state);
 
@@ -741,15 +741,10 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 
 	filename = gui_image_file_select (NULL,
 					  style->fill.u.image.filename);
-	if (!filename)
+	if (filename == NULL)
 		return;
 
-	if (style->fill.u.image.image != NULL)
-		g_object_unref (style->fill.u.image.image);
-	g_free (style->fill.u.image.filename);
-
-	style->fill.u.image.filename = filename;
-	style->fill.u.image.image = gdk_pixbuf_new_from_file (filename, NULL);
+	gog_style_set_fill_image_filename (style, filename);
 
 	w = glade_xml_get_widget (state->gui, "fill_image_sample");
 	g_object_set_data (G_OBJECT (w), "filename",
@@ -922,7 +917,7 @@ populate_marker_combo (StylePrefState *state)
 
 	table = glade_xml_get_widget (state->gui, "marker_table");
 	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
-	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo), 
+	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo),
 		go_marker_get_shape (style->marker.mark));
 	g_signal_connect (G_OBJECT (combo),
 		"changed",
@@ -937,7 +932,7 @@ cb_marker_outline_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 				 gboolean is_auto, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	if (is_auto) 
+	if (is_auto)
 		color = go_marker_get_outline_color (state->default_style->marker.mark);
 	go_marker_set_outline_color (style->marker.mark, color);
 	style->marker.auto_outline_color = is_auto;
@@ -952,7 +947,7 @@ cb_marker_fill_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 			      gboolean is_auto, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	if (is_auto) 
+	if (is_auto)
 		color = go_marker_get_fill_color (state->default_style->marker.mark);
 	go_marker_set_fill_color (style->marker.mark, color);
 	style->marker.auto_fill_color = is_auto;
@@ -973,12 +968,12 @@ marker_init (StylePrefState *state, gboolean enable)
 	GogStyle *style = state->style;
 	GogStyle *default_style = state->default_style;
 	GtkWidget *table, *w;
-	
+
 	if (!enable) {
 		gtk_widget_hide (glade_xml_get_widget (state->gui, "marker_outer_table"));
 		return;
 	}
-	
+
 	populate_marker_combo (state);
 	table = glade_xml_get_widget (state->gui, "marker_table");
 
@@ -995,7 +990,7 @@ marker_init (StylePrefState *state, gboolean enable)
 		"pattern_foreground", "marker_outline_label",
 		G_CALLBACK (cb_marker_outline_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
-	
+
 	w = glade_xml_get_widget (state->gui, "marker_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
 		go_marker_get_size (style->marker.mark));
@@ -1074,7 +1069,7 @@ gog_style_pref_state_free (StylePrefState *state)
 }
 
 static gpointer
-style_editor (GogStyle *style, 
+style_editor (GogStyle *style,
 	      GogStyle *default_style,
 	      GnmCmdContext *cc,
 	      gpointer optional_notebook,
@@ -1131,7 +1126,7 @@ style_editor (GogStyle *style,
 	gse = gog_style_get_extension (style);
 	if (gse != NULL)
 	{
-		extension_editor = 
+		extension_editor =
 			gog_style_extension_editor (gog_style_get_extension (style), cc);
 		g_signal_connect_swapped (gse, "changed", G_CALLBACK (set_style), state);
 	}
@@ -1143,7 +1138,7 @@ style_editor (GogStyle *style,
 
 	if (notebook != NULL) {
 		if (extension_editor != NULL)
-			gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), 
+			gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 				extension_editor,
 				gtk_label_new (gog_style_extension_get_name (gse)));
 		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w,
@@ -1154,13 +1149,13 @@ style_editor (GogStyle *style,
 }
 
 gpointer
-gog_style_editor (GogStyle *style, 
+gog_style_editor (GogStyle *style,
 		  GogStyle *default_style,
 		  GnmCmdContext *cc,
 		  gpointer optional_notebook)
 {
 	return style_editor (style, default_style,
-			     cc, optional_notebook, 
+			     cc, optional_notebook,
 			     NULL);
 }
 
@@ -1168,7 +1163,7 @@ gpointer
 gog_styled_object_editor (GogStyledObject *gso, GnmCmdContext *cc, gpointer optional_notebook)
 {
 	gpointer editor;
-	
+
 	GogStyle *style = gog_style_dup (gog_styled_object_get_style (gso));
 	GogStyle *default_style = gog_styled_object_get_auto_style (gso);
 
@@ -1244,7 +1239,7 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	dst->interesting_fields = src->interesting_fields;
 	dst->needs_obj_defaults = src->needs_obj_defaults;
 
-	if (dst->extension != NULL) 
+	if (dst->extension != NULL)
 		g_object_unref (dst->extension);
 	dst->extension = gog_style_extension_dup (src->extension);
 	dst->extension_type = src->extension_type;
@@ -1277,9 +1272,9 @@ gog_style_merge	(GogStyle *dst, GogStyle const *src)
 	if (dst->fill.is_auto) {
 		switch (dst->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
-			dst->fill.u.pattern.pat.fore 
+			dst->fill.u.pattern.pat.fore
 				= src->fill.u.pattern.pat.fore;
-			dst->fill.u.pattern.pat.back 
+			dst->fill.u.pattern.pat.back
 				= src->fill.u.pattern.pat.back;
 			break;
 		case GOG_FILL_STYLE_GRADIENT:
@@ -1352,7 +1347,7 @@ gog_style_init (GogStyle *style)
 	style->marker.auto_fill_color =
 	style->outline.auto_color =
 	style->line.auto_color =
-	style->fill.is_auto = 
+	style->fill.is_auto =
 	style->fill.pattern_fore_auto =
 	style->fill.pattern_back_auto =
 	style->fill.gradient_start_auto =
@@ -1412,7 +1407,7 @@ gog_style_line_load (xmlNode *node, GogStyleLine *line)
 {
 	char *str;
 	gboolean tmp;
-	
+
 	str = xmlGetProp (node, "width");
 	if (str != NULL) {
 		line->width = g_strtod (str, NULL);
@@ -1428,7 +1423,7 @@ gog_style_line_load (xmlNode *node, GogStyleLine *line)
 }
 
 static void
-gog_style_line_save (xmlNode *parent, xmlChar const *name, 
+gog_style_line_save (xmlNode *parent, xmlChar const *name,
 		     GogStyleLine *line)
 {
 	gchar *str;
@@ -1440,7 +1435,7 @@ gog_style_line_save (xmlNode *parent, xmlChar const *name,
 	str = go_color_as_str (line->color);
 	xmlSetProp (node, (xmlChar const *) "color", str);
 	g_free (str);
-	xmlSetProp (node, (xmlChar const *) "auto-color", 
+	xmlSetProp (node, (xmlChar const *) "auto-color",
 		    line->auto_color ? "true" : "false");
 	xmlAddChild (parent, node);
 }
@@ -1481,11 +1476,11 @@ gog_style_gradient_save (xmlNode *parent, GogStyle *style)
 	gchar *str;
 	xmlNode *node =  xmlNewDocNode (parent->doc, NULL, "gradient", NULL);
 
-	xmlSetProp (node, (xmlChar const *) "direction", 
+	xmlSetProp (node, (xmlChar const *) "direction",
 		    go_gradient_dir_as_str (style->fill.u.gradient.dir));
 	/* FIXME: According to gog-style.h, condition is >= 0 */
 	if (style->fill.u.gradient.brightness > 0) {
-		str = g_strdup_printf ("%f",  
+		str = g_strdup_printf ("%f",
 				       style->fill.u.gradient.brightness);
 		xmlSetProp (node, (xmlChar const *) "brightness", str);
 		g_free (str);
@@ -1517,7 +1512,7 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 
 	switch (style->fill.type) {
 	case GOG_FILL_STYLE_PATTERN:
-		for (ptr = node->xmlChildrenNode ; 
+		for (ptr = node->xmlChildrenNode ;
 		     ptr != NULL ; ptr = ptr->next) {
 			if (xmlIsBlankNode (ptr) || ptr->name == NULL)
 				continue;
@@ -1544,11 +1539,11 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 		}
 		break;
 	case GOG_FILL_STYLE_GRADIENT:
-		for (ptr = node->xmlChildrenNode ; 
+		for (ptr = node->xmlChildrenNode ;
 		     ptr != NULL ; ptr = ptr->next) {
 			if (xmlIsBlankNode (ptr) || ptr->name == NULL)
 				continue;
-			if (strcmp (ptr->name, "gradient") == 0) 
+			if (strcmp (ptr->name, "gradient") == 0)
 				gog_style_gradient_load (ptr, style);
 		}
 		break;
@@ -1566,16 +1561,16 @@ gog_style_fill_save (xmlNode *parent, GogStyle *style)
 	gchar *str;
 	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "fill", NULL);
 	xmlNode *child;
-	xmlSetProp (node, (xmlChar const *) "type", 
+	xmlSetProp (node, (xmlChar const *) "type",
 		    fill_style_as_str (style->fill.type));
-	xmlSetProp (node, (xmlChar const *) "is-auto", 
+	xmlSetProp (node, (xmlChar const *) "is-auto",
 		    style->fill.is_auto ? "true" : "false");
 	switch (style->fill.type) {
 	case GOG_FILL_STYLE_NONE:
 		break;
 	case GOG_FILL_STYLE_PATTERN:
 		child =  xmlNewDocNode (parent->doc, NULL, "pattern", NULL);
-		xmlSetProp (child, (xmlChar const *) "type", 
+		xmlSetProp (child, (xmlChar const *) "type",
 			    go_pattern_as_str (style->fill.u.pattern.pat.pattern));
 		str = go_color_as_str (style->fill.u.pattern.pat.fore);
 		xmlSetProp (child, (xmlChar const *) "fore", str);
@@ -1638,18 +1633,18 @@ gog_style_marker_save (xmlNode *parent, GogStyle *style)
 	gchar *str;
 	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "marker", NULL);
 
-	xmlSetProp (node, (xmlChar const *) "auto-shape", 
+	xmlSetProp (node, (xmlChar const *) "auto-shape",
 		style->marker.auto_shape ? "true" : "false");
-	xmlSetProp (node, (xmlChar const *) "shape", 
+	xmlSetProp (node, (xmlChar const *) "shape",
 		go_marker_shape_as_str (go_marker_get_shape (style->marker.mark)));
 
-	xmlSetProp (node, (xmlChar const *) "auto-outline", 
+	xmlSetProp (node, (xmlChar const *) "auto-outline",
 		style->marker.auto_outline_color ? "true" : "false");
 	str = go_color_as_str (go_marker_get_outline_color (style->marker.mark));
 	xmlSetProp (node, (xmlChar const *) "outline-color", str);
 	g_free (str);
 
-	xmlSetProp (node, (xmlChar const *) "auto-fill", 
+	xmlSetProp (node, (xmlChar const *) "auto-fill",
 		style->marker.auto_fill_color ? "true" : "false");
 	str = go_color_as_str (go_marker_get_fill_color (style->marker.mark));
 	xmlSetProp (node, (xmlChar const *) "fill-color", str);
@@ -1698,7 +1693,7 @@ gog_style_font_save (xmlNode *parent, GogStyle *style)
 	str = go_font_as_str (style->font.font);
 	xmlSetProp (node, (xmlChar const *) "font", str);
 	g_free (str);
-	xmlSetProp (node, (xmlChar const *) "auto-scale", 
+	xmlSetProp (node, (xmlChar const *) "auto-scale",
 		    style->font.auto_scale ? "true" : "false");
 
 	xmlAddChild (parent, node);
@@ -1718,7 +1713,7 @@ gog_style_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 		if (strcmp (ptr->name, "outline") == 0)
 			gog_style_line_load (ptr, &style->outline);
 		else if (strcmp (ptr->name, "line") == 0)
-			gog_style_line_load (ptr, &style->line); 
+			gog_style_line_load (ptr, &style->line);
 		else if (strcmp (ptr->name, "fill") == 0)
 			gog_style_fill_load (ptr, style);
 		else if (strcmp (ptr->name, "marker") == 0)
@@ -1736,7 +1731,7 @@ gog_style_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 {
 	GogStyle *style = GOG_STYLE (gpd);
 
-	xmlSetProp (parent, (xmlChar const *) "type", 
+	xmlSetProp (parent, (xmlChar const *) "type",
 		G_OBJECT_TYPE_NAME (style));
 
 	if (style->interesting_fields & GOG_STYLE_OUTLINE)
@@ -1750,7 +1745,7 @@ gog_style_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 	if (style->interesting_fields & GOG_STYLE_FONT)
 		gog_style_font_save (parent, style);
 	if (style->extension)
-		gog_persist_dom_save (GOG_PERSIST_DOM (style->extension), parent); 
+		gog_persist_dom_save (GOG_PERSIST_DOM (style->extension), parent);
 }
 
 static void
@@ -1793,7 +1788,7 @@ gog_style_is_line_visible (GogStyle const *style)
  * gog_style_set_marker :
  * @style : #GogStyle
  * @marker : #GOMarker
- * 
+ *
  * Absorb a reference to @marker and assign it to @style.
  **/
 void
@@ -1827,17 +1822,44 @@ void
 gog_style_set_fill_brightness (GogStyle *style, float brightness)
 {
 	g_return_if_fail (GOG_STYLE (style) != NULL);
+	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_GRADIENT);
+
 	style->fill.u.gradient.brightness = brightness;
 	style->fill.u.gradient.end = (brightness < 50.)
 		? UINT_INTERPOLATE(style->fill.u.gradient.start, RGBA_WHITE, 1. - brightness / 50.)
 		: UINT_INTERPOLATE(style->fill.u.gradient.start, RGBA_BLACK, brightness / 50. - 1.);
 }
 
+/**
+ * gog_style_set_fill_image_filename :
+ * @style : #GogStyle
+ * @filename :
+ *
+ * absorb the string and eventually free it.
+ **/
+void
+gog_style_set_fill_image_filename (GogStyle *style, char *filename)
+{
+	g_return_if_fail (GOG_STYLE (style) != NULL);
+
+	if (style->fill.type == GOG_FILL_STYLE_IMAGE) {
+		if (style->fill.u.image.image != NULL)
+			g_object_unref (style->fill.u.image.image);
+		g_free (style->fill.u.image.filename);
+	} else {
+		style->fill.type = GOG_FILL_STYLE_IMAGE;
+		style->fill.u.image.type = GOG_IMAGE_CENTERED;
+	}
+
+	style->fill.u.image.filename = filename;
+	style->fill.u.image.image = gdk_pixbuf_new_from_file (filename, NULL);
+}
+
 GogStyleExtension *
-gog_style_get_extension (GogStyle *style) 
+gog_style_get_extension (GogStyle *style)
 {
 	g_return_val_if_fail (GOG_STYLE (style) != NULL, NULL);
-	
+
 	if (style->extension != NULL)
 		return style->extension;
 
@@ -1850,7 +1872,7 @@ gog_style_get_extension (GogStyle *style)
 }
 
 void
-gog_style_set_extension (GogStyle *style, GogStyleExtension *extension) 
+gog_style_set_extension (GogStyle *style, GogStyleExtension *extension)
 {
 	g_return_if_fail (IS_GOG_STYLE (style) &&
 			  IS_GOG_STYLE_EXTENSION (extension));

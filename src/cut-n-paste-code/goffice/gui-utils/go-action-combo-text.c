@@ -77,12 +77,23 @@ struct _GOActionComboText {
 	GtkAction	base;
 	GSList		*elements;
 	char const 	*largest_elem;
+	char *entry_val;
 };
 typedef struct {
 	GtkActionClass	base;
 } GOActionComboTextClass;
 
 static GObjectClass *combo_text_parent;
+
+static void
+set_entry_val (GOActionComboText *taction, char const *text)
+{
+	if (taction->entry_val != text) {
+		g_free (taction->entry_val);
+		taction->entry_val = g_strdup (text);
+	}
+}
+
 #if 0
 static void
 go_action_combo_text_connect_proxy (GtkAction *action, GtkWidget *proxy)
@@ -95,6 +106,14 @@ go_action_combo_disconnect_proxy (GtkAction *action,
 {
 }
 #endif
+
+static gboolean
+cb_entry_changed (GnmComboText *ct, char const *text, GOActionComboText *taction)
+{
+	set_entry_val (taction, text);
+	gtk_action_activate (GTK_ACTION (taction));
+	return TRUE;
+}
 
 static GtkWidget *
 go_action_combo_create_tool_item (GtkAction *act)
@@ -130,10 +149,12 @@ go_action_combo_create_tool_item (GtkAction *act)
 
 	go_combo_box_set_relief (GO_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
 	go_combo_box_set_tearable (GO_COMBO_BOX (tool->combo), TRUE);
-	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool));
+	g_signal_connect (tool->combo,
+		"entry_changed",
+		G_CALLBACK (cb_entry_changed), taction);
 	return GTK_WIDGET (tool);
 }
 
@@ -177,7 +198,7 @@ go_action_combo_text_set_width (GOActionComboText *taction, char const *largest_
 char const *
 go_action_combo_text_get_entry (GOActionComboText const *a)
 {
-	return "90%";
+	return a->entry_val;
 }
 
 void
@@ -185,6 +206,8 @@ go_action_combo_text_set_entry (GOActionComboText *taction, char const *text,
 				GOActionComboTextSearchDir dir)
 {
 	GSList *ptr = gtk_action_get_proxies (GTK_ACTION (taction));
+
+	set_entry_val (taction, text);
 	for ( ; ptr != NULL ; ptr = ptr->next)
 		if (IS_GO_TOOL_COMBO_TEXT (ptr->data))
 			gnm_combo_text_set_text (GO_TOOL_COMBO_TEXT (ptr->data)->combo, text, dir);

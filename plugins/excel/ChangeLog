@@ -1,3 +1,12 @@
+2004-02-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (two_way_table_new) : store the destroy func.
+	(two_way_table_put) : patch leak and use the destroy func on things
+	  that are already in the table.
+
+	* ms-chart.c (BC_R(radar)) : connect the new engine
+	(BC_R(radararea)) : ditto.
+
 2004-02-09  Morten Welinder  <terra@gnome.org>
 
 	* ms-biff.c (ms_biff_query_next): Change to return gboolean and

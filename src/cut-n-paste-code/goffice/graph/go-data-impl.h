@@ -51,9 +51,6 @@ typedef struct {
 	void (*changed)	(GOData *dat);
 } GODataClass;
 
-/* protected */
-void go_data_emit_changed (GOData *dat);
-
 struct _GODataScalar {
 	GOData base;
 };

@@ -3,7 +3,7 @@
 /*
  * go-data-simple.c : 
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -69,7 +69,7 @@ go_data_scalar_val_eq (GOData const *a, GOData const *b)
 	GODataScalarVal const *sval_a = (GODataScalarVal const *)a;
 	GODataScalarVal const *sval_b = (GODataScalarVal const *)b;
 
-	/* GOData::eq is used for identity, not arithamtic */
+	/* GOData::eq is used for identity, not arithmetic */
 	return sval_a->val == sval_b->val;
 }
 
@@ -201,6 +201,7 @@ go_data_scalar_str_from_str (GOData *dat, char const *string)
 	if (str->needs_free)
 		g_free ((char *)str->str);
 	str->str = g_strdup (string);
+	str->needs_free = TRUE;
 	return TRUE;
 }
 
@@ -253,3 +254,223 @@ go_data_scalar_str_new (char const *str, gboolean needs_free)
 	res->needs_free = needs_free;
 	return GO_DATA (res);
 }
+void
+go_data_scalar_str_set_str (GODataScalarStr *str,
+			    char const *text, gboolean needs_free)
+{
+	if (str->str == text)
+		return;
+	if (str->needs_free)
+		g_free ((char *)str->str);
+	str->str = text;
+	str->needs_free = needs_free;
+	go_data_emit_changed (GO_DATA (str));
+}
+
+/*****************************************************************************/
+
+struct _GODataVectorVal {
+	GODataVector	 base;
+	unsigned	 n;
+	double const	*val;
+};
+typedef GODataVectorClass GODataVectorValClass;
+
+static GObjectClass *vector_val_parent_klass;
+
+static void
+go_data_vector_val_finalize (GObject *obj)
+{
+	/* GODataVectorVal *val = (GODataVectorVal *)obj; */
+
+	if (vector_val_parent_klass->finalize)
+		(*vector_val_parent_klass->finalize) (obj);
+}
+
+static GOData *
+go_data_vector_val_dup (GOData const *src)
+{
+	GODataVectorVal *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
+	GODataVectorVal const *src_val = (GODataVectorVal const *)src;
+	dst->val = src_val->val;
+	dst->n = src_val->n;
+	return GO_DATA (dst);
+}
+
+static gboolean
+go_data_vector_val_eq (GOData const *a, GOData const *b)
+{
+	GODataVectorVal const *val_a = (GODataVectorVal const *)a;
+	GODataVectorVal const *val_b = (GODataVectorVal const *)b;
+
+	/* GOData::eq is used for identity, not arithmetic */
+	return val_a->val == val_b->val && val_a->n == val_b->n;
+}
+
+static void
+go_data_vector_val_load_len (GODataVector *vec)
+{
+	vec->base.flags |= GO_DATA_VECTOR_LEN_CACHED;
+	vec->len = ((GODataVectorVal *)vec)->n;
+}
+
+static void
+go_data_vector_val_load_values (GODataVector *vec)
+{
+	GODataVectorVal const *val = (GODataVectorVal const *)vec;
+	double minimum = DBL_MAX, maximum = -DBL_MAX;
+	int i = val->n;
+
+	vec->values = (double *)val->val;
+
+	while (i-- > 0) {
+		if (minimum > val->val[i])
+			minimum = val->val[i];
+		if (maximum < val->val[i])
+			maximum = val->val[i];
+	}
+	vec->minimum = minimum;
+	vec->maximum = maximum;
+	vec->base.flags |= GO_DATA_CACHE_IS_VALID;
+}
+static double
+go_data_vector_val_get_value (GODataVector *vec, unsigned i)
+{
+	return vec->values[i];
+}
+static char *
+go_data_vector_val_get_str (GODataVector *vec, unsigned i)
+{
+	return g_strdup_printf ("%g", vec->values[i]);
+}
+
+static void
+go_data_vector_val_class_init (GObjectClass *gobject_klass)
+{
+	GODataClass *godata_klass = (GODataClass *) gobject_klass;
+	GODataVectorClass *vector_klass = (GODataVectorClass *) gobject_klass;
+
+	vector_val_parent_klass = g_type_class_peek_parent (gobject_klass);
+	gobject_klass->finalize = go_data_vector_val_finalize;
+	godata_klass->dup	= go_data_vector_val_dup;
+	godata_klass->eq	= go_data_vector_val_eq;
+	godata_klass->as_str	= NULL;
+	godata_klass->from_str	= NULL;
+	vector_klass->load_len    = go_data_vector_val_load_len;
+	vector_klass->load_values = go_data_vector_val_load_values;
+	vector_klass->get_value   = go_data_vector_val_get_value;
+	vector_klass->get_str     = go_data_vector_val_get_str;
+}
+
+GSF_CLASS (GODataVectorVal, go_data_vector_val,
+	   go_data_vector_val_class_init, NULL,
+	   GO_DATA_VECTOR_TYPE)
+
+GOData *
+go_data_vector_val_new (double const *val, unsigned n)
+{
+	GODataVectorVal *res = g_object_new (GO_DATA_VECTOR_VAL_TYPE, NULL);
+	res->val = val;
+	res->n = n;
+	return GO_DATA (res);
+}
+
+/*****************************************************************************/
+
+struct _GODataVectorStr {
+	GODataVector	 base;
+	char const * const *str;
+	unsigned n;
+};
+typedef GODataVectorClass GODataVectorStrClass;
+
+static GObjectClass *vector_str_parent_klass;
+
+static void
+go_data_vector_str_finalize (GObject *obj)
+{
+	/* GODataVectorStr *str = (GODataVectorStr *)obj; */
+
+	if (vector_str_parent_klass->finalize)
+		(*vector_str_parent_klass->finalize) (obj);
+}
+
+static GOData *
+go_data_vector_str_dup (GOData const *src)
+{
+	GODataVectorStr *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
+	GODataVectorStr const *src_val = (GODataVectorStr const *)src;
+	dst->n = src_val->n;
+	dst->str = src_val->str;
+	return GO_DATA (dst);
+}
+
+static gboolean
+go_data_vector_str_eq (GOData const *a, GOData const *b)
+{
+	GODataVectorStr const *str_a = (GODataVectorStr const *)a;
+	GODataVectorStr const *str_b = (GODataVectorStr const *)b;
+	return str_a->str == str_b->str && str_a->n == str_b->n;
+}
+
+static void
+go_data_vector_str_load_len (GODataVector *vec)
+{
+	vec->base.flags |= GO_DATA_VECTOR_LEN_CACHED;
+	vec->len = ((GODataVectorStr *)vec)->n;
+}
+static void
+go_data_vector_str_load_values (GODataVector *vec)
+{
+}
+static double
+go_data_vector_str_get_value (GODataVector *vec, unsigned i)
+{
+	return gnm_nan;
+}
+static char *
+go_data_vector_str_get_str (GODataVector *vec, unsigned i)
+{
+	GODataVectorStr *strs = (GODataVectorStr *)vec;
+	return g_strdup (strs->str[i]);
+}
+
+static void
+go_data_vector_str_class_init (GObjectClass *gobject_klass)
+{
+	GODataClass *godata_klass = (GODataClass *) gobject_klass;
+	GODataVectorClass *vector_klass = (GODataVectorClass *) gobject_klass;
+
+	vector_str_parent_klass = g_type_class_peek_parent (gobject_klass);
+	gobject_klass->finalize	= go_data_vector_str_finalize;
+	godata_klass->dup	= go_data_vector_str_dup;
+	godata_klass->eq	= go_data_vector_str_eq;
+	godata_klass->as_str	= NULL;
+	godata_klass->from_str	= NULL;
+	vector_klass->load_len    = go_data_vector_str_load_len;
+	vector_klass->load_values = go_data_vector_str_load_values;
+	vector_klass->get_value   = go_data_vector_str_get_value;
+	vector_klass->get_str     = go_data_vector_str_get_str;
+}
+
+static void
+go_data_vector_str_init (GObject *obj)
+{
+	GODataVectorStr *str = (GODataVectorStr *)obj;
+	str->str = NULL;
+	str->n = 0;
+}
+
+GSF_CLASS (GODataVectorStr, go_data_vector_str,
+	   go_data_vector_str_class_init, go_data_vector_str_init,
+	   GO_DATA_VECTOR_TYPE)
+
+GOData *
+go_data_vector_str_new (char const * const *str, unsigned n)
+{
+	GODataVectorStr *res = g_object_new (GO_DATA_VECTOR_STR_TYPE, NULL);
+	res->str = str;
+	res->n	 = n;
+	return GO_DATA (res);
+}
+

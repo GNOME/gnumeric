@@ -1,0 +1,71 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * gog-radar.h
+ *
+ * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+
+#ifndef GOG_RADAR_H
+#define GOG_RADAR_H
+
+#include <goffice/graph/gog-plot-impl.h>
+
+G_BEGIN_DECLS
+
+/*-----------------------------------------------------------------------------
+ *
+ * GogRadarPlot
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+typedef struct {
+	GogPlot	base;
+	gboolean markers;
+	gboolean area;
+	float	 initial_angle;	 /* degrees clockwise from 12 o'clock */
+	unsigned num_elements;
+} GogRadarPlot;
+
+#define GOG_RADAR_PLOT_TYPE	(gog_radar_plot_get_type ())
+#define GOG_RADAR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_PLOT_TYPE, GogRadarPlot))
+#define GOG_IS_PLOT_RADAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_PLOT_TYPE))
+
+GType gog_radar_plot_get_type (void);
+
+/*-----------------------------------------------------------------------------
+ *
+ * GogRadarSeries
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+typedef struct {
+	GogSeries base;
+	unsigned num_elements;
+} GogRadarSeries;
+typedef GogSeriesClass GogRadarSeriesClass;
+
+#define GOG_RADAR_SERIES_TYPE	(gog_radar_series_get_type ())
+#define GOG_RADAR_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_SERIES_TYPE, GogRadarSeries))
+#define GOG_IS_RADAR_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_SERIES_TYPE))
+
+GType gog_radar_series_get_type (void);
+
+G_END_DECLS
+
+#endif /* GOG_RADAR_H */

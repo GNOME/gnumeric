@@ -1321,6 +1321,8 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				bound = label_pos.x + label_result.w;
 			}
 		}
+		if (line_width > 0)
+			gog_renderer_draw_path (v->renderer, axis_path, NULL);
 		break;
 
 	case GOG_AXIS_Y:
@@ -1409,13 +1411,41 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				bound = label_pos.y - label_result.h;
 			}
 		}
+		if (line_width > 0)
+			gog_renderer_draw_path (v->renderer, axis_path, NULL);
+		break;
+	case GOG_AXIS_CIRCULAR:
+		{
+			ArtVpath  path[3];
+			double center_x, center_y, radius;
+			unsigned i;
+
+			path[0].code = ART_MOVETO;
+			path[1].code = ART_LINETO;
+			path[2].code = ART_END;
+
+			center_x = area->x + (area->w/2);
+			center_y = area->y + (area->h/2);
+			radius = v->allocation.h > v->allocation.w 
+				? v->allocation.w / 2.0 
+				: v->allocation.h / 2.0;
+			path[0].x = center_x;
+			path[0].y = center_y;
+
+			for (i = 0; i < n-1; i++) {
+				double angle_rad = i * 2.0 * M_PI/(n-1);
+
+				path[1].x = center_x + radius * sin(angle_rad);
+				path[1].y = center_y - radius * cos(angle_rad);
+				gog_renderer_draw_path (v->renderer, path, 
+							NULL);
+			}
+		}
 		break;
 	default :
 		break;
 	}
 
-	if (line_width > 0)
-		gog_renderer_draw_path (v->renderer, axis_path, NULL);
 	gog_renderer_pop_style (v->renderer);
 }
 

@@ -1,3 +1,11 @@
+2004-02-21  Jody Goldberg <jody@gnome.org>
+
+	* dialog-stf-export.c : Major reorg to remove the gnomedruid, and
+	  GtkCLists
+
+	* dialog-about.c : rewrite.  Not so pretty, but getting better.  It's
+	  a decent test case for the an api to create a plot.
+
 2004-02-17  Morten Welinder  <terra@gnome.org>
 
 	* print.glade: Revert.
@@ -13,6 +21,10 @@
 	libgnome).
 	* dialog-search.c: Ditto.
 	* dialog-goto-cell.c (dialog_goto_init): Ditto.
+
+2004-02-06  Jody Goldberg <jody@gnome.org>
+
+	* cell-format.glade : add some mnemonics
 
 2004-02-05  Morten Welinder  <terra@gnome.org>
 
