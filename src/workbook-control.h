@@ -43,7 +43,8 @@ void wb_control_undo_redo_labels     (WorkbookControl *wbc,
 				      char const *undo, char const *redo);
 
 void wb_control_insert_cols_rows_enable (WorkbookControl *wbc, Sheet *sheet);
-void wb_control_paste_special_enable (WorkbookControl *wbc, Sheet *sheet);
+void wb_control_insert_cells_enable     (WorkbookControl *wbc, Sheet *sheet);
+void wb_control_paste_special_enable    (WorkbookControl *wbc, Sheet *sheet);
 
 void wb_control_paste_from_selection (WorkbookControl *wbc,
 				      PasteTarget const *pt, guint32 time);

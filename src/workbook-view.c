@@ -204,6 +204,7 @@ wb_view_menus_update (WorkbookView *wbv)
 	if (sheet != NULL) {
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
 			wb_control_insert_cols_rows_enable (control, sheet);
+			wb_control_insert_cells_enable (control, sheet);
 			wb_control_paste_special_enable (control, sheet);
 		});
 	}

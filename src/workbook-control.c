@@ -97,6 +97,8 @@ WBC_VIRTUAL_FULL (undo_redo_labels, undo_redo.labels,
 
 WBC_VIRTUAL_FULL (insert_cols_rows_enable, insert_cols_rows_enable,
         (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
+WBC_VIRTUAL_FULL (insert_cells_enable, insert_cells_enable,
+        (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (paste_special_enable, paste.special_enable,
 	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 	

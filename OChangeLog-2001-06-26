@@ -1,3 +1,25 @@
+2001-02-18  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/sheet-private.h : Add flag for insert cells.
+
+	* src/workbook-control-gui.c :
+	(wbcg_insert_cells_enable) : New, enable/disable the Insert->Cells menu item.
+	(workbook_control_gui_init) : Initialize the insert_cells menu item.
+	(workbook_control_gui_ctor_class) : Initialize insert_cells function pointer.
+
+	* src/workbook-control-gui.h : Add menu_item_insert_cells.
+	
+	* src/workbook-control.c, src/workbook-control.h, src/workbook-control-priv.h :
+	Export wbcg_insert_cell_enable to workbook-control.
+	
+	* src/selection.c
+	(sheet_selection_set_internal) : If the whole sheet is selected, 
+	disable Insert->Cells. Otherwise enable it.
+	(sheet_selection_reset) : Enable Insert->Cells.
+
+ 	* src/workbook-view.c
+ 	(wb_view_menus_update) : Update Insert->Cells too.
+	
 2001-02-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_sheet_write) : Store some flags about the sheet.

@@ -502,6 +502,14 @@ set_menu_flags:
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 					  wb_control_insert_cols_rows_enable (control, sheet););
 	}
+
+	if ((do_rows | do_cols) != sheet->priv->enable_insert_cells) {
+
+		sheet->priv->enable_insert_cells = do_rows | do_cols;
+
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+					  wb_control_insert_cells_enable (control, sheet););
+	}
 }
 
 void
@@ -601,12 +609,15 @@ sheet_selection_reset (Sheet *sheet)
 
 	g_list_free (list);
 
-	sheet->priv->enable_insert_cols = TRUE;
-	sheet->priv->enable_insert_rows = TRUE;
+	sheet->priv->enable_insert_cols  = TRUE;
+	sheet->priv->enable_insert_rows  = TRUE;
+	sheet->priv->enable_insert_cells = TRUE;
 	
-	/* Make sure we re-enable the insert col/rows menu items */
+	/* Make sure we re-enable the insert col/rows and cells menu items */
 	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 				  wb_control_insert_cols_rows_enable (control, sheet););
+	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+				  wb_control_insert_cells_enable (control, sheet););
 }
 
 static void

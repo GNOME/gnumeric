@@ -47,6 +47,7 @@ typedef struct {
 					PasteTarget const *pt, guint32 time);
 	} paste;
 	void     (*insert_cols_rows_enable) (WorkbookControl *wbc, Sheet *sheet);
+	void     (*insert_cells_enable)     (WorkbookControl *wbc, Sheet *sheet);
 	gboolean (*claim_selection)         (WorkbookControl *wbc);
 } WorkbookControlClass;
 

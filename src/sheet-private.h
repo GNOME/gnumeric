@@ -17,6 +17,7 @@ struct _SheetPrivate {
 	/* State of menu items */
 	gboolean         enable_insert_rows;
 	gboolean         enable_insert_cols;
+	gboolean         enable_insert_cells;
 	gboolean         enable_paste_special;
 
 	gboolean	 selection_content_changed;

@@ -707,6 +707,20 @@ wbcg_insert_cols_rows_enable (WorkbookControl *wbc, Sheet *sheet)
 }
 
 static void
+wbcg_insert_cells_enable (WorkbookControl *wbc, Sheet *sheet)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	
+	g_return_if_fail (wbcg != NULL);
+
+#ifndef ENABLE_BONOBO
+	change_menu_sensitivity (wbcg->menu_item_insert_cells, sheet->priv->enable_insert_cells);
+#else
+	change_menu_sensitivity (wbcg, "/commands/InsertCells", "/menu/Insert/Cells", sheet->priv->enable_insert_cells);
+#endif
+}
+
+static void
 change_menu_label (
 #ifndef ENABLE_BONOBO
 		   GtkWidget *menu_item,
@@ -3128,6 +3142,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->menu_item_paste_special = workbook_menu_edit[6].widget;
 	wbcg->menu_item_insert_rows   = workbook_menu_insert[1].widget;
 	wbcg->menu_item_insert_cols   = workbook_menu_insert[2].widget;
+	wbcg->menu_item_insert_cells  = workbook_menu_insert[3].widget;
 #else
 	bonobo_window_set_contents (BONOBO_WINDOW (wbcg->toplevel), wbcg->table);
 
@@ -3252,6 +3267,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->paste.from_selection = wbcg_paste_from_selection;
 
 	wbc_class->insert_cols_rows_enable = wbcg_insert_cols_rows_enable;
+	wbc_class->insert_cells_enable     = wbcg_insert_cells_enable;
 	wbc_class->claim_selection	   = wbcg_claim_selection;
 }
 
