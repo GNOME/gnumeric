@@ -1,3 +1,7 @@
+2002-10-25  Morten Welinder  <terra@diku.dk>
+
+	* dao.c (dao_prepare_output): Fix col/row confusion.
+
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
 	* analysis-tools.c (analysis_tool_ttest_neqvar_engine_run): Use

@@ -201,7 +201,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 	if (dao->rows == 0 || (dao->rows == 1 && dao->cols == 1))
 		dao->rows = SHEET_MAX_ROWS - dao->start_row;
 	if (dao->cols == 0 || (dao->rows == 1 && dao->cols == 1))
-		dao->rows = SHEET_MAX_COLS - dao->start_col;
+		dao->cols = SHEET_MAX_COLS - dao->start_col;
 	dao->offset_col = 0;
 	dao->offset_row = 0;
 }
