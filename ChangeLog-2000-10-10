@@ -1,3 +1,8 @@
+2000-06-20  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_ins_del_row_col_undo): Leak and assertion
+ 	fix from Jody's tree.
+
 2000-06-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_paste_cut_redo) : Plug leak.

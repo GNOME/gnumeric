@@ -669,7 +669,7 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	}
 
 	/* restore row/col sizes */
-	col_row_restore_sizes (me->sheet, me->is_cols, index, me->count, me->sizes);
+	col_row_restore_sizes (me->sheet, me->is_cols, index, index + me->count - 1, me->sizes);
 	me->sizes = NULL;
 
 	/* restore row/col contents */
