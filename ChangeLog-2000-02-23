@@ -1,3 +1,10 @@
+1999-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_fonts_init) : Use the sheet's zoom factor.
+	(item_bar_realize) : Adjust to new item_bar_fonts_init interface.
+
+	* src/sheet-view.c (sheet_view_set_zoom_factor) : Ditto.
+
 1999-11-18  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet.c (sheet_row_set_height_units): Use rows->default_style

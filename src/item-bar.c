@@ -73,17 +73,28 @@ item_bar_fonts_unref (ItemBar *item_bar)
 	}
 }
 
+/*
+ * Scale the item-bar heading fonts by the pixels_per_unit of
+ * th associated sheet.
+ */
 void
-item_bar_fonts_init (ItemBar *item_bar, double const zoom_factor)
+item_bar_fonts_init (ItemBar *item_bar)
 {
-	item_bar_fonts_unref (item_bar);
-
-	item_bar->normal_font =
+	double const zoom_factor =
+		item_bar->sheet_view->sheet->last_zoom_factor_used;
+	StyleFont * const normal_font =
 		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
 				       zoom_factor, FALSE, FALSE);
-	item_bar->bold_font =
+	StyleFont * const bold_font =
 		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
 				       zoom_factor, TRUE, FALSE);
+
+	/* Now that we have the new fonts unref the old ones */
+	item_bar_fonts_unref (item_bar);
+
+	/* And finish up by assigning the new fonts. */
+	item_bar->normal_font = normal_font;
+	item_bar->bold_font = bold_font;
 }
 
 static void
@@ -111,7 +122,7 @@ item_bar_realize (GnomeCanvasItem *item)
 	else
 		item_bar->change_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 
-	item_bar_fonts_init (item_bar, 1.);
+	item_bar_fonts_init (item_bar);
 }
 
 static void
