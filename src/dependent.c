@@ -12,6 +12,8 @@
 #include "utils.h"
 #include "eval.h"
 
+#undef DEBUG_EVALUATION
+
 static GHashTable *dependency_hash;
 
 void
@@ -22,16 +24,40 @@ cell_eval (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 
+#ifdef DEBUG_EVALUATION
+	{
+		char *exprtxt = expr_decode_tree
+			(cell->parsed_node, cell->sheet,
+			 cell->col->pos, cell->row->pos);
+		printf ("Evaluating %s: %s ->\n",
+			cell_name (cell->col->pos, cell->row->pos),
+			exprtxt);
+		g_free (exprtxt);
+	}
+#endif
+
 	v = eval_expr (cell->sheet, cell->parsed_node,
 		       cell->col->pos,
 		       cell->row->pos,
 		       &error_msg);
 
+#ifdef DEBUG_EVALUATION
+	{
+		char *valtxt = v
+			? value_get_as_string (v)
+			: g_strdup ("NULL");
+		printf ("Evaluating %s: -> %s\n",
+			cell_name (cell->col->pos, cell->row->pos),
+			valtxt);
+		g_free (valtxt);
+	}
+#endif
+
 	if (cell->value){
 		value_release (cell->value);
 		cell->value = NULL;
 	}
-	
+
 	if (v == NULL){
 		cell_set_rendered_text (cell, error_msg);
 		cell->value = NULL;
@@ -43,7 +69,7 @@ cell_eval (Cell *cell)
 	}
 
 	cell_calc_dimensions (cell);
-	
+
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
@@ -117,7 +143,7 @@ add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 	result = g_hash_table_lookup (dependency_hash, &range);
 	if (result){
 		GList *cl;
-		
+
 		result->ref_count++;
 
 		/* Is the cell already listed? */
@@ -130,7 +156,7 @@ add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 		return;
 	}
 
-	/* Create a new DependencyRange structure */ 
+	/* Create a new DependencyRange structure */
 	result = g_new (DependencyRange, 1);
 	*result = range;
 	result->ref_count = 1;
@@ -151,12 +177,12 @@ add_value_deps (Cell *cell, const Value *value)
 	case VALUE_FLOAT:
 		/* Constants are no dependencies */
 		break;
-		
+
 		/* Check every element of the array */
 	case VALUE_ARRAY:
 	{
 		int x, y;
-		
+
 		for (x = 0; x < value->v.array.x; x++)
 			for (y = 0; y < value->v.array.y; y++)
 				add_value_deps (cell,
@@ -180,7 +206,7 @@ static void
 add_tree_deps (Cell *cell, ExprTree *tree)
 {
 	GList *l;
-	
+
 	switch (tree->oper){
 	case OPER_ANY_BINARY:
 		add_tree_deps (cell, tree->u.binary.value_a);
@@ -190,8 +216,8 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 	case OPER_ANY_UNARY:
 		add_tree_deps (cell, tree->u.value);
 		return;
-	
-	case OPER_VAR: 
+
+	case OPER_VAR:
 		add_cell_range_deps (
 			cell,
 			&tree->u.ref,
@@ -202,7 +228,7 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 		add_value_deps (cell, tree->u.constant);
 		return;
 
-	case OPER_FUNCALL: 
+	case OPER_FUNCALL:
 		for (l = tree->u.function.arg_list; l; l = l->next)
 			add_tree_deps (cell, l->data);
 		return;
@@ -262,21 +288,21 @@ cell_drop_dependencies (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->parsed_node != NULL);
-	
+
 	if (!dependency_hash)
 		return;
-	
+
 	g_hash_table_foreach (dependency_hash, dependency_remove_cell, cell);
 
 	/* Drop any unused DependencyRanges (because their ref_count reached zero) */
 	if (remove_list){
 		GList *l = remove_list;
-		
+
 		for (; l ; l = l->next){
 			g_hash_table_remove (dependency_hash, l->data);
 			g_free (l->data);
 		}
-		
+
 		g_list_free (remove_list);
 		remove_list = NULL;
 	}
@@ -329,7 +355,7 @@ region_get_dependencies (Sheet *sheet, int start_col, int start_row, int end_col
 
 	if (!dependency_hash)
 		dependency_hash_init ();
-	
+
 	closure.start_col = start_col;
 	closure.start_row = start_row;
 	closure.end_col = end_col;
@@ -349,7 +375,7 @@ cell_get_dependencies (Sheet *sheet, int col, int row)
 
 	if (!dependency_hash)
 		dependency_hash_init ();
-	
+
 	closure.start_col = col;
 	closure.start_row = row;
 	closure.end_col = col;
@@ -374,11 +400,11 @@ cell_queue_recalc (Cell *cell)
 	Workbook *wb;
 
 	g_return_if_fail (cell != NULL);
-	
+
 	if (cell->flags & CELL_QUEUED_FOR_RECALC)
 		return;
 
-	wb = ((Sheet *)cell->sheet)->workbook;
+	wb = cell->sheet->workbook;
 	wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
 	cell->flags |= CELL_QUEUED_FOR_RECALC;
 }
@@ -395,19 +421,19 @@ void
 cell_unqueue_from_recalc (Cell *cell)
 {
 	Workbook *wb;
-	
+
 	g_return_if_fail (cell != NULL);
 
 	if (!(cell->flags & CELL_QUEUED_FOR_RECALC))
 		return;
 
-	wb = ((Sheet *)(cell->sheet))->workbook;
+	wb = cell->sheet->workbook;
 	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
 	cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 }
 
 void
-cell_queue_recalc_list (GList *list)
+cell_queue_recalc_list (GList *list, gboolean freelist)
 {
 	Workbook *wb;
 	Cell *first_cell;
@@ -417,7 +443,7 @@ cell_queue_recalc_list (GList *list)
 		return;
 
 	first_cell = list->data;
-	wb = ((Sheet *)(first_cell->sheet))->workbook;
+	wb = first_cell->sheet->workbook;
 
 	while (list) {
 		Cell *cell = list->data;
@@ -431,7 +457,8 @@ cell_queue_recalc_list (GList *list)
 		cell->flags |= CELL_QUEUED_FOR_RECALC;
 	}
 
-	g_list_free (list0);
+	if (freelist)
+		g_list_free (list0);
 }
 
 static Cell *
@@ -441,7 +468,7 @@ pick_next_cell_from_queue (Workbook *wb)
 
 	if (!wb->eval_queue)
 		return NULL;
-	
+
 	cell = wb->eval_queue->data;
 	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
 	if (!(cell->flags & CELL_QUEUED_FOR_RECALC))
@@ -459,7 +486,7 @@ workbook_next_generation (Workbook *wb)
 {
 	if (wb->generation == 255){
 		GList *cell_list = wb->formula_cell_list;
-		
+
 		for (; cell_list; cell_list = cell_list->next){
 			Cell *cell = cell_list->data;
 
@@ -479,12 +506,16 @@ workbook_recalc (Workbook *wb)
 {
 	int generation;
 	Cell *cell;
-	GList *deps, *l;
 
 	workbook_next_generation (wb);
 	generation = wb->generation;
 
 	while ((cell = pick_next_cell_from_queue (wb))){
+		GList *deps, *l;
+
+		if (cell->generation == generation)
+			continue;
+
 		cell->generation = generation;
 		cell_eval (cell);
 		deps = cell_get_dependencies (cell->sheet, cell->col->pos, cell->row->pos);
@@ -506,13 +537,6 @@ workbook_recalc (Workbook *wb)
 void
 workbook_recalc_all (Workbook *workbook)
 {
-	GList *l;
-	
-	for (l = workbook->formula_cell_list; l; l = l->next){
-		Cell *cell = l->data;
-
-		cell_queue_recalc (cell);
-	}
+	cell_queue_recalc_list (workbook->formula_cell_list, FALSE);
 	workbook_recalc (workbook);
 }
-

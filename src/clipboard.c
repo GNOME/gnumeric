@@ -167,7 +167,7 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 		dest_row + paste_height -1);
 
 	if (deps){
-		cell_queue_recalc_list (deps);
+		cell_queue_recalc_list (deps, TRUE);
 		formulas = 1;
 	}
 

@@ -48,8 +48,7 @@ goal_seek_eval (float_t x, float_t *y, void *vevaldata)
 
 	cell_set_value_simple (evaldata->xcell, value_new_float (x));
 	cell_content_changed (evaldata->xcell);
-
-	cell_eval (evaldata->ycell);
+	workbook_recalc (evaldata->xcell->sheet->workbook);
 
 	if (evaldata->ycell->value) {
 	        *y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;

@@ -38,7 +38,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 	if (cell->generation != sheet->workbook->generation){
 		cell->generation = sheet->workbook->generation;
 
-		if (cell->parsed_node)
+		if (cell->parsed_node && (cell->flags & CELL_QUEUED_FOR_RECALC))
 			cell_eval (cell);
 	}
 	

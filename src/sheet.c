@@ -2122,7 +2122,7 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 
 	deps = cell_get_dependencies (sheet, cell->col->pos, cell->row->pos);
 	if (deps)
-		cell_queue_recalc_list (deps);
+		cell_queue_recalc_list (deps, TRUE);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 
@@ -2748,7 +2748,7 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 
 	/* 2. Recompute dependencies */
 	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps);
+	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
 	/* 3. Redraw */
@@ -2814,7 +2814,7 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 
 	/* Recompute dependencies */
 	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps);
+	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
 	sheet_redraw_all (sheet);
@@ -2930,7 +2930,7 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 
 	/* Check the dependencies and recompute them */
 	deps = region_get_dependencies (sheet, col, row, SHEET_MAX_COLS-1, row);
-	cell_queue_recalc_list (deps);
+	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
 	sheet_redraw_all (sheet);
@@ -3040,7 +3040,7 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 	/* 4. Recompute any changes required */
 	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps);
+	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
 	/* 5. Redraw everything */
@@ -3138,7 +3138,7 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 
 	/* 4. Recompute dependencies */
 	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps);
+	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
 	/* 5. Redraw everything */
@@ -3235,7 +3235,7 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 
 	/* Recompute dependencies on the changed data */
 	deps = region_get_dependencies (sheet, col, row, col, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps);
+	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
 	sheet_redraw_all (sheet);

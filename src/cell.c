@@ -298,7 +298,7 @@ cell_comment_realize (Cell *cell)
 	g_return_if_fail (cell->comment != NULL);
 
 	sheet_cell_comment_link (cell);
-	for (l = ((Sheet *)cell->sheet)->sheet_views; l; l = l->next){
+	for (l = cell->sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = SHEET_VIEW (l->data);
 		GnomeCanvasItem *o;
 
@@ -683,7 +683,7 @@ cell_content_changed (Cell *cell)
 				      cell->col->pos,
 				      cell->row->pos);
 	if (deps)
-		cell_queue_recalc_list (deps);
+		cell_queue_recalc_list (deps, TRUE);
 }
 
 /*

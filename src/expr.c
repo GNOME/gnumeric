@@ -411,7 +411,7 @@ value_get_as_int (const Value *v)
 		return atoi (v->v.str->str);
 
 	case VALUE_CELLRANGE:
-		g_warning ("Getting range as a double: what to do?");
+		g_warning ("Getting range as a int: what to do?");
 		return 0;
 
 	case VALUE_INTEGER:
@@ -1213,8 +1213,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		if (cell){
 			if (cell->generation != sheet->workbook->generation){
 				cell->generation = sheet->workbook->generation;
-
-				if (cell->parsed_node)
+				if (cell->parsed_node && (cell->flags & CELL_QUEUED_FOR_RECALC))
 					cell_eval (cell);
 			}
 

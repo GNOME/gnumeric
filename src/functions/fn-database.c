@@ -123,7 +123,7 @@ find_column_of_field(Value *database, Value *field)
 	if (field->type != VALUE_STRING)
 	        return -1;
 
-	sheet = (Sheet *) database->v.cell_range.cell_a.sheet;
+	sheet = database->v.cell_range.cell_a.sheet;
 	field_name = value_get_as_string (field);
 	column = -1;
 
@@ -221,7 +221,7 @@ parse_database_criteria(Value *database, Value *criteria)
 	int   b_col, b_row, e_col, e_row;
 	int   field_ind;
 
-	sheet = (Sheet *) database->v.cell_range.cell_a.sheet;
+	sheet = database->v.cell_range.cell_a.sheet;
 	b_col = criteria->v.cell_range.cell_a.col;
 	b_row = criteria->v.cell_range.cell_a.row;
 	e_col = criteria->v.cell_range.cell_b.col;
@@ -278,7 +278,7 @@ find_cells_that_match(Value *database, int field, GSList *criterias)
         Sheet  *sheet;
 	GSList *current, *conditions, *cells;
         int    row, first_row, last_row, add_flag;
-	sheet = (Sheet *) database->v.cell_range.cell_a.sheet;
+	sheet = database->v.cell_range.cell_a.sheet;
 	last_row = database->v.cell_range.cell_b.row;
 	cells = NULL;
 	first_row = database->v.cell_range.cell_a.row + 1;

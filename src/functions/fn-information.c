@@ -36,7 +36,7 @@ gnumeric_countblank (struct FunctionDefinition *n,
 	int   count;
 
 	range = argv[0];
-	sheet = (Sheet *) range->v.cell_range.cell_a.sheet;
+	sheet = range->v.cell_range.cell_a.sheet;
 	col_a = range->v.cell_range.cell_a.col;
 	col_b = range->v.cell_range.cell_b.col;
 	row_a = range->v.cell_range.cell_a.row;

@@ -1,3 +1,33 @@
+1999-06-02  Morten Welinder  <terra@diku.dk>
+
+	* samples/datefuns.xls: New file from Nick Lamb.
+
+	* src/eval.c (workbook_recalc): If a cell has already been
+ 	computed, do not redo it.  This should speed up things.
+	(cell_queue_recalc): Delete useless cast.
+	(cell_unqueue_from_recalc): Ditto.
+	(cell_queue_recalc_list): Ditto.
+	(cell_queue_recalc_list): Extra parameter freelist controls
+ 	whether list is freed.  All callers changed.
+	(workbook_recalc_all): Use cell_queue_recalc_list.
+
+	* src/dialog-goal-seek.c (goal_seek_eval): Properly reevaluate.
+
+	* src/expr.c (eval_expr): Only evaluate references cells when they
+ 	are queued for recalculation.
+
+	* src/func.c (iterate_cellrange_callback): Ditto.
+
+	* src/fn-math.c (gnumeric_lcm): Remove useless (Sheet *) cast.
+
+	* src/fn-information.c (gnumeric_countblank): Ditto.
+
+	* src/fn-database.c (find_column_of_field): Ditto.
+	(parse_database_criteria): Ditto.
+	(find_cells_that_match): Ditto.
+
+	* src/cell.c (cell_comment_realize): Ditto.
+
 1999-06-02  Michael Meeks  <michael@edenproject.org>
 
 	* src/expr.c (do_expr_decode_tree): Added ARRAY support.

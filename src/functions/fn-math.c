@@ -208,11 +208,10 @@ callback_function_lcm (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_lcm (Sheet *tsheet, GList *expr_node_list,
+gnumeric_lcm (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
 
 	result = g_new (Value, 1);
 	result->type = VALUE_INTEGER;

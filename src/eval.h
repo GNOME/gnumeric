@@ -46,7 +46,7 @@ GList   *region_get_dependencies (Sheet *sheet,
  */
 void cell_queue_recalc           (Cell *cell);
 
-void cell_queue_recalc_list      (GList *list);
+void cell_queue_recalc_list      (GList *list, gboolean freelist);
 
 void cell_unqueue_from_recalc    (Cell *cell);
 
