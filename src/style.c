@@ -232,8 +232,8 @@ font_init (void)
 						       scale, FALSE, FALSE);
 
 	if (!gnumeric_default_font) {
-		char *lc_all = getenv ("LC_ALL");
-		char *lang = getenv ("LANG");
+		const char *lc_all = getenv ("LC_ALL");
+		const char *lang = getenv ("LANG");
 		char *msg;
 		char *fontmap_fn = gnome_datadir_file ("fonts/fontmap");
 		gboolean exists = (fontmap_fn != NULL);
@@ -247,25 +247,28 @@ font_init (void)
 			lang = _("<Has not been set>");
 
 		msg = g_strdup_printf (
-			_("Gnumeric failed to find a suitable default font.\n"
-			"Please verify your gnome-print installation.\n"
-			"Your fontmap file %s.\n"
+		      _("Gnumeric failed to find a suitable default font.\n"
+			"Your gnome-print installation is likely incomplete.  Please\n"
+			"try reinstalling gnome-print.\n\n"
+			"%s\n"
 			"\n"
 			"If you still have no luck, please file a proper bug report (see\n"
 			"http://bugzilla.gnome.org) including the following extra items:\n"
 			"\n"
 			"1) The content of your fontmap file, if the file exists.\n"
-			"\t (typically located in %s)\n"
+			"\t(typically located in %s)\n"
 			"2) The value of the LC_ALL environment variable\n"
 			"\tLC_ALL=%s\n"
 			"3) The value of the LANG environment variable\n"
 			"\tLANG=%s\n"
 			"4) What version of libxml gnumeric is running with.\n"
-			"   You may be able to use the 'ldd' command to get that information.\n"
+			"\tYou may be able to use the 'ldd' command to get that information.\n"
+			"5) What version of gnome-print gnumeric is running with.\n"
+			"\tYou may be able to use the 'ldd' command to get that information.\n"
 			"\n"
 			"Thanks -- the Gnumeric Team\n"), exists
-			? _("does not have a valid entry for Helvetica")
-			: _("could not be found in the expected location"),
+			? _("Your fontmap file does not have a valid entry for Helvetica.")
+			: _("Your fontmap file could not be found in the expected location."),
 			fontmap_fn, lc_all, lang);
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, msg);
 		exit (1);

@@ -1,5 +1,9 @@
 2001-04-04  Morten Welinder  <terra@diku.dk>
 
+	* src/style.c (font_init): Improve error message.  Constify.
+
+2001-04-04  Morten Welinder  <terra@diku.dk>
+
 	* src/style.c (font_init): Refer to bugzilla, not bugs.
 
 2001-04-01  Zbigniew Chyla  <cyba@gnome.pl>
