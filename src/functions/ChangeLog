@@ -1,6 +1,8 @@
 2001-10-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
-	* fn-functions (coupdays): Implemented the frequency 2 for basis 1
+	* fn-financial.c: Improved documentation.
+
+	* fn-financial.c (coupdays): Implemented the frequency 2 for basis 1
 	(actual/actual).
 
 2001-10-21  Jody Goldberg <jgoldberg@home.com>
