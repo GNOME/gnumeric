@@ -1,3 +1,33 @@
+2000-03-29  Jon K Hellan  <hellan@acm.org>
+
+	* gtk-combo-box.h (gtk_combo_box_set_title): Declare
+
+	* gtk-combo-box.c (struct _GtkComboBoxPrivate): New/renamed
+	members: toplevel, tearoff_window: Popup's toplevel when
+	torn_off/not torn off. torn_off: Tearoff status flag. Names are
+	the same as in gtk/gtkmenu.c. tearable: The tearoff
+	"button". popup: The widget which gets torn off. This is actually
+	the event box.
+	(gtk_combo_box_finalize): Destroy tearoff window.
+	(gtk_combo_box_popup_hide): Turned into a wrapper which does
+	nothing if popup is torn off, and calls
+	gtk_combo_box_popup_hide_unconditional if it isn't.
+	(gtk_combo_box_popup_hide_unconditional): Contains the logic which
+	used to be in gtk_combo_box_popup_hide. If torn off, the popup is
+	reattached after hiding.
+	(gtk_combo_box_popup_display): Realize popup as well as toplevel.
+	(gtk_combo_toggle_pressed): Use
+	gtk_combo_box_popup_hide_unconditional. 
+	(gtk_combo_box_key_press): New function. Dismiss popup on escape.
+	(gtk_combo_box_init): Various renamings. Connect key press handler.
+	(gtk_combo_get_parent_toplevel): 
+	(gtk_combo_popup_tear_off): New function. Tear off the popup.
+	(cb_tearable_button_release): Toggle tearoff state.
+	(gtk_combo_box_construct): Make tearoff menu item no fill, no
+	expand. 
+	(gtk_combo_box_set_title): New function. Set a title to display
+	over the tearoff window.
+
 2000-03-26  Jody Goldberg <jgoldberg@home.com>
 
 	* gtk-combo-text.c : Add a hash to be used for proper lookup of

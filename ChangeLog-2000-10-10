@@ -1,3 +1,10 @@
+2000-03-29  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Add titles for torn off combos.
+
+	* src/workbook.c (workbook_create_standard_toobar): Ditto
+
 2000-03-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/xml-io.c (xml_arg_get): Really silence warnings.

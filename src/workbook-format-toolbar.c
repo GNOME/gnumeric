@@ -546,6 +546,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	entry = GTK_COMBO_TEXT (fontsel)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_font_in_selection_cmd), wb);
+	gtk_combo_box_set_title (GTK_COMBO_BOX (fontsel), _("Font"));
 	gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0);
 
 	/* An empty item for the case of no font that applies */
@@ -576,6 +577,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	entry = GTK_COMBO_TEXT (fontsize)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_font_size_in_selection_cmd), wb);
+	gtk_combo_box_set_title (GTK_COMBO_BOX (fontsize), _("Size"));
 	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
 		char buffer [12];
 		g_snprintf (buffer, sizeof(buffer),
@@ -604,6 +606,8 @@ workbook_create_format_toolbar (Workbook *wb)
 			    GTK_SIGNAL_FUNC (cb_border_changed), wb);
 	disable_focus (wb->priv->border_combo, NULL);
 
+	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->border_combo),
+				 _("Borders"));
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->border_combo, _("Borders"), NULL);
@@ -619,6 +623,8 @@ workbook_create_format_toolbar (Workbook *wb)
 			    GTK_SIGNAL_FUNC (back_color_changed), wb);
 	disable_focus (wb->priv->back_combo, NULL);
 	
+	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->back_combo),
+				 _("Background"));
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->back_combo, _("Background"), NULL);
@@ -634,6 +640,8 @@ workbook_create_format_toolbar (Workbook *wb)
 			    GTK_SIGNAL_FUNC (fore_color_changed), wb);
 	disable_focus (wb->priv->fore_combo, NULL);
 
+	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->fore_combo),
+				 _("Foreground"));
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->fore_combo, _("Foreground"), NULL);

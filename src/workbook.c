@@ -2313,6 +2313,7 @@ workbook_create_standard_toobar (Workbook *wb)
 	entry = GTK_COMBO_TEXT (zoom)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_zoom_in_current_sheet_cb), wb);
+	gtk_combo_box_set_title (GTK_COMBO_BOX (zoom), _("Zoom"));
 
 	/* Change the value when the displayed sheet is changed */
 	gtk_signal_connect (GTK_OBJECT (wb), "sheet_changed",
