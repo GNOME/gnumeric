@@ -1,3 +1,8 @@
+2001-12-28 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add more LaTeX2e documentation
+	* analysis-tools.sgml : fix capitalisation of  Gnumeric
+
 2001-12-29 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* graphs.sgml : small id fix to remove error messages

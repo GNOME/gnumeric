@@ -2,7 +2,7 @@
     <title>Saving Files</title>
     
     <para>There are several ways to save a file that is currently
-      open. If the file has been named and already exists (ie, its not
+      open. If the file has been named and already exists (i.e., it is not
       a new worksheet) the Save function will save the file to the
       existing name. </para>
     
@@ -110,9 +110,9 @@
   <sect1 id="opening-importing">
     <title>Opening and Importing Files</title>
     
-    <para>There are several ways to open an existing file to be used in Gnumeric. Usually,
-     a given file can be opened in Gnumeric if Gnumeric also allows the file to be saved 
-     in the same format. Other file formats may be imported into gnumeric (see <xref 
+    <para>There are several ways to open an existing file to be used in <application>Gnumeric</application>. Usually,
+     a given file can be opened in <application>Gnumeric</application> if <application>Gnumeric</application> also allows the file to be saved 
+     in the same format. Other file formats may be imported into <application>Gnumeric</application> (see <xref 
      linkend="file-format"> for a list of supported formats).</para>
 
   <sect2 id="opening">
@@ -210,8 +210,9 @@
   verify that the appropriate plug-in has been loaded.</para>
     
   <sect2 id="file-format-default">
-  <title>Gnumeric XML File Format</title>
-    <para>The default file format and Gnumeric's native format is an xml
+  <title><application>Gnumeric</application> XML File Format</title>
+    <para>The default file format and <application>Gnumeric</application>'s 
+      native format is an xml
       based file.  The file format is a ascii text based xml
       format. It is however, typically written and read in a gzip
       compressed form.
@@ -231,13 +232,16 @@
   <title>DVI TeX Format</title>
   <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
   <note><para>This format is only available when saving files.</para></note>
-  <para>Creation of a dvi file with gnumeric requires that <keycap>groff</keycap> has 
+  <para>Creation of a dvi file with <application>Gnumeric</application> requires 
+  that <command>groff</command> has 
   been installed. If a complete TeX installation is available it is probably advisable 
-  to use the LaTeX format (<xref linkend="file-format-latex">) instead, since the
-  created LaTeX file can be extensively customized before creating the dvi file from it.</para>
+  to use the <application>LaTeX</application> format 
+  (<xref linkend="file-format-latex">) instead, since the
+  created <application>LaTeX</application> file can be extensively customized 
+  before creating the dvi file from it.</para>
 
    <figure id="file-format-dvi-ex1">
-    <title>Gnumeric Sample Screenshot</title>
+    <title><application>Gnumeric</application> Sample Screenshot</title>
     <screenshot>
 	<graphic fileref="figures/files-xml-example.png" format="PNG"></graphic>
     </screenshot>
@@ -245,12 +249,13 @@
 <example id="file-format-dvi-example">
  <title>Saving as DVI TeX</title>
      <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
-     Gnumeric file. If we save this file in DVI TeX format and open it using 
-     <keycap>xdvi</keycap> we obtain <xref linkend="file-format-dvi-ex2">.
+     <application>Gnumeric</application> file. If we save this file in DVI TeX 
+     format and open it using 
+     <command>xdvi</command> we obtain <xref linkend="file-format-dvi-ex2">.
      </para>
  </example>
   <figure id="file-format-dvi-ex2">
-    <title><keycap>xdvi</keycap> Screenshot of DVI TeX File</title>
+    <title><command>xdvi</command> Screenshot of DVI TeX File</title>
     <screenshot>
 	<graphic fileref="figures/files-dvi-example.png" format="PNG"></graphic>
     </screenshot>
@@ -258,17 +263,18 @@
   </sect2>
 
   <sect2 id="file-format-xl">
-  <title><trademark>Microsoft</trademark>(R) <trademark>Excel</trademark>(R) File Formats</title>
-  <para>This format is supported by the <quote><trademark>Microsoft</trademark>(R) <trademark>Excel</trademark></quote> 
+  <title>MS Excel (tm) File Formats</title>
+  <para>This format is supported by the <quote>MS Excel (tm) File Formats</quote> 
   plug-in.</para>
-  <para>Gnumeric can open files from most recent versions of <trademark>Microsoft</trademark>(R) 
-  <trademark>Excel</trademark>(R). It can also save files in <trademark>Microsoft</trademark>(R) 
-  <trademark>Excel</trademark>(R) 95 format.</para>
+  <para><application>Gnumeric</application> can open files from most recent 
+  versions of MS Excel (tm). It can 
+  also save files in MS Excel (tm) 95 format.</para>
   </sect2>
 
   <sect2 id="file-format-efs">
   <title>Experimental Bonobo EFS Format</title>
-  <para>This format is supported by the <quote>EXPERIMENTAL SAX based XML</quote> plug-in.</para>
+  <para>This format is supported by the <quote>EXPERIMENTAL SAX based XML</quote> 
+  plug-in.</para>
   <note><para>This format is available when importing or saving files.</para></note>
   </sect2>
 
@@ -282,16 +288,19 @@
   <title>HTML File Formats</title>
   <para>These formats are supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
   <sect3 id="file-format-html-gnumeric">
-  <title>HTML generated by Gnumeric</title>
+  <title>HTML generated by <application>Gnumeric</application></title>
   <note><para>This format is only available when importing or opening files.</para></note>
-  <para>Very simple and well structured HTML tables can be opened by Gnumeric into an appropriate 
-  spreadsheet. In this process, Gnumeric will lose information on merged cells and most other 
+  <para>Very simple and well structured HTML tables can be opened by 
+  <application>Gnumeric</application> into an appropriate 
+  spreadsheet. In this process, <application>Gnumeric</application> will lose information 
+  on merged cells and most other 
   formatting, but the main cell values should be preserved.</para>
   </sect3>
   <sect3 id="file-format-html32">
   <title>HTML 3.2 File Format</title>
   <note><para>This format is only available when saving files.</para></note>
-  <para>Gnumeric can create HTML 3.2 files. All sheets of the current workbook are exported. 
+  <para><application>Gnumeric</application> can create HTML 3.2 files. All sheets of the 
+  current workbook are exported. 
   The tables in the HTML 3.2 file contain all cells, whether visible or not, including merged
   cells and spans. Horizontal as well as vertical alignment is preserved, as are font colors 
   and some font characteristics (italic, bold). These files also include an appropriate 
@@ -299,12 +308,13 @@
   <example id="file-format-html32-example">
   <title>Saving as HTML 3.2</title>
      <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
-     Gnumeric file. If we save this file in HTML 3.2 format and open it using 
-     <keycap>Mozilla 0.95</keycap> we obtain <xref linkend="file-format-html32-ex1">.
+     <application>Gnumeric</application> file. If we save this file in HTML 3.2 
+     format and open it using 
+     <application>Mozilla 0.95</application> we obtain <xref linkend="file-format-html32-ex1">.
      </para>
   </example>
   <figure id="file-format-html32-ex1">
-    <title><keycap>Mozilla</keycap> Screenshot of HTML 3.2 File</title>
+    <title><application>Mozilla</application> Screenshot of HTML 3.2 File</title>
     <screenshot>
 	<graphic fileref="figures/files-html32-example.png" format="PNG"></graphic>
     </screenshot>
@@ -313,7 +323,7 @@
   <sect3 id="file-format-html40">
   <title>HTML 4.0 File Format</title>
   <note><para>This format is only available when saving files.</para></note>
-  <para>Gnumeric can create HTML 4.0 files. All sheets of the current workbook are exported. 
+  <para><application>Gnumeric</application> can create HTML 4.0 files. All sheets of the current workbook are exported. 
   The tables in the HTML 4.0 file contain all cells, whether visible or not, including merged
   cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
   characteristics (italic, bold) and cell background colors. These files also include an 
@@ -321,12 +331,12 @@
   <example id="file-format-html40-example">
   <title>Saving as HTML 4.0</title>
      <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
-     Gnumeric file. If we save this file in HTML 4.0 format and open it using 
-     <keycap>Mozilla 0.95</keycap> we obtain <xref linkend="file-format-html40-ex1">.
+     <application>Gnumeric</application> file. If we save this file in HTML 4.0 format and open it using 
+     <application>Mozilla 0.95</application> we obtain <xref linkend="file-format-html40-ex1">.
      </para>
   </example>
   <figure id="file-format-html40-ex1">
-    <title><keycap>Mozilla</keycap> Screenshot of HTML 4.0 File</title>
+    <title><application>Mozilla</application> Screenshot of HTML 4.0 File</title>
     <screenshot>
 	<graphic fileref="figures/files-html40-example.png" format="PNG"></graphic>
     </screenshot>
@@ -335,22 +345,25 @@
   <sect3 id="file-format-html40f">
   <title>HTML Fragment Format</title>
   <note><para>This format is only available when saving files.</para></note>
-  <para>Gnumeric can create HTML fragments. All sheets of the current workbook are exported. 
+  <para><application>Gnumeric</application> can create HTML fragments. All sheets of the c
+  urrent workbook are exported. 
   The tables in such a fragment file contain all cells, whether visible or not, including merged
   cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
   characteristics (italic, bold) as well as  cell background and font colors. These files 
   do <emphasis>not</emphasis> contain any preamble. Note that each tag used in these files is 
-  valid in some HTML version, the combination of these tags in a gnumeric generated HTML 
+  valid in some HTML version, the combination of these tags in a 
+  <application>Gnumeric</application> generated HTML 
   fragment may not be. </para>
   <example id="file-format-html-example">
   <title>Saving as HTML fragment</title>
      <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
-     Gnumeric file. If we save this file as an HTML fragment and open it using 
-     <keycap>Mozilla 0.95</keycap> we obtain <xref linkend="file-format-html-ex1">.
+     <application>Gnumeric</application> file. If we save this file as an HTML fragment and 
+     open it using 
+     <application>Mozilla 0.95</application> we obtain <xref linkend="file-format-html-ex1">.
      </para>
   </example>
   <figure id="file-format-html-ex1">
-    <title><keycap>Mozilla</keycap> Screenshot of HTML Fragment</title>
+    <title><application>Mozilla</application> Screenshot of HTML Fragment</title>
     <screenshot>
 	<graphic fileref="figures/files-html-example.png" format="PNG"></graphic>
     </screenshot>
@@ -359,26 +372,99 @@
   </sect2>
 
   <sect2 id="file-format-latex">
-  <title>Latex 2e Format</title>
+  <title><application>LaTeX</application> 2e Format</title>
   <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
   <note><para>This format is only available when saving files.</para></note>
-  <para>The created LaTeX file can either be input into another LaTeX file or latexed 
-  independently. See the content of the created file for various customization options. </para>
   <para>Only the top sheet of the current workbook is exported.</para>
+  <para>The created <application>LaTeX</application> file can either be input into 
+  another <application>LaTeX</application> file 
+  (see <xref linkend="file-format-latex-inclusion">)  or <command>latex</command>ed 
+  independently. See the content and <xref linkend="file-format-latex-customization"> 
+  of the created file for various customization options. </para>
   <example id="file-format-latex-example">
-  <title>Saving as LaTeX file</title>
+  <title>Saving as <application>LaTeX</application> file</title>
      <para>The screenshot <xref linkend="file-format-dvi-ex1"> shows an example 
-     Gnumeric file. If we save this file as LaTeX file, tex it using 
-     <keycap>pdflatex</keycap> and open it using 
-     <keycap>xpdf</keycap> we obtain <xref linkend="file-format-latex-ex1">.
+     <application>Gnumeric</application> file. If we save this file as 
+     <application>LaTeX</application> file, <command>tex</command> it using 
+     <command>pdflatex</command> and open it using 
+     <command>xpdf</command> we obtain <xref linkend="file-format-latex-ex1">.
      </para>
   </example>
   <figure id="file-format-latex-ex1">
-    <title><keycap>xpdf</keycap> Screenshot of LaTeX file</title>
+    <title><command>xpdf</command> Screenshot of <application>LaTeX</application> file</title>
     <screenshot>
 	<graphic fileref="figures/files-latex-example.png" format="PNG"></graphic>
     </screenshot>
   </figure>
+
+  <sect3 id="file-format-latex-inclusion">
+  <title>Including Tables Into Other Documents</title>
+  <para>To include an exported <application>Gnumeric</application> table into 
+  another <application>LaTeX</application> document you need to
+  use several packages
+  <screen>
+        \usepackage{color}
+        \usepackage{array}
+        \usepackage{longtable}
+        \usepackage{calc}
+        \usepackage{multirow}
+        \usepackage{hhline}
+        \usepackage{ifthen}  
+  </screen>
+  and to add the following lines to the preamble of your document:
+  <screen>
+        \newlength{\gnumericTableWidth}
+        \newlength{\gnumericTableWidthComplete}
+  </screen>
+  </para>
+  <para>When you have set up your main document in this way, include each table with:
+  <screen>
+        \input{<replaceable>mygnumericfile.tex</replaceable>}  
+  </screen>
+  </para>
+  </sect3>
+  <sect3 id="file-format-latex-customization">
+  <title>Customizing The <application>LaTeX</application> Tables</title>
+  <para>To switch from portrait to landscape for independently <command>latex</command>ed tables,
+  uncomment the line:
+  <screen>
+	                  %,landscape%
+  </screen>
+  to obtain
+  <screen>
+	\documentclass[12pt%
+	                  ,landscape%
+                    ]{report}
+  </screen>
+  </para>
+  <para>To change the column widths, look for the following section in the <application>LaTeX</application> file:
+  <screen>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                  %%
+%% The following are the widths of the various columns. We are      %%
+%% defining them here because then they are easier to change.       %%
+%% Depending on the cell formats we may use them more than once.    %%
+%%                                                                  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\gnumericColA{107pt*\gnumericScale}
+\def\gnumericColB{89pt*\gnumericScale}
+\def\gnumericColC{98pt*\gnumericScale}
+\def\gnumericColD{89pt*\gnumericScale}
+\def\gnumericColE{89pt*\gnumericScale}
+  </screen>  
+  </para>
+  <para>To change the second column (Column B) to a width of 0.75 inches, we would simply have to
+  modify this code to:
+  <screen>
+\def\gnumericColA{107pt*\gnumericScale}
+\def\gnumericColB{0.75in}
+\def\gnumericColC{98pt*\gnumericScale}
+\def\gnumericColD{89pt*\gnumericScale}
+\def\gnumericColE{89pt*\gnumericScale}
+  </screen>  
+  </para> 
+  </sect3>
   </sect2>
 
   <sect2 id="file-format-mps">
@@ -396,10 +482,13 @@
 
   <sect2 id="file-format-pdf">
   <title>PDF Format</title>
-  <para>Currently, Gnumeric cannot save directly as a PDF file; but, provided a standard 
-  <keycap>tetex</keycap> installation is available, the gnumeric file can be saved as a 
-  LaTeX file (see <xref linkend="file-format-latex">), and turned into a PDF file using 
-  <keycap>pdflatex</keycap>.</para>
+  <para>Currently, <application>Gnumeric</application> cannot save directly as a PDF file; 
+  but, provided a standard 
+  <command>tetex</command> installation is available, the <application>Gnumeric</application> 
+  file can be saved as a 
+  <application>LaTeX</application> file (see <xref linkend="file-format-latex">), and 
+  turned into a PDF file using 
+  <command>pdflatex</command>.</para>
   <para> See <xref linkend="file-format-latex-ex1"> for an example of a created PDF file.</para>
   </sect2>
 
@@ -411,7 +500,8 @@
 
   <sect2 id="file-format-csv">
   <title>Text Format</title>
-  <para>This format exports gnumeric spreadsheets as straight text or imports them 
+  <para>This format exports <application>Gnumeric</application> spreadsheets as straight 
+  text or imports them 
   from straight text files. Both export (save as) as well as import can be highly customized.
   </para>
   <sect3 id="file-format-csv-export">
@@ -531,7 +621,7 @@ Totals:,"$5400.00 ","$116400.00 ",($7200.00),
   <listitem>
   <para>If you selected fixed width fields you are asked to specify the widths for
   each field. Click the <quote><guibutton>Auto Column Discovery</guibutton></quote> button
-  to have gnumeric try to determine the fields widths automatically.</para>
+  to have <application>Gnumeric</application> try to determine the fields widths automatically.</para>
   <figure id="file-format-csv-import-ex5">
     <title></title>
     <screenshot>
@@ -553,11 +643,12 @@ Totals:,"$5400.00 ","$116400.00 ",($7200.00),
   </sect2>
 
   <sect2 id="file-format-troff">
-  <title>TROFF Format</title>
+  <title><command>TROFF</command> Format</title>
   <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
   <note><para>This format is only available when saving files.</para></note>
-  <para>Files in this format are useful because they can be converted with <keycap>groff</keycap>
-  into various other common formats. For example, given a TROFF file 
+  <para>Files in this format are useful because they can be converted with the 
+  <command>groff</command> or <command>troff</command> commands 
+  into various other common formats. For example, given a <command>TROFF</command> file 
   <replaceable>myfile.me</replaceable>, the command</para>
   <screen>
   groff -me -t -Tps <replaceable>myfile.me</replaceable> ><replaceable>myfile.ps</replaceable>
@@ -570,7 +661,7 @@ groff -me -t -Tascii <replaceable>myfile.me</replaceable> ><replaceable>myfile.a
   <para>creates an <keycap>ascii</keycap> (straight text) file.</para>
   <example>
   <title>Creating an <keycap>ASCII</keycap> File</title>
-  <para>If we save <xref linkend="file-format-dvi-ex1"> as a <keycap>troff</keycap> file 
+  <para>If we save <xref linkend="file-format-dvi-ex1"> as a <command>troff</command> file 
   <replaceable>hypothetical-sales.me</replaceable> and then execute the command</para>
   <screen>
 groff -me -t -Tascii <replaceable>hypothetical-sales.me</replaceable> ><replaceable>hypothetical-sales.ascii</replaceable>

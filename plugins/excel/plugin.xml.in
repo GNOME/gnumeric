@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_Excel">
 	<information>
-		<_name>Microsoft(R) Excel</_name>
-		<_description>Imports/Exports Microsoft(R) Excel files</_description>
+		<_name>MS Excel (tm)</_name>
+		<_description>Imports/Exports MS Excel (tm) files</_description>
 	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="excel.la:dlname"/>
@@ -11,7 +11,7 @@
 		<service type="file_opener" id="excel" priority="100" probe="TRUE"
 			open="TRUE" import="TRUE">
 			<information>
-				<_description>Microsoft(R) Excel (*.xls)</_description>
+				<_description>MS Excel (tm) (*.xls)</_description>
 			</information>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.xls"/>
@@ -21,14 +21,14 @@
 		<service type="file_saver" id="excel95" file_extension="xls"
 		         format_level="manual_remember" overwrite_files="TRUE">
 			<information>
-				<_description>Excel(R) 95 file format</_description>
+				<_description>MS Excel (tm) 95 file format</_description>
 			</information>
 		</service>
 	    <!-- Disable this until it has a hope in hell of working
 		<service type="file_saver" id="excel97" file_extension="xls"
 		         format_level="manual_remember" overwrite_files="FALSE">
 			<information>
-				<_description>Excel(R) 97 file format</_description>
+				<_description>MS Excel (95) 97 file format</_description>
 			</information>
 		</service>
 	     -->

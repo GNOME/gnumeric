@@ -1,3 +1,7 @@
+2001-12-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* plugin.xml.in : Standardize: MS Excel (tm)
+
 2001-12-27  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (ms_excel_parse_formula) : enable support for
