@@ -1,159 +1,33 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY nt_phi_title     SYSTEM "number_theory/phi_title.xml">
+<!ENTITY nt_phi     SYSTEM "number_theory/phi.xml">
+<!ENTITY nt_mu_title      SYSTEM "number_theory/mu_title.xml">
+<!ENTITY nt_mu      SYSTEM "number_theory/mu.xml">
+<!ENTITY nt_d_title       SYSTEM "number_theory/d_title.xml">
+<!ENTITY nt_d       SYSTEM "number_theory/d.xml">
+<!ENTITY nt_sigma_title   SYSTEM "number_theory/sigma_title.xml">
+<!ENTITY nt_sigma   SYSTEM "number_theory/sigma.xml">
+<!ENTITY nt_ithprime_title      SYSTEM "number_theory/ithprime_title.xml">
+<!ENTITY nt_ithprime SYSTEM "number_theory/ithprime.xml">
+]>
+
 <chapter>
   <title>Function Reference</title>
-  <indexterm zone="numtheory">
-    <primary>Number Theory</primary>
-    <secondary>nt_phi</secondary>
-  </indexterm>
-  <indexterm zone="numtheory">
-    <primary>Number Theory</primary>
-    <secondary>nt_mu</secondary>
-  </indexterm>
-  <indexterm zone="numtheory">
-    <primary>Number Theory</primary>
-    <secondary>nt_d</secondary>
-  </indexterm>
-  <indexterm zone="numtheory">
-    <primary>Number Theory</primary>
-    <secondary>nt_sigma</secondary>
-  </indexterm>
+&nt_phi_title;
+&nt_mu_title;
+&nt_d_title;
+&nt_sigma_title;
+&nt_ithprime_title;
 
   <sect1 id="numtheory">
     <title>Number Theory</title>
-    <sect2 id="numtheory-ntphi">
-      <title>nt_phi</title>
-      <sect3 id="numtheory-ntphi-syntax">
-	<title>Syntax</title>
-	<para>
-	  =NT_PHI(n)
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntphi-description">
-	<title>Long Description</title>
-	<para>
-	  The NT_PHI function calculates the number of integers less
-	  than or equal to n that are relatively prime to n.
-	  This function only takes one argument.
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntphi-examples">
-	<title>Examples</title>
-	<para>
-	  For an example of ntphi, please see <xref linkend="examples-ntphi" />.
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntphi-seealso">
-	<title>See Also</title>
-	<para>
-	  NT_D, ITHPRIME, NT_SIGMA
-	</para>
-      </sect3>
-    </sect2>
-    <sect2 id="numtheory-ntmu">
-      <title>ntmu</title>
-      <sect3 id="numtheory-ntmu-syntax">
-	<title>Syntax</title>
-	<para>
-	  =NT_MU(n)
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntmu-description">
-	<title>Description</title>
-	<para>
-	  The NT_MU function (Möbius mu function) returns
-	  0  if @n is divisible by the square of a prime .
-	  Otherwise it returns:
-	  <itemizedlist>
-	    <listitem>
-	      <para>
-		-1 if n has an odd  number of different prime factors.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		1  if n has an even number of different prime factors.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		If n=1 it returns 1
-	      </para>
-	    </listitem>
-	  </itemizedlist>
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntmu-example">
-	<title>Examples</title>
-	<para>
-	  For an example about nt_mu, see <xref linkend="examples-ntmu" />
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntmu-seealso">
-	<title>See Also</title>
-	<para>
-	  nt_d, ithprime, <xref linkend="numtheory-ntphi" />
-	</para>
-      </sect3>
-    </sect2>
-    <sect2 id="numtheory-ntd">
-      <title>nt_d</title>
-      <sect3 id="numtheory-ntd-syntax">
-	<title>Syntax</title>
-	<para>
-	  =NT_D(n)
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntd-description">
-	<title>Description</title>
-	<para>
-	  The NT_D function calculates the number of divisors of n.
-	  This function only takes one argument.
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntd-examples">
-	<title>Examples</title>
-	<para>
-	  For an example about nt_d, see <xref linkend="examples-ntd" />.
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntd-seealso">
-	<title>See Also</title>
-	<para>
-	  ithprime, <xref linkend="numtheory-ntphi" />, <xref
-	  linkend="nt-sigma" />
-	</para>
-      </sect3>
-    </sect2>
-    <sect2 id="numtheory-ntsigma">
-      <title>nt_sigma</title>
-      <sect3 id="numtheory-ntsigma-syntax">
-	<title>Syntax</title>
-	<para>
-	  =NT_SIGMA(n)
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntsigma-description">
-	<title>Description</title>
-	<para>
-	  The NT_SIGMA function calculates the sum of the divisors of n.
-	  This function only takes one argument.
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntsigma-examples">
-	<title>Examples</title>
-	<para>
-	  For an example about nt_sigma, see <xref
-	  linkend="examples-ntsigma" />.
-	</para>
-      </sect3>
-      <sect3 id="numtheory-ntsigma-seealso">
-	<title>See Also</title>
-	<para>
-	  <xref linkend="numtheory-ntd" />, ithprime, <xref
-	  linkend="numtheory-ntphi" />
-	</para>
-      </sect3>
-    </sect2>
+&nt_phi;
+&nt_mu;
+&nt_d;
+&nt_sigma;
   </sect1>
 </chapter>
+
+
+

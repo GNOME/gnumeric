@@ -1,6 +1,12 @@
 2002-02-16  Kevin Breit  <mrproper@ximian.com>
 
-	* C/funct-ref.xml: I hacked this file a bit.  I'm going to split this into individual files shortly.
+	* C/funct-ref.xml: I added the ithprime function to the documentation.
+
+	* C/number_theory: I added this directory.  This is where the function files go.
+
+	* C/number_theory/*xml: I added all these files.  These are the XML files that are called from the funct_ref.xml file.
 	
+	* C/funct-ref.xml: I hacked this file a bit.  I'm going to split this into individual files shortly.
+
 	* C/funct-ref.xml: Added this file to CVS.  It's going to be a test bed for our exciting new documentation platform for Gnome 2.
 

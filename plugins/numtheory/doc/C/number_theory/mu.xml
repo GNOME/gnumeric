@@ -1,0 +1,46 @@
+    <sect2 id="numtheory-ntmu">
+      <title>ntmu</title>
+      <sect3 id="numtheory-ntmu-syntax">
+	<title>Syntax</title>
+	<para>
+	  =NT_MU(n)
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntmu-description">
+	<title>Description</title>
+	<para>
+	  The NT_MU function (Möbius mu function) returns
+	  0  if @n is divisible by the square of a prime .
+	  Otherwise it returns:
+	  <itemizedlist>
+	    <listitem>
+	      <para>
+		-1 if n has an odd  number of different prime factors.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		1  if n has an even number of different prime factors.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		If n=1 it returns 1
+	      </para>
+	    </listitem>
+	  </itemizedlist>
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntmu-example">
+	<title>Examples</title>
+	<para>
+	  For an example about nt_mu, see <xref linkend="examples-ntmu" />
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntmu-seealso">
+	<title>See Also</title>
+	<para>
+	  nt_d, ithprime, <xref linkend="numtheory-ntphi" />
+	</para>
+      </sect3>
+    </sect2>

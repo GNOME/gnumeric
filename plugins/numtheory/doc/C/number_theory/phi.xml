@@ -1,0 +1,29 @@
+<sect2 id="numtheory-ntphi">
+  <title>nt_phi</title>
+  <sect3 id="numtheory-ntphi-syntax">
+    <title>Syntax</title>
+    <para>
+      =NT_PHI(n)
+    </para>
+  </sect3>
+  <sect3 id="numtheory-ntphi-description">
+    <title>Description</title>
+    <para>
+      The NT_PHI function calculates the number of integers less
+      than or equal to n that are relatively prime to n.
+      This function only takes one argument.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-ntphi-examples">
+    <title>Examples</title>
+    <para>
+      For an example of ntphi, please see <xref linkend="examples-ntphi" />.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-ntphi-seealso">
+    <title>See Also</title>
+    <para>
+      NT_D, ITHPRIME, NT_SIGMA
+    </para>
+  </sect3>
+</sect2>
