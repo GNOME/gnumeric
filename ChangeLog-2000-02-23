@@ -1,3 +1,7 @@
+2000-01-18  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (gnome-xml): Make the check HPUX safe.
+
 2000-01-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_write_colrow_info) : Save whether or not a row/col
