@@ -182,6 +182,10 @@ new_node (GList *list, char *data, char *p, int col, int row)
 	CellCopy *c_copy;
 	char *text;
 
+	/* Eliminate spaces */
+	while (*data == ' ' && *data)
+		data++;
+	
 	text = g_malloc (p-data+1);
 	text = strncpy (text, data, p-data);
 	text [p-data] = 0;

@@ -1,3 +1,7 @@
+1999-04-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/clipboard.c (new_node): Trim leading spaces.
+
 1999-04-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-math.c: Added EVEN, FACTDOUBLE, ODD, QUOTIENT, and
