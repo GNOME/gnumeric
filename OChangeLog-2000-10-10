@@ -1,5 +1,8 @@
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/parser.y (build_array) : This is almost certainly broken in
+	  locales that use ',' as a decimal point.
+
 	* src/xml-io.c (xml_probe) : xmlCreateFileParserCtxt will return NULL
 	  if the file was not readable.
 

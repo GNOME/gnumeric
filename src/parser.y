@@ -455,7 +455,7 @@ array_row: array_exp {
 		$$ = g_list_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
-	| array_exp ',' array_row {
+	| array_exp SEPARATOR array_row {
 		if (parser_array_col_separator == ',') {
 			unregister_allocation ($3);
 			unregister_allocation ($1);
