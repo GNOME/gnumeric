@@ -266,16 +266,18 @@ dnl **************************************************
 try_python=true
 AC_ARG_WITH(python,
 	[--{with,without}-python   Compile the Python plugin loader],
-	if test x$withval = xno; then
+	if test "x$withval" = xno; then
 		try_python=false
-	elif test x$withval = xyes; then
-		python_prog=python
 	else
-		python_prog="${withval}"
+		python_prog="$withval"
 	fi
 )
 
 if $try_python; then
+	if test "x$python_prog" = xyes -o "x$python_prog" = x ; then
+	    python_prog=python
+	fi
+
 	python_val=
 	AC_CHECK_PROG(python_val, "$python_prog", true, false)
 	if $python_val; then
