@@ -508,6 +508,11 @@ biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
 			fd->fontname, fd->height / 20, fd->color_idx);
 	}
 #endif
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_color_debug > 3) {
+			printf ("Font color = 0x%x\n", fd->color_idx);
+		}
+#endif
         fd->index = g_hash_table_size (wb->font_data);
 	if (fd->index >= 4) /* Wierd: for backwards compatibility */
 		fd->index++;
@@ -1072,6 +1077,12 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	int i;
 	char *subs_fontname;
 
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_color_debug > 2) {
+		printf ("XF index %d\n", xfidx);
+	}
+#endif
+
 	g_return_val_if_fail (xf != NULL, NULL);
 
 	/* If we've already done the conversion use the cached style */
@@ -1105,7 +1116,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		mstyle_set_font_italic (mstyle, fd->italic);
 		font_index = fd->color_idx;
 	} else
-		font_index = 127; /* Default to Auto */
+		font_index = 127; /* Default to White */
 
 	/* Background */
 	mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
@@ -1122,7 +1133,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_color_debug > 4) {
 		printf ("back = %d, pat = %d, font = %d, pat_style = %d\n",
-			pattern_index, back_index, font_index, xf->fill_pattern_idx);
+			back_index, pattern_index, font_index, xf->fill_pattern_idx);
 	}
 #endif
 
@@ -1207,6 +1218,15 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 
 	g_return_val_if_fail (back_color && pattern_color && font_color, NULL);
 
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_color_debug > 4) {
+		printf ("back = #%02x%02x%02x, pat = #%02x%02x%02x, font = #%02x%02x%02x, pat_style = %d\n",
+			back_color->red>>8, back_color->green>>8, back_color->blue>>8,
+			pattern_color->red>>8, pattern_color->green>>8, pattern_color->blue>>8,
+			font_color->red>>8, font_color->green>>8, font_color->blue>>8,
+			xf->fill_pattern_idx);
+	}
+#endif
 	/*
 	 * This is riddled with leaking StyleColor references !
 	 */
@@ -1245,6 +1265,12 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_color_debug > 2) {
+		printf ("%s!%s%d\n", sheet->gnum_sheet->name, col_name(col), row+1);
+	}
+#endif
 
 	range.start.col = col;
 	range.start.row = row;

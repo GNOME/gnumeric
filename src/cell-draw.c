@@ -263,7 +263,6 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 			}
 			/* Advance one pixel for the border */
 			x_offset++;
-			gc = GTK_WIDGET (sheet_view->sheet_view)->style->black_gc;
 			gdk_draw_text (drawable, font, gc, x1 + x_offset,
 				       y1 + y_offset, str, strlen (str));
 			y_offset += inter_space;

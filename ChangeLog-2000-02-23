@@ -1,3 +1,8 @@
+1999-11-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : Fix long standing bone headed mistake.
+	  multi-line cells were hard coded to use black as the font color.
+
 1999-11-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/widgets/widget-color-combo.c (none_clicked) : Emit a -1 if none

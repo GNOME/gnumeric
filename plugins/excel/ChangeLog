@@ -1,3 +1,9 @@
+1999-11-23  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (biff_font_data_new) : Improve debug info.
+	(ms_excel_get_style_from_xf) : Ditto.
+	(ms_excel_set_xf) : Ditto.
+
 1999-11-22  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (get_units_net_of_margins) : Don't crash when the
