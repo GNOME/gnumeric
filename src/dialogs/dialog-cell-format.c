@@ -1670,6 +1670,8 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 	if (!border_format_has_changed (state, edge) || !edge->is_selected)
 		gtk_toggle_button_set_active (edge->button,
 					      !edge->is_selected);
+	else
+		fmt_dialog_changed (state);
 
 	return TRUE;
 }
@@ -2200,23 +2202,16 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders,
 		}
 	}
 
-	/* Draw the border preview */
 	draw_border_preview (state);
 
-	/* Setup help */
 	gtk_signal_connect (GTK_OBJECT (dialog), "help",
 			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
-
-	/* Handle apply */
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
 			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), state);
-
-	/* Handle destroy */
 	gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
 			   GTK_SIGNAL_FUNC(cb_fmt_dialog_dialog_destroy),
 			   state);
 
-	/* Set initial focus */
 	set_initial_focus (state);
 
 	/* Ok, edit events from now on are real */
@@ -2234,10 +2229,8 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders,
 	 *   then move around and apply it to different cells.
 	 */
 
-	/* Make it modal */
 	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
 
-	/* Bring up the dialog */
 	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);
 }
 
