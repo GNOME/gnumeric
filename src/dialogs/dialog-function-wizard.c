@@ -68,6 +68,7 @@ struct _FormulaGuruState
 	GtkWidget *arg_table;
 	GtkWidget *arg_frame;
 	GtkWidget *description;
+	GtkWidget *arg_view;
 	GtkRequisition arg_requisition;
 	
 	gboolean	    valid;
@@ -193,6 +194,11 @@ static gboolean
 cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, ArgumentState *as)
 {
 	FormulaGuruState *state = as->state;
+#if 0
+	GtkViewport *view = GTK_VIEWPORT (as->state->arg_view);
+	GtkAdjustment *va = view->vadjustment;
+	gboolean scrolled = FALSE;
+#endif
 	int i, lim;
 
 	if (state->var_args) {
@@ -203,7 +209,7 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 			gtk_widget_show_all (state->arg_table);
 			/* FIXME : scroll window to make visible if necessary */
 		} else {
-			lim = MAX (as->index+1, state->max_arg) +1;
+			lim = MAX (as->index+1, state->max_arg) + 1;
 			if (lim < MAX_ARGS_DISPLAYED)
 				lim = MAX_ARGS_DISPLAYED;
 
@@ -223,9 +229,44 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 		}
 	}
 
+#if 0
+	/* FIXME : this is not working */
+	/* Do we want to scroll */
+	if (as->index > 0) {
+		ArgumentState *tmp = g_ptr_array_index (state->args, as->index-1);
+		int const prev_top = tmp->name_label->allocation.y;
+		int const cur_bottom = 
+			as->name_label->allocation.y +
+			as->name_label->allocation.height;
+		
+		if (va->value > prev_top &&
+		    (prev_top + va->page_size) >= cur_bottom) {
+			va->value = prev_top;
+			scrolled = TRUE;
+		}
+	}
+	if (!scrolled && as->index < as->state->args->len-1) {
+		ArgumentState *tmp = g_ptr_array_index (state->args, as->index+1);
+		int const cur_top = as->name_label->allocation.y;
+		int const next_bottom =
+			tmp->name_label->allocation.y +
+			tmp->name_label->allocation.height;
+
+		if (next_bottom > (va->value + va->page_size) &&
+		    cur_top >= (next_bottom - va->page_size)) {
+			va->value = next_bottom - va->page_size;
+			scrolled = TRUE;
+		}
+	}
+
+	if (scrolled)
+		gtk_adjustment_changed (va);
+#endif
+
 	state->cur_arg = as;
 	workbook_set_entry (state->wb, as->entry);
 	formula_guru_set_expr (state, as->index);
+
 	return FALSE;
 }
 
@@ -380,7 +421,7 @@ formula_guru_arg_new (char * const name,
 }
 
 static void
-formula_guru_init_args (FormulaGuruState *state, ExprTree const *expr, Cell const *cell)
+formula_guru_init_args (FormulaGuruState *state)
 {
 	gchar *copy_args;
 	const gchar *syntax;
@@ -391,6 +432,8 @@ formula_guru_init_args (FormulaGuruState *state, ExprTree const *expr, Cell cons
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->fd != NULL);
 	g_return_if_fail (state->help_tokens != NULL);
+
+	state->cur_arg = NULL;
 
 	function_def_count_args (state->fd, &arg_min, &arg_max);
 
@@ -446,30 +489,6 @@ formula_guru_init_args (FormulaGuruState *state, ExprTree const *expr, Cell cons
 	}
 
 	g_free (copy_args);
-
-	/* If there were arguments initialize the fields */
-	if (expr != NULL) {
-		GList *l;
-		int i = 0;
-		char *str;
-		ParsePos pos;
-		parse_pos_init_cell (&pos, cell);
-
-		for (l = expr->func.arg_list; l; l = l->next) {
-			ArgumentState *as;
-
-			while (i >= state->args->len)
-				formula_guru_arg_new (NULL, '?', TRUE, state);
-
-			as = g_ptr_array_index (state->args, i++);
-			str = expr_tree_as_string (l->data, &pos);
-			gtk_entry_set_text (as->entry, str);
-			if (i == 0)
-				gtk_widget_grab_focus (GTK_WIDGET (as->entry));
-			g_free (str);
-		}
-	}
-
 }
 
 static GtkWidget *
@@ -495,6 +514,17 @@ formula_guru_set_scrollwin_size (FormulaGuruState *state)
 		gtk_widget_size_request (state->arg_table,
 					 &state->arg_requisition);
 	}
+
+#if 0
+	GtkViewport *view = GTK_VIEWPORT (state->arg_view);
+	GtkAdjustment *va = view->vadjustment;
+
+	/* This is not working either */
+	va->step_increment = state->arg_requisition.height;
+	va->page_increment = (MAX_ARGS_DISPLAYED-1) * va->step_increment;
+	gtk_adjustment_changed (va);
+#endif
+
 	height = state->arg_requisition.height +
 		2 * GTK_CONTAINER (scrollwin)->border_width;
 	gtk_widget_set_usize (scrollwin, -2, height);
@@ -529,9 +559,34 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	state->arg_table    = glade_xml_get_widget (state->gui, "arg_table");
 	state->arg_frame    = glade_xml_get_widget (state->gui, "arg_frame");
 	state->description  = glade_xml_get_widget (state->gui, "description");
+	state->arg_view	    = glade_xml_get_widget (state->gui, "arg_view");
 	state->arg_requisition.width = state->arg_requisition.height = 0; 
 
-	formula_guru_init_args (state, expr, cell);
+	formula_guru_init_args (state);
+
+	/* If there were arguments initialize the fields */
+	if (expr != NULL) {
+		GList *l;
+		int i = 0;
+		char *str;
+		ParsePos pos;
+		parse_pos_init_cell (&pos, cell);
+
+		for (l = expr->func.arg_list; l; l = l->next, ++i) {
+			ArgumentState *as;
+
+			while (i >= state->args->len)
+				formula_guru_arg_new (NULL, '?', TRUE, state);
+
+			as = g_ptr_array_index (state->args, i);
+			str = expr_tree_as_string (l->data, &pos);
+			gtk_entry_set_text (as->entry, str);
+			if (i == 0)
+				gtk_widget_grab_focus (GTK_WIDGET (as->entry));
+			g_free (str);
+		}
+		gtk_widget_show_all (state->arg_table);
+	}
 
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),

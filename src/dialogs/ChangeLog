@@ -1,3 +1,9 @@
+2000-06-19  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-function-wizard.c (formula_guru_init) : Move the expression
+	  initialization out of args_init so that it will work for varargs
+	  too.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.55

@@ -200,7 +200,7 @@
 
 	    <widget>
 	      <class>GtkViewport</class>
-	      <name>viewport1</name>
+	      <name>arg_view</name>
 	      <shadow_type>GTK_SHADOW_NONE</shadow_type>
 
 	      <widget>
