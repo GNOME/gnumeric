@@ -1,3 +1,10 @@
+2002-05-03  Morten Welinder  <terra@diku.dk>
+
+	* goal-seek.c (fake_df): More debug.  Handle things that come out
+	NaN.
+	(goal_seek_newton): Better xstep calculation for the
+	fake_df case.
+
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.3

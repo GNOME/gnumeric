@@ -1852,6 +1852,9 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 	int             n, d_n;
 
 	goal_seek_initialise (&data);
+	data.xmin = -1;
+	data.xmax = MIN (1000, data.xmax);
+
 	rate0 = argv[2] ? value_get_as_float (argv[2]) : 0.1;
 
 	p.values = collect_floats_value (argv[0], ei->pos,

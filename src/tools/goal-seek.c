@@ -92,6 +92,11 @@ fake_df (GoalSeekFunction f, gnum_float x, gnum_float *dfx, gnum_float xstep,
 	gnum_float xl, xr, yl, yr;
 	GoalSeekStatus status;
 
+#ifdef DEBUG_GOAL_SEEK
+	printf ("fake_df (x=%.20" GNUM_FORMAT_g ", xstep=%.20" GNUM_FORMAT_g ")\n",
+		x, xstep);
+#endif
+
 	xl = x - xstep;
 	if (xl < data->xmin)
 		xl = x;
@@ -100,19 +105,42 @@ fake_df (GoalSeekFunction f, gnum_float x, gnum_float *dfx, gnum_float xstep,
 	if (xr > data->xmax)
 		xr = x;
 
-	if (xl == xr)
+	if (xl == xr) {
+#ifdef DEBUG_GOAL_SEEK
+		printf ("==> xl == xr\n");
+#endif
 		return GOAL_SEEK_ERROR;
+	}
 
 	status = f (xl, &yl, user_data);
-	if (status != GOAL_SEEK_OK)
+	if (status != GOAL_SEEK_OK) {
+#ifdef DEBUG_GOAL_SEEK
+		printf ("==> failure at xl\n");
+#endif
 		return status;
+	}
+#ifdef DEBUG_GOAL_SEEK
+		printf ("==> xl=%.20" GNUM_FORMAT_g "; yl=%.20" GNUM_FORMAT_g "\n",
+			xl, yl);
+#endif
 
 	status = f (xr, &yr, user_data);
-	if (status != GOAL_SEEK_OK)
+	if (status != GOAL_SEEK_OK) {
+#ifdef DEBUG_GOAL_SEEK
+		printf ("==> failure at xr\n");
+#endif
 		return status;
+	}
+#ifdef DEBUG_GOAL_SEEK
+		printf ("==> xr=%.20" GNUM_FORMAT_g "; yr=%.20" GNUM_FORMAT_g "\n",
+			xr, yr);
+#endif
 
 	*dfx = (yr - yl) / (xr - xl);
-	return GOAL_SEEK_OK;
+#ifdef DEBUG_GOAL_SEEK
+		printf ("==> %.20" GNUM_FORMAT_g "\n", *dfx);
+#endif
+	return finitegnum (*dfx) ? GOAL_SEEK_OK : GOAL_SEEK_ERROR;
 }
 
 void
@@ -197,10 +225,13 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		else {
 			gnum_float xstep;
 
-			if (data->havexneg && data->havexpos)
-				xstep = gnumabs (data->xpos - data->xneg) / 1e6;
+			if (gnumabs (x0) < 1e-10)
+				if (data->havexneg && data->havexpos)
+					xstep = gnumabs (data->xpos - data->xneg) / 1e6;
+				else
+					xstep = (data->xmax - data->xmin) / 1e6;
 			else
-				xstep = (data->xmax - data->xmin) / 1e6;
+				xstep = gnumabs (x0) / 1e6;
 
 			status = fake_df (f, x0, &df0, xstep, data, user_data);
 		}

@@ -18,6 +18,8 @@ Morten:
 	* Disentangle fn-stat and fn-database.
 	* Make fn-database a plugin.
 	* Make fn-stat a plugin.
+	* Improve goal seek for the case without a proper df.
+	* Fix XIRR.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.3
