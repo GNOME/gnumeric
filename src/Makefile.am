@@ -2,7 +2,8 @@ CFLAGS += -g -Wall 	\
 	-Wshadow             -Wpointer-arith  	\
 	-Wmissing-prototypes -Wmissing-declarations 
 
-bin_PROGRAMS = gnumeric test-format test-token
+bin_PROGRAMS = gnumeric
+noinst_PROGRAMS = test-format test-token
 
 INCLUDES = 			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
