@@ -1337,12 +1337,11 @@ GnmFuncDescriptor const datetime_functions[] = {
 	  gnumeric_year, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-
-/* TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k */
 	{ "yearfrac", 	"ff|f",    N_("date"), &help_yearfrac,
 	  gnumeric_yearfrac, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
-	  GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+
 	{ "unix2date",   "f",    N_("unixtime"), &help_unix2date,
 	  gnumeric_unix2date, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,

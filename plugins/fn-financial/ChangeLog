@@ -1,3 +1,7 @@
+2003-06-28  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : update the status for oddfyield
+
 2003-06-27  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (calc_oddfprice): New function, extracted from

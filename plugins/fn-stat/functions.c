@@ -5975,7 +5975,7 @@ const GnmFuncDescriptor stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "subtotal",     0,  N_("function_nbr,ref,ref,"),
 	  &help_subtotal,    NULL, gnumeric_subtotal, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNDER_DEVELOPMENT, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "cronbach",        0,      N_("ref,ref,"),
 	  &help_cronbach, NULL, gnumeric_cronbach, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

@@ -1,3 +1,7 @@
+2003-06-28  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : fix status of SUBTOTAL
+
 2003-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
         * functions.c : add missing @const to the documentation of TREND

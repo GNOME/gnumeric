@@ -3752,10 +3752,9 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_oddfprice,  gnumeric_oddfprice, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-/* TODO UNIMPLEMENTED */
 	{ "oddfyield", "fffffffff", "settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis",
 	  &help_oddfyield,  gnumeric_oddfyield, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "oddlprice", "ffffffff", "settlement,maturity,last_interest,rate,yld,redemption,frequency,basis",
 	  &help_oddlprice,  gnumeric_oddlprice, NULL, NULL, NULL, NULL,
