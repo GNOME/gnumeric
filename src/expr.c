@@ -709,6 +709,12 @@ compare (const Value *a, const Value *b)
 		}
 	}
 
+	/* Booleans > all numbers (Why did excel do this ??) */
+	if (ta == VALUE_BOOLEAN && (tb == VALUE_INTEGER || tb == VALUE_FLOAT))
+		return IS_GREATER;
+	if (tb == VALUE_BOOLEAN && (ta == VALUE_INTEGER || ta == VALUE_FLOAT))
+		return IS_LESS;
+
 	switch ((ta > tb) ? ta : tb) {
 	case VALUE_EMPTY:	/* Empty Empty compare */
 		return IS_EQUAL;

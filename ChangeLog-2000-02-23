@@ -4,6 +4,9 @@
 
 1999-08-02  Jody Goldberg  <jgoldberg@home.com>
 
+	* src/expr.c (eval_expr_real): Fix bool <-> number comparisons to match
+          excel approach.  TRUE&FALSE > numbers.
+
 	* src/item-bar.c (item_bar_event) : Button3 should select the
           current row/col before bringing up the edit menu.
 
