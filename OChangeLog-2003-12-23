@@ -1,3 +1,51 @@
+2001-03-03  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Plugin code cleanup (removed unnecessary function arguments) + small
+	fixes.
+
+	* src/func.[ch]
+	(struct _FunctionDefinition):
+	Removed get_full_info_callback_data field.
+	(function_add_name_only): Removed callback_data argument.
+	(function_def_get_full_info_if_needed, FunctionGetFullInfoCallback):
+	Now we just pass fn_def instead of name + callback_data.
+	(function_call_with_list):
+	Added missing function_def_get_full_info_if_needed() call.
+
+	* src/plugin-loader.[ch]
+	(gnumeric_plugin_loader_load_service,
+	gnumeric_plugin_loader_unload_service):
+	Return error (instead of crashing) if service is not supported.
+	(gnumeric_plugin_loader_is_loaded): New function.
+
+	* src/plugin-service.h
+	(struct _PluginServiceGeneral, struct _PluginServiceFileOpener,
+	struct _PluginServiceFileSaver, _PluginServicePluginLoader):
+	Removed unneeded plugin argument from every function.
+
+	* src/plugin-service.c
+	(plugin_service_function_group_get_full_info_callback): Get fn_def
+	arg instead of fn_name + callback_data.
+	(plugin_service_function_group_initialize): Store pointer to service
+	in fn_def's user_data.
+	Adjusted to plugin-service.h (removed plugin argument).
+
+	* src/plugin-loader-module.c
+	(gnumeric_plugin_loader_module_func_init,
+	gnumeric_plugin_loader_module_func_can_deactivate,
+	gnumeric_plugin_loader_module_func_cleanup,
+	gnumeric_plugin_loader_module_func_file_probe,
+	gnumeric_plugin_loader_module_func_file_open,
+	gnumeric_plugin_loader_module_func_file_save,
+	gnumeric_plugin_loader_module_func_get_full_function_info,
+	gnumeric_plugin_loader_module_func_get_loader_type):
+	Adjusted to plugin-service.h (removed plugin argument).
+
+	* src/plugin.[ch]
+	s/plugin_load_loader_if_needed/plugin_get_loader_if_needed
+	(plugin_info_get_extra_info_list): Get loader if it's not available.
+	(plugin_info_is_loaded, plugin_info_get_loader): New functions.
+
 2001-03-02  Morten Welinder  <terra@diku.dk>
 
 	* src/ranges.h: Drop 24 bogus casts.

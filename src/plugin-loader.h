@@ -53,5 +53,6 @@ void gnumeric_plugin_loader_load (GnumericPluginLoader *loader, ErrorInfo **ret_
 void gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 void gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 gint gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GList **ret_keys_list, GList **ret_values_list);
+gboolean gnumeric_plugin_loader_is_loaded (GnumericPluginLoader *loader);
 
 #endif /* GNUMERIC_PLUGIN_LOADER_H */

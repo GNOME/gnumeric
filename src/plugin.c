@@ -81,7 +81,7 @@ static gboolean saved_active_plugin_id_list_is_ready = FALSE;
 
 static GList *registered_loader_types = NULL;
 
-static void plugin_load_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error);
+static void plugin_get_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error);
 
 /*
  * Accessor functions
@@ -130,13 +130,16 @@ plugin_info_is_active (PluginInfo *pinfo)
 gint
 plugin_info_get_extra_info_list (PluginInfo *pinfo, GList **ret_keys_list, GList **ret_values_list)
 {
+	ErrorInfo *ignored_error;
+
 	*ret_keys_list = NULL;
 	*ret_values_list = NULL;
 
-	/* FIXME - load loader? */
-	if (pinfo->loader != NULL) {
+	plugin_get_loader_if_needed (pinfo, &ignored_error);
+	if (ignored_error == NULL) {
 		return gnumeric_plugin_loader_get_extra_info_list (pinfo->loader, ret_keys_list, ret_values_list);
 	} else {
+		error_info_free (ignored_error);
 		return 0;
 	}
 }
@@ -181,14 +184,6 @@ plugin_info_peek_loader_type_str (PluginInfo *pinfo)
 	return pinfo->loader_static_info->loader_type_str;
 }
 
-PluginServicesData *
-plugin_info_peek_services_data (PluginInfo *pinfo)
-{
-	g_return_val_if_fail (pinfo != NULL, NULL);
-
-	return pinfo->services_data;
-}
-
 /*
  * If loader_type_str == NULL, it returns TRUE for plugin providing _any_ loader.
  */
@@ -211,6 +206,30 @@ plugin_info_provides_loader_by_type_str (PluginInfo *pinfo, const gchar *loader_
 	}
 
 	return FALSE;
+}
+
+gboolean
+plugin_info_is_loaded (PluginInfo *pinfo)
+{
+	g_return_val_if_fail (pinfo != NULL, FALSE);
+
+	return pinfo->loader != NULL && gnumeric_plugin_loader_is_loaded (pinfo->loader);
+}
+
+PluginServicesData *
+plugin_info_peek_services_data (PluginInfo *pinfo)
+{
+	g_return_val_if_fail (pinfo != NULL, NULL);
+
+	return pinfo->services_data;
+}
+
+struct _GnumericPluginLoader *
+plugin_info_get_loader (PluginInfo *pinfo)
+{
+	g_return_val_if_fail (pinfo != NULL, NULL);
+
+	return pinfo->loader;
 }
 
 /*
@@ -529,7 +548,7 @@ plugin_info_read (const gchar *dir_name, xmlNode *tree, ErrorInfo **ret_error)
 }
 
 static void
-plugin_load_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error)
+plugin_get_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
 	PluginLoaderStaticInfo *loader_info;
 	GtkType loader_type;
@@ -672,7 +691,7 @@ plugin_load_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_
 	g_return_if_fail (ret_error != NULL);
 
 	*ret_error = NULL;
-	plugin_load_loader_if_needed (pinfo, &error);
+	plugin_get_loader_if_needed (pinfo, &error);
 	if (error == NULL) {
 		gnumeric_plugin_loader_load_service (pinfo->loader, service, &error);
 		*ret_error = error;

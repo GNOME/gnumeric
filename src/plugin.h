@@ -12,7 +12,9 @@
 
 typedef struct _PluginInfo PluginInfo;
 typedef struct _PluginService PluginService;
-typedef struct _PluginServicesData PluginServicesData;
+
+struct _GnumericPluginLoader;
+struct _PluginServicesData;
 
 void         plugins_init (CommandContext *context);
 void         plugins_shutdown (void);
@@ -69,8 +71,10 @@ const gchar *plugin_info_peek_id (PluginInfo *pinfo);
 const gchar *plugin_info_peek_name (PluginInfo *pinfo);
 const gchar *plugin_info_peek_description (PluginInfo *pinfo);
 const gchar *plugin_info_peek_loader_type_str (PluginInfo *pinfo);
-PluginServicesData *plugin_info_peek_services_data (PluginInfo *pinfo);
 gboolean     plugin_info_provides_loader_by_type_str (PluginInfo *pinfo, const gchar *loader_type_str);
+gboolean     plugin_info_is_loaded (PluginInfo *pinfo);
+struct _PluginServicesData *plugin_info_peek_services_data (PluginInfo *pinfo);
+struct _GnumericPluginLoader *plugin_info_get_loader (PluginInfo *pinfo);
 
 #ifdef PLUGIN_DEBUG
 #define PLUGIN_MESSAGE(format, args...) g_print (format, ##args)

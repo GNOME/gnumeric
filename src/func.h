@@ -65,8 +65,7 @@ void func_ref	(FunctionDefinition *fn_def);
 void func_unref (FunctionDefinition *fn_def);
 gint func_get_ref_count (FunctionDefinition *fn_def);
 
-typedef gboolean (*FunctionGetFullInfoCallback) (gchar const *name,
-                                                 gpointer callback_data,
+typedef gboolean (*FunctionGetFullInfoCallback) (FunctionDefinition *fn_def,
                                                  gchar **args_ptr,
                                                  gchar **arg_names_ptr,
                                                  gchar ***help_ptr,
@@ -91,8 +90,7 @@ FunctionDefinition *function_add_nodes	(FunctionCategory *category,
                                          FunctionNodes *fn);
 FunctionDefinition *function_add_name_only (FunctionCategory *category,
                                             gchar const *name,
-                                            FunctionGetFullInfoCallback callback,
-                                            gpointer callback_data);
+                                            FunctionGetFullInfoCallback callback);
 FunctionDefinition *function_add_placeholder (gchar const *name,
                                               gchar const *type);
 

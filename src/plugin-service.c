@@ -112,7 +112,7 @@ plugin_service_general_initialize (PluginService *service, ErrorInfo **ret_error
 		PluginServiceGeneral *service_general = &service->t.general;
 
 		g_return_if_fail (service_general->plugin_func_init != NULL);
-		service_general->plugin_func_init (service->plugin, service, &error);
+		service_general->plugin_func_init (service, &error);
 		if (error != NULL) {
 			*ret_error = error_info_new_str_with_details (
 			             _("Initializing function inside plugin returned error."),
@@ -135,7 +135,7 @@ plugin_service_general_can_deactivate (PluginService *service)
 
 	service_general = &service->t.general;
 	g_return_val_if_fail (service_general->plugin_func_can_deactivate != NULL, FALSE);
-	return service_general->plugin_func_can_deactivate (service->plugin, service);
+	return service_general->plugin_func_can_deactivate (service);
 }
 
 static void
@@ -151,7 +151,7 @@ plugin_service_general_cleanup (PluginService *service, ErrorInfo **ret_error)
 	*ret_error = NULL;
 	service_general = &service->t.general;
 	g_return_if_fail (service_general->plugin_func_cleanup != NULL);
-	service_general->plugin_func_cleanup (service->plugin, service, &error);
+	service_general->plugin_func_cleanup (service, &error);
 	if (error != NULL) {
 		*ret_error = error_info_new_str_with_details (
 		             _("Cleanup function inside plugin returned error."),
@@ -351,7 +351,7 @@ plugin_service_file_opener_probe_func (FileOpener const *fo, const gchar *file_n
 		plugin_service_load (service, &ignored_error);
 		if (ignored_error == NULL) {
 			g_return_val_if_fail (service_file_opener->plugin_func_file_probe != NULL, FALSE);
-			return service_file_opener->plugin_func_file_probe (fo, service->plugin, service, file_name);
+			return service_file_opener->plugin_func_file_probe (fo, service, file_name);
 		} else {
 			error_info_free (ignored_error);
 			return FALSE;
@@ -378,7 +378,7 @@ plugin_service_file_opener_open_func (FileOpener const *fo, IOContext *io_contex
 	plugin_service_load (service, &error);
 	if (error == NULL) {
 		g_return_val_if_fail (service_file_opener->plugin_func_file_open != NULL, FALSE);
-		service_file_opener->plugin_func_file_open (fo, service->plugin, service, io_context, wb_view, file_name);
+		service_file_opener->plugin_func_file_open (fo, service, io_context, wb_view, file_name);
 		if (gnumeric_io_has_error_info (io_context)) {
 			gnumeric_io_error_info_push (io_context, error_info_new_str (
 			                             _("Error while reading file.")));
@@ -550,7 +550,7 @@ plugin_service_file_saver_save_func (FileSaver const *fs, IOContext *io_context,
 	plugin_service_load (service, &error);
 	if (error == NULL) {
 		g_return_val_if_fail (service_file_saver->plugin_func_file_save != NULL, FALSE);
-		service_file_saver->plugin_func_file_save (fs, service->plugin, service, io_context, wb_view, file_name);
+		service_file_saver->plugin_func_file_save (fs, service, io_context, wb_view, file_name);
 		if (gnumeric_io_has_error_info (io_context)) {
 			gnumeric_io_error_info_push (io_context, error_info_new_str (
 			                             _("Error while saving file.")));
@@ -726,8 +726,7 @@ plugin_service_function_group_free (PluginService *service)
 }
 
 static gboolean
-plugin_service_function_group_get_full_info_callback (gchar const *fn_name,
-                                                      gpointer callback_data,
+plugin_service_function_group_get_full_info_callback (FunctionDefinition *fn_def,
                                                       gchar **args_ptr,
                                                       gchar **arg_names_ptr,
                                                       gchar ***help_ptr,
@@ -738,10 +737,9 @@ plugin_service_function_group_get_full_info_callback (gchar const *fn_name,
 	PluginServiceFunctionGroup *service_function_group;
 	ErrorInfo *error;
 
-	g_return_val_if_fail (fn_name != NULL, FALSE);
-	g_return_val_if_fail (callback_data != NULL, FALSE);
+	g_return_val_if_fail (fn_def != NULL, FALSE);
 
-	service = (PluginService *) callback_data;
+	service = (PluginService *) function_def_get_user_data (fn_def);
 	service_function_group = &service->t.function_group;
 	plugin_service_load (service, &error);
 	if (error == NULL) {
@@ -751,8 +749,8 @@ plugin_service_function_group_get_full_info_callback (gchar const *fn_name,
 		FunctionNodes *fn_nodes;
 
 		if (service_function_group->plugin_func_get_full_function_info (
-		    service->plugin, service, fn_name, &args, &arg_names, &help,
-		    &fn_args, &fn_nodes)) {
+		    service, function_def_get_name (fn_def),
+		    &args, &arg_names, &help, &fn_args, &fn_nodes)) {
 			*args_ptr = args;
 			*arg_names_ptr = arg_names;
 			*help_ptr = help;
@@ -785,9 +783,11 @@ plugin_service_function_group_initialize (PluginService *service, ErrorInfo **re
 	                                   service_function_group->category_name,
 	                                   service_function_group->translated_category_name);
 	for (l = service_function_group->function_name_list; l != NULL; l = l->next) {
-		function_add_name_only (service_function_group->category, (gchar *) l->data,
-		                        &plugin_service_function_group_get_full_info_callback,
-		                        (gpointer) service);
+		FunctionDefinition *fn_def;
+
+		fn_def = function_add_name_only (service_function_group->category, (gchar *) l->data,
+		                                 &plugin_service_function_group_get_full_info_callback);
+		function_def_set_user_data (fn_def, (gpointer) service);
 	}
 }
 
@@ -887,7 +887,7 @@ plugin_service_plugin_loader_get_type_callback (gpointer callback_data, ErrorInf
 	plugin_service_load (service, &error);
 	if (error == NULL) {
 		loader_type = service_plugin_loader->plugin_func_get_loader_type (
-		                                     service->plugin, service, &error);
+		                                     service, &error);
 		if (error == NULL) {
 			return loader_type;
 		} else {

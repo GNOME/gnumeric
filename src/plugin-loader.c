@@ -242,9 +242,13 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 		default:
 			g_assert_not_reached ();
 		}
-		g_return_if_fail (load_service_method != NULL);
-		load_service_method (loader, service, &error);
-		*ret_error = error;
+		if (load_service_method != NULL) {
+			load_service_method (loader, service, &error);
+			*ret_error = error;
+		} else {
+			*ret_error = error_info_new_str (
+			             _("Service not supported by loader."));
+		}
 	} else {
 		*ret_error = error_info_new_str_with_details (
 		             _("Error while loading plugin."),
@@ -258,7 +262,6 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
 	void (*unload_service_method) (GnumericPluginLoader *, PluginService *, ErrorInfo **) = NULL;
 	ErrorInfo *error;
-	gpointer service_loader_data;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (service != NULL);
@@ -286,10 +289,13 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 	default:
 		g_assert_not_reached ();
 	}
-	g_return_if_fail (unload_service_method != NULL);
-	unload_service_method (loader, service, &error);
-	service_loader_data = plugin_service_get_loader_data (service);
-	g_free (service_loader_data);
+	if (unload_service_method != NULL) {
+		unload_service_method (loader, service, &error);
+		g_free (plugin_service_get_loader_data (service));
+	} else {
+		*ret_error = error_info_new_str (
+		             _("Service not supported by loader."));
+	}
 	*ret_error = error;
 }
 
@@ -307,4 +313,12 @@ gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GList 
 	} else {
 		return 0;
 	}
+}
+
+gboolean
+gnumeric_plugin_loader_is_loaded (GnumericPluginLoader *loader)
+{
+	g_return_val_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader), FALSE);
+
+	return loader->is_loaded;
 }

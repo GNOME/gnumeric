@@ -253,12 +253,11 @@ typedef struct {
 } ServiceLoaderDataGeneral;
 
 static void
-gnumeric_plugin_loader_module_func_init (PluginInfo *plugin, PluginService *service, ErrorInfo **ret_error)
+gnumeric_plugin_loader_module_func_init (PluginService *service, ErrorInfo **ret_error)
 {
 	ErrorInfo *error;
 	ServiceLoaderDataGeneral *loader_data;
 
-	g_return_if_fail (plugin != NULL);
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (ret_error != NULL);
 
@@ -269,11 +268,10 @@ gnumeric_plugin_loader_module_func_init (PluginInfo *plugin, PluginService *serv
 }
 
 static gboolean
-gnumeric_plugin_loader_module_func_can_deactivate (PluginInfo *plugin, PluginService *service)
+gnumeric_plugin_loader_module_func_can_deactivate (PluginService *service)
 {
 	ServiceLoaderDataGeneral *loader_data;
 
-	g_return_val_if_fail (plugin != NULL, FALSE);
 	g_return_val_if_fail (service != NULL, FALSE);
 
 	loader_data = (ServiceLoaderDataGeneral *) plugin_service_get_loader_data (service);
@@ -281,12 +279,11 @@ gnumeric_plugin_loader_module_func_can_deactivate (PluginInfo *plugin, PluginSer
 }
 
 static void
-gnumeric_plugin_loader_module_func_cleanup (PluginInfo *plugin, PluginService *service, ErrorInfo **ret_error)
+gnumeric_plugin_loader_module_func_cleanup (PluginService *service, ErrorInfo **ret_error)
 {
 	ErrorInfo *error;
 	ServiceLoaderDataGeneral *loader_data;
 
-	g_return_if_fail (plugin != NULL);
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (ret_error != NULL);
 
@@ -360,12 +357,11 @@ typedef struct {
 } ServiceLoaderDataFileOpener;
 
 static gboolean
-gnumeric_plugin_loader_module_func_file_probe (FileOpener const *fo, PluginInfo *plugin,
-                                               PluginService *service, const gchar *file_name)
+gnumeric_plugin_loader_module_func_file_probe (FileOpener const *fo, PluginService *service,
+                                               const gchar *file_name)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
-	g_return_val_if_fail (plugin != NULL, FALSE);
 	g_return_val_if_fail (service != NULL, FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
 
@@ -374,13 +370,12 @@ gnumeric_plugin_loader_module_func_file_probe (FileOpener const *fo, PluginInfo 
 }
 
 static void
-gnumeric_plugin_loader_module_func_file_open (FileOpener const *fo, PluginInfo *plugin,
-                                              PluginService *service, IOContext *io_context,
-                                              WorkbookView *wb_view, const gchar *file_name)
+gnumeric_plugin_loader_module_func_file_open (FileOpener const *fo, PluginService *service,
+                                              IOContext *io_context, WorkbookView *wb_view,
+                                              const gchar *file_name)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
-	g_return_if_fail (plugin != NULL);
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (file_name != NULL);
 
@@ -460,13 +455,12 @@ typedef struct {
 } ServiceLoaderDataFileSaver;
 
 static void
-gnumeric_plugin_loader_module_func_file_save (FileSaver const *fs, PluginInfo *plugin,
-                                              PluginService *service, IOContext *io_context,
-                                              WorkbookView *wb_view, const gchar *file_name)
+gnumeric_plugin_loader_module_func_file_save (FileSaver const *fs, PluginService *service,
+                                              IOContext *io_context, WorkbookView *wb_view,
+                                              const gchar *file_name)
 {
 	ServiceLoaderDataFileSaver *loader_data;
 
-	g_return_if_fail (plugin != NULL);
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (file_name != NULL);
 
@@ -525,8 +519,7 @@ typedef struct {
 } ServiceLoaderDataFunctionGroup;
 
 static gboolean
-gnumeric_plugin_loader_module_func_get_full_function_info (PluginInfo *plugin,
-                                                           PluginService *service,
+gnumeric_plugin_loader_module_func_get_full_function_info (PluginService *service,
                                                            gchar const *fn_name,
                                                            gchar **args_ptr,
                                                            gchar **arg_names_ptr,
@@ -537,7 +530,6 @@ gnumeric_plugin_loader_module_func_get_full_function_info (PluginInfo *plugin,
 	ServiceLoaderDataFunctionGroup *loader_data;
 	gpointer func_index_ptr;
 
-	g_return_val_if_fail (plugin != NULL, FALSE);
 	g_return_val_if_fail (service != NULL, FALSE);
 	g_return_val_if_fail (fn_name != NULL, FALSE);
 
@@ -632,15 +624,13 @@ typedef struct {
 } ServiceLoaderDataPluginLoader;
 
 static GtkType
-gnumeric_plugin_loader_module_func_get_loader_type (PluginInfo *plugin,
-                                                    PluginService *service,
+gnumeric_plugin_loader_module_func_get_loader_type (PluginService *service,
                                                     ErrorInfo **ret_error)
 {
 	ServiceLoaderDataPluginLoader *loader_data;
 	ErrorInfo *error;
 	GtkType loader_type;
 
-	g_return_val_if_fail (plugin != NULL, 0);
 	g_return_val_if_fail (service != NULL, 0);
 	g_return_val_if_fail (ret_error != NULL, 0);
 

@@ -16,12 +16,13 @@ typedef struct _PluginServiceFileOpener PluginServiceFileOpener;
 typedef struct _PluginServiceFileSaver PluginServiceFileSaver;
 typedef struct _PluginServiceFunctionGroup PluginServiceFunctionGroup;
 typedef struct _PluginServicePluginLoader PluginServicePluginLoader;
+typedef struct _PluginServicesData PluginServicesData;
 
 struct _PluginServiceGeneral {
 	/* fields available after loading */
-	void (*plugin_func_init) (PluginInfo *plugin, PluginService *service, ErrorInfo **ret_error);
-	gboolean (*plugin_func_can_deactivate) (PluginInfo *plugin, PluginService *service);
-	void (*plugin_func_cleanup) (PluginInfo *plugin, PluginService *service, ErrorInfo **ret_error);
+	void (*plugin_func_init) (PluginService *service, ErrorInfo **ret_error);
+	gboolean (*plugin_func_can_deactivate) (PluginService *service);
+	void (*plugin_func_cleanup) (PluginService *service, ErrorInfo **ret_error);
 };
 
 typedef struct _InputFilePattern InputFilePattern;
@@ -37,11 +38,11 @@ struct _PluginServiceFileOpener {
 
 	FileOpener *opener;
 	/* fields available after loading */
-	gboolean (*plugin_func_file_probe) (FileOpener const *fo, PluginInfo *plugin,
-	                                    PluginService *service, const gchar *file_name);
-	void (*plugin_func_file_open) (FileOpener const *fo, PluginInfo *plugin,
-	                               PluginService *service, IOContext *io_context,
-	                               WorkbookView *wb_view, const gchar *file_name);
+	gboolean (*plugin_func_file_probe) (FileOpener const *fo, PluginService *service,
+	                                    const gchar *file_name);
+	void (*plugin_func_file_open) (FileOpener const *fo, PluginService *service,
+	                               IOContext *io_context, WorkbookView *wb_view,
+	                               const gchar *file_name);
 };
 
 struct _PluginServiceFileSaver {
@@ -52,9 +53,9 @@ struct _PluginServiceFileSaver {
 
 	FileSaver *saver;
 	/* fields available after loading */
-	void  (*plugin_func_file_save) (FileSaver const *fs, PluginInfo *plugin,
-	                                PluginService *service, IOContext *io_context,
-	                                WorkbookView *wb_view, const gchar *file_name);
+	void  (*plugin_func_file_save) (FileSaver const *fs, PluginService *service,
+	                                IOContext *io_context, WorkbookView *wb_view,
+	                                const gchar *file_name);
 };
 
 struct _PluginServiceFunctionGroup {
@@ -64,8 +65,7 @@ struct _PluginServiceFunctionGroup {
 
 	FunctionCategory *category;
 	/* fields available after loading */
-	gboolean (*plugin_func_get_full_function_info) (PluginInfo *plugin,
-	                                                PluginService *service,
+	gboolean (*plugin_func_get_full_function_info) (PluginService *service,
 	                                                gchar const *fn_name, gchar **args_ptr,
 	                                                gchar **arg_names_ptr,
 	                                                gchar ***help_ptr,
@@ -76,8 +76,7 @@ struct _PluginServiceFunctionGroup {
 struct _PluginServicePluginLoader {
 	gchar *loader_id;
 	/* fields available after loading */
-	GtkType (*plugin_func_get_loader_type) (PluginInfo *plugin,
-	                                        PluginService *service,
+	GtkType (*plugin_func_get_loader_type) (PluginService *service,
 	                                        ErrorInfo **ret_error);
 };
 

@@ -36,7 +36,6 @@ typedef enum {
 
 struct _FunctionDefinition {
 	FunctionGetFullInfoCallback get_full_info_callback; 
-	gpointer                    get_full_info_callback_data; 
 	FunctionFlags flags;
 	gchar   const *name;
 	gchar   const *args;
@@ -235,8 +234,7 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 		FunctionNodes *fn_nodes;
 		gboolean success;
 
-		success = fn_def->get_full_info_callback (fn_def->name,
-		                                          fn_def->get_full_info_callback_data,
+		success = fn_def->get_full_info_callback (fn_def,
 		                                          &args, &arg_names, &help,
 		                                          &fn_args, &fn_nodes);
 		if (success) {
@@ -253,12 +251,13 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 				g_assert_not_reached ();
 			}
 		} else {
+			fn_def->args = "";
+			fn_def->named_arguments = "";
 			fn_def->fn_type = FUNCTION_NODES;
 			fn_def->fn.fn_nodes = &error_function_no_full_info;
 		}
 
 		fn_def->get_full_info_callback = NULL;
-		fn_def->get_full_info_callback_data = NULL;
 	}
 }
 
@@ -335,7 +334,6 @@ fn_def_new (FunctionCategory *category,
 
 	fn_def = g_new (FunctionDefinition, 1);
 	fn_def->get_full_info_callback = NULL;
-	fn_def->get_full_info_callback_data = NULL;
 	fn_def->flags	 = 0;
 	fn_def->name      = name;
 	fn_def->args      = args;
@@ -394,15 +392,13 @@ function_add_nodes (FunctionCategory *category,
 FunctionDefinition *
 function_add_name_only (FunctionCategory *category,
                         gchar const *name,
-                        FunctionGetFullInfoCallback callback,
-                        gpointer callback_data)
+                        FunctionGetFullInfoCallback callback)
 {
 	FunctionDefinition *fn_def;
 
 	fn_def = fn_def_new (category, name, NULL, NULL, NULL);
 	if (fn_def != NULL) {
 		fn_def->get_full_info_callback = callback;
-		fn_def->get_full_info_callback_data = callback_data;
 	}
 
 	return fn_def;
@@ -700,6 +696,7 @@ function_call_with_list (FunctionEvalInfo *ei, GList *l)
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
+	function_def_get_full_info_if_needed ((FunctionDefinition *) ei->func_def);
 
 	/* Functions that deal with ExprNodes */
 	fn_def = ei->func_def;
