@@ -32,6 +32,9 @@ Jody:
 	* Copy freeze state and outline info
 	* Ignore combos associated with filters.
 
+Jukka:
+	* More solver improvements.
+
 Morten:
 	* Cleanup fn-database.
 	* Disentangle fn-stat and fn-database.
