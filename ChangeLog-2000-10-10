@@ -1,5 +1,7 @@
 2000-04-17  Karl EICHWALDER  <ke@suse.de>
 
+	* NEWS (Translations): New top.
+
 	* gnumeric.desktop.in (Comment): Shorten comment.
 	Reported by Jon K Hellan.
 
