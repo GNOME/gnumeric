@@ -147,7 +147,7 @@
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>horizontal-raio</name>
+	      <name>horizontal-radio</name>
 	      <child>
 		<left_attach>3</left_attach>
 		<right_attach>4</right_attach>

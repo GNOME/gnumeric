@@ -475,8 +475,8 @@ dialog_printer_setup (Workbook *wb)
 	do_setup_hf (dpi);
 	do_setup_page_info (dpi);
 	do_setup_page (dpi);
-	
-	v = gnome_dialog_run_and_close (GNOME_DIALOG (dpi->dialog));
+
+	v = gnome_dialog_run (GNOME_DIALOG (dpi->dialog));
 
 	if (v == 0){
 		do_fetch_page (dpi);
@@ -484,6 +484,9 @@ dialog_printer_setup (Workbook *wb)
 		do_fetch_hf (dpi);
 		do_fetch_page_info (dpi);
 	}
+
+	if (v != -1)
+		gnome_dialog_close (GNOME_DIALOG (dpi->dialog));
 	
 	dialog_print_info_destroy (dpi);
 }
