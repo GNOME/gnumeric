@@ -142,6 +142,38 @@ Architecture Changes
 	    8.13.3.2) text boxes
 	8.13.4) export RSTRING (95 & 97)			(DONE)
     8.14) editing while zoomed					(DONE)
+9) RTL
+    9.1) Drawing
+	9.1.1) item-bar
+	    9.1.1.1) col header
+		9.1.1.1.1) draw heading				(DONE)
+		9.1.1.1.2) button up/down			(DONE)
+		9.1.1.1.3) cursors				(DONE)
+		9.1.1.1.4) drag resize
+		9.1.1.1.4) grouping symbols
+	    9.1.1.2) row header
+		9.1.1.2.1) grouping symbols
+	9.1.2) item-grid
+	9.1.3) item-cursor
+    9.2) spans
+    9.3) Model
+	9.3.1) Add GtkAction					(DONE)
+	9.3.2) Store state in SCG				(DONE)
+	9.3.3) Store state in sheet or view (where ?)
+	9.3.4) Have action set state and flip GtkWidget dir	(DONE)
+	9.3.5) swap action icon depending on state
+	9.3.6) Add a new style element for text dir
+	9.3.7) Add entry to format dialog to set text dir
+    9.4) Persistence
+	9.4.1) xml dom
+	    9.4.1.1) in
+	    9.4.1.2) out
+	9.4.2) xml sax
+	    9.4.2.1) in
+	    9.4.2.2) out
+	9.4.2) xls
+	    9.4.2.1) 97 in {understood}
+	    9.4.2.2) 97 out
 
 -------------------------------------------------------------------------------
 Target Features
