@@ -12847,13 +12847,6 @@ msgid ""
 "\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=ISREF\n"
-"@SYNTAX=ISREF()\n"
-"@DESCRIPTION=Η ISREF επιστρέφει ΑΛΗΘΕΣ εάν η τιμή είναι αναφορά. Η συνάρτηση "
-"είναι συμβατή με Excel. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/numtheory/numtheory.c:444
 #, fuzzy

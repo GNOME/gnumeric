@@ -16604,6 +16604,7 @@ msgstr ""
 "@DESCRIPTION=ISPRIME function returns TRUE if @i is prime and FALSE "
 "otherwise.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:444

@@ -45,7 +45,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV"
 
 #: plugins/derivatives/options.c:222
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS\n"
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
@@ -84,11 +83,9 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
-"OPT_BS_GAMMA"
+"@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:292
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_DELTA\n"
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -132,7 +129,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:347
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_GAMMA\n"
 "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -179,7 +175,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA"
 
 #: plugins/derivatives/options.c:417
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_THETA\n"
 "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -229,7 +224,6 @@ msgstr ""
 "OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:474
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -274,7 +268,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:547
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -322,7 +315,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:614
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -373,7 +365,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:687
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -425,7 +416,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:759
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,"
@@ -468,7 +458,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:824
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -489,26 +478,6 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BS\n"
-"@SYNTAX=OPT_BS(příznak_call_put,cena,realizační_cena,doba_do_realizace,úrok, "
-"míra_kolísání,náklady_držení)\n"
-"@DESCRIPTION=OPT_BS počítá hodnotu Evropské opce call nebo put (tedy opce "
-"nákupní nebo prodejní, kterou lze uplatnit pouze v pevně stanovený den "
-"realizace) podle příznaku @příznak_call_put, pomocí Black-Scholesova modelu "
-"při realizační ceně aktiva @realizační_cena, na aktivech s okamžitou (spot) "
-"cenou @cena.\n"
-"\n"
-"@míra_kolísání je míra kolísání ceny aktiva v procentech přepočtená na roční "
-"bázi. @doba_do_realizace znamená dobu zbývající do realizace ve dnech, a "
-"@úrok představuje bezrizikovou úrokovou míru v procentech.\n"
-"\n"
-"* Vrácená hodnota bude vyjádřena ve stejných jednotkách jako "
-"@realizační_cena a @cena.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
-"OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:921
 #, no-c-format
@@ -16483,6 +16452,7 @@ msgstr ""
 "@DESCRIPTION=Funkce ISPRIME vrací TRUE, pokud je @i prvočíslo a FALSE pokud "
 "ne.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:444

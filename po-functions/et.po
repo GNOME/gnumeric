@@ -2767,7 +2767,6 @@ msgstr ""
 "@SEEALSO=DATE"
 
 #: plugins/fn-date/functions.c:386
-#, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -2798,7 +2797,6 @@ msgstr ""
 "@SEEALSO=DATE"
 
 #: plugins/fn-date/functions.c:439
-#, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -2823,7 +2821,6 @@ msgstr ""
 "@SEEALSO=NOW"
 
 #: plugins/fn-date/functions.c:465
-#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -2859,7 +2856,6 @@ msgstr ""
 "@SEEALSO=TODAY"
 
 #: plugins/fn-date/functions.c:499
-#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -2882,7 +2878,6 @@ msgstr ""
 "@SEEALSO=HOUR"
 
 #: plugins/fn-date/functions.c:531
-#, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -2909,7 +2904,6 @@ msgstr ""
 "@SEEALSO=HOUR,MINUTE"
 
 #: plugins/fn-date/functions.c:559
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (date)\n"
@@ -2939,7 +2933,6 @@ msgstr ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: plugins/fn-date/functions.c:591
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (date)\n"
@@ -2968,7 +2961,6 @@ msgstr ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: plugins/fn-date/functions.c:624
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (date)\n"
@@ -2997,7 +2989,6 @@ msgstr ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: plugins/fn-date/functions.c:657
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (date)\n"
@@ -3024,7 +3015,6 @@ msgstr ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
 #: plugins/fn-date/functions.c:691
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (date)\n"
@@ -3051,7 +3041,6 @@ msgstr ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:725
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (date)\n"
@@ -3078,7 +3067,6 @@ msgstr ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:759
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (date[, method])\n"
@@ -3116,7 +3104,6 @@ msgstr ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:813
-#, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -3157,7 +3144,6 @@ msgstr ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: plugins/fn-date/functions.c:870
-#, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -3185,7 +3171,6 @@ msgstr ""
 "@SEEALSO=MONTH"
 
 #: plugins/fn-date/functions.c:922
-#, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days[,holidays])\n"
@@ -3215,7 +3200,6 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #: plugins/fn-date/functions.c:993
-#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date[,holidays])\n"
@@ -3305,7 +3289,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-date/functions.c:1256
-#, fuzzy
 msgid ""
 "@FUNCTION=YEARFRAC\n"
 "@SYNTAX=YEARFRAC (start_date, end_date [,basis])\n"
@@ -3316,16 +3299,8 @@ msgid ""
 "\n"
 "@SEEALSO=DATEDIF"
 msgstr ""
-"@FUNCTION=CUMPRINC\n"
-"@SYNTAX=CUMPRINC(intress;nper;pv;algus;lõpp;tüüp)\n"
-"@DESCRIPTION=CUMPRINC tagastab laenule makstud kumulatiivse intressiosa "
-"@alguse ja @lõpu perioodide vahel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-eng/functions.c:140
-#, fuzzy
 msgid ""
 "@FUNCTION=BASE\n"
 "@SYNTAX=BASE(number,base[,length])\n"
@@ -3342,17 +3317,6 @@ msgid ""
 "\n"
 "@SEEALSO=DECIMAL"
 msgstr ""
-"@FUNCTION=OCT2DEC\n"
-"@SYNTAX=OCT2DEC(x)\n"
-"@DESCRIPTION=Funktsioon OCT2DEC teisendab kaheksandarvu stringiks või arvuks "
-"vastavalt tema kümnendarvulisele ekvivalendile. \n"
-"\n"
-"* See funktsioon on Exceliga ühilduv. \n"
-"\n"
-"@EXAMPLES=\n"
-"OCT2DEC(\"124\") võrdub 84.\n"
-"\n"
-"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
 #: plugins/fn-eng/functions.c:178
 msgid ""
@@ -3529,7 +3493,6 @@ msgstr ""
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
 #: plugins/fn-eng/functions.c:349
-#, fuzzy
 msgid ""
 "@FUNCTION=DECIMAL\n"
 "@SYNTAX=DECIMAL(text,base)\n"
@@ -3543,17 +3506,6 @@ msgid ""
 "\n"
 "@SEEALSO=BASE"
 msgstr ""
-"@FUNCTION=OCT2DEC\n"
-"@SYNTAX=OCT2DEC(x)\n"
-"@DESCRIPTION=Funktsioon OCT2DEC teisendab kaheksandarvu stringiks või arvuks "
-"vastavalt tema kümnendarvulisele ekvivalendile. \n"
-"\n"
-"* See funktsioon on Exceliga ühilduv. \n"
-"\n"
-"@EXAMPLES=\n"
-"OCT2DEC(\"124\") võrdub 84.\n"
-"\n"
-"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
 #: plugins/fn-eng/functions.c:381
 msgid ""
@@ -3863,7 +3815,6 @@ msgstr ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:715
-#, fuzzy
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -4124,7 +4075,6 @@ msgstr ""
 "@SEEALSO=ERFC"
 
 #: plugins/fn-eng/functions.c:1183
-#, fuzzy
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -4154,7 +4104,6 @@ msgstr ""
 "@SEEALSO=ERF"
 
 #: plugins/fn-eng/functions.c:1216
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -4183,7 +4132,6 @@ msgstr ""
 "@SEEALSO=EXACT,GESTEP"
 
 #: plugins/fn-eng/functions.c:1274
-#, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -4284,7 +4232,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-financial/functions.c:305
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -4355,7 +4302,6 @@ msgstr ""
 "@SEEALSO=ACCRINTM"
 
 #: plugins/fn-financial/functions.c:394
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -4410,7 +4356,6 @@ msgstr ""
 "@SEEALSO=ACCRINT"
 
 #: plugins/fn-financial/functions.c:452
-#, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -4472,7 +4417,6 @@ msgstr ""
 "@SEEALSO=RECEIVED, DATE"
 
 #: plugins/fn-financial/functions.c:517
-#, fuzzy
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -4525,7 +4469,6 @@ msgstr ""
 "@SEEALSO=INTRATE"
 
 #: plugins/fn-financial/functions.c:579
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -4578,7 +4521,6 @@ msgstr ""
 "@SEEALSO=PRICEMAT"
 
 #: plugins/fn-financial/functions.c:636
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -4631,7 +4573,6 @@ msgstr ""
 "@SEEALSO=PRICEDISC"
 
 #: plugins/fn-financial/functions.c:700
-#, fuzzy
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -4685,7 +4626,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:756
-#, fuzzy
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -4737,7 +4677,6 @@ msgstr ""
 "@SEEALSO=NOMINAL"
 
 #: plugins/fn-financial/functions.c:806
-#, fuzzy
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -4775,7 +4714,6 @@ msgstr ""
 "@SEEALSO=EFFECT"
 
 #: plugins/fn-financial/functions.c:847
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -4796,7 +4734,6 @@ msgstr ""
 "@SEEALSO=PV"
 
 #: plugins/fn-financial/functions.c:887
-#, fuzzy
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -4830,7 +4767,6 @@ msgstr ""
 "@SEEALSO=DDB,SLN,SYD"
 
 #: plugins/fn-financial/functions.c:951
-#, fuzzy
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -4864,7 +4800,6 @@ msgstr ""
 "@SEEALSO=SLN,SYD"
 
 #: plugins/fn-financial/functions.c:1007
-#, fuzzy
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -4911,7 +4846,6 @@ msgstr ""
 "@SEEALSO=SYD"
 
 #: plugins/fn-financial/functions.c:1060
-#, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -4968,7 +4902,6 @@ msgstr ""
 "@SEEALSO=SLN"
 
 #: plugins/fn-financial/functions.c:1121
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -4997,7 +4930,6 @@ msgstr ""
 "@SEEALSO=DOLLARFR"
 
 #: plugins/fn-financial/functions.c:1168
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -5040,7 +4972,6 @@ msgstr ""
 "@SEEALSO=NPV"
 
 #: plugins/fn-financial/functions.c:1275
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -5072,7 +5003,6 @@ msgstr ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
 #: plugins/fn-financial/functions.c:1326
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -5101,7 +5031,6 @@ msgstr ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
 #: plugins/fn-financial/functions.c:1372
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -5130,7 +5059,6 @@ msgstr ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
 #: plugins/fn-financial/functions.c:1418
-#, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -5151,7 +5079,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: plugins/fn-financial/functions.c:1532
-#, fuzzy
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -5191,7 +5118,6 @@ msgstr ""
 "@SEEALSO=FV,NPV,PV"
 
 #: plugins/fn-financial/functions.c:1658
-#, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -5217,7 +5143,6 @@ msgstr ""
 "@SEEALSO=FV"
 
 #: plugins/fn-financial/functions.c:1702
-#, fuzzy
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -5242,7 +5167,6 @@ msgstr ""
 "@SEEALSO=PV,XNPV"
 
 #: plugins/fn-financial/functions.c:1758
-#, fuzzy
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -5270,7 +5194,6 @@ msgstr ""
 "@SEEALSO=NPV,PV"
 
 #: plugins/fn-financial/functions.c:1821
-#, fuzzy
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -5315,7 +5238,6 @@ msgstr ""
 "@SEEALSO=IRR,XNPV"
 
 #: plugins/fn-financial/functions.c:1931
-#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
@@ -5345,7 +5267,6 @@ msgstr ""
 "@SEEALSO=PV,PMT,PPMT"
 
 #: plugins/fn-financial/functions.c:1971
-#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -5381,7 +5302,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2011
-#, fuzzy
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv[,fv,type])\n"
@@ -5417,7 +5337,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2064
-#, fuzzy
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -5451,7 +5370,6 @@ msgstr ""
 "@SEEALSO=IPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2116
-#, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
@@ -5489,7 +5407,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2173
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])\n"
@@ -5517,8 +5434,8 @@ msgid ""
 "\n"
 "@SEEALSO=G_DURATION,MDURATION"
 msgstr ""
-"@FUNCTION=YIELDMAT\n"
-"@SYNTAX=YIELDMAT(maksepäev;tähtaeg;väljalase;intress;hind[;baas])\n"
+"@FUNCTION=DURATION\n"
+"@SYNTAX=DURATION(maksepäev;tähtaeg;väljalase;intress;hind[;baas])\n"
 "@DESCRIPTION=YIELDMAT väärtpaberi, mille intress makstakse tähtajal, "
 "tulususe. @maksepäev on väärtpaberi ostupäev. @tähtaeg on väärtpaberi "
 "tagasiostupäev. @väljalase on väärtpaberi väljalaskepäev. @intress on "
@@ -5539,7 +5456,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2235
-#, fuzzy
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -5556,18 +5472,8 @@ msgid ""
 "\n"
 "@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 msgstr ""
-"@FUNCTION=DURATION\n"
-"@SYNTAX=DURATION(intress;pv;fv)\n"
-"@DESCRIPTION=DURATION investeerimis perioodide arvu, mis on vajalik soovitud "
-"väärtuse saavutamiseks. See funktsioon on sarnane FV and PV-ga, kuid siin ei "
-"pea me näitama rahavoogude suurust, näiteks. -100 väljamakse ja +100 "
-"laekumise jaoks.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2279
-#, fuzzy
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -5595,7 +5501,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: plugins/fn-financial/functions.c:2326
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -5629,17 +5534,18 @@ msgstr ""
 "@SYNTAX=EURO(valuuta)\n"
 "@DESCRIPTION=EURO teisendab ühe Euro antud rahvuslikku valuutasse European "
 "valuutaruumis.  @valuuta on üks järgnevaist:\n"
-"    ATS     (Austria)\n"
-"    BEF     (Belgia)\n"
-"    DEM     (Saksamaa)\n"
-"    ESP     (Hispaania)\n"
-"    FIM     (Soome)\n"
-"    FRF     (Prantsusmaa)\n"
-"    IEP     (Iirimaa)\n"
-"    ITL     (Itaalia)\n"
-"    LUF     (Luksemburg)\n"
-"    NLG     (Holland)\n"
-"    PTE     (Portugal)\n"
+"    ATS\t(Austria)\n"
+"    BEF\t(Belgia)\n"
+"    DEM\t(Saksamaa)\n"
+"    ESP\t(Hispaania)\n"
+"    FIM\t(Soome)\n"
+"    FRF\t(Prantsusmaa)\n"
+"    GRD\t(Greek)\n"
+"    IEP\t(Iirimaa)\n"
+"    ITL\t(Itaalia)\n"
+"    LUF\t(Luksemburg)\n"
+"    NLG\t(Holland)\n"
+"    PTE\t(Portugal)\n"
 "\n"
 "Kui anyud @valuuta on mingi muu kui loendis, tagastab EURO #NUM! vea. \n"
 "@EXAMPLES=\n"
@@ -5647,7 +5553,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2436
-#, fuzzy
 msgid ""
 "@FUNCTION=EUROCONVERT\n"
 "@SYNTAX=EUROCONVERT(n,source,target)\n"
@@ -5677,29 +5582,8 @@ msgid ""
 "EUROCONVERT(2.1,\"DEM\",\"EUR\") returns 1.07.\n"
 "@SEEALSO=EURO"
 msgstr ""
-"@FUNCTION=EURO\n"
-"@SYNTAX=EURO(valuuta)\n"
-"@DESCRIPTION=EURO teisendab ühe Euro antud rahvuslikku valuutasse European "
-"valuutaruumis.  @valuuta on üks järgnevaist:\n"
-"    ATS     (Austria)\n"
-"    BEF     (Belgia)\n"
-"    DEM     (Saksamaa)\n"
-"    ESP     (Hispaania)\n"
-"    FIM     (Soome)\n"
-"    FRF     (Prantsusmaa)\n"
-"    IEP     (Iirimaa)\n"
-"    ITL     (Itaalia)\n"
-"    LUF     (Luksemburg)\n"
-"    NLG     (Holland)\n"
-"    PTE     (Portugal)\n"
-"\n"
-"Kui anyud @valuuta on mingi muu kui loendis, tagastab EURO #NUM! vea. \n"
-"@EXAMPLES=\n"
-"EURO(\"DEM\") tagastab 1.95583.\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2486
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])\n"
@@ -5745,7 +5629,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2553
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,"
@@ -5792,7 +5675,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2676
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -5839,7 +5721,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2740
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -5887,7 +5768,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2795
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -5939,7 +5819,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2952
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -5989,7 +5868,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3063
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -6039,7 +5917,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3157
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -6089,7 +5966,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3251
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -6123,29 +5999,8 @@ msgid ""
 "\n"
 "@SEEALSO=AMORLINC"
 msgstr ""
-"@FUNCTION=YIELDMAT\n"
-"@SYNTAX=YIELDMAT(maksepäev;tähtaeg;väljalase;intress;hind[;baas])\n"
-"@DESCRIPTION=YIELDMAT väärtpaberi, mille intress makstakse tähtajal, "
-"tulususe. @maksepäev on väärtpaberi ostupäev. @tähtaeg on väärtpaberi "
-"tagasiostupäev. @väljalase on väärtpaberi väljalaskepäev. @intress on "
-"väärtpaberi intressimäär. @hind on $100 nimiväärtusega väärtpaberi hind. "
-"@baas on kasutatav päevade lugemise süsteem:\n"
-"\n"
-"0  US 30/360\n"
-"1  tegelikke päevi/tegelikke päevi\n"
-"2  tegelikke päevi/360\n"
-"3  tegelikke päevi/365\n"
-"4  Euroopa 30/360\n"
-"\n"
-"Kui @sagedus on muu arv kui 1, 2 või 4, tagastab YIELDMAT #NUM! vea. Kui "
-"@baas puudub, kasutatakse US 30/360. Kui @baas ei ole 0 ja 4 vahel, "
-"tagastatakse samuti #NUM! viga. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3317
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -6177,29 +6032,8 @@ msgid ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 msgstr ""
-"@FUNCTION=YIELDMAT\n"
-"@SYNTAX=YIELDMAT(maksepäev;tähtaeg;väljalase;intress;hind[;baas])\n"
-"@DESCRIPTION=YIELDMAT väärtpaberi, mille intress makstakse tähtajal, "
-"tulususe. @maksepäev on väärtpaberi ostupäev. @tähtaeg on väärtpaberi "
-"tagasiostupäev. @väljalase on väärtpaberi väljalaskepäev. @intress on "
-"väärtpaberi intressimäär. @hind on $100 nimiväärtusega väärtpaberi hind. "
-"@baas on kasutatav päevade lugemise süsteem:\n"
-"\n"
-"0  US 30/360\n"
-"1  tegelikke päevi/tegelikke päevi\n"
-"2  tegelikke päevi/360\n"
-"3  tegelikke päevi/365\n"
-"4  Euroopa 30/360\n"
-"\n"
-"Kui @sagedus on muu arv kui 1, 2 või 4, tagastab YIELDMAT #NUM! vea. Kui "
-"@baas puudub, kasutatakse US 30/360. Kui @baas ei ole 0 ja 4 vahel, "
-"tagastatakse samuti #NUM! viga. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3378
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])\n"
@@ -6255,7 +6089,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3426
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -6311,7 +6144,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3475
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -6367,7 +6199,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3523
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -6421,7 +6252,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3572
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -6475,7 +6305,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3622
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -6548,16 +6377,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=VDB\n"
-"@SYNTAX=VDB(maksumus;jääk;eluiga;algperiood;lõpp_periood[;faktor,lüliti])\n"
-"@DESCRIPTION=VDB arvutab põhivahendi amortisatsiooni antud perioodi või "
-"selle osa kohta kasutades topeltkahaneva bilansi meetodit.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DB"
 
 #: plugins/fn-financial/functions.c:3719
-#, fuzzy
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -6576,16 +6397,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=VDB\n"
-"@SYNTAX=VDB(maksumus;jääk;eluiga;algperiood;lõpp_periood[;faktor,lüliti])\n"
-"@DESCRIPTION=VDB arvutab põhivahendi amortisatsiooni antud perioodi või "
-"selle osa kohta kasutades topeltkahaneva bilansi meetodit.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=DB"
 
 #: plugins/fn-financial/functions.c:3772
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -6611,29 +6424,8 @@ msgid ""
 "\n"
 "@SEEALSO=DURATION,G_DURATION"
 msgstr ""
-"@FUNCTION=YIELDMAT\n"
-"@SYNTAX=YIELDMAT(maksepäev;tähtaeg;väljalase;intress;hind[;baas])\n"
-"@DESCRIPTION=YIELDMAT väärtpaberi, mille intress makstakse tähtajal, "
-"tulususe. @maksepäev on väärtpaberi ostupäev. @tähtaeg on väärtpaberi "
-"tagasiostupäev. @väljalase on väärtpaberi väljalaskepäev. @intress on "
-"väärtpaberi intressimäär. @hind on $100 nimiväärtusega väärtpaberi hind. "
-"@baas on kasutatav päevade lugemise süsteem:\n"
-"\n"
-"0  US 30/360\n"
-"1  tegelikke päevi/tegelikke päevi\n"
-"2  tegelikke päevi/360\n"
-"3  tegelikke päevi/365\n"
-"4  Euroopa 30/360\n"
-"\n"
-"Kui @sagedus on muu arv kui 1, 2 või 4, tagastab YIELDMAT #NUM! vea. Kui "
-"@baas puudub, kasutatakse US 30/360. Kui @baas ei ole 0 ja 4 vahel, "
-"tagastatakse samuti #NUM! viga. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3833
-#, fuzzy
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -6660,7 +6452,6 @@ msgstr ""
 "@SEEALSO=DB"
 
 #: plugins/fn-info/functions.c:66
-#, fuzzy
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type,ref)\n"
@@ -6705,7 +6496,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1168
-#, fuzzy
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -6728,7 +6518,6 @@ msgstr ""
 "@SEEALSO=TEXT"
 
 #: plugins/fn-info/functions.c:1214
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -6751,7 +6540,6 @@ msgstr ""
 "@SEEALSO=COUNT"
 
 #: plugins/fn-info/functions.c:1261
-#, fuzzy
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -6798,7 +6586,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1367
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -6821,7 +6608,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1392
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -6844,7 +6630,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1421
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -6867,7 +6652,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1447
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -6905,7 +6689,6 @@ msgstr ""
 "@SEEALSO=ISERROR"
 
 #: plugins/fn-info/functions.c:1489
-#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -6948,7 +6731,6 @@ msgstr ""
 "@SEEALSO=ISERROR"
 
 #: plugins/fn-info/functions.c:1538
-#, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -6971,7 +6753,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1563
-#, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -6994,7 +6775,6 @@ msgstr ""
 "@SEEALSO=ISODD"
 
 #: plugins/fn-info/functions.c:1588
-#, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -7017,7 +6797,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1613
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -7040,7 +6819,6 @@ msgstr ""
 "@SEEALSO=ISTEXT"
 
 #: plugins/fn-info/functions.c:1638
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -7063,7 +6841,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1664
-#, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -7086,7 +6863,6 @@ msgstr ""
 "@SEEALSO=ISEVEN"
 
 #: plugins/fn-info/functions.c:1689
-#, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -7109,7 +6885,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1724
-#, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -7132,7 +6907,6 @@ msgstr ""
 "@SEEALSO=ISNONTEXT"
 
 #: plugins/fn-info/functions.c:1749
-#, fuzzy
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -7157,7 +6931,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1792
-#, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -7200,7 +6973,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-logical/functions.c:44
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -7244,7 +7016,6 @@ msgstr ""
 "@SEEALSO=OR, NOT"
 
 #: plugins/fn-logical/functions.c:109
-#, fuzzy
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -7271,7 +7042,6 @@ msgstr ""
 "@SEEALSO=AND, OR"
 
 #: plugins/fn-logical/functions.c:140
-#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -7328,24 +7098,8 @@ msgid ""
 "\n"
 "@SEEALSO=OR, AND, NOT"
 msgstr ""
-"@FUNCTION=OR\n"
-"@SYNTAX=OR(b1;b2;...)\n"
-"@DESCRIPTION=OR esitab loogilist OR funktsiooni: vastus on TRUE kui mõni "
-"argumentidest on TRUE.\n"
-"@b1, kuni @bN on avaldised, mis on kas TRUE või FALSE.  Kui kui argumentide "
-"hulgas on mõni täisarv või ujukomaarv, siis null on FALSE ja kõik muu on "
-"TRUE.\n"
-"Väärtused, mis sisaldavad stringe või tühje lahtreid, jäetakse kõrvale. "
-"Kuipole antud ühtegi loogilist väärtust, tagastatakse #VALUE! viga.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"OR(TRUE,FALSE) võrdub TRUE.\n"
-"OR(3>4,4<3) võrdub FALSE.\n"
-"\n"
-"@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:262
-#, fuzzy
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -7375,7 +7129,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-logical/functions.c:305
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -7398,7 +7151,6 @@ msgstr ""
 "@SEEALSO=FALSE"
 
 #: plugins/fn-logical/functions.c:330
-#, fuzzy
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -7421,7 +7173,6 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-lookup/functions.c:324
-#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -7472,7 +7223,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:431
-#, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -7483,13 +7233,6 @@ msgid ""
 "\n"
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 msgstr ""
-"@FUNCTION=CHAR\n"
-"@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=CHAR tagastab sümboli vastavalt selle ASCII koodile @x.\n"
-"@EXAMPLES=\n"
-"CHAR(65) võrdub A.\n"
-"\n"
-"@SEEALSO=CODE"
 
 #: plugins/fn-lookup/functions.c:508
 #, fuzzy
@@ -14545,7 +14288,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:363
-#, fuzzy
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -14562,7 +14304,6 @@ msgstr ""
 "@SEEALSO=NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:393
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -14576,10 +14317,10 @@ msgstr ""
 "@DESCRIPTION=ISPRIME funktsioon tagastab TRUE kui @i on algarv ja FALSE kui "
 "ei.\n"
 "See funktsioon vajab ühte argumenti.\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:444
-#, fuzzy
 msgid ""
 "@FUNCTION=PFACTOR\n"
 "@SYNTAX=PFACTOR(n)\n"

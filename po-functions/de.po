@@ -16065,6 +16065,7 @@ msgstr ""
 "@SYNTAX=ISTPRIM(i)\n"
 "@DESCRIPTION=ISTPRIM liefert WAHR, falls @i prim ist, sonst FALSCH.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITERPRIM, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:444

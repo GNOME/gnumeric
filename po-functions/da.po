@@ -14515,6 +14515,7 @@ msgstr ""
 "@DESCRIPTION=ISPRIME-funktionen returnerer SAND hvis @i er et primtal, og "
 "ellers FALSK.\n"
 "Denne funktion tager kun mod én parameter.\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:444

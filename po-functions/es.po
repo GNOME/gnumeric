@@ -16830,6 +16830,7 @@ msgstr ""
 "@DESCRIPTION=La función ISPRIME devuelve VERDADERO si @i es primo y FALSO en "
 "caso contrario.\n"
 "\n"
+"@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:444
