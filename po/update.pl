@@ -33,6 +33,10 @@ if ($LANG=~/^-(.)*/){
     elsif ($LANG eq "--help" || "$LANG" eq "-H"){
 	&Help;
     }
+    elsif ($LANG eq "--dist" || "$LANG" eq "-D"){
+        &Merging;
+#       &Status;
+    }
     elsif ($LANG eq "--pot" || "$LANG" eq "-P"){
    	&GeneratePot;
         exit;
@@ -162,14 +166,26 @@ sub GeneratePot{
 
 sub Merging{
 
-    print "\n\nMerging $LANG.po with $PACKAGE.pot, creating updated $LANG.po...\n\n";
-    
+    if ($ARGV[1]){
+        $LANG   = $ARGV[1];
+    } else {
+	$LANG   = $ARGV[0];
+    }
+
+    if ($ARGV[0] ne "--dist" && $ARGV[0] ne "-D") {
+        print "\n\nMerging $LANG.po with $PACKAGE.pot, creating updated $LANG.po...\n\n";
+    }
+
     $d="cp $LANG.po $LANG.po.old && msgmerge $LANG.po.old $PACKAGE.pot -o $LANG.po";
 
-    print "Working, please wait";
+    if ($ARGV[0] ne "--dist" && $ARGV[0] ne "-D") {
+        print "Working, please wait";
+    }
     system($d);
-
-    print "\n\n";
+    
+    if ($ARGV[0] ne "--dist" && $ARGV[0] ne "-D") {
+        print "\n\n";
+    }
 
     unlink "messages";
     unlink "$LANG.po.old";
