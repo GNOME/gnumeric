@@ -18,6 +18,8 @@
 #include "selection.h"
 #include "commands.h"
 #include "command-context-corba.h"
+#include "cell.h"
+#include "colrow.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }
@@ -1174,7 +1176,7 @@ Sheet_col_width (PortableServer_Servant servant, CORBA_long col, CORBA_Environme
 	verify_col_val (col, 0.0);
 
 	ci = sheet_col_get_info (sheet, col);
-	return ci->units;
+	return ci->size_pts;
 }
 
 static CORBA_double
@@ -1186,7 +1188,7 @@ Sheet_row_height (PortableServer_Servant servant, CORBA_long row, CORBA_Environm
 	verify_row_val (row, 0.0);
 
 	ri = sheet_row_get_info (sheet, row);
-	return ri->units;
+	return ri->size_pts;
 }
 
 static void

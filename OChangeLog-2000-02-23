@@ -1,3 +1,16 @@
+2000-02-10  Michael Meeks  <michael@helixcode.com>
+
+	* src/corba-sheet.c: include cell.h & colrow.h
+	(Sheet_col_width): use size_pts (Sheet_row_height): ditto.
+
+	* src/embeddable-grid.h: include sheet-view.h
+
+	* configure.in (have_gb): bump ver.
+
+	* src/workbook.c (workbook_new): fix ordering of arguments on autosave
+	function; default to not ask, and make interval 10 minutes. ( instead
+	of 1 with bug ).
+
 2000-02-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.h : Remove inclusion of cell.h.  Adjust includes to loosen

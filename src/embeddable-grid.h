@@ -3,6 +3,8 @@
 
 #include <bonobo/bonobo-embeddable.h>
 
+#include "sheet-view.h"
+
 #define EMBEDDABLE_GRID_TYPE        (embeddable_grid_get_type ())
 #define EMBEDDABLE_GRID(o)          (GTK_CHECK_CAST ((o), EMBEDDABLE_GRID_TYPE, EmbeddableGrid))
 #define EMBEDDABLE_GRID_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), EMBEDDABLE_GRID_TYPE, EmbeddableGridClass))

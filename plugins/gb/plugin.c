@@ -159,7 +159,7 @@ parse_file (char const * filename)
 }
 
 typedef struct {
-	GBERunContext *rc;
+	GBRunContext *rc;
 	GBRoutine     *r;
 } func_data_t;
 
@@ -192,15 +192,18 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 	if (gb_ans)
 		ans = gb_to_value (ei, gb_ans);
 	else {
-		if (gbe_eval_exception (fd->rc->ec)) {
-			char *str = gbe_exception_get_text (fd->rc->ec);
+		GBEvalContext *ec = GB_EVAL_CONTEXT (fd->rc->ec);
+		char *str;
 
+		str = gb_eval_context_get_text (ec);
+		if (str) {
 			ans = value_new_error (ei->pos, str);
 
 			g_free (str);
-			gbe_eval_context_reset (fd->rc->ec);
 		} else
 			ans = value_new_error (ei->pos, _("Unknown GB error"));
+
+		gb_eval_context_reset (ec);
 	}
 	gb_value_destroy (gb_ans);
 
@@ -214,7 +217,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 typedef struct {
 	FunctionCategory *cat;
-	GBERunContext    *rc;
+	GBRunContext    *rc;
 } register_closure_t;
 
 static void
@@ -254,7 +257,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 		module = parse_file (fname);
 		if (module) {
 			c.cat = function_get_category ("Gnome Basic");
-			c.rc  = gbrun_context_new (module, GB_SEC_HARD);
+			c.rc  = gbrun_context_new (module, GB_RUN_SEC_HARD);
 			g_hash_table_foreach (module->routines,
 					      cb_register_functions, &c);
 		}

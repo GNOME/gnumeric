@@ -2270,7 +2270,7 @@ workbook_new (void)
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->priv->table     = gtk_table_new (0, 0, 0);
 
-	workbook_autosave_set (wb, TRUE, 15);
+	workbook_autosave_set (wb, 10, FALSE);
 	
 	wb->show_horizontal_scrollbar = TRUE;
 	wb->show_vertical_scrollbar = TRUE;

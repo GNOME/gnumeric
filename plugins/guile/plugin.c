@@ -12,6 +12,7 @@
 #include "plugin.h"
 #include "expr.h"
 #include "func.h"
+#include "cell.h"
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)

@@ -1,3 +1,7 @@
+2000-02-10  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (generic_marshaller): fixup for new API.
+
 2000-01-28  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
 	* plugin.c (value_to_gb): implemented.
