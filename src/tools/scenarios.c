@@ -35,7 +35,7 @@
 #include <tool-dialogs.h>
 #include <dao-gui-utils.h>
 #include <value.h>
-#include <workbook-edit.h>
+#include <workbook.h>
 
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
