@@ -26,5 +26,5 @@ tags
 intltool-extract*
 intltool-merge*
 intltool-update*
-GNOME_Gnumeric.oaf
+GNOME_Gnumeric.server
 .intltool-cache*

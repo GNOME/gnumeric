@@ -19,11 +19,10 @@ gnew_DATA = gnumeric.desktop
 Mimedir = $(datadir)/mime-info
 Mime_DATA = gnumeric.keys gnumeric.mime
 
-@INTLTOOL_OAF_RULE@
-
-oafdir = $(datadir)/oaf
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
-oaf_in_files = GNOME_Gnumeric.oaf.in
+serverdir = $(libdir)/bonobo/servers/
+server_in_files = GNOME_Gnumeric.server.in
+server_DATA	= GNOME_Gnumeric.server
+@INTLTOOL_SERVER_RULE@
 
 EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in 				\
@@ -33,7 +32,7 @@ EXTRA_DIST = \
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
-	$(oaf_in_files)
+	$(server_in_files)
 
 if WITH_BONOBO
 gnumeric_version="$(VERSION)-bonobo"

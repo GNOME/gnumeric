@@ -44,6 +44,7 @@ Jody:
 	* more fixage for libxml2.
 	* improve xl import of images.
 	* start moving to utf8 internals.
+	* fix pango context leak.
 
 Jon Kåre:
 	* More correct import of "automatic" colors from Excel.
