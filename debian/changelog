@@ -1,3 +1,11 @@
+gnumeric (1.2.12-1) unstable; urgency=medium
+
+  * New upstream bugfix release. Changes include:
+    * Fix crash when undoing a cut from a different workbook. (Closes: #243484)
+  * [debian/control] Bumped libgsf build dependencies.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  6 May 2004 19:57:02 +0200
+
 gnumeric (1.2.11-1) unstable; urgency=medium
 
   * New upstream bugfix release.
