@@ -1,3 +1,19 @@
+2004-09-27  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : drop the test for caddr_t we do not need it and it
+	  does not work win32.
+	  Export the epoch, major, minor version elements
+
+	* src/workbook-view.c (wb_view_sendto) : a win32 portability patch for
+	  mkdir.
+
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (gnumeric_xml_write_workbook) : respect the xml
+	  compression preference a bit.  It's still uncompressed, or
+	  compressed.  We'll need to patch gsf to be able to tune that
+	  parameter.
+
 2004-09-26  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (wb_view_sendto) : encode the right portion of

@@ -737,8 +737,13 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 				 (int)(1e8 * random_01 ()));
 
 			template = g_build_filename (g_get_tmp_dir (), dirname, NULL);
+#ifdef G_OS_WIN32
+			if (mkdir (template) == 0)
+				break;
+#else
 			if (mkdir (template, 0700) == 0)
 				break;
+#endif
 
 			if (errno != EEXIST) {
 				g_free (template);

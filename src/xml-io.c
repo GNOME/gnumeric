@@ -4288,7 +4288,9 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	/* If the suffix is .xml disable compression */
 	filename = gsf_output_name (output);
 	extension = filename ? gsf_extension_pointer (filename) : NULL;
-	if (extension == NULL || g_ascii_strcasecmp (extension, "xml") != 0) {
+	if (extension == NULL ||
+	    g_ascii_strcasecmp (extension, "xml") != 0 ||
+	    gnm_app_prefs->xml_compression_level != 0) {
 		gzout  = gsf_output_gzip_new (output, NULL);
 		output = gzout;
 	}

@@ -55,24 +55,24 @@ static guint	     signals [LAST_SIGNAL] = { 0 };
 static GObjectClass *parent_klass;
 
 static void
-cb_so_raise (SheetObject *so, SheetControl *sc)
+cb_so_pull_to_front (SheetObject *so, SheetControl *sc)
 {
-	cmd_object_raise (sc_wbc (sc), so, cmd_object_raise_up);
+	cmd_object_raise (sc_wbc (sc), so, cmd_object_pull_to_front);
 }
 static void
-cb_so_raise_to_top (SheetObject *so, SheetControl *sc)
+cb_so_pull_forward (SheetObject *so, SheetControl *sc)
 {
-	cmd_object_raise (sc_wbc (sc), so, cmd_object_raise_top);
+	cmd_object_raise (sc_wbc (sc), so, cmd_object_pull_forward);
 }
 static void
-cb_so_lower (SheetObject *so, SheetControl *sc)
+cb_so_push_backward (SheetObject *so, SheetControl *sc)
 {
-	cmd_object_raise (sc_wbc (sc), so, cmd_object_raise_down);
+	cmd_object_raise (sc_wbc (sc), so, cmd_object_push_backward);
 }
 static void
-cb_so_lower_to_bottom (SheetObject *so, SheetControl *sc)
+cb_so_push_to_back (SheetObject *so, SheetControl *sc)
 {
-	cmd_object_raise (sc_wbc (sc), so, cmd_object_raise_bottom);
+	cmd_object_raise (sc_wbc (sc), so, cmd_object_push_to_back);
 }
 static void
 cb_so_delete (SheetObject *so, SheetControl *sc)
@@ -111,10 +111,10 @@ sheet_object_populate_menu (SheetObject *so, GPtrArray *actions)
 		{ NULL,	NULL, NULL, 0, NULL },
 		{ "gtk-properties",	NULL,		NULL,  0, cb_so_configure },
 		{ NULL,			N_("_Order"),	NULL,  1, NULL },
-			{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_raise_to_top },
-			{ NULL,			N_("Pull _Forward"),	NULL,  0, cb_so_raise },
-			{ NULL,			N_("Push _Backward"),	NULL,  0, cb_so_lower },
-			{ NULL,			N_("Pus_h to Back"),	NULL,  0, cb_so_lower_to_bottom },
+			{ NULL,			N_("Pul_l to Front"),	NULL,  0, cb_so_pull_to_front },
+			{ NULL,			N_("Pull _Forward"),	NULL,  0, cb_so_pull_forward },
+			{ NULL,			N_("Push _Backward"),	NULL,  0, cb_so_push_backward },
+			{ NULL,			N_("Pus_h to Back"),	NULL,  0, cb_so_push_to_back },
 			{ NULL,			NULL,			NULL, -1, NULL },
 		{ "gtk-delete",		NULL,		NULL, 0, cb_so_delete },
 	};

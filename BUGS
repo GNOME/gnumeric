@@ -11,7 +11,6 @@ Release Critical
 debian 272697
 
     : editing text boxes
-    : sync undo/redo text for object stacking with the menus
     : handle pasting clipboards with only objects
     : kasal's popt patch
 

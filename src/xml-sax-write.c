@@ -53,6 +53,7 @@
 #include <print-info.h>
 #include <xml-io.h>
 #include <tools/scenarios.h>
+#include <gnumeric-gconf.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-gzip.h>
@@ -1135,7 +1136,9 @@ xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	GsfOutput *gzout = NULL;
 
 	/* If the suffix is .xml disable compression */
-	if (extension == NULL || g_ascii_strcasecmp (extension, "xml") != 0) {
+	if (extension == NULL ||
+	    g_ascii_strcasecmp (extension, "xml") != 0 ||
+	    gnm_app_prefs->xml_compression_level != 0) {
 		gzout  = gsf_output_gzip_new (output, NULL);
 		output = gzout;
 	}

@@ -49,6 +49,7 @@
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcellrendererpixbuf.h>
+#include <goffice/utils/go-file.h>
 #include <string.h>
 
 typedef struct {

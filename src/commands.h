@@ -123,10 +123,10 @@ gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
 				 GnmParsePos const *pp, GnmExpr const *expr);
 
 typedef enum  {
-	cmd_object_raise_up ,
-	cmd_object_raise_down,
-	cmd_object_raise_top,
-	cmd_object_raise_bottom
+	cmd_object_pull_to_front,
+	cmd_object_pull_forward ,
+	cmd_object_push_backward,
+	cmd_object_push_to_back
 } CmdObjectRaiseSelector;
 gboolean cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector dir);
 

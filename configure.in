@@ -1,7 +1,15 @@
 -*- mode: m4 -*-
 AC_PREREQ(2.52)
-AC_INIT(gnumeric, 1.3.91,
-	http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric)
+
+m4_define([gnumeric_version_epoch], [1])
+m4_define([gnumeric_version_major], [3])
+m4_define([gnumeric_version_minor], [91])
+m4_define([gnumeric_version_extra], [])
+m4_define([gnumeric_full_version],
+    [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor()gnumeric_version_extra])
+
+AC_INIT([gnumeric], [gnumeric_full_version],
+	[http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric])
 
 AC_CONFIG_SRCDIR(src/sheet.h)
 
@@ -309,17 +317,10 @@ if test $struct_timeval_works = no ; then
 fi
 
 dnl src/functions/fn-math.c uses M_PI
-dnl src/plugin-util.c uses caddr_t
 
 AC_MSG_CHECKING([whether M_PI is available])
 AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], works_without_bsd_source=yes, works_without_bsd_source=no)
 AC_MSG_RESULT($works_without_bsd_source)
-
-if test $works_without_bsd_source = yes ; then
-	AC_MSG_CHECKING([whether caddr_t is available])
-	AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], works_without_bsd_source=yes, works_without_bsd_source=no)
-	AC_MSG_RESULT($works_without_bsd_source)
-fi
 
 if test $works_without_bsd_source = no ; then
 	CFLAGS="$CFLAGS -D_BSD_SOURCE"
@@ -328,12 +329,6 @@ if test $works_without_bsd_source = no ; then
 	AC_MSG_RESULT($m_pi_works)
 	if test $m_pi_works = no ; then
 		AC_MSG_ERROR([M_PI is not available])
-	fi
-	AC_MSG_CHECKING([whether caddr_t is available with -D_BSD_SOURCE])
-	AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], caddr_t_works=yes, caddr_t_works=no)
-	AC_MSG_RESULT($caddr_t_works)
-	if test $caddr_t_works = no ; then
-		AC_MSG_ERROR([caddr_t is not available])
 	fi
 fi
 
@@ -836,9 +831,9 @@ fi
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
 dnl **************************************************
+gnumeric_version="${VERSION}"
 gnumeric_prefix='${prefix}'
 gnumeric_exec_prefix='${exec_prefix}'
-gnumeric_version="${VERSION}"
 gnumeric_sysconfdir='${sysconfdir}'
 gnumeric_datadir='${datadir}/gnumeric/${gnumeric_version}'
 gnumeric_libdir='${libdir}/gnumeric/${gnumeric_version}'
@@ -850,14 +845,26 @@ gnumeric_localedir='${prefix}/${DATADIRNAME}/locale'
 gnumeric_autoformatdir='${gnumeric_datadir}/autoformat-templates'
 
 dnl Export to gnumeric-config.h
-AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version",
-	[The version number of this Gnumeric release, possibly suffixed for bonobo]
+AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "gnumeric_full_version",
+	[The version number of this release, possibly suffixed for bonobo]
 )
+AC_DEFINE_UNQUOTED(GNM_VERSION_EPOCH, gnumeric_version_epoch,
+	[The Epoch of this release]
+)
+AC_DEFINE_UNQUOTED(GNM_VERSION_MAJOR, gnumeric_version_major,
+	[The Major version number of this release]
+)
+AC_DEFINE_UNQUOTED(GNM_VERSION_MINOR, gnumeric_version_minor,
+	[The Minor version number of this release]
+)
+AC_DEFINE_UNQUOTED(GNM_VERSION_EXTRA, "gnumeric_version_extra",
+	[Extra, possibly empty tag for this release]
+)
+AC_SUBST(gnumeric_version)
 AC_SUBST(gnumeric_prefix)
 AC_SUBST(gnumeric_exec_prefix)
 AC_SUBST(gnumeric_sysconfdir)
 AC_SUBST(gnumeric_datadir)
-AC_SUBST(gnumeric_version)
 AC_SUBST(gnumeric_libdir)
 AC_SUBST(gnumeric_plugindir)
 AC_SUBST(gnumeric_gladedir)

@@ -5937,16 +5937,16 @@ cmd_object_raise_redo (GnmCommand *cmd,
 {
 	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
 	switch (me->dir) {
-	case cmd_object_raise_up:
+	case cmd_object_pull_to_front:
 		me->changed_positions = sheet_object_adjust_stacking (me->so, 1);
 		break;
-	case cmd_object_raise_down:
-		me->changed_positions = sheet_object_adjust_stacking (me->so, -1);
-		break;
-	case cmd_object_raise_top:
+	case cmd_object_pull_forward:
 		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MAXINT);
 		break;
-	case cmd_object_raise_bottom:
+	case cmd_object_push_backward:
+		me->changed_positions = sheet_object_adjust_stacking (me->so, -1);
+		break;
+	case cmd_object_push_to_back:
 		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MININT);
 		break;
 	}
@@ -5988,17 +5988,17 @@ cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector 
 	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 1;
 	switch (dir) {
-	case cmd_object_raise_up:
-		me->cmd.cmd_descriptor = g_strdup (_("Raise object"));
+	case cmd_object_pull_to_front:
+		me->cmd.cmd_descriptor = g_strdup (_("Pull object to the front"));
 		break;
-	case cmd_object_raise_down:
-		me->cmd.cmd_descriptor = g_strdup (_("Lower object"));
+	case cmd_object_pull_forward:
+		me->cmd.cmd_descriptor = g_strdup (_("Pull object forward"));
 		break;
-	case cmd_object_raise_top:
-		me->cmd.cmd_descriptor = g_strdup (_("Raise object to top"));
+	case cmd_object_push_backward:
+		me->cmd.cmd_descriptor = g_strdup (_("Push object backward"));
 		break;
-	case cmd_object_raise_bottom:
-		me->cmd.cmd_descriptor = g_strdup (_("Lower object to bottom"));
+	case cmd_object_push_to_back:
+		me->cmd.cmd_descriptor = g_strdup (_("Push object to the back"));
 		break;
 	}
 	me->dir = dir;
