@@ -45,6 +45,7 @@
 #include <gtk/gtkactiongroup.h>
 #include <gtk/gtkuimanager.h>
 #include <gtk/gtkstatusbar.h>
+#include <gtk/gtkaccellabel.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktoggleaction.h>
 #include <gtk/gtkstock.h>
@@ -53,6 +54,9 @@
 #include <gtk/gtkcheckmenuitem.h>
 #include <glib/gi18n.h>
 #include <errno.h>
+
+#define CHECK_MENU_UNDERLINES
+
 
 struct _WBCgtk {
 	WorkbookControlGUI base;
@@ -107,6 +111,7 @@ wbc_gtk_create_status_area (WorkbookControlGUI *wbcg, GtkWidget *progress,
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), progress, TRUE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (gtk->everything),
 		gtk->status_area, FALSE, TRUE, 0);
+	gtk_widget_show_all (gtk->status_area);
 }
 
 /*****************************************************************************/
@@ -822,6 +827,75 @@ cb_handlebox_dock_status (GtkHandleBox *hb,
 	gtk_toolbar_set_show_arrow (toolbar, attached);
 }
 
+#ifdef CHECK_MENU_UNDERLINES
+
+static const char *
+get_accel_label (GtkMenuItem *item, char *key)
+{
+	GList *children = gtk_container_get_children (GTK_CONTAINER (item));
+	GList *l;
+	const char *res = NULL;
+
+	*key = 0;
+	for (l = children; l; l = l->next) {
+		GtkWidget *w = l->data;
+
+		if (GTK_IS_ACCEL_LABEL (w)) {
+			const char *label = gtk_label_get_label (GTK_LABEL (w));
+			*key = 0;
+			while (*label) {
+				if (*label == '_') {
+					*key = g_ascii_toupper (label[1]);
+					break;
+				}
+				label++;
+			}
+			res = gtk_label_get_text (GTK_LABEL (w));
+			break;
+		}
+	}
+
+	g_list_free (children);
+	return res;
+}
+
+static void
+check_underlines (GtkWidget *w, const char *path)
+{
+	GList *children = gtk_container_get_children (GTK_CONTAINER (w));
+	GHashTable *used = g_hash_table_new_full (NULL, NULL, NULL, (GDestroyNotify)g_free);
+	GList *l;
+
+	for (l = children; l; l = l->next) {
+		GtkMenuItem *item = GTK_MENU_ITEM (l->data);
+		GtkWidget *sub = gtk_menu_item_get_submenu (item);
+		char key;
+		const char *label = get_accel_label (item, &key);
+
+		if (sub) {
+			char *newpath = g_strconcat (path, *path ? "->" : "", label, NULL);
+			check_underlines (sub, newpath);
+			g_free (newpath);
+		}
+
+		if (key) {
+			const char *prev = g_hash_table_lookup (used, GINT_TO_POINTER ((int)key));
+			if (prev)
+				g_warning ("In the `%s' menu, the key `%c' is used for both `%s' and `%s'.",
+					   path, key, prev, label);
+			else
+				g_hash_table_insert (used, GINT_TO_POINTER ((int)key), g_strdup (label));
+		}
+	}
+
+	g_list_free (children);
+	g_hash_table_destroy (used);
+}
+
+#endif
+
+
+
 static void
 cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		       GtkWidget *w, WBCgtk *gtk)
@@ -1005,8 +1079,14 @@ wbc_gtk_init (GObject *obj)
 	wbc_gtk_reload_recent_file_menu (wbcg);
 
 	gtk_ui_manager_ensure_update (gtk->ui);
-	gtk_widget_show (gtk->everything);
+	gtk_widget_show_all (gtk->everything);
 	gtk_container_add (GTK_CONTAINER (wbcg->toplevel), gtk->everything);
+
+#ifdef CHECK_MENU_UNDERLINES
+	gtk_container_foreach (GTK_CONTAINER (gtk->menu_zone),
+			       (GtkCallback)check_underlines,
+			       (gpointer)"");
+#endif
 }
 
 static void

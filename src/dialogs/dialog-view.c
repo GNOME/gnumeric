@@ -50,7 +50,9 @@ static void
 cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		    ViewState *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	WorkbookControlGUI *wbcg = state->wbcg;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookControl *new_wbc;
 	gboolean shared;
 	GdkScreen *screen = NULL;
 	GSList *buttons = gtk_radio_button_get_group (state->location_elsewhere);
@@ -78,7 +80,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 				g_strdup_printf (_("Display \"%s\" could not be opened."),
 						 name);				
 			gtk_widget_destroy (state->dialog);
-			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, error_str);
+			gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, error_str);
 			g_free (error_str);
 			return;
 		}
@@ -91,11 +93,17 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	gtk_widget_destroy (state->dialog);
 
-	(void) wb_control_wrapper_new
+	new_wbc = wb_control_wrapper_new
 		(wbc,
 		 shared ? wb_control_view (wbc) : NULL,
 		 wb_control_workbook (wbc),
 		 screen);
+
+	if (IS_WORKBOOK_CONTROL_GUI (new_wbc)) {
+		/* What else would it be?  */
+		WorkbookControlGUI *new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
+		wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
+	}
 }
 
 static void

@@ -1302,19 +1302,23 @@ static GNM_ACTION_DEF (cb_align_bottom)
 
 static GNM_ACTION_DEF (cb_view_standard_toolbar)
 {
-	wbcg_set_standard_toolbar_visible (wbcg, -1);
+	if (!wbcg->updating_ui)
+		wbcg_set_standard_toolbar_visible (wbcg, -1);
 }
 static GNM_ACTION_DEF (cb_view_format_toolbar)
 {
-	wbcg_set_format_toolbar_visible (wbcg, -1);
+	if (!wbcg->updating_ui)
+		wbcg_set_format_toolbar_visible (wbcg, -1);
 }
 static GNM_ACTION_DEF (cb_view_object_toolbar)
 {
-	wbcg_set_object_toolbar_visible (wbcg, -1);
+	if (!wbcg->updating_ui)
+		wbcg_set_object_toolbar_visible (wbcg, -1);
 }
 static GNM_ACTION_DEF (cb_view_statusbar)
 {
-	wbcg_set_statusbar_visible (wbcg, -1);
+	if (!wbcg->updating_ui)
+		wbcg_set_statusbar_visible (wbcg, -1);
 }
 
 static GNM_ACTION_DEF (cb_merge_cells)
@@ -1587,7 +1591,7 @@ static GtkActionEntry actions[] = {
 	{ "FileSummary", GTK_STOCK_PROPERTIES, N_("Proper_ties..."),
 		NULL, N_("Edit descriptive information"),
 		G_CALLBACK (cb_file_summary) },
-	{ "FilePreferences", GTK_STOCK_PREFERENCES, N_("Preferen_ces..."),
+	{ "FilePreferences", GTK_STOCK_PREFERENCES, N_("Pre_ferences..."),
 		NULL, N_("Change Gnumeric Preferences"),
 		G_CALLBACK (cb_file_preferences) },
 	{ "FileClose", GTK_STOCK_CLOSE, NULL,
@@ -2129,7 +2133,7 @@ static GtkToggleActionEntry toggle_actions[] = {
 	        N_("Toggle visibility of standard toolbar"),
 	        G_CALLBACK (cb_view_standard_toolbar), TRUE },
 	{ "ViewFormatToolbar", NULL,
-	        N_("View F_ormat Toolbar"), NULL,
+	        N_("View Fo_rmat Toolbar"), NULL,
 	        N_("Toggle visibility of format toolbar"),
 	        G_CALLBACK (cb_view_format_toolbar), TRUE },
 	{ "ViewObjectToolbar", NULL,

@@ -1,3 +1,7 @@
+2004-04-07  Morten Welinder  <terra@gnome.org>
+
+	* dialog-view.c (cb_view_ok_clicked): Copy toolbar visibility.
+
 2004-04-01  Christian Neumair  <chris@gnome-de.org>
 
 	* Makefile.am: Revert accidential commit.

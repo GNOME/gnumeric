@@ -1655,63 +1655,88 @@ wbcg_set_status_text (WorkbookControlGUI *wbcg, char const *text)
  * Output: -1 [no toolbar], 0 [was invisible], 1 [was visible].
  */
 static int
-wbcg_set_toolbar_visible (GtkWidget *w, int visible)
+wbcg_set_toolbar_visible (WorkbookControlGUI *wbcg, GtkWidget *w,
+			  const char *action, int visible)
 {
-	gboolean is_visible;
+	gboolean was_visible;
 
 	if (w == NULL)
 		return -1;
 
-	g_print ("length=%d\n",
-		 g_list_length (gtk_container_get_children (w)));
+	was_visible = GTK_WIDGET_VISIBLE (w);
+	if (visible != -2 && wbcg_ui_update_begin (wbcg)) {
+		if (visible == -1)
+			visible = !was_visible;
 
-	is_visible = GTK_WIDGET_VISIBLE (w);
-	switch (visible) {
-	case -1:
-		if (is_visible)
-			gtk_widget_hide (w);
-		else
+		if (visible)
 			gtk_widget_show (w);
-		break;
-	case 0:
-		gtk_widget_hide (w);
-		break;
-	case 1:
-		gtk_widget_show (w);
-		break;
-	default:
-		; /* Nothing */
+		else
+			gtk_widget_hide (w);
+
+		wbcg_set_toggle_action_state (wbcg, action, visible);
+		wbcg_ui_update_end (wbcg);
 	}
 
-	return is_visible;
+	return was_visible;
 }
 
 int
 wbcg_set_standard_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
-	return wbcg_set_toolbar_visible (wbcg->standard_toolbar, visible);
+	return wbcg_set_toolbar_visible (wbcg,
+					 wbcg->standard_toolbar,
+					 "ViewStandardToolbar",
+					 visible);
 }
 
 int
 wbcg_set_format_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
-	return wbcg_set_toolbar_visible (wbcg->format_toolbar, visible);
+	return wbcg_set_toolbar_visible (wbcg,
+					 wbcg->format_toolbar,
+					 "ViewFormatToolbar",
+					 visible);
 }
 
 int
 wbcg_set_object_toolbar_visible (WorkbookControlGUI *wbcg, int visible)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
-	return wbcg_set_toolbar_visible (wbcg->object_toolbar, visible);
+	return wbcg_set_toolbar_visible (wbcg,
+					 wbcg->object_toolbar,
+					 "ViewObjectToolbar",
+					 visible);
 }
 
 int
 wbcg_set_statusbar_visible (WorkbookControlGUI *wbcg, int visible)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
-	return wbcg_set_toolbar_visible (wbcg->statusbar, visible);
+	return wbcg_set_toolbar_visible (wbcg,
+					 wbcg->statusbar,
+					 "ViewStatusbar",
+					 visible);
+}
+
+void
+wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
+			      WorkbookControlGUI *wbcg)
+{
+	int visible;
+
+	visible = wbcg_set_standard_toolbar_visible (wbcg, -2);
+	if (visible >= 0) wbcg_set_standard_toolbar_visible (new_wbcg, visible);
+
+	visible = wbcg_set_format_toolbar_visible (wbcg, -2);
+	if (visible >= 0) wbcg_set_format_toolbar_visible (new_wbcg, visible);
+
+	visible = wbcg_set_object_toolbar_visible (wbcg, -2);
+	if (visible >= 0) wbcg_set_object_toolbar_visible (new_wbcg, visible);
+
+	visible = wbcg_set_statusbar_visible (wbcg, -2);
+	if (visible >= 0) wbcg_set_statusbar_visible (new_wbcg, visible);
 }
 
 
@@ -1907,7 +1932,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	}
 
 	x_geometry = NULL;
-	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
+	gtk_widget_show (GTK_WIDGET (wbcg->toplevel));
 
 	/* rehide headers if necessary */
 	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {

@@ -1,3 +1,21 @@
+2004-04-07  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_create_status_area): Show statusbar.
+	(check_underlines): New code to debug underline collisions.
+	(wbc_gtk_init): Show everything here.
+
+	* src/workbook-control-gui.c (wbcg_set_toolbar_visible): Update
+	menus too.
+	(wbcg_copy_toolbar_visibility): New function.
+	(show_gui): Call gtk_widget_show, not gtk_widget_show_all, so as
+	not to interfere with toolbar visibility.
+
+	* src/wbcg-actions.c (cb_view_standard_toolbar,
+	cb_view_format_toolbar, cb_view_object_toolbar,
+	cb_view_statusbar): Only do something when we're not already
+	updating the ui.
+	(var actions): Fix underline collissions.
+
 2004-04-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: substitute WARN_CFLAGS as
@@ -10,7 +28,6 @@
 	(cb_handlebox_popup): Remove this.
 	(cb_handlebox_dock_status): Fiddle with style to work around
 	gtk_handle_box bug.
-
 	* src/workbook-control-gui.c (wbcg_set_standard_toolbar_visible,
 	wbcg_set_format_toolbar_visible, wbcg_set_object_toolbar_visible,
 	wbcg_set_statusbar_visible): New functions.
