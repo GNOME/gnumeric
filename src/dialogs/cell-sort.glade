@@ -127,8 +127,8 @@
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
 		  <accessibility>
-		    <atkrelation target="cell_sort_row_rb" type="label-for"/>
 		    <atkrelation target="cell_sort_col_rb" type="label-for"/>
+		    <atkrelation target="cell_sort_row_rb" type="label-for"/>
 		  </accessibility>
 		</widget>
 		<packing>
@@ -392,7 +392,7 @@
 		<widget class="GtkScrolledWindow" id="scrolled_cell_sort_list">
 		  <property name="height_request">200</property>
 		  <property name="visible">True</property>
-		  <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+		  <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 		  <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 		  <property name="shadow_type">GTK_SHADOW_NONE</property>
 		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>

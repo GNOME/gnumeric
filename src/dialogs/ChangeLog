@@ -1,4 +1,17 @@
 2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* cell-sort.glade: add horizontal scollbars to the treeview to
+	  work around a GTK bug.
+	* dialog-cell-sort.c (header_name): new
+	(col_row_name): add column/row info to headers to differentiate
+	  between them
+	(append_data): load header into new column
+	(cb_sort_header_check): simply switch the visibility of the header
+	  column
+	(move_cb): also move data from new column
+	(dialog_init): add header column to treeview
+	
+2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 	mostly for John Gill <sufc@utvinternet.com>
 
 	* dialog-cell-sort.c (AddSortFieldMenuState): new structure

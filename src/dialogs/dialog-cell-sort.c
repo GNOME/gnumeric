@@ -83,6 +83,7 @@ typedef struct {
 	GnmExprEntry *add_entry;
 	GtkListStore  *model;
 	GtkTreeView   *treeview;
+	GtkTreeViewColumn *header_column;
 	GtkTreeSelection   *selection;
 	GtkWidget *cell_sort_row_rb;
 	GtkWidget *cell_sort_col_rb;
@@ -99,6 +100,7 @@ typedef struct {
 } SortFlowState;
 
 enum {
+	ITEM_HEADER,
 	ITEM_NAME,
 	ITEM_DESCENDING,
 	ITEM_DESCENDING_IMAGE,
@@ -119,24 +121,40 @@ typedef struct {
 } AddSortFieldMenuState;
 
 static gchar *
+header_name (Sheet *sheet, int col, int row)
+{
+	GnmCell *cell;
+	gchar *str = NULL;
+
+	cell = sheet_cell_get (sheet, col, row);
+	if (cell)
+		str = value_get_as_string (cell->value);
+
+	return str;
+}
+
+
+static gchar *
 col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 {
 	GnmCell *cell;
 	gchar *str = NULL;
 
+	if (is_cols)
+		str = g_strdup_printf (_("Column %s"), col_name (col));
+	else
+		str = g_strdup_printf (_("Row %s"), row_name (row));
+
 	if (header) {
 		cell = sheet_cell_get (sheet, col, row);
-		if (cell)
-			str = value_get_as_string (cell->value);
-		else if (is_cols)
-			str = g_strdup_printf (_("Column %s"), col_name (col));
-		else
-			str = g_strdup_printf (_("Row %s"), row_name (row));
-	} else {
-		if (is_cols)
-			str = g_strdup_printf (_("Column %s"), col_name (col));
-		else
-			str = g_strdup_printf (_("Row %s"), row_name (row));
+		if (cell && !cell_is_blank (cell)) {
+			gchar *header_str, *generic_str = str;
+			header_str = value_get_as_string (cell->value);
+#warning Untranslated string!
+			str = g_strdup_printf ("%s (%s)", header_str, generic_str);
+			g_free (header_str);
+			g_free (generic_str);
+		} 
 	}
 
 	return str;
@@ -215,16 +233,20 @@ set_ok_button_sensitivity(SortFlowState *state)
 static void
 append_data (SortFlowState *state, int i, int index)
 {
-	gchar *str;
+	gchar *str, *header;
 	GtkTreeIter iter;
 	Sheet *sheet = state->sel->v_range.cell.a.sheet;
 	gboolean sort_asc = gnm_app_prefs->sort_default_ascending;
 
+	header = state->is_cols
+		? header_name (sheet, i, index)
+		: header_name (sheet, index, i);
 	str  = state->is_cols
-		? col_row_name (sheet, i, index, state->header, TRUE)
-		: col_row_name (sheet, index, i, state->header, FALSE);
+		? col_row_name (sheet, i, index, FALSE, TRUE)
+		: col_row_name (sheet, index, i, FALSE, FALSE);
 	gtk_list_store_append (state->model, &iter);
 	gtk_list_store_set (state->model, &iter,
+			    ITEM_HEADER,  header,
 			    ITEM_NAME,  str,
 			    ITEM_DESCENDING, !sort_asc,
 			    ITEM_DESCENDING_IMAGE, sort_asc ? state->image_ascending
@@ -236,6 +258,7 @@ append_data (SortFlowState *state, int i, int index)
 			    -1);
 	state->sort_items++;
 	g_free (str);
+	g_free (header);
 }
 
 static void
@@ -392,37 +415,10 @@ translate_range (GnmValue *range, SortFlowState *state)
 static void
 cb_sort_header_check(SortFlowState *state)
 {
-	gchar *str;
-	GtkTreeIter iter;
-	Sheet *sheet = state->sel->v_range.cell.a.sheet;
-	int top_or_left;
-	gint number;
-	int item = 0;
-
 	state->header = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));
 
-	if (state->is_cols) {
-			top_or_left = state->sel->v_range.cell.a.row;
-		} else {
-			top_or_left = state->sel->v_range.cell.a.col;
-		}
-
-	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
-					       &iter, NULL, item)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
-				    ITEM_NUMBER, &number,
-				    -1);
-		item++;
-		str  = state->is_cols
-			? col_row_name (sheet, number, top_or_left, state->header, TRUE)
-			: col_row_name (sheet, top_or_left, number, state->header, FALSE);
-
-		gtk_list_store_set (state->model, &iter,
-				    ITEM_NAME,  str,
-				    -1);
-		g_free (str);
-	}
+	gtk_tree_view_column_set_visible (state->header_column, state->header);
 }
 
 static void
@@ -677,12 +673,13 @@ move_cb (SortFlowState *state, gint direction)
 	GtkTreeIter iter;
 	gboolean descending, case_sensitive, sort_by_value, move_format;
 	gint number, row;
-	char* name;
+	char *name, *header;
 
 	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter))
 		return;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+			    ITEM_HEADER, &header,
 			    ITEM_NAME, &name,
 			    ITEM_DESCENDING,&descending,
 			    ITEM_CASE_SENSITIVE, &case_sensitive,
@@ -696,6 +693,7 @@ move_cb (SortFlowState *state, gint direction)
 	gtk_list_store_remove (state->model, &iter);
 	gtk_list_store_insert (state->model, &iter, row + direction);
 	gtk_list_store_set (state->model, &iter,
+			    ITEM_HEADER, header,
 			    ITEM_NAME, name,
 			    ITEM_DESCENDING,descending,
 			    ITEM_DESCENDING_IMAGE,descending ? state->image_descending :
@@ -707,6 +705,7 @@ move_cb (SortFlowState *state, gint direction)
 			    -1);
 	gtk_tree_selection_select_iter (state->selection, &iter);
 	g_free (name);
+	g_free (header);
 }
 
 static void
@@ -1011,9 +1010,11 @@ dialog_init (SortFlowState *state)
 
 /* Set-up tree view */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled_cell_sort_list");
-	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING,
-					   G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
-					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_INT);
+	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, 
+					   G_TYPE_STRING, G_TYPE_BOOLEAN, 
+					   GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
+					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, 
+					   G_TYPE_INT);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	state->selection = gtk_tree_view_get_selection (state->treeview);
@@ -1021,6 +1022,12 @@ dialog_init (SortFlowState *state)
 	g_signal_connect (state->selection,
 		"changed",
 		G_CALLBACK (cb_sort_selection_changed), state);
+
+#warning Untranslated string (Use "Header" when enabling tranlation)
+	state->header_column = gtk_tree_view_column_new_with_attributes ("",
+							   gtk_cell_renderer_text_new (),
+							   "text", ITEM_HEADER, NULL);
+	gtk_tree_view_append_column (state->treeview, state->header_column);
 
 	column = gtk_tree_view_column_new_with_attributes (_("Row/Column"),
 							   gtk_cell_renderer_text_new (),
@@ -1149,6 +1156,8 @@ dialog_init (SortFlowState *state)
 	cb_sort_selection_changed (NULL, state);
 	dialog_load_selection (state);
 	cb_update_sensitivity (state);
+	cb_sort_header_check (state);
+
 
 	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);
 	
