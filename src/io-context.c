@@ -41,3 +41,12 @@ gnumeric_io_error_save (IOContext *context,
 
 	gnumeric_error_save (COMMAND_CONTEXT (context->impl), message);
 }
+
+void
+gnumeric_io_progress_set (IOContext *context, gfloat f)
+{
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (context->impl != NULL);
+	
+	gnumeric_progress_set (COMMAND_CONTEXT (context->impl), f);
+}

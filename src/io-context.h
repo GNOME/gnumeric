@@ -23,4 +23,6 @@ void gnumeric_warning_unknown_font	(IOContext *context, char const *msg);
 void gnumeric_warning_unknown_feature	(IOContext *context, char const *msg);
 void gnumeric_warning_unknown_function	(IOContext *context, char const *msg);
 
+void gnumeric_io_progress_set	        (IOContext *context, gfloat f);
+
 #endif /* GNUMERIC_IO_CONTEXT_H */

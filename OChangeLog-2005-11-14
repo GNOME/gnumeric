@@ -1,3 +1,9 @@
+2000-11-14  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/io-context.h, src/io-context.c
+	(gnumeric_io_progress_set): New function, calls
+	upon gnumeric_progress_set to do the job.
+
 2000-11-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c : Fix warning.
