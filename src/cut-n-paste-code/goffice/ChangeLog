@@ -1,5 +1,12 @@
 2004-09-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* graph/gog-error-bar-prefs.glade: 12 px between label and control.
+	* graph/gog-style-prefs.glade: 12 px padding. Use GtkAlignment for
+	group layout.
+	* graph/gog-style.c: use new layout.
+	
+2004-09-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* graph/gog-error-bar-prefs.glade: layout rework.
 	* graph/gog-error-bar.c (cb_type_changed): use new layout. Hide styles
 	when category is none.

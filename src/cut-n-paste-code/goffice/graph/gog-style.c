@@ -193,7 +193,7 @@ outline_init (StylePrefState *state, gboolean enable)
 	GtkWidget *w, *table;
 
 	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "outline_outer_table"));
+		gtk_widget_hide (glade_xml_get_widget (state->gui, "outline_box"));
 		return;
 	}
 
@@ -249,7 +249,7 @@ line_init (StylePrefState *state, gboolean enable)
 	GtkWidget *w, *table;
 
 	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "line_outer_table"));
+		gtk_widget_hide (glade_xml_get_widget (state->gui, "line_box"));
 		return;
 	}
 
@@ -649,7 +649,7 @@ fill_init (StylePrefState *state, gboolean enable)
 	GtkWidget *w;
 
 	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "fill_outer_table"));
+		gtk_widget_hide (glade_xml_get_widget (state->gui, "fill_box"));
 		return;
 	}
 
@@ -665,7 +665,7 @@ fill_init (StylePrefState *state, gboolean enable)
 		"changed",
 		G_CALLBACK (cb_fill_type_changed), state);
 
-	w = glade_xml_get_widget (state->gui, "fill_outer_table");
+	w = glade_xml_get_widget (state->gui, "fill_box");
 	gtk_widget_show (GTK_WIDGET (w));
 }
 
@@ -756,7 +756,7 @@ marker_init (StylePrefState *state, gboolean enable)
 	GtkWidget *table, *w;
 
 	if (!enable) {
-		gtk_widget_hide (glade_xml_get_widget (state->gui, "marker_outer_table"));
+		gtk_widget_hide (glade_xml_get_widget (state->gui, "marker_box"));
 		return;
 	}
 
