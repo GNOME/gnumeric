@@ -3966,7 +3966,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 	 *
 	 * eg tolower ('I') != 'i'
 	 * Which would break function lookup when looking up for funtion 'selectIon'
-	 * when it wa sregistered as 'selection'
+	 * when it was registered as 'selection'
 	 *
 	 * WARNING * WARNING * WARNING
 	 */

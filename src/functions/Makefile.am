@@ -15,5 +15,4 @@ libfunctions_a_SOURCES =			\
 	fn-lookup.c				\
 	fn-math.c				\
 	fn-sheet.c				\
-	fn-stat.c				\
-	fn-string.c
+	fn-stat.c

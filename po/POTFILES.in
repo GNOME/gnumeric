@@ -17,6 +17,8 @@ plugins/fn-date/functions.c
 plugins/fn-date/plugin.xml.in
 plugins/fn-eng/functions.c
 plugins/fn-eng/plugin.xml.in
+plugins/fn-string/functions.c
+plugins/fn-string/plugin.xml.in
 plugins/gb/plugin.c
 plugins/gb/plugin.xml.in
 plugins/gda/plugin-gda.c
@@ -179,7 +181,6 @@ src/functions/fn-lookup.c
 src/functions/fn-math.c
 src/functions/fn-sheet.c
 src/functions/fn-stat.c
-src/functions/fn-string.c
 src/gnumeric-canvas.c
 src/gnumeric-graph.c
 src/gnumeric-pane.c

@@ -37,7 +37,9 @@ Morten:
 	* Plug gigantic leak in parser.
 	* Improve gnumeric-expr-entry's utf8 support and speed.
 	* Plug various little leaks.
+	* Make fn-date a plugin.
 	* Make fn-eng a plugin.
+	* Make fn-string a plugin.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.2
