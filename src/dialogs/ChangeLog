@@ -1,5 +1,10 @@
 2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* descriptive-stats.glade: add some missed keyboard accelerators
+	* dao.glade: ditto
+
+2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-analysis-tools.c (anova_single_tool_update_sensitivity_cb): 
 	  switch to spin button
 	(anova_single_tool_ok_clicked_cb): ditto

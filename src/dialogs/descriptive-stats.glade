@@ -309,8 +309,8 @@
 	      <child>
 		<widget class="GtkLabel" id="label3">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">(1 - alpha):</property>
-		  <property name="use_underline">False</property>
+		  <property name="label" translatable="yes">(1 - _alpha):</property>
+		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
 		  <property name="wrap">False</property>
@@ -319,6 +319,7 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">c_entry</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -333,8 +334,8 @@
 	      <child>
 		<widget class="GtkLabel" id="label4">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">K:</property>
-		  <property name="use_underline">False</property>
+		  <property name="label" translatable="yes">_K:</property>
+		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
 		  <property name="wrap">False</property>
@@ -343,6 +344,7 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">l_entry</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -357,8 +359,8 @@
 	      <child>
 		<widget class="GtkLabel" id="label5">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">K:</property>
-		  <property name="use_underline">False</property>
+		  <property name="label" translatable="yes">_K:</property>
+		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
 		  <property name="wrap">False</property>
@@ -367,6 +369,7 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">s_entry</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -424,7 +427,7 @@
 		<widget class="GtkCheckButton" id="kth_largest_button">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Kth Largest</property>
+		  <property name="label" translatable="yes">Kth _Largest</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -445,7 +448,7 @@
 		<widget class="GtkCheckButton" id="kth_smallest_button">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Kth Smallest</property>
+		  <property name="label" translatable="yes">Kth _Smallest</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -467,7 +470,7 @@
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="climb_rate">0.01</property>
-		  <property name="digits">2</property>
+		  <property name="digits">3</property>
 		  <property name="numeric">False</property>
 		  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 		  <property name="snap_to_ticks">False</property>
@@ -489,7 +492,7 @@
 		  <property name="sensitive">False</property>
 		  <property name="tooltip" translatable="yes">Use the ssmedian function with interval width 1 rather than the traditional median function.  </property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Use ssmedian</property>
+		  <property name="label" translatable="yes">_Use ssmedian</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -497,7 +500,7 @@
 		  <property name="draw_indicator">True</property>
 		</widget>
 		<packing>
-		  <property name="left_attach">1</property>
+		  <property name="left_attach">2</property>
 		  <property name="right_attach">3</property>
 		  <property name="top_attach">1</property>
 		  <property name="bottom_attach">2</property>
