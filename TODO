@@ -22,10 +22,7 @@ to features that already work.
 * Functions
 
    + Implement more functions :
-     - GETPIVOTDATA, and ODDFYIELD.
-
-   + Fix or finish the following functions :
-     - ODDFPRICE, XIRR, XNPV, and YIELDDISC.
+     - GETPIVOTDATA.
 
 * Data Analysis Tools
   - Exponential smoothing
@@ -34,8 +31,6 @@ to features that already work.
     + Chart output
   - Moving Average:
     + Chart output
-  - Random number generation
-    + Implement patterned distribution
   - Regression
     + Residuals
     + Standardized Residuals
@@ -145,4 +140,3 @@ under "1.0" are more important.
   
    + There is some function documentation already, but
      it's incomplete.
-
