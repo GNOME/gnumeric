@@ -1,3 +1,9 @@
+2002-02-25  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (ms_sheet_create_image): New function. Factor
+	image creation out of ms_sheet_create_obj and also handle cropping.
+	(ms_sheet_create_obj): Call ms_sheet_create_image.
+
 2002-02-23  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.xml.in: Recognize *.xlt extension.

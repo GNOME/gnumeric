@@ -1,3 +1,17 @@
+2002-02-25  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-image.h: Declare typedef ObjectImage.
+
+	* src/sheet-object-image.c (struct _SheetObjectImage): Add
+	cropping parameters.
+	(sheet_object_image_new): Initialize cropping parameters.
+	(sheet_object_image_set_crop): New function. Set cropping
+	parameters.
+	(soi_get_cropped_pixbuf): New function. Get the cropped image from
+	pixbuf.
+	(soi_get_pixbuf): Do cropping by calling soi_get_cropped_pixbuf.
+	(sheet_object_image_init): Initialize cropping parameters.
+
 2002-02-24  Almer S. Tigelaar  <almer@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=72416

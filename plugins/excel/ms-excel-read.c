@@ -2089,6 +2089,44 @@ ms_sheet_map_color (ExcelSheet const *esheet, MSObj const *obj, MSObjAttrID id)
 	return style_color_new_i8 (r, g, b);
 }
 
+static SheetObject *
+ms_sheet_create_image (MSObj *obj, MSEscherBlip *blip)
+{
+	SheetObject *so;
+	MSObjAttr *crop_left_attr = ms_object_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_LEFT);
+	MSObjAttr *crop_top_attr = ms_object_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_TOP);
+	MSObjAttr *crop_right_attr = ms_object_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_RIGHT);
+	MSObjAttr *crop_bottom_attr = ms_object_attr_bag_lookup
+		(obj->attrs, MS_OBJ_ATTR_BLIP_CROP_BOTTOM);
+	double crop_left_val = 0.0;
+	double crop_top_val = 0.0;
+	double crop_right_val = 0.0;
+	double crop_bottom_val = 0.0;
+	
+	so = sheet_object_image_new (blip->type, blip->data, blip->data_len,
+				     !blip->needs_free);
+
+	if (!so)
+		return NULL;
+	
+	if (crop_left_attr)
+		crop_left_val   = (double) crop_left_attr->v.v_uint / 65536.;
+	if (crop_top_attr)
+		crop_top_val    = (double) crop_top_attr->v.v_uint / 65536.;
+	if (crop_right_attr)
+		crop_right_val  = (double) crop_right_attr->v.v_uint / 65536.;
+	if (crop_bottom_attr)
+		crop_bottom_val = (double) crop_bottom_attr->v.v_uint / 65536.;
+	sheet_object_image_set_crop (SHEET_OBJECT_IMAGE (so),
+				     crop_left_val, crop_top_val,
+				     crop_right_val, crop_bottom_val);
+
+	return so;
+}
+
 static GObject *
 ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
@@ -2150,8 +2188,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 			MSEscherBlip *blip = ms_container_get_blip (container,
 				blip_id->v.v_uint - 1);
 			if (blip != NULL) {
-				so = sheet_object_image_new (blip->type,
-					blip->data, blip->data_len, !blip->needs_free);
+				so = ms_sheet_create_image (obj, blip);
 				blip->needs_free = FALSE; /* image took over managing data */
 			}
 		}

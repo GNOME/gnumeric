@@ -19,7 +19,7 @@
 
 #include <math.h>
 
-typedef struct {
+struct _SheetObjectImage {
 	SheetObject  sheet_object;
 
 	char const   *type;
@@ -27,7 +27,11 @@ typedef struct {
 	guint32	      data_len;
 
 	gboolean dumped;
-} SheetObjectImage;
+	double   crop_top;
+	double   crop_bottom;
+	double   crop_left;
+	double   crop_right;
+};
 
 typedef struct {
 	SheetObjectClass parent_class;
@@ -49,6 +53,8 @@ sheet_object_image_new (char const   *type,
 	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
 	soi->type     = type;
 	soi->data_len = data_len;
+	soi->crop_top = soi->crop_bottom = soi->crop_left = soi->crop_right
+		= 0.0;
 	if (copy_data) {
 		soi->data = g_malloc (data_len);
 		memcpy (soi->data, data, data_len);
@@ -56,6 +62,19 @@ sheet_object_image_new (char const   *type,
 		soi->data = data;
 
 	return SHEET_OBJECT (soi);
+}
+
+void
+sheet_object_image_set_crop (SheetObjectImage *soi,
+			     double crop_left,  double crop_top,
+			     double crop_right, double crop_bottom)
+{
+	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (soi));
+	
+	soi->crop_left   = crop_left;
+	soi->crop_top    = crop_top;
+	soi->crop_right  = crop_right;
+	soi->crop_bottom = crop_bottom;
 }
 
 static void
@@ -68,6 +87,26 @@ sheet_object_image_finalize (GObject *object)
 	soi->data = NULL;
 
 	G_OBJECT_CLASS (sheet_object_image_parent_class)->finalize (object);
+}
+
+static GdkPixbuf *
+soi_get_cropped_pixbuf (SheetObjectImage *soi, GdkPixbuf *pixbuf)
+{
+	int width  = gdk_pixbuf_get_width (pixbuf);
+	int height = gdk_pixbuf_get_height (pixbuf);
+	int sub_x = rint (soi->crop_left * width);
+	int sub_y = rint (soi->crop_top * height);
+	int sub_width  = rint (width *
+			       (1. - soi->crop_left - soi->crop_right));
+	int sub_height = rint (height *
+			       (1. - soi->crop_top - soi->crop_bottom));
+	GdkPixbuf *sub = gdk_pixbuf_new_subpixbuf (pixbuf, sub_x, sub_y,
+						   sub_width, sub_height);
+	if (sub) {
+		g_object_unref (G_OBJECT (pixbuf));
+		pixbuf = sub;
+	}
+	return pixbuf;
 }
 
 /**
@@ -116,7 +155,10 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 	} else {
 		res = gdk_pixbuf_loader_get_pixbuf (loader),
 		g_object_ref (G_OBJECT (res));
-	/* TODO : use gdk_pixbuf_new_subpixbuf to implement clipping */
+		if (soi->crop_top != 0.0  || soi->crop_bottom != 0.0 ||
+		    soi->crop_left != 0.0 || soi->crop_right != 0.0) {
+			res = soi_get_cropped_pixbuf (soi, res);
+		}
 	}
 
 	gdk_pixbuf_loader_close (loader, &err);
@@ -293,6 +335,8 @@ sheet_object_image_init (GObject *obj)
 
 	soi = SHEET_OBJECT_IMAGE (obj);
 	soi->dumped = FALSE;
+	soi->crop_top = soi->crop_bottom = soi->crop_left = soi->crop_right
+		= 0.0;
 
 	so = SHEET_OBJECT (obj);
 	so->anchor.direction = SO_DIR_NONE_MASK;
