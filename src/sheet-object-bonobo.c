@@ -164,11 +164,8 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 	
 	g_return_val_if_fail (sob != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
-	g_return_val_if_fail (sob->client_site == NULL, FALSE);
+	g_return_val_if_fail (sob->client_site != NULL, FALSE);
 	
-	sob->client_site = gnome_client_site_new (
-		SHEET_OBJECT (sob)->sheet->workbook->gnome_container);
-
 	CORBA_exception_init (&ev);
 	
 	ret = GNOME_Unknown_query_interface (

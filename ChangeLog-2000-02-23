@@ -1,3 +1,8 @@
+1999-11-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_load) :
+	  The client_site is created in the initializer.
+
 1999-11-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_move) : Delete.
