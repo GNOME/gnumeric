@@ -1,3 +1,7 @@
+2000-04-26  Tuomas Kuosmanen  <tigert@tigert.gimp.org>
+
+	* src/pixmaps/auto-sum.xpm: Better fitting Sigma icon for Jody.
+
 2000-04-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/pattern.c (gnumeric_sheet_patterns) : Add the rest of the
