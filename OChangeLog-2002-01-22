@@ -1,3 +1,12 @@
+2001-05-14  Miguel de Icaza  <miguel@ximian.com>
+
+	* src/sheet-control-gui.c: Removed support routines that used the
+	Excel-like toolbar.  I got fed up with it. 
+	(scg_construct): Use regular Gtk scrollbars.  Connect to value
+	changed to reflect the state of the scrollbar on the spreadsheet
+	inmediately instead of doing the broken Excel behaviour.
+	That is one feature I cloned that was totally idiotic.
+
 2001-05-13  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_error_splits_array):

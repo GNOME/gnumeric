@@ -1,3 +1,7 @@
+2001-05-14  Miguel de Icaza  <miguel@ximian.com>
+
+	* Makefile.am (libwidgets_a_SOURCES): Removed unused scrollbar code. 
+
 2001-05-11  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-expr-entry.[ch] (gnumeric_expr_entry_freeze,
