@@ -185,12 +185,12 @@ dnl On BSD, we seem to need -lm for finite
 dnl
 if test $ac_cv_func_finite = no; then
   AC_CHECK_LIB(m, finite,
-        [AC_DEFINE(HAVE_FINITE)
+        [AC_DEFINE(HAVE_FINITE, 1, [Define if the finite() function is available])
          LIBS="$LIBS -lm"])
 fi
 
 dnl isfinite is a macro on HPUX
-AC_TRY_COMPILE([#include <math.h>], [int a = isfinite(0.0)], [AC_DEFINE(HAVE_ISFINITE)], [])
+AC_TRY_COMPILE([#include <math.h>], [int a = isfinite(0.0)], [AC_DEFINE(HAVE_ISFINITE, 1, [Define if the isfinite() macro is available])], [])
 
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
@@ -391,7 +391,7 @@ if $try_bonobo; then
 		AC_MSG_RESULT($marker_ok found $verstxt)
 		AM_PATH_OAF(0.6.2,,AC_MSG_ERROR([OAF not found or too old]))
 		if test x"$OAF_CFLAGS" != "x" ; then
-			AC_DEFINE(ENABLE_BONOBO)
+			AC_DEFINE(ENABLE_BONOBO, 1, [Define if Bonobo is to be used])
 			have_bonobo=true
 			bonobo=bonobox_print
 			bonobo_msg=yes
@@ -422,7 +422,9 @@ gnumeric_gladedir="${gnumeric_datadir}/glade"
 gnumeric_autoformatdir="${gnumeric_datadir}/autoformat-templates"
 
 dnl Export to gnumeric-config.h
-AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version")
+AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version",
+	[The version number of this Gnumeric release, possibly suffixed for bonobo]
+)
 
 AC_SUBST(gnumeric_prefix)
 AC_SUBST(gnumeric_exec_prefix)
@@ -457,7 +459,7 @@ if $try_gb; then
 		vers=`echo "$verstxt" | awk -F. '{ printf "%d", $1 * 10000 + $2 * 100 + $3; }'`
 		if test "$vers" -eq 000017; then
 			AC_MSG_RESULT($marker_ok found $verstxt)
-			AC_DEFINE(ENABLE_GB)
+			AC_DEFINE(ENABLE_GB, 1, [Define if GNOME BASIC is to be used])
 			GB_LIBS=`gnome-config --libs gb`
 			GB_CFLAGS=`gnome-config --cflags gb`
 			have_gb=true
@@ -602,7 +604,7 @@ if test x"$have_bonobo" = "xtrue" -a x"$try_evolution" = "xtrue" ; then
 fi
 AM_CONDITIONAL(ENABLE_EVOLUTION, test x"$evolution" = "xyes")
 if test x"$evolution" = "xyes" ; then
-    AC_DEFINE(ENABLE_EVOLUTION)
+    AC_DEFINE(ENABLE_EVOLUTION, 1, [Define if Evolution is to be used as a component to send mail])
 fi
 
 dnl ******************************
@@ -628,7 +630,7 @@ LIBS=`gnome-config --libs gnomeui`
 use_wm_icons=false
 AC_CHECK_LIB(gnomeui, gnome_window_icon_set_default_from_file, use_wm_icons=true)
 if test x$use_wm_icons = xtrue; then
-	AC_DEFINE(USE_WM_ICONS)
+	AC_DEFINE(USE_WM_ICONS, 1, [Define if libgnomeui has gnome_window_icon_set_default_from_file])
 fi
 CFLAGS=$CFLAGS_save
 LIBS=$LIBS_save
