@@ -12,6 +12,8 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=151628
 	* Fix resizing sample plot in graph assistant type selector
 
+Jon Kåre:
+	* Export text objects to Excel
 Kasal:
 	* Some typos in various docs
 
