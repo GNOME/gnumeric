@@ -230,8 +230,8 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 		double coords [4];
 		sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
 		ret = gog_graph_export_to_svg (sog->graph, output,
-					       fabs (coords[2] - coords[0]),
-					       fabs (coords[3] - coords[1]),
+					       fabs (coords[2] - coords[0]) + 1.,
+					       fabs (coords[3] - coords[1]) + 1.,
 					       1.);
 	} else {
 		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (

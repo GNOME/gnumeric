@@ -1,5 +1,10 @@
 2005-01-24  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=164455
+	* src/sheet-object-graph.c (sog_cb_save_as): fix svg size.
+
+2005-01-24  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): pass shift state
 	to scg_objects_nudge.
 	* src/gnumeric-pane.c (gnm_pane_object_move): alter real move values
