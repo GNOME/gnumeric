@@ -1,6 +1,7 @@
 1999-11-15  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
-	* src/functions/fn-financial.c: Implemented IRR function.
+	* src/functions/fn-financial.c: Implemented IRR and XIRR
+ 	functions.
 	
 1999-11-14  Jody Goldberg <jgoldberg@home.com>
 
