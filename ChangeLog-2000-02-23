@@ -1,3 +1,9 @@
+1999-06-09  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c: Fix major thinko in writing fonts.  (The name hash
+ 	table was used to look up a font, which always failed since keys
+ 	are names in that hash.)
+
 1999-06-09  Nat Friedman  <nat@gnome-support.com>
 
 	* src/sheet-view.c (sheet_view_insert_object): Commented out call

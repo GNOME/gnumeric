@@ -9,11 +9,18 @@ GNOME Spread Sheet task list
 
      A4 -> $A$4 -> $A4 -> A$4 -> A4
 
+* Even More Functions
+
+   FORECAST, FTEST, GROWTH, INTERCEPT, LINEST, LOGEST, PERCENTILE,
+   QUARTILE, TREND, TTEST, ERROR.TYPE.
+
+   (This is not a claim that these are all.)
+
 * Cell range naming
 
    Finish implementing.
 
-* Cell dimensio computation is broken on font change for multilines.
+* Cell dimension computation is broken on font change for multilines.
 
 * Number formatting
 
