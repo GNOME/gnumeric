@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-06-04 11:06+0200\n"
-"PO-Revision-Date: 2002-06-04 11:36+0200\n"
+"POT-Creation-Date: 2002-06-10 14:28+0200\n"
+"PO-Revision-Date: 2002-06-10 14:22+0200\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -403,8 +403,8 @@ msgstr "Finančné produkty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkcie pre finančné produkty"
 
-#: plugins/dif/dif.c:78 plugins/excel/ms-excel-read.c:4583
-#: plugins/mps/mps.c:640 src/xml-io.c:3360
+#: plugins/dif/dif.c:78 plugins/excel/ms-excel-read.c:4571
+#: plugins/mps/mps.c:640 src/xml-io.c:3336
 msgid "Reading file..."
 msgstr "Čítam súbor..."
 
@@ -472,78 +472,67 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
-#: plugins/excel/boot.c:104
-msgid ""
-"This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\n"
-"Sorry, the management."
-msgstr ""
-"Tento súbor nie je súbor 'OLE'. Možno je príliš starý, takže ho Gnumeric\n"
-"nedokáže prečítať. Bohužiaľ."
+#: plugins/excel/boot.c:119
+msgid "No Workbook or Book streams found."
+msgstr "Neboli nájdené žiadne kanále pre zošit."
 
-#: plugins/excel/boot.c:105
-msgid "Unexpected error reading the file"
-msgstr "Neočakávaný koniec súboru počas čítania"
-
-#: plugins/excel/boot.c:146
+#: plugins/excel/boot.c:162
 msgid "Preparing for save..."
 msgstr "Pripravujem ukladanie..."
 
-#: plugins/excel/boot.c:160
+#: plugins/excel/boot.c:176
 msgid "Can't open"
 msgstr "Nemôžem otvoriť"
 
-#: plugins/excel/boot.c:170
+#: plugins/excel/boot.c:186
 msgid "Saving file..."
 msgstr "Súbor sa ukladá..."
 
-#: plugins/excel/ms-excel-read.c:899
+#: plugins/excel/ms-excel-read.c:900
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1033 plugins/lotus-123/lotus.c:191
+#: plugins/excel/ms-excel-read.c:1034 plugins/lotus-123/lotus.c:189
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:500
 #: src/dialogs/dialog-sheet-order.c:375 src/dialogs/dialog-sheet-order.c:379
 #, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: plugins/excel/ms-excel-read.c:1036
+#: plugins/excel/ms-excel-read.c:1037
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1039
+#: plugins/excel/ms-excel-read.c:1040
 #, c-format
 msgid "Chart%d"
 msgstr "Graf%d"
 
-#: plugins/excel/ms-excel-read.c:1042
+#: plugins/excel/ms-excel-read.c:1043
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4448
+#: plugins/excel/ms-excel-read.c:4454
 msgid "external references"
 msgstr "externé referencie"
 
-#: plugins/excel/ms-excel-read.c:4578
-msgid "No book or workbook streams found."
-msgstr "Neboli nájdené žiadne zošitové kanále."
-
-#: plugins/excel/ms-excel-read.c:4741
+#: plugins/excel/ms-excel-read.c:4729
 msgid "This file is encrypted"
 msgstr "Tento súbor je šifrovaný"
 
-#: plugins/excel/ms-excel-read.c:4743
+#: plugins/excel/ms-excel-read.c:4731
 msgid "Invalid password"
 msgstr "Neplatné heslo"
 
-#: plugins/excel/ms-excel-read.c:4866
+#: plugins/excel/ms-excel-read.c:4853
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájsť platný zošit MS Excel"
 
@@ -11173,24 +11162,24 @@ msgid "DVI TeX (via groff)"
 msgstr "DVI TeX (pomocou groff)"
 
 #: plugins/html/plugin.xml.in.h:2
+msgid "HTML"
+msgstr "HTML"
+
+#: plugins/html/plugin.xml.in.h:3
 msgid "HTML & TeX"
 msgstr "HTML & TeX"
 
-#: plugins/html/plugin.xml.in.h:3
+#: plugins/html/plugin.xml.in.h:4
 msgid "HTML (*.html) fragment"
 msgstr "Fragment HTML (*.html)"
 
-#: plugins/html/plugin.xml.in.h:4
+#: plugins/html/plugin.xml.in.h:5
 msgid "HTML 3.2 (*.html)"
 msgstr "HTML 3.2 (*.html)"
 
-#: plugins/html/plugin.xml.in.h:5
+#: plugins/html/plugin.xml.in.h:6
 msgid "HTML 4.0 (*.html)"
 msgstr "HTML 4.0 (*.html)"
-
-#: plugins/html/plugin.xml.in.h:6
-msgid "HTML file made by gnumeric"
-msgstr "Súbor HTML vytvorený v gnumeric"
 
 #: plugins/html/plugin.xml.in.h:7
 msgid "Import/Export of HTML, TeX, DVI, roff"
@@ -11204,11 +11193,11 @@ msgstr "LaTeX 2e (*.tex)"
 msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
-#: plugins/html/roff.c:200
+#: plugins/html/roff.c:201
 msgid "Error executing groff."
 msgstr "Chyba pri spúštaní groff."
 
-#: plugins/lotus-123/lotus.c:311
+#: plugins/lotus-123/lotus.c:301
 msgid "Error while reading lotus workbook."
 msgstr "Chyba pri čítaní zošita lotus."
 
@@ -11568,15 +11557,11 @@ msgstr "Povolí vytváranie funkcií v jazyku Perl"
 msgid "Perl"
 msgstr "Perl"
 
-#: plugins/plan-perfect/pln.c:739
-msgid "PLN : Not a PlanPerfect File"
-msgstr "PLN : Nie je súbor PlanPerfect"
-
-#: plugins/plan-perfect/pln.c:744
+#: plugins/plan-perfect/pln.c:716
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN : Zošit je zašifrovaný heslom"
 
-#: plugins/plan-perfect/pln.c:815
+#: plugins/plan-perfect/pln.c:775
 #, c-format
 msgid ""
 "Invalid PLN file has more than the maximum\n"
@@ -11585,22 +11570,13 @@ msgstr ""
 "Neplatný PLN súbor má viac ako je maximum\n"
 "%s %d"
 
-#: plugins/plan-perfect/pln.c:817
+#: plugins/plan-perfect/pln.c:777
 msgid "rows"
 msgstr "riadky"
 
-#.
-#. * Add Sheet
-#.
-#: plugins/plan-perfect/pln.c:910 plugins/sc/sc.c:420 plugins/sylk/sylk.c:460
-#: src/stf.c:176 src/stf.c:276
-#, c-format
-msgid "Imported %s"
-msgstr "Importovaný %s"
-
-#: plugins/plan-perfect/pln.c:928
-msgid "Unable to mmap the file"
-msgstr "Nepodarilo sa otvoriť súbor"
+#: plugins/plan-perfect/pln.c:853
+msgid "PLN : Not a PlanPerfect File"
+msgstr "PLN : Nie je súbor PlanPerfect"
 
 #: plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
@@ -11626,11 +11602,11 @@ msgstr "Psiconv"
 msgid "Psion (*.psisheet)"
 msgstr "Psion (*.psisheet)"
 
-#: plugins/psiconv/psiconv-read.c:576
+#: plugins/psiconv/psiconv-read.c:577
 msgid "Error while reading psiconv file."
 msgstr "Chyba pri čítaní súboru psiconv."
 
-#: plugins/psiconv/psiconv-read.c:585
+#: plugins/psiconv/psiconv-read.c:586
 msgid "Error while parsing psiconv file."
 msgstr "Chyba pri spracovaní súboru psiconv."
 
@@ -11789,13 +11765,13 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: plugins/sc/sc.c:387
+#: plugins/sc/sc.c:380
 msgid "Error parsing line"
 msgstr "Chyba pri spracovaní riadku."
 
-#: plugins/sc/sc.c:433
-msgid "Error reading sheet."
-msgstr "Chyba pri čítaní listu."
+#: plugins/sc/sc.c:398
+msgid "Not an SC File"
+msgstr "Nie je súbor SC"
 
 #: plugins/sylk/plugin.xml.in.h:1
 msgid "Imports MultiPlan (SYLK) files"
@@ -11809,25 +11785,32 @@ msgstr "MultiPlan (SYLK)"
 msgid "MultiPlan (SYLK) import"
 msgstr "Import MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:419
+#: plugins/sylk/sylk.c:370
 msgid "Not SYLK file"
 msgstr "Nie je súbor SYLK"
 
-#: plugins/sylk/sylk.c:426
+#: plugins/sylk/sylk.c:377
 msgid "error parsing line\n"
 msgstr "chyba riadku\n"
 
-#: plugins/sylk/sylk.c:455
-msgid "Error while opening sylk file."
-msgstr "Chyba pri otváraní súboru sylk."
+#: plugins/sylk/sylk.c:398
+#, c-format
+msgid "Imported %s"
+msgstr "Importovaný %s"
 
-#: plugins/sylk/sylk.c:474
+#: plugins/sylk/sylk.c:412
 msgid "Error while reading sheet."
 msgstr "Chyba pri čítaní listu."
 
 #: plugins/xbase/boot.c:164
 msgid "Error while opening xbase file."
 msgstr "Chyba pri zápise súboru xbase."
+
+#: plugins/xbase/boot.c:170 src/dialogs/dialog-goto-cell.c:285
+#: src/dialogs/print.glade.h:20 src/func-builtin.c:213 src/workbook.c:955
+#: src/workbook.c:1204 src/xml-io.c:3082
+msgid "Sheet"
+msgstr "List"
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -11853,11 +11836,7 @@ msgstr "EXPERIMENTÁLNE XML založené na SAX"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nová generácia V/V XML subsystému založená na sax"
 
-#: plugins/xml_sax/xml-sax-read.c:2109
-msgid "xmlCreateFileParserCtxt () failed."
-msgstr "xmlCreateFileParserCtxt() zlyhala."
-
-#: plugins/xml_sax/xml-sax-read.c:2118
+#: plugins/xml_sax/xml-sax-read.c:2116
 msgid "XML document not well formed!"
 msgstr "XML dokument nie je syntakticky správny!"
 
@@ -12415,7 +12394,8 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3321
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr ""
+"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3006
 msgid "Jump to a specified cell"
@@ -12822,7 +12802,7 @@ msgstr "Štatistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3464 src/workbook-control-gui.c:4126
-#: src/workbook-view.c:455
+#: src/workbook-view.c:458
 msgid "Sum"
 msgstr "Súčet"
 
@@ -13270,7 +13250,6 @@ msgid "_Zoom..."
 msgstr "_Lupa..."
 
 #: src/bonobo-io.c:218 src/bonobo-io.c:684 src/format-template.c:635
-#: src/xml-io.c:3383
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Neplatný XML súbor. Strom je prázdny?"
 
@@ -14451,7 +14430,8 @@ msgstr "Veľké kruhy"
 
 #: src/dialogs/cell-format.glade.h:54
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr "Zamykanie buniek alebo skrývanie vzorcov má zmysel len u chránených listov."
+msgstr ""
+"Zamykanie buniek alebo skrývanie vzorcov má zmysel len u chránených listov."
 
 #: src/dialogs/cell-format.glade.h:55
 msgid "Message:"
@@ -14726,36 +14706,36 @@ msgid "_Wrap text"
 msgstr "Za_lamovať text"
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min &lt;= val &lt;= max         (between)"
-msgstr "min &lt;= hodnota &lt;= max       (medzi)"
+msgid "min <= val <= max         (between)"
+msgstr "min <= hodnota <= max       (medzi)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "hodnota != hranica                  (rovná)"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val &gt;  bound                  (greater than)"
-msgstr "hodnota &gt;  hranica                 (väčšia)"
+msgid "val <  bound                  (less than)"
+msgstr "hodnota <  hranica                 (menšia)"
 
 #: src/dialogs/cell-format.glade.h:132
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "hodnota &gt;= hranica                 (väčšia alebo rovná)"
+msgid "val <= min || max <= val (not between)"
+msgstr "hodnota <= min || max <= hodnota (nie medzi)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &lt;  bound                  (less than)"
-msgstr "hodnota &lt;  hranica                 (menšia)"
+msgid "val <=bound                  (less than or equal to)"
+msgstr "hodnota <= hranica                 (menšia alebo rovná)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "hodnota &lt;= min || max &lt;= hodnota (nie medzi)"
-
-#: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "hodnota &lt;= hranica                 (menšia alebo rovná)"
-
-#: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "hodnota == hranica                 (rovná)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >  bound                  (greater than)"
+msgstr "hodnota >  hranica                 (väčšia)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "hodnota >= hranica                 (väčšia alebo rovná)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -15272,7 +15252,8 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre výbery."
 
 #: src/dialogs/dialog-analysis-tools.c:2042 src/tools/analysis-tools.c:2152
 #: src/tools/analysis-tools.c:2230
-msgid "There must be an equal number of entries for each variable in the regression."
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
 #: src/dialogs/dialog-analysis-tools.c:2160 src/dialogs/regression.glade.h:19
@@ -15305,7 +15286,8 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:3091
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr ""
+"Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:3150
 msgid ""
@@ -15319,7 +15301,8 @@ msgstr ""
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
-msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva riadky dát."
+msgstr ""
+"Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva riadky dát."
 
 #: src/dialogs/dialog-analysis-tools.c:3159
 msgid ""
@@ -15550,8 +15533,10 @@ msgstr "Zmení štandardnú šírku stĺpca"
 
 #: src/dialogs/dialog-col-width.c:229
 #, c-format
-msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr "Nastaviť šírku stĺpca výberu na <span style='italic' weight='bold'>%s</span>"
+msgid ""
+"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr ""
+"Nastaviť šírku stĺpca výberu na <span style='italic' weight='bold'>%s</span>"
 
 #: src/dialogs/dialog-consolidate.c:136
 #, c-format
@@ -15628,12 +15613,6 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre hľadanie cieľa."
 #: src/dialogs/dialog-goto-cell.c:187
 msgid "Workbook Level"
 msgstr "Úroveň zošita"
-
-#: src/dialogs/dialog-goto-cell.c:285 src/dialogs/print.glade.h:20
-#: src/func-builtin.c:213 src/workbook.c:955 src/workbook.c:1204
-#: src/xml-io.c:3079
-msgid "Sheet"
-msgstr "List"
 
 #.
 #. * Fill in the labels of `Target Cell' section.
@@ -15988,8 +15967,10 @@ msgstr "Zmení štandardnú výšku riadku"
 
 #: src/dialogs/dialog-row-height.c:229
 #, c-format
-msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr "Nastaviť výšku riadku výberu na <span style='italic' weight='bold'>%s</span>"
+msgid ""
+"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr ""
+"Nastaviť výšku riadku výberu na <span style='italic' weight='bold'>%s</span>"
 
 #: src/dialogs/dialog-search-replace.c:148 src/dialogs/dialog-search.c:358
 msgid "You must select some cell types to search."
@@ -16039,29 +16020,29 @@ msgstr "Odstránenie listov nie je možné vrátiť. Chcete pokračovať?"
 msgid "Default"
 msgstr "Štandardné"
 
-#: src/dialogs/dialog-solver.c:80
+#: src/dialogs/dialog-solver.c:81 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:81
+#: src/dialogs/dialog-solver.c:82 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:82 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:83 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
 #. xgettext: Int == Integer constraint for the linear program
-#: src/dialogs/dialog-solver.c:84 src/dialogs/solver.glade.h:11
+#: src/dialogs/dialog-solver.c:85 src/dialogs/solver.glade.h:11
 msgid "Int"
 msgstr "Celé číslo"
 
 #. xgettext: Bool == Boolean (or binary) constraint for the linear program
-#: src/dialogs/dialog-solver.c:86 src/dialogs/solver.glade.h:8
+#: src/dialogs/dialog-solver.c:87 src/dialogs/solver.glade.h:8
 msgid "Bool"
 msgstr "Bool"
 
-#: src/dialogs/dialog-solver.c:683
+#: src/dialogs/dialog-solver.c:685
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -16069,7 +16050,7 @@ msgstr ""
 "Riešiteľ našiel optimálne riešenie. Všetky obmedzenia a podmienky "
 "optimálnosti sú uspokojené.\n"
 
-#: src/dialogs/dialog-solver.c:692
+#: src/dialogs/dialog-solver.c:694
 msgid ""
 "Sensitivity nor limits report are not meaningful if the program has integer "
 "constraints. These reports will thus not be created."
@@ -16077,23 +16058,26 @@ msgstr ""
 "Správy o citlivosti a limitoch nemajú zmysel, ak program má celočíselné "
 "obmedzenia. Tieto správy preto nebudú vygenerované."
 
-#: src/dialogs/dialog-solver.c:710
-msgid "The Target Cell value specified does not converge!  The program is unbounded."
+#: src/dialogs/dialog-solver.c:712
+msgid ""
+"The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Hodnota cieľovej bunky nekonverguje! Program je neohraničený."
 
-#: src/dialogs/dialog-solver.c:724
+#: src/dialogs/dialog-solver.c:726
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
-msgstr "Vhodné riešenie nenájdené. Všetky obmedzenia naraz nie je možné dosiahnuť."
+msgstr ""
+"Vhodné riešenie nenájdené. Všetky obmedzenia naraz nie je možné dosiahnuť."
 
-#: src/dialogs/dialog-solver.c:739
+#: src/dialogs/dialog-solver.c:741
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
-msgstr "Presiahnutý maximálny počet iterácií. Optimálnu hodnotu sa nepodarilo nájsť."
+msgstr ""
+"Presiahnutý maximálny počet iterácií. Optimálnu hodnotu sa nepodarilo nájsť."
 
-#: src/dialogs/dialog-solver.c:753
+#: src/dialogs/dialog-solver.c:755
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -16101,32 +16085,32 @@ msgstr ""
 "Presiahnutý maximálny čas. Optimálnu hodnotu sa v zadanom čase nepodarilo "
 "nájsť."
 
-#: src/dialogs/dialog-solver.c:796
+#: src/dialogs/dialog-solver.c:798
 msgid "Unknown error."
 msgstr "Neznáma chyba."
 
-#: src/dialogs/dialog-solver.c:813
+#: src/dialogs/dialog-solver.c:815
 msgid "You have not specified a problem to be solved"
 msgstr "Nezadali ste problém, ktorý sa má riešiť"
 
-#: src/dialogs/dialog-solver.c:832 src/tools/solver/solver.c:392
+#: src/dialogs/dialog-solver.c:834 src/tools/solver/solver.c:392
 msgid "Target cell should contain a formula."
 msgstr "Cieľová bunka by mala obsahovať výraz."
 
-#: src/dialogs/dialog-solver.c:865
+#: src/dialogs/dialog-solver.c:867
 msgid "The value given in 'Max Iterations' is not valid."
 msgstr "Hodnota zadaná do 'Max. iterácií' nie je platná."
 
-#: src/dialogs/dialog-solver.c:876
+#: src/dialogs/dialog-solver.c:878
 msgid "The value given in 'Max Time (sec.)' is not valid."
 msgstr "Hodnota zadaná do 'Max. čas (sek.)' nie je platná."
 
-#: src/dialogs/dialog-solver.c:913
+#: src/dialogs/dialog-solver.c:915
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Obmedzenie '%s' je pre bunku, ktorá nie je vstupná."
 
-#: src/dialogs/dialog-solver.c:1220
+#: src/dialogs/dialog-solver.c:1222
 msgid "Could not create the Solver dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre riešiteľa."
 
@@ -16147,25 +16131,25 @@ msgstr "Chýbajúci súbor %s"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr "&lt;- Odstrániť"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "&lt;- Remove all"
-msgstr "&lt;- Odstrániť všetko"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Odstrániť"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Odstrániť všetky"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
-msgstr "Pridať -&gt;"
+msgid "Add ->"
+msgstr "Pridať ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all -&gt;"
-msgstr "Pridať všetko -&gt;"
+msgid "Add all ->"
+msgstr "Pridať všetky ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -16402,7 +16386,8 @@ msgstr "Definujte šírku každého stĺpca ručne."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Každý stĺpec textu je oddelený 'oddeľovacím' znakom, napríklad bodkočiarkou."
+msgstr ""
+"Každý stĺpec textu je oddelený 'oddeľovacím' znakom, napríklad bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -16507,8 +16492,10 @@ msgid "See two successive separators as one."
 msgstr "Chápať dva za sebou idúce oddeľovače ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr "Chápať dva za sebou idúce indikátory textu ako jeden, ktorý neukončuje bunku."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
+msgstr ""
+"Chápať dva za sebou idúce indikátory textu ako jeden, ktorý neukončuje bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -17585,14 +17572,6 @@ msgstr "Nastaviť vyplnený objekt"
 msgid "Scrollbar Configure"
 msgstr "Nastavenie posuvníka"
 
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr "&gt;= "
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr "&lt;="
-
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Integer (Discrete)"
 msgstr "Predpokladať _celé čísla (diskrétne)"
@@ -17785,7 +17764,8 @@ msgid "Tabulate Dependency"
 msgstr "Tabulovať závislosti"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid "Use down for first source, right for second, and multiple sheets for third"
+msgid ""
+"Use down for first source, right for second, and multiple sheets for third"
 msgstr "Prejsť dolu pre prvý zdroj, vpravo pre druhý a ďalšie listy pre tretí"
 
 #: src/dialogs/tabulate.glade.h:11
@@ -17857,15 +17837,15 @@ msgstr "Zabudovaný"
 msgid "Error: no sheet"
 msgstr "Chyba: žiadny list"
 
-#: src/expr.c:556
+#: src/expr.c:669
 msgid "Internal type error"
 msgstr "Interná chyba typu"
 
-#: src/expr.c:729
+#: src/expr.c:842
 msgid "Unknown operator"
 msgstr "Neznámy operátor"
 
-#: src/expr.c:965
+#: src/expr.c:1078
 msgid "Unknown evaluation error"
 msgstr "Neznáma chyba pri vyhodnocovaní"
 
@@ -17874,36 +17854,37 @@ msgstr "Neznáma chyba pri vyhodnocovaní"
 msgid "Invalid template file: %s"
 msgstr "Neplatný súbor šablóny: %s"
 
-#: src/file.c:265
+#: src/file.c:257
 msgid "Cannot create temporary file."
 msgstr "Nemôžem vytvoriť dočasný súbor."
 
-#: src/file.c:277
+#: src/file.c:269
 msgid "Error saving to temporary file."
 msgstr "Chyba pri pokuse o uloženie dočasného súboru."
 
-#: src/file.c:280
+#: src/file.c:272
 msgid "Cannot get temporary file size."
 msgstr "Nemôžem získať veľkosť dočasného súboru."
 
-#: src/file.c:286
+#: src/file.c:278
 msgid "Saving file to stream."
 msgstr "Ukladám súbor do streamu."
 
-#: src/file.c:299
+#: src/file.c:291
 msgid "Error reading temporary file."
 msgstr "Chyba pri čítaní dočasného súboru."
 
-#: src/file.c:312
+#: src/file.c:304
 msgid "Exception occurred while saving to stream."
 msgstr "Nastala výminka pri ukladaní do streamu."
 
-#: src/file.c:491
+#: src/file.c:480
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
-#: src/file.c:493
-msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+#: src/file.c:482
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
@@ -17922,8 +17903,10 @@ msgstr "Nie je šablóna autoformátu"
 
 #: src/format-template.c:968
 #, c-format
-msgid "The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid ""
+"The target region is too small.  It should be at least %d rows by %d columns"
+msgstr ""
+"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
 #: src/format-template.c:972
 #, c-format
@@ -19569,7 +19552,7 @@ msgstr "Ktorý formát súboru chcete?"
 msgid "Multiple errors\n"
 msgstr "Viacnásobné chyby\n"
 
-#: src/gui-util.c:794
+#: src/gui-util.c:793
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Súbor '%s' sa nedá otvoriť"
@@ -19578,13 +19561,15 @@ msgstr "Súbor '%s' sa nedá otvoriť"
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
-msgstr "Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou modfgnum."
+msgstr ""
+"Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou modfgnum."
 
 #: src/gutils.c:629
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
-msgstr "Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou frexpgnum."
+msgstr ""
+"Táto verzia Gnumeric bola preložená s nedostatočnou presnosťou frexpgnum."
 
 #: src/gutils.c:682
 msgid ""
@@ -19912,57 +19897,57 @@ msgstr "Služba nie je podporovaná loaderom."
 msgid "Error while loading plugin."
 msgstr "Chyba počas načítavania modulu."
 
-#: src/plugin-service.c:125
+#: src/plugin-service.c:126
 msgid "Initializing function inside plugin returned error."
 msgstr "Inicializačná funkcia v module vrátila chybu."
 
-#: src/plugin-service.c:130 src/plugin-service.c:1080
+#: src/plugin-service.c:131 src/plugin-service.c:1085
 msgid "Error while loading plugin service."
 msgstr "Chyba počas načítavania modulu služby."
 
-#: src/plugin-service.c:164
+#: src/plugin-service.c:165
 msgid "Cleanup function inside plugin returned error."
 msgstr "Upratovacia funkcia v module vrátila chybu."
 
-#: src/plugin-service.c:303
+#: src/plugin-service.c:308
 msgid "Error while reading file."
 msgstr "Chyba pri čítaní súboru."
 
-#: src/plugin-service.c:480
+#: src/plugin-service.c:485
 msgid "File opener has no id"
 msgstr "Otvárač súborov nemá id."
 
-#: src/plugin-service.c:483
+#: src/plugin-service.c:488
 #, c-format
 msgid "File opener with id=\"%s\" has no description"
 msgstr "Otvárač súborov s id=\"%s\" nemá popis"
 
-#: src/plugin-service.c:613
+#: src/plugin-service.c:618
 msgid "Error while saving file."
 msgstr "Chyba pri ukladaní súboru."
 
-#: src/plugin-service.c:712
+#: src/plugin-service.c:717
 msgid "File saver has no id"
 msgstr "Ukladač súborov nemá id"
 
-#: src/plugin-service.c:715
+#: src/plugin-service.c:720
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
 msgstr "Ukladač súborov s id=\"%s\" nemá popis"
 
-#: src/plugin-service.c:867
+#: src/plugin-service.c:872
 msgid "Missing function group id."
 msgstr "Chýbajúce id skupiny funkcie."
 
-#: src/plugin-service.c:872 src/plugin-service.c:877
+#: src/plugin-service.c:877 src/plugin-service.c:882
 msgid "Missing function category name."
 msgstr "Chýbajúce meno kategórie funkcie."
 
-#: src/plugin-service.c:1043
+#: src/plugin-service.c:1048
 msgid "Missing loader id."
 msgstr "Chýbajúce id otvárača."
 
-#: src/plugin-service.c:1203
+#: src/plugin-service.c:1208
 #, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr "Chyby pri čítaní služieb typu \"%s\"."
@@ -19996,7 +19981,7 @@ msgstr "Chyba pri otváraní súboru \"%s\" pre čítanie."
 msgid "Unable to mmap the file."
 msgstr "Nepodarilo sa namapovať súbor."
 
-#: src/plugin-util.c:317 src/xml-io.c:3349
+#: src/plugin-util.c:317
 msgid "Cannot get file size."
 msgstr "Nemôžem získať veľkosť súboru."
 
@@ -20339,35 +20324,35 @@ msgstr "Priesvitný"
 msgid "CheckBox %d"
 msgstr "Zaškrtávacie tlačidlo %d"
 
-#: src/sheet.c:2122
+#: src/sheet.c:2134
 msgid "Target region contains merged cells"
 msgstr "Cieľová oblasť obsahuje spojené bunky"
 
-#: src/sheet.c:2184
+#: src/sheet.c:2196
 msgid "cannot operate on merged cells"
 msgstr "nedá sa vykonať na spojených bunkách"
 
-#: src/sheet.c:2195
+#: src/sheet.c:2207
 msgid "cannot operate on array formulae"
 msgstr "nedá sa vykonať na poli vzorcov"
 
-#: src/sheet.c:3054
+#: src/sheet.c:3066
 msgid "Clear"
 msgstr "Zmazať"
 
-#: src/sheet.c:3458
+#: src/sheet.c:3470
 msgid "Insert Columns"
 msgstr "Vložiť stĺpce"
 
-#: src/sheet.c:3516
+#: src/sheet.c:3528
 msgid "Delete Columns"
 msgstr "Odstrániť stĺpce"
 
-#: src/sheet.c:3570
+#: src/sheet.c:3582
 msgid "Insert Rows"
 msgstr "Vložiť riadky"
 
-#: src/sheet.c:3628
+#: src/sheet.c:3640
 msgid "Delete Rows"
 msgstr "Odstrániť riadky"
 
@@ -20381,15 +20366,15 @@ msgstr "Príliš veľa riadkov dát pre spracovanie: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "Príliš veľa stĺpcov dát pre spracovanie: %d"
 
-#: src/stf.c:117
-msgid "Error while trying to memory map file"
-msgstr "Chyba pri pokuse o namapovanie súboru do pamäti"
+#: src/stf.c:87
+msgid "Error while trying to read file"
+msgstr "Chyba pri pokuse o čítanie súboru"
 
-#: src/stf.c:128
+#: src/stf.c:98
 msgid "Error while trying to pre-convert file"
 msgstr "Chyba pri pokuse o prevod súboru"
 
-#: src/stf.c:134
+#: src/stf.c:104
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -20400,23 +20385,24 @@ msgstr ""
 "Bol nájdený znak '%c' (ASCII hodnota %d).\n"
 "Vaše nastavenie národného prostredia asi nie je v poriadku."
 
-#: src/stf.c:220 src/stf.c:305
+#: src/stf.c:189 src/stf.c:276
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Chyba pri načítavaní dát do listu"
 
-#: src/stf.c:410
+#: src/stf.c:362
 msgid "Error while trying to write csv file"
 msgstr "Chyba pri zápise csv súboru"
 
-#: src/stf.c:426
+#: src/stf.c:378
 msgid "Text import (auto-detect CSV or tab-delimited)"
-msgstr "Import textu (automatická detekcia CSV alebo text oddelený tabulátormi)"
+msgstr ""
+"Import textu (automatická detekcia CSV alebo text oddelený tabulátormi)"
 
-#: src/stf.c:430
+#: src/stf.c:382
 msgid "Text import (configurable)"
 msgstr "Import textového súboru (nastaviteľné)"
 
-#: src/stf.c:434
+#: src/stf.c:386
 msgid "Text export (configurable)"
 msgstr "Export textového súboru (nastaviteľné)"
 
@@ -20677,7 +20663,8 @@ msgstr ""
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
-msgstr "Pravdepodobnosť absolútnej hodnoty pozorovania je väčšia ako t-hodnoty."
+msgstr ""
+"Pravdepodobnosť absolútnej hodnoty pozorovania je väčšia ako t-hodnoty."
 
 #: src/tools/analysis-tools.c:2399
 msgid ""
@@ -21530,7 +21517,8 @@ msgid "Select all the cells that depend on the current edit cell."
 msgstr "Vyberie všetky bunky, ktoré závisia na aktuálne upravovanej bunke."
 
 #: src/workbook-control-gui.c:2927
-msgid "Merges columnar data into a sheet creating duplicate sheets for each row."
+msgid ""
+"Merges columnar data into a sheet creating duplicate sheets for each row."
 msgstr ""
 "Spojí stĺpcové dáta do listu vytvorením duplikovaných listov pre každý "
 "riadok."
@@ -21881,24 +21869,24 @@ msgstr "Vytvorí objekt obdĺžnik"
 msgid "Creates an ellipse object"
 msgstr "Vytvorí objekt elipsa"
 
-#: src/workbook-view.c:228
+#: src/workbook-view.c:231
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dL x %dC"
 
-#: src/workbook-view.c:364
+#: src/workbook-view.c:367
 msgid "Internal ERROR"
 msgstr "Interná CHYBA"
 
-#: src/workbook-view.c:564
+#: src/workbook-view.c:567
 msgid "Default file saver is not available."
 msgstr "Štandardné ukladanie súboru nie je k dispozícii."
 
-#: src/workbook-view.c:637
+#: src/workbook-view.c:652
 msgid "No sheets in workbook."
 msgstr "V zošite nie sú listy."
 
-#: src/workbook-view.c:647
+#: src/workbook-view.c:662
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát súborov."
 
@@ -21930,33 +21918,66 @@ msgstr "Obsah schránky má neznámy formát."
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3206
+#: src/xml-io.c:3209
 msgid "Processing file..."
 msgstr "Spracovávam súbor..."
 
-#: src/xml-io.c:3357
-msgid "Not enough memory to create zlib decompression state."
-msgstr "Nedostatok pamäti pre vytvorenie zlib rozbaleného stavu."
-
-#: src/xml-io.c:3392
+#: src/xml-io.c:3375
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
-#: src/xml-io.c:3450
+#: src/xml-io.c:3433
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
-#~ msgid "<- Remove"
-#~ msgstr "<- Odstrániť"
+#~ msgid ""
+#~ "This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\n"
+#~ "Sorry, the management."
+#~ msgstr ""
+#~ "Tento súbor nie je súbor 'OLE'. Možno je príliš starý, takže ho Gnumeric\n"
+#~ "nedokáže prečítať. Bohužiaľ."
 
-#~ msgid "<- Remove all"
-#~ msgstr "<- Odstrániť všetky"
+#~ msgid "Unexpected error reading the file"
+#~ msgstr "Neočakávaný koniec súboru počas čítania"
 
-#~ msgid "Add ->"
-#~ msgstr "Pridať ->"
+#~ msgid "HTML file made by gnumeric"
+#~ msgstr "Súbor HTML vytvorený v gnumeric"
 
-#~ msgid "Add all ->"
-#~ msgstr "Pridať všetky ->"
+#~ msgid "Unable to mmap the file"
+#~ msgstr "Nepodarilo sa otvoriť súbor"
+
+#~ msgid "Error reading sheet."
+#~ msgstr "Chyba pri čítaní listu."
+
+#~ msgid "Error while opening sylk file."
+#~ msgstr "Chyba pri otváraní súboru sylk."
+
+#~ msgid "xmlCreateFileParserCtxt () failed."
+#~ msgstr "xmlCreateFileParserCtxt() zlyhala."
+
+#~ msgid "&lt;- Remove"
+#~ msgstr "&lt;- Odstrániť"
+
+#~ msgid "&lt;- Remove all"
+#~ msgstr "&lt;- Odstrániť všetko"
+
+#~ msgid "Add -&gt;"
+#~ msgstr "Pridať -&gt;"
+
+#~ msgid "Add all -&gt;"
+#~ msgstr "Pridať všetko -&gt;"
+
+#~ msgid "&gt;="
+#~ msgstr "&gt;= "
+
+#~ msgid "&lt;="
+#~ msgstr "&lt;="
+
+#~ msgid "Error while trying to memory map file"
+#~ msgstr "Chyba pri pokuse o namapovanie súboru do pamäti"
+
+#~ msgid "Not enough memory to create zlib decompression state."
+#~ msgstr "Nedostatok pamäti pre vytvorenie zlib rozbaleného stavu."
 
 #~ msgid "Text import (defaults to csv)"
 #~ msgstr "Import textového súboru (štandardne csv)"
@@ -22155,79 +22176,3 @@ msgstr "Súborový formát Gnumeric XML"
 
 #~ msgid "Could not create the Sheet Name Change dialog."
 #~ msgstr "Nepodarilo sa vytvoriť dialóg pre zmenu mena listu."
-
-#, fuzzy
-#~ msgid "Solver was not successful: %s"
-#~ msgstr "Riešiteľ nebol úspešný: %i"
-
-#~ msgid "Function _Categories"
-#~ msgstr "_Kategórie funkcií"
-
-#~ msgid "Function _Names"
-#~ msgstr "_Mená funkcií:"
-
-#~ msgid "place holder no need to translate"
-#~ msgstr "place holder no need to translate"
-
-#~ msgid "Searc_h"
-#~ msgstr "_Nájsť"
-
-#~ msgid "Enter new name for the current _sheet:"
-#~ msgstr "Zadajte nové meno pre aktuálny _list:"
-
-#~ msgid "Rename sheet"
-#~ msgstr "Premenovať list"
-
-#, fuzzy
-#~ msgid "_Dual Program"
-#~ msgstr "Meno programu"
-
-#~ msgid "_Author"
-#~ msgstr "_Autor "
-
-#~ msgid "_Title"
-#~ msgstr "_Titulok"
-
-#~ msgid "Terminate"
-#~ msgstr "Ukončiť"
-
-#~ msgid "Descend"
-#~ msgstr "Zostupne"
-
-#~ msgid "A sheet name must have at least 1 character."
-#~ msgstr "Meno listu musí mať aspoň jedno písmeno."
-
-#, fuzzy
-#~ msgid "You can only remove new sheets."
-#~ msgstr "Nenávratne odstráni celý list"
-
-#, fuzzy
-#~ msgid "Rem"
-#~ msgstr "Odstrániť"
-
-#, fuzzy
-#~ msgid "Gradient"
-#~ msgstr "Tlačiť"
-
-#, fuzzy
-#~ msgid "Multiplier"
-#~ msgstr "Vynásobiť"
-
-#~ msgid "Re-order sheets"
-#~ msgstr "Utriediť listy"
-
-#~ msgid "Gnumeric Solver Answer Report"
-#~ msgstr "Hlásenie o odpovedi Riešiteľa"
-
-#~ msgid "Gnumeric Solver Sensitivity Report"
-#~ msgstr "Správa o citlivosti Riešiteľa Gnumericu"
-
-#~ msgid "'%"
-#~ msgstr "%"
-
-#~ msgid "_Sort"
-#~ msgstr "_Utriediť"
-
-#~ msgid "Sheet name"
-#~ msgstr "Meno listu"
-
