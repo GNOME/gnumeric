@@ -5,3 +5,6 @@ EXTRA_DIST = gnumeric.desktop README
 dist-hook:
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples
+
+Productivitydir = $(datadir)/apps/Productivity
+Productivitydir_DATA = gnumeric.desktop
