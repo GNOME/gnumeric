@@ -1,3 +1,11 @@
+2003-08-29  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-guru.c (graph_typeselect_minor): Handle ->plot
+	changing underneath us.
+
+	* utils/go-font.c (go_font_init): Since the key is a pango font
+	description, not a go-font, use proper hash and equal functions.
+
 2003-08-29  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_render) : go

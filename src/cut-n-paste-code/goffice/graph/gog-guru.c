@@ -197,8 +197,9 @@ graph_typeselect_minor (GraphGuruTypeSelector *typesel, FooCanvasItem *item)
 	g_return_if_fail (plot != NULL);
 
 	if (s->plot != NULL) {
-		gog_object_clear_parent (GOG_OBJECT (s->plot));
-		g_object_unref (s->plot);
+		GogObject *obj = GOG_OBJECT (s->plot);
+		gog_object_clear_parent (obj);
+		g_object_unref (obj);
 	}
 
 	gog_object_add_by_name (GOG_OBJECT (s->chart),

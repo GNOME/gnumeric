@@ -142,24 +142,14 @@ go_font_cache_unregister (GClosure *watcher)
 	font_watchers = g_slist_remove (font_watchers, watcher);
 }
 
-static guint
-go_font_hash  (GOFont const *font)
-{
-	return pango_font_description_hash (font->desc);
-}
-static gboolean
-go_font_equal (GOFont const *a, GOFont const *b)
-{
-	return pango_font_description_equal (a->desc, b->desc);
-}
-
 /* private */
 void
 go_font_init (void)
 {
 	font_array = g_ptr_array_new ();
 	font_hash = g_hash_table_new_full (
-		(GHashFunc) go_font_hash, (GEqualFunc) go_font_equal,
+		(GHashFunc)pango_font_description_hash,
+		(GEqualFunc)pango_font_description_equal,
 		NULL, (GDestroyNotify) go_font_free);
 	font_default = go_font_new_by_desc (
 		pango_font_description_from_string ("Sans 10"));
