@@ -55,6 +55,7 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtkmenu.h>
+#include <gtk/gtkmenuitem.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
 #include <stdio.h>
