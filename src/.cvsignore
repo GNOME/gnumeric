@@ -8,4 +8,5 @@ parser.c
 gnm-marshalers.c
 gnm-marshalers.h
 gnumeric-paths.h
+gnumeric-paths.sh
 test-pango
