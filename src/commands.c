@@ -2984,42 +2984,57 @@ cmd_paste_copy (WorkbookControl *wbc,
 	/* If the input is only objects ignore all this range stuff */
 	if (cr->cols < 1 || cr->rows < 1) {
 
-	/* If the destination is a singleton paste the entire content */
-	} else {
-		GnmRange const *r = &me->dst.range;
+	} else {	/* see if we need to do any tiling */
+		GnmRange *r = &me->dst.range;
 		if (pt->paste_flags & PASTE_TRANSPOSE) {
 			n = range_width (r) / cr->rows;
 			if (n < 1) n = 1;
-			me->dst.range.end.col = me->dst.range.start.col + n * cr->rows - 1;
+			r->end.col = r->start.col + n * cr->rows - 1;
+
 			n = range_height (r) / cr->cols;
 			if (n < 1) n = 1;
-			me->dst.range.end.row = me->dst.range.start.row + n * cr->cols - 1;
+			r->end.row = r->start.row + n * cr->cols - 1;
 		} else {
-			n = range_width (r) / cr->cols;
-			if (n < 1) n = 1;
-			me->dst.range.end.col = me->dst.range.start.col + n * cr->cols - 1;
-			n = range_height (r) / cr->rows;
-			if (n < 1) n = 1;
-			me->dst.range.end.row = me->dst.range.start.row + n * cr->rows - 1;
+			/* Before looking for tiling if we are not transposing,
+			 * allow pasting a full col or row from a single cell */
+			n = range_width (r);
+			if (n == 1 && cr->cols == SHEET_MAX_COLS) {
+				r->start.col = 0;
+				r->end.col = SHEET_MAX_COLS-1;
+			} else {
+				n /= cr->cols;
+				if (n < 1) n = 1;
+				r->end.col = r->start.col + n * cr->cols - 1;
+			}
+
+			n = range_height (r);
+			if (n == 1 && cr->rows == SHEET_MAX_ROWS) {
+				r->start.row = 0;
+				r->end.row = SHEET_MAX_ROWS-1;
+			} else {
+				n /= cr->rows;
+				if (n < 1) n = 1;
+				r->end.row = r->start.row + n * cr->rows - 1;
+			}
 		}
 
 		if  (cr->cols != 1 || cr->rows != 1) {
 			/* Note: when the source is a single cell, a single target merge is special */
 			/* see clipboard.c (clipboard_paste_region)                                 */
-			GnmRange const *merge = sheet_merge_is_corner (pt->sheet, &me->dst.range.start);
-			if (merge != NULL && range_equal (&me->dst.range, merge)) {
+			GnmRange const *merge = sheet_merge_is_corner (pt->sheet, &r->start);
+			if (merge != NULL && range_equal (r, merge)) {
 				/* destination is a single merge */
 				/* enlarge it such that the source fits */
 				if (pt->paste_flags & PASTE_TRANSPOSE) {
-					if ((me->dst.range.end.col - me->dst.range.start.col + 1) < cr->rows)
-						me->dst.range.end.col = me->dst.range.start.col + cr->rows -1;
-					if ((me->dst.range.end.row - me->dst.range.start.row + 1) < cr->cols)
-						me->dst.range.end.row = me->dst.range.start.row + cr->cols -1;
+					if ((r->end.col - r->start.col + 1) < cr->rows)
+						r->end.col = r->start.col + cr->rows - 1;
+					if ((r->end.row - r->start.row + 1) < cr->cols)
+						r->end.row = r->start.row + cr->cols - 1;
 				} else {
-					if ((me->dst.range.end.col - me->dst.range.start.col + 1) < cr->cols)
-						me->dst.range.end.col = me->dst.range.start.col + cr->cols -1;
-					if ((me->dst.range.end.row - me->dst.range.start.row + 1) < cr->rows)
-						me->dst.range.end.row = me->dst.range.start.row + cr->rows -1;
+					if ((r->end.col - r->start.col + 1) < cr->cols)
+						r->end.col = r->start.col + cr->cols - 1;
+					if ((r->end.row - r->start.row + 1) < cr->rows)
+						r->end.row = r->start.row + cr->rows - 1;
 				}
 			}
 		}
