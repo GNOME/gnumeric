@@ -161,22 +161,6 @@ rendered_value_render (GString *str,
 	return is_variable_width;
 }
 
-
-#if 0
-some quicky code to dump an attr list
-we can use this to export them as text
-static gboolean
-cb_dump (PangoAttribute *a)
-{
-	g_print ("dump : %d..%d\n", a->start_index, a->end_index);
-	return FALSE;
-}
-
-			pango_attr_list_filter (attrs,
-				(PangoAttrFilterFunc) cb_dump, NULL);
-#endif
-
-#ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
 /* Gets the bounds of a layout in pango units.  Mostly copied from gtklabel.c */
 static void
 get_rotated_layout_bounds (PangoLayout *layout, int *width, int *height)
@@ -221,12 +205,10 @@ get_rotated_layout_bounds (PangoLayout *layout, int *width, int *height)
 	*width = ceil (x_max) - floor (x_min);
 	*height = ceil (y_max) - floor (y_min);
 }
-#endif
 
 void
 rendered_value_remeasure (RenderedValue *rv)
 {
-#ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
 	if (rv->rotation) {
 		PangoMatrix rotmat = PANGO_MATRIX_INIT;
 		PangoContext *context = pango_layout_get_context (rv->layout);
@@ -238,7 +220,6 @@ rendered_value_remeasure (RenderedValue *rv)
 		pango_context_set_matrix (context, NULL);
 		pango_layout_context_changed (rv->layout);
 	} else
-#endif
 		pango_layout_get_size (rv->layout,
 				       &rv->layout_natural_width,
 				       &rv->layout_natural_height);
@@ -444,10 +425,8 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 			       pango_layout_get_line_count (olayout) > 1);
 	pango_layout_set_indent (layout, pango_layout_get_indent (olayout));
 	pango_layout_set_auto_dir (layout, pango_layout_get_auto_dir (olayout));
-#ifdef HAVE_PANGO_LAYOUT_SET_ELLIPSIZE
 	pango_layout_set_ellipsize (layout, pango_layout_get_ellipsize (olayout));
-#endif
-	// pango_layout_set_font_description???
+	pango_layout_set_font_description (layout, pango_layout_get_font_description (olayout));
 	// ignore tabs
 
 	rendered_value_remeasure (res);

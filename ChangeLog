@@ -1,5 +1,9 @@
 2005-02-04  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.c (rendered_value_recontext): Copy font
+	description too now that pango supports it.  Eliminate old #ifdef
+	HAVE_foo.
+
 	* src/mathfunc.c (gnumeric_fake_floor, gnumeric_fake_ceil): When
 	adding epsilon, make sure that is <0.5.
 	(gnumeric_fake_round, gnumeric_fake_trunc): Simplify in terms of
