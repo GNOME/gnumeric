@@ -1443,7 +1443,7 @@ put_efont (ExcelFont *efont, ExcelWriteState *ewb)
 {
 	TwoWayTable *twt = ewb->fonts.two_way_table;
 
-	d (2, fprintf (stderr, "adding %s", excel_font_to_string (efont)););
+	d (2, fprintf (stderr, "adding %s\n", excel_font_to_string (efont)););
 
 	/* Occupy index FONT_SKIP with junk - Excel skips it */
 	if (twt->idx_to_key->len == FONT_SKIP)
@@ -1691,6 +1691,11 @@ xf_init (ExcelWriteState *ewb)
 
 	ewb->xf.value_fmt_styles = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)mstyle_unlink);
+	/* Register default style, its font and format */
+	two_way_table_put (ewb->xf.two_way_table, ewb->xf.default_style,
+		TRUE, NULL, NULL);
+	put_style_font (ewb->xf.default_style, NULL, ewb);
+	put_format (ewb->xf.default_style, NULL, ewb);
 }
 
 static void
@@ -4268,13 +4273,6 @@ pre_pass (ExcelWriteState *ewb)
 
 	if (ewb->sheets->len == 0)
 		return;
-
-	two_way_table_put (ewb->xf.two_way_table, ewb->xf.default_style,
-		TRUE, NULL, NULL); /* The default style first */
-
-	/* Its font and format */
-	put_style_font (ewb->xf.default_style, NULL, ewb);
-	put_format (ewb->xf.default_style, NULL, ewb);
 
 	gather_styles (ewb);     /* (and cache cells) */
 

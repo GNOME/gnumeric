@@ -1,3 +1,9 @@
+2004-09-16  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (xf_init): Register default XF, its font and
+	format here.
+	(pre_pass): Not here.
+
 2004-09-15  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (txomarkup_new): New. Factored out of
