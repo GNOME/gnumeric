@@ -115,7 +115,7 @@ oleo_get_ref_value (int *start, unsigned char *start_relative,
 		s++;
 		*start = astol (&s);
 		s++;			/* Skip ']' */
-	} else if (isdigit (*s) || *s == '-') {
+	} else if (isdigit ((unsigned char)*s) || *s == '-') {
 		*start_relative = FALSE;
 		*start = OLEO_TO_GNUMERIC (astol (&s));
 	} else {
@@ -329,7 +329,7 @@ oleo_deal_with_format (MStyle **style,
 			c=*ptr++;
 
 			strcpy (fmt_string, "0");
-			if (isdigit (*ptr))
+			if (isdigit ((unsigned char)*ptr))
 				append_zeros (fmt_string, astol (&ptr));
 			switch (c) {
 			case 'F':

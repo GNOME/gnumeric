@@ -1,3 +1,8 @@
+2002-02-19  Morten Welinder  <terra@diku.dk>
+
+	* oleo.c (oleo_get_ref_value): Fix isdigit usage.
+	(oleo_deal_with_format): Ditto.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0
