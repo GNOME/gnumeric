@@ -134,6 +134,7 @@ sheet_object_graphic_update_bounds (SheetObject *so, GtkObject *view,
 				    SheetControlGUI *scg)
 {
 	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
+
 	scg_object_view_position (scg, so, points->coords);
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
 			       "points", points,
@@ -153,6 +154,8 @@ sheet_object_graphic_read_xml (SheetObject *so,
 		sog->type = tmp;
 	if (xml_get_value_int (tree, "Width", &tmp))
 		sheet_object_graphic_width_set (sog, tmp);
+	if (xml_get_value_int (tree, "Direction", &tmp))
+		so->direction = tmp;
 	if (color != NULL) {
 		sheet_object_graphic_color_set (sog, color);
 		xmlFree (color);
@@ -170,6 +173,8 @@ sheet_object_graphic_write_xml (SheetObject const *so,
 	xml_set_value_int (tree, "Type", sog->type);
 	xml_set_value_int (tree, "Width", sog->width);
 	xml_set_value_string (tree, "Color", sog->color);
+	if (so->direction != SO_DIR_UNKNOWN)
+		xml_set_value_int (tree, "Direction", so->direction);
 
 	return FALSE;
 }
@@ -243,13 +248,17 @@ sheet_object_graphic_class_init (GtkObjectClass *object_class)
 	sheet_object_class->write_xml	  = sheet_object_graphic_write_xml;
 	sheet_object_class->print         = sheet_object_graphic_print;
 	sheet_object_class->clone         = sheet_object_graphic_clone;
+	sheet_object_class->rubber_band_directly = TRUE;
 }
 
 static void
 sheet_object_graphic_init (GtkObject *obj)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (obj);
+	SheetObject *so = SHEET_OBJECT (obj);
+	
 	sog->type = SHEET_OBJECT_LINE;
+	so->direction = SO_DIR_NONE_MASK;
 }
 
 GNUMERIC_MAKE_TYPE (sheet_object_graphic,
@@ -438,13 +447,16 @@ sheet_object_filled_class_init (GtkObjectClass *object_class)
 	sheet_object_class->read_xml	  = sheet_object_filled_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_filled_write_xml;
 	sheet_object_class->clone         = sheet_object_filled_clone;
+	sheet_object_class->rubber_band_directly = TRUE;
 }
 
 static void
 sheet_object_filled_init (GtkObject *obj)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (obj);
+	SheetObject *so = SHEET_OBJECT (obj);
 	sog->type = SHEET_OBJECT_BOX;
+	so->direction = SO_DIR_UNKNOWN;
 }
 
 GNUMERIC_MAKE_TYPE (sheet_object_filled,

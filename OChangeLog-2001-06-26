@@ -1,3 +1,49 @@
+2001-05-20  Chema Celorio  <chema@celorio.com>
+
+	* src/sheet-object.c (sheet_object_init): initialize the so->direction
+	to _UNKNOWN
+	(sheet_object_direction_set): impl.
+	(sheet_object_rubber_band_directly): impl a small convenience function
+	to get the value of SO_CLASS(so)->rubber_band_directly
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_construct_with_range):
+	add a label argument to also optionaly specify a label
+	(sheet_widget_checkbox_clone): when cloning a checkbox, copy it's value
+	too
+	add a ->label and rename ->entry to ->expresion in CheckboxConfigState
+	(cb_checkbox_label_changed): impl.
+	(sheet_widget_checkbox_user_config): add an entry for the label of
+	the checkbutton
+	(sheet_widget_checkbox_set_sheet): call _set_active when setting the
+	sheet of a checkbox
+
+	* src/sheet-object-impl.h: add the SheetObjectDirection enums
+	add ->direction to SheetObject
+	add ->rubber_band_directly to SheetObjectClass
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_read_xml): read
+	the object's direction
+	(sheet_object_graphic_write_xml): save the direction of the object
+	(sheet_object_graphic_class_init): so->direction = TRUE
+	(sheet_object_graphic_init): initlalize so->direction
+
+	* src/sheet-control-gui.c (scg_object_move): calculate the new direction
+	of the object when moving a handle.
+	(scg_object_view_position): the coordinates of the object depend on
+	it's ->direction now.
+
+	* src/item-grid.c (cb_obj_create_motion): if we are rubberbanding directly,
+	calculate the sheet object direction and position.
+	(cb_obj_create_button_release): only set the sheet if we are not rubber_banding_
+	direcly. Objects that are rubber banded directly have already been attached to
+	a sheet.
+	(sheet_object_begin_creation): if we are rubber_banding_direclty the object,
+	attach it to a sheet. 
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_destroy): check if
+	the dependent has been linked before unlinking. We might have created
+	the object without attaching it to a sheet.
+
 2001-05-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : revert

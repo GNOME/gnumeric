@@ -166,6 +166,7 @@ sheet_object_init (GtkObject *object)
 
 	so->type = SHEET_OBJECT_ACTION_STATIC;
 	so->sheet = NULL;
+	so->direction = SO_DIR_UNKNOWN;
 
 	/* Store the logical position as A1 */
 	so->cell_bound.start.col = so->cell_bound.start.row = 0;
@@ -185,10 +186,11 @@ sheet_object_class_init (GtkObjectClass *object_class)
 	sheet_object_parent_class = gtk_type_class (gtk_object_get_type ());
 
 	object_class->destroy = sheet_object_destroy;
-	sheet_object_class->update_bounds = NULL;
-	sheet_object_class->populate_menu = sheet_object_populate_menu;
-	sheet_object_class->print         = NULL;
-	sheet_object_class->user_config   = NULL;
+	sheet_object_class->update_bounds        = NULL;
+	sheet_object_class->populate_menu        = sheet_object_populate_menu;
+	sheet_object_class->print                = NULL;
+	sheet_object_class->user_config          = NULL;
+	sheet_object_class->rubber_band_directly = FALSE;
 
 	/* Provide some defaults (derived classes may want to override) */
 	sheet_object_class->default_width_pts = 72.;	/* 1 inch */
@@ -513,7 +515,7 @@ cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
  * sheet_object_position_pixels :
  *
  * @so : The sheet object
- * @coords : array of 4 ints
+ * @coords : array of 4 ints where we return the coordinates in pixels
  *
  * Calculate the position of the object @so in pixels from the logical position
  * in the object.
@@ -749,9 +751,10 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
 
 	new_so->type = so->type;
 	new_so->cell_bound = so->cell_bound;
+	new_so->direction = so->direction;
 
 	for (i = 0; i < 4; i++)
-		new_so->offset [i] = so->offset [i];
+		new_so->offset [i]      = so->offset [i];
 
 	for (i = 0; i < 4; i++)
 		new_so->anchor_type [i] = so->anchor_type [i];
@@ -790,3 +793,44 @@ sheet_object_clone_sheet (const Sheet *src, Sheet *dst)
 	dst->sheet_objects = g_list_reverse (new_list);
 }
 
+
+/**
+ * sheet_object_direction_set:
+ * @so: The sheet object that we are calculating the direction for
+ * @coords: array of coordinates in L,T,R,B order
+ * 
+ * Sets the object direction from the given the new coordinates
+ * The original coordinates are assumed to be normalized (so that top
+ * is above bottom and right is at the right of left)
+ * 
+ **/
+void
+sheet_object_direction_set (SheetObject *so, gdouble *coords)
+{
+	if (so->direction == SO_DIR_UNKNOWN)
+		return;
+
+	so->direction = SO_DIR_NONE_MASK;
+	
+	if (coords [1] < coords [3])
+		so->direction |= SO_DIR_DOWN_MASK;
+	if (coords [0] > coords [2])
+		so->direction |= SO_DIR_LEFT_MASK;
+	
+}
+
+
+/**
+ * sheet_object_rubber_band_directly:
+ * @so: 
+ * 
+ * Returns TRUE if we should draw the object as we are laying it out on
+ * an sheet. If FLASE we draw a rectangle where the object is going to go
+ * 
+ * Return Value: 
+ **/
+gboolean
+sheet_object_rubber_band_directly (SheetObject *so)
+{
+	return SO_CLASS (so)->rubber_band_directly;
+}

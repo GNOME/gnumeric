@@ -9,6 +9,18 @@ typedef enum {
 	SHEET_OBJECT_ACTION_CAN_PRESS
 } SheetObjectAction;
 
+typedef enum {
+	SO_DIR_UNKNOWN    = 0xFF,
+	SO_DIR_UP_RIGHT   = 0x00,
+	SO_DIR_UP_LEFT    = 0x01,
+	SO_DIR_DOWN_RIGHT = 0x10,
+	SO_DIR_DOWN_LEFT  = 0x11,
+
+	SO_DIR_NONE_MASK  = 0x00,
+	SO_DIR_LEFT_MASK  = 0x01,
+	SO_DIR_DOWN_MASK  = 0x10,
+} SheetObjectDirection;
+
 struct _SheetObject {
 	GtkObject          parent_object;
 	SheetObjectAction  type;
@@ -19,6 +31,7 @@ struct _SheetObject {
 	Range	cell_bound; /* cellpos containg corners */
 	float	offset [4];
 	SheetObjectAnchor anchor_type [4];
+	SheetObjectDirection direction;
 };
 
 typedef struct {
@@ -52,7 +65,12 @@ typedef struct {
 	SheetObject *       (*clone) (SheetObject const *so,
 				      Sheet *sheet);
 						
-	double	default_width_pts, default_height_pts;
+	double	 default_width_pts, default_height_pts;
+	gboolean rubber_band_directly; /* If false, we draw a rectangle where
+					* the object is going to be layed out
+					* If true, we draw the object while
+					* laying it out on the sheet
+					*/
 } SheetObjectClass;
 
 #define SHEET_OBJECT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))

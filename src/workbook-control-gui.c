@@ -1,4 +1,5 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * workbook-control-gui.c: GUI specific routines for a workbook-control.
  *

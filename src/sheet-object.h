@@ -71,4 +71,6 @@ void   sheet_relocate_objects	(ExprRelocateInfo const *rinfo);
 GList *sheet_get_objects	(Sheet const *sheet, Range const *r, GtkType t);
 void   sheet_object_register	(void);
 
+void     sheet_object_direction_set (SheetObject *so, gdouble *coords);
+gboolean sheet_object_rubber_band_directly (SheetObject *so);
 #endif /* GNUMERIC_SHEET_OBJECT_H */

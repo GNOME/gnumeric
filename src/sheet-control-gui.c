@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sheet-control-gui.c: Implements a graphic control for a sheet.
  *
@@ -1312,6 +1312,8 @@ scg_object_move (SheetControlGUI *scg, SheetObject *so,
 		g_warning ("Should not happen %d", idx);
 	}
 
+	sheet_object_direction_set (so, new_coords);
+	
 	/* Tell the object to update its co-ordinates */
 	scg_object_update_bbox (scg, so, so_view, new_coords);
 }
@@ -1577,7 +1579,7 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 		scg_object_calc_position (scg, so, new_coords);
 	else
 		scg_object_view_position (scg, so, scg->object_coords);
-
+	
 	l = scg->object_coords [0];
 	t = scg->object_coords [1];
 	r = scg->object_coords [2];
@@ -1677,15 +1679,25 @@ scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *c
 void
 scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 {
+	SheetObjectDirection direction;
 	int pixels [4];
 
 	sheet_object_position_pixels (so, scg, pixels);
-	gnome_canvas_c2w (GNOME_CANVAS (scg->canvas),
-			  pixels [0], pixels [1],
-			  coords +0, coords + 1);
-	gnome_canvas_c2w (GNOME_CANVAS (scg->canvas),
-			  pixels [2], pixels [3],
-			  coords +2, coords + 3);
+
+	direction = so->direction;
+	if (direction == SO_DIR_UNKNOWN)
+		direction = SO_DIR_DOWN_RIGHT;
+
+	gnome_canvas_c2w (
+		GNOME_CANVAS (scg->canvas),
+		pixels [direction & SO_DIR_LEFT_MASK  ? 2 : 0],
+		pixels [direction & SO_DIR_DOWN_MASK  ? 1 : 3],
+		coords +0, coords + 1);
+	gnome_canvas_c2w (
+		GNOME_CANVAS (scg->canvas),
+		pixels [direction & SO_DIR_LEFT_MASK  ? 0 : 2],
+		pixels [direction & SO_DIR_DOWN_MASK  ? 3 : 1],
+		coords +2, coords + 3);
 }
 
 static void

@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * item-grid.c : A canvas item that is responsible for drawing gridlines and
@@ -614,10 +614,35 @@ cb_obj_create_motion (GnumericSheet *gsheet, GdkEventMotion *event,
 		    (fabs (tmp_y - closure->y) > 5.);
 	}
 
-	gnome_canvas_item_set (closure->item,
-			       "x1", x1, "y1", y1,
-			       "x2", x2, "y2", y2,
-			       NULL);
+	if (closure->item) {
+		gnome_canvas_item_set (closure->item,
+				       "x1", x1, "y1", y1,
+				       "x2", x2, "y2", y2,
+				       NULL);
+	} else {
+		SheetObject *so;
+		double points [4];
+		
+		points [0] = closure->x;
+		points [1] = closure->y;
+		points [2] = event->x;
+		points [3] = event->y;
+
+		so = closure->scg->new_object;
+
+		if (so->direction != SO_DIR_UNKNOWN)
+		{
+			so->direction = SO_DIR_NONE_MASK;
+			if (event->x < closure->x)
+				so->direction |= SO_DIR_LEFT_MASK;
+			if (event->y > closure->y)
+				so->direction |= SO_DIR_DOWN_MASK;
+		}
+
+		scg_object_calc_position (closure->scg,
+					  so,
+					  points);
+	}
 
 	return TRUE;
 }
@@ -652,14 +677,11 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 					      event->x, event->y,
 					      pts + 2, pts + 3);
 	} else {
-	/* Otherwise translate default size to use release point as top left */
+		/* Otherwise translate default size to use release point as top left */
 		sheet_object_default_size (so, pts+2, pts+3);
 		pts [2] += (pts [0] = closure->x);
 		pts [3] += (pts [1] = closure->y);
 	}
-
-	scg_object_calc_position (scg, so, pts);
-	sheet_object_set_sheet (so, scg->sheet);
 
 	gtk_signal_disconnect_by_func (
 		GTK_OBJECT (gsheet),
@@ -667,8 +689,15 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	gtk_signal_disconnect_by_func (
 		GTK_OBJECT (gsheet),
 		GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
+	
+	scg_object_calc_position (scg, so, pts);
 
-	gtk_object_destroy (GTK_OBJECT (closure->item));
+	if (!sheet_object_rubber_band_directly (so)) {
+		sheet_object_set_sheet (so, scg->sheet);
+		gtk_object_destroy (GTK_OBJECT (closure->item));
+		closure->item = NULL;
+	}
+
 	g_free (closure);
 
 	/* move object from creation to edit mode */
@@ -711,12 +740,24 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 	closure->x = event->x;
 	closure->y = event->y;
 
-	closure->item = gnome_canvas_item_new (
-		gsheet->scg->object_group,
-		gnome_canvas_rect_get_type (),
-		"outline_color", "black",
-		"width_units",   2.0,
-		NULL);
+	
+	if (!sheet_object_rubber_band_directly (so)) {
+		closure->item = gnome_canvas_item_new (
+			gsheet->scg->object_group,
+			gnome_canvas_rect_get_type (),
+			"outline_color", "black",
+			"width_units",   2.0,
+			NULL);
+	} else {
+		double points [4];
+
+		points [0] = points [2] = event->x;
+		points [1] = points [3] = event->y;
+		
+		scg_object_calc_position (scg, so, points);
+		sheet_object_set_sheet (so, scg->sheet);
+		closure->item = NULL;
+	}
 
 	gtk_signal_connect (GTK_OBJECT (gsheet), "button_release_event",
 			    GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);

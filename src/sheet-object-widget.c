@@ -576,7 +576,8 @@ checkbox_get_dep_type (void)
 static void
 sheet_widget_checkbox_construct_with_range (SheetObjectWidget *sow,
 					    Sheet *sheet,
-					    const Range *range)
+					    const Range *range,
+					    const gchar *label)
 {
 	static int counter = 0;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
@@ -584,13 +585,12 @@ sheet_widget_checkbox_construct_with_range (SheetObjectWidget *sow,
 
 	g_return_if_fail (swc != NULL);
 
-	swc->label = g_strdup_printf ("CheckBox %d", ++counter);
+	swc->label = label ? g_strdup (label) : g_strdup_printf ("CheckBox %d", ++counter);
 	swc->being_updated = FALSE;
 	swc->value = FALSE;
 	swc->dep.sheet = sheet;
 	swc->dep.flags = checkbox_get_dep_type ();
 
-	/* Default to the top left of the current selection */
 	ref.sheet = sheet;
 	ref.col = range->start.col;
 	ref.row = range->start.row;
@@ -603,7 +603,7 @@ sheet_widget_checkbox_construct (SheetObjectWidget *sow, Sheet *sheet)
 {
 	Range const * range = selection_first_range (sheet, NULL, NULL);
 
-	sheet_widget_checkbox_construct_with_range (sow, sheet, range);
+	sheet_widget_checkbox_construct_with_range (sow, sheet, range, NULL);
 }
 
 static void
@@ -615,8 +615,10 @@ sheet_widget_checkbox_destroy (GtkObject *obj)
 
 	g_free (swc->label);
 	swc->label = NULL;
+
+	if (swc->dep.flags & DEPENDENT_IN_EXPR_LIST)
+		dependent_unlink (&swc->dep, NULL);
 	
-	dependent_unlink (&swc->dep, NULL);
 	if (swc->dep.expression != NULL) {
 		expr_tree_unref (swc->dep.expression);
 		swc->dep.expression = NULL;
@@ -680,12 +682,12 @@ static SheetObject *
 sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 {
 	SheetObjectWidget *new_sow;
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	const CellRef *ref;
 
 	new_sow = sheet_object_widget_clone (so, new_sheet);
 
 	sheet_widget_checkbox_get_ref (SHEET_WIDGET_CHECKBOX (so), &ref);
-
 	if (ref->sheet == so->sheet) {
 		Range range;
 
@@ -694,7 +696,8 @@ sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 
 		sheet_widget_checkbox_construct_with_range (new_sow,
 							    new_sheet,
-							    &range);
+							    &range,
+							    swc->label);
 	} else {
 		/* When the sheet of the object is different than the sheet of it's
 		 * input, we point the new object to the same input as the source
@@ -712,13 +715,16 @@ sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 		gtk_object_unref (GTK_OBJECT (new_sow));
 		return NULL;
 	}
-	
+
+	SHEET_WIDGET_CHECKBOX (new_sow)->value = swc->value;
+
 	return SHEET_OBJECT (new_sow);
 }
 
 typedef struct {
 	GtkWidget *dialog;
-	GtkWidget *entry;
+	GtkWidget *expresion;
+	GtkWidget *label;
 
 	WorkbookControlGUI *wbcg;
 	SheetWidgetCheckbox *swc;
@@ -746,7 +752,7 @@ cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
 static void
 cb_checkbox_config_focus (GtkWidget *w, GdkEventFocus *ev, CheckboxConfigState *state)
 {
-	GnumericExprEntry *expr_entry = GNUMERIC_EXPR_ENTRY (state->entry);
+	GnumericExprEntry *expr_entry = GNUMERIC_EXPR_ENTRY (state->expresion);
 	wbcg_set_entry (state->wbcg, expr_entry);
 	gnumeric_expr_entry_set_absolute (expr_entry);
 }
@@ -757,7 +763,7 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 {
 	if (button_number == 0) {
 		SheetObject *so = SHEET_OBJECT (state->swc);
-		char *text = gtk_entry_get_text (GTK_ENTRY (state->entry));
+		char *text = gtk_entry_get_text (GTK_ENTRY (state->expresion));
 
 		if (text != NULL && *text) {
 			ParsePos pp;
@@ -775,10 +781,36 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 }
 
 static void
+cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
+{
+	GList *list;
+ 	SheetWidgetCheckbox *swc;
+ 	const gchar *text;
+ 
+ 	text = gtk_entry_get_text (GTK_ENTRY (entry));
+ 	swc = state->swc;
+ 
+ 	if (swc->label)
+ 		g_free (swc->label);
+ 	swc->label = g_strdup (text);
+ 
+ 	list = swc->sow.parent_object.realized_list;
+ 	for (; list != NULL; list = list->next) {
+ 		GnomeCanvasWidget *item = GNOME_CANVAS_WIDGET (list->data);
+ 		g_return_if_fail (GTK_IS_CHECK_BUTTON (item->widget));
+ 		g_return_if_fail (GTK_IS_LABEL (GTK_BIN (item->widget)->child));
+ 		gtk_label_set_text (GTK_LABEL (GTK_BIN (item->widget)->child), text);
+ 	}
+ 	
+}
+  
+static void
 sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 {
 	CheckboxConfigState *state;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+	GtkWidget *label;
+	GtkWidget *table;
 
 	g_return_if_fail (swc != NULL);
 
@@ -794,29 +826,49 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,
 					  NULL);
-	state->entry = gnumeric_expr_entry_new ();
-	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->entry), scg);
+	state->expresion = gnumeric_expr_entry_new ();
+	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->expresion), scg);
 	if (swc->dep.expression != NULL) {
 		ParsePos pp;
 		char *text = expr_tree_as_string (swc->dep.expression,
 			parse_pos_init (&pp, NULL, so->sheet, 0, 0));
 		gnumeric_expr_entry_set_rangesel_from_text (
-			GNUMERIC_EXPR_ENTRY (state->entry), text);
+			GNUMERIC_EXPR_ENTRY (state->expresion), text);
 		g_free (text);
 	}
 
+ 	state->label = gtk_entry_new ();
+ 	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
+ 
+ 	table = gtk_table_new (0, 0, FALSE);
+ 	label = gtk_label_new (_("Cell :"));
+ 	gtk_table_attach_defaults (GTK_TABLE(table), label,
+ 				   0, 1, 0, 1);
+ 	label = gtk_label_new (_("Label :"));
+ 	gtk_table_attach_defaults (GTK_TABLE(table), label,
+ 				   0, 1, 1, 2);
+ 
+ 	gtk_table_attach_defaults (GTK_TABLE(table), state->expresion,
+ 				   1, 2, 0, 1);
+ 	gtk_table_attach_defaults (GTK_TABLE(table), state->label,
+ 				   1, 2, 1, 2);
+	
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
-			    state->entry, TRUE, TRUE, 5);
+			    table, TRUE, TRUE, 5);
 	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
 
-	gtk_signal_connect (GTK_OBJECT (state->entry), "focus-in-event",
+ 	gtk_signal_connect (GTK_OBJECT (state->label), "changed",
+ 			    GTK_SIGNAL_FUNC (cb_checkbox_label_changed), state);
+ 	gtk_signal_connect (GTK_OBJECT (state->expresion), "focus-in-event",
 			    GTK_SIGNAL_FUNC (cb_checkbox_config_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_checkbox_config_destroy), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
 			    GTK_SIGNAL_FUNC (cb_checkbox_config_clicked), state);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE(state->entry));
+				  GTK_EDITABLE(state->expresion));
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE(state->label));
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
@@ -824,7 +876,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
 	gtk_window_set_focus (GTK_WINDOW (state->dialog),
-			      GTK_WIDGET (state->entry));
+			      GTK_WIDGET (state->expresion));
 	gtk_widget_show_all (state->dialog);
 }
 
@@ -836,7 +888,8 @@ sheet_widget_checkbox_set_sheet (SheetObject *so, Sheet *sheet)
 	g_return_val_if_fail (swc != NULL, TRUE);
 
 	dependent_changed (&swc->dep, NULL, TRUE);
-	
+	sheet_widget_checkbox_set_active (swc);
+
 	return FALSE;
 }
 
