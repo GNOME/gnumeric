@@ -967,8 +967,8 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_END
 };
 
-#define TOOLBAR_BOLD_BUTTON_INDEX 12
-#define TOOLBAR_ITALIC_BUTTON_INDEX 13
+#define TOOLBAR_BOLD_BUTTON_INDEX 13
+#define TOOLBAR_ITALIC_BUTTON_INDEX 14
 static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("New"), N_("Creates a new sheet"),
@@ -979,7 +979,10 @@ static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Save"), N_("Saves the workbook"),
 		save_cmd, GNOME_STOCK_PIXMAP_SAVE),
-
+	GNOMEUIINFO_ITEM_STOCK(
+		N_("Print"), N_("Prints the workbook"),
+		print_cmd, GNOME_STOCK_PIXMAP_PRINT),
+	
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (

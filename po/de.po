@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1999-06-24 17:01-0500\n"
+"POT-Creation-Date: 1999-06-28 18:47-0500\n"
 "PO-Revision-Date: 1999-06-14 21:15+02:00\n"
 "Last-Translator: Ralf Baechle <ralf@gnu.org>\n"
 "Language-Team:\n"
@@ -33,7 +33,7 @@ msgstr "Excel(R) 95 Dateiformat"
 msgid "Argument must be a Guile expression"
 msgstr "Argument muß ein Guile-Ausdruck sein"
 
-#: plugins/guile/plugin.c:241 src/expr.c:963 src/fn-sheet.c:35
+#: plugins/guile/plugin.c:241 src/expr.c:975 src/fn-sheet.c:35
 #: src/fn-string.c:291
 msgid "Invalid number of arguments"
 msgstr "Ungültige Anzahl von Argumenten"
@@ -378,7 +378,7 @@ msgid "Left"
 msgstr "Links"
 
 #: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
-#: src/workbook.c:995
+#: src/workbook.c:1001
 msgid "Center"
 msgstr "Mitte"
 
@@ -403,12 +403,12 @@ msgid "Bottom"
 msgstr "Unten"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:426
+#: src/dialog-cell-format.c:426 src/print.glade.h:9
 msgid "Vertical"
 msgstr "Senkrecht"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:430
+#: src/dialog-cell-format.c:430 src/print.glade.h:10
 msgid "Horizontal"
 msgstr "Wagerecht"
 
@@ -416,49 +416,46 @@ msgstr "Wagerecht"
 msgid "Auto return"
 msgstr "Automatische Rückkehr"
 
-#: src/dialog-cell-format.c:602
+#: src/dialog-cell-format.c:605
 msgid "Text color"
 msgstr "Textfarbe"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
+#: src/dialog-cell-format.c:609 src/dialog-cell-format.c:642
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Nichts"
 
-#: src/dialog-cell-format.c:608
+#: src/dialog-cell-format.c:611
 msgid "Use this color"
 msgstr "Diese Farbe benutzen"
 
-#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
+#: src/dialog-cell-format.c:613 src/dialog-cell-format.c:648
 msgid "No change"
 msgstr "Keine Änderung"
 
-#: src/dialog-cell-format.c:633
+#: src/dialog-cell-format.c:636
 msgid "Background configuration"
 msgstr "Hintergrundkonfiguration"
 
-#: src/dialog-cell-format.c:641
+#: src/dialog-cell-format.c:644
 msgid "Use solid color"
 msgstr "Eine Farbe benutzen"
 
-#: src/dialog-cell-format.c:643
+#: src/dialog-cell-format.c:646
 msgid "Use a pattern"
 msgstr "Muster benutzen"
 
-#: src/dialog-cell-format.c:914
+#: src/dialog-cell-format.c:917
 msgid "Number"
 msgstr "Anzahl"
 
-#: src/dialog-cell-format.c:915
+#: src/dialog-cell-format.c:918
 msgid "Alignment"
 msgstr "Ausrichtung"
 
-#: src/dialog-cell-format.c:916
-msgid "Font"
-msgstr "Zeichensatz"
-
-#: src/dialog-cell-format.c:917
+#. { N_("Font"),      create_font_page,           apply_font_format     },
+#: src/dialog-cell-format.c:921
 msgid "Coloring"
 msgstr "Färbung"
 
@@ -622,24 +619,24 @@ msgstr "Kann Datei %s nicht erzeugen\n"
 msgid "Internal Error"
 msgstr "Syntaxfehler"
 
-#: src/expr.c:258
+#: src/expr.c:266
 msgid "Syntax error"
 msgstr "Syntaxfehler"
 
-#: src/expr.c:262
+#: src/expr.c:270
 msgid "Missing quote"
 msgstr "Fehlendes Anführungszeichen"
 
-#: src/expr.c:266
+#: src/expr.c:274
 msgid "Impossible!"
 msgstr "Unmöglich!"
 
-#: src/expr.c:936
+#: src/expr.c:948
 #, fuzzy
 msgid "Internal error"
 msgstr "Syntaxfehler"
 
-#: src/expr.c:1029 src/expr.c:1304 src/expr.c:1485 src/fn-misc.c:189
+#: src/expr.c:1041 src/expr.c:1316 src/expr.c:1497 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
 #: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
 #: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
@@ -647,37 +644,37 @@ msgstr "Syntaxfehler"
 msgid "Type mismatch"
 msgstr "Unpassende Typen"
 
-#: src/expr.c:1108
+#: src/expr.c:1120
 msgid "Function does not exist"
 msgstr "Funktion existiert nicht"
 
-#: src/expr.c:1112
+#: src/expr.c:1124
 msgid "Calling non-function"
 msgstr "Rufe Nichtfunktion auf"
 
-#: src/expr.c:1247
+#: src/expr.c:1259
 msgid "Type error"
 msgstr "Typenfehler"
 
-#: src/expr.c:1278
+#: src/expr.c:1290
 #, fuzzy
 msgid "Internal type error"
 msgstr "Typenfehler"
 
-#: src/expr.c:1469
+#: src/expr.c:1481
 msgid "Reference to newborn cell"
 msgstr "Referenz auf neugeborene Zelle"
 
-#: src/expr.c:1497
+#: src/expr.c:1509
 msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
-#: src/expr.c:1838
+#: src/expr.c:1850
 #, fuzzy
 msgid "#Reference to deleted cell!"
 msgstr "Referenz auf neugeborene Zelle"
 
-#: src/expr.c:1863
+#: src/expr.c:1875
 #, fuzzy
 msgid "#Reference to deleted range!"
 msgstr "Referenz auf neugeborene Zelle"
@@ -993,7 +990,7 @@ msgstr ""
 msgid "Unsupported method"
 msgstr "Nicht unterstützte Methode"
 
-#: src/fn-date.c:545 src/fn-string.c:1080
+#: src/fn-date.c:545
 msgid "Date / Time"
 msgstr ""
 
@@ -1011,7 +1008,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:182
+#: src/fn-math.c:155
 #, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
@@ -1027,7 +1024,7 @@ msgstr ""
 "zurück.\n"
 "@SEEALSO=LCM"
 
-#: src/fn-math.c:243
+#: src/fn-math.c:196
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -1047,7 +1044,7 @@ msgstr ""
 "zurück.\n"
 "@SEEALSO=GCD"
 
-#: src/fn-math.c:297
+#: src/fn-math.c:250
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -1066,7 +1063,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO=CEIL, FLOOR"
 
-#: src/fn-math.c:316
+#: src/fn-math.c:269
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -1088,11 +1085,11 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:338
+#: src/fn-math.c:291
 msgid "acos - domain error"
 msgstr "acos - Wertebereichsfehler"
 
-#: src/fn-math.c:344
+#: src/fn-math.c:297
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -1112,11 +1109,11 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 
-#: src/fn-math.c:366
+#: src/fn-math.c:319
 msgid "acosh - domain error"
 msgstr "acosh - Wertebereichsfehler"
 
-#: src/fn-math.c:372
+#: src/fn-math.c:325
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -1136,11 +1133,11 @@ msgstr ""
 "einfach nichts.  Diese Funktion nimmt nur ein Argument.\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:393
+#: src/fn-math.c:346
 msgid "asin - domain error"
 msgstr "asin - Wertebereichsfehler"
 
-#: src/fn-math.c:399
+#: src/fn-math.c:352
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -1158,7 +1155,7 @@ msgstr ""
 "macht nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:420
+#: src/fn-math.c:373
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -1176,7 +1173,7 @@ msgstr ""
 "macht nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:443
+#: src/fn-math.c:396
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -1198,11 +1195,11 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:466
+#: src/fn-math.c:419
 msgid "atanh: domain error"
 msgstr "atanh: Wertebereichsfehler"
 
-#: src/fn-math.c:472
+#: src/fn-math.c:425
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -1223,7 +1220,7 @@ msgstr ""
 "macht nichts.\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:496
+#: src/fn-math.c:449
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -1239,7 +1236,7 @@ msgstr ""
 "macht nichts.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-math.c:515
+#: src/fn-math.c:468
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTIF\n"
@@ -1254,7 +1251,7 @@ msgstr ""
 "nicht definiert ist.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-math.c:580
+#: src/fn-math.c:533
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -1269,7 +1266,7 @@ msgstr ""
 "referenziert sind, auf.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:651
+#: src/fn-math.c:604
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -1288,7 +1285,7 @@ msgstr ""
 "CEILING den Fehler #NUM! zurück.\n"
 "@SEEALSO=CEIL"
 
-#: src/fn-math.c:684
+#: src/fn-math.c:637
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1306,7 +1303,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:704
+#: src/fn-math.c:657
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1325,7 +1322,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:725
+#: src/fn-math.c:678
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1340,7 +1337,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:746
+#: src/fn-math.c:699
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1356,7 +1353,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:773
+#: src/fn-math.c:726
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1372,7 +1369,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:810
+#: src/fn-math.c:763
 #, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
@@ -1390,7 +1387,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:854
+#: src/fn-math.c:807
 #, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -1407,7 +1404,7 @@ msgstr ""
 "bewirkt nichts.\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/fn-math.c:884
+#: src/fn-math.c:837
 #, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
@@ -1426,7 +1423,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:911
+#: src/fn-math.c:864
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
@@ -1442,7 +1439,7 @@ msgstr ""
 "einen Fehler zurück.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:940
+#: src/fn-math.c:893
 #, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
@@ -1457,7 +1454,7 @@ msgstr ""
 "einen Fehler zurück.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:963
+#: src/fn-math.c:916
 #, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
@@ -1473,7 +1470,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:990
+#: src/fn-math.c:943
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
@@ -1489,11 +1486,11 @@ msgstr ""
 "gibt einen Fehler zurück.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:1008
+#: src/fn-math.c:961
 msgid "log2: domain error"
 msgstr "log2: Wertebereichsfehler"
 
-#: src/fn-math.c:1014
+#: src/fn-math.c:967
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
@@ -1509,11 +1506,11 @@ msgstr ""
 "gibt einen Fehler zurück.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:1033
+#: src/fn-math.c:986
 msgid "log10: domain error"
 msgstr "log10: Wertebereichsfehler"
 
-#: src/fn-math.c:1039
+#: src/fn-math.c:992
 #, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
@@ -1529,7 +1526,7 @@ msgstr ""
 "Gibt #DIV/0! zurück, wenn @teiler null ist.\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/fn-math.c:1076
+#: src/fn-math.c:1029
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1544,7 +1541,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:1097
+#: src/fn-math.c:1050
 #, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
@@ -1560,7 +1557,7 @@ msgstr ""
 "nicht definiert ist.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-math.c:1115
+#: src/fn-math.c:1068
 #, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
@@ -1579,7 +1576,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1135
+#: src/fn-math.c:1088
 #, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
@@ -1599,7 +1596,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1155
+#: src/fn-math.c:1108
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
@@ -1616,7 +1613,7 @@ msgstr ""
 "gibt einen Fehler zurück.  Diese Funktion hat keine Argumente.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1178
+#: src/fn-math.c:1131
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1630,7 +1627,7 @@ msgstr ""
 "referenziert sind, auf.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1199
+#: src/fn-math.c:1152
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMA\n"
@@ -1649,7 +1646,7 @@ msgstr ""
 "Argument dividiert durch die Anzahl der Arguments.\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/fn-math.c:1224
+#: src/fn-math.c:1177
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
@@ -1664,7 +1661,7 @@ msgstr ""
 "referenziert sind, auf.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1246
+#: src/fn-math.c:1199
 #, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
@@ -1679,7 +1676,7 @@ msgstr ""
 "referenziert sind, auf.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1300
+#: src/fn-math.c:1253
 #, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
@@ -1694,7 +1691,7 @@ msgstr ""
 "referenziert sind, auf.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1321
+#: src/fn-math.c:1274
 #, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
@@ -1713,7 +1710,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1341
+#: src/fn-math.c:1294
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1731,7 +1728,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1361
+#: src/fn-math.c:1314
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -1748,7 +1745,7 @@ msgstr ""
 "gibt einen Fehler zurück.  Diese Funktion hat keine Argumente.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1380
+#: src/fn-math.c:1333
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -1765,7 +1762,7 @@ msgstr ""
 "nicht definiert ist.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-math.c:1413
+#: src/fn-math.c:1366
 #, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
@@ -1780,7 +1777,7 @@ msgstr ""
 "nicht definiert ist.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-math.c:1444
+#: src/fn-math.c:1397
 #, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
@@ -1795,7 +1792,7 @@ msgstr ""
 "nicht definiert ist.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-math.c:1475
+#: src/fn-math.c:1428
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -1811,7 +1808,7 @@ msgstr ""
 "negativ ist, gibt FACTDOUBLE den Fehler #NUM! zurück.\n"
 "@SEEALSO=FACT"
 
-#: src/fn-math.c:1506
+#: src/fn-math.c:1459
 #, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
@@ -1828,7 +1825,7 @@ msgstr ""
 "gibt einen Fehler zurück.  Diese Funktion hat keine Argumente.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1527
+#: src/fn-math.c:1480
 #, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
@@ -1843,7 +1840,7 @@ msgstr ""
 "nicht definiert ist.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-math.c:1552
+#: src/fn-math.c:1505
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
@@ -1860,7 +1857,7 @@ msgstr ""
 "gibt einen Fehler zurück.  Diese Funktion hat keine Argumente.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1574
+#: src/fn-math.c:1527
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -1871,7 +1868,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/fn-math.c:1600
+#: src/fn-math.c:1553
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -1885,7 +1882,7 @@ msgid ""
 "@SEEALSO=ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1638
+#: src/fn-math.c:1591
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -1899,7 +1896,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1673
+#: src/fn-math.c:1626
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -1913,7 +1910,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN"
 msgstr ""
 
-#: src/fn-math.c:1711
+#: src/fn-math.c:1664
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -1926,7 +1923,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1755
+#: src/fn-math.c:1708
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -1939,11 +1936,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1799
+#: src/fn-math.c:1752
 msgid "#Unimplemented!"
 msgstr "#Unimplementiert!"
 
-#: src/fn-math.c:1830
+#: src/fn-math.c:1783
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -1957,12 +1954,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1876 src/fn-math.c:1890 src/fn-math.c:1962 src/fn-math.c:1976
-#: src/fn-math.c:2048 src/fn-math.c:2062
+#: src/fn-math.c:1829 src/fn-math.c:1843 src/fn-math.c:1915 src/fn-math.c:1929
+#: src/fn-math.c:2001 src/fn-math.c:2015
 msgid "Array version not implemented!"
 msgstr "Feldversion nicht implementiert!"
 
-#: src/fn-math.c:1917
+#: src/fn-math.c:1870
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1976,7 +1973,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2003
+#: src/fn-math.c:1956
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1990,7 +1987,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2089
+#: src/fn-math.c:2042
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -2012,7 +2009,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2169
+#: src/fn-math.c:2122
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -2023,7 +2020,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2281
+#: src/fn-math.c:2234
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -2035,7 +2032,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2380
+#: src/fn-math.c:2333
 msgid "Maths / Trig."
 msgstr ""
 
@@ -2097,7 +2094,7 @@ msgstr ""
 "@DESCRIPTION=Gibt eine die Stunde repräsentierenden Fraktion zurück\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-misc.c:159
+#: src/fn-misc.c:160
 #, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
@@ -2112,7 +2109,7 @@ msgstr ""
 "einen Fehler zurück.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-misc.c:175
+#: src/fn-misc.c:176
 #, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
@@ -2126,7 +2123,7 @@ msgstr ""
 "@DESCRIPTION=Gibt eine die Stunde repräsentierenden Fraktion zurück\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-misc.c:199
+#: src/fn-misc.c:200
 msgid "Miscellaneous"
 msgstr ""
 
@@ -2449,6 +2446,11 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
+#: src/fn-string.c:1080
+#, fuzzy
+msgid "String"
+msgstr "Warnung"
+
 #: src/format.c:397
 msgid "black"
 msgstr "schwarz"
@@ -2751,7 +2753,7 @@ msgstr ""
 "Zellen in diesem Bereich überschreiben. Wollen Sie den\n"
 "Inhalt dort wirklich ersetzen?"
 
-#: src/item-cursor.c:580 src/item-grid.c:530 src/workbook.c:983
+#: src/item-cursor.c:580 src/item-grid.c:530 src/workbook.c:989
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -2783,11 +2785,11 @@ msgstr "Zellen nach unten schieben und bewegen"
 msgid "Shift cells right and move"
 msgstr "Zellen rechsverschieben und bewegen"
 
-#: src/item-grid.c:529 src/workbook.c:980
+#: src/item-grid.c:529 src/workbook.c:986
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: src/item-grid.c:531 src/workbook.c:986
+#: src/item-grid.c:531 src/workbook.c:992
 msgid "Paste"
 msgstr "Einfügen"
 
@@ -2862,475 +2864,656 @@ msgstr "Zeile: %d"
 msgid "Column: %s"
 msgstr "Spalte: %s"
 
-#: src/sheet.c:2565
+#: src/sheet.c:2696
 msgid "The command `"
 msgstr "Der Befehl `"
 
-#: src/sheet.c:2567
+#: src/sheet.c:2698
 msgid "' cannot be performed with multiple selections"
 msgstr "' kann nicht mit mehreren Auswahlblöcken ausgeführt werden"
 
-#: src/sheet.c:2582
+#: src/sheet.c:2713
 msgid "copy"
 msgstr "kopieren"
 
-#: src/sheet.c:2607
+#: src/sheet.c:2738
 msgid "cut"
 msgstr "ausschneiden"
 
-#: src/sheet.c:2656
+#: src/sheet.c:2787
 msgid "paste"
 msgstr "einfügen"
 
-#: src/sheet.c:3553
+#: src/sheet.c:3684
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Ich konnte das Objekt %s nicht aktivieren"
 
-#: src/sheet.c:3565
+#: src/sheet.c:3696
 msgid "I was unable to the bind object"
 msgstr "Ich konnte das Objekt nicht binden"
 
-#: src/workbook.c:373
+#: src/workbook.c:360
 msgid "Warning"
 msgstr "Warnung"
 
-#: src/workbook.c:381
+#: src/workbook.c:368
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Blatt %s hat ungespeicherte Änderungen, speichern?"
 
-#: src/workbook.c:384
+#: src/workbook.c:371
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Blatt hat ungespeicherte Änderungen, speichern?"
 
-#: src/workbook.c:573
+#: src/workbook.c:560
 msgid "Insert cols"
 msgstr "Spalten einfügen"
 
-#: src/workbook.c:589
+#: src/workbook.c:576
 msgid "Insert rows"
 msgstr "Zeilen einfügen"
 
-#: src/workbook.c:682
+#: src/workbook.c:669
 msgid ">mm/dd/yyyy"
 msgstr ">dd. mm. yyyy"
 
-#: src/workbook.c:701
+#: src/workbook.c:688
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:786
+#: src/workbook.c:785
 msgid "_New"
 msgstr "_Neu"
 
-#: src/workbook.c:786
+#: src/workbook.c:785
 msgid "Create a new spreadsheet"
 msgstr "Ein neues Arbeitsblatt erzeugen"
 
-#: src/workbook.c:797
+#: src/workbook.c:796
 msgid "Plu_g-ins..."
 msgstr "Plu_gins..."
 
-#: src/workbook.c:797
+#: src/workbook.c:796
 msgid "Gnumeric plugins"
 msgstr "Gnumeric-Plugins"
 
-#: src/workbook.c:811
+#: src/workbook.c:817
 msgid "_All"
 msgstr "_Alles"
 
-#: src/workbook.c:812
+#: src/workbook.c:818
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Formatierungen, Kommentare und Inhalt der ausgewählten Zellen löschen"
 
-#: src/workbook.c:814
+#: src/workbook.c:820
 msgid "_Formats"
 msgstr "_Formate"
 
-#: src/workbook.c:815
+#: src/workbook.c:821
 msgid "Clear the selected cells' formats"
 msgstr "Formatierungen der ausgewählten Zellen löschen"
 
-#: src/workbook.c:816
+#: src/workbook.c:822
 msgid "_Comments"
 msgstr "_Kommentar"
 
-#: src/workbook.c:817
+#: src/workbook.c:823
 msgid "Clear the selected cells' comments"
 msgstr "Kommentare der ausgewählten Zellen löschen"
 
-#: src/workbook.c:818
+#: src/workbook.c:824
 msgid "_Content"
 msgstr "_Inhalt"
 
-#: src/workbook.c:819
+#: src/workbook.c:825
 msgid "Clear the selected cells' contents"
 msgstr "Inhalt der ausgewählten Zellen löschen"
 
-#: src/workbook.c:827
+#: src/workbook.c:833
 msgid "P_aste special..."
 msgstr "Einfügen spezial ..."
 
-#: src/workbook.c:828
+#: src/workbook.c:834
 msgid "C_lear"
 msgstr "_Löschen"
 
-#: src/workbook.c:829
+#: src/workbook.c:835
 msgid "Clear the selected cell(s)"
 msgstr "Die ausgewählte(n) Zelle(n) löschen"
 
-#: src/workbook.c:833
+#: src/workbook.c:839
 msgid "_Select All"
 msgstr "_Alles auswählen"
 
-#: src/workbook.c:834
+#: src/workbook.c:840
 msgid "Select all cells in the spreadsheet"
 msgstr "Wählt alle Zellen im Arbeitsblatt aus"
 
-#: src/workbook.c:836
+#: src/workbook.c:842
 msgid "_Goto cell.."
 msgstr "_Gehe zu Zelle ..."
 
-#: src/workbook.c:837
+#: src/workbook.c:843
 msgid "Jump to a specified cell"
 msgstr "Springt zu einer angegebenen Zelle"
 
-#: src/workbook.c:843
+#: src/workbook.c:849
 msgid "Insert object..."
 msgstr "Objekt einfügen..."
 
-#: src/workbook.c:844
+#: src/workbook.c:850
 msgid "Inserts a Bonobo object"
 msgstr "Erzeugt ein Bonobo-Objekt"
 
-#: src/workbook.c:851
+#: src/workbook.c:857
 msgid "_Define cell names"
 msgstr "_Zellennamen festlegen"
 
-#: src/workbook.c:855
+#: src/workbook.c:861
 msgid "_Recalculate"
 msgstr "_Neuberechnung"
 
-#: src/workbook.c:856
+#: src/workbook.c:862
 msgid "Recalculate the spreadsheet"
 msgstr "Arbeitsblatt neu berechnen"
 
-#: src/workbook.c:864
+#: src/workbook.c:870
 msgid "_Zoom..."
 msgstr "_Vergrößern"
 
-#: src/workbook.c:865
+#: src/workbook.c:871
 msgid "Zoom the spreadsheet in or out"
 msgstr "Arbeitsblatt ein- oder wegzoomen"
 
-#: src/workbook.c:872
+#: src/workbook.c:878
 msgid "Current _date"
 msgstr "Aktuelles _Datum"
 
-#: src/workbook.c:873
+#: src/workbook.c:879
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Fügt das aktuelle Datum in die ausgewählte(n) Zelle(n) ein"
 
-#: src/workbook.c:876
+#: src/workbook.c:882
 msgid "Current _time"
 msgstr "Aktuelle _Zeit"
 
-#: src/workbook.c:877
+#: src/workbook.c:883
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Fügt die aktuelle Zeit in die ausgewählte(n) Zelle(n) ein"
 
-#: src/workbook.c:884 src/workbook.c:930
+#: src/workbook.c:890 src/workbook.c:936
 msgid "_Sheet"
 msgstr "_Blatt"
 
-#: src/workbook.c:884
+#: src/workbook.c:890
 msgid "Insert a new spreadsheet"
 msgstr "Ein neues Blatt einfügen"
 
-#: src/workbook.c:886 src/workbook.c:924
+#: src/workbook.c:892 src/workbook.c:930
 msgid "_Cells..."
 msgstr "_Zellen ..."
 
-#: src/workbook.c:886
+#: src/workbook.c:892
 msgid "Insert new cells"
 msgstr "Neue Zellen einfügen"
 
-#: src/workbook.c:888
+#: src/workbook.c:894
 msgid "_Rows"
 msgstr "_Reihen"
 
-#: src/workbook.c:888
+#: src/workbook.c:894
 msgid "Insert new rows"
 msgstr "Neue Zeilen einfügen"
 
-#: src/workbook.c:890
+#: src/workbook.c:896
 msgid "C_olumns"
 msgstr "S_palten"
 
-#: src/workbook.c:890
+#: src/workbook.c:896
 msgid "Insert new columns"
 msgstr "Neue Spalten einfügen"
 
-#: src/workbook.c:895
+#: src/workbook.c:901
 msgid "_Add/modify comment"
 msgstr "Komment_ar hinzufügen/ändern"
 
-#: src/workbook.c:896
+#: src/workbook.c:902
 msgid "Edit the selected cell's comment"
 msgstr "Bearbeitet den Kommentar der ausgewählten Zelle"
 
-#: src/workbook.c:897
+#: src/workbook.c:903
 msgid "_Special"
 msgstr "_Spezial"
 
-#: src/workbook.c:906 src/workbook.c:912
+#: src/workbook.c:912 src/workbook.c:918
 msgid "_Autoadjust"
 msgstr "_Automatisch ausrichten"
 
-#: src/workbook.c:907
+#: src/workbook.c:913
 msgid "_Width"
 msgstr "_Breite"
 
-#: src/workbook.c:913
+#: src/workbook.c:919
 msgid "_Height"
 msgstr "_Höhe"
 
-#: src/workbook.c:918
+#: src/workbook.c:924
 msgid "_Change name"
 msgstr "_Namen ändern"
 
-#: src/workbook.c:925
+#: src/workbook.c:931
 msgid "Modify the formatting of the selected cells"
 msgstr "Formatierung der ausgewählten Zellen ändern"
 
-#: src/workbook.c:928
+#: src/workbook.c:934
 msgid "C_olumn"
 msgstr "_Spalte"
 
-#: src/workbook.c:929
+#: src/workbook.c:935
 msgid "_Row"
 msgstr "_Reihe"
 
-#: src/workbook.c:937
+#: src/workbook.c:943
 msgid "_Sort"
 msgstr "_Sortieren"
 
-#: src/workbook.c:938
+#: src/workbook.c:944
 msgid "Sort the selected cells"
 msgstr "Sortiert die ausgewählten Zellen"
 
-#: src/workbook.c:939
+#: src/workbook.c:945
 msgid "_Goal Seek..."
 msgstr "Zielsuche..."
 
-#: src/workbook.c:941
+#: src/workbook.c:947
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:957
+#: src/workbook.c:963
 msgid "_Insert"
 msgstr "_Einfügen"
 
-#: src/workbook.c:958
+#: src/workbook.c:964
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:959
+#: src/workbook.c:965
 msgid "_Tools"
 msgstr "Werkzeuge"
 
-#: src/workbook.c:968
+#: src/workbook.c:974
 msgid "New"
 msgstr "New"
 
-#: src/workbook.c:968
+#: src/workbook.c:974
 msgid "Creates a new sheet"
 msgstr "Erzeugt ein neues Blatt"
 
-#: src/workbook.c:971
+#: src/workbook.c:977
 msgid "Open"
 msgstr "Öffnen"
 
-#: src/workbook.c:971
+#: src/workbook.c:977
 msgid "Opens an existing workbook"
 msgstr "Öffnet ein existierendes Arbeitsbuch"
 
-#: src/workbook.c:974
+#: src/workbook.c:980
 msgid "Save"
 msgstr "Speichern"
 
-#: src/workbook.c:974
+#: src/workbook.c:980
 msgid "Saves the workbook"
 msgstr "Speichert das Arbeitsbuch"
 
-#: src/workbook.c:980
+#: src/workbook.c:986
 msgid "Cuts the selection to the clipboard"
 msgstr "Verschiebt die Auswahl in die Zwischenablage"
 
-#: src/workbook.c:983
+#: src/workbook.c:989
 msgid "Copies the selection to the clipboard"
 msgstr "Kopiert die Auswahl in die Zwischenablage"
 
-#: src/workbook.c:986
+#: src/workbook.c:992
 msgid "Pastes the clipboard"
 msgstr "Kopiert in die Zwischenablage"
 
-#: src/workbook.c:992
+#: src/workbook.c:998
 msgid "Left align"
 msgstr "Linksbündig"
 
-#: src/workbook.c:992
+#: src/workbook.c:998
 msgid "Left justifies the cell contents"
 msgstr "Richtet den Zelleninhalt linksbündig aus"
 
-#: src/workbook.c:995
+#: src/workbook.c:1001
 msgid "Centers the cell contents"
 msgstr "Zentriert den Zelleninhalt"
 
-#: src/workbook.c:998
+#: src/workbook.c:1004
 msgid "Right align"
 msgstr "Rechtsbündig"
 
-#: src/workbook.c:998
+#: src/workbook.c:1004
 msgid "Right justifies the cell contents"
 msgstr "Richtet den Zelleninhalt rechtsbündig aus"
 
-#: src/workbook.c:1003
+#: src/workbook.c:1009
 msgid "Bold"
 msgstr "Fett"
 
-#: src/workbook.c:1003
+#: src/workbook.c:1009
 msgid "Sets the bold font"
 msgstr "Setzt fette Schriftart"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1012
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1012
 msgid "Makes the font italic"
 msgstr "Macht die Schriftart kursiv"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1019
 msgid "Graphic"
 msgstr "Graphik"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1019
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Erzeugt eine Graphik im Arbeitsblatt"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1023
 msgid "Line"
 msgstr "Linie"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1023
 msgid "Creates a line object"
 msgstr "Erzeugt ein Linienobjekt"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1026
 msgid "Arrow"
 msgstr "Pfeil"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1026
 msgid "Creates an arrow object"
 msgstr "Erzeugt ein Pfeilobjekt"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1029
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1029
 msgid "Creates a rectangle object"
 msgstr "Erzeugt ein Rechtecksobjekt"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1032
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1032
 msgid "Creates an ellipse object"
 msgstr "Erzeugt ein Ellipsenobjekt"
 
-#: src/workbook.c:1163
+#: src/workbook.c:1169
 msgid "You should introduce a valid cell name"
 msgstr "Geben sie der Zelle einen gültigen Namen"
 
-#: src/workbook.c:1172
+#: src/workbook.c:1178
 msgid "Column out of range"
 msgstr "Unzulässige Spaltennummer"
 
-#: src/workbook.c:1178
+#: src/workbook.c:1184
 msgid "Row number out of range"
 msgstr "Unzulässige Zeilennummer"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1274
 msgid "Selection must be a single range"
 msgstr "Auswahl muß ein einzelner Bereich sein"
 
-#: src/workbook.c:1378
+#: src/workbook.c:1383
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1379
+#: src/workbook.c:1384
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1380
+#: src/workbook.c:1385
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1381
+#: src/workbook.c:1386
 msgid "Average"
 msgstr "Durchschnitt"
 
-#: src/workbook.c:1382
+#: src/workbook.c:1387
 msgid "Count"
 msgstr "Anzahl"
 
-#: src/workbook.c:1588
+#: src/workbook.c:1579
 msgid "Untitled.gnumeric"
 msgstr "Namenlos.gnumeric"
 
-#: src/workbook.c:1688
+#: src/workbook.c:1684
 msgid "Zoom out"
 msgstr "Verkleinern"
 
-#: src/workbook.c:1695
+#: src/workbook.c:1691
 msgid "Zoom in"
 msgstr "Vergrößern"
 
-#: src/workbook.c:1780
+#: src/workbook.c:1786
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Sind Sie sicher, daß Sie das Arbeitsblatt `%s' entfernen wollen "
 
-#: src/workbook.c:1799
+#: src/workbook.c:1805
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr ""
 "Andere Arbeitsblätter hängen von den Werten auf diesem Blatt ab; ich kann es "
 "nicht entfernen"
 
-#: src/workbook.c:1819
+#: src/workbook.c:1825
 msgid "Add another sheet"
 msgstr "Neues Blatt hinzufügen"
 
-#: src/workbook.c:1820
+#: src/workbook.c:1826
 msgid "Remove this sheet"
 msgstr "Blatt entfernen"
 
-#: src/workbook.c:2077 src/workbook.c:2113
+#: src/workbook.c:2083 src/workbook.c:2119
 #, c-format
 msgid "Sheet %d"
 msgstr "Blatt %d"
 
-#: src/workbook.c:2189
+#: src/workbook.c:2195
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:1667
-msgid "Gnumeric XML file format"
+#: src/xml-io.c:1798
+#, fuzzy
+msgid "Old Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/print.glade.h:7
+msgid "window2"
+msgstr ""
+
+#: src/print.glade.h:8
+#, fuzzy
+msgid "Orientation"
+msgstr "Operation"
+
+#: src/print.glade.h:11
+#, fuzzy
+msgid "Scale"
+msgstr "Beispiel:"
+
+#: src/print.glade.h:12 src/print.glade.h:13
+#, fuzzy
+msgid "Adjust to"
+msgstr "_Automatisch ausrichten"
+
+#: src/print.glade.h:14
+#, c-format
+msgid "% of the original size"
+msgstr ""
+
+#: src/print.glade.h:15
+msgid "pages wider by "
+msgstr ""
+
+#: src/print.glade.h:16
+msgid "pages of height"
+msgstr ""
+
+#: src/print.glade.h:17
+msgid "Paper size:"
+msgstr ""
+
+#: src/print.glade.h:18
+msgid "First page number:"
+msgstr ""
+
+#: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
+#: src/print.glade.h:48 src/print.glade.h:56
+#, fuzzy
+msgid "Print"
+msgstr "Prozent"
+
+#: src/print.glade.h:20 src/print.glade.h:33 src/print.glade.h:41
+#: src/print.glade.h:57
+msgid "Print preview"
+msgstr ""
+
+#: src/print.glade.h:21 src/print.glade.h:34 src/print.glade.h:42
+#: src/print.glade.h:58
+#, fuzzy
+msgid "Options"
+msgstr "Operation"
+
+#: src/print.glade.h:22 src/print.glade.h:59
+#, fuzzy
+msgid "Page"
+msgstr "Einfügen"
+
+#: src/print.glade.h:23
+msgid "Superior:"
+msgstr ""
+
+#: src/print.glade.h:24
+msgid "Header:"
+msgstr ""
+
+#: src/print.glade.h:25
+msgid "Lower:"
+msgstr ""
+
+#: src/print.glade.h:26
+#, fuzzy
+msgid "Footer"
+msgstr "Zeichensatz"
+
+#: src/print.glade.h:27
+#, fuzzy
+msgid "Center on page"
+msgstr "Mitte"
+
+#: src/print.glade.h:28
+#, fuzzy
+msgid "Horizontally"
+msgstr "Wagerecht"
+
+#: src/print.glade.h:29
+#, fuzzy
+msgid "Vertically"
+msgstr "Senkrecht"
+
+#: src/print.glade.h:30
+#, fuzzy
+msgid "Left:"
+msgstr "Links"
+
+#: src/print.glade.h:31
+#, fuzzy
+msgid "Right:"
+msgstr "Rechts"
+
+#: src/print.glade.h:35
+#, fuzzy
+msgid "Margins"
+msgstr "Min"
+
+#: src/print.glade.h:36
+msgid "sample goes here"
+msgstr ""
+
+#: src/print.glade.h:37
+msgid "Header"
+msgstr ""
+
+#: src/print.glade.h:38
+msgid "Footer:"
+msgstr ""
+
+#: src/print.glade.h:39
+msgid "sample goes jere"
+msgstr ""
+
+#: src/print.glade.h:43
+msgid "Headers and footers"
+msgstr ""
+
+#: src/print.glade.h:44
+msgid "Print region:"
+msgstr ""
+
+#: src/print.glade.h:45
+msgid "Titles to print"
+msgstr ""
+
+#: src/print.glade.h:46
+msgid "Rows to repear on the left side:"
+msgstr ""
+
+#: src/print.glade.h:47
+msgid "Rows to repeat on the upper region:"
+msgstr ""
+
+#: src/print.glade.h:49
+#, fuzzy
+msgid "Division lines"
+msgstr "Diagonale Linien"
+
+#: src/print.glade.h:50
+msgid "Black and white"
+msgstr ""
+
+#: src/print.glade.h:51
+msgid "Titles of rows and columns."
+msgstr ""
+
+#: src/print.glade.h:52
+#, fuzzy
+msgid "Comments"
+msgstr "_Kommentar"
+
+#: src/print.glade.h:53
+msgid "Page order"
+msgstr ""
+
+#: src/print.glade.h:54
+msgid "Down, then right"
+msgstr ""
+
+#: src/print.glade.h:55
+msgid "RIght, then down"
+msgstr ""
 
 #~ msgid "ERROR"
 #~ msgstr "FEHLER"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-06-24 17:01-0500\n"
+"POT-Creation-Date: 1999-06-28 18:47-0500\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Sami Kuhmonen <sami@iqs.fi>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "Excel(R) 95 -tiedosto"
 msgid "Argument must be a Guile expression"
 msgstr "Määreen pitää olla Guile-lauseke"
 
-#: plugins/guile/plugin.c:241 src/expr.c:963 src/fn-sheet.c:35
+#: plugins/guile/plugin.c:241 src/expr.c:975 src/fn-sheet.c:35
 #: src/fn-string.c:291
 msgid "Invalid number of arguments"
 msgstr "Virheellinen määrä parametreja"
@@ -383,7 +383,7 @@ msgid "Left"
 msgstr "Vasen"
 
 #: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
-#: src/workbook.c:995
+#: src/workbook.c:1001
 msgid "Center"
 msgstr "Keskitetty"
 
@@ -408,12 +408,12 @@ msgid "Bottom"
 msgstr "Ala"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:426
+#: src/dialog-cell-format.c:426 src/print.glade.h:9
 msgid "Vertical"
 msgstr "Vertikaali"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:430
+#: src/dialog-cell-format.c:430 src/print.glade.h:10
 msgid "Horizontal"
 msgstr "Horisontaali"
 
@@ -421,49 +421,46 @@ msgstr "Horisontaali"
 msgid "Auto return"
 msgstr "Automaattinen rivinvaihto"
 
-#: src/dialog-cell-format.c:602
+#: src/dialog-cell-format.c:605
 msgid "Text color"
 msgstr "Tekstin väri"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
+#: src/dialog-cell-format.c:609 src/dialog-cell-format.c:642
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Tyhjä"
 
-#: src/dialog-cell-format.c:608
+#: src/dialog-cell-format.c:611
 msgid "Use this color"
 msgstr "Käytä tätä väriä"
 
-#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
+#: src/dialog-cell-format.c:613 src/dialog-cell-format.c:648
 msgid "No change"
 msgstr "Ei muutosta"
 
-#: src/dialog-cell-format.c:633
+#: src/dialog-cell-format.c:636
 msgid "Background configuration"
 msgstr "Taustan määrittelyt"
 
-#: src/dialog-cell-format.c:641
+#: src/dialog-cell-format.c:644
 msgid "Use solid color"
 msgstr "Käytä täyttä väriä"
 
-#: src/dialog-cell-format.c:643
+#: src/dialog-cell-format.c:646
 msgid "Use a pattern"
 msgstr "Käytä kuviota"
 
-#: src/dialog-cell-format.c:914
+#: src/dialog-cell-format.c:917
 msgid "Number"
 msgstr "Numero"
 
-#: src/dialog-cell-format.c:915
+#: src/dialog-cell-format.c:918
 msgid "Alignment"
 msgstr "Tasaus"
 
-#: src/dialog-cell-format.c:916
-msgid "Font"
-msgstr "Kirjasin"
-
-#: src/dialog-cell-format.c:917
+#. { N_("Font"),      create_font_page,           apply_font_format     },
+#: src/dialog-cell-format.c:921
 msgid "Coloring"
 msgstr "Väritys"
 
@@ -627,24 +624,24 @@ msgstr "Tiedostoa %s ei voitu luoda\n"
 msgid "Internal Error"
 msgstr "Syntaksivirhe"
 
-#: src/expr.c:258
+#: src/expr.c:266
 msgid "Syntax error"
 msgstr "Syntaksivirhe"
 
-#: src/expr.c:262
+#: src/expr.c:270
 msgid "Missing quote"
 msgstr "Puuttuva lainausmerkki"
 
-#: src/expr.c:266
+#: src/expr.c:274
 msgid "Impossible!"
 msgstr "Mahdoton!"
 
-#: src/expr.c:936
+#: src/expr.c:948
 #, fuzzy
 msgid "Internal error"
 msgstr "Syntaksivirhe"
 
-#: src/expr.c:1029 src/expr.c:1304 src/expr.c:1485 src/fn-misc.c:189
+#: src/expr.c:1041 src/expr.c:1316 src/expr.c:1497 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
 #: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
 #: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
@@ -652,37 +649,37 @@ msgstr "Syntaksivirhe"
 msgid "Type mismatch"
 msgstr "Väärä tyyppi"
 
-#: src/expr.c:1108
+#: src/expr.c:1120
 msgid "Function does not exist"
 msgstr "Funktiota ei ole"
 
-#: src/expr.c:1112
+#: src/expr.c:1124
 msgid "Calling non-function"
 msgstr "Kutsutaan ei-funktiota"
 
-#: src/expr.c:1247
+#: src/expr.c:1259
 msgid "Type error"
 msgstr "Tyyppivirhe"
 
-#: src/expr.c:1278
+#: src/expr.c:1290
 #, fuzzy
 msgid "Internal type error"
 msgstr "Tyyppivirhe"
 
-#: src/expr.c:1469
+#: src/expr.c:1481
 msgid "Reference to newborn cell"
 msgstr "Viittaus uuteen soluun"
 
-#: src/expr.c:1497
+#: src/expr.c:1509
 msgid "Unknown evaluation error"
 msgstr "Tuntematon laskentavirhe"
 
-#: src/expr.c:1838
+#: src/expr.c:1850
 #, fuzzy
 msgid "#Reference to deleted cell!"
 msgstr "Viittaus uuteen soluun"
 
-#: src/expr.c:1863
+#: src/expr.c:1875
 #, fuzzy
 msgid "#Reference to deleted range!"
 msgstr "Viittaus uuteen soluun"
@@ -885,7 +882,7 @@ msgstr ""
 msgid "Unsupported method"
 msgstr ""
 
-#: src/fn-date.c:545 src/fn-string.c:1080
+#: src/fn-date.c:545
 msgid "Date / Time"
 msgstr ""
 
@@ -898,7 +895,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:182
+#: src/fn-math.c:155
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -907,7 +904,7 @@ msgid ""
 "@SEEALSO=LCM"
 msgstr ""
 
-#: src/fn-math.c:243
+#: src/fn-math.c:196
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -918,7 +915,7 @@ msgid ""
 "@SEEALSO=GCD"
 msgstr ""
 
-#: src/fn-math.c:297
+#: src/fn-math.c:250
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -929,7 +926,7 @@ msgid ""
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
 
-#: src/fn-math.c:316
+#: src/fn-math.c:269
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -942,11 +939,11 @@ msgid ""
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:338
+#: src/fn-math.c:291
 msgid "acos - domain error"
 msgstr ""
 
-#: src/fn-math.c:344
+#: src/fn-math.c:297
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -958,11 +955,11 @@ msgid ""
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 msgstr ""
 
-#: src/fn-math.c:366
+#: src/fn-math.c:319
 msgid "acosh - domain error"
 msgstr ""
 
-#: src/fn-math.c:372
+#: src/fn-math.c:325
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -974,11 +971,11 @@ msgid ""
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:393
+#: src/fn-math.c:346
 msgid "asin - domain error"
 msgstr ""
 
-#: src/fn-math.c:399
+#: src/fn-math.c:352
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -989,7 +986,7 @@ msgid ""
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:420
+#: src/fn-math.c:373
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -1000,7 +997,7 @@ msgid ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:443
+#: src/fn-math.c:396
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -1013,11 +1010,11 @@ msgid ""
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:466
+#: src/fn-math.c:419
 msgid "atanh: domain error"
 msgstr ""
 
-#: src/fn-math.c:472
+#: src/fn-math.c:425
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -1029,7 +1026,7 @@ msgid ""
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:496
+#: src/fn-math.c:449
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -1038,7 +1035,7 @@ msgid ""
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
 
-#: src/fn-math.c:515
+#: src/fn-math.c:468
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -1047,7 +1044,7 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-#: src/fn-math.c:580
+#: src/fn-math.c:533
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria)\n"
@@ -1056,7 +1053,7 @@ msgid ""
 "@SEEALSO=COUNTIF,SUM"
 msgstr ""
 
-#: src/fn-math.c:651
+#: src/fn-math.c:604
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -1067,7 +1064,7 @@ msgid ""
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/fn-math.c:684
+#: src/fn-math.c:637
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1078,7 +1075,7 @@ msgid ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:704
+#: src/fn-math.c:657
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1089,7 +1086,7 @@ msgid ""
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-#: src/fn-math.c:725
+#: src/fn-math.c:678
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1098,7 +1095,7 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-#: src/fn-math.c:746
+#: src/fn-math.c:699
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1108,7 +1105,7 @@ msgid ""
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:773
+#: src/fn-math.c:726
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1118,7 +1115,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:810
+#: src/fn-math.c:763
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -1129,7 +1126,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:854
+#: src/fn-math.c:807
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -1139,7 +1136,7 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-#: src/fn-math.c:884
+#: src/fn-math.c:837
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1150,7 +1147,7 @@ msgid ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: src/fn-math.c:911
+#: src/fn-math.c:864
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -1159,7 +1156,7 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:940
+#: src/fn-math.c:893
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -1167,7 +1164,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:963
+#: src/fn-math.c:916
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -1176,7 +1173,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: src/fn-math.c:990
+#: src/fn-math.c:943
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1185,11 +1182,11 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/fn-math.c:1008
+#: src/fn-math.c:961
 msgid "log2: domain error"
 msgstr ""
 
-#: src/fn-math.c:1014
+#: src/fn-math.c:967
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1198,11 +1195,11 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/fn-math.c:1033
+#: src/fn-math.c:986
 msgid "log10: domain error"
 msgstr ""
 
-#: src/fn-math.c:1039
+#: src/fn-math.c:992
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -1211,7 +1208,7 @@ msgid ""
 "Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: src/fn-math.c:1076
+#: src/fn-math.c:1029
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1220,7 +1217,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/fn-math.c:1097
+#: src/fn-math.c:1050
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -1230,7 +1227,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1115
+#: src/fn-math.c:1068
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1241,7 +1238,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:1135
+#: src/fn-math.c:1088
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1252,7 +1249,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/fn-math.c:1155
+#: src/fn-math.c:1108
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1261,7 +1258,7 @@ msgid ""
 "@SEEALSO=POW"
 msgstr ""
 
-#: src/fn-math.c:1178
+#: src/fn-math.c:1131
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1270,7 +1267,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1199
+#: src/fn-math.c:1152
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -1282,7 +1279,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1224
+#: src/fn-math.c:1177
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -1291,7 +1288,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1246
+#: src/fn-math.c:1199
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -1300,7 +1297,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/fn-math.c:1300
+#: src/fn-math.c:1253
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -1309,7 +1306,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1321
+#: src/fn-math.c:1274
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1320,7 +1317,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1341
+#: src/fn-math.c:1294
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1331,7 +1328,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1361
+#: src/fn-math.c:1314
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1340,7 +1337,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1380
+#: src/fn-math.c:1333
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1351,7 +1348,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1413
+#: src/fn-math.c:1366
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -1360,7 +1357,7 @@ msgid ""
 "@SEEALSO=ODD"
 msgstr ""
 
-#: src/fn-math.c:1444
+#: src/fn-math.c:1397
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -1369,7 +1366,7 @@ msgid ""
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: src/fn-math.c:1475
+#: src/fn-math.c:1428
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -1379,7 +1376,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/fn-math.c:1506
+#: src/fn-math.c:1459
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -1388,7 +1385,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/fn-math.c:1527
+#: src/fn-math.c:1480
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(num)\n"
@@ -1397,7 +1394,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1552
+#: src/fn-math.c:1505
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -1406,7 +1403,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: src/fn-math.c:1574
+#: src/fn-math.c:1527
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -1417,7 +1414,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/fn-math.c:1600
+#: src/fn-math.c:1553
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -1431,7 +1428,7 @@ msgid ""
 "@SEEALSO=ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1638
+#: src/fn-math.c:1591
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -1445,7 +1442,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1673
+#: src/fn-math.c:1626
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -1459,7 +1456,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN"
 msgstr ""
 
-#: src/fn-math.c:1711
+#: src/fn-math.c:1664
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -1472,7 +1469,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1755
+#: src/fn-math.c:1708
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -1485,11 +1482,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1799
+#: src/fn-math.c:1752
 msgid "#Unimplemented!"
 msgstr ""
 
-#: src/fn-math.c:1830
+#: src/fn-math.c:1783
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -1503,12 +1500,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1876 src/fn-math.c:1890 src/fn-math.c:1962 src/fn-math.c:1976
-#: src/fn-math.c:2048 src/fn-math.c:2062
+#: src/fn-math.c:1829 src/fn-math.c:1843 src/fn-math.c:1915 src/fn-math.c:1929
+#: src/fn-math.c:2001 src/fn-math.c:2015
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/fn-math.c:1917
+#: src/fn-math.c:1870
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1522,7 +1519,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2003
+#: src/fn-math.c:1956
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1536,7 +1533,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2089
+#: src/fn-math.c:2042
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -1558,7 +1555,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2169
+#: src/fn-math.c:2122
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -1569,7 +1566,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2281
+#: src/fn-math.c:2234
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -1581,7 +1578,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2380
+#: src/fn-math.c:2333
 msgid "Maths / Trig."
 msgstr ""
 
@@ -1623,7 +1620,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/fn-misc.c:159
+#: src/fn-misc.c:160
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -1631,7 +1628,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-misc.c:175
+#: src/fn-misc.c:176
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -1640,7 +1637,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/fn-misc.c:199
+#: src/fn-misc.c:200
 msgid "Miscellaneous"
 msgstr ""
 
@@ -1863,6 +1860,11 @@ msgid ""
 "error. \n"
 "@SEEALSO=FIND"
 msgstr ""
+
+#: src/fn-string.c:1080
+#, fuzzy
+msgid "String"
+msgstr "Varoitus"
 
 #: src/format.c:397
 msgid "black"
@@ -2166,7 +2168,7 @@ msgstr ""
 "sisällön valitulla alueella. Oletko varma, että haluat\n"
 "korvata sisällön?"
 
-#: src/item-cursor.c:580 src/item-grid.c:530 src/workbook.c:983
+#: src/item-cursor.c:580 src/item-grid.c:530 src/workbook.c:989
 msgid "Copy"
 msgstr "Kopioi"
 
@@ -2198,11 +2200,11 @@ msgstr "Siirrä soluja alas ja kopioi"
 msgid "Shift cells right and move"
 msgstr "Siirrä soluja oikealle ja kopioi"
 
-#: src/item-grid.c:529 src/workbook.c:980
+#: src/item-grid.c:529 src/workbook.c:986
 msgid "Cut"
 msgstr "Leikkaa"
 
-#: src/item-grid.c:531 src/workbook.c:986
+#: src/item-grid.c:531 src/workbook.c:992
 msgid "Paste"
 msgstr "Liitä"
 
@@ -2276,475 +2278,656 @@ msgstr "Rivi: %d"
 msgid "Column: %s"
 msgstr "Sarake: %s"
 
-#: src/sheet.c:2565
+#: src/sheet.c:2696
 msgid "The command `"
 msgstr "Komentoa `"
 
-#: src/sheet.c:2567
+#: src/sheet.c:2698
 #, fuzzy
 msgid "' cannot be performed with multiple selections"
 msgstr "' ei voida suorittaa useille valinnoille"
 
-#: src/sheet.c:2582
+#: src/sheet.c:2713
 msgid "copy"
 msgstr "kopioi"
 
-#: src/sheet.c:2607
+#: src/sheet.c:2738
 msgid "cut"
 msgstr "leikkaa"
 
-#: src/sheet.c:2656
+#: src/sheet.c:2787
 msgid "paste"
 msgstr "liitä"
 
-#: src/sheet.c:3553
+#: src/sheet.c:3684
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Objektia %s ei voitu aktivoida"
 
-#: src/sheet.c:3565
+#: src/sheet.c:3696
 msgid "I was unable to the bind object"
 msgstr "Objektia ei voitu liittää"
 
-#: src/workbook.c:373
+#: src/workbook.c:360
 msgid "Warning"
 msgstr "Varoitus"
 
-#: src/workbook.c:381
+#: src/workbook.c:368
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Työkirjassa %s on tallentamattomia muutoksia, talletetaanko?"
 
-#: src/workbook.c:384
+#: src/workbook.c:371
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Työkirjassa on tallentamattomia muutoksia, tallennetaanko?"
 
-#: src/workbook.c:573
+#: src/workbook.c:560
 msgid "Insert cols"
 msgstr "Lisää sarakkeita"
 
-#: src/workbook.c:589
+#: src/workbook.c:576
 msgid "Insert rows"
 msgstr "Lisää rivejä"
 
-#: src/workbook.c:682
+#: src/workbook.c:669
 msgid ">mm/dd/yyyy"
 msgstr ">pp/kk/vvvv"
 
-#: src/workbook.c:701
+#: src/workbook.c:688
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
-#: src/workbook.c:786
+#: src/workbook.c:785
 msgid "_New"
 msgstr "_Uusi"
 
-#: src/workbook.c:786
+#: src/workbook.c:785
 msgid "Create a new spreadsheet"
 msgstr "Luo uusi taulukko"
 
-#: src/workbook.c:797
+#: src/workbook.c:796
 msgid "Plu_g-ins..."
 msgstr "L_isiöt..."
 
-#: src/workbook.c:797
+#: src/workbook.c:796
 msgid "Gnumeric plugins"
 msgstr "Gnumeric-lisiöt"
 
-#: src/workbook.c:811
+#: src/workbook.c:817
 msgid "_All"
 msgstr "_Kaikki"
 
-#: src/workbook.c:812
+#: src/workbook.c:818
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Tyhjää valittujen solujen muotoilut, kommentit ja sisällöt"
 
-#: src/workbook.c:814
+#: src/workbook.c:820
 msgid "_Formats"
 msgstr "_Muotoilut"
 
-#: src/workbook.c:815
+#: src/workbook.c:821
 msgid "Clear the selected cells' formats"
 msgstr "Tyhjää valittujen solujen muotoilut"
 
-#: src/workbook.c:816
+#: src/workbook.c:822
 msgid "_Comments"
 msgstr "_Kommentit"
 
-#: src/workbook.c:817
+#: src/workbook.c:823
 msgid "Clear the selected cells' comments"
 msgstr "Tyhjää valittujen solujen kommentit"
 
-#: src/workbook.c:818
+#: src/workbook.c:824
 msgid "_Content"
 msgstr "_Sisältö"
 
-#: src/workbook.c:819
+#: src/workbook.c:825
 msgid "Clear the selected cells' contents"
 msgstr "Tyhjää valittujen solujen sisällöt"
 
-#: src/workbook.c:827
+#: src/workbook.c:833
 msgid "P_aste special..."
 msgstr "Liitä _määräten..."
 
-#: src/workbook.c:828
+#: src/workbook.c:834
 msgid "C_lear"
 msgstr "_Tyhjää"
 
-#: src/workbook.c:829
+#: src/workbook.c:835
 msgid "Clear the selected cell(s)"
 msgstr "Tyhjää valitut solut"
 
-#: src/workbook.c:833
+#: src/workbook.c:839
 msgid "_Select All"
 msgstr "_Valitse kaikki"
 
-#: src/workbook.c:834
+#: src/workbook.c:840
 msgid "Select all cells in the spreadsheet"
 msgstr "Valitsee taulukon kaikki solut"
 
-#: src/workbook.c:836
+#: src/workbook.c:842
 msgid "_Goto cell.."
 msgstr "M_ene soluun..."
 
-#: src/workbook.c:837
+#: src/workbook.c:843
 msgid "Jump to a specified cell"
 msgstr "Hyppää tiettyyn soluun"
 
-#: src/workbook.c:843
+#: src/workbook.c:849
 msgid "Insert object..."
 msgstr "Lisää ohjekti..."
 
-#: src/workbook.c:844
+#: src/workbook.c:850
 msgid "Inserts a Bonobo object"
 msgstr "Lisää Bonobo-objektin"
 
-#: src/workbook.c:851
+#: src/workbook.c:857
 msgid "_Define cell names"
 msgstr "_Määrittele solujen nimet"
 
-#: src/workbook.c:855
+#: src/workbook.c:861
 msgid "_Recalculate"
 msgstr "L_aske uudelleen"
 
-#: src/workbook.c:856
+#: src/workbook.c:862
 msgid "Recalculate the spreadsheet"
 msgstr "Laskee taulukon sisällön uudelleen"
 
-#: src/workbook.c:864
+#: src/workbook.c:870
 msgid "_Zoom..."
 msgstr "_Suurenna..."
 
-#: src/workbook.c:865
+#: src/workbook.c:871
 msgid "Zoom the spreadsheet in or out"
 msgstr "Lähentää tai loitontaa taulukkoa"
 
-#: src/workbook.c:872
+#: src/workbook.c:878
 msgid "Current _date"
 msgstr "Tämänhetkinen _päiväys"
 
-#: src/workbook.c:873
+#: src/workbook.c:879
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Lisää tämänhetkisen päiväyksen valittuihin soluihin"
 
-#: src/workbook.c:876
+#: src/workbook.c:882
 msgid "Current _time"
 msgstr "Tämänhetkinen _aika"
 
-#: src/workbook.c:877
+#: src/workbook.c:883
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Lisää tämänhetkisen ajan valittuihin soluihin"
 
-#: src/workbook.c:884 src/workbook.c:930
+#: src/workbook.c:890 src/workbook.c:936
 msgid "_Sheet"
 msgstr "_Taulu"
 
-#: src/workbook.c:884
+#: src/workbook.c:890
 msgid "Insert a new spreadsheet"
 msgstr "Lisää uusi taulu"
 
-#: src/workbook.c:886 src/workbook.c:924
+#: src/workbook.c:892 src/workbook.c:930
 msgid "_Cells..."
 msgstr "_Soluja..."
 
-#: src/workbook.c:886
+#: src/workbook.c:892
 msgid "Insert new cells"
 msgstr "Lisää uusia soluja"
 
-#: src/workbook.c:888
+#: src/workbook.c:894
 msgid "_Rows"
 msgstr "_Rivi"
 
-#: src/workbook.c:888
+#: src/workbook.c:894
 msgid "Insert new rows"
 msgstr "Lisää uuden rivin"
 
-#: src/workbook.c:890
+#: src/workbook.c:896
 msgid "C_olumns"
 msgstr "S_arake"
 
-#: src/workbook.c:890
+#: src/workbook.c:896
 msgid "Insert new columns"
 msgstr "Lisää uuden sarakkeen"
 
-#: src/workbook.c:895
+#: src/workbook.c:901
 msgid "_Add/modify comment"
 msgstr "_Lisää/muokkaa kommenttia"
 
-#: src/workbook.c:896
+#: src/workbook.c:902
 msgid "Edit the selected cell's comment"
 msgstr "Muokkaa valitun solun kommenttia"
 
-#: src/workbook.c:897
+#: src/workbook.c:903
 msgid "_Special"
 msgstr "_Erityinen"
 
-#: src/workbook.c:906 src/workbook.c:912
+#: src/workbook.c:912 src/workbook.c:918
 msgid "_Autoadjust"
 msgstr "_Automaattisäätö"
 
-#: src/workbook.c:907
+#: src/workbook.c:913
 msgid "_Width"
 msgstr "_Leveys"
 
-#: src/workbook.c:913
+#: src/workbook.c:919
 msgid "_Height"
 msgstr "_Korkeus"
 
-#: src/workbook.c:918
+#: src/workbook.c:924
 msgid "_Change name"
 msgstr "_Vaihda nimi"
 
-#: src/workbook.c:925
+#: src/workbook.c:931
 msgid "Modify the formatting of the selected cells"
 msgstr "Muokkaa valittujen solujen muotoilua"
 
-#: src/workbook.c:928
+#: src/workbook.c:934
 msgid "C_olumn"
 msgstr "S_arake"
 
-#: src/workbook.c:929
+#: src/workbook.c:935
 msgid "_Row"
 msgstr "_Rivi"
 
-#: src/workbook.c:937
+#: src/workbook.c:943
 msgid "_Sort"
 msgstr "_Järjestä"
 
-#: src/workbook.c:938
+#: src/workbook.c:944
 msgid "Sort the selected cells"
 msgstr "Järjestää valitut solut"
 
-#: src/workbook.c:939
+#: src/workbook.c:945
 msgid "_Goal Seek..."
 msgstr "_Tuloksen etsintä..."
 
-#: src/workbook.c:941
+#: src/workbook.c:947
 msgid "_Solver..."
 msgstr "_Ratkaisija..."
 
-#: src/workbook.c:957
+#: src/workbook.c:963
 msgid "_Insert"
 msgstr "_Lisää"
 
-#: src/workbook.c:958
+#: src/workbook.c:964
 msgid "F_ormat"
 msgstr "M_uotoile"
 
-#: src/workbook.c:959
+#: src/workbook.c:965
 msgid "_Tools"
 msgstr "_Työkalut"
 
-#: src/workbook.c:968
+#: src/workbook.c:974
 msgid "New"
 msgstr "Uusi"
 
-#: src/workbook.c:968
+#: src/workbook.c:974
 msgid "Creates a new sheet"
 msgstr "Luo uuden taulun"
 
-#: src/workbook.c:971
+#: src/workbook.c:977
 msgid "Open"
 msgstr "Avaa"
 
-#: src/workbook.c:971
+#: src/workbook.c:977
 msgid "Opens an existing workbook"
 msgstr "Avaa olemassaolevan työkirjan"
 
-#: src/workbook.c:974
+#: src/workbook.c:980
 msgid "Save"
 msgstr "Talleta"
 
-#: src/workbook.c:974
+#: src/workbook.c:980
 msgid "Saves the workbook"
 msgstr "Tallettaa työkirja"
 
-#: src/workbook.c:980
+#: src/workbook.c:986
 msgid "Cuts the selection to the clipboard"
 msgstr "Leikkaa valitun alueen leikepöydälle"
 
-#: src/workbook.c:983
+#: src/workbook.c:989
 msgid "Copies the selection to the clipboard"
 msgstr "Kopioi valitun alueen leikepöydälle"
 
-#: src/workbook.c:986
+#: src/workbook.c:992
 msgid "Pastes the clipboard"
 msgstr "Liittää leikepöydän sisällön"
 
-#: src/workbook.c:992
+#: src/workbook.c:998
 msgid "Left align"
 msgstr "Tasaus vasemmalle"
 
-#: src/workbook.c:992
+#: src/workbook.c:998
 msgid "Left justifies the cell contents"
 msgstr "Tasaa solu(je)n sisällön vasemmalle"
 
-#: src/workbook.c:995
+#: src/workbook.c:1001
 msgid "Centers the cell contents"
 msgstr "Keskittää solu(je)n sisällön"
 
-#: src/workbook.c:998
+#: src/workbook.c:1004
 msgid "Right align"
 msgstr "Tasaus oikealle"
 
-#: src/workbook.c:998
+#: src/workbook.c:1004
 msgid "Right justifies the cell contents"
 msgstr "Tasaa solu(je)n sisällön oikealle"
 
-#: src/workbook.c:1003
+#: src/workbook.c:1009
 msgid "Bold"
 msgstr "Lihavoi"
 
-#: src/workbook.c:1003
+#: src/workbook.c:1009
 msgid "Sets the bold font"
 msgstr "Asettaa lihavoidun kirjasintyypin"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1012
 msgid "Italic"
 msgstr "Kursivointi"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1012
 msgid "Makes the font italic"
 msgstr "Asettaa kursivoidun kirjasintyypin"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1019
 msgid "Graphic"
 msgstr "Grafiikka"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1019
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Luo grafiikkaohjektin tauluun"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1023
 msgid "Line"
 msgstr "Viiva"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1023
 msgid "Creates a line object"
 msgstr "Luo viivaobjektin"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1026
 msgid "Arrow"
 msgstr "Nuoli"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1026
 msgid "Creates an arrow object"
 msgstr "Luo nuoliobjektin"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1029
 msgid "Rectangle"
 msgstr "Neliö"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1029
 msgid "Creates a rectangle object"
 msgstr "Luo neliöobjektin"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1032
 msgid "Ellipse"
 msgstr "Ellipsi"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1032
 msgid "Creates an ellipse object"
 msgstr "Luo ellipsiobjektin"
 
-#: src/workbook.c:1163
+#: src/workbook.c:1169
 msgid "You should introduce a valid cell name"
 msgstr "Antamasi solun nimen pitää olla mahdollinen"
 
-#: src/workbook.c:1172
+#: src/workbook.c:1178
 msgid "Column out of range"
 msgstr "Sarake rajojen ulkopuolella"
 
-#: src/workbook.c:1178
+#: src/workbook.c:1184
 msgid "Row number out of range"
 msgstr "Rivi rajojen ulkopuolella"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1274
 msgid "Selection must be a single range"
 msgstr "Valinnan pitää olla yksi alue"
 
-#: src/workbook.c:1378
+#: src/workbook.c:1383
 msgid "Sum"
 msgstr "Summa"
 
-#: src/workbook.c:1379
+#: src/workbook.c:1384
 msgid "Min"
 msgstr "Minimi"
 
-#: src/workbook.c:1380
+#: src/workbook.c:1385
 msgid "Max"
 msgstr "Maksimi"
 
-#: src/workbook.c:1381
+#: src/workbook.c:1386
 msgid "Average"
 msgstr "Keskiarvo"
 
-#: src/workbook.c:1382
+#: src/workbook.c:1387
 msgid "Count"
 msgstr "Määrä"
 
-#: src/workbook.c:1588
+#: src/workbook.c:1579
 msgid "Untitled.gnumeric"
 msgstr "Nimetön.gnumeric"
 
-#: src/workbook.c:1688
+#: src/workbook.c:1684
 msgid "Zoom out"
 msgstr "Loitonna"
 
-#: src/workbook.c:1695
+#: src/workbook.c:1691
 msgid "Zoom in"
 msgstr "Lähennä"
 
-#: src/workbook.c:1780
+#: src/workbook.c:1786
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Oletko varma että haluat poistaa taulun `%s' "
 
-#: src/workbook.c:1799
+#: src/workbook.c:1805
 #, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr "Muut taulut riippuvat tämän taulun arvoista, en voi poistaa"
 
-#: src/workbook.c:1819
+#: src/workbook.c:1825
 msgid "Add another sheet"
 msgstr "Lisää uusi taulu"
 
-#: src/workbook.c:1820
+#: src/workbook.c:1826
 msgid "Remove this sheet"
 msgstr "Poista tämä taulu"
 
-#: src/workbook.c:2077 src/workbook.c:2113
+#: src/workbook.c:2083 src/workbook.c:2119
 #, c-format
 msgid "Sheet %d"
 msgstr "Taulu %d"
 
-#: src/workbook.c:2189
+#: src/workbook.c:2195
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:1667
-msgid "Gnumeric XML file format"
+#: src/xml-io.c:1798
+#, fuzzy
+msgid "Old Gnumeric XML file format"
 msgstr "Gnumericin XML-tiedosto"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/print.glade.h:7
+msgid "window2"
+msgstr ""
+
+#: src/print.glade.h:8
+#, fuzzy
+msgid "Orientation"
+msgstr "Operaatio"
+
+#: src/print.glade.h:11
+#, fuzzy
+msgid "Scale"
+msgstr "Esimerkki:"
+
+#: src/print.glade.h:12 src/print.glade.h:13
+#, fuzzy
+msgid "Adjust to"
+msgstr "_Automaattisäätö"
+
+#: src/print.glade.h:14
+#, c-format
+msgid "% of the original size"
+msgstr ""
+
+#: src/print.glade.h:15
+msgid "pages wider by "
+msgstr ""
+
+#: src/print.glade.h:16
+msgid "pages of height"
+msgstr ""
+
+#: src/print.glade.h:17
+msgid "Paper size:"
+msgstr ""
+
+#: src/print.glade.h:18
+msgid "First page number:"
+msgstr ""
+
+#: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
+#: src/print.glade.h:48 src/print.glade.h:56
+#, fuzzy
+msgid "Print"
+msgstr "Prosentti"
+
+#: src/print.glade.h:20 src/print.glade.h:33 src/print.glade.h:41
+#: src/print.glade.h:57
+msgid "Print preview"
+msgstr ""
+
+#: src/print.glade.h:21 src/print.glade.h:34 src/print.glade.h:42
+#: src/print.glade.h:58
+#, fuzzy
+msgid "Options"
+msgstr "Operaatio"
+
+#: src/print.glade.h:22 src/print.glade.h:59
+#, fuzzy
+msgid "Page"
+msgstr "Liitä"
+
+#: src/print.glade.h:23
+msgid "Superior:"
+msgstr ""
+
+#: src/print.glade.h:24
+msgid "Header:"
+msgstr ""
+
+#: src/print.glade.h:25
+msgid "Lower:"
+msgstr ""
+
+#: src/print.glade.h:26
+#, fuzzy
+msgid "Footer"
+msgstr "Kirjasin"
+
+#: src/print.glade.h:27
+#, fuzzy
+msgid "Center on page"
+msgstr "Keskitetty"
+
+#: src/print.glade.h:28
+#, fuzzy
+msgid "Horizontally"
+msgstr "Horisontaali"
+
+#: src/print.glade.h:29
+#, fuzzy
+msgid "Vertically"
+msgstr "Vertikaali"
+
+#: src/print.glade.h:30
+#, fuzzy
+msgid "Left:"
+msgstr "Vasen"
+
+#: src/print.glade.h:31
+#, fuzzy
+msgid "Right:"
+msgstr "Oikea"
+
+#: src/print.glade.h:35
+#, fuzzy
+msgid "Margins"
+msgstr "Minimi"
+
+#: src/print.glade.h:36
+msgid "sample goes here"
+msgstr ""
+
+#: src/print.glade.h:37
+msgid "Header"
+msgstr ""
+
+#: src/print.glade.h:38
+msgid "Footer:"
+msgstr ""
+
+#: src/print.glade.h:39
+msgid "sample goes jere"
+msgstr ""
+
+#: src/print.glade.h:43
+msgid "Headers and footers"
+msgstr ""
+
+#: src/print.glade.h:44
+msgid "Print region:"
+msgstr ""
+
+#: src/print.glade.h:45
+msgid "Titles to print"
+msgstr ""
+
+#: src/print.glade.h:46
+msgid "Rows to repear on the left side:"
+msgstr ""
+
+#: src/print.glade.h:47
+msgid "Rows to repeat on the upper region:"
+msgstr ""
+
+#: src/print.glade.h:49
+#, fuzzy
+msgid "Division lines"
+msgstr "Vinot viivat"
+
+#: src/print.glade.h:50
+msgid "Black and white"
+msgstr ""
+
+#: src/print.glade.h:51
+msgid "Titles of rows and columns."
+msgstr ""
+
+#: src/print.glade.h:52
+#, fuzzy
+msgid "Comments"
+msgstr "_Kommentit"
+
+#: src/print.glade.h:53
+msgid "Page order"
+msgstr ""
+
+#: src/print.glade.h:54
+msgid "Down, then right"
+msgstr ""
+
+#: src/print.glade.h:55
+msgid "RIght, then down"
+msgstr ""
 
 #~ msgid "Division by zero"
 #~ msgstr "Jako nollalla"

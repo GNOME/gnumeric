@@ -17,16 +17,14 @@ Gnumeric Spread Sheet task list
    (This is not a claim that these are all.)
 
 * Printing
-  * libglade localization stinrgs.
   * Screen layout is broken for right justified text.
   * Save print information in workbook
   * Load print information from workbook
   * Preview
   * Print setup: 
-    * connect Print Preview, Options buttons
+    * Implement Print Preview, Options buttons
     * Improve layout 
     * Provide GUI for margin editing.
-    * Save options if use presses print from print-setup dialog.
   * Add headers and footers
   * Add left, middle right header/footer support
   * Add "repeat on top" support.

@@ -1,3 +1,15 @@
+1999-06-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/dialog-printer-setup.c (load_image): Use a constant relative
+	to the Gnumeric installation directory, do not use the gnome
+	pixmap path routine.
+
+	* src/workbook.c: Add print icon to the toolbar.
+
+	* src/dialog-printer-setup.c (do_print_cb): Fetch settings when
+	the user presses print from here.
+	(do_setup_main_dialog): Hide non working widgets.
+
 1999-06-28  Michael Meeks  <michael@edenproject.org>
 
 	* CHANGES: Updated for new release.

@@ -59,7 +59,12 @@ typedef struct {
 	const GnomePaper *current_paper;
 
 	PreviewInfo preview;
+
+	GtkWidget *icon_rd;
+	GtkWidget *icon_dr;
 } dialog_print_info_t;
+
+static void fetch_settings (dialog_print_info_t *dpi);
 
 static double
 unit_into_to_points (UnitInfo *ui)
@@ -73,7 +78,7 @@ load_image (const char *name)
 	GtkWidget *image;
 	char *path;
 	
-	path = gnome_unconditional_pixmap_file (name);
+	path = g_strconcat (GNUMERIC_ICONDIR "/", name, NULL);
 	image = gnome_pixmap_new_from_file (path);
 	g_free (path);
 
@@ -306,12 +311,45 @@ do_setup_hf (dialog_print_info_t *dpi)
 }
 
 static void
+display_order_icon (GtkToggleButton *toggle, dialog_print_info_t *dpi)
+{
+	GtkWidget *show, *hide;
+	
+	if (toggle->active){
+		show = dpi->icon_rd;
+		hide = dpi->icon_dr;
+	} else {
+		hide = dpi->icon_rd;
+		show = dpi->icon_dr;
+	}
+
+	gtk_widget_show (show);
+	gtk_widget_hide (hide);
+}
+
+static void
 do_setup_page_info (dialog_print_info_t *dpi)
 {
 	GtkWidget *divisions = glade_xml_get_widget (dpi->gui, "check-print-divisions");
 	GtkWidget *bw        = glade_xml_get_widget (dpi->gui, "check-black-white");
 	GtkWidget *titles    = glade_xml_get_widget (dpi->gui, "check-print-titles");
 	GtkWidget *order     = glade_xml_get_widget (dpi->gui, "radio-order-right");
+	GtkWidget *table     = glade_xml_get_widget (dpi->gui, "page-order-table");
+
+	dpi->icon_rd = load_image ("right-down.png");
+	dpi->icon_dr = load_image ("down-right.png");
+	
+	gtk_widget_hide (dpi->icon_dr);
+	gtk_widget_hide (dpi->icon_rd);
+	
+	gtk_table_attach (
+		GTK_TABLE (table), dpi->icon_rd,
+		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+	gtk_table_attach (
+		GTK_TABLE (table), dpi->icon_dr,
+		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+
+	gtk_signal_connect (GTK_OBJECT (order), "toggle", GTK_SIGNAL_FUNC(display_order_icon), dpi);
 	
 	if (dpi->pi->print_line_divisions)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (divisions), TRUE);
@@ -406,9 +444,10 @@ do_setup_page (dialog_print_info_t *dpi)
 }
 
 static void
-do_print_cb (GtkWidget *w, Workbook *wb)
+do_print_cb (GtkWidget *w, dialog_print_info_t *dpi)
 {
-	workbook_print (wb);
+	fetch_settings (dpi);
+	workbook_print (dpi->workbook);
 }
 
 static void
@@ -442,8 +481,26 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 
 		w = glade_xml_get_widget (dpi->gui, s);
 		gtk_signal_connect (GTK_OBJECT (w), "clicked",
-				    GTK_SIGNAL_FUNC (do_print_cb), dpi->workbook);
+				    GTK_SIGNAL_FUNC (do_print_cb), dpi);
 		g_free (s);
+	}
+
+	/*
+	 * Hide non-functional buttons for now
+	 */
+
+	for (i = 1; i < 5; i++){
+		char *preview = g_strdup_printf ("preview-%d", i);
+		char *options = g_strdup_printf ("options-%d", i);
+		GtkWidget *w;
+
+		w = glade_xml_get_widget (dpi->gui, preview);
+		gtk_widget_hide (w);
+		w = glade_xml_get_widget (dpi->gui, options);
+		gtk_widget_hide (w);
+
+		g_free (preview);
+		g_free (options);
 	}
 }
 
@@ -565,6 +622,15 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 }
 
 static void
+fetch_settings (dialog_print_info_t *dpi)
+{
+	do_fetch_page (dpi);
+	do_fetch_margins (dpi);
+	do_fetch_hf (dpi);
+	do_fetch_page_info (dpi);
+}
+
+static void
 dialog_print_info_destroy (dialog_print_info_t *dpi)
 {
 	gtk_object_unref (GTK_OBJECT (dpi->gui));
@@ -591,11 +657,7 @@ dialog_printer_setup (Workbook *wb)
 	v = gnome_dialog_run (GNOME_DIALOG (dpi->dialog));
 
 	if (v == 0){
-		do_fetch_page (dpi);
-		do_fetch_margins (dpi);
-		do_fetch_hf (dpi);
-		do_fetch_page_info (dpi);
-
+		fetch_settings (dpi);
 		print_info_save (dpi->pi);
 	}
 

@@ -10,10 +10,16 @@
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
   <use_widget_names>False</use_widget_names>
+  <output_main_file>False</output_main_file>
+  <output_support_files>True</output_support_files>
+  <output_build_files>True</output_build_files>
+  <backup_source_files>True</backup_source_files>
   <main_source_file>gladesrc.c</main_source_file>
   <main_header_file>gladesrc.h</main_header_file>
   <handler_source_file>gladesig.c</handler_source_file>
   <handler_header_file>gladesig.h</handler_header_file>
+  <support_source_file>support.c</support_source_file>
+  <support_header_file>support.h</support_header_file>
 </project>
 
 <widget>
@@ -90,6 +96,7 @@
 	      </child>
 	      <label>Orientation</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -191,6 +198,7 @@
 	      </child>
 	      <label>Scale</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -353,6 +361,7 @@
 	      </child>
 	      <label>% of the original size</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -378,6 +387,7 @@
 	      </child>
 	      <label>pages wider by </label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -435,6 +445,7 @@
 	      </child>
 	      <label>pages of height</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -497,6 +508,7 @@
 	      </child>
 	      <label>Paper size:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>1</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>6</xpad>
@@ -568,6 +580,7 @@
 	      </child>
 	      <label>First page number:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>1</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>7</xpad>
@@ -626,6 +639,19 @@
       </widget>
 
       <widget>
+	<class>GtkLabel</class>
+	<child_name>Notebook:tab</child_name>
+	<name>label1</name>
+	<label>Page</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+      </widget>
+
+      <widget>
 	<class>GtkHBox</class>
 	<name>hbox6</name>
 	<border_width>2</border_width>
@@ -666,6 +692,7 @@
 	    </child>
 	    <label>Superior:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -691,6 +718,7 @@
 	    </child>
 	    <label>Header:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -716,6 +744,7 @@
 	    </child>
 	    <label>Lower:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -741,6 +770,7 @@
 	    </child>
 	    <label>Footer</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -802,6 +832,7 @@
 	      </child>
 	      <label>Center on page</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -887,6 +918,7 @@
 	    </child>
 	    <label>Left:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>1</yalign>
 	    <xpad>0</xpad>
@@ -912,6 +944,7 @@
 	    </child>
 	    <label>Right:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>1</yalign>
 	    <xpad>0</xpad>
@@ -969,6 +1002,19 @@
       </widget>
 
       <widget>
+	<class>GtkLabel</class>
+	<child_name>Notebook:tab</child_name>
+	<name>label2</name>
+	<label>Margins</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+      </widget>
+
+      <widget>
 	<class>GtkHBox</class>
 	<name>hbox9</name>
 	<border_width>2</border_width>
@@ -997,6 +1043,7 @@
 	    </child>
 	    <label>sample goes here</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -1013,6 +1060,7 @@
 	    </child>
 	    <label>Header</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -1048,6 +1096,7 @@
 	    </child>
 	    <label>Footer:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -1079,6 +1128,7 @@
 	    </child>
 	    <label>sample goes jere</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
@@ -1136,6 +1186,19 @@
       </widget>
 
       <widget>
+	<class>GtkLabel</class>
+	<child_name>Notebook:tab</child_name>
+	<name>label3</name>
+	<label>Headers and footers</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+      </widget>
+
+      <widget>
 	<class>GtkHBox</class>
 	<name>hbox10</name>
 	<border_width>2</border_width>
@@ -1174,6 +1237,7 @@
 	      </child>
 	      <label>Print region:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -1215,9 +1279,9 @@
 		<expand>False</expand>
 		<fill>True</fill>
 	      </child>
-	      <visible>False</visible>
 	      <label>Titles to print</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -1232,7 +1296,6 @@
 		<expand>True</expand>
 		<fill>True</fill>
 	      </child>
-	      <visible>False</visible>
 	    </widget>
 	  </widget>
 
@@ -1244,7 +1307,6 @@
 	      <expand>True</expand>
 	      <fill>True</fill>
 	    </child>
-	    <visible>False</visible>
 	    <rows>2</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
@@ -1268,8 +1330,9 @@
 		<xfill>True</xfill>
 		<yfill>True</yfill>
 	      </child>
-	      <label>Rows to repear on the left side:</label>
+	      <label>Columns to repeat on the left side:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>1</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>2</xpad>
@@ -1293,9 +1356,9 @@
 		<xfill>True</xfill>
 		<yfill>True</yfill>
 	      </child>
-	      <visible>False</visible>
 	      <label>Rows to repeat on the upper region:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>1</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>2</xpad>
@@ -1372,6 +1435,7 @@
 	      </child>
 	      <label>Print</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -1502,6 +1566,7 @@
 		</child>
 		<label>Comments</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
 		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xpad>0</xpad>
@@ -1545,6 +1610,7 @@
 	      </child>
 	      <label>Page order</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -1563,60 +1629,65 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkHBox</class>
-	    <name>hbox16</name>
+	    <class>GtkTable</class>
+	    <name>page-order-table</name>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
 	      <fill>True</fill>
 	    </child>
-	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <rows>2</rows>
+	    <columns>2</columns>
+	    <homogeneous>True</homogeneous>
+	    <row_spacing>0</row_spacing>
+	    <column_spacing>0</column_spacing>
 
 	    <widget>
-	      <class>GtkVBox</class>
-	      <name>vbox6</name>
+	      <class>GtkRadioButton</class>
+	      <name>radio-order-down</name>
 	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
+		<left_attach>0</left_attach>
+		<right_attach>1</right_attach>
+		<top_attach>0</top_attach>
+		<bottom_attach>1</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>True</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
 	      </child>
-	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
-
-	      <widget>
-		<class>GtkRadioButton</class>
-		<name>radio-order-down</name>
-		<child>
-		  <padding>0</padding>
-		  <expand>True</expand>
-		  <fill>True</fill>
-		</child>
-		<can_focus>True</can_focus>
-		<label>Down, then right</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>page-order</group>
-	      </widget>
-
-	      <widget>
-		<class>GtkRadioButton</class>
-		<name>radio-order-right</name>
-		<child>
-		  <padding>0</padding>
-		  <expand>True</expand>
-		  <fill>True</fill>
-		</child>
-		<can_focus>True</can_focus>
-		<label>RIght, then down</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>page-order</group>
-	      </widget>
+	      <can_focus>True</can_focus>
+	      <label>Down, then right</label>
+	      <active>False</active>
+	      <draw_indicator>True</draw_indicator>
+	      <group>page-order</group>
 	    </widget>
 
 	    <widget>
-	      <class>Placeholder</class>
+	      <class>GtkRadioButton</class>
+	      <name>radio-order-right</name>
+	      <child>
+		<left_attach>0</left_attach>
+		<right_attach>1</right_attach>
+		<top_attach>1</top_attach>
+		<bottom_attach>2</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>True</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	      <can_focus>True</can_focus>
+	      <label>RIght, then down</label>
+	      <active>False</active>
+	      <draw_indicator>True</draw_indicator>
+	      <group>page-order</group>
 	    </widget>
 	  </widget>
 	</widget>
@@ -1673,45 +1744,10 @@
       <widget>
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
-	<name>label1</name>
-	<label>Page</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>label2</name>
-	<label>Margins</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>label3</name>
-	<label>Headers and footers</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
 	<name>label4</name>
 	<label>Page</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
 	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
@@ -1720,10 +1756,25 @@
     </widget>
 
     <widget>
-      <class>Placeholder</class>
+      <class>GtkVBox</class>
+      <name>vbox6</name>
+      <child>
+	<padding>0</padding>
+	<expand>True</expand>
+	<fill>True</fill>
+      </child>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
+
+      <widget>
+	<class>Placeholder</class>
+      </widget>
+
+      <widget>
+	<class>Placeholder</class>
+      </widget>
     </widget>
   </widget>
 </widget>
 
 </GTK-Interface>
-

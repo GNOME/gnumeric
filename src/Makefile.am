@@ -17,6 +17,7 @@
 # exclusive.
 # 
 
+
 idldir   = $(datadir)/idl
 idl_DATA = Gnumeric.idl
 
@@ -34,10 +35,16 @@ endif
 
 #noinst_PROGRAMS = number-match
 
+#
+# Keep this in sync with ../icons/Makefile.am
+#
+iconsdir = $(datadir)/pixmaps/gnumeric
+
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
         -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
+	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/libglade			\
 	$(GNOME_PRINT_CFLAGS)				\
