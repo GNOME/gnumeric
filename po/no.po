@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-02-10 20:51+0100\n"
-"PO-Revision-Date: 2002-02-10 20:58+0100\n"
+"POT-Creation-Date: 2002-02-22 01:50+0100\n"
+"PO-Revision-Date: 2002-02-22 01:53+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -258,7 +258,7 @@ msgid ""
 msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr "Leser fil..."
 
@@ -313,7 +313,7 @@ msgstr "Feil under lesing av DIF-fil."
 msgid "Cannot get default sheet."
 msgstr "Kan ikke finne forvalgt ark."
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 msgid "Error while saving DIF file."
 msgstr "Feil under lagring av DIF-fil."
 
@@ -2903,7 +2903,7 @@ msgstr "Imaginær"
 msgid "Error '%s' opening workbook stream"
 msgstr "Feil «%s» under åpning av arbeidsbok-strøm"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Treet er tomt?"
 
@@ -6568,7 +6568,7 @@ msgid "Scale"
 msgstr "Skaler"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr "Ark"
 
@@ -7291,23 +7291,23 @@ msgstr "allerede definert globalt"
 msgid "'%s' has a circular reference"
 msgstr "«%s» har en sirkulær referanse"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "Innebygget"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:518 src/expr-name.c:530
 msgid "Error: no sheet"
 msgstr "Feil: ingen ark"
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr "Intern typefeil"
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr "Ukjent operator"
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr "Ukjent evalueringsfeil"
 
@@ -11577,9 +11577,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=Beregner gjennomsnittet av alle verdiene og cellene referert i argumentlisten. Dette er ekvivalent til summen av alle argumentene delt på antall argumenter. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=Beregner gjennomsnittet av alle verdiene og cellene referert i "
+"argumentlisten. Dette er ekvivalent til summen av alle argumentene delt på "
+"antall argumenter. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1.  Da får vi\n"
 "AVERAGE(A1:A5) er lik 23.2.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -13813,12 +13816,13 @@ msgstr ""
 "@SEEALSO=RANDBETWEEN"
 
 #: src/functions/fn-math.c:1235
+#, fuzzy
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
@@ -13832,44 +13836,55 @@ msgstr ""
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1258
+#, fuzzy
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=RandExp\n"
+"@SYNTAX=RandExp(b)\n"
+"@DESCRIPTION=RandExp returnerer et eksponentielt distribuert tilfeldig "
+"nummer.\n"
+"@EXAMPLES=\n"
+"RandExp(0.5).\n"
+"\n"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1284
+#, fuzzy
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,forsøk)\n"
-"@DESCRIPTION=RandBinom returnerer et binomialt distribuert tilfeldig "
-"nummer.\n"
-"Hvis @p < 0 eller @p > 1 returnerer RandBinom #NUM! feil. Hvis @forsøk < 0 "
-"returnerer RandBinom #NUM! feil.\n"
+"@FUNCTION=RANDNEGBINOM\n"
+"@SYNTAX=RANDNEGBINOM(p,feil)\n"
+"@DESCRIPTION=RANDNEGBINOM returnerer et negativt binomialt distribuert "
+"tilfeldig tall.\n"
+"Hvis @p < 0 eller @p > 1, returnerer RANDNEGBINOM en #NUM! feil. Hvis @feil "
+"er sann returnerer RANDNEGBINOM en #NUM! feil.\n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDNEGBINOM(0.5,2)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1314
+#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -13890,16 +13905,27 @@ msgstr ""
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1345
+#, fuzzy
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=RANDNEGBINOM\n"
+"@SYNTAX=RANDNEGBINOM(p,feil)\n"
+"@DESCRIPTION=RANDNEGBINOM returnerer et negativt binomialt distribuert "
+"tilfeldig tall.\n"
+"Hvis @p < 0 eller @p > 1, returnerer RANDNEGBINOM en #NUM! feil. Hvis @feil "
+"er sann returnerer RANDNEGBINOM en #NUM! feil.\n"
+"@EXAMPLES=\n"
+"RANDNEGBINOM(0.5,2)\n"
+"\n"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1373
 msgid ""
@@ -18208,7 +18234,7 @@ msgstr "Feil under åpning av filen «%s» for lesing."
 msgid "Unable to mmap the file."
 msgstr "Kunne ikke kjøre mmap på filen."
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 msgid "Cannot get file size."
 msgstr "Kan ikke finne filstørrelse."
 
@@ -18792,17 +18818,17 @@ msgstr "Fortolkningsfeil under forsøk på å lese data inn i arket"
 msgid "Error while trying to write csv file"
 msgstr "Feil under forsøk på å skrive csv-fil"
 
-#: src/stf.c:438
-msgid "Text File import (customizable)"
-msgstr "Tekstfil import (kan tilpasses)"
+#: src/stf.c:439
+msgid "Text import (defaults to csv)"
+msgstr "Tekstimport (standardvalg er csv)"
 
-#: src/stf.c:441
-msgid "Text File import (default csv)"
-msgstr "Tekstfil import (standard csv)"
+#: src/stf.c:443
+msgid "Text import (configurable)"
+msgstr "Tekstimport (konfigurerbar)"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
-msgstr "Tekstfil eksport (*.csv)"
+#: src/stf.c:447
+msgid "Text export (configurable)"
+msgstr "Teksteksport (konfigurerbar)"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
@@ -18864,32 +18890,42 @@ msgstr "Din fontmap2-fil har ikke en gyldig oppføring for Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Din fontmap2-fil kunne ikke finnes på forventet lokasjon."
 
-#: src/validation.c:138
+#: src/validation.c:137
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Celle %s kan ikke være tom"
 
-#: src/validation.c:158
+#: src/validation.c:151
 #, c-format
 msgid "'%f' is not an integer"
 msgstr "«%f» er ikke et heltall"
 
-#: src/validation.c:168
+#: src/validation.c:161
 #, c-format
-msgid "'%f' is not a number"
-msgstr "«%f» er ikke et tall"
+msgid "'%s' is an error"
+msgstr "«%s» er en feil"
 
-#: src/validation.c:175
+#: src/validation.c:169
+#, c-format
+msgid "'%s' is not a valid date"
+msgstr "%s er ikke en gyldig dato"
+
+#: src/validation.c:171
+#, c-format
+msgid "'%s' is not a valid time"
+msgstr "«%s» er ikke et gyldig klokkeslett"
+
+#: src/validation.c:173
 #, c-format
 msgid "'%s' is not a number"
 msgstr "«%s» er ikke et tall"
 
-#: src/validation.c:259
+#: src/validation.c:265
 #, c-format
 msgid "%s is not true."
 msgstr "%s er ikke sann"
 
-#: src/validation.c:272
+#: src/validation.c:278
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -18897,7 +18933,7 @@ msgstr ""
 "Denne verdien er ugyldig.\n"
 "Restriksjoner er satt for denne cellens innhold."
 
-#: src/validation.c:279
+#: src/validation.c:285
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Validering"
 
@@ -19484,32 +19520,60 @@ msgstr "Er ikke en autoformat mal"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Feil under forsøk på å bygge tre fra autoformat malfil"
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 msgid "Unparsable xml in clipboard"
 msgstr "Ugyldig xml på utklippstavlen"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 msgid "Clipboard is in unknown format"
 msgstr "Utklippstavlen har ukjent format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 msgid "Processing file..."
 msgstr "Prossesserer fil..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ikke nok minne til å opprette zlib dekomprimeringstilstand."
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikke en Gnumeric arbeidsbok"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#~ msgid ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,trials)\n"
+#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
+#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
+#~ "RandBinom returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,forsøk)\n"
+#~ "@DESCRIPTION=RandBinom returnerer et binomialt distribuert tilfeldig "
+#~ "nummer.\n"
+#~ "Hvis @p < 0 eller @p > 1 returnerer RandBinom #NUM! feil. Hvis @forsøk < "
+#~ "0 returnerer RandBinom #NUM! feil.\n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Tekstfil eksport (*.csv)"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "«%f» er ikke et tall"
 
 #~ msgid "Statistical methods"
 #~ msgstr "Statistiske metoder"
