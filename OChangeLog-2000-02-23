@@ -1,5 +1,13 @@
 1999-06-21  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-information.c (gnumeric_n): Implement.
+
+	* src/fn-information.c (gnumeric_iseven): Implement.
+	(gnumeric_isodd): Ditto.
+	(gnumeric_cell): Fix error message.
+	(gnumeric_info): Ditto.
+	(gnumeric_type): Partly implement.
+
 	* src/fn-math.c (gpow10): Rename from pow10 which colided with
  	something in Linux with libc5.  (Thanks to Alexander Jolk.)
 

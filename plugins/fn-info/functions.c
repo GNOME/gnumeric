@@ -4,11 +4,14 @@
  * Authors:
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  *  Jody Goldberg (jgoldberg@home.com)
+ *  Morten Welinder (terra@diku.dk)
  */
 #include <config.h>
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "number-match.h"
+#include <sys/systeminfo.h>
 
 
 static char *help_cell = {
@@ -27,28 +30,32 @@ gnumeric_cell (struct FunctionDefinition *n,
 {
 	char * info_type = argv [0]->v.str->str;
 
-	if (!strcasecmp(info_type, "address"))
-	{
+	if (!strcasecmp(info_type, "address")) {
 		/* Reference of the first cell in reference, as text. */
-	} else if (!strcasecmp (info_type, "col"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "col")) {
 		/* Column number of the cell in reference. */
-	} else if (!strcasecmp (info_type, "color"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "color")) {
 		/* 1 if the cell is formatted in color for negative values;
 		 * otherwise returns 0 (zero).
 		 */
-	} else if (!strcasecmp (info_type, "contents"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "contents")) {
 		/* Contents of the upper-left cell in reference. */
-	} else if (!strcasecmp (info_type, "filename"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "filename"))	{
 		/* Filename (including full path) of the file that contains
 		 * reference, as text. Returns empty text ("") if the worksheet
 		 * that contains reference has not yet been saved.
 		 */
-	} else if (!strcasecmp (info_type, "format"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "format")) {
 		/* Text value corresponding to the number format of the cell.
 		 * The text values for the various formats are shown in the
 		 * following table. Returns "-" at the end of the text value if
@@ -58,8 +65,9 @@ gnumeric_cell (struct FunctionDefinition *n,
 		 * 1 if the cell is formatted with parentheses for positive or
 		 * all values; otherwise returns 0.
 		 */
-	} else if (!strcasecmp (info_type, "prefix"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "prefix")) {
 		/* Text value corresponding to the "label prefix" of the cell.
 		 * Returns single quotation mark (') if the cell contains
 		 * left-aligned text, double quotation mark (") if the cell
@@ -68,25 +76,31 @@ gnumeric_cell (struct FunctionDefinition *n,
 		 * fill-aligned text, and empty text ("") if the cell contains
 		 * anything else.  
 		 */
-	} else if (!strcasecmp (info_type, "protect"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "protect")) {
 		/* 0 if the cell is not locked, and 1 if the cell is locked. */
-	} else if (!strcasecmp (info_type, "row"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "row")) {
 		/* Row number of the cell in reference. */
-	} else if (!strcasecmp (info_type, "type"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "type")) {
 		/* Text value corresponding to the type of data in the cell.
 		 * Returns "b" for blank if the cell is empty, "l" for label if
 		 * the cell contains a text constant, and "v" for value if the
 		 * cell contains anything else.
 		 */
-	} else if (!strcasecmp (info_type, "width"))
-	{
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "width")) {
 		/* Column width of the cell rounded off to an integer. Each
 		 * unit of column width is equal to the width of one character
 		 * in the default font size.
 		 */
+		*error_string = _("Unimplemented");
+		return NULL;
 	}
 
 	*error_string = _("Unknown info_type");
@@ -145,52 +159,87 @@ static char *help_info = {
 	   "@SEEALSO=")
 };
 
+static char *
+value_from_sysinfo (int syscommand)
+{
+	char buffer[1024];
+	long size = sizeof (buffer);
+	long result;
+	result = sysinfo (syscommand, buffer, size);
+	if (result == -1 || result >= size)
+		return NULL;
+	else
+		return g_strdup (buffer);
+}
+
+
 static Value *
 gnumeric_info (struct FunctionDefinition *n,
 	       Value *argv [], char **error_string)
 {
 	char const * const info_type = argv [0]->v.str->str;
-	if (!strcasecmp (info_type, "directory"))
-	{
+	if (!strcasecmp (info_type, "directory")) {
 		/* Path of the current directory or folder.  */
-	} else if (!strcasecmp (info_type, "memavail"))
-	{
-	    /* Amount of memory available, in bytes.  */
-	} else if (!strcasecmp (info_type, "memused"))
-	{
-	    /* Amount of memory being used for data.  */
-	} else if (!strcasecmp (info_type, "numfile"))
-	{
-	    /* Number of active worksheets.  */
-	} else if (!strcasecmp (info_type, "origin"))
-	{
-	    /* Absolute A1-style reference, as text, prepended with "$A:" for
-	     * Lotus 1-2-3 release 3.x compatibility. Returns the cell
-	     * reference of the top and leftmost cell visible in the window,
-	     * based on the current scrolling position.
-	     */
-	} else if (!strcasecmp (info_type, "osversion"))
-	{
-	    /* Current operating system version, as text.  */
-	} else if (!strcasecmp (info_type, "recalc"))
-	{
-	    /* Current recalculation mode; returns "Automatic" or "Manual".  */
-	} else if (!strcasecmp (info_type, "release"))
-	{
-	    /* Version of Microsoft Excel, as text.  */
-	} else if (!strcasecmp (info_type, "system"))
-	{
-	    /* Name of the operating environment:
-	     *		Macintosh = "mac"
-	     *		Windows = "pcdos"
-	     *		Linux = "linux" ??
-	     */
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "memavail")) {
+		/* Amount of memory available, in bytes.  */
+		return value_new_int (15 << 20);  /* Good enough... */
+	} else if (!strcasecmp (info_type, "memused")) {
+		/* Amount of memory being used for data.  */
+		return value_new_int (1 << 20);  /* Good enough... */
+	} else if (!strcasecmp (info_type, "numfile")) {
+		/* Number of active worksheets.  */
+		return value_new_int (1);  /* Good enough... */
+	} else if (!strcasecmp (info_type, "origin")) {
+		/* Absolute A1-style reference, as text, prepended with "$A:" for
+		 * Lotus 1-2-3 release 3.x compatibility. Returns the cell
+		 * reference of the top and leftmost cell visible in the window,
+		 * based on the current scrolling position.
+		 */
+		*error_string = _("Unimplemented");
+		return NULL;
+	} else if (!strcasecmp (info_type, "osversion")) {
+		/* Current operating system version, as text.  */
+		char *osname = value_from_sysinfo (SI_SYSNAME);
+		char *osversion = value_from_sysinfo (SI_RELEASE);
+		Value *res;
 
-	} else if (!strcasecmp (info_type, "totmem"))
-	{
-	    /* Total memory available, including memory already in use, in
-	     * bytes.
-	     */
+		if (osname && osversion) {
+			char *tmp = g_strdup_printf (_("%s version %s"),
+						     osname, osversion);
+			res = value_new_string (tmp);
+			g_free (tmp);
+		} else {
+			*error_string = _("Unknown version");
+			res = NULL;
+		}
+
+		if (osname) g_free (osname);
+		if (osversion) g_free (osversion);
+		return res;
+	} else if (!strcasecmp (info_type, "recalc")) {
+		/* Current recalculation mode; returns "Automatic" or "Manual".  */
+		return value_new_string (_("Automatic"));
+	} else if (!strcasecmp (info_type, "release")) {
+		/* Version of Gnumeric (Well, Microsoft Excel), as text.  */
+		return value_new_string (GNUMERIC_VERSION);
+	} else if (!strcasecmp (info_type, "system")) {
+		/* Name of the operating environment.  */
+		char *name = value_from_sysinfo (SI_SYSNAME);
+		if (name) {
+			Value *res = value_new_string (name);
+			g_free (name);
+			return res;
+		} else {
+			*error_string = _("Unknown system");
+			return NULL;
+		}
+	} else if (!strcasecmp (info_type, "totmem")) {
+		/* Total memory available, including memory already in use, in
+		 * bytes.
+		 */
+		return value_new_int (16 << 20);  /* Good enough... */
 	}
 
 	*error_string = _("Unknown info_type");
@@ -234,11 +283,7 @@ static Value *
 gnumeric_iseven (struct FunctionDefinition *n,
 		 Value *argv [], char **error_string)
 {
-	int result = 0;
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
-	return value_new_bool (result);
+	return value_new_bool (!(value_get_as_int (argv[0]) & 1));
 }
 
 
@@ -320,11 +365,7 @@ static Value *
 gnumeric_isodd (struct FunctionDefinition *n,
 		Value *argv [], char **error_string)
 {
-	int result = 0;
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
-	return value_new_bool (result);
+	return value_new_bool (value_get_as_int (argv[0]) & 1);
 }
 
 
@@ -386,11 +427,25 @@ static Value *
 gnumeric_n (struct FunctionDefinition *n,
 	    Value *argv [], char **error_string)
 {
-	int result = 0;
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
-	return value_new_bool (result);
+	const char *str;
+	double v;
+	char *format;
+
+	if (VALUE_IS_NUMBER (argv[0]))
+		return value_duplicate (argv[0]);
+
+	if (argv[0]->type != VALUE_STRING) {
+		*error_string = gnumeric_err_NUM;
+		return NULL;
+	}
+
+	str = argv[0]->v.str->str;
+	if (format_match (str, &v, &format))
+		return value_new_float (v);
+	else {
+		*error_string = gnumeric_err_NUM;
+		return NULL;
+	}
 }
 
 
@@ -408,7 +463,6 @@ static Value *
 gnumeric_type (struct FunctionDefinition *n,
 	       Value *argv [], char **error_string)
 {
-	int result = 0;
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
@@ -422,7 +476,18 @@ gnumeric_type (struct FunctionDefinition *n,
 	Array		64
 	*/
 
-	return value_new_int (result);
+	switch (argv[0]->type) {
+	case VALUE_INTEGER:
+	case VALUE_FLOAT:
+		return value_new_int (1);
+	case VALUE_STRING:
+		return value_new_int (2);
+	case VALUE_ARRAY:
+		return value_new_int (64);
+	default:
+		*error_string = _("Unknown value type");
+		return NULL;
+	}
 }
 
 
@@ -431,7 +496,7 @@ FunctionDefinition information_functions [] = {
 	  NULL, gnumeric_cell},
         { "countblank", "r",  "range",		&help_countblank,
 	  NULL, gnumeric_countblank },
-	{ "info", "r", "info_type",		&help_info,
+	{ "info", "?", "info_type",		&help_info,
 	  NULL, gnumeric_info},
 	{ "isblank", "r", "value",		&help_isblank,
 	  NULL, gnumeric_isblank},
