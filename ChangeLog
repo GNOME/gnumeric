@@ -1,3 +1,13 @@
+2001-06-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (draw_text) : limit length of cell text to avoid
+	  flakey X servers that crash with long strings.
+
+	* src/clipboard.c (clipboard_paste_region) : be sure to rerender and
+	  span if formats change.
+
+	* src/format.c (format_value) : simplify.
+
 2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/stf.c (stf_write_workbook): Exporting wouldn't work

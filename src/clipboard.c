@@ -247,17 +247,20 @@ clipboard_paste_region (WorkbookControl *wbc,
 			PasteTarget const *pt,
 			CellRegion const *content)
 {
-	int tmp;
 	int repeat_horizontal, repeat_vertical;
-	int dst_cols = range_width (&pt->range);
-	int dst_rows = range_height (&pt->range);
-	int src_cols = content->cols;
-	int src_rows = content->rows;
+	int dst_cols, dst_rows, src_cols, src_rows, min_col, max_col, tmp;
+	Range const *r;
 	gboolean has_content;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
+	g_return_val_if_fail (content != NULL, TRUE);
 
-	/* Ensure that only 1 type is selected */
+	r = &pt->range;
+	dst_cols = range_width (r);
+	dst_rows = range_height (r);
+	src_cols = content->cols;
+	src_rows = content->rows;
+
 	has_content = pt->paste_flags & (PASTE_CONTENT|PASTE_AS_VALUES|PASTE_LINK);
 
 	if (pt->paste_flags & PASTE_TRANSPOSE) {
@@ -415,19 +418,18 @@ clipboard_paste_region (WorkbookControl *wbc,
 		}
 
         if (has_content) {
-		Range const *r = &pt->range;
-		int min_col, max_col;
-
 		sheet_region_queue_recalc (pt->sheet, r);
-		sheet_regen_adjacent_spans (pt->sheet,
-			r->start.col,  r->start.row, r->end.col, r->end.row,
-			&min_col, &max_col);
-		sheet_range_calc_spans (pt->sheet, pt->range, SPANCALC_RENDER);
-		sheet_flag_status_update_range (pt->sheet, &pt->range);
-		sheet_redraw_cell_region (pt->sheet,
-			min_col, r->start.row, max_col, r->end.row);
+		sheet_flag_status_update_range (pt->sheet, r);
 	} else
-		sheet_flag_format_update_range (pt->sheet, &pt->range);
+		sheet_flag_format_update_range (pt->sheet, r);
+
+	sheet_regen_adjacent_spans (pt->sheet,
+		r->start.col,  r->start.row, r->end.col, r->end.row,
+		&min_col, &max_col);
+	sheet_range_calc_spans (pt->sheet, pt->range,
+		(pt->paste_flags & PASTE_FORMATS) ? SPANCALC_RE_RENDER : SPANCALC_RENDER);
+	sheet_redraw_cell_region (pt->sheet,
+		min_col, r->start.row, max_col, r->end.row);
 
 	if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
 		rows_height_update (pt->sheet, &pt->range, FALSE);

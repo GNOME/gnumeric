@@ -598,17 +598,17 @@ format_compile (StyleFormat *format)
 			entry->restriction_value = 0.;
 
 			switch (counter) {
-			case 1 : entry->restriction_type =
-					 (num_entries > 2) ? '>' : '.';
+			case 1 : if (num_entries > 1)
+					entry->restriction_type =
+						 (num_entries > 2) ? '>' : '.';
 				 break;
-			case 2 : if (num_entries != 2)
+			case 2 : if (num_entries > 2)
 					 entry->restriction_type = '<';
 				 break;
-			case 3 : if (num_entries != 3)
+			case 3 : if (num_entries > 3)
 					 entry->restriction_type = '=';
 				 break;
-			case 4 : if (num_entries != 4)
-					 entry->restriction_type = '@';
+			case 4 : entry->restriction_type = '@';
 			default :
 				 break;
 			}
@@ -1631,8 +1631,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	      float col_width)
 {
 	char *v = NULL;
-	StyleFormatEntry const *entry;
-	gboolean is_general = FALSE;
+	StyleFormatEntry const *entry = NULL; /* default to General */
 	GSList *list;
 
 	if (color)
@@ -1640,48 +1639,54 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 
 	g_return_val_if_fail (value != NULL, "<ERROR>");
 
+	/* Use top left corner of an array result.
+	 * This wont work for ranges because we dont't have a location
+	 */
+	if (value->type == VALUE_ARRAY)
+		value = value_area_fetch_x_y (NULL, value, 0, 0);
+
 	if (format) {
 		/* get format */
 		for (list = format->entries; list; list = list->next)
 			if (style_format_condition (list->data, value))
 				break;
 
-		/* If nothing matches fall back on the first */
+		/* If nothing matches ignore result */
 		if (NULL == list)
-			list = format->entries;
-		entry = (StyleFormatEntry const *)(list->data);
+			return g_strdup ("");
 
-		if (color && entry->color != NULL)
-			*color = style_color_ref (entry->color);
+		entry = (StyleFormatEntry const *)(list->data);
 
 		/* Empty formats should be ignored */
 		if (entry->format [0] == '\0')
 			return g_strdup ("");
 
-		/* Formatting a value as a text returns the entered text */
+		if (color && entry->color != NULL)
+			*color = style_color_ref (entry->color);
+
 		if (strcmp (entry->format, "@") == 0) {
-			if (value->type == VALUE_STRING)
-				return g_strdup (value->v_str.val->str);
-
-			is_general = TRUE;
+			/* FIXME : Formatting a value as a text returns the entered
+			 * text.  We need access to the parse format */
+			entry = NULL;
 		} else if (strcmp (entry->format, "General") == 0)
-			is_general = TRUE;
-	} else
-		is_general = TRUE;
+			entry = NULL;
+	}
 
-	/*
-	 * Use top left corner of an array result.
-	 * This wont work for ranges because we dont't have a location
-	 */
-	if (value->type == VALUE_ARRAY)
-		value = value_area_fetch_x_y (NULL, value, 0, 0);
-
-	switch (value->type){
+	switch (value->type) {
+	case VALUE_EMPTY:
+		return g_strdup ("");
+	case VALUE_BOOLEAN:
+		return g_strdup (value->v_bool.val ? _("TRUE"):_("FALSE"));
+	case VALUE_INTEGER:
+		if (entry == NULL)
+			return fmt_general_int (value->v_int.val, col_width);
+		v = format_number (value->v_int.val, (int)col_width, entry);
+		break;
 	case VALUE_FLOAT:
 		if (!FINITE (value->v_float.val))
 			return g_strdup (gnumeric_err_VALUE);
 
-		if (is_general) {
+		if (entry == NULL) {
 			gnum_float val = value->v_float.val;
 			if ((gnum_float)INT_MAX >= val && val >= (gnum_float)INT_MIN) {
 				double int_val = floor (value->v_float.val);
@@ -1692,31 +1697,14 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 		}
 		v = format_number (value->v_float.val, (int)col_width, entry);
 		break;
-
-	case VALUE_INTEGER:
-		if (is_general)
-			return fmt_general_int (value->v_int.val, col_width);
-		v = format_number (value->v_int.val, (int)col_width, entry);
-		break;
-
-	case VALUE_BOOLEAN:
-		return g_strdup (value->v_bool.val ? _("TRUE"):_("FALSE"));
-
 	case VALUE_ERROR:
 		return g_strdup (value->v_err.mesg->str);
-
 	case VALUE_STRING:
 		return g_strdup (value->v_str.val->str);
-
 	case VALUE_CELLRANGE:
 		return g_strdup (gnumeric_err_VALUE);
-
-	case VALUE_ARRAY:
-		/* Array of arrays ?? */
+	case VALUE_ARRAY: /* Array of arrays ?? */
 		return g_strdup (_("ARRAY"));
-
-	case VALUE_EMPTY:
-		return g_strdup ("");
 
 	default:
 		return g_strdup ("Internal error");

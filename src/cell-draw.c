@@ -23,6 +23,12 @@ draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,
 	   int x1, int text_base, char const * text, int n, int len_pixels,
 	   int const * const line_offset, int num_lines)
 {
+	/* Some Xservers crash when asked to draw strings that are too long
+	 * add an arbitrary limit to keep things simple
+	 */
+	if (n > 1024)
+		n = 1024;
+
 	gdk_draw_text (drawable, font, gc, x1, text_base, text, n);
 
 	/* FIXME how to handle small fonts ?

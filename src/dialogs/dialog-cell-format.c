@@ -344,7 +344,6 @@ draw_format_preview (FormatState *state)
 	FormatFamily const page = state->format.current_type;
 	GString		*new_format = g_string_new ("");
 	gchar		*preview;
-	StyleColor	*preview_color;
 	StyleFormat	*sf = NULL;
 
 	/* Update the format based on the current selections and page */
@@ -476,7 +475,7 @@ draw_format_preview (FormatState *state)
 		return;
 
 	if (state->value) {
-		preview = format_value (sf, state->value, &preview_color, -1);
+		preview = format_value (sf, state->value, NULL, -1);
 
 		if (strlen (preview) > FORMAT_PREVIEW_MAX)
 			strcpy (&preview [FORMAT_PREVIEW_MAX - 5], " ...");

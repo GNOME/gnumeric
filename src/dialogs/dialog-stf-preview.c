@@ -433,7 +433,6 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 	for (col = 0; col <= colcount; col++)  {
 		Value *value;
 		StyleFormat *sf;
-		StyleColor *color;
 		char *celltext;
 
 		if (!iterator || !iterator->data) {
@@ -447,7 +446,7 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 		if (NULL == (value = format_match (iterator->data, sf, NULL)))
 			value = value_new_string (iterator->data);
 
-		celltext = format_value (sf, value, &color, -1);
+		celltext = format_value (sf, value, NULL, -1);
 
 		value_release (value);
 

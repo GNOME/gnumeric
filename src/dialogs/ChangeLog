@@ -1,3 +1,8 @@
+2001-06-02  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-stf-preview.c (stf_preview_format_line) : don't leak colour ref
+	* dialog-cell-format.c (draw_format_preview) : ditto.
+
 2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-stf.glade: Make length of customfield
