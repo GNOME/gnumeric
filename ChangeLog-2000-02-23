@@ -1,3 +1,22 @@
+1999-10-07  Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+        * dialog-cell-format.c 
+        (create_number_format_page, create_font_page): 
+        Make <Enter> in entry fields invoke default button
+
+        * dialog-cell-format.c 
+        (format_find): Select line in categorylist.     
+        (format_number_select_row): Initial list selection happens before
+        property box is created, so check before notifying it.
+
+        * dialog-cell-format.c 
+        (dialog_cell_format): Initial focus.
+        (dialog_cell_format, struct cell_format_pages): 
+        New signature for create_page.
+        (create_number_format_page, create_align_page, create_font_page,
+        create_coloring_page): New out parameter focus_widget: The widget
+        to receive initial focus if page is current when notebook pops up.
+
 1999-10-07  Jon K Hellan <Jon.K.Hellan@item.ntnu.no>
 
 	* src/dialogs/dialog-analysis-tools.c (hbox_pack_label_and_entry):
