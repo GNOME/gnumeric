@@ -169,6 +169,7 @@ GNUMERIC_BASE =					\
 	position.h				\
 	preview-grid.c				\
 	preview-grid.h				\
+	preview-grid-impl.h			\
 	print.c					\
 	print.h					\
 	print-cell.c				\
@@ -370,7 +371,7 @@ gnumeric-paths.h : $(srcdir)/gnumeric-paths.h.in all-local
 	  -e 's!@''gnumeric_libdir''@!$(gnumeric_libdir)!'		\
 	  -e 's!@''gnumeric_icondir''@!$(gnumeric_icondir)!'		\
 	  -e 's!@''gnumeric_localedir''@!$(gnumeric_localedir)!'	\
-		< $< > $@.tmp ;					\
+		< $< > $@.tmp ;						\
 	if cmp -s $@.tmp $@; then rm $@.tmp; else mv $@.tmp $@ ; fi
 
 # do not include the paths in the tarball

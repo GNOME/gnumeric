@@ -1,3 +1,15 @@
+2003-06-09  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c : Simplify interaction with preview grid now
+	  that its interface is more convenient.
+
+	* dialog-autoformat.c : derive util class from PreviewGrid
+	  fix typo in sample text.  convert to option menu.  Remove magic
+	  sizes to kludge around canvas.
+
+	* autoformat.glade : Add alignments.
+	  Remove edit menu, convert from GnomeEntry -> OptionMenu
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

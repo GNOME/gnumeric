@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * file-autoft.c : Retrieve available autoformat templates/categories
  *
@@ -42,10 +43,6 @@
 
 #define TEMPLATE_FILE_EXT    ".xml"
 
-/**
- * category_compare_orig_name_and_dir:
- *
- **/
 static gint
 category_compare_orig_name_and_dir (const void *a, const void *b)
 {
@@ -56,11 +53,7 @@ category_compare_orig_name_and_dir (const void *a, const void *b)
 	return res != 0 ? res : strcmp (cat_a->directory, cat_b->directory);
 }
 
-/**
- * category_free:
- *
- **/
-void
+static void
 category_free (FormatTemplateCategory *category)
 {
 	g_free (category->directory);
@@ -70,11 +63,7 @@ category_free (FormatTemplateCategory *category)
 	g_free (category);
 }
 
-/**
- * category_get_templates_list:
- *
- **/
-GSList *
+static GSList *
 category_get_templates_list (FormatTemplateCategory *category,
 			     CommandContext *cc)
 {
@@ -114,10 +103,6 @@ category_get_templates_list (FormatTemplateCategory *category,
 	return g_slist_sort (templates, format_template_compare_name);
 }
 
-/**
- * category_list_get_from_dir_list:
- *
- **/
 static GList *
 category_list_get_from_dir_list (GSList *dir_list)
 {
@@ -161,11 +146,7 @@ category_list_get_from_dir_list (GSList *dir_list)
 	return categories;
 }
 
-/**
- * category_list_free:
- *
- **/
-void
+static void
 category_list_free (GList *categories)
 {
 	GList *l;
@@ -178,10 +159,6 @@ category_list_free (GList *categories)
 	g_list_free (categories);
 }
 
-/**
- * category_group_list_get:
- *
- **/
 GList *
 category_group_list_get (void)
 {
@@ -217,9 +194,8 @@ category_group_list_get (void)
 			current_group->categories = g_list_prepend (current_group->categories, category);
 		}
 	}
-	if (current_group != NULL) {
+	if (current_group != NULL)
 		category_groups = g_list_prepend (category_groups, current_group);
-	}
 
 	g_list_free (categories);
 	g_slist_free (dir_list); /* strings are owned by the gnm_app_prefs */
@@ -228,83 +204,22 @@ category_group_list_get (void)
 }
 
 
-/**
- * category_group_list_find_category_by_name:
- *
- **/
-FormatTemplateCategoryGroup *
-category_group_list_find_category_by_name (GList *category_groups, gchar const *name)
-{
-	GList *l;
-
-	for (l = category_groups; l != NULL; l = l->next) {
-		FormatTemplateCategoryGroup *category_group;
-
-		category_group = (FormatTemplateCategoryGroup *) l->data;
-		if (strcmp (category_group->name, name) == 0) {
-			return category_group;
-		}
-	}
-
-	return NULL;
-}
-
-/**
- * category_group_list_get_names_list:
- *
- **/
-GList *
-category_group_list_get_names_list (GList *category_groups)
-{
-	GList *names = NULL;
-	GList *l;
-
-	for (l = category_groups; l != NULL; l = l->next) {
-		FormatTemplateCategoryGroup *category_group;
-
-		category_group = (FormatTemplateCategoryGroup *) l->data;
-		names = g_list_prepend (names, g_strdup (category_group->name));
-	}
-
-	return g_list_sort (names, g_str_compare);
-}
-
-/**
- * category_group_free:
- *
- **/
 void
-category_group_free (FormatTemplateCategoryGroup *category_group)
+category_group_list_free (GList *groups)
 {
-	g_free (category_group->orig_name);
-	g_free (category_group->name);
-	g_free (category_group->description);
-	category_list_free (category_group->categories);
-	g_free (category_group);
-}
+	GList *ptr;
 
-/**
- * category_group_list_free:
- *
- **/
-void
-category_group_list_free (GList *category_groups)
-{
-	GList *l;
-
-	g_return_if_fail (category_groups);
-
-	for (l = category_groups; l != NULL; l = l->next) {
-		FormatTemplateCategoryGroup *group = l->data;
-		category_group_free (group);
+	for (ptr = groups; ptr != NULL; ptr = ptr->next) {
+		FormatTemplateCategoryGroup *group = ptr->data;
+		g_free (group->orig_name);
+		g_free (group->name);
+		g_free (group->description);
+		category_list_free (group->categories);
+		g_free (group);
 	}
-	g_list_free (category_groups);
+	g_list_free (groups);
 }
 
-/**
- * category_group_get_templates_list:
- *
- **/
 GSList *
 category_group_get_templates_list (FormatTemplateCategoryGroup *category_group,
 				   CommandContext *cc)

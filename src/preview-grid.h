@@ -11,4 +11,3 @@ typedef struct _PreviewGrid PreviewGrid;
 GType preview_grid_get_type (void);
 
 #endif /* GNUMERIC_PREVIEW_GRID_H */
-

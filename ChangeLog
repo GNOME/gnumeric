@@ -1,3 +1,15 @@
+2003-06-09  Jody Goldberg <jody@gnome.org>
+
+	* src/preview-grid.c : Major reorg.
+	  Convert the signals into virtuals.
+	  Add default value, and style methods
+	  Convert from GtkArg -> GParam
+	  Begin fixing _draw to support positions other than 0,0
+	  Update queus a redraw
+
+	* src/file-autoft.c (category_group_list_find_category_by_name) : delete
+	* src/Makefile.am : add preview-grid-impl.h
+
 2003-06-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* debian/*: Updated from latest package.

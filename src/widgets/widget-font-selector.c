@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * A font selector widget.  This is a simplified version of the
  * GnomePrint font selector widget.
@@ -20,11 +21,39 @@
 #include <preview-grid.h>
 #include <style-color.h>
 #include <gui-util.h>
+#include <mstyle.h>
+#include <preview-grid.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <libgnomeprint/gnome-font.h>
+#include <gtk/gtkhbox.h>
+#include <glade/glade.h>
+
+struct _FontSelector {
+	GtkHBox box;
+	GladeXML *gui;
+
+	GtkWidget *font_name_entry;
+	GtkWidget *font_style_entry;
+	GtkWidget *font_size_entry;
+	GtkWidget *font_name_list;
+	GtkWidget *font_style_list;
+	GtkWidget *font_size_list;
+
+	FooCanvas *font_preview_canvas;
+	FooCanvasItem *font_preview_grid;
+
+	MStyle     *mstyle;
+};
+
+typedef struct {
+	GtkHBoxClass parent_class;
+
+	gboolean (* font_changed) (FontSelector *fs, MStyle *mstyle);
+} FontSelectorClass;
 
 /*
  * Inside this file we define a number of aliases for the
@@ -48,18 +77,19 @@ enum {
 static guint fs_signals[LAST_SIGNAL] = { 0 };
 
 static void
-reload_preview (FontSelector *fs, MStyle *style)
+fs_modify_style (FontSelector *fs, MStyle *modification)
 {
-	if (style != NULL) {
-		MStyle *old = fs->mstyle;
-		gtk_signal_emit (GTK_OBJECT (fs),
-			fs_signals[FONT_CHANGED], style);
-		fs->mstyle = mstyle_copy_merge (old, style);
-		mstyle_unref (old);
-	}
+	MStyle *original = fs->mstyle;
+	g_return_if_fail (modification != NULL);
 
-	foo_canvas_request_redraw (fs->font_preview_canvas,
-		-2, -2, INT_MAX / 2, INT_MAX / 2);
+	gtk_signal_emit (GTK_OBJECT (fs),
+		fs_signals[FONT_CHANGED], modification);
+	fs->mstyle = mstyle_copy_merge (original, modification);
+	foo_canvas_item_set (fs->font_preview_grid,
+		"default-style",  fs->mstyle,
+		NULL);
+	mstyle_unref (modification);
+	mstyle_unref (original);
 }
 
 /*
@@ -90,8 +120,7 @@ font_selected (GtkCList *font_list,
 
 	 change = mstyle_new ();
 	 mstyle_set_font_name (change, text);
-	 reload_preview (fs, change);
-	 mstyle_unref (change);
+	 fs_modify_style (fs, change);
 }
 
 static void
@@ -153,8 +182,7 @@ style_selected (GtkCList *style_list,
 	 }
 
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles[row]));
-	 reload_preview (fs, change);
-	 mstyle_unref (change);
+	 fs_modify_style (fs, change);
 }
 
 static void
@@ -189,8 +217,7 @@ size_selected (GtkCList *size_list,
 	 gtk_clist_get_text (size_list, row, 0, &text);
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
 	 mstyle_set_font_size (change, atof (text));
-	 reload_preview (fs, change);
-	 mstyle_unref (change);
+	 fs_modify_style (fs, change);
 }
 
 static void
@@ -201,8 +228,7 @@ size_changed (GtkEntry *entry, FontSelector *fs)
 	 if (size >= 1. && size < 128) {
 		 MStyle *change = mstyle_new ();
 		 mstyle_set_font_size (change, size);
-		 reload_preview (fs, change);
-		 mstyle_unref (change);
+		 fs_modify_style (fs, change);
 	 }
 }
 
@@ -231,68 +257,39 @@ fs_fill_font_size_list (FontSelector *fs)
 		GTK_SIGNAL_FUNC (size_changed), fs);
 }
 
-static int
-cb_get_row_height (G_GNUC_UNUSED PreviewGrid *pg,
-		   G_GNUC_UNUSED int row, FontSelector *fs)
-{
-	return fs->height;
-}
-
-static int
-cb_get_col_width (G_GNUC_UNUSED PreviewGrid *pg,
-		  G_GNUC_UNUSED int col, FontSelector *fs)
-{
-	return fs->width;
-}
-
-static MStyle *
-cb_get_cell_style (G_GNUC_UNUSED PreviewGrid *pg,
-		   G_GNUC_UNUSED int row,
-		   G_GNUC_UNUSED int col, FontSelector *fs)
-{
-	return fs->mstyle;
-}
-
-static Value *
-cb_get_cell_value (G_GNUC_UNUSED PreviewGrid *pg,
-		   G_GNUC_UNUSED int row,
-		   G_GNUC_UNUSED int col, FontSelector *fs)
-{
-	/*
-	 * FIXME: :-( Why don't Value *'s support refcounting?
-	 */
-	return value_duplicate (fs->value);
-}
-
 static void
 canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 		     GtkAllocation *allocation, FontSelector *fs)
 {
-	fs->width  = allocation->width - 1;
-	fs->height = allocation->height - 1;
+	int width  = allocation->width - 1;
+	int height = allocation->height - 1;
+
+	foo_canvas_item_set (fs->font_preview_grid,
+                 "default-col-width",  width,
+                 "default-row-height", height,
+		 NULL);
 
 	foo_canvas_set_scroll_region (fs->font_preview_canvas, 0, 0,
-				      fs->width, fs->height);
-	reload_preview (fs, NULL);
+				      width, height);
 }
 
 static void
 fs_init (FontSelector *fs)
 {
-	GtkWidget *toplevel, *w;
-	GtkWidget *old_parent;
+	GtkWidget *w;
 
-	fs->gui = gnm_glade_xml_new (NULL, "font-sel.glade", NULL, NULL);
+	fs->gui = gnm_glade_xml_new (NULL, "font-sel.glade", "toplevel-table", NULL);
 	if (fs->gui == NULL)
                 return;
 
-	toplevel = glade_xml_get_widget (fs->gui, "toplevel-table");
-	old_parent = gtk_widget_get_toplevel (toplevel);
-	gtk_widget_reparent (toplevel, GTK_WIDGET (fs));
-	gtk_widget_destroy (old_parent);
-	gtk_widget_queue_resize (toplevel);
+	fs->mstyle = mstyle_new_default ();
+	mstyle_set_align_v   (fs->mstyle, VALIGN_CENTER);
+	mstyle_set_align_h   (fs->mstyle, HALIGN_CENTER);
+	mstyle_set_font_size (fs->mstyle, 10);
 
-	fs->width = fs->height = 1;
+	gtk_box_pack_start_defaults (GTK_BOX (fs),
+		glade_xml_get_widget (fs->gui, "toplevel-table"));
+
 	fs->font_name_entry  = glade_xml_get_widget (fs->gui, "font-name-entry");
 	fs->font_style_entry = glade_xml_get_widget (fs->gui, "font-style-entry");
 	fs->font_size_entry  = glade_xml_get_widget (fs->gui, "font-size-entry");
@@ -307,33 +304,17 @@ fs_init (FontSelector *fs)
 	gtk_widget_show_all (w);
 	w = glade_xml_get_widget (fs->gui, "font-preview-frame");
 	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (fs->font_preview_canvas));
-	fs->font_preview_grid = PREVIEW_GRID (foo_canvas_item_new (
+	fs->font_preview_grid = FOO_CANVAS_ITEM (foo_canvas_item_new (
 		foo_canvas_root (fs->font_preview_canvas),
 		preview_grid_get_type (),
-		"RenderGridlines", FALSE,
+		"render-gridlines",	FALSE,
+		"default-value",	value_new_string ("AaBbCcDdEe12345"),
+		"default-style",	fs->mstyle,
 		NULL));
 
-	g_signal_connect (G_OBJECT (fs->font_preview_grid),
-		"get_row_height",
-		GTK_SIGNAL_FUNC (cb_get_row_height), fs);
-	g_signal_connect (G_OBJECT (fs->font_preview_grid),
-		"get_col_width",
-		GTK_SIGNAL_FUNC (cb_get_col_width), fs);
-	g_signal_connect (G_OBJECT (fs->font_preview_grid),
-		"get_cell_style",
-		GTK_SIGNAL_FUNC (cb_get_cell_style), fs);
-	g_signal_connect (G_OBJECT (fs->font_preview_grid),
-		"get_cell_value",
-		GTK_SIGNAL_FUNC (cb_get_cell_value), fs);
 	g_signal_connect (G_OBJECT (fs->font_preview_canvas),
 		"size-allocate",
 		GTK_SIGNAL_FUNC (canvas_size_changed), fs);
-
-	fs->mstyle = mstyle_new_default ();
-	fs->value  = value_new_string ("AaBbCcDdEe12345");
-	mstyle_set_align_v   (fs->mstyle, VALIGN_CENTER);
-	mstyle_set_align_h   (fs->mstyle, HALIGN_CENTER);
-	mstyle_set_font_size (fs->mstyle, 10);
 
 	fs_fill_font_style_list (fs);
 	fs_fill_font_name_list (fs);
@@ -344,11 +325,6 @@ static void
 fs_destroy (GtkObject *object)
 {
 	FontSelector *fs = FONT_SELECTOR (object);
-
-	if (fs->value) {
-		value_release (fs->value);
-		fs->value = NULL;
-	}
 
 	if (fs->mstyle) {
 		mstyle_unref (fs->mstyle);
@@ -401,17 +377,18 @@ select_row (GtkWidget *list, int row)
 }
 
 void
-font_selector_set_value (FontSelector *fs, const Value *v)
+font_selector_set_value (FontSelector *fs, Value const *v)
 {
+	Value *val;
+
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	value_release (fs->value);
-	if (v)
-		fs->value = value_duplicate (v);
-	else
-		fs->value = value_new_string ("AaBbCcDdEe12345");
-
-	reload_preview (fs, NULL);
+	val = (v != NULL)
+		? value_duplicate (v)
+		: value_new_string ("AaBbCcDdEe12345");
+	foo_canvas_item_set (fs->font_preview_grid,
+		"default-value",  val,
+		NULL);
 }
 
 void
@@ -459,8 +436,7 @@ font_selector_set_style (FontSelector *fs,
 	change = mstyle_new ();
 	mstyle_set_font_bold   (change, is_bold);
 	mstyle_set_font_italic (change, is_italic);
-	reload_preview (fs, change);
-	mstyle_unref (change);
+	fs_modify_style (fs, change);
 }
 
 void
@@ -472,8 +448,7 @@ font_selector_set_strike (FontSelector *fs, gboolean strikethrough)
 
 	change = mstyle_new ();
 	mstyle_set_font_strike (change, strikethrough);
-	reload_preview (fs, change);
-	mstyle_unref (change);
+	fs_modify_style (fs, change);
 }
 
 void
@@ -485,8 +460,7 @@ font_selector_set_underline (FontSelector *fs, StyleUnderlineType underline)
 
 	change = mstyle_new ();
 	mstyle_set_font_uline (change, underline);
-	reload_preview (fs, change);
-	mstyle_unref (change);
+	fs_modify_style (fs, change);
 }
 
 void
@@ -498,8 +472,7 @@ font_selector_set_color (FontSelector *fs, StyleColor *color)
 
 	change = mstyle_new ();
 	mstyle_set_color (change, MSTYLE_COLOR_FORE, color);
-	reload_preview (fs, change);
-	mstyle_unref (change);
+	fs_modify_style (fs, change);
 }
 
 void
@@ -523,4 +496,15 @@ font_selector_set_points (FontSelector *fs,
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);
 		g_free (buffer);
 	}
+}
+
+void
+font_selector_editable_enters (FontSelector *fs, GtkWindow *dialog)
+{
+	gnumeric_editable_enters (dialog,
+		GTK_WIDGET (fs->font_name_entry));
+	gnumeric_editable_enters (dialog,
+		GTK_WIDGET (fs->font_style_entry));
+	gnumeric_editable_enters (dialog,
+		GTK_WIDGET (fs->font_size_entry));
 }

@@ -1,3 +1,7 @@
+2003-06-09  Jody Goldberg <jody@gnome.org>
+
+	* widget-font-selector.c : adjust to changes in preview grid.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

@@ -53,6 +53,7 @@
 #include <workbook-view.h>
 #include <commands.h>
 #include <mathfunc.h>
+#include <preview-grid.h>
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <libart_lgpl/art_alphagamma.h>
@@ -1574,15 +1575,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	gtk_box_pack_start (GTK_BOX (container), tmp, TRUE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (container), tmp, 0);
 
-	gnumeric_editable_enters (
-		GTK_WINDOW (state->dialog),
-		GTK_WIDGET (font_widget->font_name_entry));
-	gnumeric_editable_enters (
-		GTK_WINDOW (state->dialog),
-		GTK_WIDGET (font_widget->font_style_entry));
-	gnumeric_editable_enters (
-		GTK_WINDOW (state->dialog),
-		GTK_WIDGET (font_widget->font_size_entry));
+	font_selector_editable_enters (font_widget, GTK_WINDOW (state->dialog));
 
 	state->font.selector = FONT_SELECTOR (font_widget);
 
@@ -1640,17 +1633,8 @@ fmt_dialog_init_font_page (FormatState *state)
 
 /*****************************************************************************/
 
-static MStyle *
-cb_pattern_preview_get_cell_style (G_GNUC_UNUSED PreviewGrid *pg,
-				   G_GNUC_UNUSED int row,
-				   G_GNUC_UNUSED int col,
-				   MStyle *style)
-{
-	return style;
-}
-
 static void
-draw_pattern_preview (FormatState *state)
+back_style_changed (FormatState *state)
 {
 	g_return_if_fail (state->back.style != NULL);
 
@@ -1660,10 +1644,10 @@ draw_pattern_preview (FormatState *state)
 		mstyle_replace_element (state->back.style, state->result, MSTYLE_PATTERN);
 		mstyle_replace_element (state->back.style, state->result, MSTYLE_COLOR_BACK);
 		mstyle_replace_element (state->back.style, state->result, MSTYLE_COLOR_PATTERN);
+		foo_canvas_item_set (FOO_CANVAS_ITEM (state->back.grid),
+			"default-style",	state->back.style,
+			NULL);
 	}
-
-	foo_canvas_request_redraw (state->back.canvas,
-		-2, -2, INT_MAX/2, INT_MAX/2);
 }
 
 static void
@@ -1687,7 +1671,7 @@ cb_back_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 	}
 
 	mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK, sc);
-	draw_pattern_preview (state);
+	back_style_changed (state);
 }
 
 static void
@@ -1703,14 +1687,14 @@ cb_pattern_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 
 	mstyle_set_color (state->back.style, MSTYLE_COLOR_PATTERN, col);
 
-	draw_pattern_preview (state);
+	back_style_changed (state);
 }
 
 static void
 draw_pattern_selected (FormatState *state)
 {
 	mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
-	draw_pattern_preview (state);
+	back_style_changed (state);
 }
 
 static void
@@ -1733,13 +1717,11 @@ fmt_dialog_init_background_page (FormatState *state)
 	state->back.grid = PREVIEW_GRID (foo_canvas_item_new (
 		foo_canvas_root (state->back.canvas),
 		preview_grid_get_type (),
-		"RenderGridlines", FALSE,
-		"DefaultColWidth", w,
-		"DefaultRowHeight", h,
+		"render-gridlines",	FALSE,
+		"default-col-width",	w,
+		"default-row-height",	h,
+		"default-style",	state->back.style,
 		NULL));
-	g_signal_connect (G_OBJECT (state->back.grid),
-		"get_cell_style",
-		G_CALLBACK (cb_pattern_preview_get_cell_style), state->back.style);
 }
 
 /*****************************************************************************/
@@ -2723,7 +2705,7 @@ set_initial_focus (FormatState *s)
 	else if (strcmp (name, "alignment_box") == 0)
 	      focus_widget = glade_xml_get_widget (s->gui, "halign_left");
 	else if (strcmp (name, "font_box") == 0)
-	      focus_widget = GTK_WIDGET (s->font.selector->font_size_entry);
+	      focus_widget = GTK_WIDGET (s->font.selector);
 	else if (strcmp (name, "border_box") == 0)
 	      focus_widget = glade_xml_get_widget (s->gui, "outline_border");
 	else if (strcmp (name, "background_box") == 0)

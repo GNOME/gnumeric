@@ -10,6 +10,10 @@ Release Critical
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
 
+* Add a gsf-input-iconv
+* Use it to handle non ascii xml from 1.0.x with no known encoding
+* compartmentalize gconf support
+
 Pending Patches
 ---------------
 

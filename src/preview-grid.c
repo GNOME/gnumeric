@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * preview-grid.c : Preview Grid Canvas Item
  *
@@ -21,11 +22,9 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "preview-grid.h"
+#include "preview-grid-impl.h"
 
 #include "cell.h"
 #include "cell-draw.h"
@@ -41,90 +40,125 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-struct _PreviewGrid {
-	FooCanvasItem canvas_item;
-
-	struct { /* Gc's */
-		GdkGC *fill;	/* Default background fill gc */
-		GdkGC *cell;	/* Color used for the cell */
-		GdkGC *empty;	/* GC used for drawing empty cells */
-	} gc;
-	struct { /* Defaults */
-		MStyle *style;
-		int     row_height;
-		int     col_width;
-	} def;
-
-	gboolean gridlines;
-};
-
-typedef struct {
-	FooCanvasItemClass parent_class;
-
-	int      (* get_row_height) (PreviewGrid *pg, int row);
-	int      (* get_col_width)  (PreviewGrid *pg, int col);
-	MStyle * (* get_cell_style) (PreviewGrid *pg, int row, int col);
-	Value *  (* get_cell_value) (PreviewGrid *pg, int row, int col);
-} PreviewGridClass;
-
-#define PREVIEW_GRID_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), preview_grid_get_type (), PreviewGridClass))
-
-static FooCanvasItemClass *preview_grid_parent_class;
-
-/* The arguments we take */
+static FooCanvasItemClass *parent_klass;
 enum {
-	ARG_0,
-
-	/* Options */
-	ARG_RENDER_GRIDLINES,
-	ARG_DEFAULT_ROW_HEIGHT,
-	ARG_DEFAULT_COL_WIDTH
+	PREVIEW_GRID_PROP_0,
+	PREVIEW_GRID_PROP_RENDER_GRIDLINES,
+	PREVIEW_GRID_PROP_DEFAULT_COL_WIDTH,
+	PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT,
+	PREVIEW_GRID_PROP_DEFAULT_STYLE,
+	PREVIEW_GRID_PROP_DEFAULT_VALUE
 };
 
-/* Signals */
-enum {
-	GET_ROW_HEIGHT,
-	GET_COL_WIDTH,
-	GET_CELL_STYLE,
-	GET_CELL_VALUE,
-	LAST_SIGNAL
-};
-
-static guint pg_signals [LAST_SIGNAL] = { 0 };
-
-typedef gpointer (*GtkSignal_POINTER__INT_INT) (GtkObject * object,
-						gint arg1,
-						gint arg2,
-						gpointer user_data);
 /*****************************************************************************/
 
 static int
-pg_get_row_height (PreviewGrid *pg, int const row)
+pg_get_row_height (PreviewGrid *pg, int row)
 {
+	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
 	int height;
 
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 1);
+	g_return_val_if_fail (klass != NULL, 1);
 
-	g_signal_emit (G_OBJECT (pg), pg_signals [GET_ROW_HEIGHT], 0,
-		       row, &height);
-	if (height > 0)
-		return height;
-	return pg->def.row_height;
+	if (klass->get_row_height != NULL) {
+		height = (klass->get_row_height) (pg, row);
+		if (height > 0)
+			return height;
+	}
+
+	return pg->defaults.row_height;
 }
 
 static int
-pg_get_col_width (PreviewGrid *pg, int const col)
+pg_get_col_width (PreviewGrid *pg, int col)
 {
+	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
 	int width;
 
 	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 1);
+	g_return_val_if_fail (klass != NULL, 1);
 
-	g_signal_emit (G_OBJECT (pg), pg_signals [GET_COL_WIDTH], 0,
-		       col, &width);
-	if (width > 0)
-		return width;
-	return pg->def.col_width;
+	if (klass->get_col_width != NULL) {
+		width = (klass->get_col_width) (pg, col);
+		if (width > 0)
+			return width;
+	}
+
+	return pg->defaults.col_width;
 }
+
+static MStyle *
+pg_get_style (PreviewGrid *pg, int col, int row)
+{
+	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
+	MStyle *style;
+
+	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, NULL);
+	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, NULL);
+	g_return_val_if_fail (klass != NULL, NULL);
+
+	if (klass->get_cell_style != NULL) {
+		style = (klass->get_cell_style) (pg, col, row);
+		if (style != NULL)
+			return style;
+	}
+
+	return pg->defaults.style;
+}
+
+static Cell *
+pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
+{
+	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
+	Cell   *cell;
+	MStyle *style;
+
+	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (pg != NULL, NULL);
+	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, NULL);
+	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, NULL);
+
+	/*
+	 * We are going to manually replicate a cell
+	 * structure here, please remember that this is not
+	 * the equivalent of a real cell.  In particular we g_new
+	 * it and it must be g_free'd.
+	 */
+	cell = g_new0 (Cell, 1);
+
+	cell->col_info = g_new0 (ColRowInfo, 1);
+	cell->row_info = g_new0 (ColRowInfo, 1);
+
+	style = pg_get_style (pg, col, row);
+
+	/*
+	 * Eventually the row_info->pos and col_info->pos
+	 * will go away
+	 */
+	cell->col_info->pos = col;
+	cell->row_info->pos = row;
+	cell->pos.col = col;
+	cell->pos.row = row;
+
+	cell->col_info->margin_a = 2;
+	cell->col_info->margin_b = 2;
+	cell->row_info->margin_a = 0;
+	cell->row_info->margin_b = 0;
+
+	cell->col_info->size_pixels = pg_get_col_width  (pg, col);
+	cell->row_info->size_pixels = pg_get_row_height (pg, row);
+
+	cell->value = NULL;
+	if (klass->get_cell_value != NULL)
+		cell->value = (klass->get_cell_value) (pg, col, row);
+	if (cell->value == NULL)
+		cell->value = value_duplicate (pg->defaults.value);
+	cell->rendered_value = rendered_value_new (cell, style, TRUE, context);
+
+	return cell;
+}
+
 
 /**
  * pg_get_row_offset:
@@ -138,15 +172,9 @@ static int
 pg_get_row_offset (PreviewGrid *pg, int const y, int *row_origin)
 {
 	int row   = 0;
-	int pixel = 0;
+	int pixel = 1;
 
 	g_return_val_if_fail (pg != NULL, 0);
-
-	if (y < pixel) {
-		if (row_origin)
-			*row_origin = 1; /* there is a 1 pixel edge at the left */
-		return 0;
-	}
 
 	do {
 		if (y <= pixel + pg_get_row_height (pg, row)) {
@@ -174,15 +202,9 @@ static int
 pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 {
 	int col   = 0;
-	int pixel = 0;
+	int pixel = 1;
 
 	g_return_val_if_fail (pg != NULL, 0);
-
-	if (x < pixel) {
-		if (col_origin)
-			*col_origin = 1; /* there is a 1 pixel edge */
-		return 0;
-	}
 
 	do {
 		if (x <= pixel + pg_get_col_width (pg, col)) {
@@ -199,77 +221,6 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 	return SHEET_MAX_COLS - 1;
 }
 
-static MStyle *
-pg_get_style (PreviewGrid *pg, int const row, int const col)
-{
-	MStyle *style = NULL;
-
-	g_return_val_if_fail (pg != NULL, 0);
-	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
-	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
-
-	g_signal_emit (G_OBJECT (pg), pg_signals [GET_CELL_STYLE], 0,
-		       row, col, &style, NULL);
-
-	/* If no style was returned, use the default style */
-	if (style == NULL)
-		return pg->def.style;
-	else
-		return style;
-}
-
-static Cell *
-pg_construct_cell (PangoContext *context, PreviewGrid *pg,
-		   int const row, int const col)
-{
-	Cell          *cell  = NULL;
-	MStyle        *style = NULL;
-
-	g_return_val_if_fail (pg != NULL, 0);
-	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
-	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
-
-	/*
-	 * We are going to manually replicate a cell
-	 * structure here, please remember that this is not
-	 * the equivalent of a real cell.  In particular we g_new
-	 * it and it must be g_free'd.
-	 */
-	cell = g_new0 (Cell, 1);
-
-	cell->row_info = g_new0 (ColRowInfo, 1);
-	cell->col_info = g_new0 (ColRowInfo, 1);
-
-	style = pg_get_style (pg, row, col);
-
-	/*
-	 * Eventually the row_info->pos and col_info->pos
-	 * will go away
-	 */
-	cell->row_info->pos = row;
-	cell->col_info->pos = col;
-	cell->pos.row = row;
-	cell->pos.col = col;
-
-	cell->row_info->margin_a = 0;
-	cell->row_info->margin_b = 0;
-	cell->col_info->margin_a = 2;
-	cell->col_info->margin_b = 2;
-
-	cell->row_info->size_pixels = pg_get_row_height (pg, row);
-	cell->col_info->size_pixels = pg_get_col_width  (pg, col);
-
-	cell->value = NULL;
-	g_signal_emit (G_OBJECT (pg), pg_signals [GET_CELL_VALUE], 0,
-		       row, col, &cell->value, NULL);
-	if (cell->value == NULL)
-		cell->value = value_new_empty ();
-
-	cell->rendered_value = rendered_value_new (cell, style, TRUE, context);
-
-	return cell;
-}
-
 static void
 pg_destruct_cell (Cell *cell)
 {
@@ -283,43 +234,17 @@ pg_destruct_cell (Cell *cell)
 
 	g_free (cell);
 }
-/*****************************************************************************/
 
-/**
- * preview_grid_destroy:
- * @object: a Preview grid
- *
- * Destroy handler
- **/
-static void
-preview_grid_destroy (GtkObject *object)
-{
-	PreviewGrid *pg;
-
-	pg = PREVIEW_GRID (object);
-
-	if (GTK_OBJECT_CLASS (preview_grid_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (preview_grid_parent_class)->destroy)(object);
-}
-
-/**
- * preview_grid_realize:
- * @item: a PreviewGrid
- *
- * Realize handler
- **/
 static void
 preview_grid_realize (FooCanvasItem *item)
 {
-	GdkWindow   *window;
 	GtkStyle    *style;
-	PreviewGrid *pg;
+	GdkWindow   *window = GTK_WIDGET (item->canvas)->window;
+	PreviewGrid *pg = PREVIEW_GRID (item);
 
-	if (FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)
-		(*FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)(item);
 
-	pg = PREVIEW_GRID (item);
-	window = GTK_WIDGET (item->canvas)->window;
+	if (parent_klass->realize)
+		(*parent_klass->realize) (item);
 
 	/* Set the default background color of the canvas itself to white.
 	 * This makes the redraws when the canvas scrolls flicker less.
@@ -337,64 +262,41 @@ preview_grid_realize (FooCanvasItem *item)
 	gdk_gc_set_rgb_fg_color (pg->gc.fill, &gs_white);
 	gdk_gc_set_rgb_bg_color (pg->gc.fill, &gs_light_gray);
 	gdk_gc_set_fill (pg->gc.cell, GDK_SOLID);
-
-	/* Initialize hard-coded defaults */
-	pg->def.style = mstyle_new_default ();
 }
 
-/**
- * preview_grid_unrealize:
- * @item: a PreviewGrid
- *
- * Unrealize handler
- **/
 static void
 preview_grid_unrealize (FooCanvasItem *item)
 {
 	PreviewGrid *pg = PREVIEW_GRID (item);
-
-	g_object_unref (G_OBJECT (pg->gc.fill));
-	g_object_unref (G_OBJECT (pg->gc.cell));
-	g_object_unref (G_OBJECT (pg->gc.empty));
-	pg->gc.fill  = 0;
-	pg->gc.cell  = 0;
-	pg->gc.empty = 0;
-
-	mstyle_unref (pg->def.style);
-
-	if (FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->unrealize)
-		(*FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->unrealize)(item);
+	g_object_unref (pg->gc.fill);  pg->gc.fill  = NULL;
+	g_object_unref (pg->gc.cell);  pg->gc.cell  = NULL;
+	g_object_unref (pg->gc.empty); pg->gc.empty = NULL;
+	if (parent_klass->unrealize)
+		(*parent_klass->unrealize) (item);
 }
 
-/**
- * preview_grid_update:
- *
- * Update handler
- **/
 static void
 preview_grid_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
 {
-	if (FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->update)
-		(* FOO_CANVAS_ITEM_CLASS (preview_grid_parent_class)->update) (item, i2w_dx, i2w_dy, flags);
+	FooCanvasGroup *group = FOO_CANVAS_GROUP (item);
+	if (parent_klass->update)
+		(*parent_klass->update) (item, i2w_dx, i2w_dy, flags);
 
-	item->x1 = 0;
-	item->y1 = 0;
-	item->x2 = INT_MAX/2;
-	item->y2 = INT_MAX/2;
+	item->x1 = group->xpos - 2;
+	item->y1 = group->ypos - 2;
+	item->x2 = INT_MAX/2;	/* FIXME add some num cols/rows abilities */
+	item->y2 = INT_MAX/2;	/* FIXME and some flags to decide how to adapt */
+
+	foo_canvas_item_request_redraw (item);
 }
 
-/**
- * preview_grid_draw_background:
- *
- * Draw cell background
- **/
 static void
 preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, MStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
 	GdkGC *gc = pg->gc.empty;
 
-	if (gnumeric_background_set_gc (mstyle, gc, pg->canvas_item.canvas, FALSE))
+	if (gnumeric_background_set_gc (mstyle, gc, pg->base.item.canvas, FALSE))
 		/* Fill the entire cell (API excludes far pixel) */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
 
@@ -412,7 +314,7 @@ pg_style_get_row (PreviewGrid *pg, StyleRow *sr)
 
 	sr->vertical [col] = none;
 	while (col <= end) {
-		MStyle const * style = pg_get_style (pg, row, col);
+		MStyle const * style = pg_get_style (pg, col, row);
 
 		sr->styles [col] = style;
 
@@ -442,14 +344,7 @@ pg_style_get_row (PreviewGrid *pg, StyleRow *sr)
 	}
 }
 
-/**
- * preview_grid_draw:
- *
- * Draw Handler
- *
- * NOTE :
- * The drawing routine does not support spanning.
- **/
+/* no spans or merges */
 static void
 preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		   GdkEventExpose *expose)
@@ -472,10 +367,10 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  	int x, y, col, row, n;
  	int const start_col = pg_get_col_offset (pg, draw_x - 2, &x);
  	int end_col         = pg_get_col_offset (pg, draw_x + width + 2, NULL);
- 	int const diff_x    = draw_x;
+ 	int diff_x    = x;
  	int start_row       = pg_get_row_offset (pg, draw_y - 2, &y);
  	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
- 	int const diff_y    = draw_y;
+ 	int diff_y    = y;
 
 	StyleRow sr, next_sr;
 	MStyle const **styles;
@@ -485,10 +380,6 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	int *colwidths = NULL;
 
 	style_border_none_set_color (style_color_grid ());
-
- 	/* Fill entire region with default background (even past far edge) */
- 	gdk_draw_rectangle (drawable, pg->gc.fill, TRUE,
- 			    draw_x, draw_y, width, height);
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.
@@ -509,7 +400,12 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	for (col = start_col; col <= end_col; col++)
 		colwidths[col] = pg_get_col_width (pg, col);
 
-	for (y = -diff_y; row <= end_row; row = sr.row = next_sr.row) {
+	foo_canvas_w2c (item->canvas, diff_x, diff_y, &diff_x, &diff_y);
+ 	/* Fill entire region with default background (even past far edge) */
+ 	gdk_draw_rectangle (drawable, pg->gc.fill, TRUE,
+ 			    diff_x, diff_y, width, height);
+
+	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row) {
  		int row_height = pg_get_row_height (pg, row);
 
 		if (++next_sr.row > end_row) {
@@ -519,8 +415,8 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		} else
 			pg_style_get_row (pg, &next_sr);
 
-		for (col = start_col, x = -diff_x; col <= end_col; col++) {
- 			Cell         *cell  = pg_construct_cell (context, pg, row, col);
+		for (col = start_col, x = diff_x; col <= end_col; col++) {
+ 			Cell         *cell  = pg_construct_cell (pg, col, row, context);
 			MStyle const *style = sr.styles [col];
 
  			preview_grid_draw_background (drawable, pg,
@@ -536,7 +432,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  		}
 
 		style_borders_row_draw (prev_vert, &sr,
-					drawable, -diff_x, y, y+row_height,
+					drawable, diff_x, y, y+row_height,
 					colwidths, TRUE);
 
 		/* roll the pointers */
@@ -550,13 +446,6 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  	}
 }
 
-/**
- * preview_grid_point:
- *
- * Point Handler
- *
- * Return value: point
- **/
 static double
 preview_grid_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 		    FooCanvasItem **actual_item)
@@ -565,124 +454,116 @@ preview_grid_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 	return 0.0;
 }
 
-/**
- * preview_grid_init:
- * @preview_grid: a PreviewGrid
- *
- * Instance initialization
- **/
 static void
-preview_grid_init (PreviewGrid *preview_grid)
+preview_grid_set_property (GObject *obj, guint param_id,
+			   GValue const *value, GParamSpec *pspec)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (preview_grid);
+	PreviewGrid *pg = PREVIEW_GRID (obj);
+
+	switch (param_id){
+	case PREVIEW_GRID_PROP_RENDER_GRIDLINES :
+		pg->gridlines = g_value_get_boolean (value);
+		break;
+	case PREVIEW_GRID_PROP_DEFAULT_COL_WIDTH :
+		pg->defaults.col_width = g_value_get_uint (value);
+		break;
+	case PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT :
+		pg->defaults.row_height = g_value_get_uint (value);
+		break;
+	case PREVIEW_GRID_PROP_DEFAULT_STYLE : { /* add a  ref */
+		MStyle *style = g_value_get_pointer (value);
+		g_return_if_fail (style != NULL);
+		mstyle_ref (style);
+		mstyle_unref (pg->defaults.style);
+		pg->defaults.style = style;
+		break;
+	}
+	case PREVIEW_GRID_PROP_DEFAULT_VALUE : { /* steal ownership */
+		Value *val = g_value_get_pointer (value);
+		g_return_if_fail (val != NULL);
+		if (pg->defaults.value != val) {
+			value_release (pg->defaults.value);
+			pg->defaults.value = val;
+		}
+		break;
+	}
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+
+	foo_canvas_item_request_update (FOO_CANVAS_ITEM (obj));
+}
+
+static void
+preview_grid_finalize (GObject *obj)
+{
+	PreviewGrid *pg = PREVIEW_GRID (obj);
+
+	if (pg->defaults.style != NULL) {
+		mstyle_unref (pg->defaults.style);
+		pg->defaults.style = NULL;
+	}
+	if (pg->defaults.value != NULL) {
+		value_release (pg->defaults.value);
+		pg->defaults.value = NULL;
+	}
+
+	if (G_OBJECT_CLASS (parent_klass)->finalize)
+		(*G_OBJECT_CLASS (parent_klass)->finalize) (obj);
+}
+
+static void
+preview_grid_init (PreviewGrid *pg)
+{
+	FooCanvasItem *item = FOO_CANVAS_ITEM (pg);
 
 	item->x1 = 0;
 	item->y1 = 0;
 	item->x2 = 0;
 	item->y2 = 0;
 
-	/* Some sensible hardcoded defaults */
-	preview_grid->gridlines      = FALSE;
-	preview_grid->def.col_width  = 64;
-	preview_grid->def.row_height = 17;
+	pg->gridlines      = FALSE;
+	pg->defaults.col_width  = 64;
+	pg->defaults.row_height = 17;
+	pg->defaults.style      = mstyle_new_default ();
+	pg->defaults.value	= value_new_empty ();
 }
 
-/**
- * preview_grid_set_arg:
- *
- * Callback to set arguments
- **/
 static void
-preview_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+preview_grid_class_init (GObjectClass *gobject_klass)
 {
-	FooCanvasItem *item;
-	PreviewGrid *pg;
+	FooCanvasItemClass *item_klass = (FooCanvasItemClass *) gobject_klass;
 
-	item = FOO_CANVAS_ITEM (o);
-	pg = PREVIEW_GRID (o);
+	parent_klass = g_type_class_peek_parent (gobject_klass);
 
-	switch (arg_id){
-	case ARG_RENDER_GRIDLINES :
-		pg->gridlines = GTK_VALUE_BOOL (*arg);
-		break;
-	case ARG_DEFAULT_ROW_HEIGHT :
-		pg->def.row_height = GTK_VALUE_INT (*arg);
-		break;
-	case ARG_DEFAULT_COL_WIDTH :
-		pg->def.col_width = GTK_VALUE_INT (*arg);
-		break;
-	default :
-		g_warning ("Unknown argument");
-		break;
-	}
-}
+	gobject_klass->finalize     = preview_grid_finalize;
+	gobject_klass->set_property = preview_grid_set_property;
+	g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_RENDER_GRIDLINES,
+		g_param_spec_boolean ("render-gridlines", NULL, NULL,
+			FALSE,
+			G_PARAM_WRITABLE));
+        g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_COL_WIDTH,
+                 g_param_spec_uint ("default-col-width", NULL, NULL,
+			0, G_MAXUINT, 0,
+			G_PARAM_WRITABLE));
+        g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT,
+                 g_param_spec_uint ("default-row-height", NULL, NULL,
+			0, G_MAXUINT, 0,
+			G_PARAM_WRITABLE));
+        g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_STYLE,
+                 g_param_spec_pointer ("default-style", NULL, NULL,
+			G_PARAM_WRITABLE));
+        g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_VALUE,
+                 g_param_spec_pointer ("default-value", NULL, NULL,
+			G_PARAM_WRITABLE));
 
-/**
- * preview_grid_class_init:
- * @preview_grid_class: a PreviewGrid
- *
- * PreviewGrid class initialization
- **/
-static void
-preview_grid_class_init (PreviewGridClass *preview_grid_class)
-{
-	GtkObjectClass  *klass;
-	FooCanvasItemClass *item_class;
-
-	klass = (GtkObjectClass *) preview_grid_class;
-	item_class = (FooCanvasItemClass *) preview_grid_class;
-	preview_grid_parent_class = g_type_class_peek_parent (klass);
-
-	/* Manipulation */
-	gtk_object_add_arg_type ("PreviewGrid::RenderGridlines", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_RENDER_GRIDLINES);
-	gtk_object_add_arg_type ("PreviewGrid::DefaultRowHeight", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_DEFAULT_ROW_HEIGHT);
-	gtk_object_add_arg_type ("PreviewGrid::DefaultColWidth", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_DEFAULT_COL_WIDTH);
-
-	klass->set_arg = preview_grid_set_arg;
-	klass->destroy = preview_grid_destroy;
-
-	/* FooCanvasItem method overrides */
-	item_class->update      = preview_grid_update;
-	item_class->realize     = preview_grid_realize;
-	item_class->unrealize   = preview_grid_unrealize;
-
-	item_class->draw        = preview_grid_draw;
-	item_class->point       = preview_grid_point;
-
-	/* Create all the signals */
-	pg_signals [GET_ROW_HEIGHT] = g_signal_new ( "get_row_height",
-		preview_grid_get_type (),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (PreviewGridClass, get_row_height),
-		(GSignalAccumulator) NULL, NULL,
-		gnm__INT__INT,
-		G_TYPE_INT, 1, G_TYPE_INT);
-	pg_signals [GET_COL_WIDTH] = g_signal_new ( "get_col_width",
-		preview_grid_get_type (),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (PreviewGridClass, get_col_width),
-		(GSignalAccumulator) NULL, NULL,
-		gnm__INT__INT,
-		G_TYPE_INT, 1, G_TYPE_INT);
-	pg_signals [GET_CELL_STYLE] = g_signal_new ( "get_cell_style",
-		preview_grid_get_type (),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (PreviewGridClass, get_cell_value),
-		(GSignalAccumulator) NULL, NULL,
-		gnm__POINTER__INT_INT,
-		G_TYPE_POINTER, 2, G_TYPE_INT, G_TYPE_INT);
-	pg_signals [GET_CELL_VALUE] = g_signal_new ( "get_cell_value",
-		preview_grid_get_type (),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (PreviewGridClass, get_cell_value),
-		(GSignalAccumulator) NULL, NULL,
-		gnm__POINTER__INT_INT,
-		G_TYPE_POINTER, 2, G_TYPE_INT, G_TYPE_INT);
+	item_klass->update      = preview_grid_update;
+	item_klass->realize     = preview_grid_realize;
+	item_klass->unrealize   = preview_grid_unrealize;
+	item_klass->draw        = preview_grid_draw;
+	item_klass->point       = preview_grid_point;
 }
 
 GSF_CLASS (PreviewGrid, preview_grid,
 	   preview_grid_class_init, preview_grid_init,
-	   FOO_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_GROUP);
