@@ -15,6 +15,7 @@
 #include "workbook.h"
 #include "expr-name.h"
 #include "expr.h"
+#include "sheet-style.h"
 
 /* We don't expect that many global names ! */
 static GList *global_names = NULL;
