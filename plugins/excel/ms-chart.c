@@ -140,6 +140,9 @@ BC_R(ai)(ExcelChartHandler const *handle,
 	case 0 : puts ("Linking title or text"); break;
 	case 1 : puts ("Linking values"); break;
 	case 2 : puts ("Linking categories"); break;
+
+	/* This is undocumented, but makes sense */
+	case 3 : puts ("Linking bubbles"); break;
 	default :
 		 printf ("Unknown link type(%x)\n", id);
 	};
@@ -401,9 +404,9 @@ BC_R(axisparent)(ExcelChartHandler const *handle,
 	guint16 const index = BIFF_GET_GUINT16 (q->data);	/* 1 or 2 */
 	/* Measured in 1/4000ths of the chart width */
 	guint32 const x = BIFF_GET_GUINT32 (q->data+2);
-	guint32 const y = BIFF_GET_GUINT16 (q->data+6);
-	guint32 const x_length = BIFF_GET_GUINT16 (q->data+10);
-	guint32 const y_length = BIFF_GET_GUINT16 (q->data+14);
+	guint32 const y = BIFF_GET_GUINT32 (q->data+6);
+	guint32 const x_length = BIFF_GET_GUINT32 (q->data+10);
+	guint32 const y_length = BIFF_GET_GUINT32 (q->data+14);
 
 	printf ("Axis # %hu @ %f,%f, X=%f, Y=%f\n",
 		index, x/4000., y/4000., x_length/4000., y_length/4000.);
@@ -508,15 +511,15 @@ BC_R(chart)(ExcelChartHandler const *handle,
 {
 	/* TODO TODO TODO : Why are all charts listed as starting at 0,0 ?? */
 	/* Fixed point 2 bytes fraction 2 bytes integer */
-	gint32 const x_pos_fixed = BIFF_GET_GUINT16 (q->data + 2);
-	gint32 const y_pos_fixed = BIFF_GET_GUINT16 (q->data + 6);
-	gint32 const x_size_fixed = BIFF_GET_GUINT16 (q->data + 10);
-	gint32 const y_size_fixed = BIFF_GET_GUINT16 (q->data + 14);
-	double const x_pos = x_pos_fixed / 65535.;
-	double const y_pos = y_pos_fixed / 65535.;
-	double const x_size = x_size_fixed / 65535.;
-	double const y_size = y_size_fixed / 65535.;
-	printf("Chart @ %g, %g is %g x %g\n", x_pos, y_pos, x_size, y_size);
+	guint32 const x_pos_fixed = BIFF_GET_GUINT32 (q->data + 0);
+	guint32 const y_pos_fixed = BIFF_GET_GUINT32 (q->data + 4);
+	guint32 const x_size_fixed = BIFF_GET_GUINT32 (q->data + 8);
+	guint32 const y_size_fixed = BIFF_GET_GUINT32 (q->data + 12);
+	double const x_pos = x_pos_fixed / (65535. * 72.);
+	double const y_pos = y_pos_fixed / (65535. * 72.);
+	double const x_size = x_size_fixed / (65535. * 72.);
+	double const y_size = y_size_fixed / (65535. * 72.);
+	printf("Chart @ %g, %g is %g\" x %g\"\n", x_pos, y_pos, x_size, y_size);
 
 	return FALSE;
 }
@@ -696,7 +699,10 @@ static gboolean
 BC_R(fbi)(ExcelChartHandler const *handle,
 	  ExcelChartState *s, BiffQuery *q)
 {
-	/* TODO TODO TODO : Work on appropriate scales */
+	/*
+	 * TODO TODO TODO : Work on appropriate scales.
+	 * Is any of this useful other than the index ?
+	 */
 	guint16 const x_basis = BIFF_GET_GUINT16 (q->data);
 	guint16 const y_basis = BIFF_GET_GUINT16 (q->data+2);
 	guint16 const applied_height = BIFF_GET_GUINT16 (q->data+4);
@@ -1450,7 +1456,7 @@ BC_R(shtprops)(ExcelChartHandler const *handle,
 		printf ("There should be a POS record around here soon\n");
 
 	if (manual_format);
-		printf ("Manually formated");
+		printf ("Manually formated\n");
 	if (only_plot_visible_cells);
 		printf ("Only plot visible (to who??) cells\n");
 	return FALSE;

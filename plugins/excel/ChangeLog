@@ -1,3 +1,10 @@
+
+1999-07-09  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-chart.c (BC_R(chart)) : Correctly handle the fixed point
+	  sizes.
+	(BC_R(ai)) : Figure the missing link association is bubbles.
+
 1999-07-09  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-chart.c : Actually make a series object !  After finding another
