@@ -276,11 +276,12 @@ gnumeric_if (FunctionEvalInfo *ei, GnmValue **args)
 		return value_dup (args[res]);
 
 	argcount = gnm_expr_get_func_argcount ((const GnmExpr *)ei->func_call);
-
-	if (argcount == 3)
-		return value_new_int (0);
-	else
+	if (argcount < res + 1)
+		/* arg-not-there: default to TRUE/FALSE.  */
 		return value_new_bool (res == 1);
+	else
+		/* arg blank: default to 0.  */
+		return value_new_int (0);
 }
 
 /***************************************************************************/
