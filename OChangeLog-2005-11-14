@@ -1,3 +1,8 @@
+2004-03-18  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-canvas.c (row_scroll_step): Use a continious
+	function, not a step function.
+
 2004-03-18  Guntupalli Karunakar  <karunakar@freedomink.org>
 
 	* configure.in: Added "mr" for Marathi to ALL_LINGUAS.

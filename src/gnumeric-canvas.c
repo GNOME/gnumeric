@@ -1043,21 +1043,7 @@ col_scroll_step (int dx)
 static int
 row_scroll_step (int dy)
 {
-	if (dy <= 20)
-		return 1;
-	if (dy <= 30)
-		return 2;
-	if (dy <= 40)
-		return 4;
-	if (dy <= 45)
-		return 8;
-	if (dy <= 50)
-		return 16;
-	if (dy <= 60)
-		return 32;
-	if (dy <= 100)
-		return 500;
-	return 5000;
+	return (int) (CLAMP (pow (2.0, (dy - 20) / 10.0), 1.0, SHEET_MAX_ROWS / 15.0));
 }
 
 static gint
