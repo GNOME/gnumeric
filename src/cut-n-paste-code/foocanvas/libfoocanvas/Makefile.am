@@ -22,13 +22,10 @@ libfoocanvas_a_LIBADD = \
 
 libfoocanvasincludedir = $(includedir)/libfoocanvas-1.0/libfoocanvas
 
-marshal_sources =				\
-	foo-canvas-marshal.c			\
-	foo-canvas-marshal.h
 
 BUILT_SOURCES =					\
-	$(marshal_sources)
-
+	foo-canvas-marshal.c			\
+	foo-canvas-marshal.h
 
 libfoocanvas_a_SOURCES =			\
 	$(BUILT_SOURCES)			\
@@ -45,14 +42,19 @@ libfoocanvas_a_SOURCES =			\
 
 foo-canvas-marshal.h: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=foo_canvas_marshal > $@
-foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL) foo-canvas-marshal.h
-	$(GLIB_GENMARSHAL) $< --body --prefix=foo_canvas_marshal > $@
+foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
+	$(GLIB_GENMARSHAL) $< --body --prefix=foo_canvas_marshal > $@.tmp
+	echo '/* This file has been automatically generated.  Do not edit.  */' >$@
+	echo '#include "'$*.h'"' >>$@
+	cat $@.tmp >>$@
+	rm -f $@.tmp
 
 EXTRA_DIST = \
 	foo-canvas-marshal.list	\
 	libfoocanvas.pc.in
 
-DONT_DIST_SOURCE = $(marshal_sources)
+
+DONT_DIST_SOURCE = $(BUILT_SOURCES)
 
 dist-hook:
 	for file in $(DONT_DIST_SOURCE) ; do \

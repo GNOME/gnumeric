@@ -80,8 +80,6 @@
 #include "foo-canvas-i18n.h"
 
 #include "foo-canvas-marshal.h"
-#include "foo-canvas-marshal.c"
-
 
 static void foo_canvas_request_update (FooCanvas      *canvas);
 static void group_add                   (FooCanvasGroup *group,
