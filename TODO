@@ -18,6 +18,9 @@ GNOME Spread Sheet task list
 * 
 * Sheet
 
+** Cell data entry:
+   double click on cell allows editing as in main editing box.
+
 * Auditing
    Write the sheet auditing code.
 
@@ -73,11 +76,11 @@ GNOME Spread Sheet task list
 * Workbooks:
 
 ** Notebook:
+
    Clicking on it chooses it
    Double clicking changes the name
    Right clicking gets:
      insert
-     
 
 * Cell selection
 

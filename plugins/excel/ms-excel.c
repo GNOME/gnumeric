@@ -40,7 +40,7 @@ static void ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * a
  * ( seemingly ).
  *  FIXME: see S59D47.HTM for full description
  **/
-static char *
+char *
 biff_get_text (BYTE * ptr, int length)
 {
 	int lp ;

@@ -82,5 +82,5 @@ typedef struct _MS_EXCEL_WORKBOOK
 } MS_EXCEL_WORKBOOK ;
 
 extern char* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first) ;
-
+extern char* biff_get_text (BYTE *ptr, int length) ;
 #endif

@@ -1,3 +1,11 @@
+1999-02-19  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-formula.c: Inserted a whole scad
+	of math functions into translation table.
+	(parse_list_to_equation): g_strdupped return values.
+	FORMULA_PTG_STR: Updated old and broken code.
+	* src/about.c (dialog_about): Added Sean.
+
 1999-02-13  Bruno Unna  <bruno@iac.com.mx>
 
 	* src/dialog-cell-format.c (create_foreground_radio): Added a

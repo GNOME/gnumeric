@@ -62,6 +62,30 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0x07, "MAX (", 0,  ")", -1, 0 },
   { 0x24, "AND (", 0,  ")", -1, 0 },
   { 0x25, "OR (",  0,  ")", -1, 0 },
+  { 0x63, "ACOS (", 0, ")", 1, 0 },
+  { 0xe9, "ACOSH (", 0, ")", 1, 0 },
+  { 0x62, "ASIN (", 0, ")", 1, 0 },
+  { 0xe8, "ASINH (", 0, ")", 1, 0 },
+  { 0x12, "ATAN (", 0, ")", 1, 0 },
+  { 0x61, "ATAN2 (", 0, ")", 2, 0 },
+  { 0xea, "ATANH (", 0, ")", 1, 0 },
+  { 0x120, "CEILING (", 0, ")", 2, 0 },
+  { 0x10, "COS (", 0, ")", 1, 0 },
+  { 0xe6, "COSH (", 0, ")", 1, 0 },
+  { 0x15, "EXP (", 0, ")", 1, 0 },
+  { 0x16, "LN (", 0, ")", 1, 0 },
+  { 0x6d, "LOG (", 0, ")", 1, 0 },
+  { 0x17, "LOG10 (", 0, ")", 1, 0 },
+  { 0x156, "RADIANS (", 0, ")", 1, 0 },
+  { 0x3f, "RAND (", 0, ")", 0, 0 },
+  { 0x1a, "SIGN (", 0, ")", 1, 0 },
+  { 0xf, "SIN (", 0, ")", 1, 0 },
+  { 0xe5, "SINH (", 0, ")", 1, 0 },
+  { 0x14, "SQRT (", 0, ")", 1, 0 },
+  { 0x11, "TAN (", 0, ")", 1, 0 },
+  { 0xe7, "TANH (", 0, ")", 1, 0 },
+  { 0xc5, "TRUNC (", 0, ")", 1, 0 },
+  { 0x27, "MOD (", 0, ")", 2, 0 },
   { 0x65, "HLOOKUP (", 0, ")", -1, 0 },
   { 0x66, "VLOOKUP (", 0, ")", -1, 0 },
   { 0x71, "UPPER (",   0, ")", 1, 0 }
@@ -239,15 +263,15 @@ static char *parse_list_to_equation (PARSE_LIST *list)
       
       pd = g_list_first (list->data)->data ;
       if (!pd)
-	return "Stack too short" ;
+	return g_strdup ("Stack too short") ;
       if (!pd->name)
-	return "No data in stack entry" ;
+	return g_strdup ("No data in stack entry") ;
       if (list->length>1)
-	return "Too much data on stack\n" ;
+	return g_strdup ("Too much data on stack\n") ;
 
       formula = (char *)g_malloc(strlen(pd->name)+2) ;
       if (!formula)
-	return "Out of memory" ;
+	return g_strdup ("Out of memory") ;
 
       strcpy (formula, "=") ;
       strcat (formula, pd->name) ;
@@ -255,7 +279,7 @@ static char *parse_list_to_equation (PARSE_LIST *list)
       return formula ;
     }
   else
-    return "Nothing on stack" ;
+    return g_strdup ("Nothing on stack") ;
 }
 
 /**
@@ -583,17 +607,13 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		}
 		case FORMULA_PTG_STR:
 		{ /* FIXME: Len should only be a byte but seems to be a word ! */
-			guint32 len = BIFF_GETWORD(cur) ;
-			char *str = (char *)g_malloc(len+3) ;
-			guint32 lp ;
-			for (lp=0;lp<len;lp++)
-				str[lp+1] = BIFF_GETBYTE(cur+2+lp) ;
-			str[lp]   = '"' ;
-			str[lp+1] = '\0' ;
-			str[0]    = '"' ;
+			char *str ;
+			printf ("PTG_STR\n") ;
+			dump (q->data, q->length) ;
+			str = biff_get_text (cur+1, BIFF_GETBYTE(cur)) ;
 			parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
-/*		printf ("Found string '%s'\n", str) ; */
-			ptg_length = 2 + len ;
+			printf ("Found string '%s'\n", str) ; 
+			ptg_length = 1 + BIFF_GETBYTE(cur) ;
 			break ;
 		}
 		default:
@@ -663,7 +683,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		return ;
 	}
 	
-	ans = parse_list_to_equation(stack) ;
+	ans = parse_list_to_equation (stack) ;
 	if (ans)
 	{
 		int xlp, ylp ;

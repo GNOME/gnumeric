@@ -28,6 +28,7 @@ dialog_about (Workbook *wb)
 		"Adrian Likins, Documentation, debugging",
 		"Jakub Jelinek, Gnumeric hacker",
 		"Michael Meeks, Excel and OLE2 importing",
+		"Sean Atkinson, Excel functions",
 		"Bruno Unna, Excel code",
 		"Mark Probst, Guile support",
 		"Vincent Renardias, CSV support",
