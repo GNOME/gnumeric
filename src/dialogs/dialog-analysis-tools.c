@@ -2514,21 +2514,19 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
  * Output range entry was focused. Switch to output range.
  *
  **/
-static void
+static gboolean
 histogram_tool_set_predetermined (G_GNUC_UNUSED GtkWidget *widget,
 				  G_GNUC_UNUSED GdkEventFocus *event,
 				  HistogramToolState *state)
 {
 	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->predetermined_button), TRUE);
+	    return FALSE;
 }
 
 /**
  * histogram_tool_set_predetermined_on_toggle:
  * @widget:
- * @focus_widget:
  * @state:
- *
- * Output range entry was focused. Switch to output range.
  *
  **/
 static void
@@ -2542,18 +2540,17 @@ histogram_tool_set_predetermined_on_toggle (G_GNUC_UNUSED GtkWidget *widget,
 /**
  * histogram_tool_set_calculated:
  * @widget:
- * @focus_widget:
+ * @event:
  * @state:
  *
- * Output range entry was focused. Switch to output range.
- *
  **/
-static void
+static gboolean
 histogram_tool_set_calculated (G_GNUC_UNUSED GtkWidget *widget,
 			       G_GNUC_UNUSED GdkEventFocus *event,
 			       HistogramToolState *state)
 {
-	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->calculated_button), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->calculated_button), TRUE);
+	return FALSE;
 }
 
 /**
@@ -2625,7 +2622,9 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	g_signal_connect (G_OBJECT (state->max_entry),
 		"focus-in-event",
 		G_CALLBACK (histogram_tool_set_calculated), state);
-	g_signal_connect (G_OBJECT (state->base.input_entry_2),
+	g_signal_connect (G_OBJECT 
+			  (gnm_expr_entry_get_entry ( 
+				  GNM_EXPR_ENTRY (state->base.input_entry_2))),
 		"focus-in-event",
 		G_CALLBACK (histogram_tool_set_predetermined), state);
 	g_signal_connect (G_OBJECT (state->bin_labels_button),

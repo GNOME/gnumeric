@@ -1,3 +1,10 @@
+2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (dialog_histogram_tool): connect 
+	  focus event handlers to an expression entry's entry
+	(histogram_tool_set_calculated): should return gboolean
+	(histogram_tool_set_predetermined): ditto
+
 2003-09-12  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : fix ancient spelling error.
