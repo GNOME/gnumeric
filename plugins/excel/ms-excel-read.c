@@ -549,7 +549,7 @@ inches_to_points (double inch)
 static void
 excel_print_unit_init_inch (PrintUnit *pu, double val)
 {
-	const GnomePrintUnit *uinch = gnome_print_unit_get_by_abbreviation ("in");
+	GnomePrintUnit const *uinch = gnome_print_unit_get_by_abbreviation ("in");
 	pu->points = inches_to_points (val);
 	pu->desired_display = uinch; /* FIXME: should be more global */
 }
@@ -986,7 +986,7 @@ excel_read_EXSST (BiffQuery *q, ExcelWorkbook *ewb)
 }
 
 Value *
-biff_get_error (EvalPos const *pos, guint8 const err)
+biff_get_error (EvalPos const *pos, guint8 err)
 {
 	switch (err) {
 	case 0:  return value_new_error_NULL (pos);
@@ -1653,7 +1653,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, guint16 xfidx)
 static void
 excel_set_xf (ExcelReadSheet *esheet, int col, int row, guint16 xfidx)
 {
-	MStyle *const mstyle = excel_get_style_from_xf (esheet, xfidx);
+	MStyle * const mstyle = excel_get_style_from_xf (esheet, xfidx);
 
 	d (2, fprintf (stderr,"%s!%s%d = xf(%d)\n", esheet->sheet->name_unquoted,
 		      col_name (col), row + 1, xfidx););
@@ -5288,16 +5288,16 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			/* files with workbook protection are encrypted using a
 			 * static password (why ?? ).
 			 */
-			if (ms_biff_query_set_decrypt (q, "VelvetSweatshop"))
+			if (ms_biff_query_set_decrypt (q, ewb->container.ver, "VelvetSweatshop"))
 				break;
 			do {
-				const char *filename = workbook_get_filename (ewb->gnum_wb);
+				char const *filename = workbook_get_filename (ewb->gnum_wb);
 				char *passwd = cmd_context_get_password (COMMAND_CONTEXT (ewb->context), filename);
 				if (passwd == NULL) {
 					problem_loading = _("No password supplied");
 					break;
 				}
-				if (!ms_biff_query_set_decrypt (q, passwd))
+				if (!ms_biff_query_set_decrypt (q, ewb->container.ver, passwd))
 					problem_loading = _("Invalid password");
 				g_free (passwd);
 				if (problem_loading == NULL)

@@ -23,6 +23,8 @@
 #include <gsf/gsf-msole-utils.h>
 
 #define BIFF_DEBUG 0
+#define sizeof_BIFF_8_FILEPASS	 (6 + 3*16)
+#define sizeof_BIFF_2_7_FILEPASS  4
 
 /**
  * The only complicated bits in this code are:
@@ -47,6 +49,14 @@ dump_biff (BiffQuery *q)
 /*                                 Read Side                                   */
 /*******************************************************************************/
 
+static gboolean
+ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, char const *password)
+{
+	g_return_val_if_fail (q->length == sizeof_BIFF_2_7_FILEPASS, FALSE);
+
+#warning TODO OO has docs should be trivial to add
+	return FALSE;
+}
 
 /* 
 this is just cut out of wvMD5Final to get the byte order correct
@@ -206,20 +216,24 @@ skip_bytes (BiffQuery *q, int start, int count)
 	rc4 (scratch, count, &q->rc4_key);
 }
 
-#define sizeof_BIFF_FILEPASS	(6 + 3*16)
 /**
  * ms_biff_query_set_decrypt :
  * @q :
  * @password : password in UTF-8 encoding.
  */
 gboolean
-ms_biff_query_set_decrypt (BiffQuery *q, char const *password)
+ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
+			   char const *password)
 {
 	g_return_val_if_fail (q->opcode == BIFF_FILEPASS, FALSE);
-	g_return_val_if_fail (q->length == sizeof_BIFF_FILEPASS, FALSE);
 
 	if (password == NULL)
 		return FALSE;
+
+	if (version < MS_BIFF_V8)
+		return ms_biff_pre_biff8_query_set_decrypt (q, password);
+
+	g_return_val_if_fail (q->length == sizeof_BIFF_8_FILEPASS, FALSE);
 
 	if (!verify_password (password, q->data + 6,
 			      q->data + 22, q->data + 38, &q->md5_ctxt))

@@ -50,7 +50,8 @@ typedef struct {
 
 /* Sets up a query on a stream */
 BiffQuery  *ms_biff_query_new         (GsfInput *);
-gboolean    ms_biff_query_set_decrypt (BiffQuery *q, char const *password);
+gboolean    ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
+				       char const *password);
 
 /* Updates the BiffQuery structure with the next BIFF record
  * returns: 1 for succes, and 0 for EOS(tream) */

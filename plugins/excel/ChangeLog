@@ -1,3 +1,9 @@
+2003-07-24  Jody Goldberg <jody@gnome.org>
+
+	* ms-biff.c (ms_biff_pre_biff8_query_set_decrypt) : new placeholder.
+	(ms_biff_query_set_decrypt) : take a version so that we can correctly
+	  recognize encrypted files for versions before biff8.
+
 2003-07-19  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_read_pre_biff8_obj) : Parse scollbars and spinners
