@@ -385,19 +385,17 @@ gnm_string_append_gstring (GString *target, const GString *source)
 gnm_float
 modfgnum (gnm_float x, gnm_float *iptr)
 {
-	double di;
-	static gboolean warned = FALSE;
-
-	if (!warned) {
-		warned = TRUE;
-		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in modfgnum."));
+	if (isnangnum (x))
+		return *iptr = x;
+	else if (finitegnum (x)) {
+		if (x >= 0)
+			return x - (*iptr = floorgnum (x));
+		else
+			return x - (*iptr = -floorgnum (-x));			
+	} else {
+		*iptr = x;
+		return 0;
 	}
-
-	/* Throw away the fractional part.  Hope the integer part fits.  */
-	(void)modf (x, &di);
-	*iptr = di;
-
-	return x - di;
 }
 #endif
 
