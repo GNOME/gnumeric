@@ -53,5 +53,9 @@ two_way_table_idx_to_key (const TwoWayTable *table, gint idx);
 double
 lookup_font_base_char_width (StyleFont *font, gboolean logging_condition);
 
-#endif
+/* A new version based on hard coded tables to match XL */
+double
+lookup_font_base_char_width_new (char const * const name, double size_pts,
+				 gboolean const is_default);
 
+#endif

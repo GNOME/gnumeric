@@ -241,13 +241,12 @@ void        sheet_row_add                 (Sheet *sheet, ColRowInfo *cp);
 /* Col width */
 int     sheet_col_get_distance_pixels   (Sheet const *sheet, int from_col, int to_col);
 double  sheet_col_get_distance_pts      (Sheet const *sheet, int from_col, int to_col);
-void    sheet_col_set_size_pts          (Sheet *sheet, int col, double height_pts,
+void    sheet_col_set_size_pts          (Sheet *sheet, int col, double width_pts,
 					 gboolean set_by_user);
-void    sheet_col_set_size_pixels       (Sheet *sheet, int col, int height_pixels,
+void    sheet_col_set_size_pixels       (Sheet *sheet, int col, int width_pixels,
 					 gboolean set_by_user);
 double  sheet_col_get_default_size_pts  (Sheet const *sheet);
-void    sheet_col_set_default_size_pts  (Sheet *sheet, double width_pts,
-					 gboolean thick_a, gboolean thick_b);
+void    sheet_col_set_default_size_pts  (Sheet *sheet, double width_pts);
 
 /* Row height */
 int     sheet_row_get_distance_pixels   (Sheet const *sheet, int from_row, int to_row);

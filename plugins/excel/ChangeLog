@@ -1,3 +1,18 @@
+2000-02-15  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_sheet_new) : Add new member base_char_width_default.
+	(print_font_mapping_debug_info) : Delete.
+	(lookup_base_char_width_for_read) : Rename init_base_char_width_for_read,
+	  and use lookup_font_base_char_width_new to init the width and the
+	  default_width.
+	(get_base_char_width) : Adjust.
+	(ms_excel_read_colinfo) : Width is different from default_width...  Idiots!
+	(ms_excel_read_default_col_width) : Ditto.
+
+	* ms-excel-util.c : Add lookup tables for various standard widths of
+	  MS fonts.  Use a quick and dirty linear scaling to calculate the
+	  widths of arbitrary font sizes.
+
 2000-02-14  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_row) : heights are specified

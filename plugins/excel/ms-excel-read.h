@@ -21,6 +21,7 @@ typedef struct _ExcelSheet
 	GList *obj_queue;
 	Range  style_optimize;
 	double base_char_width;
+	double base_char_width_default;
 } ExcelSheet;
 
 typedef struct _BiffBoundsheetData

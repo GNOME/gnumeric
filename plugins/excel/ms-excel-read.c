@@ -1947,7 +1947,8 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ans->style_optimize.start.row = 0;
 	ans->style_optimize.end.col   = 0;
 	ans->style_optimize.end.row   = 0;
-	ans->base_char_width          = 0;
+	ans->base_char_width          = -1;
+	ans->base_char_width_default  = -1;
 
 	return ans;
 }
@@ -2327,74 +2328,28 @@ ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 	biff_name_data_new (sheet->wb, name, 0, defn, defnlen, TRUE, FALSE);
 }
 
-#ifndef NO_DEBUG_EXCEL
-static void
-print_font_mapping_debug_info (ExcelSheet *sheet, MStyle const *ms)
-{
-	BiffXFData const *xf = NULL;
-	BiffFontData const *fd = NULL;
-
-	if ((xf = ms_excel_get_xf (sheet, 0)) != NULL &&
-	    (fd = ms_excel_get_font (sheet, xf->font_idx))) {
-
-		printf ("Font: %s %g",
-			fd->fontname, fd->height/20.0);
-		if (ms) {
-			const char *msfn
-				= mstyle_get_font_name (ms);
-			printf (" mapped to %s %.6g",
-				msfn,
-				mstyle_get_font_size
-				(ms));
-		}
-		printf ("\n");
-	}
-}
-#endif
-
 /**
- * lookup_base_char_width_for_read:
+ * init_base_char_width_for_read:
  * @sheet	the Excel sheet
  *
- * Measures base character width for column sizing. Returns width
+ * Measures base character width for column sizing.
  */
-static double
-lookup_base_char_width_for_read (ExcelSheet *sheet)
+static void
+init_base_char_width_for_read (ExcelSheet *sheet)
 {
-	MStyle       *ms;
-	double        res;
-	gboolean      def;
+	/* Use the 'Normal' Style which is by definition the 0th */
+	BiffXFData const *xf = ms_excel_get_xf (sheet, 0);
+	BiffFontData const *fd = (xf != NULL)
+		? ms_excel_get_font (sheet, xf->font_idx)
+		: NULL;
+	/* default to Arial 10 */
+	char const * name = (fd != NULL) ? fd->fontname : "Arial";
+	double const size = (fd != NULL) ? fd->height : 20.* 10.;
 
-	/*
-	 * I'm only guessing that 0 is the right index, but I've been
-	 * right so far.
-	 */
-	def = !sheet->wb->XF_cell_records ||
-		(sheet->wb->XF_cell_records->len == 0);
-
-	if (def)
-		ms = NULL;
-	else
-		ms = ms_excel_get_style_from_xf (sheet, 0);
-
-	if (!ms)
-		res = EXCEL_DEFAULT_CHAR_WIDTH;
-	else {
-		StyleFont *sf;
-
-		sf = mstyle_get_font (ms, 1.0);
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 2) {
-			print_font_mapping_debug_info (sheet, ms);
-		}
-#endif
-		res = lookup_font_base_char_width (sf,
-						   (ms_excel_read_debug > 2));
-		style_font_unref (sf);
-		mstyle_unref (ms);
-	}
-
-	return res;
+	sheet->base_char_width =
+		lookup_font_base_char_width_new (name, size, FALSE);
+	sheet->base_char_width_default =
+		lookup_font_base_char_width_new (name, size, TRUE);
 }
 
 /**
@@ -2409,20 +2364,15 @@ lookup_base_char_width_for_read (ExcelSheet *sheet)
  * This style is actually common to all sheets in the
  * workbook, but I find it more robust to treat it as a sheet
  * attribute.
- *
- * FIXME: There is a function with this name both in ms-excel-read.c and
- * ms-excel-write.c. The only difference is lookup_base_char_width_for_read
- * vs. lookup_base_char_width_for_write. Pass the function as parameter?
- * May be not. I don't like clever code.
  */
 static double
-get_base_char_width (ExcelSheet *sheet)
+get_base_char_width (ExcelSheet *sheet, gboolean const is_default)
 {
 	if (sheet->base_char_width <= 0)
-		sheet->base_char_width
-			= lookup_base_char_width_for_read (sheet);
+		init_base_char_width_for_read (sheet);
 
-	return sheet->base_char_width;
+	return is_default
+		? sheet->base_char_width_default : sheet->base_char_width;
 }
 
 /**
@@ -2514,7 +2464,7 @@ static void
 ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 {
 	int lp;
-	double col_width;
+	float col_width;
 	guint16 const firstcol = MS_OLE_GET_GUINT16(q->data);
 	guint16       lastcol  = MS_OLE_GET_GUINT16(q->data+2);
 	guint16       width    = MS_OLE_GET_GUINT16(q->data+4);
@@ -2528,8 +2478,6 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
-		if (MS_OLE_GET_GUINT8(q->data+10) != 0)
-			printf ("Odd Colinfo\n");
 		printf ("Column Formatting from col %d to %d of width "
 			"%f characters\n", firstcol, lastcol, width/256.0);
 		printf ("Options %hd, default style %hd from col %d to %d\n",
@@ -2539,9 +2487,11 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	g_return_if_fail (firstcol < SHEET_MAX_COLS);
 
 	if (width != 0) {
-		/* Size seems to include margins and the lower grid line */
-		double const char_width = get_base_char_width (sheet);
-		col_width = (width * char_width) / 256.;
+		/* Widths are quoted including margins
+		 * NOTE : These measurements do NOT correspond to what is
+		 * shown to the user
+		 */
+		col_width = get_base_char_width (sheet, FALSE) * width / 256;
 	} else
 		/* Columns are of default width */
 		col_width = sheet->gnum_sheet->cols.default_style.size_pts;
@@ -2927,17 +2877,24 @@ static void
 ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 {
 	guint16 const width = MS_OLE_GET_GUINT16(q->data);
-	double char_width = EXCEL_DEFAULT_CHAR_WIDTH;
+	double const char_width = get_base_char_width (sheet, TRUE);
 	double col_width;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 1) {
-		printf ("Default column width %d characters\n", width);
-	}
+		printf ("Default column width %hu characters\n", width);
 #endif
-	char_width = get_base_char_width (sheet);
+	/*
+	 * According to the tooltip the default width is 8.43 character widths
+	 *   and does not include margins or the grid line.
+	 * According to the saved data the default width is 8 character widths
+	 *   includes the margins and grid line, but uses a different notion of
+	 *   how big a char width is.
+	 * According to saved data a column with the same size a the default has
+	 *   9.00?? char widths.
+	 */
 	col_width = width * char_width;
-	sheet_col_set_default_size_pts (sheet->gnum_sheet, col_width, FALSE, FALSE);
+
+	sheet_col_set_default_size_pts (sheet->gnum_sheet, col_width);
 }
 
 static void

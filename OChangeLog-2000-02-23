@@ -1,3 +1,8 @@
+2000-02-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_col_set_default_size_pts) : There is no notion of
+	  default column width having thick margins.
+
 2000-02-14  Jon K Hellan  <hellan@acm.org>
 
         * src/dialogs/import.glade: Add scrolled window

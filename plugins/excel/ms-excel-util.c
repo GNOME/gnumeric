@@ -212,4 +212,146 @@ lookup_font_base_char_width (StyleFont *font, gboolean logging_condition)
 #endif
 	return res;
 }
+/***************************************************************************/
 
+static GHashTable * xl_font_width_hash = NULL;
+
+struct XL_font_width {
+    int const char_width_pts;
+    int const defaultchar_width_pts;
+    char const * const name;
+};
+
+static void
+init_xl_font_widths ()
+{
+	/* These are the widths in pixels for a 128pt fonts assuming 96dpi
+	 * They were inductively calculated.
+	 *
+	 * The 'default' width is based on the hypothesis that the default
+	 *     column width is always 8*default.  Edit the 'Normal' Style
+	 *     and change the font to 128pt then look the pixel width displayed
+	 *     when resizing the column.
+	 *
+	 * The standard width is also based on setting the Normal styles font.
+	 *    However, it is calculated by changing the column width until it is
+	 *    and integer CHAR width. Note the PIXEL size then resize to a CHAR
+	 *    width 1 unit larger.  Take the pixel difference.
+	 */
+	static struct XL_font_width const widths[] = {
+	    { 95, 102, "Arial" },
+	    { 114, 122, "Arial Black" },
+	    { 78, 84, "Arial Narrow" },
+	    { 95, 102, "AvantGarde" },
+	    { 86, 92, "Book Antiqua" },
+	    { 106, 113, "Bookman Old Style" },
+	    { 95, 102, "Century Gothic" },
+	    { 95, 102, "Century Schoolbook" },
+	    { 104, 111, "Comic Sans MS" },
+	    { 60, 64, "Courier" },
+	    { 103, 110, "Courier New" },
+	    { 103, 110, "Fixedsys" },
+	    { 80, 86, "Garamond" },
+	    { 95, 102, "Haettenscheiler" },
+	    { 103, 110, "HE_TERMINAL" },
+	    { 95, 102, "Helvetica" },
+	    { 95, 102, "Helvetica-Black" },
+	    { 95, 102, "Helvetica-Light" },
+	    { 95, 102, "Helvetica-Narrow" },
+	    { 93, 100, "Impact" },
+	    { 86, 92, "ITC Bookman" },
+	    { 103, 110, "Letter Gothic MT" },
+	    { 103, 110, "Lucida Console" },
+	    { 108, 115, "Lucida Sans Unicode" },
+	    { 171, 182, "Map Symbols" },
+	    { 171, 182, "Marlett" },
+	    { 81, 87, "Modern" },
+	    { 75, 80, "Monotype Corsiva" },
+	    { 156, 166, "Monotype Sorts" },
+	    { 86, 92, "MS Outlook" },
+	    { 90, 96, "MS Sans Serif" },
+	    { 80, 86, "MS Serif" },
+	    { 174, 186, "MT Extra" },
+	    { 86, 92, "NewCenturySchlbk" },
+	    { 95, 102, "Optimum" },
+	    { 86, 92, "Palatino" },
+	    { 81, 87, "Roman" },
+	    { 69, 74, "Script" },
+	    { 142, 152, "Serpentine" },
+	    { 95, 102, "Small Fonts" },
+	    { 86, 92, "Symbol" },
+	    { 40, 43, "System" },
+	    { 103, 110, "System APL Special" },
+	    { 103, 110, "System VT Special" },
+	    { 93, 100, "Tahoma" },
+	    { 50, 54, "Terminal" },
+	    { 86, 92, "Times" },
+	    { 86, 92, "Times New Roman" },
+	    { 91, 97, "Times New Roman MT Extra Bold" },
+	    { 90, 96, "Trebuchet MS" },
+	    { 109, 117, "Verdana" },
+	    { 171, 182, "Webdings" },
+	    { 230, 245, "Wingdings" },
+	    { 194, 207, "Wingdings 2" },
+	    { 95, 102, "Wingdings 3" },
+	    { 86, 92, "ZapfChancery" },
+	    { 230, 245, "ZapfDingbats" },
+	    { -1, -1, NULL }
+	};
+	int i;
+
+	if (xl_font_width_hash == NULL)
+		xl_font_width_hash =
+		    g_hash_table_new (&g_str_hash, &g_str_equal);
+
+	g_return_if_fail (xl_font_width_hash != NULL);
+
+	for (i = 0; widths[i].name != NULL ; ++i)
+		g_hash_table_insert (xl_font_width_hash,
+				     (gpointer)widths[i].name,
+				     (gpointer)(widths+i));
+}
+
+double
+lookup_font_base_char_width_new (char const * const name, double size_pts,
+				 gboolean const is_default)
+{
+	static gboolean need_init = TRUE;
+	gpointer res;
+	if (need_init) {
+		need_init = FALSE;
+		init_xl_font_widths ();
+	}
+
+	g_return_val_if_fail (xl_font_width_hash != NULL, 10.);
+
+	res = g_hash_table_lookup (xl_font_width_hash, name);
+
+	size_pts /= 20.;
+	if (res != NULL) {
+		struct XL_font_width const * info = res;
+		float width = (is_default)
+			? info->defaultchar_width_pts
+			: info->char_width_pts;
+
+		/* Crude Linear interpolation of the width */
+		width = size_pts * width / 128.;
+
+		/* Round to pixels */
+		width = (int)(width +.5);
+
+		printf ("%s %g = %g\n", name, size_pts, width);
+
+		/* Convert to pts using the hard coded 96dpi that the
+		 * measurements assume.
+		 * NOTE : We must round BEFORE converting in order to match
+		 */
+		width *= 72./96.;
+		return width;
+	}
+
+	g_warning ("EXCEL : unknown widths for font '%s', guessing", name);
+
+	/* Use a rough heuristic for unknown fonts. */
+	return .5625 * size_pts;
+}

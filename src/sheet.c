@@ -134,20 +134,8 @@ sheet_destroy_sheet_view (Sheet *sheet, SheetView *sheet_view)
 static void
 sheet_init_default_styles (Sheet *sheet)
 {
-	/* FIXME : we need to be able to apply this bidirectionally.
-	 *         and to resize when the Normal style changes.
-	 *         Of course we need to write the 'Normal' style first ....
-	 *
-	 * Default is 8.43 character widths.
-	 * XL2000 defines columns to have 64 pixels.
-	 * Rather than calculating the true width of 'Arial-10' (the default font)
-	 *    define the width to be that which generates 48 pts (64 pixels).
-	 * This is SO lame.
-	 */
-	double const char_width = 48. / 8.43;
-
-	double const def_width = char_width * 8.43;
-	sheet_col_set_default_size_pts (sheet, def_width, FALSE, FALSE);
+	/* measurements are in pts including the margins and far grid line.  */
+	sheet_col_set_default_size_pts (sheet, 48);
 	sheet_row_set_default_size_pts (sheet, 12.75, FALSE, FALSE);
 }
 
@@ -3352,24 +3340,20 @@ sheet_row_col_visible (Sheet *sheet, gboolean const is_col, gboolean const visib
 }
 
 static void
-col_row_info_init (Sheet *sheet, float const points,
-		   int margin_a, int margin_b, gboolean horizontal)
+col_row_info_init (Sheet *sheet, double pts, int margin_a, int margin_b,
+		   gboolean is_horizontal)
 {
-	ColRowInfo *cri = (horizontal)
+	ColRowInfo *cri = is_horizontal
 	    ? &sheet->cols.default_style
 	    : &sheet->rows.default_style;
 
 	cri->pos = -1;
 	cri->margin_a = margin_a;
 	cri->margin_b = margin_b;
-
-	/* margins and 1 for the grid line */
-	cri->size_pts = points;
-	colrow_compute_pixels_from_pts (sheet, cri, (void*)horizontal);
-
 	cri->hard_size = FALSE;
 	cri->visible = TRUE;
 	cri->spans = NULL;
+	colrow_compute_pixels_from_pts (sheet, cri, is_horizontal);
 }
 
 /************************************************************************/
@@ -3497,8 +3481,7 @@ sheet_col_get_default_size_pts (Sheet const *sheet)
 }
 
 void
-sheet_col_set_default_size_pts (Sheet *sheet, double width_pts,
-				gboolean thick_a, gboolean thick_b)
+sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
 	col_row_info_init (sheet, width_pts, 2, 2, TRUE);
 }
@@ -3652,11 +3635,8 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts,
 				gboolean thick_a, gboolean thick_b)
 {
 	/* There are an addition few pixels above due the the fonts ascent */
-	int a = 1;
-	int b = 0; /* Why XL chooses to be asymetric I don't know */
-
-	if (thick_a) ++a;
-	if (thick_b) ++b;
-
-	col_row_info_init (sheet, height_pts, a, b, FALSE);
+	/* Why XL chooses to be asymetric I don't know */
+	int const a = thick_a ? 2 : 1;
+	int const b = thick_b ? 1 : 0;
+	col_row_info_init (sheet, height_pts, a, b);
 }
