@@ -34,6 +34,9 @@ Jody:
 	  without delay (thanks rconover)
 
 J.H.M. Dassen (Ray):
+	http://bugzilla.gnome.org/show_bug.cgi?id=81456
+	* Fix the omf file.
+
 	* Some gda plugin warnings.
 	* correct the help references in a few languages
 	* Fix some gcc-3 warnings.

@@ -9,7 +9,6 @@ Release Critical
 
     - http://bugzilla.gnome.org/show_bug.cgi?id=81104
     - Keelyn's thousands sep toolbar
-    - JHM's omf updates http://bugzilla.gnome.org/show_bug.cgi?id=81456
     - solver crash
     - how to add constraints to the solver (gui problem?)
     - apply the sensitivity patch

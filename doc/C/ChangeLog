@@ -1,3 +1,8 @@
+2002-06-01  Jody Goldberg <jody@gnome.org>
+
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=81456
+	* gnumeric-C.omf : make it validate
+
 2002-05-27  Jody Goldberg <jody@gnome.org>
 
 	* Makefile.am (sgml_ents) : Add some files that JHM noticed were
