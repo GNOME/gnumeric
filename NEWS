@@ -41,6 +41,7 @@ Morten:
 	* Fix XIRR.
 	* Plug leaks and improve speed of string functions.
 	* Fix DOLLAR.
+	* Fix ROW and COLUMN.
 
 Jon Kåre:
 	* Install bonobo control

@@ -869,34 +869,33 @@ static const char *help_column = {
 };
 
 static Value *
-gnumeric_column (FunctionEvalInfo *ei, GnmExprList *nodes)
+gnumeric_column (FunctionEvalInfo *ei, Value **args)
 {
-	GnmExpr *expr;
+	Value *ref = args[0];
 
-	if (!nodes || !nodes->data)
-		return value_new_int (ei->pos->eval.col+1);
+	if (!ref)
+		return value_new_int (ei->pos->eval.col + 1);
 
-	expr = (GnmExpr *)nodes->data;
+	switch (ref->type) {
+	case VALUE_CELLRANGE: {
+		int width = value_area_get_width (ei->pos, ref);
+		int height = value_area_get_height (ei->pos, ref);
+		CellRef const *const refa = &ref->v_range.cell.a;
+		int col = cellref_get_abs_col (refa, ei->pos) + 1;
+		int i, j;
+		Value *res = value_new_array (width, height);
 
-	if (expr->any.oper == GNM_EXPR_OP_CELLREF)
-		return value_new_int (cellref_get_abs_col (&expr->cellref.ref,
-							   ei->pos) + 1);
-	if (expr->any.oper == GNM_EXPR_OP_CONSTANT &&
-	    expr->constant.value->type == VALUE_CELLRANGE) {
-		int i, j, col;
-		Value const * range = expr->constant.value;
-		CellRef const * a = &range->v_range.cell.a;
-		CellRef const * b = &range->v_range.cell.b;
-		Value * res = value_new_array (abs (b->col - a->col) + 1,
-					       abs (b->row - a->row) + 1);
+		if (width == 1 && height == 1)
+			return value_new_int (col);
 
-		col = cellref_get_abs_col (a, ei->pos) + 1;
-		for (i = abs (b->col - a->col) ; i >= 0 ; --i)
-			for (j = abs (b->row - a->row) ; j >= 0 ; --j)
-				value_array_set(res, i, j,
-						value_new_int(col+i));
-
+		for (i = width - 1; i >= 0 ; --i)
+			for (j = height - 1 ; j >= 0 ; --j)
+				value_array_set (res, i, j,
+						 value_new_int (col + i));
 		return res;
+	}
+
+	default: /* Nothing */ ;
 	}
 
 	return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -1011,34 +1010,33 @@ static const char *help_row = {
 };
 
 static Value *
-gnumeric_row (FunctionEvalInfo *ei, GnmExprList *nodes)
+gnumeric_row (FunctionEvalInfo *ei, Value **args)
 {
-	GnmExpr *expr;
+	Value *ref = args[0];
 
-	if (!nodes || !nodes->data)
-		return value_new_int (ei->pos->eval.row+1);
+	if (!ref)
+		return value_new_int (ei->pos->eval.row + 1);
 
-	expr = (GnmExpr *)nodes->data;
+	switch (ref->type) {
+	case VALUE_CELLRANGE: {
+		int width = value_area_get_width (ei->pos, ref);
+		int height = value_area_get_height (ei->pos, ref);
+		CellRef const *const refa = &ref->v_range.cell.a;
+		int row = cellref_get_abs_row (refa, ei->pos) + 1;
+		int i, j;
+		Value *res = value_new_array (width, height);
 
-	if (expr->any.oper == GNM_EXPR_OP_CELLREF)
-		return value_new_int (cellref_get_abs_row (&expr->cellref.ref,
-							    ei->pos) + 1);
-	if (expr->any.oper == GNM_EXPR_OP_CONSTANT &&
-	    expr->constant.value->type == VALUE_CELLRANGE) {
-		int i, j, row;
-		Value const * range = expr->constant.value;
-		CellRef const * a = &range->v_range.cell.a;
-		CellRef const * b = &range->v_range.cell.b;
-		Value * res = value_new_array (abs (b->col - a->col) + 1,
-					       abs (b->row - a->row) + 1);
+		if (width == 1 && height == 1)
+			return value_new_int (row);
 
-		row = cellref_get_abs_row (a, ei->pos) + 1;
-		for (i = abs (b->col - a->col) ; i >= 0 ; --i)
-			for (j = abs (b->row - a->row) ; j >= 0 ; --j)
-				value_array_set(res, i, j,
-						value_new_int(row+j));
-
+		for (i = width - 1; i >= 0 ; --i)
+			for (j = height - 1 ; j >= 0 ; --j)
+				value_array_set (res, i, j,
+						 value_new_int (row + j));
 		return res;
+	}
+
+	default: /* Nothing */ ;
 	}
 
 	return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -1148,8 +1146,8 @@ const ModulePluginFunctionInfo lookup_functions[] = {
 	  &help_address,  gnumeric_address, NULL, NULL, NULL },
         { "choose",     0,     N_("index,value,"),
 	  &help_choose,   NULL, gnumeric_choose, NULL, NULL },
-	{ "column",     0,     N_("ref,ref,"),
-	  &help_column,   NULL, gnumeric_column, NULL, NULL },
+	{ "column",     "|A",    N_("ref"),
+	  &help_column,   gnumeric_column, NULL, NULL, NULL },
 	{ "columns",   "A",    N_("ref"),
 	  &help_columns, gnumeric_columns, NULL, NULL, NULL },
 	{ "hlookup",   "?Af|bb", N_("val,range,col_idx,approx,as_index"),
@@ -1166,8 +1164,8 @@ const ModulePluginFunctionInfo lookup_functions[] = {
 	  &help_match,    gnumeric_match, NULL, NULL, NULL },
 	{ "offset",    "rff|ff",N_("ref,row,col,height,width"),
 	  &help_offset,   gnumeric_offset, NULL, NULL, NULL },
-	{ "row",       0,      N_("ref,ref,"),
-	  &help_row,      NULL, gnumeric_row, NULL, NULL },
+	{ "row",       "|A",   N_("ref"),
+	  &help_row,      gnumeric_row, NULL, NULL, NULL },
 	{ "rows",      "A",    N_("ref"),
 	  &help_rows,     gnumeric_rows, NULL, NULL, NULL },
 	{ "transpose", "A",    N_("array"),

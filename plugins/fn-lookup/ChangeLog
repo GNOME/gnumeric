@@ -1,3 +1,7 @@
+2002-05-21  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_column, gnumeric_row): Fix 82188.
+
 2002-05-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c (find_index_bisection) : use value_area_get_x_y rather
