@@ -51,7 +51,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *getRefV7(BYTE col, WORD gbitrw, int curcol, int currow)
+static CellRef *getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
 {
   CellRef *cr = (CellRef *)malloc(sizeof(CellRef)) ;
   cr->col          = col ;
@@ -62,6 +62,7 @@ static CellRef *getRefV7(BYTE col, WORD gbitrw, int curcol, int currow)
     cr->row-= currow ;
   if (cr->col_relative)
     cr->col-= curcol ;
+  cr->sheet = sheet->gnum_sheet ;
   /*  printf ("7Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
   return cr ;
 }
@@ -69,7 +70,7 @@ static CellRef *getRefV7(BYTE col, WORD gbitrw, int curcol, int currow)
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *getRefV8(WORD row, WORD gbitcl, int curcol, int currow)
+static CellRef *getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow)
 {
   CellRef *cr = (CellRef *)malloc(sizeof(CellRef)) ;
   cr->row          = row ;
@@ -80,6 +81,7 @@ static CellRef *getRefV8(WORD row, WORD gbitcl, int curcol, int currow)
     cr->row-= currow ;
   if (cr->col_relative)
     cr->col-= curcol ;
+  cr->sheet = sheet->gnum_sheet ;
   /*  printf ("8Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
   return cr ;
 }
@@ -121,6 +123,7 @@ static PARSE_LIST *parse_list_new ()
 
 static void parse_list_push (PARSE_LIST *list, PARSE_DATA *pd)
 {
+  /*  printf ("Pushing '%s'\n", pd->name) ; */
   list->data = g_list_append (list->data, pd) ;
   list->length++ ;
 }
@@ -306,16 +309,16 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	    char *buffer ;
 	    if (sheet->ver == eBiffV8)
 	      {
-		ref = getRefV8 (BIFF_GETWORD(cur), BIFF_GETWORD(cur + 2), fn_col, fn_row) ;
+		ref = getRefV8 (sheet, BIFF_GETWORD(cur), BIFF_GETWORD(cur + 2), fn_col, fn_row) ;
 		ptg_length = 4 ;
 	      }
 	    else
 	      {
-		ref = getRefV7 (BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur), fn_col, fn_row) ;
+		ref = getRefV7 (sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur), fn_col, fn_row) ;
 		ptg_length = 3 ;
 	      }
 	    buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
-	    parse_list_push_raw(stack, strdup (buffer), NO_PRECEDENCE) ;
+	    parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
 	    printf ("%s\n", buffer) ;
 	    free (ref) ;
 	  }
@@ -323,22 +326,25 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	case FORMULA_PTG_AREA:
 	  {
 	    CellRef *first, *last ;
-	    char buffer[128] ;
+	    char buffer[64] ;
+	    char *ptr ;
 	    if (sheet->ver == eBiffV8)
 	      {
-		first = getRefV8(BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4), fn_col, fn_row) ;
-		last  = getRefV8(BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6), fn_col, fn_row) ;
+		first = getRefV8(sheet, BIFF_GETBYTE(cur+0), BIFF_GETWORD(cur+4), fn_col, fn_row) ;
+		last  = getRefV8(sheet, BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur+6), fn_col, fn_row) ;
 		ptg_length = 8 ;
 	      }
 	    else
 	      {
-		first = getRefV7(BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row) ;
-		last  = getRefV7(BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row) ;
+		first = getRefV7(sheet, BIFF_GETBYTE(cur+4), BIFF_GETWORD(cur+0), fn_col, fn_row) ;
+		last  = getRefV7(sheet, BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row) ;
 		ptg_length = 6 ;
 	      }
-	    strcpy (buffer, cellref_name (first, sheet->gnum_sheet, fn_col, fn_row)) ;
+	    strcpy (buffer, (ptr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row))) ;
+	    free (ptr) ;
 	    strcat (buffer, ":") ;
-	    strcat (buffer, cellref_name (last, sheet->gnum_sheet, fn_col, fn_row)) ;
+	    strcat (buffer, (ptr=cellref_name (last, sheet->gnum_sheet, fn_col, fn_row))) ;
+	    free (ptr) ;
 	    parse_list_push_raw(stack, strdup (buffer), NO_PRECEDENCE) ;
 	    printf ("%s\n", buffer) ;
 	    free (first) ;

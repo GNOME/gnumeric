@@ -400,15 +400,15 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 				fd->fontname[i] = tolower (fd->fontname[i]);
 			fd->fontname[i] = '\x0';
 			cell_set_font (cell, font_change_component (cell->style->font->font_name, 1, fd->fontname));
-			printf ("FoNt [-]: %s\n", cell->style->font->font_name);
+//			printf ("FoNt [-]: %s\n", cell->style->font->font_name);
 			if (fd->italic) {
 				cell_set_font (cell, font_get_italic_name (cell->style->font->font_name));
-				printf ("FoNt [i]: %s\n", cell->style->font->font_name);
+//				printf ("FoNt [i]: %s\n", cell->style->font->font_name);
 				cell->style->font->hint_is_italic = 1;
 			}
 			if (fd->boldness == 0x2bc) {
 				cell_set_font (cell, font_get_bold_name (cell->style->font->font_name));
-				printf ("FoNt [b]: %s\n", cell->style->font->font_name);
+//				printf ("FoNt [b]: %s\n", cell->style->font->font_name);
 				cell->style->font->hint_is_bold = 1;
 			}
 			/*
@@ -430,6 +430,9 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
 {
 	GList *ptr;
 	int cnt;
+	BIFF_XF_DATA *xf ;
+	static int cache_xfidx = 0 ;
+	static BIFF_XF_DATA *cache_ptr   = 0 ;
 
 	if (xfidx == 0) {
 		printf ("Normal cell formatting\n");
@@ -439,36 +442,50 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
 		printf ("Default cell formatting\n");
 		return;
 	}
-	/*
-	 * if (!cell->text) Crash if formatting and no text...
-	 * cell_set_text_simple(cell, "") ; 
-	 */
-	ptr = g_list_first (sheet->wb->XF_records);
-	/*
-	 * printf ("Looking for %d\n", xfidx) ; 
-	 */
-	cnt = 16 + 4;		/*
-				 * Magic number ... :-)  FIXME - dodgy 
-				 */
-	while (ptr) {
-		BIFF_XF_DATA *xf = ptr->data;
+	xf = cache_ptr ;
 
-		if (xf->xftype != eBiffXCell) {
-			ptr = ptr->next;
-			continue;
-		}
-		if (cnt == xfidx) {	/*
-					 * Well set it up then ! FIXME: hack ! 
+	if (cache_xfidx != xfidx || !cache_ptr)
+	{
+		cache_xfidx = xfidx ;
+		cache_ptr   = 0 ;
+		/*
+		 * if (!cell->text) Crash if formatting and no text...
+		 * cell_set_text_simple(cell, "") ; 
+		 */
+		ptr = g_list_first (sheet->wb->XF_records);
+		/*
+		 * printf ("Looking for %d\n", xfidx) ; 
+		 */
+		cnt = 16 + 4;		/*
+					 * Magic number ... :-)  FIXME - dodgy 
 					 */
-			cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1);
-			ms_excel_set_cell_colors (sheet, cell, xf);
-			ms_excel_set_cell_font (sheet, cell, xf);
-			return;
+		while (ptr) {
+			xf = ptr->data ;
+	
+			if (xf->xftype != eBiffXCell) {
+				ptr = ptr->next;
+				continue;
+			}
+			if (cnt == xfidx) {
+				cache_ptr = xf ;
+				break ;
+			}
+			cnt++;
+			ptr = ptr->next;
+			if (!ptr)
+			{
+				printf ("No XF record for %d out of %d found :-(\n", xfidx, cnt);
+				return ;
+			}
 		}
-		cnt++;
-		ptr = ptr->next;
 	}
-	printf ("No XF record for %d out of %d found :-(\n", xfidx, cnt);
+
+	/*
+	 * Well set it up then ! FIXME: hack ! 
+	 */
+	cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1);
+	ms_excel_set_cell_colors (sheet, cell, xf);
+	ms_excel_set_cell_font (sheet, cell, xf);
 }
 
 /**

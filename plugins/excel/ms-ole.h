@@ -15,7 +15,6 @@ typedef guint32 SBPtr ;
 typedef struct _MS_OLE_HEADER
 {
   /* Header Data */
-  guint32 number_of_bbd_blocks ; /* bbd = Big Block Depot */
   BBPtr   *bbd_list ; /* [number_of_bbd_blocks] very often 1 */
 
   /* sbd = Small Block Depot ( made up of BB's BTW ) */

@@ -27,6 +27,15 @@
 		    (*(p+2)<<16)+ \
 		    (*(p+3)<<24))
 
+#define PUT_GUINT8(p,n)  (*(p+0)=n)
+#define PUT_GUINT16(p,n) ((*(p+0)=(n&0xff)), \
+                          (*(p+1)=(n>>8)&0xff))
+#define PUT_GUINT32(p,n) ((*(p+0)=n&0xff), \
+                          (*(p+1)=(n>>8)&0xff), \
+                          (*(p+2)=(n>>16)&0xff), \
+                          (*(p+3)=(n>>24)&0xff))
+
+
 #define MS_OLE_SPECIAL_BLOCK  0xfffffffd
 #define MS_OLE_END_OF_CHAIN   0xfffffffe
 #define MS_OLE_UNUSED_BLOCK   0xffffffff
@@ -37,23 +46,31 @@
 /**
  * These look _ugly_ but reduce to a few shifts, bit masks and adds
  * Under optimisation these are _really_ quick !
- * NB. Parameters are always: 'MS_OLE *', followed by a guint32 block.
+ * NB. Parameters are always: 'MS_OLE *', followed by a guint32 block or index
  **/
 
+/* This is a list of big blocks which contain a flat description of all blocks in the file.
+   Effectively inside these blocks is a FAT of chains of other BBs, so the theoretical max
+   size = 128 BB Fat blocks, thus = 128*512*512/4 blocks ~= 8.4MBytes */
+/* The number of Big Block Descriptor (fat) Blocks */
+#define NUMBER_OF_BBD_BLOCKS(f) (GET_GUINT32((f)->mem + 0x2c))
+/* The block locations of the Big Block Descriptor Blocks */
+#define BBD_LIST(f,i)           (GET_GUINT32((f)->mem + 0x4c + (i)*4))
+
 /* Find the position of the start in memory of a big block   */
-#define MS_OLE_GET_BB_START_PTR(f,n) ((guint8 *)(f->mem+(n+1)*MS_OLE_BB_BLOCK_SIZE))
+#define GET_BB_START_PTR(f,n) ((guint8 *)(f->mem+(n+1)*MS_OLE_BB_BLOCK_SIZE))
 /* Find the position of the start in memory of a small block */
-#define MS_OLE_GET_SB_START_PTR(f,n) ( MS_OLE_GET_BB_START_PTR((f), (f)->header.sbf_list[((MS_OLE_SB_BLOCK_SIZE*(n))/MS_OLE_BB_BLOCK_SIZE)]) + \
-				       (MS_OLE_SB_BLOCK_SIZE*(n)%MS_OLE_BB_BLOCK_SIZE) )
+#define GET_SB_START_PTR(f,n) ( GET_BB_START_PTR((f), (f)->header.sbf_list[((MS_OLE_SB_BLOCK_SIZE*(n))/MS_OLE_BB_BLOCK_SIZE)]) + \
+			       (MS_OLE_SB_BLOCK_SIZE*(n)%MS_OLE_BB_BLOCK_SIZE) )
 
 
 /* Gives the position in memory, as a GUINT8 *, of the BB entry ( in a chain ) */
-#define GET_BB_CHAIN_PTR(f,n) (MS_OLE_GET_BB_START_PTR((f), (f)->header.bbd_list[(((n)*sizeof(BBPtr))/MS_OLE_BB_BLOCK_SIZE)]) + \
+#define GET_BB_CHAIN_PTR(f,n) (GET_BB_START_PTR((f), (BBD_LIST(f, ( ((n)*sizeof(BBPtr)) / MS_OLE_BB_BLOCK_SIZE)))) + \
                               (((n)*sizeof(BBPtr))%MS_OLE_BB_BLOCK_SIZE))
 
 
 /* Gives the position in memory, as a GUINT8 *, of the SB entry ( in a chain ) */
-#define GET_SB_CHAIN_PTR(f,n) (MS_OLE_GET_BB_START_PTR(f, f->header.sbd_list[(((n)*sizeof(SBPtr))/MS_OLE_BB_BLOCK_SIZE)]) + \
+#define GET_SB_CHAIN_PTR(f,n) (GET_BB_START_PTR(f, f->header.sbd_list[(((n)*sizeof(SBPtr))/MS_OLE_BB_BLOCK_SIZE)]) + \
                               (((n)*sizeof(SBPtr))%MS_OLE_BB_BLOCK_SIZE))
 
 /* Returns the next BB after this one in the chain */
@@ -125,11 +142,11 @@ dump_header (MS_OLE *f)
   MS_OLE_HEADER *h = &f->header ;
   printf ("--------------------------MS_OLE HEADER-------------------------\n") ;
   printf ("Num BBD Blocks : %d Root %d, SBD %d\n",
-	  h->number_of_bbd_blocks,
+	  NUMBER_OF_BBD_BLOCKS(f),
 	  (int)h->root_startblock,
 	  (int)h->sbd_startblock) ;
-  for (lp=0;lp<h->number_of_bbd_blocks;lp++)
-    printf ("bbd_list[%d] = %d\n", lp, (int)h->bbd_list[lp]) ;
+  for (lp=0;lp<NUMBER_OF_BBD_BLOCKS(f);lp++)
+    printf ("bbd_list[%d] = %d\n", lp, BBD_LIST(f,lp)) ;
 
   printf ("Root blocks : %d\n", h->number_of_root_blocks) ;
   for (lp=0;lp<h->number_of_root_blocks;lp++)
@@ -148,35 +165,26 @@ read_header (MS_OLE *f)
   MS_OLE_HEADER *header = &f->header ;
 
   /* Magic numbers */
-  header->number_of_bbd_blocks = GET_GUINT32(ptr + 0x2c) ;
   header->root_startblock      = GET_GUINT32(ptr + 0x30) ;
   header->sbd_startblock       = GET_GUINT32(ptr + 0x3c) ;
-  /* So: the Big Block Description (bbd) is read, it is a chain of BBs containing
-   effectively a FAT of chains of other BBs, so the theoretical max size = 128 BB Fat blocks
-   Thus = 128*512*512/4 blocks ~= 8.4MBytes */
-  {
-    int lp ;
-    header->bbd_list             = g_new (BBPtr, header->number_of_bbd_blocks) ;
-    for (lp=0;lp<header->number_of_bbd_blocks;lp++)
-      header->bbd_list[lp]       = GET_GUINT32(ptr + 0x4c + lp*4) ;
-  }
   return 1 ;
 }
 
 static void
 dump_allocation (MS_OLE *f)
 {
-  int blk, dep ;
+  int blk, dep, lp ;
   printf ("Big block allocation\n") ;
 
   dep = 0 ;
-  while (dep<f->header.number_of_bbd_blocks)
+  blk = 0 ;
+  while (dep<NUMBER_OF_BBD_BLOCKS(f))
     {
       printf ("FAT block %d\n", dep) ;
-      for (blk=0;blk<MS_OLE_BB_BLOCK_SIZE/sizeof(BBPtr);blk++)
+      for (lp=0;lp<MS_OLE_BB_BLOCK_SIZE/sizeof(BBPtr);lp++)
 	{
 	  guint32 type ;
-	  type = GET_GUINT32(MS_OLE_GET_BB_START_PTR(f, f->header.bbd_list[dep]) + blk*sizeof(BBPtr)) ;
+	  type = GET_GUINT32(GET_BB_CHAIN_PTR(f, blk)) ;
 	  if ((blk + dep*(MS_OLE_BB_BLOCK_SIZE/sizeof(BBPtr)))*MS_OLE_BB_BLOCK_SIZE > f->length)
 	    printf ("*") ;
 	  else if (type == MS_OLE_SPECIAL_BLOCK)
@@ -187,6 +195,7 @@ dump_allocation (MS_OLE *f)
 	    printf ("X") ;
 	  else
 	    printf ("O") ;
+	  blk++ ;
 	  if (blk%16==15)
 	    printf (" - %d\n", blk) ;
 	}
@@ -195,13 +204,14 @@ dump_allocation (MS_OLE *f)
 
   printf ("Small block allocation\n") ;
   dep = 0 ;
+  blk = 0 ;
   while (dep<f->header.number_of_sbd_blocks)
     {
       printf ("SB block %d ( = BB block %d )\n", dep, f->header.sbd_list[dep]) ;
-      for (blk=0;blk<MS_OLE_BB_BLOCK_SIZE/sizeof(SBPtr);blk++)
+      for (lp=0;lp<MS_OLE_BB_BLOCK_SIZE/sizeof(SBPtr);lp++)
 	{
 	  guint32 type ;
-	  type = GET_GUINT32(MS_OLE_GET_BB_START_PTR(f, f->header.sbd_list[dep]) + blk*sizeof(SBPtr)) ;
+	  type = GET_GUINT32(GET_SB_CHAIN_PTR(f, blk)) ;
 	  if (type == MS_OLE_SPECIAL_BLOCK)
 	    printf ("S") ;
 	  else if (type == MS_OLE_UNUSED_BLOCK)
@@ -210,6 +220,7 @@ dump_allocation (MS_OLE *f)
 	    printf ("X") ;
 	  else
 	    printf ("O") ;
+	  blk++ ;
 	  if (blk%16==15)
 	    printf (" - %d\n", blk) ;
 	}
@@ -280,7 +291,7 @@ PPSPtr_to_guint8 (MS_OLE *f, PPSPtr ptr)
   guint8 *ans ;
   assert (ppsblock<f->header.number_of_root_blocks) ;
 
-  ans = MS_OLE_GET_BB_START_PTR(f,f->header.root_list[ppsblock]) + idx ;
+  ans = GET_BB_START_PTR(f,f->header.root_list[ppsblock]) + idx ;
   //  printf ("PPSPtr %d -> block %d : BB root_list[%d] = %d & idx = %d\n", ptr, ppsblock, ppsblock,
   //	  f->header.root_list[ppsblock], idx) ;
   return ans ;
@@ -510,7 +521,7 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
   
   block_left = MS_OLE_BB_BLOCK_SIZE - s->offset ;
   if (length<=block_left) /* Just return the pointer then */
-    return (MS_OLE_GET_BB_START_PTR(s->file, s->block) + s->offset) ;
+    return (GET_BB_START_PTR(s->file, s->block) + s->offset) ;
   
   /* Is it contiguous ? */
   {
@@ -541,7 +552,7 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 	  }
       }
     /* Straight map, simply return a pointer */
-    return MS_OLE_GET_BB_START_PTR(s->file, s->block) + s->offset ;
+    return GET_BB_START_PTR(s->file, s->block) + s->offset ;
   }
 }
 
@@ -562,7 +573,7 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
   
   block_left = MS_OLE_SB_BLOCK_SIZE - s->offset ;
   if (length<=block_left) /* Just return the pointer then */
-    return (MS_OLE_GET_SB_START_PTR(s->file, s->block) + s->offset) ;
+    return (GET_SB_START_PTR(s->file, s->block) + s->offset) ;
   
   /* Is it contiguous ? */
   {
@@ -593,7 +604,7 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 	  }
       }
     /* Straight map, simply return a pointer */
-    return MS_OLE_GET_SB_START_PTR(s->file, s->block) + s->offset ;
+    return GET_SB_START_PTR(s->file, s->block) + s->offset ;
   }
 }
 
@@ -615,7 +626,7 @@ ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		  length - block_left) ;
 	  return 0 ;
 	}
-      memcpy (ptr, MS_OLE_GET_BB_START_PTR(s->file, s->block) + s->offset, length) ;
+      memcpy (ptr, GET_BB_START_PTR(s->file, s->block) + s->offset, length) ;
       return 1 ;
     }
 
@@ -634,7 +645,7 @@ ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 	int cpylen = MS_OLE_BB_BLOCK_SIZE - offset ;
 	if (cpylen>bytes)
 	  cpylen = bytes ;
-	src = MS_OLE_GET_BB_START_PTR(s->file, block) + offset ;
+	src = GET_BB_START_PTR(s->file, block) + offset ;
 	
 	if (block == s->pps->end_block && cpylen > s->pps->pps_size%MS_OLE_BB_BLOCK_SIZE)
 	  {
@@ -666,7 +677,7 @@ ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		  length - block_left) ;
 	  return 0 ;
 	}
-      memcpy (ptr, MS_OLE_GET_SB_START_PTR(s->file, s->block) + s->offset, length) ;
+      memcpy (ptr, GET_SB_START_PTR(s->file, s->block) + s->offset, length) ;
       return 1 ;
     }
 
@@ -685,7 +696,7 @@ ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 	int cpylen = MS_OLE_SB_BLOCK_SIZE - offset ;
 	if (cpylen>bytes)
 	  cpylen = bytes ;
-	src = MS_OLE_GET_SB_START_PTR(s->file, block) + offset ;
+	src = GET_SB_START_PTR(s->file, block) + offset ;
 	
 	if (block == s->pps->end_block && cpylen > s->pps->pps_size%MS_OLE_SB_BLOCK_SIZE)
 	  {
@@ -763,15 +774,50 @@ find_stream (MS_OLE *f, char *name)
   return 0;
 }
 
+static guint32
+next_free_bb (MS_OLE *f)
+{
+  guint32 dep, blk, sblk ;
+
+  dep = 0 ;
+  blk = 0 ;
+  while (dep<NUMBER_OF_BBD_BLOCKS(f))
+    {
+      for (sblk=0;sblk<MS_OLE_BB_BLOCK_SIZE/sizeof(BBPtr);sblk++)
+	{
+	  if (GET_GUINT32(GET_BB_START_PTR(f, BBD_LIST(f, dep) + sblk*sizeof(BBPtr)))
+	      == MS_OLE_UNUSED_BLOCK)
+	    {
+	      /* Extend and remap file */
+	      if (blk*MS_OLE_BB_BLOCK_SIZE > f->length)
+		{
+		  printf ("Extend & remap file ...\n") ;
+		  return 0 ;
+		}
+	      printf ("Unused block at %d\n", blk) ;
+	      return blk ;
+	    }
+	}
+      dep++ ;
+    }
+
+  printf ("Out of unused BB space !\n") ;
+  return 0 ;
+}
 
 /**
  * Creates an extra block on the end of a BB file 
+ * Leaving the pps record in an unusual state, to be
+ * fixed by all users.
  **/
 static void
 ms_ole_addblock_bb (MS_OLE_STREAM *s)
 {
-  /*  guint32 lastblk = s->pps->end_block ;
-      guint32 newblk  = next_free_block (s->file) ; */
+  guint32 lastblk = s->pps->end_block ;
+  guint32 newblk  = next_free_bb (s->file) ;
+  PUT_GUINT32(GET_BB_CHAIN_PTR(s->file, lastblk), newblk) ;
+  PUT_GUINT32(GET_BB_CHAIN_PTR(s->file, newblk), MS_OLE_END_OF_CHAIN) ;
+  s->pps->end_block = newblk ;
 }
 
 static void

@@ -1,3 +1,14 @@
+1998-11-28  Michael Meeks    <mejm2@cam.ac.uk>
+
+	* plugins/excel/ms-formula.c(ms_excel_parse_formula): Fixed serious
+	memory leaks on return values from cellref_name
+
+	* plugins/excel/ms-formula.c(getRefV7): Now sets CellRef->sheet properly
+	(getRefV8): same.
+
+	* plugins/excel/ms-ole.c: Several minor changes, moving seperate
+	structures back into the raw datastream with macros.
+	
 1998-11-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-util.c (gnumeric_notice): Do not use
