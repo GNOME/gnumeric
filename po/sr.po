@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-28 21:53-0500\n"
+"POT-Creation-Date: 2004-01-18 15:54-0500\n"
 "PO-Revision-Date: 2003-12-08 01:14+0100\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
@@ -708,7 +708,7 @@ msgstr "Финансијски изводи"
 msgid "Functions related to financial derivatives"
 msgstr "Функције у вези са финансијским изводима"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5361
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Учитава датотеку..."
@@ -854,20 +854,20 @@ msgstr ""
 "OLE везе нису подржане.\n"
 "Име „%s“ ће бити изгубљено.\n"
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4756
 msgid "external references"
 msgstr "Спољње упућивање."
 
-#: plugins/excel/ms-excel-read.c:5508
+#: plugins/excel/ms-excel-read.c:5507
 msgid "No password supplied"
 msgstr "Лозинка није унета"
 
-#: plugins/excel/ms-excel-read.c:5512
+#: plugins/excel/ms-excel-read.c:5511
 msgid "Invalid password"
 msgstr "Погрешна лозинка"
 
 # Da nije mozda "imeniku" a ne "direktorijumu"?
-#: plugins/excel/ms-excel-read.c:5613
+#: plugins/excel/ms-excel-read.c:5612
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не може да пронађе исправну MS EXcel радну свеску"
 
@@ -882,7 +882,7 @@ msgstr ""
 "запису."
 
 # bug: plural-forms
-#: plugins/excel/ms-excel-write.c:3760
+#: plugins/excel/ms-excel-write.c:3796
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -892,7 +892,7 @@ msgstr ""
 "само %d врста, а ова радна свеска има %d"
 
 # bug: plural-forms
-#: plugins/excel/ms-excel-write.c:3767
+#: plugins/excel/ms-excel-write.c:3803
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -901,11 +901,11 @@ msgstr ""
 "Неки садржај ће бити изгубљен када га чувате у ексел облику. Он подржава "
 "само %d врста, а ова радна свеска има %d"
 
-#: plugins/excel/ms-excel-write.c:4287
+#: plugins/excel/ms-excel-write.c:4323
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Нисам успео да отворим ток 'Book' за уписивање\n"
 
-#: plugins/excel/ms-excel-write.c:4307
+#: plugins/excel/ms-excel-write.c:4343
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Нисам успео да отворим tok 'Workbook' за уписивање\n"
 
@@ -2720,6 +2720,11 @@ msgid ""
 msgstr ""
 
 #. Path of the current directory or folder.
+#. Absolute A1-style reference, as text, prepended with "$A:"
+#. * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
+#. * reference of the top and leftmost cell visible in the
+#. * window, based on the current scrolling position.
+#.
 #: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:100
 #: plugins/fn-info/functions.c:1276 plugins/fn-info/functions.c:1292
 msgid "Unimplemented"
@@ -10228,7 +10233,7 @@ msgstr "Функција чије параметре оптимизујемо:"
 msgid "Constraints:"
 msgstr "Ограничења:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5740
+#: plugins/mps/mps.c:247 src/commands.c:5736
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -10853,7 +10858,7 @@ msgstr "Ово је порука из „%s“ додатка."
 msgid "Error while opening xbase file."
 msgstr "Грешка приликом отварања xbase датотеке."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4565
+#: plugins/xbase/boot.c:175 src/commands.c:4561
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
 #: src/xml-io.c:3726
@@ -12225,7 +12230,7 @@ msgid "Print Preview"
 msgstr "Штампај приказ"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1318 src/workbook-control-gui.c:3342
+#: src/print.c:1329 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Приказ пред штампу"
@@ -13089,455 +13094,459 @@ msgstr "%s је закључана. Откључајте табелу како �
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:892 src/commands.c:991 src/commands.c:996
+#: src/commands.c:888 src/commands.c:987 src/commands.c:992
 msgid "Set Text"
 msgstr "Постави текст"
 
-#: src/commands.c:916
+#: src/commands.c:912
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Куцали сте „%s%s“ у пољу %s"
 
-#: src/commands.c:1114
+#: src/commands.c:1110
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Куцали сте „%s%s“"
 
-#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3180
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3180
 msgid "Delete Columns"
 msgstr "Уклони колоне"
 
-#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3298
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3298
 msgid "Delete Rows"
 msgstr "Уклони врсте"
 
-#: src/commands.c:1392
+#: src/commands.c:1388
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Уметање %d колона пре %s"
 
-#: src/commands.c:1393
+#: src/commands.c:1389
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Убацивање %d колона пре %s"
 
-#: src/commands.c:1408
+#: src/commands.c:1404
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Убацивање %d врста пре %s"
 
-#: src/commands.c:1409
+#: src/commands.c:1405
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Убацивање %d врсте пре %s"
 
-#: src/commands.c:1420
+#: src/commands.c:1416
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Брисање колона %s"
 
-#: src/commands.c:1421
+#: src/commands.c:1417
 #, c-format
 msgid "Deleting column %s"
 msgstr "Брисање колоне %s"
 
-#: src/commands.c:1431
+#: src/commands.c:1427
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Брисање врста %s"
 
-#: src/commands.c:1432
+#: src/commands.c:1428
 #, c-format
 msgid "Deleting row %s"
 msgstr "Брисање врсте %s"
 
 #. Check for locked cells
-#: src/commands.c:1508 src/commands.c:1512 src/sheet.c:2794
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2794
 msgid "Clear"
 msgstr "Очисти"
 
-#: src/commands.c:1584
+#: src/commands.c:1580
 msgid "contents"
 msgstr "садржај"
 
-#: src/commands.c:1586
+#: src/commands.c:1582
 msgid "formats"
 msgstr "формати"
 
-#: src/commands.c:1588
+#: src/commands.c:1584
 msgid "comments"
 msgstr "напомене"
 
-#: src/commands.c:1604
+#: src/commands.c:1600
 msgid "all"
 msgstr "све"
 
-#: src/commands.c:1611
+#: src/commands.c:1607
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Уклонили сте %s у пољу %s"
 
-#: src/commands.c:1684
+#: src/commands.c:1680
 msgid "Changing Format"
 msgstr "Мењање формата"
 
-#: src/commands.c:1811
+#: src/commands.c:1807
 #, c-format
 msgid "Changing format of %s"
 msgstr "Измена формата за %s"
 
-#: src/commands.c:1923
+#: src/commands.c:1919
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Аутоматски уклопи колону %s"
 
-#: src/commands.c:1924
+#: src/commands.c:1920
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Аутоматски уклапам врсту %s"
 
-#: src/commands.c:1927
+#: src/commands.c:1923
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Постављам ширину колоне %s на %d тачака"
 
-#: src/commands.c:1929
+#: src/commands.c:1925
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Постављам висину врсте %s на %d тачака"
 
-#: src/commands.c:1932
+#: src/commands.c:1928
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Постављам ширину колоне %s на подразумевану вредност"
 
-#: src/commands.c:1935
+#: src/commands.c:1931
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Постављам висину врсте %s на подразумевану вредност"
 
-#: src/commands.c:1939 src/commands.c:1940
+#: src/commands.c:1935 src/commands.c:1936
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Аутоматски уклапам колоне %s"
 
-#: src/commands.c:1943
+#: src/commands.c:1939
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Постављам ширину колона %s на %d тачака"
 
-#: src/commands.c:1945
+#: src/commands.c:1941
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Постављам видину врста %s на %d тачака"
 
-#: src/commands.c:1949
+#: src/commands.c:1945
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Постављам ширину колона %s на подразумевану вредност"
 
-#: src/commands.c:1951
+#: src/commands.c:1947
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Постављам висину врста %s на подразумевану вредност"
 
-#: src/commands.c:2018 src/dialogs/dialog-preferences.c:1504
+#: src/commands.c:2014 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
 msgstr "Прављење поретка"
 
-#: src/commands.c:2038
+#: src/commands.c:2034
 #, c-format
 msgid "Sorting %s"
 msgstr "Прављење поретка за %s"
 
-#: src/commands.c:2170
+#: src/commands.c:2166
 msgid "Unhide columns"
 msgstr "Откриј колоне"
 
-#: src/commands.c:2170
+#: src/commands.c:2166
 msgid "Hide columns"
 msgstr "Сакриј колоне"
 
-#: src/commands.c:2171
+#: src/commands.c:2167
 msgid "Unhide rows"
 msgstr "Откриј врсте"
 
-#: src/commands.c:2171
+#: src/commands.c:2167
 msgid "Hide rows"
 msgstr "Сакриј врсте"
 
-#: src/commands.c:2254
+#: src/commands.c:2250
 msgid "Expand columns"
 msgstr "Отвори колоне"
 
-#: src/commands.c:2254
+#: src/commands.c:2250
 msgid "Collapse columns"
 msgstr "Скупи колоне"
 
-#: src/commands.c:2255
+#: src/commands.c:2251
 msgid "Expand rows"
 msgstr "Отвори врсте"
 
-#: src/commands.c:2255
+#: src/commands.c:2251
 msgid "Collapse rows"
 msgstr "Скупи врсте"
 
-#: src/commands.c:2282
+#: src/commands.c:2278
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2282
+#: src/commands.c:2278
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2347
+#: src/commands.c:2343
 msgid "Those columns are already grouped"
 msgstr "Те колоне су већ груписане"
 
-#: src/commands.c:2348
+#: src/commands.c:2344
 msgid "Those rows are already grouped"
 msgstr "Те врсте су већ груписане"
 
-#: src/commands.c:2371
+#: src/commands.c:2367
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Те колоне нису груписане, тако да их не можете распустити"
 
-#: src/commands.c:2372
+#: src/commands.c:2368
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Те врсте нису груписане тако да их не можете распустити"
 
-#: src/commands.c:2386
+#: src/commands.c:2382
 #, c-format
 msgid "Group columns %s"
 msgstr "Групиши колоне %s"
 
-#: src/commands.c:2386
+#: src/commands.c:2382
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Распусти колоне %s"
 
-#: src/commands.c:2388
+#: src/commands.c:2384
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Групиши врсте %d:%d"
 
-#: src/commands.c:2388
+#: src/commands.c:2384
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Распусти врсте %d:%d"
 
-#: src/commands.c:2622
+#: src/commands.c:2618
 #, c-format
 msgid "Moving %s"
 msgstr "Премештање %s"
 
-#: src/commands.c:2631 src/commands.c:2842
+#: src/commands.c:2627 src/commands.c:2838
 msgid "is beyond sheet boundaries"
 msgstr "је иза оквира табеле"
 
 #. FIXME?
-#: src/commands.c:2786
+#: src/commands.c:2782
 #, c-format
 msgid "Pasting into %s"
 msgstr "Убацујем у %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3019 src/commands.c:3020 src/workbook-control-gui.c:2339
+#: src/commands.c:3015 src/commands.c:3016 src/workbook-control-gui.c:2339
 msgid "Autofill"
 msgstr "самодопуњавање, самопуњење"
 
 #. Changed in initial redo.
-#: src/commands.c:3043
+#: src/commands.c:3039
 #, c-format
 msgid "Autofilling %s"
 msgstr "Аутоматска допуна за %s"
 
-#: src/commands.c:3193
+#: src/commands.c:3189
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Аутоматско форматирање за %s"
 
-#: src/commands.c:3303
+#: src/commands.c:3299
 #, c-format
 msgid "Unmerging %s"
 msgstr "Раздвајам %s"
 
-#: src/commands.c:3441
+#: src/commands.c:3437
 #, c-format
 msgid "Merging %s"
 msgstr "Стапање %s"
 
 #. Corrected below.
-#: src/commands.c:3823 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3819 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Тражи и Замени"
 
-#: src/commands.c:3920
+#: src/commands.c:3916
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Постави подразумевану ширину колона на %.2fpts"
 
-#: src/commands.c:3921
+#: src/commands.c:3917
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Постави подразумевану висину врста на %.2fpts"
 
-#: src/commands.c:4038
+#: src/commands.c:4034
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Увећање %s на %.0f%%"
 
-#: src/commands.c:4108
+#: src/commands.c:4104
 msgid "Insert object"
 msgstr "Убаци објекат"
 
-#: src/commands.c:4167
+#: src/commands.c:4163
 msgid "Delete object"
 msgstr "Уклони објекат"
 
-#: src/commands.c:4248
+#: src/commands.c:4244
 msgid "Resize object"
 msgstr "Промени величину објекта"
 
-#: src/commands.c:4248
+#: src/commands.c:4244
 msgid "Move object"
 msgstr "Премести објекат"
 
-#: src/commands.c:4809
+#: src/commands.c:4805
 msgid "Reordering Sheets"
 msgstr "Преслагање табела"
 
-#: src/commands.c:4812
+#: src/commands.c:4808
 msgid "Renaming Sheets"
 msgstr "Преименује табеле"
 
 # bug: plural-forms
-#: src/commands.c:4815
+#: src/commands.c:4811
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Допуњава са %i табела"
 
-#: src/commands.c:4819
+#: src/commands.c:4815
 msgid "Changing Tab Colors"
 msgstr "Мењање боје језичка"
 
-#: src/commands.c:4822
+#: src/commands.c:4818
 msgid "Changing Sheet Protection"
 msgstr "Промена заштите табеле"
 
-#: src/commands.c:4825
+#: src/commands.c:4821
 msgid "Delete sheets"
 msgstr "Уклони табеле"
 
-#: src/commands.c:4828
+#: src/commands.c:4824
 msgid "Delete a sheet"
 msgstr "Уклони табелу"
 
-#: src/commands.c:4831
+#: src/commands.c:4827
 msgid "Reorganizing Sheets"
 msgstr "Преуреди табеле"
 
-#: src/commands.c:4981
+#: src/commands.c:4977
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Уклањање напомене за %s"
 
-#: src/commands.c:4982
+#: src/commands.c:4978
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Постављање напомене за %s"
 
-#: src/commands.c:5362
+#: src/commands.c:5358
 #, c-format
 msgid "Merging data into %s"
 msgstr "Стапам податке у %s"
 
-#: src/commands.c:5464
+#: src/commands.c:5460
 msgid "Changing summary info"
 msgstr "Мењам укупни извештај"
 
-#: src/commands.c:5555
+#: src/commands.c:5551
 msgid "Raise object"
 msgstr "Подигни објекат"
 
-#: src/commands.c:5558
+#: src/commands.c:5554
 msgid "Lower object"
 msgstr "Спусти објекат"
 
-#: src/commands.c:5561
+#: src/commands.c:5557
 msgid "Raise object to top"
 msgstr "Подигни објекат на врх"
 
-#: src/commands.c:5564
+#: src/commands.c:5560
 msgid "Lower object to bottom"
 msgstr "Спусти објекат на дно"
 
-#: src/commands.c:5679
+#: src/commands.c:5675
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Подешавање стране за %s"
 
-#: src/commands.c:5681
+#: src/commands.c:5677
 msgid "Page Setup For All Sheets"
 msgstr "Подешавање стране за све табеле"
 
-#: src/commands.c:5797
+#: src/commands.c:5793
 msgid "has a circular reference"
 msgstr "има кружно упућивање"
 
-#: src/commands.c:5820
+#: src/commands.c:5816
 #, c-format
 msgid "Define Name %s"
 msgstr "Дефиниши назив %s"
 
-#: src/commands.c:5823
+#: src/commands.c:5819
 #, c-format
 msgid "Update Name %s"
 msgstr "Освежи назив %s"
 
-#: src/commands.c:5887
+#: src/commands.c:5883
 msgid "Add scenario"
 msgstr "Додај сценарио"
 
-#: src/commands.c:5962
+#: src/commands.c:5958
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6026
+#: src/commands.c:6022
 msgid "Shuffle Data"
 msgstr "Измешај податке"
 
 #. FIXME?
-#: src/commands.c:6137
+#: src/commands.c:6133
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Текст (%s) у колоне (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6284 src/dialogs/solver.glade.h:24
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
+#: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Систем за решавање"
 
-#: src/commands.c:6371
+#: src/commands.c:6367
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Тражење вредности (%s)"
 
-#: src/commands.c:6513
+#: src/commands.c:6509
 #, c-format
 msgid "Duplicating %s"
 msgstr "Удвостручава %s"
 
-#: src/commands.c:6593
+#: src/commands.c:6589
 msgid "Tabulating Dependencies"
 msgstr "Табеларне зависности"
 
-#: src/commands.c:6669
+#: src/commands.c:6665
 msgid "Reconfigure Graph"
 msgstr "Преподеси график"
 
@@ -14377,18 +14386,26 @@ msgstr "Систем за исцртавање прстена"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:261
 msgid "PlotXY"
 msgstr "ЦртежXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:321
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:323
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
 msgid "Y"
 msgstr "Y"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:354
+#, fuzzy
+msgid "PlotBubble"
+msgstr "Мехур"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:375
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Мехур"
@@ -14410,18 +14427,25 @@ msgid "Markers at each point."
 msgstr "Обележивачи у свакој тачки."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+#, fuzzy
+msgid "Multi-dimensional points with circle at each point."
+msgstr ""
+"Линеарно интерполирај између вишедимензионих тачака, са обележивачима у "
+"свакој тачки."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Plot X, Y and bubble size."
 msgstr "Исцртај X, Y и величину мехура."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY Lines"
 msgstr "XY линије"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Points"
 msgstr "XY тачке"
 
@@ -14434,10 +14458,15 @@ msgid "2D scatter plotting engine"
 msgstr "Систем за исцртавање разбацаних 2Д графикона"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
+#, fuzzy
+msgid "Bubble plotting engine"
+msgstr "Систем за исцртавање пита"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "Stock Scatter plot types"
 msgstr "Укључене врсте разбацаног исцртавања"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:5
 msgid "XY Charts"
 msgstr "XY графикони"
 
@@ -16427,6 +16456,12 @@ msgstr "Ниво радне свеске"
 #.
 #. * Fill in the labels of `Target Cell' section.
 #.
+#.
+#. * Fill in the labels of `Adjustable Cells' section.
+#.
+#.
+#. * Fill in the labels of `Constraints' section.
+#.
 #: src/dialogs/dialog-goto-cell.c:296 src/dialogs/dialog-search.c:398
 #: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
 #: src/tools/solver/reports-write.c:102 src/tools/solver/reports-write.c:129
@@ -16714,19 +16749,19 @@ msgstr "Унутрашње"
 msgid "Header/Footer"
 msgstr "Заглавље и подножје"
 
-#: src/dialogs/dialog-printer-setup.c:860
+#: src/dialogs/dialog-printer-setup.c:861
 msgid "Customize header"
 msgstr "Прилагоди заглавља"
 
-#: src/dialogs/dialog-printer-setup.c:862
+#: src/dialogs/dialog-printer-setup.c:863
 msgid "Customize footer"
 msgstr "Прилагоди подножје"
 
-#: src/dialogs/dialog-printer-setup.c:1012
+#: src/dialogs/dialog-printer-setup.c:1013
 msgid "Custom header configuration"
 msgstr "Произвољно подешавање заглавља"
 
-#: src/dialogs/dialog-printer-setup.c:1017
+#: src/dialogs/dialog-printer-setup.c:1018
 msgid "Custom footer configuration"
 msgstr "Произвољно подешавање подножја"
 
@@ -17461,41 +17496,41 @@ msgid "_Narrow"
 msgstr "_Сузи"
 
 # bug: plural-forms
-#: src/dialogs/dialog-stf-format-page.c:128
+#: src/dialogs/dialog-stf-format-page.c:129
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "Могуће је увести највише %d колона."
 
-#: src/dialogs/dialog-stf-format-page.c:256
+#: src/dialogs/dialog-stf-format-page.c:257
 msgid "Ignore all columns on right"
 msgstr "Занемари све колоне десно"
 
-#: src/dialogs/dialog-stf-format-page.c:257
+#: src/dialogs/dialog-stf-format-page.c:258
 msgid "Ignore all columns on left"
 msgstr "Занемари све колоне лево"
 
-#: src/dialogs/dialog-stf-format-page.c:258
+#: src/dialogs/dialog-stf-format-page.c:259
 msgid "Import all columns on right"
 msgstr "Увези све колоне десно"
 
-#: src/dialogs/dialog-stf-format-page.c:259
+#: src/dialogs/dialog-stf-format-page.c:260
 msgid "Import all columns on left"
 msgstr "Увези све колоне лево"
 
-#: src/dialogs/dialog-stf-format-page.c:260
+#: src/dialogs/dialog-stf-format-page.c:261
 msgid "Copy format to right"
 msgstr "Копирај формат десно"
 
-#: src/dialogs/dialog-stf-format-page.c:398
+#: src/dialogs/dialog-stf-format-page.c:399
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr "Уколико је ова кућица означена, колона ће бити увежена у Гнумерик."
 
-#: src/dialogs/dialog-stf-format-page.c:401
+#: src/dialogs/dialog-stf-format-page.c:402
 msgid "At most 256 columns can be imported at one time."
 msgstr "Могуће је увести највише 256 колона одједном."
 
-#: src/dialogs/dialog-stf-format-page.c:542
+#: src/dialogs/dialog-stf-format-page.c:543
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -21252,19 +21287,19 @@ msgstr "&[СТРАНА]"
 msgid "Print Region"
 msgstr "Штампај област"
 
-#: src/print.c:1238
+#: src/print.c:1247
 msgid "Print Sheets"
 msgstr "Штампај табеле"
 
-#: src/print.c:1246
+#: src/print.c:1255
 msgid "Act_ive sheet"
 msgstr "Активна _табела"
 
-#: src/print.c:1246
+#: src/print.c:1255
 msgid "S_heets"
 msgstr "_Табеле"
 
-#: src/print.c:1330
+#: src/print.c:1341
 msgid "Printing failed"
 msgstr "Неуспело штампање"
 
@@ -22173,6 +22208,9 @@ msgstr "Извештај о осетљивости"
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
+#.
+#. * Fill in the labels of `Constraints' section.
+#.
 #: src/tools/solver/reports-write.c:230 src/tools/solver/reports-write.c:276
 msgid "Final"
 msgstr "Коначно"
@@ -22370,6 +22408,7 @@ msgid "OS"
 msgstr "Оперативни систем"
 
 #. Set the `CPU Model'.
+#. Set the `CPU Mhz'.
 #: src/tools/solver/reports-write.c:676 src/tools/solver/reports-write.c:679
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"

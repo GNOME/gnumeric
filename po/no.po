@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-14 00:06+0100\n"
+"POT-Creation-Date: 2004-01-18 15:54-0500\n"
 "PO-Revision-Date: 2004-01-14 08:44+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
@@ -3457,6 +3457,11 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
+#. Absolute A1-style reference, as text, prepended with "$A:"
+#. * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
+#. * reference of the top and leftmost cell visible in the
+#. * window, based on the current scrolling position.
+#.
 #: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:100
 #: plugins/fn-info/functions.c:1276 plugins/fn-info/functions.c:1292
 msgid "Unimplemented"
@@ -14978,7 +14983,9 @@ msgstr "Ugyldig post %d med lengde %hd"
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
-msgstr "Kunne ikke finne PerfectOffice_MAIN strøm. Er dette virkelig en Quattro Pro-fil?"
+msgstr ""
+"Kunne ikke finne PerfectOffice_MAIN strøm. Er dette virkelig en Quattro Pro-"
+"fil?"
 
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
@@ -16396,7 +16403,7 @@ msgid "Print Preview"
 msgstr "Forhåndsvisning av utskrift"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1318 src/workbook-control-gui.c:3342
+#: src/print.c:1329 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Forhåndsvisning av utskrift"
@@ -17691,6 +17698,10 @@ msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) til kolonner (%s)"
 
 #. Fill in the header titles.
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
 #: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
@@ -18534,19 +18545,27 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:261
 #, fuzzy
 msgid "PlotXY"
 msgstr "Plott"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:321
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:323
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
 msgid "Y"
 msgstr "Y"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:354
+#, fuzzy
+msgid "PlotBubble"
+msgstr "Boble"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:375
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Boble"
@@ -18566,18 +18585,22 @@ msgid "Markers at each point."
 msgstr "Markører ved hvert punkt."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
-msgid "Plot X, Y and bubble size."
+msgid "Multi-dimensional points with circle at each point."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+msgid "Plot X, Y and bubble size."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY Lines"
 msgstr "XY-linjer"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Points"
 msgstr "XY-punkter"
 
@@ -18590,10 +18613,14 @@ msgid "2D scatter plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
-msgid "Stock Scatter plot types"
+msgid "Bubble plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
+msgid "Stock Scatter plot types"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:5
 msgid "XY Charts"
 msgstr "XY-plott"
 
@@ -20578,6 +20605,12 @@ msgstr "Arbeidsboknivå"
 
 #.
 #. * Fill in the labels of `Target Cell' section.
+#.
+#.
+#. * Fill in the labels of `Adjustable Cells' section.
+#.
+#.
+#. * Fill in the labels of `Constraints' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:296 src/dialogs/dialog-search.c:398
 #: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
@@ -25397,19 +25430,19 @@ msgstr "&[SIDE]"
 msgid "Print Region"
 msgstr "Skriv ut område"
 
-#: src/print.c:1238
+#: src/print.c:1247
 msgid "Print Sheets"
 msgstr "Skriv ut ark"
 
-#: src/print.c:1246
+#: src/print.c:1255
 msgid "Act_ive sheet"
 msgstr "Akt_ivt ark"
 
-#: src/print.c:1246
+#: src/print.c:1255
 msgid "S_heets"
 msgstr "Ar_k"
 
-#: src/print.c:1330
+#: src/print.c:1341
 msgid "Printing failed"
 msgstr "Feil ved utskrift"
 
@@ -26309,6 +26342,9 @@ msgstr "Sensitivitetsrapport"
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
+#.
+#. * Fill in the labels of `Constraints' section.
+#.
 #: src/tools/solver/reports-write.c:230 src/tools/solver/reports-write.c:276
 msgid "Final"
 msgstr "Endelig"
@@ -26503,6 +26539,7 @@ msgid "OS"
 msgstr "OS"
 
 #. Set the `CPU Model'.
+#. Set the `CPU Mhz'.
 #: src/tools/solver/reports-write.c:676 src/tools/solver/reports-write.c:679
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"

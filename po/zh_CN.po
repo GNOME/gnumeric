@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-28 21:53-0500\n"
+"POT-Creation-Date: 2004-01-18 15:54-0500\n"
 "PO-Revision-Date: 2003-05-05 18:20+0000\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -725,7 +725,7 @@ msgstr "财务相关"
 msgid "Functions related to financial derivatives"
 msgstr "与财务相关的函数"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5361
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "正在读取文件..."
@@ -869,19 +869,19 @@ msgstr ""
 "OLE 链接不支持。\n"
 "名称“%s”将丢失。\n"
 
-#: plugins/excel/ms-excel-read.c:4757
+#: plugins/excel/ms-excel-read.c:4756
 msgid "external references"
 msgstr "外部引用"
 
-#: plugins/excel/ms-excel-read.c:5508
+#: plugins/excel/ms-excel-read.c:5507
 msgid "No password supplied"
 msgstr "未提供密码"
 
-#: plugins/excel/ms-excel-read.c:5512
+#: plugins/excel/ms-excel-read.c:5511
 msgid "Invalid password"
 msgstr "密码无效"
 
-#: plugins/excel/ms-excel-read.c:5613
+#: plugins/excel/ms-excel-read.c:5612
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "找不到有效的 MS Excel 工作簿"
 
@@ -894,7 +894,7 @@ msgstr ""
 "可能数据发生了损坏。\n"
 "现已写入因编码问题而被截断的字符串长度。"
 
-#: plugins/excel/ms-excel-write.c:3760
+#: plugins/excel/ms-excel-write.c:3796
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -903,7 +903,7 @@ msgstr ""
 "如果以 Excel 95 格式保存，则会丢失某些内容。这种格式只支持 %d 行，而此工作簿"
 "有 %d 行"
 
-#: plugins/excel/ms-excel-write.c:3767
+#: plugins/excel/ms-excel-write.c:3803
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -912,11 +912,11 @@ msgstr ""
 "如果以 Excel 格式保存，则会丢失某些内容。这种格式只支持 %d 行，而此工作簿有 %"
 "d 行"
 
-#: plugins/excel/ms-excel-write.c:4287
+#: plugins/excel/ms-excel-write.c:4323
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "无法打开流“工作簿”写入\n"
 
-#: plugins/excel/ms-excel-write.c:4307
+#: plugins/excel/ms-excel-write.c:4343
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "无法打开流“工作簿”写入\n"
 
@@ -3968,6 +3968,11 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
+#. Absolute A1-style reference, as text, prepended with "$A:"
+#. * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
+#. * reference of the top and leftmost cell visible in the
+#. * window, based on the current scrolling position.
+#.
 #: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:100
 #: plugins/fn-info/functions.c:1276 plugins/fn-info/functions.c:1292
 msgid "Unimplemented"
@@ -15425,7 +15430,7 @@ msgid "Constraints:"
 msgstr "约束条件："
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
-#: plugins/mps/mps.c:247 src/commands.c:5740
+#: plugins/mps/mps.c:247 src/commands.c:5736
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -16173,7 +16178,7 @@ msgid "Error while opening xbase file."
 msgstr "打开 xbase 文件时出错。"
 
 # src/workbook.c:761 src/workbook.c:809
-#: plugins/xbase/boot.c:175 src/commands.c:4565
+#: plugins/xbase/boot.c:175 src/commands.c:4561
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
 #: src/xml-io.c:3726
@@ -17586,7 +17591,7 @@ msgid "Print Preview"
 msgstr "打印预览"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1318 src/workbook-control-gui.c:3342
+#: src/print.c:1329 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "打印预览"
@@ -18560,501 +18565,505 @@ msgid "..."
 msgstr "..."
 
 # src/dialog-cell-format.c:73
-#: src/commands.c:892 src/commands.c:991 src/commands.c:996
+#: src/commands.c:888 src/commands.c:987 src/commands.c:992
 msgid "Set Text"
 msgstr "设定文本"
 
-#: src/commands.c:916
+#: src/commands.c:912
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "在 %3$s 中输入 \"%1$s%2$s\""
 
-#: src/commands.c:1114
+#: src/commands.c:1110
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "输入 \"%s%s\""
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3180
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3180
 msgid "Delete Columns"
 msgstr "删除列"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3298
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3298
 msgid "Delete Rows"
 msgstr "删除行"
 
 # src/workbook.c:767
-#: src/commands.c:1392
+#: src/commands.c:1388
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "在 %2$s 之前插入 %1$d 列"
 
 # src/workbook.c:767
-#: src/commands.c:1393
+#: src/commands.c:1389
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "在 %2$s 之前插入 %1$d 列"
 
-#: src/commands.c:1408
+#: src/commands.c:1404
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "在 %2$s 之前插入 %1$d 行"
 
-#: src/commands.c:1409
+#: src/commands.c:1405
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "在 %2$s 之前插入 %1$d 行"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1420
+#: src/commands.c:1416
 #, c-format
 msgid "Deleting columns %s"
 msgstr "删除列 %s"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1421
+#: src/commands.c:1417
 #, c-format
 msgid "Deleting column %s"
 msgstr "删除列 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1431
+#: src/commands.c:1427
 #, c-format
 msgid "Deleting rows %s"
 msgstr "删除行 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1432
+#: src/commands.c:1428
 #, c-format
 msgid "Deleting row %s"
 msgstr "删除行 %s"
 
 # src/workbook.c:713
 #. Check for locked cells
-#: src/commands.c:1508 src/commands.c:1512 src/sheet.c:2794
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2794
 msgid "Clear"
 msgstr "清除"
 
 # src/workbook.c:703
-#: src/commands.c:1584
+#: src/commands.c:1580
 msgid "contents"
 msgstr "内容"
 
 # src/dialog-paste-special.c:23
-#: src/commands.c:1586
+#: src/commands.c:1582
 msgid "formats"
 msgstr "格式"
 
 # src/workbook.c:701
-#: src/commands.c:1588
+#: src/commands.c:1584
 msgid "comments"
 msgstr "注释"
 
 # src/workbook.c:873
-#: src/commands.c:1604
+#: src/commands.c:1600
 msgid "all"
 msgstr "全部"
 
-#: src/commands.c:1611
+#: src/commands.c:1607
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "在 %2$s 中清除 %1$s"
 
 # src/dump.c:29
-#: src/commands.c:1684
+#: src/commands.c:1680
 msgid "Changing Format"
 msgstr "更改格式"
 
 # src/dump.c:29
-#: src/commands.c:1811
+#: src/commands.c:1807
 #, c-format
 msgid "Changing format of %s"
 msgstr "更改 %s 的格式"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1923
+#: src/commands.c:1919
 #, c-format
 msgid "Autofitting column %s"
 msgstr "自动调整列 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1924
+#: src/commands.c:1920
 #, c-format
 msgid "Autofitting row %s"
 msgstr "自动调整行 %s"
 
-#: src/commands.c:1927
+#: src/commands.c:1923
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "设置列 %s 的宽度为 %d 像素"
 
-#: src/commands.c:1929
+#: src/commands.c:1925
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "设置行 %s 的高度为 %d 像素"
 
-#: src/commands.c:1932
+#: src/commands.c:1928
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "设置列 %s 的宽度为默认值"
 
-#: src/commands.c:1935
+#: src/commands.c:1931
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "设置行 %s 的高度为默认值"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1939 src/commands.c:1940
+#: src/commands.c:1935 src/commands.c:1936
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "自动调整列 %s"
 
-#: src/commands.c:1943
+#: src/commands.c:1939
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "设置列 %s 的宽度为 %d 像素"
 
-#: src/commands.c:1945
+#: src/commands.c:1941
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "设置行 %s 的高度为 %d 像素"
 
-#: src/commands.c:1949
+#: src/commands.c:1945
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "将列 %s 的宽度设为默认值"
 
-#: src/commands.c:1951
+#: src/commands.c:1947
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "将行 %s 的高度设为默认值"
 
-#: src/commands.c:2018 src/dialogs/dialog-preferences.c:1504
+#: src/commands.c:2014 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
 msgstr "排序"
 
-#: src/commands.c:2038
+#: src/commands.c:2034
 #, c-format
 msgid "Sorting %s"
 msgstr "排序 %s"
 
 # src/dialog-insert-cells.c:37
-#: src/commands.c:2170
+#: src/commands.c:2166
 msgid "Unhide columns"
 msgstr "取消隐藏列"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:2170
+#: src/commands.c:2166
 msgid "Hide columns"
 msgstr "隐藏列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2171
+#: src/commands.c:2167
 msgid "Unhide rows"
 msgstr "取消隐藏行"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2171
+#: src/commands.c:2167
 msgid "Hide rows"
 msgstr "隐藏行"
 
 # src/dialog-insert-cells.c:37
-#: src/commands.c:2254
+#: src/commands.c:2250
 msgid "Expand columns"
 msgstr "展开列"
 
 # src/workbook.c:767
-#: src/commands.c:2254
+#: src/commands.c:2250
 msgid "Collapse columns"
 msgstr "折叠列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2255
+#: src/commands.c:2251
 msgid "Expand rows"
 msgstr "展开行"
 
-#: src/commands.c:2255
+#: src/commands.c:2251
 msgid "Collapse rows"
 msgstr "折叠行"
 
-#: src/commands.c:2282
+#: src/commands.c:2278
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2282
+#: src/commands.c:2278
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2347
+#: src/commands.c:2343
 msgid "Those columns are already grouped"
 msgstr "那些列已被分组"
 
-#: src/commands.c:2348
+#: src/commands.c:2344
 msgid "Those rows are already grouped"
 msgstr "那些行已被分组"
 
-#: src/commands.c:2371
+#: src/commands.c:2367
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "那些列还未被分组, 你不能合并它们"
 
-#: src/commands.c:2372
+#: src/commands.c:2368
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "那些行还未被分组, 你不能合并它们"
 
 # src/sheet-view.c:343 src/sheet-view.c:382
-#: src/commands.c:2386
+#: src/commands.c:2382
 #, c-format
 msgid "Group columns %s"
 msgstr "分组列 %s"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:2386
+#: src/commands.c:2382
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "取消列 %s 的分组"
 
-#: src/commands.c:2388
+#: src/commands.c:2384
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "分组行 %d:%d"
 
-#: src/commands.c:2388
+#: src/commands.c:2384
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "取消行 %d:%d 的分组"
 
 # src/dialog-insert-cells.c:26
-#: src/commands.c:2622
+#: src/commands.c:2618
 #, c-format
 msgid "Moving %s"
 msgstr "移动 %s"
 
-#: src/commands.c:2631 src/commands.c:2842
+#: src/commands.c:2627 src/commands.c:2838
 msgid "is beyond sheet boundaries"
 msgstr "超过表格边界"
 
 #. FIXME?
-#: src/commands.c:2786
+#: src/commands.c:2782
 #, c-format
 msgid "Pasting into %s"
 msgstr "粘贴至 %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3019 src/commands.c:3020 src/workbook-control-gui.c:2339
+#: src/commands.c:3015 src/commands.c:3016 src/workbook-control-gui.c:2339
 msgid "Autofill"
 msgstr "自动填充"
 
 #. Changed in initial redo.
-#: src/commands.c:3043
+#: src/commands.c:3039
 #, c-format
 msgid "Autofilling %s"
 msgstr "自动填充 %s"
 
 # src/item-cursor.c:581
-#: src/commands.c:3193
+#: src/commands.c:3189
 #, c-format
 msgid "Autoformatting %s"
 msgstr "自动套用格式 %s"
 
-#: src/commands.c:3303
+#: src/commands.c:3299
 #, c-format
 msgid "Unmerging %s"
 msgstr "取消 %s 的合并"
 
 # src/workbook.c:1131
-#: src/commands.c:3441
+#: src/commands.c:3437
 #, c-format
 msgid "Merging %s"
 msgstr "合并 %s"
 
 #. Corrected below.
-#: src/commands.c:3823 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3819 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "查找并替换"
 
-#: src/commands.c:3920
+#: src/commands.c:3916
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "设置默认列的宽度为 %.2fpts"
 
-#: src/commands.c:3921
+#: src/commands.c:3917
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "设置默认行的高度为 %.2fpts"
 
-#: src/commands.c:4038
+#: src/commands.c:4034
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "放大 %s 为 %.0f%%"
 
-#: src/commands.c:4108
+#: src/commands.c:4104
 msgid "Insert object"
 msgstr "插入对象"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:4167
+#: src/commands.c:4163
 msgid "Delete object"
 msgstr "删除对象"
 
-#: src/commands.c:4248
+#: src/commands.c:4244
 msgid "Resize object"
 msgstr "更改对象大小"
 
-#: src/commands.c:4248
+#: src/commands.c:4244
 msgid "Move object"
 msgstr "移动对象"
 
-#: src/commands.c:4809
+#: src/commands.c:4805
 msgid "Reordering Sheets"
 msgstr "更改工作表的顺序"
 
 # src/workbook.c:1549
-#: src/commands.c:4812
+#: src/commands.c:4808
 msgid "Renaming Sheets"
 msgstr "重命名工作表"
 
 # src/workbook.c:1549
-#: src/commands.c:4815
+#: src/commands.c:4811
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "重命名工作表"
 
 # src/dump.c:29
-#: src/commands.c:4819
+#: src/commands.c:4815
 msgid "Changing Tab Colors"
 msgstr "更改标签颜色"
 
-#: src/commands.c:4822
+#: src/commands.c:4818
 msgid "Changing Sheet Protection"
 msgstr "更改工作表保护"
 
 # src/dialog-delete-cells.c:29
-#: src/commands.c:4825
+#: src/commands.c:4821
 #, fuzzy
 msgid "Delete sheets"
 msgstr "删除单元格"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:4828
+#: src/commands.c:4824
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "删除对象"
 
-#: src/commands.c:4831
+#: src/commands.c:4827
 msgid "Reorganizing Sheets"
 msgstr "重组工作表"
 
 # src/dump.c:29
-#: src/commands.c:4981
+#: src/commands.c:4977
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "清除 %s 的注释"
 
-#: src/commands.c:4982
+#: src/commands.c:4978
 #, c-format
 msgid "Setting comment of %s"
 msgstr "设置 %s 的注释"
 
 # src/workbook.c:1131
-#: src/commands.c:5362
+#: src/commands.c:5358
 #, c-format
 msgid "Merging data into %s"
 msgstr "将数据合并至 %s"
 
 # src/dump.c:29
-#: src/commands.c:5464
+#: src/commands.c:5460
 msgid "Changing summary info"
 msgstr "更改摘要信息"
 
-#: src/commands.c:5555
+#: src/commands.c:5551
 msgid "Raise object"
 msgstr "提前对象"
 
-#: src/commands.c:5558
+#: src/commands.c:5554
 msgid "Lower object"
 msgstr "推后对象"
 
-#: src/commands.c:5561
+#: src/commands.c:5557
 msgid "Raise object to top"
 msgstr "将对象提到最前"
 
-#: src/commands.c:5564
+#: src/commands.c:5560
 msgid "Lower object to bottom"
 msgstr "将对象推到最后"
 
-#: src/commands.c:5679
+#: src/commands.c:5675
 #, c-format
 msgid "Page Setup For %s"
 msgstr "%s 的页面设置"
 
-#: src/commands.c:5681
+#: src/commands.c:5677
 msgid "Page Setup For All Sheets"
 msgstr "所有工作表的页面设置"
 
-#: src/commands.c:5797
+#: src/commands.c:5793
 #, fuzzy
 msgid "has a circular reference"
 msgstr "“%s”有循环引用"
 
 # src/dialog-define-names.c:23
-#: src/commands.c:5820
+#: src/commands.c:5816
 #, c-format
 msgid "Define Name %s"
 msgstr "定义名称 %s"
 
-#: src/commands.c:5823
+#: src/commands.c:5819
 #, c-format
 msgid "Update Name %s"
 msgstr "更新名称 %s"
 
-#: src/commands.c:5887
+#: src/commands.c:5883
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5962
+#: src/commands.c:5958
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6026
+#: src/commands.c:6022
 msgid "Shuffle Data"
 msgstr "打乱数据"
 
 # src/dialog-delete-cells.c:36
 #. FIXME?
-#: src/commands.c:6137
+#: src/commands.c:6133
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "删除列"
 
 # src/item-cursor.c:580
 #. Fill in the header titles.
-#: src/commands.c:6284 src/dialogs/solver.glade.h:24
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
+#: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "规划求解"
 
-#: src/commands.c:6371
+#: src/commands.c:6367
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "搜寻目标..."
 
 # src/dialog-cell-format.c:68
-#: src/commands.c:6513
+#: src/commands.c:6509
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "副本(_D)"
 
-#: src/commands.c:6593
+#: src/commands.c:6589
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "插件依赖性"
 
-#: src/commands.c:6669
+#: src/commands.c:6665
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "配置工具栏"
@@ -20044,20 +20053,29 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:261
 #, fuzzy
 msgid "PlotXY"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:321
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:323
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
 msgid "Y"
 msgstr ""
 
 # src/format.c:404
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:354
+#, fuzzy
+msgid "PlotBubble"
+msgstr "双线"
+
+# src/format.c:404
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:375
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 #, fuzzy
 msgid "Bubble"
@@ -20078,21 +20096,25 @@ msgid "Markers at each point."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
-msgid "Plot X, Y and bubble size."
+msgid "Multi-dimensional points with circle at each point."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+msgid "Plot X, Y and bubble size."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
 msgstr ""
 
 # src/workbook.c:879
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 #, fuzzy
 msgid "XY Lines"
 msgstr "直线"
 
 # src/dialog-cell-format.c:917
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 #, fuzzy
 msgid "XY Points"
 msgstr "点"
@@ -20106,10 +20128,14 @@ msgid "2D scatter plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
-msgid "Stock Scatter plot types"
+msgid "Bubble plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
+msgid "Stock Scatter plot types"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:5
 #, fuzzy
 msgid "XY Charts"
 msgstr "图表%d"
@@ -22338,6 +22364,12 @@ msgstr "工作簿级别"
 #.
 #. * Fill in the labels of `Target Cell' section.
 #.
+#.
+#. * Fill in the labels of `Adjustable Cells' section.
+#.
+#.
+#. * Fill in the labels of `Constraints' section.
+#.
 #: src/dialogs/dialog-goto-cell.c:296 src/dialogs/dialog-search.c:398
 #: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
 #: src/tools/solver/reports-write.c:102 src/tools/solver/reports-write.c:129
@@ -22645,20 +22677,20 @@ msgstr "间隔(_T)："
 msgid "Header/Footer"
 msgstr "页眉和页脚"
 
-#: src/dialogs/dialog-printer-setup.c:860
+#: src/dialogs/dialog-printer-setup.c:861
 msgid "Customize header"
 msgstr "自定义页眉"
 
-#: src/dialogs/dialog-printer-setup.c:862
+#: src/dialogs/dialog-printer-setup.c:863
 msgid "Customize footer"
 msgstr "自定义页脚"
 
 # src/dialog-cell-format.c:633
-#: src/dialogs/dialog-printer-setup.c:1012
+#: src/dialogs/dialog-printer-setup.c:1013
 msgid "Custom header configuration"
 msgstr "自定义页眉配置"
 
-#: src/dialogs/dialog-printer-setup.c:1017
+#: src/dialogs/dialog-printer-setup.c:1018
 msgid "Custom footer configuration"
 msgstr "自定义页脚配置"
 
@@ -23425,44 +23457,44 @@ msgstr "隐藏(_H)"
 msgid "_Narrow"
 msgstr "箭头"
 
-#: src/dialogs/dialog-stf-format-page.c:128
+#: src/dialogs/dialog-stf-format-page.c:129
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:256
+#: src/dialogs/dialog-stf-format-page.c:257
 msgid "Ignore all columns on right"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:257
+#: src/dialogs/dialog-stf-format-page.c:258
 msgid "Ignore all columns on left"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:258
+#: src/dialogs/dialog-stf-format-page.c:259
 msgid "Import all columns on right"
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:259
+#: src/dialogs/dialog-stf-format-page.c:260
 msgid "Import all columns on left"
 msgstr ""
 
 # src/workbook.c:859
-#: src/dialogs/dialog-stf-format-page.c:260
+#: src/dialogs/dialog-stf-format-page.c:261
 #, fuzzy
 msgid "Copy format to right"
 msgstr "左对齐"
 
-#: src/dialogs/dialog-stf-format-page.c:398
+#: src/dialogs/dialog-stf-format-page.c:399
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-stf-format-page.c:401
+#: src/dialogs/dialog-stf-format-page.c:402
 msgid "At most 256 columns can be imported at one time."
 msgstr ""
 
 # src/sheet-view.c:343 src/sheet-view.c:382
-#: src/dialogs/dialog-stf-format-page.c:542
+#: src/dialogs/dialog-stf-format-page.c:543
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -27648,21 +27680,21 @@ msgstr "&[PAGE]"
 msgid "Print Region"
 msgstr "打印区域"
 
-#: src/print.c:1238
+#: src/print.c:1247
 msgid "Print Sheets"
 msgstr "打印表格"
 
 # src/workbook.c:1548
-#: src/print.c:1246
+#: src/print.c:1255
 msgid "Act_ive sheet"
 msgstr "激活表格(_I)"
 
 # src/workbook.c:761 src/workbook.c:809
-#: src/print.c:1246
+#: src/print.c:1255
 msgid "S_heets"
 msgstr "表格(_H)"
 
-#: src/print.c:1330
+#: src/print.c:1341
 msgid "Printing failed"
 msgstr "打印失败"
 
@@ -28647,6 +28679,9 @@ msgstr "敏感报告"
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
+#.
+#. * Fill in the labels of `Constraints' section.
+#.
 #: src/tools/solver/reports-write.c:230 src/tools/solver/reports-write.c:276
 msgid "Final"
 msgstr "最终"
@@ -28859,6 +28894,7 @@ msgstr "操作系统"
 
 # src/expr.c:1044
 #. Set the `CPU Model'.
+#. Set the `CPU Mhz'.
 #: src/tools/solver/reports-write.c:676 src/tools/solver/reports-write.c:679
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"

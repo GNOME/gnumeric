@@ -1,3 +1,7 @@
+2004-01-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.5
+
 2004-01-07  Jody Goldberg <jody@gnome.org>
 
 	* lotus-formula.c (lotus_parse_formula) : patch for ancient typo from

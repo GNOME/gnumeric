@@ -116,7 +116,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-13 05:04+0100\n"
+"POT-Creation-Date: 2004-01-18 15:54-0500\n"
 "PO-Revision-Date: 2004-01-07 19:56+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -194,6 +194,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Levert een CORBA script interface"
 
 #: plugins/derivatives/options.c:143
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -384,7 +385,7 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 
 #: plugins/derivatives/options.c:442
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -432,7 +433,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/derivatives/options.c:512
-#, fuzzy, c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -480,7 +481,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/derivatives/options.c:576
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -528,7 +529,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/derivatives/options.c:646
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -571,7 +572,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/derivatives/options.c:715
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,"
@@ -617,6 +618,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/derivatives/options.c:779
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -638,6 +640,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:873
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
@@ -668,6 +671,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:983
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -688,6 +692,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1037
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
@@ -709,7 +714,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1220
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJERSTENS\n"
 "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -754,6 +759,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/derivatives/options.c:1304
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -778,7 +784,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1352
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -818,6 +824,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/derivatives/options.c:1415
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -843,6 +850,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1472
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -863,6 +871,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1533
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -887,7 +896,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1648
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -930,7 +939,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/derivatives/options.c:1733
-#, fuzzy
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -17512,6 +17521,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
+#. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
 msgid ""
 "@FUNCTION=NT_MU\n"
@@ -18047,6 +18057,7 @@ msgstr "Steekproef databron"
 
 # BUG hoofdletters voor de functienaam
 #: plugins/sample_datasource/sample_datasource.c:264
+#, no-c-format
 msgid ""
 "@FUNCTION=atl_last\n"
 "@SYNTAX=ATL_LAST (tag)\n"
@@ -19554,7 +19565,7 @@ msgid "Print Preview"
 msgstr "Afdrukvoorbeeld"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1318 src/workbook-control-gui.c:3342
+#: src/print.c:1329 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Afdrukvoorbeeld"
@@ -21762,18 +21773,26 @@ msgstr "Ring plot-motor"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:261
 msgid "PlotXY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:321
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:371
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:323
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:373
 msgid "Y"
 msgstr "Y"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:354
+#, fuzzy
+msgid "PlotBubble"
+msgstr "Bellen"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:375
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Bellen"
@@ -21794,20 +21813,26 @@ msgstr "Lineair interpoleren tussen multi-dimensionale punten."
 msgid "Markers at each point."
 msgstr "Markeringen bij elk punt."
 
-# ballonnen ipv bellen
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+#, fuzzy
+msgid "Multi-dimensional points with circle at each point."
+msgstr ""
+"Interpoleren tussen multidimensionale punten, met markeringen bij elk punt."
+
+# ballonnen ipv bellen
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Plot X, Y and bubble size."
 msgstr "X, Y en bellen tekenen."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY Lines"
 msgstr "XY-lijnen"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Points"
 msgstr "XY-punten"
 
@@ -21821,10 +21846,15 @@ msgid "2D scatter plotting engine"
 msgstr "2D punten plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
+#, fuzzy
+msgid "Bubble plotting engine"
+msgstr "Taart plot-motor"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "Stock Scatter plot types"
 msgstr "Standaard punten-grafiektypen"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:5
 msgid "XY Charts"
 msgstr "XY-grafieken"
 
@@ -28749,19 +28779,19 @@ msgstr "&[PAGINA]"
 msgid "Print Region"
 msgstr "Bereik Afdrukken"
 
-#: src/print.c:1238
+#: src/print.c:1247
 msgid "Print Sheets"
 msgstr "Werkbladen Afdrukken"
 
-#: src/print.c:1246
+#: src/print.c:1255
 msgid "Act_ive sheet"
 msgstr "Huid_ige werkblad"
 
-#: src/print.c:1246
+#: src/print.c:1255
 msgid "S_heets"
 msgstr "Werkbladen"
 
-#: src/print.c:1330
+#: src/print.c:1341
 msgid "Printing failed"
 msgstr "Afdrukken mislukt"
 
@@ -28954,6 +28984,7 @@ msgstr "Vinkje %d"
 msgid "RadioButton"
 msgstr "RadioKnop"
 
+#. Oh, yeah?
 #: src/sheet-style.c:492
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
@@ -29085,6 +29116,13 @@ msgstr "Covarianties"
 msgid "Covariance (%s)"
 msgstr "Covariantie (%s)"
 
+#.
+#. * Note to translators: in the following string and others like it,
+#. * the "/" is a separator character that can be changed to anything
+#. * if the translation needs the slash; just use, say, "|" instead.
+#. *
+#. * The items are bundled like this to increase translation context.
+#.
 #: src/tools/analysis-tools.c:935
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
@@ -29262,6 +29300,10 @@ msgstr ""
 "\n"
 "Verwijder een van deze variabelen en probeer de regressie opnieuw."
 
+#. FIXME: virtually all the code above needs to be moved from here into
+#. analysis_tool_regression_engine_last_check
+#. we have to figure out which data we have to trnasfer from
+#. to here
 #: src/tools/analysis-tools.c:2248
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
@@ -31896,12 +31938,6 @@ msgstr "Gnumeric XML bestandsformaat"
 # dit is voor de grafiekonderdelen die nog niet af zijn
 #~ msgid "TODO : Unfinished"
 #~ msgstr "TODO : Dit moet nog worden geïmlementeerd"
-
-#~ msgid ""
-#~ "Interpolate between multi-dimensional points,with markers at each point."
-#~ msgstr ""
-#~ "Interpoleren tussen multidimensionale punten, met markeringen bij elk "
-#~ "punt."
 
 #~ msgid "Interpolate between multi-dimensional points."
 #~ msgstr "Interpoleren tussen mulitdimensionale punten."
