@@ -25,7 +25,7 @@ draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,
 	/* FIXME how to handle small fonts ?
 	 * the text_base should be at least 2 pixels above the bottom */
 	while (--num_lines >= 0) {
-		int y = text_base + line_offset[num_lines];
+		int y = text_base + line_offset [num_lines];
 		gdk_draw_line (drawable, gc, x1, y, x1+len_pixels, y);
 	}
 }
@@ -147,14 +147,14 @@ cell_draw (Cell const *cell, MStyle *mstyle,
 	GdkRectangle  rect;
 
 	Sheet const * const sheet = cell->base.sheet;
-	ColRowInfo const * const ci = cell->col_info;
-	ColRowInfo const * const ri = cell->row_info;
+	ColRowInfo const * const ci = cell->col_info; /* DEPRECATED */
+	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
 	int text_base;
 	int font_height;
 	StyleHAlignFlags halign;
 	StyleVAlignFlags valign;
 	int num_lines = 0;
-	int line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
+	int line_offset [3]; /* There are up to 3 lines, double underlined strikethroughs */
 	char const *text;
 	StyleColor   *fore;
 	int cell_width_pixel;
@@ -181,9 +181,10 @@ cell_draw (Cell const *cell, MStyle *mstyle,
 		text = cell->rendered_value->rendered_text->str;
 
 	/* Get the sizes exclusive of margins and grids */
-	if (width < 0)
+	/* FIXME : all callers will eventually pass in their cell size */
+	if (width < 0) /* DEPRECATED */
 		width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
-	if (height < 0)
+	if (height < 0) /* DEPRECATED */
 		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
 
 	/* This rectangle has the whole area used by this cell
@@ -269,7 +270,7 @@ cell_draw (Cell const *cell, MStyle *mstyle,
 	halign = cell_default_halign (cell, mstyle);
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
 	    !mstyle_get_fit_in_cell (mstyle)) {
-		int total, len = cell_width_pixel;
+		int x, total, len = cell_width_pixel;
 
 		switch (halign) {
 		case HALIGN_FILL:
@@ -277,34 +278,34 @@ cell_draw (Cell const *cell, MStyle *mstyle,
 			/* fall through */
 
 		case HALIGN_LEFT:
-			x1 = rect.x;
+			x = rect.x;
 			break;
 
 		case HALIGN_RIGHT:
-			x1 = rect.x + rect.width - cell_width_pixel;
+			x = rect.x + rect.width - cell_width_pixel;
 			break;
 
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x1 = rect.x + (rect.width - cell_width_pixel) / 2;
+			x = rect.x + (rect.width - cell_width_pixel) / 2;
 			break;
 
 		default:
 			g_warning ("Single-line justification style not supported\n");
-			x1 = rect.x;
+			x = rect.x;
 		}
 
 		total = 0;
 		do {
-			draw_text (drawable, font, gc, x1, text_base,
+			draw_text (drawable, font, gc, x, text_base,
 				   text, strlen (text), len, line_offset, num_lines);
-			x1 += len;
+			x += len;
 			total += len;
 		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
 	} else {
 		GList *lines, *l;
 		int line_count;
-		int x_offset, y_offset, inter_space;
+		int x, y_offset, inter_space;
 
 	       	lines = cell_split_text (font, text, width);
 	       	line_count = g_list_length (lines);
@@ -358,26 +359,27 @@ cell_draw (Cell const *cell, MStyle *mstyle,
 
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
-				x_offset = ci->margin_a;
+				x = rect.x;
+
+				/* Be cheap, only calculate the width of the
+				 * string if we need to. */
 				if (num_lines > 0)
 					len = gdk_string_width (font, text);
 				break;
 
 			case HALIGN_RIGHT:
 				len = gdk_string_width (font, str);
-				x_offset = ci->size_pixels - ci->margin_b - len;
+				x = rect.x + rect.width - len;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gdk_string_width (font, str);
-				x_offset = (ci->size_pixels - len) / 2;
+				x = rect.x + (rect.width - len) / 2;
 			}
 
-			/* Advance one pixel for the border */
-			x_offset++;
 			draw_text (drawable, font, gc,
-				   x1 + x_offset, y1 + y_offset,
+				   x, y1 + y_offset,
 				   str, strlen (str), len, line_offset, num_lines);
 			y_offset += inter_space;
 

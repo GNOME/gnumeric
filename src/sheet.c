@@ -1046,9 +1046,11 @@ static Value *
 cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
 		   int *max)
 {
-	int const height = cell_rendered_height (cell);
-	if (height > *max)
-		*max = height;
+	if (!cell_is_merged (cell)) {
+		int const height = cell_rendered_height (cell);
+		if (height > *max)
+			*max = height;
+	}
 	return NULL;
 }
 

@@ -1,5 +1,13 @@
 2000-12-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell-draw.c (cell_draw) : support multiline text in merged
+	  cells.
+
+	* src/sheet.c (cb_max_cell_height) : merged cells do not contribute to
+	  the row height.
+
+2000-12-29  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-autofill.c (sheet_autofill_dir) : support merged cells.
 	(fill_item_new) : Ditto.
 
