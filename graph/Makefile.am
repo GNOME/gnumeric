@@ -8,12 +8,12 @@ INCLUDES = 						\
 	$(EXTRA_GNOME_CFLAGS)
 
 if BONOBO
-bin_PROGRAMS = graph 
+bin_PROGRAMS = graph-bonobo
 
 noinst_PROGRAMS = sample
 endif
 
-graph_SOURCES =			\
+graph_bonobo_SOURCES =		\
 	graph.c			\
 	graph.h			\
 	graph-vector.c		\
@@ -38,7 +38,7 @@ graph_SOURCES =			\
 	vector.c		\
 	vector.h
 
-graph_LDADD =			\
+graph_bonobo_LDADD =		\
 	$(EXTRA_GNOME_LIBS)	\
 	../idl/libGnumeric.a	\
 	../idl/libGraph.a	\

@@ -2,7 +2,7 @@
 type=exe
 repo_id=IDL:GNOME/EmbeddableFactory:1.0 IDL:GNOME/GenericFactory:1.0
 description=GNOME Chart component factory.
-location_info=graph
+location_info=graph-bonobo
 
 [GOADID:embeddable:Graph:Layout]
 type=factory
