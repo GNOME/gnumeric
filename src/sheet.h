@@ -246,8 +246,6 @@ double      sheet_col_get_unit_distance   (Sheet const *sheet, int from_col, int
 /* Sets the width/height of a column row in terms of pixels */
 void        sheet_col_set_width           (Sheet *sheet,
 				           int col, int width);
-void        sheet_col_info_set_width      (Sheet *sheet,
-				           ColRowInfo *ci, int width);
 void        sheet_col_set_width_units     (Sheet *sheet, int col, double width,
 					   gboolean set_by_user);
 void        sheet_col_set_internal_width  (Sheet *sheet, ColRowInfo *ci,
@@ -258,9 +256,6 @@ void        sheet_row_set_height          (Sheet *sheet,
 				           gboolean height_set_by_user);
 void        sheet_row_set_height_units    (Sheet *sheet, int row, double height,
 					   gboolean height_set_by_user);
-void        sheet_row_info_set_height     (Sheet *sheet,
-				           ColRowInfo *ri, int height,
-				           gboolean set_by_user);
 void        sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height);
 
 int         sheet_col_size_fit            (Sheet *sheet, int col);

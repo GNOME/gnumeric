@@ -636,7 +636,7 @@ sheet_get_extent (Sheet const *sheet)
 	return r;
 }
 
-void
+static void
 sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean height_set_by_user)
 {
 	g_return_if_fail (sheet != NULL);
@@ -972,7 +972,7 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 	g_list_free (dat.cells);
 }
 
-void
+static void
 sheet_col_info_set_width (Sheet *sheet, ColRowInfo *ci, int width)
 {
 	g_return_if_fail (sheet != NULL);

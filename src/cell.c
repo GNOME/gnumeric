@@ -1190,8 +1190,6 @@ cell_get_span (Cell *cell, int *col1, int *col2)
  * @cell:      The cell we are working on.
  * @style:     the style formatting constraints (font, alignments)
  * @text:      the string contents.
- * @cell_w:    the cell width
- * @cell_h:    the cell height
  * @h:         return value: the height used
  * @w:         return value: the width used.
  *
@@ -1313,8 +1311,8 @@ cell_calc_dimensions (Cell *cell)
 			double const scale =
 			    cell->sheet->last_zoom_factor_used *
 			    application_display_dpi_get (FALSE) / 72.;
-			if ((cell->height * scale) > cell->row->pixels)
-				sheet_row_set_internal_height (cell->sheet, cell->row, h);
+			if (cell->height > cell->row->pixels)
+				sheet_row_set_internal_height (cell->sheet, cell->row, h/scale);
 		}
 
 		mstyle_unref (mstyle);

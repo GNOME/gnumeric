@@ -387,8 +387,15 @@ static void
 item_bar_start_resize (ItemBar *bar)
 {
 	Sheet const * const sheet = bar->sheet_view->sheet;
-	double const res  = application_display_dpi_get (bar->orientation == GTK_ORIENTATION_VERTICAL);
-	double const zoom = sheet->last_zoom_factor_used * res / 72.;
+#if 0
+	/*
+	 * handle the zoom from the item-grid canvas, the resolution scaling is
+	 * handled elsewhere
+	 */
+	double const res  = application_display_dpi_get (bar->orientation ==
+							 GTK_ORIENTATION_VERTICAL);
+#endif
+	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
 	GnumericSheet const * const gsheet = GNUMERIC_SHEET (bar->sheet_view->sheet_view);
 	GnomeCanvas const * const canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
@@ -520,8 +527,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	Sheet   * const sheet = item_bar->sheet_view->sheet;
 	const gboolean resizing = ITEM_BAR_RESIZING (item_bar);
 	const gboolean is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
+#if 0
+	/*
+	 * handle the zoom from the item-grid canvas, the resolution scaling is
+	 * handled elsewhere
+	 */
 	double const res  = application_display_dpi_get (is_vertical);
-	double const zoom = sheet->last_zoom_factor_used * res / 72.;
+#endif
+	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
 	int pos, start, element;
 
 	/* NOTE :

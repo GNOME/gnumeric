@@ -14,6 +14,7 @@
 #include "ranges.h"
 #include "application.h"
 #include "workbook.h"
+#include "commands.h"
 #include "gnumeric-util.h"
 
 /*
@@ -783,7 +784,7 @@ sheet_selection_paste (CommandContext *context, Sheet *sheet,
 		rinfo.origin_sheet = src_sheet;
 		rinfo.target_sheet = sheet;
 
-		sheet_move_range      (context, &rinfo);
+		cmd_paste_cut (context, &rinfo);
 		sheet_selection_move  (&rinfo);
 		application_clipboard_clear ();
 	} else {

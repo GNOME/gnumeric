@@ -54,6 +54,8 @@
  *    expensive events and should only be done once per command to avoid
  *    duplicating work.
  *
+ * FIXME: Filter the list of commands when a sheet is deleted.
+ *
  * TODO : Add user preference for undo buffer size limit (# of commands ?)
  * TODO : Possibly clear lists on save.
  *
@@ -1379,6 +1381,9 @@ cmd_paste_copy (CommandContext *context,
 typedef struct
 {
 	GnumericCommand parent;
+
+	ExprRelocateInfo info;
+	CellRegion 	*contents;
 } CmdPasteCut;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCut, cmd_paste_cut);
@@ -1387,10 +1392,27 @@ static gboolean
 cmd_paste_cut_undo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
+	ExprRelocateInfo reverse;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
 
-	/* FIXME : Fill in */
+	reverse.target_sheet = me->info.origin_sheet;
+	reverse.origin_sheet = me->info.target_sheet;
+	reverse.origin = me->info.origin;
+	range_translate (&reverse.origin,
+			 me->info.col_offset,
+			 me->info.row_offset);
+	reverse.col_offset = -me->info.col_offset;
+	reverse.row_offset = -me->info.row_offset;
+
+	sheet_move_range (context, &reverse);
+	clipboard_paste_region (context, me->contents, me->info.target_sheet,
+				me->info.origin.start.col + me->info.col_offset,
+				me->info.origin.start.row + me->info.row_offset,
+				PASTE_ALL_TYPES, GDK_CURRENT_TIME);
+	clipboard_release (me->contents);
+	me->contents = NULL;
 	return FALSE;
 }
 
@@ -1400,17 +1422,28 @@ cmd_paste_cut_redo (GnumericCommand *cmd, CommandContext *context)
 	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->contents == NULL, TRUE);
 
-	/* FIXME : Fill in */
+	me->contents =
+	    clipboard_copy_cell_range (
+		me->info.target_sheet, 
+		me->info.origin.start.col + me->info.col_offset,
+		me->info.origin.start.row + me->info.row_offset,
+		me->info.origin.end.col + me->info.col_offset,
+		me->info.origin.end.row + me->info.row_offset);
+	sheet_move_range (context, &me->info);
+
 	return FALSE;
 }
 static void
 cmd_paste_cut_destroy (GtkObject *cmd)
 {
-#if 0
 	CmdPasteCut *me = CMD_PASTE_CUT(cmd);
-#endif
-	/* FIXME : Fill in */
+
+	if (me->contents) {
+		clipboard_release (me->contents);
+		me->contents = NULL;
+	}
 	gnumeric_command_destroy (cmd);
 }
 
@@ -1430,6 +1463,8 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 	me = CMD_PASTE_CUT (obj);
 
 	/* Store the specs for the object */
+	me->info = *info;
+	me->contents = NULL;
 
 	me->parent.cmd_descriptor = descriptor;
 
@@ -1444,8 +1479,9 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 	 * Maybe queue it as 2 different commands, as a clear in one book and
 	 * a paste  in the other.    This is not symetric though.  What happens to the
 	 * cells in the original sheet that now reference the cells in the other.
-	 * When do they reset to the original ?  Probably when the clear in the original
-	 * is undone.
+	 * When do they reset to the original ?
+	 *
+	 * Probably when the clear in the original is undone.
 	 */
 	return command_push_undo (info->target_sheet->workbook, obj, trouble);
 }
