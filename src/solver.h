@@ -55,6 +55,8 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 			   float_t **x,    /* the optimal solution */
 			   float_t **sh_pr /* the shadow prizes */);
 
+gboolean solver_lp (Workbook *wb, Sheet *sheet, float_t **opt_x,
+		    float_t **sh_pr, gboolean *ilp);
 
 void solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov,
 			float_t ov_target, float_t *init_tbl,

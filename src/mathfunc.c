@@ -4260,7 +4260,7 @@ mpivot (float_t *pivot_table, int cols, int rows)
 
 /*
  ---------------------------------------------------------------------
-  Affine scaling (primal)
+  Primal Affine scaling
 
   (C) Copyright 2000 by Jukka-Pekka Iivonen (iivonen@iki.fi)
  ---------------------------------------------------------------------
@@ -4460,7 +4460,7 @@ run_affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
 		        break;
 
 		for (i=0; i<n_variables; i++)
-		        x[i] += 0.95 * step_len * dx[i];
+		        x[i] += 0.81 * step_len * dx[i];
 
 		rdg = affine_rdg (b, c, x, v, n_constraints, n_variables,
 				  &bv, &cx);
@@ -4469,7 +4469,7 @@ run_affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
 		        fun (iter, x, bv, cx, n_variables, data);
 	}
 
-	return iter < max_iter;
+	return flag && iter < max_iter;
 }
 
 /* Optimizes a given problem using affine scaling (primal) algorithm.
@@ -4525,10 +4525,6 @@ affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
 	 int      i, j;
 	 int      s_ind = 0;
 
-	 display (A, n_variables, n_constraints, "A");
-	 display (b, 1, n_constraints, "b");
-	 display (c, n_variables, 1, "c");
-
 	 wspace = g_new (float_t,
 			 n_variables + 1                      /* new_c */
 			 + n_constraints                      /* tmp */
@@ -4581,3 +4577,168 @@ affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
 
 	 return found;
 }
+
+/*
+ ---------------------------------------------------------------------
+  Branch-And-Bound
+
+  (C) Copyright 2000 by Jukka-Pekka Iivonen (iivonen@iki.fi)
+ ---------------------------------------------------------------------
+ */
+
+gboolean
+branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
+		  int n_constraints, int n_variables, int n_original,
+		  gboolean max_flag, float_t e, int max_iter,
+		  gboolean *int_r,
+		  affscale_callback_fun_t fun, void *data, float_t *best)
+{
+        gboolean found;
+	float_t  *x, z;
+	int      i;
+
+	x = g_new (float_t, n_variables);
+
+	display (A, n_variables, n_constraints, "A");
+	display (b, n_constraints, 1, "b");
+	display (c, n_variables, 1, "c");
+
+	found = affine_init (A, b, c, n_constraints, n_variables, x);
+	if (! found) {
+	        g_free (x);
+	        return FALSE;
+	}
+
+	found = affine_scale (A, b, c, x, n_constraints, n_variables, max_flag,
+			      e, max_iter, NULL, NULL);
+
+	if (! found) {
+	        g_free (x);
+		return FALSE;
+	}
+
+	z = 0;
+	for (i=0; i<n_variables; i++)
+	        z += c[i] * x[i];
+
+	if (max_flag) {
+	        if (z < *best)
+		        return FALSE;
+	} else
+	        if (z > *best)
+		        return FALSE;
+
+	for (i=0; i<n_variables; i++)
+	        if (int_r [i] && fabs (x[i] - rint (x[i])) > 0.0001) {
+		        float_t  rhs_1, rhs_2;
+			float_t  *lA, *rA;
+			float_t  *lb, *rb;
+			float_t  *lrc;
+			gboolean f1, f2;
+			int      l, k;
+
+			rhs_1 = floor (x[i]);
+			rhs_2 = ceil (x[i]);
+
+			lA =  g_new (float_t,
+				     (n_constraints+1) * (n_variables+1));
+			lb =  g_new (float_t, (n_constraints+1));
+			lrc = g_new (float_t, (n_variables+1));
+			rA =  g_new (float_t,
+				     (n_constraints+1)*(n_variables+1));
+			rb =  g_new (float_t, (n_constraints+1));
+			/* FIXME: int_r too */
+	      
+			for (k=0; k<n_variables; k++)
+			        lrc[k] = c[k];
+			lrc[k] = 0;
+
+			for (k=0; k<n_constraints; k++)
+			        lb[k] = rb[k] = b[k];
+			lb[k] = rhs_1;
+			rb[k] = rhs_2;
+
+			for (k=0; k<n_variables; k++) {
+			        for (l=0; l<n_constraints; l++)
+				        lA[l+k*(n_constraints+1)] =
+					  rA[l+k*(n_constraints+1)] =
+					  A[l+k*n_constraints];
+				if (k == i)
+				        lA[l+k*(n_constraints+1)] =
+					  rA[l+k*(n_constraints+1)] = 1;
+				else
+				        lA[l+k*(n_constraints+1)] =
+					  rA[l+k*(n_constraints+1)] = 0;
+			}
+			for (k=0; k<n_constraints; k++)
+			        lA[k+n_variables*(n_constraints+1)] =
+				  rA[k+n_variables*(n_constraints+1)] = 0;
+			lA[k+n_variables*(n_constraints+1)] = 1;
+			rA[k+n_variables*(n_constraints+1)] = -1;
+
+			f1 = branch_and_bound (lA, lb, lrc, xx,
+					       n_constraints+1, n_variables+1,
+					       n_original, TRUE, e, max_iter,
+					       int_r, fun, data, best);
+
+			f2 = branch_and_bound (rA, rb, lrc, xx,
+					       n_constraints+1, n_variables+1,
+					       n_original, TRUE, e, max_iter,
+					       int_r, fun, data, best);
+
+			g_free (lA);
+			g_free (lb);
+			g_free (rA);
+			g_free (rb);
+			g_free (lrc);
+			
+			return f1 || f2;
+		} else if (int_r [i])
+		        x[i] = rint (x[i]);
+
+	if (max_flag) {
+	        if (z > *best) {
+		        *best = z;
+			for (i=0; i<n_original; i++)
+			        xx[i] = x[i];
+		}
+	} else
+	        if (z < *best) {
+		        *best = z;
+			for (i=0; i<n_original; i++)
+			        xx[i] = x[i];
+		}
+	
+	g_free (x);
+	return TRUE;
+}
+
+
+
+#if STANDALONE
+int main()
+{
+  float_t A[] = { 11, 5, 6, 50, 1, 0, 0, 1 };
+  float_t b[] = { 66, 225 };
+  float_t c[] = {  1,  5, 0, 0 };
+  float_t x[4];
+  int     ind_row_added_r[] = { -1, -1 };
+  int     ind_col_added_r[] = { -1, -1 };
+  int     i;
+  float_t best = 0;
+  gboolean r_int[] = { TRUE, TRUE };
+
+  int n_variables = 4;
+  int n_constraints = 2;
+  
+  branch_and_bound (A, b, c, x, n_constraints, n_variables, n_variables, TRUE,
+		    0.000001, 10000, r_int,
+		    NULL, NULL, &best);
+  printf("=========================================================\n");
+  printf("optimal=%g\n", best);
+  for (i=0; i<n_variables; i++)
+    printf("%g\t", x[i]);
+  printf("\n");
+}
+
+#endif

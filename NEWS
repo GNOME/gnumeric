@@ -2,10 +2,11 @@ Gnumeric 0.49
 
 Jukka:
 	* Added `>=' and `=' constraint support for the Solver tool.
-	  Solver should be quite usable now for LP problems that are
-	  assumed to be non-negative.
-	* Implemented `Answer Reports' and `Sensitivity Reports' for
-	  Solver tool.
+	* Added `Int' constraints support by implementing the
+	  Branch-And-Bound algorithm
+	* Implemented `Answer Reports' generation for Solver.
+	* Started implementation of `Sensitivity Reports' generation for
+	  Solver
 	* Major GUI improvementes for Solver
 	* Added `Advanced Filter' tool.
 	* Added the following distributions for the random number

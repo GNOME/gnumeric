@@ -27,8 +27,8 @@ static const char *constraint_strs[] = {
         N_("<="),
 	N_(">="),
 	N_("="),
-/*	N_("int"),
-	N_("bool"), */
+	N_("Int"),
+/*	N_("Bool"), */
 	NULL
 };
 
@@ -128,7 +128,8 @@ add_constraint(constraint_dialog_t *constraint_dialog,
 
 	sprintf(constraint_buf, "%s %s ", cell_name (lhs_col, lhs_row),
 		type_str);
-	strcat(constraint_buf, cell_name(rhs_col, rhs_row));
+	if (strcmp (type_str, "Int") != 0 && strcmp (type_str, "Bool") != 0)
+	        strcat(constraint_buf, cell_name(rhs_col, rhs_row));
 
 	constraint = g_new (SolverConstraint, 1);
 	constraint->lhs_col = lhs_col;
@@ -225,16 +226,19 @@ add_dialog:
 					GTK_ENTRY(lhs_entry)->text_length);
 		goto add_dialog;
 	}
+
+	type_str = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(type_entry)->entry));
+
 	rhs_text = gtk_entry_get_text (GTK_ENTRY (rhs_entry));
-	if (!parse_cell_name (rhs_text, &rhs_col, &rhs_row)) {
+	if ((strcmp (type_str, "Int") != 0 &&
+	     strcmp (type_str, "Bool") != 0) &&
+	    !parse_cell_name (rhs_text, &rhs_col, &rhs_row)) {
 		gtk_widget_grab_focus (rhs_entry);
 		gtk_entry_set_position(GTK_ENTRY (rhs_entry), 0);
 		gtk_entry_select_region(GTK_ENTRY (rhs_entry), 0, 
 					GTK_ENTRY(rhs_entry)->text_length);
 		goto add_dialog;
 	}
-
-	type_str = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(type_entry)->entry));
 
 	if (add_constraint(constraint_dialog, lhs_col,
 			   lhs_row, rhs_col, rhs_row,
@@ -459,7 +463,7 @@ report_button_toggled(GtkWidget *widget, gboolean *data)
 }
 
 static gboolean
-dialog_results (Workbook *wb, int res,
+dialog_results (Workbook *wb, int res, gboolean ilp,
 		gboolean *answer, gboolean *sensitivity, gboolean *limits)
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/solver.glade",
@@ -480,7 +484,11 @@ dialog_results (Workbook *wb, int res,
 
 	switch (res){
 	case SOLVER_LP_OPTIMAL:
-	        answer_s = sensitivity_s = TRUE;
+	        if (ilp)
+		        answer_s = TRUE;
+		else
+		        answer_s = sensitivity_s = TRUE;
+
 	        label_txt = "Solver found an optimal solution. All "
 		  "constraints and \noptimality conditions are satisfied.\n";
 		break;
@@ -753,15 +761,16 @@ main_dialog:
 	sheet->solver_parameters.constraints = constraint_dialog->constraints;
 
 	if (selection == 0) {
-	        float_t *opt_x, *sh_pr;
+	        float_t  *opt_x, *sh_pr;
+		gboolean ilp;
+
 	        ov = save_original_values (input_cells);
 	        if (sheet->solver_parameters.options.assume_linear_model) {
-		        res = solver_affine_scaling (wb, sheet,
-						     &opt_x, &sh_pr);
+		        res = solver_lp (wb, sheet, &opt_x, &sh_pr, &ilp);
+
+			answer = sensitivity = limits = FALSE;
 			gtk_widget_hide (dialog);
-			answer = TRUE;
-			sensitivity = limits = FALSE;
-			solver_solution = dialog_results (wb, res,
+			solver_solution = dialog_results (wb, res, ilp,
 							  &answer,
 							  &sensitivity,
 							  &limits);

@@ -381,39 +381,27 @@ callback (int iter, float_t *x, float_t bv, float_t cx, int n, void *data)
         printf("\n");
 }
 
-int solver_affine_scaling (Workbook *wb, Sheet *sheet,
-			   float_t **x,    /* the optimal solution */
-			   float_t **sh_pr /* the shadow prizes */)
+static void
+count_dimensions (GSList *constraints, CellList *inputs,
+		  int *n_vars, int *n_constrs)
 {
-	SolverParameters *param = &sheet->solver_parameters;
-	GSList           *constraints;
-	CellList         *inputs;
-	Cell             *cell;
-	Cell             *target;
-	float_t          *A;
-	float_t          *b;
-	float_t          *c;
-	gboolean         max_flag;
-	gboolean         found;
+        Cell *cell;
+	int  n_constraints = 0;
+	int  n_variables = 0;
 
-	int n_constraints = 0;
-	int n_variables = 0;
-	int var;
-	int i, j;
-
-	max_flag = param->problem_type == SolverMaximize;
-	constraints = param->constraints;
 	while (constraints != NULL) {
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 
 		if (strcmp(c->type, "<=") == 0
-		    || strcmp (c->type, ">=") == 0)
+		    || strcmp (c->type, ">=") == 0) {
 		        n_variables++;
-		n_constraints++;
+			n_constraints++;
+		} else if (strcmp (c->type, "=") == 0)
+			n_constraints++;
+
 		constraints = constraints->next;
 	}
 
-	inputs = param->input_cells;
 	while (inputs != NULL) {
 	        cell = (Cell *) inputs->data;
 
@@ -421,12 +409,26 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 		inputs = inputs->next;
 	}
 
-	printf("%d %d\n", n_variables, n_constraints);
+	*n_vars = n_variables;
+	*n_constrs = n_constraints;
+}
+
+static int
+make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
+		    int n_constraints, float_t **A_, float_t **b_,
+		    float_t **c_)
+{
+	GSList     *constraints;
+	CellList   *inputs;
+	Cell       *target, *cell;
+	float_t    *A;
+	float_t    *b;
+	float_t    *c;
+	int        i, j, var;
+
 	A = g_new (float_t, n_variables * n_constraints);
 	b = g_new (float_t, n_constraints);
 	c = g_new (float_t, n_variables);
-	*x = g_new (float_t, n_variables);
-	*sh_pr = g_new (float_t, n_variables);
 
 	for (i=0; i<n_variables; i++)
 	        for (j=0; j<n_constraints; j++)
@@ -439,7 +441,7 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 	target = sheet_cell_get (sheet, param->target_cell->col->pos,
 				 param->target_cell->row->pos);
 	if (target == NULL)
-	  return SOLVER_LP_INVALID_RHS; /* FIXME */
+	        return SOLVER_LP_INVALID_RHS; /* FIXME */
 
 	while (inputs != NULL) {
 	        cell = (Cell *) inputs->data;
@@ -454,6 +456,10 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 	i = 0;
 	while (constraints != NULL) {
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+
+		if (strcmp(c->type, "Int") == 0 ||
+		    strcmp(c->type, "Bool") == 0)
+		        goto skip;
 
 		/* Set the constraint coefficients */
 		target = sheet_cell_get (sheet, c->lhs_col, c->lhs_row);
@@ -472,11 +478,11 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 
 		/* Set the slack/surplus variables */
 		if (strcmp(c->type, "<=") == 0) {
-		  A[i + var*n_constraints] = 1;
-		  var++;
+		        A[i + var*n_constraints] = 1;
+			var++;
 		} else if (strcmp (c->type, ">=") == 0) {
-		  A[i + var*n_constraints] = -1;
-		  var++;
+		        A[i + var*n_constraints] = -1;
+			var++;
 		}
 
 		/* Fetch RHS for b */
@@ -486,8 +492,47 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 		b[i] = value_get_as_float(cell->value);
 		
 		i++;
+	skip:
 		constraints = constraints->next;
 	}
+	*A_ = A;
+	*b_ = b;
+	*c_ = c;
+
+	return 0;
+}
+
+int solver_affine_scaling (Workbook *wb, Sheet *sheet,
+			   float_t **x,    /* the optimal solution */
+			   float_t **sh_pr /* the shadow prizes */)
+{
+	SolverParameters *param = &sheet->solver_parameters;
+	GSList           *constraints;
+	CellList         *inputs;
+	Cell             *cell;
+	float_t          *A;
+	float_t          *b;
+	float_t          *c;
+	gboolean         max_flag;
+	gboolean         found;
+
+	int n_constraints;
+	int n_variables;
+	int i;
+
+	max_flag = param->problem_type == SolverMaximize;
+	constraints = param->constraints;
+	inputs = param->input_cells;
+
+	count_dimensions (constraints, inputs, &n_variables, &n_constraints);
+
+	*x = g_new (float_t, n_variables);
+	*sh_pr = g_new (float_t, n_variables);
+
+	i = make_solver_arrays (sheet, param, n_variables, n_constraints,
+				&A, &b, &c);
+	if (i)
+	        return i;
 
 	found = affine_init (A, b, c, n_constraints, n_variables, *x);
 	if (! found)
@@ -525,6 +570,10 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 		constraints = constraints->next;
 	}
 
+	cell = sheet_cell_get (sheet, param->target_cell->col->pos,
+			       param->target_cell->row->pos);
+	cell_eval_content(cell);
+
 	g_free (A);
 	g_free (b);
 	g_free (c);
@@ -532,6 +581,151 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 	return SOLVER_LP_OPTIMAL;
 }
 
+static void
+make_int_array (SolverParameters *param, CellList *inputs, gboolean int_r[], 
+		int n_variables)
+{
+	GSList   *constraints;
+	CellList *list;
+	int      i;
+
+	for (i=0; i<n_variables; i++)
+	        int_r[i] = FALSE;
+
+        constraints = param->constraints;
+	while (constraints != NULL) {
+	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+
+		if (strcmp(c->type, "Int") == 0) {
+		        i = 0;
+			for (list = inputs; list != NULL; list = list->next) {
+			        Cell *cell = list->data;
+				if (cell->col->pos == c->lhs_col &&
+				    cell->row->pos == c->lhs_row) {
+				        int_r [i] = TRUE;
+					break;
+				}
+				i++;
+			}
+		}
+		constraints = constraints->next;
+	}
+}
+
+static gboolean
+solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
+{
+	SolverParameters *param = &sheet->solver_parameters;
+	GSList           *constraints;
+	CellList         *inputs;
+	Cell             *cell;
+	float_t          *A;
+	float_t          *b;
+	float_t          *c;
+	gboolean         max_flag;
+	gboolean         found;
+	float_t          best;
+
+	int      n_constraints;
+	int      n_variables;
+	gboolean *int_r;
+	int      i;
+
+	max_flag = param->problem_type == SolverMaximize;
+	constraints = param->constraints;
+	inputs = param->input_cells;
+
+	count_dimensions (constraints, inputs, &n_variables, &n_constraints);
+
+	*opt_x = g_new (float_t, n_variables);
+	int_r = g_new (gboolean, n_variables);
+
+	i = make_solver_arrays (sheet, param, n_variables, n_constraints,
+				&A, &b, &c);
+	if (i)
+	        return i;
+
+	make_int_array (param, inputs, int_r, n_variables);
+
+	if (max_flag)
+	        best = -1e10;
+	else
+	        best = 1e10;
+
+	found = branch_and_bound (A, b, c, *opt_x, n_constraints, n_variables, 
+				  n_variables, max_flag, 0.000001, 1000,
+				  int_r, callback, NULL, &best);
+
+	if (! found)
+	        return SOLVER_LP_INFEASIBLE;
+
+	inputs = param->input_cells;
+	i = 0;
+	while (inputs != NULL) {
+	        char    buf[256];
+		float_t x;
+
+	        cell = (Cell *) inputs->data;
+		x = (*opt_x)[i++];
+		sprintf(buf, "%f", x);
+		cell_set_text (cell, buf);
+		inputs = inputs->next;
+	}
+
+	/* FIXME: Do not do the following loop.  Instead recalculate 
+	 * everything that depends on the input variables (the list of
+	 * cells in params->input_cells).
+	 */
+
+	constraints = param->constraints;
+	while (constraints != NULL) {
+	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+
+		if (strcmp (c->type, "Int") == 0 ||
+		    strcmp (c->type, "Bool") == 0)
+		        goto skip;
+		  
+		cell = sheet_cell_fetch (sheet, c->lhs_col, c->lhs_row);
+		cell_eval_content(cell);
+	skip:
+		constraints = constraints->next;
+	}
+
+	cell = sheet_cell_get (sheet, param->target_cell->col->pos,
+			       param->target_cell->row->pos);
+	cell_eval_content(cell);
+
+	g_free (A);
+	g_free (b);
+	g_free (c);
+
+	return SOLVER_LP_OPTIMAL;
+}
+
+
+gboolean
+solver_lp (Workbook *wb, Sheet *sheet, float_t **opt_x, float_t **sh_pr,
+	   gboolean *ilp)
+{
+	SolverParameters *param = &sheet->solver_parameters;
+	GSList           *constraints;
+
+	*ilp = FALSE;
+        constraints = param->constraints;
+	while (constraints != NULL) {
+	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+
+		if (strcmp(c->type, "Int") == 0) {
+		        *ilp = TRUE;
+			break;
+		}
+		constraints = constraints->next;
+	}
+	if (*ilp)
+	        return solver_branch_and_bound (wb, sheet, opt_x);
+	else
+	        return solver_affine_scaling (wb, sheet, opt_x, sh_pr);
+}
 
 static char *
 find_name (Sheet *sheet, int col, int row)
@@ -678,6 +872,10 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 		float_t lhs, rhs;
 
+		if (strcmp (c->type, "Int") == 0 ||
+		    strcmp (c->type, "Int") == 0)
+		        goto skip;
+
 		/* Set `Cell' column */
 		set_cell (&dao, 0, row,
 			  (char *) cell_name (c->lhs_col, c->lhs_row));
@@ -711,6 +909,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 
 		/* Go to next row */
 		++row;
+	skip:
 		constraints = constraints->next;
 	}
 

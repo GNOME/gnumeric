@@ -149,5 +149,11 @@ gboolean affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
 		       float_t e, int max_iter,
 		       affscale_callback_fun_t fun, void *data);
 
+gboolean branch_and_bound (float_t *A, float_t *b, float_t *c, float_t *xx,
+			   int n_constraints, int n_variables, int n_original,
+			   gboolean max_flag, float_t e, int max_iter,
+			   gboolean *int_r,
+			   affscale_callback_fun_t fun, void *data,
+			   float_t *best);
 
 #endif
