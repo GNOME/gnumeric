@@ -45,8 +45,17 @@
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtkmisc.h>
 #include <glade/glade-xml.h>
+
+typedef struct {
+	double 		(*map) (GogAxis *axis, double value);
+	gboolean 	(*map_init) (GogAxis *axis);
+	void		(*map_destroy) (GogAxis *axis);
+	char const	*name;
+	char const	*description;
+} GogAxisMapDesc;
 
 struct _GogAxis {
 	GogStyledObject	 base;
@@ -62,7 +71,7 @@ struct _GogAxis {
 		int size_pts;
 	} major, minor;
 	gboolean major_tick_labeled;
-	gboolean inverted, log_scale;
+	gboolean inverted; /* apply to all map type */
 
 	double		min_val, max_val;
 	double		logical_min_val, logical_max_val;
@@ -71,6 +80,9 @@ struct _GogAxis {
 	GODataVector   *labels;
 	GogPlot	       *plot_that_supplied_labels;
 	GOFormat       *format, *assigned_format;
+
+	gpointer		 map_data;
+	GogAxisMapDesc const 	*map_desc;
 };
 
 typedef GogStyledObjectClass GogAxisClass;
@@ -85,7 +97,7 @@ enum {
 	AXIS_PROP_POS,
 	AXIS_PROP_POS_STR,
 	AXIS_PROP_INVERT,
-	AXIS_PROP_LOG_SCALE,
+	AXIS_PROP_MAP,
 	AXIS_PROP_MAJOR_TICK_LABELED,
 	AXIS_PROP_MAJOR_TICK_IN,
 	AXIS_PROP_MAJOR_TICK_OUT,
@@ -98,6 +110,143 @@ enum {
 
 #define TICK_LABEL_PAD_VERT	0
 #define TICK_LABEL_PAD_HORIZ	1
+
+/* 
+ * THREADUNSAFE
+ *
+ * Ideally, map should be a property of GogAxisView. 
+ */
+
+static gboolean
+map_init_linear (GogAxis *axis)
+{
+	double *data;
+	
+	g_free (axis->map_data);
+	axis->map_data = g_new (double, 3);
+	data = axis->map_data;
+
+	if (gog_axis_get_bounds (axis, &data[0], &data[1])) {
+		data[2] = data[1] - data[0];
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static double
+map_linear (GogAxis *axis, double value) 
+{
+	double *data = axis->map_data;
+	
+	return (value - data[0]) / data[2];
+}
+
+static gboolean
+map_init_log (GogAxis *axis)
+{
+	double *data;
+	
+	g_free (axis->map_data);
+	axis->map_data = g_new (double, 3);
+	data = axis->map_data;
+
+	if (gog_axis_get_bounds (axis, &data[0], &data[1])) {
+		data[0] = log (data[0]);
+		data[1] = log (data[1]);
+		data[2] = data[1] - data[0];
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static double
+map_log (GogAxis *axis, double value) 
+{
+	double *data = axis->map_data;
+
+	return (log (value) - data[0]) / data[2];
+}
+
+static GogAxisMapDesc map_descs[] = 
+{
+	{map_linear,	map_init_linear, 	NULL,	N_("Linear"),	N_("Linear mapping")},
+	{map_log,	map_init_log,		NULL,	N_("Log"),	N_("Logarithm mapping")}
+};
+
+static void
+gog_axis_map_set_by_num (GogAxis *axis, unsigned num)
+{
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	if (num >= 0 && num < G_N_ELEMENTS (map_descs))
+		g_object_set (G_OBJECT (axis), "map-name", map_descs[num].name, NULL);
+	else
+		g_object_set (G_OBJECT (axis), "map-name", "", NULL);
+}
+
+static void
+gog_axis_map_populate_combo (GogAxis *axis, GtkComboBox *combo)
+{
+	unsigned i;
+
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	for (i = 0; i < G_N_ELEMENTS (map_descs); i++) {
+		gtk_combo_box_append_text (combo, _(map_descs[i].name));
+		if (!g_ascii_strcasecmp (map_descs[i].name,
+					 axis->map_desc->name))
+			gtk_combo_box_set_active (combo, i);
+	}
+}
+
+static void
+gog_axis_map_set (GogAxis *axis, char const *name) 
+{
+	unsigned i, map = 0;
+	
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	if (name != NULL)
+		for (i = 0; i < G_N_ELEMENTS(map_descs); i++) 
+			if (!g_ascii_strcasecmp (name, map_descs[i].name)) {
+				map = i;
+				break;
+			}
+
+	axis->map_desc = &map_descs[map];
+}
+
+gboolean 
+gog_axis_map_init (GogAxis *axis)
+{
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
+
+	return (axis->map_desc->map_init != NULL ?
+		axis->map_desc->map_init (axis) :
+		FALSE);
+}
+
+double 
+gog_axis_map (GogAxis *axis,
+	      double value)
+{
+	return (axis->inverted ?
+		1.0 - axis->map_desc->map (axis, value) :
+		axis->map_desc->map (axis, value));
+}
+
+void
+gog_axis_map_destroy (GogAxis *axis)
+{
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	if (axis->map_desc->map_destroy != NULL)
+		axis->map_desc->map_destroy (axis);
+}
+
+/*****************************************************************************/
 
 static void
 role_label_post_add (GogObject *parent, GogObject *label)
@@ -194,8 +343,8 @@ gog_axis_set_property (GObject *obj, guint param_id,
 	case AXIS_PROP_INVERT:
 		axis->inverted = g_value_get_boolean (value);
 		break;
-	case AXIS_PROP_LOG_SCALE:
-		axis->log_scale = g_value_get_boolean (value);
+	case AXIS_PROP_MAP :
+		gog_axis_map_set (axis, g_value_get_string (value));
 		break;
 
 	case AXIS_PROP_MAJOR_TICK_LABELED:
@@ -283,8 +432,8 @@ gog_axis_get_property (GObject *obj, guint param_id,
 	case AXIS_PROP_INVERT:
 		g_value_set_boolean (value, axis->inverted);
 		break;
-	case AXIS_PROP_LOG_SCALE:
-		g_value_set_boolean (value, axis->log_scale);
+	case AXIS_PROP_MAP:
+		g_value_set_string (value, axis->map_desc->name);
 		break;
 
 	case AXIS_PROP_MAJOR_TICK_LABELED:
@@ -344,6 +493,8 @@ gog_axis_finalize (GObject *obj)
 		go_format_unref (axis->format);
 		axis->format = NULL;
 	}
+	g_free (axis->map_data);
+	axis->map_data = NULL;
 
 	gog_dataset_finalize (GOG_DATASET (axis));
 	(parent_klass->finalize) (obj);
@@ -463,7 +614,7 @@ gog_axis_update (GogObject *obj)
 		if (maxima > 0)
 			minima = 0.;
 		else if (minima < 0.)
-			 maxima = 0.;
+			maxima = 0.;
 		else {
 			maxima = 1;
 			minima = 0;
@@ -624,6 +775,13 @@ cb_axis_fmt_changed (G_GNUC_UNUSED GtkWidget *widget,
 	g_object_set (axis, "assigned-format-string-XL", fmt, NULL);
 }
 
+static void
+cb_map_combo_changed (GtkComboBox *combo,
+		      GogAxis *axis)
+{
+	gog_axis_map_set_by_num (axis, gtk_combo_box_get_active (combo));
+}
+
 #if 0
 static void
 cb_axis_fmt_assignment_toggled (GtkToggleButton *toggle_button, GtkNotebook *notebook)
@@ -662,6 +820,13 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 		glade_xml_get_widget (gui, "axis_pref_table"),
 		gtk_label_new (_("Details")));
 	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
+
+	w = glade_xml_get_widget (gui, "map_combo");
+	gog_axis_map_populate_combo (axis, GTK_COMBO_BOX (w));
+	g_signal_connect_object (G_OBJECT (w),
+				 "changed",
+				 G_CALLBACK (cb_map_combo_changed),
+				 axis, 0);
 
 	w = glade_xml_get_widget (gui, "axis_low");
 	if (axis->pos == GOG_AXIS_AT_LOW)
@@ -795,10 +960,10 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		g_param_spec_boolean ("invert-axis", NULL,
 			"Scale from high to low rather than low to high",
 			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
-	g_object_class_install_property (gobject_klass, AXIS_PROP_LOG_SCALE,
-		g_param_spec_boolean ("log-scale", NULL,
-			"Use a logarithmic scale",
-			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_MAP,
+		g_param_spec_string ("map-name", "MapName",
+			"The name of the map for scaling",
+			"linear", G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_MAJOR_TICK_LABELED,
 		g_param_spec_boolean ("major-tick-labeled", NULL,
 			"Show labels for major ticks",
@@ -850,7 +1015,6 @@ gog_axis_init (GogAxis *axis)
 	axis->major.tick_out = TRUE;
 	axis->major_tick_labeled = TRUE;
 	axis->inverted = FALSE;
-	axis->log_scale = FALSE;
 	axis->major.size_pts = 4;
 	axis->minor.size_pts = 2;
 
@@ -862,6 +1026,9 @@ gog_axis_init (GogAxis *axis)
 	axis->labels = NULL;
 	axis->plot_that_supplied_labels = NULL;
 	axis->format = axis->assigned_format = NULL;
+
+	axis->map_data = NULL;
+	gog_axis_map_set (axis, NULL);
 }
 
 static void

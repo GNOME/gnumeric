@@ -10,9 +10,15 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
     <widget class="GtkTable" id="axis_pref_table">
+      <property name="border_width">12</property>
       <property name="visible">True</property>
       <property name="n_rows">8</property>
       <property name="n_columns">5</property>
@@ -27,6 +33,7 @@
 	  <property name="label" translatable="yes">_Low</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
 	  <property name="draw_indicator">True</property>
@@ -42,36 +49,15 @@
       </child>
 
       <child>
-	<widget class="GtkCheckButton" id="invert-axis">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">_Invert</property>
-	  <property name="use_underline">True</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	  <property name="draw_indicator">True</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
 	<widget class="GtkLabel" id="map_label">
-	  <property name="sensitive">False</property>
+	  <property name="visible">True</property>
 	  <property name="label" translatable="yes">_Map:</property>
 	  <property name="use_underline">True</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_LEFT</property>
 	  <property name="wrap">False</property>
 	  <property name="selectable">False</property>
-	  <property name="xalign">1</property>
+	  <property name="xalign">0</property>
 	  <property name="yalign">0.5</property>
 	  <property name="xpad">0</property>
 	  <property name="ypad">0</property>
@@ -93,12 +79,15 @@
 	  <property name="yalign">0.5</property>
 	  <property name="xscale">0</property>
 	  <property name="yscale">1</property>
+	  <property name="top_padding">0</property>
+	  <property name="bottom_padding">0</property>
+	  <property name="left_padding">0</property>
+	  <property name="right_padding">0</property>
 
 	  <child>
-	    <widget class="GtkOptionMenu" id="axis_map_menu">
-	      <property name="sensitive">False</property>
-	      <property name="can_focus">True</property>
-	      <property name="history">-1</property>
+	    <widget class="GtkComboBox" id="map_combo">
+	      <property name="visible">True</property>
+	      <property name="items" translatable="yes"></property>
 	    </widget>
 	  </child>
 	</widget>
@@ -143,6 +132,7 @@
 	  <property name="label" translatable="yes">_Show Labels</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
 	  <property name="draw_indicator">True</property>
@@ -164,6 +154,7 @@
 	  <property name="label" translatable="yes">_Outside</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
 	  <property name="draw_indicator">True</property>
@@ -185,6 +176,7 @@
 	  <property name="label" translatable="yes">_Inside</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
 	  <property name="draw_indicator">True</property>
@@ -231,7 +223,7 @@
 	  <property name="left_attach">2</property>
 	  <property name="right_attach">3</property>
 	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">8</property>
+	  <property name="bottom_attach">7</property>
 	  <property name="x_padding">6</property>
 	  <property name="y_padding">6</property>
 	  <property name="x_options">fill</property>
@@ -246,6 +238,7 @@
 	  <property name="label" translatable="yes">_Cross</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
 	  <property name="draw_indicator">True</property>
@@ -268,6 +261,7 @@
 	  <property name="label" translatable="yes">_High</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
 	  <property name="draw_indicator">True</property>
@@ -290,6 +284,7 @@
 	  <property name="label" translatable="yes">O_utside</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
 	  <property name="draw_indicator">True</property>
@@ -311,6 +306,7 @@
 	  <property name="label" translatable="yes">I_nside</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
 	  <property name="draw_indicator">True</property>
@@ -332,6 +328,10 @@
 	  <property name="yalign">0.5</property>
 	  <property name="xscale">0</property>
 	  <property name="yscale">1</property>
+	  <property name="top_padding">0</property>
+	  <property name="bottom_padding">0</property>
+	  <property name="left_padding">0</property>
+	  <property name="right_padding">0</property>
 
 	  <child>
 	    <widget class="GtkOptionMenu" id="axis_cross_menu">
@@ -363,6 +363,28 @@
 	  <property name="y_padding">6</property>
 	  <property name="x_options">fill</property>
 	  <property name="y_options">fill</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkCheckButton" id="invert-axis">
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="label" translatable="yes">_Invert</property>
+	  <property name="use_underline">True</property>
+	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
+	  <property name="active">False</property>
+	  <property name="inconsistent">False</property>
+	  <property name="draw_indicator">True</property>
+	</widget>
+	<packing>
+	  <property name="left_attach">0</property>
+	  <property name="right_attach">2</property>
+	  <property name="top_attach">4</property>
+	  <property name="bottom_attach">5</property>
+	  <property name="x_options">fill</property>
+	  <property name="y_options"></property>
 	</packing>
       </child>
     </widget>

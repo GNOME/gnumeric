@@ -65,6 +65,10 @@ GSList const *gog_axis_contributors	  (GogAxis *axis);
 void	      gog_axis_clear_contributors (GogAxis *axis);
 void	      gog_axis_bound_changed	  (GogAxis *axis, GogObject *contrib);
 
+gboolean      gog_axis_map_init 	  (GogAxis *axis);
+double	      gog_axis_map 		  (GogAxis *axis, double x);
+void 	      gog_axis_map_destroy	  (GogAxis *axis);
+
 G_END_DECLS
 
 #endif /* GOG_AXIS_H */

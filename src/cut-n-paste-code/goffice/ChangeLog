@@ -1,3 +1,22 @@
+2004-06-11  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis-prefs.glade : add a combobox for map selection.
+	* graph/gog-axis.c : add a map description structure. remove log_scale
+	boolean property of GogAxis, and add a new named map property.
+	(map_init_linear),
+	(map_linear),
+	(map_init_log),
+	(map_log),
+	(gog_axis_map_set_by_num),
+	(gog_axis_map_populate_combo),
+	(gog_axis_map_set),
+	(gog_axis_map_init),
+	(gog_axis_map),
+	(gog_axis_map_destroy) : new.
+	(gog_axis_editor) : handle map combobox.
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_view_render) : use map
+	functions.
+	
 2004-06-05  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_get_entry) : add some protection now that

@@ -569,6 +569,7 @@ static void
 gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	Gog2DPlot const *model = GOG_2D_PLOT (view->model);
+	GogAxis *x_axis, *y_axis;
 	GogXYSeries const *series;
 	unsigned i, n, tmp;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
@@ -576,8 +577,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	double const *y_vals, *x_vals = NULL, *z_vals = NULL;
 	double x = 0., y = 0., z;
-	double x_min, x_max, x_off, x_scale;
-	double y_min, y_max, y_off, y_scale;
 	double zmax, rmax = 0.;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 	double xerrmin, xerrmax, yerrmin, yerrmax;
@@ -585,20 +584,21 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	ArtVpath	path[3];
 	GogStyle *style = NULL;
 	gboolean valid, prev_valid, show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
+	double x_offset, y_offset, x_length, y_length;
 
-	if (!gog_axis_get_bounds (model->base.axis[0], &x_min, &x_max))
+	x_axis = model->base.axis[0];
+	y_axis = model->base.axis[1];
+/*	if (!gog_axis_map_init (x_axis, &view->residual))*/
+	if (!gog_axis_map_init (x_axis))
 		return;
-	x_scale = view->residual.w / (x_max - x_min);
-	x_off   = view->residual.x - x_scale * x_min;
-	x_min   = view->residual.x;
-	x_max   = x_min + view->residual.w;
+/*	if (!gog_axis_map_init (y_axis, &view->residual))*/
+	if (!gog_axis_map_init (y_axis))
+		return;
 
-	if (!gog_axis_get_bounds (model->base.axis[1], &y_min, &y_max))
-		return;
-	y_scale = - view->residual.h / (y_max - y_min);
-	y_off   =   view->residual.y + view->residual.h - y_scale * y_min;
-	y_min   = view->residual.y;
-	y_max   = y_min + view->residual.h;
+	x_offset = view->residual.x;
+	y_offset = view->residual.y + view->residual.h;
+	x_length = view->residual.w;
+	y_length = -view->residual.h;
 
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
@@ -662,10 +662,10 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_push_style (view->renderer, style);
 		margin = gog_renderer_line_size (view->renderer, 
 						 go_marker_get_size (style->marker.mark)) / 2.0;
-		x_margin_min = x_min - margin;
-		x_margin_max = x_max + margin;
-		y_margin_min = y_min - margin;
-		y_margin_max = y_max + margin;
+		x_margin_min = view->allocation.x - margin;
+		x_margin_max = view->allocation.x + view->allocation.w + margin;
+		y_margin_min = view->allocation.y - margin;
+		y_margin_max = view->allocation.y + view->allocation.h + margin;
 
 		for (i = 1 ; i <= n ; i++) {
 			x = x_vals ? *x_vals++ : i;
@@ -679,9 +679,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 					y = 0; /* excel is just sooooo consistent */
 				if (!finite (x))
 					x = i;
-#warning "move map into axis"
-				x = x_off + x_scale * x;
-				y = y_off + y_scale * y;
+				x = x_offset + x_length * gog_axis_map (x_axis, x);
+				y = y_offset + y_length * gog_axis_map (y_axis, y);
 				if (GOG_IS_BUBBLE_PLOT(model)) {
 					z = *z_vals++;
 					if (!finite (z)) continue;
@@ -711,16 +710,16 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (gog_error_bar_is_visible (series->x_errors)) {
 						GogErrorBar const *bar = series->x_errors;
 					 if (gog_error_bar_get_bounds (bar, i - 2, &xerrmin, &xerrmax)) {
-						xerrmax = x_off + x_scale * xerrmax;
-						xerrmin = x_off + x_scale * xerrmin;
+						 xerrmax = x_offset + x_length * gog_axis_map (x_axis, xerrmax);
+						 xerrmin = x_offset + x_length * gog_axis_map (x_axis, xerrmin);
 						gog_error_bar_render (bar, view->renderer, prev_x, prev_y, xerrmax - prev_x, prev_x - xerrmin, TRUE);
 					 }
 				}
 				if (gog_error_bar_is_visible (series->y_errors)) {
 					GogErrorBar const *bar = series->y_errors;
 					 if (gog_error_bar_get_bounds (bar, i - 2, &yerrmin, &yerrmax)) {
-						yerrmax = y_off + y_scale * yerrmax;
-						yerrmin = y_off + y_scale * yerrmin;
+						 yerrmax = y_offset + y_length * gog_axis_map (y_axis, yerrmax);
+						 yerrmin = y_offset + y_length * gog_axis_map (y_axis, yerrmin);
 						gog_error_bar_render (bar, view->renderer, prev_x, prev_y, prev_y - yerrmax, yerrmin - prev_y, FALSE);
 					 }
 				}
@@ -741,16 +740,16 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (gog_error_bar_is_visible (series->x_errors)) {
 			GogErrorBar const *bar = series->x_errors;
 			if (gog_error_bar_get_bounds (bar, i - 2, &xerrmin, &xerrmax)) {
-				xerrmax = x_off + x_scale * xerrmax;
-				xerrmin = x_off + x_scale * xerrmin;
+				xerrmax = x_offset + x_length * gog_axis_map (x_axis, xerrmax);
+				xerrmin = x_offset + x_length * gog_axis_map (x_axis, xerrmin);
 				gog_error_bar_render (bar, view->renderer, prev_x, prev_y, xerrmax - prev_x, prev_x - xerrmin, TRUE);
 			}
 		}
 		if (gog_error_bar_is_visible (series->y_errors)) {
 			GogErrorBar const *bar = series->y_errors;
 			if (gog_error_bar_get_bounds (bar, i - 2, &yerrmin, &yerrmax)) {
-				yerrmax = y_off + y_scale * yerrmax;
-				yerrmin = y_off + y_scale * yerrmin;
+				yerrmax = y_offset + y_length * gog_axis_map (y_axis, yerrmax);
+				yerrmin = y_offset + y_length * gog_axis_map (y_axis, yerrmin);
 				gog_error_bar_render (bar, view->renderer, prev_x, prev_y, prev_y - yerrmax, yerrmin - prev_y, FALSE);
 			}
 		}
