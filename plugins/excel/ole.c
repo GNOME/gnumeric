@@ -112,6 +112,10 @@ get_file_handle (MS_OLE *ole, char *name)
 		return NULL;
 	dir = ms_ole_directory_new (ole);
 	while (ms_ole_directory_next(dir)) {
+		if (!dir->name) {
+			printf ("Odd: NULL dirctory name\n");
+			continue;
+		}
 		if (g_strcasecmp(dir->name, name)==0) {
 			return dir;
 		}
@@ -508,6 +512,7 @@ int main (int argc, char **argv)
 		}
 
 		ptr = strtok (buffer, delim);
+		if (!ptr && interact) continue;
 		if (!interact)
 			printf ("Command : '%s'\n", ptr);
 		if (g_strcasecmp(ptr, "ls")==0) {

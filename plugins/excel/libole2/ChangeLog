@@ -1,3 +1,17 @@
+1999-05-12  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (free_allocation): Major hassles here with
+	setting up sbf/sbd chain pointers.
+
+1999-05-11  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (next_free_bb): Removed recurse, and
+	added assert for speed and ease.
+	(ms_ole_lseek): Altered logic slightly on position
+	setting.
+	Major alteration of sbd_list, sbf_list, root_list to
+	GArray's: Touches everything.
+
 1999-05-10  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (next_free_bb): recurse for safety.

@@ -1,3 +1,8 @@
+1999-05-12  Michael Meeks  <michael@imaginator.com>
+
+	* ole.c (main): Add check on ptr to fix NULL pointers getting
+	to strcasecmp.
+
 1999-05-10  Michael Meeks  <michael@imaginator.com>
 
 	* ms-excel.c (ms_excel_read_sheet): Added new

@@ -16,16 +16,13 @@ typedef struct _MS_OLE_HEADER
 {
 	/* sbd = Small Block Depot ( made up of BB's BTW ) */
 	BBPtr   sbd_startblock ;
-	guint32 number_of_sbd_blocks ;
-	BBPtr   *sbd_list ; /* [number_of_sbd_blocks] very often 1 */
+	GArray  *sbd_list;
 
-	guint32 number_of_sbf_blocks ;
 	BBPtr   sbf_startblock ; /* Identifies the stream containing all small blocks are in. */
-	BBPtr   *sbf_list ; /* [number_of_sbf_blocks] */
+	GArray  *sbf_list;
 
-	guint32 number_of_root_blocks ;
 	BBPtr   root_startblock ;
-	BBPtr   *root_list ;
+	GArray  *root_list;
 } MS_OLE_HEADER ;
 
 typedef guint32 PPS_IDX ;
