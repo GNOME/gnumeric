@@ -18,7 +18,7 @@
 #include "graphic-context.h"
 #include "graphic-type.h"
 #include "sheet.h"
-#include "utils.h"
+#include "gutils.h"
 #include "expr.h"
 #include "value.h"
 
@@ -141,7 +141,7 @@ graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orienta
 	}
 }
 
-GNOME_Gnumeric_Vector
+static GNOME_Gnumeric_Vector
 vector_from_data_range (DataRange *data_range)
 {
 	return (GNOME_Gnumeric_Vector) bonobo_object_corba_objref (BONOBO_OBJECT (data_range->vector));
@@ -169,12 +169,12 @@ graphic_context_auto_guess_series (WizardGraphicContext *gc)
 	for (; vector_list != NULL; vector_list = vector_list->next){
 		GNOME_Gnumeric_Vector vector;
 
-		vector  = vector_from_data_range (vector_list->data);
+		vector = vector_from_data_range (vector_list->data);
 		GNOME_Graph_Layout_add_series (gc->layout, vector, "FIXME", &ev);
 	}
 
 	graphic_type_init_preview (gc);
-	graphic_series_fill_data (gc);
+/*	graphic_series_fill_data (gc);*/
 	
 	CORBA_exception_free (&ev);
 }
@@ -320,7 +320,7 @@ graphic_context_data_range_remove (WizardGraphicContext *gc, DataRange *data_ran
 
 }
 
-void
+static void
 graphic_context_data_range_clear (WizardGraphicContext *gc)
 {
 	GList *l;
@@ -345,7 +345,7 @@ graphic_context_data_range_clear (WizardGraphicContext *gc)
  * This routine defines the data ranges based on the @data_range_spec, and
  * it guesses the series values using @vertical
  */
-void
+static void
 graphic_context_set_data_range (WizardGraphicContext *gc,
 				const char *data_range_spec,
 				gboolean vertical)
@@ -382,7 +382,7 @@ data_range_new (Workbook *wb, const char *name_expr)
 	return data_range;
 }
 
-char *
+static char *
 data_range_get_name (DataRange *data_range)
 {
 	g_return_val_if_fail (data_range != NULL, NULL);

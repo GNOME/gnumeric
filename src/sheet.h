@@ -123,7 +123,7 @@ struct _Sheet {
 
 	DependencyData  *deps;
 
-	SheetPrivate     *private;
+	SheetPrivate     *priv;
 	PrintInformation *print_info;
 };
 

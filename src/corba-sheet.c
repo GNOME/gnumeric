@@ -1317,7 +1317,7 @@ sheet_corba_setup (Sheet *sheet)
 	objid = PortableServer_POA_activate_object (gnumeric_poa, ss, &ev);
 	CORBA_free (objid);
 
-	sheet->private->corba_server = PortableServer_POA_servant_to_reference (gnumeric_poa, ss, &ev);
+	sheet->priv->corba_server = PortableServer_POA_servant_to_reference (gnumeric_poa, ss, &ev);
 	
 	CORBA_exception_free (&ev);
 }
@@ -1329,12 +1329,12 @@ sheet_corba_shutdown (Sheet *sheet)
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (sheet->private->corba_server != NULL);
+	g_return_if_fail (sheet->priv->corba_server != NULL);
 
 	g_warning ("Should release all the corba resources here");
 
 	CORBA_exception_init (&ev);
-	PortableServer_POA_deactivate_object (gnumeric_poa, sheet->private->corba_server, &ev);
+	PortableServer_POA_deactivate_object (gnumeric_poa, sheet->priv->corba_server, &ev);
 	CORBA_exception_free (&ev);
 }
 

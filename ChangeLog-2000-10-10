@@ -1,3 +1,24 @@
+2000-04-09 Dom Lachowicz <dominicl@seas.upenn.edu>
+ 
+ 	* src/sheet.h: Rename member "private" -> "priv" in case anyone in the
+ 	future writes a plugin / module written in C++
+ 
+ 	* src/sheet.c (sheet_new, sheet_flag_status_update_cell,
+ 	sheet_flag_status_update_page, sheet_update, sheet_destroy,
+ 	sheet_set_edit_pos, sheet_insert_cols, sheet_delete_cols,
+ 	sheet_insert_rows, sheet_delete_rows, sheet_restore_row_col_sizes,
+ 	sheet_col_set_size_pts, sheet_col_set_size_pixels,
+ 	sheet_row_set_size_pts, sheet_row_set_size_pixels): Same
+ 
+ 	* src/corba-sheet.c (sheet_corba_setup, sheet_corba_shutdown): Same
+ 
+ 	* src/corba-workbook.c (corba_sheet): Same
+ 
+ 	* src/embeddable-grid.c (Grid_get_sheet): Same
+ 
+ 	* src/sheet-vector.c (sheet_vector_attach, sheet_vector_detach,
+ 	sheet_vectors_cell_changed, sheet_vectors_shutdown): Same
+
 2000-04-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/cellspan.c (span_remove): Pretify code.

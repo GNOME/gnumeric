@@ -1,3 +1,9 @@
+2000-04-11  Michael Meeks  <michael@helixcode.com>
+
+	* graphic-context.c: update include & make some functions static.
+	(graphic_context_auto_guess_series): comment out fill_data call, it
+	doesn't seem to exist.
+
 2000-04-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* main.c (button_cancel): Do not destroy the context here, as it

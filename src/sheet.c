@@ -163,19 +163,19 @@ sheet_new (Workbook *wb, const char *name)
 	g_return_val_if_fail (name != NULL, NULL);
 
 	sheet = g_new0 (Sheet, 1);
-	sheet->private = g_new0 (SheetPrivate, 1);
+	sheet->priv = g_new0 (SheetPrivate, 1);
 #ifdef ENABLE_BONOBO
-	sheet->private->corba_server = NULL;
-	sheet->private->sheet_vectors = NULL;
+	sheet->priv->corba_server = NULL;
+	sheet->priv->sheet_vectors = NULL;
 #endif
 	/* FIXME : Init to true for safety eventually
 	 * this should be FALSE
 	 */
-	sheet->private->edit_pos_changed = TRUE;
-	sheet->private->selection_content_changed = TRUE;
-	sheet->private->recompute_visibility = TRUE;
-	sheet->private->reposition_row_comment = 0;
-	sheet->private->reposition_col_comment = 0;
+	sheet->priv->edit_pos_changed = TRUE;
+	sheet->priv->selection_content_changed = TRUE;
+	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->reposition_row_comment = 0;
+	sheet->priv->reposition_col_comment = 0;
 
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
@@ -501,14 +501,14 @@ sheet_flag_status_update_cell (Sheet const *sheet,
 	 * the auto expressions
 	 */
 	if (sheet_is_cell_selected (sheet, col, row))
-		sheet->private->selection_content_changed = TRUE;
+		sheet->priv->selection_content_changed = TRUE;
 
 	/* If the edit cell changes value update the edit area
 	 * and the format toolbar
 	 */
 	if (col == sheet->cursor.edit_pos.col &&
 	    row == sheet->cursor.edit_pos.row)
-		sheet->private->edit_pos_changed = TRUE;
+		sheet->priv->edit_pos_changed = TRUE;
 }
 
 /**
@@ -529,8 +529,8 @@ sheet_flag_status_update_range (Sheet const *sheet,
 {
 	/* Force an update */
 	if (range == NULL) {
-		sheet->private->selection_content_changed = TRUE;
-		sheet->private->edit_pos_changed = TRUE;
+		sheet->priv->selection_content_changed = TRUE;
+		sheet->priv->edit_pos_changed = TRUE;
 		return;
 	}
 
@@ -538,13 +538,13 @@ sheet_flag_status_update_range (Sheet const *sheet,
 	 * the auto expressions
 	 */
 	if (sheet_is_range_selected (sheet, range))
-		sheet->private->selection_content_changed = TRUE;
+		sheet->priv->selection_content_changed = TRUE;
 
 	/* If the edit cell changes value update the edit area
 	 * and the format toolbar
 	 */
 	if (range_contains(range, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row))
-		sheet->private->edit_pos_changed = TRUE;
+		sheet->priv->edit_pos_changed = TRUE;
 }
 
 /*
@@ -558,7 +558,7 @@ sheet_update (Sheet const *sheet)
 
 	g_return_if_fail (sheet != NULL);
 
-	p = sheet->private;
+	p = sheet->priv;
 
 	if (p->reposition_row_comment < SHEET_MAX_ROWS ||
 	    p->reposition_col_comment < SHEET_MAX_COLS) {
@@ -585,14 +585,14 @@ sheet_update (Sheet const *sheet)
 	/* FIXME FIXME FIXME : We need to set these in lots more places
 	 * especially when changing ranges
 	 */
-	if (sheet->private->edit_pos_changed) {
-		sheet->private->edit_pos_changed = FALSE;
+	if (sheet->priv->edit_pos_changed) {
+		sheet->priv->edit_pos_changed = FALSE;
 		sheet_load_cell_val (sheet);
 		sheet_update_controls (sheet);
 	}
 
-	if (sheet->private->selection_content_changed) {
-		sheet->private->selection_content_changed = FALSE;
+	if (sheet->priv->selection_content_changed) {
+		sheet->priv->selection_content_changed = FALSE;
 		sheet_update_auto_expr (sheet);
 	}
 }
@@ -1980,7 +1980,7 @@ sheet_destroy (Sheet *sheet)
 
 	sheet->signature = 0;
 
-	g_free (sheet->private);
+	g_free (sheet->priv);
 	g_free (sheet);
 }
 
@@ -2131,7 +2131,7 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 	old_row = sheet->cursor.edit_pos.row;
 
 	if (old_col != col || old_row != row) {
-		sheet->private->edit_pos_changed = TRUE;
+		sheet->priv->edit_pos_changed = TRUE;
 
 		/* Redraw before change */
 		sheet_redraw_cell_region (sheet,
@@ -2747,9 +2747,9 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 	sheet_recalc_dependencies (sheet);
 
 	/* 6. Notify sheet of pending update */
-	sheet->private->recompute_visibility = TRUE;
-	if (sheet->private->reposition_col_comment > col)
-		sheet->private->reposition_col_comment = col;
+	sheet->priv->recompute_visibility = TRUE;
+	if (sheet->priv->reposition_col_comment > col)
+		sheet->priv->reposition_col_comment = col;
 
 	return FALSE;
 }
@@ -2818,9 +2818,9 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	sheet_recalc_dependencies (sheet);
 
 	/* 7. Notify sheet of pending update */
-	sheet->private->recompute_visibility = TRUE;
-	if (sheet->private->reposition_col_comment > col)
-		sheet->private->reposition_col_comment = col;
+	sheet->priv->recompute_visibility = TRUE;
+	if (sheet->priv->reposition_col_comment > col)
+		sheet->priv->reposition_col_comment = col;
 
 	return FALSE;
 }
@@ -2892,9 +2892,9 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 	sheet_recalc_dependencies (sheet);
 
 	/* 6. Notify sheet of pending update */
-	sheet->private->recompute_visibility = TRUE;
-	if (sheet->private->reposition_row_comment > row)
-		sheet->private->reposition_row_comment = row;
+	sheet->priv->recompute_visibility = TRUE;
+	if (sheet->priv->reposition_row_comment > row)
+		sheet->priv->reposition_row_comment = row;
 
 	return FALSE;
 }
@@ -2963,9 +2963,9 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	sheet_recalc_dependencies (sheet);
 
 	/* 7. Notify sheet of pending update */
-	sheet->private->recompute_visibility = TRUE;
-	if (sheet->private->reposition_row_comment > row)
-		sheet->private->reposition_row_comment = row;
+	sheet->priv->recompute_visibility = TRUE;
+	if (sheet->priv->reposition_row_comment > row)
+		sheet->priv->reposition_row_comment = row;
 
 	return FALSE;
 }
@@ -3198,13 +3198,13 @@ sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 	}
 
 	/* Notify sheet of pending update */
-	sheet->private->recompute_visibility = TRUE;
+	sheet->priv->recompute_visibility = TRUE;
 	if (is_cols) {
-		if (sheet->private->reposition_col_comment > index)
-			sheet->private->reposition_col_comment = index;
+		if (sheet->priv->reposition_col_comment > index)
+			sheet->priv->reposition_col_comment = index;
 	} else {
-		if (sheet->private->reposition_row_comment > index)
-			sheet->private->reposition_row_comment = index;
+		if (sheet->priv->reposition_row_comment > index)
+			sheet->priv->reposition_row_comment = index;
 	}
 
 	g_free (sizes);
@@ -3354,9 +3354,9 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 	ci->size_pts = width_pts;
 	colrow_compute_pixels_from_pts (sheet, ci, (void*)TRUE);
 
-	sheet->private->recompute_visibility = TRUE;
-	if (sheet->private->reposition_col_comment > col)
-		sheet->private->reposition_col_comment = col;
+	sheet->priv->recompute_visibility = TRUE;
+	if (sheet->priv->reposition_col_comment > col)
+		sheet->priv->reposition_col_comment = col;
 }
 
 void
@@ -3377,9 +3377,9 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 	ci->size_pixels = width_pixels;
 	colrow_compute_pts_from_pixels (sheet, ci, TRUE);
 
-	sheet->private->recompute_visibility = TRUE;
-	if (sheet->private->reposition_col_comment > col)
-		sheet->private->reposition_col_comment = col;
+	sheet->priv->recompute_visibility = TRUE;
+	if (sheet->priv->reposition_col_comment > col)
+		sheet->priv->reposition_col_comment = col;
 }
 
 /**
@@ -3504,9 +3504,9 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 	ri->size_pts = height_pts;
 	colrow_compute_pixels_from_pts (sheet, ri, (void*)FALSE);
 
-	sheet->private->recompute_visibility = TRUE;
-	if (sheet->private->reposition_row_comment > row)
-		sheet->private->reposition_row_comment = row;
+	sheet->priv->recompute_visibility = TRUE;
+	if (sheet->priv->reposition_row_comment > row)
+		sheet->priv->reposition_row_comment = row;
 }
 
 /**
@@ -3542,9 +3542,9 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 	ri->size_pixels = height_pixels;
 	colrow_compute_pts_from_pixels (sheet, ri, FALSE);
 
-	sheet->private->recompute_visibility = TRUE;
-	if (sheet->private->reposition_row_comment > row)
-		sheet->private->reposition_row_comment = row;
+	sheet->priv->recompute_visibility = TRUE;
+	if (sheet->priv->reposition_row_comment > row)
+		sheet->priv->reposition_row_comment = row;
 }
 
 /**

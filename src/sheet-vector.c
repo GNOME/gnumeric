@@ -408,7 +408,7 @@ sheet_vector_attach (SheetVector *sheet_vector, Sheet *sheet)
 
 	sheet_vector->sheet = sheet;
 	
-	sheet->private->sheet_vectors = g_slist_prepend (sheet->private->sheet_vectors, sheet_vector);
+	sheet->priv->sheet_vectors = g_slist_prepend (sheet->priv->sheet_vectors, sheet_vector);
 }
 
 void
@@ -425,7 +425,7 @@ sheet_vector_detach (SheetVector *sheet_vector)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet->private->sheet_vectors = g_slist_remove (sheet->private->sheet_vectors, sheet_vector);
+	sheet->priv->sheet_vectors = g_slist_remove (sheet->priv->sheet_vectors, sheet_vector);
 }
 
 void
@@ -436,7 +436,7 @@ sheet_vectors_cell_changed (Cell *cell)
 	const int row = cell->col->pos;
 	int i;
 	
-	for (l = cell->sheet->private->sheet_vectors; l; l = l->next){
+	for (l = cell->sheet->priv->sheet_vectors; l; l = l->next){
 		SheetVector *vec = l->data;
 
 		if (vec->notify == CORBA_OBJECT_NIL)
@@ -463,14 +463,14 @@ sheet_vectors_shutdown (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	
-	for (;sheet->private->sheet_vectors;){
-		SheetVector *sheet_vector = sheet->private->sheet_vectors->data;
+	for (;sheet->priv->sheet_vectors;){
+		SheetVector *sheet_vector = sheet->priv->sheet_vectors->data;
 
 		sheet_vector_detach (sheet_vector);
-		gtk_object_unref (GTK_OBJECT (sheet->private->sheet_vectors->data));
+		gtk_object_unref (GTK_OBJECT (sheet->priv->sheet_vectors->data));
 	}
 
-	g_slist_free (sheet->private->sheet_vectors);
-	sheet->private->sheet_vectors = NULL;
+	g_slist_free (sheet->priv->sheet_vectors);
+	sheet->priv->sheet_vectors = NULL;
 }
 
