@@ -26,6 +26,7 @@ StyleColor *style_color_auto_back (void);
 StyleColor *style_color_auto_pattern (void);
 StyleColor *style_color_ref      (StyleColor *sc);
 void        style_color_unref    (StyleColor *sc);
+gint        style_color_equal (const StyleColor *k1, const StyleColor *k2);
 StyleColor *style_color_black    (void);
 StyleColor *style_color_white    (void);
 StyleColor *style_color_grid     (void);

@@ -328,6 +328,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	    end_row < ig->bound.start.row || start_row > ig->bound.end.row)
 		return;
 
+	sheet_style_update_grid_color (sheet);
+	
 	/* Fill entire region with default background (even past far edge) */
 	gdk_draw_rectangle (drawable, ig->gc.fill, TRUE,
 			    draw_x, draw_y, width, height);

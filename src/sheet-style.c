@@ -424,7 +424,7 @@ sheet_style_init (Sheet *sheet)
 		g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
 	sheet->style_data->auto_pattern_color = g_new (StyleColor, 1);
 	memcpy (sheet->style_data->auto_pattern_color,
-		style_color_auto_pattern(), sizeof (StyleColor));
+		style_color_auto_pattern (), sizeof (StyleColor));
 	sheet->style_data->auto_pattern_color->ref_count = 1;
 	sheet->style_data->default_style =
 		sheet_style_find (sheet, mstyle_new_default ());
@@ -513,6 +513,34 @@ sheet_style_get_auto_pattern_color (Sheet const *sheet)
 	style_color_ref (sc);
 
 	return sc;
+}
+
+/**
+ * This function updates the color of style_border_none when the sheet to be
+ * rendered is known. style_border_none tells how to render the
+ * grid. Because the grid color may be different for different sheets, the
+ * functions which render the grid call this function first.  The rule for
+ * selecting the grid color, which is the same as in Excel, is: - if the
+ * auto pattern color is default (which is black), the grid color is gray,
+ * as returned by style_color_grid ().  - otherwise, the auto pattern color
+ * is used for the grid.
+ */
+void
+sheet_style_update_grid_color (Sheet const *sheet)
+{
+	StyleColor *default_auto = style_color_auto_pattern ();
+	StyleColor *sheet_auto = sheet_style_get_auto_pattern_color (sheet);
+	StyleColor *new_color;
+
+	new_color = (style_color_equal (default_auto, sheet_auto)
+		     ? style_color_grid ()
+		     : sheet_auto);
+
+	/* Do nothing if we already have the right color */
+	if (style_border_none()->color != new_color)
+		style_border_none_set_color (new_color);
+	style_color_unref (sheet_auto);
+	style_color_unref (default_auto);
 }
 
 /****************************************************************************/

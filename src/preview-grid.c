@@ -477,6 +477,8 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	int *colwidths = NULL;
 
+	style_border_none_set_color (style_color_grid ());
+
  	/* Fill entire region with default background (even past far edge) */
  	gdk_draw_rectangle (drawable, pg->gc.fill, TRUE,
  			    draw_x, draw_y, width, height);

@@ -1,3 +1,25 @@
+2002-02-11  Jon K Hellan  <hellan@acm.org>
+
+	Support per sheet grid color. Needed for correct XL import.
+	
+	* src/style-color.[ch] (color_equal): Rename to style_color_equal
+	and export.
+
+	* src/style-border.[ch] (style_border_none_set_color): New
+	function. Update the grid color (color of style border none) to
+	the given color.
+
+	* src/sheet-style.[ch] (sheet_style_update_grid_color): New
+	function. Update the grid color to fit the given sheet.
+
+	* src/item-grid.c (item_grid_draw): Call
+	sheet_style_update_grid_color before rendering.
+
+	* src/print-cell.c (print_cell_range): Ditto
+
+	* src/preview-grid.c (preview_grid_draw): Call
+	style_border_none_update_color before rendering.
+
 2002-02-11  Jody Goldberg <jody@gnome.org>
 
 	* src/item-bar.c (item_bar_realize) : Use the standard cursor.

@@ -65,6 +65,8 @@ StyleBorder  *style_border_ref   (StyleBorder *border);
 
 #define	style_border_is_blank(b) ((b) == NULL || (b)->line_type == STYLE_BORDER_NONE)
 StyleBorder  *style_border_none  (void);
+void          style_border_none_set_color (StyleColor *color);
+
 StyleBorder  *style_border_fetch (StyleBorderType const	 line_type,
 				  StyleColor 			*color,
 				  StyleBorderOrientation       orientation);

@@ -742,6 +742,8 @@ print_cell_range (GnomePrintContext *context,
 			break;
 	}
 
+	sheet_style_update_grid_color (sheet);
+	
 	/* Get ordered list of merged regions */
 	merged_active = merged_active_seen = merged_used = NULL;
 	merged_unused = sheet_merge_get_overlap (sheet,

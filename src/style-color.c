@@ -196,12 +196,9 @@ style_color_unref (StyleColor *sc)
 	g_free (sc);
 }
 
-static gint
-color_equal (gconstpointer v, gconstpointer v2)
+gint
+style_color_equal (const StyleColor *k1, const StyleColor *k2)
 {
-	const StyleColor *k1 = (const StyleColor *) v;
-	const StyleColor *k2 = (const StyleColor *) v2;
-
 	if (k1->red   == k2->red &&
 	    k1->green == k2->green &&
 	    k1->blue  == k2->blue &&
@@ -236,7 +233,8 @@ gnumeric_color_init (void)
 	e_color_alloc_name (NULL, "red",     &gs_red);
 	e_color_alloc_name (NULL, "lavender",&gs_lavender);
 
-	style_color_hash  = g_hash_table_new (color_hash, color_equal);
+	style_color_hash  = g_hash_table_new (color_hash,
+					      (GEqualFunc) style_color_equal);
 
 	color_inited = TRUE;
 }
