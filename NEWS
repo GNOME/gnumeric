@@ -31,6 +31,7 @@ Morten:
 	* Security fix for sample data source plugin.
 	* Security fix for oleo plugin.
 	* Security fix for sc plugin.
+	* Fix gnome print configuration.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16

@@ -1134,32 +1134,17 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 static void
 print_job_info_set_one_time_defaults (PrintJobInfo *pj)
 {
-	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend",
-		gnm_app_prefs->printer_backend);
-	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend.FileName",
-		gnm_app_prefs->printer_filename);
-	if (gnm_app_prefs->printer_command != NULL)
-		gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend.Command",
-			gnm_app_prefs->printer_command);
-	gnome_print_config_set (pj->pi->print_config, "Settings.Transport.Backend.Printer",
-		gnm_app_prefs->printer_lpr_P);
-	gnome_print_config_set (pj->pi->print_config, "Printer",
-		gnm_app_prefs->printer);
+	gnome_print_config_unref (pj->pi->print_config);
+	pj->pi->print_config =
+		gnome_print_config_from_string (gnm_app_prefs->printer_config,
+						0);
 }
 
 static void
 print_job_info_save_one_time_defaults (PrintJobInfo *pj)
 {
-	gnm_gconf_set_printer_backend
-		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend"));
-	gnm_gconf_set_printer_filename
-		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend.FileName"));
-	gnm_gconf_set_printer_command
-		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend.Command"));
-	gnm_gconf_set_printer_lpr_P
-		(gnome_print_config_get (pj->pi->print_config, "Settings.Transport.Backend.Printer"));
-	gnm_gconf_set_printer
-		(gnome_print_config_get (pj->pi->print_config, "Printer"));
+	gnm_gconf_set_printer_config
+		(gnome_print_config_to_string (pj->pi->print_config, 0));
 }
 
 

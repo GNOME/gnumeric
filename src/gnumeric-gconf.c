@@ -149,14 +149,8 @@ gnm_conf_init (void)
 		PRINTSETUP_GCONF_ALL_SHEETS, NULL);
 	prefs.unfocused_range_selection = gconf_client_get_bool (client,
 		DIALOGS_GCONF_UNFOCUSED_RS, NULL);
-	prefs.printer = gconf_client_get_string (client,
-		PRINTING_GCONF_PRINTER, NULL);
-	prefs.printer_backend = gconf_client_get_string (client,
-		PRINTING_GCONF_BACKEND, NULL);
-	prefs.printer_filename = gconf_client_get_string (client,
-		PRINTING_GCONF_FILENAME, NULL);
-	prefs.printer_lpr_P = gconf_client_get_string (client,
-		PRINTING_GCONF_BACKEND_PRINTER, NULL);
+	prefs.printer_config = gconf_client_get_string (client,
+		PRINTING_GCONF_PRINTER_CONFIG, NULL);				 
 }
 
 void
@@ -457,57 +451,11 @@ gnm_gconf_set_unfocused_range_selection (gboolean val)
 			       DIALOGS_GCONF_UNFOCUSED_RS,
 			       val, NULL);
 }
-void     gnm_gconf_set_printer (gchar *str)
+void    gnm_gconf_set_printer_config (gchar *str)
 {
-	if (str == NULL)
-		str = g_strdup ("");
 	gconf_client_set_string  (application_get_gconf_client (), 
-				  PRINTING_GCONF_PRINTER,
-                                  str, NULL);
-	g_free (str);
+				  PRINTING_GCONF_PRINTER_CONFIG,
+				  str, NULL);
+	g_free (prefs.printer_config);
+	prefs.printer_config = str;
 }
-void     gnm_gconf_set_printer_backend (gchar *str)
-{
-	if (str == NULL)
-		str = g_strdup ("");
-	gconf_client_set_string  (application_get_gconf_client (), 
-				  PRINTING_GCONF_BACKEND,
-                                  str, NULL);
-	g_free (str);
-}
-void     gnm_gconf_set_printer_filename (gchar *str)
-{
-	if (str == NULL)
-		str = g_strdup ("");
-	gconf_client_set_string  (application_get_gconf_client (), 
-				  PRINTING_GCONF_FILENAME,
-                                  str, NULL);
-	g_free (str);
-}
-
-gchar   *gnm_gconf_get_printer_command (void)
-{
-	return gconf_client_get_string (application_get_gconf_client (), 
-					PRINTING_GCONF_COMMAND,
-					NULL);
-}
-
-void     gnm_gconf_set_printer_command (gchar *str)
-{
-	if (str == NULL)
-		str = g_strdup ("");
-	gconf_client_set_string  (application_get_gconf_client (), 
-				  PRINTING_GCONF_COMMAND,
-                                  str, NULL);
-	g_free (str);
-}
-void     gnm_gconf_set_printer_lpr_P (gchar *str)
-{
-	if (str == NULL)
-		str = g_strdup ("");
-	gconf_client_set_string  (application_get_gconf_client (), 
-				  PRINTING_GCONF_BACKEND_PRINTER,
-                                  str, NULL);
-	g_free (str);
-}
-

@@ -1,3 +1,18 @@
+2003-04-11  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (print_info_save): Store the printer
+	configuration too.
+
+	* src/gnumeric-gconf.c (gnm_gconf_set_printer_config): New
+	function replacing all other gnm_gconf_set_printer_* functions.
+	(gnm_conf_init): Get new printer-config key, not the old printer
+	config keys.
+
+	* src/print.c (print_job_info_set_one_time_defaults): Just use
+	gnome_print_config_from_string.
+	(print_job_info_save_one_time_defaults): Just use
+	gnome_print_config_to_string.
+
 2003-04-10  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/workbook-control-gui.c: Added scenario tool.

@@ -399,6 +399,10 @@ print_info_save (PrintInformation const *pi)
 
 	save_formats ();
 
+	gnm_gconf_set_printer_config
+		(gnome_print_config_to_string (pi->print_config,
+					       0));
+
 	gnome_config_sync ();
 }
 
