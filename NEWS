@@ -1,5 +1,10 @@
 Gnumeric 0.58
 
+Ariel:
+	* Cleanup and general bugfixing in
+	guile plugin.
+	* Support for values inside the Guile interpreter
+
 Almer:
 	* Undo for autoformat.
 	* Beautify stf dialog.
