@@ -31,7 +31,7 @@
 
 2004-03-09  Morten Welinder  <terra@gnome.org>
 
-	* src/workbook-control-gui.c (wbcg_close_if_user_permits): The
+	* src/workbook-control-gui.c (wbcg_close_if_user_permits): Set the
 	ATK_ROLE_ALERT for dialog.
 
 	* src/item-bar.c (ib_draw_cell, item_bar_draw): Avoid deprecated
