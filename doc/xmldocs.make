@@ -32,7 +32,7 @@
 #   dist-hook: app-dist-hook
 #
 
-docdir = $(gnumeric_datadir)/share/gnome/help/$(docname)/$(lang)
+docdir = $(gnumeric_datadir)/gnome/help/$(docname)/$(lang)
 
 xml_files = $(entities) $(docname).xml
 
