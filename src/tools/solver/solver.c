@@ -86,8 +86,8 @@ solver_results_init (const SolverParameters *sp)
 
 	res->optimal_values    = g_new (gnm_float,  sp->n_variables);
 	res->original_values   = g_new (gnm_float,  sp->n_variables);
-	res->variable_names    = g_new0 (gchar *,    sp->n_variables);
-	res->constraint_names  = g_new0 (gchar *,    sp->n_total_constraints);
+	res->variable_names    = g_new0 (gchar *,   sp->n_variables);
+	res->constraint_names  = g_new0 (gchar *,   sp->n_total_constraints);
 	res->shadow_prizes     = g_new0 (gnm_float, sp->n_total_constraints);
 	res->slack             = g_new0 (gnm_float, sp->n_total_constraints);
 	res->lhs               = g_new0 (gnm_float, sp->n_total_constraints);
@@ -197,8 +197,9 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
 		      int cols, int rows)
 {
 	GString    *buf = g_string_new (NULL);
-	const char *type_str[] = { "<=", ">=", "=", "Int", "Bool" };
-	char       *result;
+	const char *type_str[] = { "\xe2\x89\xa4" /* "<=" */,
+				   "\xe2\x89\xa5" /* ">=" */,
+				   "=", "Int", "Bool" };
 
 	if (cols == 1 && rows == 1)
 		g_string_append_printf (buf, "%s %s ",
@@ -229,9 +230,7 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
 		}
 	}
 
-	result = buf->str;
-	g_string_free (buf, FALSE);
-	return result;
+	return g_string_free (buf, FALSE);
 }
 
 /* ------------------------------------------------------------------------- */

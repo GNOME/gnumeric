@@ -1,5 +1,7 @@
 2004-02-03  Morten Welinder  <terra@gnome.org>
 
+	* solver.c (write_constraint_str): Use unicode.
+
 	* reports-write.c (solver_program_report): Use unicode characters
 	for <= and >=, not underlines.
 

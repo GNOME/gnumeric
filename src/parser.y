@@ -1182,10 +1182,8 @@ yylex (void)
 		return STRING;
 	}
 
-	if (c == '\n' || c == 0)
-		return 0;
-
-	if (c == '<'){
+	switch (c) {
+	case '<':
 		if (*state->ptr == '='){
 			state->ptr++;
 			return eat_space (state, LTE);
@@ -1195,14 +1193,24 @@ yylex (void)
 			return eat_space (state, NE);
 		}
 		return eat_space (state, c);
-	}
 
-	if (c == '>'){
+	case '>':
 		if (*state->ptr == '='){
 			state->ptr++;
 			return eat_space (state, GTE);
 		}
 		return eat_space (state, c);
+
+	case '\n': return 0;
+
+	case 0x00AC: return NOT;
+	case 0x2212: return '-';
+	case 0x2215: return '/';
+	case 0x2227: return AND;
+	case 0x2228: return OR;
+	case 0x2260: return eat_space (state, NE);
+	case 0x2264: return eat_space (state, LTE);
+	case 0x2265: return eat_space (state, GTE);
 	}
 
 	return c;
