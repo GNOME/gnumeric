@@ -1,3 +1,19 @@
+2004-04-08  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* graph/plugins/plot_barcol/gog-1.5d.c: (gog_plot1_5d_update),
+	(gog_plot1_5d_axis_get_bounds), (gog_plot1_5d_class_init),
+	(gog_series1_5d_set_property), (gog_series1_5d_get_property),
+	(gog_series1_5d_populate_editor), (gog_series1_5d_class_init),
+	(gog_series1_5d_init): Add error bars support.
+	* graph/plugins/plot_barcol/gog-1.5d.h: ditto.
+	* graph/plugins/plot_barcol/gog-barcol.c: ditto.
+	(gog_barcol_update_stacked_and_percentage),
+	(gog_barcol_view_render): ditto.
+	* graph/plugins/plot_barcol/gog-line.c: ditto.
+	(gog_line_update_stacked_and_percentage), (gog_line_view_render): ditto.
+	* graph/plugins/plot_xy/gog-xy.c: (gog_2d_plot_update): use gog_error_bar_is_visible instead
+	of detailed tests.
+
 2004-04-05  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=139205

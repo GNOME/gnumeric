@@ -35,6 +35,7 @@
 
 #include <module-plugin-defs.h>
 #include <glib/gi18n.h>
+#include <gtk/gtklabel.h>
 #include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -149,6 +150,7 @@ gog_plot1_5d_update (GogObject *obj)
 	GOData *index_dim = NULL;
 	GogPlot *plot_that_labeled_axis;
 	GogAxis *axis;
+	GogErrorBar **errors;
 
 	old_minima =  model->minima;
 	old_maxima =  model->maxima;
@@ -166,8 +168,11 @@ gog_plot1_5d_update (GogObject *obj)
 		if (num_elements < series->num_elements)
 			num_elements = series->num_elements;
 		if (GOG_1_5D_NORMAL == model->type) {
-			go_data_vector_get_minmax (GO_DATA_VECTOR (
-				series->base.values[1].data), &minima, &maxima);
+			if (gog_error_bar_is_visible (series->errors))
+				gog_error_bar_get_minmax (series->errors, &minima, &maxima);
+			else
+				go_data_vector_get_minmax (GO_DATA_VECTOR (
+					series->base.values[1].data), &minima, &maxima);
 			if (model->minima > minima)
 				model->minima = minima;
 			if (model->maxima < maxima)
@@ -193,6 +198,7 @@ gog_plot1_5d_update (GogObject *obj)
 		model->minima = model->maxima = 0.;
 	else if (model->type != GOG_1_5D_NORMAL) {
 		vals = g_alloca (num_series * sizeof (double *));
+		errors = g_alloca (num_series * sizeof (GogErrorBar *));
 		lengths = g_alloca (num_series * sizeof (unsigned));
 		i = 0;
 		for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
@@ -202,11 +208,12 @@ gog_plot1_5d_update (GogObject *obj)
 				continue;
 			vals[i] = go_data_vector_get_values (
 				GO_DATA_VECTOR (series->base.values[1].data));
+			g_object_get (G_OBJECT (series), "errors", errors + i, NULL);
 			lengths[i] = go_data_vector_get_len (
 				GO_DATA_VECTOR (series->base.values[1].data));
 		}
 
-		klass->update_stacked_and_percentage (model, vals, lengths);
+		klass->update_stacked_and_percentage (model, vals, errors, lengths);
 	}
 
 	if (old_minima != model->minima || old_maxima != model->maxima)
@@ -227,8 +234,10 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.minima = model->minima;
 		bounds->val.maxima = model->maxima;
 		if (model->type == GOG_1_5D_AS_PERCENTAGE) {
-			bounds->logical.minima = -1.;
-			bounds->logical.maxima =  1.;
+			if (model->minima >= -1.)
+				bounds->logical.minima = -1.;
+			if (model->maxima <= 1.)
+				bounds->logical.maxima =  1.;
 			if (bounds->fmt == NULL) {
 				bounds->fmt = go_format_ref (
 					go_format_default_percentage ());
@@ -303,6 +312,11 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 			{ N_("Labels"), GOG_SERIES_SUGGESTED, TRUE,
 			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
 			{ N_("Values"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+/* Names of the error data are not translated since they are not used */
+			{ "+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ "-err", GOG_SERIES_ERRORS, FALSE,
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
 		};
 		plot_klass->desc.series.dim = dimensions;
@@ -332,6 +346,11 @@ GSF_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,
 
 static GogObjectClass *gog_series1_5d_parent_klass;
 
+enum {
+	SERIES_PROP_0,
+	SERIES_PROP_ERRORS
+};
+
 static void
 gog_series1_5d_update (GogObject *obj)
 {
@@ -357,14 +376,91 @@ gog_series1_5d_update (GogObject *obj)
 }
 
 static void
+gog_series1_5d_set_property (GObject *obj, guint param_id,
+				GValue const *value, GParamSpec *pspec)
+{
+	GogSeries1_5d *series=  GOG_SERIES1_5D (obj);
+	GogErrorBar* bar;
+
+	switch (param_id) {
+	case SERIES_PROP_ERRORS :
+		bar = g_value_get_object (value);
+		if (series->errors == bar)
+			return;
+		if (bar) {
+			bar = gog_error_bar_dup (bar);
+			bar->series = GOG_SERIES (series);
+			bar->dim_i = 1;
+			bar->error_i = 2;
+		}
+		if (!series->base.needs_recalc) {
+			series->base.needs_recalc = TRUE;
+			gog_object_emit_changed (GOG_OBJECT (series), FALSE);
+		}
+		if (series->errors != NULL)
+			g_object_unref (series->errors);
+		series->errors = bar;
+		break;
+	}
+}
+
+static void
+gog_series1_5d_get_property (GObject *obj, guint param_id,
+			  GValue *value, GParamSpec *pspec)
+{
+	GogSeries1_5d *series=  GOG_SERIES1_5D (obj);
+
+	switch (param_id) {
+	case SERIES_PROP_ERRORS :
+		g_value_set_object (value, series->errors);
+		break;
+	}
+}
+
+static void 
+gog_series1_5d_populate_editor (GogSeries *series,
+				GtkNotebook *book,
+				GogDataAllocator *dalloc,
+				GnmCmdContext *cc)
+{
+	GtkWidget * error_page;
+	gboolean horizontal;
+	if (g_object_class_find_property (G_OBJECT_GET_CLASS (series->plot), "horizontal") == NULL)
+		horizontal = FALSE;
+	else
+		g_object_get (G_OBJECT (series->plot), "horizontal", &horizontal, 0);
+	error_page = gog_error_bar_prefs (series, "errors", horizontal, dalloc, cc);
+	gtk_notebook_prepend_page (book, error_page, gtk_label_new (_("Error bars")));
+}
+
+static void
 gog_series1_5d_class_init (GogObjectClass *obj_klass)
 {
+	GObjectClass *gobject_klass = (GObjectClass *) obj_klass;
+	GogSeriesClass *gog_series_klass = (GogSeriesClass*) obj_klass;
+
 	gog_series1_5d_parent_klass = g_type_class_peek_parent (obj_klass);
 	obj_klass->update = gog_series1_5d_update;
+	gobject_klass->set_property = gog_series1_5d_set_property;
+	gobject_klass->get_property = gog_series1_5d_get_property;
+	gog_series_klass->populate_editor = gog_series1_5d_populate_editor;
+
+	g_object_class_install_property (gobject_klass, SERIES_PROP_ERRORS,
+		g_param_spec_object ("errors", "errors",
+			"GogErrorBar *",
+			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+}
+
+static void
+gog_series1_5d_init (GObject *obj)
+{
+	GogSeries1_5d *series=  GOG_SERIES1_5D (obj);
+
+	series->errors = NULL;
 }
 
 GSF_CLASS (GogSeries1_5d, gog_series1_5d,
-	   gog_series1_5d_class_init, NULL,
+	   gog_series1_5d_class_init, gog_series1_5d_init,
 	   GOG_SERIES_TYPE)
 
 /* Plugin initialization */

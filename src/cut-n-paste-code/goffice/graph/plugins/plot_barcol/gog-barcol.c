@@ -112,36 +112,49 @@ gog_barcol_swap_x_and_y (GogPlot1_5d *model)
 
 static void
 gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
-					  double **vals, unsigned const *lengths)
+					  double **vals, GogErrorBar **errors, unsigned const *lengths)
 {
 	unsigned i, j;
-	double neg_sum, pos_sum, tmp;
+	double neg_sum, pos_sum, tmp, errplus, errminus, tmpmin, tmpmax;
 
 	for (i = model->num_elements ; i-- > 0 ; ) {
 		neg_sum = pos_sum = 0.;
-		for (j = model->num_series ; j-- > 0 ; ) {
+		tmpmin = DBL_MAX;
+		tmpmax = -DBL_MAX;
+		for (j = 0 ; j < model->num_series ; j++) {
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
 			if (!finite (tmp))
 				continue;
-			if (tmp > 0.)
+			if (gog_error_bar_is_visible (errors[j])) {
+					gog_error_bar_get_bounds (errors[j], i, &errminus, &errplus);
+					errminus = (errminus < tmp)? tmp - errminus: 0.;
+					errplus = (errplus > tmp)? errplus - tmp: 0.;
+				} else
+					errplus = errminus = 0.;
+			if (tmp > 0.) {
 				pos_sum += tmp;
-			else
+				errminus = (pos_sum - errminus < neg_sum)? neg_sum - pos_sum + errminus: 0.;
+			} else {
 				neg_sum += tmp;
+				errplus = (neg_sum + errplus > pos_sum)? neg_sum - pos_sum + errplus: 0.;
+			}
+				if (tmpmin > neg_sum - errminus)
+					tmpmin = neg_sum - errminus;
+				if (tmpmax < pos_sum + errplus)
+					tmpmax = pos_sum + errplus;
 		}
-
 		if (GOG_1_5D_STACKED == model->type) {
-			if (model->minima > neg_sum)
-				model->minima = neg_sum;
-			if (model->maxima < pos_sum)
-				model->maxima = pos_sum;
+			if (model->minima > tmpmin)
+				model->minima = tmpmin;
+			if (model->maxima < tmpmax)
+				model->maxima = tmpmax;
 		} else {
-			tmp = pos_sum / (pos_sum - neg_sum);
-			if (model->minima > (tmp - 1.))
-				model->minima = tmp - 1.;
-			if (model->maxima < tmp)
-				model->maxima = tmp;
+			if (model->minima > tmpmin / (pos_sum - neg_sum))
+				model->minima = tmpmin / (pos_sum - neg_sum);
+			if (model->maxima < tmpmax / (pos_sum - neg_sum))
+				model->maxima = tmpmax / (pos_sum - neg_sum);
 		}
 	}
 }
@@ -259,14 +272,17 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogRenderer *rend = view->renderer;
 	gboolean is_vertical = ! (model->horizontal);
 	double **vals, sum, neg_base, pos_base, tmp, val_min, val_max;
+	double **errplus, **errminus, **cx, **cy, x;
 	double col_step, group_step, scale, data_scale;
 	unsigned i, j;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GogPlot1_5dType const type = gog_1_5d_model->type;
 	GogStyle **styles;
+	GogErrorBar **errors;
 	GSList *ptr;
 	unsigned *lengths;
+	double plus, minus;
 
 	if (num_elements <= 0 || num_series <= 0)
 		return;
@@ -276,8 +292,13 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 
 	vals = g_alloca (num_series * sizeof (double *));
+	errplus = g_alloca (num_series * sizeof (double *));
+	errminus = g_alloca (num_series * sizeof (double *));
+	cx = g_alloca (num_series * sizeof (double *));
+	cy = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
 	styles = g_alloca (num_series * sizeof (GogStyle *));
+	errors = g_alloca (num_series * sizeof (GogErrorBar *));
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -288,6 +309,15 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		lengths[i] = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
+		errors[i] = series->errors;
+		if (gog_error_bar_is_visible (series->errors)) {
+			errminus[i] = g_malloc (sizeof (double) * lengths[i]);
+			errplus[i] = g_malloc (sizeof (double) * lengths[i]);
+			cx[i] = g_malloc (sizeof (double) * lengths[i]);
+			cy[i] = g_malloc (sizeof (double) * lengths[i]);
+		}
+		else
+			errminus[i] = errplus[i] = cx[i] = cy[i] = NULL;
 		i++;
 	}
 
@@ -336,6 +366,11 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			tmp = vals[j][i];
 			if (!finite (tmp))
 				continue;
+			if (gog_error_bar_is_visible (errors[j])) {
+				gog_error_bar_get_bounds (errors[j], i, &minus, &plus);
+				plus -= tmp;
+				minus = tmp - minus;
+			}
 			tmp *= data_scale;
 			if (tmp >= 0.) {
 				work.x = pos_base;
@@ -361,8 +396,33 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_push_style (view->renderer, styles[j]);
 			barcol_draw_rect (rend, is_vertical, &base, &work);
 			gog_renderer_pop_style (view->renderer);
+			if (gog_error_bar_is_visible (errors[j])) {
+				cx[j][i] = 
+				x = (tmp > 0)? work.x + work.w: work.x;
+				errplus[j][i] = plus * data_scale;
+				errminus[j][i] = minus * data_scale;
+				if (is_vertical) {
+					cx[j][i] = view->allocation.x+view->allocation.w - work.y - work.h / 2.;
+					cy[j][i] = view->allocation.y + view->allocation.h - x;
+				} else {
+					cx[j][i] = view->allocation.x + x;
+					cy[j][i] = view->allocation.y + work.y + work.h / 2.;
+				}
+			}
 		}
 	}
+	/*Now draw error bars and clean*/
+	for (i = 0; i < num_series; i++)
+		if (gog_error_bar_is_visible (errors[i])) {
+			for (j = 0; j < lengths[i]; j++)
+				gog_error_bar_render (errors[i], view->renderer,
+											cx[i][j], cy[i][j],
+											errplus[i][j], errminus[i][j], model->horizontal);
+			g_free (errminus[i]);
+			g_free (errplus[i]);
+			g_free (cx[i]);
+			g_free (cy[i]);
+		}
 }
 
 static void

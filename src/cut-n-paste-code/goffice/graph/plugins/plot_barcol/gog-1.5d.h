@@ -24,6 +24,7 @@
 
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-series-impl.h>
+#include <goffice/graph/gog-error-bar.h>
 
 G_BEGIN_DECLS
 
@@ -49,6 +50,7 @@ typedef struct {
 	gboolean (*swap_x_and_y)		  (GogPlot1_5d *model);
 	void     (*update_stacked_and_percentage) (GogPlot1_5d *model,
 						   double **vals,
+						   GogErrorBar **errors,
 						   unsigned const *lengths);
 } GogPlot1_5dClass;
 
@@ -64,6 +66,7 @@ GType gog_plot1_5d_get_type (void);
 typedef struct {
 	GogSeries base;
 	unsigned num_elements;
+	GogErrorBar *errors;
 } GogSeries1_5d;
 typedef GogSeriesClass GogSeries1_5dClass;
 

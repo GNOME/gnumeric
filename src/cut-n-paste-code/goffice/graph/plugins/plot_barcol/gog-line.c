@@ -92,10 +92,10 @@ gog_line_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 
 static void
 gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
-					double **vals, unsigned const *lengths)
+					double **vals, GogErrorBar **errors, unsigned const *lengths)
 {
 	unsigned i, j;
-	double abs_sum, minima, maxima, sum, tmp;
+	double abs_sum, minima, maxima, sum, tmp, errplus, errminus;
 
 	for (i = model->num_elements ; i-- > 0 ; ) {
 		abs_sum = sum = 0.;
@@ -107,12 +107,18 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 			tmp = vals[j][i];
 			if (!finite (tmp))
 				continue;
+		if (gog_error_bar_is_visible (errors[j])) {
+				gog_error_bar_get_bounds (errors[j], i, &errminus, &errplus);
+				errminus = (errminus < tmp)? tmp - errminus: 0.;
+				errplus = (errplus > tmp)? errplus - tmp: 0.;
+			} else
+				errplus = errminus = 0.;
 			sum += tmp;
 			abs_sum += fabs (tmp);
-			if (minima > sum)
-				minima = sum;
-			if (maxima < sum)
-				maxima = sum;
+			if (minima > sum - errminus)
+				minima = sum - errminus;
+			if (maxima < sum + errplus)
+				maxima = sum + errplus;
 		}
 		if ((model->type == GOG_1_5D_AS_PERCENTAGE) &&
 		    (gnumeric_sub_epsilon (abs_sum) > 0.)) {
@@ -231,11 +237,13 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned num_elements = model->num_elements;
 	unsigned num_series = model->num_series;
 	GSList *ptr;
+	double plus, minus;
 
-	double **vals;
+	double **vals, **errplus, **errminus;
 	GogStyle **styles;
 	unsigned *lengths;
 	ArtVpath **path;
+	GogErrorBar **errors;
 
 	double scale_x, scale_y, val_min, val_max;
 	double offset_x, offset_y;
@@ -251,9 +259,12 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		return;
 
 	vals    = g_alloca (num_series * sizeof (double *));
+	errplus = g_alloca (num_series * sizeof (double *));
+	errminus = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
 	styles  = g_alloca (num_series * sizeof (GogStyle *));
 	path    = g_alloca (num_series * sizeof (ArtVpath *));
+	errors = g_alloca (num_series * sizeof (GogErrorBar *));
 	i = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -274,6 +285,13 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		else
 			path[i] = g_malloc (sizeof (ArtVpath) * (2 * lengths[i] + 3));
 
+		errors[i] = series->errors;
+		if (gog_error_bar_is_visible (series->errors)) {
+			errminus[i] = g_malloc (sizeof (double) * lengths[i]);
+			errplus[i] = g_malloc (sizeof (double) * lengths[i]);
+		}
+		else
+			errminus[i] = errplus[i] = NULL;
 		i++;
 	}
 
@@ -302,7 +320,15 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (j > lengths[i])
 				continue;
 
-			value = (vals[i] && finite (vals[i][j-1])) ? vals[i][j-1] : 0.0;
+			if (vals[i] && finite (vals[i][j-1])) {
+				value = vals[i][j-1];
+				if (gog_error_bar_is_visible (errors[i]))
+					gog_error_bar_get_bounds (errors[i], j - 1, &plus, &minus);
+			} else {
+				value = 0.0;
+				plus = -1.;
+				minus = 1.;
+			}
 			k = 2 * lengths[i] - j + 1;
 
 			if (is_area_plot && (type != GOG_1_5D_NORMAL)) {
@@ -320,6 +346,11 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 			sum += value;
 
+			if (gog_error_bar_is_visible (errors[i])) {
+				errminus[i][j - 1] = scale_y * (value - minus);
+				errplus[i][j - 1] = scale_y * (plus - value);
+			}
+
 			switch (type) {
 				case GOG_1_5D_NORMAL :
 					path[i][j].y = offset_y + scale_y * value;
@@ -331,6 +362,10 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 				case GOG_1_5D_AS_PERCENTAGE :
 					path[i][j].y = is_null ? offset_y : offset_y + scale_y * sum  / abs_sum;
+					if (gog_error_bar_is_visible (errors[i])) {
+						errminus[i][j - 1] /= abs_sum;
+						errplus[i][j - 1] /= abs_sum;
+					}
 					break;
 			}
 
@@ -403,9 +438,22 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		gog_renderer_pop_style (view->renderer);
 	}
 
+	/*Now draw error bars */
 	for (i = 0; i < num_series; i++)
+		if (gog_error_bar_is_visible (errors[i]))
+			for (j = 0; j < lengths[i]; j++)
+				gog_error_bar_render (errors[i], view->renderer,
+											path[i][j + 1].x, path[i][j + 1].y,
+											errplus[i][j], errminus[i][j], FALSE);
+
+	for (i = 0; i < num_series; i++) {
 		if (lengths[i] > 0)
 			g_free (path[i]);
+		if (errminus[i])
+			g_free (errminus[i]);
+		if (errplus[i])
+			g_free (errplus[i]);
+	}
 }
 
 static void
