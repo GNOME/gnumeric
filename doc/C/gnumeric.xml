@@ -122,7 +122,8 @@
       <year>2003</year>
       <holder>Kevin Breit, Adrian Custer, Ray Dassen, 
               Jody Goldberg, Andreas J. Guelzow, Jon K. Hellan, 
-              Jukka-Pekka Iivonen, Alexander Kirillov.
+              Jukka-Pekka Iivonen, Alexander Kirillov, 
+              Charles Twardy.
       </holder> 
     </copyright>
   <!-- translators: uncomment this:
@@ -183,8 +184,8 @@
       </author>
       <author> 
         <firstname>Kevin</firstname>
-	<surname>Breit</surname> 
-        <email>mrproper@ximian.com</email>
+	<surname>Breit</surname>  
+       <email>mrproper@ximian.com</email>
       </author>
       <author> 
         <firstname>Thomas</firstname>
@@ -194,7 +195,7 @@
       <author> 
         <firstname>Adrian</firstname>
 	<surname>Custer</surname> 
-        <email>acuster@nature.berkeley.edu</email>
+        <email>acuster@gnome.org</email>
       </author>
       <author> 
         <firstname>Ray</firstname>
@@ -245,6 +246,11 @@
         <firstname>Almer S.</firstname>
 	<surname>Tigelaar</surname>
         <email>almer1@dds.nl</email>
+      </author>
+      <author> 
+        <firstname>Charles</firstname>
+	<surname>Twardy</surname>
+        <email>ctwardy@mail.csse.monash.edu.au</email>
       </author>
       <author> 
         <firstname>Aaron</firstname>

@@ -1,3 +1,10 @@
+2003-09-09 Adrian Custer <acuster@gnome.org>
+
+	* extending-python.xml: Added text from Charles Twardy.
+	* gnumeric.xml: Added Charles Twardy as contributor.
+	* welcome.xml: minor edits.
+	* quick-start.xml: removed a period.
+	
 2003-09-06 Adrian Custer <acuster@gnome.org>
 
 	* gnumeric.xml: Downgrade to Docbook 4.1.2.
