@@ -1825,6 +1825,10 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 				h.len, h.len, h.ver, h.instance, h.offset, h.offset);
 		}
 #endif
+
+		if (needs_free)
+			g_free ((void *)data);
+
 		/*
 		 * Lets double check that the data we just read makes sense.
 		 * If problems arise in the next tests it probably indicates that

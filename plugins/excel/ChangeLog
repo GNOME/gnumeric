@@ -1,3 +1,7 @@
+2001-03-30  Morten Welinder  <terra@diku.dk>
+
+	* ms-escher.c (ms_escher_read_container): Plug leak.
+
 2001-03-30  Jody Goldberg <jgoldberg@home.com>
 
 	* boot.c (excel_save) : clarify message.
