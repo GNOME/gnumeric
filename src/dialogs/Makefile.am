@@ -94,7 +94,6 @@ glade_DATA = 				\
 	function-select.glade 		\
 	graph-guru.glade		\
 	hf-config.glade			\
-	import.glade			\
 	insert-cells.glade		\
 	names.glade			\
 	plugin-manager.glade		\

@@ -1,5 +1,7 @@
 2001-06-05  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* Makefile.am (glade_DATA): Removed import.glade.
+
 	* import.glade: Removed.
 
 	* dialogs.h (dialog_query_load_file): Removed.
