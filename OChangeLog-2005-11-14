@@ -1,5 +1,9 @@
 2004-02-18  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-file.c (gui_image_file_select): New function.
+
+	* src/wbcg-actions.c (GNM_ACTION_DEF): Use gui_image_file_select.
+
 	* src/gui-file.c (file_format_changed_cb): Use
 	gtk_widget_set_sensitive.
 

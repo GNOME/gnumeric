@@ -1042,18 +1042,14 @@ static GNM_ACTION_DEF (cb_autosum)
 static GNM_ACTION_DEF (cb_insert_image)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	GtkFileSelection *fsel;
+	char *filename = gui_image_file_select (wbcg);
 
-	fsel = GTK_FILE_SELECTION (
-		preview_file_selection_new (_("Select an image"), TRUE));
-	gtk_file_selection_hide_fileop_buttons (fsel);
-
-	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
+	if (filename) {
 #warning "Why doesn't this simply use libgsf?"
 		int fd, file_size;
 		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
 		unsigned char const *data = gnumeric_mmap_open (ioc,
-			gtk_file_selection_get_filename (fsel), &fd, &file_size);
+			filename, &fd, &file_size);
 
 		if (data != NULL) {
 			SheetObject *so = sheet_object_image_new ("",
@@ -1064,9 +1060,9 @@ static GNM_ACTION_DEF (cb_insert_image)
 			gnumeric_io_error_display (ioc);
 
 		g_object_unref (G_OBJECT (ioc));
-	}
 
-	gtk_widget_destroy (GTK_WIDGET (fsel));
+		g_free (filename);
+	}
 }
 
 static GNM_ACTION_DEF (cb_insert_hyperlink)

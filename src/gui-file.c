@@ -33,12 +33,18 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkvbox.h>
 #include <gtk/gtkfilechooserdialog.h>
 #include <glade/glade.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
+
+#define PREVIEW_HSIZE 60
+#define PREVIEW_VSIZE 100
+
 
 typedef struct 
 {
@@ -287,6 +293,131 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		gui_file_read (wbcg, file_name, fo, encoding);
 		g_free (file_name);
 	}
+}
+
+static void
+update_preview_cb (GtkFileChooser *chooser)
+{
+	gchar *filename = gtk_file_chooser_get_preview_filename (chooser);
+	gboolean have_preview = FALSE;
+	GtkWidget *label = g_object_get_data (G_OBJECT (chooser), "label-widget");
+	GtkWidget *image = g_object_get_data (G_OBJECT (chooser), "image-widget");
+
+	if (filename == NULL ||
+	    g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+		gtk_widget_hide (image);
+		gtk_widget_hide (label);
+	} else {
+		GdkPixbuf *buf;
+		gboolean dummy;
+
+		buf = gdk_pixbuf_new_from_file (filename, NULL);
+		if (buf) {
+			dummy = FALSE;
+		} else {
+			buf = gnm_app_get_pixbuf ("unknown_image");
+			g_object_ref (buf);
+			dummy = TRUE;
+		}
+
+		if (buf) {
+			GdkPixbuf *pixbuf = gnm_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
+			gtk_image_set_from_pixbuf (GTK_IMAGE (image), pixbuf);
+			g_object_unref (pixbuf);
+			gtk_widget_show (image);
+
+			if (dummy)
+				gtk_label_set_text (GTK_LABEL (label), "");
+			else {
+				int w = gdk_pixbuf_get_width (buf);
+				int h = gdk_pixbuf_get_height (buf);
+				char *size = g_strdup_printf (_("%d x %d"), w, h);
+				gtk_label_set_text (GTK_LABEL (label), size);
+				g_free (size);
+			}
+			gtk_widget_show (label);
+
+			have_preview = TRUE;
+			g_object_unref (buf);
+		}
+
+		g_free (filename);
+	}
+
+
+	gtk_file_chooser_set_preview_widget_active (chooser, have_preview);
+}
+
+static gboolean
+filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
+{
+	return filter_info->mime_type &&
+		strncmp (filter_info->mime_type, "image/", 6) == 0;
+}
+
+char *
+gui_image_file_select (WorkbookControlGUI *wbcg)
+{
+	GtkFileChooser *fsel;
+	char *result = NULL;
+
+	fsel = GTK_FILE_CHOOSER
+		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
+			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
+			       "title", _("Select an Image"),
+			       NULL));
+	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
+
+	/* Filters */
+	{	
+		GtkFileFilter *filter;
+
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, _("All Files"));
+		gtk_file_filter_add_pattern (filter, "*");
+		gtk_file_chooser_add_filter (fsel, filter);
+
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, _("Images"));
+		gtk_file_filter_add_custom (filter, GTK_FILE_FILTER_MIME_TYPE,
+					    filter_images, NULL, NULL);
+		gtk_file_chooser_add_filter (fsel, filter);
+		/* Make this filter the default */
+		gtk_file_chooser_set_filter (fsel, filter);
+	}
+
+	/* Preview */
+	{
+		GtkWidget *vbox = gtk_vbox_new (FALSE, 2);
+		GtkWidget *preview_image = gtk_image_new ();
+		GtkWidget *preview_label = gtk_label_new ("");
+
+		g_object_set_data (G_OBJECT (fsel), "image-widget", preview_image);
+		g_object_set_data (G_OBJECT (fsel), "label-widget", preview_label);
+
+		gtk_widget_set_size_request (vbox, PREVIEW_HSIZE, PREVIEW_VSIZE);
+
+		gtk_box_pack_start (GTK_BOX (vbox), preview_image, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (vbox), preview_label, FALSE, FALSE, 0);
+		gtk_file_chooser_set_preview_widget (fsel, vbox);
+		g_signal_connect (fsel, "update-preview",
+				  G_CALLBACK (update_preview_cb), NULL);
+		update_preview_cb (fsel);
+	}
+
+	/* Show file selector */
+	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
+		goto out;
+
+	result = gtk_file_chooser_get_filename (fsel);
+
+ out:
+	gtk_widget_destroy (GTK_WIDGET (fsel));
+	return result;
 }
 
 /*
