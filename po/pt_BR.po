@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-03-21 04:20+0100\n"
-"PO-Revision-Date: 2004-03-21 03:38-0300\n"
+"PO-Revision-Date: 2004-03-23 23:24-0300\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -29649,11 +29649,11 @@ msgstr "Status"
 #. FIXME
 #: src/tools/solver/reports-write.c:155 src/tools/solver/reports-write.c:161
 msgid "Binding"
-msgstr "Vinculado"
+msgstr "Atuante"
 
 #: src/tools/solver/reports-write.c:163
 msgid "Not Binding"
-msgstr "Não vinculado"
+msgstr "Não Atuante"
 
 #: src/tools/solver/reports-write.c:180 src/tools/solver/reports-write.c:890
 msgid "Assume that all variables are integers."
@@ -29839,7 +29839,7 @@ msgstr "Não zeros na(s)"
 
 #: src/tools/solver/reports-write.c:605
 msgid "Obj. fn"
-msgstr " Função Objetivo"
+msgstr "Função Objetivo"
 
 #: src/tools/solver/reports-write.c:607
 msgid "Ratio"
@@ -29967,7 +29967,7 @@ msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
 msgstr ""
-"O modelo é muito grande para a geração do relatório do modelo. O relatório "
+"O modelo é muito grande para gerar o relatório do modelo. O relatório "
 "do modelo não foi criado."
 
 #: src/tools/solver/solver.c:395
