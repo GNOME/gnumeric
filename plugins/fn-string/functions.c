@@ -97,6 +97,36 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_unichar = {
+	N_("@FUNCTION=UNICHAR\n"
+	   "@SYNTAX=UNICHAR(x)\n"
+
+	   "@DESCRIPTION="
+	   "UNICHAR returns the unicode character represented by the number @x.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "UNICHAR(65) equals A.\n"
+	   "CHAR(8232) equals an carriage return error.\n"
+	   "\n"
+	   "@SEEALSO=UNICHAR,CODE")
+};
+
+static Value *
+gnumeric_unichar (FunctionEvalInfo *ei, Value **argv)
+{
+	int c = value_get_as_int (argv[0]);
+
+	if (g_unichar_validate (c)) {
+		char utf8[8];
+		int len = g_unichar_to_utf8 (c, utf8);
+		utf8[len] = 0;
+		return value_new_string (utf8);
+	} else
+		return value_new_error_VALUE (ei->pos);
+}
+
+/***************************************************************************/
+
 static GIConv CODE_iconv;
 
 static const char *help_code = {
@@ -1067,6 +1097,9 @@ const GnmFuncDescriptor string_functions[] = {
         { "char",       "f",     N_("number"),                  &help_char,
 	  gnumeric_char, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "unichar",    "f",     N_("number"),                  &help_unichar,
+	  gnumeric_unichar, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
         { "clean",      "S",     N_("text"),                    &help_clean,
           gnumeric_clean, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

@@ -12,6 +12,7 @@
 			<_category>String</_category>
 			<functions>
 				<function name="char"/>
+				<function name="unichar"/>
 				<function name="clean"/>
 				<function name="code"/>
 				<function name="concatenate"/>
