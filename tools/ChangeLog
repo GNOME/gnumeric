@@ -1,3 +1,7 @@
+2001-12-04  Morten Welinder  <terra@diku.dk>
+
+	* fixup-plugin-xml: New utility.
+
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
 	* Release 0.75

@@ -8,7 +8,7 @@
 		<dep_plugin id="Gnumeric_Excel"/>
 	</dependencies>
 	<loader type="g_module">
-		<attribute name="module_file" value="gnum_gb.so"/>
+		<attribute name="module_file" value="gnum_gb.la:dlname"/>
 	</loader>
 	<services>
 		<service type="general"></service>

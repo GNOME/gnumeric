@@ -1,0 +1,25 @@
+#!/bin/sh -x
+
+if test $# -ne 2; then
+  echo "Usage: $0 <xmlfile> <lafile>" 1>&2
+  exit 1
+fi
+
+XMLFILE=$1
+LAFILE=$2
+TMPFILE=$XMLFILE.tmp
+
+DLNAME=`grep dlname "$LAFILE" | sed -e s/dlname=// -e "s/'//g"`
+if test "x$DLNAME" = "x"; then
+  echo "$0: File $LAFILE does not contain a recognized dlname." 1>&2
+  exit 1
+fi
+
+sed -e "s/\"$LAFILE:dlname\"/\"$DLNAME\"/" <$XMLFILE >$TMPFILE
+if test $? -ne 0; then
+  echo "$0: failed to patch-in dlname." 1>&2
+  rm -f $TMPFILE
+  exit 1
+fi
+
+mv $TMPFILE $XMLFILE

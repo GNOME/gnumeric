@@ -5,7 +5,7 @@
 		<_description>Imports version 4.[234] spreadsheets</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="applix.so"/>
+		<attribute name="module_file" value="applix.la:dlname"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="applix" priority="100" probe="TRUE">

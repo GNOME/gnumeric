@@ -5,7 +5,7 @@
 		<_description>Functions related to financial derivatives</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="derivatives.so"/>
+		<attribute name="module_file" value="derivatives.la:dlname"/>
 	</loader>
 	<services>
 		<service type="function_group" id="derivatives">
