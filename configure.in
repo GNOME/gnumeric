@@ -39,6 +39,29 @@ AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
 dnl
+dnl Check for Perl
+dnl
+AC_CHECK_PROG(perl_val, perl, true, false)
+if $perl_val; then
+  AC_MSG_CHECKING(for perl ExtUtils::Embed module)
+  perl -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
+  if test "x$?" = "x0"; then
+    AC_MSG_RESULT(yes)
+
+    dnl Use ExtUtils::Embed to figure out the other options.
+    PERL_CCOPTS=`perl -MExtUtils::Embed -e ccopts`
+    PERL_LDOPTS=`perl -MExtUtils::Embed -e ldopts`
+    AC_SUBST(PERL_CCOPTS)
+    AC_SUBST(PERL_LDOPTS)
+  else
+    AC_MSG_RESULT(no)
+    perl_val=false
+  fi
+
+fi
+AM_CONDITIONAL(WITH_PERL, $perl_val)
+
+dnl
 dnl Check for Python
 dnl
 AC_CHECK_PROG(python_val, python, true, false)

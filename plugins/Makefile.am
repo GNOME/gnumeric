@@ -5,4 +5,10 @@ else
 PYTHON = 
 endif
 
-SUBDIRS = sample $(PYTHON)
+if WITH_PERL
+PERL = perl
+else
+PERL =
+endif
+
+SUBDIRS = sample $(PYTHON) $(PERL)
