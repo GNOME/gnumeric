@@ -111,6 +111,7 @@ gtk_combo_text_select_item (GtkComboText *ct, int elem)
 void
 gtk_combo_text_set_text (GtkComboText *ct, const gchar *text)
 {
+	gpointer candidate;
 	GtkWidget *child;
 	
 	gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
@@ -123,9 +124,9 @@ gtk_combo_text_set_text (GtkComboText *ct, const gchar *text)
 					  (gpointer) ct);
 	
 	gtk_list_unselect_all (GTK_LIST (ct->list));
-	child = GTK_WIDGET (g_hash_table_lookup (ct->elements,
-						 (gconstpointer) text));
-	if (child && GTK_IS_WIDGET (child)) {
+	candidate = g_hash_table_lookup (ct->elements, (gconstpointer) text);
+	if (candidate && GTK_IS_WIDGET (candidate)) {
+		child = GTK_WIDGET (candidate);
 		gtk_list_select_child (GTK_LIST (ct->list), child);
 		gtk_widget_grab_focus (child);
 	}

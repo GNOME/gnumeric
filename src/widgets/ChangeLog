@@ -1,5 +1,9 @@
 2000-06-08  Jon K Hellan  <hellan@acm.org>
 
+	* gtk-combo-text.c (gtk_combo_text_set_text): Silence run-time
+	warning: Check for non-null list item from hash before casting to
+	widget.
+
 	* gtk-combo-text.[ch] (gtk_combo_text_set_text): New function. Set
 	displayed text, and select it in the list if present.
 
