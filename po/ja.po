@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.2\n"
 "POT-Creation-Date: 2002-01-10 23:59+0900\n"
-"PO-Revision-Date: 2002-01-11 00:02+0900\n"
+"PO-Revision-Date: 2002-01-11 00:51+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -59,12 +59,12 @@ msgstr "%d 行に文法エラーがあります。無視します。"
 #: plugins/dif/dif.c:283
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "%2$d 行に不明なデータ値 \"$1%s\" があります。無視します。"
+msgstr "不明なデータ値 \"%s\" が %d 行にあります。無視します。"
 
 #: plugins/dif/dif.c:290
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr "%2$d 行に不明なデータ型 %1$d があります。無視します。"
+msgstr "不明なデータ型 %d が %d 行にあります。無視します。"
 
 #: plugins/dif/dif.c:299
 #, c-format
