@@ -7,9 +7,9 @@ msgstr ""
 "Project-Id-Version: gnumeric gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-01-18 15:54-0500\n"
-"PO-Revision-Date: 2004-01-14 07:38:13-0500\n"
+"PO-Revision-Date: 2004-01-21 21:38+0000\n"
 "Last-Translator: Alastair McKinstry <mckinstry@computer.org>\n"
-"Language-Team: Gaeilge <ga@li.org>\n"
+"Language-Team: Gaeilge <gaeilge-gnulinux@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,7 +20,7 @@ msgstr "Obairleabhar Gnumeric"
 
 #: GNOME_Gnumeric.server.in.in.h:2
 msgid "Gnumeric Workbook Viewer"
-msgstr ""
+msgstr "Amharcóir Obairleabhar Gnumeric"
 
 #: GNOME_Gnumeric.server.in.in.h:3
 msgid "Gnumeric Workbook viewer factory"
@@ -11352,7 +11352,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
-msgstr ""
+msgstr "Faoi an Cláir seo"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1549
 #: src/workbook-control-gui.c:3915
@@ -11442,7 +11442,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3488
 msgid "C_lear"
-msgstr "G_lan"
+msgstr "_Bánaigh"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:3707
 msgid "C_olumn"
@@ -11506,7 +11506,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:38
 msgid "Close the current file"
-msgstr ""
+msgstr "Dún an comhad seo"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3497
 msgid "Co_mment..."
@@ -12251,7 +12251,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3389
 msgid "Select _All"
-msgstr "_Tóg Gach rud"
+msgstr "_Roghnaigh Gach rud"
 
 #: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3394
 msgid "Select _Column"
@@ -12615,7 +12615,7 @@ msgstr "_Grupa..."
 
 #: src/GNOME_Gnumeric.xml.h:299 src/GNOME_Gnumeric_Component.xml.h:17
 msgid "_Help"
-msgstr "_Cuidiú"
+msgstr "C_uidiú"
 
 #: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1531
 #: src/sheet-control-gui.c:1539 src/workbook-control-gui.c:3627
@@ -12633,7 +12633,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3600
 msgid "_Image..."
-msgstr ""
+msgstr "_Íomha..."
 
 #: src/GNOME_Gnumeric.xml.h:304 src/dialogs/function-select.glade.h:6
 #: src/workbook-control-gui.c:3448 src/workbook-control-gui.c:3972
@@ -12748,7 +12748,7 @@ msgstr "_Sabháil"
 
 #: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3505
 msgid "_Select"
-msgstr "_Tóg..."
+msgstr "_Roghnaigh"
 
 #: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3430
 msgid "_Series..."
@@ -13034,7 +13034,7 @@ msgstr ""
 #. Check for locked cells
 #: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2794
 msgid "Clear"
-msgstr "Glan"
+msgstr "Bánaigh"
 
 #: src/commands.c:1580
 msgid "contents"
@@ -13765,7 +13765,7 @@ msgstr "_Patrún:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Select..."
-msgstr "_Tóg..."
+msgstr "_Roghnaigh..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
 msgid "_Shape:"
@@ -22533,263 +22533,263 @@ msgstr "Eile"
 
 #: src/widgets/widget-charmap-selector.c:119
 msgid "Arabic (IBM-864)"
-msgstr ""
+msgstr "Arabais (IBM-864)"
 
 #: src/widgets/widget-charmap-selector.c:120
 msgid "Arabic (IBM-864-I)"
-msgstr ""
+msgstr "Arabais (IBM-864-I)"
 
 #: src/widgets/widget-charmap-selector.c:121
 msgid "Arabic (ISO-8859-6)"
-msgstr ""
+msgstr "Arabais (ISO-8859-6)"
 
 #: src/widgets/widget-charmap-selector.c:122
 msgid "Arabic (ISO-8859-6-E)"
-msgstr ""
+msgstr "Arabais (ISO-8859-6-E)"
 
 #: src/widgets/widget-charmap-selector.c:124
 msgid "Arabic (ISO-8859-6-I)"
-msgstr ""
+msgstr "Arabais (ISO-8859-6-I)"
 
 #: src/widgets/widget-charmap-selector.c:125
 msgid "Arabic (MacArabic)"
-msgstr ""
+msgstr "Arabais (MacArabic)"
 
 #: src/widgets/widget-charmap-selector.c:126
 msgid "Arabic (Windows-1256)"
-msgstr ""
+msgstr "Arabais (Windows-1256)"
 
 #: src/widgets/widget-charmap-selector.c:127
 msgid "Armenian (ARMSCII-8)"
-msgstr ""
+msgstr "Airméinis (ARMSCII-8)"
 
 #: src/widgets/widget-charmap-selector.c:128
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Baltach (ISO-8859-13)"
 
 #: src/widgets/widget-charmap-selector.c:129
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Baltach (ISO-8859-4)"
 
 #: src/widgets/widget-charmap-selector.c:130
 msgid "Baltic (Windows-1257)"
-msgstr ""
+msgstr "Baltach (Windows-1257)"
 
 #: src/widgets/widget-charmap-selector.c:131
 msgid "Celtic (ISO-8859-14)"
-msgstr ""
+msgstr "Ceiltis (ISO-8859-14)"
 
 #: src/widgets/widget-charmap-selector.c:132
 msgid "Central European (IBM-852)"
-msgstr ""
+msgstr "Lár-Eorpach (IBM-852)"
 
 #: src/widgets/widget-charmap-selector.c:133
 msgid "Central European (ISO-8859-2)"
-msgstr ""
+msgstr "Lár-Eorpach (ISO-8859-2)"
 
 #: src/widgets/widget-charmap-selector.c:134
 msgid "Central European (MacCE)"
-msgstr ""
+msgstr "Lár-Eorpach (MacCE)"
 
 #: src/widgets/widget-charmap-selector.c:135
 msgid "Central European (Windows-1250)"
-msgstr ""
+msgstr "Lár-Eorpach (Windows-1250)"
 
 #: src/widgets/widget-charmap-selector.c:136
 msgid "Chinese Simplified (GB18030)"
-msgstr ""
+msgstr "Sínis Simplithe (GB18030)"
 
 #: src/widgets/widget-charmap-selector.c:137
 msgid "Chinese Simplified (GB2312)"
-msgstr ""
+msgstr "Sínis Simplithe (GB2312)"
 
 #: src/widgets/widget-charmap-selector.c:138
 msgid "Chinese Simplified (GBK)"
-msgstr ""
+msgstr "Sínis Simplithe (GKB)"
 
 #: src/widgets/widget-charmap-selector.c:139
 msgid "Chinese Simplified (HZ)"
-msgstr ""
+msgstr "Sínis Simplithe (HZ)"
 
 #: src/widgets/widget-charmap-selector.c:140
 msgid "Chinese Simplified (Windows-936)"
-msgstr ""
+msgstr "Sínis Simplithe (Windows-936)"
 
 #: src/widgets/widget-charmap-selector.c:141
 msgid "Chinese Traditional (Big5)"
-msgstr ""
+msgstr "Sínis Traidisiúnta (Big5)"
 
 #: src/widgets/widget-charmap-selector.c:142
 msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
+msgstr "Sínis Traidisiúnta (Big5-HKSCS)"
 
 #: src/widgets/widget-charmap-selector.c:143
 msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
+msgstr "Sínis Traidisiúnta (EUC-TW)"
 
 #: src/widgets/widget-charmap-selector.c:144
 msgid "Croatian (MacCroatian)"
-msgstr ""
+msgstr "Cróitis (MacCroatian)"
 
 #: src/widgets/widget-charmap-selector.c:145
 msgid "Cyrillic (IBM-855)"
-msgstr ""
+msgstr "Cirilleach (IBM-855)"
 
 #: src/widgets/widget-charmap-selector.c:146
 msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
+msgstr "Cirilleach (ISO-8859-5)"
 
 #: src/widgets/widget-charmap-selector.c:147
 msgid "Cyrillic (ISO-IR-111)"
-msgstr ""
+msgstr "Cirilleach (ISO-IR-111)"
 
 #: src/widgets/widget-charmap-selector.c:148
 msgid "Cyrillic (KOI8-R)"
-msgstr ""
+msgstr "Cirilleach (KOI8-R)"
 
 #: src/widgets/widget-charmap-selector.c:149
 msgid "Cyrillic (MacCyrillic)"
-msgstr ""
+msgstr "Cirilleach (MacCyrillic)"
 
 #: src/widgets/widget-charmap-selector.c:150
 msgid "Cyrillic (Windows-1251)"
-msgstr ""
+msgstr "Cirilleach (Windows-1251)"
 
 #: src/widgets/widget-charmap-selector.c:151
 msgid "Russian (CP-866)"
-msgstr ""
+msgstr "Rúisis (CP-866)"
 
 #: src/widgets/widget-charmap-selector.c:152
 msgid "Ukrainian (KOI8-U)"
-msgstr ""
+msgstr "Úcráinis (KOI8-U)"
 
 #: src/widgets/widget-charmap-selector.c:153
 msgid "Ukrainian (MacUkrainian)"
-msgstr ""
+msgstr "Úcráinis (MacUkrainian)"
 
 #: src/widgets/widget-charmap-selector.c:154
 msgid "English (ASCII)"
-msgstr ""
+msgstr "Bearla (ASCII)"
 
 #: src/widgets/widget-charmap-selector.c:155
 msgid "Farsi (MacFarsi)"
-msgstr ""
+msgstr "Peirsis (MacFasrsi)"
 
 #: src/widgets/widget-charmap-selector.c:156
 msgid "Georgian (GEOSTD8)"
-msgstr ""
+msgstr "Grúisis (GEOSTD8)"
 
 #: src/widgets/widget-charmap-selector.c:157
 msgid "Greek (ISO-8859-7)"
-msgstr ""
+msgstr "Gréigis (ISO-8859-7)"
 
 #: src/widgets/widget-charmap-selector.c:158
 msgid "Greek (MacGreek)"
-msgstr ""
+msgstr "Gréigis (MacGreek)"
 
 #: src/widgets/widget-charmap-selector.c:159
 msgid "Greek (Windows-1253)"
-msgstr ""
+msgstr "Gréigis (Windows-1253)"
 
 #: src/widgets/widget-charmap-selector.c:160
 msgid "Gujarati (MacGujarati)"
-msgstr ""
+msgstr "Guidsearaitis (MacGujarati)"
 
 #: src/widgets/widget-charmap-selector.c:161
 msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
+msgstr "Gurmcuchaí (MacGurmukhi)"
 
 #: src/widgets/widget-charmap-selector.c:162
 msgid "Hebrew (IBM-862)"
-msgstr ""
+msgstr "Eabhrais (IBM-862)"
 
 #: src/widgets/widget-charmap-selector.c:163
 msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
+msgstr "Eabhrais (ISO-8859-8-E)"
 
 #: src/widgets/widget-charmap-selector.c:164
 msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
+msgstr "Eabhrais (ISO-8859-8-I)"
 
 #: src/widgets/widget-charmap-selector.c:165
 msgid "Hebrew (MacHebrew)"
-msgstr ""
+msgstr "Eabhrais (MacHebrew)"
 
 #: src/widgets/widget-charmap-selector.c:166
 msgid "Hebrew (Windows-1255)"
-msgstr ""
+msgstr "Eabhrais (Windows-1255)"
 
 #: src/widgets/widget-charmap-selector.c:167
 msgid "Hindi (MacDevanagari)"
-msgstr ""
+msgstr "Hiondúis (MacDevangari)"
 
 #: src/widgets/widget-charmap-selector.c:168
 msgid "Icelandic (MacIcelandic)"
-msgstr ""
+msgstr "Íoslainnis (MacIcelandic)"
 
 #: src/widgets/widget-charmap-selector.c:169
 msgid "Japanese (EUC-JP)"
-msgstr ""
+msgstr "Seapáinis (EUC-JP)"
 
 #: src/widgets/widget-charmap-selector.c:170
 msgid "Japanese (ISO-2022-JP)"
-msgstr ""
+msgstr "Seapáinis (ISO-2202-JP)"
 
 #: src/widgets/widget-charmap-selector.c:171
 msgid "Japanese (Shift_JIS)"
-msgstr ""
+msgstr "Seapáinis (Shift_JIS)"
 
 #: src/widgets/widget-charmap-selector.c:172
 msgid "Korean (EUC-KR)"
-msgstr ""
+msgstr "Cóiréis (EUC-KR)"
 
 #: src/widgets/widget-charmap-selector.c:173
 msgid "Korean (ISO-2022-KR)"
-msgstr ""
+msgstr "Cóiréis (ISO-2022-KR)"
 
 #: src/widgets/widget-charmap-selector.c:174
 msgid "Korean (JOHAB)"
-msgstr ""
+msgstr "Cóiréis (JOHAB)"
 
 #: src/widgets/widget-charmap-selector.c:175
 msgid "Korean (UHC)"
-msgstr ""
+msgstr "Cóiréis (UHC)"
 
 #: src/widgets/widget-charmap-selector.c:176
 msgid "Nordic (ISO-8859-10)"
-msgstr ""
+msgstr "Nordach (ISO-8859-10)"
 
 #: src/widgets/widget-charmap-selector.c:177
 msgid "Romanian (MacRomanian)"
-msgstr ""
+msgstr "Rómáinis (MacRomanian)"
 
 #: src/widgets/widget-charmap-selector.c:178
 msgid "Romanian (ISO-8859-16)"
-msgstr ""
+msgstr "Rómáinis (ISO-8859-16)"
 
 #: src/widgets/widget-charmap-selector.c:179
 msgid "South European (ISO-8859-3)"
-msgstr ""
+msgstr "Eorpach Deisceartach (ISO-8859-3)"
 
 #: src/widgets/widget-charmap-selector.c:180
 msgid "Thai (TIS-620)"
-msgstr ""
+msgstr "Téalainnis (TIS-620)"
 
 #: src/widgets/widget-charmap-selector.c:181
 msgid "Turkish (IBM-857)"
-msgstr ""
+msgstr "Tuircis (IBM-857)"
 
 #: src/widgets/widget-charmap-selector.c:182
 msgid "Turkish (ISO-8859-9)"
-msgstr ""
+msgstr "Tuircis (ISO-8859-9)"
 
 #: src/widgets/widget-charmap-selector.c:183
 msgid "Turkish (MacTurkish)"
-msgstr ""
+msgstr "Tuircis (MacTurkish)"
 
 #: src/widgets/widget-charmap-selector.c:184
 msgid "Turkish (Windows-1254)"
-msgstr ""
+msgstr "Tuircis (Windows-1254)"
 
 #: src/widgets/widget-charmap-selector.c:185
 msgid "Unicode (UTF-7)"
@@ -22821,43 +22821,43 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:192
 msgid "Vietnamese (TCVN)"
-msgstr ""
+msgstr "Vítneaimis (TCVN)"
 
 #: src/widgets/widget-charmap-selector.c:193
 msgid "Vietnamese (VISCII)"
-msgstr ""
+msgstr "Vítneaimis (VISCII)"
 
 #: src/widgets/widget-charmap-selector.c:194
 msgid "Vietnamese (VPS)"
-msgstr ""
+msgstr "Vítneaimis (VPS)"
 
 #: src/widgets/widget-charmap-selector.c:195
 msgid "Vietnamese (Windows-1258)"
-msgstr ""
+msgstr "Vítneaimis (Windows-1258)"
 
 #: src/widgets/widget-charmap-selector.c:196
 msgid "Visual Hebrew (ISO-8859-8)"
-msgstr ""
+msgstr "Eabhrais Radharcach (ISO-8859-8)"
 
 #: src/widgets/widget-charmap-selector.c:197
 msgid "Western (IBM-850)"
-msgstr ""
+msgstr "Iartharach (IBM-850)"
 
 #: src/widgets/widget-charmap-selector.c:198
 msgid "Western (ISO-8859-1)"
-msgstr ""
+msgstr "Iartharach (ISO-8859-1)"
 
 #: src/widgets/widget-charmap-selector.c:199
 msgid "Western (ISO-8859-15)"
-msgstr ""
+msgstr "Iartharach (ISO-8859-15)"
 
 #: src/widgets/widget-charmap-selector.c:200
 msgid "Western (MacRoman)"
-msgstr ""
+msgstr "Iartharach (MacRoman)"
 
 #: src/widgets/widget-charmap-selector.c:201
 msgid "Western (Windows-1252)"
-msgstr ""
+msgstr "Iartharach (Windows-1252) "
 
 #: src/widgets/widget-charmap-selector.c:419
 msgid "Locale: "
@@ -22929,7 +22929,7 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:75
 msgid "Australia"
-msgstr ""
+msgstr "An Astráil"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -22941,231 +22941,234 @@ msgstr ""
 #.
 #: src/widgets/widget-locale-selector.c:107
 msgid "United States/English (C)"
-msgstr ""
+msgstr "Stáit Aontaithe Mheirice/Bearla (C)"
 
 #: src/widgets/widget-locale-selector.c:108
+#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr ""
+msgstr "An Afraic Theas (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:109
+#, fuzzy
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "An Aetóip/Amharic (am_ET)"
 
 #: src/widgets/widget-locale-selector.c:110
 msgid "United Arab Emirates (ar_AE)"
-msgstr ""
+msgstr "Aontas na nÉimíríochtaí Arabacha (ar_AE)"
 
 #: src/widgets/widget-locale-selector.c:111
 msgid "Bahrain (ar_BH)"
-msgstr ""
+msgstr "Bairéin (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:112
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "An Ailgéir (ar_DZ)"
 
 #: src/widgets/widget-locale-selector.c:113
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "An Éigipt (ar_EG)"
 
 #: src/widgets/widget-locale-selector.c:114
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "An India/Arabais (ar_IN)"
 
 #: src/widgets/widget-locale-selector.c:115
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "An Iaráic (ar_IQ)"
 
 #: src/widgets/widget-locale-selector.c:116
 msgid "Jordan (ar_JO)"
-msgstr ""
+msgstr "An Iordáin (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:117
 msgid "Kuwait (ar_KW)"
-msgstr ""
+msgstr "Cuáit (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:118
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "An Liobáin (ar_LB)"
 
 #: src/widgets/widget-locale-selector.c:119
 msgid "Libya (ar_LY)"
-msgstr ""
+msgstr "An Libia (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "Maracó (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:121
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "Oman (ar_OM)"
 
 #: src/widgets/widget-locale-selector.c:122
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "Catar (ar_QA)"
 
 #: src/widgets/widget-locale-selector.c:123
 msgid "Saudi Arabia (ar_SA)"
-msgstr ""
+msgstr "An Araib Shádach (ar_SA)"
 
 #: src/widgets/widget-locale-selector.c:124
 msgid "Sudan (ar_SD)"
-msgstr ""
+msgstr "An tSúdáin (ar_SD)"
 
 #: src/widgets/widget-locale-selector.c:125
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "An tSiria (ar_SY)"
 
 #: src/widgets/widget-locale-selector.c:126
 msgid "Tunisia (ar_TN)"
-msgstr ""
+msgstr "An Túinéis (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "Éimin (ar_YE)"
 
 #: src/widgets/widget-locale-selector.c:128
 msgid "Azerbaijan (az_AZ)"
-msgstr ""
+msgstr "An Asarbaiseáin (ar_AZ)"
 
 #: src/widgets/widget-locale-selector.c:129
 msgid "Belarus (be_BY)"
-msgstr ""
+msgstr "An  Bhealarúis (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Bulgaria (bg_BG)"
-msgstr ""
+msgstr "An Bhulgáir (bg_BG)"
 
 #: src/widgets/widget-locale-selector.c:131
 msgid "Bangladesh (bn_BD)"
-msgstr ""
+msgstr "An Bhanglaidéis (bn_BD)"
 
 #: src/widgets/widget-locale-selector.c:132
+#, fuzzy
 msgid "India/Bengali (bn_IN)"
-msgstr ""
+msgstr "An India (bn_IN)"
 
 #: src/widgets/widget-locale-selector.c:133
 msgid "France/Breton (br_FR)"
-msgstr ""
+msgstr "An Fhraic/Briotáinis (br_FR)"
 
 #: src/widgets/widget-locale-selector.c:134
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr ""
+msgstr "An Bhoisnia-Heirseagaivéinn (bs_BA)"
 
 #: src/widgets/widget-locale-selector.c:135
 msgid "Spain/Catalan (ca_ES)"
-msgstr ""
+msgstr "An Spáinn/Catalóinis (ca_ES)"
 
 #: src/widgets/widget-locale-selector.c:136
 msgid "Czech Republic (cs_CZ)"
-msgstr ""
+msgstr "Poblacht na Seice (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr ""
+msgstr "An Bhreatáin/Breatnais (cy_GB)"
 
 #: src/widgets/widget-locale-selector.c:138
 msgid "Denmark (da_DK)"
-msgstr ""
+msgstr "An Danmhairg (da_DK)"
 
 #: src/widgets/widget-locale-selector.c:139
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "An Ostair (de_AT)"
 
 #: src/widgets/widget-locale-selector.c:140
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "An Bheilg/Gearmáinis (de_BE)"
 
 #: src/widgets/widget-locale-selector.c:141
 msgid "Switzerland/German (de_CH)"
-msgstr ""
+msgstr "An Eilvéis/Gearmáinis (de_CH)"
 
 #: src/widgets/widget-locale-selector.c:142
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "An Ghearmáin (de_DE)"
 
 #: src/widgets/widget-locale-selector.c:143
 msgid "Luxembourg/German (de_LU)"
-msgstr ""
+msgstr "Lucsamburg/Gearmáinis (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "An Ghréig (el_GR)"
 
 #: src/widgets/widget-locale-selector.c:145
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "An Ástráil (en_AU)"
 
 #: src/widgets/widget-locale-selector.c:146
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "An Bhotsuáin (en_BW)"
 
 #: src/widgets/widget-locale-selector.c:147
 msgid "Canada/English (en_CA)"
-msgstr ""
+msgstr "Ceanada/Bearla (en_CA)"
 
 #: src/widgets/widget-locale-selector.c:148
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "An Bhreatain (en_GB)"
 
 #: src/widgets/widget-locale-selector.c:149
 msgid "Hong Kong/English (en_HK)"
-msgstr ""
+msgstr "Hong Cong/Bearla (en_HK)"
 
 #: src/widgets/widget-locale-selector.c:150
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "Éire (en_IE)"
 
 #: src/widgets/widget-locale-selector.c:151
 msgid "India/English (en_IN)"
-msgstr ""
+msgstr "An India/Bearla (en_IN)"
 
 #: src/widgets/widget-locale-selector.c:152
 msgid "New Zealand (en_NZ)"
-msgstr ""
+msgstr "An Nua-Shéalainn (en_NZ)"
 
 #: src/widgets/widget-locale-selector.c:153
 msgid "Philippines (en_PH)"
-msgstr ""
+msgstr "Na hÓileaáin Fhilipíneacha (en_PH)"
 
 #: src/widgets/widget-locale-selector.c:154
 msgid "Singapore/English (en_SG)"
-msgstr ""
+msgstr "Singeapór/Bearla (en_SG)"
 
 #: src/widgets/widget-locale-selector.c:155
 msgid "United States/English (en_US)"
-msgstr ""
+msgstr "Stáit Aontaithe/Bearla (en_US)"
 
 #: src/widgets/widget-locale-selector.c:156
 msgid "South Africa/English (en_ZA)"
-msgstr ""
+msgstr "An Afraic Theas/Bearla (en_ZA)"
 
 #: src/widgets/widget-locale-selector.c:157
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "An tSiombaib (en_ZW)"
 
 #: src/widgets/widget-locale-selector.c:158
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "Esperanto (eo_EO)"
 
 #: src/widgets/widget-locale-selector.c:159
 msgid "Argentina (es_AR)"
-msgstr ""
+msgstr "An Airgintín (es_AR)"
 
 #: src/widgets/widget-locale-selector.c:160
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "An Bholaiv (es_BO)"
 
 #: src/widgets/widget-locale-selector.c:161
 msgid "Chile (es_CL)"
-msgstr ""
+msgstr "An tSile (es_CL)"
 
 #: src/widgets/widget-locale-selector.c:162
 msgid "Colombia (es_CO)"
-msgstr ""
+msgstr "An Cholóim (es_CO)"
 
 #: src/widgets/widget-locale-selector.c:163
 msgid "Costa Rica (es_CR)"
-msgstr ""
+msgstr "Costa Rice (es_CR)"
 
 #: src/widgets/widget-locale-selector.c:164
 msgid "Dominican Republic (es_DO)"
@@ -23173,351 +23176,367 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:165
 msgid "Ecuador (es_EC)"
-msgstr ""
+msgstr "Ecuador (es_EC)"
 
 #: src/widgets/widget-locale-selector.c:166
 msgid "Spain (es_ES)"
-msgstr ""
+msgstr "An Spáinn (es_ES)"
 
 #: src/widgets/widget-locale-selector.c:167
 msgid "Guatemala (es_GT)"
-msgstr ""
+msgstr "Guatamala (es_GT)"
 
 #: src/widgets/widget-locale-selector.c:168
 msgid "Honduras (es_HN)"
-msgstr ""
+msgstr "Hondúras (es_HN)"
 
 #: src/widgets/widget-locale-selector.c:169
 msgid "Mexico (es_MX)"
-msgstr ""
+msgstr "Meicsiceo (es_MX)"
 
 #: src/widgets/widget-locale-selector.c:170
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "Nicaragua (es_NI)"
 
 #: src/widgets/widget-locale-selector.c:171
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "Panama (es_PA)"
 
 #: src/widgets/widget-locale-selector.c:172
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "Peiriú (es_PE)"
 
 #: src/widgets/widget-locale-selector.c:173
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "Portó Ríce (es_PR)"
 
 #: src/widgets/widget-locale-selector.c:174
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "Paraguay (es_PY)"
 
 #: src/widgets/widget-locale-selector.c:175
 msgid "El Salvador (es_SV)"
-msgstr ""
+msgstr "An tSalvadóir (es_SV)"
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "United States/Spanish (es_US)"
-msgstr ""
+msgstr "Stáit Aontaithe/Spáinnis (es_US)"
 
 #: src/widgets/widget-locale-selector.c:177
 msgid "Uruguay (es_UY)"
-msgstr ""
+msgstr "Uragua (es_UY)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Venezuela (es_VE)"
-msgstr ""
+msgstr "Veiniséala (es_VE)"
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Estonia (et_EE)"
-msgstr ""
+msgstr "An Eastóin (et_EE)"
 
 #: src/widgets/widget-locale-selector.c:180
 msgid "Spain/Basque (eu_ES)"
-msgstr ""
+msgstr "An Spáinn/Bascais (eu_ES)"
 
 #: src/widgets/widget-locale-selector.c:181
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "An Iaráin (fa_IR)"
 
 #: src/widgets/widget-locale-selector.c:182
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "An Fhionlainn/Fionlainnis (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
+msgstr "Oileáin Fharó (fo_FO)"
 
 #: src/widgets/widget-locale-selector.c:184
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "An Bheilg/Fraincís (fr_BE)"
 
 #: src/widgets/widget-locale-selector.c:185
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "Ceanada/Fraincís (fr_CA)"
 
 #: src/widgets/widget-locale-selector.c:186
 msgid "Switzerland/French (fr_CH)"
-msgstr ""
+msgstr "An Éilveis/Fraincís (fr_CH)"
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "An Fhrainc (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:188
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "Éire/Gaeilge (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:189
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr ""
+msgstr "An Bhreatain/Gaeilge na hAlbain (gd_GB)"
 
 #: src/widgets/widget-locale-selector.c:190
+#, fuzzy
 msgid "Spain/Galician (gl_ES)"
-msgstr ""
+msgstr "An Spáinn (gl_ES)"
 
 #: src/widgets/widget-locale-selector.c:191
+#, fuzzy
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr ""
+msgstr "An Bhreatain/Gaeilge Mhanainn  (gv_GB)"
 
 #: src/widgets/widget-locale-selector.c:192
+#, fuzzy
 msgid "India/Hindu (hi_IN)"
-msgstr ""
+msgstr "An India (hi_IN)"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "An Cróit (hr_HR)"
 
 #: src/widgets/widget-locale-selector.c:194
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "An Ungáir (hu_HU)"
 
 #: src/widgets/widget-locale-selector.c:195
 msgid "Armenia (hy_AM)"
-msgstr ""
+msgstr "An Airmein (hy_AM)"
 
 #: src/widgets/widget-locale-selector.c:196
 msgid "(i18n)"
-msgstr ""
+msgstr "(i18n)"
 
 #: src/widgets/widget-locale-selector.c:197
 msgid "Indonesia (id_ID)"
-msgstr ""
+msgstr "An Indinéis (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:198
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "An Íoslainn (is_IS)"
 
 #: src/widgets/widget-locale-selector.c:199
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "An Éilveis/Íodáilís (it_CH)"
 
 #: src/widgets/widget-locale-selector.c:201
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "An Íodáil (it_IT)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Israel/Hebrew (iw_IL)"
-msgstr ""
+msgstr "Iosrael/Eabhrais (iw_IL)"
 
 #: src/widgets/widget-locale-selector.c:203
 msgid "Japan (ja_JP)"
-msgstr ""
+msgstr "An tSeapáin (ja_JP)"
 
 #: src/widgets/widget-locale-selector.c:204
 msgid "Georgia (ka_GE)"
-msgstr ""
+msgstr "An tSeoirsia (ka_GE)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "An Ghraonlinn (kl_GL)"
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Korea (ko_KR)"
-msgstr ""
+msgstr "An Cóire (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:207
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr ""
+msgstr "An Bhreatáin/Kernow (kw_GB)"
 
 #: src/widgets/widget-locale-selector.c:208
 msgid "Lithuania (lt_LT)"
-msgstr ""
+msgstr "An Liotuáin (lt_LT)"
 
 #: src/widgets/widget-locale-selector.c:209
 msgid "Latvia (lv_LV)"
-msgstr ""
+msgstr "An Laitvia (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:210
+#, fuzzy
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
+msgstr "An Nua-Shéalainn (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:211
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "An Mhacadóin (mk_MK)"
 
 #: src/widgets/widget-locale-selector.c:212
+#, fuzzy
 msgid "India/Marathi (mr_IN)"
-msgstr ""
+msgstr "An India (mr_IN)"
 
 #: src/widgets/widget-locale-selector.c:213
 msgid "Malaysia (ms_MY)"
-msgstr ""
+msgstr "An Mhalaeisia (ms_MY)"
 
 #: src/widgets/widget-locale-selector.c:214
 msgid "Malta (mt_MT)"
-msgstr ""
+msgstr "Málta (mt_MT)"
 
 #: src/widgets/widget-locale-selector.c:215
+#, fuzzy
 msgid "Belgium/Flemish (nl_BE)"
-msgstr ""
+msgstr "An Bheilg (nl_BE)"
 
 #: src/widgets/widget-locale-selector.c:216
 msgid "The Netherlands (nl_NL)"
-msgstr ""
+msgstr "An Isiltír (nl_NL)"
 
 #: src/widgets/widget-locale-selector.c:217
+#, fuzzy
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr ""
+msgstr "An Iorua (nn_NO)"
 
 #: src/widgets/widget-locale-selector.c:218
+#, fuzzy
 msgid "Norway/Bokmal (no_NO)"
-msgstr ""
+msgstr "An Iorua (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:219
+#, fuzzy
 msgid "France/Occitan (oc_FR)"
-msgstr ""
+msgstr "An Fhrainc (oc_FR)"
 
 #: src/widgets/widget-locale-selector.c:220
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "An Pholainn (pl_PL)"
 
 #: src/widgets/widget-locale-selector.c:221
 msgid "Brazil (pt_BR)"
-msgstr ""
+msgstr "An Bhrasaíl (pt_BR)"
 
 #: src/widgets/widget-locale-selector.c:222
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "An Phortaingéil (pt_PT)"
 
 #: src/widgets/widget-locale-selector.c:223
 msgid "Romania (ro_RO)"
-msgstr ""
+msgstr "An Rómáin (ro_RO)"
 
 #: src/widgets/widget-locale-selector.c:224
 msgid "Russia (ru_RU)"
-msgstr ""
+msgstr "Rúise (ru_RU)"
 
 #: src/widgets/widget-locale-selector.c:225
 msgid "Ukraine/Russian (ru_UA)"
-msgstr ""
+msgstr "An Úcráin/Rúisis (ru_UA)"
 
 #: src/widgets/widget-locale-selector.c:226
+#, fuzzy
 msgid "Norway/Saami (se_NO)"
-msgstr ""
+msgstr "An Iorua (se_NO)"
 
 #: src/widgets/widget-locale-selector.c:227
 msgid "Slovakia (sk_SK)"
-msgstr ""
+msgstr "An tSlóvaic (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:228
 msgid "Slovenia (sl_SI)"
-msgstr ""
+msgstr "An tSlóvéin (sl_SI)"
 
 #: src/widgets/widget-locale-selector.c:229
 msgid "Albania (sq_AL)"
-msgstr ""
+msgstr "An Albáin (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:230
 msgid "Yugoslavia (sr_YU)"
-msgstr ""
+msgstr "An Iúglaiv (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:231
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "An Fhionlainn/Sualainnis (sv_FI)"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "An tSualainn (sv_SE)"
 
 #: src/widgets/widget-locale-selector.c:233
+#, fuzzy
 msgid "India/Tamil (ta_IN)"
-msgstr ""
+msgstr "An India (ta_IN)"
 
 #: src/widgets/widget-locale-selector.c:234
+#, fuzzy
 msgid "India/Telugu (te_IN)"
-msgstr ""
+msgstr "An India (te_IN)"
 
 #: src/widgets/widget-locale-selector.c:235
 msgid "Tajikistan (tg_TJ)"
-msgstr ""
+msgstr "An Táidsíceastáin (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:236
 msgid "Thailand (th_TH)"
-msgstr ""
+msgstr "An Téalainn (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:237
 msgid "Eritrea (ti_ER)"
-msgstr ""
+msgstr "Eritrea (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:238
+#, fuzzy
 msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr ""
+msgstr "An Aetóip (ti_ET)"
 
 #: src/widgets/widget-locale-selector.c:239
+#, fuzzy
 msgid "Philippines/Tagalog (tl_PH)"
-msgstr ""
+msgstr "Na hÓileáin Fhilipíneacha (tl_PH)"
 
 #: src/widgets/widget-locale-selector.c:240
 msgid "Turkey (tr_TR)"
-msgstr ""
+msgstr "An Tuirc (tr_TR)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "Rúise/Tatar (tt_RU)"
 
 #: src/widgets/widget-locale-selector.c:242
 msgid "Ukraine (uk_UA)"
-msgstr ""
+msgstr "Úcráin (uk_UA)"
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "Pakistan (ur_PK)"
-msgstr ""
+msgstr "An Phacastáin (ur_PK)"
 
 #: src/widgets/widget-locale-selector.c:244
 msgid "Uzbekistan (uz_UZ)"
-msgstr ""
+msgstr "Úisbéiceastáin (uz_UZ)"
 
 #: src/widgets/widget-locale-selector.c:245
 msgid "Vietnam (vi_VN)"
-msgstr ""
+msgstr "Vitneam (vi_VN)"
 
 #: src/widgets/widget-locale-selector.c:246
+#, fuzzy
 msgid "Belgium/Walloon (wa_BE)"
-msgstr ""
+msgstr "An Bheilg (wa_BE)"
 
 #: src/widgets/widget-locale-selector.c:247
+#, fuzzy
 msgid "United States/Yiddish (yi_US)"
-msgstr ""
+msgstr "Stáit Aontaithe (yi_US)"
 
 #: src/widgets/widget-locale-selector.c:248
 msgid "China (zh_CN)"
-msgstr ""
+msgstr "An iSín (zh_CN)"
 
 #: src/widgets/widget-locale-selector.c:249
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr ""
+msgstr "Hong Cong/Sínis (zh_HK)"
 
 #: src/widgets/widget-locale-selector.c:250
 msgid "Singapore/Chinese (zh_SG)"
-msgstr ""
+msgstr "Singeapór/Sínis (zh_SG)"
 
 #: src/widgets/widget-locale-selector.c:251
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "An Téaváin (zh_TW)"
 
 #: src/widgets/widget-locale-selector.c:452
 msgid "Current Locale: "
@@ -24025,558 +24044,558 @@ msgstr ""
 msgid "Gnumeric XML file format"
 msgstr ""
 
-#~ msgid "Output: "
-#~ msgstr "Aschur: "
+msgid "Output: "
+msgstr "Aschur: "
 
-#~ msgid "Variables: "
-#~ msgstr "Athrógaí: "
+msgid "Variables: "
+msgstr "Athrógaí: "
 
-#~ msgid "_Output Range: "
-#~ msgstr "Raon _Aschur: "
+msgid "_Output Range: "
+msgstr "Raon _Aschur: "
 
-#~ msgid "S_ize:"
-#~ msgstr "_Méid:"
+msgid "S_ize:"
+msgstr "_Méid:"
 
-#~ msgid "_Style:"
-#~ msgstr "_Stíl:"
+msgid "_Style:"
+msgstr "_Stíl:"
 
-#~ msgid "_Alpha:"
-#~ msgstr "_Alpha:"
+msgid "_Alpha:"
+msgstr "_Alpha:"
 
-#~ msgid "Options:"
-#~ msgstr "Roghanna:"
+msgid "Options:"
+msgstr "Roghanna:"
 
-#~ msgid "C_enter"
-#~ msgstr "Sa _Lár"
+msgid "C_enter"
+msgstr "Sa _Lár"
 
-#~ msgid "Co_lor:"
-#~ msgstr "_Dath:"
+msgid "Co_lor:"
+msgstr "_Dath:"
 
-#~ msgid "Message:"
-#~ msgstr "Scéal:"
+msgid "Message:"
+msgstr "Scéal:"
 
-#~ msgid "_Center"
-#~ msgstr "Sa _Lár"
+msgid "_Center"
+msgstr "Sa _Lár"
 
-#~ msgid "_Color:"
-#~ msgstr "_Dath:"
+msgid "_Color:"
+msgstr "_Dath:"
 
-#~ msgid "_Style"
-#~ msgstr "_Stíl"
+msgid "_Style"
+msgstr "_Stíl"
 
-#~ msgid "D_elete"
-#~ msgstr "_Dealaigh"
+msgid "D_elete"
+msgstr "_Dealaigh"
 
-#~ msgid "Remove this sheet"
-#~ msgstr "Scríos leathanach seo"
+msgid "Remove this sheet"
+msgstr "Scríos leathanach seo"
 
-#~ msgid "Create a pivot table."
-#~ msgstr "Cruthaigh líosta"
+msgid "Create a pivot table."
+msgstr "Cruthaigh líosta"
 
-#~ msgid "Tooltip"
-#~ msgstr "Leathfhocal uirlís"
+msgid "Tooltip"
+msgstr "Leathfhocal uirlís"
 
-#~ msgid "Cust_om"
-#~ msgstr "_Féindheanamh"
+msgid "Cust_om"
+msgstr "_Féindheanamh"
 
-#~ msgid "Sp_ecial"
-#~ msgstr "_Speisialta"
+msgid "Sp_ecial"
+msgstr "_Speisialta"
 
-#~ msgid "Te_xt"
-#~ msgstr "_Teacs"
+msgid "Te_xt"
+msgstr "_Teacs"
 
-#~ msgid "_Number"
-#~ msgstr "_Uimhir"
+msgid "_Number"
+msgstr "_Uimhir"
 
-#~ msgid "_Time"
-#~ msgstr "_Am"
+msgid "_Time"
+msgstr "_Am"
 
-#~ msgid "(1 - alpha):"
-#~ msgstr "(1 - alpha):"
+msgid "(1 - alpha):"
+msgstr "(1 - alpha):"
 
-#~ msgid "Add "
-#~ msgstr "Suimigh"
+msgid "Add "
+msgstr "Suimigh"
 
-#~ msgid "Misc"
-#~ msgstr "Teibi."
+msgid "Misc"
+msgstr "Teibi."
 
-#~ msgid "Unkno_wn"
-#~ msgstr "Gan _Aithne"
+msgid "Unkno_wn"
+msgstr "Gan _Aithne"
 
-#~ msgid "Variable 1 Range:"
-#~ msgstr "Raon _Athróg 1:"
+msgid "Variable 1 Range:"
+msgstr "Raon _Athróg 1:"
 
-#~ msgid "Variable 2 Range:"
-#~ msgstr "Raon _Athróg 2:"
+msgid "Variable 2 Range:"
+msgstr "Raon _Athróg 2:"
 
-#~ msgid ";[Red]"
-#~ msgstr ";[Red]"
+msgid ";[Red]"
+msgstr ";[Red]"
 
-#~ msgid "_);("
-#~ msgstr "_);("
+msgid "_);("
+msgstr "_);("
 
-#~ msgid "_);[Red]("
-#~ msgstr "_);[Red]("
+msgid "_);[Red]("
+msgstr "_);[Red]("
 
-#~ msgid "Example"
-#~ msgstr "Sampla"
+msgid "Example"
+msgstr "Sampla"
 
-#~ msgid "Formatting options"
-#~ msgstr "_Roghanna formóidáil"
+msgid "Formatting options"
+msgstr "_Roghanna formóidáil"
 
-#~ msgid "Size"
-#~ msgstr "Méid"
+msgid "Size"
+msgstr "Méid"
 
-#~ msgid "PLN : Not a PlanPerfect File"
-#~ msgstr "PLN: Níl comhad PlanPerfect ann"
+msgid "PLN : Not a PlanPerfect File"
+msgstr "PLN: Níl comhad PlanPerfect ann"
 
-#~ msgid "Horizontal"
-#~ msgstr "Cot_hrománach"
+msgid "Horizontal"
+msgstr "Cot_hrománach"
 
-#~ msgid "Printer"
-#~ msgstr "Clódóir"
+msgid "Printer"
+msgstr "Clódóir"
 
-#~ msgid "lpr Printer"
-#~ msgstr "Clódóir lpr"
+msgid "lpr Printer"
+msgstr "Clódóir lpr"
 
-#~ msgid "output.ps"
-#~ msgstr "output.ps"
+msgid "output.ps"
+msgstr "output.ps"
 
-#~ msgid "Out_put"
-#~ msgstr "_Aschur"
+msgid "Out_put"
+msgstr "_Aschur"
 
-#~ msgid "_Normal"
-#~ msgstr "_Gnáth"
+msgid "_Normal"
+msgstr "_Gnáth"
 
-#~ msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
-#~ msgstr "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
+msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
+msgstr "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 
-#~ msgid "DVI TeX (via groff)"
-#~ msgstr "DVI TeX (via groff)"
+msgid "DVI TeX (via groff)"
+msgstr "DVI TeX (via groff)"
 
-#~ msgid "E_xit"
-#~ msgstr "_Ealu"
+msgid "E_xit"
+msgstr "_Ealu"
 
-#~ msgid "Italicize"
-#~ msgstr "Iodálach"
+msgid "Italicize"
+msgstr "Iodálach"
 
-#~ msgid "P_roperties"
-#~ msgstr "_Roghnachais"
+msgid "P_roperties"
+msgstr "_Roghnachais"
 
-#~ msgid "_Preview"
-#~ msgstr "_Réamhthaispeántas"
+msgid "_Preview"
+msgstr "_Réamhthaispeántas"
 
-#~ msgid "mm"
-#~ msgstr "mm"
+msgid "mm"
+msgstr "mm"
 
-#~ msgid "millimeter"
-#~ msgstr "millimetre"
+msgid "millimeter"
+msgstr "millimetre"
 
-#~ msgid "cm"
-#~ msgstr "cm"
+msgid "cm"
+msgstr "cm"
 
-#~ msgid "centimeter"
-#~ msgstr "centimetre"
+msgid "centimeter"
+msgstr "centimetre"
 
-#~ msgid "In"
-#~ msgstr "In"
+msgid "In"
+msgstr "In"
 
-#~ msgid "_Edit..."
-#~ msgstr "_Eagar..."
+msgid "_Edit..."
+msgstr "_Eagar..."
 
-#~ msgid "MS Excel (tm) 95 file format"
-#~ msgstr "formóid chomad MS Excel (tm) 5.0/95"
+msgid "MS Excel (tm) 95 file format"
+msgstr "formóid chomad MS Excel (tm) 5.0/95"
 
-#~ msgid "Python Plugin"
-#~ msgstr "Plógála Python"
+msgid "Python Plugin"
+msgstr "Plógála Python"
 
-#~ msgid "Python exception"
-#~ msgstr "Eisceacht Python"
+msgid "Python exception"
+msgstr "Eisceacht Python"
 
-#~ msgid "_Type"
-#~ msgstr "_Saghas"
+msgid "_Type"
+msgstr "_Saghas"
 
-#~ msgid "0.75"
-#~ msgstr "0.75"
+msgid "0.75"
+msgstr "0.75"
 
-#~ msgid "100"
-#~ msgstr "100"
+msgid "100"
+msgstr "100"
 
-#~ msgid "15"
-#~ msgstr "15"
+msgid "15"
+msgstr "15"
 
-#~ msgid "200"
-#~ msgstr "200"
+msgid "200"
+msgstr "200"
 
-#~ msgid "Plugins"
-#~ msgstr "Plogálaí"
+msgid "Plugins"
+msgstr "Plogálaí"
 
-#~ msgid "Por_trait"
-#~ msgstr "_Portráid"
+msgid "Por_trait"
+msgstr "_Portráid"
 
-#~ msgid "_Bottom:"
-#~ msgstr "_Bun:"
+msgid "_Bottom:"
+msgstr "_Bun:"
 
-#~ msgid "_Left:"
-#~ msgstr "_Clé:"
+msgid "_Left:"
+msgstr "_Clé:"
 
-#~ msgid "_Right:"
-#~ msgstr "_Deis:"
+msgid "_Right:"
+msgstr "_Deis:"
 
-#~ msgid "&lt;- Remove"
-#~ msgstr "&lt;- Scríos"
+msgid "&lt;- Remove"
+msgstr "&lt;- Scríos"
 
-#~ msgid "Add -&gt;"
-#~ msgstr "Suim -&gt;"
+msgid "Add -&gt;"
+msgstr "Suim -&gt;"
 
-#~ msgid "Value%d"
-#~ msgstr "Luach%d"
+msgid "Value%d"
+msgstr "Luach%d"
 
-#~ msgid "Searc_h"
-#~ msgstr "_Cuardaigh"
+msgid "Searc_h"
+msgstr "_Cuardaigh"
 
-#~ msgid "_Author"
-#~ msgstr "_Údar:"
+msgid "_Author"
+msgstr "_Údar:"
 
-#~ msgid "Rem"
-#~ msgstr "Scríos"
+msgid "Rem"
+msgstr "Scríos"
 
-#~ msgid "$"
-#~ msgstr "$"
+msgid "$"
+msgstr "$"
 
-#~ msgid "_Sheet Name"
-#~ msgstr "Ainm _Leathanach"
+msgid "_Sheet Name"
+msgstr "Ainm _Leathanach"
 
-#~ msgid "Row: %s"
-#~ msgstr "Rónn: %s"
+msgid "Row: %s"
+msgstr "Rónn: %s"
 
-#~ msgid "Y Variable:"
-#~ msgstr "Athróg _Y:"
+msgid "Y Variable:"
+msgstr "Athróg _Y:"
 
-#~ msgid "Cell :"
-#~ msgstr "Cill :"
+msgid "Cell :"
+msgstr "Cill :"
 
-#~ msgid "<unknown>"
-#~ msgstr "<gan aithne>"
+msgid "<unknown>"
+msgstr "<gan aithne>"
 
-#~ msgid "Microsoft(R) Excel"
-#~ msgstr "Microsoft(R) Excel"
+msgid "Microsoft(R) Excel"
+msgstr "Microsoft(R) Excel"
 
-#~ msgid "LaTeX 2.09 (*.tex)"
-#~ msgstr "LaTeX 2.09 (*.tex)"
+msgid "LaTeX 2.09 (*.tex)"
+msgstr "LaTeX 2.09 (*.tex)"
 
-#~ msgid "SS"
-#~ msgstr "SS"
+msgid "SS"
+msgstr "SS"
 
-#~ msgid "df"
-#~ msgstr "df"
+msgid "df"
+msgstr "df"
 
-#~ msgid "MS"
-#~ msgstr "MS"
+msgid "MS"
+msgstr "MS"
 
-#~ msgid "_Open"
-#~ msgstr "_Oscail"
+msgid "_Open"
+msgstr "_Oscail"
 
-#~ msgid "Variable 1"
-#~ msgstr "Athróg 1"
+msgid "Variable 1"
+msgstr "Athróg 1"
 
-#~ msgid "X Variable %d"
-#~ msgstr "X Athróg %d"
+msgid "X Variable %d"
+msgstr "X Athróg %d"
 
-#~ msgid ">mm/dd/yyyy"
-#~ msgstr ">mm/ll/bbbb"
+msgid ">mm/dd/yyyy"
+msgstr ">mm/ll/bbbb"
 
-#~ msgid ">hh:mm"
-#~ msgstr ">uu:nn"
+msgid ">hh:mm"
+msgstr ">uu:nn"
 
-#~ msgid "1 - _Alpha:"
-#~ msgstr "1 - _Alpha:"
+msgid "1 - _Alpha:"
+msgstr "1 - _Alpha:"
 
-#~ msgid "N_ew sheet"
-#~ msgstr "Leathanach _Nua"
+msgid "N_ew sheet"
+msgstr "Leathanach _Nua"
 
-#~ msgid "New _workbook"
-#~ msgstr "_Obairleabhar Nua"
+msgid "New _workbook"
+msgstr "_Obairleabhar Nua"
 
-#~ msgid "Add  "
-#~ msgstr "Suimigh"
+msgid "Add  "
+msgstr "Suimigh"
 
-#~ msgid "Options..."
-#~ msgstr "Roghanna..."
+msgid "Options..."
+msgstr "Roghanna..."
 
-#~ msgid "LaTeX (*.tex)"
-#~ msgstr "LaTeX (*.tex)"
+msgid "LaTeX (*.tex)"
+msgstr "LaTeX (*.tex)"
 
-#~ msgid "Input Y Range:"
-#~ msgstr "Raon Inchur Y:"
+msgid "Input Y Range:"
+msgstr "Raon Inchur Y:"
 
-#~ msgid "Input X Range:"
-#~ msgstr "Raon Inchur X:"
+msgid "Input X Range:"
+msgstr "Raon Inchur X:"
 
-#~ msgid "Warning"
-#~ msgstr "Rabhadh"
+msgid "Warning"
+msgstr "Rabhadh"
 
-#~ msgid " Location "
-#~ msgstr " Áit "
+msgid " Location "
+msgstr " Áit "
 
-#~ msgid "_Plot title:"
-#~ msgstr ":"
+msgid "_Plot title:"
+msgstr ":"
 
-#~ msgid "AaBbCcDdEe12345"
-#~ msgstr "AÁaáBbCcDdEÉeé12345"
+msgid "AaBbCcDdEe12345"
+msgstr "AÁaáBbCcDdEÉeé12345"
 
-#~ msgid "Message"
-#~ msgstr "Scéal"
+msgid "Message"
+msgstr "Scéal"
 
-#~ msgid "Book%d.gnumeric"
-#~ msgstr "Leabhar%d.Gnumeric"
+msgid "Book%d.gnumeric"
+msgstr "Leabhar%d.Gnumeric"
 
-#~ msgid "C_olor"
-#~ msgstr "_Dath"
+msgid "C_olor"
+msgstr "_Dath"
 
-#~ msgid "Pick a Background color"
-#~ msgstr "Tóg dath dúlra"
+msgid "Pick a Background color"
+msgstr "Roghnaigh dath dúlra"
 
-#~ msgid "_No Color"
-#~ msgstr "_Gan Dath"
+msgid "_No Color"
+msgstr "_Gan Dath"
 
-#~ msgid "ERROR"
-#~ msgstr "EARRÁID"
+msgid "ERROR"
+msgstr "EARRÁID"
 
-#~ msgid "PDF file format (via groff/gs)"
-#~ msgstr "formóid comhaid PDF (via groff/gs)"
+msgid "PDF file format (via groff/gs)"
+msgstr "formóid comhaid PDF (via groff/gs)"
 
-#~ msgid "EPS file format (*.eps)"
-#~ msgstr "formóid comhaid EPS (*.eps)"
+msgid "EPS file format (*.eps)"
+msgstr "formóid comhaid EPS (*.eps)"
 
-#~ msgid "Standard Deviation"
-#~ msgstr "Diallas _Caighdeánach:"
+msgid "Standard Deviation"
+msgstr "Diallas _Caighdeánach:"
 
-#~ msgid "z"
-#~ msgstr "z"
+msgid "z"
+msgstr "z"
 
-#~ msgid "%c"
-#~ msgstr "%c"
+msgid "%c"
+msgstr "%c"
 
-#~ msgid "cut"
-#~ msgstr "gearr"
+msgid "cut"
+msgstr "gearr"
 
-#~ msgid "Paste _Special..."
-#~ msgstr "G_reamaigh speisialta..."
+msgid "Paste _Special..."
+msgstr "G_reamaigh speisialta..."
 
-#~ msgid "None\n"
-#~ msgstr "Tada\n"
+msgid "None\n"
+msgstr "Tada\n"
 
-#~ msgid "mm\n"
-#~ msgstr "mm\n"
+msgid "mm\n"
+msgstr "mm\n"
 
-#~ msgid "cm\n"
-#~ msgstr "cm\n"
+msgid "cm\n"
+msgstr "cm\n"
 
-#~ msgid "_New Sheet     "
-#~ msgstr "Leathanach _Nua"
+msgid "_New Sheet     "
+msgstr "Leathanach _Nua"
 
-#~ msgid ""
-#~ "Invalid CSV file - \n"
-#~ "unexpected end of line at line %d"
-#~ msgstr ""
-#~ "droch comhad CSV  - \n"
-#~ "unexpected end of line at line %d"
+msgid ""
+"Invalid CSV file - \n"
+"unexpected end of line at line %d"
+msgstr ""
+"droch comhad CSV  - \n"
+"unexpected end of line at line %d"
 
-#~ msgid "PlusOne"
-#~ msgstr "PlusOne"
+msgid "PlusOne"
+msgstr "PlusOne"
 
-#~ msgid "File is too large"
-#~ msgstr "Tá comhad ró-mhór"
+msgid "File is too large"
+msgstr "Tá comhad ró-mhór"
 
-#~ msgid "Simple Text"
-#~ msgstr "Teacs Simplí"
+msgid "Simple Text"
+msgstr "Teacs Simplí"
 
-#~ msgid "0.00"
-#~ msgstr "0.00"
+msgid "0.00"
+msgstr "0.00"
 
-#~ msgid "#,##0"
-#~ msgstr "#,##0"
+msgid "#,##0"
+msgstr "#,##0"
 
-#~ msgid "#,##0.00"
-#~ msgstr "#,##0.00"
+msgid "#,##0.00"
+msgstr "#,##0.00"
 
-#~ msgid "#,##0_);(#,##0)"
-#~ msgstr "#,##0_);(#,##0)"
+msgid "#,##0_);(#,##0)"
+msgstr "#,##0_);(#,##0)"
 
-#~ msgid "#,##0_);[Red](#,##0)"
-#~ msgstr "#,##0_);[Red](#,##0)"
+msgid "#,##0_);[Red](#,##0)"
+msgstr "#,##0_);[Red](#,##0)"
 
-#~ msgid "#,##0.00_);(#,##0.00)"
-#~ msgstr "#,##0.00_);(#,##0.00)"
+msgid "#,##0.00_);(#,##0.00)"
+msgstr "#,##0.00_);(#,##0.00)"
 
-#~ msgid "#,##0.00_);[Red](#,##0.00)"
-#~ msgstr "#,##0.00_);[red](#,##0.00)"
+msgid "#,##0.00_);[Red](#,##0.00)"
+msgstr "#,##0.00_);[red](#,##0.00)"
 
-#~ msgid "$#,##0_);($#,##0)"
-#~ msgstr "$#,##0_);($#,##0)"
+msgid "$#,##0_);($#,##0)"
+msgstr "$#,##0_);($#,##0)"
 
-#~ msgid "$#,##0_);[Red]($#,##0)"
-#~ msgstr "£#,##0_);[red](£#,##0)"
+msgid "$#,##0_);[Red]($#,##0)"
+msgstr "£#,##0_);[red](£#,##0)"
 
-#~ msgid "$#,##0.00_);($#,##0.00)"
-#~ msgstr "$#,##0.00_);($#,##0.00)"
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr "$#,##0.00_);($#,##0.00)"
 
-#~ msgid "$#,##0.00_);[Red]($#,##0.00)"
-#~ msgstr "£#,##0.00_);[red](£#,##0.00)"
+msgid "$#,##0.00_);[Red]($#,##0.00)"
+msgstr "£#,##0.00_);[red](£#,##0.00)"
 
-#~ msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
-#~ msgstr "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgstr "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
 
-#~ msgid "_(*#,##0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-#~ msgstr "_(£*#,##0_);_(£*(#,##0);_(£*\"-\"_);_(@_)"
+msgid "_(*#,##0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr "_(£*#,##0_);_(£*(#,##0);_(£*\"-\"_);_(@_)"
 
-#~ msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
-#~ msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
 
-#~ msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
-#~ msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
 
-#~ msgid "m/d/yy"
-#~ msgstr "m/l/bb"
+msgid "m/d/yy"
+msgstr "m/l/bb"
 
-#~ msgid "m/d/yyyy"
-#~ msgstr "m/l/bbbb"
+msgid "m/d/yyyy"
+msgstr "m/l/bbbb"
 
-#~ msgid "d-mmm-yy"
-#~ msgstr "l-mmm-bb"
+msgid "d-mmm-yy"
+msgstr "l-mmm-bb"
 
-#~ msgid "d-mmm-yyyy"
-#~ msgstr "l-mmm-bbbb"
+msgid "d-mmm-yyyy"
+msgstr "l-mmm-bbbb"
 
-#~ msgid "d-mmm"
-#~ msgstr "l-mmm"
+msgid "d-mmm"
+msgstr "l-mmm"
 
-#~ msgid "d-mm"
-#~ msgstr "l-mm"
+msgid "d-mm"
+msgstr "l-mm"
 
-#~ msgid "mmm/d"
-#~ msgstr "mmm/l"
+msgid "mmm/d"
+msgstr "mmm/l"
 
-#~ msgid "mm/d"
-#~ msgstr "mm/l"
+msgid "mm/d"
+msgstr "mm/l"
 
-#~ msgid "mm/dd/yy"
-#~ msgstr "mm/ll/bb"
+msgid "mm/dd/yy"
+msgstr "mm/ll/bb"
 
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "mm/ll/bbbb"
+msgid "mm/dd/yyyy"
+msgstr "mm/ll/bbbb"
 
-#~ msgid "mmm/dd/yy"
-#~ msgstr "mmm/ll/bb"
+msgid "mmm/dd/yy"
+msgstr "mmm/ll/bb"
 
-#~ msgid "mmm/dd/yyyy"
-#~ msgstr "mmm/ll/bbbb"
+msgid "mmm/dd/yyyy"
+msgstr "mmm/ll/bbbb"
 
-#~ msgid "mmm/ddd/yy"
-#~ msgstr "mmm/lll/bb"
+msgid "mmm/ddd/yy"
+msgstr "mmm/lll/bb"
 
-#~ msgid "mmm/ddd/yyyy"
-#~ msgstr "mmm/lll/bbbb"
+msgid "mmm/ddd/yyyy"
+msgstr "mmm/lll/bbbb"
 
-#~ msgid "mm/ddd/yy"
-#~ msgstr "mm/lll/bb"
+msgid "mm/ddd/yy"
+msgstr "mm/lll/bb"
 
-#~ msgid "mm/ddd/yyyy"
-#~ msgstr "mm/lll/bbbb"
+msgid "mm/ddd/yyyy"
+msgstr "mm/lll/bbbb"
 
-#~ msgid "mmm-yy"
-#~ msgstr "mmm-bb"
+msgid "mmm-yy"
+msgstr "mmm-bb"
 
-#~ msgid "mmm-yyyy"
-#~ msgstr "mmm-bbbb"
+msgid "mmm-yyyy"
+msgstr "mmm-bbbb"
 
-#~ msgid "mmmm-yy"
-#~ msgstr "mmmm-bb"
+msgid "mmmm-yy"
+msgstr "mmmm-bb"
 
-#~ msgid "mmmm-yyyy"
-#~ msgstr "mmmm-bbbb"
+msgid "mmmm-yyyy"
+msgstr "mmmm-bbbb"
 
-#~ msgid "m/d/yy h:mm"
-#~ msgstr "m/l/bb u:nn"
+msgid "m/d/yy h:mm"
+msgstr "m/l/bb u:nn"
 
-#~ msgid "m/d/yyyy h:mm"
-#~ msgstr "m/l/bbbb u:nn"
+msgid "m/d/yyyy h:mm"
+msgstr "m/l/bbbb u:nn"
 
-#~ msgid "yyyy/mm/d"
-#~ msgstr "bbbb/mm/l"
+msgid "yyyy/mm/d"
+msgstr "bbbb/mm/l"
 
-#~ msgid "yyyy/mmm/d"
-#~ msgstr "bbbb/mmm/l"
+msgid "yyyy/mmm/d"
+msgstr "bbbb/mmm/l"
 
-#~ msgid "yyyy/mm/dd"
-#~ msgstr "bbbb/mm/ll"
+msgid "yyyy/mm/dd"
+msgstr "bbbb/mm/ll"
 
-#~ msgid "yyyy/mmm/dd"
-#~ msgstr "d/mmm"
+msgid "yyyy/mmm/dd"
+msgstr "d/mmm"
 
-#~ msgid "yyyy-mm-d"
-#~ msgstr "bbbb-mm-l"
+msgid "yyyy-mm-d"
+msgstr "bbbb-mm-l"
 
-#~ msgid "yyyy-mmm-d"
-#~ msgstr "bbbb-mmm-l"
+msgid "yyyy-mmm-d"
+msgstr "bbbb-mmm-l"
 
-#~ msgid "yyyy-mm-dd"
-#~ msgstr "bbbb-mm-l"
+msgid "yyyy-mm-dd"
+msgstr "bbbb-mm-l"
 
-#~ msgid "yyyy-mmm-dd"
-#~ msgstr "bbbb-mmm-ll"
+msgid "yyyy-mmm-dd"
+msgstr "bbbb-mmm-ll"
 
-#~ msgid "yyyy"
-#~ msgstr "bbbb"
+msgid "yyyy"
+msgstr "bbbb"
 
-#~ msgid "h:mm AM/PM"
-#~ msgstr "u:nn RN/IN"
+msgid "h:mm AM/PM"
+msgstr "u:nn RN/IN"
 
-#~ msgid "h:mm:ss AM/PM"
-#~ msgstr "u:nn:sss RN/IN"
+msgid "h:mm:ss AM/PM"
+msgstr "u:nn:sss RN/IN"
 
-#~ msgid "h:mm"
-#~ msgstr "u:nn"
+msgid "h:mm"
+msgstr "u:nn"
 
-#~ msgid "h:mm:ss"
-#~ msgstr "u:nn:ss"
+msgid "h:mm:ss"
+msgstr "u:nn:ss"
 
-#~ msgid "mm:ss"
-#~ msgstr "nn:ss"
+msgid "mm:ss"
+msgstr "nn:ss"
 
-#~ msgid "mm:ss.0"
-#~ msgstr "nn:ss.0"
+msgid "mm:ss.0"
+msgstr "nn:ss.0"
 
-#~ msgid "[h]:mm:ss"
-#~ msgstr "[u]:nn:ss"
+msgid "[h]:mm:ss"
+msgstr "[u]:nn:ss"
 
-#~ msgid "[h]:mm"
-#~ msgstr "[u]:mm"
+msgid "[h]:mm"
+msgstr "[u]:mm"
 
-#~ msgid "[mm]:ss"
-#~ msgstr "[mm]:ss"
+msgid "[mm]:ss"
+msgstr "[mm]:ss"
 
-#~ msgid "0%"
-#~ msgstr "0%"
+msgid "0%"
+msgstr "0%"
 
-#~ msgid "0.00%"
-#~ msgstr "0.00%"
+msgid "0.00%"
+msgstr "0.00%"
 
-#~ msgid "# ?/?"
-#~ msgstr "# ?/?"
+msgid "# ?/?"
+msgstr "# ?/?"
 
-#~ msgid "# ??/??"
-#~ msgstr "# ??/??"
+msgid "# ??/??"
+msgstr "# ??/??"
 
-#~ msgid "0.00E+00"
-#~ msgstr "0.00E+00"
+msgid "0.00E+00"
+msgstr "0.00E+00"
 
-#~ msgid "##0.0E+0"
-#~ msgstr "##0.0E+0"
+msgid "##0.0E+0"
+msgstr "##0.0E+0"
 
-#~ msgid "_($ #,##0.00_);($ #,##0.00)"
-#~ msgstr "_($ #,##0.00_);($ #,##0.00)"
+msgid "_($ #,##0.00_);($ #,##0.00)"
+msgstr "_($ #,##0.00_);($ #,##0.00)"
 
-#~ msgid "Graphic subtype:"
-#~ msgstr "fósaghas Graphaice:"
+msgid "Graphic subtype:"
+msgstr "fósaghas Graphaice:"
