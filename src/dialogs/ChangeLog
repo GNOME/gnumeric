@@ -1,3 +1,8 @@
+2002-03-20  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-solver.c (solver_reporting): Added check if max
+	iterations was exceeded.
+
 2002-03-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	
 	* dialog-formula-guru.c : enable `okay'	

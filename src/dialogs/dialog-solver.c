@@ -730,6 +730,20 @@ solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 				opt->program_report,
 				opt->dual_program_report);
 		break;
+	case SolverMaxIterExc :
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_WARNING, 
+			 _("The maximum number of iterations exceeded. "
+			   "An optimal value could not be found."));
+		solver_reports (WORKBOOK_CONTROL(state->wbcg),
+				state->sheet, res,
+				FALSE, FALSE, FALSE,
+				opt->performance_report,
+				opt->program_report,
+				opt->dual_program_report);
+		break;
 	default:
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
