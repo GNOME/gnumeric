@@ -1,3 +1,7 @@
+1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* CHANGES: copied to web and blanked.
+
 1999-05-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/corba-args.c (gnumeric_arg_parse): Initialize as a server.

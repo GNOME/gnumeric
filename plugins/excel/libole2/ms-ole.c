@@ -125,8 +125,8 @@ my_array_hack (GArray *a, guint s, guint32 idx)
 /* This takes a PPS_IDX and returns a guint8 * to its data */
 #define PPS_PTR(f,n) (GET_BB_START_PTR((f),ms_array_index ((f)->header.root_list, BBPtr, (((n)*PPS_BLOCK_SIZE)/BB_BLOCK_SIZE))) + \
                      (((n)*PPS_BLOCK_SIZE)%BB_BLOCK_SIZE))
-#define PPS_GET_NAME_LEN(f,n) (GET_GUINT16(PPS_PTR(f,n) + 0x40))
-#define PPS_SET_NAME_LEN(f,n,i) (SET_GUINT16(PPS_PTR(f,n) + 0x40, i))
+#define PPS_GET_NAME_LEN(f,n)   (GET_GUINT16(PPS_PTR(f,n) + 0x40))
+#define PPS_SET_NAME_LEN(f,n,i) (SET_GUINT16(PPS_PTR(f,n) + 0x40, (i)*2))
 /* This takes a PPS_IDX and returns a char * to its rendered name */
 #define PPS_NAME(f,n) (pps_get_text (PPS_PTR(f,n), PPS_GET_NAME_LEN(f,n)))
 /* These takes a PPS_IDX and returns the corresponding functions PPS_IDX */
@@ -195,6 +195,7 @@ dump (guint8 *ptr, guint32 len)
 }
 	
 /* FIXME: This needs proper unicode support ! current support is a guess */
+/* Length is in bytes == 1/2 the final text length */
 /* NB. Different from biff_get_text, looks like a bug ! */
 static char *
 pps_get_text (guint8 *ptr, int length)
@@ -207,6 +208,8 @@ pps_get_text (guint8 *ptr, int length)
 	if (!length) 
 		return 0;
 	
+	length = (length+1)/2;
+
 	ans = (char *)g_malloc (sizeof(char) * length + 1);
 	
 	c = GET_GUINT16(ptr);
@@ -337,23 +340,26 @@ check (MS_OLE *f)
 static void
 init_pps (guint8 *mem, char *name)
 {
-	int lp;
+	int lp, max;
+
+	g_return_if_fail (name);
 
 	/* Blank stuff I don't understand */
 	for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
 		SET_GUINT8(mem+lp, 0);
 
-	lp = 0;
-	while (name[lp] && lp < (PPS_BLOCK_SIZE/2)-1)
-	{
-		SET_GUINT8(mem + lp*2, name[lp]);
-		SET_GUINT8(mem + lp*2 + 1, 0);
-		lp++;
-	}
-	SET_GUINT16(mem + 0x40, lp);
+	max = strlen (name);
+	if (max >= (PPS_BLOCK_SIZE/4))
+		max = (PPS_BLOCK_SIZE/4);
+	for (lp=0;lp<max;lp++)
+		SET_GUINT16(mem + lp*2, name[lp]);
+
+	printf ("Len of '%s' == %d\n", name, max);
+	SET_GUINT16(mem + 0x40, (max+1)*2);
 
 	/* Magic numbers */
 	SET_GUINT32 (mem + 0x50, 0x00020900);
+	SET_GUINT32 (mem + 0x58, 0x000000c0);
 	SET_GUINT32 (mem + 0x5c, 0x46000000);
 }
 
@@ -456,7 +462,6 @@ ms_ole_create (const char *name)
 	guint8 *ptr, *mem;
 	guint32 root_startblock = 0;
 	guint32 sbd_startblock  = 0, zero = 0;
-	char title[] ="Root Entry";
 
 	if ((file = open (name, O_RDWR|O_CREAT|O_TRUNC|O_NONBLOCK,
 			  S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1)
@@ -538,9 +543,7 @@ ms_ole_create (const char *name)
 	
 	/* The first PPS block : 0 */
 	ptr = f->mem + BB_BLOCK_SIZE;
-	init_pps (f->mem + BB_BLOCK_SIZE, title);
-
-	PPS_SET_NAME_LEN(f, PPS_ROOT_BLOCK, lp);
+	init_pps (f->mem + BB_BLOCK_SIZE, "Root Entry");
 
 	PPS_SET_STARTBLOCK(f, PPS_ROOT_BLOCK, f->header.sbf_startblock);
 	PPS_SET_TYPE(f, PPS_ROOT_BLOCK, MS_OLE_PPS_ROOT);
@@ -1604,8 +1607,6 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 
 	init_pps (PPS_PTR(f,p), name);
 
-	PPS_SET_STARTBLOCK(f, p, END_OF_CHAIN);
-
 	/* Chain into the directory */
 	prim = PPS_GET_DIR (f, d->pps);
 	if (prim == PPS_END_OF_CHAIN)
@@ -1626,6 +1627,7 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 
 	PPS_SET_TYPE(f, p, type);
 	PPS_SET_SIZE(f, p, 0);
+	PPS_SET_STARTBLOCK(f, p, END_OF_CHAIN);
 
 	nd->file     = d->file;
 	nd->pps      = p;

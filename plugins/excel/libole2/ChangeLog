@@ -1,3 +1,11 @@
+1999-05-18  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (init_pps): Constricted name writing further.
+	Added missing factor of 2 to length.
+	(ms_ole_create): Remove silly set name length.
+	(pps_get_text): Added halving of length
+	(ms_ole_directory_create): Init startblock to END_OF_CHAIN.
+
 1999-05-17  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (dump_stream): Updated to use s->position.
