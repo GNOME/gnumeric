@@ -64,3 +64,11 @@ install-data-local:
 	$(INSTALL_DATA) $(srcdir)/Financial.category $(DESTDIR)$(Financialdir)/.category
 	$(INSTALL_DATA) $(srcdir)/General.category $(DESTDIR)$(Generaldir)/.category
 	$(INSTALL_DATA) $(srcdir)/List.category $(DESTDIR)$(Listdir)/.category
+
+uninstall-local:
+	rm -rf  $(DESTDIR)$(ThreeD_dir)
+	rm -rf  $(DESTDIR)$(Classical_dir)
+	rm -rf  $(DESTDIR)$(Colourful_dir)
+	rm -rf  $(DESTDIR)$(Financial_dir)
+	rm -rf  $(DESTDIR)$(General_dir)
+	rm -rf  $(DESTDIR)$(List_dir)
