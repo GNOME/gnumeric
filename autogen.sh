@@ -16,10 +16,10 @@ PKG_NAME="Gnumeric"
 
 if libtool --version >/dev/null 2>&1; then
     vers=`libtool --version | sed -e "s/^[^0-9]*//" -e "s/ .*$//" | awk 'BEGIN { FS = "."; } { printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-    if test "$vers" -ge 1003004; then
+    if test "$vers" -ge 1003003; then
         true
     else
-        echo "Please upgrade your libtool to version 1.3.4 or better." 1>&2
+        echo "Please upgrade your libtool to version 1.3.3 or better." 1>&2
         exit 1
     fi
 fi
