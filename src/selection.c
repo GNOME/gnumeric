@@ -362,25 +362,22 @@ void
 sheet_selection_extend (Sheet *sheet, int n, gboolean jump_to_boundaries,
 			gboolean const horizontal)
 {
+	/* Use a tmp variable so that the extend_to routine knows that the
+	 * selection has actually changed.
+	 */
+	CellPos tmp = sheet->cursor.move_corner;
+
 	if (horizontal)
-		sheet->cursor.move_corner.col =
-			sheet_find_boundary_horizontal (sheet,
-				sheet->cursor.move_corner.col,
-				sheet->cursor.move_corner.row,
+		tmp.col = sheet_find_boundary_horizontal (sheet,
+				tmp.col, tmp.row,
 				n, jump_to_boundaries);
 	else
-		sheet->cursor.move_corner.row =
-			sheet_find_boundary_vertical (sheet,
-				sheet->cursor.move_corner.col,
-				sheet->cursor.move_corner.row,
+		tmp.row = sheet_find_boundary_vertical (sheet,
+				tmp.col, tmp.row,
 				n, jump_to_boundaries);
 
-	sheet_selection_extend_to (sheet, 
-				   sheet->cursor.move_corner.col,
-				   sheet->cursor.move_corner.row);
-	sheet_make_cell_visible (sheet, 
-				 sheet->cursor.move_corner.col,
-				 sheet->cursor.move_corner.row);
+	sheet_selection_extend_to (sheet, tmp.col, tmp.row);
+	sheet_make_cell_visible (sheet, tmp.col, tmp.row);
 }
 
 /**
