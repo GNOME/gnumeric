@@ -278,7 +278,7 @@ cell_relocate (Cell *cell, gboolean check_bounds, gboolean unlink)
 void
 cell_set_text (Cell *cell, char const *text)
 {
-	char const *format;
+	StyleFormat *format;
 	Value *val;
 	ExprTree *expr;
 	EvalPos pos;
@@ -292,19 +292,17 @@ cell_set_text (Cell *cell, char const *text)
 					   NULL /* TODO : Use assigned format ? */);
 
 	if (val != NULL) {	/* String was a value */
-		/* If there was a prefered format remember it */
-		StyleFormat * const fmt = (format != NULL)
-		    ? style_format_new (format) : NULL;
-
 		cell_cleanout (cell);
 
 		cell->cell_flags &= ~CELL_HAS_EXPRESSION;
 		cell->value = val;
 		cell->u.entered_text = string_get (text);
-		cell->format = fmt;
+		cell->format = format;
 		cell_render_value (cell);
 	} else {		/* String was an expression */
-		cell_set_expr (cell, expr, format);
+		/* FIXME */
+		cell_set_expr (cell, expr, format ? format->format : NULL);
+		if (format) style_format_unref (format);
 		expr_tree_unref (expr);
 	}
 	cell_dirty (cell);

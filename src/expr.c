@@ -184,7 +184,7 @@ expr_tree_get_const_str (ExprTree const *expr)
 
 ExprTree *
 expr_parse_string (char const *expr, ParsePos const *pp,
-		   char **desired_format, char **error_msg)
+		   StyleFormat **desired_format, char **error_msg)
 {
 	ExprTree *tree;
 	g_return_val_if_fail (expr != NULL, NULL);

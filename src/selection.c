@@ -766,8 +766,9 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 #ifdef DEBUG_SELECTION
 			fprintf (stderr, "a = ");
 			range_dump (a);
-			fprintf (stderr, "b = ");
+			fprintf (stderr, "; b = ");
 			range_dump (b);
+			fprintf (stderr, "\n");
 #endif
 
 			col_intersect =
@@ -1064,6 +1065,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 
 #ifdef DEBUG_SELECTION
 			range_dump (r);
+			fprintf (stderr, "\n");
 #endif
 
 			(*func) (sheet,

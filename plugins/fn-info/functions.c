@@ -796,7 +796,6 @@ static Value *
 gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 {
 	const char *str;
-	char *format;
 	Value *v;
 
 	if (argv[0]->type == VALUE_BOOLEAN)
@@ -809,7 +808,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	str = argv[0]->v_str.val->str;
-	if (NULL != (v = format_match (str, &format)))
+	if (NULL != (v = format_match (str, NULL)))
 		return v;
 	return value_new_float (0);
 }

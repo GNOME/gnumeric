@@ -280,7 +280,19 @@ sheet_style_attach_single (Sheet *sheet, int col, int row,
 static void
 sheet_style_region_unlink (SheetStyleData *sd, StyleRegion *region)
 {
+	int len = 0;
+
+	if (STYLE_DEBUG)
+		len = g_list_length (sd->style_list);
+
 	sd->style_list = g_list_remove (sd->style_list, region);
+
+	if (STYLE_DEBUG) {
+		int len2 = g_list_length (sd->style_list);
+		if (len == len2)
+			g_warning ("Failed to remove style region.");
+	}
+
 	style_region_destroy (region);
 }
 
@@ -347,19 +359,23 @@ sheet_style_optimize (Sheet *sheet, Range range)
  	/* Look in the styles applied to the sheet */
 	for (l = sd->style_list; l && l->next; l = l->next) {
 		StyleRegion *sr = l->data;
-		if (range_overlap (&sr->range, &range)) {
+		if (range_overlap (&sr->range, &range) ||
+		    range_adjacent (&sr->range, &range)) {
+			if (STYLE_DEBUG) {
+				if (style_list) fprintf (stderr, ", ");
+				range_dump (&sr->range);
+			}
 			style_list = g_list_prepend (style_list, sr);
 			overlapping++;
 		}
 		len++;
 	}
+	if (STYLE_DEBUG)
+		g_warning ("\nThere are %d overlaps out of %d = %g%%",
+			   overlapping, len, (double)((100.0 * overlapping) / len));
 
 	if (!list_check_sorted (style_list, FALSE))
 		g_warning ("Styles not sorted");
-
-	if (STYLE_DEBUG)
-		g_warning ("there are %d overlaps out of %d = %g%%",
-			   overlapping, len, (double)((100.0 * overlapping) / len));
 
 	/*
 	 * Merge any identical Range regions
@@ -367,22 +383,23 @@ sheet_style_optimize (Sheet *sheet, Range range)
 	for (a = style_list; a; a = a->next) {
 		StyleRegion *sra = a->data;
 		GList       *b;
+		gboolean    intervening_style = FALSE;
 
-		if (!a->data)
+		if (!sra)
 			continue;
 
 		for (b = a->next; b && a->data; b = b->next) {
 			StyleRegion *srb = b->data;
 
-			if (!b->data)
+			if (!srb)
 				continue;
 
-			if (STYLE_DEBUG) {
-				printf ("Compare equal iteration: ");
+			if (0 && STYLE_DEBUG) {
+				fprintf (stderr, "Compare equal iteration: ");
 				range_dump (&sra->range);
-				printf (" to ");
+				fprintf (stderr, " to ");
 				range_dump (&srb->range);
-				printf ("\n");
+				fprintf (stderr, "\n");
 			}
 
 			/*
@@ -391,24 +408,60 @@ sheet_style_optimize (Sheet *sheet, Range range)
 			/* FIXME: this needs to be range_contains */
 			if (range_equal (&sra->range, &srb->range)) {
 				StyleRegion *master, *slave;
+				GList *slavel;
 
-				if (STYLE_DEBUG)
-					printf ("testme: Two equal ranges, merged\n");
+				if (intervening_style) {
+					/*
+					 * This should not be an equality test,
+					 * but really a subset test.
+					 */
+					if (!mstyle_equal (sra->style, srb->style))
+						continue;
+				}
 
 				if (sra->stamp >= srb->stamp) {
+					g_warning ("This can't happen");
 					master = sra;
 					slave  = srb;
-					b->data = NULL;
+					slavel = b;
 				} else {
 					master = srb;
 					slave  = sra;
-					a->data = NULL;
+					slavel = a;
 				}
+
+				if (STYLE_DEBUG) {
+					fprintf (stderr, "Merging two equal ranges:\n  Master: ");
+					range_dump (&master->range);
+					fprintf (stderr, " ");
+					mstyle_dump (master->style);
+					fprintf (stderr, "  Slave: ");
+					range_dump (&slave->range);
+					fprintf (stderr, " ");
+					mstyle_dump (slave->style);
+				}
+
 				slave->style = mstyle_merge (master->style, slave->style);
-				if (mstyle_empty (slave->style))
+
+				if (STYLE_DEBUG) {
+					fprintf (stderr, "  Residual slave: ");
+					range_dump (&slave->range);
+					fprintf (stderr, " ");
+					mstyle_dump (slave->style);
+				}
+
+				if (mstyle_empty (slave->style)) {
+					if (STYLE_DEBUG)
+						fprintf (stderr, "Unlinking empty slave style.\n");
+					slavel->data = NULL;
 					sheet_style_region_unlink (sd, slave);
-			} else if (range_overlap(&sra->range, &srb->range))
-				break;
+				}
+			} else if (!intervening_style &&
+				   range_overlap (&sra->range, &srb->range)) {
+				if (STYLE_DEBUG)
+					fprintf (stderr, "Intervening style detected.\n");
+				intervening_style = TRUE;
+			}
 		}
 	}
 
@@ -423,21 +476,21 @@ sheet_style_optimize (Sheet *sheet, Range range)
 			StyleRegion *sra = a->data;
 			GList       *b;
 
-			if (!a->data)
+			if (!sra)
 				continue;
 
 			for (b = a->next; b && a->data; b = b->next) {
 				StyleRegion *srb = b->data;
 
-				if (!b->data)
+				if (!srb)
 					continue;
 
-				if (STYLE_DEBUG) {
-					printf ("Compare adjacent iteration: ");
+				if (0 && STYLE_DEBUG) {
+					fprintf (stderr, "Compare adjacent iteration: ");
 					range_dump (&sra->range);
-					printf (" to ");
+					fprintf (stderr, " to ");
 					range_dump (&srb->range);
-					printf ("\n");
+					fprintf (stderr, "\n");
 				}
 
 				/*
@@ -462,13 +515,18 @@ sheet_style_optimize (Sheet *sheet, Range range)
 							slave  = sra;
 							a->data = NULL;
 						}
-						if (STYLE_DEBUG)
-							printf ("testme: Merging two ranges\n");
+						if (STYLE_DEBUG) {
+							fprintf (stderr, "Merging adjacent ranges: ");
+							range_dump (&sra->range);
+							fprintf (stderr, " to ");
+							range_dump (&srb->range);
+							fprintf (stderr, "\n");
+						}
 
 						master->range = range_merge (&master->range, &slave->range);
 						sheet_style_region_unlink (sd, slave);
 					} else if (STYLE_DEBUG)
-						printf ("Regions adjacent but not equal\n");
+						fprintf (stderr, "Regions adjacent but not equal\n");
 				}
 			}
 		}
@@ -521,11 +579,11 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	sd->style_list = g_list_prepend (sd->style_list, sr);
 
 	if (STYLE_DEBUG) {
-		printf ("Attaching ");
+		fprintf (stderr, "Attaching ");
 		mstyle_dump (sr->style);
-		printf ("to cell ");
+		fprintf (stderr, " to cell ");
 		range_dump (&sr->range);
-		printf ("\n");
+		fprintf (stderr, "\n");
 	}
 	
 #if 0
@@ -809,14 +867,14 @@ sheet_styles_dump (Sheet *sheet)
 	for (l = sd->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
 
-		printf ("Stamp %d Range: ", sr->stamp);
+		fprintf (stderr, "Stamp %d Range: ", sr->stamp);
 		range_dump (&sr->range);
-		printf ("style ");
+		fprintf (stderr, " style ");
 		mstyle_dump (sr->style);
-		printf ("\n");
+		fprintf (stderr, "\n");
 		i++;
 	}
-	printf ("There were %d styles\n", i);
+	fprintf (stderr, "There were %d styles\n", i);
 }
 
 Range
@@ -1756,9 +1814,9 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
 		border_invalidate (&cl, STYLE_BORDER_DIAG);
  
 	if (style_debugging > 0) {
-		printf ("Uniq style is\n");
+		fprintf (stderr, "Uniqe style is ");
 		mstyle_dump (cl.mstyle);
-		printf ("\n");
+		fprintf (stderr, "\n");
 	}
  
 	return cl.mstyle;

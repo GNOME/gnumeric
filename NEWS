@@ -3,6 +3,11 @@ Gnumeric 0.55
 Jody:
 	* Speedup workbook exit, copy/paste.
 
+Morten:
+	* Changed a bunch of internals to work with StyleFormats instead
+	  of throwing strings around.
+	* Improved the optimization of styles.
+
 Translations:
 	* Updated: de (Karl), ja (Oka), no (Kjartan), and more.
 	* Updates not new, but not mentioned the last time: it (Leandro)

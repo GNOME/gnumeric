@@ -31,10 +31,10 @@ gboolean    parse_cell_range         (Sheet *sheet, const char *range, Value **v
 GSList     *parse_cell_name_list     (Sheet *sheet, const char *cell_name_str,
 				      int *error_flag, gboolean strict);
 
-char const *parse_text_value_or_expr (EvalPos const *pos,
-				      char const *text,
-				      Value **val, ExprTree **expr,
-				      char const *current_format /* can be NULL */);
+StyleFormat *parse_text_value_or_expr (EvalPos const *pos,
+				       char const *text,
+				       Value **val, ExprTree **expr,
+				       char const *current_format /* can be NULL */);
 
 /* Is this string potentially the start of an expression */
 char const * gnumeric_char_start_expr_p (char const * c);
@@ -49,7 +49,7 @@ typedef enum {
 ParseErr    gnumeric_expr_parser   (const char *expr,
 				    const ParsePos *pp,
 				    gboolean use_excel_range_conventions,
-				    char **desired_format,
+				    StyleFormat **desired_format,
 				    ExprTree **result);
 
 #endif /* GNUMERIC_PARSE_UTIL_H */

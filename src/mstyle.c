@@ -715,11 +715,11 @@ mstyle_dump (const MStyle *style)
 {
 	char *txt;
 
-	printf ("Style '%s' Ref s%d\n",
-		style->name ? style->name : "unnamed",
-		style->ref_count);
+	fprintf (stderr, "Style '%s' Refs %d\n",
+		 style->name ? style->name : "unnamed",
+		 style->ref_count);
 	txt = mstyle_to_string (style);
-	printf ("%s\n", txt);
+	fprintf (stderr, "%s\n", txt);
 	g_free (txt);
 }
 

@@ -25,6 +25,7 @@
 #include "numbers.h"
 #include "gutils.h"
 #include "datetime.h"
+#include "style.h"
 
 /*
  * Takes a list of strings (optionally include an * at the beginning
@@ -408,9 +409,10 @@ print_regex_error (int ret)
 }
 
 typedef struct {
-	char       *format, *regexp_str;
-	GByteArray *match_tags;
-	regex_t    regexp;
+	StyleFormat *format;
+	char        *format_str, *regexp_str;
+	GByteArray  *match_tags;
+	regex_t     regexp;
 } format_parse_t;
 
 static GList *format_match_list = NULL;
@@ -436,7 +438,8 @@ format_match_define (const char *format)
 	}
 
 	fp = g_new (format_parse_t, 1);
-	fp->format     = g_strdup (format);
+	fp->format = style_format_new (format);
+	fp->format_str = g_strdup (format);
 	fp->regexp_str = regexp;
 	fp->regexp     = r;
 	fp->match_tags = match_tags;
@@ -477,7 +480,8 @@ format_match_finish (void)
 	for (l = format_match_list; l; l = l->next){
 		format_parse_t *fp = l->data;
 
-		g_free (fp->format);
+		style_format_unref (fp->format);
+		g_free (fp->format_str);
 		g_free (fp->regexp_str);
 		g_byte_array_free (fp->match_tags, TRUE);
 		regfree (&fp->regexp);
@@ -791,7 +795,7 @@ compute_value (const char *s, const regmatch_t *mp,
 #define NM 40
 
 Value *
-format_match (const char *text, char **format)
+format_match (const char *text, StyleFormat **format)
 {
 	GList *l;
 	regmatch_t mp [NM+1];
@@ -844,7 +848,7 @@ format_match (const char *text, char **format)
 #if 0
 		{
 			int i;
-			printf ("matches expression: %s %s\n", fp->format, fp->regexp_str);
+			printf ("matches expression: %s %s\n", fp->format_str, fp->regexp_str);
 			for (i = 0; i < NM; i++){
 				char *p;
 
@@ -860,7 +864,7 @@ format_match (const char *text, char **format)
 		b = compute_value (text, mp, fp->match_tags, &result);
 		if (b) {
 			if (format)
-				*format = fp->format;
+				style_format_ref ((*format = fp->format));
 			return value_new_float (result);
 		}
 	}

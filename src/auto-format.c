@@ -12,6 +12,7 @@
 #include "expr.h"
 #include "cell.h"
 #include "workbook.h"
+#include "style.h"
 
 /* ------------------------------------------------------------------------- */
 /*
@@ -110,7 +111,7 @@ cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
 }
 
 static AutoFormatTypes
-do_af_suggest (const ExprTree *expr, EvalPos const *epos, char **explicit)
+do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 {
 	switch (expr->any.oper) {
 	case OPER_EQUAL:
@@ -251,7 +252,7 @@ do_af_suggest (const ExprTree *expr, EvalPos const *epos, char **explicit)
 }
 
 static AutoFormatTypes
-do_af_suggest_list (GList *list, EvalPos const *epos, char **explicit)
+do_af_suggest_list (GList *list, const EvalPos *epos, char **explicit)
 {
 	AutoFormatTypes typ = AF_UNKNOWN;
 	while (list && (typ == AF_UNKNOWN || typ == AF_UNITLESS)) {
@@ -264,7 +265,7 @@ do_af_suggest_list (GList *list, EvalPos const *epos, char **explicit)
 /* ------------------------------------------------------------------------- */
 
 char *
-auto_format_suggest (const ExprTree *expr, EvalPos *epos)
+auto_format_suggest (const ExprTree *expr, const EvalPos *epos)
 {
 	char *explicit = NULL;
 
@@ -303,6 +304,23 @@ auto_format_suggest (const ExprTree *expr, EvalPos *epos)
 	}
 
 	return explicit;
+}
+
+/* ------------------------------------------------------------------------- */
+/* This is just a StyleFormat version of the above.  Eventually, this needs  */
+/* to be the primitive and the above should go away.                         */
+
+StyleFormat *
+auto_style_format_suggest (const ExprTree *expr, const EvalPos *epos)
+{
+	char *format;
+	StyleFormat *result = NULL;
+	format = auto_format_suggest (expr, epos);
+	if (format) {
+		result = style_format_new (format);
+		g_free (format);
+	}
+	return result;
 }
 
 /* ------------------------------------------------------------------------- */

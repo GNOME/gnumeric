@@ -496,12 +496,12 @@ parse_cell_name_list (Sheet *sheet,
  * If there is a parse failure for an expression an error Value with the syntax
  * error is returned.
  */
-char const *
+StyleFormat *
 parse_text_value_or_expr (EvalPos const *pos, char const *text,
 			  Value **val, ExprTree **expr,
 			  char const *current_format /* can be NULL */)
 {
-	char *desired_format = NULL;
+	StyleFormat *desired_format = NULL;
 	char const * const expr_start = gnumeric_char_start_expr_p (text);
 
 	if (NULL != expr_start) {
@@ -525,12 +525,13 @@ parse_text_value_or_expr (EvalPos const *pos, char const *text,
 			*expr = NULL;
 		}
 	} else {
-		/* Does it match any formats */
+		/* Does it match any formats?  */
 		*val = format_match (text, &desired_format);
 
-		/* If it does not match known formats assume it is text */
+		/* If it does not match known formats, assume it is text.  */
 		if (*val == NULL)
 			*val = value_new_string (text);
+
 		*expr = NULL;
 	}
 

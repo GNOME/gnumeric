@@ -1090,7 +1090,7 @@ sheet_update_auto_expr (Sheet const *sheet)
  * to a range.
  */
 typedef struct {
-	char const *format;
+	StyleFormat *format;
 	String     *entered_text;
 	Value      *val;
 	ExprTree   *expr;
@@ -1102,12 +1102,17 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 {
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
-	if (info->expr != NULL)
-		cell_set_expr (cell, info->expr, info->format);
-	else
+	if (info->expr != NULL) {
+		StyleFormat *f = info->format;
+		/* FIXME: don't use f->format.  */
+		cell_set_expr (cell, info->expr, f ? f->format : NULL);
+	} else {
+		StyleFormat *f = info->format;
+		/* FIXME: don't use f->format.  */
 		cell_set_text_and_value (cell, info->entered_text,
 					 value_duplicate (info->val),
-					 info->format);
+					 f ? f->format : NULL);
+	}
 	return NULL;
 }
 
@@ -1145,6 +1150,9 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 				  (ForeachCellCB)&cb_set_cell_content,
 				  &closure);
 
+	if (closure.format)
+		style_format_unref (closure.format);
+
 	if (closure.val) {
 		value_release (closure.val);
 		string_unref (closure.entered_text);
@@ -1157,7 +1165,7 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 void
 sheet_cell_set_text (Cell *cell, char const *str)
 {
-	char const *format;
+	StyleFormat *format;
 	Value *val;
 	ExprTree *expr;
 	EvalPos pos;
@@ -1169,11 +1177,15 @@ sheet_cell_set_text (Cell *cell, char const *str)
 	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell), str, &val, &expr,
 					   cell_get_format (cell));
 	if (expr != NULL) {
-		cell_set_expr (cell, expr, format);
+		/* FIXME */
+		cell_set_expr (cell, expr, format ? format->format : NULL);
+		if (format) style_format_unref (format);
 		expr_tree_unref (expr);
 	} else {
 		String *string = string_get (str);
-		cell_set_text_and_value (cell, string, val, format);
+		/* FIXME */
+		cell_set_text_and_value (cell, string, val, format ? format->format : NULL);
+		if (format) style_format_unref (format);
 		string_unref (string);
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 		cell_content_changed (cell);

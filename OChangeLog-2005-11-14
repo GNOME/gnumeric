@@ -1,3 +1,44 @@
+2000-05-24  Morten Welinder  <terra@diku.dk>
+
+	* src/main.c (gnumeric_main): Style now needs to be initialised
+ 	before formats.
+
+	* src/number-match.c (format_match): Take a StyleFormat ** instead
+ 	of a char ** for the suggested format.  All callers changed.
+	(format_parse_t): rename member format to format_str and
+ 	introduce new member format, a StyleFormat *.
+	(format_match_define): Get a style at this point.
+
+	* src/datetime.c (datetime_value_to_serial_raw): Don't supply a
+ 	format return variable to format_match since we aren't interested
+ 	in the result.
+
+	* src/parse-util.c (parse_text_value_or_expr): Return a
+ 	StyleFormat * instead of a char *.  All callers changed.
+
+	* src/expr.c (expr_parse_string): Take a StyleFormat ** instead of
+ 	a char ** for the suggested format.  All callers changed.
+
+	* src/parser.y (make_string_return): Turn parser_desired_format
+ 	into a StyleFormat **.
+	(gnumeric_expr_parser): Take a StyleFormat ** instead of a char **
+ 	for the suggested format.  All callers changed.
+
+	* src/auto-format.c (auto_style_format_suggest): New function.
+
+
+	* src/sheet-style.c (sheet_style_optimize): Include adjacent
+ 	ranges in the list of styles to consider.  Handle intervening
+ 	styles better.  Don't stop searching for matching pairs just
+ 	because we merge -- only when the merge kills the slave.
+
+	* src/ranges.c (range_dump): Don't print "\n".  All callers
+ 	changed as needed.
+
+	* src/sheet-style.c (sheet_style_optimize, sheet_styles_dump):
+ 	Send all debugging output to stderr.  (As opposed to half stderr
+ 	and half stdout.)
+
 2000-05-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_set_expr_internal) : Actually assign the format

@@ -6,6 +6,6 @@
 int      format_match_define (const char *format);
 void     format_match_init   (void);
 void     format_match_finish (void);
-Value   *format_match        (const char *s, char **format);
+Value   *format_match        (const char *s, StyleFormat **format);
 
 #endif /* GNUMERIC_NUMBER_MATCH_H */

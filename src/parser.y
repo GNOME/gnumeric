@@ -24,6 +24,7 @@
 #include "parse-util.h"
 #include "gutils.h"
 #include "auto-format.h"
+#include "style.h"
 
 /* ------------------------------------------------------------------------- */
 /* Allocation with disposal-on-error */
@@ -200,7 +201,7 @@ static int parser_col, parser_row;
 static Workbook *parser_wb;
 
 /* The suggested format to use for this expression */
-static char **parser_desired_format;
+static StyleFormat **parser_desired_format;
 
 /* Locale info.  */
 static char parser_decimal_point;
@@ -495,7 +496,7 @@ static int
 make_string_return (char const *string, gboolean const possible_number)
 {
 	Value *v;
-	char *format;
+	gboolean want_format;
 
 	/*
 	 * Try to match the entered text against any
@@ -505,10 +506,11 @@ make_string_return (char const *string, gboolean const possible_number)
 	 * Be extra careful with empty strings (""),  They may
 	 * match some formats ....
 	 */
+
+	want_format = parser_desired_format && (*parser_desired_format == NULL);
 	if (possible_number && string[0] != '\0' &&
-	    NULL != (v = format_match (string, &format))){
-		if (parser_desired_format && *parser_desired_format == NULL)
-			*parser_desired_format = g_strdup (format);
+	    (v = format_match (string, want_format ? parser_desired_format : NULL))) {
+		/* Nothing further.  */
 	} else
 		v = value_new_string (string);
 
@@ -771,7 +773,7 @@ yyerror (char *s)
 ParseErr
 gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 		      gboolean use_excel_range_conventions,
-		      char **desired_format, ExprTree **result)
+		      StyleFormat **desired_format, ExprTree **result)
 {
 	struct lconv *locinfo;
 
@@ -815,19 +817,19 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 	if (parser_error == PARSE_OK) {
 		deallocate_assert_empty ();
 		if (desired_format) {
-			char *format;
+			StyleFormat *format;
 			EvalPos pos;
 
 			pos.sheet = pp->sheet;
 			pos.eval = pp->eval;
-			format = auto_format_suggest (*parser_result, &pos);
+			format = auto_style_format_suggest (*parser_result, &pos);
 			if (format) {
 				/*
 				 * Override the format that came from a
 				 * constant somewhere inside.
 				 */
 				if (*desired_format)
-					g_free (*desired_format);
+					style_format_unref (*desired_format);
 				*desired_format = format;
 			}
 		}
@@ -836,7 +838,7 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 		deallocate_all ();
 		*parser_result = NULL;
 		if (desired_format && *desired_format) {
-			g_free (*desired_format);
+			style_format_unref (*desired_format);
 			*desired_format = NULL;
 		}
 	}

@@ -756,8 +756,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 	}
 
 	if (arg->type == VALUE_STRING) {
-		char *format = NULL;
-		Value *match = format_match (arg->v_str.val->str, &format);
+		Value *match = format_match (arg->v_str.val->str, NULL);
 		ok = (match != NULL);
 		if (ok)
 			tmp = match;
@@ -894,7 +893,6 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 {
 	char *arg, *p, *q;
 	Value *v;
-	char *format;
 
 	switch (argv[0]->type) {
 	case VALUE_EMPTY:
@@ -911,7 +909,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 		}
 		*q = 0;
 
-		v = format_match (arg, &format);
+		v = format_match (arg, NULL);
 		free (arg);
 
 		if (v)

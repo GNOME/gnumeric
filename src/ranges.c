@@ -116,7 +116,7 @@ range_list_destroy (GSList *ranges)
 
 	for (l = ranges; l; l = l->next){
 		Value *value = l->data;
-		
+
 		value_release (value);
 	}
 	g_slist_free (ranges);
@@ -183,7 +183,7 @@ range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data
 		static int message_shown;
 
 		if (!message_shown){
-			g_warning ("This routine should also iterate"
+			g_warning ("This routine should also iterate "
 				   "through the sheets in the ranges");
 			message_shown = TRUE;
 		}
@@ -392,20 +392,21 @@ range_dump (Range const *src)
 
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row)
-		fprintf (stderr, ":%s%d\n",
+		fprintf (stderr, ":%s%d",
 			col_name (src->end.col),
 			src->end.row + 1);
-	else
-		fputc ('\n', stderr);
 }
 
 #ifdef RANGE_DEBUG
 static void
-ranges_dump (GList *l, char *txt)
+ranges_dump (GList *l, const char *txt)
 {
-	fprintf (stderr, "%s", txt);
-	for (; l; l = l->next)
+	fprintf (stderr, "%s: ", txt);
+	for (; l; l = l->next) {
 		range_dump (l->data);
+		if (l->next)
+			fprintf (stderr, ", ");
+	}
 	fprintf (stderr, "\n");
 }
 #endif
@@ -719,7 +720,7 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 		ranges = g_list_prepend (ranges, range_copy (l->data));
 
 #ifdef RANGE_DEBUG
-	ranges_dump (ranges, "On entry : ");
+	ranges_dump (ranges, "On entry");
 #endif
 
 	remove = NULL;
@@ -765,14 +766,16 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 
 	if (clip) {
 #ifdef RANGE_DEBUG
-		fprintf (stderr, "Clip : ");
+		fprintf (stderr, "Clip: ");
 		range_dump (clip);
+		fprintf (stderr, "\n");
 #endif
 		for (a = ranges; a; a = a->next) {
 			if (!range_contained (a->data, clip)) {
 #ifdef RANGE_DEBUG
 				fprintf (stderr, "Uncontained: ");
 				range_dump (a->data);
+				fprintf (stderr, "\n");
 #endif
 				remove = g_list_prepend (remove, a->data);
 			}
@@ -780,7 +783,7 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 	}
 
 #ifdef RANGE_DEBUG
-	ranges_dump (remove, "Removing : ");
+	ranges_dump (remove, "Removing");
 #endif
 	while (remove) {
 		gpointer kill;
@@ -794,7 +797,7 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 	}
 
 #ifdef RANGE_DEBUG
-	ranges_dump (ranges, "Answer : ");
+	ranges_dump (ranges, "Answer");
 #endif
 
 	return ranges;

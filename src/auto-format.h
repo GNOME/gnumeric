@@ -56,6 +56,7 @@ void auto_format_init (void);
 void auto_format_shutdown (void);
 
 void auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res);
-char *auto_format_suggest (const ExprTree *expr, EvalPos *ppos);
+char *auto_format_suggest (const ExprTree *expr, const EvalPos *ppos);
+StyleFormat *auto_style_format_suggest (const ExprTree *expr, const EvalPos *epos);
 
 #endif
