@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2002-12-12 19:59+0000\n"
+"POT-Creation-Date: 2003-01-03 18:51+0000\n"
 "PO-Revision-Date: 2001-08-10 11:05-0400\n"
 "Last-Translator: Donald Park <xlpark@kankou.cs.uec.ac.jp>\n"
 "Language-Team: Chinese Team\n"
@@ -1675,7 +1675,7 @@ msgstr "前景色"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "按照预定义的模板格式化单元区域"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4096
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4098
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3047
 msgid "Fourier Analysis"
 msgstr "Fourier分析"
@@ -2008,7 +2008,7 @@ msgid "Pearson Correlation"
 msgstr "相关"
 
 # src/dialog-cell-format.c:70
-#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2743
+#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2745
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "百分比"
@@ -2783,13 +2783,13 @@ msgid "_Zoom..."
 msgstr "缩放(_Z)..."
 
 # src/sheet-view.c:336 src/sheet-view.c:410
-#: src/analysis-tools.c:195 src/analysis-tools.c:3236
+#: src/analysis-tools.c:195 src/analysis-tools.c:3238
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "行: %d"
 
 # src/sheet-view.c:343 src/sheet-view.c:382
-#: src/analysis-tools.c:198 src/analysis-tools.c:3228
+#: src/analysis-tools.c:198 src/analysis-tools.c:3230
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "列: %d"
@@ -2806,16 +2806,16 @@ msgid "Area %i"
 msgstr ""
 
 # src/dialog-cell-format.c:71
-#: src/analysis-tools.c:812 src/analysis-tools.c:815
+#: src/analysis-tools.c:814 src/analysis-tools.c:817
 msgid "Correlations"
 msgstr "相关"
 
-#: src/analysis-tools.c:904 src/analysis-tools.c:907
+#: src/analysis-tools.c:906 src/analysis-tools.c:909
 #, fuzzy
 msgid "Covariances"
 msgstr "共方差"
 
-#: src/analysis-tools.c:986
+#: src/analysis-tools.c:988
 msgid "Summary Statistics"
 msgstr "统计量一览"
 
@@ -2826,7 +2826,7 @@ msgstr "统计量一览"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:997
+#: src/analysis-tools.c:999
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2834,54 +2834,54 @@ msgstr ""
 "/平均/标准错误/中值/模式/标准偏差/样本方差/峰态/非对称/范围/最小/最大/合计/计"
 "数"
 
-#: src/analysis-tools.c:1083
+#: src/analysis-tools.c:1085
 #, fuzzy
 msgid "Confidence Interval for the Mean"
 msgstr "平均信赖级"
 
-#: src/analysis-tools.c:1084
+#: src/analysis-tools.c:1086
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr ""
 
-#: src/analysis-tools.c:1121 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1123 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Largest"
 msgstr "第 K 个最大的值"
 
-#: src/analysis-tools.c:1122
+#: src/analysis-tools.c:1124
 #, c-format
 msgid "Largest (%d)"
 msgstr "最大 (%d)"
 
-#: src/analysis-tools.c:1146 src/dialogs/descriptive-stats.glade.h:11
+#: src/analysis-tools.c:1148 src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Smallest"
 msgstr "第 K 个最小的值"
 
-#: src/analysis-tools.c:1147
+#: src/analysis-tools.c:1149
 #, c-format
 msgid "Smallest (%d)"
 msgstr "最小 (%d)"
 
 # src/dialog-cell-format.c:297
-#: src/analysis-tools.c:1268 src/dialogs/cell-format.glade.h:69
+#: src/analysis-tools.c:1270 src/dialogs/cell-format.glade.h:69
 msgid "Sample"
 msgstr "范例"
 
-#: src/analysis-tools.c:1365 src/analysis-tools.c:1367
-#: src/analysis-tools.c:1484 src/analysis-tools.c:1486
-#: src/analysis-tools.c:1643 src/analysis-tools.c:1645
-#: src/analysis-tools.c:1771 src/analysis-tools.c:1773
-#: src/analysis-tools.c:1907 src/analysis-tools.c:1909
+#: src/analysis-tools.c:1367 src/analysis-tools.c:1369
+#: src/analysis-tools.c:1486 src/analysis-tools.c:1488
+#: src/analysis-tools.c:1645 src/analysis-tools.c:1647
+#: src/analysis-tools.c:1773 src/analysis-tools.c:1775
+#: src/analysis-tools.c:1909 src/analysis-tools.c:1911
 #, fuzzy, c-format
 msgid "Variable %i"
 msgstr "变量 2"
 
 # src/dialog-cell-format.c:73
-#: src/analysis-tools.c:1369
+#: src/analysis-tools.c:1371
 msgid "z-Test"
 msgstr "z-检测"
 
-#: src/analysis-tools.c:1372
+#: src/analysis-tools.c:1374
 #, fuzzy
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
@@ -2892,12 +2892,12 @@ msgstr ""
 "临界二维"
 
 # src/dialog-cell-format.c:73
-#: src/analysis-tools.c:1500 src/analysis-tools.c:1647
-#: src/analysis-tools.c:1775
+#: src/analysis-tools.c:1502 src/analysis-tools.c:1649
+#: src/analysis-tools.c:1777
 msgid "t-Test"
 msgstr "t-检测"
 
-#: src/analysis-tools.c:1503
+#: src/analysis-tools.c:1505
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2906,7 +2906,7 @@ msgstr ""
 "/平均/方差/观察/Pearson 相关分析/假设平均差分/自由度/t 状态/P (T<=t) 一维/t "
 "临界一维/P (T<=t) 二维/t 临界二维"
 
-#: src/analysis-tools.c:1650
+#: src/analysis-tools.c:1652
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
@@ -2916,7 +2916,7 @@ msgstr ""
 "/平均/方差/观察/Pooled 方差/假设平均差分/自由度/t 状态/P (T<=t) 一维/t 临界一"
 "维/P (T<=t) 二维/t 临界二维"
 
-#: src/analysis-tools.c:1778
+#: src/analysis-tools.c:1780
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
@@ -2927,11 +2927,11 @@ msgstr ""
 "二维/t 临界二维"
 
 # src/dialog-cell-format.c:73
-#: src/analysis-tools.c:1916
+#: src/analysis-tools.c:1918
 msgid "F-Test"
 msgstr "F-检测"
 
-#: src/analysis-tools.c:1922
+#: src/analysis-tools.c:1924
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
@@ -2940,24 +2940,24 @@ msgstr ""
 "/平均/方差/观察/假设平均差分/自由度/t 状态/P (T<=t) 一维/t 临界一维/P (T<=t) "
 "二维/t 临界二维"
 
-#: src/analysis-tools.c:2040 src/analysis-tools.c:2098
+#: src/analysis-tools.c:2042 src/analysis-tools.c:2100
 msgid "Random"
 msgstr "随机数"
 
-#: src/analysis-tools.c:2214
+#: src/analysis-tools.c:2216
 msgid "Not implemented yet.\n"
 msgstr "还未实现.\n"
 
-#: src/analysis-tools.c:2291
+#: src/analysis-tools.c:2293
 #, fuzzy
 msgid "Y Variable"
 msgstr "变量 2"
 
-#: src/analysis-tools.c:2350 src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2352 src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "回归"
 
-#: src/analysis-tools.c:2352
+#: src/analysis-tools.c:2354
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2965,160 +2965,160 @@ msgstr ""
 "/总计输出/回归统计/多维回归/R 平方/调整的 R 平方/标准错误/观察//方差分析//回"
 "归/残数/全部///截距"
 
-#: src/analysis-tools.c:2373
+#: src/analysis-tools.c:2375
 #, fuzzy
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/自由度/平方和/平均平方/F/有效 F"
 
-#: src/analysis-tools.c:2380
+#: src/analysis-tools.c:2382
 #, fuzzy, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr "/系数/标准错误/t 状态/P-值/低于 95%/高于 95%"
 
 # src/workbook.c:1133
-#: src/analysis-tools.c:2548
+#: src/analysis-tools.c:2550
 msgid "Moving Averages"
 msgstr "移动平均"
 
-#: src/analysis-tools.c:2563
+#: src/analysis-tools.c:2565
 #, fuzzy
 msgid "Standard Error"
 msgstr "标准误差(_S)"
 
-#: src/analysis-tools.c:2651
+#: src/analysis-tools.c:2653
 #, fuzzy
 msgid "Exponential Smoothing"
 msgstr "指数"
 
-#: src/analysis-tools.c:2731
+#: src/analysis-tools.c:2733
 msgid "Ranks"
 msgstr "阶数"
 
 # src/dialog-cell-format.c:917
-#: src/analysis-tools.c:2740
+#: src/analysis-tools.c:2742
 msgid "Point"
 msgstr "点"
 
-#: src/analysis-tools.c:2742
+#: src/analysis-tools.c:2744
 msgid "Rank"
 msgstr "阶数"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3026
-#: src/analysis-tools.c:3288
+#: src/analysis-tools.c:2833 src/analysis-tools.c:3028
+#: src/analysis-tools.c:3290
 msgid "Anova"
 msgstr "分散解析"
 
-#: src/analysis-tools.c:2833
+#: src/analysis-tools.c:2835
 msgid "Anova: Single Factor"
 msgstr "分散解析: 一元配置"
 
-#: src/analysis-tools.c:2834 src/analysis-tools.c:3291
+#: src/analysis-tools.c:2836 src/analysis-tools.c:3293
 msgid "SUMMARY"
 msgstr "总计"
 
-#: src/analysis-tools.c:2835
+#: src/analysis-tools.c:2837
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/组/计数/合计/平均/方差"
 
-#: src/analysis-tools.c:2891
+#: src/analysis-tools.c:2893
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/方差分析/变分的源/介于两组/两组之间/全部"
 
-#: src/analysis-tools.c:2896 src/analysis-tools.c:3108
-#: src/analysis-tools.c:3315
+#: src/analysis-tools.c:2898 src/analysis-tools.c:3110
+#: src/analysis-tools.c:3317
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/平方和/自由度/平均平方/F/P-值/F 临界"
 
-#: src/analysis-tools.c:3032
+#: src/analysis-tools.c:3034
 msgid "Anova: Two-Factor Without Replication"
 msgstr "分散解析: 没有重复的二元配置"
 
-#: src/analysis-tools.c:3033
+#: src/analysis-tools.c:3035
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "总计/计数/合计/平均/方差"
 
-#: src/analysis-tools.c:3102
+#: src/analysis-tools.c:3104
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "方差分析/变分的源/行/列/错误/全部"
 
-#: src/analysis-tools.c:3290
+#: src/analysis-tools.c:3292
 msgid "Anova: Two-Factor With Replication"
 msgstr "分散解析: 有重复的二元配置"
 
-#: src/analysis-tools.c:3295 src/analysis-tools.c:3305
-#: src/analysis-tools.c:3313 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3297 src/analysis-tools.c:3307
+#: src/analysis-tools.c:3315 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "合计"
 
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:3299
 #, fuzzy
 msgid "/Count/Sum/Average/Variance"
 msgstr "/组/计数/合计/平均/方差"
 
-#: src/analysis-tools.c:3307
+#: src/analysis-tools.c:3309
 #, fuzzy
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "方差分析/变分的源/行/列/错误/全部"
 
-#: src/analysis-tools.c:3775
+#: src/analysis-tools.c:3777
 #, c-format
 msgid "<%s"
 msgstr ""
 
-#: src/analysis-tools.c:3779
+#: src/analysis-tools.c:3781
 msgid "Too Small"
 msgstr ""
 
 # src/item-cursor.c:580
-#: src/analysis-tools.c:3796
+#: src/analysis-tools.c:3798
 #, fuzzy
 msgid "More"
 msgstr "移动(_M)"
 
-#: src/analysis-tools.c:3804
+#: src/analysis-tools.c:3806
 #, c-format
 msgid ">%s"
 msgstr ""
 
-#: src/analysis-tools.c:3808
+#: src/analysis-tools.c:3810
 #, fuzzy
 msgid "Too Large"
 msgstr "第 K 个最大的值"
 
-#: src/analysis-tools.c:3849 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3851 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "柱状图"
 
 # src/workbook.c:1131
-#: src/analysis-tools.c:3854
+#: src/analysis-tools.c:3856
 msgid "Bin"
 msgstr "二进制"
 
-#: src/analysis-tools.c:3879
+#: src/analysis-tools.c:3881
 msgid "Frequency"
 msgstr "频率"
 
 # src/formats.c:74
-#: src/analysis-tools.c:3881 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3883 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3884
+#: src/analysis-tools.c:3886
 #, no-c-format
 msgid "Cumulative %"
 msgstr "累积 %"
 
 # src/workbook.c:885
-#: src/analysis-tools.c:4116
+#: src/analysis-tools.c:4118
 #, fuzzy
 msgid "Real"
 msgstr "长方形"
 
 # src/dates.c:55
-#: src/analysis-tools.c:4117
+#: src/analysis-tools.c:4119
 #, fuzzy
 msgid "Imaginary"
 msgstr "一月"
@@ -3128,7 +3128,7 @@ msgstr "一月"
 msgid "Error '%s' opening workbook stream"
 msgstr "打开工作本流时发生 '%s' 错误"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3414
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3412
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "无效的 xml 文件. 树是空的吗?"
 
@@ -3140,16 +3140,16 @@ msgstr "不是确定的工作本文件"
 msgid "EXPERIMENTAL Bonobo EFS format"
 msgstr ""
 
-#: src/clipboard.c:301 src/clipboard.c:314 src/clipboard.c:326
-#: src/clipboard.c:334
+#: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
+#: src/clipboard.c:330
 msgid "Unable to paste"
 msgstr "不能贴付"
 
-#: src/clipboard.c:302
+#: src/clipboard.c:298
 msgid "Content can only be pasted by value or by link."
 msgstr "内容只能用值或联接贴付."
 
-#: src/clipboard.c:310
+#: src/clipboard.c:306
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -3160,7 +3160,7 @@ msgstr ""
 "\n"
 "试一下选择单一单元或相同形状相同大小的区域"
 
-#: src/clipboard.c:322
+#: src/clipboard.c:318
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -3171,7 +3171,7 @@ msgstr ""
 "\n"
 "试一下选择单一单元或相同形状相同大小的区域"
 
-#: src/clipboard.c:335
+#: src/clipboard.c:331
 msgid "result passes the sheet boundary"
 msgstr "结果传递给工作单边界"
 
@@ -7282,7 +7282,7 @@ msgstr "放大"
 
 # src/workbook.c:761 src/workbook.c:809
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3094
+#: src/workbook.c:1065 src/xml-io.c:3095
 msgid "Sheet"
 msgstr "表格"
 
@@ -8274,13 +8274,13 @@ msgstr "黄色"
 
 #. Is it a boolean?
 #: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
-#: src/value.c:255 src/value.c:494
+#: src/value.c:264 src/value.c:503
 msgid "TRUE"
 msgstr "真"
 
 # src/main.c:36
 #: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
-#: src/value.c:257 src/value.c:494
+#: src/value.c:266 src/value.c:503
 msgid "FALSE"
 msgstr "假"
 
@@ -20530,12 +20530,12 @@ msgstr "价格"
 msgid "R.H. Side"
 msgstr "R.H. Side"
 
-#: src/stf-parse.c:37
+#: src/stf-parse.c:42
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "对数据进行扫描时有太多的行数: %d"
 
-#: src/stf-parse.c:38
+#: src/stf-parse.c:43
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "对数据进行扫描时有太多的列书: %d"
@@ -20696,7 +20696,7 @@ msgstr ""
 msgid "Gnumeric : Validation"
 msgstr "变分的源"
 
-#: src/value.c:674
+#: src/value.c:683
 msgid "Terminate"
 msgstr "终端"
 
@@ -21315,12 +21315,12 @@ msgid "Error while trying to build tree from autoformat template file"
 msgstr "当试图从自动格式模板文件建立树时出现错误"
 
 # src/dialog-paste-special.c:56 src/item-grid.c:529
-#: src/xml-io.c:2807
+#: src/xml-io.c:2808
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "贴上剪贴板"
 
-#: src/xml-io.c:2814
+#: src/xml-io.c:2815
 #, fuzzy
 msgid "Clipboard is in unknown format"
 msgstr "文件 \"%s\" 中有未知的格式."
@@ -21328,7 +21328,7 @@ msgstr "文件 \"%s\" 中有未知的格式."
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3220
+#: src/xml-io.c:3221
 #, fuzzy
 msgid "Processing file..."
 msgstr "语法扫描 XML 文件..."
@@ -21337,12 +21337,12 @@ msgstr "语法扫描 XML 文件..."
 msgid "Not enough memory to create zlib decompression state."
 msgstr "没有足够的内存来创建 zlib 解压缩状态"
 
-#: src/xml-io.c:3423
+#: src/xml-io.c:3421
 msgid "Is not an Gnumeric Workbook file"
 msgstr "不是 Gnumeric 工作本文件"
 
 # src/xml-io.c:1637
-#: src/xml-io.c:3480
+#: src/xml-io.c:3478
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 文件格式"
 
