@@ -28,7 +28,7 @@
 #include <sheet.h>
 #include <value.h>
 
-#include <widgets/gnumeric-combo-text.h>
+#include <goffice/gui-utils/go-combo-text.h>
 
 #include <gtk/gtksizegroup.h>
 #include <gtk/gtktreeview.h>
@@ -862,7 +862,7 @@ nfs_init (NumberFormatSelector *nfs)
 
 	GtkWidget *tmp;
 	GtkTreeViewColumn *column;
-	GnmComboText *combo;
+	GoComboText *combo;
 	char const *name;
 	int i;
 	FormatFamily page;
@@ -1001,7 +1001,7 @@ nfs_init (NumberFormatSelector *nfs)
 			  G_CALLBACK (cb_format_list_select), nfs);
 
 	/* Setup handler Currency & Accounting currency symbols */
-	combo = GNM_COMBO_TEXT (nfs->format.widget[F_SYMBOL]);
+	combo = GO_COMBO_TEXT (nfs->format.widget[F_SYMBOL]);
 	if (combo != NULL) {
 		GList *ptr, *l = NULL;
 
@@ -1010,11 +1010,11 @@ nfs_init (NumberFormatSelector *nfs)
 		l = g_list_sort (l, funny_currency_order);
 
 		for (ptr = l; ptr != NULL ; ptr = ptr->next)
-			gnm_combo_text_add_item	(combo, ptr->data);
+			go_combo_text_add_item	(combo, ptr->data);
 		g_list_free (l);
-		gnm_combo_text_set_text (combo,
+		go_combo_text_set_text (combo,
 					 _((const gchar *)currency_symbols[nfs->format.currency_index].description),
-					 GNM_COMBO_TEXT_FROM_TOP);
+					 GO_COMBO_TEXT_FROM_TOP);
 		g_signal_connect (G_OBJECT (combo),
 				  "entry_changed",
 				  G_CALLBACK (cb_format_currency_select), nfs);
@@ -1105,7 +1105,7 @@ void
 number_format_selector_set_style_format (NumberFormatSelector *nfs,
 					 GnmFormat *style_format)
 {
-	GnmComboText *combo;
+	GoComboText *combo;
 
   	g_return_if_fail (IS_NUMBER_FORMAT_SELECTOR (nfs));
 	g_return_if_fail (style_format != NULL);
@@ -1121,11 +1121,11 @@ number_format_selector_set_style_format (NumberFormatSelector *nfs,
 	nfs->format.negative_format = style_format->family_info.negative_fmt;
 	nfs->format.currency_index = style_format->family_info.currency_symbol_index;
 
-	combo = GNM_COMBO_TEXT (nfs->format.widget[F_SYMBOL]);
-	gnm_combo_text_set_text
+	combo = GO_COMBO_TEXT (nfs->format.widget[F_SYMBOL]);
+	go_combo_text_set_text
 		(combo,
 		 _((const gchar *)currency_symbols[nfs->format.currency_index].description),
-		 GNM_COMBO_TEXT_FROM_TOP);
+		 GO_COMBO_TEXT_FROM_TOP);
 
 	set_format_category_menu_from_style (nfs);
 	draw_format_preview (nfs, TRUE);

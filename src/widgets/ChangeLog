@@ -1,3 +1,16 @@
+2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* Makefile.am: removed gnumeric-combo-text.[c,h]
+	* gnumeric-combo-text.c: moved to goffice.
+	* gnumeric-combo-text.h: ditto.
+	* widget-font-selector.c: (fs_modify_style), (cb_list_adjust),
+	(list_init), (font_selected), (fs_fill_font_name_list),
+	(style_selected), (fs_fill_font_style_list), (select_row),
+	(size_selected), (size_changed), (fs_fill_font_size_list),
+	(fs_init), (font_selector_new): replaced GtkList by GtkTreeView
+	* widget-format-selector.c: (nfs_init),
+	(number_format_selector_set_style_format): replaced GnmComboText by GoComboText.
+
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.0
@@ -1963,4 +1976,3 @@
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
 	* gtk-combo-text.c (gtk_combo_text_select_item) : New function.
-

@@ -8,8 +8,6 @@
  *   Almer S. Tigelaar (almer@gnome.org)
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for CList"
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -29,7 +27,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtkhbox.h>
-#include <gtk/gtkclist.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <glade/glade.h>
 
 struct _FontSelector {
@@ -39,9 +41,9 @@ struct _FontSelector {
 	GtkWidget *font_name_entry;
 	GtkWidget *font_style_entry;
 	GtkWidget *font_size_entry;
-	GtkWidget *font_name_list;
-	GtkWidget *font_style_list;
-	GtkWidget *font_size_list;
+	GtkTreeView *font_name_list;
+	GtkTreeView *font_style_list;
+	GtkTreeView *font_size_list;
 
 	FooCanvas *font_preview_canvas;
 	FooCanvasItem *font_preview_grid;
@@ -83,8 +85,8 @@ fs_modify_style (FontSelector *fs, GnmStyle *modification)
 	g_return_if_fail (modification != NULL);
 
 	fs->mstyle = mstyle_copy_merge (original, modification);
-	gtk_signal_emit (GTK_OBJECT (fs),
-		fs_signals[FONT_CHANGED], modification);
+	g_signal_emit (GTK_OBJECT (fs),
+		fs_signals[FONT_CHANGED], 0, modification);
 	foo_canvas_item_set (fs->font_preview_grid,
 		"default-style",  fs->mstyle,
 		NULL);
@@ -95,7 +97,7 @@ fs_modify_style (FontSelector *fs, GnmStyle *modification)
 /*
  * We cannot moveto a list element until it is mapped.
  */
-static void
+/*static void
 list_mapped (GtkWidget *widget, G_GNUC_UNUSED gpointer user_data)
 {
 	GtkCList * clist = GTK_CLIST (widget);
@@ -104,45 +106,93 @@ list_mapped (GtkWidget *widget, G_GNUC_UNUSED gpointer user_data)
 		row = GPOINTER_TO_UINT (clist->selection->data);
 	if (!gtk_clist_row_is_visible (clist, row))
 		gtk_clist_moveto (clist, row, 0, 0.5, 0.0);
+}*/
+
+static void
+cb_list_adjust (GtkTreeView* view)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	GtkScrolledWindow* scroll;
+	GdkRectangle rect;
+	GtkAdjustment *adj;
+	int pos, height, child_height;
+
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view), &model, &iter)) {
+		path = gtk_tree_model_get_path (model, &iter);
+		scroll = GTK_SCROLLED_WINDOW (gtk_widget_get_parent (GTK_WIDGET (view)));
+		height = GTK_WIDGET (view)->allocation.height;
+		child_height = GTK_WIDGET (view)->requisition.height;
+		if (height < child_height) {
+			gtk_tree_view_get_cell_area (view, path, NULL, &rect);
+			adj = gtk_scrolled_window_get_vadjustment (scroll);
+			pos = gtk_adjustment_get_value (adj);
+			if (rect.y < 0)
+				pos += rect.y;
+			else if (rect.y + rect.height > height)
+				pos += rect.y + rect.height - height;
+			gtk_adjustment_set_value (adj, pos);
+			gtk_scrolled_window_set_vadjustment (scroll, adj);
+		}
+		gtk_tree_path_free (path);
+	}
 }
 
 static void
-font_selected (GtkCList *font_list,
-	       G_GNUC_UNUSED int col,
-	       G_GNUC_UNUSED int row,
-	       G_GNUC_UNUSED GdkEvent *event, FontSelector *fs)
+list_init (GtkTreeView* view)
 {
-	 gchar *text;
-	 GnmStyle *change;
+	GtkCellRenderer *renderer;
+	GtkListStore *store;
+	GtkTreeViewColumn *column;
 
-	 gtk_clist_get_text (font_list, GPOINTER_TO_INT (font_list->selection->data), 0, &text);
-	 gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
+	gtk_tree_view_set_headers_visible (view, FALSE);
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_tree_view_set_model (view, GTK_TREE_MODEL (store));
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (
+								NULL,
+								renderer, "text", 0, NULL);
+	gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_append_column (view, column);
+	g_signal_connect (view, "realize", G_CALLBACK (cb_list_adjust), NULL);
+}
 
-	 change = mstyle_new ();
-	 mstyle_set_font_name (change, text);
-	 fs_modify_style (fs, change);
+static void
+font_selected (GtkTreeSelection *selection,
+	       FontSelector *fs)
+{
+	gchar *text;
+	GnmStyle *change;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	gtk_tree_selection_get_selected (selection, &model, &iter);
+	gtk_tree_model_get (model, &iter, 0, &text, -1);
+	gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
+
+	change = mstyle_new ();
+	mstyle_set_font_name (change, text);
+	fs_modify_style (fs, change);
 }
 
 static void
 fs_fill_font_name_list (FontSelector *fs)
 {
-	 GList *l;
+	GList *l;
+	GtkListStore *store;
+	GtkTreeIter iter;
 
+	list_init (fs->font_name_list);
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (fs->font_name_list));
 	 for (l = gnumeric_font_family_list; l; l = l->next) {
-		 char *name = l->data;
-		 char *array[1];
-
-		 array[0] = name;
-
-		 gtk_clist_append (GTK_CLIST (fs->font_name_list), array);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, l->data, -1);
 	 }
 
 	 g_signal_connect (
-		 G_OBJECT (fs->font_name_list), "select_row",
+		 G_OBJECT (gtk_tree_view_get_selection (fs->font_name_list)), "changed",
 		 GTK_SIGNAL_FUNC (font_selected), fs);
-	 g_signal_connect (
-		 G_OBJECT (fs->font_name_list), "map",
-		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
 
 static char const *styles[] = {
@@ -154,75 +204,99 @@ static char const *styles[] = {
 };
 
 static void
-style_selected (GtkCList *style_list,
-		G_GNUC_UNUSED int col, int row,
-		G_GNUC_UNUSED GdkEvent *event, FontSelector *fs)
+style_selected (GtkTreeSelection *selection,
+		FontSelector *fs)
 {
-	 GnmStyle *change = mstyle_new ();
-	 row = GPOINTER_TO_INT (style_list->selection->data);
+	GnmStyle *change = mstyle_new ();
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	int row;
 
-	 switch (row) {
-	 case 0:
-		 mstyle_set_font_bold (change, FALSE);
-		 mstyle_set_font_italic (change, FALSE);
-		 break;
-	 case 1:
-		 mstyle_set_font_bold (change, TRUE);
-		 mstyle_set_font_italic (change, FALSE);
-		 break;
+	gtk_tree_selection_get_selected (selection, &model, &iter);
+	path = gtk_tree_model_get_path (model, &iter);
+	row = *gtk_tree_path_get_indices (path);
+	gtk_tree_path_free (path);
 
-	 case 2:
-		 mstyle_set_font_bold (change, TRUE);
-		 mstyle_set_font_italic (change, TRUE);
-		 break;
-	 case 3:
-		 mstyle_set_font_bold (change, FALSE);
-		 mstyle_set_font_italic (change, TRUE);
-		 break;
-	 }
+	switch (row) {
+	case 0:
+		mstyle_set_font_bold (change, FALSE);
+		mstyle_set_font_italic (change, FALSE);
+		break;
+	case 1:
+		mstyle_set_font_bold (change, TRUE);
+		mstyle_set_font_italic (change, FALSE);
+		break;
 
-	 gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles[row]));
-	 fs_modify_style (fs, change);
+	case 2:
+		mstyle_set_font_bold (change, TRUE);
+		mstyle_set_font_italic (change, TRUE);
+		break;
+	case 3:
+		mstyle_set_font_bold (change, FALSE);
+		mstyle_set_font_italic (change, TRUE);
+		break;
+	}
+
+	gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles[row]));
+	fs_modify_style (fs, change);
 }
 
 static void
 fs_fill_font_style_list (FontSelector *fs)
 {
-	 GtkCList *style_list = GTK_CLIST (fs->font_style_list);
 	 int i;
+	GtkListStore *store;
+	GtkTreeIter iter;
 
-	 for (i = 0; styles[i] != NULL; i++) {
-		 char *array[1];
-		 array[0] = _(styles[i]);
-
-		 gtk_clist_append (style_list, array);
-	 }
-	 g_signal_connect (
-		 G_OBJECT (fs->font_style_list), "select_row",
-		 GTK_SIGNAL_FUNC (style_selected), fs);
-	 g_signal_connect (
-		 G_OBJECT (fs->font_style_list), "map",
-		 GTK_SIGNAL_FUNC (list_mapped), NULL);
+	list_init (fs->font_style_list);
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (fs->font_style_list));
+	for (i = 0; styles[i] != NULL; i++) {
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, _(styles[i]), -1);
+	}
+	g_signal_connect (
+		G_OBJECT (gtk_tree_view_get_selection (fs->font_style_list)), "changed",
+		GTK_SIGNAL_FUNC (style_selected), fs);
 }
 
 static void
-size_selected (GtkCList *size_list,
-	       G_GNUC_UNUSED int col, int row,
-	       G_GNUC_UNUSED GdkEvent *event, FontSelector *fs)
+select_row (GtkTreeView *list, int row)
+{
+	GtkTreePath *path;
+
+	if (row < 0)
+		gtk_tree_selection_unselect_all (gtk_tree_view_get_selection (list));
+	else {
+		path = gtk_tree_path_new_from_indices (row, -1);
+
+		gtk_tree_selection_select_path (gtk_tree_view_get_selection (list), path);
+		if (GTK_WIDGET_REALIZED (list))
+			cb_list_adjust (list);
+		gtk_tree_path_free (path);
+	}
+}
+
+static void
+size_selected (GtkTreeSelection *selection,
+	       FontSelector *fs)
 {
 	 GnmStyle *change = mstyle_new ();
 	 gchar *text;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 
-	 row = GPOINTER_TO_INT (size_list->selection->data);
-	 gtk_clist_get_text (size_list, row, 0, &text);
-	 gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
-	 mstyle_set_font_size (change, atof (text));
-	 fs_modify_style (fs, change);
+	gtk_tree_selection_get_selected (selection, &model, &iter);
+	gtk_tree_model_get (model, &iter, 0, &text, -1);
+	gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
+	mstyle_set_font_size (change, atof (text));
+	fs_modify_style (fs, change);
 }
 
 static void
 size_changed (GtkEntry *entry, FontSelector *fs)
 {
+	int i;
 	 char const *text = gtk_entry_get_text (entry);
 	 double size = atof (text);
 	 if (size >= 1. && size < 128) {
@@ -230,27 +304,42 @@ size_changed (GtkEntry *entry, FontSelector *fs)
 		 mstyle_set_font_size (change, size);
 		 fs_modify_style (fs, change);
 	 }
+	 g_signal_handlers_block_by_func (
+	 			gtk_tree_view_get_selection (fs->font_size_list),
+				 size_selected, fs);
+	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
+		if (gnumeric_point_sizes[i] == size) {
+			select_row (fs->font_size_list, i);
+			 g_signal_handlers_unblock_by_func (
+						gtk_tree_view_get_selection (fs->font_size_list),
+						size_selected, fs);
+			return;
+		}
+	}
+	select_row (fs->font_size_list, -1);
+	g_signal_handlers_unblock_by_func (
+				gtk_tree_view_get_selection (fs->font_size_list),
+				size_selected, fs);
 }
 
 static void
 fs_fill_font_size_list (FontSelector *fs)
 {
 	int i;
+	GtkListStore *store;
+	GtkTreeIter iter;
 
+	list_init (fs->font_size_list);
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (fs->font_size_list));
 	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
 		char buffer[4 * sizeof (int)];
-		char *array[1];
-
 		sprintf (buffer, "%d", gnumeric_point_sizes[i]);
-		array[0] = buffer;
-		gtk_clist_append (GTK_CLIST (fs->font_size_list), array);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, buffer, -1);
 	}
 	g_signal_connect (
-		G_OBJECT (fs->font_size_list), "select_row",
+		G_OBJECT (gtk_tree_view_get_selection (fs->font_size_list)), "changed",
 		GTK_SIGNAL_FUNC (size_selected), fs);
-	g_signal_connect (
-		G_OBJECT (fs->font_size_list), "map",
-		GTK_SIGNAL_FUNC (list_mapped), NULL);
 
 	g_signal_connect (
 		G_OBJECT (fs->font_size_entry), "changed",
@@ -293,9 +382,9 @@ fs_init (FontSelector *fs)
 	fs->font_name_entry  = glade_xml_get_widget (fs->gui, "font-name-entry");
 	fs->font_style_entry = glade_xml_get_widget (fs->gui, "font-style-entry");
 	fs->font_size_entry  = glade_xml_get_widget (fs->gui, "font-size-entry");
-	fs->font_name_list  = glade_xml_get_widget (fs->gui, "font-name-list");
-	fs->font_style_list = glade_xml_get_widget (fs->gui, "font-style-list");
-	fs->font_size_list  = glade_xml_get_widget (fs->gui, "font-size-list");
+	fs->font_name_list  = GTK_TREE_VIEW (glade_xml_get_widget (fs->gui, "font-name-list"));
+	fs->font_style_list = GTK_TREE_VIEW (glade_xml_get_widget (fs->gui, "font-style-list"));
+	fs->font_size_list  = GTK_TREE_VIEW (glade_xml_get_widget (fs->gui, "font-size-list"));
 
 	w = foo_canvas_new ();
 	fs->font_preview_canvas = FOO_CANVAS (w);
@@ -369,14 +458,6 @@ font_selector_new (void)
 
 	w = g_object_new (FONT_SELECTOR_TYPE, NULL);
 	return w;
-}
-
-static void
-select_row (GtkWidget *list, int row)
-{
-	GtkCList *cl = GTK_CLIST (list);
-
-	gtk_clist_select_row (cl, row, 0);
 }
 
 void

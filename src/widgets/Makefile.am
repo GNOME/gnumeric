@@ -31,8 +31,6 @@ libwidgets_a_SOURCES =				\
 	gnumeric-dashed-canvas-line.h		\
 	gnumeric-expr-entry.c			\
 	gnumeric-expr-entry.h			\
-	gnumeric-combo-text.c			\
-	gnumeric-combo-text.h			\
 	gnumeric-lazy-list.c			\
 	gnumeric-lazy-list.h			\
 	gnumeric-optionmenu.c			\
