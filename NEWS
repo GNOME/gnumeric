@@ -5,6 +5,9 @@ Jody:
 	* Fix format toolbar update.
 	* Fix merge undo
 
+Morten:
+	* Make search-and-replace dialog non-modal.
+
 --------------------------------------------------------------------------
 Gnumeric 0.63
 
