@@ -23,20 +23,20 @@ static GtkObjectClass *pixmap_combo_parent_class;
 /***************************************************************************/
 
 static void
-pixmap_combo_finalize (GtkObject *object)
+pixmap_combo_destroy (GtkObject *object)
 {
 	PixmapCombo *pc = PIXMAP_COMBO (object);
 
 	gtk_object_destroy (GTK_OBJECT (pc->tool_tip));
 	
 	g_free (pc->pixmaps);
-	(*pixmap_combo_parent_class->finalize) (object);
+	(*pixmap_combo_parent_class->destroy) (object);
 }
 
 static void
 pixmap_combo_class_init (GtkObjectClass *object_class)
 {
-	object_class->finalize = pixmap_combo_finalize;
+	object_class->destroy = pixmap_combo_destroy;
 
 	pixmap_combo_parent_class = gtk_type_class (gtk_combo_box_get_type ());
 
