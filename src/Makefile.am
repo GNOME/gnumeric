@@ -26,6 +26,7 @@ bin_PROGRAMS = gnumeric
 endif
 
 #noinst_PROGRAMS = number-match
+gladedir   = $(datadir)/gnumeric/glade
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
