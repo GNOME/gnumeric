@@ -3442,6 +3442,12 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	/* 8. Notify sheet of pending update */
 	sheet_flag_recompute_spans (rinfo->origin_sheet);
 	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
+
+	/* 9. Update the data structures of the tools */
+	if (rinfo->origin_sheet == rinfo->target_sheet)
+		scenario_move_range (rinfo->origin_sheet->scenarios, 
+				     &rinfo->origin, rinfo->col_offset,
+				     rinfo->row_offset);
 }
 
 static void
