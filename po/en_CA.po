@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-29 12:51-0400\n"
-"PO-Revision-Date: 2004-09-29 11:36-0400\n"
+"POT-Creation-Date: 2004-09-30 16:11-0400\n"
+"PO-Revision-Date: 2004-09-30 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -8788,7 +8788,7 @@ msgstr "%s version %s"
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:119
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:821
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:822
 #: src/dialogs/dialog-cell-format.c:2370 src/dialogs/dialog-cell-format.c:2375
 #: src/dialogs/dialog-cell-format.c:2385 src/wbc-gtk.c:535
 msgid "Automatic"
@@ -17669,8 +17669,8 @@ msgid "Constraints:"
 msgstr "Constraints:"
 
 #: plugins/mps/mps.c:245 src/commands.c:6167
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1052
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:373
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:376
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
@@ -19905,41 +19905,41 @@ msgstr "Logarithm mapping"
 msgid "Details"
 msgstr "Details"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1455
 msgid "Categories between _ticks"
 msgstr "Categories between _ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1456
 msgid "Categories between _labels"
 msgstr "Categories between _labels"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1454
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
 msgid "_Cross at category #"
 msgstr "_Cross at category #"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1460
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1474
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
 msgid "Bounds"
 msgstr "Bounds"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1464
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1468
 msgid "Ma_jor Ticks"
 msgstr "Ma_jor Ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
 msgid "Mi_nor Ticks"
 msgstr "Mi_nor Ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
 msgid "_Cross"
 msgstr "_Cross"
@@ -19948,22 +19948,22 @@ msgstr "_Cross"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1489
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1496
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1492
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1499
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1525 src/wbcg-actions.c:1909
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528 src/wbcg-actions.c:1909
 msgid "Label"
 msgstr "Label"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
 msgid "MinorGrid"
 msgstr "MinorGrid"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1534
 msgid "MajorGrid"
 msgstr "MajorGrid"
 
@@ -20155,81 +20155,65 @@ msgstr "Graph"
 msgid "Chart"
 msgstr "Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1078
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Step 1 of 2: Select Chart Type"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1086
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Step 2 of 2: Customize Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
 msgid "Customize Chart"
 msgstr "Customize Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1203
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
 msgid "_Plot Type"
 msgstr "_Plot Type"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1274
-msgid ""
-"Show\n"
-"Sample"
-msgstr ""
-"Show\n"
-"Sample"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1283
-#: src/dialogs/dialog-plugin-manager.c:732
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
-msgid "Description"
-msgstr "Description"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
 msgstr "GNOME Office Graph"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
+msgid "Pull f_orward"
+msgstr "Pull f_orward"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
+msgid "Pull to _front"
+msgstr "Pull to _front"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
+msgid "Push b_ackward"
+msgstr "Push b_ackward"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
+msgid "Push to _back"
+msgstr "Push to _back"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:7
 #: src/dialogs/solver.glade.h:18
 msgid "_Add"
 msgstr "_Add"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
-#: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:90
-msgid "_Bottom"
-msgstr "_Bottom"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
-msgid "_Decrease"
-msgstr "_Decrease"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
 #: src/wbcg-actions.c:1433
 msgid "_Delete"
 msgstr "_Delete"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-msgid "_Increase"
-msgstr "_Increase"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
 #: src/sheet-object.c:105
 msgid "_Order"
 msgstr "_Order"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
-#: src/dialogs/autoformat.glade.h:25
-msgid "_Top"
-msgstr "_Top"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:106
 msgid "_Text:"
 msgstr "_Text:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:112
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:414
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:417
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Data"
 msgstr "Data"
@@ -20259,7 +20243,7 @@ msgstr "Index:"
 msgid "Settings"
 msgstr "Settings"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:440
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:443
 #: src/tools/analysis-tools.c:3919
 msgid "Point"
 msgstr "Point"
@@ -20269,12 +20253,12 @@ msgstr "Point"
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:835
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:836
 #: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
 msgid "Font"
 msgstr "Font"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:923
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:924
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Style"
@@ -20447,16 +20431,16 @@ msgid "How far the bars/cols overlap as a percentage of the width"
 msgstr "How far the bars/cols overlap as a percentage of the width"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
+msgid "O_verlap:"
+msgstr "O_verlap:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
 msgid "Separation between groups as a percentage of bar/col width"
 msgstr "Separation between groups as a percentage of bar/col width"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
 msgid "_Gap:"
 msgstr "_Gap:"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
-msgid "_Overlap:"
-msgstr "_Overlap:"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -21952,6 +21936,10 @@ msgstr "The category this template belongs to"
 msgid "The group/individual that made the template"
 msgstr "The group/individual that made the template"
 
+#: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:90
+msgid "_Bottom"
+msgstr "_Bottom"
+
 #: src/dialogs/autoformat.glade.h:21 src/dialogs/cell-format.glade.h:95
 msgid "_Left"
 msgstr "_Left"
@@ -21967,6 +21955,10 @@ msgstr "_Settings"
 #: src/dialogs/autoformat.glade.h:24
 msgid "_Show Gridlines"
 msgstr "_Show Gridlines"
+
+#: src/dialogs/autoformat.glade.h:25
+msgid "_Top"
+msgstr "_Top"
 
 #: src/dialogs/autosave.glade.h:2
 msgid "Auto Save"
@@ -23552,6 +23544,11 @@ msgstr "Active"
 #: src/dialogs/dialog-plugin-manager.c:713
 msgid "Plugin name"
 msgstr "Plugin name"
+
+#: src/dialogs/dialog-plugin-manager.c:732
+#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+msgid "Description"
+msgstr "Description"
 
 #: src/dialogs/dialog-plugin-manager.c:736
 msgid "ID"
@@ -27329,23 +27326,23 @@ msgstr "Automatically detected"
 msgid "Load file"
 msgstr "Load file"
 
-#: src/gui-file.c:223 src/gui-file.c:656
+#: src/gui-file.c:223 src/gui-file.c:657
 msgid "Select a file"
 msgstr "Select a file"
 
-#: src/gui-file.c:237 src/gui-file.c:443 src/gui-file.c:670
+#: src/gui-file.c:237 src/gui-file.c:456 src/gui-file.c:671
 msgid "All Files"
 msgstr "All Files"
 
-#: src/gui-file.c:242 src/gui-file.c:675
+#: src/gui-file.c:242 src/gui-file.c:676
 msgid "Spreadsheets"
 msgstr "Spreadsheets"
 
-#: src/gui-file.c:276 src/gui-file.c:510 src/gui-file.c:699
+#: src/gui-file.c:276 src/gui-file.c:523 src/gui-file.c:700
 msgid "File _type:"
 msgstr "File _type:"
 
-#: src/gui-file.c:389
+#: src/gui-file.c:388
 #, c-format
 msgid ""
 "%s\n"
@@ -27354,7 +27351,7 @@ msgstr ""
 "%s\n"
 "is a directory name"
 
-#: src/gui-file.c:395
+#: src/gui-file.c:394
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27363,24 +27360,26 @@ msgstr ""
 "You do not have permission to save to\n"
 "%s"
 
-#: src/gui-file.c:402
+#: src/gui-file.c:403
 #, c-format
 msgid ""
-"%s already exists.\n"
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
 "Do you want to save over it?"
 msgstr ""
-"%s already exists.\n"
-"Do you want to save over it?"
+"A file named <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to overwrite it?"
 
-#: src/gui-file.c:448
+#: src/gui-file.c:461
 msgid "Images"
 msgstr "Images"
 
-#: src/gui-file.c:488
+#: src/gui-file.c:501
 msgid "Save as"
 msgstr "Save as"
 
-#: src/gui-file.c:537 src/gui-file.c:612
+#: src/gui-file.c:550 src/gui-file.c:749
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -27388,11 +27387,11 @@ msgstr ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 
-#: src/gui-file.c:564
+#: src/gui-file.c:577
 msgid "Select an Image"
 msgstr "Select an Image"
 
-#: src/gui-file.c:583
+#: src/gui-file.c:596
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
