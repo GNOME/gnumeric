@@ -1,5 +1,8 @@
 2000-05-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/colrow.c (cb_set_row_height) : Only set the height if it
+	  changed.
+
 	* src/application.c (application_set_selected_sheet) : No need to
 	  clear the X selection if we already own it.
 

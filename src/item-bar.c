@@ -489,6 +489,7 @@ colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int size_pix
 static void
 item_bar_end_resize (ItemBar *item_bar, int new_size)
 {
+	/* autosizing an empty col/row returns 0 */
 	if (new_size > 0)
 		gtk_signal_emit (GTK_OBJECT (item_bar),
 				 item_bar_signals [SIZE_CHANGED],
@@ -685,9 +686,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		else
 			new_size = sheet_col_size_fit_pixels (sheet, item_bar->resize_pos);
 
-		/* autosizing an empty col/row returns 0 */
-		if (new_size > 0)
-			item_bar_end_resize (item_bar, new_size);
+		item_bar_end_resize (item_bar, new_size);
 		break;
 	}
 		
