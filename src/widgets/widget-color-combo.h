@@ -38,12 +38,13 @@ typedef struct {
 } ColorCombo;
 
 GtkType    color_combo_get_type      (void);
-GtkWidget *color_combo_new           (char **icon);
-void       color_combo_construct     (ColorCombo *cc, char **icon, gboolean no_color,
+GtkWidget *color_combo_new           (char **icon, char const * const no_color_label);
+void       color_combo_construct     (ColorCombo *cc, char **icon,
+				      char const * const no_color_label,
 				      int ncols, int nrows, char **color_names);
 GtkWidget *color_combo_new_with_vals (char **icon,
-				      int ncols, int nrows, gboolean no_color,
-				      char **color_names);
+				      char const * const no_color_label,
+				      int ncols, int nrows, char **color_names);
 void       color_combo_select_color  (ColorCombo *color_combo, int index);
 				  
 typedef struct {
