@@ -1,3 +1,9 @@
+2002-02-19  Jody Goldberg <jody@gnome.org>
+
+	* src/global-gnome-font.c (global_gnome_font_init) : get font list
+	  from pango.
+	(global_gnome_font_shutdown) : and free it here.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* configure.in  : post release bump.

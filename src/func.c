@@ -30,7 +30,7 @@
 /* These are not supported yet */
 typedef enum {
 	FUNCTION_RETURNS_ARRAY = 0x01, /* eg transpose(), mmult() */
-	FUNCTION_RECALC_ALWAYS = 0x02, /* eg now() */
+	FUNCTION_RECALC_ALWAYS = 0x02, /* eg now(), today() */
 
 	/* For functions that are not exactly compatible with various import
 	 * formats.  We need to recalc their results to avoid changing values
