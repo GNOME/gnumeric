@@ -1,3 +1,10 @@
+2005-01-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=163408
+	* src/commands.c (cmd_ins_del_colrow_redo) : We only need to redo
+	  things for cuts, not copies (Although that feels a bit odd).
+	  Just un-ant things for now.
+
 2005-01-09  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=163407

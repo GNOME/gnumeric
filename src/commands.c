@@ -1383,27 +1383,29 @@ cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	}
 
 	/* Ins/Del Row/Col re-ants things completely to account
-	 * for the shift of col/rows.
-	 */
+	 * for the shift of col/rows. */
 	if (!trouble && me->cutcopied != NULL && me->cut_copy_view != NULL) {
-		GnmRange s = *me->cutcopied;
-		int key = me->is_insert ? me->count : -me->count;
-		int threshold = me->is_insert ? me->index : me->index + 1;
+		if (me->is_cut) {
+			GnmRange s = *me->cutcopied;
+			int key = me->is_insert ? me->count : -me->count;
+			int threshold = me->is_insert ? me->index : me->index + 1;
 
-		/* Really only applies if the regions that are inserted/
-		 * deleted are above the cut/copied region.
-		 */
-		if (me->is_cols) {
-			if (threshold <= s.start.col) {
-				s.start.col += key;
-				s.end.col   += key;
+			/* Really only applies if the regions that are inserted/
+			 * deleted are above the cut/copied region.
+			 */
+			if (me->is_cols) {
+				if (threshold <= s.start.col) {
+					s.start.col += key;
+					s.end.col   += key;
+				}
+			} else if (threshold <= s.start.row) {
+				s.start.row += key;
+				s.end.row   += key;
 			}
-		} else if (threshold <= s.start.row) {
-			s.start.row += key;
-			s.end.row   += key;
-		}
 
-		gnm_app_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view, &s, FALSE);
+			gnm_app_clipboard_cut_copy (wbc, me->is_cut, me->cut_copy_view, &s, FALSE);
+		} else
+			gnm_app_clipboard_unant ();
 	}
 
 	return trouble;

@@ -1187,8 +1187,5 @@ gnm_pane_object_register (SheetObject *so, FooCanvasItem *view, gboolean selecta
 SheetObjectView *
 gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view)
 {
-	g_signal_connect (G_OBJECT (w),
-		"event",
-		G_CALLBACK (cb_sheet_object_widget_canvas_event), view);
 	return gnm_pane_object_register (so, view, TRUE);
 }

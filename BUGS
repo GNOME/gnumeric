@@ -51,6 +51,12 @@ Worries
 
 After Branch
 ------------
+    - http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
+    - http://bugzilla.gnome.org/show_bug.cgi?id=162952 : trivial
+    - Add a note to the SUMPRODUCT docs that
+	sumproduct(A1:A5>4,B1:B4) will not work and that they will
+	need
+	sumproduct(--(A1:A5>4),B1:B4)
 
 -------------------------------------------------------------------------------
 Blocked Patches

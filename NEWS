@@ -29,6 +29,7 @@ Jody:
 	* Use element 0 of an array returned in a non-scalar context [#162923]
 	* Fix MATCH.  If type is unspecified default to 1 not 0 [#163040]
 	* Unnecessary row resize undoing format that did not resize [#163407]
+	* Remove adjustment of copied areas on ins/del col/row [#163408]
 
 Morten:
 	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,
