@@ -1,3 +1,8 @@
+2001-10-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_vector_destroy) : release the cached
+	  value if it exists.
+
 2001-10-12  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-view.c (wb_view_open_custom): Plug leak.

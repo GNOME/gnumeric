@@ -524,6 +524,11 @@ gnm_graph_vector_destroy (GtkObject *obj)
 
 	gnm_graph_vector_corba_destroy (vector);
 
+	if (vector->value != NULL) {
+		value_release (vector->value);
+		vector->value = NULL;
+	}
+
 	/* if we are still linked in remove us from the graph */
 	if (vector->graph != NULL) {
 		g_ptr_array_index (vector->graph->vectors, vector->id) = NULL;
