@@ -1,3 +1,7 @@
+2002-05-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c (pref_tree_set_model) : check for missing schemas
+
 2002-05-01  Christophe Merlet  <christophe@merlet.net>
 
 	* Makefile.am : Added dialogs-graph-guru.c in $EXTRA_DIST
@@ -20,7 +24,7 @@
 
 2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-preferences.c : add mor eitems to file/xml 
+	* dialog-preferences.c : add more items to file/xml 
 	  preference page
 
 2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>

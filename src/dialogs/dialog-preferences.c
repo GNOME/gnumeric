@@ -353,6 +353,8 @@ pref_tree_set_model (GConfClient *gconf, GtkTreeModel *model, GtkTreeIter *iter)
 			    PREF_PATH, &key,
 			    -1);
 	the_schema = gconf_client_get_schema (gconf, schema_path, NULL);
+
+	g_return_if_fail (the_schema != NULL);
 	
 	switch (gconf_schema_get_type (the_schema)) {
 	case GCONF_VALUE_STRING:
