@@ -9,13 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.gnumeric-1-2.pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-24 10:19-0400\n"
-"PO-Revision-Date: 2004-06-24 10:17-0400\n"
+"POT-Creation-Date: 2004-06-24 20:25+0200\n"
+"PO-Revision-Date: 2004-06-24 20:02-0300\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -1397,8 +1397,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
+msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
+msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) XML"
@@ -17392,8 +17392,8 @@ msgid "HTML"
 msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
-msgstr "HTML & TeX"
+msgid "HTML &amp; TeX"
+msgstr "HTML &amp; TeX"
 
 #: plugins/html/plugin.xml.in.h:3
 msgid "HTML (*.html) fragment"
@@ -19410,7 +19410,7 @@ msgstr "Itálico"
 
 #: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3860
 msgid "Iteratively recalculate to find a target value"
-msgstr "Recalcula iterativamente para atingir um valor alvo"
+msgstr "Recalcula iterativamente uma fórmula para atingir um valor alvo fornecido"
 
 #: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3864
 msgid "Iteratively recalculate with constraints to approach a target value"
@@ -20085,7 +20085,7 @@ msgstr "_Gnumeric..."
 
 #: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3859
 msgid "_Goal Seek..."
-msgstr "Procura por Obj_etivo..."
+msgstr "Procurar por Obj_etivo..."
 
 #: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3537
 msgid "_Goto cell..."
@@ -23828,37 +23828,37 @@ msgstr "Todas as Funções (lista completa)"
 
 #: src/dialogs/dialog-goal-seek.c:362
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
-msgstr "Você deve digitar um nome válido de célula em 'Definir Célula:'!"
+msgstr "Você deve digitar um nome válido de célula em 'Célula com a Fórmula:'!"
 
 #: src/dialogs/dialog-goal-seek.c:374
 msgid "The cell named in 'Set Cell:' must contain a formula!"
-msgstr "A célula nomeada em 'Definir Célula:' precisa conter uma fórmula!"
+msgstr "A célula nomeada em 'Célula com a Fórmula:' precisa conter uma fórmula!"
 
 #: src/dialogs/dialog-goal-seek.c:387
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr "Você deve digitar um nome válido de célula em 'Substituindo célula:'!"
+msgstr "Você deve digitar um nome válido de célula em 'Através da Célula Variável:'!"
 
 #: src/dialogs/dialog-goal-seek.c:400
 msgid "The cell named in 'By changing cell' must not contain a formula."
-msgstr "A célula nomeada em 'Substituindo célula' não deve conter uma fórmula."
+msgstr "A célula nomeada em 'Através da Célula Variável' não deve conter uma fórmula."
 
 #: src/dialogs/dialog-goal-seek.c:413
 msgid "The value given in 'To Value:' is not valid."
-msgstr "O valor fornecido em 'Para Valor:' não é válido."
+msgstr "O valor fornecido em 'Atingir o Valor:' não é válido."
 
 #: src/dialogs/dialog-goal-seek.c:457
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
-msgstr "Procura de objetivo com a célula %s chegou a uma solução."
+msgstr "A procura pelo objetivo através da célula %s chegou a uma solução."
 
 #: src/dialogs/dialog-goal-seek.c:478
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
-msgstr "Procura de objetivo com a célula %s não chegou a uma solução."
+msgstr "A procura pelo objetivo através da célula %s não chegou a uma solução."
 
 #: src/dialogs/dialog-goal-seek.c:655
 msgid "Could not create the Goal-Seek dialog."
-msgstr "Impossível criar o diálogo da Procura de Objetivo."
+msgstr "Impossível criar o diálogo da Procura por Objetivo."
 
 #: src/dialogs/dialog-goto-cell.c:188
 msgid "Workbook Level"
@@ -25536,7 +25536,7 @@ msgstr "(_Mínimo):"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr "<span weight=\"bold\">Objetivo</span>"
+msgstr "<span weight=\"bold\">Objetivo Procurado</span>"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "<span weight=\"bold\">Last Result</span>"
@@ -25548,7 +25548,7 @@ msgstr "Valor Atual:"
 
 #: src/dialogs/goalseek.glade.h:7
 msgid "GoalSeek"
-msgstr "Procura de Objetivo"
+msgstr "Procura por Objetivo"
 
 #: src/dialogs/goalseek.glade.h:8
 msgid "Remaining Error:"
@@ -25560,15 +25560,15 @@ msgstr "Solução:"
 
 #: src/dialogs/goalseek.glade.h:10
 msgid "_By Changing Cell:"
-msgstr "_Pela Célula Variável:"
+msgstr "_Através da Célula Variável:"
 
 #: src/dialogs/goalseek.glade.h:11
 msgid "_Set Cell:"
-msgstr "_Definir Célula:"
+msgstr "_Célula com a Fórmula:"
 
 #: src/dialogs/goalseek.glade.h:12
 msgid "_To Value:"
-msgstr "_Ao Valor:"
+msgstr "_Atingir o Valor:"
 
 #: src/dialogs/goto.glade.h:1
 msgid "Go To..."
@@ -31862,3 +31862,4 @@ msgstr "Falha ao salvar arquivo"
 #: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Formato de arquivo XML Gnumeric"
+
