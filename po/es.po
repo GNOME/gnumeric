@@ -1,3 +1,4 @@
+# translation of es.po to 
 # traducción de es.po al Spanish
 # translation of es.po to Spanish
 # translation of gnumeric.HEAD.po to Spanish
@@ -17,9 +18,9 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-10-05 01:55-0400\n"
-"PO-Revision-Date: 2004-10-24 23:52+0200\n"
-"Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
-"Language-Team: Spanish <traductores@es.gnome.org>\n"
+"PO-Revision-Date: 2004-10-25 23:53+0200\n"
+"Last-Translator: \n"
+"Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1304,7 +1305,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2002
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1329,17 +1330,17 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BAW_AMER\n"
-"@SYNTAX=OPT_BAW_AMER(marca_call_put,spot,strike,tiempo,tasa,"
-"coste_de_ejecución,volatilidad)\n"
-"@DESCRIPTION=OPT_BAW_AMER modela el precio teórico de una opción de acuerdo "
-"con la aproximación de Barone Adesie & Whaley. \n"
+"@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
+"@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
+"cost_of_carry,volatility)\n"
+"@DESCRIPTION=OPT_FLOAT_STRK_LKBK modela el precio teórico de una opción donde el propietario de la opción puede ejercitar al expirar al precio más favorable observado surante la vida de la opción del activo subyacente.. \n"
 "\n"
 "@call_put_flag es «c« o «p» para indicar si la opción es un «call» o «put»\n"
-"@spot es el precio «spot» del activo subyacente\n"
+"@spot_min es el mínimo precio «spot» del activo subyacente observado a lo largo del tiempo.\n"
+"@spot_max es el máximo precio «spot» del activo subyacente observado a lo largo del tiempo.\n"
 "@strike es el precio al que se fija la opción\n"
-"@tiempo es el número de días hasta el vencimiento de la opción \n"
-"@tasa es la tasa de interés libre de riesgo anualizada \n"
+"@tiempo es número de años hasta el vencimiento de la opción.\n"
+"@tasa es la tasa de interés libre de riesgo anualizada. \n"
 "@coste_de_ejecución es la pérdida de valor del activo subyacente, para "
 "«stocks» comunes, esto debería ser el margen (yield) del dividendo\n"
 "@volatilidad es la volatilidad anualizada en precio del activo subyacente \n"
@@ -1349,7 +1350,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2067
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_max,spot_min,strike,time,"
@@ -1374,17 +1375,17 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BAW_AMER\n"
-"@SYNTAX=OPT_BAW_AMER(marca_call_put,spot,strike,tiempo,tasa,"
+"@FUNCTION=OPT_FIXED_STRK_LKBK\n"
+"@SYNTAX=OPT_FIXED_STRK_LKBK(marca_call_put,spot,strike,tiempo,tasa,"
 "coste_de_ejecución,volatilidad)\n"
-"@DESCRIPTION=OPT_BAW_AMER modela el precio teórico de una opción de acuerdo "
-"con la aproximación de Barone Adesie & Whaley. \n"
+"@DESCRIPTION=OPT_FIXED_STRK_LKBK modela el precio teórico de una opción donde el propietario de la opción puede ejercitar al expirar al precio más favorable observado durante la vida de la opción del activo subyacente.  \n"
 "\n"
 "@call_put_flag es «c« o «p» para indicar si la opción es un «call» o «put»\n"
-"@spot es el precio «spot» del activo subyacente\n"
+"@spot_min es el mínimo precio «spot» del activo subyacente observado a lo largo del tiempo.\n"
+"@spot_max es el máximo precio «spot» del activo subyacente observado a lo largo del tiempo.\n"
 "@strike es el precio al que se fija la opción\n"
-"@tiempo es el número de días hasta el vencimiento de la opción \n"
-"@tasa es la tasa de interés libre de riesgo anualizada \n"
+"@tiempo es número de años hasta el vencimiento de la opción.\n"
+"@tasa es la tasa de interés libre de riesgo anualizada. \n"
 "@coste_de_ejecución es la pérdida de valor del activo subyacente, para "
 "«stocks» comunes, esto debería ser el margen (yield) del dividendo\n"
 "@volatilidad es la volatilidad anualizada en precio del activo subyacente \n"
@@ -1394,7 +1395,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2147
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
@@ -1417,12 +1418,13 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,tiempo,tasa,volatilidad[,"
-"coste_de_ejecución])\n"
-"@DESCRIPTION=OPT_BJERSTENS modela el precio teórico de opciones americanas "
-"de acuerdo con la técnica de aproximación de Bjerksund & Stensland.\n"
+"@FUNCTION=OPT_BINOMIAL\n"
+"@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
+"strike, time, rate, volatility, cost_of_carry)\n"
+"@DESCRIPTION=OPT_BINOMIAL modela el precio teórico de opciones al estilo americano o europeo usando un árbol binomial.\n"
 "\n"
+"@amer_euro_flag es o «a» o «e» para indicar si la opción se va a evaluar como "
+"una opción de estilo americano o europeo respectivamente\n"
 "@call_put_flag es «c« o «p» para indicar si la opción es «call» (compra) o "
 "«put» (venta) \n"
 "@spot es el precio «spot» del activo subyacente\n"
@@ -1528,23 +1530,20 @@ msgid ""
 msgstr "tipo_flag, spot1, spot2, strike1, strike2, tiempo, coste_de_ejecución1, coste_de_ejecución2, tasa, volatilidad1,volatilidad2,rho"
 
 #: plugins/derivatives/options.c:2285 plugins/derivatives/options.c:2290
-#, fuzzy
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
-msgstr "spot, strike, tiempo1, tiempo2, tasa, coste_de_ejecución, volatilidad"
+msgstr "spot1,spot2,cantidad1,cantidad2,tiempo,coste_de_ejecución1,coste_de_ejecución2, volatilidad1,volatilidad2,rho"
 
 #: plugins/derivatives/options.c:2295
-#, fuzzy
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
-msgstr "marca_call_put, spot, strike, tiempo, tasa, coste_de_ejecución, volatilidad"
+msgstr "marca_call_put,fut_price1,fut_price2,strike,tiempo,tasa,volatilidad1,volatilidad2,rho"
 
 #: plugins/derivatives/options.c:2300
-#, fuzzy
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
-msgstr "marca_call_put, spot, strike, tiempo, tasa, coste_de_ejecución, volatilidad"
+msgstr "marca_call_put,spot,spot_min,spot_max,tiempo,tasa,coste_de_ejecución,volatilidad"
 
 #: plugins/derivatives/options.c:2305
 msgid ""
@@ -1555,7 +1554,6 @@ msgstr ""
 "volatilidad"
 
 #: plugins/derivatives/options.c:2311
-#, fuzzy
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
@@ -6133,6 +6131,19 @@ msgid ""
 "\n"
 "@SEEALSO=HARMEAN"
 msgstr ""
+"@FUNCTION=INVSUMINV\n"
+"@SYNTAX=INVSUMINV(x1,x2,...)\n"
+"@DESCRIPTION=INVSUMINV calcula la suma de la inversa de la suma de inversas.\n"
+"\n"
+"El uso principal de esta es para calcular la resistecia equivalente para resistencias paralelas o la capacidad equivalente de condensadores en serie.\n"
+"\n"
+"* Todos los argumentos deben ser no negativos, o si no se devuelve un resultado #VALOR!.\n"
+"* Si cualquier argumento es cero, el resultado es cero.\n"
+"\n"
+"@EXAMPLES=\n"
+"INVSUMINV(2000,2000) igual a 1000.\n"
+"\n"
+"@SEEALSO=HARMEAN"
 
 #: plugins/fn-eng/plugin.xml.in.h:1
 msgid "Engineering"
@@ -18782,16 +18793,16 @@ msgid ""
 ">This value determines the default setting in the Print Setup dialog whether "
 "print grid lines. Please use the Print Setup dialog to edit this value."
 msgstr ""
-">Este valor determina el ajuste predeterminado en el diálogo de "
-"configuración de impresión indicando si se debe imprimir la rejilla. Por "
-"favor use el diálogo de Configuración de impresión para editar este valor."
+">Este valor determina el ajuste predeterminado en el diálogo "
+"«Configuración de impresión» indicando si se debe imprimir la rejilla. Por "
+"favor use el diálogo «Configuración de impresión» para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid ""
 ">This value determines the default setting in the Print Setup dialog whether "
 "to center pages vertically. Please use the Print Setup dialog to edit this "
 "value."
-msgstr ""
+msgstr "> Este valor determina la configuración predeterminada en el diálogo de «Configuración de impresión» para centrar las páginas horizontalmente. Use el diálogo «Configuración de impresión» para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
 msgid "Activate New Plugins"
@@ -19015,8 +19026,7 @@ msgid ""
 "page setup dialog."
 msgstr ""
 "El pie de página predeterminado para los documentos nuevos puede "
-"modificarse\n"
-"usando el diálogo «configurar página»"
+"modificarse usando el diálogo «Configuración de página»"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:54
 msgid ""
@@ -19158,8 +19168,8 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"Este valor determina si de manera predeterminada el diálogo de configuración "
-"de impresión se aplica a todas las hojas simultáneamente."
+"Este valor determina si de manera predeterminada el diálogo de «Configuración "
+"de impresión» se aplica a todas las hojas simultáneamente."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:75
 msgid ""
@@ -19167,7 +19177,7 @@ msgid ""
 "bold."
 msgstr ""
 "Este valor determina si la tipografía predeterminada para cabeceras y pies "
-"de páginaes negrita."
+"de página es negrita."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:76
 msgid ""
@@ -19181,13 +19191,13 @@ msgstr ""
 msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the body. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Este valor da el número predeterminado de puntos desde la parte inferior de una página al final del cuerpo. Por favor, use el diálogo de «Configuración de impresión» para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:78
 msgid ""
 "This value gives the default number of points from the top of a page to the "
 "start of the body. Please use the Print Setup dialog to edit this value."
-msgstr ""
+msgstr "Este valor da el número de puntos predeterminado desde la parte superior de una página al inicio del cuerpo. Use el diálogo «Configuración de impresión» para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:79
 msgid ""
@@ -19195,7 +19205,7 @@ msgid ""
 "use the Print Setup dialog to edit this value."
 msgstr ""
 "Este valor da el porcentaje por el cual se escala cada página impresa. Por "
-"favor use el diálogo de configuración de impresión para editar este valor."
+"favor use el diálogo de «Configuración de impresión» para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:80
 msgid "This variable determines whether to activate every new encountered plugin."
@@ -20345,22 +20355,22 @@ msgstr "Anchura"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:242
 msgid "No error bar displayed"
-msgstr ""
+msgstr "Ninguna barra de error mostrada"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:248
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:264
 msgid "Positive error bar displayed"
-msgstr ""
+msgstr "Barra de error positiva mostrada"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:253
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:269
 msgid "Negative error bar displayed"
-msgstr ""
+msgstr "Barra de error negativa mostrada"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:258
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:274
 msgid "Full error bar displayed"
-msgstr ""
+msgstr "Barra de error completa mostrada"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:1
 msgid "(+)"
@@ -20399,6 +20409,10 @@ msgid ""
 "Relative\n"
 "Percent"
 msgstr ""
+"Ninguno\n"
+"Absoluto\n"
+"Relativo\n"
+"Porcentaje"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:12
 msgid "_Line width:"
@@ -20418,7 +20432,7 @@ msgstr "Gráfico"
 
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:154
 msgid "Chart"
-msgstr "Gráfica"
+msgstr "Diagrama"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
 msgid "Step 1 of 2: Select Chart Type"
@@ -20442,19 +20456,19 @@ msgstr "Diagrama de GNOME Office"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
 msgid "Pull f_orward"
-msgstr ""
+msgstr "Tirar hacia _adelante"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 msgid "Pull to _front"
-msgstr ""
+msgstr "Tirar hasta el _frente"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
 msgid "Push b_ackward"
-msgstr ""
+msgstr "Empujar _atrás"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
 msgid "Push to _back"
-msgstr ""
+msgstr "Empujar hasta el fon_do"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:7
@@ -20564,6 +20578,10 @@ msgid ""
 "Gradient\n"
 "Image"
 msgstr ""
+"Ninguno\n"
+"Patrón\n"
+"Degradado\n"
+"Imagen"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 msgid "O_utline color:"
@@ -20774,7 +20792,7 @@ msgstr "Área"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Area plot."
-msgstr "Gráfica de áreas."
+msgstr "Gráfico de áreas."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
 msgid "Areas"
@@ -20795,7 +20813,7 @@ msgstr "Línea"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
 msgid "Line plot."
-msgstr "Gráfica de líneas."
+msgstr "Gráfico de líneas."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
 msgid "Lines"
@@ -20876,7 +20894,7 @@ msgstr "Líneas de porcentajes."
 # Sobra el punto final
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
 msgid "Percentage area plot."
-msgstr "Gráfica de área de porcentual."
+msgstr "Gráfico de área de porcentual."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
 msgid "Percentage line plot."
@@ -20900,7 +20918,7 @@ msgstr "Líneas apiladas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
 msgid "Stacked area plot."
-msgstr "Gráfica de áreas apiladas."
+msgstr "Gráfico de áreas apiladas."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
 msgid "Stacked line plot."
@@ -20928,7 +20946,7 @@ msgstr "Motor de dibujo de barras/columnas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Charting : Bar/Col/Line/Area"
-msgstr ""
+msgstr "Diagrama: Bar/Col/Linea/Área"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Default 1.5d plot types"
@@ -20956,11 +20974,13 @@ msgid ""
 "%s point %d\n"
 "Value %g (%g)"
 msgstr ""
+"%s punto %d\n"
+"Valor %g (%g)"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:4
 msgid "Degrees counter clockwise from 3 O'Clock"
-msgstr "grados contando en el sentido de las agujas del reloj desde las 3 en punto"
+msgstr "Grados contando en el sentido de las agujas del reloj desde las 3 en punto"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:5
@@ -21084,7 +21104,7 @@ msgstr "Dividir anillo"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
 msgid "Charting : Pie/Ring"
-msgstr ""
+msgstr "Diagrama: Tarta/Anillo"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
 msgid "Default pie types"
@@ -21092,7 +21112,7 @@ msgstr "Tipos de tarta predeterminados"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie and Ring plots"
-msgstr ""
+msgstr "Diag de tartas y anillos"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
@@ -21119,15 +21139,15 @@ msgstr "GráficoÁreaRadar"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
-msgstr ""
+msgstr "Área de radar"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:2
 msgid "Area radar plot."
-msgstr "Gráfica de áreas de radar."
+msgstr "Gráfico de áreas de radar."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:3
 msgid "Dotted Radar"
-msgstr ""
+msgstr "Radar de puntos"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:4
 msgid "Radar"
@@ -21135,7 +21155,7 @@ msgstr "Radar"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Radar plot with dots."
-msgstr ""
+msgstr "Gráfico de radar con puntos."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:6
 msgid "Radar plot."
@@ -21250,7 +21270,7 @@ msgstr "Puntos multidimensionales con un círculo en cada punto."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Plot X, Y and bubble size."
-msgstr "Dibujar X, Y y tamaño burbuja."
+msgstr "Gráfico X, Y y tamaño burbuja."
 
 #. really 3_1
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
@@ -21267,7 +21287,7 @@ msgstr "Puntos XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
-msgstr "Dibujos 2D"
+msgstr "Gráficos 2D"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:2
 msgid "2D scatter plotting engine"
@@ -27808,7 +27828,7 @@ msgstr ""
 
 #: src/main-application.c:191
 msgid "Gdk debugging flags to set"
-msgstr ""
+msgstr "Flags de depuración Ggk a establecer"
 
 #: src/main-application.c:191 src/main-application.c:193
 #: src/main-application.c:205 src/main-application.c:207
@@ -27817,7 +27837,7 @@ msgstr "FLAGS"
 
 #: src/main-application.c:193
 msgid "Gdk debugging flags to unset"
-msgstr ""
+msgstr "Flags de depuración Gdk+ a quitar"
 
 #: src/main-application.c:195
 msgid "X display to use"
@@ -27841,7 +27861,7 @@ msgstr "Hacer llamadas a X síncronas"
 
 #: src/main-application.c:201
 msgid "Program name as used by the window manager"
-msgstr ""
+msgstr "Nombre del programa tal como lo usa el gestor de ventanas"
 
 #: src/main-application.c:201
 msgid "NAME"
@@ -32828,1535 +32848,4 @@ msgstr "Ha ocurrido un error al guardar el archivo"
 #: src/xml-io.c:4333
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Exportador lento original de numeric XML (*.gnumeric)"
-
-#~ msgid "Raise object"
-#~ msgstr "Elevar objeto"
-
-#~ msgid "Raise object to top"
-#~ msgstr "Elevar objeto a la cima"
-
-#~ msgid "Lower object to bottom"
-#~ msgstr "Bajar objetos al final"
-
-#~ msgid "Absolute"
-#~ msgstr "Absoluto"
-
-#~ msgid "Relative"
-#~ msgstr "Relativo"
-
-#~ msgid "Percent"
-#~ msgstr "Porcentaje"
-
-#~ msgid ""
-#~ "Show\n"
-#~ "Sample"
-#~ msgstr ""
-#~ "Mostrar\n"
-#~ "ejemplo"
-
-#~ msgid "_Decrease"
-#~ msgstr "_Decrementar"
-
-#~ msgid "_Increase"
-#~ msgstr "_Incrementar"
-
-#~ msgid "Axes start _at:"
-#~ msgstr "Los ejes empiezan _en:"
-
-#~ msgid "Axes start at:"
-#~ msgstr "Los ejes empiezan en:"
-
-#~ msgid "Send _Email"
-#~ msgstr "Enviar _correo"
-
-#~ msgid "All"
-#~ msgstr "Todo"
-
-#~ msgid "Formats"
-#~ msgstr "Formatos"
-
-#~ msgid "Paste special"
-#~ msgstr "Pegado especial"
-
-#~ msgid "Print setup"
-#~ msgstr "Configuración de la impresión"
-
-#~ msgid "Arrow Length:"
-#~ msgstr "Longitud de la flecha:"
-
-#~ msgid "Arrow Tip:"
-#~ msgstr "Punta de la flecha:"
-
-#~ msgid "Arrow Width:"
-#~ msgstr "Anchura de la flecha:"
-
-#~ msgid "Distance from tip of arrowhead to the center point"
-#~ msgstr "Distancia desde la punta de la cabeza de la flecha al punto central"
-
-#~ msgid ""
-#~ "Distance from tip of arrowhead to trailing point, measured along shaft"
-#~ msgstr ""
-#~ "Distancia desde la punta de la cabeza de la flecha al punto final, medido "
-#~ "según la flecha"
-
-#~ msgid "Distance of trailing point from outside edge of shaft"
-#~ msgstr "Distancia del punto final desde el borde exterior de la flecha"
-
-#~ msgid "Line Width:"
-#~ msgstr "Anchura de la línea:"
-
-#~ msgid "Border _Width:"
-#~ msgstr "Anchura del _borde:"
-
-#~ msgid "Configure Filled Object"
-#~ msgstr "Configurar objeto rellenado"
-
-#~ msgid "F_ill Color:"
-#~ msgstr "Color de _relleno:"
-
-#~ msgid "O_utline Color:"
-#~ msgstr "Color del _borde exterior:"
-
-#~ msgid "Open..."
-#~ msgstr "Abrir..."
-
-#~ msgid "Transparent"
-#~ msgstr "Transparente"
-
-#~ msgid "_Save as"
-#~ msgstr "Guardar _como"
-
-#~ msgid "The 2 input ranges must have the same size."
-#~ msgstr "Los 2 rangos de entrada deben tener el mismo tamaño."
-
-#~ msgid ""
-#~ "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
-#~ "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-"
-#~ "tail/t Critical two-tail"
-#~ msgstr ""
-#~ "/Media/Varianza/Observaciones/Correlación Pearson/Diferencia de las media "
-#~ "de la hipótesis/df/t Stat/P (T<=t) - una cola/t crítico - una cola/P "
-#~ "(T<=t) - dos colas/ t crítico - dos colas"
-
-#~ msgid "Search..."
-#~ msgstr "Buscar..."
-
-#~ msgid "Search and Replace..."
-#~ msgstr "Buscar y reemplazar..."
-
-#~ msgid "_Known Variances or Large Sample: Z-Test..."
-#~ msgstr "Varianzas _conocidas de ejemplo mayor: Z-Test..."
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "Quatro Pro"
-#~ msgstr "Quatro Pro"
-
-#~ msgid "_Map:"
-#~ msgstr "_Mapa:"
-
-#~ msgid "This locale uses '\\' rather than ',' to separate array columns."
-#~ msgstr ""
-#~ "Este locale usa «\\» en vez de «,» para separar un array de columnas."
-
-#~ msgid "This locale uses ',' rather than '\\' to separate array columns."
-#~ msgstr ""
-#~ "Este locale usa «,» en vez de «\\» para separar un array de columnas."
-
-#~ msgid "Unknown failure generating SVG for Chart"
-#~ msgstr "Fallo Desconocido al generar SVG para el diagrama"
-
-#~ msgid "Sorry, gnumeric can only save graphs as png, jpg, or svg images"
-#~ msgstr ""
-#~ "Lo siento, Gnumeric sólo puede guardar gráficas como imágenes png, jpg o "
-#~ "svg"
-
-#~ msgid "A data set is empty"
-#~ msgstr "Un conjunto de datos está vacío"
-
-#~ msgid "Left align"
-#~ msgstr "Alinea a la izquierda"
-
-#~ msgid "Center"
-#~ msgstr "Centrar"
-
-#~ msgid "Right align"
-#~ msgstr "Alinea a la derecha"
-
-#~ msgid "Center across the selected cells"
-#~ msgstr "Centrar respecto a las celdas seleccionadas"
-
-#, fuzzy
-#~ msgid "View _Standard Toolbar"
-#~ msgstr "Errores e_stándar"
-
-#~ msgid "Gnumeric XML file format"
-#~ msgstr "Formato de archivo XML de Gnumeric"
-
-#~ msgid "Format as alternative Number"
-#~ msgstr "Formato numérico alternativo"
-
-#, fuzzy
-#~ msgid "(Filename in invalid encoding)"
-#~ msgstr "El nombre del archivo dado no está en la codificación actual."
-
-#~ msgid "Format as Money"
-#~ msgstr "Formatear como dinero"
-
-#~ msgid "Launch the Chart Guru"
-#~ msgstr "Lanzar al asistente de los diagramas"
-
-#~ msgid "Money"
-#~ msgstr "Dinero"
-
-#~ msgid "Set the format of the selected cells to monetary"
-#~ msgstr "Establece el formato de las celdas seleccionadas a monetario"
-
-#~ msgid "Set the format of the selected cells to percentage"
-#~ msgstr "Establece el formato de las celdas seleccionadas a porcentaje"
-
-#~ msgid "x,n,M,N"
-#~ msgstr "x,n,M,N"
-
-#~ msgid "2 Color"
-#~ msgstr "2 Colores"
-
-#~ msgid "Fill from start color to a darker/lighter version of that color"
-#~ msgstr ""
-#~ "Rellenar desde el color de inicio hasta una versión más clara/oscura de "
-#~ "ese color"
-
-#~ msgid "Fill from start color to end color"
-#~ msgstr "Rellenar desde el color de inicio hasta el color de fin"
-
-#~ msgid "Gradient"
-#~ msgstr "Degradado"
-
-#~ msgid "Image"
-#~ msgstr "Imagen"
-
-#~ msgid "wallpaper"
-#~ msgstr "tapiz"
-
-#~ msgid "1.5d Charts"
-#~ msgstr "Diagramas 1.5d"
-
-#~ msgid "Pie Charts"
-#~ msgstr "Diagramas de tartas"
-
-#~ msgid "Pie charts"
-#~ msgstr "Diagramas de tartas"
-
-#~ msgid "2D Scatter charts"
-#~ msgstr "Diagramas de dispoersión 2D"
-
-#~ msgid "XY Charts"
-#~ msgstr "Diagramas XY"
-
-#~ msgid "begins with"
-#~ msgstr "empieza por"
-
-#~ msgid "contains"
-#~ msgstr "contiene"
-
-#~ msgid "does not begin with"
-#~ msgstr "no empieza por"
-
-#~ msgid "does not contain"
-#~ msgstr "no contiene"
-
-#~ msgid "does not end with"
-#~ msgstr "no termina con"
-
-#~ msgid "does not equal"
-#~ msgstr "no es igual a"
-
-#~ msgid "ends with"
-#~ msgstr "termina con"
-
-#~ msgid "equals"
-#~ msgstr "es igual a"
-
-#~ msgid "is greater than"
-#~ msgstr "es mayor que"
-
-#~ msgid "is greater than or equal to"
-#~ msgstr "es mayor o igual que"
-
-#~ msgid "is less than"
-#~ msgstr "es menor que"
-
-#~ msgid "is less than or equal to"
-#~ msgstr "es menor o igual que"
-
-#~ msgid "Items"
-#~ msgstr "Elementos"
-
-#~ msgid "Any Value     (no validation)"
-#~ msgstr "Cualquier valor     (sin validación)"
-
-#~ msgid "In a list"
-#~ msgstr "En una lista"
-
-#~ msgid "Numbers"
-#~ msgstr "Números"
-
-#~ msgid "Text length"
-#~ msgstr "Largo del texto"
-
-#~ msgid "Whole numbers"
-#~ msgstr "Números completos"
-
-#~ msgid "min <= val <= max         (between)"
-#~ msgstr "min <= val <= max         (entre)"
-
-#~ msgid "val  <  bound                  (less than)"
-#~ msgstr "val <  límite                 (menor que)"
-
-#~ msgid "val  >  bound                  (greater than)"
-#~ msgstr "val > límite                  (mayor que)"
-
-#~ msgid "val <= bound                  (less than or equal)"
-#~ msgstr "val <= límite                (menor o igual que)"
-
-#~ msgid "val <= min || max <= val (not between)"
-#~ msgstr "val <= mín || máx <= val (no entre)"
-
-#~ msgid "val <> bound                  (not equal to)"
-#~ msgstr "valor != límite                   (distinto de)"
-
-#~ msgid "val == bound                  (equal to)"
-#~ msgstr "valor == límite                  (igual a)"
-
-#~ msgid "val >= bound                  (greater than or equal)"
-#~ msgstr "val >= límite                (mayor o igual que)"
-
-#~ msgid "AVERAGE"
-#~ msgstr "MEDIA"
-
-#~ msgid "COUNT"
-#~ msgstr "CONTEO"
-
-#~ msgid "MAX"
-#~ msgstr "MAX"
-
-#~ msgid "MIN"
-#~ msgstr "MIN"
-
-#~ msgid "PRODUCT"
-#~ msgstr "PRODUCTO"
-
-#~ msgid "STDEV"
-#~ msgstr "DEVSTD"
-
-#~ msgid "STDEVP"
-#~ msgstr "DEVSTDP"
-
-#~ msgid "SUM"
-#~ msgstr "SUM"
-
-#~ msgid "VAR"
-#~ msgstr "VAR"
-
-#~ msgid "VARP"
-#~ msgstr "VARP"
-
-#~ msgid "Formulas"
-#~ msgstr "Fórmulas"
-
-#~ msgid "Always"
-#~ msgstr "Siempre"
-
-#~ msgid "Bang (!)"
-#~ msgstr "Exclamación (!)"
-
-#~ msgid "Colon (:)"
-#~ msgstr "Dos puntos (:)"
-
-#~ msgid "Comma (,)"
-#~ msgstr "Coma (,)"
-
-#~ msgid "Escape"
-#~ msgstr "Escape"
-
-#~ msgid "Hyphen (-)"
-#~ msgstr "Guión (-)"
-
-#~ msgid "Macintosh (carriage return)"
-#~ msgstr "Macintosh (retorno de carro)"
-
-#~ msgid "Never"
-#~ msgstr "Nunca"
-
-#~ msgid "Pipe (|)"
-#~ msgstr "Tubería (|)"
-
-#~ msgid "Semicolon (;)"
-#~ msgstr "Punto y coma (;)"
-
-#~ msgid "Slash (/)"
-#~ msgstr "Barra (/)"
-
-#~ msgid "Space"
-#~ msgstr "Espacio"
-
-#~ msgid "Tab"
-#~ msgstr "Tabulador"
-
-#~ msgid "Unix (linefeed)"
-#~ msgstr "Unix (salto de línea)"
-
-#~ msgid "Always (Both Sides)"
-#~ msgstr "Siempre (ambos lados)"
-
-#~ msgid "On left side only"
-#~ msgstr "Sólo en el lado izquierdo"
-
-#~ msgid "On right side only"
-#~ msgstr "Sólo en el lado derecho"
-
-#~ msgid "_Series"
-#~ msgstr "_Series"
-
-#~ msgid "Define names"
-#~ msgstr "Definir nombres"
-
-#~ msgid "Definition"
-#~ msgstr "Definición"
-
-#~ msgid "Size of _sample:"
-#~ msgstr "_Tamaño de la muestra:"
-
-#~ msgid "_Random Numbers"
-#~ msgstr "_Números aleatorios"
-
-#~ msgid "="
-#~ msgstr "="
-
-#~ msgid "Bool"
-#~ msgstr "Booleano"
-
-#~ msgid "Int"
-#~ msgstr "Entero"
-
-#~ msgid ""
-#~ "Please enter a file name,\n"
-#~ "not a directory"
-#~ msgstr ""
-#~ "Introduzca un nombre de archivo,\n"
-#~ "no un directorio "
-
-#~ msgid ""
-#~ "This version of Gnumeric has been compiled with inadequate precision in "
-#~ "modfgnum."
-#~ msgstr ""
-#~ "Esta versión de Gnumeric ha sido compilada con una precisión inadecuada "
-#~ "en modfgnum."
-
-#~ msgid ""
-#~ "This version of Gnumeric has been compiled with inadequate precision in "
-#~ "frexpgnum."
-#~ msgstr ""
-#~ "Esta versión de Gnumeric ha sido compilada con una precisión inadecuada "
-#~ "en frexpgnum."
-
-#~ msgid "Formatting"
-#~ msgstr "Formato"
-
-#~ msgid "Objects"
-#~ msgstr "Objetos"
-
-#~ msgid "File \"%s\" has unknown format."
-#~ msgstr "El archivo «%s» tiene un formato desconocido."
-
-#~ msgid "The filename given is not valid in the current encoding."
-#~ msgstr "El nombre del archivo dado no está en la codificación actual."
-
-#~ msgid "Invalid password"
-#~ msgstr "Contraseña no válida"
-
-#~ msgid "Add a scenario"
-#~ msgstr "Añadir un escenario"
-
-#~ msgid "Align the contents to the left and decrease the indent"
-#~ msgstr "Alinea el contenido a la izquierda y disminuir la sangrado"
-
-#~ msgid "Align the contents to the left and increase the indent"
-#~ msgstr "Alinea el contenido a la izquierda y aumenta la sangrado"
-
-#~ msgid "Center Across Selection"
-#~ msgstr "Centrar respecto a la selección"
-
-#~ msgid "Chart Guru"
-#~ msgstr "Asistente de diagramas"
-
-#~ msgid "Comparing two population means for two paired samples: t-test"
-#~ msgstr ""
-#~ "Comparar dos medias de población para dos muestras emparejadas.: t-test"
-
-#~ msgid ""
-#~ "Comparing two population means for two unpaired samples from populations "
-#~ "with equal variances: t-test"
-#~ msgstr ""
-#~ "Comparar dos medias de población para dos muestras de la población con "
-#~ "varianzas iguales: t-test"
-
-#~ msgid ""
-#~ "Comparing two population means for two unpaired samples from populations "
-#~ "with unequal variances: t-test"
-#~ msgstr ""
-#~ "Comparar dos medias de población para dos muestras de población \n"
-#~ "sin emparejar con distinta varianza: t-test"
-
-#~ msgid ""
-#~ "Comparing two population means from populations with known variances or "
-#~ "using a large sample: z-test"
-#~ msgstr ""
-#~ "Comparación de dos medias de población con varianzas conocidas o usando "
-#~ "una muestra grande: z-test"
-
-#~ msgid "Copy the selection to the clipboard"
-#~ msgstr "Copia la selección en el portapapeles"
-
-#~ msgid "Create a new shared view of the workbook"
-#~ msgstr "Crea una vista compartida del libro de cuentas"
-
-#~ msgid "Cut the selection to the clipboard"
-#~ msgstr "Corta la selección al portapapeles"
-
-#~ msgid "Exponential smoothing"
-#~ msgstr "Suavizado exponencial"
-
-#~ msgid "F_orecasting"
-#~ msgstr "_Pronosticar"
-
-#~ msgid "Font selector"
-#~ msgstr "Selector de tipografías"
-
-#~ msgid "Hyperlink"
-#~ msgstr "Hiperenlace"
-
-#~ msgid "Insert Component"
-#~ msgstr "Insertar componente"
-
-#~ msgid "Insert Shaped Component"
-#~ msgstr "Insertar componente de figura"
-
-#~ msgid "Insert a function into the selected cell"
-#~ msgstr "Inserta una función en la celda seleccionada"
-
-#~ msgid "Insert a shaped component into the spreadsheet"
-#~ msgstr "Insertar un componente de figura en la hoja de cálculo"
-
-#~ msgid "Insert an object into the spreadsheet"
-#~ msgstr "Insertar un objeto en la hoja de cálculo"
-
-#~ msgid "Inserts a Bonobo object"
-#~ msgstr "Inserta un objeto Bonobo"
-
-#~ msgid "Inserts a Shaped Bonobo object"
-#~ msgstr "Inserta un objeto Shaped de Bonobo"
-
-#~ msgid "Left Align"
-#~ msgstr "Alinea a la izquierda"
-
-#~ msgid "Moving average"
-#~ msgstr "Desplazamiento medio"
-
-#~ msgid "New"
-#~ msgstr "Nuevo"
-
-#~ msgid "One Factor Analysis of Variance"
-#~ msgstr "Un análisis del factor de la varianza"
-
-#~ msgid "P_aste Special..."
-#~ msgstr "Pe_gado especial..."
-
-#~ msgid "Paste the contents of the clipboard"
-#~ msgstr "Pegar el contenido del portapapeles"
-
-#~ msgid "Print"
-#~ msgstr "Imprimir"
-
-#~ msgid "Print Pre_view..."
-#~ msgstr "_Vista previa de impresión..."
-
-#~ msgid "Print Preview"
-#~ msgstr "Vista previa de impresión"
-
-#~ msgid "Print the workbook"
-#~ msgstr "Imprimir este libro de cuentas"
-
-#~ msgid "Radio Button"
-#~ msgstr "Botón de radio"
-
-#~ msgid "Ranks and _Percentiles..."
-#~ msgstr "Rangos y _percentiles..."
-
-#~ msgid "Right Align"
-#~ msgstr "Alinea a la derecha"
-
-#~ msgid "Save"
-#~ msgstr "Guardar"
-
-#~ msgid "Save _As..."
-#~ msgstr "Guardar _como..."
-
-#~ msgid "Spin Button"
-#~ msgstr "Botón de incremento"
-
-#~ msgid "Two Factor Analysis of Variance"
-#~ msgstr "Dos análisis de factores de la varianza"
-
-#~ msgid "_Close"
-#~ msgstr "_Cerrar"
-
-#~ msgid "_Function..."
-#~ msgstr "_Función..."
-
-#~ msgid "_Name"
-#~ msgstr "_Nombre"
-
-#~ msgid "_New"
-#~ msgstr "_Nuevo"
-
-#~ msgid "_Object..."
-#~ msgstr "_Objeto..."
-
-#~ msgid "_Open..."
-#~ msgstr "_Abrir..."
-
-#~ msgid "_Print..."
-#~ msgstr "Im_primir..."
-
-#~ msgid "_Quit"
-#~ msgstr "_Salir"
-
-#~ msgid "_Save"
-#~ msgstr "_Guardar"
-
-#~ msgid "_Shaped Object"
-#~ msgstr "_Objeto con forma"
-
-#~ msgid "About the Gnumeric spreadsheet program"
-#~ msgstr "Acerca del programa de hoja de cálculo Gnumeric"
-
-#~ msgid "C_lear Cells"
-#~ msgstr "_Limpiar celdas"
-
-#~ msgid "Cu_t Cells"
-#~ msgstr "_Cortar celdas"
-
-#~ msgid "Print Previe_w..."
-#~ msgstr "_Vista previa de impresión..."
-
-#~ msgid "Search Workbook"
-#~ msgstr "Buscar Libro de cuentas"
-
-#~ msgid "View descriptive information"
-#~ msgstr "Ver la información descriptiva"
-
-#~ msgid "_Copy Cells"
-#~ msgstr "C_opiar celdas"
-
-#~ msgid "_Paste Cells"
-#~ msgstr "_Pegar celdas"
-
-#~ msgid "Underline:"
-#~ msgstr "Subrayado:"
-
-#~ msgid "Miguel de Icaza, creator."
-#~ msgstr "Miguel de Icaza, creador."
-
-#~ msgid "Jody Goldberg, maintainer."
-#~ msgstr "Jody Goldberg, mantenedor."
-
-#~ msgid "Michel Berkelaar, Simplex algorithm for Solver (LP Solve)."
-#~ msgstr "Michel Berkelaar, algoritmo símplex para solucionador (LP Solve)."
-
-#~ msgid "Grandma Chema Celorio, Tester and sheet copy."
-#~ msgstr "Grandma Chema Celorio, Probador y copia de hojas."
-
-#~ msgid "Frank Chiulli, OLE support."
-#~ msgstr "Frank Chiulli, soporte OLE."
-
-#~ msgid "Kenneth Christiansen, i18n, misc stuff."
-#~ msgstr "Kenneth Christiansen, i18n, misceláneos."
-
-#~ msgid "Zbigniew Chyla, plugin system, i18n."
-#~ msgstr "Zbigniew Chyla, sistema de complementos, i18n."
-
-#~ msgid "Tom Dyas, plugin support."
-#~ msgstr "Tom Dyas, soporte de complementos."
-
-#~ msgid "Gergo Erdi, Gnumeric hacker."
-#~ msgstr "Gergõ Érdi, Hacker de gnumeric."
-
-#~ msgid "John Gotts, rpm packaging."
-#~ msgstr "John Gotts, empaquetado RPM."
-
-#~ msgid "Andreas J. Gülzow, Gnumeric hacker."
-#~ msgstr "Andreas J. Gülzow, hacker de Gnumeric."
-
-#~ msgid "Jon Kåre Hellan, Gnumeric hacker."
-#~ msgstr "Jon Kare Hellan, hacker de Gnumeric."
-
-#~ msgid "Ross Ihaka, special functions."
-#~ msgstr "Ross Ihaka, funciones especiales."
-
-#~ msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-#~ msgstr "Jukka-Pekka Iivonen, varias funciones y herramientas."
-
-#~ msgid "Jakub Jelinek, Gnumeric hacker."
-#~ msgstr "Jakub Jelinek, Hacker de gnumeric."
-
-#~ msgid "Jakub Steiner, Icons and Images."
-#~ msgstr "Jakub Steiner, iconos e imágenes."
-
-#~ msgid "Michael Meeks, Excel and OLE2 importing."
-#~ msgstr "Michael Meeks, importación Excel y OLE2."
-
-#~ msgid "Federico M. Quintero, canvas support."
-#~ msgstr "Federico Mena, soporte para Canvas."
-
-#~ msgid "Mark Probst, Guile support."
-#~ msgstr "Mark Probst, soporte Guile."
-
-#~ msgid "Almer S. Tigelaar, Gnumeric hacker."
-#~ msgstr "Almer S. Tigelaar, hacker de Gnumeric."
-
-#~ msgid "Bruno Unna, Excel bits."
-#~ msgstr "Bruno Unna, código Excel."
-
-#~ msgid "Vladimir Vuksan, financial functions."
-#~ msgstr "Vladimir Vuksan, funciones financieras."
-
-#~ msgid "Morten Welinder, Gnumeric hacker."
-#~ msgstr "Morten Welinder, Hacker de gnumeric."
-
-#~ msgid "A production ready spreadsheet"
-#~ msgstr "Una hoja de cálculo lista para producción"
-
-#~ msgid "This is an untranslated version of Gnumeric."
-#~ msgstr ""
-#~ "Francisco Javier Fernández <serrador@arrakis.es>\n"
-#~ "Alfonso Pedreño García-La Puya (Asesoría terminológica)\n"
-#~ "Juan Manuel García Molina <juanma_gm@wanadoo.es>\n"
-#~ "Germán Poo Caamaño <gpoo@ubiobio.cl>\n"
-#~ "Pablo Saratxaga <pablo@mandrakesoft.com>\n"
-#~ "Federico Mena Quintero,Pregonero <federico@casiopea.quartic.org>"
-
-#~ msgid "You need to select at least one sheet to export"
-#~ msgstr "Debe seleccionar el menos una hoja a exportar"
-
-#~ msgid "<- Remove"
-#~ msgstr "<- Quitar"
-
-#~ msgid "<- Remove all"
-#~ msgstr "<- Quitar todo"
-
-#~ msgid "Add ->"
-#~ msgstr "Añadir ->"
-
-#~ msgid "Add all ->"
-#~ msgstr "Añadir todo ->"
-
-#~ msgid "Available sheets"
-#~ msgstr "Hojas disponibles"
-
-#~ msgid "Character encoding:"
-#~ msgstr "Codificación de caracteres:"
-
-#~ msgid "Choose export formatting"
-#~ msgstr "Elija el formato a exportar"
-
-#~ msgid "Choose sheets to export"
-#~ msgstr "Elija las hojas a exportar"
-
-# Mejorar traduccion
-#~ msgid ""
-#~ "Customize the export format. The line terminator is the character "
-#~ "sequence used for terminating a line in the text file. Whether the quote "
-#~ "character is placed around cells depends on the value chosen for quoting."
-#~ msgstr ""
-#~ "Personalice el formato de exportación.  El terminador de línea es una "
-#~ "secuencia de caracteres utilizadas para indicar el fin de línea en un "
-#~ "archivo de texto."
-
-#~ msgid "Exporting structured text"
-#~ msgstr "Exportando texto estructurado"
-
-#~ msgid ""
-#~ "Please select which sheets you want to export from the current workbook. "
-#~ "They will be exported in the same order as in the export list."
-#~ msgstr ""
-#~ "Seleccione la hoja que desea exportar del libro de cuentas activo. Las "
-#~ "hojas serán exportadas en el mismo orden de la lista."
-
-#~ msgid "Sheets to export"
-#~ msgstr "Hojas a exportar"
-
-#~ msgid "<="
-#~ msgstr "<="
-
-#~ msgid ">="
-#~ msgstr ">="
-
-#~ msgid "Elsewhere"
-#~ msgstr "Donde sea"
-
-#~ msgid "Sharing"
-#~ msgstr "Compartir"
-
-#~ msgid "Views will have separate cursor locations"
-#~ msgstr "Las vistas tendrán ubicaciones del cursor separadas"
-
-#~ msgid "_Shared"
-#~ msgstr "_Compartido"
-
-#~ msgid "_Unshared"
-#~ msgstr "_No compartido"
-
-#~ msgid "Unable to unmap the file, error : %s"
-#~ msgstr "Imposible desmapear de memoria el archivo. Error : %s"
-
-#~ msgid "Error while closing file, error : %s"
-#~ msgstr "Ha ocurrido un error al cerrar el archivo.  Error: %s"
-
-#~ msgid "Unable to mmap the file, error : %s"
-#~ msgstr "Imposible mapear en memoria el archivo. Error : %s"
-
-#~ msgid "Save graph as image"
-#~ msgstr "Guardar gráfica como imagen"
-
-#~ msgid "Choose Custom Color"
-#~ msgstr "Elija un color personalizado"
-
-#~ msgid "_File/Preferen_ces..."
-#~ msgstr "_Archivo/Preferen_cias..."
-
-#~ msgid "File/"
-#~ msgstr "Archivo/"
-
-#~ msgid "Set Font"
-#~ msgstr "Establecer tipografía"
-
-#~ msgid "Set Font Size"
-#~ msgstr "Establecer tamaño tipo-diagrama"
-
-#~ msgid "Type mismatch"
-#~ msgstr "Tipo erróneo"
-
-#~ msgid "A_utofit Columns"
-#~ msgstr "A_utoajustar columnas"
-
-#~ msgid "List _Range:"
-#~ msgstr "_Rango de lista:"
-
-#~ msgid "N_ew Workbook"
-#~ msgstr "Libro de cu_entas nuevo"
-
-#~ msgid "_New Sheet"
-#~ msgstr "Hoja _nueva"
-
-#~ msgid "_Output Range:"
-#~ msgstr "Rango de _salida:"
-
-#~ msgid "Retain Output Range Formatting"
-#~ msgstr "Retener formato del rango de salida"
-
-#~ msgid "_Alpha = "
-#~ msgstr "_Alfa = "
-
-#~ msgid "_Right-Left"
-#~ msgstr "_Derecha a izquierda"
-
-#~ msgid "_Put:"
-#~ msgstr "_Colocar:"
-
-#~ msgid ".95"
-#~ msgstr "0,95"
-
-#~ msgid "K = "
-#~ msgstr "K = "
-
-#~ msgid "Var_iable 1 Range:"
-#~ msgstr "Rango de la _1ª variable:"
-
-#~ msgid "_Variable 2 Range:"
-#~ msgstr "Rango de la _2ª variable:"
-
-#~ msgid "Var_iable 1 Range"
-#~ msgstr "Rango de la _1ª variable"
-
-#~ msgid "_Variable 2 Range"
-#~ msgstr "Rango de la _2ª variable"
-
-#~ msgid "_Inputs:"
-#~ msgstr "_Entradas:"
-
-#~ msgid "_Outputs:"
-#~ msgstr "_Salidas:"
-
-#~ msgid ""
-#~ "Multi-display support in Gnumeric has been turned off due to multiple "
-#~ "bugs in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at "
-#~ "the time of writing, ultimo May 2003."
-#~ msgstr ""
-#~ "El soporte multi-monitor en Gnumeric se ha desactivado debido a múltiples "
-#~ "fallos en GTK+, libgnomeui, libgnomeprintui,libbonoboui, y Gnumeric a "
-#~ "tiempo de escribirse esto últimos de mayo de 2003"
-
-#~ msgid "a _Column"
-#~ msgstr "una _columna"
-
-#~ msgid "a _Row"
-#~ msgstr "una _fila"
-
-#~ msgid "Input _Labels"
-#~ msgstr "E_tiquetas de entrada"
-
-#~ msgid "Retain Output Range _Comments"
-#~ msgstr "Retener _comentarios del rango de salida"
-
-#~ msgid "_Autofit Columns"
-#~ msgstr "_Autoajustar columnas"
-
-#~ msgid "_Clear Output Range"
-#~ msgstr "Lim_piar rango de salida"
-
-#~ msgid "_Alpha ="
-#~ msgstr "_Alfa ="
-
-#~ msgid "Page order"
-#~ msgstr "Orden de las páginas"
-
-#~ msgid "Scale"
-#~ msgstr "Escala"
-
-#~ msgid "Inputs:"
-#~ msgstr "Entradas:"
-
-#~ msgid "Outputs:"
-#~ msgstr "Salidas:"
-
-#~ msgid "_Options"
-#~ msgstr "_Opciones"
-
-#~ msgid "_Variables"
-#~ msgstr "_Variables"
-
-#~ msgid "Save workbook as"
-#~ msgstr "Guardar el libro de cuentas como"
-
-#~ msgid "cannot be performed with multiple ranges selected"
-#~ msgstr "no se puede realizar con múltiples rangos seleccionados"
-
-#~ msgid "Select an object to add"
-#~ msgstr "Seleccionar un objeto a añadir"
-
-#~ msgid "Unable to create object of type '%s'"
-#~ msgstr "Imposible crear el objeto de tipo «%s»"
-
-#~ msgid "Undo the operation"
-#~ msgstr "Deshacer la operación"
-
-#~ msgid "Send"
-#~ msgstr "Enviar"
-
-#~ msgid "Send the current file in email"
-#~ msgstr "Enviar el archivo por correo"
-
-#~ msgid "Failure parsing AutoFilter."
-#~ msgstr "Ha ocurrido un error al analizar el Auto-filtro."
-
-#~ msgid "Imported %s"
-#~ msgstr "Importado %s"
-
-#~ msgid "TODO : Unfinished"
-#~ msgstr "Para hacer: No terminado"
-
-#~ msgid "Interpolate between multi-dimensional points."
-#~ msgstr "Interpolar entre puntos multidimensionales."
-
-#~ msgid "Interpolated points"
-#~ msgstr "Puntos interpolados"
-
-#~ msgid "Linearly interpolated points"
-#~ msgstr "Puntos linealmente interpolados"
-
-#~ msgid "Marked linearly interpolated points"
-#~ msgstr "Puntos marcados linealmente interpolados"
-
-#~ msgid "Plot one series per axis."
-#~ msgstr "Dibujar una serie por eje."
-
-#~ msgid "Results:"
-#~ msgstr "Resultados"
-
-#~ msgid "Changing cells:"
-#~ msgstr "Celdas modificables:"
-
-#~ msgid "Scenarios:"
-#~ msgstr "Escenarios:"
-
-#~ msgid "Summary Report:"
-#~ msgstr "Resumen de resultados:"
-
-#~ msgid "Inputs: "
-#~ msgstr "Entradas: "
-
-#~ msgid "Max Time:       "
-#~ msgstr "Tiempo máximo:      "
-
-#~ msgid "Output: "
-#~ msgstr "Salida: "
-
-#~ msgid "Reporting: "
-#~ msgstr "Informes: "
-
-#~ msgid "Summary report grupped by rounds"
-#~ msgstr "Resumen del informe agrupado por rondas"
-
-#~ msgid "Summary: "
-#~ msgstr "Resumen: "
-
-#~ msgid "Variables: "
-#~ msgstr "Variables: "
-
-#~ msgid "_Output Range: "
-#~ msgstr "Rango de _salida: "
-
-#~ msgid "_Summary"
-#~ msgstr "_Resumen"
-
-#~ msgid "Sans Regular"
-#~ msgstr "Sans Regular"
-
-#~ msgid "Path & File Name"
-#~ msgstr "Ruta y nombre de archivo"
-
-#~ msgid "Sheet 1"
-#~ msgstr "Hoja 1"
-
-#~ msgid "S_ize:"
-#~ msgstr "_Tamaño:"
-
-#~ msgid "_Style:"
-#~ msgstr "E_stilo:"
-
-#~ msgid "Fill _Color:"
-#~ msgstr "_Color de relleno:"
-
-#~ msgid "Gradient:"
-#~ msgstr "Gradiente:"
-
-#~ msgid "Left to right"
-#~ msgstr "De izquierda a derecha"
-
-#~ msgid "Not available..."
-#~ msgstr "No disponible..."
-
-#~ msgid "S_tart Color:"
-#~ msgstr "_Color de inicio:"
-
-#~ msgid "Select an _image file:"
-#~ msgstr "Seleccionar un archivod de _imagen:"
-
-#~ msgid "Top left to bottom right"
-#~ msgstr "De arriba a la izquierda hasta abajo a la derecha"
-
-#~ msgid "Top right to bottom left"
-#~ msgstr "De arriba a la derecha hasta abajo a la izquierda"
-
-#~ msgid "Top to bottom"
-#~ msgstr "De arriba hasta abajo"
-
-#~ msgid "_End Color:"
-#~ msgstr "Color de _fin:"
-
-#~ msgid "_Fill type:"
-#~ msgstr "_Tipo de relleno:"
-
-#~ msgid "<span weight=\"bold\">Output</span>"
-#~ msgstr "<span weight=\"bold\">Salida</span>"
-
-#~ msgid "_Destination:"
-#~ msgstr "_Destino:"
-
-#~ msgid "Are you sure you want to remove the sheet called `%s'?"
-#~ msgstr "¿ Está seguro que quiere borrar la hoja llamada «%s» ?"
-
-#~ msgid "Adding a sheet"
-#~ msgstr "Añadir una hoja"
-
-#~ msgid "Adding sheet '%s'"
-#~ msgstr "Añadiendo hoja «%s»"
-
-#~ msgid "Rename sheet '%s' '%s'"
-#~ msgstr "Cambiar el nombre de la hoja «%s» «%s»"
-
-#~ msgid "Bar/Col Charts"
-#~ msgstr "Gráficas de Barras/Col"
-
-#~ msgid "Deletion of sheets is not undoable. Do you want to proceed?"
-#~ msgstr "No se puede deshacer el borrado de hojas. ¿Quiere proseguir?"
-
-#~ msgid "Options:"
-#~ msgstr "Opciones:"
-
-#~ msgid "You cannot have more than %d columns in this version of Gnumeric."
-#~ msgstr "No puede tener más de %d columnas en esta versión de Gnumeric."
-
-#~ msgid "Add a new column"
-#~ msgstr "Añadir una columna nueva"
-
-#~ msgid "Co_lumn end: "
-#~ msgstr "Fin de _columna: "
-
-#~ msgid "Remove selected column"
-#~ msgstr "Borrar la columna seleccionada"
-
-#~ msgid "Set the end of this column"
-#~ msgstr "Definir el fin de esta columna"
-
-#~ msgid "dialog1"
-#~ msgstr "diálogo1"
-
-#~ msgid "Parse error while trying to parse data into cellregion"
-#~ msgstr ""
-#~ "Error de análisis al intentar analizar los datos de la región de celdas"
-
-#~ msgid "Axis"
-#~ msgstr "Eje"
-
-#~ msgid "GraphLabel"
-#~ msgstr "Etiqueta del gráfico"
-
-#~ msgid ""
-#~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
-#~ "basis])\n"
-#~ "@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting "
-#~ "period.\n"
-#~ "\n"
-#~ "@settlement is the settlement date of the security. @maturity is the "
-#~ "maturity date of the security. @basis is the type of day counting system "
-#~ "you want to use:\n"
-#~ "\n"
-#~ "  0  US 30/360\n"
-#~ "  1  actual days/actual days\n"
-#~ "  2  actual days/360\n"
-#~ "  3  actual days/365\n"
-#~ "  4  European 30/360\n"
-#~ "\n"
-#~ "* If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error.\n"
-#~ "* If @basis is omitted, US 30/360 is applied.\n"
-#~ "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(costo,fecha_compra,primer_periodo,recuperación,periodo,"
-#~ "tasa[,base])\n"
-#~ "@DESCRIPTION=AMORDEGRC devuelve la depreciación para cada periodo de "
-#~ "cuenta.\n"
-#~ "\n"
-#~ "@liquidación es la fecha de liquidación de la acción.\n"
-#~ "@vencimiento es la fecha de vencimiento de la acción.\n"
-#~ "@base es el tipo de sistema de conteo de días a usar:\n"
-#~ "\n"
-#~ "  0  US 30/360\n"
-#~ "  1  días actuales/días actuales\n"
-#~ "  2  días actuales/360\n"
-#~ "  3  días actuales/365\n"
-#~ "  4  europeo 30/360\n"
-#~ "\n"
-#~ "\n"
-#~ "* Si @frecuencia es distinto de 1, 2, o 4, AMORDEGRC devuelve un "
-#~ "error#NUM!.\n"
-#~ "* Si se omite @base se aplica US 30/360.\n"
-#~ "* Si @base no está entre 0 y 4, se devuelve un error #NUM!.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
-#~ "basis])\n"
-#~ "@DESCRIPTION=AMORLINC returns the depreciation for each accounting "
-#~ "period.\n"
-#~ "\n"
-#~ "@settlement is the settlement date of the security. @maturity is the "
-#~ "maturity date of the security. @basis is the type of day counting system "
-#~ "you want to use:\n"
-#~ "\n"
-#~ "  0  US 30/360\n"
-#~ "  1  actual days/actual days\n"
-#~ "  2  actual days/360\n"
-#~ "  3  actual days/365\n"
-#~ "  4  European 30/360\n"
-#~ "\n"
-#~ "* If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error.\n"
-#~ "* If @basis is omitted, US 30/360 is applied.\n"
-#~ "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(coste,fecha_compra,primer_periodo,amortización,periodo,"
-#~ "tasa[,base])\n"
-#~ "@DESCRIPTION=AMORLINC devuelve la depreciación de cada periodo de "
-#~ "cuenta.\n"
-#~ "\n"
-#~ "nt to use:\n"
-#~ "\n"
-#~ "  0  US 30/360\n"
-#~ "  1  actual days/actual days\n"
-#~ "  2  actual days/360\n"
-#~ "  3  actual days/365\n"
-#~ "  4  Europea 30/360\n"
-#~ "\n"
-#~ "* Si @frecuencia es distinto de 1, 2, o 4, AMORLINC devuelve un "
-#~ "error#NUM!.\n"
-#~ "* Si se omite @base se aplica US 30/360.\n"
-#~ "* Si @base no está entre 0 y 4, se devuelve un error #NUM!.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=atl_last\n"
-#~ "@SYNTAX=atl_last(tag)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=atl_last\n"
-#~ "@SYNTAX=atl_last(etiq)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_JUMP_DIFF\n"
-#~ "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,"
-#~ "lambda,gamma)\n"
-#~ "@DESCRIPTION=OPT_JUMP_DIFF models the theoretical price of an option "
-#~ "according to the Jump Diffussion process (Merton).\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_JUMP_DIFF\n"
-#~ "@SYNTAX=OPT_JUMP_DIFF(marca_call_put,spot,strike,tiempo,tasa,volatilidad,"
-#~ "lambda,gamma)\n"
-#~ "@DESCRIPTION=OPT_JUMP_DIFF modela el precio teórico de una opción de "
-#~ "acuerdo con el proceso Jump Diffussion (Merton).\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
-#~ "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
-#~ "rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
-#~ "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ models the theoretical price of an "
-#~ "option according to Miltersen & Schwartz.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
-#~ "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(marca_call_put,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
-#~ "rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
-#~ "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ modela el precio teórico de una "
-#~ "opción de acuerdo con Miltersen & Schwartz.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_BAW_AMER\n"
-#~ "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
-#~ "volatility)\n"
-#~ "@DESCRIPTION=OPT_BAW_AMER models the theoretical price of an option "
-#~ "according to the Barone Adesie & Whaley approximation.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_BAW_AMER\n"
-#~ "@SYNTAX=OPT_BAW_AMER(marca_call_put,spot,strike,tiempo,tasa,"
-#~ "coste_de_ejecución,volatilidad)\n"
-#~ "@DESCRIPTION=OPT_BAW_AMER modela el precio teórico de una opción de "
-#~ "acuerdo con la aproximación Barone Adesie & Whaley.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_BJERSTENS\n"
-#~ "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,cost_of_carry,"
-#~ "volatility)\n"
-#~ "@DESCRIPTION=OPT_BJERSTENS models the theoretical price of american "
-#~ "options according to the Bjerksund & Stensland approximation technique.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_BJERSTENS\n"
-#~ "@SYNTAX=OPT_BJERSTENS(marca_call_put,spot,strike,tiempo,tasa,"
-#~ "coste_de_ejecución,volatilidad)\n"
-#~ "@DESCRIPTION=OPT_BJERSTENS modela el precio teórico de una opción "
-#~ "americana de acuerdo con la técnica de aproximación de Bjerksund & "
-#~ "Stensland.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_EXEC\n"
-#~ "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
-#~ "cost_of_carry,lambda)\n"
-#~ "@DESCRIPTION=OPT_EXEC models the theoretical price of executive stock "
-#~ "options given lambda (jump rate for executives).\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_EXEC\n"
-#~ "@SYNTAX=OPT_EXEC(marca_call_put,spot,strike,tiempo,tasa,volatilidad,"
-#~ "coste_de_ejecución,lambda)\n"
-#~ "@DESCRIPTION=OPT_EXEC modela el precio teórico de una stock options "
-#~ "ejecutivas dado lambda (tasa de salto para ejecutivas).\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_FORWARD_START\n"
-#~ "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
-#~ "volatility,cost_of_carry)\n"
-#~ "@DESCRIPTION=OPT_FORWARD_START models the theoretical price of forward "
-#~ "start options\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_FORWARD_START\n"
-#~ "@SYNTAX=OPT_FORWARD_START(marca_call_put,spot,alpha,tiempo1,tiempo,tasa,"
-#~ "volatilidad,costo_de_ejecución)\n"
-#~ "@DESCRIPTION=OPT_FORWARD_START modela el precio teórico opciones «forward "
-#~ "start»\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_TIME_SWITCH\n"
-#~ "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
-#~ "cost_of_carry,volatility)\n"
-#~ "@DESCRIPTION=OPT_TIME_SWITCH models the theoretical price of time switch "
-#~ "options.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_TIME_SWITCH\n"
-#~ "@SYNTAX=OPT_TIME_SWITCH(marca_call_put,spot,strike,a,tiempo,m,dt,tasa,"
-#~ "coste_de_ejecución,volatilidad)\n"
-#~ "@DESCRIPTION=OPT_TIME_SWITCH modela el precio teórico de opciones «tiempo "
-#~ "switch».\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
-#~ "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
-#~ "cost_of_carry,volatility)\n"
-#~ "@DESCRIPTION=OPT_SIMPLE_CHOOSER models the theoretical price of simple "
-#~ "chooser options.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
-#~ "@SYNTAX=OPT_SIMPLE_CHOOSER(marca_call_put,spot,strike,tiempo1,tiempo2,"
-#~ "tasa,coste_de_ejecución,volatilidad)\n"
-#~ "@DESCRIPTION=OPT_SIMPLE_CHOOSER modela el valor teórico de una opción "
-#~ "«simple chooser».\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
-#~ "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,"
-#~ "time,time_call,time_put,rate,cost_of_carry,volatility)\n"
-#~ "@DESCRIPTION=OPT_COMPLEX_CHOOSER models the theoretical price of complex "
-#~ "chooser options.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
-#~ "@SYNTAX=OPT_COMPLEX_CHOOSER(marca_call_put,spot,strike_call,strike_put,"
-#~ "tiempo,tiempo_call,tiempo_put,tasa,coste_de_ejecución,volatilidad)\n"
-#~ "@DESCRIPTION=OPT_COMPLEX_CHOOSER modela el precio teórico de opciones de "
-#~ "elección complejas.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_ON_OPTIONS\n"
-#~ "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
-#~ "cost_of_carry,volatility)\n"
-#~ "@DESCRIPTION=OPT_ON_OPTIONS models the theoretical price of options on "
-#~ "options\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_ON_OPTIONS\n"
-#~ "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,tiempo1,tiempo2,"
-#~ "tasa,coste_de_ejecución,volatilidad)\n"
-#~ "@DESCRIPTION=OPT_ON_OPTIONS modela el precio teórico de opciones sobre "
-#~ "opciones\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid ""
-#~ "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
-#~ "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,"
-#~ "time2,rate,cost_of_carry,volatility)\n"
-#~ "@DESCRIPTION=OPT_EXTENDIBLE_WRITER models the theoretical price of "
-#~ "extendible writer options.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-#~ msgstr ""
-#~ "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
-#~ "@SYNTAX=OPT_EXTENDIBLE_WRITER(marca_call_put,spot,strike1,strike2,tiempo1,"
-#~ "tiempo2,tasa,coste_de_ejecución,volatilidad)\n"
-#~ "@DESCRIPTION=OPT_EXTENDIBLE_WRITER modela el precio teórico de opciones "
-#~ "de escritura extensible.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-
-#~ msgid "Financial"
-#~ msgstr "Financiero"
-
-#~ msgid "Random"
-#~ msgstr "Aleatorio"
-
-#~ msgid "Error: could not initialize connection pool"
-#~ msgstr "No pude inicializar la cola de conexiones"
-
-#~ msgid "Insert a new spreadsheet"
-#~ msgstr "Inserta una nueva hoja de cálculo en este libro de cuentas"
-
-#~ msgid "_Risk Simulation..."
-#~ msgstr "_Simulación del riesgo..."
-
-#~ msgid "Background Color"
-#~ msgstr "Color de fondo:"
-
-#~ msgid "C_enter"
-#~ msgstr "C_entro"
-
-#~ msgid "Effects"
-#~ msgstr "Efectos"
-
-#~ msgid "Message:"
-#~ msgstr "Mensaje:"
-
-#~ msgid "_Color:"
-#~ msgstr "_Color:"
-
-#~ msgid "_Degrees"
-#~ msgstr "_Grados"
-
-#~ msgid "_Style"
-#~ msgstr "_Estilo"
-
-#~ msgid "Add the entered area to the list of source areas"
-#~ msgstr "Agregar el área ingresada a la lista de áreas de origen"
-
-#~ msgid "D_elete"
-#~ msgstr "_Borrar"
-
-#~ msgid "Product"
-#~ msgstr "Producto"
-
-#~ msgid "Stdev (sample)"
-#~ msgstr "Stdev (muestra)"
-
-#~ msgid "Stdevp (population)"
-#~ msgstr "Stdevp (población)"
-
-#~ msgid "Var (sample)"
-#~ msgstr "Var (muestra)"
-
-#~ msgid "Varp (population)"
-#~ msgstr "Varp (población)"
-
-#~ msgid "FillSeries"
-#~ msgstr "Series de llenado"
-
-#~ msgid "Error saving to temporary file."
-#~ msgstr "Error al guardar archivo temporal."
-
-#~ msgid "Cannot get temporary file size."
-#~ msgstr "No se puede determinar el tamaño del archivo temporal."
-
-#~ msgid "Saving file to stream."
-#~ msgstr "Guardando archivo."
-
-#~ msgid "Error reading temporary file."
-#~ msgstr "Error al leer archivo temporal."
-
-#~ msgid "Exception occurred while saving to stream."
-#~ msgstr "Ha ocurrido al intentar guardar el flujo."
-
-#~ msgid "Which file format would you like?"
-#~ msgstr "¿Qué formato desea?"
-
-#~ msgid "Too many columns in data to parse: %d"
-#~ msgstr "Hay muchas columnas en los datos a procesar: %d"
-
-#~ msgid "Cancelled"
-#~ msgstr "Cancelado"
-
-#~ msgid "Duplicate this sheet"
-#~ msgstr "Duplicar esta hoja"
-
-#~ msgid "Rename this sheet"
-#~ msgstr "Cambiar el nombre de esta hoja"
-
-#~ msgid "Remove this sheet"
-#~ msgstr "Eliminar esta hoja"
-
-#~ msgid "Remove selected cells, shifting other into their place"
-#~ msgstr "Borrar las celdas seleccionadas desplazando las otras a su lugar"
-
-#~ msgid "Create a pivot table."
-#~ msgstr "Crea una tabla pivote"
-
-#~ msgid "Format with thousands separator"
-#~ msgstr "Formatear con separador de los miles"
 
