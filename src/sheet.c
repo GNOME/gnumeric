@@ -2543,10 +2543,12 @@ sheet_cell_destroy (Sheet *sheet, GnmCell *cell, gboolean queue_recalc)
 
 /**
  * sheet_cell_remove : Remove the cell from the web of depenancies of a
- *        sheet.  Do NOT free the cell, optionally redraw it.
+ *        sheet.  Do NOT free the cell, optionally redraw it, optionally
+ *        queue it for recalc.
  */
 void
-sheet_cell_remove (Sheet *sheet, GnmCell *cell, gboolean redraw)
+sheet_cell_remove (Sheet *sheet, GnmCell *cell,
+		   gboolean redraw, gboolean queue_recalc)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2559,8 +2561,7 @@ sheet_cell_remove (Sheet *sheet, GnmCell *cell, gboolean redraw)
 		sheet_flag_status_update_cell (cell);
 	}
 
-	sheet_cell_destroy (sheet, cell,
-		sheet->workbook->recursive_dirty_enabled);
+	sheet_cell_destroy (sheet, cell, queue_recalc);
 }
 
 static GnmValue *
@@ -2817,8 +2818,9 @@ sheet_destroy (Sheet *sheet)
  * this cell and can now continue.
  */
 static GnmValue *
-cb_empty_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer flag)
+cb_empty_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer flags)
 {
+	int clear_flags = GPOINTER_TO_INT (flags);
 #if 0
 	/* TODO : here and other places flag a need to update the
 	 * row/col maxima.
@@ -2826,7 +2828,10 @@ cb_empty_cell (Sheet *sheet, int col, int row, GnmCell *cell, gpointer flag)
 	if (row >= sheet->rows.max_used || col >= sheet->cols.max_used) { }
 #endif
 
-	sheet_cell_remove (sheet, cell, FALSE /* no redraw */);
+	sheet_cell_remove (sheet, cell, FALSE,
+			   (clear_flags & CLEAR_RECALC_DEPS) &&
+			   sheet->workbook->recursive_dirty_enabled);
+
 	return NULL;
 }
 
@@ -2887,7 +2892,7 @@ sheet_clear_region (Sheet *sheet,
 		 */
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
 			start_col, start_row, end_col, end_row,
-			&cb_empty_cell, GINT_TO_POINTER (!(clear_flags & CLEAR_COMMENTS)));
+			&cb_empty_cell, GINT_TO_POINTER (clear_flags));
 
 		if (!(clear_flags & CLEAR_NORESPAN)) {
 			sheet_queue_respan (sheet, start_row, end_row);

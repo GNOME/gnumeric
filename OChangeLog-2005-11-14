@@ -1,3 +1,18 @@
+2005-01-03  Morten Welinder  <terra@gnome.org>
+
+	Patch for 161909:
+
+	* src/sheet.c (sheet_cell_remove): Add new arg to control whether
+	to flag dependencies.  All callers changed.
+	(cb_empty_cell): Take whole flags argument.
+
+	* src/clipboard.c (clipboard_paste_region): Handle new flag
+	PASTE_NO_RECALC to help sorting speed.
+
+	* src/sort.c (sort_contents): Paste using PASTE_NO_RECALC and
+	handle dependencies ourselves.  Don't qsort if we have less than
+	two elements.
+
 2004-12-29  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (format_month_before_day): Add Win32 version.

@@ -805,7 +805,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 				loops * group_count + sub_index,
 				limit_x, limit_y);
 		} else if (cell != NULL)
-			sheet_cell_remove (sheet, cell, TRUE);
+			sheet_cell_remove (sheet, cell, TRUE, TRUE);
 
 		mstyle_ref (fi->style); /* style_set steals ref */
 		sheet_style_set_pos (sheet, col, row, fi->style);

@@ -103,7 +103,8 @@ void	  sheet_set_visibility	 (Sheet *sheet, gboolean visible);
 GnmCell  *sheet_cell_get	 (Sheet const *sheet, int col, int row);
 GnmCell  *sheet_cell_fetch	 (Sheet *sheet, int col, int row);
 GnmCell  *sheet_cell_new	 (Sheet *sheet, int col, int row);
-void      sheet_cell_remove	 (Sheet *sheet, GnmCell *cell, gboolean redraw);
+void      sheet_cell_remove	 (Sheet *sheet, GnmCell *cell,
+				  gboolean redraw, gboolean queue_recalc);
 GnmValue *sheet_foreach_cell_in_range	(Sheet *sheet, CellIterFlags flags,
 				  int start_col, int start_row,
 				  int end_col, int end_row,

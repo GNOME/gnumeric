@@ -458,17 +458,19 @@ clipboard_paste_region (GnmCellRegion const *content,
 					paste_object (pt, ptr->data, left, top);
 		}
 
-        if (has_content) {
-		sheet_region_queue_recalc (pt->sheet, r);
-		sheet_flag_status_update_range (pt->sheet, r);
-	} else
-		sheet_flag_format_update_range (pt->sheet, r);
+	if (!(pt->paste_flags & PASTE_NO_RECALC)) {
+		if (has_content) {
+			sheet_region_queue_recalc (pt->sheet, r);
+			sheet_flag_status_update_range (pt->sheet, r);
+		} else
+			sheet_flag_format_update_range (pt->sheet, r);
 
-	sheet_range_calc_spans (pt->sheet, r,
-		(pt->paste_flags & PASTE_FORMATS) ? SPANCALC_RE_RENDER : SPANCALC_RENDER);
-	if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
-		rows_height_update (pt->sheet, &pt->range, FALSE);
-	sheet_redraw_all (pt->sheet, FALSE);
+		sheet_range_calc_spans (pt->sheet, r,
+					(pt->paste_flags & PASTE_FORMATS) ? SPANCALC_RE_RENDER : SPANCALC_RENDER);
+		if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
+			rows_height_update (pt->sheet, &pt->range, FALSE);
+		sheet_redraw_all (pt->sheet, FALSE);
+	}
 
 	return FALSE;
 }

@@ -179,7 +179,7 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 	GnmPasteTarget pt;
 
 	pt.sheet = data->sheet;
-	pt.paste_flags = PASTE_CONTENT | PASTE_COMMENTS;
+	pt.paste_flags = PASTE_CONTENT | PASTE_COMMENTS | PASTE_NO_RECALC;
 	if (!data->retain_formats)
 		pt.paste_flags = pt.paste_flags | PASTE_FORMATS;
 
@@ -290,7 +290,8 @@ sort_contents (GnmSortData *data, GnmCmdContext *cc)
 		}
 	}
 
-	qsort (perm, real_length, sizeof (SortDataPerm), sort_qsort_compare);
+	if (real_length > 1)
+		qsort (perm, real_length, sizeof (SortDataPerm), sort_qsort_compare);
 
 	cur = 0;
 	iperm = g_new (int, length);
@@ -306,6 +307,13 @@ sort_contents (GnmSortData *data, GnmCmdContext *cc)
 	g_free (real);
 
 	sort_permute (data, iperm, length, cc);
+
+	/* Make up for the PASTE_NO_RECALC.  */
+	sheet_region_queue_recalc (data->sheet, data->range);
+	sheet_flag_status_update_range (data->sheet, data->range);
+	sheet_range_calc_spans (data->sheet, data->range,
+				data->retain_formats ? SPANCALC_RENDER : SPANCALC_RE_RENDER);
+	sheet_redraw_all (data->sheet, FALSE);
 
 	return iperm;
 }

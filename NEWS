@@ -35,6 +35,8 @@ Morten:
 	* Fix deleting more than one character at once from a rich text
 	  string.
 	* Fix rich text problem when starting from empty.  [#161723].
+	* Vastly improve sorting speed for large ranges with formulas.
+	  [#161909]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

@@ -35,7 +35,10 @@ enum {
 	/* Update the row height when pasting? (for large fonts, etc.) */
 	PASTE_UPDATE_ROW_HEIGHT = 1 << 14,
 
-	PASTE_EXPR_LOCAL_RELOCATE = 1 << 15
+	PASTE_EXPR_LOCAL_RELOCATE = 1 << 15,
+
+	/* Avoid flagging dependencies.  */
+	PASTE_NO_RECALC         = 1 << 16
 };
 
 #define PASTE_ALL_TYPES (PASTE_CONTENT | PASTE_FORMATS | PASTE_COMMENTS | PASTE_OBJECTS)
