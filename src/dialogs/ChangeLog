@@ -1,3 +1,27 @@
+2003-07-01  Jody Goldberg <jody@gnome.org>
+
+	* advanced-filter.glade
+	anova-one.glade
+	anova-two.glade
+	autoformat.glade
+	cell-format.glade
+	consolidate.glade
+	correlation.glade
+	covariance.glade
+	descriptive-stats.glade
+	exp-smoothing.glade
+	fourier-analysis.glade
+	function-select.glade
+	histogram.glade
+	merge.glade
+	moving-averages.glade
+	print.glade
+	rank.glade
+	regression.glade
+	sampling.glade
+	shuffle.glade
+	tabulate.glade : remove unnecessary 'requires gnome'
+
 2003-06-30  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-main-page.c (main_page_set_spin_button_adjustment):
