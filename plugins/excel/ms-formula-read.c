@@ -836,7 +836,8 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		case FORMULA_PTG_NAME_X: /* FIXME: Not using sheet_idx at all ... */
 		{
 			ExprTree *tree ;
-			guint16 extn_sheet_idx, extn_name_idx ;
+			guint16 extn_name_idx; /* 1 based */
+			guint16 extn_sheet_idx;
 			
 			if (wb->ver == eBiffV8) {
 				extn_sheet_idx = BIFF_GET_GUINT16(cur) ;
@@ -849,7 +850,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 /*				printf ("FIXME: v7 NameX : %d %d\n", extn_sheet_idx, extn_name_idx) ; */
 				ptg_length = 24 ;
 			}
-			tree = biff_name_data_get_name (sheet, extn_name_idx);
+			tree = biff_name_data_get_name (sheet, extn_name_idx-1);
 			parse_list_push (&stack, tree);
 		}
 		break;
@@ -1051,7 +1052,8 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			printf ("Name idx %d\n", name_idx);
 #endif
 			parse_list_push (&stack,
-					 biff_name_data_get_name (sheet, name_idx));
+					 biff_name_data_get_name (sheet,
+								  name_idx));
 		}
 		break;
 

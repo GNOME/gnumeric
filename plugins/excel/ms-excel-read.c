@@ -560,7 +560,7 @@ biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 }
 
 typedef struct {
-	char     *name;
+	char const *name;
 	enum { BNDStore, BNDName } type;
 	union {
 		ExprName *name;
@@ -574,8 +574,9 @@ typedef struct {
 static int externsheet = 0;
 
 static void
-biff_name_data_new (ExcelWorkbook *wb, char *name,
-		    guint8 *formula, guint16 const len)
+biff_name_data_new (ExcelWorkbook *wb, char const *name,
+		    guint8 const *formula, guint16 const len,
+		    gboolean const external)
 {
 	BiffNameData *bnd = g_new (BiffNameData, 1);
 	bnd->name    = name;
@@ -591,7 +592,9 @@ biff_name_data_new (ExcelWorkbook *wb, char *name,
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
-		printf ("EXTERNNAME : %x %x '%s'\n", externsheet,
+		printf ("%s : %x %x '%s'\n",
+			external ? "EXTERNNAME" : "NAME",
+			externsheet,
 			wb->name_data->len, bnd->name);
 	}
 #endif
@@ -608,11 +611,6 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 	g_return_val_if_fail (sheet->wb, NULL);
 
 	a = sheet->wb->name_data;
-
-	/* FIXME : This is a guess. Pre XL95 seems to be zero based, anyone
-	 * have some confirmation ? */
-	if (sheet->ver >= eBiffV5)
-		--idx;
 
 	if (a && 0 <= idx && idx < a->len && (bnd = g_ptr_array_index (a, idx))) {
 		if (bnd->type == BNDStore && bnd->v.store.data) {
@@ -660,7 +658,7 @@ biff_name_data_destroy (BiffNameData *bnd)
 	g_return_if_fail (bnd);
 
 	if (bnd->name)
-		g_free (bnd->name);
+		g_free ((char *)bnd->name);
 	bnd->name    = NULL;
 	if (bnd->type == BNDStore) {
 		if (bnd->v.store.data)
@@ -1853,6 +1851,8 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 
 /*	g_assert (ixals==sheet_idx); */
 	ptr = q->data + 14;
+
+	/* FIXME FIXME FIXME : Disable for now */
 	if (0 && name_len == 1 && *ptr <= 0x0c) {
 		switch (*ptr)
 		{
@@ -1915,7 +1915,8 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	}
 #endif
 
-	biff_name_data_new (sheet->wb, name, name_def_data, name_def_len);
+	biff_name_data_new (sheet->wb, name, name_def_data, name_def_len,
+			    FALSE);
 	if (menu_txt)
 		g_free (menu_txt);
 	if (descr_txt)
@@ -1928,15 +1929,14 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 
 /* S59D7E.HTM */
 static void
-ms_excel_externname (BiffQuery *q,
-		     ExcelSheet *sheet)
+ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 {
-	char *externname;
+	char const *name;
 	guint8 *defn;
 	guint16 defnlen;
 	if (sheet->ver >= eBiffV7) {
 		guint32 namelen  = BIFF_GET_GUINT8(q->data+6);
-		externname = biff_get_text (q->data+7, namelen, &namelen);
+		name = biff_get_text (q->data+7, namelen, &namelen);
 		defn     = q->data+7 + namelen;
 		defnlen  = BIFF_GET_GUINT16(defn);
 		defn += 2;
@@ -1944,11 +1944,11 @@ ms_excel_externname (BiffQuery *q,
 		static guint8 data[] = { 0x1c, 0x17 }; /* Error : REF */
 		defn = data;
 		defnlen = 2;
-		externname = biff_get_text (q->data+1,
-					    BIFF_GET_GUINT8(q->data), NULL);
+		name = biff_get_text (q->data+1,
+				      BIFF_GET_GUINT8(q->data), NULL);
 	}
 
-	biff_name_data_new (sheet->wb, externname, defn, defnlen);
+	biff_name_data_new (sheet->wb, name, defn, defnlen, TRUE);
 }
 
 /**
