@@ -316,6 +316,8 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 	case PPDrawing:
 		{
 			GodDrawingMsClientHandler *handler;
+			GodDrawing *drawing;
+
 			ERROR (stack && (STACK_TOP->opcode == Slide ||
 					 STACK_TOP->opcode == MainMaster ||
 					 STACK_TOP->opcode == Notes), "Placement Error");
@@ -327,7 +329,8 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			} else {
 				handler = god_drawing_ms_client_handler_ppt_new (NULL);
 			}
-			GodDrawing *drawing = god_drawing_read_ms (input, record->length, handler, NULL);
+
+			drawing = god_drawing_read_ms (input, record->length, handler, NULL);
 			g_print ("Drawing read %p\n", drawing);
 			dump_drawing (drawing);
 			g_object_unref (handler);

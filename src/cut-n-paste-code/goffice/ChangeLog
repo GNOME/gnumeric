@@ -1,3 +1,7 @@
+2004-03-22  Morten Welinder  <terra@gnome.org>
+
+	* libpresent/load-ppt.c (handle_atom): The usual fix.
+
 2004-03-21  Christopher James Lahey  <clahey@ximian.com>
 
 	* ms-compat/god-drawing-ms.c (handle_atom),
