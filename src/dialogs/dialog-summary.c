@@ -80,7 +80,7 @@ void
 dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/summary.glade", NULL);
-	GtkWidget *dia;
+	GtkWidget *dia, *comments;
 	int i;
 	static char *names[] 
 	  = {
@@ -110,6 +110,9 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 		gnome_dialog_editable_enters(GNOME_DIALOG(dia), 
 					     GTK_EDITABLE(entry));
 	}
+	comments = glade_xml_get_widget (gui, "glade_comments");
+	gtk_text_set_word_wrap (GTK_TEXT (comments), TRUE);
+
 	
 	summary_put (gui, sin);
 

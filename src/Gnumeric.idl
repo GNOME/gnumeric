@@ -95,7 +95,8 @@ module GNOME {
 			//
 			// Cell management
 			//
-			void    cell_set_value (in long col, in long row, in Value value)
+			void    cell_set_value (in long col, in long row,
+						in Gnumeric::Value value)
 				raises (OutOfRange, SplitsArray);
 			Value   cell_get_value (in long col, in long row) 
 				raises (OutOfRange);
@@ -247,7 +248,9 @@ module GNOME {
 			//
 			// Cell reference parsing
 			//
-			void parse (in string cellref, out Sheet sheet, out long col, out long row);
+			void parse (in string cellref,
+				    out Gnumeric::Sheet sheet,
+				    out long col, out long row);
 
 			//
 			// Window control

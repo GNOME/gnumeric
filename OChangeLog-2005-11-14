@@ -1,3 +1,24 @@
+2000-03-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/corba-workbook.c (command_context_corba): Handle wb =
+	NULL. It would segfault.
+
+	* src/Gnumeric.idl: Fixed places where a name at an inner scope
+	differs only in case from a name at an outer scope. This breaks
+	the rule that identifiers cannot differ only in case, because an
+	identifier from a surrounding scope is introduced into a scope if
+	it is used in that scope. The solution is to scope the outer
+	identifiers explicitly:
+	(GNOME::Gnumeric::Sheet::cell_set_value): Change Value to
+	Gnumeric::Value. 
+	(GNOME::Gnumeric::Workbook::parse): Change Sheet to
+	Gnumeric::Sheet.
+	
+	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment): Set
+	word wrap.
+
+	* src/dialogs/dialog-summary.c (dialog_summary_update): Ditto.
+
 2000-03-08  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/sheet.c (sheet_destroy): Fixed a leak (in

@@ -30,7 +30,9 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 
 	text = gtk_text_new (NULL, NULL);
+	gtk_text_set_word_wrap (GTK_TEXT (text), TRUE);
 	gtk_text_set_editable (GTK_TEXT (text), TRUE);
+
 	if (cell->comment){
 		char *comment = cell->comment->comment->str;
 		gint pos = 0;
