@@ -1,3 +1,7 @@
+2003-07-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf.c (stf_text_to_columns): do not pass null data to stf_dialog
+
 2003-07-09  Morten Welinder  <terra@gnome.org>
 
 	* src/formats.c (currency_date_format_shutdown): Free regexps.

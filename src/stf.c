@@ -290,10 +290,16 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	gsf_output_close (GSF_OUTPUT (buf));
 	data = gsf_output_memory_get_bytes (buf);
 	data_len = (size_t)gsf_output_size (GSF_OUTPUT (buf));
-	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
-				   NULL, FALSE, NULL, FALSE,
-				   _("Text to Columns"), data, data_len);
-
+	if (data_len == 0) {
+		gnumeric_error_read (COMMAND_CONTEXT (cc),
+					     _("There is no data "
+					       "to convert"));
+	} else {
+		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
+					   NULL, FALSE, NULL, FALSE,
+					   _("Text to Columns"), 
+					   data, data_len);
+	}
 	if (dialogresult != NULL) {
 		if (!stf_store_results (dialogresult, target_sheet,
 					target.start.col, target.start.row)) {
