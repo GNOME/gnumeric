@@ -1,3 +1,7 @@
+2001-07-16  Almer S. Tigelaar  <almer@gnome.org>
+
+	* stf-parse.c (stf_parse_general): Fix leakage.
+
 2001-07-15  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/gnumeric-util.c (gnumeric_create_popup_menu): Fixed problem with

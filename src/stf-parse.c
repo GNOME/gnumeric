@@ -608,20 +608,22 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 	row = 0;
 
 	while (*src.position != '\0') {
-		GList *r = parseoptions->parsetype == PARSE_TYPE_CSV
-			? stf_parse_csv_line (&src, parseoptions)
-			: stf_parse_fixed_line (&src, parseoptions);
+		GList *r;
 			
 		if (++row >= SHEET_MAX_ROWS) {
 				g_warning (WARN_TOO_MANY_ROWS, row);
 				return NULL;
 		}
-		
+				
 		if (parseoptions->parselines != -1)
 			if (row > parseoptions->parselines)
 				break;
 
+		r = parseoptions->parsetype == PARSE_TYPE_CSV
+			? stf_parse_csv_line (&src, parseoptions)
+			: stf_parse_fixed_line (&src, parseoptions);
 		l = g_list_append (l, r);
+		
 		src.position++;
 	}
 
