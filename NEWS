@@ -14,7 +14,7 @@ Morten:
 	* Add Ctrl-5 for strike-through.
 	* Add Ctrl-Shift-D for double underline.
 	* Fix error return for GEOMEAN and HARMEAN.
-	* Fix IMCONJUGATE and IMABS for reals.
+	* Fix IMCONJUGATE and IMABS for reals.  [#148323, backported]
 
 Uwe Steinmann:
 	* Paradox DB import.
