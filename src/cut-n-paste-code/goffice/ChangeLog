@@ -1,3 +1,8 @@
+2003-11-13  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render) :
+	  avoid the potential for trouble for a series with only zeros.
+
 2003-11-12  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-guru.c (graph_guru_init_format_page) : store the

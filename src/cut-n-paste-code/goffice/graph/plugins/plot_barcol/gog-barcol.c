@@ -324,7 +324,8 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				else
 					sum -= tmp;
 			}
-			data_scale = scale / sum;
+
+			data_scale = (fabs (gnumeric_sub_epsilon (sum)) > 0) ? scale / sum : scale;
 		}
 
 		pos_base = neg_base = -val_min * scale;
