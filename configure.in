@@ -147,7 +147,7 @@ AC_ARG_WITH(long_double,
 			AC_MSG_RESULT(no),
 			[AC_CHECK_FUNCS(ynl)])
 
-		AC_MSG_CHECKING([checking for working erf and erfc])
+		AC_MSG_CHECKING([checking for working erfl and erfcl])
 		AC_TRY_RUN([
 			#include <math.h>
 			#ifdef HAVE_SUNMATH_H
@@ -160,8 +160,8 @@ AC_ARG_WITH(long_double,
 				return !(l1 >= 0.91 && l1 <= 0.92 &&
 					 l2 >= 0.08 && l2 <= 0.09);
 			}],
-			[AC_DEFINE(HAVE_ERF)
-			 AC_DEFINE(HAVE_ERFC)
+			[AC_DEFINE(HAVE_ERFL)
+			 AC_DEFINE(HAVE_ERFCL)
 			AC_MSG_RESULT(yes)],
 			AC_MSG_RESULT(no),
 			[AC_CHECK_FUNCS(erfl erfcl)])
