@@ -2558,6 +2558,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
 	gboolean string_result = FALSE;
 	gint     col, row;
 	Value   *v;
+	ExprTree*expr;
 
 	g_return_if_fail (bp);
 	g_return_if_fail (cell);
@@ -2568,6 +2569,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
 	col = cell->pos.col;
 	row = cell->pos.row;
 	v = cell->value;
+	expr = cell->base.expression;
 
 	/* See: S59D8F.HTM */
 	ms_biff_put_var_next (bp, BIFF_FORMULA);
@@ -2607,18 +2609,41 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
 		g_warning ("Unhandled value->type (%d) in excel::write_formula", v->type);
 	}
 
-	MS_OLE_SET_GUINT16 (data + 14, 0x0); /* Always calc & on load */
+	MS_OLE_SET_GUINT16 (data + 14, 0x0); /* alwaysCalc & calcOnLoad */
 	MS_OLE_SET_GUINT32 (data + 16, 0x0);
-	MS_OLE_SET_GUINT16 (data + 20, 0x0);
+	MS_OLE_SET_GUINT16 (data + 20, 0x0); /* bogus len, fill in later */
 	ms_biff_put_var_write (bp, data, 22);
-	len = ms_excel_write_formula (bp, esheet, cell->base.expression,
-				      col, row, 0);
+	len = ms_excel_write_formula (bp, esheet, expr, col, row, 0);
+
 	g_assert (len <= 0xffff);
+
 	ms_biff_put_var_seekto (bp, 20);
 	MS_OLE_SET_GUINT16 (lendat, len);
 	ms_biff_put_var_write (bp, lendat, 2);
 
 	ms_biff_put_commit (bp);
+
+	if (expr->any.oper == OPER_ARRAY &&
+	    expr->array.x == 0 && expr->array.y == 0) {
+		ms_biff_put_var_next (bp, BIFF_ARRAY);
+		MS_OLE_SET_GUINT16 (data+0, cell->pos.row);
+		MS_OLE_SET_GUINT16 (data+2, cell->pos.row + expr->array.rows-1);
+		MS_OLE_SET_GUINT16 (data+4, cell->pos.col);
+		MS_OLE_SET_GUINT16 (data+5, cell->pos.col + expr->array.cols-1);
+		MS_OLE_SET_GUINT16 (data+6, 0x0); /* alwaysCalc & calcOnLoad */
+		MS_OLE_SET_GUINT32 (data+8, 0);
+		MS_OLE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
+		ms_biff_put_var_write (bp, data, 14);
+		len = ms_excel_write_formula (bp, esheet,
+			expr->array.corner.expr, col, row, 0);
+
+		g_assert (len <= 0xffff);
+
+		ms_biff_put_var_seekto (bp, 12);
+		MS_OLE_SET_GUINT16 (lendat, len);
+		ms_biff_put_var_write (bp, lendat, 2);
+		ms_biff_put_commit (bp);
+	}
 
 	if (string_result) {
 		gchar *str;

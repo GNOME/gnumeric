@@ -1,3 +1,9 @@
+2001-12-05  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (write_formula) : handle array formulas.
+	* ms-formula-write.c (write_node) : ditto.
+	(ms_excel_write_formula) : remove pointless malloc & free.
+
 2001-11-25  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c : s/ParseList/ExprList/

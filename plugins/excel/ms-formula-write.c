@@ -533,7 +533,8 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		{ FORMULA_PTG_U_PLUS,	 5, 0, 0 }, /* Unary - */
 		{ FORMULA_PTG_U_MINUS,	 5, 0, 0 }, /* Unary + */
 		{ FORMULA_PTG_PERCENT,	 5, 0, 0 }, /* Percentage (NOT MODULO) */
-		{ 0, 0, 0, 0 }  /* Array    */
+		{ 0, 0, 0, 0 }, /* Array    */
+		{ 0, 0, 0, 0 }  /* Set      */
 	};
 	int op;
 	g_return_if_fail (pd);
@@ -704,7 +705,19 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		break;
 	}
 
-	case OPER_ARRAY:
+	case OPER_ARRAY: {
+		ExprArray const *array = &tree->array;
+		guint8 data[5];
+		MS_OLE_SET_GUINT8 (data, FORMULA_PTG_EXPR);
+		MS_OLE_SET_GUINT16 (data+1, pd->row - array->y);
+		MS_OLE_SET_GUINT16 (data+3, pd->col - array->x);
+		ms_biff_put_var_write (pd->bp, data, 5);
+
+		/* Be anal */
+		g_return_if_fail (paren_level == 0);
+		break;
+	}
+
 	default:
 	{
 		gchar *err = g_strdup_printf ("Unknown Operator %d",
@@ -759,7 +772,7 @@ guint32
 ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 			int fn_col, int fn_row, int paren_level)
 {
-	PolishData *pd;
+	PolishData pd;
 	MsOlePos start;
 	guint32 len;
 
@@ -767,27 +780,24 @@ ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 	g_return_val_if_fail (expr, 0);
 	g_return_val_if_fail (sheet, 0);
 
-	pd = g_new (PolishData, 1);
-	pd->col    = fn_col;
-	pd->row    = fn_row;
-	pd->sheet  = sheet;
-	pd->bp     = bp;
-	pd->arrays = NULL;
-	pd->ver    = sheet->wb->ver;
+	pd.col    = fn_col;
+	pd.row    = fn_row;
+	pd.sheet  = sheet;
+	pd.bp     = bp;
+	pd.arrays = NULL;
+	pd.ver    = sheet->wb->ver;
 
 	start = bp->length;
-	write_node (pd, expr, 0);
+	write_node (&pd, expr, 0);
 	len = bp->length - start;
 
-	if (pd->arrays) {
-		push_guint16 (pd, 0x0); /* Sad but true */
-		push_guint8  (pd, 0x0);
+	if (pd.arrays) {
+		push_guint16 (&pd, 0x0); /* Sad but true */
+		push_guint8  (&pd, 0x0);
 
-		while (pd->arrays)
-			write_arrays (pd);
+		while (pd.arrays)
+			write_arrays (&pd);
 	}
-
-	g_free (pd);
 
 	return len;
 }

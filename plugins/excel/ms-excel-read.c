@@ -1832,7 +1832,6 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 	d (0, printf ("Formula in %s!%s;\n",
 		      cell->base.sheet->name_quoted, cell_name (cell)););
 
-
 	/* TODO TODO TODO: Wishlist
 	 * We should make an array of minimum sizes for each BIFF type
 	 * and have this checking done there.
@@ -2910,10 +2909,9 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *esheet)
 			      row + 1, flags, xf););
 	}
 
-	if ((unsigned)(flags & 0x7) > 0) {
-		ColRowInfo *cri = sheet_row_fetch (esheet->gnum_sheet, row);
-		colrow_set_outline (cri, FALSE, (unsigned)(flags & 0x7), FALSE, flags & 0x10);
-	}
+	if ((unsigned)(flags & 0x7) > 0)
+		colrow_set_outline (sheet_row_fetch (esheet->gnum_sheet, row),
+			(unsigned)(flags & 0x7), flags & 0x10);
 }
 
 /**
@@ -2968,10 +2966,9 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *esheet)
 		lastcol = SHEET_MAX_COLS - 1;
 	for (lp = firstcol; lp <= lastcol; ++lp) {
 		sheet_col_set_size_pts (esheet->gnum_sheet, lp, col_width, TRUE);
-		if (outline_level > 0) {
-			ColRowInfo *cri = sheet_col_fetch (esheet->gnum_sheet, lp);
-			colrow_set_outline (cri, TRUE, outline_level, FALSE, collapsed);
-		}
+		if (outline_level > 0)
+			colrow_set_outline (sheet_col_fetch (esheet->gnum_sheet, lp),
+				outline_level, collapsed);
 	}
 
 	if (xf != 0)
