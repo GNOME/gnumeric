@@ -58,7 +58,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 	RenderedValue	*res;
 	Sheet		*sheet;
 	StyleColor	*color;
-	float		 col_width = -1.;
+	double		 col_width = -1.;
 	char *str;
 
 	g_return_val_if_fail (cell != NULL, NULL);

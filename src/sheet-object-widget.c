@@ -250,7 +250,7 @@ sheet_widget_label_read_xml (SheetObject *so,
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
 	if (!label) {
-		g_warning ("Could not read a SheetWidgetLabel beacause it lacks a label property\n");
+		g_warning ("Could not read a SheetWidgetLabel beacause it lacks a label property.");
 		return TRUE;
 	}
 
@@ -343,7 +343,7 @@ sheet_widget_frame_read_xml (SheetObject *so,
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
 	if (!label) {
-		g_warning ("Could not read a SheetWidgetFrame beacause it lacks a label property\n");
+		g_warning ("Could not read a SheetWidgetFrame beacause it lacks a label property.");
 		return TRUE;
 	}
 
@@ -433,7 +433,7 @@ sheet_widget_button_read_xml (SheetObject *so,
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
 	if (!label) {
-		g_warning ("Could not read a SheetWidgetButton beacause it lacks a label property\n");
+		g_warning ("Could not read a SheetWidgetButton beacause it lacks a label property.");
 		return TRUE;
 	}
 
@@ -847,7 +847,7 @@ sheet_widget_scrollbar_read_xml (SheetObject *so,
 			parse_pos_init (&pos, NULL, context->sheet, 0, 0));
 
 		if (expr == NULL) {
-			g_warning ("Could not read scrollbar widget object. Could not parse expr\n");
+			g_warning ("Could not read scrollbar widget object. Could not parse expr.");
 			xmlFree (input_txt);
 			return TRUE;
 		}
@@ -1307,7 +1307,7 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 			parse_pos_init (&pos, NULL, context->sheet, 0, 0));
 
 		if (expr == NULL) {
-			g_warning ("Could not read checkbox widget object. Could not parse expr\n");
+			g_warning ("Could not read checkbox widget object. Could not parse expr.");
 			xmlFree (input_txt);
 			return TRUE;
 		}

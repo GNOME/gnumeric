@@ -232,7 +232,7 @@ dialog_init (AutoCorrectState *state)
                 return TRUE;
 	state->dialog = glade_xml_get_widget (state->glade, "AutoCorrect");
 	if (state->dialog == NULL) {
-		g_warning ("Corrupt file autocorrect.glade\n");
+		g_warning ("Corrupt file autocorrect.glade");
 		return TRUE;
 	}
 

@@ -384,6 +384,6 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	}
 
 	default:
-		g_warning ("Unknown horizontal alignment type %d\n", align);
+		g_warning ("Unknown horizontal alignment type %d.", align);
 	} /* switch */
 }

@@ -1417,7 +1417,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			break;
 
 		default:
-			g_warning ("EXCEL : Unhandled PTG 0x%x\n", ptg);
+			g_warning ("EXCEL : Unhandled PTG 0x%x.", ptg);
 			error = TRUE;
 		}
 /*		printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length); */
@@ -1426,7 +1426,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 	}
 
 	if (error) {
-		g_warning ("Unknown Formula/Array at %s!%s%s\n",
+		g_warning ("Unknown Formula/Array at %s!%s%s.",
 			(esheet->gnum_sheet)?
 			esheet->gnum_sheet->name_unquoted : "",
 			cell_coord_name (fn_col,fn_row),

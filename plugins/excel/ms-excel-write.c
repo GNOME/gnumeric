@@ -222,7 +222,7 @@ biff_bof_write (BiffPut *bp, MsBiffVersion ver,
 			MS_OLE_SET_GUINT16 (data, 0x0500);
 		break;
 	default:
-		g_warning ("Unknown version\n");
+		g_warning ("Unknown version.");
 		break;
 	}
 
@@ -247,7 +247,7 @@ biff_bof_write (BiffPut *bp, MsBiffVersion ver,
 		MS_OLE_SET_GUINT16 (data+2, 0x0100);
 		break;
 	default:
-		g_warning ("Unknown type\n");
+		g_warning ("Unknown type.");
 		break;
 	}
 
@@ -705,7 +705,7 @@ ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet)
 		if (esheet->gnum_sheet == gnum_sheet)
 			return lp;
 	}
-	g_warning ("No associated esheet for %p\n", gnum_sheet);
+	g_warning ("No associated esheet for %p.", gnum_sheet);
 	return 0;
 }
 
@@ -714,7 +714,7 @@ ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
 				    Sheet *sheeta,
 				    Sheet *sheetb)
 {
-	g_warning ("Get Externsheet not implemented yet\n");
+	g_warning ("Get Externsheet not implemented yet.");
 	return 0;
 }
 
@@ -747,7 +747,7 @@ biff_boundsheet_write_first (BiffPut *bp, MsBiffFileType type,
 		MS_OLE_SET_GUINT8 (data+4, 06);
 		break;
 	default:
-		g_warning ("Duff type\n");
+		g_warning ("Duff type.");
 		break;
 	}
 	MS_OLE_SET_GUINT8 (data+5, 0); /* Visible */
@@ -2608,7 +2608,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
 		break;
 
 	default :
-		g_warning ("Unhandled value->type (%d) in excel::write_formula", v->type);
+		g_warning ("Unhandled value->type (%d) in excel::write_formula.", v->type);
 	}
 
 	MS_OLE_SET_GUINT16 (data + 14, 0x0); /* alwaysCalc & calcOnLoad */

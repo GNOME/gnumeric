@@ -126,7 +126,7 @@ impl_vector_selection_selected (PortableServer_Servant servant,
 {
 	GnmGraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
-	g_warning ("Gnumeric : VectorSelection::selected (%p) placeholder\n", vector);
+	g_warning ("Gnumeric : VectorSelection::selected (%p) placeholder.", vector);
 }
 
 static GNOME_Gnumeric_Scalar_Seq *
@@ -449,7 +449,7 @@ gnm_graph_vector_corba_destroy (GnmGraphVector *vector)
 				&vector->servant.string, &ev);
 			break;
 		default :
-			g_warning ("Should not be reached");
+			g_assert_not_reached ();
 		};
 
 		g_return_if_fail (ev._major == CORBA_NO_EXCEPTION);

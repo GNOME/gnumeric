@@ -574,7 +574,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 	switch (fi->type) {
 	case FILL_EMPTY:
 	case FILL_INVALID:
-		g_warning ("This case should not be handled here\n");
+		g_warning ("This case should not be handled here.");
 		return;
 
 	case FILL_STRING_CONSTANT:
@@ -610,8 +610,8 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 	}
 
 	case FILL_DAYS : /* this should have been converted above */
-		g_warning ("Please report this warning and detail the autofill\n"
-			   "setup used to generate it.");
+		g_warning ("Please report this warning and detail the autofill"
+			   "\nsetup used to generate it.");
 	case FILL_NUMBER: {
 		FillItem const *delta = fi->group_last;
 		Value *v;

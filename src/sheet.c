@@ -4268,7 +4268,7 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 		return;
 
 	if (!warned) {
-		g_warning ("We are not duplicating names yet. Function not implemented\n");
+		g_warning ("We are not duplicating names yet. Function not implemented.");
 		warned = TRUE;
 	}
 

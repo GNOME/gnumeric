@@ -128,7 +128,7 @@ sum_name_to_excel (const gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID p
 		}
 	}
 
-	g_warning ("sum_name_to_excel: summary name not found - %s\n", name);
+	g_warning ("sum_name_to_excel: summary name not found - `%s'.", name);
 	return 0;
 }
 
@@ -329,12 +329,12 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	current_summary_iconv = excel_iconv_open_for_export();
 
 	if (f == NULL) {
-		g_warning ("ms_summary_write: no file to write to.\n");
+		g_warning ("ms_summary_write: no file to write to.");
 		return;
 	}
 
 	if (sin == NULL) {
-		g_warning ("ms_summary_write: no summary information to write.\n");
+		g_warning ("ms_summary_write: no summary information to write.");
 		return;
 	}
 
@@ -343,13 +343,13 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	 */
 	si = ms_ole_summary_create (f);
 	if (si == NULL) {
-		g_warning ("ms_summary_write: summary NOT created.\n");
+		g_warning ("ms_summary_write: summary NOT created.");
 		return;
 	}
 
 	si_list = summary_info_as_list (sin);
 	if (si_list == NULL) {
-		g_warning ("ms_summary_write: No summary list.\n");
+		g_warning ("ms_summary_write: No summary list.");
 	}
 
 	current_summary_iconv = excel_iconv_open_for_export();
@@ -364,7 +364,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	 */
 	si = ms_ole_docsummary_create (f);
 	if (si == NULL) {
-		g_warning ("ms_summary_write: doc summary NOT created.\n");
+		g_warning ("ms_summary_write: doc summary NOT created.");
 		excel_iconv_close (current_summary_iconv);
 		current_summary_iconv = NULL;
 		return;
@@ -372,7 +372,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 
 	si_list = summary_info_as_list (sin);
 	if (si_list == NULL) {
-		g_warning ("ms_summary_write: No summary list.\n");
+		g_warning ("ms_summary_write: No summary list.");
 	}
 
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);

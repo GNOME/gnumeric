@@ -565,7 +565,7 @@ format_match_create (StyleFormat *fmt)
 
 	ret = regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
 	if (ret != 0) {
-		g_warning ("expression %s\nproduced:%s\n", fmt->format, regexp);
+		g_warning ("expression [%s] produced [%s]", fmt->format, regexp);
 		print_regex_error (ret);
 		g_free (regexp);
 		return FALSE;
@@ -929,7 +929,7 @@ compute_value (char const *s, const regmatch_t *mp,
 			return value_new_string_str (string_get_nocopy (str));
 
 		default :
-			g_warning ("compute_value: This should not happen\n");
+			g_warning ("compute_value: This should not happen.");
 			break;
 		}
 

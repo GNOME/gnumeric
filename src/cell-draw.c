@@ -192,7 +192,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	g_return_if_fail (cell->rendered_value->rendered_text);
 
 	if (cell->rendered_value->rendered_text->str == NULL) {
-		g_warning ("Serious cell error at '%s'\n", cell_name (cell));
+		g_warning ("Serious cell error at '%s'.", cell_name (cell));
 		/* This can occur when eg. a plugin function fires up a dialog */
 		text = "Pending";
 	} else
@@ -224,7 +224,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 	switch (valign) {
 	default:
-		g_warning ("Unhandled cell vertical alignment\n");
+		g_warning ("Unhandled cell vertical alignment.");
 
 	case VALIGN_JUSTIFY:
 	case VALIGN_TOP:
@@ -312,7 +312,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			break;
 
 		default:
-			g_warning ("Single-line justification style not supported\n");
+			g_warning ("Single-line justification style not supported.");
 			x = rect.x;
 		}
 
@@ -363,7 +363,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			break;
 
 		default:
-			g_warning ("Unhandled cell vertical alignment\n");
+			g_warning ("Unhandled cell vertical alignment.");
 			y_offset = 0;
 			inter_space = font_height;
 		}
@@ -375,7 +375,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 			switch (halign) {
 			default:
-				g_warning ("Multi-line justification style not supported\n");
+				g_warning ("Multi-line justification style not supported.");
 			case HALIGN_JUSTIFY:
 				/* fall through */
 			case HALIGN_LEFT:

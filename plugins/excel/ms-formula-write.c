@@ -714,7 +714,7 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 					      tree->any.oper);
 		write_string (pd, err);
 		g_free (err);
-		g_warning ("Unhandled node type %d\n", tree->any.oper);
+		g_warning ("Unhandled node type %d", tree->any.oper);
 		break;
 	}
 	}

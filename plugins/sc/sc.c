@@ -254,7 +254,7 @@ sc_parse_let_expr (sc_file_state_t *src, const char *cmd, const char *str, int c
 
 	tree = expr_parse_string (str, NULL, NULL, &error);
 	if (!tree) {
-		g_warning ("cannot parse cmd='%s',str='%s',col=%d,row=%d\n",
+		g_warning ("cannot parse cmd='%s',str='%s',col=%d,row=%d.",
 			   cmd, str, col, row);
 		goto out;
 	}

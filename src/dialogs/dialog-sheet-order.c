@@ -111,7 +111,7 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 		n++;
 	}
 
-	g_warning ("We should have never gotten to this point!\n");
+	g_assert_not_reached ();
 	return -1;
 }
 
@@ -405,7 +405,7 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 static void
 cb_duplicate_clicked (GtkWidget *ignore, SheetManager *state)
 {
-	g_warning ("'Duplicate' not implemented\n");
+	g_warning ("'Duplicate' not implemented.");
 }
 
 static void

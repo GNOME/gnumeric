@@ -62,7 +62,7 @@ WorkbookFactory_manufactures (PortableServer_Servant servant,
 			      const CORBA_char *obj_goad_id,
 			      CORBA_Environment *ev)
 {
-	g_warning ("Request for: %s\n", obj_goad_id);
+	g_warning ("Request for: %s.", obj_goad_id);
 
 	printf ("Getting: %s\n", obj_goad_id);
         if (strcmp (obj_goad_id, "IDL:GNOME:Gnumeric:Workbook:1.0") == 0)

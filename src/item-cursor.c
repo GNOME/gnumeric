@@ -999,11 +999,11 @@ item_cursor_do_action (ItemCursor *ic, ActionType action, guint32 time)
 	case ACTION_SHIFT_RIGHT_AND_COPY:
 	case ACTION_SHIFT_DOWN_AND_MOVE:
 	case ACTION_SHIFT_RIGHT_AND_MOVE:
-		g_warning ("Operation not yet implemented\n");
+		g_warning ("Operation not yet implemented.");
 		break;
 
 	default :
-		g_warning ("Invalid Operation %d\n", action);
+		g_warning ("Invalid Operation %d.", action);
 	}
 
 	scg_special_cursor_stop	(ic->scg);

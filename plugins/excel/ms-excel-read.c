@@ -399,7 +399,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		if (esheet->wb->warn_unsupported_graphs) {
 			/* TODO : Use IOContext when available */
 			esheet->wb->warn_unsupported_graphs = FALSE;
-			g_warning ("Images are not supported in non-bonobo version");
+			g_warning ("Images are not supported in non-bonobo version.");
 		}
 #endif
 		break;
@@ -448,7 +448,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		return NULL;
 
 	default:
-		g_warning ("EXCEL: unhandled excel object of type %s (0x%x) id = %d\n",
+		g_warning ("EXCEL: unhandled excel object of type %s (0x%x) id = %d.",
 			   obj->excel_type_name, obj->excel_type, obj->id);
 		return NULL;
 	}
@@ -746,7 +746,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 
 	if (!length) {
 		ans = g_new (char, 2);
-		g_warning ("Warning unterminated string floating");
+		g_warning ("Warning unterminated string floating.");
 	} else {
 		(*byte_length) += (high_byte ? 2 : 1)*length;
 		ans = get_chars ((char *) ptr, length, high_byte);
@@ -1194,7 +1194,7 @@ ms_excel_workbook_get_name (ExcelWorkbook const *ewb, int idx)
 
 	if (a == NULL || idx < 0 || (int)a->len <= idx ||
 	    (nexpr = g_ptr_array_index (a, idx)) == NULL) {
-		g_warning ("EXCEL: %x (of %x) UNKNOWN name\n", idx, a->len);
+		g_warning ("EXCEL: %x (of %x) UNKNOWN name.", idx, a->len);
 		return gnm_expr_new_constant (value_new_string ("Unknown name"));
 	}
 
@@ -2027,7 +2027,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 		return expr;
 	}
 
-	g_warning ("EXCEL: unexpected record '0x%x' after a formula in '%s'\n",
+	g_warning ("EXCEL: unexpected record '0x%x' after a formula in '%s'.",
 		   q->opcode, cell_name (cell));
 	return NULL;
 }
@@ -2195,7 +2195,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		 * instance or the followers.
 		 */
 		if (expr == NULL && !array_elem) {
-			g_warning ("EXCEL: How does cell %s have an array expression ?",
+			g_warning ("EXCEL: How does cell %s have an array expression?",
 				   cell_name (cell));
 			cell_set_value (cell, val);
 		} else

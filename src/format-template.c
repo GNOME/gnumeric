@@ -1004,7 +1004,7 @@ format_template_transform_edges (FormatTemplate const *origft)
 	FormatTemplate *ft;
 	GSList *iterator;
 
-	g_return_if_fail (origft != NULL);
+	g_return_val_if_fail (origft != NULL, NULL);
 	
 	ft = format_template_clone (origft);
 	iterator = ft->members;

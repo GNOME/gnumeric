@@ -261,7 +261,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		break;
 
 	default:
-		g_warning ("do_gnm_expr_unref error\n");
+		g_warning ("do_gnm_expr_unref error.");
 		break;
 	}
 
@@ -1172,7 +1172,7 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		return gnm_expr_list_as_string (expr->set.set, pp);
 	}
 
-	g_warning ("GnmExpr: This should not happen\n");
+	g_assert_not_reached ();
 	return g_strdup ("0");
 }
 
@@ -1729,7 +1729,7 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 	}
 
 	case GNM_EXPR_OP_ARRAY:
-		g_warning ("An array in a NAME ?");
+		g_warning ("An array in a NAME?");
 		break;
 
 	default :

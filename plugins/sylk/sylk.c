@@ -307,7 +307,7 @@ sylk_rtd_f_parse (sylk_file_state_t *src, const char *str)
 						src->def_fmt.grid_right = TRUE;
 						break;
 					default:
-						g_warning ("unhandled style S%c\n", *str);
+						g_warning ("unhandled style S%c.", *str);
 						break;
 				}
 				str--;
@@ -319,7 +319,7 @@ sylk_rtd_f_parse (sylk_file_state_t *src, const char *str)
 				src->cur_y = atoi (str + 1);
 				break;
 			default:
-				g_warning ("unhandled F option %c\n", *str);
+				g_warning ("unhandled F option %c.", *str);
 				break;
 		}
 

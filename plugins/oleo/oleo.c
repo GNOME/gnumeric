@@ -187,7 +187,7 @@ oleo_get_gnumeric_expr (char *g_expr, char const *o_expr,
 	*to = '\0';
 
 #if OLEO_DEBUG > 0
-	g_warning ("\"%s\"->\"%s\"\n", o_expr, g_expr);
+	g_warning ("\"%s\"->\"%s\".", o_expr, g_expr);
 #endif /* OLEO_DEBUG */
 
 	return g_expr;
@@ -213,7 +213,7 @@ oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 			       parse_error_init (&error));
 
 	if (error.id!=PERR_NONE) {
-		g_warning ("%s \"%s\" at %s!%s\n",  error.message, gnumeric_text,
+		g_warning ("%s \"%s\" at %s!%s.",  error.message, gnumeric_text,
 			   sheet->name_unquoted,
 			   cell_coord_name (OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row)));
 	}
@@ -233,7 +233,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 		int quotes = 0;
 		if (*ptr != ';') {
 #if OLEO_DEBUG > 0
-			g_warning ("ptr : %s\n", ptr);
+			g_warning ("ptr: %s.", ptr);
 #endif
 			break;
 		}
@@ -257,7 +257,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 
 		default:
 #if OLEO_DEBUG > 0
-			g_warning ("oleo: Don't know how to deal with C; '%c'\n",
+			g_warning ("oleo: Don't know how to deal with C; '%c'.",
 				   *ptr);
 #endif
 			ptr = (char *)""; /* I wish C had multilevel break */
@@ -296,7 +296,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 
 	} else {
 #if OLEO_DEBUG > 0
-		g_warning ("oleo: cval is NULL.\n");
+		g_warning ("oleo: cval is NULL.");
 #endif
 		/* We can still store the expression, even if the value is missing */
 		if (expr != NULL)
@@ -413,7 +413,7 @@ oleo_read (IOContext *io_context, Workbook *wb, gchar const *filename)
 			break;
 		default: /* unknown */
 #if OLEO_DEBUG > 0
-			g_warning ("oleo: Don't know how to deal with %c.\n",
+			g_warning ("oleo: Don't know how to deal with %c.",
 				   str[0]);
 #endif
 			break;

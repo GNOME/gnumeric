@@ -434,7 +434,7 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 		n++;
 	}
 
-	g_warning ("We should have never gotten to this point!\n");
+	g_assert_not_reached ();
 	return -1;
 }
 

@@ -415,7 +415,7 @@ mstyle_elements_equal (const MStyleElement *a,
 		if (a[i].type != b[i].type) {
 			if (a[i].type != MSTYLE_ELEMENT_UNSET &&
 			    b[i].type != MSTYLE_ELEMENT_UNSET)
-				g_warning ("%s mismatched types\n", mstyle_names[i]);
+				g_warning ("%s mismatched types.", mstyle_names[i]);
 			return FALSE;
 		}
 
