@@ -10,9 +10,12 @@ Release Critical
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
   In general parsing needs better error messages.
 
-
 Long term breakage
 ------------------
+
+- The max row/col canvas scroll size is still hard coded.
+- scrollbar sizes are based on rows/cols rather than visible pixels
+- scrollbar size includes hidden rows/cols
 
 - calculated cells do not respan.
 
@@ -65,8 +68,6 @@ STF - pasting a single line should not invoke the importer
 - references in names do not get changed with cut/paste or ins/del row/col.
 
 - We do not format fractional seconds correctly.
-
-- The max row/col canvas scroll size is still hard coded.
 
 - Auto resize needs to handle empty cells.
 

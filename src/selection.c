@@ -96,41 +96,6 @@ selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 }
 
 /**
- * sheet_selection_add_range : prepends a new range to the selection list.
- *
- * @sheet          : sheet whose selection to append to.
- * @edit_{col,row} : cell to mark as the new edit cursor.
- * @base_{col,row} : stationary corner of the newly selected range.
- * @move_{col,row} : moving corner of the newly selected range.
- *
- * Prepends a range to the selection list and set the edit cursor.
- */
-void
-sheet_selection_add_range (Sheet *sheet,
-			   int edit_col, int edit_row,
-			   int base_col, int base_row,
-			   int move_col, int move_row)
-{
-	SheetSelection *ss;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	/* Create and prepend new selection */
-	ss = g_new0 (SheetSelection, 1);
-	sheet->selections = g_list_prepend (sheet->selections, ss);
-
-	sheet_flag_status_update_range (sheet, NULL /* force update */);
-	sheet_selection_set (sheet, edit_col, edit_row,
-			     base_col, base_row, move_col, move_row);
-}
-
-void
-sheet_selection_add (Sheet *sheet, int col, int row)
-{
-	sheet_selection_add_range (sheet, col, row, col, row, col, row);
-}
-
-/**
  * sheet_selection_extend_to:
  * @sheet: the sheet
  * @col:   column that gets covered
@@ -284,11 +249,12 @@ sheet_is_full_range_selected (Sheet const * const sheet, Range const *r)
 	return FALSE;
 }
 
-void
-sheet_selection_set (Sheet *sheet,
-		     int edit_col, int edit_row,
-		     int base_col, int base_row,
-		     int move_col, int move_row)
+static void
+sheet_selection_set_internal (Sheet *sheet,
+			      int edit_col, int edit_row,
+			      int base_col, int base_row,
+			      int move_col, int move_row,
+			      gboolean just_add_it)
 {
 	GSList *merged, *ptr;
 	gboolean changed, reset_positions = FALSE;
@@ -351,7 +317,7 @@ looper :
 		}
 	}
 
-	if (range_equal (&ss->user, &new_sel))
+	if (!just_add_it && range_equal (&ss->user, &new_sel))
 		return;
 
 	old_sel = ss->user;
@@ -362,6 +328,13 @@ looper :
 			  edit_col, edit_row,
 			  base_col, base_row,
 			  move_col, move_row);
+
+	if (just_add_it) {
+		sheet_redraw_range (sheet, &new_sel);
+		sheet_redraw_headers (sheet, TRUE, TRUE, &new_sel);
+		sheet_flag_selection_change (sheet);
+		return;
+	}
 
 	if (range_overlap (&old_sel, &new_sel)) {
 		GList *ranges, *l;
@@ -448,6 +421,53 @@ looper :
 	}
 
 	sheet_flag_selection_change (sheet);
+}
+
+void
+sheet_selection_set (Sheet *sheet,
+		     int edit_col, int edit_row,
+		     int base_col, int base_row,
+		     int move_col, int move_row)
+{
+	sheet_selection_set_internal (sheet,
+				      edit_col, edit_row,
+				      base_col, base_row,
+				      move_col, move_row, FALSE);
+}
+
+/**
+ * sheet_selection_add_range : prepends a new range to the selection list.
+ *
+ * @sheet          : sheet whose selection to append to.
+ * @edit_{col,row} : cell to mark as the new edit cursor.
+ * @base_{col,row} : stationary corner of the newly selected range.
+ * @move_{col,row} : moving corner of the newly selected range.
+ *
+ * Prepends a range to the selection list and set the edit cursor.
+ */
+void
+sheet_selection_add_range (Sheet *sheet,
+			   int edit_col, int edit_row,
+			   int base_col, int base_row,
+			   int move_col, int move_row)
+{
+	SheetSelection *ss;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	/* Create and prepend new selection */
+	ss = g_new0 (SheetSelection, 1);
+	sheet->selections = g_list_prepend (sheet->selections, ss);
+	sheet_selection_set_internal (sheet,
+				      edit_col, edit_row,
+				      base_col, base_row,
+				      move_col, move_row, TRUE);
+}
+
+void
+sheet_selection_add (Sheet *sheet, int col, int row)
+{
+	sheet_selection_add_range (sheet, col, row, col, row, col, row);
 }
 
 /**

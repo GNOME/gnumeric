@@ -1150,7 +1150,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 	}
 
 	/* Update the scrollbar sizes */
-	sheet_view_scrollbar_config (gsheet->scg);
+	scg_scrollbar_config (gsheet->scg);
 
 	/* Force the cursor to update its bounds relative to the new visible region */
 	item_cursor_reposition (gsheet->item_cursor);

@@ -287,7 +287,7 @@ new_canvas_bar (SheetControlGUI *scg, GtkOrientation o, GnomeCanvasItem **itemp)
 
 /* Manages the scrollbar dimensions and paging parameters. */
 void
-sheet_view_scrollbar_config (SheetControlGUI const *scg)
+scg_scrollbar_config (SheetControlGUI const *scg)
 {
 	GtkAdjustment *va = GTK_ADJUSTMENT (scg->va);
 	GtkAdjustment *ha = GTK_ADJUSTMENT (scg->ha);
@@ -355,7 +355,7 @@ sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetControlG
 	 */
 	sheet_view_make_edit_pos_visible (scg);
 #endif
-	sheet_view_scrollbar_config (scg);
+	scg_scrollbar_config (scg);
 }
 
 static void

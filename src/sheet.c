@@ -747,7 +747,7 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->resize_scrollbar) {
 		SHEET_FOREACH_CONTROL (sheet, control,
-			sheet_view_scrollbar_config (control););
+			scg_scrollbar_config (control););
 		p->resize_scrollbar = FALSE;
 	}
 }

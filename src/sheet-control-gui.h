@@ -84,7 +84,7 @@ void             sheet_view_set_header_visibility (SheetControlGUI *scg,
 						   gboolean col_headers_visible,
 						   gboolean row_headers_visible);
 
-void             sheet_view_scrollbar_config      (SheetControlGUI const *scg);
+void             scg_scrollbar_config		  (SheetControlGUI const *scg);
 
 void             sheet_view_selection_ant         (SheetControlGUI *scg);
 void             sheet_view_selection_unant       (SheetControlGUI *scg);
