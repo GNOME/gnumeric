@@ -311,14 +311,18 @@ matrix_invert (gnm_float **A, int n)
 	err = LUPDecomp (A, LU, P, n, b_scaled, &det);
 
 	if (err == REG_ok || err == REG_near_singular_good) {
-		int i;
+		int i, j;
 		gnm_float *b = g_new (gnm_float, n);
+		gnm_float *w = g_new (gnm_float, n);
 
 		for (i = 0; i < n; i++) {
 			memset (b, 0, sizeof (gnm_float) * n);
 			b[i] = b_scaled[i];
-			backsolve (LU, P, b, n, A[i]);
+			backsolve (LU, P, b, n, w);
+			for (j = 0; j < n; j++)
+				A[j][i] = w[j];
 		}
+		g_free (w);
 		g_free (b);
 		res = TRUE;
 	} else

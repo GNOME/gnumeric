@@ -1,3 +1,8 @@
+2003-01-07  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (matrix_invert): Return value was transposed.
+	Not good.
+
 2003-01-04  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-widget.c (sheet_widget_scrollbar_user_config) 
