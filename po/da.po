@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2000-05-09 14:39-0400\n"
+"POT-Creation-Date: 2000-05-10 02:48+0200\n"
 "PO-Revision-Date: 2000-05-07 18:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Dansk/Danish <dansk@klid.dk>\n"
@@ -5212,17 +5212,6 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funktionen returnerer gennemsnittet af værdierne i en "
 "liste eller en database som passer til de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5234,16 +5223,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funktionen tæller cellerne som indeholder tal i en "
 "database som passer til de opgivne betingelser. \n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5257,16 +5236,6 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funktionen tæller cellerne som indeholder data i en "
 "database som passer til de opgivne betingelser. \n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5278,17 +5247,6 @@ msgstr ""
 "@SYNTAX=DGET(database,felt,kriterie)\n"
 "@DESCRIPTION=DGET-funktionen returnerer en enkelt værdi fra en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5302,16 +5260,6 @@ msgstr ""
 "@DESCRIPTION=DMAX-funktionen returnerer det største tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5324,15 +5272,6 @@ msgstr ""
 "@DESCRIPTION=DMIN-funktionen returnerer det mindste tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5344,14 +5283,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funktionen returnerer produktet af tallene i en "
 "kolonne som tilfredstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5367,15 +5298,6 @@ msgstr ""
 "for en population baseret på et udvalg. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5390,15 +5312,6 @@ msgstr ""
 "population baseret på hele populationen. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -5410,15 +5323,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funktionen returnerer summen af tallene i en kolonne som "
 "tilfredsstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -5434,15 +5338,6 @@ msgstr ""
 "baseret på et udvalg. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5456,15 +5351,6 @@ msgstr ""
 "@DESCRIPTION=DVARP-funktionen returnerer variansen til en population baseret "
 "på alle populationerne. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -7018,7 +6904,6 @@ msgid "Engineering"
 msgstr "Teknisk"
 
 #: src/functions/fn-financial.c:197
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -7057,17 +6942,16 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for udstedelse eller "
-"anbringelse ikke er gyldig, returnerer ACCRINT en NUM! fejl. Hvis @rente "
-"eller @pari er nul eller negativ returnerer ACCRINT en NUM! fejl.  Hvis "
-"@basis < 0 eller @basis > 4, returnerer ACCRINT en NUM! fejl. Hvis dato for "
+"anbringelse ikke er gyldig, returnerer ACCRINT en NUM!-fejl. Hvis @rente "
+"eller @pari er nul eller negativ returnerer ACCRINT en #NUM!-fejl.  Hvis "
+"@basis < 0 eller @basis > 4, returnerer ACCRINT en #NUM!-fejl. Hvis dato for "
 "udstedelse er efter dato for forfald eller er de den samme, returnerer "
-"ACCRINT en NUM! fejl. \n"
+"ACCRINT en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINTM"
 
 #: src/functions/fn-financial.c:255
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -7106,17 +6990,16 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for udstedelse eller "
-"forfald ikke er gyldig, returnerer ACCRINT en NUM! fejl. Hvis @rente eller "
-"@pari er nul eller negativ returnerer ACCRINTM en NUM! fejl.  Hvis @basis < "
-"0 eller @basis > 4, returnerer ACCRINTM en NUM! fejl. Hvis dato for "
+"forfald ikke er gyldig, returnerer ACCRINT en NUM!-fejl. Hvis @rente eller "
+"@pari er nul eller negativ returnerer ACCRINTM en #NUM!-fejl.  Hvis @basis < "
+"0 eller @basis > 4, returnerer ACCRINTM en #NUM!-fejl. Hvis dato for "
 "udstedelse er efter dato for forfald eller er de den samme, returnerer "
-"ACCRINTM en NUM! fejl. \n"
+"ACCRINTM en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINT"
 
 #: src/functions/fn-financial.c:305
-#, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -7157,10 +7040,10 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer INTRATE en NUM! fejl. Hvis @basis < 0 "
-"eller @basis > 4, returnerer INTRATE en NUM! fejl. Hvis dato for anbringelse "
-"er efter dato for forfald eller er de den samme, returnerer INTRATE en NUM! "
-"fejl. \n"
+"forfald ikke er gyldig, returnerer INTRATE en NUM!-fejl. Hvis @basis < 0 "
+"eller @basis > 4, returnerer INTRATE en #NUM!-fejl. Hvis dato for anbringelse "
+"er efter dato for forfald eller er de den samme, returnerer INTRATE en "
+"#NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "Hvis du havde en obligation med en anbringelsesdato 15. april 2000, "
@@ -7170,7 +7053,6 @@ msgstr ""
 "@SEEALSO=RECEIVED, DATE"
 
 #: src/functions/fn-financial.c:365
-#, fuzzy
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -7205,16 +7087,15 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis anbringelsesdato eller "
-"forfaldsdato ikke er gyldig, returnerer RECEIVED en NUM! fejl. Hvis @basis < "
-"0 eller @basis > 4, returnerer RECEIVED en NUM! fejl. Hvis anbringelsesdato "
-"er efter forfaldsdato eller er de den samme, returnerer RECEIVED en NUM! "
-"fejl. \n"
+"forfaldsdato ikke er gyldig, returnerer RECEIVED en #NUM!-fejl. Hvis @basis < "
+"0 eller @basis > 4, returnerer RECEIVED en #NUM!-fejl. Hvis anbringelsesdato "
+"er efter forfaldsdato eller er de den samme, returnerer RECEIVED en "
+"#NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=INTRATE"
 
 #: src/functions/fn-financial.c:417
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -7253,16 +7134,15 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer PRICEDISC en NUM! fejl. Hvis @basis < 0 "
-"eller @basis > 4, returnerer PRICEDISC en NUM! fejl. Hvis anbringelsesdato "
-"er efter forfaldsdato eller er de den samme, returnerer PRICEDISC en NUM! "
-"fejl. \n"
+"forfald ikke er gyldig, returnerer PRICEDISC en #NUM!-fejl. Hvis @basis < 0 "
+"eller @basis > 4, returnerer PRICEDISC en #NUM!-fejl. Hvis anbringelsesdato "
+"er efter forfaldsdato eller er de den samme, returnerer PRICEDISC en "
+"#NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEMAT"
 
 #: src/functions/fn-financial.c:467
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -7297,16 +7177,15 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer PRICEMAT en NUM! fejl. Hvis @basis < 0 "
-"eller @basis > 4, returnerer PRICEMAT en NUM! fejl. Hvis dato for "
+"forfald ikke er gyldig, returnerer PRICEMAT en #NUM!-fejl. Hvis @basis < 0 "
+"eller @basis > 4, returnerer PRICEMAT en #NUM!-fejl. Hvis dato for "
 "anbringelse er efter dato for forfald eller er de den samme, returnerer "
-"PRICEMAT en NUM! fejl. \n"
+"PRICEMAT en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEDISC"
 
 #: src/functions/fn-financial.c:522
-#, fuzzy
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -7339,9 +7218,9 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer DISC en NUM! fejl. Hvis @basis < 0 eller "
-"@basis > 4, returnerer DISC en NUM! fejl. Hvis dato for anbringelse er efter "
-"dato for forfald eller er de den samme, returnerer DISC en NUM! fejl. \n"
+"forfald ikke er gyldig, returnerer DISC en #NUM!-fejl. Hvis @basis < 0 eller "
+"@basis > 4, returnerer DISC en #NUM!-fejl. Hvis dato for anbringelse er efter "
+"dato for forfald eller er de den samme, returnerer DISC en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -7664,7 +7543,6 @@ msgstr ""
 "@SEEALSO=NPV"
 
 #: src/functions/fn-financial.c:1046
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -7685,13 +7563,12 @@ msgstr ""
 "rente * DSM) hvor DSM er dagene mellem @anbringelse og @forfald. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
 "senere end @anbringelse, returnerer TBILLEQ en NUM! fejl. Hvis @rente er "
-"negativ, returnerer TBILLEQ en NUM! fejl. \n"
+"negativ, returnerer TBILLEQ en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
 #: src/functions/fn-financial.c:1091
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -7713,13 +7590,12 @@ msgstr ""
 "forfaldsdatoen. @rente er skatkammerbevisets pålydende rente. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
 "senere end @anbringelse, returnerer TBILLPRICE en NUM! fejl. Hvis @rente er "
-"negativ, returnerer TBILLPRICE en NUM! fejl. \n"
+"negativ, returnerer TBILLPRICE en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
 #: src/functions/fn-financial.c:1132
-#, fuzzy
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -7738,8 +7614,8 @@ msgstr ""
 "skatkammerbevis. @anbringelse er anbringelsesdatoen, og @forfald er "
 "forfaldsdatoen for beviset. @rente er skatkammerbevisets pålydende rente. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
-"senere end @anbringelse, returnerer TBILLYIELD en NUM! fejl. Hvis @pris er "
-"negativ, returnerer TBILLYIELD en NUM! fejl. \n"
+"senere end @anbringelse, returnerer TBILLYIELD en NUM!-fejl. Hvis @pris er "
+"negativ, returnerer TBILLYIELD en #NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
@@ -8090,7 +7966,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:1923
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -8132,7 +8007,7 @@ msgstr ""
 "    PTE     (Portugal)\n"
 "\n"
 "Hvis en given møntenhed er andre end de overstående, vil EURO returnere en "
-"NUM! fejl. \n"
+"#NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "EURO(\"DEM\") returnerer 1.95583.\n"
 "@SEEALSO="
@@ -8886,7 +8761,6 @@ msgid "Information"
 msgstr "Information"
 
 #: src/functions/fn-logical.c:20
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -8956,7 +8830,6 @@ msgid "Type Mismatch"
 msgstr "Fejl type"
 
 #: src/functions/fn-logical.c:109
-#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -8974,6 +8847,8 @@ msgid ""
 "\n"
 "@SEEALSO=AND, NOT"
 msgstr ""
+"@FUNCTION=OR\n"   
+"@SYNTAX=OR(b1, b2, ...)\n"
 "@DESCRIPTION=OR implementerer den logiske ELLER funktion: Resultatet er SAND "
 "hvis en værdi evalueres til SAND.\n"
 "@b1 til @bN er udtryk som bør evalueres til SAND eller FALSK. Hvis et heltal "
@@ -14362,12 +14237,10 @@ msgid "Print Sheets"
 msgstr "Udskriv ark"
 
 #: src/print.c:909
-#, fuzzy
 msgid "Act_ive sheet"
-msgstr "Aktiv ark"
+msgstr "Akt_iv ark"
 
 #: src/print.c:909
-#, fuzzy
 msgid "S_heets"
 msgstr "Ark"
 
