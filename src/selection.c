@@ -540,7 +540,7 @@ sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 	if (!(sel = selection_first_range (sheet, wbc, _("Copy"))))
 		return FALSE;
 
-	application_clipboard_copy (wbc, sheet, sel);
+	application_clipboard_cut_copy (wbc, FALSE, sheet, sel, TRUE);
 
 	return TRUE;
 }
@@ -569,7 +569,7 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 	if (sheet_range_splits_region (sheet, sel, NULL, wbc, _("Cut")))
 		return FALSE;
 
-	application_clipboard_cut (wbc, sheet, sel);
+	application_clipboard_cut_copy (wbc, TRUE, sheet, sel, TRUE);
 
 	return TRUE;
 }

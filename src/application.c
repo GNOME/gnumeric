@@ -351,78 +351,51 @@ application_set_selected_sheet (WorkbookControl *wbc, Sheet *sheet)
 }
 
 /**
- * application_clipboard_copy:
+ * application_clipboard_cut_copy:
  *
  * @wbc   : the workbook control that requested the operation.
+ * @is_cut: is this a cut or a copy.
  * @sheet : The source sheet for the copy.
  * @area  : A single rectangular range to be copied.
+ * @animate_cursor : Do we want ot add an animated cursor around things.
  *
- * Clear and free the contents of the clipboard and COPY the designated region
- * into the clipboard.
+ * When Cutting we
+ *   Clear and free the contents of the clipboard and save the sheet and area
+ *   to be cut.  DO NOT ACTUALLY CUT!  Paste will move the region if this was a
+ *   cut operation.
+ *
+ * When Copying we
+ *   Clear and free the contents of the clipboard and COPY the designated region
+ *   into the clipboard.
+ *
  */
 void
-application_clipboard_copy (WorkbookControl *wbc,
-			    Sheet *sheet, Range const *area)
+application_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
+				Sheet *sheet, Range const *area,
+				gboolean animate_cursor)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (area != NULL);
 
 	if (application_set_selected_sheet (wbc, sheet) ) {
-		GList *l;
-		
 		app.clipboard_cut_range = *area;
-		app.clipboard_copied_contents =
-			clipboard_copy_range (sheet, area);
 
-		sheet->priv->enable_paste_special = TRUE;
+		sheet->priv->enable_paste_special = !is_cut;
+		if (!is_cut)
+			app.clipboard_copied_contents =
+				clipboard_copy_range (sheet, area);
+
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 			wb_control_menu_state_update (control, sheet, MS_PASTE_SPECIAL););
 
-		/*
-		 * The 'area' and the list itself will be copied
-		 * entirely. We ant the copied range on the sheet.
-		 */
-		l = g_list_append (NULL, (Range *) area);
-		sheet_ant (sheet, l);
-		g_list_free (l);
-	}
-}
-
-/**
- * application_clipboard_cut:
- *
- * @wbc   : the workbook control that requested the operation.
- * @sheet : The source sheet for the copy.
- * @area  : A single rectangular range to be cut.
- *
- * Clear and free the contents of the clipboard and save the sheet and area
- * to be cut.  DO NOT ACTUALLY CUT!  Paste will move the region if this was a
- * cut operation.
- */
-void
-application_clipboard_cut (WorkbookControl *wbc,
-			   Sheet *sheet, Range const *area)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (area != NULL);
-
-	if (application_set_selected_sheet (wbc, sheet) ) {
-		GList *l;
-		
-		app.clipboard_cut_range = *area;
-
-		/* No paste special for copies */
-		sheet->priv->enable_paste_special = FALSE;
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_menu_state_update (control, sheet, MS_PASTE_SPECIAL););
-
-		/*
-		 * The 'area' and the list itself will be copied
-		 * entirely. We ant the cut range on the sheet.
-		 */
-		l = g_list_append (NULL, (Range *) area);
-		sheet_ant (sheet, l);
-		g_list_free (l);
+		if (animate_cursor) {
+			/* * The 'area' and the list itself will be copied
+			 * entirely. We ant the copied range on the sheet.
+			 */
+			GList *l = g_list_append (NULL, (Range *) area);
+			sheet_ant (sheet, l);
+			g_list_free (l);
+		}
 	}
 }
 

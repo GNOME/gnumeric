@@ -1,3 +1,21 @@
+2001-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/application.c (application_clipboard_cut_copy) : merge
+	  application_clipboard_cut and application_clipboard_copy.
+	  Make the animated cursor optional.
+
+	* src/selection.c (sheet_selection_cut) : interface change.
+	(sheet_selection_copy) : ditto.
+	* src/commands.c (cmd_ins_del_colrow_undo) : ditto.
+	(cmd_ins_del_colrow_redo) : ditto.
+
+2001-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (format_match_create) : ensure we don't compile
+	  General.
+	  (format_match_init) : no need to filter General here.
+	* src/format.c (style_format_new_XL) : do it here.
+
 2001-10-03  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/functions/fn-financial.c (coupnum): Fixed frequency 2 and 4.

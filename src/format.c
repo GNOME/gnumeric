@@ -1768,7 +1768,8 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		format->entries = NULL;
 		format->regexp_str = NULL;
 		format->match_tags = NULL;
-		format_compile (format);
+		if (strcmp ("General", format->format))
+			format_compile (format);
 		g_hash_table_insert (style_format_hash, format->format, format);
 	}
 	format->ref_count++;

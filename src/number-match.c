@@ -523,6 +523,7 @@ format_match_create (StyleFormat *fmt)
 	g_return_val_if_fail (fmt != NULL, FALSE);
 	g_return_val_if_fail (fmt->regexp_str == NULL, FALSE);
 	g_return_val_if_fail (fmt->match_tags == NULL, FALSE);
+	g_return_val_if_fail (strcmp (fmt->format, "General"), FALSE);
 
 	regexp = format_create_regexp (fmt->format, &match_tags);
 	if (!regexp) {
@@ -616,11 +617,7 @@ format_match_init (void)
 		char const * const * p = cell_formats[i];
 
 		for (; *p; p++) {
-			StyleFormat *fmt;
-			
-			if (strcmp (*p, "General") == 0)
-				continue;
-			fmt = style_format_new_XL (*p, FALSE);
+			StyleFormat *fmt = style_format_new_XL (*p, FALSE);
 			if (fmt->regexp_str != NULL) {
 				/* TODO : we could hash the regexp and
 				 * only check those that are not already in use.

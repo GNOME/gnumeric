@@ -926,14 +926,9 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
 	 */
-	if (me->cutcopied) {
-		Range s = *me->cutcopied;
-
-		if (me->is_cut)
-			application_clipboard_cut (wbc, me->sheet, &s);
-		else
-			application_clipboard_copy (wbc, me->sheet, &s);
-	}
+	if (me->cutcopied)
+		application_clipboard_cut_copy (wbc, me->is_cut, me->sheet,
+						me->cutcopied, FALSE);
 
 	return trouble;
 }
@@ -1028,10 +1023,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			s.end.row   += key;
 		}
 
-		if (me->is_cut)
-			application_clipboard_cut (wbc, me->sheet, &s);
-		else
-			application_clipboard_copy (wbc, me->sheet, &s);
+		application_clipboard_cut_copy (wbc, me->is_cut, me->sheet, &s, FALSE);
 	}
 
 	return trouble;
