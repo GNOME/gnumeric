@@ -1,6 +1,13 @@
 #
 # Makefile for the Python Gnumeric plugin.
 #
+
+#
+# We should build in the extension subdirectory as well.
+#
+SUBDIRS = ext
+
+#
 # Where can we find the Gnumeric include files.
 #
 GNUMERIC_SRC_DIR = $(srcdir)/../../src
@@ -10,29 +17,27 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 plugindir = $(libdir)/gnumeric/plugins
 
-# CFLAGS += -g -Wall 	\
-# 	-Wshadow             -Wpointer-arith  	\
-# 	-Wmissing-prototypes -Wmissing-declarations 
-
-plugin_LTLIBRARIES = libperl.la
-
-libperl_la_SOURCES = perl.c xsinit.c
-
-xsinit.c:
-	perl -MExtUtils::Embed -e xsinit -- -o xsinit.c
-
-INCLUDES = 						\
+CFLAGS += $(PERL_CCCDLFLAGS)				\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(includedir)					\
 	$(PERL_CCOPTS)					\
 	$(GNOME_INCLUDEDIR)
 
-libperl_la_LDADD = $(PERL_LDOPTS)
+
+plugin_PROGRAMS = perl.so
+
+.c.o:
+	$(CC) $(CFLAGS) -c $<
+
+perl.so: perl.o xsinit.o
+	$(PERL_LD) $(PERL_LDDLFLAGS) -o perl.so perl.o xsinit.o $(PERL_LDOPTS)
+
+xsinit.c:
+	perl -MExtUtils::Embed -e xsinit -- -o xsinit.c
 
 Perlscriptsdir = $(datadir)/gnumeric/perl
 
 Perlscripts_DATA = startup.pl
 
 EXTRA_DIST = startup.pl
-

@@ -22,15 +22,14 @@ INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(includedir)					\
-	$(PYTHON_CFLAGS)				\
+	$(PY_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)
 
-libpython_la_LDFLAGS = $(PYTHON_LIB_LOC)  
-libpython_la_LIBADD = -l$(PYTHON_LIBS) $(PTHREAD_LIB)
+libpython_la_LDFLAGS = $(PY_LIB_LOC)  
+libpython_la_LIBADD = -l$(PY_LIBS) $(PY_EXTRA_LIBS)
 
 Pythonscriptsdir = $(datadir)/gnumeric/python
 
 Pythonscripts_DATA = gnumeric_startup.py
 
 EXTRA_DIST = gnumeric_startup.py
-

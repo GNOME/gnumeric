@@ -49,8 +49,14 @@ if $perl_val; then
     AC_MSG_RESULT(yes)
 
     dnl Use ExtUtils::Embed to figure out the other options.
+    PERL_CCCDLFLAGS=`perl -MConfig -e 'print $Config{cccdlflags},"\n";'`
+    PERL_LDDLFLAGS=`perl -MConfig -e 'print $Config{lddlflags},"\n";'`
+    PERL_LD=`perl -MConfig -e 'print $Config{ld},"\n";'`
     PERL_CCOPTS=`perl -MExtUtils::Embed -e ccopts`
     PERL_LDOPTS=`perl -MExtUtils::Embed -e ldopts`
+    AC_SUBST(PERL_CCCDLFLAGS)
+    AC_SUBST(PERL_LDDLFLAGS)
+    AC_SUBST(PERL_LD)
     AC_SUBST(PERL_CCOPTS)
     AC_SUBST(PERL_LDOPTS)
   else
@@ -66,18 +72,24 @@ dnl Check for Python
 dnl
 AC_CHECK_PROG(python_val, python, true, false)
 if $python_val; then
-	PYTHON_PREFIX=`python -c 'import sys ; print sys.prefix'`
-	PYTHON_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
+	PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
+	PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
 	changequote(<<, >>)dnl
-	PYTHON_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
+	PY_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
 	changequote([, ])dnl
-	if test -f $PYTHON_PREFIX/include/python$PYTHON_VERSION/Python.h; then
-		PYTHON_LIBS="python$PYTHON_VERSION"
-		PYTHON_LIB_LOC="-L$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/config"
-		PYTHON_CFLAGS="-I$PYTHON_PREFIX/include/python$PYTHON_VERSION"
-		AC_SUBST(PYTHON_LIBS)
-		AC_SUBST(PYTHON_LIB_LOC)
-		AC_SUBST(PYTHON_CFLAGS)
+	if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+		PY_LIBS="python$PY_VERSION"
+		PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
+		PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
+		PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
+		PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
+		AC_SUBST(PY_LIBS)
+		AC_SUBST(PY_LIB_LOC)
+		AC_SUBST(PY_CFLAGS)
+		AC_SUBST(PY_EXTRA_LIBS)
 	else
 		python_val=false
 	fi
@@ -91,10 +103,16 @@ plugins/Makefile
 plugins/sample/Makefile
 plugins/python/Makefile
 plugins/perl/Makefile
+plugins/perl/ext/Makefile.PL
 plugins/stat/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
-stamp.h],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
+stamp.h
+],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
 
-
+if test "x$perl_val" = "xtrue"; then
+  cd plugins/perl/ext
+  perl Makefile.PL LIB="${datadir}/gnumeric/perl/lib" >/dev/null 2>&1
+  cd ../../..
+fi
