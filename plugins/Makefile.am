@@ -18,4 +18,10 @@ else
 GUILE_DIR =
 endif
 
-SUBDIRS = sample excel lotus-123 oleo sc sylk ff-csv text xbase html dif ff-stf $(PYTHON) $(GUILE_DIR)
+if WITH_GB
+GB_DIR = gb
+else
+GB_DIR =
+endif
+
+SUBDIRS = sample excel lotus-123 oleo sc sylk ff-csv text xbase html dif ff-stf $(PYTHON) $(GUILE_DIR) $(GB_DIR)

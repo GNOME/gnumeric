@@ -1,3 +1,9 @@
+2000-01-28  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* plugin.c: Kill nasty absolute references on includes.
+	(func_scm_apply): use ei->pos not ei for eval_expr.
+	(func_marshal_func): kill warning.
+
 2000-01-18  Jody Goldberg <jgoldberg@home.com>
 
 	* plugin.c (expr_to_scm) : Add OPER_UNARY_PLUS.

@@ -1,0 +1,6 @@
+2000-01-28  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* plugin.c (value_to_gb): implemented.
+	(gb_to_value): implement.
+
+	* plugin.c: created.

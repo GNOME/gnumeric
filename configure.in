@@ -206,14 +206,14 @@ AC_ARG_WITH(gb,
 )
 
 if $try_gb; then
-	AC_MSG_CHECKING(for Gb > 0.0)
+	AC_MSG_CHECKING(for Gb >= 0.0.6)
 	if gnome-config --libs gb > /dev/null 2>&1; then
-		vers=`gnome-config --modversion gb`
-		case $vers
-		in
-		    gb-0.[[0]]) gb_ok=false ;;
-		    *) gb_ok=true ;;
-		esac
+		vers=`gnome-config --modversion gb | awk 'BEGIN { FS = "."; } { print $1 * 10000 + $2 * 100 + $3; }'`
+		if test "$vers" -ge 000006; then
+			gb_ok=true
+		else
+		    	gb_ok=false
+		fi
 	else
 		gb_ok=false
 	fi
@@ -228,7 +228,7 @@ if $try_gb; then
 		AC_MSG_RESULT(not found)
 	fi
 fi
-AM_CONDITIONAL(GB, $have_gb)
+AM_CONDITIONAL(WITH_GB, $have_gb)
 
 dnl ******************************
 dnl GnomePrint checking
@@ -306,6 +306,7 @@ plugins/sc/Makefile
 plugins/sylk/Makefile
 plugins/excel/Makefile
 plugins/excel/libole2/Makefile
+plugins/gb/Makefile
 plugins/lotus-123/Makefile
 plugins/oleo/Makefile
 plugins/python/Makefile

@@ -1,3 +1,11 @@
+2000-01-28  Michael Meeks  <mmeeks@gnu.org>
+
+	* configure.in (have_gb): update.
+
+	* plugins/Makefile.am: add gb.
+
+	* configure.in: ditto.
+	
 2000-01-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric-util.c (gnumeric_dialog_run): Handle wb = NULL

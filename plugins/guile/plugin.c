@@ -7,11 +7,11 @@
 #include <gnome.h>
 #include <guile/gh.h>
 
-#include "../../src/gnumeric.h"
-#include "../../src/symbol.h"
-#include "../../src/plugin.h"
-#include "../../src/expr.h"
-#include "../../src/func.h"
+#include "gnumeric.h"
+#include "symbol.h"
+#include "plugin.h"
+#include "expr.h"
+#include "func.h"
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)
@@ -296,7 +296,7 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		eval_cell.row_relative = 0;
 		eval_cell.sheet = NULL;
 
-		value = eval_expr(ei, (ExprTree*)g_list_nth(expr_node_list, i)->data);
+		value = eval_expr (ei->pos, (ExprTree*)g_list_nth(expr_node_list, i)->data);
 		if (value == NULL)
 			return value_new_error (ei->pos, _("Could not evaluate argument"));
 
@@ -322,7 +322,7 @@ scm_cell_value (SCM scm)
 	if (cell == NULL)
 		return SCM_EOL;
 
-	assert(cell->value != NULL);
+	assert (cell->value != NULL);
 
 	return value_to_scm(cell->value, cell_ref);
 }
@@ -340,7 +340,7 @@ scm_cell_expr (SCM scm)
 	if (cell == NULL || cell->parsed_node == NULL)
 		return SCM_EOL;
 
-	return expr_to_scm(cell->parsed_node, cell_ref);
+	return expr_to_scm (cell->parsed_node, cell_ref);
 }
 
 static SCM
@@ -358,7 +358,7 @@ scm_set_cell_string (SCM scm_cell_ref, SCM scm_string)
 	if (cell == NULL)
 		return SCM_UNSPECIFIED;
 
-	cell_set_text(cell, SCM_CHARS(scm_string));
+	cell_set_text (cell, SCM_CHARS(scm_string));
 
 	return SCM_UNSPECIFIED;
 }
@@ -413,21 +413,22 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 
 	function_def_count_args(fndef, &min, &max);
 
-	l = g_list_find_custom(funclist, fndef, (GCompareFunc)fndef_compare);
+	l = g_list_find_custom (funclist, (gpointer)fndef,
+				(GCompareFunc)fndef_compare);
 	if (l == NULL)
 		return value_new_error (ei->pos, _("Unable to lookup Guile function."));
 
 	function = ((FuncData*)l->data)->function;
 
 	for (i = min - 1; i >= 0; --i)
-		args = scm_cons(value_to_scm(argv[i], dummy), args);
+		args = scm_cons (value_to_scm (argv [i], dummy), args);
 
 	old_eval_pos = eval_pos;
-	eval_pos = ei->pos;
-	result = scm_apply(function, args, SCM_EOL);
-	eval_pos = old_eval_pos;
+	eval_pos     = ei->pos;
+	result       = scm_apply (function, args, SCM_EOL);
+	eval_pos     = old_eval_pos;
 
-	return scm_to_value(result);
+	return scm_to_value (result);
 }
 
 static SCM
