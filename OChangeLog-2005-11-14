@@ -1,5 +1,14 @@
 2002-06-24  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=86338
+	* src/formats.c (cell_format_time) : reorder to keep hour major
+	  formats before minute major.
+
+	* src/number-match.c (MatchType) : add cummulative types.
+	(compute_value) : support cummulative time.
+
+2002-06-24  Jody Goldberg <jody@gnome.org>
+
 	* src/func-builtin.c : finish cleaning out the 'selection' function
 	and silence the warnings.
 
