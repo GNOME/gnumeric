@@ -47,7 +47,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-09-01 00:21+0200\n"
+"POT-Creation-Date: 2002-09-01 09:51-0400\n"
 "PO-Revision-Date: 2002-09-01 00:11+0100\n"
 "Last-Translator: Christian Neumair <christian-neumair@web.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -372,7 +372,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
 #: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4764
-#: plugins/mps/mps.c:554 src/xml-io.c:3389
+#: plugins/mps/mps.c:554 src/xml-io.c:3392
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
 
@@ -11403,7 +11403,7 @@ msgstr "Fehler beim Öffnen der xbase-Datei."
 
 #: plugins/xbase/boot.c:168 src/dialogs/dialog-goto-cell.c:281
 #: src/dialogs/print.glade.h:20 src/workbook.c:946 src/workbook.c:1216
-#: src/xml-io.c:3132
+#: src/xml-io.c:3135
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -19193,11 +19193,11 @@ msgstr "_Datei/Druck_vorschau..."
 msgid "File/"
 msgstr "Datei/"
 
-#: src/hlink.c:149
+#: src/hlink.c:169
 msgid "Link target"
 msgstr "Verknüpfungsziel"
 
-#: src/hlink.c:245
+#: src/hlink.c:221
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Die Adresse »%s« konnte nicht aktiviert werden"
@@ -21671,25 +21671,25 @@ msgstr "Es gibt bereits ein Blatt mit dem Namen"
 msgid "You may not use this name twice"
 msgstr "Sie dürfen diesen Namen nicht zweimal verwenden"
 
-#: src/xml-io.c:2845
+#: src/xml-io.c:2848
 msgid "Unparsable xml in clipboard"
 msgstr "Nicht interpretierbares XML in der Zwischenablage"
 
-#: src/xml-io.c:2852
+#: src/xml-io.c:2855
 msgid "Clipboard is in unknown format"
 msgstr "Zwischenablage hat ein unbekanntes Format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3259
+#: src/xml-io.c:3262
 msgid "Processing file..."
 msgstr "Datei wird eingelesen..."
 
-#: src/xml-io.c:3430
+#: src/xml-io.c:3433
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3490
+#: src/xml-io.c:3493
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"

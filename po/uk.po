@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2002-08-26 00:44-0400\n"
+"POT-Creation-Date: 2002-09-01 09:51-0400\n"
 "PO-Revision-Date: 2002-02-15 16:45+0200\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -331,7 +331,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Функції, що стосуються фінансових похідних"
 
 #: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4764
-#: plugins/mps/mps.c:554 src/xml-io.c:3386
+#: plugins/mps/mps.c:554 src/xml-io.c:3392
 msgid "Reading file..."
 msgstr "Зчитування файлу..."
 
@@ -402,48 +402,48 @@ msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Зчитує і зберігає дані у форматі Data Interchange Format (*.dif)"
 
-#: plugins/excel/boot.c:119
+#: plugins/excel/boot.c:136
 #, fuzzy
 msgid "No Workbook or Book streams found."
 msgstr "Не знайдено потік книги чи робочої книги"
 
-#: plugins/excel/boot.c:163
+#: plugins/excel/boot.c:167
 msgid "Preparing for save..."
 msgstr "Підготування до запису..."
 
-#: plugins/excel/boot.c:175
+#: plugins/excel/boot.c:179
 #, fuzzy, c-format
 msgid "Can't open '%s' : %s"
 msgstr "Не вдалось відкрити"
 
-#: plugins/excel/boot.c:184
+#: plugins/excel/boot.c:188
 msgid "Saving file..."
 msgstr "Збереження файла..."
 
-#: plugins/excel/ms-excel-read.c:915
+#: plugins/excel/ms-excel-read.c:916
 msgid "#UNKNOWN!"
 msgstr "#НЕВІДОМЕ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1049 plugins/oleo/oleo.c:362
+#: plugins/excel/ms-excel-read.c:1050 plugins/oleo/oleo.c:362
 #: plugins/psiconv/psiconv-read.c:501 src/dialogs/dialog-sheet-order.c:416
 #: src/dialogs/dialog-sheet-order.c:420
 #, c-format
 msgid "Sheet%d"
 msgstr "Аркуш%d"
 
-#: plugins/excel/ms-excel-read.c:1052
+#: plugins/excel/ms-excel-read.c:1053
 #, c-format
 msgid "Macro%d"
 msgstr "Макрос%d"
 
-#: plugins/excel/ms-excel-read.c:1055
+#: plugins/excel/ms-excel-read.c:1056
 #, c-format
 msgid "Chart%d"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:1058
+#: plugins/excel/ms-excel-read.c:1059
 #, c-format
 msgid "Module%d"
 msgstr "Модуль%d"
@@ -465,12 +465,12 @@ msgstr "Неправильний вираз"
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не вдалось знайти робочу книгу MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3328
+#: plugins/excel/ms-excel-write.c:3334
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Надто багато рядків для цього формату (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3586
+#: plugins/excel/ms-excel-write.c:3594
 #, fuzzy
 msgid "Couldn't open stream for writing\n"
 msgstr "Не вдалося відкрити потік для запису\n"
@@ -478,6 +478,12 @@ msgstr "Не вдалося відкрити потік для запису\n"
 #: plugins/excel/ms-formula-read.c:610
 msgid "Broken function"
 msgstr "Помилкова функція"
+
+#: plugins/excel/ms-formula-write.c:498
+#, c-format
+msgid ""
+"Too many arguments for function, MS Excel expects exactly %d and we have more"
+msgstr ""
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -500,7 +506,7 @@ msgstr "MS Excel (tm) 95 file format"
 msgid "MS Excel (tm) 97/2000/XP file format"
 msgstr "Формат файлу MS Excel (tm) 97"
 
-#: plugins/fn-complex/functions.c:83
+#: plugins/fn-complex/functions.c:79
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -519,7 +525,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-complex/functions.c:122
+#: plugins/fn-complex/functions.c:118
 #, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
@@ -545,7 +551,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMREAL"
 
-#: plugins/fn-complex/functions.c:155
+#: plugins/fn-complex/functions.c:151
 #, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
@@ -569,7 +575,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: plugins/fn-complex/functions.c:188
+#: plugins/fn-complex/functions.c:184
 #, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
@@ -593,7 +599,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY"
 
-#: plugins/fn-complex/functions.c:221
+#: plugins/fn-complex/functions.c:217
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
@@ -618,7 +624,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: plugins/fn-complex/functions.c:255
+#: plugins/fn-complex/functions.c:251
 #, fuzzy
 msgid ""
 "@FUNCTION=IMINV\n"
@@ -644,7 +650,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:286
+#: plugins/fn-complex/functions.c:282
 #, fuzzy
 msgid ""
 "@FUNCTION=IMNEG\n"
@@ -670,7 +676,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN"
 
-#: plugins/fn-complex/functions.c:317
+#: plugins/fn-complex/functions.c:313
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
@@ -694,7 +700,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:348
+#: plugins/fn-complex/functions.c:344
 #, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
@@ -717,7 +723,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
-#: plugins/fn-complex/functions.c:379
+#: plugins/fn-complex/functions.c:375
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSEC\n"
@@ -743,7 +749,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:412
+#: plugins/fn-complex/functions.c:408
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCSC\n"
@@ -769,7 +775,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:445
+#: plugins/fn-complex/functions.c:441
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCOT\n"
@@ -795,7 +801,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:478
+#: plugins/fn-complex/functions.c:474
 #, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
@@ -819,7 +825,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN"
 
-#: plugins/fn-complex/functions.c:509
+#: plugins/fn-complex/functions.c:505
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
@@ -844,7 +850,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-complex/functions.c:539
+#: plugins/fn-complex/functions.c:535
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -862,7 +868,7 @@ msgid ""
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:574
+#: plugins/fn-complex/functions.c:570
 #, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
@@ -886,7 +892,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:606
+#: plugins/fn-complex/functions.c:602
 #, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
@@ -910,7 +916,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:638
+#: plugins/fn-complex/functions.c:634
 #, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
@@ -937,7 +943,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMDIV"
 
-#: plugins/fn-complex/functions.c:677
+#: plugins/fn-complex/functions.c:673
 #, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
@@ -962,7 +968,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 
-#: plugins/fn-complex/functions.c:714
+#: plugins/fn-complex/functions.c:710
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
@@ -986,7 +992,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:744
+#: plugins/fn-complex/functions.c:740
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSINH\n"
@@ -1012,7 +1018,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:776
+#: plugins/fn-complex/functions.c:772
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCOSH\n"
@@ -1038,7 +1044,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:807
+#: plugins/fn-complex/functions.c:803
 #, fuzzy
 msgid ""
 "@FUNCTION=IMTANH\n"
@@ -1064,7 +1070,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:838
+#: plugins/fn-complex/functions.c:834
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSECH\n"
@@ -1090,7 +1096,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:869
+#: plugins/fn-complex/functions.c:865
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCSCH\n"
@@ -1116,7 +1122,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:900
+#: plugins/fn-complex/functions.c:896
 #, fuzzy
 msgid ""
 "@FUNCTION=IMCOTH\n"
@@ -1142,7 +1148,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:931
+#: plugins/fn-complex/functions.c:927
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCSIN\n"
@@ -1168,7 +1174,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:963
+#: plugins/fn-complex/functions.c:959
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOS\n"
@@ -1194,7 +1200,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:995
+#: plugins/fn-complex/functions.c:991
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCTAN\n"
@@ -1219,7 +1225,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:1027
+#: plugins/fn-complex/functions.c:1023
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCSEC\n"
@@ -1246,7 +1252,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:1058
+#: plugins/fn-complex/functions.c:1054
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSC\n"
@@ -1273,7 +1279,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:1089
+#: plugins/fn-complex/functions.c:1085
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOT\n"
@@ -1300,7 +1306,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:1120
+#: plugins/fn-complex/functions.c:1116
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCSINH\n"
@@ -1326,7 +1332,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:1152
+#: plugins/fn-complex/functions.c:1148
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
@@ -1351,7 +1357,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:1184
+#: plugins/fn-complex/functions.c:1180
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCTANH\n"
@@ -1377,7 +1383,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:1216
+#: plugins/fn-complex/functions.c:1212
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCSECH\n"
@@ -1404,7 +1410,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:1248
+#: plugins/fn-complex/functions.c:1244
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
@@ -1431,7 +1437,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:1279
+#: plugins/fn-complex/functions.c:1275
 #, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
@@ -1458,7 +1464,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:1311
+#: plugins/fn-complex/functions.c:1307
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
@@ -1482,7 +1488,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPOWER"
 
-#: plugins/fn-complex/functions.c:1342
+#: plugins/fn-complex/functions.c:1338
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
@@ -1507,7 +1513,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUM"
 
-#: plugins/fn-complex/functions.c:1376
+#: plugins/fn-complex/functions.c:1372
 #, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
@@ -1532,7 +1538,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMDIV"
 
-#: plugins/fn-complex/functions.c:1448
+#: plugins/fn-complex/functions.c:1444
 #, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
@@ -2357,7 +2363,7 @@ msgstr ""
 
 #. Path of the current directory or folder.
 #: plugins/fn-date/functions.c:986 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1315 plugins/fn-info/functions.c:1331
+#: plugins/fn-info/functions.c:1313 plugins/fn-info/functions.c:1329
 msgid "Unimplemented"
 msgstr "Нереалізовано"
 
@@ -4541,7 +4547,7 @@ msgid ""
 "@SEEALSO=TEXT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1243
+#: plugins/fn-info/functions.c:1241
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
@@ -4563,7 +4569,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: plugins/fn-info/functions.c:1283
+#: plugins/fn-info/functions.c:1281
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -4590,31 +4596,31 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1338
+#: plugins/fn-info/functions.c:1336
 msgid "Unknown version"
 msgstr "Невідома версія"
 
-#: plugins/fn-info/functions.c:1340
+#: plugins/fn-info/functions.c:1338
 #, c-format
 msgid "%s version %s"
 msgstr "%s версії %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1349 src/dialogs/dialog-cell-format.c:2655
+#: plugins/fn-info/functions.c:1345 src/dialogs/dialog-cell-format.c:2655
 #: src/dialogs/dialog-cell-format.c:2660 src/dialogs/dialog-cell-format.c:2670
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr "Автоматично"
 
-#: plugins/fn-info/functions.c:1358
+#: plugins/fn-info/functions.c:1354
 msgid "Unknown system"
 msgstr "Невідома система"
 
-#: plugins/fn-info/functions.c:1368
+#: plugins/fn-info/functions.c:1364
 msgid "Unknown info_type"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1374
+#: plugins/fn-info/functions.c:1370
 #, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
@@ -4636,11 +4642,11 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: plugins/fn-info/functions.c:1398
+#: plugins/fn-info/functions.c:1394
 msgid "Argument mismatch"
 msgstr "Відсутній арґумент"
 
-#: plugins/fn-info/functions.c:1430
+#: plugins/fn-info/functions.c:1426
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
@@ -4662,7 +4668,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1465
+#: plugins/fn-info/functions.c:1461
 #, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
@@ -4684,7 +4690,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1496
+#: plugins/fn-info/functions.c:1492
 #, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
@@ -4714,7 +4720,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: plugins/fn-info/functions.c:1555
+#: plugins/fn-info/functions.c:1551
 #, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
@@ -4735,7 +4741,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1577
+#: plugins/fn-info/functions.c:1573
 #, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
@@ -4755,7 +4761,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: plugins/fn-info/functions.c:1598
+#: plugins/fn-info/functions.c:1594
 #, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
@@ -4777,15 +4783,15 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1618 plugins/fn-info/functions.c:1690
-#: plugins/fn-info/functions.c:1718 plugins/fn-info/functions.c:1745
-#: plugins/fn-info/functions.c:1796 plugins/fn-info/functions.c:1826
-#: plugins/fn-info/functions.c:1893 plugins/fn-logical/functions.c:281
-#: src/func.c:902
+#: plugins/fn-info/functions.c:1614 plugins/fn-info/functions.c:1686
+#: plugins/fn-info/functions.c:1714 plugins/fn-info/functions.c:1741
+#: plugins/fn-info/functions.c:1792 plugins/fn-info/functions.c:1822
+#: plugins/fn-info/functions.c:1889 plugins/fn-logical/functions.c:281
+#: src/func.c:888
 msgid "Invalid number of arguments"
 msgstr "Невірна кількість арґументів"
 
-#: plugins/fn-info/functions.c:1648
+#: plugins/fn-info/functions.c:1644
 #, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
@@ -4807,7 +4813,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: plugins/fn-info/functions.c:1670
+#: plugins/fn-info/functions.c:1666
 #, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
@@ -4829,7 +4835,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1700
+#: plugins/fn-info/functions.c:1696
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
@@ -4851,7 +4857,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: plugins/fn-info/functions.c:1727
+#: plugins/fn-info/functions.c:1723
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
@@ -4873,7 +4879,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1754
+#: plugins/fn-info/functions.c:1750
 #, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
@@ -4895,7 +4901,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISEVEN"
 
-#: plugins/fn-info/functions.c:1776
+#: plugins/fn-info/functions.c:1772
 #, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
@@ -4917,7 +4923,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1808
+#: plugins/fn-info/functions.c:1804
 #, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
@@ -4939,7 +4945,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: plugins/fn-info/functions.c:1835
+#: plugins/fn-info/functions.c:1831
 #, fuzzy
 msgid ""
 "@FUNCTION=N\n"
@@ -4962,7 +4968,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1874
+#: plugins/fn-info/functions.c:1870
 #, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
@@ -4985,7 +4991,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1901
+#: plugins/fn-info/functions.c:1897
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -4998,46 +5004,46 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1929
+#: plugins/fn-info/functions.c:1925
 msgid "info_type, cell"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1931
+#: plugins/fn-info/functions.c:1927
 #, fuzzy
 msgid "range"
 msgstr "Діапазон"
 
-#: plugins/fn-info/functions.c:1933 plugins/fn-string/functions.c:1242
-#: plugins/fn-string/functions.c:1244 plugins/fn-string/functions.c:1258
-#: plugins/fn-string/functions.c:1260 plugins/fn-string/functions.c:1262
-#: plugins/fn-string/functions.c:1280 plugins/fn-string/functions.c:1282
-#: plugins/fn-string/functions.c:1284
+#: plugins/fn-info/functions.c:1929 plugins/fn-string/functions.c:1241
+#: plugins/fn-string/functions.c:1243 plugins/fn-string/functions.c:1257
+#: plugins/fn-string/functions.c:1259 plugins/fn-string/functions.c:1261
+#: plugins/fn-string/functions.c:1279 plugins/fn-string/functions.c:1281
+#: plugins/fn-string/functions.c:1283
 #, fuzzy
 msgid "text"
 msgstr "Встановити текст"
 
-#: plugins/fn-info/functions.c:1935 plugins/fn-info/functions.c:1941
+#: plugins/fn-info/functions.c:1931 plugins/fn-info/functions.c:1937
+#: plugins/fn-info/functions.c:1939 plugins/fn-info/functions.c:1941
 #: plugins/fn-info/functions.c:1943 plugins/fn-info/functions.c:1945
 #: plugins/fn-info/functions.c:1947 plugins/fn-info/functions.c:1949
 #: plugins/fn-info/functions.c:1951 plugins/fn-info/functions.c:1953
 #: plugins/fn-info/functions.c:1955 plugins/fn-info/functions.c:1957
-#: plugins/fn-info/functions.c:1959 plugins/fn-info/functions.c:1961
-#: plugins/fn-info/functions.c:1963 plugins/fn-info/functions.c:1967
-#: plugins/fn-string/functions.c:1276
+#: plugins/fn-info/functions.c:1959 plugins/fn-info/functions.c:1963
+#: plugins/fn-string/functions.c:1275
 #, fuzzy
 msgid "value"
 msgstr "Значення"
 
-#: plugins/fn-info/functions.c:1937
+#: plugins/fn-info/functions.c:1933
 #, fuzzy
 msgid "cell"
 msgstr "Комірка"
 
-#: plugins/fn-info/functions.c:1939
+#: plugins/fn-info/functions.c:1935
 msgid "info_type"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1969
+#: plugins/fn-info/functions.c:1965
 #, fuzzy
 msgid "string"
 msgstr "Рядок"
@@ -5250,7 +5256,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:3146 plugins/fn-math/functions.c:3148
 #: plugins/fn-stat/functions.c:5205 plugins/fn-stat/functions.c:5207
 #: plugins/fn-stat/functions.c:5215 plugins/fn-stat/functions.c:5271
-#: plugins/fn-string/functions.c:1240
+#: plugins/fn-string/functions.c:1239
 #, fuzzy
 msgid "number"
 msgstr "Число"
@@ -5301,7 +5307,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:455
+#: plugins/fn-lookup/functions.c:452
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -5316,7 +5322,7 @@ msgid ""
 "@SEEALSO=IF"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:507
+#: plugins/fn-lookup/functions.c:504
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -5336,7 +5342,7 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:565
+#: plugins/fn-lookup/functions.c:562
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -5356,7 +5362,7 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:623
+#: plugins/fn-lookup/functions.c:620
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -5375,7 +5381,7 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:689
+#: plugins/fn-lookup/functions.c:686
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -5399,7 +5405,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:748
+#: plugins/fn-lookup/functions.c:745
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -5416,7 +5422,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:812
+#: plugins/fn-lookup/functions.c:809
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array,[row, col, area])\n"
@@ -5435,7 +5441,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:862
+#: plugins/fn-lookup/functions.c:859
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -5451,7 +5457,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:914
+#: plugins/fn-lookup/functions.c:911
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -5467,7 +5473,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:940
+#: plugins/fn-lookup/functions.c:937
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -5483,7 +5489,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:997
+#: plugins/fn-lookup/functions.c:994
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -5499,7 +5505,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1049
+#: plugins/fn-lookup/functions.c:1046
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -5515,7 +5521,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1075
+#: plugins/fn-lookup/functions.c:1072
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -5535,7 +5541,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
-#: plugins/fn-lookup/functions.c:1100
+#: plugins/fn-lookup/functions.c:1097
 #, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -5553,50 +5559,50 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
-#: plugins/fn-lookup/functions.c:1145
+#: plugins/fn-lookup/functions.c:1142
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1147
+#: plugins/fn-lookup/functions.c:1144
 msgid "index,value,"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1149 plugins/fn-lookup/functions.c:1151
-#: plugins/fn-lookup/functions.c:1167 plugins/fn-lookup/functions.c:1169
+#: plugins/fn-lookup/functions.c:1146 plugins/fn-lookup/functions.c:1148
+#: plugins/fn-lookup/functions.c:1164 plugins/fn-lookup/functions.c:1166
 #, fuzzy
 msgid "ref"
 msgstr "червоний"
 
-#: plugins/fn-lookup/functions.c:1153 plugins/fn-lookup/functions.c:1173
+#: plugins/fn-lookup/functions.c:1150 plugins/fn-lookup/functions.c:1170
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1155
+#: plugins/fn-lookup/functions.c:1152
 msgid "link_location, label"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1157
+#: plugins/fn-lookup/functions.c:1154
 msgid "ref_string,format"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1159
+#: plugins/fn-lookup/functions.c:1156
 msgid "reference,row,col,area"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1161
+#: plugins/fn-lookup/functions.c:1158
 #, fuzzy
 msgid "val,range,range"
 msgstr "Діапазон"
 
-#: plugins/fn-lookup/functions.c:1163
+#: plugins/fn-lookup/functions.c:1160
 msgid "val,range,approx"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1165
+#: plugins/fn-lookup/functions.c:1162
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1171 plugins/fn-math/functions.c:3156
+#: plugins/fn-lookup/functions.c:1168 plugins/fn-math/functions.c:3156
 #, fuzzy
 msgid "array"
 msgstr "Масив"
@@ -11109,11 +11115,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: plugins/fn-string/functions.c:715
+#: plugins/fn-string/functions.c:714
 msgid "Type mismatch"
 msgstr "Неспівпадіння типів"
 
-#: plugins/fn-string/functions.c:727
+#: plugins/fn-string/functions.c:726
 #, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
@@ -11135,7 +11141,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: plugins/fn-string/functions.c:779
+#: plugins/fn-string/functions.c:778
 #, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
@@ -11157,7 +11163,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: plugins/fn-string/functions.c:821
+#: plugins/fn-string/functions.c:820
 #, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
@@ -11183,7 +11189,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: plugins/fn-string/functions.c:937
+#: plugins/fn-string/functions.c:936
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
@@ -11205,7 +11211,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: plugins/fn-string/functions.c:1015
+#: plugins/fn-string/functions.c:1014
 #, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
@@ -11251,52 +11257,52 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: plugins/fn-string/functions.c:1246
+#: plugins/fn-string/functions.c:1245
 msgid "text,text,"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1248
+#: plugins/fn-string/functions.c:1247
 #, fuzzy
 msgid "num,decimals"
 msgstr "Зменшити розряди"
 
-#: plugins/fn-string/functions.c:1250
+#: plugins/fn-string/functions.c:1249
 msgid "text1,text2"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1252
+#: plugins/fn-string/functions.c:1251
 msgid "text1,text2,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1254
+#: plugins/fn-string/functions.c:1253
 msgid "num,decs,no_commas"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1256 plugins/fn-string/functions.c:1270
+#: plugins/fn-string/functions.c:1255 plugins/fn-string/functions.c:1269
 msgid "text,num_chars"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1264
+#: plugins/fn-string/functions.c:1263
 msgid "text,pos,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1266
+#: plugins/fn-string/functions.c:1265
 msgid "old,start,num,new"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1268
+#: plugins/fn-string/functions.c:1267
 msgid "text,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1272
+#: plugins/fn-string/functions.c:1271
 msgid "find,within,start_num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1274
+#: plugins/fn-string/functions.c:1273
 msgid "text,old,new,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1278
+#: plugins/fn-string/functions.c:1277
 msgid "value,format_text"
 msgstr ""
 
@@ -11304,7 +11310,7 @@ msgstr ""
 msgid "Functions for manipulating strings"
 msgstr ""
 
-#: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:140
+#: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:141
 #: src/func.c:654
 msgid "String"
 msgstr "Рядок"
@@ -11476,6 +11482,10 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "Помилка виконання groff."
 
+#: plugins/lotus-123/boot.c:61
+msgid "Error while reading lotus workbook."
+msgstr "Помилка під час зчитування книги Lotus."
+
 #: plugins/lotus-123/plugin.xml.in.h:1
 msgid "Imports Lotus 123 files"
 msgstr "Імпортує файли Lotus 123"
@@ -11510,7 +11520,8 @@ msgstr ""
 msgid "Constraints:"
 msgstr "Обмеження:"
 
-#: plugins/mps/mps.c:252 src/dialogs/dialog-formula-guru.c:808
+#: plugins/mps/mps.c:252 src/cut-n-paste-code/egg/menu/egg-action.c:119
+#: src/dialogs/dialog-formula-guru.c:809
 #: src/dialogs/dialog-function-select.c:419
 #: src/dialogs/dialog-function-select.c:441 src/format-template.c:403
 #: src/tools/solver/reports-write.c:124 src/tools/solver/reports-write.c:146
@@ -11530,7 +11541,7 @@ msgstr "Значення"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: plugins/mps/mps.c:280 src/dialogs/dialog-formula-guru.c:812
+#: plugins/mps/mps.c:280 src/dialogs/dialog-formula-guru.c:813
 #: src/tools/solver/reports-write.c:562
 msgid "Type"
 msgstr "Тип"
@@ -11915,6 +11926,10 @@ msgstr "Функції Python"
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr ""
 
+#: plugins/python-loader/gnm-py-interpreter.c:205
+msgid "Default interpreter"
+msgstr ""
+
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Завантажувач доповнень Python"
@@ -11922,6 +11937,26 @@ msgstr "Завантажувач доповнень Python"
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
 msgstr "Це доповнення надає підтримку доповнень на Python"
+
+#: plugins/python-loader/py-console.c:71
+#, c-format
+msgid "*** Interpreter: %s\n"
+msgstr ""
+
+#: plugins/python-loader/py-console.c:121
+#, fuzzy
+msgid "Gnumeric Python console"
+msgstr "Gnumeric"
+
+#: plugins/python-loader/py-console.c:131
+#, fuzzy
+msgid "E_xecute in:"
+msgstr "Функція"
+
+#: plugins/python-loader/py-console.c:168
+#, fuzzy
+msgid "C_ommand:"
+msgstr "Коментарі"
 
 #: plugins/python-loader/py-gnumeric.c:223
 #: plugins/python-loader/py-gnumeric.c:263
@@ -11991,6 +12026,15 @@ msgstr "Файл не містить словник \"%s\"."
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Об'єкт \"%s\" не є словником."
 
+#: plugins/python-loader/ui-console-menu.xml.h:1
+msgid "Open the Python console"
+msgstr ""
+
+#: plugins/python-loader/ui-console-menu.xml.h:2
+#, fuzzy
+msgid "Python console"
+msgstr "Функції Python"
+
 #: plugins/python/plugin.xml.in.h:1
 msgid "Python Plugin"
 msgstr "Доповнення Python"
@@ -12019,6 +12063,21 @@ msgstr "об'єкт мусить викликатися"
 #, c-format
 msgid "Unhandled Python exception: %s"
 msgstr "Необроблена вийняткова ситуація Python: %s"
+
+#: plugins/qpro/qpro-read.c:135
+#, c-format
+msgid "Invalid '%s' record of length %hd instead of %d"
+msgstr ""
+
+#: plugins/qpro/qpro-read.c:446
+#, c-format
+msgid "Invalid zoom %hd %%"
+msgstr ""
+
+#: plugins/qpro/qpro-read.c:486
+#, c-format
+msgid "Invalid record %d of length %hd"
+msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:1
 #, fuzzy
@@ -12094,13 +12153,22 @@ msgstr "Імпортовано %s"
 msgid "Error while reading sheet."
 msgstr "Помилка під час зчитування аркуша."
 
+#: plugins/uihello/hello.xml.h:1
+msgid "Hello World"
+msgstr ""
+
+#: plugins/uihello/uihello.c:24
+#, c-format
+msgid "This is message from \"%s\" plugin."
+msgstr ""
+
 #: plugins/xbase/boot.c:162
 msgid "Error while opening xbase file."
 msgstr "Помилка під час відкривання файлу XBase."
 
-#: plugins/xbase/boot.c:168 src/dialogs/dialog-goto-cell.c:280
+#: plugins/xbase/boot.c:168 src/dialogs/dialog-goto-cell.c:281
 #: src/dialogs/print.glade.h:20 src/workbook.c:946 src/workbook.c:1216
-#: src/xml-io.c:3131
+#: src/xml-io.c:3135
 msgid "Sheet"
 msgstr "Аркуш"
 
@@ -12193,7 +12261,7 @@ msgstr "Товстий"
 msgid "Borders"
 msgstr "Поля"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:376
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:377
 #: src/workbook-object-toolbar.c:138
 msgid "Button"
 msgstr "Кнопка"
@@ -12538,7 +12606,7 @@ msgstr "Сформатувати ділянку комірок відповід�
 msgid "Fourier Analysis"
 msgstr "Аналіз Фур'є"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/sheet-object-widget.c:284
+#: src/GNOME_Gnumeric.xml.h:96 src/sheet-object-widget.c:285
 #: src/workbook-object-toolbar.c:133
 msgid "Frame"
 msgstr "Кадр"
@@ -12689,8 +12757,8 @@ msgstr ""
 msgid "Jump to a specified cell"
 msgstr "Перескочити на вказану комірку"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/sheet-object-widget.c:191
-#: src/workbook-object-toolbar.c:130
+#: src/GNOME_Gnumeric.xml.h:132 src/cut-n-paste-code/egg/menu/egg-action.c:127
+#: src/sheet-object-widget.c:192 src/workbook-object-toolbar.c:130
 msgid "Label"
 msgstr "Позначка"
 
@@ -12892,7 +12960,7 @@ msgid "Print Preview"
 msgstr "Перегляд друку"
 
 #: src/GNOME_Gnumeric.xml.h:178 src/GNOME_Gnumeric_Component.xml.h:7
-#: src/dialogs/print.glade.h:15 src/print.c:1218
+#: src/dialogs/print.glade.h:15 src/print.c:1217
 msgid "Print preview"
 msgstr "Перегляд друку"
 
@@ -14164,6 +14232,173 @@ msgstr "_Налаштування друку..."
 msgid "Page Setup For All Sheets"
 msgstr "Друкувати аркуші"
 
+#: src/cut-n-paste-code/egg/menu/egg-action.c:120
+msgid "A unique name for the action."
+msgstr ""
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:128
+msgid "The label used for menu items and buttons that activate this action."
+msgstr ""
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:134
+#, fuzzy
+msgid "Short label"
+msgstr "Створити позначку"
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:135
+msgid "A shorter label that may be used on toolbar buttons."
+msgstr ""
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:141
+#, fuzzy
+msgid "Tooltip"
+msgstr "Інструменти"
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:142
+#, fuzzy
+msgid "A tooltip for this action."
+msgstr "Про програму"
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:148
+msgid "Stock Icon"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:149
+msgid "The stock icon displayed in widgets representing this action."
+msgstr ""
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:155
+#, fuzzy
+msgid "Sensitive"
+msgstr "Реґістрова чутливість"
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:156
+msgid "Whether the action is enabled."
+msgstr ""
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:163
+#, fuzzy
+msgid "Visible"
+msgstr "Очікуване"
+
+#: src/cut-n-paste-code/egg/menu/egg-action.c:164
+msgid "Whether the action is visible."
+msgstr ""
+
+#: src/cut-n-paste-code/egg/menu/egg-markup.c:271
+#: src/cut-n-paste-code/egg/menu/egg-menu-merge.c:594
+#, fuzzy, c-format
+msgid "Unknown attribute '%s' on line %d char %d"
+msgstr "Невідоме значення даних \"%s\" в рядку %d. Проіґноровано."
+
+#: src/cut-n-paste-code/egg/menu/egg-markup.c:278
+#: src/cut-n-paste-code/egg/menu/egg-menu-merge.c:601
+#, fuzzy, c-format
+msgid "Unknown tag '%s' on line %d char %d"
+msgstr "Невідоме значення даних \"%s\" в рядку %d. Проіґноровано."
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:143
+#: src/dialogs/cell-format.glade.h:61
+#, fuzzy
+msgid "Orientation"
+msgstr "Операція"
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:144
+#, fuzzy
+msgid "The orientation of the toolbar"
+msgstr "Скопіювати поточний вибір у кишеню"
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:152
+msgid "Toolbar Style"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:153
+msgid "How to draw the toolbar"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:160
+#, fuzzy
+msgid "Show Arrow"
+msgstr "Стрілка"
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:161
+msgid "If an arrow should be shown if the toolbar doesn't fit"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:167
+#, fuzzy
+msgid "Spacer size"
+msgstr "Зберегти"
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:168
+msgid "Size of spacers"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:176
+#, fuzzy
+msgid "Internal padding"
+msgstr "Внутрішня ПОМИЛКА"
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:177
+msgid "Amount of border space between the toolbar shadow and the buttons"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:185
+#, fuzzy
+msgid "Space style"
+msgstr "Зберегти"
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:186
+msgid "Whether spacers are vertical lines or just blank"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:194
+#, fuzzy
+msgid "Button relief"
+msgstr "Кнопка"
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:195
+msgid "Type of bevel around toolbar buttons"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:201
+#, fuzzy
+msgid "Shadow type"
+msgstr "Тінь"
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:202
+msgid "Style of bevel around the toolbar"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:154
+msgid "Visible when horizontal"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:155
+msgid ""
+"Whether the toolbar item is visible when the toolbar is in a horizontal "
+"orientation."
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:161
+msgid "Visible when vertical"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:162
+msgid ""
+"Whether the toolbar item is visible when the toolbar is in a vertical "
+"orientation."
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:168
+msgid "Homogeneous size"
+msgstr ""
+
+#: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:169
+msgid ""
+"Whether the toolbar item should be the same size as other homogeneous items."
+msgstr ""
+
 #: src/dates.c:16
 msgid "*Sun"
 msgstr "*Ндл"
@@ -14494,8 +14729,8 @@ msgstr "Ділянка %i"
 #: src/dialogs/anova-one.glade.h:14 src/dialogs/anova-two.glade.h:13
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/dialog-analysis-tools.c:334
-#: src/dialogs/dialog-analysis-tools.c:2565
+#: src/dialogs/dialog-analysis-tools.c:336
+#: src/dialogs/dialog-analysis-tools.c:2567
 #: src/dialogs/exp-smoothing.glade.h:13
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:14
@@ -14962,7 +15197,7 @@ msgstr "Немає"
 msgid "None          (silently accept invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-search.c:144
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-search.c:145
 #: src/func.c:652
 msgid "Number"
 msgstr "Число"
@@ -14971,11 +15206,6 @@ msgstr "Число"
 #, fuzzy
 msgid "Numbers"
 msgstr "Число"
-
-#: src/dialogs/cell-format.glade.h:61
-#, fuzzy
-msgid "Orientation"
-msgstr "Операція"
 
 #: src/dialogs/cell-format.glade.h:62
 #, fuzzy
@@ -15349,7 +15579,8 @@ msgstr "Розгрупувати"
 msgid "Add the entered area to the list of source areas"
 msgstr ""
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:4189
+#: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:204
+#: src/workbook-control-gui.c:4189
 msgid "Average"
 msgstr "Середнє"
 
@@ -15363,7 +15594,8 @@ msgstr "Скопіювати значення"
 msgid "Clear the list of source areas"
 msgstr "Очистити формати комірки"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:4190
+#: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:263
+#: src/workbook-control-gui.c:4190
 msgid "Count"
 msgstr "Кількість"
 
@@ -15401,11 +15633,13 @@ msgstr "Вставити рядки"
 msgid "Labels"
 msgstr "Позначка"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:4188
+#: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:204
+#: src/tools/simulation.c:255 src/workbook-control-gui.c:4188
 msgid "Max"
 msgstr "Максимум"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:4187
+#: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:204
+#: src/tools/simulation.c:253 src/workbook-control-gui.c:4187
 msgid "Min"
 msgstr "Мінімум"
 
@@ -15544,166 +15778,166 @@ msgstr "К-те найменше"
 msgid "S_ummary Statistics"
 msgstr "Зведена статистика"
 
-#: src/dialogs/dialog-about.c:42
+#: src/dialogs/dialog-about.c:44
 msgid "Miguel de Icaza, creator."
 msgstr "Miguel de Icaza, творець."
 
-#: src/dialogs/dialog-about.c:43
+#: src/dialogs/dialog-about.c:45
 msgid "Jody Goldberg, maintainer."
 msgstr "Jody Goldberg, головний програміст."
 
-#: src/dialogs/dialog-about.c:44
+#: src/dialogs/dialog-about.c:46
 msgid "Sean Atkinson, functions and X-Base importing."
 msgstr "Sean Atkinson, функції та імпортування з X-Base."
 
-#: src/dialogs/dialog-about.c:45
+#: src/dialogs/dialog-about.c:47
 msgid "Michel Berkelaar, Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 
-#: src/dialogs/dialog-about.c:46
+#: src/dialogs/dialog-about.c:48
 msgid "Grandma Chema Celorio, Tester and sheet copy."
 msgstr ""
 
-#: src/dialogs/dialog-about.c:47
+#: src/dialogs/dialog-about.c:49
 msgid "Frank Chiulli, OLE support."
 msgstr "Frank Chiulli, підтримка OLE."
 
-#: src/dialogs/dialog-about.c:48
+#: src/dialogs/dialog-about.c:50
 msgid "Kenneth Christiansen, i18n, misc stuff."
 msgstr "Kenneth Christiansen, інтернаціоналізація, різне."
 
-#: src/dialogs/dialog-about.c:49
+#: src/dialogs/dialog-about.c:51
 msgid "Zbigniew Chyla, plugin system, i18n."
 msgstr "Zbigniew Chyla, система доповнень, інтернаціоналізація."
 
-#: src/dialogs/dialog-about.c:50
+#: src/dialogs/dialog-about.c:52
 msgid "J.H.M. Dassen (Ray), debian packaging."
 msgstr "J.H.M. Dassen (Ray), пакування debian."
 
-#: src/dialogs/dialog-about.c:51
+#: src/dialogs/dialog-about.c:53
 msgid "Jeroen Dirks, Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 
-#: src/dialogs/dialog-about.c:52
+#: src/dialogs/dialog-about.c:54
 msgid "Tom Dyas, plugin support."
 msgstr "Tom Dyas, підтримка доповнень."
 
 #. if your charset allows it, replace the 'o' of 'Gergo'
 #. * with 'odoubleacute' (U0151) and the 'E' of 'Erdi'
 #. * with 'Eacute' (U00C9)
-#: src/dialogs/dialog-about.c:56
+#: src/dialogs/dialog-about.c:58
 msgid "Gergo Erdi, Gnumeric hacker."
 msgstr "Gergu Erdi, хакер."
 
-#: src/dialogs/dialog-about.c:57
+#: src/dialogs/dialog-about.c:59
 msgid "John Gotts, rpm packaging."
 msgstr "John Gotts, пакування rpm."
 
 #. if your charset allows it, replace the 'ue' of 'Guelzow'
 #. * with 'uumlaut'
-#: src/dialogs/dialog-about.c:60
+#: src/dialogs/dialog-about.c:62
 msgid "Andreas J. Guelzow, Gnumeric hacker."
 msgstr "Андреас Ґуельзов, хакер."
 
-#: src/dialogs/dialog-about.c:61
+#: src/dialogs/dialog-about.c:63
 msgid "Jon K. Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, хакер."
 
-#: src/dialogs/dialog-about.c:62
+#: src/dialogs/dialog-about.c:64
 msgid "Ross Ihaka, special functions."
 msgstr "Ross Ihaka, спеціальні функції."
 
-#: src/dialogs/dialog-about.c:63
+#: src/dialogs/dialog-about.c:65
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
 msgstr "Jukka-Pekka Iivonen, численні функції та засоби."
 
-#: src/dialogs/dialog-about.c:64
+#: src/dialogs/dialog-about.c:66
 msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, хакер."
 
-#: src/dialogs/dialog-about.c:65
+#: src/dialogs/dialog-about.c:67
 msgid "Chris Lahey, number format engine."
 msgstr "Chris Lahey, обробка числових форматів."
 
-#: src/dialogs/dialog-about.c:66
+#: src/dialogs/dialog-about.c:68
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, текстові доповнення."
 
-#: src/dialogs/dialog-about.c:67
+#: src/dialogs/dialog-about.c:69
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, імпортування з Excel та OLE2."
 
-#: src/dialogs/dialog-about.c:68
+#: src/dialogs/dialog-about.c:70
 msgid "Lutz Muller, SheetObject improvements"
 msgstr "Lutz Muller, удосконалення SheetObject"
 
-#: src/dialogs/dialog-about.c:69
+#: src/dialogs/dialog-about.c:71
 msgid "Federico M. Quintero, canvas support."
 msgstr "Federico M. Quintero, підтримка полотна."
 
-#: src/dialogs/dialog-about.c:70
+#: src/dialogs/dialog-about.c:72
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, підтримка Guile."
 
-#: src/dialogs/dialog-about.c:71
+#: src/dialogs/dialog-about.c:73
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, експорт у HTML, troff, LaTeX."
 
-#: src/dialogs/dialog-about.c:72
+#: src/dialogs/dialog-about.c:74
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, підтримка CSV, французька локалізація."
 
-#: src/dialogs/dialog-about.c:73
+#: src/dialogs/dialog-about.c:75
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, підтримка Guile."
 
-#: src/dialogs/dialog-about.c:74
+#: src/dialogs/dialog-about.c:76
 msgid "Arturo Tena, OLE support."
 msgstr "Arturo Tena, підтримка OLE."
 
-#: src/dialogs/dialog-about.c:75
+#: src/dialogs/dialog-about.c:77
 msgid "Almer S. Tigelaar, Gnumeric hacker."
 msgstr "Almer S. Tigelaar, хакер."
 
-#: src/dialogs/dialog-about.c:76
+#: src/dialogs/dialog-about.c:78
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, код Excel."
 
-#: src/dialogs/dialog-about.c:77
+#: src/dialogs/dialog-about.c:79
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, підтримка XML."
 
-#: src/dialogs/dialog-about.c:78
+#: src/dialogs/dialog-about.c:80
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, фінансові функції."
 
-#: src/dialogs/dialog-about.c:79
+#: src/dialogs/dialog-about.c:81
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, хакер."
 
-#: src/dialogs/dialog-about.c:103 src/func-builtin.c:128
+#: src/dialogs/dialog-about.c:105 src/func-builtin.c:128
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/dialogs/dialog-about.c:104
+#: src/dialogs/dialog-about.c:106
 msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 msgstr "© 1998-2000 Міґель де Ікаса, 2001-2002 Джоді Ґолдберг"
 
-#: src/dialogs/dialog-about.c:105
+#: src/dialogs/dialog-about.c:107
 #, fuzzy
 msgid "A production ready spreadsheet"
 msgstr "Відкрити таблицю"
 
 #. Translate the following string with the names of all translators for this locale.
-#: src/dialogs/dialog-about.c:108
+#: src/dialogs/dialog-about.c:110
 msgid "This is an untranslated version of Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-about.c:113
+#: src/dialogs/dialog-about.c:115
 msgid "Gnumeric Home Page"
 msgstr "Домашня сторінка Gnumeric"
 
-#: src/dialogs/dialog-about.c:119
+#: src/dialogs/dialog-about.c:121
 msgid "Contract Support"
 msgstr ""
 
@@ -15715,7 +15949,7 @@ msgstr "Діапазон списку неправильний."
 msgid "The criteria range is invalid."
 msgstr "Діапазон критерію неправильний."
 
-#: src/dialogs/dialog-advanced-filter.c:93
+#: src/dialogs/dialog-advanced-filter.c:93 src/dialogs/dialog-simulation.c:94
 msgid "The output range is invalid."
 msgstr "Діапазон виводу неправильний."
 
@@ -15728,10 +15962,10 @@ msgid "No matching records were found."
 msgstr ""
 
 #: src/dialogs/dialog-advanced-filter.c:158
-#: src/dialogs/dialog-analysis-tools.c:595
-#: src/dialogs/dialog-analysis-tools.c:711
-#: src/dialogs/dialog-analysis-tools.c:1972
-#: src/dialogs/dialog-analysis-tools.c:2854
+#: src/dialogs/dialog-analysis-tools.c:597
+#: src/dialogs/dialog-analysis-tools.c:713
+#: src/dialogs/dialog-analysis-tools.c:1974
+#: src/dialogs/dialog-analysis-tools.c:2856
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Сталася неочікувана помилка: %d."
@@ -15745,280 +15979,280 @@ msgstr "Діапазон _списку:"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:581
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:583
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input rows must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:586
-#: src/dialogs/dialog-analysis-tools.c:702
+#: src/dialogs/dialog-analysis-tools.c:588
+#: src/dialogs/dialog-analysis-tools.c:704
 msgid "The selected input columns must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:591
-#: src/dialogs/dialog-analysis-tools.c:707
+#: src/dialogs/dialog-analysis-tools.c:593
+#: src/dialogs/dialog-analysis-tools.c:709
 msgid "The selected input areas must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:637
+#: src/dialogs/dialog-analysis-tools.c:639
 #, fuzzy
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:753
+#: src/dialogs/dialog-analysis-tools.c:755
 #, fuzzy
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:841
+#: src/dialogs/dialog-analysis-tools.c:843
 #, fuzzy
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:930
+#: src/dialogs/dialog-analysis-tools.c:932
 #, fuzzy
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:1090
+#: src/dialogs/dialog-analysis-tools.c:1092
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1231
+#: src/dialogs/dialog-analysis-tools.c:1233
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1240
+#: src/dialogs/dialog-analysis-tools.c:1242
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Var_iable 1 Range:"
 msgstr "Діапазон змінної 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1464
+#: src/dialogs/dialog-analysis-tools.c:1466
 msgid "_Variable 2 Range:"
 msgstr "Діапазон змінної 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1465
+#: src/dialogs/dialog-analysis-tools.c:1467
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "Діапазон змінної 1"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "Діапазон змінної 2"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 #, fuzzy
 msgid "Could not create the FTest Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:1860
+#: src/dialogs/dialog-analysis-tools.c:1862
 #, fuzzy
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:1967 src/tools/analysis-tools.c:2153
+#: src/dialogs/dialog-analysis-tools.c:1969 src/tools/analysis-tools.c:2153
 #: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2069 src/dialogs/regression.glade.h:19
+#: src/dialogs/dialog-analysis-tools.c:2071 src/dialogs/regression.glade.h:19
 msgid "_X Variables:"
 msgstr "Змінні _X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2069 src/dialogs/regression.glade.h:20
+#: src/dialogs/dialog-analysis-tools.c:2071 src/dialogs/regression.glade.h:20
 msgid "_Y Variable:"
 msgstr "Змінна _Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2070
+#: src/dialogs/dialog-analysis-tools.c:2072
 #, fuzzy
 msgid "Could not create the Regression Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:2205
+#: src/dialogs/dialog-analysis-tools.c:2207
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Не вдалося створити діалог експоненціального згладжування."
 
-#: src/dialogs/dialog-analysis-tools.c:2344
+#: src/dialogs/dialog-analysis-tools.c:2346
 #, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:2565 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2567 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Двійковий _діапазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:2566
+#: src/dialogs/dialog-analysis-tools.c:2568
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Не вдалося створити діалог гістограмних інструментів."
 
-#: src/dialogs/dialog-analysis-tools.c:2741
+#: src/dialogs/dialog-analysis-tools.c:2743
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Не вдалося створити діалог однофакторного дисперсного аналізу."
 
-#: src/dialogs/dialog-analysis-tools.c:2820
+#: src/dialogs/dialog-analysis-tools.c:2822
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2823
+#: src/dialogs/dialog-analysis-tools.c:2825
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2829
+#: src/dialogs/dialog-analysis-tools.c:2831
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2832
+#: src/dialogs/dialog-analysis-tools.c:2834
 #, fuzzy
 msgid "The given input range should contain at least two columns of data."
 msgstr "Даний діапазон вводу містить нечислові дані."
 
-#: src/dialogs/dialog-analysis-tools.c:2838
+#: src/dialogs/dialog-analysis-tools.c:2840
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2841
+#: src/dialogs/dialog-analysis-tools.c:2843
 #, fuzzy
 msgid "The given input range should contain at least two rows of data."
 msgstr "Даний діапазон вводу містить нечислові дані."
 
-#: src/dialogs/dialog-analysis-tools.c:2848
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2952
+#: src/dialogs/dialog-analysis-tools.c:2954
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Не вдалося створити діалог двофакторного дисперсного аналізу."
 
-#: src/dialogs/dialog-autocorrect.c:330
+#: src/dialogs/dialog-autocorrect.c:331
 #, fuzzy
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid " "
 msgstr " "
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "Jan"
 msgstr "Січ"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "Feb"
 msgstr "Лют"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "Mrt"
 msgstr "Бер"
 
-#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:68 src/dialogs/dialog-autoformat.c:72
 #: src/tools/analysis-tools.c:3360 src/tools/analysis-tools.c:3370
 #: src/tools/analysis-tools.c:3378
 msgid "Total"
 msgstr "Загалом"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "North"
 msgstr "Північ"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "South"
 msgstr "Південь"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "West"
 msgstr "Захід"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:70 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:71 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:72
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:72
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:72
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:72
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:658
+#: src/dialogs/dialog-autoformat.c:659
 msgid "An error occurred while reading the category list"
 msgstr "Сталася помилка під час зчитування списку категорій"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:667 src/format.c:1657 src/format.c:1749
+#: src/dialogs/dialog-autoformat.c:668 src/format.c:1657 src/format.c:1749
 #: src/format.c:1758 src/format.c:1827 src/plugin-service.c:230
 msgid "General"
 msgstr "Загальний"
@@ -16122,11 +16356,11 @@ msgstr ""
 msgid "Source region %s overlaps with the destination region"
 msgstr "Вихідна ділянка %s перетинається з ділянкою призначення."
 
-#: src/dialogs/dialog-define-names.c:382
+#: src/dialogs/dialog-define-names.c:384
 msgid "You cannot redefine a builtin name."
 msgstr ""
 
-#: src/dialogs/dialog-define-names.c:595
+#: src/dialogs/dialog-define-names.c:597
 msgid "Could not create the Name Guru."
 msgstr "Не вдалося створити Ґуру назв."
 
@@ -16135,17 +16369,17 @@ msgstr "Не вдалося створити Ґуру назв."
 msgid "Could not create the Delete Cell dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-formula-guru.c:294
+#: src/dialogs/dialog-formula-guru.c:295
 #, c-format
 msgid "[%s]"
 msgstr ""
 
-#: src/dialogs/dialog-formula-guru.c:820
+#: src/dialogs/dialog-formula-guru.c:821
 #, fuzzy
 msgid "Function/Argument"
 msgstr "Ґуру функцій"
 
-#: src/dialogs/dialog-formula-guru.c:985
+#: src/dialogs/dialog-formula-guru.c:986
 #, fuzzy
 msgid "Could not create the formula guru."
 msgstr "Не вдалося створити Ґуру назв."
@@ -16198,7 +16432,7 @@ msgstr "Пошук цілі для комірки %s дав рішення"
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Не вдалося створити Ґуру назв."
 
-#: src/dialogs/dialog-goto-cell.c:184
+#: src/dialogs/dialog-goto-cell.c:185
 #, fuzzy
 msgid "Workbook Level"
 msgstr "Книга..."
@@ -16206,7 +16440,7 @@ msgstr "Книга..."
 #.
 #. * Fill in the labels of `Target Cell' section.
 #.
-#: src/dialogs/dialog-goto-cell.c:286 src/dialogs/tabulate.glade.h:1
+#: src/dialogs/dialog-goto-cell.c:287 src/dialogs/tabulate.glade.h:1
 #: src/tools/solver/reports-write.c:123 src/tools/solver/reports-write.c:145
 #: src/tools/solver/reports-write.c:172 src/tools/solver/reports-write.c:279
 #: src/tools/solver/reports-write.c:325 src/tools/solver/reports-write.c:437
@@ -16214,36 +16448,36 @@ msgstr "Книга..."
 msgid "Cell"
 msgstr "Комірка"
 
-#: src/dialogs/dialog-goto-cell.c:352
+#: src/dialogs/dialog-goto-cell.c:353
 #, fuzzy
 msgid "Could not create the goto dialog."
 msgstr "Не вдалося створити діалог автозбереження."
 
-#: src/dialogs/dialog-graph-guru.c:781
+#: src/dialogs/dialog-graph-guru.c:798
 msgid "Step 1 of 3: Select graph type"
 msgstr "Крок 1 з 3: Вібір типу графіка"
 
-#: src/dialogs/dialog-graph-guru.c:787
+#: src/dialogs/dialog-graph-guru.c:804
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Крок 2 з 3: Вибір діапазонів даних"
 
-#: src/dialogs/dialog-graph-guru.c:789
+#: src/dialogs/dialog-graph-guru.c:806
 msgid "Graph Data"
 msgstr "Дані графіка"
 
-#: src/dialogs/dialog-graph-guru.c:794
+#: src/dialogs/dialog-graph-guru.c:811
 msgid "Step 3 of 3: Customize graph"
 msgstr "Крок 3 з 3: Налаштування графіка"
 
-#: src/dialogs/dialog-graph-guru.c:796
+#: src/dialogs/dialog-graph-guru.c:813
 msgid "Format Graph"
 msgstr "Формат графіка"
 
-#: src/dialogs/dialog-graph-guru.c:1018
+#: src/dialogs/dialog-graph-guru.c:1041
 msgid "Plot name"
 msgstr "Назва рисунка"
 
-#: src/dialogs/dialog-graph-guru.c:1021
+#: src/dialogs/dialog-graph-guru.c:1044
 msgid "Series name"
 msgstr "Назва серій"
 
@@ -16443,268 +16677,268 @@ msgstr ""
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
-#: src/dialogs/dialog-printer-setup.c:859
+#: src/dialogs/dialog-printer-setup.c:863
 msgid "Customize header"
 msgstr "Налаштувати верхній колонтитул"
 
-#: src/dialogs/dialog-printer-setup.c:861
+#: src/dialogs/dialog-printer-setup.c:865
 msgid "Customize footer"
 msgstr "Налаштувати нижній колонтитул"
 
-#: src/dialogs/dialog-printer-setup.c:1009
+#: src/dialogs/dialog-printer-setup.c:1013
 msgid "Custom header configuration"
 msgstr "Власна конфіґурація верхнього колонтитулу"
 
-#: src/dialogs/dialog-printer-setup.c:1014
+#: src/dialogs/dialog-printer-setup.c:1018
 msgid "Custom footer configuration"
 msgstr "Власна конфіґурація нижнього колотитулу"
 
-#: src/dialogs/dialog-random-generator.c:104
+#: src/dialogs/dialog-random-generator.c:106
 msgid "Uniform"
 msgstr "Однорідне"
 
-#: src/dialogs/dialog-random-generator.c:104
 #: src/dialogs/dialog-random-generator.c:106
+#: src/dialogs/dialog-random-generator.c:108
 msgid "_Lower Bound:"
 msgstr "Нижня межа:"
 
-#: src/dialogs/dialog-random-generator.c:104
 #: src/dialogs/dialog-random-generator.c:106
+#: src/dialogs/dialog-random-generator.c:108
 msgid "_Upper Bound:"
 msgstr "Верхня межа:"
 
-#: src/dialogs/dialog-random-generator.c:106
+#: src/dialogs/dialog-random-generator.c:108
 #, fuzzy
 msgid "Uniform Integer"
 msgstr "Центрувати"
 
-#: src/dialogs/dialog-random-generator.c:109
+#: src/dialogs/dialog-random-generator.c:111
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "Нормальне"
 
-#: src/dialogs/dialog-random-generator.c:109
+#: src/dialogs/dialog-random-generator.c:111
 msgid "_Mean:"
 msgstr "Середнє:"
 
-#: src/dialogs/dialog-random-generator.c:109
+#: src/dialogs/dialog-random-generator.c:111
 msgid "_Standard Deviation:"
 msgstr "_Стандартне відхилення:"
 
-#: src/dialogs/dialog-random-generator.c:111
+#: src/dialogs/dialog-random-generator.c:113
 #: src/tools/solver/reports-write.c:768
 msgid "Discrete"
 msgstr "Дискретне"
 
-#: src/dialogs/dialog-random-generator.c:111
+#: src/dialogs/dialog-random-generator.c:113
 #, fuzzy
 msgid "_Value And Probability Input Range:"
 msgstr "Вхідний діапазон значень та вірогідностей:"
 
-#: src/dialogs/dialog-random-generator.c:117
+#: src/dialogs/dialog-random-generator.c:119
 msgid "Bernoulli"
 msgstr "Бернулі"
 
-#: src/dialogs/dialog-random-generator.c:117
-#: src/dialogs/dialog-random-generator.c:121
-#: src/dialogs/dialog-random-generator.c:137
-#: src/dialogs/dialog-random-generator.c:149
-#: src/dialogs/dialog-random-generator.c:155
+#: src/dialogs/dialog-random-generator.c:119
+#: src/dialogs/dialog-random-generator.c:123
+#: src/dialogs/dialog-random-generator.c:139
+#: src/dialogs/dialog-random-generator.c:151
+#: src/dialogs/dialog-random-generator.c:157
 msgid "_p Value:"
 msgstr "Значення _p:"
 
-#: src/dialogs/dialog-random-generator.c:119
+#: src/dialogs/dialog-random-generator.c:121
 msgid "Beta"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:119
-#: src/dialogs/dialog-random-generator.c:123
-#: src/dialogs/dialog-random-generator.c:129
-#: src/dialogs/dialog-random-generator.c:133
+#: src/dialogs/dialog-random-generator.c:121
+#: src/dialogs/dialog-random-generator.c:125
+#: src/dialogs/dialog-random-generator.c:131
 #: src/dialogs/dialog-random-generator.c:135
-#: src/dialogs/dialog-random-generator.c:139
+#: src/dialogs/dialog-random-generator.c:137
 #: src/dialogs/dialog-random-generator.c:141
-#: src/dialogs/dialog-random-generator.c:145
-#: src/dialogs/dialog-random-generator.c:151
-#: src/dialogs/dialog-random-generator.c:158
-#: src/dialogs/dialog-random-generator.c:164
-#: src/dialogs/dialog-random-generator.c:168
+#: src/dialogs/dialog-random-generator.c:143
+#: src/dialogs/dialog-random-generator.c:147
+#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:160
+#: src/dialogs/dialog-random-generator.c:166
+#: src/dialogs/dialog-random-generator.c:170
 #, fuzzy
 msgid "_a Value:"
 msgstr "Значення _p:"
 
-#: src/dialogs/dialog-random-generator.c:119
-#: src/dialogs/dialog-random-generator.c:127
+#: src/dialogs/dialog-random-generator.c:121
 #: src/dialogs/dialog-random-generator.c:129
-#: src/dialogs/dialog-random-generator.c:133
-#: src/dialogs/dialog-random-generator.c:139
+#: src/dialogs/dialog-random-generator.c:131
+#: src/dialogs/dialog-random-generator.c:135
 #: src/dialogs/dialog-random-generator.c:141
-#: src/dialogs/dialog-random-generator.c:158
-#: src/dialogs/dialog-random-generator.c:168
+#: src/dialogs/dialog-random-generator.c:143
+#: src/dialogs/dialog-random-generator.c:160
+#: src/dialogs/dialog-random-generator.c:170
 msgid "_b Value:"
 msgstr "Значення _b:"
 
-#: src/dialogs/dialog-random-generator.c:121
+#: src/dialogs/dialog-random-generator.c:123
 msgid "Binomial"
 msgstr "Біномінальне"
 
-#: src/dialogs/dialog-random-generator.c:121
+#: src/dialogs/dialog-random-generator.c:123
 msgid "N_umber of Trials:"
 msgstr "_Кількість випробувань:"
 
-#: src/dialogs/dialog-random-generator.c:123
+#: src/dialogs/dialog-random-generator.c:125
 msgid "Cauchy"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:125
+#: src/dialogs/dialog-random-generator.c:127
 msgid "Chisq"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:125
+#: src/dialogs/dialog-random-generator.c:127
 #, fuzzy
 msgid "_nu Value:"
 msgstr "Значення _p:"
 
-#: src/dialogs/dialog-random-generator.c:127
+#: src/dialogs/dialog-random-generator.c:129
 msgid "Exponential"
 msgstr "Експоненціальне"
 
-#: src/dialogs/dialog-random-generator.c:129
+#: src/dialogs/dialog-random-generator.c:131
 #, fuzzy
 msgid "Exponential Power"
 msgstr "Експоненціальне"
 
-#: src/dialogs/dialog-random-generator.c:131
+#: src/dialogs/dialog-random-generator.c:133
 msgid "F"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:131
+#: src/dialogs/dialog-random-generator.c:133
 #, fuzzy
 msgid "nu_1 Value:"
 msgstr "Значення _b:"
 
-#: src/dialogs/dialog-random-generator.c:131
+#: src/dialogs/dialog-random-generator.c:133
 #, fuzzy
 msgid "nu_2 Value:"
 msgstr "Значення _b:"
 
-#: src/dialogs/dialog-random-generator.c:133
+#: src/dialogs/dialog-random-generator.c:135
 msgid "Gamma"
-msgstr ""
-
-#: src/dialogs/dialog-random-generator.c:135
-#, fuzzy
-msgid "Gaussian Tail"
-msgstr "Російські рублі"
-
-#: src/dialogs/dialog-random-generator.c:135
-#: src/dialogs/dialog-random-generator.c:153
-msgid "_Sigma"
 msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:137
 #, fuzzy
+msgid "Gaussian Tail"
+msgstr "Російські рублі"
+
+#: src/dialogs/dialog-random-generator.c:137
+#: src/dialogs/dialog-random-generator.c:155
+msgid "_Sigma"
+msgstr ""
+
+#: src/dialogs/dialog-random-generator.c:139
+#, fuzzy
 msgid "Geometric"
 msgstr "Gnumeric"
 
-#: src/dialogs/dialog-random-generator.c:139
+#: src/dialogs/dialog-random-generator.c:141
 msgid "Gumbel (Type I)"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:141
+#: src/dialogs/dialog-random-generator.c:143
 msgid "Gumbel (Type II)"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:143
+#: src/dialogs/dialog-random-generator.c:145
 msgid "Landau"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:147
 #, fuzzy
 msgid "Laplace"
 msgstr "Зберегти"
 
-#: src/dialogs/dialog-random-generator.c:147
+#: src/dialogs/dialog-random-generator.c:149
 msgid "Levy alpha-Stable"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:147
+#: src/dialogs/dialog-random-generator.c:149
 #, fuzzy
 msgid "_c Value:"
 msgstr "Значення _p:"
 
-#: src/dialogs/dialog-random-generator.c:147
+#: src/dialogs/dialog-random-generator.c:149
 msgid "_alpha:"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:149
+#: src/dialogs/dialog-random-generator.c:151
 msgid "Logarithmic"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:151
+#: src/dialogs/dialog-random-generator.c:153
 #, fuzzy
 msgid "Logistic"
 msgstr "Список"
 
-#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:155
 #, fuzzy
 msgid "Lognormal"
 msgstr "Нормальне"
 
-#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:155
 #, fuzzy
 msgid "_Zeta Value:"
 msgstr "Значення _p:"
 
-#: src/dialogs/dialog-random-generator.c:155
+#: src/dialogs/dialog-random-generator.c:157
 msgid "Negative Binomial"
 msgstr "Від'ємне біномінальне"
 
-#: src/dialogs/dialog-random-generator.c:156
+#: src/dialogs/dialog-random-generator.c:158
 msgid "N_umber of Failures"
 msgstr "Кількість невдач"
 
-#: src/dialogs/dialog-random-generator.c:158
+#: src/dialogs/dialog-random-generator.c:160
 #, fuzzy
 msgid "Pareto"
 msgstr "К-те найбільше"
 
-#: src/dialogs/dialog-random-generator.c:160
+#: src/dialogs/dialog-random-generator.c:162
 msgid "Poisson"
 msgstr "Пуасон"
 
-#: src/dialogs/dialog-random-generator.c:160
+#: src/dialogs/dialog-random-generator.c:162
 msgid "_Lambda:"
 msgstr "Лямбда:"
 
-#: src/dialogs/dialog-random-generator.c:162
+#: src/dialogs/dialog-random-generator.c:164
 #, fuzzy
 msgid "Rayleigh"
 msgstr "Праворуч"
 
-#: src/dialogs/dialog-random-generator.c:162
 #: src/dialogs/dialog-random-generator.c:164
+#: src/dialogs/dialog-random-generator.c:166
 msgid "_Sigma:"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:164
+#: src/dialogs/dialog-random-generator.c:166
 msgid "Rayleigh Tail"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:166
+#: src/dialogs/dialog-random-generator.c:168
 msgid "Student t"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:166
+#: src/dialogs/dialog-random-generator.c:168
 #, fuzzy
 msgid "nu Value:"
 msgstr "Значення _b:"
 
-#: src/dialogs/dialog-random-generator.c:168
+#: src/dialogs/dialog-random-generator.c:170
 msgid "Weibull"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:889
+#: src/dialogs/dialog-random-generator.c:891
 #, fuzzy
 msgid "Could not create the Random Tool dialog."
 msgstr "Не вдалося створити Ґуру назв."
@@ -16720,38 +16954,38 @@ msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
-#: src/dialogs/dialog-search-replace.c:148 src/dialogs/dialog-search.c:358
+#: src/dialogs/dialog-search-replace.c:149 src/dialogs/dialog-search.c:359
 msgid "You must select some cell types to search."
 msgstr "Потрібно вибрати декілька типів комірок для пошуку."
 
-#: src/dialogs/dialog-search-replace.c:322
+#: src/dialogs/dialog-search-replace.c:323
 msgid "Perform no more replacements"
 msgstr ""
 
-#: src/dialogs/dialog-search-replace.c:326
+#: src/dialogs/dialog-search-replace.c:327
 msgid "Do not perform this replacement"
 msgstr ""
 
-#: src/dialogs/dialog-search-replace.c:330
+#: src/dialogs/dialog-search-replace.c:331
 msgid "Perform this replacement"
 msgstr ""
 
-#: src/dialogs/dialog-search.c:138
+#: src/dialogs/dialog-search.c:139
 #, fuzzy
 msgid "Expression"
 msgstr "Реґресія"
 
-#: src/dialogs/dialog-search.c:142
+#: src/dialogs/dialog-search.c:143
 #, fuzzy
 msgid "Integer"
 msgstr "Центрувати"
 
-#: src/dialogs/dialog-search.c:146
+#: src/dialogs/dialog-search.c:147
 #, fuzzy
 msgid "Other value"
 msgstr "Інше значення"
 
-#: src/dialogs/dialog-search.c:148
+#: src/dialogs/dialog-search.c:149
 #, fuzzy
 msgid "Comment"
 msgstr "Коментарі"
@@ -16774,6 +17008,70 @@ msgstr ""
 #, fuzzy
 msgid "Default"
 msgstr "Стерти..."
+
+#: src/dialogs/dialog-simulation.c:71
+#, fuzzy
+msgid "The input variable range is invalid."
+msgstr "Діапазон критерію неправильний."
+
+#: src/dialogs/dialog-simulation.c:81
+#, fuzzy
+msgid "The output variable range is invalid."
+msgstr "Діапазон виводу неправильний."
+
+#: src/dialogs/dialog-simulation.c:168
+msgid "Simulations\t\t\t= "
+msgstr ""
+
+#: src/dialogs/dialog-simulation.c:169
+msgid "Iterations\t\t\t= "
+msgstr ""
+
+#: src/dialogs/dialog-simulation.c:170
+msgid "# Input variables\t\t= "
+msgstr ""
+
+#: src/dialogs/dialog-simulation.c:171
+msgid "# Output variables\t= "
+msgstr ""
+
+#: src/dialogs/dialog-simulation.c:172
+msgid "Runtime\t\t\t= "
+msgstr ""
+
+#: src/dialogs/dialog-simulation.c:173
+msgid "Run on\t\t\t= "
+msgstr ""
+
+#: src/dialogs/dialog-simulation.c:203
+#, fuzzy
+msgid "Variable"
+msgstr "Змінна Y"
+
+#: src/dialogs/dialog-simulation.c:280
+msgid "Invalid variable range was given"
+msgstr ""
+
+#: src/dialogs/dialog-simulation.c:294
+msgid ""
+"First round number should be greater or equal than the number of the last "
+"round."
+msgstr ""
+
+#: src/dialogs/dialog-simulation.c:394
+#, fuzzy
+msgid "_Inputs:"
+msgstr "Ціле"
+
+#: src/dialogs/dialog-simulation.c:394
+#, fuzzy
+msgid "_Outputs:"
+msgstr "Діапазон вводу:"
+
+#: src/dialogs/dialog-simulation.c:395
+#, fuzzy
+msgid "Could not create the Simulation dialog."
+msgstr "Не вдалося створити діалог автозбереження."
 
 #: src/dialogs/dialog-solver.c:84 src/dialogs/solver.glade.h:2
 msgid "<="
@@ -16877,15 +17175,15 @@ msgstr "Обмеження \"%s\" для комірки, що не є вхідн
 msgid "Could not create the Solver dialog."
 msgstr "Не вдалося створити діалог пошуку розв'язання."
 
-#: src/dialogs/dialog-stf-export-sheet-page.c:361
+#: src/dialogs/dialog-stf-export-sheet-page.c:365
 msgid "You need to select at least one sheet to export"
 msgstr "Потрібно вибрати хоча б один аркуш для експорту"
 
-#: src/dialogs/dialog-stf-export.c:52 src/dialogs/dialog-stf.c:104
+#: src/dialogs/dialog-stf-export.c:48 src/dialogs/dialog-stf.c:102
 msgid "Are you sure you want to cancel?"
 msgstr "Ви впевнені, що хочете відмінити?"
 
-#: src/dialogs/dialog-stf-export.c:376 src/dialogs/dialog-stf.c:504
+#: src/dialogs/dialog-stf-export.c:363 src/dialogs/dialog-stf.c:493
 #, c-format
 msgid "Missing %s file"
 msgstr "Відсутній файл %s"
@@ -17034,7 +17332,7 @@ msgstr ""
 msgid "`"
 msgstr ""
 
-#: src/dialogs/dialog-stf-fixed-page.c:79
+#: src/dialogs/dialog-stf-fixed-page.c:81
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 "Автовизначення не виявило стовпчиків у тексті. Спробуйте зробити це вручну."
@@ -18674,7 +18972,7 @@ msgstr ""
 msgid "Minimum"
 msgstr ""
 
-#: src/dialogs/tabulate.glade.h:6
+#: src/dialogs/tabulate.glade.h:6 src/tools/simulation.c:257
 #, fuzzy
 msgid "Mode"
 msgstr "Далі"
@@ -18782,7 +19080,7 @@ msgstr "Помилка внутрішнього типу"
 msgid "Unknown operator"
 msgstr "Невідомий оператор"
 
-#: src/expr.c:1101
+#: src/expr.c:1100
 msgid "Unknown evaluation error"
 msgstr "Невідома помилка у виразі"
 
@@ -19815,35 +20113,35 @@ msgstr "Скаляр"
 msgid "Any"
 msgstr "Будь-який"
 
-#: src/func.c:949
+#: src/func.c:935
 msgid "Function does not exist"
 msgstr "Функції не існує"
 
-#: src/gnumeric-canvas.c:95
+#: src/gnumeric-canvas.c:97
 msgid "Format as Number"
 msgstr "Формат - число"
 
-#: src/gnumeric-canvas.c:99
+#: src/gnumeric-canvas.c:101
 msgid "Format as Currency"
 msgstr "Формат - валютний"
 
-#: src/gnumeric-canvas.c:103 src/workbook-format-toolbar.c:308
+#: src/gnumeric-canvas.c:105 src/workbook-format-toolbar.c:308
 msgid "Format as Percentage"
 msgstr "Формат - відсотки"
 
-#: src/gnumeric-canvas.c:107
+#: src/gnumeric-canvas.c:109
 msgid "Format as Scientific"
 msgstr "Формат - науковий"
 
-#: src/gnumeric-canvas.c:111
+#: src/gnumeric-canvas.c:113
 msgid "Format as Date"
 msgstr "Формат - дата"
 
-#: src/gnumeric-canvas.c:115
+#: src/gnumeric-canvas.c:117
 msgid "Format as Time"
 msgstr "Формат - час"
 
-#: src/gnumeric-canvas.c:119
+#: src/gnumeric-canvas.c:121
 msgid "Format as alternative Number"
 msgstr "Формат - альтернативне число"
 
@@ -19859,16 +20157,16 @@ msgstr "Помилка під час спроби передконвертува
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Помилка аналізу під час спроби проаналізувати дані в діапазоні комірок"
 
-#: src/gui-file.c:74
+#: src/gui-file.c:75
 msgid "File format:"
 msgstr "Формат файлу:"
 
 #. Pack it into file selector
-#: src/gui-file.c:144
+#: src/gui-file.c:145
 msgid "Import file"
 msgstr "Імпорт файлу"
 
-#: src/gui-file.c:188
+#: src/gui-file.c:189
 #, c-format
 msgid ""
 "%s\n"
@@ -19877,7 +20175,7 @@ msgstr ""
 "%s\n"
 "є назвою каталогу"
 
-#: src/gui-file.c:194
+#: src/gui-file.c:195
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -19886,7 +20184,7 @@ msgstr ""
 "Ви не маєте права на запис у\n"
 "%s"
 
-#: src/gui-file.c:201
+#: src/gui-file.c:202
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -19895,7 +20193,7 @@ msgstr ""
 "Книга %s вже існує.\n"
 "Чи хочете ви переписати її?"
 
-#: src/gui-file.c:221
+#: src/gui-file.c:222
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -19903,7 +20201,7 @@ msgid ""
 "Do you want to save only current sheet?"
 msgstr ""
 
-#: src/gui-file.c:245
+#: src/gui-file.c:246
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -19912,15 +20210,15 @@ msgstr ""
 "а не каталогу"
 
 #. Pack it into file selector
-#: src/gui-file.c:290
+#: src/gui-file.c:291
 msgid "Save workbook as"
 msgstr "Зберегти книгу як"
 
-#: src/gui-file.c:343 src/workbook-control-gui.c:2720
+#: src/gui-file.c:344 src/workbook-control-gui.c:2720
 msgid "Load file"
 msgstr "Завантажити файл"
 
-#: src/gui-file.c:383
+#: src/gui-file.c:384
 msgid "Which file format would you like?"
 msgstr ""
 
@@ -19966,12 +20264,12 @@ msgstr "_Файл/Перегляд друку..."
 msgid "File/"
 msgstr "Файл/"
 
-#: src/hlink.c:149
+#: src/hlink.c:169
 #, fuzzy
 msgid "Link target"
 msgstr "Зв'язати з:"
 
-#: src/hlink.c:245
+#: src/hlink.c:221
 #, fuzzy, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Неможливо створити об'єкт типу \"%s\""
@@ -20342,31 +20640,31 @@ msgstr "Відсутній файл %s"
 msgid "Cannot read UI description from XML file %s."
 msgstr "Неможливо завантажити інформаційний файл доповнення (\"%s\")."
 
-#: src/plugin-service.c:1436
+#: src/plugin-service.c:1437
 #, c-format
 msgid "User interface with %d action"
 msgstr ""
 
-#: src/plugin-service.c:1437
+#: src/plugin-service.c:1438
 #, c-format
 msgid "User interface with %d actions"
 msgstr ""
 
-#: src/plugin-service.c:1525
+#: src/plugin-service.c:1526
 msgid "No \"type\" attribute on \"service\" element."
 msgstr ""
 
-#: src/plugin-service.c:1534
+#: src/plugin-service.c:1535
 #, fuzzy, c-format
 msgid "Unknown service type: %s."
 msgstr "Невідомий аркуш \"%s\""
 
-#: src/plugin-service.c:1547
+#: src/plugin-service.c:1548
 #, fuzzy
 msgid "Error reading service information."
 msgstr "Помилка під час зчитування інформації про послугу %d."
 
-#: src/plugin-service.c:1618
+#: src/plugin-service.c:1619
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -20553,11 +20851,11 @@ msgid ""
 "You should restart Gnumeric now."
 msgstr ""
 
-#: src/plugin.c:1773
+#: src/plugin.c:1774
 msgid "Errors while activating plugins."
 msgstr "Помилки під час активації доповнень."
 
-#: src/plugin.c:1780
+#: src/plugin.c:1781
 msgid "Errors while initializing plugin system."
 msgstr "Помилка під час ініціалізації системи доповнень."
 
@@ -20641,23 +20939,23 @@ msgstr "час"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:976
+#: src/print.c:975
 msgid "Print Region"
 msgstr "Надрукувати ділянку"
 
-#: src/print.c:1134
+#: src/print.c:1133
 msgid "Print Sheets"
 msgstr "Друкувати аркуші"
 
-#: src/print.c:1142
+#: src/print.c:1141
 msgid "Act_ive sheet"
 msgstr "Активний аркуш"
 
-#: src/print.c:1142
+#: src/print.c:1141
 msgid "S_heets"
 msgstr "Аркуші"
 
-#: src/print.c:1227
+#: src/print.c:1226
 msgid "Printing failed"
 msgstr "Збій друку"
 
@@ -20760,11 +21058,11 @@ msgstr "неможливо створити об'єкт для \"%s\""
 msgid "Could not load file: %s"
 msgstr "Не вдалося завантажити файл %s"
 
-#: src/sheet-object-graphic.c:911 src/sheet-object-graphic.c:925
+#: src/sheet-object-graphic.c:914 src/sheet-object-graphic.c:928
 msgid "Transparent"
 msgstr "Прозорий"
 
-#: src/sheet-object-widget.c:979
+#: src/sheet-object-widget.c:980
 #, c-format
 msgid "CheckBox %d"
 msgstr "Графа для відмітки %d"
@@ -21109,6 +21407,7 @@ msgid "Anova: Single Factor"
 msgstr "Дисперсний аналіз: однофакторний"
 
 #: src/tools/analysis-tools.c:2858 src/tools/analysis-tools.c:3356
+#: src/tools/simulation.c:342
 msgid "SUMMARY"
 msgstr "ЗВЕДЕННЯ"
 
@@ -21298,6 +21597,87 @@ msgstr "Вірогідність не можу дорівнювати нулю!"
 #, fuzzy, c-format
 msgid "Random Numbers (%s)"
 msgstr "Ґенератор _випадкових чисел..."
+
+#: src/tools/simulation.c:100
+msgid ""
+"Input variable did not yield to a numeric value. Check the model (maybe your "
+"last round # is too high)."
+msgstr ""
+
+#: src/tools/simulation.c:125
+msgid ""
+"Output variable did not yield to a numeric value. Check the output variables "
+"in your model (maybe your last round # is too high)."
+msgstr ""
+
+#: src/tools/simulation.c:241
+#, fuzzy
+msgid "Simulation Report"
+msgstr "Підсумковий звіт"
+
+#: src/tools/simulation.c:254
+#, fuzzy
+msgid "Mean"
+msgstr "Середнє:"
+
+#: src/tools/simulation.c:256
+#, fuzzy
+msgid "Median"
+msgstr "Середнє:"
+
+#: src/tools/simulation.c:258
+msgid "Std. Dev."
+msgstr ""
+
+#: src/tools/simulation.c:259
+#, fuzzy
+msgid "Variance"
+msgstr "Ковариція"
+
+#: src/tools/simulation.c:260
+msgid "Skewness"
+msgstr ""
+
+#: src/tools/simulation.c:261
+msgid "Kurtosis"
+msgstr ""
+
+#: src/tools/simulation.c:262
+#, fuzzy
+msgid "Range"
+msgstr "Діапазон"
+
+#: src/tools/simulation.c:264
+#, fuzzy
+msgid "Confidence (95 %)"
+msgstr "Ковариції"
+
+#: src/tools/simulation.c:265
+msgid "Lower Limit (95 %)"
+msgstr ""
+
+#: src/tools/simulation.c:266
+msgid "Upper Limit (95 %)"
+msgstr ""
+
+#: src/tools/simulation.c:334
+msgid "SUMMARY OF SIMULATION ROUND #"
+msgstr ""
+
+#. Fill in the header titles.
+#: src/tools/simulation.c:348
+msgid "Risk Simulation"
+msgstr ""
+
+#: src/tools/simulation.c:348
+#, fuzzy
+msgid "Report"
+msgstr "пункти"
+
+#: src/tools/simulation.c:395
+#, fuzzy
+msgid "(Input) "
+msgstr "Ціле"
 
 #: src/tools/solver/reports-write.c:110 src/tools/solver/reports-write.c:238
 msgid "Answer Report"
@@ -21740,7 +22120,7 @@ msgstr ""
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Перевірка"
 
-#: src/widgets/gnumeric-expr-entry.c:1125
+#: src/widgets/gnumeric-expr-entry.c:1126
 msgid "Expecting a single range"
 msgstr ""
 
@@ -21828,8 +22208,8 @@ msgid "Discard All"
 msgstr "Відкинути"
 
 #: src/workbook-control-gui.c:1389 src/workbook-control-gui.c:1396
-#: src/workbook-control-gui.c:1402 src/workbook-control-gui.c:4846
-#: src/workbook-control-gui.c:4851
+#: src/workbook-control-gui.c:1402 src/workbook-control-gui.c:4847
+#: src/workbook-control-gui.c:4852
 msgid "Discard"
 msgstr "Відкинути"
 
@@ -22037,24 +22417,24 @@ msgstr ""
 "Відсортувати вибраний діапазон у спадаючому порядку значень першого рядка "
 "вибору."
 
-#: src/workbook-control-gui.c:4588
+#: src/workbook-control-gui.c:4589
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Файл \"%s\" має невідомий формат."
 
-#: src/workbook-control-gui.c:4620
+#: src/workbook-control-gui.c:4621
 msgid "Send"
 msgstr "Відіслати"
 
-#: src/workbook-control-gui.c:4620
+#: src/workbook-control-gui.c:4621
 msgid "Send the current file in email"
 msgstr "Відіслати поточний файл електронною поштою"
 
-#: src/workbook-control-gui.c:4845
+#: src/workbook-control-gui.c:4846
 msgid "Re-Edit"
 msgstr "Перевиправити"
 
-#: src/workbook-control-gui.c:4850
+#: src/workbook-control-gui.c:4851
 msgid "Accept"
 msgstr "Прийняти"
 
@@ -22307,31 +22687,28 @@ msgstr ""
 msgid "You may not use this name twice"
 msgstr ""
 
-#: src/xml-io.c:2844
+#: src/xml-io.c:2848
 msgid "Unparsable xml in clipboard"
 msgstr "Неможливо проаналізувати XML у кишені"
 
-#: src/xml-io.c:2851
+#: src/xml-io.c:2855
 msgid "Clipboard is in unknown format"
 msgstr "Кишеня у невідомому форматі"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3258
+#: src/xml-io.c:3262
 msgid "Processing file..."
 msgstr "Обробка файла..."
 
-#: src/xml-io.c:3427
+#: src/xml-io.c:3433
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Це не файл книги Gnumeric"
 
-#: src/xml-io.c:3487
+#: src/xml-io.c:3493
 msgid "Gnumeric XML file format"
 msgstr "Формат файлу Gnumeric"
-
-#~ msgid "Error while reading lotus workbook."
-#~ msgstr "Помилка під час зчитування книги Lotus."
 
 #, fuzzy
 #~ msgid "The value given in 'Max Iterations' is not valid."
@@ -23065,10 +23442,6 @@ msgstr "Формат файлу Gnumeric"
 #~ msgstr ""
 #~ "Не вдалося завантажити необхідного для роботи доповнення з "
 #~ "ідентифікатором \"%s\"."
-
-#, fuzzy
-#~ msgid "Gnumeric Solver"
-#~ msgstr "Gnumeric"
 
 #~ msgid "No sheets in workbook."
 #~ msgstr "В книзі немає таблиць."
