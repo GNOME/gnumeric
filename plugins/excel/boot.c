@@ -77,7 +77,7 @@ find_content_stream (GsfInfile *ole)
 	unsigned i;
 
 	for (i = 0 ; i < G_N_ELEMENTS (stream_names) ; i++) {
-		stream = gsf_infile_child_by_name (ole, stream_names[i++]);
+		stream = gsf_infile_child_by_name (ole, stream_names[i]);
 		if (stream != NULL)
 			return stream;
 	}
