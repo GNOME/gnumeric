@@ -73,8 +73,6 @@ typedef struct
 
 	GtkWidget        *combo;
        	GtkSignalFunc	  preview_update;
-      	guint		  rgba;
-      	guint		  r, g, b;
 } ColorPicker;
 
 typedef struct
@@ -134,6 +132,7 @@ typedef struct _FormatState
 
 		BorderPicker	 edge[STYLE_BORDER_EDGE_MAX];
 		ColorPicker      color;
+		guint		 rgba;
 		PatternPicker	 pattern;
 	} border;
 	struct {
@@ -314,12 +313,6 @@ setup_color_pickers (ColorPicker *picker,
 	box = glade_xml_get_widget (state->gui, container);
 	gtk_box_pack_start (GTK_BOX (box), frame, FALSE, FALSE, 0);
 	gtk_widget_show_all (frame);
-}
-
-static StyleColor *
-picker_style_color (ColorPicker const *c)
-{
-	return style_color_new (c->r, c->g, c->b);
 }
 
 /*
@@ -1192,11 +1185,8 @@ cb_font_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatS
 	if (!state->enable_edit)
 		return;
 
-	state->font.color.r = c->red;
-	state->font.color.g = c->green;
-	state->font.color.b = c->blue;
-
-	font_selector_set_color (state->font.selector, picker_style_color (&state->font.color));
+	font_selector_set_color (state->font.selector,
+		style_color_new (c->red, c->green, c->blue));
 }
 
 static void
@@ -1516,8 +1506,8 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 	gboolean changed = FALSE;
 
 	edge->is_set = TRUE;
-	if (edge->rgba != state->border.color.rgba) {
-		edge->rgba = state->border.color.rgba;
+	if (edge->rgba != state->border.rgba) {
+		edge->rgba = state->border.rgba;
 
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			if (line_info[i].location == edge->index &&
@@ -1819,7 +1809,7 @@ cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
 static void
 cb_border_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
-	state->border.color.rgba = GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
+	state->border.rgba = GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
 }
 
 #undef L
@@ -1851,7 +1841,7 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 	} else {
 		StyleColor const * c = border->color;
 		state->border.edge[i].rgba =
-		    GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
+		    GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
 		state->border.edge[i].pattern_index = border->line_type;
 		state->border.edge[i].is_selected = (border->line_type != STYLE_BORDER_NONE);
 	}
@@ -2101,6 +2091,8 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 			     _("Automatic"), _("Border"), &gs_black, state,
 			     cb_border_color, MSTYLE_ELEMENT_UNSET,
 			     state->style);
+	state->border.rgba = GNOME_CANVAS_COLOR (
+		gs_black.red>>8, gs_black.green>>8, gs_black.blue>>8);
 	setup_color_pickers (&state->back.back_color, "back_color_group",
 			     "back_color_hbox",
 			     _("Clear Background"), _("Background"), NULL, state,

@@ -3054,7 +3054,12 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 	GnumericXMLVersion version;
 
 	if (pl == FILE_PROBE_FILE_NAME) {
-		return strcmp (g_extension_pointer (filename), "gnumeric") == 0;
+		char const * extension = g_extension_pointer (filename);
+		if (extension == NULL)
+			return FALSE;
+		return	strcmp (extension, "gnumeric") == 0 ||
+			strcmp (extension, "xml.gz") == 0 ||
+			strcmp (extension, "xml");
 	}
 
 	/*

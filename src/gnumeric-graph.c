@@ -714,7 +714,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	}
 #endif
 
-	return vector->id;
+	return vector ? vector->id : -1;
 }
 
 static char *

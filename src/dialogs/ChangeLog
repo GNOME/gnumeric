@@ -1,3 +1,13 @@
+2001-09-04  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (picker_style_color) : delete.
+	(cb_font_preview_color) : call style_color_new directly.
+	(cb_border_color) : rgba was border selector specific.
+	  Store it in State::border directly so that none of the other
+	  ColorPickers think it is initialized.
+	(border_format_has_changed) : ditto.
+	(fmt_dialog_impl) : init border.rgba.
+
 2001-08-23  Morten Welinder  <terra@diku.dk>
 
 	* dialog-function-select.c (category_and_function_key_press): Fix
