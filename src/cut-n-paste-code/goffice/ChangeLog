@@ -1,3 +1,8 @@
+2005-02-17  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* gui-utils/go-gui-utils.c: include errno.h
+	(go_help_display): link is part of paths.
+			   
 2005-02-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* graph/gog-renderer-pixbuf.c: (gog_renderer_pixbuf_draw_path): rewrite to

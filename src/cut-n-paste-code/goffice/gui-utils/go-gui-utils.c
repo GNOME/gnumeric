@@ -43,6 +43,7 @@
 
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 #define PREVIEW_HSIZE 150
 #define PREVIEW_VSIZE 150
@@ -602,13 +603,13 @@ go_help_display (CBHelpPaths const *paths)
 		g_free (path);
 	}
 
-	if (0 != (id = (guint) g_hash_table_lookup (context_help_map, link))) {
+	if (0 != (id = (guint) g_hash_table_lookup (context_help_map, paths->link))) {
 		chm_file = gnm_sys_data_dir ("doc/C/gnumeric.chm");
 		HtmlHelp_ (GetDesktopWindow (), chm_file, HH_HELP_CONTEXT, id);
 		g_free (chm_file);
 	}
 #else
-	g_warning ("TODO : launch help browser for %s", link);
+	g_warning ("TODO : launch help browser for %s", paths->link);
 #endif
 }
 
