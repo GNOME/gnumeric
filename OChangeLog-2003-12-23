@@ -1,3 +1,10 @@
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_read_cell) : be more robust when faced
+	  with shared expressions that we can not parse.  And try really
+	  really hard to parse things that are not marked as values, see if we
+	  can parse them as expressions if we ignore the assigned format.
+
 2002-01-14  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_set_text) : Be smarter about the undo label

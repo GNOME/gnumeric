@@ -1794,7 +1794,7 @@ xml_not_used_old_array_spec (Cell *cell, char *content)
 static Cell *
 xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 {
-	Cell *ret;
+	Cell *cell;
 	xmlNodePtr child;
 	int col, row;
 	int array_cols, array_rows, shared_expr_index = -1;
@@ -1817,10 +1817,10 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_node_get_int (tree, "Col", &col);
 	xml_node_get_int (tree, "Row", &row);
 
-	ret = sheet_cell_get (ctxt->sheet, col, row);
-	if ((is_new_cell = (ret == NULL)))
-		ret = sheet_cell_new (ctxt->sheet, col, row);
-	if (ret == NULL)
+	cell = sheet_cell_get (ctxt->sheet, col, row);
+	if ((is_new_cell = (cell == NULL)))
+		cell = sheet_cell_new (ctxt->sheet, col, row);
+	if (cell == NULL)
 		return NULL;
 
 	if (ctxt->version < GNUM_XML_V3) {
@@ -1896,8 +1896,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		} else if (!strcmp (child->name, "Comment")) {
 			comment = (char *)xmlNodeGetContent (child);
  			if (comment) {
- 				cell_set_comment (ret->base.sheet,
-					&ret->pos, NULL, comment);
+ 				cell_set_comment (cell->base.sheet,
+					&cell->pos, NULL, comment);
  				xmlFree (comment);
 			}
  		}
@@ -1916,24 +1916,51 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		if (is_post_52_array) {
 			g_return_val_if_fail (content[0] == '=', NULL);
 
-			xml_cell_set_array_expr (ret, content + 1,
+			xml_cell_set_array_expr (cell, content + 1,
 						 array_rows, array_cols);
 		} else if (ctxt->version >= GNUM_XML_V3 ||
-			   xml_not_used_old_array_spec (ret, content)) {
+			   xml_not_used_old_array_spec (cell, content)) {
 			if (is_value) {
 				Value *v = value_new_from_string (value_type, content);
-				cell_set_value (ret, v, value_fmt);
-			} else
-				cell_set_text (ret, content);
+				cell_set_value (cell, v, value_fmt);
+			} else {
+				/* cell_set_text would probably handle this.
+				 * BUT, be extra careful just incase a sheet
+				 * appears that defines format text on a cell
+				 * with a formula.  Try REALLY REALLY hard
+				 * to parse it.  No need to worry about
+				 * accidentally parsing something because
+				 * support for Text formats did not happen
+				 * until after ValueType was added.
+				 */
+				ParsePos pos;
+				ExprTree *expr = NULL;
+				StyleFormat *desired_fmt = NULL;
+				char const *expr_start = gnumeric_char_start_expr_p (content);
+				if (NULL != expr_start && *expr_start)
+					expr = expr_parse_str (expr_start,
+						parse_pos_init_cell (&pos, cell),
+						GNM_PARSER_DEFAULT, &desired_fmt, NULL);
+				if (expr != NULL) {
+					cell_set_expr (cell, expr, desired_fmt);
+					expr_tree_unref (expr);
+					if (desired_fmt != NULL)
+						style_format_unref (desired_fmt);
+				} else
+					cell_set_text (cell, content);
+			}
 		}
 
 		if (shared_expr_index > 0) {
 			if (shared_expr_index == (int)ctxt->shared_exprs->len + 1) {
-				if (cell_has_expr (ret))
-					g_ptr_array_add (ctxt->shared_exprs,
-							 ret->base.expression);
-				else
+				if (!cell_has_expr (cell)) {
 					g_warning ("XML-IO: Shared expression with no expession?");
+					cell_set_expr (cell,
+						expr_tree_new_constant (value_duplicate (cell->value)),
+						NULL);
+				}
+				g_ptr_array_add (ctxt->shared_exprs,
+						 cell->base.expression);
 			} else {
 				g_warning ("XML-IO: Duplicate or invalid shared expression: %d",
 					   shared_expr_index);
@@ -1944,7 +1971,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
 			ExprTree *expr = g_ptr_array_index (ctxt->shared_exprs,
 							    shared_expr_index - 1);
-			cell_set_expr (ret, expr, NULL);
+			cell_set_expr (cell, expr, NULL);
 		} else {
 			g_warning ("XML-IO: Missing shared expression");
 		}
@@ -1954,10 +1981,10 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		 * If it was created by a previous array
 		 * we do not want to erase it.
 		 */
-		cell_set_value (ret, value_new_empty (), NULL);
+		cell_set_value (cell, value_new_empty (), NULL);
 
 	style_format_unref (value_fmt);
-	return ret;
+	return cell;
 }
 
 static void

@@ -25,6 +25,9 @@ Jody:
 	* Improve goto box to support names, and inter-sheet jumps.
 	* Support inter-sheet references in the goal seek.
 	* Handle totally hidden merges at freeze bound.
+	* Improve XL import for 3d references.
+	* Try REALLY hard to find an expression in xml not
+	   marked as being a value.
 
 Jon Kåre:
 	* Added WEEKNUM and ISOWEEKNUM

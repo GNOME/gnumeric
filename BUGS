@@ -7,8 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- A zero formatted using the default money button yeilds "$-".
-
 
 Pending Patches
 ---------------
@@ -59,7 +57,6 @@ Long term breakage
     - Delete Comment.
     - Freeze panes.
     - Changing summary info.
-    - change tab colours
 
 - Misc.
     - Add an idle handler at start up to check for availablity of
