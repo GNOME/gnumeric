@@ -1126,6 +1126,14 @@ static gboolean
 BC_R(lineformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
+	static GOLineDashType const dash_map []= {
+		GO_LINE_SOLID,
+		GO_LINE_DASH,
+		GO_LINE_DOT,
+		GO_LINE_DASH_DOT,
+		GO_LINE_DASH_DOT_DOT,
+		GO_LINE_NONE
+	};
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
 
 	BC_R(get_style) (s);
@@ -1149,8 +1157,10 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
 		       ms_line_pattern [s->style->line.pattern ]););
 
-	if (s->style->line.pattern == 5) /* invisible */
-		s->style->line.width = -1;
+	if (s->style->line.pattern <= G_N_ELEMENTS (dash_map))
+		s->style->line.dash_type = dash_map [s->style->line.pattern];
+	else
+		s->style->line.dash_type = GO_LINE_SOLID;
 
 	return FALSE;
 }
@@ -2232,7 +2242,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 
 	if (NULL != (state.sog = sog)) {
 		GogStyle *style = gog_style_new ();
-		style->outline.width = -1;
+		style->outline.width = 0;
+		style->outline.dash_type = GO_LINE_NONE;
 		style->fill.type = GOG_FILL_STYLE_NONE;
 
 		state.graph = sheet_object_graph_get_gog (sog);

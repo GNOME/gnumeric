@@ -111,7 +111,7 @@ enum {
 
 #define GOG_AXIS_MAX_TICK_NBR				1000
 #define GOG_AXIS_LOG_AUTO_MAX_MAJOR_TICK_NBR 		8
-#define GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR 	100
+#define GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR 	20
 
 static void gog_axis_set_ticks (GogAxis *axis,int tick_nbr, GogAxisTick *ticks);
 
