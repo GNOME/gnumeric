@@ -923,7 +923,7 @@ gnumeric_beta (FunctionEvalInfo *ei, GnmValue **argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-#warning improve error handling.  Relying on value_new_float to do it is cheesy
+#warning "Improve error handling.  Relying on value_new_float to do it is cheesy"
 	return value_new_float (beta (a, b));
 }
 
