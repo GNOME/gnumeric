@@ -395,7 +395,7 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
  * gog_plot_get_series :
  * @plot : #GogPlot
  *
- * A lsit of the series in @plot.  Do not modify or free the list.
+ * A list of the series in @plot.  Do not modify or free the list.
  **/
 GSList const *
 gog_plot_get_series (GogPlot const *plot)
