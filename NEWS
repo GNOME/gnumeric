@@ -91,7 +91,9 @@ Morten:
 	* Fix pretty-print (and thus saving) problem with ranges like
 	  $B$1:$B1.
 	http://bugzilla.gnome.org/show_bug.cgi?id=136639
-	* Work around theme engine crash
+	* Work around theme engine crash. [backported]
+	http://bugzilla.gnome.org/show_bug.cgi?id=135000
+	* Set accessibility role for save-before-exit dialog.
 
 --------------------------------------------------------------------------
 

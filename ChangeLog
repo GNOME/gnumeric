@@ -1,5 +1,8 @@
 2004-03-09  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_close_if_user_permits): The
+	ATK_ROLE_ALERT for dialog.
+
 	* src/item-bar.c (ib_draw_cell, item_bar_draw): Avoid deprecated
 	gtk_draw_shadow call.
 

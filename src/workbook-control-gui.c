@@ -1175,7 +1175,8 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 						 GTK_MESSAGE_WARNING,
 						 msg,
 						 _("If you close without saving, changes will be discarded."));
-						 
+		atk_object_set_role (gtk_widget_get_accessible (d), ATK_ROLE_ALERT);
+
 		if (exiting) {
 			int n_of_wb = g_list_length (gnm_app_workbook_list ());
 			if (n_of_wb > 1)
