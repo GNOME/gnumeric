@@ -351,75 +351,38 @@ set_cursor (ItemBar *item_bar, int pos)
 		gdk_window_set_cursor (canvas->window, item_bar->normal_cursor);
 }
 
-/*
- * Returns the GnomeCanvasPoints for a line at position in the
- * correct orientation.
- */
-static GnomeCanvasPoints *
-item_bar_get_line_points (GnomeCanvas *gcanvas, ItemBar *item_bar, int position)
-{
-	GnomeCanvasPoints *points;
-	GtkWidget *canvas = GTK_WIDGET (item_bar->sheet_view->sheet_view);
-	double x1, y1, x2, y2;
-
-	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
-		gnome_canvas_window_to_world
-			(gcanvas, canvas->allocation.width, position,
-			 &x2, &y2);
-		x1 = 0.0;
-		y1 = y2;
-	} else {
-		gnome_canvas_window_to_world
-			(gcanvas, position, canvas->allocation.height,
-			 &x2, &y2);
-		x1 = x2;
-		y1 = 0.0;
-	}
-
-	points = gnome_canvas_points_new (2);
-	points->coords [0] = x1;
-	points->coords [1] = y1;
-	points->coords [2] = x2;
-	points->coords [3] = y2;
-
-	return points;
-}
-
 static void
-item_bar_start_resize (ItemBar *item_bar, int pos)
+item_bar_start_resize (ItemBar *bar)
 {
-	GnomeCanvasPoints *points;
-	GnomeCanvasGroup *group;
-	GnomeCanvasItem *item;
-	GnumericSheet *gsheet;
-	Sheet *sheet;
-	int division_pos;
-	GnomeCanvas *canvas;
+	Sheet const * const sheet = bar->sheet_view->sheet;
+	double const zoom = sheet->last_zoom_factor_used;
+	GnumericSheet const * const gsheet = GNUMERIC_SHEET (bar->sheet_view->sheet_view);
+	GnomeCanvas const * const canvas = GNOME_CANVAS (gsheet);
+	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
+	GnomeCanvasPoints * const points =
+	    bar->resize_points = gnome_canvas_points_new (2);
+	GnomeCanvasItem * const item =
+	    gnome_canvas_item_new ( group,
+				    gnome_canvas_line_get_type (),
+				    "fill_color", "black",
+				    "width_pixels", 1,
+				    NULL);
+	bar->resize_guide = GTK_OBJECT (item);
 
-	sheet = item_bar->sheet_view->sheet;
-	gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
-	canvas = GNOME_CANVAS (gsheet);
-	group = GNOME_CANVAS_GROUP (canvas->root);
-
-	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-		division_pos = sheet_row_get_distance (
-			sheet, gsheet->top_row, pos+1);
-	else
-		division_pos = sheet_col_get_distance (
-			sheet, gsheet->top_col, pos+1);
-
-	points = item_bar_get_line_points (canvas, item_bar, division_pos);
-
-	item = gnome_canvas_item_new (
-		group,
-		gnome_canvas_line_get_type (),
-		"points", points,
-		"fill_color", "black",
-		"width_pixels", 1,
-		NULL);
-	gnome_canvas_points_free (points);
-
-	item_bar->resize_guide = GTK_OBJECT (item);
+	/* NOTE : Do not set the position of the line here.
+	 * Do that later based on the motion coordinates
+	 */
+	if (bar->orientation == GTK_ORIENTATION_VERTICAL) {
+		points->coords [0] =
+		    sheet_col_get_distance (sheet, 0, gsheet->left_col) / zoom;
+		points->coords [2] =
+		    sheet_col_get_distance (sheet, 0, gsheet->last_visible_col+1) / zoom;
+	} else {
+		points->coords [1] =
+		    sheet_row_get_distance (sheet, 0, gsheet->top_row) / zoom;
+		points->coords [3] =
+		    sheet_row_get_distance (sheet, 0, gsheet->last_visible_row+1) / zoom;
+	}
 }
 
 static int
@@ -478,6 +441,10 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 				 item_bar_signals [SIZE_CHANGED],
 				 item_bar->resize_pos,
 				 new_size);
+	if (item_bar->resize_points) {
+		gnome_canvas_points_free (item_bar->resize_points);
+		item_bar->resize_points = NULL;
+	}
 	if (item_bar->resize_guide) {
 		gtk_object_destroy (item_bar->resize_guide);
 		item_bar->resize_guide = NULL;
@@ -490,43 +457,45 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 	item_bar->resize_pos = -1;
 }
 
-#define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
-
 static gint
 item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 {
 	ColRowInfo *cri;
-	GnomeCanvas *canvas = item->canvas;
-	ItemBar *item_bar = ITEM_BAR (item);
-	int pos, start, element, x, y;
+	GnomeCanvas * const canvas = item->canvas;
+	ItemBar * const item_bar = ITEM_BAR (item);
+	Sheet   * const sheet = item_bar->sheet_view->sheet;
+	double const zoom = sheet->last_zoom_factor_used;
 	const gboolean resizing = ITEM_BAR_RESIZING (item_bar);
 	const gboolean is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
+	int pos, start, element;
 
+	/* NOTE :
+	 * No need to map coordinates since we do the zooming of the item bars manually
+	 * there is no transform needed.
+	 */
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
-		convert (canvas, e->crossing.x, e->crossing.y, &x, &y);
 		if (is_vertical)
-			pos = y;
+			pos = e->crossing.y;
 		else
-			pos = x;
+			pos = e->crossing.x;
 		set_cursor (item_bar, pos);
 		break;
 
 	case GDK_MOTION_NOTIFY:
-		convert (canvas, e->motion.x, e->motion.y, &x, &y);
 		if (is_vertical)
-			pos = y;
+			pos = e->motion.y;
 		else
-			pos = x;
+			pos = e->motion.x;
 
 		/* Do column resizing or incremental marking */
 		if (resizing){
-			GnomeCanvasPoints *points;
 			GnomeCanvasItem *resize_guide;
+			GnomeCanvasPoints *points;
 			int npos;
 
-			if (item_bar->resize_guide == NULL){
-				item_bar_start_resize (item_bar, item_bar->resize_pos);
+			if (item_bar->resize_guide == NULL) {
+				item_bar_start_resize (item_bar);
 				gnome_canvas_item_grab (item,
 							GDK_POINTER_MOTION_MASK |
 							GDK_BUTTON_RELEASE_MASK,
@@ -542,11 +511,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			colrow_tip_setlabel (item_bar, is_vertical, item_bar->resize_width);
 			resize_guide = GNOME_CANVAS_ITEM (item_bar->resize_guide);
+			points = item_bar->resize_points;
 
-			points = item_bar_get_line_points (canvas, item_bar, pos);
+			if (is_vertical)
+				points->coords [1] = points->coords [3] = pos / zoom;
+			else
+				points->coords [0] = points->coords [2] = pos / zoom;
 
 			gnome_canvas_item_set (resize_guide, "points",  points, NULL);
-			gnome_canvas_points_free (points);
 
 			/* Redraw the ItemBar to show nice incremental progress */
 			gnome_canvas_request_redraw (
@@ -570,11 +542,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 
 	case GDK_BUTTON_PRESS:
-		convert (canvas, e->button.x, e->button.y, &x, &y);
 		if (is_vertical)
-			pos = y;
+			pos = e->button.y;
 		else
-			pos = x;
+			pos = e->button.x;
 
 		cri = is_pointer_on_division (item_bar, pos, &start, &element);
 
@@ -587,8 +558,6 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 
 		if (e->button.button == 3) {
-			Sheet   *sheet = item_bar->sheet_view->sheet;
-
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
 			 */
@@ -694,6 +663,8 @@ item_bar_init (ItemBar *item_bar)
 	item_bar->tip = NULL;
 	item_bar->normal_font = NULL;
 	item_bar->bold_font = NULL;
+	item_bar->resize_guide = NULL;
+	item_bar->resize_points = NULL;
 }
 
 static void
