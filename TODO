@@ -108,6 +108,9 @@ Gnumeric Spread Sheet task list
 
    Should be possible to bind a name by typing the name on the
    region box and applying it to the selection
+   
+   When inserting columns / rows the _sheet_ names should resize to take
+   account of this.
 
 ** Column sizes
 

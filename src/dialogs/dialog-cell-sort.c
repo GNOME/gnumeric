@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
+#include "workbook-view.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
@@ -590,7 +591,8 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!sheet_selection_is_simple (sheet, _("sort")))
+	if (!selection_is_simple (command_context_gui (),
+				  sheet, _("sort")))
 		return;	
 
 	extent = sheet_get_extent (sheet);
