@@ -1,3 +1,10 @@
+2001-12-26  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=66842
+	* src/item-edit.c (point_is_inside_range) : check for alternate sheets
+	  both times.  This code is very hackish.  Rewrite it and merge the
+	  logic from expr-entry.
+
 2001-12-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.1

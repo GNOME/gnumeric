@@ -3,6 +3,9 @@ Gnumeric 0.99.2
 Andreas:
 	* Improve file format documentation
 
+Jody:
+	* double check that nearest range is not on another sheet.
+
 --------------------------------------------------------------------------
 Gnumeric 0.99.1
 

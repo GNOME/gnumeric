@@ -107,6 +107,10 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 		scan--;
 	scan_at (text, &scan);
 
+	/* If the range is on another sheet ignore it */
+	if (scan > 0 && text [scan-1] == '!')
+		return FALSE;
+
 	if ((v = range_parse (sheet, &text [scan], FALSE)) != NULL)
 		return setup_range_from_value (range, v);
 
