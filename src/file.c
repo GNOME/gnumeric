@@ -20,33 +20,11 @@
 #include "workbook.h"
 #include "gutils.h"
 #include "file.h"
+#include "file-priv.h"
 
 /*
  * GnumFileOpener
  */
-
-struct _GnumFileOpenerClass {
-	GtkObjectClass parent_class;
-
-	gboolean  (*probe) (GnumFileOpener const *fo,
-	                    const gchar *file_name);
-	void      (*open)  (GnumFileOpener const *fo,
-	                    IOContext *io_context,
-	                    WorkbookView *wbv,
-	                    const gchar *file_name);
-};
-
-struct _GnumFileOpener {
-	GtkObject parent;
-
-	gchar                  *id;
-	gchar                  *description;
-	GnumFileOpenerProbeFunc probe_func;
-	GnumFileOpenerOpenFunc  open_func;
-};
-
-#define GNUM_FILE_OPENER_METHOD(obj,name) \
-        ((GNUM_FILE_OPENER_CLASS (GTK_OBJECT (obj)->klass))->name)
 
 static void
 gnum_file_opener_init (GnumFileOpener *fo)
@@ -106,6 +84,18 @@ E_MAKE_TYPE (gnum_file_opener, "GnumFileOpener", GnumFileOpener, \
              gnum_file_opener_class_init, gnum_file_opener_init, \
              GTK_TYPE_OBJECT)
 
+/**
+ * gnum_file_opener_setup:
+ * @fo          : Newly created GnumFileOpener object
+ * @id          : Optional ID of the opener (or NULL)
+ * @description : Description of supported file format
+ * @probe_func  : Optional pointer to "probe" function (or NULL)
+ * @open_func   : Pointer to "open" function
+ *
+ * Sets up GnumFileOpener object, newly created with gtk_type_new function.
+ * This is intended to be used only by GnumFileOpener derivates.
+ * Use gnum_file_opener_new, if you want to create GnumFileOpener object.
+ */
 void
 gnum_file_opener_setup (GnumFileOpener *fo, const gchar *id,
                         const gchar *description,
@@ -120,6 +110,19 @@ gnum_file_opener_setup (GnumFileOpener *fo, const gchar *id,
 	fo->open_func = open_func;
 }
 
+/**
+ * gnum_file_opener_new:
+ * @id          : Optional ID of the opener (or NULL)
+ * @description : Description of supported file format
+ * @probe_func  : Optional pointer to "probe" function (or NULL)
+ * @open_func   : Pointer to "open" function
+ *
+ * Creates new GnumFileOpener object. Optional @id will be used
+ * after registering it with register_file_opener or
+ * register_file_opener_as_importer function.
+ *
+ * Return value: newly created GnumFileOpener object.
+ */
 GnumFileOpener *
 gnum_file_opener_new (const gchar *id,
                       const gchar *description,
@@ -150,6 +153,16 @@ gnum_file_opener_get_description (GnumFileOpener const *fo)
 	return fo->description;
 }
 
+/**
+ * gnum_file_opener_probe:
+ * @fo          : GnumFileOpener object
+ * @file_name   : File name
+ *
+ * Checks if a given file is supported by the opener.
+ *
+ * Return value: TRUE, if the opener can read given file and FALSE
+ *               otherwise.
+ */
 gboolean
 gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name)
 {
@@ -159,6 +172,19 @@ gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name)
 	return GNUM_FILE_OPENER_METHOD (fo, probe) (fo, file_name);
 }
 
+/**
+ * gnum_file_opener_open:
+ * @fo          : GnumFileOpener object
+ * @io_context  : Context for i/o operation
+ * @wbv         : Workbook View
+ * @file_name   : File name
+ *
+ * Reads content of @file_name file into workbook @wbv is attached to.
+ * Results are reported using @io_context object, use
+ * gnumeric_io_error_occurred to find out if operation was successful.
+ * The state of @wbv and its workbook is undefined if operation fails, you
+ * should destroy them in that case.
+ */
 void
 gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
                        WorkbookView *wbv, const gchar *file_name)
@@ -172,28 +198,6 @@ gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 /*
  * GnumFileSaver
  */
-
-struct _GnumFileSaverClass {
-	GtkObjectClass parent_class;
-
-	void  (*save)  (GnumFileSaver const *fs,
-	                IOContext *io_context,
-	                WorkbookView *wbv,
-	                const gchar *file_name);
-};
-
-struct _GnumFileSaver {
-	GtkObject parent;
-
-	gchar                *id;
-	gchar                *extension;
-	gchar                *description;
-	FileFormatLevel       format_level;
-	GnumFileSaverSaveFunc save_func;
-};
-
-#define GNUM_FILE_SAVER_METHOD(obj,name) \
-        ((GNUM_FILE_SAVER_CLASS (GTK_OBJECT (obj)->klass))->name)
 
 static void
 gnum_file_saver_init (GnumFileSaver *fs)
@@ -244,6 +248,19 @@ E_MAKE_TYPE (gnum_file_saver, "GnumFileSaver", GnumFileSaver, \
              gnum_file_saver_class_init, gnum_file_saver_init, \
              GTK_TYPE_OBJECT)
 
+/**
+ * gnum_file_saver_setup:
+ * @fs          : Newly created GnumFileSaver object
+ * @id          : Optional ID of the saver (or NULL)
+ * @extension   : Optional default extension of saved files (or NULL)
+ * @description : Description of supported file format
+ * @level       : File format level
+ * @save_func   : Pointer to "save" function
+ *
+ * Sets up GnumFileSaver object, newly created with gtk_type_new function.
+ * This is intended to be used only by GnumFileSaver derivates.
+ * Use gnum_file_saver_new, if you want to create GnumFileSaver object.
+ */
 void
 gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
                        const gchar *extension,
@@ -260,6 +277,20 @@ gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
 	fs->save_func = save_func;
 }
 
+/**
+ * gnum_file_saver_new:
+ * @id          : Optional ID of the saver (or NULL)
+ * @extension   : Optional default extension of saved files (or NULL)
+ * @description : Description of supported file format
+ * @level       : File format level
+ * @save_func   : Pointer to "save" function
+ *
+ * Creates new GnumFileSaver object. Optional @id will be used
+ * after registering it with register_file_saver or
+ * register_file_saver_as_default function.
+ *
+ * Return value: newly created GnumFileSaver object.
+ */
 GnumFileSaver *
 gnum_file_saver_new (const gchar *id,
                      const gchar *extension,
@@ -307,6 +338,19 @@ gnum_file_saver_get_format_level (GnumFileSaver const *fs)
 	return fs->format_level;
 }
 
+/**
+ * gnum_file_saver_save:
+ * @fs          : GnumFileSaver object
+ * @io_context  : Context for i/o operation
+ * @wbv         : Workbook View
+ * @file_name   : File name
+ *
+ * Saves @wbv and workbook it's attached to into @file_name file.
+ * Results are reported using @io_context object, use
+ * gnumeric_io_error_occurred to find out if operation was successful.
+ * It's possible that @file_name is created and contain some data if
+ * operation fails, you should remove the file in that case.
+ */
 void
 gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
                       WorkbookView *wbv, const gchar *file_name)
@@ -317,6 +361,18 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 	GNUM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, file_name);
 }
 
+/**
+ * gnum_file_saver_fix_file_name:
+ * @fs          : GnumFileSaver object
+ * @file_name   : File name
+ *
+ * Modifies given @file_name by adding default extension for file type
+ * supported by @fs saver. If @fs has no default extension or @file_name
+ * already has some extension, it just copies @file_name.
+ *
+ * Return value: newly allocated string which you should free after use,
+ *               containing (optionally) modified file name.
+ */
 gchar *
 gnum_file_saver_fix_file_name (GnumFileSaver const *fs, const gchar *file_name)
 {
@@ -356,6 +412,22 @@ cmp_int_less_than (gconstpointer list_i, gconstpointer i)
 	return !(GPOINTER_TO_INT (list_i) < GPOINTER_TO_INT (i));
 }
 
+/**
+ * register_file_opener:
+ * @fo          : GnumFileOpener object
+ * @priority    : Opener's priority
+ *
+ * Adds @fo opener to the list of available file openers, making it
+ * available for Gnumeric i/o routines. The opener is registered with given
+ * @priority. The priority is used to determine the order in which openers
+ * will be tried when reading a file. The higher the priority, the sooner it
+ * will be tried. Default XML-based Gnumeric file opener is registered at
+ * priority 50. Recommended range for @priority is [0, 100].
+ * Reference count for the opener is incremented inside the function, but
+ * you don't have to (and shouldn't) call gtk_object_unref on it if it's
+ * floating object (for example, when you pass object newly created with
+ * gnum_file_opener_new and not referenced anywhere).
+ */
 void
 register_file_opener (GnumFileOpener *fo, gint priority)
 {
@@ -385,6 +457,19 @@ register_file_opener (GnumFileOpener *fo, gint priority)
 	}
 }
 
+/**
+ * register_file_opener_as_importer:
+ * @fo          : GnumFileOpener object
+ *
+ * Adds @fo opener to the list of available file importers. The opener will
+ * not be tried when reading files using Gnumeric i/o routines (unless you
+ * call register_file_opener on it), but it will be available for the user
+ * when importing the file and selecting file opener manually.
+ * Reference count for the opener is incremented inside the function, but
+ * you don't have to (and shouldn't) call gtk_object_unref on it if it's
+ * floating object (for example, when you pass object newly created with
+ * gnum_file_opener_new and not referenced anywhere).
+ */
 void
 register_file_opener_as_importer (GnumFileOpener *fo)
 {
@@ -406,6 +491,14 @@ register_file_opener_as_importer (GnumFileOpener *fo)
 	}
 }
 
+/**
+ * unregister_file_opener:
+ * @fo          : GnumFileOpener object previously registered using
+ *                register_file_opener
+ *
+ * Removes @fo opener from list of available file openers. Reference count
+ * for the opener is decremented inside the function.
+ */
 void
 unregister_file_opener (GnumFileOpener *fo)
 {
@@ -435,6 +528,15 @@ unregister_file_opener (GnumFileOpener *fo)
 	gtk_object_unref (GTK_OBJECT (fo));
 }
 
+
+/**
+ * unregister_file_opener_as_importer:
+ * @fo          : GnumFileOpener object previously registered using
+ *                register_file_opener_as_importer
+ *
+ * Removes @fo opener from list of available file importers. Reference count
+ * for the opener is decremented inside the function.
+ */
 void
 unregister_file_opener_as_importer (GnumFileOpener *fo)
 {
@@ -475,6 +577,17 @@ default_file_saver_cmp_saver (gconstpointer a, gconstpointer b)
 	return dfs_a->saver != dfs_b->saver;
 }
 
+/**
+ * register_file_saver:
+ * @fs          : GnumFileSaver object
+ *
+ * Adds @fs saver to the list of available file savers, making it
+ * available for the user when selecting file format for save.
+ * Reference count for the saver is incremented inside the function, but
+ * you don't have to (and shouldn't) call gtk_object_unref on it if it's
+ * floating object (for example, when you pass object newly created with
+ * gnum_file_saver_new and not referenced anywhere).
+ */
 void
 register_file_saver (GnumFileSaver *fs)
 {
@@ -495,6 +608,21 @@ register_file_saver (GnumFileSaver *fs)
 	}
 }
 
+/**
+ * register_file_saver_as_default:
+ * @fs          : GnumFileSaver object
+ * @priority    : Saver's priority
+ *
+ * Adds @fs saver to the list of available file savers, making it
+ * available for the user when selecting file format for save.
+ * The saver is also marked as default saver with given priority.
+ * When Gnumeric needs default file saver, it chooses the one with the
+ * highest priority. Recommended range for @priority is [0, 100].
+ * Reference count for the saver is incremented inside the function, but
+ * you don't have to (and shouldn't) call gtk_object_unref on it if it's
+ * floating object (for example, when you pass object newly created with
+ * gnum_file_saver_new and not referenced anywhere).
+ */
 void
 register_file_saver_as_default (GnumFileSaver *fs, gint priority)
 {
@@ -513,6 +641,14 @@ register_file_saver_as_default (GnumFileSaver *fs, gint priority)
 	                          default_file_saver_cmp_priority);
 }
 
+/**
+ * unregister_file_saver:
+ * @fs          : GnumFileSaver object previously registered using
+ *                register_file_saver or register_file_saver_as_default
+ *
+ * Removes @fs saver from list of available file savers. Reference count
+ * for the saver is decremented inside the function.
+ */
 void
 unregister_file_saver (GnumFileSaver *fs)
 {
@@ -541,6 +677,15 @@ unregister_file_saver (GnumFileSaver *fs)
 	gtk_object_unref (GTK_OBJECT (fs));
 }
 
+/**
+ * get_default_file_saver:
+ *
+ * Returns file saver registered as default saver with the highest priority.
+ * Reference count for the saver is NOT incremented.
+ *
+ * Return value: GnumFileSaver object or NULL if default saver is not
+ *               available.
+ */
 GnumFileSaver *
 get_default_file_saver (void)
 {
@@ -551,6 +696,15 @@ get_default_file_saver (void)
 	return ((DefaultFileSaver *) default_file_saver_list->data)->saver;
 }
 
+/**
+ * get_file_opener_by_id:
+ * @id          : File opener's ID
+ *
+ * Searches for file opener with given @id, registered using
+ * register_file_opener or register_file_opener_as_importer.
+ *
+ * Return value: GnumFileOpener object or NULL if opener cannot be found.
+ */
 GnumFileOpener *
 get_file_opener_by_id (const gchar *id)
 {
@@ -563,6 +717,15 @@ get_file_opener_by_id (const gchar *id)
 	return GNUM_FILE_OPENER (g_hash_table_lookup (file_opener_id_hash, id));
 }
 
+/**
+ * get_file_saver_by_id:
+ * @id          : File saver's ID
+ *
+ * Searches for file saver with given @id, registered using
+ * register_file_saver or register_file_opener_as_default.
+ *
+ * Return value: GnumFileSaver object or NULL if saver cannot be found.
+ */
 GnumFileSaver *
 get_file_saver_by_id (const gchar *id)
 {
@@ -575,18 +738,41 @@ get_file_saver_by_id (const gchar *id)
 	return GNUM_FILE_SAVER (g_hash_table_lookup (file_saver_id_hash, id));
 }
 
+/**
+ * get_file_savers:
+ *
+ * Returns the list of registered file savers (using register_file_saver or
+ * register_file_saver_as_default).
+ *
+ * Return value: list of GnumFileSaver objects, which you shouldn't modify.
+ */
 GList *
 get_file_savers (void)
 {
 	return file_saver_list;
 }
 
+/**
+ * get_file_openers:
+ *
+ * Returns the list of registered file openers (using register_file_opener).
+ *
+ * Return value: list of GnumFileOpener objects, which you shouldn't modify.
+ */
 GList *
 get_file_openers (void)
 {
 	return file_opener_list;
 }
 
+/**
+ * get_file_importers:
+ *
+ * Returns the list of registered file importers (using
+ * register_file_opener_as_importer).
+ *
+ * Return value: list of GnumFileOpener objects, which you shouldn't modify.
+ */
 GList *
 get_file_importers (void)
 {

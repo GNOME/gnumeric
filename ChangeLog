@@ -1,3 +1,29 @@
+2001-05-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* file.c
+	(gnum_file_opener_setup, gnum_file_opener_new, gnum_file_opener_probe,
+	gnum_file_opener_open, gnum_file_saver_setup, gnum_file_saver_new,
+	gnum_file_saver_save, gnum_file_saver_fix_file_name,
+	register_file_opener, register_file_opener_as_importer,
+	unregister_file_opener, unregister_file_opener_as_importer,
+	register_file_saver, register_file_saver_as_default,
+	unregister_file_saver, get_default_file_saver,
+	get_file_opener_by_id, get_file_saver_by_id,
+	get_file_savers, get_file_openers, get_file_importers):
+	Added gtk-doc style documentation.
+	(struct _GnumFileOpener, struct _GnumFileOpenerClass,
+	struct _GnumFileSaver, struct _GnumFileSaverClass): Removed structs
+	already defined in file-priv.h.
+
+	* workbook-view.c
+	(wb_view_save_as, wb_view_save, wb_view_open, wb_view_open_custom):
+	Added gtk-doc style documentation.
+
+	* file.h
+	(gnum_file_opener_setup, gnum_file_saver_setup): Declarations moved ...
+
+	* file-priv.h: ... here
+
 2001-05-21  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI):

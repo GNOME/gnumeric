@@ -28,6 +28,11 @@ struct _GnumFileOpener {
 	GnumFileOpenerOpenFunc  open_func;
 };
 
+void gnum_file_opener_setup (GnumFileOpener *fo, const gchar *id,
+                             const gchar *description,
+                             GnumFileOpenerProbeFunc probe_func,
+                             GnumFileOpenerOpenFunc open_func);
+
 /*
  * GnumFileSaver
  */
@@ -53,5 +58,12 @@ struct _GnumFileSaver {
 	FileFormatLevel       format_level;
 	GnumFileSaverSaveFunc save_func;
 };
+
+void gnum_file_saver_setup (GnumFileSaver *fs,
+                            const gchar *id,
+                            const gchar *extension,
+                            const gchar *description,
+                            FileFormatLevel level,
+                            GnumFileSaverSaveFunc save_func);
 
 #endif /* GNUMERIC_FILE_PRIV_H */

@@ -574,6 +574,18 @@ workbook_view_new (Workbook *optional_wb)
 	return view;
 }
 
+/**
+ * wb_view_save_as:
+ * @wbv         : Workbook View
+ * @wbc         : Workbook Control
+ * @fs          : GnumFileSaver object
+ * @file_name   : File name
+ *
+ * Saves @wbv and workbook it's attached to into @file_name file using 
+ * @fs file saver.
+ *
+ * Return value: TRUE if file was successfully saved and FALSE otherwise.
+ */
 gboolean
 wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
                  GnumFileSaver *fs, const gchar *file_name)
@@ -604,6 +616,17 @@ wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
 	return success;
 }
 
+/**
+ * wb_view_save:
+ * @wbv         : Workbook View
+ * @wbc         : Workbook Control
+ *
+ * Saves @wbv and workbook it's attached to into file assigned to the
+ * workbook using workbook's file saver. If the workbook has no file
+ * saver assigned to it, default file saver is used instead.
+ *
+ * Return value: TRUE if file was successfully saved and FALSE otherwise.
+ */
 gboolean
 wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
 {
@@ -640,6 +663,17 @@ wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
 	return success;
 }
 
+/**
+ * wb_view_open:
+ * @wbv         : Workbook View
+ * @wbc         : Workbook Control
+ * @file_name   : File name
+ *
+ * Reads @file_name file, automatically detecting file type and using
+ * appropriate file opener.
+ *
+ * Return value: TRUE if file was successfully read and FALSE otherwise.
+ */
 gboolean
 wb_view_open (WorkbookView *wbv, WorkbookControl *wbc,
               const gchar *file_name)
@@ -647,6 +681,17 @@ wb_view_open (WorkbookView *wbv, WorkbookControl *wbc,
 	return wb_view_open_custom (wbv, wbc, NULL, file_name);
 }
 
+/**
+ * wb_view_open_custom:
+ * @wbv         : Workbook View
+ * @wbc         : Workbook Control
+ * @fo          : GnumFileOpener object
+ * @file_name   : File name
+ *
+ * Reads @file_name file using given file opener (@fo).
+ *
+ * Return value: TRUE if file was successfully read and FALSE otherwise.
+ */
 gboolean
 wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
                      GnumFileOpener *fo, const gchar *file_name)

@@ -45,10 +45,6 @@ GnumFileOpener *gnum_file_opener_new (const gchar *id,
                                       const gchar *description,
                                       GnumFileOpenerProbeFunc probe_func,
                                       GnumFileOpenerOpenFunc open_func);
-void            gnum_file_opener_setup (GnumFileOpener *fo, const gchar *id,
-                                        const gchar *description,
-                                        GnumFileOpenerProbeFunc probe_func,
-                                        GnumFileOpenerOpenFunc open_func);
 
 gboolean     gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name);
 void         gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
@@ -81,12 +77,6 @@ GnumFileSaver *gnum_file_saver_new (const gchar *id,
                                     const gchar *description,
                                     FileFormatLevel level,
                                     GnumFileSaverSaveFunc save_func);
-void           gnum_file_saver_setup (GnumFileSaver *fs,
-                                      const gchar *id,
-                                      const gchar *extension,
-                                      const gchar *description,
-                                      FileFormatLevel level,
-                                      GnumFileSaverSaveFunc save_func);
 
 void         gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
                                    WorkbookView *wbv, const gchar *file_name);
