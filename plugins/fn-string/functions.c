@@ -1073,11 +1073,12 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	gnumeric_regex_t r;
 	regmatch_t rm;
 	Value *res = NULL;
+	int i;
 
 	start--;
 	if (start < 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	for (hay2 = haystack; start > 0; start--) {
+	for (i = start, hay2 = haystack; i > 0; i--) {
 		if (*hay2 == 0)
 			return value_new_error (ei->pos, gnumeric_err_VALUE);
 		hay2 = g_utf8_next_char (hay2);
@@ -1085,7 +1086,7 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 
 	needle_regexp = search_pattern_to_regexp (needle);
 
-	if (gnumeric_regcomp (&r, needle_regexp, REG_ICASE | REG_NOSUB) !=
+	if (gnumeric_regcomp (&r, needle_regexp, REG_ICASE) !=
 	    REG_OK) {
 		g_assert_not_reached ();
 		goto out;
