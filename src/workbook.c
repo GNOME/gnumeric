@@ -13,12 +13,10 @@
 #include "gnumeric-sheet.h"
 #include "sheet-object.h"
 #include "dialogs.h"
+#include "file.h"
 #include "xml-io.h"
 #include "plugin.h"
 #include "pixmaps.h"
-
-#include "../plugins/excel/ms-ole.h"
-#include "../plugins/excel/ms-excel.h"
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -31,25 +29,6 @@ Workbook *current_workbook;
 static int workbook_count;
 
 static GList *workbook_list = NULL;
-
-/**
- * Wrapper that decides which format to use
- **/
-Workbook *
-workbook_read (const char *filename)
-{
-  /* A slow and possibly buggy check for now. */
-  MS_OLE *f = ms_ole_new (filename) ;
-  Workbook *wb;
-  if (f)
-    {
-      wb = ms_excelReadWorkbook(f) ;
-      free (f) ;
-    }
-  else
-    wb = gnumericReadXmlWorkbook (filename);
-  return wb ;
-}
 
 static void
 new_cmd (void)
@@ -66,7 +45,7 @@ open_cmd (GtkWidget *widget, Workbook *wb)
 	Workbook *new_wb;
 
 	if ((new_wb = workbook_read (fname)))
-	  gtk_widget_show (new_wb->toplevel);
+		gtk_widget_show (new_wb->toplevel);
 }
 
 static void
@@ -651,16 +630,16 @@ about_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-filenames_dropped(GtkWidget * widget,
-		  GdkDragContext   *context,
-		  gint              x,
-		  gint              y,
-		  GtkSelectionData *selection_data,
-		  guint             info,
-		  guint             time)
+filenames_dropped (GtkWidget * widget,
+		   GdkDragContext   *context,
+		   gint              x,
+		   gint              y,
+		   GtkSelectionData *selection_data,
+		   guint             info,
+		   guint             time)
 {
 	GList *names, *tmp_list;
-  
+	
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
 	tmp_list = names;
 	

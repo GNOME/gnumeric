@@ -41,6 +41,7 @@ GNUMERIC_BASE_SOURCES =			\
 	expr.c				\
 	expr.h				\
 	file.c				\
+	file.h				\
 	formats.h			\
 	formats.c			\
 	func.c				\

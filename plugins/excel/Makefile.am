@@ -8,6 +8,8 @@ INCLUDES = 						\
 noinst_LIBRARIES = libexcel.a
 
 libexcel_a_SOURCES =	\
+	boot.c		\
+	boot.h		\
 	ms-excel-biff.h	\
 	ms-biff.h	\
 	ms-excel.c	\

@@ -1,0 +1,5 @@
+1998-12-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* boot.c (excel_init): New file, adds the excel booting
+	mechanism. 
+

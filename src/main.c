@@ -9,6 +9,8 @@
 #include "dump.h"
 #include "main.h"
 
+#include "../plugins/excel/boot.h"
+
 #ifdef HAVE_GUILE
 #include <libguile.h>
 #endif
@@ -44,6 +46,10 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	functions_init ();
 	plugins_init ();
 
+	/* The statically linked in file formats */
+	xml_init ();
+	excel_init ();
+	
 	if (dump_file_name){
 		dump_functions (dump_file_name);
 		exit (1);

@@ -14,4 +14,6 @@ int       gnumericWriteXmlSheet    (Sheet *sheet, const char *filename);
 Workbook *gnumericReadXmlWorkbook  (const char *filename);
 int       gnumericWriteXmlWorkbook (Workbook *sheet, const char *filename);
 
+void      xml_init (void);
+
 #endif /* GNUMERIC_XML_IO_H */

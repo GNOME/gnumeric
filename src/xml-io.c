@@ -15,6 +15,7 @@
 #include "color.h"
 #include "sheet-object.h"
 #include "xml-io.h"
+#include "file.h"
 
 /*
  * A parsing context.
@@ -1571,4 +1572,39 @@ readXmlWorkbook (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	}
 	
 	return ret;
+}
+
+/*
+ * We parse and do some limited validation of the XML file, if this
+ * passes, then we return TRUE
+ */
+static gboolean
+xml_probe (const char *filename)
+{
+	xmlDocPtr res;
+	xmlNsPtr gmr;
+	
+	res = xmlParseFile (filename);
+	if (res == NULL)
+		return FALSE;
+
+	if (res->root == NULL)
+		return FALSE;
+
+	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
+	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)){
+		xmlFreeDoc (res);
+		return FALSE;
+	}
+	xmlFreeDoc (res);
+	return TRUE;
+}
+
+void
+xml_init (void)
+{
+	char *desc = _("Gnumeric XML file format");
+	
+	file_format_register_open (50, desc, xml_probe, gnumericReadXmlWorkbook);
+	file_format_register_save (".gnumeric", desc, gnumericWriteXmlWorkbook);
 }
