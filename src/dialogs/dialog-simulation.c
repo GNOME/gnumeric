@@ -301,6 +301,9 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	current_sim = &sim;
 
+	w = glade_xml_get_widget (state->gui, "max-time");
+	sim.max_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w)) - 1;
+
 	g_get_current_time (&sim.start);
 	err = simulation_tool (WORKBOOK_CONTROL (state->wbcg),
 			       &dao, &sim);

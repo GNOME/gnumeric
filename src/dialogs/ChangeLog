@@ -1,5 +1,10 @@
 2003-04-20  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* simulation.glade: Changed the default max time to 10 sec.
+
+	* dialog-simulation.c (simulation_ok_clicked_cb): Implemented
+	max-time spinbutton.
+
 	* dialog-scenarios.c (scenarios_summary_clicked_cb): Result cells
 	can now also be a list of cell ranges.
 
