@@ -1,3 +1,9 @@
+2002-02-21  Morten Welinder  <terra@diku.dk>
+
+	* fn-math.c (gnumeric_abs): Use gnumabs.
+	* fn-stat.c (gnumeric_ttest): Ditto.
+	* fn-date.c (gnumeric_date2unix, gnumeric_unix2date): Ditto.
+
 2002-02-20  Jody Goldberg <jody@gnome.org>
 
 	* fn-lookup.c (HLOOKUP,VLOOKUP) : offer an 'as_index' flag.

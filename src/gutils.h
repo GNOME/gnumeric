@@ -83,11 +83,15 @@ void      gnumeric_set_le_double (void *p, double d);
 
 char *    gnumeric_strescape (const char *string);
 
-#ifdef NEED_FAKE_MODFL
+#ifdef NEED_FAKE_MODFGNUM
 gnum_float fake_modfl (gnum_float x, gnum_float *iptr);
 #endif
 
-#if defined(WITH_LONG_DOUBLE) && !defined(HAVE_STRTOLD)
+#ifdef NEED_FAKE_GNUMABS
+gnum_float gnumabs (gnum_float x);
+#endif
+
+#ifdef NEED_FAKE_STRTOGNUM
 gnum_float strtognum (const char *str, char **end);
 #endif
 

@@ -550,36 +550,53 @@ gnumeric_strescape (const char *string)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef NEED_FAKE_MODFL
+#ifdef NEED_FAKE_MODFGNUM
 gnum_float
-fake_modfl (gnum_float x, gnum_float *iptr)
+modfgnum (gnum_float x, gnum_float *iptr)
 {
 	double di;
-	gnum_float res;
+	static gboolean warned = FALSE;
 
-	res = modf (x, &di);
+	if (!warned) {
+		warned = TRUE;
+		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in modfgnum."));
+	}
+
+	/* Throw away the fractional part.  Hope the integer part fits.  */
+	(void)modf (x, &di);
 	*iptr = di;
-	return res;
+
+	return x - di;
 }
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-#if defined(WITH_LONG_DOUBLE) && !defined(HAVE_STRTOLD)
+#ifdef NEED_FAKE_GNUMABS
+gnum_float
+gnumabs (gnum_float x)
+{
+	return (x >= 0) ? x : -x;
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_STRTOGNUM
 
 gnum_float
 strtognum (const char *str, char **end)
 {
-	gnum_float res;
 #if defined(HAVE_STRING_TO_DECIMAL) && defined(HAVE_DECIMAL_TO_QUADRUPLE)
+	gnum_float res;
 	decimal_record dr;
 	enum decimal_string_form form;
 	decimal_mode dm;
 	fp_exception_field_type excp;
 	char *echar;
 
-	string_to_decimal ((char **)&str, strlen (str),
-			   0, &dr, &form, &echar);
+	string_to_decimal ((char **)&str, INT_MAX, 0,
+			   &dr, &form, &echar);
 	if (end) *end = (char *)str;
 
 	if (form == invalid_form) {
@@ -588,21 +605,31 @@ strtognum (const char *str, char **end)
 	}
 
 	dm.rd = fp_nearest;
-	dm.df = floating_form;
-	dm.ndigits = GNUM_DIG;
 	decimal_to_quadruple (&res, &dm, &dr, &excp);
-#else
-	static gboolean warned = FALSE;
-	if (!warned) {
-		warned = TRUE;
-		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in strtognum."));
-	}
-
-	res = strtod (str, end);
-#endif
+        if (excp & ((1 << fp_overflow) | (1 << fp_underflow)))
+                errno = ERANGE;
 	return res;
-}
+#else
+	char *myend;
+	gnum_float res;
+	int count;
 
+	if (end == 0) end = &myend;
+	(void) strtod (str, end);
+	if (str == *end)
+		return 0;
+
+	errno = 0;
+	count = sscanf (str, "%Lf", &res);
+	if (count == 1)
+		return res;
+
+	/* Now what?  */
+	*end = (char *)str;
+	errno = ERANGE;
+	return 0.0;
+#endif
+}
 #endif
 
 /* ------------------------------------------------------------------------- */

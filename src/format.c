@@ -651,7 +651,7 @@ render_number (GString *result,
 	       format_info_t const *info)
 {
 	char thousands_sep = format_get_thousand ();
-	char num_buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	char num_buf[(GNUM_MANT_DIG + GNUM_MAX_EXP) * 2 + 1];
 	gchar *num = num_buf + sizeof (num_buf) - 1;
 	gnum_float frac_part, int_part;
 	int group, zero_count, digit_count = 0;

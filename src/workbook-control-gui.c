@@ -3803,8 +3803,8 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 	 * WARNING * WARNING * WARNING
 	 */
 	static struct {
-		char *displayed_name;
-		char *function;
+		const char *displayed_name;
+		const char *function;
 	} const quick_compute_routines [] = {
 		{ N_("Sum"),   	       "sum(selection(0))" },
 		{ N_("Min"),   	       "min(selection(0))" },
@@ -4335,7 +4335,7 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	ValidationStatus res0, res1 = VALIDATION_STATUS_VALID; /* supress warning */
-	char *btn0, *btn1;
+	const char *btn0, *btn1;
 	GtkMessageType  type;
 	GtkWidget  *dialog;
 	int response;

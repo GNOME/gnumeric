@@ -122,7 +122,7 @@ range_avedev (const gnum_float *xs, int n, gnum_float *res)
 
 		range_average (xs, n, &m);
 		for (i = 0; i < n; i++)
-			s += fabs (xs[i] - m);
+			s += gnumabs (xs[i] - m);
 		*res = s / n;
 		return 0;
 	} else

@@ -94,8 +94,8 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 		int mov = -1;
 
 		for (j = i; j < n; j++)
-			if (fabs (LU[i][j]) > max) {
-				max = fabs (LU[i][j]);
+			if (gnumabs (LU[i][j]) > max) {
+				max = gnumabs (LU[i][j]);
 				mov = j;
 			}
 		if (max == 0) return 2;			/*all 0s; singular*/

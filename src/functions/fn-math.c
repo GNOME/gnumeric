@@ -243,7 +243,7 @@ static const char *help_abs = {
 static Value *
 gnumeric_abs (FunctionEvalInfo *ei, Value **args)
 {
-	return value_new_float (fabs (value_get_as_float (args [0])));
+	return value_new_float (gnumabs (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/

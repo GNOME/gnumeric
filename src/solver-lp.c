@@ -8,6 +8,7 @@
 */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "numbers.h"
 
 #include "parse-util.h"
 #include "solver.h"
@@ -377,8 +378,10 @@ callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n, void *da
         int     i;
 
 	printf ("Iteration=%3d ", iter + 1);
-	printf ("bv=%9.4" GNUM_FORMAT_f " cx=%9.4" GNUM_FORMAT_f " gap=%9.4" GNUM_FORMAT_f "\n",
-		bv, cx, fabs (bv - cx));
+	printf ("bv=%9.4" GNUM_FORMAT_f
+		" cx=%9.4" GNUM_FORMAT_f
+		" gap=%9.4" GNUM_FORMAT_f "\n",
+		bv, cx, gnumabs (bv - cx));
 	for (i = 0; i < n; i++)
 	        printf ("%8.4" GNUM_FORMAT_f " ", x[i]);
         printf ("\n");
@@ -1002,13 +1005,13 @@ solver_answer_report (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
 			cell = sheet_cell_fetch (sheet, tc, tr);
 			lhs = value_get_as_float (cell->value);
 
-			if (fabs (lhs - rhs) < 0.001)
+			if (gnumabs (lhs - rhs) < 0.001)
 			        set_cell (&dao, 4, row, _("Binding"));
 			else
 			        set_cell (&dao, 4, row, _("Not Binding"));
 
 			/* Set `Slack' column */
-			set_cell_float (&dao, 5, row, fabs (lhs - rhs));
+			set_cell_float (&dao, 5, row, gnumabs (lhs - rhs));
 
 			/* Go to next row */
 			++row;

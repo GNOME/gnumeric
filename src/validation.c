@@ -146,10 +146,10 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			return VALIDATION_STATUS_VALID;
 
 		case VALIDATION_TYPE_AS_INT : {
-			double dummy;
+			gnum_float dummy;
 			if (val->type == VALUE_FLOAT &&
-			    fabs (modf (cell->value->v_float.val, &dummy)) > 1e-10) {
-				msg = g_strdup_printf (_("'%f' is not an integer"),
+			    gnumabs (modfgnum (cell->value->v_float.val, &dummy)) > 1e-10) {
+				msg = g_strdup_printf (_("'%" GNUM_FORMAT_f "' is not an integer"),
 						       cell->value->v_float.val);
 				break;
 			}

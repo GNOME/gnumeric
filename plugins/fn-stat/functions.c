@@ -3463,9 +3463,9 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	}
 
 	if (tails == 1)
-		p = 1.0 - pt (fabs (x), dof);
+		p = 1.0 - pt (gnumabs (x), dof);
 	else
-		p = (1.0 - pt (fabs (x), dof)) * 2;
+		p = (1.0 - pt (gnumabs (x), dof)) * 2;
 	return value_new_float (p);
 }
 

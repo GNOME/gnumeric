@@ -46,7 +46,7 @@ AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource)
 GNOME_COMPILE_WARNINGS
 set_mode_warnings=yes
 if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
-	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings -Wformat; do
+	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
@@ -72,7 +72,7 @@ AC_ARG_WITH(long_double,
 		if test "$ac_cv_c_long_double" != "yes"; then
 			AC_MSG_ERROR([Long double type is not available.])
 		fi
-		AC_CHECK_FUNCS(strtold modfl string_to_decimal decimal_to_quadruple)
+		AC_CHECK_FUNCS(strtold modfl fabsl string_to_decimal decimal_to_quadruple)
 		AC_CHECK_HEADERS(floatingpoint.h)
 
 		if test "$ac_cv_func_strtold" = "yes"; then
@@ -84,9 +84,11 @@ AC_ARG_WITH(long_double,
 		else
 			AC_MSG_WARN([You lack the strtold function -- precision will be impaired])
 		fi
+
 		if test "$ac_cv_func_modfl" != "yes"; then
 			AC_MSG_WARN([You lack the modfl function -- precision will be impaired])
 		fi
+
 		float_msg="long double (EXPERIMENTAL)"
 		AC_MSG_WARN([Long double support is experimental -- expect problems])
 		AC_DEFINE(WITH_LONG_DOUBLE)
@@ -573,6 +575,7 @@ Configuration:
 
 	Source code location:	${srcdir}
 	Compiler:		${CC}
+	Compiler flags:		${CFLAGS}
 	Floating point type:	${float_msg}
 
 	MS Excel Support:	${excel_msg}

@@ -1,3 +1,20 @@
+2002-02-21  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (wbcg_validation_msg): Constify.
+
+	* src/cell.c (cell_is_zero): Use gnum_float.
+
+	* src/regression.c (LUPDecomp): Use gnumabs.
+	* src/solver-lp.c (solver_answer_report): Ditto.
+	* src/value.c (value_diff): Ditto.
+	* src/goal-seek.c: Ditto.
+	* src/rangefunc.c (range_avedev): Ditto.
+
+	* src/validation.c (validation_eval): Use gnum_float, modfgnum,
+	and gnumabs.
+
+	* src/numbers.h (GNUM_MANT_DIG, GNUM_MAX_EXP, gnumabs): New stuff.
+
 2002-02-21  Morten Welinder <terra@diku.dk>
 
 	* src/solver-lp.c (callback): Fix formats.

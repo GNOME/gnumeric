@@ -868,7 +868,7 @@ value_diff (Value const *a, Value const *b)
 	case VALUE_FLOAT: {
 		const gnum_float da = value_get_as_float (a);
 		const gnum_float db = value_get_as_float (b);
-		return fabs (da - db);
+		return gnumabs (da - db);
 	}
 	default:
 		return TYPE_MISMATCH;

@@ -12,6 +12,7 @@
 #endif
 
 #include <gnumeric-config.h>
+#include "numbers.h"
 #include "gnumeric.h"
 #include "goal-seek.h"
 
@@ -34,7 +35,7 @@ update_data (gnum_float x, gnum_float y, GoalSeekData *data)
 				 * When we have pos and neg, prefer the new point only
 				 * if it makes the pos-neg x-internal smaller.
 				 */
-				if (fabs (x - data->xneg) < fabs (data->xpos - data->xneg)) {
+				if (gnumabs (x - data->xneg) < gnumabs (data->xpos - data->xneg)) {
 					data->xpos = x;
 					data->ypos = y;
 				}
@@ -56,7 +57,7 @@ update_data (gnum_float x, gnum_float y, GoalSeekData *data)
 				 * When we have pos and neg, prefer the new point only
 				 * if it makes the pos-neg x-internal smaller.
 				 */
-				if (fabs (x - data->xpos) < fabs (data->xpos - data->xneg)) {
+				if (gnumabs (x - data->xpos) < gnumabs (data->xpos - data->xneg)) {
 					data->xneg = x;
 					data->yneg = y;
 				}
@@ -197,7 +198,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			gnum_float xstep;
 
 			if (data->havexneg && data->havexpos)
-				xstep = fabs (data->xpos - data->xneg) / 1e6;
+				xstep = gnumabs (data->xpos - data->xneg) / 1e6;
 			else
 				xstep = (data->xmax - data->xmin) / 1e6;
 
@@ -220,7 +221,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 			return GOAL_SEEK_OK;
 		}
 
-		stepsize = fabs (x1 - x0) / (fabs (x0) + fabs (x1));
+		stepsize = gnumabs (x1 - x0) / (gnumabs (x0) + gnumabs (x1));
 
 #ifdef DEBUG_GOAL_SEEK
 		printf ("                                        df0 = %.20" GNUM_FORMAT_g "\n", df0);
@@ -268,8 +269,8 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 	if (!data->havexpos || !data->havexneg)
 		return GOAL_SEEK_ERROR;
 
-	stepsize = fabs (data->xpos - data->xneg)
-		/ (fabs (data->xpos) + fabs (data->xneg));
+	stepsize = gnumabs (data->xpos - data->xneg)
+		/ (gnumabs (data->xpos) + gnumabs (data->xneg));
 
 	/* log_2 (10) = 3.3219 < 4.  */
 	for (iterations = 0; iterations < 100 + GNUM_DIG * 4; iterations++) {
@@ -341,7 +342,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 					continue;
 			}
 
-			xstep = fabs (data->xpos - data->xneg) / 1e6;
+			xstep = gnumabs (data->xpos - data->xneg) / 1e6;
 			status = fake_df (f, x0, &df0, xstep, data, user_data);
 			if (status != GOAL_SEEK_OK)
 				continue;
@@ -385,8 +386,8 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			return GOAL_SEEK_OK;
 		}
 
-		stepsize = fabs (data->xpos - data->xneg)
-			/ (fabs (data->xpos) + fabs (data->xneg));
+		stepsize = gnumabs (data->xpos - data->xneg)
+			/ (gnumabs (data->xpos) + gnumabs (data->xneg));
 
 #ifdef DEBUG_GOAL_SEEK
 		printf ("                                          ss = %.20" GNUM_FORMAT_g "\n", stepsize);
