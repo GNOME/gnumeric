@@ -1,5 +1,20 @@
 2001-01-24  Almer S. Tigelaar  <almer1@dds.nl>
 
+	* src/gnumeric-util.c (gnumeric_create_popup_menu):
+	Let the sensitivity filter function exacly like the
+	display filter.
+
+	* src/sheet-control-gui.c (scg_context_menu):
+	Disable insert rows/cols according to the selected
+	rows/cols. We don't want people to insert anything if
+	the whole sheet is selected or if there are multiple
+	selections of whole rows and cols.
+
+	* src/workbook-control-gui.c (wbcg_insert_cols_rows_enable):
+	Fix typo, "Cols" should be "Columns".
+	
+2001-01-24  Almer S. Tigelaar  <almer1@dds.nl>
+
 	* src/clipboard.c (clipboard_paste_region):
 	Update row heights after pasting a region. Fixes #38176.
 

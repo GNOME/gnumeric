@@ -734,7 +734,7 @@ wbcg_insert_cols_rows_enable (WorkbookControl *wbc, gboolean col, gboolean enabl
 		change_menu_sensitivity (wbcg->menu_item_insert_rows, enable);
 #else
 	if (col)
-		change_menu_sensitivity (wbcg, "/commands/InsertCols", "/menu/Insert/Cols", enable);
+		change_menu_sensitivity (wbcg, "/commands/InsertColumns", "/menu/Insert/Columns", enable);
 	else
 		change_menu_sensitivity (wbcg, "/commands/InsertRows", "/menu/Insert/Rows", enable);
 #endif

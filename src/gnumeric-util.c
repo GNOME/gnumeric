@@ -750,7 +750,7 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 			item = gtk_menu_item_new ();
 
 		if (elements [i].sensitive_filter != 0 &&
-		    elements [i].sensitive_filter != sensitive_filter)
+		    (elements [i].sensitive_filter & sensitive_filter))
 			gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
 
 		if (pix_name != NULL) {

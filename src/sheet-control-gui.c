@@ -1065,7 +1065,9 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		CONTEXT_DISPLAY_FOR_COLS = 4
 	};
 	enum {
-		CONTEXT_ENABLE_PASTE_SPECIAL = 1,
+		CONTEXT_DISABLE_PASTE_SPECIAL = 1,
+		CONTEXT_DISABLE_FOR_ROWS = 2,
+		CONTEXT_DISABLE_FOR_COLS = 4
 	};
 
 	static GnumericPopupMenuElement const popup_elements[] = {
@@ -1076,7 +1078,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		{ N_("_Paste"),         GNOME_STOCK_MENU_PASTE,
 		    0, 0, CONTEXT_PASTE },
 		{ N_("Paste _Special"),	NULL,
-		    0, CONTEXT_ENABLE_PASTE_SPECIAL, CONTEXT_PASTE_SPECIAL },
+		    0, CONTEXT_DISABLE_PASTE_SPECIAL, CONTEXT_PASTE_SPECIAL },
 
 		{ "", NULL, 0, 0, 0 },
 
@@ -1092,13 +1094,13 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		{ N_("_Delete..."),	NULL,
 		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DELETE },
 		{ N_("_Insert Column(s)"), "Menu_Gnumeric_ColumnAdd",
-		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_INSERT },
+		    CONTEXT_DISPLAY_FOR_COLS, CONTEXT_DISABLE_FOR_COLS, CONTEXT_INSERT },
 		{ N_("_Delete Column(s)"), "Menu_Gnumeric_ColumnDelete",
-		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_DELETE },
+		    CONTEXT_DISPLAY_FOR_COLS, CONTEXT_DISABLE_FOR_COLS, CONTEXT_DELETE },
 		{ N_("_Insert Row(s)"), "Menu_Gnumeric_RowAdd",
-		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_INSERT },
+		    CONTEXT_DISPLAY_FOR_ROWS, CONTEXT_DISABLE_FOR_ROWS, CONTEXT_INSERT },
 		{ N_("_Delete Row(s)"), "Menu_Gnumeric_RowDelete",
-		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_DELETE },
+		    CONTEXT_DISPLAY_FOR_ROWS, CONTEXT_DISABLE_FOR_ROWS, CONTEXT_DELETE },
 
 		{ N_("Clear Co_ntents"),NULL,
 		    0, 0, CONTEXT_CLEAR_CONTENT },
@@ -1139,13 +1141,30 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	 * when there is nothing in the local clipboard, or when
 	 * the clipboard has the results of a copy.
 	 */
-	int const sensitivity_filter =
+	int sensitivity_filter =
 	    (application_clipboard_is_empty () ||
 	    (application_clipboard_contents_get () != NULL))
-	? CONTEXT_ENABLE_PASTE_SPECIAL : 0;
+		? 0 : CONTEXT_DISABLE_PASTE_SPECIAL;
+
+	GList *l;
 
 	workbook_finish_editing (scg->wbcg, FALSE);
 
+	/*
+	 * Now see if there is some selection which selects a
+	 * whole row or a whole column and disable the insert/delete col/row menu items
+	 * accordingly
+	 */
+	for (l = scg->sheet->selections; l != NULL; l = l->next) {
+		Range const *r = l->data;
+
+		if (r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1)
+			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
+
+		if (r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1)
+			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
+	}
+		
 	gnumeric_create_popup_menu (popup_elements, &context_menu_hander,
 				    scg, display_filter,
 				    sensitivity_filter, event);
