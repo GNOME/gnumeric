@@ -7,7 +7,7 @@ enum {
 	PASTE_CONTENT		= 1 << 0, /* either CONTENT or AS_VALUES */
 	PASTE_AS_VALUES		= 1 << 1, /*  can be applied, not both */
 	PASTE_FORMATS		= 1 << 2,
-	PASTE_COMMENTS		= 1 << 3,	/* FIXME : unsupported */
+	PASTE_COMMENTS		= 1 << 3,
 
 	/* Operations that can be performed at paste time on a cell */
 	PASTE_OPER_ADD		= 1 << 4,
@@ -52,6 +52,7 @@ typedef struct {
 		Cell *cell;
 		char *text;
 	} u;
+	char *comment;
 } CellCopy;
 
 typedef GList CellCopyList;

@@ -1186,8 +1186,7 @@ cmd_clear_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		c = me->old_content->data;
 
-		/* FIXME : no support for pasting comments */
-		if (me->clear_flags != CLEAR_COMMENTS)
+		if (me->clear_flags)
 			clipboard_paste_region (wbc,
 				paste_target_init (&pt, me->sheet, r, me->paste_flags),
 				c);
@@ -1268,13 +1267,8 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 		paste_flags |= PASTE_CONTENT;
 	if (clear_flags & CLEAR_FORMATS)
 		paste_flags |= PASTE_FORMATS;
-	if (clear_flags & CLEAR_COMMENTS) {
-		static gboolean warn = TRUE;
-		if (warn) {
-			warn = FALSE;
-			g_warning ("Deleted comments cannot be restored yet");
-		}
-	}
+	if (clear_flags & CLEAR_COMMENTS) 
+		paste_flags |= PASTE_COMMENTS;
 
 	obj = g_object_new (CMD_CLEAR_TYPE, NULL);
 	me = CMD_CLEAR (obj);

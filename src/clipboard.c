@@ -25,6 +25,7 @@
 #include "value.h"
 #include "dialog-stf.h"
 #include "stf-parse.h"
+#include "sheet-object-cell-comment.h"
 
 #include <locale.h>
 #include <string.h>
@@ -206,6 +207,18 @@ paste_cell (Sheet *dest_sheet,
 	    ExprRewriteInfo const *rwinfo,
 	    CellCopy *c_copy, int paste_flags)
 {
+	if ((paste_flags & PASTE_COMMENTS) && c_copy->comment) {
+		CellComment   *cell_comment;
+		CellPos       pos;
+		pos.col = target_col;
+		pos.row = target_row;
+
+		cell_comment = cell_has_comment_pos (dest_sheet, &pos);
+		if (cell_comment)
+			cell_comment_text_set (cell_comment, c_copy->comment);
+		else
+			cell_set_comment (dest_sheet, &pos, NULL, c_copy->comment);
+	}
 	if (!(paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)))
 		return;
 
@@ -475,12 +488,28 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	CellRegion *cr = user_data;
 	ExprArray const *a;
 	CellCopy *copy;
+	CellPos  pos;
+	CellComment   *comment;
+	
+	pos.col = col;
+	pos.row = row;
+	comment = cell_has_comment_pos (sheet, &pos);
+	
+	if (cell == NULL && comment == NULL) 
+		return NULL;
+
+	if (cell == NULL)
+		cell = sheet_cell_fetch (sheet, col, row);
 
 	copy = g_new (CellCopy, 1);
 	copy->type       = CELL_COPY_TYPE_CELL;
 	copy->u.cell     = cell_copy (cell);
 	copy->u.cell->pos.col = copy->col_offset = col - cr->base.col;
 	copy->u.cell->pos.row = copy->row_offset = row - cr->base.row;
+	if (comment)
+		copy->comment = g_strdup (cell_comment_text_get (comment));
+	else
+		copy->comment = NULL;
 
 	cr->content = g_list_prepend (cr->content, copy);
 
@@ -519,7 +548,7 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 	cr->cols = range_width (r);
 	cr->rows = range_height (r);
 
-	sheet_foreach_cell_in_range ( sheet, TRUE,
+	sheet_foreach_cell_in_range ( sheet, FALSE,
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,
 		clipboard_prepend_cell, cr);
@@ -590,7 +619,8 @@ cellregion_free (CellRegion *cr)
 			cell_destroy (this_cell->u.cell);
 		} else if (this_cell->u.text)
 			g_free (this_cell->u.text);
-
+		if (this_cell->comment)
+			g_free (this_cell->comment);
 		g_free (this_cell);
 	}
 	g_list_free (cr->content);

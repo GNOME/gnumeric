@@ -33,6 +33,7 @@ Andreas:
 	* Port zoom dialog and convert it into a guru
 	* Improve Sheet-Order dialog
 	* Make add/modify comment undoable
+	* Make comment clearing undoable
 
 Jody:
 	* Initial port to gnome2.

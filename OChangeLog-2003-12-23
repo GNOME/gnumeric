@@ -1,5 +1,14 @@
 2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/clipboard.c (paste_cell) : paste comment
+	(clipboard_prepend_cell) : store comment info
+	(clipboard_copy_range) : check all cells
+	* src/clipboard.h : add comment field to CellCopy
+	* src/commands.c (cmd_clear_undo) : handle comments
+	(cmd_clear_selection) : ditto
+	
+2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* commands.h (cmd_set_comment) : new
 	* commands.c (cmd_set_comment_apply, set_comment_undo, 
 	  cmd_set_comment_redo, cmd_set_comment_finalize, cmd_set_comment) :
