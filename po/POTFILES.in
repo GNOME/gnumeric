@@ -1,5 +1,4 @@
-graph/main.c
-graph/sample.c
+plugins/applix/boot.c
 plugins/dif/dif.c
 plugins/excel/boot.c
 plugins/excel/ms-excel-read.c
@@ -144,7 +143,3 @@ src/workbook-view.c
 src/workbook-private.c
 src/workbook.c
 src/xml-io.c
-wizards/graphics/graphic-context.c
-wizards/graphics/graphic-type.c
-wizards/graphics/graphics.glade.h
-wizards/graphics/main.c
