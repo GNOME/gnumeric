@@ -1,3 +1,7 @@
+2004-08-16  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Plug leak.
+
 2004-08-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/item-bar.c (item_bar_draw): Fix black line in row/column

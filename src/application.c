@@ -456,8 +456,8 @@ gnm_app_history_add (char const *uri)
 			return;
 
 		/* remove the other instance */
-		app->history_list = g_slist_remove (app->history_list, exists->data);
 		g_free (exists->data);
+		app->history_list = g_slist_delete_link (app->history_list, exists);
 	}
 
 	app->history_list = g_slist_prepend (app->history_list, g_strdup (uri));
