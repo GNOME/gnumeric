@@ -6,6 +6,8 @@ Miguel:
 Jody:
 	* Parse errors in formulas.
 	* Improve xml export of borders to include cleared borders.
+	* Improve inter{sheet,book} references.
+	* Cut/paste bug.
 	* Undo.
 
 Morten:

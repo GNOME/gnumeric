@@ -2515,35 +2515,6 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 }
 
 /**
- * workbook_can_detach_sheet:
- * @wb: workbook.
- * @sheet: the sheet that we want to detach from the workbook
- *
- * Returns true whether the sheet can be safely detached from the
- * workbook.
- */
-gboolean
-workbook_can_detach_sheet (Workbook *wb, Sheet *sheet)
-{
-	GList *dependency_list;
-
-	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (sheet != NULL, FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (sheet->workbook != NULL, FALSE);
-	g_return_val_if_fail (sheet->workbook == wb, FALSE);
-	g_return_val_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet, FALSE);
-
-	dependency_list = sheet_get_intersheet_deps (sheet);
-	if (!dependency_list)
-		return TRUE;
-
-	g_list_free (dependency_list);
-	
-	return FALSE;
-}
-
-/**
  * workbook_detach_sheet:
  * @wb: workbook.
  * @sheet: the sheet that we want to detach from the workbook
@@ -2565,14 +2536,6 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 
 	notebook = GTK_NOTEBOOK (wb->notebook);
 	sheets = workbook_sheet_count (sheet->workbook);
-
-	if (!force) {
-		if (sheets == 1)
-			return FALSE;
-
-		if (!workbook_can_detach_sheet (wb, sheet))
-			return FALSE;
-	}
 
 	/*
 	 * Remove our reference to this sheet
@@ -2823,7 +2786,8 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	GList *cells, *l;
 	GSList *undo_info = NULL;
 
-	if (info->col_offset == 0 && info->row_offset == 0)
+	if (info->col_offset == 0 && info->row_offset == 0 &&
+	    info->origin_sheet == info->target_sheet)
 		return NULL;
 
 	g_return_val_if_fail (wb != NULL, NULL);

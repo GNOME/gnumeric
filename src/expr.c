@@ -1476,17 +1476,17 @@ cellref_relocate (CellRef * const ref,
 			row += rinfo->row_offset;
 		else if (!ref->row_relative && !from_inside)
 			row -= rinfo->row_offset;
-	} else {
+
+		if (col < 0 || col >= SHEET_MAX_COLS ||
+		    row < 0 || row >= SHEET_MAX_ROWS)
+		    return CELLREF_RELOCATE_ERR;
+	} else if (from_inside) {
 		/* Case (c) */
-		if (ref->col_relative && from_inside)
+		if (ref->col_relative)
 			col -= rinfo->col_offset;
-		if (ref->row_relative && from_inside)
+		if (ref->row_relative)
 			row -= rinfo->row_offset;
 	}
-
-	if (col < 0 || col >= SHEET_MAX_COLS ||
-	    row < 0 || row >= SHEET_MAX_ROWS)
-	    return CELLREF_RELOCATE_ERR;
 
 	if (ref->col_relative)
 		col -= pos->eval.col;

@@ -1,3 +1,22 @@
+2000-01-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_detach_sheet) : Even books with only 1
+	  sheet can have inter-sheet references.  think inter-book...
+	(workbook_can_detach_sheet) : Delete we can always detach a sheet.
+
+	* src/expr.c (cellref_relocate) : We only need to range check
+	  references that are changing.
+
+	* src/workbook.c (workbook_expr_relocate) : Copying to the same
+	  logical cell in another sheet is still a copy.
+
+	* ./src/eval.c (cell_queue_recalc_list) : Handle cross workbook
+	  depends correctly.
+
+	* src/eval.c (sheet_get_intersheet_deps) : Delete it is now unnecessary.
+	(dependency_data_destroy) : invalidate dangling intersheet
+	  dependancies.
+
 2000-01-10  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (split_time): Improve rounding precision and avoid

@@ -158,7 +158,6 @@ gboolean    workbook_rename_sheet        (Workbook *wb,
 					  const char *old_name,
 					  const char *new_name);
 int         workbook_sheet_count         (Workbook *wb);
-gboolean    workbook_can_detach_sheet    (Workbook *wb, Sheet *sheet);
 GList      *workbook_sheets              (Workbook *wb);
 char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
 

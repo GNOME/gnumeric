@@ -2497,7 +2497,7 @@ sheet_destroy (Sheet *sheet)
 
 	sheet_destroy_contents (sheet);
 
-	dependency_data_destroy (sheet->deps);
+	dependency_data_destroy (sheet->deps, sheet);
 	sheet->deps = NULL;
 
 	sheet_destroy_styles (sheet);

@@ -5,7 +5,7 @@
 #include "cell.h"
 
 DependencyData *dependency_data_new     (void);
-void            dependency_data_destroy (DependencyData *deps);
+void            dependency_data_destroy (DependencyData *deps, Sheet *sheet);
 
 void            sheet_dump_dependencies (const Sheet *sheet);
 
@@ -23,8 +23,6 @@ void    cell_drop_dependencies   (Cell *cell);
  * depend on the value at Sheet, col, row
  */
 GList   *cell_get_dependencies     (Cell *cell);
-
-GList   *sheet_get_intersheet_deps (Sheet *sheet);
 
 GList   *sheet_region_get_deps     (Sheet *sheet, int start_col, int start_row,
 				    int end_col, int end_row);

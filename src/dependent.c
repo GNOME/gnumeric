@@ -131,27 +131,98 @@ dependency_data_new (void)
 	return deps;
 }
 
-void
-dependency_data_destroy (DependencyData *deps)
+static void
+cb_hash_to_list (gpointer key, gpointer value, gpointer closure)
 {
-	if (deps) {
-		if (deps->range_hash) {
-			if (g_hash_table_size (deps->range_hash) != 0) {
-				g_warning ("Dangling range dependencies");
-			}
-			g_hash_table_destroy (deps->range_hash);
-		}
-		deps->range_hash = NULL;
+	GSList **list = closure;
+	*list = g_slist_prepend (*list, key);
+}
 
-		if (deps->single_hash) {
-			if (g_hash_table_size (deps->single_hash) != 0)
-				g_warning ("Dangling single dependencies");
-			g_hash_table_destroy (deps->single_hash);
-		}
-		deps->single_hash = NULL;
+static void
+invalidate_refs (DependencyRange *deprange, Sheet *invalid_sheet)
+{
+	ExprRelocateInfo info;
+	/* Copy the list since it will change underneath us.  */
+	GList *cell_list = g_list_copy (deprange->cell_list);
 
-		g_free (deps);
+	/* Move the cells being depended on to infinity (and beyond) */
+	info.origin = deprange->range;
+	info.origin_sheet = info.target_sheet = invalid_sheet;
+	info.col_offset = SHEET_MAX_COLS;
+	info.row_offset = SHEET_MAX_ROWS;
+
+	while (cell_list != NULL) {
+		EvalPosition pos;
+		Cell *cell = cell_list->data;
+		ExprTree *newtree;
+
+		g_return_if_fail (cell != NULL);
+		g_return_if_fail (cell->parsed_node);
+
+		newtree = expr_relocate (cell->parsed_node,
+					 eval_pos_cell (&pos, cell),
+					 &info);
+
+		/* We are told this cell depends on this region
+		 * If this is null then we did not depend on it
+		 * and something is hosed.
+		 */
+		g_return_if_fail (newtree != NULL);
+
+		cell_set_formula_tree (cell, newtree);
+
+		cell_list = g_list_remove (cell_list, cell);
 	}
+}
+
+void
+dependency_data_destroy (DependencyData *deps, Sheet *sheet)
+{
+	DependencyData *deps;
+	
+	g_return_if_fail (sheet != NULL);
+
+	deps = sheet->deps;
+	if (deps == NULL)
+		return;
+
+	if (deps->range_hash) {
+		if (g_hash_table_size (deps->range_hash) != 0) {
+			/* Copy the dangling depends to avoid problems
+			 * as the table empties under us when the danglers
+			 * are invalidated.
+			 */
+			GSList *danglers = NULL;
+			g_hash_table_foreach (deps->range_hash,
+					      &cb_hash_to_list, &danglers);
+
+			while (danglers != NULL) {
+				DependencyRange *deprange = danglers->data;
+				invalidate_refs (deprange, sheet);
+				danglers = g_slist_remove (danglers, deprange);
+			}
+		}
+
+		/* If anything is left. there is a problem */
+		if (g_hash_table_size (deps->range_hash) != 0)
+			g_warning ("Dangling dependancies");
+
+		g_hash_table_destroy (deps->range_hash);
+		deps->range_hash = NULL;
+	}
+
+	if (deps->single_hash) {
+		/* There are no intersheet depends for singletons
+		 * so any remaining things are errors
+		 */
+		if (g_hash_table_size (deps->single_hash) != 0)
+			g_warning ("Dangling single dependancies");
+
+		g_hash_table_destroy (deps->single_hash);
+		deps->single_hash = NULL;
+	}
+
+	g_free (deps);
 }
 
 /**
@@ -726,15 +797,8 @@ cell_unqueue_from_recalc (Cell *cell)
 void
 cell_queue_recalc_list (GList *list, gboolean freelist)
 {
-	Workbook *wb;
-	Cell *first_cell;
 	GList *list0 = list;
-
-	if (!list)
-		return;
-
-	first_cell = list->data;
-	wb = first_cell->sheet->workbook;
+	Workbook *wb;
 
 	while (list) {
 		Cell *cell = list->data;
@@ -744,9 +808,13 @@ cell_queue_recalc_list (GList *list, gboolean freelist)
 			continue;
 
 #ifdef DEBUG_EVALUATION
-	if (dependency_debugging > 2)
-		printf ("Queuing: %s\n", cell_name (cell->col->pos, cell->row->pos));
+		if (dependency_debugging > 2)
+			printf ("Queuing: %s\n", cell_name (cell->col->pos, cell->row->pos));
 #endif
+		/* Use the wb associated with the current cell in case we have
+		 * cross workbook depends
+		 */
+		wb = cell->sheet->workbook;
 		wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
 
 		cell->flags |= CELL_QUEUED_FOR_RECALC;
@@ -903,42 +971,6 @@ sheet_dump_dependencies (const Sheet *sheet)
 			l = l->next;
 		}
 	}
-}
-
-typedef struct {
-	Sheet *sheet;
-	GList *list;
-} get_intersheet_dep_closure_t;
-
-static void
-search_intersheet_deps (gpointer key, gpointer value, gpointer closure)
-{
-	DependencyRange *deprange = key;
-	get_intersheet_dep_closure_t *c = closure;
-	GList *l;
-
-	for (l = deprange->cell_list; l; l = l->next) {
-		Cell *cell = l->data;
-
-		if (cell->sheet != c->sheet)
-			c->list = g_list_prepend (c->list, cell);
-	}
-}
-
-GList *
-sheet_get_intersheet_deps (Sheet *sheet)
-{
-	get_intersheet_dep_closure_t closure;
-
-	g_return_val_if_fail (sheet->deps != NULL, NULL);
-
-	closure.sheet = sheet;
-	closure.list = NULL;
-
-	g_hash_table_foreach (sheet->deps->range_hash,
-			      &search_intersheet_deps, &closure);
-
-	return closure.list;	
 }
 
 typedef struct {
