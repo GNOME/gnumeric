@@ -1,3 +1,7 @@
+2003-11-17  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print-info.c (print_info_new): re-enable page setup continuity
+
 2003-11-18  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=127262

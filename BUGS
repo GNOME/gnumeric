@@ -80,8 +80,7 @@ Short Term Goals
     - fix once we branch for 1.3 and the string freeze ends
 
 * gnome print
-    - Print to file name always output.ps	(FIXED IN GP HEAD, has it been back ported ?)
-    - Does pdf work ?
+    - Does pdf work ? (I think so but there are unresolved bug reports AJG)
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.

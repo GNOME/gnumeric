@@ -245,12 +245,9 @@ print_info_new (void)
 	/* We shouldn't need to save the locale but due to bugs elsewhere... */
 	oldlocale = g_strdup (setlocale(LC_ALL, NULL));
 	pi->print_config = 
-#warning FIXME
-/* Note: until gnome_print_config_from_string is fixed  */
-/* uncommenting the following yields serious problems   */
-/* gnm_app_prefs->printer_config ? */
-/* 		gnome_print_config_from_string (gnm_app_prefs->printer_config, */
-/* 						0) : */
+		gnm_app_prefs->printer_config ?
+		gnome_print_config_from_string (gnm_app_prefs->printer_config,
+						0) :
 		gnome_print_config_default ();
 	setlocale(LC_ALL, oldlocale);
 	g_free(oldlocale);
