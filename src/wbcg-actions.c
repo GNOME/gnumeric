@@ -1521,12 +1521,12 @@ static GNM_ACTION_DEF (cb_format_dec_indent)
 
 static GNM_ACTION_DEF (cb_copydown)
 {
-	g_warning ("Killrow was here in cb_copydown");
+	g_warning ("Killroy was here in cb_copydown");
 }
 
 static GNM_ACTION_DEF (cb_copyright)
 {
-	g_warning ("Killrow was here in cb_copyright");
+	g_warning ("Killroy was here in cb_copyright");
 }
 
 static GtkActionEntry actions[] = {
