@@ -1015,15 +1015,14 @@ value_compare (Value const *a, Value const *b, gboolean case_sensitive)
 			gint t;
 
 			if (case_sensitive) {
-				t = strcoll (a->v_str.val->str, b->v_str.val->str);
+				t = g_utf8_collate (a->v_str.val->str, b->v_str.val->str);
 			} else {
-				gchar *str_a, *str_b;
+				char *str_a = g_utf8_casefold (a->v_str.val->str, -1);
+				char *str_b = g_utf8_casefold (b->v_str.val->str, -1);
 
-				str_a = g_alloca (strlen (a->v_str.val->str) + 1);
-				str_b = g_alloca (strlen (b->v_str.val->str) + 1);
-				g_strdown (strcpy (str_a, a->v_str.val->str));
-				g_strdown (strcpy (str_b, b->v_str.val->str));
-				t = strcoll (str_a, str_b);
+				t = g_utf8_collate (str_a, str_b);
+				g_free (str_a);
+				g_free (str_b);
 			}
 
 			if (t == 0)

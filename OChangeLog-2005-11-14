@@ -1,5 +1,10 @@
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
+	* src/value.c (value_compare): Make utf8 safe.
+
+	* src/plugin-service.c (gnum_plugin_file_opener_probe): Use
+	g_utf8_strdown, not g_strdown.
+
 	* src/format.c (format_month_before_day): Eliminate tolower and
 	make utf8 safe.  Hopefully.
 	(append_year): Ditto.

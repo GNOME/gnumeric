@@ -560,13 +560,11 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 				if (pattern->case_sensitive) {
 					match = fnmatch (pattern->value, base_file_name, FNM_PATHNAME) == 0;
 				} else {
-					gchar *pattern_str, *name_str;
-
-					pattern_str = g_alloca (strlen (pattern->value) + 1);
-					name_str = g_alloca (strlen (base_file_name) + 1);
-					g_strdown (strcpy (pattern_str, pattern->value));
-					g_strdown (strcpy (name_str, base_file_name));
+					char *pattern_str = g_utf8_strdown (pattern->value, -1);
+					char *name_str = g_utf8_strdown (base_file_name, -1);
 					match = fnmatch (pattern_str, name_str, FNM_PATHNAME) == 0;
+					g_free (pattern_str);
+					g_free (name_str);
 				}
 			} else {
 				g_assert_not_reached ();

@@ -1166,6 +1166,7 @@ free_all_after_search (GSList *conditions, gchar *text, gchar *within)
 	g_free (within);
 }
 
+/* FIXME:  NOT UTF8 safe! */
 static Value *
 gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 {
@@ -1180,10 +1181,8 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	else
 		start_num = value_get_as_int (argv[2]) - 1;
 
-	text = value_get_as_string (argv[0]);
-	within = value_get_as_string (argv[1]);
-	g_strdown (text);
-	g_strdown (within);
+	text = g_utf8_strdown (value_peek_string (argv[0]), -1);
+	within = g_utf8_strdown (value_peek_string (argv[1]), -1);
 
 	within_len = strlen (within);
 
