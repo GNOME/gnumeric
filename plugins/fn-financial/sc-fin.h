@@ -23,6 +23,8 @@ Value *    get_duration  (GDate *nSettle, GDate *nMat, gnum_float fCoup,
 			  gnum_float fNumOfCoups);
 Value *    get_cumprinc  (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
 			  gint nStartPer, gint nEndPer, gint nPayType);
+Value *    get_cumipmt   (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
+			  gint nStartPer, gint nEndPer, gint nPayType);
 
 
 #endif

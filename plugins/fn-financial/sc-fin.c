@@ -410,3 +410,35 @@ Value *    get_cumprinc  (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
 }
 
 /***************************************************************************/
+
+Value *    get_cumipmt   (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
+			  gint nStart, gint nEnd, gint nPayType)
+{
+        gnum_float fRmz, fZinsZ;
+	gint       i;
+
+        fRmz = GetRmz ( fRate, nNumPeriods, fVal, 0.0, nPayType );
+
+        fZinsZ = 0.0;
+
+	if ( nStart == 1 ) {
+                if ( nPayType <= 0 )
+                        fZinsZ = -fVal;
+
+		nStart++;
+        }
+
+	for ( i = nStart ; i <= nEnd ; i++ ) {
+                if ( nPayType > 0 )
+                        fZinsZ += GetZw ( fRate, ( i - 2 ), fRmz, fVal, 1 ) 
+				- fRmz;
+                else
+                        fZinsZ += GetZw ( fRate, ( i - 1 ), fRmz, fVal, 0 );
+        }
+
+        fZinsZ *= fRate;
+
+	return value_new_float ( fZinsZ );
+}
+
+/***************************************************************************/

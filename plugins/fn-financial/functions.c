@@ -3305,7 +3305,29 @@ static const char *help_cumipmt = {
 static Value *
 gnumeric_cumipmt (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+	gnum_float fRate, fVal;
+	gint       nNumPeriods, nStartPer, nEndPer, nPayType;
+	Value      *result;
+
+	fRate       = value_get_as_float (argv[0]);
+        nNumPeriods = value_get_as_int (argv[1]);
+	fVal        = value_get_as_float (argv[2]);
+        nStartPer   = value_get_as_int (argv[3]);
+        nEndPer     = value_get_as_int (argv[4]);
+        nPayType    = value_get_as_int (argv[5]);
+
+        if ( nStartPer < 1 || nEndPer < nStartPer || fRate <= 0
+	     || nEndPer > nNumPeriods || nNumPeriods <= 0
+	     || fVal <= 0 || (nPayType != 0 && nPayType != 1) ) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_cumipmt (fRate, nNumPeriods, fVal, nStartPer, nEndPer,
+			      nPayType);
+
+ out:
+	return result;
 }
 
 /***************************************************************************/
