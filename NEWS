@@ -1,5 +1,8 @@
 Gnumeric 1.2.3
 
+Adrian Bunk:
+	* Portability fixes.
+
 Andreas
 	* http://bugzilla.gnome.org/show_bug.cgi?id=128166
 	  Mark workbook as dirty on sheet deletion/addition

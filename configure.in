@@ -202,38 +202,60 @@ AC_SUBST(GB_LIBS)
 
 dnl ****************************
 
-AC_MSG_CHECKING([whether -D_POSIX_SOURCE is needed for fdopen])
-saved_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Werror"
-AC_TRY_COMPILE([#include <stdio.h>], [FILE *f = fdopen(1, "r")], need_posix=no, need_posix=yes)
-CFLAGS="$saved_CFLAGS"
-AC_MSG_RESULT($need_posix)
-if test $need_posix = yes ; then
-	CFLAGS="$CFLAGS -D_POSIX_SOURCE"
+AC_CHECK_DECL(fdopen, fdopen_works=yes, fdopen_works=no)
 
-	# That, unfortunately, turns off struct timeval on Solaris...
-	AC_MSG_CHECKING([whether -D__EXTENSIONS__ is needed for struct timeval])
-	AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], need_ext=no, need_ext=yes)
-	AC_MSG_RESULT($need_posix)
-	if test $need_posix = yes ; then
-		CFLAGS="$CFLAGS -D__EXTENSIONS__"
+if test $fdopen_works = no ; then
+	unset ac_cv_have_decl_fdopen
+	CFLAGS="$CFLAGS -D_POSIX_SOURCE"
+	AC_MSG_NOTICE([adding -D_POSIX_SOURCE to CFLAGS])
+	AC_CHECK_DECL(fdopen, fdopen_works=yes, fdopen_works=no)
+	if test $fdopen_works = no ; then
+		AC_MSG_ERROR([fdopen is not available])
+	fi
+fi
+
+# Unfortunately, -D_POSIX_SOURCE turns off struct timeval on Solaris
+AC_MSG_CHECKING([whether struct timeval is available])
+AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+AC_MSG_RESULT($struct_timeval_works)
+
+if test $struct_timeval_works = no ; then
+	CFLAGS="$CFLAGS -D__EXTENSIONS__"
+	AC_MSG_CHECKING([whether struct timeval is available with -D__EXTENSIONS__])
+	AC_TRY_COMPILE([#include <sys/time.h>], [struct timeval tv;], struct_timeval_works=yes, struct_timeval_works=no)
+	AC_MSG_RESULT($struct_timeval_works)
+	if test $struct_timeval_works = no ; then
+		AC_MSG_ERROR([struct timeval is not available])
 	fi
 fi
 
 dnl src/functions/fn-math.c uses M_PI
 dnl src/plugin-util.c uses caddr_t
-AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for M_PI])
-AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], need_bsd=no, need_bsd=yes)
-AC_MSG_RESULT($need_bsd)
-if test $need_bsd = yes ; then
+
+AC_MSG_CHECKING([whether M_PI is available])
+AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], works_without_bsd_source=yes, works_without_bsd_source=no)
+AC_MSG_RESULT($works_without_bsd_source)
+
+if test $works_without_bsd_source = yes ; then
+	AC_MSG_CHECKING([whether caddr_t is available])
+	AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], works_without_bsd_source=yes, works_without_bsd_source=no)
+	AC_MSG_RESULT($works_without_bsd_source)
+fi
+
+if test $works_without_bsd_source = no ; then
 	CFLAGS="$CFLAGS -D_BSD_SOURCE"
-else
-	AC_MSG_CHECKING([whether -D_BSD_SOURCE is needed for caddr_t])
-	AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], need_bsd=no, need_bsd=yes)
-	if test $need_bsd = yes ; then
-		CFLAGS="$CFLAGS -D_BSD_SOURCE"
+	AC_MSG_CHECKING([whether M_PI is available with -D_BSD_SOURCE])
+	AC_TRY_COMPILE([#include <math.h>], [double f = M_PI], m_pi_works=yes, m_pi_works=no)
+	AC_MSG_RESULT($m_pi_works)
+	if test $m_pi_works = no ; then
+		AC_MSG_ERROR([M_PI is not available])
 	fi
-	AC_MSG_RESULT($need_bsd)
+	AC_MSG_CHECKING([whether caddr_t is available with -D_BSD_SOURCE])
+	AC_TRY_COMPILE([#include <sys/types.h>], [caddr_t ca], caddr_t_works=yes, caddr_t_works=no)
+	AC_MSG_RESULT($caddr_t_works)
+	if test $caddr_t_works = no ; then
+		AC_MSG_ERROR([caddr_t is not available])
+	fi
 fi
 
 AC_SUBST(GUILE_LIBS)
