@@ -332,28 +332,6 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 
 		g_object_unref (layout);
 		pango_font_description_free (pango_font);
-#else
-		/* This code will die when we require libgnomeprint 2.8  */
-		double x;
-		double len = gnome_font_get_width_utf8 (pj->decoration_font, text);
-		double header = 0, footer = 0, left = 0, right = 0;
-
-		print_info_get_margins (pj->pi, &header, &footer, &left, &right);
-		switch (side){
-		case LEFT_HEADER:
-			x = left;
-			break;
-		case RIGHT_HEADER:
-			x = pj->width - right - len;
-			break;
-		case MIDDLE_HEADER:
-			x = (pj->x_points - len) / 2 + left;
-			break;
-		default:
-			x = 0;
-		}
-		gnome_print_moveto (pj->print_context, x, y);
-		gnome_print_show (pj->print_context, text);
 	}
 	g_free (text);
 }
