@@ -154,13 +154,27 @@ static void
 move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
+
+	/*
+	 * Please note that the order here is important, as
+	 * the sheet_make_cell_visible call might scroll the
+	 * canvas, you should do all of your screen changes
+	 * in an atomic fashion.
+	 *
+	 * The code at some point did do the selection change
+	 * after the sheet moved, causing flicker -mig
+	 *
+	 * If you dont know what this means, just mail me.
+	 */
+	 
+	if (clear_selection)
+		sheet_selection_reset_only (sheet);
+
 	sheet_cursor_set (sheet, col, row, col, row, col, row);
 	sheet_make_cell_visible (sheet, col, row);
 
-	if (clear_selection) {
-		sheet_selection_reset_only (sheet);
+	if (clear_selection)
 		sheet_selection_append (sheet, col, row);
-	}
 }
 
 void
