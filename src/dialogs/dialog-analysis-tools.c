@@ -2071,7 +2071,7 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 		GtkWidget *box;
 
 		dialog = gnome_dialog_new (_("Data Analysis"),
-					   _("OK"),
+					   GNOME_STOCK_BUTTON_OK,
 					   GNOME_STOCK_BUTTON_CANCEL,
 					   NULL);
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);

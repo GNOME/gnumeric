@@ -83,9 +83,11 @@ row_cb (GtkWidget * clist, gint row, gint col,
 	       GdkEvent *event,  PluginManager *pm)
 {
 	if (GTK_CLIST (clist)->selection != NULL)
-		gtk_widget_set_sensitive (pm->button_remove, 1);
+		gnome_dialog_set_sensitive (GNOME_DIALOG (pm->dialog),
+					    1, TRUE);
 	else
-		gtk_widget_set_sensitive (pm->button_remove, 0);
+		gnome_dialog_set_sensitive (GNOME_DIALOG (pm->dialog),
+					    1, FALSE);
 }
 
 static gint
@@ -110,17 +112,18 @@ plugin_manager_new (Workbook *wb)
 		return NULL;
 
 	pm->workbook = wb;
-	pm->dialog = gtk_window_new (GTK_WINDOW_DIALOG);
-	/*gnome_dialog_set_parent (GNOME_DIALOG (pm->dialog), GTK_WINDOW (wb->toplevel)); */
-	
-	pm->hbox = gtk_hbox_new (0, 0);
-	gtk_container_add (GTK_CONTAINER (pm->dialog), pm->hbox);
+	pm->dialog = gnome_dialog_new("Plug-in Manager",
+				      "Add",
+				      "Remove",
+				      GNOME_STOCK_BUTTON_CLOSE,
+				      NULL);
 
 	pm->scrollwin = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (pm->scrollwin),
 					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC); 
-	gtk_box_pack_start (GTK_BOX (pm->hbox), pm->scrollwin, 1, 1, 5);
+					GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (pm->dialog)->vbox),
+			    pm->scrollwin, 1, 1, 5);
 
 	titles [0] = _(n_titles [0]);
 	titles [1] = _(n_titles [1]);
@@ -130,31 +133,18 @@ plugin_manager_new (Workbook *wb)
 	gtk_widget_set_usize (pm->clist, 300, 120);
 	gtk_container_add (GTK_CONTAINER (pm->scrollwin), pm->clist);
 	
-	pm->vbbox = gtk_vbutton_box_new ();
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (pm->vbbox), GTK_BUTTONBOX_START);
-	gtk_box_pack_start (GTK_BOX (pm->hbox), pm->vbbox, 0, 0, 5);
-	
-	pm->button_close = gtk_button_new_with_label (_("Close"));
-	gtk_container_add (GTK_CONTAINER (pm->vbbox), pm->button_close);
-	
-	pm->button_add = gtk_button_new_with_label (_("Add..."));
-	gtk_container_add (GTK_CONTAINER (pm->vbbox), pm->button_add);
-	
-	pm->button_remove = gtk_button_new_with_label (_("Remove"));
-	gtk_container_add (GTK_CONTAINER (pm->vbbox), pm->button_remove);
-	
 	gtk_widget_realize (pm->clist);
 	populate_clist (pm);
-	
-	gtk_signal_connect (GTK_OBJECT (pm->button_close), "clicked",
-			    GTK_SIGNAL_FUNC (close_cb), pm);
-	
-	gtk_signal_connect (GTK_OBJECT (pm->button_add), "clicked",
-			    GTK_SIGNAL_FUNC (add_cb), pm);
-	
-	gtk_signal_connect (GTK_OBJECT (pm->button_remove), "clicked",
-			    GTK_SIGNAL_FUNC (remove_cb), pm);
-	
+
+	gnome_dialog_button_connect(GNOME_DIALOG (pm->dialog), 0,
+				    GTK_SIGNAL_FUNC (add_cb), pm);
+				    
+	gnome_dialog_button_connect(GNOME_DIALOG (pm->dialog), 1,
+				    GTK_SIGNAL_FUNC (remove_cb), pm);
+				    	
+	gnome_dialog_button_connect(GNOME_DIALOG (pm->dialog), 2,
+				    GTK_SIGNAL_FUNC (close_cb), pm);
+				    		
 	gtk_signal_connect (GTK_OBJECT (pm->clist), "select_row",
 			    GTK_SIGNAL_FUNC (row_cb), pm);
 	
@@ -164,9 +154,17 @@ plugin_manager_new (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (pm->dialog), "key_press_event",
 			    GTK_SIGNAL_FUNC (pm_key_event), NULL);
 
-	gtk_widget_grab_focus (pm->button_add);
+	gnome_dialog_set_sensitive (GNOME_DIALOG (pm->dialog), 1, FALSE);
+	gnome_dialog_set_default (GNOME_DIALOG (pm->dialog), 2);
 
-	gtk_widget_show_all (pm->hbox);
+	gtk_widget_show_all (GNOME_DIALOG (pm->dialog)->vbox);
 	
 	return pm->dialog;
 }
+
+
+
+
+
+
+

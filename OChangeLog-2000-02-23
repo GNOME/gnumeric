@@ -1,3 +1,13 @@
+1999-12-23  JP Rosevear  <jpr@arcavia.com>
+
+	* src/plugin-manager.c (plugin_manager_new): Use a gnome_dialog and 
+	stock icons
+	(row_cb): Use gnome_dialog_set_sensitive instead of 
+	gtk_widget_set_sensitive
+
+	* src/dialogs/dialog-analysis-tools.c (dialog_data_analysis): Use 
+	stock ok item for ok button
+
 1999-12-22  JP Rosevear  <jpr@arcavia.com>
 
 	* src/ranges.c (range_intersection): change interface to take a range
