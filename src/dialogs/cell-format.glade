@@ -3158,8 +3158,8 @@ Double
 	      <anti_aliased>False</anti_aliased>
 	      <scroll_x1>0</scroll_x1>
 	      <scroll_y1>0</scroll_y1>
-	      <scroll_x2>100</scroll_x2>
-	      <scroll_y2>100</scroll_y2>
+	      <scroll_x2>120</scroll_x2>
+	      <scroll_y2>60</scroll_y2>
 	      <pixels_per_unit>1</pixels_per_unit>
 	    </widget>
 	  </widget>
