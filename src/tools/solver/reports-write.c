@@ -866,7 +866,7 @@ solver_performance_report (WorkbookControl *wbc,
 
 /* Generates the Solver's program report.
  */
-void
+gboolean
 solver_program_report (WorkbookControl *wbc,
 		       Sheet           *sheet,
 		       SolverResults   *res)
@@ -894,6 +894,9 @@ solver_program_report (WorkbookControl *wbc,
 	        col = 0;
 		for (i = 0; i < vars; i++) {
 		        if (res->obj_coeff[i] != 0) {
+			  if (1 + col*3 + 3 > 15)// SHEET_MAX_COLS)
+				        goto unsuccessful;
+
 			        /* Print the sign. */
 			        if (res->obj_coeff[i] < 0)
 				        dao_set_cell (&dao, 1 + col*3, 6, "-");
@@ -1031,6 +1034,12 @@ solver_program_report (WorkbookControl *wbc,
 	/* Print `Subject to' title. */
 	dao_set_cell (&dao, 0, 9, _("Subject to"));
 	dao_set_bold (&dao, 0, 9, 0, 9);
+	return FALSE;
+
+ unsuccessful:
+
+	workbook_sheet_delete (dao.sheet);
+	return TRUE;
 }
 
 

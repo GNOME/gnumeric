@@ -213,7 +213,7 @@ SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
 					gchar **errmsg);
 
 /* Creates the Solver's reports. */
-void             solver_reports        (WorkbookControl *wbc, Sheet *sheet,
+gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					SolverResults *res,
 					gboolean answer, gboolean sensitivity, 
 					gboolean limits, gboolean performance,

@@ -342,11 +342,13 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	return FALSE;
 }
 
-void
+gchar *
 solver_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
 		gboolean answer, gboolean sensitivity, gboolean limits,
 		gboolean performance, gboolean program, gboolean dual)
 {
+        gchar *err = NULL;
+
         if (answer && res->param->options.model_type == SolverLPModel)
 	        solver_answer_report (wbc, sheet, res);
 	if (sensitivity && ! res->ilp_flag
@@ -358,8 +360,13 @@ solver_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
 	if (performance
 	    && res->param->options.model_type == SolverLPModel)
 	        solver_performance_report (wbc, sheet, res);
-	if (program)
-	        solver_program_report (wbc, sheet, res);
+	if (program) {
+	        if (solver_program_report (wbc, sheet, res))
+		        err = _("Model is too large for program report "
+				"generation. Program report was not "
+				"created.");
+	}
 	if (dual && res->param->options.model_type == SolverLPModel)
 	        solver_dual_program_report (wbc, sheet, res);
+	return err;
 }

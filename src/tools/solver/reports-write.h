@@ -44,7 +44,7 @@ void
 solver_performance_report (WorkbookControl *wbc,
 			   Sheet           *sheet,
 			   SolverResults   *res);
-void
+gboolean
 solver_program_report (WorkbookControl *wbc,
 		       Sheet           *sheet,
 		       SolverResults   *res);

@@ -9,8 +9,8 @@
 	* Add `equal to' option for target cell.
 	* Add `in range' option for target cell.
 	* Improve the usability of the dialog (e.g. focus issues).
-	* Program reporting:
-	  - Check that SHEET_MAX_COLS cannot be exceeded.
+	* Performance reporting:
+	  - Add number of iterations that was needed.
 	* MPS plugin:
 	  - Improve BOUNDS support.
 	  - Fix bug: If obj. fn. (N) is not last, the indexes get of by 1.
