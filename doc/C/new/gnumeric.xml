@@ -5,7 +5,7 @@
 GNU oleo">
 
 <!ENTITY preface	SYSTEM "preface.xml">
-<!ENTITY gui-elements	SYSTEM "gui-elements.sgml">
+<!ENTITY gui-elements	SYSTEM "gui-elements.xml">
 <!ENTITY menus		SYSTEM "menus.xml">
 <!--
 <!ENTITY toolbars	SYSTEM "toolbars.sgml">
@@ -73,7 +73,6 @@ GNU oleo">
 	caps and a (tm) appended.
       </para>
     </legalnotice>
-    
   </bookinfo>
 
 
