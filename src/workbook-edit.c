@@ -423,6 +423,11 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_return_if_fail (wbcg->edit_line.guru == NULL);
 
+	/* Make sure we don't have anything anted.
+	 * this protects against two anted regions showing up
+	 */
+	application_clipboard_unant ();
+	
 	wbcg->edit_line.guru = guru;
 	gtk_entry_set_editable (GTK_ENTRY (wbcg->edit_line.entry), FALSE);
 	workbook_edit_set_sensitive (wbcg, FALSE, FALSE);

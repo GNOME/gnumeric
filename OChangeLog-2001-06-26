@@ -1,3 +1,8 @@
+2001-05-19  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* src/workbook-edit.c (wbcg_edit_attach_guru):
+ 	Guard against two anted region on the same sheet.
+
 2001-05-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/plugin.c (plugin_db_extend_saved_active_plugin_id_list) : Merge
