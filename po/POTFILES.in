@@ -41,6 +41,7 @@ plugins/gnome-glossary/plugin.xml.in
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
 plugins/guile/smob-value.c
+plugins/html/html_read.c
 plugins/html/plugin.xml.in
 plugins/html/roff.c
 plugins/lotus-123/lotus.c
@@ -73,6 +74,7 @@ plugins/xbase/plugin.xml.in
 plugins/xml_sax/plugin.xml.in
 plugins/xml_sax/xml-sax-read.c
 src/GNOME_Gnumeric.xml
+src/GNOME_Gnumeric_Component.xml
 src/bonobo-io.c
 src/cell.c
 src/clipboard.c
@@ -92,6 +94,7 @@ src/dialogs/cell-comment.glade
 src/dialogs/cell-format.glade
 src/dialogs/cell-sort.glade
 src/dialogs/col-width.glade
+src/dialogs/colrow.glade
 src/dialogs/consolidate.glade
 src/dialogs/correlation.glade
 src/dialogs/covariance.glade
@@ -144,6 +147,7 @@ src/dialogs/dialog-tabulate.c
 src/dialogs/dialog-workbook-attr.c
 src/dialogs/dialog-zoom.c
 src/dialogs/dialog-zoom.glade
+src/dialogs/exp-smoothing.glade
 src/dialogs/font-sel.glade
 src/dialogs/formula-guru.glade
 src/dialogs/fourier-analysis.glade
@@ -159,6 +163,7 @@ src/dialogs/merge.glade
 src/dialogs/moving-averages.glade
 src/dialogs/names.glade
 src/dialogs/plugin-manager.glade
+src/dialogs/preferences.glade
 src/dialogs/print.glade
 src/dialogs/random-generation.glade
 src/dialogs/rank.glade
@@ -238,6 +243,7 @@ src/value.c
 src/widgets/gnumeric-cell-renderer-expr-entry.c
 src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/gnumeric-cell-renderer-toggle.c
+src/widgets/gnumeric-expr-entry.c
 src/widgets/widget-font-selector.c
 src/workbook-cmd-format.c
 src/workbook-control-component.c
