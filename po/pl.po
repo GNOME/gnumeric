@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-12-29 15:01+0100\n"
-"PO-Revision-Date: 2001-12-30 02:07+0100\n"
+"POT-Creation-Date: 2001-12-30 18:10+0100\n"
+"PO-Revision-Date: 2001-12-30 18:11+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -199,24 +199,24 @@ msgid " Unknown formula"
 msgstr " Nieznana formu³a"
 
 #: plugins/excel/plugin.xml.in.h:1
-msgid "Excel(R) 95 file format"
-msgstr "Format pliku Excel(R) 95"
+msgid "Imports/Exports MS Excel (tm) files"
+msgstr "Importuje i eksportuje pliki programu MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:1
-msgid "Excel(R) 97 file format"
-msgstr "Format pliku Excel(R) 97"
+msgid "MS Excel (tm)"
+msgstr "MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:1
-msgid "Imports/Exports Microsoft(R) Excel files"
-msgstr "Importuje i eksportuje pliki Microsoft(R) Excela"
+msgid "MS Excel (tm) (*.xls)"
+msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:1
-msgid "Microsoft(R) Excel"
-msgstr "Microsoft(R) Excel"
+msgid "MS Excel (tm) 95 file format"
+msgstr "Format pliku MS Excel (tm) 95"
 
 #: plugins/excel/plugin.xml.in.h:1
-msgid "Microsoft(R) Excel (*.xls)"
-msgstr "Microsoft(R) Excel (*.xls)"
+msgid "MS Excel (tm) 97 file format"
+msgstr "Format pliku MS Excel (tm) 97"
 
 #: plugins/gb/plugin.c:1
 msgid "Unknown GB error"
@@ -1430,6 +1430,7 @@ msgid "Insert Shaped Component"
 msgstr "Wstaw nieregularny komponent"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
+#: src/workbook-control-gui.c:1
 msgid "Insert a new sheet"
 msgstr "Wstawia nowy arkusz"
 
@@ -1468,6 +1469,10 @@ msgstr "Wstawia aktualny czas do zaznaczonych komórek"
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Inserts a Bonobo object"
 msgstr "Wstawia obiekt Bonobo"
+
+#: src/GNOME_Gnumeric.xml.h:1
+msgid "Inserts a Shaped Bonobo object"
+msgstr "Wstawia nieregularny obiekt Bonobo"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "Invoke the graph guru to create a graph"
@@ -2131,6 +2136,10 @@ msgstr "_Zapisz"
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 msgid "_Select"
 msgstr "Zaz_naczenie"
+
+#: src/GNOME_Gnumeric.xml.h:1
+msgid "_Shaped Object"
+msgstr "Ni_eregularny obiekt"
 
 #: src/GNOME_Gnumeric.xml.h:1 src/workbook-control-gui.c:1
 #: src/workbook-control-gui.c:1
@@ -18607,24 +18616,20 @@ msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
 #: src/workbook-control-gui.c:1
-msgid "Add another sheet"
-msgstr "Dodaj kolejny arkusz"
-
-#: src/workbook-control-gui.c:1
-msgid "Remove this sheet"
-msgstr "Usuñ arkusz"
+msgid "Duplicate this sheet"
+msgstr "Powiel arkusz"
 
 #: src/workbook-control-gui.c:1
 msgid "Rename this sheet"
 msgstr "Zmieñ nazwê arkusza"
 
 #: src/workbook-control-gui.c:1
-msgid "Duplicate this sheet"
-msgstr "Powiel arkusz"
-
-#: src/workbook-control-gui.c:1
 msgid "Re-order sheets"
 msgstr "Przeszereguj arkusze"
+
+#: src/workbook-control-gui.c:1
+msgid "Remove this sheet"
+msgstr "Usuñ arkusz"
 
 #: src/workbook-control-gui.c:1 src/workbook-control-gui.c:1
 msgid "Nothing"
@@ -18698,15 +18703,6 @@ msgid "Insert columns"
 msgstr "Wstaw kolumny"
 
 #: src/workbook-control-gui.c:1
-msgid "Select an object to add"
-msgstr "Wybór typu dodawanego obiektu"
-
-#: src/workbook-control-gui.c:1
-#, c-format
-msgid "Unable to create object of type '%s'"
-msgstr "Nie mo¿na stworzyæ obiektu typu \"%s\""
-
-#: src/workbook-control-gui.c:1
 msgid "Show"
 msgstr "Wy¶wietl"
 
@@ -18725,6 +18721,15 @@ msgstr "Zgrupuj"
 #: src/workbook-control-gui.c:1
 msgid "Ungroup"
 msgstr "Rozgrupuj"
+
+#: src/workbook-control-gui.c:1
+msgid "Select an object to add"
+msgstr "Wybór typu dodawanego obiektu"
+
+#: src/workbook-control-gui.c:1
+#, c-format
+msgid "Unable to create object of type '%s'"
+msgstr "Nie mo¿na stworzyæ obiektu typu \"%s\""
 
 #: src/workbook-control-gui.c:1
 msgid "_Save..."
