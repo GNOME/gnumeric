@@ -798,6 +798,7 @@ cb_dialog_filled_clicked (GnomeDialog *dialog, int button,
 static void
 sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 {
+	WorkbookControlGUI *wbcg;
 	GtkWidget *dialog, *table, *label, *spin; 
 	SheetObjectFilled *sof;
 	SheetObjectGraphic *sog;
@@ -808,12 +809,15 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 
 	sof = SHEET_OBJECT_FILLED (so);
 	sog = SHEET_OBJECT_GRAPHIC (so);
+	wbcg = scg_get_wbcg (scg);
 
 	dialog = gnome_dialog_new (_("Configure filled object"),
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_APPLY,
 				   GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+				 wb_control_gui_toplevel (wbcg));
 
 	table = gtk_table_new (2, 3, FALSE);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 10);

@@ -1,5 +1,12 @@
 2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
+	* src/sheet-object-graphic.c (sheet_object_filled_user_config): Set
+	the dialogs parent so that the dialog will get placed correctly. I did 
+	it already in sheet_object_graphic_user_config but forgot to add 
+	it here, too.
+
+2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
 	* src/print-cell.[c,h] (print_cell_range): Use a Range as parameter
 	instead of four ints
 	* src/print.c (print_titles), (print_sheet_objects), (print_page_cells),
