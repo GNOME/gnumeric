@@ -216,10 +216,11 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 		}
 
 		case GOG_FILL_STYLE_IMAGE: {
+			double dx, dy;
+
 			if (!style->fill.u.image.image_file)
 				break;
 			
-			double dx, dy;
 			art_vpath_bbox_drect (path, &bbox);
 			dx = bbox.x1 - bbox.x0;
 			dy = bbox.y1 - bbox.y0;
