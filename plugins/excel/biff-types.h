@@ -2,7 +2,7 @@
  * biff-types.h: A long and dull list of BIFF types.
  *
  * Author:
- *    Michael Meeks (michael@imaginator.com)
+ *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998, 1999, 2000 Michael Meeks
  **/

@@ -2,7 +2,7 @@
  * summary.h:  Summary Information management
  *
  * Author:
- *    Michael Meeks (michael@imaginator.com)
+ *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1999 Michael Meeks
  */

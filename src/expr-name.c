@@ -3,7 +3,7 @@
  *               with all the exotic special names.
  *
  * Author:
- *    Michael Meeks <michael@imaginator.com>
+ *    Michael Meeks <michael@ximian.com>
  */
 
 #include <config.h>

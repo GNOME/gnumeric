@@ -6,7 +6,7 @@
  *
  * Author:
  *    Jody Goldberg (jgoldberg@home.com)
- *    Michael Meeks (michael@imaginator.com)
+ *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998, 1999, 2000 Jody Goldberg, Michael Meeks
  **/

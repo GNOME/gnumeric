@@ -2,7 +2,7 @@
  * ms-excel.c: MS Excel support for Gnumeric
  *
  * Authors:
- *    Michael Meeks (michael@imaginator.com)
+ *    Michael Meeks (michael@ximian.com)
  *    Jody Goldberg (jgoldberg@home.com)
  *
  * (C) 1998, 1999, 2000 Michael Meeks, Jody Goldberg

@@ -2234,7 +2234,7 @@
 
 	* ms-excel-read.c : Add selection.h
 
-1999-09-08  Michael Meeks  <michael@imaginator.com>
+1999-09-08  Michael Meeks  <michael@ximian.com>
 
 	* README: More random thoughts to pass the time of day.
 
@@ -2244,7 +2244,7 @@
 	  Add a comment to the write float code suggesting an extension to use
 	  mode 3 for doubles with only 2 digits after the decimal.
 
-1999-08-26  Michael Meeks  <michael@imaginator.com>
+1999-08-26  Michael Meeks  <michael@ximian.com>
 
 	* ms-escher.c (biff_to_flat_data): Added back the full conditions
 	on merging drawing groups.
@@ -2255,7 +2255,7 @@
 	(esh_header_new, esh_header_next): prettyify;
 	(ms_escher_read): Update length type.
 
-1999-08-25  Michael Meeks  <michael@imaginator.com>
+1999-08-25  Michael Meeks  <michael@ximian.com>
 
 	* ms-escher.c (esh_header_next): re-order for clarity.
 	(BSE_new): Fiddling with bits: thanks to Caolan.
@@ -2265,12 +2265,12 @@
 	* ms-formula-read.c (formula_func_data): Fixed the number of
  	arguments in ISPMT to four.
 
-1999-08-20  Michael Meeks  <michael@imaginator.com>
+1999-08-20  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula-write.c (get_formula_index): Added a comment about 
 	Excel's add-in formula names.
 
-1999-08-17  Michael Meeks  <michael@imaginator.com>
+1999-08-17  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel-read.[ch]: Remove sheet blank bit.
 
@@ -2306,7 +2306,7 @@
 	* ms-excel-read.c (ms_excel_read_workbook): First use, then
  	destroy.
 
-1999-08-13  Michael Meeks  <michael@imaginator.com>
+1999-08-13  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (enter_dir): Major re-work, to use paths.
 
@@ -2323,12 +2323,12 @@
 	* ms-excel-read.c (ms_excel_read_workbook): Adjusted to use the
 	new file-open convention
 
-1999-08-08  Michael Meeks  <michael@imaginator.com>
+1999-08-08  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (dump_vba_module): Kill leak & fix logic.
 	(dump_vba): destroy correct directory.
 
-1999-08-06  Michael Meeks  <michael@imaginator.com>
+1999-08-06  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (list_files): Fix so it shows directories...
 	(get_file_handle, list_files, really_put, main): Use current_directory.
@@ -2336,7 +2336,7 @@
 	(do_copyout: Implemented splitting (really_get): from (do_get).
 	(dump_vba): Started.
 
-1999-08-05  Michael Meeks  <michael@imaginator.com>
+1999-08-05  Michael Meeks  <michael@ximian.com>
 
 	* ms-summary.c (ms_summary_read): Trivial fix to kill warning.
 
@@ -3397,14 +3397,14 @@
 	* ms-formula-read.c (getRefV8, getRefV7): Fix shared
 	formulae absolute references.
 
-1999-05-28  Michael Meeks  <michael@imaginator.com>
+1999-05-28  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel-write.c: Minimal Pallete / XF writing.
 	Basic font writing.
 	(biff_put_text): Horrendous bug fixed.
 	(write_magic_interface): Magic...
 
-1999-05-26  Michael Meeks  <michael@imaginator.com>
+1999-05-26  Michael Meeks  <michael@ximian.com>
 
 	* biff-types.h: Fleshed out defines, now the 'compatible'
 	staroffice file is dumped nicely.
@@ -3415,7 +3415,7 @@
 	Block file.
 	(write_value): Set vesion on biff_put_text for RSTRING to V7.
 
-1999-05-24  Michael Meeks  <michael@imaginator.com>
+1999-05-24  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (main): Added 'debug' option to dump allocation.
 
@@ -3423,14 +3423,14 @@
 
 	* ms-formula-read.c: Lots of new formulae translations.
 
-1999-05-20  Michael Meeks  <michael@imaginator.com>
+1999-05-20  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (main): Change ole_new to ole_open.
 	(list_files): Added assertion.
 
 	* boot.c (excel_load): Same.
 
-1999-05-19  Michael Meeks  <michael@imaginator.com>
+1999-05-19  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (main): Add New OLE file creation support.
 
@@ -3442,7 +3442,7 @@
 	* ms-formula-read.c (formula_func_data): LOGNORMDIST and NORMSDIST
  	fixed.
 
-1999-05-17  Michael Meeks  <michael@imaginator.com>
+1999-05-17  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula-read.c (formula_func_data): Function data from
 	Luke Plant.
@@ -3455,7 +3455,7 @@
 	Implemented 'tell' throught
 	(ms_biff_put_var_commit): Fixed seeking over end.
 
-1999-05-16  Michael Meeks  <michael@imaginator.com>
+1999-05-16  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel-write.c (biff_put_text): Fix silly assertion.
 
@@ -3472,12 +3472,12 @@
 
 	* ms-excel-write.c: Large updates.
 
-1999-05-16  Michael Meeks  <michael@imaginator.com>
+1999-05-16  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula-read.c (make_function): Allow fn_idx == 0
 	add translation for RANK.
 
-1999-05-15  Michael Meeks  <michael@imaginator.com>
+1999-05-15  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.[ch] -> ms-excel-read.[ch],
 
@@ -3494,23 +3494,23 @@
 	Close streams / directory entries correctly.
 	(write_workbook): Created.
 
-1999-05-15  Michael Meeks  <michael@imaginator.com>
+1999-05-15  Michael Meeks  <michael@ximian.com>
 
 	* Makefile.am: stop 'ole' being installed.
 
-1999-05-15  Michael Meeks  <michael@imaginator.com>
+1999-05-15  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Cleaned debug.
 
 	* boot.c (excel_init): Added write hooks.
 	(excel_save_95, excel_save_98, excel_save): Created.
 
-1999-05-14  Michael Meeks  <michael@imaginator.com>
+1999-05-14  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Finaly got the ARRAY
 	docs sorted, deciphered inconsistancies etc.
 
-1999-05-14  Michael Meeks  <michael@imaginator.com>
+1999-05-14  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Implemented V7. 3D refs
 	and 3D Area references.
@@ -3528,7 +3528,7 @@
 
 	* ms-biff.h (BIFF_SET_GUINT*): Added BIFF setting macros.
 
-1999-05-13  Michael Meeks  <michael@imaginator.com>
+1999-05-13  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Updated Array support.
 
@@ -3538,7 +3538,7 @@
 	(ms_excel_palette_get): Sorted special idx=64 color & added
 	sanity check.
 
-1999-05-13  Michael Meeks  <michael@imaginator.com>
+1999-05-13  Michael Meeks  <michael@ximian.com>
 
 	* ms-biff.h (ms_biff_query_next): Macrofied.
 
@@ -3547,7 +3547,7 @@
 	(ms_biff_query_next_merge, ms_biff_merge_continues),
 	(ms_biff_query_unmerge): Add padding corrective.
 
-1999-05-12  Michael Meeks  <michael@imaginator.com>
+1999-05-12  Michael Meeks  <michael@ximian.com>
 
 	* ms-biff.h: Major overhaul, added some fields to be implemented.
 	Added stubs for new BIFF write-side.
@@ -3567,13 +3567,13 @@
 	* ms-excel.h: Split out excel specifics into smaller header.
 	Renamed functions to remove nasty mixed case.
 
-1999-05-12  Michael Meeks  <michael@imaginator.com>
+1999-05-12  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (main): Add check on ptr to fix NULL pointers getting
 	to strcasecmp.
 	(do_copyin): Added mass-copy in/out function.
 
-1999-05-10  Michael Meeks  <michael@imaginator.com>
+1999-05-10  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (ms_excel_read_sheet): Added new
 	workbook_focus_sheet stuff.
@@ -3583,19 +3583,19 @@
 	* Makefile.am (INCLUDES): Use -I$(srcdir)/libole2 instead of
 	-Ilibole2 to allow srcdir!=builddir.
 
-1999-05-09  Michael Meeks  <michael@imaginator.com>
+1999-05-09  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (make_function): More useful debug.
 	Added Database function translation.
 
-1999-05-08  Michael Meeks  <michael@imaginator.com>
+1999-05-08  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (do_get, do_put): Sill fread/write no brainer.
 	(main): Less verbose.
 
 	* README: Updated to list more useful options.
 
-1999-05-08  Michael Meeks  <michael@imaginator.com>
+1999-05-08  Michael Meeks  <michael@ximian.com>
 
 	* ms-biff.c (ms_biff_query_copy): Updated to use new
 	global ms_ole_stream_copy.
@@ -3605,7 +3605,7 @@
 
 	* libole2/ Created, moved ole.c, ms-ole.[ch] there.
 	
-1999-05-08  Michael Meeks  <michael@imaginator.com>
+1999-05-08  Michael Meeks  <michael@ximian.com>
 
 	* ole.c (main): Large re-structure, split out into smaller
 	functions.
@@ -3616,21 +3616,21 @@
 	* ms-excel.c (ms_excel_sheet_set_comment): Fix for setting
 	comments on blank cells; was fatal.
 
-1999-05-07  Michael Meeks  <michael@imaginator.com>
+1999-05-07  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Fixed horrible bug
 	in PTG_ATTR, not stopping on duff attr.
 
 	* ms-excel.c (ms_excel_read_cell): Cleans to ARRAY_FORMULA.
 
-1999-05-06  Michael Meeks  <michael@imaginator.com>
+1999-05-06  Michael Meeks  <michael@ximian.com>
 
 	* ms-ole.c (ms_biff_query_new, ms_biff_merge_continues)
 	Better merge support.
 
 	* ms-biff.h (_BIFF_QUERY): Added merge count
 
-1999-05-06  Michael Meeks  <michael@imaginator.com>
+1999-05-06  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (ms_excelReadWorkbook): Added freeze /
 	thaw redraws for speed.
@@ -3641,14 +3641,14 @@
 	* ole.c: Updated functions from ms-escher.c
 	(main): Correctly skip over previously merged stuff.
 
-1999-05-05  Michael Meeks  <michael@imaginator.com>
+1999-05-05  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (parse_list_push_raw): Cleaned debug.
 	(parse_list_push): Added (different) debug.
 	(formula_func_data): Fixed comments.
 	(duplicate_formula): Removed.
 
-1999-05-05  Michael Meeks  <michael@imaginator.com>
+1999-05-05  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (ms_excel_read_cell): Updated debug.
 	(ms_excel_sheet_insert_val): Fixed prototype.
@@ -3664,7 +3664,7 @@
 
 	* ms-excel.c (ms_excel_workbook_new): Fix argument list.
 
-1999-05-02  Michael Meeks  <michael@imaginator.com>
+1999-05-02  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (biff_get_externsheet_name): Converted to return
 	a Sheet *
@@ -3677,7 +3677,7 @@
 	formula parsing structure. 80% + of code changed. Now smaller,
 	cleaner, meaner, leaner ... and featuring all your favorite bugs.
 
-1999-05-02  Michael Meeks  <michael@imaginator.com>
+1999-05-02  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (biff_xf_data_destroy): Changed prototype.
 	(ms_excel_workbook_destroy, ms_excel_workbook_new),
@@ -3690,7 +3690,7 @@
 	* ms-excel.h (_MS_EXCEL_WORKBOOK): Changed XF hashes
 	to PtrArray's for speed & elegance.
 
-1999-05-02  Michael Meeks  <michael@imaginator.com>
+1999-05-02  Michael Meeks  <michael@ximian.com>
 	
 	* ms-excel.c (ms_excel_read_sheet): Add check before
 	ms_excel_sheet_destroy.
@@ -3698,7 +3698,7 @@
 	(ms_excel_workbook_detach): Fixed semantics of workbook_detach
 	and plug large memory leak.
 
-1999-05-02  Michael Meeks  <michael@imaginator.com>
+1999-05-02  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Removed annoying
 	debug killing performance.
@@ -3895,7 +3895,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(SpContainer_new): Created.
 	There must be a good way of doing this recursively.
 
-1999-04-13  Michael Meeks <michael@imaginator.com>
+1999-04-13  Michael Meeks <michael@ximian.com>
 
 	* ms-escher.c (esh_header_next): Fixedup to use correct lengths.
 	Various major bits of work, started parsing the heirarchical
@@ -3904,7 +3904,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ole.c: Copied in updates.
 	(dump_escher): Recursive dump of structures.
 
-1999-04-13  Michael Meeks <michael@imaginator.com>
+1999-04-13  Michael Meeks <michael@ximian.com>
 
 	* ms-ole.c(ms_biff_query_copy): Fix nasty bug: duplicate
 	stream pos record too.
@@ -3919,7 +3919,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* README: Updated to doc. 'draw'
 	
-1999-04-12  Michael Meeks <michael@imaginator.com>
+1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* ms-objc.c/h renamed ms_obj_read_graphic to
 	ms_obj_read_obj, the real graphic lurks elsewhere...
@@ -3930,7 +3930,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ms-ole.c (ms_ole_stream_duplicate): Created, not too bad a hack
 	(ms_biff_query_data_to_stream): Nasty hack for ms-escher
 	
-1999-04-12  Michael Meeks <michael@imaginator.com>
+1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* ms-obj.c: Created to deal with the horrors of embedded graphic
 	objects !
@@ -3946,7 +3946,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ole.c: Nice header.
 	
-1999-04-12  Michael Meeks <michael@imaginator.com>
+1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* biff-types.h: Fleshed out.
 
@@ -3956,7 +3956,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	(ms_excel_set_cell_xf): Fixed spurious debug, and made more
 	robust.
 	
-1999-04-12  Michael Meeks <michael@imaginator.com>
+1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* ms-excel.c: Various unneeded BIFF tags implemented for
 	completeness.
@@ -3966,7 +3966,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ole.c (read_types): Improved.
 	(main): Flag duplicates sensibly.
 
-1999-04-12  Michael Meeks <michael@imaginator.com>
+1999-04-12  Michael Meeks <michael@ximian.com>
 
 	* ole.c: Added 'biff' command.
 	Added type file loader/parser and helper function.
@@ -3975,12 +3975,12 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-biff.h: Moved types out.
 
-1999-04-11  Michael Meeks <michael@imaginator.com>
+1999-04-11  Michael Meeks <michael@ximian.com>
 
 	* ole.c: Major update, interactive mode, help, dump command
 	etc.
 
-1999-04-09  Michael Meeks <michael@imaginator.com>
+1999-04-09  Michael Meeks <michael@ximian.com>
 
 	* ms-excel.c (ms_excel_workbook_detach): Paranoid NULLing
 	of pointers.
@@ -4003,7 +4003,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* Makefile.am: Updated to include ole.c
 	
-1999-04-06  Michael Meeks <michael@imaginator.com>
+1999-04-06  Michael Meeks <michael@ximian.com>
 
 	* ms-formula.h: Add PTG_AREAN, PTG_REFN.
 
@@ -4025,7 +4025,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ms-ole.c (biff_getdouble): Move biff_getdouble here, and apply
 	fix from Tung Nguyen (tung.nguyen@pgs.com)
 
-1999-04-03  Michael Meeks  <michael@imaginator.com>
+1999-04-03  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (ms_excel_read_sheet): removed fixup_array_formulae.
 	(ms_excel_read_cell): Large SHRFMLA / ARRAY fixups.
@@ -4043,7 +4043,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	
 	* ms-formula.h: Removed prototype.
 
-1999-04-02  Michael Meeks  <michael@imaginator.com>
+1999-04-02  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): PTG_ATTR: corrected
 	debug output semantics.
@@ -4060,7 +4060,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ms-excel.h: removed prototype for same.
 	fixed biff_get_text type.
 	
-1999-04-01  Michael Meeks  <michael@imaginator.com>
+1999-04-01  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (ms_excelReadWorkbook): Major string table fix
 	should now work internationally.
@@ -4072,7 +4072,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula.c: Changed all references to biff_get_text throughout.
 
-1999-03-31  Michael Meeks  <michael@imaginator.com>
+1999-03-31  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (ms_excel_read_sheet): Added SELECTION support.
 	Added basic WINDOW2 support.
@@ -4080,7 +4080,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula.c (ms_excel_parse_formula): Removed debug.
 	
-1999-03-30  Michael Meeks  <michael@imaginator.com>
+1999-03-30  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Rehashed function
 	and operator search function so it uses a flat array instead
@@ -4091,16 +4091,16 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	* ms-formula.h: Removed dead wood from OP_DATAa & FUNC_DATA
 	structs.
 
-1999-03-26  Michael Meeks  <michael@imaginator.com>
+1999-03-26  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c: Removed duplicate for fn 0x65
 	
-1999-03-24  Thomas Meeks  <thomas@imaginator.com>
+1999-03-24  Thomas Meeks  <thomas@ximian.com>
 
 	* ms-formula.c: Added mappings for Address, Area, Hyperlink,
 	Offset, Column, Columns.
 	
-1999-03-12  Michael Meeks  <michael@imaginator.com>
+1999-03-12  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c (biff_name_data_new, biff_name_data_get_name),
 	(biff_name_data_destroy, ms_excel_read_cell): Implemented
@@ -4118,7 +4118,7 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel.c: All instances of ms_excel_parse_formula updated.
 	
-1999-03-11  Michael Meeks  <michael@imaginator.com>
+1999-03-11  Michael Meeks  <michael@ximian.com>
 
 	* ms-ole.c (ms_ole_destroy, ms_ole_new): Killed debug
 	output before we are sure its an OLE file.
@@ -4127,12 +4127,12 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel.c (find_workbook): Use g_strncasecmp here.
 
-1999-03-10  Michael Meeks  <michael@imaginator.com>
+1999-03-10  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c: Inserted all the statistics formulae from
 	5.0a into the translation table.
 	
-1999-03-09  Michael Meeks  <michael@imaginator.com>
+1999-03-09  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Hacked out the
 	bad array formula support. Moved most of it to ms-excel.c
@@ -4142,20 +4142,20 @@ Tue Apr 20 16:34:38 1999  Morten Welinder  <terra@diku.dk>
 	BIFF_COLINFO, BIFF_ROW: Updated fudge factors in sizing
 	and implemented column sizing.
 
-1999-03-07  Michael Meeks  <michael@imaginator.com>
+1999-03-07  Michael Meeks  <michael@ximian.com>
 
 	* ms-formula.c: Changed FORMULA_PTG_STR to cope with both
 	versions of string properly.
 	Inserted innumerable time and text functions into the
 	translation table.
 
-1999-03-07  Michael Meeks  <michael@imaginator.com>
+1999-03-07  Michael Meeks  <michael@ximian.com>
 
 	* ms-excel.c: Changed to use cell_set_text_simple to save
 	many redundant re-draws: big speedup.
 	hacked up a set_row_height call
 
-1999-03-05  Michael Meeks <michael@imaginator.com>
+1999-03-05  Michael Meeks <michael@ximian.com>
 
 	* ms-ole.c: Variously made debug conditional on OLE_DEBUG
 	* ms-excel.c: ditto for EXCEL_DEBUG
