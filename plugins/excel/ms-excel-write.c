@@ -377,12 +377,12 @@ write_window1 (BiffPut *bp, MsBiffVersion ver, WorkbookView *wb_view)
 static void
 write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
 {
-	/* 0	0x020 grids are the colour of the normal style */
+	/* 1	0x020 grids are the colour of the normal style */
 	/* 0	0x040 arabic */
 	/* 1	0x080 display outlines if they exist */
 	/* 0	0x100 things are not frozen */
 	/* 0	0x800 (biff8 only) no page break mode*/
-	guint16 options = 0x080;
+	guint16 options = 0x0A0;
 	guint8 *data;
 
 	if (sheet->gnum_sheet->display_formulas)
@@ -402,14 +402,14 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
 		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
-		MS_OLE_SET_GUINT32 (data +  6, 0x0);	/* grid color index */
+		MS_OLE_SET_GUINT32 (data +  6, 0x40);	/* grid color index (0x40 == auto) */
 	} else {
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 18);
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
 		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
-		MS_OLE_SET_GUINT32 (data +  6, 0x0);	/* grid color index */
+		MS_OLE_SET_GUINT32 (data +  6, 0x40);	/* grid color index (0x40 == auto) */
 		MS_OLE_SET_GUINT16 (data + 10, 0x1);	/* print preview 100% */
 		MS_OLE_SET_GUINT16 (data + 12, 0x0);	/* FIXME : why 0? */
 		MS_OLE_SET_GUINT32 (data + 14, 0x0);	/* reserved 0 */

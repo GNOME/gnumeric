@@ -1,3 +1,8 @@
+2001-04-29  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_window2) : Headers are in default style.
+	  And grid colour is auto, not black.
+
 2001-04-27  Chema Celorio  <chema@celorio.com>
 
 	* boot.c (excel_save): add a message explaining that you could set an env variable to
