@@ -1,5 +1,8 @@
 1998-09-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/number-match.c (format_create_regexp): Small bug fix.  I was
+	making 'mm' be parsed as 'mmm'.  Support 'mmmm'.
+
 	* src/fn-date.c (gnumeric_now, gnumeric_date, gnumeric_today):
 	Note that jannuary 1st is day 1, not day zero.
 

@@ -171,12 +171,20 @@ format_create_regexp (char *format, GByteArray **dest)
 			} else {
 				if (*(format+1) == 'm'){
 					if (*(format+2) == 'm'){
-						g_string_append (regexp, create_option_list (month_long));
-						append_type (MATCH_MONTH_FULL);
+						if (*(format+3) == 'm'){
+							g_string_append (regexp,
+									 create_option_list (month_long));
+							append_type (MATCH_MONTH_FULL);
+							format++;
+						} else {
+							g_string_append (regexp,
+									 create_option_list (month_short));
+							append_type (MATCH_MONTH_SHORT);
+						}
 						format++;
 					} else {
-						g_string_append (regexp, create_option_list (month_short));
-						append_type (MATCH_MONTH_SHORT);
+						g_string_append (regexp, "([0-9][0-9]?)");
+						append_type (MATCH_MONTH_NUMBER);
 					}
 					format++;
 				} else {
