@@ -65,7 +65,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
 "POT-Creation-Date: 2002-02-26 17:50+0100\n"
-"PO-Revision-Date: 2002-02-26 22:26+0100\n"
+"PO-Revision-Date: 2002-02-28 15:03+0100\n"
 "Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
 "Language-Team: GNOME-DE <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10267,7 +10267,6 @@ msgid ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:475
 msgid ""
 "@FUNCTION=BESSELJ\n"
@@ -10284,7 +10283,6 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:511
 msgid ""
 "@FUNCTION=BESSELY\n"
@@ -10301,7 +10299,6 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:583
 msgid ""
 "@FUNCTION=COMPLEX\n"
@@ -10437,8 +10434,6 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
-# TRANSLATION POSTPONED
-# FIXME: check for mathematical correctness
 #: src/functions/fn-eng.c:801
 msgid ""
 "@FUNCTION=IMEXP\n"
@@ -10471,7 +10466,6 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:856
 msgid ""
 "@FUNCTION=IMLN\n"
@@ -10507,7 +10501,6 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:918
 msgid ""
 "@FUNCTION=IMLOG10\n"
@@ -10520,7 +10513,6 @@ msgid ""
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:948
 msgid ""
 "@FUNCTION=IMPOWER\n"
@@ -10535,7 +10527,6 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:984
 msgid ""
 "@FUNCTION=IMDIV\n"
@@ -10548,7 +10539,6 @@ msgid ""
 "@SEEALSO=IMPRODUCT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1018
 msgid ""
 "@FUNCTION=IMSIN\n"
@@ -10561,7 +10551,6 @@ msgid ""
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1046
 msgid ""
 "@FUNCTION=IMSQRT\n"
@@ -10634,7 +10623,6 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUB"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1209
 msgid ""
 "@FUNCTION=CONVERT\n"
@@ -10741,7 +10729,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1610
 msgid ""
 "@FUNCTION=ERF\n"
@@ -10764,7 +10751,6 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1656
 msgid ""
 "@FUNCTION=ERFC\n"
@@ -10779,7 +10765,6 @@ msgid ""
 "@SEEALSO=ERF"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1686
 msgid ""
 "@FUNCTION=DELTA\n"
@@ -10799,7 +10784,6 @@ msgstr ""
 msgid "Impossible"
 msgstr "Unmöglich"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-eng.c:1742
 msgid ""
 "@FUNCTION=GESTEP\n"
@@ -10818,7 +10802,6 @@ msgstr ""
 msgid "Engineering"
 msgstr "Ingenieurswissenschaften"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:343
 msgid ""
 "@FUNCTION=ACCRINT\n"
@@ -10850,7 +10833,6 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:435
 msgid ""
 "@FUNCTION=ACCRINTM\n"
@@ -10878,7 +10860,6 @@ msgid ""
 "@SEEALSO=ACCRINT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:488
 msgid ""
 "@FUNCTION=INTRATE\n"
@@ -10909,7 +10890,6 @@ msgid ""
 "@SEEALSO=RECEIVED, DATE"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:549
 msgid ""
 "@FUNCTION=RECEIVED\n"
@@ -10935,7 +10915,6 @@ msgid ""
 "@SEEALSO=INTRATE"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:604
 msgid ""
 "@FUNCTION=PRICEDISC\n"
@@ -10962,7 +10941,6 @@ msgid ""
 "@SEEALSO=PRICEMAT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:656
 msgid ""
 "@FUNCTION=PRICEMAT\n"
@@ -10989,7 +10967,6 @@ msgid ""
 "@SEEALSO=PRICEDISC"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:715
 msgid ""
 "@FUNCTION=DISC\n"
@@ -11015,7 +10992,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:766
 msgid ""
 "@FUNCTION=EFFECT\n"
@@ -11045,7 +11021,6 @@ msgstr ""
 msgid "effect - domain error"
 msgstr "Effekt - ungültiger Definitionsbereich"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:813
 msgid ""
 "@FUNCTION=NOMINAL\n"
@@ -11068,7 +11043,6 @@ msgstr ""
 msgid "nominal - domain error"
 msgstr "Nominal - ungültiger Definitionsbereich"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:852
 msgid ""
 "@FUNCTION=ISPMT\n"
@@ -11080,7 +11054,6 @@ msgid ""
 "@SEEALSO=PV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:886
 msgid ""
 "@FUNCTION=DB\n"
@@ -11096,7 +11069,6 @@ msgid ""
 "@SEEALSO=DDB,SLN,SYD"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:942
 msgid ""
 "@FUNCTION=DDB\n"
@@ -11113,7 +11085,6 @@ msgid ""
 "@SEEALSO=SLN,SYD"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:990
 msgid ""
 "@FUNCTION=SLN\n"
@@ -11141,7 +11112,6 @@ msgstr ""
 msgid "sln - domain error"
 msgstr "sln - ungültiger Definitionsbereich"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1042
 msgid ""
 "@FUNCTION=SYD\n"
@@ -11172,7 +11142,6 @@ msgstr ""
 msgid "syd - domain error"
 msgstr "syd - ungültiger Definitionsbereich"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1098
 msgid ""
 "@FUNCTION=DOLLARDE\n"
@@ -11188,7 +11157,6 @@ msgid ""
 "@SEEALSO=DOLLARFR"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1142
 msgid ""
 "@FUNCTION=DOLLARFR\n"
@@ -11202,7 +11170,6 @@ msgid ""
 "@SEEALSO=DOLLARDE"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1184
 msgid ""
 "@FUNCTION=MIRR\n"
@@ -11214,7 +11181,6 @@ msgid ""
 "@SEEALSO=NPV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1244
 msgid ""
 "@FUNCTION=TBILLEQ\n"
@@ -11230,7 +11196,6 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1289
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
@@ -11247,7 +11212,6 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1330
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
@@ -11263,7 +11227,6 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1371
 msgid ""
 "@FUNCTION=RATE\n"
@@ -11274,7 +11237,6 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1479
 msgid ""
 "@FUNCTION=IRR\n"
@@ -11295,7 +11257,6 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1602
 msgid ""
 "@FUNCTION=PV\n"
@@ -11310,7 +11271,6 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1649
 msgid ""
 "@FUNCTION=NPV\n"
@@ -11325,7 +11285,6 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1703
 msgid ""
 "@FUNCTION=XNPV\n"
@@ -11341,7 +11300,6 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1763
 msgid ""
 "@FUNCTION=XIRR\n"
@@ -11365,7 +11323,6 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1867
 msgid ""
 "@FUNCTION=FV\n"
@@ -11381,7 +11338,6 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1906
 msgid ""
 "@FUNCTION=PMT\n"
@@ -11399,7 +11355,6 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1944
 msgid ""
 "@FUNCTION=IPMT\n"
@@ -11416,7 +11371,6 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:1991
 msgid ""
 "@FUNCTION=PPMT\n"
@@ -11433,7 +11387,6 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2040
 msgid ""
 "@FUNCTION=NPER\n"
@@ -11453,7 +11406,6 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2089
 msgid ""
 "@FUNCTION=DURATION\n"
@@ -11467,7 +11419,6 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2126
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
@@ -11483,7 +11434,6 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2170
 msgid ""
 "@FUNCTION=EURO\n"
@@ -11509,7 +11459,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2252
 msgid ""
 "@FUNCTION=PRICE\n"
@@ -11534,7 +11483,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2342
 msgid ""
 "@FUNCTION=YIELD\n"
@@ -11558,7 +11506,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2432
 msgid ""
 "@FUNCTION=YIELDDISC\n"
@@ -11583,7 +11530,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2468
 msgid ""
 "@FUNCTION=YIELDMAT\n"
@@ -11609,7 +11555,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2505
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
@@ -11636,7 +11581,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2608
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
@@ -11662,7 +11606,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2645
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
@@ -11689,7 +11632,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2682
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
@@ -11715,7 +11657,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2719
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
@@ -11740,7 +11681,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2753
 msgid ""
 "@FUNCTION=AMORLINC\n"
@@ -11765,7 +11705,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2787
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
@@ -11799,7 +11738,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2829
 msgid ""
 "@FUNCTION=COUPDAYS\n"
@@ -11834,7 +11772,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2872
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
@@ -11868,7 +11805,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2914
 msgid ""
 "@FUNCTION=COUPNCD\n"
@@ -11901,7 +11837,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2955
 msgid ""
 "@FUNCTION=COUPPCD\n"
@@ -11934,7 +11869,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:2996
 msgid ""
 "@FUNCTION=COUPNUM\n"
@@ -11965,7 +11899,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:3036
 msgid ""
 "@FUNCTION=CUMIPMT\n"
@@ -11977,7 +11910,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:3056
 msgid ""
 "@FUNCTION=CUMPRINC\n"
@@ -11989,7 +11921,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:3076
 msgid ""
 "@FUNCTION=MDURATION\n"
@@ -12001,7 +11932,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-financial.c:3097
 msgid ""
 "@FUNCTION=VDB\n"
@@ -12013,7 +11943,6 @@ msgid ""
 "@SEEALSO=DB"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:83
 msgid ""
 "@FUNCTION=CELL\n"
@@ -12041,7 +11970,6 @@ msgstr ""
 msgid "Unknown info_type"
 msgstr "Unbekannter Info_Typ"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:279
 msgid ""
 "@FUNCTION=EXPRESSION\n"
@@ -12055,7 +11983,6 @@ msgid ""
 "@SEEALSO=TEXT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:324
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
@@ -12068,7 +11995,6 @@ msgid ""
 "@SEEALSO=COUNT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:363
 msgid ""
 "@FUNCTION=INFO\n"
@@ -12106,7 +12032,6 @@ msgstr "%s Version %s"
 msgid "Unknown system"
 msgstr "Unbekanntes System"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:454
 msgid ""
 "@FUNCTION=ISERROR\n"
@@ -12123,7 +12048,6 @@ msgstr ""
 msgid "Argument mismatch"
 msgstr "Unpassende Argumente"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:509
 msgid ""
 "@FUNCTION=ISNA\n"
@@ -12136,7 +12060,6 @@ msgid ""
 "@SEEALSO=NA"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:544
 msgid ""
 "@FUNCTION=ISERR\n"
@@ -12150,7 +12073,6 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:575
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
@@ -12170,7 +12092,6 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:634
 msgid ""
 "@FUNCTION=NA\n"
@@ -12183,7 +12104,6 @@ msgid ""
 "@SEEALSO=ISNA"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:656
 msgid ""
 "@FUNCTION=ERROR\n"
@@ -12196,7 +12116,6 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:677
 msgid ""
 "@FUNCTION=ISBLANK\n"
@@ -12209,7 +12128,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:726
 msgid ""
 "@FUNCTION=ISEVEN\n"
@@ -12222,7 +12140,6 @@ msgid ""
 "@SEEALSO=ISODD"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:748
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
@@ -12235,7 +12152,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:778
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
@@ -12248,7 +12164,6 @@ msgid ""
 "@SEEALSO=ISTEXT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:805
 msgid ""
 "@FUNCTION=ISNUMBER\n"
@@ -12261,7 +12176,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:832
 msgid ""
 "@FUNCTION=ISODD\n"
@@ -12274,7 +12188,6 @@ msgid ""
 "@SEEALSO=ISEVEN"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:854
 msgid ""
 "@FUNCTION=ISREF\n"
@@ -12287,7 +12200,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:886
 msgid ""
 "@FUNCTION=ISTEXT\n"
@@ -12300,7 +12212,6 @@ msgid ""
 "@SEEALSO=ISNONTEXT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:913
 msgid ""
 "@FUNCTION=N\n"
@@ -12314,7 +12225,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:952
 msgid ""
 "@FUNCTION=TYPE\n"
@@ -12328,7 +12238,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-information.c:979
 msgid ""
 "@FUNCTION=GETENV\n"
@@ -12346,7 +12255,6 @@ msgstr ""
 msgid "Information"
 msgstr "Informationen"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:20
 msgid ""
 "@FUNCTION=AND\n"
@@ -12369,7 +12277,6 @@ msgid ""
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:83
 msgid ""
 "@FUNCTION=NOT\n"
@@ -12388,7 +12295,6 @@ msgstr ""
 msgid "Type Mismatch"
 msgstr "Unpassende Typen"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:110
 msgid ""
 "@FUNCTION=OR\n"
@@ -12408,7 +12314,6 @@ msgid ""
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:167
 msgid ""
 "@FUNCTION=IF\n"
@@ -12425,7 +12330,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:230
 msgid ""
 "@FUNCTION=TRUE\n"
@@ -12438,7 +12342,6 @@ msgid ""
 "@SEEALSO=FALSE"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-logical.c:252
 msgid ""
 "@FUNCTION=FALSE\n"
@@ -12455,7 +12358,6 @@ msgstr ""
 msgid "Logical"
 msgstr "Logik"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:316
 msgid ""
 "@FUNCTION=ADDRESS\n"
@@ -12481,7 +12383,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:428
 msgid ""
 "@FUNCTION=CHOOSE\n"
@@ -12499,7 +12400,6 @@ msgstr ""
 msgid "#ARG!"
 msgstr "#ARG!"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:477
 msgid ""
 "@FUNCTION=VLOOKUP\n"
@@ -12517,7 +12417,6 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:538
 msgid ""
 "@FUNCTION=HLOOKUP\n"
@@ -12534,7 +12433,6 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:599
 msgid ""
 "@FUNCTION=LOOKUP\n"
@@ -12551,7 +12449,6 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:666
 msgid ""
 "@FUNCTION=MATCH\n"
@@ -12573,7 +12470,6 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:726
 msgid ""
 "@FUNCTION=INDIRECT\n"
@@ -12590,7 +12486,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:788
 msgid ""
 "@FUNCTION=INDEX\n"
@@ -12607,7 +12502,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:835
 msgid ""
 "@FUNCTION=COLUMN\n"
@@ -12622,7 +12516,6 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:888
 msgid ""
 "@FUNCTION=COLUMNS\n"
@@ -12637,7 +12530,6 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:914
 msgid ""
 "@FUNCTION=OFFSET\n"
@@ -12651,7 +12543,6 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:977
 msgid ""
 "@FUNCTION=ROW\n"
@@ -12666,7 +12557,6 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:1030
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -12681,7 +12571,6 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:1056
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -12695,7 +12584,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-lookup.c:1082
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -12710,7 +12598,6 @@ msgstr ""
 msgid "Data / Lookup"
 msgstr "Daten / Auffinden"
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:118
 msgid ""
 "@FUNCTION=GCD\n"
@@ -12726,7 +12613,6 @@ msgid ""
 "@SEEALSO=LCM"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:170
 msgid ""
 "@FUNCTION=LCM\n"
@@ -12743,7 +12629,6 @@ msgid ""
 "@SEEALSO=GCD"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:227
 msgid ""
 "@FUNCTION=ABS\n"
@@ -12759,7 +12644,6 @@ msgid ""
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:252
 msgid ""
 "@FUNCTION=ACOS\n"
@@ -12775,7 +12659,6 @@ msgid ""
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:284
 msgid ""
 "@FUNCTION=ACOSH\n"
@@ -12791,7 +12674,6 @@ msgid ""
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:315
 msgid ""
 "@FUNCTION=ASIN\n"
@@ -12807,7 +12689,6 @@ msgid ""
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:346
 msgid ""
 "@FUNCTION=ASINH\n"
@@ -12822,7 +12703,6 @@ msgid ""
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:370
 msgid ""
 "@FUNCTION=ATAN\n"
@@ -12837,7 +12717,6 @@ msgid ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:395
 msgid ""
 "@FUNCTION=ATANH\n"
@@ -12853,7 +12732,6 @@ msgid ""
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:427
 msgid ""
 "@FUNCTION=ATAN2\n"
@@ -12870,7 +12748,6 @@ msgid ""
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:455
 msgid ""
 "@FUNCTION=CEIL\n"
@@ -12885,7 +12762,6 @@ msgid ""
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:479
 msgid ""
 "@FUNCTION=COUNTIF\n"
@@ -12904,7 +12780,6 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:557
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -12926,7 +12801,6 @@ msgid ""
 "@SEEALSO=COUNTIF, SUM"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:710
 msgid ""
 "@FUNCTION=CEILING\n"
@@ -12943,7 +12817,6 @@ msgid ""
 "@SEEALSO=CEIL"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:751
 msgid ""
 "@FUNCTION=COS\n"
@@ -12958,7 +12831,6 @@ msgid ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:775
 msgid ""
 "@FUNCTION=COSH\n"
@@ -12973,7 +12845,6 @@ msgid ""
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:800
 msgid ""
 "@FUNCTION=DEGREES\n"
@@ -12987,8 +12858,6 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-# TRANSLATION POSTPONED
-# FIXME: check for mathematical correctness
 #: src/functions/fn-math.c:822
 msgid ""
 "@FUNCTION=EXP\n"
@@ -13002,7 +12871,6 @@ msgid ""
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:845
 msgid ""
 "@FUNCTION=FACT\n"
@@ -13016,7 +12884,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:886
 msgid ""
 "@FUNCTION=COMBIN\n"
@@ -13032,7 +12899,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:920
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -13049,7 +12915,6 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:957
 msgid ""
 "@FUNCTION=INT\n"
@@ -13064,7 +12929,6 @@ msgid ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:981
 msgid ""
 "@FUNCTION=LOG\n"
@@ -13080,7 +12944,6 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:1021
 msgid ""
 "@FUNCTION=LN\n"
@@ -13094,7 +12957,6 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-# TRANSLATION POSTPONED
 #: src/functions/fn-math.c:1051
 msgid ""
 "@FUNCTION=POWER\n"
