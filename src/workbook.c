@@ -759,7 +759,8 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("_Add/Modify comment"), NULL, workbook_edit_comment },
+	{ GNOME_APP_UI_ITEM, N_("_Add/Modify comment"),
+	  N_("Edit the selected cell's comment"), workbook_edit_comment },
 	{ GNOME_APP_UI_SUBTREE, N_("_Special"), NULL, workbook_menu_insert_special },
 
 	GNOMEUIINFO_END
@@ -787,8 +788,9 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 #endif
 
 static GnomeUIInfo workbook_menu_format [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Cells..."),   NULL, format_cells_cmd, NULL, NULL,
-	  0, 0, GDK_1, GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Cells..."),
+	  N_("Modify the formatting of the selected cells"),
+	  format_cells_cmd, NULL, NULL, 0, 0, GDK_1, GDK_CONTROL_MASK },
 #if 0
 	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, workbook_menu_format_column },
 	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, workbook_menu_format_row },

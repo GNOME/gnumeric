@@ -1,5 +1,9 @@
 1999-01-07  Nat Friedman  <nat@nat.org>
 
+	* src/workbook.c: Added hints to the rest of the custom menu items.
+	
+1999-01-07  Nat Friedman  <nat@nat.org>
+
 	* src/workbook.c (workbook_new): Install the menu hints.
 	(workbook_setup_status_area): Create the GnomeAppBar.
 
