@@ -1056,6 +1056,40 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 
 }
 
+static char *help_fvschedule = {
+	N_("@FUNCTION=FVSCHEDULE\n"
+	   "@SYNTAX=FVSCHEDULE(pv,schedule)\n"
+	   "@DESCRIPTION="
+	   "FVSCHEDULE returns the future value of given initial value @pv "
+	   "after applying a series of compound periodic interest rates. "
+	   "\n"
+	   "@SEEALSO=PV,FV")
+};
+
+static Value *
+gnumeric_fvschedule (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t pv, *schedule = NULL;
+	Value   *result = NULL;
+	int     i, n;
+
+	pv = value_get_as_float (argv [0]);
+	schedule = collect_floats_value (argv[1], &ei->pos,
+					 0, &n, &result);
+	if (result)
+		goto out;
+
+	for (i=0; i<n; i++)
+	        pv *= 1 + schedule[i];
+
+	result = value_new_float (pv);
+out:
+	g_free (schedule);
+
+        return result;
+
+}
+
 
 void finance_functions_init()
 {
@@ -1079,6 +1113,8 @@ void finance_functions_init()
 			    &help_effect,   gnumeric_effect);
 	function_add_args  (cat, "fv", "fffff", "rate,nper,pmt,pv,type",
 			    &help_fv,       gnumeric_fv);
+	function_add_args  (cat, "fvschedule", "fA", "pv,schedule",
+			    &help_fvschedule, gnumeric_fvschedule);
 	function_add_args  (cat, "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
 			    &help_ipmt,     gnumeric_ipmt);
 	function_add_args  (cat, "mirr", "Aff",
