@@ -5,7 +5,8 @@ and longer term bugs.
 Release Critical
 ----------------
     - implement or disable indent toolbar items
-    - Find breakage in bonobo menu toggles
+    - Fix regression crash
+    * item-bar redraw bug
 
 Long term breakage
 ------------------
