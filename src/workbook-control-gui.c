@@ -224,7 +224,7 @@ wbcg_title_set (WorkbookControl *wbc, char const *title)
 
 	full_title = g_strconcat (title, _(" : Gnumeric"), NULL);
 
- 	gtk_window_set_title (wbcg->toplevel, full_title);
+ 	gtk_window_set_title (wb_control_gui_toplevel (wbcg), full_title);
 	g_free (full_title);
 }
 
@@ -883,7 +883,7 @@ static gboolean
 wbcg_claim_selection  (WorkbookControl *wbc)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	return gtk_selection_owner_set (GTK_WIDGET (wbcg->toplevel),
+	return gtk_selection_owner_set (GTK_WIDGET (wbcg->table),
 					GDK_SELECTION_PRIMARY,
 					GDK_CURRENT_TIME);
 }
@@ -1884,12 +1884,6 @@ cb_insert_shaped_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	select_component_id (wbcg, "IDL:Bonobo/Canvas/Item:1.0");
 }
-
-static void
-cb_dump_xml (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	bonobo_window_dump (BONOBO_WINDOW(wbcg->toplevel), "on demand");
-}
 #endif
 
 #ifndef ENABLE_BONOBO
@@ -2478,8 +2472,6 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("HelpAbout", cb_help_about),
 
-	BONOBO_UI_UNSAFE_VERB ("DebugDumpXml", cb_dump_xml),
-
 	BONOBO_UI_VERB_END
 };
 #endif
@@ -2712,23 +2704,21 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
 		if (wbcg->editing) {
 			if (event->state == GDK_CONTROL_MASK ||
 			    event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
-				gboolean const is_array = (event->state & GDK_SHIFT_MASK);
-				const char *text = gtk_entry_get_text (workbook_get_entry (wbcg));
-				Sheet *sheet = wbcg->editing_sheet;
 				EvalPos pos;
+				gboolean const is_array = (event->state & GDK_SHIFT_MASK);
+				char const *text = gtk_entry_get_text (workbook_get_entry (wbcg));
+				Sheet *sheet = wbcg->editing_sheet;
 
 				/* Be careful to use the editing sheet */
-				gboolean const trouble =
-					cmd_area_set_text (WORKBOOK_CONTROL (wbcg),
-						eval_pos_init (&pos, sheet, &sheet->edit_pos),
-						text, is_array);
+				cmd_area_set_text (WORKBOOK_CONTROL (wbcg),
+					eval_pos_init (&pos, sheet, &sheet->edit_pos),
+					text, is_array);
 
-				/*
-				 * If the assignment was successful finish
-				 * editing but do NOT store the results
+				/* Finish editing but do NOT store the results
+				 * If the assignment was successful it will
+				 * have taken care of that.
 				 */
-				if (!trouble)
-					workbook_finish_editing (wbcg, FALSE);
+				workbook_finish_editing (wbcg, FALSE);
 				return TRUE;
 			}
 

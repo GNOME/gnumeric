@@ -1,5 +1,8 @@
 2001-03-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (wb_edit_key_pressed) : handle failure
+	  cases better.
+
 	* src/colrow.c (colrow_foreach) : Doh!
 
 	* src/item-bar.c (item_bar_event) : Now that we are zooming this

@@ -92,7 +92,7 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 		int inner_last;
 
 		inner_last = (COLROW_SEGMENT_INDEX (last) == COLROW_SEGMENT_INDEX (i))
-			? COLROW_SUB_INDEX (last) : COLROW_SEGMENT_SIZE;
+			? COLROW_SUB_INDEX (last)+1 : COLROW_SEGMENT_SIZE;
 		i += COLROW_SEGMENT_SIZE - sub;
 		if (segment == NULL)
 			continue;
