@@ -1358,11 +1358,12 @@ ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 		{
 			wb->excel_sheets = g_list_remove(wb->excel_sheets, list->data);
 			g_assert (g_list_find(wb->excel_sheets, list->data) == NULL) ;
-			return FALSE;
+			return TRUE;
 		}
 		else
 			list = list->next ;
-	return TRUE;
+	printf ("Sheet not in list of sheets !\n");
+	return FALSE;
 }
 
 static MS_EXCEL_SHEET *
@@ -1876,21 +1877,23 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 {
 	LONG blankSheetPos = q->streamPos + q->length + 4;
 
-	printf ("----------------- Sheet -------------\n");
-
+	if (EXCEL_DEBUG>0)
+		printf ("----------------- '%s' -------------\n", sheet->gnum_sheet->name);
+				
 	while (ms_biff_query_next (q)){
 		if (EXCEL_DEBUG>5)
 			printf ("Opcode : 0x%x\n", q->opcode) ;
 		switch (q->ls_op){
 		case BIFF_EOF:
-			if (q->streamPos == blankSheetPos || sheet->blank)
-			{
-				printf ("Blank sheet\n");
-				if (ms_excel_workbook_detach (sheet->wb, sheet)){
+			if (q->streamPos == blankSheetPos || sheet->blank) {
+				if (EXCEL_DEBUG>0)
+					printf ("Blank sheet\n");
+				if (ms_excel_workbook_detach (sheet->wb, sheet)) {
 					ms_excel_sheet_destroy (sheet) ;
 					sheet = NULL ;
-				}
-				return;
+				} else 
+					printf ("Serious error detaching sheet '%s'\n",
+						sheet->gnum_sheet->name);
 			}
 			return;
 			break;
@@ -1987,8 +1990,8 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			}
 		}
 	}
-	ms_excel_workbook_detach (sheet->wb, sheet) ;
-	ms_excel_sheet_destroy (sheet) ;
+	if (ms_excel_workbook_detach (sheet->wb, sheet))
+		ms_excel_sheet_destroy (sheet) ;
 	sheet = NULL ;
 	printf ("Error, hit end without EOF\n");
 	return;

@@ -1,5 +1,13 @@
 1999-05-02  Michael Meeks  <michael@imaginator.com>
 
+	* ms-excel.c (ms_excel_read_sheet): Add check before
+	ms_excel_sheet_destroy.
+	(ms_excel_read_sheet): Cleaned debug, and made it nicer.
+	(ms_excel_workbook_detach): Fixed semantics of workbook_detach
+	and plug large memory leak.
+
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+
 	* ms-formula.c (ms_excel_parse_formula): Removed annoying
 	debug killing performance.
 
