@@ -1,3 +1,8 @@
+2002-10-09  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_workbook_destroy): Don't leak
+	->supbooks.
+
 2002-10-08  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (write_names) : Fix leak by not inserting copies of

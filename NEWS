@@ -39,6 +39,7 @@ Morten:
 	  order to get more than 256 columns and/or 65536 rows.
 	* Fix --geometry, I hope.
 	* Start handling invalid (== non-utf8) file names.
+	* Fix minor leak in excel loader.
 
 dorami@bu.iij4u.or.jp:
 	* Add InputMethod support for better international key support

@@ -2494,6 +2494,9 @@ ms_excel_workbook_destroy (ExcelWorkbook *ewb)
 	g_ptr_array_free (ewb->extern_sheet_v7, TRUE);
 	ewb->extern_sheet_v7 = NULL;
 
+	g_ptr_array_free (ewb->supbooks, TRUE);
+	ewb->supbooks = NULL;
+
 	if (ewb->global_strings) {
 		unsigned i;
 		for (i = 0; i < ewb->global_string_max; i++)
