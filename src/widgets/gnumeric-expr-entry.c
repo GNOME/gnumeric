@@ -472,17 +472,13 @@ gee_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	return result;
 }
 
-static int
-gnumeric_expr_entry_button_press_event (GtkWidget *widget, GdkEventButton *event)
+static void
+gee_notify_cursor_position (GObject *object, GParamSpec *pspec, GnumericExprEntry *gee)
 {
-	int result;
-	result = GTK_WIDGET_CLASS (gnumeric_expr_entry_parent_class)->
-		button_press_event (widget, event);
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
 
-	if (!gnm_expr_entry_can_rangesel (GNUMERIC_EXPR_ENTRY (widget)))
-		scg_rangesel_stop (GNUMERIC_EXPR_ENTRY (widget)->scg, FALSE);
-
-	return result;
+	if (!gnm_expr_entry_can_rangesel (gee))
+		scg_rangesel_stop (gee->scg, FALSE);
 }
 
 /**
@@ -546,7 +542,6 @@ static void
 gee_class_init (GtkObjectClass *klass)
 {
 	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
 	gnumeric_expr_entry_parent_class
 		= gtk_type_class (gtk_entry_get_type());
@@ -554,17 +549,6 @@ gee_class_init (GtkObjectClass *klass)
 	gobject_class->set_property = gee_set_property;
 	gobject_class->get_property = gee_get_property;
 	klass->destroy		    = gee_destroy;
-
-/*
- *      FIXME:
- *      You would think that rather than button_press_event we would use a signal
- *      specific to the movement of the cursor (that signal would probably be at the
- *      GTKENTRY level). Unfortunately there is no such signal, yet. In Gnome2
- *      GTKENTRY will have a move_cursor signal which we should use then!
- *
- */
-
-	widget_class->button_press_event= gnumeric_expr_entry_button_press_event;
 
 	signals [UPDATE] = g_signal_new ("update",
 		GNUMERIC_TYPE_EXPR_ENTRY,
@@ -648,6 +632,9 @@ gnumeric_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 	g_signal_connect (G_OBJECT (gee->entry),
 		"focus_out_event",
 		G_CALLBACK (gee_focus_out_event), gee);
+	g_signal_connect (G_OBJECT (gee->entry),
+		"notify::cursor-position",
+		G_CALLBACK (gee_notify_cursor_position), gee);
 	gtk_box_pack_start (GTK_BOX (gee), GTK_WIDGET (gee->entry),
 		TRUE, TRUE, 0);
 

@@ -1,5 +1,13 @@
 2002-02-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_button_press_event) :
+	  rename gee_notify_cursor_position and change to signal handler
+	(gee_class_init) : remove ref to gnumeric_expr_entry_button_press_event
+	(gnumeric_expr_entry_new) : connect to notify::cursor-position
+	  signal
+
+2002-02-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* gnumeric-expr-entry.c (gee_focus_in_event, gee_focus_out_event) :
 	  wbcg_set_entry doesn't work here, disabled
 	* gnumeric-expr-entry.h (gnumeric_expr_entry_set_update_policy) : 
