@@ -1,3 +1,7 @@
+2001-01-05  Jody Goldberg <jgoldberg@home.com>
+
+	* POTFILES.in : Add validation.glade
+
 2001-01-07  Fatih Demir	<kabalak@gmx.net>
 
 	* tr.po: Added Turkish translation beginnings
