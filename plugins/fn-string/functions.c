@@ -66,12 +66,20 @@ static const char *help_char = {
 static Value *
 gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 {
-	char result[2];
+	int c = value_get_as_int (argv[0]);
 
-	result[0] = value_get_as_int (argv[0]);
-	result[1] = 0;
+	if (c <= 0 || c >= 256)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	return value_new_string (result);
+	if (c <= 127 || c >= 160) {
+		char result[7];
+		int len = g_unichar_to_utf8 (result, c);
+		result[len] = 0;
+		return value_new_string (result);
+	}
+
+	/* FIXME: XL has characters in that range.  */
+	return value_new_error (ei->pos, gnumeric_err_VALUE);
 }
 
 /***************************************************************************/
