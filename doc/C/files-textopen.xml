@@ -175,7 +175,8 @@
       that will happen is that the text shown by &gnum; appear with
       nonsensical groups of characters, with streams of question mark
       (?) characters, or with symbols which are boxes with four
-      numbers in them. <!-- TODO: add a picture -->
+      numbers in them. 
+<!-- TODO: add a picture of broken char symbol box and numbers-->
       All of these indicate that the encoding scheme used to read the
       file was not the same encoding scheme as was used to create the
       file. The difficulty is then to determine what encoding scheme
@@ -192,7 +193,7 @@
     </para>
 
 -->
-<!-- TODO add ref to locale -->
+<!-- TODO add xref to locale -->
 
   </sect2>
 
@@ -263,8 +264,9 @@
   <sect2 id="sect-file-textImport-dataStruct">
     <title>Data Structuring Strategies</title>
 
+<!-- TODO: write section on data structuring strategies.
      <para>
-       TODO. TODO. TODO.
+       
      </para>
 
      <para>
@@ -307,9 +309,8 @@
       may require some time and may require several attempts to
       achieve correctly, the correct import of a structured file saves
       immense amounts of time compared to re-entering data.
-
     </para>
-
+ -->
 
  </sect2>
 
@@ -414,8 +415,7 @@
 	        interpreted as line break indicators. Generally,
 	        selecting all three boxes will produce the correct
 	        results. 
-		<!-- TODO is there ever a situation where having all
-	             three checked, doesn't work? -->
+<!-- TODO: Is having all three line separators checked ever wrong? -->
 	      </para>
 	      <para>
 	        The errors produced if the wrong combination of boxes
@@ -1016,7 +1016,7 @@
   </sect2>
 
 
-<!-- TODO
+<!-- TODO: add section 'Procedure to use the text importer'.
 
   <sect2 id="sect-file-textImport-druid-process">
     <title>
@@ -1057,7 +1057,8 @@
 
 
 
-<!-- Old text follows. ******************
+<!-- TODO: Remove the old text that follows. Kept now for inspiration.
+********************************************************************
 
 
 <sect2>

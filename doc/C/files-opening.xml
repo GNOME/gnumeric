@@ -345,7 +345,7 @@
 	            for spreadsheet files. The rule can be changed to
 	            display all the files regardless of their
 	            extension, except possibly for the hidden files.
-		    <!-- TODO and defined in the mime type system. -->
+<!-- TODO explain role of mime type in file display filter. Ibid -saving -->
 		  </para>
 		</warning>
 	      </para>
@@ -928,7 +928,7 @@
       mechanism, as is explained in <xref
       linkend="sect-movecopy-xclipboard"/>.
 
-      <!-- TODO: &gnum can also read databases directly. -->
+<!-- TODO: add link to other data input: e.g. direct database acess. -->
     </para> 
 
     <note>

@@ -954,7 +954,7 @@
             Guru</interface> using the context menu on the graph. The
             <interface>Graph Guru</interface> is dismissed by
             clicking on the <guibutton>OK</guibutton> button.
-	    <!-- TODO: Change when the button label changes (HIG) -->
+<!-- TODO: Change when the button label changes from "OK" (HIG) -->
           </para>
         </step>
 

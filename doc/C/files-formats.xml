@@ -389,7 +389,7 @@ gunzip Book1.text.gz
             format is XML. The file can be validated by a Document
             Type Definition document. Each &gnum; file format version
             has its own DTD.
-<!-- TODO 
+<!-- TODO: get link to gnumeric DTD
             These are available via the Internet
             at <uri>http://www.gnome.org/projects/gnumeric/v10.dtd</uri>.
  -->
@@ -408,7 +408,7 @@ gunzip Book1.text.gz
 	    The C# language, through the
 	    <application>mono</application> implementation can also be
 	    used to manipulate &gnum; format files. 
-<!-- TODO
+<!-- TODO: get link to C# version of JWorkbook
              See the project's
 	    <ulink type="http" linkend="" > website</ulink> for
 	    details.
@@ -518,10 +518,6 @@ gunzip Book1.text.gz
 	</term>
 	<listitem>
 	  <para>
-<!-- TODO:
-	    The <application>Applixware</application> file format is
-	... 
--->
 	  </para>
 	</listitem>
       </varlistentry>
@@ -543,8 +539,7 @@ gunzip Book1.text.gz
   <sect2 id="file-format-csv">
     <title>Comma Separated Value (CSV) File Format</title>
 
-<!-- TODO: explain interference with the decimal/thousands separator
-    in certain locales. -->
+<!-- TODO: explain locale prob- CSV file comma vs. decimal separator -->
 
     <para>
       The Comma Separated Value (CSV) file format is a common
@@ -945,7 +940,7 @@ gunzip Book1.text.gz
 	  <emphasis role="bold">Format Details</emphasis>
 	</term>
 	<listitem>
-<!-- TODO remove or improve
+<!-- TODO remove or improve HTML examples
 	  <para>
 	    The following figures illustrate the output of the
 	    different HTML file formats.
@@ -2673,7 +2668,6 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	    Text file format files are simple text files containing
 	    the data for each cell of the worksheet organized in a
 	    systematic fashion.
-	    <!-- TODO: encoding of the file? -->
 	  </para>
 	</listitem>
       </varlistentry>
@@ -3043,7 +3037,7 @@ Sheet 0
     </para>
 
     <para>
-<!-- TODO
+<!-- TODO: Explain import of XHTML tables
       &gnum; can open well formed xhtml tables placing the data contents of
       each entry into a cell of a worksheet.
 -->

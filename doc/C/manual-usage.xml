@@ -1,23 +1,13 @@
 <!--
-    This is all in the top level to skip any chapter TOC. 
+    Note: This is all in the top level to skip any chapter TOC. 
 -->
 
   <para>
     There are several ways to use this manual depending on what kind
     of user you are. 
     <itemizedlist>
-<!-- TO DO EVENTUALLY IN THE BEAUTIFUL FUTURE
-      <listitem>
-        <para><guilabel>Users who want a quick overview</guilabel>
-        </para>
-        <para>
-          <xref linkend="chapter-quick-overview" /> quickly summarizes
-          the features of <application>Gnumeric</application> to show
-          experienced users what the program can do.
-        </para>
-      </listitem>
- -->
-      <listitem>
+
+     <listitem>
         <para><guilabel>New users</guilabel>
         </para>
         <para>
@@ -36,8 +26,11 @@
           hard. We suggest first reading the explanations of the
           contents of each chapter which are given below to try to
           figure out where your question might be answered, and then
-          go directly to that section. <!-- TODO: Alternatively, the
-          text of the manual can be searched by using the index. -->
+          go directly to that section.
+<!-- TODO: when index is added, add the sentence below.
+	  Alternatively, the text of the manual can be searched by
+          using the index. 
+--> 
         </para>
       </listitem>
     </itemizedlist>

@@ -1,3 +1,21 @@
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
+	* NEWS: Doc Cleanup: Standardize the TODO comments.
+
+	* manual-usage.xml: massage TODO statements for grep.
+	* quick-start.xml: massage TODO statements for grep.
+	* gui-menus.xml: remove spurious TODO.
+
+	* files-email.xml: massage TODO statements for grep.
+	* files-format.xml: massage TODO statements for grep.
+	* files-opening.xml: massage TODO statements for grep.
+	* files-saving.xml: massage TODO statements for grep.
+	* files-ssconvert.xml: massage TODO statements for grep.
+	* files-textopen.xml: massage TODO statements for grep.
+	* graphics-images.xml: remove spurious TODO.
+	* graphics-overview.xml: massage TODO statements for grep.
+	* graphics-plot.xml: massage TODO statements for grep.
+
 2004-10-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* data-move-copy.xml: Fixed link.

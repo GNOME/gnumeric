@@ -214,7 +214,7 @@
 		all work. The dialog uses filename matching to guess
 		file names based on the files already in the parent
 		folder.
-		<!-- TODO extension scheme. --> 
+<!-- TODO: explain gnum system for adding extensions automatically. --> 
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -679,7 +679,7 @@
 	            for spreadsheet files. The rule can be changed to
 	            display all the files regardless of their
 	            extension, except possibly for the hidden files.
-		    <!-- TODO and defined in the mime type system. -->
+<!-- TODO: explain role of mime type in file dislpay filter. ibid  -opening. -->
 	          </para>
 		</warning>
 	      </para>
@@ -1082,7 +1082,7 @@
       or HTML and XHTML tables through the clipboard mechanism, as is
       explained in <xref linkend="sect-movecopy-xclipboard"/>.
 
-      <!-- TODO: &gnum can also read databases directly. -->
+<!-- TODO: add link to other data ouput: e.g. direct database connect. -->
     </para> 
 
     <note>

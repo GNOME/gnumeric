@@ -572,8 +572,9 @@ c:\Program Files\Gnome-Office\gnumeric
         locality if <application>Gnumeric</application> is launched in
         a particular way. For instance, in a French setting the period
         is the thousand separator symbol and the comma the decimal
-        separator symbol. <!-- ToDo: add ref to localization --> By
-        default, <application>Gnumeric</application> will display
+        separator symbol.
+<!-- TODO: add xref to localization --> 
+        By default, <application>Gnumeric</application> will display
         these numeric values lined up against the right side of the
         cell.
       </para>
@@ -612,7 +613,7 @@ c:\Program Files\Gnome-Office\gnumeric
         <listitem>
           <para>
             Fractions can be input and are recognized as values.
-            <!-- TODO -->
+<!-- TODO: add example of a fraction. -->
           </para>
         </listitem>
         <listitem>
@@ -951,7 +952,6 @@ c:\Program Files\Gnome-Office\gnumeric
 
 </sect1>
 
-<!-- HERE -->
 
 <sect1 id="quick-cut-n-paste">
   <title>Moving Cell Contents, Inserting New Cells or Deleting Cells</title>
@@ -1161,10 +1161,10 @@ c:\Program Files\Gnome-Office\gnumeric
     in either the <guisubmenu>Sheet</guisubmenu> submenu in the
     <guimenu>Edit</guimenu> menu or in the sheet tab's context
     menu.
-    <!-- TODO: 
+<!-- TODO: add an xref to the 'Manage Sheets' dialog.
     For more information on this dialog, see <xref
     linkend="" />.
-    -->
+-->
   </para>
 
 
@@ -1356,7 +1356,8 @@ c:\Program Files\Gnome-Office\gnumeric
           </para>
         </step>
 
-        <step><!--Todo: update to "Graph"-->
+        <step>
+<!--TODO: update button label from "OK" to "Graph"-->
           <para>
             Click on the "Ok" button. This will make the druid
             disappear and leave the mouse cursor as a thin crosshair.
