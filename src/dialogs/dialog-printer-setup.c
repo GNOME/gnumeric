@@ -1269,7 +1269,6 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkWidget *order_rd  = glade_xml_get_widget (state->gui, "radio-order-right");
 	GtkWidget *order_dr  = glade_xml_get_widget (state->gui, "radio-order-down");
 	GtkWidget *order_table = glade_xml_get_widget (state->gui, "page-order-table");
-	GtkCombo *comments_combo;
 	GtkWidget *order;
 
 	state->area_entry = gnm_expr_entry_new (state->wbcg, TRUE);
@@ -1341,9 +1340,8 @@ do_setup_page_info (PrinterSetupState *state)
 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->top_entry)));
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (gnm_expr_entry_get_entry (state->left_entry)));
-	comments_combo = GTK_COMBO (glade_xml_get_widget (state->gui,
-							  "comments-combo"));
-	gnumeric_combo_enters (GTK_WINDOW (state->dialog), comments_combo);
+	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
+		glade_xml_get_widget (state->gui, "comments-combo"));
 
 	if (state->pi->repeat_top.use)
 		gnm_expr_entry_load_from_range (
@@ -1386,7 +1384,6 @@ do_setup_page (PrinterSetupState *state)
 	PrintInformation *pi = state->pi;
 	GtkWidget *scale_percent_spin, *scale_width_spin, *scale_height_spin;
 	GtkWidget *paper_selector;
-	GtkCombo *first_page_combo;
 	GtkTable *table;
 	GladeXML *gui;
 	const char *toggle;
@@ -1438,9 +1435,8 @@ do_setup_page (PrinterSetupState *state)
 		GTK_SPIN_BUTTON (scale_height_spin), pi->scaling.dim.rows);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_height_spin));
-	first_page_combo =
-		GTK_COMBO (glade_xml_get_widget (gui, "first-page-combo"));
-	gnumeric_combo_enters (GTK_WINDOW (state->dialog), first_page_combo);
+	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
+		glade_xml_get_widget (gui, "first-page-combo"));
 }
 
 static Sheet *
