@@ -227,35 +227,43 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 static void
 set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 {
-	MsOleSummaryPID	    pid;
+	gint		 sect;
+	MsOleSummaryPID	 pid;
 
-	if (sum_name_to_excel (s_item->name, &pid, ms_sum->ps_id) != 0) {
-	
-		switch (s_item->type) {
-	
-		case SUMMARY_STRING:
-			ms_ole_summary_set_string (ms_sum, pid, s_item->v.txt);
-			break;
-	
-		case SUMMARY_BOOLEAN:
-			ms_ole_summary_set_boolean (ms_sum, pid, s_item->v.boolean);
-			break;
+	for (sect = 0; sect < ms_sum->sections->len; sect++) {
+		MsOleSummarySection st;
 
-		case SUMMARY_SHORT:
-			ms_ole_summary_set_short (ms_sum, pid, s_item->v.short_i);
-			break;
+		st = g_array_index (ms_sum->sections, MsOleSummarySection, sect);
 
-		case SUMMARY_INT:
-			ms_ole_summary_set_long (ms_sum, pid, s_item->v.i);
-			break;
+		if (sum_name_to_excel (s_item->name, &pid, st.ps_id) != 0) {
 	
-		case SUMMARY_TIME:
-			ms_ole_summary_set_time (ms_sum, pid, s_item->v.time);
-			break;
+			switch (s_item->type) {
+
+			case SUMMARY_STRING:
+				ms_ole_summary_set_string (ms_sum, pid, s_item->v.txt);
+				break;
+
+			case SUMMARY_BOOLEAN:
+				ms_ole_summary_set_boolean (ms_sum, pid, s_item->v.boolean);
+				break;
+
+			case SUMMARY_SHORT:
+				ms_ole_summary_set_short (ms_sum, pid, s_item->v.short_i);
+				break;
+
+			case SUMMARY_INT:
+				ms_ole_summary_set_long (ms_sum, pid, s_item->v.i);
+				break;
+
+			case SUMMARY_TIME:
+				ms_ole_summary_set_time (ms_sum, pid, s_item->v.time);
+				break;
 	
-		default:
-			g_warning ("set_summary_item: Unsupported summary type - %d", s_item->type);
-			break;
+			default:
+				g_warning ("set_summary_item: Unsupported summary type - %d",
+					   s_item->type);
+				break;
+			}
 		}
 	
 	}

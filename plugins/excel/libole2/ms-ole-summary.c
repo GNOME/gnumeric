@@ -1,8 +1,9 @@
 /**
  * ms-ole-summary.c: MS Office OLE support
  *
- * Author:
- *    Michael Meeks (michael@imaginator.com)
+ * Authors:
+ *    Michael Meeks (mmeeks@gnu.org)
+ *    Frank Chiulli (fchiulli@home.com)
  * From work by:
  *    Caolan McNamara (Caolan.McNamara@ul.ie)
  * Built on work by:
@@ -16,13 +17,6 @@
 #include "ms-ole-summary.h"
 
 #define SUMMARY_ID(x) ((x) & 0xff)
-
-typedef struct {
-	/* Could store the FID, but why bother ? */
-	guint32   offset;
-	guint32   props;
-	guint32   bytes;
-} section_t;
 
 typedef struct {
 	guint32             offset;
@@ -54,15 +48,20 @@ const guint32	user_fmtid[4] = {
 
 
 static gboolean
-read_items (MsOleSummary *si, MsOlePropertySetID psid)
+read_items (MsOleSummary *si, MsOlePropertySetID ps_id)
 {
 	gint sect;
 	
 	for (sect = 0; sect < si->sections->len; sect++) {
-		section_t st = g_array_index (si->sections, section_t, sect);
+		MsOleSummarySection st;
 		guint8 data[8];
-		gint i;
+		gint   i;
 		
+		st = g_array_index (si->sections, MsOleSummarySection, sect);
+
+		if (st.ps_id != ps_id)
+			continue;
+
 		si->s->lseek (si->s, st.offset, MsOleSeekSet);
 		if (!si->s->read_copy (si->s, data, 8))
 			return FALSE;
@@ -81,7 +80,7 @@ read_items (MsOleSummary *si, MsOlePropertySetID psid)
 			item.id     = MS_OLE_GET_GUINT32 (data);
 			item.offset = MS_OLE_GET_GUINT32 (data + 4);
 			item.offset = item.offset + st.offset;
-			item.ps_id  = psid;
+			item.ps_id  = ps_id;
 			g_array_append_val (si->items, item);
 		}
 	}
@@ -224,10 +223,10 @@ ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 		return NULL;
 	}
 
-	si->sections = g_array_new (FALSE, FALSE, sizeof (section_t));
+	si->sections = g_array_new (FALSE, FALSE, sizeof (MsOleSummarySection));
 
 	for (i = 0; i < sections; i++) {
-		section_t sect;
+		MsOleSummarySection sect;
 		if (!s->read_copy (s, data, 16 + 4)) {
 			ms_ole_summary_close (si);
 			return NULL;
@@ -238,7 +237,8 @@ ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 			    MS_OLE_GET_GUINT32 (data +  4) == sum_fmtid[1] &&
 			    MS_OLE_GET_GUINT32 (data +  8) == sum_fmtid[2] &&
 			    MS_OLE_GET_GUINT32 (data + 12) == sum_fmtid[3]    ) {
-				si->ps_id = MS_OLE_PS_SUMMARY_INFO;
+				si->ps_id  = MS_OLE_PS_SUMMARY_INFO;
+				sect.ps_id = MS_OLE_PS_SUMMARY_INFO;
 			
 			} else {
 				ms_ole_summary_close (si);
@@ -250,13 +250,15 @@ ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 		            MS_OLE_GET_GUINT32 (data +  4) == doc_fmtid[1] &&
 		            MS_OLE_GET_GUINT32 (data +  8) == doc_fmtid[2] &&
 		            MS_OLE_GET_GUINT32 (data + 12) == doc_fmtid[3]    ) {
-				si->ps_id = MS_OLE_PS_DOCUMENT_SUMMARY_INFO;
+				si->ps_id  = MS_OLE_PS_DOCUMENT_SUMMARY_INFO;
+				sect.ps_id = MS_OLE_PS_DOCUMENT_SUMMARY_INFO;
 			
 			} else if (MS_OLE_GET_GUINT32 (data +  0) == user_fmtid[0] &&
 		            	   MS_OLE_GET_GUINT32 (data +  4) == user_fmtid[1] &&
 				   MS_OLE_GET_GUINT32 (data +  8) == user_fmtid[2] &&
 				   MS_OLE_GET_GUINT32 (data + 12) == user_fmtid[3]    ) {
-				si->ps_id = MS_OLE_PS_DOCUMENT_SUMMARY_INFO;
+				si->ps_id  = MS_OLE_PS_DOCUMENT_SUMMARY_INFO;
+				sect.ps_id = MS_OLE_PS_USER_DEFINED_SUMMARY_INFO;
 			
 			} else {
 				ms_ole_summary_close (si);
@@ -271,10 +273,15 @@ ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 
 	si->items = g_array_new (FALSE, FALSE, sizeof (item_t));
 
-	if (!read_items (si, si->ps_id)) {
-		g_warning ("Serious error reading items");
-		ms_ole_summary_close (si);
-		return NULL;
+	for (i = 0; i < sections; i++) {
+		MsOleSummarySection st;
+
+		st = g_array_index (si->sections, MsOleSummarySection, i);
+		if (!read_items (si, st.ps_id)) {
+			g_warning ("Serious error reading items");
+			ms_ole_summary_close (si);
+			return NULL;
+		}
 	}
 
 	return si;
@@ -530,8 +537,16 @@ seek_to_record (MsOleSummary *si, MsOleSummaryPID id)
 	for (i = 0; i < si->items->len; i++) {
 		item_t item = g_array_index (si->items, item_t, i);
 		if (item.id == SUMMARY_ID(id)) {
-			si->s->lseek (si->s, item.offset, MsOleSeekSet);
-			return &g_array_index (si->items, item_t, i);
+			gboolean is_summary, is_doc_summary;
+
+			is_summary     = ((si->ps_id == MS_OLE_PS_SUMMARY_INFO) && 
+					  (item.ps_id == MS_OLE_PS_SUMMARY_INFO));
+			is_doc_summary = ((si->ps_id == MS_OLE_PS_DOCUMENT_SUMMARY_INFO) && 
+					  (item.ps_id == MS_OLE_PS_DOCUMENT_SUMMARY_INFO));
+			if (is_summary || is_doc_summary) {
+				si->s->lseek (si->s, item.offset, MsOleSeekSet);
+				return &g_array_index (si->items, item_t, i);
+			}
 		}
 	}
 	return NULL;
@@ -628,8 +643,6 @@ ms_ole_summary_get_short (MsOleSummary *si, MsOleSummaryPID id,
 
 	if (type != TYPE_SHORT) { /* Very odd */
 		g_warning ("Summary short type mismatch");
-		printf ("Type expected: %#4.4x\n", TYPE_SHORT);
-		printf ("Type found   : %#4.4x\n", type);
 		return 0;
 	}
 
@@ -674,8 +687,6 @@ ms_ole_summary_get_boolean (MsOleSummary *si, MsOleSummaryPID id,
 
 	if (type != TYPE_BOOLEAN) { /* Very odd */
 		g_warning ("Summary boolean type mismatch");
-		printf ("Type expected: %#4.4x\n", TYPE_BOOLEAN);
-		printf ("Type found   : %#4.4x\n", type);
 		return 0;
 	}
 

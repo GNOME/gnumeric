@@ -13,7 +13,6 @@
 #ifndef MS_OLE_SUMMARY_H
 #define MS_OLE_SUMMARY_H
 
-
 /*
  *  MS Ole Property Set IDs
  *  The SummaryInformation stream contains the SummaryInformation property set.
@@ -26,7 +25,6 @@ typedef enum {
 	MS_OLE_PS_USER_DEFINED_SUMMARY_INFO
 } MsOlePropertySetID;
 
-
 typedef struct {
 	guint8              class_id[16];
 	GArray         	   *sections;
@@ -37,6 +35,13 @@ typedef struct {
 	MsOlePropertySetID  ps_id;
 } MsOleSummary;
 
+typedef struct {
+	/* Could store the FID, but why bother ? */
+	guint32             offset;
+	guint32             props;
+	guint32             bytes;
+	MsOlePropertySetID  ps_id;
+} MsOleSummarySection;
 
 MsOleSummary *  ms_ole_summary_open            (MsOle *f);
 MsOleSummary *  ms_ole_docsummary_open         (MsOle *f);

@@ -1,3 +1,25 @@
+1999-11-15  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-ole-summary.c: s/section_t/MsOleSummarySection/
+	update Authors. (seek_to_record): clean to please.
+
+1999-11-14  Frank Chiulli  <fchiulli@home.com>
+	
+	* ms-ole-summary.h : Added MsOlePropertySetID ps_id to the section_t 
+	  structure which was moved from ms-ole-summary.c.  
+
+	* ms-ole.summary.c : Move section_t structure definition to 
+	  ms-ole-summary.h.
+
+	* ms-ole-summary.c (ms_ole_summary_open_stream) : set ps_id in sect.
+	  Call read_items once for each section using ps_id from sect.
+
+	* ms-ole-summary.c (read_items) : Validate item's PropertySetID against
+	  the section's PropertySetID.
+
+	* ms-ole-summary.c (seek_to_record) : Only seek if item's ps_id
+	  matches the summary's ps_id.
+
 1999-11-12  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole-summary.c (ms_ole_summary_get_time): Fixed typo.
@@ -26,7 +48,7 @@
 
 	* ms-ole-summary.c (ms_ole_docsummary_open): quieten.
 
-1999-11-xx  Frank Chiulli  <fchiulli@home.com>
+1999-11-08  Frank Chiulli  <fchiulli@home.com>
 	
 	* ms-ole-summary.c : Added new field (ps_id, Property Set ID) to the
 	  structure item_t.  Define the Summary FMTIDs as constants.  Define
