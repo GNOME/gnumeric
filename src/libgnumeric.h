@@ -20,7 +20,8 @@ extern char const *gnumeric_locale_dir;
 
 void gnm_pre_parse_init (char const* gnumeric_binary);
 void gnm_common_init	(gboolean fast);
-int  gnm_dump_func_defs (char const* filename, gboolean def_or_state);
+int  gnm_dump_func_defs (char const* filename,
+			 int dump_type); /* changes as needed */
 void gnm_shutdown	(void);
 
 #endif /* GNUMERIC_LIBGNUMERIC_H */

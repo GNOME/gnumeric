@@ -395,6 +395,7 @@ static GnmFuncHelp const help_isprime[] = {
 	   "@DESCRIPTION="
 	   "ISPRIME function returns TRUE if @i is prime and FALSE otherwise.\n"
 	   "\n"
+	   "@EXAMPLES=\n"
 	   "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA")
     },
     { GNM_FUNC_HELP_END }

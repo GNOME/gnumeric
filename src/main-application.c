@@ -47,8 +47,10 @@
 #endif
 
 static int gnumeric_show_version = FALSE;
+static int split_funcdocs = FALSE;
 static char *func_def_file = NULL;
 static char *func_state_file = NULL;
+static char *func_po_file = NULL;
 
 int gnumeric_no_splash = FALSE;
 
@@ -65,6 +67,8 @@ gnumeric_popt_options[] = {
 	  N_("Dumps the function definitions"),   N_("FILE") },
 	{ "dump-func-state", '\0', POPT_ARG_STRING, &func_state_file, 0,
 	  N_("Dumps the function definitions"),   N_("FILE") },
+	{ "split-func", '\0', POPT_ARG_NONE, &split_funcdocs, 0,
+	  N_("Generate new help an po files"),   NULL },
 
 	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
 	  N_("Enables some debugging functions"), N_("LEVEL") },
@@ -281,7 +285,7 @@ main (int argc, char const *argv [])
 		return 0;
 	}
 
-	with_gui = !func_def_file && !func_state_file;
+	with_gui = !func_def_file && !func_state_file && !split_funcdocs;
 
 	if (with_gui)
 		gnm_session_init (argv[0]);
@@ -299,10 +303,12 @@ main (int argc, char const *argv [])
 		g_object_unref (cc);
 	}
 
-	if (func_def_file)
-		return gnm_dump_func_defs (func_def_file, TRUE);
 	if (func_state_file)
-		return gnm_dump_func_defs (func_state_file, FALSE);
+		return gnm_dump_func_defs (func_state_file, 0);
+	if (func_def_file)
+		return gnm_dump_func_defs (func_def_file, 1);
+	if (split_funcdocs)
+		return gnm_dump_func_defs (NULL, 2);
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));

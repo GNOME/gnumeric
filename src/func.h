@@ -8,8 +8,7 @@
 void functions_init     (void);
 void functions_shutdown (void);
 
-/* Used to build manual */
-void function_dump_defs (char const *filename, gboolean def_or_state);
+void function_dump_defs (char const *filename, int dump_type);
 
 /******************************************************************************/
 /* Function group support */

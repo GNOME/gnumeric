@@ -163,15 +163,19 @@ gnm_common_init (gboolean fast)
 	glade_init ();
 }
 
+/**
+ * TODO : do we really want this here ?
+ * seems like a better fit in main-application.c
+ **/
 int
-gnm_dump_func_defs (char const* filename, gboolean def_or_state)
+gnm_dump_func_defs (char const* filename, int dump_type)
 {
 	int retval;
 	GOCmdContext *cc = cmd_context_stderr_new ();
 
 	gnm_plugins_init (cc);
 	if ((retval = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc))) == 0)
-		function_dump_defs (filename, def_or_state);
+		function_dump_defs (filename, dump_type);
 
 	return retval;
 }

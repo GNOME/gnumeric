@@ -85,14 +85,84 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 	return g_ascii_strcasecmp (fda->name, fdb->name);
 }
 
+static void
+cb_generate_po (gpointer key, Symbol *sym, gpointer array)
+{
+	GnmFunc const *fd = sym->data;
+	char const *ptr;
+
+	if (fd->fn_type == GNM_FUNC_TYPE_STUB)
+		gnm_func_load_stub ((GnmFunc *) fd);
+
+	if (fd->help == NULL) {
+		g_warning ("'%s' : no help defined", fd->name);
+		return;
+	}
+	if (fd->help[0].type != GNM_FUNC_HELP_OLD) {
+		g_warning ("'%s' : wrong type of help '%d' != %d", fd->name,
+			   fd->help[0].type, GNM_FUNC_HELP_OLD);
+		return;
+	}
+	if (fd->help[0].text == NULL) {
+		g_warning ("'%s' : missing help text", fd->name);
+		return;
+	}
+
+	ptr = fd->help[0].text;
+	if (NULL == (ptr = strstr (ptr, "@FUNCTION="))) {
+		g_warning ("'%s' : missing @FUNCTION section", fd->name);
+		return;
+	}
+	if (NULL == (ptr = strstr (ptr, "@SYNTAX="))) {
+		g_warning ("'%s' : missing @SYNTAX section", fd->name);
+		return;
+	}
+	if (NULL == (ptr = strstr (ptr, "@DESCRIPTION="))) {
+		g_warning ("'%s' : missing @DESCRIPTION section", fd->name);
+		return;
+	}
+	if (NULL == (ptr = strstr (ptr, "@EXAMPLES="))) {
+		g_warning ("'%s' : missing @EXAMPLES section", fd->name);
+		return;
+	}
+	if (NULL == (ptr = strstr (ptr, "@SEEALSO="))) {
+		g_warning ("'%s' : missing @SEEALSO section", fd->name);
+		return;
+	}
+}
+
+static void
+generate_po ()
+{
+	g_hash_table_foreach (global_symbol_table->hash,
+		(GHFunc) cb_generate_po, NULL);
+}
+
+/**
+ * function_dump_defs :
+ * @filename :
+ * @dump_type :
+ *
+ * A generic utility routine to operate on all funtion defs
+ * in various ways.  @dump_type will change/extend as needed
+ * Right now
+ * 0 : 
+ * 1 : 
+ * 2 :
+ **/
 void
-function_dump_defs (char const *filename, gboolean as_def)
+function_dump_defs (char const *filename, int dump_type)
 {
 	FILE *output_file;
 	char *up;
 	unsigned i;
 	GPtrArray *ordered;
 	GnmFuncGroup const *group = NULL;
+
+	if (dump_type == 2) {
+		generate_po ();
+		return;
+	}
 
 	g_return_if_fail (filename != NULL);
 
@@ -111,7 +181,7 @@ function_dump_defs (char const *filename, gboolean as_def)
 		       ordered->len, sizeof (gpointer),
 		       func_def_cmp);
 
-	if (!as_def) {
+	if (dump_type == 0) {
 		int unique = 0;
 		for (i = 0; i < ordered->len; i++) {
 			GnmFunc const *fd = g_ptr_array_index (ordered, i);
@@ -170,10 +240,10 @@ function_dump_defs (char const *filename, gboolean as_def)
 
 	for (i = 0; i < ordered->len; i++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
-		if (as_def) {
+		if (dump_type == 1) {
 			fprintf (output_file, "@CATEGORY=%s\n%s\n\n",
 				 _(fd->fn_group->display_name->str), _(fd->help[0].text));
-		} else {
+		} else if (dump_type == 0) {
 			static struct {
 				char const *name;
 				char const *klass;
@@ -229,7 +299,7 @@ function_dump_defs (char const *filename, gboolean as_def)
 			fprintf (output_file,"</tr>\n");
 		}
 	}
-	if (!as_def) {
+	if (dump_type == 0) {
 		if (group) fprintf (output_file, "</table></div>\n");
 		fprintf (output_file, "<!--#include virtual=\"footer.shtml\"-->\n");
 	}

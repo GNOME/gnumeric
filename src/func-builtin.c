@@ -45,7 +45,7 @@ static GnmFuncHelp const help_sum[] = {
 	   "11, 15, 17, 21, and 43.  Then\n"
 	   "SUM(A1:A5) equals 107.")
     },
-    { GNM_FUNC_HELP_SEEALSO, "AVERAGE, COUNT" },
+    { GNM_FUNC_HELP_SEEALSO, "AVERAGE,COUNT" },
     { GNM_FUNC_HELP_END }
 };
 
