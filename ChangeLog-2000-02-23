@@ -1,7 +1,3 @@
-1999-12-14  Cort Dougan  <cort@ppc.kernel.org>
-
-	* src/corba-sheet.c: things tragicaly lost during transfer.
-
 1999-12-14  Joe Sakosky <josak@ibm.net>
 
 	* src/file.c: privatized FileOpener FileSaver.
