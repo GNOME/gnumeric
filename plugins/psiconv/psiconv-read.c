@@ -609,7 +609,8 @@ psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 	if ((config = psiconv_config_default()) == NULL)
 		goto out;
 	psiconv_config_read(NULL,&config);
-	if (psiconv_parse(config, buf,&psi_file) != 0 || psi_file == NULL) {
+	if (psiconv_parse(config, buf, &psi_file) != 0) {
+		psi_file = NULL;
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str(_("Error while parsing Psion file.")));
 		goto out;
