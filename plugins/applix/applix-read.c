@@ -258,7 +258,7 @@ applix_get_colour (ApplixReadState *state, char **buf)
 static int
 applix_get_precision (char const *val)
 {
-	if (0 <= *val && *val <= '9')
+	if ('0' <= *val && *val <= '9')
 		return *val - '0';
 	if (*val != 'f')
 		g_warning ("APPLIX : unknow number format %c", *val);
