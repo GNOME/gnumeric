@@ -1,3 +1,4 @@
+gnumeric_pythondir = $(gnumeric_datadir)/python
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
     -I$(includedir)	-I$(top_srcdir)/src		\
@@ -12,7 +13,6 @@ python_la_LDFLAGS = -module -avoid-version $(PY_LIB_LOC)
 python_la_LIBADD = -l$(PY_LIBS) $(PY_EXTRA_LIBS)
 python_la_SOURCES = python.c
 
-gnumeric_pythondir = $(gnumeric_datadir)/python
 Pythonscriptsdir = $(gnumeric_pythondir)
 Pythonscripts_DATA = gnumeric_startup.py gnumeric_defs.py
 
