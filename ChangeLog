@@ -1,3 +1,10 @@
+2001-02-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_object_move) : split out from the
+	  control point motion handler.
+	(cb_control_point_event) : Use it here.
+	(cb_slide_handler) : and here.
+
 2001-02-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-grid.c (item_grid_draw) : Last couple of intersection
