@@ -37,6 +37,8 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <workbook-edit.h>
 
+#include <string.h>
+
 typedef struct {
 	WorkbookControlGUI *wbcg;
 	SheetView	   *sv;

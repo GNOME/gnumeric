@@ -73,6 +73,7 @@
 #include "consolidate.h"
 
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
 
 /*
  * There are several distinct stages to wrapping each command.

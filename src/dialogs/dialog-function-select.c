@@ -38,6 +38,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
+#include <string.h>
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"

@@ -42,6 +42,7 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
+#include <string.h>
 
 #define DEFINE_NAMES_KEY "define-names-dialog"
 

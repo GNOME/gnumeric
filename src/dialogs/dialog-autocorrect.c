@@ -42,6 +42,7 @@
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
+#include <string.h>
 
 typedef struct {
 	gboolean	 changed;

@@ -37,6 +37,7 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include "simulation.h"
 
+#include <string.h>
 
 #define SIMULATION_KEY         "simulation-dialog"
 

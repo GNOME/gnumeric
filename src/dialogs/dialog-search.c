@@ -41,6 +41,7 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
+#include <string.h>
 
 #define SEARCH_KEY "search-dialog"
 

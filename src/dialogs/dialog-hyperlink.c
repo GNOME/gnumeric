@@ -35,6 +35,7 @@
 #include <value.h>
 #include <workbook-edit.h>
 #include <gnumeric-i18n.h>
+#include <string.h>
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;

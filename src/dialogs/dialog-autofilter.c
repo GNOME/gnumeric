@@ -34,6 +34,7 @@
 #include <number-match.h>
 
 #include <glade/glade.h>
+#include <string.h>
 
 typedef struct {
 	GladeXML           *gui;

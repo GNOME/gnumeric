@@ -4058,7 +4058,7 @@ analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,
 		dao_adjust (dao, 
 			    1 + (1 + (info->cumulative ? 1 : 0) +
 				 (info->percentage ? 1 : 0)) * g_slist_length (info->input), 
-			    2 + (info->bin ? g_slist_length (info->bin) : info->n) +
+			    2 + (info->bin ? (int)g_slist_length (info->bin) : info->n) +
 			    (info->labels ? 1 : 0));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:

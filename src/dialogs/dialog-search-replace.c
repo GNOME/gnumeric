@@ -32,6 +32,7 @@
 
 #include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
+#include <string.h>
 
 #define SEARCH_REPLACE_KEY "search-replace-dialog"
 

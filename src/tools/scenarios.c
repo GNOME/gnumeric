@@ -45,6 +45,8 @@
 #include "style-color.h"
 #include "parse-util.h"
 
+#include <string.h>
+
 /* Generic stuff **********************************************************/
 
 scenario_t *

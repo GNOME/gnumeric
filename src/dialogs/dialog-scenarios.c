@@ -38,6 +38,7 @@
 #include <dao.h>
 #include "scenarios.h"
 #include <glade/glade.h>
+#include <string.h>
 
 typedef GenericToolState ScenariosState;
 

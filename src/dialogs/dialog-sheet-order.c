@@ -43,6 +43,7 @@
 
 #include <glade/glade.h>
 #include <gal/widgets/widget-color-combo.h>
+#include <string.h>
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;

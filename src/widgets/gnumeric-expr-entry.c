@@ -33,7 +33,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtkcelleditable.h>
 #include <gdk/gdkkeysyms.h>
-#include <stdio.h>
+#include <string.h>
 
 typedef struct {
 	int text_start;
