@@ -424,12 +424,11 @@ format_page_update_preview (StfDialogData *pagedata)
 			char * label_text = g_strdup_printf 
 				(pagedata->format.col_header, i+1);
 			GtkWidget *label = gtk_label_new (label_text);
-			GnmFormat *sfg = style_format_general ();
+			const GnmFormat *sfg = style_format_general ();
 			GtkWidget *format_label = gtk_label_new 
 				(number_format_selector_format_classification (sfg));
 			
 			g_free (label_text);
-			style_format_unref (sfg);
 			gtk_misc_set_alignment (GTK_MISC (format_label), 0, 0);
 			gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
 

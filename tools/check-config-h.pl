@@ -99,6 +99,7 @@ sub guess_config_file {
     while (<FIL>) {
         if (/^AM_CONFIG_HEADER\((.*)\)/) {
             $configfile = $1;
+            $configfile =~ s/^\[(.*)\]$/$1/;
         }
     }
     close (FIL);

@@ -63,6 +63,9 @@ features+= --without-guile
 
 features+= --without-gb
 
+# Paradox database files plugin
+features+= --with-paradox
+
 confflags :=	--prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var/lib \
 		--libexecdir=/usr/bin \

@@ -38,6 +38,8 @@ GSList *go_file_split_uris (const char *data);
 
 gchar *go_url_decode (gchar const *text);
 gchar *go_url_encode (gchar const *text);
+GError *go_url_show   (gchar const *url);
+GError *go_url_mailto (gchar const *url);
 
 /*****************************************************************************/
 

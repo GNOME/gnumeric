@@ -645,9 +645,8 @@ mps_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	if (ctxt != NULL) {
 	        mps_parse_file (ctxt);
 		if (gnumeric_io_error_occurred (io_context)) {
-		        gnumeric_io_error_push (io_context, error_info_new_str
-						(_("Error while reading MPS "
-						   "file.")));
+		        gnumeric_io_error_push (io_context,
+				go_error_stack_new (NULL, _("Error while reading MPS file.")));
 		} else
 			mps_create_sheet (ctxt, wbv);
 		mps_input_context_destroy (ctxt);

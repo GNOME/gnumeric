@@ -8,7 +8,7 @@
     <itemizedlist>
 
      <listitem>
-        <para><guilabel>New users</guilabel>
+        <para><emphasis role="bold">New users</emphasis>
         </para>
         <para>
           If you are new to computers or to spreadsheets consider
@@ -19,7 +19,7 @@
         </para>
       </listitem>
       <listitem>
-        <para><guilabel>Users who want specific help</guilabel>
+        <para><emphasis role="bold">Users who want specific help</emphasis>
         </para>
         <para>
           Quickly finding help for a particular question can be quite
@@ -47,7 +47,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-quick-start" />: 
-              <guilabel>A Quick Introduction</guilabel>
+              <emphasis role="bold">A Quick Introduction</emphasis>
         </para>
         <para>
           The best way to learn how to use
@@ -66,7 +66,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-gui-elements" />:
-              <guilabel>Gnumeric Elements</guilabel>
+              <emphasis role="bold">Gnumeric Elements</emphasis>
         </para>
         <para>
           This chapter describes all of the pieces of
@@ -80,7 +80,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-data" />: 
-              <guilabel>Working with Data</guilabel>
+              <emphasis role="bold">Working with Data</emphasis>
         </para>
         <para>
           This chapter explains the core functionality of
@@ -96,7 +96,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-advanced-analysis" />: 
-              <guilabel>Advanced Analysis</guilabel>
+              <emphasis role="bold">Advanced Analysis</emphasis>
         </para>
         <para>
           This chapter explains many of the advanced analytic tools
@@ -108,8 +108,8 @@
 
       <listitem>
 	<para>
-	  <xref linkend="chapter-graphics" />: <guilabel>Graphics:
-              Plots, Images, Widgets, and Drawings</guilabel> 
+	  <xref linkend="chapter-graphics" />: <emphasis role="bold">Graphics:
+              Plots, Images, Widgets, and Drawings</emphasis> 
 	</para> 
 	<para> 
 	  This chapter explains how to add graphical elements to a
@@ -120,21 +120,27 @@
 	</para> 
       </listitem>
 
+<!--
+
       <listitem>
 	<para>
 	  <xref linkend="chapter-worksheets" />: 
-              <guilabel>Managing and Viewing Worksheets</guilabel>
+              <emphasis role="bold">Using Worksheets</emphasis>
         </para>
+
         <para>
-          This chapter explains how to manage worksheets and
-          manipulate the view of the worksheet contents.
+          This chapter explains the use and manipulation of worksheets
+          in &gnum;. The chapter explains how to move around a
+          worksheet, how to alter the appearance and display organization of
+          the worksheet contents, how to manipulate entire worksheets
+          and how to protect worksheet contents.
 	</para>
       </listitem>
 
       <listitem>
 	<para>
 	  <xref linkend="chapter-workbooks" />: 
-              <guilabel>Workbook Settings</guilabel>
+              <emphasis role="bold">Workbook Settings</emphasis>
         </para>
         <para>
           This chapter explains the contents of a
@@ -148,10 +154,12 @@
 	</para>
       </listitem>
 
+-->
+
       <listitem>
 	<para>
 	  <xref linkend="chapter-configuring" />: 
-              <guilabel>Configuring Gnumeric</guilabel>
+              <emphasis role="bold">Configuring Gnumeric</emphasis>
         </para>
         <para>
           This chapter explains how to change the default behaviour of
@@ -163,7 +171,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-files" />: 
-              <guilabel>Working with Files</guilabel>
+              <emphasis role="bold">Working with Files</emphasis>
         </para>
         <para>
           This chapter explains how to use files in &gnum;. The
@@ -178,7 +186,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-printing" />: 
-              <guilabel>Printing</guilabel>
+              <emphasis role="bold">Printing</emphasis>
         </para>
         <para>
           This chapter explains how to print spreadsheets, tables and
@@ -191,7 +199,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-morehelp" />: 
-              <guilabel>Getting More Help</guilabel>
+              <emphasis role="bold">Getting More Help</emphasis>
         </para>
         <para>
           This chapter describes other sources of help which are
@@ -206,7 +214,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-bugs" />: 
-              <guilabel>Reporting a Problem</guilabel>
+              <emphasis role="bold">Reporting a Problem</emphasis>
         </para>
         <para>
            This chapter explains how to report a problem with
@@ -219,7 +227,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-getting-involved" />: 
-              <guilabel>Getting Involved</guilabel>
+              <emphasis role="bold">Getting Involved</emphasis>
         </para>
         <para>
            This chapter explains how to get involved in the &gnum; project,
@@ -232,7 +240,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-installing" />: 
-              <guilabel>Installing &gnum;</guilabel>
+              <emphasis role="bold">Installing &gnum;</emphasis>
         </para>
         <para>
            This chapter explains how to install &gnum; using previously
@@ -244,7 +252,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-compiling" />: 
-              <guilabel>Compiling &gnum;</guilabel>
+              <emphasis role="bold">Compiling &gnum;</emphasis>
         </para>
         <para>
            This chapter explains how to compiling the &gnum; source
@@ -258,7 +266,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-extending" />: 
-              <guilabel>Extending Gnumeric</guilabel>
+              <emphasis role="bold">Extending Gnumeric</emphasis>
         </para>
         <para>
           This chapter explains how to go about extending
@@ -271,7 +279,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-programing" />: 
-              <guilabel>Programing &gnum;</guilabel>
+              <emphasis role="bold">Programing &gnum;</emphasis>
         </para>
         <para>
            This chapter explains how to work programing the internals
@@ -285,7 +293,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-documenting" />: 
-              <guilabel>Improve this manual</guilabel>
+              <emphasis role="bold">Improve this manual</emphasis>
         </para>
         <para>
            This chapter explains how to help improve this manual by
@@ -297,7 +305,7 @@
       <listitem>
 	<para>
 	  <xref linkend="chapter-about" />: 
-              <guilabel>About Gnumeric</guilabel>
+              <emphasis role="bold">About Gnumeric</emphasis>
         </para>
         <para>
           This chapter provides some background information on the
@@ -310,7 +318,7 @@
       <listitem>
 	<para>
 	  <xref linkend="function-reference" />: 
-              <guilabel>Function Reference</guilabel>
+              <emphasis role="bold">Function Reference</emphasis>
         </para>
         <para>
           This appendix provides a list of all the functions which are
@@ -321,7 +329,7 @@
       <listitem>
 	<para>
 	  <xref linkend="keybinding" />: 
-              <guilabel>Keybinding Reference</guilabel>
+              <emphasis role="bold">Keybinding Reference</emphasis>
         </para>
         <para>
           This appendix lists the keyboard shortcuts which are defined
@@ -333,7 +341,7 @@
       <listitem>
 	<para>
 	  <xref linkend="glossary" />: 
-              <guilabel>Glossary</guilabel>
+              <emphasis role="bold">Glossary</emphasis>
         </para>
         <para>
           This appendix defines certain terms used in this manual.
@@ -345,7 +353,7 @@
       <listitem>
 	<para>
 	  <xref linkend="index" />: 
-              <guilabel>Index</guilabel>
+              <emphasis role="bold">Index</emphasis>
         </para>
         <para>
           The index provides a link to the concepts used in this manual.

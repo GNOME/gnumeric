@@ -1,5 +1,11 @@
-<sect1 id="keybindings">
-  <title>Gnumeric Keybindings</title>
+<appendix id="keybinding">
+  <title>Keybinding Reference</title>
+
+  <para>
+    This appendix lists the keyboard shortcuts which are defined by
+    default in <application>Gnumeric</application>.
+  </para>
+
   <para>
     Keybindings are combinations of keystrokes which tell an application to
     run a task.  These can greatly speed-up the user's interactions
@@ -54,6 +60,11 @@
       <para>
 	<keycap>Ctrl-F3</keycap> opens the <interface>Define Name</interface>
 	dialog window.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>F4</keycap> repeat the last action.
       </para>
     </listitem>
     <listitem>
@@ -126,4 +137,4 @@
     </listitem>
 
   </itemizedlist>
-</sect1>
+</appendix>

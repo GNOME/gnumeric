@@ -62,13 +62,6 @@
       the user clicks on the arrow, a list of available options
       appears.
     </para>
-
-    <para>
-      The toolbars can be configured by a context-menu which opens
-      when the user clicks with a particular mouse button on an empty
-      part of the toolbars or on the toolbar handle. This menu is
-      explained in <xref linkend="menu-context-toolbars" />.
-    </para>
     
   </sect2>
 

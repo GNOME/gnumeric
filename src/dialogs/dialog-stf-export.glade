@@ -2,7 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="text-export">
   <property name="title" translatable="yes">Export as Text</property>
@@ -396,6 +395,7 @@
 			      <property name="fill">False</property>
 			    </packing>
 			  </child>
+
 			  <child>
 			    <widget class="GtkButton" id="sheet_up">
 			      <property name="visible">True</property>
@@ -691,7 +691,7 @@ Never</property>
 		      <property name="max_length">0</property>
 		      <property name="text" translatable="yes"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
+		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>

@@ -1,3 +1,32 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(surf)) : prep but leave ifdefed to avoid problems
+	  with XL's funky representation of axes.
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_WINDOW2) : document rtl
+	* ms-excel-write.c (excel_write_WINDOW2) : ditto
+
+2004-11-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* ms-chart.c (BC_R(radararea)): type of area radar is
+	GogRadarAreaPlot.
+	(chart_write_plot): ditto.
+
+2004-11-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (ms_excel_chart_write) : ultra-basic handling of graphs
+	  with multiple charts
+
 2004-11-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_SETUP) : hide some spurious debug spew

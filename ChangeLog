@@ -1,3 +1,143 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* src/cell-draw.c (cell_calc_layout) : set wrapmode to word-char
+	  rather than the default word so that long words will wrap
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_object_start_resize) : Add an
+	  'is_creation' argument to avoid pretending we're creating an object
+	  when clicking and releasing on the lower right resize marker.
+
+2004-12-08  Jody Goldberg <jody@gnome.org>
+
+	* src/hlink.c (gnm_hlink_url_activate) : use go_url_show
+	* src/wbcg-actions.c (cb_help_web) : ditto.
+	(cb_help_irc) : ditto
+	(cb_help_bug) : ditto
+
+2004-12-06  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_dump_defs): Use CSS for styling.
+
+2004-12-03  Jody Goldberg <jody@gnome.org>
+
+	* src/file-autoft.c (category_get_templates_list) : Use GDir in place
+	  of struct dirent this is more portable.
+	(category_list_get_from_dir_list) : ditto.
+	* src/plugin.c (plugin_info_list_read_for_subdirs_of_dir) : ditto.
+
+2004-11-30  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=160046
+	* src/libgnumeric.c (gnm_pre_parse_init) : get the right pixmap and
+	  translation paths for win32.
+
+2004-11-30  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_x_w2c) : new.
+
+2004-11-30  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-so-line.c (so_line_view_set_bounds): Make sure sheet
+	object direction is set.
+	(gnm_so_line_get_property): Handle SOL_PROP_IS_ARROW for
+	completeness.
+
+2004-11-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157732
+	* src/gnumeric-pane.c (gnm_pane_display_obj_size_tip) : fix sign of
+	  kludge
+
+2004-11-29  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (gnumeric.desktop): Add bugzilla version info.
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : post release bump
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-26  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=159581 #1
+	* src/application.c (gnm_app_clipboard_cut_copy_obj) : patch leak
+
+2004-11-26  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=159577
+	* src/format.c (gnm_format_parse_markup) : return NULL on error
+
+2004-11-26  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-file.c (gui_file_open) : Add a hook to open template files.
+	  This is cheesy, but is better than nothing.
+
+2004-11-26  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=159365
+	* src/commands.c (gnm_reloc_undo_release) : new
+	(cmd_ins_del_colrow_finalize) : use it
+	(cmd_paste_cut_finalize) : use it.
+	(gnm_reloc_undo_apply) : new
+	(cmd_ins_del_colrow_undo) : use it.
+	(cmd_paste_cut_undo) : use it.
+
+	* src/sheet-object.c (sheet_objects_relocate) : store lost objects
+
+	* src/sheet.c (sheet_colrow_insdel_finish) : take an optional undo
+	  storage
+	(sheet_colrow_insert_finish) : ditto.
+	(sheet_colrow_delete_finish) : ditto.
+	(sheet_insert_cols) : pass the undo info
+	(sheet_delete_cols) : ditto.
+	(sheet_insert_rows) : ditto.
+	(sheet_delete_rows) : ditto.
+	(sheet_move_range) : pass undo info to sheet_objects_relocate
+
+2004-11-21  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-view.c (sv_panes_insdel_colrow) : be more careful
+	  inserting large numbers of cols/rows
+
+2004-11-21  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_insert_rows) : no need to test when inserting
+	  SHEET_MAX_ROWS
+	(sheet_insert_cols) : ditto for SHEET_MAX_COLS
+
+2004-11-21  Jon K Hellan  <hellan@acm.org>
+
+	* src/ssindex.c: #include gog-object.h
+
+2004-11-19  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Add ssindex but leave it disabled by default because
+	  it relies on unreleased changes to libgsf
+
+2004-11-19  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c (gnm_font_find_closest_from_weight_slant) : add some
+	  protection.
+
+2004-11-19  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-gconf.c (gnm_conf_init_printer_decoration_font) : add a
+	  default in case conf lookup fails.
+	(gnm_conf_init_essential) : fix swapped max and default for print zoom
+
+2004-11-18  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (sheet_print): Fix leak for preview.  (#158566)
+
 2004-11-15  Jody Goldberg <jody@gnome.org>
 
 	* src/stf.c (stf_init) : register some suffixes and mime types

@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <malloc.h>
 
 #define BIGNUMBER    1.0e+30
 #define TINYNUMBER   1.0e-4

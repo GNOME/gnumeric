@@ -64,11 +64,12 @@ gnumeric.keys: gnumeric.keys.in Makefile
 gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po)
 	 LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
 if WITH_GNOME
-	sed -e 's/F_OR_U/U/' <$@.tmp >$@
+	sed -e 's/F_OR_U/U/' <$@.tmp >$@.tmp2
 else
-	sed -e 's/F_OR_U/F/' <$@.tmp >$@
+	sed -e 's/F_OR_U/F/' <$@.tmp >$@.tmp2
 endif
-	rm -f $@.tmp
+	sed -e 's/BUGZILLAVERSION/@VERSION@/' <$@.tmp2 >$@
+	rm -f $@.tmp $@.tmp2
 
 dist-hook: gnumeric.spec
 	-cd $(distdir) ; rm -f $(server_in_files) $(server_DATA)

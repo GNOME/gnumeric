@@ -11,10 +11,11 @@
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
 -->
 
+
   <!ENTITY app "Gnumeric">
-  <!ENTITY appversion "1.3">
-  <!ENTITY manrevision "1.3">
-  <!ENTITY date "May 2004">
+  <!ENTITY appversion "1.4">
+  <!ENTITY manrevision "1.4">
+  <!ENTITY date "November 2004">
   <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, 
            comma separated CSV, Applix,  Lotus 1-2-3, GNU oleo">
   <!ENTITY gnum "<application>Gnumeric</application>">
@@ -144,7 +145,8 @@
 
     <copyright>
       <year>2004</year>
-      <holder>Adrian Custer, Ray Dassen, Jody Goldberg.
+      <holder>Adrian Custer, Ray Dassen, Jody Goldberg, 
+              Andreas Guelzow.
       </holder> 
     </copyright>
   <!-- translators: uncomment this:
@@ -159,7 +161,7 @@
       <holder>Kevin Breit, Adrian Custer, Ray Dassen, 
               Jody Goldberg, Andreas J. Guelzow, Jon K. Hellan, 
               Jukka-Pekka Iivonen, Alexander Kirillov, 
-              Charles Twardy.
+              Charles Twardy, Sebastian Klost, Thomas Miesbauer.
       </holder> 
     </copyright>
   <!-- translators: uncomment this:
@@ -269,9 +271,19 @@
         <email>kirillov@math.sunysb.edu</email>
       </author>
       <author> 
+        <firstname>Sebastian</firstname>
+	<surname>Klost</surname> 
+        <email>sebastian.klost@gmx.de</email>
+      </author>
+      <author> 
         <firstname>Gregory</firstname>
 	<surname>Leblanc</surname>
         <email>gleblanc@linuxweasel.com</email>
+      </author>
+      <author> 
+        <firstname>Thomas</firstname>
+	<surname>Miesbauer</surname> 
+        <email>thomas.miesbauer@web.de</email>
       </author>
       <author> 
         <firstname>Wayne</firstname>
@@ -414,7 +426,7 @@
 
     <note>
       <para>
-        <guilabel>Getting started with computers</guilabel>
+        <emphasis role="bold">Getting started with computers</emphasis>
       </para>
 
       <para>
@@ -432,8 +444,9 @@
 
       <para>
         If you are using the GNOME desktop environment, you can read
-        the <ulink type="help" url="ghelp:user-guide">the GNOME User
-        Guide</ulink> for help in getting started with computers.
+        the <ulink type="help" url="ghelp:user-guide">the GNOME
+        Desktop User Guide</ulink> for help in getting started with
+        computers.
       </para>
 
       <para>
@@ -547,13 +560,17 @@
   </chapter>
 
 
+<!-- 
 
   <chapter id="chapter-worksheets">
-    <title>Managing and Viewing Worksheets</title>
+    <title>Using Worksheets</title>
 
     <para>
-      This chapter explains how to manage worksheets and manipulate
-      the view of the worksheet contents.
+      This chapter explains the use and manipulation of worksheets in
+      &gnum;. The chapter explains how to move around a worksheet, how
+      to alter the appearance and display organization of the
+      worksheet contents, how to manipulate entire worksheets and how
+      to protect worksheet contents.
     </para>
 
     &f-worksheets;
@@ -580,7 +597,7 @@
 
   </chapter>
 
-
+-->
 
   <chapter id="chapter-configuring">
     <title>Configuring Gnumeric</title>
@@ -592,8 +609,8 @@
     </para>
 
     &config-overview;
-    &config-toolbars;
     &config-preferences;
+    &config-toolbars;
     &config-plugins;
     &config-localization;
 
@@ -800,33 +817,8 @@
 
 <!-- ============= Appendices ================================ -->
 
-
-  <appendix id="function-reference">
-    <title>Function Reference</title>
-
-    <para>
-      This appendix provides a list of all the functions which are
-      currently defined in <application>Gnumeric</application>.
-    </para>
-
     &function-ref;
-
-  </appendix>
-
-
-
-  <appendix id="keybinding">
-    <title>Keybinding Reference</title>
-
-    <para>
-      This appendix lists the keyboard shortcuts which are defined by
-      default in <application>Gnumeric</application>.
-    </para>
-
     &appendix-keybindings;
-
-  </appendix>
-
 
 
 <!--

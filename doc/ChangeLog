@@ -1,3 +1,21 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-12-02  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-doc.make : fix the icon paths
+	  tune the chunking now that we dropped the pointless wrappers in the
+	  appendicies
+
+2004-12-01  Jody Goldberg <jody@gnome.org>
+
+	* make-func-list.pl : drop empty refpurpose nodes
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
 2004-11-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.93

@@ -8,16 +8,20 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    : debian 272697
     : Use GNOME Recent for the gnome build
-    : kasal's popt patch
-    : Printing is zoomed for non-gnome build
     : tie the custom ui into action sensitivity pools
+    : kasal's popt patch
+    : JHM's 2nd paper size patch
+    : emmanuel's legend resize patch
+    : emmanuel's disable theme patch for xy plots with only lines
+    : support array evaluation for =LARGE and friends
+    http://bugzilla.gnome.org/show_bug.cgi?id=157997
+    : image import from xl95
+    http://bugzilla.gnome.org/show_bug.cgi?id=159581
+    : undo has dep leaks
 
 Worries
 -------
-
-    : provide undo for dropped objects from sheet_objects_relocate
     : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
     : Select graph, Copy, and paste to Emacs: used to crash, but now it
@@ -38,7 +42,7 @@ Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
 
-    : F4 is not working {gtk bug}
+    : F4 is not working {gtk #151541, fixed 2004-11-28, 2.5.6)
 
     http://bugzilla.gnome.org/show_bug.cgi?id=151610
     : crash 	: fixed
@@ -49,12 +53,18 @@ Worries
     selected add "Unhide column to the left" and "... right" to the context
     menu (when relevant).
 
+After Branch
+------------
+    : update foocanvas to include the expose patch
+
 -------------------------------------------------------------------------------
-Pending Patches
+Blocked Patches
 ---------------
 
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
+    http://bugzilla.gnome.org/show_bug.cgi?id=126513
+    - handling of character encoding in stf export
 
 -------------------------------------------------------------------------------
 Architecture Changes
@@ -135,6 +145,72 @@ Architecture Changes
 	    8.13.3.2) text boxes
 	8.13.4) export RSTRING (95 & 97)			(DONE)
     8.14) editing while zoomed					(DONE)
+9) RTL
+    9.1) Drawing
+	9.1.1) item-bar
+	    9.1.1.1) col header
+		9.1.1.1.1) draw heading				(DONE)
+		9.1.1.1.2) button up/down			(DONE)
+		9.1.1.1.3) cursors				(DONE)
+		9.1.1.1.4) drag resize
+		9.1.1.1.4) grouping symbols
+	    9.1.1.2) row header
+		9.1.1.2.1) grouping symbols
+	9.1.2) item-cursor
+	    9.1.2.1) basic drawing				(DONE)
+	    9.1.2.2) motion					(DONE)
+	    9.1.2.3) drag autoscroll
+	    9.1.2.4) re-position the autofill handle
+	9.1.3) item-grid					(DONE)
+	    9.1.3.1) single cells				(DONE)
+	    9.1.3.2) outline borders				(DONE)
+	    9.1.3.4) diagonal borders				(DONE)
+	    9.1.3.5) spans					(DONE)
+	    9.1.3.5) merges					(DONE)
+	9.1.4) item-edit
+	    9.1.4.1) basic					(DONE)
+	    9.1.4.2) at the margins				(DONE)
+	    9.1.4.3) mouse events
+	    9.1.4.4) right alignment editing
+	    9.1.4.4) center alignment editing
+    9.2) spans (cheat swap left/right align)			(DONE)
+    9.3) Model
+	9.3.1) Add GtkAction					(DONE)
+	9.3.2) Store state in scg				(DONE)
+	9.3.3) Store state in view				(DONE)
+	9.3.4) Store state in sheet				(DONE)
+	9.3.5) Update view when sheet changes			(DONE)
+	9.3.6) update sheet-controls when view changes		(DONE)
+	9.3.7) update wbcg when view changes			(DONE)
+	9.3.8) update wbcg when switching tabs 			(DONE)
+	9.3.9) Add a new style element for text dir		(DONE)
+	9.3.10) swap action icon depending on state
+	9.3.11) Add entry to format dialog to set text dir
+    9.4) Persistence
+	9.4.1) xml dom
+	    9.4.1.1) in
+	    9.4.1.2) out
+	9.4.2) xml sax
+	    9.4.2.1) in
+	    9.4.2.2) out
+	9.4.2) xls						(DONE)
+	    9.4.2.1) 97 in					(DONE)
+		9.4.2.1.1) sheet				(DONE)
+		9.4.2.1.2) style/XF				(DONE)
+	    9.4.2.2) 97 out					(DONE)
+		9.4.2.2.1) sheet				(DONE)
+		9.4.2.2.2) style/XF				(DONE)
+	9.4.3) csv
+	9.4.4) html
+	9.4.5) latex
+	9.4.6) sylk
+	9.4.7) dif
+    9.5) Printing
+    9.6) Add entry in manage sheet dialog
+    9.7) Add entry to tab context menu
+    9.8) Set default value depending on LC_MESSAGE
+    9.9) check autofilters
+    9.10) cell comments
 
 -------------------------------------------------------------------------------
 Target Features
@@ -407,8 +483,8 @@ Short Term Goals
 	1.32.3) axis labels			{partial}
 	1.32.4) fix xls import of marker vs no marker
     1.33) Contour plots					{Jean}
-	1.33.1) Initial implementation
-	1.33.2) GOMatrix
+	1.33.1) Initial implementation				(DONE)
+	1.33.2) GOMatrix					(DONE)
 	1.33.3) Axis changes
 	1.33.4) XLS import
 	1.33.4) XLS export

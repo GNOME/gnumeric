@@ -30,9 +30,16 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #include <gsf-gnome/gsf-output-gnomevfs.h>
+#include <libgnome/gnome-url.h>
+#else
+#ifdef G_OS_WIN32
+#include <windows.h>
+#include <winreg.h>
+#endif
 #endif
 
 #include <string.h>
+#include <stdlib.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -377,4 +384,136 @@ go_url_encode (gchar const *text)
 	}
 
 	return g_string_free (result, FALSE);
+}
+
+#ifndef WITH_GNOME
+static char *
+check_program (char const *prog)
+{
+	if (NULL == prog)
+		return NULL;
+	if (g_path_is_absolute (prog)) {
+		if (!g_file_test (prog, G_FILE_TEST_IS_EXECUTABLE))
+			return NULL;
+	} else if (!g_find_program_in_path (prog))
+		return NULL;
+	return g_strdup (prog);
+}
+#endif
+
+GError *
+go_url_show (gchar const *url)
+{
+	GError *err = NULL;
+#ifdef WITH_GNOME
+	gnome_url_show (url, &err);
+	return err;
+#else
+	guint8 *browser = NULL;
+	guint8 *clean_url = NULL;
+
+	/* 1) Check BROWSER env var */
+	browser = check_program (getenv ("BROWSER"));
+
+#ifdef G_OS_WIN32
+{
+	char *ptr, *longpath;
+	HKEY hKey;
+	unsigned long lType;
+	DWORD dwSize;
+
+	/* 2) Check registry */
+	if (browser == NULL &&
+	    RegOpenKeyEx (HKEY_CLASSES_ROOT, "http\\shell\\open\\command", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+		if(RegQueryValueEx (hKey, NULL, NULL, &lType, NULL, &dwSize) == ERROR_SUCCESS) {
+			unsigned char *buf = g_new (unsigned char, dwSize + 1);
+			RegQueryValueEx (hKey, NULL, NULL, &lType, buf, &dwSize);
+			browser = check_program (buf);
+			g_free (buf);
+		}
+		RegCloseKey(hKey);
+	}
+
+	/* some win32 specific url cleanup */
+	If this is a file:// URL, strip off file:// and make it backslashed */
+	if (g_ascii_strncasecmp (url, "file://", 7) == 0) {
+		url += 7;
+
+		/* View as WebPage likes to throw in an extra /\ just for fun,
+		 * strip it off */
+		if (strncmp (url, "/\\", 2) == 0)
+			url += 2;
+
+		longpath = g_strdup (url);
+		/* s/forward-slash/back-slash/ */
+		for (ptr = longpath ; *ptr ; ptr++)
+			if (*ptr == '/')
+				*ptr = '\\';
+
+		clean_url = g_new (char, MAX_PATH);
+		/* Convert to 8.3 in case of spaces in path */
+		GetShortPathName (longpath, clean_url, MAX_PATH);
+		g_free (longpath);
+	}
+}
+#endif
+
+	if (browser == NULL) {
+		static char const * const browsers[] = {
+			"sensible-browser",	/* debian */
+			"epiphany",		/* primary gnome */
+			"galeon",		/* secondary gnome */
+			"encompass",
+			"firefox",
+			"mozilla-firebird",
+			"mozilla",
+			"netscape",
+			"konqueror",
+			"xterm -e w3m",
+			"xterm -e lynx",
+			"xterm -e links"
+		};
+		unsigned i;
+		for (i = 0 ; i < G_N_ELEMENTS (browsers) ; i++)
+			if (NULL != (browser = check_program (browsers[i])))
+				break;
+  	}
+
+	if (browser != NULL) {
+		gint    argc;
+		gchar **argv = NULL;
+		char   *cmd_line = g_strconcat (browser, " %1", NULL);
+
+		if (g_shell_parse_argv (cmd_line, &argc, &argv, &err)) {
+			/* check for '%1' in an argument and substitute the url
+			 * otherwise append it */
+			gint i;
+			char *tmp;
+
+			for (i = 1 ; i < argc ; i++)
+				if (NULL != (tmp = strstr (argv[i], "%1"))) {
+					*tmp = '\0';
+					tmp = g_strconcat = (argv[i],
+						(clean_url != NULL) ? (char const *)clean_url : url,
+						tmp+2, NULL);
+					g_free (argv[i]);
+					argv[i] = tmp;
+					break;
+				}
+
+			/* there was actually a %1, drop the one we added */
+			if (i != argc-1) {
+				g_free (argv[argc-1]);
+				argv[argc-1] = NULL;
+			}
+			g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
+				NULL, NULL, NULL, &err);
+			g_strfreev (argv);
+		}
+		g_free (cmd_line);
+	}
+	g_free (browser);
+	g_free (clean_url);
+	return err;
+#endif
 }

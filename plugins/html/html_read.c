@@ -474,6 +474,6 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 			html_search_for_tables (ptr, doc, wb_view, &tc);
 		xmlFreeDoc (doc);
 	} else
-		gnumeric_io_error_info_set (io_context,
-			error_info_new_str (_("Unable to parse the html.")));
+		gnumeric_io_error_string (io_context,
+			_("Unable to parse the html."));
 }

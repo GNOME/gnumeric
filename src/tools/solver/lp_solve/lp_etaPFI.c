@@ -26,7 +26,6 @@
 */
 
 #include <stdlib.h>
-#include <malloc.h>
 
 #include "lp_lib.h"
 #include "commonlib.h"

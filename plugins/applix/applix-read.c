@@ -57,8 +57,10 @@
 
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-plugin-impl.h>
+
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-textline.h>
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -105,14 +107,14 @@ applix_parse_error (GnmApplixIn *state, char const *format, ...)
 	char *err;
 
 	if (state->parse_error == NULL)
-		state->parse_error = error_info_new_str (
+		state->parse_error = go_error_stack_new (NULL,
 			_("Parse error while reading Applix file."));
 
 	va_start (args, format);
 	err = g_strdup_vprintf (format, args);
 	va_end (args);
 
-	error_info_add_details (state->parse_error, error_info_new_str (err));
+	error_info_add_details (state->parse_error, go_error_stack_new (NULL, err));
 	g_free (err);
 #endif
 
@@ -1558,7 +1560,7 @@ gnm_applix_in_import (GOImporter *imp, GODoc *doc)
 					 (state->wb, ptr->data)->index_in_wb));
 	renamed_sheets = g_slist_reverse (renamed_sheets);
 	workbook_sheet_rename (state->wb, renamed_sheets, state->real_names, 
-		GO_CMD_CONTEXT (imp));
+		GNM_CMD_CONTEXT (imp));
 	g_slist_free (renamed_sheets);
 	g_slist_foreach (state->std_names, (GFunc)g_free, NULL);
 	g_slist_free (state->std_names);

@@ -1,137 +1,137 @@
 1) applix
     1.1) plugin.xml.in
-    1.2) plugin_init - > go_plugin_init		(DONE)
-    1.3) remove module-defs.h			(DONE)
+    1.2) plugin_init - > go_plugin_init				(DONE)
+    1.3) remove module-defs.h					(DONE)
     1.4) Import
-	1.4.1) Use GOImporter			(DONE)
+	1.4.1) Use GOImporter					(DONE)
 	1.4.2) Rework error/warning handling
-    1.5) Use GOExporter				(DONE)
-	1.5.1) Use GOExporter			(DONE)
+    1.5) Use GOExporter						(DONE)
+	1.5.1) Use GOExporter					(DONE)
 	1.5.2) Rework error/warning handling
 2) corba
     2.1) plugin.xml.in
-    2.2) plugin_init - > go_plugin_init
+    2.2) plugin_init - > go_plugin_init				(DONE)
     2.3) remove module-defs.h
 3) derivatives
     3.1) plugin.xml.in
-    3.2) plugin_init - > go_plugin_init
+    3.2) plugin_init - > go_plugin_init				(DONE)
     3.3) remove module-defs.h
 4) dif
     4.1) plugin.xml.in
-    4.2) plugin_init - > go_plugin_init
+    4.2) plugin_init - > go_plugin_init				(DONE)
     4.3) remove module-defs.h
     4.4) Use GOImporter
 5) excel
     5.1) plugin.xml.in
-    5.2) plugin_init - > go_plugin_init
+    5.2) plugin_init - > go_plugin_init				(DONE)
     5.3) remove module-defs.h
     5.4) Use GOImporter
     5.5) Use GOExporter
 6) fn-complex
     6.1) plugin.xml.in
-    6.2) plugin_init - > go_plugin_init
+    6.2) plugin_init - > go_plugin_init				(DONE)
     6.3) remove module-defs.h
 7) fn-database
     7.1) plugin.xml.in
-    7.2) plugin_init - > go_plugin_init
+    7.2) plugin_init - > go_plugin_init				(DONE)
     7.3) remove module-defs.h
 8) fn-date
     8.1) plugin.xml.in
-    8.2) plugin_init - > go_plugin_init
+    8.2) plugin_init - > go_plugin_init				(DONE)
     8.3) remove module-defs.h
 9) fn-eng
     9.1) plugin.xml.in
-    9.2) plugin_init - > go_plugin_init
+    9.2) plugin_init - > go_plugin_init				(DONE)
     9.3) remove module-defs.h
 10) fn-financial
     10.1) plugin.xml.in
-    10.2) plugin_init - > go_plugin_init
+    10.2) plugin_init - > go_plugin_init			(DONE)
     10.3) remove module-defs.h
 11) fn-info
     11.1) plugin.xml.in
-    11.2) plugin_init - > go_plugin_init
+    11.2) plugin_init - > go_plugin_init			(DONE)
     11.3) remove module-defs.h
 12) fn-logical
     12.1) plugin.xml.in
-    12.2) plugin_init - > go_plugin_init
+    12.2) plugin_init - > go_plugin_init			(DONE)
     12.3) remove module-defs.h
 13) fn-lookup
     13.1) plugin.xml.in
-    13.2) plugin_init - > go_plugin_init
+    13.2) plugin_init - > go_plugin_init			(DONE)
     13.3) remove module-defs.h
 14) fn-math
     14.1) plugin.xml.in
-    14.2) plugin_init - > go_plugin_init
+    14.2) plugin_init - > go_plugin_init			(DONE)
     14.3) remove module-defs.h
 15) fn-random
     15.1) plugin.xml.in
-    15.2) plugin_init - > go_plugin_init
+    15.2) plugin_init - > go_plugin_init			(DONE)
     15.3) remove module-defs.h
 16) fn-stat
     16.1) plugin.xml.in
-    16.2) plugin_init - > go_plugin_init
+    16.2) plugin_init - > go_plugin_init			(DONE)
     16.3) remove module-defs.h
 17) fn-string
     17.1) plugin.xml.in
-    17.2) plugin_init - > go_plugin_init
+    17.2) plugin_init - > go_plugin_init			(DONE)
     17.3) remove module-defs.h
 18) gb
     18.1) plugin.xml.in
-    18.2) plugin_init - > go_plugin_init
+    18.2) plugin_init - > go_plugin_init			(DONE)
     18.3) remove module-defs.h
 19) gda
     19.1) plugin.xml.in
-    19.2) plugin_init - > go_plugin_init
+    19.2) plugin_init - > go_plugin_init			(DONE)
     19.3) remove module-defs.h
 20) gnome-db
     20.1) plugin.xml.in
-    20.2) plugin_init - > go_plugin_init
+    20.2) plugin_init - > go_plugin_init			(DONE)
     20.3) remove module-defs.h
 21) gnome-glossary
     21.1) plugin.xml.in
-    21.2) plugin_init - > go_plugin_init
+    21.2) plugin_init - > go_plugin_init			(DONE)
     21.3) remove module-defs.h
 22) guile
     22.1) plugin.xml.in
-    22.2) plugin_init - > go_plugin_init
+    22.2) plugin_init - > go_plugin_init			(DONE)
     22.3) remove module-defs.h
 23) html
     23.1) plugin.xml.in
-    23.2) plugin_init - > go_plugin_init
+    23.2) plugin_init - > go_plugin_init			(DONE)
     23.3) remove module-defs.h
     23.4) Use GOImporter
 24) lotus-123
     24.1) plugin.xml.in
-    24.2) plugin_init - > go_plugin_init
+    24.2) plugin_init - > go_plugin_init			(DONE)
     24.3) remove module-defs.h
     24.4) Use GOImporter
 25) mps
     25.1) plugin.xml.in
-    25.2) plugin_init - > go_plugin_init
+    25.2) plugin_init - > go_plugin_init			(DONE)
     25.3) remove module-defs.h
     25.4) Use GOImporter
 26) numtheory
     26.1) plugin.xml.in
-    26.2) plugin_init - > go_plugin_init
+    26.2) plugin_init - > go_plugin_init			(DONE)
     26.3) remove module-defs.h
 27) oleo
     27.1) plugin.xml.in
-    27.2) plugin_init - > go_plugin_init
+    27.2) plugin_init - > go_plugin_init			(DONE)
     27.3) remove module-defs.h
     27.4) Use GOImporter
 28) openoffice
     28.1) plugin.xml.in
-    28.2) plugin_init - > go_plugin_init
+    28.2) plugin_init - > go_plugin_init			(DONE)
     28.3) remove module-defs.h
     28.4) Use GOImporter
 29) paradox
     29.1) plugin.xml.in
-    29.2) plugin_init - > go_plugin_init
+    29.2) plugin_init - > go_plugin_init			(DONE)
     29.3) remove module-defs.h
     29.4) Use GOImporter
 30) perl
     30.1) plugin.xml.in
-    30.2) plugin_init - > go_plugin_init
+    30.2) plugin_init - > go_plugin_init			(DONE)
     30.3) remove module-defs.h
 31) plan-perfect
     31.1) plugin.xml.in
@@ -140,67 +140,67 @@
     31.4) Use GOImporter					(DONE)
 32) psiconv
     32.1) plugin.xml.in
-    32.2) plugin_init - > go_plugin_init
+    32.2) plugin_init - > go_plugin_init			(DONE)
     32.3) remove module-defs.h
     32.4) Use GOImporter
 33) py-func
     33.1) plugin.xml.in
-    33.2) plugin_init - > go_plugin_init
+    33.2) plugin_init - > go_plugin_init			(DONE)
     33.3) remove module-defs.h
 34) python-loader
     34.1) plugin.xml.in
-    34.2) plugin_init - > go_plugin_init
+    34.2) plugin_init - > go_plugin_init			(DONE)
     34.3) remove module-defs.h
 35) qpro
     35.1) plugin.xml.in
-    35.2) plugin_init - > go_plugin_init
+    35.2) plugin_init - > go_plugin_init			(DONE)
     35.3) remove module-defs.h
     32.4) Use GOImporter
 36) sample_datasource
     36.1) plugin.xml.in
-    36.2) plugin_init - > go_plugin_init
+    36.2) plugin_init - > go_plugin_init			(DONE)
     36.3) remove module-defs.h
 37) sc
     37.1) plugin.xml.in
-    37.2) plugin_init - > go_plugin_init
+    37.2) plugin_init - > go_plugin_init			(DONE)
     37.3) remove module-defs.h
     37.4) Use GOImporter
 38) sylk
     38.1) plugin.xml.in
-    38.2) plugin_init - > go_plugin_init
+    38.2) plugin_init - > go_plugin_init			(DONE)
     38.3) remove module-defs.h
     38.4) Use GOImporter
 39) uihello
     39.1) plugin.xml.in
-    39.2) plugin_init - > go_plugin_init
+    39.2) plugin_init - > go_plugin_init			(DONE)
     39.3) remove module-defs.h
 40) xbase
     40.1) plugin.xml.in
-    40.2) plugin_init - > go_plugin_init
+    40.2) plugin_init - > go_plugin_init			(DONE)
     40.3) remove module-defs.h
     40.4) Use GOImporter
 41) xml_sax
     41.1) plugin.xml.in
-    41.2) plugin_init - > go_plugin_init
+    41.2) plugin_init - > go_plugin_init			(DONE)
     41.3) remove module-defs.h
     41.4) Use GOImporter
 42) plot_barcol
     42.1) plugin.xml.in
-    42.2) plugin_init - > go_plugin_init
+    42.2) plugin_init - > go_plugin_init			(DONE)
     42.3) remove module-defs.h
 43) plot_pie
     43.1) plugin.xml.in
-    43.2) plugin_init - > go_plugin_init
+    43.2) plugin_init - > go_plugin_init			(DONE)
     43.3) remove module-defs.h
 44) plot_radar
     44.1) plugin.xml.in
-    44.2) plugin_init - > go_plugin_init
+    44.2) plugin_init - > go_plugin_init			(DONE)
     44.3) remove module-defs.h
 45) plot_surface
     45.1) plugin.xml.in
-    45.2) plugin_init - > go_plugin_init
+    45.2) plugin_init - > go_plugin_init			(DONE)
     45.3) remove module-defs.h
 46) plot_xy
     46.1) plugin.xml.in
-    46.2) plugin_init - > go_plugin_init
+    46.2) plugin_init - > go_plugin_init			(DONE)
     46.3) remove module-defs.h

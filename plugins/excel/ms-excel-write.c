@@ -541,7 +541,6 @@ static gboolean
 excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 {
 	/* 1	0x020 grids are the colour of the normal style */
-	/* 0	0x040 arabic */
 	/* 1	0x080 display outlines if they exist */
 	/* 0	0x800 (biff8 only) no page break mode*/
 	guint16 options = 0x0A0;
@@ -565,6 +564,10 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 		top_left = sv->initial_top_left;
 	if (!sheet->hide_zero)
 		options |= 0x0010;
+#if 0
+	if (sheet->rtl)
+		options |= 0x0040;
+#endif
 	/* Grid / auto pattern color */
 	if (!style_color_equal (sheet_auto, default_auto)) {
 		biff_pat_col = gnm_color_to_bgr (sheet_auto);
