@@ -1103,7 +1103,6 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 					 col_diff, row_diff);
 
 		if (newtree) {
-			expr_tree_ref (newtree);
 			expr_tree_unref (cell->parsed_node);
 			cell->parsed_node = newtree;
 		}
