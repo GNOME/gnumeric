@@ -1,3 +1,8 @@
+2000-03-01  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/advanced-filter.glade: Added accelerators and some
+	padding.
+
 2000-02-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print-cell.c (print_cell_text) : Correct the docs,

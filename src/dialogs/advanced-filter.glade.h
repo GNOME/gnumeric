@@ -6,11 +6,11 @@
 
 gchar *s = N_("Advanced Filter");
 gchar *s = N_("Action");
-gchar *s = N_("Filter in-place");
-gchar *s = N_("Copy to a new location");
-gchar *s = N_("Copy to a new sheet");
-gchar *s = N_("Copy to a new workbook");
-gchar *s = N_("List range:     ");
-gchar *s = N_("Criteria range:");
-gchar *s = N_("Copy to:        ");
-gchar *s = N_("Unique records only");
+gchar *s = N_("_Filter in-place");
+gchar *s = N_("_Copy to a new location");
+gchar *s = N_("Copy to a new _sheet");
+gchar *s = N_("Copy to a new _workbook");
+gchar *s = N_("C_riteria range:");
+gchar *s = N_("C_opy to:        ");
+gchar *s = N_("_List range:     ");
+gchar *s = N_("_Unique records only");
