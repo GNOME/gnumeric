@@ -1,7 +1,7 @@
 2003-06-23  Jon K Hellan  <hellan@acm.org>
 
-	* src/gui-clipboard.c (OOO11_ATOM_NAME, complex_content_received) 
-	(x_clipboard_received): New name in OpenOffice.org 1.1 Beta for
+	* src/gui-clipboard.c (OOO11_ATOM_NAME, complex_content_received,
+	x_clipboard_received): New name in OpenOffice.org 1.1 Beta for
 	OpenOffice XML clipboard target. Add it.
 
 2003-06-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
