@@ -16,8 +16,15 @@ Morten:
 	  results faster, and fail less often.
 	* Improved the recalculation engine.
 	* Shined up date calculations.
-	* WEEKDAY(), DAYS360, TIMEVALUE().
+	* Added WEEKDAY(), DAYS360(), TIMEVALUE().
+	* Fixed PROPER().
 	* Improved precision here and there.
+	* Fixed font-reusage when writing in Gnumeric's default file
+	  format.
+	* Fixed many internationalisation bugs.  Translators, please
+	  make sure the default floating-point format, "0.0########",
+	  has been translated for your locale.  (German translators,
+	  please revisit "Zoom factor should be at least 50%" also, :-)
 
 Miguel
 	* Worked on other things
