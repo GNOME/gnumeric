@@ -364,7 +364,7 @@ stf_export_dialog_sheet_page_init (GladeXML *gui, Workbook *wb)
  * @window : The parent window, useful when dialog needs to be displayed
  * @data: sheet page data struct
  *
- * Can be used to query weather all condition on the
+ * Can be used to query whether all condition on the
  * sheet page have been met.
  *
  * Return value: return TRUE if the user can continue to the next page,

@@ -4,13 +4,7 @@
 #include "dialog-stf-preview.h"
 #include "gui-util.h"
 #include <stf-parse.h>
-#include <libgnomecanvas/gnome-canvas-text.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomeui/gnome-druid.h>
-
-#define LINE_DISPLAY_LIMIT 128
-#define RAW_LINE_DISPLAY_LIMIT 4096
-#define X_OVERFLOW_PROTECT 2048
 
 /* Define for text offsets used on the main page of the druid */
 #define TEXT_OFFSET 10.0
@@ -18,23 +12,18 @@
 /* for the main_page */
 typedef struct {
 	/* Page members that are always present */
-	GtkRadioButton *main_separated;
-	GtkRadioButton *main_fixed;
-	GtkSpinButton  *main_startrow;
-	GtkSpinButton  *main_stoprow;
-	GtkLabel       *main_lines;
-	GtkFrame       *main_frame;
-	GnomeCanvas    *main_canvas;
+	GtkRadioButton  *main_separated;
+	GtkRadioButton  *main_fixed;
+	GtkSpinButton   *main_startrow;
+	GtkSpinButton   *main_stoprow;
+	GtkLabel        *main_lines;
+	GtkWidget       *main_data_container;
 	GtkCheckButton  *main_2x_indicator;
 	GtkCombo        *main_textindicator;
 	GtkEntry        *main_textfield;
-	GtkEntry        *main_terminator_field;
-        GtkButton       *main_terminator_add;
-        GtkTreeView     *main_terminator_view;
      
 	/* Page members that are created at run-time */
-	GnomeCanvasText *main_run_text;
-	GnomeCanvasItem *main_run_rect;
+	RenderData_t    *main_run_renderdata;
 } MainInfo_t;
 
 /* for the csv_page */
@@ -45,14 +34,12 @@ typedef struct {
 	GtkCheckButton  *csv_custom;
 	GtkEntry        *csv_customseparator;
 	GtkCheckButton  *csv_duplicates;
-	GnomeCanvas     *csv_canvas;
-	GtkVScrollbar   *csv_scroll;
+	GtkWidget       *csv_data_container;
 
 	/* Page members that are created at run-time */
 	RenderData_t       *csv_run_renderdata;
 	StfParseOptions_t  *csv_run_parseoptions;
 	int                 csv_run_scrollpos;
-	int                 csv_run_displayrows;
 } CsvInfo_t;
 
 /* for the fixed_page */
@@ -60,15 +47,13 @@ typedef struct {
 	/*GtkCList*/void      *fixed_collist;
 	GtkSpinButton *fixed_colend;
 	GtkButton     *fixed_add, *fixed_remove, *fixed_clear, *fixed_auto;
-	GnomeCanvas   *fixed_canvas;
-	GtkVScrollbar *fixed_scroll;
+	GtkWidget     *fixed_data_container;
 
 	/* Page members that are created at run-time */
 	RenderData_t      *fixed_run_renderdata;
 	StfParseOptions_t *fixed_run_parseoptions;
 	int                fixed_run_index;
 	gboolean           fixed_run_manual;
-	int                fixed_run_displayrows;
 	gboolean           fixed_run_mousedown;
 	double             fixed_run_xorigin;
 	int                fixed_run_column;
@@ -79,19 +64,17 @@ typedef struct {
 	/*GtkCList*/ void          *format_collist, *format_sublist;
 	GtkScrolledWindow *format_sublistholder;
 	GtkEntry          *format_format;
-	GnomeCanvas       *format_canvas;
-	GtkVScrollbar     *format_scroll;
+	GtkWidget         *format_data_container;
         GtkOptionMenu     *format_trim;
      
 	/* Page members that are created at run-time */
 	RenderData_t      *format_run_renderdata;
 	StfParseOptions_t *format_run_parseoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t parseoptions */
 	RenderData_t      *format_run_source_hash;   /* Note : refers to either FixedInfo_t or CsvInfo_t RenderData_t */
-	GSList            *format_run_list; /* List of StyleFormat * */
+	GPtrArray         *format_run_list; /* Contains StyleFormat* */
 	int                format_run_index;
 	gboolean           format_run_manual_change;
 	gboolean           format_run_sublist_select;
-	int                format_run_displayrows;   /* Number of rows to display in the preview window */
 } FormatInfo_t;
 
 
@@ -118,7 +101,6 @@ typedef struct {
 	const char   *data;         /* Pointer to beginning of data */
 	const char   *cur;          /* Pointer pointing to position in data to start parsing */
 	int           lines;        /* Number of lines @data consists of */
-	int           colcount;     /* Number of columns @data consists of */
 	int           importlines;  /* Number of lines to import */
 
 
@@ -127,7 +109,7 @@ typedef struct {
 	FixedInfo_t  *fixed_info;
 	FormatInfo_t *format_info;
 
-	gboolean       canceled;   /* Indicates weather the user pressed cancel button */
+	gboolean       canceled;   /* Indicates whether the user pressed cancel button */
 	StfParseType_t parsetype;  /* Indicates the parse type the user choose */
 
 	StfTrimType_t  trim;       /* Do we want to trim and if so -> how? */
@@ -135,22 +117,15 @@ typedef struct {
 
 typedef struct {
 	char const        *newstart;      /* New start position */
-	int                lines;         /* Nr of lines to parse */
+	int                lines;         /* Number of lines to parse */
 	StfParseOptions_t *parseoptions;  /* parse options */
-	GSList            *formats;       /* A list of char*'s corresponding to each columns format */
+	GPtrArray         *formats;       /* Contains StyleFormat *s */
 } DialogStfResult_t;
 
 /* This is the main function which handles all the dialog import stuff */
 DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbcg, const char *filename,
 							 const char *data);
 void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
-
-/* UTILITY FUNCTIONS
- *
- * These are utility functions that can be used by the separate pages
- */
-void    stf_dialog_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanvasRect *rectangle,
-							 double width, double height);
 
 /* INIT FUNCTIONS
  *
@@ -184,6 +159,7 @@ void    stf_dialog_format_page_prepare                  (GnomeDruidPage *page, G
  * Pages can free dynamic run-time data here
  * Not every page MUST have this, it is optional
  */
+void    stf_dialog_main_page_cleanup                    (DruidPageData_t *pagedata);
 void    stf_dialog_csv_page_cleanup                     (DruidPageData_t *pagedata);
 void    stf_dialog_fixed_page_cleanup                   (DruidPageData_t *pagedata);
 void    stf_dialog_format_page_cleanup                  (DruidPageData_t *pagedata);

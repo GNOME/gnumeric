@@ -1,7 +1,8 @@
 /*
  * dialog-stf-fixed-page.c : Controls the widgets on the fixed page of the dialog (fixed-width page that is)
  *
- * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
+ * Copyright 2001 Almer S. Tigelaar <almer@gnome.org>
+ * Copyright 2003 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,6 +86,93 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 	}
 }
 
+
+static void fixed_page_update_preview (DruidPageData_t *pagedata);
+
+static gint
+cb_col_event (GtkWidget *button,
+	      GdkEvent  *event,
+	      gpointer   _col)
+{
+	int col = GPOINTER_TO_INT (_col);
+
+	if (event->type == GDK_BUTTON_PRESS) {
+		DruidPageData_t *data = g_object_get_data (G_OBJECT (button), "fixed-data");
+		FixedInfo_t *info = data->fixed_info;
+		GdkEventButton *bevent = (GdkEventButton *)event;
+
+		if (bevent->button == 1) {
+			/* Split column.  */
+			GtkCellRenderer *cell =	stf_preview_get_cell_renderer
+				(info->fixed_run_renderdata, col);
+			char *row[2];
+			int i, charindex, colstart, colend;
+			PangoLayout *layout;
+			PangoFontDescription *font_desc;
+			int dx, width;
+
+			if (col == 0)
+				colstart = 0;
+			else {
+				gtk_clist_get_text (info->fixed_collist, col - 1, 1, row);
+				colstart = atoi (row[0]);
+			}
+
+			gtk_clist_get_text (info->fixed_collist, col, 1, row);
+			colend = atoi (row[0]);
+
+			dx = (int)bevent->x - (GTK_BIN (button)->child->allocation.x - button->allocation.x);
+
+			layout = gtk_widget_create_pango_layout (button, "x");
+
+			g_object_get (G_OBJECT (cell), "font_desc", &font_desc, NULL);
+			pango_layout_set_font_description (layout, font_desc);
+			pango_layout_get_pixel_size (layout, &width, NULL);
+			if (width < 1) width = 1;
+			charindex = colstart + (dx + width / 2) / width;
+			g_object_unref (layout);
+			pango_font_description_free (font_desc);
+
+#if 0
+			g_print ("Start at %d; end at %d; charindex=%d\n", colstart, colend, charindex);
+#endif
+
+			if (charindex <= colstart || (colend != -1 && charindex >= colend))
+				return TRUE;
+
+			row[0] = g_strdup_printf ("%d", col + 1);
+			row[1] = g_strdup_printf ("%d", charindex);
+			gtk_clist_insert (info->fixed_collist, col, row);
+			g_free (row[0]);
+			g_free (row[1]);
+
+			/* Patch the following column numbers in the list.  */
+			for (i = col; i < GTK_CLIST (info->fixed_collist)->rows; i++) {
+				char *text = g_strdup_printf ("%d", i);
+				gtk_clist_set_text (info->fixed_collist, i, 0, text);
+				g_free (text);
+			}
+
+			fixed_page_update_preview (data);
+			return TRUE;
+		}
+
+		if (bevent->button == 3) {
+			/* Remove column.  */
+			gtk_clist_select_row (info->fixed_collist, col, 0);
+			gnumeric_clist_moveto (info->fixed_collist, col);
+
+			gtk_signal_emit_by_name (GTK_OBJECT (info->fixed_remove),
+						 "clicked",
+						 data);
+			return TRUE;
+		}
+	}
+	    
+	return FALSE;
+}
+
+
 /**
  * fixed_page_update_preview
  * @pagedata : mother struct
@@ -98,6 +186,7 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;
 	StfParseOptions_t *parseoptions = pagedata->fixed_info->fixed_run_parseoptions;
+	RenderData_t *renderdata = info->fixed_run_renderdata;
 	GPtrArray *lines;
 	char *t[2];
 	int i, temp;
@@ -109,42 +198,33 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 		stf_parse_options_fixed_splitpositions_add (parseoptions, temp);
 	}
 
-	pagedata->colcount = stf_parse_get_colcount (parseoptions, pagedata->cur);
-
-	stf_preview_colwidths_clear (info->fixed_run_renderdata);
-	for (i = 0; i < pagedata->colcount + 1; i++)
-		stf_preview_colwidths_add (info->fixed_run_renderdata, stf_parse_get_colwidth (parseoptions, pagedata->cur, i));
-
 	lines = stf_parse_general (parseoptions, pagedata->cur);
 
-	stf_preview_render (info->fixed_run_renderdata, lines,
-			    info->fixed_run_displayrows,
-			    pagedata->colcount);
+	stf_preview_render (renderdata, lines);
+
+	for (i = 0; i < renderdata->colcount; i++) {
+		GtkTreeViewColumn *column =
+			stf_preview_get_column (renderdata, i);
+		GtkCellRenderer *cell =
+			stf_preview_get_cell_renderer (renderdata, i);
+
+		g_object_set (G_OBJECT (cell),
+			      "family", "monospace",
+			      NULL);
+
+		g_object_set_data (G_OBJECT (column->button), "fixed-data", pagedata);
+		g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
+		g_signal_connect (column->button, "event",
+				  G_CALLBACK (cb_col_event),
+				  GINT_TO_POINTER (i));
+	}
 }
 
 /*************************************************************************************************
  * SIGNAL HANDLERS
  *************************************************************************************************/
 
-/**
- * fixed_page_scroll_value_changed
- * @adjustment : The gtkadjustment that emitted the signal
- * @data : a mother struct
- *
- * This signal responds to changes in the scrollbar and
- * will force a redraw of the preview
- *
- * returns : nothing
- **/
-static void
-fixed_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *data)
-{
-	FixedInfo_t *info = data->fixed_info;
-
-	stf_preview_set_startrow (info->fixed_run_renderdata, adjustment->value);
-	fixed_page_update_preview (data);
-}
-
+#if 0
 /**
  * fixed_page_canvas_motion_notify_event
  * @canvas : The gnome canvas that emitted the signal
@@ -335,7 +415,6 @@ fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *eve
 
 			for (i = colindex; i < GTK_CLIST (info->fixed_collist)->rows; i++) {
 				char *text = g_strdup_printf ("%d", i);
-
 				gtk_clist_set_text (info->fixed_collist, i, 0, text);
 				g_free (text);
 			}
@@ -347,6 +426,7 @@ fixed_page_canvas_button_release_event (GnomeCanvas *canvas, GdkEventButton *eve
 
 	return TRUE;
 }
+#endif
 
 /**
  * fixed_page_collist_select_row
@@ -553,26 +633,10 @@ stf_dialog_fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 	GtkAdjustment *spinadjust;
 
 	stf_parse_options_set_trim_spaces (info->fixed_run_parseoptions, TRIM_TYPE_NEVER);
-	pagedata->colcount = stf_parse_get_colcount (info->fixed_run_parseoptions, pagedata->cur);
 
-	/*
-	 * This piece of code is here to limit the number of rows we display
-	 * when previewing
-	 */
-	{
-		int rowcount = stf_parse_get_rowcount (info->fixed_run_parseoptions, pagedata->cur) + 1;
-
-		if (rowcount > LINE_DISPLAY_LIMIT) {
-			GTK_RANGE (info->fixed_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
-			stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, LINE_DISPLAY_LIMIT);
-		} else {
-			GTK_RANGE (info->fixed_scroll)->adjustment->upper = pagedata->importlines;
-			stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, pagedata->importlines);
-		}
-	}
-
-	gtk_adjustment_changed (GTK_RANGE (info->fixed_scroll)->adjustment);
+#if 0
 	stf_preview_set_startrow (info->fixed_run_renderdata, GTK_RANGE (info->fixed_scroll)->adjustment->value);
+#endif
 
 	spinadjust = gtk_spin_button_get_adjustment (info->fixed_colend);
 	spinadjust->lower = 1;
@@ -632,15 +696,13 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->fixed_remove  = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_remove"));
 	info->fixed_clear   = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_clear"));
 	info->fixed_auto    = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_auto"));
-	info->fixed_canvas  = GNOME_CANVAS    (glade_xml_get_widget (gui, "fixed_canvas"));
-	info->fixed_scroll  = GTK_VSCROLLBAR  (glade_xml_get_widget (gui, "fixed_scroll"));
+	info->fixed_data_container =          (glade_xml_get_widget (gui, "fixed_data_container"));
 
 	/* Set properties */
-	info->fixed_run_renderdata    = stf_preview_new (info->fixed_canvas, FALSE, NULL);
+	info->fixed_run_renderdata    = stf_preview_new (info->fixed_data_container, NULL);
 	info->fixed_run_parseoptions  = stf_parse_options_new ();
 	info->fixed_run_manual        = FALSE;
 	info->fixed_run_index         = -1;
-	info->fixed_run_displayrows   = stf_preview_get_displayed_rowcount (info->fixed_run_renderdata);
 	info->fixed_run_mousedown     = FALSE;
 	info->fixed_run_xorigin       = 0;
 
@@ -674,6 +736,7 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 		"clicked",
 		G_CALLBACK (fixed_page_auto_clicked), pagedata);
 
+#if 0
 	g_signal_connect (G_OBJECT (info->fixed_canvas),
 		"motion_notify_event",
 		G_CALLBACK (fixed_page_canvas_motion_notify_event), pagedata);
@@ -683,8 +746,5 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (info->fixed_canvas),
 		"button_release_event",
 		G_CALLBACK (fixed_page_canvas_button_release_event), pagedata);
-
-	g_signal_connect (G_OBJECT (GTK_RANGE (info->fixed_scroll)->adjustment),
-		"value_changed",
-		G_CALLBACK (fixed_page_scroll_value_changed), pagedata);
+#endif
 }

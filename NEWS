@@ -57,6 +57,8 @@ Morten:
 	* Multihead support.
 	* Fix crash for analysis tools on initial failure.
 	* Speed up stf import.
+	* Rewrote stf importer to be GtkTreeView/GPtrArray based instead
+	  of GnomeCanvas/GList.
 
 --------------------------------------------------------------------------
 

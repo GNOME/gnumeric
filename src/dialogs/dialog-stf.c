@@ -29,57 +29,6 @@
 #include <gdk/gdkkeysyms.h>
 
 /**********************************************************************************************
- * UTILITY FUNCTIONS
- **********************************************************************************************/
-
-/**
- * stf_dialog_set_scroll_region_and_prevent_center
- * @canvas : canvas where the @rectangle is located on
- * @rectangle : a rectangle on the @canvas which can be used for centering purposes
- * @height : the height of the region which is covered on the canvas
- * @width : the width of the region which is covered on the canvas
- *
- * This is merely a hack to prevent the canvas from centering on the text if the text
- * width and/or height are smaller than the width and/or height of the GnomeCanvas.
- * Warning 1 : Don't remove this, this is, it's necessary!!
- * Warning 2 : Be sure that the @canvas has both his width and height set to something other than 0
- *
- * returns : nothing
- **/
-void
-stf_dialog_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanvasRect *rectangle, double width, double height)
-{
-	int canvaswidth, canvasheight;
-	double rectwidth, rectheight;
-
-	g_return_if_fail (canvas != NULL);
-	g_return_if_fail (rectangle != NULL);
-
-	g_object_get (G_OBJECT (canvas),
-		      "width", &canvaswidth,
-		      "height", &canvasheight,
-		      NULL);
-
-	if (width < canvaswidth)
-		rectwidth = canvaswidth;
-	else
-		rectwidth = width;
-
-        if (height < canvasheight)
-		rectheight = canvasheight;
-	else
-		rectheight = height;
-
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (rectangle),
-			       "x1", 0,         "y1", 0,
-			       "x2", rectwidth,	"y2", rectheight,
-			       NULL);
-
-	gnome_canvas_set_scroll_region (canvas, 0, 0, rectwidth, rectheight);
-}
-
-
-/**********************************************************************************************
  * DIALOG CONTROLLING CODE
  **********************************************************************************************/
 
@@ -557,7 +506,6 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 
 		dialogresult = NULL;
 	} else {
-
 		dialogresult = g_new (DialogStfResult_t, 1);
 
 		dialogresult->newstart = pagedata.cur;
@@ -578,6 +526,7 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	 * they will not attempt to free it, this will be done in stf_dialog_result_free
 	 * instead
 	 */
+	stf_dialog_main_page_cleanup   (&pagedata);
 	stf_dialog_csv_page_cleanup    (&pagedata);
 	stf_dialog_fixed_page_cleanup  (&pagedata);
 	stf_dialog_format_page_cleanup (&pagedata);
@@ -601,18 +550,16 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 void
 stf_dialog_result_free (DialogStfResult_t *dialogresult)
 {
-	GSList *iterator;
+	unsigned int ui;
 
 	g_return_if_fail (dialogresult != NULL);
 
 	stf_parse_options_free (dialogresult->parseoptions);
 
-	iterator = dialogresult->formats;
-	while (iterator != NULL) {
-		style_format_unref (iterator->data);
-		iterator = g_slist_next (iterator);
+	for (ui = 0; ui < dialogresult->formats->len; ui++) {
+		StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
+		style_format_unref (sf);
 	}
-	g_slist_free (dialogresult->formats);
 
 	g_free (dialogresult);
 }

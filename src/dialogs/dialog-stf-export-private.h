@@ -69,7 +69,7 @@ typedef struct {
 	StfE_FormatPageData_t *format_page_data;
 	StfE_SheetPageData_t  *sheet_page_data;
 
-	gboolean               canceled;                   /* Indicates weather the user canceled */
+	gboolean               canceled;                   /* Indicates whether the user canceled */
 } StfE_DruidData_t;
 
 /*

@@ -834,51 +834,6 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, char const *data)
 }
 
 /**
- * stf_parse_get_colcount:
- *
- * returns : number of columns in @data
- **/
-int
-stf_parse_get_colcount (StfParseOptions_t *parseoptions, char const *data)
-{
-	int colcount = 0;
-
-	g_return_val_if_fail (parseoptions != NULL, 0);
-	g_return_val_if_fail (data != NULL, 0);
-
-	if (parseoptions->parsetype == PARSE_TYPE_CSV) {
-		char const *iterator = data;
-		int tempcount = 0;
-
-		while (*iterator != '\0') {
-			char const *s;
-
-			if (compare_terminator (iterator, parseoptions)) {
-				if (tempcount > colcount)
-					colcount = tempcount;
-				tempcount = 0;
-			}
-
-			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->sep.chr, parseoptions->sep.str))) {
-				iterator = s;
-				if (parseoptions->duplicates) {
-					if (stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))
-						continue;
-				}
-
-				tempcount++;
-			} else
-				iterator++;
-		}
-		if (tempcount > colcount)
-			colcount = tempcount;
-	} else
-		colcount = my_garray_len (parseoptions->splitpositions) - 1;
-
-	return colcount;
-}
-
-/**
  * stf_parse_get_longest_row_width:
  *
  * Returns the largest number of characters found in a line/row
@@ -909,82 +864,6 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *da
 	}
 
 	return longest;
-}
-
-/**
- * stf_parse_get_colwidth:
- *
- * Will determine the width of column @index in @data given the
- * parsing rules as specified in @parseoptions
- **/
-int
-stf_parse_get_colwidth (StfParseOptions_t *parseoptions, char const *data, int const index)
-{
-	int width = 0;
-
-	g_return_val_if_fail (parseoptions != NULL, 0);
-	g_return_val_if_fail (data != NULL, 0);
-
-	if (parseoptions->parsetype == PARSE_TYPE_CSV) {
-		char const *iterator = data;
-		int col = 0, colwidth = 0;
-
-		while (*iterator != '\0') {
-			char const *s;
-
-			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->sep.chr, parseoptions->sep.str))) {
-
-				iterator = s;
-				if (parseoptions->duplicates) {
-					if (stf_parse_csv_is_separator (s, parseoptions->sep.chr, parseoptions->sep.str))
-						continue;
-				}
-
-				if (col == index && colwidth > width)
-					width = colwidth;
-
-				colwidth = 0;
-				col++;
-			} else {
-				colwidth++;
-				if (compare_terminator (iterator, parseoptions)) {
-					if (col == index && colwidth > width)
-						width = colwidth;
-					col = 0;
-					colwidth = 0;
-				}
-				iterator++;
-			}
-		}
-		if (col == index && colwidth > width)
-			width = colwidth;
-	} else {
-		int colstart = index - 1 < 0
-			? 0
-			: (int) g_array_index (parseoptions->splitpositions, int, index - 1);
-		int colend = (int) g_array_index (parseoptions->splitpositions, int, index);
-
-		if (colend == -1) {
-			const char *s;
-			int len = 0, templen = 0;
-
-			for (s = data; *s != '\0'; s++) {
-				if (compare_terminator (s, parseoptions)) {
-					if (templen > len)
-						len = templen;
-					templen = 0;
-				} else
-					templen++;
-			}
-
-			colend = len;
-		}
-
-		width = colend - colstart;
-	}
-
-	return width;
-
 }
 
 /**

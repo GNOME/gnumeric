@@ -87,7 +87,7 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 		dialogresult = stf_dialog (wbcg, "clipboard", data);
 
 		if (dialogresult != NULL) {
-			GSList *iterator;
+			unsigned int ui;
 			int col, rowcount;
 
 			stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
@@ -99,10 +99,10 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 				return cellregion_new (NULL);
 			}
 
-			iterator = dialogresult->formats;
 			col = 0;
 			rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
-			while (iterator) {
+			for (ui = 0; ui < dialogresult->formats->len; ui++) {
+				StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
 				StyleRegion *sr = g_new (StyleRegion, 1);
 
 				sr->range.start.col = col;
@@ -110,11 +110,9 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
 				sr->range.end.col   = col;
 				sr->range.end.row   = rowcount;
 				sr->style = mstyle_new_default ();
-				mstyle_set_format (sr->style, iterator->data);
+				mstyle_set_format (sr->style, sf);
 
 				cr->styles = g_slist_prepend (cr->styles, sr);
-
-				iterator = g_slist_next (iterator);
 
 				col++;
 			}

@@ -1,6 +1,6 @@
 /*
  * dialog-stf-preview.c : by utilizing the stf-parse engine this unit can
- *                        render sheet previews on the gnomecanvas and offers
+ *                        render sheet previews and offers
  *                        functions for making this preview more interactive.
  *
  * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
@@ -46,376 +46,10 @@
 #include <value.h>
 #include <style.h>
 
-#include <libgnomecanvas/gnome-canvas-util.h>
-#include <libgnomecanvas/gnome-canvas-line.h>
-
-/******************************************************************************************************************
- * BASIC DRAWING FUNCTIONS
- ******************************************************************************************************************/
-
-/**
- * stf_preview_draw_text
- * @group : group to add a new canvas item to
- * @text : text to render
- * @font : font to use
- * @color : render color
- * @x : x position to place text
- * @y : y position to place text
- *
- * will place @text at the @x, @y coordinates
- *
- * returns : the width of the rendered text
- **/
-static double
-stf_preview_draw_text (GnomeCanvasGroup *group, const char *text,
-		       const char *color, double x, double y)
-{
-	GnomeCanvasText *canvastext;
-	double textwidth;
-
-	g_return_val_if_fail (group != NULL, 0);
-	g_return_val_if_fail (text != NULL, 0);
-
-	canvastext = GNOME_CANVAS_TEXT (gnome_canvas_item_new (group,
-							       gnome_canvas_text_get_type (),
-							       "text", text,
-/* 							       "font_gdk", font, */
-							       "fill_color", color,
-							       "anchor", GTK_ANCHOR_NW,
-							       "x", x,
-							       "y", y,
-							       NULL));
-	g_object_get (G_OBJECT (canvastext),
-		      "text_width", &textwidth,
-		      NULL);
-
-	return textwidth;
-}
-
-/**
- * stf_preview_draw_line
- * @group : the gnome canvas group to add the line to
- * @color : color of the line
- * @x1 : first x coordinate
- * @y1 : first y coordinate
- * @x2 : second x coordinate
- * @y2 : second y coordinate
- *
- * Draws a line between two points
- *
- * returns : nothing
- **/
-static void
-stf_preview_draw_line (GnomeCanvasGroup *group, const char *color,
-		       double x1, double y1, double x2, double y2)
-{
-	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
-
-	points->coords[0] = x1;
-	points->coords[1] = y1;
-	points->coords[2] = x2;
-	points->coords[3] = y2;
-
-	/* Render bottom and topline of the row */
-	gnome_canvas_item_new (group,
-			       gnome_canvas_line_get_type (),
-			       "fill_color", color,
-			       "points", points,
-			       "width_pixels", 1,
-			       NULL);
-
-	gnome_canvas_points_unref (points);
-}
-
-/**
- * stf_preview_draw_box
- * @group : gnomecanvasgroup to add the box too
- * @color : fill color of the box
- * @x1 : left coordinate
- * @y1 : top coordinate
- * @x2 : right coordinate
- * @y2 : bottom coordinate
- *
- * Draws a box with @color as color and a transparant outline
- *
- * returns : nothing
- **/
-static void
-stf_preview_draw_box (GnomeCanvasGroup *group, const char *color,
-		      double x1, double y1, double x2, double y2)
-{
-	gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_RECT,
-		"x1", x1,	"y1", y1,
-		"x2", x2,	"y2", y2,
-		"width_pixels",	(int) 0,
-		"fill_color",	color,
-		"outline_color", NULL,
-		NULL);
-}
-
-/******************************************************************************************************************
- * INTERNAL HELPER FUNCTIONS
- ******************************************************************************************************************/
-
-/**
- * stf_preview_get_table_pixel_width
- * @renderdata : struct containing rendering info
- *
- * will return the width in pixels of the table
- *
- * returns : width of table
- **/
-static double
-stf_preview_get_table_pixel_width (RenderData_t *renderdata)
-{
-	int tablewidth = 0;
-	guint i;
-
-	for (i = 0; i < renderdata->colwidths->len; i++) {
-
-		if (i > SHEET_MAX_COLS)
-			break;
-
-		tablewidth += g_array_index (renderdata->colwidths, int, i);
-	}
-
-	return (renderdata->charwidth * tablewidth) + (CELL_HPAD * renderdata->colwidths->len);
-}
-
-/**
- * stf_preview_get_table_pixel_height
- * @renderdata : struct containing rendering info
- * @rowcount : number of rows to be rendered
- *
- * will return the height in pixels of the table
- *
- * returns : height of table
- **/
-static double
-stf_preview_get_table_pixel_height (RenderData_t *renderdata, int rowcount)
-{
-
-	return (renderdata->charheight + CELL_VPAD) * rowcount;
-}
-
 
 /******************************************************************************************************************
  * ADVANCED DRAWING FUNCTIONS
  ******************************************************************************************************************/
-
-/**
- * stf_preview_draw_grid
- * @renderdata : struct containing rendering info
- * @rowcount : number of rows to be rendered
- * @colcount : number of columns to be rendered
- *
- * Will draw a grid on a canvas
- *
- * returns : nothing
- **/
-static void
-stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
-{
-	double rowheight   = renderdata->charheight + CELL_VPAD;
-	double tableheight = stf_preview_get_table_pixel_height (renderdata, rowcount);
-	double tablewidth  = stf_preview_get_table_pixel_width (renderdata);
-	double xpos        = 0;
-	double ypos        = 0;
-	const char *tempcolor;
-	int i;
-
-	if (renderdata->gridgroup != NULL)
-		gtk_object_destroy (GTK_OBJECT (renderdata->gridgroup));
-
-	renderdata->gridgroup = GNOME_CANVAS_GROUP (gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (renderdata->canvas)),
-									   gnome_canvas_group_get_type (),
-									   "x", 0.0,
-									   "y", 0.0,
-									   NULL));
-
-	/* Color the first row */
-	stf_preview_draw_box (renderdata->gridgroup, CAPTION_COLOR, 0, 0, tablewidth, rowheight);
-
-	/* Color the rest of the table */
-	stf_preview_draw_box (renderdata->gridgroup, ROW_COLOR, 0, rowheight, tablewidth, tableheight);
-
-	/* now color the active column */
-	if (renderdata->activecolumn != -1) {
-		double colleft = 0;
-		double colright = 0;
-
-		for (i = 0; i < renderdata->activecolumn; i++) {
-
-			colleft += renderdata->charwidth * g_array_index (renderdata->colwidths, int, i) + CELL_HPAD;
-		}
-		colright = colleft + (renderdata->charwidth * g_array_index (renderdata->colwidths, int, renderdata->activecolumn)) + CELL_HPAD;
-
-		stf_preview_draw_box (renderdata->gridgroup, CAPTION_COLOR_ACTIVE, colleft, 0, colright, rowheight);
-		stf_preview_draw_box (renderdata->gridgroup, ROW_COLOR_ACTIVE, colleft, rowheight, colright, tableheight);
-	}
-
-	tempcolor = CAPTION_LINE_COLOR;
-	/* horizontal lines */
-	for (i = 0; i < rowcount + 1; i++) {
-
-		if (i == 2)
-			tempcolor = LINE_COLOR;
-
-		stf_preview_draw_line (renderdata->gridgroup, tempcolor, 0, ypos, tablewidth, ypos);
-
-		ypos += rowheight;
-	}
-
-	/* vertical lines */
-	i = 0;
-	while (1) {
-
-		stf_preview_draw_line (renderdata->gridgroup, CAPTION_LINE_COLOR, xpos, 0, xpos, rowheight);
-		stf_preview_draw_line (renderdata->gridgroup, LINE_COLOR, xpos, rowheight, xpos, tableheight);
-
-		if (i == colcount + 1)
-			break;
-
-		xpos += (renderdata->charwidth * g_array_index (renderdata->colwidths, int, i)) + CELL_HPAD;
-
-		i++;
-	}
-	stf_preview_draw_line (renderdata->gridgroup, CAPTION_LINE_COLOR, xpos, 0, xpos, rowheight);
-
-	gnome_canvas_item_lower_to_bottom ( (GnomeCanvasItem *) renderdata->gridgroup);
-
-	return;
-}
-
-/**
- * stf_preview_render_row
- * @renderdata : a renderdata struct
- * @rowy : the vertical position on which to draw the top of the row
- * @row : the row data itself
- * @colcount : the number of columns that must be rendered (if necessary empty) regardless of the contents of @row
- *
- * Basically renders @row's text on the canvas
- *
- * returns : the bottom position of the row
- **/
-static double
-stf_preview_render_row (RenderData_t *renderdata, double rowy, GPtrArray *row, unsigned int colcount)
-{
-	double xpos = 0.0;
-	double textwidth = 0;
-	unsigned int col = 0;
-
-	if (row->len == 0) { /* empty row */
-		return rowy + CELL_VPAD + renderdata->charheight;
-	}
-
-	for (col = 0; col <= colcount; col++)  {
-		int widthwanted;
-		const char *data = (col < row->len)
-			? g_ptr_array_index (row, col)
-			: NULL;
-
-		if (data) {
-			char *text = NULL;
-
-			/*
-			 * XFREE86 Overflow protection
-			 *
-			 * There is a bug in XFree86 (at least up until 4.0.3)
-			 * which takes down the whole server if very large strings
-			 * are drawn on a local display. We therefore simply truncate
-			 * the string if it is 'too large' to display.
-			 */
-			if (strlen (data) > X_OVERFLOW_PROTECT - 1)
-				text = g_strndup (data, X_OVERFLOW_PROTECT - 1);
-
-			/* In case the active color differs from the inactive color
-			 * this code can be activated
-			 *
-			 * if (col == renderdata->activecolumn && rowy != 0)
-			 *	 color = text_color_active;
-			 * else
-			 *	 color = text_color;
-			 */
-
-			textwidth = stf_preview_draw_text (renderdata->group,
-							   text ? text : data,
-							   TEXT_COLOR,
-							   xpos + (CELL_HPAD / 2),
-							   rowy + (CELL_VPAD / 2));
-
-			if (text)
-				g_free (text);
-		}
-
-		widthwanted = renderdata->charwidth * g_array_index (renderdata->colwidths, int, col);
-
-		if (textwidth > widthwanted)
-			xpos += textwidth;
-		else
-			xpos += widthwanted;
-
-
-		xpos += CELL_HPAD;
-	}
-
-	return rowy + CELL_VPAD + renderdata->charheight;
-}
-
-/**
- * stf_preview_format_recalc_colwidths
- * @renderdata : renderdata struct
- * @lines : Lines as from stf_parse_general.
- * @colcount : number of items in each list in @data
- *
- * This routine will iterate trough the list and calculate the ACTUAL widths
- * the actual widths are those as seen on screen by the user.
- * The reason for doing this is that the widths that are manually set can
- * differ from the widths of the formatted strings if the the strings have
- * to be rendered formatted (@renderdata->formatted == TRUE).
- *
- * returns : nothing. (swaps renderdata->temp and renderdata->colwidths);
- **/
-static void
-stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GPtrArray *lines, int colcount)
-{
-	GArray *newwidths;
-	gint i;
-	gint *widths = g_alloca ((colcount + 1) * sizeof (gint));
-	unsigned int row;
-
-	for (i = 0; i <= colcount; i++) {
-		widths[i] = g_array_index (renderdata->colwidths, int, i);
-	}
-
-	for (row = 0; row < lines->len; row++) {
-		GPtrArray *line = g_ptr_array_index (lines, row);
-		unsigned int col;
-
-		for (col = 0; col < line->len; col++)  {
-			const char *text = g_ptr_array_index (line, col);
-
-			/* New width calculation */
-			int width = style_font_string_width (gnumeric_default_font, text) / renderdata->charwidth;
-
-			if (width > widths[col])
-				widths[col] = width;
-		}
-	}
-
-	newwidths = g_array_new (FALSE, FALSE, sizeof (int));
-
-	for (i = 0; i <= colcount; i++) {
-		g_array_append_val (newwidths, widths[i]);
-	}
-
-	/* We were called before, free our old 'actual' columnwidths */
-	if (renderdata->temp != 0)
-		g_array_free (renderdata->temp, TRUE);
-
-	renderdata->temp = renderdata->colwidths;
-	renderdata->colwidths = newwidths;
-}
 
 
 /**
@@ -457,13 +91,34 @@ stf_preview_format_line (RenderData_t *renderdata, GPtrArray *data)
 	}
 }
 
+static void
+render_get_value (gint row, gint column, gpointer _rd, GValue *value)
+{
+	RenderData_t *rd = (RenderData_t *)_rd;
+	GnumericLazyList *ll = rd->ll;
+	GPtrArray *lines = rd->lines;
+	GPtrArray *line = (row < (int)lines->len)
+		? g_ptr_array_index (lines, row)
+		: NULL;
+	const char *text = (line && column < (int)line->len)
+		? g_ptr_array_index (line, column)
+		: NULL;
+
+	g_value_init (value, ll->column_headers[column]);
+
+	if (text) {
+		g_value_set_string (value, text);
+	}
+}
+
+
+
 /**
  * stf_preview_render
  * @renderdata : a renderdata struct
  * @lines : lines as from stf_parse_general.
- * @colcount : (maximum) number of cols in @list
  *
- * This will render a preview on the canvas.
+ * This will render a preview.
  *
  * returns : nothing
  *
@@ -471,22 +126,18 @@ stf_preview_format_line (RenderData_t *renderdata, GPtrArray *data)
  *
  **/
 void
-stf_preview_render (RenderData_t *renderdata, GPtrArray *lines, int rowcount, int colcount)
+stf_preview_render (RenderData_t *renderdata, GPtrArray *lines)
 {
-	GnomeCanvasItem *centerrect;
-	double ypos = 0.0;
+	int colcount = 0;
 	unsigned int i;
 
 	g_return_if_fail (renderdata != NULL);
-	g_return_if_fail (renderdata->canvas != NULL);
+	g_return_if_fail (renderdata->data_container != NULL);
 
-	if (renderdata->group != NULL) {
-		gtk_object_destroy (GTK_OBJECT (renderdata->group));
-		renderdata->group = NULL;
+	for (i = 0; i < lines->len; i++) {
+		GPtrArray *line = g_ptr_array_index (lines, i);
+		colcount = MAX (colcount, (int)line->len);
 	}
-
-	if (lines->len < 1)
-		goto done;
 
 	/*
 	 * Don't display more then the maximum amount of columns
@@ -494,64 +145,39 @@ stf_preview_render (RenderData_t *renderdata, GPtrArray *lines, int rowcount, in
 	 */
 	if (colcount > SHEET_MAX_COLS)
 		colcount = SHEET_MAX_COLS;
+	else if (colcount <= 0)
+		colcount = 1;
 
-	renderdata->group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (renderdata->canvas)),
-							   gnome_canvas_group_get_type (),
-							   "x", 0.0,
-							   "y", 0.0,
-							   NULL));
+	/* Empty the table.  */
+	gnumeric_lazy_list_set_rows (renderdata->ll, 0);
 
-	if (renderdata->formatted)
-		stf_preview_format_recalc_colwidths (renderdata, lines, colcount);
-
-	/* Generate column captions and prepend them */
-	{
-		int i;
-		GPtrArray *captions = g_ptr_array_new ();
-
-		for (i = 0; i <= colcount; i++) {
-			char *text = g_strdup_printf (_(COLUMN_CAPTION), i);
-			g_ptr_array_add (captions, text);
-		}
-		ypos = stf_preview_render_row (renderdata, ypos, captions, colcount);
-		for (i = 0; i <= colcount; i++)
-			g_free (g_ptr_array_index (captions, i));
-		g_ptr_array_free (captions, TRUE);
+	/* Fix number of columns.  */
+	while (renderdata->colcount > colcount)
+		gtk_tree_view_remove_column
+			(renderdata->tree_view,
+			 gtk_tree_view_get_column (renderdata->tree_view,
+						   --(renderdata->colcount)));
+	while (renderdata->colcount < colcount) {
+		char *text = g_strdup_printf (_(COLUMN_CAPTION),
+					      renderdata->colcount + 1);
+		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
+		GtkTreeViewColumn *column =
+			gtk_tree_view_column_new_with_attributes
+			(text, cell,
+			 "text", renderdata->colcount,
+			 NULL);
+		gtk_tree_view_append_column (renderdata->tree_view, column);
+		g_free (text);
+		renderdata->colcount++;
 	}
 
-	/* Render line by line */
- 	for (i = renderdata->startrow; i <= lines->len; i++) {
-		GPtrArray *line = g_ptr_array_index (lines, i - 1);
+	if (renderdata->lines)
+		stf_parse_general_free (renderdata->lines);
+	renderdata->lines = lines;
 
-		if (renderdata->formatted && line->len)
-			stf_preview_format_line (renderdata, line);
-		ypos = stf_preview_render_row (renderdata, ypos, line, colcount);
-	}
-
-	stf_preview_draw_grid (renderdata, rowcount, colcount);
-
-	centerrect = gnome_canvas_item_new (renderdata->group,
-		GNOME_TYPE_CANVAS_RECT,
-		"x1",	0,	"y1", 0,
-		"x2",	10,	"y2", 10,
-		"width_pixels",	(int) 0,
-		"fill_color",	"white",
-		NULL);
-
-	stf_dialog_set_scroll_region_and_prevent_center (renderdata->canvas,
-		GNOME_CANVAS_RECT (centerrect),
-		stf_preview_get_table_pixel_width (renderdata),
-		stf_preview_get_table_pixel_height (renderdata, rowcount));
-
-	/* Swap the actual column widths with the set columnwidths */
-	if (renderdata->formatted) {
-		GArray *dummy         = renderdata->temp;
-		renderdata->temp      = renderdata->colwidths;
-		renderdata->colwidths = dummy;
-	}
-
- done:
-	stf_parse_general_free (lines);
+	/* Fill the table.  */
+	gnumeric_lazy_list_set_rows (renderdata->ll,
+				     MIN (lines->len, LINE_DISPLAY_LIMIT));
 }
 
 /******************************************************************************************************************
@@ -560,36 +186,41 @@ stf_preview_render (RenderData_t *renderdata, GPtrArray *lines, int rowcount, in
 
 /**
  * stf_preview_new
- * @canvas : a gnomecanvas
- * @formatted : if set the values will be rendered formatted
+ * @data_container: a container in which to put a treeview.
  *
  * returns : a new renderdata struct
  **/
 RenderData_t*
-stf_preview_new (GnomeCanvas *canvas, gboolean formatted,
+stf_preview_new (GtkWidget *data_container,
 		 GnmDateConventions const *date_conv)
 {
 	RenderData_t* renderdata;
 
-	g_return_val_if_fail (canvas != NULL, NULL);
+	g_return_val_if_fail (data_container != NULL, NULL);
 
 	renderdata = g_new (RenderData_t, 1);
 
-	renderdata->canvas       = canvas;
-	renderdata->formatted    = formatted;
+	renderdata->data_container = data_container;
 	renderdata->startrow     = 1;
-	renderdata->colwidths    = g_array_new (FALSE, FALSE, sizeof (int));
-	renderdata->actualwidths = g_array_new (FALSE, FALSE, sizeof (int));
 	renderdata->colformats   = g_ptr_array_new ();
-	renderdata->temp         = NULL;
-	renderdata->group        = NULL;
-	renderdata->gridgroup    = NULL;
+	renderdata->lines        = NULL;
 
-	renderdata->charwidth = style_font_string_width (gnumeric_default_font,"W");
-	renderdata->charheight = style_font_get_height (gnumeric_default_font);
-
-	renderdata->activecolumn = -1;
 	renderdata->date_conv	 = date_conv;
+
+	renderdata->ll           =
+		gnumeric_lazy_list_new (render_get_value, renderdata, 0);
+	gnumeric_lazy_list_add_column (renderdata->ll,
+				       SHEET_MAX_COLS,
+				       G_TYPE_STRING);
+
+	renderdata->tree_view =
+		GTK_TREE_VIEW (gtk_tree_view_new_with_model
+			       (GTK_TREE_MODEL (renderdata->ll)));
+	renderdata->colcount     = 0;
+
+	gtk_container_add (GTK_CONTAINER (renderdata->data_container),
+			   GTK_WIDGET (renderdata->tree_view));
+	gtk_widget_show_all (GTK_WIDGET (renderdata->tree_view));
 
 	return renderdata;
 }
@@ -607,17 +238,11 @@ stf_preview_free (RenderData_t *renderdata)
 {
 	g_return_if_fail (renderdata != NULL);
 
-	if (renderdata->group != NULL)
-		gtk_object_destroy (GTK_OBJECT (renderdata->group));
-
-	if (renderdata->formatted && renderdata->temp != NULL)
-		g_array_free (renderdata->temp, TRUE);
-
-	g_array_free (renderdata->colwidths, TRUE);
-	g_array_free (renderdata->actualwidths, TRUE);
-
 	stf_preview_colformats_clear (renderdata);
 	g_ptr_array_free (renderdata->colformats, TRUE);
+
+	if (renderdata->lines)
+		stf_parse_general_free (renderdata->lines);
 
 	g_free (renderdata);
 }
@@ -638,79 +263,6 @@ stf_preview_set_startrow (RenderData_t *renderdata, int startrow)
 	g_return_if_fail (startrow >= 0);
 
 	renderdata->startrow = startrow;
-}
-
-/**
- * stf_preview_set_activecolumn
- * @renderdata : struct containing rendering information
- * @column : column to set as active column
- *
- * This will set the active column, if you pass -1 as @column no column
- * will be drawn in 'active' state
- *
- * returns : nothing
- **/
-void
-stf_preview_set_activecolumn (RenderData_t *renderdata, int column)
-{
-	g_return_if_fail (renderdata != NULL);
-	g_return_if_fail (column >= -1);
-
-	renderdata->activecolumn = column;
-}
-
-/**
- * stf_preview_colwidths_clear
- * @renderdata : a struct containing rendering information
- *
- * This will clear the @renderdata->colwidths array which contains the minimum width of
- * each column.
- *
- * returns : nothing
- **/
-void
-stf_preview_colwidths_clear (RenderData_t *renderdata)
-{
-	g_return_if_fail (renderdata != NULL);
-
-	g_array_free (renderdata->colwidths, TRUE);
-	renderdata->colwidths = g_array_new (FALSE, FALSE, sizeof (int));
-
-	g_array_free (renderdata->actualwidths, TRUE);
-	renderdata->actualwidths = g_array_new (FALSE, FALSE, sizeof (int));
-}
-
-/**
- * stf_preview_colwidths_add
- * @renderdata : a struct containing rendering information
- * @width : the width of the next column
- *
- * This will add an entry to the @renderdata->colwidths array.
- *
- * returns : nothing
- **/
-void
-stf_preview_colwidths_add (RenderData_t *renderdata, int width)
-{
-	char *caption;
-	int captionwidth;
-
-	g_return_if_fail (renderdata != NULL);
-
-	if (width < 0)
-		width = 0;
-
-	caption = g_strdup_printf (_(COLUMN_CAPTION), renderdata->colwidths->len);
-	captionwidth = style_font_string_width (gnumeric_default_font,caption) / renderdata->charwidth;
-
-	if (captionwidth > width)
-		g_array_append_val (renderdata->colwidths, captionwidth);
-	else
-		g_array_append_val (renderdata->colwidths, width);
-
-	g_array_append_val (renderdata->actualwidths, width);
-
-	g_free (caption);
 }
 
 /**
@@ -756,161 +308,25 @@ stf_preview_colformats_add (RenderData_t *renderdata, StyleFormat *format)
 	g_ptr_array_add (renderdata->colformats, format);
 }
 
-/******************************************************************************************************************
- * PUBLIC UTILITY FUNCTIONS
- ******************************************************************************************************************/
 
-/**
- * stf_preview_get_displayed_rowcount
- * @renderdata : a struct containing rendering information
- *
- * returns : number of rows that can be displayed on the @renderdata->canvas
- **/
-int
-stf_preview_get_displayed_rowcount (RenderData_t *renderdata)
+GtkTreeViewColumn *
+stf_preview_get_column (RenderData_t *renderdata, int col)
 {
-	int canvasheight, rowcount = 0;
-
-	g_return_val_if_fail (renderdata != NULL, 0);
-	g_return_val_if_fail (renderdata->canvas != NULL, 0);
-
-
-	g_object_get (G_OBJECT (renderdata->canvas),
-		      "height", &canvasheight,
-		      NULL);
-
-	rowcount = (canvasheight / renderdata->charheight) + 1;
-
-	return rowcount;
+	return gtk_tree_view_get_column (renderdata->tree_view, col);
 }
 
-/**
- * stf_preview_get_column_at_x
- * @renderdata : a struct containing rendering information
- * @x : x coordinate
- *
- * Given the @x coordinate this function will determine what column is located at the @x coordinate
- *
- * returns : the column number the user clicked on or -1 if the user did not click on a column at all
- **/
-int
-stf_preview_get_column_at_x (RenderData_t *renderdata, double x)
+GtkCellRenderer *
+stf_preview_get_cell_renderer (RenderData_t *renderdata, int col)
 {
-	int xpos = 0;
-	guint i;
-	GArray *sourcearray;
-
-	g_return_val_if_fail (renderdata != NULL, -1);
-
-	if (renderdata->formatted)
-		sourcearray = renderdata->temp;
-	else
-		sourcearray = renderdata->colwidths;
-
-	for (i = 0; i < renderdata->colwidths->len; i++) {
-
-		xpos += (renderdata->charwidth * g_array_index (sourcearray, int, i)) + CELL_HPAD;
-
-		if (xpos > x)
-			break;
-	}
-
-	if (i > renderdata->colwidths->len - 1)
-		return -1;
-	else
-		return i;
-}
-
-/**
- * stf_preview_get_column_border_at_x
- * @renderdata : a struct containing rendering information
- * @x : x coordinate
- *
- * Given the @x coordinate this function will determine weather @x is
- * over a column border. (the right side of a column)
- *
- * NOTE : Can't use this on a formatted preview
- *
- * returns : the number of the column @x is at or -1 if it is not positioned over a column border
- **/
-int
-stf_preview_get_column_border_at_x (RenderData_t *renderdata, double x)
-{
-	int xpos = 0;
-	guint i;
-	gboolean broken = FALSE;
-
-	g_return_val_if_fail (renderdata != NULL, -1);
-	g_return_val_if_fail (renderdata->formatted == FALSE, -1);
-
-	for (i = 0; i < renderdata->colwidths->len; i++) {
-
-		xpos += (renderdata->charwidth * g_array_index (renderdata->colwidths, int, i)) + CELL_HPAD;
-
-		if ( (x >= xpos - MOUSE_SENSITIVITY) && (x <= xpos + MOUSE_SENSITIVITY)) {
-
-			broken = TRUE;
-			break;
+	GtkCellRenderer *res = NULL;
+	GtkTreeViewColumn *column = stf_preview_get_column (renderdata, col);
+	if (column) {
+		GList *renderers =
+			gtk_tree_view_column_get_cell_renderers (column);
+		if (renderers) {
+			res = renderers->data;
+			g_list_free (renderers);
 		}
 	}
-
-	if (broken) {
-
-		if (i >= renderdata->colwidths->len - 1)
-			return -1;
-		else
-			return i;
-	}
-	else {
-
-		return -1;
-	}
-}
-
-/**
- * stf_preview_get_char_at_x
- * @renderdata : a struct containing rendering information
- * @x : x coordinate
- *
- * Given the @x coordinate this function will the index of the character @x is at, e.g.
- *
- * Column 0 | Column 1 | Column 2
- * a          b          cd
- *
- * if the mouse is over 'b' this function will return 1 because it is the second character,
- * and if it is over d it will return 3.
- *
- * NOTE : Can't use this on a formatted preview
- *
- * returns : the character index of the character below @x or -1 if none.
- **/
-int
-stf_preview_get_char_at_x (RenderData_t *renderdata, double x)
-{
-	guint i;
-	double xpos = 0, subxpos = 0, tpos = 0;
-	int charindex = 0;
-
-	g_return_val_if_fail (renderdata != NULL, -1);
-	g_return_val_if_fail (renderdata->formatted == FALSE, -1);
-
-	for (i = 0; i < renderdata->actualwidths->len; i++) {
-
-		tpos = xpos + (renderdata->charwidth * g_array_index (renderdata->actualwidths, int, i));
-
-		while (subxpos < tpos) {
-
-			if (x > subxpos && x < (subxpos + renderdata->charwidth + 1))
-				return charindex;
-
-			subxpos += renderdata->charwidth;
-			charindex++;
-
-		}
-
-		xpos += (renderdata->charwidth * g_array_index (renderdata->colwidths, int, i)) + CELL_HPAD;
-		subxpos = xpos;
-	}
-
-	return -1;
+	return res;
 }

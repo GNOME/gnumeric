@@ -1,7 +1,8 @@
 /*
  * dialog-stf.c : Controls the widget on the CSV (Comma Separated Value) page of the druid
  *
- * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
+ * Copyright 2001 Almer S. Tigelaar <almer@gnome.org>
+ * Copyright 2003 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +47,6 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	GPtrArray *lines;
 	GSList *sepstr;
 	GString *sepc = g_string_new (NULL);
-	int i;
 
 	sepstr = NULL;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_custom))) {
@@ -91,35 +91,9 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_duplicates)));
 
-	data->colcount = stf_parse_get_colcount (parseoptions, data->cur);
-	stf_preview_colwidths_clear (info->csv_run_renderdata);
-	for (i = 0; i < data->colcount + 1; i++)
-		stf_preview_colwidths_add (info->csv_run_renderdata, stf_parse_get_colwidth (parseoptions, data->cur, i));
-
 	lines = stf_parse_general (parseoptions, data->cur);
 
-	stf_preview_render (info->csv_run_renderdata, lines,
-			    info->csv_run_displayrows,
-			    data->colcount);
-}
-
-/**
- * csv_page_scroll_value_changed
- * @adjustment : The gtkadjustment that emitted the signal
- * @data : a mother struct
- *
- * This signal responds to changes in the scrollbar and
- * will force a redraw of the preview
- *
- * returns : nothing
- **/
-static void
-csv_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *data)
-{
-	CsvInfo_t *info = data->csv_info;
-
-	stf_preview_set_startrow (info->csv_run_renderdata, adjustment->value);
-	csv_page_global_change (NULL, data);
+	stf_preview_render (info->csv_run_renderdata, lines);
 }
 
 /**
@@ -174,32 +148,15 @@ stf_dialog_csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 	CsvInfo_t *info = pagedata->csv_info;
 
 	stf_parse_options_set_trim_spaces (info->csv_run_parseoptions, pagedata->trim);
-	pagedata->colcount = stf_parse_get_colcount (info->csv_run_parseoptions, pagedata->cur);
 
 	if (format_get_arg_sep () == ',')
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (info->csv_comma), TRUE);
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (info->csv_semicolon), TRUE);
-	
 
-	/*
-	 * This piece of code is here to limit the number of rows we display
-	 * when previewing
-	 */
-	{
-		int rowcount = stf_parse_get_rowcount (info->csv_run_parseoptions, pagedata->cur) + 1;
-
-		if (rowcount > LINE_DISPLAY_LIMIT) {
-			GTK_RANGE (info->csv_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
-			stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, LINE_DISPLAY_LIMIT);
-		} else {
-			GTK_RANGE (info->csv_scroll)->adjustment->upper = pagedata->importlines;
-			stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, pagedata->importlines);
-		}
-	}
-
-	gtk_adjustment_changed (GTK_RANGE (info->csv_scroll)->adjustment);
+#if 0
 	stf_preview_set_startrow (info->csv_run_renderdata, GTK_RANGE (info->csv_scroll)->adjustment->value);
+#endif
 
 	/* Calling this routine will also automatically call global change which updates the preview too */
 	csv_page_custom_toggled (info->csv_custom, pagedata);
@@ -262,13 +219,11 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->csv_customseparator = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_customseparator"));
 
 	info->csv_duplicates    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_duplicates"));
-	info->csv_canvas = GNOME_CANVAS   (glade_xml_get_widget (gui, "csv_canvas"));
-	info->csv_scroll = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "csv_scroll"));
+	info->csv_data_container  =                   glade_xml_get_widget (gui, "csv_data_container");
 
 	/* Set properties */
-	info->csv_run_renderdata    = stf_preview_new (info->csv_canvas, FALSE, NULL);
+	info->csv_run_renderdata    = stf_preview_new (info->csv_data_container, NULL);
 	info->csv_run_parseoptions  = stf_parse_options_new ();
-	info->csv_run_displayrows   = stf_preview_get_displayed_rowcount (info->csv_run_renderdata);
 
 	stf_parse_options_set_type  (info->csv_run_parseoptions, PARSE_TYPE_CSV);
 
@@ -309,7 +264,4 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (info->csv_duplicates),
 		"toggled",
 		G_CALLBACK (csv_page_global_change), pagedata);
-	g_signal_connect (G_OBJECT (GTK_RANGE (info->csv_scroll)->adjustment),
-		"value_changed",
-		G_CALLBACK (csv_page_scroll_value_changed), pagedata);
 }

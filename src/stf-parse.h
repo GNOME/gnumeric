@@ -91,14 +91,9 @@ GPtrArray          *stf_parse_lines                                   (const cha
 
 int                 stf_parse_get_rowcount                            (StfParseOptions_t *parseoptions,
 								       char const *data);
-int                 stf_parse_get_colcount                            (StfParseOptions_t *parseoptions,
-								       char const *data);
 
 int                 stf_parse_get_longest_row_width                   (StfParseOptions_t *parseoptions,
 								       const char *data);
-
-int                 stf_parse_get_colwidth                            (StfParseOptions_t *parseoptions,
-								       const char *data, int const index);
 
 int	            stf_parse_convert_to_unix                         (char *data);
 char const         *stf_parse_is_valid_data                           (char const *data, int len);

@@ -205,19 +205,19 @@ static gboolean
 stf_store_results (DialogStfResult_t *dialogresult,
 		   Sheet *sheet, int start_col, int start_row)
 {
-	GSList *iterator;
+	unsigned int ui;
 	int col, rowcount;
 
 	stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
 
-	iterator = dialogresult->formats;
 	col = start_col;
 	rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
-	while (iterator) {
+	for (ui = 0; ui < dialogresult->formats->len; ui++) {
+		StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
 		Range range;
 		MStyle *style = mstyle_new ();
 
-		mstyle_set_format (style, iterator->data);
+		mstyle_set_format (style, sf);
 
 		range.start.col = col;
 		range.start.row = start_row;
@@ -225,8 +225,6 @@ stf_store_results (DialogStfResult_t *dialogresult,
 		range.end.row   = rowcount;
 
 		sheet_style_apply_range (sheet, &range, style);
-
-		iterator = g_slist_next (iterator);
 
 		col++;
 	}

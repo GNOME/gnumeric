@@ -1,3 +1,8 @@
+2003-06-04  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-*.[ch]: Rewrite to GtkTreeView based instead of
+	GnomeCanvas.
+
 2003-06-04  Jody Goldberg <jody@gnome.org>
 
 	* dialog-merge.c (dialog_merge) : init the expr entry.
