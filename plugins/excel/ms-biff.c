@@ -98,8 +98,7 @@ makekey (guint32 block, RC4_KEY *key, MD5_CTX *valContext)
 /**
  * verify_password :
  *
- * convert a native encoded password into the arbitrary byte arrangement
- * required for decryption.
+ * convert utf8-password into utf16
  */
 static gboolean
 verify_password (char const *password, guint8 const *docid,
@@ -111,12 +110,20 @@ verify_password (char const *password, guint8 const *docid,
 	RC4_KEY key;
 	int offset, keyoffset, i;
 	unsigned int tocopy;
+	glong items_read, items_written;
+	gunichar2 *utf16 = g_utf8_to_utf16 (password, -1,
+		 &items_read, &items_written, NULL);
 
+	/* we had better recieve valid utf8 */
+	g_return_val_if_fail (utf16 != NULL, FALSE);
+
+	/* Be careful about endianness */
 	memset (pwarray, 0, sizeof (pwarray));
-	for (i = 0 ; password[i] ; i++) {
-		pwarray[(2 * i) + 0] = password [i];
-		pwarray[(2 * i) + 1] = 0;
+	for (i = 0 ; utf16[i] ; i++) {
+		pwarray[(2 * i) + 0] = ((utf16 [i] >> 0) & 0xff);
+		pwarray[(2 * i) + 1] = ((utf16 [i] >> 8) & 0xff);
 	}
+	g_free (utf16);
 
 	pwarray[2 * i] = 0x80;
 	pwarray[56] = (i << 4);
@@ -196,6 +203,11 @@ skip_bytes (BiffQuery *q, int start, int count)
 }
 
 #define sizeof_BIFF_FILEPASS	(6 + 3*16)
+/**
+ * ms_biff_query_set_decrypt :
+ * @q :
+ * @password : password in utf8 encoding.
+ */
 gboolean
 ms_biff_query_set_decrypt (BiffQuery *q, char const *password)
 {
