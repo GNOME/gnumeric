@@ -39,6 +39,4 @@ CLEANFILES  += my_gnumeric_idl $(GNUMERIC_GENERATED) \
 	       my_gnumeric_graphs_idl $(GNUMERIC_GRAPHS_GENERATED)
 
 dist-hook :
-	for file in $(libGnumericIDL_a_SOURCES); do \
-	    rm -f $(distdir)/$$file ; \
-	done
+	cd $(distdir) && rm -f $(CLEANFILES)
