@@ -1,3 +1,8 @@
+2005-01-05  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-series.c (gog_series_get_element): Fix NULL/FALSE
+	confusion.
+
 2004-12-17  Jody Goldberg <jody@gnome.org>
 
 	From Ivan Wong :

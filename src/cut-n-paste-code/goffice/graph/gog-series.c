@@ -806,5 +806,5 @@ gog_series_get_element (GogSeries const *series, int index)
 			return element;
 	}
 	
-	return FALSE;
+	return NULL;
 }
