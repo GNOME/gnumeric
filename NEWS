@@ -66,6 +66,7 @@ Morten:
 	* Fix YIELDDISC and ODDFPRICE.
 	* Implement ODDFYIELD.
 	* Reduce flicker in format selector widgets.
+	* Fix DURATION and MDURATION for frequencies 6 and 12.
 
 --------------------------------------------------------------------------
 

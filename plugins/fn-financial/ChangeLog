@@ -1,3 +1,9 @@
+2003-06-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (func_coup): Use is_valid_basis and is_valid_freq.
+	(gnumeric_duration, gnumeric_mduration): Ditto, thus fixing for
+	frequency 6 and 12.
+
 2003-06-28  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : update the status for oddfyield

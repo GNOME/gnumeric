@@ -288,9 +288,9 @@ func_coup (FunctionEvalInfo *ei, Value **argv,
 	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv))
 		return value_new_error_VALUE (ei->pos);
 
-	if (conv.basis < 0 || conv.basis > BASIS_LAST ||
-	    (conv.freq == 0) || (12 % conv.freq != 0)
-	    || g_date_compare (&settlement, &maturity) >= 0)
+	if (!is_valid_basis (conv.basis) ||
+	    !is_valid_freq (conv.freq) ||
+	    g_date_compare (&settlement, &maturity) >= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (coup_fn (&settlement, &maturity, &conv));
@@ -2125,7 +2125,8 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 
         if (!datetime_value_to_g (&nSettle, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&nMat, argv[1], conv.date_conv) ||
-	    conv.basis < 0 || conv.basis > 4 || (conv.freq != 1 && conv.freq != 2 && conv.freq != 4) )
+	    !is_valid_basis (conv.basis) ||
+	    !is_valid_freq (conv.freq))
 		return value_new_error_NUM (ei->pos);
 
 	fNumOfCoups = coupnum (&nSettle, &nMat, &conv);
@@ -3569,8 +3570,8 @@ gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
         conv.basis = argv[5] ? value_get_as_int (argv[5]) : 0;
         conv.eom   = FALSE;
 
-        if (conv.basis < 0 || conv.basis > 4 ||
-	    (conv.freq != 1 && conv.freq != 2 && conv.freq != 4) ||
+        if (!is_valid_basis (conv.basis) ||
+	    !is_valid_freq (conv.freq) ||
 	    !datetime_value_to_g (&nSettle, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&nMat, argv[1], conv.date_conv))
 		return value_new_error_NUM (ei->pos);
