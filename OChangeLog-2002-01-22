@@ -1,5 +1,8 @@
 2001-02-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-style.c (sheet_style_insert_colrow) : When inserting
+	  before the first row/col use the style from A/1.
+
 	* src/sheet.h (SHEET_FOREACH_CONTROL) : Be really really careful about
 	  potential modifications to the list why we are walking it.
 

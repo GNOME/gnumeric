@@ -1469,22 +1469,27 @@ sheet_style_insert_colrow (ExprRelocateInfo const *rinfo)
 
 	/* 1) copy col/row to the top/left of the region, and extend it */
 	corner = rinfo->origin.start;
-	if (rinfo->col_offset != 0 && corner.col > 0) {
+	if (rinfo->col_offset != 0) {
 		int const o = rinfo->col_offset - 1;
+		int col = corner.col - 1;
+
+		if (col < 0)
+			col = 0;
 		corner.row = 0;
 		styles = sheet_style_get_list (rinfo->origin_sheet,
-			       range_init (&r, corner.col-1, 0,
-					   corner.col-1, SHEET_MAX_ROWS-1));
+			       range_init (&r, col, 0, col, SHEET_MAX_ROWS-1));
 		if (o > 0)
 			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
 				((StyleRegion *)ptr->data)->range.end.col = o;
 
-	} else if (rinfo->row_offset != 0 && corner.row > 0) {
+	} else if (rinfo->row_offset != 0) {
 		int const o = rinfo->row_offset - 1;
+		int row = corner.row - 1;
+		if (row < 0)
+			row = 0;
 		corner.col = 0;
 		styles = sheet_style_get_list (rinfo->origin_sheet,
-			       range_init (&r, 0, corner.row-1,
-					   SHEET_MAX_COLS-1, corner.row-1));
+			       range_init (&r, 0, row, SHEET_MAX_COLS-1, row));
 		if (o > 0)
 			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
 				((StyleRegion *)ptr->data)->range.end.row = o;
