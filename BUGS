@@ -182,8 +182,6 @@ Plugins
 - Mark plugin as "broken" if deactivation failed.
 - mps
     : has some fixed-length arrays that can be overrun.
-- latex
-    : borders of multiline rows or spans are not handled properly.
 - html export
     : multiline rows not handled properly.
     : nor are spans
