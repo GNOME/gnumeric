@@ -20,17 +20,17 @@
 #include "gnumeric.h"
 #include "file.h"
 
-struct FileSource
-{
+typedef struct {
 	char const *data, *cur;
 	int         len;
 
 	int line;
 	Sheet *sheet;
-};
+} FileSource_t;
+
 
 static char *
-csv_parse_field (struct FileSource *src)
+csv_parse_field (FileSource_t *src)
 {
 	GString *res = NULL;
 	char const *cur = src->cur;
@@ -82,7 +82,7 @@ csv_parse_field (struct FileSource *src)
 }
 
 static gboolean
-csv_parse_sheet (struct FileSource *src)
+csv_parse_sheet (FileSource_t *src)
 {
 	int row, col;
 	char *field;
@@ -91,14 +91,14 @@ csv_parse_sheet (struct FileSource *src)
 		if (row >= SHEET_MAX_ROWS) {
 			g_warning ("CSV : Invalid CSV file has more than the maximum number of rows %d",
 				   SHEET_MAX_ROWS);
-			return NULL;
+			return FALSE;
 		}
 
 		for (col = 0 ; *src->cur && *src->cur != '\n' && *src->cur != '\r' ; ++col) {
 			if (col >= SHEET_MAX_COLS) {
 				g_warning ("CSV : Invalid CSV file has more than the maximum number of columns %d",
 					   SHEET_MAX_COLS);
-				return NULL;
+				return FALSE;
 			}
 
 			if (NULL != (field = csv_parse_field (src))) {
@@ -134,7 +134,7 @@ csv_read_workbook (Workbook *book, char const *filename)
 	len = sbuf.st_size;
 	if (MAP_FAILED != (data = (char const *) (mmap(0, len, PROT_READ,
 						       MAP_PRIVATE, fd, 0)))) {
-		struct FileSource src;
+		FileSource_t src;
 		char * name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
 		src.data  = data;
@@ -157,6 +157,81 @@ csv_read_workbook (Workbook *book, char const *filename)
 	return result;
 }
 
+
+static int
+csv_write_cell (FILE *f, Cell *cell, int col, int row)
+{
+	if (col > 0)
+		fputc (',', f);
+	if (cell) {
+		gboolean quoting = FALSE;
+
+		if (strchr (cell->text->str, ',') ||
+		    strchr (cell->text->str, ' ') ||
+		    strchr (cell->text->str, '\t')) {
+			quoting = TRUE;
+			fputc ('"', f);
+		}
+		fputs (cell->text->str, f); /* XXX quote " marks properly */
+		if (quoting) {
+			quoting = FALSE;
+			fputc ('"', f);
+		}
+	}
+	
+	if (ferror (f))
+		return -1;
+
+	return 0;
+}
+
+
+#ifndef PAGE_SIZE
+#define PAGE_SIZE (BUFSIZ*8)
+#endif
+
+/*
+ * write every sheet of the workbook to a comma-separated-values file
+ */
+static int
+csv_write_workbook (Workbook *wb, const char *filename)
+{
+	GList *sheet_list;
+	Sheet *sheet;
+	Cell *cell;
+	int row, col, rc=0;
+	FILE *f = fopen (filename, "w");
+
+	if (!f)
+		return -1;
+	
+	setvbuf (f, NULL, _IOFBF, PAGE_SIZE);
+
+	sheet_list = workbook_sheets (wb);
+	while (sheet_list) {
+		sheet = sheet_list->data;
+
+		for (row = 0; row <= sheet->rows.max_used; row++) {
+			for (col = 0; col <= sheet->cols.max_used; col++) {
+				cell = sheet_cell_get (sheet, col, row);
+				rc = csv_write_cell (f, cell, col, row);
+				if (rc) 
+					goto out;
+			}
+			
+			fputc ('\n', f);
+		}
+
+		sheet_list = sheet_list->next;
+	}
+
+out:
+	if (f)
+		fclose (f);
+	return rc;	/* Q: what do we have to return here?? */
+}
+
+
 static int
 csv_can_unload (PluginData *pd)
 {
@@ -164,19 +239,30 @@ csv_can_unload (PluginData *pd)
 	return TRUE;
 }
 
+
 static void
 csv_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (NULL, csv_read_workbook);
+	file_format_unregister_save (csv_write_workbook);
 }
+
 
 int
 init_plugin (PluginData * pd)
 {
-	file_format_register_open (1, _("Comma Separated Value (CSV) import"), NULL, csv_read_workbook);
+	char *desc;
+	
+	desc = _("Comma Separated Value (CSV) import");
+	file_format_register_open (1, desc, NULL, csv_read_workbook);
+
+	desc = _("Comma Separated Value format (*.csv)");
+	file_format_register_save (".csv", desc, csv_write_workbook);
+
+	desc = _("Comma Separated Value (CSV) module");
+	pd->title = g_strdup (desc);
 	pd->can_unload = csv_can_unload;
 	pd->cleanup_plugin = csv_cleanup_plugin;
-	pd->title = g_strdup (_("Comma Separated Value (CSV) module"));
 
 	return 0;
 }

@@ -1,7 +1,17 @@
+1999-11-17  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* csv-io.c (csv_parse_sheet):  Correct previous check-in;
+	Return FALSE, not NULL.
+
 1999-11-17  Jody Goldberg <jgoldberg@home.com>
 
 	* csv-io.c (csv_parse_sheet) : Add some checks to handle
 	  files with more than SHEET_MAX_COLS columns fail.
+
+1999-11-17  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* csv-io.c (csv_write_workbook/cell): new functions
+	(init_plugin, csv_cleanup_plugin): add CSV export capability
 
 1999-07-31  Morten Welinder  <terra@diku.dk>
 
