@@ -1,0 +1,365 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% "tfont" defs in this part is for those who have downloaded Microsoft
+%% TrueType fonts (or those who mounting Windows partition from your UNIX
+%% partition).
+%% those are available at: http://microsoft.com/typography/fontpack/default.htm
+%% and they require Windows licence to extract the archive.
+%%
+%% If you got Computer Modern fonts in TrueType format, you may want to
+%% use the following settings:
+%%	"cmss10.ttf" for standard, "cmssbx10.ttf" for thick,
+%%	"cmtt10.ttf" for typewriter
+%% CM fonts are avaiable at CTAN mirros, pub/CTAN/fonts/cm/ps-type1/bakoma/ttf.
+%% unlike MS ones, it does not require Windows license!
+%%
+%% see README.fonts{,.jp} for more detailed milage you take.
+%%
+%deffont "standard" xfont "arial.ttf"
+%deffont "thick" xfont "arialbd.ttf"
+%deffont "typewriter" xfont "courbd.ttf"
+%%
+%% Default settings per each line numbers.
+%%
+%default 1 leftfill, size 2, back "white", fore "black", font "thick"
+%default 2 size 6, vgap 10, prefix " "
+%default 3 size 2, bar "gray70", vgap 10
+%default 4 size 4, fore "black", vgap 30, prefix " ", font "standard"
+%%
+%% Default settings that are applied to TAB-indented lines.
+%%
+%tab 1 size 6, vgap 60, prefix "  ", icon box "blue" 50
+%tab 2 size 4, vgap 50, prefix "      ", icon arc "yellow" 50
+%tab 3 size 4, vgap 40, prefix "            ", icon delta3 "green" 40
+%tab 4 size 3, vgap 40, prefix "                     ", icon arc "red" 30
+%tab 5 size 3, vgap 40, prefix "                         ", icon delta1 "white" 30
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	What is Gnumeric
+		A spreadsheet
+		Created by Miguel almost 4 years ago
+		Push GNOME & GTK support for large applications
+		"As close to Excel as necessary but no closer"
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Goals
+		Provide replacement for proprietary spreadsheets
+			Use MS strategy 'Embrace Extend ...'
+			Concentrate of minimising cost of transition
+			Plan for the future
+
+%pause
+		Produce a high quality spreadsheet
+			Correctness
+			Maintainability
+			Completeness
+			Performance
+			Extensibility	(new)
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Overall State
+		This was a good year
+			1.0 (aka Embrace) !!!
+			Docs
+			Existing features more robust
+			Internationalization improved
+%pause
+
+		Release protocols paid off
+			Stability
+			# of bugs
+			Portability
+			Test suite
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	User visibile additions in 1.0
+		Graphs
+		Frozen Panes
+		Grouping
+		Data Validation
+		Search / Search & Replace
+		Table creation
+		Better statistical tools
+		Lots of docs
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Developer features in 1.0
+		GnumericExprEntry
+		Extend and polish 'Dependent'
+		Improved parse errors
+		SheetObject framework starts to make sense
+		Per Sheet style hash
+		Just in time render for expressions
+
+%pause
+	Things that did not make it in
+		Use of Gnumeric as Bonobo::{Control,Embeddable}
+		Support just in time render and span
+		Conditional formating
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	User Features already in 1.1
+		Lots of UI improvements from port GTK2
+		SPEED!
+		Mail Merge
+		Greatly improved solver
+		More numeric accuracy and stability for stats
+		Make analysis tools undoable
+		Real time data feed
+		Make most dialogs pseudo-modal
+		Import encrypted MS Excel workbooks
+		Some support for protection
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Planned changes before 1.2
+		Preferences dialog
+		Improve graphs
+		Rewrite format selection widget
+		Filters
+		Conditional formatting (might get bumped)
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Architecture changes already in 1.1
+		uHash for dep lists
+		Move cells fully to link/unlink life cycle
+		Custom allocators
+		Support images directly (no bonobo)
+		XL style auto colour support
+		Use pango for font selection (not gnome-print)
+		Evaluation time dependenencies
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Planned changes before 1.2
+		Rewrite format engine to be utf8 friendly (and sane)
+		Move to RenderedRegion
+		Plugin support for menu & toolbars
+		Rework text import dialog
+		New function doc framework
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Planned changes before 1.2
+		Rewrite format engine to be utf8 friendly (and sane)
+		Move to RenderedRegion
+		Plugin support for menu & toolbars
+		Rework text import dialog
+		New function doc framework
+
+%pause
+	Wishlist changes for 1.2
+		Undo journal
+		Scripting API Proposal (might get bumped)
+
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Plans
+		1.2
+			Fast turn around
+			Tied to gnome2 release
+			Freeze in June
+			July/Aug release (optimistic ?)
+			Target Financial Market
+
+%pause
+		2.0
+			Pivots		(pushed back from 1.2)
+			Gui/Core split	(might still be in 1.2)
+			Release within 1 year of 1.2
+			Target some support for all major XL features
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Failures
+		SheetView
+		Embeddable Gnumeric
+		Using Bonobo
+		Using GnomePrint
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	Active Gnumeric Community (last 3 months)
+		Jody Goldberg	Morten Welinder
+		Andreas J. Guelzow	Jon K Hellan
+		Jukka-Pekka Iivonen	Almer S. Tigelaar
+
+		Kevin Breit		Alexander Kirillov
+		Aaron Weber	Eric Baudais
+		Adrian Custer
+
+		C. Scott Ananian	Chema Celorio
+		Jakub Steiner	Joshua R. Odom
+		Juan Pablo Mendoza	Michael Meeks
+		Rodrigo Moya	Wayne Schuster
+		Yukihiro Nakai	Zbigniew Chyla
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	The competition
+			Excel
+				More Features
+				Integrated Office Suite
+				Faster
+				Codebase quality ??
+%pause
+			Open/Star Calc
+				More Features of varying quality
+				Integrated Office Suite
+				Slower
+				Cumbersome Codebase
+%pause
+			KSpread
+				Fewer Features
+				Integrated Office Suite
+				Much Slower
+				Needs lots of work
+%page
+%%bgrad 0 0 128 0 1 "blue2" "black" "black" "black" "blue4" "blue3" "blue4"
+
+%right
+State of Gnumeric
+%left
+
+	How we stack up (according to me)
+		Pros
+			Fastest/Smallest Free spreadsheet
+			Clean Codebase (mostly)
+			Still have maintainer level perspective
+			Guppi is Beautttiiiiiffuuuulll
+		Cons
+			No Integrated Office Suite
+			Missing Features
+			Weak Use of Guppi
+%page
+%%bgrad 100 100 128 90 1 "black" "red" "black"
+
+%right
+State of GNOME Office
+%left
+
+		What is GNOME Office ?
+			Loose collection of programs ?
+			Integrated suite of applications ?
+			A set of supporting libraries ?
+
+		Applications associated with GNOME Office
+			Gnumeric	Guppi		Abiword
+			Evolution	Dia		Sodipodi
+			Toutdoux	Mrproject	Achtung
+			Gnucash	Gimp		Galeon
+
+		Libraries associated with GNOME Office
+			Gnome Print	LibXML		GLib/GTK+
+			LibOLE		GAL/EEL	wvWare
+%page
+%%bgrad 100 100 128 90 1 "black" "red" "black"
+
+%right
+State of GNOME Office
+%left
+
+	The Good
+			Our Apps are strong
+			Solid 1.0 releases of many (abi soon ?)
+			Good press
+
+%pause
+	The Bad
+			No integration
+			Little recognition
+			Replication
+			Not much press
+%page
+%%bgrad 100 100 128 90 1 "black" "red" "black"
+
+%right
+State of GNOME Office
+%left
+
+	Things to consider
+			OpenOffice is usable now
+			No presentation program on horizon
+%pause
+	What can we do
+			Create some common libraries
+			Produce an official 'GnomeOffice' package
+%page
+%%bgrad 100 100 128 90 1 "black" "red" "black"
+
+%right
+State of GNOME Office
+%left
+
+	Shared Problems
+			Fonts
+			Document centric functionality
+			Editor style apis
+			Stuctured file format (shared with OO?)
+			Support common MS Office features (Escher, WMF/EMF)
+
