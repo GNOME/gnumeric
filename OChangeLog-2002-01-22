@@ -1,5 +1,7 @@
 2001-02-06  Morten Welinder  <terra@diku.dk>
 
+	* src/workbook-private.c (workbook_private_new): Fix prototype.
+
 	* src/commands.c (cmd_search_replace_destroy): Plug leak.
 	(cmd_search_replace_do_cell): Implement string and error failure
  	modes (apart from a FIXME in the code).

@@ -80,7 +80,7 @@ workbook_private_get_type (void)
 #endif
 
 WorkbookPrivate *
-workbook_private_new ()
+workbook_private_new (void)
 {
 #ifdef ENABLE_BONOBO
 	WorkbookPrivate *wbp = gtk_type_new (workbook_private_get_type ());
