@@ -29,7 +29,7 @@ sheet_init_default_styles (Sheet *sheet)
 	/* The default column style */
 	sheet->default_col_style.pos        = -1;
 	sheet->default_col_style.style      = style_new ();
-	sheet->default_col_style.units      = 40;
+	sheet->default_col_style.units      = 80;
 	sheet->default_col_style.pixels     = 0;
 	sheet->default_col_style.margin_a   = 1;
 	sheet->default_col_style.margin_b   = 1;
@@ -220,7 +220,8 @@ sheet_new (Workbook *wb, char *name)
 	sheet_init_default_styles (sheet);
 	
 	/* Dummy initialization */
-	sheet_init_dummy_stuff (sheet);
+	if (0)
+		sheet_init_dummy_stuff (sheet);
 
 	/* Column canvas */
 	sheet->col_canvas = new_canvas_bar (sheet, GTK_ORIENTATION_HORIZONTAL, &sheet->col_item);

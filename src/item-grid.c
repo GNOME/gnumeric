@@ -182,6 +182,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	style = cell->style;
 	font = style->font->font;
 
+#if 0
 	/* Code to test the different alignements, hardcoded for now */
 	switch (col){
 	case 0:
@@ -200,6 +201,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		style->halign = HALIGN_FILL;
 		break;
 	}
+#endif
+	
 	switch (style->halign){
 	case HALIGN_GENERAL:
 		if (col < SHEET_MAX_COLS-1)

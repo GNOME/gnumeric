@@ -1,4 +1,13 @@
-1998-08-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+1998-08-05    <miguel@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (cancel_pending_input): Cancel changes
+	made.
+	(start_editing_at_cursor): Make a copy of the original text, and
+	clear the actual text to fix the redraw problems.
+
+	* src/item-edit.c (item_edit_set_editor): Make the cursor be in
+	sync with the GtkEntry by hooking to the "event" signal and
+	catching key press and key release events.
 
 	* src/func.c: More functions added.
 

@@ -167,10 +167,10 @@ static Value *
 gnumeric_sin (int argc, Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
-
+	
 	v->type = VALUE_FLOAT;
 	v->v.v_float = sin (value_get_as_double (argv [0]));
-
+	
 	return v;
 }
 	

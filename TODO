@@ -5,6 +5,8 @@ GNOME Spread Sheet task list
 * Implement recalculation
 * Implement functions
 * Implement Ranges.
+* Redo the Selection code
+* Routine for returning the bounding box of a cell.
 
 * Edit
 

@@ -24,7 +24,13 @@ typedef struct {
 	ItemGrid    *item_grid;
 	ItemCursor  *item_cursor;
 	ItemBar     *item_bar_col;
+
+	/* When editing: The editor, the cell being edited
+	 * (may be NULL) and the original text on the cell.
+	 */
 	ItemEdit    *item_editor;
+	String      *editing_saved_text;
+	Cell        *editing_cell;
 
 	/* This flag keeps track of a cell selector
 	 * (ie, when the user uses the cursor keys

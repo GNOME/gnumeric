@@ -155,7 +155,7 @@ value_get_as_double (Value *v)
 	if (v->type == VALUE_INTEGER)
 		return (float_t) v->v.v_int;
 
-	return v->v.v_float;
+	return (float_t) v->v.v_float;
 }
 
 static Value *
@@ -334,7 +334,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				break;
 				
 			case OP_DIV:
-				if (mpf_cmp_si (b->v.v_int, 0)){
+				if (mpf_cmp_si (b->v.v_float, 0.0)){
 					value_release (a);
 					value_release (b);
 					value_release (res);

@@ -83,6 +83,21 @@ gnumeric_sheet_set_current_value (GnumericSheet *sheet)
 #endif
 }
 
+static void
+destroy_item_editor (GnumericSheet *gsheet)
+{
+	g_return_if_fail (gsheet->item_editor);
+	
+	gtk_object_destroy (GTK_OBJECT (gsheet->item_editor));
+	gsheet->item_editor = NULL;
+
+	if (gsheet->editing_saved_text){
+		string_unref (gsheet->editing_saved_text);
+		gsheet->editing_saved_text = NULL;
+		gsheet->editing_cell       = NULL;
+	}
+}
+
 void
 gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
 {
@@ -93,9 +108,7 @@ gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
 		return;
 
 	gnumeric_sheet_set_current_value (sheet);
-	
-	gtk_object_destroy (GTK_OBJECT (sheet->item_editor));
-	sheet->item_editor = NULL;
+	destroy_item_editor (sheet);
 }
 
 void
@@ -149,6 +162,7 @@ start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
 {
 	GnomeCanvasItem *item;
 	GnomeCanvas *canvas = GNOME_CANVAS (sheet);
+	Cell *cell;
 
 	gtk_entry_set_text (GTK_ENTRY(entry), "");
 	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP(canvas->root),
@@ -160,6 +174,14 @@ start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
 				      "ItemEdit::GtkEntry", entry,
 				      NULL);
 
+	cell = sheet_cell_get (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
+
+	if (cell){
+		sheet->editing_saved_text = cell->entered_text;
+		sheet->editing_cell = cell;
+		string_ref (sheet->editing_saved_text);
+		cell_set_text (sheet->sheet, cell, "");
+	}
 	sheet->item_editor = ITEM_EDIT (item);
 }
 
@@ -310,6 +332,15 @@ stop_cell_selection (GnumericSheet *gsheet)
 	gsheet->selecting_cell = FALSE;
 	gtk_object_destroy (GTK_OBJECT (gsheet->selection));
 	gsheet->selection = NULL;
+}
+
+static void
+cancel_pending_input (GnumericSheet *gsheet)
+{
+	stop_cell_selection (gsheet);
+	
+	if (gsheet->item_editor)
+		destroy_item_editor (gsheet);
 }
 
 static void
@@ -525,6 +556,10 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 	case GDK_Return:
 		g_warning ("FIXME: Should move to next cell in selection\n");
 		move_cursor (sheet, sheet->cursor_col, sheet->cursor_row, 0);
+		break;
+
+	case GDK_Escape:
+		cancel_pending_input (sheet);
 		break;
 		
 	case GDK_F2:

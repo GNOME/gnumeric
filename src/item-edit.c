@@ -148,15 +148,20 @@ item_edit_init (ItemEdit *item_edit)
 }
 
 static void
-entry_changed (GtkEntry *entry, void *data)
+queue_sync (ItemEdit *item_edit)
 {
-	ItemEdit *item_edit = ITEM_EDIT (data);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_edit)->canvas;
 	int x, y, w, h;
 
 	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
 	
 	gnome_canvas_request_redraw (canvas, x, y, x+w, y+h);
+}
+
+static void
+entry_changed (GtkEntry *entry, void *data)
+{
+	queue_sync (ITEM_EDIT (data));
 }
 
 static void
@@ -175,6 +180,32 @@ item_edit_destroy (GtkObject *o)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);
 }
 
+static int
+entry_event (GtkEntry *entry, GdkEvent *event, ItemEdit *item_edit)
+{
+	switch (event->type){
+	case GDK_KEY_PRESS:
+	case GDK_KEY_RELEASE:
+	case GDK_BUTTON_PRESS:
+		queue_sync (item_edit);
+
+	default:
+	}
+	return FALSE;
+}
+
+static void
+item_edit_set_editor (ItemEdit *item_edit, void *data)
+{
+	item_edit->editor = GTK_ENTRY (data);
+	item_edit->signal = gtk_signal_connect (
+		GTK_OBJECT (item_edit->editor), "changed",
+		GTK_SIGNAL_FUNC(entry_changed), item_edit);
+	gtk_signal_connect_after (
+		GTK_OBJECT (item_edit->editor), "event",
+		GTK_SIGNAL_FUNC(entry_event), item_edit);
+}
+		      
 static void
 item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
@@ -186,16 +217,13 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_SHEET:
-		item_edit->sheet = GTK_VALUE_POINTER (*arg);
+		item_edit->sheet = (Sheet *) GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_ITEM_GRID:
 		item_edit->item_grid = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_GTK_ENTRY:
-		item_edit->editor = GTK_VALUE_POINTER (*arg);
-		item_edit->signal = gtk_signal_connect (
-			GTK_OBJECT (item_edit->editor), "changed",
-			GTK_SIGNAL_FUNC(entry_changed), item_edit);
+		item_edit_set_editor (item_edit, GTK_VALUE_POINTER (*arg));
 		break;
 	case ARG_COL:
 		item_edit->col = GTK_VALUE_INT (*arg);
