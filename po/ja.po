@@ -361,7 +361,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -15792,30 +15791,26 @@ msgid "Format as alternative Number"
 msgstr "パーセントで書式設定"
 
 #: src/gnumeric-canvas.c:518
-#, fuzzy, c-format
 msgid "File \"%s\" has unknown format."
-msgstr "Pythonファイル\"%s\"のフォーマットが正しくありません。"
+msgstr "ファイル\"%s\"のフォーマットは不明です。"
 
 #: src/gui-clipboard.c:51
-#, fuzzy
 msgid "Error while trying to pre-convert clipboard data"
-msgstr "ファイル変換中にエラー"
+msgstr "クリップボードデータのプレコンバートでエラー"
 
 #: src/gui-clipboard.c:58
-#, fuzzy, c-format
 msgid ""
 "The data on the clipboard does not seem to be valid text.\n"
 "The character '%c' (ASCII decimal %d) was encountered.\n"
 "Most likely your locale settings are wrong."
 msgstr ""
-"このファイルは適正なテキストファイルではないようです。\n"
+"クリップボードにあるこのデータは適切なテキストではないようです。\n"
 "文字'%c' (ASCII 10進 %d) が見つかりました。\n"
 "おそらくロケール設定が正しくありません。"
 
 #: src/gui-clipboard.c:99
-#, fuzzy
 msgid "Parse error while trying to parse data into cellregion"
-msgstr "シートに読み込むデータの構文解析中に構文解析エラー"
+msgstr "セルの選択範囲にデータをパースしようとしてパースエラー"
 
 #: src/gui-file.c:72
 msgid "File format:"
@@ -16219,14 +16214,13 @@ msgid "Error while reading file."
 msgstr "ファイルの読み込みでエラー。"
 
 #: src/plugin-service.c:478
-#, fuzzy
 msgid "File opener has no id"
-msgstr "プラグインにIDがありません。"
+msgstr "ファイルオープナにIDがありません"
 
 #: src/plugin-service.c:481
 #, c-format
 msgid "File opener with id=\"%s\" has no description"
-msgstr ""
+msgstr "ID=\"%s\"のファイルオープナには説明がありません"
 
 #: src/plugin-service.c:611
 msgid "Error while saving file."
@@ -16234,12 +16228,12 @@ msgstr "ファイルの保存でエラー。"
 
 #: src/plugin-service.c:710
 msgid "File saver has no id"
-msgstr ""
+msgstr "ファイルセーバにはIDがありません"
 
 #: src/plugin-service.c:713
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
-msgstr ""
+msgstr "ID=\"%s\"のファイルセーバには説明がありません"
 
 #: src/plugin-service.c:865
 msgid "Missing function group id."
@@ -16611,13 +16605,12 @@ msgid "can't create object for '%s'"
 msgstr "'%s'のオブジェクトを作成できません"
 
 #: src/sheet-object-container.c:187
-#, fuzzy, c-format
 msgid "Could not load file: %s"
 msgstr "ファイルを読み込めませんでした: %s"
 
 #: src/sheet-object-graphic.c:446
 msgid "Configure line or arrow"
-msgstr ""
+msgstr "線や矢印の設定"
 
 #: src/sheet-object-graphic.c:462 src/sheet-object-graphic.c:859
 msgid "Border width"
@@ -16662,7 +16655,7 @@ msgstr "アウトラインカラー"
 
 #: src/sheet-object-graphic.c:857
 msgid "Fill color"
-msgstr ""
+msgstr "塗りつぶしカラー"
 
 #: src/sheet-object-widget.c:817
 msgid "Checkbox Configure"
@@ -16685,12 +16678,10 @@ msgid "Target region contains merged cells"
 msgstr "対象範囲は結合セルを含んでいます"
 
 #: src/sheet.c:2268
-#, fuzzy
 msgid "cannot operate on merged cells"
 msgstr "結合セルを操作できません"
 
 #: src/sheet.c:2279
-#, fuzzy
 msgid "cannot operate on array formulae"
 msgstr "配列式を操作できません"
 
