@@ -1,3 +1,8 @@
+2001-11-01  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-autosave.c (dialog_autosave): Fixed the help button.
+	Pressing help does not kill the dialog any more.
+
 2001-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.glade : Remove unused dialogs.

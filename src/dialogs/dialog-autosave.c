@@ -2,10 +2,10 @@
  * dialog-autosave.c:
  *
  * Authors:
- *        Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *        Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
  *        Miguel de Icaza (miguel@kernel.org)
  *
- * (C) Copyright 2000 by Jukka-Pekka Iivonen (iivonen@iki.fi)
+ * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
  **/
 #include <config.h>
 #include "gnumeric.h"
@@ -132,6 +132,7 @@ loop:
 	} else if (v == 2) {
 		GnomeHelpMenuEntry help_ref = { "gnumeric", "autosave.html" };
 		gnome_help_display (NULL, &help_ref);
+		goto loop;
 	}
 
 	if (v != -1)
