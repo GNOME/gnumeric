@@ -1,5 +1,8 @@
 1999-10-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-zoom.c (dialog_zoom_impl) : Have the custom zoom
+	  spinbox call 'Ok' when enter is pressed.
+
 	* src/sheet.c (sheet_destroy_contents) : Fix typo causing memory
 	  corruption.
 

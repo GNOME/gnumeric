@@ -233,7 +233,7 @@
 		<digits>0</digits>
 		<numeric>True</numeric>
 		<update_policy>GTK_UPDATE_ALWAYS</update_policy>
-		<snap>True</snap>
+		<snap>False</snap>
 		<wrap>False</wrap>
 		<value>100</value>
 		<lower>10</lower>
