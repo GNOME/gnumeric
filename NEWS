@@ -16,7 +16,9 @@ Jody:
 	* Transparent makes no sense for lines & arrows.
 	* Improve help tokenizer.
 	* Don't prompt for sheet delete if it is pristine.
-	* autofill includes autoformats for expressions.
+	* Autofill includes autoformats for expressions.
+	* Edit position after undoing a merge.
+	* Partial fix for del col/row undo with dependent objects.
 
 Morten:
 	* Fix DATE.

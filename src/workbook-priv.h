@@ -21,6 +21,8 @@ struct _Workbook {
 	GPtrArray  *sheets;
 	GHashTable *sheet_hash_private;
 
+	gboolean modified;
+
 	/* Attribute list */
 	GList *attributes;
 

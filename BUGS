@@ -7,11 +7,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- format leak in xml cell import
 - name refering to deleted sheet
 - change message generation for undo ins col to avoid g_lib problems
   during translations.
-- ins/del col/row undo with deleted objects (66666)
 - ensure that minimum sizes for cols/rows are not violated
 
 Pending Patches
@@ -24,6 +22,9 @@ Pending Patches
 
 Long term breakage
 ------------------
+
+- Add dirty flags to workbook too, adding a sheet should make workbook dirty
+  no the new sheet.
 
 - Names
     : Fix XL named expr import for sheet local names

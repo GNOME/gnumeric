@@ -2455,7 +2455,7 @@ sheet_cells (Sheet *sheet,
 {
 	GPtrArray *cells = g_ptr_array_new ();
 	Range r;
-	GList *scomments, *tmp;
+	GSList *scomments, *ptr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), cells);
 
@@ -2469,9 +2469,9 @@ sheet_cells (Sheet *sheet,
 	r.start.row = start_row;
 	r.end.col = end_col;
 	r.end.row = end_row;
-	scomments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
-	for (tmp = scomments; tmp; tmp = tmp->next) {
-		CellComment *c = tmp->data;
+	scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
+	for (ptr = scomments; ptr; ptr = ptr->next) {
+		CellComment *c = ptr->data;
 		Range const *loc = sheet_object_range_get (SHEET_OBJECT (c));
 		Cell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
 		if (!cell) {
@@ -2483,7 +2483,7 @@ sheet_cells (Sheet *sheet,
 			g_ptr_array_add (cells, ep);
 		}
 	}
-	g_list_free (scomments);
+	g_slist_free (scomments);
 
 	return cells;
 }
@@ -3061,14 +3061,10 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		rows_height_update (sheet, &r, TRUE);
 	}
 
-	if (clear_flags & CLEAR_COMMENTS) {
-		GList *comments, *ptr;
+	if (clear_flags & CLEAR_COMMENTS)
+		sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
 
-		comments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
-		for (ptr = comments ; ptr != NULL ;ptr = ptr->next)
-			gtk_object_destroy (GTK_OBJECT (ptr->data));
-		g_list_free (comments);
-	}
+	/* TODO : how to handle objects ? */
 
 	min_col = start_col;
 	max_col = end_col;
@@ -3364,8 +3360,8 @@ sheet_colrow_insdel_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
 {
 	Sheet *sheet = rinfo->origin_sheet;
 
+	sheet_objects_relocate (rinfo, FALSE);
 	sheet_merge_relocate (rinfo);
-	sheet_relocate_objects (rinfo, FALSE);
 
 	/* Queue entire sheet for recalc (not strictly necessary) */
 	sheet_region_queue_recalc (sheet, NULL);
@@ -3507,9 +3503,10 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 				      wbc, _("Delete Columns")))
 		return TRUE;
 
-	/* 1. Delete all columns (and their cells) that will fall off the end */
+	/* 1. Delete the columns (and their cells) */
 	for (i = col + count ; --i >= col; )
 		sheet_col_destroy (sheet, i, TRUE);
+	sheet_objects_clear (sheet, &reloc_info.origin, GTK_TYPE_NONE);
 
 	/* 2. Invalidate references to the cells in the delete columns */
 	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
@@ -3617,9 +3614,10 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 				      wbc, _("Delete Rows")))
 		return TRUE;
 
-	/* 1. Delete all cols (and their cells) that will fall off the end */
+	/* 1. Delete the rows (and their content) */
 	for (i = row + count ; --i >= row; )
 		sheet_row_destroy (sheet, i, TRUE);
+	sheet_objects_clear (sheet, &reloc_info.origin, GTK_TYPE_NONE);
 
 	/* 2. Invalidate references to the cells in the delete columns */
 	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
@@ -3768,7 +3766,7 @@ sheet_move_range (WorkbookControl *wbc,
 	}
 
 	/* 7. Move objects in the range */
-	sheet_relocate_objects (rinfo, TRUE);
+	sheet_objects_relocate (rinfo, TRUE);
 	sheet_merge_relocate (rinfo);
 
 	/* 8. Queue entire sheet for recalc */

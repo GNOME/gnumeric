@@ -690,7 +690,7 @@ sheet_object_position_pts_get (SheetObject const *so, double *coords)
 }
 
 /**
- * sheet_relocate_objects :
+ * sheet_objects_relocate :
  *
  * @rinfo : details on what should be moved.
  * @update : Should we do the bound_update now, or leave it for later.
@@ -699,7 +699,7 @@ sheet_object_position_pts_get (SheetObject const *so, double *coords)
  * to relocate objects when the grid moves (eg ins/del col/row).
  */
 void
-sheet_relocate_objects (ExprRelocateInfo const *rinfo, gboolean update)
+sheet_objects_relocate (ExprRelocateInfo const *rinfo, gboolean update)
 {
 	GList   *ptr, *next;
 	Range	 dest;
@@ -757,7 +757,7 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo, gboolean update)
 }
 
 /**
- * sheet_get_objects :
+ * sheet_objects_get :
  *
  * @sheet : the sheet.
  * @r     : an optional range to look in
@@ -766,10 +766,10 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo, gboolean update)
  * Returns a list of which the caller must free (just the list not the content).
  * Containing all objects of exactly the specified type (inheritence does not count).
  */
-GList *
-sheet_get_objects (Sheet const *sheet, Range const *r, GtkType t)
+GSList *
+sheet_objects_get (Sheet const *sheet, Range const *r, GtkType t)
 {
-	GList *res = NULL;
+	GSList *res = NULL;
 	GList *ptr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -777,13 +777,40 @@ sheet_get_objects (Sheet const *sheet, Range const *r, GtkType t)
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
 		GtkObject *obj = GTK_OBJECT (ptr->data);
 
-		if (GTK_OBJECT_TYPE (obj) == t) {
+		if (t == GTK_TYPE_NONE || t == GTK_OBJECT_TYPE (obj)) {
 			SheetObject *so = SHEET_OBJECT (obj);
 			if (r == NULL || range_overlap (r, &so->anchor.cell_bound))
-				res = g_list_prepend (res, so);
+				res = g_slist_prepend (res, so);
 		}
 	}
 	return res;
+}
+
+/**
+ * sheet_object_clear :
+ *
+ * @sheet : the sheet.
+ * @r     : an optional range to look in
+ *
+ * removes the objects in the region.
+ */
+void
+sheet_objects_clear (Sheet const *sheet, Range const *r, GtkType t)
+{
+	GSList *res = NULL;
+	GList *ptr, *next;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = next ) {
+		GtkObject *obj = GTK_OBJECT (ptr->data);
+		next = ptr->next;
+		if (t == GTK_TYPE_NONE || t == GTK_OBJECT_TYPE (obj)) {
+			SheetObject *so = SHEET_OBJECT (obj);
+			if (r == NULL || range_overlap (r, &so->anchor.cell_bound))
+				gtk_object_destroy (GTK_OBJECT (so));
+		}
+	}
 }
 
 #ifdef ENABLE_BONOBO

@@ -82,8 +82,9 @@ void sheet_object_position_pixels_set	   (SheetObject const *so,
 					    SheetControl const *sc, double const *pos);
 
 /* Object Management */
-void   sheet_relocate_objects (ExprRelocateInfo const *rinfo, gboolean update);
-GList *sheet_get_objects      (Sheet const *sheet, Range const *r, GtkType t);
+void    sheet_objects_relocate (ExprRelocateInfo const *rinfo, gboolean update);
+void	sheet_objects_clear    (Sheet const *sheet, Range const *r, GtkType t);
+GSList *sheet_objects_get      (Sheet const *sheet, Range const *r, GtkType t);
 
 void     sheet_object_direction_set (SheetObject *so, gdouble *coords);
 gboolean sheet_object_rubber_band_directly (SheetObject const *so);

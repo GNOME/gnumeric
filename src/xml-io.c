@@ -2060,6 +2060,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		 */
 		cell_set_value (ret, value_new_empty (), NULL);
 
+	if (value_fmt != NULL)
+		style_format_unref (value_fmt);
 	return ret;
 }
 
@@ -2291,7 +2293,7 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer user_data)
 static xmlNodePtr
 xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 {
-	xmlNodePtr cur;
+	xmlNodePtr sheetNode;
 	xmlNodePtr child;
 	xmlNodePtr rows;
 	xmlNodePtr cols;
@@ -2302,60 +2304,60 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	char *tstr;
 
 	/* General information about the Sheet */
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Sheet", NULL);
-	if (cur == NULL)
+	sheetNode = xmlNewDocNode (ctxt->doc, ctxt->ns, "Sheet", NULL);
+	if (sheetNode == NULL)
 		return NULL;
-	e_xml_set_bool_prop_by_name (cur, "DisplayFormulas",
+	e_xml_set_bool_prop_by_name (sheetNode, "DisplayFormulas",
 				     sheet->display_formulas);
-	e_xml_set_bool_prop_by_name (cur, "HideZero",
+	e_xml_set_bool_prop_by_name (sheetNode, "HideZero",
 				     sheet->hide_zero);
-	e_xml_set_bool_prop_by_name (cur, "HideGrid",
+	e_xml_set_bool_prop_by_name (sheetNode, "HideGrid",
 				     sheet->hide_grid);
-	e_xml_set_bool_prop_by_name (cur, "HideColHeader",
+	e_xml_set_bool_prop_by_name (sheetNode, "HideColHeader",
 				     sheet->hide_col_header);
-	e_xml_set_bool_prop_by_name (cur, "HideRowHeader",
+	e_xml_set_bool_prop_by_name (sheetNode, "HideRowHeader",
 				     sheet->hide_row_header);
-	e_xml_set_bool_prop_by_name (cur, "DisplayOutlines",
+	e_xml_set_bool_prop_by_name (sheetNode, "DisplayOutlines",
 				     sheet->display_outlines);
-	e_xml_set_bool_prop_by_name (cur, "OutlineSymbolsBelow",
+	e_xml_set_bool_prop_by_name (sheetNode, "OutlineSymbolsBelow",
 				     sheet->outline_symbols_below);
-	e_xml_set_bool_prop_by_name (cur, "OutlineSymbolsRight",
+	e_xml_set_bool_prop_by_name (sheetNode, "OutlineSymbolsRight",
 				     sheet->outline_symbols_right);
 
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name_unquoted);
-	xmlNewChild (cur, ctxt->ns, "Name",  tstr);
+	xmlNewChild (sheetNode, ctxt->ns, "Name",  tstr);
 	if (tstr) xmlFree (tstr); {
 		char str[4 * sizeof (int) + DBL_DIG + 50];
 		sprintf (str, "%d", sheet->cols.max_used);
-		xmlNewChild (cur, ctxt->ns, "MaxCol", str);
+		xmlNewChild (sheetNode, ctxt->ns, "MaxCol", str);
 		sprintf (str, "%d", sheet->rows.max_used);
-		xmlNewChild (cur, ctxt->ns, "MaxRow", str);
+		xmlNewChild (sheetNode, ctxt->ns, "MaxRow", str);
 		sprintf (str, "%f", sheet->last_zoom_factor_used);
-		xmlNewChild (cur, ctxt->ns, "Zoom", str);
+		xmlNewChild (sheetNode, ctxt->ns, "Zoom", str);
 	}
 
 	child = xml_write_names (ctxt, sheet->names);
 	if (child)
-		xmlAddChild (cur, child);
+		xmlAddChild (sheetNode, child);
 
 	/*
 	 * Print Information
 	 */
 	printinfo = xml_write_print_info (ctxt, sheet->print_info);
 	if (printinfo)
-		xmlAddChild (cur, printinfo);
+		xmlAddChild (sheetNode, printinfo);
 
 	/*
 	 * Styles
 	 */
 	styles = xml_write_styles (ctxt, sheet_style_get_list (sheet, NULL));
 	if (styles)
-		xmlAddChild (cur, styles);
+		xmlAddChild (sheetNode, styles);
 
 	/*
 	 * Cols informations.
 	 */
-	cols = xmlNewChild (cur, ctxt->ns, "Cols", NULL);
+	cols = xmlNewChild (sheetNode, ctxt->ns, "Cols", NULL);
 	xml_node_set_points (cols, "DefaultSizePts",
 			      sheet_col_get_default_size_pts (sheet));
 	{
@@ -2374,7 +2376,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	/*
 	 * Rows informations.
 	 */
-	rows = xmlNewChild (cur, ctxt->ns, "Rows", NULL);
+	rows = xmlNewChild (sheetNode, ctxt->ns, "Rows", NULL);
 	xml_node_set_points (rows, "DefaultSizePts",
 			      sheet_row_get_default_size_pts (sheet));
 	{
@@ -2391,11 +2393,11 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	}
 
 	/* Save the current selection */
-	xml_write_selection_info (ctxt, sheet, cur);
+	xml_write_selection_info (ctxt, sheet, sheetNode);
 
 	/* Objects */
 	if (sheet->sheet_objects != NULL) {
-		xmlNodePtr objects = xmlNewChild (cur, ctxt->ns,
+		xmlNodePtr objects = xmlNewChild (sheetNode, ctxt->ns,
 						  "Objects", NULL);
 		GList *l = sheet->sheet_objects;
 		while (l) {
@@ -2407,7 +2409,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	}
 
 	/* save cells in natural order */
-	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
+	cells = xmlNewChild (sheetNode, ctxt->ns, "Cells", NULL);
 	{
 		gint i ,n ;
 		n = g_hash_table_size (sheet->cell_hash);
@@ -2418,21 +2420,22 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 			       n,
 			       sizeof (gpointer),
 			       natural_order_cmp);
-			for (i = 0; i < n; i++)
-				cur = xml_write_cell (ctxt, g_ptr_array_index (natural, i));
-				xmlAddChild (cells, cur);
-			g_ptr_array_free (natural,TRUE);
+			for (i = 0; i < n; i++) {
+				child = xml_write_cell (ctxt, g_ptr_array_index (natural, i));
+				xmlAddChild (cells, child);
+			}
+			g_ptr_array_free (natural, TRUE);
 		}
 	}
 
-	xml_write_merged_regions (ctxt, cur, sheet->list_merged);
-	xml_write_sheet_layout (ctxt, cur, sheet);
+	xml_write_merged_regions (ctxt, sheetNode, sheet->list_merged);
+	xml_write_sheet_layout (ctxt, sheetNode, sheet);
 
 	solver = xml_write_solver (ctxt, &sheet->solver_parameters);
 	if (solver)
-		xmlAddChild (cur, solver);
+		xmlAddChild (sheetNode, solver);
 
-	return cur;
+	return sheetNode;
 }
 
 static void

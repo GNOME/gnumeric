@@ -1,3 +1,17 @@
+2001-12-19  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_delete_cols) : remove objects before relocations.
+	(sheet_delete_rows) : ditto.
+
+	* src/sheet-object.c (sheet_objects_clear) : new.
+	(sheet_objects_relocate) : rename from sheet_relocate_objects.
+	(sheet_objects_get) : rename from sheet_get_objects.
+
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_class_init) : Doh!
+
+	* src/xml-io.c (xml_read_cell) : fix format leak.
+	(xml_sheet_write) : clarify variable names.
+
 2001-12-19  Dan Damian  <dand@softhome.net>
 
 	* configure.in (ALL_LINGUAS) : Added Romanian ("ro").

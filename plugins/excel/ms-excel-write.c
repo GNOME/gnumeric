@@ -2663,10 +2663,10 @@ static void
 write_biff7_comments (BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 data[6];
-	GList *l, *comments;
+	GSList *l, *comments;
 	MsBiffVersion ver = esheet->wb->ver;
 
-	comments = sheet_get_objects (esheet->gnum_sheet, NULL,
+	comments = sheet_objects_get (esheet->gnum_sheet, NULL,
 				      CELL_COMMENT_TYPE);
 
 	for (l = comments; l; l = l->next) {
@@ -2711,7 +2711,7 @@ repeat:
 			ms_biff_put_commit (bp);
 		}
 	}
-	g_list_free (comments);
+	g_slist_free (comments);
 }
 
 /**

@@ -21,7 +21,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 {
 	GtkWidget   *dialog;
 	GtkWidget   *textbox;
-	GList	    *comments;
+	GSList	    *comments;
 	CellComment *comment = NULL;
 	Range	     r;
 	int v;
@@ -44,7 +44,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 	gtk_text_set_editable (GTK_TEXT (textbox), TRUE);
 
 	r.start = r.end = *pos;
-	comments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
+	comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
 	if (comments) {
 		gint pos = 0;
 		char const *text;
@@ -58,6 +58,8 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 		text = cell_comment_text_get (comments->data);
 		gtk_editable_insert_text (
 			GTK_EDITABLE (textbox), text, strlen (text), &pos);
+
+		g_slist_free (comments);
 	}
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), textbox, TRUE, TRUE, 0);

@@ -28,23 +28,19 @@ static GList *global_names = NULL;
 void
 expr_name_invalidate_refs_sheet (Sheet const *sheet)
 {
-#if 0
 	static gboolean warned = FALSE;
 	if (!warned)
 		g_warning ("Implement Me !. expr_name_invalidate_refs_sheet\n");
 	warned = TRUE;
-#endif
 }
 
 void
 expr_name_invalidate_refs_wb (Workbook const *wb)
 {
-#if 0
 	static gboolean warned = FALSE;
 	if (!warned)
 		g_warning ("Implement Me !. expr_name_invalidate_refs_wb\n");
 	warned = TRUE;
-#endif
 }
 
 static void

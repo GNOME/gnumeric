@@ -803,17 +803,17 @@ CellComment *
 cell_has_comment_pos (const Sheet *sheet, const CellPos *pos)
 {
 	Range r;
-	GList *comments;
+	GSList *comments;
 	CellComment *res;
 
 	r.start = r.end = *pos;
-	comments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
+	comments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
 	if (!comments)
 		return NULL;
 
 	/* This assumes just one comment per cell.  */
 	res = comments->data;
-	g_list_free (comments);
+	g_slist_free (comments);
 	return res;
 }
 

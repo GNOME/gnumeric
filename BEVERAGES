@@ -28,3 +28,7 @@ A tally of the beverages owed.
 
     Mihael Vrbanec <miqster@gmx.net> : Long Island Ice Tea
     Crash when shrink a selection for autofill without inverting.
+
+---
+    Seth Burgess		: Beer
+    http://bugzilla.gnome.org/show_bug.cgi?id=67217
