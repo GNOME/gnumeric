@@ -1,0 +1,12 @@
+<Root>
+<commands>
+	<cmd name="ViewDataSources"
+         _label="Data Sources..."
+         _tip="View and manage data sources"/>
+</commands>
+<menu>
+	<submenu name="Tools">
+		<menuitem name="ViewDataSources" verb=""/>
+	</submenu>
+</menu>
+</Root>

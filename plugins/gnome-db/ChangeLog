@@ -1,0 +1,10 @@
+2003-07-06  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	Started gnome-db-based plugin.
+
+	* plugin-gnomedb.c: UI plugin, containing the Tools/Data Sources menu
+	item.
+
+	* plugin.xml.in: plugin information file.
+
+	* ui.xml: UI description file.
