@@ -2,6 +2,12 @@
 
 	* src/workbook-control-gui.c (cb_file_new) : We need to create a
 	  control & view.
+	(workbook_close_if_user_permits) : Do not attempt to finsihed editing
+	  here.  This is called in a loop from cb_file_quit.
+	(wbcg_close_control) : stop editing here.
+	(cb_file_quit) : and stop editing here before closing and workbooks.
+	  While closing workbooks save the calling working for last so than
+	  can save the current view rather than guessing and using the first.
 
 2000-11-02  Almer S. Tigelaar  <almer1@dds.nl>
 

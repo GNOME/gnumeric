@@ -75,7 +75,7 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 {
 	Sheet *sheet;
 
-	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	/* Restore the focus */
 	wb_control_gui_focus_cur_sheet (wbcg);

@@ -780,9 +780,6 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		return FALSE;
 	in_can_close = TRUE;
 
-	/* If we were editing when the quit request came in save the edit. */
-	workbook_finish_editing (wbcg, TRUE);
-
 	while (workbook_is_dirty (wb) && !done) {
 		GtkWidget *d;
 		int button;
@@ -848,6 +845,9 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), TRUE);
 	g_return_val_if_fail (wb_view->wb_controls != NULL, TRUE);
+
+	/* If we were editing when the quit request came in save the edit. */
+	workbook_finish_editing (wbcg, TRUE);
 
 	/* This is the last control */
 	if (wb_view->wb_controls->len <= 1) {
@@ -953,6 +953,7 @@ cb_file_close (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GList *ptr, *workbooks;
 
 	/* If we are still loading initial files, short circuit */
@@ -960,6 +961,9 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		initial_workbook_open_complete = TRUE;
 		return;
 	}
+
+	/* If we were editing when the quit request came in save the edit. */
+	workbook_finish_editing (wbcg, TRUE);
 
 	/* list is modified during workbook destruction */
 	workbooks = g_list_copy (application_workbook_list ());
@@ -971,9 +975,12 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		g_return_if_fail (IS_WORKBOOK (wb));
 		g_return_if_fail (wb->wb_views != NULL);
 
+		if (wb_control_workbook (wbc) == wb)
+			continue;
 		wb_view = g_ptr_array_index (wb->wb_views, 0);
 		workbook_close_if_user_permits (wbcg, wb_view);
 	}
+	workbook_close_if_user_permits (wbcg, wb_control_view (wbc));
 
 	g_list_free (workbooks);
 }
