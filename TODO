@@ -36,7 +36,6 @@ to features that already work.
 
 * Data Analysis Tools
   - Exponential smoothing
-    + Implement standard errors
     + Chart output
   - Histogram
     + Chart output
@@ -44,7 +43,6 @@ to features that already work.
     + Chart output
   - Random number generation
     + Implement patterned distribution
-    + Random Seed input
   - Regression
     + Residuals
     + Standardized Residuals

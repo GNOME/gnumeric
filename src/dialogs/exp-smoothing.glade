@@ -222,7 +222,7 @@
 
             <child>
               <widget class="GtkCheckButton" id="std_errors_button">
-                <property name="sensitive">no</property>
+                <property name="sensitive">yes</property>
                 <property name="can_focus">yes</property>
                 <property name="label" translatable="yes">_Standard Errors</property>
                 <property name="active">no</property>

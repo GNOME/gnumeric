@@ -3,12 +3,11 @@ Gnumeric 1.1.7
 Jukka:
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
-	  RANDGAUSSIANTAIL(), and RANDLANDAU().
+	  RANDGAUSSIANTAIL() and RANDLANDAU().
 	* New random distributions for the random number generation tool:
 	  Gaussian Tail, Landau, and Uniform integer.
-	* New financial functions (integrated from the OpenOffice with
-	  some modifications and clean up):
-	  VDB().
+	* New financial function, VDB(), integrated from the OpenOffice
+	  with some modifications and clean up.
 	* New statistical functions (integrated from the R 1.5.1 and
 	  GSL 1.1.1):
 	  BERNOULLI(), CAUCHY(), EXPPOWDIST(), GEOMDIST(), LANDAU(),
@@ -17,6 +16,8 @@ Jukka:
 	* Improved the function description layout in the
 	  `Insert->Function' dialog.
 	* Function documentation improvements.
+	* Implemented standard errors output for the exponential
+          smoothing tool.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6

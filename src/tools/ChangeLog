@@ -1,3 +1,9 @@
+2002-07-29  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.c
+	(analysis_tool_exponential_smoothing_engine_run): Added standard
+	errors output.
+
 2002-07-26  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* filter.[ch]: New file for filtering submenu functionality.

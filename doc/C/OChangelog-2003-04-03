@@ -1,3 +1,8 @@
+2002-07-29  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.xml: Added info regarding std.errors in the
+	exponential smoothing tool.
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6

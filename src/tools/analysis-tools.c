@@ -2573,14 +2573,20 @@ analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs
  * The results are given in a table which can be printed out in
  * a new sheet, in a new workbook, or simply into an existing sheet.
  *
- **/
+ * The stanard errors are calculated using the following formula:
+ *
+ *                ((A(t-3)-F(t-3))^2 + (A(t-2)-F(t-2))^2 + (A(t-1)-F(t-1))^2))
+ *    e(t) = SQRT (----------------------------------------------------------)
+ *                (                            3                             )
+ *
+ */
 
 static gboolean
 analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao, 
 						analysis_tools_data_exponential_smoothing_t *info)
 {
 	GPtrArray     *data;
-	guint           dataset;
+	guint         dataset;
 
 	/* TODO: Standard error output */
 
@@ -2589,28 +2595,60 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
-		gnum_float    a, f;
-		guint           row;
+		gnum_float    a, f, F[2] = { 0, 0 }, A[2] = { 0, 0 };
+		guint         row;
 
 		current = g_ptr_array_index (data, dataset);
 		dao_set_cell_printf (dao, dataset, 0, current->label);
 		a = f = 0;
 		for (row = 0; row < current->data->len; row++) {
-			if (row == 0)
-				/* Cannot forecast for the first data element */
+		        if (row == 0) {
+				/* Cannot forecast for the first data element.
+				 */
 
 				dao_set_cell_na (dao, dataset, row + 1);
-			else if (row == 1) {
-				/* The second forecast is always the first data element */
+				if (info->std_error_flag)
+				        dao_set_cell_na (dao, dataset + 1,
+							 row + 1);
+			} else if (row == 1) {
+				/* The second forecast is always the first
+				 * data element. */
 				dao_set_cell_float (dao, dataset, row + 1, a);
 				f = a;
+				if (info->std_error_flag)
+				        dao_set_cell_na (dao, dataset + 1,
+							 row + 1);
 			} else {
-				/* F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) ),
+			        if (info->std_error_flag) {
+				        gnum_float m1 = a - f;
+					gnum_float m2 = A[0] - F[0];
+					gnum_float m3 = A[1] - F[1];
+
+					if (row < 4)
+					        dao_set_cell_na (dao,
+								 dataset + 1,
+								 row + 1);
+					else
+					        dao_set_cell_float
+						        (dao, dataset + 1,
+							 row + 1,
+							 sqrt ((m1*m1 + m2*m2 +
+								m3*m3) / 3));
+				        A[1] = A[0];
+					A[0] = a;
+					F[1] = F[0];
+					F[0] = f;
+				}
+
+				/*
+				 * F(t+1) = F(t) + (1 - damp_fact) *
+				 *          ( A(t) - F(t) ),
 				 * where A(t) is the t'th data element.
 				 */
 
 				f = f + (1.0 - info->damp_fact) * (a - f);
 				dao_set_cell_float (dao, dataset, row + 1, f);
+
 			}
 			a = g_array_index (current->data, gnum_float, row);
 		}
@@ -2623,8 +2661,10 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 }
 
 gboolean 
-analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointer specs, 
-					    analysis_tool_engine_t selector, gpointer result)
+analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao,
+					    gpointer specs, 
+					    analysis_tool_engine_t selector,
+					    gpointer result)
 {
 	analysis_tools_data_exponential_smoothing_t *info = specs;
 
