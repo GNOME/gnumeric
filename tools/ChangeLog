@@ -1,3 +1,8 @@
+2005-03-21  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Import a handful of small functions more for the sake
+	of fn-r.
+
 2005-03-16  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* fixup-old-files: unzip rather than zip before converting.

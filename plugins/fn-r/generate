@@ -72,6 +72,8 @@ my %argoverride = ();
 	 ({ 'n1' => "the first number of degrees of freedom $of",
 	    'n2' => "the first number of degrees of freedom $of",
 	    @common })];
+    $argoverride{"df:m"} = "n1";
+    $argoverride{"df:n"} = "n2";
 
     $funcs{'dchisq'} = $funcs{'pchisq'} = $funcs{'qchisq'} =
 	[\&distribution,
@@ -134,7 +136,7 @@ my %argoverride = ();
 	 'geometric',
 	 ({ 'psuc' => "the probability of success in each trial",
 	    @common })];
-    $argoverride{"dgeom:p"} = $argoverride{"pgeom:p"} = $argoverride{"qgeom:p"} =
+    $argoverride{"dgeom:p"} = $argoverride{"pgeom:p"} = $argoverride{"qgeom:prob"} =
 	"psuc";
 }
 

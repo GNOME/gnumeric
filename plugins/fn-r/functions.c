@@ -112,6 +112,37 @@ gnumeric_r_qnorm (FunctionEvalInfo *ei, GnmValue **args)
 /* ------------------------------------------------------------------------- */
 
 
+static GnmFuncHelp const help_r_dlnorm[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=R.DLNORM\n"
+	   "@SYNTAX=R.DLNORM(x,logmean,logsd[,give_log])\n"
+	   "@DESCRIPTION=R.DLNORM function returns the probability density function of the log-normal distribution.\n"
+	   "\n"
+	   "* @logmean: mean of the underlying normal distribution.\n"
+	   "* @logsd: standard deviation of the underlying normal distribution.\n"
+	   "* @give_log: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=R.PLNORM,R.QLNORM")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_dlnorm (FunctionEvalInfo *ei, GnmValue **args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float logmean = value_get_as_float (args[1]);
+	gnm_float logsd = value_get_as_float (args[2]);
+	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+
+	return value_new_float (dlnorm (x, logmean, logsd, give_log));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
 static GnmFuncHelp const help_r_plnorm[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PLNORM\n"
@@ -464,6 +495,37 @@ gnumeric_r_qt (FunctionEvalInfo *ei, GnmValue **args)
 /* ------------------------------------------------------------------------- */
 
 
+static GnmFuncHelp const help_r_df[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=R.DF\n"
+	   "@SYNTAX=R.DF(x,n1,n2[,give_log])\n"
+	   "@DESCRIPTION=R.DF function returns the probability density function of the F distribution.\n"
+	   "\n"
+	   "* @n1: the first number of degrees of freedom of the distribution\n"
+	   "* @n2: the first number of degrees of freedom of the distribution\n"
+	   "* @give_log: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=R.PF,R.QF")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_df (FunctionEvalInfo *ei, GnmValue **args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float n1 = value_get_as_float (args[1]);
+	gnm_float n2 = value_get_as_float (args[2]);
+	gboolean give_log = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+
+	return value_new_float (df (x, n1, n2, give_log));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
 static GnmFuncHelp const help_r_pf[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.PF\n"
@@ -525,6 +587,35 @@ gnumeric_r_qf (FunctionEvalInfo *ei, GnmValue **args)
 	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (qf (x, n1, n2, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
+static GnmFuncHelp const help_r_dchisq[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=R.DCHISQ\n"
+	   "@SYNTAX=R.DCHISQ(x,df[,give_log])\n"
+	   "@DESCRIPTION=R.DCHISQ function returns the probability density function of the chi-square distribution.\n"
+	   "\n"
+	   "* @df: the number of degrees of freedom of the distribution\n"
+	   "* @give_log: if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=R.PCHISQ,R.QCHISQ")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_dchisq (FunctionEvalInfo *ei, GnmValue **args)
+{
+	gnm_float x = value_get_as_float (args[0]);
+	gnm_float df = value_get_as_float (args[1]);
+	gboolean give_log = args[2] ? !!value_get_as_int (args[2]) : FALSE;
+
+	return value_new_float (dchisq (x, df, give_log));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -652,6 +743,40 @@ gnumeric_r_pweibull (FunctionEvalInfo *ei, GnmValue **args)
 	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
 
 	return value_new_float (pweibull (x, shape, scale, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
+static GnmFuncHelp const help_r_qweibull[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=R.QWEIBULL\n"
+	   "@SYNTAX=R.QWEIBULL(p,shape,scale[,lower_tail,log_p])\n"
+	   "@DESCRIPTION=R.QWEIBULL function returns the probability quantile function of the Weibull distribution.\n"
+	   "\n"
+	   "* @p: probability.\n"
+	   "* @shape: the shape parameter of the distribution\n"
+	   "* @scale: the scale parameter of the distribution\n"
+	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
+	   "* @log_p: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=R.DWEIBULL,R.PWEIBULL")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qweibull (FunctionEvalInfo *ei, GnmValue **args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float shape = value_get_as_float (args[1]);
+	gnm_float scale = value_get_as_float (args[2]);
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+
+	return value_new_float (qweibull (p, shape, scale, lower_tail, log_p));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -804,6 +929,38 @@ gnumeric_r_pexp (FunctionEvalInfo *ei, GnmValue **args)
 	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
 
 	return value_new_float (pexp (x, scale, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
+static GnmFuncHelp const help_r_qexp[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=R.QEXP\n"
+	   "@SYNTAX=R.QEXP(p,scale[,lower_tail,log_p])\n"
+	   "@DESCRIPTION=R.QEXP function returns the probability quantile function of the exponential distribution.\n"
+	   "\n"
+	   "* @p: probability.\n"
+	   "* @scale: the scale parameter of the distribution\n"
+	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
+	   "* @log_p: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=R.DEXP,R.PEXP")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qexp (FunctionEvalInfo *ei, GnmValue **args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float scale = value_get_as_float (args[1]);
+	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
+	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+
+	return value_new_float (qexp (p, scale, lower_tail, log_p));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1132,6 +1289,38 @@ gnumeric_r_pgeom (FunctionEvalInfo *ei, GnmValue **args)
 /* ------------------------------------------------------------------------- */
 
 
+static GnmFuncHelp const help_r_qgeom[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=R.QGEOM\n"
+	   "@SYNTAX=R.QGEOM(p,psuc[,lower_tail,log_p])\n"
+	   "@DESCRIPTION=R.QGEOM function returns the probability quantile function of the geometric distribution.\n"
+	   "\n"
+	   "* @p: probability.\n"
+	   "* @psuc: the probability of success in each trial\n"
+	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
+	   "* @log_p: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=R.DGEOM,R.PGEOM")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qgeom (FunctionEvalInfo *ei, GnmValue **args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float psuc = value_get_as_float (args[1]);
+	gboolean lower_tail = args[2] ? !!value_get_as_int (args[2]) : TRUE;
+	gboolean log_p = args[3] ? !!value_get_as_int (args[3]) : FALSE;
+
+	return value_new_float (qgeom (p, psuc, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
 static GnmFuncHelp const help_r_dcauchy[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=R.DCAUCHY\n"
@@ -1196,6 +1385,40 @@ gnumeric_r_pcauchy (FunctionEvalInfo *ei, GnmValue **args)
 /* ------------------------------------------------------------------------- */
 
 
+static GnmFuncHelp const help_r_qcauchy[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=R.QCAUCHY\n"
+	   "@SYNTAX=R.QCAUCHY(p,location,scale[,lower_tail,log_p])\n"
+	   "@DESCRIPTION=R.QCAUCHY function returns the probability quantile function of the Cauchy distribution.\n"
+	   "\n"
+	   "* @p: probability.\n"
+	   "* @location: the center of the distribution\n"
+	   "* @scale: the scale parameter of the distribution\n"
+	   "* @lower_tail: if true (the default), the lower tail of the distribution is considered.\n"
+	   "* @log_p: if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=R.DCAUCHY,R.PCAUCHY")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_r_qcauchy (FunctionEvalInfo *ei, GnmValue **args)
+{
+	gnm_float p = value_get_as_float (args[0]);
+	gnm_float location = value_get_as_float (args[1]);
+	gnm_float scale = value_get_as_float (args[2]);
+	gboolean lower_tail = args[3] ? !!value_get_as_int (args[3]) : TRUE;
+	gboolean log_p = args[4] ? !!value_get_as_int (args[4]) : FALSE;
+
+	return value_new_float (qcauchy (p, location, scale, lower_tail, log_p));
+}
+
+/* ------------------------------------------------------------------------- */
+
+
 GnmFuncDescriptor const stat_functions[] = {
 	{
 		"r.dnorm",
@@ -1219,6 +1442,14 @@ GnmFuncDescriptor const stat_functions[] = {
 		N_("p,mu,sigma,lower_tail,log_p"),
 		help_r_qnorm,
 		gnumeric_r_qnorm, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.dlnorm",
+		"fff|f",
+		N_("x,logmean,logsd,give_log"),
+		help_r_dlnorm,
+		gnumeric_r_dlnorm, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{
@@ -1310,6 +1541,14 @@ GnmFuncDescriptor const stat_functions[] = {
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{
+		"r.df",
+		"fff|f",
+		N_("x,n1,n2,give_log"),
+		help_r_df,
+		gnumeric_r_df, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
 		"r.pf",
 		"fff|ff",
 		N_("x,n1,n2,lower_tail,log_p"),
@@ -1323,6 +1562,14 @@ GnmFuncDescriptor const stat_functions[] = {
 		N_("x,n1,n2,lower_tail,log_p"),
 		help_r_qf,
 		gnumeric_r_qf, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.dchisq",
+		"ff|f",
+		N_("x,df,give_log"),
+		help_r_dchisq,
+		gnumeric_r_dchisq, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{
@@ -1355,6 +1602,14 @@ GnmFuncDescriptor const stat_functions[] = {
 		N_("x,shape,scale,lower_tail,log_p"),
 		help_r_pweibull,
 		gnumeric_r_pweibull, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.qweibull",
+		"fff|ff",
+		N_("p,shape,scale,lower_tail,log_p"),
+		help_r_qweibull,
+		gnumeric_r_qweibull, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{
@@ -1395,6 +1650,14 @@ GnmFuncDescriptor const stat_functions[] = {
 		N_("x,scale,lower_tail,log_p"),
 		help_r_pexp,
 		gnumeric_r_pexp, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.qexp",
+		"ff|ff",
+		N_("p,scale,lower_tail,log_p"),
+		help_r_qexp,
+		gnumeric_r_qexp, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{
@@ -1478,6 +1741,14 @@ GnmFuncDescriptor const stat_functions[] = {
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{
+		"r.qgeom",
+		"ff|ff",
+		N_("p,psuc,lower_tail,log_p"),
+		help_r_qgeom,
+		gnumeric_r_qgeom, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
 		"r.dcauchy",
 		"fff|f",
 		N_("x,location,scale,give_log"),
@@ -1491,6 +1762,14 @@ GnmFuncDescriptor const stat_functions[] = {
 		N_("x,location,scale,lower_tail,log_p"),
 		help_r_pcauchy,
 		gnumeric_r_pcauchy, NULL, NULL, NULL, NULL,
+		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
+	},
+	{
+		"r.qcauchy",
+		"fff|ff",
+		N_("p,location,scale,lower_tail,log_p"),
+		help_r_qcauchy,
+		gnumeric_r_qcauchy, NULL, NULL, NULL, NULL,
 		GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE,
 	},
 	{ NULL }

@@ -1326,6 +1326,31 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *	Applied Statistics 37, 1988.
  */
 
+
+
+
+/*
+ * Compute the log of a sum from logs of terms, i.e.,
+ *
+ *     log (exp (logx) + exp (logy))
+ *
+ * without causing overflows and without throwing away large handfuls
+ * of accuracy.
+ */
+/* Definition of function logspace_add removed.  */
+
+
+/*
+ * Compute the log of a difference from logs of terms, i.e.,
+ *
+ *     log (exp (logx) - exp (logy))
+ *
+ * without causing overflows and without throwing away large handfuls
+ * of accuracy.
+ */
+/* Definition of function logspace_sub removed.  */
+
+
 static gnm_float
 dpois_wrap (gnm_float x_plus_1, gnm_float lambda, gboolean give_log)
 {
@@ -1682,25 +1707,7 @@ gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_ta
 /* NaNs propagated correctly */
 
 
-static int chebyshev_init(gnm_float *dos, int nos, gnm_float eta)
-{
-    int i, ii;
-    gnm_float err;
-
-    if (nos < 1)
-	return 0;
-
-    err = 0.0;
-    i = 0;			/* just to avoid compiler warnings */
-    for (ii=1; ii<=nos; ii++) {
-	i = nos - ii;
-	err += gnm_abs(dos[i]);
-	if (err > eta) {
-	    return i;
-	}
-    }
-    return i;
-}
+/* Definition of function chebyshev_init removed.  */
 
 
 static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
@@ -1906,7 +1913,7 @@ static gnm_float lbeta(gnm_float a, gnm_float b)
     }
     else
 	/* p and q are small: p <= q < 10. */
-	return gnm_lgamma(p) + gnm_lgamma(q) - gnm_lgamma(p + q);
+	return gnm_lgamma (p) + gnm_lgamma (q) - gnm_lgamma (p + q);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -4363,6 +4370,321 @@ L420:
 	    (*ncalc)++;
 	}
     }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/dlnorm.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *    The density of the lognormal distribution.
+ */
+
+
+gnm_float dlnorm(gnm_float x, gnm_float logmean, gnm_float logsd, gboolean give_log)
+{
+    gnm_float y;
+
+#ifdef IEEE_754
+    if (gnm_isnan(x) || gnm_isnan(logmean) || gnm_isnan(logsd))
+	return x + logmean + logsd;
+#endif
+    if(logsd <= 0) ML_ERR_return_NAN;
+
+    if(x <= 0) return R_D__0;
+
+    y = (gnm_log(x) - logmean) / logsd;
+    return (give_log ?
+	    -(M_LN_SQRT_2PI   + 0.5 * y * y + gnm_log(x * logsd)) :
+	    M_1_SQRT_2PI * gnm_exp(-0.5 * y * y)  /	 (x * logsd));
+    /* M_1_SQRT_2PI = 1 / gnm_sqrt(2 * pi) */
+
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/df.c from R.  */
+/*
+ *  AUTHOR
+ *    Catherine Loader, catherine@research.bell-labs.com.
+ *    October 23, 2000.
+ *
+ *  Merge in to R:
+ *	Copyright (C) 2000, The R Core Development Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *
+ *  DESCRIPTION
+ *
+ *    The density function of the F distribution.
+ *    To evaluate it, write it as a Binomial probability with p = x*m/(n+x*m).
+ *    For m >= 2, we use the simplest conversion.
+ *    For m < 2, (m-2)/2 < 0 so the conversion will not work, and we must use
+ *               a second conversion.
+ *    Note the division by p; this seems unavoidable
+ *    for m < 2, since the F density has a singularity as x (or p) -> 0.
+ */
+
+
+gnm_float df(gnm_float x, gnm_float m, gnm_float n, gboolean give_log)
+{
+    gnm_float p, q, f, dens;
+
+#ifdef IEEE_754
+    if (gnm_isnan(x) || gnm_isnan(m) || gnm_isnan(n))
+	return x + m + n;
+#endif
+    if (m <= 0 || n <= 0) ML_ERR_return_NAN;
+    if (x <= 0.) return(R_D__0);
+
+    f = 1./(n+x*m);
+    q = n*f;
+    p = x*m*f;
+
+    if (m >= 2) {
+	f = m*q/2;
+	dens = dbinom_raw((m-2)/2, (m+n-2)/2, p, q, give_log);
+    }
+    else {
+	f = m*m*q / (2*p*(m+n));
+	dens = dbinom_raw(m/2, (m+n)/2, p, q, give_log);
+    }
+    return(give_log ? gnm_log(f)+dens : f*dens);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/dchisq.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ *  USA
+ *
+ *  DESCRIPTION
+ *
+ *    The density of the chi-squared distribution.
+ */
+
+
+gnm_float dchisq(gnm_float x, gnm_float df, gboolean give_log)
+{
+    return dgamma(x, df / 2., 2., give_log);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/qweibull.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *    The quantile function of the Weibull distribution.
+ */
+
+
+gnm_float qweibull(gnm_float p, gnm_float shape, gnm_float scale, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (gnm_isnan(p) || gnm_isnan(shape) || gnm_isnan(scale))
+	return p + shape + scale;
+#endif
+    R_Q_P01_check(p);
+    if (shape <= 0 || scale <= 0) ML_ERR_return_NAN;
+
+    if (p == R_D__0) return 0;
+    if (p == R_D__1) return gnm_pinf;
+    return scale * gnm_pow(- R_DT_Clog(p), 1./shape) ;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/qexp.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *    The quantile function of the exponential distribution.
+ *
+ */
+
+
+gnm_float qexp(gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (gnm_isnan(p) || gnm_isnan(scale))
+	return p + scale;
+#endif
+    R_Q_P01_check(p);
+    if (scale < 0) ML_ERR_return_NAN;
+
+    if (p == R_DT_0)
+	return 0;
+
+    return - scale * R_DT_Clog(p);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/qgeom.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 	   Ross Ihaka
+ *  Copyright (C) 2000 	   The R Development Core Team
+ *  Copyright (C) 2004     The R Foundation
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *    The quantile function of the geometric distribution.
+ */
+
+
+gnm_float qgeom(gnm_float p, gnm_float prob, gboolean lower_tail, gboolean log_p)
+{
+    R_Q_P01_check(p);
+    if (prob <= 0 || prob > 1) ML_ERR_return_NAN;
+
+#ifdef IEEE_754
+    if (gnm_isnan(p) || gnm_isnan(prob))
+	return p + prob;
+    if (p == R_DT_1) return gnm_pinf;
+#else
+    if (p == R_DT_1) ML_ERR_return_NAN;
+#endif
+    if (p == R_DT_0) return 0;
+
+/* add a fuzz to ensure left continuity */
+    return gnm_ceil(R_DT_Clog(p) / gnm_log1p(- prob) - 1 - 1e-7);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/qcauchy.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *	The quantile function of the Cauchy distribution.
+ */
+
+
+gnm_float qcauchy(gnm_float p, gnm_float location, gnm_float scale,
+	       gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (gnm_isnan(p) || gnm_isnan(location) || gnm_isnan(scale))
+	return p + location + scale;
+#endif
+    if(!gnm_finite(p) || !gnm_finite(location) || !gnm_finite(scale))
+	ML_ERR_return_NAN;
+    R_Q_P01_check(p);
+    if (scale <= 0) ML_ERR_return_NAN;
+
+    return location + scale * gnm_tan(M_PIgnum * (R_DT_qIv(p) - 0.5));
 }
 
 /* ------------------------------------------------------------------------ */
