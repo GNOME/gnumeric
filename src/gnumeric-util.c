@@ -10,6 +10,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "style.h"
 
 void
 gnumeric_notice (char *str)
@@ -164,6 +165,8 @@ font_get_bold_name (char *fontname)
 {
 	char *f;
 	
+	/* FIXME: this scheme is poor: in some cases, the fount strength is called 'bold', 
+	whereas in some others it is 'black', in others... Look font_get_italic_name  */
 	f = font_change_component (fontname, 2, "bold");
 
 	return f;
@@ -175,6 +178,9 @@ font_get_italic_name (char *fontname)
 	char *f;
 	
 	f = font_change_component (fontname, 3, "o");
+	if (style_font_new (f, 1) == NULL) {
+		f = font_change_component (fontname, 3, "i");
+	}
 
 	return f;
 }

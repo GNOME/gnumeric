@@ -1,4 +1,3 @@
-plugins/perl/xsinit.c
 plugins/stat/stat.c
 src/about.c
 src/dates.c

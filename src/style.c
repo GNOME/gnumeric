@@ -14,6 +14,7 @@
 
 #define DEFAULT_FONT      "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*"
 #define DEFAULT_BOLD_FONT "-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*"
+#define DEFAULT_ITALIC_FONT "-adobe-helvetica-medium-o-normal--*-120-*-*-*-*-*-*"
 #define DEFAULT_SIZE 14
 
 static GHashTable *style_format_hash;
@@ -23,6 +24,7 @@ static GHashTable *style_color_hash;
 
 StyleFont *gnumeric_default_font;
 StyleFont *gnumeric_default_bold_font;
+StyleFont *gnumeric_default_italic_font;
 
 StyleFormat *
 style_format_new (char *name)
@@ -530,7 +532,7 @@ font_init (void)
 		g_error ("Could not load the default font");
 
 	gnumeric_default_bold_font = style_font_new (DEFAULT_BOLD_FONT, DEFAULT_SIZE);
-	
+	gnumeric_default_italic_font = style_font_new (DEFAULT_ITALIC_FONT, DEFAULT_SIZE);
 }
 
 void
@@ -543,4 +545,3 @@ style_init (void)
 
 	font_init ();
 }
-

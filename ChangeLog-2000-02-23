@@ -1,3 +1,15 @@
+1998-11-18  Bruno Unna       <bruno@iac.com.mx>
+	* src/style.c: added the default italic font as helvetica-oblique.
+
+	* src/style.h: added declaration for new global variable
+	  gnumeric_default_bold_font
+
+	* src/gnumeric-util.c: enhanced the robusteness of the function 
+	  font_get_italic_name. But it's not at a 100%, though.
+
+	* plugins/excel/ms-excel.c: slight modification to the error 
+	  tracking mechanism (font stuff in ms_excel_set_cell_font).
+
 1998-11-15  Michael Meeks    <mejm2@cam.ac.uk>
 
 	* plugins/excel/ms-ole.c(ms_ole_directory*): Created new directory

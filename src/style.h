@@ -146,5 +146,6 @@ StyleBorder   *style_border_new       (StyleBorderType left,
 
 extern StyleFont *gnumeric_default_font;
 extern StyleFont *gnumeric_default_bold_font;
+extern StyleFont *gnumeric_default_italic_font;
 
 #endif /* GNUMERIC_STYLE_H */
