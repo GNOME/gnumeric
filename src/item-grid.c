@@ -348,11 +348,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	colwidths -= start_col;
 	for (col = start_col; col <= end_col; col++) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
-
-		if (!ci->visible)
-			colwidths[col] = -1;
-		else
-			colwidths[col] = ci->size_pixels;
+		colwidths[col] = ci->visible ? ci->size_pixels : -1;
 	}
 	
 	for (y = -diff_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {

@@ -291,7 +291,7 @@ print_make_rectangle_path (GnomePrintContext *pc,
  */
 static void
 print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
-	    double x1, double y1, double width, double height)
+	    double x1, double y1, double width, double height, double left_offset)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
 	GnomeFont *print_font = style_font->font;
@@ -899,7 +899,7 @@ print_cell_range (GnomePrintContext *context,
 				}
 
 				print_cell (cell, style, context,
-					    real_x, y, tmp_width, -1);
+					    real_x, y, tmp_width, -1, left_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 
