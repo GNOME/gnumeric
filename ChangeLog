@@ -1,5 +1,8 @@
 2003-07-01  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_csv_cell): Don't use O(n^2) UTF-8
+	validation.
+
 	* src/sheet-control-gui.c (cb_table_destroy): Properly release
 	panes.
 

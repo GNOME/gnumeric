@@ -458,7 +458,6 @@ static inline char const *
 stf_parse_csv_is_separator (char const *character, char const *chr, GSList const *str)
 {
 	g_return_val_if_fail (character != NULL, NULL);
-	g_return_val_if_fail (!chr || g_utf8_validate (chr, -1, NULL), NULL);
 
 	if (str) {
 		GSList const *l;
@@ -504,7 +503,6 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	cur = src->position;
 	g_return_val_if_fail (cur != NULL, NULL);
-	g_return_val_if_fail (g_utf8_validate (cur, -1, NULL), NULL);
 
 	res = g_string_sized_new (30);
 
