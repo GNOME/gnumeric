@@ -28,6 +28,10 @@ Morten:
 	* Isolated floating-point-double reading code with endian-issues
 	  in one spot rather than in all file io plugins.
 
+Kenneth: 
+        * Fixed and updated the i18n subsystem, so it how should work
+          more smooth - I will consider this very close to finished.
+
 --------------------------------------------------------------------------
 Gnumeric 0.57
 
