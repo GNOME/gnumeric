@@ -1,3 +1,8 @@
+2001-10-12  John Gotts <jgotts@linuxsavvy.com>
+
+	* gnumeric.spec.in: If you don't want bonobo, change %define WithBonobo
+	1 to %define WithBonobo 0.
+
 2001-10-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-grid.c (ig_obj_create_motion) : renamed and restructured

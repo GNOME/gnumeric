@@ -1,3 +1,5 @@
+%define WithBonobo 1
+
 %define  RELEASE 1
 %define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
 %define  prefix  /usr
@@ -14,6 +16,12 @@ Url:		http://www.gnome.org/gnumeric
 BuildRoot:	/var/tmp/%{name}-%{PACKAGE_VERSION}-root
 Docdir: 	%{prefix}/doc
 
+%if %{WithBonobo}
+%define bonobover %{version}-bonobo
+%else
+%define bonobover %{version}
+%endif
+
 Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
 Requires: gnome-print >= 0.29
@@ -21,9 +29,11 @@ Requires: libglade >= 0.16
 Requires: libxml >= 1.8.14
 Requires: libole2 >= 0.2.3
 Requires: gal >= 0.8
-Requires: bonobo >= 1.0.9
 # The help menu requires gnome-help-browser.
 Requires: gnome-core
+%if %{WithBonobo}
+Requires: bonobo >= 1.0.9
+%endif
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
@@ -53,12 +63,17 @@ MS Excel files and many other formats (csv, latex, xbase, applix).
 	MYARCH_FLAGS="--host=alpha-redhat-linux"
 %endif
 
+%if ! %{WithBonobo}
+	MYBONOBO_FLAGS="--without-bonobo"
+%endif
 if [ ! -f configure ]; then
-	CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh $MYARCH_FLAGS --prefix=%prefix \
+	CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh $MYARCH_FLAGS $MYBONOBO_FLAGS \
+		--prefix=%prefix \
 		--sysconfdir=%{sysconfdir} \
 		--without-gb
 else
-	CFLAGS="$RPM_OPT_FLAGS" ./configure $MYARCH_FLAGS --prefix=%prefix \
+	CFLAGS="$RPM_OPT_FLAGS" ./configure $MYARCH_FLAGS $MYBONOBO_FLAGS \
+		--prefix=%prefix \
 		--sysconfdir=%{sysconfdir} \
 		--without-gb
 fi
@@ -90,42 +105,42 @@ fi
 
 %defattr (0555, bin, bin)
 %{prefix}/bin/gnumeric
-%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.so
-%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.py
+%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.so
+%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.py
 %{prefix}/lib/gnumericConf.sh
 
 %defattr (0444, bin, bin, 0555)
 %doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
-%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.xml
-%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/glossary-po-header
+%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.xml
+%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/glossary-po-header
 %config %{prefix}/share/gnome/apps/Applications/*
 %{prefix}/share/gnome/help/gnumeric/C/images/*
 %{prefix}/share/gnome/help/gnumeric/C/*.*
 %dir %{prefix}/share/gnumeric
-%dir %{prefix}/share/gnumeric/%{version}-bonobo
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/3D
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Classical
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Colourful
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Financial
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/General
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/List
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/glade
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/gnome
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/gnome/ui
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/python
-%dir %{prefix}/share/gnumeric/%{version}-bonobo/templates
-%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/3D/*
-%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Classical/*
-%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Colourful/*
-%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/Financial/*
-%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/General/*
-%{prefix}/share/gnumeric/%{version}-bonobo/autoformat-templates/List/*
-%{prefix}/share/gnumeric/%{version}-bonobo/glade/*
-%{prefix}/share/gnumeric/%{version}-bonobo/gnome/ui/*
-%{prefix}/share/gnumeric/%{version}-bonobo/idl/*
-%{prefix}/share/gnumeric/%{version}-bonobo/python/*
-%{prefix}/share/gnumeric/%{version}-bonobo/templates/*
+%dir %{prefix}/share/gnumeric/%{bonobover}
+%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates
+%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/3D
+%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Classical
+%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Colourful
+%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Financial
+%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/General
+%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/List
+%dir %{prefix}/share/gnumeric/%{bonobover}/glade
+%dir %{prefix}/share/gnumeric/%{bonobover}/gnome
+%dir %{prefix}/share/gnumeric/%{bonobover}/gnome/ui
+%dir %{prefix}/share/gnumeric/%{bonobover}/python
+%dir %{prefix}/share/gnumeric/%{bonobover}/templates
+%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/3D/*
+%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Classical/*
+%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Colourful/*
+%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Financial/*
+%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/General/*
+%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/List/*
+%{prefix}/share/gnumeric/%{bonobover}/glade/*
+%{prefix}/share/gnumeric/%{bonobover}/gnome/ui/*
+%{prefix}/share/gnumeric/%{bonobover}/idl/*
+%{prefix}/share/gnumeric/%{bonobover}/python/*
+%{prefix}/share/gnumeric/%{bonobover}/templates/*
 #%{prefix}/share/locale/*/LC_MESSAGES/*.mo
 %{prefix}/share/mc/templates/*
 %{prefix}/share/mime-info/*
@@ -139,9 +154,9 @@ fi
 #%files devel
 #%defattr (-, bin, bin)
 #%{prefix}/lib/gnumericConf.sh
-#%{prefix}/share/gnumeric/%{version}-bonobo/idl/*.idl
+#%{prefix}/share/gnumeric/%{bonobover}/idl/*.idl
 # This is really silly.  The .la files are useless for plugins.
-##%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.la
+##%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.la
 
 %changelog
 * Wed Oct  9 2001 John Gotts <jgotts@linuxsavvy.com>
