@@ -21,7 +21,7 @@ xmldir = $(gnumeric_plugin_perldir)
 gnumeric_plugin_perl_PROGRAMS = $(PERL_PROGRAMS_TARGET)
 perl_so_SOURCES = perl.c
 
-perl.so: perl.o xsinit.o ext.timestamp
+perl.so$(EXEEXT): perl.o xsinit.o ext.timestamp
 	-$(PERL_LD) $(PERL_LDDLFLAGS) -o perl.so perl.o xsinit.o $(PERL_LDOPTS)
 
 perl.o: $(srcdir)/perl.c
