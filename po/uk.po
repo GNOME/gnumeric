@@ -7298,6 +7298,14 @@ msgid ""
 "\n"
 "@SEEALSO=DOLLAR"
 msgstr ""
+"@FUNCTION=TEXT\n"
+"@SYNTAX=TEXT(value,format_text)\n"
+"@DESCRIPTION=TEXT повета╓ @value як рядок у вказаному формат╕.\n"
+"@EXAMPLES=\n"
+"TEXT(3.223,\"$0.00\") р╕вне \"$3.22\".\n"
+"TEXT(date(1999,4,15),\"mmmm, dd, yy\") р╕вне \"April, 15, 99\".\n"
+"\n"
+"@SEEALSO=DOLLAR"
 
 #: src/functions/fn-string.c:785
 msgid ""
@@ -7309,6 +7317,13 @@ msgid ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=TRIM поверта╓ @text з одинарними пропусками м╕ж словами.\n"
+"@EXAMPLES=\n"
+"TRIM(\"  a bbb  cc\") р╕вне \"a bbb cc\".\n"
+"\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 #: src/functions/fn-string.c:835
 msgid ""
@@ -7351,6 +7366,13 @@ msgid ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(num,[decimals])\n"
+"@DESCRIPTION=DOLLAR поверта╓ @num форматоване як грошовий тип.\n"
+"@EXAMPLES=\n"
+"DOLLAR(12345) р╕вне \"$12,345.00\".\n"
+"\n"
+"@SEEALSO=FIXED, TEXT, VALUE"
 
 #: src/functions/fn-string.c:1067
 msgid ""
@@ -8073,7 +8095,7 @@ msgstr ""
 
 #: src/print.c:631
 msgid "Printing failed -- bad filename?"
-msgstr ""
+msgstr "Друк не вдався -- погана назва файлу?"
 
 #: src/selection.c:151
 msgid "The command `"
@@ -8086,15 +8108,15 @@ msgstr ""
 #. FIXME FIXME : disable copying part of an array
 #: src/selection.c:620
 msgid "copy"
-msgstr ""
+msgstr "скоп╕ювати"
 
 #: src/selection.c:651
 msgid "cut"
-msgstr ""
+msgstr "вир╕зати"
 
 #: src/selection.c:698
 msgid "paste"
-msgstr ""
+msgstr "вставити"
 
 #: src/selection.c:720
 #, c-format
