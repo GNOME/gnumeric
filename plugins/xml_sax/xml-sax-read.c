@@ -537,6 +537,8 @@ xml_sax_wb (XMLSaxParseState *state, xmlChar const **attrs)
 				char const * const id;
 				GnumericXMLVersion const version;
 			} GnumericVersions [] = {
+				{ "http://www.gnumeric.org/v10.dtd", GNUM_XML_V10 },	/* 1.0.3 */
+				{ "http://www.gnumeric.org/v9.dtd", GNUM_XML_V9 },	/* 0.73 */
 				{ "http://www.gnumeric.org/v8.dtd", GNUM_XML_V8 },	/* 0.71 */
 				{ "http://www.gnome.org/gnumeric/v7", GNUM_XML_V7 },	/* 0.66 */
 				{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
@@ -2000,8 +2002,11 @@ xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 		break;
 
 	case STATE_CELL :
-		if (state->cell.row >= 0 || state->cell.col >= 0)
+		if (state->version >= GNUM_XML_V10 ||
+		    state->cell.row >= 0 ||
+		    state->cell.col >= 0)
 			xml_sax_cell_content (state);
+		g_string_truncate (state->content, 0);
 		break;
 
 	case STATE_CELL_CONTENT :
@@ -2061,6 +2066,7 @@ xml_sax_characters (XMLSaxParseState *state, const xmlChar *chars, int len)
 	case STATE_STYLE_FONT :
 	case STATE_STYLE_VALIDATION_EXPR0 :
 	case STATE_STYLE_VALIDATION_EXPR1 :
+	case STATE_CELL :
 	case STATE_CELL_CONTENT :
 	case STATE_SHEET_MERGE :
 	case STATE_NAMES_NAME_NAME :
