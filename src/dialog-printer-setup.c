@@ -14,13 +14,44 @@
 #include "dialogs.h"
 #include "print-info.h"
 
+#define PREVIEW_X 170
+#define PREVIEW_Y 200
+
+typedef struct {
+	enum UnitName unit;
+	double value;
+} UnitInfo;
+
+static struct {
+	char *unit_name;
+	double factor;
+} units [] = {
+	{ N_("pts"),        1. },
+	{ N_("mm"),  2.8346457 },
+	{ N_("cm"),  28.346457 },
+	{ N_("In"),        72. },
+	{ NULL, 0.0 }
+};
+	
 typedef struct {
 	Workbook         *workbook;
 	GladeXML         *gui;
 	PrintInformation *pi;
 	GtkWidget        *dialog;
 	GtkWidget        *margin_preview;
+
+	struct {
+		UnitInfo top, bottom;
+		UnitInfo left, right;
+		UnitInfo header, footer;
+	} margins;
 } dialog_print_info_t;
+
+static double
+unit_into_to_points (UnitInfo *ui)
+{
+	return ui->value * units [ui->unit].factor;
+}
 
 static GtkWidget *
 load_image (const char *name)
@@ -44,9 +75,98 @@ margin_preview_update (dialog_print_info_t *dpi)
 }
 
 static void
-do_setup_main_dialog (dialog_print_info_t *dpi)
+convert_unit (GtkWidget *item, UnitInfo *target)
 {
+	
+}
+
+static GtkWidget *
+unit_editor_new (UnitInfo *target, double init)
+{
+	GtkWidget *box, *om, *menu;
+	GtkSpinButton *spin;
+	int i;
+	
+	box = gtk_hbox_new (0, 0);
+
+	spin = GTK_SPIN_BUTTON (gtk_spin_button_new (NULL, 1, 0));
+	gtk_spin_button_set_value (spin, init);
+	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (spin), FALSE, FALSE, 0);
+	om = gtk_option_menu_new ();
+	gtk_box_pack_start (GTK_BOX (box), om, TRUE, TRUE, 0);
+	gtk_widget_show_all (box);
+
+	menu = gtk_menu_new ();
+	for (i = 0; units [i].unit_name != NULL; i++){
+		GtkWidget *item;
+
+		item = gtk_menu_item_new_with_label (_(units [i].unit_name));
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_signal_connect (
+			GTK_OBJECT (item), "activate",
+			GTK_SIGNAL_FUNC (convert_unit), target);
+
+	}
+	gtk_menu_set_active (GTK_MENU (menu), target->unit);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (om), menu);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (om), target->unit);
+
+	return box;
+}
+
+static void
+tattach (GtkTable *table, int x, int y, double init, UnitInfo *target)
+{
+	GtkWidget *w;
+	
+	w = unit_editor_new (target, init);
+	gtk_table_attach (
+		table, w, x, x+1, y, y+1,
+		0, 0, 0, 0);
+}
+
+static void
+remove_placeholder_callback (GtkWidget *widget, gpointer data)
+{
+	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
+}
+
+/*
+ * This routine removes a placeholder inserted
+ * by libglade from a container
+ */
+static void
+remove_placeholders (GtkContainer *container)
+{
+	g_return_if_fail (GTK_IS_CONTAINER (container));
+
+	gtk_container_foreach (container, remove_placeholder_callback, NULL);
+}
+
+static void
+do_setup_margin (dialog_print_info_t *dpi)
+{
+	GtkTable *table;
+	PrintMargins *pm = &dpi->pi->margins;
+	GtkWidget *container;
+	
 	dpi->margin_preview = gnome_canvas_new ();
+	gtk_widget_set_usize (dpi->margin_preview, PREVIEW_X, PREVIEW_Y);
+	gtk_widget_show (dpi->margin_preview);
+	
+	table = GTK_TABLE (glade_xml_get_widget (dpi->gui, "margin-table"));
+
+	tattach (table, 1, 1, pm->top,    &dpi->margins.top);
+	tattach (table, 2, 1, pm->header, &dpi->margins.header);
+	tattach (table, 0, 4, pm->left,   &dpi->margins.left);
+	tattach (table, 2, 4, pm->right,  &dpi->margins.right);
+	tattach (table, 1, 7, pm->bottom, &dpi->margins.bottom);
+	tattach (table, 2, 7, pm->footer, &dpi->margins.footer);
+
+	container = glade_xml_get_widget (dpi->gui, "container-margin-page");
+	remove_placeholders (GTK_CONTAINER (container));
+	gtk_box_pack_start (GTK_BOX (container), dpi->margin_preview, TRUE, TRUE, 0);
 }
 
 static void
@@ -57,12 +177,11 @@ paper_size_changed (GtkEntry *entry, dialog_print_info_t *dpi)
 	
 	text = gtk_entry_get_text (entry);
 
-	dpi->pi->paper = gnome_paper_with_name (text);
-	g_assert (dpi->pi->paper);
-
-	margin_preview_update (dpi);
-	
-	g_free (text);
+	paper = gnome_paper_with_name (text);
+	if (paper != NULL){
+		dpi->pi->paper = paper;
+		margin_preview_update (dpi);
+	}
 }
 
 static void
@@ -126,27 +245,32 @@ do_setup_page (dialog_print_info_t *dpi)
 	gtk_signal_connect (GTK_OBJECT (combo->entry), "changed",
 			    paper_size_changed, dpi);
 
-	gtk_entry_set_text (combo->entry, dpi->pi->paper_name);
+	gtk_entry_set_text (GTK_ENTRY (combo->entry), gnome_paper_name (dpi->pi->paper));
 }
 
 static void
 do_setup_main_dialog (dialog_print_info_t *dpi)
 {
+	GtkWidget *notebook;
+	
 	/*
-	 * 1. Moves the whole thing into a GnomeDialog, needed until
-	 *    we get GnomeDialog support in Glade.
+	 * Moves the whole thing into a GnomeDialog, needed until
+	 * we get GnomeDialog support in Glade.
 	 */
 	dpi->dialog = gnome_dialog_new (
 		_("Print setup"),
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL,
 		NULL);
+	gtk_window_set_policy (GTK_WINDOW (dpi->dialog), FALSE, TRUE, TRUE);
+		
+	notebook = glade_xml_get_widget (dpi->gui, "print-setup-notebook");
 
-	gtk_widget_reparent (
-		glade_xml_get_widget (dpi->gui, "print-setup-notebook"),
-		GNOME_DIALOG (dpi->dialog)->vbox);
+	gtk_widget_reparent (notebook, GNOME_DIALOG (dpi->dialog)->vbox);
 
 	gtk_widget_unref (glade_xml_get_widget (dpi->gui, "print-setup"));
+
+	gtk_widget_queue_resize (notebook);
 }
 
 static dialog_print_info_t *

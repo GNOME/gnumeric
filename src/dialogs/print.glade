@@ -642,42 +642,10 @@
 	    <fill>True</fill>
 	  </child>
 	  <rows>10</rows>
-	  <columns>4</columns>
+	  <columns>3</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>0</row_spacing>
 	  <column_spacing>0</column_spacing>
-
-	  <widget>
-	    <class>GtkSpinButton</class>
-	    <name>spinbutton8</name>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	    <can_focus>True</can_focus>
-	    <climb_rate>1</climb_rate>
-	    <digits>0</digits>
-	    <numeric>False</numeric>
-	    <update_policy>GTK_UPDATE_ALWAYS</update_policy>
-	    <snap>False</snap>
-	    <wrap>False</wrap>
-	    <hvalue>1</hvalue>
-	    <hlower>0</hlower>
-	    <hupper>100</hupper>
-	    <hstep>1</hstep>
-	    <hpage>10</hpage>
-	    <hpage_size>10</hpage_size>
-	  </widget>
 
 	  <widget>
 	    <class>GtkLabel</class>
@@ -696,7 +664,7 @@
 	      <xfill>True</xfill>
 	      <yfill>True</yfill>
 	    </child>
-	    <label>Superior</label>
+	    <label>Superior:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
@@ -755,70 +723,6 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkSpinButton</class>
-	    <name>spinbutton9</name>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>4</top_attach>
-	      <bottom_attach>5</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	    <can_focus>True</can_focus>
-	    <climb_rate>1</climb_rate>
-	    <digits>0</digits>
-	    <numeric>False</numeric>
-	    <update_policy>GTK_UPDATE_ALWAYS</update_policy>
-	    <snap>False</snap>
-	    <wrap>False</wrap>
-	    <hvalue>1</hvalue>
-	    <hlower>0</hlower>
-	    <hupper>100</hupper>
-	    <hstep>1</hstep>
-	    <hpage>10</hpage>
-	    <hpage_size>10</hpage_size>
-	  </widget>
-
-	  <widget>
-	    <class>GtkSpinButton</class>
-	    <name>spinbutton10</name>
-	    <child>
-	      <left_attach>2</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>4</top_attach>
-	      <bottom_attach>5</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	    <can_focus>True</can_focus>
-	    <climb_rate>1</climb_rate>
-	    <digits>0</digits>
-	    <numeric>False</numeric>
-	    <update_policy>GTK_UPDATE_ALWAYS</update_policy>
-	    <snap>False</snap>
-	    <wrap>False</wrap>
-	    <hvalue>1</hvalue>
-	    <hlower>0</hlower>
-	    <hupper>100</hupper>
-	    <hstep>1</hstep>
-	    <hpage>10</hpage>
-	    <hpage_size>10</hpage_size>
-	  </widget>
-
-	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label16</name>
 	    <child>
@@ -844,38 +748,6 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkSpinButton</class>
-	    <name>spinbutton11</name>
-	    <child>
-	      <left_attach>2</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	    <can_focus>True</can_focus>
-	    <climb_rate>1</climb_rate>
-	    <digits>0</digits>
-	    <numeric>False</numeric>
-	    <update_policy>GTK_UPDATE_ALWAYS</update_policy>
-	    <snap>False</snap>
-	    <wrap>False</wrap>
-	    <hvalue>1</hvalue>
-	    <hlower>0</hlower>
-	    <hupper>100</hupper>
-	    <hstep>1</hstep>
-	    <hpage>10</hpage>
-	    <hpage_size>10</hpage_size>
-	  </widget>
-
-	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label17</name>
 	    <child>
@@ -892,44 +764,12 @@
 	      <xfill>True</xfill>
 	      <yfill>True</yfill>
 	    </child>
-	    <label>Lower</label>
+	    <label>Lower:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	  </widget>
-
-	  <widget>
-	    <class>GtkSpinButton</class>
-	    <name>spinbutton12</name>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>7</top_attach>
-	      <bottom_attach>8</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	    <can_focus>True</can_focus>
-	    <climb_rate>1</climb_rate>
-	    <digits>0</digits>
-	    <numeric>False</numeric>
-	    <update_policy>GTK_UPDATE_ALWAYS</update_policy>
-	    <snap>False</snap>
-	    <wrap>False</wrap>
-	    <hvalue>1</hvalue>
-	    <hlower>0</hlower>
-	    <hupper>100</hupper>
-	    <hstep>1</hstep>
-	    <hpage>10</hpage>
-	    <hpage_size>10</hpage_size>
 	  </widget>
 
 	  <widget>
@@ -958,35 +798,28 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkSpinButton</class>
-	    <name>spinbutton13</name>
+	    <class>GtkHBox</class>
+	    <name>container-margin-page</name>
 	    <child>
-	      <left_attach>2</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>7</top_attach>
-	      <bottom_attach>8</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>6</bottom_attach>
+	      <xpad>4</xpad>
+	      <ypad>4</ypad>
+	      <xexpand>False</xexpand>
 	      <yexpand>True</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
 	      <yfill>True</yfill>
 	    </child>
-	    <can_focus>True</can_focus>
-	    <climb_rate>1</climb_rate>
-	    <digits>0</digits>
-	    <numeric>False</numeric>
-	    <update_policy>GTK_UPDATE_ALWAYS</update_policy>
-	    <snap>False</snap>
-	    <wrap>False</wrap>
-	    <hvalue>1</hvalue>
-	    <hlower>0</hlower>
-	    <hupper>100</hupper>
-	    <hstep>1</hstep>
-	    <hpage>10</hpage>
-	    <hpage_size>10</hpage_size>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>Placeholder</class>
+	    </widget>
 	  </widget>
 
 	  <widget>
@@ -994,13 +827,13 @@
 	    <name>hbox7</name>
 	    <child>
 	      <left_attach>0</left_attach>
-	      <right_attach>4</right_attach>
+	      <right_attach>3</right_attach>
 	      <top_attach>8</top_attach>
 	      <bottom_attach>9</bottom_attach>
 	      <xpad>0</xpad>
-	      <ypad>0</ypad>
+	      <ypad>4</ypad>
 	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
+	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
@@ -1041,13 +874,13 @@
 	    <name>hbox8</name>
 	    <child>
 	      <left_attach>0</left_attach>
-	      <right_attach>4</right_attach>
+	      <right_attach>3</right_attach>
 	      <top_attach>9</top_attach>
 	      <bottom_attach>10</bottom_attach>
 	      <xpad>0</xpad>
-	      <ypad>0</ypad>
+	      <ypad>2</ypad>
 	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
+	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
@@ -1082,31 +915,6 @@
 	      <label>Vertically</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
-	    </widget>
-	  </widget>
-
-	  <widget>
-	    <class>GtkHBox</class>
-	    <name>container-margin-page</name>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>2</top_attach>
-	      <bottom_attach>6</bottom_attach>
-	      <xpad>4</xpad>
-	      <ypad>4</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>True</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
-
-	    <widget>
-	      <class>Placeholder</class>
 	    </widget>
 	  </widget>
 	</widget>

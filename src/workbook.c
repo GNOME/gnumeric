@@ -24,8 +24,8 @@
 #include "utils.h"
 #include "widget-editable-label.h"
 
-#include <gnome-printer.h>
-#include <gnome-print.h>
+#include <libgnomeprint/gnome-printer.h>
+#include <libgnomeprint/gnome-print.h>
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0

@@ -10,6 +10,13 @@ typedef enum {
 	PRINT_ORIENT_VERTICAL
 } PrintOrientation;
 
+enum UnitName {
+	UNIT_POINTS,
+	UNIT_MILLIMITER,
+	UNIT_CENTIMETER,
+	UNIT_INCH
+};
+
 /*
  * Scaling for the sheet: percentage or make it fit a number
  * of columns and rows
@@ -63,7 +70,7 @@ struct _PrintInformation {
 	PrintHF          *header;
 	PrintHF          *footer;
 
-	GnomePaper       *paper;
+	const GnomePaper *paper;
 };
 
 PrintInformation *print_info_new  (void);
