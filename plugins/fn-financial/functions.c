@@ -2146,7 +2146,7 @@ static char const *help_duration = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=G_DURATION,MDURATION")
 };
 
 static Value *
@@ -2192,7 +2192,7 @@ static char const *help_g_duration = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=PPMT,PV,FV")
+	   "@SEEALSO=PPMT,PV,FV,DURATION,MDURATION")
 };
 
 static Value *
@@ -3457,7 +3457,7 @@ static char const *help_mduration = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=DURATION,G_DURATION")
 };
 
 static Value *

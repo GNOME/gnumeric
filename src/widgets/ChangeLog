@@ -1,3 +1,10 @@
+2003-06-24  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=115853
+	* widget-format-selector.c (draw_format_preview) : push the colour out
+	  to the preview too.  We should probably just use the preview grid
+	  or tweak it to have a white background.
+
 2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* color-palette.c: `grey'->`gray' (to be consistent)

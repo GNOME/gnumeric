@@ -24,6 +24,7 @@
 #include <format.h>
 #include <formats.h>
 #include <mstyle.h>
+#include <style-color.h>
 #include <sheet.h>
 #include <value.h>
 #include <workbook.h>
@@ -216,6 +217,8 @@ draw_format_preview (NumberFormatSelector *nfs, gboolean regen_format)
 {
 	gchar		*preview;
 	StyleFormat	*sf = NULL;
+	StyleColor	*c = NULL;
+	PangoAttrList	*attrs;
 
 	if (regen_format)
 		generate_format (nfs);
@@ -233,11 +236,21 @@ draw_format_preview (NumberFormatSelector *nfs, gboolean regen_format)
 	    VALUE_FMT (nfs->value) != NULL)
 		sf = VALUE_FMT (nfs->value);
 
-	preview = format_value (sf, nfs->value, NULL, -1, nfs->date_conv);
+	preview = format_value (sf, nfs->value, &c, -1, nfs->date_conv);
 	if (strlen (preview) > FORMAT_PREVIEW_MAX)
 		strcpy (&preview[FORMAT_PREVIEW_MAX - 5], " ...");
 
 	gtk_label_set_text (nfs->format.preview, preview);
+	attrs = pango_attr_list_new ();
+	if (c != NULL) {
+		PangoAttribute	*attr = pango_attr_foreground_new (
+			c->color.red, c->color.green, c->color.blue);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+		style_color_unref (c);
+	}
+	gtk_label_set_attributes (nfs->format.preview, attrs);
 	g_free (preview);
 }
 

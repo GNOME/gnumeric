@@ -424,7 +424,6 @@ Misc stuff that should be fixed
       was a stub) without changing the GnmFunc address.  On exit we should
       explicitly check that it is ours to remove.
 
-
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
     - Duplicate sheet.
