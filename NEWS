@@ -32,6 +32,9 @@ Jody:
 	* Jump to GLPK 4.5
 	* Add a View -> Windows menu
 
+Jon Kåre:
+	* Add image export to Excel
+
 Morten:
 	* Add Ctrl-5 for strike-through.
 	* Add Ctrl-Shift-D for double underline.

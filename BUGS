@@ -475,7 +475,7 @@ Short Term Goals
 	6.12.3) check target type of range/intersect
     6.13) image export
 	6.13.1) Excel95
-	6.13.1) Excel97
+	6.13.1) Excel97                                         (DONE)
     6.13) chart import
 	6.13.1) check overlap percentage for bars		(DONE)
 	6.13.2) Add gog_object_set_position			(DONE)

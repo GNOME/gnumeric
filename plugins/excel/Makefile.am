@@ -40,6 +40,8 @@ excel_la_SOURCES =		\
 	ms-chart.c		\
 	rc4.c			\
 	rc4.h			\
+	crypt-md4.c			\
+	crypt-md4.h			\
 	md5.c			\
 	md5.h
 

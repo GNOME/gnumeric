@@ -1,3 +1,15 @@
+2004-08-09  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-image.c (sheet_object_image_new): strdup the
+	image type.
+	(sheet_object_image_finalize): Free the image type.
+	(soi_info_cb): New callback used to find image type.
+	(soi_get_pixbuf): Install callback on pixbuf loader in order to
+	find image type.
+	(sheet_object_image_get_property): New gobject method to return
+	type, data or pixbuf as object parameters.
+	(sheet_object_image_class_init): Install properties.
+
 2004-08-11  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (main): Handle non-URI output destinations.

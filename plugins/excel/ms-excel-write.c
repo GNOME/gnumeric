@@ -38,6 +38,7 @@
 #include <sheet-object.h>
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-graph.h>
+#include <sheet-object-image.h>
 #include <application.h>
 #include <style.h>
 #include <validation.h>
@@ -65,12 +66,15 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-units.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
 #include <gsf/gsf-msole-utils.h>
 
 #include <math.h>
+#include <zlib.h>
+#include <crypt-md4.h>
 
 /* #define NO_DEBUG_EXCEL */
 #ifndef NO_DEBUG_EXCEL
@@ -79,7 +83,35 @@
 #define d(level, code)
 #endif
 
+/* #define ENABLE_METAFILE */
+
+#define BLIP_ID_LEN         16
+#define BSE_HDR_LEN         44
+#define RASTER_BLIP_HDR_LEN 25
+#define VECTOR_BLIP_HDR_LEN 58
+
 #define N_ELEMENTS_BETWEEN_PROGRESS_UPDATES   20
+
+typedef struct {
+	char const    *type;
+	GByteArray    bytes;
+	gint32        uncomp_len;
+	gint32        header_len;
+	gboolean      needs_free;
+	guint8        id[BLIP_ID_LEN];
+	SheetObject   *so;
+} BlipInf;
+
+typedef struct _BlipType BlipType;
+
+struct _BlipType {
+	const char *type_name;
+	guint8 type;
+	guint8 blip_tag[2];
+	void (*handler) (ExcelWriteState *ewb, 
+				BlipInf *blip,
+				BlipType *bt);
+};
 
 static guint
 gnm_color_to_bgr (GnmColor const *c)
@@ -3306,6 +3338,136 @@ excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
 	ms_excel_chart_write (esheet->ewb, so);
 }
 
+/* Return NULL when we cannot export. The NULL will be added to the list to
+ * indicate that we shouldn't write a DRAWING record for the corresponding
+ * image. */
+static BlipInf *
+blipinf_new (SheetObjectImage *soi)
+{
+	BlipInf *blip;
+	GByteArray *bytes;
+
+	blip = g_new0 (BlipInf, 1);
+	blip->uncomp_len = -1;
+	blip->needs_free = FALSE;
+	blip->so         = SHEET_OBJECT (soi);
+
+	g_object_get (G_OBJECT (soi), 
+		      "image-type", &blip->type, 
+		      "image-data", &bytes,
+		      NULL);
+	blip->bytes = *bytes;	/* Need to copy, we may change it. */
+	
+	if (strcmp (blip->type, "jpeg") == 0 || /* Raster format */
+	    strcmp (blip->type, "png")  == 0 ||	/* understood by Excel */
+	    strcmp (blip->type, "dib")  == 0) {
+		blip->header_len = BSE_HDR_LEN + RASTER_BLIP_HDR_LEN;
+#ifdef ENABLE_METAFILE
+	} else if (strcmp (blip->type, "wmf") == 0 || /* Vector format */
+		   strcmp (blip->type, "emf") == 0 || /* - compress */
+		   strcmp (blip->type, "pict") == 0) { 
+
+		int res;
+		gulong dest_len = blip->bytes.len * 1.01 + 12;
+		guint8 *buffer = g_malloc (dest_len);
+
+		blip->uncomp_len = blip->bytes.len;
+		res = compress (buffer, &dest_len, 
+				blip->bytes.data, blip->bytes.len);
+		if (res != Z_OK) {
+			g_free (buffer);
+			g_warning ("compression failure %d;", res);
+		} else {
+			blip->needs_free = TRUE;
+			blip->bytes.data = buffer;
+			blip->bytes.len  = dest_len;
+		}
+		blip->header_len = BSE_HDR_LEN + VECTOR_BLIP_HDR_LEN;
+#endif
+	} else {
+		/* Fall back to png */
+		GdkPixbuf *pixbuf;
+		char      *buffer = NULL;
+
+		g_object_get (G_OBJECT (soi), "pixbuf", &pixbuf, NULL);
+		
+		if (pixbuf) {
+			gdk_pixbuf_save_to_buffer (pixbuf,
+						   &buffer,
+						   &blip->bytes.len,
+						   "png",
+						   NULL,
+						   NULL);
+			g_object_unref (G_OBJECT (pixbuf));
+		}
+		
+		if (buffer) {
+			blip->type = "png";
+			blip->bytes.data = buffer;
+			blip->needs_free = TRUE;
+			blip->header_len = BSE_HDR_LEN + RASTER_BLIP_HDR_LEN;
+		} else {
+			g_warning 
+				("Unable to export %s image as png to Excel", 
+				 blip->type);
+			g_free (blip);
+			blip = NULL;
+		}
+	}
+
+	return blip;
+}
+
+static void
+blipinf_free (BlipInf *blip)
+{
+	blip->type = NULL;
+	if (blip->needs_free) {
+		g_free (blip->bytes.data);
+		blip->needs_free = FALSE;
+	}
+	blip->bytes.data = NULL;
+	g_free (blip);
+}
+
+static void
+excel_write_image (ExcelWriteSheet *esheet, BlipInf *bi)
+{
+	static guint8 const obj_v8[] = {
+/* SpContainer */   0xf,   0,   4, 0xf0,   0x4c, 0, 0, 0,
+/* Sp */	   0xb2,   4, 0xa, 0xf0,      8, 0, 0, 0,
+			0,   0, 0, 0,	/* fill in spid */
+			0, 0xa, 0, 0,
+/* OPT */	   0x33,   0, 0xb, 0xf0,   0x12, 0, 0, 0,
+			0x7f,    0, 0x80,  0, 0x80, 0, /* bool   LockAgainstGrouping 127 = 0x800080; */
+			   4, 0x41,    1, 0,     0, 0, /* blip x is blip (fill in); */
+			0x80,    1,    3, 0,     0, 0, /* FillType fillType 384 = 0x3; */
+/* ClientAnchor */    0, 0, 0x10, 0xf0,   0x12, 0, 0, 0, 0,0,
+			0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
+/* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
+	};
+	guint8 buf [sizeof obj_v8];
+	ExcelWriteState *ewb = esheet->ewb;
+	BiffPut *bp = ewb->bp;
+	guint32 id = excel_write_start_drawing (esheet);
+	guint32 blip_id = ewb->cur_blip + 1; 
+
+	memcpy (buf, obj_v8, sizeof obj_v8);
+	GSF_LE_SET_GUINT32 (buf + 16, id);
+	GSF_LE_SET_GUINT32 (buf + 40, blip_id);
+	excel_write_anchor (buf + 0x3c, sheet_object_anchor_get (bi->so));
+	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
+	ms_biff_put_commit (bp);
+
+	ms_biff_put_var_next (bp, BIFF_OBJ);
+	ms_objv8_write_common (bp, esheet->cur_obj, 8, 0x6011);
+	GSF_LE_SET_GUINT32 (buf, 0); /* end */
+	ms_biff_put_var_write (bp, buf, 4);
+
+	ms_biff_put_commit (bp);
+	ewb->cur_blip++;
+}
+
 /* See: S59D76.HTM */
 static void
 excel_write_DIMENSION (BiffPut *bp, ExcelWriteSheet *esheet)
@@ -3766,7 +3928,7 @@ excel_write_objs (ExcelWriteSheet *esheet)
 
 		ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
 		memcpy (buf, header_obj_v8, sizeof header_obj_v8);
-		len = 90*num_filters + 114*num_charts;
+		len = 90*num_filters + 114*num_charts+ 84*esheet->num_blips;
 		GSF_LE_SET_GUINT32 (buf +  4, 72 + len);
 		GSF_LE_SET_GUINT32 (buf + 16, esheet->num_objs + 1);
 		GSF_LE_SET_GUINT32 (buf + 20, last_id);	/* last spid in this group */
@@ -3778,6 +3940,10 @@ excel_write_objs (ExcelWriteSheet *esheet)
 	for (ptr = charts; ptr != NULL ; ptr = ptr->next)
 		excel_write_chart (esheet, ptr->data);
 	g_slist_free (charts);
+
+	for (ptr = esheet->blips; ptr != NULL ; ptr = ptr->next)
+		if (ptr->data)
+			excel_write_image (esheet, ptr->data);
 
 	excel_write_autofilter_objs (esheet);
 }
@@ -3872,7 +4038,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
 	ExcelWriteSheet *esheet = g_new (ExcelWriteSheet, 1);
 	GnmRange extent;
-	GSList *objs;
+	GSList *objs, *img;
 	int i;
 
 	g_return_val_if_fail (sheet, NULL);
@@ -3927,11 +4093,25 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	if (esheet->max_row > maxrows)
 		esheet->max_row = maxrows;
 
-	/* we only export charts for now */
-	esheet->cur_obj = esheet->num_objs = 0;
+	/* we only export charts & images for now */
+	esheet->cur_obj = esheet->num_objs = esheet->num_blips = 0;
+	esheet->blips = NULL;
 	objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
 	esheet->num_objs += g_slist_length (objs);
 	g_slist_free (objs);
+	objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_IMAGE_TYPE);
+	for (img = objs ; img != NULL ; img = img->next) {
+		SheetObjectImage *soi = SHEET_OBJECT_IMAGE (img->data);
+		BlipInf *bi = blipinf_new (soi);
+
+		/* Images we can't export have a NULL BlipInf */
+		if (bi)
+			esheet->num_blips++;
+		esheet->blips = g_slist_prepend (esheet->blips, bi);
+	}
+	esheet->blips = g_slist_reverse (esheet->blips);
+	g_slist_free (objs);
+	esheet->num_objs += esheet->num_blips;
 
 	/* And the autofilters */
 	if (sheet->filters != NULL) {
@@ -4213,6 +4393,216 @@ excel_write_names (ExcelWriteState *ewb)
 }
 
 static void
+excel_write_image_bytes (BiffPut *bp, GByteArray *bytes)
+
+{
+	int chunk    = ms_biff_max_record_len (bp) - bp->curpos;
+	guint8 *data = bytes->data;
+	gint32 len   = bytes->len;
+
+	while (len > 0) {
+		ms_biff_put_var_write (bp, data, MIN (chunk, len));
+		data += chunk;
+		len  -= chunk;
+		chunk =  ms_biff_max_record_len (bp);
+	}
+}
+
+#ifdef ENABLE_METAFILE
+/* 
+ * FIXME: Excel doesn't read images written by this (but will open the files).
+ *        OpenOffice.org can read the images.
+ */
+static void 
+excel_write_vector_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
+{
+	BiffPut	 *bp = ewb->bp;
+
+	if (bp->version >= MS_BIFF_V8) {
+		guint8 buf [VECTOR_BLIP_HDR_LEN];
+		double coords [4];
+		double width, height;
+
+		sheet_object_position_pts_get (blip->so, coords);
+		width  = fabs (coords[2] - coords[0]);
+		height = fabs (coords[3] - coords[1]);
+
+		d(2, 
+		{
+			g_message ("emu_width=%d (0x%x)", 
+				   (guint32) GO_PT_TO_EMU(width),
+				   (guint32) GO_PT_TO_EMU (width));
+			g_message ("emu_height=%d (0x%x)",
+				   (guint32) GO_PT_TO_EMU(height), 
+				   (guint32) GO_PT_TO_EMU (height));
+			g_message ("cm_width=%d (0x%x)",
+				   (guint32) GO_PT_TO_CM(width*1000),
+				   (guint32) GO_PT_TO_CM (width*1000));
+			g_message ("cm_height=%d (0x%x)",
+				   (guint32) GO_PT_TO_CM(height*1000), 
+				   (guint32) GO_PT_TO_CM (height*1000));
+		});
+		memset (buf, 0, sizeof buf);
+		memcpy (buf, bt->blip_tag, sizeof bt->blip_tag);
+		GSF_LE_SET_GUINT16 (buf + 2, 0xf018 + bt->type);
+		GSF_LE_SET_GUINT32 (buf + 4, 
+				    blip->bytes.len + VECTOR_BLIP_HDR_LEN);
+		memcpy(buf + 8, blip->id, sizeof blip->id);
+		/* buf + 24: uncompressed length */
+		GSF_LE_SET_GUINT32 (buf +  24, blip->uncomp_len);
+		/* buf + 28: metafile bounds (rectangle) */
+		/* unit for rectangle is 1/1000 cm */
+		GSF_LE_SET_GUINT32 (buf +  36, 
+				    (guint32) GO_PT_TO_CM(width*1000));
+		GSF_LE_SET_GUINT32 (buf +  40,
+				    (guint32) GO_PT_TO_CM(height*1000));
+		/* buf + 44: size of metafile (point) */
+		/* unit for points is EMU = 1/360000 cm = 1/12700 pt
+		   - 360 times finer than for rect. */
+		GSF_LE_SET_GUINT32 (buf +  44,
+				    (guint32) GO_PT_TO_EMU (width));
+		GSF_LE_SET_GUINT32 (buf +  48,
+				    (guint32) GO_PT_TO_EMU (height));
+		/* buf + 52: compressed length */
+		GSF_LE_SET_GUINT32 (buf +  52, blip->bytes.len);
+		/* buf + 56: = 0 if compressed, 0xfe if not */
+		/* buf + 57: = 0xfe - filter none */
+		GSF_LE_SET_GUINT8 (buf +  57, 0xfe);
+		ms_biff_put_var_write (bp, buf, sizeof buf);
+
+		/* Write image data */
+		excel_write_image_bytes (bp, &blip->bytes);
+	}
+}
+#endif
+
+static void 
+excel_write_raster_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
+{
+	BiffPut	 *bp = ewb->bp;
+
+	if (bp->version >= MS_BIFF_V8) {
+		guint8 buf [RASTER_BLIP_HDR_LEN];
+		
+		memset (buf, 0, sizeof buf);
+		memcpy (buf, bt->blip_tag, sizeof bt->blip_tag);
+		GSF_LE_SET_GUINT16 (buf + 2, 0xf018 + bt->type);
+		GSF_LE_SET_GUINT32 (buf + 4, 
+				    blip->bytes.len + BLIP_ID_LEN + 1);
+		memcpy(buf + 8, blip->id, sizeof blip->id);
+		GSF_LE_SET_GUINT8 (buf + 24, 0xff);
+		ms_biff_put_var_write (bp, buf, sizeof buf);
+
+		/* Write image data */
+		excel_write_image_bytes (bp, &blip->bytes);
+	}
+}
+
+static BlipType bliptypes[] = 
+{
+#ifdef ENABLE_METAFILE
+	{"emf",  2, {0x40, 0x3d}, excel_write_vector_blip},
+	{"wmf",  3, {0x60, 0x21}, excel_write_vector_blip},
+	{"pict", 4, {0x20, 0x54}, excel_write_vector_blip},
+#endif
+	{"jpeg", 5, {0xa0, 0x46}, excel_write_raster_blip},
+	{"png",  6, {0,    0x6e}, excel_write_raster_blip},
+	{"dib",  7, {0x80, 0x7a}, excel_write_raster_blip}
+};
+
+static BlipType *
+get_bliptype (const char *type)
+{
+	int n = sizeof bliptypes / sizeof bliptypes[0];
+	int i;
+
+	for (i = 0; i < n; i++)
+		if (strcmp (type, bliptypes[i].type_name) == 0)
+			return &bliptypes[i];
+	return NULL;
+}
+static void 
+excel_write_blip (ExcelWriteState *ewb, BlipInf *blip)
+{
+	BiffPut	 *bp = ewb->bp;
+	BlipType *bt;
+
+	if (bp->version >= MS_BIFF_V8) {
+		static guint8 const header_obj_v8[] = {
+/* BSE header  */ 0x2, 0, 7, 0xf0, 0, 0, 0, 0  /* fill in bliptype, length */
+		};
+		guint8 buf [44];
+		guint8 win_type, mac_type;
+
+		memset (buf, 0, sizeof buf);
+		memcpy (buf, header_obj_v8, sizeof header_obj_v8);
+		GSF_LE_SET_GUINT32 (buf +  4, 
+				    blip->bytes.len + blip->header_len - 8);
+		bt = get_bliptype (blip->type);
+		if (!bt)
+			return;
+
+		win_type = mac_type = bt->type;
+		if (bt->type == 4)
+			win_type = 2;
+		else if (bt->type == 2 || bt->type == 3)
+			mac_type = 4;
+		GSF_LE_SET_GUINT8  (buf, (bt->type << 4) + 2);
+		GSF_LE_SET_GUINT8  (buf +  8, win_type);
+		GSF_LE_SET_GUINT8  (buf +  9, mac_type);
+		
+		/* id (checksum) */
+		mdfour(blip->id, blip->bytes.data, blip->bytes.len);
+		memcpy(buf + 10, blip->id, sizeof blip->id);
+		/* size */
+		GSF_LE_SET_GUINT32  (buf +  28, 
+				     blip->bytes.len + blip->header_len - 44);
+		/* refcount */
+		GSF_LE_SET_GUINT32  (buf +  32, 1);
+		ms_biff_put_var_write (bp, buf, sizeof buf);
+		
+		bt->handler (ewb, blip, bt);
+	}
+}
+
+/* FIXME: Store repeats only once. */
+static void
+excel_write_blips (ExcelWriteState *ewb, guint32 bliplen)
+{
+	BiffPut	*bp = ewb->bp;
+
+	if (bp->version >= MS_BIFF_V8) {
+		static guint8 const header_obj_v8[] = {
+/* BStore header */ 0x1f, 0, 1, 0xf0, 0, 0, 0, 0  /* fill in #blips, length */
+		};
+		guint8 buf [sizeof header_obj_v8];
+		GSList  *b;
+		ExcelWriteSheet const *s;
+		guint i, nblips;
+
+		for (i = 0, nblips = 0; i < ewb->sheets->len; i++) {
+			s = g_ptr_array_index (ewb->sheets, i);
+			for (b = s->blips; b != NULL; b = b->next)
+				if (b->data)
+					nblips++;
+		}
+		
+		memcpy (buf, header_obj_v8, sizeof header_obj_v8);
+		GSF_LE_SET_GUINT8 (buf, (nblips << 4 | 0xf));
+		GSF_LE_SET_GUINT32 (buf +  4, bliplen);
+		ms_biff_put_var_write (bp, buf, sizeof header_obj_v8);
+
+		for (i = 0; i < ewb->sheets->len; i++) {
+			s = g_ptr_array_index (ewb->sheets, i);
+			for (b = s->blips; b != NULL; b = b->next)
+				if (b->data)
+					excel_write_blip (ewb, 
+							  (BlipInf *) b->data);
+		}
+	}
+}
+
+static void
 excel_write_workbook (ExcelWriteState *ewb)
 {
 	BiffPut		*bp = ewb->bp;
@@ -4306,6 +4696,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 	if (bp->version >= MS_BIFF_V8) {
 		unsigned max_obj_id, num_objs;
+		guint32 bliplen = 0;
 
 		excel_write_COUNTRY (bp);
 
@@ -4317,12 +4708,20 @@ excel_write_workbook (ExcelWriteState *ewb)
 		/* If there are any objects in the workbook add a header */
 		num_objs = max_obj_id = 0;
 		for (i = 0; i < ewb->sheets->len; i++) {
+			GSList *b;
+
 			s = g_ptr_array_index (ewb->sheets, i);
 			if (s->num_objs > 0) {
 				ewb->num_obj_groups++;
 				max_obj_id = 0x400 * (ewb->num_obj_groups) | s->num_objs;
 				num_objs += s->num_objs + 1;
 			}
+			for (b = s->blips; b; b = b->next)
+				if (b->data) {
+					BlipInf *bi = (BlipInf *) b->data;
+					bliplen += (bi->header_len 
+						    + bi->bytes.len);
+				}
 		}
 
 		if (ewb->num_obj_groups > 0) {
@@ -4341,17 +4740,21 @@ excel_write_workbook (ExcelWriteState *ewb)
 			};
 
 			guint8 buf[16];
-			
+
 			ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING_GROUP);
 			memcpy (buf, header, sizeof header);
-			GSF_LE_SET_GUINT32 (buf+ 4, (0x4a + ewb->num_obj_groups * 8));
-			GSF_LE_SET_GUINT32 (buf+12, (0x10 + ewb->num_obj_groups * 8));
+			
+			GSF_LE_SET_GUINT32 (buf+ 4, 
+					    (0x4a + ewb->num_obj_groups * 8 + 
+					     bliplen + 8));
+			GSF_LE_SET_GUINT32 (buf+12, 
+					    (0x10 + ewb->num_obj_groups * 8));
 			ms_biff_put_var_write (bp, buf, sizeof header);
 
-			GSF_LE_SET_GUINT32 (buf+  0, (max_obj_id+1));
-			GSF_LE_SET_GUINT32 (buf+  4, (ewb->num_obj_groups+1));
-			GSF_LE_SET_GUINT32 (buf+  8, num_objs);		/* (c) */
-			GSF_LE_SET_GUINT32 (buf+ 12, ewb->num_obj_groups);
+			GSF_LE_SET_GUINT32 (buf+  0, (max_obj_id+1)); /* max_spid */
+			GSF_LE_SET_GUINT32 (buf+  4, (ewb->num_obj_groups+1)); /* num_id_clust */
+			GSF_LE_SET_GUINT32 (buf+  8, num_objs);	/* (c) */ /* num_shapes_saved */
+			GSF_LE_SET_GUINT32 (buf+ 12, ewb->num_obj_groups); /* num_drawings_saved */
 			ms_biff_put_var_write (bp, buf, 4*4);
 
 			ewb->cur_obj_group = 0;
@@ -4359,12 +4762,15 @@ excel_write_workbook (ExcelWriteState *ewb)
 				s = g_ptr_array_index (ewb->sheets, i);
 				if (s->num_objs > 0) {
 					ewb->cur_obj_group++;
-					GSF_LE_SET_GUINT32 (buf+0, ewb->cur_obj_group);
-					GSF_LE_SET_GUINT32 (buf+4, s->num_objs+1);
+					GSF_LE_SET_GUINT32 (buf+0, ewb->cur_obj_group);	/* dgid - DG owning the SPIDs in this cluster */
+					GSF_LE_SET_GUINT32 (buf+4, s->num_objs+1); /* cspidCur - number of SPIDs used so far */
 					ms_biff_put_var_write (bp, buf, 8);
 				}
 			}
 			ewb->cur_obj_group = 0;
+
+			if (bliplen > 0)
+				excel_write_blips (ewb, bliplen);
 
 			ms_biff_put_var_write (bp, footer, sizeof footer);
 			ms_biff_put_commit (bp);
@@ -4523,7 +4929,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	ewb->cell_markup  = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify) cb_g_array_free);
 	ewb->double_stream_file = biff7 && biff8;
-	ewb->num_obj_groups = ewb->cur_obj_group = 0;
+	ewb->num_obj_groups = ewb->cur_obj_group = ewb->cur_blip = 0;
 
 	ewb->fonts.two_way_table = two_way_table_new (
 		excel_font_hash, excel_font_equal, 0,
@@ -4580,8 +4986,11 @@ excel_write_state_free (ExcelWriteState *ewb)
 	palette_free (ewb);
 	xf_free  (ewb);
 
-	for (i = 0; i < ewb->sheets->len; i++)
-		g_free (g_ptr_array_index (ewb->sheets, i));
+	for (i = 0; i < ewb->sheets->len; i++) {
+		ExcelWriteSheet *esheet = g_ptr_array_index (ewb->sheets, i);
+		g_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
+		g_free (esheet);
+	}
 
 	g_ptr_array_free (ewb->sheets, TRUE);
 	g_hash_table_destroy (ewb->names);

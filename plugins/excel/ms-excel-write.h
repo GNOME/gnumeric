@@ -45,7 +45,8 @@ typedef struct {
 	guint16		 col_xf    [SHEET_MAX_COLS];
 	GnmStyle	*col_style [SHEET_MAX_COLS];
 	GnmStyleList 	*validations;
-	unsigned	 cur_obj, num_objs;
+	GSList           *blips;
+	unsigned	 cur_obj, num_objs, num_blips;
 } ExcelWriteSheet;
 
 struct _ExcelWriteState {
@@ -92,7 +93,7 @@ struct _ExcelWriteState {
 		GPtrArray  *indicies;
 	} sst;
 
-	unsigned num_obj_groups, cur_obj_group;
+	unsigned num_obj_groups, cur_obj_group, cur_blip;
 	gboolean export_macros;
 };
 

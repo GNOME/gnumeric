@@ -32,9 +32,8 @@
 struct _SheetObjectImage {
 	SheetObject  sheet_object;
 
-	char const   *type;
-	guint8       *data;
-	guint32	      data_len;
+	char         *type;
+	GByteArray   bytes;
 
 	gboolean dumped;
 	double   crop_top;
@@ -48,6 +47,13 @@ typedef struct {
 } SheetObjectImageClass;
 
 static SheetObjectClass *sheet_object_image_parent_class;
+
+enum {
+	PROP_0,
+	PROP_IMAGE_TYPE,
+	PROP_IMAGE_DATA,
+	PROP_PIXBUF
+};
 
 /**
  * sheet_object_image_new :
@@ -65,15 +71,15 @@ sheet_object_image_new (char const   *type,
 	SheetObjectImage *soi;
 
 	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
-	soi->type     = type;
-	soi->data_len = data_len;
+	soi->type     = g_strdup (type);
+	soi->bytes.len = data_len;
 	soi->crop_top = soi->crop_bottom = soi->crop_left = soi->crop_right
 		= 0.0;
 	if (copy_data) {
-		soi->data = g_malloc (data_len);
-		memcpy (soi->data, data, data_len);
+		soi->bytes.data = g_malloc (data_len);
+		memcpy (soi->bytes.data, data, data_len);
 	} else
-		soi->data = data;
+		soi->bytes.data = data;
 
 	soi->sheet_object.anchor.direction = SO_DIR_DOWN_RIGHT;
 	return SHEET_OBJECT (soi);
@@ -98,8 +104,9 @@ sheet_object_image_finalize (GObject *object)
 	SheetObjectImage *soi;
 
 	soi = SHEET_OBJECT_IMAGE (object);
-	g_free (soi->data);
-	soi->data = NULL;
+	g_free (soi->bytes.data);
+	g_free (soi->type);
+	soi->bytes.data = NULL;
 
 	G_OBJECT_CLASS (sheet_object_image_parent_class)->finalize (object);
 }
@@ -124,6 +131,21 @@ soi_get_cropped_pixbuf (SheetObjectImage *soi, GdkPixbuf *pixbuf)
 	return pixbuf;
 }
 
+static void
+soi_info_cb (GdkPixbufLoader *loader, 
+	     int              width,
+	     int              height,
+	     gpointer         data)
+{
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (data);
+	GdkPixbufFormat *format = gdk_pixbuf_loader_get_format (loader);
+	char *name = gdk_pixbuf_format_get_name (format);
+	
+	if (soi->type)
+		g_free (soi->type);
+	soi->type = name;
+}
+
 /**
  * be sure to unref the result if it is non-NULL
  *
@@ -143,17 +165,22 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (soi), NULL);
 
-	data     = soi->data;
-	data_len = soi->data_len;
+	data     = soi->bytes.data;
+	data_len = soi->bytes.len;
 
 	if (soi->type != NULL && !strcmp (soi->type, "wmf"))
 		loader = gdk_pixbuf_loader_new_with_type (soi->type, &err);
 	else
 		loader = gdk_pixbuf_loader_new ();
 
+	if (soi->type == NULL || strlen (soi->type) == 0)
+		g_signal_connect (loader, "size-prepared", 
+				  G_CALLBACK (soi_info_cb), soi);
+		
 	if (loader) {
 		ret = gdk_pixbuf_loader_write (loader,
-					       soi->data, soi->data_len, &err);
+					       soi->bytes.data, soi->bytes.len,
+					       &err);
 		/* Close in any case. But don't let error during closing
 		 * shadow error from loader_write.  */
 		gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
@@ -184,8 +211,8 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 			GsfOutput *file = gsf_output_stdio_new (filename, NULL);
 			if (file) {
 				gsf_output_write (GSF_OUTPUT (file),
-						  soi->data_len,
-						  soi->data);
+						  soi->bytes.len,
+						  soi->bytes.data);
 				gsf_output_close (GSF_OUTPUT (file));
 				g_object_unref (file);
 			}
@@ -319,7 +346,7 @@ sheet_object_image_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
  	gsf_xml_out_start_element (output, "Content");
 	if (soi->type != NULL)
 		gsf_xml_out_add_cstr (output, "image-type", soi->type);
-	gsf_xml_out_add_base64 (output, NULL, soi->data, soi->data_len);
+	gsf_xml_out_add_base64 (output, NULL, soi->bytes.data, soi->bytes.len);
  	gsf_xml_out_end_element (output);
 }
 
@@ -374,6 +401,32 @@ sheet_object_image_default_size (SheetObject const *so, double *w, double *h)
 }
 
 static void
+sheet_object_image_get_property (GObject     *object,
+				 guint        property_id,
+				 GValue      *value,
+				 GParamSpec  *pspec)
+{
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (object);
+	GdkPixbuf *pixbuf;
+
+	switch (property_id) {
+	case PROP_IMAGE_TYPE:
+		g_value_set_string (value, soi->type);
+		break;
+	case PROP_IMAGE_DATA:
+		g_value_set_pointer (value, &soi->bytes);
+		break;
+	case PROP_PIXBUF:
+		pixbuf = soi_get_pixbuf (soi, 1.0);
+		g_value_set_object (value, pixbuf);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
 sheet_object_image_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
@@ -382,6 +435,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 
 	/* Object class method overrides */
 	object_class->finalize = sheet_object_image_finalize;
+	object_class->get_property = sheet_object_image_get_property;
 
 	/* SheetObject class method overrides */
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
@@ -395,6 +449,27 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	sheet_object_class->print		= sheet_object_image_print;
 	sheet_object_class->default_size	= sheet_object_image_default_size;
 	sheet_object_class->rubber_band_directly = TRUE;
+
+	g_object_class_install_property 
+		(object_class,
+		 PROP_IMAGE_TYPE,
+		 g_param_spec_string ("image-type", "Image type",
+				      "Type of image",
+				      NULL,
+				      G_PARAM_READABLE));
+	g_object_class_install_property 
+		(object_class,
+		 PROP_IMAGE_DATA,
+		 g_param_spec_pointer ("image-data", "Image data",
+				       "Image data",
+				       G_PARAM_READABLE));
+	g_object_class_install_property 
+		(object_class,
+		 PROP_PIXBUF,
+		 g_param_spec_object ("pixbuf", "Pixbuf",
+				       "Pixbuf",
+				       GDK_TYPE_PIXBUF,
+				       G_PARAM_READABLE));
 }
 
 static void

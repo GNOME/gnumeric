@@ -1,3 +1,34 @@
+2004-08-11  Jon K Hellan  <hellan@acm.org>
+
+        Export images.
+	
+	* Makefile.am (excel_la_SOURCES): Add crypt-md4.[ch]
+
+	* crypt-md4.[ch]. New files. MD4 checksum to use as BLIP
+	id. Grabbed from Ethereal, originally from Samba.
+
+	* ms-excel-write.c: 
+	(blipinf_new): New function. Initialize a record for image data.
+	(blipinf_free): New function. Free an image data record.
+	(excel_write_image): New function. Write an image Sp record
+	referencing a BLIP.
+	(excel_write_objs): Include images in record length. Write images.
+	(excel_sheet_new): Save image info.
+	(excel_write_image_bytes): New function. Save image in chunks,
+	letting the biff layer insert CONTINUE records.
+	(excel_write_vector_blip): New function. Save a vector format BLIP.
+	(excel_write_raster_blip): New function. Save a raster format BLIP.
+	(get_bliptype): New function. Get bliptype record.
+	(excel_write_blip): New function. Save an image BLIP.
+	(excel_write_blips): New function. Save the images as BLIPs.
+	(excel_write_workbook): Get length of BLIP records. Call
+	excel_write_blips.
+	(excel_write_state_new): Initialize cur_blip.
+	(excel_write_state_free): Free BLIP lists from sheets.
+
+	* ms-excel-write.h (struct ExcelWriteSheet): Add blips, num_blips.
+	(struct _ExcelWriteState): Add cur_blip.
+
 2004-07-10  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_workbook) : write WINDOW1 for all the views
