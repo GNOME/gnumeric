@@ -1,5 +1,9 @@
 1999-07-28  Michael Meeks  <michael@edenproject.org>
 
+	* src/summary.c: Update, was out of step with the header.
+
+1999-07-28  Michael Meeks  <michael@edenproject.org>
+
 	* src/item-grid.h: Added border_gc[BORDER_MAX] to ItemGrid.
 
 	* src/item-grid.c (item_grid_draw_cell): Border rendering code.

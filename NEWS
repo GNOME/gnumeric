@@ -8,6 +8,7 @@ Michael:
 	* Enabled function wizard.
 	* Initial stab at Lotus 123: 'wk1', 'wks' import.
 	* Added GUI for Names.
+	* Added better Excel 'quirk' support: All strings should import OK.
 
 Jody:
 	* Enable Array formulas.

@@ -16,11 +16,13 @@ gchar *summary_item_name[] = {
 	"Title",
 	"Subject",
 	"Author",
+	"Keywords",
+	"Comments",
+	"Template",
+	"Last Author",
 	"Manager",
 	"Category",
-	"Keywords",
-	"Saving App",
-	"Comments"
+	"Application"
 };
 
 static SummaryItem *
