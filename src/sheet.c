@@ -3545,7 +3545,7 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts,
 void
 sheet_cell_changed (Cell *cell)
 {
-#ifndef ENABLE_BONOBO
-	sheet_vector_cell_changed (cell);
+#ifdef ENABLE_BONOBO
+	sheet_vectors_cell_changed (cell);
 #endif
 }
