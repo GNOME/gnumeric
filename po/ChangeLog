@@ -1,14 +1,10 @@
+2001-08-12  Jody Goldberg <jgoldberg@home.com>
+
+	* es.po : Committed for German Poo Caaman~o <gpoo@ubiobio.cl>
+
 2001-08-12  Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
-
-2001-08-11  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-08-11  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
 
 2001-08-11  Jody Goldberg <jgoldberg@home.com>
 
