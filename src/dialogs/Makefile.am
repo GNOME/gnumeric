@@ -48,7 +48,8 @@ glade_DATA = 				\
 	print.glade 			\
 	row-height.glade		\
 	sheet-rename.glade		\
-	summary.glade
+	summary.glade			\
+	dialog-zoom.glade
 
 glade_msgs = 				\
 	col-width.glade.h		\
@@ -59,7 +60,8 @@ glade_msgs = 				\
 	print.glade.h			\
 	row-height.glade.h		\
 	sheet-rename.glade.h		\
-	summary.glade.h
+	summary.glade.h			\
+	dialog-zoom.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
 
