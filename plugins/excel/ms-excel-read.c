@@ -1687,10 +1687,9 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		array_col_last  = BIFF_GETBYTE(q->data + 5) ;
 
 /*				int options  = BIFF_GETWORD(q->data + 6) ; not so useful */
-		g_assert (q->ls_op == BIFF_ARRAY) ;
 		data = q->data + 14 ;
 		data_len = BIFF_GETWORD(q->data + 12) ;
-		printf ("%s Formula of extent %d %d %d %d\n", q->ls_op==BIFF_ARRAY?"Array":"Shrfmla",
+		printf ("Array Formula of extent %d %d %d %d\n",
 			array_col_first, array_row_first, array_col_last, array_row_last) ;
 		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
 			for (ylp=array_row_first;ylp<=array_row_last;ylp++)

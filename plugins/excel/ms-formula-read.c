@@ -1040,8 +1040,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		default:
 		{
 /*	    printf ("Search %d records\n", (int)FORMULA_OP_DATA_LEN) ; */
-			if (ptgbase >= FORMULA_OP_START && ptgbase < FORMULA_OP_START+FORMULA_OP_DATA_LEN)
-			{
+			if (ptgbase >= FORMULA_OP_START && ptgbase < FORMULA_OP_START+FORMULA_OP_DATA_LEN) {
 				FORMULA_OP_DATA *fd =
 					&formula_op_data[ptgbase - FORMULA_OP_START];
 				ExprTree *tr = expr_tree_new ();
@@ -1050,9 +1049,11 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				tr->u.binary.value_b = parse_list_pop (&stack);
 				tr->u.binary.value_a = parse_list_pop (&stack);
 				parse_list_push (&stack, tr);
+			} else {
+				if (FORMULA_DEBUG>0)
+					printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase);
+				error=1 ;
 			}
-			else if (FORMULA_DEBUG>0)
-				printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase), error=1 ;
 		}
 		break ;
 		}

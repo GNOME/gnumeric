@@ -19,12 +19,12 @@ static char *help_choose = {
 	   "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
 
 	   "@DESCRIPTION="
-	   "CORREL returns the value of index @index."
+	   "CHOOSE returns the value of index @index."
 	   "index is rounded to an integer if it is not."
 	   "\n"
 	   "if index < 1 or index > number of values: returns #VAL!."
 	   "\n"
-	   "@SEEALSO=COVAR,FISHER,FISHERINV")
+	   "@SEEALSO=IF")
 };
 
 static Value *

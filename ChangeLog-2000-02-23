@@ -1,3 +1,12 @@
+1999-05-07  Michael Meeks  <michael@imaginator.com>
+
+	* src/corba-workbook.c (corba_sheet): Add CORBA_Environment
+	parameter, needed for Object_dupicate...
+	(Workbook_sheet_new, Workbook_sheet_lookup),
+	(Workbook_sheet_current): Updated corba_sheet's args.
+
+	* src/fn-lookup.c: Fixed choose help.
+
 1999-05-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/corba-workbook.c (corba_sheet): Duplicate the object before

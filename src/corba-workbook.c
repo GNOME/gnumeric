@@ -31,9 +31,9 @@ workbook_from_servant (PortableServer_Servant servant)
 }
 
 static inline GNOME_Gnumeric_Sheet
-corba_sheet (Sheet *sheet)
+corba_sheet (Sheet *sheet, CORBA_Environment *ev)
 {
-	return CORBA_Object_duplicate (sheet->corba_server);
+	return CORBA_Object_duplicate (sheet->corba_server, ev);
 }
 
 static GNOME_Gnumeric_Sheet
@@ -52,7 +52,7 @@ Workbook_sheet_new (PortableServer_Servant servant, const CORBA_char * name, COR
 
 	workbook_attach_sheet (workbook, sheet);
 	
-	return corba_sheet (sheet);
+	return corba_sheet (sheet, ev);
 }
 
 static GNOME_Gnumeric_Sheet
@@ -65,7 +65,7 @@ Workbook_sheet_lookup (PortableServer_Servant servant, const CORBA_char * name, 
 	if (sheet == NULL)
 		return CORBA_OBJECT_NIL;
 
-	return corba_sheet (sheet);
+	return corba_sheet (sheet, ev);
 }
 
 static void
@@ -90,7 +90,7 @@ Workbook_sheet_current (PortableServer_Servant servant, CORBA_Environment * ev)
         Workbook *workbook = workbook_from_servant (servant);
 	Sheet *sheet = workbook_get_current_sheet (workbook);
 
-	return corba_sheet (sheet);
+	return corba_sheet (sheet, ev);
 }
 
 static GNOME_Gnumeric_Sheet

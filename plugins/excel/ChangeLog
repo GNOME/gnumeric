@@ -1,3 +1,10 @@
+1999-05-07  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (ms_excel_parse_formula): Fixed horrible bug
+	in PTG_ATTR, not stopping on duff attr.
+
+	* ms-excel.c (ms_excel_read_cell): Cleans to ARRAY_FORMULA.
+
 1999-05-06  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (ms_biff_query_new, ms_biff_merge_continues)
