@@ -29,6 +29,69 @@
 
 #include <libpresent/load-ppt.h>
 
+static void
+dump_text (char *text)
+{
+	char **texts = g_strsplit (text, "\xd", 0);
+	int i;
+
+	for (i = 0; texts[i]; i++) {
+		printf ("\t\t%s\n", texts[i]);
+	}
+
+	g_strfreev (texts);
+}
+
+static void
+dump_shape (GodShape *shape, int depth)
+{
+	GodAnchor *anchor;
+	int i, count;
+	const char *text;
+	if (shape == NULL)
+		return;
+
+	for (i = 0; i < depth; i++) {
+		g_print ("\t");
+	}
+	anchor = god_shape_get_anchor(shape);
+	if (anchor) {
+		GoRect rect;
+		god_anchor_get_rect (anchor,
+				     &rect);
+		g_print ("%f, %f - %f, %f",
+			 GO_UN_TO_IN ((double)rect.top),
+			 GO_UN_TO_IN ((double)rect.left),
+			 GO_UN_TO_IN ((double)rect.bottom),
+			 GO_UN_TO_IN ((double)rect.right));
+	}
+	g_print ("\n");
+
+	text = god_shape_get_text (shape);
+	if (text) {
+		dump_text (text);
+	}
+	count = god_shape_get_child_count (shape);
+	for (i = 0; i < count; i++) {
+		GodShape *child;
+		child = god_shape_get_child (shape, i);
+		dump_shape (child, depth + 1);
+		g_object_unref (child);
+	}
+}
+
+static void
+dump_drawing (GodDrawing *drawing)
+{
+	GodShape *shape;
+	if (drawing == NULL)
+		return;
+	shape = god_drawing_get_root_shape (drawing);
+	dump_shape (shape, 0);
+	if (shape)
+		g_object_unref (shape);
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -45,6 +108,9 @@ main (int argc, char *argv[])
 
 		for (i = 0; i < slide_count; i++) {
 			PresentSlide *slide = present_presentation_get_slide (presentation, i);
+
+			dump_drawing (present_slide_get_drawing(slide));
+#if 0
 			int i, text_count;
 			text_count = present_slide_get_text_count (slide);
 
@@ -62,6 +128,7 @@ main (int argc, char *argv[])
 					}
 				}
 			}
+#endif
 		}
 	}
 
