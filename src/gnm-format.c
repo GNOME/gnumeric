@@ -161,7 +161,7 @@ format_value_gstring (GString *result, GOFormat const *format,
 		}
 
 		if (need_abs)
-			val = gnumabs (val);
+			val = gnm_abs (val);
 
 		if (entry == NULL) {
 			if (INT_MAX >= val && val >= INT_MIN && val == gnm_floor (val))

@@ -66,7 +66,7 @@ range_hypot (const gnm_float *xs, int n, gnm_float *res)
 {
 	switch (n) {
 	case 0: *res = 0; return 0;
-	case 1: *res = gnumabs (xs[0]); return 0;
+	case 1: *res = gnm_abs (xs[0]); return 0;
 	case 2: *res = gnm_hypot (xs[0], xs[1]); return 0;
 	default:
 		if (range_sumsq (xs, n, res))
@@ -127,12 +127,12 @@ int
 range_minabs (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnm_float min = gnumabs (xs[0]);
+		gnm_float min = gnm_abs (xs[0]);
 		int i;
 
 		for (i = 1; i < n; i++)
-			if (gnumabs (xs[i]) < min)
-				min = gnumabs (xs[i]);
+			if (gnm_abs (xs[i]) < min)
+				min = gnm_abs (xs[i]);
 		*res = min;
 		return 0;
 	} else
@@ -144,12 +144,12 @@ int
 range_maxabs (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnm_float max = gnumabs (xs[0]);
+		gnm_float max = gnm_abs (xs[0]);
 		int i;
 
 		for (i = 1; i < n; i++)
-			if (gnumabs (xs[i]) > max)
-				max = gnumabs (xs[i]);
+			if (gnm_abs (xs[i]) > max)
+				max = gnm_abs (xs[i]);
 		*res = max;
 		return 0;
 	} else
@@ -167,7 +167,7 @@ range_avedev (const gnm_float *xs, int n, gnm_float *res)
 
 		range_average (xs, n, &m);
 		for (i = 0; i < n; i++)
-			s += gnumabs (xs[i] - m);
+			s += gnm_abs (xs[i] - m);
 		*res = s / n;
 		return 0;
 	} else
@@ -386,7 +386,7 @@ product_helper (const gnm_float *xs, int n,
 			e += thise;
 
 			/* Keep 0.5 < |mant| <= 1.  */
-			if (gnumabs (mant) <= 0.5) {
+			if (gnm_abs (mant) <= 0.5) {
 				mant *= 2;
 				e--;
 			}
@@ -550,7 +550,7 @@ static guint
 float_hash (const gnm_float *d)
 {
 	int expt;
-	gnm_float mant = gnm_frexp (gnumabs (*d), &expt);
+	gnm_float mant = gnm_frexp (gnm_abs (*d), &expt);
 	guint h = ((guint)(0x80000000u * mant)) ^ expt;
 	if (*d >= 0)
 		h ^= 0x55555555;

@@ -714,7 +714,7 @@ value_hash (GnmValue const *v)
 
 	case VALUE_FLOAT: {
 		int expt;
-		gnm_float mant = gnm_frexp (gnumabs (v->v_float.val), &expt);
+		gnm_float mant = gnm_frexp (gnm_abs (v->v_float.val), &expt);
 		guint h = ((guint)(0x80000000u * mant)) ^ expt;
 		if (v->v_float.val >= 0)
 			h ^= 0x55555555;
@@ -1236,7 +1236,7 @@ value_diff (GnmValue const *a, GnmValue const *b)
 	case VALUE_FLOAT: {
 		gnm_float const da = value_get_as_float (a);
 		gnm_float const db = value_get_as_float (b);
-		return gnumabs (da - db);
+		return gnm_abs (da - db);
 	}
 	default:
 		return TYPE_MISMATCH;
