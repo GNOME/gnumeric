@@ -1,4 +1,4 @@
-<preface id="introduction">
+<preface id="preface">
   <title>About this Book</title>
   <sect1 id="introduction-organization">
     <title>Organization</title>
@@ -33,8 +33,8 @@
 	<member><userinput>Anything you type in</userinput></member>
 	<member><computeroutput>Text output from a
 	computer</computeroutput></member>
-	<member><glossterm linkend="appendix-glossary">Words</glossterm> that
-	are defined in the <xref linkend="appendix-glossary">.</member>
+	<member><glossterm linkend="demo">Words</glossterm> that
+	are defined in the <xref linkend="appendix-glossary" />.</member>
       </simplelist>
     </para>
     <para>

@@ -5,15 +5,16 @@
 <!ENTITY version "0.72">
 <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, comma separated CSV, Applix,  Lotus 1-2-3, 
 GNU oleo">
-<!ENTITY introduction SYSTEM "introduction.xml">
+
+<!ENTITY preface SYSTEM "preface.xml">
 <!ENTITY getting-started SYSTEM "chapter-getting-started.xml">
 <!ENTITY autofill SYSTEM "chapter-autofill.xml">
+<!ENTITY glossary SYSTEM "appendix-glossary.xml">
 <!--
 <!ENTITY advanced-features SYSTEM "advanced-features.xml">
 <!ENTITY data-analysis SYSTEM "data-analysis.xml">
 <!ENTITY menus SYSTEM "menus.xml">
 <!ENTITY function-reference SYSTEM "function-reference.xml">
-<!ENTITY glossary SYSTEM "appendix-glossary.xml">
 <!ENTITY bugs SYSTEM "bugs.xml">
 <!ENTITY author SYSTEM "author.xml">
 <!ENTITY license SYSTEM "license.xml">
@@ -23,7 +24,7 @@ GNU oleo">
 <!--
 Note to Translator:
 This document is written in 2nd person.  If your language has a formal
-2nd person it  should be written in this voice.
+2nd person it should be written in this voice.
 -->
 
 <book id="index" lang="en">
@@ -70,6 +71,9 @@ This document is written in 2nd person.  If your language has a formal
     
   </bookinfo>
   
+    &preface;
+  
+
   <chapter id="introduction">
     <title>Introduction</title> 
     
@@ -81,8 +85,6 @@ This document is written in 2nd person.  If your language has a formal
       administrators to accountants and financial analysists.
     </para>	
     
-	&introduction;
-
   </chapter>
 
   <chapter id="start">
@@ -94,6 +96,7 @@ This document is written in 2nd person.  If your language has a formal
     <title>Autofill</title>
     &autofill;
   </chapter>
+
 <!--
 
   <chapter id="advanced-features">
@@ -124,15 +127,15 @@ This document is written in 2nd person.  If your language has a formal
         &function-reference;
 
   </chapter>
-  
-  <chapter id="glossary">
-    <title>GlossaryR</title>
+-->
+  <glossary id="appendix-glossary">
+    <title>Glossary</title>
 
         &glossary;
 
-  </chapter>
+  </glossary>
 
-  
+<!--
   <chapter id="bugs">
     <title>Known Bugs and Limitations</title>
 
@@ -154,6 +157,7 @@ This document is written in 2nd person.  If your language has a formal
 
   </chapter>
 -->
+
 </book>
 	
 
