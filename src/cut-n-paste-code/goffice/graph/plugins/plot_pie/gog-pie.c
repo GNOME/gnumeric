@@ -118,7 +118,7 @@ gog_pie_plot_editor (GogObject *item,
 }
 
 static unsigned
-gog_pie_plot_carnality (GogPlot *plot)
+gog_pie_plot_cardinality (GogPlot *plot)
 {
 	GogPiePlot const *pie = GOG_PIE_PLOT (plot);
 	GogPieSeries *series;
@@ -153,7 +153,7 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 		return FALSE;
 
 	i = 0;
-	n = model->base.carnality;
+	n = model->base.cardinality;
 	style = gog_style_dup (series->base.style);
 	labels = NULL;
 	if (series->values[0].data != NULL)
@@ -229,7 +229,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 	}
 	plot_klass->desc.num_series_min = plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type  = gog_pie_series_get_type ();
-	plot_klass->carnality    = gog_pie_plot_carnality;
+	plot_klass->cardinality  = gog_pie_plot_cardinality;
 	plot_klass->foreach_elem = gog_pie_plot_foreach_elem;
 }
 
@@ -420,7 +420,7 @@ gog_pie_series_update (GogObject *obj)
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 	if (old_num != series->num_elements)
-		gog_plot_request_carnality_update (series->base.plot);
+		gog_plot_request_cardinality_update (series->base.plot);
 }
 
 static void

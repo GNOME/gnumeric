@@ -467,7 +467,7 @@ gog_barcol_series_update (GogObject *obj)
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 	if (old_num != series->num_elements)
-		gog_plot_request_carnality_update (series->base.plot);
+		gog_plot_request_cardinality_update (series->base.plot);
 
 	if (series_parent_klass->update)
 		series_parent_klass->update (obj);

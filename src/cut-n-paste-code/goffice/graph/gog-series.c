@@ -424,7 +424,7 @@ gog_series_set_dim_internal (GogSeries *series,
  * indicies (@is_manual == FALSE) will not override the current
  * index if it is manual.  An @index < 0, will reset the index to
  * automatic and potentially queue a revaluation of the parent
- * chart's carnality.
+ * chart's cardinality.
  **/
 void
 gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
@@ -433,7 +433,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 
 	if (ind < 0) {
 		if (series->manual_index && series->plot != NULL)
-			gog_plot_request_carnality_update (series->plot);
+			gog_plot_request_cardinality_update (series->plot);
 		series->manual_index = FALSE;
 		return;
 	}

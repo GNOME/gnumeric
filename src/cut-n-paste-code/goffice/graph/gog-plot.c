@@ -103,7 +103,7 @@ role_series_post_add (GogObject *parent, GogObject *child)
 
 	/* APPEND to keep order, there won't be that many */
 	plot->series = g_slist_append (plot->series, series);
-	gog_plot_request_carnality_update (plot);
+	gog_plot_request_cardinality_update (plot);
 }
 
 static void
@@ -111,7 +111,7 @@ role_series_pre_remove (GogObject *parent, GogObject *series)
 {
 	GogPlot *plot = GOG_PLOT (parent);
 	plot->series = g_slist_remove (plot->series, series);
-	gog_plot_request_carnality_update (plot);
+	gog_plot_request_cardinality_update (plot);
 }
 
 static void
@@ -135,7 +135,7 @@ static void
 gog_plot_init (GogPlot *plot)
 {
 	/* start as true so that we can queue an update when it changes */
-	plot->carnality_valid = TRUE;
+	plot->cardinality_valid = TRUE;
 }
 
 GSF_CLASS_ABSTRACT (GogPlot, gog_plot,
@@ -290,37 +290,37 @@ gog_plot_get_chart (GogPlot const *plot)
 
 /* protected */
 void
-gog_plot_request_carnality_update (GogPlot *plot)
+gog_plot_request_cardinality_update (GogPlot *plot)
 {
 	g_return_if_fail (GOG_PLOT (plot) != NULL);
 
-	if (plot->carnality_valid) {
-		plot->carnality_valid = FALSE;
-		gog_chart_request_carnality_update (gog_plot_get_chart (plot));
+	if (plot->cardinality_valid) {
+		plot->cardinality_valid = FALSE;
+		gog_chart_request_cardinality_update (gog_plot_get_chart (plot));
 	}
 }
 
 unsigned
-gog_plot_get_carnality (GogPlot *plot)
+gog_plot_get_cardinality (GogPlot *plot)
 {
 	g_return_val_if_fail (GOG_PLOT (plot) != NULL, 0);
 
-	if (!plot->carnality_valid) {
+	if (!plot->cardinality_valid) {
 		GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
-		plot->carnality_valid = TRUE;
-		plot->index_num = gog_chart_get_carnality (
+		plot->cardinality_valid = TRUE;
+		plot->index_num = gog_chart_get_cardinality (
 			gog_plot_get_chart (plot));
-		if (klass->carnality == NULL) {
+		if (klass->cardinality == NULL) {
 			unsigned i = plot->index_num;
 			GSList *ptr;
 			for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
 				gog_series_set_index (ptr->data, i++, FALSE);
-			plot->carnality = g_slist_length (plot->series);
+			plot->cardinality = g_slist_length (plot->series);
 		} else
-			plot->carnality = (klass->carnality) (plot);
+			plot->cardinality = (klass->cardinality) (plot);
 	}
-	return plot->carnality;
+	return plot->cardinality;
 }
 
 void
@@ -329,7 +329,7 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (plot->carnality_valid);
+	g_return_if_fail (plot->cardinality_valid);
 
 	if (klass->foreach_elem == NULL ||
 	    !(klass->foreach_elem) (plot, func, data)) {
@@ -339,6 +339,6 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 			func (i++, gog_styled_object_get_style (ptr->data),
 			      gog_object_get_name (ptr->data), data);
 
-		g_return_if_fail (i == plot->index_num + plot->carnality);
+		g_return_if_fail (i == plot->index_num + plot->cardinality);
 	}
 }

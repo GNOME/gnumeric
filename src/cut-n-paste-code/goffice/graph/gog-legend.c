@@ -158,12 +158,7 @@ gog_legend_view_size_request (GogView *view, GogViewRequisition *req)
 						    legend->base.style);
 	req->w = 2 * outline + gog_renderer_pt2r_x (view->renderer, GO_CM_TO_PT (2));
 	req->h = 2 * outline +
-		(gog_chart_get_carnality (GOG_CHART (view->model->parent)) *
-		 gog_renderer_pt2r_y (view->renderer,
-			legend->swatch_size_pts + legend->swatch_padding_pts));
-
-	g_warning ("legend req %g, %g\nwith outline == %g\nand height == %g", req->w, req->h,
-		   2 * outline,
+		(gog_chart_get_cardinality (GOG_CHART (view->model->parent)) *
 		 gog_renderer_pt2r_y (view->renderer,
 			legend->swatch_size_pts + legend->swatch_padding_pts));
 }

@@ -40,8 +40,8 @@ struct _GogPlot {
 	GogChart	*chart;		/* potentially NULL */
 
 	GSList		*series;
-	unsigned	 carnality;
-	gboolean	 carnality_valid;
+	unsigned	 cardinality;
+	gboolean	 cardinality_valid;
 	unsigned	 index_num;
 
 	/* Usually a copy from the class but its here to allow a GogPlotType to
@@ -57,7 +57,7 @@ typedef struct {
 
 	/* Virtuals */
 	GogAxisType const *(*axis_info)	   (GogPlot const *plot, unsigned *num);
-	unsigned	   (*carnality)    (GogPlot *plot);
+	unsigned	   (*cardinality)  (GogPlot *plot);
 	gboolean 	   (*foreach_elem) (GogPlot *plot,
 					    GogEnumFunc handler, gpointer data);
 } GogPlotClass;

@@ -34,8 +34,8 @@ GType	  gog_plot_get_type (void);
 GogPlot  *gog_plot_new_by_type	(GogPlotType const *type);
 GogPlot  *gog_plot_new_by_name	(char const *id);
 gboolean  gog_plot_make_similar	(GogPlot *dst, GogPlot const *src);
-void	  gog_plot_request_carnality_update (GogPlot *plot);
-unsigned  gog_plot_get_carnality (GogPlot *);
+void	  gog_plot_request_cardinality_update (GogPlot *plot);
+unsigned  gog_plot_get_cardinality (GogPlot *);
 void      gog_plot_foreach_elem  (GogPlot *,
 				  GogEnumFunc handler, gpointer data);
 

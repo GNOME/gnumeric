@@ -49,7 +49,7 @@ static void
 gog_chart_update (GogObject *chart)
 {
 	/* resets the counts */
-	(void) gog_chart_get_carnality (GOG_CHART (chart));
+	(void) gog_chart_get_cardinality (GOG_CHART (chart));
 }
 
 static void
@@ -58,7 +58,7 @@ role_plot_post_add (GogObject *parent, GogObject *plot)
 	GogChart *chart = GOG_CHART (parent);
 	/* APPEND to keep order, there won't be that many */
 	chart->plots = g_slist_append (chart->plots, plot);
-	gog_chart_request_carnality_update (chart);
+	gog_chart_request_cardinality_update (chart);
 }
 
 static void
@@ -66,7 +66,7 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
 	chart->plots = g_slist_remove (chart->plots, plot);
-	gog_chart_request_carnality_update (chart);
+	gog_chart_request_cardinality_update (chart);
 }
 
 static void
@@ -97,7 +97,7 @@ gog_chart_init (GogChart *chart)
 	chart->cols  = 0;
 	chart->rows  = 0;
 	/* start as true so that we can queue an update when it changes */
-	chart->carnality_valid = TRUE;
+	chart->cardinality_valid = TRUE;
 }
 
 GSF_CLASS (GogChart, gog_chart,
@@ -181,28 +181,28 @@ gog_chart_get_graph (GogChart const *chart)
 }
 
 unsigned
-gog_chart_get_carnality (GogChart *chart)
+gog_chart_get_cardinality (GogChart *chart)
 {
 	GSList *ptr;
 
 	g_return_val_if_fail (GOG_CHART (chart) != NULL, 0);
 
-	if (!chart->carnality_valid) {
-		chart->carnality_valid = TRUE;
-		chart->carnality = 0;
+	if (!chart->cardinality_valid) {
+		chart->cardinality_valid = TRUE;
+		chart->cardinality = 0;
 		for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
-			chart->carnality += gog_plot_get_carnality (ptr->data);
+			chart->cardinality += gog_plot_get_cardinality (ptr->data);
 	}
-	return chart->carnality;
+	return chart->cardinality;
 }
 
 void
-gog_chart_request_carnality_update (GogChart *chart)
+gog_chart_request_cardinality_update (GogChart *chart)
 {
 	g_return_if_fail (GOG_CHART (chart) != NULL);
 	
-	if (chart->carnality_valid) {
-		chart->carnality_valid = FALSE;
+	if (chart->cardinality_valid) {
+		chart->cardinality_valid = FALSE;
 		gog_object_request_update (GOG_OBJECT (chart));
 	}
 }
@@ -213,7 +213,7 @@ gog_chart_foreach_elem (GogChart *chart, GogEnumFunc handler, gpointer data)
 	GSList *ptr;
 
 	g_return_if_fail (GOG_CHART (chart) != NULL);
-	g_return_if_fail (chart->carnality_valid);
+	g_return_if_fail (chart->cardinality_valid);
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
 		gog_plot_foreach_elem (ptr->data, handler, data);
