@@ -30,7 +30,7 @@ to features that already work.
 
    + Implement more functions :
      - AREAS and GETPIVOTDATA
-       CUMIPMT, CUMPRINC, MDURATION, ODDFYIELD, and VDB.
+       CUMIPMT, MDURATION, ODDFYIELD, and VDB.
 
    + Fix or finish the following functions :
      - ODDFPRICE, YIELD, and YIELDDISC.

@@ -32,7 +32,8 @@ Jukka:
 	* MPS plugin enhancements.
 	* New financial functions (integrated with some modifications
           from the OpenOffice):
-	  AMORDEGRC(), AMORLINC(), ODDLPRICE(), ODDLYIELD(), and YIELDMAT().
+	  AMORDEGRC(), AMORLINC(), CUMPRINC(), ODDLPRICE(), ODDLYIELD(),
+	  and YIELDMAT().
 	  Renamed Gnumeric's DURATION() as G_DURATION() and implemented
 	  DURATION() like in XL.
 
