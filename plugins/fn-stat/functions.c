@@ -5580,12 +5580,17 @@ static char const *help_exppowdist = {
            "EXPPOWDIST returns the probability density p(x) at @x for "
 	   "Exponential Power distribution with scale parameter @a and "
 	   "exponent @b.\n"
-           "\n"
+           "This distribution has been recommended for lifetime analysis "
+	   "when a U-shaped hazard function is desired. "
+	   "This corresponds to rapid failure once the product starts to "
+	   "wear out after a period of steady or even improving reliability.\n"
            "@EXAMPLES=\n"
            "EXPPOWDIST(0.4,1,2).\n"
            "\n"
            "@SEEALSO=RANDEXPPOW")
 };
+/* Part of help text quoted from the PEXPDF manpage of the DATAPLOT program 
+ * by NIST. */
 
 static GnmValue *
 gnumeric_exppowdist (FunctionEvalInfo *ei, GnmValue **argv)
