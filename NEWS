@@ -14,6 +14,7 @@ Andreas:
 	* Improve `One-Factor ANOVA' tool
 	* Improve `Correlations' tool
 	* Improve `Covariances' tool
+	* Add CLIPBOARD over PRIMARY choice to preference dialog
 
 Christian Neumair:
 	* Put delete actions from edit main menu into their own submenu.

@@ -230,7 +230,7 @@
 	<default>9</default>
         <locale name="C">
         <short>Default Compression Level For Gnumeric Files</short>
-        <long>This integer (between 0 and 9) specifies the amount of compression performed by Gnumeric when saving files in the default file format. 0 is no compression while 9 is maximum compression.</long>
+        <long>This integer (between 0 and 9) specifies the amount of compression performed by Gnumeric when saving files in the default file format. 0 is minimal compression while 9 is maximal compression.</long>
         </locale>
       </schema>
       <schema>

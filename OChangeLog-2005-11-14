@@ -1,3 +1,8 @@
+2004-07-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas.in: Correct compression level
+	  description
+
 2004-07-16  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-paths.sh.in : Add version
