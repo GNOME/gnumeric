@@ -108,7 +108,7 @@ excel_load (CommandContext *context, Workbook *wb, const char *filename)
  */
 static int
 excel_save (CommandContext *context, Workbook *wb, const char *filename,
-	    eBiff_version ver)
+	    MsBiffVersion ver)
 {
 	MsOle *f;
 	int ans;
@@ -156,13 +156,13 @@ excel_save (CommandContext *context, Workbook *wb, const char *filename,
 static int
 excel_save_98 (CommandContext *context, Workbook *wb, const char *filename)
 {
-	return excel_save (context, wb, filename, eBiffV8);
+	return excel_save (context, wb, filename, MS_BIFF_V8);
 }
 
 static int
 excel_save_95 (CommandContext *context, Workbook *wb, const char *filename)
 {
-	return excel_save (context, wb, filename, eBiffV7);
+	return excel_save (context, wb, filename, MS_BIFF_V7);
 }
 
 void

@@ -26,74 +26,76 @@
 #define EX_SETSTRLEN(p,d) (MS_OLE_SET_GUINT16(p + 6, d))
 
 /* Version info types as found in various Biff records */
-typedef enum _eBiff_filetype { eBiffTWorkbook=0, eBiffTVBModule=1, eBiffTWorksheet=2,
-			       eBiffTChart=3, eBiffTMacrosheet=4, eBiffTWorkspace=5,
-			       eBiffTUnknown=6 } eBiff_filetype ;
+typedef enum { MS_BIFF_TYPE_Workbook=0, MS_BIFF_TYPE_VBModule=1, MS_BIFF_TYPE_Worksheet=2,
+	       MS_BIFF_TYPE_Chart=3, MS_BIFF_TYPE_Macrosheet=4, MS_BIFF_TYPE_Workspace=5,
+	       MS_BIFF_TYPE_Unknown=6 } MsBiffFileType ;
 
 
 /* Cell / XF types */
-typedef enum _eBiff_hidden { eBiffHVisible=0, eBiffHHidden=1,
-			     eBiffHVeryHidden=2 } eBiff_hidden ;
-typedef enum _eBiff_locked { eBiffLLocked=1, eBiffLUnlocked=0 } eBiff_locked ;
-typedef enum _eBiff_xftype { eBiffXStyle=0, eBiffXCell=1 } eBiff_xftype ;
-typedef enum _eBiff_format { eBiffFMS=0, eBiffFLotus=1 } eBiff_format ;
-typedef enum _eBiff_eastern { eBiffEContext=0, eBiffEleftToRight=1,
-			      eBiffErightToLeft=2 } eBiff_eastern ;
-
-typedef enum _eBiffFontUnderline
-{
-  eBiffFUNone=1, eBiffFUSingle=2, eBiffFUDouble=3,
-  eBiffFUSingleAcc=4, eBiffFUDoubleAcc=5
-} eBiffFontUnderline ;
-
-typedef enum _eBiffFontScript { eBiffFSNone, eBiffFSSub, eBiffFSSuper } eBiffFontScript ;
-
-typedef enum _eBiffHAlign {	/* Horizontal alignment */
-	eBiffHAGeneral = 0,
-	eBiffHALeft    = 1,
-	eBiffHACenter  = 2,
-	eBiffHARight   = 3,
-	eBiffHAFill    = 4,
-	eBiffHAJustify = 5,
-	eBuffHACenterAcrossSelection = 6
-} eBiffHAlign;
-
-typedef enum _eBiffVAlign {	/* Vertical alignment */
-	eBiffVATop     = 0,
-	eBiffVACenter  = 1,
-	eBiffVABottom  = 2,
-	eBiffVAJustify = 3
-} eBiffVAlign;
-
-typedef enum _eBiffOrient {	/* Text orientation */
-	eBiffOHoriz         = 0,
-	eBiffOVertHorizText = 1,
-	eBiffOVertVertText  = 2,
-	eBiffOVertVertText2 = 3
-} eBiffOrient;
-
-typedef enum _eBiffDifferences { /* Differences to parent styles */
-	eBiffDFormatbit = 10,
-	eBiffDFontbit   = 11,
-	eBiffDAlignbit  = 12,
-	eBiffDBorderbit = 13,
-	eBiffDFillbit   = 14,
-	eBiffDLockbit   = 15
-} eBiffDifferences;
-
-typedef struct _BIFF_BOF_DATA
-{
-  eBiff_version version ;
-  eBiff_filetype type ;
-} BIFF_BOF_DATA ;
+typedef enum { MS_BIFF_H_VISIBLE=0, MS_BIFF_H_HIDDEN=1,
+	       MS_BIFF_H_VERY_HIDDEN=2 } MsBiffHidden ;
+typedef enum { MS_BIFF_L_LOCKED=1, MS_BIFF_L_UNLOCKED=0 } MsBiffLocked ;
+typedef enum { MS_BIFF_X_STYLE=0, MS_BIFF_X_CELL=1 } MsBiffXfType ;
+typedef enum { MS_BIFF_F_MS=0, MS_BIFF_F_LOTUS=1 } MsBiffFormat ;
+typedef enum { MS_BIFF_E_CONTEXT=0, MS_BIFF_E_LEFT_TO_RIGHT=1,
+	       MS_BIFF_E_RIGHT_TO_LEFT=2 } MsBiffEastern ;
 
 typedef enum {
-	eBiffMaxRowsV7 = 16384,
-	eBiffMaxRowsV8 = 65536
-} eBiffMaxRows;
+	MS_BIFF_F_U_NONE = 1,
+	MS_BIFF_F_U_SINGLE = 2,
+	MS_BIFF_F_U_DOUBLE = 3,
+	MS_BIFF_F_U_SINGLE_ACC = 4,
+	MS_BIFF_F_U_DOUBLE_ACC = 5
+} MsBiffFontUnderline ;
 
-extern BIFF_BOF_DATA *new_ms_biff_bof_data  (BiffQuery *pos) ;
-extern void           free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
+typedef enum { MS_BIFF_F_S_NONE, MS_BIFF_F_S_SUB, MS_BIFF_F_S_SUPER } MsBiffFontScript ;
+
+typedef enum {	/* Horizontal alignment */
+	MS_BIFF_H_A_GENERAL = 0,
+	MS_BIFF_H_A_LEFT    = 1,
+	MS_BIFF_H_A_CENTER  = 2,
+	MS_BIFF_H_A_RIGHT   = 3,
+	MS_BIFF_H_A_FILL    = 4,
+	MS_BIFF_H_A_JUSTIFTY = 5,
+	MS_BIFF_H_A_CENTER_ACROSS_SELECTION = 6
+} MsBiffHAlign;
+
+typedef enum {	/* Vertical alignment */
+	MS_BIFF_V_A_TOP     = 0,
+	MS_BIFF_V_A_CENTER  = 1,
+	MS_BIFF_V_A_BOTTOM  = 2,
+	MS_BIFF_V_A_JUSTIFY = 3
+} MsBiffVAlign;
+
+typedef enum {	/* Text orientation */
+	MS_BIFF_O_HORIZ         = 0,
+	MS_BIFF_O_VERT_HORIZ = 1,
+	MS_BIFF_O_VERT_VERT  = 2,
+	MS_BIFF_O_VERT_VERT2 = 3
+} MsBiffOrient;
+
+typedef enum { /* Differences to parent styles */
+	MS_BIFF_D_FORMAT_BIT = 10,
+	MS_BIFF_D_FONT_BIT   = 11,
+	MS_BIFF_D_ALIGN_BIT  = 12,
+	MS_BIFF_D_BORDER_BIT = 13,
+	MS_BIFF_D_FILL_BIT   = 14,
+	MS_BIFF_D_LOCK_BIT   = 15
+} MsBiffDifferences;
+
+typedef struct
+{
+  MsBiffVersion version ;
+  MsBiffFileType type ;
+} MsBiffBofData ;
+
+typedef enum {
+	MsBiffMaxRowsV7 = 16384,
+	MsBiffMaxRowsV8 = 65536
+} MsBiffMaxRows;
+
+extern MsBiffBofData *new_ms_biff_bof_data  (BiffQuery *pos) ;
+extern void           free_ms_biff_bof_data (MsBiffBofData *data) ;
 
 #include "biff-types.h"
 

@@ -26,7 +26,7 @@ extern int ms_excel_chart_debug;
 typedef struct
 {
 	int		 depth;
-	eBiff_version	 ver;
+	MsBiffVersion	 ver;
 	guint32		 prev_opcode;
 	ExcelWorkbook	*wb;
 
@@ -257,7 +257,7 @@ BC_R(area)(ExcelChartHandler const *handle,
 	else
 		printf ("Overlayed values\n");
 
-	if (s->ver >= eBiffV8)
+	if (s->ver >= MS_BIFF_V8)
 	{
 		gboolean const has_shadow = (flags & 0x04) ? TRUE : FALSE;
 		if (has_shadow)
@@ -288,7 +288,7 @@ BC_R(areaformat)(ExcelChartHandler const *handle,
 	gboolean const swap_color_for_negative = flags & 0x02;
 #endif
 
-	if (s->ver >= eBiffV8)
+	if (s->ver >= MS_BIFF_V8)
 	{
 		guint16 const fore_index = MS_OLE_GET_GUINT16 (q->data+12);
 		guint16 const back_index = MS_OLE_GET_GUINT16 (q->data+14);
@@ -332,7 +332,7 @@ BC_R(attachedlabel)(ExcelChartHandler const *handle,
 	if (show_label)
 		puts ("Show the label");
 
-	if (s->ver >= eBiffV8)
+	if (s->ver >= MS_BIFF_V8)
 	{
 		gboolean const show_bubble_size = (flags&0x20) ? TRUE : FALSE;
 		if (show_bubble_size)
@@ -498,7 +498,7 @@ BC_R(bar)(ExcelChartHandler const *handle,
 		space_between_bar);
 	printf ("Space between categories = %d %% of width\n",
 		space_between_categories);
-	if (s->ver >= eBiffV8)
+	if (s->ver >= MS_BIFF_V8)
 	{
 		gboolean const has_shadow = (flags & 0x04) ? TRUE : FALSE;
 		if (has_shadow)
@@ -1049,7 +1049,7 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 	auto_format = (flags & 0x01) ? TRUE : FALSE;
 	draw_ticks = (flags & 0x04) ? TRUE : FALSE;
 
-	if (s->ver >= eBiffV8)
+	if (s->ver >= MS_BIFF_V8)
 	{
 		guint16 const color_index = MS_OLE_GET_GUINT16 (q->data+10);
 
@@ -1114,7 +1114,7 @@ BC_R(markerformat)(ExcelChartHandler const *handle,
 	if (no_fore)
 		printf ("Transparent interior\n");
 
-	if (s->ver >= eBiffV8)
+	if (s->ver >= MS_BIFF_V8)
 	{
 		/* What are these for ?
 		 * We already have the colors ?
@@ -1438,7 +1438,7 @@ BC_R(series_impl)(ExcelChartState *s, BiffQuery *q, ExcelChartSeries * ser)
 		ser->value.count,
 		ms_chart_series[ser->value.type]);
 
-	if ((ser->has_bubbles = (s->ver >= eBiffV8)))
+	if ((ser->has_bubbles = (s->ver >= MS_BIFF_V8)))
 	{
 		tmp = MS_OLE_GET_GUINT16 (q->data+8);
 		g_return_val_if_fail (tmp < MS_CHART_SERIES_MAX, TRUE);
@@ -1584,7 +1584,7 @@ BC_R(shtprops)(ExcelChartHandler const *handle,
 	blanks = tmp;
 	puts (ms_chart_blank[blanks]);
 
-	if (s->ver >= eBiffV8)
+	if (s->ver >= MS_BIFF_V8)
 	{
 		ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
 	}
@@ -1892,7 +1892,7 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 	if (q->opcode != 0x200)
 		return;
 
-	if (wb->ver >= eBiffV8)
+	if (wb->ver >= MS_BIFF_V8)
 	{
 		first_row = MS_OLE_GET_GUINT32 (q->data);
 		last_row  = MS_OLE_GET_GUINT32 (q->data+4);
@@ -1913,7 +1913,7 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 }
 
 void
-ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
+ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, MsBiffBofData *bof)
 {
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
@@ -1924,7 +1924,7 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 	/* Register the handlers if this is the 1sttime through */
 	BC(register_handlers)();
 
-	g_return_if_fail (bof->type == eBiffTChart);
+	g_return_if_fail (bof->type == MS_BIFF_TYPE_Chart);
 	state.ver = bof->version;
 	state.depth = 0;
 	state.prev_opcode = 0xdead; /* Invalid */
@@ -2024,12 +2024,12 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 void
 ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb)
 {
-	BIFF_BOF_DATA *bof;
+	MsBiffBofData *bof;
 
 	/* 1st record must be a valid BOF record */
 	g_return_if_fail (ms_biff_query_next (q));
 	bof = ms_biff_bof_data_new (q);
-	if (bof->version != eBiffVUnknown)
+	if (bof->version != MS_BIFF_V_UNKNOWN)
 		ms_excel_chart (q, wb, bof);
 	ms_biff_bof_data_destroy (bof);
 }

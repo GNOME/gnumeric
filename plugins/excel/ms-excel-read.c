@@ -303,7 +303,7 @@ sst_bound_check (BiffQuery *q, guint32 offset)
  * of the string, which may also be split over continues.
  */
 static guint32
-get_string (char **output, BiffQuery *q, guint32 offset, eBiff_version ver)
+get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 {
 	guint32  new_offset;
 	guint32  total_len;
@@ -374,7 +374,7 @@ get_string (char **output, BiffQuery *q, guint32 offset, eBiff_version ver)
 }
 
 static void
-read_sst (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
+read_sst (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 {
 	guint32 offset;
 	int     k;
@@ -428,10 +428,10 @@ biff_get_error_text (const guint8 err)
 /**
  * See S59D5D.HTM
  **/
-BIFF_BOF_DATA *
+MsBiffBofData *
 ms_biff_bof_data_new (BiffQuery *q)
 {
-	BIFF_BOF_DATA *ans = g_new (BIFF_BOF_DATA, 1);
+	MsBiffBofData *ans = g_new (MsBiffBofData, 1);
 
 	if ((q->opcode & 0xff) == BIFF_BOF &&
 	    (q->length >= 4)) {
@@ -440,13 +440,13 @@ ms_biff_bof_data_new (BiffQuery *q)
 		 */
 		switch (q->opcode >> 8) {
 		case 0:
-			ans->version = eBiffV2;
+			ans->version = MS_BIFF_V2;
 			break;
 		case 2:
-			ans->version = eBiffV3;
+			ans->version = MS_BIFF_V3;
 			break;
 		case 4:
-			ans->version = eBiffV4;
+			ans->version = MS_BIFF_V4;
 			break;
 		case 8:	/*
 			 * More complicated
@@ -461,45 +461,45 @@ ms_biff_bof_data_new (BiffQuery *q)
 #endif
 				switch (MS_OLE_GET_GUINT16 (q->data)) {
 				case 0x0600:
-					ans->version = eBiffV8;
+					ans->version = MS_BIFF_V8;
 					break;
 				case 0x500:
-					ans->version = eBiffV7;		/*
+					ans->version = MS_BIFF_V7;		/*
 									 * OR ebiff7 : FIXME ? !
 									 */
 					break;
 				default:
 					printf ("Unknown BIFF sub-number in BOF %x\n", q->opcode);
-					ans->version = eBiffVUnknown;
+					ans->version = MS_BIFF_V_UNKNOWN;
 				}
 			}
 			break;
 		default:
 			printf ("Unknown BIFF number in BOF %x\n", q->opcode);
-			ans->version = eBiffVUnknown;
+			ans->version = MS_BIFF_V_UNKNOWN;
 			printf ("Biff version %d\n", ans->version);
 		}
 		switch (MS_OLE_GET_GUINT16 (q->data + 2)) {
 		case 0x0005:
-			ans->type = eBiffTWorkbook;
+			ans->type = MS_BIFF_TYPE_Workbook;
 			break;
 		case 0x0006:
-			ans->type = eBiffTVBModule;
+			ans->type = MS_BIFF_TYPE_VBModule;
 			break;
 		case 0x0010:
-			ans->type = eBiffTWorksheet;
+			ans->type = MS_BIFF_TYPE_Worksheet;
 			break;
 		case 0x0020:
-			ans->type = eBiffTChart;
+			ans->type = MS_BIFF_TYPE_Chart;
 			break;
 		case 0x0040:
-			ans->type = eBiffTMacrosheet;
+			ans->type = MS_BIFF_TYPE_Macrosheet;
 			break;
 		case 0x0100:
-			ans->type = eBiffTWorkspace;
+			ans->type = MS_BIFF_TYPE_Workspace;
 			break;
 		default:
-			ans->type = eBiffTUnknown;
+			ans->type = MS_BIFF_TYPE_Unknown;
 			printf ("Unknown BIFF type in BOF %x\n", MS_OLE_GET_GUINT16 (q->data + 2));
 			break;
 		}
@@ -514,15 +514,15 @@ ms_biff_bof_data_new (BiffQuery *q)
 #endif
 	} else {
 		printf ("Not a BOF !\n");
-		ans->version = eBiffVUnknown;
-		ans->type = eBiffTUnknown;
+		ans->version = MS_BIFF_V_UNKNOWN;
+		ans->type = MS_BIFF_TYPE_Unknown;
 	}
 
 	return ans;
 }
 
 void
-ms_biff_bof_data_destroy (BIFF_BOF_DATA *data)
+ms_biff_bof_data_destroy (MsBiffBofData *data)
 {
 	g_free (data);
 }
@@ -531,53 +531,53 @@ ms_biff_bof_data_destroy (BIFF_BOF_DATA *data)
  * See S59D61.HTM
  **/
 static void
-biff_boundsheet_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
+biff_boundsheet_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 {
 	BiffBoundsheetData *ans = g_new (BiffBoundsheetData, 1);
 
-	if (ver != eBiffV5 &&	/*
+	if (ver != MS_BIFF_V5 &&	/*
 				 * Testing seems to indicate that Biff5 is compatibile with Biff7 here.
 				 */
-	    ver != eBiffV7 &&
-	    ver != eBiffV8) {
+	    ver != MS_BIFF_V7 &&
+	    ver != MS_BIFF_V8) {
 		printf ("Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
-		ver = eBiffV7;
+		ver = MS_BIFF_V7;
 	}
 	ans->streamStartPos = MS_OLE_GET_GUINT32 (q->data);
 	switch (MS_OLE_GET_GUINT8 (q->data + 4)) {
 	case 0:
-		ans->type = eBiffTWorksheet;
+		ans->type = MS_BIFF_TYPE_Worksheet;
 		break;
 	case 1:
-		ans->type = eBiffTMacrosheet;
+		ans->type = MS_BIFF_TYPE_Macrosheet;
 		break;
 	case 2:
-		ans->type = eBiffTChart;
+		ans->type = MS_BIFF_TYPE_Chart;
 		break;
 	case 6:
-		ans->type = eBiffTVBModule;
+		ans->type = MS_BIFF_TYPE_VBModule;
 		break;
 	default:
 		printf ("Unknown sheet type : %d\n", MS_OLE_GET_GUINT8 (q->data + 4));
-		ans->type = eBiffTUnknown;
+		ans->type = MS_BIFF_TYPE_Unknown;
 		break;
 	}
 	switch ((MS_OLE_GET_GUINT8 (q->data + 5)) & 0x3) {
 	case 00:
-		ans->hidden = eBiffHVisible;
+		ans->hidden = MS_BIFF_H_VISIBLE;
 		break;
 	case 01:
-		ans->hidden = eBiffHHidden;
+		ans->hidden = MS_BIFF_H_HIDDEN;
 		break;
 	case 02:
-		ans->hidden = eBiffHVeryHidden;
+		ans->hidden = MS_BIFF_H_VERY_HIDDEN;
 		break;
 	default:
 		printf ("Unknown sheet hiddenness %d\n", (MS_OLE_GET_GUINT8 (q->data + 4)) & 0x3);
-		ans->hidden = eBiffHVisible;
+		ans->hidden = MS_BIFF_H_VISIBLE;
 		break;
 	}
-	if (ver == eBiffV8) {
+	if (ver == MS_BIFF_V8) {
 		int slen = MS_OLE_GET_GUINT16 (q->data + 6);
 		ans->name = biff_get_text (q->data + 8, slen, NULL);
 	} else {
@@ -628,13 +628,13 @@ biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
 	data = MS_OLE_GET_GUINT16 (q->data + 8);
 	switch (data) {
 	case 0:
-		fd->script = eBiffFSNone;
+		fd->script = MS_BIFF_F_S_NONE;
 		break;
 	case 1:
-		fd->script = eBiffFSSuper;
+		fd->script = MS_BIFF_F_S_SUPER;
 		break;
 	case 2:
-		fd->script = eBiffFSSub;
+		fd->script = MS_BIFF_F_S_SUB;
 		break;
 	default:
 		printf ("Unknown script %d\n", data);
@@ -644,19 +644,19 @@ biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
 	data1 = MS_OLE_GET_GUINT8 (q->data + 10);
 	switch (data1) {
 	case 0:
-		fd->underline = eBiffFUNone;
+		fd->underline = MS_BIFF_F_U_NONE;
 		break;
 	case 1:
-		fd->underline = eBiffFUSingle;
+		fd->underline = MS_BIFF_F_U_SINGLE;
 		break;
 	case 2:
-		fd->underline = eBiffFUDouble;
+		fd->underline = MS_BIFF_F_U_DOUBLE;
 		break;
 	case 0x21:
-		fd->underline = eBiffFUSingleAcc;
+		fd->underline = MS_BIFF_F_U_SINGLE_ACC;
 		break;
 	case 0x22:
-		fd->underline = eBiffFUDoubleAcc;
+		fd->underline = MS_BIFF_F_U_DOUBLE_ACC;
 		break;
 	}
 	fd->fontname = biff_get_text (q->data + 15,
@@ -1136,7 +1136,7 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 
 	g_return_val_if_fail (xf, NULL);
 	/* FIXME : What is the difference between cell & style formats ?? */
-	/* g_return_val_if_fail (xf->xftype == eBiffXCell, NULL); */
+	/* g_return_val_if_fail (xf->xftype == MS_BIFF_X_CELL, NULL); */
 	return xf;
 }
 
@@ -1260,17 +1260,17 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		mstyle_set_font_italic (mstyle, fd->italic);
 		mstyle_set_font_strike (mstyle, fd->struck_out);
 		switch (fd->underline) {
-		case eBiffFUSingle :
-		case eBiffFUSingleAcc :
+		case MS_BIFF_F_U_SINGLE :
+		case MS_BIFF_F_U_SINGLE_ACC :
 			underline = UNDERLINE_SINGLE;
 			break;
 
-		case eBiffFUDouble :
-		case eBiffFUDoubleAcc :
+		case MS_BIFF_F_U_DOUBLE :
+		case MS_BIFF_F_U_DOUBLE_ACC :
 			underline = UNDERLINE_DOUBLE;
 			break;
 
-		case eBiffFUNone :
+		case MS_BIFF_F_U_NONE :
 			default :
 			underline = UNDERLINE_NONE;
 		}
@@ -1572,7 +1572,7 @@ excel_map_pattern_index_from_excel (int const i)
  * Parse the BIFF XF Data structure into a nice form, see S59E1E.HTM
  **/
 static void
-biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
+biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 {
 	BiffXFData *xf = g_new (BiffXFData, 1);
 	guint32 data, subdata;
@@ -1583,13 +1583,13 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	    ? biff_format_data_lookup (wb, xf->format_idx) : NULL;
 
 	data = MS_OLE_GET_GUINT16 (q->data + 4);
-	xf->locked = (data & 0x0001) ? eBiffLLocked : eBiffLUnlocked;
-	xf->hidden = (data & 0x0002) ? eBiffHHidden : eBiffHVisible;
-	xf->xftype = (data & 0x0004) ? eBiffXStyle : eBiffXCell;
-	xf->format = (data & 0x0008) ? eBiffFLotus : eBiffFMS;
+	xf->locked = (data & 0x0001) ? MS_BIFF_L_LOCKED : MS_BIFF_L_UNLOCKED;
+	xf->hidden = (data & 0x0002) ? MS_BIFF_H_HIDDEN : MS_BIFF_H_VISIBLE;
+	xf->xftype = (data & 0x0004) ? MS_BIFF_X_STYLE : MS_BIFF_X_CELL;
+	xf->format = (data & 0x0008) ? MS_BIFF_F_LOTUS : MS_BIFF_F_MS;
 	xf->parentstyle = (data & 0xfff0) >> 4;
 
-	if (xf->xftype == eBiffXCell && xf->parentstyle != 0) {
+	if (xf->xftype == MS_BIFF_X_CELL && xf->parentstyle != 0) {
 		/* TODO Add support for parent styles
 		 * XL implements a simple for of inheritance with styles.
 		 * If a style's parent changes a value and the child has not
@@ -1655,7 +1655,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	/*
 	 * FIXME: ignored bit 0x0080
 	 */
-	if (ver == eBiffV8)
+	if (ver == MS_BIFF_V8)
 		xf->rotation = (data >> 8);
 	else {
 		subdata = (data & 0x0300) >> 8;
@@ -1683,7 +1683,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		}
 	}
 
-	if (ver == eBiffV8) {
+	if (ver == MS_BIFF_V8) {
 		/* FIXME : This code seems irrelevant for merging.
 		 * The undocumented record MERGECELLS appears to be the correct source.
 		 * Nothing seems to set the merge flags.
@@ -1717,20 +1717,20 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		subdata = (data & 0x00C0) >> 10;
 		switch (subdata) {
 		case 0:
-			xf->eastern = eBiffEContext;
+			xf->eastern = MS_BIFF_E_CONTEXT;
 			break;
 		case 1:
-			xf->eastern = eBiffEleftToRight;
+			xf->eastern = MS_BIFF_E_LEFT_TO_RIGHT;
 			break;
 		case 2:
-			xf->eastern = eBiffErightToLeft;
+			xf->eastern = MS_BIFF_E_RIGHT_TO_LEFT;
 			break;
 		default:
 			printf ("Unknown location %d\n", subdata);
 			break;
 		}
 	}
-	if (ver == eBiffV8) {	/*
+	if (ver == MS_BIFF_V8) {	/*
 				 * Very different
 				 */
 		int has_diagonals, diagonal_style;
@@ -1861,7 +1861,7 @@ biff_xf_data_destroy (BiffXFData *xf)
 }
 
 static void
-ms_excel_sheet_set_version (ExcelSheet *sheet, eBiff_version ver)
+ms_excel_sheet_set_version (ExcelSheet *sheet, MsBiffVersion ver)
 {
 	sheet->ver = ver;
 }
@@ -2276,7 +2276,7 @@ ms_excel_sheet_destroy (ExcelSheet *sheet)
 }
 
 static ExcelWorkbook *
-ms_excel_workbook_new (eBiff_version ver)
+ms_excel_workbook_new (MsBiffVersion ver)
 {
 	ExcelWorkbook *ans = (ExcelWorkbook *) g_malloc (sizeof (ExcelWorkbook));
 
@@ -2467,11 +2467,11 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 #endif
 	/* FIXME FIXME FIXME : Offsets have moved alot between versions.
 	 *                     track down the details */
-	if (sheet->ver >= eBiffV8) {
+	if (sheet->ver >= MS_BIFF_V8) {
 		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
 		name_def_data  = q->data + 15 + name_len;
 		ptr = q->data + 14;
-	} else if (sheet->ver >= eBiffV7) {
+	} else if (sheet->ver >= MS_BIFF_V7) {
 		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
 		name_def_data  = q->data + 14 + name_len;
 		ptr = q->data + 14;
@@ -2564,7 +2564,7 @@ ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 	char const *name;
 	guint8 *defn;
 	guint16 defnlen;
-	if (sheet->ver >= eBiffV7) {
+	if (sheet->ver >= MS_BIFF_V7) {
 		guint32 namelen  = MS_OLE_GET_GUINT8(q->data+6);
 		name = biff_get_text (q->data+7, namelen, &namelen);
 		defn     = q->data+7 + namelen;
@@ -3278,7 +3278,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		{
 			guint16 row = EX_GETROW(q);
 			guint16 col = EX_GETCOL(q);
-			if ( sheet->ver >= eBiffV8 ) {
+			if ( sheet->ver >= MS_BIFF_V8 ) {
 				guint16 options = MS_OLE_GET_GUINT16(q->data+4);
 				guint16 obj_id  = MS_OLE_GET_GUINT16(q->data+6);
 				guint16 author_len = MS_OLE_GET_GUINT16(q->data+8);
@@ -3600,7 +3600,7 @@ biff_get_externsheet_name(ExcelWorkbook *wb, guint16 idx, gboolean get_first)
  * see S59DEC.HM,
  */
 static void
-ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
+ms_excel_read_supporting_wb (MsBiffBofData *ver, BiffQuery *q)
 {
 	guint16	numTabs = MS_OLE_GET_GUINT16 (q->data);
 	guint8 encodeType = MS_OLE_GET_GUINT8 (q->data + 2);
@@ -3651,7 +3651,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 	MsOleStream *stream;
 	MsOleErr     result;
 	BiffQuery *q;
-	BIFF_BOF_DATA *ver = 0;
+	MsBiffBofData *ver = 0;
 	int current_sheet = 0;
 	char *problem_loading = NULL;
 
@@ -3728,35 +3728,35 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 		switch (q->ls_op) {
 		case BIFF_BOF: {
 			/* The first BOF seems to be OK, the rest lie ? */
-			eBiff_version vv = eBiffVUnknown;
+			MsBiffVersion vv = MS_BIFF_V_UNKNOWN;
 			if (ver) {
 				vv = ver->version;
 				ms_biff_bof_data_destroy (ver);
 			}
 			ver = ms_biff_bof_data_new (q);
-			if (vv != eBiffVUnknown)
+			if (vv != MS_BIFF_V_UNKNOWN)
 				ver->version = vv;
 
-			if (ver->type == eBiffTWorkbook) {
+			if (ver->type == MS_BIFF_TYPE_Workbook) {
 				wb = ms_excel_workbook_new (ver->version);
 				wb->gnum_wb = workbook;
-				if (ver->version >= eBiffV8) {
+				if (ver->version >= MS_BIFF_V8) {
 					guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
 					if (ver == 0x4107cd18)
 						printf ("Excel 2000 ?\n");
 					else
 						printf ("Excel 97 +\n");
-				} else if (ver->version >= eBiffV7)
+				} else if (ver->version >= MS_BIFF_V7)
 					printf ("Excel 95\n");
-				else if (ver->version >= eBiffV5)
+				else if (ver->version >= MS_BIFF_V5)
 					printf ("Excel 5.x\n");
-				else if (ver->version >= eBiffV4)
+				else if (ver->version >= MS_BIFF_V4)
 					printf ("Excel 4.x\n");
-				else if (ver->version >= eBiffV3)
+				else if (ver->version >= MS_BIFF_V3)
 					printf ("Excel 3.x\n");
-				else if (ver->version >= eBiffV2)
+				else if (ver->version >= MS_BIFF_V2)
 					printf ("Excel 2.x\n");
-			} else if (ver->type == eBiffTWorksheet) {
+			} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
 				BiffBoundsheetData *bsh;
 
 				bsh = g_hash_table_lookup (wb->boundsheet_data_by_stream,
@@ -3797,12 +3797,12 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 
 					current_sheet++;
 				}
-			} else if (ver->type == eBiffTChart)
+			} else if (ver->type == MS_BIFF_TYPE_Chart)
 				ms_excel_chart (q, wb, ver);
-			else if (ver->type == eBiffTVBModule ||
-				 ver->type == eBiffTMacrosheet) {
+			else if (ver->type == MS_BIFF_TYPE_VBModule ||
+				 ver->type == MS_BIFF_TYPE_Macrosheet) {
 				/* Skip contents of Module, or MacroSheet */
-				if (ver->type != eBiffTMacrosheet)
+				if (ver->type != MS_BIFF_TYPE_Macrosheet)
 					printf ("VB Module.\n");
 				else
 					printf ("XLM Macrosheet.\n");
@@ -3863,7 +3863,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 
 		case BIFF_EXTERNSHEET: /* See: S59D82.HTM */
 			++externsheet;
-			if (ver->version == eBiffV8) {
+			if (ver->version == MS_BIFF_V8) {
 				guint16 numXTI = MS_OLE_GET_GUINT16(q->data);
 				guint16 cnt;
 
@@ -3889,10 +3889,10 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			BiffFormatData *d = g_new(BiffFormatData,1);
 			/*				printf ("Format data 0x%x %d\n", q->ms_op, ver->version);
 							ms_ole_dump (q->data, q->length);*/
-			if (ver->version == eBiffV7) { /* Totaly guessed */
+			if (ver->version == MS_BIFF_V7) { /* Totaly guessed */
 				d->idx = MS_OLE_GET_GUINT16(q->data);
 				d->name = biff_get_text(q->data+3, MS_OLE_GET_GUINT8(q->data+2), NULL);
-			} else if (ver->version == eBiffV8) {
+			} else if (ver->version == MS_BIFF_V8) {
 				d->idx = MS_OLE_GET_GUINT16(q->data);
 				d->name = biff_get_text(q->data+4, MS_OLE_GET_GUINT16(q->data+2), NULL);
 			} else { /* FIXME: mythical old papyrus spec. */

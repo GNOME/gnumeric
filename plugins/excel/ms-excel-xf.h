@@ -25,17 +25,17 @@ typedef struct _BiffXFData {
 	guint16 font_idx;
 	guint16 format_idx;
 	StyleFormat *style_format;
-	eBiff_hidden hidden;
-	eBiff_locked locked;
-	eBiff_xftype xftype;	/*  -- Very important field... */
-	eBiff_format format;
+	MsBiffHidden hidden;
+	MsBiffLocked locked;
+	MsBiffXfType xftype;	/*  -- Very important field... */
+	MsBiffFormat format;
 	guint16 parentstyle;
 	StyleHAlignFlags halign;
 	StyleVAlignFlags valign;
 	gboolean wrap;
 	guint8 rotation;
 	StyleOrientation orientation;
-	eBiff_eastern eastern;
+	MsBiffEastern eastern;
 	guint8 border_color[STYLE_ORIENT_MAX];
 	StyleBorderType border_type[STYLE_ORIENT_MAX];
 	guint8 fill_pattern_idx;

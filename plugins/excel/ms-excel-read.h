@@ -16,7 +16,7 @@ typedef struct _ExcelSheet
 {
 	Sheet *gnum_sheet;
 	struct _ExcelWorkbook *wb;
-	eBiff_version ver;
+	MsBiffVersion ver;
 	GHashTable *shared_formulae;
 	GList *obj_queue;
 	Range  style_optimize;
@@ -28,8 +28,8 @@ typedef struct _BiffBoundsheetData
 {
 	guint16 index;
 	guint32 streamStartPos;
-	eBiff_filetype type;
-	eBiff_hidden   hidden;
+	MsBiffFileType type;
+	MsBiffHidden   hidden;
 	char *name;
 	ExcelSheet *sheet;
 } BiffBoundsheetData;
@@ -68,7 +68,7 @@ typedef struct _BiffFontData
 	int color_idx;
 	int boldness;       /* 100->1000 dec, normal = 0x190, bold = 0x2bc */
 	int script;         /* sub = -1, none = 0, super = 1 */
-	eBiffFontUnderline underline;
+	MsBiffFontUnderline underline;
 	char *fontname;
 } BiffFontData;
 
@@ -98,7 +98,7 @@ typedef struct _ExcelWorkbook
 	ExcelPalette        *palette;
 	char               **global_strings;
 	int                  global_string_max;
-	eBiff_version        ver;
+	MsBiffVersion        ver;
 
 	/* Indexed in the order they are read */
 	GPtrArray	    *blips;
@@ -116,8 +116,8 @@ extern char* biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_len
 extern const char* biff_get_error_text (const guint8 err);
 extern ExprTree* biff_name_data_get_name (ExcelSheet *sheet, int idx);
 
-extern BIFF_BOF_DATA * ms_biff_bof_data_new (BiffQuery * q);
-extern void ms_biff_bof_data_destroy (BIFF_BOF_DATA * data);
+extern MsBiffBofData * ms_biff_bof_data_new (BiffQuery * q);
+extern void ms_biff_bof_data_destroy (MsBiffBofData * data);
 
 extern StyleFormat * biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx);
 extern StyleColor * ms_excel_palette_get (ExcelPalette const *pal, gint idx);

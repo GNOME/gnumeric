@@ -84,7 +84,7 @@ struct _ExcelSheet {
 struct _ExcelWorkbook {
 	Workbook      *gnum_wb;
 	GPtrArray     *sheets;
-	eBiff_version  ver;
+	MsBiffVersion  ver;
 	XF            *xf;
 	Palette       *pal;
 	Fonts         *fonts;
@@ -112,10 +112,10 @@ typedef enum {
 #define BORDER_MAGIC STYLE_BORDER_NONE
 
 extern int
-biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
+biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
 	       gboolean write_len, PutType how);
 extern int ms_excel_write_ExcelWorkbook (MsOle *file, ExcelWorkbook *wb,
-				          eBiff_version ver);
+				          MsBiffVersion ver);
 extern int ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet);
 extern int ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
 					       Sheet *gnum_sheeta,

@@ -18,12 +18,13 @@
 typedef gboolean (*MsExcelReadGbFn) (CommandContext *context, Workbook *wb, MsOle *f);
 extern MsExcelReadGbFn ms_excel_read_gb;
 
-typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
-			      eBiffV4=4,
-			      eBiffV5=5, /* Excel 5.0 */
-			      eBiffV7=7, /* Excel 95 */
-			      eBiffV8=8, /* Excel 97 */
-			      eBiffVUnknown=0} eBiff_version ;
+typedef enum { MS_BIFF_V2 = 2,
+	       MS_BIFF_V3 = 3,
+	       MS_BIFF_V4 = 4,
+	       MS_BIFF_V5 = 5, /* Excel 5.0 */
+	       MS_BIFF_V7 = 7, /* Excel 95 */
+	       MS_BIFF_V8 = 8, /* Excel 97 */
+	       MS_BIFF_V_UNKNOWN = 0} MsBiffVersion ;
 
 extern int   ms_excel_read_workbook  (CommandContext *context,
 				      Workbook *wb, MsOle *file);
@@ -35,9 +36,9 @@ extern int   ms_excel_read_workbook  (CommandContext *context,
  * ExcelWorksheet in ms-excel-read.h.
  */
 extern int      ms_excel_check_write (CommandContext *context, void **state,
-				      Workbook *wb, eBiff_version ver);
+				      Workbook *wb, MsBiffVersion ver);
 extern int      ms_excel_write_workbook (CommandContext *context, MsOle *file,
-					 void *state, eBiff_version ver);
+					 void *state, MsBiffVersion ver);
 
 /* We need to use these for both read and write */
 typedef struct {

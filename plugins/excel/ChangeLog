@@ -1,5 +1,70 @@
 2000-06-05  Michael Meeks  <michael@helixcode.com>
 
+	s/eBiff_version/MsBiffVersion/g;
+	s/eBiffV([0-9]*)/MS_BIFF_V\1/g;
+	s/eBiffVUnknown/MS_BIFF_V_UNKNOWN/g;
+
+	s/eBiff_filetype/MsBiffFileType/g;
+	s/eBiffT/MS_BIFF_TYPE_/g;
+	s/eBiff_hidden/MsBiffHidden/g;
+	s/eBiffHVisible/MS_BIFF_H_VISIBLE/g;
+	s/eBiffHHidden/MS_BIFF_H_HIDDEN/g;
+	s/eBiffHVeryHidden/MS_BIFF_H_VERY_HIDDEN/g;
+	s/eBiff_locked/MsBiffLocked/g;
+	s/eBiffLLocked/MS_BIFF_L_LOCKED/g;
+	s/eBiffLUnlocked/MS_BIFF_L_UNLOCKED/g;
+	s/eBiff_xftype/MsBiffXfType/g;
+	s/eBiffXStyle/MS_BIFF_X_STYLE/g;
+	s/eBiffXCell/MS_BIFF_X_CELL/g;
+	s/eBiff_format/MsBiffFormat/g;
+	s/eBiffFMS/MS_BIFF_F_MS/g;
+	s/eBiffFLotus/MS_BIFF_F_LOTUS/g;
+	s/eBiff_eastern/MsBiffEastern/g;
+	s/eBiffEContext/MS_BIFF_E_CONTEXT/g;
+	s/eBiffEleftToRight/MS_BIFF_E_LEFT_TO_RIGHT/g;
+	s/eBiffErightToLeft/MS_BIFF_E_RIGHT_TO_LEFT/g;
+	s/eBiffFontUnderline/MsBiffFontUnderline/g;
+	s/eBiffFUNone/MS_BIFF_F_U_NONE/g;
+	s/eBiffFUSingleAcc/MS_BIFF_F_U_SINGLE_ACC/g;
+	s/eBiffFUDoubleAcc/MS_BIFF_F_U_DOUBLE_ACC/g;
+	s/eBiffFUSingle/MS_BIFF_F_U_SINGLE/g;
+	s/eBiffFUDouble/MS_BIFF_F_U_DOUBLE/g;
+	s/eBiffFontScript/MsBiffFontScript/g;
+	s/eBiffFSNone/MS_BIFF_F_S_NONE/g;
+	s/eBiffFSSub/MS_BIFF_F_S_SUB/g;
+	s/eBiffFSSuper/MS_BIFF_F_S_SUPER/g;
+	s/eBiffHAlign/MsBiffHAlign/g;
+	s/eBiffHAGeneral/MS_BIFF_H_A_GENERAL/g;
+	s/eBiffHALeft/MS_BIFF_H_A_LEFT/g;
+	s/eBiffHACenter/MS_BIFF_H_A_CENTER/g;
+	s/eBiffHARight/MS_BIFF_H_A_RIGHT/g;
+	s/eBiffHAFill/MS_BIFF_H_A_FILL/g;
+	s/eBiffHAJustify/MS_BIFF_H_A_JUSTIFTY/g;
+	s/eBuffHACenterAcrossSelection/MS_BIFF_H_A_CENTER_ACROSS_SELECTION/g;
+	s/eBiffVAlign/MsBiffVAlign/g;
+	s/eBiffVATop/MS_BIFF_V_A_TOP/g;
+	s/eBiffVACenter/MS_BIFF_V_A_CENTER/g;
+	s/eBiffVABottom/MS_BIFF_V_A_BOTTOM/g;
+	s/eBiffVAJustify/MS_BIFF_V_A_JUSTIFY/g;
+	s/eBiffOrient/MsBiffOrient/g;
+	s/eBiffOHoriz/MS_BIFF_O_HORIZ/g;
+	s/eBiffOVertHorizText/MS_BIFF_O_VERT_HORIZ/g;
+	s/eBiffOVertVertText/MS_BIFF_O_VERT_VERT/g;
+	s/eBiffOVertVertText2/MS_BIFF_O_VERT_VERT2/g;
+	s/eBiffDifferences/MsBiffDifferences/g;
+	s/eBiffDFormatbit/MS_BIFF_D_FORMAT_BIT/g;
+	s/eBiffDFontbit/MS_BIFF_D_FONT_BIT/g;
+	s/eBiffDAlignbit/MS_BIFF_D_ALIGN_BIT/g;
+	s/eBiffDBorderbit/MS_BIFF_D_BORDER_BIT/g;
+	s/eBiffDFillbit/MS_BIFF_D_FILL_BIT/g;
+	s/eBiffDLockbit/MS_BIFF_D_LOCK_BIT/g;
+	s/BIFF_BOF_DATA/MsBiffBofData/g;
+	s/eBiffMaxRows/MsBiffMaxRows/g;
+	s/eBiffMaxRowsV7/MS_BIFF_MAX_ROWS_V7/g;
+	s/eBiffMaxRowsV8/MS_BIFF_MAX_ROWS_V8/g;
+
+2000-06-05  Michael Meeks  <michael@helixcode.com>
+
 	* ms-excel-read.c (sst_bound_check): Update so we can't miss
 	adjacent records and we check for continues.
 

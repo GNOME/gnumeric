@@ -55,10 +55,10 @@ int ms_excel_object_debug;
   */
 static gboolean
 object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
-                           eBiff_version const ver)
+                           MsBiffVersion const ver)
 
 {
-	float const row_denominator = (ver >= eBiffV8) ? 256. : 1024.;
+	float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
 	int	i;
 
 	g_return_val_if_fail (obj->anchor_set, TRUE);
@@ -134,7 +134,7 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 		return TRUE;
 
 	/* Handle Comments */
-	if (wb->ver >= eBiffV8 && obj->excel_type == 0x19) {
+	if (wb->ver >= MS_BIFF_V8 && obj->excel_type == 0x19) {
 	}
 
 	switch (obj->gnumeric_type) {
@@ -620,7 +620,7 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, Sheet *sheet)
 	if (ms_excel_object_debug > 0)
 		printf ("{ /* OBJ start */\n");
 #endif
-	errors = (wb->ver >= eBiffV8)
+	errors = (wb->ver >= MS_BIFF_V8)
 		? ms_obj_read_biff8_obj (q, wb, sheet, obj)
 		: ms_obj_read_pre_biff8_obj (q, wb, sheet, obj);
 

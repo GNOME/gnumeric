@@ -99,7 +99,7 @@ formula_cache_new_ename (ExcelSheet *sheet, const char *name)
 {
 	FormulaCacheEntry *fce = g_new (FormulaCacheEntry, 1);
 
-	if (sheet->wb->ver >= eBiffV8) {
+	if (sheet->wb->ver >= MS_BIFF_V8) {
 		fce->type            = CACHE_ENAME_V8;
 		fce->u.ename_v8.name = name;
 	} else {
@@ -215,10 +215,10 @@ queue_externname (const char *key, FormulaCacheEntry *fce,
 void
 ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 			   formula_write_t which,
-			   eBiff_version ver)
+			   MsBiffVersion ver)
 {
 	if (which == EXCEL_EXTERNNAME) {
-		if (sheet->wb->ver <= eBiffV7) {
+		if (sheet->wb->ver <= MS_BIFF_V7) {
 			GList *l = NULL;
 			int idx = 1;
 
@@ -239,7 +239,7 @@ ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 				txt = g_strdup (fce->u.ename_v7.name);
 				g_strup (txt); /* scraping the barrel here */
 				biff_put_text (bp, txt,
-					       eBiffV7,
+					       MS_BIFF_V7,
 					       TRUE, AS_PER_VER);
 				g_free (txt);
 				MS_OLE_SET_GUINT32 (data, 0x171c0002); /* Magic hey :-) */
@@ -263,7 +263,7 @@ struct _PolishData {
 	ExcelSheet   *sheet;
 	int           col;
 	int           row;
-	eBiff_version ver;
+	MsBiffVersion ver;
 };
 
 static void
@@ -356,7 +356,7 @@ write_area (PolishData *pd, const CellRef *a, const CellRef *b)
 	    (a->sheet == pd->sheet->gnum_sheet &&
 	     a->sheet == b->sheet)) {
 		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA));
-		if (pd->ver <= eBiffV7) {
+		if (pd->ver <= MS_BIFF_V7) {
 			write_cellref_v7 (pd, a,
 					  data + 4, (guint16 *)(data + 0));
 			write_cellref_v7 (pd, b,
@@ -384,7 +384,7 @@ write_area (PolishData *pd, const CellRef *a, const CellRef *b)
 			second_idx = first_idx;
 
 		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA_3D));
-		if (pd->ver <= eBiffV7) {
+		if (pd->ver <= MS_BIFF_V7) {
 			MS_OLE_SET_GUINT16 (data, 0); /* FIXME ? */
 			MS_OLE_SET_GUINT32 (data +  2, 0x0);
 			MS_OLE_SET_GUINT32 (data +  6, 0x0);
@@ -420,7 +420,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 	if (!ref->sheet ||
 	    ref->sheet == pd->sheet->gnum_sheet) {
 		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF));
-		if (pd->ver <= eBiffV7) {
+		if (pd->ver <= MS_BIFF_V7) {
 			write_cellref_v7 (pd, ref, data + 2, (guint16 *)data);
 			ms_biff_put_var_write (pd->bp, data, 3);
 		} else { /* Duff docs */
@@ -429,7 +429,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 		}
 	} else {
 		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF_3D));
-		if (pd->ver <= eBiffV7) {
+		if (pd->ver <= MS_BIFF_V7) {
 			guint16 extn_idx = ms_excel_write_get_sheet_idx (pd->sheet->wb,
 									 ref->sheet);
 			MS_OLE_SET_GUINT16 (data, 0xffff); /* FIXME ? */
@@ -461,10 +461,10 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 	gboolean cmdequiv = 0;
 
 	/* Add in function */
-	if (fce->type == CACHE_ENAME_V8 && pd->ver >= eBiffV8)
+	if (fce->type == CACHE_ENAME_V8 && pd->ver >= MS_BIFF_V8)
 		write_string (pd, fce->u.ename_v8.name);
 	else if (DO_IT) {
-		if (fce->type == CACHE_ENAME_V7 && pd->ver <= eBiffV7) {
+		if (fce->type == CACHE_ENAME_V7 && pd->ver <= MS_BIFF_V7) {
 		push_guint8  (pd, FORMULA_PTG_NAME_X);
 		push_guint16 (pd, 1);
 		push_guint32 (pd, 0); /* reserved */

@@ -56,7 +56,7 @@
  *  it returns the length of the string.
  **/
 int
-biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
+biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
 	       gboolean write_len, PutType how)
 {
 #define BLK_LEN 16
@@ -76,13 +76,13 @@ biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
 /*	printf ("Write '%s' len = %d\n", txt, len); */
 
 	if ((how == AS_PER_VER &&
-	     ver >= eBiffV8) ||
+	     ver >= MS_BIFF_V8) ||
 	    how == SIXTEEN_BIT)
 		sixteen_bit_len = TRUE;
 	else
 		sixteen_bit_len = FALSE; /* 8 bit */
 
-	if (ver >= eBiffV8)
+	if (ver >= MS_BIFF_V8)
 		unicode = TRUE;
 	else
 		unicode = FALSE;
@@ -139,14 +139,14 @@ biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
  * See S59D5D.HTM
  **/
 static MsOlePos
-biff_bof_write (BiffPut *bp, eBiff_version ver,
-		eBiff_filetype type)
+biff_bof_write (BiffPut *bp, MsBiffVersion ver,
+		MsBiffFileType type)
 {
 	guint   len;
 	guint8 *data;
 	MsOlePos ans;
 
-	if (ver >= eBiffV8)
+	if (ver >= MS_BIFF_V8)
 		len = 16;
 	else
 		len = 8;
@@ -157,20 +157,20 @@ biff_bof_write (BiffPut *bp, eBiff_version ver,
 
 	bp->ls_op = BIFF_BOF;
 	switch (ver) {
-	case eBiffV2:
+	case MS_BIFF_V2:
 		bp->ms_op = 0;
 		break;
-	case eBiffV3:
+	case MS_BIFF_V3:
 		bp->ms_op = 2;
 		break;
-	case eBiffV4:
+	case MS_BIFF_V4:
 		bp->ms_op = 4;
 		break;
-	case eBiffV7:
-	case eBiffV8:
+	case MS_BIFF_V7:
+	case MS_BIFF_V8:
 		bp->ms_op = 8;
-		if (ver == eBiffV8 || /* as per the spec. */
-		    (ver == eBiffV7 && type == eBiffTWorksheet)) /* Wierd hey */
+		if (ver == MS_BIFF_V8 || /* as per the spec. */
+		    (ver == MS_BIFF_V7 && type == MS_BIFF_TYPE_Worksheet)) /* Wierd hey */
 			MS_OLE_SET_GUINT16 (data, 0x0600);
 		else
 			MS_OLE_SET_GUINT16 (data, 0x0500);
@@ -182,22 +182,22 @@ biff_bof_write (BiffPut *bp, eBiff_version ver,
 
 	switch (type)
 	{
-	case eBiffTWorkbook:
+	case MS_BIFF_TYPE_Workbook:
 		MS_OLE_SET_GUINT16 (data+2, 0x0005);
 		break;
-	case eBiffTVBModule:
+	case MS_BIFF_TYPE_VBModule:
 		MS_OLE_SET_GUINT16 (data+2, 0x0006);
 		break;
-	case eBiffTWorksheet:
+	case MS_BIFF_TYPE_Worksheet:
 		MS_OLE_SET_GUINT16 (data+2, 0x0010);
 		break;
-	case eBiffTChart:
+	case MS_BIFF_TYPE_Chart:
 		MS_OLE_SET_GUINT16 (data+2, 0x0020);
 		break;
-	case eBiffTMacrosheet:
+	case MS_BIFF_TYPE_Macrosheet:
 		MS_OLE_SET_GUINT16 (data+2, 0x0040);
 		break;
-	case eBiffTWorkspace:
+	case MS_BIFF_TYPE_Workspace:
 		MS_OLE_SET_GUINT16 (data+2, 0x0100);
 		break;
 	default:
@@ -207,7 +207,7 @@ biff_bof_write (BiffPut *bp, eBiff_version ver,
 
 	/* Magic version numbers: build date etc. */
 	switch (ver) {
-	case eBiffV8:
+	case MS_BIFF_V8:
 		MS_OLE_SET_GUINT16 (data+4, 0x0dbb);
 		MS_OLE_SET_GUINT16 (data+6, 0x07cc);
 		g_assert (len > 11);
@@ -215,8 +215,8 @@ biff_bof_write (BiffPut *bp, eBiff_version ver,
 		MS_OLE_SET_GUINT32 (data+ 8, 0x00000004);
 		MS_OLE_SET_GUINT16 (data+12, 0x06000908); /* ? */
 		break;
-	case eBiffV7:
-	case eBiffV5:
+	case MS_BIFF_V7:
+	case MS_BIFF_V5:
 		MS_OLE_SET_GUINT16 (data+4, 0x096c);
 		MS_OLE_SET_GUINT16 (data+6, 0x07c9);
 		break;
@@ -239,10 +239,10 @@ biff_eof_write (BiffPut *bp)
 }
 
 static void
-write_magic_interface (BiffPut *bp, eBiff_version ver)
+write_magic_interface (BiffPut *bp, MsBiffVersion ver)
 {
 	guint8 *data;
-	if (ver >= eBiffV7) {
+	if (ver >= MS_BIFF_V7) {
 		ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
 		ms_biff_put_commit (bp);
 		data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
@@ -265,7 +265,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 	guint8 *data;
 	int lp;
 
-	if (wb->ver > eBiffV7) {
+	if (wb->ver > MS_BIFF_V7) {
 		printf ("Need some cunning BiffV8 stuff ?\n");
 		return;
 	}
@@ -297,7 +297,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 }
 
 static void
-write_window1 (BiffPut *bp, eBiff_version ver)
+write_window1 (BiffPut *bp, MsBiffVersion ver)
 {
 	/* See: S59E17.HTM */
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
@@ -314,7 +314,7 @@ write_window1 (BiffPut *bp, eBiff_version ver)
 }
 
 static void
-write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
+write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	guint8 *data;
 	const char *fsf = "The Free Software Foundation";
@@ -333,7 +333,7 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 	MS_OLE_SET_GUINT16 (data, 0x04e4); /* ANSI */
 	ms_biff_put_commit (bp);
 
-	if (ver >= eBiffV8) { /* See S59D78.HTM */
+	if (ver >= MS_BIFF_V8) { /* See S59D78.HTM */
 		int lp, len;
 
 		data = ms_biff_put_len_next (bp, BIFF_DSF, 2);
@@ -367,7 +367,7 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 	MS_OLE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
-	if (ver >= eBiffV8) {
+	if (ver >= MS_BIFF_V8) {
 		/* See: S59DD2.HTM */
 		data = ms_biff_put_len_next (bp, BIFF_PROT4REV, 2);
 		MS_OLE_SET_GUINT16 (data, 0x0);
@@ -381,7 +381,7 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 
 	write_window1 (bp, ver);
 
-	if (ver >= eBiffV8 && 0 /* if we have panes */) {
+	if (ver >= MS_BIFF_V8 && 0 /* if we have panes */) {
 		/* See: S59DCA.HTM */
 		data = ms_biff_put_len_next (bp, BIFF_PANE, 2);
 		MS_OLE_SET_GUINT16 (data, 0x0);
@@ -447,8 +447,8 @@ ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
  * See: S59D61.HTM
  **/
 static guint32
-biff_boundsheet_write_first (BiffPut *bp, eBiff_filetype type,
-			     char *name, eBiff_version ver)
+biff_boundsheet_write_first (BiffPut *bp, MsBiffFileType type,
+			     char *name, MsBiffVersion ver)
 {
 	guint32 pos;
 	guint8 data[16];
@@ -458,16 +458,16 @@ biff_boundsheet_write_first (BiffPut *bp, eBiff_filetype type,
 
 	MS_OLE_SET_GUINT32 (data, 0xdeadbeef); /* To be stream start pos */
 	switch (type) {
-	case eBiffTWorksheet:
+	case MS_BIFF_TYPE_Worksheet:
 		MS_OLE_SET_GUINT8 (data+4, 00);
 		break;
-	case eBiffTMacrosheet:
+	case MS_BIFF_TYPE_Macrosheet:
 		MS_OLE_SET_GUINT8 (data+4, 01);
 		break;
-	case eBiffTChart:
+	case MS_BIFF_TYPE_Chart:
 		MS_OLE_SET_GUINT8 (data+4, 02);
 		break;
-	case eBiffTVBModule:
+	case MS_BIFF_TYPE_VBModule:
 		MS_OLE_SET_GUINT8 (data+4, 06);
 		break;
 	default:
@@ -1229,7 +1229,7 @@ write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 	}
 #endif
 	/* Kludge for now ... */
-	if (wb->ver >= eBiffV7)
+	if (wb->ver >= MS_BIFF_V7)
 		ms_biff_put_var_next (bp, (0x400|BIFF_FORMAT));
 	else
 		ms_biff_put_var_next (bp, BIFF_FORMAT);
@@ -1237,7 +1237,7 @@ write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 	MS_OLE_SET_GUINT16 (data, fidx);
 	ms_biff_put_var_write (bp, data, 2);
 
-	biff_put_text (bp, format, eBiffV7, TRUE, AS_PER_VER);
+	biff_put_text (bp, format, MS_BIFF_V7, TRUE, AS_PER_VER);
 	ms_biff_put_commit (bp);
 }
 
@@ -1558,28 +1558,28 @@ halign_to_excel (StyleHAlignFlags halign)
 
 	switch (halign) {
 	case HALIGN_GENERAL:
-		ialign = eBiffHAGeneral;
+		ialign = MS_BIFF_H_A_GENERAL;
 		break;
 	case HALIGN_LEFT:
-		ialign = eBiffHALeft;
+		ialign = MS_BIFF_H_A_LEFT;
 		break;
 	case HALIGN_RIGHT:
-		ialign = eBiffHARight;
+		ialign = MS_BIFF_H_A_RIGHT;
 		break;
 	case HALIGN_CENTER:
-		ialign = eBiffHACenter;
+		ialign = MS_BIFF_H_A_CENTER;
 		break;
 	case HALIGN_FILL:
-		ialign = eBiffHAFill;
+		ialign = MS_BIFF_H_A_FILL;
 		break;
 	case HALIGN_JUSTIFY:
-		ialign = eBiffHAJustify;
+		ialign = MS_BIFF_H_A_JUSTIFTY;
 		break;
 	case HALIGN_CENTER_ACROSS_SELECTION:
-		ialign = eBuffHACenterAcrossSelection;
+		ialign = MS_BIFF_H_A_CENTER_ACROSS_SELECTION;
 		break;
 	default:
-		ialign = eBiffHAGeneral;
+		ialign = MS_BIFF_H_A_GENERAL;
 	}
 
 	return ialign;
@@ -1599,19 +1599,19 @@ valign_to_excel (StyleVAlignFlags valign)
 
 	switch (valign) {
 	case VALIGN_TOP:
-		ialign = eBiffVATop;
+		ialign = MS_BIFF_V_A_TOP;
 		break;
 	case VALIGN_BOTTOM:
-		ialign = eBiffVABottom;
+		ialign = MS_BIFF_V_A_BOTTOM;
 		break;
 	case VALIGN_CENTER:
-		ialign = eBiffVACenter;
+		ialign = MS_BIFF_V_A_CENTER;
 		break;
 	case VALIGN_JUSTIFY:
-		ialign = eBiffVAJustify;
+		ialign = MS_BIFF_V_A_JUSTIFY;
 		break;
 	default:
-		ialign = eBiffVATop;
+		ialign = MS_BIFF_V_A_TOP;
 	}
 
 	return ialign;
@@ -1631,19 +1631,19 @@ orientation_to_excel (StyleOrientation orientation)
 
 	switch (orientation) {
 	case ORIENT_HORIZ:
-		ior = eBiffOHoriz;
+		ior = MS_BIFF_O_HORIZ;
 		break;
 	case ORIENT_VERT_HORIZ_TEXT:
-		ior = eBiffOVertHorizText;
+		ior = MS_BIFF_O_VERT_HORIZ;
 		break;
 	case ORIENT_VERT_VERT_TEXT:
-		ior = eBiffOVertVertText;
+		ior = MS_BIFF_O_VERT_VERT;
 		break;
 	case ORIENT_VERT_VERT_TEXT2:
-		ior = eBiffOVertVertText2;
+		ior = MS_BIFF_O_VERT_VERT2;
 		break;
 	default:
-		ior = eBiffOHoriz;
+		ior = MS_BIFF_O_HORIZ;
 	}
 
 	return ior;
@@ -1658,14 +1658,14 @@ orientation_to_excel (StyleOrientation orientation)
  * See S59E1E.HTM
  **/
 inline static guint
-border_type_to_excel (StyleBorderType btype, eBiff_version ver)
+border_type_to_excel (StyleBorderType btype, MsBiffVersion ver)
 {
 	guint ibtype = btype;
 
 	if (btype <= STYLE_BORDER_NONE)
 		ibtype = STYLE_BORDER_NONE;
 
-	if (ver <= eBiffV7) {
+	if (ver <= MS_BIFF_V7) {
 		if (btype > STYLE_BORDER_HAIR)
 			ibtype = STYLE_BORDER_MEDIUM;
 	}
@@ -1753,27 +1753,27 @@ get_xf_differences (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *parentst)
 	xfd->differences = 0;
 
 	if (xfd->format_idx != FORMAT_MAGIC)
-		xfd->differences |= 1 << eBiffDFormatbit;
+		xfd->differences |= 1 << MS_BIFF_D_FORMAT_BIT;
 	if (xfd->font_idx != FONT_MAGIC)
-		xfd->differences |= 1 << eBiffDFontbit;
+		xfd->differences |= 1 << MS_BIFF_D_FONT_BIT;
 	/* hmm. documentation doesn't say that alignment bit is
 	   affected by vertical alignment, but it's a reasonable guess */
 	if (xfd->halign != HALIGN_GENERAL || xfd->valign != VALIGN_TOP
 	    || xfd->wrap)
-		xfd->differences |= 1 << eBiffDAlignbit;
+		xfd->differences |= 1 << MS_BIFF_D_ALIGN_BIT;
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
 		/* Should we also test colors? */
 		if (xfd->border_type[i] != BORDER_MAGIC) {
-			xfd->differences |= 1 << eBiffDBorderbit;
+			xfd->differences |= 1 << MS_BIFF_D_BORDER_BIT;
 			break;
 		}
 	}
 	if (xfd->pat_foregnd_col != PALETTE_BLACK
 	    || xfd->pat_backgnd_col != PALETTE_WHITE
 	    || xfd->fill_pattern_idx != FILL_MAGIC)
-		xfd->differences |= 1 << eBiffDFillbit;
+		xfd->differences |= 1 << MS_BIFF_D_FILL_BIT;
 	if (xfd->hidden || xfd->locked)
-		xfd->differences |= 1 << eBiffDLockbit;
+		xfd->differences |= 1 << MS_BIFF_D_LOCK_BIT;
 }
 
 #ifndef NO_DEBUG_EXCEL
@@ -1852,8 +1852,8 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	xfd->format_idx   = formats_get_index (wb, xfd->style_format->format);
 
 	/* Hidden and locked - we don't have those yet */
-	xfd->hidden = eBiffHVisible;
-	xfd->locked = eBiffLUnlocked;
+	xfd->hidden = MS_BIFF_H_VISIBLE;
+	xfd->locked = MS_BIFF_L_UNLOCKED;
 
 	xfd->halign = mstyle_get_align_h (st);
 	xfd->valign = mstyle_get_align_v (st);
@@ -1910,7 +1910,7 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
  * See S59E1E.HTM
  **/
 static void
-write_xf_magic_record (BiffPut *bp, eBiff_version ver, int idx)
+write_xf_magic_record (BiffPut *bp, MsBiffVersion ver, int idx)
 {
 	guint8 data[256];
 	int lp;
@@ -1918,12 +1918,12 @@ write_xf_magic_record (BiffPut *bp, eBiff_version ver, int idx)
 	for (lp = 0; lp < 250; lp++)
 		data[lp] = 0;
 
-	if (ver >= eBiffV7)
+	if (ver >= MS_BIFF_V7)
 		ms_biff_put_var_next (bp, BIFF_XF);
 	else
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
 
-	if (ver >= eBiffV8) {
+	if (ver >= MS_BIFF_V8) {
 		MS_OLE_SET_GUINT16(data+0, FONT_MAGIC);
 		MS_OLE_SET_GUINT16(data+2, FORMAT_MAGIC);
 		MS_OLE_SET_GUINT16(data+18, 0xc020); /* Color ! */
@@ -1986,12 +1986,12 @@ write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 	for (lp = 0; lp < 250; lp++)
 		data[lp] = 0;
 
-	if (wb->ver >= eBiffV7)
+	if (wb->ver >= MS_BIFF_V7)
 		ms_biff_put_var_next (bp, BIFF_XF);
 	else
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
 
-	if (wb->ver >= eBiffV8) {
+	if (wb->ver >= MS_BIFF_V8) {
 		MS_OLE_SET_GUINT16 (data+0, xfd->font_idx);
 		MS_OLE_SET_GUINT16 (data+2, xfd->format_idx);
 		MS_OLE_SET_GUINT16(data+18, 0xc020); /* Color ! */
@@ -2004,9 +2004,9 @@ write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 		 * unlocked cells. Presumably, locking becomes effective when
 		 * the locking bit in differences is also set */
 		itmp = 0x0001;
-		if (xfd->hidden != eBiffHVisible)
+		if (xfd->hidden != MS_BIFF_H_VISIBLE)
 			itmp |= 1 << 1;
-		if (xfd->locked != eBiffLUnlocked)
+		if (xfd->locked != MS_BIFF_L_UNLOCKED)
 			itmp |= 1;
 		itmp |= (xfd->parentstyle << 4) & 0xFFF0; /* Parent style */
 		MS_OLE_SET_GUINT16(data+4, itmp);
@@ -2100,7 +2100,7 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 	}
 
 	/* See: S59E14.HTM */
-	if (wb->ver >= eBiffV8) {
+	if (wb->ver >= MS_BIFF_V8) {
 		guint8 *data = ms_biff_put_len_next (bp, BIFF_USESELFS, 2);
 		MS_OLE_SET_GUINT16 (data, 0x1); /* we are language naturals */
 		ms_biff_put_commit (bp);
@@ -2114,7 +2114,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 	GList *names = gwb->names;
 	ExcelSheet *sheet;
 
-	g_return_if_fail (wb->ver <= eBiffV7);
+	g_return_if_fail (wb->ver <= MS_BIFF_V7);
 
 	/* excel crashes if this isn't here and the names have Ref3Ds */
 	if (names)
@@ -2136,7 +2136,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		name_len = strlen (expr_name->name->str);
 		MS_OLE_SET_GUINT8 (data + 3, name_len); /* name_len */
 
-		/* This code will only work for eBiffV7. */
+		/* This code will only work for MS_BIFF_V7. */
 		ms_biff_put_var_write (bp, data, 14);
 		biff_put_text (bp, text, wb->ver, FALSE, AS_PER_VER);
 		ms_biff_put_var_seekto (bp, 14 + name_len);
@@ -2190,7 +2190,7 @@ ms_excel_write_map_errcode (Value const * const v)
  * Write cell value to file
  **/
 static void
-write_value (BiffPut *bp, Value *v, eBiff_version ver,
+write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 	     guint32 col, guint32 row, guint16 xf)
 {
 	switch (v->type) {
@@ -2264,7 +2264,7 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 			Value *vi = value_new_int (val);
 			write_value (bp, vi, ver, col, row, xf);
 			value_release (vi);
-		} else if (ver >= eBiffV7) { /* See: S59DAC.HTM */
+		} else if (ver >= MS_BIFF_V7) { /* See: S59DAC.HTM */
 			guint8 *data =ms_biff_put_len_next (bp, (0x200 | BIFF_NUMBER), 14);
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
@@ -2290,7 +2290,7 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 		char data[16];
 		g_return_if_fail (v->v_str.val->str);
 
-		if (ver >= eBiffV8); /* Use SST stuff in fulness of time */
+		if (ver >= MS_BIFF_V8); /* Use SST stuff in fulness of time */
 
 		/* See: S59DDC.HTM ( for RSTRING ) */
 		/* See: S59D9D.HTM ( for LABEL ) */
@@ -2300,7 +2300,7 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 		EX_SETROW(data, row);
 		EX_SETSTRLEN (data, strlen(v->v_str.val->str));
 		ms_biff_put_var_write  (bp, data, 8);
-		biff_put_text (bp, v->v_str.val->str, eBiffV7, FALSE, AS_PER_VER);
+		biff_put_text (bp, v->v_str.val->str, MS_BIFF_V7, FALSE, AS_PER_VER);
 		ms_biff_put_commit (bp);
 		break;
 	}
@@ -2395,7 +2395,7 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 
 		ms_biff_put_var_next (bp, 0x200|BIFF_STRING);
 		str = value_get_as_string (v);
-		biff_put_text (bp, str, eBiffV7, TRUE, SIXTEEN_BIT);
+		biff_put_text (bp, str, MS_BIFF_V7, TRUE, SIXTEEN_BIT);
 		g_free (str);
 		ms_biff_put_commit (bp);
 	}
@@ -2743,7 +2743,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 *data;
 	PrintInformation *pi;
-	eBiff_version ver = sheet->wb->ver;
+	MsBiffVersion ver = sheet->wb->ver;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (sheet->gnum_sheet != NULL);
@@ -2817,12 +2817,12 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	/* See: S59D94.HTM */
 	ms_biff_put_var_next (bp, BIFF_HEADER);
-/*	biff_put_text (bp, "&A", eBiffV7, TRUE); */
+/*	biff_put_text (bp, "&A", MS_BIFF_V7, TRUE); */
 	ms_biff_put_commit (bp);
 
 	/* See: S59D8D.HTM */
 	ms_biff_put_var_next (bp, BIFF_FOOTER);
-/*	biff_put_text (bp, "&P", eBiffV7, TRUE); */
+/*	biff_put_text (bp, "&P", MS_BIFF_V7, TRUE); */
 	ms_biff_put_commit (bp);
 
 	/* See: S59D93.HTM */
@@ -2835,7 +2835,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	MS_OLE_SET_GUINT16 (data, pi->center_vertically);
 	ms_biff_put_commit (bp);
 
-	if (ver >= eBiffV8) {
+	if (ver >= MS_BIFF_V8) {
 		margin_write (bp, BIFF_LEFT_MARGIN,   &pi->margins.left);
 		margin_write (bp, BIFF_RIGHT_MARGIN,  &pi->margins.right);
 		margin_write (bp, BIFF_TOP_MARGIN,    &pi->margins.top);
@@ -2864,7 +2864,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	write_colinfos (bp, sheet); /* Column infos */
 
 	/* See: S59D76.HTM */
-	if (ver >= eBiffV8) {
+	if (ver >= MS_BIFF_V8) {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 14);
 		MS_OLE_SET_GUINT32 (data +  0, 0);
 		MS_OLE_SET_GUINT32 (data +  4, sheet->maxy);
@@ -2886,7 +2886,7 @@ static void
 write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 *data;
-	eBiff_version ver = sheet->wb->ver;
+	MsBiffVersion ver = sheet->wb->ver;
 	guint16 options = 0x2b6; /* Arabic ? */
 
 	if (sheet->gnum_sheet == sheet->wb->gnum_wb->current_sheet)
@@ -2895,7 +2895,7 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 	write_window1 (bp, ver);
 
 	/* See: S59E18.HTM */
-	if (ver <= eBiffV7) {
+	if (ver <= MS_BIFF_V7) {
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 10);
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
@@ -2916,7 +2916,7 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 		ms_biff_put_commit (bp);
 	}
 
-	if (ver >= eBiffV8) {
+	if (ver >= MS_BIFF_V8) {
 		double zoom = sheet->gnum_sheet->last_zoom_factor_used;
 		int    a = 1, b = 2, lp;
 
@@ -2981,7 +2981,7 @@ write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 	g_return_if_fail (sheet);
 
 	oldpos = s->position;/* FIXME: tell function ? */
-	if (sheet->wb->ver >= eBiffV8)
+	if (sheet->wb->ver >= MS_BIFF_V8)
 		s->lseek (s, pos+4+16, MsOleSeekSet);
 	else
 		s->lseek (s, pos+4+12, MsOleSeekSet);
@@ -3162,13 +3162,13 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 	   including empties - have row info records */
 	guint32 nblocks = (sheet->maxy - 1) / rows_in_block + 1;
 
-	sheet->streamPos = biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
+	sheet->streamPos = biff_bof_write (bp, sheet->wb->ver, MS_BIFF_TYPE_Worksheet);
 	/* We catch too large sheets during write check, but leave this in: */
-	maxrows = (sheet->wb->ver >= eBiffV8)
-		? eBiffMaxRowsV8 : eBiffMaxRowsV7;
+	maxrows = (sheet->wb->ver >= MS_BIFF_V8)
+		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
 	g_assert (sheet->maxy <= maxrows);
 
-	if (sheet->wb->ver >= eBiffV8) {
+	if (sheet->wb->ver >= MS_BIFF_V8) {
 		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
 						     nblocks * 4 + 16);
 		index_off = bp->streamPos;
@@ -3303,13 +3303,13 @@ free_workbook (ExcelWorkbook *wb)
 }
 
 static void
-write_workbook (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
+write_workbook (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	ExcelSheet *s  = 0;
 	int        lp;
 
 	/* Workbook */
-	wb->streamPos = biff_bof_write (bp, ver, eBiffTWorkbook);
+	wb->streamPos = biff_bof_write (bp, ver, MS_BIFF_TYPE_Workbook);
 
 	write_magic_interface (bp, ver);
 /*	write_externsheets    (bp, wb, NULL); */
@@ -3323,7 +3323,7 @@ write_workbook (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 	for (lp = 0; lp < wb->sheets->len; lp++) {
 		s = g_ptr_array_index (wb->sheets, lp);
 	        s->boundsheetPos = biff_boundsheet_write_first
-			(bp, eBiffTWorksheet,
+			(bp, MS_BIFF_TYPE_Worksheet,
 			 s->gnum_sheet->name_unquoted, wb->ver);
 
 		ms_formula_write_pre_data (bp, s, EXCEL_NAME, wb->ver);
@@ -3366,8 +3366,8 @@ check_sheet (CommandContext *context, ExcelSheet *sheet)
 	guint32 maxrows;
 	int ret = 0;
 
-	maxrows = (sheet->wb->ver >= eBiffV8)
-		? eBiffMaxRowsV8 : eBiffMaxRowsV7;
+	maxrows = (sheet->wb->ver >= MS_BIFF_V8)
+		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
 
 	if (sheet->maxy > maxrows) {
 		gnumeric_error_save
@@ -3391,14 +3391,14 @@ check_sheet (CommandContext *context, ExcelSheet *sheet)
  */
 int
 ms_excel_check_write (CommandContext *context, void **state, Workbook *gwb,
-		      eBiff_version ver)
+		      MsBiffVersion ver)
 {
 	int ret = 0;
 	ExcelWorkbook *wb = g_new (ExcelWorkbook, 1);
 	GList    *sheets;
 
 	g_return_val_if_fail (wb != NULL, -1);
-	g_return_val_if_fail (ver >= eBiffV7, -1);
+	g_return_val_if_fail (ver >= MS_BIFF_V7, -1);
 
 	*state = wb;
 	
@@ -3432,7 +3432,7 @@ cleanup:
 
 int
 ms_excel_write_workbook (CommandContext *context, MsOle *file, void *state,
-			 eBiff_version ver)
+			 MsBiffVersion ver)
 {
 	MsOleErr     result;
 	char        *strname;
@@ -3442,7 +3442,7 @@ ms_excel_write_workbook (CommandContext *context, MsOle *file, void *state,
 
 	g_return_val_if_fail (file != NULL, -1);
 
-	if (ver >= eBiffV8)
+	if (ver >= MS_BIFF_V8)
 		strname = "Workbook";
 	else
 		strname = "Book";
