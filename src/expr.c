@@ -796,16 +796,43 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		
 		res = g_new (Value, 1);
 		if (a->type == VALUE_INTEGER && b->type == VALUE_INTEGER){
+			int ia = a->v.v_int;
+			int ib = b->v.v_int;
+			
 			res->type = VALUE_INTEGER;
 			
 			switch (tree->oper){
-			case OPER_ADD:
-				res->v.v_int = a->v.v_int + b->v.v_int;
-				break;
-				
 			case OPER_SUB:
-				res->v.v_int = a->v.v_int - b->v.v_int;
+			case OPER_ADD: {
+				int sum;
+
+				if (tree->oper == OPER_SUB){
+					int t = ia;
+					
+					ia = ib;
+					ib = -t;
+				}
+
+				sum = ia + ib;
+				
+				if ((ia > 0) && (ib > 0)){
+					
+					if (sum < ia){
+						res->type = VALUE_FLOAT;
+						res->v.v_float = ((double)ia) + ib;
+					} else
+						res->v.v_int = sum;
+				} else if ((ia < 0) && (ib < 0)){
+					if (sum > ia){
+						res->type = VALUE_FLOAT;
+						res->v.v_float = ((double)ia) + ib;
+					} else
+						res->v.v_int = sum;
+				} else
+					res->v.v_int = sum;
+				
 				break;
+			}
 				
 			case OPER_MULT:
 				res->v.v_int = a->v.v_int * b->v.v_int;

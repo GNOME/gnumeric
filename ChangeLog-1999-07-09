@@ -1,5 +1,14 @@
 1999-03-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/fn-math.c (callback_function_sum): Detects integer
+	over/under flow. 
+
+	* src/expr.c (eval_expr): Add integer overflow code for addition
+	and substraction.
+
+	* src/cell.c (cell_set_format): Call cell_render_value and
+	cell_queue_redraw calls here.
+
 	* src/expr.c (bigger_prec): When decoding left-to-right apply
 	parentheses if the two priorities are equal.
 

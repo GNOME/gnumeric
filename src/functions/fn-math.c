@@ -1020,9 +1020,32 @@ callback_function_sum (Sheet *sheet, Value *value, char **error_string, void *cl
 
 	switch (value->type){
 	case VALUE_INTEGER:
-		if (result->type == VALUE_INTEGER)
-			result->v.v_int += value->v.v_int;
-		else
+		if (result->type == VALUE_INTEGER){
+			if ((result->v.v_int > 0) && (value->v.v_int > 0)){
+				int sum = result->v.v_int + value->v.v_int;
+
+				if (sum < result->v.v_int){
+					double n = result->v.v_int + value->v.v_int;
+					
+					result->type = VALUE_FLOAT;
+					result->v.v_float = n;
+				} else
+					result->v.v_int = sum;
+			} else if ((result->v.v_int < 0) && (value->v.v_int < 0)){
+				int sum = result->v.v_int + value->v.v_int;
+
+				if (sum > result->v.v_int){
+					double n = result->v.v_int + value->v.v_int;
+					
+					result->type = VALUE_FLOAT;
+					result->v.v_float = n;
+				} else {
+					result->v.v_int = sum;
+				}
+			} else {
+				result->v.v_int += value->v.v_int;
+			}
+		} else
 			result->v.v_float += value->v.v_int;
 		break;
 		
