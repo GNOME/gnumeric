@@ -403,7 +403,7 @@ stf_read_default_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel
 	gsf_off_t remain;
 	int len;
 
-	if (pl < FILE_PROBE_CONTENT_FULL)
+	if (pl < FILE_PROBE_CONTENT)
 		return FALSE;
 
 	if (gsf_input_seek (input, 0, G_SEEK_SET))

@@ -31,9 +31,8 @@ typedef enum {
  * we increase probe level and try again...
  */
 typedef enum {
-	FILE_PROBE_FILE_NAME,    /* Test only file name, don't read file contents */
-	FILE_PROBE_CONTENT_FAST, /* Read only small parts of the file */
-	FILE_PROBE_CONTENT_FULL, /* Read the whole file if it's necessary */
+	FILE_PROBE_FILE_NAME,	/* Test only file name, don't read file contents */
+	FILE_PROBE_CONTENT,	/* Read the whole file if it's necessary */
 	FILE_PROBE_LAST
 } FileProbeLevel;
 

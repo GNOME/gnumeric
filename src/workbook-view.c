@@ -536,7 +536,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 
 	if (gnumeric_valid_filename (file_name)) {
 		GError *err = NULL;
-		GsfOutput *output;
+		GsfOutputStdio *output;
 
 		output = gsf_output_stdio_new (file_name, &err);
 		if (output == NULL) {
@@ -550,7 +550,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 
 		puts (file_name);
 		if (output != NULL) {
-			gnm_file_saver_save (fs, io_context, wbv, output);
+			gnm_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
 			g_object_unref (G_OBJECT (output));
 			return;
 		}
@@ -701,7 +701,9 @@ wb_view_new_from_input  (GsfInput *input,
 					gnm_file_opener_get_id (tmp_fo),
 					(int)pl);
 #endif
-				if (gnm_file_opener_probe (tmp_fo, input, pl))
+				/* A name match needs to be a content match too */
+				if (gnm_file_opener_probe (tmp_fo, input, pl) &&
+				    (pl == FILE_PROBE_CONTENT || gnm_file_opener_probe (tmp_fo, input, FILE_PROBE_CONTENT)))
 					optional_fmt = tmp_fo;
 
 				new_input_refs = G_OBJECT (input)->ref_count;
@@ -765,12 +767,18 @@ wb_view_new_from_file (char const *file_name,
 
 	if (gnumeric_valid_filename (file_name)) {
 		GError *err = NULL;
-		GsfInput *input;
+		GsfInputMemory *in_mem;
+		GsfInputStdio  *in_stdio;
+		GsfInput *input = NULL;
 
 		/* Only report error if stdio fails too */
-		input = gsf_input_mmap_new (file_name, NULL);
-		if (input == NULL)
-			input = gsf_input_stdio_new (file_name, &err);
+		in_mem = gsf_input_mmap_new (file_name, NULL);
+		if (in_mem == NULL) {
+			in_stdio = gsf_input_stdio_new (file_name, &err);
+			if (in_stdio != NULL)
+				input = GSF_INPUT (in_stdio);
+		} else
+			input = GSF_INPUT (in_mem);
 
 		puts (file_name);
 		if (input != NULL) {

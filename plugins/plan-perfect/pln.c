@@ -663,12 +663,6 @@ pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	ErrorInfo *error;
 	PlanPerfectImport state;
 
-	if (!pln_file_probe (NULL, input, FILE_PROBE_CONTENT_FULL)) {
-		gnumeric_io_error_info_set (io_context,
-			error_info_new_str (_("PLN : Not a PlanPerfect File")));
-		return;
-	}
-
 	wb    = wb_view_workbook (wb_view);
 	name  = workbook_sheet_get_free_name (wb, "PlanPerfect", FALSE, TRUE);
 	sheet = sheet_new (wb, name);

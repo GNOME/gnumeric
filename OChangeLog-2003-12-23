@@ -1,3 +1,9 @@
+2003-02-03  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_new_from_input) : A name match needs to
+	  be a content match too.
+	(wb_view_new_from_file) : suppress warnings.
+
 2003-02-02  Jody Goldberg <jody@gnome.org>
 
 	* src/mstyle.c (mstyle_get_pango_attrs) : The mstyle uses the ref to

@@ -73,14 +73,15 @@ qpro_check_signature (GsfInput *input)
 gboolean
 qpro_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	GsfInfile *ole;
+	GsfInfileMSOle *ole;
 	GsfInput *stream;
 	gboolean res = FALSE;
 
 	/* check for >= QPro 6.0 which is OLE based */
 	ole = gsf_infile_msole_new (input, NULL);
 	if (ole != NULL) {
-		stream = gsf_infile_child_by_name (ole, "PerfectOffice_MAIN");
+		stream = gsf_infile_child_by_name (GSF_INFILE (ole),
+						   "PerfectOffice_MAIN");
 		if (stream != NULL) {
 			res = qpro_check_signature (stream);
 			g_object_unref (G_OBJECT (stream));
@@ -827,7 +828,7 @@ qpro_file_open (GnmFileOpener const *fo, IOContext *context,
 {
 	QProReadState state;
 	GsfInput *stream = NULL;
-	GsfInfile *ole;
+	GsfInfileMSOle *ole;
 
 	state.io_context = context;
 	state.wbv = new_wb_view;
@@ -838,7 +839,8 @@ qpro_file_open (GnmFileOpener const *fo, IOContext *context,
 	/* check for >= QPro 6.0 which is OLE based */
 	ole = gsf_infile_msole_new (input, NULL);
 	if (ole != NULL) {
-		stream = gsf_infile_child_by_name (ole, "PerfectOffice_MAIN");
+		stream = gsf_infile_child_by_name (GSF_INFILE (ole),
+						   "PerfectOffice_MAIN");
 		if (stream != NULL) {
 			qpro_read_workbook (&state, stream);
 			g_object_unref (G_OBJECT (stream));
