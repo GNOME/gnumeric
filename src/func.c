@@ -385,9 +385,6 @@ constants_init (void)
 	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE,
 			value_new_float (atof (GNUMERIC_VERSION)));
 
-	/* Global helper value for arrays */
-	value_zero = value_new_float (0);
-
 	gnumeric_err_NULL = _("#NULL!");
 	gnumeric_err_DIV0 = _("#DIV/0!");
 	gnumeric_err_VALUE = _("#VALUE!");

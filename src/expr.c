@@ -16,8 +16,6 @@
 #include "func.h"
 #include "utils.h"
 
-Value *value_zero = NULL;
-
 EvalPosition *
 eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)
 {
@@ -1022,8 +1020,12 @@ const Value *
 value_area_fetch_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 {
 	Value const * const res = value_area_get_x_y (ep, v, x, y);
+	static Value *value_zero = NULL;
 	if (res)
 		return res;
+
+	if (value_zero == NULL)
+		value_zero = value_new_int (0);
 	return value_zero;
 }
 
@@ -1066,6 +1068,9 @@ free_values (Value **values, int top)
 			value_release (values [i]);
 	g_free (values);
 }
+
+static Value *
+eval_expr_real (FunctionEvalInfo *s, ExprTree *tree);
 
 static Value *
 eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
@@ -1136,7 +1141,7 @@ eval_funcall (FunctionEvalInfo *s, ExprTree *tree)
 			if ((*arg_type != 'A' &&          /* This is so a cell reference */
 			     *arg_type != 'r') ||         /* can be converted to a cell range */
 			    !t || (t->oper != OPER_VAR)) { /* without being evaluated */
-				if ((v = eval_expr (s, t)) == NULL)
+				if ((v = eval_expr_real (s, t)) == NULL)
 					goto free_list;
 			} else {
 				g_assert (t->oper == OPER_VAR);
@@ -1424,8 +1429,12 @@ eval_range (FunctionEvalInfo *s, Value *v)
 		}
 }
 
-Value *
-eval_expr (FunctionEvalInfo *s, ExprTree *tree)
+/*
+ * This is an internal routine that may return NULL for computations that
+ * involve non-existant cells. 
+ */
+static Value *
+eval_expr_real (FunctionEvalInfo *s, ExprTree *tree)
 {
 	Value *res, *a, *b;
 	
@@ -1441,8 +1450,8 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 	case OPER_LTE: {
 		int comp;
 
-		a = eval_expr (s, tree->u.binary.value_a);
-		b = eval_expr (s, tree->u.binary.value_b);
+		a = eval_expr_real (s, tree->u.binary.value_a);
+		b = eval_expr_real (s, tree->u.binary.value_b);
 
 		comp = compare (a, b);
 
@@ -1503,12 +1512,12 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 	case OPER_MULT:
 	case OPER_DIV:
 	case OPER_EXP:
-		a = eval_expr (s, tree->u.binary.value_a);
+		a = eval_expr_real (s, tree->u.binary.value_a);
 
 		if (!a)
 			return NULL;
 
-		b = eval_expr (s, tree->u.binary.value_b);
+		b = eval_expr_real (s, tree->u.binary.value_b);
 
 		if (!b){
 			value_release (a);
@@ -1626,10 +1635,10 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
-		a = eval_expr (s, tree->u.binary.value_a);
+		a = eval_expr_real (s, tree->u.binary.value_a);
 		if (!a)
 			return NULL;
-		b = eval_expr (s, tree->u.binary.value_b);
+		b = eval_expr_real (s, tree->u.binary.value_b);
 		if (!b){
 			value_release (a);
 			return NULL;
@@ -1670,28 +1679,20 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		cell_get_abs_col_row (ref, s->pos.eval_col, s->pos.eval_row, &col, &row);
 
 		cell_sheet = eval_sheet (ref->sheet, s->pos.sheet);
-
 		cell = sheet_cell_get (cell_sheet, col, row);
+		if (cell == NULL)
+			return NULL;
 
-		if (cell){
-			if (cell->generation != s->pos.sheet->workbook->generation){
-				cell->generation = s->pos.sheet->workbook->generation;
-				if (cell->parsed_node && (cell->flags & CELL_QUEUED_FOR_RECALC))
-					cell_eval (cell);
-			}
-
-			if (cell->value)
-				return value_duplicate (cell->value);
-			else {
-				if (cell->text)
-					error_message_set (s->error, cell->text->str);
-				else
-					error_message_set (s->error, _("Reference to newborn cell"));
-				return NULL;
-			}
+		if (cell->generation != s->pos.sheet->workbook->generation){
+			cell->generation = s->pos.sheet->workbook->generation;
+			if (cell->parsed_node && (cell->flags & CELL_QUEUED_FOR_RECALC))
+				cell_eval (cell);
 		}
 
-		return value_new_int (0);
+		if (cell->value)
+			return value_duplicate (cell->value);
+		return function_error (s, (cell->text) ? cell->text->str
+				       : _("Reference to newborn cell"));
 	}
 
 	case OPER_CONSTANT:
@@ -1701,7 +1702,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		return value_duplicate (res);
 
 	case OPER_NEG:
-		a = eval_expr (s, tree->u.value);
+		a = eval_expr_real (s, tree->u.value);
 		if (!a)
 			return NULL;
 		if (!VALUE_IS_NUMBER (a)){
@@ -1723,7 +1724,7 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		int const y = tree->u.array.y;
 		if (x == 0 && y == 0){
 			/* Store real result */
-			a = eval_expr (s, tree->u.array.corner.func.expr);
+			a = eval_expr_real (s, tree->u.array.corner.func.expr);
 			if (tree->u.array.corner.func.value != NULL)
 				value_release (tree->u.array.corner.func.value);
 			tree->u.array.corner.func.value = a;
@@ -1760,8 +1761,22 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 	}
 	}
 
-	error_message_set (s->error, _("Unknown evaluation error"));
-	return NULL;
+	return function_error (s, _("Unknown evaluation error"));
+}
+
+Value *
+eval_expr (FunctionEvalInfo *s, ExprTree *tree)
+{
+	Value * res = eval_expr_real (s, tree);
+	if (res != NULL)
+		return res;
+	/*
+	 * FIXME FIXME FIXME : This will be unnecessary when
+	 * we have VALUE_ERROR
+	 */
+	if (s->error != NULL && s->error->message != NULL)
+		return NULL;
+	return value_new_int (0);
 }
 
 void

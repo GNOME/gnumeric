@@ -297,9 +297,12 @@ char const *	expr_tree_get_const_str (ExprTree const *const expr);
 /* Debugging */ 
 void expr_dump_tree (ExprTree *tree);
 
-Value *eval_expr            (FunctionEvalInfo *s, ExprTree *tree);
+/*
+ * Returns int(0) if the expression uses a non-existant cell for anything
+ * other than an equality test, returns NULL on error (for now)
+ */
+Value       *eval_expr             (FunctionEvalInfo *s, ExprTree *tree);
 
-extern Value *value_zero;
 Value       *value_new_float       (float_t f);
 Value       *value_new_int         (int i);
 Value       *value_new_bool        (gboolean b);
