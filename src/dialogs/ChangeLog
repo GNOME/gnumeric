@@ -1,3 +1,7 @@
+2001-11-08  Morten Welinder  <terra@diku.dk>
+
+	* dialog-summary.c (summary_get): Fix it right.
+
 2001-11-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (tool_update_sensitivity_global_cb) :

@@ -34,17 +34,17 @@ summary_get (GladeXML *gui, SummaryInfo *sin)
 		;
 #endif
 		else { /* FIXME: OK so far, but what if it isn't editable ? */
-			gchar *txt;
-
-			if (lp == SUMMARY_I_COMMENTS)
-				txt = gtk_editable_get_chars (GTK_EDITABLE (w),
+			if (lp == SUMMARY_I_COMMENTS) {
+				char *txt = gtk_editable_get_chars (GTK_EDITABLE (w),
 							      0, gtk_text_get_length (GTK_TEXT (w)));
-			else
-				txt = gtk_entry_get_text (GTK_ENTRY (w));
+				sit = summary_item_new_string (summary_item_name[lp], txt);
+				g_free (txt);
+			} else {
+				const char *txt = gtk_entry_get_text (GTK_ENTRY (w));
+				sit = summary_item_new_string (summary_item_name[lp], txt);
+			}
 
-			sit = summary_item_new_string (summary_item_name[lp], txt);
 			summary_info_add (sin, sit);
-			g_free (txt);
 		}
 		g_free (name);
 	}
