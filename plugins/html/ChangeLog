@@ -1,3 +1,8 @@
+2000-08-09  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_read) : Use builtin Cell::pos rather than
+	  the row/col infos.
+
 2000-07-25  Morten Welinder <terra@diku.dk>
 
 	* latex.c (latex_fprintf_cell): Rename from latex_fprintf.  Don't

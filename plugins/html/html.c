@@ -469,8 +469,8 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 								mstyle_set_align_h (mstyle, HALIGN_CENTER);
 
 							sheet_style_attach_single (cell->sheet,
-										   cell->col_info->pos,
-										   cell->row_info->pos, mstyle);
+										   cell->pos.col, cell->pos.row,
+										   mstyle);
 						}
 						/* set the content of the cell */
 						cell_set_text (cell, str);
