@@ -12,6 +12,7 @@ Jody:
 	* Handle saving too many merged cells for 1 xls record
 	* Fix internal hashing bug with styles containing auto colors
 	* Improve update semantics of ExprEntry in preparation for graphs
+	* Make sheet_get_extent span when needed.
 
 Jukka:
 	* Added shuffling tool.
