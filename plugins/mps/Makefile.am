@@ -1,0 +1,19 @@
+INCLUDES = \
+    -DGNOMELOCALEDIR=\""$(datadir)/locale"\"    \
+    -I$(includedir)     -I$(top_srcdir)/src     \
+    -I$(top_builddir)/src                       \
+    $(GNOME_INCLUDEDIR)
+
+gnumeric_plugin_mpsdir = $(gnumeric_plugindir)/mps
+xmldir = $(gnumeric_plugin_mpsdir)
+gnumeric_plugin_mps_LTLIBRARIES = mps.la
+mps_la_LDFLAGS = -module -avoid-version
+mps_la_SOURCES = mps.c
+
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+XML_I18N_XML_KIND = --pass-through
+@XML_I18N_MERGE_XML_RULE@
+
+EXTRA_DIST = $(xml_in_files) $(xml_DATA)
