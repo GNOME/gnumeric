@@ -4,7 +4,6 @@
 #include "gnumeric.h"
 #include "position.h"
 #include <sys/types.h>
-#include <regex.h>
 #include "regutf8.h"
 
 typedef enum { SRE_fail = 0,
