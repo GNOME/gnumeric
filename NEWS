@@ -37,6 +37,10 @@ Zbigniew Chyla:
 	* Internationalization support for autoformat.
 	* Rework plugin architecture.
 
+Translations:
+	* Updated: ca (Pablo), de (Karl), hu (Szabolcs), ru (Valek), sk
+          (Stanislav), sv (Christian), maybe more.
+
 --------------------------------------------------------------------------
 Gnumeric 0.61
 
