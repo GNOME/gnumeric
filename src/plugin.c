@@ -1782,7 +1782,7 @@ ghf_collect_used_plugin_state_strings (gpointer key, gpointer value, gpointer us
  * a GTypeModule is initialized, it must exist forever" - docs of
  * g_type_module_unuse().
  */
-static void *
+static void
 gnm_plugin_try_unref (gpointer plugin)
 {
 	GTypeModule *module = G_TYPE_MODULE (plugin);
