@@ -168,8 +168,8 @@ void        sheet_selection_clear             (Sheet *sheet);
 gboolean    sheet_selection_copy              (Sheet *sheet);
 gboolean    sheet_selection_cut               (Sheet *sheet);
 void        sheet_selection_paste             (Sheet *sheet,
-					       int dest_col, int dest_row,
-					       int paste_flags);
+					       int dest_col,    int dest_row,
+					       int paste_flags, guint32 time);
 int         sheet_selection_walk_step         (Sheet *sheet,
 					       int   forward,     int horizontal,
 					       int   current_col, int current_row,

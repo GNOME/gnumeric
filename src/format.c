@@ -98,7 +98,7 @@ static char *month_short [] =
 static char *month_long [] =
 {
 	N_("January"),
-	N_("Februrary"),
+	N_("February"),
 	N_("March"),
 	N_("April"),
 	N_("May"),

@@ -13,6 +13,11 @@
 #include "eval.h"
 #include "render-ascii.h"
 
+/*
+ * x_selection_clear:
+ *
+ * Callback for the "we lost the X selection" signal
+ */
 static gint
 x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
 {
@@ -21,6 +26,11 @@ x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
 	return TRUE;
 }
 
+/*
+ * x_selection_handler:
+ *
+ * Callback invoked when another application requests we render the selection.
+ */
 static void
 x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpointer data)
 {
@@ -36,6 +46,28 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpoint
 		rendered_selection, strlen (rendered_selection));
 }
 
+/*
+ * x_selection_received
+ *
+ * Invoked when the selection has been received by our application.
+ * This is triggered by a call we do to gtk_selection_convert.
+ */
+static void
+x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
+{
+	Workbook *wb = data;
+
+	/* Did X provide any selection? */
+	if (sel->length < 0){
+		
+	} 
+}
+
+/*
+ * x_clipboard_bind_workbook
+ *
+ * Binds the signals related to the X selection to the Workbook
+ */
 void
 x_clipboard_bind_workbook (Workbook *wb)
 {
@@ -49,6 +81,9 @@ x_clipboard_bind_workbook (Workbook *wb)
 		wb->toplevel,
 		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING,
 		x_selection_handler, wb);
+	gtk_signal_connect (
+		GTK_OBJECT (wb->toplevel), "selection_received",
+		GTK_SIGNAL_FUNC(x_selection_received), wb);
 }
 
 /*
@@ -101,17 +136,12 @@ CellRegion *
 clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
 	append_cell_closure_t c;
-	GtkEditable *editable;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (start_col <= end_col, NULL);
 	g_return_val_if_fail (start_row <= end_row, NULL);
 
-	if (!editable){
-		editable = GTK_EDITABLE (gtk_type_new (gtk_editable_get_type ()));
-	}
-	
 	c.r = g_new0 (CellRegion, 1);
 
 	c.base_col = start_col;
@@ -161,11 +191,14 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 	return new_cell->parsed_node != 0;
 }
 
+/*
+ * Main entry point for the paste code
+ */
 void
 clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
-			int dest_col,    int dest_row,
-			int paste_width, int paste_height,
-			int paste_flags)
+			int dest_col,       int dest_row,
+			int paste_width,    int paste_height,
+			int paste_flags,    guint32 time)
 {
 	CellCopyList *l;
 	GList *deps;
@@ -242,6 +275,9 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 		workbook_recalc (dest_sheet->workbook);
 }
 
+/*
+ * Destroys the contents of a CellRegion
+ */
 void
 clipboard_release (CellRegion *region)
 {

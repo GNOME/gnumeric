@@ -32,7 +32,8 @@ dialog_about (void)
         about = gnome_about_new (_("Gnumeric"), VERSION,
 				 "(C) 1998 Miguel de Icaza",
 				 authors,
-				 _("The GNOME spreadsheet."),
+				 _("The GNOME spreadsheet.\n"
+				   "http://www.gnome.org/gnumeric"),
 				 NULL);
 	gnome_dialog_set_modal (GNOME_DIALOG (about));
 	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);

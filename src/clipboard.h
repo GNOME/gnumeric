@@ -27,7 +27,8 @@ void        clipboard_paste_region       (CellRegion *region,
 					  int         dest_row,
 					  int         paste_width,
 					  int         paste_height,
-					  int         paste_flags);
+					  int         paste_flags,
+					  guint32     time);
 
 void        clipboard_release            (CellRegion *region);
 

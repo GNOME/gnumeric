@@ -1,3 +1,9 @@
+/*
+ * sheet-object.c: Implements the drawing object manipulation for Gnumeric
+ *
+ * Author:
+ *   Miguel de Icaza (miguel@kernel.org)
+ */
 #include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
@@ -43,6 +49,11 @@ sheet_release_coords (Sheet *sheet)
 	sheet->coords = NULL;
 }
 
+/*
+ * sheet_object_new:
+ *
+ * Creates a new simple object
+ */
 static inline SheetObject *
 sheet_object_new (Sheet *sheet)
 {
@@ -55,6 +66,11 @@ sheet_object_new (Sheet *sheet)
 	return so;
 }
 
+/*
+ * sheet_object_new:
+ *
+ * Creates a new filled object.
+ */
 static inline SheetObject *
 sheet_filled_object_new (Sheet *sheet)
 {
@@ -67,6 +83,11 @@ sheet_filled_object_new (Sheet *sheet)
 	return (SheetObject *) sfo;
 }
 
+/*
+ * sheet_object_create_filled:
+ *
+ * Creates and initializes a filled object of type TYPE.
+ */
 SheetObject *
 sheet_object_create_filled (Sheet *sheet, int type,
 			    double x1, double y1,
@@ -102,6 +123,11 @@ sheet_object_create_filled (Sheet *sheet, int type,
 	return (SheetObject *) sfo;
 }
 
+/*
+ * sheet_object_create_line
+ *
+ * Creates a line object
+ */
 SheetObject *
 sheet_object_create_line (Sheet *sheet, int is_arrow, double x1, double y1, double x2, double y2, char *color, int w)
 {
@@ -126,6 +152,11 @@ sheet_object_create_line (Sheet *sheet, int is_arrow, double x1, double y1, doub
 	return so;
 }
 
+/*
+ * sheet_view_object_realize
+ *
+ * Creates the actual object on the Canvas of a SheetView
+ */
 static GnomeCanvasItem *
 sheet_view_object_realize (SheetView *sheet_view, SheetObject *object)
 {
@@ -179,20 +210,23 @@ sheet_view_object_realize (SheetView *sheet_view, SheetObject *object)
 			NULL);
 		break;
 
-	case SHEET_OBJECT_ELLIPSE:
+	case SHEET_OBJECT_ELLIPSE: {
+		double *c = object->points->coords;
+		
 		item = gnome_canvas_item_new (
 			sheet_view->object_group,
 			gnome_canvas_ellipse_get_type (),
-			"x1",            object->points->coords [0],
-			"y1",            object->points->coords [1],
-			"x2",            object->points->coords [2],
-			"y2",            object->points->coords [3],
+			"x1",            MIN (c [0], c [2]),
+			"y1",            MIN (c [1], c [3]),
+			"x2",            MAX (c [0], c [2]),
+			"y2",            MAX (c [1], c [3]),
 			"fill_color",    filled_object->fill_color ?
 			filled_object->fill_color->str : NULL,
 			"outline_color", object->color->str,
 			"width_pixels",  object->width,
 			NULL);
 		break;
+	}
 	}
 
 	gtk_signal_connect (GTK_OBJECT (item), "event",
@@ -205,6 +239,11 @@ sheet_view_object_realize (SheetView *sheet_view, SheetObject *object)
 	return item;
 }
 
+/*
+ * sheet_view_object_unrealize
+ *
+ * Removes the object from the canvas in the SheetView.
+ */
 static void
 sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *object)
 {
@@ -228,6 +267,12 @@ sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *object)
 	}
 }
 
+/*
+ * sheet_object_realize
+ *
+ * Realizes the on a Sheet (this in turn realizes the object
+ * on every existing SheetView)
+ */
 void
 sheet_object_realize (Sheet *sheet, SheetObject *object)
 {
@@ -247,6 +292,12 @@ sheet_object_realize (Sheet *sheet, SheetObject *object)
 	}
 }
 
+/*
+ * sheet_object_unrealize
+ *
+ * Destroys the Canvas Item that represents this SheetObject from
+ * every SheetViews.
+ */
 void
 sheet_object_unrealize (Sheet *sheet, SheetObject *object)
 {
@@ -265,6 +316,12 @@ sheet_object_unrealize (Sheet *sheet, SheetObject *object)
 	}
 }
 
+/*
+ * create_object
+ *
+ * Creates an object with the data stored from the creation or
+ * previous mouse samples to the location to_x, to_y.
+ */
 static SheetObject *
 create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 {
@@ -323,6 +380,12 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 	return o;
 }
 
+/*
+ * sheet_motion_notify
+ *
+ * Invoked when the sheet is in a SHEET_MODE_CREATE mode to keep track
+ * of the cursor position.
+ */
 static int
 sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
 {
@@ -339,6 +402,11 @@ sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
 	return 1;
 }
 
+/*
+ * sheet_button_release
+ *
+ * Invoked as the last step in object creation.
+ */
 static int
 sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 {
@@ -360,6 +428,12 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 	return 1;
 }
 
+/*
+ * sheet_button_press
+ *
+ * Starts the process of creating a SheetObject.  Handles the initial
+ * button press on the GnumericSheet.
+ */
 static int
 sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 {
@@ -386,6 +460,14 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 	return 1;
 }
 
+/*
+ * sheet_finish_object_creation
+ *
+ * Last step of the creation of an object: sets the sheet mode to
+ * select the current object, releases the datastructures used
+ * during object creation and disconnects the signal handlers
+ * used during object creation
+ */
 static void
 sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 {
@@ -474,6 +556,11 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 	}
 }
 
+/*
+ * sheet_object_destroy_control_points
+ *
+ * Destroys the Canvas Items used as sheet control points
+ */
 static void
 sheet_object_destroy_control_points (Sheet *sheet)
 {
@@ -499,6 +586,11 @@ sheet_object_stop_editing (SheetObject *object)
 		sheet_object_destroy_control_points (sheet);
 }
 
+/*
+ * sheet_object_destroy
+ *
+ * Destroys a SheetObject
+ */
 void
 sheet_object_destroy (SheetObject *object)
 {
@@ -544,6 +636,11 @@ sheet_object_destroy (SheetObject *object)
 
 #define POINT(x) (1 << x)
 
+/*
+ * set_item_x:
+ *
+ * chantes the x position of the idxth control point
+ */
 static void
 set_item_x (SheetView *sheet_view, int idx, double x)
 {
@@ -554,6 +651,11 @@ set_item_x (SheetView *sheet_view, int idx, double x)
 		NULL);
 }
 
+/*
+ * set_item_x:
+ *
+ * chantes the y position of the idxth control point
+ */
 static void
 set_item_y (SheetView *sheet_view, int idx, double y)
 {
@@ -565,10 +667,15 @@ set_item_y (SheetView *sheet_view, int idx, double y)
 }
 
 /*
- * This hooks to the event for the handlebox
+ * control_point_handle_event
+ *
+ * Event handler for the control points.
+ *
+ * The index for this control point is retrieved from the Gtk user object_data
+ *
  */
 static int
-object_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
+control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 {
 	int idx;
 	GList *l;
@@ -711,6 +818,11 @@ object_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object
 	return TRUE;
 }
 
+/*
+ * object_event
+ *
+ * Event handler for a SheetObject
+ */
 static int
 object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 {
@@ -812,13 +924,19 @@ new_control_point (GnomeCanvasGroup *group, SheetObject *object, int idx, double
 		NULL);
 
 	gtk_signal_connect (GTK_OBJECT (item), "event",
-			    GTK_SIGNAL_FUNC (object_handle_event), object);
+			    GTK_SIGNAL_FUNC (control_point_handle_event),
+			    object);
 	
 	gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (idx));
 	
 	return item;
 }
 
+/*
+ * sheet_object_start_editing
+ *
+ * Makes an object editable (adds its control points).
+ */
 static void
 sheet_object_start_editing (SheetObject *object)
 {
@@ -842,6 +960,12 @@ sheet_object_start_editing (SheetObject *object)
 	}
 }
 
+/*
+ * sheet_object_make_current
+ *
+ * Makes the object the currently selected object and prepares it for
+ * user edition.
+ */
 void
 sheet_object_make_current (Sheet *sheet, SheetObject *object)
 {

@@ -476,6 +476,10 @@ function_call_with_values (Sheet *sheet, char *name, int argc, Value *values[], 
 	g_return_val_if_fail (name != NULL, NULL);
 
 	sym = symbol_lookup (name);
+	if (sym == NULL){
+		*error_string = "Function does not exist";
+		return NULL;
+	}
 	if (sym->type != SYMBOL_FUNCTION){
 		*error_string = "Calling non-function";
 		return NULL;

@@ -2195,10 +2195,10 @@ sheet_selection_cut (Sheet *sheet)
 }
 
 void
-sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags)
+sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags, guint32 time)
 {
 	SheetSelection *ss;
-	CellRegion     *content;
+
 	int             end_col, end_row, paste_width, paste_height;
 	
 	g_return_if_fail (sheet != NULL);
@@ -2230,7 +2230,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	end_row = dest_row + paste_height - 1;
 
 	clipboard_paste_region (content, sheet, dest_col, dest_row,
-				paste_width, paste_height, paste_flags);
+				paste_width, paste_height, paste_flags, time);
 	
 	sheet_cursor_set (sheet, dest_col, dest_row, end_col, end_row);
 	sheet_selection_reset_only (sheet);
