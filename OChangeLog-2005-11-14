@@ -1,3 +1,10 @@
+2000-03-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_set_text_simple) : Do NOT set the entered text
+	  when importing non string values.  There are still gotchas
+	  elsewhere. eg enter 90 format to current and edit box shows
+	  something that we can not parse.
+
 2000-04-23  Morten Welinder  <terra@diku.dk>
 
 	* src/history.c (history_menu_remove_items): Don't crash.

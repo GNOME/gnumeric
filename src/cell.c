@@ -514,24 +514,27 @@ cell_set_text_simple (Cell *cell, const char *text)
 				cell->value = value_new_float ((float_t)d);
 		}
 
+#if 0
 		if (cell->value == NULL) {
 			/* Check to see if it matches via current format */
-#if 0
 			if (format_match (text, float_t *v, char **format))
 			{
 			}
-#endif
 		}
+#endif
 
 		if (cell->value == NULL) {
 			/* It is text. Ignore leading single quotes */
 			cell->value = value_new_string (text[0] == '\'' ? text+1 : text);
+			cell->entered_text = string_get (text);
+		} else {
+			/* NOTE : do not set the entered text, we can not always parse
+			 * the result when we reimport later
+			 */
+			cell->entered_text = NULL;
 		}
-
 		cell_render_value (cell);
-		cell->entered_text = (cell->text != NULL)
-		    ? string_ref (cell->text)
-		    : string_get (text);
+
 	}
 }
 
