@@ -1,5 +1,19 @@
 2002-02-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* cell-sort.glade : Add `add' entry
+	* dialog-cell-sort.c (append_data) : code extracted from 
+	  load_model_data
+	(load_model_data) : use append_data
+	(value_to_global_range) : utility for cb_update_add_sensitivity
+	(cb_update_add_sensitivity) : update add button sensitivity
+	(cb_update_sensitivity) : call cb_update_add_sensitivity
+	(cb_ok_clicked) : adjust base (the tree widget now stores
+	  row and col numbers rather than offset)
+	(cb_add_clicked) : new
+	(dialog_init) : set up add-entry
+
+2002-02-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-analysis-tools.c (tool_set_focus) : the focus widget
 	  is the entry in the gnumeric-expr-entry widget
 	* dialog-cell-sort.c (dialog_set_focus) : the focus widget

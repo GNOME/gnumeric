@@ -132,18 +132,14 @@
 		    </child>
 
 		    <child>
-                      <widget class="GtkVBox" id="vbox1">
-			<property name="visible">True</property>
-			<property name="homogeneous">False</property>
-			<property name="spacing">0</property>
-
-			<child>
-			  <widget class="GtkAlignment" id="alignment1">
-			    <property name="visible">True</property>
-			    <property name="xalign">0</property>
-			    <property name="yalign">1</property>
-			    <property name="xscale">1</property>
-			    <property name="yscale">0</property>
+                      <widget class="GtkTable" id="cell_sort_buttons_table">
+                        <property name="border_width">5</property>
+            		<property name="homogeneous">no</property>
+            		<property name="row_spacing">4</property>
+            		<property name="column_spacing">4</property>
+            		<property name="n-rows">4</property>
+            		<property name="n-columns">2</property>
+            		<property name="visible">yes</property>
 
 			    <child>
 		              <widget class="GtkButton" id="up_button">
@@ -154,22 +150,17 @@
 				<property name="use_underline">True</property>
 				<property name="relief">GTK_RELIEF_NORMAL</property>
 			      </widget>
+	      		      <packing>
+				<property name="left_attach">0</property>
+				<property name="right_attach">1</property>
+				<property name="top_attach">0</property>
+				<property name="bottom_attach">1</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+	      		      </packing>
 			    </child>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">True</property>
-			    <property name="fill">True</property>
-			  </packing>
-			</child>
-
-			<child>
-			  <widget class="GtkAlignment" id="alignment2">
-			    <property name="visible">True</property>
-			    <property name="xalign">0</property>
-			    <property name="yalign">0</property>
-			    <property name="xscale">1</property>
-			    <property name="yscale">0</property>
 
 			    <child>
 			      <widget class="GtkButton" id="down_button">
@@ -180,48 +171,17 @@
 				<property name="use_underline">True</property>
 				<property name="relief">GTK_RELIEF_NORMAL</property>
 			      </widget>
+	      		      <packing>
+				<property name="left_attach">1</property>
+				<property name="right_attach">2</property>
+				<property name="top_attach">0</property>
+				<property name="bottom_attach">1</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+	      		      </packing>
 			    </child>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">True</property>
-			    <property name="fill">True</property>
-			  </packing>
-			</child>
-
-			<child>
-			  <widget class="GtkAlignment" id="alignment2">
-			    <property name="visible">True</property>
-			    <property name="xalign">0</property>
-			    <property name="yalign">1</property>
-			    <property name="xscale">1</property>
-			    <property name="yscale">0</property>
-
-			    <child>
-			      <widget class="GtkButton" id="add_button">
-				<property name="visible">True</property>
-				<property name="can_focus">True</property>
-				<property name="label">gtk-add</property>
-				<property name="use_stock">True</property>
-				<property name="use_underline">True</property>
-				<property name="relief">GTK_RELIEF_NORMAL</property>
-			      </widget>
-			    </child>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">True</property>
-			    <property name="fill">True</property>
-			  </packing>
-			</child>
-
-			<child>
-			  <widget class="GtkAlignment" id="alignment2">
-			    <property name="visible">True</property>
-			    <property name="xalign">0</property>
-			    <property name="yalign">0</property>
-			    <property name="xscale">1</property>
-			    <property name="yscale">0</property>
 
 			    <child>
 			      <widget class="GtkButton" id="delete_button">
@@ -232,23 +192,41 @@
 				<property name="use_underline">True</property>
 				<property name="relief">GTK_RELIEF_NORMAL</property>
 			      </widget>
+	      		      <packing>
+				<property name="left_attach">0</property>
+				<property name="right_attach">1</property>
+				<property name="top_attach">2</property>
+				<property name="bottom_attach">3</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+	      		      </packing>
 			    </child>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">True</property>
-			    <property name="fill">True</property>
-			  </packing>
-			</child>
 
-                        </widget>
-		        <packing>
-		     	  <property name="padding">0</property>
-			  <property name="expand">False</property>
-			  <property name="fill">False</property>
-		        </packing>
-                      </child>
+			    <child>
+			      <widget class="GtkButton" id="add_button">
+				<property name="visible">True</property>
+				<property name="can_focus">True</property>
+				<property name="label">gtk-add</property>
+				<property name="use_stock">True</property>
+				<property name="use_underline">True</property>
+				<property name="relief">GTK_RELIEF_NORMAL</property>
+			      </widget>
+	      		      <packing>
+				<property name="left_attach">1</property>
+				<property name="right_attach">2</property>
+				<property name="top_attach">2</property>
+				<property name="bottom_attach">3</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+	      		      </packing>
+			    </child>
 
+		        </widget>
+	              </child>
 		    </widget>
 	          </child>
 
@@ -292,7 +270,7 @@
 		    <property name="x_padding">0</property>
 		    <property name="y_padding">0</property>
 		    <property name="x_options">expand|fill</property>
-		    <property name="y_options">expand|fill</property>
+		    <property name="y_options">fill</property>
                   </packing>
                 </child>
 
@@ -353,7 +331,7 @@
 		    <property name="x_padding">0</property>
 		    <property name="y_padding">0</property>
 		    <property name="x_options">expand|fill</property>
-		    <property name="y_options">expand|fill</property>
+		    <property name="y_options">fill</property>
                   </packing>
                 </child>
 

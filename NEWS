@@ -20,6 +20,7 @@ Andreas:
 	* Port the plugin manager dialog to gnome2
 	* Improve numerical precision in single factor ANOVA
 	* Correct regression analysis tool (intercept == 0 case)
+	* Port and redesign sort dialog
 
 Jody:
 	* Initial port to gnome2.
