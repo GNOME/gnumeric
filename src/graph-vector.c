@@ -465,7 +465,7 @@ graph_vector_new (Sheet *sheet, Range const *r, char *name)
 	vector->dep.flags = graph_vector_get_dep_type ();
 	vector->dep.expression = expr_tree_new_constant (
 		value_new_cellrange_r (sheet, r));
-	dependent_link (&vector->dep, NULL, FALSE);
+	dependent_link (&vector->dep, NULL);
 
 	CORBA_exception_init (&ev);
 	switch (type) {
