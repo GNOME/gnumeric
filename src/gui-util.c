@@ -1317,17 +1317,17 @@ add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
 
 /**
  * gnm_setup_label_atk :
- * @label : #GtkLabel
+ * @label : #GtkWidget
  * @target : #GtkWidget
  *
  * A convenience routine to setup label-for/labeled-by relationship between a
  * pair of widgets
  **/
 void
-gnm_setup_label_atk (GtkLabel *label, GtkWidget *target)
+gnm_setup_label_atk (GtkWidget *label, GtkWidget *target)
 {
-	 add_atk_relation (GTK_WIDGET (label), target, ATK_RELATION_LABEL_FOR);
-	 add_atk_relation (target, GTK_WIDGET (label), ATK_RELATION_LABELLED_BY);
+	 add_atk_relation (label, target, ATK_RELATION_LABEL_FOR);
+	 add_atk_relation (target, label, ATK_RELATION_LABELLED_BY);
 }
 
 

@@ -1,5 +1,10 @@
 2003-09-10  Jody Goldberg <jody@gnome.org>
 
+	* src/gui-util.c (gnm_setup_label_atk) : weaken requirement to
+	  GtkWidget from GtkLabel for Manny.
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : bump to 1.1.91 just in case
 
 2003-09-10  Jody Goldberg <jody@gnome.org>

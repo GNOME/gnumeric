@@ -69,7 +69,7 @@ make_dim_editor (GtkTable *table, unsigned row, GtkWidget *editor,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), editor);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 
-	gnm_setup_label_atk (GTK_LABEL (label), editor);
+	gnm_setup_label_atk (label, editor);
 
 	return row + 1;
 }

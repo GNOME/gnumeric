@@ -1,5 +1,10 @@
 2003-09-10  Jody Goldberg <jody@gnome.org>
 
+	For: Christian Neumair <chris@gnome-de.org>
+	* format-selector.glade : Start adding ATK relations.
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.1.90
 
 2003-09-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>

@@ -124,7 +124,7 @@ GdkPixbuf *gnumeric_load_pixbuf (char const *name);
 
 GdkPixbuf *gnm_pixbuf_tile (const GdkPixbuf *src, int w, int h);
 
-void gnm_setup_label_atk (GtkLabel *label, GtkWidget *target);
+void gnm_setup_label_atk (GtkWidget *label, GtkWidget *target);
 
 int gnm_measure_string (PangoContext *context, const PangoFontDescription *font_desc, const char *str);
 
