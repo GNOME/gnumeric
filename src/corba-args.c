@@ -24,7 +24,8 @@ gnumeric_arg_parse (int argc, char *argv [])
 	CORBA_exception_init (&ev);
 	
 	gnome_CORBA_init_with_popt_table (
-		"gnumeric", VERSION, &argc, argv, gnumeric_popt_options, 0, &ctx, 0, &ev);
+		"gnumeric", VERSION, &argc, argv,
+		gnumeric_popt_options, 0, &ctx, GNORBA_INIT_SERVER_FUNC, &ev);
 
 	if (bonobo_init (gnome_CORBA_ORB (), NULL, NULL) == FALSE){
 		g_error ("Failure starting up Bonobo");
