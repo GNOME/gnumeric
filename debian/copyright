@@ -1,10 +1,38 @@
 This package was originally debianized by Vincent Renardias <vincent@waw.com> 
 on Sat, 26 Sep 1998 17:15:24 +0200.
 
-Gnumeric sources can be found at http://www.gnome.org/gnumeric/ .
+Gnumeric sources can now be found at http://www.gnome.org/gnumeric/ .
 
-Gnumeric is copyright 1998-2001 Miguel de Icaza and others; see
-the AUTHORS file in this directory and the notices in the source.
+Contributors to gnumeric are:
+	Miguel de Icaza, creator.
+	Jody Goldberg, maintainer.
+	Sean Atkinson, functions and X-Base importing.
+	Grandma Chema Celorio, Tester and sheet copy.
+	Frank Chiulli, OLE support.
+	Kenneth Christiansen, i18n, misc stuff.
+	Zbigniew Chyla, plugin system, i18n.
+	Tom Dyas, plugin support.
+	Gergo Érdi, Gnumeric hacker.
+	Andreas J. Guelzow, statistics stuff.
+	Jon K. Hellan, Gnumeric hacker.
+	Ross Ihaka, special functions.
+	Jukka-Pekka Iivonen, numerous functions and tools.
+	Jakub Jelinek, Gnumeric hacker.
+	Chris Lahey, number format engine.
+	Adrian Likins, documentation, debugging.
+	Takashi Matsuda, original text plugin.
+	Michael Meeks, Excel and OLE2 importing.
+	Federico M. Quintero, canvas support.
+	Mark Probst, Guile support.
+	Rasca, HTML, troff, LaTeX exporters.
+	Vincent Renardias, original CSV support, French localization.
+	Ariel Rios, Guile support.
+	Arturo Tena, OLE support.
+	Almer S. Tigelaar, Gnumeric hacker.
+	Bruno Unna, Excel bits.
+	Daniel Veillard, XML support.
+	Vladimir Vuksan, financial functions.
+	Morten Welinder, Gnumeric hacker.
 
 This is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free

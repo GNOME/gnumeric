@@ -2,12 +2,12 @@ Source: gnumeric
 Section: math
 Priority: optional
 Maintainer: Vincent Renardias <vincent@debian.org>
-Build-Depends: debhelper (>= 3.0), automake, autoconf, gettext, flex, cygnus-stylesheets, xml-i18n-tools (>= 0.8), libgnome-dev (>= 1.2.12-1), libgnomeprint-dev (>= 0.28), libglade-gnome0-dev (>= 0.16-2), libxml-dev (>= 1.8.14), libgal-dev (>= 0.8), libole2-dev (>= 0.2.3-1), libbonobo-dev (>= 1.0.7), python-dev
+Build-Depends: debhelper (>= 3.0), libtool, automake, autoconf (>= 2.52), gettext, flex, cygnus-stylesheets, xml-i18n-tools (>= 0.8), libgnome-dev (>= 1.2.12-1), libgnomeprint-dev (>= 0.28), libglade-gnome0-dev (>= 0.16-2), libxml-dev (>= 1.8.14), libgal-dev (>= 0.8), libole2-dev (>= 0.2.3-1), libbonobo-dev (>= 1.0.7), python-dev
 Standards-Version: 3.5.6
 
 Package: gnumeric
 Architecture: any
-Depends: ${shlibs:Depends}, python-base
+Depends: ${shlibs:Depends}, python-base, gsfonts-x11
 Suggests: gnumeric-doc
 Replaces: zh-trans (<< 0.8-1)
 Description: A GNOME spreadsheet application
@@ -30,53 +30,3 @@ Suggests: gnome-help
 Replaces: gnumeric (<< 0.68)
 Description: Documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (HTML) format.
-Source: gnumeric
-Section: math
-Priority: optional
-Maintainer: Vincent Renardias <vincent@debian.org>
-Build-Depends: debhelper (>= 3.0), autoconf, gettext, flex, cygnus-stylesheets, docbook-to-man, xml-i18n-tools (>= 0.8), libgnome-dev (>= 1.2.12-1), libgnomeprint-dev (>= 0.28), libglade-gnome0-dev (>= 0.16-2), libxml-dev (>= 1.8.14), libgal-dev (>= 0.8), libole2-dev (>= 0.2.3-1), libbonobo-dev (>= 1.0.7), python-dev
-Standards-Version: 3.5.6
-
-Package: gnumeric
-Architecture: any
-Depends: ${shlibs:Depends}, python-base
-Suggests: gnumeric-doc
-Replaces: zh-trans (<< 0.8-1)
-Description: A GNOME spreadsheet application
- Gnumeric is a powerful spreadsheet application that interoperates well
- with other spreadsheets. It comes with plugins that enable it to read and
- write commonly used spreadsheet file formats, including Excel (.xls),
- XBase (.dbf), CSV (.csv), GNU Oleo, SC, Applix and Lotus 123 and can export
- to LaTeX and HTML as well.
- .
- Gnumeric should be easy to use, in particular if you are familiar with
- Excel.
- .
- Gnumeric is a GNOME application. GNOME (GNU Network Object Model Environment) 
- is a user-friendly set of applications and desktop tools to be used in 
- conjunction with a window manager for the X Window System.
-
-Package: gnumeric-doc
-Architecture: all
-Suggests: gnome-help
-Replaces: gnumeric (<< 0.68)
-Description: Documentation for Gnumeric, the GNOME spreadsheet application
- The `Gnumeric's User Manual' in Gnome Help (HTML) format.
-Source: gnumeric
-Section: math
-Priority: optional
-Maintainer: Vincent Renardias <vincent@debian.org>
-Standards-Version: 2.4.0.0
-
-Package: gnumeric
-Architecture: any
-Depends: ${shlibs:Depends}
-Replaces: zh-trans (<< 0.8-1)
-Description: GNOME SpreadSheet
- The goal of this spreadsheet is to become as powerful as other
- spreadsheets on the market and do this cleanly and smartly.  We have
- to do this while being as compatible as possible with Excel.
- .
- If you are familiar with Excel, you should be ready to use
- Gnumeric.  We have tried to clone all of the good features and stay as
- compatible as possible with Excel in terms of usability.  
