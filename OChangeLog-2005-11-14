@@ -1,3 +1,9 @@
+2004-06-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=142700
+	* src/workbook-view.c (wb_view_sheet_focus): set current_sheet
+	  before adjusting focus.
+
 2004-06-15  Morten Welinder  <terra@gnome.org>
 
 	* src/history.c (history_item_label): Fix thinko.  Avoid double

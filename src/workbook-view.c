@@ -98,10 +98,11 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 		/* Make sure the sheet has been attached */
 		g_return_if_fail (sheet == NULL || sheet->index_in_wb >= 0);
 
+		wbv->current_sheet = sheet;
+
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 			wb_control_sheet_focus (control, sheet););
 
-		wbv->current_sheet = sheet;
 		wbv->current_sheet_view = sheet_get_view (sheet, wbv);
 		wb_view_selection_desc (wbv, TRUE, NULL);
 		wb_view_edit_line_set (wbv, NULL);
