@@ -23,6 +23,7 @@ gnumeric_io_context_new (WorkbookControl *wbc)
 	context = g_new (IOContext, 1);
 	context->impl = wbc;
 	context->error_info = NULL;
+	context->error_occurred = FALSE;
 
 	return context;
 }
@@ -43,6 +44,7 @@ gnumeric_io_error_system (IOContext *context,
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (context->impl != NULL);
 
+	context->error_occurred = TRUE;
 	gnumeric_error_system (COMMAND_CONTEXT (context->impl), message);
 }
 
@@ -53,6 +55,7 @@ gnumeric_io_error_read (IOContext *context,
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (context->impl != NULL);
 
+	context->error_occurred = TRUE;
 	gnumeric_error_read (COMMAND_CONTEXT (context->impl), message);
 }
 
@@ -63,7 +66,17 @@ gnumeric_io_error_save (IOContext *context,
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (context->impl != NULL);
 
+	context->error_occurred = TRUE;
 	gnumeric_error_save (COMMAND_CONTEXT (context->impl), message);
+}
+
+void
+gnumeric_io_error_unknown (IOContext *context)
+{
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (context->impl != NULL);
+
+	context->error_occurred = TRUE;
 }
 
 void
@@ -124,6 +137,22 @@ gnumeric_io_has_error_info (IOContext *context)
 	g_return_val_if_fail (context != NULL, FALSE);
 
 	return context->error_info != NULL;
+}
+
+void
+gnumeric_io_clear_error (IOContext *context)
+{
+	g_return_if_fail (context != NULL);
+
+	context->error_occurred = FALSE;
+	gnumeric_io_error_info_clear (context);
+}
+
+gboolean
+gnumeric_io_error_occurred (IOContext *context)
+{
+	return context->error_occurred ||
+	       gnumeric_io_has_error_info (context);
 }
 
 void

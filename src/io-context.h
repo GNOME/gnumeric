@@ -22,6 +22,7 @@ void       gnumeric_io_context_free       (IOContext *context);
 void       gnumeric_io_error_system       (IOContext *context, char const *msg);
 void       gnumeric_io_error_read         (IOContext *context, char const *msg);
 void       gnumeric_io_error_save         (IOContext *context, char const *msg);
+void       gnumeric_io_error_unknown      (IOContext *context);
 
 void       gnumeric_io_error_info_set     (IOContext *context, ErrorInfo *error);
 void       gnumeric_io_error_info_push    (IOContext *context, ErrorInfo *error);
@@ -29,6 +30,9 @@ ErrorInfo *gnumeric_io_error_info_pop     (IOContext *context);
 void       gnumeric_io_error_info_clear   (IOContext *context);
 void       gnumeric_io_error_info_display (IOContext *context);
 gboolean   gnumeric_io_has_error_info     (IOContext *context);
+
+void       gnumeric_io_clear_error        (IOContext *context);
+gboolean   gnumeric_io_error_occurred     (IOContext *context);
 
 void gnumeric_warning_unknown_font        (IOContext *context, char const *msg);
 void gnumeric_warning_unknown_feature     (IOContext *context, char const *msg);

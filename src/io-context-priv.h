@@ -10,6 +10,7 @@
 struct _IOContext {
 	WorkbookControl *impl;
 	ErrorInfo *error_info;
+	gboolean error_occurred;
 };
 
 #endif /* GNUMERIC_IO_CONTEXT_PRIV_H */
