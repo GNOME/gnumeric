@@ -1,3 +1,8 @@
+2004-01-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/GNOME_Gnumeric-gtk.xml: Add accelerators for bold, italic
+	and underline.
+
 2004-01-10  Jody Goldberg <jody@gnome.org>
 
 	* src/wbc-gtk.c : Display the progress bar

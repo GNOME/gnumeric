@@ -67,6 +67,9 @@
       <menuitem action="EditGoto"/>
       <menuitem action="EditRecalc"/>
       <placeholder name="ops"/>
+      <menuitem action="FontBold"/>
+      <menuitem action="FontItalic"/>
+      <menuitem action="FontUnderline"/>
     </menu>
     <menu name="View" action="MenuView">
       <menuitem action="ViewNew"/>
@@ -271,4 +274,7 @@
 
   <accelerator name="CopyRight" action="CopyRight"/>
   <accelerator name="CopyDown" action="CopyDown"/>
+  <accelerator name="FontBold" action="FontBold"/>
+  <accelerator name="FontItalic" action="FontItalic"/>
+  <accelerator name="FontUnderline" action="FontUnderline"/>
 </ui>
