@@ -89,7 +89,7 @@ static gboolean
 category_and_function_key_press (GtkCList *list, GdkEventKey *event,
 				 int *index)
 {
-	if (event->string && isalpha(*event->string)) {
+	if (event->string && isalpha ((unsigned char)(*event->string))) {
 		int i, first, next;
 
 		first = next = -1;

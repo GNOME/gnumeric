@@ -1,3 +1,8 @@
+2001-08-23  Morten Welinder  <terra@diku.dk>
+
+	* dialog-function-select.c (category_and_function_key_press): Fix
+ 	signedness problem.
+
 2001-08-23  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (graph_guru_create_vectors_from_range) : Use the
