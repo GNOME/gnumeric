@@ -283,6 +283,27 @@ save_original_values (SolverResults          *res,
 	res->original_value_of_obj_fn = value_get_as_float (cell->value);
 }
 
+/*
+ * Restores the original values of the input variables.
+ */
+static void
+restore_original_values (SolverResults *res)
+{
+  
+	GSList   *inputs = res->param->input_cells;
+	Cell     *cell;
+	int      i = 0;
+
+	while (inputs != NULL) {
+	        cell = (Cell *) inputs->data;
+
+		sheet_cell_set_value (cell,
+				      value_new_float(res->original_values[i]));
+		inputs = inputs->next;
+		i++;
+	}
+}
+
 /************************************************************************
  */
 
@@ -618,7 +639,8 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 		        alg->remove_fn (program);
 			return NULL;
 		}
-	}
+	} else
+	        restore_original_values (res);
 
 	alg->remove_fn (program);
 

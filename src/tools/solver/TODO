@@ -3,11 +3,9 @@
 1.1 For Gnumeric 1.2
 
 	* Fix bug: solver parameters when the sheet is duplicated.
-	* Fix bug: keep original values if solution was not found.
 	* Add `keep original values dialog'.
 	  - Add show iteration results list into it.
 	* Clean up dialog-solver.c.
-	* Speed up LP model generation.
 	* Fix constraint change button.
 	* Add `equal to' option for target cell.
 	* Add `in range' option for target cell.
@@ -17,6 +15,8 @@
 	  - Add status.
 	  - Add options used (Max/min, non-neg, int, scaling, max it/t).
 	  - Clean up.
+	* Program reporting:
+	  - Check that SHEET_MAX_COLS cannot be exceeded.
 	* MPS plugin:
 	  - Improve BOUNDS support.
 	* Reporting:
@@ -43,6 +43,7 @@
 	  - Add support for algorithm specific options.
 	* Add model checkings (check that a model is really LP or QP).
 	* Dual program report.
+	* Speed up LP model generation by implementing a parser.
 	* Speed up limits reporting.
 	* Add options:
 	  - Algorithm selection.

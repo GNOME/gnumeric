@@ -1,5 +1,7 @@
 2002-03-24  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c (restore_original_values) : Wrote.
+
 	* solver.c : Speed improvements.
 
 2002-03-23  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
