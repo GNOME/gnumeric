@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-14 15:21+0200\n"
-"PO-Revision-Date: 2003-06-14 15:25+0200\n"
+"POT-Creation-Date: 2003-06-15 16:34+0200\n"
+"PO-Revision-Date: 2003-06-15 16:37+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8752,19 +8752,19 @@ msgstr ""
 
 #: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:328
 #: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3231
-#: plugins/fn-stat/functions.c:5669 plugins/fn-stat/functions.c:5673
-#: plugins/fn-stat/functions.c:5677 plugins/fn-stat/functions.c:5715
-#: plugins/fn-stat/functions.c:5718 plugins/fn-stat/functions.c:5727
-#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5777
-#: plugins/fn-stat/functions.c:5780 plugins/fn-stat/functions.c:5783
-#: plugins/fn-stat/functions.c:5805 plugins/fn-stat/functions.c:5809
-#: plugins/fn-stat/functions.c:5813 plugins/fn-stat/functions.c:5817
-#: plugins/fn-stat/functions.c:5821 plugins/fn-stat/functions.c:5825
-#: plugins/fn-stat/functions.c:5871 plugins/fn-stat/functions.c:5881
-#: plugins/fn-stat/functions.c:5885 plugins/fn-stat/functions.c:5889
-#: plugins/fn-stat/functions.c:5893 plugins/fn-stat/functions.c:5922
-#: plugins/fn-stat/functions.c:5925 plugins/fn-stat/functions.c:5928
-#: plugins/fn-stat/functions.c:5931 plugins/fn-stat/functions.c:5947
+#: plugins/fn-stat/functions.c:5671 plugins/fn-stat/functions.c:5675
+#: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5717
+#: plugins/fn-stat/functions.c:5720 plugins/fn-stat/functions.c:5729
+#: plugins/fn-stat/functions.c:5765 plugins/fn-stat/functions.c:5779
+#: plugins/fn-stat/functions.c:5782 plugins/fn-stat/functions.c:5785
+#: plugins/fn-stat/functions.c:5807 plugins/fn-stat/functions.c:5811
+#: plugins/fn-stat/functions.c:5815 plugins/fn-stat/functions.c:5819
+#: plugins/fn-stat/functions.c:5823 plugins/fn-stat/functions.c:5827
+#: plugins/fn-stat/functions.c:5873 plugins/fn-stat/functions.c:5883
+#: plugins/fn-stat/functions.c:5887 plugins/fn-stat/functions.c:5891
+#: plugins/fn-stat/functions.c:5895 plugins/fn-stat/functions.c:5924
+#: plugins/fn-stat/functions.c:5927 plugins/fn-stat/functions.c:5930
+#: plugins/fn-stat/functions.c:5933 plugins/fn-stat/functions.c:5949
 #: src/func-builtin.c:134 src/func-builtin.c:140
 msgid "number,number,"
 msgstr "tal;tal;"
@@ -8786,9 +8786,9 @@ msgstr "tal;tal;"
 #: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3222
 #: plugins/fn-math/functions.c:3225 plugins/fn-math/functions.c:3228
 #: plugins/fn-math/functions.c:3241 plugins/fn-math/functions.c:3253
-#: plugins/fn-math/functions.c:3256 plugins/fn-stat/functions.c:5739
-#: plugins/fn-stat/functions.c:5742 plugins/fn-stat/functions.c:5760
-#: plugins/fn-stat/functions.c:5838 plugins/fn-string/functions.c:1128
+#: plugins/fn-math/functions.c:3256 plugins/fn-stat/functions.c:5741
+#: plugins/fn-stat/functions.c:5744 plugins/fn-stat/functions.c:5762
+#: plugins/fn-stat/functions.c:5840 plugins/fn-string/functions.c:1128
 #: plugins/fn-string/functions.c:1131
 msgid "number"
 msgstr "tal"
@@ -11069,7 +11069,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:2354 plugins/fn-math/functions.c:2374
 #: plugins/fn-math/functions.c:2467 plugins/fn-math/functions.c:2487
 #: plugins/fn-math/functions.c:2578 plugins/fn-math/functions.c:2598
-#: plugins/fn-stat/functions.c:2967 plugins/fn-stat/functions.c:2997
+#: plugins/fn-stat/functions.c:2970 plugins/fn-stat/functions.c:3000
 msgid "Array version not implemented!"
 msgstr "Fältversion inte implementerad!"
 
@@ -11336,7 +11336,7 @@ msgstr "område;kriterium"
 msgid "number,significance"
 msgstr "tal;signifikans"
 
-#: plugins/fn-math/functions.c:3144 plugins/fn-stat/functions.c:5853
+#: plugins/fn-math/functions.c:3144 plugins/fn-stat/functions.c:5855
 msgid "n,k"
 msgstr "n;k"
 
@@ -11383,8 +11383,8 @@ msgstr "område;område;"
 
 #: plugins/fn-math/functions.c:3244 plugins/fn-math/functions.c:3247
 #: plugins/fn-math/functions.c:3250 plugins/fn-math/functions.c:3266
-#: plugins/fn-stat/functions.c:5712 plugins/fn-stat/functions.c:5721
-#: plugins/fn-stat/functions.c:5844 plugins/fn-stat/functions.c:5900
+#: plugins/fn-stat/functions.c:5714 plugins/fn-stat/functions.c:5723
+#: plugins/fn-stat/functions.c:5846 plugins/fn-stat/functions.c:5902
 msgid "array1,array2"
 msgstr "vektor1;vektor2"
 
@@ -12299,7 +12299,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-random/functions.c:1097 plugins/fn-random/functions.c:1133
-#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5841
+#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5843
 msgid "p"
 msgstr "p"
 
@@ -12419,7 +12419,7 @@ msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
 "@DESCRIPTION=VAR estimates the variance of a sample of a population. To get "
-"the true variance of a complete population use @VARP.\n"
+"the true variance of a complete population use VARP.\n"
 "\n"
 "* VAR is also known as the N-1-variance. Under reasonable conditions, it is "
 "the maximum-likelihood estimator for the true variance.\n"
@@ -12435,7 +12435,7 @@ msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1; b2; ...)\n"
 "@DESCRIPTION=VAR uppskattar variansen hos ett stickprov av en population. "
-"För att få den exakta variansen av en komplett population, använd @VARP.\n"
+"För att få den exakta variansen av en komplett population, använd VARP.\n"
 "\n"
 "* VAR är även känd som N-1-variansen.  Under normala förhållanden är den en "
 "maximum-likelihood-uppskattning for variansen.\n"
@@ -12737,13 +12737,13 @@ msgstr ""
 #: plugins/fn-stat/functions.c:632
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
-"@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
+"@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
 "@DESCRIPTION=LOGNORMDIST function returns the lognormal distribution. @x is "
 "the value for which you want the distribution, @mean is the mean of the "
-"distribution, and @stdev is the standard deviation of the distribution.\n"
+"distribution, and @stddev is the standard deviation of the distribution.\n"
 "\n"
-"* If @stdev = 0 LOGNORMDIST returns #DIV/0! error.\n"
-"* If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! error.\n"
+"* If @stddev = 0 LOGNORMDIST returns #DIV/0! error.\n"
+"* If @x <= 0, @mean < 0 or @stddev < 0 LOGNORMDIST returns #NUM! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -12769,13 +12769,13 @@ msgstr ""
 #: plugins/fn-stat/functions.c:672
 msgid ""
 "@FUNCTION=LOGINV\n"
-"@SYNTAX=LOGINV(p,mean,stdev)\n"
+"@SYNTAX=LOGINV(p,mean,stddev)\n"
 "@DESCRIPTION=LOGINV function returns the inverse of the lognormal cumulative "
 "distribution. @p is the given probability corresponding to the normal "
-"distribution, @mean is the arithmetic mean of the distribution, and @stdev "
+"distribution, @mean is the arithmetic mean of the distribution, and @stddev "
 "is the standard deviation of the distribution.\n"
 "\n"
-"* If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error.\n"
+"* If @p < 0 or @p > 1 or @stddev <= 0 LOGINV returns #NUM! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13019,7 +13019,7 @@ msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
 "@DESCRIPTION=MIN returns the value of the element of the values passed that "
-"has the smallest value. With negative numbers considered smaller than "
+"has the smallest value, with negative numbers considered smaller than "
 "positive numbers.\n"
 "\n"
 "* This function is Excel compatible.\n"
@@ -13050,7 +13050,7 @@ msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
 "@DESCRIPTION=MAX returns the value of the element of the values passed that "
-"has the largest value. With negative numbers considered smaller than "
+"has the largest value, with negative numbers considered smaller than "
 "positive numbers.\n"
 "\n"
 "* This function is Excel compatible.\n"
@@ -13087,8 +13087,8 @@ msgid ""
 "a third moment.  The skewness of a symmetric (e.g., normal) distribution is "
 "zero.\n"
 "\n"
-"* Strings and empty cells are simply ignored.* If less than three numbers "
-"are given, SKEW returns #DIV/0! error.\n"
+"* Strings and empty cells are simply ignored.\n"
+"* If less than three numbers are given, SKEW returns #DIV/0! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13402,9 +13402,8 @@ msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
 "@DESCRIPTION=BETADIST function returns the cumulative beta distribution. @a "
-"is the optional lower bound of @x and @b is the optional upper bound of @x.  "
-"If @a is not given, BETADIST uses 0.\n"
-"\n"
+"is the optional lower bound of @x and @b is the optional upper bound of @x.\n"
+"* If @a is not given, BETADIST uses 0.\n"
 "* If @b is not given, BETADIST uses 1.\n"
 "* If @x < @a or @x > @b BETADIST returns #NUM! error.\n"
 "* If @alpha <= 0 or @beta <= 0, BETADIST returns #NUM! error.\n"
@@ -13420,8 +13419,8 @@ msgstr ""
 "@SYNTAX=BETADIST(x;alfa;beta[;a;b])\n"
 "@DESCRIPTION=Funktionen BETADIST returnerar den kumulativa betafördelningen. "
 "@a är den valfria lägre gränsen hos @x och @b är den valfria övre gränsen "
-"hos @x. Om @a inte är angivet använder BETADIST 0.\n"
-"\n"
+"hos @x.\n"
+"* Om @a inte är angivet använder BETADIST 0.\n"
 "* Om @b inte är angivet använder BETADIST 1.\n"
 "* Om @x < @a eller @x > @b returnerar BETADIST felvärdet #NUM!.\n"
 "* Om @alfa <= 0 eller @beta <= 0 returnerar BETADIST felvärdet #NUM!.\n"
@@ -13433,14 +13432,15 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: plugins/fn-stat/functions.c:1554
+#: plugins/fn-stat/functions.c:1555
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
 "@DESCRIPTION=BETAINV function returns the inverse of cumulative beta "
 "distribution.  @a is the optional lower bound of @x and @b is the optinal "
-"upper bound of @x.  If @a is not given, BETAINV uses 0.\n"
+"upper bound of @x.\n"
 "\n"
+"* If @a is not given, BETAINV uses 0.\n"
 "* If @b is not given, BETAINV uses 1.\n"
 "* If @p < 0 or @p > 1 BETAINV returns #NUM! error.\n"
 "* If @alpha <= 0 or @beta <= 0, BETAINV returns #NUM! error.\n"
@@ -13456,8 +13456,9 @@ msgstr ""
 "@SYNTAX=BETAINV(p;alfa;beta[;a;b])\n"
 "@DESCRIPTION=Funktionen BETAINV returnerar inversen på den kumulativa "
 "betafördelningen. @a är den valfria lägre gränsen på @x och @b är den "
-"valfria övre gränsen på @x. Om @a inte är angiven använder BETAINV 0.\n"
+"valfria övre gränsen på @x.\n"
 "\n"
+"* Om @a inte är angiven använder BETAINV 0.\n"
 "* Om @b inte är angiven använder BETAINV 1.\n"
 "* Om @p < 0 eller @p > 1 returnerar BETAINV felvärdet #NUM!.\n"
 "* Om @alfa <= 0 eller @beta <= 0 returnerar BETAINV felvärdet #NUM!.\n"
@@ -13469,7 +13470,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: plugins/fn-stat/functions.c:1595
+#: plugins/fn-stat/functions.c:1596
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -13500,7 +13501,7 @@ msgstr ""
 "TDIST(2;5;1) är lika med 0,050969739.\n"
 "@SEEALSO=TINV,TTEST"
 
-#: plugins/fn-stat/functions.c:1632
+#: plugins/fn-stat/functions.c:1633
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -13528,7 +13529,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
-#: plugins/fn-stat/functions.c:1666
+#: plugins/fn-stat/functions.c:1667
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -13560,7 +13561,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
-#: plugins/fn-stat/functions.c:1703
+#: plugins/fn-stat/functions.c:1704
 msgid ""
 "@FUNCTION=LANDAU\n"
 "@SYNTAX=LANDAU(x)\n"
@@ -13580,7 +13581,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLANDAU"
 
-#: plugins/fn-stat/functions.c:1845
+#: plugins/fn-stat/functions.c:1846
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -13610,18 +13611,18 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: plugins/fn-stat/functions.c:1881
+#: plugins/fn-stat/functions.c:1882
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
 "@DESCRIPTION=BINOMDIST function returns the binomial distribution. @n is the "
 "number of successes, @trials is the total number of independent trials, @p "
 "is the probability of success in trials, and @cumulative describes whether "
-"to return the sum of thebinomial function from 0 to @n.\n"
+"to return the sum of the binomial function from 0 to @n.\n"
 "\n"
 "* If @n or @trials are non-integer they are truncated.\n"
 "* If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error.\n"
-"* If @n > trials BINOMDIST returns #NUM! error.\n"
+"* If @n > @trials BINOMDIST returns #NUM! error.\n"
 "* If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -13648,7 +13649,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1927
+#: plugins/fn-stat/functions.c:1928
 msgid ""
 "@FUNCTION=CAUCHY\n"
 "@SYNTAX=CAUCHY(x,a,cum)\n"
@@ -13676,12 +13677,12 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDCAUCHY"
 
-#: plugins/fn-stat/functions.c:1967
+#: plugins/fn-stat/functions.c:1968
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
-"@DESCRIPTION=CRITBINOM function returns the smallest value for which "
-"thecumulative is greater than or equal to a given value. @n is the number of "
+"@DESCRIPTION=CRITBINOM function returns the smallest value for which the "
+"cumulative is greater than or equal to a given value. @n is the number of "
 "trials, @p is the probability of success in trials, and @alpha is the "
 "criterion value.\n"
 "\n"
@@ -13713,7 +13714,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
-#: plugins/fn-stat/functions.c:2007
+#: plugins/fn-stat/functions.c:2008
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -13743,7 +13744,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: plugins/fn-stat/functions.c:2042
+#: plugins/fn-stat/functions.c:2043
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -13777,7 +13778,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: plugins/fn-stat/functions.c:2081
+#: plugins/fn-stat/functions.c:2082
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -13811,12 +13812,12 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:2122
+#: plugins/fn-stat/functions.c:2123
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
-"@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
+"@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
 "@DESCRIPTION=STANDARDIZE function returns a normalized value. @x is the "
-"number to be normalized, @mean is the mean of the distribution, @stdev is "
+"number to be normalized, @mean is the mean of the distribution, @stddev is "
 "the standard deviation of the distribution.\n"
 "\n"
 "* If @stddev is 0 STANDARDIZE returns #DIV/0! error.\n"
@@ -13841,7 +13842,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:2160
+#: plugins/fn-stat/functions.c:2161
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -13882,15 +13883,15 @@ msgstr ""
 "WEIBULL(3;2;4;0) ger 0,213668559.\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:2206
+#: plugins/fn-stat/functions.c:2207
 msgid ""
 "@FUNCTION=NORMDIST\n"
-"@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
+"@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
 "@DESCRIPTION=NORMDIST function returns the normal cumulative distribution. "
 "@x is the value for which you want the distribution, @mean is the mean of "
-"the distribution, @stdev is the standard deviation.\n"
+"the distribution, @stddev is the standard deviation.\n"
 "\n"
-"* If @stdev is 0 NORMDIST returns #DIV/0! error.\n"
+"* If @stddev is 0 NORMDIST returns #DIV/0! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13912,16 +13913,16 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:2251
+#: plugins/fn-stat/functions.c:2252
 msgid ""
 "@FUNCTION=NORMINV\n"
-"@SYNTAX=NORMINV(p,mean,stdev)\n"
+"@SYNTAX=NORMINV(p,mean,stddev)\n"
 "@DESCRIPTION=NORMINV function returns the inverse of the normal cumulative "
 "distribution. @p is the given probability corresponding to the normal "
-"distribution, @mean is the arithmetic mean of the distribution, and @stdev "
+"distribution, @mean is the arithmetic mean of the distribution, and @stddev "
 "is the standard deviation of the distribution.\n"
 "\n"
-"* If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error.\n"
+"* If @p < 0 or @p > 1 or @stddev <= 0 NORMINV returns #NUM! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13945,13 +13946,13 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: plugins/fn-stat/functions.c:2289
+#: plugins/fn-stat/functions.c:2290
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
 "@DESCRIPTION=KURT returns an unbiased estimate of the kurtosis of a data "
 "set.\n"
-"Note, that this is only meaningful is the underlying distribution really has "
+"Note, that this is only meaningful if the underlying distribution really has "
 "a fourth moment.  The kurtosis is offset by three such that a normal "
 "distribution will have zero kurtosis.\n"
 "\n"
@@ -13987,7 +13988,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: plugins/fn-stat/functions.c:2328
+#: plugins/fn-stat/functions.c:2329
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -14019,7 +14020,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
-#: plugins/fn-stat/functions.c:2361
+#: plugins/fn-stat/functions.c:2362
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -14049,7 +14050,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: plugins/fn-stat/functions.c:2392
+#: plugins/fn-stat/functions.c:2393
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -14081,14 +14082,14 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: plugins/fn-stat/functions.c:2425
+#: plugins/fn-stat/functions.c:2426
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
 "@DESCRIPTION=FISHER function returns the Fisher transformation at @x.\n"
 "\n"
-"* If @x is not-number FISHER returns #VALUE! error.\n"
-"* If @x <= -1 or @x >= 1 FISHER returns #NUM! error.\n"
+"* If @x is not a number, FISHER returns #VALUE! error.\n"
+"* If @x <= -1 or @x >= 1, FISHER returns #NUM! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -14109,7 +14110,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: plugins/fn-stat/functions.c:2460
+#: plugins/fn-stat/functions.c:2461
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -14144,7 +14145,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: plugins/fn-stat/functions.c:2503
+#: plugins/fn-stat/functions.c:2504
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -14170,7 +14171,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: plugins/fn-stat/functions.c:2528
+#: plugins/fn-stat/functions.c:2529
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -14196,7 +14197,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: plugins/fn-stat/functions.c:2558
+#: plugins/fn-stat/functions.c:2559
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -14230,15 +14231,16 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"
 
-#: plugins/fn-stat/functions.c:2592
+#: plugins/fn-stat/functions.c:2593
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
-"@SYNTAX=SSMEDIAN(array,interval)\n"
+"@SYNTAX=SSMEDIAN(array[,interval)]\n"
 "@DESCRIPTION=The SSMEDIAN function returns the median for grouped data as "
 "commonly determined in the social sciences. The data points given in @array "
 "are assumed to be the result of grouping data into intervals of length "
 "@interval\n"
 "\n"
+"* If @interval is not given, SSMEDIAN uses 1.\n"
 "* If @array is empty, SSMEDIAN returns #NUM! error.\n"
 "* If @interval <= 0, SSMEDIAN returns #NUM! error.\n"
 "* SSMEDIAN does not check whether the data points are at least @interval "
@@ -14251,7 +14253,7 @@ msgid ""
 "@SEEALSO=MEDIAN"
 msgstr ""
 "@FUNCTION=SSMEDIAN\n"
-"@SYNTAX=SSMEDIAN(vektor;intervall)\n"
+"@SYNTAX=SSMEDIAN(vektor[;intervall])\n"
 "@DESCRIPTION=Funktionen SSMEDIAN returnerar medianen för grupperade data som "
 "normalt använt i socialvetenskaperna. Datapunkterna som ges i @vektor antas "
 "vara resultatet av att gruppera data i intervall av längden @intervall.\n"
@@ -14267,7 +14269,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MEDIAN"
 
-#: plugins/fn-stat/functions.c:2693
+#: plugins/fn-stat/functions.c:2696
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -14303,7 +14305,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:2740
+#: plugins/fn-stat/functions.c:2743
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -14339,7 +14341,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: plugins/fn-stat/functions.c:2811
+#: plugins/fn-stat/functions.c:2814
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -14377,7 +14379,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: plugins/fn-stat/functions.c:2903
+#: plugins/fn-stat/functions.c:2906
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -14413,7 +14415,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: plugins/fn-stat/functions.c:3058
+#: plugins/fn-stat/functions.c:3061
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -14448,7 +14450,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: plugins/fn-stat/functions.c:3139
+#: plugins/fn-stat/functions.c:3142
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -14484,7 +14486,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:3175
+#: plugins/fn-stat/functions.c:3178
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -14520,7 +14522,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:3211
+#: plugins/fn-stat/functions.c:3214
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -14556,7 +14558,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,MAXA"
 
-#: plugins/fn-stat/functions.c:3247
+#: plugins/fn-stat/functions.c:3250
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -14592,7 +14594,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: plugins/fn-stat/functions.c:3283
+#: plugins/fn-stat/functions.c:3286
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -14609,7 +14611,7 @@ msgid ""
 "11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
 "VARPA(A1:A5) equals 182.8904.\n"
 "\n"
-"@SEEALSO=VARP,VARP"
+"@SEEALSO=VARA,VARP"
 msgstr ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(tal1;tal2;...)\n"
@@ -14626,9 +14628,9 @@ msgstr ""
 "17,3; \"saknas\"; 25,9 och 40,1. Då är\n"
 "VARPA(A1:A5) lika med 182,8904.\n"
 "\n"
-"@SEEALSO=VARP,VARP"
+"@SEEALSO=VARA,VARP"
 
-#: plugins/fn-stat/functions.c:3319
+#: plugins/fn-stat/functions.c:3322
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -14664,7 +14666,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3355
+#: plugins/fn-stat/functions.c:3358
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -14700,7 +14702,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: plugins/fn-stat/functions.c:3391
+#: plugins/fn-stat/functions.c:3394
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -14741,7 +14743,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3501
+#: plugins/fn-stat/functions.c:3504
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -14777,7 +14779,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: plugins/fn-stat/functions.c:3550
+#: plugins/fn-stat/functions.c:3553
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -14827,7 +14829,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3606
+#: plugins/fn-stat/functions.c:3609
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -14859,7 +14861,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3656
+#: plugins/fn-stat/functions.c:3659
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -14921,7 +14923,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3824
+#: plugins/fn-stat/functions.c:3827
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -14954,7 +14956,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:3899
+#: plugins/fn-stat/functions.c:3902
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -14976,7 +14978,7 @@ msgid ""
 "regression sum of squares and the residual sum of squares.\n"
 "\n"
 "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
-"If @known_y's and @known_x's have unequal number of data points, LINEST "
+"* If @known_y's and @known_x's have unequal number of data points, LINEST "
 "returns #NUM! error.\n"
 "* If @const is FALSE, the line will be forced to go through the origin, i."
 "e., b will be zero. The default is TRUE.\n"
@@ -15006,7 +15008,7 @@ msgstr ""
 "kvadraterna och den resterande summan av kvadraterna.\n"
 "\n"
 "* Om @kända_x utelämnas används en vektor med {1; 2; 3; ...}.\n"
-"Om @kända_y och @kända_x har olika antal datapunkter returnerar LINEST "
+"* Om @kända_y och @kända_x har olika antal datapunkter returnerar LINEST "
 "felvärdet #NUM!.\n"
 "* Om @konstant är FALSKT kommer linjen att tvingas gå igenom origo; dvs b "
 "kommer att vara noll. Standardvärdet är SANT.\n"
@@ -15016,7 +15018,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:4171
+#: plugins/fn-stat/functions.c:4173
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -15082,7 +15084,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 
-#: plugins/fn-stat/functions.c:4447
+#: plugins/fn-stat/functions.c:4449
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -15143,10 +15145,10 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
-#: plugins/fn-stat/functions.c:4547
+#: plugins/fn-stat/functions.c:4549
 msgid ""
 "@FUNCTION=TREND\n"
-"@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
+"@SYNTAX=TREND(known_y's[,known_x's,new_x's])\n"
 "@DESCRIPTION=TREND function estimates future values of a given data set "
 "using the ``least squares'' line that best fit to your data. @known_y's is "
 "the y-values where y=mx+b and @known_x's contains the corresponding x-"
@@ -15167,7 +15169,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 "@FUNCTION=TREND\n"
-"@SYNTAX=TREND(kända_y[;kända_x];nya_x])\n"
+"@SYNTAX=TREND(kända_y[;kända_x;nya_x])\n"
 "@DESCRIPTION=Funktionen TREND beräknar framtida värden för en given "
 "datamängd genom att använda den \"minsta kvadrater\"-linje som bäst passar "
 "din data. @kända_y är de y-värden där y=mx+b och @kända_x innehåller "
@@ -15187,7 +15189,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:4659
+#: plugins/fn-stat/functions.c:4661
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -15215,7 +15217,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=LOGEST,GROWTH,TREND"
+"@SEEALSO=GROWTH,TREND"
 msgstr ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(kända_y[;kända_x;konstant;stat])\n"
@@ -15243,9 +15245,9 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=LOGEST,GROWTH,TREND"
+"@SEEALSO=GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4911
+#: plugins/fn-stat/functions.c:4913
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -15285,7 +15287,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:5023
+#: plugins/fn-stat/functions.c:5025
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -15325,7 +15327,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:5094
+#: plugins/fn-stat/functions.c:5096
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -15363,7 +15365,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5144
+#: plugins/fn-stat/functions.c:5146
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -15393,7 +15395,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5188
+#: plugins/fn-stat/functions.c:5190
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -15461,7 +15463,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:5288
+#: plugins/fn-stat/functions.c:5290
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -15480,7 +15482,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5417
+#: plugins/fn-stat/functions.c:5419
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -15510,7 +15512,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: plugins/fn-stat/functions.c:5453
+#: plugins/fn-stat/functions.c:5455
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -15532,7 +15534,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLOGISTIC"
 
-#: plugins/fn-stat/functions.c:5489
+#: plugins/fn-stat/functions.c:5491
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -15554,7 +15556,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: plugins/fn-stat/functions.c:5527
+#: plugins/fn-stat/functions.c:5529
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -15576,7 +15578,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: plugins/fn-stat/functions.c:5567
+#: plugins/fn-stat/functions.c:5569
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -15598,7 +15600,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: plugins/fn-stat/functions.c:5610
+#: plugins/fn-stat/functions.c:5612
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -15620,7 +15622,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: plugins/fn-stat/functions.c:5641
+#: plugins/fn-stat/functions.c:5643
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -15640,189 +15642,185 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 
-#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5944
+#: plugins/fn-stat/functions.c:5684 plugins/fn-stat/functions.c:5946
 msgid "k,p"
 msgstr "k;p"
 
-#: plugins/fn-stat/functions.c:5686
+#: plugins/fn-stat/functions.c:5688
 msgid "x,alpha,beta,a,b"
 msgstr "x;alfa;beta;a;b"
 
-#: plugins/fn-stat/functions.c:5689
+#: plugins/fn-stat/functions.c:5691
 msgid "p,alpha,beta,a,b"
 msgstr "p;alfa;beta;a;b"
 
-#: plugins/fn-stat/functions.c:5692
+#: plugins/fn-stat/functions.c:5694
 msgid "n,t,p,c"
 msgstr "n;t;p;c"
 
-#: plugins/fn-stat/functions.c:5696
+#: plugins/fn-stat/functions.c:5698
 msgid "x,a,cum"
 msgstr "x;a;kum"
 
-#: plugins/fn-stat/functions.c:5700
+#: plugins/fn-stat/functions.c:5702
 msgid "x,dof"
 msgstr "x;fri"
 
-#: plugins/fn-stat/functions.c:5703 plugins/fn-stat/functions.c:5909
+#: plugins/fn-stat/functions.c:5705 plugins/fn-stat/functions.c:5911
 msgid "p,dof"
 msgstr "p;fri"
 
-#: plugins/fn-stat/functions.c:5706
+#: plugins/fn-stat/functions.c:5708
 msgid "act_range,theo_range"
 msgstr "verkligt_område;teoretiskt_område"
 
-#: plugins/fn-stat/functions.c:5709
+#: plugins/fn-stat/functions.c:5711
 msgid "x,stddev,size"
 msgstr "x;stdav;storlek"
 
-#: plugins/fn-stat/functions.c:5724
+#: plugins/fn-stat/functions.c:5726
 msgid "trials,p,alpha"
 msgstr "försök;p;alfa"
 
-#: plugins/fn-stat/functions.c:5730
+#: plugins/fn-stat/functions.c:5732
 msgid "x,y,cumulative"
 msgstr "x;y;kumulativ"
 
-#: plugins/fn-stat/functions.c:5733
+#: plugins/fn-stat/functions.c:5735
 msgid "x,dof of num,dof of denom"
 msgstr "x;fri hos num;fri hos denom"
 
-#: plugins/fn-stat/functions.c:5736
+#: plugins/fn-stat/functions.c:5738
 msgid "p,dof of num,dof of denom"
 msgstr "p;fri hos num;fri hos denom"
 
-#: plugins/fn-stat/functions.c:5745
+#: plugins/fn-stat/functions.c:5747
 msgid "x,known y's,known x's"
 msgstr "x;kända y;kända x"
 
-#: plugins/fn-stat/functions.c:5748
+#: plugins/fn-stat/functions.c:5750
 msgid "data_array,bins_array"
 msgstr "datavektor;högvektor"
 
-#: plugins/fn-stat/functions.c:5751
+#: plugins/fn-stat/functions.c:5753
 msgid "arr1,arr2"
 msgstr "vektor1;vektor2"
 
-#: plugins/fn-stat/functions.c:5754
+#: plugins/fn-stat/functions.c:5756
 msgid "number,alpha,beta,cum"
 msgstr "tal;alfa;beta;kum"
 
-#: plugins/fn-stat/functions.c:5757
+#: plugins/fn-stat/functions.c:5759
 msgid "number,alpha,beta"
 msgstr "tal;alfa;beta"
 
-#: plugins/fn-stat/functions.c:5767 plugins/fn-stat/functions.c:5912
+#: plugins/fn-stat/functions.c:5769 plugins/fn-stat/functions.c:5914
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "kända_y;kända_x;nya_x;konst"
 
-#: plugins/fn-stat/functions.c:5774
+#: plugins/fn-stat/functions.c:5776
 msgid "x,n,M,N"
 msgstr "x;n;M;N"
 
-#: plugins/fn-stat/functions.c:5787 plugins/fn-stat/functions.c:5790
-#: plugins/fn-stat/functions.c:5802
+#: plugins/fn-stat/functions.c:5789 plugins/fn-stat/functions.c:5792
+#: plugins/fn-stat/functions.c:5804
 msgid "known_y's,known_x's,const,stat"
 msgstr "kända_y;kända_x;konst;stat"
 
-#: plugins/fn-stat/functions.c:5793 plugins/fn-stat/functions.c:5868
-#: plugins/fn-stat/functions.c:5897
+#: plugins/fn-stat/functions.c:5795 plugins/fn-stat/functions.c:5870
+#: plugins/fn-stat/functions.c:5899
 msgid "known_y's,known_x's"
 msgstr "kända_y;kända_x"
 
-#: plugins/fn-stat/functions.c:5796
+#: plugins/fn-stat/functions.c:5798 plugins/fn-stat/functions.c:5837
 msgid "p,mean,stddev"
 msgstr "p;medel;stdav"
 
-#: plugins/fn-stat/functions.c:5799
-msgid "x,meean,stdev"
+#: plugins/fn-stat/functions.c:5801
+msgid "x,meean,stddev"
 msgstr "x;medel;stdav"
 
-#: plugins/fn-stat/functions.c:5829
+#: plugins/fn-stat/functions.c:5831
 msgid "f,t,p"
 msgstr "f;t;p"
 
-#: plugins/fn-stat/functions.c:5832
-msgid "x,mean,stdev,cumulative"
+#: plugins/fn-stat/functions.c:5834
+msgid "x,mean,stddev,cumulative"
 msgstr "x;medel;stdav;kumulativ"
 
-#: plugins/fn-stat/functions.c:5835
-msgid "p,mean,stdev"
-msgstr "p;medel;stdav"
-
-#: plugins/fn-stat/functions.c:5847
+#: plugins/fn-stat/functions.c:5849
 msgid "array,k"
 msgstr "vektor,k"
 
-#: plugins/fn-stat/functions.c:5850
+#: plugins/fn-stat/functions.c:5852
 msgid "array,x,significance"
 msgstr "vektor;x;signifikans"
 
-#: plugins/fn-stat/functions.c:5856
+#: plugins/fn-stat/functions.c:5858
 msgid "x,mean,cumulative"
 msgstr "x;medel;kumulativ"
 
-#: plugins/fn-stat/functions.c:5859
+#: plugins/fn-stat/functions.c:5861
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x-område;sannolikhetsområde;undre_gräns;övre_gräns"
 
-#: plugins/fn-stat/functions.c:5862
+#: plugins/fn-stat/functions.c:5864
 msgid "array,quart"
 msgstr "vektor;fjärdedel"
 
-#: plugins/fn-stat/functions.c:5875
+#: plugins/fn-stat/functions.c:5877
 msgid "x,mean,stddev"
 msgstr "x;medel;stdav"
 
-#: plugins/fn-stat/functions.c:5878
+#: plugins/fn-stat/functions.c:5880
 msgid "array,interval"
 msgstr "vektor;intervall"
 
-#: plugins/fn-stat/functions.c:5906
+#: plugins/fn-stat/functions.c:5908
 msgid "x,dof,tails"
 msgstr "x;fri;svansar"
 
-#: plugins/fn-stat/functions.c:5915
+#: plugins/fn-stat/functions.c:5917
 msgid "ref,fraction"
 msgstr "ref;bråktal"
 
-#: plugins/fn-stat/functions.c:5919
+#: plugins/fn-stat/functions.c:5921
 msgid "array1,array2,tails,type"
 msgstr "vektor1;vektor2;svansar;typ"
 
-#: plugins/fn-stat/functions.c:5934
+#: plugins/fn-stat/functions.c:5936
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alfa;beta;kumulativ"
 
-#: plugins/fn-stat/functions.c:5937
+#: plugins/fn-stat/functions.c:5939
 msgid "ref,x"
 msgstr "ref;x"
 
-#: plugins/fn-stat/functions.c:5941 plugins/fn-stat/functions.c:5959
+#: plugins/fn-stat/functions.c:5943 plugins/fn-stat/functions.c:5961
 msgid "x,a,b"
 msgstr "x;a;b"
 
-#: plugins/fn-stat/functions.c:5950
+#: plugins/fn-stat/functions.c:5952
 msgid "x"
 msgstr "x"
 
-#: plugins/fn-stat/functions.c:5953 plugins/fn-stat/functions.c:5956
+#: plugins/fn-stat/functions.c:5955 plugins/fn-stat/functions.c:5958
 msgid "x,a"
 msgstr "x;a"
 
-#: plugins/fn-stat/functions.c:5962
+#: plugins/fn-stat/functions.c:5964
 msgid "x,sigma"
 msgstr "x;sigma"
 
-#: plugins/fn-stat/functions.c:5965
+#: plugins/fn-stat/functions.c:5967
 msgid "x,a,sigma"
 msgstr "x;a;sigma"
 
-#: plugins/fn-stat/functions.c:5971
+#: plugins/fn-stat/functions.c:5973
 msgid "function_nbr,ref,ref,"
 msgstr "funktionsnummer;ref;ref;"
 
-#: plugins/fn-stat/functions.c:5974
+#: plugins/fn-stat/functions.c:5976
 msgid "ref,ref,"
 msgstr "ref;ref;"
 
@@ -28600,188 +28598,188 @@ msgid "#RECALC!"
 msgstr "#OMKALK!"
 
 #. This is the default custom color
-#: src/widgets/color-palette.c:368
+#: src/widgets/color-palette.c:375
 msgid "custom"
 msgstr "anpassad"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
-#: src/widgets/color-palette.c:410
+#: src/widgets/color-palette.c:417
 msgid "Custom Color:"
 msgstr "Egen färg:"
 
-#: src/widgets/color-palette.c:418
+#: src/widgets/color-palette.c:425
 msgid "Choose Custom Color"
 msgstr "Välj egen färg"
 
-#: src/widgets/color-palette.c:551
+#: src/widgets/color-palette.c:558
 msgid "black"
 msgstr "svart"
 
-#: src/widgets/color-palette.c:552
+#: src/widgets/color-palette.c:559
 msgid "light brown"
 msgstr "ljusbrun"
 
-#: src/widgets/color-palette.c:553
+#: src/widgets/color-palette.c:560
 msgid "brown gold"
 msgstr "guldbrun"
 
-#: src/widgets/color-palette.c:554
+#: src/widgets/color-palette.c:561
 msgid "dark green #2"
 msgstr "mörkgrön #2"
 
-#: src/widgets/color-palette.c:555
+#: src/widgets/color-palette.c:562
 msgid "navy"
 msgstr "marinblå"
 
-#: src/widgets/color-palette.c:556 src/widgets/color-palette.c:612
+#: src/widgets/color-palette.c:563 src/widgets/color-palette.c:619
 msgid "dark blue"
 msgstr "börkblå"
 
-#: src/widgets/color-palette.c:557
+#: src/widgets/color-palette.c:564
 msgid "purple #2"
 msgstr "lila #2"
 
-#: src/widgets/color-palette.c:558
+#: src/widgets/color-palette.c:565
 msgid "very dark gray"
 msgstr "mycket mörk grå"
 
-#: src/widgets/color-palette.c:561 src/widgets/color-palette.c:617
+#: src/widgets/color-palette.c:568 src/widgets/color-palette.c:624
 msgid "dark red"
 msgstr "mörkröd"
 
-#: src/widgets/color-palette.c:562
+#: src/widgets/color-palette.c:569
 msgid "red-orange"
 msgstr "röd-orange"
 
-#: src/widgets/color-palette.c:563
+#: src/widgets/color-palette.c:570
 msgid "gold"
 msgstr "guld"
 
-#: src/widgets/color-palette.c:564
+#: src/widgets/color-palette.c:571
 msgid "dark green"
 msgstr "mörkgrön"
 
-#: src/widgets/color-palette.c:565 src/widgets/color-palette.c:618
+#: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
 msgid "dull blue"
 msgstr "blek blå"
 
-#: src/widgets/color-palette.c:566 src/widgets/color-palette.c:619
+#: src/widgets/color-palette.c:573 src/widgets/color-palette.c:626
 msgid "blue"
 msgstr "blå"
 
-#: src/widgets/color-palette.c:567
+#: src/widgets/color-palette.c:574
 msgid "dull purple"
 msgstr "blek lila"
 
-#: src/widgets/color-palette.c:568
+#: src/widgets/color-palette.c:575
 msgid "dark grey"
 msgstr "mörkgrön"
 
-#: src/widgets/color-palette.c:571
+#: src/widgets/color-palette.c:578
 msgid "red"
 msgstr "röd"
 
-#: src/widgets/color-palette.c:572
+#: src/widgets/color-palette.c:579
 msgid "orange"
 msgstr "orange"
 
-#: src/widgets/color-palette.c:573
+#: src/widgets/color-palette.c:580
 msgid "lime"
 msgstr "lime"
 
-#: src/widgets/color-palette.c:574
+#: src/widgets/color-palette.c:581
 msgid "dull green"
 msgstr "blek grön"
 
-#: src/widgets/color-palette.c:575
+#: src/widgets/color-palette.c:582
 msgid "dull blue #2"
 msgstr "blek blå #2"
 
-#: src/widgets/color-palette.c:576
+#: src/widgets/color-palette.c:583
 msgid "sky blue #2"
 msgstr "himmelsblå #2"
 
-#: src/widgets/color-palette.c:577 src/widgets/color-palette.c:616
+#: src/widgets/color-palette.c:584 src/widgets/color-palette.c:623
 msgid "purple"
 msgstr "lila"
 
-#: src/widgets/color-palette.c:578
+#: src/widgets/color-palette.c:585
 msgid "gray"
 msgstr "grå"
 
-#: src/widgets/color-palette.c:581 src/widgets/color-palette.c:613
+#: src/widgets/color-palette.c:588 src/widgets/color-palette.c:620
 msgid "magenta"
 msgstr "magenta"
 
-#: src/widgets/color-palette.c:582
+#: src/widgets/color-palette.c:589
 msgid "bright orange"
 msgstr "ljusorange"
 
-#: src/widgets/color-palette.c:583 src/widgets/color-palette.c:614
+#: src/widgets/color-palette.c:590 src/widgets/color-palette.c:621
 msgid "yellow"
 msgstr "gul"
 
-#: src/widgets/color-palette.c:584
+#: src/widgets/color-palette.c:591
 msgid "green"
 msgstr "grön"
 
-#: src/widgets/color-palette.c:585 src/widgets/color-palette.c:615
+#: src/widgets/color-palette.c:592 src/widgets/color-palette.c:622
 msgid "cyan"
 msgstr "cyan"
 
-#: src/widgets/color-palette.c:586
+#: src/widgets/color-palette.c:593
 msgid "bright blue"
 msgstr "ljusblå"
 
-#: src/widgets/color-palette.c:587 src/widgets/color-palette.c:604
+#: src/widgets/color-palette.c:594 src/widgets/color-palette.c:611
 msgid "red purple"
 msgstr "rödlila"
 
-#: src/widgets/color-palette.c:588
+#: src/widgets/color-palette.c:595
 msgid "light grey"
 msgstr "ljusgrå"
 
-#: src/widgets/color-palette.c:591 src/widgets/color-palette.c:608
+#: src/widgets/color-palette.c:598 src/widgets/color-palette.c:615
 msgid "pink"
 msgstr "rosa"
 
-#: src/widgets/color-palette.c:592
+#: src/widgets/color-palette.c:599
 msgid "light orange"
 msgstr "ljusorange"
 
-#: src/widgets/color-palette.c:593 src/widgets/color-palette.c:605
+#: src/widgets/color-palette.c:600 src/widgets/color-palette.c:612
 msgid "light yellow"
 msgstr "ljusgul"
 
-#: src/widgets/color-palette.c:594
+#: src/widgets/color-palette.c:601
 msgid "light green"
 msgstr "ljusgrön"
 
-#: src/widgets/color-palette.c:595
+#: src/widgets/color-palette.c:602
 msgid "light cyan"
 msgstr "ljuscyan"
 
-#: src/widgets/color-palette.c:596 src/widgets/color-palette.c:606
+#: src/widgets/color-palette.c:603 src/widgets/color-palette.c:613
 msgid "light blue"
 msgstr "ljusblå"
 
-#: src/widgets/color-palette.c:597 src/widgets/color-palette.c:610
+#: src/widgets/color-palette.c:604 src/widgets/color-palette.c:617
 msgid "light purple"
 msgstr "ljuslila"
 
-#: src/widgets/color-palette.c:598
+#: src/widgets/color-palette.c:605
 msgid "white"
 msgstr "vit"
 
-#: src/widgets/color-palette.c:603
+#: src/widgets/color-palette.c:610
 msgid "purplish blue"
 msgstr "lilaaktig blå"
 
-#: src/widgets/color-palette.c:607
+#: src/widgets/color-palette.c:614
 msgid "dark purple"
 msgstr "mörklila"
 
-#: src/widgets/color-palette.c:609
+#: src/widgets/color-palette.c:616
 msgid "sky blue"
 msgstr "himmelsblå"
 
@@ -29674,6 +29672,9 @@ msgstr "Fel vid sparande av fil"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "p,mean,stdev"
+#~ msgstr "p;medel;stdav"
 
 #~ msgid "serial_number,months"
 #~ msgstr "serienummer;månader"
