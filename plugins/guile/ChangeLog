@@ -1,3 +1,8 @@
+2000-09-09  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (scm_cell_expr):
+	s/cell->u.expression/cell->base.expression/
+
 2000-07-06  Michael Meeks  <michael@helixcode.com>
 
 	* plugin.c (scm_register_function): kill g_strdup leak.

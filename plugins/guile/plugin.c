@@ -353,7 +353,7 @@ scm_cell_expr (SCM scm)
 	if (cell == NULL || cell_has_expr (cell))
 		return SCM_EOL;
 
-	return expr_to_scm (cell->u.expression, cell_ref);
+	return expr_to_scm (cell->base.expression, cell_ref);
 }
 
 static SCM
@@ -411,7 +411,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 
 	function_def_count_args (fndef, &min, &max);
 
-	function = GPOINTER_TO_INT (function_def_get_user_data (fndef));
+	function = function_def_get_user_data (fndef);
 
 	for (i = min - 1; i >= 0; --i)
 		args = scm_cons (value_to_scm (argv [i], dummy), args);
