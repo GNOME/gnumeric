@@ -2990,6 +2990,7 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 	guint n_args;
 	GList *sheets, *sheets0;
 	char *old_num_locale, *old_msg_locale;
+	GtkWidget *toplevel;
 
 	/*
 	 * General informations about the Sheet.
@@ -3027,8 +3028,9 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 	xmlAddChild (cur, child);*/
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Geometry", NULL);
-	xml_set_value_int (child, "Width", wb->toplevel->allocation.width);
-	xml_set_value_int (child, "Height", wb->toplevel->allocation.height);
+	toplevel = workbook_get_toplevel (wb);
+	xml_set_value_int (child, "Width", toplevel->allocation.width);
+	xml_set_value_int (child, "Height", toplevel->allocation.height);
 	xmlAddChild (cur, child);
 
 	/*

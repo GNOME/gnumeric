@@ -33,7 +33,7 @@ file_history_cmd (GtkWidget *widget, Workbook *wb)
 	new_wb = workbook_read (workbook_command_context_gui (wb), filename);
 
 	if (new_wb != NULL) {
-		gtk_widget_show (new_wb->toplevel);
+		workbook_show (new_wb);
 
 		if (workbook_is_pristine (wb))
 			workbook_unref (wb);
@@ -45,7 +45,8 @@ file_history_cmd (GtkWidget *widget, Workbook *wb)
 static void
 file_history_cmd (BonoboUIHandler *uih, Workbook *wb, const char *path)
 {
-	BonoboUIHandlerMenuItem *item;
+#warning FIXME: broken.
+/*	BonoboUIHandlerMenuItem *item;
 	Workbook *new_wb;
 
 	item = bonobo_ui_handler_menu_fetch_one	(uih, path);
@@ -53,11 +54,11 @@ file_history_cmd (BonoboUIHandler *uih, Workbook *wb, const char *path)
 	new_wb = workbook_read (workbook_command_context_gui (wb), item->hint);
 
 	if (new_wb != NULL) {
-		gtk_widget_show (new_wb->toplevel);
+		workbook_show (new_wb);
 
 		if (workbook_is_pristine (wb))
 			workbook_unref (wb);
-	}
+	}*/
 }
 #endif
 

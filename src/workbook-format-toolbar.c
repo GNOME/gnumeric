@@ -586,23 +586,35 @@ workbook_create_format_toolbar (Workbook *wb)
 	GnomeDockItemBehavior behavior;
 	GList *l;
 	int i, len;
-	GnomeApp *app = GNOME_APP (wb->toplevel);
+	GnomeApp *app;
 
+#ifdef ENABLE_BONOBO
+	toolbar = gnumeric_toolbar_new (
+		workbook_format_toolbar,
+		bonobo_app_get_accel_group (BONOBO_APP (wb->toplevel)), wb);
+
+#warning FIXME; the toolbar should be bonoboized properly.
+	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
+			    FALSE, FALSE, 0);
+#else
 	g_return_val_if_fail (app != NULL, NULL);
 
 	toolbar = gnumeric_toolbar_new (workbook_format_toolbar,
 					app->accel_group, wb);
 
 	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-	if(!gnome_preferences_get_menubar_detachable())
+	if (!gnome_preferences_get_menubar_detachable ())
 		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
 
+	app = GNOME_APP (wb->toplevel);
 	gnome_app_add_toolbar (
 		app,
 		GTK_TOOLBAR (toolbar),
 		name,
 		behavior,
 		GNOME_DOCK_TOP, 2, 0, 0);
+
+#endif
 
 	/*
 	 * Create a font name selector

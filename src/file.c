@@ -668,7 +668,7 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 	gtk_window_set_transient_for (GTK_WINDOW (fsel), 
-				      GTK_WINDOW (wb->toplevel));
+				      GTK_WINDOW (workbook_get_toplevel (wb)));
 	if (wb->filename)
 		fs_set_filename (fsel, wb);
 
@@ -745,7 +745,8 @@ dialog_query_load_file (Workbook *wb)
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 
-	gtk_window_set_transient_for (GTK_WINDOW (fsel), GTK_WINDOW (wb->toplevel));
+	gtk_window_set_transient_for (GTK_WINDOW (fsel),
+				      GTK_WINDOW (workbook_get_toplevel (wb)));
 
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",

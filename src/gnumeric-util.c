@@ -16,6 +16,9 @@
 #include "style.h"
 #include "color.h"
 #include "workbook.h"
+#ifdef ENABLE_BONOBO
+#	include <bonobo.h>
+#endif
 
 void
 gnumeric_no_modify_array_notice (Workbook *wb)
@@ -48,11 +51,12 @@ static gint
 gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
 {
 	gint res;
-	GtkObject * const app = GTK_OBJECT (wb->toplevel);
+	GtkObject * const app = GTK_OBJECT (workbook_get_toplevel (wb));
 
-	if (GTK_WINDOW (dialog)->transient_parent != GTK_WINDOW (wb->toplevel))
+	if (GTK_WINDOW (dialog)->transient_parent !=
+	    GTK_WINDOW (workbook_get_toplevel (wb)))
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (wb->toplevel));
+					 GTK_WINDOW (workbook_get_toplevel (wb)));
 
 	gtk_object_ref (app);
 	res = gnome_dialog_run (dialog);
@@ -155,7 +159,7 @@ connect_to_parent_close (GnomeDialog *dialog, DialogRunInfo *run_info)
  * up here.
  */
 void
-gnumeric_dialog_show (GtkWidget *parent, GnomeDialog *dialog,
+gnumeric_dialog_show (GtkObject *parent, GnomeDialog *dialog,
 		      gboolean click_closes, gboolean close_with_parent)
 {
 	DialogRunInfo *run_info = NULL;
@@ -163,8 +167,14 @@ gnumeric_dialog_show (GtkWidget *parent, GnomeDialog *dialog,
 	g_return_if_fail(GNOME_IS_DIALOG(dialog));
 	if (parent) {
 		run_info = g_new0 (DialogRunInfo, 1);
+#if ENABLE_BONOBO
+		if (BONOBO_IS_APP (parent))
+			run_info->parent_toplevel = bonobo_app_get_window (BONOBO_APP (parent));
+		else
+#endif
 		run_info->parent_toplevel
 			= gtk_widget_get_toplevel (GTK_WIDGET (parent));
+
 		gnome_dialog_set_parent
 			(GNOME_DIALOG (dialog),
 			 GTK_WINDOW (run_info->parent_toplevel));
@@ -191,7 +201,7 @@ gnumeric_set_transient (CommandContext *context, GtkWindow *window)
 	if (IS_COMMAND_CONTEXT_GUI (context)) {
 		CommandContextGui *ccg = COMMAND_CONTEXT_GUI(context);
 		gtk_window_set_transient_for 
-			(window, GTK_WINDOW (ccg->wb->toplevel));
+			(window, GTK_WINDOW (workbook_get_toplevel (ccg->wb)));
 	}
 }
 
@@ -726,7 +736,7 @@ void
 gnumeric_non_modal_dialog (Workbook *wb, GtkDialog *dialog)
 {
 	gtk_window_set_transient_for (GTK_WINDOW (dialog),
-				      GTK_WINDOW (wb->toplevel));
+				      GTK_WINDOW (workbook_get_toplevel (wb)));
 	gtk_signal_connect (GTK_OBJECT (dialog), "key-press-event",
 			    (GtkSignalFunc) cb_non_modal_dialog_keypress, NULL);
 }

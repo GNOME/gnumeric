@@ -297,7 +297,7 @@ prepare_output (Workbook *wb, data_analysis_output_t *dao, const char *name)
 		dao->sheet = sheet_new (wb, name);
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet (wb, dao->sheet);
-		gtk_widget_show (wb->toplevel);
+		workbook_show (wb);
 	}
 }
 

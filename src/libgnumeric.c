@@ -203,7 +203,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 			if (new_book) {
 				opened_workbook = TRUE;
-				gtk_widget_show (new_book->toplevel);
+				workbook_show (new_book);
 			}
 
 			/* FIXME: we need to mask input events correctly here */
@@ -218,7 +218,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 #if 0
 		workbook_style_test (new_book);
 #endif
-		gtk_widget_show (new_book->toplevel);
+		workbook_show (new_book);
 	}
 	initial_worbook_open_complete = TRUE;
 

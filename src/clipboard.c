@@ -523,7 +523,7 @@ clipboard_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
 	pt->sheet->workbook->clipboard_paste_callback_data = new_pt;
 
 	/* Query the formats */
-	gtk_selection_convert (pt->sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
+	gtk_selection_convert (workbook_get_toplevel (pt->sheet->workbook), GDK_SELECTION_PRIMARY,
 			       gdk_atom_intern (TARGETS_ATOM_NAME, FALSE), time);
 }
 
@@ -721,10 +721,10 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 		 * request it in string format
 		 */
 		if (gnumeric_format)
-			gtk_selection_convert (wb->toplevel, GDK_SELECTION_PRIMARY,
+			gtk_selection_convert (workbook_get_toplevel (wb), GDK_SELECTION_PRIMARY,
 					       atom_gnumeric, time);
 		else
-			gtk_selection_convert (wb->toplevel, GDK_SELECTION_PRIMARY,
+			gtk_selection_convert (workbook_get_toplevel (wb), GDK_SELECTION_PRIMARY,
 					       GDK_SELECTION_TYPE_STRING, time);
 
 	} else if (sel->target == atom_gnumeric) { /* The data is the gnumeric specific XML interchange format */
@@ -872,27 +872,27 @@ void
 x_clipboard_bind_workbook (Workbook *wb)
 {
 	GtkTargetEntry targets;
+	GtkObject *toplevel = GTK_OBJECT (workbook_get_toplevel (wb));
 
 	wb->clipboard_paste_callback_data = NULL;
 
 	gtk_signal_connect (
-		GTK_OBJECT (wb->toplevel), "selection_clear_event",
+		toplevel, "selection_clear_event",
 		GTK_SIGNAL_FUNC (x_selection_clear), wb);
 
 	gtk_signal_connect (
-		GTK_OBJECT (wb->toplevel), "selection_received",
+		toplevel, "selection_received",
 		GTK_SIGNAL_FUNC (x_selection_received), wb);
 
 	gtk_signal_connect (
-		GTK_OBJECT (wb->toplevel), "selection_get",
+		toplevel, "selection_get",
 		GTK_SIGNAL_FUNC (x_selection_handler), NULL);
 
 	gtk_signal_connect (
-		GTK_OBJECT (wb->toplevel), "selection_get",
+		toplevel, "selection_get",
 		GTK_SIGNAL_FUNC (x_selection_handler), NULL);
 
-	gtk_selection_add_target (
-		wb->toplevel,
+	gtk_selection_add_target (GTK_WIDGET (toplevel),
 		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
 
 	/*
@@ -904,7 +904,7 @@ x_clipboard_bind_workbook (Workbook *wb)
 	targets.flags  = GTK_TARGET_SAME_WIDGET;
 	targets.info   = GNUMERIC_ATOM_INFO;
 
-	gtk_selection_add_targets (wb->toplevel,
+	gtk_selection_add_targets (workbook_get_toplevel (wb),
 				   GDK_SELECTION_PRIMARY,
 				   &targets, 1);
 }

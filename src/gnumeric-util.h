@@ -10,7 +10,7 @@ void       gnumeric_no_modify_array_notice (Workbook *wb);
 
 void       gnumeric_non_modal_dialog (Workbook *wb, GtkDialog *dialog);
 gint       gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog);
-void       gnumeric_dialog_show (GtkWidget *parent, GnomeDialog *dialog,
+void       gnumeric_dialog_show (GtkObject *parent, GnomeDialog *dialog,
 				 gboolean click_closes,
 				 gboolean close_with_parent);
 void       gnumeric_set_transient (CommandContext *context, GtkWindow *window);

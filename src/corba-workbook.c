@@ -176,9 +176,9 @@ Workbook_show (PortableServer_Servant servant, CORBA_boolean show_toplevel, CORB
 	Workbook *workbook = workbook_from_servant (servant);
 
 	if (show_toplevel)
-		gtk_widget_show (workbook->toplevel);
+		workbook_show (workbook);
 	else
-		gtk_widget_hide (workbook->toplevel);
+		workbook_hide (workbook);
 }
 
 static void

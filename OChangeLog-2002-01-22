@@ -1,3 +1,41 @@
+2000-09-06  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Check for bonobo 0.19
+
+	* src/workbook.c: Add/Modify -> Add\\Modify for now.
+
+	* src/workbook-view.c (workbook_view_set_title): use get_toplevel
+	(workbook_view_set_size): 
+
+	* src/workbook-private.h: add a main_vbox to put toolbars into.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar): 
+	hack for non-bonobized toolbars.
+
+	* src/workbook.c (workbook_show, workbook_hide, workbook_get_toplevel):
+	helper functions.
+
+	* src/corba-workbook.c (Workbook_show): use workbook show/hide
+	
+	* src/analysis-tools.c (prepare_output): ditto.
+
+	* src/main.c (gnumeric_main): ditto.
+
+	* src/clipboard.c (clipboard_paste, x_selection_received),
+	(x_clipboard_bind_workbook): ditto.
+
+	* src/application.c (application_set_selected_sheet): use
+	workbook_get_toplevel
+
+	* src/history.c (file_history_cmd): ditto.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_filenames_dropped): ditto.
+
+	* src/xml-io.c (xml_workbook_write): get_toplevel upd.
+
+	* src/workbook.c (new_cmd, file_open_cmd, file_import_cmd): show / hide.
+	(workbook_setup_edit_area): get_toplevel
+
 2000-09-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (change_zoom_in_current_sheet_cb) : handle new

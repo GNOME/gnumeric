@@ -123,7 +123,7 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 	 * fixing.  There can be multiple views.  We have no business at all
 	 * assigning focus to the first.
 	 */
-	gtk_window_set_focus (GTK_WINDOW (wb->toplevel),
+	gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)),
 			      SHEET_VIEW (sheet->sheet_views->data)->sheet_view);
 
 	/* Only the edit sheet has an edit cursor */
@@ -252,7 +252,8 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 			wb->priv->auto_complete = NULL;
 	} else
 		/* Give the focus to the edit line */
-		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), GTK_WIDGET (workbook_get_entry (wb)));
+		gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)),
+				      GTK_WIDGET (workbook_get_entry (wb)));
 
 
 	/* TODO : Should we reset like this ? probably */

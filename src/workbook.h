@@ -21,7 +21,7 @@ struct _Workbook {
 	GList *attributes;
 
 	/* { Start view specific elements */
-        GtkWidget  *toplevel;
+        GtkObject  *toplevel;
 	GtkWidget  *notebook;
 	/* } End view specific elements */
 
@@ -169,6 +169,9 @@ void        workbook_autosave_set        (Workbook *wb, int minutes, gboolean pr
 
 void     workbook_feedback_set        (Workbook *, MStyle *style);
 void     workbook_zoom_feedback_set   (Workbook *, double zoom_factor);
+void       workbook_show              (Workbook *);
+void       workbook_hide              (Workbook *);
+GtkWidget *workbook_get_toplevel      (Workbook *);
 
 /*
  * Hooks for CORBA bootstrap: they create the

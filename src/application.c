@@ -108,7 +108,7 @@ application_set_selected_sheet (Sheet *sheet)
 
 	application_clipboard_clear (FALSE);
 
-	if (gtk_selection_owner_set (sheet->workbook->toplevel,
+	if (gtk_selection_owner_set (workbook_get_toplevel (sheet->workbook),
 				     GDK_SELECTION_PRIMARY,
 				     GDK_CURRENT_TIME)) {
 		app.clipboard_sheet = sheet;

@@ -95,7 +95,7 @@ new_cmd (void)
 {
 	Workbook *wb;
 	wb = workbook_new_with_sheets (1);
-	gtk_widget_show (wb->toplevel);
+	workbook_show (wb);
 }
 
 static void
@@ -110,7 +110,7 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 	new_wb = workbook_read (workbook_command_context_gui (wb), fname);
 
 	if (new_wb != NULL) {
-		gtk_widget_show (new_wb->toplevel);
+		workbook_show (new_wb);
 
 		/*
 		 * If the current workbook is empty and untouched remove it
@@ -134,7 +134,7 @@ file_import_cmd (GtkWidget *widget, Workbook *wb)
 	new_wb = workbook_import (workbook_command_context_gui (wb), wb,
 				  fname);
 	if (new_wb) {
-		gtk_widget_show (new_wb->toplevel);
+		workbook_show (new_wb);
 
 		if (workbook_is_pristine (wb))
 			workbook_unref (wb);
@@ -282,7 +282,7 @@ static void
 workbook_do_destroy (Workbook *wb)
 {
 	gtk_signal_disconnect_by_func (
-		GTK_OBJECT (wb->toplevel),
+		GTK_OBJECT (workbook_get_toplevel (wb)),
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
 
 	wb->priv->during_destruction = TRUE;
@@ -331,7 +331,7 @@ workbook_do_destroy (Workbook *wb)
 		wb->auto_expr = NULL;
 	}
 
-	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
+	gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)), NULL);
 	/* Detach and destroy all sheets.  */
 	{
 		GList *sheets, *l;
@@ -353,11 +353,11 @@ workbook_do_destroy (Workbook *wb)
 			 * code for wb->toplvel will try to focus a
 			 * dead widget at the end of this routine)
 			 */
-			gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
+			gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)), NULL);
 
 			workbook_detach_sheet (sheet->workbook, sheet, TRUE);
 
-			gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
+			gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)), NULL);
 		}
 		g_list_free (sheets);
 	}
@@ -380,8 +380,12 @@ workbook_do_destroy (Workbook *wb)
 
 	workbook_private_delete (wb->priv);
 
+#ifdef ENABLE_BONOBO
+#warning FIXME we need to think about what this mess is about.
+#else
 	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
 		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
+#endif
 
 	if (initial_worbook_open_complete && workbook_count == 0) {
 		application_history_write_config ();
@@ -530,7 +534,7 @@ workbook_close_if_user_permits (Workbook *wb)
 			NULL);
 		cancel_button = g_list_last (GNOME_DIALOG (d)->buttons)->data;
 		gtk_widget_grab_focus (cancel_button);
-		gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (wb->toplevel));
+		gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (workbook_get_toplevel (wb)));
 
 		if (wb->filename)
 			s = g_strdup_printf (
@@ -1341,7 +1345,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SUBTREE(N_("N_ames"), workbook_menu_names),
 
-	GNOMEUIINFO_ITEM_NONE(N_("_Add/modify comment..."),
+	GNOMEUIINFO_ITEM_NONE(N_("_Add\\modify comment..."),
 		N_("Edit the selected cell's comment"),
 		&workbook_edit_comment),
 
@@ -1683,7 +1687,7 @@ workbook_focus_current_sheet (Workbook *wb)
 		g_return_val_if_fail (sheet_view != NULL, NULL);
 
 		/* This is silly.  We have no business assuming there is only 1 view */
-		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet_view->sheet_view);
+		gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)), sheet_view->sheet_view);
 
 		if (wb->current_sheet != sheet) {
 			gtk_signal_emit (GTK_OBJECT (wb), workbook_signals [SHEET_ENTERED], sheet);
@@ -1972,7 +1976,7 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_widget_set_usize (wb->priv->selection_descriptor, 100, 0);
 
 	/* Cancel */
-	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_CANCEL);
+	pix = gnome_stock_pixmap_widget_new (workbook_get_toplevel (wb), GNOME_STOCK_BUTTON_CANCEL);
 	gtk_container_add (GTK_CONTAINER (wb->priv->cancel_button), pix);
 	gtk_widget_set_sensitive (wb->priv->cancel_button, FALSE);
 	GTK_WIDGET_UNSET_FLAGS (wb->priv->cancel_button, GTK_CAN_FOCUS);
@@ -1980,7 +1984,7 @@ workbook_setup_edit_area (Workbook *wb)
 			    GTK_SIGNAL_FUNC (cancel_input), wb);
 
 	/* Ok */
-	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_OK);
+	pix = gnome_stock_pixmap_widget_new (workbook_get_toplevel (wb), GNOME_STOCK_BUTTON_OK);
 	gtk_container_add (GTK_CONTAINER (wb->priv->ok_button), pix);
 	gtk_widget_set_sensitive (wb->priv->ok_button, FALSE);
 	GTK_WIDGET_UNSET_FLAGS (wb->priv->ok_button, GTK_CAN_FOCUS);
@@ -2004,7 +2008,7 @@ workbook_setup_edit_area (Workbook *wb)
 	    style_debugging > 0 ||
 	    dependency_debugging > 0) {
 		deps_button = gtk_button_new ();
-		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_RED);
+		pix = gnome_stock_pixmap_widget_new (workbook_get_toplevel (wb), GNOME_STOCK_PIXMAP_BOOK_RED);
 		gtk_container_add (GTK_CONTAINER (deps_button), pix);
 		GTK_WIDGET_UNSET_FLAGS (deps_button, GTK_CAN_FOCUS);
 		gtk_signal_connect (GTK_OBJECT (deps_button), "clicked",
@@ -2201,8 +2205,12 @@ workbook_setup_status_area (Workbook *wb)
 	 */
 	wb->priv->appbar = GNOME_APPBAR (gnome_appbar_new (TRUE, TRUE,
 							   GNOME_PREFERENCES_USER));
+#ifdef ENABLE_BONOBO
+#warning FIXME: need to bonoboize the status bar.
+#else
 	gnome_app_set_statusbar (GNOME_APP (wb->toplevel),
 				 GTK_WIDGET (wb->priv->appbar));
+#endif
 
 	/*
 	 * Add the auto calc widgets.
@@ -2550,23 +2558,35 @@ workbook_create_standard_toobar (Workbook *wb)
 	const char *name = "StandardToolbar";
 	int i, len;
 	GtkWidget *toolbar, *zoom, *entry, *undo, *redo;
-	GnomeApp *app = GNOME_APP (wb->toplevel);
+	GnomeApp *app;
 
+#ifdef ENABLE_BONOBO
+#warning FIXME; the toolbar should be bonoboized properly.
+	toolbar = gnumeric_toolbar_new (
+		workbook_standard_toolbar,
+		bonobo_app_get_accel_group (BONOBO_APP (wb->toplevel)), wb);
+
+
+	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
+			    FALSE, FALSE, 0);
+#else
 	g_return_val_if_fail (app != NULL, NULL);
 
 	toolbar = gnumeric_toolbar_new (workbook_standard_toolbar,
 					app->accel_group, wb);
 
 	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-	if(!gnome_preferences_get_menubar_detachable())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
 
+	if (!gnome_preferences_get_menubar_detachable ())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+	app = GNOME_APP (wb->toplevel);
 	gnome_app_add_toolbar (
 		GNOME_APP (wb->toplevel),
 		GTK_TOOLBAR (toolbar),
 		name,
 		behavior,
 		GNOME_DOCK_TOP, 1, 0, 0);
+#endif
 
 	/* Zoom combo box */
 	zoom = wb->priv->zoom_entry = gtk_combo_text_new (FALSE);
@@ -2668,7 +2688,11 @@ workbook_new (void)
 	int        sx, sy;
 
 	wb = gtk_type_new (workbook_get_type ());
-	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
+#ifdef ENABLE_BONOBO
+	wb->toplevel  = GTK_OBJECT (bonobo_app_new ("Gnumeric", "Gnumeric"));
+#else
+	wb->toplevel  = GTK_OBJECT (gnome_app_new ("Gnumeric", "Gnumeric"));
+#endif
 	wb->priv->table     = gtk_table_new (0, 0, 0);
 
 	wb->autosave_minutes = 10;
@@ -2690,12 +2714,12 @@ workbook_new (void)
 	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
-	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->priv->table);
 
 	wb->priv->gui_context = command_context_gui_new (wb);
 	wb->priv->during_destruction = FALSE;
 
 #ifndef ENABLE_BONOBO
+	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->priv->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), workbook_menu);
 
@@ -2706,13 +2730,16 @@ workbook_new (void)
 	wb->priv->menu_item_redo	  = workbook_menu_edit[1].widget;
 	wb->priv->menu_item_paste_special = workbook_menu_edit[6].widget;
 #else
+	wb->priv->main_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (wb->priv->main_vbox);
+	gtk_box_pack_end (GTK_BOX (wb->priv->main_vbox), wb->priv->table, TRUE, TRUE, 0);
+	bonobo_app_set_contents (BONOBO_APP (wb->toplevel), wb->priv->main_vbox);
 	{
 		BonoboUIHandlerMenuItem *list;
 
 		wb->priv->workbook_views  = NULL;
 		wb->priv->persist_file    = NULL;
-		wb->priv->uih = bonobo_ui_handler_new ();
-		bonobo_ui_handler_set_app (wb->priv->uih, GNOME_APP (wb->toplevel));
+		wb->priv->uih = bonobo_ui_handler_new_for_app (BONOBO_APP (wb->toplevel));
 		bonobo_ui_handler_create_menubar (wb->priv->uih);
 		list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
 		bonobo_ui_handler_menu_add_list (wb->priv->uih, "/", list);
@@ -2739,11 +2766,11 @@ workbook_new (void)
 
 	/* Focus handling */
 	gtk_signal_connect_after (
-		GTK_OBJECT (wb->toplevel), "set_focus",
+		GTK_OBJECT (workbook_get_toplevel (wb)), "set_focus",
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
 
 	gtk_signal_connect_after (
-		GTK_OBJECT (wb->toplevel), "delete_event",
+		GTK_OBJECT (workbook_get_toplevel (wb)), "delete_event",
 		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
 
 #if 0
@@ -2762,13 +2789,13 @@ workbook_new (void)
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wb);
 
-	gtk_signal_connect (GTK_OBJECT (wb->toplevel), "button-release-event",
+	gtk_signal_connect (GTK_OBJECT (workbook_get_toplevel (wb)), "button-release-event",
 			    GTK_SIGNAL_FUNC (cb_scroll_wheel_support),
 			    wb);
 
 	/* Now that everything is initialized set the size */
 	/* TODO : use gnome-config ? */
-	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), TRUE, TRUE, FALSE);
+	gtk_window_set_policy (GTK_WINDOW (workbook_get_toplevel (wb)), TRUE, TRUE, FALSE);
 	sx = MAX (gdk_screen_width  () - 64, 600);
 	sy = MAX (gdk_screen_height () - 64, 200);
 	sx = (sx * 3) / 4;
@@ -3208,7 +3235,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	sheet_view = SHEET_VIEW (sheet->sheet_views->data);
 	gtk_signal_connect (
 		GTK_OBJECT (sheet_view->sheet_view), "destroy",
-		GTK_SIGNAL_FUNC (yield_focus), (gpointer) wb->toplevel);
+		GTK_SIGNAL_FUNC (yield_focus), (gpointer) workbook_get_toplevel (wb));
 
 	gtk_widget_show_all (t);
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
@@ -3885,4 +3912,26 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 					 r.start.col, r.start.row,
 					 r.end.col, r.end.row,
 					 handler, closure);
+}
+
+GtkWidget *
+workbook_get_toplevel (Workbook *wb)
+{
+#ifdef ENABLE_BONOBO
+	return GTK_WIDGET (bonobo_app_get_window (BONOBO_APP (wb->toplevel)));
+#else
+	return GTK_WIDGET (wb->toplevel);
+#endif
+}
+
+void
+workbook_show (Workbook *wb)
+{
+	gtk_widget_show (workbook_get_toplevel (wb));
+}
+
+void
+workbook_hide (Workbook *wb)
+{
+	gtk_widget_hide (workbook_get_toplevel (wb));
 }

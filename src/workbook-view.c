@@ -136,7 +136,8 @@ workbook_view_set_size (Workbook const * const wb,
 	int const screen_height = gdk_screen_height ();
 
 	/* FIXME : This should really be sizing the notebook */
-	gtk_window_set_default_size (GTK_WINDOW (wb->toplevel),
+	gtk_window_set_default_size (GTK_WINDOW (workbook_get_toplevel
+						 ((Workbook *) wb)),
 				     MIN (screen_width - 64, width_pixels),
 				     MIN (screen_height - 64, height_pixels));
 }
@@ -159,7 +160,8 @@ workbook_view_set_title (Workbook const * const wb,
 
 	full_title = g_strconcat (title, _(" : Gnumeric"), NULL);
 
- 	gtk_window_set_title (GTK_WINDOW (wb->toplevel), full_title);
+ 	gtk_window_set_title (GTK_WINDOW (
+		workbook_get_toplevel ((Workbook *) wb)), full_title);
 	g_free (full_title);
 }
 

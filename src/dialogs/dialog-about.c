@@ -72,7 +72,7 @@ dialog_about (Workbook *wb)
 	}
 #endif
 	/* Ensure we only pop up one copy per workbook */
-	about = gtk_object_get_data (GTK_OBJECT (wb->toplevel), ABOUT_KEY);
+	about = gtk_object_get_data (GTK_OBJECT (workbook_get_toplevel (wb)), ABOUT_KEY);
 	if (about && GNOME_IS_ABOUT (about)) {
 		gdk_window_raise (about->window);
 		return;
@@ -95,12 +95,13 @@ dialog_about (Workbook *wb)
 			    hbox, TRUE, FALSE, 0);
 	gtk_widget_show_all (hbox);
 
-	gtk_object_set_data (GTK_OBJECT (wb->toplevel), ABOUT_KEY, about);
+	gtk_object_set_data (GTK_OBJECT (workbook_get_toplevel (wb)), ABOUT_KEY, about);
 
 	gtk_signal_connect (
 		GTK_OBJECT (about), "close",
-		GTK_SIGNAL_FUNC (cb_closed), (gpointer) wb->toplevel);
+		GTK_SIGNAL_FUNC (cb_closed), (gpointer) workbook_get_toplevel (wb));
 
 	/* Close on click, close with parent */
-	gnumeric_dialog_show (wb->toplevel, GNOME_DIALOG (about), TRUE, TRUE);
+	gnumeric_dialog_show (workbook_get_toplevel (wb),
+			      GNOME_DIALOG (about), TRUE, TRUE);
 }

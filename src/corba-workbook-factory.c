@@ -47,7 +47,7 @@ WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char *filename
 	
 	context = command_context_corba (NULL);
 	workbook = workbook_read (context, filename);
-	gtk_widget_show (workbook->toplevel);
+	workbook_show (workbook);
 	gtk_object_unref (GTK_OBJECT (context));
 	
 	if (workbook)

@@ -917,7 +917,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 		        sheet_object_drop_file (gsheet->sheet_view->sheet, world_x, world_y,
 						tmp_list->data);
 		} else
-			gtk_widget_show (new_wb->toplevel);
+			workbook_show (new_wb);
 
 		tmp_list = tmp_list->next;
 	}
