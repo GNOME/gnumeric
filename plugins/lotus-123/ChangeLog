@@ -1,3 +1,20 @@
+2002-08-23  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (lotus_file_open) : handle the bogus error reporting here.
+	  and open and close the iconv handler.
+
+	* lotus.c (lotus_new_string) : new utility to handle encoding
+	  conversions.
+	(lotus_wk1_read) : use it here, and change the signature to take a
+	  LotusWk1Read state structure to make life easier.
+
+	* lotus-formula.c (lotus_parse_formula) : take a LotusWk1Read and use
+	  lotus_new_string.
+
+2002-08-23  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c (lotus_parse_formula) : enable bit-{and,or}
+
 2002-08-19  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (lotus_file_probe): Use glib's seek enum instead of the

@@ -6,15 +6,17 @@
  *    Michael Meeks <mmeeks@gnu.org>
  **/
 #include <gnumeric-config.h>
+#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "lotus.h"
 #include "lotus-types.h"
 
 #include <workbook-view.h>
-#include <file.h>
 #include <plugin.h>
 #include <plugin-util.h>
 #include <module-plugin-defs.h>
+#include <error-info.h>
+#include <gutils.h>
 
 #include <gsf/gsf-input.h>
 
@@ -44,7 +46,18 @@ void
 lotus_file_open (GnumFileOpener const *fo, IOContext *io_context,
                  WorkbookView *wb_view, GsfInput *input)
 {
-	Workbook *wb = wb_view_workbook (wb_view);
+	LotusWk1Read state;
 
-	lotus_read (io_context, wb, input);
+	state.input	 = input;
+	state.io_context = io_context;
+	state.wbv	 = wb_view;
+	state.wb	 = wb_view_workbook (wb_view);
+	state.sheet	 = NULL;
+	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
+
+	if (!lotus_wk1_read (&state))
+		gnumeric_io_error_string (io_context,
+			_("Error while reading lotus workbook."));
+
+	gnm_iconv_close (state.converter);
 }

@@ -11,10 +11,12 @@
 #define LOTUS_FORMULA_INTEGER     0x5
 #define LOTUS_FORMULA_STRING	  0x6
 
+#define LOTUS_FORMULA_LOGICAL_AND 0x14
+#define LOTUS_FORMULA_LOGICAL_OR  0x15
 #define LOTUS_FORMULA_UNARY_PLUS  0x17
 
 
-extern GnmExpr const *lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
-					   guint8 const *data, guint32 len);
+GnmExpr const *lotus_parse_formula (LotusWk1Read *state, guint32 col, guint32 row,
+				    guint8 const *data, guint32 len);
 
 #endif

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * lotus.c: Lotus 123 support for Gnumeric
  *
@@ -8,7 +9,6 @@
  *    Morten Welinder (terra@diku.dk)
  **/
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "lotus.h"
 #include "lotus-types.h"
@@ -21,7 +21,6 @@
 #include <value.h>
 #include <gutils.h>
 #include <plugin-util.h>
-#include <error-info.h>
 #include <parse-util.h>
 
 #include <gsf/gsf-input.h>
@@ -217,8 +216,8 @@ attach_sheet (Workbook *wb, int idx)
 }
 
 /* buf was old siag wb / sheet */
-static gboolean
-read_workbook (Workbook *wb, GsfInput *input)
+gboolean
+lotus_wk1_read (LotusWk1Read *state)
 {
 	gboolean result = TRUE;
 	int sheetidx = 0;
@@ -227,9 +226,9 @@ read_workbook (Workbook *wb, GsfInput *input)
 	guint16  fmt;	/* Format code of Lotus Cell */
 	record_t *r;
 
-	Sheet *sheet = attach_sheet (wb, sheetidx++);
+	state->sheet = attach_sheet (state->wb, sheetidx++);
 
-	r = record_new (input);
+	r = record_new (state->input);
 
 	while (record_next (r)) {
 		if (sheetidx == 0 && r->type != 0) {
@@ -240,11 +239,11 @@ read_workbook (Workbook *wb, GsfInput *input)
 		switch (r->type) {
 		case LOTUS_BOF :
 			if (sheetidx > 1)
-				sheet = attach_sheet (wb, sheetidx++);
+				state->sheet = attach_sheet (state->wb, sheetidx++);
 			break;
 
 		case LOTUS_EOF :
-			sheet = NULL;
+			state->sheet = NULL;
 			break;
 
 		case LOTUS_INTEGER : {
@@ -253,7 +252,7 @@ read_workbook (Workbook *wb, GsfInput *input)
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
 
-			cell = insert_value (sheet, i, j, v);
+			cell = insert_value (state->sheet, i, j, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -264,7 +263,7 @@ read_workbook (Workbook *wb, GsfInput *input)
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
 
-			cell = insert_value (sheet, i, j, v);
+			cell = insert_value (state->sheet, i, j, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -272,11 +271,11 @@ read_workbook (Workbook *wb, GsfInput *input)
 		case LOTUS_LABEL : {
 			/* one of '\', '''', '"', '^' */
 /*			gchar format_prefix = *(r->data + 5);*/
-			Value *v = value_new_string (r->data + 6); /* FIXME unsafe */
+			Value *v = lotus_new_string (state, r->data + 6);
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
-			cell = insert_value (sheet, i, j, v);
+			cell = insert_value (state->sheet, i, j, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -299,7 +298,7 @@ read_workbook (Workbook *wb, GsfInput *input)
 				if (r->len < (15+len))
 					break;
 
-				expr = lotus_parse_formula (sheet, col, row,
+				expr = lotus_parse_formula (state, col, row,
 					r->data + 15, len);
 
 				v = NULL;
@@ -311,12 +310,12 @@ read_workbook (Workbook *wb, GsfInput *input)
 					 */
 					if (LOTUS_STRING == record_peek_next (r)) {
 						record_next (r);
-						v = value_new_string (r->data + 5);
+						v = lotus_new_string (state, r->data + 5);
 					} else
 						v = value_new_error (NULL,  gnumeric_err_VALUE);
 				} else
 					v = value_new_float (gsf_le_get_double (r->data + 5));
-				cell = sheet_cell_fetch (sheet, col, row),
+				cell = sheet_cell_fetch (state->sheet, col, row),
 				cell_set_expr_and_value (cell, expr, v, TRUE);
 
 				gnm_expr_unref (expr);
@@ -334,10 +333,10 @@ read_workbook (Workbook *wb, GsfInput *input)
 	return result;
 }
 
-void
-lotus_read (IOContext *io_context, Workbook *wb, GsfInput *input)
+Value *
+lotus_new_string (LotusWk1Read *state, gchar const *data)
 {
-	if (!read_workbook (wb, input))
-		gnumeric_io_error_string (io_context,
-			_("Error while reading lotus workbook."));
+	return value_new_string_nocopy (
+		g_convert_with_iconv (data, -1, state->converter,
+				      NULL, NULL, NULL));
 }

@@ -60,10 +60,8 @@ const Wk1Func functions[] = {
 	{  2, 0x11, "GE",	wk1_binary_func, GNM_EXPR_OP_GTE },
 	{  2, 0x12, "LT",	wk1_binary_func, GNM_EXPR_OP_LT },
 	{  2, 0x13, "GT",	wk1_binary_func, GNM_EXPR_OP_GT },
-#if 0
-	{  2, 0x14, "bit-and",	BINOP, OPER_AND },
-	{  2, 0x15, "bit-or",	BINOP, OPER_OR },
-#endif
+	{  2, 0x14, "BITAND",	wk1_std_func, 0 },	/* from number theory */
+	{  2, 0x15, "BITOR",	wk1_std_func, 0 },	/* from number theory */
 	{  1, 0x16, "NOT",	wk1_std_func, 0 },
 	{  1, 0x17, "+",	wk1_unary_func, GNM_EXPR_OP_UNARY_PLUS },
 	{  0, 0x1F, "NA",	wk1_std_func, 0 },
@@ -397,7 +395,7 @@ get_cellref (CellRef *ref, guint8 const *dataa, guint8 const *datab,
 }
 
 GnmExpr const *
-lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
+lotus_parse_formula (LotusWk1Read *state, guint32 col, guint32 row,
 		     guint8 const *data, guint32 len)
 {
 	GnmExprList *stack = NULL;
@@ -443,7 +441,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 
 		case LOTUS_FORMULA_STRING:
 			parse_list_push_value (&stack,
-				value_new_string (data + i + 1));
+				lotus_new_string (state, data + i + 1));
 			i += 2 + strlen (data + i + 1);
 			break;
 
