@@ -18,7 +18,7 @@
 
 	* sc-fin.c (ScGetGDA, ScInterVDB, get_vdb): Imported from the OO
 	with some clean up.  The original code is quite a nightmare,
-	however, still a few identifiers are in German (Sprehen Sie
+	however, still a few identifiers are in German (Sprechen Sie
 	Deutch?).
 
 	* functions.c (gnumeric_vdb): Implemented.
