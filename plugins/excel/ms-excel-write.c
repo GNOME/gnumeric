@@ -3134,7 +3134,7 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 	/* We catch too large sheets during write check, but leave this in: */
 	maxrows = (sheet->wb->ver >= eBiffV8)
 		? eBiffMaxRowsV8 : eBiffMaxRowsV7;
-	g_assert (sheet->maxy > maxrows);
+	g_assert (sheet->maxy <= maxrows);
 
 	if (sheet->wb->ver >= eBiffV8) {
 		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,

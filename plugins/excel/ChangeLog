@@ -1,3 +1,7 @@
+2000-01-30  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (write_sheet): Correct the max no. of rows check.
+
 2000-01-29  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_workbook) : Correct the error
