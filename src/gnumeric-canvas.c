@@ -805,16 +805,26 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
 
-	for (tmp_list = names; tmp_list != NULL ; tmp_list = tmp_list->next) {
-		WorkbookView *new_wb = workbook_try_read (wbc, tmp_list->data);
+	for (tmp_list = names; tmp_list != NULL; tmp_list = tmp_list->next) {
+		gchar *file_name = tmp_list->data;
+		WorkbookView *new_wb = workbook_try_read (wbc, file_name);
 
-		if (new_wb == NULL) {
+		if (new_wb != NULL) {
+			(void) file_finish_load (wbc, new_wb);
+		} else {
 #ifdef ENABLE_BONOBO
 			/* If it wasn't a workbook, see if we have a control for it */
 			SheetObject *so = sheet_object_container_new_file (
-				gsheet->scg->sheet, tmp_list->data);
+			                  gsheet->scg->sheet, file_name);
 			if (so != NULL)
 				scg_mode_create_object (gsheet->scg, so);
+#else
+			gchar *msg;
+
+			msg = g_strdup_printf (_("File \"%s\" has unknown format."),
+			                       file_name);
+			gnumeric_error_read (COMMAND_CONTEXT (wbc), msg);
+			g_free (msg);
 #endif
 		}
 	}
