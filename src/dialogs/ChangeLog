@@ -1,6 +1,13 @@
 2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-random-generator.c (random_tool_update_sensitivity_cb,
+	random_tool_ok_clicked_cb): Added Gamma, Geometric, Laplace,
+	Logarithmic, Logistic, Lognormal, Pareto, Rayleigh, T, Type I
+	Gumbel, and Type II Gumbel.
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-random-generator.c (random_tool_update_sensitivity_cb,
 	random_tool_ok_clicked_cb): Added Beta, Cauchy, Chi-Squared, F,
 	and Weibull distributions.
 

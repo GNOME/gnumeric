@@ -124,11 +124,33 @@ static const DistributionStrs distribution_strs[] = {
 	  N_("Exponential"), N_("_b Value:"), NULL, FALSE },
 	{ FdistDistribution,
 	  N_("F"), N_("nu_1 Value:"), N_("nu_2 Value:"), FALSE },
+	{ GammaDistribution,
+	  N_("Gamma"), N_("_a Value:"), N_("_b Value:"), FALSE },
+	{ GeometricDistribution,
+	  N_("Geometric"), N_("_p Value:"), NULL, FALSE },
+	{ LaplaceDistribution,
+	  N_("Laplace"), N_("_a Value:"), NULL, FALSE },
+	{ LogarithmicDistribution,
+	  N_("Logarithmic"), N_("_p Value:"), NULL, FALSE },
+	{ LogisticDistribution,
+	  N_("Logistic"), N_("_a Value:"), NULL, FALSE },
+	{ LognormalDistribution,
+	  N_("Lognormal"), N_("_Zeta Value:"), N_("_Sigma"), FALSE },
 	{ NegativeBinomialDistribution,
 	  N_("Negative Binomial"), N_("_p Value:"),
 	  N_("N_umber of Failures"), FALSE },
+     	{ ParetoDistribution,
+	  N_("Pareto"), N_("_a Value:"), N_("_b Value:"), FALSE },
      	{ PoissonDistribution,
 	  N_("Poisson"), N_("_Lambda:"), NULL, FALSE },
+     	{ RayleighDistribution,
+	  N_("Rayleigh"), N_("_Sigma:"), NULL, FALSE },
+	{ TdistDistribution,
+	  N_("T"), N_("nu Value:"), NULL, FALSE },
+	{ Gumbel1Distribution,
+	  N_("Type I Gumbel"), N_("_a Value:"), N_("_b Value:"), FALSE },
+	{ Gumbel2Distribution,
+	  N_("Type II Gumbel"), N_("_a Value:"), N_("_b Value:"), FALSE },
 	{ WeibullDistribution,
 	  N_("Weibull"), N_("_a Value:"), N_("_b Value:"), FALSE },
         { 0, NULL, NULL, NULL, FALSE }
@@ -244,6 +266,24 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
 			a_float > 0.0;
 		break;
+	case LaplaceDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		break;
+	case RayleighDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		break;
+	case ParetoDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
+		break;
 	case FdistDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
@@ -252,7 +292,52 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
 			b_float > 0.0;
 		break;
+	case LognormalDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
+		break;
+	case TdistDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		break;
 	case WeibullDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
+		break;
+	case GeometricDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
+			p_val >= 0.0 && p_val <= 1;
+		break;
+	case LogarithmicDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
+			p_val >= 0.0 && p_val <= 1;
+		break;
+	case LogisticDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		break;
+	case GammaDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
+		break;
+	case Gumbel1Distribution:
+	case Gumbel2Distribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
 			a_float > 0.0;
@@ -455,9 +540,31 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.cauchy.a, TRUE);
 		break;
+	case LaplaceDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.laplace.a, TRUE);
+		break;
 	case ChisqDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.chisq.nu, TRUE);
+		break;
+	case LogarithmicDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.logarithmic.p, TRUE);
+		break;
+	case LogisticDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.logistic.a, TRUE);
+		break;
+	case RayleighDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.rayleigh.sigma, TRUE);
+		break;
+	case LognormalDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.lognormal.zeta, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.lognormal.sigma, TRUE);
 		break;
 	case FdistDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
@@ -465,11 +572,38 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
 				      &data->param.fdist.nu2, TRUE);
 		break;
+	case ParetoDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.pareto.a, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.pareto.b, TRUE);
+		break;
+	case TdistDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.tdist.nu, TRUE);
+		break;
 	case WeibullDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.weibull.a, TRUE);
 		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
 				      &data->param.weibull.b, TRUE);
+		break;
+	case GeometricDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.geometric.p, TRUE);
+		break;
+	case GammaDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.gamma.a, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.gamma.b, TRUE);
+		break;
+	case Gumbel1Distribution:
+	case Gumbel2Distribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.gumbel.a, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.gumbel.b, TRUE);
 		break;
 	case BinomialDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
