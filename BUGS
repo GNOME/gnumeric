@@ -58,7 +58,7 @@ Long term breakage
 
 - Fix "-geometry" handling:
   : When an anchor is specified (e.g., "+0+0"), the window manager should
-    not be asked to place the window.  (Under twx, for example, the user
+    not be asked to place the window.  (Under twm, for example, the user
     typically clicks to place the window.) This already works correctly
     under many window managers.
 
@@ -70,6 +70,9 @@ Long term breakage
     - Remove sheet.
     - Freeze panes.
     - Changing summary info.
+    - Analysis tools.
+    - Goal seek.
+    - Tabulate.
 
 - Misc.
     - Add an idle handler at start up to check for availablity of
