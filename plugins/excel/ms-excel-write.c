@@ -522,18 +522,72 @@ write_mergecells (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 }
 
 static void
+write_names (BiffPut *bp, ExcelWorkbook *wb)
+{
+	Workbook const *gwb = wb->gnum_wb;
+	GList const *names = gwb->names;
+	ExcelSheet *esheet;
+
+	g_return_if_fail (wb->ver <= MS_BIFF_V7);
+
+	/* excel crashes if this isn't here and the names have Ref3Ds */
+#warning TODO support references to external workbooks, and only spew sheets that are referenced in names.
+	if (names)
+		write_externsheets (bp, wb, NULL);
+	esheet = g_ptr_array_index (wb->sheets, 0);
+
+	for ( ; names != NULL ; names = names->next) {
+		guint8 data0 [20];
+		guint8 data1 [2];
+		guint16 len, name_len;
+
+		char *text;
+		NamedExpression const *expr_name = names->data;
+
+		g_return_if_fail (expr_name != NULL);
+
+		if (wb->ver >= MS_BIFF_V8)
+			ms_biff_put_var_next (bp, 0x200 | BIFF_NAME);
+		else
+			ms_biff_put_var_next (bp, BIFF_NAME);
+
+		text = expr_name->name->str;
+		name_len = strlen (expr_name->name->str);
+
+		memset (data0, 0, sizeof (data0));
+		MS_OLE_SET_GUINT8 (data0 + 3, name_len); /* name_len */
+
+		/* This code will only work for MS_BIFF_V7. */
+		ms_biff_put_var_write (bp, data0, 14);
+		biff_put_text (bp, text, wb->ver, FALSE, AS_PER_VER);
+		ms_biff_put_var_seekto (bp, 14 + name_len);
+		len = ms_excel_write_formula (bp, esheet,
+			expr_name->t.expr_tree, 0, 0, 0);
+
+		g_return_if_fail (len <= 0xffff);
+
+		ms_biff_put_var_seekto (bp, 4);
+		MS_OLE_SET_GUINT16 (data1, len);
+		ms_biff_put_var_write (bp, data1, 2);
+		ms_biff_put_commit (bp);
+
+		g_ptr_array_add (wb->names, g_strdup(text));
+	}
+}
+
+static void
 write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	guint8 *data;
-	const char *fsf = "The Free Software Foundation";
+	char const *team = "The Gnumeric Development Team";
 	guint8 pad [WRITEACCESS_LEN];
 
 	/* See: S59E1A.HTM */
-	g_assert (strlen (fsf) < WRITEACCESS_LEN);
+	g_assert (strlen (team) < WRITEACCESS_LEN);
 	memset (pad, ' ', sizeof pad);
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
-	biff_put_text (bp, fsf, ver, TRUE, AS_PER_VER);
-	ms_biff_put_var_write (bp, pad, WRITEACCESS_LEN - strlen (fsf) - 1);
+	biff_put_text (bp, team, ver, TRUE, AS_PER_VER);
+	ms_biff_put_var_write (bp, pad, WRITEACCESS_LEN - strlen (team) - 1);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D66.HTM */
@@ -559,6 +613,8 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 	data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);
 	MS_OLE_SET_GUINT16 (data, 0x0e);
 	ms_biff_put_commit (bp);
+
+	write_names (bp, wb);
 
 	/* See: S59E19.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_WINDOWPROTECT, 2);
@@ -2346,54 +2402,6 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 	}
 }
 
-static void
-write_names (BiffPut *bp, ExcelWorkbook *wb)
-{
-	Workbook* gwb = wb->gnum_wb;
-	GList *names = gwb->names;
-	ExcelSheet *esheet;
-
-	g_return_if_fail (wb->ver <= MS_BIFF_V7);
-
-	/* excel crashes if this isn't here and the names have Ref3Ds */
-	if (names)
-		write_externsheets (bp, wb, NULL);
-	esheet = g_ptr_array_index (wb->sheets, 0);
-
-	while (names) {
-		guint8 data[20];
-		guint32 len, name_len, i;
-
-		NamedExpression    *expr_name = names->data;
-		char *text;
-		g_return_if_fail (expr_name != NULL);
-
-		for (i = 0; i < 20; i++) data[i] = 0;
-
-		text = expr_name->name->str;
-		ms_biff_put_var_next (bp, 0x200|BIFF_NAME);
-		name_len = strlen (expr_name->name->str);
-		MS_OLE_SET_GUINT8 (data + 3, name_len); /* name_len */
-
-		/* This code will only work for MS_BIFF_V7. */
-		ms_biff_put_var_write (bp, data, 14);
-		biff_put_text (bp, text, wb->ver, FALSE, AS_PER_VER);
-		ms_biff_put_var_seekto (bp, 14 + name_len);
-		len = ms_excel_write_formula (bp, esheet,
-					      expr_name->t.expr_tree,
-					      0, 0, 0);
-		g_assert (len <= 0xffff);
-		ms_biff_put_var_seekto (bp, 4);
-		MS_OLE_SET_GUINT16 (data, len);
-		ms_biff_put_var_write (bp, data, 2);
-		ms_biff_put_commit (bp);
-
-		g_ptr_array_add (wb->names, g_strdup(text));
-
-		names = g_list_next(names);
-	}
-}
-
 int
 ms_excel_write_map_errcode (Value const * const v)
 {
@@ -3614,7 +3622,6 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 	wb->streamPos = biff_bof_write (bp, ver, MS_BIFF_TYPE_Workbook);
 
 	write_magic_interface (bp, ver);
-/*	write_externsheets    (bp, wb, NULL); */
 	write_bits            (bp, wb, ver);
 
 	write_fonts (bp, wb);
@@ -3631,7 +3638,6 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 		ms_formula_write_pre_data (bp, s, EXCEL_NAME, wb->ver);
 	}
 
-	write_names(bp, wb);
 	biff_eof_write (bp);
 	/* End of Workbook */
 

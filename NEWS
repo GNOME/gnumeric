@@ -16,8 +16,11 @@ Jody:
 	* Misc fixes for named expressions.
 	* Improve initial state for expr-entry.
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=72521
+	* Don't crash XL when exporting intersheet references.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=72459
-	* Fix the swaped export of unary plus and minus.
+	* Fix the swaped xls export of unary plus and minus.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=71172
 	* Keep the validated value around, and fix date/time validation.

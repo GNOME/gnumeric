@@ -348,13 +348,11 @@ write_string (PolishData *pd, const gchar *txt)
 }
 
 static void
-write_area (PolishData *pd, const CellRef *a, const CellRef *b)
+write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 {
 	guint8 data[24];
 
-	if (!a->sheet || !b->sheet ||
-	    (a->sheet == pd->sheet->gnum_sheet &&
-	     a->sheet == b->sheet)) {
+	if (a->sheet == NULL && b->sheet == NULL) {
 		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA));
 		if (pd->ver <= MS_BIFF_V7) {
 			write_cellref_v7 (pd, a,
@@ -385,7 +383,12 @@ write_area (PolishData *pd, const CellRef *a, const CellRef *b)
 
 		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA_3D));
 		if (pd->ver <= MS_BIFF_V7) {
-			MS_OLE_SET_GUINT16 (data, 0); /* FIXME ? */
+			/* FIXME for now assume that the external reference is in the same workbook */
+			if (pd->sheet->gnum_sheet->workbook != a->sheet->workbook) {
+				g_warning ("References to external workbooks are not supported yet");
+			}
+
+			MS_OLE_SET_GUINT16 (data, 0xffff);
 			MS_OLE_SET_GUINT32 (data +  2, 0x0);
 			MS_OLE_SET_GUINT32 (data +  6, 0x0);
 			MS_OLE_SET_GUINT16 (data + 10, first_idx);

@@ -356,7 +356,7 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 	/* read the header */
 	gboolean needs_free;
 	guint8 const * data =
-		ms_escher_get_data (state, h->offset, 36,
+		ms_escher_get_data (state, h->offset, 36 + common_header_len,
 				    common_header_len, &needs_free);
 	guint8 const  win_type	= MS_OLE_GET_GUINT8  (data + 0);
 	guint8 const  mac_type	= MS_OLE_GET_GUINT8  (data + 1);
@@ -652,7 +652,7 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free;
 	guint8 const *data =
-		ms_escher_get_data (state, h->offset, 8,
+		ms_escher_get_data (state, h->offset, 8 + common_header_len,
 				    common_header_len, &needs_free);
 
 	if (data != NULL) {
@@ -721,7 +721,7 @@ ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 	g_return_val_if_fail (state != NULL, TRUE);
 	g_return_val_if_fail (state->container != NULL, TRUE);
 
-	data = ms_escher_get_data (state, h->offset, MS_ANCHOR_SIZE,
+	data = ms_escher_get_data (state, h->offset, MS_ANCHOR_SIZE + common_header_len,
 				   common_header_len, &needs_free);
 	if (data) {
 		guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
