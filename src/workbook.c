@@ -1759,7 +1759,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 			++end_pos;
 		if (entry->text[end_pos] == '$')
 			++end_pos;
-		while (isdigit (entry->text[end_pos]))
+		while (isdigit ((unsigned char)entry->text[end_pos]))
 			++end_pos;
 
 		/*
@@ -1767,7 +1767,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 		 * starting from the end we just found
 		 */
 		start_pos = end_pos - 1;
-		while (start_pos >= 0 && isdigit (entry->text[start_pos]))
+		while (start_pos >= 0 && isdigit ((unsigned char)entry->text[start_pos]))
 			--start_pos;
 		if (start_pos == end_pos)
 			return TRUE;

@@ -2616,7 +2616,7 @@ sheet_name_quote (const char *name_unquoted)
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
-	needs_quotes = isdigit (*name_unquoted);
+	needs_quotes = isdigit ((unsigned char)*name_unquoted);
 	if (!needs_quotes)
 		for (i = 0, quotes_embedded = 0; name_unquoted [i]; i++) {
 			for (j = 0; quote_chr [j]; j++) 

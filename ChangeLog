@@ -1,3 +1,9 @@
+2000-06-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_name_quote) : cast to unsigned char for safety
+	  when using isdigit.
+	* src/workbook.c (wb_edit_key_pressed) : Ditto.
+
 2000-06-28  Arturo Tena <arturo@directmail.org>
  
 	* configure.in: Improve libole2 detection.
