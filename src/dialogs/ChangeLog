@@ -1,5 +1,10 @@
 2002-03-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-function-select.c (ialog_function_write_recent_func) : 
+	  fix warnings and depend for default value on gconf.
+
+2002-03-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-printer-setup.c : complete port to gnome2
 	* print.glade : add help button
 	* hf-config.glade : port to gnome2

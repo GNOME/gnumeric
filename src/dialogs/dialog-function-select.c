@@ -47,8 +47,6 @@
 #define FUNCTION_SELECT_GCONF_RECENT "/apps/gnumeric/functionselector/recentfunctions"
 #define FUNCTION_SELECT_GCONF_NUM_OF_RECENT "/apps/gnumeric/functionselector/num-of-recent"
 
-#define FUNCTION_SELECT_NUM_OF_RECENT 10
-
 typedef struct {
 	WorkbookControlGUI  *wbcg;
 	Workbook  *wb;
@@ -109,18 +107,19 @@ dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinitio
 	GSList *gconf_value_list = NULL;
 	GError *err = NULL;
 	gint limit;
+	guint ulimit;
 
 	client = gconf_client_get_default ();
 	
-	limit = gconf_client_get_int (client, FUNCTION_SELECT_GCONF_NUM_OF_RECENT, err);
-	if (err || limit <= 0) {
-		limit = FUNCTION_SELECT_NUM_OF_RECENT;
-	}
+	limit = gconf_client_get_int (client, FUNCTION_SELECT_GCONF_NUM_OF_RECENT, &err);
+	if (err)
+		limit = 0;
+	ulimit = (limit < 0) ? 0 : (guint)limit;
 
 	state->recent_funcs = g_slist_remove (state->recent_funcs, (gpointer) fd);
 	state->recent_funcs = g_slist_prepend (state->recent_funcs, (gpointer) fd);
 
-	while (g_slist_length (state->recent_funcs) > limit)
+	while (g_slist_length (state->recent_funcs) > ulimit)
 		state->recent_funcs = g_slist_remove (state->recent_funcs,
 						      g_slist_last (state->recent_funcs)->data);
 	
