@@ -1,7 +1,11 @@
-SUBDIRS = intl po macros idl plugins wizards src doc icons
+if BONOBO
+SUBDIRS = intl po macros idl plugins wizards src graph doc icons
+else
+SUBDIRS = intl po macros idl plugins         src       doc icons
+endif
 
 change_logs = \
-	OChangeLog
+	OOChangeLog OChangeLog ChangeLog
 
 EXTRA_DIST = \
 	gnumeric.desktop.in README HACKING gnumeric.spec.in 	\

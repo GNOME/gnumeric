@@ -1,3 +1,8 @@
+2000-03-13  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : Make wizards and graph subdirs contingent on bonobo.
+	  distribute all the ChangeLogs.
+
 2000-03-12  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/dialog-cell-sort.c : Remove clip_range_to_finite.
