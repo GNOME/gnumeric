@@ -1,5 +1,15 @@
 1999-12-19  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/ranges.h (range_overlap): macroify.
+
+	* src/ranges.c (range_overlap): comment out.
+
+	* src/eval.c (cell_queue_recalc): inline
+	(cell_queue_deps_recalc): implement.
+	(cell_queue_deps_for_recalc): implement.
+
+1999-12-19  Michael Meeks  <mmeeks@gnu.org>
+
 	* configure.in: bump version to 0.46.
 
 	* src/dialogs/dialog-printer-setup.c (fill_hf): use print_hf_same,
