@@ -2685,6 +2685,12 @@ sheet_destroy (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
+	/* Clear the controls first, before we potentialy update */
+	SHEET_FOREACH_CONTROL (sheet, control,
+		gtk_object_unref (GTK_OBJECT (control)););
+	g_list_free (sheet->s_controls);
+	sheet->s_controls = NULL;
+
 	auto_expr_timer_clear (sheet->priv);
 
 	if (sheet->print_info) {
@@ -2712,11 +2718,6 @@ sheet_destroy (Sheet *sheet)
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
 	g_free (sheet->solver_parameters.input_entry_str);
-
-	SHEET_FOREACH_CONTROL (sheet, control,
-		gtk_object_unref (GTK_OBJECT (control)););
-	g_list_free (sheet->s_controls);
-	sheet->s_controls = NULL;
 
 	sheet_deps_destroy (sheet);
 	expr_name_invalidate_refs_sheet (sheet);

@@ -667,8 +667,10 @@ workbook_expr_unrelocate (Workbook *wb, GSList *info)
  * @wb: the workbook to modify
  * @info : the descriptor record for what is being moved where.
  *
- * Returns a list of the locations and expressions that were changed
- * outside of the region.
+ * Returns a list of the locations and expressions that were changed outside of
+ * the region.
+ * NOTE : Does not queue the changed elemenents or their recursive dependents
+ * for recalc
  */
 GSList *
 workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
@@ -707,7 +709,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 					     rwinfo.u.relocate.pos.eval.col,
 					     rwinfo.u.relocate.pos.eval.row)) {
 				ExprRelocateStorage *tmp =
-				    g_new (ExprRelocateStorage, 1);
+					g_new (ExprRelocateStorage, 1);
 
 				tmp->dep_type = t;
 				if (t != DEPENDENT_CELL)
@@ -719,7 +721,6 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 				undo_info = g_slist_prepend (undo_info, tmp);
 			}
 
-#warning Check to see what recalc assumptions the callers make
 			dependent_set_expr (dep, newtree);
 			expr_tree_unref (newtree);
 		}
@@ -1019,7 +1020,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 
 	sheet_index = workbook_sheet_index_get (wb, sheet);
 
-	/* If not exiting, adjust the focus for any views whose focuse sheet
+	/* If not exiting, adjust the focus for any views whose focus sheet
 	 * was the one being deleted, and prepare to recalc */
 	if (!wb->priv->during_destruction) {
 		if (sheet_index > 0)

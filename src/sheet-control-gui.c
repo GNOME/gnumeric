@@ -694,10 +694,8 @@ scg_destroy (GtkObject *object)
 	if (scg->table)
 		gtk_object_unref (GTK_OBJECT (scg->table));
 	
-	/* FIXME : Should we be pedantic and
-	 * 1) clear the control points
-	 * 2) remove ourselves from the sheets list of views ?
-	 */
+	/* FIXME : Should we be pedantic and clear the control points ? */
+
 	if (GTK_OBJECT_CLASS (scg_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (scg_parent_class)->destroy)(object);
 }

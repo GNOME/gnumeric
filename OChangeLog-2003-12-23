@@ -1,3 +1,18 @@
+2001-05-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/solver-lp.c : Use cell_eval in place of cell_eval_content.
+
+	* src/eval.c (cb_range_hash_invalidate) : disconnect the list from the
+	  dep record while removing its contents.  We don't want to modify the
+	  list while we are walking it.  This is also an optimization in that
+	  we don't need to modify the list.
+	(cb_single_hash_invalidate) : ditto.
+	(depsingle_dtor) : Ensure that the list has already been cleared.
+	(deprange_dtor) : ditto.
+	(dependent_unlink) : short circuit if we are destroying.
+
+	* src/sheet.c (sheet_destroy) : Clear the controls first.
+
 2001-05-31  Karl Eichwalder  <ke@suse.de>
 
 	* src/GNOME_Gnumeric.xml: Fix 2 typos.
@@ -12,7 +27,7 @@
 
 2001-05-30  Jody Goldberg <jgoldberg@home.com>
 
-	* src/value.c (value_new_error_err) : change name from
+	* src/value.c (value_error_set_pos) : change name from
 	  value_new_error_err since we don't actually new anything.
 
 	* src/position.c (eval_pos_init_cellref) : delete broken crap.

@@ -93,7 +93,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 	        cell = (Cell *) inputs->data;
 
 		sheet_cell_set_value (cell, value_new_float (0.0), NULL);
-		cell_eval_content (target);
+		cell_eval (target);
 		init_value = value_get_as_float (target->value);
 
 		current = constraints;
@@ -101,7 +101,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 		while (current != NULL) {
 		        c = (SolverConstraint *)current->data;
 			lhs = sheet_cell_fetch (sheet, c->lhs.col, c->lhs.row);
-			cell_eval_content (lhs);
+			cell_eval (lhs);
 			table[i + n**table_cols] =
 			        -value_get_as_float (lhs->value);
 			current = current->next;
@@ -109,14 +109,14 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 		}
 
 		sheet_cell_set_value (cell, value_new_float (1.0), NULL);
-		cell_eval_content (target);
+		cell_eval (target);
 		value = value_get_as_float (target->value);
 		current = constraints;
 		n = 1;
 		while (current != NULL) {
 		        c = (SolverConstraint *)current->data;
 			lhs = sheet_cell_fetch (sheet, c->lhs.col, c->lhs.row);
-			cell_eval_content (lhs);
+			cell_eval (lhs);
 			table[i + n * *table_cols] +=
 			        value_get_as_float (lhs->value);
 			current = current->next;
@@ -329,7 +329,7 @@ solver_simplex (WorkbookControl *wbc, Sheet *sheet, gnum_float **init_tbl,
 	}
 	cell = sheet_cell_fetch (sheet, param->target_cell->pos.col,
 				param->target_cell->pos.row);
-	cell_eval_content (cell);
+	cell_eval (cell);
 
 	/* FIXME: Do not do the following loop.  Instead recalculate
 	 * everything that depends on the input variables (the list of
@@ -340,7 +340,7 @@ solver_simplex (WorkbookControl *wbc, Sheet *sheet, gnum_float **init_tbl,
 	        SolverConstraint *c = (SolverConstraint *)constraints->data;
 
 		cell = sheet_cell_fetch (sheet, c->lhs.col, c->lhs.row);
-		cell_eval_content (cell);
+		cell_eval (cell);
 		constraints = constraints->next;
 	}
 
@@ -357,11 +357,11 @@ get_lp_coeff (Cell *target, Cell *change)
         gnum_float x0, x1;
 
 	sheet_cell_set_value (change, value_new_float (0.0), NULL);
-	cell_eval_content (target);
+	cell_eval (target);
 	x0 = value_get_as_float (target->value);
 
 	sheet_cell_set_value (change, value_new_float (1.0), NULL);
-	cell_eval_content (target);
+	cell_eval (target);
 	x1 = value_get_as_float (target->value);
 
 	return x1 - x0;
@@ -613,13 +613,13 @@ solver_affine_scaling (WorkbookControl *wbc, Sheet *sheet,
 	        SolverConstraint *c = (SolverConstraint *)constraints->data;
 
 		cell = sheet_cell_fetch (sheet, c->lhs.col, c->lhs.row);
-		cell_eval_content (cell);
+		cell_eval (cell);
 		constraints = constraints->next;
 	}
 
 	cell = sheet_cell_get (sheet, param->target_cell->pos.col,
 			       param->target_cell->pos.row);
-	cell_eval_content (cell);
+	cell_eval (cell);
 
 	g_free (A);
 	g_free (b);
@@ -794,7 +794,7 @@ solver_branch_and_bound (WorkbookControl *wbc, Sheet *sheet, gnum_float **opt_x)
 			else
 			        cell = sheet_cell_fetch (sheet, c->lhs.col,
 							 c->lhs.row + i);
-			cell_eval_content (cell);
+			cell_eval (cell);
 		}
 	skip:
 		constraints = constraints->next;
@@ -802,7 +802,7 @@ solver_branch_and_bound (WorkbookControl *wbc, Sheet *sheet, gnum_float **opt_x)
 
 	cell = sheet_cell_get (sheet, param->target_cell->pos.col,
 			       param->target_cell->pos.row);
-	cell_eval_content (cell);
+	cell_eval (cell);
 
 	g_free (A);
 	g_free (b);

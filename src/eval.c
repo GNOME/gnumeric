@@ -413,8 +413,7 @@ drop_range_dep (DependencyData *deps, Dependent *dependent,
 static void
 depsingle_dtor (DependencySingle *single)
 {
-	g_list_free (single->dependent_list);
-	single->dependent_list = NULL;	/* poison it */
+	g_return_if_fail (single->dependent_list == NULL);
 	g_free (single);
 }
 
@@ -438,7 +437,6 @@ deprange_init (DependencyRange *range, CellPos const *pos,
 static void
 deprange_dtor (DependencyRange *deprange)
 {
-	g_list_free (deprange->dependent_list);
 	deprange->dependent_list = NULL;	/* poison it */
 	g_free (deprange);
 }
@@ -638,7 +636,9 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 		g_return_if_fail (dep->flags & DEPENDENT_IN_EXPR_LIST);
 		g_return_if_fail (IS_SHEET (dep->sheet));
 
-		handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
+		/* see note in do_deps_destroy */
+		if (dep->sheet->deps != NULL)
+			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 
 		wb = dep->sheet->workbook;
 		wb->dependents = g_list_remove (wb->dependents, dep);
@@ -977,21 +977,23 @@ static void
 cb_range_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 {
 	ExprRewriteInfo const *rwinfo = closure;
-	GList             *l;
 	DependencyRange   *deprange = value;
+	GList *deps = deprange->dependent_list;
+	GList *ptr = deps;
 	Dependent *dependent;
 
+	deprange->dependent_list = NULL;
 	if (rwinfo->type == EXPR_REWRITE_SHEET) {
 		Sheet const *target = rwinfo->u.sheet;
-		for (l = deprange->dependent_list; l; l = l->next) {
-			dependent = l->data;
+		for (; ptr != NULL; ptr = ptr->next) {
+			dependent = ptr->data;
 			if (dependent->sheet != target)
 				invalidate_refs (dependent, rwinfo);
 		}
 	} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
 		Workbook const *target = rwinfo->u.workbook;
-		for (l = deprange->dependent_list; l; l = l->next) {
-			dependent = l->data;
+		for (; ptr != NULL; ptr = ptr->next) {
+			dependent = ptr->data;
 			if (dependent->sheet->workbook != target)
 				invalidate_refs (dependent, rwinfo);
 		}
@@ -999,6 +1001,7 @@ cb_range_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 		g_assert_not_reached ();
 	}
 
+	g_list_free (deps);
 	deprange_dtor (deprange);
 }
 
@@ -1010,21 +1013,23 @@ static void
 cb_single_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 {
 	ExprRewriteInfo const *rwinfo = closure;
-	GList             *l;
-	DependencySingle  *depsingle = value;
+	DependencySingle *depsingle = value;
+	GList *deps = depsingle->dependent_list;
+	GList *ptr = deps;
 	Dependent *dependent;
 
+	depsingle->dependent_list = NULL;
 	if (rwinfo->type == EXPR_REWRITE_SHEET) {
 		Sheet const *target = rwinfo->u.sheet;
-		for (l = depsingle->dependent_list; l; l = l->next) {
-			dependent = l->data;
+		for (; ptr != NULL; ptr = ptr->next) {
+			dependent = ptr->data;
 			if (dependent->sheet != target)
 				invalidate_refs (dependent, rwinfo);
 		}
 	} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
 		Workbook const *target = rwinfo->u.workbook;
-		for (l = depsingle->dependent_list; l; l = l->next) {
-			dependent = l->data;
+		for (; ptr != NULL; ptr = ptr->next) {
+			dependent = ptr->data;
 			if (dependent->sheet->workbook != target)
 				invalidate_refs (dependent, rwinfo);
 		}
@@ -1032,6 +1037,7 @@ cb_single_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 		g_assert_not_reached ();
 	}
 
+	g_list_free (deps);
 	depsingle_dtor (depsingle);
 }
 
@@ -1051,6 +1057,13 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 	if (deps == NULL)
 		return;
 
+	/* We are destroying all the dependencies, there is no need to
+	 * delicately remove individual items from the lists.  The only purpose
+	 * that serves is to validate the state of our data structures.  If
+	 * required this optimization can be disabled for debugging.
+	 */
+	sheet->deps = NULL;
+
 	if (deps->range_hash) {
 		g_hash_table_foreach (deps->range_hash,
 				      &cb_range_hash_invalidate, (gpointer)rwinfo);
@@ -1066,7 +1079,6 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 	}
 
 	g_free (deps);
-	sheet->deps = NULL;
 }
 
 void
