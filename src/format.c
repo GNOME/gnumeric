@@ -1077,8 +1077,13 @@ format_number (gdouble number, int const col_width, const StyleFormatEntry *styl
 		case '[':
 			/* Currency symbol */
 			if (format[1] == '$') {
+				gboolean no_locale = TRUE;
 				for (format += 2; *format && *format != ']' ; ++format)
-					g_string_append_c (result, *format);
+					/* strip digits from [$<currency>-{digit}+] */
+					if (*format == '-')
+						no_locale = FALSE;
+					else if (no_locale)
+						g_string_append_c (result, *format);
 				if (*format == ']')
 					++format;
 			} else if (!ignore_further_elapsed)

@@ -1,5 +1,11 @@
 2000-12-22  Jody Goldberg <jgoldberg@home.com>
 
+	* src/format.c (format_number) : partial support for formats of the
+	  form [$<currency>-{digit}+].  Eventually we may want to understand
+	  what the locale specifier changes.
+
+2000-12-22  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-object-container.c (sheet_object_container_new) : new
 	  function.
 	(sheet_object_container_new_bonobo) : delete.
