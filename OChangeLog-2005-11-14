@@ -1,8 +1,29 @@
+2002-02-26  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_read_cell) : xmlNodeGetContent always returns a
+	  value now.  That simplifies comments and complicates content.
+	(xml_cellregion_read) : ditto.
+
+2002-02-25  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_progress_message_set) : port to
+	  gnome2.
+
+	* src/print-cell.c (print_show_iso8859_1) : delete.
+
+	* src/gui-file.c (gui_file_open) : someportability tweaks.
+
+	* icons/Makefile.am : move the icons here.
+
+	* src/history.c (history_menu_item_create) : constness.
+	* src/formats.c (currency_date_format_init) : constness.
+	* src/solver.h : some constness.
+	* src/workbook-control-gui.c (cb_select_auto_expr) : constness.
+	(workbook_control_gui_init) : some fixes for the bonobo build.
+
 2002-02-25  Morten Welinder  <terra@diku.dk>
 
 	* src/format-template.h: prototype the template member functions.
-
-2002-02-25  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c: Switch to R-1.4.0 sources.  Deal with signature
 	changes everywhere.
@@ -15,11 +36,17 @@
 2002-02-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/sheet-object-widget.c (cb_scrollbar_set_focus) : remove code
-	  now handeld in wbcg_edit_attach_guru
+	  now held in wbcg_edit_attach_guru
 	(cb_checkbox_set_focus) : ditto
 	(sheet_widget_scrollbar_user_config) : rearrange signal callbacks
 	(sheet_widget_checkbox_user_config) : ditto
 	
+2002-02-25  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (xml_cellregion_write) : specify the encoding, and
+	  enable formatting.
+	(gnumeric_xml_write_workbook) : ditto.
+
 2002-02-25  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (random_01): Reduce the number of system calls

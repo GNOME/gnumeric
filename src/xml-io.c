@@ -1757,11 +1757,9 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				}
 			} else if (!strcmp (child->name, "Comment")) {
 				comment = (char *)xmlNodeGetContent (child);
-				if (comment) {
-					cell_set_comment (cell->base.sheet,
-						&cell->pos, NULL, comment);
-					xmlFree (comment);
-				}
+				cell_set_comment (cell->base.sheet,
+						  &cell->pos, NULL, comment);
+				xmlFree (comment);
 			}
 		}
 
@@ -1769,10 +1767,14 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	 * rather than creating piles and piles of useless nodes.
 	 */
 	if (content == NULL) {
-		content = (char *)xmlNodeGetContent (tree);
+		/* in libxml1 <foo/> would return NULL
+		 * in libxml2 <foo/> would return ""
+		 */
+		if (tree->xmlChildrenNode != NULL)
+			content = (char *)xmlNodeGetContent (tree);
 
 		/* Early versions had newlines at the end of their content */
-		if (ctxt->version <= GNUM_XML_V1) {
+		if (ctxt->version <= GNUM_XML_V1 && content != NULL) {
 			char *tmp = strchr (content, '\n');
 			if (tmp != NULL)
 				*tmp = '\0';
@@ -2694,14 +2696,12 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 	if (l != NULL)
 		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
 			if (!xmlIsBlankNode (l)) {
-				char *content = (char *)xmlNodeGetContent (l);
 				Range r;
-				if (content != NULL) {
-					if (parse_range (content, &r))
-						cr->merged = g_slist_prepend (cr->merged,
-									      range_dup (&r));
-					xmlFree (content);
-				}
+				char *content = (char *)xmlNodeGetContent (l);
+				if (parse_range (content, &r))
+					cr->merged = g_slist_prepend (cr->merged,
+								      range_dup (&r));
+				xmlFree (content);
 			}
 
 	l = e_xml_get_child_by_name (clipboard, (xmlChar *)"Cells");
