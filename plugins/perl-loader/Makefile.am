@@ -25,7 +25,7 @@ nodist_perl_loader_la_SOURCES = \
 # here which might contain stuff we don't like.  It looks good enough,
 # though.
 COMPILE=$(PERL) perl-cc-wrapper $(PERL_CC) $(PERL_CCOPTS) $(PERL_CCCDLFLAGS) $(AM_CPPFLAGS) --sanitize=1 $(GNUMERIC_CFLAGS) 
-LTCOMPILE=$(LIBTOOL) --mode=compile $(COMPILE)
+LTCOMPILE=$(LIBTOOL) --tag=CC --mode=compile $(COMPILE)
 
 # This doesn't actually work.  Someone who needs it will have to figure
 # things out.
