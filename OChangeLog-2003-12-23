@@ -1,6 +1,11 @@
 2002-12-02  Jon K Hellan  <hellan@acm.org>
 
-	* src/Makefile.am: Don't link component with I-ContextGtk.
+	* src/io-context-gtk.c (icg_inc_files_done): Only increment file
+	progress bar if we have one (bug #100081).
+
+2002-12-02  Jon K Hellan  <hellan@acm.org>
+
+	* src/Makefile.am: Don't link component with IOContextGtk.
 
 	* src/io-context-gtk.c (icg_progress_set) 
 	(icg_progress_message_set): Respect no-splash flag.

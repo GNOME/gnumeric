@@ -277,7 +277,7 @@ icg_inc_files_done (IOContextGtk *icg)
 	g_return_if_fail (icg->files_done < icg->files_total);
 
 	icg->files_done++;
-	if (icg->window != NULL) {
+	if (icg->window != NULL && icg->file_bar != NULL) {
 		gtk_progress_bar_set_fraction (icg->file_bar,
 			 (float) icg->files_done / (float) icg->files_total);
 		gtk_progress_bar_set_fraction (icg->work_bar, 0.0);
