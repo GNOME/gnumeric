@@ -921,5 +921,6 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 			 r->start.col, r->start.row,
 			 r->end.col, r->end.row,
 			 closure);
+		g_free (r);
 	}
 }
