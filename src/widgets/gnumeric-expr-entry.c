@@ -425,8 +425,13 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 					ptr = g_utf8_next_char (ptr+1);
 			if (*ptr == quote)
 				ptr = g_utf8_next_char (ptr+1);
-		} else
+
+		/* rangerefs can not start in the middle of a sequence of
+		 * alphanumerics
+		 */
+		} else do
 			ptr = g_utf8_next_char (ptr);
+		while (ptr <= cursor && g_unichar_isalnum (g_utf8_get_char (ptr)));
 	}
 
 	if (single) {
