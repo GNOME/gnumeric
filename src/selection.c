@@ -684,8 +684,8 @@ sheet_selection_paste (CommandContext *context, Sheet *sheet,
 	area = application_clipboard_area_get ();
 	content = application_clipboard_contents_get ();
 
-	/* If contents are null this was a cut */
 	if (content == NULL && area != NULL) {
+		/* Pasting a Cut */
 		ExprRelocateInfo rinfo;
 		Sheet * src_sheet = application_clipboard_sheet_get ();
 		Range const *sel = selection_first_range (sheet, FALSE);
@@ -721,116 +721,26 @@ sheet_selection_paste (CommandContext *context, Sheet *sheet,
 		sheet_move_range      (NULL, &rinfo);
 		sheet_selection_move  (&rinfo);
 		application_clipboard_clear ();
-	} else
+	} else {
+		/* Pasting a Copy or from the X selection */
 		clipboard_paste_region (context, content,
 					sheet, dest_col, dest_row,
 					paste_flags, time);
-}
 
-static void
-cb_sheet_selection_clear (Sheet *sheet, 
-			  int start_col, int start_row,
-			  int end_col,   int end_row,
-			  void *context)
-{
-	sheet_clear_region (context, sheet, start_col, start_row,
-			    end_col,  end_row, TRUE);
-}
-
-/**
- * sheet_selection_clear:
- * @sheet:  The sheet where we operate
- *
- * Removes the contents and styles.
- **/
-void
-sheet_selection_clear (CommandContext *context, Sheet *sheet)
-{
-	selection_apply (sheet, &cb_sheet_selection_clear, TRUE, NULL);
-}
-
-static void
-cb_sheet_selection_clear_content (Sheet *sheet, 
-				  int start_col, int start_row,
-				  int end_col,   int end_row,
-				  void *context)
-{
-	sheet_clear_region_content (context, sheet, 
-				    start_col, start_row,
-				    end_col,   end_row);
-}
-
-/**
- * sheet_selection_clear_content:
- * @sheet:  The sheet where we operate
- *
- * Removes the contents of all the cells in the current selection.
- **/
-void
-sheet_selection_clear_content (CommandContext *context, Sheet *sheet)
-{
-	selection_apply (sheet, &cb_sheet_selection_clear_content,
-			 TRUE, context);
-	sheet_load_cell_val(sheet);
-}
-
-/**
- * sheet_selection_clear_comments:
- * @sheet:  The sheet where we operate
- *
- * Removes all of the comments on the range of selected cells.
- **/
-void
-sheet_selection_clear_comments (CommandContext *context, Sheet *sheet)
-{
-	selection_apply (sheet, &sheet_clear_region_comments, TRUE, NULL);
-}
-
-/**
- * sheet_selection_clear_formats:
- * @sheet:  The sheet where we operate
- *
- * Removes all formating
- **/
-void
-sheet_selection_clear_formats (CommandContext *context, Sheet *sheet)
-{
-	selection_apply (sheet, &sheet_clear_region_formats, TRUE, NULL);
-}
-
-/**
- * selection_apply:
- * @sheet: the sheet.
- * @func:  The function to apply.
- * @allow_intersection : Call the routine for the non-intersecting subregions.
- * @closure : A parameter to pass to each invocation of @func.
- *
- * Applies the specified function for all ranges in the selection.  Optionally
- * select whether to use the high level potentially over lapped ranges, rather
- * than the smaller system created non-intersection regions.
- */
-void
-selection_apply (Sheet *sheet, SelectionApplyFunc const func,
-		 gboolean allow_intersection,
-		 void * closure)
-{
-	GList *l;
-	GSList *proposed = NULL;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (allow_intersection) {
-		for (l = sheet->selections; l != NULL; l = l->next) {
-			SheetSelection const *ss = l->data;
-
-			(*func) (sheet,
-				 ss->user.start.col, ss->user.start.row,
-				 ss->user.end.col, ss->user.end.row,
-				 closure);
-		}
-		return;
+		workbook_recalc (sheet->workbook);
 	}
+}
+
+/**
+ * selection_get_ranges:
+ * @sheet: the sheet.
+ * @allow_intersection : Divide the selection into nonoverlappign subranges.
+ */
+GSList *
+selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
+{
+	GList  *l;
+	GSList *proposed = NULL;
 
 #undef DEBUG_SELECTION
 #ifdef DEBUG_SELECTION
@@ -1090,20 +1000,57 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		proposed = (b != NULL) ? g_slist_prepend (clear, b) : clear;
 	}
 
-	while (proposed != NULL) {
-		/* pop the 1st element off the list */
-		Range *r = proposed->data;
-		proposed = g_slist_remove (proposed, r);
+	return proposed;
+}
+
+/**
+ * selection_apply:
+ * @sheet: the sheet.
+ * @func:  The function to apply.
+ * @allow_intersection : Call the routine for the non-intersecting subregions.
+ * @closure : A parameter to pass to each invocation of @func.
+ *
+ * Applies the specified function for all ranges in the selection.  Optionally
+ * select whether to use the high level potentially over lapped ranges, rather
+ * than the smaller system created non-intersection regions.
+ */
+void
+selection_apply (Sheet *sheet, SelectionApplyFunc const func,
+		 gboolean allow_intersection,
+		 void * closure)
+{
+	GList *l;
+	GSList *proposed = NULL;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (allow_intersection) {
+		for (l = sheet->selections; l != NULL; l = l->next) {
+			SheetSelection const *ss = l->data;
+
+			(*func) (sheet,
+				 ss->user.start.col, ss->user.start.row,
+				 ss->user.end.col, ss->user.end.row,
+				 closure);
+		}
+	} else {
+		proposed = selection_get_ranges (sheet, allow_intersection);
+		while (proposed != NULL) {
+			/* pop the 1st element off the list */
+			Range *r = proposed->data;
+			proposed = g_slist_remove (proposed, r);
 
 #ifdef DEBUG_SELECTION
-		range_dump (r);
+			range_dump (r);
 #endif
 
-		(*func) (sheet,
-			 r->start.col, r->start.row,
-			 r->end.col, r->end.row,
-			 closure);
-		g_free (r);
+			(*func) (sheet,
+				 r->start.col, r->start.row,
+				 r->end.col, r->end.row,
+				 closure);
+			g_free (r);
+		}
 	}
 }
 

@@ -2513,6 +2513,7 @@ sheet_destroy (Sheet *sheet)
 	g_free (sheet);
 }
 
+/*****************************************************************************/
 
 struct sheet_clear_region_callback_data
 {
@@ -2555,141 +2556,82 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
 	return NULL;
 }
 
-/**
- * sheet_clear_region:
- *
- * Clears are region of cells
- *
- * @clearStyles : If this is TRUE then styles are erased.
- *
- * We assemble a list of cells to destroy, since we will be making changes
- * to the structure being manipulated by the sheet_cell_foreach_range routine
- */
-void
-sheet_clear_region (CommandContext *context, Sheet *sheet,
-		    int start_col, int start_row, int end_col, int end_row,
-		    gboolean const clearStyles)
-{
-	struct sheet_clear_region_callback_data cb;
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
-
-	/* Queue a redraw for the cells being removed */
-	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
-
-	cb.r.start.col = start_col;
-	cb.r.start.row = start_row;
-	cb.r.end.col = end_col;
-	cb.r.end.row = end_row;
-	cb.l = NULL;
-
-	/* Clear the style in the region (new_default will ref the style for us). */
-	if (clearStyles)
-		sheet_style_attach (sheet, cb.r, mstyle_new_default ());
-
-	if (sheet_cell_foreach_range (sheet, TRUE,
-				       start_col, start_row, end_col, end_row,
-				       assemble_clear_cell_list, &cb) == NULL) {
-		cb.l = g_list_reverse (cb.l);
-		cell_freeze_redraws ();
-
-		for (l = cb.l; l; l = l->next){
-			Cell *cell = l->data;
-
-			sheet_cell_remove (sheet, cell);
-			cell_destroy (cell);
-		}
-		cell_thaw_redraws ();
-		workbook_recalc (sheet->workbook);
-	} else 
-		gnumeric_error_splits_array (context);
-	g_list_free (cb.l);
-}
-
-/**
- * sheet_clear_region_content:
- * @sheet:     The sheet on which we operate
- * @start_col: starting column
- * @start_row: starting row
- * @end_col:   end column
- * @end_row:   end row
- *
- * Clears the contents in a region of cells
- */
-void
-sheet_clear_region_content (CommandContext *context, Sheet *sheet,
-			    int start_col, int start_row,
-			    int end_col, int end_row)
-{
-	sheet_clear_region (context, sheet,
-			    start_col, start_row,
-			    end_col, end_row, FALSE);
-}
-
 static Value *
-clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+cb_clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	cell_comment_destroy (cell);
 	return NULL;
 }
 
 /**
- * sheet_clear_region_comments:
- * @sheet:     The sheet on which we operate
- * @start_col: starting column
- * @start_row: starting row
- * @end_col:   end column
- * @end_row:   end row
+ * sheet_clear_region:
  *
- * Removes all of the comments in the cells in the specified range.
- **/
+ * Clears are region of cells
+ *
+ * @clear_flags : If this is TRUE then styles are erased.
+ *
+ * We assemble a list of cells to destroy, since we will be making changes
+ * to the structure being manipulated by the sheet_cell_foreach_range routine
+ */
 void
-sheet_clear_region_comments (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
-			     void *closure)
+sheet_clear_region (CommandContext *context, Sheet *sheet,
+		    int const start_col, int const start_row,
+		    int const end_col, int const end_row,
+		    int const clear_flags)
 {
+	struct sheet_clear_region_callback_data cb;
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 
-	/* Queue a redraw for the region being redrawn */
-	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
+	cb.r.start.col = start_col;
+	cb.r.start.row = start_row;
+	cb.r.end.col = end_col;
+	cb.r.end.row = end_row;
 
-	sheet_cell_foreach_range (
-		sheet, TRUE,
-		start_col, start_row,
-		end_col,   end_row,
-		clear_cell_comments, NULL);
+	/* Queue a redraw for cells being modified */
+	if (clear_flags & (CLEAR_VALUES|CLEAR_FORMATS))
+		sheet_redraw_cell_region (sheet,
+					  start_col, start_row,
+					  end_col, end_row);
+
+	/* Clear the style in the region (new_default will ref the style for us). */
+	if (clear_flags & CLEAR_FORMATS)
+		sheet_style_attach (sheet, cb.r, mstyle_new_default ());
+
+	if (clear_flags & CLEAR_COMMENTS)
+		sheet_cell_foreach_range (sheet, TRUE,
+					  start_col, start_row,
+					  end_col,   end_row,
+					  cb_clear_cell_comments, NULL);
+
+	if (clear_flags & CLEAR_VALUES) {
+		GList *l;
+		cb.l = NULL;
+
+		if (sheet_cell_foreach_range (sheet, TRUE,
+					      start_col, start_row, end_col, end_row,
+					      assemble_clear_cell_list, &cb) == NULL) {
+			cb.l = g_list_reverse (cb.l);
+			cell_freeze_redraws ();
+
+			for (l = cb.l; l; l = l->next){
+				Cell *cell = l->data;
+
+				sheet_cell_remove (sheet, cell);
+				cell_destroy (cell);
+			}
+			cell_thaw_redraws ();
+		} else 
+		    gnumeric_error_splits_array (context);
+
+		g_list_free (cb.l);
+	}
 }
 
-static Value *
-clear_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	cell_set_format (cell, "General");
-	return NULL;
-}
-
-void
-sheet_clear_region_formats (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
-			    void *closure)
-{
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
-
-	/* Queue a draw for the region being modified */
-	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
-	sheet_cell_foreach_range (
-		sheet, TRUE,
-		start_col, start_row,
-		end_col, end_row,
-		clear_cell_format, NULL);
-}
+/*****************************************************************************/
 
 void
 sheet_make_cell_visible (Sheet *sheet, int col, int row)
@@ -3608,6 +3550,7 @@ sheet_move_range (CommandContext *context,
 	Cell  *cell;
 	gboolean inter_sheet_formula;
 
+	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (rinfo->origin_sheet != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
 	g_return_if_fail (rinfo->target_sheet != NULL);
@@ -3639,7 +3582,7 @@ sheet_move_range (CommandContext *context,
 			    rinfo->origin.start.row + rinfo->row_offset,
 			    rinfo->origin.end.col + rinfo->col_offset,
 			    rinfo->origin.end.row + rinfo->row_offset,
-			    FALSE); /* Do not to clear styles */
+			    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */
 
 	/* Insert the cells back */
 	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {

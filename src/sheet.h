@@ -401,20 +401,17 @@ void  sheet_shift_rows  (CommandContext *context, Sheet *sheet,
 			 int col,
 			 int start_row, int end_row, int count);
 
-void  sheet_clear_region          (CommandContext *context, Sheet *sheet,
-				   int start_col, int start_row,
-				   int end_col,   int end_row,
-				   gboolean const keep_styles);
-void  sheet_clear_region_formats  (Sheet *sheet,
-				   int start_col, int start_row,
-				   int end_col,   int end_row,
-				   void *closure);
-void  sheet_clear_region_content  (CommandContext *context, Sheet *sheet,
-				   int start_col, int start_row,
-				   int end_col,   int end_row);
-void  sheet_clear_region_comments (Sheet *sheet,
-				   int start_col, int start_row,
-				   int end_col,   int end_row,
-				   void *closure);
+typedef enum
+{
+	CLEAR_VALUES   = 0x1,
+	CLEAR_FORMATS  = 0x2,
+	CLEAR_COMMENTS = 0x4,
+} SheetClearFlags;
+
+void  sheet_clear_region (CommandContext *context,
+			  Sheet *sheet,
+			  int const start_col, int const start_row,
+			  int const end_col, int const end_row,
+			  int const clear_flags);
 
 #endif /* GNUMERIC_SHEET_H */

@@ -23,6 +23,7 @@
 #include "workbook-cmd-format.h"
 #include "pattern.h"
 #include "workbook-view.h"
+#include "commands.h"
 
 static GnomeCanvasItemClass *item_grid_parent_class;
 
@@ -577,7 +578,7 @@ context_delete_cmd (GtkWidget *widget, Sheet *sheet)
 static void
 context_clear_cmd (GtkWidget *widget, Sheet *sheet)
 {
-	sheet_selection_clear_content (workbook_command_context_gui (sheet->workbook), sheet);
+	cmd_clear_selection (workbook_command_context_gui (sheet->workbook), sheet, CLEAR_VALUES);
 	context_destroy_menu (widget);
 }
 

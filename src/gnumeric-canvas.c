@@ -787,7 +787,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		sheet_selection_clear_content (workbook_command_context_gui (wb), sheet);
+		cmd_clear_selection (workbook_command_context_gui (wb), sheet, CLEAR_VALUES);
 		break;
 
 	case GDK_KP_Enter:

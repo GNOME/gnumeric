@@ -13,6 +13,7 @@
 #include "workbook-view.h"
 #include "utils.h"
 #include "clipboard.h"
+#include "selection.h"
 
 /*
  * NOTE : This is a work in progress
@@ -475,6 +476,7 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 
 	workbook_recalc (me->sheet->workbook);
 	sheet_redraw_all (me->sheet);
+	sheet_load_cell_val (me->sheet);
 
 	return trouble;
 }
@@ -522,6 +524,7 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 
 	workbook_recalc (me->sheet->workbook);
 	sheet_redraw_all (me->sheet);
+	sheet_load_cell_val (me->sheet);
 
 	return trouble;
 }
@@ -635,6 +638,12 @@ cmd_delete_rows (CommandContext *context,
 typedef struct
 {
 	GnumericCommand parent;
+
+	int	 clear_flags;
+	int	 paste_flags;
+	Sheet	*sheet;
+	GSList 	*old_content;
+	GSList	*selection;
 } CmdClear;
 
 GNUMERIC_MAKE_COMMAND (CmdClear, cmd_clear);
@@ -643,10 +652,31 @@ static gboolean
 cmd_clear_undo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdClear *me = CMD_CLEAR(cmd);
+	GSList *ranges;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->selection != NULL, TRUE);
+	g_return_val_if_fail (me->old_content != NULL, TRUE);
 
-	/* FIXME : Fill in */
+	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
+		Range const * const r = ranges->data;
+		CellRegion * c;
+
+		g_return_val_if_fail (me->old_content != NULL, TRUE);
+
+		c = me->old_content->data;
+		clipboard_paste_region (context, c, me->sheet,
+					r->start.col, r->start.row,
+					me->paste_flags,
+					GDK_CURRENT_TIME);
+		clipboard_release (c);
+		me->old_content = g_slist_remove (me->old_content, c);
+	}
+	g_return_val_if_fail (me->old_content == NULL, TRUE);
+
+	workbook_recalc (me->sheet->workbook);
+	sheet_load_cell_val (me->sheet);
+
 	return FALSE;
 }
 
@@ -654,29 +684,87 @@ static gboolean
 cmd_clear_redo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdClear *me = CMD_CLEAR(cmd);
+	GSList *l;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->selection != NULL, TRUE);
+	g_return_val_if_fail (me->old_content == NULL, TRUE);
 
-	/* FIXME : Fill in */
+	for (l = me->selection ; l != NULL ; l = l->next) {
+		Range const * const r = l->data;
+		me->old_content =
+			g_slist_prepend (me->old_content,
+				clipboard_copy_cell_range (me->sheet,
+							   r->start.col, r->start.row,
+							   r->end.col, r->end.row));
+
+		sheet_clear_region (context, me->sheet,
+				    r->start.col, r->start.row,
+				    r->end.col, r->end.row,
+				    me->clear_flags);
+	}
+
+	workbook_recalc (me->sheet->workbook);
+	sheet_load_cell_val (me->sheet);
+
 	return FALSE;
 }
+
 static void
 cmd_clear_destroy (GtkObject *cmd)
 {
-#if 0
 	CmdClear *me = CMD_CLEAR(cmd);
-#endif
-	/* FIXME : Fill in */
+
+	if (me->old_content != NULL) {
+		GSList *l;
+		for (l = me->old_content ; l != NULL ; l = g_slist_remove (l, l->data))
+			clipboard_release (l->data);
+		me->old_content = NULL;
+	}
+	if (me->selection != NULL) {
+		GSList *l;
+		for (l = me->selection ; l != NULL ; l = g_slist_remove (l, l->data))
+			g_free (l->data);
+		me->selection = NULL;
+	}
+
 	gnumeric_command_destroy (cmd);
 }
 
-#if 0
 gboolean
-cmd_clear (CommandContext *context,
+cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flags)
 {
-	return FALSE;
+	GtkObject *obj;
+	CmdClear *me;
+	gboolean trouble;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_CLEAR_TYPE);
+	me = CMD_CLEAR (obj);
+
+	/* Store the specs for the object */
+	me->sheet = sheet;
+	me->clear_flags = clear_flags;
+	me->old_content = NULL;
+	me->selection = selection_get_ranges (sheet, FALSE /* No intersection */);
+
+	me->paste_flags = 0;
+	if (clear_flags & CLEAR_VALUES)
+		me->paste_flags |= PASTE_VALUES | PASTE_FORMULAS;
+	if (clear_flags & CLEAR_FORMATS)
+		me->paste_flags |= PASTE_FORMATS;
+	if (clear_flags & CLEAR_COMMENTS)
+		g_warning ("Deleted comments can not be restored yet");
+
+	/* TODO : Something more descriptive ? maybe the range name */
+	me->parent.cmd_descriptor = g_strdup (_("Clear"));
+
+	trouble = cmd_clear_redo (GNUMERIC_COMMAND(me), context);
+
+	/* Register the command object */
+	return command_push_undo (sheet->workbook, obj, trouble);
 }
-#endif
 
 /******************************************************************/
 
@@ -969,6 +1057,7 @@ cmd_set_date_time_undo (GnumericCommand *cmd, CommandContext *context)
 	} else
 		cell_set_value (cell, value_new_empty ());
 
+	sheet_load_cell_val (me->pos.sheet);
 	return FALSE;
 }
 
@@ -1025,6 +1114,8 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 	cell_set_value (cell, v);
 	cell_set_format (cell, prefered_format+1);
 	workbook_recalc (me->pos.sheet->workbook);
+	sheet_load_cell_val (me->pos.sheet);
+
 	return FALSE;
 }
 static void

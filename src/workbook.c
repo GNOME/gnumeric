@@ -790,38 +790,33 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 static void
 clear_all_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
-
-	sheet_selection_clear (workbook_command_context_gui (wb), sheet);
+	cmd_clear_selection (workbook_command_context_gui (wb), 
+		   workbook_get_current_sheet (wb),
+		   CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS);
 }
 
 static void
 clear_formats_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_formats (workbook_command_context_gui (wb), sheet);
+	cmd_clear_selection (workbook_command_context_gui (wb), 
+		   workbook_get_current_sheet (wb),
+		   CLEAR_FORMATS);
 }
 
 static void
 clear_comments_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_comments (workbook_command_context_gui (wb), sheet);
+	cmd_clear_selection (workbook_command_context_gui (wb), 
+		   workbook_get_current_sheet (wb),
+		   CLEAR_COMMENTS);
 }
 
 static void
 clear_content_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_content (workbook_command_context_gui (wb), sheet);
+	cmd_clear_selection (workbook_command_context_gui (wb), 
+		   workbook_get_current_sheet (wb),
+		   CLEAR_VALUES);
 }
 
 static void
@@ -836,32 +831,34 @@ zoom_cmd (GtkWidget *widget, Workbook *wb)
 static void
 cb_cell_rerender (gpointer cell, gpointer data)
 {
-        cell_render_value(cell);
-        cell_queue_redraw(cell);
+        cell_render_value (cell);
+        cell_queue_redraw (cell);
 }
 
 static void
 toggle_formulas_cmd (GtkWidget *widget, Workbook *wb)
 {
 	wb->display_formulas = !wb->display_formulas;
-	g_list_foreach(wb->formula_cell_list, &cb_cell_rerender, NULL);
+	g_list_foreach (wb->formula_cell_list, &cb_cell_rerender, NULL);
+}
+static void
+toggle_grid_lines (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	sheet->show_grid = !sheet->show_grid;
 }
 
 static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = workbook_get_current_sheet (wb);
 	dialog_cell_format (wb, sheet);
 }
 
 static void
 sort_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
+	Sheet *sheet = workbook_get_current_sheet (wb);
 	dialog_cell_sort (wb, sheet);
 }
 
@@ -1072,6 +1069,8 @@ static GnomeUIInfo workbook_menu_view [] = {
 	  N_("Zoom the spreadsheet in or out"), zoom_cmd },
 	{ GNOME_APP_UI_TOGGLEITEM, N_("Toggle _Formulas"),
 	  N_("Toggle the display of formulas"), toggle_formulas_cmd },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Display _Grid lines"),
+	  N_("Toggle the display of formulas"), toggle_grid_lines },
 	GNOMEUIINFO_END
 };
 
@@ -2070,8 +2069,8 @@ workbook_new (void)
 	wb->autosave_minutes = 15;
 
 	wb->autosave_timer = 
-	        gtk_timeout_add(wb->autosave_minutes*60000, 
-				(GtkFunction) dialog_autosave_callback, wb);
+	        gtk_timeout_add (wb->autosave_minutes*60000, 
+				 (GtkFunction) dialog_autosave_callback, wb);
 
 	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), 1, 1, 0);
 	sx = MAX (gdk_screen_width  () - 64, 400);
@@ -2365,7 +2364,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 		rinfo.col_offset = SHEET_MAX_COLS-1;
 		rinfo.row_offset = SHEET_MAX_ROWS-1;
 
-		workbook_expr_unrelocate_free(workbook_expr_relocate (wb, &rinfo));
+		workbook_expr_unrelocate_free (workbook_expr_relocate (wb, &rinfo));
 	}
 
 	/*
@@ -2818,7 +2817,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 			if (info->origin_sheet != pos.sheet ||
 			    !range_contains (&info->origin, pos.eval.col, pos.eval.row)) {
 				struct expr_relocate_storage *tmp =
-				    g_new(struct expr_relocate_storage, 1);
+				    g_new (struct expr_relocate_storage, 1);
 				tmp->pos = pos;
 				tmp->oldtree = cell->parsed_node;
 				expr_tree_ref (tmp->oldtree);

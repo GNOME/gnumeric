@@ -218,7 +218,7 @@ Sheet_clear_region (PortableServer_Servant servant,
 	sheet_clear_region (
 		command_context_corba (sheet->workbook),
 		sheet, start_col, start_row,
-		end_col, end_row, TRUE);
+		end_col, end_row, CLEAR_VALUES|CLEAR_FORMATS|CLEAR_COMMENTS);
 }
 
 static void
@@ -230,9 +230,11 @@ Sheet_clear_region_content (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
-	sheet_clear_region_content (
-		command_context_corba (sheet->workbook), sheet,
-		start_col, start_row, end_col, end_row);
+
+	sheet_clear_region (
+		command_context_corba (sheet->workbook),
+		sheet, start_col, start_row,
+		end_col, end_row, CLEAR_VALUES|CLEAR_COMMENTS);
 }
 
 static void
@@ -244,7 +246,11 @@ Sheet_clear_region_comments (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
-	sheet_clear_region_comments (sheet, start_col, start_row, end_col, end_row, NULL);
+
+	sheet_clear_region (
+		command_context_corba (sheet->workbook),
+		sheet, start_col, start_row,
+		end_col, end_row, CLEAR_COMMENTS);
 }
 
 static void
@@ -256,7 +262,11 @@ Sheet_clear_region_formats (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
-	sheet_clear_region_formats (sheet, start_col, start_row, end_col, end_row, NULL);
+
+	sheet_clear_region (
+		command_context_corba (sheet->workbook),
+		sheet, start_col, start_row,
+		end_col, end_row, CLEAR_FORMATS);
 }
 
 static void

@@ -1,3 +1,49 @@
+2000-01-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (clear_{all,formats,comments,content}_cmd) : Use
+	  cmd_clear_selection.
+
+	* src/sheet.c (sheet_clear_region) : Merge all types of deletion into
+	  this routine and add some bit flags to enable the different types.
+	(sheet_clear_region_content) : Delete.
+	(sheet_clear_region_comments) : Delete.
+	(clear_cell_format) : Delete.
+	(sheet_clear_region_formats) : Delete.
+	(sheet_move_range) : Adapt to changes in sheet_clear_region.
+
+	* src/selection.c (cb_sheet_selection_clear) : Delete.
+	(sheet_selection_clear) : Delete.
+	(cb_sheet_selection_clear_content) : Delete.
+	(sheet_selection_clear_content) : Delete.
+	(sheet_selection_clear_comments) : Delete.
+	(sheet_selection_clear_formats) : Delete.
+	(selection_get_ranges) : New function split out from selection_apply.
+	(selection_apply) : Use selection_get_ranges.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Use
+	  cmd_clear_selection.
+	* src/item-grid.c (context_clear_cmd) : Ditto.
+
+	* src/corba-sheet.c (Sheet_clear_region) : Adapt to new clear_region
+	  calling convention.
+	(Sheet_clear_region_content) : Use sheet_clear_region.
+	(Sheet_clear_region_comments) : Ditto.
+	(Sheet_clear_region_formats) : Ditto.
+
+	* src/commands.c (cmd_ins_del_row_col_{undo,redo}) : Reload the the
+	  edit bar just in case.
+	(cmd_set_date_time_{undo,redo}) : Ditto.
+	(cmd_clear{,_undo,_redo,_destroy}) : Implement.
+
+	* src/clipboard.c (paste_cell) : No need to flag the existance of
+	  formulas.
+	(paste_cell_flags) : Ditto.
+	(do_clipboard_paste_cell_region) : Don't recalc here.
+	(x_selection_received) : Recalc here.
+	(clipboard_paste_region) : Only use the X selection if the user does
+	  not pass in a CellRegion. Only use the clipboard_paste_callback_data
+	  if we are going through the X selection.
+
 2000-01-15  Morten Welinder  <terra@diku.dk>
 
 	* src/cell.c (cell_set_formula): Set the "Pending recomputation"
