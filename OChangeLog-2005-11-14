@@ -1,4 +1,10 @@
-2002-11-05   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+2002-11-07   Andreas J. Guelzow  <aguelzow@taliesin.ca> for
+	Evert Verhellen <evert.verhellen@advalvas.be>:
+
+	* src/pixmaps/function_selector_24.png : improved
+	* src/pixmaps/function_selector_16.png : improved
+
+2002-11-07   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/file.h (gnum_file_saver_fix_file_name): change signature
 	* src/file.c (gnum_file_saver_fix_file_name): change signature
