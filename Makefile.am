@@ -6,5 +6,5 @@ dist-hook:
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples
 
-Productivitydir = $(datadir)/apps/Productivity
-Productivity_DATA = gnumeric.desktop
+Applicationsdir = $(datadir)/apps/Applications
+Applications_DATA = gnumeric.desktop
