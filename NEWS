@@ -1,0 +1,737 @@
+
+
+
+Gnumeric 0.27
+Hello guys,
+
+   New version of Gnumeric has been released.  Version 0.27
+
+   The next version will most likely merge my code to do printing into
+the main branch unless we decide to do a quick bug fix release.  Also,
+starting with this release, Gnumeric will be supported by
+International GNOME Support (http://www.gnome-support.com).
+
+   Michael Meeks has redone the function definition code, it is much
+better and extensible than the code we had before.  
+
+* Getting it
+
+	You can get it from:
+		ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* What is new in this release:
+
+Jukka:
+	* Added the following functions:
+	 - FTEST(), TTEST(), SUMPRODUCT(), SEARCH(), ADDRESS(),
+	   CHITEST(), BETAINV(), PERCENTRANK(), SERIESSUM(), SUMA(),
+	   SUBTOTAL(), SLOPE(), AVERAGEA(), MAXA(), MINA(), STDEVA(),
+	   STDEVPA(), VARA(), and VARPA().
+        * And fixed these functions:
+	 - BETADIST(), NORMDIST(), RANK(), and POISSON().
+	* Lots of test files added
+
+Morten:
+	* Reworked the insert/delete column/row again.
+	* Reworked the Goal Seek function to produce more accurate
+	  results faster, and fail less often.
+	* Improved the recalculation engine.
+	* Shined up date calculations.
+	* Added WEEKDAY(), DAYS360(), TIMEVALUE().
+	* Fixed PROPER(), FLOOR(), SERIESSUM(), ROUND(), ROUNDUP(),
+	  ROUNDDOWN(), ATAN2(), MOD(), INT(), COUNT(), COUNTA(),
+	  AND(), OR().
+	* Improved precision here and there.
+	* Fixed font-reusage when writing in Gnumeric's default file
+	  format.
+	* Fixed cell editing code.
+	* Fixed many internationalisation bugs.  Translators, please
+	  make sure the default floating-point format, "0.0########",
+	  has been translated for your locale.  (German translators,
+	  please revisit "Zoom factor should be at least 50%" also, :-)
+
+Miguel
+	* Paste-Special/Transpose.
+	* Bug fixing.
+	
+Sean
+	* Implemented 'X-base' importing support (DBase, FoxPro etc.1)
+
+Michael
+	* Re-wrote the OLE block layer again...
+	* Re-wrote all the function code for more uniformity, lucidity
+	and expandibility.
+	* Re-wrote the function documentation.
+	* Tentative alpha Excel sheet writing
+	 - StarOffice is only tested importer
+	 - Only Excel 95 likely to 'work'
+	 - only basic numbers and text are stored.
+	* Fix writing code to preserve sheet order.
+
+Nick Lamb
+	* Added excel function mappings.
+	* Fixed absolute shared formulae cell references.
+	* Supplied a spreadsheet to check date functions.
+
+Jody Goldberg
+	* Supplied many new error and error checking functions.
+	* Vastly improved Excel color loading.
+	* Completed Excel funtion mappings, as far as possible.
+
+Several translations updated: thanks to our translators
+
+And lots of bugs fixed.
+
+Thanks to all 
+Miguel.
+
+
+
+Gnumeric 0.25
+Hello guys,
+
+   Gnumeric 0.25 has been released.  Lots of new things are happening
+in this new version, here is a list:
+
+* User visible
+
+	* New functions: BETADIST(), FDIST(), TDIST(), CHIDIST(),
+	  CHIINV(), GAMMAINV(), GAMMADIST() from Jukka-Pekka.
+
+	* New functions: SUMSQ(), MULTINOMIAL(), PRODUCT(), SQRTPI().
+	  I believe these are from Jukka Pekka, but I do not see a
+	  ChangeLog entry.
+
+	* Enhanced Excel importing code even more (Michael Meeks).
+
+	* Goal seek dialog box from Jukka-Pekka works.
+
+	* Round up bug fixed by Morten Welinder.
+
+	* Recomputation bugs for cell ranges fixed (some taxpayers
+	  noticed that their loaded sheets were not recalculating at
+	  startup, thanks for their input).
+
+* User visible, not ready
+
+	* More Bonobo work.  Start of graphics wizard for use with
+	  Guppi, the GNOME plotting engine.
+
+
+* Foundation work
+
+	* Integration of libglade into Gnumeric.  Now we can design
+	  our dialog boxes with Glade and use libglade to load the
+	  GUIs.  Thanks to Damon Chaplin for Glade and James
+	  Henstridge for libglade and his support with libglade.
+
+	* Made the code use 'const' a lot more (Morten Welinder), this
+	  helps making the code more robust.
+
+* Not very visible
+
+	* Assorted batch of bug fixes.
+
+	* A number of memory leaks have been fixed (Morten Welinder).
+
+	* Excel loader can even restore your selection :-) (Michael
+	  Meeks).
+
+	* A number of sanity checks from Morten Welinder.  
+
+Miguel.
+
+
+Gnumeric 0.23
+Hello guys!
+
+   A new version of Gnumeric has been released, version 0.23.  Trained
+eyes will notice that I have skipped version 0.22.  Well, I did not.
+I just did not announce it because I had promised not to make a new
+release (which I ended up doing) because it included a pile of cool
+features.
+
+   So, here is the new stuff since 0.21, major features:
+
+	* Michael Meeks added multiple-clause sort to the sort dialog.
+
+	* GNUMERIC_NORMDIST() function now uses a more efficient
+	  method of computation (Morten Wellinder).
+
+	* Should load properly workbooks with references to other
+	  sheets.
+	
+	* Starts up with a bigger size (Michael).
+
+	* Michael has begun a function wizard, it is disabled in this
+	  version by default.
+
+	* RAND() function. 
+
+	* Fixes for some cases of circular references (the other cases
+	  were fine), by Morten.
+	
+	* IF() now can take variable arguments (Michael).
+
+	* Updated documentation
+
+	* Many small fixes.
+
+Getting Gnumeric 0.23:
+
+ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Miguel.
+
+
+
+Gnumeric 0.21
+Hello guys,
+
+   I know, I know.  Too many releases for a day.
+
+   But many good things have been done, and we want all of these
+features to be available ASAP to all of you :-).
+
+	1. Morten Welinder implemented a more accurrate algorithm for
+	   the variance functions.	
+
+	2. Michael Meeks send me lots of updates and changes to Gnumeric:
+
+		a. Column Sorting.
+		b. Better dragging of text areas.
+		c. Updated documentation on writing functions.
+		d. Uses floats on number-entry if the number is
+	  	   too large (instead of overflowing like it was doing).
+		e. Updated function documentation to mention optional parameters.
+
+   I promise I will be quiet now for a few days.  I really do.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Miguel.
+		
+
+
+
+Gnumeric 0.19
+Hey Dudes!
+
+   New version of Gnumeric has been released.
+
+* New in this version:
+
+   * New infrastructure to simplify writing functions 
+     with variable arguments (Michael Meeks).
+
+     New token for ranges.
+
+   * Many new functions:
+
+	* Jukka-Pekka Iivonen contributed many finantial functions:
+	  DOLLARDE(), DOLLARFR(), NOMINAL(), NPV(), PV(), FV(), PMT(),
+	  IPMT(), PPMT(), NPER() and DURATION().
+
+	* Michael Meeks wrote the spreadsheet lookup functions: COLUMN(),
+	  COLUMNS(), HLOOKUP(), ROW(), ROWS(), VLOOKLUP()
+
+	* Sean Atkinson improved SUBSTITUTE() and he implemented CONCATENATE(), REPT(), FIND(), 
+	  FIXED(), PROPER(), REPLACE(), T(), VALUE(), SUBSTITUTE(), DOLLAR()
+
+	* Jukka-Pekka wrote CEILING() and COMBIN().
+
+	* Jukka-Pekka wrote the statistical functions: 
+	  BINOMDIST(), HARMEAN (), HYPEGEOMDIST(), AVEDEV(), CONFIDENCE(), CRITBINOM(),
+	  DEVSQ(), FISHER(), KURT(), NORMDIST(), PERMUT(), SKEW(), STANDARIZE(), WEIBULL(),
+	  FISHERINV(), NORMSDIST() and LOGNORMDIST(), CORREL(),
+	  COVAR(), MODE(), NEGBINOMDIST(), RANK(), TRIMMEAN().
+
+	* Michael Meekrs wrote POISSON(), DELTA(), GESTEP().
+
+	
+    * Many bug fixes
+
+	* Daniel Veillard fixed the bug with saving cells that had the "&" inside.
+
+	* Cleanups from Michael to use the new variable arguments code.
+
+        * Various typo fixes.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-0.19.tar.gz
+
+
+Miguel.
+
+
+
+Gnumeric 0.18
+Hello guys,
+
+   New gnumeric is out.
+
+   This is mainly a bug fix release
+
+* Features:
+
+	- More functions from Michael Meeks
+
+	- Bug fix: Applying a cell number format should work again inmediately
+	  (it was not queuing the re-rendering operation).
+
+	- Bug fix: Precedence fixes: when decoding the tree to render a text
+	  representation, I was not properly considering the case for
+	  same-priority but different meaning operations. 
+
+	  Should work now. (ie, it will correctly decode 1/(c4*d4)
+	  again. 
+
+	- New code: integer overflow/underflow detection code.  Now
+	  addition and substraction will be promoted to floating point
+	  values if there is a overflow in the computation.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-0.18.tar.gz
+
+
+
+Gnumeric 0.17
+Hello guys,
+
+   New version of Gnumeric is out:
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* Changes and new features:
+
+	* Financial functions (effect, sln, syd) from Vladimir Vuksan.
+
+	* Engineering functions (power, gammaln, poisson, expondist,
+	  sign, trunc) from Michael Meeks.
+
+	* Statistical functions (stdev, stdevp, var, varp, gcd,
+	  geomean,) from Michael Meeks.
+
+	* Fixes to the clipboard code (should paste formulas to other
+	  applications correctly and fix the inter-worbook pastes).
+
+	* External function loading works for Excel files.
+
+	* Cleaned up the Excel code (Michael)
+
+	* Should compile in AIX again.
+
+* Documentation
+
+	* As usual, all of the Gnumeric functions are documented.
+
+
+
+
+Gnumeric 0.16
+Hello guys,
+
+   New version of Gnumeric is out:
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* Changes and new features:
+
+	* Cell ranges will work properly if they are not in their
+	  natural order (fixes the bug reported about SUM (C1:A1) not
+	  working and a whole range of similar problems).
+
+	* CLEAN() function fixed.
+
+	* New text exporting plugin from Takashi Matsuda.
+
+	* We use gdk_fontset_load now to load fonts instead of
+	  gdk_font_load, this should make the code work for various
+	  international users (Takashi).
+
+	* Entering data with XIM on the sheet should work now as well
+	  (Takashi).
+
+	* Paste-by-value has been fixed by Takashi as well.
+
+	* cell_set_format_from_style has been speeded up by Michael
+	  Meeks.
+
+	* Excel importer no longer has static buffers (removes various
+	  problems reported by people) (Michael Meeks).
+
+	* Excel importing code should be significantly faster and less
+	  verbose now (Michael Meeks).
+
+Miguel.
+
+
+
+Gnumeric 0.14
+Hey guys!
+
+   This is the release of Gnumeric "Simplified Bonobo" 0.14.
+
+   The only difference between Gnumeric 0.13 and 0.14 is that 0.14
+ships in a way that makes the install process use the documentation as
+it was generated in my machine (that means, you do not need the
+Docbook tools installed in your system to get the documentation).
+
+Best wishes,
+miguel.
+
+
+
+Gnumeric 0.13
+Hello guys,
+
+   I have just released Gnumeric "Superstitious Bonobo" 0.13.  This
+version is as usual available in:
+
+ 	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+These are the new features in this version:
+
+	1. Excel loading is much faster now (Michael Meeks)
+
+	2. More excel sheets load now (Michael)
+
+	3. Various compilation fixes from Tim Mooney for some
+	   strict C compilers (Digital C compiler in this case).
+
+	4. Now it recalcs cells when you have cleared values or
+	   removed cells (just a missing call to workbook_recalc was missing). 
+
+	5. Install/compile fixes from Raja Harinath.
+
+	6. Implemented new functions: "ISERROR" and "NOT".
+
+	7. Copy/paste fixes in the presence of errors in the spreadsheet.
+
+	8. Small display glitch fix.
+
+	9. Add type checking to functions that take a constant number of arguments. 	
+
+	10. Upper case format letters are now accepted.
+
+Enjoy!
+
+Miguel.
+
+
+Gnumeric 0.12
+Hello,
+
+   New Gnumeric version, this is the miguel-will-be-out-until monday
+release of Gnumeric, I will be visiting Boston, so if you are in the
+area we could probably meet.
+
+   New features:
+
+	- New function TRUNC
+
+	- Excel loading: Michael Meeks and Sean did lots of work again
+	  on improving our Excel importer.
+
+	- Internal fix that the Excel code was hitting.
+
+	- Fixes the menu for the quick operations (on the workbook)
+
+	- Fix to the rename-sheet function (it was displaying garbage
+	  sometimes)
+
+	- Brunno finished the support for coloring the background of
+	  cells, so now we can have nicely colored sheets with nice
+	  backgrounds :-)
+
+	- He also finished the foreground setting color code.  Thanks!
+
+	- Now it warns if you drop a range of cells in a region that
+	  already has values.
+
+	- Should include the missing files for the Perl plugin.
+
+	- CSV code disabled until it is fixed.
+
+	- Stricter control for removing active sheets in the code.
+
+	- Michael provided an icon for Excel files.
+
+	- Contributed Spanish documntation from Pablo.
+
+You can get this at:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Best wishes,
+Miguel.
+
+
+
+Gnumeric 0.11
+Hello,
+
+   I have released a new version of Gnumeric, pretty much a bug fix
+over the Numerically Skillfully Cow release of Gnumeric.
+
+   Thanks to all of you who send me good bug reports, here is a list
+of the bugs fixed and improvements:
+
+	- Excel loading code improved again by Michael Meeks.  He also
+	  spotted a number of bugs in the code which were fixed.
+
+	- Paste was not properly recomputing formulas pasted.
+
+	- Gnumeric no longer crashes on save.
+
+	- Dependecy computation code got fixed.  Horribly typo was
+	  doing all sorts of nonsense ;-)
+
+Fetch it from:
+
+   ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-0.11.tar.gz
+
+Miguel.
+
+
+Gnumeric 0.10
+
+Hello number lovers,
+
+    I have released the Numerically Skillfully Cow release of the
+Gnumeric Spreadsheet.
+
+New in this version:
+
+	* Many updates on the Excel side, optimizaitons, bug fixes,
+	  more features supported (Michael Meeks, Sean Atkinson).
+
+	* Support for adding/removing sheets on the notebook tabs
+
+	* A small draw fix (g's, j's and y's are no longer cropped).
+
+	* Mime types for Excel files are shipped (but no gnome icon
+	  for XL files yet).
+
+	* Fixes to the CVS loader (Vincent Renardias).
+
+	* Perl plugin is shipped again.
+
+You can get this from:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Happy sums,
+Miguel.
+
+
+
+Gnumeric 0.8
+Hello guys,
+
+   Gnumeric "International Manatee" 0.8 has been released.
+
+   This version is available in:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric-0.8.tar.gz
+
+   The most important change in International Manatee is the fact that
+the documentation that Adrian Likins wrote is now integrated into the
+build system.  It gets installed and we feature a reference guide for
+the internal Gnumeric functions. 
+
+   These are the features of International Manatee:
+
+	- Bruno enabled the coloring page for setting the foreground
+	  color. 
+
+	- The sheet label name works properly now (it no longer
+	  "slides"). 
+
+	- Correct behaviour of clicking in the presence of editing the
+	  sheet label name.
+
+	- Guile support now needs to be explicitly configure
+	  (--with-guile).
+	
+	- Fix crashing problems repoted when autofilling.
+
+	- Documentation is included in the tarball (You need DocBook
+	  if you plan on extending the documentation or fixing my
+	  ugly, ugly, ugly stuff :-).  You can find Docbook here:
+
+		ftp://ftp.cygnus.com/pub/home/rosalia/docware.
+	
+	  A docbook tutorial is available in:
+
+		http://nis-www.lanl.gov/~rosalia/mydocs/docbook-intro.html
+
+	  The full docbook documentation can be downloaded for free
+	  from the Davenport site (I lost the url to this, but I am 
+	  confident all of you documentation-savvy people are good
+	  at altavistaing things).
+
+Enjoy,
+Miguel.
+
+
+Gnumeric 0.7
+Hello guys,
+
+   Gnumeric "Speedy Manatee" 0.7 has been released.
+
+   This version is available in:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric-0.7.tar.gz
+
+   The highlights of this version are:
+
+   New features dept:
+
+	- References to other sheets works, you can use this like this:
+	  =Sheet!A1+1
+	  ='Regional sales'!C5*3
+
+	- New border code.  Getting ready to print the borders on the
+	  cells. 
+	
+	- Menu hints are now available for every menu entry.
+
+	- Standarized the menus (Nat Friendman).
+
+	- Use the statusbar in the code now.
+
+	- You can now rename your sheets by double clicking on the
+	  tabs and typing the new name.  How excelish!
+
+   Enhancements dept:
+
+	- Excel importing code has been enhanced by Michael Meeks and
+	  Nick Lamb.
+
+	- When inserting/moving columns or rows, the cells moved now
+	  do not change their formulas (to keep the sheet working).
+
+   Bug fixes dept:
+
+	- Better default decimal formats
+
+	- Page flipping works correctly if you press on the tab names.
+
+	- Child dialog boxes no longer ignore keystrokes (in
+	  save/load).
+
+	- Fixed the memory leaks on the Excel plugin (Michael).
+	
+	- Provide better error checking for dates (Havoc Pennington)
+
+Enjoy,
+Miguel.
+
+
+Gnumeric 0.5
+Hello guys,
+
+   I have just released a new version of Gnumeric (gnumeric-0.5), this
+version is available in:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric-0.5.tar.gz
+
+   The highlights of this version are:
+
+	- A pluggable framework for file formats.  No need to hack the 
+	  code to add your file loader anymore, routines are provided
+	  to register file loading and saving formats.
+
+	- (bug fix) Fixed the broken storage setup I introduced in the
+	  previous version.  This means that files are now correctly
+	  loaded and that if an expression renders an error you will
+	  still be able to access the information you stored.
+
+Enjoy this new version,
+Miguel
+
+
+Gnumeric 0.4
+From miguel Wed Dec 16 23:16:34 -0600 1998
+From: Miguel de Icaza <miguel@nuclecu.unam.mx>
+To: gnumeric-list@gnome.org
+Subject: New version of Gnumeric has been released.
+X-Lost: In case of doubt, make it sound convincing
+
+
+Hello guys,
+
+   A new version of Gnumeric has been released as part of the GNOME
+libraries code freeze.
+
+   I have not been very active the last two months in Gnumeric due to
+the freezing of GNOME (I worked a lot on the file manager issues), but
+I will soon be back working in the spreadsheet.
+
+   Michael Meeks and Bruno Unna did an awesome job while I was doing
+this: They added Excel file importing.  That is all I can say.  Some
+stuff is missing, yes, it will get added, yes.
+
+   During the last few weeks Morten Welinder has been reviewing the
+Gnumeric code and making very good suggestions to the coding style as
+well as making sure we keep Gnumeric in a nice way.  I am very
+thankful for his input.
+
+   Jakub Jelinek made the scrolling code be smarter than my previous
+attempt at scrolling, it is now definetly usable.
+
+   Code for attaching notes to cell is completely on the code.  The
+only problem is that right now comment is hardcoded in the source
+code.  We need a nice dialog box for this.
+
+   Mark Probst added some Guile support (this as well as the other
+plugins is completely optional), some neat things can be done with it,
+make sure you check the distribution directory.
+
+   Exponentiation has been implemented (all the code was there, I just
+had forgotten to add the line to the grammar).
+
+   Some more architectural work has been going on: named-cell range
+code is there (not finished but there).  Also, some code for
+referencing the cells in other sheets or workbook is there.
+
+   I still need to figure out a way to encode this into the
+expression.  I would appreciate any input on this issue: There are
+various possible solutions, one of the is creating a special OP_ that
+would represent a lookup into an non-local sheet.  The other is to
+define this as a function and finally, it could be done as a special
+cell type.
+
+   Also, I have dropped the "entered_text" information I kept on the
+cell.  Now the cell value is stored either as a value or as an
+expression tree and decoded when the user requires it.  This was
+required for a number of things (one of them being a nicer way to
+share cell expressions during copying, and for the excel format and
+the autofill code got definetly simpler and more maintainable).
+
+   Various display and scrolling glitches were fixed as well.  But in
+the process, I somehow broke the object-drawing code.  I have not
+researched this yet.
+
+   The initial support for CORBA is in, but it does not actually do
+anything, it is just the setup for launching the Gnumeric server.
+Owen Taylor made Gnumeric accept dragged files, you can now drag files
+from the file manager into the spreadsheet, on this topic:  the date
+routiens now use GLib's gdate instead of the gnome-libs libDate
+routines.
+
+   You can fetch it from:
+
+      ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric-0.4.tar.gz
+
+Enjoy,
+Miguel.
