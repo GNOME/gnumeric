@@ -1,7 +1,10 @@
+2001-02-10  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2001-02-09  Fatih Demir	<kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation
-		by Görkem Cetin.
+	* tr.po: Committed updated Turkish translation by Gvrkem Cetin.
 
 2001-02-08  Karl Eichwalder  <ke@suse.de>
 
@@ -77,8 +80,8 @@
 
 2001-01-16  Szabolcs Ban  <shooby@gnome.hu>
 
-        * hu.po: Updated some Hungarian translations,
-          thanks to Emese Kovacs <emese@gnome.hu>
+	* hu.po: Updated some Hungarian translations, thanks to Emese
+	  Kovacs <emese@gnome.hu>.
 
 2001-01-16  Valek Filippov  <frob@df.ru>
 
@@ -110,8 +113,7 @@
 
 2001-01-07  Fatih Demir	<kabalak@gmx.net>
 
-	* tr.po: Added Turkish translation beginnings
-		of Gorkem Cetin.
+	* tr.po: Added Turkish translation beginnings of Gorkem Cetin.
 
 2001-01-06  Almer S. Tigelaar  <almer1@dds.nl>
 
@@ -1102,7 +1104,7 @@
 
 	* no.po: Updated Norwegian translation.
 	
-1999-10-17  Martin Norb$Bdc(Bk  <norpan@bigfoot.com>
+1999-10-17  Martin Norb$(Bdc(Bk  <norpan@bigfoot.com>
 
 	* sv.po: Updated translation again.
 
@@ -1187,7 +1189,7 @@
 
 	* Updated fr.po:
 	avant:	896 translated messages, 60 fuzzy translations, 42 untranslated messages.
-	apr$Bhs(B:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
+	apr$(Bhs(B:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
 
 1999-09-06  Kjartan Maraas  <kmaraas@online.no>
 
