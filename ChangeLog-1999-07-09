@@ -1,6 +1,9 @@
 1999-02-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* src/workbook.c (sheet_action_delete_sheet): Add a test for
+	* src/workbook.c (workbook_detach_sheet): Be less forgiving as to
+	removing sheets with pending references.
+	
+	(sheet_action_delete_sheet): Add a test for
 	dependencies when removing a sheet
 	(workbook_can_detach_sheet): New function.
 

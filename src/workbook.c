@@ -1616,7 +1616,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 }
 
 /**
- * workbook_detach_sheet:
+ * workbook_can_detach_sheet:
  * @wb: workbook.
  * @sheet: the sheet that we want to detach from the workbook
  *
@@ -1651,22 +1651,28 @@ workbook_can_detach_sheet (Workbook *wb, Sheet *sheet)
  *
  * Detaches @sheet from the workbook @wb.
  */
-void
+gboolean
 workbook_detach_sheet (Workbook *wb, Sheet *sheet)
 {
 	GtkNotebook *notebook;
 	int sheets, i;
 	
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (sheet->workbook != NULL);
-	g_return_if_fail (sheet->workbook == wb);
-	g_return_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet);
+	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (sheet->workbook != NULL, FALSE);
+	g_return_val_if_fail (sheet->workbook == wb, FALSE);
+	g_return_val_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet, FALSE);
 
 	notebook = GTK_NOTEBOOK (wb->notebook);
 	sheets = workbook_sheet_count (sheet->workbook);
-	
+
+	if (sheets == 1)
+		return FALSE;
+
+	if (!workbook_can_detach_sheet (wb, sheet))
+		return FALSE;
+
 	/*
 	 * Remove our reference to this sheet
 	 */
@@ -1695,6 +1701,8 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet)
 	 * Queue a recalc
 	 */
 	workbook_recalc_all (wb);
+
+	return TRUE;
 }
 
 /**
