@@ -14,6 +14,18 @@ plugins won't load on Solaris/gcc.
 
 Why doesn't float_range_function2 use its "flags" argument?
 
+Search and search/replace dialogs are currently shot.
+
+Printing dialogs are shot.
+
+Paste-special dialog crashes.
+
+Text-import dialog crashes.
+
+Summary dialog is non-functional.
+
+Go-to cell dialog is shot.
+
 1.2 Targets
 -----------
 
