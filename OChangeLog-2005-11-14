@@ -1,3 +1,8 @@
+2004-07-30  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* src/wbcg-actions.c: Don't forget to mark with N_()
+	http://bugzilla.gnome.org/show_bug.cgi?id=148746
+
 2004-07-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/hlink.h (GNM_HLINK_URL_TYPE): new
