@@ -11,6 +11,9 @@ Jody:
 Morten:
 	* New tabulation tool.
 
+Neil Booth:
+	* Document the Black-Scholes routines.
+
 Wayne Schuller:
 	* Audit the dialogs for accelerators.
 

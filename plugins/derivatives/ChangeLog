@@ -1,3 +1,12 @@
+2002-01-18  Neil Booth  <neil@daikokuya.demon.co.uk>
+
+    * options.c (help_opt_bs_call, help_opt_bs_put,
+      help_opt_bs_call_delta, help_opt_bs_put_delta,
+      help_opt_bs_call_rho, help_opt_bs_put_rho,
+      help_opt_bs_call_theta, help_opt_bs_put_theta,
+      help_opt_bs_vega, help_opt_bs_gamma): New docs.
+    (derivatives_functions): Update.
+
 2002-01-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.2
