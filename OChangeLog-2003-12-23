@@ -1,5 +1,9 @@
 2000-04-16  Morten Welinder  <terra@diku.dk>
 
+	* src/eval.c (cell_add_explicit_dependency): Quiet a bit.
+
+	* src/functions/fn-lookup.c (gnumeric_match): Fix.
+
 	* src/functions/fn-financial.c (finance_functions_init): Define a
  	ton of stubs.  (We appear to have everything now.)
 
@@ -2178,7 +2182,7 @@
 	  the singleton cursor.
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) :
-	   - Shift tab should be horizonzontal.
+	   - Shift tab should be horizontal.
 	   - Shift/None Tab/Enter should accept pending input.
 
 2000-02-28  Jody Goldberg <jgoldberg@home.com>

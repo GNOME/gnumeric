@@ -2,6 +2,7 @@ Gnumeric 0.53
 
 Morten:
 	* Fixed QUARTILE.
+	* Fixed MATCH for types -1 and +1.
 
 --------------------------------------------------------------------------
 Gnumeric 0.52

@@ -619,7 +619,11 @@ cell_add_dependencies (Cell *cell)
 void
 cell_add_explicit_dependency (Cell *cell, CellRef const *ref)
 {
-	g_warning ("Redundant cell_add_explicit_dependency function hacked");
+	static int warned;
+	if (!warned) {
+		g_warning ("Redundant cell_add_explicit_dependency function hacked");
+		warned = 1;
+	}
 }
 
 /*

@@ -551,100 +551,116 @@ static char *help_match = {
 	   "@SEEALSO=LOOKUP")
 };
 
-/*
- * Not very convinced this is accurate.
- */
+static int
+match_value_class (const Value *v)
+{
+	switch (v->type) {
+	case VALUE_INTEGER:
+	case VALUE_FLOAT: 
+		return 0;
+
+	case VALUE_STRING:
+		return 1;
+
+	case VALUE_BOOLEAN:
+		return 2;
+
+	default:
+		g_warning ("Fishy stuff in match_value_class");
+		return 3;
+	}
+}
+
+/* Returns <0, 0, >0 if v1<v2, v1==v2, v1>v2.  */
+static int
+match_compare (const Value *v1, const Value *v2)
+{
+	int c1, c2;
+
+	c1 = match_value_class (v1);
+	c2 = match_value_class (v2);
+	if (c1 != c2)
+		return c1 - c2;
+
+	switch (v1->type) {
+	case VALUE_BOOLEAN:
+	case VALUE_INTEGER:
+		return value_get_as_int (v1) - value_get_as_int (v2);
+
+	case VALUE_FLOAT: {
+		float_t diff;
+		diff = value_get_as_float (v1) - value_get_as_float (v2);
+		return (diff > 0 ? 1 : (diff < 0 ? -1 : 0));
+	}
+
+	case VALUE_STRING:
+		return strcasecmp (v1->v.str->str, v2->v.str->str);
+
+	default:
+		return 0;
+	}
+}
+
 static Value *
 gnumeric_match (FunctionEvalInfo *ei, Value **args)
 {
-	int height, width;
-	const Value *next_largest = NULL;
-	int next_largest_x = 0;
-	int next_largest_y = 0;
+	int height, width, elements;
+	int horizontal;
+	Value *needle, *haystack;
 	int type;
-	
-	height  = value_area_get_height (ei->pos, args[1]);
-	width   = value_area_get_width  (ei->pos, args[1]);
+
+	needle = args[0];
+	haystack = args[1];
+	type = args[2] ? value_get_as_int (args[2]) : 1;
+
+	height  = value_area_get_height (ei->pos, haystack);
+	width   = value_area_get_width  (ei->pos, haystack);
+	horizontal = (width > height);
+	elements = horizontal ? width : height;
 
 	if (height != 1 && width != 1)
 		return value_new_error (ei->pos, gnumeric_err_NA);
 
-	if (args[2])
-		type = value_get_as_int (args[2]);
-	else
-		type = 1;
-
-	if (type != 0) {
-		g_warning ("function : Match() : match_type %d is not supported, only 0 is supported.", type);
+	if (elements == 0)
 		return value_new_error (ei->pos, gnumeric_err_NA);
-	}
 
-	if ((args[1]->type == VALUE_ARRAY)) {
-		if (args[2])
-			return value_new_error (ei->pos, _("Type Mismatch"));
+	if (type == 0) {
+		/* Linear search.  */
+		int lpx = 0, lpy = 0, i;
+		const Value *v;
 
-	} else if (args[1]->type == VALUE_CELLRANGE) {
-		if (!args[2])
-			return value_new_error (ei->pos, _("Invalid number of arguments"));
-
-	} else
-		return value_new_error (ei->pos, _("Type Mismatch"));
-	
-	{
-		int    x_offset=0, y_offset=0, lpx, lpy, maxx, maxy;
-		int    tmp, compare, touched;
-
-		if (args[1]->type == VALUE_ARRAY) {
-			if (width > height)
-				y_offset = 1;
-			else
-				x_offset = 1;
+		for (i = 0; i < elements; i++) {
+			v = value_area_fetch_x_y (ei->pos, args[1], lpx, lpy);
+			if (lookup_similar (v, needle, NULL, 1) == 1)
+				return value_new_int (i + 1);
+			if (horizontal) lpx++; else lpy++;
 		}
-		maxy  = value_area_get_height (ei->pos, args[1]);
-		maxx  = value_area_get_width  (ei->pos, args[1]);
+	} else {
+		/* Bisection search.  */
+		int l = 0, h = elements - 1, m, order;
+		const Value *v;
 
-		if ((tmp = value_area_get_height (ei->pos, args[1])) < maxy)
-			maxy = tmp;
-		if ((tmp = value_area_get_width (ei->pos, args[1])) < maxx)
-			maxx = tmp;
+		while (l <= h) {
+			m = (l + h) / 2;
+			v = value_area_fetch_x_y (ei->pos, args[1],
+						  horizontal ? m : 0,
+						  horizontal ? 0 : m);
+			order = match_compare (v, needle);
 
-		touched = 0;
-		for (lpx = 0, lpy = 0;lpx < maxx && lpy < maxy;) {
-			const Value *v = value_area_fetch_x_y (ei->pos, args[1], lpx, lpy);
-			compare = lookup_similar (v, args[0], next_largest, 1);
-			if (compare == 1) {
-				/* type = 0 : Find the first value exactly equal to
-				 * the target value.  No order is assumed for the target_range.
-				 */
-				if (type == 0) {
-					if (width > height)
-						return value_new_int (lpx + 1);
-					else
-						return value_new_int (lpy + 1);
-				}
-			}
-			if (compare < 0) {
-				next_largest = v;
-				next_largest_x = lpx;
-				next_largest_y = lpy;
-			} else 
-				break;
-
-			if (width > height)
-				lpx++;
+			if (order == 0)
+				return value_new_int (m + 1);
+			else if ((order < 0) != (type == -1))
+				l = m + 1;
 			else
-				lpy++;
+				h = m - 1;
 		}
 
-		if (!next_largest && type != -1)
-			return value_new_error (ei->pos, gnumeric_err_NA);
-
-		if (width > height)
-			return value_new_int (lpx + 1);
-		else
-			return value_new_int (lpy + 1);
-
+		if (type == -1 && l)
+			return value_new_int (elements);
+		else if (type == +1 && l == 0)
+			return value_new_int (1);
 	}
+	return value_new_error (ei->pos, gnumeric_err_NA);
 }
 
 /***************************************************************************/
