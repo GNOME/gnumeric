@@ -1,3 +1,8 @@
+2003-11-16  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (random_01): Optionally generate pseudo-random
+	(as opposed to random) numbers.
+
 2003-11-16  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_parse_ctx_new) : set the workbook here.

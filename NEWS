@@ -104,6 +104,7 @@ Morten:
 	* Fix column selection in stf import.
 	  http://bugzilla.gnome.org/show_bug.cgi?id=125417
 	* Plug a few leaks.
+	* Optionally generate pseudo-random (as opposed to random) numbers.
 
 Rodrigo:
 	* Bump requirement to libgda/libgnomedb 1.0.1
