@@ -33,7 +33,10 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("Kenneth Christiansen, i18n, misc stuff."),
 		N_("Zbigniew Chyla, plugin system, i18n."),
 		N_("Tom Dyas, plugin support."),
-		N_("Gergõ Érdi, Gnumeric hacker."),
+		/* if your charset allows it, replace the 'o' of 'Gergo'
+		 * with 'odoubleacute' (U0151) and the 'E' of 'Erdi'
+		 * with 'Eacute' (U00C9) */
+		N_("Gergo Erdi, Gnumeric hacker."),
 		N_("Jon K. Hellan, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),

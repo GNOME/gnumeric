@@ -176,7 +176,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (MЖbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Moebius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -556,7 +556,7 @@ msgid "Tom Dyas, plugin support."
 msgstr "Tom Dyas, поддержка дополнений."
 
 #: src/about.c:36
-msgid "GergУ иrdi, Gnumeric hacker."
+msgid "Gergo Erdi, Gnumeric hacker."
 msgstr "GergУ иrdi, Gnumeric программист."
 
 #: src/about.c:37

@@ -2,17 +2,16 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: gnumeric VERSION\n"
 "POT-Creation-Date: 2001-05-20 11:44-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2001-05-20 11:44-0400\n"
+"Last-Translator: Unknown :-(\n"
+"Language-Team: Estonian\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: plugins/dif/dif.c:285
 msgid "DIF : Failed to load sheet"
@@ -163,7 +162,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Moebius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -477,7 +476,7 @@ msgstr "Tom Dyas, liideste toetus."
 
 #: src/about.c:36
 #, fuzzy
-msgid "Gergõ Érdi, Gnumeric hacker."
+msgid "Gergo Erdi, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumericu häkker."
 
 #: src/about.c:37

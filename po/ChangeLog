@@ -1,3 +1,7 @@
+2001-05-21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* *.po: removed non ascii from msgid, and fixed invalid multibyte
+
 2001-05-20  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.

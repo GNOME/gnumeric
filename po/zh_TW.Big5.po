@@ -27,7 +27,7 @@ msgstr ""
 
 #: plugins/excel/boot.c:130
 msgid "Saving over old files disabled for safety"
-msgstr "¦]¦w¥þ©Ê¦Ò¶q¡AÃö³¬Àx¦s®É»\\¹LÂÂÀÉ®×ªº¥\\¯à"
+msgstr "¦]¦w¥þ©Ê¦Ò¶q¡AÃö³¬Àx¦s®É»\¹LÂÂÀÉ®×ªº¥\¯à"
 
 #: plugins/excel/boot.c:141
 msgid "Can't open"
@@ -169,7 +169,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Moebius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -462,7 +462,7 @@ msgstr "Tom Dyas, Plugin ¤ä´©¡C"
 
 #: src/about.c:42
 #, fuzzy
-msgid "Gergõ Érdi, Gnumeric hacker."
+msgid "Gergo Erdi, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric Àb«È"
 
 #: src/about.c:43
@@ -507,7 +507,7 @@ msgstr "Takashi Matsuda, Â²©ö¤å¦r¤ä´©"
 #: src/about.c:51
 #, fuzzy
 msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr "Michael Meeks, Excel »P OLE2 Âà¤J¥\\¯à¡C"
+msgstr "Michael Meeks, Excel »P OLE2 Âà¤J¥\¯à¡C"
 
 #: src/about.c:52
 #, fuzzy
@@ -713,7 +713,7 @@ msgstr ""
 #: src/analysis-tools.c:1870
 #, fuzzy
 msgid "Not implemented yet.\n"
-msgstr "#¥¼¹ê§@ªº¥\\¯à!"
+msgstr "#¥¼¹ê§@ªº¥\¯à!"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
@@ -2239,7 +2239,7 @@ msgstr "·s¼W"
 #: src/dialogs/cell-sort.glade.h:3
 #, fuzzy
 msgid "Advanced Sort Options"
-msgstr "Gnumeric ¥~¥[¥\\¯à"
+msgstr "Gnumeric ¥~¥[¥\¯à"
 
 #: src/dialogs/cell-sort.glade.h:4
 msgid "Case sensitive"
@@ -3921,7 +3921,7 @@ msgstr "¤À¼Æ"
 #: src/dialogs/plugin-manager.glade.h:11
 #, fuzzy
 msgid "Gnumeric Plugin Manager"
-msgstr "Gnumeric ¥~¥[¥\\¯à"
+msgstr "Gnumeric ¥~¥[¥\¯à"
 
 #: src/dialogs/plugin-manager.glade.h:12
 msgid "Id"
@@ -4428,7 +4428,7 @@ msgstr ""
 #: src/dialogs/solver-options.glade.h:3
 #, fuzzy
 msgid "Solver Options"
-msgstr "Gnumeric ¥~¥[¥\\¯à"
+msgstr "Gnumeric ¥~¥[¥\¯à"
 
 #: src/dialogs/solver.glade.h:1
 msgid "                         "
@@ -6719,7 +6719,7 @@ msgstr ""
 #: src/functions/fn-information.c:301
 #, fuzzy
 msgid "Unimplemented"
-msgstr "#¥¼¹ê§@ªº¥\\¯à!"
+msgstr "#¥¼¹ê§@ªº¥\¯à!"
 
 #: src/functions/fn-date.c:864
 msgid ""
@@ -11610,7 +11610,7 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
-"±z©ì¦²ªºÀx¦s®æ±N·|»\\¹L¦P¤@½d³ò¤º­ì¦³\n"
+"±z©ì¦²ªºÀx¦s®æ±N·|»\¹L¦P¤@½d³ò¤º­ì¦³\n"
 "Àx¦s®æªº¤º®e¡A±z½T©w­n´À´«±¼³o¶ô°Ï°ì\n"
 "ªº¤º®e¶Ü¡H"
 
@@ -11682,7 +11682,7 @@ msgstr "ÀÉ®×"
 
 #: src/main.c:96
 msgid "Enables some debugging functions"
-msgstr "±Ò°Ê°£¿ù¥\\¯à"
+msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #: src/main.c:96 src/main.c:99 src/main.c:101 src/main.c:103 src/main.c:111
 #: src/main.c:115 src/main.c:119 src/main.c:123 src/main.c:127 src/main.c:131
@@ -11692,17 +11692,17 @@ msgstr "µ¥¯Å"
 #: src/main.c:99
 #, fuzzy
 msgid "Enables some style related debugging functions"
-msgstr "±Ò°Ê°£¿ù¥\\¯à"
+msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #: src/main.c:101
 #, fuzzy
 msgid "Enables some dependency related debugging functions"
-msgstr "±Ò°Ê°£¿ù¥\\¯à"
+msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #: src/main.c:103
 #, fuzzy
 msgid "Enables some print debugging behavior"
-msgstr "±Ò°Ê°£¿ù¥\\¯à"
+msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #: src/main.c:106
 msgid "Exit immediately after loading the selected books (useful for testing)."
@@ -11715,17 +11715,17 @@ msgstr ""
 #: src/main.c:114
 #, fuzzy
 msgid "Enables debugging mesgs while reading excel functions"
-msgstr "±Ò°Ê°£¿ù¥\\¯à"
+msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #: src/main.c:118
 #, fuzzy
 msgid "Enables debugging mesgs while reading excel colors & patterns"
-msgstr "±Ò°Ê°£¿ù¥\\¯à"
+msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #: src/main.c:122
 #, fuzzy
 msgid "Enables debugging mesgs while reading excel objects"
-msgstr "±Ò°Ê°£¿ù¥\\¯à"
+msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #: src/main.c:126
 msgid "Enables debugging mesgs while reading excel charts"
@@ -11734,7 +11734,7 @@ msgstr ""
 #: src/main.c:134
 #, fuzzy
 msgid "Enables extra consistency checking while reading ole files"
-msgstr "±Ò°Ê°£¿ù¥\\¯à"
+msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #: src/main.c:162
 #, c-format
@@ -12224,7 +12224,7 @@ msgstr ""
 #: src/solver-lp.c:899
 #, fuzzy
 msgid "Gnumeric Solver Answer Report"
-msgstr "Gnumeric ¥~¥[¥\\¯à"
+msgstr "Gnumeric ¥~¥[¥\¯à"
 
 #: src/solver-lp.c:903
 msgid "Target Cell (Maximize)"
@@ -12288,7 +12288,7 @@ msgstr ""
 #: src/solver-lp.c:1057
 #, fuzzy
 msgid "Gnumeric Solver Sensitivity Report"
-msgstr "Gnumeric ¥~¥[¥\\¯à"
+msgstr "Gnumeric ¥~¥[¥\¯à"
 
 #: src/solver-lp.c:1059 src/solver-lp.c:1107
 #, fuzzy
@@ -13397,7 +13397,7 @@ msgstr ""
 #: src/gnumeric.xml.h:235 src/workbook-control-gui.c:2242
 #, fuzzy
 msgid "_Plug-ins..."
-msgstr "¥~¥[¥\\¯à (_g)..."
+msgstr "¥~¥[¥\¯à (_g)..."
 
 #: src/workbook-control-gui.c:2243
 msgid "Manage available plugin modules."
@@ -14137,7 +14137,7 @@ msgstr "¶}·sÀÉ®×(_N)"
 
 #, fuzzy
 #~ msgid "Enables the creation of functions in PERL"
-#~ msgstr "±Ò°Ê°£¿ù¥\\¯à"
+#~ msgstr "±Ò°Ê°£¿ù¥\¯à"
 
 #, fuzzy
 #~ msgid "Imports SC/XSpread files"
@@ -14908,7 +14908,7 @@ msgstr "¶}·sÀÉ®×(_N)"
 #~ msgstr "¤u¨ã (_T)..."
 
 #~ msgid "#Unimplemented!"
-#~ msgstr "#¥¼¹ê§@ªº¥\\¯à!"
+#~ msgstr "#¥¼¹ê§@ªº¥\¯à!"
 
 #~ msgid "Reference to newborn cell"
 #~ msgstr "«ü¨ì·sªºÀx¦s®æ"
