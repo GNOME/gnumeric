@@ -13,6 +13,7 @@
 #include "selection.h"
 #include "dialogs.h"
 #include "workbook-view.h"
+#include "commands.h"
 
 #define GLADE_FILE "delete-cells.glade"
 
@@ -58,10 +59,10 @@ dialog_delete_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
 					  ss->user.end.col, 
 					  ss->user.start.row + rows, -rows);
 		else if (i == 2)
-			sheet_delete_rows (workbook_command_context_gui (wb), sheet,
+			cmd_delete_rows (workbook_command_context_gui (wb), sheet,
 					   ss->user.start.row, rows);
 		else if (i == 3)
-			sheet_delete_cols (workbook_command_context_gui (wb), sheet,
+			cmd_delete_cols (workbook_command_context_gui (wb), sheet,
 					   ss->user.start.col, cols);
 	}
 
@@ -90,13 +91,13 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 
 	/* short circuit the dialog if an entire row/column is selected */
 	if (ss->user.start.row == 0 && ss->user.end.row  >= SHEET_MAX_ROWS-1) {
-		sheet_delete_cols (workbook_command_context_gui (wb), sheet,
-				   ss->user.start.col, cols);
+		cmd_delete_cols (workbook_command_context_gui (wb), sheet,
+				 ss->user.start.col, cols);
 		return;
 	}
 	if (ss->user.start.col == 0 && ss->user.end.col  >= SHEET_MAX_COLS-1) {
-		sheet_delete_rows (workbook_command_context_gui (wb), sheet,
-				   ss->user.start.row, rows);
+		cmd_delete_rows (workbook_command_context_gui (wb), sheet,
+				 ss->user.start.row, rows);
 		return;
 	}
 

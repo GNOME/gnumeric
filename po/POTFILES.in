@@ -13,6 +13,7 @@ plugins/text/text-io.c
 plugins/xbase/boot.c
 src/about.c
 src/cell.c
+src/commands.c
 src/corba-args.c
 src/dates.c
 src/dialogs/dialog-analysis-tools.c

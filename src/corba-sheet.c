@@ -803,7 +803,7 @@ Sheet_insert_col (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_col (col);
-	sheet_insert_cols (
+	cmd_insert_cols (
 		command_context_corba (sheet->workbook), sheet,
 		col, count);
 }
@@ -816,7 +816,7 @@ Sheet_delete_col (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_col (col);
-	sheet_delete_cols (
+	cmd_delete_cols (
 		command_context_corba (sheet->workbook), sheet,
 		col, count);
 }
@@ -829,7 +829,7 @@ Sheet_insert_row (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_row (row);
-	sheet_insert_rows (
+	cmd_insert_rows (
 		command_context_corba (sheet->workbook), sheet,
 		row, count);
 }
@@ -842,7 +842,7 @@ Sheet_delete_row (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_row (row);
-	sheet_delete_rows (
+	cmd_delete_rows (
 		command_context_corba (sheet->workbook), sheet,
 		row, count);
 }

@@ -32,6 +32,7 @@
 #include "workbook-format-toolbar.h"
 #include "workbook-view.h"
 #include "command-context-gui.h"
+#include "commands.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/gnome-persist-file.h>
@@ -265,9 +266,12 @@ workbook_do_destroy (Workbook *wb)
 	summary_info_free (wb->summary_info);
 	wb->summary_info = NULL;
 
+	command_list_release (wb->undo_commands);
+	command_list_release (wb->redo_commands);
+
 	/* Release the clipboard if it is associated with this workbook */
 	{
-		Sheet * tmp_sheet;
+		Sheet *tmp_sheet;
 		if ((tmp_sheet = application_clipboard_sheet_get ()) != NULL &&
 		    tmp_sheet->workbook == wb)
 			application_clipboard_clear ();
@@ -627,19 +631,13 @@ quit_cmd (void)
 static void
 undo_cmd (GtkWidget *widget, Workbook *wb)
 {
-#if 0
-	/* Disable until they are read for prime time */
-	workbook_undo (wb);
-#endif
+	command_undo (workbook_command_context_gui (wb), wb);
 }
 
 static void
 redo_cmd (GtkWidget *widget, Workbook *wb)
 {
-#if 0
-	/* Disable until they are read for prime time */
-	workbook_redo (wb);
-#endif
+	command_redo (workbook_command_context_gui (wb), wb);
 }
 
 static void
@@ -771,8 +769,8 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 	 * at minimum a warning if things are about to be cleared ?
 	 */
 	cols = ss->user.end.col - ss->user.start.col + 1;
-	sheet_insert_cols (workbook_command_context_gui (wb), sheet,
-			   ss->user.start.col, cols);
+	cmd_insert_cols (workbook_command_context_gui (wb), sheet,
+			 ss->user.start.col, cols);
 }
 
 static void
@@ -796,8 +794,8 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 	 * at minimum a warning if things are about to be cleared ?
 	 */
 	rows = ss->user.end.row - ss->user.start.row + 1;
-	sheet_insert_rows (workbook_command_context_gui (wb), sheet,
-			   ss->user.start.row, rows);
+	cmd_insert_rows (workbook_command_context_gui (wb), sheet,
+			 ss->user.start.row, rows);
 }
 
 static void
@@ -1095,12 +1093,6 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-#ifdef ENABLE_BONOBO
-	GNOMEUIINFO_ITEM_NONE(N_("Insert object..."),
-			      N_("Inserts a Bonobo object"),
-			      insert_object_cmd),
-#endif
-
 	{ GNOME_APP_UI_ITEM, N_("_Define cell names"), NULL, define_cell_cmd },
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1115,7 +1107,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 static GnomeUIInfo workbook_menu_view [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Zoom..."),
 	  N_("Zoom the spreadsheet in or out"), zoom_cmd },
-	{ GNOME_APP_UI_ITEM, N_("Toggle _Formulas"),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Toggle _Formulas"),
 	  N_("Toggle the display of formulas"), toggle_formulas_cmd },
 	GNOMEUIINFO_END
 };
@@ -1137,12 +1129,18 @@ static GnomeUIInfo workbook_menu_insert_special [] = {
 static GnomeUIInfo workbook_menu_insert [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Sheet"), N_("Insert a new spreadsheet"),
 	  insert_sheet_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Cells..."), N_("Insert new cells"),
-	  insert_cells_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Rows"), N_("Insert new rows"),
 	  insert_rows_cmd  },
-	{ GNOME_APP_UI_ITEM, N_("C_olumns"), N_("Insert new columns"),
+	{ GNOME_APP_UI_ITEM, N_("_Columns"), N_("Insert new columns"),
 	  insert_cols_cmd  },
+	{ GNOME_APP_UI_ITEM, N_("C_ells..."), N_("Insert new cells"),
+	  insert_cells_cmd },
+
+#ifdef ENABLE_BONOBO
+	GNOMEUIINFO_ITEM_NONE(N_("_Object..."),
+			      N_("Inserts a Bonobo object"),
+			      insert_object_cmd),
+#endif
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1376,17 +1374,6 @@ workbook_focus_sheet (Sheet *sheet)
 	}
 }
 
-static void
-wb_input_finished (GtkEntry *entry, Workbook *wb)
-{
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
-
-	sheet_set_current_value (sheet);
-	workbook_focus_current_sheet (wb);
-}
-
 static int
 wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 {
@@ -1554,7 +1541,6 @@ static void
 accept_input (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
-
 	sheet_set_current_value (sheet);
 	workbook_focus_current_sheet (wb);
 }
@@ -1710,7 +1696,7 @@ workbook_setup_edit_area (Workbook *wb)
 
 	/* Do signal setup for the editing input line */
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "activate",
-			    GTK_SIGNAL_FUNC (wb_input_finished),
+			    GTK_SIGNAL_FUNC (accept_input),
 			    wb);
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "key_press_event",
 			    GTK_SIGNAL_FUNC (wb_edit_key_pressed),
@@ -2053,6 +2039,9 @@ workbook_init (GtkObject *object)
 	wb->summary_info   = summary_info_new ();
 	summary_info_default (wb->summary_info);
 
+	/* Nothing to undo or redo */
+	wb->undo_commands = wb->redo_commands = NULL;
+
 	/* Set the default operation to be performed over selections */
 	wb->auto_expr      = NULL;
 	wb->auto_expr_desc = NULL;
@@ -2203,8 +2192,8 @@ workbook_new (void)
 	}
 #endif
 
-	/* Disable undo/redo for now */
-	workbook_view_set_undo_redo_state (wb, FALSE, FALSE);
+	/* There is nothing to undo/redo yet */
+	workbook_view_set_undo_redo_state (wb, NULL, NULL);
 
 	/*
 	 * Enable paste special, this assumes that the default is to

@@ -268,14 +268,12 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 				pixels = item_bar->resize_width;
 
 			total += pixels;
-			if (total >= 0) {
-				char const * const str = col_name (element);
+			if (total >= 0)
 				bar_draw_cell (item_bar, drawable,
 					       sheet_col_selection_type (sheet, element),
-					       str,
+					       col_name (element),
 					       1 + total - pixels, -y,
 					       pixels, real_height);
-			}
 
 			++element;
 		} while (total < width);

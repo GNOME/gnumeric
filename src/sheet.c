@@ -23,6 +23,7 @@
 #include "mstyle.h"
 #include "application.h"
 #include "command-context.h"
+#include "commands.h"
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
@@ -1298,7 +1299,8 @@ sheet_set_current_value (Sheet *sheet)
 	str = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
 	g_return_if_fail (str != NULL);
 
-	if (*str == '@'){
+	/* A hack to accept Lotus 123 style formula entries */
+	if (*str == '@') {
 		char *new_text = g_strdup (str);
 
 		*new_text = *str = '=';
@@ -1308,6 +1310,12 @@ sheet_set_current_value (Sheet *sheet)
 
 	r.start.col = r.end.col = sheet->cursor_col;
 	r.start.row = r.end.row = sheet->cursor_row;
+
+	/* TODO : Get a context */
+	/* Store the old value for undo */
+	if (cmd_set_text (NULL, sheet, &r.start, str, sheet->editing_saved_text))
+		return;
+
 	sheet_set_text (sheet, str, &r);
 
 	for (l = sheet->sheet_views; l; l = l->next){
@@ -3294,7 +3302,7 @@ colrow_move (Sheet *sheet,
 }
 
 /**
- * sheet_insert_col:
+ * sheet_insert_cols:
  * @sheet   The sheet
  * @col     At which position we want to insert
  * @count   The number of columns to be inserted

@@ -1,3 +1,24 @@
+2000-01-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.[ch] : New files.
+
+	* src/workbook-view.c (workbook_view_set_undo_redo_state) : Take
+	  strings to use as suffixes to undo and redo.  NULL indicates
+	  disabled.
+
+	* src/sheet.c (sheet_set_current_value) : Use cmd_set_text to register
+	  undo.
+
+	* src/workbook.c (workbook_menu_view) : Make The formula toggle a
+	  toggle item.
+	(workbook_menu_insert) : Move the insert object menu item here,
+	  and adjust the selector characters to make more sense.
+	(undo_cmd, redo_cmd) : Enable.
+
+	(workbook_init) : Init the undo/redo lists.
+	(workbook_do_destroy) : Clear the undo/redo lists.
+	(wb_input_finished) : Delete.  It was the same as accept_input.
+
 2000-01-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/cell.c (cell_render_value): Do not check for cell->sheet and

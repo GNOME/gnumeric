@@ -76,6 +76,10 @@ struct _Workbook {
 	char       *filename;
 	gboolean    needs_name;
 
+	/* Undo support */
+	GSList	   *undo_commands;
+	GSList	   *redo_commands;
+
 	/* The auto-expression */
 	ExprTree   *auto_expr;
 	String     *auto_expr_desc;

@@ -13,6 +13,7 @@
 #include "selection.h"
 #include "dialogs.h"
 #include "workbook-view.h"
+#include "commands.h"
 
 #define GLADE_FILE "insert-cells.glade"
 
@@ -58,11 +59,11 @@ dialog_insert_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
 					  ss->user.end.col, 
 					  ss->user.start.row, rows);
 		else if (i == 2)
-			sheet_insert_rows (workbook_command_context_gui (wb), sheet,
-					   ss->user.start.row, rows);
+			cmd_insert_rows (workbook_command_context_gui (wb), sheet,
+					 ss->user.start.row, rows);
 		else if (i == 3)
-			sheet_insert_cols (workbook_command_context_gui (wb), sheet,
-					   ss->user.start.col, cols);
+			cmd_insert_cols (workbook_command_context_gui (wb), sheet,
+					 ss->user.start.col, cols);
 	}
 
 	/* If user closed the dialog with prejudice, it's already destroyed */
@@ -90,13 +91,13 @@ dialog_insert_cells (Workbook *wb, Sheet *sheet)
 
 	/* short circuit the dialog if an entire row/column is selected */
 	if (ss->user.start.row == 0 && ss->user.end.row  >= SHEET_MAX_ROWS-1) {
-		sheet_insert_cols (workbook_command_context_gui (wb), sheet,
-				   ss->user.start.col, cols);
+		cmd_insert_cols (workbook_command_context_gui (wb), sheet,
+				 ss->user.start.col, cols);
 		return;
 	}
 	if (ss->user.start.col == 0 && ss->user.end.col  >= SHEET_MAX_COLS-1) {
-		sheet_insert_rows (workbook_command_context_gui (wb), sheet,
-				   ss->user.start.row, rows);
+		cmd_insert_rows (workbook_command_context_gui (wb), sheet,
+				 ss->user.start.row, rows);
 		return;
 	}
 

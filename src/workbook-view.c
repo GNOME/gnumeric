@@ -28,18 +28,41 @@ workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
 #endif
 }
 
-void
-workbook_view_set_undo_redo_state (Workbook const * const wb,
-				   gboolean const has_undos,
-				   gboolean const has_redos)
+static void
+change_menu_label (GtkWidget *menu_item,
+		   char const * const prefix,
+		   char const * suffix)
 {
-	g_return_if_fail (wb != NULL);
-
 #ifndef ENABLE_BONOBO
-	gtk_widget_set_sensitive (wb->priv->menu_item_undo, has_undos);
-	gtk_widget_set_sensitive (wb->priv->menu_item_redo, has_redos);
+	gchar    *text;
+	GtkBin   *bin = GTK_BIN(menu_item);
+	GtkLabel *label = GTK_LABEL(bin->child);
+
+	g_return_if_fail (label != NULL);
+
+	gtk_widget_set_sensitive (menu_item, suffix != NULL);
+
+	if (suffix == NULL)
+		suffix = _("Nothing");
+
+	/* Limit the size of the descriptor to 30 characters */
+	text = g_strdup_printf ("%s : %s", prefix, suffix);
+	gtk_label_set_text (label, text);
+
+	g_free (text);
 #else
 	/* gnome_ui_handler_menu_set_sensitivity (); */
 #endif
+}
+
+void
+workbook_view_set_undo_redo_state (Workbook const * const wb,
+				   char const * const undo_suffix,
+				   char const * const redo_suffix)
+{
+	g_return_if_fail (wb != NULL);
+
+	change_menu_label (wb->priv->menu_item_undo, _("Undo"), undo_suffix);
+	change_menu_label (wb->priv->menu_item_redo, _("Redo"), redo_suffix);
 }
 

@@ -14,7 +14,7 @@
 void workbook_view_set_paste_special_state (Workbook *wb, gboolean enable);
 
 void workbook_view_set_undo_redo_state (Workbook const * const wb,
-					gboolean const has_undos,
-					gboolean const has_redos);
+					char const * const undo_suffix,
+					char const * const redo_suffix);
 
 #endif /* GNUMERIC_WORKBOOK_VIEW_H */
