@@ -176,7 +176,7 @@ currency_date_format_init (void)
 	cell_format_account [2] = 
 		g_strdup_printf ("_(%s* #,##0.00_);_(%s* (#,##0.00);_(%s* \"-\"??_);_(@_)", curr, curr, curr);
 
-	if (format_month_before_day ()) {
+	if (!format_month_before_day ()) {
 		cell_format_date [0]  = "d/m/yy";
 		cell_format_date [1]  = "d/m/yyyy";
 		cell_format_date [2]  = "mmm-d-yy";

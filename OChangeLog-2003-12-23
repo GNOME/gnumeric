@@ -1,5 +1,13 @@
 2000-09-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/format.c (format_month_before_day) : implement.
+
+	* src/workbook.c (workbook_expr_relocate) : Support dependents other
+	  than cells.
+	(workbook_expr_unrelocate) : Ditto.
+
+2000-09-21  Jody Goldberg <jgoldberg@home.com>
+
 	* src/print-cell.c (print_show_iso8859_1) : Temp fix to get things
 	  compiling.  What should we be using?
 

@@ -26,7 +26,7 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
-#include <locale.h>
+#include <langinfo.h>
 #include <limits.h>
 #include <ctype.h>
 #ifdef HAVE_IEEEFP_H
@@ -45,11 +45,13 @@
 
 /* Points to the locale information for number display */
 static struct lconv *lc = NULL;
+static gboolean date_order_cached = FALSE;
 
 char const *
 gnumeric_setlocale (int category, char const *val)
 {
 	lc = NULL;
+	date_order_cached = FALSE;
 	return setlocale (category, val);
 }
 
@@ -92,11 +94,34 @@ format_get_currency (void)
 	return lc->currency_symbol;
 }
 
+/*
+ * format_month_before_day :
+ *
+ * A quick utility routine to guess whether the default date format
+ * uses day/month or month/day
+ */
 gboolean
 format_month_before_day (void)
 {
-    /* FIXME */
-	return TRUE;
+	static gboolean month_first = TRUE;
+
+	if (!date_order_cached) {
+		char const *ptr = nl_langinfo(D_FMT);
+
+		date_order_cached = TRUE;
+		month_first = TRUE;
+		if (ptr)
+			while (*ptr) {
+				char const tmp = tolower((unsigned char)*ptr++);
+				if (tmp == 'd') {
+					month_first = FALSE;
+					break;
+				} else if (tmp == 'm')
+					break;
+			}
+	}
+
+	return month_first;
 }
 
 /* Use comma as the arg seperator unless the decimal point is a

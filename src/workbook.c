@@ -3610,11 +3610,15 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
 	}
 }
 
-struct expr_relocate_storage
+typedef struct
 {
-	EvalPos pos;
+    	int dep_type;
+	union {
+		EvalPos    pos;
+		Dependent *dep;
+	} u;
 	ExprTree *oldtree;
-};
+} ExprRelocateStorage;
 
 /**
  * workbook_expr_unrelocate_free : Release the storage associated with
@@ -3625,8 +3629,7 @@ workbook_expr_unrelocate_free (GSList *info)
 {
 	while (info != NULL) {
 		GSList *cur = info;
-		struct expr_relocate_storage *tmp =
-		    (struct expr_relocate_storage *)(info->data);
+		ExprRelocateStorage *tmp = (ExprRelocateStorage *)(info->data);
 
 		info = info->next;
 		expr_tree_unref (tmp->oldtree);
@@ -3640,15 +3643,18 @@ workbook_expr_unrelocate (Workbook *wb, GSList *info)
 {
 	while (info != NULL) {
 		GSList *cur = info;
-		struct expr_relocate_storage *tmp =
-		    (struct expr_relocate_storage *)info->data;
-		Cell *cell = sheet_cell_get (tmp->pos.sheet,
-					     tmp->pos.eval.col,
-					     tmp->pos.eval.row);
+		ExprRelocateStorage *tmp = (ExprRelocateStorage *)info->data;
 
-		g_return_if_fail (cell != NULL);
+		if (tmp->dep_type == DEPENDENT_CELL) {
+			Cell *cell = sheet_cell_get (tmp->u.pos.sheet,
+						     tmp->u.pos.eval.col,
+						     tmp->u.pos.eval.row);
 
-		sheet_cell_set_expr (cell, tmp->oldtree);
+			g_return_if_fail (cell != NULL);
+
+			sheet_cell_set_expr (cell, tmp->oldtree);
+		} else
+			dependent_set_expr (tmp->u.dep, tmp->oldtree);
 		expr_tree_unref (tmp->oldtree);
 
 		info = info->next;
@@ -3694,15 +3700,23 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 		newtree = expr_rewrite (dep->expression, &rwinfo);
 
 		if (newtree) {
+			int const t = (dep->flags & DEPENDENT_TYPE_MASK);
+
 			/* Don't store relocations if they were inside the region
 			 * being moved.  That is handled elsewhere */
-			if (info->origin_sheet != rwinfo.u.relocate.pos.sheet ||
+			if (t != DEPENDENT_CELL ||
+			    info->origin_sheet != rwinfo.u.relocate.pos.sheet ||
 			    !range_contains (&info->origin,
 					     rwinfo.u.relocate.pos.eval.col,
 					     rwinfo.u.relocate.pos.eval.row)) {
-				struct expr_relocate_storage *tmp =
-				    g_new (struct expr_relocate_storage, 1);
-				tmp->pos = rwinfo.u.relocate.pos;
+				ExprRelocateStorage *tmp =
+				    g_new (ExprRelocateStorage, 1);
+
+				tmp->dep_type = t;
+				if (t != DEPENDENT_CELL)
+					tmp->u.dep = dep;
+				else
+					tmp->u.pos = rwinfo.u.relocate.pos;
 				tmp->oldtree = dep->expression;
 				expr_tree_ref (tmp->oldtree);
 				undo_info = g_slist_prepend (undo_info, tmp);
