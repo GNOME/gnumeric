@@ -4586,17 +4586,24 @@ random_01 (void)
 	}
 
 	if (device_fd >= 0) {
-		unsigned char data[sizeof (gnm_float)];
+		static ssize_t bytes_left = 0;
+		static unsigned char data[32 * sizeof (gnm_float)];
+		gnm_float res = 0;
+		size_t i;
 
-		if (fullread (device_fd, &data, sizeof (gnm_float)) == sizeof (gnm_float)) {
-			gnm_float res = 0;
-			size_t i;
-
-			for (i = 0; i < sizeof (gnm_float); i++)
-				res = (res + data[i]) / 256;
-			return res;
+		if (bytes_left < (ssize_t)sizeof (gnm_float)) {
+			ssize_t got = fullread (device_fd, &data, sizeof (data));
+			if (got < (ssize_t)sizeof (gnm_float))
+				goto failure;
+			bytes_left += got;
 		}
 
+		bytes_left -= sizeof (gnm_float);
+		for (i = 0; i < sizeof (gnm_float); i++)
+			res = (res + data[bytes_left + i]) / 256;
+		return res;
+
+	failure:
 		/* It failed when it shouldn't.	 Disable.  */
 		g_warning ("Reading from %s failed; reverting to pseudo-random.",
 			   RANDOM_DEVICE);

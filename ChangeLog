@@ -1,3 +1,8 @@
+2003-02-28  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (random_01): Get larger chunks of randomness.
+	People who need randomness tend to need a lot.
+
 2003-02-26  Morten Welinder  <terra@diku.dk>
 
 	* src/rendered-value.h: No more rendered_text member.

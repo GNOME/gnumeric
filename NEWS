@@ -18,6 +18,7 @@ Morten:
 	* Improve progress display when loading.
 	* Eliminate rendered_text from struct RenderedValue.  (Operation
 	  Snappiness, Part 6.)
+	* Speed up generation of random numbers.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16
