@@ -85,11 +85,10 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 			     style_format_is_general (VALUE_FMT (cell->value)))) {
 				StyleFont *style_font =
 					scg_get_style_font (sheet, mstyle);
-				float const font_width = style_font_get_width_pts (style_font);
-				style_font_unref (style_font);
+				double wdigit = style_font->approx_width.pts.digit;
 
-				if (font_width > 0.) {
-					float cell_width;
+				if (wdigit > 0.0) {
+					double cell_width;
 					if (cell_is_merged (cell)) {
 						Range const *merged =
 							sheet_merge_is_corner (cell->base.sheet, &cell->pos);
@@ -99,8 +98,18 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 					} else
 						cell_width = cell->col_info->size_pts;
 					cell_width -= cell->col_info->margin_a + cell->col_info->margin_b;
-					col_width = cell_width / font_width;
+
+					/*
+					 * FIXME: we should really pass these to the format function,
+					 * so we can measure actual characters, not just what might be
+					 * there.
+					 */
+					cell_width -= MAX (0.0, style_font->approx_width.pts.e - wdigit);
+					cell_width -= MAX (0.0, style_font->approx_width.pts.decimal - wdigit);
+					cell_width -= 2 * MAX (0.0, style_font->approx_width.pts.sign - wdigit);
+					col_width = cell_width / wdigit;
 				}
+				style_font_unref (style_font);
 			} else {
 				format = VALUE_FMT (cell->value);
 				dynamic_width = FALSE;
@@ -261,9 +270,10 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	}
 
 	/* 2*width seems to be pretty close to XL's notion */
+	/* FIXME: uses digit -- what should it use?  */
 	if (halign == HALIGN_LEFT || halign == HALIGN_RIGHT)
 		rv->offset_pixel = rint (mstyle_get_indent (mstyle) *
-			2 * style_font->approx_width.pixels);
+			2 * style_font->approx_width.pixels.digit);
 	style_font_unref (style_font);
 }
 

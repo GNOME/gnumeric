@@ -1,5 +1,16 @@
 2002-03-26  Morten Welinder  <terra@diku.dk>
 
+	* src/rendered-value.c (rendered_value_new): Just peek directly
+	into the approx_width structure -- everyone else does that.  Take
+	worst case of "e", signs, and decimal points into account.
+
+	* src/style.h (StyleFont): Change floats to doubles.  Add more
+	approx_width fields.
+
+	* src/style.c (style_font_get_width_pts): Remove.
+
+2002-03-26  Morten Welinder  <terra@diku.dk>
+
 	* src/style.c (style_font_new_simple): Translate pixels to points
 	properly.
 

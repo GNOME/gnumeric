@@ -36,7 +36,7 @@ StyleFormat   *style_format_default_money	(void);
 
 void   format_destroy (StyleFormat *format);
 char  *format_value   (StyleFormat const *format, Value const *value, StyleColor **color,
-		       float col_width);
+		       double col_width);
 
 void   format_color_init     (void);
 void   format_color_shutdown (void);

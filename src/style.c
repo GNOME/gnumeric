@@ -62,6 +62,36 @@ get_substitute_font (gchar const *fontname)
 	return NULL;
 }
 
+
+static double
+calc_font_width (const StyleFont *font, const char *teststr)
+{
+	const char *p1, *p2;
+	int w = 0, w1, w2, dw;
+	char buf[3];
+
+	for (p1 = teststr; *p1; p1++) {
+		buf[0] = *p1;
+		buf[1] = 0;
+		w1 = gdk_string_width (font->gdk_font, buf);
+		for (p2 = teststr; *p2; p2++) {
+			buf[1] = *p2;
+			buf[2] = 0;
+			w2 = gdk_string_width (font->gdk_font, buf);
+			dw = w2 - w1;
+			if (dw > w) {
+				w = dw;
+#ifdef DEBUG_FONT_WIDTH
+				fprintf (stderr, "   %s = %d", buf, w);
+#endif
+			}
+		}
+	}
+
+	return w;
+}
+
+
 StyleFont *
 style_font_new_simple (char const *font_name, double size_pts, double scale,
 		       gboolean bold, gboolean italic)
@@ -82,6 +112,8 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (font == NULL) {
 		PangoFontDescription *desc;
+		double pts_scale;
+
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
 
@@ -137,43 +169,24 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		} else
 			gdk_font_ref (font->gdk_font);
 
+		font->approx_width.pixels.digit = calc_font_width (font, "0123456789");
+		font->approx_width.pixels.decimal = calc_font_width (font, ".,");
+		font->approx_width.pixels.sign = calc_font_width (font, "-+");
+		font->approx_width.pixels.E = calc_font_width (font, "E");
+		font->approx_width.pixels.e = calc_font_width (font, "e");
 
-		{
-			const char *teststr = "0123456789-+eE.";
-			const char *p1, *p2;
-			int w = 0, w1, w2, dw;
-			char buf[3];
+		pts_scale = application_display_dpi_get (TRUE) / 72.0;
+		font->approx_width.pts.digit =
+			font->approx_width.pixels.digit / pts_scale;
+		font->approx_width.pts.decimal =
+			font->approx_width.pixels.decimal / pts_scale;
+		font->approx_width.pts.sign =
+			font->approx_width.pixels.sign / pts_scale;
+		font->approx_width.pts.E =
+			font->approx_width.pixels.E / pts_scale;
+		font->approx_width.pts.e =
+			font->approx_width.pixels.e / pts_scale;
 
-			for (p1 = teststr; *p1; p1++) {
-				buf[0] = *p1;
-				buf[1] = 0;
-				w1 = gdk_string_width (font->gdk_font, buf);
-				for (p2 = teststr; *p2; p2++) {
-					buf[1] = *p2;
-					buf[2] = 0;
-					w2 = gdk_string_width (font->gdk_font, buf);
-					dw = w2 - w1;
-					if (dw > w) {
-						w = dw;
-#ifdef DEBUG_FONT_WIDTH
-						fprintf (stderr, "   %s = %d", buf, w);
-#endif
-					}
-				}
-			}
-#ifdef DEBUG_FONT_WIDTH
-			g_warning ("%s%s%s: old=%.2f, new=%d.",
-				   font_name,
-				   font->is_bold ? " bold" : "",
-				   font->is_italic ? " italic" : "",
-				   gdk_string_width (font->gdk_font, "4444444444") / 10.,
-				   w);
-#endif
-			font->approx_width.pixels = w;
-		}
-
-		font->approx_width.pts = font->approx_width.pixels
-			/ (application_display_dpi_get (TRUE) / 72.0);
 #if 0
 		font->font
 			? gnome_font_get_width_string (font->font, "4444444444") / 10.
@@ -232,19 +245,6 @@ style_font_get_height (StyleFont const *sf)
 	g_return_val_if_fail (sf->gdk_font != NULL, 0);
 
 	return sf->gdk_font->ascent + sf->gdk_font->descent;
-}
-
-/**
- * style_font_get_width_pts
- *
- * Return our guestimate of the average width in pts.
- */
-float
-style_font_get_width_pts (StyleFont const *sf)
-{
-	g_return_val_if_fail (sf != NULL, 0);
-
-	return sf->approx_width.pts;
 }
 
 void

@@ -434,8 +434,9 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	cell_width_pts = get_width_string (print_font, text);
 	if (halign == HALIGN_LEFT || halign == HALIGN_RIGHT) {
 		/* 2*width seems to be pretty close to XL's notion */
+		/* FIXME: Why use digit?  */
 		indent = mstyle_get_indent (mstyle) *
-			2. * style_font->approx_width.pts;
+			2. * style_font->approx_width.pts.digit;
 	}
 
 	/* if a number overflows, do special drawing */

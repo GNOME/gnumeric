@@ -1410,7 +1410,7 @@ style_format_condition (StyleFormatEntry const *entry, Value const *value)
  * @col_width : the approximate width in characters.
  */
 static char *
-fmt_general_float (gnum_float val, float col_width)
+fmt_general_float (gnum_float val, double col_width)
 {
 	gnum_float tmp;
 	int log_val, prec;
@@ -1498,7 +1498,7 @@ fmt_general_int (int val, int col_width)
  */
 gchar *
 format_value (StyleFormat const *format, Value const *value, StyleColor **color,
-	      float col_width)
+	      double col_width)
 {
 	char *v = NULL;
 	StyleFormatEntry const *entry = NULL; /* default to General */
