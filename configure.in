@@ -134,7 +134,7 @@ dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
 GNOME_PRINT_LIBS=`gnome-config --libs print`
-GNOME_PRINT_CFLAGS=`gnome-config --libs cflags`
+GNOME_PRINT_CFLAGS=`gnome-config --cflags print`
 AC_SUBST(GNOME_PRINT_LIBS)
 AC_SUBST(GNOME_PRINT_CFLAGS)
 

@@ -2,5 +2,6 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile('NAME' => 'Gnumeric',
               'LIBS' => '@GNOME_LIBDIR@ @GNOMEUI_LIBS@',
-              'INC' => '-I@srcdir@/../../../src @GNOME_INCLUDEDIR@',
+              'INC' => '-g -I@top_srcdir@/src @GNOME_INCLUDEDIR@',
 	      'VERSION_FROM' => 'Gnumeric.pm');
+

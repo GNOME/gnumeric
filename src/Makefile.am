@@ -182,7 +182,7 @@ GNUMERIC_BONOBO_SOURCES = 			\
 
 BUILT_SOURCES = $(GNUMERIC_CORBA_GENERATED)
 
-Gnumeric-impl.c: Gnumeric.h
+Gnumeric-impl.o: Gnumeric.h
 
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Gnumeric.idl
@@ -241,7 +241,6 @@ dist-hook:
 
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
-
 
 #number_match_LDADD = 			\
 #	$(GNOME_LIBDIR) 		\

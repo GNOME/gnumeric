@@ -1,3 +1,20 @@
+1999-06-27  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* src/Makefile.am (Gnumeric-impl.o): This depends on Gnumeric.h,
+	Gnumeric-impl.c doesn't.
+
+	Reinstate Perl plugin.
+	* plugins/perl/Makefile.am: Clean up build.
+	* plugins/perl/ext/Gnumeric.xs (register_function): 
+	Use FunctionCategory and `function_add_args' API instead of
+	`install_symbol'. 
+	(marshal_func): Update to new callback prototype.
+	* plugins/perl/ext/Makefile.PL.in ('INC'): Use @top_srcdir@ rather
+	than @srcdir@/../../...
+
+	* doc/C/Makefile.am: Misc. srcdir != builddir fixes.
+	* configure.in (GNOME_PRINT_CFLAGS): Fix typo.
+
 1999-06-25  Michael Meeks  <michael@edenproject.org>
 
 	* src/dialog-function-wizard.c: Re-vamped table layout.
