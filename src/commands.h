@@ -2,6 +2,8 @@
 #ifndef GNUMERIC_COMMANDS_H
 #define GNUMERIC_COMMANDS_H
 
+#include <gtk/gtkobject.h>
+
 #include "consolidate.h"
 #include "gnumeric.h"
 #include "format-template.h"
@@ -80,5 +82,9 @@ gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_consolidate        (WorkbookControl *wbc, Consolidate *cs);
 				 
 gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
+
+gboolean cmd_move_object	(WorkbookControl *wbc, Sheet *sheet, 
+				 GtkObject *so_view,
+				 double old_coords [4], double new_coords [4]);
 
 #endif /* GNUMERIC_COMMANDS_H */

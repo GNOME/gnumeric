@@ -26,6 +26,7 @@ struct _SheetControlGUI {
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
 	SheetObject	 *current_object;
 	SheetObject	 *drag_object;
+	double		  initial_coords [4];
 	double		  object_coords [4];
 	double		  last_x, last_y;
 	GnomeCanvasItem  *control_points [9]; /* Control points for the current item */

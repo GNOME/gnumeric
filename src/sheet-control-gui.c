@@ -1647,6 +1647,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 	SheetObject *so = sheet_object_view_obj (GTK_OBJECT (so_view));
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (ctrl_pt->canvas);
 	SheetControlGUI *scg = gcanvas->scg;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
+	gint i;
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
@@ -1661,6 +1663,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		if (scg->drag_object != so)
 			return FALSE;
 
+		cmd_move_object (wbc, so->sheet, GTK_OBJECT (so_view),
+				 scg->initial_coords, scg->object_coords);
 		gnm_canvas_slide_stop (gcanvas);
 		scg->drag_object = NULL;
 		gnome_canvas_item_ungrab (ctrl_pt, event->button.time);
@@ -1677,6 +1681,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL, event->button.time);
+			for (i = 0; i < 4; i++)
+				scg->initial_coords [i] = scg->object_coords[i];
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
 			gnm_canvas_slide_init (gcanvas);
@@ -1928,6 +1934,10 @@ scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *c
 	float	fraction [4];
 	double	tmp [4];
 	Range	range;
+
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (coords != NULL);
 
 	if (coords [0] > coords [2]) {
 		tmp [0] = coords [2];

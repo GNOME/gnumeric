@@ -52,6 +52,7 @@
 #include "mstyle.h"
 #include "search.h"
 #include "sheet-object-cell-comment.h"
+#include "sheet-control-gui.h"
 
 #include <gal/util/e-util.h>
 
@@ -3965,6 +3966,91 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 
 /******************************************************************/
 
-/* TODO :
- * - SheetObject creation & manipulation.
- */
+#define CMD_MOVE_OBJECT_TYPE (cmd_move_object_get_type ())
+#define CMD_MOVE_OBJECT(o)   (GTK_CHECK_CAST ((o), CMD_MOVE_OBJECT_TYPE, CmdMoveObject))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	SheetObject *so;
+
+	double old_coords [4];
+	double new_coords [4];
+} CmdMoveObject;
+
+GNUMERIC_MAKE_COMMAND (CmdMoveObject, cmd_move_object);
+
+static gboolean
+cmd_move_object_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdMoveObject *me = CMD_MOVE_OBJECT (cmd);
+	SheetControlGUI *scg;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbc), TRUE);
+
+	scg = wb_control_gui_cur_sheet (WORKBOOK_CONTROL_GUI (wbc));
+	scg_object_calc_position (scg, me->so, me->new_coords);
+
+	return (FALSE);
+}
+
+static gboolean
+cmd_move_object_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdMoveObject *me = CMD_MOVE_OBJECT (cmd);
+	SheetControlGUI *scg;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbc), TRUE);
+
+	scg = wb_control_gui_cur_sheet (WORKBOOK_CONTROL_GUI (wbc));
+	scg_object_calc_position (scg, me->so, me->old_coords);
+
+	return (FALSE);
+}
+
+static void
+cmd_move_object_destroy (GtkObject *cmd)
+{
+	CmdMoveObject *me = CMD_MOVE_OBJECT (cmd);
+
+	gtk_object_unref (GTK_OBJECT (me->so));
+
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_move_object (WorkbookControl *wbc, Sheet *sheet, GtkObject *so_view,
+		 double old_coords [4], double new_coords [4])
+{
+	GtkObject *object;
+	CmdMoveObject *me;
+	int i;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (GTK_IS_OBJECT (so_view), TRUE);
+
+	/*
+	 * There is no need to move the object around, because this has
+	 * already happened.
+	 */
+
+	object = gtk_type_new (CMD_MOVE_OBJECT_TYPE);
+	me = CMD_MOVE_OBJECT (object);
+
+	me->so = sheet_object_view_obj (so_view);
+	gtk_object_ref (GTK_OBJECT (me->so));
+
+	for (i = 0; i < 4; i++) {
+		me->old_coords [i] = old_coords [i];
+		me->new_coords [i] = new_coords [i];
+	}
+
+	me->parent.sheet = sheet;
+	me->parent.size = 1;
+	me->parent.cmd_descriptor = g_strdup (_("Move object"));
+
+	return command_push_undo (wbc, object);
+}
+	

@@ -1,3 +1,13 @@
+2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* src/commands.[c,h]: (cmd_move_object): New. Will also handle 
+	resizing of objects
+	* src/sheet-control-gui-priv.h: Remember the initial_coords before
+	moving or resizing an object
+	* src/sheet-control-gui.c: (cb_control_point_event): When done with
+	moving/resizing, call cmd_move_object so that we can undo this action
+	later.
+	
 2001-08-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-autofill.c (autofill_compute_delta) : Make month/years
