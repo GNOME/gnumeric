@@ -144,6 +144,7 @@ history_menu_insert_separator (WorkbookControlGUI *wbcg)
 		item = gtk_menu_item_new ();
 		gtk_widget_show (item);
 		gtk_menu_shell_insert (GTK_MENU_SHELL (ret.menu), item, ret.pos);
+		gtk_widget_set_sensitive(item, FALSE);
 	} else
 		g_warning ("Probable mis-translation. '%s' : was not found. "
 			   "Does this match the 'File/Print Preview' menu exactly ?",

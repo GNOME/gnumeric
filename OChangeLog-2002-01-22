@@ -1,3 +1,10 @@
+2001-05-27  Nathan Cullen <furyu@fuse.net>
+ 
+ 	* src/history.c (history_menu_insert_separator): Fixed keyboard
+ 	navigation problem in non-bonobo build with separator for recently
+ 	opened files.  There was an "invisible" separator item so you needed
+ 	to arrow down twice to get from "Print Preview" to the first file.
+ 
 2001-05-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (wbcg_sheet_rename) : Use the table not
