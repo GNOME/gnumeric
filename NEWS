@@ -13,6 +13,8 @@ Jody:
 	* Complete transition of cut/paste to cell movement code.
 	* 1st pass at borders.
 	* Improve edit popup.
+	* Rework cell format dialog.
+	* Some support for inter book references.
 
 Daniel:
 	* Excel Name export.

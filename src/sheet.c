@@ -2684,14 +2684,15 @@ sheet_show_cursor (Sheet *sheet)
 
 /* Can remove sheet since local references have NULL sheet */
 char *
-cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
+cellref_name (CellRef *cell_ref, ParsePosition const *pp)
 {
 	static char buffer [sizeof (long) * 4 + 4];
 	char *p = buffer;
 	int col, row;
+	Sheet *sheet = cell_ref->sheet;
 
 	if (cell_ref->col_relative)
-		col = eval_col + cell_ref->col;
+		col = pp->col + cell_ref->col;
 	else {
 		*p++ = '$';
 		col = cell_ref->col;
@@ -2707,7 +2708,7 @@ cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 		*p++ = b + 'A';
 	}
 	if (cell_ref->row_relative)
-		row = eval_row + cell_ref->row;
+		row = pp->row + cell_ref->row;
 	else {
 		*p++ = '$';
 		row = cell_ref->row;
@@ -2716,10 +2717,7 @@ cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 	sprintf (p, "%d", row+1);
 
 	/* If it is a non-local reference, add the path to the external sheet */
-	if (cell_ref->sheet == NULL)
-		return g_strdup (buffer);
-	else {
-		Sheet *sheet = cell_ref->sheet;
+	if (sheet != NULL) {
 		char *s;
 
 		if (strchr (sheet->name, ' '))
@@ -2727,8 +2725,14 @@ cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 		else
 			s = g_strconcat (sheet->name, "!", buffer, NULL);
 
+		if (sheet->workbook != pp->wb) {
+			char * n = g_strconcat ("[", sheet->workbook->filename, "]", s, NULL);
+			g_free (s);
+			s = n;
+		}
 		return s;
-	}
+	} else
+		return g_strdup (buffer);
 }
 
 gboolean
@@ -3361,6 +3365,7 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 {
 	GList *deps, *cells = NULL;
 	Cell  *cell;
+	gboolean inter_sheet_formula;
 
 	g_return_if_fail (rinfo->origin_sheet != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
@@ -3400,13 +3405,19 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 			continue;
 		}
 
-		/* Update the location */
-		cell->col = sheet_col_fetch (rinfo->target_sheet,
-					     cell->col->pos + rinfo->col_offset);
-		cell->row = sheet_row_fetch (rinfo->target_sheet,
-					     cell->row->pos + rinfo->row_offset);
+		/* Inter sheet movement requires the moving the formula too */
+		inter_sheet_formula  = (cell->sheet != rinfo->target_sheet
+					&& cell->parsed_node);
+		if (inter_sheet_formula)
+			sheet_cell_formula_unlink (cell);
 
-		sheet_cell_add_to_hash (rinfo->target_sheet, cell);
+		/* Update the location */
+		sheet_cell_add (rinfo->target_sheet, cell,
+				cell->col->pos + rinfo->col_offset,
+				cell->row->pos + rinfo->row_offset);
+
+		if (inter_sheet_formula)
+			sheet_cell_formula_link (cell);
 
 		/* Move comments */
 		cell_relocate (cell);

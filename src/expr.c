@@ -1188,7 +1188,7 @@ cell_get_abs_col_row (const CellRef *cell_ref, int eval_col, int eval_row, int *
  * FIXME: strings containing quotes will come out wrong.
  */
 static char *
-do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
+do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		     int paren_level)
 {
 	static struct {
@@ -1316,7 +1316,7 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 
 	case OPER_VAR: {
 		CellRef *cell_ref = &tree->u.ref;
-		return cellref_name (cell_ref, pp->col, pp->row);
+		return cellref_name (cell_ref, pp);
 	}
 
 	case OPER_CONSTANT: {
@@ -1326,8 +1326,8 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 		case VALUE_CELLRANGE: {
 			char *a, *b, *res;
 
-			a = cellref_name (&v->v.cell_range.cell_a, pp->col, pp->row);
-			b = cellref_name (&v->v.cell_range.cell_b, pp->col, pp->row);
+			a = cellref_name (&v->v.cell_range.cell_a, pp);
+			b = cellref_name (&v->v.cell_range.cell_b, pp);
 
 			res = g_strconcat (a, ":", b, NULL);
 

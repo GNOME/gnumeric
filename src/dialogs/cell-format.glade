@@ -368,6 +368,7 @@
 	  <widget>
 	    <class>GtkVBox</class>
 	    <name>vbox29</name>
+	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
 	    <spacing>0</spacing>
 
@@ -446,7 +447,8 @@
 	      <class>GtkCheckButton</class>
 	      <name>format_number_seperator</name>
 	      <width>130</width>
-	      <sensitive>False</sensitive>
+	      <height>38</height>
+	      <sensitive>True</sensitive>
 	      <can_focus>True</can_focus>
 	      <label>_Use Seperator for 1000's</label>
 	      <active>False</active>
@@ -1154,6 +1156,7 @@ $
 	  <widget>
 	    <class>GtkVBox</class>
 	    <name>vbox32</name>
+	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
 	    <spacing>0</spacing>
 
@@ -1580,6 +1583,7 @@ Justify
 
     <widget>
       <class>GtkVBox</class>
+      <border_width>4</border_width>
       <name>font_box</name>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>

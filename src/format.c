@@ -207,9 +207,9 @@ append_minute_elapsed (GString *string, int n, const struct tm *time_split, int 
 {
 	char *temp = g_alloca (n + 50);
 	int minutes;
-	
+
 	minutes = ((number * 24) + time_split->tm_hour) * 60 + time_split->tm_min;
-	
+
 	sprintf (temp, "%0*d", n, minutes);
 	g_string_append (string, temp);
 
@@ -223,7 +223,7 @@ static void
 append_second (GString *string, int n, const struct tm *time_split)
 {
 	char *temp = g_alloca (n + 4);
-	
+
 	sprintf (temp, "%0*d", n, time_split->tm_sec);
 	g_string_append (string, temp);
 
@@ -231,14 +231,14 @@ append_second (GString *string, int n, const struct tm *time_split)
 }
 
 /*
- * Renders the second field in elapsed 
+ * Renders the second field in elapsed
  */
 static void
 append_second_elapsed (GString *string, int n, const struct tm *time_split, int number)
 {
 	char *temp = g_alloca (n + 50);
 	int seconds;
-	
+
 	seconds = (((number * 24 + time_split->tm_hour) * 60 + time_split->tm_min) * 60) + time_split->tm_sec;
 	sprintf (temp, "%0*d", n, seconds);
 	g_string_append (string, temp);
@@ -724,7 +724,7 @@ char *
 format_add_thousand (const char *format_string)
 {
 	char *b;
-	
+
 	if (!lc)
 		lc = localeconv ();
 
@@ -737,7 +737,7 @@ format_add_thousand (const char *format_string)
 
 	if (strchr (format_string, THOUSAND_CHAR_OF_LC(lc)) != NULL)
 		return NULL;
-	
+
 	b = g_malloc (strlen (format_string) + 7);
 	if (!b)
 		return NULL;
@@ -769,8 +769,8 @@ find_decimal_char (const char *str)
 		switch (*str){
 			/* These ones do not have any argument */
 		case '#': case '?': case '0': case '%':
-		case '-': case '+': case ')': case '£': 
-		case ':': case '$': 
+		case '-': case '+': case ')': case '£':
+		case ':': case '$':
 		case 'M': case 'm': case 'D': case 'd':
 		case 'Y': case 'y': case 'S': case 's':
 		case '*': case 'h': case 'H': case 'A':
@@ -778,7 +778,7 @@ find_decimal_char (const char *str)
 			break;
 
 			/* Quoted string */
-		case '"': 
+		case '"':
 			for (str++; *str && *str != '"'; str++)
 				;
 			break;
@@ -826,7 +826,7 @@ format_remove_decimal (const char *format_string)
 	 */
 	if (strcmp (format_string, "General") == 0)
 		format_string = "0.0#######";
-	
+
 	ret = g_strdup (format_string);
 	p = (char *) find_decimal_char (ret);
 	if (!p){
@@ -862,7 +862,7 @@ format_add_decimal (const char *format_string)
 
 	if (strcmp (format_string, "General") == 0)
 		format_string = "0";
-		
+
 	p = find_decimal_char (format_string);
 	if (!p){
 		char ret_val [3];
@@ -921,7 +921,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			if (!ignore_further_elapsed)
 				time_display_elapsed = TRUE;
 			break;
-			
+
 		case '#':
 			can_render_number = 1;
 			if (info.decimal_separator_seen)
@@ -1058,7 +1058,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		case 'M':
 		case 'm': {
 			int n;
-			
+
 			if (!time_split)
 				time_split = split_time (number);
 
@@ -1078,7 +1078,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 				append_month (result, n, time_split);
 			break;
 		}
-		
+
 		case 'D':
 		case 'd':
 			if (!time_split)
@@ -1096,7 +1096,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		case 'S':
 		case 's': {
 			int n;
-			
+
 			if (!time_split)
 				time_split = split_time (number);
 
@@ -1112,7 +1112,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 				append_second (result, n, time_split);
 			break;
 		}
-		
+
 		case '*':
 		{
 			/* FIXME FIXME FIXME

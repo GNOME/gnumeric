@@ -300,7 +300,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 		gdk_gc_set_foreground (gc, col);
 		gdk_draw_rectangle (drawable, gc, TRUE,
                                     rect.x, rect.y, rect.width, rect.height);
-		
+
 		/*
 		 * And now reset the previous foreground color
 		 */

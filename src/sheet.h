@@ -380,8 +380,7 @@ void        sheet_show_cursor             (Sheet *sheet);
 void        sheet_hide_cursor             (Sheet *sheet);
 
 char        *cellref_name                 (CellRef *cell_ref,
-					   int eval_col,
-					   int eval_row);
+					   ParsePosition const *pp);
 gboolean     cellref_get                  (CellRef *out, const char *in,
 					   int parse_col, int parse_row);
 gboolean     cellref_a1_get               (CellRef *out, const char *in,

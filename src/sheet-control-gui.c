@@ -429,7 +429,6 @@ sheet_view_construct (SheetView *sheet_view)
 {
 	GnomeCanvasGroup *root_group;
 	GtkTable  *table = GTK_TABLE (sheet_view);
-	GtkWidget *select_all;
 	Sheet *sheet = sheet_view->sheet;
 	
 	/* Column canvas */
@@ -502,10 +501,10 @@ sheet_view_construct (SheetView *sheet_view)
 			NULL));
 	
 	/* The select-all button */
-	select_all = gtk_button_new ();
-	GTK_WIDGET_UNSET_FLAGS (select_all, GTK_CAN_FOCUS);
-	gtk_table_attach (table, select_all, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
-	gtk_signal_connect (GTK_OBJECT (select_all), "clicked",
+	sheet_view->select_all = gtk_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (sheet_view->select_all, GTK_CAN_FOCUS);
+	gtk_table_attach (table, sheet_view->select_all, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	gtk_signal_connect (GTK_OBJECT (sheet_view->select_all), "clicked",
 			    GTK_SIGNAL_FUNC (button_select_all), sheet_view);
 	
 	/* Scroll bars and their adjustments */

@@ -1,6 +1,29 @@
 1999-11-01  Jody Goldberg <jgoldberg@home.com>
 
-	* src/expr.c (cellref_relocate) : Fix typo.
+	* src/item-grid.c (item_grid_realize) : Set the default background
+	  to white, so that the redraws are not quite so obvious.
+
+	* ./src/sheet.c (cellref_name) : Change to take a ParsePosition
+	  rather than just a row, col so that we can handle inter-book
+	  references.
+
+	* src/expr.c (do_expr_decode_tree) : Pass a ParsePosition.
+	(cellref_relocate) : Fix typo.
+
+	* src/corba-sheet.c (fill_corba_value) : Pass a ParsePosition.
+
+	* src/parser.y : Dummy up a parser for intersheet references.  NOT
+	  complete as yet.
+
+	* src/sheet-view.[ch] : Add select_all data member to SheetView.
+
+	* src/sheet.c (sheet_move_range) : Correct handling of intersheet
+	  and interbook references.
+
+	* src/workbook.c (workbook_new_with_sheets) : Assign a default unique
+	  name so that all workbooks will have a name.
+	(workbook_set_filename) : Change return to allow for eventual test for
+	  uniqueness.
 
 1999-11-01  Miguel de Icaza  <miguel@gnu.org>
 

@@ -169,11 +169,13 @@ build_array (GList *cols)
 	CellRef  *cell;
 	GList    *list;
 	Sheet    *sheetref;
+	Workbook *bookref;
 }
 %type  <tree>     exp array_exp
 %type  <list>     arg_list array_row, array_cols
 %token <tree>     NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
 %token <sheetref> SHEETREF
+%token <bookref>  BOOKREF
 %token            SEPARATOR
 %type  <tree>     cellref
 
@@ -254,6 +256,11 @@ cellref:  CELLREF {
 	| SHEETREF '!' CELLREF {
 	        $$ = $3;
 		$$->u.ref.sheet = $1;
+	}
+
+	| '[' BOOKREF ']' SHEETREF '!' CELLREF {
+	        $$ = $6;
+		$$->u.ref.sheet = $4;
 	}
 	;
 

@@ -18,6 +18,7 @@ struct _SheetView {
 
 	Sheet            *sheet;
 	GtkWidget        *sheet_view;
+	GtkWidget	 *select_all;
 	GnomeCanvas      *col_canvas, *row_canvas;
 	GnomeCanvasItem  *col_item, *row_item;
 
