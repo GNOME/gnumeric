@@ -1,3 +1,8 @@
+2003-03-30  Morten Welinder  <terra@diku.dk>
+
+	* src/func.c (function_remove): Prevent crash if the function is
+	no longer there.
+
 2003-03-27  Jody Goldberg <jody@gnome.org>
 
 	* src/style.c (style_font_new_simple) : doh!  Thanks Morten.

@@ -374,7 +374,7 @@ function_remove (GnmFuncGroup *fn_group, char const *name)
 	g_return_if_fail (name != NULL);
 
 	func = gnm_func_lookup (name, NULL);
-
+	g_return_if_fail (func != NULL);
 	g_return_if_fail (func->ref_count == 0);
 
 	gnm_func_group_remove_func (fn_group, func);
