@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.53\n"
-"POT-Creation-Date: 2000-05-24 13:31+0000\n"
-"PO-Revision-Date: 2000-05-24 13:46+00:00\n"
+"POT-Creation-Date: 2000-05-25 19:48+0000\n"
+"PO-Revision-Date: 2000-05-25 19:43+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,9 @@ msgstr "Модуль  Data Interchange Format (CSV)"
 #: plugins/dif/dif.c:426
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr "Чтение и запись информации сохраненной в формате Data Interchange Format (*.dif)"
+msgstr ""
+"Чтение и запись информации сохраненной в формате Data Interchange Format "
+"(*.dif)"
 
 #: plugins/excel/boot.c:122
 msgid "Saving over old files disabled for safety"
@@ -198,7 +200,7 @@ msgstr "Включить доступ к базам данных"
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:642
 #: src/functions/fn-information.c:669 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:744 src/functions/fn-information.c:773
-#: src/functions/fn-information.c:837 src/functions/fn-logical.c:194
+#: src/functions/fn-information.c:836 src/functions/fn-logical.c:194
 #: src/functions/fn-lookup.c:469 src/functions/fn-string.c:343
 msgid "Invalid number of arguments"
 msgstr "Неверное число аргументов"
@@ -335,7 +337,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:283
-#, fuzzy
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -344,16 +345,15 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=TRANSPOSE\n"
-"@SYNTAX=TRANSPOSE(matrix)\n"
-"@DESCRIPTION=Функция TRANSPOSE возвращает транспозицию входной матрицы "
-"@matrix.\n"
+"@FUNCTION=ITHPRIME\n"
+"@SYNTAX=ITHPRIME(i)\n"
+"@DESCRIPTION=Функция ITHPRIME возвращает @i-ое простое число.\n"
+"Эта функция принимает только один аргумент.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=MMULT"
+"@SEEALSO=NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:311
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -362,13 +362,12 @@ msgid ""
 "This function only takes one argument.\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=ISREF\n"
-"@SYNTAX=ISREF()\n"
-"@DESCRIPTION=Возвращает TRUE(истина) если значение является ссылкой. Эта "
-"функция Excel-совместима. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
+"@FUNCTION=ISPRIME\n"
+"@SYNTAX=ISPRIME(i)\n"
+"@DESCRIPTION=Функция ISPRIME возвращает TRUE(истина) если @i является "
+"простым чиcлом и FALSE(ложь) в противном случае.\n"
+"Эта функция принимает только один аргумент. \n"
+"@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:337
 msgid ""
@@ -379,6 +378,12 @@ msgid ""
 "This function only takes one argument.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 msgstr ""
+"@FUNCTION=NT_PI\n"
+"@SYNTAX=NT_PI(n)\n"
+"@DESCRIPTION=Функция NT_PI возвращает число простых чисел меньших или равных "
+"@n.\n"
+"Эта функция принимает только один аргумент.\n"
+"@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:409 plugins/numtheory/numtheory.c:425
 msgid "Number Theory"
@@ -389,6 +394,8 @@ msgid ""
 "Adds several basic number theory functions, including utilities for prime "
 "numbers, pi, phi and sigma."
 msgstr ""
+"Добавляет несколько основных функций теории чисел, включая инструменты для "
+"простых чисел, Пи, Фи и сигма."
 
 #: plugins/oleo/boot.c:87
 msgid "GNU Oleo (*.oleo) file format"
@@ -1824,8 +1831,7 @@ msgstr "По горизонтали"
 msgid "_Justify"
 msgstr "По формату"
 
-#: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:31
-#: wizards/graphics/graphics.glade.h:61
+#: src/dialogs/cell-format.glade.h:34 wizards/graphics/graphics.glade.h:61
 msgid "_Right"
 msgstr "Вправо"
 
@@ -2655,7 +2661,7 @@ msgstr "затем по"
 msgid "delete cells"
 msgstr "удалить ячейки"
 
-#: src/dialogs/dialog-function-wizard.c:201 src/functions/fn-string.c:1339
+#: src/dialogs/dialog-function-wizard.c:201 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Строка"
 
@@ -2841,17 +2847,13 @@ msgstr "Изменен:"
 msgid "Modified: %s"
 msgstr "Изменен: %s"
 
-#: src/dialogs/dialog-printer-setup.c:505
+#: src/dialogs/dialog-printer-setup.c:520
 msgid "Custom header configuration"
 msgstr "Конфигурация пользовательского заголовка"
 
-#: src/dialogs/dialog-printer-setup.c:517
+#: src/dialogs/dialog-printer-setup.c:532
 msgid "Custom footer configuration"
 msgstr "Конфигурация пользовательской сноски"
-
-#: src/dialogs/dialog-printer-setup.c:746
-msgid "Print setup"
-msgstr "Настройка печати"
 
 #: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2885
 #, c-format
@@ -3195,6 +3197,10 @@ msgid ""
 "column and hold the left mouse button on a column border and drag to resize "
 "a column."
 msgstr ""
+"Настройка столбцов с использованием кнопок \"Добавить\"/\"Удалить\" или "
+"мыши: щелчок левой клавишей создает новый столбец, щелчок правой клавишей на "
+"границе столбца удаляет существующий столбец, а нажатие левой кнопкой мыши "
+"на границе столбца и перетягивание - изменяет размер столбца."
 
 #: src/dialogs/dialog-stf.glade.h:43 src/dialogs/dialog-stf.glade.h:52
 #: wizards/graphics/graphic-type.c:289
@@ -3219,6 +3225,9 @@ msgid ""
 "left to select a column, or you can click in the preview. You can then enter "
 "a custom format or select one from the list on the right."
 msgstr ""
+"Выбор формата для каждого столбца. Вы можете щелкнуть в списке столбцов "
+"слева для выбора столбца или в просмотре. Затем вы можете ввести собственный "
+"формат или выбрать один из имеющихся в списке справа."
 
 #: src/dialogs/dialog-stf.glade.h:51
 msgid "Per column formatting"
@@ -3465,8 +3474,8 @@ msgstr "Подробности файла"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/print.glade.h:7
-msgid "window2"
-msgstr "окно2"
+msgid "Print setup"
+msgstr "Настройка печати"
 
 #: src/dialogs/print.glade.h:9
 msgid "Por_trait"
@@ -3491,7 +3500,7 @@ msgstr "Заполнять до:"
 #: src/dialogs/print.glade.h:15
 #, no-c-format
 msgid "% of normal size"
-msgstr "% нормального размера"
+msgstr "% от нормального размера"
 
 #: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
@@ -3505,136 +3514,161 @@ msgstr "высокий"
 msgid "Fi_rst page number:"
 msgstr "Номер первой страницы:"
 
-#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
-#: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
+#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:49 src/dialogs/print.glade.h:65
 msgid "_Print"
 msgstr "Печать"
 
-#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
-#: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
+#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:50 src/dialogs/print.glade.h:66
 msgid "Print previe_w"
 msgstr "Просмотр печати:"
 
-#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:35
-#: src/dialogs/print.glade.h:45 src/dialogs/print.glade.h:61
+#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:51 src/dialogs/print.glade.h:67
 msgid "_Options"
 msgstr "Параметры"
 
-#: src/dialogs/print.glade.h:22 src/dialogs/print.glade.h:62
+#: src/dialogs/print.glade.h:22
 msgid "Page"
 msgstr "Страница"
 
 #: src/dialogs/print.glade.h:23
-msgid "_Top:"
-msgstr "Вверх:"
-
-#: src/dialogs/print.glade.h:24
-msgid "He_ader:"
-msgstr "Заголовок:"
-
-#: src/dialogs/print.glade.h:25
-msgid "_Bottom:"
-msgstr "Вниз:"
-
-#: src/dialogs/print.glade.h:26
-msgid "_Footer"
-msgstr "Сноска"
-
-#: src/dialogs/print.glade.h:27
 msgid "Center on page"
 msgstr "По центру страницы"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:24
 msgid "_Horizontally"
 msgstr "По горизонтали"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:25
 msgid "_Vertically"
 msgstr "По вертикали"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:26
 msgid "_Left:"
 msgstr "Влево:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:27
+msgid "_Right:"
+msgstr "Вправо"
+
+#: src/dialogs/print.glade.h:28
+msgid "_Units:"
+msgstr "Единицы:"
+
+#: src/dialogs/print.glade.h:29
+msgid ""
+"pts\n"
+"mm\n"
+"cm\n"
+"In\n"
+msgstr ""
+"пункты\n"
+"мм\n"
+"см\n"
+"дюймы\n"
+
+#: src/dialogs/print.glade.h:34
+msgid "_Top:"
+msgstr "Вверх:"
+
+#: src/dialogs/print.glade.h:35
+msgid "He_ader:"
+msgstr "Заголовок:"
+
+#: src/dialogs/print.glade.h:36
+msgid "_Footer:"
+msgstr "Сноска:"
+
+#: src/dialogs/print.glade.h:37
+msgid "_Bottom:"
+msgstr "Вниз:"
+
+#: src/dialogs/print.glade.h:38
 msgid "Paper _size:"
 msgstr "Размер бумаги:"
 
-#: src/dialogs/print.glade.h:36
+#: src/dialogs/print.glade.h:42
 msgid "Margins"
 msgstr "Отступы"
 
-#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:48
 msgid "sample goes here"
 msgstr "это образец"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:44
 msgid "Header"
 msgstr "Заголовок"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:45
 msgid "Customize _header"
 msgstr "Настроить заголовок"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:46
 msgid "Customize _footer"
 msgstr "Настроить сноску"
 
-#: src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:47
 msgid "Footer:"
 msgstr "Сноска:"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:52
 msgid "Headers and footers"
 msgstr "Заголовки и сноски:"
 
-#: src/dialogs/print.glade.h:47
+#: src/dialogs/print.glade.h:53
 msgid "Print _area:"
 msgstr "Область печати:"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:54
 msgid "Titles to print"
 msgstr "Заголовки для печати"
 
-#: src/dialogs/print.glade.h:49
+#: src/dialogs/print.glade.h:55
 msgid "_Columns to repeat on the left side:"
 msgstr "Столбцы повторяются на левой стороне:"
 
-#: src/dialogs/print.glade.h:50
+#: src/dialogs/print.glade.h:56
 msgid "_Rows to repeat on the upper region:"
 msgstr "Строки повторяются в верхней части:"
 
-#: src/dialogs/print.glade.h:51 src/workbook.c:1500
+#: src/dialogs/print.glade.h:57 src/workbook.c:1500
 msgid "Print"
 msgstr "Печать"
 
-#: src/dialogs/print.glade.h:52
+#: src/dialogs/print.glade.h:58
 msgid "Row and co_lumn headings"
 msgstr "Озаглавливание строк и столбцов"
 
-#: src/dialogs/print.glade.h:53 src/workbook.c:1179
+#: src/dialogs/print.glade.h:59 src/workbook.c:1179
 msgid "Co_mments"
 msgstr "Комментарии"
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:60
 msgid "_Grid lines"
 msgstr "Линии сетки"
 
-#: src/dialogs/print.glade.h:55
+#: src/dialogs/print.glade.h:61
 msgid "_Black and white"
 msgstr "Черное и белое"
 
-#: src/dialogs/print.glade.h:56
+#: src/dialogs/print.glade.h:62
 msgid "Page order"
 msgstr "Порядок страниц"
 
-#: src/dialogs/print.glade.h:57
+#: src/dialogs/print.glade.h:63
 msgid "_Down, then right"
 msgstr "Вниз, затем вправо"
 
-#: src/dialogs/print.glade.h:58
+#: src/dialogs/print.glade.h:64
 msgid "R_ight, then down"
 msgstr "Вправо, затем вниз"
+
+#: src/dialogs/print.glade.h:68 src/functions/fn-sheet.c:105
+#: src/workbook.c:758
+msgid "Sheet"
+msgstr "Табличные"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -4063,7 +4097,7 @@ msgstr "ЛОЖЬ"
 msgid "ARRAY"
 msgstr "МАССИВ"
 
-#: src/formats.c:18 src/number-match.c:464 src/style.c:80
+#: src/formats.c:18 src/number-match.c:467 src/style.c:80
 msgid "General"
 msgstr "Общий"
 
@@ -8578,8 +8612,8 @@ msgstr ""
 #: src/functions/fn-string.c:184 src/functions/fn-string.c:222
 #: src/functions/fn-string.c:308 src/functions/fn-string.c:396
 #: src/functions/fn-string.c:434 src/functions/fn-string.c:626
-#: src/functions/fn-string.c:674 src/functions/fn-string.c:774
-#: src/functions/fn-string.c:850
+#: src/functions/fn-string.c:674 src/functions/fn-string.c:773
+#: src/functions/fn-string.c:849
 msgid "Type mismatch"
 msgstr "Несоответствие типов"
 
@@ -8745,7 +8779,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:820
+#: src/functions/fn-information.c:819
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
@@ -8763,7 +8797,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:847
+#: src/functions/fn-information.c:846
 msgid "Information"
 msgstr "Информационные"
 
@@ -10908,10 +10942,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-
-#: src/functions/fn-sheet.c:105 src/workbook.c:758
-msgid "Sheet"
-msgstr "Табличные"
 
 #: src/functions/fn-stat.c:120
 msgid ""
@@ -13365,7 +13395,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: src/functions/fn-string.c:786
+#: src/functions/fn-string.c:785
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -13378,7 +13408,7 @@ msgid ""
 "@SEEALSO=TEXT"
 msgstr ""
 
-#: src/functions/fn-string.c:831
+#: src/functions/fn-string.c:830
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -13396,7 +13426,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/functions/fn-string.c:881
+#: src/functions/fn-string.c:880
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -13414,7 +13444,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/functions/fn-string.c:926
+#: src/functions/fn-string.c:924
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -13437,7 +13467,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: src/functions/fn-string.c:1041
+#: src/functions/fn-string.c:1039
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
@@ -13455,7 +13485,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:1111
+#: src/functions/fn-string.c:1109
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -13696,7 +13726,7 @@ msgstr ""
 "каталог данных := %s\n"
 "каталог библиотек := %s\n"
 
-#: src/number-match.c:167
+#: src/number-match.c:168
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
@@ -13893,12 +13923,12 @@ msgstr ""
 msgid "Internal ERROR"
 msgstr "Внутренняя ОШИБКА"
 
-#: src/sheet.c:2702
+#: src/sheet.c:2714
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Не было возможности активировать объект %s"
 
-#: src/sheet.c:2714
+#: src/sheet.c:2726
 msgid "I was unable to the bind object"
 msgstr "Не было возможности связать объект"
 
@@ -15251,7 +15281,7 @@ msgstr "Разделители вторичной линии"
 
 #: wizards/graphics/graphics.glade.h:55
 msgid "Division lines"
-msgstr ""
+msgstr "Разделяющие строки"
 
 #: wizards/graphics/graphics.glade.h:56
 msgid "_Show legend"

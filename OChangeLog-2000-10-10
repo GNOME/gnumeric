@@ -1,3 +1,7 @@
+2000-05-25  Valek Filippov  <frob@df.ru>
+
+	* src/dialog/print.glade.h: insert /* xgettext: no-c-format */
+
 2000-05-25  Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/dialog-printer-setup.c: Add an option menu for

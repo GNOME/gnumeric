@@ -11,6 +11,7 @@ gchar *s = N_("_Landscape");
 gchar *s = N_("Scale");
 gchar *s = N_("_Adjust to:");
 gchar *s = N_("_Fit to:");
+/* xgettext:no-c-format */
 gchar *s = N_("% of normal size");
 gchar *s = N_("page(s) wide by");
 gchar *s = N_("tall");
