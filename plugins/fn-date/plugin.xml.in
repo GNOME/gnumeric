@@ -32,6 +32,7 @@
 				<function name="weekday"/>
 				<function name="workday"/>
 				<function name="year"/>
+				<function name="yearfrac"/>
 				<function name="isoweeknum"/>
 				<function name="isoyear"/>
 				<function name="weeknum"/>

@@ -1057,28 +1057,6 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_factdouble = {
-	N_("@FUNCTION=FACTDOUBLE\n"
-	   "@SYNTAX=FACTDOUBLE(number)\n"
-
-	   "@DESCRIPTION="
-	   "FACTDOUBLE returns the double factorial of @number "
-	   "\n"
-	   "* If @x is not numeric a #VALUE! error is returned.  "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-};
-
-static Value *
-gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
-{
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
-}
-
-/***************************************************************************/
-
 static const char *help_delta = {
 	N_("@FUNCTION=DELTA\n"
 	   "@SYNTAX=DELTA(x[,y])\n"
@@ -1234,11 +1212,6 @@ const GnmFuncDescriptor engineering_functions[] = {
         { "erfc",        "f",    "number", &help_erfc,
 	  gnumeric_erfc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-
-/* TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k */
-        { "factdouble",	"f",    "number", &help_factdouble,
-	  gnumeric_factdouble, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED, GNM_FUNC_TEST_STATUS_UNTESTED },
 
         { "gestep",      "f|f",  "xnum,ynum", &help_gestep,
 	  gnumeric_gestep, NULL, NULL, NULL, NULL,
