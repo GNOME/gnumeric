@@ -1,3 +1,8 @@
+2003-06-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* graph/gog-style.h: Fixed include of command-context.h to make it work
+	for builds outside the source dir.
+
 2003-06-04  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-object.c (gog_object_generate_name) : return NULL, not FALSE

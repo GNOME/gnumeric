@@ -24,7 +24,7 @@
 #include <goffice/graph/goffice-graph.h>
 #include <glib-object.h>
 #include <gtk/gtkwidget.h>
-#include <src/command-context.h>	/* for CommandContext */
+#include <command-context.h>	/* for CommandContext */
 
 G_BEGIN_DECLS
 
