@@ -43,7 +43,7 @@ insert_csv_cell (Sheet* sheet, char *string, int start, int end, int col, int ro
 	if (start > 1 && end > 1){
 		p = g_malloc (end - start + 1);
 
-		g_assert (p > 0);
+		g_assert (p != NULL);
 		
 		for (i = start; i <= end; i++){
 			p [ii++] = string [i];
