@@ -3,8 +3,9 @@
  * fn-logical.c:  Built in logical functions and functions registration
  *
  * Authors:
- *  Miguel de Icaza (miguel@gnu.org)
- *  Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   Miguel de Icaza (miguel@gnu.org)
+ *   Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   Morten Welinder (terra@diku.dk)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +32,12 @@
 #include <value.h>
 #include <auto-format.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 
@@ -181,6 +188,60 @@ gnumeric_or (FunctionEvalInfo *ei, GnmExprList *nodes)
 
 /***************************************************************************/
 
+static const char *help_xor = {
+	N_("@FUNCTION=XOR\n"
+	   "@SYNTAX=XOR(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "XOR implements the logical exclusive OR function: the result is TRUE if "
+	   "an odd number of the values evaluated to TRUE.\n"
+	   "@b1, trough @bN are expressions that should evaluate to TRUE "
+	   "or FALSE. If an integer or floating point value is provided "
+	   "zero is considered FALSE and anything else is TRUE.\n"
+	   "If the values contain strings or empty cells those values are "
+	   "ignored.  If no logical values are provided, then the error "
+	   "#VALUE! is returned.\n"
+	   "@EXAMPLES=\n"
+	   "XOR(TRUE,FALSE) equals TRUE.\n"
+	   "XOR(3>4,4<3) equals FALSE.\n"
+	   "\n"
+	   "@SEEALSO=OR, AND, NOT")
+};
+
+static Value *
+callback_function_xor (const EvalPos *ep, Value *value, void *closure)
+{
+	int *result = closure;
+	gboolean err;
+
+	*result = value_get_as_bool (value, &err) ^ (*result == 1);
+	if (err)
+		return value_new_error (ep, gnumeric_err_VALUE);
+
+	return NULL;
+}
+
+static Value *
+gnumeric_xor (FunctionEvalInfo *ei, GnmExprList *nodes)
+{
+	int result = -1;
+
+	Value *v = function_iterate_argument_values (ei->pos,
+						     callback_function_xor,
+						     &result, nodes,
+						     TRUE, TRUE);
+	if (v != NULL)
+		return v;
+
+	/* See if there was any value worth using */
+	if (result == -1)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	return value_new_bool (result);
+}
+
+/***************************************************************************/
+
 static const char *help_if = {
 	N_("@FUNCTION=IF\n"
 	   "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -288,32 +349,38 @@ gnumeric_false (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-void logical_functions_init (void);
+const ModulePluginFunctionInfo logical_functions[] = {
+	{ "and", 0, "", &help_and, NULL, gnumeric_and, NULL, NULL },
+	{ "or", 0, "", &help_or, NULL, gnumeric_or, NULL, NULL },
+	{ "xor", 0, "", &help_xor, NULL, gnumeric_xor, NULL, NULL },
+	{ "not", "f", "number", &help_not, gnumeric_not, NULL, NULL, NULL },
+	{ "if", 0, "", &help_if, NULL, gnumeric_if, NULL, NULL },
+	{ "true", "f", "number", &help_true, gnumeric_true, NULL, NULL, NULL },
+	{ "false", "f", "number", &help_false, gnumeric_false, NULL, NULL, NULL },
+        {NULL}
+};
+
+/* FIXME: Should be merged into the above.  */
+static const struct {
+	const char *func;
+	AutoFormatTypes typ;
+} af_info[] = {
+	{ "if", AF_FIRST_ARG_FORMAT2 },
+	{ NULL, AF_UNKNOWN }
+};
+
 void
-logical_functions_init (void)
+plugin_init (void)
 {
-	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category_with_translation ("Logical", _("Logical"));
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_by_name (af_info[i].func, af_info[i].typ);
+}
 
-	function_add_nodes (cat,"and",     0,
-			    "",
-			    &help_and, gnumeric_and);
-
-	function_add_args (cat,"false",    "",
-			   "",
-			   &help_false,  gnumeric_false);
-	def = function_add_nodes (cat,"if",      0,
-				  "logical_test,value_if_true,value_if_false",
-				  &help_if,  gnumeric_if);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT2);
-
-	function_add_args  (cat,"not",     "f",
-			    "number",
-			    &help_not, gnumeric_not);
-	function_add_nodes (cat,"or",      0,
-			    "",
-			    &help_or,  gnumeric_or);
-	function_add_args (cat,"true",    "",
-			   "",
-			   &help_true,  gnumeric_true);
+void
+plugin_cleanup (void)
+{
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_remove (af_info[i].func);
 }
