@@ -1951,7 +1951,7 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "Importerar MultiPlan (SYLK) filer"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr ""
 
 #: plugins/qpro/plugin.xml.in.h:3

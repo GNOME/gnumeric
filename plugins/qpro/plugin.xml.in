@@ -10,7 +10,7 @@
 	<services>
 		<service type="file_opener" id="qpro" priority="100" probe="TRUE">
 			<information>
-				<_description>Quatro Pro (*.wb1, *.wb2, *.wb3)</_description>
+				<_description>Quattro Pro (*.wb1, *.wb2, *.wb3)</_description>
 			</information>
 			<suffixes>
 				<suffix>wb1</suffix>

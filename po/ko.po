@@ -1916,7 +1916,7 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "쿼트로 프로 (tm) 파일을 가져옵니다"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "쿼트로 프로 (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3

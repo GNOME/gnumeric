@@ -1050,7 +1050,8 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	vbox = GTK_BOX (glade_xml_get_widget (gui,"sheet_order_buttons_vbox"));
 	cg = go_color_group_fetch ("back_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_back = go_combo_color_new (gnm_app_get_pixbuf ("bucket"),
+	state->ccombo_back = go_combo_color_new (
+		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "bucket", 24, 0, NULL),
 		_("Default"), 0, cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_back), TRUE);
@@ -1059,7 +1060,8 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	cg = go_color_group_fetch ("fore_color_group",
 		wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	state->ccombo_fore = go_combo_color_new (gnm_app_get_pixbuf ("font"),
+	state->ccombo_fore = go_combo_color_new (
+		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "font", 24, 0, NULL),
 		_("Default"), 0, cg);
 	go_combo_color_set_instant_apply (
 		GO_COMBO_COLOR (state->ccombo_fore), TRUE);
