@@ -1,5 +1,10 @@
 1999-05-26  Michael Meeks  <michael@imaginator.com>
 
+	* biff-types.h: Fleshed out defines, now the 'compatible'
+	staroffice file is dumped nicely.
+
+	* ole.c (read_types): Added fudge in case files are nearby.
+
 	* ms-excel-write.c (ms_excel_write_workbook): Force Big
 	Block file.
 	(write_value): Set vesion on biff_put_text for RSTRING to V7.
