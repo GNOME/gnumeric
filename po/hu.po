@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
 "POT-Creation-Date: 2003-07-09 16:04+0200\n"
-"PO-Revision-Date: 2003-07-11 12:11+0200\n"
+"PO-Revision-Date: 2003-07-12 23:09+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -19378,7 +19378,7 @@ msgstr "Jelszó:"
 
 #: src/dialogs/dialog-paste-special.c:40
 msgid "All"
-msgstr "Mindent"
+msgstr "Minden"
 
 #: src/dialogs/dialog-paste-special.c:41 src/dialogs/dialog-search.c:393
 msgid "Content"
@@ -22779,7 +22779,7 @@ msgstr "Kék"
 
 #: src/format.c:633
 msgid "Cyan"
-msgstr "Cián"
+msgstr "Ciánkék"
 
 #: src/format.c:634
 msgid "Green"
