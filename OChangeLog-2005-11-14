@@ -1,3 +1,8 @@
+2000-12-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/dialogs/dialog-stf-preview.c: Fixed bug. Allocated array was
+	to small.
+
 2000-12-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (selection_is_simple) : Fix warning.

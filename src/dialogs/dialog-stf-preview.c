@@ -411,11 +411,10 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GSList *data, int
 {
 	GArray *newwidths;
 	GSList *iterator;
-	int i;
-	int *widths = g_alloca (colcount * sizeof (int));
+	gint i;
+	gint *widths = g_alloca ((colcount + 1) * sizeof (gint));
 
 	for (i = 0; i <= colcount; i++) {
-
 		widths[i] = g_array_index (renderdata->colwidths, int, i);
 	}
 
