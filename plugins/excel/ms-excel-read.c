@@ -1599,11 +1599,7 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 static Value *
 biff_get_rk (guint8 *ptr)
 {
-	LONG number;
-	Value *ans=NULL;
-	guint8 tmp[8];
-	int lp;
-	double answer;
+	gint32 number;
 	enum eType {
 		eIEEE = 0, eIEEEx100 = 1, eInt = 2, eIntx100 = 3
 	} type;
@@ -1612,27 +1608,30 @@ biff_get_rk (guint8 *ptr)
 	type = (number & 0x3);
 	switch (type){
 	case eIEEE:
-	case eIEEEx100:
+	case eIEEEx100: {
+		guint8 tmp[8];
+		double answer;
+		int lp;
+
+		/* Think carefully about big/little endian issues before
+		   changing this code.  */
 		for (lp=0;lp<4;lp++) {
 			tmp[lp+4]=(lp>0)?ptr[lp]:(ptr[lp]&0xfc);
 			tmp[lp]=0;
 		}
 
 		answer = BIFF_GETDOUBLE(tmp);
-		answer /= (type == eIEEEx100)?100.0:1.0;
-		ans = value_new_float (answer);
-		break;
+		return value_new_float (type == eIEEEx100 ? answer / 100 : answer);
+	}
 	case eInt:
-		ans = value_new_int ((number>>2));
-		break;
+		return value_new_int ((number>>2));
 	case eIntx100:
 		if (number%100==0)
-			ans = value_new_int ((number>>2)/100);
+			return value_new_int ((number>>2)/100);
 		else
-			ans = value_new_float ((number>>2)/100.0);
-		break;
+			return value_new_float ((number>>2)/100.0);
 	}
-	return ans;
+	while (1) abort ();
 }
 
 /* FIXME: S59DA9.HTM */

@@ -1,3 +1,8 @@
+1999-06-22  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (biff_get_rk): Handle negative ints and ints/100
+ 	right.  Thanks to Jody for finding this.
+
 1999-06-21  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula-read.c (make_function): Handle constant symbols.
