@@ -476,8 +476,6 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	res->time_real = end.tv_sec - start.tv_sec
 	        + (end.tv_usec - start.tv_usec) / 1000000.0;
 
-	lp_algorithm[param->options.algorithm].remove_fn (program);
-
 	if (res->status == SOLVER_LP_OPTIMAL) {
 	        res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
 		        .get_obj_fn_value_fn (program);
@@ -498,6 +496,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 		}
 	}
 
+	lp_algorithm[param->options.algorithm].remove_fn (program);
 	res->param = sheet->solver_parameters;
 	return res;
 }
