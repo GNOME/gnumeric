@@ -50,7 +50,7 @@ row_init_span (ColRowInfo *ri)
 {
 	g_return_if_fail (ri != NULL);
 
-	ri->data = g_hash_table_new (col_hash, col_compare);
+	ri->spans = g_hash_table_new (col_hash, col_compare);
 }
 
 static void
@@ -62,10 +62,12 @@ free_hash_key (gpointer key, gpointer value, gpointer user_data)
 void
 row_destroy_span (ColRowInfo *ri)
 {
-	g_return_if_fail (ri != NULL);
+	if (ri == NULL || ri->spans == NULL)
+		return;
 
-	g_hash_table_foreach (ri->data, free_hash_key, NULL);
-	g_hash_table_destroy (ri->data);
+	g_hash_table_foreach (ri->spans, free_hash_key, NULL);
+	g_hash_table_destroy (ri->spans);
+	ri->spans = NULL;
 }
 
 /*
@@ -98,7 +100,7 @@ cell_register_span (Cell *cell, int left, int right)
 		key = g_new (int, 1);
 
 		*key = i;
-		g_hash_table_insert (ri->data, key, cell);
+		g_hash_table_insert (ri->spans, key, cell);
 	}
 }
 
@@ -135,13 +137,15 @@ cell_unregister_span (Cell *cell)
 	c.cell = cell;
 	c.list_of_keys = NULL;
 
-	if (cell->row->data)
-		g_hash_table_foreach (cell->row->data, assemble_unregister_span_list, &c);
+	if (cell->row->spans == NULL)
+		return;
+
+	g_hash_table_foreach (cell->row->spans, assemble_unregister_span_list, &c);
 
 	for (l = c.list_of_keys; l; l = l->next){
 		int *key = l->data;
 		
-		g_hash_table_remove (cell->row->data, key);
+		g_hash_table_remove (cell->row->spans, key);
 		g_free (key);
 	}
 	if (c.list_of_keys)
@@ -160,8 +164,8 @@ row_cell_get_displayed_at (ColRowInfo *ri, int col)
 {
 	g_return_val_if_fail (ri != NULL, NULL);
 
-	if (ri->data)
-		return g_hash_table_lookup (ri->data, &col);
+	if (ri->spans)
+		return g_hash_table_lookup (ri->spans, &col);
 	else
 		return NULL;
 }

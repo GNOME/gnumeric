@@ -534,6 +534,13 @@ create_font_page (GtkWidget *prop_win, CellList *cells)
 	return font_widget;
 }
 
+static gboolean
+cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *height)
+{
+	sheet_row_set_internal_height (sheet, info, *((double *)height));
+	return FALSE;
+}
+
 static void
 apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 {
@@ -570,22 +577,14 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 	/* Now apply it to every row in the selection */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
-		GList *rl;
 		
 		/* Special case, the whole spreadsheet */
 		if (ss->user.start.row == 0 && ss->user.end.row == SHEET_MAX_ROWS-1)
-			sheet_row_set_internal_height (sheet, &sheet->default_row_style, height);
-
-		for (rl = sheet->rows_info; rl; rl = rl->next){
-			ColRowInfo *ri = rl->data;
-
-			if (ri->pos < ss->user.start.row)
-				break;
-			if (ri->pos > ss->user.end.row)
-				break;
-			
-			sheet_row_set_internal_height (sheet, ri, height);
-		}
+			sheet_row_set_internal_height (sheet, &sheet->rows.default_style, height);
+		else
+			sheet_foreach_colrow (sheet, &sheet->rows,
+					      ss->user.start.row, ss->user.end.row,
+					      &cb_set_row_height, &height);
 	}
 }
 

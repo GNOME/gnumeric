@@ -267,7 +267,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	
 	if (pj->pi->center_vertically){
 		if (pj->pi->print_titles)
-			print_height += sheet->default_row_style.units;
+			print_height += sheet->rows.default_style.units;
 		if (pj->pi->repeat_top.use)
 			print_height += pj->repeat_rows_used_y;
 		base_y = (pj->y_points - print_height)/2;
@@ -276,7 +276,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	print_width = sheet_col_get_unit_distance (sheet, start_col, end_col+1);
 	if (pj->pi->center_horizontally){
 		if (pj->pi->print_titles)
-			print_width += sheet->default_col_style.units;
+			print_width += sheet->cols.default_style.units;
 		if (pj->repeat_cols_used_x)
 			print_width += pj->repeat_cols_used_x;
 		base_x = (pj->x_points - print_width)/2;
@@ -300,8 +300,8 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 			print_titles (
 				sheet, start_col, start_row, end_col, end_row,
 				x, y, pj);
-			x += sheet->default_col_style.units;
-			y += sheet->default_row_style.units;
+			x += sheet->cols.default_style.units;
+			y += sheet->rows.default_style.units;
 		}
 
 		/*
@@ -343,7 +343,8 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
  * The list contains the number of items per group.
  */
 static GList *
-compute_groups (Sheet *sheet, int start, int end, int usable, ColRowInfo *(get_info)(Sheet *sheet, int p))
+compute_groups (Sheet *sheet, int start, int end, int usable,
+		ColRowInfo *(get_info)(Sheet const *sheet, int const p))
 {
 	GList *result;
 	int units, count, idx;
@@ -462,8 +463,8 @@ print_job_info_init_sheet (Sheet *sheet, PrintJobInfo *pj)
 	 * to get access to one of the sheets
 	 */
 	if (pj->pi->print_titles) {
-		pj->titles_used_x = sheet->default_col_style.units;
-		pj->titles_used_y = sheet->default_row_style.units;
+		pj->titles_used_x = sheet->cols.default_style.units;
+		pj->titles_used_y = sheet->rows.default_style.units;
 	} else {
 		pj->titles_used_x = 0;
 		pj->titles_used_y = 0;
@@ -488,7 +489,7 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 
 	print_job_info_init_sheet (sheet, pj);
 
-	print_sheet_range (sheet, 0, 0, sheet->max_col_used+1, sheet->max_row_used+1, pj);
+	print_sheet_range (sheet, 0, 0, sheet->cols.max_used+1, sheet->rows.max_used+1, pj);
 }
 
 static void

@@ -327,7 +327,7 @@ grid_view_new (EmbeddableGrid *eg)
 
 	grid_view->embeddable = eg;
 	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
-	gtk_widget_show (grid_view->sheet_view);
+	gtk_widget_show (GTK_WIDGET (grid_view->sheet_view));
 	g_warning ("FIXME: view_construct API changed");
 /*	gnome_view_construct (
 		GNOME_VIEW (grid_view), corba_grid_view,
@@ -352,6 +352,4 @@ embeddable_grid_set_range (EmbeddableGrid *eg,
 	g_return_if_fail (IS_EMBEDDABLE_GRID (eg));
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
-
-	
 }

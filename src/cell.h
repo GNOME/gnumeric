@@ -28,22 +28,28 @@ struct _ColRowInfo {
 
 	unsigned   int hard_size:1;     /* has the user explicitly set the dimensions? */
 
-	void       *data;
+	/* TODO : Add per row/col min/max */
+
+	void *spans;	/* Only used for rows */
 };
+
+typedef struct
+{
+	int         max_used;
+	ColRowInfo  default_style;
+	GPtrArray * info;
+} ColRowCollection;
 
 #define COL_INTERNAL_WIDTH(col) ((col)->pixels - ((col)->margin_b + (col)->margin_a))
 #define ROW_INTERNAL_HEIGHT(row) ((row)->pixels - ((row)->margin_b + (row)->margin_a))
 
-/* Cell has a computation error */
-/* #define CELL_ERROR             1 */
+/* Cell contains a comment */
+#define CELL_HAS_COMMENT       1
 
-/* Cell container a comment */
-#define CELL_HAS_COMMENT       2
-
-#define CELL_FORMAT_SET        4
+#define CELL_FORMAT_SET        2
 
 /* Cell has been queued for recalc */
-#define CELL_QUEUED_FOR_RECALC 8
+#define CELL_QUEUED_FOR_RECALC 4
 
 /**
  * CellComment:
@@ -94,8 +100,7 @@ struct _Cell {
 #define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
 
 typedef enum {
-	CELL_COPY_TYPE_CELL_ABSOLUTE,
-	CELL_COPY_TYPE_CELL_RELATIVE,
+	CELL_COPY_TYPE_CELL,
 	CELL_COPY_TYPE_TEXT,
 } CellCopyType;
 
@@ -151,8 +156,7 @@ void        cell_set_alignment           (Cell *cell, int halign, int valign,
 					  int orientation, int auto_return);
 void        cell_set_halign              (Cell *cell, StyleHAlignFlags halign);
 void        cell_set_rendered_text       (Cell *cell, const char *rendered_text);
-void        cell_relocate                (Cell *cell,
-					  int col_diff, int row_diff);
+void        cell_relocate                (Cell *cell);
 void        cell_get_span                (Cell *cell, int *col1, int *col2);
 char       *cell_get_text                (Cell *cell);
 char       *cell_get_content             (Cell *cell);

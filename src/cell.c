@@ -1058,15 +1058,13 @@ cell_comment_reposition (Cell *cell)
 /*
  * cell_relocate:
  * @cell:     The cell that is changing position
- * @col_diff: The column delta.
- * @row_diff: The row delta .
  *
  * This routine is used to move a cell to a different location:
  *
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_relocate (Cell *cell, int col_diff, int row_diff)
+cell_relocate (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -1075,8 +1073,6 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell->parsed_node){
-		EvalPosition pos;
-		ExprTree * newtree;
 		sheet_cell_formula_unlink (cell);
 
 		/*
@@ -1096,15 +1092,6 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 					sheet_cell_get (cell->sheet,
 							cell->col->pos - x,
 							cell->row->pos - y);
-		}
-
-		newtree = expr_relocate (cell->parsed_node,
-					 eval_pos_cell (&pos, cell),
-					 col_diff, row_diff);
-
-		if (newtree) {
-			expr_tree_unref (cell->parsed_node);
-			cell->parsed_node = newtree;
 		}
 
 		/* The following call also relinks the cell.  */

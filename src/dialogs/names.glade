@@ -28,6 +28,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>NamesDialog</name>
+  <visible>False</visible>
   <title>Define Name</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>

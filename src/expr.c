@@ -15,6 +15,7 @@
 #include "format.h"
 #include "func.h"
 #include "utils.h"
+#include "ranges.h"
 
 static Value *eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree);
 
@@ -422,20 +423,6 @@ cell_ref_make_absolute (CellRef *cell_ref, int eval_col, int eval_row)
 
 	cell_ref->row_relative = 0;
 	cell_ref->col_relative = 0;
-}
-
-static void
-cell_ref_restore_absolute (CellRef *cell_ref, const CellRef *orig, int eval_col, int eval_row)
-{
-	if (orig->col_relative) {
-		cell_ref->col -= eval_col;
-		cell_ref->col_relative = 1;
-	}
-
-	if (orig->row_relative) {
-		cell_ref->row -= eval_row;
-		cell_ref->row_relative = 1;
-	}
 }
 
 static void
@@ -1437,523 +1424,125 @@ expr_decode_tree (ExprTree *tree, const ParsePosition *pp)
 	return do_expr_decode_tree (tree, pp, 0);
 }
 
-
-struct expr_tree_frob_references {
-	Sheet *src_sheet;
-	int src_col, src_row;
-
-	gboolean invalidating_columns;
-
-	/* Columns being invalidated.  */
-	int col, colcount;
-
-	/* Rows being invalidated.  */
-	int row, rowcount;
-
-	/* Relative move (fixup only).  */
-	int coldelta, rowdelta;
-
-	/* In this sheet */
-	Sheet *sheet;
-
-	/* Are we deleting?  (fixup only).  */
-	gboolean deleting;
-};
-
-
-static gboolean
-cell_in_range (const CellRef *cr, const struct expr_tree_frob_references *info)
-{
-	return info->invalidating_columns
-		? (cr->col >= info->col && cr->col < info->col + info->colcount)
-		: (cr->row >= info->row && cr->row < info->row + info->rowcount);
-}
-
-static ExprTree *
-do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_references *info)
-{
-	switch (src->oper) {
-	case OPER_ANY_BINARY: {
-		ExprTree *a =
-			do_expr_tree_invalidate_references (src->u.binary.value_a, info);
-		ExprTree *b =
-			do_expr_tree_invalidate_references (src->u.binary.value_b, info);
-		if (a == NULL && b == NULL)
-			return NULL;
-		else {
-			if (a == NULL)
-				expr_tree_ref ((a = src->u.binary.value_a));
-			if (b == NULL)
-				expr_tree_ref ((b = src->u.binary.value_b));
-
-			return expr_tree_new_binary (a, src->oper, b);
-		}
-	}
-
-	case OPER_ANY_UNARY: {
-		ExprTree *a =
-			do_expr_tree_invalidate_references (src->u.value, info);
-		if (a == NULL)
-			return NULL;
-		else
-			return expr_tree_new_unary (src->oper, a);
-	}
-
-	case OPER_FUNCALL: {
-		gboolean any = FALSE;
-		GList *new_args = NULL;
-		GList *l;
-
-		for (l = src->u.function.arg_list; l; l = l->next) {
-			ExprTree *arg = do_expr_tree_invalidate_references (l->data, info);
-			new_args = g_list_append (new_args, arg);
-			if (arg) any = TRUE;
-		}
-
-		if (any) {
-			GList *m;
-
-			for (l = src->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
-				if (m->data == NULL)
-					expr_tree_ref ((m->data = l->data));
-			}
-
-			symbol_ref (src->u.function.symbol);
-			return expr_tree_new_funcall (src->u.function.symbol, new_args);
-		} else {
-			g_list_free (new_args);
-			return NULL;
-		}
-	}
-
-	case OPER_NAME:
-		return NULL;
-
-	case OPER_VAR: {
-		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
-
-		/* If the sheet is wrong, do nothing.  */
-		if (cr.sheet != info->sheet)
-			return NULL;
-
-		cell_ref_make_absolute (&cr, info->src_col, info->src_row);
-
-		if (cell_in_range (&cr, info))
-			return expr_tree_new_error (_("#Reference to deleted cell!"));
-		else
-			return NULL;
-	}
-
-	case OPER_CONSTANT: {
-		Value *v = src->u.constant;
-
-		switch (v->type) {
-		case VALUE_BOOLEAN:
-		case VALUE_ERROR:
-		case VALUE_STRING:
-		case VALUE_INTEGER:
-		case VALUE_FLOAT:
-		case VALUE_EMPTY:
-			return NULL;
-
-		case VALUE_CELLRANGE: {
-			CellRef ca = v->v.cell_range.cell_a; /* Copy a structure, not a pointer.  */
-			CellRef cb = v->v.cell_range.cell_b; /* Copy a structure, not a pointer.  */
-
-			/* If the sheet is wrong, do nothing.  */
-			if (ca.sheet != info->sheet)
-				return NULL;
-
-			cell_ref_make_absolute (&ca, info->src_col, info->src_row);
-			cell_ref_make_absolute (&cb, info->src_col, info->src_row);
-
-			if (cell_in_range (&ca, info) && cell_in_range (&cb, info))
-				return expr_tree_new_error (_("#Reference to deleted range!"));
-			else
-				return NULL;
-		}
-		case VALUE_ARRAY:
-			fprintf (stderr, "Reminder: FIXME in do_expr_tree_invalidate_references\n");
-			/* ??? */
-			return NULL;
-		default:
-			g_warning ("do_expr_tree_invalidate_references error\n");
-			break;
-		}
-		g_assert_not_reached ();
-		return NULL;
-	}
-	case OPER_ARRAY:
-	{
-		ArrayRef * a = &src->u.array;
-		if (a->x == 0 && a->y == 0) {
-			ExprTree *func = do_expr_tree_invalidate_references (
-					    a->corner.func.expr, info);
-
-			if (func != NULL) {
-				ExprTree *res =
-				    expr_tree_array_formula (0, 0,
-							     a->rows, a->cols);
-				res->u.array.corner.func.value = NULL;
-				res->u.array.corner.func.expr = func;
-				return res;
-			}
-		}
-		return NULL;
-	}
-	}
-
-	g_assert_not_reached ();
-	return NULL;
-}
-
-/*
- * Invalidate (== turn into error expressions) cell and range references that
- * will disappear completely during a deletions of columns or rows.  Note that
- * this is not intended for use when just the cell contents is deleted.
- */
-ExprTree *
-expr_tree_invalidate_references (ExprTree *src, EvalPosition *src_fp,
-				 const EvalPosition *fp,
-				 int colcount, int rowcount)
-{
-	struct expr_tree_frob_references info;
-	ExprTree *dst;
-	Sheet *src_sheet = src_fp->sheet;
-	int    src_col   = src_fp->eval_col;
-	int    src_row   = src_fp->eval_row;
-	Sheet *sheet     = fp->sheet;
-	int    col       = fp->eval_col;
-	int    row       = fp->eval_row;
-
-	g_return_val_if_fail (src != NULL, NULL);
-	g_return_val_if_fail (src_sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (src_sheet), NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	info.src_sheet = src_sheet;
-	info.src_col = src_col;
-	info.src_row = src_row;
-	info.invalidating_columns = (colcount > 0);
-	info.sheet = sheet;
-	info.col = col;
-	info.colcount = colcount;
-	info.row = row;
-	info.rowcount = rowcount;
-
-#if 0
-	{
-		char *str;
-		str = expr_decode_tree (src, src_fp);
-		printf ("Invalidate: %s: [%s]\n", cell_name (src_col, src_row), str);
-		g_free (str);
-	}
-#endif
-
-	dst = do_expr_tree_invalidate_references (src, &info);
-
-#if 0
-	{
-		char *str;
-		str = dst ? expr_decode_tree (dst, src_fp) : g_strdup ("*");
-		printf ("Invalidate: %s: [%s]\n\n", cell_name (src_col, src_row), str);
-		g_free (str);
-	}
-#endif
-
-	return dst;
-}
-
-
-static gboolean
-fixup_calc_new_cellref (CellRef *crp, const struct expr_tree_frob_references *info)
-{
-	CellRef oldcr = *crp;
-	int src_col = info->src_col;
-	int src_row = info->src_row;
-	cell_ref_make_absolute (crp, src_col, src_row);
-
-	if (info->deleting) {
-		if (info->colcount) {
-			if (crp->col >= info->col)
-				crp->col = MAX (crp->col - info->colcount, info->col);
-			if (src_col >= info->col)
-				src_col = MAX (src_col - info->colcount, info->col);
-		} else {
-			if (crp->row >= info->row)
-				crp->row = MAX (crp->row - info->rowcount, info->row);
-			if (src_row >= info->row)
-				src_row = MAX (src_row - info->rowcount, info->row);
-		}
-	} else {
-		if (info->colcount) {
-			if (crp->col >= info->col)
-				crp->col += info->colcount;
-			if (src_col >= info->col)
-				src_col += info->colcount;
-		} else {
-			if (crp->row >= info->row)
-				crp->row += info->rowcount;
-			if (src_row >= info->row)
-				src_row += info->rowcount;
-		}
-	}
-
-	cell_ref_restore_absolute (crp, &oldcr, src_col, src_row);
-	return (crp->col != oldcr.col || crp->row != oldcr.row);
-}
-
-
-static ExprTree *
-do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_references *info)
-{
-	switch (src->oper) {
-	case OPER_ANY_BINARY: {
-		ExprTree *a =
-			do_expr_tree_fixup_references (src->u.binary.value_a, info);
-		ExprTree *b =
-			do_expr_tree_fixup_references (src->u.binary.value_b, info);
-		if (a == NULL && b == NULL)
-			return NULL;
-		else {
-			if (a == NULL)
-				expr_tree_ref ((a = src->u.binary.value_a));
-			if (b == NULL)
-				expr_tree_ref ((b = src->u.binary.value_b));
-
-			return expr_tree_new_binary (a, src->oper, b);
-		}
-	}
-
-	case OPER_ANY_UNARY: {
-		ExprTree *a =
-			do_expr_tree_fixup_references (src->u.value, info);
-		if (a == NULL)
-			return NULL;
-		else
-			return expr_tree_new_unary (src->oper, a);
-	}
-
-	case OPER_FUNCALL: {
-		gboolean any = FALSE;
-		GList *new_args = NULL;
-		GList *l;
-
-		for (l = src->u.function.arg_list; l; l = l->next) {
-			ExprTree *arg = do_expr_tree_fixup_references (l->data, info);
-			new_args = g_list_append (new_args, arg);
-			if (arg) any = TRUE;
-		}
-
-		if (any) {
-			GList *m;
-
-			for (l = src->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
-				if (m->data == NULL)
-					expr_tree_ref ((m->data = l->data));
-			}
-
-			symbol_ref (src->u.function.symbol);
-			return expr_tree_new_funcall (src->u.function.symbol, new_args);
-		} else {
-			g_list_free (new_args);
-			return NULL;
-		}
-	}
-
-	case OPER_NAME:
-		return NULL;
-
-	case OPER_VAR: {
-		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
-
-		/* If the sheet is wrong, do nothing.  */
-		if (cr.sheet != info->sheet)
-			return NULL;
-
-		if (!fixup_calc_new_cellref (&cr, info))
-			return NULL;
-
-		return expr_tree_new_var (&cr);
-	}
-
-	case OPER_CONSTANT: {
-		Value *v = src->u.constant;
-
-		switch (v->type) {
-		case VALUE_BOOLEAN:
-		case VALUE_ERROR:
-		case VALUE_EMPTY:
-		case VALUE_STRING:
-		case VALUE_INTEGER:
-		case VALUE_FLOAT:
-			return NULL;
-
-		case VALUE_CELLRANGE: {
-			gboolean a_changed, b_changed;
-
-			CellRef ca = v->v.cell_range.cell_a; /* Copy a structure, not a pointer.  */
-			CellRef cb = v->v.cell_range.cell_b; /* Copy a structure, not a pointer.  */
-
-			/* If the sheet is wrong, do nothing.  */
-			if (ca.sheet != info->sheet)
-				return NULL;
-
-			a_changed = fixup_calc_new_cellref (&ca, info);
-			b_changed = fixup_calc_new_cellref (&cb, info);
-
-			if (!a_changed && !b_changed)
-				return NULL;
-
-			return expr_tree_new_constant (value_new_cellrange (&ca, &cb));
-		}
-		case VALUE_ARRAY:
-			fprintf (stderr, "Reminder: FIXME in do_expr_tree_fixup_references\n");
-			/* ??? */
-			return NULL;
-		}
-		g_assert_not_reached ();
-		return NULL;
-	}
-	case OPER_ARRAY:
-	{
-		ArrayRef * a = &src->u.array;
-		if (a->x == 0 && a->y == 0) {
-			ExprTree *func =
-			    do_expr_tree_fixup_references (a->corner.func.expr,
-							   info);
-
-			if (func != NULL) {
-				ExprTree *res =
-				    expr_tree_array_formula (0, 0,
-							     a->rows, a->cols);
-				res->u.array.corner.func.value = NULL;
-				res->u.array.corner.func.expr = func;
-				return res;
-			}
-		}
-		return NULL;
-	}
-	}
-
-	g_assert_not_reached ();
-	return NULL;
-}
-
-
-ExprTree *
-expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
-			    const EvalPosition *fp,
-			    int coldelta, int rowdelta)
-{
-	struct expr_tree_frob_references info;
-	ExprTree *dst;
-	Sheet *src_sheet = src_fp->sheet;
-	int    src_col   = src_fp->eval_col;
-	int    src_row   = src_fp->eval_row;
-	Sheet *sheet     = fp->sheet;
-	int    col       = fp->eval_col;
-	int    row       = fp->eval_row;
-
-	g_return_val_if_fail (src != NULL, NULL);
-	g_return_val_if_fail (src_sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (src_sheet), NULL);
-	g_return_val_if_fail(sheet != NULL, NULL);
-	g_return_val_if_fail(IS_SHEET(sheet), NULL);
-        
-	info.src_sheet = src_sheet;
-	info.src_col = src_col;
-	info.src_row = src_row;
-	info.sheet = sheet;
-	info.col = col;
-	info.row = row;
-	info.coldelta = coldelta;
-	info.rowdelta = rowdelta;
-	info.deleting = (coldelta < 0 || rowdelta < 0);
-	info.colcount = (coldelta < 0) ? -coldelta : coldelta;
-	info.rowcount = (rowdelta < 0) ? -rowdelta : rowdelta;
-
-#if 0
-	{
-		char *str;
-		str = expr_decode_tree (src, src_fp);
-		printf ("Fixup: %s: [%s]\n", cell_name (src_col, src_row), str);
-		g_free (str);
-	}
-#endif
-
-	dst = do_expr_tree_fixup_references (src, &info);
-
-#if 0
-	{
-		char *str;
-		str = dst ? expr_decode_tree (dst, src_fp) : g_strdup ("*");
-		printf ("Fixup: %s: [%s]\n\n", cell_name (src_col, src_row), str);
-		g_free (str);
-	}
-#endif
-
-	return dst;
-}
-
 enum CellRefRelocate {
-	CELLREF_NO_RELOCATE = 1,
-	CELLREF_RELOCATE = 2,
-	CELLREF_RELOCATE_ERR = 3,
+	CELLREF_NO_RELOCATE = 0,
+	CELLREF_RELOCATE = 1,
+	CELLREF_RELOCATE_ERR = 2,
 };
 
 static enum CellRefRelocate
-cellref_relocate (CellRef const * const ref,
-		  EvalPosition const *pos,
-		  int col_offset, int row_offset)
+cellref_relocate (CellRef * const ref,
+		  EvalPosition const * const pos,
+		  struct expr_relocate_info const * const rinfo)
 {
-	/* Be sure to check overflow for row if moving both row & col */
-	enum CellRefRelocate res = CELLREF_NO_RELOCATE;
+	/* For row or column refs
+	 * Ref	From	To
+	 *
+	 * Abs	In	In 	: Positive (Sheet) (b)
+	 * Abs	In	Out 	: Sheet
+	 * Abs	Out	In 	: Negative, Sheet, Range (b)
+	 * Abs	Out	Out 	: (a)
+	 * Rel	In	In 	: (Sheet)
+	 * Rel	In	Out 	: Negative, Sheet, Range (c)
+	 * Rel	Out	In 	: Positive, Sheet, Range (b)
+	 * Rel	Out	Out 	: (a)
+	 *
+	 * Positive : Add offset
+	 * Negative : Subtract offset
+	 * Sheet    : Check that ref sheet is correct
+	 * Range    : Test for potential invalid refs
+	 *
+	 * An action in () is one which is done despite being useless
+	 * to simplify the logic.
+	 */
+	int col = cell_ref_get_abs_col (ref, pos);
+	int row = cell_ref_get_abs_row (ref, pos);
+
+	Sheet * ref_sheet = (ref->sheet != NULL) ? ref->sheet : pos->sheet;
+	gboolean const to_inside =
+		(rinfo->target_sheet == ref_sheet) &&
+		range_contains (&rinfo->origin, col, row);
+	gboolean const from_inside =
+		(rinfo->origin_sheet == pos->sheet) &&
+		range_contains (&rinfo->origin, pos->eval_col, pos->eval_row);
+
+	/* Case (a) */
+	if (!from_inside && !to_inside)
+		return CELLREF_NO_RELOCATE;
+
+	if (from_inside != to_inside) {
+		if (to_inside) {
+			if (pos->sheet == rinfo->target_sheet)
+				ref_sheet = NULL;
+		} else {
+			if (ref_sheet == rinfo->target_sheet)
+				ref_sheet = NULL;
+		}
+	} else
+		ref_sheet = ref->sheet;
+
+	if (to_inside) {
+		/* Case (b) */
+		if (ref->col_relative != from_inside)
+			col += rinfo->col_offset;
+		else if (!ref->col_relative && !from_inside)
+			col -= rinfo->col_offset;
+
+		if (ref->row_relative != from_inside)
+			row += rinfo->row_offset;
+		else if (!ref->row_relative && !from_inside)
+			row -= rinfo->row_offset;
+	} else {
+		/* Case (c) */
+		if (ref->col_relative && from_inside)
+			col -= rinfo->col_offset;
+		if (ref->row_relative && from_inside)
+			row -= rinfo->row_offset;
+	}
+
+	if (col < 0 || col >= SHEET_MAX_COLS ||
+	    row < 0 || row >= SHEET_MAX_COLS)
+	    return CELLREF_RELOCATE_ERR;
+
 	if (ref->col_relative)
-	{
-		int const tmp = pos->eval_col + ref->col + col_offset;
-
-		if (tmp < 0 || SHEET_MAX_COLS <= tmp)
-			return CELLREF_RELOCATE_ERR;
-
-		if (col_offset != 0)
-			res = CELLREF_RELOCATE;
-	}
+		col -= pos->eval_col;
 	if (ref->row_relative)
-	{
-		int const tmp = pos->eval_row + ref->row + row_offset;
-		if (tmp < 0 || SHEET_MAX_ROWS <= tmp)
-			return CELLREF_RELOCATE_ERR;
-		if (row_offset != 0)
-			return CELLREF_RELOCATE;
+		row -= pos->eval_row;
+
+	if (ref->sheet != ref_sheet || ref->col != col || ref->row != row) {
+		ref->sheet = ref_sheet;
+		ref->col = col;
+		ref->row = row;
+		return CELLREF_RELOCATE;
 	}
-	return res;
+	return CELLREF_NO_RELOCATE;
 }
 
 /*
  * expr_relocate :
- * @expr : The express to check to relative references.
- * @col_offset : The column shift.
- * @row_offset : The row shift.
+ * @expr  : Expression to fixup
+ * @pos   : Location of the cell containing @expr.
+ * @rinfo : State information required to adjust the references.
  *
- * Find any relative references and adjust them by the supplied
- * deltas.  Check for out of bounds conditions.  Return NULL
- * if no change is required.
+ * Find any references to the specified area and adjust them by the supplied
+ * deltas.  Check for out of bounds conditions.  Return NULL if no change is
+ * required.
+ *
+ * If the expression is within the range to be moved, its relative references
+ * to cells outside the range are adjusted to reference the same cell after
+ * the move.
  */
 ExprTree *
-expr_relocate (ExprTree *expr,
+expr_relocate (ExprTree const *expr,
 	       EvalPosition const *pos,
-	       int col_offset, int row_offset)
+	       struct expr_relocate_info const *rinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
 	switch (expr->oper) {
 	case OPER_ANY_BINARY: {
-		ExprTree *a = expr_relocate (expr->u.binary.value_a, pos,
-					     col_offset, row_offset);
-		ExprTree *b = expr_relocate (expr->u.binary.value_b, pos,
-					     col_offset, row_offset);
+		ExprTree *a = expr_relocate (expr->u.binary.value_a, pos, rinfo);
+		ExprTree *b = expr_relocate (expr->u.binary.value_b, pos, rinfo);
 
 		if (a == NULL && b == NULL)
 			return NULL;
@@ -1967,8 +1556,7 @@ expr_relocate (ExprTree *expr,
 	}
 
 	case OPER_ANY_UNARY: {
-		ExprTree *a = expr_relocate (expr->u.value, pos,
-					     col_offset, row_offset);
+		ExprTree *a = expr_relocate (expr->u.value, pos, rinfo);
 		if (a == NULL)
 			return NULL;
 		return expr_tree_new_unary (expr->oper, a);
@@ -1980,9 +1568,9 @@ expr_relocate (ExprTree *expr,
 		GList *l;
 
 		for (l = expr->u.function.arg_list; l; l = l->next) {
-			ExprTree *arg = expr_relocate (l->data, pos, col_offset, row_offset);
+			ExprTree *arg = expr_relocate (l->data, pos, rinfo);
 			new_args = g_list_append (new_args, arg);
-			if (relocate)
+			if (arg != NULL)
 				relocate = TRUE;
 		}
 
@@ -2004,73 +1592,73 @@ expr_relocate (ExprTree *expr,
 	case OPER_NAME:
 		return NULL;
 
-	case OPER_VAR: {
-		CellRef const * const ref = & expr->u.ref;
-		switch (cellref_relocate (ref, pos, col_offset, row_offset)) {
-		case CELLREF_NO_RELOCATE : return NULL;
-		case CELLREF_RELOCATE :
-		{
-			ExprTree * res = expr_tree_new_var (ref);
-			if (res->u.ref.row_relative)
-				res->u.ref.row += row_offset;
-			if (res->u.ref.col_relative)
-				res->u.ref.col += col_offset;
-			return res;
-		}
+	case OPER_VAR:
+	{
+		CellRef res = expr->u.ref; /* Copy */
+		switch (cellref_relocate (&res, pos, rinfo)) {
+		case CELLREF_NO_RELOCATE :
+			return NULL;
 
-		default :
+		case CELLREF_RELOCATE :
+			return expr_tree_new_var (&res);
+
+		case CELLREF_RELOCATE_ERR :
 			return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-		};
+		}
 	}
 
-	case OPER_CONSTANT:
-	{
-	       Value const * const v = expr->u.constant;
-	       if  (v->type == VALUE_CELLRANGE) {
-		       CellRef const * const ref_a =
-			       &v->v.cell_range.cell_a;
-		       CellRef const * const ref_b =
-			       &v->v.cell_range.cell_b;
-		       enum CellRefRelocate const res_a =
-			       cellref_relocate (ref_a, pos, col_offset, row_offset);
-		       enum CellRefRelocate const res_b =
-			       cellref_relocate (ref_b, pos, col_offset, row_offset);
-		       Value * res;
+	case OPER_CONSTANT: {
+		Value const * const v = expr->u.constant;
+		if  (v->type == VALUE_CELLRANGE) {
+			/* TODO : Figure out the logic of 1 ref error 1 ok */
+			CellRef ref_a = v->v.cell_range.cell_a;
+			CellRef ref_b = v->v.cell_range.cell_b;
+			gboolean needs_reloc = FALSE;
 
-			switch (res_a > res_b ? res_a : res_b) {
-			case CELLREF_NO_RELOCATE : return NULL;
+			switch (cellref_relocate (&ref_a, pos, rinfo)) {
+			case CELLREF_NO_RELOCATE :
+				break;
 			case CELLREF_RELOCATE :
-				res = value_new_cellrange (ref_a, ref_b);
-				if (res->v.cell_range.cell_a.row_relative)
-					res->v.cell_range.cell_a.row += row_offset;
-				if (res->v.cell_range.cell_a.col_relative)
-					res->v.cell_range.cell_a.col += col_offset;
-				if (res->v.cell_range.cell_b.row_relative)
-					res->v.cell_range.cell_b.row += row_offset;
-				if (res->v.cell_range.cell_b.col_relative)
-					res->v.cell_range.cell_b.col += col_offset;
+				needs_reloc = TRUE;
 				break;
 
-			default :
-				res = value_new_error (NULL, gnumeric_err_REF);
-			};
-			return expr_tree_new_constant (res);
-	       }
-	       return NULL;
+			case CELLREF_RELOCATE_ERR :
+				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+			}
+			switch (cellref_relocate (&ref_b, pos, rinfo)) {
+			case CELLREF_NO_RELOCATE :
+				break;
+			case CELLREF_RELOCATE :
+				needs_reloc = TRUE;
+				break;
+
+			case CELLREF_RELOCATE_ERR :
+				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+			}
+
+			if (needs_reloc) {
+				Value * res;
+				/* Dont allow creation of 3D references */
+				if (ref_a.sheet == ref_b.sheet)
+					res = value_new_cellrange (&ref_a, &ref_b);
+				else
+					res = value_new_error (NULL, gnumeric_err_REF);
+				return expr_tree_new_constant (res);
+			}
+			return NULL;
+		}
 	}
 
-	case OPER_ARRAY:
-	{
-		ArrayRef * a = &expr->u.array;
+	case OPER_ARRAY: {
+		ArrayRef const * a = &expr->u.array;
 		if (a->x == 0 && a->y == 0) {
 			ExprTree *func =
-			    expr_relocate (a->corner.func.expr, pos,
-					   col_offset, row_offset);
+				expr_relocate (a->corner.func.expr, pos, rinfo);
 
 			if (func != NULL) {
 				ExprTree *res =
-				    expr_tree_array_formula (0, 0,
-							     a->rows, a->cols);
+					expr_tree_array_formula (0, 0,
+								 a->rows, a->cols);
 				res->u.array.corner.func.value = NULL;
 				res->u.array.corner.func.expr = func;
 				return res;
@@ -2150,4 +1738,3 @@ expr_dump_tree (const ExprTree *tree)
 		return;
 	}
 }
-

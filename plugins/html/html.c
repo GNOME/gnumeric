@@ -65,21 +65,24 @@ html_write_cell32 (FILE *fp, Cell *cell)
 	Style *style;
 	unsigned char r, g, b;
 
-	if (!cell) {	/* empty cell */
-		fprintf (fp, "\t<TD>\n");
-	} else {
+	fprintf (fp, "\t<TD>");
+	if (cell != NULL) {	/* empty cell */
 		style = cell->style;
 		if (!style) {
 			/* is this case posible? */
-			fprintf (fp, "\t<TD>");
 			html_fprintf (fp, cell->text->str);
-			fprintf (fp, "\n");
 		} else {
-			fprintf (fp, "\t<TD");
-			if (style->halign & HALIGN_RIGHT)
-				fprintf (fp, " align=right");
-			if (style->halign & HALIGN_CENTER)
+			switch (cell_get_horizontal_align (cell)) {
+			case HALIGN_RIGHT :
+			    fprintf (fp, " align=right");
+			    break;
+
+			case HALIGN_CENTER :
 				fprintf (fp, " align=center");
+				break;
+			default :
+				break;
+			}
 			if (style->valign & VALIGN_TOP)
 				fprintf (fp, " valign=top");
 			r = style->back_color->color.red >> 8;
@@ -109,9 +112,9 @@ html_write_cell32 (FILE *fp, Cell *cell)
 				fprintf (fp, "</TT>");
 			if (r != 0 || g != 0 || b != 0)
 				fprintf (fp, "</FONT>");
-			fprintf (fp, "\n");
 		}
 	}
+	fprintf (fp, "</TD>\n");
 }
 
 /*
@@ -123,21 +126,24 @@ html_write_cell40 (FILE *fp, Cell *cell)
 	Style *style;
 	unsigned char r, g, b;
 
-	if (!cell) {	/* empty cell */
-		fprintf (fp, "\t<TD>\n");
-	} else {
+	fprintf (fp, "\t<TD>");
+	if (cell != NULL) {
 		style = cell->style;
 		if (!style) {
 			/* is this case posible? */
-			fprintf (fp, "\t<TD>");
 			html_fprintf (fp, cell->text->str);
-			fprintf (fp, "\n");
 		} else {
-			fprintf (fp, "\t<TD");
-			if (style->halign & HALIGN_RIGHT)
-				fprintf (fp, " halign=right");
-			if (style->halign & HALIGN_CENTER)
+			switch (cell_get_horizontal_align (cell)) {
+			case HALIGN_RIGHT :
+			    fprintf (fp, " halign=right");
+			    break;
+
+			case HALIGN_CENTER :
 				fprintf (fp, " halign=center");
+				break;
+			default :
+				break;
+			}
 			if (style->valign & VALIGN_TOP)
 				fprintf (fp, " valign=top");
 			r = style->back_color->color.red >> 8;
@@ -167,9 +173,9 @@ html_write_cell40 (FILE *fp, Cell *cell)
 				fprintf (fp, "</TT>");
 			if (r != 0 || g != 0 || b != 0)
 				fprintf (fp, "</FONT>");
-			fprintf (fp, "\n");
 		}
 	}
+	fprintf (fp, "</TD>\n");
 }
 
 /*
@@ -214,9 +220,9 @@ html_write_wb_html32 (Workbook *wb, const char *filename)
 		fprintf (fp, "<TABLE border=1>\n");
 		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name);
 
-		for (row = 0; row < (sheet->max_row_used+1); row++) {
+		for (row = 0; row <= sheet->rows.max_used; row++) {
 			fprintf (fp, "<TR>\n");
-			for (col = 0; col < (sheet->max_col_used+1); col++) {
+			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				html_write_cell32 (fp, cell);
 			}
@@ -273,9 +279,9 @@ html_write_wb_html40 (Workbook *wb, const char *filename)
 		fprintf (fp, "<TABLE border=1>\n");
 		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name);
 
-		for (row = 0; row < (sheet->max_row_used+1); row++) {
+		for (row = 0; row <= sheet->rows.max_used; row++) {
 			fprintf (fp, "<TR>\n");
-			for (col = 0; col < (sheet->max_col_used+1); col++) {
+			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				html_write_cell40 (fp, cell);
 			}

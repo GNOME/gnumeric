@@ -12,6 +12,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "func.h"
+#include "tools.h"
 #include "utils.h"
 
 GtkWidget *

@@ -620,7 +620,9 @@ Sheet_cell_get_background (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
 			   CORBA_Environment *ev)
 {
+#if 0
 	Sheet *sheet = sheet_from_servant (servant);
+#endif
 
 	g_error ("Background");
 
@@ -1025,7 +1027,7 @@ Sheet_max_cols_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	return sheet->max_col_used;
+	return sheet->cols.max_used;
 }
 
 static CORBA_long
@@ -1033,7 +1035,7 @@ Sheet_max_rows_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	return sheet->max_row_used;
+	return sheet->rows.max_used;
 }
 
 static CORBA_double

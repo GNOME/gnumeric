@@ -292,6 +292,9 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		gdk_gc_set_stipple (gc, NULL);
 	}
 
+	/* Draw cell contents BEFORE border */
+	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
+
 	if ((gnumeric_debugging > 0) &&
 	    (cell->style->valid_flags & STYLE_BORDER) &&
 	    cell->style->border) {
@@ -323,8 +326,6 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 			gdk_draw_line (drawable, gc, x1 + w, y1, x1 + w, y1 + h);
 		}
 	}
-
-	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
 	return count;
 }
@@ -401,7 +402,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			    0, 0, width, height);
 
 	/* 2. the grids */
-	for (x_paint = -diff_x; x_paint < end_x; col++){
+	for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; col++){
 		ColRowInfo *ci;
 
 		ci = sheet_col_get_info (sheet, col);
@@ -414,7 +415,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	}
 
 	row = paint_row;
-	for (y_paint = -diff_y; y_paint < end_y; row++){
+	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++){
 		ColRowInfo *ri;
 
 		ri = sheet_row_get_info (sheet, row);
@@ -426,13 +427,13 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	gdk_gc_set_function (item_grid->gc, GDK_COPY);
 
 	row = paint_row;
-	for (y_paint = -diff_y; y_paint < end_y; row++){
+	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++){
 		ColRowInfo *ri;
 
 		ri = sheet_row_get_info (sheet, row);
 		col = paint_col;
 
-		for (x_paint = -diff_x; x_paint < end_x; col++){
+		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col) {
 			ColRowInfo *ci;
 			
 			ci = sheet_col_get_info (sheet, col);
@@ -519,13 +520,15 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	item_grid_invert_gc (item_grid);
 
 	row = paint_row;
-	for (y_paint = -diff_y; y_paint < end_y; row++){
+	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++){
 		ColRowInfo *ri, *ci;
 
 		ri = sheet_row_get_info (sheet, row);
 		col = paint_col;
 
-		for (x_paint = -diff_x; x_paint < end_x; col++, x_paint += ci->pixels){
+		for (x_paint = -diff_x;
+		     x_paint < end_x && col < SHEET_MAX_COLS;
+		     ++col, x_paint += ci->pixels){
 			ci = sheet_col_get_info (sheet, col);
 
 			if (sheet->cursor_col == col && sheet->cursor_row == row)
@@ -717,9 +720,9 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	/*
 	 * Range check first
 	 */
-	if (col > SHEET_MAX_COLS-1)
+	if (col >= SHEET_MAX_COLS)
 		return 1;
-	if (row > SHEET_MAX_ROWS-1)
+	if (row >= SHEET_MAX_ROWS)
 		return 1;
 
 	/*

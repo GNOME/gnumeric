@@ -91,13 +91,13 @@ html_write_wb_latex (Workbook *wb, const char *filename)
 		sheet = sheet_list->data;
 		fprintf (fp, "%s\n\n", sheet->name);
 		fprintf (fp, "\\begin{tabular}{|");
-		for (col = 0; col < (sheet->max_col_used+1); col++) {
+		for (col = 0; col < sheet->cols.max_used; col++) {
 			fprintf (fp, "l|");
 		}
 		fprintf (fp, "}\\hline\n");
 
-		for (row = 0; row < (sheet->max_row_used+1); row++) {
-			for (col = 0; col < (sheet->max_col_used+1); col++) {
+		for (row = 0; row <= sheet->rows.max_used; row++) {
+			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				if (!cell) {
 					if (col)
@@ -187,13 +187,13 @@ html_write_wb_latex2e (Workbook *wb, const char *filename)
 		sheet = sheet_list->data;
 		fprintf (fp, "%s\n\n", sheet->name);
 		fprintf (fp, "\\begin{tabular}{|");
-		for (col = 0; col < (sheet->max_col_used+1); col++) {
+		for (col = 0; col <= sheet->cols.max_used; col++) {
 			fprintf (fp, "l|");
 		}
 		fprintf (fp, "}\\hline\n");
 
-		for (row = 0; row < (sheet->max_row_used+1); row++) {
-			for (col = 0; col < (sheet->max_col_used+1); col++) {
+		for (row = 0; row <= sheet->rows.max_used; row++) {
+			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				if (!cell) {
 					if (col)

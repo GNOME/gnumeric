@@ -6,6 +6,7 @@
  *  Jody Goldberg (jgoldberg@home.com)
  *
  */
+#include <config.h>
 #include "selection.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
@@ -570,7 +571,7 @@ sheet_selection_copy (Sheet *sheet)
 	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
 		sheet,
 		ss->user.start.col, ss->user.start.row,
-		ss->user.end.col, ss->user.end.row, FALSE);
+		ss->user.end.col, ss->user.end.row);
 
 	return TRUE;
 }
@@ -579,6 +580,16 @@ gboolean
 sheet_selection_cut (Sheet *sheet)
 {
 	SheetSelection *ss;
+
+	/* FIXME FIXME FIXME
+	 * This code should be replaced completely.
+	 * 'cut' is a poor description of what we're
+	 * doing here.  'move' would be a better
+	 * approximation.  The key portion of this process is that
+	 * the range being moved has all
+	 * 	- references to it adjusted to the new site.
+	 * 	- relative references from it adjusted.
+	 */
 
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
@@ -595,7 +606,7 @@ sheet_selection_cut (Sheet *sheet)
 	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
 		sheet,
 		ss->user.start.col, ss->user.start.row,
-		ss->user.end.col, ss->user.end.row, TRUE);
+		ss->user.end.col, ss->user.end.row);
 
 	sheet_clear_region (sheet, ss->user.start.col, ss->user.start.row,
 			    ss->user.end.col, ss->user.end.row, NULL);

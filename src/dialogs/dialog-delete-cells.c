@@ -44,7 +44,8 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 
 	ret = gtk_dialog_cauldron (
 		_("Delete cells"),
-		GTK_CAULDRON_DIALOG,
+		GTK_CAULDRON_DIALOG | GTK_CAULDRON_PARENT,
+		GTK_WINDOW (wb->toplevel),
 		"( %[ ( %Rd // %Rd / %Rd // %Rd ) ] /   (   %Bqrg || %Bqrg ) )",
 		_("Delete"),
 		_("Shift cells left"),   &state[0],

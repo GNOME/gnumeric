@@ -619,8 +619,8 @@ value_area_get_width (const EvalPosition *ep, Value const *v)
 			v->v.cell_range.cell_a.sheet:ep->sheet;
 		guint ans = v->v.cell_range.cell_b.col -
 			    v->v.cell_range.cell_a.col + 1;
-		if (sheeta && sheeta->max_col_used < ans) /* Clip */
-			ans = sheeta->max_col_used+1;
+		if (sheeta && sheeta->cols.max_used < ans) /* Clip */
+			ans = sheeta->cols.max_used+1;
 		return ans;
 	}
 }
@@ -638,8 +638,8 @@ value_area_get_height (const EvalPosition *ep, Value const *v)
 		Sheet *sheeta = eval_sheet (v->v.cell_range.cell_a.sheet, ep->sheet);
 		guint ans = v->v.cell_range.cell_b.row -
 		            v->v.cell_range.cell_a.row + 1;
-		if (sheeta && sheeta->max_row_used < ans) /* Clip */
-			ans = sheeta->max_row_used + 1;
+		if (sheeta && sheeta->rows.max_used < ans) /* Clip */
+			ans = sheeta->rows.max_used + 1;
 		return ans;
 	}
 }
@@ -721,8 +721,8 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 		g_return_val_if_fail (sheet != NULL, NULL);
 
 		/* Speedup */
-		if (sheet->max_col_used < a_col ||
-		    sheet->max_row_used < a_row)
+		if (sheet->cols.max_used < a_col ||
+		    sheet->rows.max_used < a_row)
 			return NULL;
 
 		cell = sheet_cell_get (sheet, a_col, a_row);

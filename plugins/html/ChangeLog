@@ -1,3 +1,10 @@
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_write_cell32, html_write_cell40) :
+	  Bug #2512.  Emit a </TD> after a <TD>.
+	  Use cell_get_horizontal_align to correctly handle
+	  the case of a 'General' format.
+
 13/07/99 (rasca)
 
 	* latex.c: small fixes to use the right font for latex2e output

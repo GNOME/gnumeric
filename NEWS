@@ -7,6 +7,12 @@ Arturo:
 Michael:
 	* Start of sheet/workbook/global name scoping.
 
+Jody:
+	* Some Optimization.
+	* Enhance row/col insert/delete, cell shift, and cell 'cut/paste.
+
+--------------------------------------------------------------------------
+
 Gnumeric 0.36
 
 Jody:

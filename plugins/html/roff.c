@@ -83,12 +83,12 @@ write_wb_roff (Workbook *wb, FILE *fp)
 		fprintf (fp, ".TS H\n");
 		fprintf (fp, "allbox;\n");
 
-		for (row = 0; row < (sheet->max_row_used+1); row++) {
+		for (row = 0; row <= sheet->rows.max_used; row++) {
 			if (row)
 				fprintf (fp, ".T&\n");
 			/* define alignments, bold etc. per cell */
 			v_size = DEFSIZE;
-			for (col = 0; col < (sheet->max_col_used+1); col++) {
+			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				if (col)
 					fprintf (fp, " ");
@@ -141,7 +141,7 @@ write_wb_roff (Workbook *wb, FILE *fp)
 			}
 			fprintf (fp, ".\n");
 			fprintf (fp, ".vs %.2fp\n", 2.5 + (float)v_size);
-			for (col = 0; col < (sheet->max_col_used+1); col++) {
+			for (col = 0; col <= sheet->cols.max_used; col++) {
 				if (col)
 					fprintf (fp, "\t");
 				cell = sheet_cell_get (sheet, col, row);

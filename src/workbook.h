@@ -150,6 +150,9 @@ gboolean    workbook_can_detach_sheet    (Workbook *wb, Sheet *sheet);
 GList      *workbook_sheets              (Workbook *wb);
 char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
 
+struct expr_relocate_info;
+void        workbook_expr_relocate       (Workbook *wb,
+					  struct expr_relocate_info const *info);
 /*
  * Does any pending recalculations
  */
@@ -166,14 +169,6 @@ typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
 
 void     workbook_foreach             (WorkbookCallback cback,
 				       gpointer data);
-
-void	workbook_fixup_references	(Workbook *wb, Sheet *sheet,
-					 int col, int row,
-					 int coldelta, int rowdelta);
-void	workbook_invalidate_references	(Workbook *wb, Sheet *sheet,
-					 int col, int row,
-					 int colcount, int rowcount);
-
 
 /*
  * Feedback routines

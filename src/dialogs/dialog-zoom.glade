@@ -28,6 +28,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>Zoom</name>
+  <visible>False</visible>
   <title>Zoom</title>
   <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_MOUSE</position>
