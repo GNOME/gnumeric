@@ -1,3 +1,7 @@
+2003-09-29  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-object-xml.c (gog_object_new_from_xml): Plug leak.
+
 2003-09-23  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.h : delete unused enum GogAxisTickLevel.

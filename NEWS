@@ -54,7 +54,8 @@ Morten:
           with lots of ()s.
 	* Improve number rendering when showing more decimals than backed
 	  by precision.
-	* Fix covariance too.
+	* Fix covariance tool.
+	* Plug leaks.
 
 Thomas Miesbauer:
 	* Redo screenshots

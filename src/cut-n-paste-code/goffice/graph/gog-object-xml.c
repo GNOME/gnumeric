@@ -355,8 +355,10 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 	role = xmlGetProp (node, (xmlChar const *) "role");
 	if (role == NULL) {
 		g_return_val_if_fail (parent == NULL, NULL);
-	} else
+	} else {
 		res = gog_object_add_by_name (parent, role, res);
+		xmlFree (role);
+	}
 
 	g_return_val_if_fail (res != NULL, NULL);
 
@@ -379,6 +381,7 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 			val = xmlNodeGetContent (ptr);
 			gog_object_set_arg_full (name, val, res, ptr);
 			xmlFree (val);
+			xmlFree (name);
 		} else if (!strcmp (ptr->name, "GogObject"))
 			gog_object_new_from_xml (res, ptr);
 	}
