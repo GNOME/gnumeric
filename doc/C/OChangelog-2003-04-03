@@ -1,5 +1,21 @@
 2001-12-12 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* analysis-tools.sgml : Updated Correlation, Covariance
+	  and Descriptive Statistics Tool descriptions
+	* images/analysistools-correlation-ex1.png : updated
+	* images/analysistools-correlation-ex2.png : updated
+	* images/analysistools-correlation-ex3.png : updated
+	* images/analysistools-correlation.png : updated
+	* images/analysistools-covariance.png : updated
+	* images/analysistools-descstats.png : updated
+	* images/analysistools-covariance-ex1.png : new figure
+	* images/analysistools-covariance-ex2.png : new figure
+	* images/analysistools-descstats-ex1.png : new figure
+	* images/analysistools-descstats-ex2.png : new figure
+
+
+2001-12-12 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* analysis-tools.sgml : Some spelling corrections, updated
 	  ANOVA descriptions, corrected figure references
 	* images/analysistools-ANOVA2wo-ex1.png : new figure
