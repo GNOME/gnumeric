@@ -218,21 +218,7 @@ FunctionEvalInfo *func_eval_info_pos  (FunctionEvalInfo *s, const EvalPosition *
  */
 
 struct _FunctionDefinition {
-	/* The function name */
 	char  *name;
-
-	/**
-	 *  The types accepted: see writing-functions.smgl ( bottom )
-	 * f for float
-	 * s for string
-	 * b for boolean
-	 * r for cell range
-	 * a for cell array
-	 * A for 'area': either range or array
-	 * ? for any kind
-	 *  For optional arguments do:
-	 * "ff|ss" where the strings are optional
-	 **/
 	char  *args;
 	char  *named_arguments;
 	char  **help;

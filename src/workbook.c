@@ -318,6 +318,8 @@ workbook_do_destroy (Workbook *wb)
 
 	symbol_table_destroy (wb->symbol_names);
 
+	expr_name_clean (wb);
+
 	g_free (wb);
 
 	if (workbook_count == 0)
@@ -1607,11 +1609,12 @@ workbook_core_new (void)
 
 	wb = g_new0 (Workbook, 1);
 
-	wb->sheets    = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
-	wb->print_info = print_info_new ();
+	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
+	wb->names        = NULL;
+	wb->print_info   = print_info_new ();
 	wb->symbol_names = symbol_table_new ();
 	wb->max_iterations = 1;
-	wb->sin       = summary_info_new ();
+	wb->sin          = summary_info_new ();
 	summary_info_default (wb->sin);
 
 	/* Set the default operation to be performed over selections */

@@ -10,7 +10,8 @@ Michael
 	* New style support so we can do
 		* Colours
 		* Fonts etc.
-	* Move workbook name lists into Workbook structure.
+	* Deep freeze workbook re-calcs / dependencies, and implement in
+	load/save + workbook_do_destroy.
 	* Sort out biff padding =>
 	* Sort out better versioning scheme & helper macros.
 	* Rationalise Missing Argument stuff ... a new value ?
@@ -18,8 +19,6 @@ Michael
 	* Lookup Harvest and see if we can help with doc summary info for
 	searches.
 	* Split panes.
-	* Write SummaryInformation, expand GUI ...
-	* Move summary stuff into libole2, and use Caolan's code instead.
 	* Use same XML as Office 2000 for elegance (?)
 	* Investigate VB streams, and their lengths.
 	* glib

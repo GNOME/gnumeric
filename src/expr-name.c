@@ -23,9 +23,17 @@ expr_name_lookup (Workbook *wb, char const *name)
 	GList *p = global_names;
 	while (p) {
 		ExprName *expr_name = p->data;
-		g_return_val_if_fail (expr_name, 0);
-		if ((!wb || !expr_name->wb || expr_name->wb == wb) &&
-		    (g_strcasecmp (expr_name->name->str, name) == 0))
+		g_return_val_if_fail (expr_name != NULL, 0);
+		if (g_strcasecmp (expr_name->name->str, name) == 0)
+			return expr_name;
+		p = g_list_next (p);
+	}
+	if (wb)
+		p = wb->names;
+	while (p) {
+		ExprName *expr_name = p->data;
+		g_return_val_if_fail (expr_name != NULL, 0);
+		if (g_strcasecmp (expr_name->name->str, name) == 0)
 			return expr_name;
 		p = g_list_next (p);
 	}
@@ -33,12 +41,12 @@ expr_name_lookup (Workbook *wb, char const *name)
 }
 
 static ExprName *
-add_real (Workbook *wb, char *name, gboolean builtin,
+add_real (Workbook *wb, const char *name, gboolean builtin,
 	  ExprTree *expr_tree, void *expr_func)
 {
 	ExprName *expr_name;
 
-	g_return_val_if_fail (name, 0);
+	g_return_val_if_fail (name != NULL, 0);
 
 	expr_name = g_new (ExprName,1);
 
@@ -50,8 +58,6 @@ add_real (Workbook *wb, char *name, gboolean builtin,
 	else
 		expr_name->t.expr_tree = expr_tree;
 
-	global_names = g_list_append (global_names, expr_name);
-
 	return expr_name;
 }
 
@@ -61,7 +67,8 @@ expr_name_add (Workbook *wb, char const *name,
 {
 	ExprName *expr_name;
 
-	g_return_val_if_fail (name, 0);
+	g_return_val_if_fail (name != NULL, 0);
+	g_return_val_if_fail (expr_name != NULL, 0);
 	
 	if ((expr_name = expr_name_lookup (wb, name))) {
 		*error_msg = _("already defined");
@@ -71,28 +78,39 @@ expr_name_add (Workbook *wb, char const *name,
 		return NULL;
 	}
 
-	return add_real (wb, name, FALSE, expr, NULL);
+	expr_name = add_real (wb, name, FALSE, expr, NULL);
+	if (wb)
+		wb->names    = g_list_append (wb->names, expr_name);
+	else
+		global_names = g_list_append (global_names, expr_name);
+	
+	return expr_name;
 }
 
 void
 expr_name_remove (ExprName *expr_name)
 {
-	global_names = g_list_remove (global_names, expr_name);
+	Workbook *wb;
+	g_return_if_fail (expr_name != NULL);
 
-	if (expr_name) {
-		if (expr_name->name->str) {
-			g_free (expr_name->name->str);
-			expr_name->name->str = 0;
-		}
-		if (!expr_name->builtin &&
-		    expr_name->t.expr_tree)
-			expr_tree_unref (expr_name->t.expr_tree);
+	if (expr_name->wb) {
+		wb = expr_name->wb;
+		wb->names = g_list_remove (wb->names, expr_name);
+	} else
+		global_names = g_list_remove (global_names, expr_name);
 
-		expr_name->wb   = 0;
-		expr_name->t.expr_tree = 0;
-
-		g_free (expr_name);
+	if (expr_name->name && expr_name->name->str) {
+		g_free (expr_name->name->str);
+		expr_name->name->str = 0;
 	}
+	if (!expr_name->builtin &&
+	    expr_name->t.expr_tree)
+		expr_tree_unref (expr_name->t.expr_tree);
+	
+	expr_name->wb   = 0;
+	expr_name->t.expr_tree = 0;
+	
+	g_free (expr_name);
 }
 
 void
@@ -115,18 +133,14 @@ expr_name_clean (Workbook *wb)
 GList *
 expr_name_list (Workbook *wb, gboolean builtins_too)
 {
-	GList *p   = global_names;
-	GList *ans = NULL;
-	while (p) {
-		ExprName *expr_name = p->data;
-		g_return_val_if_fail (expr_name, 0);
+	GList *l;
+	g_return_val_if_fail (wb != NULL, NULL);
+	
+	l = g_list_copy (wb->names);
+	if (builtins_too)
+		l = g_list_append (l, g_list_copy (global_names));
 
-		if ((!wb || expr_name->wb == wb))
-			ans = g_list_append (ans, expr_name);
-		
-		p = g_list_next (p);
-	}
-	return ans;
+	return l;
 }
 
 Value *
@@ -185,8 +199,10 @@ expr_name_init (void)
 	
 	/* Not in global function table though ! */
 	while (builtins[lp].name) {
-		add_real (NULL, builtins[lp].name, TRUE, NULL,
-			  builtins[lp].fn);
+		ExprName *expr_name;
+		expr_name = add_real (NULL, builtins[lp].name, TRUE, NULL,
+				      builtins[lp].fn);
+		global_names = g_list_append (global_names, expr_name);
 		lp++;
 	}
 }

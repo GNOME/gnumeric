@@ -1,3 +1,15 @@
+1999-07-22  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr-name.c: Stylistic precondition fixes,
+	simplification & workbook integration.
+
+	* src/workbook.c (workbook_core_new): init names.
+	(workbook_do_destroy): add name clean.
+
+	* src/sheet.h: Add Workbook->names.
+
+	* src/func.h: Added comments moved from expr.h
+
 1999-07-21  Richard Hestilow  <hestgray@ionet.net>
 	
 	* gnumeric.gnorba: Fix "Embeddable" typo 

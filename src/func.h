@@ -84,6 +84,21 @@ struct _FunctionCategory {
 	GList *functions;
 };
 FunctionCategory   *function_get_category (gchar *description);
+
+/**
+ *  Argument tokens passed in 'args'
+ **
+ *  The types accepted: see writing-functions.smgl ( bottom )
+ * f for float
+ * s for string
+ * b for boolean
+ * r for cell range
+ * a for cell array
+ * A for 'area': either range or array
+ * ? for any kind
+ *  For optional arguments do:
+ * "ff|ss" where the strings are optional
+ **/
 FunctionDefinition *function_add_args  (FunctionCategory *parent,
 				        char *name,
 				        char *args,

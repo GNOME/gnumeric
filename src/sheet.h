@@ -63,6 +63,8 @@ struct _Workbook {
 	/* The sheets */ 
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
 
+	/* User defined names */
+	GList      *names;
 	
 	/* A list with all of the formulas */
 	GList      *formula_cell_list;
