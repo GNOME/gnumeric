@@ -1,3 +1,10 @@
+2000-07-04  Jody Goldberg <jgoldberg@home.com>
+
+	* names.glade : Use GtkDialog rather than GnomeDialog
+	* dialog-define-names.c (name_guru_init) : Use
+	  gnumeric_non_modal_dialog now that we are using GtkDialog rather
+	  than GnomeDialog.
+
 2000-07-03  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-define-names.c (cb_name_guru_value_focus) : suppress warning.

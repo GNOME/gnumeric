@@ -15,7 +15,7 @@
 </project>
 
 <widget>
-  <class>GnomeDialog</class>
+  <class>GtkDialog</class>
   <name>NamesDialog</name>
   <visible>False</visible>
   <title>Define Name</title>
@@ -25,8 +25,6 @@
   <allow_shrink>False</allow_shrink>
   <allow_grow>False</allow_grow>
   <auto_shrink>False</auto_shrink>
-  <auto_close>False</auto_close>
-  <hide_on_close>False</hide_on_close>
 
   <widget>
     <class>GtkVBox</class>
@@ -34,11 +32,6 @@
     <name>dialog-vbox1</name>
     <homogeneous>False</homogeneous>
     <spacing>8</spacing>
-    <child>
-      <padding>4</padding>
-      <expand>True</expand>
-      <fill>True</fill>
-    </child>
 
     <widget>
       <class>GtkHButtonBox</class>

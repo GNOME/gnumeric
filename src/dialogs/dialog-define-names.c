@@ -257,12 +257,11 @@ name_guru_init (NameGuruState *state)
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_name_guru_destroy), state);
 
-	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
-				      GTK_WINDOW (state->wb->toplevel));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE(state->name));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->value));
+	gnumeric_non_modal_dialog (state->wb, GTK_DIALOG (state->dialog));
 
 	workbook_edit_attach_guru (state->wb, state->dialog);
 
