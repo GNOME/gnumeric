@@ -7,6 +7,8 @@ Almer:
 	* Fix validation entry sensitivity.
 
 Jody:
+	* Fix some memory problems in the solver.
+
  	http://bugzilla.gnome.org/show_bug.cgi?id=83794
 	* Simple autodetection of tab delimited vs csv
 

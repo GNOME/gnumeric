@@ -1,5 +1,8 @@
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
+	* src/mathfunc.c (affine_init) : fix and minor simplification.
+	(affine_scale) : increase buffer size.
+
 	* src/workbook-format-toolbar.c (cb_format_with_thousands) :
 	  Apply the accounting format rather than the numeric version for
 	  Keelyn.

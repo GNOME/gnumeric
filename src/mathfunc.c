@@ -4221,6 +4221,8 @@ affine_scale (gnum_float *A, gnum_float *b, gnum_float *c, gnum_float *x,
 			+ n_variables * n_variables           /* sqr_D */
 			+ n_constraints                       /* v */
 			+ n_variables                         /* dx */
+			+ n_variables                         /* A_tv */
+			+ n_variables                         /* diff */
 
 			+ n_variables * n_constraints         /* Asqr_D */
 			+ n_constraints * n_constraints       /* Asqr_DA_t */
@@ -4253,6 +4255,7 @@ affine_init (gnum_float *A, gnum_float *b, gnum_float *c, int n_constraints,
 	 gnum_float  *new_A;
 	 gnum_float  *tmp;
 	 gnum_float  *new_x;
+	 gnum_float   accum;
 	 int      i, j;
 	 int      s_ind = 0;
 
@@ -4279,14 +4282,12 @@ affine_init (gnum_float *A, gnum_float *b, gnum_float *c, int n_constraints,
 	         new_c[i] = c[i];
 	 new_c[i] = -pow (2, 58);
 
-	 for (i = 0; i < n_constraints; i++)
-	         tmp[i] = 0;
-	 for (i = 0; i < n_constraints; i++)
+	 for (i = 0; i < n_constraints; i++) {
+		 accum = 0.;
 	         for (j = 0; j < n_variables; j++)
-		          tmp[i] += A[i + j * n_constraints];
-
-	 for (i = 0; i < n_variables; i++)
-	         tmp[i] = b[i] - tmp[i];
+		          accum += A[i + j * n_constraints];
+	         tmp[i] = b[i] - accum;
+	 }
 
 	 for (i = 0; i < n_variables; i++)
 	         for (j = 0; j < n_constraints; j++)
