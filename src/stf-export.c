@@ -436,7 +436,7 @@ stf_export (StfExportOptions_t *export_options)
 	g_return_val_if_fail (export_options->quoting_mode != QUOTING_MODE_UNKNOWN, FALSE);
 
 	for (ptr = export_options->sheet_list; ptr != NULL ; ptr = ptr->next)
-		if (!stf_export_sheet (export_options, iterator->data))
+		if (!stf_export_sheet (export_options, ptr->data))
 			break;
 	return ptr == NULL;
 }

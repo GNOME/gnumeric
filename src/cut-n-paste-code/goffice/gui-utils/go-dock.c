@@ -485,7 +485,7 @@ go_dock_map (GtkWidget *widget)
   g_return_if_fail (widget != NULL);
   g_return_if_fail (GO_IS_DOCK(widget));
 
-  GTK_WIDGET_CLASS (go_dock_parent_class)-> map, (widget);
+  GTK_WIDGET_CLASS (go_dock_parent_class)-> map (widget);
 
   dock = GO_DOCK (widget);
 
