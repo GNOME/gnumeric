@@ -4,3 +4,4 @@ Ref count ms_ole_stream & ms_ole
 Add Bonobo::Storage interface.
 libvfs integration (?)
 write nice simple file handle style macros / wrappers.
+Is Makefile.am (INCLUDES) really really needed?
