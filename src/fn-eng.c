@@ -114,7 +114,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 			max = (int)(log (v + 0.5) / log (dest_base)) + 1;
 	}
 
-	if (places>max)
+	if (places > max)
 		max = places;
 	if (max >= sizeof (buffer))
 		return value_new_error (&ei->pos, _("Unimplemented"));
@@ -123,9 +123,9 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 		int thisdigit;
 		thisdigit = fmod (v + 0.5, dest_base);
 		v = floor ((v + 0.5) / dest_base);
-		buffer[digit] = thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+		buffer [digit] = thisdigit ["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}
-	buffer[max] = 0;
+	buffer [max] = 0;
 	return value_new_string (buffer);
 }
 
@@ -458,10 +458,10 @@ gnumeric_besselj (FunctionEvalInfo *ei, Value **argv)
 {
 	int x, y;
 
-	x = value_get_as_int (argv[0]);
-	y = value_get_as_int (argv[1]);
+	x = value_get_as_int (argv [0]);
+	y = value_get_as_int (argv [1]);
 
-	if (y<0)
+	if (y < 0)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (jn (y, value_get_as_float (argv [0])));
@@ -495,10 +495,10 @@ gnumeric_bessely (FunctionEvalInfo *ei, Value **argv)
 	    argv[1]->type != VALUE_FLOAT)
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
-	if ((y=value_get_as_int(argv[1]))<0)
+	if ((y = value_get_as_int (argv [1])) < 0)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (yn (y, value_get_as_float (argv[0])));
+	return value_new_float (yn (y, value_get_as_float (argv [0])));
 }
 
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,
@@ -591,10 +591,10 @@ gnumeric_imaginary (FunctionEvalInfo *ei, Value **argv)
 	complex_t c;
 	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0]))
+	if (VALUE_IS_NUMBER (argv [0]))
 	        return value_new_float (0.0);
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (c.im);
@@ -616,10 +616,10 @@ gnumeric_imreal (FunctionEvalInfo *ei, Value **argv)
 	complex_t c;
 	char imunit;
 
-	if (VALUE_IS_NUMBER (argv[0]))
-		return value_duplicate (argv[0]);
+	if (VALUE_IS_NUMBER (argv [0]))
+		return value_duplicate (argv [0]);
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (c.re);
@@ -641,10 +641,10 @@ gnumeric_imabs (FunctionEvalInfo *ei, Value **argv)
 	complex_t c;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 	  return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
-	if (argv[0]->type != VALUE_STRING)
+	if (argv [0]->type != VALUE_STRING)
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (complex_mod (&c));
@@ -690,7 +690,7 @@ gnumeric_imcos (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_cos (&res, &c);
@@ -712,7 +712,7 @@ gnumeric_imtan (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_tan (&res, &c);
@@ -734,7 +734,7 @@ gnumeric_imexp (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_exp (&res, &c);
@@ -756,7 +756,7 @@ gnumeric_imargument (FunctionEvalInfo *ei, Value **argv)
 	complex_t c;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (complex_angle (&c));
@@ -780,7 +780,7 @@ gnumeric_imln (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
@@ -802,7 +802,7 @@ gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
@@ -826,7 +826,7 @@ gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
@@ -852,10 +852,10 @@ gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
 	complex_t a, b, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &a, &imunit))
+	if (value_get_as_complex (argv [0], &a, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
-	if (value_get_as_complex (argv[1], &b, &imunit))
+	if (value_get_as_complex (argv [1], &b, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (complex_real_p (&a) && a.re <= 0  && !complex_real_p (&b))
@@ -880,10 +880,10 @@ gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv)
 	complex_t a, b, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &a, &imunit))
+	if (value_get_as_complex (argv [0], &a, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
-	if (value_get_as_complex (argv[1], &b, &imunit))
+	if (value_get_as_complex (argv [1], &b, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (complex_zero_p (&b))
@@ -908,7 +908,7 @@ gnumeric_imsin (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_sin (&res, &c);
@@ -930,7 +930,7 @@ gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &c, &imunit))
+	if (value_get_as_complex (argv [0], &c, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_sqrt (&res, &c);
@@ -952,10 +952,10 @@ gnumeric_imsub (FunctionEvalInfo *ei, Value **argv)
 	complex_t a, b, res;
 	char imunit;
 
-	if (value_get_as_complex (argv[0], &a, &imunit))
+	if (value_get_as_complex (argv [0], &a, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
-	if (value_get_as_complex (argv[1], &b, &imunit))
+	if (value_get_as_complex (argv [1], &b, &imunit))
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	complex_sub (&res, &a, &b);
@@ -1387,9 +1387,9 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	char    *from_unit, *to_unit;
 	Value   *v;
 
-	n = value_get_as_float (argv[0]);
-	from_unit = argv[1]->v.str->str;
-	to_unit = argv[2]->v.str->str;
+	n = value_get_as_float (argv [0]);
+	from_unit = argv [1]->v.str->str;
+	to_unit = argv [2]->v.str->str;
 
 	if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "F") == 0)
 	        return value_new_float (1.8*n+32);
@@ -1462,16 +1462,16 @@ gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t ans, lower, upper=0.0;
 
-	lower = value_get_as_float (argv[0]);
-	if (argv[1])
-		upper = value_get_as_float (argv[1]);
+	lower = value_get_as_float (argv [0]);
+	if (argv [1])
+		upper = value_get_as_float (argv [1]);
 
 	if (lower < 0.0 || upper < 0.0)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	ans = erf(lower);
 
-	if (argv[1])
+	if (argv [1])
 	        ans = erf(upper) - ans;
 	
 	return value_new_float (ans);
@@ -1497,7 +1497,7 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t x;
 
-	if ((x=value_get_as_float (argv[0]))<0)
+	if ((x=value_get_as_float (argv [0]))<0)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (erfc (x));
@@ -1523,12 +1523,12 @@ static Value *
 gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *err = NULL;
-	gboolean ans;
+	gboolean ans = FALSE;
 	Value *vx, *vy;
 
-	vx = argv[0];
-	if (argv[1])
-		vy = argv[1];
+	vx = argv [0];
+	if (argv [1])
+		vy = argv [1];
 	else
 		vy = value_new_int (0);
 
@@ -1549,7 +1549,7 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 	default:
 		err = value_new_error (&ei->pos, _("Impossible"));
 	}
-	if (!argv[1])
+	if (!argv [1])
 		value_release (vy);
 
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
@@ -1574,12 +1574,12 @@ static Value *
 gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *err = NULL;
-	gboolean ans;
+	gboolean ans = FALSE;
 	Value *vx, *vy;
 
-	vx = argv[0];
-	if (argv[1])
-		vy = argv[1];
+	vx = argv [0];
+	if (argv [1])
+		vy = argv [1];
 	else
 		vy = value_new_int (0);
 
@@ -1601,7 +1601,7 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 		err = value_new_error (&ei->pos, _("Impossible"));
 	}
 	       
-	if (!argv[1])
+	if (!argv [1])
 		value_release (vy);
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
 }
