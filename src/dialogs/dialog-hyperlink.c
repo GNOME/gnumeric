@@ -425,12 +425,6 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
         if (gui == NULL)
                 return;
 
-	/* make sure that all hlink types are registered */
-	gnm_hlink_cur_wb_get_type ();
-	gnm_hlink_url_get_type ();
-	gnm_hlink_email_get_type ();
-	gnm_hlink_external_get_type ();
-
 	state = g_new (HyperlinkState, 1);
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));

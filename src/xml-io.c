@@ -1462,8 +1462,8 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			target = xml_node_get_cstr (child, "target");
 			if (target != NULL) {
 				GnmHLink *link = g_object_new (g_type_from_name (CXML2C (type)),
-								"target", target,
-								NULL);
+							       NULL);
+				gnm_hlink_set_target (link, target);
 				tip = xml_node_get_cstr (child, "tip");
 				if (tip != NULL) {
 					gnm_hlink_set_tip  (link, tip);

@@ -1,5 +1,12 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-io.c (xml_read_style) : target needs a function, it is not a
+	  GObject::param.
+
+	* src/dialogs/dialog-hyperlink.c (dialog_hyperlink) : we need to
+	  register the types earlier.  Move the calls from here.
+	* src/libgnumeric.c (gnm_common_init) : to here.
+
 	* src/gui-util.c (gnumeric_error_info_dialog_new) : make the close
 	  button the default.
 

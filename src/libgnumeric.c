@@ -42,6 +42,7 @@
 #include "gnumeric-gconf.h"
 #include "plugin-service.h"
 #include "mathfunc.h"
+#include "hlink.h"
 #include "gnumeric-paths.h"
 #include <goffice/graph/lib.h>
 
@@ -133,6 +134,12 @@ gnm_common_init (void)
 	print_init ();
 	autofill_init ();
 	sheet_object_register ();
+
+	/* make sure that all hlink types are registered */
+	gnm_hlink_cur_wb_get_type ();
+	gnm_hlink_url_get_type ();
+	gnm_hlink_email_get_type ();
+	gnm_hlink_external_get_type ();
 
 	/* The statically linked in file formats */
 	xml_init ();
