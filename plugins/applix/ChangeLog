@@ -1,3 +1,7 @@
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
 2002-02-22  Jon K Hellan  <hellan@acm.org>
 
 	* applix-write.c (applix_save): Rename to applix_write.

@@ -40,6 +40,9 @@ Andreas:
 	* Improve comment popup.
 	* Make adding sheet undoable/redoable
 
+Jakub Steiner:
+	* Some new icons.
+
 Jody:
 	* Initial port to gnome2.
 	* Enable microhash depend mechanism.

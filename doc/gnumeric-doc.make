@@ -7,13 +7,13 @@
 
 docname = gnumeric
 gnumeric_docdir  = $(top_srcdir)/doc
-sgml_ents = functions.xml
+entities = functions.xml
 
 # include generated files to simplify installation
-EXTRA_DIST +=					\
-	topic.dat				\
-	func.defs				\
-	func-header.sgml func-footer.xml	\
+EXTRA_DIST +=		\
+	topic.dat	\
+	func.defs	\
+	func-header.xml func-footer.xml \
 	func-list.xml
 
 $(srcdir)/functions.xml: $(srcdir)/func-list.xml $(srcdir)/func-header.xml $(srcdir)/func-footer.xml
@@ -26,6 +26,3 @@ $(srcdir)/func.defs:
 	LC_ALL="$(locale)" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
 
 include $(gnumeric_docdir)/xmldocs.make
-
-dist-hook: app-dist-hook
-

@@ -1,3 +1,7 @@
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
 2002-03-07  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.c (func_marshal_func): Substitute ei->func_call->func for

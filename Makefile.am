@@ -1,4 +1,4 @@
-SUBDIRS = . po idl src plugins doc icons templates tools omf-install
+SUBDIRS = . po idl src plugins icons templates doc omf-install
 
 XML_I18N_XML_KIND = --pass-through
 

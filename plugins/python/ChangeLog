@@ -1,3 +1,7 @@
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
 2002-03-07  Jon K Hellan  <hellan@acm.org>
 
 	* python.c (call_function, marshal_func_args, marshal_func_nodes):

@@ -287,29 +287,32 @@ figures/zoom-toolbar.png	\
 figures/zoom.png
 
 lang = C
+locale = C
 omffile = gnumeric-C.omf
-sgml_ents += 					\
-	analysis-tools.sgml			\
-	authors.sgml				\
-	autocorrect.sgml			\
-	autofill.sgml				\
-	autosave.sgml				\
-	cell_refer.sgml				\
-	copying-moving.sgml			\
-	editing.sgml				\
-	files.sgml				\
-	filter.sgml				\
-	formulas.sgml				\
-	introduction.sgml			\
-	license.sgml				\
-	number-format.sgml			\
-	printing.sgml				\
-	selections.sgml				\
-	solver.sgml				\
-	worksheet.sgml
-#	functions.sgml	# added in gnumeric-doc.make
+entities += 					\
+	analysis-tools.xml			\
+	authors.xml				\
+	autocorrect.xml				\
+	autofill.xml				\
+	autosave.xml				\
+	cell_refer.xml				\
+	copying-moving.xml			\
+	editing.xml				\
+	files.xml				\
+	filter.xml				\
+	formulas.xml				\
+	introduction.xml			\
+	license.xml				\
+	number-format.xml			\
+	printing.xml				\
+	selections.xml				\
+	solver.xml				\
+	worksheet.xml
+#	functions.xml	# added in gnumeric-doc.make
+
+#include $(top_srcdir)/doc/gnumeric-doc.make
 
 # include generated files to simplify installation
 EXTRA_DIST += gnumeric.1
 
-include $(srcdir)/../xmldocs.make
+#dist-hook: app-dist-hook

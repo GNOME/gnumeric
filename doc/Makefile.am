@@ -4,7 +4,6 @@ SUBDIRS = C de es hu ja nl no pl pt ru sk sv
 
 EXTRA_DIST = 				\
 	README				\
-	sgmldocs.make			\
+	xmldocs.make			\
 	gnumeric-doc.make		\
 	make-func-list.pl
-

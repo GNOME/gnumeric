@@ -1,3 +1,7 @@
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
 2002-02-23  Kevin Breit  <mrproper@ximian.com>
 
 	* numtheory.c: Changed @SEEALSO=BITRSHIFT to BITLSHIFT as it was linking to itself and it probably wanted to go to BITLSHIFT
