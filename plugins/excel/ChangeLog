@@ -1,5 +1,9 @@
 1999-07-26  Michael Meeks  <michael@edenproject.org>
 
+	* ms-summary.c (ms_summary_read): Update to ms_ole_summary_close.
+
+	* ole.c (do_summary): ditto.
+
 	* ms-excel-read.c (ms_excel_read_workbook): Comment out
 	dependencies freeze/thaw.
 

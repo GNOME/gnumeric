@@ -100,6 +100,6 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 	MsOleSummary *si = ms_ole_summary_open (f);
 	if (si)
 		read_summary_items (sin, si);
-	ms_ole_summary_destroy (si);
+	ms_ole_summary_close (si);
 }
 

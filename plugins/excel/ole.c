@@ -619,7 +619,7 @@ do_summary (MsOle *ole)
 	} else
 		printf ("no preview found\n");
 
-	ms_ole_summary_destroy (si);
+	ms_ole_summary_close (si);
 }
 
 static void

@@ -16,6 +16,8 @@ typedef struct {
 	guint8       class_id[16];
 	GArray       *sections;
 	GArray       *items;
+	GList        *write_items;
+	gboolean      read_mode;
 	MsOleStream *s;
 } MsOleSummary;
 
@@ -23,17 +25,24 @@ typedef struct {
  * Opens 'SummaryInformation', returns NULL on failure
  */
 MsOleSummary *ms_ole_summary_open           (MsOle *f);
-
 /*
  * Opens 's' as SummaryInformation, returns NULL on failure
  */
 MsOleSummary *ms_ole_summary_open_stream    (MsOleStream *s);
 
+/*
+ * Creates 'SummaryInformation', returns NULL on failure
+ */
+MsOleSummary *ms_ole_summary_create         (MsOle *f);
+/*
+ * Creates 's' as SummaryInformation, returns NULL on failure
+ */
+MsOleSummary *ms_ole_summary_create_stream  (MsOleStream *s);
+
 /* An array of MsOleSummaryPID FIXME: without the helpful type */
 GArray       *ms_ole_summary_get_properties (MsOleSummary *si);
 
-void          ms_ole_summary_destroy        (MsOleSummary *si);
-
+void          ms_ole_summary_close          (MsOleSummary *si);
 
 /*
  * Can be used to interrogate a summary item as to its type
@@ -109,4 +118,18 @@ MsOleSummaryTime     ms_ole_summary_get_time    (MsOleSummary *si, MsOleSummaryP
 MsOleSummaryPreview  ms_ole_summary_get_preview (MsOleSummary *si, MsOleSummaryPID id,
 						 gboolean *available);
 
+/* Return TRUE if write is successful */
+void                 ms_ole_summary_set_preview (MsOleSummary *si, MsOleSummaryPID id,
+						 const MsOleSummaryPreview *preview);
+
+void                 ms_ole_summary_set_time    (MsOleSummary *si, MsOleSummaryPID id,
+						 const MsOleSummaryTime *time);
+
+void                 ms_ole_summary_set_long    (MsOleSummary *si, MsOleSummaryPID id,
+						 guint32 i);
+
+void                 ms_ole_summary_set_string  (MsOleSummary *si, MsOleSummaryPID id,
+						 const gchar *str);
+
 #endif
+
