@@ -98,31 +98,31 @@ msgstr "Guile-tillägg"
 
 #: plugins/html/boot.c:65
 msgid "HTML 3.2 file format (*.html)"
-msgstr ""
+msgstr "HTML 3.2 filformat (*.html)"
 
 #: plugins/html/boot.c:67
 msgid "HTML 4.0 file format (*.html)"
-msgstr ""
+msgstr "HTML 4.0 filformat (*.html)"
 
 #: plugins/html/boot.c:69
 msgid "HTML file made by gnumeric"
-msgstr ""
+msgstr "HTML-fil gjord med gnumeric"
 
 #: plugins/html/boot.c:73
 msgid "LaTeX file format (*.tex)"
-msgstr ""
+msgstr "LaTeX filformat (*.tex)"
 
 #: plugins/html/boot.c:75
 msgid "LaTeX2e file format (*.tex)"
-msgstr ""
+msgstr "LaTeX2e filformat (*.tex)"
 
 #: plugins/html/boot.c:78
 msgid "PS file format (via groff)"
-msgstr ""
+msgstr "PS filformat (via groff)"
 
 #: plugins/html/boot.c:80
 msgid "DVI TeX file format (via groff)"
-msgstr ""
+msgstr "DVI TeX filformat (via groff)"
 
 #: plugins/html/boot.c:82
 msgid "TROFF file format (*.me)"
@@ -130,11 +130,11 @@ msgstr "TROFF-filformat (*.me)"
 
 #: plugins/html/boot.c:84
 msgid "PDF file format (via groff/gs)"
-msgstr "PDF-filformat (via groff/ps)"
+msgstr "PDF filformat (via groff/ps)"
 
 #: plugins/html/boot.c:87
 msgid "EPS file format (*.eps)"
-msgstr "EPS-filformat (*.eps)"
+msgstr "EPS filformat (*.eps)"
 
 #: plugins/html/boot.c:100
 msgid "HTML (simple html export/import plugin)"
@@ -142,7 +142,7 @@ msgstr "HTML (enkel export/import av html)"
 
 #: plugins/lotus-123/boot.c:88
 msgid "Lotus (*.wk1) file format"
-msgstr "Lotus-filformat (*.wk1)"
+msgstr "Lotus filformat (*.wk1)"
 
 #: plugins/lotus-123/boot.c:94
 msgid "Lotus 123 file import/export plugin"
@@ -167,7 +167,7 @@ msgstr "kunde inte allokera FuncDef"
 
 #: plugins/python/python.c:147
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: plugins/python/python.c:173
 msgid "Gnumeric/Python module initialized\n"
@@ -191,6 +191,8 @@ msgid ""
 "While opening %s\n"
 "%s"
 msgstr ""
+"Medan öppnande av %s\n"
+"%s"
 
 #: plugins/text/text-io.c:337
 msgid "NoName"
@@ -206,7 +208,7 @@ msgstr "TXT (import/export av enkel text)"
 
 #: plugins/xbase/boot.c:207
 msgid "Xbase (*.dbf) file format"
-msgstr "Xbase-filformat (*.dbf)"
+msgstr "Xbase filformat (*.dbf)"
 
 #: plugins/xbase/boot.c:214
 msgid "XBase file import/export plugin"
@@ -230,7 +232,7 @@ msgstr "Jody Goldberg, Excel-hacker."
 
 #: src/about.c:28
 msgid "Ross Ihaka, special functions."
-msgstr ""
+msgstr "Ross Ihaka, special functions."
 
 #: src/about.c:29
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
@@ -298,24 +300,24 @@ msgstr "(C) 1998-1999 Miguel de Icaza"
 
 #: src/about.c:64
 msgid "Gnumeric Home Page"
-msgstr "Gnumeric hemsida"
+msgstr "Gnumerics hemsida"
 
 #: src/about.c:66
 msgid "Gnumeric Support page"
-msgstr "Gnumeric supportsida"
+msgstr "Gnumerics supportsida"
 
 #: src/cell.c:74
 msgid "ERROR"
-msgstr ""
+msgstr "FEL"
 
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:125 src/cell.c:754
 msgid "Circular reference"
-msgstr ""
+msgstr "Cirkulär referens"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
-msgstr ""
+msgstr "Kunde inte initialisera \"Gnumeric Workbook factory\""
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -472,12 +474,12 @@ msgstr "December"
 #: src/dialogs/dialog-analysis-tools.c:71
 #: src/dialogs/dialog-analysis-tools.c:1832
 msgid "Anova: Single Factor"
-msgstr ""
+msgstr "Anova: En faktor"
 
 #: src/dialogs/dialog-analysis-tools.c:73
 #: src/dialogs/dialog-analysis-tools.c:1920
 msgid "Anova: Two-Factor Without Replication"
-msgstr ""
+msgstr "Anova: Två faktorer utan upprepning"
 
 #: src/dialogs/dialog-analysis-tools.c:75
 #: src/dialogs/dialog-analysis-tools.c:408
@@ -698,7 +700,7 @@ msgstr "Antal stickprov:"
 #: src/dialogs/dialog-analysis-tools.c:1112
 #: src/dialogs/dialog-analysis-tools.c:1214
 msgid "Variable 1 Range:"
-msgstr ""
+msgstr "Område för variabel 1:"
 
 #: src/dialogs/dialog-analysis-tools.c:787
 #: src/dialogs/dialog-analysis-tools.c:904
@@ -706,7 +708,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1115
 #: src/dialogs/dialog-analysis-tools.c:1217
 msgid "Variable 2 Range:"
-msgstr ""
+msgstr "Område för variabel 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:790
 #: src/dialogs/dialog-analysis-tools.c:907
@@ -717,11 +719,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:793
 msgid "Variable 1 Variance (known):"
-msgstr ""
+msgstr "Varians för variabel 1 (känd):"
 
 #: src/dialogs/dialog-analysis-tools.c:796
 msgid "Variable 2 Variance (known):"
-msgstr ""
+msgstr "Varians för variabel 2 (känd):"
 
 #: src/dialogs/dialog-analysis-tools.c:798
 #: src/dialogs/dialog-analysis-tools.c:909
@@ -795,7 +797,7 @@ msgstr "p-värde"
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Indata, värde och sannolikhet '"
+msgstr "Du måste ange ett giltigt cellnamn i 'Indata, värde och sannolikhet:'"
 
 #: src/dialogs/dialog-analysis-tools.c:1568
 msgid "Input Y Range:"
@@ -1104,17 +1106,17 @@ msgstr ""
 #: src/dialogs/dialog-goal-seek.c:195
 #, c-format
 msgid "Target value:   %12.2f"
-msgstr ""
+msgstr "Målvärde:        %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:198
 #, c-format
 msgid "Current value:  %12.2f"
-msgstr ""
+msgstr "Nuvarande värde: %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:201
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr ""
+msgstr "Lösning:        %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:204
 msgid "Goal Seek Report"
@@ -5395,7 +5397,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: src/functions/fn-math.c:1180
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -5410,14 +5411,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(tal,divisor)\n"
-"@DESCRIPTION=Beräknar modulu och returnerar resten när @tal delas med "
-"@divisor.\n"
-"Returnerar #DIV/0! om @divisor är noll.\n"
+"@DESCRIPTION=Beräknar modulo och returnerar resten när @tal delas med "
+"@divisor. "
+"Denna funktion är kompatibel med Excel.\n"
+"MOD returnerar #DIV/0! om @divisor är noll.\n"
+"\n"
+"@EXAMPLES=\n"
+"MOD(23,7) är lika med 2.\n"
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
 #: src/functions/fn-math.c:1224
-#, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -5430,12 +5434,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Omvandlar @x radianer till grader.\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
+"@DESCRIPTION=Omvandlar @x radianer till grader. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"RADIANS(180) är lika med 3.14159.\n"
+"\n"
 "@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-math.c:1246
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -5449,12 +5455,14 @@ msgstr ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
 "@DESCRIPTION=Returnerar ett slumptal större än eller lika med 0 och mindre "
-"än 1.\n"
+"än 1 ([0..1]). "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"RAND() returner ett slumptal större än noll men mindre än ett.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1269
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -5467,13 +5475,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=SIN returnerar sinus av @x, där @x anges i radianer.\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
-"Funktionen tar endast ett argument.\n"
+"@DESCRIPTION=SIN returnerar sinus av @x, där @x anges i radianer. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"SIN(0.5) är lika med 0.479426.\n"
+"\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:1292
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -5488,13 +5497,13 @@ msgstr ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
 "@DESCRIPTION=SINH beräknar sinus hyperbolicus av @x, vilket definieras "
-"matematiskt som (exp(@x) - exp(-@x)) / 2.\n"
-"Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
-"Funktionen tar endast ett argument.\n"
+"matematiskt som (exp(@x) - exp(-@x)) / 2. "
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"SINH(0.5) är lika med 0.521095.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: src/functions/fn-math.c:1315
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -5508,8 +5517,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x.\n"
-"Om @x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
+"@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x. "
+"Denna funktion är kompatibel med Excel.\n"
+"Om @x är negativt, returnas #NUM!. \n"
+"@EXAMPLES=\n"
+"SQRT(2) är lika med 1.4142136.\n"
+"\n"
 "@SEEALSO=POW"
 
 #: src/functions/fn-math.c:1343
@@ -9280,9 +9293,8 @@ msgid "Bobobo Item"
 msgstr ""
 
 #: src/workbook.c:1087
-#, fuzzy
 msgid "Creates a Bonobo shaped item"
-msgstr "Skapar ett nytt kalkylblad"
+msgstr "Skapar ett format Bonobo-objekt"
 
 #: src/workbook.c:1092
 msgid "Button"
@@ -9432,8 +9444,7 @@ msgstr "Tusentalsseparator"
 
 #: src/workbook-format-toolbar.c:428
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr ""
-"Ändra formateringen på markerade celler till att använda tusentalsseparator"
+msgstr "Ändra formateringen på markerade celler till att använda tusentalsseparator"
 
 #: src/workbook-format-toolbar.c:431
 msgid "Add decimals"
