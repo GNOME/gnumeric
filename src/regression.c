@@ -515,7 +515,11 @@ general_linear_regression (gnm_float **xss, int xdim,
 			g_free (e);
 			g_free (inv);
 		} else {
-			g_assert_not_reached ();
+			/*
+			 * This can happen for xdim == 2 as linear_solve does
+			 * not use LUPDecomp in that case.
+			 */
+			regerr = err2;
 			for (i = 0; i < xdim; i++)
 				regression_stat->se[i] = 0;
 		}

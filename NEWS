@@ -34,6 +34,8 @@ Morten:
 	* Speed up STF import by not creating field structures for lines
 	  not shown in the preview anyway.
 	* Fix display of cumulative hours for -1h < time < 0h.
+	* Fix crash with loss of precision in linear regression of
+	  dimension 2.  http://bugzilla.gnome.org/show_bug.cgi?id=125436
 
 Rodrigo:
 	* Bump requirement to libgda/libgnomedb 1.0.1
