@@ -1,5 +1,8 @@
 2003-03-05  Jody Goldberg <jody@gnome.org>
 
+	* src/test-pango.c (main) : init initial_workbook_open_complete so
+	  that things exit on last unref.
+
 	* src/item-grid.c (item_grid_button_press) : more morton warnings.
 
 2003-03-05  Morten Welinder  <terra@diku.dk>

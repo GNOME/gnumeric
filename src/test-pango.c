@@ -97,6 +97,8 @@ main (int argc, char *argv [])
 #ifdef WITH_BONOBO
 	bonobo_activate ();
 #endif
+	initial_workbook_open_complete = TRUE; /* make the last unref exit */
+
 	wbc = workbook_control_gui_new (NULL, workbook_new_with_sheets (1));
 
 	g_idle_add (cb_exercise_pango, wbc);
