@@ -2585,19 +2585,6 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 		cell->base.flags |= CELL_IS_MERGED;
 }
 
-/* Does NOT link expressions */
-static void
-sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_span)
-{
-	cell->base.sheet = sheet;
-	cell->pos.col = col;
-	cell->pos.row = row;
-
-	sheet_cell_add_to_hash (sheet, cell);
-	if (recalc_span && !cell_needs_recalc (cell))
-		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
-}
-
 Cell *
 sheet_cell_new (Sheet *sheet, int col, int row)
 {
@@ -4342,15 +4329,17 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 							cell_set_value (out, in->value);
 						}
 			}
+			/* only copy the corner */
 			return;
 		}
 	}
 
-	new_cell = cell_copy (cell);
-	sheet_cell_insert (dst, new_cell,
-			   cell->pos.col, cell->pos.row, FALSE);
+	new_cell = sheet_cell_new (dst, cell->pos.col, cell->pos.row);
 	if (is_expr)
-		dependent_link (CELL_TO_DEP (new_cell), &cell->pos);
+		cell_set_expr_and_value (new_cell,
+			cell->base->expression, value_duplicate (cell->value));
+	else
+		cell_set_value (new_cell, value_duplicate (cell->value));
 }
 
 static void

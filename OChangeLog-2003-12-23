@@ -1,5 +1,9 @@
 2002-03-22  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet.c (sheet_cell_insert) : delete.
+	(cb_sheet_cell_copy) : use sheet_cell_new instead of
+	  cell_copy + sheet_cell_insert.
+
 	* src/gnumeric.h (CellList) : delete.
 
 2002-03-22  Almer S. Tigelaar  <almer@gnome.org>
