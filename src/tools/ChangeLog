@@ -1,5 +1,6 @@
 2004-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=124858
 	* auto-correct.c (autocorrect_initial_caps): don't `fix'
 	  strings with capitals later in the string.
 	

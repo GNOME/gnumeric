@@ -5,7 +5,7 @@ Andreas:
 	* Enable auto-correct initial caps exception list. [#158209]
 	* Fix removable of items from auto-correct initial caps 
 	  exception list. [#158207]
-	* Protect ABcD style strings from auto-correction
+	* Protect ABcD style strings from auto-correction [#124858]
 	* Rename graph guru's okay button [#152514]
 
 Harald Ashburner:
