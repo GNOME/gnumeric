@@ -4,6 +4,8 @@ libgoffice_utils_la_SOURCES =	\
 	goffice-utils.h		\
 	go-color.c		\
 	go-color.h		\
+	go-file.c		\
+	go-file.h		\
 	go-font.c		\
 	go-font.h		\
 	go-format.c		\

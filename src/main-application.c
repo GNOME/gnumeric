@@ -31,6 +31,7 @@
 #include "sheet.h"
 
 #include <gtk/gtkmain.h>
+#include <goffice/utils/go-file.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -301,8 +302,15 @@ main (int argc, char const *argv [])
 		for (i = 0;
 		     startup_files [i] && !initial_workbook_open_complete;
 		     i++) {
-			gnm_io_context_processing_file (ioc, startup_files[i]);
-			wbv = wb_view_new_from_file (startup_files[i], NULL, ioc, NULL);
+			char *uri = go_shell_arg_to_uri (startup_files[i]);
+
+			if (uri == NULL) {
+				g_warning ("Ignoring invalid URI.");
+				continue;
+			}
+
+			gnm_io_context_processing_file (ioc, uri);
+			wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {
 				gnumeric_io_error_display (ioc);

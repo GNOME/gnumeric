@@ -154,12 +154,11 @@ workbook_finalize (GObject *wb_object)
 	g_ptr_array_free (wb->sheets, TRUE);
 	wb->sheets = NULL;
 
-	if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
-		gnm_app_history_add (wb->filename);
-
-	if (wb->filename) {
-	       g_free (wb->filename);
-	       wb->filename = NULL;
+	if (wb->uri) {
+		if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
+			gnm_app_history_add (wb->uri);
+	       g_free (wb->uri);
+	       wb->uri = NULL;
 	}
 
 #warning this has no business being here
@@ -410,7 +409,7 @@ workbook_new (void)
 			name = g_strdup_printf ("Book%d.%s", count, extension);
 		}
 
-		is_unique = workbook_set_filename (wb, name);
+		is_unique = workbook_set_uri (wb, name);
 
 		g_free (name);
 		g_free (nameutf8);
@@ -478,9 +477,9 @@ workbook_new_with_sheets (int sheet_count)
 }
 
 /**
- * workbook_set_filename:
+ * workbook_set_uri:
  * @wb: the workbook to modify
- * @name: the file name for this worksheet.
+ * @uri: the uri for this worksheet.
  *
  * Sets the internal filename to @name and changes
  * the title bar for the toplevel window to be the name
@@ -491,23 +490,24 @@ workbook_new_with_sheets (int sheet_count)
  * FIXME : Add a check to ensure the name is unique.
  */
 gboolean
-workbook_set_filename (Workbook *wb, char const *name)
+workbook_set_uri (Workbook *wb, char const *uri)
 {
-	char *base_name, *base_name_utf8;
+	char *base_name;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (name != NULL, FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
 
-	if (wb->filename)
-		g_free (wb->filename);
+	if (uri == wb->uri)
+		return TRUE;
 
-	wb->filename = g_strdup (name);
-	base_name = g_path_get_basename (name);
-	base_name_utf8 = g_filename_to_utf8 (base_name, -1, NULL, NULL, NULL);
+	g_free (wb->uri);
+	wb->uri = g_strdup (uri);
+
+	base_name = g_path_get_basename (uri);
+	/* What about encodings?  */
 
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_title_set (control, base_name_utf8););
-	g_free (base_name_utf8);
+		wb_control_title_set (control, base_name););
 	g_free (base_name);
 
 	g_signal_emit (G_OBJECT (wb), signals [FILENAME_CHANGED], 0);
@@ -515,37 +515,11 @@ workbook_set_filename (Workbook *wb, char const *name)
 }
 
 const gchar *
-workbook_get_filename (Workbook *wb)
+workbook_get_uri (Workbook *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
-	return wb->filename;
-}
-
-/**
- * workbook_get_filename_utf8 :
- * @wb : #Workbook
- * @basename :
- *
- * Caller is responsible for freeing
- **/
-char *
-workbook_get_filename_utf8 (Workbook *wb, gboolean basename)
-{
-	const char *filename = workbook_get_filename (wb);
-	char *result;
-
-	if (filename == NULL)
-		return NULL;
-
-	if (basename) {
-		char *tmp = g_path_get_basename (filename);
-		result = g_filename_to_utf8 (tmp, -1, NULL, NULL, NULL);
-		g_free (tmp);
-	} else
-		result = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
-
-	return result;
+	return wb->uri;
 }
 
 void

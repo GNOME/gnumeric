@@ -66,7 +66,7 @@ cworkbook_get_name (PortableServer_Servant servant,
 {
         WorkbookControlCORBA *wbcc = wbcc_from_servant (servant);
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcc));
-	return CORBA_string_dup (workbook_get_filename (wb));
+	return CORBA_string_dup (workbook_get_uri (wb));
 }
 
 static void
@@ -77,7 +77,7 @@ cworkbook_set_name (PortableServer_Servant servant, CORBA_char const *name,
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcc));
 
 	g_return_if_fail (wbcc != NULL);
-	workbook_set_filename (wb, name);
+	workbook_set_uri (wb, name);
 }
 
 static GNOME_Gnumeric_Sheet

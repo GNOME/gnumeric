@@ -56,7 +56,7 @@ set_clone_restart (GnomeClient *client)
 	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
 		if (wb->file_format_level == FILE_FL_AUTO) {
-			argv[count] = wb->filename;
+			argv[count] = g_strdup (workbook_get_uri (wb));
 			count++;
 		}
 	}
@@ -105,10 +105,10 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 			GtkWidget *d;
 			char *msg;
 			int button = 0;
-			
+			const char *wb_uri = workbook_get_uri (wb);			
 
-			if (wb->filename) {
-				char *base = g_path_get_basename (wb->filename);
+			if (wb_uri) {
+				char *base = g_path_get_basename (wb_uri);
 				msg = g_strdup_printf (
 					_("Save changes to workbook '%s' before logging out?"),
 					base);

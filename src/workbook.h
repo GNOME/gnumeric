@@ -62,9 +62,8 @@ unsigned    workbook_find_command	(Workbook *wb,
 
 
 /* IO Routines */
-gboolean       workbook_set_filename	(Workbook *wb, char const *); /* Filesys name, not UTF-8.  */
-char const    *workbook_get_filename	(Workbook *wb); /* Filesys name, not UTF-8.  */
-char          *workbook_get_filename_utf8 (Workbook *wb, gboolean basename);
+gboolean       workbook_set_uri	(Workbook *wb, char const *uri);
+char const    *workbook_get_uri	(Workbook *wb);
 
 gboolean       workbook_set_saveinfo	(Workbook *wb,
 					 FileFormatLevel, GnmFileSaver *);

@@ -69,17 +69,15 @@ dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 {
 	gint result;
 	GtkWidget *dialog;
-	char *filename_utf8;
+	const char *uri;
 
-	filename_utf8 = workbook_get_filename_utf8 (wb_control_workbook
-						    (WORKBOOK_CONTROL (wbcg)), FALSE);
+	uri = workbook_get_uri (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO,
 					 _("Do you want to save the workbook %s ?"),
-					 filename_utf8);
-	g_free (filename_utf8);
+					 uri);
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 

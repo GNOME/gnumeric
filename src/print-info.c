@@ -442,9 +442,9 @@ static void
 render_file (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-		char *filename_utf8 = workbook_get_filename_utf8 (info->sheet->workbook, TRUE);
-		g_string_append (target, filename_utf8);
-		g_free (filename_utf8);
+		char *name = g_path_get_basename (workbook_get_uri (info->sheet->workbook));
+		g_string_append (target, name);
+		g_free (name);
 	} else 
 		g_string_append (target, _("File Name"));
 }
@@ -453,25 +453,9 @@ static void
 render_path (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-		char *filename_utf8 = workbook_get_filename_utf8 
-			(info->sheet->workbook, FALSE);
-		char *dir;
-		char *path_n_file;
-
-		if (g_path_is_absolute (filename_utf8))
-			path_n_file = filename_utf8;
-		else {
-			char *current_dir = g_get_current_dir ();
-			
-			path_n_file = g_build_filename (current_dir, 
-						       filename_utf8, NULL);
-			g_free (filename_utf8);
-			g_free (current_dir);
-		}
-		dir = g_path_get_dirname (path_n_file);
-		g_string_append (target, dir);
-		g_free (dir);
-		g_free (path_n_file);
+		char *path = g_path_get_dirname (workbook_get_uri (info->sheet->workbook));
+		g_string_append (target, path);
+		g_free (path);
 	} else 
 		g_string_append (target, _("Path "));
 }

@@ -75,7 +75,7 @@ applix_write_header (ApplixWriteState const *state)
 #warning "FIXME: filename is fs encoded; that's not right, but neither is UTF-8."
 	gsf_output_printf (state->sink,
 			   "Current Doc Real Name: %s",
-			   workbook_get_filename (state->wb));
+			   workbook_get_uri (state->wb));
 }
 
 static void

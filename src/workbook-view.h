@@ -87,10 +87,10 @@ WorkbookView *wb_view_new_from_input  (GsfInput *input,
 				       GnmFileOpener const *optional_format,
 				       IOContext *io_context,
 				       gchar const *optional_encoding);
-WorkbookView *wb_view_new_from_file  (char const *file_name,
-				      GnmFileOpener const *optional_format,
-				      IOContext *io_context, 
-				      gchar const *optional_encoding);
+WorkbookView *wb_view_new_from_uri  (char const *uri,
+				     GnmFileOpener const *optional_format,
+				     IOContext *io_context, 
+				     gchar const *optional_encoding);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
 do {										\

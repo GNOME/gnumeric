@@ -26,7 +26,7 @@
 #include "parse-util.h"
 
 #include "application.h"
-#include "workbook-priv.h"
+#include "workbook.h"
 #include "sheet.h"
 #include "value.h"
 #include "ranges.h"
@@ -236,7 +236,7 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
 			g_string_append (target, sheet->name_quoted);
 		else {
 			g_string_append_c (target, '[');
-			g_string_append (target, sheet->workbook->filename);
+			g_string_append (target, workbook_get_uri (sheet->workbook));
 			g_string_append_c (target, ']');
 			g_string_append (target, sheet->name_quoted);
 		}
@@ -290,7 +290,7 @@ rangeref_as_string (GString *target, GnmExprConventions const *conv,
 	if (ref->a.sheet) {
 		if (pp->wb != NULL && ref->a.sheet->workbook != pp->wb) {
 			g_string_append_c (target, '[');
-			g_string_append (target, ref->a.sheet->workbook->filename);
+			g_string_append (target, workbook_get_uri (ref->a.sheet->workbook));
 			g_string_append_c (target, ']');
 		}
 		if (pp->wb == NULL && pp->sheet == NULL)
@@ -938,7 +938,7 @@ def_expr_name_handler (GString *target,
 	if (name->optional_scope != NULL) {
 		if (name->optional_scope->workbook != pp->wb) {
 			g_string_append_c (target, '[');
-			g_string_append (target, name->optional_wb_scope->filename);
+			g_string_append (target, workbook_get_uri (name->optional_wb_scope));
 			g_string_append_c (target, ']');
 		} else {
 			g_string_append (target, name->optional_scope->name_quoted);

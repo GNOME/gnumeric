@@ -600,7 +600,7 @@ static void
 cb_file_history_activate (GObject *action, WorkbookControlGUI *wbcg)
 {
 	gui_file_read (wbcg,
-		g_object_get_data (action, "filename"), NULL, NULL);
+		g_object_get_data (action, "uri"), NULL, NULL);
 }
 
 static void
@@ -623,13 +623,10 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 	for (i = 1; ptr != NULL ; ptr = ptr->next, i++) {
 		GtkActionEntry entry;
 		GtkAction *action;
-		const char *filename = ptr->data;
+		const char *uri = ptr->data;
 		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
-		char *label = history_item_label (filename, i);
-		char *filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
-		char *tooltip = filename_utf8
-			? g_strdup_printf (_("Open %s"), filename_utf8)
-			: NULL;
+		char *label = history_item_label (uri, i);
+		char *tooltip = g_strdup_printf (_("Open %s"), uri);
 
 		entry.name = name;
 		entry.stock_id = NULL;
@@ -643,12 +640,11 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 						      name);
 		/* We just put it in there -- I had better come back out.  */
 		g_assert (action != NULL);
-		g_object_set_data_full (G_OBJECT (action), "filename",
-					g_strdup (filename), (GDestroyNotify)g_free);
+		g_object_set_data_full (G_OBJECT (action), "uri",
+					g_strdup (uri), (GDestroyNotify)g_free);
 
 		g_free (name);
 		g_free (label);
-		g_free (filename_utf8);
 		g_free (tooltip);		
 	}
 

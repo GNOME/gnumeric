@@ -241,7 +241,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	 * the worksheet name, but they can't make any other changes to CELL?!
 	 */
 	} else if (!g_ascii_strcasecmp (info_type, "filename")) {
-		char *name = workbook_get_filename_utf8 (ei->pos->sheet->workbook, FALSE);
+		char *name = workbook_get_uri (ei->pos->sheet->workbook);
 
 		if (name == NULL)
 			return value_new_string ("");

@@ -1163,11 +1163,12 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 	while (workbook_is_dirty (wb) && !done) {
 		GtkWidget *d;
 		char *msg;
+		const char *wb_uri = workbook_get_uri (wb);
 
 		iteration++;
 
-		if (wb->filename) {
-			char *base = g_path_get_basename (wb->filename);
+		if (wb_uri) {
+			char *base = g_path_get_basename (wb_uri);
 			msg = g_strdup_printf (
 				_("Save changes to workbook '%s' before closing?"),
 				base);

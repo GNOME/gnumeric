@@ -1,3 +1,22 @@
+2004-06-11  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_set_uri): Ranamed from
+	workbook_set_filename.
+	(workbook_get_uri): Renamed from workbook_get_filename.
+
+	* src/application.c (gnm_app_history_add): Change to take uri.
+	All callers changed.
+
+	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): Adapt to uris.
+
+	* src/gui-file.c (gui_file_read, do_save_as, go_file_is_writable):
+	Changed to take uri.  All callers changed.
+	
+	* src/workbook-view.c (wb_view_new_from_uri): Renamed from
+	wb_view_new_from_file and adapted to take uri.  All callers
+	changed.
+	(wb_view_save_as): Change to take uri.  All callers changed.
+
 2004-06-08  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=143577

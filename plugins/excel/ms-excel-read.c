@@ -4998,7 +4998,7 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 
 	while (TRUE) {
 		char *passwd = gnm_cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context),
-			workbook_get_filename (ewb->gnum_wb));
+							     workbook_get_uri (ewb->gnum_wb));
 		if (passwd == NULL)
 			return _("No password supplied");
 		if (ms_biff_query_set_decrypt (q, ewb->container.ver, passwd))

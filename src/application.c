@@ -315,7 +315,9 @@ static gboolean
 cb_workbook_name (Workbook * wb, gpointer closure)
 {
 	struct wb_name_closure *dat = closure;
-	if (0 == strcmp (wb->filename, dat->name)) {
+	const char *wb_uri = workbook_get_uri (wb);
+
+	if (wb_uri && strcmp (wb_uri, dat->name) == 0) {
 		dat->wb = wb;
 		return FALSE;
 	}
@@ -420,46 +422,36 @@ gnm_app_history_get_list (gboolean force_reload)
 
 /**
  * application_history_update_list:
- * @filename:
+ * @uri:
  *
- * Adds @filename to the application's history of files.
+ * Adds @uri to the application's history of files.
  **/
 void
-gnm_app_history_add (char const *filename)
+gnm_app_history_add (char const *uri)
 {
-	char *canonical_name;
         gint max_entries;
 	GSList *exists;
 	GSList **ptr;
 
-	g_return_if_fail (filename != NULL);
+	g_return_if_fail (uri != NULL);
 	g_return_if_fail (app != NULL);
-
-	/* Rudimentary filename canonicalization. */
-	if (!g_path_is_absolute (filename)) {
-		char *cwd = g_get_current_dir ();
-		canonical_name = g_strconcat (cwd, "/", filename, NULL);
-		g_free (cwd);
-	} else
-		canonical_name = g_strdup (filename);
 
 	/* force a reload in case max_entries has changed */
 	gnm_app_history_get_list (TRUE);
 	exists = g_slist_find_custom (app->history_list,
-				      canonical_name, g_str_compare);
+				      uri, g_str_compare);
 
 	if (exists != NULL) {
 		/* its already the top of the stack no need to do anything */
-		if (exists == app->history_list) {
-			g_free (canonical_name);
+		if (exists == app->history_list)
 			return;
-		}
+
 		/* remove the other instance */
-		g_free (exists->data);
 		app->history_list = g_slist_remove (app->history_list, exists->data);
+		g_free (exists->data);
 	}
 
-	app->history_list = g_slist_prepend (app->history_list, canonical_name);
+	app->history_list = g_slist_prepend (app->history_list, g_strdup (uri));
 
 	/* clip the list if it is too long */
 	max_entries = gnm_app_prefs->file_history_max;

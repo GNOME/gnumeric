@@ -23,6 +23,7 @@
 #include "workbook-priv.h"
 #include "gnumeric-gconf.h"
 #include "widgets/widget-charmap-selector.h"
+#include <goffice/utils/go-file.h>
 
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtklabel.h>
@@ -91,7 +92,7 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 }
 
 gboolean
-gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
+gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
 	       GnmFileOpener const *optional_format, gchar const *optional_encoding)
 {
 	IOContext *io_context;
@@ -99,8 +100,8 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 
 	gnm_cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), FALSE);
 	io_context = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
-	wbv = wb_view_new_from_file  (file_name, optional_format, io_context, 
-				      optional_encoding);
+	wbv = wb_view_new_from_uri (uri, optional_format, io_context, 
+				    optional_encoding);
 
 	if (gnumeric_io_error_occurred (io_context) ||
 	    gnumeric_io_warning_occurred (io_context))
@@ -176,7 +177,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	file_format_changed_cb_data data;
 	gint opener_default;
 	char const *title;
-	char *file_name = NULL;
+	char *uri = NULL;
 	const char *encoding = NULL;
 	GnmFileOpener *fo = NULL;
 
@@ -281,8 +282,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
 		goto out;
 
-	/* NOTE: we get a filename here.  Think about URIs later.  */
-	file_name = gtk_file_chooser_get_filename (fsel);
+	uri = gtk_file_chooser_get_uri (fsel);
 	encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR (charmap_selector));
 	fo = g_list_nth_data (openers, gtk_combo_box_get_active (format_combo));
 
@@ -290,12 +290,12 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 	g_list_free (openers);
 
-	if (file_name) {
+	if (uri) {
 		/* Make sure dialog goes away right now.  */
 		while (g_main_context_iteration (NULL, FALSE));
 
-		gui_file_read (wbcg, file_name, fo, encoding);
-		g_free (file_name);
+		gui_file_read (wbcg, uri, fo, encoding);
+		g_free (uri);
 	}
 }
 
@@ -358,43 +358,44 @@ update_preview_cb (GtkFileChooser *chooser)
  *
  * FIXME: The message boxes should really be children of the file selector,
  * not the workbook.
- *
- * Note: filename is filesys, not UTF-8 encoded.
  */
 static gboolean
-go_file_is_writable (char const *name, WorkbookControlGUI *wbcg)
+go_file_is_writable (char const *uri, WorkbookControlGUI *wbcg)
 {
 	gboolean result = TRUE;
 	gchar *msg;
-	char *filename_utf8 = name
-		? g_filename_to_utf8 (name, -1, NULL, NULL, NULL)
-		: NULL;
+	char *filename;
 
-	if (name == NULL || name[0] == '\0' || filename_utf8 == NULL)
+	if (uri == NULL || uri[0] == '\0')
 		result = FALSE;
-	else if (name [strlen (name) - 1] == G_DIR_SEPARATOR_S ||
-		 g_file_test (name, G_FILE_TEST_IS_DIR)) {
-		msg = g_strdup_printf (_("%s\nis a directory name"), filename_utf8);
+
+	filename = go_filename_from_uri (uri);
+	if (!filename)
+		return TRUE;  /* Just assume writable.  */
+
+	if (filename [strlen (filename) - 1] == G_DIR_SEPARATOR ||
+		 g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+		msg = g_strdup_printf (_("%s\nis a directory name"), uri);
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
-	} else if (access (name, W_OK) != 0 && errno != ENOENT) {
+	} else if (access (filename, W_OK) != 0 && errno != ENOENT) {
 		msg = g_strdup_printf (
 		      _("You do not have permission to save to\n%s"),
-		      filename_utf8);
+		      uri);
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
-	} else if (g_file_test (name, G_FILE_TEST_EXISTS)) {
+	} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
 		msg = g_strdup_printf (
 		      _("%s already exists.\n"
-		      "Do you want to save over it?"), filename_utf8);
+		      "Do you want to save over it?"), uri);
 		result = gnumeric_dialog_question_yes_no (
 			wbcg, msg, gnm_app_prefs->file_overwrite_default_answer);
 		g_free (msg);
 	}
 
-	g_free (filename_utf8);
+	g_free (filename);
 	return result;
 }
 
@@ -513,36 +514,31 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
  */
 static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
-            GnmFileSaver *fs, char const *name)
+            GnmFileSaver *fs, char const *uri1)
 {
-	char *filename = NULL;
+	char *uri2 = NULL;
 	gboolean success = FALSE;
 
-	if (!gnm_file_saver_fix_file_name (fs, name, &filename) &&
+	if (!gnm_file_saver_fix_file_name (fs, uri1, &uri2) &&
 		!gnumeric_dialog_question_yes_no (wbcg,
                       _("The given file extension does not match the"
 			" chosen file type. Do you want to use this name"
-			" anyways?"), TRUE)) {
-		g_free (filename);
-                return FALSE;
-	}
+			" anyways?"), TRUE))
+		goto out;
 
-	if (!go_file_is_writable (filename, wbcg)) {
-		g_free (filename);
-		return FALSE;
-	}
+	success = go_file_is_writable (uri2, wbcg);
+	if (!success) goto out;
 
 	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
 				GTK_WIDGET (wbcg->notebook)->allocation.height);
 
 	success = check_multiple_sheet_support_if_needed (fs, wbcg, wb_view);
-	if (!success) {
-		g_free (filename);
-		return FALSE;
-	}
+	if (!success) goto out;
 
-	success = wb_view_save_as (wb_view, fs, filename, GNM_CMD_CONTEXT (wbcg));
-	g_free (filename);
+	success = wb_view_save_as (wb_view, fs, uri2, GNM_CMD_CONTEXT (wbcg));
+
+out:
+	g_free (uri2);
 	return success;
 }
 
@@ -554,7 +550,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GtkComboBox *format_combo;
 	GnmFileSaver *fs;
 	gboolean success  = FALSE;
-	gchar const *wb_file_name;
+	gchar const *wb_uri;
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 
@@ -633,9 +629,9 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
-	wb_file_name = workbook_get_filename (wb_view_workbook (wb_view));
-	if (wb_file_name != NULL) {
-		char *tmp_name = g_strdup (wb_file_name);
+	wb_uri = workbook_get_uri (wb_view_workbook (wb_view));
+	if (wb_uri != NULL) {
+		char *tmp_name = g_strdup (wb_uri);
 		char *p = tmp_name + strlen (tmp_name);
 
 		/* Remove extension, but not in directory name.  */
@@ -648,14 +644,15 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 				break;
 		}
 
-		if (g_path_is_absolute (tmp_name)) {
-			gtk_file_chooser_set_filename (fsel, tmp_name);
-			p = g_path_get_basename (tmp_name);
-			g_free (tmp_name);
-			tmp_name = p;
-		}
+		gtk_file_chooser_set_uri (fsel, tmp_name);
+
+		/* The above sets the directory, but problem not the contents
+		   of the entry.  */
+		/* FIXME: what about encoding?  */
+		while (p > tmp_name && p[-1] != G_DIR_SEPARATOR)
+			p--;
 		gtk_file_chooser_unselect_all (fsel);
-		gtk_file_chooser_set_current_name (fsel, tmp_name);
+		gtk_file_chooser_set_current_name (fsel, p);
 		g_free (tmp_name);
 	}
 
@@ -663,9 +660,9 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
 		fs = g_list_nth_data (savers, gtk_combo_box_get_active (format_combo));
 		if (fs != NULL) {
-			char *filename = gtk_file_chooser_get_filename (fsel);
-			success = do_save_as (wbcg, wb_view, fs, filename);
-			g_free (filename);
+			char *uri = gtk_file_chooser_get_uri (fsel);
+			success = do_save_as (wbcg, wb_view, fs, uri);
+			g_free (uri);
 
 			if (success)
 				wbcg->current_saver = fs;

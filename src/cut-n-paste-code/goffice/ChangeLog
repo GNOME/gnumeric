@@ -1,3 +1,7 @@
+2004-06-11  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-file.c: New file.
+
 2004-06-11  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis-prefs.glade : add a combobox for map selection.

@@ -6,8 +6,6 @@
 #include <gsf/gsf.h>
 
 
-GsfInput *go_file_open (char const *path, GError **err);
-
 /*
  * File format levels. They are ordered. When we save a file, we
  * remember the name, but not if we already have a name at a higher level.

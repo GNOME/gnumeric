@@ -667,8 +667,8 @@ ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelReadSheet const *esheet,
 {
 	if (esheet && esheet->sheet && esheet->sheet->name_unquoted)
 		fprintf (stderr, "%s!", esheet->sheet->name_unquoted);
-	else if (ewb && ewb->gnum_wb && workbook_get_filename (ewb->gnum_wb)) {
-		fprintf (stderr, "[%s]", workbook_get_filename (ewb->gnum_wb));
+	else if (ewb && ewb->gnum_wb && workbook_get_uri (ewb->gnum_wb)) {
+		fprintf (stderr, "[%s]", workbook_get_uri (ewb->gnum_wb));
 		return;
 	}
 	fprintf (stderr, "%s%d : ", col_name(fn_col), fn_row+1);

@@ -134,11 +134,8 @@ dialog_summary_put (SummaryState *state)
 		g_free (txt);
 	}
 	w = glade_xml_get_widget (state->gui, "doc_name");
-	if (w) {
-		char *filename_utf8 = workbook_get_filename_utf8 (wb, FALSE);
-		gtk_entry_set_text (GTK_ENTRY (w), filename_utf8);
-		g_free (filename_utf8);
-	}
+	if (w)
+		gtk_entry_set_text (GTK_ENTRY (w), workbook_get_uri (wb));
 }
 
 static void

@@ -58,6 +58,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include "mathfunc.h"
+#include <goffice/utils/go-file.h>
 
 #ifdef WITH_GNOME
 #include <gsf-gnome/gsf-output-gnomevfs.h>
@@ -437,13 +438,9 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 
 	if (wbv->wb != NULL) {
 		/* Set the title of the newly connected control */
-		char *base_name_utf8 = workbook_get_filename_utf8 (wbv->wb, TRUE);
-		if (base_name_utf8) {
-			wb_control_title_set (wbc, base_name_utf8);
-			g_free (base_name_utf8);
-		} else {
-			g_warning ("Failed to convert filename to UTF-8.  This shouldn't happen here.");
-		}
+		char *name = g_path_get_basename (workbook_get_uri (wbv->wb));
+		wb_control_title_set (wbc, name);
+		g_free (name);
 	}
 }
 
@@ -519,7 +516,6 @@ WorkbookView *
 workbook_view_new (Workbook *wb)
 {
 	WorkbookView *wbv = g_object_new (WORKBOOK_VIEW_TYPE, NULL);
-	char *base_name_utf8;
 	int i;
 
 	if (wb == NULL)
@@ -551,10 +547,12 @@ workbook_view_new (Workbook *wb)
 		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
 
 	/* Set the titles of the newly connected view's controls */
-	base_name_utf8 = workbook_get_filename_utf8 (wbv->wb, TRUE);
-	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
-		wb_control_title_set (wbc, base_name_utf8););
-	g_free (base_name_utf8);
+	{
+		char *name = g_path_get_basename (workbook_get_uri (wbv->wb));
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
+					       wb_control_title_set (wbc, name););
+		g_free (name);
+	}
 
 	return wbv;
 }
@@ -636,17 +634,17 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
  * wb_view_save_as:
  * @wbv         : Workbook View
  * @fs          : GnmFileSaver object
- * @file_name   : File name (fs encoded, not UTF-8)
+ * @uri         : URI to save as.
  * @context     :
  *
- * Saves @wbv and workbook it's attached to into @file_name file using
+ * Saves @wbv and workbook it's attached to into @uri file using
  * @fs file saver.  If the format sufficiently advanced make it the saver
- * and update the filename.
+ * and update the uri.
  *
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *file_name,
+wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
 		 GnmCmdContext *context)
 {
 	IOContext *io_context;
@@ -655,14 +653,14 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *file_name,
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GNM_FILE_SAVER (fs), FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
 	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	io_context = gnumeric_io_context_new (context);
 
 	gnm_cmd_context_set_sensitive (context, FALSE);
-	wbv_save_to_file (wbv, fs, file_name, io_context);
+	wbv_save_to_file (wbv, fs, uri, io_context);
 	gnm_cmd_context_set_sensitive (context, TRUE);
 
 	has_error   = gnumeric_io_error_occurred (io_context);
@@ -670,7 +668,7 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *file_name,
 	if (!has_error) {
 		if (workbook_set_saveinfo (wb,
 			gnm_file_saver_get_format_level (fs), fs) &&
-		    workbook_set_filename (wb, file_name))
+		    workbook_set_uri (wb, uri))
 			workbook_set_dirty (wb, FALSE);
 	}
 	if (has_error || has_warning)
@@ -712,7 +710,7 @@ wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else {
-		char const *filename = workbook_get_filename (wb);
+		char const *filename = workbook_get_uri (wb);
 		wbv_save_to_file (wbv, fs, filename, io_context);
 	}
 
@@ -756,7 +754,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 	io_context = gnumeric_io_context_new (context);
 	if (fs != NULL) {
 		char *template;
-		char *basename = g_path_get_basename (workbook_get_filename (wb));
+		char *basename = g_path_get_basename (workbook_get_uri (wb));
 		char *full_name;
 
 #define GNM_SEND_DIR	".gnm-sendto-"
@@ -918,60 +916,53 @@ wb_view_new_from_input  (GsfInput *input,
 }
 
 /**
- * wb_view_new_from_file :
- * @filename     : File name
+ * wb_view_new_from_uri :
+ * @uri          : URI for file
  * @optional_fmt : Optional GnmFileOpener
  * @io_context   : Optional context to display errors.
  * @optional_enc : Optional encoding for GnmFileOpener that understand it
  *
- * Reads @filename file using given file opener @optional_fmt, or probes for a valid
+ * Reads @uri file using given file opener @optional_fmt, or probes for a valid
  * possibility if @optional_fmt is NULL.  Reports problems to @io_context.
  *
  * Return value: TRUE if file was successfully read and FALSE otherwise.
  */
 WorkbookView *
-wb_view_new_from_file (char const *filename,
-		       GnmFileOpener const *optional_fmt,
-		       IOContext *io_context,
-		       char const *optional_enc)
+wb_view_new_from_uri (char const *uri,
+		      GnmFileOpener const *optional_fmt,
+		      IOContext *io_context,
+		      char const *optional_enc)
 {
 	char *msg = NULL;
-	char *filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	GError *err = NULL;
+	GsfInput *input;
 
-	if (filename_utf8) {
-		GError *err = NULL;
-		GsfInput *input = go_file_open (filename, &err);
+	g_return_val_if_fail (uri != NULL, NULL);
 
-		puts (filename);
+	input = go_file_open (uri, &err);
+	if (input != NULL) {
+		WorkbookView *res;
 
-		if (input != NULL) {
-			WorkbookView *res = wb_view_new_from_input (input,
-								    optional_fmt, io_context,
-								    optional_enc);
-			g_object_unref (G_OBJECT (input));
-			g_free (filename_utf8);
-			return res;
-		}
-
-		if (err != NULL) {
-			if (err->message != NULL)
-				msg = g_strdup (err->message);
-			g_error_free (err);
-		}
-
-		if (msg == NULL)
-			msg = g_strdup_printf (_("An unexplained error happened while opening %s"),
-					       filename_utf8);
-	} else {
-		/*
-		 * This should be quite rare.  To provoke, use
-		 * gnumeric `echo -e '\377\376'`
-		 */
-		msg = g_strdup (_("The filename given is not valid in the current encoding."));
+		g_print ("Reading %s\n", uri);
+		res = wb_view_new_from_input (input,
+					      optional_fmt, io_context,
+					      optional_enc);
+		g_object_unref (G_OBJECT (input));
+		return res;
 	}
+
+	if (err != NULL) {
+		if (err->message != NULL)
+			msg = g_strdup (err->message);
+		g_error_free (err);
+	}
+
+	if (msg == NULL)
+		msg = g_strdup_printf (_("An unexplained error happened while opening %s"),
+				       uri);
+
 	gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
-	g_free (filename_utf8);
 
 	return NULL;
 }

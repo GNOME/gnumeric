@@ -179,9 +179,11 @@ main (int argc, char *argv [])
 					 "Try --list-exporters to see a list of possibilities.\n"));
 
 			if (fs != NULL) {
-				IOContext    *io_context = gnumeric_io_context_new (cc);
-				WorkbookView *wbv = wb_view_new_from_file (args[0], NULL,
+				IOContext *io_context = gnumeric_io_context_new (cc);
+				char *uri = go_shell_arg_to_uri (args[0]);
+				WorkbookView *wbv = wb_view_new_from_uri (uri, NULL,
 					io_context, ssconvert_import_encoding);
+				g_free (uri);
 				if (gnm_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK)
 					fprintf (stderr, _("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 						 "Only the first will be saved."),

@@ -26,14 +26,10 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-input-memory.h>
-#include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
-#ifdef WITH_GNOME
-#include <gsf-gnome/gsf-input-gnomevfs.h>
-#endif
 #include <string.h>
+#include <goffice/utils/go-file.h>
 
 static void
 gnm_file_opener_init (GnmFileOpener *fo)
@@ -251,7 +247,7 @@ gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel 
  * @opt_enc     : Optional encoding
  * @io_context  : Context for i/o operation
  * @wbv         : Workbook View
- * @file_name   : File name
+ * @input       : Gsf input stream
  *
  * Reads content of @file_name file into workbook @wbv is attached to.
  * Results are reported using @io_context object, use
@@ -264,12 +260,21 @@ gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
 		      IOContext *io_context,
 		      WorkbookView *wbv, GsfInput *input)
 {
+	const char *input_name;
+
 	g_return_if_fail (IS_GNM_FILE_OPENER (fo));
 	g_return_if_fail (GSF_IS_INPUT (input));
 
-	if (NULL != gsf_input_name (input))
-		workbook_set_filename (wb_view_workbook (wbv),
-				       gsf_input_name (input));
+	input_name = gsf_input_name (input);
+	if (input_name) {
+		/*
+		 * When we open a file, the input get a name that is its
+		 * absolute filename. 
+		 */
+		char *uri = go_shell_arg_to_uri (input_name);
+		workbook_set_uri (wb_view_workbook (wbv), uri);
+		g_free (uri);
+	}
 	GNM_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context, wbv, input);
 }
 
@@ -888,43 +893,4 @@ GList *
 get_file_openers (void)
 {
 	return file_opener_list;
-}
-
-/**
- * go_file_open :
- * @path :
- * @err : #GError
- *
- * Try all available methods to open a file or return an error
- **/
-#warning this belongs in gsf
-GsfInput *
-go_file_open (char const *path, GError **err)
-{
-	GsfInputMemory *in_mem;
-	GsfInputStdio  *in_stdio;
-
-	if (err != NULL)
-		*err = NULL;
-
-	in_mem = gsf_input_mmap_new (path, NULL);
-	if (in_mem != NULL)
-		return GSF_INPUT (in_mem);
-
-	/* Only report error if stdio fails too */
-	in_stdio = gsf_input_stdio_new (path, err);
-	if (in_stdio != NULL)
-		return GSF_INPUT (in_stdio);
-
-#ifdef WITH_GNOME
-	{
-		GsfInputGnomeVFS *in_vfs;
-		g_error_free (*err);
-		*err = NULL;
-		in_vfs = gsf_input_gnomevfs_new (path, err);
-		if (in_vfs != NULL)
-			return GSF_INPUT (in_vfs);
-	}
-#endif
-	return NULL; 
 }

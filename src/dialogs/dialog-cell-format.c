@@ -668,7 +668,7 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 		gnm_app_display_dpi_get (TRUE),
 		gnm_app_display_dpi_get (FALSE));
 	context = pango_ft2_font_map_create_context (font_map);
-	g_object_unref (font_map);
+	// g_object_unref (font_map);
 	layout = pango_layout_new (context);
 	g_object_unref (context);
 	pango_layout_set_font_description (layout,
@@ -682,7 +682,11 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	pango_layout_set_attributes (layout, attrs);
 	pango_attr_list_unref (attrs);
 
+#if 0
+	w = h = 1;
+#else
 	pango_layout_get_pixel_size (layout, &w, &h);
+#endif
 
 	if (w == 0 || h == 0) {
 		g_object_unref (layout);
@@ -697,7 +701,7 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	ft_bitmap.palette_mode = 0;
 	ft_bitmap.palette      = NULL;
 
-#if 0
+#if 1
 	pango_ft2_render_layout (&ft_bitmap, layout, 0, 0);
 #endif
 	g_object_unref (layout);
@@ -724,6 +728,12 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	state->align.rot_width  = w;
 	state->align.rot_height = h;
 	cb_rotate_changed (NULL, state);
+
+#if 0
+	/* This prevents leaks, but isn't public.  */
+	pango_fc_font_map_cache_clear (font_map);
+#endif
+	g_object_unref (font_map);
 }
 
 static void
