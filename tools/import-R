@@ -115,16 +115,16 @@ sub import_file {
 	    s/^(\s*)(const\s+gnm_float\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\[\s*\d+\s*\]\s*=)/$1static $2/;
 
 	    # Improve precision of "log(1-x)".
-	    s/\blog\s*\(\s*1\s*-\s*([a-zA-Z0-9_]+)\s*\)/log1pgnum (-$1)/g;
+	    s/\blog\s*\(\s*1\s*-\s*([a-zA-Z0-9_]+)\s*\)/gnm_log1p (-$1)/g;
 
 	    # Improve precision of "log(1+x)".
-	    s/\blog\s*\(\s*1\s*\+\s*/log1pgnum \(/g;
+	    s/\blog\s*\(\s*1\s*\+\s*/gnm_log1p \(/g;
 
-	    s/\bISNAN\b/isnangnum/g;
-	    s/\bR_FINITE\b/finitegnum/g;
-	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;
-	    s/\bfabs\b/gnumabs/g;
-	    s/\bDBL_(EPSILON|MIN|MAX)/GNUM_$1/g;
+	    s/\bISNAN\b/gnm_isnan/g;
+	    s/\bR_FINITE\b/gnm_finite/g;
+	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|sinh|tan)(\s|$|\()/gnm_$1$2/g;
+	    s/\bfabs\b/gnm_abs/g;
+	    s/\bDBL_(EPSILON|MIN|MAX)/GNM_$1/g;
 
 	    # Constants.
 	    s/\b(M_LN2|M_PI|M_PI_2|M_SQRT2|M_2PI)\b/$1gnum/g;
@@ -143,30 +143,30 @@ sub import_file {
 
 	    # Optimization given our stupid gammafn.
 	    s|> 10|< 10| if /p and q are small: p <= q > 10/;
-	    s|loggnum\(gammafn\(p\) \* \(gammafn\(q\) / gammafn\(p \+ q\)\)\)|lgammagnum(p) + lgammagnum(q) - lgammagnum(p + q)|;
+	    s|gnm_log\(gammafn\(p\) \* \(gammafn\(q\) / gammafn\(p \+ q\)\)\)|gnm_lgamma (p) + gnm_lgamma (q) - gnm_lgamma (p + q)|;
 
 	    s/dnorm4/dnorm/g;
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
 
 	    s/\b(trunc|ftrunc)\b/gnm_trunc/g;
-	    s/\b(lgammafn|lgamma)\b/lgammagnum/g;
+	    s/\b(lgammafn|lgamma)\b/gnm_lgamma/g;
 	    s/\bML_NAN\b/gnm_nan/g;
-	    s/\bML_VALID\b/\!isnangnum/g;
+	    s/\bML_VALID\b/\!gnm_isnan/g;
 	    s/\bML_NEGINF\b/gnm_ninf/g;
 	    s/\bML_POSINF\b/gnm_pinf/g;
 
 	    # Improve precision of "lgammagnum(x+1)".
-	    s/\blgammagnum\s*\(([^()]*\S)\s*\+\s*1(.0*)?\s*\)/lgamma1p ($1)/;
-	    s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/expgnum(lgamma1p ($1))/;
+	    s/\bgnm_lgamma\s*\(([^()]*\S)\s*\+\s*1(.0*)?\s*\)/lgamma1p ($1)/;
+	    s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/gnm_exp(lgamma1p ($1))/;
 	    s/\bR_Log1_Exp\b/swap_log_tail/g;
 
 	    if ($filename =~ m|/bessel_i\.c$|) {
-		s/\bgamma_cody\(empal\)/expgnum(lgamma1p(nu))/;
+		s/\bgamma_cody\(empal\)/gnm_exp(lgamma1p(nu))/;
 	    }
 
 	    # Somewhat risky.
-	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GNUM_FORMAT_$2 \"/g;
+	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GNM_FORMAT_$2 \"/g;
 
 	    s/int give_log/gboolean give_log/g;
 	    s/int log_p/gboolean log_p/g;
@@ -187,7 +187,7 @@ sub import_file {
 
 
 	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
-		s/0\.5/(xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower)/;
+		s/0\.5/(xinbta < lower) ? gnm_sqrt (lower) : 1 - gnm_sqrt (lower)/;
 	    }
 
 	    $incomment = 1 if m|/\*$|;
