@@ -1,0 +1,575 @@
+/*
+ * dialog-tabulate.c:
+ *   Dialog for making tables of function dependcies.
+ *
+ * Author:
+ *   Morten Welinder (terra@diku.dk)
+ */
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+#include <gui-util.h>
+#include <glade/glade.h>
+#include <widgets/gnumeric-expr-entry.h>
+#include <workbook-edit.h>
+#include <libgnome/gnome-i18n.h>
+#include "ranges.h"
+#include "value.h"
+#include "sheet.h"
+#include "mstyle.h"
+#include "workbook.h"
+#include "mathfunc.h"
+#include "cell.h"
+#include "format.h"
+#include "number-match.h"
+#include "style-border.h"
+#include "sheet-style.h"
+#include "style-color.h"
+
+#define TABULATE_KEY "tabulate-dialog"
+
+/* ------------------------------------------------------------------------- */
+
+static Value *
+tabulation_eval (Workbook *wb, int dims,
+		 const gnum_float *x, Cell **xcells, Cell *ycell)
+{
+	int i;
+
+	for (i = 0; i < dims; i++) {
+		cell_set_value (xcells[i], value_new_float (x[i]), NULL);
+		cell_queue_recalc (xcells[i]);
+	}
+	workbook_recalc (wb);
+
+	return ycell->value
+		? value_duplicate (ycell->value)
+		: value_new_error (NULL, gnumeric_err_VALUE);
+}
+
+static StyleFormat *
+my_get_format (Cell *cell)
+{
+	MStyle *mstyle = cell_get_mstyle (cell);
+	StyleFormat *format = mstyle_get_format (mstyle);
+
+	if (style_format_is_general (format) && cell->format)
+		return cell->format;
+	else
+		return format;
+}
+
+static void
+do_tabulation (Workbook *wb,
+	       Cell *target,
+	       int dims,
+	       Cell **cells,
+	       const gnum_float *minima,
+	       const gnum_float *maxima,
+	       const gnum_float *steps,
+	       gboolean with_coordinates)
+{
+	Sheet *sheet = NULL;
+	gboolean sheetdim = (!with_coordinates && dims >= 3);
+	StyleFormat *targetformat = my_get_format (target);
+	int row = 0;
+
+	gnum_float *values = g_new (gnum_float, dims);
+	int *index = g_new (int, dims);
+	int *counts = g_new (int, dims);
+	Sheet **sheets = NULL;
+	StyleFormat **formats = g_new (StyleFormat *, dims);
+
+	{
+		int i;
+		for (i = 0; i < dims; i++) {
+			values[i] = minima[i];
+			index[i] = 0;
+			formats[i] = my_get_format (cells[i]);
+
+			counts[i] = 1 + gnumeric_fake_floor ((maxima[i] - minima[i]) / steps[i]);
+			/* Silently truncate at the edges.  */
+			if (!with_coordinates && i == 0 && counts[i] > SHEET_MAX_COLS - 1) {
+				counts[i] = SHEET_MAX_COLS - 1;
+			} else if (!with_coordinates && i == 1 && counts[i] > SHEET_MAX_ROWS - 1) {
+				counts[i] = SHEET_MAX_ROWS - 1;
+			}
+		}
+	}
+
+	if (sheetdim) {
+		int dim = 2;
+		gnum_float val = minima[dim];
+		StyleFormat *sf = my_get_format (cells[dim]);
+		int i;
+
+		sheets = g_new (Sheet *, counts[dim]);
+		for (i = 0; i < counts[dim]; i++) {
+			Value *v = value_new_float (val);
+			char *base_name = format_value (sf, v, NULL, -1);
+			char *unique_name =
+				workbook_sheet_get_free_name (wb,
+							      base_name,
+							      FALSE, FALSE);
+
+			g_free (base_name);
+			value_release (v);
+			sheet = sheets[i] = sheet_new (wb, unique_name);
+			g_free (unique_name);
+			workbook_sheet_attach (wb, sheet, NULL);
+
+			val += steps[dim];
+		}
+	} else {
+		char *unique_name =
+			workbook_sheet_get_free_name (wb,
+						      _("Tabulation"),
+						      FALSE, FALSE);
+	        sheet = sheet_new (wb, unique_name);
+		g_free (unique_name);
+		workbook_sheet_attach (wb, sheet, NULL);
+	}
+
+	while (1) {
+		Value *v;
+		Cell *cell;
+		int dim;
+
+		if (with_coordinates) {
+			int i;
+
+			for (i = 0; i < dims; i++) {
+				cell = sheet_cell_fetch (sheet, i, row);
+				sheet_cell_set_value (cell,
+						      value_new_float (values[i]),
+						      formats[i]);
+			}
+
+			cell = sheet_cell_fetch (sheet, dims, row);
+		} else {
+			Sheet *thissheet = sheetdim ? sheets[index[2]] : sheet;
+			int col = (dims >= 0 ? index[0] + 1 : 1);
+			int row = (dims >= 1 ? index[1] + 1 : 1);
+
+			/* Fill-in top header.  */
+			if (row == 1 && dims >= 0) {
+				cell = sheet_cell_fetch (sheet, col, 0);
+				sheet_cell_set_value (cell,
+						      value_new_float (values[0]),
+						      formats[0]);
+			}
+
+			/* Fill-in left header.  */
+			if (col == 1 && dims >= 1) {
+				cell = sheet_cell_fetch (sheet, 0, row);
+				sheet_cell_set_value (cell,
+						      value_new_float (values[1]),
+						      formats[1]);
+			}
+
+			/* Make a horizon line on top between header and table.  */
+			if (row == 1 && col == 1 && dims >= 0) {
+				MStyle *mstyle = mstyle_new ();
+				Range range;
+				StyleBorder *border;
+
+				range.start.col = 0;
+				range.start.row = 0;
+				range.end.col   = counts[0];
+				range.end.row   = 0;
+
+				border = style_border_fetch (STYLE_BORDER_MEDIUM,
+							     style_color_black (),
+							     STYLE_BORDER_HORIZONTAL);
+
+				mstyle_set_border (mstyle, MSTYLE_BORDER_BOTTOM, border);
+				sheet_style_apply_range (sheet, &range, mstyle);
+			}
+
+			/* Make a vertical line on left between header and table.  */
+			if (row == 1 && col == 1 && dims >= 1) {
+				MStyle *mstyle = mstyle_new ();
+				Range range;
+				StyleBorder *border;
+
+				range.start.col = 0;
+				range.start.row = 0;
+				range.end.col   = 0;
+				range.end.row   = counts[1];;
+
+				border = style_border_fetch (STYLE_BORDER_MEDIUM,
+							     style_color_black (),
+							     STYLE_BORDER_VERTICAL);
+
+				mstyle_set_border (mstyle, MSTYLE_BORDER_RIGHT, border);
+				sheet_style_apply_range (sheet, &range, mstyle);
+			}
+
+			cell = sheet_cell_fetch (thissheet, col, row);
+		}
+
+		v = tabulation_eval (wb, dims, values, cells, target);
+		sheet_cell_set_value (cell, v, targetformat);
+
+		if (with_coordinates) {
+			row++;
+			if (row >= SHEET_MAX_ROWS)
+				break;
+		}
+
+		for (dim = dims - 1; dim >= 0; dim--) {
+			values[dim] += steps[dim];
+			index[dim]++;
+
+			if (index[dim] == counts[dim]) {
+				index[dim] = 0;
+				values[dim] = minima[dim];
+			} else
+				break;
+		}
+
+		if (dim < 0)
+			break;
+	}
+
+	g_free (values);
+	g_free (index);
+	g_free (counts);
+	g_free (sheets);
+	g_free (formats);
+}
+
+/* ------------------------------------------------------------------------- */
+
+enum {
+	COL_CELL = 0,
+	COL_MIN,
+	COL_MAX,
+	COL_STEP
+};
+
+typedef struct {
+	WorkbookControlGUI *wbcg;
+	Sheet *sheet;
+
+	GladeXML *gui;
+	GnomeDialog *dialog;
+
+	GtkTable *source_table;
+	GnumericExprEntry *resultrangetext;
+
+} DialogState;
+
+static const char *mode_group[] = {
+	"mode_visual",
+	"mode_coordinate",
+	0
+};
+
+/* ------------------------------------------------------------------------- */
+
+static void
+free_state (DialogState *dd)
+{
+	gtk_object_unref (GTK_OBJECT (dd->gui));
+	memset (dd, 0, sizeof (*dd));
+	g_free (dd);
+}
+
+static void
+non_model_dialog (WorkbookControlGUI *wbcg,
+		  GnomeDialog *dialog,
+		  const char *key)
+{
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), key);
+
+	gtk_widget_show (GTK_WIDGET (dialog));
+}
+
+static void
+set_focus (GtkWidget *widget, GtkWidget *focus_widget, DialogState *dd)
+{
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget))
+		wbcg_set_entry (dd->wbcg,
+				    GNUMERIC_EXPR_ENTRY (focus_widget));
+	else
+		wbcg_set_entry (dd->wbcg, NULL);
+}
+
+static void
+focus_on_entry (GtkWidget *entry)
+{
+	gtk_widget_grab_focus (entry);
+	gtk_entry_set_position (GTK_ENTRY (entry), 0);
+	gtk_entry_select_region (GTK_ENTRY (entry), 0,
+				 GTK_ENTRY (entry)->text_length);
+}
+
+static Cell *
+single_cell (Sheet *sheet, const char *text)
+{
+	int col, row;
+	gboolean issingle;
+	Value *v = global_range_parse (sheet, text);
+
+	if (!v) return NULL;
+
+	col = v->v_range.cell.a.col;
+	row = v->v_range.cell.a.row;
+	issingle = (col == v->v_range.cell.b.col && row == v->v_range.cell.b.row);
+
+	value_release (v);
+
+	if (issingle)
+		return sheet_cell_fetch (sheet, col, row);
+	else
+		return NULL;
+}
+
+static const char *
+get_table_entry (GtkTable *t, int y, int x, GtkWidget **wp)
+{
+	GList *l;
+
+	for (l = t->children; l; l = l->next) {
+		GtkTableChild *child = l->data;
+		if (child->left_attach == x && child->top_attach == y) {
+			*wp = child->widget;
+			return gtk_entry_get_text (GTK_ENTRY (child->widget));
+		}
+	}
+
+	return NULL;
+}
+
+static void
+dialog_destroy (GtkWidget *widget, DialogState *dd)
+{
+	wbcg_edit_detach_guru (dd->wbcg);
+	free_state (dd);
+}
+
+static void
+cancel_clicked (GtkWidget *widget, DialogState *dd)
+{
+	GnomeDialog *dialog = dd->dialog;
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
+ok_clicked (GtkWidget *widget, DialogState *dd)
+{
+	GnomeDialog *dialog = dd->dialog;
+	Cell *resultcell;
+	int dims = 0;
+	int row;
+	gboolean with_coordinates;
+
+	Cell **cells = g_new (Cell *, dd->source_table->nrows);
+	gnum_float *minima = g_new (gnum_float, dd->source_table->nrows);
+	gnum_float *maxima = g_new (gnum_float, dd->source_table->nrows);
+	gnum_float *steps = g_new (gnum_float, dd->source_table->nrows);
+
+	for (row = 1; row < dd->source_table->nrows; row++) {
+		GtkWidget *w;
+		const char *text = get_table_entry (dd->source_table, row, COL_CELL, &w);
+		Value *v;
+
+		if (!text || !*text)
+			continue;
+
+		cells[dims] = single_cell (dd->sheet, text);
+		if (!cells[dims]) {
+			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 _("You should introduce a single valid cell as dependency cell"));
+			focus_on_entry (GTK_WIDGET (w));
+			goto error;
+		}
+		if (cell_has_expr (cells[dims])) {
+			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 _("The dependency cells should not contain an expression"));
+			focus_on_entry (GTK_WIDGET (w));
+			goto error;
+		}
+
+		text = get_table_entry (dd->source_table, row, COL_MIN, &w);
+		v = format_match_number (text, NULL, NULL);
+		if (!v) {
+			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 _("You should introduce a valid number as minimum"));
+			focus_on_entry (GTK_WIDGET (w));
+			goto error;
+		}
+		minima[dims] = value_get_as_float (v);
+		value_release (v);
+
+		text = get_table_entry (dd->source_table, row, COL_MAX, &w);
+		v = format_match_number (text, NULL, NULL);
+		if (!v) {
+			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 _("You should introduce a valid number as maximum"));
+			focus_on_entry (GTK_WIDGET (w));
+			goto error;
+		}
+		maxima[dims] = value_get_as_float (v);
+		value_release (v);
+
+		if (maxima[dims] < minima[dims]) {
+			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 _("The maximum value should be bigger than the minimum"));
+			focus_on_entry (GTK_WIDGET (w));
+			goto error;
+		}
+
+		text = get_table_entry (dd->source_table, row, COL_STEP, &w);
+		if (*text) {
+			v = format_match_number (text, NULL, NULL);
+			if (!v) {
+				gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+						 _("You should introduce a valid number as step size"));
+				focus_on_entry (GTK_WIDGET (w));
+				goto error;
+			}
+			steps[dims] = value_get_as_float (v);
+			value_release (v);
+
+			if (steps[dims] <= 0) {
+				gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+						 _("The step size should be positive"));
+				focus_on_entry (GTK_WIDGET (w));
+				goto error;
+			}
+		} else
+			steps[dims] = 1;
+
+		dims++;
+	}
+
+	if (dims == 0) {
+		gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce one or more dependency cells"));
+		goto error;
+	}
+
+	{
+		const char *text = gtk_entry_get_text (GTK_ENTRY (dd->resultrangetext));
+		resultcell = single_cell (dd->sheet, text);
+
+		if (!resultcell) {
+			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 _("You should introduce a single valid cell as result cell"));
+			focus_on_entry (GTK_WIDGET (dd->resultrangetext));
+			goto error;
+		}
+
+		if (!cell_has_expr (resultcell)) {
+			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 _("The target cell should contain an expression"));
+			focus_on_entry (GTK_WIDGET (dd->resultrangetext));
+			goto error;
+		}
+	}
+
+	{
+		int i = gnumeric_glade_group_value (dd->gui, mode_group);
+		with_coordinates = (i == -1) ? TRUE : (gboolean)i;
+	}
+
+	do_tabulation (dd->sheet->workbook,
+		       resultcell,
+		       dims,
+		       cells, minima, maxima, steps,
+		       with_coordinates);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+ error:
+	g_free (minima);
+	g_free (maxima);
+	g_free (steps);
+	g_free (cells);
+}
+
+void
+dialog_tabulate (WorkbookControlGUI *wbcg)
+{
+	GladeXML *gui;
+	GnomeDialog *dialog;
+	DialogState *dd;
+	int i;
+
+	g_return_if_fail (wbcg != NULL);
+
+	/* Only one guru per workbook. */
+	if (wbcg_edit_has_guru (wbcg))
+		return;
+
+	if (gnumeric_dialog_raise_if_exists (wbcg, TABULATE_KEY))
+		return;
+
+	gui = gnumeric_glade_xml_new (wbcg, "tabulate.glade");
+        if (gui == NULL)
+                return;
+
+	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "tabulate_dialog"));
+
+	dd = g_new (DialogState, 1);
+	dd->wbcg = wbcg;
+	dd->gui = gui;
+	dd->dialog = dialog;
+	dd->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+
+	dd->source_table = GTK_TABLE (glade_xml_get_widget (gui, "source_table"));
+	for (i = 1; i < dd->source_table->nrows; i++) {
+		GnumericExprEntry *ge = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
+		gnumeric_expr_entry_set_flags (ge,
+					       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
+					       GNUM_EE_MASK);
+
+		gtk_table_attach (dd->source_table,
+				  GTK_WIDGET (ge),
+				  COL_CELL, COL_CELL + 1,
+				  i, i + 1,
+				  GTK_FILL, GTK_FILL,
+				  0, 0);
+		gnumeric_expr_entry_set_scg (ge,
+					     wb_control_gui_cur_sheet (wbcg));
+		gtk_widget_show (GTK_WIDGET (ge));
+	}
+
+	dd->resultrangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
+	gnumeric_expr_entry_set_flags (dd->resultrangetext,
+				       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
+				       GNUM_EE_MASK);
+	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "result_hbox")),
+			    GTK_WIDGET (dd->resultrangetext),
+			    TRUE, TRUE, 0);
+	gnumeric_expr_entry_set_scg (dd->resultrangetext,
+				     wb_control_gui_cur_sheet (wbcg));
+	gtk_widget_show (GTK_WIDGET (dd->resultrangetext));
+
+	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "ok_button")),
+			    "clicked",
+			    GTK_SIGNAL_FUNC (ok_clicked),
+			    dd);
+
+	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
+			    "clicked",
+			    GTK_SIGNAL_FUNC (cancel_clicked),
+			    dd);
+	gtk_signal_connect (GTK_OBJECT (dialog),
+			    "destroy",
+			    GTK_SIGNAL_FUNC (dialog_destroy),
+			    dd);
+	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (set_focus), dd);
+
+	gtk_widget_show_all (dialog->vbox);
+	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
+
+	non_model_dialog (wbcg, dialog, TABULATE_KEY);
+}
+
+/* ------------------------------------------------------------------------- */

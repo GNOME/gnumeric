@@ -63,6 +63,7 @@ base_files =					\
 	dialog-stf-export-private.h		\
 	dialog-stf-export-sheet-page.c		\
 	dialog-stf-export-format-page.c		\
+	dialog-tabulate.c			\
 	dialog-summary.c			\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
@@ -120,6 +121,7 @@ glade_DATA = 				\
 	sheet-rename.glade		\
 	solver.glade			\
 	summary.glade			\
+	tabulate.glade			\
 	variance-tests.glade		\
 	workbook-attr.glade
 

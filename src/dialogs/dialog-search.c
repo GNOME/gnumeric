@@ -58,17 +58,6 @@ typedef struct {
 	GPtrArray *matches;
 } DialogState;
 
-#if 0
-static const char *error_group[] = {
-	"error_fail",
-	"error_skip",
-	"error_query",
-	"error_error",
-	"error_string",
-	0
-};
-#endif
-
 static const char *search_type_group[] = {
 	"search_type_text",
 	"search_type_regexp",
@@ -241,7 +230,6 @@ set_focus (GtkWidget *widget, GtkWidget *focus_widget, DialogState *dd)
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
 	else
 		wbcg_set_entry (dd->wbcg, NULL);
-
 }
 
 static gboolean

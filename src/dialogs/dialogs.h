@@ -67,6 +67,8 @@ int dialog_search_replace_query (WorkbookControlGUI *wbcg,
 
 void dialog_search (WorkbookControlGUI *wbcg);
 
+void dialog_tabulate (WorkbookControlGUI *wbcg);
+
 FunctionDefinition *dialog_function_select (WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_DIALOGS_H */
