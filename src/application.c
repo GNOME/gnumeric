@@ -514,9 +514,11 @@ gnumeric_application_setup_pixbufs (GnumericApplication *app)
 		guchar const   *scalable_data;
 		gchar const    *name;
 	} const entry [] = {
+		/* Cursors */
 		{ gnm_cursor_cross, "cursor_cross" },
 		{ gnm_bucket, "bucket" },
 		{ gnm_font, "font" },
+		/* Patterns */
 		{ gp_125grey, "gp_125grey" },
 		{ gp_25grey, "gp_25grey" },
 		{ gp_50grey, "gp_50grey" },
@@ -553,7 +555,9 @@ gnumeric_application_setup_pixbufs (GnumericApplication *app)
 		{ line_pattern_medium_dash_dot_dot, "line_pattern_medium_dash_dot_dot" },
 		{ line_pattern_slant, "line_pattern_slant" },
 		{ line_pattern_thick, "line_pattern_thick" },
-		{ line_pattern_thin, "line_pattern_thin" }
+		{ line_pattern_thin, "line_pattern_thin" },
+		/* Stuff */
+		{ gnumeric_splash, "gnumeric_splash" }
 	};
 	unsigned int ui;
 

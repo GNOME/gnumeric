@@ -15,6 +15,7 @@
 #include "gui-util.h"
 #include "io-context-gtk.h"
 #include "io-context-priv.h"
+#include "application.h"
 #include "libgnumeric.h"
 #include "dialogs.h"
 #include <gsf/gsf-impl-utils.h>
@@ -124,8 +125,8 @@ icg_show_gui (IOContextGtk *icg)
 
 	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
 	gtk_box_pack_start (box,
-		gnumeric_load_image ("gnumeric_splash.jpg"),
-		TRUE, FALSE, 0);
+			    gtk_image_new_from_pixbuf (application_get_pixbuf ("gnumeric_splash")),
+			    TRUE, FALSE, 0);
 
 	/* Don't show this unless we need it. */
 	if (icg->files_total > 1) {

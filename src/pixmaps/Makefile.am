@@ -41,6 +41,8 @@ IMAGES = @STRIP_BEGIN@ 						\
 	font.xpm		\
 	expr_entry.png		\
 	\
+	gnumeric_splash.jpg	\
+	\
 	object_arrow_24.png 	\
 	object_ellipse_24.png 	\
 	object_line_24.png 	\
@@ -189,6 +191,8 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_bucket				$(srcdir)/bucket.xpm				\
 	gnm_font				$(srcdir)/font.xpm				\
 	gnm_expr_entry				$(srcdir)/expr_entry.png			\
+	\
+	gnumeric_splash				$(srcdir)/gnumeric_splash.jpg			\
 	\
 	gnm_object_arrow_24			$(srcdir)/object_arrow_24.png			\
 	gnm_object_ellipse_24			$(srcdir)/object_ellipse_24.png			\

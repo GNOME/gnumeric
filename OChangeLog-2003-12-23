@@ -1,5 +1,8 @@
 2003-07-16  Morten Welinder  <terra@gnome.org>
 
+	* src/io-context-gtk.c (icg_show_gui): Load splash from
+	application.  (So it can be displayed fast.)
+
 	* src/application.c (gnumeric_application_setup_pixbufs): Add line
 	and background patterns.
 
@@ -3424,7 +3427,7 @@
 	* src/expr-name.c (cb_check_name) : ignore hidden names.
 
 	* src/io-context-gtk.c (icg_error_error_info) : no need to display the
-	  splash if we ar egoing to pop up an error.  Something was screwing
+	  splash if we are going to pop up an error.  Something was screwing
 	  up and I don't feel like tracing it.
 
 	* src/expr.c (do_referenced_sheets) : fix nasty typo.
