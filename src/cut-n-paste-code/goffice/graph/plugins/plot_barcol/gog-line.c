@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-line.c
+ * gog-line.c
  *
- * Copyright (C) 2003 Emmanuel Pacaud (jody@gnome.org)
+ * Copyright (C) 2003 Emmanuel Pacaud (emmanuel.pacaud@univ-poitiers.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -248,6 +248,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (lengths[i] == 0)
 			continue;
 
+		gog_renderer_push_style (view->renderer, styles[i]);
+			
 		path[i][0].x = path[i][1].x;
 		path[i][0].y = path[i][1].y;
 		path[i][0].code = ART_MOVETO;
@@ -256,9 +258,10 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			
 			path[i][lengths[i] +1].code = ART_END;
 
-			gog_renderer_push_style (view->renderer, styles[i]);
 			gog_renderer_draw_path (view->renderer, path[i]);
-			gog_renderer_pop_style (view->renderer);
+			for (j = 1; j <= lengths[i]; j++) 
+				gog_renderer_draw_marker (view->renderer, path[i][j].x, path[i][j].y);
+
 			
 		} else {
 			
@@ -289,10 +292,10 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					path[i][j+1].code = ART_END;
 					break;
 			}
-			gog_renderer_push_style (view->renderer, styles[i]);
 			gog_renderer_draw_polygon (view->renderer, path[i], FALSE);
-			gog_renderer_pop_style (view->renderer);
 		}
+
+		gog_renderer_pop_style (view->renderer);
 	}
 
 	for (i = 0; i < num_series; i++)

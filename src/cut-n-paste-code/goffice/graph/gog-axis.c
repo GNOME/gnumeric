@@ -55,7 +55,8 @@ struct _GogAxis {
 	GogDatasetElement source [AXIS_ELEM_LAST_ENTRY];
 	GogAxisTickLevel  tick_level;
 
-	double	min_val, max_val;
+	double		min_val, max_val;
+	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
 };
 
 typedef GogStyledObjectClass GogAxisClass;
@@ -275,6 +276,7 @@ gog_axis_init (GogAxis *axis)
 	/* yes we want min = MAX */
 	axis->min_val = DBL_MAX;
 	axis->max_val = DBL_MIN;
+	axis->min_contrib = axis->max_contrib = NULL;
 }
 
 static void
@@ -294,10 +296,17 @@ gog_axis_dataset_get_elem (GogDataset const *set, int dim_i)
 }
 
 static void
+gog_axis_dim_changed (GogDataset *set, int dim_i)
+{
+	gog_object_emit_changed (GOG_OBJECT (set), TRUE);
+}
+
+static void
 gog_axis_dataset_init (GogDatasetClass *iface)
 {
-	iface->dims	= gog_axis_dataset_dims;
-	iface->get_elem	= gog_axis_dataset_get_elem;
+	iface->dims	   = gog_axis_dataset_dims;
+	iface->get_elem	   = gog_axis_dataset_get_elem;
+	iface->dim_changed = gog_axis_dim_changed;
 }
 
 GSF_CLASS_FULL (GogAxis, gog_axis,
@@ -307,17 +316,25 @@ GSF_CLASS_FULL (GogAxis, gog_axis,
 
 
 GogAxisType
-gog_axis_type (GogAxis const *axis)
+gog_axis_get_atype (GogAxis const *axis)
 {
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, GOG_AXIS_UNKNOWN);
 	return axis->type;
 }
 
 GogAxisPosition
-gog_axis_pos (GogAxis const *axis)
+gog_axis_get_pos (GogAxis const *axis)
 {
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, GOG_AXIS_IN_MIDDLE);
 	return axis->pos;
+}
+
+gboolean
+gog_axis_get_bounds (GogAxis const *axis, double *min, double *max)
+{
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
+
+	return TRUE;
 }
 
 /**

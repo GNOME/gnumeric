@@ -7,6 +7,9 @@ Andreas:
 Ben Liblit:
 	* Improve spec file.
 
+Emmanuel Pacaud:
+	* Initial support for line markers.
+
 Jody:
 	* Get the lifecycle of copied GogGraphs running smoothly.
 	* Fix printing of graphs.

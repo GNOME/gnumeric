@@ -89,14 +89,7 @@ struct _GogStyle {
 			} image;
 		} u;
 	} fill;
-	struct {
-		GOColor	fore, back;
-		/* GOMarker mark */
-		float size;
-		struct {
-			gboolean fore, back, mark;
-		} is_auto;
-	} marker;
+	GOMarker *marker;
 	struct {
 		GOColor	color;
 		GOFont const *font;
@@ -108,6 +101,7 @@ GogStyle  *gog_style_new		(void);
 GogStyle  *gog_style_dup		(GogStyle const *style);
 void	   gog_style_assign		(GogStyle *dst, GogStyle const *src);
 void	   gog_style_merge		(GogStyle *dst, GogStyle const *src);
+void	   gog_style_set_marker		(GogStyle *style, GOMarker *marker);
 void	   gog_style_set_font		(GogStyle *style,
 					 PangoFontDescription *desc);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);

@@ -26,6 +26,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-gradient.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-marker.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -230,7 +231,7 @@ gog_theme_add_element (GogTheme *theme, GogStyle *style,
 		       char const *klass_name, char const *role_id)
 {
 	GogThemeElement *elem;
-	
+
 	g_return_if_fail (theme != NULL);
 
 	elem = g_new0 (GogThemeElement, 1);
@@ -281,6 +282,37 @@ gog_theme_get_name (GogTheme const *theme)
 /**************************************************************************/
 
 static void
+map_marker (GOMarker *marker, unsigned shape_index, unsigned palette_index,
+	    GOColor const *palette)
+{
+	static GOMarkerShape const shape_palette [] = {
+		GO_MARKER_DIAMOND,	GO_MARKER_SQUARE,
+		GO_MARKER_TRIANGLE_UP,	GO_MARKER_X,
+		GO_MARKER_ASTERISK,	GO_MARKER_CIRCLE,
+		GO_MARKER_CROSS,	GO_MARKER_HALF_BAR,
+		GO_MARKER_BAR
+	};
+	static gboolean const shape_is_fill_transparent [] = {
+		TRUE,	TRUE,
+		TRUE,	FALSE,
+		FALSE,	TRUE,
+		FALSE,	TRUE,
+		TRUE
+	};
+
+	if (shape_index >= G_N_ELEMENTS (shape_palette))
+		shape_index %= G_N_ELEMENTS (shape_palette);
+
+	marker->defaults.shape		= marker->shape =
+		shape_palette [shape_index];
+	marker->defaults.outline_color	= marker->outline_color =
+		palette [palette_index];
+
+	marker->defaults.fill_color = marker->fill_color =
+		(shape_is_fill_transparent [shape_index]) ? palette [palette_index] : 0;
+}
+
+static void
 map_area_series_solid_default (GogStyle *style, unsigned ind)
 {
 	static GOColor const palette [] = {
@@ -296,14 +328,18 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 		0xff00ffff, 0x00ffffff, 0x800000ff, 0x008000ff, 0x000080ff,
 		0x808000ff, 0x800080ff, 0x008080ff, 0xc6c6c6ff, 0x808080ff
 	};
-	if (ind >= G_N_ELEMENTS (palette))
-		ind %= G_N_ELEMENTS (palette);
-	style->fill.u.pattern.pat.back = palette [ind];
 
-	ind += 8;
-	if (ind >= G_N_ELEMENTS (palette))
-		ind -= G_N_ELEMENTS (palette);
-	style->line.color = palette [ind];
+	unsigned palette_index = ind;
+	if (palette_index >= G_N_ELEMENTS (palette))
+		palette_index %= G_N_ELEMENTS (palette);
+	style->fill.u.pattern.pat.back = palette [palette_index];
+
+	palette_index += 8;
+	if (palette_index >= G_N_ELEMENTS (palette))
+		palette_index -= G_N_ELEMENTS (palette);
+	style->line.color = palette [palette_index];
+	if (style->marker != NULL)
+		map_marker (style->marker, ind, palette_index, palette);
 }
 
 static void
@@ -319,10 +355,14 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 		0x50ff00ff, 0x00ffffff, 0x5000ffff, 0xff0060ff,
 		0xffef00ff, 0x00ff40ff, 0x0070ffff, 0xdf00ffff
 	};
-	if (ind >= G_N_ELEMENTS (palette))
-		ind %= G_N_ELEMENTS (palette);
-	style->fill.u.pattern.pat.back = palette [ind];
-	style->line.color = palette [ind];
+
+	unsigned palette_index = ind;
+	if (palette_index >= G_N_ELEMENTS (palette))
+		palette_index %= G_N_ELEMENTS (palette);
+	style->fill.u.pattern.pat.back = palette [palette_index];
+	style->line.color = palette [palette_index];
+	if (style->marker != NULL)
+		map_marker (style->marker, ind, palette_index, palette);
 }
 
 /**************************************************************************/
@@ -436,7 +476,7 @@ void
 gog_themes_shutdown (void)
 {
 	GSList *ptr;
-	
+
 	if (default_theme != NULL)
 		g_object_unref (default_theme);
 	for (ptr = themes; ptr != NULL ; ptr = ptr->next)

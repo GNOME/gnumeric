@@ -1,3 +1,26 @@
+2003-09-04  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-style.c : move the marker editor back into the main style
+	  editor rather than being distinct.
+
+2003-09-03  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* utils/go-marker.[ch] : new.
+	* graph/gog-pixbuf-renderer.c : add draw_marker method.
+	* graph/gog-gnome-print-renderer.c : idem.
+	* graph/gog-renderer.c : idem.
+	* graph/gog-style-prefs.glade : update marker editor
+	* graph/gog-style.c (cb_marker_changed) : new.
+	(marker_init) : use editor in gog-marker.c.
+	(gog_style_pref_state_free) : free marker pointer.
+	(gog_style_assign) : handle marker pointer.
+	(gog_style_finalize) : idem.
+	(gog_style_init) : init marker pointer.
+	* graph/gog-theme.c (map_area_series_solid_default)
+	(map_area_series_solid_guppi) : initialize marker properties.
+	* graph/plugins/plot_barcol/gog-line.c
+	(gog_line_view_render) : draw markers.
+
 2003-09-03  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-legend.c (cb_render_elements) : clip before things

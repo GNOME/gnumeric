@@ -5500,7 +5500,6 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
 	sheet = sc_sheet (SHEET_CONTROL (scg));
 
-	g_warning ("expr entry update");
 	/* If we are setting something */
 	if (!gnm_expr_entry_is_blank (editor->entry)) {
 		ParsePos pos;

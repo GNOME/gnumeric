@@ -43,13 +43,15 @@ typedef enum {
 
 GType gog_axis_get_type (void);
 
+GogAxisType	gog_axis_get_atype 	 (GogAxis const *axis);
+GogAxisPosition gog_axis_get_pos 	 (GogAxis const *axis);
+gboolean	gog_axis_get_bounds 	 (GogAxis const *axis,
+					  double *min, double *max);
+
 void		gog_axis_add_contributor (GogAxis *axis, GogObject *contrib);
 void		gog_axis_del_contributor (GogAxis *axis, GogObject *contrib);
 void		gog_axis_bound_changed   (GogAxis *axis, GogObject *contrib,
 					  double low, double high);
-GogAxisType	gog_axis_type	 	 (GogAxis const *axis);
-GogAxisPosition gog_axis_pos	 	 (GogAxis const *axis);
-
 G_END_DECLS
 
 #endif /* GOG_AXIS_H */

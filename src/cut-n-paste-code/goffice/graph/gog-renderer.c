@@ -257,6 +257,22 @@ gog_renderer_draw_text (GogRenderer *rend, ArtPoint *pos,
 }
 
 /**
+ * gog_renderer_draw_marker :
+ * @rend : #GogRenderer
+ * @pos  : #ArtPoint
+ **/
+void
+gog_renderer_draw_marker (GogRenderer *rend, double x, double y)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->cur_style != NULL);
+
+	(klass->draw_marker) (rend, x, y);
+}
+
+/**
  * gog_renderer_measure_text :
  * @rend : #GogRenderer
  * @text : the string to draw

@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-marker.h>
 
 #include <src/gui-util.h>
 #include <glade/glade-xml.h>
@@ -605,30 +606,100 @@ fill_init (StylePrefState *state, GogStyle const *style, gboolean enable)
 
 /************************************************************************/
 
+/* copy the style and the marker to avoid stepping on anyone sharing the marker */
+static GogStyle *
+gog_object_dup_style_and_marker (GogObject *obj)
+{
+	GogStyle *res = gog_style_dup (gog_object_get_style (obj));
+	gog_style_set_marker (res, go_marker_dup (res->marker));
+	return res;
+}
+
+static void
+cb_marker_shape_changed (GtkOptionMenu *menu, StylePrefState *state)
+{
+	GogStyle *style = gog_object_dup_style_and_marker (state->obj);
+	guint shape = gtk_option_menu_get_history (menu);
+	if (shape  == 0)
+		go_marker_set_shape (style->marker, style->marker->defaults.shape);
+	else
+		go_marker_set_shape (style->marker, shape - 1);
+	gog_object_set_style (state->obj, style);
+}
+
+static void
+cb_marker_outline_color_changed (GtkWidget *cc,
+				 G_GNUC_UNUSED GdkColor *color,		G_GNUC_UNUSED gboolean is_custom,
+				 G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
+				 StylePrefState *state)
+{
+	GogStyle *style = gog_object_dup_style_and_marker (state->obj);
+	if (is_default)
+		go_marker_set_outline_color (style->marker, style->marker->defaults.outline_color);
+	else
+		go_marker_set_outline_color (style->marker, color_combo_get_gocolor (cc));
+	gog_object_set_style (state->obj, style);
+}
+
+static void
+cb_marker_fill_color_changed (GtkWidget *cc,
+			      G_GNUC_UNUSED GdkColor *color,	G_GNUC_UNUSED gboolean is_custom,
+			      G_GNUC_UNUSED gboolean by_user,	gboolean is_default,
+			      StylePrefState *state)
+{
+	GogStyle *style = gog_object_dup_style_and_marker (state->obj);
+	if (is_default)
+		go_marker_set_fill_color (style->marker, style->marker->defaults.fill_color);
+	else
+		go_marker_set_fill_color (style->marker, color_combo_get_gocolor (cc));
+	gog_object_set_style (state->obj, style);
+}
+
+static void
+cb_marker_size_changed (GtkAdjustment *adj, StylePrefState *state)
+{
+	GogStyle *style = gog_object_dup_style_and_marker (state->obj);
+	go_marker_set_size (style->marker, adj->value);
+	gog_object_set_style (state->obj, style);
+}
+
 static void
 marker_init (StylePrefState *state, GogStyle const *style, gboolean enable)
 {
-	GtkWidget *w, *table =
-		glade_xml_get_widget (state->gui, "marker_table");
-
+	GtkWidget *table, *w;
+	
 	if (!enable) {
 		gtk_widget_hide (glade_xml_get_widget (state->gui, "marker_outer_table"));
 		return;
 	}
+	
+	table = glade_xml_get_widget (state->gui, "marker_table");
 
-	w = create_color_combo (state,
-		gog_style_get_fill_color (style, 1),
-		"pattern_foreground", "marker_foreground_label",
-		G_CALLBACK (cb_fg_color_changed));
+	w = glade_xml_get_widget (state->gui, "marker_shape_menu");
+	if (style->marker->shape == style->marker->defaults.shape)
+		gtk_option_menu_set_history (GTK_OPTION_MENU (w), 0);
+	else
+		gtk_option_menu_set_history (GTK_OPTION_MENU (w), style->marker->shape + 1);
+	g_signal_connect (G_OBJECT (w),
+		"changed",
+		G_CALLBACK (cb_marker_shape_changed), state);
+
+	w = create_color_combo (state, style->marker->outline_color,
+		"pattern_foreground", "marker_outline_label",
+		G_CALLBACK (cb_marker_outline_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
-
-	w = create_color_combo (state,
-		gog_style_get_fill_color (style, 2),
-		"pattern_background", "marker_background_label",
-		G_CALLBACK (cb_bg_color_changed));
+	
+	w = create_color_combo (state, style->marker->fill_color,
+		"pattern_foreground", "marker_fill_label",
+		G_CALLBACK (cb_marker_fill_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
 
-	/* populate_marker_combo (state, style); */
+	w = glade_xml_get_widget (state->gui, "marker_size_spin");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->marker->size);
+	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
+		"value_changed",
+		G_CALLBACK (cb_marker_size_changed), state);
+
 	gtk_widget_show_all (table);
 }
 
@@ -735,7 +806,11 @@ gog_style_new (void)
 GogStyle *
 gog_style_dup (GogStyle const *src)
 {
-	GogStyle *dst = gog_style_new ();
+	GogStyle *dst;
+
+	g_return_val_if_fail (GOG_STYLE (src) != NULL, NULL);
+
+	dst = gog_style_new ();
 	gog_style_assign (dst, src);
 	return dst;
 }
@@ -765,7 +840,10 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 
 	dst->outline = src->outline;
 	dst->fill    = src->fill;
-	dst->marker  = src->marker;
+	dst->line    = src->line;
+	if (dst->marker)
+		g_object_unref (G_OBJECT (dst->marker));
+	dst->marker  = go_marker_dup (src->marker);
 	dst->font    = src->font;
 	dst->line    = src->line;
 
@@ -799,6 +877,13 @@ gog_style_finalize (GObject *obj)
 		go_font_unref (style->font.font);
 		style->font.font = NULL;
 	}
+
+	if (style->marker != NULL)
+	{
+		g_object_unref (style->marker);
+		style->marker = NULL;
+	}
+
 	(parent_klass->finalize) (obj);
 }
 
@@ -813,11 +898,9 @@ gog_style_class_init (GogStyleClass *klass)
 static void
 gog_style_init (GogStyle *style)
 {
+	style->marker = go_marker_new ();
 	style->outline.auto_color =
 	style->line.auto_color =
-	style->marker.is_auto.fore =
-	style->marker.is_auto.back =
-	style->marker.is_auto.mark =
 	style->fill.is_auto = TRUE;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.u.pattern.pat, 0);
@@ -861,10 +944,33 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 		!go_font_eq (a->font.font, b->font.font);
 }
 
+/**
+ * gog_style_set_marker :
+ * @style : #GogStyle
+ * @marker : #GOMarker
+ * 
+ * Absorb a reference to @marker and assign it to @style.
+ **/
+void
+gog_style_set_marker (GogStyle *style, GOMarker *marker)
+{
+	g_return_if_fail (GOG_STYLE (style) != NULL);
+	g_return_if_fail (GO_MARKER (marker) != NULL);
+
+	if (style->marker != marker) {
+		g_object_unref (style->marker);
+		style->marker = marker;
+	}
+}
+
 void
 gog_style_set_font (GogStyle *style, PangoFontDescription *desc)
 {
-	GOFont const *font = go_font_new_by_desc (desc);
+	GOFont const *font;
+
+	g_return_if_fail (GOG_STYLE (style) != NULL);
+
+	font = go_font_new_by_desc (desc);
 	if (font != NULL) {
 		go_font_unref (style->font.font);
 		style->font.font = font;

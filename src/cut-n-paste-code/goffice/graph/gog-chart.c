@@ -493,13 +493,13 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 				req.h = res.h - pre_y - post_y;
 				gog_view_size_request (child, &req);
 
-				switch (gog_axis_type (axis)) {
+				switch (gog_axis_get_atype (axis)) {
 				case GOG_AXIS_X:
 					/* X axis fill the bottom and top */
 					tmp.x = res.x;
 					tmp.w = res.w;
 					tmp.h = req.h;
-					switch (gog_axis_pos (axis)) {
+					switch (gog_axis_get_pos (axis)) {
 						case GOG_AXIS_AT_LOW:
 							post_y += req.h;
 							tmp.y   = res.y + res.h - post_y;
@@ -518,7 +518,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 					tmp.y = res.y + old_pre_y;
 					tmp.h = res.h - old_pre_y - old_post_y;
 					tmp.w = req.w;
-					switch (gog_axis_pos (axis)) {
+					switch (gog_axis_get_pos (axis)) {
 						case GOG_AXIS_AT_LOW:
 							tmp.x = res.x + pre_x;
 							pre_x  += req.w;

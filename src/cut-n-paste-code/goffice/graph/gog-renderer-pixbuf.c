@@ -29,6 +29,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-units.h>
 
 #include <libart_lgpl/art_render_gradient.h>
@@ -321,6 +322,36 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 }
 
 static void
+gog_renderer_pixbuf_draw_marker (GogRenderer *renderer, double x, double y)
+{
+	GdkRectangle r1, r2, dest; 
+	GogStyle const *style = renderer->cur_style;
+	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
+	GdkPixbuf const *marker_pixbuf = go_marker_get_pixbuf (style->marker);
+
+	if (marker_pixbuf == NULL)
+		return;
+
+	r2.x = r2.y = 0;
+	r2.width = prend->w;
+	r2.height = prend->h;
+
+	r1.width = gdk_pixbuf_get_width (marker_pixbuf);
+	r1.height = gdk_pixbuf_get_height (marker_pixbuf);
+	r1.x = x - r1.width / 2;
+	r1.y = y - r1.height / 2;
+
+	if (gdk_rectangle_intersect (&r1, &r2, &dest))
+		gdk_pixbuf_composite (marker_pixbuf, prend->buffer,
+				      dest.x, dest.y,
+				      dest.width, dest.height,
+				      r1.x, r1.y,
+				      1.0, 1.0,
+				      GDK_INTERP_NEAREST,
+				      255);
+}
+
+static void
 gog_renderer_pixbuf_measure_text (GogRenderer *rend,
 				  char const *text, GogViewRequisition *size)
 {
@@ -343,6 +374,7 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_path	  = gog_renderer_pixbuf_draw_path;
 	rend_klass->draw_polygon  = gog_renderer_pixbuf_draw_polygon;
 	rend_klass->draw_text	  = gog_renderer_pixbuf_draw_text;
+	rend_klass->draw_marker	  = gog_renderer_pixbuf_draw_marker;
 	rend_klass->measure_text  = gog_renderer_pixbuf_measure_text;
 }
 

@@ -45,6 +45,7 @@ void  gog_renderer_draw_rectangle (GogRenderer *r,
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, ArtPoint *pos,
 				   char const *text, GogViewRequisition *size);
+void  gog_renderer_draw_marker	  (GogRenderer *rend, double x, double y);
 void  gog_renderer_measure_text	  (GogRenderer *rend,
 				   char const *text, GogViewRequisition *size);
 

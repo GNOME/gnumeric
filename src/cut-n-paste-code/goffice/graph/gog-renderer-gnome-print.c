@@ -27,6 +27,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-marker.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -344,6 +345,50 @@ gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 }
 
 static void
+gog_renderer_gnome_print_draw_marker (GogRenderer *renderer, double x, double y)
+{
+	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
+	GOMarker * marker = renderer->cur_style->marker;
+	const ArtVpath * outline_path_raw, * fill_path_raw;
+	ArtVpath * outline_path, * fill_path;
+	double scaling[6], translation[6], affine[6];
+	double half_size;
+
+	g_return_if_fail (marker != NULL);
+
+	go_marker_get_paths (marker, &outline_path_raw, &fill_path_raw);
+
+	gnome_print_gsave (prend->gp_context);
+
+	half_size = gog_renderer_line_size (renderer, marker->size) / 2.0;
+	art_affine_scale (scaling, half_size, half_size);
+	art_affine_translate (translation, x, y);
+	art_affine_multiply (affine, scaling, translation);
+
+	outline_path = art_vpath_affine_transform (outline_path_raw, affine);
+	fill_path = art_vpath_affine_transform (fill_path_raw, affine);
+	
+	gnome_print_setlinecap (prend->gp_context, ART_PATH_STROKE_CAP_ROUND);
+	set_color (prend, marker->fill_color);
+	draw_path (prend, fill_path);
+	gnome_print_closepath (prend->gp_context);
+	gnome_print_fill (prend->gp_context);
+
+	set_color (prend, marker->outline_color);
+	gnome_print_setlinewidth (prend->gp_context, 
+		gog_renderer_line_size (renderer, 
+					go_marker_get_outline_width (marker)));
+	draw_path (prend, outline_path);
+	gnome_print_stroke (prend->gp_context);
+	gnome_print_newpath (prend->gp_context);
+	
+	gnome_print_grestore (prend->gp_context);
+
+	g_free (outline_path);
+	g_free (fill_path);
+}
+
+static void
 gog_renderer_gnome_print_class_init (GogRendererClass *rend_klass)
 {
 	GObjectClass *gobject_klass   = (GObjectClass *) rend_klass;
@@ -353,6 +398,7 @@ gog_renderer_gnome_print_class_init (GogRendererClass *rend_klass)
 	rend_klass->draw_path	  = gog_renderer_gnome_print_draw_path;
 	rend_klass->draw_polygon  = gog_renderer_gnome_print_draw_polygon;
 	rend_klass->draw_text	  = gog_renderer_gnome_print_draw_text;
+	rend_klass->draw_marker	  = gog_renderer_gnome_print_draw_marker;
 	rend_klass->measure_text  = gog_renderer_gnome_print_measure_text;
 }
 
