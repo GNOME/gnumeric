@@ -184,3 +184,32 @@ font_get_italic_name (char *fontname)
 
 	return f;
 }
+
+static void
+kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
+{
+	g_return_if_fail (menu != NULL);
+	g_return_if_fail (GTK_IS_MENU (menu));
+
+	gtk_object_unref (GTK_OBJECT (menu)); 
+}
+
+void
+gnumeric_auto_kill_popup_menu_on_hide (GtkMenu *menu)
+{
+	g_return_if_fail (menu != NULL);
+	g_return_if_fail (GTK_IS_MENU (menu));
+
+	gtk_signal_connect (GTK_OBJECT (menu), "hide",
+			    GTK_SIGNAL_FUNC (kill_popup_menu), menu);
+}
+
+void
+gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
+{
+	g_return_if_fail (menu != NULL);
+	g_return_if_fail (GTK_IS_MENU (menu));
+	
+	gnumeric_auto_kill_popup_menu_on_hide (menu);
+	gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button, event->time);	
+}

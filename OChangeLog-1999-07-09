@@ -1,3 +1,16 @@
+1999-02-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/parser.y: Apparently string concatenation operator in Excel
+	has the lower priority.
+
+	* src/workbook.c (workbook_detach_sheet): New function used to
+	detach a sheet from a workbook.
+	(sheet_menu_label_run): New routine.  Invoked on button-3 on the
+	sheet label.
+
+	* src/gnumeric-util.c (gnumeric_auto_kill_popup_menu_on_hide): New
+	routine to deallocate menus when they go to unshown state
+
 1999-02-09  Michael Meeks  <michael@imaginator.com>
 	
 	* plugins/excel/ms-excel.c (ms_excel_sheet_new,

@@ -167,6 +167,7 @@ sheet_new (Workbook *wb, char *name)
 		sheet_init_dummy_stuff (sheet);
 
 	sheet_view = sheet_view_new (sheet);
+	gtk_object_ref (GTK_OBJECT (sheet_view));
 
 	sheet->sheet_views = g_list_prepend (sheet->sheet_views, sheet_view);
 
@@ -1381,6 +1382,19 @@ sheet_selection_set (Sheet *sheet, int start_col, int start_row, int end_col, in
 	sheet_selection_change (sheet, &old_selection, ss);
 }
 
+/**
+ * sheet_selections_free
+ * @sheet: the sheet
+ *
+ * Releases the selection associated with this sheet
+ */
+static void
+sheet_selections_free (Sheet *sheet)
+{
+	g_list_free (sheet->selections);
+	sheet->selections = NULL;
+}
+
 /*
  * sheet_selection_reset
  * sheet:  The sheet
@@ -1403,8 +1417,8 @@ sheet_selection_reset_only (Sheet *sheet)
 		sheet_redraw_selection (sheet, ss);
 		g_free (ss);
 	}
-	g_list_free (sheet->selections);
-	sheet->selections = NULL;
+	sheet_selections_free (sheet);
+	
 	sheet->walk_info.current = NULL;
 		
 	/* Redraw column bar */
@@ -2115,6 +2129,15 @@ sheet_destroy_columns_and_rows (Sheet *sheet)
 		sheet_row_destroy (sheet, l->data);
 }
 
+/**
+ * sheet_destroy:
+ * @sheet: the sheet to destroy
+ *
+ * Destroys a Sheet.
+ *
+ * Please note that you need to unattach this sheet before
+ * calling this routine or you will get a warning.
+ */
 void
 sheet_destroy (Sheet *sheet)
 {
@@ -2122,14 +2145,15 @@ sheet_destroy (Sheet *sheet)
 	
 	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
-
-	sheet_selection_reset (sheet);
+	g_return_if_fail (sheet->workbook == NULL);
+			  
+	sheet_selections_free (sheet);
 	g_free (sheet->name);
 	
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
 
-		gtk_object_destroy (GTK_OBJECT (sheet_view));
+		gtk_object_unref (GTK_OBJECT (sheet_view));
 	}
 	g_list_free (sheet->sheet_views);
 	g_list_free (sheet->comment_list);

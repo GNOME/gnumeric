@@ -438,19 +438,19 @@ select_all_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-goto_cell_cmd (GtkWidget *widget, Workbook *wb)
+goto_cell_cmd (GtkWidget *unused, Workbook *wb)
 {
 	dialog_goto_cell (wb);
 }
 
 static void
-define_cell_cmd (GtkWidget *widget, Workbook *wb)
+define_cell_cmd (GtkWidget *unused, Workbook *wb)
 {
 	dialog_define_names (wb);
 }
 
 static void
-insert_sheet_cmd (GtkWidget *widget, Workbook *wb)
+insert_sheet_cmd (GtkWidget *unused, Workbook *wb)
 {
 	Sheet *sheet;
 	char *name;
@@ -463,7 +463,7 @@ insert_sheet_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-insert_cells_cmd (GtkWidget *widget, Workbook *wb)
+insert_cells_cmd (GtkWidget *unused, Workbook *wb)
 {
 	Sheet *sheet;
 
@@ -472,7 +472,7 @@ insert_cells_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-insert_cols_cmd (GtkWidget *widget, Workbook *wb)
+insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 {
 	SheetSelection *ss;
 	Sheet *sheet;
@@ -488,7 +488,7 @@ insert_cols_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-insert_rows_cmd (GtkWidget *widget, Workbook *wb)
+insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 {
 	SheetSelection *ss;
 	Sheet *sheet;
@@ -1134,7 +1134,7 @@ change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
 					     _(quick_compute_routines [i].displayed_name));
 		}
 	}
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, event->button, event->time);
+	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
 
 /*
@@ -1237,8 +1237,10 @@ workbook_configure_minimized_pixmap (Workbook *wb)
 	/* FIXME: Use the new function provided by Raster */
 }
 
-/*
- * Sets up the workbook.
+/**
+ * workbook_new:
+ * 
+ * Creates a new empty Workbook.
  */
 Workbook *
 workbook_new (void)
@@ -1413,6 +1415,102 @@ sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbo
 }
 
 /**
+ * sheet_action_add_sheet:
+ * Invoked when the user selects the option to add a sheet
+ */
+static void
+sheet_action_add_sheet (GtkWidget *widget, Sheet *current_sheet)
+{
+	insert_sheet_cmd (NULL, current_sheet->workbook);
+}
+
+/**
+ * sheet_action_add_sheet:
+ * Invoked when the user selects the option to add a sheet
+ */
+static void
+sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
+{
+	GtkWidget *d;
+	Workbook *wb = current_sheet->workbook;
+	char *message;
+	int r;
+
+	/*
+	 * If this is the last sheet left, ignore the request
+	 */
+	if (g_hash_table_size (wb) == 1)
+		return;
+	
+	message = g_strdup_printf (
+		_("Are you sure you want to remove the sheet called `%s' "),
+		current_sheet->name);
+
+	d = gnome_message_box_new (
+		message, GNOME_MESSAGE_BOX_QUESTION,
+		GNOME_STOCK_BUTTON_YES,
+		GNOME_STOCK_BUTTON_NO,
+		NULL);
+	g_free (message);
+	gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (wb->toplevel));
+
+	r = gnome_dialog_run (GNOME_DIALOG (d));
+
+	if (r == 0){
+		workbook_detach_sheet (wb, current_sheet);
+		sheet_destroy (current_sheet);
+		workbook_recalc_all (wb);
+	}
+}
+
+#define SHEET_CONTEXT_TEST_SIZE 1
+
+struct {
+	char *text;
+	void (*function) (GtkWidget *widget, Sheet *sheet);
+	int  flags;
+} sheet_label_context_actions [] = {
+	{ N_("Add another sheet"), sheet_action_add_sheet, 0 },
+	{ N_("Remove this sheet"), sheet_action_delete_sheet, SHEET_CONTEXT_TEST_SIZE },
+	{ NULL, NULL }
+};
+
+
+/**
+ * sheet_menu_label_run:
+ *
+ */
+static void
+sheet_menu_label_run (Sheet *sheet, GdkEventButton *event)
+{
+	GtkWidget *menu;
+	GtkWidget *item;
+	int i;
+	
+	menu = gtk_menu_new ();
+	
+	for (i = 0; sheet_label_context_actions [i].text != NULL; i++){
+		int flags = sheet_label_context_actions [i].flags;
+
+		if (flags & SHEET_CONTEXT_TEST_SIZE){
+			if (workbook_sheet_count (sheet->workbook) < 2)
+				continue;
+		}
+		item = gtk_menu_item_new_with_label (
+			_(sheet_label_context_actions [i].text));
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+		
+		gtk_signal_connect (
+			GTK_OBJECT (item), "activate",
+			GTK_SIGNAL_FUNC (sheet_label_context_actions [i].function),
+			sheet);
+	}
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
+}
+
+/**
  * sheet_label_button_press:
  *
  * Invoked when the user has clicked on the EditableLabel widget.
@@ -1421,24 +1519,64 @@ sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbo
 static gint
 sheet_label_button_press (GtkWidget *widget, GdkEventButton *event, GtkWidget *child)
 {
-	if (event->type == GDK_BUTTON_PRESS && event->button == 1){
-		GtkWidget *notebook;
-		gint number;
+	GtkWidget *notebook;
+	gint page_number;
+	Sheet *sheet;
+	
+	if (event->type != GDK_BUTTON_PRESS)
+		return FALSE;
 
-		notebook = child->parent;
-		
-		number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
-		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), number);
+	sheet = gtk_object_get_data (GTK_OBJECT (child), "sheet");
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	
+	notebook = child->parent;
+	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
+	
+	if (event->button == 1){
+		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
 		return TRUE;
 	}
+
+	if (event->button == 3){
+		sheet_menu_label_run (sheet, event);
+		return TRUE;
+	}
+	
 	return FALSE;
 }
 
+int
+workbook_sheet_count (Workbook *wb)
+{
+	g_return_val_if_fail (wb != NULL, 0);
+
+	return g_hash_table_size (wb->sheets);
+}
+ 
+/**
+ * workbook_attach_sheet:
+ * @wb: the target workbook
+ * @sheet: a sheet
+ *
+ * Attaches the @sheet to the @wb.
+ */
 void
 workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 {
 	GtkWidget *t, *sheet_label;
 
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (sheet != NULL);
+
+	/*
+	 * We do not want to attach sheets that are attached
+	 * to a different workbook.
+	 */
+	g_return_if_fail (sheet->workbook == wb || sheet->workbook == NULL);
+
+	sheet->workbook = wb;
+	
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
 
 	t = gtk_table_new (0, 0, 0);
@@ -1465,6 +1603,67 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 				  t, sheet_label);
 }
 
+/**
+ * workbook_detach_sheet:
+ * @wb: workbook.
+ * @sheet: the sheet that we want to detach from the workbook
+ *
+ * Detaches @sheet from the workbook @wb.
+ */
+void
+workbook_detach_sheet (Workbook *wb, Sheet *sheet)
+{
+	GtkNotebook *notebook;
+	int sheets, i;
+	
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->workbook != NULL);
+	g_return_if_fail (sheet->workbook == wb);
+	g_return_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet);
+
+	notebook = GTK_NOTEBOOK (wb->notebook);
+	sheets = workbook_sheet_count (sheet->workbook);
+	
+	/*
+	 * Remove our reference to this sheet
+	 */
+	g_hash_table_remove (wb->sheets, sheet->name);
+
+	for (i = 0; i < sheets; i++){
+		Sheet *this_sheet;
+		GtkWidget *w;
+
+		w = gtk_notebook_get_nth_page (notebook, i);
+
+		this_sheet = gtk_object_get_data (w, "sheet");
+
+		if (this_sheet == sheet){
+			gtk_notebook_remove_page (notebook, i);
+			break;
+		}
+	}
+	
+	/*
+	 * Make the sheet drop its workbook pointer.
+	 */
+	sheet->workbook = NULL;
+
+	/*
+	 * Queue a recalc
+	 */
+	workbook_recalc_all (wb);
+}
+
+/**
+ * workbook_sheet_lookup:
+ * @wb: workbook to lookup the sheet on
+ * @sheet_name: the sheet name we are looking for.
+ *
+ * Returns a pointer to a Sheet or NULL if the sheet
+ * was not found.
+ */
 Sheet *
 workbook_sheet_lookup (Workbook *wb, char *sheet_name)
 {
@@ -1478,6 +1677,15 @@ workbook_sheet_lookup (Workbook *wb, char *sheet_name)
 	return sheet;
 }
 
+/**
+ * workbook_sheet_get_free_name:
+ * @wb: workbook to look for
+ *
+ * Gets a new name for a sheets such that it does
+ * not exist on the workbook.
+ *
+ * Returns the name assigned to the sheet.
+ */
 char *
 workbook_sheet_get_free_name (Workbook *wb)
 {
@@ -1495,6 +1703,13 @@ workbook_sheet_get_free_name (Workbook *wb)
 	return NULL;
 }
 
+/**
+ * workbook_new_with_sheets:
+ * @sheet_count: initial number of sheets to create.
+ *
+ * Returns a Workbook with @sheet_count allocated
+ * sheets on it
+ */
 Workbook *
 workbook_new_with_sheets (int sheet_count)
 {
@@ -1556,6 +1771,13 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 	}
 }
 
+/**
+ * workbook_set_title:
+ * @wb: the workbook to modify
+ * @title: the title for the toplevel window
+ *
+ * Sets the toplelve window title of @wb to be @title
+ */
 void
 workbook_set_title (Workbook *wb, char *title)
 {
@@ -1570,6 +1792,15 @@ workbook_set_title (Workbook *wb, char *title)
 	g_free (full_title);
 }
 
+/**
+ * workbook_set_filename:
+ * @wb: the workkbook to modify
+ * @name: the file name for this worksheet.
+ *
+ * Sets the internal filename to @name and changes
+ * the title bar for the toplevel window to be the name
+ * of this file.
+ */
 void
 workbook_set_filename (Workbook *wb, char *name)
 {

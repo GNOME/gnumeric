@@ -77,8 +77,9 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 %token <sheetref> SHEETREF
 %type  <tree>     cellref
 
+%left '&'
 %left '<' '>' '=' GTE LTE NE
-%left '-' '+' '&'
+%left '-' '+' 
 %left '*' '/'
 %left NEG PLUS
 %left '!'

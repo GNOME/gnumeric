@@ -6,7 +6,7 @@ PYTHON =
 endif
 
 if WITH_PERL
-PERL = 
+PERL = perl
 else
 PERL =
 endif

@@ -14,4 +14,10 @@ char      *font_get_bold_name           (char *fontname);
 char      *font_get_italic_name         (char *fontname);
 char      *font_change_component        (char *fontname, int idx, char *value);
 
+/*
+ * Use this on menus that are popped up
+ */
+void      gnumeric_auto_kill_popup_menu_on_hide (GtkMenu *menu);
+void      gnumeric_popup_menu                   (GtkMenu *menu, GdkEventButton *event);
+
 #endif /* GNUMERIC_GNUMERIC_UTIL_H */

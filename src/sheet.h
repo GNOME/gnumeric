@@ -359,6 +359,7 @@ Workbook   *workbook_read                (const char *filename);
 void        workbook_save_as             (Workbook *);
 void        workbook_save                (Workbook *);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
+void        workbook_detach_sheet        (Workbook *, Sheet *);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
 char       *workbook_sheet_get_free_name (Workbook *wb);
@@ -371,6 +372,7 @@ void        workbook_mark_clean          (Workbook *wb);
 gboolean    workbook_rename_sheet        (Workbook *wb,
 					  const char *old_name,
 					  const char *new_name);
+int         workbook_sheet_count         (Workbook *wb);
 
 /*
  * Does any pending recalculations

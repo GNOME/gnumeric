@@ -104,11 +104,14 @@ GNUMERIC_BASE_SOURCES =			\
 	xml-io.c			\
 	xml-io.h
 
-GNUMERIC_CORBA_GENERATED =		\
+BUILT_SOURCES =				\
 	Gnumeric-common.c		\
 	Gnumeric-skels.c		\
 	Gnumeric-stubs.c		\
 	Gnumeric.h
+
+GNUMERIC_CORBA_GENERATED = 		\
+	$(BUILT_SOURCES)
 
 Gnumeric-impl.c: Gnumeric.h
 
@@ -146,6 +149,7 @@ wc:
 dist-hook:
 	mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
+	touch $(distdir)/Gnumeric.idl
 
 EXTRA_DIST = Gnumeric.idl
 
