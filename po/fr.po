@@ -13,10 +13,6 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/excel/boot.c:67
-msgid "Microsoft(R) Excel file format"
-msgstr "format de fichier Microsoft(R) Excel"
-
 #: plugins/stat/stat.c:10
 msgid ""
 "@FUNCTION=STDEV\n"
@@ -236,10 +232,6 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
-#: src/dialog-cell-comment.c:24
-msgid "Cell comment"
-msgstr "Commentaire de cellule"
-
 #: src/dialog-cell-format.c:66
 msgid "Numbers"
 msgstr "Nombres"
@@ -276,17 +268,14 @@ msgstr "Texte"
 msgid "Money"
 msgstr "Monétaire"
 
-#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "Catégories"
 
-#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "Code:"
 
-#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "Exemple:"
@@ -328,7 +317,6 @@ msgstr "Haut"
 msgid "Bottom"
 msgstr "Bas"
 
-#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "Vertical"
@@ -346,7 +334,6 @@ msgstr "Retour à la ligne automatique"
 msgid "Text color"
 msgstr "Couleur du texte"
 
-#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -517,12 +504,10 @@ msgid "Custom"
 msgstr "Personnalisé"
 
 #: src/dialog-zoom.c:83
-#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "Cette valeur doit être supérieure à 50%"
 
 #: src/dialog-zoom.c:88
-#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Cette valeur doit être inférieure à 900%"
 
@@ -534,6 +519,7 @@ msgstr "Erreur de syntaxe"
 msgid "Missing quote"
 msgstr "guillemet manquante"
 
+#. Type checking
 #: src/expr.c:479 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "Nombre d'arguments invalides"
@@ -834,12 +820,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
-"@DESCRIPTION=Implémente la fonction logique AND: le résultat est VRAI si toutes "
-"les expressions s'évaluent a VRAI, sinon FAUX est retourné.\n"
-"Si une valeur flottante ou entière est fournie, alors zéro est considéré comme FAUX "
-"et toutes les autres valeurs comme VRAI.\n"
-"Si les valeurs contiennent des chaines ou des cellules vides, celles-ci sont ignorées."
-"Si aucune valeur logique n'est fournie, alors l'erreur '#VALEUR!' est retournée. \n"
+"@DESCRIPTION=Implémente la fonction logique AND: le résultat est VRAI si "
+"toutes les expressions s'évaluent a VRAI, sinon FAUX est retourné.\n"
+"Si une valeur flottante ou entière est fournie, alors zéro est considéré "
+"comme FAUX et toutes les autres valeurs comme VRAI.\n"
+"Si les valeurs contiennent des chaines ou des cellules vides, celles-ci sont "
+"ignorées.Si aucune valeur logique n'est fournie, alors l'erreur '#VALEUR!' "
+"est retournée. \n"
 "@SEEALSO=OR"
 
 #: src/fn-math.c:188 src/fn-math.c:919
@@ -1098,8 +1085,8 @@ msgstr ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
 "@DESCRIPTION=Calcule la factorielle de x, ie x!\n"
-"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine ou "
-"une cellule vide.\n"
+"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine "
+"ou une cellule vide.\n"
 "\n"
 "@SEEALSO="
 
@@ -1113,7 +1100,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
-"@DESCRIPTION=La fonction FLOOR arrondie x à l'entier immédiatement inférieur.\n"
+"@DESCRIPTION=La fonction FLOOR arrondie x à l'entier immédiatement "
+"inférieur.\n"
 "Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou "
 "une cellule vide.\n"
 "@SEEALSO=CEIL, ABS, INT"
@@ -1148,8 +1136,8 @@ msgstr ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
 "@DESCRIPTION=Calcule le logarithme naturel de x. \n"
-"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine ou "
-"une cellule vide.\n"
+"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine "
+"ou une cellule vide.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/fn-math.c:682
@@ -1167,8 +1155,8 @@ msgstr ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
 "@DESCRIPTION=Calcule le logarithme en base 2 de x. \n"
-"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine ou "
-"une cellule vide.\n"
+"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine "
+"ou une cellule vide.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
 #: src/fn-math.c:707
@@ -1186,8 +1174,8 @@ msgstr ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
 "@DESCRIPTION=Calcule le logarithme en base 10 de x. \n"
-"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine ou "
-"@SEEALSO=EXP, LOG2, LOG"
+"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine "
+"ou @SEEALSO=EXP, LOG2, LOG"
 
 #: src/fn-math.c:733
 msgid "log10: domain error"
@@ -1205,11 +1193,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
-"@DESCRIPTION=MIN retourne la plus petite valeur parmis les paramétres qui lui "
-"ont été passé. Les nombles négatifs sont considérés comme plus petits que les "
-"nombres positifs.\n"
-"Cette fonction ne retourne rien si elle est utilisée sur des chaines de caractères "
-"ou des cellules vides.\n"
+"@DESCRIPTION=MIN retourne la plus petite valeur parmis les paramétres qui "
+"lui ont été passé. Les nombles négatifs sont considérés comme plus petits "
+"que les nombres positifs.\n"
+"Cette fonction ne retourne rien si elle est utilisée sur des chaines de "
+"caractères ou des cellules vides.\n"
 "@SEEALSO=MAX,ABS"
 
 #: src/fn-math.c:754
@@ -1224,19 +1212,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=MAX retourne la plus grande valeur parmis les paramétres qui lui "
-"ont été passé. Les nombles négatifs sont considérés comme plus petits que les "
-"nombres positifs.\n"
-"Cette fonction ne retourne rien si elle est utilisée sur des chaines de caractères "
-"ou des cellules vides.\n"
+"@DESCRIPTION=MAX retourne la plus grande valeur parmis les paramétres qui "
+"lui ont été passé. Les nombles négatifs sont considérés comme plus petits "
+"que les nombres positifs.\n"
+"Cette fonction ne retourne rien si elle est utilisée sur des chaines de "
+"caractères ou des cellules vides.\n"
 "@SEEALSO=MIN,ABS"
 
 #: src/fn-math.c:858
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=Implements the logical OR function: the "
-"result is TRUE if any of the values evaluated to TRUE.\n"
+"@DESCRIPTION=Implements the logical OR function: the result is TRUE if any "
+"of the values evaluated to TRUE.\n"
 "b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
 "integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
@@ -1246,12 +1234,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=Implémente la fonction logique OU: le résultat est VRAI si une ou plusieurs "
-"expressions s'évaluent a VRAI, sinon FAUX est retourné.\n"
-"Si une valeur flottante ou entière est fournie, alors zéro est considéré comme FAUX "
-"et toutes les autres valeurs comme VRAI.\n"
-"Si les valeurs contiennent des chaines ou des cellules vides, celles-ci sont ignorées."
-"Si aucune valeur logique n'est fournie, alors l'erreur '#VALEUR!' est retournée. \n"
+"@DESCRIPTION=Implémente la fonction logique OU: le résultat est VRAI si une "
+"ou plusieurs expressions s'évaluent a VRAI, sinon FAUX est retourné.\n"
+"Si une valeur flottante ou entière est fournie, alors zéro est considéré "
+"comme FAUX et toutes les autres valeurs comme VRAI.\n"
+"Si les valeurs contiennent des chaines ou des cellules vides, celles-ci sont "
+"ignorées.Si aucune valeur logique n'est fournie, alors l'erreur '#VALEUR!' "
+"est retournée. \n"
 "@SEEALSO=AND"
 
 #: src/fn-math.c:926
@@ -1264,9 +1253,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Calcule le nombre de radians équivalent à x degrés."
-"Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou "
-"une cellule vide.\n"
+"@DESCRIPTION=Calcule le nombre de radians équivalent à x degrés.Cette "
+"fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou une "
+"cellule vide.\n"
 "@SEEALSO=PI,DEGREES"
 
 #: src/fn-math.c:947
@@ -1281,8 +1270,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=La fonction SIN calcule le sinus de x, où x est un valeur "
-"en radians.\n"
+"@DESCRIPTION=La fonction SIN calcule le sinus de x, où x est un valeur en "
+"radians.\n"
 "Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou "
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
@@ -1299,9 +1288,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
-"@DESCRIPTION=La fonction SINH calcule le sinus hyperbolique de x, qui "
-"est défini mathématiquement comme (exp(x) - exp(-x)) / 2. x doit être une "
-"valeur en radians. \n"
+"@DESCRIPTION=La fonction SINH calcule le sinus hyperbolique de x, qui est "
+"défini mathématiquement comme (exp(x) - exp(-x)) / 2. x doit être une valeur "
+"en radians. \n"
 "Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou "
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
@@ -1316,8 +1305,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(valeur1, valeur2, ...)\n"
-"@DESCRIPTION=Calcule la somme des valeurs et des cellules référencées dans la liste "
-"des arguments. \n"
+"@DESCRIPTION=Calcule la somme des valeurs et des cellules référencées dans "
+"la liste des arguments. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
 #: src/fn-math.c:1052
@@ -1332,7 +1321,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
-"@DESCRIPTION=La fonction TAN calcule la tangente x, où x est donné en radians. \n"
+"@DESCRIPTION=La fonction TAN calcule la tangente x, où x est donné en "
+"radians. \n"
 "Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou "
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
@@ -1365,7 +1355,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=La fonction PI retourne la valeur de Pi telle qu'elle est définie par M_PI.\n"
+"@DESCRIPTION=La fonction PI retourne la valeur de Pi telle qu'elle est "
+"définie par M_PI.\n"
 "Cette fonction ne prend aucun argument.\n"
 "@SEEALSO="
 
@@ -1379,7 +1370,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(texte[,num_cars])\n"
-"@DESCRIPTION=Retourne les num_cars (ou 1 si num_cars n'est pas spécifié) caractères les plus à gauche de la chaine de texte.\n"
+"@DESCRIPTION=Retourne les num_cars (ou 1 si num_cars n'est pas spécifié) "
+"caractères les plus à gauche de la chaine de texte.\n"
 "@SEEALSO=MID, RIGHT"
 
 #: src/fn-string.c:153
@@ -1392,7 +1384,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(texte[,num_cars])\n"
-"@DESCRIPTION=Retourne les num_cars (ou 1 si num_cars n'est pas spécifié) caractères les plus à droite de la chaine de texte.\n"
+"@DESCRIPTION=Retourne les num_cars (ou 1 si num_cars n'est pas spécifié) "
+"caractères les plus à droite de la chaine de texte.\n"
 "@SEEALSO=MID, LEFT"
 
 #: src/format.c:403
@@ -1588,12 +1581,10 @@ msgid "[h]:mm:ss"
 msgstr "[h]:mm:ss"
 
 #: src/formats.c:74
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: src/formats.c:75
-#, c-format
 msgid "0.00%"
 msgstr "0,00%"
 
@@ -1629,49 +1620,44 @@ msgstr ""
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
-#: src/gnumeric-sheet.c:885
-#, c-format
+#: src/gnumeric-sheet.c:887
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:888
-#, c-format
+#: src/gnumeric-sheet.c:890
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:891
-#, c-format
+#: src/gnumeric-sheet.c:893
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:894
-#, c-format
+#: src/gnumeric-sheet.c:896
 msgid "12%"
 msgstr "12%"
 
-#: src/gnumeric-sheet.c:897
-#, c-format
+#: src/gnumeric-sheet.c:899
 msgid "6%"
 msgstr "6%"
 
-#: src/gnumeric-sheet.c:900
+#: src/gnumeric-sheet.c:902
 msgid "Horizontal lines"
 msgstr "Lignes horizontales"
 
-#: src/gnumeric-sheet.c:903
+#: src/gnumeric-sheet.c:905
 msgid "Vertical lines"
 msgstr "Lignes verticales"
 
-#: src/gnumeric-sheet.c:906 src/gnumeric-sheet.c:909 src/gnumeric-sheet.c:912
-#: src/gnumeric-sheet.c:915
+#: src/gnumeric-sheet.c:908 src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914
+#: src/gnumeric-sheet.c:917
 msgid "Diagonal lines"
 msgstr "Lignes diagonales"
 
-#: src/gnumeric-sheet.c:918
+#: src/gnumeric-sheet.c:920
 msgid "Crossed diagonals"
 msgstr "Diagonales croisées"
 
-#: src/gnumeric-sheet.c:921
+#: src/gnumeric-sheet.c:923
 msgid "Bricks"
 msgstr "Briques"
 
@@ -1780,12 +1766,10 @@ msgid "Plugin is still in use.\n"
 msgstr "Le plugin est toujours en cours d'utilisation.\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
-#, c-format
 msgid "Row: %d"
 msgstr "Ligne: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
-#, c-format
 msgid "Column: %s"
 msgstr "Colonne: %s"
 
@@ -1794,7 +1778,6 @@ msgid "Warning"
 msgstr "Avertissement"
 
 #: src/workbook.c:290
-#, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 "Le classeur %s a des changement non enregistrés; les enregistrer maintenant?"
@@ -2157,7 +2140,6 @@ msgid "Zoom in"
 msgstr "Zoom arrière"
 
 #: src/workbook.c:1477 src/workbook.c:1498
-#, c-format
 msgid "Sheet %d"
 msgstr "Feuille %d"
 
@@ -2169,3 +2151,8 @@ msgstr "SansNom"
 msgid "Gnumeric XML file format"
 msgstr "format de fichier Gnumeric XML"
 
+#~ msgid "Microsoft(R) Excel file format"
+#~ msgstr "format de fichier Microsoft(R) Excel"
+
+#~ msgid "Cell comment"
+#~ msgstr "Commentaire de cellule"

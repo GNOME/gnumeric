@@ -263,7 +263,7 @@ msgstr "Minta:"
 msgid "Format codes"
 msgstr "Formátumkódok:"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:448
+#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:450
 msgid "General"
 msgstr "Általános"
 
@@ -272,7 +272,7 @@ msgid "Left"
 msgstr "Balra"
 
 #: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
-#: src/workbook.c:830
+#: src/workbook.c:848
 msgid "Center"
 msgstr "Középre"
 
@@ -407,31 +407,31 @@ msgstr "Ugrás..."
 msgid "Special..."
 msgstr "Irányított..."
 
-#: src/dialog-insert-cells.c:25
+#: src/dialog-insert-cells.c:26
 msgid "insert cells"
 msgstr "Beszúrás"
 
-#: src/dialog-insert-cells.c:29
+#: src/dialog-insert-cells.c:30
 msgid "Insert cells"
 msgstr "Beszúrás"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:526
+#: src/dialog-insert-cells.c:33 src/item-grid.c:526
 msgid "Insert"
 msgstr "Beszúrás"
 
-#: src/dialog-insert-cells.c:33
+#: src/dialog-insert-cells.c:34
 msgid "Shift cells right"
 msgstr "Cellákat jobbra tolja"
 
-#: src/dialog-insert-cells.c:34
+#: src/dialog-insert-cells.c:35
 msgid "Shift cells down"
 msgstr "Cellákat lefelé tolja"
 
-#: src/dialog-insert-cells.c:35
+#: src/dialog-insert-cells.c:36
 msgid "Insert row(s)"
 msgstr "Egész sort szúr be"
 
-#: src/dialog-insert-cells.c:36
+#: src/dialog-insert-cells.c:37
 msgid "Insert column(s)"
 msgstr "Egész oszlopot szúr be"
 
@@ -504,23 +504,23 @@ msgid "Missing quote"
 msgstr ""
 
 #. Type checking
-#: src/expr.c:478 src/fn-sheet.c:25 src/fn-sheet.c:59
+#: src/expr.c:479 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "Az argumentumok száma nem megfelelõ"
 
-#: src/expr.c:706
+#: src/expr.c:707
 msgid "Type error"
 msgstr ""
 
-#: src/expr.c:764 src/expr.c:922 src/fn-misc.c:40 src/fn-misc.c:67
+#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:40 src/fn-misc.c:67
 msgid "Type mismatch"
 msgstr ""
 
-#: src/expr.c:790 src/expr.c:826
+#: src/expr.c:791 src/expr.c:827
 msgid "Division by zero"
 msgstr "Osztás nullával"
 
-#: src/expr.c:937
+#: src/expr.c:942
 msgid "Unknown evaluation error"
 msgstr ""
 
@@ -528,7 +528,7 @@ msgstr ""
 msgid "Save workbook as"
 msgstr "Munkafüzet mentése másként"
 
-#: src/file.c:202
+#: src/file.c:203
 msgid "Load file"
 msgstr ""
 
@@ -543,7 +543,15 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:59
+#: src/fn-date.c:46
+msgid "Invalid month or year"
+msgstr ""
+
+#: src/fn-date.c:61
+msgid "Invalid day"
+msgstr ""
+
+#: src/fn-date.c:71
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -557,7 +565,7 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:87
+#: src/fn-date.c:100
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -582,7 +590,7 @@ msgstr ""
 "szimbolizálja.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:127
+#: src/fn-date.c:140
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -594,7 +602,7 @@ msgstr ""
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-date.c:154
+#: src/fn-date.c:167
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -605,7 +613,7 @@ msgid ""
 "SECOND"
 msgstr ""
 
-#: src/fn-date.c:169
+#: src/fn-date.c:182
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -615,7 +623,7 @@ msgid ""
 "for you, so you can enter a date as a string@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:184
+#: src/fn-date.c:197
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -625,7 +633,7 @@ msgid ""
 "for you, so you can enter a date as a string@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/fn-date.c:222
+#: src/fn-date.c:235
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -634,7 +642,7 @@ msgid ""
 "for you, so you can enter a date as a string@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/fn-date.c:236
+#: src/fn-date.c:249
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -643,7 +651,7 @@ msgid ""
 "for you, so you can enter a date as a string@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:250
+#: src/fn-date.c:263
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -725,7 +733,7 @@ msgid ""
 "@SYNTAX=AND(b1, b2, ...)\n"
 "@DESCRIPTION=Implements the logical AND function: the result is TRUE if all "
 "of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an "
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
 "integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
@@ -980,7 +988,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
-"@DESCRIPTION=The FLOOR function rounds x down to the next nearestinteger.\n"
+"@DESCRIPTION=The FLOOR function rounds x down to the next nearest integer.\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
@@ -1031,7 +1039,8 @@ msgstr "log: nincs értelmezve"
 #: src/fn-math.c:689
 #, fuzzy
 msgid ""
-"@FUNCTION=LOG2@SYNTAX=LOG2(x)\n"
+"@FUNCTION=LOG2\n"
+"@SYNTAX=LOG2(x)\n"
 "@DESCRIPTION=Computes the base-2 logarithm  of x. \n"
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP, LOG10, LOG"
@@ -1048,7 +1057,8 @@ msgstr "log2: nincs értelmezve"
 #: src/fn-math.c:714
 #, fuzzy
 msgid ""
-"@FUNCTION=LOG10@SYNTAX=LOG10(x)\n"
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
 "@DESCRIPTION=Computes the base-10 logarithm  of x. \n"
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP, LOG2, LOG"
@@ -1087,10 +1097,11 @@ msgstr ""
 #: src/fn-math.c:858
 msgid ""
 "@FUNCTION=OR\n"
-"@SYNTAX=OR(b1, b2, ...)@DESCRIPTION=Implements the logical OR function: the "
-"result is TRUE if any of thevalues evaluated to TRUE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an "
-"integer or floating point value is provided zero is consideredFALSE and "
+"@SYNTAX=OR(b1, b2, ...)\n"
+"@DESCRIPTION=Implements the logical OR function: the result is TRUE if any "
+"of the values evaluated to TRUE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
+"integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!'is returned.\n"
@@ -1195,12 +1206,12 @@ msgstr ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: src/fn-math.c:1092
+#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
 "@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
-"Performing this function on a string or empty cellreturns an error. This "
-"function is called with no arguments.\n"
+"This function is called with no arguments.\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=PI\n"
@@ -1229,35 +1240,35 @@ msgid ""
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: src/format.c:402
+#: src/format.c:403
 msgid "black"
 msgstr "Fekete"
 
-#: src/format.c:403
+#: src/format.c:404
 msgid "blue"
 msgstr "Kék"
 
-#: src/format.c:404
+#: src/format.c:405
 msgid "cyan"
 msgstr "Cián"
 
-#: src/format.c:405
+#: src/format.c:406
 msgid "green"
 msgstr "Zöld"
 
-#: src/format.c:406
+#: src/format.c:407
 msgid "magenta"
 msgstr "Bíbor"
 
-#: src/format.c:407
+#: src/format.c:408
 msgid "red"
 msgstr "Piros"
 
-#: src/format.c:408
+#: src/format.c:409
 msgid "white"
 msgstr "Fehér"
 
-#: src/format.c:409
+#: src/format.c:410
 msgid "yellow"
 msgstr "Sárga"
 
@@ -1461,44 +1472,44 @@ msgstr ""
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[Piros]($#,##0.00)"
 
-#: src/gnumeric-sheet.c:877
+#: src/gnumeric-sheet.c:887
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:880
+#: src/gnumeric-sheet.c:890
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:883
+#: src/gnumeric-sheet.c:893
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:886
+#: src/gnumeric-sheet.c:896
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:889
+#: src/gnumeric-sheet.c:899
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:892
+#: src/gnumeric-sheet.c:902
 msgid "Horizontal lines"
 msgstr "Vízszintes vonalas"
 
-#: src/gnumeric-sheet.c:895
+#: src/gnumeric-sheet.c:905
 msgid "Vertical lines"
 msgstr "Függõleges vonalas"
 
-#: src/gnumeric-sheet.c:898 src/gnumeric-sheet.c:901 src/gnumeric-sheet.c:904
-#: src/gnumeric-sheet.c:907
+#: src/gnumeric-sheet.c:908 src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914
+#: src/gnumeric-sheet.c:917
 msgid "Diagonal lines"
 msgstr "Átlós vonalas"
 
-#: src/gnumeric-sheet.c:910
+#: src/gnumeric-sheet.c:920
 msgid "Crossed diagonals"
 msgstr "Keresztmintás vonalas"
 
-#: src/gnumeric-sheet.c:913
+#: src/gnumeric-sheet.c:923
 msgid "Bricks"
 msgstr "Téglamintás"
 
@@ -1506,7 +1517,7 @@ msgstr "Téglamintás"
 msgid "Notice"
 msgstr "Megjegyzés"
 
-#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:818
+#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:836
 msgid "Copy"
 msgstr "Másolás"
 
@@ -1538,11 +1549,11 @@ msgstr "Lefelé tolás és áthelyezés"
 msgid "Shift cells right and move"
 msgstr "Jobbra tolás és áthelyezés"
 
-#: src/item-grid.c:521 src/workbook.c:815
+#: src/item-grid.c:521 src/workbook.c:833
 msgid "Cut"
 msgstr "Kivágás"
 
-#: src/item-grid.c:523 src/sheet.c:2396 src/workbook.c:821
+#: src/item-grid.c:523 src/sheet.c:2428 src/workbook.c:839
 msgid "Paste"
 msgstr "Beillesztés"
 
@@ -1554,15 +1565,23 @@ msgstr "Tartalom törlése"
 msgid "Cell format"
 msgstr "Cellaformázás..."
 
-#: src/main.c:24
+#: src/main.c:28
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:24
+#: src/main.c:28
 msgid "FILE"
 msgstr "FÁJL"
 
-#: src/number-match.c:148
+#: src/main.c:30
+msgid "Enables some debugging functions"
+msgstr ""
+
+#: src/main.c:30
+msgid "LEVEL"
+msgstr ""
+
+#: src/number-match.c:150
 msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr ""
 
@@ -1606,371 +1625,445 @@ msgstr "Sor: %d"
 msgid "Column: %s"
 msgstr "Oszlop: %s"
 
-#: src/workbook.c:280
+#: src/workbook.c:282
 msgid "Warning"
 msgstr ""
 
-#: src/workbook.c:291
-#, fuzzy
-msgid "Workbook "
-msgstr "Munkafüzet mentése másként"
-
-#: src/workbook.c:292
-msgid " has unsaved changes, save them?"
+#: src/workbook.c:290
+msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:481 src/workbook.c:497
+#: src/workbook.c:293
+msgid "Workbook has unsaved changes, save them?"
+msgstr ""
+
+#: src/workbook.c:482 src/workbook.c:498
 msgid "Insert rows"
 msgstr "Sorok beszúrása"
 
-#: src/workbook.c:584
+#: src/workbook.c:585
 msgid ">mm/dd/yyyy"
 msgstr ">yyyy/mm/dd"
 
-#: src/workbook.c:603
+#: src/workbook.c:604
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:659
+#: src/workbook.c:660
 msgid "_New"
 msgstr "Új dok_umentum"
 
-#: src/workbook.c:661
+#: src/workbook.c:660
 #, fuzzy
-msgid "_Open..."
-msgstr "Meg_nyitás..."
+msgid "Create a new spreadsheet"
+msgstr "Új munkalap"
 
-#: src/workbook.c:663
-msgid "_Save"
-msgstr "_Mentés"
-
-#: src/workbook.c:665
-#, fuzzy
-msgid "Save _as..."
-msgstr "Menté_s másként..."
-
-#: src/workbook.c:670
+#: src/workbook.c:671
 msgid "Plu_g-ins..."
 msgstr ""
 
-#: src/workbook.c:674
-msgid "_Close"
-msgstr "Be_zárás"
-
-#: src/workbook.c:676
+#: src/workbook.c:671
 #, fuzzy
-msgid "E_xit"
-msgstr "_Kilépés"
+msgid "Gnumeric plugins"
+msgstr "Függõleges vonalas"
 
-#: src/workbook.c:684
+#: src/workbook.c:685
 msgid "_All"
 msgstr "Min_dent"
 
-#: src/workbook.c:685
+#: src/workbook.c:686
+msgid "Clear the selected cells' formats, comments, and contents"
+msgstr ""
+
+#: src/workbook.c:688
 msgid "_Formats"
 msgstr "_Formátumot"
 
-#: src/workbook.c:686
+#: src/workbook.c:689
+msgid "Clear the selected cells' formats"
+msgstr ""
+
+#: src/workbook.c:690
 #, fuzzy
 msgid "_Comments"
 msgstr "_Képletet"
 
-#: src/workbook.c:687
+#: src/workbook.c:691
+#, fuzzy
+msgid "Clear the selected cells' comments"
+msgstr "Középre zárás"
+
+#: src/workbook.c:692
 msgid "_Content"
 msgstr "_Képletet"
 
-#: src/workbook.c:692
+#: src/workbook.c:693
 #, fuzzy
-msgid "Cu_t"
-msgstr "Kivágás"
+msgid "Clear the selected cells' contents"
+msgstr "Középre zárás"
 
-#: src/workbook.c:694
-#, fuzzy
-msgid "_Copy"
-msgstr "Másolás"
-
-#: src/workbook.c:696
-msgid "_Paste"
-msgstr "_Beillesztés"
-
-#: src/workbook.c:698
+#: src/workbook.c:701
 #, fuzzy
 msgid "P_aste special..."
 msgstr "Irányított beillesztés..."
 
-#: src/workbook.c:699
+#: src/workbook.c:702
 msgid "C_lear"
 msgstr "_Törlés"
 
 #: src/workbook.c:703
+msgid "Clear the selected cell(s)"
+msgstr ""
+
+#: src/workbook.c:707
 msgid "_Select All"
 msgstr "Mindent kijelöl"
 
-#: src/workbook.c:705
+#: src/workbook.c:708
+msgid "Select all cells in the spreadsheet"
+msgstr ""
+
+#: src/workbook.c:710
 msgid "_Goto cell.."
 msgstr "_Ugrás..."
 
 #: src/workbook.c:711
+msgid "Jump to a specified cell"
+msgstr ""
+
+#: src/workbook.c:717
 #, fuzzy
 msgid "_Define cell names"
 msgstr "Törlés"
 
-#: src/workbook.c:715
+#: src/workbook.c:721
 #, fuzzy
 msgid "_Recalculate"
 msgstr "Újraszámolás"
 
-#: src/workbook.c:723
+#: src/workbook.c:722
+msgid "Recalculate the spreadsheet"
+msgstr ""
+
+#: src/workbook.c:730
 msgid "_Zoom..."
 msgstr "_Nagyítás..."
 
-#: src/workbook.c:730
+#: src/workbook.c:731
+msgid "Zoom the spreadsheet in or out"
+msgstr ""
+
+#: src/workbook.c:738
 #, fuzzy
 msgid "Current _date"
 msgstr "Jelenlegi dátum"
 
-#: src/workbook.c:732
+#: src/workbook.c:739
+msgid "Insert the current data into the selected cell(s)"
+msgstr ""
+
+#: src/workbook.c:742
 #, fuzzy
 msgid "Current _time"
 msgstr "Jelenlegi idõ"
 
-#: src/workbook.c:738 src/workbook.c:778
+#: src/workbook.c:743
+msgid "Insert the current time into the selected cell(s)"
+msgstr ""
+
+#: src/workbook.c:750 src/workbook.c:796
 msgid "_Sheet"
 msgstr "M_unkalap"
 
-#: src/workbook.c:739 src/workbook.c:773
+#: src/workbook.c:750
+#, fuzzy
+msgid "Insert a new spreadsheet"
+msgstr "Új munkalap"
+
+#: src/workbook.c:752 src/workbook.c:790
 msgid "_Cells..."
 msgstr "_Cellák..."
 
-#: src/workbook.c:740
+#: src/workbook.c:752
+#, fuzzy
+msgid "Insert new cells"
+msgstr "Beszúrás"
+
+#: src/workbook.c:754
 msgid "_Rows"
 msgstr "_Sorok"
 
-#: src/workbook.c:741
+#: src/workbook.c:754
+#, fuzzy
+msgid "Insert new rows"
+msgstr "Sorok beszúrása"
+
+#: src/workbook.c:756
 msgid "C_olumns"
 msgstr "Os_zlopok"
 
-#: src/workbook.c:745
+#: src/workbook.c:756
+#, fuzzy
+msgid "Insert new columns"
+msgstr "Egész oszlopot szúr be"
+
+#: src/workbook.c:761
 msgid "_Add/Modify comment"
 msgstr ""
 
-#: src/workbook.c:746
+#: src/workbook.c:762
+msgid "Edit the selected cell's comment"
+msgstr ""
+
+#: src/workbook.c:763
 #, fuzzy
 msgid "_Special"
 msgstr "Speciális"
 
-#: src/workbook.c:755 src/workbook.c:761
+#: src/workbook.c:772 src/workbook.c:778
 msgid "_Autoadjust"
 msgstr ""
 
-#: src/workbook.c:756
+#: src/workbook.c:773
 msgid "_Width"
 msgstr ""
 
-#: src/workbook.c:762
+#: src/workbook.c:779
 msgid "_Height"
 msgstr ""
 
-#: src/workbook.c:767
+#: src/workbook.c:784
 msgid "_Change name"
 msgstr ""
 
-#: src/workbook.c:776
+#: src/workbook.c:791
+msgid "Modify the formatting of the selected cells"
+msgstr ""
+
+#: src/workbook.c:794
 msgid "C_olumn"
 msgstr "_Oszlop"
 
-#: src/workbook.c:777
+#: src/workbook.c:795
 msgid "_Row"
 msgstr "So_r"
 
-#: src/workbook.c:784
-#, fuzzy
-msgid "_About Gnumeric..."
-msgstr "Gnumeric _névjegye"
-
-#: src/workbook.c:790
-msgid "_File"
-msgstr "_Fájl"
-
-#: src/workbook.c:791
-msgid "_Edit"
-msgstr "S_zerkesztés"
-
-#: src/workbook.c:792
-msgid "_View"
-msgstr "_Nézet"
-
-#: src/workbook.c:793
+#: src/workbook.c:811
 msgid "_Insert"
 msgstr "_Beszúrás"
 
-#: src/workbook.c:794
+#: src/workbook.c:812
 msgid "F_ormat"
 msgstr "Formá_tum"
 
-#: src/workbook.c:795
-msgid "_Help"
-msgstr "_Súgó"
-
-#: src/workbook.c:803
+#: src/workbook.c:821
 msgid "New"
 msgstr "Új"
 
-#: src/workbook.c:803
+#: src/workbook.c:821
 msgid "Create a new sheet"
 msgstr "Új munkalap"
 
-#: src/workbook.c:806
+#: src/workbook.c:824
 msgid "Open"
 msgstr "Megnyitás"
 
-#: src/workbook.c:806
+#: src/workbook.c:824
 msgid "Opens an existing workbook"
 msgstr "Egy létezõ munkafüzet megnyitása"
 
-#: src/workbook.c:809
+#: src/workbook.c:827
 msgid "Save"
 msgstr "Mentés"
 
-#: src/workbook.c:809
+#: src/workbook.c:827
 msgid "Saves the workbook"
 msgstr "Munkafüzet mentése"
 
-#: src/workbook.c:815
+#: src/workbook.c:833
 msgid "Cuts the selection to the clipboard"
 msgstr "Kivágás"
 
-#: src/workbook.c:818
+#: src/workbook.c:836
 msgid "Copies the selection to the clipboard"
 msgstr "Másolás"
 
-#: src/workbook.c:821
+#: src/workbook.c:839
 msgid "Pastes the clipboard"
 msgstr "Beillesztés"
 
-#: src/workbook.c:827
+#: src/workbook.c:845
 msgid "Left align"
 msgstr "Balra zárás"
 
-#: src/workbook.c:827
+#: src/workbook.c:845
 msgid "Sets the cell alignment to the left"
 msgstr "Balra igazítja a cella tartalmát"
 
-#: src/workbook.c:830
+#: src/workbook.c:848
 msgid "Centers the cell contents"
 msgstr "Középre zárás"
 
-#: src/workbook.c:833
+#: src/workbook.c:851
 msgid "Right align"
 msgstr "Jobbra zárás"
 
-#: src/workbook.c:833
+#: src/workbook.c:851
 msgid "Sets the cell alignment to the right"
 msgstr "Jobbra igazítja a cella tartalmát"
 
-#: src/workbook.c:838
+#: src/workbook.c:856
 msgid "Bold"
 msgstr "Félkövér"
 
-#: src/workbook.c:838
+#: src/workbook.c:856
 msgid "Sets the bold attribute on the cell"
 msgstr "A kijelölt cella formázása félkövér lesz"
 
-#: src/workbook.c:841
+#: src/workbook.c:859
 msgid "Italic"
 msgstr "Dõlt"
 
-#: src/workbook.c:841
+#: src/workbook.c:859
 msgid "Sets the italic attribute on the cell"
 msgstr "Dõlt stílusura formázza a kijelölt cellát"
 
-#: src/workbook.c:847
+#: src/workbook.c:865
 msgid "Line"
 msgstr "Vonal"
 
-#: src/workbook.c:847
+#: src/workbook.c:865
 msgid "Creates a line object"
 msgstr "Vonalrajzolás"
 
-#: src/workbook.c:850
+#: src/workbook.c:868
 msgid "Arrow"
 msgstr "Nyíl"
 
-#: src/workbook.c:850
+#: src/workbook.c:868
 msgid "Creates an arrow object"
 msgstr "Nyílrajzolás"
 
-#: src/workbook.c:853
+#: src/workbook.c:871
 msgid "Rectangle"
 msgstr "Téglalap"
 
-#: src/workbook.c:853
+#: src/workbook.c:871
 msgid "Creates a rectangle object"
 msgstr "Téglalaprajzolás"
 
-#: src/workbook.c:856
+#: src/workbook.c:874
 msgid "Ellipse"
 msgstr "Ellipszis"
 
-#: src/workbook.c:856
+#: src/workbook.c:874
 msgid "Creates an ellipse object"
 msgstr "Ellipszisrajzolás"
 
-#: src/workbook.c:935
+#: src/workbook.c:953
 msgid "You should introduce a valid cell name"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/workbook.c:941
+#: src/workbook.c:959
 msgid "Column out of range"
 msgstr "Tartományon kívüli oszlophivatkozás"
 
-#: src/workbook.c:946
+#: src/workbook.c:964
 msgid "Row number out of range"
 msgstr "Tartományon kívüli sorhivatkozás"
 
-#: src/workbook.c:1052
+#: src/workbook.c:1070
 msgid "Sum"
 msgstr "Összeg"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1071
 msgid "Min"
 msgstr "Minimum"
 
-#: src/workbook.c:1054
+#: src/workbook.c:1072
 msgid "Max"
 msgstr "Maximum"
 
-#: src/workbook.c:1055
+#: src/workbook.c:1073
 msgid "Average"
 msgstr "Átlag"
 
-#: src/workbook.c:1056
+#: src/workbook.c:1074
 msgid "Count"
 msgstr "Darabszám"
 
-#: src/workbook.c:1212
+#: src/workbook.c:1258
 msgid "Untitled.gnumeric"
 msgstr "Névtelen.gnumeric"
 
-#: src/workbook.c:1292
+#: src/workbook.c:1339
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
-#: src/workbook.c:1299
+#: src/workbook.c:1346
 msgid "Zoom in"
 msgstr "Nagyítás"
 
-#: src/workbook.c:1348 src/workbook.c:1369
+#: src/workbook.c:1477 src/workbook.c:1498
 msgid "Sheet %d"
 msgstr "Munka%d"
 
-#: src/xml-io.c:1416
+#: src/xml-io.c:1408
 msgid "NoName"
 msgstr "Névtelen"
 
-#: src/xml-io.c:1606
+#: src/xml-io.c:1598
 msgid "Gnumeric XML file format"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Workbook "
+#~ msgstr "Munkafüzet mentése másként"
+
+#, fuzzy
+#~ msgid "_Open..."
+#~ msgstr "Meg_nyitás..."
+
+#~ msgid "_Save"
+#~ msgstr "_Mentés"
+
+#, fuzzy
+#~ msgid "Save _as..."
+#~ msgstr "Menté_s másként..."
+
+#~ msgid "_Close"
+#~ msgstr "Be_zárás"
+
+#, fuzzy
+#~ msgid "E_xit"
+#~ msgstr "_Kilépés"
+
+#, fuzzy
+#~ msgid "Cu_t"
+#~ msgstr "Kivágás"
+
+#, fuzzy
+#~ msgid "_Copy"
+#~ msgstr "Másolás"
+
+#~ msgid "_Paste"
+#~ msgstr "_Beillesztés"
+
+#, fuzzy
+#~ msgid "_About Gnumeric..."
+#~ msgstr "Gnumeric _névjegye"
+
+#~ msgid "_File"
+#~ msgstr "_Fájl"
+
+#~ msgid "_Edit"
+#~ msgstr "S_zerkesztés"
+
+#~ msgid "_View"
+#~ msgstr "_Nézet"
+
+#~ msgid "_Help"
+#~ msgstr "_Súgó"
 
 #~ msgid "_Cut"
 #~ msgstr "_Kivágás"

@@ -4,7 +4,7 @@ appicondir = $(datadir)/pixmaps
 appicon_DATA = gnome-gnumeric.png
 
 EXTRA_DIST = \
-	gnumeric.desktop README HACKING xlibtool \
+	gnumeric.desktop README HACKING \
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA)
 
 dist-hook:
