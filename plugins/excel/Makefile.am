@@ -1,9 +1,9 @@
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
+	-DGNUMERIC_VERSION=\""$(gnumeric_version)"\"	\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
-	-I$(srcdir)/libole2					\
+	-I$(srcdir)/libole2				\
 	$(GNOME_INCLUDEDIR)
 
 noinst_LIBRARIES = libexcel.a

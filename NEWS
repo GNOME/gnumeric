@@ -8,6 +8,7 @@ Jody:
 	* Overhaul cell structure to cleanup temp formats, improve spans.
 	* Improve array formula entry, editing, and xml-io.
 	* Add auto-sum
+	* Improve versioning.
 
 Translations:
 	* Updated: da (Pablo), de (Karl), en_GB (Robert), es (Pablo), no

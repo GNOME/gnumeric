@@ -1,17 +1,8 @@
-if BONOBO
-gnumeric_version="$(VERSION)-bonobo"
-else
-gnumeric_version="$(VERSION)"
-endif
-
-gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
-gladedir   = $(gnumeric_datadir)/glade
-
 INCLUDES = 						\
 	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
-        -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
+	-DGNUMERIC_VERSION=\""$(gnumeric_version)"\"	\
+        -DGNUMERIC_GLADEDIR=\""$(gnumeric_gladedir)"\"	\
 	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
 	$(EXTRA_GNOME_CFLAGS)				\

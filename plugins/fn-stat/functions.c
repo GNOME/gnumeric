@@ -2537,9 +2537,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	init_make_list_closure(&x_cl);
 	init_make_list_closure(&prob_cl);
 
-	tree = g_new (ExprTree, 1);
-	tree->u.constant = argv[0];
-	tree->oper = OPER_CONSTANT;
+	tree = expr_tree_new_constant (argv[0]);
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
@@ -2553,9 +2551,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	g_free (tree);
 	g_list_free (expr_node_list);
 
-	tree = g_new (ExprTree, 1);
-	tree->u.constant = argv[1];
-	tree->oper = OPER_CONSTANT;
+	tree = expr_tree_new_constant (argv[1]);
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
@@ -3385,9 +3381,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 
 	setup_stat_closure (&cl);
 
-	tree = g_new (ExprTree, 1);
-	tree->u.constant = argv[0];
-	tree->oper = OPER_CONSTANT;
+	tree = expr_tree_new_constant (argv[0]);
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
@@ -3408,9 +3402,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 
 	setup_stat_closure (&cl);
 
-	tree = g_new (ExprTree, 1);
-	tree->u.constant = argv[1];
-	tree->oper = OPER_CONSTANT;
+	tree = expr_tree_new_constant (argv[1]);
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
@@ -3536,9 +3528,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	        t_cl.first = TRUE;
 		t_cl.entries = NULL;
 
-		tree = g_new (ExprTree, 1);
-		tree->u.constant = argv[0];
-		tree->oper = OPER_CONSTANT;
+		tree = expr_tree_new_constant (argv[0]);
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
@@ -3553,9 +3543,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	        t_cl.first = FALSE;
 		t_cl.current = t_cl.entries;
 
-		tree = g_new (ExprTree, 1);
-		tree->u.constant = argv[1];
-		tree->oper = OPER_CONSTANT;
+		tree = expr_tree_new_constant (argv[1]);
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
@@ -3603,9 +3591,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	} else {
 	        setup_stat_closure (&cl);
 
-		tree = g_new (ExprTree, 1);
-		tree->u.constant = argv[0];
-		tree->oper = OPER_CONSTANT;
+		tree = expr_tree_new_constant (argv[0]);
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
@@ -3627,9 +3613,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 	        setup_stat_closure (&cl);
 
-		tree = g_new (ExprTree, 1);
-		tree->u.constant = argv[1];
-		tree->oper = OPER_CONSTANT;
+		tree = expr_tree_new_constant (argv[1]);
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
@@ -3708,9 +3692,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	init_make_list_closure(&data_cl);
 	init_make_list_closure(&bin_cl);
 
-	tree = g_new (ExprTree, 1);
-	tree->u.constant = argv[0];
-	tree->oper = OPER_CONSTANT;
+	tree = expr_tree_new_constant (argv[0]);
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
@@ -3723,9 +3705,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	g_free (tree);
 	g_list_free (expr_node_list);
 
-	tree = g_new (ExprTree, 1);
-	tree->u.constant = argv[1];
-	tree->oper = OPER_CONSTANT;
+	tree = expr_tree_new_constant (argv[1]);
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values

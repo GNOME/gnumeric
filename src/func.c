@@ -700,6 +700,7 @@ function_def_call_with_values (const EvalPosition *ep,
 			tree = g_new (ExprTree, argc);
 
 			for (i = 0; i < argc; i++) {
+				/* FIXME : this looks like a leak */
 				tree [i].oper = OPER_CONSTANT;
 				tree [i].ref_count = 1;
 				tree [i].u.constant = values [i];

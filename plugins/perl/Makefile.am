@@ -1,33 +1,18 @@
-# Where to install the plugin
-#
-if BONOBO
-gnumeric_version="$(VERSION)-bonobo"
-else
-gnumeric_version="$(VERSION)"
-endif
-gnumeric_libdir  = $(libdir)/gnumeric/$(gnumeric_version)
-gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
-plugindir = $(gnumeric_libdir)/plugins
-gladedir  = $(gnumeric_datadir)/glade
-gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
-plugindir = $(gnumeric_datadir)/plugins
 gnperldir = $(gnumeric_datadir)/perl
+PERL_CFLAGS = $(PERL_CCCDLFLAGS)		\
+    -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
+    -DGNUMERIC_VERSION=\""$(VERSION)"\"		\
+    -I$(includedir)	-I$(top_srcdir)/src	\
+    $(PERL_CCOPTS)				\
+    $(GNOME_INCLUDEDIR)
 
-PERL_CFLAGS = $(PERL_CCCDLFLAGS)			\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
-	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
-	-I$(includedir)					\
-	-I$(top_srcdir)/src				\
-	$(PERL_CCOPTS)					\
-	$(GNOME_INCLUDEDIR)
+#noinst_PROGRAMS = gnum_perl.so
+gnumeric_plugin_PROGRAMS = gnum_perl.so
 
-#noinst_PROGRAMS = libgnum_perl.so
-plugin_PROGRAMS = libgnum_perl.so
+gnum_perl_so_SOURCES = perl.c
 
-libgnum_perl_so_SOURCES = perl.c
-
-libgnum_perl.so: perl.o xsinit.o ext.timestamp
-	-$(PERL_LD) $(PERL_LDDLFLAGS) -o libgnum_perl.so perl.o xsinit.o $(PERL_LDOPTS)
+gnum_perl.so: perl.o xsinit.o ext.timestamp
+	-$(PERL_LD) $(PERL_LDDLFLAGS) -o gnum_perl.so perl.o xsinit.o $(PERL_LDOPTS)
 
 perl.o: $(srcdir)/perl.c
 	$(PERL_CC) $(PERL_CFLAGS) -c $(srcdir)/perl.c
@@ -69,11 +54,10 @@ check-local:
 	cd ext && $(MAKE) test
 
 Perlscriptsdir = $(gnperldir)
-
-Perlscripts_DATA = startup.pl
-
-EXTRA_DIST = startup.pl				\
-	ext/Makefile.PL.in			\
-	ext/Gnumeric.xs				\
+Perlscripts_DATA = \
+	startup.pl		\
+	ext/Makefile.PL.in	\
+	ext/Gnumeric.xs		\
 	ext/Gnumeric.pm
 
+EXTRA_DIST = $(Perlscripts_DATA)

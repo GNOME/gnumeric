@@ -205,7 +205,13 @@ plugin_load_plugins_in_dir (CommandContext *context, const char *directory)
 	while ((e = readdir (d)) != NULL){
 		int len;
 		len = strlen (e->d_name);
-		if (len > 3 && strncmp (e->d_name + len - 3, ".so", 3) == 0){
+		/*
+		 * Install all files in the directory with the name
+		 * gnum_*.so
+		 */
+		if (len > 8 &&
+		    strncmp (e->d_name, "gnum_", 3) == 0 &&
+		    strncmp (e->d_name + len - 3, ".so", 3) == 0){
 			char *plugin_name;
 
 			plugin_name = g_strconcat (directory, e->d_name, NULL);

@@ -17,14 +17,10 @@ SUBDIRS = dialogs functions widgets
 if BONOBO
 bin_PROGRAMS = gnumeric-bonobo
 CLEANFILES  += gnumeric
-gnumeric_version="$(VERSION)-bonobo"
 else
 bin_PROGRAMS = gnumeric
 CLEANFILES  +=gnumeric-bonobo
-gnumeric_version="$(VERSION)"
 endif
-gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
-gnumeric_libdir  =  $(libdir)/gnumeric/$(gnumeric_version)
 
 #noinst_PROGRAMS = number-match
 

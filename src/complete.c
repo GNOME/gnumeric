@@ -23,6 +23,8 @@
 #include "complete.h"
 #include "gnumeric-type-util.h"
 
+#include <stdio.h>
+
 #define PARENT_TYPE (gtk_object_get_type ())
 #define ACC(o) (COMPLETE_CLASS (GTK_OBJECT (o)->klass))
 
