@@ -205,9 +205,11 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 	if (max_outline > 0)
 		max_outline++;
 
-	while (btns->len > max_outline)
+	while (btns->len > max_outline) {
+		GtkWidget *w = g_ptr_array_remove_index_fast (btns, btns->len - 1);
 		gtk_container_remove (GTK_CONTAINER (box),
-			g_ptr_array_remove_index_fast (btns, btns->len - 1));
+			gtk_widget_get_parent (w));
+	}
 
 	while (btns->len < max_outline) {
 		GtkWidget *out = gtk_alignment_new (.5, .5, 1., 1.);

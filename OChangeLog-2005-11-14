@@ -1,3 +1,7 @@
+2002-11-22  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_setup_group_buttons) : fix ungrouping.
+
 2002-11-21  Jody Goldberg <jody@gnome.org>
 
 	* src/colrow.c (colrow_get_global_outline) : new.

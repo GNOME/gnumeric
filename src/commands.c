@@ -2177,7 +2177,7 @@ cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth)
 	me->parent.sheet = sheet;
 	me->parent.size = 1 + g_slist_length (me->show) + g_slist_length (me->hide);
 	me->parent.cmd_descriptor = g_strdup_printf (is_cols
-		? _("Show column outline %d") : _("Show row outline %d"));
+		? _("Show column outline %d") : _("Show row outline %d"), depth);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
