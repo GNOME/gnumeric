@@ -1,3 +1,9 @@
+2002-07-16  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (long double): Move to later when LIBS is in better
+	shape.
+	* src/gutils.c: Fix includes.
+
 2002-07-13  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_foreach_cell_in_range) : fix 3d handling,

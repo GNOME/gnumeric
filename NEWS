@@ -59,6 +59,7 @@ Morten:
 	* Fix PERMUT crash.
 	* Fix RANDPOISSON loop and performance.
 	* Start making Search and Search/Replace UTF-8 safe.
+	* Resurrect long double support.
 
 Jon Kåre:
 	* Use GsfInput in the Python plugin loader

@@ -631,20 +631,20 @@ w_qp_dummy_set_minim (SolverProgram program)
 static void
 w_qp_dummy_set_obj_fn (SolverProgram program, int col, gnum_float value)
 {
-        printf ("w_qp_dummy_set_obj_fn %d, %g\n", col, value);
+        printf ("w_qp_dummy_set_obj_fn %d, %" GNUM_FORMAT_g "\n", col, value);
 }
 
 static void
 w_qp_dummy_set_constr_mat (SolverProgram program, int col, int row, gnum_float value)
 {
-        printf ("w_qp_dummy_set_constr_mat %d, %d, %g\n", col, row, value);
+        printf ("w_qp_dummy_set_constr_mat %d, %d, %" GNUM_FORMAT_g "\n", col, row, value);
 }
 
 static void
 w_qp_dummy_set_constr (SolverProgram program, int row, SolverConstraintType type,
 		   gnum_float value)
 {
-        printf ("w_qp_dummy_set_constr %d, %d, %g\n", row, type, value);
+        printf ("w_qp_dummy_set_constr %d, %d, %" GNUM_FORMAT_g "\n", row, type, value);
 }
 
 static void

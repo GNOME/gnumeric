@@ -79,115 +79,6 @@ if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
 	unset option
 fi
 
-float_msg=double
-have_ld=no
-AC_ARG_WITH(long_double,
-	[--{with,without}-long-double		Use long double for floating point],
-	[if test "x$withval" = xyes; then
-		AC_C_LONG_DOUBLE
-		if test "x$ac_cv_c_long_double" != "xyes"; then
-			AC_MSG_ERROR([Long double type is not available.])
-		fi
-
-		need_sunmath=no
-		for ldfunc in fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
-				sinl cosl tanl asinl acosl atanl atan2l \
-				sinhl coshl tanhl asinhl acoshl atanhl \
-				isnanl finitel; do
-			AC_CHECK_FUNC($ldfunc,
-			      ,
-			      AC_CHECK_LIB(m,
-				  $ldfunc,
-				  ,
-				  AC_CHECK_LIB(sunmath,
-				      $ldfunc,
-				      [ if test "x$need_sunmath" = "xno"; then
-					    # FIXME: better idea?
-					    LDFLAGS="$LDFLAGS -L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath"
-					    sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | tail -1`
-					    CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
-				        fi
-					need_sunmath=yes ],
-				      AC_MSG_ERROR([Long doubles require the $ldfunc function.]),
-				      -L/opt/SUNWspro/lib $GNUMERIC_LIBS)))
-		done
-		if test "x$need_sunmath" = "xyes"; then
-			AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
-					 ,
-					 AC_MSG_ERROR([Long doubles require the sunmath.h header.]))
-		fi
-
-		AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
-		if test "x$ac_cv_func_strtold" = "xyes"; then
-			AC_MSG_CHECKING([if we must prototype strtold ourselves])
-			AC_TRY_RUN([
-				#include <stdlib.h>
-				int main ()
-				{
-					const char *s = "+3.1415e+0";
-					char *theend;
-					long double res = strtold (s, &theend);
-					return !(*theend == 0 && finitel (res) &&
-						 res >= 3.14 && res <= 3.15);
-				}],
-				AC_MSG_RESULT(no),
-				[AC_MSG_RESULT(yes)
-				 AC_DEFINE(MUST_PROTOTYPE_STRTOLD)],
-				AC_MSG_RESULT(assuming not));
-			true
-		elif test "x$ac_cv_func_string_to_decimal" = "xyes" -a \
-			  "x$ac_cv_func_decimal_to_quadruple" = "xyes" -a \
-			  "x$ac_cv_header_floatingpoint_h" = "xyes"; then
-			true
-		else
-			AC_MSG_WARN([You lack the strtold function -- precision will be impaired])
-		fi
-
-		    if test "x$ac_cv_func_modfl" != "xyes"; then
-			AC_MSG_WARN([You lack the modfl function -- precision will be impaired])
-		fi
-
-		AC_MSG_CHECKING([checking for working ynl])
-		AC_TRY_RUN([
-			#include <math.h>
-			#ifdef HAVE_SUNMATH_H
-			#include <sunmath.h>
-			#endif
-			int main ()
-			{
-				long double l = ynl (2, 4.0L);
-				return !(l >= 0.21 && l <= 0.22);
-			}],
-			[AC_DEFINE(HAVE_YNL)
-			AC_MSG_RESULT(yes)],
-			AC_MSG_RESULT(no),
-			[AC_CHECK_FUNCS(ynl)])
-
-		AC_MSG_CHECKING([checking for working erfl and erfcl])
-		AC_TRY_RUN([
-			#include <math.h>
-			#ifdef HAVE_SUNMATH_H
-			#include <sunmath.h>
-			#endif
-			int main ()
-			{
-				long double l1 = erfl (1.2L);
-				long double l2 = erfcl (1.2L);
-				return !(l1 >= 0.91 && l1 <= 0.92 &&
-					 l2 >= 0.08 && l2 <= 0.09);
-			}],
-			[AC_DEFINE(HAVE_ERFL)
-			 AC_DEFINE(HAVE_ERFCL)
-			AC_MSG_RESULT(yes)],
-			AC_MSG_RESULT(no),
-			[AC_CHECK_FUNCS(erfl erfcl)])
-
-		float_msg="long double (EXPERIMENTAL)"
-		AC_MSG_WARN([Long double support is experimental -- expect problems])
-		AC_DEFINE(WITH_LONG_DOUBLE)
-	fi]
-)
-
 dnl ****************************
 dnl GDA Plugin
 dnl ****************************
@@ -385,6 +276,115 @@ AC_CHECK_HEADERS(iconv.h)
 
 dnl iswprint/iswspace are sometimes in wctype.h
 AC_CHECK_HEADERS(wctype.h)
+
+float_msg=double
+have_ld=no
+AC_ARG_WITH(long_double,
+	[--{with,without}-long-double		Use long double for floating point],
+	[if test "x$withval" = xyes; then
+		AC_C_LONG_DOUBLE
+		if test "x$ac_cv_c_long_double" != "xyes"; then
+			AC_MSG_ERROR([Long double type is not available.])
+		fi
+
+		need_sunmath=no
+		for ldfunc in fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
+				sinl cosl tanl asinl acosl atanl atan2l \
+				sinhl coshl tanhl asinhl acoshl atanhl \
+				isnanl finitel; do
+			AC_CHECK_FUNC($ldfunc,
+			      ,
+			      AC_CHECK_LIB(m,
+				  $ldfunc,
+				  ,
+				  AC_CHECK_LIB(sunmath,
+				      $ldfunc,
+				      [ if test "x$need_sunmath" = "xno"; then
+					    # FIXME: better idea?
+					    LDFLAGS="$LDFLAGS -L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath"
+					    sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | tail -1`
+					    CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
+				        fi
+					need_sunmath=yes ],
+				      AC_MSG_ERROR([Long doubles require the $ldfunc function.]),
+				      -L/opt/SUNWspro/lib $GNUMERIC_LIBS)))
+		done
+		if test "x$need_sunmath" = "xyes"; then
+			AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
+					 ,
+					 AC_MSG_ERROR([Long doubles require the sunmath.h header.]))
+		fi
+
+		AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
+		if test "x$ac_cv_func_strtold" = "xyes"; then
+			AC_MSG_CHECKING([if we must prototype strtold ourselves])
+			AC_TRY_RUN([
+				#include <stdlib.h>
+				int main ()
+				{
+					const char *s = "+3.1415e+0";
+					char *theend;
+					long double res = strtold (s, &theend);
+					return !(*theend == 0 && finitel (res) &&
+						 res >= 3.14 && res <= 3.15);
+				}],
+				AC_MSG_RESULT(no),
+				[AC_MSG_RESULT(yes)
+				 AC_DEFINE(MUST_PROTOTYPE_STRTOLD)],
+				AC_MSG_RESULT(assuming not));
+			true
+		elif test "x$ac_cv_func_string_to_decimal" = "xyes" -a \
+			  "x$ac_cv_func_decimal_to_quadruple" = "xyes" -a \
+			  "x$ac_cv_header_floatingpoint_h" = "xyes"; then
+			true
+		else
+			AC_MSG_WARN([You lack the strtold function -- precision will be impaired])
+		fi
+
+		    if test "x$ac_cv_func_modfl" != "xyes"; then
+			AC_MSG_WARN([You lack the modfl function -- precision will be impaired])
+		fi
+
+		AC_MSG_CHECKING([checking for working ynl])
+		AC_TRY_RUN([
+			#include <math.h>
+			#ifdef HAVE_SUNMATH_H
+			#include <sunmath.h>
+			#endif
+			int main ()
+			{
+				long double l = ynl (2, 4.0L);
+				return !(l >= 0.21 && l <= 0.22);
+			}],
+			[AC_DEFINE(HAVE_YNL)
+			AC_MSG_RESULT(yes)],
+			AC_MSG_RESULT(no),
+			[AC_CHECK_FUNCS(ynl)])
+
+		AC_MSG_CHECKING([checking for working erfl and erfcl])
+		AC_TRY_RUN([
+			#include <math.h>
+			#ifdef HAVE_SUNMATH_H
+			#include <sunmath.h>
+			#endif
+			int main ()
+			{
+				long double l1 = erfl (1.2L);
+				long double l2 = erfcl (1.2L);
+				return !(l1 >= 0.91 && l1 <= 0.92 &&
+					 l2 >= 0.08 && l2 <= 0.09);
+			}],
+			[AC_DEFINE(HAVE_ERFL)
+			 AC_DEFINE(HAVE_ERFCL)
+			AC_MSG_RESULT(yes)],
+			AC_MSG_RESULT(no),
+			[AC_CHECK_FUNCS(erfl erfcl)])
+
+		float_msg="long double (EXPERIMENTAL)"
+		AC_MSG_WARN([Long double support is experimental -- expect problems])
+		AC_DEFINE(WITH_LONG_DOUBLE)
+	fi]
+)
 
 dnl **************************************************
 dnl * Check for Perl
