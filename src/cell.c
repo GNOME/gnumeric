@@ -1072,7 +1072,18 @@ int
 cell_get_horizontal_align (const Cell *cell)
 {
 	Style *style = cell_get_style (cell);
-	return style->halign;
+
+	if (style->halign == HALIGN_GENERAL){
+		if (cell->value){
+			if (cell->value->type == VALUE_FLOAT ||
+			    cell->value->type == VALUE_INTEGER)
+				return HALIGN_RIGHT;
+			else
+				return HALIGN_LEFT;
+		} else
+			return HALIGN_RIGHT;
+	} else
+		return style->halign;
 }
 
 int
@@ -1241,7 +1252,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 		break;
 
 	default:
-		g_warning ("Unknown horizontal alignment type\n");
+		g_warning ("Unknown horizontal alignment type %d\n", align);
 		*col1 = *col2 = cell->col->pos;
 	} /* case HALIGN_CENTER */
 

@@ -412,6 +412,7 @@ range_overlap (Range const *a, Range const *b)
 	/* FIXME: I'm not convinced: this needs more thought */
 	return TRUE;
 }
+
 /**
  * range_fragment:
  * @ranges: A list of possibly overlapping ranges.
@@ -420,7 +421,6 @@ range_overlap (Range const *a, Range const *b)
  * 
  * Return value: new list of fully overlapping ranges.
  **/
- 
 GList *
 range_fragment (GList *ranges)
 {

@@ -308,6 +308,31 @@ sheet_selection_apply_style (Sheet *sheet, MStyle *style)
 	sheet_set_dirty (sheet, TRUE);
 }
 
+typedef struct {
+	GList *style_list;
+} UniqClosure;
+
+static void
+sheet_uniq_cb (Sheet *sheet, Range const *range,
+	       gpointer user_data)
+{
+	UniqClosure *cl = (UniqClosure *)user_data;
+	GList *l;
+
+ 	/* Look in the styles applied to the sheet */
+	for (l = sheet->style_list; l; l = l->next) {
+		StyleRegion *sr = l->data;
+		if (range_overlap (&sr->range, range)) {
+			if (STYLE_DEBUG) {
+				range_dump (&sr->range);
+				mstyle_dump (sr->style);
+			}
+			cl->style_list = g_list_prepend (cl->style_list,
+							 sr->style);
+		}
+	}
+}
+
 /**
  * sheet_selection_get_uniq_style:
  * @sheet: the sheet.
@@ -320,34 +345,30 @@ sheet_selection_apply_style (Sheet *sheet, MStyle *style)
 MStyleElement *
 sheet_selection_get_uniq_style (Sheet *sheet)
 {
-	MStyleElement *mash = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
-	GList *l;
-	GList *style_list;
-	Range const * range = selection_first_range (sheet);
+	UniqClosure cl;
+	MStyleElement *mash;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	g_warning ("Unimplemented - worse still; wrong, needs perfect"
-		   "redundant area clipping to work");
-	/* Or in fact, merge needs to be spatially aware in some clever way:
-	   this is a nightmare so, instead get duplicate culling perfect */
+	/*
+	 * FIXME: each style region needs to be fragmented into totaly
+	 * overlapping regions. These must then be merged down to MStyleElement
+	 * arrays and then these must be compared + conflicts tagged.
+	 * use range_fragment + simplify mstyle_do_merge.
+	 */
 
-	style_list = NULL;
- 	/* Look in the styles applied to the sheet */
-	for (l = sheet->style_list; l; l = l->next) {
-		StyleRegion *sr = l->data;
-		if (range_overlap (&sr->range, range)) {
-			range_dump (&sr->range);
-			mstyle_dump (sr->style);
-			style_list = g_list_prepend (style_list,
-						     sr->style);
-		}
-	}
-	style_list = g_list_reverse (style_list);
+	mash = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
 
-	mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX,
+	cl.style_list = NULL;
+	selection_foreach_range (sheet, sheet_uniq_cb, &cl);
+
+	cl.style_list = g_list_reverse (cl.style_list);
+	
+	mstyle_do_merge (cl.style_list, MSTYLE_ELEMENT_MAX,
 			 mash, TRUE);
+
+	g_list_free (cl.style_list);
 
 	return mash;
 }
