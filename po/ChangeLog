@@ -1,3 +1,8 @@
+2001-01-07  Fatih Demir	<kabalak@gmx.net>
+
+	* tr.po: Added Turkish translation beginnings
+		of Gorkem Cetin.
+
 2001-01-06  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* Makefile.in.in: Updated not to include obsolve update.pl on
