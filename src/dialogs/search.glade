@@ -302,8 +302,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label1">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Normal</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">Normal</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
@@ -686,8 +686,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label2">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Advanced</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">Advanced</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
@@ -717,8 +717,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="matches_tab">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Matches</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">Matches</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>

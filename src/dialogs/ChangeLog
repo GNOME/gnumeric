@@ -1,3 +1,9 @@
+2003-01-14  Christian Neumair  <chris@gnome-de.org>
+
+	* advanced-filter.glade, autocorrect.glade, histogram.glade,
+	plugin-manager.glade, search-replace.glade, search.glade,
+	workbook-attr.glade: Removed mnemonics from tabs as HIG suggests.
+
 2003-01-10  Morten Welinder  <terra@diku.dk>
 
 	* dialog-workbook-attr.c (attr_dialog_init_view_page): buffer size

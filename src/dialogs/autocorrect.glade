@@ -310,8 +310,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label1">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_General</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">General</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
@@ -606,8 +606,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label2">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_INitial CApitals</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">INitial CApitals</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
@@ -902,8 +902,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label3">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_First Letter</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">First Letter</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
