@@ -731,8 +731,8 @@ dao_append_date (GString *buf)
  *
  **/
 void
-dao_write_header (data_analysis_output_t *dao, gchar *toolname,
-		  gchar *title, Sheet *sheet)
+dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
+		  const gchar *title, Sheet *sheet)
 {
 	GString   *buf;
 

@@ -83,7 +83,7 @@ free_stats (simstats_t *stats, simulation_t *sim)
 	g_free (stats->errmask);
 }
 
-static gchar *
+static const gchar *
 eval_inputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
 {
 	GSList *cur;
@@ -109,8 +109,9 @@ eval_inputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
 	return NULL;
 }
 
-static gchar *
-eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
+static const gchar *
+eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter,
+		   int round)
 {
 	GSList *cur;
 	int    i = 0;
@@ -134,12 +135,12 @@ eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
 	return NULL;
 }
 
-static gchar *
-recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter, int round)
+static const gchar *
+recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter,
+		   int round)
 {
-	gchar *err;
+	const gchar *err = eval_inputs_list (sim, outputs, iter, round);
 
-	err = eval_inputs_list (sim, outputs, iter, round);
 	if (err)
 		return err;
 
@@ -425,15 +426,31 @@ simulation_tool (WorkbookControl        *wbc,
 	}
 
 	sim->stats = stats;
-#if 0
-	/* Free statistics storage. */
-	for (i = 0; i <= sim->last_round; i++)
-		free_stats (stats [i], sim);
-
-	g_free (stats);
-#endif
 
 	sheet_redraw_all (sheet, TRUE);
 
 	return err;
+}
+
+void
+simulation_tool_destroy (simulation_t *sim)
+{
+	int i;
+
+	if (sim == NULL)
+		return;
+
+
+	/* Free statistics storage. */
+	for (i = 0; i <= sim->last_round; i++)
+		free_stats (sim->stats [i], sim);
+
+	g_free (sim->stats);
+
+
+	/* Free the names of the cells. */
+	for (i = 0; i < sim->n_vars; i++)
+		g_free (sim->cellnames [i]);
+
+	g_free (sim->cellnames);
 }

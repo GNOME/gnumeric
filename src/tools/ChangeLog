@@ -1,5 +1,10 @@
 2002-08-06  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* simulation.c: Plugged a lot of leaks. A new public function to
+	take care of the memory buffer releasing.
+
+2002-08-06  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* simulation.[ch]: Started the results summary reporting.
 
 2002-08-04  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
