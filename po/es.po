@@ -6,158 +6,830 @@ msgstr ""
 "Xgettext-Options: --default-domain=gnumeric --directory=.. --add-comments --keyword=_ --keyword=N_ --files-from=./POTFILES.in\n"
 "Files: src/main.c src/format.c src/workbook.c\n"
 
-#: src/format.c:30
+#: src/dialog-cell-format.c:43 src/dialog-cell-format.c:399
+msgid "General"
+msgstr "General"
+
+#: src/dialog-cell-format.c:121
+msgid "Numbers"
+msgstr "Números"
+
+#: src/dialog-cell-format.c:122
+msgid "Accounting"
+msgstr "Contabilidad"
+
+#: src/dialog-cell-format.c:123
+msgid "Date"
+msgstr "Fecha"
+
+#: src/dialog-cell-format.c:124
+msgid "Time"
+msgstr "Hora"
+
+#: src/dialog-cell-format.c:125
+msgid "Percent"
+msgstr "Porcentaje"
+
+#: src/dialog-cell-format.c:126
+msgid "Fraction"
+msgstr "Fracción"
+
+#: src/dialog-cell-format.c:127
+msgid "Scientific"
+msgstr "Científica"
+
+#: src/dialog-cell-format.c:128
+msgid "Text"
+msgstr "Texto"
+
+#: src/dialog-cell-format.c:129
+msgid "Money"
+msgstr "Dinero"
+
+#: src/dialog-cell-format.c:307
+msgid "Categories"
+msgstr "Categorías"
+
+#. 2.1 Input line
+#: src/dialog-cell-format.c:333
+msgid "Code:"
+msgstr "Código:"
+
+#. 2.2 Sample
+#: src/dialog-cell-format.c:342
+msgid "Sample:"
+msgstr "Muestra:"
+
+#: src/dialog-cell-format.c:352
+msgid "Format codes"
+msgstr "Códigos de formato"
+
+#: src/dialog-cell-format.c:400
+msgid "Left"
+msgstr "Izquierda"
+
+#: src/dialog-cell-format.c:401 src/dialog-cell-format.c:410 src/workbook.c:360
+msgid "Center"
+msgstr "Centro"
+
+#: src/dialog-cell-format.c:402
+msgid "Right"
+msgstr "Derecha"
+
+#: src/dialog-cell-format.c:403
+msgid "Fill"
+msgstr "Llenar"
+
+#: src/dialog-cell-format.c:404 src/dialog-cell-format.c:412
+msgid "Justify"
+msgstr "Justificar"
+
+#: src/dialog-cell-format.c:409
+msgid "Top"
+msgstr "Arriba"
+
+#: src/dialog-cell-format.c:411
+msgid "Bottom"
+msgstr "Abajo"
+
+#. Vertical alignment
+#: src/dialog-cell-format.c:474
+msgid "Vertical"
+msgstr "Vertical"
+
+#: src/dialog-cell-format.c:478
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: src/dialog-cell-format.c:481
+msgid "Auto return"
+msgstr "Retorno de carro automático"
+
+#: src/dialog-cell-format.c:644
+msgid "Text color"
+msgstr "Color del texto"
+
+#: src/dialog-cell-format.c:648 src/dialog-cell-format.c:673 src/dialog-paste-special.c:29
+msgid "None"
+msgstr "Ninguno"
+
+#: src/dialog-cell-format.c:651
+msgid "Use this color"
+msgstr "Usar este color"
+
+#: src/dialog-cell-format.c:667
+msgid "Background configuration"
+msgstr "Configuración del fondo"
+
+#: src/dialog-cell-format.c:676
+msgid "Use solid color"
+msgstr "Usar color sólido"
+
+#: src/dialog-cell-format.c:678
+msgid "Use a pattern"
+msgstr "Usar patrón"
+
+#: src/dialog-cell-format.c:724
+msgid "Number"
+msgstr "Número"
+
+#: src/dialog-cell-format.c:725
+msgid "Alignment"
+msgstr "Alineación"
+
+#: src/dialog-cell-format.c:726
+msgid "Font"
+msgstr "Fuente"
+
+#: src/dialog-cell-format.c:727
+msgid "Coloring"
+msgstr "Coloreado"
+
+#: src/dialog-delete-cells.c:25
+msgid "delete cells"
+msgstr "borrar celdas"
+
+#: src/dialog-delete-cells.c:29
+msgid "Delete cells"
+msgstr "Borrar celdas"
+
+#: src/dialog-delete-cells.c:32 src/item-grid.c:487
+msgid "Delete"
+msgstr "Borrar"
+
+#: src/dialog-delete-cells.c:33
+msgid "Shift cells left"
+msgstr "Mover las celdas a la izquierda"
+
+#: src/dialog-delete-cells.c:34
+msgid "Shift cells up"
+msgstr "Mover las celdas para arriba"
+
+#: src/dialog-delete-cells.c:35
+msgid "Delete row(s)"
+msgstr "Borrar el/los renglon(es)"
+
+#: src/dialog-delete-cells.c:36
+msgid "Delete column(s)"
+msgstr "Borrar la(s) columna(s)"
+
+#: src/dialog-goto-cell.c:42
+msgid "Cell"
+msgstr "Celda"
+
+#: src/dialog-goto-cell.c:45
+msgid "Go to..."
+msgstr "Ir a..."
+
+#: src/dialog-goto-cell.c:47
+msgid "Special..."
+msgstr "Especial..."
+
+#: src/dialog-insert-cells.c:25
+msgid "insert cells"
+msgstr "insertar celdas"
+
+#: src/dialog-insert-cells.c:29
+msgid "Insert cells"
+msgstr "Insertar celdas"
+
+#: src/dialog-insert-cells.c:32 src/item-grid.c:486 src/workbook.c:331
+msgid "Insert"
+msgstr "Insertar"
+
+#: src/dialog-insert-cells.c:33
+msgid "Shift cells right"
+msgstr "Desplazar las celdas a la derecha"
+
+#: src/dialog-insert-cells.c:34
+msgid "Shift cells down"
+msgstr "Desplazar las celdas hacia abajo"
+
+#: src/dialog-insert-cells.c:35
+msgid "Insert a row"
+msgstr "Insertar un renglón"
+
+#: src/dialog-insert-cells.c:36
+msgid "Insert a column"
+msgstr "Insertar una columna"
+
+#: src/dialog-paste-special.c:21 src/workbook.c:284
+msgid "All"
+msgstr "Todo"
+
+#: src/dialog-paste-special.c:22
+msgid "Formulas"
+msgstr "Fórmulas"
+
+#: src/dialog-paste-special.c:23
+msgid "Values"
+msgstr "Valores"
+
+#: src/dialog-paste-special.c:24 src/workbook.c:285
+msgid "Formats"
+msgstr "Formatos"
+
+#: src/dialog-paste-special.c:30
+msgid "Add"
+msgstr "Añadir"
+
+#: src/dialog-paste-special.c:31
+msgid "Substract"
+msgstr "Substraer"
+
+#: src/dialog-paste-special.c:32
+msgid "Multiply"
+msgstr "Multiplicar"
+
+#: src/dialog-paste-special.c:33
+msgid "Divide"
+msgstr "Dividir"
+
+#: src/dialog-paste-special.c:57 src/item-grid.c:484 src/workbook.c:297
+msgid "Paste special"
+msgstr "Pegado especial"
+
+#: src/dialog-paste-special.c:61
+msgid "Paste type"
+msgstr "Tipo de pegado"
+
+#: src/dialog-paste-special.c:65
+msgid "Operation"
+msgstr "Operación"
+
+#: src/dialog-zoom.c:47 src/dialog-zoom.c:50
+msgid "Zoom"
+msgstr "Amplificar"
+
+#: src/dialog-zoom.c:56
+msgid "Custom"
+msgstr "Especificar"
+
+#: src/dialog-zoom.c:83
+msgid "Zoom factor should be at least 50%"
+msgstr "El factor de aplificación debe de ser al menos del 50%"
+
+#: src/dialog-zoom.c:88
+msgid "Zoom factor should be at most 900%"
+msgstr "El factor de amplificación no debe de exceder 900%"
+
+#: src/expr.c:31
+msgid "Syntax error"
+msgstr "Error de sintaxis"
+
+#: src/expr.c:35
+msgid "Missing quote"
+msgstr "Falta una comilla"
+
+#. Type checking
+#: src/expr.c:396 src/fn-sheet.c:26 src/fn-sheet.c:60
+msgid "Invalid number of arguments"
+msgstr "Número de argumentos inválido"
+
+#: src/expr.c:549
+msgid "Type error"
+msgstr "Tipo erróneo"
+
+#: src/expr.c:607 src/expr.c:763 src/fn-misc.c:40 src/fn-misc.c:67
+msgid "Type mismatch"
+msgstr "Tipo erroneo"
+
+#: src/expr.c:633 src/expr.c:669
+msgid "Division by zero"
+msgstr "División entre cero"
+
+#: src/expr.c:778
+msgid "Unknown evaluation error"
+msgstr "Error al evaluar"
+
+#: src/file.c:28
+msgid "Save workbook as"
+msgstr "Guardar la hoja de trabajo como"
+
+#: src/file.c:78
+msgid "Load file"
+msgstr "Cargar un archivo"
+
+#: src/fn-math.c:44
+msgid "acos - domain error"
+msgstr "acos - error de dominio"
+
+#: src/fn-math.c:62
+msgid "acosh - domain error"
+msgstr "acosh - error de dominio"
+
+#: src/fn-math.c:103
+msgid "<function></function><syntax>(b1, b2, ...)</syntax>n<description><p><p></description><seealso></seealso>"
+msgstr ""
+
+#: src/fn-math.c:124
+msgid "<function>FLOOR</function><syntax>FLOOR(b1)</syntax>n<description>The FLOOR function rounds b1 down to the next nearestinteger.<p>Performing this function on a string or empty cell simply does nothing.<p></description><seealso>CEIL, ABS</seealso>"
+msgstr ""
+
+#: src/fn-math.c:139
+msgid "<function>CEIL</function><syntax>CEIL(b1)</syntax>n<description>The CEIL function rounds b1 up to the next nearestinteger.<p>Performing this function on a string or empty cell simply does nothing.<p></description><seealso>ABS, FLOOR</seealso>"
+msgstr ""
+
+#: src/fn-math.c:154
+msgid "<function>ABS</function><syntax>ABS(b1)</syntax>n<description>Implements the Absolute Value function:  the result is to drop the negative sign (if present).  This can be done for integers and floating point numbers.<p>Performing this function on a string or empty cell simply does nothing.<p></description><seealso>CEIL, FLOOR</seealso>"
+msgstr ""
+
+#: src/fn-math.c:169
+msgid "<function>AND</function><syntax>AND(b1, b2, ...)</syntax>n<description>Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.<p>b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.<p>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </description><seealso>OR</seealso>"
+msgstr ""
+
+#: src/fn-math.c:204 src/fn-math.c:722
+msgid "#VALUE"
+msgstr "#VALOR"
+
+#: src/fn-math.c:218
+msgid "asin - domain error"
+msgstr "asin - error de dominio"
+
+#: src/fn-math.c:259
+msgid "atanh: domain error"
+msgstr "atanh: error de dominio"
+
+#: src/fn-math.c:281
+msgid "<function>AVERAGE</function><syntax>AVERAGE(value1, value2,...)</syntax><description>Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.</description><seealso>SUM, COUNT</seealso>"
+msgstr ""
+
+#: src/fn-math.c:523
+msgid "log: domain error"
+msgstr "log: error de dominio"
+
+#: src/fn-math.c:541
+msgid "log2: domain error"
+msgstr "log2: error de dominio"
+
+#: src/fn-math.c:559
+msgid "log10: domain error"
+msgstr "log10: error de dominio"
+
+#: src/fn-math.c:660
+msgid "<function>OR</function><syntax>OR(b1, b2, ...)</syntax><description>Implements the logical OR function: the result is TRUE if any of thevalues evaluated to TRUE.<p>b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is consideredFALSE and anything else is TRUE.<p>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.</description><seealso>AND</seealso>"
+msgstr ""
+
+#: src/format.c:64
 msgid "Sun"
 msgstr "Dom"
 
-#: src/format.c:31
+#: src/format.c:65
 msgid "Mon"
 msgstr "Lun"
 
-#: src/format.c:32
+#: src/format.c:66
 msgid "Tue"
 msgstr "Mar"
 
-#: src/format.c:33
+#: src/format.c:67
 msgid "Wed"
 msgstr "Mié"
 
-#: src/format.c:34
+#: src/format.c:68
 msgid "Thu"
 msgstr "Jue"
 
-#: src/format.c:35
+#: src/format.c:69
 msgid "Fri"
 msgstr "Vie"
 
-#: src/format.c:36
+#: src/format.c:70
 msgid "Sat"
 msgstr "Sáb"
 
-#: src/format.c:41
+#: src/format.c:75
 msgid "Sunday"
 msgstr "Domingo"
 
-#: src/format.c:42
+#: src/format.c:76
 msgid "Monday"
 msgstr "Lunes"
 
-#: src/format.c:43
+#: src/format.c:77
 msgid "Tuesday"
 msgstr "Martes"
 
-#: src/format.c:44
+#: src/format.c:78
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: src/format.c:45
+#: src/format.c:79
 msgid "Thursday"
 msgstr "Jueves"
 
-#: src/format.c:46
+#: src/format.c:80
 msgid "Friday"
 msgstr "Viernes"
 
-#: src/format.c:47
+#: src/format.c:81
 msgid "Saturday"
 msgstr "Sábado"
 
-#: src/format.c:52
+#: src/format.c:86
 msgid "Jan"
 msgstr "Ene"
 
-#: src/format.c:53
+#: src/format.c:87
 msgid "Feb"
 msgstr "Feb"
 
-#: src/format.c:54
+#: src/format.c:88
 msgid "Mar"
 msgstr "Mar"
 
-#: src/format.c:55
+#: src/format.c:89
 msgid "Apr"
 msgstr "Abr"
 
-#: src/format.c:56 src/format.c:72
+#: src/format.c:90 src/format.c:106
 msgid "May"
 msgstr "May"
 
-#: src/format.c:57
+#: src/format.c:91
 msgid "Jun"
 msgstr "Jun"
 
-#: src/format.c:58
+#: src/format.c:92
 msgid "Jul"
 msgstr "Jul"
 
-#: src/format.c:59
+#: src/format.c:93
 msgid "Aug"
 msgstr "Ago"
 
-#: src/format.c:60
+#: src/format.c:94
 msgid "Sep"
 msgstr "Sep"
 
-#: src/format.c:61
+#: src/format.c:95
 msgid "Oct"
 msgstr "Oct"
 
-#: src/format.c:62
+#: src/format.c:96
 msgid "Nov"
 msgstr "Nov"
 
-#: src/format.c:63
+#: src/format.c:97
 msgid "Dec"
 msgstr "Dic"
 
-#: src/format.c:68
+#: src/format.c:102
 msgid "January"
 msgstr "Enero"
 
-#: src/format.c:69
+#: src/format.c:103
 msgid "Februrary"
 msgstr "Febrero"
 
-#: src/format.c:70
+#: src/format.c:104
 msgid "March"
 msgstr "Marzo"
 
-#: src/format.c:71
+#: src/format.c:105
 msgid "April"
 msgstr "Abril"
 
-#: src/format.c:73
+#: src/format.c:107
 msgid "June"
 msgstr "Junio"
 
-#: src/format.c:74
+#: src/format.c:108
 msgid "July"
 msgstr "Julio"
 
-#: src/format.c:75
+#: src/format.c:109
 msgid "August"
 msgstr "Agosto"
 
-#: src/format.c:76
+#: src/format.c:110
 msgid "September"
 msgstr "Septiembre"
 
-#: src/format.c:77
+#: src/format.c:111
 msgid "October"
 msgstr "Octubre"
 
-#: src/format.c:78
+#: src/format.c:112
 msgid "November"
 msgstr "Noviembre"
 
-#: src/format.c:79
+#: src/format.c:113
 msgid "December"
 msgstr "Diciembre"
 
-#: src/workbook.c:17
+#: src/format.c:428
+msgid "black"
+msgstr "negreo"
+
+#: src/format.c:429
+msgid "blue"
+msgstr "azul"
+
+#: src/format.c:430
+msgid "cyan"
+msgstr "cian"
+
+#: src/format.c:431
+msgid "green"
+msgstr "verde"
+
+#: src/format.c:432
+msgid "magenta"
+msgstr "magenta"
+
+#: src/format.c:433
+msgid "red"
+msgstr "rojo"
+
+#: src/format.c:434
+msgid "white"
+msgstr "blanco"
+
+#: src/format.c:435
+msgid "yellow"
+msgstr "amarillo"
+
+#: src/gnumeric-sheet.c:739
+msgid "75%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:742
+msgid "50%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:745
+msgid "25%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:748
+msgid "12%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:751
+msgid "6%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:754
+msgid "Horizontal lines"
+msgstr "Líneas horizontales"
+
+#: src/gnumeric-sheet.c:757
+msgid "Vertical lines"
+msgstr "Líneas verticales"
+
+#: src/gnumeric-sheet.c:760 src/gnumeric-sheet.c:763 src/gnumeric-sheet.c:766 src/gnumeric-sheet.c:769
+msgid "Diagonal lines"
+msgstr "Lineas diagonales"
+
+#: src/gnumeric-sheet.c:772
+msgid "Crossed diagonals"
+msgstr "Lineas cruzadas"
+
+#: src/gnumeric-sheet.c:775
+msgid "Bricks"
+msgstr "Ladrillos"
+
+#: src/gnumeric-util.c:21
+msgid "Notice"
+msgstr "Aviso"
+
+#: src/item-cursor.c:499 src/item-grid.c:482 src/workbook.c:293 src/workbook.c:350
+msgid "Copy"
+msgstr "Copiar"
+
+#: src/item-cursor.c:500
+msgid "Move"
+msgstr "Mover"
+
+#: src/item-cursor.c:501
+msgid "Copy formats"
+msgstr "Copiar formatos"
+
+#: src/item-cursor.c:502
+msgid "Copy values"
+msgstr "Copiar valores"
+
+#: src/item-cursor.c:503
+msgid "Shift cells down and copy"
+msgstr "Desplaza las celdas hacia abajo y copia"
+
+#: src/item-cursor.c:504
+msgid "Shift cells right and copy"
+msgstr "Desplaza las celdas a la derecha y copia"
+
+#: src/item-cursor.c:505
+msgid "Shift cells down and move"
+msgstr "Desplaza las celas hacia abajo y mueve"
+
+#: src/item-cursor.c:506
+msgid "Shift cells right and move"
+msgstr "Desplaza las celdas hacia la derecha y mueve"
+
+#: src/item-grid.c:481 src/workbook.c:291 src/workbook.c:347
+msgid "Cut"
+msgstr "Corta"
+
+#: src/item-grid.c:483 src/sheet.c:2082 src/workbook.c:295 src/workbook.c:353
+msgid "Paste"
+msgstr "Pega"
+
+#: src/item-grid.c:488
+msgid "Erase content"
+msgstr "Borra el contenido"
+
+#: src/item-grid.c:490
+msgid "Cell format"
+msgstr "Formato de celda"
+
+#: src/main.c:10
+msgid "FILE"
+msgstr "ARCHIVO"
+
+#: src/main.c:10
+msgid "File to load at startup"
+msgstr "Cargar este archivo al iniciar"
+
+#: src/sheet-view.c:297 src/sheet-view.c:363
+msgid "Row: %d"
+msgstr "Renglón: %d"
+
+#: src/sheet-view.c:304 src/sheet-view.c:343
+msgid "Column: %s"
+msgstr "Columna: %s"
+
+#: src/workbook.c:200 src/workbook.c:216
+msgid "Insert rows"
+msgstr "Insertar renglones"
+
+#: src/workbook.c:270 src/workbook.c:337
+msgid "New"
+msgstr "Nuevo"
+
+#: src/workbook.c:272 src/workbook.c:340
+msgid "Open"
+msgstr "Abrir"
+
+#: src/workbook.c:274 src/workbook.c:343
+msgid "Save"
+msgstr "Guardar"
+
+#: src/workbook.c:276
+msgid "Save as..."
+msgstr "Guardar como..."
+
+#: src/workbook.c:278
 msgid "Exit"
 msgstr "Salir"
 
-#: src/workbook.c:23
+#: src/workbook.c:286
+msgid "Content"
+msgstr "Contenido"
+
+#: src/workbook.c:300
+msgid "Clear"
+msgstr "Borrar"
+
+#: src/workbook.c:302
+msgid "Goto cell.."
+msgstr "Ir a la celda.."
+
+#: src/workbook.c:308
+msgid "Zoom..."
+msgstr "Amplificación..."
+
+#: src/workbook.c:313
+msgid "Cells..."
+msgstr "Celdas..."
+
+#: src/workbook.c:314
+msgid "Rows"
+msgstr "Renglones"
+
+#: src/workbook.c:315
+msgid "Columns"
+msgstr "Columnas"
+
+#: src/workbook.c:322
+msgid "Cells.."
+msgstr "Celdas.."
+
+#: src/workbook.c:328
 msgid "File"
 msgstr "Archivo"
+
+#: src/workbook.c:329
+msgid "Edit"
+msgstr "Edición"
+
+#: src/workbook.c:330
+msgid "View"
+msgstr "Ver"
+
+#: src/workbook.c:332
+msgid "Format"
+msgstr "Formato"
+
+#: src/workbook.c:338
+msgid "Create a new sheet"
+msgstr "Crear una nueva hoja"
+
+#: src/workbook.c:341
+msgid "Opens an existing workbook"
+msgstr "Abre una hoja de trabajo existente"
+
+#: src/workbook.c:344
+msgid "Saves the workbook"
+msgstr "Guarda esta hoja de trabajo"
+
+#: src/workbook.c:348
+msgid "Cuts the selection to the clipboard"
+msgstr "Corta la selección al portapapeles"
+
+#: src/workbook.c:351
+msgid "Copies the selection to the clipboard"
+msgstr "Copia la selección al portapapeles"
+
+#: src/workbook.c:354
+msgid "Pastes the clipboard"
+msgstr "Pega el contenido del portapapeles"
+
+#: src/workbook.c:357
+msgid "Left align"
+msgstr "Alinea a la izquierda"
+
+#: src/workbook.c:358
+msgid "Sets the cell alignment to the left"
+msgstr "Cambia el alineamiento a la izquierda de la celda"
+
+#: src/workbook.c:361
+msgid "Centers the cell contents"
+msgstr "Centra el contenido de la celda"
+
+#: src/workbook.c:363
+msgid "Right align"
+msgstr "Alinea a la derecha"
+
+#: src/workbook.c:364
+msgid "Sets the cell alignment to the right"
+msgstr ""
+
+#: src/workbook.c:367
+msgid "Line"
+msgstr "Línea"
+
+#: src/workbook.c:368
+msgid "Creates a line object"
+msgstr "Crea una linea"
+
+#: src/workbook.c:370
+msgid "Arrow"
+msgstr "Flecha"
+
+#: src/workbook.c:371
+msgid "Creates an arrow object"
+msgstr "Crea una flecha"
+
+#: src/workbook.c:373
+msgid "Rectangle"
+msgstr "Rectángulo"
+
+#: src/workbook.c:374
+msgid "Creates a rectangle object"
+msgstr "Crea un rectángulo"
+
+#: src/workbook.c:376
+msgid "Ellipse"
+msgstr "Elipse"
+
+#: src/workbook.c:377
+msgid "Creates an ellipse object"
+msgstr "Crea una elipse"
+
+#: src/workbook.c:447
+msgid "You should introduce a valid cell name"
+msgstr "Debe de introducir un nombre válido de celda"
+
+#: src/workbook.c:529
+msgid "Sum"
+msgstr "Suma"
+
+#: src/workbook.c:530
+msgid "Min"
+msgstr "Mínimo"
+
+#: src/workbook.c:531
+msgid "Max"
+msgstr "Máximo"
+
+#: src/workbook.c:532
+msgid "Average"
+msgstr "Promedio"
+
+#: src/workbook.c:533
+msgid "Count"
+msgstr "Cuenta"
+
+#: src/xml-io.c:993
+msgid "NoName"
+msgstr "SinNombre"
