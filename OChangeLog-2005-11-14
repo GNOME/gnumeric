@@ -7,6 +7,10 @@
 
 2002-11-07  Morten Welinder  <terra@diku.dk>
 
+	* src/mathfunc.c (beta, lbeta): New functions.
+
+2002-11-07  Morten Welinder  <terra@diku.dk>
+
 	* src/file.c (gnum_file_saver_get_description): Fix failure case.
 	(gnum_file_saver_get_extension): Ditto.
 	(gnum_file_saver_get_mime_type): Ditto.

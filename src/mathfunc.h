@@ -30,6 +30,9 @@ gnum_float gnumeric_fake_trunc (gnum_float x);
 
 /* ------------------------------------------------------------------------- */
 
+gnum_float beta (gnum_float a, gnum_float b);
+gnum_float lbeta3 (gnum_float a, gnum_float b, int *sign);
+
 gnum_float bessel_i (gnum_float x, gnum_float alpha, gnum_float expo);
 gnum_float bessel_k (gnum_float x, gnum_float alpha, gnum_float expo);
 

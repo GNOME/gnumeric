@@ -915,6 +915,59 @@ gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_beta = {
+	N_("@FUNCTION=BETA\n"
+	   "@SYNTAX=BETA(a,b)\n"
+
+	   "@DESCRIPTION="
+	   "BETA function returns the value of the mathematic beta function "
+	   "extended to all real numbers, but non-negative integers.\n"
+	   "\n"
+	   "* If @a or @b are non-positive integers, BETA returns #NUM! error.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=BETA,GAMMALN")
+};
+
+static Value *
+gnumeric_beta (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+
+	return value_new_float (beta (a, b));
+}
+
+/***************************************************************************/
+
+static const char *help_betaln = {
+	N_("@FUNCTION=BETALN\n"
+	   "@SYNTAX=BETALN(a,b)\n"
+
+	   "@DESCRIPTION="
+	   "BETALN function returns the natural logarithm of the "
+	   "absolute value of the beta function.\n"
+	   "\n"
+	   "* If @a or @b are non-positive integers, BETALN returns #NUM! error.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=BETA,GAMMALN")
+};
+
+static Value *
+gnumeric_betaln (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+	int sign;
+
+	return value_new_float (lbeta3 (a, b, &sign));
+}
+
+/***************************************************************************/
+
 static const char *help_combin = {
 	N_("@FUNCTION=COMBIN\n"
 	   "@SYNTAX=COMBIN(n,k)\n"
@@ -3057,6 +3110,12 @@ const GnmFuncDescriptor math_functions[] = {
 	{ "cos",     "f", N_("number"),    &help_cos,
 	  gnumeric_cos, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{ "beta",     "ff", N_("a,b"),     &help_beta,
+	  gnumeric_beta, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "betaln",   "ff", N_("a,b"),     &help_betaln,
+	  gnumeric_betaln, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "cosh",    "f", N_("number"),    &help_cosh,
 	  gnumeric_cosh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },

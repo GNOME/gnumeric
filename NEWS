@@ -30,6 +30,7 @@ Morten:
 	* Improve memory usage in search centre slighly.
 	* Fix precision of GAMMALN.
 	* Fix precision of FACT and extend it to negative non-integers.
+	* Add BETA and BETALN functions.
 
 Nick Lamb:
 	* Initial support for pre-ole xls files.

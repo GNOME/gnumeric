@@ -19,6 +19,8 @@
 				<function name="atan"/>
 				<function name="atanh"/>
 				<function name="atan2"/>
+				<function name="beta"/>
+				<function name="betaln"/>
 				<function name="cos"/>
 				<function name="cosh"/>
 				<function name="countif"/>

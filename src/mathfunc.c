@@ -5879,6 +5879,45 @@ fact (int n)
 		return floorgnum (0.5 + expgnum (lgammagnum (n + 1)));
 }
 
+gnum_float
+beta (gnum_float a, gnum_float b)
+{
+	int sign;
+	gnum_float absres = expgnum (lbeta3 (a, b, &sign));
+
+	return sign == -1 ? -absres : absres;
+}
+
+gnum_float
+lbeta3 (gnum_float a, gnum_float b, int *sign)
+{
+	int sign_a, sign_b, sign_ab;
+	gnum_float ab = a + b;
+	gnum_float res_a, res_b, res_ab;
+
+	*sign = 1;
+	if (a > 0 && b > 0)
+		return lbeta (a, b);
+
+#ifdef IEEE_754
+	if (isnangnum(ab))
+		return ab;
+#endif
+
+	if ((a <= 0 && a == floorgnum (a)) ||
+	    (b <= 0 && b == floorgnum (b)) ||
+	    (ab <= 0 && ab == floorgnum (ab)))
+		return ML_NAN;
+
+	res_a = lgammagnum (a); sign_a = signgam;
+	res_b = lgammagnum (b); sign_b = signgam;
+	res_ab = lgammagnum (ab); sign_ab = signgam;
+
+	*sign = sign_a * sign_b * sign_ab;
+	return res_b + res_b - res_ab;
+}
+
+
 /*
  ---------------------------------------------------------------------
   Matrix functions
