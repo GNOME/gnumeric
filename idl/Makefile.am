@@ -24,11 +24,11 @@ GNUMERIC_GRAPHS_CORBA_GENERATED = 	\
 libGnumericIDL_a_SOURCES = $(GNUMERIC_CORBA_GENERATED) $(GNUMERIC_GRAPHS_CORBA_GENERATED)
 
 $(GNUMERIC_CORBA_GENERATED): $(srcdir)/Gnumeric.idl 
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl 
+	orbit-idl $(IDL_FLAGS) -I$(srcdir) $(srcdir)/Gnumeric.idl 
 	touch my_gnumeric_idl
 
 $(GNUMERIC_GRAPHS_CORBA_GENERATED): $(srcdir)/gnumeric-graphs.idl
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/gnumeric-graphs.idl
+	orbit-idl $(IDL_FLAGS) -I$(srcdir) $(srcdir)/gnumeric-graphs.idl
 	touch my_gnumeric_graphs_idl
 
 idldir   = $(datadir)/idl

@@ -438,6 +438,15 @@ LIBS=$LIBS_save
 
 dnl ***************************************
 
+dnl IDL flags for non-standard prefixes
+if $have_bonobo; then
+	IDL_FLAGS="-I$datadir/share/idl"
+	for path in `echo $GNOME_PATH | awk 'BEGIN { RS = ":"; } { print;}'`; do
+		IDL_FLAGS="$IDL_FLAGS -I$path/share/idl"
+	done
+fi
+AC_SUBST(IDL_FLAGS)
+
 EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2 gal`
 EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2 gal`
 AC_SUBST(EXTRA_GNOME_LIBS)
