@@ -40,7 +40,7 @@ Workbook *
 workbook_read (const char *filename)
 {
   /* A slow and possibly buggy check for now. */
-  MS_OLE_FILE *f = new_ms_ole_file(filename) ;
+  MS_OLE *f = ms_ole_new (filename) ;
   Workbook *wb;
   if (f)
     {

@@ -8,7 +8,7 @@ INCLUDES = 						\
 noinst_LIBRARIES = libexcel.a
 
 libexcel_a_SOURCES =	\
-	ms-biff.c	\
+	ms-excel-biff.h	\
 	ms-biff.h	\
 	ms-excel.c	\
 	ms-excel.h	\

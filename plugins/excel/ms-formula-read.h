@@ -10,7 +10,10 @@
 #include "ms-excel.h"
 #include "ms-biff.h"
 
-void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q) ;
+void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
+			     int fn_col, int fn_row) ;
+
+void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet) ;
 
 #define FORMULA_PTG_MAX                0x7f
 
@@ -22,6 +25,11 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q) ;
 #define FORMULA_PTG_REF                0x24
 #define FORMULA_PTG_AREA               0x25
 #define FORMULA_PTG_MEM_AREA           0x26
+
+typedef struct _FORMULA_ARRAY_DATA
+{
+  int src_col, src_row, dest_col, dest_row ;
+} FORMULA_ARRAY_DATA ;
 
 typedef struct _FORMULA_OP_DATA
 {

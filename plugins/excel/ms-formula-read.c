@@ -13,6 +13,9 @@
 #include "gnumeric.h"
 
 #include "utils.h"
+
+#include "ms-excel.h"
+#include "ms-excel-biff.h"
 #include "ms-formula.h"
 
 #define NO_PRECEDENCE 256
@@ -220,30 +223,74 @@ static char *parse_list_to_equation (PARSE_LIST *list)
 }
 
 /**
+ * Should be in cell.c ?
+ **/
+static Cell *
+duplicate_formula (Sheet *sheet, int src_col, int src_row, int dest_col, int dest_row)
+{
+  Cell *ref_cell, *new_cell;
+  
+  ref_cell = sheet_cell_get (sheet, src_col, src_row);
+  if (!ref_cell || !ref_cell->parsed_node)
+      return 0;
+  
+  new_cell = sheet_cell_new (sheet, dest_col, dest_row);
+  cell_set_formula_tree_simple (new_cell, ref_cell->parsed_node);
+  return new_cell ;
+}
+
+/**
  * Parse that RP Excel formula, see S59E2B.HTM
  * Sadly has to be parsed to text and back !
  **/
-void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
+void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
+			     int fn_col, int fn_row)
 {
   Cell *cell ;
   BYTE *cur ;
-  int length, fn_row, fn_col ;
+  int length ;
   PARSE_LIST *stack ;
   int error = 0 ;
   char *ans ;
+  int array_col_first, array_col_last ;
+  int array_row_first, array_row_last ;
+  int fn_xf ;
 
-  g_assert (q->ls_op == BIFF_FORMULA) ;
-  fn_col = BIFF_GETCOL(q) ;
-  fn_row = BIFF_GETROW(q) ;
-  printf ("Formula at [%d, %d] XF %d :\n", fn_col, fn_row, BIFF_GETXF(q)) ;
-  printf ("formula data : \n") ;
-  dump (q->data +22, q->length-22) ;
-  /* This will be safe when we collate continuation records in get_query */
-  length = BIFF_GETWORD(q->data + 20) ;
-  /* NB. the effective '-1' here is so that the offsets and lengths
-     are identical to those in the documentation */
-  cur = q->data + 23 ;
-  stack = parse_list_new() ;
+  if (q->ls_op == BIFF_FORMULA)
+    {
+      fn_xf           = EX_GETXF(q) ;
+      printf ("Formula at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
+      printf ("formula data : \n") ;
+      dump (q->data +22, q->length-22) ;
+      /* This will be safe when we collate continuation records in get_query */
+      length = BIFF_GETWORD(q->data + 20) ;
+      /* NB. the effective '+1' here is so that the offsets and lengths
+	 are identical to those in the documentation */
+      cur = q->data + 22 + 1 ;
+      array_col_first = fn_col ;
+      array_col_last  = fn_col ;
+      array_row_first = fn_row ;
+      array_row_last  = fn_row ;
+    }
+  else
+    {
+      g_assert (q->ls_op == BIFF_ARRAY) ;
+      fn_xf = 0 ;
+      printf ("Array at [%d, %d] XF %d :\n", fn_col, fn_row, fn_xf) ;
+      printf ("Array data : \n") ;
+      dump (q->data +22, q->length-22) ;
+      /* This will be safe when we collate continuation records in get_query */
+      length = BIFF_GETWORD(q->data + 12) ;
+      /* NB. the effective '+1' here is so that the offsets and lengths
+	 are identical to those in the documentation */
+      cur = q->data + 14 + 1 ;
+      array_row_first = BIFF_GETWORD(q->data + 0) ;
+      array_row_last  = BIFF_GETWORD(q->data + 2) ;
+      array_col_first = BIFF_GETBYTE(q->data + 4) ;
+      array_col_last  = BIFF_GETBYTE(q->data + 5) ;
+    }
+
+  stack = parse_list_new() ;      
   while (length>0 && !error)
     {
       int ptg_length = 0 ;
@@ -332,11 +379,11 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 	  break ;
 	case FORMULA_PTG_EXP: /* FIXME: the formula is the same as another record ... we need a cell_get_funtion call ! */
 	  {
-	    int row, col ;
-	    row = BIFF_GETWORD(cur) ;
-	    col = BIFF_GETWORD(cur+2) ;
-	    printf ("Unimplemented ARARY formula at [%d,%d]\n", row, col), error=1 ;
-	    ptg_length = 4 ;
+	    cell = sheet_cell_fetch (sheet->gnum_sheet, fn_col, fn_row) ;
+	    if (!cell->text) /* FIXME: work around cell.c bug, we can't have formatting with no text in a cell ! */
+		cell_set_text_simple(cell, "") ;
+	    ms_excel_set_cell_xf (sheet, cell, fn_xf) ;
+	    return ;
 	  }
 	  break ;
 	case FORMULA_PTG_PAREN:
@@ -402,22 +449,45 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
     }
   if (error)
     {
-      ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q), "Unknown formula") ;
+      int xlp, ylp ;
+      for (xlp=array_col_first;xlp<=array_col_last;xlp++)
+	  for (ylp=array_row_first;ylp<=array_row_last;ylp++)
+	    ms_excel_sheet_insert (sheet, fn_xf, xlp, ylp, "Unknown formula") ;
       return ;
     }
   printf ("--------- Found valid formula !---------\n") ;
-
+  
   ans = parse_list_to_equation(stack) ;
   if (ans)
     {
-      cell = sheet_cell_fetch (sheet->gnum_sheet, BIFF_GETCOL(q), BIFF_GETROW(q)) ;
-      /* FIXME: this _should_ be a set_formula with the formula, and a
-	 set_text_simple with the current value */
-      cell_set_text (cell, ans) ;
-      ms_excel_set_cell_xf (sheet, cell, BIFF_GETXF(q)) ;
+      int xlp, ylp ;
+      for (xlp=array_col_first;xlp<=array_col_last;xlp++)
+	  for (ylp=array_row_first;ylp<=array_row_last;ylp++)
+	    {
+	      cell = sheet_cell_fetch (sheet->gnum_sheet, EX_GETCOL(q), EX_GETROW(q)) ;
+	      /* FIXME: this _should_ be a set_formula with the formula, and a
+		 set_text_simple with the current value */
+	      cell_set_text (cell, ans) ;
+	      ms_excel_set_cell_xf (sheet, cell, EX_GETXF(q)) ;
+	    }
     }
   parse_list_free (stack) ;
 }
 
+void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet)
+{
+  GList *tmp = sheet->array_formulae ;
+  while (tmp)
+    {
+      FORMULA_ARRAY_DATA *dat = tmp->data ;
+      printf ("Copying formula from %d,%d to %d,%d\n",
+			 dat->src_col, dat->src_row,
+			 dat->dest_col, dat->dest_row) ;
+      duplicate_formula (sheet->gnum_sheet,
+			 dat->src_col, dat->src_row,
+			 dat->dest_col, dat->dest_row) ;
+      tmp = tmp->next ;
+    }
+}
 
 

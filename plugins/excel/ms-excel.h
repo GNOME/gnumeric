@@ -9,8 +9,9 @@
 
 #include "ms-ole.h"
 #include "ms-biff.h"
+#include "ms-excel-biff.h"
 
-extern Workbook *ms_excelReadWorkbook(MS_OLE_FILE *file) ;
+extern Workbook *ms_excelReadWorkbook(MS_OLE *file) ;
 
 typedef struct _BIFF_BOUNDSHEET_DATA
 {
@@ -25,6 +26,7 @@ typedef struct _MS_EXCEL_SHEET
   Sheet *gnum_sheet ;
   struct _MS_EXCEL_WORKBOOK *wb ;
   eBiff_version ver ;
+  GList *array_formulae ;
 } MS_EXCEL_SHEET ;
 
 extern void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text) ;

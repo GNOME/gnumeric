@@ -1,3 +1,21 @@
+1998-11-12  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-ole.c, plugins/excel/ms-ole.h: Massive changes
+	renamed many functions to conform to a sensible naming convention.
+	Cleaned the interface, and structure names.
+
+	* plugins/excel/ms-excel-biff.h: Split from ms-biff.h removing all
+	the excel specifics so that the biff & ole stuff can be turned into
+	a library sometime.
+
+	* src/workbook.c(workbook_read): Updated to new structure names.
+
+	* plugins/excel/ms-excel.c: Added list of array formulae, as yet
+	unused, possibly unneccesary.
+
+	* plugins/excel/ms-formula.c: Added support for slightly different
+	array formula BIFF layout.
+
 1998-11-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-util.c (font_get_italic_name): Missing function.
