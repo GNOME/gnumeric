@@ -10,6 +10,7 @@ Release Critical
 - changing col/row sizes does not mark a sheet dirty.
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
+- Clicking on the little square adds an "empty" autofill to the undo system.
 
 Long term breakage
 ------------------
