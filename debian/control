@@ -2,7 +2,7 @@ Source: gnumeric
 Section: math
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
-Build-Depends: debhelper (>= 4.1.87), dh-buildinfo, gettext, bison, flex,
+Build-Depends: debhelper (>= 4.2.13), dh-buildinfo, gettext, bison, flex,
  scrollkeeper, libxml-parser-perl,
  libglib2.0-dev (>= 2.4.0), libgsf-1-dev (>= 1.10.1),
  libgtk2.0-dev (>= 2.4.1-4), libxml2-dev (>= 2.6.10-2),
