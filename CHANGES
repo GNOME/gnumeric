@@ -39,13 +39,14 @@ Michael
 	* Fix writing code to preserve sheet order.
 
 Nick Lamb
-	* Lots of work adding excel function mappings.
+	* Added excel function mappings.
 	* Fixed absolute shared formulae cell references.
 	* Supplied a spreadsheet to check date functions.
 
 Jody Goldberg
 	* Supplied many new error and error checking functions.
 	* Vastly improved Excel color loading.
+	* Completed Excel funtion mappings, as far as possible.
 
 Several translations updated: thanks to our translators
 
