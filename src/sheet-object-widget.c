@@ -1331,6 +1331,30 @@ sheet_widget_checkbox_set_link (SheetObject *so, ExprTree *expr)
 	dependent_set_expr (&swc->dep, expr);
 }
 
+gboolean 
+sheet_widget_checkbox_switch_link_sheet (SheetObject *so, Sheet *old_sheet, Sheet *new_sheet)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+
+	if (swc->dep.expression != NULL) {
+		Value *val = expr_tree_get_range (swc->dep.expression);
+		if (val) {
+			ExprTree *expr;
+			RangeRef *cell = &val->v_range.cell;
+			if (cell->a.sheet == old_sheet) 
+				cell->a.sheet = new_sheet;
+			if (cell->b.sheet == old_sheet)
+				cell->b.sheet = new_sheet;
+			
+			expr = expr_tree_new_constant (val);
+			sheet_widget_checkbox_set_link (so, expr);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+
 SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_user_config,
 	       &sheet_widget_checkbox_set_sheet,

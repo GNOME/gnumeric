@@ -2155,7 +2155,6 @@ cb_tools_tabulate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_tools_merge (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	dialog_merge (wbcg);
 }
 

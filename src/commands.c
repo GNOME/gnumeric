@@ -55,6 +55,7 @@
 #include "gutils.h"
 #include "gui-util.h"
 #include "sheet-object-cell-comment.h"
+#include "sheet-object-widget.h"
 #include "sheet-object.h"
 #include "sheet-control.h"
 
@@ -4446,15 +4447,27 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	GSList *this_field = me->merge_fields;
 	GSList *this_data = me->merge_data;
 	
-	
 	range_init (&merge_range, cell->a.col, cell->a.row,
 		    cell->b.col, cell->b.row);
 	merge_content = clipboard_copy_range (cell->a.sheet, &merge_range);
 
 	for (i = 0; i < me->n; i++) {
 		Sheet *new_sheet;
+		GSList *a_box;
+		GSList *check_boxes;
+
 		new_sheet = workbook_sheet_add (me->sheet->workbook, NULL, FALSE);
 		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
+		sheet_object_clone_sheet_in_range (cell->a.sheet, new_sheet, &merge_range);
+		check_boxes = sheet_objects_get (new_sheet, &merge_range, 
+						 sheet_widget_checkbox_get_type ());
+	        a_box = check_boxes;
+		while (a_box) {
+			sheet_widget_checkbox_switch_link_sheet (SHEET_OBJECT (a_box->data),
+								 cell->a.sheet, new_sheet);
+			a_box = a_box->next;
+		}
+		g_slist_free (check_boxes);
 		clipboard_paste_region (me->wbc, paste_target_init (&pt, new_sheet, 
 								&merge_range, PASTE_ALL_TYPES),
 					merge_content);
