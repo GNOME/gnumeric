@@ -86,7 +86,8 @@ sub copy_subsystem {
 	my %seen = ();
 	foreach (@sources) { $seen{$_} = 1; }
 
-	my @headers = ();
+	my @headers = ('foo-canvas-marshal.h');
+	foreach (@headers) { $seen{$_} = 1; }
 	foreach (<$srcdir/*.h>) {
 	    next if $seen{$_};
 	    push @headers, substr ($_, length ($srcdir) + 1);
