@@ -6,7 +6,7 @@ if ENABLE_SOLVER
   SUBDIRS = solver
 endif
 
-INCLUDES = 						\
+AM_CPPFLAGS = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\

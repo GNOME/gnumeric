@@ -33,7 +33,6 @@ if WITH_PYTHON
 endif
 
 if WITH_PERL
-  SUBDIRS_FUNCTIONS += perl
   SUBDIRS_LOADERS += perl-loader
   SUBDIRS_EXAMPLES += perl-func
 endif

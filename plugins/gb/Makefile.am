@@ -3,7 +3,7 @@ If you decide to resurrect it, make sore you remove all references to
 plugins/gb/* files from po/POTFILES.skip.
 Do it before you delete this paragraph here.
 
-INCLUDES = \
+AM_CPPFLAGS = \
     -DPLUGIN_ID=\"Gnumeric_gb\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\

@@ -4,10 +4,6 @@ SUBDIRS = . po po-functions src plugins icons templates doc schemas
 #  SUBDIRS += src/cut-n-paste-code/goffice/graph/plugins
 #endif
 
-distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out' | grep -v '^\./doc'
-
-distuninstallcheck_listfiles = find . -type f -print | grep -v '^\./var/scrollkeeper' | grep -v 'omf' | grep -v 'figures'
-
 XML_I18N_XML_KIND = --pass-through
 
 change_logs = ChangeLog \
@@ -43,7 +39,7 @@ CLEANFILES = $(server_DATA) $(server_in_files) \
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 EXTRA_DIST = \
-	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in \
+	gnumeric.desktop.in GNOME_Gnumeric.server.in.in \
 	gnumeric.keys.in gnumeric.mime 					\
 	gnumeric.xsd							\
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
@@ -58,7 +54,7 @@ gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
 	&& mv gnumeric.keys.tmp gnumeric.keys 
 
-gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po)
+gnumeric.desktop: gnumeric.desktop.in Makefile $(INTLTOOL_MERGE) $(POFILES_FULL)
 	 LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@.tmp
 if WITH_GNOME
 	sed -e 's/F_OR_U/U/' <$@.tmp >$@.tmp2
@@ -74,6 +70,21 @@ dist-hook: gnumeric.spec
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
 	cp gnumeric.spec $(distdir)
 
+## It seems the following overrides can be simplified:
+## distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out' | grep -v '^\./doc'
+## distuninstallcheck_listfiles = find . -type f -print | grep -v '^\./var/scrollkeeper' | grep -v 'omf' | grep -v 'figures'
+
+# xmldocs.make is screwed:
+distcleancheck_listfiles = \
+  find . -type f -print -o -path ./doc -prune
+
+# We are not able to uninstall the scrollkeeper files:
+distuninstallcheck_listfiles = \
+  find . -type f -print -o -path ./var/scrollkeeper -prune
+
+## If I understand this correctly, this hack is needed only --with-perl:
+if WITH_PERL
 # disable the check because the old perl plugin is hard to clean
 distuninstallcheck:
 	@:
+endif

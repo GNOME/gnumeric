@@ -35,7 +35,6 @@ plugins/oleo/oleo.c
 plugins/openoffice/openoffice-read.c
 plugins/openoffice/openoffice-write.c
 plugins/paradox/paradox.c
-plugins/perl/ext/Gnumeric.xs
 plugins/perl-loader/perl-loader.c
 plugins/plan-perfect/pln.c
 plugins/psiconv/psiconv-read.c

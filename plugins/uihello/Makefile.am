@@ -1,4 +1,4 @@
-INCLUDES = \
+AM_CPPFLAGS = \
     -DPLUGIN_ID=\"Gnumeric_UIHello\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\

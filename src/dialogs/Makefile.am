@@ -8,7 +8,7 @@ if ENABLE_SOLVER
   libdialogs_a_SOURCES += dialog-solver.c
 endif
 
-INCLUDES = 								\
+AM_CPPFLAGS = 								\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
 	-I$(top_srcdir)							\

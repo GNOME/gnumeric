@@ -37,7 +37,7 @@ extern void xs_init(void);
 typedef struct _GnmPluginLoaderPerl GnmPluginLoaderPerl;
 
 struct _GnmPluginLoaderPerl {
-	GnmPluginLoader loader;
+	GOPluginLoader loader;
 	gchar* module_name;
 };
 
@@ -47,9 +47,9 @@ typedef struct {
 
 static GObjectClass *parent_class = NULL;
 
-static void gplp_set_attributes (GnmPluginLoader *loader, GHashTable* attrs, ErrorInfo **ret_error);
-static void gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error);
-static void gplp_load_service_function_group (GnmPluginLoader *loader, GOPluginService *service, ErrorInfo **ret_error);
+static void gplp_set_attributes (GOPluginLoader *loader, GHashTable* attrs, ErrorInfo **ret_error);
+static void gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error);
+static void gplp_load_service_function_group (GOPluginLoader *loader, GOPluginService *service, ErrorInfo **ret_error);
 static gboolean gplp_func_desc_load (GOPluginService *service, char const *name, GnmFuncDescriptor *res);
 static GnmValue* call_perl_function_args (FunctionEvalInfo *ei, GnmValue **args);
 static GnmValue* call_perl_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list);
@@ -93,7 +93,7 @@ PLUGIN_CLASS (GnmPluginLoaderPerl, gnm_plugin_loader_perl,
 	      TYPE_GNM_PLUGIN_LOADER)
 
 static void
-gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
+gplp_set_attributes (GOPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
 {
 	GnmPluginLoaderPerl *loader_perl = GNM_PLUGIN_LOADER_PERL (loader);
 
@@ -110,7 +110,7 @@ gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret
 }
 
 static void
-gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
+gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 {
 	//GnmPluginLoaderPerl *loader_perl = GNM_PLUGIN_LOADER_PERL (loader);
 
@@ -139,7 +139,7 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 }
 
 static void
-gplp_load_service_function_group (GnmPluginLoader *loader,
+gplp_load_service_function_group (GOPluginLoader *loader,
 				  GOPluginService *service,
 				  ErrorInfo **ret_error)
 {

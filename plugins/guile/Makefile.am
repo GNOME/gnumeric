@@ -4,7 +4,7 @@ plugins/guile/* files from po/POTFILES.skip.
 Do it before you delete this paragraph here.
 
 gnumeric_guiledir  = $(gnumeric_datadir)/guile
-INCLUDES = \
+AM_CPPFLAGS = \
     -DPLUGIN_ID=\"Gnumeric_guile\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\

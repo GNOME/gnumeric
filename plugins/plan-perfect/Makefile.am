@@ -1,7 +1,7 @@
 PP_LTLIBRARIES_TARGET = plan_perfect.la
 PP_DATA_TARGET = plugin.xml
 
-INCLUDES = \
+AM_CPPFLAGS = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GNUMERIC_CFLAGS)

@@ -12,26 +12,27 @@ endif
 gnumeric_docdir  = $(top_srcdir)/doc
 entities += functions.xml
 
-functions.xml: func.defs $(gnumeric_docdir)/make-func-list.pl func-header.xml func-footer.xml
-	cat $(srcdir)/func-header.xml				>  $$$$.functmp ;	\
-	perl $(gnumeric_docdir)/make-func-list.pl func.defs	>> $$$$.functmp ;	\
-	cat $(srcdir)/func-footer.xml				>> $$$$.functmp ;	\
-	if xmllint --format --encode "UTF-8" $$$$.functmp > "$@" ; then	\
-	    rm $$$$.functmp;				\
+functions_xml_parts = func.defs func-header.xml func-footer.xml
+
+functions.xml: $(gnumeric_docdir)/make-func-list.pl $(functions_xml_parts)
+	(cat $(srcdir)/func-header.xml ;				\
+	 $(PERL) $(gnumeric_docdir)/make-func-list.pl func.defs ;	\
+	 cat $(srcdir)/func-footer.xml					\
+	) >functions.tmp ;						\
+	if xmllint --format --encode "UTF-8" functions.tmp >functions.out ; then	\
+	    mv functions.out $@; rm functions.tmp;					\
 	fi
 
-func.defs: $(top_builddir)/src/gnumeric
+MOSTLYCLEANFILES = functions.out functions.tmp
+
+func.defs: $(top_builddir)/src/gnumeric$(EXEEXT)
 	LC_ALL="$(locale)" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
 
 include $(top_srcdir)/xmldocs.make
 
-# include generated files to simplify installation
-EXTRA_DIST +=		\
-	func.defs	\
-	functions.xml	\
-	func-header.xml func-footer.xml
-
-#	functions.xml	# an entity, shipped via xmldocs.make
+# Include generated files to simplify installation.
+# (Entities, including functions.xml, are shipped via xmldocs.make.)
+EXTRA_DIST += $(functions_xml_parts)
 
 .PHONY : html
 html :

@@ -39,7 +39,6 @@ plugins/openoffice/plugin.xml.in
 plugins/paradox/plugin.xml.in
 plugins/perl-func/plugin.xml.in
 plugins/perl-loader/plugin.xml.in
-plugins/perl/plugin.xml.in
 plugins/plan-perfect/plugin.xml.in
 plugins/psiconv/plugin.xml.in
 plugins/py-func/plugin.xml.in

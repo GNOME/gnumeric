@@ -1,4 +1,4 @@
-INCLUDES = \
+AM_CPPFLAGS = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GNUMERIC_CFLAGS) $(PSICONV_CFLAGS)

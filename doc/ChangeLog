@@ -1,3 +1,7 @@
+2005-04-01  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (functions.xml): Slight optimization of the rule.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0

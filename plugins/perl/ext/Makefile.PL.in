@@ -1,7 +1,0 @@
-use ExtUtils::MakeMaker;
-
-WriteMakefile('NAME' => 'Gnumeric',
-              'LIBS' => '@GNUMERIC_LIBS@',
-              'INC' => '-g -I@top_srcdir@/src @GNUMERIC_CFLAGS@',
-	      'VERSION_FROM' => 'Gnumeric.pm');
-

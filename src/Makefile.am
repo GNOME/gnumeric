@@ -23,7 +23,7 @@ if ENABLE_SSINDEX
   bin_PROGRAMS += ssindex
 endif
 
-INCLUDES = 								\
+AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
 	-I$(srcdir)							\
 	-I$(srcdir)/widgets						\
@@ -35,6 +35,9 @@ INCLUDES = 								\
 BUILT_SOURCES =					\
 	gnm-marshalers.h			\
 	gnumeric-paths.h
+
+# Another hint, see bugs #172211 and #172212:
+non-intermediate: gnm-marshalers.c
 
 CLEANFILES = $(BUILT_SOURCES)			\
 	gnm-marshalers.c			\
@@ -335,10 +338,10 @@ ssindex_SOURCES =				\
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
 SUFFIXES = .list
 
-.list.h: $(GLIB_GENMARSHAL)
+.list.h:
 	$(GENMARSHAL_COMMAND) --header $< >$@
 
-.list.c: $(GLIB_GENMARSHAL)
+.list.c:
 	(echo '/* This file has been automatically generated.  Do not edit. */' && \
 	echo '#include "$*.h"' && \
 	$(GENMARSHAL_COMMAND) --body $< ) >$@

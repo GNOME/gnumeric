@@ -259,7 +259,7 @@ foreach my $filename (@src) {
     print STDERR "Creating $dstfilename...";
 
     print OUTFILE "SUBDIRS = source include\n\n";
-    print OUTFILE "INCLUDES =\t\t\t\t\t\t\\\n";
+    print OUTFILE "AM_CPPFLAGS =\t\t\t\t\t\t\\\n";
     print OUTFILE "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
     print OUTFILE "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
     print OUTFILE "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
@@ -283,7 +283,7 @@ foreach my $filename (@src) {
     print STDERR "Creating $dstfilename...";
 
     print OUTFILE "SUBDIRS = \n\n";
-    print OUTFILE "INCLUDES =\t\t\t\t\t\t\\\n";
+    print OUTFILE "AM_CPPFLAGS =\t\t\t\t\t\t\\\n";
     print OUTFILE "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
     print OUTFILE "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
     print OUTFILE "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";

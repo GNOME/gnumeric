@@ -256,10 +256,8 @@ dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
 
-dnl We need the full pathname here, since some targets depend on $(GLIB_GENMARSHAL).
-dnl
-AC_ARG_VAR(GLIB_GENMARSHAL, [Absolute path of the glib-genmarshal executable.])
-AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+AC_ARG_VAR(GLIB_GENMARSHAL, [The glib-genmarshal executable.])
+AC_CHECK_PROG(GLIB_GENMARSHAL, glib-genmarshal, glib-genmarshal)
 
 AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
 AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
@@ -523,11 +521,15 @@ ifelse([
 AC_SUBST(ALL_LINGUAS,
 "am az bg ca cs da de el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lv lt ml mr ms nb nl nn no pl pt pt_BR ro ru rw sk sr sr@Latn sv tr uk vi zh_CN zh_TW")
 
+POFILES_FULL=
+for lang in $ALL_LINGUAS; do
+    POFILES_FULL="$POFILES_FULL \$(top_srcdir)/po/$lang.po"
+done
+AC_SUBST(POFILES_FULL)
 
 AC_SUBST(GETTEXT_PACKAGE, gnumeric)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
-	[The package name, for gettext]
-)
+	[The package name, for gettext])
 AM_GLIB_GNU_GETTEXT
 dnl
 dnl Code to handle po-functions/Makefile* and po-functions/POTFILES*
@@ -702,6 +704,7 @@ else
 	    PERL_LDOPTS=`$PERL -MExtUtils::Embed -e ldopts`
 
 	    AC_MSG_CHECKING([Checking for perl compiler, linker, libraries and headers])
+	    rm -f testperl$ac_exeext testperl.$ac_objext testperl.c testperl.err
 	    cat > testperl.c <<EOF
 #include "EXTERN.h"
 #include "perl.h"
@@ -716,10 +719,10 @@ EOF
 
 	    if test "x$have_perl" != xyes; then
 		perl_reason="failed to compile test program"
-		cat testperl.err testperl.c >&5
+		cat testperl.err testperl.c >&AS_MESSAGE_LOG_FD
 	    fi
 
-	    rm -f testperl testperl.o testperl.c testperl.err
+	    rm -f testperl$ac_exeext testperl.$ac_objext testperl.c testperl.err
 
 	else
 	    AC_MSG_RESULT(no)
@@ -734,7 +737,7 @@ if test "$want_perl" = xyes -a "x$have_perl" != xyes; then
     AC_MSG_ERROR([Perl requested, but not available: $perl_reason])
 fi
 
-AM_CONDITIONAL(WITH_PERL, test "x$perl_msg" = xyes)
+AM_CONDITIONAL(WITH_PERL, test "x$have_perl" = xyes)
 if test "x$have_perl" = xyes ; then
     perl_msg="yes (using $PERL)"
 else
@@ -963,8 +966,6 @@ plugins/python-loader/Makefile
 plugins/gnome-glossary/Makefile
 plugins/py-func/Makefile
 plugins/corba/Makefile
-plugins/perl/Makefile
-plugins/perl/ext/Makefile.PL
 plugins/perl-func/Makefile
 plugins/perl-loader/Makefile
 plugins/xbase/Makefile

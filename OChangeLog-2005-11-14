@@ -1,3 +1,22 @@
+2005-04-04  Stepan Kasal  <kasal@ucw.cz>
+
+	s/INCLUDES/AM_CPPFLAGS/  "automake -Wall" has told me this.
+
+	* src/Makefile.am (non-intermediate): New dummy rule; see
+		http://bugzilla.gnome.org/show_bug.cgi?id=172211 and
+		http://bugzilla.gnome.org/show_bug.cgi?id=172212
+	(.list.c, .list.h): Remove $(GLIB_GENMARSHAL); it didn't work
+	  anyway, the prerequisities of an implicit rule are ignored.
+	* Makefile.am: Use $(POFILES_FULL), not GNU-specific $(wildcard...).
+	* configure.in (GLIB_GENMARSHAL): Full path is not needed.
+	(POFILES_FULL): Nes AC_SUBSTed variable, contains full paths to
+	  po/*.po files.
+	(perl): Fix a typo, and a few cosmetic changes.
+	(AC_OUTPUT): Remove plugins/perl/*.
+	* plugins/perl/*: Removed.
+	* plugins/perl-loader/perl-loader.c: GnmPluginLoader renamed to
+	  GOPluginLoader.
+
 2005-04-04  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-export.c: Derive from GsfOutputCsv.
