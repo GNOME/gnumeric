@@ -1,6 +1,9 @@
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
-	* gnumeric.spec.in : delete bogus gal req
+	http://bugzilla.gnome.org/show_bug.cgi?id=120436
+	* schemas/Makefile.am : simplfy.
+	* gnumeric.spec.in : the other half of the schema installation
+	  delete bogus gal req
 
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
