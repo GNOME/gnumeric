@@ -406,7 +406,7 @@
       which will assist you in imporitng the plain text contents of X
       clipboard into the spreadsheet. The <guilabel>Text
       Import</guilabel> druid is described in <xref
-      linkend="file-format-csv-import" />.
+      linkend="sect-file-textImport" />.
     </para>
 
   </sect2>
