@@ -98,7 +98,7 @@ stf_dialog_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanva
 static gboolean
 stf_dialog_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
 {
-	return gnumeric_dialog_question_yes_no (data->wbcg,
+	return !gnumeric_dialog_question_yes_no (data->wbcg,
 		_("Are you sure you want to cancel?"), FALSE);
 }
 

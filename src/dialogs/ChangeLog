@@ -1,3 +1,10 @@
+2002-08-31  Jody Goldberg <jody@gnome.org>
+
+	* dialog-stf.c (stf_dialog_druid_page_cancel) : fix sense
+	  on test that I broke when converting to GtkDialog
+	* dialog-stf-export.c (stf_export_dialog_druid_page_cancel) :
+	  ditto.
+
 2002-08-30  Jody Goldberg <jody@gnome.org>
 
 	* dialog-graph-guru.c (dialog_graph_guru) : some initial work to get
