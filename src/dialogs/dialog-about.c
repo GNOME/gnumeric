@@ -43,11 +43,13 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("Miguel de Icaza, creator."),
 		N_("Jody Goldberg, maintainer."),
 		N_("Sean Atkinson, functions and X-Base importing."),
+		N_("Michel Berkelaar, Simplex algorithm for Solver (LP Solve)."),
 		N_("Grandma Chema Celorio, Tester and sheet copy."),
 		N_("Frank Chiulli, OLE support."),
 		N_("Kenneth Christiansen, i18n, misc stuff."),
 		N_("Zbigniew Chyla, plugin system, i18n."),
 		N_("J.H.M. Dassen (Ray), debian packaging."),
+		N_("Jeroen Dirks, Simplex algorithm for Solver (LP Solve)."),
 		N_("Tom Dyas, plugin support."),
 		/* if your charset allows it, replace the 'o' of 'Gergo'
 		 * with 'odoubleacute' (U0151) and the 'E' of 'Erdi'
