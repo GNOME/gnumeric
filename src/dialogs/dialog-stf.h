@@ -64,7 +64,7 @@ typedef struct {
 	GtkWidget         *format_data_container;
         GtkWidget	  *format_trim;
 	NumberFormatSelector *format_selector;
-	GtkLabel          *column_selection_label;
+	GtkWidget         *column_selection_label;
      
 	/* Page members that are created at run-time */
 	LocaleSelector    *locale_selector;

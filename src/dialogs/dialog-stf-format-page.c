@@ -49,7 +49,7 @@ format_page_update_column_selection (StfDialogData *pagedata)
 					pagedata->format.col_import_array_len - pagedata->format.col_import_count);
 	}
 
-	gtk_label_set_text (pagedata->format.column_selection_label, text);
+	gtk_label_set_text (GTK_LABEL (pagedata->format.column_selection_label), text);
 
 	g_free (text);
 }
