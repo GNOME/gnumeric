@@ -1,3 +1,16 @@
+1999-10-26  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_set_pattern): cripple for now.
+
+	* src/xml-io.c (xml_sheet_write): Write the style regions in the
+	correct order !. (xml_read_style): set italic for italic.
+
+	* src/sheet-style.c (sheet_get_style_list): Return a copy.
+
+	* src/xml-io.c (xml_read_cell_styles),
+	(xml_dispose_read_cell_styles): replace.
+	(xml_sheet_read): Add read_cell_styles*.
+
 1999-10-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-stat.c: Fixed the const arguments of GROWTH and

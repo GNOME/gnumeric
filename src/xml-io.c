@@ -33,7 +33,7 @@ typedef struct {
 	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
 	Sheet *sheet;		/* the associated sheet */
 	Workbook *wb;		/* the associated sheet */
-	xmlNodePtr style_node;  /* The node where we insert the styles */
+	GHashTable *style_table;/* old style styles compatibility */
 } parse_xml_context_t;
 
 /*
@@ -636,7 +636,7 @@ xml_write_style_border (parse_xml_context_t *ctxt,
  * Create a StyleBorder equivalent to the XML subtree of doc.
  */
 static void
-xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyle *style)
+xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyle *mstyle)
 {
 	xmlNodePtr side;
 	int        i;
@@ -650,10 +650,13 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyle *style
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
  		if ((side = xml_search_child (tree,
 					      StyleSideNames [i - MSTYLE_BORDER_TOP])) != NULL) {
-			StyleColor * color = NULL;
+			StyleColor   *color = NULL;
+			MStyleBorder *border;
  			xml_get_color_value (side, "Color", &color);
  			/* FIXME: need to read the proper type */
-			mstyle_set_border (style, i, border_fetch (BORDER_NONE, color, i));
+			border = border_fetch (BORDER_NONE, color, i);
+			if (border)
+				mstyle_set_border (mstyle, i, border);
  		}
 	}
 }
@@ -920,7 +923,7 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 	g_return_if_fail (node != NULL);
 
 	txt = xml_value_get (node, "Left");
-	if (txt){
+	if (txt) {
 		if (hf->left_format)
 			g_free (hf->left_format);
 		
@@ -929,7 +932,7 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 	}
 	
 	txt = xml_value_get (node, "Middle");
-	if (txt){
+	if (txt) {
 		if (hf->middle_format)
 			g_free (hf->middle_format);
 		
@@ -938,7 +941,7 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 	}
 
 	txt = xml_value_get (node, "Right");
-	if (txt){
+	if (txt) {
 		if (hf->right_format)
 			g_free (hf->right_format);
 		
@@ -1190,7 +1193,7 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 				mstyle_set_font_bold (mstyle, t);
 
 			if (xml_get_value_int (child, "Italic", &t))
-				mstyle_set_font_bold (mstyle, t);
+				mstyle_set_font_italic (mstyle, t);
 			
 			font = xmlNodeGetContent (child);
 			if (font) {
@@ -1481,8 +1484,10 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	int row = 0, col = 0;
 	char *content = NULL;
 	char *comment = NULL;
+	int  style_idx;
+	gboolean style_read = FALSE;
 	
-	if (strcmp (tree->name, "Cell")){
+	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,
 		 "xml_read_cell: invalid element type %s, 'Cell' expected`\n",
 			 tree->name);
@@ -1503,22 +1508,57 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		return NULL;
 	}
 
+
+	/*
+	 * This style code is a gross anachronism that slugs performance
+	 * in the common case this data won't exist. In the long term all
+	 * files will make the 0.41 - 0.42 transition and this can go.
+	 * Newer file format includes an index pointer to the Style
+	 * Old format includes the Style online
+	 */
+	if (xml_get_value_int (tree, "Style", &style_idx)) {
+		MStyle *mstyle;
+		
+		style_read = TRUE;
+		mstyle = g_hash_table_lookup (ctxt->style_table,
+					      GINT_TO_POINTER (style_idx));
+		if (mstyle) {
+			mstyle_ref (mstyle);
+			sheet_style_attach_single (ctxt->sheet, col, row,
+						   mstyle);
+		} /* else reading a newer version with style_idx == 0 */
+	}
+	
 	childs = tree->childs;
 	while (childs != NULL) {
+		/*
+		 * This style code is a gross anachronism that slugs performance
+		 * in the common case this data won't exist. In the long term all
+		 * files will make the 0.41 - 0.42 transition and this can go.
+		 * This is even older backwards compatibility than 0.41 - 0.42
+		 */
+		if (!strcmp (childs->name, "Style")) {
+			if (!style_read) {
+				MStyle *mstyle;
+				mstyle = xml_read_style (ctxt, childs);
+				if (mstyle)
+					sheet_style_attach_single (ctxt->sheet, col, row,
+								   mstyle);
+			}
+		}
 		if (!strcmp (childs->name, "Content"))
-			content = xmlNodeGetContent(childs);
+			content = xmlNodeGetContent (childs);
 		if (!strcmp (childs->name, "Comment")) {
-			comment = xmlNodeGetContent(childs);
+			comment = xmlNodeGetContent (childs);
  			if (comment) {
- 				cell_set_comment(ret, comment);
- 				free(comment);
+ 				cell_set_comment (ret, comment);
+ 				free (comment);
 			}
  		}
 		childs = childs->next;
 	}
-	
 	if (content == NULL)
-		content = xmlNodeGetContent(tree);
+		content = xmlNodeGetContent (tree);
 	if (content != NULL) {
 		char *p = content + strlen (content);
 
@@ -1591,6 +1631,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr objects;
 	xmlNodePtr printinfo;
 	xmlNodePtr styles;
+	GList     *style_regions;
 
 	char str[50];
 
@@ -1623,7 +1664,10 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	/*
 	 * Styles
 	 */
-	styles = xml_write_styles (ctxt, sheet_get_style_list (sheet));
+	style_regions = sheet_get_style_list (sheet);
+	style_regions = g_list_reverse (style_regions);
+	styles = xml_write_styles (ctxt, style_regions);
+	g_list_free (style_regions);
 	if (styles)
 		xmlAddChild (cur, styles);
 
@@ -1742,6 +1786,43 @@ xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 	}
 }
 
+static void
+xml_read_cell_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
+{
+	xmlNodePtr styles, child;
+
+	ctxt->style_table = g_hash_table_new (g_direct_hash, g_direct_equal);
+	
+	child = xml_search_child (tree, "CellStyles");
+	if (child == NULL)
+		return;
+	
+	for (styles = child->childs; styles; styles = styles->next) {
+		MStyle *mstyle;
+		int style_idx;
+		
+		if (xml_get_value_int (styles, "No", &style_idx)) {
+			mstyle = xml_read_style (ctxt, styles);
+			g_hash_table_insert (
+				ctxt->style_table,
+				GINT_TO_POINTER (style_idx),
+				mstyle);
+		}
+	}
+}
+static void
+destroy_style (gpointer key, gpointer value, gpointer data)
+{
+	mstyle_unref (value);
+}
+
+static void
+xml_dispose_read_cell_styles (parse_xml_context_t *ctxt)
+{
+	g_hash_table_foreach (ctxt->style_table, destroy_style, NULL);
+	g_hash_table_destroy (ctxt->style_table);
+}
+
 /*
  * Create a Sheet equivalent to the XML subtree of doc.
  */
@@ -1786,6 +1867,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	xml_read_print_info (ctxt, tree);
 	xml_read_styles (ctxt, tree);
+	xml_read_cell_styles (ctxt, tree);
 	xml_read_cols_info (ctxt, ret, tree);
 	xml_read_rows_info (ctxt, ret, tree);
 
@@ -1809,6 +1891,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			cells = cells->next;
 		}
 	}
+	xml_dispose_read_cell_styles (ctxt);
 
 	/* Initialize the ColRowInfo's ->pixels data */
 	sheet_set_zoom_factor (ret, ret->last_zoom_factor_used);

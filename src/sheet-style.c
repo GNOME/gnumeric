@@ -42,7 +42,7 @@ struct _SheetStyleData {
 GList *
 sheet_get_style_list (Sheet *sheet)
 {
-	return STYLE_LIST (sheet);
+	return g_list_copy (STYLE_LIST (sheet));
 }
 
 static guint
