@@ -1134,7 +1134,7 @@ cell_split_text (GdkFont *font, char *text, int width)
 	}
 	if (*line_begin){
 		line_len = p - line_begin;
-		line = g_malloc (line_len);
+		line = g_malloc (line_len+1);
 		memcpy (line, line_begin, line_len);
 		line [line_len] = 0;
 		list = g_list_append (list, line);
