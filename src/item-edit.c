@@ -47,7 +47,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	char *text;
 	int  cursor_pos, text_len, first_part_len, total_len;
 
-	font = canvas->style->font;
+	font = item_edit->style->font->font;
 	text = gtk_entry_get_text (GTK_ENTRY (item_edit->editor));
 	text_len = strlen (text);
 	cursor_pos = GTK_EDITABLE (item_edit->editor)->current_pos;
@@ -119,15 +119,20 @@ item_edit_event (GnomeCanvasItem *item, GdkEvent *event)
 static void
 item_edit_reconfigure (GnomeCanvasItem *item)
 {
+	ItemEdit *item_edit = ITEM_EDIT (item);
 	int x, y, w, h;
 
-	item_edit_get_pixel_coords (ITEM_EDIT (item), &x, &y, &w, &h);
+	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
 	item->x1 = x;
 	item->y1 = y;
 	item->x2 = x + w;
 	item->y2 = y + h;
 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+
+	if (item_edit->style)
+		style_destroy (item_edit->style);
+	item_edit->style = sheet_style_compute (item_edit->sheet, item_edit->col, item_edit->row);
 }
 
 /*
@@ -144,7 +149,11 @@ item_edit_init (ItemEdit *item_edit)
 	item->y2 = 1;
 
 	item_edit->col_span = 1;
+
+	/* Set invalid values so that we know when we have been fully initialized */
 	item_edit->sheet = 0;
+	item_edit->col = -1;
+	item_edit->row = -1;
 }
 
 static void
@@ -171,6 +180,7 @@ item_edit_destroy (GtkObject *o)
 	int x, y, w, h;
 
 	/* Repaint the area where we had edited */
+	style_destroy (item_edit->style);
 	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
 	gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas, x, y, x+w, y+h);
 	
@@ -233,6 +243,10 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		item_edit->row = GTK_VALUE_INT (*arg);
 		break;
 	}
+
+	/* Once all of our parameters have been set, do the reconfiguration */
+	if (item_edit->sheet && item_edit->col != -1 && item_edit->row != -1)
+		item_edit_reconfigure (item);
 }
 
 /*

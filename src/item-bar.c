@@ -285,7 +285,7 @@ item_bar_start_resize (ItemBar *item_bar, int pos, int pixels)
 	double x1, x2, y1, y2;
 	int division_pos;
 	
-	gsheet = GNUMERIC_SHEET (canvas);
+	gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
 	sheet = item_bar->sheet_view->sheet;
 	
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){

@@ -1,5 +1,28 @@
 1998-08-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet.c (sheet_row_set_internal_height): New routine used to
+	change the heigh of a sheet.  Now we also keep a variable to see
+	if the user has hardcoded the dimensions of the row.
+	(sheet_compute_visible_ranges): New function to compute the
+	visible ranges of the Sheets.
+
+	* src/item-edit.c (item_edit_init): Init all values.
+	(item_edit_set_arg): Set the child bounds
+	(item_edit_draw): Use the style font for the current cell when
+	drawing the cell.
+
+	* src/dialog-cell-format.c (apply_font_format, create_font_page):
+	New cell property configuration page: font selector.
+
+	* src/cell.c (cell_set_font, cell_set_font_from_style): New
+	routines to change a cell's font.
+	
+
+	* src/item-bar.c (item_bar_start_resize): Fix routine after the
+	massive changes of yesterday.
+
+1998-08-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
 	* src/format.c (format_number): Rewrote the format parser.  I
 	took Chris's number formatting routine and made it a
 	number-rendering only thing to support the complexities of the

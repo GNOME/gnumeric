@@ -22,6 +22,8 @@ static GtkWidget *number_input;
 static GtkWidget *number_cat_list;
 static GtkWidget *number_format_list;
 
+static GtkWidget *font_widget;
+
 /* There point to the radio groups in the format/alignment page */
 static GSList *hradio_list;
 static GSList *vradio_list;
@@ -295,12 +297,14 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	format = cells_get_format (cells);
 
 	/* 1. Categories */
-	gtk_table_attach_defaults (t, l = gtk_label_new (_("Categories")), 0, 1, BOXES_LINE, BOXES_LINE+1);
+	gtk_table_attach (t, l = gtk_label_new (_("Categories")),
+			  0, 1, BOXES_LINE, BOXES_LINE+1,
+			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 
 	number_cat_list = my_clist_new ();
 	gtk_table_attach (t, number_cat_list, 0, 1, BOXES_LINE+1, BOXES_LINE+2,
-			  GTK_FILL | GTK_EXPAND, 0, 4, 0);
+			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 4, 0);
 
 	/* 1.1 Connect our signal handler */
 	gtk_signal_connect (GTK_OBJECT (number_cat_list), "select_row",
@@ -338,7 +342,9 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 
 	/* 3. Format codes */
 	number_format_list = my_clist_new ();
-	gtk_table_attach_defaults (t, l = gtk_label_new (_("Format codes")), 1, 2, BOXES_LINE, BOXES_LINE+1);
+	gtk_table_attach (t, l = gtk_label_new (_("Format codes")),
+			  1, 2, BOXES_LINE, BOXES_LINE+1,
+			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 	gtk_table_attach_defaults (t, number_format_list, 1, 2, BOXES_LINE + 1, BOXES_LINE + 2);
 	format_list_fill (0);
@@ -518,6 +524,65 @@ apply_align_format (Style *style, Sheet *sheet, CellList *cells)
 	style->valid_flags |= STYLE_ALIGN;
 }
 
+static void
+font_changed (GtkWidget *widget, GtkStyle *previous_style, GnomePropertyBox *prop_win)
+{
+	gnome_property_box_changed (prop_win);
+}
+
+static GtkWidget *
+create_font_page (GtkWidget *prop_win, CellList *cells)
+{
+	font_widget = gtk_font_selection_new ();
+	gtk_widget_show (font_widget);
+
+	gtk_signal_connect (GTK_OBJECT (GTK_FONT_SELECTION (font_widget)->preview_entry),
+			    "style_set",
+			    GTK_SIGNAL_FUNC (font_changed), prop_win);
+	
+	return font_widget;
+}
+
+static void
+apply_font_format (Style *style, Sheet *sheet, CellList *cells)
+{
+	GtkFontSelection *font_sel = GTK_FONT_SELECTION (font_widget);
+	GdkFont   *gdk_font;
+	GList *l;
+	char *font_name;
+	int  height;
+	
+	font_name = gtk_font_selection_get_font_name (font_sel);
+
+	if (!font_name)
+		return;
+
+	gdk_font = gtk_font_selection_get_font (font_sel);
+	height = gdk_font->ascent + gdk_font->descent;
+
+	/* Apply the new font to all of the cell rows */
+	for (; cells; cells = cells->next){
+		Cell *cell = cells->data;
+		
+		cell_set_font (cell, font_name);
+	}
+
+	/* Now apply it to every row in the selection */
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		int i;
+
+		for (i = ss->start_row; i <= ss->end_row; i++){
+			ColRowInfo *ri;
+
+			ri = sheet_row_get (sheet, i);
+			sheet_row_set_internal_height (sheet, ri, height);
+		}
+	}
+	style->valid_flags |= STYLE_FONT;
+	style->font = style_font_new (font_name, 10); 
+}
+
 static struct {
 	char      *title;
 	GtkWidget *(*create_page)(GtkWidget *prop_win, CellList *cells);
@@ -525,6 +590,7 @@ static struct {
 } cell_format_pages [] = {
 	{ N_("Number"),    create_number_format_page,  apply_number_formats },
 	{ N_("Alignment"), create_align_page,          apply_align_format   },
+	{ N_("Font"),      create_font_page,           apply_font_format    },
 	{ NULL, NULL }
 };
 

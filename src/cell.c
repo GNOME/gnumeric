@@ -62,6 +62,44 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient)
 	cell_queue_redraw (cell);
 }
 
+void
+cell_set_font_from_style (Cell *cell, StyleFont *style_font)
+{
+	GdkFont *font;
+	int height;
+	
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (style_font != NULL);
+
+	style_font_unref (cell->style->font);
+	style_font_ref (style_font);
+	
+	cell->style->font = style_font;
+
+	font = style_font->font;
+	
+	height = font->ascent + font->descent;
+	
+	if (!cell->row->hard_size)
+		sheet_row_set_internal_height (cell->sheet, cell->row, height);
+	
+	cell_queue_redraw (cell);
+}
+
+void
+cell_set_font (Cell *cell, char *font_name)
+{
+	StyleFont *style_font;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (font_name != NULL);
+
+	style_font = style_font_new (font_name, 1);
+
+	if (style_font)
+		cell_set_font_from_style (cell, style_font);
+}
+
 /*
  * cell_calc_dimensions
  * @cell:  The cell

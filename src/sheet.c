@@ -198,6 +198,9 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	}
 }
 
+/*
+ * Duplicates a column or row
+ */
 ColRowInfo *
 sheet_duplicate_colrow (ColRowInfo *original)
 {
@@ -303,8 +306,20 @@ sheet_row_get_info (Sheet *sheet, int row)
 	return &sheet->default_row_style;
 }
 
+void
+sheet_compute_visible_ranges (Sheet *sheet)
+{
+	GList *l;
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+
+		gnumeric_sheet_compute_visible_ranges (gsheet);
+	}
+}
+
 static void
-colrow_set_units (Sheet *sheet,ColRowInfo *info)
+colrow_set_units (Sheet *sheet, ColRowInfo *info)
 {
 	double pix = sheet->last_zoom_factor_used;
 	
@@ -312,8 +327,19 @@ colrow_set_units (Sheet *sheet,ColRowInfo *info)
 			(info->margin_a + info->margin_b + 1)) / pix;
 }
 
+/*
+ * sheet_row_set_height
+ * @sheet:         	The sheet
+ * @row:           	The row
+ * @height:        	The desired height
+ * @height_set_by_user: TRUE if this was done by a user (ie, user manually
+ *                      set the width)
+ *
+ * Sets the height of a row in terms of the total visible space (as opossite
+ * to the internal required space, which does not include the margins).
+ */
 void
-sheet_row_set_height (Sheet *sheet, int row, int height)
+sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_user)
 {
 	ColRowInfo *ri;
 	int add = 0;
@@ -321,14 +347,49 @@ sheet_row_set_height (Sheet *sheet, int row, int height)
 	ri = sheet_row_get_info (sheet, row);
 	if (ri == &sheet->default_row_style){
 		ri = sheet_duplicate_colrow (ri);
+		ri->pos = row;
 		add = 1;
 	}
 
-	ri->pos = row;
+	if (height_set_by_user)
+		ri->hard_size = 1;
+	
 	ri->pixels = height;
 	colrow_set_units (sheet, ri);
 	if (add)
 		sheet_row_add (sheet, ri);
+	sheet_compute_visible_ranges (sheet);
+	sheet_redraw_all (sheet);
+}
+
+/*
+ * sheet_row_set_internal_height
+ * @sheet:         	The sheet
+ * @row:           	The row
+ * @height:        	The desired height
+ *
+ * Sets the height of a row in terms of the internal required space (the total
+ * size of the row will include the margins.
+ */
+void
+sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, int height)
+{
+	double pix;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (ri != NULL);
+	g_return_if_fail (ri != &sheet->default_row_style);
+	
+	pix = sheet->last_zoom_factor_used;
+	
+	if (ri->units == height)
+		return;
+
+	ri->units = height;
+	ri->pixels = (ri->units * pix) + (ri->margin_a + ri->margin_b - 1);
+
+	sheet_compute_visible_ranges (sheet);
 	sheet_redraw_all (sheet);
 }
 
@@ -350,6 +411,7 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 	if (add)
 		sheet_col_add (sheet, ci);
 
+	sheet_compute_visible_ranges (sheet);
 	sheet_redraw_all (sheet);
 }
 

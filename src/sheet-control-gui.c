@@ -237,7 +237,7 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 {
 	Sheet *sheet = sheet_view->sheet;
 	
-	sheet_row_set_height (sheet, row, height);
+	sheet_row_set_height (sheet, row, height, TRUE);
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }
 

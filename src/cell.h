@@ -14,7 +14,7 @@ typedef struct {
 	int        pixels;		/* we compute this from the above parameters */
 
 	unsigned   int selected:1;	/* is this selected? */
-
+	unsigned   int hard_size:1;     /* has the user explicitly set the dimensions? */
 	void       *data;
 } ColRowInfo;
 
@@ -62,6 +62,8 @@ char       *value_format              (Value *value, StyleFormat *format, char *
 void        cell_set_text             (Cell *cell, char *text);
 void        cell_set_formula          (Cell *cell, char *text);
 void        cell_set_format           (Cell *cell, char *format);
+void        cell_set_font             (Cell *cell, char *font_name);
+void        cell_set_font_from_style  (Cell *cell, StyleFont *style_font);
 void        cell_set_alignment        (Cell *cell, int halign, int valign, int orientation);
 void        cell_set_rendered_text    (Cell *cell, char *rendered_text);
 void        cell_formula_relocate     (Cell *cell, int target_col, int target_row);

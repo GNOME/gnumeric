@@ -19,6 +19,8 @@ typedef struct {
 	/* Where are we */
 	int        col, row, col_span;
 	int        pixel_span;
+
+	Style      *style;
 } ItemEdit;
 
 GtkType item_edit_get_type (void);
