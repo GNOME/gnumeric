@@ -1,3 +1,9 @@
+2002-03-09  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-plugin-manager.c (cb_pm_button_activate_plugin_clicked,
+	cb_pm_button_activate_all_clicked): Revert to pre 2002-03-08
+	version. We apologize for the inconvenience.
+
 2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* sheet-order.glade : use stock buttons and set title

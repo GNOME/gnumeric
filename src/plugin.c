@@ -1001,7 +1001,7 @@ plugin_get_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error)
 }
 
 void
-activate_plugin (PluginInfo *pinfo, gboolean force_load, ErrorInfo **ret_error)
+activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
 	GList *error_list = NULL;
 	PluginDependency **dep_ptr;
@@ -1027,7 +1027,7 @@ activate_plugin (PluginInfo *pinfo, gboolean force_load, ErrorInfo **ret_error)
 		if (dep_pinfo != NULL) {
 			ErrorInfo *dep_error;
 
-			activate_plugin (dep_pinfo, force_load, &dep_error);
+			activate_plugin (dep_pinfo, &dep_error);
 			if (dep_error != NULL) {
 				ErrorInfo *new_error;
 
@@ -1047,8 +1047,7 @@ activate_plugin (PluginInfo *pinfo, gboolean force_load, ErrorInfo **ret_error)
 		for (i = 0; pinfo->services_v[i] != NULL; i++) {
 			ErrorInfo *service_error;
 
-			plugin_service_activate (pinfo->services_v[i],
-						 force_load, &service_error);
+			plugin_service_activate (pinfo->services_v[i], &service_error);
 			if (service_error != NULL) {
 				ErrorInfo *error;
 
@@ -1447,8 +1446,7 @@ plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
  * (plugin_loader_is_available_by_id() returns FALSE).
  */
 void
-plugin_db_activate_plugin_list (GList *plugins, gboolean force_load,
-				ErrorInfo **ret_error)
+plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error)
 {
 	GList *l;
 	GList *error_list = NULL;
@@ -1462,7 +1460,7 @@ plugin_db_activate_plugin_list (GList *plugins, gboolean force_load,
 		if (!pinfo->is_active) {
 			ErrorInfo *error;
 
-			activate_plugin (pinfo, force_load, &error);
+			activate_plugin (pinfo, &error);
 			if (error != NULL) {
 				ErrorInfo *new_error;
 
@@ -1677,8 +1675,7 @@ plugin_db_shutdown (ErrorInfo **ret_error)
 }
 
 static void
-plugin_db_activate_saved_active_plugins (gboolean force_load,
-					 ErrorInfo **ret_error)
+plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error)
 {
 	GList *plugin_list = NULL, *l;
 	ErrorInfo *error;
@@ -1695,7 +1692,7 @@ plugin_db_activate_saved_active_plugins (gboolean force_load,
 		}
 	}
 	plugin_list = g_list_reverse (plugin_list);
-	plugin_db_activate_plugin_list (plugin_list, force_load, &error);
+	plugin_db_activate_plugin_list (plugin_list, &error);
 	*ret_error = error;
 	g_list_free (plugin_list);
 
@@ -1705,7 +1702,7 @@ plugin_db_activate_saved_active_plugins (gboolean force_load,
 }
 
 void
-plugins_init (CommandContext *context, gboolean force_load)
+plugins_init (CommandContext *context)
 {
 	GList *error_list = NULL;
 	ErrorInfo *error;
@@ -1721,7 +1718,7 @@ plugins_init (CommandContext *context, gboolean force_load)
 		                             _("Errors while reading info about available plugins."),
 		                             error));
 	}
-	plugin_db_activate_saved_active_plugins (force_load, &error);
+	plugin_db_activate_saved_active_plugins (&error);
 	if (error != NULL) {
 		error_list = g_list_prepend (error_list, error_info_new_str_with_details (
 		                             _("Errors while activating plugins."),

@@ -124,7 +124,7 @@ cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gu
 			want_loader = gnumeric_dialog_question_yes_no (pm_gui->wbcg, msg, TRUE);
 			g_free (msg);
 			if (want_loader) {
-				activate_plugin (loader_pinfo, FALSE, &error);
+				activate_plugin (loader_pinfo, &error);
 				if (error != NULL) {
 					error = error_info_new_str_with_details (
 					        _("Error while activating plugin loader"),
@@ -151,7 +151,7 @@ cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gu
 	if (loader_available) {
 		ErrorInfo *error;
 
-		activate_plugin (pinfo, FALSE, &error);
+		activate_plugin (pinfo, &error);
 		if (error != NULL) {
 			error = error_info_new_str_with_details (
 			        _("Error while activating plugin"),
@@ -215,7 +215,7 @@ cb_pm_button_activate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 	ErrorInfo *error;
 
 	g_return_if_fail (pm_gui != NULL);
-	plugin_db_activate_plugin_list (plugin_db_get_available_plugin_info_list (), FALSE, &error);
+	plugin_db_activate_plugin_list (plugin_db_get_available_plugin_info_list (), &error);
 	update_plugin_manager_view (pm_gui);
 	plugin_db_update_saved_active_plugin_id_list ();
 	if (error != NULL) {

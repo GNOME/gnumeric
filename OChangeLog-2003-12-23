@@ -1,3 +1,29 @@
+2002-03-09  Jon K Hellan  <hellan@acm.org>
+
+	Dump function definitions from plugins, this time the easy way
+	which even works.
+	
+	* src/func.c (copy_hash_table_to_ptr_array): Copy also when fd->help
+	is NULL.
+	(function_dump_defs): Load function definition before dumping name
+	only function.
+
+	* src/main.c (main): Drop force load argument to plugins_init.
+
+	* src/plugin.[ch] (activate_plugin, plugin_db_activate_plugin_list,
+	plugin_db_activate_saved_active_plugins, plugins_init): Revert to
+	pre 2002-03-08 version. We apologize for the inconvenience. 
+	However, error reporting by means of gnumeric_error_error_info
+	remains.
+	
+	* src/plugin-service.[ch]
+	(plugin_service_function_group_initialize): Revert to pre
+	2002-03-08 version.
+	(plugin_service_activate): Ditto. Except that we don't reinstate
+	#ifdef PLUGIN_ALWAYS_LOAD. That branch is hopelessly bitrotted.
+	
+	* src/plugin.h: Drop #undef PLUGIN_ALWAYS_LOAD. 
+
 2002-03-09  Jody Goldberg <jody@gnome.org>
 
 	* src/func.c (func_def_load) : rename from function_def_get_full_info_if_needed

@@ -241,7 +241,7 @@ main (int argc, char *argv [])
 		int retval;
 		CommandContextStderr *ccs = command_context_stderr_new ();
 
-		plugins_init (COMMAND_CONTEXT (ccs), TRUE);
+		plugins_init (COMMAND_CONTEXT (ccs));
 		if ((retval = command_context_stderr_get_status (ccs)) == 0)
 			function_dump_defs (dump_file_name);
 
@@ -269,7 +269,7 @@ main (int argc, char *argv [])
 	bonobo_activate ();
 #endif
  	wbc = workbook_control_gui_new (NULL, NULL);
- 	plugins_init (COMMAND_CONTEXT (wbc), FALSE);
+ 	plugins_init (COMMAND_CONTEXT (wbc));
 	if (startup_files) {
 		int i;
 		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {

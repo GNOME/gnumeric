@@ -952,9 +952,7 @@ plugin_service_function_group_get_full_info_callback (FunctionDefinition *fn_def
 }
 
 static void
-plugin_service_function_group_initialize (PluginService *service,
-					  gboolean force_load,
-					  ErrorInfo **ret_error)
+plugin_service_function_group_initialize (PluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceFunctionGroup *service_function_group;
 
@@ -971,13 +969,9 @@ plugin_service_function_group_initialize (PluginService *service,
 	for (l = service_function_group->function_name_list; l != NULL; l = l->next) {
 		FunctionDefinition *fn_def;
 
-		fn_def = function_add_name_only (
-			service_function_group->category,
-			(gchar *) l->data,
-			&plugin_service_function_group_get_full_info_callback);
+		fn_def = function_add_name_only (service_function_group->category, (gchar *) l->data,
+		                                 &plugin_service_function_group_get_full_info_callback);
 		function_def_set_user_data (fn_def, (gpointer) service);
-		if (fn_def->fn_type == FUNCTION_NAMEONLY && force_load)
-			func_def_load (fn_def);
 	}
 }
 
@@ -1276,8 +1270,7 @@ plugin_service_get_loader_data (PluginService *service)
 }
 
 void
-plugin_service_activate (PluginService *service, gboolean force_load,
-			 ErrorInfo **ret_error)
+plugin_service_activate (PluginService *service, ErrorInfo **ret_error)
 {
 	ErrorInfo *error;
 
@@ -1287,14 +1280,6 @@ plugin_service_activate (PluginService *service, gboolean force_load,
 	*ret_error = NULL;
 	if (service->is_active) {
 		return;
-	}
-	if (force_load) {
-		plugin_service_load (service, &error);
-		if (error != NULL) {
-			*ret_error = error_info_new_str_with_details (
-				_("Error while loading plugin service."),
-				error);
-		}
 	}
 	switch (service->service_type) {
 	case PLUGIN_SERVICE_GENERAL:
@@ -1307,8 +1292,7 @@ plugin_service_activate (PluginService *service, gboolean force_load,
 		plugin_service_file_saver_initialize (service, &error);
 		break;
 	case PLUGIN_SERVICE_FUNCTION_GROUP:
-		plugin_service_function_group_initialize (service,
-							  force_load, &error);
+		plugin_service_function_group_initialize (service, &error);
 		break;
 	case PLUGIN_SERVICE_PLUGIN_LOADER:
 		plugin_service_plugin_loader_initialize (service, &error);

@@ -12,9 +12,6 @@
  * Use "#define PLUGIN_DEBUG 0" to enable some plugin related debugging
  * messages.
 #undef PLUGIN_DEBUG
- * Use "#define PLUGIN_ALWAYS_LOAD" to force loading plugin at activation
- * time.
-#undef PLUGIN_ALWAYS_LOAD
 */
 
 typedef struct _PluginInfo	PluginInfo;
@@ -29,7 +26,7 @@ typedef enum {
 	DEPENDENCY_LAST
 } PluginDependencyType;
 
-void         plugins_init (CommandContext *context, gboolean force_load);
+void         plugins_init (CommandContext *context);
 void         plugins_shutdown (void);
 
 GList       *gnumeric_extra_plugin_dirs (void);
@@ -43,8 +40,7 @@ GType      plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_er
 gboolean     plugin_loader_is_available_by_id (const gchar *id_str);
 
 void         plugin_info_free (PluginInfo *pinfo);
-void         activate_plugin (PluginInfo *pinfo, gboolean force_load,
-			      ErrorInfo **ret_error);
+void         activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
 void         deactivate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
 gboolean     plugin_can_deactivate (PluginInfo *pinfo);
 void         plugin_load_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
@@ -61,9 +57,7 @@ GList       *plugin_db_get_available_plugin_info_list (void);
 void         plugin_db_update_saved_active_plugin_id_list (void);
 void         plugin_db_init (ErrorInfo **ret_error);
 void         plugin_db_shutdown (ErrorInfo **ret_error);
-void         plugin_db_activate_plugin_list (GList *plugins,
-					     gboolean force_load,
-					     ErrorInfo **ret_error);
+void         plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error);
 void         plugin_db_deactivate_plugin_list (GList *plugins, ErrorInfo **ret_error);
 void         plugin_db_mark_plugin_for_deactivation (PluginInfo *pinfo, gboolean mark);
 gboolean     plugin_db_is_plugin_marked_for_deactivation (PluginInfo *pinfo);
