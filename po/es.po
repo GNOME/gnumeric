@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2003-06-29 23:28+0200\n"
+"PO-Revision-Date: 2003-07-08 21:03+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -17451,7 +17451,7 @@ msgstr "Registro «%s» inválido de longitud %hd en vez de %d"
 #: plugins/qpro/qpro-read.c:775
 #, c-format
 msgid "Invalid zoom %hd %%"
-msgstr "Zoom %hd %% inválido"
+msgstr "Factor de ampliación %hd %% inválido"
 
 #: plugins/qpro/qpro-read.c:817
 #, c-format
