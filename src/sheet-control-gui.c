@@ -123,6 +123,9 @@ scg_redraw_headers (SheetControl *sc,
 
 	for (i = scg->active_panes; i-- > 0 ; ) {
 		pane = scg->pane + i;
+		if (!pane->is_active)
+			continue;
+
 		gcanvas = pane->gcanvas;
 
 		if (col && pane->col.canvas != NULL) {
@@ -471,14 +474,14 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 					0, index, SHEET_MAX_COLS-1, index);
 		} else if (is_cols) {
 			GnumericCanvas *gcanvas =
-				scg_pane (scg, scg->active_panes > 1 ? 3 : 0);
+				scg_pane (scg, scg->pane[3].is_active ? 3 : 0);
 			sv_selection_add_range (sv,
 				index, gcanvas->first.row,
 				index, 0,
 				index, SHEET_MAX_ROWS-1);
 		} else {
 			GnumericCanvas *gcanvas =
-				scg_pane (scg, scg->active_panes > 1 ? 1 : 0);
+				scg_pane (scg, scg->pane[1].is_active ? 1 : 0);
 			sv_selection_add_range (sv,
 				gcanvas->first.col, index,
 				0, index,
@@ -679,7 +682,7 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 	else if (col > bound->end.col)
 		col = bound->end.col;
 
-	if (scg->active_panes > 1) {
+	if (scg->pane[3].is_active) {
 		int right = sheet->unfrozen_top_left.col;
 		if (col < right)
 			col = right;
@@ -738,7 +741,7 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 	else if (row > bound->end.row)
 		row = bound->end.row;
 
-	if (scg->active_panes > 1) {
+	if (scg->pane[1].is_active) {
 		int bottom = sheet->unfrozen_top_left.row;
 		if (row < bottom)
 			row = bottom;
@@ -881,18 +884,10 @@ void
 scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 		       gboolean force_scroll, gboolean couple_panes)
 {
-	Sheet const *sheet;
+	Sheet const *sheet = ((SheetControl *) scg)->sheet;
 	CellPos const *tl, *br;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-
-	sheet = ((SheetControl *) scg)->sheet;
-
-	if (scg->active_panes == 1) {
-		gnm_canvas_make_cell_visible (scg_pane (scg, 0),
-			col, row, force_scroll);
-		return;
-	}
 
 	tl = &sheet->frozen_top_left;
 	br = &sheet->unfrozen_top_left;
@@ -941,13 +936,16 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 	} else {			 /* pane 0 */
 		gnm_canvas_make_cell_visible (scg->pane[0].gcanvas,
 			col, row, force_scroll);
-		gnm_canvas_set_top_left (scg->pane[1].gcanvas,
-			tl->col, scg->pane[0].gcanvas->first.row, force_scroll);
-		gnm_canvas_set_top_left (scg->pane[3].gcanvas,
-			scg->pane[0].gcanvas->first.col, tl->row, force_scroll);
+		if (scg->pane[1].is_active)
+			gnm_canvas_set_top_left (scg->pane[1].gcanvas,
+				tl->col, scg->pane[0].gcanvas->first.row, force_scroll);
+		if (scg->pane[3].is_active)
+			gnm_canvas_set_top_left (scg->pane[3].gcanvas,
+				scg->pane[0].gcanvas->first.col, tl->row, force_scroll);
 	}
-	gnm_canvas_set_top_left (scg->pane[2].gcanvas,
-				     tl->col, tl->row, force_scroll);
+	if (scg->pane[2].is_active)
+		gnm_canvas_set_top_left (scg->pane[2].gcanvas,
+			tl->col, tl->row, force_scroll);
 }
 
 static void

@@ -72,7 +72,9 @@ void scg_mode_edit		(SheetControl *sc);
 	GnumericPane *pane;				\
 	for (i = scg->active_panes; i-- > 0 ; ) {	\
 		pane = scg->pane + i;			\
-		code					\
+		if (pane->is_active) {			\
+			code				\
+		}					\
 	}						\
   } while (0)
 
