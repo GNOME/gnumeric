@@ -10,8 +10,10 @@ AC_DISABLE_STATIC
 
 AC_ISC_POSIX
 AC_PROG_CC
-AC_STDC_HEADERS
+AC_PROG_CXX
 AC_PROG_YACC
+AM_PROG_LEX
+AC_STDC_HEADERS
 AC_ARG_PROGRAM
 AM_PROG_LIBTOOL
 
@@ -162,9 +164,10 @@ AM_CONDITIONAL(WITH_PYTHON, $python_val)
 dnl Check for libole2
 AC_MSG_CHECKING(for libole2 >= 0.1.4)
 vers_ok="";
-vers=`gnome-config --modversion libole2 | grep "libole2-" | sed -e "s/libole2-//" | \
+vers=`gnome-config --modversion libole2 | grep "libole2-" | \
+	sed -e "s/libole2-//" | \
 	awk 'BEGIN { FS = "."; } { printf "%d", $1 * 10000 + $2 * 100 + $3 ;}'`
-if test "$vers"; then
+if test 0"$vers"; then
        if test "$vers" -ge 104; then
                vers_ok="yes";
        fi
@@ -399,10 +402,6 @@ src/dialogs/Makefile
 src/widgets/Makefile
 src/functions/Makefile
 src/portability.h
-graph/Makefile
-graph/graph.oafinfo
-wizards/Makefile
-wizards/graphics/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/es/Makefile

@@ -14,7 +14,6 @@ Release Critical
 
 Long term breakage
 ------------------
-- Check the autofill code for defaulting to years vs days.
 - Changing an expression name that is in use does not recalc, or regen depends
   correctly.
 - The max row/col canvas scroll size is still hard coded.

@@ -16,7 +16,7 @@ Docdir: 	%{prefix}/doc
 
 Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
-Requires: gnome-print >= 0.20
+Requires: gnome-print >= 0.21
 Requires: libglade >= 0.13
 Requires: libxml >= 1.8.5
 Requires: libole2 >= 0.1.4
@@ -96,6 +96,9 @@ fi
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Sat Aug 11 2000 Jody Goldberg <jgolbderg@home.com>
+- Updated version requirements for gnome-print
+
 * Sat Jun 21 2000 Jody Goldberg <jgolbderg@home.com>
 - Add libole2
 
