@@ -1,5 +1,9 @@
 2003-08-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* variance-tests.glade: changed to match other tool dialogs 
+
+2003-08-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* help.h: add and change a few links
 	* dialog-autofilter.c (dialog_auto_filter): vary the help link
 	  depending on which dialog we a reusing
