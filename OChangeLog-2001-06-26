@@ -1,3 +1,20 @@
+2001-02-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/embeddable-grid.[ch]: Adapt to more Bonobo changes. 
+
+	* src/embeddable-grid.h (struct EmbeddableGridClass): Add
+	POA_GNOME_Gnumeric_Grid__epv.
+
+	* src/embeddable-grid.c:  Remove
+	embeddable_grid_(v)?epv.
+	(embeddable_grid_class_init): New version.
+	(init_embeddable_grid_corba_class, create_embeddable_grid):
+	Remove.
+	(embeddable_grid_new(_anon)?): Remove CORBA stuff.
+	(embeddable_grid_get_type, grid_view_get_type): Use
+	bonobo_x_type_unique.
+	(grid_view_get_type):
+
 2001-02-08  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/style-border.h, src/style-border.c (style_borders_row_draw): 

@@ -2,6 +2,7 @@
 #define GNUMERIC_EMBEDDABLE_GRID_H
 
 #include <bonobo/bonobo-embeddable.h>
+#include "idl/Gnumeric.h"
 
 #include "sheet-control-gui.h"
 
@@ -32,6 +33,8 @@ struct _EmbeddableGrid {
 
 typedef struct {
 	BonoboEmbeddableClass parent_class;
+
+	POA_GNOME_Gnumeric_Grid__epv epv;
 } EmbeddableGridClass;
 
 GtkType         embeddable_grid_get_type     (void);

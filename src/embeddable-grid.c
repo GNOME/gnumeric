@@ -19,11 +19,6 @@
 #include "embeddable-grid.h"
 #include "sheet-private.h"
 
-/*
- * Our vectors for providing methods
- */
-POA_GNOME_Gnumeric_Grid__epv embeddable_grid_epv;
-POA_GNOME_Gnumeric_Grid__vepv embeddable_grid_vepv;
 
 static BonoboGenericFactory *bonobo_embeddable_grid_factory;
 
@@ -110,53 +105,18 @@ embeddable_grid_view_factory (BonoboEmbeddable *embeddable,
 }
 
 static void
-init_embeddable_grid_corba_class (void)
+embeddable_grid_class_init (EmbeddableGridClass *klass)
 {
-	/*
-	 * vepv
-	 */
-	embeddable_grid_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	embeddable_grid_vepv.Bonobo_Embeddable_epv = bonobo_embeddable_get_epv ();
-	embeddable_grid_vepv.GNOME_Gnumeric_Grid_epv = &embeddable_grid_epv;
+	POA_GNOME_Gnumeric_Grid__epv *epv = &klass->epv;
 
-	/*
-	 * epv
-	 */
-	embeddable_grid_epv.get_sheet    = Grid_get_sheet;
-	embeddable_grid_epv.set_header_visibility = Grid_set_header_visibility;
-	embeddable_grid_epv.get_header_visibility = Grid_get_header_visibility;
-}
-
-static void
-embeddable_grid_class_init (GtkObjectClass *Class)
-{
-	init_embeddable_grid_corba_class ();
+	epv->get_sheet    = Grid_get_sheet;
+	epv->set_header_visibility = Grid_set_header_visibility;
+	epv->get_header_visibility = Grid_get_header_visibility;
 }
 
 static void
 embeddable_grid_init (GtkObject *object)
 {
-}
-
-static CORBA_Object
-create_embeddable_grid (BonoboObject *object)
-{
-	POA_GNOME_Gnumeric_Grid *servant;
-	CORBA_Environment ev;
-
-	servant = (POA_GNOME_Gnumeric_Grid *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &embeddable_grid_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Gnumeric_Grid__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION){
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return CORBA_OBJECT_NIL;
-	}
-	CORBA_exception_free (&ev);
-
-	return bonobo_object_activate_servant (object, servant);
 }
 
 static void
@@ -172,19 +132,12 @@ EmbeddableGrid *
 embeddable_grid_new_anon (void)
 {
 	EmbeddableGrid *embeddable_grid;
-	GNOME_Gnumeric_Grid corba_embeddable_grid;
 
 	embeddable_grid = gtk_type_new (EMBEDDABLE_GRID_TYPE);
 	embeddable_grid_init_anon (embeddable_grid);
-	corba_embeddable_grid = create_embeddable_grid (BONOBO_OBJECT (embeddable_grid));
-
-	if (corba_embeddable_grid == CORBA_OBJECT_NIL) {
-		gtk_object_destroy (GTK_OBJECT (embeddable_grid));
-		return NULL;
-	}
 
 	bonobo_embeddable_construct (
-		BONOBO_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
+		BONOBO_EMBEDDABLE (embeddable_grid),
 		embeddable_grid_view_factory, NULL);
 
 	return embeddable_grid;
@@ -194,15 +147,8 @@ EmbeddableGrid *
 embeddable_grid_new (Workbook *wb, Sheet *sheet)
 {
 	EmbeddableGrid *embeddable_grid;
-	GNOME_Gnumeric_Grid corba_embeddable_grid;
 
 	embeddable_grid = gtk_type_new (EMBEDDABLE_GRID_TYPE);
-	corba_embeddable_grid = create_embeddable_grid (BONOBO_OBJECT (embeddable_grid));
-
-	if (corba_embeddable_grid == CORBA_OBJECT_NIL){
-		gtk_object_destroy (GTK_OBJECT (embeddable_grid));
-		return NULL;
-	}
 
 	embeddable_grid->workbook = wb;
 	embeddable_grid->sheet = sheet;
@@ -213,7 +159,7 @@ embeddable_grid_new (Workbook *wb, Sheet *sheet)
 	bonobo_object_ref (BONOBO_OBJECT (embeddable_grid->workbook->priv));
 
 	bonobo_embeddable_construct (
-		BONOBO_EMBEDDABLE (embeddable_grid), corba_embeddable_grid,
+		BONOBO_EMBEDDABLE (embeddable_grid),
 		embeddable_grid_view_factory, NULL);
 
 	return embeddable_grid;
@@ -254,7 +200,11 @@ embeddable_grid_get_type (void)
 			NULL, /* reserved 2 */
 			(GtkClassInitFunc) NULL
 		};
-		type = gtk_type_unique (bonobo_embeddable_get_type (), &info);
+		type = bonobo_x_type_unique (
+			bonobo_embeddable_get_type (),
+			POA_GNOME_Gnumeric_Grid__init, NULL,
+			GTK_STRUCT_OFFSET (EmbeddableGridClass, epv),
+			&info);
 	}
 
 	return type;
@@ -284,7 +234,9 @@ grid_view_get_type (void)
 			sizeof (GridViewClass),
 			NULL, NULL, NULL, NULL, NULL
 		};
-		type = gtk_type_unique (bonobo_view_get_type (), &info);
+		type = bonobo_x_type_unique (
+			bonobo_view_get_type (),
+			NULL, NULL, 0, &info);
 	}
 
 	return type;
