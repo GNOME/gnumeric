@@ -19271,7 +19271,7 @@ msgstr "Zoom de %s à %.0f%%"
 #: src/commands.c:4476
 #, fuzzy
 msgid "Delete Object"
-msgstr "Effacer l'objet"
+msgstr "Supprimer l'objet"
 
 #: src/commands.c:4637
 #, fuzzy
@@ -22180,15 +22180,15 @@ msgstr "<span weight=\"bold\">Détruire la méthode</span>"
 
 #: src/dialogs/delete-cells.glade.h:2
 msgid "Delete _column(s)"
-msgstr "Effacer la(es) _colonne(s)"
+msgstr "Supprimer la(es) _colonne(s)"
 
 #: src/dialogs/delete-cells.glade.h:3
 msgid "Delete _row(s)"
-msgstr "Effacer la(es) _ligne(s)"
+msgstr "Supprimer la(es) _ligne(s)"
 
 #: src/dialogs/delete-cells.glade.h:4
 msgid "Delete cells"
-msgstr "Effacer les cellules"
+msgstr "Suprimer les cellules"
 
 #: src/dialogs/delete-cells.glade.h:5
 msgid "Shift cells _left"
@@ -23150,7 +23150,7 @@ msgstr "Impossible de créer le Gourou de Noms."
 #: src/dialogs/scenario-manager.glade.h:8 src/wbcg-actions.c:206
 #: src/wbcg-actions.c:220
 msgid "Delete"
-msgstr "Effacer"
+msgstr "Supprimer"
 
 #: src/dialogs/dialog-delete-cells.c:166
 msgid "Could not create the Delete Cell dialog."
@@ -23587,7 +23587,7 @@ msgstr "Annuler"
 
 #: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
-msgstr "Fenêtres"
+msgstr "_Fenêtres"
 
 #: src/dialogs/dialog-preferences.c:769
 msgid "Header/Footer"
@@ -25294,7 +25294,7 @@ msgstr "Classeur"
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
 #: src/wbcg-actions.c:1414
 msgid "_Delete"
-msgstr "_Effacer"
+msgstr "Su_pprimer"
 
 #: src/dialogs/names.glade.h:9
 msgid "_Expression: "
@@ -27381,29 +27381,24 @@ msgid "Function does not exist"
 msgstr "La fonction n'existe pas"
 
 #: src/gnm-so-filled.c:163
-#, fuzzy
 msgid "Filled Object Properties"
 msgstr "Propriétés du cadre"
 
 #: src/gnm-so-line.c:150
-#, fuzzy
 msgid "Line/Arrow Properties"
 msgstr "Propriétés du trait et de la flèche"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:1
-#, fuzzy
 msgid "FormatToolbar"
-msgstr "_Barres d'outils..."
+msgstr "_Format"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:2
-#, fuzzy
 msgid "ObjectToolbar"
-msgstr "Changeur de GObject"
+msgstr "_Objets"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:3
-#, fuzzy
 msgid "StandardToolbar"
-msgstr "Erreurs _moyennes"
+msgstr "_Standard"
 
 #: src/gnumeric-pane.c:130
 #, fuzzy, c-format
@@ -27425,19 +27420,16 @@ msgid "Load file"
 msgstr "Ouvrir fichier"
 
 #: src/gui-file.c:224 src/gui-file.c:662
-#, fuzzy
 msgid "Select a file"
-msgstr "Sélectionner une image"
+msgstr "Sélectionner un fichier"
 
 #: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
-#, fuzzy
 msgid "All Files"
-msgstr "Fichiers"
+msgstr "Tous les fichiers"
 
 #: src/gui-file.c:254 src/gui-file.c:681
-#, fuzzy
 msgid "Spreadsheets"
-msgstr "Tableur"
+msgstr "Tableurs"
 
 #: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
 msgid "File _type:"
@@ -27462,27 +27454,24 @@ msgstr ""
 "%s"
 
 #: src/gui-file.c:411
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
 "Do you want to save over it?"
 msgstr ""
-"Le classeur %s existe déjà.\n"
-"Etes-vous sur de vouloir l'écraser ?"
+"Le classeur <i>%s</i> existe déjà dans %s.\n"
+"Êtes-vous sur de vouloir l'écraser ?"
 
 #: src/gui-file.c:469
-#, fuzzy
 msgid "Images"
-msgstr "Image"
+msgstr "Images"
 
 #: src/gui-file.c:509
-#, fuzzy
 msgid "Save as"
-msgstr "Enregistrer tout"
+msgstr "Enregistrer sous"
 
 #: src/gui-file.c:558 src/gui-file.c:754
-#, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -27491,7 +27480,6 @@ msgstr ""
 "utiliser ce nom quand même ?"
 
 #: src/gui-file.c:585
-#, fuzzy
 msgid "Select an Image"
 msgstr "Sélectionner une image"
 
@@ -28379,7 +28367,7 @@ msgstr "Insérer cellules"
 #: src/sheet-control-gui.c:1522
 #, fuzzy
 msgid "_Delete Cells..."
-msgstr "Effacer les cellules"
+msgstr "_Supprimer les cellules"
 
 #: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
@@ -29972,23 +29960,20 @@ msgid "_Select"
 msgstr "_Sélectionner"
 
 #: src/wbcg-actions.c:1417
-#, fuzzy
 msgid "F_ill"
-msgstr "_Remplir"
+msgstr "Rempl_ir"
 
 #: src/wbcg-actions.c:1418
 msgid "_View"
 msgstr "Afficha_ge"
 
 #: src/wbcg-actions.c:1419
-#, fuzzy
 msgid "_Windows"
 msgstr "Fenêtres"
 
 #: src/wbcg-actions.c:1420
-#, fuzzy
 msgid "_Toolbars"
-msgstr "_Barres d'outils..."
+msgstr "_Barres d'outils"
 
 #: src/wbcg-actions.c:1422
 msgid "_Names"
@@ -30069,33 +30054,31 @@ msgstr "_Contenu"
 
 #: src/wbcg-actions.c:1451
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr ""
+msgstr "Ouvre un visualisateur d'aide à la page concernant Gnumeric"
 
 #: src/wbcg-actions.c:1453
-#, fuzzy
 msgid "Gnumeric on the _Web"
-msgstr "Page Web principale de Gnumeric"
+msgstr "Page internet de _Gnumeric"
 
 #: src/wbcg-actions.c:1454
 msgid "Browse to Gnumeric's website"
-msgstr ""
+msgstr "Ouvre un navigateur internet à la page web de Gnumeric"
 
 #: src/wbcg-actions.c:1456
 msgid "_Live Assistance"
-msgstr ""
+msgstr "_Assistance"
 
 #: src/wbcg-actions.c:1457
 msgid "See if anyone is available to answer questions"
-msgstr ""
+msgstr "Ouvre un client IRC pour entrer en contact avec les développeurs"
 
 #: src/wbcg-actions.c:1459
 msgid "Report a _Problem"
-msgstr ""
+msgstr "_Signaler un problème"
 
 #: src/wbcg-actions.c:1460
-#, fuzzy
 msgid "Report problem "
-msgstr "Rapport créé : "
+msgstr "Ouvre un navigateur internet afin de signaler un problème via Bugzilla"
 
 #: src/wbcg-actions.c:1462
 msgid "_About"
@@ -30108,14 +30091,12 @@ msgstr "À propos de cette application"
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
 #: src/wbcg-actions.c:1468
-#, fuzzy
 msgid "Repeat"
-msgstr "Rapport"
+msgstr "Répéter"
 
 #: src/wbcg-actions.c:1469
-#, fuzzy
 msgid "Repeat the previous action"
-msgstr "Rétablir une action annulée"
+msgstr "Répéter l'action précédente"
 
 #: src/wbcg-actions.c:1476
 msgid "Create a new workbook"
@@ -30194,14 +30175,13 @@ msgid "Clear the selected cells' contents"
 msgstr "Efface le contenu des cellules sélectionnées"
 
 #: src/wbcg-actions.c:1528
-#, fuzzy
 msgid "Delete the row(s) containing the selected cells"
-msgstr "Diminuer la précision dans les cellules sélectionnées"
+msgstr "Supprime les rangées contenant les cellules sélectionnées"
 
 #: src/wbcg-actions.c:1531
 #, fuzzy
 msgid "Delete the column(s) containing the selected cells"
-msgstr "Diminuer la précision dans les cellules sélectionnées"
+msgstr "Supprime les colonnes contenant les cellules sélectionnées"
 
 #. Insert
 #: src/wbcg-actions.c:1533 src/wbcg-actions.c:1640
@@ -30209,10 +30189,8 @@ msgid "C_ells..."
 msgstr "C_ellules..."
 
 #: src/wbcg-actions.c:1534
-#, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
-msgstr ""
-"Supprimer les cellules sélectionnées en déplaçant les cellules adjacentes"
+msgstr "Supprime les cellules sélectionnées en déplaçant les cellules adjacentes"
 
 #: src/wbcg-actions.c:1540
 msgid "Select all cells in the spreadsheet"
@@ -30345,7 +30323,7 @@ msgstr "Renommer la feuille en cours"
 #. Edit
 #: src/wbcg-actions.c:1600
 msgid "P_aste special..."
-msgstr "Coll_age spécial..."
+msgstr "Co_llage spécial..."
 
 #: src/wbcg-actions.c:1601
 msgid "Paste with optional filters and transformations"
@@ -30361,10 +30339,9 @@ msgstr "Edite le commentaire de la cellule sélectionnée"
 
 #: src/wbcg-actions.c:1608
 msgid "_Find..."
-msgstr "_Largeur..."
+msgstr "Rec_hercher..."
 
 #: src/wbcg-actions.c:1609
-#, fuzzy
 msgid "Search for something"
 msgstr "Recherche un texte"
 
@@ -30373,9 +30350,8 @@ msgid "R_eplace..."
 msgstr "Re_mplacer ..."
 
 #: src/wbcg-actions.c:1612
-#, fuzzy
 msgid "Search for some something and replace it with something else"
-msgstr "Recherche un texte et le remplacer par un autre"
+msgstr "Recherche un texte et le remplace par un autre"
 
 #: src/wbcg-actions.c:1614
 msgid "_Goto cell..."
@@ -30419,23 +30395,20 @@ msgid "Zoom the spreadsheet in or out"
 msgstr "Zoomer en avant ou en arrière"
 
 #: src/wbcg-actions.c:1632
-#, fuzzy
 msgid "Zoom _In"
-msgstr "Zoom"
+msgstr "Zoom avant"
 
 #: src/wbcg-actions.c:1633
-#, fuzzy
 msgid "Increase the zoom to make things larger"
-msgstr "Augmenter le nombre de décimales affichées"
+msgstr "Augmente le zoom pour agrandir l'affichage"
 
 #: src/wbcg-actions.c:1635
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "Zoom"
+msgstr "Zoom arrière"
 
 #: src/wbcg-actions.c:1636
 msgid "Decrease the zoom to make things smaller"
-msgstr ""
+msgstr "Diminue le zoom pour réduire l'affichage"
 
 #: src/wbcg-actions.c:1641
 msgid "Insert new cells"
@@ -30492,12 +30465,10 @@ msgid "Insert the current time into the selected cell(s)"
 msgstr "Insérer l'heure courante dans la(les) cellule(s) sélectionnée(s)"
 
 #: src/wbcg-actions.c:1669
-#, fuzzy
 msgid "Current d_ate and time"
-msgstr "_Heure courante"
+msgstr "Heure et da_te courante"
 
 #: src/wbcg-actions.c:1670
-#, fuzzy
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Insérer l'heure courante dans la(les) cellule(s) sélectionnée(s)"
 
@@ -31339,16 +31310,15 @@ msgstr "Aligner en bas"
 
 #: src/wbcg-actions.c:2077
 msgid "View _Statusbar"
-msgstr ""
+msgstr "Barre d'é_tat"
 
 #: src/wbcg-actions.c:2078
 msgid "Toggle visibility of statusbar"
 msgstr ""
 
 #: src/wbcg-actions.c:2082
-#, fuzzy
 msgid "F_ull Screen..."
-msgstr "_Résolveur..."
+msgstr "_Plein écran"
 
 #: src/wbcg-actions.c:2083
 #, fuzzy
@@ -31401,9 +31371,8 @@ msgid "Double Underline"
 msgstr "Souligner"
 
 #: src/wbc-gtk.c:172
-#, fuzzy
 msgid "_Zoom"
-msgstr "Zoom"
+msgstr "_Zoom"
 
 #: src/wbc-gtk.c:202
 msgid "Clear Borders"
@@ -32716,7 +32685,7 @@ msgstr "Ignorer"
 
 #: src/workbook-control-gui.c:1198
 msgid "Save all"
-msgstr "Enregistrer tout"
+msgstr "Tout enregistrer"
 
 #: src/workbook-control-gui.c:1200 src/workbook-control-gui.c:1207
 msgid "Don't quit"
