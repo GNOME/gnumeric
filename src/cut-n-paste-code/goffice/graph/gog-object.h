@@ -94,6 +94,7 @@ GType gog_object_get_type (void);
 GogObject   *gog_object_get_parent	 (GogObject const *obj);
 GogObject   *gog_object_get_parent_typed (GogObject const *obj, GType t);
 GogGraph    *gog_object_get_graph	 (GogObject const *obj);
+GogTheme    *gog_object_get_theme	 (GogObject const *obj);
 char const  *gog_object_get_id		 (GogObject const *obj);
 char const  *gog_object_get_name	 (GogObject const *obj);
 void	     gog_object_set_name	 (GogObject *obj, char *name, GError **err);

@@ -37,6 +37,14 @@ typedef GObjectClass GogStyleClass;
 
 static GObjectClass *parent_klass;
 
+/**
+ * I would have liked to do this differently and have a tighter binding between theme element and style
+ * 	eg gog_style_new (theme_element)
+ * However that will not work easily in the context of xls import where we do
+ * not know what the type is destined for until later.  This structure melds
+ * smoothly with both approaches at the expense of a bit of power.
+ **/
+
 static void
 cb_outline_width_changed (GtkAdjustment *adj, GogObject *gobj)
 {
@@ -89,26 +97,10 @@ cb_fill_color_changed (GtkWidget *cc,
 	g_object_set (G_OBJECT (gobj), "style", style, NULL);
 }
 
-/**
- * gog_style_auto :
- *
- * returns a ref to a shared style object with no content, and all fields set
- * to 'auto'
- **/
 GogStyle *
-gog_style_auto (void)
+gog_style_new (void)
 {
-	static GogStyle *res = NULL;
-
-	if (res == NULL) {
-		res = g_object_new (GOG_STYLE_TYPE, NULL);
-		res->fill.type = GOG_FILL_STYLE_GRADIENT;
-		res->fill.u.gradient.start = RGBA_BLUE;
-		res->fill.u.gradient.end   = RGBA_BLACK;
-		res->outline.width = -1;
-	}
-	g_object_ref (res);
-	return res;
+	return g_object_new (GOG_STYLE_TYPE, NULL);
 }
 
 /**
@@ -119,11 +111,16 @@ gog_style_auto (void)
 GogStyle *
 gog_style_dup (GogStyle const *src)
 {
-	GogStyle *dst;
+	GogStyle *dst = gog_style_new ();
+	gog_style_copy (dst, src);
+	return dst;
+}
 
-	g_return_val_if_fail (GOG_STYLE (src) != NULL, NULL);
-
-	dst = g_object_new (GOG_STYLE_TYPE, NULL);
+void
+gog_style_copy (GogStyle *dst, GogStyle const *src)
+{
+	g_return_if_fail (GOG_STYLE (src) != NULL);
+	g_return_if_fail (GOG_STYLE (dst) != NULL);
 
 	dst->flags   = src->flags;
 	dst->outline = src->outline;
@@ -132,12 +129,6 @@ gog_style_dup (GogStyle const *src)
 	    GOG_FILL_STYLE_IMAGE == dst->fill.type) {
 	}
 	dst->marker  = src->marker;
-	return dst;
-}
-GogStyle *
-gog_style_new (void)
-{
-	return g_object_new (GOG_STYLE_TYPE, NULL);
 }
 
 GtkWidget *

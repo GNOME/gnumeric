@@ -22,11 +22,7 @@
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-plot-impl.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-legend.h>
+#include <goffice/graph/gog-theme.h>
 #include <gnumeric-i18n.h>
 #include <xml-io.h>
 
@@ -124,7 +120,7 @@ typedef struct{
 } GogPlotTypeServiceClass;
 
 static GHashTable *pending_plot_type_files = NULL;
-static GObjectClass *parent_klass;
+static GObjectClass *plot_type_parent_klass;
 
 static void
 cb_pending_plot_types_load (char const *path,
@@ -255,7 +251,7 @@ gog_plot_type_service_finalize (GObject *obj)
 	}
 	service->types = NULL;
 
-	(parent_klass->finalize) (obj);
+	(plot_type_parent_klass->finalize) (obj);
 }
 
 static void
@@ -272,7 +268,7 @@ gog_plot_type_service_class_init (GObjectClass *gobject_klass)
 {
 	PluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
 
-	parent_klass = g_type_class_peek_parent (gobject_klass);
+	plot_type_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gog_plot_type_service_finalize;
 	ps_class->read_xml		= gog_plot_type_service_read_xml;
 	ps_class->get_description	= gog_plot_type_service_get_description;
@@ -282,20 +278,64 @@ GSF_CLASS (GogPlotTypeService, gog_plot_type_service,
            gog_plot_type_service_class_init, gog_plot_type_service_init,
            GNM_PLUGIN_SERVICE_SIMPLE_TYPE)
 
-G_MODULE_EXPORT void gog_plugin_services_init (void);
+/***************************************************************************/
+/* Use a plugin service to define themes */
+
+#define GOG_THEME_SERVICE_TYPE  (gog_theme_service_get_type ())
+#define GOG_THEME_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_THEME_SERVICE_TYPE, GogThemeService))
+#define IS_GOG_THEME_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_THEME_SERVICE_TYPE))
+
+GType gog_theme_service_get_type (void);
+
+typedef PluginServiceSimple GogThemeService;
+typedef PluginServiceSimpleClass GogThemeServiceClass;
+
+static void
+gog_theme_service_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+{
+	char    *path;
+	xmlNode *ptr;
+
+	for (ptr = tree->xmlChildrenNode; ptr != NULL; ptr = ptr->next)
+		if (0 == xmlStrcmp (ptr->name, "file") &&
+		    NULL != (path = xmlNodeGetContent (ptr))) {
+			if (!g_path_is_absolute (path)) {
+				char const *dir = gnm_plugin_get_dir_name (
+					plugin_service_get_plugin (service));
+				char *tmp = g_build_filename (dir, path, NULL);
+				g_free (path);
+				path = tmp;
+			}
+			gog_theme_register_file (
+				plugin_service_get_description (service), path);
+		}
+}
+
+static char *
+gog_theme_service_get_description (PluginService *service)
+{
+	return g_strdup (_("Chart Theme"));
+}
+
+static void
+gog_theme_service_class_init (PluginServiceClass *ps_class)
+{
+	ps_class->read_xml	  = gog_theme_service_read_xml;
+	ps_class->get_description = gog_theme_service_get_description;
+}
+
+GSF_CLASS (GogThemeService, gog_theme_service,
+           gog_theme_service_class_init, NULL,
+           GNM_PLUGIN_SERVICE_SIMPLE_TYPE)
+
+/***************************************************************************/
 
 void
 gog_plugin_services_init ()
 {
-	(void) GOG_GRAPH_TYPE;
-	(void) GOG_CHART_TYPE;
-	(void) GOG_PLOT_TYPE;
-	(void) GOG_SERIES_TYPE;
-	(void) GOG_LEGEND_TYPE;
-	(void) GOG_AXIS_TYPE;
-	gog_theme_init_style (NULL, 0);
 	plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
 	plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
+	plugin_service_define ("chart_theme",  &gog_theme_service_get_type);
 }
 
 /***************************************************************************/

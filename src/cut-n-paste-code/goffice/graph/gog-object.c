@@ -197,6 +197,14 @@ gog_object_get_graph (GogObject const *obj)
 	return NULL;
 }
 
+GogTheme *
+gog_object_get_theme (GogObject const *obj)
+{
+	GogGraph *graph = gog_object_get_graph (obj);
+
+	return (graph != NULL) ? gog_graph_get_theme (graph) : NULL;
+}
+
 /**
  * gog_object_get_name :
  * @obj : a #GogObject

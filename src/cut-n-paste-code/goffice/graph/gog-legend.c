@@ -36,6 +36,9 @@ static GType gog_legend_view_get_type (void);
 
 struct _GogLegend {
 	GogStyledObject	base;
+
+	double swatch_size_pts;
+	double swatch_padding_pts;
 };
 
 typedef struct {
@@ -44,6 +47,8 @@ typedef struct {
 
 enum {
 	LEGEND_PROP_0,
+	LEGEND_SWATCH_SIZE_PTS,
+	LEGEND_SWATCH_PADDING_PTS
 };
 
 static GObjectClass *parent_klass;
@@ -52,9 +57,15 @@ static void
 gog_legend_set_property (GObject *obj, guint param_id,
 			    GValue const *value, GParamSpec *pspec)
 {
-	/* GogLegend *legend = GOG_LEGEND (obj); */
+	GogLegend *legend = GOG_LEGEND (obj);
 
 	switch (param_id) {
+	case LEGEND_SWATCH_SIZE_PTS :
+		legend->swatch_size_pts = g_value_get_double (value);
+		break;
+	case LEGEND_SWATCH_PADDING_PTS :
+		legend->swatch_padding_pts = g_value_get_double (value);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -65,9 +76,15 @@ static void
 gog_legend_get_property (GObject *obj, guint param_id,
 			    GValue *value, GParamSpec *pspec)
 {
-	/* GogLegend *legend = GOG_LEGEND (obj); */
+	GogLegend *legend = GOG_LEGEND (obj);
 
 	switch (param_id) {
+	case LEGEND_SWATCH_SIZE_PTS :
+		g_value_set_double (value, legend->swatch_size_pts);
+		break;
+	case LEGEND_SWATCH_PADDING_PTS :
+		g_value_set_double (value, legend->swatch_padding_pts);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -102,11 +119,22 @@ gog_legend_class_init (GogLegendClass *klass)
 
 	gog_klass->type_name	= gog_legend_type_name;
 	gog_klass->view_type	= gog_legend_view_get_type ();
+
+	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_SIZE_PTS,
+		g_param_spec_double ("swatch_size_pts", "Swatch Size pts",
+			"size of the swatches in pts.",
+			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_PADDING_PTS,
+		g_param_spec_double ("swatch_padding_pts", "Swatch Padding pts",
+			"padding between the swatches in pts.",
+			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
 }
 
 static void
 gog_legend_init (GogLegend *legend)
 {
+	legend->swatch_size_pts = GO_CM_TO_PT (.25);
+	legend->swatch_padding_pts = GO_CM_TO_PT (.25);
 }
 
 GSF_CLASS (GogLegend, gog_legend,
@@ -125,13 +153,17 @@ static GogViewClass *cview_parent_klass;
 static void
 gog_legend_view_size_request (GogView *view, GogViewRequisition *req)
 {
+	GogLegend *legend = GOG_LEGEND (view->model);
 	req->w = 50.;
-	req->h = 15 * gog_chart_get_carnality (GOG_CHART (view->model->parent));
+	req->h = gog_chart_get_carnality (GOG_CHART (view->model->parent)) *
+		gog_renderer_pt2r_y (view->renderer,
+			legend->swatch_size_pts + legend->swatch_padding_pts);
 }
 
 typedef struct {
 	GogView const *view;
 	GogViewAllocation swatch;
+	double size;
 } render_closure;
 
 static void
@@ -148,7 +180,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	} else
 		style = (GogStyle *)base_style;
 
-	swatch.y += i * 15.;
+	swatch.y += i * data->size;
 	gog_renderer_push_style (data->view->renderer, style);
 	gog_renderer_draw_rectangle (data->view->renderer, &swatch);
 	gog_renderer_pop_style (data->view->renderer);
@@ -164,18 +196,19 @@ gog_legend_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogLegend *legend = GOG_LEGEND (view->model);
 	double outline = gog_renderer_outline_size (view->renderer,
 						    legend->base.style);
+	double pad = gog_renderer_pt2r_x (view->renderer,
+					  legend->swatch_padding_pts);
 
 	gog_renderer_push_style (view->renderer, legend->base.style);
 	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
 	gog_renderer_pop_style (view->renderer);
 
 	closure.view = view;
-#warning TODO convert to pts and use the renderer scaling routines
-	closure.swatch.x = view->allocation.x + outline + 2;
-	closure.swatch.y = view->allocation.y + outline + 2;
-	closure.swatch.w = closure.swatch.h = 10.;
-	g_warning ("1\" x == %g pixels", gog_renderer_pt2r_x (view->renderer, GO_IN_TO_PT (1)));
-	g_warning ("1\" y == %g pixels", gog_renderer_pt2r_y (view->renderer, GO_IN_TO_PT (1)));
+	closure.swatch.x = view->allocation.x + outline;
+	closure.swatch.y = view->allocation.y + outline + pad / 2.;
+	closure.swatch.w = gog_renderer_pt2r_x (view->renderer, legend->swatch_size_pts);
+	closure.swatch.h = gog_renderer_pt2r_y (view->renderer, legend->swatch_size_pts);
+	closure.size = closure.swatch.h + pad;
 	gog_chart_foreach_elem (GOG_CHART (view->model->parent),
 		(GogEnumFunc) cb_render_elements, &closure);
 

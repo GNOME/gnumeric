@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -411,4 +412,41 @@ gog_series_set_dim_internal (GogSeries *series,
 	series->values[dim_i].series = series;
 	series->values[dim_i].dim_i  = dim_i;
 	gog_object_request_update (GOG_OBJECT (series));
+}
+
+/**
+ * gog_series_set_index :
+ * @series : #GogSeries
+ * @index :
+ * @is_manual : 
+ *
+ * if @index >= 0 attempt to assign the new index.  Auto
+ * indicies (@is_manual == FALSE) will not override the current
+ * index if it is manual.  An @index < 0, will reset the index to
+ * automatic and potentially queue a revaluation of the parent
+ * chart's carnality.
+ **/
+void
+gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
+{
+	g_return_if_fail (GOG_SERIES (series) != NULL);
+
+	if (ind < 0) {
+		if (series->manual_index && series->plot != NULL)
+			gog_plot_request_carnality_update (series->plot);
+		series->manual_index = FALSE;
+		return;
+	}
+
+	if (is_manual)
+		series->manual_index = TRUE;
+	else if (series->manual_index)
+		return;
+
+	if (series->index == (unsigned)ind)
+		return;
+	series->index = ind;
+
+	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (series)),
+		series->base.style, G_OBJECT_GET_CLASS (series), ind);
 }

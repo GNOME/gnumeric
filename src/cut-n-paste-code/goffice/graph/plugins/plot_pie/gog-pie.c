@@ -139,24 +139,39 @@ gog_pie_plot_carnality (GogPlot *plot)
 static gboolean
 gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 {
-	GogStyle *style;
 	unsigned i, n;
 	GogPiePlot const *model = GOG_PIE_PLOT (plot);
+	GogSeries const *series = plot->series->data; /* start with the first */
+	GObjectClass *klass = G_OBJECT_GET_CLASS (series);
+	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
+	GogStyle *style;
+	GODataVector *labels;
+	char const *label;
+	gboolean free_it;
 
 	if (!model->vary_style_by_element)
 		return FALSE;
 
-	style = g_object_new (GOG_STYLE_TYPE, NULL);
-	style->outline.width = 0.;
-	style->outline.color = RGBA_BLACK;
-	/* use the shared first dimension for labels */
-	i = model->base.index_num;
-	n = i + model->base.carnality;
+	i = 0;
+	n = model->base.carnality;
+	style = gog_style_dup (series->base.style);
+	labels = NULL;
+	if (series->values[0].data != NULL)
+		labels = GO_DATA_VECTOR (series->values[0].data);
 	for ( ; i < n ; i++) {
-		gog_theme_init_style (style, model->base.index_num + i);
+		gog_theme_init_style (theme, style, klass,
+			model->base.index_num + i);
+		label = (labels != NULL)
+			? go_data_vector_get_str (labels, i) : NULL;
+		if ((free_it = (label == NULL)))
+			label = g_strdup_printf ("%d", i);
 		(handler) (i, style, "gog", data);
+		if (free_it)
+			g_free ((char *)label);
+
 	}
 	g_object_unref (style);
+
 	return TRUE;
 }
 
@@ -242,12 +257,10 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	double cx, cy, r, tmp, theta, len, *vals, scale;
 	unsigned elem, j, n, k;
 	ArtVpath path [MAX_ARC_SEGMENTS + 4];
-	GogStyle *style = g_object_new (GOG_STYLE_TYPE, NULL);
+	GObjectClass *klass;
+	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
+	GogStyle *style;
 	GSList *ptr;
-
-	style->outline.width = 0.;
-	style->outline.color = RGBA_BLACK;
-	gog_renderer_push_style (view->renderer, style);
 
 	/* centre things */
 	cx = view->allocation.x + view->allocation.w/2.;
@@ -265,8 +278,12 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		if (!model->vary_style_by_element)
-			gog_theme_init_style (style, elem++);
+		style = GOG_STYLED_OBJECT (series)->style;
+		if (model->vary_style_by_element)  {
+			style = gog_style_dup (style);
+			klass = G_OBJECT_GET_CLASS (series);
+		}
+		gog_renderer_push_style (view->renderer, style);
 
 		theta = (model->initial_angle + series->initial_angle) * 2. * M_PI / 360.;
 
@@ -297,16 +314,19 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[j].y = cy; 
 			path[j+1].code = ART_END;
 
-			theta += len;
 			if (model->vary_style_by_element)
-				gog_theme_init_style (style, model->base.index_num + k);
+				gog_theme_init_style (theme, style, klass,
+						      model->base.index_num + k);
 			gog_renderer_draw_polygon (view->renderer, path,
 				r * len < 5 /* drop outline for thin segments */);
-		}
-	}
 
-	gog_renderer_pop_style (view->renderer);
-	g_object_unref (style);
+			theta += len;
+		}
+
+		gog_renderer_pop_style (view->renderer);
+		if (model->vary_style_by_element)
+			g_object_unref (style);
+	}
 }
 
 static GogObject *

@@ -21,9 +21,8 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-style.h>
-#include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-theme.h>
 
 #include <src/gnumeric-i18n.h>
 #include <gsf/gsf-impl-utils.h>
@@ -108,11 +107,10 @@ gog_styled_object_class_init (GogStyledObjectClass *klass)
 }
 
 static void
-gog_styled_object_init (GogStyledObject *gso, gpointer class)
+gog_styled_object_init (GogStyledObject *gso, gpointer klass)
 {
-	gso->style = gog_style_auto (); /* use the defaults */
-
-	g_warning (G_OBJECT_CLASS_NAME (class));
+	gso->style = gog_style_new (); /* use the defaults */
+	gog_theme_init_style (NULL, gso->style, klass, 0);
 }
 
 GSF_CLASS (GogStyledObject, gog_styled_object,

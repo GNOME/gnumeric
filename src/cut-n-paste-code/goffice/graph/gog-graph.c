@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -34,7 +35,8 @@
 
 enum {
 	GRAPH_PROP_0,
-	GRAPH_PROP_PADDING_PTS
+	GRAPH_PROP_PADDING_PTS,
+	GRAPH_PROP_THEME
 };
 
 enum {
@@ -55,13 +57,16 @@ gog_graph_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case GRAPH_PROP_PADDING_PTS :
 		graph->padding_pts = g_value_get_double (value);
+		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
+		break;
+	case GRAPH_PROP_THEME :
+		gog_graph_set_theme (graph, g_value_get_object (value));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
 	}
-	g_warning ("size changed");
-	gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
+	return;
 }
 
 static void
@@ -73,6 +78,9 @@ gog_graph_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case GRAPH_PROP_PADDING_PTS :
 		g_value_set_double (value, graph->padding_pts);
+		break;
+	case GRAPH_PROP_THEME :
+		g_value_set_object (value, graph->theme);
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -189,6 +197,10 @@ gog_graph_class_init (GogGraphClass *klass)
 		g_param_spec_double ("padding_pts", "Padding Pts",
 			"# of pts seperating charts in the grid.",
 			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME,
+		g_param_spec_object ("theme", "Theme",
+			"the theme for elements of the graph",
+			GOG_THEME_TYPE, G_PARAM_READWRITE));
 }
 
 static void
@@ -197,6 +209,7 @@ gog_graph_init (GogGraph *graph)
 	graph->data = NULL;
 	graph->num_cols = graph->num_rows = 0;
 	graph->idle_handler = 0;
+	graph->theme = gog_theme_lookup (NULL); /* default */
 
 	/* Cheat and assign a name here, graphs will not parents
 	 * until we support graphs in graphs */
@@ -226,6 +239,13 @@ gog_graph_get_theme (GogGraph const *graph)
 {
 	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, NULL);
 	return graph->theme;
+}
+
+void
+gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
+{
+	g_return_if_fail (GOG_GRAPH (graph) != NULL);
+	g_return_if_fail (GOG_THEME (theme) != NULL);
 }
 
 /**

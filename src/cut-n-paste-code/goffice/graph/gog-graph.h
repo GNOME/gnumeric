@@ -40,6 +40,7 @@ unsigned  gog_graph_num_rows	  (GogGraph const *graph);
 void	  gog_graph_add_chart	  (GogGraph *graph, GogChart *chart);
 void	  gog_graph_remove_chart  (GogGraph *graph, GogChart *chart);
 GogTheme *gog_graph_get_theme	  (GogGraph const *graph);
+void	  gog_graph_set_theme	  (GogGraph *graph, GogTheme *theme);
 
 /* data management */
 GSList *gog_graph_get_data   (GogGraph const *graph);

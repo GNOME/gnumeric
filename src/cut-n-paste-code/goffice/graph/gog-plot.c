@@ -113,7 +113,14 @@ role_series_pre_remove (GogObject *parent, GogObject *series)
 }
 
 static void
-gog_plot_class_init (GogPlotClass *plot_klass)
+gog_plot_update (GogObject *obj)
+{
+	/* ensure that styles get correctly assigned */
+	gog_plot_get_carnality (GOG_PLOT (obj));
+}
+
+static void
+gog_plot_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Series"), "GogSeries",
@@ -122,12 +129,12 @@ gog_plot_class_init (GogPlotClass *plot_klass)
 		  role_series_allocate,
 		  role_series_post_add, role_series_pre_remove, NULL },
 	};
-	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
-	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
+	gog_klass->update = gog_plot_update;
 
-	parent_klass = g_type_class_peek_parent (plot_klass);
+	parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->finalize		= gog_plot_finalize;
 }
 
@@ -304,9 +311,14 @@ gog_plot_get_carnality (GogPlot *plot)
 		plot->carnality_valid = TRUE;
 		plot->index_num = gog_chart_get_carnality (
 			gog_plot_get_chart (plot));
-		plot->carnality = (klass->carnality)
-			? (klass->carnality) (plot)
-			: g_slist_length (plot->series);
+		if (klass->carnality == NULL) {
+			unsigned i = plot->index_num;
+			GSList *ptr;
+			for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
+				gog_series_set_index (ptr->data, i++, FALSE);
+			plot->carnality = g_slist_length (plot->series);
+		} else
+			plot->carnality = (klass->carnality) (plot);
 	}
 	return plot->carnality;
 }

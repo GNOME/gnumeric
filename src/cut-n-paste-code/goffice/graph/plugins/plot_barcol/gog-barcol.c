@@ -47,7 +47,7 @@ enum {
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static GObjectClass *parent_klass;
+static GogObjectClass *parent_klass;
 static GType gog_barcol_view_get_type (void);
 
 static void
@@ -217,6 +217,8 @@ gog_barcol_plot_update (GogObject *obj)
 	}
 
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+	if (parent_klass->update)
+		parent_klass->update (obj);
 }
 
 static void
@@ -311,15 +313,15 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 	if (flip) {
 		base_x = base->y + base->h;
 		base_y = base->x + base->w;
-		path[4].x = path[1].x = path[0].x = base_x - rect->y;
-		path[4].y = path[3].y = path[0].y = base_y - rect->x; 
-		path[2].y = path[1].y = base_y - (rect->x + w); 
-		path[3].x = path[2].x = base_x - (rect->y + h);
+		path[4].x = path[1].x = path[0].x = floor (base_x - rect->y);
+		path[4].y = path[3].y = path[0].y = floor (base_y - rect->x); 
+		path[2].y = path[1].y = floor (base_y - (rect->x + w)); 
+		path[3].x = path[2].x = floor (base_x - (rect->y + h));
 	} else {
-		path[4].x = path[1].x = path[0].x = base->x + rect->x;
-		path[4].y = path[3].y = path[0].y = base->y + rect->y; 
-		path[2].y = path[1].y = base->y + rect->y + h; 
-		path[3].x = path[2].x = base->x + rect->x + w;
+		path[4].x = path[1].x = path[0].x = floor (base->x + rect->x);
+		path[4].y = path[3].y = path[0].y = floor (base->y + rect->y); 
+		path[2].y = path[1].y = floor (base->y + rect->y + h); 
+		path[3].x = path[2].x = floor (base->x + rect->x + w);
 	}
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
@@ -345,8 +347,8 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned num_elements = model->num_elements;
 	unsigned num_series = model->num_series;
 	GogBarColType const type = model->type;
+	GogStyle **styles;
 	GSList *ptr;
-	GogStyle *style;
 	unsigned *lengths;
 
 	if (num_elements <= 0 || num_series <= 0 ||
@@ -354,13 +356,9 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	     gnumeric_sub_epsilon (model->maximum) < 0.))
 		return;
 
-	style = g_object_new (GOG_STYLE_TYPE, NULL);
-	style->outline.width = 0.;
-	style->outline.color = RGBA_BLACK;
-	gog_renderer_push_style (view->renderer, style);
-
 	vals = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
+	styles = g_alloca (num_series * sizeof (GogStyle *));
 	i = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
 		series = ptr->data;
@@ -370,6 +368,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			GO_DATA_VECTOR (series->base.values[1].data));
 		lengths[i] = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
+		styles[i] = GOG_STYLED_OBJECT (series)->style;
 	}
 
 	/* flip things */
@@ -422,20 +421,20 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				work.w = tmp;
 				if (GOG_BARCOL_NORMAL != type)
 					pos_base += tmp;
+#warning clip
 			} else {
 				work.x = neg_base + tmp;
 				work.w = -tmp;
 				if (GOG_BARCOL_NORMAL != type)
 					neg_base += tmp;
+#warning clip
 			}
-			gog_theme_init_style (style, model->base.index_num + j);
-			barcol_draw_rect (rend, is_vertical,
-				&base, &work);
+
+			gog_renderer_push_style (view->renderer, styles[j]);
+			barcol_draw_rect (rend, is_vertical, &base, &work);
+			gog_renderer_pop_style (view->renderer);
 		}
 	}
-
-	gog_renderer_pop_style (view->renderer);
-	g_object_unref (style);
 }
 
 static void
@@ -451,6 +450,7 @@ static GSF_CLASS (GogBarColView, gog_barcol_view,
 /*****************************************************************************/
 
 typedef GogSeriesClass GogBarColSeriesClass;
+static GogObjectClass *series_parent_klass;
 
 static void
 gog_barcol_series_update (GogObject *obj)
@@ -468,11 +468,15 @@ gog_barcol_series_update (GogObject *obj)
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 	if (old_num != series->num_elements)
 		gog_plot_request_carnality_update (series->base.plot);
+
+	if (series_parent_klass->update)
+		series_parent_klass->update (obj);
 }
 
 static void
 gog_barcol_series_class_init (GogObjectClass *obj_klass)
 {
+	series_parent_klass = g_type_class_peek_parent (obj_klass);
 	obj_klass->update = gog_barcol_series_update;
 }
 

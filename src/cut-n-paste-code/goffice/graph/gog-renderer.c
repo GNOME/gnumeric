@@ -27,6 +27,7 @@
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
+#include <math.h>
 
 enum {
 	RENDERER_PROP_0,
@@ -310,10 +311,10 @@ gog_renderer_outline_size (GogRenderer *rend, GogStyle *style)
 
 	g_return_val_if_fail (style != NULL, 0.);
 
-	width = style->outline.width;
+	width = style->outline.width * rend->scale;
 	if (width < 1.) /* cheesy version of hairline */
 		return 1.;
-	return width * rend->scale;
+	return floor (width);
 }
 
 double

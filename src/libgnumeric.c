@@ -42,6 +42,7 @@
 #include "plugin-service.h"
 #include "mathfunc.h"
 #include "gnumeric-paths.h"
+#include <goffice/graph/lib.h>
 
 #include <locale.h>
 #ifdef WITH_BONOBO
@@ -100,7 +101,7 @@ gnumeric_check_for_components (void)
 }
 #endif
 
-extern void gog_plugin_services_init (void);
+extern void libgoffice_init (void);
 extern char *gnumeric_data_dir;
 /*
  * FIXME: We hardcode the GUI command context. Change once we are able
@@ -112,7 +113,7 @@ gnm_common_init (void)
 	mathfunc_init ();
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	plugin_services_init ();
-	gog_plugin_services_init ();
+	libgoffice_init ();
 	gnm_conf_init ();
 	string_init ();
 	value_init ();
@@ -180,6 +181,7 @@ gnm_shutdown (void)
 	string_shutdown ();
 	global_gnome_font_shutdown ();
 	application_release_gconf_client ();
+	libgoffice_shutdown ();
 	plugin_services_shutdown ();
 	g_object_unref (gnumeric_application_get_app ());
 }

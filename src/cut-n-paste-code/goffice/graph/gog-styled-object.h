@@ -23,7 +23,6 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-object.h>
-#include <glib-object.h>
 
 G_BEGIN_DECLS
 

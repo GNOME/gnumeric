@@ -60,7 +60,8 @@ struct _GogSeries {
 	GogStyledObject base;
 
 	unsigned index;
-	unsigned is_valid : 1;
+	unsigned manual_index : 1;
+	unsigned is_valid     : 1;
 	unsigned needs_recalc : 1;
 
 	GogPlot	  *plot;
@@ -81,7 +82,6 @@ typedef struct {
 #define GOG_SERIES_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_SERIES_TYPE, GogSeriesClass))
 
 /* protected */
-// unsigned go_plot_series_num_
 void gog_series_check_validity   (GogSeries *series);
 void gog_series_set_dim_internal (GogSeries *series,
 				  int dim_i, GOData *val, GogGraph *graph);

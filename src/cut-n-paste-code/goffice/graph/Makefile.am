@@ -11,6 +11,8 @@ INCLUDES = -I$(top_srcdir) 					\
 
 libgoffice_graph_a_SOURCES = \
 	goffice-graph.h			\
+	lib.c				\
+	lib.h				\
 	gog-object.c			\
 	gog-object.h			\
 	gog-styled-object.c		\

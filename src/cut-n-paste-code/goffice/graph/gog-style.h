@@ -59,15 +59,18 @@ struct _GogStyle {
 		 * >0 in pts */
 		float	 width;
 		GOColor	 color;
+		gboolean is_auto;
 		/* border type from gnumeric */
 	} outline;
 	struct {
 		GogFillStyle type;
 		union {
 			struct {
+				gboolean is_auto;
 				GOColor color;
 			} solid;
 			struct {
+				gboolean is_auto;
 				GOColor	fore, back;
 				/* pattern from gnumeric */
 			} pattern;
@@ -82,12 +85,19 @@ struct _GogStyle {
 		} u;
 	} fill;
 	struct {
+		gboolean is_auto;
+		GOColor	fore, back;
 	} marker;
+	struct {
+		float	 width;
+		GOColor	 color;
+		gboolean is_auto;
+	} line;
 };
 
-GogStyle  *gog_style_auto		(void);
 GogStyle  *gog_style_new		(void);
 GogStyle  *gog_style_dup		(GogStyle const *style);
+void	   gog_style_copy		(GogStyle *dst, GogStyle const *src);
 gboolean   gog_style_has_marker		(GogStyle const *style);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 

@@ -1,4 +1,13 @@
+2003-05-29  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer.c (gog_renderer_outline_size) : keep widths >= 1
+
+	* graph/plugins/plot_barcol/gog-barcol.c (barcol_draw_rect) : clip to
+	  integer sizes to decrease amount of bleed through due to antialiasing.
+
 2003-05-27  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-legend.c : make the swatch sizes properties.
 
 	* graph/gog-guru.c (cb_typesel_sample_plot_resize) : fix sizing.
 	(cb_sample_plot_resize) : ditto.

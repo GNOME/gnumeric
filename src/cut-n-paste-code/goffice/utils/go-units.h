@@ -25,17 +25,11 @@ G_BEGIN_DECLS
 
 /* Conversion factors */
 #define PT_PER_IN 72.0
-#define IN_PER_PT (1.0/PT_PER_IN)
 #define CM_PER_IN 2.54
-#define IN_PER_CM (1.0/CM_PER_IN)
-#define MM_PER_IN 25.4
-#define IN_PER_MM (1.0/MM_PER_IN)
 #define PT_PER_CM (PT_PER_IN/CM_PER_IN)
+#define IN_PER_CM (1.0/CM_PER_IN)
+#define IN_PER_PT (1.0/PT_PER_IN)
 #define CM_PER_PT (1.0/PT_PER_CM)
-#define PT_PER_MM (PT_PER_IN/MM_PER_IN)
-#define MM_PER_PT (1.0/PT_PER_MM)
-#define PT_PER_PC 12.0
-#define PC_PER_PT (1.0/PT_PER_PC)
 
 #define GO_IN_TO_PT(inch)	((inch)*PT_PER_IN)
 #define GO_IN_TO_CM(inch)	((inch)*CM_PER_IN)

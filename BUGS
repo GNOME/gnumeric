@@ -112,14 +112,18 @@ Pending Patches
     1.20) GogStyle Editor page
 	1.20.1) fill type
 	1.20.2) outline style
-    1.21) theme
-	1.21.1) load from xml
-	1.21.2) selector for graphs
-	1.21.3) How to change a graph's theme
+    1.21) themes
+	1.21.1) Actually use the themes to initialize styles
+	1.21.2) load from xml
+	1.21.3) selector for graphs
+	1.21.4) How to change a graph's theme
     1.22) enumerate legend elements				(DONE)
     1.23) simple layout
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
 	1.23.1) For compass placement use the alignment flags
+    1.24) Sizing units
+	1.24.1) Have the legend use pts to size swatches	(DONE)
+	1.24.2) Test renderers mapping between pts & pixels	(DONE)
 
     Pinch Guppi's property bag code for GogObject ?
 
