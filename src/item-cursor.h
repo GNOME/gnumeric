@@ -34,6 +34,9 @@ typedef struct {
 	int      state;
 	int      tag;
 
+	/* Location of auto fill handle */
+	gboolean auto_fill_handle_at_top;
+
 	/*
 	 * For the autofill mode:
 	 *     Where the action started (base_x, base_y) and the

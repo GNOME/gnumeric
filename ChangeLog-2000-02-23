@@ -1,3 +1,8 @@
+1999-11-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_draw) : Draw autofill handle
+	  in a better location if the bottom of the cursor is not visible.
+
 1999-11-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_number) : Handle negatives for scientific

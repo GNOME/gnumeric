@@ -24,7 +24,11 @@ static GnomeCanvasItem *item_cursor_parent_class;
 
 static void item_cursor_request_redraw (ItemCursor *item_cursor);
 
-#define IS_LITTLE_SQUARE(item,x,y) ((x) > (item)->x2 - 6) && ((y) > (item)->y2 - 6)
+#define AUTO_HANDLE_SPACE	5
+#define IS_LITTLE_SQUARE(item,x,y) \
+	(((x) > (item)->canvas_item.x2 - 6) && \
+	 ((item->auto_fill_handle_at_top && ((y) < (item)->canvas_item.y1 + 6)) || \
+	  ((y) > (item)->canvas_item.y2 - 6)))
 
 /* The argument we take */
 enum {
@@ -177,7 +181,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	GdkPoint points [40];
 	int draw_external, draw_internal, draw_handle;
 	int draw_stippled, draw_center, draw_thick;
-	int premove;
+	int premove = 0;
 	GdkColor *fore = NULL, *back = NULL;
 
 	if (!item_cursor->visible)
@@ -220,7 +224,16 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	case ITEM_CURSOR_SELECTION:
 		draw_internal = 1;
 		draw_external = 1;
-		draw_handle   = 1;
+		{
+			GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
+			GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
+			if (item_cursor->pos.end.row <= gsheet->last_full_row)
+				draw_handle = 1;
+			else if (item_cursor->pos.start.row != 0)
+				draw_handle = 2;
+			else
+				draw_handle = 3;
+		}
 		break;
 
 	case ITEM_CURSOR_EDITING:
@@ -238,58 +251,106 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		}
 	};
 
-	if (draw_handle)
-		premove = 5;
-	else
-		premove = 0;
+	item_cursor->auto_fill_handle_at_top = (draw_handle >= 2);
 
 	gdk_gc_set_line_attributes (item_cursor->gc, 1,
 				    GDK_LINE_SOLID, -1, -1);
 	gdk_gc_set_foreground (item_cursor->gc, &gs_black);
 	gdk_gc_set_background (item_cursor->gc, &gs_white);
 	if (draw_external){
-		points [0].x = dx + cursor_width + 1;
-		points [0].y = dy + cursor_height + 1 - premove;
-		points [1].x = points [0].x;
-		points [1].y = dy - 1;
-		points [2].x = dx - 1;
-		points [2].y = dy - 1;
-		points [3].x = dx - 1;
-		points [3].y = dy + cursor_height + 1;
-		points [4].x = dx + cursor_width + 1 - premove;
-		points [4].y = points [3].y;
+		switch (draw_handle) {
+		/* Auto handle at bottom */
+		case 1 : premove = AUTO_HANDLE_SPACE;
+			 /* Fall through */
+
+		/* No auto handle */
+		case 0 :
+			points [0].x = dx + cursor_width + 1;
+			points [0].y = dy + cursor_height + 1 - premove;
+			points [1].x = points [0].x;
+			points [1].y = dy - 1;
+			points [2].x = dx - 1;
+			points [2].y = dy - 1;
+			points [3].x = dx - 1;
+			points [3].y = dy + cursor_height + 1;
+			points [4].x = dx + cursor_width + 1 - premove;
+			points [4].y = points [3].y;
+			break;
+
+		/* Auto handle at top */
+		case 2 : premove = AUTO_HANDLE_SPACE;
+			 /* Fall through */
+
+		/* Auto handle at top of sheet */
+		case 3 :
+			points [0].x = dx + cursor_width + 1;
+			points [0].y = dy - 1 + AUTO_HANDLE_SPACE;
+			points [1].x = points [0].x;
+			points [1].y = dy + cursor_height + 1;
+			points [2].x = dx - 1;
+			points [2].y = points [1].y;
+			points [3].x = points [2].x;
+			points [3].y = dy - 1;
+			points [4].x = dx + cursor_width + 1 - premove;
+			points [4].y = points [3].y;
+			break;
+
+		default :
+			g_assert_not_reached ();
+		};
 		gdk_draw_lines (drawable, item_cursor->gc, points, 5);
 	}
 
 	if (draw_external && draw_internal){
-		points [0].x -= 2;
-		points [1].x -= 2;
-		points [1].y += 2;
-		points [2].x += 2;
-		points [2].y += 2;
-		points [3].x += 2;
-		points [3].y -= 2;
-		points [4].y -= 2;
+		if (draw_handle < 2) {
+			points [0].x -= 2;
+			points [1].x -= 2;
+			points [1].y += 2;
+			points [2].x += 2;
+			points [2].y += 2;
+			points [3].x += 2;
+			points [3].y -= 2;
+			points [4].y -= 2;
+		} else {
+			points [0].x -= 2;
+			points [1].x -= 2;
+			points [1].y -= 2;
+			points [2].x += 2;
+			points [2].y -= 2;
+			points [3].x += 2;
+			points [3].y += 2;
+			points [4].y += 2;
+		}
 		gdk_draw_lines (drawable, item_cursor->gc, points, 5);
 	}
 
-	if (draw_handle){
+	if (draw_handle == 1 || draw_handle == 2) {
+		int const y_off = (draw_handle == 1) ? cursor_height : 0;
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
 				    dx + cursor_width - 2,
-				    dy + cursor_height - 2,
+				    dy + y_off - 2,
 				    2, 2);
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
 				    dx + cursor_width + 1,
-				    dy + cursor_height - 2,
+				    dy + y_off - 2,
 				    2, 2);
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
 				    dx + cursor_width - 2,
-				    dy + cursor_height + 1,
+				    dy + y_off + 1,
 				    2, 2);
 		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
 				    dx + cursor_width + 1,
-				    dy + cursor_height + 1,
+				    dy + y_off + 1,
 				    2, 2);
+	} else if (draw_handle == 3) {
+		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
+				    dx + cursor_width - 2,
+				    dy + 1,
+				    2, 4);
+		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
+				    dx + cursor_width + 1,
+				    dy + 1,
+				    2, 4);
 	}
 
 	if (draw_center){
@@ -399,9 +460,10 @@ item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor const *parent, 
 static void
 item_cursor_set_cursor (GnomeCanvas *canvas, GnomeCanvasItem *item, int x, int y)
 {
+	ItemCursor *item_cursor = ITEM_CURSOR (item);
 	int cursor;
 
-	if (IS_LITTLE_SQUARE (item, x, y))
+	if (IS_LITTLE_SQUARE (item_cursor, x, y))
 		cursor = GNUMERIC_CURSOR_THIN_CROSS;
 	else
 		cursor = GNUMERIC_CURSOR_ARROW;
@@ -444,7 +506,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		 * determine which part of the cursor was clicked:
 		 * the border or the handlebox
 		 */
-		if (IS_LITTLE_SQUARE (item, x, y))
+		if (IS_LITTLE_SQUARE (item_cursor, x, y))
 			style = ITEM_CURSOR_AUTOFILL;
 		else
 			style = ITEM_CURSOR_DRAG;
@@ -893,6 +955,7 @@ item_cursor_init (ItemCursor *item_cursor)
 
 	item_cursor->style = ITEM_CURSOR_SELECTION;
 	item_cursor->tag = -1;
+	item_cursor->auto_fill_handle_at_top = FALSE;
 	item_cursor->visible = 1;
 }
 
