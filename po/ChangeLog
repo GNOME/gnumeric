@@ -1,3 +1,9 @@
+1999-09-08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* es.po: updated spanish file
+	* cs.po,en_GB.po,fi.po,ru.po: corrected headers to don't have
+	fatal errors anymore when doing checking
+
 1999-09-08  Vincent Renardias <vincent@ldsol.com>
 
 	* Updated fr.po:

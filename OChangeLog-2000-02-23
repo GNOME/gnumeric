@@ -1,3 +1,8 @@
+1999-09-08  Pablo Saratxaga <srtxg@chanae.alphanet.ch>
+
+	* src/workbook.c: changed "_Comments" to "Co_mments" as there is
+	already "_Content" in the same menu
+
 1999-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c: Remove sample button from the toolbar.
