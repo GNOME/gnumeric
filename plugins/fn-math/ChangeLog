@@ -1,3 +1,8 @@
+2002-10-15  Morten Welinder  <terra@diku.dk>
+
+	* functions.c: Use "S", not "?", for criterial arg.  Add status
+	flags.
+
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_even): Use fmodgnum.
