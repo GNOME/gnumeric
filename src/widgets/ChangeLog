@@ -1,5 +1,9 @@
 2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* widget-locale-selector.c: #include locale.h
+
+2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* widget-format-selector.h (number_format_selector_set_locale): 
 	  after "oldlocale = g_strdup(gnumeric_setlocale(LC_ALL,newlocale));"
 	  oldlocale contains the newlocale

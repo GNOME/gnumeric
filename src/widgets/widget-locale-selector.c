@@ -32,6 +32,7 @@
 #include "gnumeric-optionmenu.h"
 #include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>
+#include <locale.h>
 
 #define LS(x) LOCALE_SELECTOR (x)
 
