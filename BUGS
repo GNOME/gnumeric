@@ -135,7 +135,6 @@ Names :
 
 - SheetObjects
     : Add acetate_create virtual to handle shaped objects.
-    : config dialog for arrows and graphic objects (set colour)
     : Other anchor types for sheet objects
     : Add keyboard controls for the control points
     : display a view per Pane not per scg
