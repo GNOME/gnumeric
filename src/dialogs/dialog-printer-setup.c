@@ -713,6 +713,19 @@ do_print_preview_cb (GtkWidget *w, dialog_print_info_t *dpi)
 {
 	fetch_settings (dpi);
 	sheet_print (dpi->sheet, TRUE, PRINT_ACTIVE_SHEET);
+
+	/*
+	 * We close the dialog here, because the dialog box
+	 * has a grab and a main-loop which prohibits us from
+	 * using the main preview window until this dialog
+	 * is closed.
+	 *
+	 * If you want to change the sheet_print api to run its
+	 * own main loop or anything like that, you can remove
+	 * this, but you have to make sure that the print-preview
+	 * window is funcional
+	 */
+	gnome_dialog_close (dpi->dialog);
 }
 
 static void

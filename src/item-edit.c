@@ -414,8 +414,8 @@ entry_changed (GtkEntry *entry, void *data)
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (data);
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	char *text;
-	
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	text = gtk_entry_get_text (entry);
 	if (gnumeric_char_start_expr_p (text))
 		scan_for_range (item_edit, text);
 	else if (edit_auto_complete)

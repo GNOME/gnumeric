@@ -881,8 +881,7 @@ print_job_info_destroy (PrintJobInfo *pj)
 }
 
 void
-sheet_print (Sheet *sheet, gboolean preview,
-	     PrintRange default_range)
+sheet_print (Sheet *sheet, gboolean preview, PrintRange default_range)
 {
 	GnomePrinter *printer = NULL;
 	PrintJobInfo *pj;

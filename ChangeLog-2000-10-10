@@ -1,3 +1,9 @@
+2000-04-27  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/dialogs/dialog-printer-setup.c (do_print_preview_cb): Close
+	the dialog if the user selects preview.  Not optimal but better
+	than the two possible choices.
+
 2000-04-27  Jody Goldberg <jgoldberg@home.com>
 
 	* *Makefile.am : Use new extended configure variables.

@@ -66,11 +66,14 @@ complete_idle (gpointer data)
 		abort ();
 	}
 		
-	if (ACC(complete)->search_iteration (complete))
+	if (ACC(complete)->search_iteration (complete)){
+		printf ("Requesting more\n");
 		return TRUE;
+	}
 
 	complete->idle_tag = 0;
-	
+
+	printf ("No more\n");
 	return FALSE;
 }
 
