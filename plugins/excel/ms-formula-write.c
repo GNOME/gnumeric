@@ -65,6 +65,15 @@ sheet_pair_add_if_unknown (GHashTable *hash, ExcelSheetPair const *pair)
 	}
 }
 
+void
+excel_write_prep_sheet (ExcelWriteState *ewb, Sheet const *sheet)
+{
+	ExcelSheetPair pair;
+	pair.a = pair.b = sheet;
+	if (pair.a != NULL)
+		sheet_pair_add_if_unknown (ewb->sheet_pairs, &pair);
+}
+
 /**
  * excel_write_prep_expr :
  * @ewb :
@@ -126,13 +135,9 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		break;
 	}
 
-	case GNM_EXPR_OP_CELLREF: {
-		ExcelSheetPair pair;
-		pair.a = pair.b = expr->cellref.ref.sheet;
-		if (pair.a != NULL)
-			sheet_pair_add_if_unknown (ewb->sheet_pairs, &pair);
+	case GNM_EXPR_OP_CELLREF:
+		excel_write_prep_sheet (ewb, expr->cellref.ref.sheet);
 		break;
-	}
 
 	case GNM_EXPR_OP_CONSTANT: {
 		Value const *v = expr->constant.value;

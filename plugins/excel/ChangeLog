@@ -1,3 +1,11 @@
+2002-12-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_state_new) : register sheets with
+	  filters.  check validation exppressions for sheets.
+	(excel_write_prep_validations) : new.
+	(excel_sheet_new) : init validation lists here if necessary.
+	(excel_write_DVAL) : not here.
+
 2002-12-24  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_NAME) : arrrggghh MS kills me.

@@ -777,26 +777,28 @@ excel_write_DV (ValInputPair const *vip, gpointer dummy, ExcelWriteSheet *esheet
 static void
 excel_write_DVAL (BiffPut *bp, ExcelWriteSheet *esheet)
 {
-	StyleList *valids, *ptr;
+	StyleList *ptr;
 	StyleRegion const *sr;
 	GHashTable *group;
 	guint8 *data;
 	unsigned i;
 	ValInputPair key, *tmp;
 
-	valids = sheet_style_get_validation_list (esheet->gnum_sheet, NULL);
-	if (valids == NULL)
+	ptr = esheet->validations;
+	if (ptr == NULL)
 		return;
 
 	/* We store input msg and validation as distinct items, XL merges them
 	 * find the pairs, and the regions that use them */
 	group = g_hash_table_new_full ((GHashFunc)&vip_hash,
 				       (GCompareFunc)&vip_equal, g_free, NULL);
-	for (ptr = valids; ptr != NULL ; ptr = ptr->next) {
+	for (; ptr != NULL ; ptr = ptr->next) {
 		sr = ptr->data;
 
-#warning clip out anything entirely out of bounds
 		/* Clip here to avoid creating a DV record if there are no regions */
+		if (sr->range.start.col >= esheet->max_col ||
+		    sr->range.start.row >= esheet->max_row)
+			continue;
 
 		key.v   = mstyle_get_validation (sr->style);
 		key.msg = mstyle_get_input_msg (sr->style);
@@ -824,7 +826,26 @@ excel_write_DVAL (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	g_hash_table_foreach (group, (GHFunc) excel_write_DV, esheet);
 	g_hash_table_destroy (group);
-	style_list_free (valids);
+	style_list_free (esheet->validations);
+	esheet->validations = NULL;
+}
+
+/* Look for sheet references in validation expressions */
+static void
+excel_write_prep_validations (ExcelWriteSheet *esheet)
+{
+	StyleList *ptr = esheet->validations;
+	StyleRegion const *sr;
+	Validation  const *v;
+
+	for (; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+		v  = mstyle_get_validation (sr->style);
+		if (v->expr[0] != NULL)
+			excel_write_prep_expr (esheet->ewb, v->expr [0]);
+		if (v->expr [1] != NULL)
+			excel_write_prep_expr (esheet->ewb, v->expr [1]);
+	}
 }
 
 static int
@@ -3667,6 +3688,9 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, int maxrows)
 	/* makes it easier to refer to 1 past the end */
 	esheet->max_col    = extent.end.col + 1;
 	esheet->max_row    = extent.end.row + 1;
+	esheet->validations= (ewb->bp->version >= MS_BIFF_V8)
+		? sheet_style_get_validation_list (gnum_sheet, NULL)
+		: NULL;
 
 	/* It is ok to have formatting out of range, we can disregard that. */
 	if (esheet->max_col > 256)
@@ -4102,8 +4126,10 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		       gboolean biff7, gboolean biff8)
 {
 	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);
-	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
+	ExcelWriteSheet *esheet;
+	Sheet		*sheet;
 	int i;
+	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
 
 	g_return_val_if_fail (ewb != NULL, NULL);
 
@@ -4124,16 +4150,22 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	palette_init (ewb);
 	xf_init (ewb);
 
-	for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++) {
-		Sheet *sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
-		ExcelWriteSheet *esheet = excel_sheet_new (ewb, sheet, maxrows);
-		if (esheet != NULL)
-			g_ptr_array_add (ewb->sheets, esheet);
-	}
-	excel_write_prep_expressions (ewb);
+	/* look for externsheet references in */
+	excel_write_prep_expressions (ewb);			/* dependents */
 	WORKBOOK_FOREACH_DEPENDENT (ewb->gnum_wb, dep, 
 		excel_write_prep_expr (ewb, dep->expression););
-	excel_foreach_name (ewb, (GHFunc) cb_check_names);
+	excel_foreach_name (ewb, (GHFunc) cb_check_names);	/* names */
+
+	for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++) {
+		sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
+		esheet = excel_sheet_new (ewb, sheet, maxrows);
+		if (esheet != NULL)
+			g_ptr_array_add (ewb->sheets, esheet);
+		if (esheet->validations != NULL)
+			excel_write_prep_validations (esheet); /* validation */
+		if (sheet->filters != NULL)
+			excel_write_prep_sheet (ewb, sheet);	/* filters */
+	}
 
 	gather_style_info (ewb);
 

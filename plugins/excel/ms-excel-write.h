@@ -15,7 +15,7 @@
 #include "style.h"
 
 typedef struct {
-	Sheet *a, *b;
+	Sheet const *a, *b;
 	int idx_a, idx_b;
 } ExcelSheetPair;
 
@@ -42,6 +42,7 @@ typedef struct {
 	gint32		 max_col, max_row;
 	guint16		 col_xf    [SHEET_MAX_COLS];
 	MStyle		*col_style [SHEET_MAX_COLS];
+	StyleList 	*validations;
 } ExcelWriteSheet;
 
 struct _ExcelWriteState {
