@@ -198,16 +198,14 @@ match_is_word (SearchReplace *sr, const char *src,
 
 	if (pm->rm_so > 0 || !bolp) {
 		/* We get here when something actually preceded the match.  */
-		/* FIXME: not yet UTF-8 safe.  */
-		char c_pre = src[pm->rm_so - 1];
-		if (isalnum ((unsigned char)c_pre))
+		gunichar c_pre = g_utf8_get_char (g_utf8_prev_char (src + pm->rm_so));
+		if (g_unichar_isalnum (c_pre))
 			return FALSE;
 	}
 
 	{
-		/* FIXME: not yet UTF-8 safe.  */
-		char c_post = src[pm->rm_eo];
-		if (c_post != 0 && isalnum ((unsigned char)c_post))
+		gunichar c_post = g_utf8_get_char (src + pm->rm_eo);
+		if (c_post != 0 && g_unichar_isalnum (c_post))
 			return FALSE;
 	}
 
@@ -276,7 +274,6 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 				s++;
 
 				g_assert (n > 0 && n <= (int)sr->comp_search->re_nsub);
-				/* FIXME: not yet UTF-8 safe.  (maybe).  */
 				g_string_append_len (gres,
 						     src + pm[n].rm_so,
 						     pm[n].rm_eo - pm[n].rm_so);
@@ -366,7 +363,7 @@ search_match_string (SearchReplace *sr, const char *src)
 			 * a one-character match and continue after that.
 			 */
 			flags |= REG_NOTBOL;
-			src += match.rm_so + 1;
+			src = g_utf8_next_char (src + match.rm_so);
 			break;
 
 		case REG_NOMATCH:
@@ -407,7 +404,6 @@ search_replace_string (SearchReplace *sr, const char *src)
 		}
 
 		if (pmatch[0].rm_so > 0) {
-			/* FIXME: not yet UTF-8 safe.  */
 			g_string_append_len (res, src, pmatch[0].rm_so);
 		}
 
@@ -415,10 +411,14 @@ search_replace_string (SearchReplace *sr, const char *src)
 						       (flags & REG_NOTBOL) != 0)) {
 			/*  We saw a fake match.  */
 			if (pmatch[0].rm_so < pmatch[0].rm_eo) {
-				/* FIXME: not yet UTF-8 safe.  */
-				g_string_append_c (res, src[pmatch[0].rm_so]);
+				const char *p = src + pmatch[0].rm_so;
+				gunichar c = g_utf8_get_char (p);
+
+				g_string_append_unichar (res, c);
+
 				/* Pretend we saw a one-character match.  */
-				pmatch[0].rm_eo = pmatch[0].rm_so + 1;
+				pmatch[0].rm_eo = pmatch[0].rm_so +
+					(g_utf8_next_char (p) - p);
 			}
 		} else {
 			char *replacement =
@@ -448,8 +448,8 @@ search_replace_string (SearchReplace *sr, const char *src)
 		char *tmp;
 
 		g_string_append (res, src);
-		tmp = g_strdup (res->str);
-		g_string_free (res, TRUE);
+		tmp = res->str;
+		g_string_free (res, FALSE);
 		return tmp;
 	} else {
 		return NULL;

@@ -1,3 +1,10 @@
+2002-08-09  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (match_is_word): Make utf8 safe.
+	(calculate_replacement): Ditto.
+	(search_match_string): Ditto.
+	(search_replace_string): Ditto.
+
 2002-08-09  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/plugin-service.[ch]

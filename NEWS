@@ -52,6 +52,7 @@ Jukka:
 Morten:
 	* Fix random number generator to really use /dev/urandom.
 	* More utf8 work.
+	* Make search utf8 safe (assuming utf8-ready regexp routines).
 
 Zbigniew:
 	* Work on the plugins.
