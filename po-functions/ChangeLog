@@ -1,3 +1,7 @@
+2005-03-17  Stepan Kasal  <kasal@ucw.cz>
+
+	* .cvsignore: Add POTFILES.in, POTFILES.skip and notexist.
+
 2005-03-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.in.in, POTFILES.in, POTFILES.skip: Remove; all of these

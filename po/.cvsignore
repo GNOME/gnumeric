@@ -10,5 +10,6 @@ stamp-cat-id
 gnumeric.pot
 messages
 missing
+notexist
 .intltool-cache*
 po2tbl.sed.in
