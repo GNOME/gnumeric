@@ -12,14 +12,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-22 16:47-0500\n"
-"PO-Revision-Date: 2004-11-15 01:44-0200\n"
+"POT-Creation-Date: 2004-11-20 19:17+0100\n"
+"PO-Revision-Date: 2004-11-21 12:06-0200\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.,br>\n"
-"Language-Team: Português/Brasil <gnome-l10n-br@listas.cipsga.org.br>\n"
+"Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -20006,11 +20005,11 @@ msgstr "Digitando \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Rem Coluna/Linha"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3249
 msgid "Delete Columns"
 msgstr "Excluir colunas"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
+#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3367
 msgid "Delete Rows"
 msgstr "Excluir linhas"
 
@@ -21906,19 +21905,19 @@ msgstr "Sólido"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:53
 msgid "Dash"
-msgstr ""
+msgstr "Traço"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dot"
-msgstr ""
+msgstr "Ponto"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:55
 msgid "Dash dot"
-msgstr ""
+msgstr "Traço ponto"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot dot"
-msgstr ""
+msgstr "Traço ponto ponto"
 
 #. xgettext : this will appear as 'Automatic (patternname)'
 #. xgettext : this will appear as 'Automatic (shapename)'
@@ -24429,9 +24428,8 @@ msgstr ""
 "refazer."
 
 #: src/dialogs/dialog-preferences.c:470
-#, fuzzy
 msgid "Length of Undo Descriptors"
-msgstr "Tamanho das descrições do Desfazer"
+msgstr "Tamanho das Descrições do Desfazer"
 
 #: src/dialogs/dialog-preferences.c:498
 msgid ""
@@ -24442,9 +24440,8 @@ msgstr ""
 "ordenar e as características dos botões de ordenar na barra de ferramentas."
 
 #: src/dialogs/dialog-preferences.c:523
-#, fuzzy
 msgid "Sorting is Case-Sensitive"
-msgstr "A ordenação diferencia maiúsculas de minúsculas"
+msgstr "A ordenação diferencia Maiúsculas de Minúsculas"
 
 #: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
@@ -24455,34 +24452,32 @@ msgid "The items on this page are related to the saving and opening of files."
 msgstr "Os itens nesta página estão relacionados com abrir e salvar arquivos."
 
 #: src/dialogs/dialog-preferences.c:646
-#, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
-msgstr "Os itens nesta página estão relacionados com abrir e salvar arquivos."
+msgstr "Os itens nesta página estão relacionados com o layout da tela e sua resoluação."
 
 #: src/dialogs/dialog-preferences.c:682
-#, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
-msgstr "Os itens nesta página estão relacionados com abrir e salvar arquivos."
+msgstr ""
+"Os itens nesta página e suas sub-páginas estão relacionados com várias "
+"ferramentas do gnumeric."
 
 #: src/dialogs/dialog-preferences.c:724
-#, fuzzy
 msgid "The items on this page are related to copy. cut and paste."
-msgstr "Os itens nesta página estão relacionados com abrir e salvar arquivos."
+msgstr "Os itens nesta página estão relacionados com copiar, cortar e colar."
 
 #: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
-msgstr ""
+msgstr "Copiar e Colar"
 
 #: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Arquivos"
 
 #: src/dialogs/dialog-preferences.c:766
-#, fuzzy
 msgid "Tools"
-msgstr "_Ferramentas"
+msgstr "Ferramentas"
 
 #: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
@@ -24497,9 +24492,8 @@ msgid "Header/Footer"
 msgstr "Cabeçalho/Rodapé"
 
 #: src/dialogs/dialog-preferences.c:771
-#, fuzzy
 msgid "Screen"
-msgstr "Tela %d"
+msgstr "Tela"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -29168,11 +29162,11 @@ msgstr "não pode operar em células mescladas"
 msgid "cannot operate on array formulae"
 msgstr "não pode operar em fórmulas de vetor"
 
-#: src/sheet.c:3191
+#: src/sheet.c:3190
 msgid "Insert Columns"
 msgstr "Inserir Colunas"
 
-#: src/sheet.c:3311
+#: src/sheet.c:3308
 msgid "Insert Rows"
 msgstr "Inserir Linhas"
 
@@ -30509,27 +30503,31 @@ msgstr ""
 
 #: src/tools/solver/solver.c:465
 msgid "EqualTo models are not supported yet.  Please use Min or Max"
-msgstr ""
+msgstr "Modelos 'Igual a' ainda não são suportados.  Por favor, utilize Min ou Max"
 
 #: src/tools/solver/solver.c:478
 msgid ""
 "Failure setting automatic scaling with this solver, try a different "
 "algorithm."
 msgstr ""
+"Falha ao definir a escala automática com este algoriitmo, tente um "
+"algoritimo diferente."
 
 #: src/tools/solver/solver.c:484
-#, fuzzy
 msgid ""
 "Failure setting the maximum number of iterations with this solver, try a "
 "different algorithm."
 msgstr ""
-"Este valor determina o número máximo de itens na lista de desfazer/refazer."
+"Falha ao definir o número máximo de iterações com este algoritmo, tente "
+"um algoritmo diferente."
 
 #: src/tools/solver/solver.c:490
 msgid ""
 "Failure setting setting the maximum solving time with this solver, try a "
 "different algorithm."
 msgstr ""
+"Falha ao definir o tempo máximo para este algoritmo, tente um algoritmo "
+"diferente."
 
 #: src/tools/solver/solver.c:536
 msgid ""
