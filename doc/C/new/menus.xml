@@ -261,7 +261,7 @@
 	<listitem>
 	  <para>These menu items enable <application>Gnumeric</application> to print. Each item is
 	  presented below and printing issues are discussed fully in <xref
-	  linkend="Printing" />. </para>
+	  linkend="printing" />. </para>
 	  
 	 	<itemizedlist>
  	       <listitem>

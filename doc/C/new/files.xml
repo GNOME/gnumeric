@@ -757,7 +757,7 @@ h:mm:ss AM/PM
     </varlistentry>
   </variablelist>
   <para>More details on the various formats can be found in 
-    <xref linkend="file-format-dialog" />.</para>
+    <xref linkend="file-format" />.</para>
   </listitem>
   <listitem><para>
   Click the <quote><guibutton>Finish</guibutton></quote> button 
