@@ -1,3 +1,8 @@
+1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/func.c (iterate_cellrange_callback): Eval the cell here if
+	it has not yet been evaluated.
+
 Sun Apr 18 17:59:09 EDT 1999 Gregory McLean <gregm@comstar.net>
 
 	* gnumeric.spec.in: Updated and enhanced spec file. Tastes even

@@ -33,6 +33,13 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 {
 	IterateCallbackClosure *data = user_data;
 	int cont;
+
+	if (cell->generation != sheet->workbook->generation){
+		cell->generation = sheet->workbook->generation;
+
+		if (cell->parsed_node)
+			cell_eval (cell);
+	}
 	
 	if (!cell->value){
 		/*
