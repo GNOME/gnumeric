@@ -1,5 +1,9 @@
 2002-05-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/gui-util.c (gnumeric_dialog_run): Silence warnings.
+
+2002-05-08  Jon K Hellan  <hellan@acm.org>
+
 	* src/workbook-control-gui.c, src/workbook-control-gui-priv.h
 	(wbcg_scroll_wheel_support_cb): Rename from
 	cb_scroll_wheel_support and export protected.

@@ -186,7 +186,6 @@ gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel
 gint
 gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 {
-	GtkWindow *toplevel;
 	gint      result;
 
 	g_return_val_if_fail (GTK_IS_DIALOG (dialog), GTK_RESPONSE_NONE);
@@ -194,7 +193,7 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 	if (wbcg) {
 		g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), GTK_RESPONSE_NONE);
 
-		wbcg_set_transient (wbcg, dialog);
+		wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
 	}
 
 	result = gtk_dialog_run (dialog);
