@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-12-11 00:35-0500\n"
-"PO-Revision-Date: 2002-12-07 16:50+0200\n"
+"POT-Creation-Date: 2002-12-13 19:35+0100\n"
+"PO-Revision-Date: 2002-12-13 19:33+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16372,7 +16372,7 @@ msgid "Clipboard is in unknown format"
 msgstr "Urklipp är i ett okänt format"
 
 #: plugins/gnumeric_1_0/xml-io.c:3112 plugins/xbase/boot.c:172
-#: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:731
+#: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
 #: src/dialogs/print.glade.h:20 src/workbook.c:1047 src/workbook.c:1377
 #: src/xml-io.c:3303
 msgid "Sheet"
@@ -16498,7 +16498,7 @@ msgstr "Objektivfunktion:"
 msgid "Constraints:"
 msgstr "Bivillkor:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5412
+#: plugins/mps/mps.c:247 src/commands.c:5413
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
 #: src/dialogs/dialog-define-names.c:499 src/dialogs/dialog-formula-guru.c:813
 #: src/dialogs/dialog-function-select.c:419
@@ -16520,7 +16520,7 @@ msgstr "Värde"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:275 src/dialogs/dialog-formula-guru.c:817
-#: src/dialogs/dialog-search.c:733 src/tools/solver/reports-write.c:562
+#: src/dialogs/dialog-search.c:723 src/tools/solver/reports-write.c:562
 msgid "Type"
 msgstr "Typ"
 
@@ -16885,22 +16885,22 @@ msgstr "Gör det möjligt att skapa funktioner i Perl"
 msgid "Perl"
 msgstr "Perl"
 
-#: plugins/plan-perfect/pln.c:503
+#: plugins/plan-perfect/pln.c:501
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN: Kalkylbladet är lösenordkrypterat"
 
-#: plugins/plan-perfect/pln.c:570
+#: plugins/plan-perfect/pln.c:568
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr "Ignorerar data som påstås vara på rad %u som är > största raden %u"
 
-#: plugins/plan-perfect/pln.c:574
+#: plugins/plan-perfect/pln.c:572
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
 "Ignorerar data som påstås vara i kolumn %u som är > största kolumnen %u"
 
-#: plugins/plan-perfect/pln.c:667
+#: plugins/plan-perfect/pln.c:665
 msgid "PLN : Not a PlanPerfect File"
 msgstr "PLN: Inte en PlanPerfect-fil"
 
@@ -17206,7 +17206,7 @@ msgstr "Flera versionsangivelser. Antar %d"
 
 #: plugins/xml_sax/xml-sax-read.c:450
 msgid "File has inconsistent SheetNameIndex element."
-msgstr ""
+msgstr "Filen har inte ett konsistent SheetNameIndex-element."
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
@@ -17471,9 +17471,8 @@ msgid "Create a new workbook"
 msgstr "Skapa en ny arbetsbok"
 
 #: src/GNOME_Gnumeric.xml.h:61
-#, fuzzy
 msgid "Create a pivot table"
-msgstr "Skapa en rubrik"
+msgstr "Skapa en pivottabell"
 
 #: src/GNOME_Gnumeric.xml.h:62 src/workbook-object-toolbar.c:150
 msgid "Create a radio button"
@@ -17634,7 +17633,8 @@ msgstr "Ram"
 msgid "Freeze the top left of the sheet"
 msgstr "Frys övre vänstra på bladet"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:3847
+#: src/GNOME_Gnumeric.xml.h:99 src/dialogs/function-select.glade.h:3
+#: src/workbook-control-gui.c:3847
 msgid "Function"
 msgstr "Funktion"
 
@@ -18171,7 +18171,7 @@ msgid "Show all filtered and hidden rows"
 msgstr "Visa alla filtrerade och dolda rader"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3851
-#: schemas/gnumeric-general.schemas.in.h:28
+#: schemas/gnumeric-general.schemas.in.h:27
 msgid "Sort Ascending"
 msgstr "Sortera stigande"
 
@@ -18527,9 +18527,8 @@ msgid "_Paste"
 msgstr "Klistra i_n"
 
 #: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3765
-#, fuzzy
 msgid "_PivotTable..."
-msgstr "Skriv _ut..."
+msgstr "_Pivottabell..."
 
 #: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3651
 msgid "_Plug-ins..."
@@ -19012,12 +19011,12 @@ msgstr "Fäll ihop rader"
 #: src/commands.c:2238
 #, c-format
 msgid "Show column outline %d"
-msgstr ""
+msgstr "Visa kolumnutdrag %d"
 
 #: src/commands.c:2238
 #, c-format
 msgid "Show row outline %d"
-msgstr ""
+msgstr "Visa radutdrag %d"
 
 #: src/commands.c:2305
 msgid "Those columns are already grouped"
@@ -19097,131 +19096,131 @@ msgid "Merging %s"
 msgstr "Sammanslagning av %s"
 
 #. Corrected below.
-#: src/commands.c:3755 src/dialogs/search-replace.glade.h:20
+#: src/commands.c:3756 src/dialogs/search-replace.glade.h:20
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
 
-#: src/commands.c:3853
+#: src/commands.c:3854
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Inställning av standardbredd på kolumner till %.2f punkter"
 
-#: src/commands.c:3854
+#: src/commands.c:3855
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 
 #. Changed in initial redo.
-#: src/commands.c:3940
+#: src/commands.c:3941
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konsolidation till %s!%s"
 
-#: src/commands.c:4059
+#: src/commands.c:4060
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Inzoomning av %s till %.0f%%"
 
-#: src/commands.c:4130
+#: src/commands.c:4131
 msgid "Insert object"
 msgstr "Infogning av objekt"
 
-#: src/commands.c:4190
+#: src/commands.c:4191
 msgid "Delete object"
 msgstr "Borttagning av objekt"
 
-#: src/commands.c:4272
+#: src/commands.c:4273
 msgid "Resize object"
 msgstr "Storleksändring av objekt"
 
-#: src/commands.c:4272
+#: src/commands.c:4273
 msgid "Move object"
 msgstr "Flyttning av objekt"
 
-#: src/commands.c:4516
+#: src/commands.c:4517
 msgid "Renaming Sheets"
 msgstr "Namnbyte på blad"
 
-#: src/commands.c:4519
+#: src/commands.c:4520
 msgid "Reordering Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:4524
+#: src/commands.c:4525
 msgid "Adding a sheet"
 msgstr "Tillägg av nytt blad"
 
-#: src/commands.c:4527
+#: src/commands.c:4528
 #, c-format
 msgid "Adding sheet '%s'"
 msgstr "Tillägg av bladet \"%s\""
 
-#: src/commands.c:4531
+#: src/commands.c:4532
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Namnbyte på bladet \"%s\" till \"%s\""
 
-#: src/commands.c:4536
+#: src/commands.c:4537
 msgid "Changing Tab Colors"
 msgstr "Färgbyte på flikar"
 
-#: src/commands.c:4539
+#: src/commands.c:4540
 msgid "Changing Sheet Protection"
 msgstr "Ändrar bladskydd"
 
-#: src/commands.c:4542
+#: src/commands.c:4543
 msgid "Reorganizing Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:4671
+#: src/commands.c:4672
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tömning av kommentar för %s"
 
-#: src/commands.c:4672
+#: src/commands.c:4673
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Sättande av kommentar till %s"
 
-#: src/commands.c:5035
+#: src/commands.c:5036
 #, c-format
 msgid "Merging data into %s"
 msgstr "Sammanslagning av data i %s"
 
-#: src/commands.c:5137
+#: src/commands.c:5138
 msgid "Changing summary info"
 msgstr "Ändrar sammanfattningsinformation"
 
-#: src/commands.c:5229
+#: src/commands.c:5230
 msgid "Raise object"
 msgstr "Höj objekt"
 
-#: src/commands.c:5232
+#: src/commands.c:5233
 msgid "Lower object"
 msgstr "Sänk objekt"
 
-#: src/commands.c:5235
+#: src/commands.c:5236
 msgid "Raise object to top"
 msgstr "Höj objektet överst"
 
-#: src/commands.c:5238
+#: src/commands.c:5239
 msgid "Lower object to bottom"
 msgstr "Sänk objektet nederst"
 
-#: src/commands.c:5354
+#: src/commands.c:5355
 #, c-format
 msgid "Page Setup For %s"
 msgstr "SIdegenskaper för %s"
 
-#: src/commands.c:5356
+#: src/commands.c:5357
 msgid "Page Setup For All Sheets"
 msgstr "Sidegenskaper för alla blad"
 
-#: src/commands.c:5484 src/commands.c:5566
+#: src/commands.c:5485 src/commands.c:5567
 #, c-format
 msgid "Define Name %s"
 msgstr "Definiera namn %s"
 
-#: src/commands.c:5487 src/commands.c:5569
+#: src/commands.c:5488 src/commands.c:5570
 #, c-format
 msgid "Update Name %s"
 msgstr "Uppdatera namn %s"
@@ -19259,10 +19258,10 @@ msgstr "Standardikon"
 msgid "The stock icon displayed in widgets representing this action."
 msgstr "Standardikonen som visas i kontroller som representerar denna åtgärd."
 
+# inte bra - andra möjligheter?
 #: src/cut-n-paste-code/egg/menu/egg-action.c:156
-#, fuzzy
 msgid "Sensitive"
-msgstr "Gör skillnad på gemener/VERSALER"
+msgstr "Aktiv"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:157
 msgid "Whether the action is enabled."
@@ -19294,142 +19293,135 @@ msgid "Orientation"
 msgstr "Orientering"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:129
-#, fuzzy
 msgid "The orientation of the toolbar"
-msgstr "Växlingstillståndet för knappen"
+msgstr "Verktygsradens riktning"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:137
 msgid "Toolbar Style"
-msgstr ""
+msgstr "Stil på verktygsrad"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:138
 msgid "How to draw the toolbar"
-msgstr ""
+msgstr "Hur verktygsraden skall ritas"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:145
-#, fuzzy
 msgid "Show Arrow"
-msgstr "Pil"
+msgstr "Visa pil"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:146
 msgid "If an arrow should be shown if the toolbar doesn't fit"
-msgstr ""
+msgstr "Huruvida en pil skall visas om verktygsraden inte får plats"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:152
-#, fuzzy
 msgid "Spacer size"
-msgstr "Pappers_storlek:"
+msgstr "Mellanrumsstorlek"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:153
-#, fuzzy
 msgid "Size of spacers"
-msgstr "Storlek på stickprov:"
+msgstr "Storlek på mellanrum"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:161
-#, fuzzy
 msgid "Internal padding"
-msgstr "Internt FEL"
+msgstr "Intern utfyllnad"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:162
 msgid "Amount of border space between the toolbar shadow and the buttons"
-msgstr ""
+msgstr "Mängden kantmellanrum mellan verktygsfältets skugga och knapparna"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:170
-#, fuzzy
 msgid "Space style"
-msgstr "Mellanslag"
+msgstr "Mellanrumsstil"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:171
 msgid "Whether spacers are vertical lines or just blank"
-msgstr ""
+msgstr "Huruvida mellanrum är vertikala linjer eller tomma"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:178
-#, fuzzy
 msgid "Button relief"
-msgstr "Knapp"
+msgstr "Knapprelief"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:179
 msgid "Type of bevel around toolbar buttons"
-msgstr ""
+msgstr "Kanttyp runt verktygsfältsknapparna"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:185
-#, fuzzy
 msgid "Shadow type"
-msgstr "Skugga"
+msgstr "Skuggtyp"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:186
 msgid "Style of bevel around the toolbar"
-msgstr ""
+msgstr "Kanttyp runt verktygsfältet"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:102
 msgid "Text to show in the item."
-msgstr ""
+msgstr "iText som visas i objektet."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:108
-#, fuzzy
 msgid "Use underline"
-msgstr "Understrykning"
+msgstr "Använd understrykning"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:109
 msgid "Interpret underlines in the item label."
-msgstr ""
+msgstr "Tolka understrykningar i objektetiketten."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:115
-#, fuzzy
 msgid "Stock Id"
-msgstr "Stopp"
+msgstr "Standard-Id"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:116
 msgid "The stock icon displayed on the item."
-msgstr ""
+msgstr "Standardikonen som ska visas på objektet."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:122
-#, fuzzy
 msgid "Icon set"
-msgstr "Infoga"
+msgstr "Ikonsamling"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:123
 msgid "Icon set to use to draw the item's icon."
-msgstr ""
+msgstr "Ikonsamling som används för att rita objektets ikon."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:129
 msgid "Icon widget"
-msgstr ""
+msgstr "Ikonwidget"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:130
 msgid "Icon widget to display in the item."
-msgstr ""
+msgstr "Ikonwidget att visa i objektet."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:154
-#, fuzzy
 msgid "Visible when horizontal"
-msgstr "Inuti, vågrätt"
+msgstr "Synlig horisontellt"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:155
 msgid ""
 "Whether the toolbar item is visible when the toolbar is in a horizontal "
 "orientation."
 msgstr ""
+"Huruvida verktygsfältobjektet är synligt när verktygsfältet är placerad "
+"horisontellt."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:161
-#, fuzzy
 msgid "Visible when vertical"
-msgstr "Inuti, lodrätt"
+msgstr "Synlig vertikalt"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:162
 msgid ""
 "Whether the toolbar item is visible when the toolbar is in a vertical "
 "orientation."
 msgstr ""
+"Huruvida verktygsfältobjektet är synligt när verktygsfältet är placerad "
+"vertikalt."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:168
 msgid "Homogeneous size"
-msgstr ""
+msgstr "Homogen storlek"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:169
 msgid ""
 "Whether the toolbar item should be the same size as other homogeneous items."
 msgstr ""
+"Huruvida verktygsfältsobjektet skall ha samma storlek som andra homogena "
+"objekt."
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -19673,83 +19665,72 @@ msgstr " "
 #: src/dialogs/plugin-manager.glade.h:1 src/dialogs/so-frame.glade.h:1
 #: src/dialogs/solver.glade.h:1 src/dialogs/workbook-attr.glade.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: src/dialogs/autofilter-expression.glade.h:3
 #: src/dialogs/autofilter-top10.glade.h:2
-#, fuzzy
 msgid "Gnumeric : AutoFilter"
-msgstr "Ta bort kanter"
+msgstr "Gnumeric : AutoFilter"
 
 #: src/dialogs/autofilter-expression.glade.h:4
-#, fuzzy
 msgid "Show rows where:"
-msgstr "Pil"
+msgstr "Visa rader där:"
 
 #: src/dialogs/autofilter-expression.glade.h:5
-#, fuzzy
 msgid "_And"
-msgstr "_Lägg till"
+msgstr "_Och"
 
 #: src/dialogs/autofilter-expression.glade.h:6
 msgid "_Or"
-msgstr ""
+msgstr "_Eller"
 
 #: src/dialogs/autofilter-expression.glade.h:7
 msgid "begins with"
-msgstr ""
+msgstr "börjar med"
 
 #: src/dialogs/autofilter-expression.glade.h:8
-#, fuzzy
 msgid "contains"
-msgstr "innehåll"
+msgstr "innehåller"
 
 #: src/dialogs/autofilter-expression.glade.h:9
 msgid "does not begin with"
-msgstr ""
+msgstr "börjar inte med"
 
 #: src/dialogs/autofilter-expression.glade.h:10
-#, fuzzy
 msgid "does not contain"
-msgstr "Innehåller inte en arbetsboksfil"
+msgstr "Innehåller inte"
 
 #: src/dialogs/autofilter-expression.glade.h:11
 msgid "does not end with"
-msgstr ""
+msgstr "slutar inte med"
 
 #: src/dialogs/autofilter-expression.glade.h:12
 msgid "does not equal"
-msgstr ""
+msgstr "är inte lika med"
 
 #: src/dialogs/autofilter-expression.glade.h:13
-#, fuzzy
 msgid "ends with"
-msgstr "Fast _bredd"
+msgstr "slutar med"
 
 #: src/dialogs/autofilter-expression.glade.h:14
-#, fuzzy
 msgid "equals"
-msgstr "_Olika"
+msgstr "är lika med"
 
 #: src/dialogs/autofilter-expression.glade.h:15
-#, fuzzy
 msgid "is greater than"
-msgstr "Måste vara större än %s\n"
+msgstr "är större än"
 
 #: src/dialogs/autofilter-expression.glade.h:16
-#, fuzzy
 msgid "is greater than or equal to"
-msgstr "Måste vara större än eller lika med %s\n"
+msgstr "större än eller lika med"
 
 #: src/dialogs/autofilter-expression.glade.h:17
-#, fuzzy
 msgid "is less than"
-msgstr "Måste vara mindre än %s\n"
+msgstr "är mindre än"
 
 #: src/dialogs/autofilter-expression.glade.h:18
-#, fuzzy
 msgid "is less than or equal to"
-msgstr "Måste vara mindre än eller lika med %s\n"
+msgstr "är mindre än eller lika med"
 
 #: src/dialogs/autofilter-top10.glade.h:1 src/dialogs/cell-format.glade.h:18
 #: src/workbook-format-toolbar.c:630
@@ -19758,17 +19739,15 @@ msgstr "Underkant"
 
 #: src/dialogs/autofilter-top10.glade.h:3
 msgid "Items"
-msgstr ""
+msgstr "Objekt"
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#, fuzzy
 msgid "Percentage"
-msgstr "_Procent"
+msgstr "Procent"
 
 #: src/dialogs/autofilter-top10.glade.h:5
-#, fuzzy
 msgid "Show:"
-msgstr "Visa"
+msgstr "Visa:"
 
 #: src/dialogs/autofilter-top10.glade.h:6 src/dialogs/cell-format.glade.h:91
 msgid "Top"
@@ -20005,9 +19984,8 @@ msgid "Preview"
 msgstr "Förhandsgranskning"
 
 #: src/dialogs/autoformat.glade.h:16
-#, fuzzy
 msgid "Template Details"
-msgstr "_Malldetaljer"
+msgstr "Malldetaljer"
 
 #: src/dialogs/autoformat.glade.h:17
 msgid "The category this template belongs to"
@@ -20099,9 +20077,8 @@ msgid "Alignment"
 msgstr "Justering"
 
 #: src/dialogs/cell-format.glade.h:14
-#, fuzzy
 msgid "Any Value     (no validation)"
-msgstr "Alla värden                   (ingen validering)"
+msgstr "Valfritt värde  (ingen validering)"
 
 #: src/dialogs/cell-format.glade.h:16
 msgid "Background Color:"
@@ -20222,9 +20199,8 @@ msgid "In-_cell dropdown"
 msgstr "Rullgardinsmeny i _cell"
 
 #: src/dialogs/cell-format.glade.h:46
-#, fuzzy
 msgid "Information (allow invalid input)"
-msgstr "Information  (tillåter ogiltig indata)"
+msgstr "Information  (tillåt ogiltig indata)"
 
 #: src/dialogs/cell-format.glade.h:47
 msgid "Input Message"
@@ -20335,7 +20311,6 @@ msgid "Sp_ecial"
 msgstr "Sp_ecial"
 
 #: src/dialogs/cell-format.glade.h:75
-#, fuzzy
 msgid "Stop            (never allow invalid input)"
 msgstr "Stopp          (tillåt aldrig ogiltig indata)"
 
@@ -20412,7 +20387,6 @@ msgid "Vertical Stripe"
 msgstr "Lodräta ränder"
 
 #: src/dialogs/cell-format.glade.h:95
-#, fuzzy
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Varning      (acceptera/förkasta ogiltig indata)"
 
@@ -20453,9 +20427,8 @@ msgid "_Date"
 msgstr "_Datum"
 
 #: src/dialogs/cell-format.glade.h:106
-#, fuzzy
 msgid "_Degrees"
-msgstr "_Ta bort"
+msgstr "_Grader"
 
 #: src/dialogs/cell-format.glade.h:108
 msgid "_Fraction"
@@ -20526,38 +20499,32 @@ msgid "min <= val <= max         (between)"
 msgstr "min <= värde <= max       (mellan)"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
 msgid "val  <  bound                  (less than)"
-msgstr "värde <  gräns                (mindre än)"
+msgstr "värde <  gräns                 (mindre än)"
 
 #: src/dialogs/cell-format.glade.h:130
-#, fuzzy
 msgid "val  >  bound                  (greater than)"
-msgstr "värde >  gräns                (större än)"
+msgstr "värde >  gräns                 (större än)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val <= bound                  (less than or equal)"
-msgstr "värde <=gräns                (mindre än eller lika med)"
+msgstr "värde <=gräns                 (mindre än eller lika med)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val <= min || max <= val (not between)"
 msgstr "värde <= min || max <= värde (inte mellan)"
 
 #: src/dialogs/cell-format.glade.h:133
-#, fuzzy
 msgid "val <> bound                  (not equal to)"
-msgstr "värde != gräns                (inte lika med)"
+msgstr "värde <> gräns                (inte lika med)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
 msgid "val == bound                  (equal to)"
-msgstr "värde == gräns               (lika med)"
+msgstr "värde == gräns                (lika med)"
 
 #: src/dialogs/cell-format.glade.h:135
-#, fuzzy
 msgid "val >= bound                  (greater than or equal)"
-msgstr "värde >=gräns                (större än eller lika med)"
+msgstr "värde >= gräns                (större än eller lika med)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -20636,7 +20603,7 @@ msgstr "Töm listan med källområden"
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
 #: src/workbook-control-gui.c:4598
 msgid "Count"
-msgstr "Räkna"
+msgstr "Antal"
 
 #: src/dialogs/consolidate.glade.h:6
 msgid "D_elete"
@@ -20859,15 +20826,13 @@ msgstr "John Gotts, rpm-paketering."
 
 #. The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:62
-#, fuzzy
 msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric-hacker."
 
 #. The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
 msgid "Jon Kre Hellan, Gnumeric hacker."
-msgstr "Jon K. Hellan, Gnumeric-hacker."
+msgstr "Jon Kåre Hellan, Gnumeric-hacker."
 
 #: src/dialogs/dialog-about.c:65
 msgid "Ross Ihaka, special functions."
@@ -21032,7 +20997,6 @@ msgid "Could not create the Covariance Tool dialog."
 msgstr "Kunde inte skapa kovariansverktygsdialogen."
 
 #: src/dialogs/dialog-analysis-tools.c:848
-#, fuzzy
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Kunde inte skapa dialogen för rank- och percentil-verktyget."
 
@@ -21306,19 +21270,16 @@ msgid "_);[Red]("
 msgstr "_);[Red]("
 
 #: src/dialogs/dialog-cell-format.c:1008
-#, fuzzy
 msgid "Negative Number Format"
-msgstr "Negativt tal:"
+msgstr "Format för negativa tal"
 
 #: src/dialogs/dialog-cell-format.c:1044
-#, fuzzy
 msgid "Number Formats"
-msgstr "Använd _talformat"
+msgstr "Talformat"
 
 #: src/dialogs/dialog-cell-format.c:1290
-#, fuzzy
 msgid "Text"
-msgstr "Te_xt"
+msgstr "Text"
 
 #. There must be a better way than this
 #: src/dialogs/dialog-cell-format.c:1574 src/dialogs/dialog-cell-format.c:1634
@@ -21400,7 +21361,7 @@ msgstr "Källområdet %s överlappar målområdet"
 
 #: src/dialogs/dialog-define-names.c:356
 msgid "Why would you want to define a name to be #NAME?"
-msgstr ""
+msgstr "Varför skulle du vilja definera ett namn som #NAME?"
 
 #: src/dialogs/dialog-define-names.c:586
 msgid "Could not create the Name Guru."
@@ -21472,7 +21433,7 @@ msgstr "Arbetsboksnivå"
 #.
 #. * Fill in the labels of `Target Cell' section.
 #.
-#: src/dialogs/dialog-goto-cell.c:292 src/dialogs/dialog-search.c:732
+#: src/dialogs/dialog-goto-cell.c:292 src/dialogs/dialog-search.c:722
 #: src/dialogs/tabulate.glade.h:1 src/tools/solver/reports-write.c:123
 #: src/tools/solver/reports-write.c:145 src/tools/solver/reports-write.c:172
 #: src/tools/solver/reports-write.c:279 src/tools/solver/reports-write.c:325
@@ -21505,27 +21466,27 @@ msgid "Format Graph"
 msgstr "Formatera graf"
 
 #: src/dialogs/dialog-graph-guru.c:1442
-#, fuzzy
 msgid "Plot Type"
-msgstr "Kurvnamn"
+msgstr "Plottyp"
 
 #. Set up sample button
 #: src/dialogs/dialog-graph-guru.c:1543
-#, fuzzy
 msgid ""
 "Show\n"
 "Sample"
-msgstr "Exempel"
+msgstr ""
+"Visa\n"
+"exempel"
 
 #: src/dialogs/dialog-graph-guru.c:1551
 #: src/dialogs/dialog-plugin-manager.c:694
-#: src/dialogs/dialog-preferences.c:507
+#: src/dialogs/dialog-preferences.c:507 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Beskrivning"
 
 #: src/dialogs/dialog-graph-guru.c:1558
 msgid "Basic Types"
-msgstr ""
+msgstr "Grundläggande typer"
 
 #: src/dialogs/dialog-graph-guru.c:1596
 msgid "Plot name"
@@ -21536,44 +21497,41 @@ msgid "Series name"
 msgstr "Serienamn"
 
 #: src/dialogs/dialog-hyperlink.c:85
-#, fuzzy
 msgid "_Internal Link"
-msgstr "Internt FEL"
+msgstr "_Intern länk"
 
 #: src/dialogs/dialog-hyperlink.c:87
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
+"Hoppa till specifika celler eller namngett område i den aktuella arbetsboken"
 
 #: src/dialogs/dialog-hyperlink.c:88
-#, fuzzy
 msgid "_External Link"
-msgstr "Internt FEL"
+msgstr "_Extern länk"
 
 #: src/dialogs/dialog-hyperlink.c:90
 msgid "Open an external file with the specified name"
-msgstr ""
+msgstr "Öppna en extern fil med det givna namnet"
 
 #: src/dialogs/dialog-hyperlink.c:91
 msgid "Send _Email"
-msgstr ""
+msgstr "Skicka _epost"
 
 #: src/dialogs/dialog-hyperlink.c:93
-#, fuzzy
 msgid "Prepare an email"
-msgstr "Skapa en rubrik"
+msgstr "Skapa epost"
 
 #: src/dialogs/dialog-hyperlink.c:94
 msgid "_URL"
-msgstr ""
+msgstr "_URL"
 
 #: src/dialogs/dialog-hyperlink.c:96
 msgid "Browse to the specified URL"
-msgstr ""
+msgstr "Gå till den angivna URL:en"
 
 #: src/dialogs/dialog-hyperlink.c:274
-#, fuzzy
 msgid "Could not create the hyperlink dialog."
-msgstr "Kunde inte skapa lösardialogen."
+msgstr "Kunde inte skapa länkdialogen."
 
 #: src/dialogs/dialog-insert-cells.c:134 src/dialogs/insert-cells.glade.h:1
 msgid "Insert"
@@ -21613,7 +21571,7 @@ msgstr "Slå samman fält"
 msgid "All"
 msgstr "Allt"
 
-#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:734
+#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:724
 msgid "Content"
 msgstr "Innehåll"
 
@@ -21666,19 +21624,16 @@ msgid "Skip Blanks"
 msgstr "Hoppa över blanksteg"
 
 #: src/dialogs/dialog-plugin-manager.c:328
-#, fuzzy
 msgid "Plugin dependencies"
-msgstr "_Detaljer för insticksmodul"
+msgstr "Beroenden för insticksmodulen"
 
 #: src/dialogs/dialog-plugin-manager.c:336
-#, fuzzy
 msgid "Unknown plugin"
-msgstr "Okänt namn på insticksmodul."
+msgstr "Okänd insticksmodul"
 
 #: src/dialogs/dialog-plugin-manager.c:350
-#, fuzzy
 msgid "Plugin services"
-msgstr "_Detaljer för insticksmodul"
+msgstr "Funktioner för insticksmodulen"
 
 #: src/dialogs/dialog-plugin-manager.c:411
 msgid "Errors while activating plugins"
@@ -21694,41 +21649,44 @@ msgid ""
 "one:\n"
 "\n"
 msgstr ""
+"Följande extra insticksmoduler måste aktiveras för att kunna aktivera "
+"denna:\n"
+"\n"
 
 #: src/dialogs/dialog-plugin-manager.c:587
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
-msgstr "Ingen inläsare är angiven för insticksmodulen med id=\"%s\"."
+msgstr "Okänd insticksmodul med id=\"%s\"\n"
 
 #: src/dialogs/dialog-plugin-manager.c:594
 msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
 msgstr ""
+"\n"
+"Vill du aktivera den här insticksmodulen tillsammans med dess beroenden?"
 
 #: src/dialogs/dialog-plugin-manager.c:613
-#, fuzzy, c-format
+#, c-format
 msgid "Error while deactivating plugin \"%s\"."
-msgstr "Fel vid aktivering av insticksmoduler"
+msgstr "Fel vid avaktivering av insticksmodul \"%s\"."
 
 #: src/dialogs/dialog-plugin-manager.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "Error while activating plugin \"%s\"."
-msgstr "Fel vid aktivering av insticksmoduler."
+msgstr "Fel vid aktivering av insticksmodul \"%s\"."
 
 #: src/dialogs/dialog-plugin-manager.c:670
-#, fuzzy
 msgid "Active"
-msgstr "aktiv"
+msgstr "Aktiv"
 
 #: src/dialogs/dialog-plugin-manager.c:675
-#, fuzzy
 msgid "Plugin name"
-msgstr "Insticksmodulhanterare"
+msgstr "Namn på insticksmodul"
 
 #: src/dialogs/dialog-plugin-manager.c:698
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/dialogs/dialog-plugin-manager.c:718
 msgid "Directory"
@@ -21925,11 +21883,11 @@ msgstr "Geometrisk"
 
 #: src/dialogs/dialog-random-generator.c:141
 msgid "Gumbel (Type I)"
-msgstr ""
+msgstr "Gumbel (typ I)"
 
 #: src/dialogs/dialog-random-generator.c:143
 msgid "Gumbel (Type II)"
-msgstr ""
+msgstr "Gumbel (typ II)"
 
 #: src/dialogs/dialog-random-generator.c:145
 msgid "Landau"
@@ -22001,9 +21959,8 @@ msgid "Rayleigh Tail"
 msgstr "Rayleighsvans"
 
 #: src/dialogs/dialog-random-generator.c:168
-#, fuzzy
 msgid "Student t"
-msgstr "Påverkas av"
+msgstr "Student t"
 
 #: src/dialogs/dialog-random-generator.c:168
 msgid "nu Value:"
@@ -22029,7 +21986,7 @@ msgstr ""
 "Ställ in radhöjd av markeringen på <span style='italic' weight='bold'>%s</"
 "span>"
 
-#: src/dialogs/dialog-search-replace.c:151 src/dialogs/dialog-search.c:665
+#: src/dialogs/dialog-search-replace.c:151 src/dialogs/dialog-search.c:655
 msgid "You must select some cell types to search."
 msgstr "Du måste välja några celltyper att söka i."
 
@@ -22079,61 +22036,56 @@ msgid "Deletion of sheets is not undoable. Do you want to proceed?"
 msgstr "Borttagning av blad kan inte ångras. Vill du fortsätta?"
 
 #: src/dialogs/dialog-sheet-order.c:632
-#, fuzzy
 msgid "You may not delete all sheets in a workbook!"
-msgstr "Hantera bladen i denna arbetsbok"
+msgstr "Du får inte ta bort alla blad i en arbetsbok!"
 
 #: src/dialogs/dialog-sheet-order.c:867
 msgid "The sheet order has changed. Do you want to update the list?"
-msgstr ""
+msgstr "Bladordnignen har ändrats. Vill du uppdatera listan?"
 
 #: src/dialogs/dialog-sheet-order.c:925 src/dialogs/dialog-sheet-order.c:937
 msgid "Default"
 msgstr "Standard"
 
 #: src/dialogs/dialog-simulation.c:71
-#, fuzzy
 msgid "The input variable range is invalid."
-msgstr "Kriterieintervallet är ogiltigt."
+msgstr "Indataintervallet för variablerna är ogiltigt."
 
 #: src/dialogs/dialog-simulation.c:81
-#, fuzzy
 msgid "The output variable range is invalid."
-msgstr "Utdataintervallet är ogiltigt."
+msgstr "Utdataintervallet för variablerna är ogiltigt."
 
 #: src/dialogs/dialog-simulation.c:168
 msgid "Simulations\t\t\t= "
-msgstr ""
+msgstr "Simulationer\t\t\t= "
 
 #: src/dialogs/dialog-simulation.c:169
-#, fuzzy
 msgid "Iterations\t\t\t= "
-msgstr "Max _iterationer"
+msgstr "Iterationer\t\t\t= "
 
 #: src/dialogs/dialog-simulation.c:170
 msgid "# Input variables\t\t= "
-msgstr ""
+msgstr "Antal indatavariabler\t\t= "
 
 #: src/dialogs/dialog-simulation.c:171
 msgid "# Output variables\t= "
-msgstr ""
+msgstr "Antal utdatavariabler\t\t= "
 
 #: src/dialogs/dialog-simulation.c:172
 msgid "Runtime\t\t\t= "
-msgstr ""
+msgstr "Under körning\t\t\t= "
 
 #: src/dialogs/dialog-simulation.c:173
 msgid "Run on\t\t\t= "
-msgstr ""
+msgstr "Kör på\t\t\t= "
 
 #: src/dialogs/dialog-simulation.c:203
-#, fuzzy
 msgid "Variable"
-msgstr "Variabler"
+msgstr "Variabel"
 
 #: src/dialogs/dialog-simulation.c:283
 msgid "Invalid variable range was given"
-msgstr ""
+msgstr "Ogiltigt variabelintervall är givet"
 
 #: src/dialogs/dialog-simulation.c:297
 msgid ""
@@ -22142,19 +22094,16 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-simulation.c:398
-#, fuzzy
 msgid "_Inputs:"
-msgstr "Indata:"
+msgstr "_Indata:"
 
 #: src/dialogs/dialog-simulation.c:398
-#, fuzzy
 msgid "_Outputs:"
-msgstr "Utdata"
+msgstr "_Utdata:"
 
 #: src/dialogs/dialog-simulation.c:399
-#, fuzzy
 msgid "Could not create the Simulation dialog."
-msgstr "Kunde inte skapa gå till-dialogen."
+msgstr "Kunde inte skapa Simulationsdialogen."
 
 #: src/dialogs/dialog-solver.c:83 src/dialogs/solver.glade.h:2
 msgid "<="
@@ -22180,22 +22129,23 @@ msgstr "Booleskt"
 
 #: src/dialogs/dialog-solver.c:103
 msgid "Revised Simplex (GLPK 3.2)"
-msgstr ""
+msgstr "Reviderad Simplex (GLPK 3.2)"
 
 #: src/dialogs/dialog-solver.c:104
-#, fuzzy
 msgid "Simplex (LP Solve 3.2)"
-msgstr "LP-lösare 3.2"
+msgstr "Simplex (LP-lösare 3.2)"
 
 #: src/dialogs/dialog-solver.c:105
 msgid "< Not available >"
-msgstr ""
+msgstr "< Inte tillgänglig >"
 
 #: src/dialogs/dialog-solver.c:432
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
 msgstr ""
+"Letar du efter ett ämne för din avhandling? Kanske du vill skriva en QP-"
+"lösare för Gnumeric?"
 
 #: src/dialogs/dialog-solver.c:749
 msgid ""
@@ -22325,9 +22275,8 @@ msgid "Choose sheets to export"
 msgstr "Välj blad att exportera"
 
 #: src/dialogs/dialog-stf-export.glade.h:14
-#, fuzzy
 msgid "Colon (:)"
-msgstr "_Kolon (:)"
+msgstr "Kolon (:)"
 
 #: src/dialogs/dialog-stf-export.glade.h:15
 msgid "Comma (,)"
@@ -22844,6 +22793,10 @@ msgid "I_nverse"
 msgstr "O_mvänd"
 
 #: src/dialogs/function-select.glade.h:1
+msgid "Category"
+msgstr "Kategori"
+
+#: src/dialogs/function-select.glade.h:4
 msgid "Function Selector"
 msgstr "Funktionsväljare"
 
@@ -22998,42 +22951,35 @@ msgstr "_Alternativ"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
-msgstr ""
+msgstr "<small>Valfri</small>"
 
 #: src/dialogs/hyperlink.glade.h:3
-#, fuzzy
 msgid "Email _Address:"
-msgstr "Adress"
+msgstr "Epost_adress"
 
 #: src/dialogs/hyperlink.glade.h:4
-#, fuzzy
 msgid "HyperLink"
-msgstr "Redigera uttryck"
+msgstr "Hyperlink"
 
 #: src/dialogs/hyperlink.glade.h:5
-#, fuzzy
 msgid "Target _Range:"
-msgstr "Sammanslagningsintervall:"
+msgstr "Mål_intervall:"
 
 #: src/dialogs/hyperlink.glade.h:6
-#, fuzzy
 msgid "_File:"
-msgstr "_Arkiv"
+msgstr "_Fil:"
 
 #: src/dialogs/hyperlink.glade.h:7
-#, fuzzy
 msgid "_Subject:"
-msgstr "Påverkas av"
+msgstr "_Ämne:"
 
 #: src/dialogs/hyperlink.glade.h:8
-#, fuzzy
 msgid "_Tip:"
-msgstr "_Överkant:"
+msgstr "_Tips:"
 
 #: src/dialogs/hyperlink.glade.h:9
-#, fuzzy
 msgid "_Web Address:"
-msgstr "Adress"
+msgstr "_Webbadress:"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _column(s)"
@@ -23141,18 +23087,16 @@ msgid "Moving Average"
 msgstr "Rullande medelvärde"
 
 #: src/dialogs/names.glade.h:2
-#, fuzzy
 msgid "Available Names"
-msgstr "Tillgängliga blad"
+msgstr "Tillgängliga namn"
 
 #: src/dialogs/names.glade.h:3
 msgid "Define names"
 msgstr "Definiera namn"
 
 #: src/dialogs/names.glade.h:4
-#, fuzzy
 msgid "Definition"
-msgstr "_Mål:"
+msgstr "Definition"
 
 #: src/dialogs/names.glade.h:5
 msgid "Workbook"
@@ -23180,49 +23124,43 @@ msgstr "_Uppdatera"
 
 #: src/dialogs/pivottable.glade.h:1
 msgid "Layout"
-msgstr ""
+msgstr "Layout"
 
 #: src/dialogs/pivottable.glade.h:2
 msgid "Layout:"
-msgstr ""
+msgstr "Layout:"
 
 #: src/dialogs/pivottable.glade.h:3
 msgid "PivotTable Guru : Gnumeric"
-msgstr ""
+msgstr "Pivottabellguru : Gnumeric"
 
 #: src/dialogs/pivottable.glade.h:4
-#, fuzzy
 msgid "Style"
-msgstr "_Stil"
+msgstr "Stil"
 
 #: src/dialogs/pivottable.glade.h:5
 msgid "Subtotal By"
-msgstr ""
+msgstr "Delsumma genom"
 
 #: src/dialogs/pivottable.glade.h:6
-#, fuzzy
 msgid "_Add:"
-msgstr "_Lägg till"
+msgstr "_Lägg till:"
 
 #: src/dialogs/pivottable.glade.h:7
-#, fuzzy
 msgid "_Column"
-msgstr "_Kolumner"
+msgstr "_Kolumn"
 
 #: src/dialogs/pivottable.glade.h:9
-#, fuzzy
 msgid "_Down"
-msgstr "_Känd"
+msgstr "_Ner"
 
 #: src/dialogs/pivottable.glade.h:10
-#, fuzzy
 msgid "_Format"
-msgstr "_Formatering"
+msgstr "_Format"
 
 #: src/dialogs/pivottable.glade.h:11
-#, fuzzy
 msgid "_Page"
-msgstr "Sida"
+msgstr "_Sida"
 
 #: src/dialogs/pivottable.glade.h:14
 msgid "_Up"
@@ -23233,13 +23171,12 @@ msgid "Activate _new plugins by default"
 msgstr "Aktivera _nya insticksmoduler som standard"
 
 #: src/dialogs/plugin-manager.glade.h:3
-#, fuzzy
 msgid "D_eactivate all"
-msgstr "_Inaktivera alla insticksmoduler"
+msgstr "A_vaktivera alla"
 
 #: src/dialogs/plugin-manager.glade.h:4
 msgid "Do _not activate this plugin next time I start Gnumeric"
-msgstr ""
+msgstr "Aktivera _inte den här insticksmodulen nästa gång jag startar Gnumeric"
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Plugin Manager"
@@ -23250,25 +23187,22 @@ msgid "Plugin _list"
 msgstr "_Lista över insticksmoduler"
 
 #: src/dialogs/plugin-manager.glade.h:7
-#, fuzzy
 msgid "Plugin directory:"
-msgstr "_Genomsök insticksmodulkataloger"
+msgstr "Insticksmodulkatalog:"
 
 #: src/dialogs/plugin-manager.glade.h:8
-#, fuzzy
 msgid ""
 "The plugin cannot be deactivated now because it is in use. However, if you "
 "use the check button below, the plugin won't be activated after restarting "
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
-"Insticksmodulen kan inte inaktiveras eftersom den fortfarande används.\n"
-"Vill du att den ska markeras för inaktivering så att den blir inaktiv efter "
-"omstart av Gnumeric?"
+"Insticksmodulen kan inte avaktiveras eftersom den fortfarande används. Om du "
+"markerar nedan kommer insticksmodulen inte att aktiveras när du startar om "
+"Gnumeric nästa gång (om ingen annan insticksmodul behöver den)."
 
 #: src/dialogs/plugin-manager.glade.h:9
-#, fuzzy
 msgid "_Activate all"
-msgstr "_Aktivera alla insticksmoduler"
+msgstr "_Aktivera alla"
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "_Directories"
@@ -23737,9 +23671,8 @@ msgid "Find text within string values"
 msgstr "Sök text inom strängvärden"
 
 #: src/dialogs/search.glade.h:8
-#, fuzzy
 msgid "Find text within the calculated values of expressions"
-msgstr "Sök text inom uttryck"
+msgstr "Sök text inom de beräknade värdena av uttryck"
 
 #: src/dialogs/search.glade.h:9
 msgid "Match _whole words only"
@@ -23786,88 +23719,77 @@ msgid "_Range"
 msgstr "_Område"
 
 #: src/dialogs/search.glade.h:37
-#, fuzzy
 msgid "_Results"
-msgstr "Resultat"
+msgstr "_Resultat"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
 msgstr "Hantera blad..."
 
 #: src/dialogs/simulation.glade.h:1
-#, fuzzy
 msgid "A_utofit columns"
 msgstr "A_utopassa kolumner"
 
 #: src/dialogs/simulation.glade.h:2
 msgid "Find Max."
-msgstr ""
+msgstr "Hitta max."
 
 #: src/dialogs/simulation.glade.h:3
-#, fuzzy
 msgid "Find Min."
-msgstr "Bindande"
+msgstr "Hitta min."
 
 #: src/dialogs/simulation.glade.h:4
 msgid "First Round #: "
-msgstr ""
+msgstr "Första rundan nr: "
 
 #: src/dialogs/simulation.glade.h:5
-#, fuzzy
 msgid "Inputs: "
-msgstr "Indata:"
+msgstr "Indata: "
 
 #: src/dialogs/simulation.glade.h:6
-#, fuzzy
 msgid "Iterations: "
-msgstr "Åtgärd"
+msgstr "Iterationer: "
 
 #: src/dialogs/simulation.glade.h:7
-#, fuzzy
 msgid "Last Round #: "
-msgstr "Senaste resultat:"
+msgstr "Sista rundan nr: "
 
 #: src/dialogs/simulation.glade.h:8
-#, fuzzy
 msgid "Max Time:       "
-msgstr "Maxtid:"
+msgstr "Max tid:        "
 
 #: src/dialogs/simulation.glade.h:10
 msgid "Next Sim."
-msgstr ""
+msgstr "Nästa sim."
 
 #: src/dialogs/simulation.glade.h:11
-#, fuzzy
 msgid "Output: "
-msgstr "Utdata"
+msgstr "Utdata: "
 
 #: src/dialogs/simulation.glade.h:12
-#, fuzzy
 msgid "Outputs: "
-msgstr "Utdata"
+msgstr "Utdata: "
 
 #: src/dialogs/simulation.glade.h:13
 msgid "Prev. Sim. "
-msgstr ""
+msgstr "Föreg. sim. "
 
 #: src/dialogs/simulation.glade.h:14
-#, fuzzy
 msgid "Reporting: "
-msgstr "Rapporter"
+msgstr "Rapporterar: "
 
 #. Fill in the header titles.
 #: src/dialogs/simulation.glade.h:15 src/tools/simulation.c:349
 msgid "Risk Simulation"
-msgstr ""
+msgstr "Risksimulation"
 
 #: src/dialogs/simulation.glade.h:16
-#, fuzzy
 msgid "Simulation: "
-msgstr "Gränsrapport"
+msgstr "Simulation: "
 
 #: src/dialogs/simulation.glade.h:17
 msgid "Summary of Results: "
-msgstr ""
+msgstr "Resultatsammanfattning: "
 
 #: src/dialogs/simulation.glade.h:18
 msgid "Summary report grupped by rounds"
@@ -25442,7 +25364,7 @@ msgstr "Flera fel\n"
 msgid "Unable to open file '%s'"
 msgstr "Kan inte öppna filen \"%s\""
 
-#: src/gutils.c:424
+#: src/gutils.c:413
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
@@ -25450,7 +25372,7 @@ msgstr ""
 "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
 "modfgnum."
 
-#: src/gutils.c:518
+#: src/gutils.c:507
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
@@ -25458,7 +25380,7 @@ msgstr ""
 "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
 "frexpgnum."
 
-#: src/gutils.c:571
+#: src/gutils.c:560
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -28355,11 +28277,6 @@ msgstr "Gnumeric: Autoformat"
 msgid "lpr Printer"
 msgstr "Skriv ut"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:47
-#, fuzzy
-msgid "output.ps"
-msgstr "Utdata"
-
 #: schemas/gnumeric-general.schemas.in.h:1
 msgid "Auto Expression Recalculation Lag"
 msgstr ""
@@ -28413,15 +28330,11 @@ msgid "Default font name"
 msgstr "Definiera namn"
 
 #: schemas/gnumeric-general.schemas.in.h:12
-msgid "Helvetica"
-msgstr ""
-
-#: schemas/gnumeric-general.schemas.in.h:13
 #, fuzzy
 msgid "Horizontal DPI"
 msgstr "Vågrätt"
 
-#: schemas/gnumeric-general.schemas.in.h:14
+#: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
 "If this value is positive, auto expressions are recalculated within that "
 "many millesecond after a change. If it is negative they are recalculated "
@@ -28429,135 +28342,135 @@ msgid ""
 "defined as the end of a period of that size after a change with no changes."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:15
+#: schemas/gnumeric-general.schemas.in.h:14
 msgid "Length of File History"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:16
+#: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of the Undo Descriptors"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:17
+#: schemas/gnumeric-general.schemas.in.h:16
 msgid "List of recently used files"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:18
+#: schemas/gnumeric-general.schemas.in.h:17
 msgid "Live Scrolling"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:19
+#: schemas/gnumeric-general.schemas.in.h:18
 #, fuzzy
 msgid "Maximal Undo Size"
 msgstr "Maximera"
 
-#: schemas/gnumeric-general.schemas.in.h:20
+#: schemas/gnumeric-general.schemas.in.h:19
 #, fuzzy
 msgid "Number of Automatic Clauses"
 msgstr "Antal _misslyckanden"
 
-#: schemas/gnumeric-general.schemas.in.h:21
+#: schemas/gnumeric-general.schemas.in.h:20
 #, fuzzy
 msgid "Number of Undo Items"
 msgstr "Antal rader att importera"
 
-#: schemas/gnumeric-general.schemas.in.h:22
+#: schemas/gnumeric-general.schemas.in.h:21
 msgid "Screen resolution in the horizontal direction."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:23
+#: schemas/gnumeric-general.schemas.in.h:22
 msgid "Screen resolution in the vertical direction."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:24
+#: schemas/gnumeric-general.schemas.in.h:23
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:25
+#: schemas/gnumeric-general.schemas.in.h:24
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:26
+#: schemas/gnumeric-general.schemas.in.h:25
 msgid "Show Sheet Name in Undo List"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:27
+#: schemas/gnumeric-general.schemas.in.h:26
 msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:29
+#: schemas/gnumeric-general.schemas.in.h:28
 #, fuzzy
 msgid "Sort Preserve Formats"
 msgstr "_Bevarar format"
 
-#: schemas/gnumeric-general.schemas.in.h:30
+#: schemas/gnumeric-general.schemas.in.h:29
 #, fuzzy
 msgid "Sort is Case-Sensitive"
 msgstr "Gör skillnad på gemener/VERSALER"
 
-#: schemas/gnumeric-general.schemas.in.h:31
+#: schemas/gnumeric-general.schemas.in.h:30
 #, fuzzy
 msgid "The default font is bold."
 msgstr "Standardbredden för kolumner måste vara > %d."
 
-#: schemas/gnumeric-general.schemas.in.h:32
+#: schemas/gnumeric-general.schemas.in.h:31
 #, fuzzy
 msgid "The default font is italic."
 msgstr "Listintervallet är ogiltigt."
 
-#: schemas/gnumeric-general.schemas.in.h:33
+#: schemas/gnumeric-general.schemas.in.h:32
 msgid "The default font name for new workbooks."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:34
+#: schemas/gnumeric-general.schemas.in.h:33
 msgid "The default font size for new workbooks."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:35
+#: schemas/gnumeric-general.schemas.in.h:34
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:36
+#: schemas/gnumeric-general.schemas.in.h:35
 msgid "The initial zoom factor for new workbooks."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:37
+#: schemas/gnumeric-general.schemas.in.h:36
 msgid "The number of files kept in the `recent' section of the file menu."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:38
+#: schemas/gnumeric-general.schemas.in.h:37
 msgid "The number of sheets initially created in a new workbook."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:39
+#: schemas/gnumeric-general.schemas.in.h:38
 msgid ""
 "This integer (between 0 and 9) gives the amount compression performed by "
 "Gnumeric when saving files in the default file format. 0 is no compression "
 "while 9 is maximum compression."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:40
+#: schemas/gnumeric-general.schemas.in.h:39
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:41
+#: schemas/gnumeric-general.schemas.in.h:40
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:42
+#: schemas/gnumeric-general.schemas.in.h:41
 #, fuzzy
 msgid ""
 "This option determines the initial state of the sort-order button in the "
@@ -28566,7 +28479,7 @@ msgstr ""
 "Objekten på denna sida anpassar de ursprungliga inställningarna för "
 "sorteringsdialogen och beteendet på verktygsradsknapparna."
 
-#: schemas/gnumeric-general.schemas.in.h:43
+#: schemas/gnumeric-general.schemas.in.h:42
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
 "a size associate with it, to compare it with the memory requirements of a "
@@ -28574,58 +28487,62 @@ msgid ""
 "total size exceeds this configurable value."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:44
+#: schemas/gnumeric-general.schemas.in.h:43
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:45
+#: schemas/gnumeric-general.schemas.in.h:44
 msgid ""
 "This value determines whether the default font for a new workbook bold is."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:46
+#: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This value determines whether the default font for a new workbook italic is."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:47
+#: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:48
+#: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:49
+#: schemas/gnumeric-general.schemas.in.h:48
 msgid "This variable determines whether autocompletion is set on."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:50
+#: schemas/gnumeric-general.schemas.in.h:49
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:51
+#: schemas/gnumeric-general.schemas.in.h:50
 #, fuzzy
 msgid "Vertical DPI"
 msgstr "_Lodrätt"
 
-#: schemas/gnumeric-general.schemas.in.h:52
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:53
+#: schemas/gnumeric-general.schemas.in.h:52
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
+
+#, fuzzy
+#~ msgid "output.ps"
+#~ msgstr "Utdata"
 
 #~ msgid "pts"
 #~ msgstr "pkter"
@@ -31296,9 +31213,6 @@ msgstr ""
 
 #~ msgid "Strings"
 #~ msgstr "Strängar"
-
-#~ msgid "Category"
-#~ msgstr "Kategori"
 
 #~ msgid ""
 #~ "@FUNCTION=MINA\n"
