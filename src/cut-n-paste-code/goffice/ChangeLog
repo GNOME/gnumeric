@@ -1,3 +1,13 @@
+2004-02-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-style.[ch] : new GogStyleExtension object.
+	(gog_style_assign) : handle extension.
+	(gog_style_editor) : shows extension editor if it exists.
+	(gog_style_get_extension) : new.
+	(gog_style_set_extension) : new.
+	* graph/gog-series : add a new style_extension_type field in
+	GogSeriesDesc, and use it in gog_series_init_style.
+	
 2004-02-09  Morten Welinder  <terra@gnome.org>
 
 	* graph/plugins/plot_xy/gog-bubble-prefs.glade: Do not start

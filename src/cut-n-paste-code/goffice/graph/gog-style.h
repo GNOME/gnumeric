@@ -21,6 +21,7 @@
 #ifndef GO_GRAPH_STYLE_H
 #define GO_GRAPH_STYLE_H
 
+#include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/utils/go-gradient.h>
@@ -29,6 +30,38 @@
 #include <command-context.h>	/* for GnmCmdContext */
 
 G_BEGIN_DECLS
+
+#define GOG_STYLE_EXTENSION_TYPE	 (gog_style_extension_get_type ())
+#define GOG_STYLE_EXTENSION(o)		 (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_STYLE_EXTENSION_TYPE, GogStyleExtension))
+#define IS_GOG_STYLE_EXTENSION(o)	 (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_STYLE_EXTENSION_TYPE))
+#define GOG_STYLE_EXTENSION_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GOG_STYLE_EXTENSION_TYPE,GogStyleExtensionClass))
+
+typedef GObject GogStyleExtension;
+
+typedef struct {
+	GObjectClass	 base;
+
+	char		*name;
+
+	/* Virtuals */
+	gpointer  (*editor) (GogStyleExtension *gse, GnmCmdContext *cc);
+	void      (*assign) (GogStyleExtension *gse_dst, GogStyleExtension const *gse_src);
+	gboolean  (*load) (GogPersistDOM *gpd, xmlNode *node);
+	void      (*save) (GogPersistDOM *gpd, xmlNode *node);
+	
+	/* signals */
+	void (*changed)		(GogStyleExtension *gse);
+
+} GogStyleExtensionClass;
+
+GType gog_style_extension_get_type (void);
+
+gpointer 	   gog_style_extension_editor (GogStyleExtension *gse, GnmCmdContext *cc);
+void 		   gog_style_extension_assign (GogStyleExtension *gse_dst, 
+					       GogStyleExtension const *gse_src);
+GogStyleExtension *gog_style_extension_dup (GogStyleExtension *gse);
+void		   gog_style_extension_emit_changed (GogStyleExtension *gse);
+char const *	   gog_style_extension_get_name (GogStyleExtension *gse);
 
 #define GOG_STYLE_TYPE	(gog_style_get_type ())
 #define GOG_STYLE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_STYLE_TYPE, GogStyle))
@@ -108,6 +141,9 @@ struct _GogStyle {
 		GOFont const *font;
 		gboolean auto_scale;
 	} font;
+
+	GogStyleExtension *extension;
+	GType extension_type;
 };
 
 GogStyle  *gog_style_new		(void);
@@ -130,6 +166,9 @@ gpointer   gog_styled_object_editor	(GogStyledObject *gso,
 					 GnmCmdContext *cc,
 					 gpointer optional_notebook);
 
+GogStyleExtension *gog_style_get_extension (GogStyle *style); 
+void 		   gog_style_set_extension (GogStyle *style, GogStyleExtension *extension);
+	
 /* move this to the widget utils dir when we get one */
 void	   gog_style_handle_notebook	(gpointer notebook, guint *page);
 

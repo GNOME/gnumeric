@@ -148,6 +148,8 @@ gog_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries const *series = (GogSeries const *)gso;
 	style->interesting_fields = series->plot->desc.series.style_fields;
+	style->extension_type = series->plot->desc.series.style_extension_type;
+
 	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), series->index);
 }
