@@ -102,7 +102,7 @@ gnumeric_component_factory (BonoboGenericFactory *this,
 				      "doesn't do anything useful yet");
 	gtk_widget_show(w);
 	control = bonobo_control_new (w);
-	printf ("control=0%x\n", control);
+	printf ("control=0x%p\n", control);
 	if (!dummy_add_interfaces (BONOBO_OBJECT (control)))
 		return NULL;
 
