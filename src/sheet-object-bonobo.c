@@ -54,7 +54,8 @@ static char *
 get_file_name (void)
 {
 	GtkFileSelection *fs;
-	gchar *filename;
+	char *filename;
+	char *basename;
  
 	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Select filename"));
 	
@@ -68,8 +69,14 @@ get_file_name (void)
 
 	gtk_widget_show (GTK_WIDGET (fs));
 	gtk_main ();
-	
-        filename = g_strdup (gtk_file_selection_get_filename (fs));
+
+        filename = gtk_file_selection_get_filename (fs);
+
+	if (!(basename = g_basename (filename)) ||
+	    basename [0] == '\0')
+		filename = NULL;
+	else
+		filename = g_strdup (filename);
 
 	gtk_object_destroy (GTK_OBJECT (fs));
 
