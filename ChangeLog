@@ -1,3 +1,8 @@
+2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/ranges.h (global_range_name) : new
+	* src/ranges.c (global_range_name) : new
+
 2002-01-24  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : explicitly disable guile, psiconv, and bonobo for now.
