@@ -332,7 +332,7 @@ ms_ole_analyse (MS_OLE *f)
 	dump_header(f);
 	dump_allocation (f);
 
-	{
+/*	{
 		int lp;
 		for (lp=0;lp<BB_BLOCK_SIZE/PPS_BLOCK_SIZE;lp++)
 		{
@@ -340,7 +340,7 @@ ms_ole_analyse (MS_OLE *f)
 				PPS_GET_PREV(f,lp), PPS_GET_NEXT(f,lp), PPS_GET_DIR(f,lp));
 			dump (PPS_PTR(f, lp), PPS_BLOCK_SIZE);
 		}
-	}
+		} */
 	return 1;
 }
 

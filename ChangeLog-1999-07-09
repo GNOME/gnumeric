@@ -1,3 +1,16 @@
+1999-02-12  Michael Meeks  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-excel.c (biff_get_global_string): 
+	Drasticly simplified, accelerated and in-lined out.
+	(biff_get_text): Fixed using unicode spec, various
+	updates to calls to it, fixing offsets.
+	Removed lots of debug output to speedup
+	
+1999-02-10  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* src/fn-math.c (callback_function_sum): enhanced warning for
+	unknown value->type.
+
 1999-02-12  Frederic Devernay  <devernay@istar.fr>
 
 	* plugins/perl/perl.c: Handle the #define dirty in perl-thread.

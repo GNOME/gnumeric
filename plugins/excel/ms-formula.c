@@ -251,7 +251,7 @@ static char *parse_list_to_equation (PARSE_LIST *list)
 
       strcpy (formula, "=") ;
       strcat (formula, pd->name) ;
-      printf ("Formula : '%s'\n", formula) ;
+/*      printf ("Formula : '%s'\n", formula) ; */
       return formula ;
     }
   else

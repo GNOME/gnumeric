@@ -31,60 +31,81 @@
 #include "ms-excel.h"
 #include "ms-excel-biff.h"
 
-#define STRNPRINTF(ptr,n){ int xxxlp; printf ("'") ; for (xxxlp=0;xxxlp<(n);xxxlp++) printf ("%c", (ptr)[xxxlp]) ; printf ("'\n") ; }
-
 /* Forward references */
 static MS_EXCEL_SHEET *ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name) ;
 static void ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans) ;
 
-/*
- * FIXME: This needs proper unicode support ! current support is a guess 
- * see S59D47.HTM for full description
- */
+/**
+ *  This function takes a length argument as Biff V7 has a byte length
+ * ( seemingly ).
+ *  FIXME: see S59D47.HTM for full description
+ **/
 static char *
 biff_get_text (BYTE * ptr, int length)
 {
-	int lp, unicode;
+	int lp ;
 	char *ans;
-	BYTE *inb;
+	BYTE header ;
+	gboolean high_byte ;
+	gboolean ext_str ;
+	gboolean rich_str ;
 
 	if (!length)
 		return 0;
 
 	ans = (char *) g_malloc (sizeof (char) * length + 2);
 
-	/*
-	 * Magic unicode number 
-	 */
-	unicode = (ptr[0] == 0x1);
-	inb = unicode ? ptr + 1 : ptr;
-
-	for (lp = 0; lp < length; lp++){
-		ans [lp] = (char) *inb;
-		inb += unicode ? 2 : 1;
+	header = BIFF_GETBYTE(ptr) ;
+	/* I assume that this header is backwards compatible with raw ASCII */
+	if (((header & 0xf0) == 0) &&
+	    ((header & 0x02) == 0)) /* Its a proper Unicode header grbit byte */
+	{
+		high_byte = (header & 0x1) != 0 ;
+		ext_str   = (header & 0x4) != 0 ;
+		rich_str  = (header & 0x8) != 0 ;
+		ptr++ ;
 	}
-	ans [lp] = 0;
+	else /* Some assumptions: FIXME ? */
+	{
+		high_byte = 0 ;
+		ext_str   = 0 ;
+		rich_str  = 0 ;
+	}
+
+	/* A few friendly warnings */
+	if (high_byte)
+		printf ("FIXME: unicode support unimplemented: truncating\n") ;
+	if (rich_str) /* The data for this appears after the string */
+	{
+		guint16 formatting_runs = BIFF_GETWORD(ptr) ;
+		ptr+= 2 ;
+		printf ("FIXME: rich string support unimplemented: discarding %d runs\n", formatting_runs) ;
+	}
+	if (ext_str) /* NB this data always comes after the rich_str data */
+	{
+		guint32 len_ext_rst = BIFF_GETLONG(ptr) ;
+		printf ("FIXME: extended string support unimplemented: ignoring %d bytes\n", len_ext_rst) ;
+		ptr+= 4 ;
+	}
+
+	for (lp = 0; lp < length; lp++)
+	{
+		ans [lp] = (char) *ptr ;
+		ptr += high_byte ? 2 : 1;
+	}
+	ans[lp] = 0;
 	return ans;
 }
 
 static char *
 biff_get_global_string(MS_EXCEL_SHEET *sheet, int number)
 {
-	char *temp;
-	int length, k;
-	
 	MS_EXCEL_WORKBOOK *wb = sheet->wb;
 	
         if (number >= wb->global_string_max)
 		return "Too Weird";
 	
-	temp= wb->global_strings;
-        for (k = 0; k < number; k++){
-		length= BIFF_GETWORD (temp);
-		temp+= length + 3;
-        }
-        length = BIFF_GETWORD(temp);
-        return biff_get_text (temp+3, length);
+	return wb->global_strings[number] ;
 }
 
 /**
@@ -181,6 +202,9 @@ ms_biff_bof_data_destroy (BIFF_BOF_DATA * data)
 	g_free (data);
 }
 
+/**
+ * See S59D61.HTM
+ **/
 static void
 biff_boundsheet_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version ver)
 {
@@ -229,9 +253,8 @@ biff_boundsheet_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version v
 		ans->hidden = eBiffHVisible;
 		break;
 	}
-	if (ver == eBiffV8){
+	if (ver == eBiffV8) {
 		int strlen = BIFF_GETWORD (q->data + 6);
-
 		ans->name = biff_get_text (q->data + 8, strlen);
 	} else {
 		int strlen = BIFF_GETBYTE (q->data + 6);
@@ -1067,7 +1090,6 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		/*
 		  printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q));
 		  dump (q->data, q->length);
-		  STRNPRINTF(q->data + 8, EX_GETSTRLEN(q)); 
 		*/
 		printf ("Rstring\n") ;
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
@@ -1159,11 +1181,16 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	case BIFF_LABELSST:
 	{
 		char *str;
+		guint32 idx = BIFF_GETLONG (q->data + 6) ;
 		
-		str = biff_get_global_string (sheet, BIFF_GETLONG (q->data + 6));
+		if (idx >= sheet->wb->global_string_max)
+		{
+			printf ("string index 0x%x out of range\n", idx) ;
+			break ;
+		}
 		
+		str = sheet->wb->global_strings[idx] ;
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), str);
-		g_free (str);
                 break;
 	}
 	default:
@@ -1388,8 +1415,8 @@ ms_excelReadWorkbook (MS_OLE * file)
 				{
 					BIFF_FONT_DATA *ptr;
 
-					printf ("Read Font\n");
-					dump (q->data, q->length);
+/*					printf ("Read Font\n");
+					dump (q->data, q->length); */
 					biff_font_data_new (wb, q);
 				}
 				break;
@@ -1406,13 +1433,21 @@ ms_excelReadWorkbook (MS_OLE * file)
 				biff_xf_data_new (wb, q, ver->version) ;
 				break;
 			case BIFF_SST: /* see S59DE7.HTM */
-				wb->global_strings = g_malloc(q->length-8);
-				memcpy(wb->global_strings, q->data+8, q->length-8);
+			{
+				int length, k ;
+				char *temp ;
 				wb->global_string_max = BIFF_GETLONG(q->data+4);
-				printf("There are apparently %d strings\n",
-				       wb->global_string_max);
-				dump (q->data+8, q->length-8) ;
+				wb->global_strings = g_new (char *, wb->global_string_max) ;
+
+				temp = q->data + 8 ;
+				for (k = 0; k < wb->global_string_max; k++)
+				{
+					length = BIFF_GETWORD (temp) ;
+					wb->global_strings[k] = biff_get_text (temp+2, length) ;
+					temp+= length + 3 ;
+				}
 				break;
+			}
 			case BIFF_EXTERNSHEET:
 			{
 				if ( ver->version == eBiffV8 )

@@ -72,11 +72,7 @@ typedef struct _MS_EXCEL_WORKBOOK
 	BIFF_EXTERNSHEET_DATA *extern_sheets ;
 	guint16 num_extern_sheets ;
 	MS_EXCEL_PALETTE *palette ;
-	/**
-	 *    Global strings kludge, works for me,
-	 * Caveat Emptor -- njl195@zepler.org
-	 **/
-	char *global_strings;
+	char **global_strings;
 	int global_string_max;
 
 	/**
