@@ -41,7 +41,7 @@
 	<list_type>string</list_type>
         <locale name="C">
         <short>List of Init Caps Exceptions</short>
-        <long>The autocorrect engine does not correct the inital caps for words in this list.</long>
+        <long>The autocorrect engine does not correct the initial caps for words in this list.</long>
         </locale>
       </schema>
       <schema>
