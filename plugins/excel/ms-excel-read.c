@@ -2411,7 +2411,6 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
-	sheet_set_zoom_factor (ans->gnum_sheet, 1., FALSE);
 
 	ms_container_init (&ans->container, &vtbl);
 
@@ -3768,7 +3767,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 				double const zoom = (double)MS_OLE_GET_GUINT16 (q->data) /
 					MS_OLE_GET_GUINT16 (q->data + 2);
 
-				sheet_set_zoom_factor (sheet->gnum_sheet, zoom, FALSE);
+				sheet_set_zoom_factor (sheet->gnum_sheet, zoom, FALSE, FALSE);
 			} else
 				g_warning ("Duff BIFF_SCL record");
 			break;

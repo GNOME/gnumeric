@@ -212,7 +212,7 @@ sheet_new (Workbook *wb, const char *name)
 	gtk_widget_show (sheet_view);
 
 	/* Force the zoom change inorder to initialize things */
-	sheet_set_zoom_factor (sheet, 1.0, TRUE);
+	sheet_set_zoom_factor (sheet, 1.0, TRUE, TRUE);
 
 	sheet_corba_setup (sheet);
 
@@ -403,9 +403,10 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
  * @f : The new zoom
  * @force : Force the zoom to change irrespective of its current value.
  *          Most callers will want to say FALSE.
+ * @respan : recalculate the spans.
  */
 void
-sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force)
+sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean respan)
 {
 	GList *l, *cl;
 	struct resize_colrow closure;
@@ -455,9 +456,10 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force)
 	 * We also need to render any cells which have not yet been
 	 * rendered.
 	 */
-	sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RENDER);
-
-	sheet_update_zoom_controls (sheet);
+	if (respan) {
+		sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RENDER);
+		sheet_update_zoom_controls (sheet);
+	}
 }
 
 ColRowInfo *
@@ -3850,7 +3852,7 @@ sheet_duplicate	(Sheet const *src)
 	solver_lp_copy (&src->solver_parameters, dst);
 
 	/* Force a respan and rerender */
-	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, TRUE);
+	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, TRUE, TRUE);
 
 	sheet_set_dirty (dst, TRUE);
 	sheet_redraw_all (dst);

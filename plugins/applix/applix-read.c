@@ -706,7 +706,7 @@ applix_get_sheet (ApplixReadState *state, char **buffer,
 	if (sheet == NULL) {
 		sheet = sheet_new (state->wb, *buffer);
 		workbook_attach_sheet (state->wb, sheet);
-		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100., FALSE);
+		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100., FALSE, FALSE);
 	}
 
 	*buffer = tmp+1;

@@ -2904,7 +2904,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_dispose_read_cell_styles (ctxt);
 
 	/* Initialize the ColRowInfo's ->size_pixels data */
-	sheet_set_zoom_factor (ret, zoom_factor, FALSE);
+	sheet_set_zoom_factor (ret, zoom_factor, FALSE, FALSE);
 
 	return ret;
 }

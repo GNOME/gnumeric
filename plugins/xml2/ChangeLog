@@ -1,3 +1,8 @@
+2000-09-06  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseSheetZoom) : changes to signature of
+	  sheet_set_zoom_factor.
+
 2000-08-21  Jody Goldberg <jgoldberg@home.com>
 
 	* xml2.c (xml2ParseCellContent) : changes to style_format_new_XL.

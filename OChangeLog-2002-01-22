@@ -1,3 +1,19 @@
+2000-09-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (change_zoom_in_current_sheet_cb) : handle new
+	  calling convention for sheet_set_zoom_factor.
+
+	* src/xml-io.c (xml_sheet_read) : Ditto.
+
+	* src/dialogs/dialog-zoom.c (dialog_zoom_impl) : Ditto.
+
+	* src/sheet.c (sheet_new) : Ditto.
+	(sheet_duplicate) : Ditto.
+	(sheet_set_zoom_factor) : Add an arg to optionally disable
+	  recalculating the spans and rerendering.  This is useful when
+	  importing zoomed sheets where we know that we are going to respan
+	  and render after loading everything.
+
 2000-09-05  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Add test for pspell.

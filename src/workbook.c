@@ -2486,7 +2486,7 @@ change_zoom_in_current_sheet_cb (GtkWidget *caller, Workbook *wb)
 		return;
 
 	factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
-	sheet_set_zoom_factor (wb->current_sheet, (double) factor / 100, FALSE);
+	sheet_set_zoom_factor (wb->current_sheet, (double) factor / 100, FALSE, TRUE);
 
 	/* Restore the focus to the sheet */
 	workbook_focus_current_sheet (wb);
