@@ -1,3 +1,8 @@
+2004-08-24  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (cb_wbcg_drag_data_received): Take
+	advantage of newly minted go_file_split_uris.
+
 2004-08-22  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (cb_wbcg_drag_data_received): Remove

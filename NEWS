@@ -62,6 +62,7 @@ Morten:
 	* Fix crash on exit.  [backported]
 	* Fix ssconvert output.
 	* Fix potential lexer crash.
+	* Fix graph guru crash in the absense of graph plugins.  [#150821]
 
 Yukihiro Nakai:
 	* Export links when saving as html.

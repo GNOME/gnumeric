@@ -77,8 +77,6 @@
 #include <goffice/utils/go-file.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <gsf/gsf-input-textline.h>
-#include <gsf/gsf-input-memory.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkseparatormenuitem.h>
@@ -2015,23 +2013,15 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
 		WorkbookView *wbv;
-		guint8 *line;
-		GsfInputTextline *linereader;
 		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
-		GsfInput* mem = gsf_input_memory_new (
-			selection_data->data, selection_data->length, FALSE);
-		linereader = (GsfInputTextline *) gsf_input_textline_new (mem);
-		g_object_unref (mem);
-		while (NULL != (line = gsf_input_textline_ascii_gets (linereader))) {
+		char *cdata = g_strndup (selection_data->data, selection_data->length);
+		GSList *l, *uris = go_file_split_uris (cdata);
+
+		g_free (cdata);
+		for (l = uris; l; l = l-> next) {
+			const char *uri_str = l->data;
 			GError *err = NULL;
-			gchar *uri_str;
-			GsfInput *input;
-
-			if (line[0] == '#') /* Comment */
-				continue;
-
-			uri_str = g_strstrip (line);
-			input = go_file_open (uri_str, &err);
+			GsfInput *input = go_file_open (uri_str, &err);
 			if (input != NULL) {
 				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
 				if (wbv != NULL)
@@ -2047,15 +2037,14 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 				gnumeric_io_error_clear (ioc);
 			}
 		}
-		g_object_unref (linereader);
 		g_object_unref (ioc);
-	} else
 
-	/* The user wants to reorder the sheets but hasn't dropped
-	 * the sheet onto a label. Never mind. We figure out
-	 * where the arrow is currently located and simulate a drop
-	 * on that label.  */
-	if (!strcmp (target_type, "GNUMERIC_SHEET")) {
+		g_slist_free_custom (uris, (GFreeFunc)g_free);
+	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {
+		/* The user wants to reorder the sheets but hasn't dropped
+		 * the sheet onto a label. Never mind. We figure out
+		 * where the arrow is currently located and simulate a drop
+		 * on that label.  */
 		GtkWidget *label = wbcg_get_label_for_position (wbcg, 
 			gtk_drag_get_source_widget (context), x);
 		cb_sheet_label_drag_data_received (label, context, x, y,

@@ -3,6 +3,7 @@
  * go-file.c :
  *
  * Copyright (C) 2004 Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2003, Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -219,6 +220,56 @@ go_file_create (char const *uri, GError **err)
 		     "Invalid or non-supported URI");
 	return NULL; 
 #endif
+}
+
+/* ------------------------------------------------------------------------- */
+/* Adapted from gtkfilechooserdefault.c.  Unfortunately it is static there.  */
+
+GSList *
+go_file_split_uris (const char *data)
+{
+  GSList *uris;
+  const char *p, *q;
+
+  uris = NULL;
+
+  p = data;
+
+  /* We don't actually try to validate the URI according to RFC
+   * 2396, or even check for allowed characters - we just ignore
+   * comments and trim whitespace off the ends.  We also
+   * allow LF delimination as well as the specified CRLF.
+   *
+   * We do allow comments like specified in RFC 2483.
+   */
+  while (p)
+    {
+      if (*p != '#')
+	{
+	  while (g_ascii_isspace (*p))
+	    p++;
+
+	  q = p;
+	  while (*q && (*q != '\n') && (*q != '\r'))
+	    q++;
+
+	  if (q > p)
+	    {
+	      q--;
+	      while (q > p && g_ascii_isspace (*q))
+		q--;
+
+	      if (q > p)
+		uris = g_slist_prepend (uris, g_strndup (p, q - p + 1));
+	    }
+	}
+      p = strchr (p, '\n');
+      if (p)
+	p++;
+    }
+
+  uris = g_slist_reverse (uris);
+  return uris;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -33,6 +33,8 @@ char *go_basename_from_uri (const char *uri);
 GsfInput *go_file_open (char const *uri, GError **err);
 GsfOutput *go_file_create (char const *uri, GError **err);
 
+GSList *go_file_split_uris (const char *data);
+
 G_END_DECLS
 
 #endif /* GO_FILE_H */
