@@ -18,6 +18,10 @@ Michael:
 Marko:
 	* Number theory functions.  (In new plugin.)
 
+Almer:
+	* Stf-exporter
+	* Bug-fix stf importer.
+
 Translations:
 	* Updated: da (Keld and Kenneth), de (Karl), en_GB (Robert), es
 	  (Pablo), no (Kjartan), ru (Valek), uk (Yuri), and more.
