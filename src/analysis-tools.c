@@ -249,7 +249,7 @@ prepare_output (Workbook *wb, data_analysis_output_t *dao, char *name)
 	}
 }
 
-static void
+void
 autofit_column (data_analysis_output_t *dao, int col)
 {
         int ideal_size, actual_col;

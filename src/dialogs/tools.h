@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_TOOLS_H
 #define GNUMERIC_TOOLS_H
 
+#include "analysis-tools.h"
+
 int correlation_tool       (Workbook *wb, Sheet *current_sheet, 
 			    Range *input_range, int columns_flag,
 			    data_analysis_output_t *dao);

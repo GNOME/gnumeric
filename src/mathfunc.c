@@ -4202,3 +4202,382 @@ mmult (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
 		}
 	}
 }
+
+/* Returns the transpose of a matrix.
+ */
+static void
+mtranspose (float_t *A, int cols, int rows, float_t *M)
+{
+        int i, j;
+
+	for (i=0; i<cols; i++)
+	        for (j=0; j<rows; j++)
+		        M[i + j*cols] = A[j + i*rows];
+}
+
+/* Solve a set of linear equations (do not try to swap rows).
+ */
+static int
+mpivot (float_t *pivot_table, int cols, int rows)
+{
+        float_t pivot;
+	int     i, j, k;
+
+	/* Pivot top-down */
+	for (j=0; j<rows; j++) {
+	        if (pivot_table[j + j*rows] == 0)
+		        return 1;
+		for (i=j+1; i<rows; i++) {
+		        pivot = pivot_table[i + j*rows] /
+			        pivot_table[j + j*rows];
+			for (k=j; k<cols; k++)
+			        pivot_table[i + k*rows] -=
+				        pivot * pivot_table[j + k*rows];
+		}
+	}
+
+	/* Pivot bottom-up */
+	for (j=rows-1; j>=0; j--) {
+	        if (pivot_table[j + j*rows] == 0)
+		        return 1;
+		for (i=j-1; i>=0; i--) {
+		        pivot = pivot_table[i + j*rows] /
+			        pivot_table[j + j*rows];
+			for (k=j; k<cols; k++)
+			        pivot_table[i + k*rows] -= 
+				        pivot * pivot_table[j + k*rows];
+		}
+	}
+	
+	for (i=0; i<rows; i++) {
+	        pivot = pivot_table[i + i*rows];
+		pivot_table[i + i*rows] /= pivot;
+		pivot_table[i + (cols-1)*rows] /= pivot;
+	}
+    
+	return 0;
+}
+
+/*
+ ---------------------------------------------------------------------
+  Affine scaling (primal)
+
+  (C) Copyright 2000 by Jukka-Pekka Iivonen (iivonen@iki.fi)
+ ---------------------------------------------------------------------
+ */
+
+/* Creates a diagonal matrix from the squares of a given vector.
+ * The result array (M) should have n * n elements.
+ */
+static void
+vect_sqr_mdiag (float_t *v, int n, float_t *M)
+{
+        int i;
+
+	for (i=0; i<n*n; i++)
+	        M[i] = 0;
+
+	for (i=0; i<n; i++)
+	        M[i+i*n] = v[i] * v[i];
+}
+
+#include <stdio.h>
+
+static void
+display (float_t *M, int cols, int rows, char *s)
+{
+        int i, j;
+
+	printf("\n%s:\n", s);
+	for (i=0; i<rows; i++) {
+	        for (j=0; j<cols; j++)
+		         printf("%8.4f ", M[i+j*rows]);
+		printf("\n");
+	}
+	printf("\n");
+}
+
+/* Solves the dual vector v from 
+ *   (A * D^2 * A_t) * v = A * D^2 * c
+ *
+ * After the call, D^2 is in `sqr_D' and v is in `v'.
+ *
+ * `wspace' should have 
+ *     (n_constraints * n_variables)        | for A * D^2 
+ *   + (n_constraints * n_constraints)      | for (A * D^2) * A_t
+ *   + (n_constraints)                      | for (A * D^2) * c
+ *   + (n_constraints + 1) * n_constraints  | for pivot table
+ * elementes.
+ */
+static int
+solve_dual_vector (float_t *A, float_t *c, float_t *x, float_t *A_t,
+		   int n_constraints, int n_variables,
+		   float_t *sqr_D, float_t *v, 
+		   float_t *wspace)
+{
+        float_t *Asqr_D;
+	float_t *Asqr_DA_t;
+	float_t *Asqr_Dc;
+	float_t *pivot_table;
+	int     s_ind = 0;
+	int     i, j;
+
+	Asqr_D = &wspace[s_ind];
+	s_ind += n_variables * n_constraints;
+  
+	Asqr_DA_t = &wspace[s_ind];
+	s_ind += n_constraints * n_constraints;
+
+	Asqr_Dc = &wspace[s_ind];
+	s_ind += n_constraints;
+
+	pivot_table = &wspace[s_ind];
+	s_ind += (n_constraints + 1) * n_constraints;
+
+	vect_sqr_mdiag (x, n_variables, sqr_D);
+	mmult (A, sqr_D, n_variables, n_constraints, n_variables, Asqr_D);
+
+	mmult (Asqr_D, A_t, n_variables, n_constraints, n_constraints,
+	       Asqr_DA_t);
+	mmult (Asqr_D, c, n_variables, n_constraints, 1, Asqr_Dc);
+
+	/* Create the pivot table for mpivot */
+	for (i=0; i<n_constraints; i++) {
+	        for (j=0; j<n_constraints; j++)
+		        pivot_table[j+i*n_constraints] =
+			        Asqr_DA_t[j+i*n_constraints];
+		pivot_table[i+n_constraints*n_constraints] = Asqr_Dc[i];
+	}
+
+	i = mpivot (pivot_table, n_constraints+1, n_constraints);
+	if (i)
+	        return i;
+
+	for (i=0; i<n_constraints; i++)
+	        v[i] = pivot_table[i+n_constraints*n_constraints];
+
+	return 0;
+}
+
+static void
+create_step_vector (float_t *c, float_t *sqr_D, float_t *A_t, float_t *v,
+		    int n_constraints, int n_variables, gboolean max_flag,
+		    float_t *dx, float_t *wspace)
+{
+        float_t *A_tv;
+	float_t *diff;
+	int     s_ind = 0;
+	int     i;
+
+	A_tv = &wspace[s_ind];
+	s_ind += n_variables;
+
+	diff = &wspace[s_ind];
+	s_ind += n_variables;
+
+	mmult (A_t, v, n_constraints, n_variables, 1, A_tv);
+
+	if (max_flag)
+	        for (i=0; i<n_variables; i++)
+		        diff[i] = c[i] - A_tv[i];
+	else
+	        for (i=0; i<n_variables; i++)
+		        diff[i] = -(c[i] - A_tv[i]);
+
+	mmult (sqr_D, diff, n_variables, n_variables, 1, dx);
+}
+
+static float_t
+step_length (float_t *x, float_t *dx, int n_variables, gboolean *found)
+{
+        float_t min=0, test;
+	int     i, min_ind = -1;
+
+	for (i=0; i<n_variables; i++)
+	        if (dx[i] < 0) {
+		         test = -x[i] / dx[i];
+			 if (min_ind < 0 || test < min) {
+			         min_ind = i;
+				 min = test;
+			 }
+		}
+
+	if (min_ind == -1)
+	        *found = FALSE;
+	else
+	        *found = TRUE;
+
+	return min;
+}
+
+static float_t
+affine_rdg (float_t *b, float_t *c, float_t *x, float_t *v,
+	    int n_constraints, int n_variables, float_t *bv, float_t *cx)
+{
+	mmult (c, x, n_variables, 1, 1, cx);
+	mmult (b, v, n_constraints, 1, 1, bv);
+
+	return fabs (*cx - *bv) / (1.0 + fabs (*cx));
+}
+
+
+static gboolean
+run_affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
+		  float_t *A_t, int n_constraints, int n_variables,
+		  gboolean max_flag, float_t e, int max_iter, float_t *wspace,
+		  affscale_callback_fun_t fun, void *data)
+{
+        gboolean flag;
+        float_t  *sqr_D;
+	float_t  *v;
+	float_t  *dx;
+	float_t  step_len, rdg=1;
+	float_t  bv, cx;
+	int      s_ind = 0;
+	int      i;
+	int      iter;
+
+	sqr_D = &wspace[s_ind];
+	s_ind += n_variables * n_variables;
+
+	v = &wspace[s_ind];
+	s_ind += n_constraints;
+
+	dx = &wspace[s_ind];
+	s_ind += n_variables;
+
+	for (iter=0; rdg > e && iter<max_iter; iter++) {
+	        solve_dual_vector (A, c, x, A_t,
+				   n_constraints, n_variables, sqr_D, v,
+				   &wspace[s_ind]);
+		create_step_vector (c, sqr_D, A_t, v,
+				    n_constraints, n_variables,
+				    max_flag, dx, &wspace[s_ind]);
+
+		step_len = step_length (x, dx, n_variables, &flag);
+
+		if ( !flag)
+		        break;
+
+		for (i=0; i<n_variables; i++)
+		        x[i] += 0.95 * step_len * dx[i];
+
+		rdg = affine_rdg (b, c, x, v, n_constraints, n_variables,
+				  &bv, &cx);
+
+		if (fun)
+		        fun (iter, x, bv, cx, n_variables, data);
+	}
+
+	return iter < max_iter;
+}
+
+/* Optimizes a given problem using affine scaling (primal) algorithm.
+ */
+gboolean
+affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
+	      int n_constraints, int n_variables, gboolean max_flag,
+	      float_t e, int max_iter,
+	      affscale_callback_fun_t fun, void *data)
+{
+        gboolean found;
+        float_t  *wspace;
+	float_t  *A_t;
+	int      s_ind = 0;
+
+        wspace = g_new (float_t,
+			n_variables * n_constraints           /* A_t */
+			+ n_variables * n_variables           /* sqr_D */
+			+ n_constraints                       /* v */
+			+ n_variables                         /* dx */
+
+			+ n_variables * n_constraints         /* Asqr_D */
+			+ n_constraints * n_constraints       /* Asqr_DA_t */
+			+ n_constraints                       /* Asqr_Dc */
+			+ (n_constraints + 1) * n_constraints /* pivot table */
+			);
+
+	A_t = &wspace[s_ind];
+	s_ind += n_variables * n_constraints;
+
+	mtranspose (A, n_variables, n_constraints, A_t);
+
+        found = run_affine_scale (A, b, c, x, A_t, n_constraints, n_variables,
+				  max_flag, e, max_iter, &wspace[s_ind],
+				  fun, data);
+	g_free (wspace);
+
+	return found;
+}
+
+/* Gives a valid initial solution for a problem.
+ */
+gboolean
+affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
+	     int n_variables, float_t *x)
+{
+         gboolean found;
+         float_t  *wspace;
+	 float_t  *new_c;
+	 float_t  *new_A;
+	 float_t  *tmp;
+	 float_t  *new_x;
+	 int      i, j;
+	 int      s_ind = 0;
+
+	 display (A, n_variables, n_constraints, "A");
+	 display (b, 1, n_constraints, "b");
+	 display (c, n_variables, 1, "c");
+
+	 wspace = g_new (float_t,
+			 n_variables + 1                      /* new_c */
+			 + n_constraints                      /* tmp */
+			 + (n_variables + 1) * n_constraints  /* new_A */
+			 + n_variables + 1                    /* new_x */
+			 );
+
+	 new_c = &wspace[s_ind];
+	 s_ind += n_variables + 1;
+
+	 tmp = &wspace[s_ind];
+	 s_ind += n_constraints;
+
+	 new_A = &wspace[s_ind];
+	 s_ind += (n_variables+1) * n_constraints;
+
+	 new_x = &wspace[s_ind];
+	 s_ind += n_variables + 1;
+
+	 for (i=0; i<n_variables; i++)
+	         new_c [i] = c[i];
+	 new_c[i] = -pow (2, 58);
+	 
+	 for (i=0; i<n_constraints; i++)
+	         tmp[i] = 0;
+	 for (i=0; i<n_constraints; i++)
+	         for (j=0; j<n_variables; j++)
+		          tmp[i] += A[i + j*n_constraints];
+	 
+	 for (i=0; i<n_variables; i++)
+	         tmp[i] = b[i] - tmp[i];
+	 
+	 for (i=0; i<n_variables; i++)
+	         for (j=0; j<n_constraints; j++)
+		         new_A[j + i*n_constraints] = A[j + i*n_constraints];
+	 for (i=0; i<n_constraints; i++)
+	         new_A[i + n_variables*n_constraints] = tmp[i];
+	 
+	 for (i=0; i<=n_variables; i++)
+	         new_x[i] = 1;
+	 
+	 found = affine_scale (new_A, b, new_c, new_x,
+			       n_constraints, n_variables+1, TRUE,
+			       0.01, 1000, NULL, NULL);
+	 
+	 for (i=0; i<n_variables; i++)
+	         x[i] = new_x[i];
+
+	 g_free (wspace);
+
+	 return found;
+}

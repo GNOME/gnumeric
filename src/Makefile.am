@@ -50,6 +50,7 @@ endif
 GNUMERIC_BASE_SOURCES =				\
 	about.c					\
 	analysis-tools.c			\
+	analysis-tools.h			\
 	application.c				\
 	application.h				\
 	auto-format.c				\

@@ -16,6 +16,7 @@
 #include "workbook.h"
 #include "func.h"
 #include "ranges.h"
+#include "analysis-tools.h"
 
 
 #define OK               0

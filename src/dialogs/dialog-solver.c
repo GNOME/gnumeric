@@ -467,12 +467,12 @@ dialog_results (Workbook *wb, int res,
 	answer_s = sensitivity_s = limits_s = FALSE;
 
 	switch (res){
-	case SIMPLEX_DONE:
+	case SOLVER_LP_OPTIMAL:
 	        answer_s = sensitivity_s = TRUE;
 	        label_txt = "Solver found an optimal solution. All "
 		  "constraints and \noptimality conditions are satisfied.\n";
 		break;
-	case SIMPLEX_UNBOUNDED:
+	case SOLVER_LP_UNBOUNDED:
 		label_txt = "The Target Cell value does not converge.\n";
 	        break;
 	default:
@@ -670,7 +670,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 		strcat (buf, cell_name(c->rhs_col, c->rhs_row));
 	        gtk_clist_append (GTK_CLIST (constraint_list), tmp);
 	}
-	
+
 	gtk_widget_grab_focus (target_entry);
 
 main_dialog:
@@ -720,6 +720,7 @@ main_dialog:
 
 	/* Parse input cells entry */
 	text = gtk_entry_get_text (GTK_ENTRY (input_entry));
+
 	input_cells = (CellList *)
 	        parse_cell_name_list (sheet, text, &error_flag);
 	if (error_flag) {
@@ -738,20 +739,22 @@ main_dialog:
 	sheet->solver_parameters.constraints = constraint_dialog->constraints;
 
 	if (selection == 0) {
-	        float_t *init_table, *final_table;
+	        float_t *opt_x, *sh_pr;
 	        ov = save_original_values (input_cells);
 	        if (sheet->solver_parameters.options.assume_linear_model) {
-		        res = solver_simplex(wb, sheet, &init_table,
-					     &final_table);
+		        res = solver_affine_scaling (wb, sheet,
+						     &opt_x, &sh_pr);
 			gtk_widget_hide (dialog);
-			answer = sensitivity = limits = FALSE;
+			answer = TRUE;
+			sensitivity = limits = FALSE;
 			solver_solution = dialog_results (wb, res,
 							  &answer,
 							  &sensitivity,
 							  &limits);
 			solver_lp_reports (wb, sheet, ov, ov_target,
-					   init_table, final_table,
+					   opt_x, sh_pr,
 					   answer, sensitivity, limits);
+
 			if (! solver_solution)
 			        restore_original_values (input_cells, ov);
 		} else {

@@ -3,6 +3,8 @@
  *
  * Author:
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *
+ * (C) Copyright 1999, 2000 by Jukka-Pekka Iivonen
 */
 #include <config.h>
 #include <gnome.h>
@@ -17,8 +19,27 @@
 #include "eval.h"
 #include "dialogs.h"
 #include "mstyle.h"
+#include "mathfunc.h"
+#include "analysis-tools.h"
 
 
+static void
+set_bold (Sheet *sheet, int col1, int row1, int col2, int row2)
+{
+	MStyle *mstyle = mstyle_new ();
+	Range  range;
+
+	range.start.col = col1;
+	range.start.row = row1;
+	range.end.col   = col2;
+	range.end.row   = row2;
+
+	mstyle_set_font_bold (mstyle, TRUE);
+	sheet_style_attach (sheet, range, mstyle);
+}
+
+
+#if 0
 
 /************************************************************************
  *
@@ -327,6 +348,191 @@ int solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
         return SIMPLEX_DONE;
 }
 
+#endif
+
+static float_t
+get_lp_coeff (Cell *target, Cell *change)
+{
+        float_t x0, x1;
+
+	cell_set_value (change, value_new_float (0.0));
+	cell_eval_content(target);
+	x0 = value_get_as_float(target->value);
+
+	cell_set_value (change, value_new_float (1.0));
+	cell_eval_content(target);
+	x1 = value_get_as_float(target->value);
+
+	return x1 - x0;
+}
+
+/************************************************************************
+ */
+
+static void
+callback (int iter, float_t *x, float_t bv, float_t cx, int n, void *data)
+{
+        int     i;
+
+	printf("Iteration=%3d ", iter+1);
+	printf("bv=%9.4f cx=%9.4f gap=%9.4f\n", bv, cx, fabs (bv-cx));
+	for (i=0; i<n; i++)
+	        printf("%8.4f ", x[i]);
+        printf("\n");
+}
+
+int solver_affine_scaling (Workbook *wb, Sheet *sheet,
+			   float_t **x,    /* the optimal solution */
+			   float_t **sh_pr /* the shadow prizes */)
+{
+	SolverParameters *param = &sheet->solver_parameters;
+	GSList           *constraints;
+	CellList         *inputs;
+	Cell             *cell;
+	Cell             *target;
+	float_t          *A;
+	float_t          *b;
+	float_t          *c;
+	gboolean         max_flag;
+	gboolean         found;
+
+	int n_constraints = 0;
+	int n_variables = 0;
+	int var;
+	int i, j;
+
+	max_flag = param->problem_type == SolverMaximize;
+	constraints = param->constraints;
+	while (constraints != NULL) {
+	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+
+		if (strcmp(c->type, "<=") == 0
+		    || strcmp (c->type, ">=") == 0)
+		        n_variables++;
+		n_constraints++;
+		constraints = constraints->next;
+	}
+
+	inputs = param->input_cells;
+	while (inputs != NULL) {
+	        cell = (Cell *) inputs->data;
+
+		n_variables++;
+		inputs = inputs->next;
+	}
+
+	printf("%d %d\n", n_variables, n_constraints);
+	A = g_new (float_t, n_variables * n_constraints);
+	b = g_new (float_t, n_constraints);
+	c = g_new (float_t, n_variables);
+	*x = g_new (float_t, n_variables);
+	*sh_pr = g_new (float_t, n_variables);
+
+	for (i=0; i<n_variables; i++)
+	        for (j=0; j<n_constraints; j++)
+		        A[j + i*n_constraints] = 0;
+	for (i=0; i<n_variables; i++)
+	        c[i] = 0;
+
+	inputs = param->input_cells;
+	var = 0;
+	target = sheet_cell_get (sheet, param->target_cell->col->pos,
+				 param->target_cell->row->pos);
+	if (target == NULL)
+	  return SOLVER_LP_INVALID_RHS; /* FIXME */
+
+	while (inputs != NULL) {
+	        cell = (Cell *) inputs->data;
+
+		c[var] = get_lp_coeff (target, cell);
+
+		var++;
+		inputs = inputs->next;
+	}
+
+	constraints = param->constraints;
+	i = 0;
+	while (constraints != NULL) {
+	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+
+		/* Set the constraint coefficients */
+		target = sheet_cell_get (sheet, c->lhs_col, c->lhs_row);
+		if (target == NULL)
+		        return SOLVER_LP_INVALID_LHS;
+
+		inputs = param->input_cells;
+		j = 0;
+		while (inputs != NULL) {
+		        cell = (Cell *) inputs->data;
+
+			A[i + j*n_constraints] = get_lp_coeff (target, cell);
+			j++;
+			inputs = inputs->next;
+		}
+
+		/* Set the slack/surplus variables */
+		if (strcmp(c->type, "<=") == 0) {
+		  A[i + var*n_constraints] = 1;
+		  var++;
+		} else if (strcmp (c->type, ">=") == 0) {
+		  A[i + var*n_constraints] = -1;
+		  var++;
+		}
+
+		/* Fetch RHS for b */
+		cell = sheet_cell_get (sheet, c->rhs_col, c->rhs_row);
+		if (cell == NULL)
+		        return SOLVER_LP_INVALID_RHS;
+		b[i] = value_get_as_float(cell->value);
+		
+		i++;
+		constraints = constraints->next;
+	}
+
+	found = affine_init (A, b, c, n_constraints, n_variables, *x);
+	if (! found)
+	        return SOLVER_LP_INFEASIBLE;
+
+	affine_scale (A, b, c, *x,
+		      n_constraints, n_variables, max_flag,
+		      0.00000001, 1000,
+		      callback, NULL);
+	if (! found)
+	        return SOLVER_LP_UNBOUNDED;
+
+	inputs = param->input_cells;
+	i = 0;
+	while (inputs != NULL) {
+	        char buf[256];
+	        cell = (Cell *) inputs->data;
+		
+		sprintf(buf, "%f", (*x)[i++]);
+		cell_set_text (cell, buf);
+		inputs = inputs->next;
+	}
+
+	/* FIXME: Do not do the following loop.  Instead recalculate 
+	 * everything that depends on the input variables (the list of
+	 * cells in params->input_cells).
+	 */
+
+	constraints = param->constraints;
+	while (constraints != NULL) {
+	        SolverConstraint *c = (SolverConstraint *) constraints->data;
+
+		cell = sheet_cell_fetch(sheet, c->lhs_col, c->lhs_row);
+		cell_eval_content(cell);
+		constraints = constraints->next;
+	}
+
+	g_free (A);
+	g_free (b);
+	g_free (c);
+
+	return SOLVER_LP_OPTIMAL;
+}
+
+
 static char *
 find_name (Sheet *sheet, int col, int row)
 {
@@ -388,6 +594,8 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	dao.type = NewSheetOutput;
         prepare_output (wb, &dao, _("Answer Report"));
 	set_cell (&dao, 0, 0, _("Gnumeric Solver Answer Report"));
+	set_bold (dao.sheet, 0, 0, 0, 0);
+
 	if (param->problem_type == SolverMaximize)
 	        set_cell (&dao, 0, 1, _("Target Cell (Maximize)"));
 	else
@@ -396,6 +604,8 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	set_cell (&dao, 1, 2, _("Name"));
 	set_cell (&dao, 2, 2, _("Original Value"));
 	set_cell (&dao, 3, 2, _("Final Value"));
+
+	set_bold (dao.sheet, 0, 2, 3, 2);
 
 	/* Set `Cell' field */
 	set_cell (&dao, 0, 3, (char*) cell_name(param->target_cell->col->pos,
@@ -422,6 +632,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	set_cell (&dao, 1, row, _("Name"));
 	set_cell (&dao, 2, row, _("Original Value"));
 	set_cell (&dao, 3, row, _("Final Value"));
+	set_bold (dao.sheet, 0, row, 3, row);
 	row++;
 
 	while (cell_list != NULL) {
@@ -459,6 +670,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	set_cell (&dao, 3, row, _("Formula"));
 	set_cell (&dao, 4, row, _("Status"));
 	set_cell (&dao, 5, row, _("Slack"));
+	set_bold (dao.sheet, 0, row, 5, row);
 
 	row++;
 	constraints = param->constraints;
@@ -488,7 +700,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 		cell = sheet_cell_fetch (sheet, c->lhs_col, c->lhs_row);
 		lhs = value_get_as_float (cell->value);
 
-		if (fabs (lhs-rhs) < 0.0001)
+		if (fabs (lhs-rhs) < 0.001)
 		        set_cell (&dao, 4, row, _("Binding"));
 		else
 		        set_cell (&dao, 4, row, _("Not Binding"));
@@ -501,11 +713,19 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 		++row;
 		constraints = constraints->next;
 	}
+
+	autofit_column (&dao, 0);
+	autofit_column (&dao, 1);
+	autofit_column (&dao, 2);
+	autofit_column (&dao, 3);
+	autofit_column (&dao, 4);
+	autofit_column (&dao, 5);
+
 }
 
 static void
-solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
-			   float_t *final_tbl)
+solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
+			   float_t *shadow_prize)
 {
         data_analysis_output_t dao;
 	SolverParameters       *param = &sheet->solver_parameters;
@@ -553,11 +773,11 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
 		g_free (str);
 
 		/* Set `Reduced Cost' column */
-		sprintf(buf, "%f", final_tbl[i]);
+		sprintf(buf, "%f", x[i]);
 		set_cell (&dao, 3, row, buf);
 
 		/* Set `Objective Coefficient' column */
-		sprintf(buf, "%f", init_tbl[i]);
+		sprintf(buf, "%f", x[i]);
 		set_cell (&dao, 4, row, buf);
 
 		/* Go to next row */
@@ -566,12 +786,18 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
 		i++;
 	}
 
+	set_bold (dao.sheet, 0, 0, 0, 0);
+	set_bold (dao.sheet, 2, 2, 6, 2);
+	set_bold (dao.sheet, 0, 3, 6, 3);
+
 	set_cell (&dao, 0, row++, _("Constraints"));
+	set_bold (dao.sheet, 2, row, 6, row);
 	set_cell (&dao, 2, row, _("Final"));
 	set_cell (&dao, 3, row, _("Shadow"));
 	set_cell (&dao, 4, row, _("Constraint"));
 	set_cell (&dao, 5, row, _("Allowable"));
 	set_cell (&dao, 6, row++, _("Allowable"));
+	set_bold (dao.sheet, 0, row, 6, row);
 	set_cell (&dao, 0, row, _("Cell"));
 	set_cell (&dao, 1, row, _("Name"));
 	set_cell (&dao, 2, row, _("Value"));
@@ -579,7 +805,7 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
 	set_cell (&dao, 4, row, _("R.H. Side"));
 	set_cell (&dao, 5, row, _("Increase"));
 	set_cell (&dao, 6, row++, _("Decrease"));
-	
+
 	constraints = param->constraints;
 	while (constraints != NULL) {
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
@@ -598,9 +824,11 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
 		set_cell (&dao, 2, row, str);
 		g_free (str);
 
+#if 0
 		/* Set `Shadow Prize' column */
-		sprintf(buf, "%f", -final_tbl[i]);
+		sprintf(buf, "%f", shadow_prize[i]);
 		set_cell (&dao, 3, row, buf);
+#endif
 
 		/* Set `R.H. Side Value' column */
 		cell = sheet_cell_fetch (sheet, c->rhs_col, c->rhs_row);
@@ -613,6 +841,14 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
 		++i;
 		constraints = constraints->next;
 	}
+
+	autofit_column (&dao, 0);
+	autofit_column (&dao, 1);
+	autofit_column (&dao, 2);
+	autofit_column (&dao, 3);
+	autofit_column (&dao, 4);
+	autofit_column (&dao, 5);
+	autofit_column (&dao, 6);
 }
 
 static void
@@ -622,13 +858,13 @@ solver_limits_report (Workbook *wb)
 
 void
 solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov, float_t ov_target,
-		   float_t *init_table, float_t *final_table,
+		   float_t *opt_x, float_t *shadow_prize,
 		   gboolean answer, gboolean sensitivity, gboolean limits)
 {
         if (answer)
 	        solver_answer_report (wb, sheet, ov, ov_target);
 	if (sensitivity)
-	        solver_sensitivity_report (wb, sheet, init_table, final_table);
+	        solver_sensitivity_report (wb, sheet, opt_x, shadow_prize);
 	if (limits)
 	        solver_limits_report (wb);
 }

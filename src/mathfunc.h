@@ -3,6 +3,7 @@
 
 #include "numbers.h"
 #include <math.h>
+#include <glib.h>
 
 #ifdef qgamma
 /* It was reported that mips-sgi-irix6.5 has a weird and conflicting define
@@ -128,5 +129,25 @@ void    mmult   (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
 /* Misc. */
 float_t     gpow10                 (int n);
 int         gcd                    (int a, int b);
+
+
+/* ------------------------------------------------------------------------- */
+
+/* Optimization methods for the Solver tool. */
+
+
+/* Affine scaling */
+
+typedef void (*affscale_callback_fun_t) (int iter, float_t *x, 
+					 float_t bv, float_t cx, 
+					 int n_variables, void *data);
+
+gboolean affine_init (float_t *A, float_t *b, float_t *c, int n_constraints,
+		      int n_variables, float_t *x);
+gboolean affine_scale (float_t *A, float_t *b, float_t *c, float_t *x,
+		       int n_constraints, int n_variables, gboolean max_flag,
+		       float_t e, int max_iter,
+		       affscale_callback_fun_t fun, void *data);
+
 
 #endif

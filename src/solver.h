@@ -3,9 +3,12 @@
 
 #include "numbers.h"
 
-#define SIMPLEX_OK        0
-#define SIMPLEX_DONE      1
-#define SIMPLEX_UNBOUNDED 2
+#define SOLVER_LP_RUNNING        0
+#define SOLVER_LP_OPTIMAL        1
+#define SOLVER_LP_UNBOUNDED      2
+#define SOLVER_LP_INFEASIBLE     3
+#define SOLVER_LP_INVALID_RHS    4
+#define SOLVER_LP_INVALID_LHS    5
 
 
 /* Forward references for structures.  */
@@ -47,6 +50,11 @@ struct _SolverParameters {
 
 int  solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_table,
 		     float_t **final_table);
+
+int solver_affine_scaling (Workbook *wb, Sheet *sheet,
+			   float_t **x,    /* the optimal solution */
+			   float_t **sh_pr /* the shadow prizes */);
+
 
 void solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov,
 			float_t ov_target, float_t *init_tbl,
