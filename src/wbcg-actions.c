@@ -1759,8 +1759,8 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 		NULL, N_("Comparing two population means for two unpaired samples from populations with unequal variances: t-test..."),
 		G_CALLBACK (cb_tools_ttest_unequal_var) },
 
-	{ "ToolZTest", NULL, N_("_Known Variances or Large Sample: Z-Test..."),
-		NULL, N_("Comparing two population means from populations with known variances or using a large sample: z-test..."),
+	{ "ToolZTest", NULL, N_("_Known Variances: Z-Test..."),
+		NULL, N_("Comparing two population means from populations with known variances: z-test..."),
 		G_CALLBACK (cb_tools_ztest) },
 
 /* Tools -> Analysis */

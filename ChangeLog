@@ -1,3 +1,8 @@
+2004-09-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/wbcg-actions.c: Correct Z-Test menu item description and 
+	  title. We do not allow large sample calculations.
+
 2004-09-07  Jody Goldberg <jody@gnome.org>
 
 	* src/pixmaps/Makefile.am : Move to the splash for 1.4
