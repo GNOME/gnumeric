@@ -1414,14 +1414,8 @@ static GNM_ACTION_DEF (cb_format_row_unhide)
 	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), FALSE, TRUE);
 }
 
-#ifdef GTK_STOCK_ABOUT
-#define GNM_ABOUT GTK_STOCK_ABOUT
-#else
-#define GNM_ABOUT NULL
-#endif
-
 /* Actions that are always sensitive */
-static /* const 142334 */ GtkActionEntry permanent_actions[] = {
+static const GtkActionEntry permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File") },
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
@@ -1473,7 +1467,7 @@ static /* const 142334 */ GtkActionEntry permanent_actions[] = {
 	{ "HelpBug", NULL, N_("Report a _Problem"),
 		NULL, N_("Report problem "),
 		G_CALLBACK (cb_help_bug) },
-	{ "HelpAbout", GNM_ABOUT, N_("_About"),
+	{ "HelpAbout", GTK_STOCK_ABOUT, N_("_About"),
 		NULL, N_("About this application"),
 		G_CALLBACK (cb_help_about) },
 
@@ -1484,7 +1478,7 @@ static /* const 142334 */ GtkActionEntry permanent_actions[] = {
 		G_CALLBACK (cb_repeat) }
 };
 
-static /* const 142334 */ GtkActionEntry actions[] = {
+static const GtkActionEntry actions[] = {
 /* File */
 	{ "FileNew", GTK_STOCK_NEW, NULL,
 		NULL, N_("Create a new workbook"),
@@ -2033,7 +2027,7 @@ TOGGLE_HANDLER (outline_symbols_right,{
 		sheet_adjust_preferences (sheet, TRUE, TRUE);
 })
 
-static /* const 142334 */ GtkToggleActionEntry toggle_actions[] = {
+static const GtkToggleActionEntry toggle_actions[] = {
 	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
 		"<control>8", N_("Toggle whether or not to display outline groups"),
 		G_CALLBACK (cb_sheet_pref_display_outlines) },
@@ -2100,7 +2094,7 @@ static /* const 142334 */ GtkToggleActionEntry toggle_actions[] = {
 		N_("in or out"), G_CALLBACK (cb_view_fullscreen), FALSE }
 };
 
-static /* const 142334 */ GtkToggleActionEntry font_toggle_actions[] = {
+static const GtkToggleActionEntry font_toggle_actions[] = {
 	{ "FontBold", GTK_STOCK_BOLD,
 		N_("_Bold"), "<control>B",	/* ALSO "<control>2" */
 		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
