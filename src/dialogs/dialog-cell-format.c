@@ -1987,7 +1987,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 		borders [i] = border_get_mstyle (state, i);
 
 	cmd_format (WORKBOOK_CONTROL (state->wbcg),
-		    state->sheet, state->result, borders);
+		    state->sheet, state->result, borders, NULL);
 
 	mstyle_unref (state->result);
 	sheet_update (state->sheet);

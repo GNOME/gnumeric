@@ -310,7 +310,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	double line_offset [3]; /* There are up to 3 lines, double underlined strikethroughs */
 	char const *text;
 	StyleColor *fore;
-	double cell_width_pts;
+	double cell_width_pts, indent = 0.; /* FIXME : how to calculate indent for printing */
 
 	/* Don't print zeros if they should be ignored. */
 	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
@@ -415,7 +415,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	cell_width_pts = gnome_font_get_width_string (print_font, text);
 
 	/* if a number overflows, do special drawing */
-	if (width < cell_width_pts && cell_is_number (cell) &&
+	if ((cell_width_pts + indent) < width && cell_is_number (cell) &&
 	    sheet && !sheet->display_formulas) {
 		print_overflow (context, print_font, rect_x,
 				text_base, width, line_offset, num_lines);
@@ -438,11 +438,11 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 			/* fall through */
 
 		case HALIGN_LEFT:
-			x = rect_x;
+			x = rect_x + indent;
 			break;
 
 		case HALIGN_RIGHT:
-			x = rect_x + rect_width - 1 - cell_width_pts;
+			x = rect_x + rect_width - 1 - cell_width_pts -indent;
 			break;
 
 		case HALIGN_CENTER:
@@ -520,11 +520,10 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 			switch (halign) {
 			default:
 				g_warning ("Multi-line justification style not supported\n");
-				/* fall through */
-
-			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
-				x = rect_x;
+				/* fall through */
+			case HALIGN_LEFT:
+				x = rect_x + indent;
 
 				/* Be cheap, only calculate the width of the
 				 * string if we need to. */
@@ -534,7 +533,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 
 			case HALIGN_RIGHT:
 				len = gnome_font_get_width_string (print_font, str);
-				x = rect_x + rect_width - 1 - len;
+				x = rect_x + rect_width - 1 - len - indent;
 				break;
 
 			case HALIGN_CENTER:

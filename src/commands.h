@@ -43,7 +43,8 @@ gboolean cmd_rename_sheet	(WorkbookControl *wbc,
 gboolean cmd_sort		(WorkbookControl *wbc, SortData *data);
 
 gboolean cmd_format		(WorkbookControl *wbc, Sheet *sheet,
-				 MStyle *style, StyleBorder **borders);
+				 MStyle *style, StyleBorder **borders,
+				 char const *opt_translated_name);
 
 gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
 				 int base_col, int base_row,

@@ -1269,6 +1269,7 @@ cmd_format_destroy (GtkObject *cmd)
  * @sheet: the sheet
  * @style: style to apply to the selection
  * @borders: borders to apply to the selection
+ * @opt_translated_name : An optional name to use in place of 'Format Cells'
  *
  * If borders is non NULL, then the StyleBorder references are passed,
  * the MStyle reference is also passed.
@@ -1279,7 +1280,8 @@ cmd_format_destroy (GtkObject *cmd)
  **/
 gboolean
 cmd_format (WorkbookControl *wbc, Sheet *sheet,
-	    MStyle *style, StyleBorder **borders)
+	    MStyle *style, StyleBorder **borders,
+	    char const *opt_translated_name)
 {
 	GtkObject *obj;
 	CmdFormat *me;
@@ -1328,7 +1330,9 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 	} else
 		me->borders = NULL;
 
-	me->parent.cmd_descriptor = g_strdup (_("Format cells"));
+	me->parent.cmd_descriptor = g_strdup (opt_translated_name != NULL
+			? opt_translated_name
+			: _("Format cells"));
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -2428,7 +2432,7 @@ cmd_autoformat_destroy (GtkObject *cmd)
 }
 
 /**
- * cmd_format:
+ * cmd_autoformat:
  * @context: the context.
  * @sheet: the sheet
  * @ft: The format template that was applied

@@ -4,8 +4,6 @@ and longer term bugs.
 
 Release Critical
 ----------------
-    - implement or disable indent toolbar items
-    - Fix regression crash
     * item-bar redraw bug
 
 Long term breakage

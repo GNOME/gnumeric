@@ -1,9 +1,21 @@
+2001-02-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_format) : Optionally supply a name.
+
+	* src/cell-draw.c (cell_draw) : numbers with indents turn to hashes
+	  too.  Hmm, I do not like the hash marks.
+
+	* src/print-cell.c (print_cell) : merge in the indent code.
+
 2001-02-19  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (LUPDecomp): Fix row flipping.
 	(general_linear_regression): Survive failing LUPDecomp.
 
 2001-02-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/rendered-value.c (rendered_value_calc_size_ext) : tune the size
+	  of an indent step.
 
 	* src/workbook-control-gui.c (show_gui) : kill warning.
 

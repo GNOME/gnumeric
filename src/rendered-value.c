@@ -250,9 +250,10 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 		rv->height_pixel = font_height;
 	}
 
+	/* 2*width seems to be pretty close to XL's notion */
 	if (halign == HALIGN_LEFT || halign == HALIGN_RIGHT)
 		rv->offset = rint (mstyle_get_indent (mstyle) *
-				    style_font->approx_width);
+				    2 * style_font->approx_width);
 	style_font_unref (style_font);
 }
 

@@ -81,7 +81,8 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 	mstyle_set_align_h (style, halign);
 	workbook_format_halign_feedback_set (wbcg, halign);
 
-	cmd_format (wbc, sheet, style, NULL);
+	cmd_format (wbc, sheet, style, NULL,
+		    _("Set Horizontal Alignment"));
 }
 
 static void
@@ -173,7 +174,8 @@ change_selection_font (WorkbookControlGUI *wbcg,
 					!mstyle_get_font_strike (current_style));
 
 	if (bold || italic || underline || strikethrough)
-		cmd_format (wbc, sheet, new_style, NULL);
+		cmd_format (wbc, sheet, new_style, NULL,
+			    _("Set Font Style"));
 	else
 		mstyle_unref (new_style);
 }
@@ -263,7 +265,8 @@ change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
 
 		mstyle = mstyle_new ();
 		mstyle_set_font_name (mstyle, font_name);
-		cmd_format (wbc, sheet, mstyle, NULL);
+		cmd_format (wbc, sheet, mstyle, NULL,
+			    _("Set Font"));
 
 		/* Restore the focus to the sheet */
 		wb_control_gui_focus_cur_sheet	(wbcg);
@@ -288,7 +291,8 @@ change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 	mstyle = mstyle_new ();
 	mstyle_set_font_size (mstyle, size);
 
-	cmd_format (wbc, sheet, mstyle, NULL);
+	cmd_format (wbc, sheet, mstyle, NULL,
+		    _("Set Font Size"));
 
 	/* Restore the focus to the sheet */
 	wb_control_gui_focus_cur_sheet	(wbcg);
@@ -302,7 +306,8 @@ apply_number_format (WorkbookControlGUI *wbcg, const char *translated_format)
 	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_format_text (mstyle, translated_format);
-	cmd_format (wbc, sheet, mstyle, NULL);
+	cmd_format (wbc, sheet, mstyle, NULL,
+		    _("Set Content Format"));
 }
 
 static void
@@ -402,7 +407,8 @@ cb_format_inc_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 		if (HALIGN_LEFT != mstyle_get_align_h (wbv->current_format))
 			mstyle_set_align_h (style, HALIGN_LEFT);
 		mstyle_set_indent (style, i+1);
-		cmd_format (wbc, sheet, style, NULL);
+		cmd_format (wbc, sheet, style, NULL,
+			    _("Increase Indent"));
 	}
 }
 
@@ -423,7 +429,8 @@ cb_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 		MStyle *style = mstyle_new ();
 
 		mstyle_set_indent (style, i-1);
-		cmd_format (wbc, sheet, style, NULL);
+		cmd_format (wbc, sheet, style, NULL,
+			    _("Decrease Indent"));
 	}
 }
 
@@ -548,7 +555,8 @@ fore_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
 			  ? style_color_new (c->red, c->green, c->blue)
 			  : style_color_black () /* FIXME: add auto colours ? */);
 
-	cmd_format (wbc, sheet, mstyle, NULL);
+	cmd_format (wbc, sheet, mstyle, NULL,
+		    _("Set Foreground Color"));
 }
 
 static void
@@ -570,7 +578,8 @@ back_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
 		/* Set background to NONE */
 		mstyle_set_pattern (mstyle, 0);
 
-	cmd_format (wbc, sheet, mstyle, NULL);
+	cmd_format (wbc, sheet, mstyle, NULL,
+		    _("Set Background Color"));
 }
 
 /*
@@ -728,7 +737,8 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 		return;
 	}
 
-	cmd_format (WORKBOOK_CONTROL (wbcg), sheet, NULL, borders);
+	cmd_format (WORKBOOK_CONTROL (wbcg), sheet, NULL, borders,
+		    _("Set Borders"));
 }
 
 void

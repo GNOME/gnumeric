@@ -162,7 +162,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	int line_offset [3]; /* There are up to 3 lines, double underlined strikethroughs */
 	char const *text;
 	StyleColor   *fore;
-	int cell_width_pixel;
+	int cell_width_pixel, indent;
 
 	/* Don't print zeros if they should be ignored. */
 	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
@@ -256,9 +256,10 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		line_offset[num_lines++] = font->ascent/-2;
 
 	cell_width_pixel = cell_rendered_width (cell);
+	indent = cell_rendered_offset (cell);
 
 	/* if a number overflows, do special drawing */
-	if (width < cell_width_pixel && cell_is_number (cell) &&
+	if ((cell_width_pixel + indent) > width && cell_is_number (cell) &&
 	    sheet && !sheet->display_formulas) {
 		draw_overflow (drawable, gc, font, rect.x,
 			       text_base, width, line_offset, num_lines);
@@ -280,12 +281,11 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			/* fall through */
 
 		case HALIGN_LEFT:
-			x = rect.x + cell_rendered_offset (cell);
+			x = rect.x + indent;
 			break;
 
 		case HALIGN_RIGHT:
-			x = rect.x + rect.width - 1 - cell_width_pixel -
-				cell_rendered_offset (cell);
+			x = rect.x + rect.width - 1 - cell_width_pixel - indent;
 			break;
 
 		case HALIGN_CENTER:
@@ -356,7 +356,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			case HALIGN_JUSTIFY:
 				/* fall through */
 			case HALIGN_LEFT:
-				x = rect.x + cell_rendered_offset (cell);
+				x = rect.x + indent;
 
 				/* Be cheap, only calculate the width of the
 				 * string if we need to. */
@@ -366,8 +366,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 			case HALIGN_RIGHT:
 				len = gdk_string_width (font, str);
-				x = rect.x + rect.width - 1 - len -
-					cell_rendered_offset (cell);
+				x = rect.x + rect.width - 1 - len - indent;
 				break;
 
 			case HALIGN_CENTER:
