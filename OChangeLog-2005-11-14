@@ -1,5 +1,10 @@
 2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* item-grid.c (item_grid_event) : don't scroll at end of formula 
+	  range selection (http://bugzilla.gnome.org/show_bug.cgi?id=63485)
+	
+2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gui-util.c (gnumeric_dialog_run) : use GTK functions
 	(gnumeric_notice) : create GTK_Message_Dialog
 	* src/gui-util.h (gnumeric_notice) : change type of second argument

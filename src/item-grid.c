@@ -962,8 +962,10 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		case ITEM_GRID_SELECTING_FORMULA_RANGE :
 			send_finished_signal = TRUE;
-			sheet_make_cell_visible (sheet,
-				sheet->edit_pos.col, sheet->edit_pos.row, FALSE);
+/*  Removal of this code (2 lines)                                                */
+/*  should fix http://bugzilla.gnome.org/show_bug.cgi?id=63485                    */
+/* 			sheet_make_cell_visible (sheet,                           */
+/* 				sheet->edit_pos.col, sheet->edit_pos.row, FALSE); */
 			/* Fall through */
 		case ITEM_GRID_SELECTING_CELL_RANGE :
 			wb_view_selection_desc (

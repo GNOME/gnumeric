@@ -2,6 +2,7 @@ Gnumeric 1.1.0
 
 Andreas:
 	* Fix gnumeric_notice
+	* Fix #63485
 
 Jody:
 	* Initial port to gnome2.
