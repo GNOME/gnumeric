@@ -2401,7 +2401,7 @@ msgstr "Kumulativ %"
 #: src/bonobo-io.c:448
 #, c-format
 msgid "Error '%s' opening workbook stream"
-msgstr "Feil '%s' ved opning av arbeidsbok-strøym"
+msgstr "Feil «%s» ved opning av arbeidsbok-strøym"
 
 #: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3448
 msgid "Invalid xml file. Tree is empty ?"
@@ -2571,7 +2571,7 @@ msgstr "Endrar formatet på %s"
 #: src/commands.c:1569
 #, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr "Gi nytt namn '%s' '%s'"
+msgstr "Gi nytt namn «%s» «%s»"
 
 #: src/commands.c:1679
 msgid "Set Date/Time"
@@ -4151,15 +4151,15 @@ msgstr "Kommersiell support"
 
 #: src/dialogs/dialog-advanced-filter.c:256
 msgid "You should introduce a valid cell names in 'List Range:'"
-msgstr "Du må taste inn eit gyldig cellenamn i 'Listeområde:'"
+msgstr "Du må taste inn eit gyldig cellenamn i «Listeområde:»"
 
 #: src/dialogs/dialog-advanced-filter.c:270
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
-msgstr "Du må taste inn eit gyldig cellenamn i 'Kriterieområde'"
+msgstr "Du må taste inn eit gyldig cellenamn i «Kriterieområde:»"
 
 #: src/dialogs/dialog-advanced-filter.c:289
 msgid "You should introduce a valid cell range in 'Copy To:'"
-msgstr "Du må taste inn eit gyldig cellenamn i 'Kopier til'"
+msgstr "Du må taste inn eit gyldig cellenamn i «Kopier til»"
 
 #: src/dialogs/dialog-advanced-filter.c:331
 msgid ""
@@ -4587,7 +4587,7 @@ msgstr "81"
 #: src/dialogs/dialog-autoformat.c:517
 #, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
-msgstr "Er du sikker på at du vil fjerna malen '%s'?"
+msgstr "Er du sikker på at du vil fjerna malen «%s»?"
 
 #: src/dialogs/dialog-autoformat.c:531
 msgid "Could not remove template"
@@ -4774,15 +4774,15 @@ msgstr "Einkvar"
 
 #: src/dialogs/dialog-goal-seek.c:368
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
-msgstr "Du må oppgi eit gyldigt cellenamn i 'Sett celle:'!"
+msgstr "Du må oppgi eit gyldigt cellenamn i «Sett celle:»!"
 
 #: src/dialogs/dialog-goal-seek.c:376
 msgid "The cell named in 'Set Cell:' must contain a formula!"
-msgstr "Cella oppgitt i 'Sett celle:' må innehalde ein formel!"
+msgstr "Cella oppgitt i «Sett celle:» må innehalde ein formel!"
 
 #: src/dialogs/dialog-goal-seek.c:384
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr "Du bør velje eit gyldig cellenamn i 'Ved å endre celle:'!"
+msgstr "Du bør velje eit gyldig cellenamn i «Ved å endre celle:»!"
 
 #: src/dialogs/dialog-goal-seek.c:393
 msgid "The cell named in 'By changing cell' must not contain a formula."
@@ -4791,7 +4791,7 @@ msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:406
 msgid "The value given in 'To Value:' is not valid."
-msgstr "Verdien oppgitt i 'Til verdi:' er ikkje gyldig."
+msgstr "Verdien oppgitt i «Til verdi:» er ikkje gyldig."
 
 #: src/dialogs/dialog-goal-seek.c:483
 #, c-format
@@ -5018,7 +5018,7 @@ msgstr "Du må velje nokre celletyper for å søke."
 #: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:410
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
-msgstr "Er du sikker på at du sletta arket merka '%s'?"
+msgstr "Er du sikker på at du slette arket merka «%s»?"
 
 #: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:1
 msgid "<="
@@ -5057,7 +5057,7 @@ msgstr "Løysaren vellukkast ikkje: %i"
 #: src/dialogs/dialog-solver.c:862
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
-msgstr "Avgrensingsa '%s' er for ei celle som ikkje er ei inndatacelle."
+msgstr "Avgrensingsa «%s» er for ei celle som ikkje er ei inndatacelle."
 
 #: src/dialogs/dialog-solver.c:1113
 msgid "Could not create the Solver dialog."
@@ -5332,7 +5332,7 @@ msgstr "Definer breidde på kvar kolonne manuelt"
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Kvar kolonne i tekst er delt av 'skiljeteiknet', t.d. eit semikolon."
+msgstr "Kvar kolonne i tekst er delt av «skiljeteiknet», t.d. eit semikolon."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -6658,7 +6658,7 @@ msgstr "allereide globalt definert"
 #: src/expr-name.c:239
 #, c-format
 msgid "'%s' has a circular reference"
-msgstr "'%s' har ei sirkuler referanse"
+msgstr "«%s» har ei sirkuler referanse"
 
 #: src/expr-name.c:402
 msgid "Builtin"
@@ -7923,7 +7923,7 @@ msgstr "[$TOP]"
 
 #: src/formats.c:400
 msgid "Tongan pa'anga"
-msgstr "Tongan pa'anga"
+msgstr "Tongisk pa'anga"
 
 #: src/formats.c:401
 msgid "[$TPE]"
@@ -7931,7 +7931,7 @@ msgstr "[$TPE]"
 
 #: src/formats.c:401
 msgid "East Timor escudo"
-msgstr "East Timor escudo"
+msgstr "Aust-timorsk escudo"
 
 #: src/formats.c:402
 msgid "[$TRL]"
@@ -7939,7 +7939,7 @@ msgstr "[$TRL]"
 
 #: src/formats.c:402
 msgid "Turkish lira"
-msgstr "Turkish lira"
+msgstr "Tyrkisk lira"
 
 #: src/formats.c:403
 msgid "[$TTD]"
@@ -7947,7 +7947,7 @@ msgstr "[$TTD]"
 
 #: src/formats.c:403
 msgid "Trinidad and Tobago dollar"
-msgstr "Trinidad and Tobago dollar"
+msgstr "Trinidad og Tobago dollar"
 
 #: src/formats.c:404
 msgid "[$TWD]"
@@ -7963,7 +7963,7 @@ msgstr "[$TZS]"
 
 #: src/formats.c:405
 msgid "Tanzanian shilling"
-msgstr "Tanzanian shilling"
+msgstr "Tanzanisk shilling"
 
 #: src/formats.c:406
 msgid "[$UAH]"
@@ -7971,7 +7971,7 @@ msgstr "[$UAH]"
 
 #: src/formats.c:406
 msgid "Ukrainian hryvnia"
-msgstr "Ukrainian hryvnia"
+msgstr "Ukrainsk hryvnia"
 
 #: src/formats.c:407
 msgid "[$UGX]"
@@ -7979,7 +7979,7 @@ msgstr "[$UGX]"
 
 #: src/formats.c:407
 msgid "Ugandan shilling"
-msgstr "Ugandan shilling"
+msgstr "Ugandisk shilling"
 
 #: src/formats.c:408
 msgid "[$USD]"
@@ -7995,7 +7995,7 @@ msgstr "[$UYP]"
 
 #: src/formats.c:409
 msgid "Uruguayan peso"
-msgstr "Uruguayan peso"
+msgstr "Uruguask peso"
 
 #: src/formats.c:410
 msgid "[$VEB]"
@@ -8043,7 +8043,7 @@ msgstr "[$XEU]"
 
 #: src/formats.c:415
 msgid "European currency unit"
-msgstr "European currency unit"
+msgstr "Europesk calutaeining"
 
 #: src/formats.c:416
 msgid "[$YDD]"
@@ -8051,7 +8051,7 @@ msgstr "[$YDD]"
 
 #: src/formats.c:416
 msgid "Democratic Yemeni dinar"
-msgstr "Democratic Yemeni dinar"
+msgstr "Demokratisk Yemeni dinar"
 
 #: src/formats.c:417
 msgid "[$YER]"
@@ -8067,7 +8067,7 @@ msgstr "[$YUN]"
 
 #: src/formats.c:418
 msgid "New Yugoslavia dinar"
-msgstr "New Yugoslavia dinar"
+msgstr "Jugoslavisk dinar"
 
 #: src/formats.c:419
 msgid "[$ZAL]"
@@ -8075,7 +8075,7 @@ msgstr "[$ZAL]"
 
 #: src/formats.c:419
 msgid "South African rand funds code"
-msgstr "South African rand funds code"
+msgstr "Sør-Afrikansk rand funds code"
 
 #: src/formats.c:420
 msgid "[$ZAR]"
@@ -8083,7 +8083,7 @@ msgstr "[$ZAR]"
 
 #: src/formats.c:420
 msgid "South African rand"
-msgstr "South African rand"
+msgstr "Sør-Afrikansk rand"
 
 #: src/formats.c:421
 msgid "[$ZMK]"
@@ -8111,7 +8111,7 @@ msgstr "Zimbabwe dollar"
 
 #: src/formats.c:555
 msgid "[Red]"
-msgstr "[Raudt]"
+msgstr "[Raud]"
 
 #: src/func.c:124
 #, c-format
@@ -15476,22 +15476,22 @@ msgstr "Må ha namn på ark"
 #: src/parser.y:461
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
-msgstr "Namnet '%s' eksisterar ikkje i arket '%s'"
+msgstr "Namnet «%s» eksisterar ikkje i arket «%s»"
 
 #: src/parser.y:483
 #, c-format
 msgid "Unknown workbook '%s'"
-msgstr "Ukjent arbeidsbok '%s'"
+msgstr "Ukjent arbeidsbok «%s»"
 
 #: src/parser.y:495
 #, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
-msgstr "Namnet '%s' eksisterar ikkje i arbeidsboka '%s'"
+msgstr "Namnet «%s» eksisterar ikkje i arbeidsboka «%s»"
 
 #: src/parser.y:520 src/parser.y:543
 #, c-format
 msgid "Unknown sheet '%s'"
-msgstr "Ukjent ark '%s'"
+msgstr "Ukjent ark «%s»"
 
 #: src/parser.y:651 src/parser.y:665
 #, c-format
@@ -16013,7 +16013,7 @@ msgstr "Opne ..."
 #: src/sheet-object-container.c:182
 #, c-format
 msgid "can't create object for '%s'"
-msgstr "Kan ikkje oppretta objekt for '%s'"
+msgstr "Kan ikkje oppretta objekt for «%s»"
 
 #: src/sheet-object-container.c:190
 #, c-format
@@ -16478,7 +16478,7 @@ msgstr "Vel eit objekt å legge til"
 #: src/workbook-control-gui.c:2014
 #, c-format
 msgid "Unable to create object of type '%s'"
-msgstr "Kunne ikkje lage objekt av type '%s'"
+msgstr "Kunne ikkje lage objekt av type «%s»"
 
 #: src/workbook-control-gui.c:2235
 msgid "Show"
