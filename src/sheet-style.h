@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_SHEET_STYLEH
-#define GNUMERIC_SHEET_H
+#ifndef GNUMERIC_SHEET_STYLE_H
+#define GNUMERIC_SHEET_STYLE_H
 
 #include "gnumeric.h"
 

@@ -20,7 +20,8 @@
 #  along with this library; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-#  Author: Darin Adler <darin@eazel.com>,
+#  Authors: Darin Adler <darin@eazel.com>
+#           Morten Welinder <terra@diku.dk>
 #
 
 # check-config-h.pl: Search for .c files where someone forgot to
@@ -30,6 +31,8 @@ use diagnostics;
 use strict;
 
 use Getopt::Long;
+
+my $exitcode = 0;
 
 my $edit = 0;
 &GetOptions("edit" => \$edit);
@@ -62,6 +65,7 @@ if (@missing_files)
     if (!$edit)
       {
         print join("\n", @missing_files), "\n";
+        $exitcode = 1;
       }
     else
       {
@@ -90,3 +94,5 @@ if (@missing_files)
           }
       }
   }
+
+exit $exitcode;

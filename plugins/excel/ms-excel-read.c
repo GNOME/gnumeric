@@ -22,6 +22,7 @@
 #include "ranges.h"
 #include "expr-name.h"
 #include "style.h"
+#include "sheet-style.h"
 #include "cell.h"
 #include "sheet-merge.h"
 #include "format.h"

@@ -16,6 +16,7 @@
 /*
  * FIXME: Check for errors and propagate upward. We've only started.
  */
+#include <config.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
@@ -26,7 +27,6 @@
 #include <ctype.h>
 #include <math.h>
 
-#include <config.h>
 #include <gnome.h>
 
 #include "gnumeric.h"
@@ -39,6 +39,7 @@
 #include "sheet-object-cell-comment.h"
 #include "application.h"
 #include "style.h"
+#include "sheet-style.h"
 #include "format.h"
 #include "main.h"
 #include "parse-util.h"

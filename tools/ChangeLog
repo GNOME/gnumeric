@@ -1,3 +1,10 @@
+2001-01-02  Morten Welinder <terra@diku.dk>
+
+	* check-cvs-binary: New tool for checking cvs keyword substitution
+ 	mode.
+
+	* check-config-h.pl: Exit non-zero if any bad files were found.
+
 2000-12-19  Morten Welinder <terra@diku.dk>
 
 	* check-config-h.pl: Find only regular files.  Handle chomping
