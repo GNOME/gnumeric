@@ -1,3 +1,10 @@
+2001-05-05  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (pre_cell) : XL does not differentiate between
+	  parse and display formats.  When exporting a cell with General that
+	  has a parse format create a new XF with the parse format as the
+	  display format.
+
 2001-04-30  Morten Welinder  <terra@diku.dk>
 
 	* ms-summary.c (sum_name_to_excel): Fix index count.  Constify.

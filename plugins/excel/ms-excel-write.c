@@ -1574,6 +1574,8 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 {
 	ExcelCell *c;
 	int col, row;
+	MStyle *cell_style;
+	StyleFormat *fmt;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -1600,7 +1602,18 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 	/* Save cell pointer */
 	c = excel_cell_get (sheet, col, row);
 	c->gnum_cell = cell;
-	c->xf = put_mstyle (sheet->wb, cell_get_mstyle (cell));
+
+	/* For the general format XL assigns the parse format */
+	cell_style = cell_get_mstyle (cell);
+	if (cell->format != NULL &&
+	    !style_format_is_general (cell->format) &&
+	    style_format_is_general (mstyle_get_format (cell_style))) {
+		cell_style = mstyle_copy (cell_style);
+		mstyle_set_format (cell_style, cell->format);
+		c->xf = put_mstyle (sheet->wb, cell_style);
+		mstyle_ref (cell_style);
+	} else
+		c->xf = put_mstyle (sheet->wb, cell_style);
 }
 
 /**
