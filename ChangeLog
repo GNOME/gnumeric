@@ -1,3 +1,7 @@
+2002-04-16  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Addd gobject & gmodule
+
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas : add window size schemas
