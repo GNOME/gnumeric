@@ -1,3 +1,6 @@
+  This code is imported into the gnumeric tree via a CVS virtual link,
+in order to use the test framework checkout CVS module libole2.
+
 This code was written with grateful thanks to:
 
 	Martin Schwartz - Author of Laola, father of free OLE2
