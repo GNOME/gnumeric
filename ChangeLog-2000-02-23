@@ -1,3 +1,10 @@
+2000-01-06  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_get_extent): stop start.col/row going negative;
+	why they should I have no idea.
+
+	* src/sheet-style.c (sheet_style_get_extent): Ignore last global region.
+
 2000-01-05  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet.c (sheet_move_range, sheet_insert_cols, sheet_delete_cols),

@@ -627,11 +627,15 @@ sheet_get_extent (Sheet const *sheet)
 		r.end.col   = sheet->cols.max_used;
 	if (r.start.col > r.end.col)
 		r.start.col = r.end.col;
+	if (r.start.col < 0)
+		r.start.col = 0;
 
 	if (r.end.row   > sheet->rows.max_used)
 		r.end.row   = sheet->rows.max_used;
 	if (r.start.row > r.end.row)
 		r.start.row = r.end.row;
+	if (r.start.row < 0)
+		r.start.row = 0;
 
 	return r;
 }

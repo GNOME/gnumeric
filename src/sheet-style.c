@@ -1469,7 +1469,7 @@ sheet_style_get_extent (Range *r, Sheet const *sheet)
 {
 	GList   *l;
 
-	for (l = STYLE_LIST (sheet); l; l = g_list_next (l)) {
+	for (l = STYLE_LIST (sheet); l && l->next; l = g_list_next (l)) {
 		Range *sr = (Range *)l->data;
 
 		if (!range_is_infinite (sr))
