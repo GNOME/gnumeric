@@ -19,6 +19,8 @@ Worries
     We init gnome_print at sheet creation time.  With cups this can cause
     hangs at startup if the server isn't answering.   --> delay init.
 
+    Someone broke ACCRINT.
+
 -------------------------------------------------------------------------------
 Pending Patches
 ---------------
