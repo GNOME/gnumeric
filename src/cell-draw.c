@@ -9,6 +9,7 @@
 #include "cell-draw.h"
 #include "style.h"
 #include "cell.h"
+#include "workbook.h"
 #include "sheet-view.h" /* FIXME : Only for sheet_view_get_style_font */
 #include "utils.h"	/* FIXME : Only for cell_name */
 
@@ -133,8 +134,9 @@ void
 cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
-	StyleFont    *style_font = sheet_view_get_style_font (cell->sheet, mstyle);
-	GdkFont      *font = style_font_gdk_font (style_font);
+	Sheet        *sheet = cell->sheet;
+	StyleFont    *style_font;
+	GdkFont      *font;
 	GdkRectangle  rect;
 	int num_lines = 0, line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 	
@@ -146,17 +148,16 @@ cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	gboolean is_single_line;
 	char const *text;
 
-	g_return_if_fail (cell);
-	g_return_if_fail (cell->text);
-	
 	/*
 	 * If it is being edited pretend it is empty to avoid problems with the
 	 * a long cells contents extending past the edge of the edit box.
 	 * Don't print zeros if they should be ignored.
 	 */
-	if (cell == cell->sheet->editing_cell ||
-	    (!cell->sheet->display_zero && cell_is_zero (cell)))
+	if (cell == sheet->workbook->editing_cell ||
+	    (!sheet->display_zero && cell_is_zero (cell)))
 		return;
+
+	g_return_if_fail (cell->text);
 
 	if (cell->text->str == NULL) {
 		g_warning ("Serious cell error at '%s'\n",
@@ -176,6 +177,8 @@ cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	width  = COL_INTERNAL_WIDTH (cell->col);
 	height = ROW_INTERNAL_HEIGHT (cell->row);
 
+	style_font = sheet_view_get_style_font (sheet, mstyle);
+	font = style_font_gdk_font (style_font);
 	font_height = style_font_get_height (style_font);
 	
 	switch (mstyle_get_align_v (mstyle)) {
@@ -227,14 +230,14 @@ cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	 */
 	if (start_col != cell->col->pos) {
 		int const offset =
-		    sheet_col_get_distance_pixels (cell->sheet,
+		    sheet_col_get_distance_pixels (sheet,
 						   start_col, cell->col->pos);
 		rect.x     -= offset;
 		rect.width += offset;
 	}
 	if (end_col != cell->col->pos) {
 		int const offset =
-		    sheet_col_get_distance_pixels (cell->sheet,
+		    sheet_col_get_distance_pixels (sheet,
 						   cell->col->pos+1, end_col+1);
 		rect.width += offset;
 	}

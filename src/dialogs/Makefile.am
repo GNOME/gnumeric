@@ -80,7 +80,8 @@ glade_DATA = 				\
 	cell-format.glade		\
 	cell-sort.glade			\
 	dialog-stf.glade		\
-	plugin-manager.glade
+	plugin-manager.glade		\
+	function-select.glade 
 
 glade_msgs = 				\
 	advanced-filter.glade.h		\
@@ -107,7 +108,8 @@ glade_msgs = 				\
 	cell-format.glade.h		\
 	cell-sort.glade.h		\
 	dialog-stf.glade.h		\
-	plugin-manager.glade.h
+	plugin-manager.glade.h		\
+	function-select.glade.h 
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
 

@@ -17,6 +17,7 @@
 #include "workbook.h"
 
 /* The list of categories */
+/* FIXME : This should be workbook local in some sense */
 static GList *categories = NULL;
 
 /* ------------------------------------------------------------------------- */
@@ -461,14 +462,14 @@ function_call_with_list (FunctionEvalInfo        *ei,
 
 /* ------------------------------------------------------------------------- */
 
-GList *
-function_categories_get (void)
+FunctionCategory const *
+function_category_get_nth (int n)
 {
-	return categories;
+	return g_list_nth_data (categories, n);
 }
 
 TokenizedHelp *
-tokenized_help_new (FunctionDefinition *fndef)
+tokenized_help_new (FunctionDefinition const *fndef)
 {
 	TokenizedHelp *tok;
 

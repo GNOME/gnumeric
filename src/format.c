@@ -1300,8 +1300,12 @@ check_valid (const StyleFormatEntry *entry, const Value *value)
 	}
 }
 
+/*
+ * Returns NULL when the value should be formated as text
+ */
 gchar *
-format_value (StyleFormat *format, const Value *value, StyleColor **color)
+format_value (StyleFormat *format, const Value *value, StyleColor **color,
+	      char const * entered_text)
 {
 	char *v = NULL;
 	StyleFormatEntry entry;
@@ -1348,10 +1352,22 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 	if (entry.format [0] == '\0')
 		return g_strdup ("");
 
-	if (strcmp (entry.format, "General") == 0) {
+	/* Formatting a value as a text returns the entered text */
+	if (strcmp (entry.format, "@") == 0) {
+		if (entered_text != NULL)
+			return g_strdup (entered_text);
+		if (value->type == VALUE_STRING)
+			return g_strdup (value->v.str->str);
+
+		/* FIXME : What does it mean to format a value as text
+		 * without specifying the entered text ??
+		 * use General as a failsafe */
 		is_general = TRUE;
 	}
+
 	/* FIXME: what about translated "General"?  */
+	if (strcmp (entry.format, "General") == 0)
+		is_general = TRUE;
 
 	/*
 	 * Use top left corner of an array result.
@@ -1395,7 +1411,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 		return g_strdup (value->v.str->str);
 
 	case VALUE_CELLRANGE:
-		return g_strdup (_("CELLRANGE"));
+		return g_strdup (gnumeric_err_VALUE);
 
 	case VALUE_ARRAY:
 		/* Array of arrays ?? */

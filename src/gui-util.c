@@ -476,3 +476,34 @@ gnumeric_char_start_expr_p (char const c)
 {
 	return (c == '=') || (c == '@') || (c == '+');
 }
+
+/*
+ * Returns TRUE if the GtkEntry supplied is editing an expression
+ *    and the current position is at an expression boundary.
+ * eg '=sum', or 'bob' are not while '=sum(' is
+ */
+gboolean
+gnumeric_entry_at_subexpr_boundary_p (GtkWidget const * const w)
+{
+	GtkEntry *entry;
+	int cursor_pos;
+
+	g_return_val_if_fail (w, FALSE);
+	entry = GTK_ENTRY (w);
+	g_return_val_if_fail (entry, FALSE);
+
+	cursor_pos = GTK_EDITABLE (entry)->current_pos;
+
+	if (!gnumeric_char_start_expr_p (entry->text[0]) || cursor_pos <= 0)
+		return FALSE;
+
+	switch (entry->text [cursor_pos-1]){
+	case '=': case '-': case '*': case '/': case '^':
+	case '+': case '&': case '(': case '%': case '!':
+	case ':': case ',':
+		return TRUE;
+
+	default :
+		return FALSE;
+	};
+}

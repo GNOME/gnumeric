@@ -36,7 +36,7 @@ typedef struct {
 	gboolean	selecting_cell;
 	int		sel_cursor_pos;
 	int             sel_text_len;
-	ItemCursor     *selection;
+	ItemCursor     *sel_cursor;
 
 	/*
 	 * The column and row bars
@@ -52,7 +52,7 @@ void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new
 void       gnumeric_sheet_set_left_col           (GnumericSheet *gsheet, int new_first_col);
 void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,
 						  int col, int row);
-int        gnumeric_sheet_can_move_cursor        (GnumericSheet *gsheet);
+gboolean   gnumeric_sheet_can_move_cursor        (GnumericSheet *gsheet);
 void       gnumeric_sheet_set_cursor_bounds      (GnumericSheet *gsheet,
 						  int start_col, int start_row,
 						  int end_col,   int end_row);
@@ -70,7 +70,8 @@ void       gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet);
 
 void       gnumeric_sheet_start_cell_selection   (GnumericSheet *gsheet,
 						  int col, int row);
-void       gnumeric_sheet_stop_cell_selection    (GnumericSheet *gsheet);
+void       gnumeric_sheet_stop_cell_selection    (GnumericSheet *gsheet,
+						  gboolean const clear_string);
 void       gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet,
 						  int col, int row);
 void       gnumeric_sheet_selection_cursor_base  (GnumericSheet *gsheet,

@@ -61,7 +61,12 @@ sheet_get_selection_name (Sheet const *sheet)
 	return buffer;
 }
 
-static void
+/*
+ * FIXME : I am not thrilled with the name or location
+ * of this routine.  Fix it as the cursor vs selection
+ * seperation progresses.
+ */
+void
 sheet_selection_changed_hook (Sheet *sheet)
 {
 	sheet_update_auto_expr (sheet);

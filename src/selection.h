@@ -26,6 +26,8 @@ CellList   *sheet_selection_to_list      (Sheet *sheet);
 void        sheet_cell_list_free         (CellList *cell_list);
 char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
+void        sheet_selection_changed_hook (Sheet *sheet);
+
 /* Operations on the selection */
 void        sheet_selection_height_update     (Sheet *sheet);
 

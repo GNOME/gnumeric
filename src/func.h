@@ -143,12 +143,12 @@ const char *function_def_get_name      (const FunctionDefinition *fndef);
 /* Used to build manual */
 void     function_dump_defs            (const char *filename);
 
-GList *function_categories_get (void);
+FunctionCategory const * function_category_get_nth (int const n);
 
 typedef struct {
 	GPtrArray *sections;
 	char      *help_copy;
-	FunctionDefinition *fndef;
+	FunctionDefinition const *fndef;
 } TokenizedHelp;
 
 typedef struct {
@@ -157,7 +157,7 @@ typedef struct {
         gboolean afun_flag;
 } stat_closure_t;
 
-TokenizedHelp *tokenized_help_new     (FunctionDefinition *fndef);
+TokenizedHelp *tokenized_help_new     (FunctionDefinition const *fndef);
 const char    *tokenized_help_find    (TokenizedHelp *tok, const char *token);
 void           tokenized_help_destroy (TokenizedHelp *tok);
 

@@ -647,20 +647,15 @@ quit_cmd (void)
 static void
 accept_input (GtkWidget *IGNORED, Workbook *wb)
 {
-	Sheet *sheet = wb->current_sheet;
-
-	/* Force sheet into edit mode */
-	sheet->editing = TRUE;
-	sheet_accept_pending_input (sheet);
-	workbook_focus_current_sheet (wb);
+	/* Force workbook into edit mode */
+	wb->editing = TRUE;
+	workbook_finish_editing (wb, TRUE);
 }
 
 static void
 cancel_input (GtkWidget *IGNORED, Workbook *wb)
 {
-	Sheet *sheet = wb->current_sheet;
-	sheet_cancel_pending_input (sheet);
-	workbook_focus_current_sheet (wb);
+	workbook_finish_editing (wb, FALSE);
 }
 
 static void
@@ -1390,26 +1385,27 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 static void
 do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Workbook *wb)
 {
-	/* Cache the current sheet BEFORE we switch*/
-	Sheet *sheet = wb->current_sheet;
+	/* Hang on to old sheet */
+	Sheet *old_sheet = wb->current_sheet;
 
-	/* FIXME : Cancel any pending editing if there was a previous sheet.
-	 * This needs to be fixed to handle selecting cells on a different sheet.
-	 * Currently that logic is too closely coupled to GnumericSheet to do that easily.
-	 *
-	 * NOTE : Excel ACCEPTS the input and cancels the sheet switch if the input fails.
-	 */
-	if (sheet != NULL)
-		sheet_cancel_pending_input (sheet);
+	/* Lookup sheet associated with the current notebook tab */
+	Sheet *sheet = workbook_focus_current_sheet (wb);
+	gboolean accept = TRUE;
 
-	/* Look up the sheet associated with the currently select
-	 * notebook tab */
-	sheet = workbook_focus_current_sheet (wb);
+	/* Remove the cell seletion cursor if it exists */
+	if (old_sheet != NULL)
+		sheet_destroy_cell_select_cursor (old_sheet);
 
-	/* FIXME : For now we will set the edit area no matter what.
-	 * eventually we should hande cell selection across sheets.
-	 */
-	sheet_load_cell_val (sheet);
+	if (wb->editing) {
+		/* If we are not at a subexpression boundary then finish editing */
+		accept = !gnumeric_entry_at_subexpr_boundary_p (wb->ea_input);
+		if (accept)
+			workbook_finish_editing (wb, TRUE);
+	}
+	if (accept && wb->current_sheet != NULL)
+		sheet_load_cell_val (wb->current_sheet);
+
+	sheet_selection_changed_hook (sheet);
 }
 
 static void
@@ -1444,17 +1440,23 @@ workbook_focus_current_sheet (Workbook *wb)
 
 		g_return_val_if_fail (sheet_view != NULL, NULL);
 
+		/* This is silly.  We have no business assuming there is only 1 view */
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet_view->sheet_view);
 
-		gtk_signal_emit (GTK_OBJECT (wb), workbook_signals [SHEET_CHANGED], sheet);
-		
-		wb->current_sheet = sheet;
+		if (wb->current_sheet != sheet) {
+			gtk_signal_emit (GTK_OBJECT (wb), workbook_signals [SHEET_CHANGED], sheet);
+			wb->current_sheet = sheet;
+		}
 	} else
 		g_warning ("There is no current sheet in this workbook");
 
 	return sheet;
 }
 
+/*
+ * Returns the ZERO based index of the requested sheet
+ *   or -1 on error.
+ */
 static int
 workbook_get_sheet_position (Sheet *sheet)
 {
@@ -1463,9 +1465,6 @@ workbook_get_sheet_position (Sheet *sheet)
 
 	notebook = GTK_NOTEBOOK (sheet->workbook->notebook);
 	sheets = workbook_sheet_count (sheet->workbook);
-
-	if (sheets <= 1)
-		return sheets;
 
 	for (i = 0; i < sheets; i++) {
 		Sheet *this_sheet;
@@ -1476,10 +1475,12 @@ workbook_get_sheet_position (Sheet *sheet)
 		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
 
 		if (this_sheet == sheet)
-			break;
+			return i;
 	}
 
-	return i;
+	/* Emit a warning for now.  Should probably make this stronger */
+	g_warning ("Sheet index not found ?");
+	return -1;
 }
 
 void
@@ -1496,10 +1497,8 @@ workbook_focus_sheet (Sheet *sheet)
 	notebook = GTK_NOTEBOOK (sheet->workbook->notebook);
 	i = workbook_get_sheet_position (sheet);
 
-	if (i <= 1)
-		return;
-
-	gtk_notebook_set_page (notebook, i);
+	if (i >= 0)
+		gtk_notebook_set_page (notebook, i);
 }
 
 static int
@@ -1507,8 +1506,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 {
 	switch (event->keyval) {
 	case GDK_Escape:
-		sheet_cancel_pending_input (wb->current_sheet);
-		workbook_focus_current_sheet (wb);
+		workbook_finish_editing (wb, FALSE);
 		return TRUE;
 
 	case GDK_F4:
@@ -1525,6 +1523,10 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 
 		/* Ignore this character */
 		event->keyval = GDK_VoidSymbol;
+
+		/* Only applies while editing */
+		if (!wb->editing)
+			return TRUE;
 
 		/* Only apply do this for formulas */
 		if (!gnumeric_char_start_expr_p (entry->text[0]) ||
@@ -1654,32 +1656,7 @@ workbook_set_region_status (Workbook *wb, const char *str)
 static void
 wizard_input (GtkWidget *widget, Workbook *wb)
 {
-	FunctionDefinition *fd = dialog_function_select (wb);
-	GtkEntry *entry = GTK_ENTRY (wb->ea_input);
-	gchar *txt, *edittxt;
-	int pos;
-
-	if (!fd)
-		return;
-
-	txt = dialog_function_wizard (wb, fd);
-
-       	if (!txt || !wb || !entry)
-		return;
-
-	pos = gtk_editable_get_position (GTK_EDITABLE (entry));
-
-	gtk_editable_insert_text (GTK_EDITABLE (entry),
-				  txt, strlen (txt), &pos);
-	g_free (txt);
-	txt = gtk_entry_get_text (entry);
-
-	if (!gnumeric_char_start_expr_p (txt[0]))
-	        edittxt = g_strconcat ("=", txt, NULL);
-	else
-		edittxt = g_strdup (txt);
-	gtk_entry_set_text (entry, edittxt);
-	g_free (edittxt);
+	dialog_function_wizard (wb);
 }
 
 static void
@@ -2080,6 +2057,12 @@ workbook_init (GtkObject *object)
 	wb->summary_info   = summary_info_new ();
 	summary_info_default (wb->summary_info);
 
+	/* We are not in edit mode */
+	wb->use_absolute_cols = wb->use_absolute_rows = FALSE;
+	wb->editing = FALSE;
+	wb->editing_sheet = NULL;
+	wb->editing_cell = NULL;
+
 	/* Nothing to undo or redo */
 	wb->undo_commands = wb->redo_commands = NULL;
 
@@ -2159,20 +2142,14 @@ workbook_get_type (void)
 }
 
 static void
-change_zoom_in_current_sheet_cb (GtkWidget *caller, Workbook *wb)
+change_displayed_zoom_cb (GtkObject *unused, Sheet* sheet, gpointer data)
 {
-	int factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
-	sheet_set_zoom_factor(wb->current_sheet, (double)factor / 100);
-}
-
-static void
-change_displayed_zoom_cb (GtkObject *caller, Sheet* sheet, gpointer data)
-{
+	Workbook* wb = (Workbook*)data;
 	GtkWidget *combo;
 	gchar *str;
 	int factor = (int) (sheet->last_zoom_factor_used * 100);
 	
-	g_return_if_fail (combo = WORKBOOK (caller)->priv->zoom_entry);
+	g_return_if_fail (combo = wb->priv->zoom_entry);
 
 	str = g_strdup_printf("%d%%", factor);
 	
@@ -2180,6 +2157,19 @@ change_displayed_zoom_cb (GtkObject *caller, Sheet* sheet, gpointer data)
 			    str);
 
 	g_free (str);
+}
+
+static void
+change_zoom_in_current_sheet_cb (GtkWidget *caller, Workbook *wb)
+{
+	int factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
+	sheet_set_zoom_factor(wb->current_sheet, (double)factor / 100);
+
+	/* reset the contents of the combo just in case we hit a bound */
+	change_displayed_zoom_cb (NULL, wb->current_sheet, wb);
+
+	/* Restore the focus to the sheet */
+	workbook_focus_current_sheet (wb);
 }
 
 /*
@@ -2240,7 +2230,7 @@ workbook_create_standard_toobar (Workbook *wb)
 
 	/* Change the value when the displayed sheet is changed */
 	gtk_signal_connect (GTK_OBJECT (wb), "sheet_changed",
-			    (GtkSignalFunc) (change_displayed_zoom_cb), NULL);
+			    (GtkSignalFunc) (change_displayed_zoom_cb), wb);
 	
 	/* Set a reasonable default width */
 	len = gdk_string_measure (entry->style->font, "000000");
@@ -3134,26 +3124,26 @@ workbook_autosave_set (Workbook *wb, int minutes, gboolean prompt)
 /*
  * Moves the sheet up or down @direction spots in the sheet list
  * If @direction is positive, move left. If positive, move right.
- * If @direction is greater than the possible number of spots
- * The result is undefined
  */
 void        
 workbook_move_sheet (Sheet *sheet, int direction)
 {
-        GtkNotebook *nb; 
-	GtkWidget *w;
 	gint source, dest;
 
         g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	nb = GTK_NOTEBOOK (sheet->workbook->notebook);
-
         source = workbook_get_sheet_position (sheet);
 	dest = source + direction;
-	w = gtk_notebook_get_nth_page (nb, source);
-	
-	gtk_notebook_reorder_child (nb, w, dest);
+
+	if (0 <= dest && dest < workbook_sheet_count (sheet->workbook)) {
+		GtkNotebook *nb =
+		    GTK_NOTEBOOK (sheet->workbook->notebook);
+		GtkWidget *w =
+		    gtk_notebook_get_nth_page (nb, source);
+
+		gtk_notebook_reorder_child (nb, w, dest);
+	}
 }
 
 /*
@@ -3199,4 +3189,97 @@ workbook_delete_sheet (Sheet *sheet)
 	 * All is fine, remove the sheet
 	 */
 	workbook_detach_sheet (wb, sheet, FALSE);
+}
+
+/**
+ * workbook_start_editing_at_cursor:
+ *
+ * @wb:       The workbook to be edited.
+ * @blankp:   If true, erase current cell contents first.  If false, leave the
+ *            contents alone.
+ * @cursorp:  If true, create an editing cursor in the current sheet.  (If
+ *            false, the text will be editing in the edit box above the sheet,
+ *            but this is not handled by this function.)
+ *
+ * Initiate editing of a cell in the sheet.  Note that we have two modes of
+ * editing:
+ *  1) in-cell editing when you just start typing, and
+ *  2) above sheet editing when you hit F2.
+ */
+void
+workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp, gboolean cursorp)
+{
+	Sheet *sheet;
+
+	g_return_if_fail (wb != NULL);
+
+	application_clipboard_unant ();
+	
+	if (blankp)
+		gtk_entry_set_text (GTK_ENTRY (wb->ea_input), "");
+
+	sheet = wb->current_sheet;
+	if (cursorp)
+		sheet_create_edit_cursor (sheet);
+
+	/* TODO : Should we reset like this ? probably */
+	wb->use_absolute_cols = wb->use_absolute_rows = FALSE;
+
+	wb->editing = TRUE;
+	wb->editing_sheet = sheet;
+	wb->editing_cell = sheet_cell_get (sheet,
+					   sheet->cursor.edit_pos.col,
+					   sheet->cursor.edit_pos.row);
+}
+
+void
+workbook_finish_editing (Workbook *wb, gboolean const accept)
+{
+	Sheet *sheet;
+	Range r;
+
+	g_return_if_fail (wb != NULL);
+
+	if (!wb->editing)
+		return;
+
+	g_return_if_fail (wb->editing_sheet != NULL);
+
+	/* Stop editing */
+	sheet = wb->editing_sheet;
+	wb->editing = FALSE;
+	wb->editing_sheet = NULL;
+	wb->editing_cell = NULL;
+
+	/* Save the results before changing focus */
+	if (accept) {
+		/* TODO : Get a context */
+		/* Store the old value for undo */
+		GtkEntry * const entry = GTK_ENTRY (sheet->workbook->ea_input);
+		char     * const txt = gtk_entry_get_text (entry);
+		r.start = r.end = sheet->cursor.edit_pos;
+		if (!cmd_set_text (NULL, sheet, &r.start, txt))
+			sheet_set_text (sheet, txt, &r);
+	}
+
+	/* restore focus to original sheet in case things were being selected
+	 * on a different page */
+	workbook_focus_sheet (sheet);
+
+	/* FIXME :
+	 * If user was editing on the input line, get the focus back
+	 * This code was taken from workbook_focus_current_sheet which also needs
+	 * fixing.  There can be multiple views.  We have no business at all
+	 * assigning focus to the first.
+	 */
+	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), 
+			      SHEET_VIEW (sheet->sheet_views->data)->sheet_view);
+
+	/* Only the edit sheet has an edit cursor */
+	sheet_destroy_edit_cursor (sheet);
+
+	if (accept)
+		workbook_recalc (wb);
+
+	sheet_load_cell_val (sheet);
 }

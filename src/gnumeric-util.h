@@ -41,4 +41,7 @@ GtkWidget * gnumeric_create_tooltip (void);
 /* Is this character the start of an expression */
 gboolean    gnumeric_char_start_expr_p (char const c);
 
+/* Is this GtkEntry editing at a subexpression boundary */
+gboolean    gnumeric_entry_at_subexpr_boundary_p (GtkWidget const * const w);
+
 #endif /* GNUMERIC_GNUMERIC_UTIL_H */

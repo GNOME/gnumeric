@@ -523,7 +523,11 @@ render_value_with_format (GString *target, const char *number_format, HFRenderIn
 	
 	format = style_format_new (number_format);
 	
-	text = format_value (format, info->date_time, NULL);
+	text = format_value (format, info->date_time, NULL, NULL);
+
+	/* Just in case someone tries to format it as text */
+	g_return_if_fail (text != NULL);
+
 	g_string_append (target, text);
 	g_free (text);
 	style_format_unref (format);

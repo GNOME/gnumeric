@@ -1047,7 +1047,7 @@ style_optimize (ExcelSheet *sheet, int col, int row)
 	}
 }
 
-static MStyle *
+static MStyle * const *
 ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 {
 	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
@@ -1067,8 +1067,12 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	g_return_val_if_fail (xf != NULL, NULL);
 
 	/* If we've already done the conversion use the cached style */
-	if (xf->mstyle != NULL) {
-		mstyle_ref (xf->mstyle);
+	if (xf->mstyle[0] != NULL) {
+		mstyle_ref (xf->mstyle[0]);
+		if (xf->mstyle[1] != NULL)
+			mstyle_ref (xf->mstyle[1]);
+		if (xf->mstyle[2] != NULL)
+			mstyle_ref (xf->mstyle[2]);
 		return xf->mstyle;
 	}
 
@@ -1156,6 +1160,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		if (back_index == 64 || back_index == 65 || back_index == 0)
 		{
 			/* Everything is auto default to black text/pattern on white */
+			/* FIXME : This should use the 'Normal' Style */
 			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
 			{
 				back_color = style_color_white ();
@@ -1167,7 +1172,10 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 							      pattern_index);
 
 				/* Contrast back to pattern, and font to back */
-				back_color = black_or_white_contrast (pattern_color);
+				/* FIXME : What is correct ?? */
+				back_color = (back_index == 65)
+				    ? style_color_white ()
+				    : black_or_white_contrast (pattern_color);
 				font_color = black_or_white_contrast (back_color);
 			}
 		} else
@@ -1255,26 +1263,36 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			: ms_excel_palette_get (sheet->wb->palette,
 						color_index);
 		if (xf->border_type [i] != STYLE_BORDER_NONE) {
-			mstyle_set_border (mstyle, MSTYLE_BORDER_TOP + i,
-					   style_border_fetch (xf->border_type [i], color,
-							       MSTYLE_BORDER_TOP + i));
+			MStyle *tmp = mstyle;
+			MStyleElementType t;
+
+			if (i == STYLE_BOTTOM) {
+				t = MSTYLE_BORDER_TOP;
+				mstyle_ref (((BiffXFData *)xf)->mstyle[1] = tmp = mstyle_new());
+			} else if (i == STYLE_RIGHT) {
+				t = MSTYLE_BORDER_LEFT;
+				mstyle_ref (((BiffXFData *)xf)->mstyle[2] = tmp = mstyle_new());
+			} else
+				t = MSTYLE_BORDER_TOP + i;
+
+			mstyle_set_border (tmp, t,
+					   style_border_fetch (xf->border_type [i],
+							       color, t));
 		}
 	}
 
 	/* Set the cache (const_cast) */
-	((BiffXFData *)xf)->mstyle = mstyle;
+	((BiffXFData *)xf)->mstyle[0] = mstyle;
 	mstyle_ref (mstyle);
-
-	return mstyle;
+	return xf->mstyle;
 }
 
 static void
 ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
 	Range   range;
-	MStyle *mstyle;
-
-	mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle * const * const mstyle  =
+	    ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
@@ -1288,7 +1306,20 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	range.start.row = row;
 	range.end       = range.start;
 
-	sheet_style_attach (sheet->gnum_sheet, range, mstyle);
+	sheet_style_attach (sheet->gnum_sheet, range, mstyle[0]);
+
+	if (mstyle[1] != NULL) {
+		range.start.col = col;
+		range.start.row = row+1;
+		range.end       = range.start;
+		sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
+	}
+	if (mstyle[2] != NULL) {
+		range.start.col = col+1;
+		range.start.row = row;
+		range.end       = range.start;
+		sheet_style_attach (sheet->gnum_sheet, range, mstyle[2]);
+	}
 	style_optimize (sheet, col, row);
 }
 
@@ -1296,7 +1327,8 @@ static void
 ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row, guint16 xfidx)
 {
 	Range   range;
-	MStyle *mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle * const * const mstyle  =
+	    ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
@@ -1304,7 +1336,22 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 	range.start.row = row;
 	range.end.col   = end_col;
 	range.end.row   = row;
-	sheet_style_attach (sheet->gnum_sheet, range, mstyle);
+	sheet_style_attach (sheet->gnum_sheet, range, mstyle[0]);
+
+	if (mstyle[1] != NULL) {
+		range.start.col = start_col;
+		range.start.row = row+1;
+		range.end.col   = end_col;
+		range.end.row   = row+1;
+		sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
+	}
+	if (mstyle[2] != NULL) {
+		range.start.col = start_col+1;
+		range.start.row = row;
+		range.end.col   = end_col+1;
+		range.end.row   = row;
+		sheet_style_attach (sheet->gnum_sheet, range, mstyle[2]);
+	}
 }
 
 static StyleBorderType
@@ -1383,11 +1430,11 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	xf->parentstyle = (data & 0xfff0) >> 4;
 
 	if (xf->xftype == eBiffXCell && xf->parentstyle != 0) {
-		static int warned = FALSE;
-		if (!warned) {
+		static gboolean need_warning = TRUE;
+		if (need_warning) {
+			need_warning = FALSE;
 			g_warning ("FIXME: unsupported xf parent style xf 0x%x != 0",
 				   xf->parentstyle);
-			warned = TRUE;
 		}
 	}
 
@@ -1622,7 +1669,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	}
 
 	/* Init the cache */
-	xf->mstyle = NULL;
+	xf->mstyle[0] = xf->mstyle[1] = xf->mstyle[2] = NULL;
 
 	g_ptr_array_add (wb->XF_cell_records, xf);
 #ifndef NO_DEBUG_EXCEL
@@ -1637,10 +1684,13 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 static gboolean
 biff_xf_data_destroy (BiffXFData *xf)
 {
+	int i;
+
 	if (xf->style_format)
 		style_format_unref (xf->style_format);
-	if (xf->mstyle)
-		mstyle_unref (xf->mstyle);
+	for (i = 3; --i >= 0 ; )
+		if (xf->mstyle[i])
+			mstyle_unref (xf->mstyle[i]);
 	g_free (xf);
 	return 1;
 }
@@ -2859,8 +2909,13 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 					   start_col, start_row,
 					   end_col, end_row);
 	}
-	sheet_cursor_set (sheet->gnum_sheet,
-			  act_col, act_row, act_col, act_row, act_col, act_row);
+#if 0
+	/* FIXME : Disable for now.  We need to reset the index of the
+	 *         current selection range too.  This can do odd things
+	 *         if the last range is NOT the currently selected range.
+	 */
+	sheet_cursor_move (sheet->gnum_sheet, act_col, act_row, FALSE, FALSE);
+#endif
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {

@@ -250,6 +250,7 @@ gtk_combo_box_init (GtkComboBox *combo_box)
 	 * Create the arrow
 	 */
 	combo_box->priv->arrow_button = gtk_toggle_button_new ();
+	GTK_WIDGET_UNSET_FLAGS (combo_box->priv->arrow_button, GTK_CAN_FOCUS);
 
 	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->arrow_button), arrow);

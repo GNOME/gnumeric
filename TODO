@@ -58,7 +58,7 @@ Gnumeric Spread Sheet task list
   * Display printing status (pages to go).
   * Add column/row title printing
   * Add color printing support.
-  * Borders & patterns.
+  * patterns.
 
 * Font dialog
 
@@ -74,7 +74,6 @@ Gnumeric Spread Sheet task list
    account to render the number as well as possible given the space so
    that for small regions, numbers in scientific notation are displayed.
 
-   - '@' does not work
    - '*' does not work
    - 'General' is rather stupid.  It needs to take the size of the cell into account.
 
@@ -127,14 +126,6 @@ Gnumeric Spread Sheet task list
 
    Interesting side effect: min_points == max_points means "fixed". 
 
-** Queueing redraws as we are doing it now is broken.
-
-   Currently I queue the entire changed region for redraw, I should
-   only queue the difference and possibly the borders (after a cell 
-   border has changed).
-
-   This causes the slowdown when selecting large sheets.
-
 * Auditing
    Write the sheet auditing code.
 
@@ -167,6 +158,8 @@ Gnumeric Spread Sheet task list
     I have the specs for the XS3 format.  SC should be
     trivial to support as well (from the guile sources)
 
+  * Applix, star office, kspread ?
+
   * Add "hints" to the file save routine based on the registered
     formats.
 
@@ -175,6 +168,10 @@ Gnumeric Spread Sheet task list
   * Add ability to send warnings, and progress while loading.
 
 * Display Engine
+  * drawing double line borders is broken
+  * merged cells.
+  * Continue cleaning cursor code.
+  * Rework borders to agregate the lines and draw them after backgrounds
 
 * Unicode support throughout
 
@@ -190,15 +187,11 @@ Gnumeric Spread Sheet task list
      insert				(DONE)
      delete				(DONE)
      rename				(DONE)
-     reorder/copy		*(TODO)
+     reorder				(DONE)
+     copy		*(TODO)
 
  - Decrease flicker when paging between sheets.
  - Enable capability to select multiple sheets.
-
- - Allow range selection to work when switching between sheets.
-    ie Use the arrows to select a different cell while entering a
-       formula.  Then use the ctrl-Pg{Up,Down} to select a cell on
-       a different sheet.
 
 * Sheet Objects
 
@@ -215,7 +208,7 @@ Office 2000 and 'explorer' compatibility.
 
 * Internals
 
-   Our current setup is *slow*.  In many areas, but still *slow*.
+   Our current setup is *slow*.
 
    When filling large regions (ie, select, enter data, control-enter),
    we are taking ages.  In those cases, we could probably:
@@ -264,9 +257,6 @@ Office 2000 and 'explorer' compatibility.
       which takes a range as a scalar argument, apply the expression to each element
       of the input range.
 
-* Drawing
-  * Rework borders to agregate the lines and draw them after backgrounds
-
 * Undo 
   * Commands to do
       - paste_cut
@@ -300,4 +290,4 @@ Office 2000 and 'explorer' compatibility.
     be notified of changes.
 
     Needs to be optimized.
-   
+

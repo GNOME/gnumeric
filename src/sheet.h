@@ -97,10 +97,6 @@ struct _Sheet {
 
 	double      last_zoom_factor_used;
 
-	/* When editing a cell: the cell (may be NULL) */
-	Cell        *editing_cell;
-	int          editing;
-
 	/* Objects */
 	SheetModeType mode;	/* Sheet mode */
 	void        *mode_data; /* Sheet per-mode data */
@@ -323,12 +319,6 @@ void        sheet_move_range              (CommandContext *context,
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 void        sheet_update_controls         (Sheet *sheet);
-/*
- * Sheet visual editing
- */
-void        sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp);
-void        sheet_accept_pending_input    (Sheet *sheet);
-void        sheet_cancel_pending_input    (Sheet *sheet);
 void        sheet_load_cell_val           (Sheet *sheet);
 void        sheet_set_text                (Sheet *sheet, char const *text, Range const * r);
 
@@ -340,11 +330,12 @@ int         sheet_row_selection_type      (Sheet const *sheet, int row);
  */
 void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
 
-/*
- * Hiding/showing the cursor
- */
-void        sheet_show_cursor             (Sheet *sheet);
-void        sheet_hide_cursor             (Sheet *sheet);
+/* Utilities for various flavours of cursor */
+void        sheet_show_cursor                (Sheet *sheet);
+void        sheet_hide_cursor                (Sheet *sheet);
+void        sheet_create_edit_cursor         (Sheet *sheet);
+void        sheet_destroy_edit_cursor        (Sheet *sheet);
+void        sheet_destroy_cell_select_cursor (Sheet *sheet);
 
 char        *cellref_name                 (CellRef *cell_ref,
 					   ParsePosition const *pp);
@@ -404,6 +395,6 @@ void  sheet_clear_region (CommandContext *context,
 			  int const end_col, int const end_row,
 			  int const clear_flags);
 
-void  sheet_vectors_shutdown (Sheet *sheet);
+void sheet_vectors_shutdown    (Sheet *sheet);
 
 #endif /* GNUMERIC_SHEET_H */

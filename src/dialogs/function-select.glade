@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<GTK-Interface>
+
+<project>
+  <name>Project1</name>
+  <program_name>project1</program_name>
+  <directory></directory>
+  <source_directory>src</source_directory>
+  <pixmaps_directory>pixmaps</pixmaps_directory>
+  <language>C</language>
+  <gnome_support>True</gnome_support>
+  <gettext_support>True</gettext_support>
+  <output_main_file>False</output_main_file>
+  <output_support_files>False</output_support_files>
+  <output_build_files>False</output_build_files>
+  <output_translatable_strings>True</output_translatable_strings>
+  <translatable_strings_file>function-select.glade.h</translatable_strings_file>
+</project>
+
+<widget>
+  <class>GnomeDialog</class>
+  <name>FunctionSelect</name>
+  <visible>False</visible>
+  <title>Function Selector</title>
+  <type>GTK_WINDOW_DIALOG</type>
+  <position>GTK_WIN_POS_MOUSE</position>
+  <modal>True</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>False</allow_grow>
+  <auto_shrink>False</auto_shrink>
+  <auto_close>False</auto_close>
+  <hide_on_close>False</hide_on_close>
+
+  <widget>
+    <class>GtkAlignment</class>
+    <child_name>GnomeDialog:vbox</child_name>
+    <name>alignment1</name>
+    <xalign>0.5</xalign>
+    <yalign>0.5</yalign>
+    <xscale>0</xscale>
+    <yscale>0</yscale>
+    <child>
+      <padding>4</padding>
+      <expand>True</expand>
+      <fill>True</fill>
+    </child>
+
+    <widget>
+      <class>GtkVBox</class>
+      <child_name>GnomeDialog:vbox</child_name>
+      <name>dialog-vbox2</name>
+      <width>480</width>
+      <homogeneous>False</homogeneous>
+      <spacing>8</spacing>
+
+      <widget>
+	<class>GtkHButtonBox</class>
+	<child_name>GnomeDialog:action_area</child_name>
+	<name>dialog-action_area2</name>
+	<layout_style>GTK_BUTTONBOX_EDGE</layout_style>
+	<spacing>8</spacing>
+	<child_min_width>85</child_min_width>
+	<child_min_height>27</child_min_height>
+	<child_ipad_x>7</child_ipad_x>
+	<child_ipad_y>0</child_ipad_y>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>True</fill>
+	  <pack>GTK_PACK_END</pack>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button6</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <stock_button>GNOME_STOCK_BUTTON_HELP</stock_button>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button7</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>button8</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkVBox</class>
+	<name>vbox1</name>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox1</name>
+	  <height>200</height>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow2</name>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkCList</class>
+	      <name>category_list</name>
+	      <can_focus>True</can_focus>
+	      <columns>1</columns>
+	      <column_widths>80</column_widths>
+	      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	      <show_titles>True</show_titles>
+	      <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<child_name>CList:title</child_name>
+		<name>category</name>
+		<label>Function _Category</label>
+		<justify>GTK_JUSTIFY_LEFT</justify>
+		<wrap>False</wrap>
+		<xalign>0</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+	      </widget>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow3</name>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkCList</class>
+	      <name>function_list</name>
+	      <can_focus>True</can_focus>
+	      <columns>1</columns>
+	      <column_widths>80</column_widths>
+	      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	      <show_titles>True</show_titles>
+	      <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<child_name>CList:title</child_name>
+		<name>function</name>
+		<label>Function _Name</label>
+		<justify>GTK_JUSTIFY_LEFT</justify>
+		<wrap>False</wrap>
+		<xalign>0</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+	      </widget>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>function_name</name>
+	  <label></label>
+	  <justify>GTK_JUSTIFY_LEFT</justify>
+	  <wrap>True</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>function_description</name>
+	  <height>64</height>
+	  <label></label>
+	  <justify>GTK_JUSTIFY_LEFT</justify>
+	  <wrap>True</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+      </widget>
+    </widget>
+  </widget>
+</widget>
+
+</GTK-Interface>

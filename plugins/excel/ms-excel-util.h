@@ -46,13 +46,7 @@ two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key);
 gpointer
 two_way_table_idx_to_key (const TwoWayTable *table, gint idx);
 
-
-#define EXCEL_DEFAULT_CHAR_WIDTH 12
-
 /* Measures base character width for column sizing. Returns width. */
-double
-lookup_font_base_char_width (StyleFont *font, gboolean logging_condition);
-
 /* A new version based on hard coded tables to match XL */
 double
 lookup_font_base_char_width_new (char const * const name, double size_pts,

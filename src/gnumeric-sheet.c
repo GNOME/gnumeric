@@ -203,37 +203,77 @@ move_vertical_selection (GnumericSheet *gsheet,
  * a cell range (if the cursor is in a spot in the expression
  * where it makes sense to have a cell reference), false if not.
  */
-int
+gboolean
 gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 {
-	GtkEntry *entry;
-	int cursor_pos;
-
 	g_return_val_if_fail (gsheet != NULL, FALSE);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
 
-	if (!gsheet->sheet_view->sheet->editing)
+	if (!gsheet->sheet_view->sheet->workbook->editing)
 		return FALSE;
 
-	if (gsheet->item_editor && gsheet->selecting_cell)
+	if (gsheet->selecting_cell)
 		return TRUE;
 
-	entry = GTK_ENTRY (gsheet->entry);
-	cursor_pos = GTK_EDITABLE (entry)->current_pos;
+	return gnumeric_entry_at_subexpr_boundary_p (gsheet->entry);
+}
 
-	if (!gnumeric_char_start_expr_p (entry->text[0]))
-		return FALSE;
-	if (cursor_pos == 0)
-		return FALSE;
+static void
+selection_remove_selection_string (GnumericSheet *gsheet)
+{
+	gtk_editable_delete_text (GTK_EDITABLE (gsheet->entry),
+				  gsheet->sel_cursor_pos,
+				  gsheet->sel_cursor_pos+gsheet->sel_text_len);
+}
 
-	switch (entry->text [cursor_pos-1]){
-	case '=': case '-': case '*': case '/': case '^':
-	case '+': case '&': case '(': case '%': case '!':
-	case ':': case ',':
-		return TRUE;
+static void
+selection_insert_selection_string (GnumericSheet *gsheet)
+{
+	ItemCursor *sel = gsheet->sel_cursor;
+	Sheet * sheet = gsheet->sheet_view->sheet;
+	Workbook const * wb =sheet->workbook;
+	gboolean const inter_sheet = (sheet != wb->editing_sheet);
+	char * buffer;
+	int pos;
+
+	/* Get the new selection string */
+	buffer = g_strdup_printf ("%s%s%s%d",
+				  wb->use_absolute_cols ? "$" : "",
+				  col_name (sel->pos.start.col),
+				  wb->use_absolute_rows ? "$" : "",
+				  sel->pos.start.row+1);
+
+	if (!range_is_singleton (&sel->pos)) {
+		char * tmp = g_strdup_printf ("%s:%s%s%s%d",
+					      buffer,
+					      wb->use_absolute_cols ? "$": "",
+					      col_name (sel->pos.end.col),
+					      wb->use_absolute_rows ? "$": "",
+					      sel->pos.end.row+1);
+		g_free (buffer);
+		buffer = tmp;
 	}
 
-	return FALSE;
+	if (inter_sheet) {
+		/* FIXME : This is silly.  We should store both the visible name
+		 *         and the properly quoted name in the sheet.
+		 */
+		char * tmp = g_strdup_printf ("\'%s\'!%s", sheet->name, buffer);
+		g_free (buffer);
+		buffer = tmp;
+	}
+	   
+	gsheet->sel_text_len = strlen (buffer);
+	pos = gsheet->sel_cursor_pos;
+	gtk_editable_insert_text (GTK_EDITABLE (gsheet->entry),
+				  buffer, gsheet->sel_text_len,
+				  &pos);
+	g_free (buffer);
+
+	/* Set the cursor at the end.  It looks nicer */
+	gtk_editable_set_position (GTK_EDITABLE (gsheet->entry),
+				   gsheet->sel_cursor_pos +
+				   gsheet->sel_text_len);
 }
 
 static void
@@ -244,17 +284,18 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
 
+	/* Hide the primary cursor while the range selection cursor is visible */
+	item_cursor_set_visibility (gsheet->item_cursor, FALSE);
+
 	gsheet->selecting_cell = TRUE;
-	gsheet->selection = ITEM_CURSOR (gnome_canvas_item_new (
+	gsheet->sel_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 		group,
 		item_cursor_get_type (),
 		"Sheet", gsheet->sheet_view->sheet,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
-	item_cursor_set_spin_base (gsheet->selection, col, row);
-	gsheet->selection->base_col = col;
-	gsheet->selection->base_row = row;
-	item_cursor_set_bounds (ITEM_CURSOR (gsheet->selection), col, row, col, row);
+	item_cursor_set_spin_base (gsheet->sel_cursor, col, row);
+	item_cursor_set_bounds (ITEM_CURSOR (gsheet->sel_cursor), col, row, col, row);
 
 	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->entry)->current_pos;
 	gsheet->sel_text_len = 0;
@@ -281,7 +322,7 @@ gnumeric_sheet_start_cell_selection (GnumericSheet *gsheet, int col, int row)
 }
 
 void
-gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet)
+gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet, gboolean const clear_string)
 {
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
@@ -289,9 +330,14 @@ gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet)
 	if (!gsheet->selecting_cell)
 		return;
 
+	if (clear_string)
+		selection_remove_selection_string (gsheet);
 	gsheet->selecting_cell = FALSE;
-	gtk_object_destroy (GTK_OBJECT (gsheet->selection));
-	gsheet->selection = NULL;
+	gtk_object_destroy (GTK_OBJECT (gsheet->sel_cursor));
+	gsheet->sel_cursor = NULL;
+
+	/* Make the primary cursor visible again */
+	item_cursor_set_visibility (gsheet->item_cursor, TRUE);
 }
 
 void
@@ -334,7 +380,7 @@ gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet)
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	gnumeric_sheet_stop_cell_selection (gsheet);
+	gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
 	if (!gsheet->item_editor)
 		return;
@@ -354,40 +400,6 @@ gnumeric_sheet_stop_editing (GnumericSheet *gsheet)
 	destroy_item_editor (gsheet);
 }
 
-static void
-selection_remove_selection_string (GnumericSheet *gsheet)
-{
-	gtk_editable_delete_text (GTK_EDITABLE (gsheet->entry),
-				  gsheet->sel_cursor_pos,
-				  gsheet->sel_cursor_pos+gsheet->sel_text_len);
-}
-
-static void
-selection_insert_selection_string (GnumericSheet *gsheet)
-{
-	ItemCursor *sel = gsheet->selection;
-	char buffer [20];
-	int pos;
-
-	/* Get the new selection string */
-	strcpy (buffer, cell_name (sel->pos.start.col, sel->pos.start.row));
-	if (!range_is_singleton (&sel->pos)) {
-		strcat (buffer, ":");
-		strcat (buffer, cell_name (sel->pos.end.col, sel->pos.end.row));
-	}
-	gsheet->sel_text_len = strlen (buffer);
-
-	pos = gsheet->sel_cursor_pos;
-	gtk_editable_insert_text (GTK_EDITABLE (gsheet->entry),
-				  buffer, strlen (buffer),
-				  &pos);
-
-	/* Set the cursor at the end.  It looks nicer */
-	gtk_editable_set_position (GTK_EDITABLE (gsheet->entry),
-				   gsheet->sel_cursor_pos +
-				   gsheet->sel_text_len);
-}
-
 /*
  * Invoked by Item-Grid to extend the cursor selection
  */
@@ -402,7 +414,7 @@ gnumeric_sheet_selection_extend (GnumericSheet *gsheet, int col, int row)
 	g_return_if_fail (col < SHEET_MAX_COLS);
 	g_return_if_fail (row < SHEET_MAX_ROWS);
 
-	ic = gsheet->selection;
+	ic = gsheet->sel_cursor;
 
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
@@ -428,7 +440,7 @@ gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet, int col, int row)
 	g_return_if_fail (col < SHEET_MAX_COLS);
 	g_return_if_fail (row < SHEET_MAX_ROWS);
 
-	ic = gsheet->selection;
+	ic = gsheet->sel_cursor;
 
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic, col, row, col, row);
@@ -446,7 +458,7 @@ gnumeric_sheet_selection_cursor_base (GnumericSheet *gsheet, int col, int row)
 	g_return_if_fail (col < SHEET_MAX_COLS);
 	g_return_if_fail (row < SHEET_MAX_ROWS);
 
-	ic = gsheet->selection;
+	ic = gsheet->sel_cursor;
 	item_cursor_set_spin_base (ic, col, row);
 }
 
@@ -460,7 +472,7 @@ selection_cursor_move_horizontal (GnumericSheet *gsheet, int dir, gboolean jump_
 	if (!gsheet->selecting_cell)
 		start_cell_selection (gsheet);
 
-	ic = gsheet->selection;
+	ic = gsheet->sel_cursor;
 	ic->base_col = sheet_find_boundary_horizontal (gsheet->sheet_view->sheet,
 						       ic->base_col, ic->base_row,
 						       dir, jump_to_boundaries);
@@ -472,6 +484,9 @@ selection_cursor_move_horizontal (GnumericSheet *gsheet, int dir, gboolean jump_
 				ic->base_col,
 				ic->base_row);
 	selection_insert_selection_string (gsheet);
+
+	/* Ensure that the corner is visible */
+	gnumeric_sheet_make_cell_visible (gsheet, ic->base_col, ic->base_row, FALSE);
 }
 
 static void
@@ -484,7 +499,7 @@ selection_cursor_move_vertical (GnumericSheet *gsheet, int dir, gboolean jump_to
 	if (!gsheet->selecting_cell)
 		start_cell_selection (gsheet);
 
-	ic = gsheet->selection;
+	ic = gsheet->sel_cursor;
 	ic->base_row = sheet_find_boundary_vertical (gsheet->sheet_view->sheet,
 						     ic->base_col, ic->base_row,
 						     dir, jump_to_boundaries);
@@ -496,6 +511,9 @@ selection_cursor_move_vertical (GnumericSheet *gsheet, int dir, gboolean jump_to
 				ic->base_col,
 				ic->base_row);
 	selection_insert_selection_string (gsheet);
+
+	/* Ensure that the corner is visible */
+	gnumeric_sheet_make_cell_visible (gsheet, ic->base_col, ic->base_row, FALSE);
 }
 
 static void
@@ -511,7 +529,7 @@ selection_expand_horizontal (GnumericSheet *gsheet, int n, gboolean jump_to_boun
 		return;
 	}
 
-	ic = gsheet->selection;
+	ic = gsheet->sel_cursor;
 	start_col = ic->pos.start.col;
 	end_col = ic->pos.end.col;
 
@@ -544,6 +562,9 @@ selection_expand_horizontal (GnumericSheet *gsheet, int n, gboolean jump_to_boun
 				end_col,
 				ic->pos.end.row);
 	selection_insert_selection_string (gsheet);
+
+	/* Ensure that the corner is visible */
+	gnumeric_sheet_make_cell_visible (gsheet, ic->base_col, ic->base_row, FALSE);
 }
 
 static void
@@ -559,7 +580,7 @@ selection_expand_vertical (GnumericSheet *gsheet, int n, gboolean jump_to_bounda
 		return;
 	}
 
-	ic = gsheet->selection;
+	ic = gsheet->sel_cursor;
 	start_row = ic->pos.start.row;
 	end_row = ic->pos.end.row;
 
@@ -592,6 +613,9 @@ selection_expand_vertical (GnumericSheet *gsheet, int n, gboolean jump_to_bounda
 				ic->pos.end.col,
 				end_row);
 	selection_insert_selection_string (gsheet);
+
+	/* Ensure that the corner is visible */
+	gnumeric_sheet_make_cell_visible (gsheet, ic->base_col, ic->base_row, FALSE);
 }
 
 /*
@@ -638,7 +662,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	}
 
 	/* If not editing {Ctrl,Shift}space select a full col/row */
-	if (gsheet->item_editor == NULL && event->keyval == GDK_space) {
+	if (!wb->editing && event->keyval == GDK_space) {
 
 		/* select full column */
 		if ((event->state & GDK_CONTROL_MASK) != 0) {
@@ -726,13 +750,16 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_KP_Enter:
 	case GDK_Return:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
-			if (gsheet->item_editor){
+			if (wb->editing){
 				Cell *cell;
 				char *text;
 				gboolean const is_array =
 				    (event->state & GDK_SHIFT_MASK);
 
-				sheet_accept_pending_input (sheet);
+				/* Be careful to restore the editing sheet */
+				sheet = wb->editing_sheet;
+				workbook_finish_editing (wb, TRUE);
+
 				/* An undo record is placed on the stack
 				 * for the pseudo SetText associated with the
 				 * corner cell.
@@ -743,11 +770,10 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 						       sheet->cursor.edit_pos.col,
 						       sheet->cursor.edit_pos.row);
 
-				/* I am assuming sheet_accept_pending_input
+				/* I am assuming workbook_finish_editing
 				 * will always create the cell with the given
-				 * input (based on the fact that we had an
-				 * gsheet->item_editor when we entered this
-				 * part of the code
+				 * input (based on the fact that workbook->editined
+				 * was set when we entered this part of the code
 				 */
 				g_return_val_if_fail (cell != NULL, 1);
 				text = cell_get_text (cell);
@@ -770,31 +796,43 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
 					     event->keyval == GDK_Return) ? FALSE : TRUE;
 
-		sheet_accept_pending_input (sheet);
+		/* Be careful to restore the editing sheet if we are editing */
+		if (wb->editing)
+			sheet = wb->editing_sheet;
+		workbook_finish_editing (wb, TRUE);
 		sheet_selection_walk_step (sheet, direction, horizontal);
 		break;
 	}
 
 	case GDK_Escape:
-		sheet_cancel_pending_input (sheet);
+		workbook_finish_editing (wb, FALSE);
 		application_clipboard_unant ();
+		break;
+
+	case GDK_F4:
+		if (wb->editing && gsheet->sel_cursor) {
+			selection_remove_selection_string (gsheet);
+			wb->use_absolute_rows = (wb->use_absolute_rows == wb->use_absolute_cols);
+			wb->use_absolute_cols = !wb->use_absolute_cols;
+			selection_insert_selection_string (gsheet);
+		}
 		break;
 
 	case GDK_F2:
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
-		sheet_start_editing_at_cursor (sheet, FALSE, FALSE);
+		workbook_start_editing_at_cursor (wb, FALSE, FALSE);
 		/* fall down */
 
 	default:
-		if (!gsheet->item_editor){
+		if (!wb->editing){
 			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 				return 0;
 
 			if ((event->keyval >= 0x20 && event->keyval <= 0xff) ||
 			    (event->keyval >= GDK_KP_Add && event->keyval <= GDK_KP_9))
-				sheet_start_editing_at_cursor (sheet, TRUE, TRUE);
+				workbook_start_editing_at_cursor (wb, TRUE, TRUE);
 		}
-		gnumeric_sheet_stop_cell_selection (gsheet);
+		gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
 		/* Forward the keystroke to the input line */
 		return gtk_widget_event (gsheet->entry, (GdkEvent *) event);

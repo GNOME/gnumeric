@@ -42,6 +42,10 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
 			return value_new_error (ep, gnumeric_err_VALUE);
 		break;
 
+	case VALUE_CELLRANGE :
+	case VALUE_ARRAY :
+		/* Ranges and arrays are not singleton values treat as errors */
+
 	case VALUE_ERROR:
 		if (cl->flags & COLLECT_IGNORE_ERRORS)
 			return NULL;

@@ -772,7 +772,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	/*
 	 * This was a regular click on a cell on the spreadsheet.  Select it.
 	 */
-	sheet_accept_pending_input (sheet);
+	workbook_finish_editing (sheet->workbook, TRUE);
 
 	if (!(event->button.state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sheet_selection_reset_only (sheet);

@@ -898,7 +898,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (!((item_cursor->pos.end.col == item_cursor->base_col + item_cursor->base_cols) &&
 		      (item_cursor->pos.end.row == item_cursor->base_row + item_cursor->base_rows))){
 
-			sheet_accept_pending_input (sheet);
+			workbook_finish_editing (sheet->workbook, TRUE);
 			sheet_autofill (sheet,
 					item_cursor->base_col,    item_cursor->base_row,
 					item_cursor->base_cols+1, item_cursor->base_rows+1,

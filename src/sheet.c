@@ -276,9 +276,12 @@ colrow_compute_pts_from_pixels (Sheet *sheet, ColRowInfo *info, gboolean const h
 }
 
 void
-sheet_set_zoom_factor (Sheet *sheet, double factor)
+sheet_set_zoom_factor (Sheet *sheet, double const f)
 {
 	GList *l, *cl;
+
+	/* Bound zoom between 10% and 500% */
+	double const factor = (f < .1) ? .1 : ((f > 5.) ? 5. : f);
 	double const diff = sheet->last_zoom_factor_used - factor;
 
 	if (-.0001 < diff && diff < .0001)
@@ -877,85 +880,6 @@ sheet_set_text (Sheet *sheet, char const *text, Range const * r)
 				  &cb_set_cell_text, (void *)text);
 }
 
-static void
-sheet_stop_editing (Sheet *sheet)
-{
-	sheet->editing = FALSE;
-	sheet->editing_cell = NULL;
-}
-
-void
-sheet_accept_pending_input (Sheet *sheet)
-{
-	GList *l;
-	char *str;
-	Range r;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (!sheet->editing)
-		return;
-	sheet_stop_editing (sheet);
-
-	/*
-	 * If user was editing on the input line, get the focus back
-	 */
-	workbook_focus_current_sheet (sheet->workbook);
-	
-	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-
-		gnumeric_sheet_destroy_editing_cursor (gsheet);
-	}
-
-	str = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
-	g_return_if_fail (str != NULL);
-
-	/* A hack to accept Lotus 123 style formula entries */
-	if (gnumeric_char_start_expr_p (*str) && *str != '=' && str[1] != '\0') {
-		char *new_text = g_strdup (str);
-
-		*new_text = *str = '=';
-		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), new_text);
-		g_free (new_text);
-	}
-
-	r.start = r.end = sheet->cursor.edit_pos;
-
-	/* TODO : Get a context */
-	/* Store the old value for undo */
-	if (!cmd_set_text (NULL, sheet, &r.start, str))
-		sheet_set_text (sheet, str, &r);
-
-	workbook_recalc (sheet->workbook);
-}
-
-void
-sheet_cancel_pending_input (Sheet *sheet)
-{
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (!sheet->editing)
-		return;
-	sheet_stop_editing (sheet);
-
-	/*
-	 * If user was editing on the input line, get the focus back
-	 */
-	workbook_focus_current_sheet (sheet->workbook);
-	
-	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-
-		gnumeric_sheet_destroy_editing_cursor (gsheet);
-	}
-	sheet_load_cell_val (sheet);
-}
-
 /**
  * Load the edit line with the value of the cell under the cursor
  * for @sheet.
@@ -989,46 +913,6 @@ sheet_load_cell_val (Sheet *sheet)
 				 sheet->cursor.edit_pos.row);
 
 	g_free (text);
-}
-
-/**
- * sheet_start_editing_at_cursor:
- *
- * @sheet:    The sheet to be edited.
- * @blankp:   If true, erase current cell contents first.  If false, leave the
- *            contents alone.
- * @cursorp:  If true, create an editing cursor in the sheet itself.  (If
- *            false, the text will be editing in the edit box above the sheet,
- *            but this is not handled by this function.)
- *
- * Initiate editing of a cell in the sheet.  Note that we have two modes of
- * editing: (1) in-cell editing when you just start typing, and (2) above-
- * sheet editing when you hit F2.
- */
-void
-sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
-{
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	application_clipboard_unant ();
-	
-	if (blankp)
-		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), "");
-
-	if (cursorp)
-		for (l = sheet->sheet_views; l; l = l->next){
-			GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-			gnumeric_sheet_create_editing_cursor (gsheet);
-		}
-
-	sheet->editing = TRUE;
-	sheet->editing_cell =
-	    sheet_cell_get (sheet,
-			    sheet->cursor.edit_pos.col,
-			    sheet->cursor.edit_pos.row);
 }
 
 /**
@@ -2089,7 +1973,7 @@ sheet_cursor_move (Sheet *sheet, int col, int row,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_accept_pending_input (sheet);
+	workbook_finish_editing (sheet->workbook, TRUE);
 
 	old_col = sheet->cursor.edit_pos.col;
 	old_row = sheet->cursor.edit_pos.row;
@@ -2122,7 +2006,7 @@ sheet_cursor_set (Sheet *sheet,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_accept_pending_input (sheet);
+	workbook_finish_editing (sheet->workbook, TRUE);
 
 	/* Redraw the old edit cell */
 	if (sheet->cursor.edit_pos.col != edit_col ||
@@ -3549,4 +3433,35 @@ sheet_cell_changed (Cell *cell)
 #ifdef ENABLE_BONOBO
 	sheet_vectors_cell_changed (cell);
 #endif
+}
+
+void
+sheet_create_edit_cursor (Sheet *sheet)
+{
+	GList *l;
+	for (l = sheet->sheet_views; l; l = l->next){
+		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+		gnumeric_sheet_create_editing_cursor (gsheet);
+	}
+}
+void
+sheet_destroy_edit_cursor (Sheet *sheet)
+{
+	GList *l;
+	for (l = sheet->sheet_views; l; l = l->next){
+		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+
+		gnumeric_sheet_destroy_editing_cursor (gsheet);
+	}
+}
+
+void
+sheet_destroy_cell_select_cursor (Sheet *sheet)
+{
+	GList *l;
+	for (l = sheet->sheet_views; l; l = l->next){
+		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+
+		gnumeric_sheet_stop_cell_selection (gsheet, TRUE);
+	}
 }

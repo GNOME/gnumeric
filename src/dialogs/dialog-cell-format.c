@@ -91,6 +91,7 @@ typedef struct _FormatState
 	Sheet		*sheet;
 	MStyle		*style, *result;
 	Value		*value;
+	char const	*entered_text;
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
@@ -498,7 +499,8 @@ draw_format_preview (FormatState *state)
 	if (sf == NULL)
 		return;
 
-	preview = format_value (sf, state->value, &preview_color);
+	preview = format_value (sf, state->value, &preview_color,
+				state->entered_text);
 	gtk_label_set_text (state->format.preview, preview);
 	g_free (preview);
 }
@@ -2242,6 +2244,9 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	state->gui		= gui;
 	state->sheet		= sheet;
 	state->value		= sample_val;
+	state->entered_text	=
+		(first_upper_left && first_upper_left->entered_text)
+		? first_upper_left->entered_text->str : NULL;
 	state->style		= mstyle;
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;

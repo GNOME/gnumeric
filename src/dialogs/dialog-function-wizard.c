@@ -18,6 +18,7 @@
 #define INPUTS_FOR_MULTI_ARG 6
 
 typedef struct {
+	GtkWidget *dialog;
 	GtkBox *dialog_box;
 	GtkWidget *widget;
 	Workbook *wb;
@@ -49,6 +50,7 @@ create_description (FunctionDefinition *fd)
 		gtk_text_set_editable (text, FALSE);
 		gtk_text_insert (text, NULL, NULL, NULL,
 				 txt, strlen(txt));
+		gtk_text_set_word_wrap (text, TRUE);
 		gtk_box_pack_start (vbox, GTK_WIDGET(text),
 				    TRUE, TRUE, 0);
 	}
@@ -81,13 +83,13 @@ arg_data_list_new (State *state)
 	if (!state || !state->fd ||
 	    !state->tok)
 		return;
-	
+
 	state->args = g_ptr_array_new ();
 
 	function_def_count_args (state->fd, &arg_min, &arg_max);
 	if (arg_max == G_MAXINT) {
 		int lp;
-		
+
 		for (lp = 0; lp < INPUTS_FOR_MULTI_ARG; lp++) {
 			ARG_DATA *ad;
 
@@ -126,7 +128,7 @@ arg_data_list_new (State *state)
 				ad = g_new (ARG_DATA, 1);
 				ad->arg_name = g_strndup (start, (int)(ptr - start));
 				ad->wb = state->wb;
-				
+
 				ad->type = function_def_get_arg_type (state->fd, i);
 				ad->optional = (i >= arg_min);
 				ad->entry = NULL;
@@ -175,11 +177,10 @@ function_input (GtkWidget *widget, ARG_DATA *ad)
 
 	if (!fd)
 		return;
-	txt = dialog_function_wizard (ad->wb, fd);
 
-       	if (!txt || !ad->wb || !ad->wb->ea_input)
-		return;
-	
+	/* FIXME */
+	return;
+
 	pos = gtk_editable_get_position (GTK_EDITABLE(entry));
 
 	gtk_editable_insert_text (GTK_EDITABLE(entry),
@@ -230,7 +231,7 @@ function_type_input (GtkTable *table, int row, ARG_DATA *ad)
 	gtk_table_attach_defaults (table, GTK_WIDGET(ad->entry),
 				   1, 2, row, row+1);
 
-	if (ad->optional) 
+	if (ad->optional)
 		label = g_strconcat ("(", txt, ")", NULL);
 	else
 		label = g_strconcat ("=", txt, NULL);
@@ -242,7 +243,7 @@ function_type_input (GtkTable *table, int row, ARG_DATA *ad)
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
 			    GTK_SIGNAL_FUNC(function_input), ad);
-	
+
 	gtk_table_attach_defaults (table, GTK_WIDGET(button),
 				   2, 3, row, row+1);
 	gtk_table_attach_defaults (table, gtk_label_new (label),
@@ -269,7 +270,7 @@ function_wizard_create (State *state)
 	description = create_description (state->fd);
 	gtk_box_pack_start (GTK_BOX(vbox), description,
 			    TRUE, TRUE, 0);
-	
+
 	state->widget = vbox;
 	gtk_box_pack_start (state->dialog_box, vbox,
 			    FALSE, FALSE, 0);
@@ -305,50 +306,95 @@ get_text_value (State *state)
 	return txt2;
 }
 
-/**
- * Main entry point for the Cell Sort dialog box
- **/
-char *
-dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
+/* Handler for destroy */
+static gboolean
+cb_func_wizard_destroy (GtkObject *w, State *state)
 {
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	if (state->tok != NULL) {
+		tokenized_help_destroy (state->tok);
+		state->tok = NULL;
+	}
+	g_free (state);
+	return FALSE;
+}
+
+static void
+cb_func_wizard_clicked (GnomeDialog *d, gint arg, State *state)
+{
+	/* Help */
+	if (arg == 0)
+		return;
+
+	/* Accept for OK, reject for cancel */
+	workbook_finish_editing (state->wb, arg == 1);
+	gnome_dialog_close (d);
+}
+
+void
+dialog_function_wizard (Workbook *wb)
+{
+	Sheet *sheet;
+	GtkEntry *entry;
+	gchar *txt;
 	GtkWidget *dialog;
-	State state;
-	char *ans = NULL;
-	int res;
-	
-	g_return_val_if_fail (wb, NULL);
+	State *state;
+	FunctionDefinition *fd;
 
-	state.wb   = wb;
-	state.fd   = fd;
-	state.tok  = tokenized_help_new (fd);
-	state.args = NULL;
-	arg_data_list_new (&state);
+	g_return_if_fail (wb);
 
-	/* It takes no arguments */
-	if (state.args && state.args->len == 0){
-		tokenized_help_destroy (state.tok);
-		return get_text_value (&state);
+	entry = GTK_ENTRY (wb->ea_input);
+	txt   = gtk_entry_get_text (entry);
+	sheet = wb->current_sheet;
+	if (!gnumeric_char_start_expr_p (txt[0])) {
+		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
+		gtk_entry_set_text (entry, "=");
+	} else
+		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
+
+	fd = dialog_function_select (wb);
+	if (fd == NULL) {
+		workbook_finish_editing (wb, FALSE);
+		return;
 	}
 
+	state       = g_new(State, 1);
+	state->wb   = wb;
+	state->fd   = fd;
+	state->tok  = tokenized_help_new (fd);
+	state->args = NULL;
+	arg_data_list_new (state);
+
+#if 0
+	/* It takes no arguments */
+	if (state->args && state->args->len == 0){
+		tokenized_help_destroy (state->tok);
+	}
+#endif
+
 	dialog = gnome_dialog_new (_("Formula Wizard"),
+				   GNOME_STOCK_BUTTON_HELP,
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
-	
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 
-	state.dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox);
+	/* Handle destroy */
+	gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
+			   GTK_SIGNAL_FUNC(cb_func_wizard_destroy),
+			   state);
+	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
+			   GTK_SIGNAL_FUNC(cb_func_wizard_clicked),
+			   state);
 
-	function_wizard_create (&state);
+	state->dialog = dialog;
+	state->dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox);
 
-	res = gnumeric_dialog_run (wb, GNOME_DIALOG(dialog));
-	if (res == 0)
-		ans = get_text_value (&state);
+	function_wizard_create (state);
 
-	if (res != -1)
-		gnome_dialog_close (GNOME_DIALOG(dialog));
+	gtk_entry_append_text (entry, get_text_value (state));
 
-	tokenized_help_destroy (state.tok);
-	return ans;
+	gnumeric_dialog_show (wb->toplevel, GNOME_DIALOG (dialog), FALSE, TRUE);
 }
-

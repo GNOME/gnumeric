@@ -24,6 +24,16 @@ Description                                             Difficulty  Integration
   rows/cols.  We should change the default,
   not set the size of every ColInfo.
 
+- Have the pattern buttons in the format dialog		Medium	    Low
+  reflect colour changes.
+
+- Add MS excel like format->autoformat.  A dialog	Low	    Low
+  that will display some canned styles and apply them
+  to the selection.
+
+- Audit the help text for all the functions.  Some are	Low	    Low
+  missing or do not conform to the style guides, 
+
 Difficulty: an estimate of how hard the task would be for the average hacker.
   (This is not an estimate of project size; a project can be very big, but
    easy at the same time.)

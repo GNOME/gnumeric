@@ -1836,7 +1836,9 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	memset (xfd, 0, sizeof *xfd);
 
 	xfd->parentstyle  = XF_MAGIC;
-	xfd->mstyle       = st;
+	xfd->mstyle[0]    = st;
+	xfd->mstyle[1]    = NULL;
+	xfd->mstyle[2]    = NULL;
 	f = excel_font_new (st);
 	xfd->font_idx     = fonts_get_index (wb, f);
 	excel_font_free (f);

@@ -368,10 +368,12 @@ cell_get_formatted_val (Cell *cell, StyleColor **colour)
 
 	mstyle = sheet_style_compute (cell->sheet, cell->col->pos,
 				      cell->row->pos);
-	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT))
+	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
+		String *tmp = cell->entered_text;
 		txt = format_value (mstyle_get_format (mstyle),
-				    cell->value, colour);
-	else {
+				    cell->value, colour,
+				    (tmp!=NULL) ? tmp->str : NULL);
+	} else {
 		g_warning ("No format: serious error");
 		txt = g_strdup ("Error");
 	}

@@ -43,6 +43,6 @@ typedef struct _BiffXFData {
 	guint8 pat_backgnd_col;
 	guint16 differences;
 
-	MStyle *mstyle;
+	MStyle *mstyle[3];
 } BiffXFData;
 #endif

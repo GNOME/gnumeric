@@ -1,3 +1,83 @@
+2000-03-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/func.c (tokenized_help_new) : Constness.
+
+	* src/widgets/gtk-combo-box.c (cb_state_change) : New function to keep
+	  the state of the combo display button and the combo arrow in sync.
+	(gtk_combo_box_init) : Connect cb_state_change to the arrow.
+	(gtk_combo_box_set_display) : Ditto for the display widget.
+
+	* src/sheet.c (sheet_set_zoom_factor) : Bound the factor at 10% and 500%
+
+	* src/workbook.c (change_zoom_in_current_sheet_cb) :
+	  call change_displayed_zoom_cb to adjust the combo to contain the
+	(workbook_focus_current_sheet) : Only emit signal if the sheet
+	  changed.
+
+2000-03-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/collect.c (callback_function_collect) : Treat arrays and ranges
+	  as errors.
+
+	* src/format.c (format_value) : formating a range returns a
+	  #VALUE! message.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) :
+	  Use the workbook flags, and delete the icky globals.
+	(start_cell_selection_at) : Hide the std cursor when a cell selection
+	  cursor is created.
+	(gnumeric_sheet_stop_cell_selection) : Restore the std cursor.
+
+2000-03-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (accept_input) : Use workbook_finish_editing.
+	(cancel_input) : Ditto.
+	(do_focus_sheet) : Support range selection across spreadsheets.
+	(workbook_get_sheet_position) : Fix and document.
+	(workbook_move_sheet) : Fix.
+	(workbook_focus_sheet) : Handle errors cleanly.
+	(wb_edit_key_pressed) : Improve F4 handling.
+	(wizard_input) : Begin non-modal function wizard.  NOT FINSIHED.
+	(workbook_start_editing_at_cursor) : transfered from
+	  sheet_start_editing_at_cursor.
+	(workbook_finish_editing) : Distilled from sheet_{accept,cancel}_pending_input.
+	(Workbook) : Add editing_cell, editing_sheet, editing.
+
+	* src/sheet.c (sheet_stop_editing) : Delete.
+	(sheet_accept_pending_input) : Merge into workbook_finish_editing.
+	(sheet_cancel_pending_input) : Ditto.
+	(sheet_start_editing_at_cursor) :
+	(sheet_create_edit_cursor) : New function.
+	(sheet_destroy_edit_cursor) : New function.
+	(sheet_destroy_cell_select_cursor) :  New function.
+	(Sheet) : Delete editing and editing_cell.
+
+	* src/selection.c (sheet_selection_changed_hook) : Make public.  This
+	  should eventually move but I'm not sure where.  It is used for more
+	  than just changes in the selection in the current sheet.  It must
+	  also be called when the sheet changes.  What it REALLY does it to
+	  sync the shared workbook state with the current sheet's selection.
+
+	* src/item-cursor.c (item_cursor_init) : Handle change from
+	  sheet_accept_pending_input -> workbook_finish_editing.
+	* src/item-grid.c (item_grid_button_1) : Ditto.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_can_move_cursor) : Edit moved
+	  from sheet -> workbook.
+	(selection_insert_selection_string) : Extend to support
+	  abs/rel refs and intersheet-refs.
+	(gnumeric_sheet_stop_cell_selection) : Add clear_string argument
+	  to optionally remove the selection range.
+	(gnumeric_sheet_key_mode_sheet) : Adjust to movement of editing flag
+	  from sheet -> workbook.  Be careful to use the original sheet when
+	  moving rather than the current sheet.  Support F4 while editing.
+
+	* src/cell-draw.c (cell_draw) : editing_cell has moved from sheet to
+	  workbook.  Fix font ref leak when drawing the edit cell.
+
+	* src/dialogs/dialog-function-wizard.c : Begin transition to being
+	  non-modal.  NOT FINISHED.
+
 2000-03-10  Michael Meeks  <michael@helixcode.com>
 
 	* src/Makefile.am (sheet-vector.h): make it depend on Gnumeric.h

@@ -99,6 +99,13 @@ struct _Workbook {
 	/* Attached summary information */
 	SummaryInfo *summary_info;
 
+	/* When editing a cell: the cell (may be NULL) */
+	Cell        *editing_cell;
+	Sheet       *editing_sheet;
+	gboolean     editing;
+	gboolean     use_absolute_cols;
+	gboolean     use_absolute_rows;
+
 	/*
 	 * This is  used during the clipboard paste command to pass information
 	 * to the asyncronous paste callback
@@ -189,6 +196,9 @@ CommandContext *workbook_command_context_gui (Workbook *wb);
 
 void        workbook_autosave_cancel     (Workbook *wb);
 void        workbook_autosave_set        (Workbook *wb, int minutes, gboolean prompt);
+
+void        workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp, gboolean cursorp);
+void        workbook_finish_editing          (Workbook *wb, gboolean const accept);
 
 /*
  * Feedback routines

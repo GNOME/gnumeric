@@ -48,7 +48,7 @@ find_block (SheetVector *vec, int index, int *ret_top, int *ret_idx)
 		}
 	}
 
-	g_error ("Should not happen");
+	g_warning ("Should not happen");
 
 	return 0;
 }
