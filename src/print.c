@@ -487,7 +487,7 @@ print_page (Sheet const *sheet, int start_col, int start_row, int end_col, int e
 	if (!printed) {
 		int i = start_row;
 		for (; i <= end_row ; ++i) {
-			ColRowInfo const *ri = sheet_col_get_info (sheet, i);
+			ColRowInfo const *ri = sheet_row_get_info (sheet, i);
 			if (ri->visible &&
 			    (NULL != row_span_get (ri, start_col) ||
 			     NULL != row_span_get (ri, end_col))) {

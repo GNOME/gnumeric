@@ -1480,7 +1480,10 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	StyleColor *c;
 	MStyle     *mstyle;
 
-	mstyle = mstyle_new ();
+	mstyle = (ctxt->version >= GNUM_XML_V6 ||
+		  ctxt->version <= GNUM_XML_V1)
+		? mstyle_new_default ()
+		: mstyle_new ();
 
 	if (strcmp (tree->name, "Style")) {
 		fprintf (stderr,
@@ -3031,7 +3034,7 @@ static const struct {
 	char const * const id;
 	GnumericXMLVersion const version;
 } GnumericVersions [] = {
-	{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },
+	{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
 	{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
 	{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
 	{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },

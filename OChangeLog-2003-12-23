@@ -1,3 +1,12 @@
+2001-02-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c (print_page) : fix typo.
+
+	* src/xml-io.c (xml_read_style) : Before version 1 and after version 6
+	  we stored full styles.  Be sure the create a default style as a
+	  backward compatibility measure incase we add elements to styles in
+	  the future.
+
 2001-02-17  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/commands.c 
