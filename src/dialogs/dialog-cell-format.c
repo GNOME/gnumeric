@@ -1220,7 +1220,7 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 			    state->border.lines[i] != NULL) {
 				gnumeric_dashed_canvas_line_set_dash_index (
 					GNUMERIC_DASHED_CANVAS_LINE (state->border.lines[i]),
-					edge->pattern_index, edge->rgba);
+					edge->pattern_index);
 			}
 		}
 		changed = TRUE;
@@ -1356,16 +1356,19 @@ draw_border_preview (FormatState *state)
 			for (j = 4; --j >= 0 ; )
 				points->coords [j] = line_info[i].points[j];
 
-			if (line_info[i].is_single || state->is_multi)
+			if (line_info[i].is_single || state->is_multi) {
+				BorderPicker const * p =
+				    & state->border.edge[line_info[i].location];
 				state->border.lines[i] =
 					gnome_canvas_item_new (group,
 							       gnumeric_dashed_canvas_line_get_type (),
-							       "width_pixels",	(int) 0,
-							       "fill_color_rgba",
-							       state->border.edge[line_info[i].location].rgba,
-							       "points",	points,
+							       "fill_color_rgba", p->rgba,
+							       "points",	  points,
 							       NULL);
-			else
+				gnumeric_dashed_canvas_line_set_dash_index (
+					GNUMERIC_DASHED_CANVAS_LINE (state->border.lines[i]),
+					p->pattern_index);
+			} else
 				state->border.lines[i] = NULL;
 		    }
 		gnome_canvas_points_free (points);
@@ -1466,13 +1469,18 @@ init_border_button (FormatState *state, BorderLocations const i,
 {
 	g_return_if_fail (button != NULL);
 
+	/* TODO : get this information from the selection */
 	state->border.edge[i].rgba = 0;
-	state->border.edge[i].pattern_index = BORDER_NONE;
+	state->border.edge[i].pattern_index = BORDER_NONE /* BORDER_INCONSISTENT */;
 	state->border.edge[i].is_selected = FALSE;
+
 	state->border.edge[i].state = state;
 	state->border.edge[i].index = i;
 	state->border.edge[i].button = GTK_TOGGLE_BUTTON (button);
 	state->border.edge[i].is_set = FALSE;
+
+	gtk_toggle_button_set_active (state->border.edge[i].button,
+				      state->border.edge[i].is_selected);
 
 	gtk_signal_connect (GTK_OBJECT (button), "toggled",
 			    GTK_SIGNAL_FUNC (cb_border_toggle),
@@ -1755,7 +1763,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 		return;
 	}
 
-	selection = selection_first_range (sheet);
+	selection = selection_first_range (sheet, TRUE);
 	is_multi = g_list_length (sheet->selections) != 1 ||
 	    !range_is_singleton (selection);
 

@@ -1,5 +1,17 @@
 1999-11-08  Jody Goldberg <jgoldberg@home.com>
 
+	* src/selection.c (selection_foreach_range) : Have the call back
+	  return a flag.
+
+	* src/dialogs/dialog-cell-format.c (draw_border_preview) :
+	  Support for presetting the border types.
+
+	* src/widgets/gnumeric-dashed-canvas-line.c
+	(gnumeric_dashed_canvas_line_set_dash_index) : Remove unused rgba
+	  argument.
+
+	* src/selection.c (selection_first_range) : Add permit_complex flag.
+
 	* src/item-grid.c (item_grid_draw_border) : Correct diagonal vs
 	  reverse diagonal.
 

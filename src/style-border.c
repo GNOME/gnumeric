@@ -69,6 +69,7 @@ struct {
 	/* 0xb : BORDER_DASH_DOT_DOT */		{ 0, 0, &dash_dot_dot_line },
 	/* 0xc : BORDER_MEDIUM_DASH_DOT_DOT */	{ 2, 21,&med_dash_dot_dot_line },
 	/* 0xd : BORDER_SLANTED_DASH_DOT */	{ 2, 6, &slant_line },/* How to slant */
+	/* 0xe : BORDER_INCONSISTENT */		{ 3, 0, &hair_line },
 };
 
 static GHashTable *border_hash = NULL;

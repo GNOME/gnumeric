@@ -100,11 +100,11 @@ sheet_selection_append_range (Sheet *sheet,
 }
 
 /**
- * If returns true selection is just one range.
- * If returns false, range data: indeterminate
+ * Return 1st range.
+ * Return NULL if there is more than 1 and @permit_complex is FALSE
  **/
 Range const *
-selection_first_range (Sheet const *sheet)
+selection_first_range (Sheet const *sheet, gboolean const permit_complex)
 {
 	SheetSelection *ss;
 	GList *l;
@@ -116,7 +116,7 @@ selection_first_range (Sheet const *sheet)
 	if (!l || !l->data)
 		return NULL;
 	ss = l->data;
-	if ((l = g_list_next (l)))
+	if ((l = g_list_next (l)) && !permit_complex)
 		return NULL;
 
 	return &ss->user;
@@ -635,7 +635,7 @@ sheet_selection_cut (Sheet *sheet)
 	return TRUE;
 }
 
-static void
+static gboolean
 selection_move_range_cb (Sheet *sheet,
 			 Range const *range,
 			 gpointer user_data)
@@ -646,6 +646,8 @@ selection_move_range_cb (Sheet *sheet,
 	range_translate (&r, rinfo->col_offset, rinfo->row_offset);
 	sheet_selection_append_range (rinfo->target_sheet, r.start.col, r.start.row,
 				      r.start.col, r.start.row, r.end.col, r.end.row);
+
+	return TRUE;
 }
 
 static void
@@ -1146,22 +1148,24 @@ selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
 	return FALSE;
 }
 
-void
+gboolean
 selection_foreach_range (Sheet *sheet,
-			 void (*range_cb) (Sheet *sheet,
-					   Range const *range,
-					   gpointer user_data),
+			 gboolean (*range_cb) (Sheet *sheet,
+					       Range const *range,
+					       gpointer user_data),
 			 gpointer user_data)
 {
 	GList *l;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	for (l = sheet->selections; l; l = g_list_next (l)) {
 		SheetSelection *ss = l->data;
-		range_cb (sheet, &ss->user, user_data);
+		if (!range_cb (sheet, &ss->user, user_data))
+			return FALSE;
 	}
+	return TRUE;
 }
 
 static gboolean

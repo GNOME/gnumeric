@@ -25,6 +25,9 @@ typedef enum {
 	BORDER_MEDIUM_DASH_DOT_DOT	= 0xc,
 	BORDER_SLANTED_DASH_DOT		= 0xd,
 
+	/* ONLY for internal use */
+	BORDER_INCONSISTENT		= 0xe,
+
  	BORDER_MAX
 } StyleBorderType;
 

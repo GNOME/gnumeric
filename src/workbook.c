@@ -1451,7 +1451,7 @@ misc_output (GtkWidget *widget, Workbook *wb)
 	if (gnumeric_debugging > 3) {
 		summary_info_dump (wb->summary_info);
 		
-		if ((selection = selection_first_range (sheet)) == NULL) {
+		if ((selection = selection_first_range (sheet, FALSE)) == NULL) {
 			gnumeric_notice (
 				wb, GNOME_MESSAGE_BOX_ERROR,
 				_("Selection must be a single range"));

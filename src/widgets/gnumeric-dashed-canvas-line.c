@@ -67,8 +67,7 @@ gnumeric_dashed_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 void
 gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
-					    StyleBorderType const indx,
-					    guint const rgba)
+					    StyleBorderType const indx)
 {
 	gint const width = style_border_get_width (indx);
 	line->dash_style_index = indx;

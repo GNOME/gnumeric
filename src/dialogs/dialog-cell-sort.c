@@ -312,7 +312,7 @@ dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 	g_return_if_fail(sheet);
 	g_return_if_fail(IS_SHEET(sheet));
 
-	if ((sel = selection_first_range (sheet)) == NULL) {
+	if ((sel = selection_first_range (sheet, FALSE)) == NULL) {
 		gnumeric_notice(inwb, GNOME_MESSAGE_BOX_ERROR,
 				_("Selection must be a single range"));
 		return;

@@ -496,7 +496,7 @@ static void
 sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
 {
 	Range const * sel;
-	if ((sel = selection_first_range (sheet)) == NULL) {
+	if ((sel = selection_first_range (sheet, FALSE)) == NULL) {
 		gnumeric_notice (
 			sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
 			_("Selection must be a single range"));

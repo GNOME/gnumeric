@@ -34,8 +34,7 @@ struct _GnumericDashedCanvasLineClass {
 };
 
 void    gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
-						    StyleBorderType const indx,
-						    guint const rgba);
+						    StyleBorderType const indx);
 
 /* Standard Gtk function */
 GtkType gnumeric_dashed_canvas_line_get_type (void);

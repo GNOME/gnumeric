@@ -522,7 +522,7 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 	return mstyle;
 }
 
-static void
+static gboolean
 sheet_selection_apply_style_cb (Sheet *sheet,
 				Range const *range,
 				gpointer user_data)
@@ -535,6 +535,7 @@ sheet_selection_apply_style_cb (Sheet *sheet,
 			      mstyle_is_element_set (mstyle, MSTYLE_FORMAT));
 	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
 				  range->end.col, range->end.row);
+	return TRUE;
 }
 
 /**
@@ -558,9 +559,9 @@ typedef struct {
 	MStyle *mstyle;
 } UniqueClosure;
 
-static void
+static gboolean
 sheet_unique_cb (Sheet *sheet, Range const *range,
-	       gpointer user_data)
+		 gpointer user_data)
 {
 	UniqueClosure *cl = (UniqueClosure *)user_data;
 	GList *l, *simple;
@@ -624,6 +625,8 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 
 	range_fragment_free (simple);
 	g_list_free (overlap_list);
+
+	return TRUE;
 }
 
 /**
@@ -1003,7 +1006,7 @@ do_apply_border (Sheet *sheet, const Range *r,
  * an implicit StyleRegion overlap at present.
  *
  */
-static void
+static gboolean
 sheet_selection_apply_border_cb (Sheet *sheet,
 				 Range const *range,
 				 gpointer user_data)
@@ -1070,6 +1073,8 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	sheet_style_optimize (sheet, *range);
 	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
 				  range->end.col, range->end.row);
+
+	return TRUE;
 }
 
 void
