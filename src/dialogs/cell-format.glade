@@ -21,7 +21,8 @@
   <handler_header_file>callbacks.h</handler_header_file>
   <support_source_file>support.c</support_source_file>
   <support_header_file>support.h</support_header_file>
-  <translatable_strings_file></translatable_strings_file>
+  <output_translatable_strings>True</output_translatable_strings>
+  <translatable_strings_file>cell-format.glade.h</translatable_strings_file>
 </project>
 
 <widget>
@@ -1736,7 +1737,7 @@ Justify
 	      <widget>
 		<class>GtkAlignment</class>
 		<name>alignment46</name>
-		<width>100</width>
+		<width>80</width>
 		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xscale>0</xscale>
@@ -1896,96 +1897,7 @@ Souble
 
 	<widget>
 	  <class>GtkHBox</class>
-	  <name>hbox31</name>
-	  <homogeneous>True</homogeneous>
-	  <spacing>0</spacing>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkAlignment</class>
-	    <name>alignment44</name>
-	    <xalign>7.45058e-09</xalign>
-	    <yalign>1</yalign>
-	    <xscale>0</xscale>
-	    <yscale>0</yscale>
-	    <child>
-	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
-	    </child>
-
-	    <widget>
-	      <class>GtkToggleButton</class>
-	      <name>rev_diag_border</name>
-	      <border_width>6</border_width>
-	      <width>40</width>
-	      <height>40</height>
-	      <tooltip>Reverse Diagonal</tooltip>
-	      <can_focus>True</can_focus>
-	      <active>False</active>
-	    </widget>
-	  </widget>
-
-	  <widget>
-	    <class>GtkAlignment</class>
-	    <name>alignment43</name>
-	    <xalign>0.5</xalign>
-	    <yalign>1</yalign>
-	    <xscale>0</xscale>
-	    <yscale>0</yscale>
-	    <child>
-	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
-	    </child>
-
-	    <widget>
-	      <class>GtkToggleButton</class>
-	      <name>top_border</name>
-	      <border_width>6</border_width>
-	      <width>40</width>
-	      <height>40</height>
-	      <tooltip>Top</tooltip>
-	      <can_focus>True</can_focus>
-	      <active>False</active>
-	    </widget>
-	  </widget>
-
-	  <widget>
-	    <class>GtkAlignment</class>
-	    <name>alignment11</name>
-	    <xalign>1</xalign>
-	    <yalign>1</yalign>
-	    <xscale>0</xscale>
-	    <yscale>0</yscale>
-	    <child>
-	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
-	    </child>
-
-	    <widget>
-	      <class>GtkToggleButton</class>
-	      <name>diag_border</name>
-	      <border_width>6</border_width>
-	      <width>40</width>
-	      <height>40</height>
-	      <tooltip>Diagonal</tooltip>
-	      <can_focus>True</can_focus>
-	      <active>False</active>
-	    </widget>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkHBox</class>
-	  <name>hbox15</name>
-	  <width>280</width>
-	  <height>150</height>
+	  <name>hbox32</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
 	  <child>
@@ -1996,26 +1908,51 @@ Souble
 
 	  <widget>
 	    <class>GtkVBox</class>
-	    <name>vbox22</name>
-	    <homogeneous>True</homogeneous>
+	    <name>vbox34</name>
+	    <homogeneous>False</homogeneous>
 	    <spacing>0</spacing>
 	    <child>
 	      <padding>0</padding>
-	      <expand>False</expand>
+	      <expand>True</expand>
 	      <fill>True</fill>
 	    </child>
 
 	    <widget>
 	      <class>GtkAlignment</class>
-	      <name>alignment14</name>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
+	      <name>alignment44</name>
+	      <xalign>7.45058e-09</xalign>
+	      <yalign>1</yalign>
 	      <xscale>0</xscale>
 	      <yscale>0</yscale>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
 		<fill>False</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkToggleButton</class>
+		<name>rev_diag_border</name>
+		<border_width>6</border_width>
+		<width>40</width>
+		<height>40</height>
+		<tooltip>Reverse Diagonal</tooltip>
+		<can_focus>True</can_focus>
+		<active>False</active>
+	      </widget>
+	    </widget>
+
+	    <widget>
+	      <class>GtkAlignment</class>
+	      <name>alignment14</name>
+	      <xalign>1</xalign>
+	      <yalign>0.3</yalign>
+	      <xscale>0</xscale>
+	      <yscale>0</yscale>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
 	      </child>
 
 	      <widget>
@@ -2032,50 +1969,10 @@ Souble
 	  </widget>
 
 	  <widget>
-	    <class>GtkFrame</class>
-	    <name>frame9</name>
-	    <border_width>7</border_width>
-	    <width>197</width>
-	    <height>120</height>
-	    <label_xalign>0</label_xalign>
-	    <shadow_type>GTK_SHADOW_IN</shadow_type>
-	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>True</fill>
-	    </child>
-
-	    <widget>
-	      <class>GtkScrolledWindow</class>
-	      <name>scrolledwindow12</name>
-	      <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	      <vscrollbar_policy>GTK_POLICY_NEVER</vscrollbar_policy>
-	      <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	      <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-
-	      <widget>
-		<class>GnomeCanvas</class>
-		<name>border_sample</name>
-		<width>150</width>
-		<height>100</height>
-		<can_focus>True</can_focus>
-		<anti_aliased>False</anti_aliased>
-		<scroll_x1>0</scroll_x1>
-		<scroll_y1>0</scroll_y1>
-		<scroll_x2>150</scroll_x2>
-		<scroll_y2>100</scroll_y2>
-		<pixels_per_unit>1</pixels_per_unit>
-	      </widget>
-	    </widget>
-	  </widget>
-
-	  <widget>
-	    <class>GtkAlignment</class>
-	    <name>alignment42</name>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xscale>0</xscale>
-	    <yscale>0</yscale>
+	    <class>GtkVBox</class>
+	    <name>vbox36</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -2083,36 +1980,97 @@ Souble
 	    </child>
 
 	    <widget>
-	      <class>GtkToggleButton</class>
-	      <name>right_border</name>
-	      <border_width>6</border_width>
-	      <width>40</width>
-	      <height>40</height>
-	      <tooltip>Right</tooltip>
-	      <can_focus>True</can_focus>
-	      <active>False</active>
+	      <class>GtkAlignment</class>
+	      <name>alignment43</name>
+	      <xalign>0.5</xalign>
+	      <yalign>1</yalign>
+	      <xscale>0</xscale>
+	      <yscale>0</yscale>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkToggleButton</class>
+		<name>top_border</name>
+		<border_width>6</border_width>
+		<width>40</width>
+		<height>40</height>
+		<tooltip>Top</tooltip>
+		<can_focus>True</can_focus>
+		<active>False</active>
+	      </widget>
+	    </widget>
+
+	    <widget>
+	      <class>GtkAlignment</class>
+	      <name>alignment48</name>
+	      <xalign>0.5</xalign>
+	      <yalign>0.5</yalign>
+	      <xscale>0</xscale>
+	      <yscale>0</yscale>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkFrame</class>
+		<name>frame9</name>
+		<border_width>7</border_width>
+		<label_xalign>0</label_xalign>
+		<shadow_type>GTK_SHADOW_IN</shadow_type>
+
+		<widget>
+		  <class>GnomeCanvas</class>
+		  <name>border_sample</name>
+		  <width>150</width>
+		  <height>100</height>
+		  <can_focus>True</can_focus>
+		  <anti_aliased>False</anti_aliased>
+		  <scroll_x1>0</scroll_x1>
+		  <scroll_y1>0</scroll_y1>
+		  <scroll_x2>150</scroll_x2>
+		  <scroll_y2>100</scroll_y2>
+		  <pixels_per_unit>1</pixels_per_unit>
+		</widget>
+	      </widget>
+	    </widget>
+
+	    <widget>
+	      <class>GtkAlignment</class>
+	      <name>alignment16</name>
+	      <xalign>0.5</xalign>
+	      <yalign>7.45058e-09</yalign>
+	      <xscale>0</xscale>
+	      <yscale>0</yscale>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkToggleButton</class>
+		<name>bottom_border</name>
+		<border_width>6</border_width>
+		<width>40</width>
+		<height>40</height>
+		<tooltip>Bottom</tooltip>
+		<can_focus>True</can_focus>
+		<active>False</active>
+	      </widget>
 	    </widget>
 	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkHBox</class>
-	  <name>hbox16</name>
-	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
 
 	  <widget>
-	    <class>GtkAlignment</class>
-	    <name>alignment16</name>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xscale>0</xscale>
-	    <yscale>0</yscale>
+	    <class>GtkVBox</class>
+	    <name>vbox35</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -2120,14 +2078,53 @@ Souble
 	    </child>
 
 	    <widget>
-	      <class>GtkToggleButton</class>
-	      <name>bottom_border</name>
-	      <border_width>6</border_width>
-	      <width>40</width>
-	      <height>40</height>
-	      <tooltip>Bottom</tooltip>
-	      <can_focus>True</can_focus>
-	      <active>False</active>
+	      <class>GtkAlignment</class>
+	      <name>alignment11</name>
+	      <xalign>7.45058e-09</xalign>
+	      <yalign>1</yalign>
+	      <xscale>0</xscale>
+	      <yscale>0</yscale>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkToggleButton</class>
+		<name>diag_border</name>
+		<border_width>6</border_width>
+		<width>40</width>
+		<height>40</height>
+		<tooltip>Diagonal</tooltip>
+		<can_focus>True</can_focus>
+		<active>False</active>
+	      </widget>
+	    </widget>
+
+	    <widget>
+	      <class>GtkAlignment</class>
+	      <name>alignment42</name>
+	      <xalign>0</xalign>
+	      <yalign>0.3</yalign>
+	      <xscale>0</xscale>
+	      <yscale>0</yscale>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkToggleButton</class>
+		<name>right_border</name>
+		<border_width>6</border_width>
+		<width>40</width>
+		<height>40</height>
+		<tooltip>Right</tooltip>
+		<can_focus>True</can_focus>
+		<active>False</active>
+	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
@@ -2139,8 +2136,8 @@ Souble
 	  <spacing>0</spacing>
 	  <child>
 	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
+	    <expand>False</expand>
+	    <fill>False</fill>
 	  </child>
 
 	  <widget>
@@ -2160,8 +2157,8 @@ Souble
 	      <class>GtkToggleButton</class>
 	      <name>no_border</name>
 	      <border_width>6</border_width>
-	      <width>50</width>
-	      <height>50</height>
+	      <width>45</width>
+	      <height>45</height>
 	      <tooltip>None</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
@@ -2185,8 +2182,8 @@ Souble
 	      <class>GtkToggleButton</class>
 	      <name>outline_border</name>
 	      <border_width>6</border_width>
-	      <width>50</width>
-	      <height>50</height>
+	      <width>45</width>
+	      <height>45</height>
 	      <tooltip>Outline</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
@@ -2210,8 +2207,8 @@ Souble
 	      <class>GtkToggleButton</class>
 	      <name>inside_vert_border</name>
 	      <border_width>6</border_width>
-	      <width>50</width>
-	      <height>50</height>
+	      <width>45</width>
+	      <height>45</height>
 	      <tooltip>Inside Vertical</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
@@ -2235,8 +2232,8 @@ Souble
 	      <class>GtkToggleButton</class>
 	      <name>inside_border</name>
 	      <border_width>6</border_width>
-	      <width>50</width>
-	      <height>50</height>
+	      <width>45</width>
+	      <height>45</height>
 	      <tooltip>Inside</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
@@ -2260,8 +2257,8 @@ Souble
 	      <class>GtkToggleButton</class>
 	      <name>inside_horiz_border</name>
 	      <border_width>6</border_width>
-	      <width>50</width>
-	      <height>50</height>
+	      <width>45</width>
+	      <height>45</height>
 	      <tooltip>Inside Horizontal</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
