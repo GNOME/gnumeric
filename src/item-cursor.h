@@ -21,8 +21,8 @@ typedef struct {
 
 	Sheet    *sheet;
 	ItemGrid *item_grid;	/* A copy of our "parent" grid */
-	ColType  start_col, end_col;
-	RowType  start_row, end_row;
+	int      start_col, end_col;
+	int      start_row, end_row;
 
 	ItemCursorStyle style;
 	GdkGC    *gc;

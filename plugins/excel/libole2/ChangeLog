@@ -1,3 +1,34 @@
+1999-06-28  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.c (pps_encode_tree_initial): Added different
+	magic numbers for small block files.
+	(extend_file): Culled unused variables.
+	(read_pps): Add clobber of duff root node name, is this
+	a bug in pps_get_text ?
+
+1999-06-18  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.c (ms_ole_read_ptr_bb): Stupid bug detecting
+	contiguous blocks !
+	(ms_ole_read_ptr_sb): ditto.
+
+1999-06-15  Morten Welinder  <terra@diku.dk>
+
+	* ms-ole.c (ms_ole_destroy): Plug leak.
+
+1999-06-15  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.c: Large updates to helper macros, to allow
+	clean setting of dirty bits etc.
+	(write_cache_block, set_blk_dirty): Created,
+	(get_block_ptr): LRU strategy implemented.
+	(ms_ole_destroy): Implemented for non-mmap.
+
+	* ms-ole.h (struct MS_OLE): Renamed file_descriptor.
+
+	* ms-ole.c (ms_ole_open): Fix bug opening directories.
+	Added non-mmap code.
+
 1999-06-01  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c (pps_decode_tree): Added debug in case of

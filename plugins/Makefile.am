@@ -17,4 +17,4 @@ else
 GUILE_DIR =
 endif
 
-SUBDIRS = sample stat excel ff-csv text $(PYTHON) $(PERL) $(GUILE_DIR)
+SUBDIRS = sample stat excel ff-csv text $(PYTHON) $(PERL) $(GUILE_DIR) xbase

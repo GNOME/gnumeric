@@ -43,22 +43,23 @@ EXTRA_DIST = \
 all: 
 
 gnumeric.html: gnumeric/gnumeric.html
-	-cp gnumeric/gnumeric.html .
+	-cd $(srcdir) && cp gnumeric/gnumeric.html .
 
 gnumeric/gnumeric.html: $(SGML_FILES)
-	-db2html gnumeric.sgml
+	-cd $(srcdir) && db2html gnumeric.sgml
 
 functions.sgml: func-list.sgml func-index.sgml func-header.sgml func-footer.sgml
-	cat $(srcdir)/func-header.sgml func-index.sgml func-list.sgml $(srcdir)/func-footer.sgml > functions.sgml
+	cd $(srcdir) && cat func-header.sgml func-index.sgml func-list.sgml func-footer.sgml > functions.sgml
 
-func-list.sgml: func.defs $(srcdir)/make-docbook.pl
-	perl $(srcdir)/make-docbook.pl func.defs > func-list.sgml
+func-list.sgml: func.defs make-docbook.pl
+	cd $(srcdir) && perl make-docbook.pl func.defs > func-list.sgml
 
-func-index.sgml: func.defs $(srcdir)/make-index.pl
-	perl $(srcdir)/make-index.pl func.defs > func-index.sgml
+func-index.sgml: func.defs make-index.pl
+	cd $(srcdir) && perl make-index.pl func.defs > func-index.sgml
 
 make-func.defs: 
-	$(top_srcdir)/src/$(gnumeric) --dump-func-defs=func.defs
+	gnumericdir=`cd $(top_builddir)/src && pwd`; \
+	cd $(srcdir) && $$gnumericdir/gnumeric --dump-func-defs=func.defs
 
 dist-hook:
 	mkdir $(distdir)/gnumeric
@@ -71,10 +72,10 @@ install-data-local: gnumeric.html
 	$(mkinstalldirs) $(gnumeric_helpdir)/images
 	-for file in $(srcdir)/gnumeric/*.html $(srcdir)/gnumeric/*.css; do \
 	basefile=`basename $$file`; \
-	$(INSTALL_DATA) $(srcdir)/$$file $(gnumeric_helpdir)/$$basefile; \
+	$(INSTALL_DATA) $$file $(gnumeric_helpdir)/$$basefile; \
 	done
 	-for file in $(srcdir)/images/*.jpg $(srcdir)/images/*.gif; do \
-	$(INSTALL_DATA) $(srcdir)/$$file $(gnumeric_helpdir)/images;\
+	$(INSTALL_DATA) $$file $(gnumeric_helpdir)/images;\
 	done
 
 gnumeric.ps: gnumeric.sgml

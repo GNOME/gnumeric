@@ -22,6 +22,11 @@ typedef struct {
 	GnomeCanvasGroup *object_group;
 
 	/*
+	 * Font mappings
+	 */
+	GHashTable       *fontmap;
+	
+	/*
 	 * Temporary object used during the creation of objects
 	 * in the canvas
 	 */

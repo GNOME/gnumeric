@@ -27,7 +27,9 @@ typedef FILE * OutputStream;
 #include <glib.h>
 #include <gnome.h>
 
-#include "../../../src/gnumeric.h"
+#include <gnumeric.h>
+#include <expr.h>
+#include <func.h>
 
 static SV *
 value2perl(Value *v)
@@ -102,9 +104,10 @@ fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
 }
 
 static Value *
-marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string)
+marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
     dSP;
+    FunctionDefinition *fndef = ei->func_def;
     GList *l;
     int count = strlen(fndef->args), r, i;
     SV * result;
@@ -112,7 +115,7 @@ marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string)
 
     l = g_list_find_custom(funclist, fndef, (GCompareFunc) fndef_compare);
     if (!l) {
-	*error_string = "Unable to lookup Perl code object.";
+	error_message_set (ei->error, "Unable to lookup Perl code object.");
 	return NULL;
     }
 
@@ -151,20 +154,23 @@ register_function(name, args, named_args, help1, subref)
   char * help1
   SV * subref
   PREINIT:
+    FunctionCategory *fncat;
     FunctionDefinition *fndef;
     FuncData *fdata;
+    char **help = NULL;
   CODE:
-    fndef = g_new0 (FunctionDefinition, 1);
+    fncat = function_get_category ("Perl plugin");
+
+    if (help1) {
+	    help = g_new (char *, 1);
+            *help = g_strdup (help1);
+    }
+    fndef = function_add_args (fncat, g_strdup(name), g_strdup(args),
+	g_strdup (named_args), help, marshal_func);
+
     fdata = g_new (FuncData, 1);
     fdata->fndef = fndef;
     fdata->codeSV = newSVsv(subref);
     funclist = g_list_append(funclist, fdata);
 
-    fndef->name            = g_strdup (name);
-    fndef->args            = g_strdup (args);
-    fndef->named_arguments = g_strdup (named_args);
-    fndef->help            = g_new (char *, 1);
-    *fndef->help           = g_strdup (help1);
-    fndef->fn              = marshal_func;
 
-    symbol_install (global_symbol_table, fndef->name, SYMBOL_FUNCTION, fndef);

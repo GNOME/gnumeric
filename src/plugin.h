@@ -21,6 +21,9 @@ struct _PluginData
 
 extern GList *plugin_list;
 
+/* Each plugin must have this one function */
+extern int init_plugin (PluginData *pd);
+
 void           plugins_init          (void);
 PluginData    *plugin_load           (Workbook *wb, const gchar *filename);
 void           plugin_unload         (Workbook *wb, PluginData *pd);

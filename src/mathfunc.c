@@ -18,6 +18,7 @@
 #include "mathfunc.h"
 #include <math.h>
 #include <errno.h>
+#include <stdlib.h>
 #include <float.h>
 #ifdef HAVE_IEEEFP
 #include <ieeefp.h>
@@ -32,6 +33,7 @@
 #define M_LN_SQRT_2PI   0.918938533204672741780329736406  /* log(sqrt(2*pi)) */
 #define M_SQRT_32       5.656854249492380195206754896838  /* sqrt(32) */
 #define M_1_SQRT_2PI    0.398942280401432677939946059934  /* 1/sqrt(2pi) */
+#define M_SQRT_2dPI     0.797884560802865355879892119869  /* sqrt(2/pi) */
 #define M_PI_half       M_PI_2
 
 #ifndef ISNAN
@@ -48,13 +50,21 @@
 #define ML_POSINF (+1.0 / 0.0)
 #define ML_UNDERFLOW (DBL_EPSILON * DBL_EPSILON)
 #define ML_VALID(_x) (!ISNAN (_x))
-
 #define ML_ERROR(cause) /* Nothing */
+#define MATHLIB_WARNING2 (void)
+#define MATHLIB_WARNING4 (void)
 
 #define fmin2(_x,_y) MIN(_x, _y)
+#define imin2(_x,_y) MIN(_x, _y)
 #define fmax2(_x,_y) MAX(_x, _y)
+#define imax2(_x,_y) MAX(_x, _y)
+
 #define lgammafn(_x) lgamma (_x)
 #define gammafn(_x) exp (lgammafn (_x))
+#define gamma_cody(_x) gammafn (_x)
+#define lfastchoose(_n,_k) (lgammafn((_n) + 1.0) - lgammafn((_k) + 1.0) - lgammafn((_n) - (_k) + 1.0))
+#define ftrunc(_x) floor (_x)
+#define pow_di(_px,_pn) pow (*(_px), *(_pn))
 
 static inline double
 d1mach (int i)
@@ -69,6 +79,346 @@ d1mach (int i)
 	}
 }
 
+/* MW ---------------------------------------------------------------------- */
+
+/* Arithmetic sum.  */
+int
+range_sum (const float_t *xs, int n, float_t *res)
+{
+	float_t sum = 0;
+	int i;
+
+	for (i = 0; i < n; i++)
+		sum += xs[i];
+	*res = sum;
+	return 0;
+}
+
+/* Arithmetic sum of squares.  */
+int
+range_sumsq (const float_t *xs, int n, float_t *res)
+{
+	float_t sum = 0;
+	int i;
+
+	for (i = 0; i < n; i++)
+		sum += xs[i] * xs[i];
+	*res = sum;
+	return 0;
+}
+
+/* Arithmetic average.  */
+int
+range_average (const float_t *xs, int n, float_t *res)
+{
+	if (n <= 0 || range_sum (xs, n, res))
+		return 1;
+
+	*res /= n;
+	return 0;
+}
+
+int
+range_min (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t min = xs[0];
+		int i;
+
+		for (i = 1; i < n; i++)
+			if (xs[i] < min)
+				min = xs[i];
+		*res = min;
+		return 0;
+	} else
+		return 1;
+}
+
+int
+range_max (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t max = xs[0];
+		int i;
+
+		for (i = 1; i < n; i++)
+			if (xs[i] > max)
+				max = xs[i];
+		*res = max;
+		return 0;
+	} else
+		return 1;
+}
+
+
+/* Average absolute deviation from mean.  */
+int
+range_avedev (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t m, s = 0;
+		int i;
+
+		range_average (xs, n, &m);
+		for (i = 0; i < n; i++)
+			s += fabs (xs[i] - m);
+		*res = s / n;
+		return 0;
+	} else
+		return 1;
+}
+
+
+/* Sum of square deviations from mean.  */
+int
+range_devsq (const float_t *xs, int n, float_t *res)
+{
+	float_t m, dx, q = 0;
+	if (n > 0) {
+		int i;
+
+		range_average (xs, n, &m);
+		for (i = 0; i < n; i++) {
+			dx = xs[i] - m;
+			q += dx * dx;
+		}
+	}
+	*res = q;
+	return 0;
+}
+
+/* Variance with weight N.  */
+int
+range_var_pop (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t q;
+
+		range_devsq (xs, n, &q);
+		*res = q / n;
+		return 0;
+	} else
+		return 1;
+}
+
+/* Variance with weight N-1.  */
+int
+range_var_est (const float_t *xs, int n, float_t *res)
+{
+	if (n > 1) {
+		float_t q;
+
+		range_devsq (xs, n, &q);
+		*res = q / (n - 1);
+		return 0;
+	} else
+		return 1;
+}
+
+/* Standard deviation with weight N.  */
+int
+range_stddev_pop (const float_t *xs, int n, float_t *res)
+{
+	if (range_var_pop (xs, n, res))
+		return 1;
+	else {
+		*res = sqrt (*res);
+		return 0;
+	}		
+}
+
+/* Standard deviation with weight N-1.  */
+int
+range_stddev_est (const float_t *xs, int n, float_t *res)
+{
+	if (range_var_est (xs, n, res))
+		return 1;
+	else {
+		*res = sqrt (*res);
+		return 0;
+	}		
+}
+
+/* Population skew.  */
+int
+range_skew_pop (const float_t *xs, int n, float_t *res)
+{
+	float_t m, s, dxn, x3 = 0;
+	int i;
+
+	if (n < 1 || range_average (xs, n, &m) || range_stddev_pop (xs, n, &s))
+		return 1;
+	if (s == 0)
+		return 1;
+
+	for (i = 0; i < n; i++) {
+		dxn = (xs[i] - m) / s;
+		x3 += dxn * dxn *dxn;
+	}
+
+	*res = x3 / n;
+	return 0;
+}
+
+/* Maximum-likelyhood estimator for skew.  */
+int
+range_skew_est (const float_t *xs, int n, float_t *res)
+{
+	float_t m, s, dxn, x3 = 0;
+	int i;
+
+	if (n < 3 || range_average (xs, n, &m) || range_stddev_est (xs, n, &s))
+		return 1;
+	if (s == 0)
+		return 1;
+
+	for (i = 0; i < n; i++) {
+		dxn = (xs[i] - m) / s;
+		x3 += dxn * dxn *dxn;
+	}
+
+	*res = ((x3 * n) / (n - 1)) / (n - 2);
+	return 0;
+}
+
+/* Population kurtosis (with offset 3).  */
+int
+range_kurtosis_m3_pop (const float_t *xs, int n, float_t *res)
+{
+	float_t m, s, dxn, x4 = 0;
+	int i;
+
+	if (n < 1 || range_average (xs, n, &m) || range_stddev_pop (xs, n, &s))
+		return 1;
+	if (s == 0)
+		return 1;
+
+	for (i = 0; i < n; i++) {
+		dxn = (xs[i] - m) / s;
+		x4 += (dxn * dxn) * (dxn * dxn);
+	}
+
+	*res = x4 / n - 3;
+	return 0;
+}
+
+/* Unbiased, I hope, estimator for kurtosis (with offset 3).  */
+int
+range_kurtosis_m3_est (const float_t *xs, int n, float_t *res)
+{
+	float_t m, s, dxn, x4 = 0;
+	float_t common_den, nth, three;
+	int i;
+
+	if (n < 4 || range_average (xs, n, &m) || range_stddev_est (xs, n, &s))
+		return 1;
+	if (s == 0)
+		return 1;
+
+	for (i = 0; i < n; i++) {
+		dxn = (xs[i] - m) / s;
+		x4 += (dxn * dxn) * (dxn * dxn);
+	}
+
+	common_den = (float_t)(n - 2) * (n - 3);
+	nth = (float_t)n * (n + 1) / ((n - 1) * common_den);
+	three = 3.0 * (n - 1) * (n - 1) / common_den;
+
+	*res = x4 * nth - three;
+	return 0;
+}
+
+/* Harmonic mean of positive numbers.  */
+int
+range_harmonic_mean (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t invsum = 0;
+		int i;
+
+		for (i = 0; i < n; i++) {
+			if (xs[i] <= 0)
+				return 1;
+			invsum += 1 / xs[i];
+		}
+		*res = n / invsum;
+		return 0;
+	} else
+		return 1;
+}
+
+/* Product.  */
+int
+range_product (const float_t *xs, int n, float_t *res)
+{
+	float_t product = 1;
+	int i;
+
+	/* FIXME: we should work harder at avoiding
+	   overflow here.  */
+	for (i = 0; i < n; i++) {
+		product *= xs[i];
+	}
+	*res = product;
+	return 0;
+}
+
+/* Geometric mean of positive numbers.  */
+int
+range_geometric_mean (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t product = 1;
+		int i;
+
+		/* FIXME: we should work harder at avoiding
+		   overflow here.  */
+		for (i = 0; i < n; i++) {
+			if (xs[i] <= 0)
+				return 1;
+			product *= xs[i];
+		}
+		*res = pow (product, 1.0 / n);
+		return 0;
+	} else
+		return 1;
+}
+
+
+
+double
+pweibull (double x, double shape, double scale)
+{
+    if (shape <= 0 || scale <= 0)
+	    return ML_NAN;
+    else if (x <= 0)
+	    return 0;
+    else
+	    return -expm1 (-pow (x / scale, shape));
+}
+
+double
+dexp (double x, double scale)
+{
+	if (scale <= 0)
+		return ML_NAN;
+	else if (x < 0)
+		return 0;
+	else
+		return exp(-x / scale) / scale;
+}
+
+
+double
+pexp (double x, double scale)
+{
+	if (scale <= 0)
+		return ML_NAN;
+	else if (x <= 0)
+		return 0;
+	else
+		return -expm1 (-x / scale);
+}
 
 /* src/nmath/dnorm.c ------------------------------------------------------- */
 /*
@@ -1990,4 +2340,1462 @@ double pchisq(double x, double df)
 double qchisq(double p, double df)
 {
     return qgamma(p, 0.5 * df, 2.0);
+}
+
+
+/* src/nmath/dweibull.c ---------------------------------------------------- */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  SYNOPSIS
+ *
+ *    #include "Mathlib.h"
+ *    double dweibull(double x, double shape, double scale);
+ *
+ *  DESCRIPTION
+ *
+ *    The density function of the Weibull distribution.
+ */
+
+/* #include "Mathlib.h" */
+
+double dweibull(double x, double shape, double scale)
+{
+    double tmp1, tmp2;
+#ifdef IEEE_754
+    if (ISNAN(x) || ISNAN(shape) || ISNAN(scale))
+	return x + shape + scale;
+#endif
+    if (shape <= 0 || scale <= 0) {
+	ML_ERROR(ME_DOMAIN);
+	return ML_NAN;
+    }
+    if (x <= 0) return 0;
+#ifdef IEEE_754
+    if (!finite(x)) return 0;
+#endif
+    tmp1 = pow(x / scale, shape - 1);
+    tmp2 = tmp1 * (x / scale);
+    return shape * tmp1 * exp(-tmp2) / scale;
+}
+
+
+/* src/nmath/ppois.c ------------------------------------------------------- */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  SYNOPSIS
+ *
+ *    #include "Mathlib.h"
+ *    double ppois(double x, double lambda)
+ *
+ *  DESCRIPTION
+ *
+ *    The distribution function of the Poisson distribution.
+ */
+
+/* #include "Mathlib.h" */
+
+double ppois(double x, double lambda)
+{
+#ifdef IEEE_754
+    if (ISNAN(x) || ISNAN(lambda))
+	return x + lambda;
+#endif
+    if(lambda <= 0.0) {
+	ML_ERROR(ME_DOMAIN);
+	return ML_NAN;
+    }
+    x = floor(x + 0.5);
+    if (x < 0)
+	return 0;
+#ifdef IEEE_754
+    if (!finite(x))
+	return 1;
+#endif
+    return  1 - pgamma(lambda, x + 1, 1.0);
+}
+
+
+/* src/nmath/dpois.c ------------------------------------------------------- */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  SYNOPSIS
+ *
+ *    #include "Mathlib.h"
+ *    double dpois(double x, double lambda)
+ *
+ *  DESCRIPTION
+ *
+ *    The density function of the Poisson distribution.
+ */
+
+/* #include "Mathlib.h" */
+
+double dpois(double x, double lambda)
+{
+#ifdef IEEE_754
+    if(ISNAN(x) || ISNAN(lambda))
+	return x + lambda;
+#endif
+    x = floor(x + 0.5);
+    if(lambda <= 0.0) {
+	ML_ERROR(ME_DOMAIN);
+	return ML_NAN;
+    }
+    if (x < 0)
+	return 0;
+#ifdef IEEE_754
+    if(!finite(x))
+	return 0;
+#endif
+    return exp(x * log(lambda) - lambda - lgammafn(x + 1));
+}
+
+
+/* src/nmath/pbinom.c ------------------------------------------------------ */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  SYNOPSIS
+ *
+ *    #include "Mathlib.h"
+ *    double pbinom(double x, double n, double p)
+ *  
+ *  DESCRIPTION
+ *
+ *    The distribution function of the binomial distribution.
+ */
+
+/* #include "Mathlib.h" */
+
+double pbinom(double x, double n, double p)
+{
+#ifdef IEEE_754
+    if (ISNAN(x) || ISNAN(n) || ISNAN(p))
+	return x + n + p;
+    if (!FINITE(n) || !FINITE(p)) {
+	ML_ERROR(ME_DOMAIN);
+	return ML_NAN;
+    }
+#endif
+    n = floor(n + 0.5);
+    if(n <= 0 || p < 0 || p > 1) {
+	ML_ERROR(ME_DOMAIN);
+	return ML_NAN;
+    }
+    x = floor(x);
+    if (x < 0.0) return 0;
+    if (n <= x) return 1;
+    return pbeta(1.0 - p, n - x, x + 1);
+}
+
+
+/* src/nmath/dbinom.c ------------------------------------------------------ */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  SYNOPSIS
+ *
+ *    #include "Mathlib.h"
+ *    double dbinom(double x, double n, double p)
+ *
+ *  DESCRIPTION
+ *
+ *    The density of the binomial distribution.
+ */
+
+/* #include "Mathlib.h" */
+
+double dbinom(double x, double n, double p)
+{
+#ifdef IEEE_754
+    /* NaNs propagated correctly */
+    if (ISNAN(x) || ISNAN(n) || ISNAN(p)) return x + n + p;
+#endif
+    n = floor(n + 0.5);
+    if(n <= 0 || p < 0 || p > 1) {
+	ML_ERROR(ME_DOMAIN);
+	return ML_NAN;
+    }
+    x = floor(x + 0.5);
+    if (x < 0 || x > n)
+	return 0;
+    if (p == 0)
+	return (x == 0) ? 1 : 0;
+    if (p == 1)
+	return (x == n) ? 1 : 0;
+    return exp(lfastchoose(n, x) + log(p) * x + (n - x) * log(1 - p));
+}
+
+
+
+
+/* src/nmath/qbinom.c ------------------------------------------------------ */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *  SYNOPSIS
+ *
+ *    #include "Mathlib.h"
+ *    double qbinom(double x, double n, double p);
+ *
+ *  DESCRIPTION
+ *
+ *    The quantile function of the binomial distribution.
+ *
+ *  NOTES
+ *
+ *    The function uses the Cornish-Fisher Expansion to include
+ *    a skewness correction to a normal approximation.  This gives
+ *    an initial value which never seems to be off by more than
+ *    1 or 2.  A search is then conducted of values close to
+ *    this initial start point.
+ */
+
+/* #include "Mathlib.h" */
+
+double qbinom(double x, double n, double p)
+{
+    double q, mu, sigma, gamma, z, y;
+
+#ifdef IEEE_754
+    if (ISNAN(x) || ISNAN(n) || ISNAN(p))
+	return x + n + p;
+    if(!FINITE(x) || !FINITE(n) || !FINITE(p)) {
+	ML_ERROR(ME_DOMAIN);
+	return ML_NAN;
+    }
+#endif
+
+    n = floor(n + 0.5);
+    if (x < 0 || x > 1 || p <= 0 || p >= 1 || n <= 0) {
+	ML_ERROR(ME_DOMAIN);
+	return ML_NAN;
+    }
+    if (x == 0) return 0.0;
+    if (x == 1) return n;
+    q = 1 - p;
+    mu = n * p;
+    sigma = sqrt(n * p * q);
+    gamma = (q-p)/sigma;
+    z = qnorm(x, 0.0, 1.0);
+    y = floor(mu + sigma * (z + gamma * (z*z - 1) / 6) + 0.5);
+
+    z = pbinom(y, n, p);
+    if(z >= x) {
+
+	/* search to the left */
+
+	for(;;) {
+	    if((z = pbinom(y - 1, n, p)) < x)
+		return y;
+	    y = y - 1;
+	}
+    }
+    else {
+
+	/* search to the right */
+
+	for(;;) {
+	    if((z = pbinom(y + 1, n, p)) >= x)
+		return y + 1;
+	    y = y + 1;
+	}
+    }
+}
+
+
+/* src/nmath/bessel_i.c ---------------------------------------------------- */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka and the R Core team.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+/*  DESCRIPTION --> see below */
+
+
+/* From http://www.netlib.org/specfun/ribesl	Fortran translated by f2c,...
+ *	------------------------------=#----	Martin Maechler, ETH Zurich
+ */
+/* #include "Mathlib.h" */
+
+static double exparg = 709.;/* maximal x for UNscaled answer, see below */
+
+static
+void I_bessel(double *x, double *alpha, long *nb,
+	      long *ize, double *bi, long *ncalc)
+{
+/* -------------------------------------------------------------------
+
+ This routine calculates Bessel functions I_(N+ALPHA) (X)
+ for non-negative argument X, and non-negative order N+ALPHA,
+ with or without exponential scaling.
+
+
+ Explanation of variables in the calling sequence
+
+ X     - Non-negative argument for which
+	 I's or exponentially scaled I's (I*EXP(-X))
+	 are to be calculated.	If I's are to be calculated,
+	 X must be less than EXPARG (see below).
+ ALPHA - Fractional part of order for which
+	 I's or exponentially scaled I's (I*EXP(-X)) are
+	 to be calculated.  0 <= ALPHA < 1.0.
+ NB    - Number of functions to be calculated, NB > 0.
+	 The first function calculated is of order ALPHA, and the
+	 last is of order (NB - 1 + ALPHA).
+ IZE   - Type.	IZE = 1 if unscaled I's are to be calculated,
+		    = 2 if exponentially scaled I's are to be calculated.
+ BI    - Output vector of length NB.	If the routine
+	 terminates normally (NCALC=NB), the vector BI contains the
+	 functions I(ALPHA,X) through I(NB-1+ALPHA,X), or the
+	 corresponding exponentially scaled functions.
+ NCALC - Output variable indicating possible errors.
+	 Before using the vector BI, the user should check that
+	 NCALC=NB, i.e., all orders have been calculated to
+	 the desired accuracy.	See error returns below.
+
+
+ *******************************************************************
+ *******************************************************************
+
+ Error returns
+
+  In case of an error,	NCALC != NB, and not all I's are
+  calculated to the desired accuracy.
+
+  NCALC < 0:  An argument is out of range. For example,
+     NB <= 0, IZE is not 1 or 2, or IZE=1 and ABS(X) >= EXPARG.
+     In this case, the BI-vector is not calculated, and NCALC is
+     set to MIN0(NB,0)-1 so that NCALC != NB.
+
+  NB > NCALC > 0: Not all requested function values could
+     be calculated accurately.	This usually occurs because NB is
+     much larger than ABS(X).  In this case, BI[N] is calculated
+     to the desired accuracy for N <= NCALC, but precision
+     is lost for NCALC < N <= NB.  If BI[N] does not vanish
+     for N > NCALC (because it is too small to be represented),
+     and BI[N]/BI[NCALC] = 10**(-K), then only the first NSIG-K
+     significant figures of BI[N] can be trusted.
+
+
+ Intrinsic functions required are:
+
+     DBLE, EXP, gamma_cody, INT, MAX, MIN, REAL, SQRT
+
+
+ Acknowledgement
+
+  This program is based on a program written by David J.
+  Sookne (2) that computes values of the Bessel functions J or
+  I of float argument and long order.  Modifications include
+  the restriction of the computation to the I Bessel function
+  of non-negative float argument, the extension of the computation
+  to arbitrary positive order, the inclusion of optional
+  exponential scaling, and the elimination of most underflow.
+  An earlier version was published in (3).
+
+ References: "A Note on Backward Recurrence Algorithms," Olver,
+	      F. W. J., and Sookne, D. J., Math. Comp. 26, 1972,
+	      pp 941-947.
+
+	     "Bessel Functions of Real Argument and Integer Order,"
+	      Sookne, D. J., NBS Jour. of Res. B. 77B, 1973, pp
+	      125-132.
+
+	     "ALGORITHM 597, Sequence of Modified Bessel Functions
+	      of the First Kind," Cody, W. J., Trans. Math. Soft.,
+	      1983, pp. 242-245.
+
+  Latest modification: May 30, 1989
+
+  Modified by: W. J. Cody and L. Stoltz
+	       Applied Mathematics Division
+	       Argonne National Laboratory
+	       Argonne, IL  60439
+*/
+
+    /*-------------------------------------------------------------------
+      Mathematical constants
+      -------------------------------------------------------------------*/
+    static double const__ = 1.585;
+
+/* *******************************************************************
+
+ Explanation of machine-dependent constants
+
+   beta	  = Radix for the floating-point system
+   minexp = Smallest representable power of beta
+   maxexp = Smallest power of beta that overflows
+   it	  = Number of bits in the mantissa of a working precision variable
+   NSIG	  = Decimal significance desired.  Should be set to
+	    INT(LOG10(2)*it+1).	 Setting NSIG lower will result
+	    in decreased accuracy while setting NSIG higher will
+	    increase CPU time without increasing accuracy.  The
+	    truncation error is limited to a relative error of
+	    T=.5*10**(-NSIG).
+   ENTEN  = 10.0 ** K, where K is the largest long such that
+	    ENTEN is machine-representable in working precision
+   ENSIG  = 10.0 ** NSIG
+   RTNSIG = 10.0 ** (-K) for the smallest long K such that
+	    K >= NSIG/4
+   ENMTEN = Smallest ABS(X) such that X/4 does not underflow
+   XLARGE = Upper limit on the magnitude of X when IZE=2.  Bear
+	    in mind that if ABS(X)=N, then at least N iterations
+	    of the backward recursion will be executed.	 The value
+	    of 10.0 ** 4 is used on every machine.
+   EXPARG = Largest working precision argument that the library
+	    EXP routine can handle and upper limit on the
+	    magnitude of X when IZE=1; approximately
+	    LOG(beta**maxexp)
+
+
+     Approximate values for some important machines are:
+
+			beta	   minexp      maxexp	    it
+
+  CRAY-1	(S.P.)	  2	   -8193	8191	    48
+  Cyber 180/855
+    under NOS	(S.P.)	  2	    -975	1070	    48
+  IEEE (IBM/XT,
+    SUN, etc.)	(S.P.)	  2	    -126	 128	    24
+  IEEE (IBM/XT,
+    SUN, etc.)	(D.P.)	  2	   -1022	1024	    53
+  IBM 3033	(D.P.)	 16	     -65	  63	    14
+  VAX		(S.P.)	  2	    -128	 127	    24
+  VAX D-Format	(D.P.)	  2	    -128	 127	    56
+  VAX G-Format	(D.P.)	  2	   -1024	1023	    53
+
+
+			NSIG	   ENTEN       ENSIG	  RTNSIG
+
+ CRAY-1	       (S.P.)	 15	  1.0E+2465   1.0E+15	  1.0E-4
+ Cyber 180/855
+   under NOS   (S.P.)	 15	  1.0E+322    1.0E+15	  1.0E-4
+ IEEE (IBM/XT,
+   SUN, etc.)  (S.P.)	  8	  1.0E+38     1.0E+8	  1.0E-2
+ IEEE (IBM/XT,
+   SUN, etc.)  (D.P.)	 16	  1.0D+308    1.0D+16	  1.0D-4
+ IBM 3033      (D.P.)	  5	  1.0D+75     1.0D+5	  1.0D-2
+ VAX	       (S.P.)	  8	  1.0E+38     1.0E+8	  1.0E-2
+ VAX D-Format  (D.P.)	 17	  1.0D+38     1.0D+17	  1.0D-5
+ VAX G-Format  (D.P.)	 16	  1.0D+307    1.0D+16	  1.0D-4
+
+
+			 ENMTEN	     XLARGE   EXPARG
+
+ CRAY-1	       (S.P.)	1.84E-2466   1.0E+4    5677
+ Cyber 180/855
+   under NOS   (S.P.)	1.25E-293    1.0E+4	741
+ IEEE (IBM/XT,
+   SUN, etc.)  (S.P.)	4.70E-38     1.0E+4	 88
+ IEEE (IBM/XT,
+   SUN, etc.)  (D.P.)	8.90D-308    1.0D+4	709
+ IBM 3033      (D.P.)	2.16D-78     1.0D+4	174
+ VAX	       (S.P.)	1.17E-38     1.0E+4	 88
+ VAX D-Format  (D.P.)	1.17D-38     1.0D+4	 88
+ VAX G-Format  (D.P.)	2.22D-308    1.0D+4	709
+
+ *******************************************************************
+ -------------------------------------------------------------------
+  Machine-dependent parameters
+ -------------------------------------------------------------------
+*/
+    static long	   nsig =   16;
+    static double ensig = 1e16;
+    static double rtnsig = 1e-4;
+    static double enmten = 8.9e-308;
+    static double enten = 1e308;
+    static double xlarge = 1e4;
+
+#if 0
+    extern double gamma_cody(double);/*--> ./gamma.c */
+
+    /* Builtin functions */
+    double pow_di(double *, long *);
+#endif
+
+    /* Local variables */
+    long nend, intx, nbmx, k, l, n, nstart;
+    double pold, test,	p, em, en, empal, emp2al, halfx,
+	aa, bb, cc, psave, plast, tover, psavel, sum, nu, twonu;
+
+    /*Parameter adjustments */
+    --bi;
+    nu = *alpha;
+    twonu = nu + nu;
+
+    /*-------------------------------------------------------------------
+      Check for X, NB, OR IZE out of range.
+      ------------------------------------------------------------------- */
+    if (*nb > 0 && *x >= 0. &&	(0. <= nu && nu < 1.) &&
+	(1 <= *ize && *ize <= 2) ) {
+
+	*ncalc = *nb;
+	if((*ize == 1 && *x > exparg) ||
+	   (*ize == 2 && *x > xlarge)) {
+	    ML_ERROR(ME_RANGE);
+	    for(k=1; k <= *nb; k++)
+		bi[k]=ML_POSINF;
+	    return;
+	}
+	intx = (long) (*x);
+	if (*x >= rtnsig) { /* "non-small" x */
+/* -------------------------------------------------------------------
+   Initialize the forward sweep, the P-sequence of Olver
+   ------------------------------------------------------------------- */
+	    nbmx = *nb - intx;
+	    n = intx + 1;
+	    en = (double) (n + n) + twonu;
+	    plast = 1.;
+	    p = en / *x;
+	    /* ------------------------------------------------
+	       Calculate general significance test
+	       ------------------------------------------------ */
+	    test = ensig + ensig;
+	    if (intx << 1 > nsig * 5) {
+		test = sqrt(test * p);
+	    } else {
+		test /= pow_di(&const__, &intx);
+	    }
+	    if (nbmx >= 3) {
+		/* --------------------------------------------------
+		   Calculate P-sequence until N = NB-1
+		   Check for possible overflow.
+		   ------------------------------------------------ */
+		tover = enten / ensig;
+		nstart = intx + 2;
+		nend = *nb - 1;
+		for (k = nstart; k <= nend; ++k) {
+		    n = k;
+		    en += 2.;
+		    pold = plast;
+		    plast = p;
+		    p = en * plast / *x + pold;
+		    if (p > tover) {
+			/* ------------------------------------------------
+			   To avoid overflow, divide P-sequence by TOVER.
+			   Calculate P-sequence until ABS(P) > 1.
+			   ---------------------------------------------- */
+			tover = enten;
+			p /= tover;
+			plast /= tover;
+			psave = p;
+			psavel = plast;
+			nstart = n + 1;
+			do {
+			    ++n;
+			    en += 2.;
+			    pold = plast;
+			    plast = p;
+			    p = en * plast / *x + pold;
+			}
+			while (p <= 1.);
+
+			bb = en / *x;
+			/* ------------------------------------------------
+			   Calculate backward test, and find NCALC,
+			   the highest N such that the test is passed.
+			   ------------------------------------------------ */
+			test = pold * plast / ensig;
+			test *= .5 - .5 / (bb * bb);
+			p = plast * tover;
+			--n;
+			en -= 2.;
+			nend = imin2(*nb,n);
+			for (l = nstart; l <= nend; ++l) {
+			    *ncalc = l;
+			    pold = psavel;
+			    psavel = psave;
+			    psave = en * psavel / *x + pold;
+			    if (psave * psavel > test) {
+				goto L90;
+			    }
+			}
+			*ncalc = nend + 1;
+L90:
+			--(*ncalc);
+			goto L120;
+		    }
+		}
+		n = nend;
+		en = (double)(n + n) + twonu;
+		/*---------------------------------------------------
+		  Calculate special significance test for NBMX > 2.
+		  --------------------------------------------------- */
+		test = fmax2(test,sqrt(plast * ensig) * sqrt(p + p));
+	    }
+	    /* --------------------------------------------------------
+	       Calculate P-sequence until significance test passed.
+	       -------------------------------------------------------- */
+	    do {
+		++n;
+		en += 2.;
+		pold = plast;
+		plast = p;
+		p = en * plast / *x + pold;
+	    } while (p < test);
+
+L120:
+/* -------------------------------------------------------------------
+ Initialize the backward recursion and the normalization sum.
+ ------------------------------------------------------------------- */
+	    ++n;
+	    en += 2.;
+	    bb = 0.;
+	    aa = 1. / p;
+	    em = (double) n - 1.;
+	    empal = em + nu;
+	    emp2al = em - 1. + twonu;
+	    sum = aa * empal * emp2al / em;
+	    nend = n - *nb;
+	    if (nend < 0) {
+		/* -----------------------------------------------------
+		   N < NB, so store BI[N] and set higher orders to 0..
+		   ----------------------------------------------------- */
+		bi[n] = aa;
+		nend = -nend;
+		for (l = 1; l <= nend; ++l) {
+		    bi[n + l] = 0.;
+		}
+	    } else {
+		if (nend > 0) {
+		    /* -----------------------------------------------------
+		       Recur backward via difference equation,
+		       calculating (but not storing) BI[N], until N = NB.
+		       --------------------------------------------------- */
+		    for (l = 1; l <= nend; ++l) {
+			--n;
+			en -= 2.;
+			cc = bb;
+			bb = aa;
+			aa = en * bb / *x + cc;
+			em -= 1.;
+			emp2al -= 1.;
+			if (n == 1) {
+			    break;
+			}
+			if (n == 2) {
+			    emp2al = 1.;
+			}
+			empal -= 1.;
+			sum = (sum + aa * empal) * emp2al / em;
+		    }
+		}
+		/* ---------------------------------------------------
+		   Store BI[NB]
+		   --------------------------------------------------- */
+		bi[n] = aa;
+		if (*nb <= 1) {
+		    sum = sum + sum + aa;
+		    goto L230;
+		}
+		/* -------------------------------------------------
+		   Calculate and Store BI[NB-1]
+		   ------------------------------------------------- */
+		--n;
+		en -= 2.;
+		bi[n] = en * aa / *x + bb;
+		if (n == 1) {
+		    goto L220;
+		}
+		em -= 1.;
+		if (n == 2)
+		    emp2al = 1.;
+		else
+		    emp2al -= 1.;
+
+		empal -= 1.;
+		sum = (sum + bi[n] * empal) * emp2al / em;
+	    }
+	    nend = n - 2;
+	    if (nend > 0) {
+		/* --------------------------------------------
+		   Calculate via difference equation
+		   and store BI[N], until N = 2.
+		   ------------------------------------------ */
+		for (l = 1; l <= nend; ++l) {
+		    --n;
+		    en -= 2.;
+		    bi[n] = en * bi[n + 1] / *x + bi[n + 2];
+		    em -= 1.;
+		    if (n == 2)
+			emp2al = 1.;
+		    else
+			emp2al -= 1.;
+		    empal -= 1.;
+		    sum = (sum + bi[n] * empal) * emp2al / em;
+		}
+	    }
+	    /* ----------------------------------------------
+	       Calculate BI[1]
+	       -------------------------------------------- */
+	    bi[1] = 2. * empal * bi[2] / *x + bi[3];
+L220:
+	    sum = sum + sum + bi[1];
+
+L230:
+	    /* ---------------------------------------------------------
+	       Normalize.  Divide all BI[N] by sum.
+	       --------------------------------------------------------- */
+	    if (nu != 0.)
+		sum *= (gamma_cody(1. + nu) * pow(*x * .5, -nu));
+	    if (*ize == 1)
+		sum *= exp(-(*x));
+	    aa = enmten;
+	    if (sum > 1.)
+		aa *= sum;
+	    for (n = 1; n <= *nb; ++n) {
+		if (bi[n] < aa)
+		    bi[n] = 0.;
+		else
+		    bi[n] /= sum;
+	    }
+	    return;
+	} else {
+	    /* -----------------------------------------------------------
+	       Two-term ascending series for small X.
+	       -----------------------------------------------------------*/
+	    aa = 1.;
+	    empal = 1. + nu;
+	    if (*x > enmten)
+		halfx = .5 * *x;
+	    else
+		halfx = 0.;
+	    if (nu != 0.)
+		aa = pow(halfx, nu) / gamma_cody(empal);
+	    if (*ize == 2)
+		aa *= exp(-(*x));
+	    if (*x + 1. > 1.)
+		bb = halfx * halfx;
+	    else
+		bb = 0.;
+
+	    bi[1] = aa + aa * bb / empal;
+	    if (*x != 0. && bi[1] == 0.)
+		*ncalc = 0;
+	    if (*nb > 1) {
+		if (*x == 0.) {
+		    for (n = 2; n <= *nb; ++n) {
+			bi[n] = 0.;
+		    }
+		} else {
+		    /* -------------------------------------------------
+		       Calculate higher-order functions.
+		       ------------------------------------------------- */
+		    cc = halfx;
+		    tover = (enmten + enmten) / *x;
+		    if (bb != 0.)
+			tover = enmten / bb;
+		    for (n = 2; n <= *nb; ++n) {
+			aa /= empal;
+			empal += 1.;
+			aa *= cc;
+			if (aa <= tover * empal)
+			    bi[n] = aa = 0.;
+			else
+			    bi[n] = aa + aa * bb / empal;
+			if (bi[n] == 0. && *ncalc > n)
+			    *ncalc = n - 1;
+		    }
+		}
+	    }
+	}
+    } else {
+	*ncalc = imin2(*nb,0) - 1;
+    }
+}
+
+
+double bessel_i(double x, double alpha, double expo)
+{
+    long nb, ncalc, ize;
+    double *bi;
+#ifdef IEEE_754
+    /* NaNs propagated correctly */
+    if (ISNAN(x) || ISNAN(alpha)) return x + alpha;
+#endif
+    ize = (long)expo;
+    nb = 1+ (long)floor(alpha);/* nb-1 <= alpha < nb */
+    alpha -= (nb-1);
+    bi = (double *) calloc(nb, sizeof(double));
+    I_bessel(&x, &alpha, &nb, &ize, bi, &ncalc);
+    if(ncalc != nb) {/* error input */
+	if(ncalc < 0)
+	    MATHLIB_WARNING4("bessel_i(%g): ncalc (=%d) != nb (=%d); alpha=%g."
+			     " Arg. out of range?\n",
+			     x, ncalc, nb, alpha);
+	else
+	    MATHLIB_WARNING2("bessel_i(%g,nu=%g): precision lost in result\n",
+			     x, alpha+nb-1);
+    }
+    x = bi[nb-1];
+    free(bi);
+    return x;
+}
+
+
+
+/* src/nmath/bessel_k.c ---------------------------------------------------- */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka and the R Core team.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+/*  DESCRIPTION --> see below */
+
+
+/* From http://www.netlib.org/specfun/rkbesl	Fortran translated by f2c,...
+ *	------------------------------=#----	Martin Maechler, ETH Zurich
+ */
+/* #include "Mathlib.h" */
+
+static double xmax = 705.342;/* maximal x for UNscaled answer, see below */
+
+static
+void K_bessel(double *x, double *alpha, long *nb,
+	      long *ize, double *bk, long *ncalc)
+{
+/*-------------------------------------------------------------------
+
+  This routine calculates modified Bessel functions
+  of the third kind, K_(N+ALPHA) (X), for non-negative
+  argument X, and non-negative order N+ALPHA, with or without
+  exponential scaling.
+
+  Explanation of variables in the calling sequence
+
+ X     - Non-negative argument for which
+	 K's or exponentially scaled K's (K*EXP(X))
+	 are to be calculated.	If K's are to be calculated,
+	 X must not be greater than XMAX (see below).
+ ALPHA - Fractional part of order for which
+	 K's or exponentially scaled K's (K*EXP(X)) are
+	 to be calculated.  0 <= ALPHA < 1.0.
+ NB    - Number of functions to be calculated, NB > 0.
+	 The first function calculated is of order ALPHA, and the
+	 last is of order (NB - 1 + ALPHA).
+ IZE   - Type.	IZE = 1 if unscaled K's are to be calculated,
+		    = 2 if exponentially scaled K's are to be calculated.
+ BK    - Output vector of length NB.	If the
+	 routine terminates normally (NCALC=NB), the vector BK
+	 contains the functions K(ALPHA,X), ... , K(NB-1+ALPHA,X),
+	 or the corresponding exponentially scaled functions.
+	 If (0 < NCALC < NB), BK(I) contains correct function
+	 values for I <= NCALC, and contains the ratios
+	 K(ALPHA+I-1,X)/K(ALPHA+I-2,X) for the rest of the array.
+ NCALC - Output variable indicating possible errors.
+	 Before using the vector BK, the user should check that
+	 NCALC=NB, i.e., all orders have been calculated to
+	 the desired accuracy.	See error returns below.
+
+
+ *******************************************************************
+
+ Error returns
+
+  In case of an error, NCALC != NB, and not all K's are
+  calculated to the desired accuracy.
+
+  NCALC < -1:  An argument is out of range. For example,
+	NB <= 0, IZE is not 1 or 2, or IZE=1 and ABS(X) >= XMAX.
+	In this case, the B-vector is not calculated,
+	and NCALC is set to MIN0(NB,0)-2	 so that NCALC != NB.
+  NCALC = -1:  Either  K(ALPHA,X) >= XINF  or
+	K(ALPHA+NB-1,X)/K(ALPHA+NB-2,X) >= XINF.	 In this case,
+	the B-vector is not calculated.	Note that again
+	NCALC != NB.
+
+  0 < NCALC < NB: Not all requested function values could
+	be calculated accurately.  BK(I) contains correct function
+	values for I <= NCALC, and contains the ratios
+	K(ALPHA+I-1,X)/K(ALPHA+I-2,X) for the rest of the array.
+
+
+ Intrinsic functions required are:
+
+     ABS, AINT, EXP, INT, LOG, MAX, MIN, SINH, SQRT
+
+
+ Acknowledgement
+
+	This program is based on a program written by J. B. Campbell
+	(2) that computes values of the Bessel functions K of float
+	argument and float order.  Modifications include the addition
+	of non-scaled functions, parameterization of machine
+	dependencies, and the use of more accurate approximations
+	for SINH and SIN.
+
+ References: "On Temme's Algorithm for the Modified Bessel
+	      Functions of the Third Kind," Campbell, J. B.,
+	      TOMS 6(4), Dec. 1980, pp. 581-586.
+
+	     "A FORTRAN IV Subroutine for the Modified Bessel
+	      Functions of the Third Kind of Real Order and Real
+	      Argument," Campbell, J. B., Report NRC/ERB-925,
+	      National Research Council, Canada.
+
+  Latest modification: May 30, 1989
+
+  Modified by: W. J. Cody and L. Stoltz
+	       Applied Mathematics Division
+	       Argonne National Laboratory
+	       Argonne, IL  60439
+
+ -------------------------------------------------------------------
+*/
+
+/*
+ ---------------------------------------------------------------------
+  Machine dependent parameters
+ ---------------------------------------------------------------------
+  Explanation of machine-dependent constants
+
+   beta	  = Radix for the floating-point system
+   minexp = Smallest representable power of beta
+   maxexp = Smallest power of beta that overflows
+   EPS	  = The smallest positive floating-point number such that 1.0+EPS > 1.0
+   SQXMIN = Square root of beta**minexp
+   XINF	  = Largest positive machine number; approximately  beta**maxexp
+	    == DBL_MAX (defined in  #include <float.h>)
+   XMIN	  = Smallest positive machine number; approximately beta**minexp
+
+   XMAX	  = Upper limit on the magnitude of X when IZE=1;  Solution
+	    to equation:
+	       W(X) * (1-1/8X+9/128X**2) = beta**minexp
+	    where  W(X) = EXP(-X)*SQRT(PI/2X)
+
+
+     Approximate values for some important machines are:
+
+			  beta	     minexp	 maxexp	     EPS
+
+  CRAY-1	(S.P.)	    2	     -8193	  8191	  7.11E-15
+  Cyber 180/185
+    under NOS	(S.P.)	    2	      -975	  1070	  3.55E-15
+  IEEE (IBM/XT,
+    SUN, etc.)	(S.P.)	    2	      -126	   128	  1.19E-7
+  IEEE (IBM/XT,
+    SUN, etc.)	(D.P.)	    2	     -1022	  1024	  2.22D-16
+  IBM 3033	(D.P.)	   16	       -65	    63	  2.22D-16
+  VAX		(S.P.)	    2	      -128	   127	  5.96E-8
+  VAX D-Format	(D.P.)	    2	      -128	   127	  1.39D-17
+  VAX G-Format	(D.P.)	    2	     -1024	  1023	  1.11D-16
+
+
+			 SQXMIN	      XINF	  XMIN	    XMAX
+
+ CRAY-1	       (S.P.)  6.77E-1234  5.45E+2465  4.59E-2467 5674.858
+ Cyber 180/855
+   under NOS   (S.P.)  1.77E-147   1.26E+322   3.14E-294   672.788
+ IEEE (IBM/XT,
+   SUN, etc.)  (S.P.)  1.08E-19	   3.40E+38    1.18E-38	    85.337
+ IEEE (IBM/XT,
+   SUN, etc.)  (D.P.)  1.49D-154   1.79D+308   2.23D-308   705.342
+ IBM 3033      (D.P.)  7.35D-40	   7.23D+75    5.40D-79	   177.852
+ VAX	       (S.P.)  5.42E-20	   1.70E+38    2.94E-39	    86.715
+ VAX D-Format  (D.P.)  5.42D-20	   1.70D+38    2.94D-39	    86.715
+ VAX G-Format  (D.P.)  7.46D-155   8.98D+307   5.57D-309   706.728
+
+ *******************************************************************
+ */
+    /*static double eps = 2.22e-16;*/
+    /*static double xinf = 1.79e308;*/
+    /*static double xmin = 2.23e-308;*/
+    static double sqxmin = 1.49e-154;
+
+    /*---------------------------------------------------------------------
+     * Mathematical constants
+     *	A = LOG(2) - Euler's constant
+     *	D = SQRT(2/PI)
+     ---------------------------------------------------------------------*/
+    static double a = .11593151565841244881;
+
+    /*---------------------------------------------------------------------
+      P, Q - Approximation for LOG(GAMMA(1+ALPHA))/ALPHA + Euler's constant
+      Coefficients converted from hex to decimal and modified
+      by W. J. Cody, 2/26/82 */
+    static double p[8] = { .805629875690432845,20.4045500205365151,
+	    157.705605106676174,536.671116469207504,900.382759291288778,
+	    730.923886650660393,229.299301509425145,.822467033424113231 };
+    static double q[7] = { 29.4601986247850434,277.577868510221208,
+	    1206.70325591027438,2762.91444159791519,3443.74050506564618,
+	    2210.63190113378647,572.267338359892221 };
+    /* R, S - Approximation for (1-ALPHA*PI/SIN(ALPHA*PI))/(2.D0*ALPHA) */
+    static double r[5] = { -.48672575865218401848,13.079485869097804016,
+	    -101.96490580880537526,347.65409106507813131,
+	    3.495898124521934782e-4 };
+    static double s[4] = { -25.579105509976461286,212.57260432226544008,
+	    -610.69018684944109624,422.69668805777760407 };
+    /* T    - Approximation for SINH(Y)/Y */
+    static double t[6] = { 1.6125990452916363814e-10,
+	    2.5051878502858255354e-8,2.7557319615147964774e-6,
+	    1.9841269840928373686e-4,.0083333333333334751799,
+	    .16666666666666666446 };
+    /*---------------------------------------------------------------------*/
+    static double estm[6] = { 52.0583,5.7607,2.7782,14.4303,185.3004, 9.3715 };
+    static double estf[7] = { 41.8341,7.1075,6.4306,42.511,1.35633,84.5096,20.};
+
+    /* Local variables */
+    long iend, i, j, k, m, ii, mplus1;
+    double x2by4, twox, c, blpha, ratio, wminf;
+    double d1, d2, d3, f0, f1, f2, p0, q0, t1, t2, twonu;
+    double dm, ex, bk1, bk2, nu;
+
+    ii = 0;			/* -Wall */
+
+    ex = *x;
+    nu = *alpha;
+    *ncalc = imin2(*nb,0) - 2;
+    if (*nb > 0 && (0. <= nu && nu < 1.) && (1 <= *ize && *ize <= 2)) {
+	if(ex <= 0 || (*ize == 1 && ex > xmax)) {
+	    ML_ERROR(ME_RANGE);
+	    *ncalc = *nb;
+	    for(i=0; i < *nb; i++)
+		bk[i] = ML_POSINF;
+	    return;
+	}
+	k = 0;
+	if (nu < sqxmin) {
+	    nu = 0.;
+	} else if (nu > .5) {
+	    k = 1;
+	    nu -= 1.;
+	}
+	twonu = nu + nu;
+	iend = *nb + k - 1;
+	c = nu * nu;
+	d3 = -c;
+	if (ex <= 1.) {
+	    /* ------------------------------------------------------------
+	       Calculation of P0 = GAMMA(1+ALPHA) * (2/X)**ALPHA
+			      Q0 = GAMMA(1-ALPHA) * (X/2)**ALPHA
+	       ------------------------------------------------------------ */
+	    d1 = 0.; d2 = p[0];
+	    t1 = 1.; t2 = q[0];
+	    for (i = 2; i <= 7; i += 2) {
+		d1 = c * d1 + p[i - 1];
+		d2 = c * d2 + p[i];
+		t1 = c * t1 + q[i - 1];
+		t2 = c * t2 + q[i];
+	    }
+	    d1 = nu * d1;
+	    t1 = nu * t1;
+	    f1 = log(ex);
+	    f0 = a + nu * (p[7] - nu * (d1 + d2) / (t1 + t2)) - f1;
+	    q0 = exp(-nu * (a - nu * (p[7] + nu * (d1-d2) / (t1-t2)) - f1));
+	    f1 = nu * f0;
+	    p0 = exp(f1);
+	    /* -----------------------------------------------------------
+	       Calculation of F0 =
+	       ----------------------------------------------------------- */
+	    d1 = r[4];
+	    t1 = 1.;
+	    for (i = 0; i < 4; ++i) {
+		d1 = c * d1 + r[i];
+		t1 = c * t1 + s[i];
+	    }
+	    /* d2 := sinh(f1)/ nu = sinh(f1)/(f1/f0)
+	     *	   = f0 * sinh(f1)/f1 */
+	    if (fabs(f1) <= .5) {
+		f1 *= f1;
+		d2 = 0.;
+		for (i = 0; i < 6; ++i) {
+		    d2 = f1 * d2 + t[i];
+		}
+		d2 = f0 + f0 * f1 * d2;
+	    } else {
+		d2 = sinh(f1) / nu;
+	    }
+	    f0 = d2 - nu * d1 / (t1 * p0);
+	    if (ex <= 1e-10) {
+		/* ---------------------------------------------------------
+		   X <= 1.0E-10
+		   Calculation of K(ALPHA,X) and X*K(ALPHA+1,X)/K(ALPHA,X)
+		   --------------------------------------------------------- */
+		bk[0] = f0 + ex * f0;
+		if (*ize == 1) {
+		    bk[0] -= ex * bk[0];
+		}
+		ratio = p0 / f0;
+		c = ex * DBL_MAX;
+		if (k != 0) {
+		    /* ---------------------------------------------------
+		       Calculation of K(ALPHA,X)
+		       and  X*K(ALPHA+1,X)/K(ALPHA,X),	ALPHA >= 1/2
+		       --------------------------------------------------- */
+		    *ncalc = -1;
+		    if (bk[0] >= c / ratio) {
+			return;
+		    }
+		    bk[0] = ratio * bk[0] / ex;
+		    twonu += 2.;
+		    ratio = twonu;
+		}
+		*ncalc = 1;
+		if (*nb == 1)
+		    return;
+
+		/* -----------------------------------------------------
+		   Calculate  K(ALPHA+L,X)/K(ALPHA+L-1,X),
+		   L = 1, 2, ... , NB-1
+		   ----------------------------------------------------- */
+		*ncalc = -1;
+		for (i = 1; i < *nb; ++i) {
+		    if (ratio >= c)
+			return;
+
+		    bk[i] = ratio / ex;
+		    twonu += 2.;
+		    ratio = twonu;
+		}
+		*ncalc = 1;
+		goto L420;
+	    } else {
+		/* ------------------------------------------------------
+		   10^-10 < X <= 1.0
+		   ------------------------------------------------------ */
+		c = 1.;
+		x2by4 = ex * ex / 4.;
+		p0 = .5 * p0;
+		q0 = .5 * q0;
+		d1 = -1.;
+		d2 = 0.;
+		bk1 = 0.;
+		bk2 = 0.;
+		f1 = f0;
+		f2 = p0;
+		do {
+		    d1 += 2.;
+		    d2 += 1.;
+		    d3 = d1 + d3;
+		    c = x2by4 * c / d2;
+		    f0 = (d2 * f0 + p0 + q0) / d3;
+		    p0 /= d2 - nu;
+		    q0 /= d2 + nu;
+		    t1 = c * f0;
+		    t2 = c * (p0 - d2 * f0);
+		    bk1 += t1;
+		    bk2 += t2;
+		} while (fabs(t1 / (f1 + bk1)) > DBL_EPSILON ||
+			 fabs(t2 / (f2 + bk2)) > DBL_EPSILON);
+		bk1 = f1 + bk1;
+		bk2 = 2. * (f2 + bk2) / ex;
+		if (*ize == 2) {
+		    d1 = exp(ex);
+		    bk1 *= d1;
+		    bk2 *= d1;
+		}
+		wminf = estf[0] * ex + estf[1];
+	    }
+	} else if (DBL_EPSILON * ex > 1.) {
+	    /* -------------------------------------------------
+	       X > 1./EPS
+	       ------------------------------------------------- */
+	    *ncalc = *nb;
+	    bk1 = 1. / (M_SQRT_2dPI * sqrt(ex));
+	    for (i = 0; i < *nb; ++i)
+		bk[i] = bk1;
+	    return;
+
+	} else {
+	    /* -------------------------------------------------------
+	       X > 1.0
+	       ------------------------------------------------------- */
+	    twox = ex + ex;
+	    blpha = 0.;
+	    ratio = 0.;
+	    if (ex <= 4.) {
+		/* ----------------------------------------------------------
+		   Calculation of K(ALPHA+1,X)/K(ALPHA,X),  1.0 <= X <= 4.0
+		   ----------------------------------------------------------*/
+		d2 = ftrunc(estm[0] / ex + estm[1]);
+		m = (long) d2;
+		d1 = d2 + d2;
+		d2 -= .5;
+		d2 *= d2;
+		for (i = 2; i <= m; ++i) {
+		    d1 -= 2.;
+		    d2 -= d1;
+		    ratio = (d3 + d2) / (twox + d1 - ratio);
+		}
+		/* -----------------------------------------------------------
+		   Calculation of I(|ALPHA|,X) and I(|ALPHA|+1,X) by backward
+		   recurrence and K(ALPHA,X) from the wronskian
+		   -----------------------------------------------------------*/
+		d2 = ftrunc(estm[2] * ex + estm[3]);
+		m = (long) d2;
+		c = fabs(nu);
+		d3 = c + c;
+		d1 = d3 - 1.;
+		f1 = DBL_MIN;
+		f0 = (2. * (c + d2) / ex + .5 * ex / (c + d2 + 1.)) * DBL_MIN;
+		for (i = 3; i <= m; ++i) {
+		    d2 -= 1.;
+		    f2 = (d3 + d2 + d2) * f0;
+		    blpha = (1. + d1 / d2) * (f2 + blpha);
+		    f2 = f2 / ex + f1;
+		    f1 = f0;
+		    f0 = f2;
+		}
+		f1 = (d3 + 2.) * f0 / ex + f1;
+		d1 = 0.;
+		t1 = 1.;
+		for (i = 1; i <= 7; ++i) {
+		    d1 = c * d1 + p[i - 1];
+		    t1 = c * t1 + q[i - 1];
+		}
+		p0 = exp(c * (a + c * (p[7] - c * d1 / t1) - log(ex))) / ex;
+		f2 = (c + .5 - ratio) * f1 / ex;
+		bk1 = p0 + (d3 * f0 - f2 + f0 + blpha) / (f2 + f1 + f0) * p0;
+		if (*ize == 1) {
+		    bk1 *= exp(-ex);
+		}
+		wminf = estf[2] * ex + estf[3];
+	    } else {
+		/* ---------------------------------------------------------
+		   Calculation of K(ALPHA,X) and K(ALPHA+1,X)/K(ALPHA,X), by
+		   backward recurrence, for  X > 4.0
+		   ----------------------------------------------------------*/
+		dm = ftrunc(estm[4] / ex + estm[5]);
+		m = (long) dm;
+		d2 = dm - .5;
+		d2 *= d2;
+		d1 = dm + dm;
+		for (i = 2; i <= m; ++i) {
+		    dm -= 1.;
+		    d1 -= 2.;
+		    d2 -= d1;
+		    ratio = (d3 + d2) / (twox + d1 - ratio);
+		    blpha = (ratio + ratio * blpha) / dm;
+		}
+		bk1 = 1. / ((M_SQRT_2dPI + M_SQRT_2dPI * blpha) * sqrt(ex));
+		if (*ize == 1)
+		    bk1 *= exp(-ex);
+		wminf = estf[4] * (ex - fabs(ex - estf[6])) + estf[5];
+	    }
+	    /* ---------------------------------------------------------
+	       Calculation of K(ALPHA+1,X)
+	       from K(ALPHA,X) and  K(ALPHA+1,X)/K(ALPHA,X)
+	       --------------------------------------------------------- */
+	    bk2 = bk1 + bk1 * (nu + .5 - ratio) / ex;
+	}
+	/*--------------------------------------------------------------------
+	  Calculation of 'NCALC', K(ALPHA+I,X),	I  =  0, 1, ... , NCALC-1,
+	  &	  K(ALPHA+I,X)/K(ALPHA+I-1,X),	I = NCALC, NCALC+1, ... , NB-1
+	  -------------------------------------------------------------------*/
+	*ncalc = *nb;
+	bk[0] = bk1;
+	if (iend == 0)
+	    return;
+
+	j = 1 - k;
+	if (j >= 0)
+	    bk[j] = bk2;
+
+	if (iend == 1)
+	    return;
+
+	m = imin2((long) (wminf - nu),iend);
+	for (i = 2; i <= m; ++i) {
+	    t1 = bk1;
+	    bk1 = bk2;
+	    twonu += 2.;
+	    if (ex < 1.) {
+		if (bk1 >= DBL_MAX / twonu * ex)
+		    break;
+	    } else {
+		if (bk1 / ex >= DBL_MAX / twonu)
+		    break;
+	    }
+	    bk2 = twonu / ex * bk1 + t1;
+	    ii = i;
+	    ++j;
+	    if (j >= 0) {
+		bk[j] = bk2;
+	    }
+	}
+
+	m = ii;
+	if (m == iend) {
+	    return;
+	}
+	ratio = bk2 / bk1;
+	mplus1 = m + 1;
+	*ncalc = -1;
+	for (i = mplus1; i <= iend; ++i) {
+	    twonu += 2.;
+	    ratio = twonu / ex + 1./ratio;
+	    ++j;
+	    if (j >= 1) {
+		bk[j] = ratio;
+	    } else {
+		if (bk2 >= DBL_MAX / ratio)
+		    return;
+
+		bk2 *= ratio;
+	    }
+	}
+	*ncalc = imax2(1, mplus1 - k);
+	if (*ncalc == 1)
+	    bk[0] = bk2;
+	if (*nb == 1)
+	    return;
+
+L420:
+	for (i = *ncalc; i < *nb; ++i) { /* i == *ncalc */
+#ifndef IEEE_754
+	    if (bk[i-1] >= DBL_MAX / bk[i])
+		return;
+#endif
+	    bk[i] *= bk[i-1];
+	    (*ncalc)++;
+	}
+    }
+}
+
+double bessel_k(double x, double alpha, double expo)
+{
+    long nb, ncalc, ize;
+    double *bk;
+#ifdef IEEE_754
+    /* NaNs propagated correctly */
+    if (ISNAN(x) || ISNAN(alpha)) return x + alpha;
+#endif
+    ize = (long)expo;
+    nb = 1+ (long)floor(fabs(alpha));/* nb-1 <= alpha < nb */
+    alpha -= (nb-1);
+    bk = (double *) calloc(nb, sizeof(double));
+    K_bessel(&x, &alpha, &nb, &ize, bk, &ncalc);
+    if(ncalc != nb) {/* error input */
+      if(ncalc < 0)
+	MATHLIB_WARNING4("bessel_k(%g): ncalc (=%d) != nb (=%d); alpha=%g. Arg. out of range?\n",
+			 x, ncalc, nb, alpha);
+      else
+	MATHLIB_WARNING2("bessel_k(%g,nu=%g): precision lost in result\n",
+			 x, alpha+nb-1);
+    }
+    x = bk[nb-1];
+    free(bk);
+    return x;
 }

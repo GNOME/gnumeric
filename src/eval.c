@@ -19,16 +19,17 @@ static GHashTable *dependency_hash;
 void
 cell_eval (Cell *cell)
 {
-	char *error_msg = _("ERROR") ;
 	Value *v;
+	FunctionEvalInfo s;
 
 	g_return_if_fail (cell != NULL);
 
 #ifdef DEBUG_EVALUATION
 	{
+		EvalPosition fp;
+		
 		char *exprtxt = expr_decode_tree
-			(cell->parsed_node, cell->sheet,
-			 cell->col->pos, cell->row->pos);
+			(cell->parsed_node, eval_pos_cell (&fp, cell));
 		printf ("Evaluating %s: %s ->\n",
 			cell_name (cell->col->pos, cell->row->pos),
 			exprtxt);
@@ -36,10 +37,7 @@ cell_eval (Cell *cell)
 	}
 #endif
 
-	v = eval_expr (cell->sheet, cell->parsed_node,
-		       cell->col->pos,
-		       cell->row->pos,
-		       &error_msg);
+	v = eval_expr (func_eval_info_cell (&s, cell), cell->parsed_node);
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -59,7 +57,7 @@ cell_eval (Cell *cell)
 	}
 
 	if (v == NULL){
-		cell_set_rendered_text (cell, error_msg);
+		cell_set_rendered_text (cell, error_message_txt (s.error));
 		cell->value = NULL;
 		cell->flags |= CELL_ERROR;
 	} else {
@@ -67,6 +65,8 @@ cell_eval (Cell *cell)
 		cell_render_value (cell);
 		cell->flags &= ~CELL_ERROR;
 	}
+
+	error_message_free (s.error);
 
 	cell_calc_dimensions (cell);
 
@@ -305,7 +305,7 @@ cell_drop_dependencies (Cell *cell)
 	if (remove_list){
 		GList *l = remove_list;
 
-		for (; l ; l = l->next){
+		for (; l; l = l->next){
 			g_hash_table_remove (dependency_hash, l->data);
 			g_free (l->data);
 		}
@@ -527,7 +527,7 @@ workbook_recalc (Workbook *wb)
 		cell_eval (cell);
 		deps = cell_get_dependencies (cell->sheet, cell->col->pos, cell->row->pos);
 
-		for (l = deps ; l; l = l->next){
+		for (l = deps; l; l = l->next){
 			Cell *one_cell;
 
 			one_cell = l->data;

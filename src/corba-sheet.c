@@ -922,7 +922,7 @@ Sheet_range_set_text (PortableServer_Servant servant,
 
 	verify_range (sheet, range, &ranges);
 
-	range_list_foreach_all (ranges, cb_range_set_text, text);
+	range_list_foreach_all (ranges, cb_range_set_text, (char *) text);
 	
 	range_list_destroy (ranges);
 }
@@ -944,7 +944,7 @@ Sheet_range_set_formula (PortableServer_Servant servant,
 
 	verify_range (sheet, range, &ranges);
 
-	range_list_foreach_all (ranges, cb_range_set_formula, formula);
+	range_list_foreach_all (ranges, cb_range_set_formula, (char *)formula);
 	
 	range_list_destroy (ranges);
 }
@@ -978,7 +978,7 @@ Sheet_range_set_format (PortableServer_Servant servant,
 
 	/* Apply the style */
 	range_set_style (ranges, style);
-	range_list_foreach (ranges, cb_range_set_format, format);
+	range_list_foreach (ranges, cb_range_set_format, (char *) format);
 
 	cell_thaw_redraws ();
 	
@@ -1033,6 +1033,18 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.cell_get_pattern = Sheet_cell_get_pattern;
 	gnome_gnumeric_sheet_epv.cell_set_alignment = Sheet_cell_set_alignment;
 	gnome_gnumeric_sheet_epv.cell_get_alignment = Sheet_cell_get_alignment;
+	gnome_gnumeric_sheet_epv.cell_set_comment = Sheet_cell_set_comment;
+	gnome_gnumeric_sheet_epv.cell_get_comment = Sheet_cell_get_comment;
+
+	/*
+	 * Column manipulation
+	 */
+	gnome_gnumeric_sheet_epv.insert_col = Sheet_insert_col;
+	gnome_gnumeric_sheet_epv.delete_col = Sheet_delete_col;
+	gnome_gnumeric_sheet_epv.insert_row = Sheet_insert_row;
+	gnome_gnumeric_sheet_epv.delete_row = Sheet_delete_row;
+	gnome_gnumeric_sheet_epv.shift_cols = sheet_shift_cols;
+	gnome_gnumeric_sheet_epv.shift_rows = sheet_shift_rows;
 
 	/*
 	 * Region based routines

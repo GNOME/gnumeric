@@ -10,12 +10,15 @@ enum {
 	PASTE_OPER_ADD   = 1 << 3,
 	PASTE_OPER_SUB   = 1 << 4,
 	PASTE_OPER_MULT  = 1 << 5,
-	PASTE_OPER_DIV   = 1 << 6
+	PASTE_OPER_DIV   = 1 << 6,
+
+	/* Whether the paste transposes or not */
+	PASTE_TRANSPOSE  = 1 << 7
 };
 
 #define PASTE_ALL_TYPES (PASTE_FORMULAS | PASTE_VALUES | PASTE_FORMATS)
 #define PASTE_DEFAULT   PASTE_ALL_TYPES
-#define PASTE_OPER_MASK   (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)
+#define PASTE_OPER_MASK (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)
 
 CellRegion *clipboard_copy_cell_range    (Sheet *sheet,
 					  int start_col, int start_row,

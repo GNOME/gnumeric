@@ -60,7 +60,7 @@ void biff_setdouble (guint8 *p, double d)
 }
 #endif
 
-static void
+void
 dump_biff (BIFF_QUERY *bq)
 {
 	printf ("Opcode 0x%x length %d malloced? %d\nData:\n", bq->opcode, bq->length, bq->data_malloced);

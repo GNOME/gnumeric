@@ -564,7 +564,7 @@ sheet_view_destroy (GtkObject *object)
 
 	/* Add shutdown code here */
 	if (sheet_view->tip)
-		gtk_object_destroy (GTK_OBJECT (sheet_view->tip));
+		gtk_object_unref (GTK_OBJECT (sheet_view->tip));
 	
 	if (GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)(object);
@@ -693,8 +693,13 @@ void
 sheet_view_insert_object (SheetView *sheet_view, GnomeObjectClient *object)
 {
 	GtkWidget *view;
-	
-	view = gnome_bonobo_object_new_view (object);
+
+	/*
+	 * Commented out because the new_view api changed and it isn't
+	 * used anyways.
+	 */
+	   
+	/* view = gnome_bonobo_object_new_view (object); */
 	g_warning ("Stick this into the SheetView");
 }
 #endif

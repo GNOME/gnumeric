@@ -72,7 +72,7 @@ static void style_entry_free (gpointer data, gpointer user_data);
  * number of characters used.
  */
 static int
-append_year (GString *string, const gchar *format, const struct tm *time_split)
+append_year (GString *string, const guchar *format, const struct tm *time_split)
 {
 	char temp [5];
 
@@ -98,7 +98,7 @@ append_year (GString *string, const gchar *format, const struct tm *time_split)
  * number of characters used.
  */
 static int
-append_month (GString *string, const gchar *format, const struct tm *time_split)
+append_month (GString *string, const guchar *format, const struct tm *time_split)
 {
 	char temp [3];
 
@@ -129,7 +129,7 @@ append_month (GString *string, const gchar *format, const struct tm *time_split)
  * number of characters used.
  */
 static int
-append_hour (GString *string, const gchar *format, const struct tm *time_split, int timeformat)
+append_hour (GString *string, const guchar *format, const struct tm *time_split, int timeformat)
 {
 	char temp[3];
 
@@ -148,7 +148,7 @@ append_hour (GString *string, const gchar *format, const struct tm *time_split, 
  * number of characters used.
  */
 static int
-append_day (GString *string, const gchar *format, const struct tm *time_split)
+append_day (GString *string, const guchar *format, const struct tm *time_split)
 {
 	char temp[3];
 
@@ -179,7 +179,7 @@ append_day (GString *string, const gchar *format, const struct tm *time_split)
  * number of characters used.
  */
 static int
-append_minute (GString *string, const gchar *format, const struct tm *time_split)
+append_minute (GString *string, const guchar *format, const struct tm *time_split)
 {
 	char temp [3];
 
@@ -200,7 +200,7 @@ append_minute (GString *string, const gchar *format, const struct tm *time_split
  * number of characters used.
  */
 static int
-append_second (GString *string, const gchar *format, const struct tm *time_split)
+append_second (GString *string, const guchar *format, const struct tm *time_split)
 {
 	char temp[3];
 
@@ -222,7 +222,7 @@ append_second (GString *string, const gchar *format, const struct tm *time_split
  * the number of characters used.
  */
 static int
-append_half (GString *string, const gchar *format, const struct tm *time_split)
+append_half (GString *string, const guchar *format, const struct tm *time_split)
 {
 	if (time_split->tm_hour <= 11){
 		if (tolower (format [0]) == 'a' || tolower (format [0]) == 'p')
@@ -252,7 +252,7 @@ append_half (GString *string, const gchar *format, const struct tm *time_split)
 static void
 pre_parse_format (StyleFormatEntry *style)
 {
-	const char *format;
+	const unsigned char *format;
 
 	style->want_am_pm = 0;
 	for (format = style->format; *format; format++){
@@ -1024,7 +1024,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 			}
 			v = format_number (value->v.v_float, &entry);
 		} else
-			return g_strdup (_("#VAL!"));
+			return g_strdup (gnumeric_err_VALUE);
 		break;
 
 	case VALUE_INTEGER:

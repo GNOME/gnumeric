@@ -11,9 +11,7 @@
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
 
-typedef struct _MS_EXCEL_WORKBOOK
-{
-	Workbook *gnum_wb;
-} MS_EXCEL_WORKBOOK;
+extern int ms_excel_write_workbook (MS_OLE *file, Workbook *wb,
+				    eBiff_version ver);
 
 #endif

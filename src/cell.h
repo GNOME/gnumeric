@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_CELL_H
 #define GNUMERIC_CELL_H
 
+#include <glib.h>
+
 /* Forward references for structures.  */
 typedef struct _Cell Cell;
 typedef struct _CellRegion CellRegion;
@@ -13,14 +15,13 @@ typedef struct _ColRowInfo ColRowInfo;
 #include "str.h"
 #include "expr.h"
 
-typedef unsigned char  ColType;
-typedef unsigned short RowType;
-
 struct _ColRowInfo {
 	int        pos;			/* the column or row number */
 
-	/* The height */
-	int        units;		/* In units */
+	double     units;               /* In points */
+	double     margin_a_pt;
+	double     margin_b_pt;
+
 	int        margin_a;  		/* in pixels: top/left margin */
 	int        margin_b; 		/* in pixels: bottom/right margin */
 	int        pixels;		/* we compute this from the above parameters */
@@ -88,7 +89,6 @@ struct _Cell {
 	char        generation;
 };
 
-/* #define CELL_TEXT_GET(cell)      ((cell)->text ? cell->text->str : cell->entered_text->str) */
 #define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
 
 typedef enum {
@@ -136,7 +136,7 @@ void        cell_set_foreground          (Cell *cell, gushort red,
 void        cell_set_background          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
 void        cell_set_color_from_style    (Cell *cell, StyleColor *foreground, 
-					  StyleColor *background) ;
+					  StyleColor *background);
 void        cell_set_pattern             (Cell *cell, int pattern);
 void        cell_set_border              (Cell *cell,
 					  StyleBorderType border_type [4],
@@ -159,6 +159,7 @@ void        cell_destroy                 (Cell *cell);
 void        cell_formula_changed         (Cell *cell);
 void        cell_queue_redraw            (Cell *cell);
 int         cell_get_horizontal_align    (const Cell *cell);
+int	    cell_is_number  		 (const Cell *cell);
 
 int         cell_draw                    (Cell *cell, SheetView *sheet_view,
 					  GdkGC *gc, GdkDrawable *drawable,

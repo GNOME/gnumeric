@@ -67,23 +67,24 @@ sheet_redraw_rows (Sheet *sheet)
 }
 
 static void
+col_row_info_init (ColRowInfo *cri, double points)
+{
+	cri->pos = -1;
+	cri->units = points;
+	cri->margin_a_pt = 1.0;
+	cri->margin_b_pt = 1.0;
+
+	cri->pixels = 0;
+	cri->margin_a = 0;
+	cri->margin_b = 0;
+	cri->data = NULL;
+}
+
+static void
 sheet_init_default_styles (Sheet *sheet)
 {
-	/* The default column style */
-	sheet->default_col_style.pos        = -1;
-	sheet->default_col_style.units      = 80;
-	sheet->default_col_style.pixels     = 0;
-	sheet->default_col_style.margin_a   = 1;
-	sheet->default_col_style.margin_b   = 1;
-	sheet->default_col_style.data       = NULL;
-
-	/* The default row style */
-	sheet->default_row_style.pos      = -1;
-	sheet->default_row_style.units    = 18;
-	sheet->default_row_style.pixels   = 0;
-	sheet->default_row_style.margin_a = 1;
-	sheet->default_row_style.margin_b = 1;
-	sheet->default_row_style.data     = NULL;
+	col_row_info_init (&sheet->default_col_style, 80.0);
+	col_row_info_init (&sheet->default_row_style, 18.0);
 }
 
 /* Initialize some of the columns and rows, to test the display engine */
@@ -229,8 +230,34 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
 	double pix_per_unit = sheet->last_zoom_factor_used;
 
-	ci->pixels = (ci->units * pix_per_unit) +
-		ci->margin_a + ci->margin_b + 1;
+	{
+		static int warn_shown = 0;
+		if (!warn_shown){
+			warn_shown = 1;
+			g_warning ("Here we used to add one pixel, perhaps\n"
+				   "this is the source of the miss-alignment?");
+		}
+	}
+	ci->pixels = (ci->units + ci->margin_a_pt + ci->margin_b_pt) * pix_per_unit;
+	ci->margin_a = ci->margin_a_pt * pix_per_unit;
+	ci->margin_b = ci->margin_b_pt * pix_per_unit;
+}
+
+static int
+zoom_cell_style (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	StyleFont *sf;
+
+	/*
+	 * If the size is already set, skip
+	 */
+	if (cell->style->font->scale == sheet->last_zoom_factor_used)
+		return TRUE;
+	
+	sf = style_font_new_from (cell->style->font, sheet->last_zoom_factor_used);
+	cell_set_font_from_style (cell, sf);
+	
+	return TRUE;
 }
 
 void
@@ -260,6 +287,42 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 		cell_comment_reposition (cell);
 	}
+
+	/*
+	 * Scale the fonts for every cell
+	 */
+	sheet_cell_foreach_range (
+		sheet, TRUE, 0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
+		zoom_cell_style, sheet);
+
+	/*
+	 * Scale the internal font styles
+	 */
+	for (l = sheet->style_list; l; l = l->next){
+		StyleRegion *sr = l->data;
+		Style *style = sr->style;
+		StyleFont *scaled;
+		
+		if (!(style->valid_flags & STYLE_FONT))
+			continue;
+
+		scaled = style_font_new_from (style->font, factor);
+		style_font_unref (style->font);
+		style->font = scaled;
+	}
+}
+
+/*
+ * Duplicates a column or row
+ */
+ColRowInfo *
+sheet_duplicate_colrow (ColRowInfo *original)
+{
+	ColRowInfo *info = g_new (ColRowInfo, 1);
+
+	*info = *original;
+	
+	return info;
 }
 
 ColRowInfo *
@@ -626,6 +689,69 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 	return col_row_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.pixels);
 }
 
+static inline double
+col_row_unit_distance (GList *list, int from, int to, double default_units, double default_margins)
+{
+	ColRowInfo *cri;
+	double units = 0;
+	int n = 0;
+	GList *l;
+	
+	if (to == from)
+		return 0;
+
+	n = to - from;
+	
+	for (l = list; l; l = l->next){
+		cri = l->data;
+		
+		if (cri->pos >= to)
+			break;
+		
+		if (cri->pos >= from){
+			n--;
+			units += cri->units + cri->margin_a_pt + cri->margin_b_pt;
+		}
+	}
+	units += n * default_units + n * default_margins;
+	
+	return units;
+}
+
+/**
+ * sheet_col_get_unit_distance:
+ *
+ * Return the number of points between from_col to to_col
+ */
+double
+sheet_col_get_unit_distance (Sheet *sheet, int from_col, int to_col)
+{
+	g_assert (from_col <= to_col);
+	g_assert (sheet != NULL);
+
+	return col_row_unit_distance (sheet->cols_info, from_col, to_col,
+				      sheet->default_col_style.units,
+				      sheet->default_col_style.margin_a_pt +
+				      sheet->default_col_style.margin_b_pt);
+}
+
+/**
+ * sheet_row_get_unit_distance:
+ *
+ * Return the number of points between from_row to to_row
+ */
+double
+sheet_row_get_unit_distance (Sheet *sheet, int from_row, int to_row)
+{
+	g_assert (from_row <= to_row);
+	g_assert (sheet != NULL);
+
+	return col_row_unit_distance (sheet->rows_info, from_row, to_row,
+				      sheet->default_row_style.units,
+				      sheet->default_row_style.margin_a +
+				      sheet->default_row_style.margin_b);
+}
+
 /**
  * sheet_row_get_distance:
  *
@@ -658,20 +784,26 @@ sheet_selection_equal (SheetSelection *a, SheetSelection *b)
 void
 sheet_update_auto_expr (Sheet *sheet)
 {
-	Workbook *wb = sheet->workbook;
 	Value *v;
-	char  *error;
+	Workbook *wb = sheet->workbook;
+	FunctionEvalInfo ei;
+	ExprTree *tree;
+	char *error = NULL;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* defaults */
 	v = NULL;
-	error = _("ERROR");
-	if (wb->auto_expr)
-		v = eval_expr (sheet, wb->auto_expr, 0, 0, &error);
+	func_eval_info_init (&ei, sheet, 0, 0);
 
-	if (v){
+	tree = expr_parse_string (wb->auto_expr_text, &ei.pos,
+				  NULL, &error);
+
+	if (tree)
+		v = eval_expr (&ei, tree);
+
+	if (v) {
 		char *s;
 
 		s = value_get_as_string (v);
@@ -679,7 +811,10 @@ sheet_update_auto_expr (Sheet *sheet)
 		g_free (s);
 		value_release (v);
 	} else
-		workbook_auto_expr_label_set (wb, error);
+		workbook_auto_expr_label_set (wb, error_message_txt(ei.error));
+
+	expr_tree_unref (tree);
+	error_message_free (ei.error);
 }
 
 static const char *
@@ -729,35 +864,22 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 	 * a rendered version of the text, if they compare equally, then
 	 * use that.
 	 */
-	if (!CELL_IS_FORMAT_SET (cell) && *text != '=') {
+	if (*text != '=') {
 		char *end, *format;
-		double v;
+		float_t v;
 
-		(void) strtod (text, &end);
+		strtod (text, &end);
 		if (end != text && *end == 0) {
-			/* It is a number -- remain in General format.  Note
-			   that we would other wise actually set a "0" format
-			   for integers and that it would stick.  */
+			/*
+			 * It is a number -- remain in General format.  Note
+			 * that we would other wise actually set a "0" format
+			 * for integers and that it would stick.
+			 */
 		} else if (format_match (text, &v, &format)) {
-			StyleFormat *sf;
-			char *new_text;
-			char buffer [50];
-			Value *vf = value_new_float (v);
-
-			/* Render it */
-			sf = style_format_new (format);
-			new_text = format_value (sf, vf, NULL);
-			value_release (vf);
-			style_format_unref (sf);
-
-			/* Compare it */
-			if (strcasecmp (new_text, text) == 0){
+			if (!CELL_IS_FORMAT_SET (cell))
 				cell_set_format_simple (cell, format);
-				sprintf (buffer, "%f", v);
-				cell_set_text (cell, buffer);
-				text_set = TRUE;
-			}
-			g_free (new_text);
+			cell_set_value (cell, value_new_float (v));
+			text_set = TRUE;
 		}
 	}
 
@@ -830,10 +952,12 @@ sheet_cancel_pending_input (Sheet *sheet)
 	if (!sheet->editing)
 		return;
 
-	if (sheet->editing_cell){
-		cell_set_text (sheet->editing_cell, sheet->editing_saved_text->str);
-		sheet_stop_editing (sheet);
+	if (sheet->editing_cell) {
+		const char *oldtext = sheet->editing_saved_text->str;
+		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), oldtext);
+		cell_set_text (sheet->editing_cell, oldtext);
 	}
+	sheet_stop_editing (sheet);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
@@ -865,7 +989,7 @@ sheet_load_cell_val (Sheet *sheet)
 }
 
 void
-sheet_start_editing_at_cursor (Sheet *sheet)
+sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 {
 	GList *l;
 	Cell  *cell;
@@ -873,13 +997,14 @@ sheet_start_editing_at_cursor (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), "");
+	if (blankp)
+		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), "");
 
-	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-
-		gnumeric_sheet_create_editing_cursor (gsheet);
-	}
+	if (cursorp)
+		for (l = sheet->sheet_views; l; l = l->next){
+			GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+			gnumeric_sheet_create_editing_cursor (gsheet);
+		}
 
 	sheet->editing = TRUE;
 	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
@@ -891,7 +1016,8 @@ sheet_start_editing_at_cursor (Sheet *sheet)
 		g_free (text);
 
 		sheet->editing_cell = cell;
-		cell_set_text (cell, "");
+		if (blankp)
+			cell_set_text (cell, "");
 	}
 }
 
@@ -913,9 +1039,9 @@ sheet_update_controls (Sheet *sheet)
 	if (cells){
 		Cell *cell = cells->data;
 
-		bold_first = cell->style->font->hint_is_bold;
-		italic_first = cell->style->font->hint_is_italic;
-
+		bold_first = cell->style->font->is_bold;
+		italic_first = cell->style->font->is_italic;
+		
 		l = cells->next;
 	}
 	else
@@ -928,8 +1054,8 @@ sheet_update_controls (Sheet *sheet)
 		Style *style;
 
 		style = sheet_style_compute (sheet, ss->start_col, ss->start_row, NULL);
-		bold_first = style->font->hint_is_bold;
-		italic_first = style->font->hint_is_italic;
+		bold_first = style->font->is_bold;
+		italic_first = style->font->is_italic;
 		style_destroy (style);
 
 		/* Initialize the pointer that is going to be used next */
@@ -942,10 +1068,10 @@ sheet_update_controls (Sheet *sheet)
 	for (; l; l = l->next){
 		Cell *cell = l->data;
 
-		if (italic_first != cell->style->font->hint_is_italic)
+		if (italic_first != cell->style->font->is_italic)
 			italic_common = FALSE;
 
-		if (bold_first != cell->style->font->hint_is_bold)
+		if (bold_first != cell->style->font->is_bold)
 			bold_common = FALSE;
 
 		if (bold_common == FALSE && italic_common == FALSE)
@@ -2315,7 +2441,9 @@ sheet_destroy (Sheet *sheet)
 	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	g_warning ("Reminder: need to destroy SheetObjects");
+	if (sheet->objects) {
+		g_warning ("Reminder: need to destroy SheetObjects");
+	}
 	sheet_selections_free (sheet);
 	g_free (sheet->name);
 

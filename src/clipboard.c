@@ -5,8 +5,8 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *
  * FIXME:
- *    When the new GTK+ and gnome-libs is released remove all of the
- *    compatibility code
+ *    I would like to have a global selection instead of the per-sheet/workbook
+ *    clipboard, it would clean up a few code spots.
  */
 #include <config.h>
 #include <gnome.h>
@@ -121,7 +121,7 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 	CellCopyList *l;
 	GList *deps;
 	int formulas = 0;
-	int col, row;
+	int col, row, col_inc, row_inc;
 
 	/* clear the region where we will paste */
 	if (paste_flags & (PASTE_VALUES | PASTE_FORMULAS))
@@ -138,15 +138,28 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 					  dest_row + paste_height - 1);
 	
 	/* Paste each element */
-	for (col = 0; col < paste_width; col += region->cols){
-		for (row = 0; row < paste_height; row += region->rows){
+	if (paste_flags & PASTE_TRANSPOSE){
+		col_inc = region->rows;
+		row_inc = region->cols;
+	} else {
+		col_inc = region->cols;
+		row_inc = region->rows;
+	}
+
+	for (col = 0; col < paste_width; col += col_inc){
+		for (row = 0; row < paste_height; row += row_inc){
 			for (l = region->list; l; l = l->next){
 				CellCopy *c_copy = l->data;
 				int target_col, target_row;
-				
-				target_col = col + dest_col + c_copy->col_offset;
-				target_row = row + dest_row + c_copy->row_offset;
 
+				if (paste_flags & PASTE_TRANSPOSE){
+					target_col = col + dest_col + c_copy->row_offset;
+					target_row = row + dest_row + c_copy->col_offset;
+				} else {
+					target_col = col + dest_col + c_copy->col_offset;
+					target_row = row + dest_row + c_copy->row_offset;
+				}
+				
 				if (target_col > dest_col + paste_width - 1)
 					continue;
 
@@ -274,9 +287,21 @@ sheet_paste_selection (Sheet *sheet, CellRegion *content, SheetSelection *ss, cl
 	else
 		paste_height = content->rows;
 
-	end_col = pc->dest_col + paste_width - 1;
-	end_row = pc->dest_row + paste_height - 1;
+	if (pc->paste_flags & PASTE_TRANSPOSE){
+		int t;
+		
+		end_col = pc->dest_col + paste_height - 1;
+		end_row = pc->dest_row + paste_width - 1;
 
+		/* Swap the paste dimensions for transposing */
+		t = paste_height;
+		paste_height = paste_width;
+		paste_width = t;
+	} else {
+		end_col = pc->dest_col + paste_width - 1;
+		end_row = pc->dest_row + paste_height - 1;
+	}
+	
 	/* Do the actual paste operation */
 	do_clipboard_paste_cell_region (
 		content,      sheet,

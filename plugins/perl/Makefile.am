@@ -1,5 +1,5 @@
 #
-# Makefile for the Python Gnumeric plugin.
+# Makefile for the Perl Gnumeric plugin.
 #
 
 #
@@ -10,39 +10,69 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+execplugindir = $(libdir)/gnumeric/plugins
+gnperldir = $(datadir)/gnumeric/perl/lib
 
-CFLAGS += $(PERL_CCCDLFLAGS)				\
+PERL_CFLAGS = $(PERL_CCCDLFLAGS)				\
 	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(includedir)					\
 	$(PERL_CCOPTS)					\
 	$(GNOME_INCLUDEDIR)
 
-
-noinst_PROGRAMS = perl.so
-
-.c.o:
-	$(CC) $(CFLAGS) -c $<
+#noinst_PROGRAMS = perl.so
+execplugin_PROGRAMS = perl.so
 
 perl_so_SOURCES = perl.c
 
 perl.so: perl.o xsinit.o ext.timestamp
 	-$(PERL_LD) $(PERL_LDDLFLAGS) -o perl.so perl.o xsinit.o $(PERL_LDOPTS)
 
+perl.o: $(srcdir)/perl.c
+	$(PERL_CC) $(PERL_CFLAGS) -c $(srcdir)/perl.c
+
+xsinit.o: xsinit.c
+	$(PERL_CC) $(PERL_CFLAGS) -c xsinit.c
+
 xsinit.c:
 	-perl -MExtUtils::Embed -e xsinit -- -o xsinit.c
 
-ext.timestamp:
-	-( cd ext ; perl Makefile.PL LIB=$(datadir)/gnumeric/perl/lib )
-	touch ext.timestamp
+# do all the ext stuff
+
+ext.timestamp: ext/Makefile
+	cd ext && $(MAKE)
+	echo timestamp > ext.timestamp
+
+ext/Makefile: ext/Makefile.PL 
+	-(set -x; 					\
+	srcextdir=`cd $(srcdir)/ext && pwd`;		\
+	cd ext;						\
+	if test ! -r Gnumeric.xs; then			\
+	  rm -f Gnumeric.xs;				\
+	  $(LN_S) $$srcextdir/Gnumeric.xs Gnumeric.xs;	\
+	fi;						\
+	if test ! -r Gnumeric.pm; then			\
+	  rm -f Gnumeric.pm;				\
+	  $(LN_S) $$srcextdir/Gnumeric.pm Gnumeric.pm;	\
+	fi;						\
+	perl Makefile.PL LIB=$(gnperldir))
+
+ext/Makefile.PL: $(srcdir)/ext/Makefile.PL.in $(top_builddir)/config.status
+	cd $(top_builddir) && CONFIG_FILES=plugins/perl/ext/Makefile.PL \
+		CONFIG_HEADERS= ./config.status
+
+install-exec-local:
+	cd ext && $(MAKE) install
+
+check-local:
+	cd ext && $(MAKE) test
 
 Perlscriptsdir = $(datadir)/gnumeric/perl
 
 Perlscripts_DATA = startup.pl
 
-EXTRA_DIST = startup.pl
+EXTRA_DIST = startup.pl				\
+	ext/Makefile.PL.in			\
+	ext/Gnumeric.xs				\
+	ext/Gnumeric.pm
 
-dist-hook:
-	mkdir $(distdir)/ext
-	cp $(srcdir)/ext/Gnumeric.* $(srcdir)/ext/Makefile.PL.in $(distdir)/ext

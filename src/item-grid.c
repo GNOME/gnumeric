@@ -478,11 +478,12 @@ context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
 	int flags;
 
 	flags = dialog_paste_special (sheet->workbook);
-	sheet_selection_paste (sheet,
-			       sheet->cursor_col,
-			       sheet->cursor_row,
-			       flags,
-			       GDK_CURRENT_TIME);
+	if (flags != 0)
+		sheet_selection_paste (sheet,
+				       sheet->cursor_col,
+				       sheet->cursor_row,
+				       flags,
+				       GDK_CURRENT_TIME);
 	context_destroy_menu (widget);
 }
 

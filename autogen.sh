@@ -8,6 +8,8 @@ PKG_NAME="Gnumeric"
 
 if test -d ${srcdir}/libglade; then
     > ${srcdir}/libglade/NO-AUTO-GEN
+    > ${srcdir}/libglade/libglade.spec
+    > ${srcdir}/libglade/libgladeConf.sh
 else
     echo you need to checkout gnumeric again 
     exit 1

@@ -1,3 +1,21 @@
+1999-06-25  Morten Welinder  <terra@diku.dk>
+
+	* csv-io.c (insert_csv_cell): Use g_free.  Cleanup the mess.
+	(csv_init): Up priority to 1 -- we have slightly more structure
+ 	than plain text.
+	(csv_parse_file): Fix off-by-one error.  Fix \r logic.  Handle
+ 	foreign locales with more grace.  Handle mmap failures by
+ 	reverting to good old read.
+
+1999-06-14  Morten Welinder  <terra@diku.dk>
+
+	* csv-io.c (csv_read_workbook): Make static.
+	(csv_read_workbook): Make static.
+	(csv_init): Make static.
+	(csv_cleanup_plugin): Fix type.
+
+	* csv-io.h: Fix includes.
+
 1999-04-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* csv-io.c (csv_cleanup_plugin): Return proper value.
@@ -10,4 +28,3 @@
 1999-02-06  Vincent Renardias <vincent@ldsol.com>
 
 	* csv-io.h, csv-io.c: A few fixes.
-

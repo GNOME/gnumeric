@@ -32,6 +32,10 @@ typedef struct {
 	Style  *style;
 } StyleRegion;
 
+/* Forward declaration */
+struct _PrintInformation;
+typedef struct _PrintInformation PrintInformation;
+
 struct _Workbook {
 	char       *filename;
 
@@ -48,7 +52,7 @@ struct _Workbook {
         GnomeAppBar * appbar;
   
 	/* The auto-expression */
-	ExprTree   *auto_expr;
+	char       *auto_expr_text;
 	String     *auto_expr_desc;
 	GnomeCanvasItem  *auto_expr_label;
 	
@@ -81,6 +85,8 @@ struct _Workbook {
 	 * to the asyncronous paste callback
 	 */
 	void       *clipboard_paste_callback_data;
+
+	PrintInformation *print_info;
 
 	void       *toolbar;
 
@@ -289,6 +295,8 @@ void        sheet_row_add                 (Sheet *sheet, ColRowInfo *cp);
 /* Measure distances in pixels from one col/row to another */
 int         sheet_col_get_distance        (Sheet *sheet, int from_col, int to_col);
 int         sheet_row_get_distance        (Sheet *sheet, int from_row, int to_row);
+double      sheet_row_get_unit_distance   (Sheet *sheet, int from_row, int to_row);
+double      sheet_col_get_unit_distance   (Sheet *sheet, int from_col, int to_col);
  
 void        sheet_clear_region            (Sheet *sheet,
 				           int start_col, int start_row,
@@ -358,7 +366,7 @@ Sheet      *sheet_lookup_by_name          (Sheet *base, const char *name);
 /*
  * Sheet visual editing
  */
-void        sheet_start_editing_at_cursor (Sheet *sheet);
+void        sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp);
 void        sheet_set_current_value       (Sheet *sheet);
 void        sheet_accept_pending_input    (Sheet *sheet);
 void        sheet_cancel_pending_input    (Sheet *sheet);
@@ -407,6 +415,7 @@ Workbook   *workbook_read                (const char *filename);
 
 void        workbook_save_as             (Workbook *);
 void        workbook_save                (Workbook *);
+void        workbook_print               (Workbook *);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 gboolean    workbook_detach_sheet        (Workbook *, Sheet *, gboolean);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
@@ -445,13 +454,13 @@ typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
 void     workbook_foreach             (WorkbookCallback cback,
 				       gpointer data);
 
-
-
-void	workbook_fixup_references	(Workbook *wb, Sheet *sheet, int col, int row,
+void	workbook_fixup_references	(Workbook *wb, Sheet *sheet,
+					 int col, int row,
 					 int coldelta, int rowdelta);
-
-void	workbook_invalidate_references	(Workbook *wb, Sheet *sheet, int col, int row,
+void	workbook_invalidate_references	(Workbook *wb, Sheet *sheet,
+					 int col, int row,
 					 int colcount, int rowcount);
+
 
 /*
  * Feedback routines

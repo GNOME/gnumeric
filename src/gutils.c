@@ -98,8 +98,10 @@ cell_name (int col, int row)
 const char *
 col_name (int col)
 {
-	static char buffer [20];
+	static char buffer [3];
 	char *p = buffer;
+	
+	g_assert (col < SHEET_MAX_COLS);
 
 	if (col <= 'Z'-'A'){
 		*p++ = col + 'A';
@@ -124,11 +126,11 @@ col_from_name (const char *cell_str)
 	char c;
 	int col = 0;
 
-	c = toupper (*cell_str++);
+	c = toupper ((unsigned char)*cell_str++);
 	if (c < 'A' || c > 'Z')
 		return FALSE;
 	col = c - 'A';
-	c = toupper (*cell_str);
+	c = toupper ((unsigned char)*cell_str);
 	if (c >= 'A' && c <= 'Z')
 		col = ((col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
 	if (col >= SHEET_MAX_COLS)
@@ -151,11 +153,12 @@ parse_cell_name (const char *cell_str, int *col, int *row)
 	char c;
 
 	/* Parse column name: one or two letters.  */
-	c = toupper (*cell_str++);
+	c = toupper ((unsigned char)*cell_str++);
 	if (c < 'A' || c > 'Z')
 		return FALSE;
+
 	*col = c - 'A';
-	c = toupper (*cell_str);
+	c = toupper ((unsigned char)*cell_str);
 	if (c >= 'A' && c <= 'Z') {
 		*col = ((*col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
 		cell_str++;
@@ -165,7 +168,7 @@ parse_cell_name (const char *cell_str, int *col, int *row)
 
 	/* Parse row number: a sequence of digits.  */
 	for (*row = 0; *cell_str; cell_str++) {
-		if (!isdigit (*cell_str))
+		if (*cell_str < '0' || *cell_str > '9')
 			return FALSE;
 		*row = *row * 10 + (*cell_str - '0');
 		if (*row > SHEET_MAX_ROWS) /* Note: ">" is deliberate.  */
@@ -189,9 +192,9 @@ gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)
 guint
 gnumeric_strcase_hash (gconstpointer v)
 {
-	const char *s = (const char*)v;
-	const char *p;
-	guint h=0, g;
+	const unsigned char *s = (const unsigned char *)v;
+	const unsigned char *p;
+	guint h = 0, g;
 
 	for(p = s; *p != '\0'; p += 1) {
 		h = ( h << 4 ) + tolower (*p);
@@ -204,10 +207,12 @@ gnumeric_strcase_hash (gconstpointer v)
 	return h /* % M */;
 }
 
+
 /* One less that the Julian day number of 19000101.  */
 static guint32 date_origin = 0;
 
-/* The serial number of 19000228.  Excel allocates a serial number for
+/*
+ * The serial number of 19000228.  Excel allocates a serial number for
  * the non-existing date 19000229.
  */
 static const guint32 date_serial_19000228 = 58;
@@ -342,4 +347,33 @@ double
 random_normal (void)
 {
 	return qnorm (random_01 (), 0, 1);
+}
+
+/*
+ * str_trim_spaces:
+ * s: the string to modify
+ *
+ * This routine trims the leading and trailing spaces of the
+ * string.  The string is possibly modified and the returned
+ * value lies inside the original string.
+ *
+ * No duplication takes place
+ */
+char *
+str_trim_spaces (char *s)
+{
+	char *p;
+	
+	while (*s && *s == ' ')
+		s++;
+
+	p = s + strlen (s);
+	while (p >= s){
+		if (*p == ' ')
+			*p = 0;
+		else
+			break;
+		p--;
+	}
+	return s;
 }

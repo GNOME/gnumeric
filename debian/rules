@@ -10,9 +10,9 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --sysconfdir=/etc
 	# Add here commands to compile the package.
-	make CFLAGS="-O2 -g -Wall"
+	make #CFLAGS="-O2 -g -Wall"
 
 	touch build-stamp
 
@@ -23,7 +23,8 @@ clean:
 
 	# Add here commands to clean up after the build process.
 	-$(MAKE) distclean
-
+	rm -f libglade/macros/Makefile libglade/doc/Makefile plugins/perl/ext/Makefile.PL plugins/perl/ext/Makefile \
+	plugins/perl/xsinit.c plugins/guile/Makefile gnumeric.keys
 	dh_clean
 
 # Build architecture-independent files here.
@@ -41,6 +42,7 @@ binary-arch: build
 	# Add here commands to install the files into debian/tmp
 	$(MAKE) install prefix=`pwd`/debian/tmp/usr
 
+	rm -f `find ./debian/tmp/usr/ -name \*.a`
 	dh_installdocs
 	dh_installexamples
 	dh_installmenu

@@ -26,6 +26,7 @@ typedef struct _FORMULA_FUNC_DATA
 {
 	char *prefix ;
 	int num_args ; /* -1 for multi-arg */
+		       /* -2 for unknown args */
 } FORMULA_FUNC_DATA ;
 
 /**
@@ -62,430 +63,401 @@ FORMULA_OP_DATA formula_op_data[] = {
 #define FORMULA_OP_START      0x03
 
 /**
- * FIXME: This table needs properly populating, preferably from xlcall.h (?)
- * Functions in order, zero based, with number of arguments or '-1' for vararg.
+ * Populate from xlcall.h
+ * Functions in order, zero based, with number of arguments or
+ *		'-1' for vararg or with optional arguments.
+ *		'-2' for unknown numbers or arguments.
+ * NB. all argument counts are those for Excel.
+ * Many of the unknowns are xlm macro commands.
+ *     macrofun.hlp has info on them but supporting Excel4 macro sheets is not
+ *     top priority.
  **/
 FORMULA_FUNC_DATA formula_func_data[] =
 {
-	{ "COUNT", -1 },
-	{ "IF", -1 },
-	{ "ISNA", 1 },
-	{ "ISERROR", 1 },
-	{ "SUM", -1 },
-	{ "AVERAGE", -1 },
-	{ "MIN", -1 },
-	{ "MAX", -1 },
-	{ "0x8", 8 },
-	{ "COLUMN", -1 },
-	{ "0xa", 0 }, /* NA */
-	{ "0xb", 8 },
-	{ "STDEV", -1 },
-	{ "DOLLAR", 1 },
-	{ "FIXED", 1 },
-	{ "SIN", 1 },
-	{ "COS", 1 },
-	{ "TAN", 1 },
-	{ "ATAN", 1 },
-	{ "PI", 0 },
-	{ "SQRT", 1 },
-	{ "EXP", 1 },
-	{ "LN", 1 },
-	{ "LOG10", 1 },
-	{ "ABS", 1 },
-	{ "INT", 1 },
-	{ "SIGN", 1 },
-	{ "ROUND", 2 },
-	{ "LOOKUP", -1 },
-	{ "INDEX", -1 },
-	{ "REPT", 2 },
-	{ "MID", 3 },
-	{ "LEN", 1 },
-	{ "VALUE", 1 },
-	{ "0x22", 8 },
-	{ "0x23", 8 }, /* FALSE */
-	{ "AND", -1 },
-	{ "OR", -1 },
-	{ "NOT", 1 },
-	{ "MOD", 2 },
-	{ "DCOUNT", 3 },
-	{ "DSUM", 3 },
-	{ "DAVERAGE", 3 },
-	{ "DMIN", 3 },
-	{ "DMAX", 3 },
-	{ "DSTDEV", 3 },
-	{ "VAR", -1 },
-	{ "DVAR", 3 },
-	{ "REPLACE", 2 },
-	{ "LINEST", 2 },
-	{ "TREND", 4 },
-	{ "LOGEST", 1 },
-	{ "GROWTH", -1 },
-	{ "0x35", 8 },
-	{ "0x36", 8 },
-	{ "0x37", 8 },
-	{ "0x38", 8 },
-	{ "FV", 5 },
-	{ "0x3a", 8 },
-	{ "0x3b", 8 },
-	{ "0x3c", 8 },
-	{ "0x3d", 8 },
-	{ "IRR", 2 },
-	{ "RAND", 0 },
-	{ "MATCH", 3 },
-	{ "DATE", 3 },
-	{ "TIME", 3 },
-	{ "DAY", 1 },
-	{ "MONTH", 1 },
-	{ "YEAR", 1 },
-	{ "WEEKDAY", 1 },
-	{ "HOUR", 1 },
-	{ "MINUTE", 1 },
-	{ "SECOND", 1 },
-	{ "NOW", 0 },
-	{ "AREAS", 1 },
-	{ "ROWS", 1 },
-	{ "COLUMNS", 1 },
-	{ "OFFSET", -1 },
-	{ "0x4f", 8 },
-	{ "0x50", 8 },
-	{ "0x51", 8 },
-	{ "SEARCH", 3 },
-	{ "0x53", 8 },
-	{ "0x54", 8 },
-	{ "0x55", 8 },
-	{ "TYPE", 1 },
-	{ "0x57", 8 },
-	{ "0x58", 8 },
-	{ "0x59", 8 },
-	{ "0x5a", 8 },
-	{ "0x5b", 8 },
-	{ "0x5c", 8 },
-	{ "0x5d", 8 },
-	{ "0x5e", 8 },
-	{ "0x5f", 8 },
-	{ "0x60", 8 },
-	{ "ATAN2", 2 },
-	{ "ASIN", 1 },
-	{ "ACOS", 1 },
-	{ "CHOOSE", -1 },
-	{ "HLOOKUP", -1 },
-	{ "VLOOKUP", -1 },
-	{ "0x67", 8 },
-	{ "0x68", 8 },
-	{ "ISREF", 1 },
-	{ "0x6a", 8 },
-	{ "0x6b", 8 },
-	{ "0x6c", 8 },
-	{ "LOG", 1 },
-	{ "0x6e", 8 },
-	{ "CHAR", 1 },
-	{ "LOWER", 1 },
-	{ "UPPER", 1 },
-	{ "PROPER", 1 },
-	{ "LEFT", 2 },
-	{ "RIGHT", 2 },
-	{ "EXACT", 2 },
-	{ "TRIM", 1 },
-	{ "0x77", 2 },
-	{ "SUBSTITUTE", -1 },
-	{ "CODE", 1 },
-	{ "0x7a", 8 },
-	{ "0x7b", 8 },
-	{ "FIND", -1 },
-	{ "CELL", 2 },
-	{ "ISERR", 1 },
-	{ "ISTEXT", 1 },
-	{ "ISNUMBER", 1 },
-	{ "ISBLANK", 1 },
-	{ "T", 1 },
-	{ "N", 1 },
-	{ "0x84", 8 },
-	{ "0x85", 8 },
-	{ "0x86", 8 },
-	{ "0x87", 8 },
-	{ "0x88", 8 },
-	{ "0x89", 8 },
-	{ "0x8a", 8 },
-	{ "0x8b", 8 },
-	{ "DATEVALUE", 1 },
-	{ "0x8d", 8 },
-	{ "0x8e", 8 },
-	{ "0x8f", 8 },
-	{ "DDB", 5 },
-	{ "0x91", 8 },
-	{ "0x92", 8 },
-	{ "0x93", 8 },
-	{ "INDIRECT", -1 },
-	{ "0x95", 8 },
-	{ "0x96", 8 },
-	{ "0x97", 8 },
-	{ "0x98", 8 },
-	{ "0x99", 8 },
-	{ "0x9a", 8 },
-	{ "0x9b", 8 },
-	{ "0x9c", 8 },
-	{ "0x9d", 8 },
-	{ "0x9e", 8 },
-	{ "0x9f", 8 },
-	{ "0xa0", 8 },
-	{ "0xa1", 8 },
-	{ "CLEAN", 1 },
-	{ "0xa3", 8 },
-	{ "0xa4", 8 },
-	{ "0xa5", 8 },
-	{ "0xa6", 8 },
-	{ "IPMT", 6 },
-	{ "0xa8", 8 },
-	{ "COUNTA", -1 },
-	{ "0xaa", 8 },
-	{ "0xab", 8 },
-	{ "0xac", 8 },
-	{ "0xa8", 8 },
-	{ "0xae", 8 },
-	{ "0xaf", 8 },
-	{ "0xb0", 8 },
-	{ "0xb1", 8 },
-	{ "0xb2", 8 },
-	{ "0xb3", 8 },
-	{ "0xb4", 8 },
-	{ "0xb5", 8 },
-	{ "0xb6", 8 },
-	{ "0xb7", 8 },
-	{ "FACT", 1 },
-	{ "0xb9", 8 },
-	{ "0xba", 8 },
-	{ "0xbb", 8 },
-	{ "0xbc", 8 },
-	{ "DPRODUCT", 3 },
-	{ "ISNONTEXT", 1 },
-	{ "0xbf", 8 },
-	{ "0xc0", 8 },
-	{ "STDEVP", -1 },
-	{ "VARP", -1 },
-	{ "DSTDEVP", 3 },
-	{ "DVARP", 3 },
-	{ "TRUNC", 1 },
-	{ "ISLOGICAL", 1 },
-	{ "DCOUNTA", 3 },
-	{ "0xc8", 8 },
-	{ "0xc9", 8 },
-	{ "0xca", 8 },
-	{ "0xcb", 8 },
-	{ "0xcc", 8 },
-	{ "0xcd", 8 },
-	{ "0xce", 8 },
-	{ "0xcf", 8 },
-	{ "0xd0", 8 },
-	{ "0xd1", 8 },
-	{ "0xd2", 8 },
-	{ "0xd3", 8 },
-	{ "0xd4", 8 },
-	{ "0xd5", 8 },
-	{ "0xd6", 8 },
-	{ "0xd7", 8 },
-	{ "RANK", -1 },
-	{ "0xd9", 8 },
-	{ "0xda", 8 },
-	{ "ADDRESS", -1 },
-	{ "DAYS360", 2 },
-	{ "TODAY", 0 },
-	{ "0xde", 8 },
-	{ "0xdf", 8 },
-	{ "0xe0", 8 },
-	{ "0xe1", 8 },
-	{ "0xe2", 8 },
-	{ "MEDIAN", -1 },
-	{ "0xe4", 8 },
-	{ "SINH", 1 },
-	{ "COSH", 1 },
-	{ "TANH", 1 },
-	{ "ASINH", 1 },
-	{ "ACOSH", 1 },
-	{ "ATANH", 1 },
-	{ "DGET", 3 },
-	{ "0xec", 8 },
-	{ "0xed", 8 },
-	{ "0xee", 8 },
-	{ "0xef", 8 },
-	{ "0xf0", 8 },
-	{ "0xf1", 8 },
-	{ "0xf2", 8 },
-	{ "0xf3", 8 },
-	{ "INFO", 1 },
-	{ "0xf5", 8 },
-	{ "0xf6", 8 },
-	{ "DB", 5 },
-	{ "0xf8", 8 },
-	{ "0xf9", 8 },
-	{ "0xfa", 8 },
-	{ "0xfb", 8 },
-	{ "FREQUENCY", 2 },
-	{ "0xfd", 8 },
-	{ "0xfe", 8 },
-	{ "MAGIC", -1 }, /* Dodgy special case */
-	{ "0x100", 8 },
-	{ "0x101", 8 },
-	{ "0x102", 8 },
-	{ "0x103", 8 },
-	{ "0x104", 8 },
-	{ "ERROR.TYPE", 1 },
-	{ "0x106", 8 },
-	{ "0x107", 8 },
-	{ "0x108", 8 },
-	{ "0x109", 8 },
-	{ "0x10a", 8 },
-	{ "0x10b", 8 },
-	{ "0x10c", 8 },
-	{ "AVEDEV", -1 },
-	{ "BETADIST", -1 },
-	{ "GAMMALN", 1 },
-	{ "BETAINV", 3 },
-	{ "BINOMDIST", 4 },
-	{ "CHIDIST", 2 },
-	{ "CHIINV", 2 },
-	{ "COMBIN", 2 },
-	{ "CONFIDENCE", 3 },
-	{ "CRITBINOM", 3 },
-	{ "EVEN", 1 },
-	{ "EXPONDIST", 3 },
-	{ "FDIST", 3 },
-	{ "FINV", 3 },
-	{ "FISHER", 1 },
-	{ "FISHERINV", 1 },
-	{ "FLOOR", 2 },
-	{ "GAMMADIST", 4 },
-	{ "GAMMAINV", 3 },
-	{ "CEILING", 2 },
-	{ "HYPGEOMDIST", 4 },
-	{ "LOGNORMDIST", 3 },
-	{ "LOGINV", 3 },
-	{ "NEGBINOMDIST", 3 },
-	{ "NORMDIST", 4 },
-	{ "NORMSDIST", 1 },
-	{ "NORMINV", 3 },
-	{ "NORMSINV", 1 },
-	{ "STANDARDIZE", 3 },
-	{ "ODD", 1 },
-	{ "PERMUT", 2 },
-	{ "POISSON", 3 },
-	{ "TDIST", 3 },
-	{ "WEIBULL", 4 },
-	{ "ZTEST", 3 },
-	{ "0x130", 8 },
-	{ "0x131", 8 },
-	{ "CHITEST", 2 },
-	{ "CORREL", 2 },
-	{ "COVAR", 2 },
-	{ "FORECAST", 3 },
-	{ "FTEST", 2 },
-	{ "INTERCEPT", 2 },
-	{ "PEARSON", 2 },
-	{ "RSQ", 2 },
-	{ "STEYX", 2 },
-	{ "SLOPE", 2 },
-	{ "TTEST", 4 },
-	{ "PROB", 3 },
-	{ "DEVSQ", -1 },
-	{ "GEOMEAN", -1 },
-	{ "HARMEAN", -1 },
-	{ "0x141", 8 },
-	{ "KURT", -1 },
-	{ "SKEW", -1 },
-	{ "ZTEST", 3 },
-	{ "LARGE", 2 },
-	{ "SMALL", 2 },
-	{ "QUARTILE", 2 },
-	{ "PERCENTILE", 2 },
-	{ "PERCENTRANK", 2 },
-	{ "MODE", -1 },
-	{ "TRIMMEAN", 2 },
-	{ "TINV", 2 },
-	{ "0x14d", 8 },
-	{ "0x14e", 8 },
-	{ "0x14f", 8 },
-	{ "CONCATENATE", 2 },
-	{ "POWER", 2 },
-	{ "0x152", 8 },
-	{ "0x153", 8 },
-	{ "0x154", 8 },
-	{ "0x155", 8 },
-	{ "RADIANS", 1 },
-	{ "DEGREES", 1 },
-	{ "0x158", 8 },
-	{ "0x159", 8 },
-	{ "COUNTIF", 2 },
-	{ "COUNTBLANK", 1 },
-	{ "0x15c", 8 },
-	{ "0x15d", 8 },
-	{ "0x15e", 8 },
-	{ "0x15f", 8 },
-	{ "0x160", 8 },
-	{ "0x161", 8 },
-	{ "ROMAN", 2 },
-	{ "0x163", 8 },
-	{ "0x164", 8 },
-	{ "0x165", 8 },
-	{ "0x166", 8 },
-	{ "HYPERLINK", -1 },
-	{ "0x168", 8 },
-	{ "AVERAGEA", -1 },
-	{ "MAXA", -1 },
-	{ "MINA", -1 },
-	{ "0x16c", 8 },
-	{ "0x16d", 8 },
-	{ "0x16e", 8 },
-	{ "0x16f", 8 },
+/* 0 */		{ "COUNT", -1 },
+/* 1 */		{ "IF", -1 },
+/* 2 */		{ "ISNA", 1 },
+/* 3 */		{ "ISERROR", 1 },
+/* 4 */		{ "SUM", -1 },
+/* 5 */		{ "AVERAGE", -1 },
+/* 6 */		{ "MIN", -1 },
+/* 7 */		{ "MAX", -1 },
+/* 8 */		{ "ROW", 1 },
+/* 9 */		{ "COLUMN", 1 },
+/* 10 */	{ "NA", 0 },
+/* 11 */	{ "NPV", -1 },
+/* 12 */	{ "STDEV", -1 },
+/* 13 */	{ "DOLLAR", -1 },
+/* 14 */	{ "FIXED", -1 },
+/* 15 */	{ "SIN", 1 },
+/* 16 */	{ "COS", 1 },
+/* 17 */	{ "TAN", 1 },
+/* 18 */	{ "ATAN", 1 },
+/* 19 */	{ "PI", 0 },
+/* 20 */	{ "SQRT", 1 },
+/* 21 */	{ "EXP", 1 },
+/* 22 */	{ "LN", 1 },
+/* 23 */	{ "LOG10", 1 },
+/* 24 */	{ "ABS", 1 },
+/* 25 */	{ "INT", 1 },
+/* 26 */	{ "SIGN", 1 },
+/* 27 */	{ "ROUND", 2 },
+/* 28 */	{ "LOOKUP", -1 },
+/* 29 */	{ "INDEX", },
+/* 30 */	{ "REPT", -1 },
+/* 31 */	{ "MID", 3 },
+/* 32 */	{ "LEN", 1 },
+/* 33 */	{ "VALUE", 1 },
+/* 34 */	{ "TRUE", 0 },
+/* 35 */	{ "FALSE", 0 },
+/* 36 */	{ "AND", -1 },
+/* 37 */	{ "OR", -1 },
+/* 38 */	{ "NOT", 1 },
+/* 39 */	{ "MOD", 2 },
+/* 40 */	{ "DCOUNT", 3 },
+/* 41 */	{ "DSUM", 3 },
+/* 42 */	{ "DAVERAGE", 3 },
+/* 43 */	{ "DMIN", 3 },
+/* 44 */	{ "DMAX", 3 },
+/* 45 */	{ "DSTDEV", 3 },
+/* 46 */	{ "VAR", -1 },
+/* 47 */	{ "DVAR", 3 },
+/* 48 */	{ "TEXT", 2 },
+/* 49 */	{ "LINEST", -1 },
+/* 50 */	{ "TREND", -1 },
+/* 51 */	{ "LOGEST", -1 },
+/* 52 */	{ "GROWTH", -1 },
+/* 53 */	{ "GOTO", -2 },
+/* 55 Unknown*/	{ "UnknownFunction55", -2 },
+/* 54 */	{ "HALT", -2 },
+/* 56 */	{ "PV", -1 },	/* type is optional */
+/* 57 */	{ "FV", -1 },	/* type is optional */
+/* 58 */	{ "NPER", -1 },	/* type is optional */
+/* 59 */	{ "PMT", -1 },	/* type is optional */
+/* 60 */	{ "RATE", -1 },	/* guess is optional */
+/* 61 */	{ "MIRR", 3 },
+/* 62 */	{ "IRR", -1 },	/* guess is optional */
+/* 63 */	{ "RAND", 0 },
+/* 64 */	{ "MATCH", -1 },/* match_type is optional */
+/* 65 */	{ "DATE", 3 },
+/* 66 */	{ "TIME", 3 },
+/* 67 */	{ "DAY", 1 },
+/* 68 */	{ "MONTH", 1 },
+/* 69 */	{ "YEAR", 1 },
+/* 70 */	{ "WEEKDAY", -1 },/* Return type is optional */
+/* 71 */	{ "HOUR", 1 },
+/* 72 */	{ "MINUTE", 1 },
+/* 73 */	{ "SECOND", 1 },
+/* 74 */	{ "NOW", 0 },
+/* 75 */	{ "AREAS", 1 },
+/* 76 */	{ "ROWS", 1 },
+/* 77 */	{ "COLUMNS", 1 },
+/* 78 */	{ "OFFSET", -1 },
+/* 79 */	{ "ABSREF", 2 },	/* XLM */
+/* 80 */	{ "RELREF", -2 },
+/* 81 */	{ "ARGUMENT", -2 },
+/* 82 */	{ "SEARCH", -1 },/* Start_num is optional */
+/* 83 */	{ "TRANSPOSE", 1 },
+/* 84 */	{ "ERROR", -2 },
+/* 85 */	{ "STEP", -2 },
+/* 86 */	{ "TYPE", 1 },
+/* 87 */	{ "ECHO", -2 },
+/* 88 */	{ "SETNAME", -2 },
+/* 89 */	{ "CALLER", -2 },
+/* 90 */	{ "DEREF", -2 },
+/* 91 */	{ "WINDOWS", -2 },
+/* 92 */	{ "SERIESNUM", 4 }, /* Renamed from SERIES */
+/* 93 */	{ "DOCUMENTS", -2 },
+/* 94 */	{ "ACTIVECELL", -2 },
+/* 95 */	{ "SELECTION", -2 },
+/* 96 */	{ "RESULT", -2 },
+/* 97 */	{ "ATAN2", 2 },
+/* 98 */	{ "ASIN", 1 },
+/* 99 */	{ "ACOS", 1 },
+/* 100 */	{ "CHOOSE", -1 },
+/* 101 */	{ "HLOOKUP", -1 }, /* range_lookup is optional */
+/* 102 */	{ "VLOOKUP", -1 }, /* range_lookup is optional */
+/* 103 */	{ "LINKS", -2 },
+/* 104 */	{ "INPUT", -2 },
+/* 105 */	{ "ISREF", -2 },
+/* 106 */	{ "GETFORMULA", -2 },
+/* 107 */	{ "GETNAME", -2 },
+/* 108 */	{ "SETVALUE", -2 },
+/* 109 */	{ "LOG", -1 }, /* Base is optional */
+/* 110 */	{ "EXEC", -2 },
+/* 111 */	{ "CHAR", 1 },
+/* 112 */	{ "LOWER", 1 },
+/* 113 */	{ "UPPER", 1 },
+/* 114 */	{ "PROPER", 1 },
+/* 115 */	{ "LEFT", -1 }, /* Num_chars is optional */
+/* 116 */	{ "RIGHT", -1 }, /* Num_chars is optional */
+/* 117 */	{ "EXACT", 2 },
+/* 118 */	{ "TRIM", 1 },
+/* 119 */	{ "REPLACE", 4 },
+/* 120 */	{ "SUBSTITUTE", -1 }, /* Instance num is optional */
+/* 121 */	{ "CODE", 1 },
+/* 122 */	{ "NAMES", -2 },
+/* 123 */	{ "DIRECTORY", -2 },
+/* 124 */	{ "FIND", -1 }, /* start_num is optional */
+/* 125 */	{ "CELL", 2 },
+/* 126 */	{ "ISERR", 1 },
+/* 127 */	{ "ISTEXT", 1 },
+/* 128 */	{ "ISNUMBER", 1 },
+/* 129 */	{ "ISBLANK", 1 },
+/* 130 */	{ "T", 1 },
+/* 131 */	{ "N", 1 },
+/* 132 */	{ "FOPEN", -2 },
+/* 133 */	{ "FCLOSE", -2 },
+/* 134 */	{ "FSIZE", -2 },
+/* 135 */	{ "FREADLN", -2 },
+/* 136 */	{ "FREAD", -2 },
+/* 137 */	{ "FWRITELN", -2 },
+/* 138 */	{ "FWRITE", -2 },
+/* 139 */	{ "FPOS", -2 },
+/* 140 */	{ "DATEVALUE", 1 },
+/* 141 */	{ "TIMEVALUE", 1 },
+/* 142 */	{ "SLN", 3 },
+/* 143 */	{ "SYD", 4 },
+/* 144 */	{ "DDB", -1 }, /* Factor is optional */
+/* 145 */	{ "GETDEF", -2 },
+/* 146 */	{ "REFTEXT", -2 },
+/* 147 */	{ "TEXTREF", -2 },
+/* 148 */	{ "INDIRECT", -1 }, /* ai is optional */
+/* 149 */	{ "REGISTER", -1 },
+/* 150 */	{ "CALL", -1 },
+/* 151 */	{ "ADDBAR", -2 },
+/* 152 */	{ "ADDMENU", -2 },
+/* 153 */	{ "ADDCOMMAND", -2 },
+/* 154 */	{ "ENABLECOMMAND", -2 },
+/* 155 */	{ "CHECKCOMMAND", -2 },
+/* 156 */	{ "RENAMECOMMAND", -2 },
+/* 157 */	{ "SHOWBAR", -2 },
+/* 158 */	{ "DELETEMENU", -2 },
+/* 159 */	{ "DELETECOMMAND", -2 },
+/* 160 */	{ "GETCHARTITEM", -2 },
+/* 161 */	{ "DIALOGBOX", -2 },
+/* 162 */	{ "CLEAN", 1 },
+/* 163 */	{ "MDETERM", 1 },
+/* 164 */	{ "MINVERSE", 1 },
+/* 165 */	{ "MMULT", 2 },
+/* 166 */	{ "FILES", -2 },
+/* 167 */	{ "IPMT", -1 },	/* Type is optional */
+/* 168 */	{ "PPMT", -1 },	/* Type is optional */
+/* 169 */	{ "COUNTA", -1 },/* Type is optional */
+/* 170 */	{ "CANCELKEY", 1 },	/* XLM */
+/* 171 Unknown*/{ "UnknownFunction171", -2 },
+/* 172 Unknown*/{ "UnknownFunction172", -2 },
+/* 173 Unknown*/{ "UnknownFunction173", -2 },
+/* 174 Unknown*/{ "UnknownFunction174", -2 },
+/* 175 */	{ "INITIATE", -2 },
+/* 176 */	{ "REQUEST", -2 },
+/* 177 */	{ "POKE", -2 },
+/* 178 */	{ "EXECUTE", -2 },
+/* 179 */	{ "TERMINATE", -2 },
+/* 180 */	{ "RESTART", -2 },
+/* 181 */	{ "HELP", -2 },
+/* 182 */	{ "GETBAR", -2 },
+/* 183 */	{ "PRODUCT", -1 },
+/* 184 */	{ "FACT", 1 },
+/* 185 */	{ "GETCELL", -1 },
+/* 186 */	{ "GETWORKSPACE", -1 },
+/* 187 */	{ "GETWINDOW", -1 },
+/* 188 */	{ "GETDOCUMENT", -1 },
+/* 189 */	{ "DPRODUCT", 3 },
+/* 190 */	{ "ISNONTEXT", 1 },
+/* 191 */	{ "GETNOTE", -2 },
+/* 192 */	{ "NOTE", -2 },
+/* 193 */	{ "STDEVP", -1 },
+/* 194 */	{ "VARP", -1 },
+/* 195 */	{ "DSTDEVP", 3 },
+/* 196 */	{ "DVARP", 3 },
+/* 197 */	{ "TRUNC", -1 }, /* num_digits is optional */
+/* 198 */	{ "ISLOGICAL", 1 },
+/* 199 */	{ "DCOUNTA", 3 },
+/* 200 */	{ "DELETEBAR", -2 },
+/* 201 */	{ "UNREGISTER", -2 },
+/* 202 Unknown*/{ "UnknownFunction202", -2 },
+/* 203 Unknown*/{ "UnknownFunction203", -2 },
+/* 204 */	{ "USDOLLAR", -2 },
+/* 205 */	{ "FINDB", -2 },
+/* 206 */	{ "SEARCHB", -2 },
+/* 207 */	{ "REPLACEB", -2 },
+/* 208 */	{ "LEFTB", -2 },
+/* 209 */	{ "RIGHTB", -2 },
+/* 210 */	{ "MIDB", -2 },
+/* 211 */	{ "LENB", -2 },
+/* 212 */	{ "ROUNDUP", 2 },
+/* 213 */	{ "ROUNDDOWN", 2 },
+/* 214 */	{ "ASC", -2 },
+/* 215 */	{ "DBCS", -2 },
+/* 216 */	{ "RANK", -1 },	/* order is optional */
+/* 217 Unknown*/{ "UnknownFunction217", -2 },
+/* 218 Unknown*/{ "UnknownFunction218", -2 },
+/* 219 */	{ "ADDRESS", -1 },	/* abs_num is optional */
+/* 220 */	{ "DAYS360", -1 },	/* method is optional */
+/* 221 */	{ "TODAY", 0 },
+/* 222 Unknown*/{ "UnknownFunction222", -2 },
+/* 223 Unknown*/{ "UnknownFunction223", -2 },
+/* 224 Unknown*/{ "UnknownFunction224", -2 },
+/* 225 Unknown*/{ "UnknownFunction225", -2 },
+/* 226 Unknown*/{ "UnknownFunction226", -2 },
+/* 227 */	{ "MEDIAN", -1 },
+/* 228 */	{ "SUMPRODUCT", -1 },
+/* 229 */	{ "SINH", 1 },
+/* 230 */	{ "COSH", 1 },
+/* 231 */	{ "TANH", 1 },
+/* 232 */	{ "ASINH", 1 },
+/* 233 */	{ "ACOSH", 1 },
+/* 234 */	{ "ATANH", 1 },
+/* 235 */	{ "DGET", 3 },
+/* 236 */	{ "CREATEOBJECT", -2 },
+/* 237 */	{ "VOLATILE", },
+/* 238 */	{ "LASTERROR", },
+/* 239 */	{ "CUSTOMUNDO", -2 },
+/* 240 */	{ "CUSTOMREPEAT", -2 },
+/* 241 */	{ "FORMULACONVERT", -2 },
+/* 242 */	{ "GETLINKINFO", -2 },
+/* 243 */	{ "TEXTBOX", },
+/* 244 */	{ "INFO", 1 },
+/* 245 */	{ "GROUP", -2 },
+/* 246 */	{ "GETOBJECT", -2 },
+/* 247 */	{ "DB", -1 },	/* month is optional */
+/* 248 */	{ "PAUSE", -2 },
+/* 249 Unknown*/{ "UnknownFunction249", -2 },
+/* 250 Unknown*/{ "UnknownFunction250", -2 },
+/* 251 */	{ "RESUME", -2 },
+/* 252 */	{ "FREQUENCY", 2 },
+/* 253 */	{ "ADDTOOLBAR", -2 },
+/* 254 */	{ "DELETETOOLBAR", -2 },
+/* 255 */	{ "MAGIC", -1 }, /* Dodgy special case */
+/* 256 */	{ "RESETTOOLBAR", -2 },
+/* 257 */	{ "EVALUATE", },
+/* 258 */	{ "GETTOOLBAR", -2 },
+/* 259 */	{ "GETTOOL", -2 },
+/* 260 */	{ "SPELLINGCHECK", -2 },
+/* 261 */	{ "ERROR.TYPE", 1 },
+/* 262 */	{ "APPTITLE", -2 },
+/* 263 */	{ "WINDOWTITLE", -2 },
+/* 264 */	{ "SAVETOOLBAR", -2 },
+/* 265 */	{ "ENABLETOOL", -2 },
+/* 266 */	{ "PRESSTOOL", -2 },
+/* 267 */	{ "REGISTERID", },
+/* 268 */	{ "GETWORKBOOK", -2 },
+/* 269 */	{ "AVEDEV", -1 },
+/* 270 */	{ "BETADIST", -1 },
+/* 271 */	{ "GAMMALN", 1 },
+/* 272 */	{ "BETAINV", -1 },
+/* 273 */	{ "BINOMDIST", 4 },
+/* 274 */	{ "CHIDIST", 2 },
+/* 275 */	{ "CHIINV", 2 },
+/* 276 */	{ "COMBIN", 2 },
+/* 277 */	{ "CONFIDENCE", 3 },
+/* 278 */	{ "CRITBINOM", 3 },
+/* 279 */	{ "EVEN", 1 },
+/* 280 */	{ "EXPONDIST", 3 },
+/* 281 */	{ "FDIST", 3 },
+/* 282 */	{ "FINV", 3 },
+/* 283 */	{ "FISHER", 1 },
+/* 284 */	{ "FISHERINV", 1 },
+/* 285 */	{ "FLOOR", 2 },
+/* 286 */	{ "GAMMADIST", 4 },
+/* 287 */	{ "GAMMAINV", 3 },
+/* 288 */	{ "CEILING", 2 },
+/* 289 */	{ "HYPGEOMDIST", 4 },
+/* 290 */	{ "LOGNORMDIST", 3 },
+/* 291 */	{ "LOGINV", 3 },
+/* 292 */	{ "NEGBINOMDIST", 3 },
+/* 293 */	{ "NORMDIST", 4 },
+/* 294 */	{ "NORMSDIST", 1 },
+/* 295 */	{ "NORMINV", 3 },
+/* 296 */	{ "NORMSINV", 1 },
+/* 297 */	{ "STANDARDIZE", 3 },
+/* 298 */	{ "ODD", 1 },
+/* 299 */	{ "PERMUT", 2 },
+/* 300 */	{ "POISSON", 3 },
+/* 301 */	{ "TDIST", 3 },
+/* 302 */	{ "WEIBULL", 4 },
+/* 303 */	{ "SUMXMY2", 2 },
+/* 304 */	{ "SUMX2MY2", 2 },
+/* 305 */	{ "SUMX2PY2", 2 },
+/* 306 */	{ "CHITEST", 2 },
+/* 307 */	{ "CORREL", 2 },
+/* 308 */	{ "COVAR", 2 },
+/* 309 */	{ "FORECAST", 3 },
+/* 310 */	{ "FTEST", 2 },
+/* 311 */	{ "INTERCEPT",2 },
+/* 312 */	{ "PEARSON", 2 },
+/* 313 */	{ "RSQ", 2 },
+/* 314 */	{ "STEYX", 2 },
+/* 315 */	{ "SLOPE", 2 },
+/* 316 */	{ "TTEST", 4 },
+/* 317 */	{ "PROB", -1 },	/* upper_limit is optional */
+/* 318 */	{ "DEVSQ", -1 },
+/* 319 */	{ "GEOMEAN", -1 },
+/* 320 */	{ "HARMEAN", -1 },
+/* 321 */	{ "SUMSQ", -1 },
+/* 322 */	{ "KURT", -1 },
+/* 323 */	{ "SKEW", -1 },
+/* 324 */	{ "ZTEST", -1 },/* sigma is optional */
+/* 325 */	{ "LARGE", 2 },
+/* 326 */	{ "SMALL", 2 },
+/* 327 */	{ "QUARTILE", 2 },
+/* 328 */	{ "PERCENTILE", 2 },
+/* 329 */	{ "PERCENTRANK", -1 },/* Significance is optional */
+/* 330 */	{ "MODE", -1 },
+/* 331 */	{ "TRIMMEAN", 2 },
+/* 332 */	{ "TINV", 2 },
+/* 333 Unknown*/{ "UnknownFunction333", -2 },
+/* 334 */	{ "MOVIECOMMAND", -2 },
+/* 335 */	{ "GETMOVIE", -2 },
+/* 336 */	{ "CONCATENATE", -1 },
+/* 337 */	{ "POWER", 2 },
+/* 338 */	{ "PIVOTADDDATA", -2 },
+/* 339 */	{ "GETPIVOTTABLE", -2 },
+/* 340 */	{ "GETPIVOTFIELD", -2 },
+/* 341 */	{ "GETPIVOTITEM", -2 },
+/* 342 */	{ "RADIANS", 1 },
+/* 343 */	{ "DEGREES", 1 },
+/* 344 */	{ "SUBTOTAL", -1 },
+/* 345 */	{ "SUMIF", -1 }, /* Actual range is optional */
+/* 346 */	{ "COUNTIF", 2 },
+/* 347 */	{ "COUNTBLANK", -1 },
+/* 348 */	{ "SCENARIOGET", -2 },
+/* 349 */	{ "OPTIONSLISTSGET", -2 },
+/* 350 */	{ "ISPMT", -2 },
+/* 351 */	{ "DATEDIF", -2 },
+/* 352 */	{ "DATESTRING", -2 },
+/* 353 */	{ "NUMBERSTRING", -2 },
+/* 354 */	{ "ROMAN", -1 },
+/* 355 */	{ "OPENDIALOG", -2 },
+/* 356 */	{ "SAVEDIALOG", -2 },
+/* 357 */	{ "VIEWGET", -2 },
+/* 358 */	{ "GETPIVOTDATA", },
+/* 359 */	{ "HYPERLINK", -1 },	/* cell_contents is optional */
+/* 360 */	{ "PHONETIC", -2 },
+/* 361 */	{ "AVERAGEA", -1 },
+/* 362 */	{ "MAXA", -1 },
+/* 363 */	{ "MINA", -1 },
+/* 364 */	{ "STDEVPA", -1 },
+/* 365 */	{ "VARPA", -1 },
+/* 366 */	{ "STDEVA", -1 },
+/* 367 */	{ "VARA", -1 }
 };
+
 #define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
 
-
-
-
-
 /**
- * Scads of nasty helper functions
+ * Helper functions.
  **/
 
 static ExprTree *
 expr_tree_string (const char *str)
 {
-	ExprTree *e = expr_tree_new ();
-	e->oper = OPER_CONSTANT;
-	e->u.constant = value_new_string (str);
-	return e;
-}
-
-static ExprTree *
-expr_tree_value (Value *v)
-{
-	ExprTree *e = expr_tree_new ();
-	e->oper = OPER_CONSTANT;
-	e->u.constant = v;
-	return e;
-}
-
-static ExprTree *
-expr_tree_cellref (const CellRef *r)
-{
-	ExprTree *e = expr_tree_new ();
-	e->oper = OPER_VAR;
-	e->u.ref = *r;
-	return e;
-}
-
-static ExprTree *
-expr_tree_unary (Operation op, ExprTree *tr)
-{
-	ExprTree *e;
-	g_return_val_if_fail (op==OPER_NEG, tr);
-	e = expr_tree_new ();
-	e->oper = op;
-	e->u.value = tr;
-	return e;
+	return expr_tree_new_constant (value_new_string (str));
 }
 
 /**
- * End of nasty helper functions
+ * End of helper functions
  **/
 
 
@@ -576,7 +548,7 @@ parse_list_push (PARSE_LIST **list, ExprTree *pd)
 static void
 parse_list_push_raw (PARSE_LIST **list, Value *v)
 {
-	parse_list_push (list, expr_tree_value (v));
+	parse_list_push (list, expr_tree_new_constant (v));
 }
 
 static ExprTree *
@@ -657,57 +629,84 @@ static gboolean
 make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 {
 	int lp ;
-	ExprTree *fn = expr_tree_new();
 	Symbol *name=NULL;
-	fn->oper = OPER_FUNCALL;
 
 	if (fn_idx == 0xff && numargs>1) /* Dodgy External function Special Case */
 	{
 		ExprTree *tmp;
-		fn->u.function.arg_list = parse_list_last_n (stack, numargs-1);
+		GList *args = parse_list_last_n (stack, numargs-1);
 		tmp = parse_list_pop (stack) ;
 		if (!tmp || tmp->oper != OPER_CONSTANT ||
 		    tmp->u.constant->type != VALUE_STRING) {
-			parse_list_free (&fn->u.function.arg_list);
-			parse_list_push (stack, expr_tree_string (_("Broken function")));
+			if (tmp) expr_tree_unref (tmp);
+			parse_list_free (&args);
+			parse_list_push (stack, expr_tree_new_error (_("Broken function")));
+			printf ("Killroy was here.  Did not know what he was doing.\n");
 			return 0;
 		}
 		else {
 			name = symbol_lookup (global_symbol_table, tmp->u.constant->v.str->str);
 			if (!name) {
+				char *errtxt = g_strdup_printf ("Duff fn '%s'", 
+								tmp->u.constant->v.str->str);
 				printf ("Fn : '%s'\n", tmp->u.constant->v.str->str);
-				parse_list_free (&fn->u.function.arg_list);
-				parse_list_push (stack, expr_tree_string (g_strdup_printf ("Duff fn '%s'", 
-											   tmp->u.constant->v.str->str)));
+				parse_list_free (&args);
+				parse_list_push (stack, expr_tree_new_error (errtxt));
+				g_free (errtxt);
+				expr_tree_unref (tmp);
 				return 0;
 			}
+			expr_tree_unref (tmp);
 			symbol_ref (name);
-			fn->u.function.symbol = name;
-			parse_list_push (stack, fn);
+			parse_list_push (stack, expr_tree_new_funcall (name, args));
+			return 1 ;
 		}
-		return 1 ;
 	}
 	else
 		if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN)
 		{
 			const FORMULA_FUNC_DATA *fd = &formula_func_data[fn_idx] ;
-			
-			if (fd->num_args != -1) /* Right args for multi-arg funcs. */
-				numargs = fd->num_args ;
+			GList *args;
 
-			fn->u.function.arg_list = parse_list_last_n (stack, numargs);
+#if FORMULA_DEBUG > 0
+			printf ("Function '%s', args %d, templ: %d\n", fd->prefix,
+				numargs, fd->num_args);
+#endif
+			/* Right args for multi-arg funcs. */
+			if (fd->num_args >= 0)
+				numargs = fd->num_args ;
+			else if (fd->num_args == -2)
+				g_warning("This sheet uses an Excel function "
+					  "('%s') for which we do \n"
+					  "not have adequate documentation.  "
+					  "Please forward a copy (if possible) to\n"
+					  "gnumeric-list@gnome.org.  Thanks\n",
+					  fd->prefix);
+
+			args = parse_list_last_n (stack, numargs);
 			if (fd->prefix)
 				name = symbol_lookup (global_symbol_table, fd->prefix);
 			if (!name) {
-				printf ("Unknown fn '%s'\n", fd->prefix);
-				parse_list_free (&fn->u.function.arg_list);
-				parse_list_push (stack, expr_tree_string (g_strdup_printf ("Duff fn '%s'", 
-											   fd->prefix?fd->prefix:"Umm...")));
+				char *txt;
+				txt = g_strdup_printf ("[Function '%s']", 
+						       fd->prefix?fd->prefix:"?");
+				printf ("Unknown %s\n", txt);
+				parse_list_push (stack, expr_tree_new_error (txt));
+				g_free (txt);
+
+				parse_list_free (&args);
 				return 0;
 			}
-			symbol_ref (name);
-			fn->u.function.symbol = name;
-			parse_list_push (stack, fn);
+			if (name->type == SYMBOL_FUNCTION) {
+				symbol_ref (name);
+				parse_list_push (stack, expr_tree_new_funcall (name, args));
+			} else {
+				if (args) {
+					fprintf (stderr, "Ignoring args for %s\n", fd->prefix);
+					parse_list_free (&args);
+				}
+				parse_list_push_raw (stack, value_duplicate (name->data));
+			}
 			return 1 ;
 		}
 		else
@@ -717,7 +716,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 
 /**
  * Parse that RP Excel formula, see S59E2B.HTM
- * Return a dynamicaly allocated string containing the formula, never NULL
+ * Return a dynamicly allocated ExprTree containing the formula, or NULL
  **/
 ExprTree *
 ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
@@ -768,7 +767,7 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 						fn_col, fn_row, shared) ;
 				ptg_length = 3 ;
 			}
-			parse_list_push (&stack, expr_tree_cellref (ref));
+			parse_list_push (&stack, expr_tree_new_var (ref));
 			if (ref) g_free (ref) ;
 			break ;
 		}
@@ -802,8 +801,10 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 				guint16 extn_idx = BIFF_GETWORD(cur) ;
 				ref = getRefV8 (sheet, BIFF_GETWORD(cur+2), BIFF_GETWORD(cur + 4),
 						fn_col, fn_row, 0) ;
+
 				make_inter_sheet_ref (wb, extn_idx, ref, 0) ;
 				parse_list_push (&stack, expr_tree_cellref (ref));
+
 				ptg_length = 6 ;
 			} else {
 				guint16 extn_idx, first_idx, second_idx;
@@ -813,8 +814,10 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 				extn_idx   = BIFF_GETWORD(cur);
 				first_idx  = BIFF_GETWORD(cur + 10);
 				second_idx = BIFF_GETWORD(cur + 12);
+
 				make_inter_sheet_ref_v7 (wb, extn_idx, first_idx, second_idx, ref, 0) ;
 				parse_list_push (&stack, expr_tree_cellref (ref));
+
 				ptg_length = 17 ;
 			}
 			if (ref) g_free (ref) ;
@@ -928,12 +931,15 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 							set_val = value_new_string ("");
 					} else {
 						printf ("FIXME: Duff array item type\n");
+						error = 1;
+						goto really_duff;
 						break;
 					}
 					value_array_set (v, lpx, lpy, set_val);
 				}
 			}
 			parse_list_push_raw (&stack, v);
+		really_duff:
 			break;
 		}
 		case FORMULA_PTG_FUNC:
@@ -977,18 +983,20 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 			int top_left_col = BIFF_GETWORD(cur+2) ;
 			int top_left_row = BIFF_GETWORD(cur+0) ;
 			ExprTree *tr;
+
 			tr = ms_excel_workbook_shared_formula (wb, top_left_col,
 							       top_left_row,
 							       fn_col, fn_row) ;
 
 			if (!tr) {
 				tr = expr_tree_value (value_new_int(0));
-#if FORMULA_DEBUG > 0
-				printf ("Error: no shared formula %d,%d,%d,%d,\n",
-					top_left_col, top_left_row,
-					fn_col, fn_row);
-#endif				
+#if 0
+				printf("Missing shared formula from [%d,%d] in [%d,%d]\n",
+				       top_left_col, top_left_row, fn_col, fn_row) ;
+				tr = expr_tree_string ("");
+#endif
 			}
+
 			parse_list_push (&stack, tr);
 			ptg_length = length; /* Force it to be the only token 4 ; */
 			break ;
@@ -996,8 +1004,9 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 		case FORMULA_PTG_U_PLUS: /* Discard */
 			break;
 		case FORMULA_PTG_U_MINUS:
-			parse_list_push (&stack, expr_tree_unary (OPER_NEG,
-								  parse_list_pop (&stack)));
+			parse_list_push (&stack,
+					 expr_tree_new_unary (OPER_NEG,
+							      parse_list_pop (&stack)));
 			break;
 		case FORMULA_PTG_PAREN:
 /*	  printf ("Ignoring redundant parenthesis ptg\n") ; */
@@ -1027,7 +1036,7 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 								     fn_col, fn_row, shared,
 								     w, ver) ;
 				else
-					tr = expr_tree_value (value_new_string (""));
+					tr = expr_tree_string ("");
 				parse_list_push (&stack, tr);
 				ptg_length += w ;
 			} else if (grbit & 0x04) { /* AttrChoose 'optimised' my foot. */
@@ -1086,8 +1095,10 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 		}
 		case FORMULA_PTG_ERR:
 		{
-			parse_list_push_raw (&stack,
-					     value_new_string (biff_get_error_text(BIFF_GETBYTE(cur))));
+			const char *errtxt = biff_get_error_text (BIFF_GETBYTE(cur));
+			/* FIXME: we do not have errors as first-class values, so we
+			   must build an expression that generates the error.  */
+			parse_list_push (&stack, expr_tree_new_error (errtxt));
 			ptg_length = 1 ;
 			break ;
 		}
@@ -1098,9 +1109,9 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 			ptg_length = 2 ;
 			break;
 		}
-		case FORMULA_PTG_BOOL:  /* FIXME: True / False */
+		case FORMULA_PTG_BOOL:
 		{
-			parse_list_push_raw (&stack, value_new_int (BIFF_GETBYTE(cur)));
+			parse_list_push_raw (&stack, value_new_bool (BIFF_GETBYTE(cur)));
 			ptg_length = 1 ;
 			break ;
 		}
@@ -1139,12 +1150,10 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 			if (ptgbase >= FORMULA_OP_START && ptgbase < FORMULA_OP_START+FORMULA_OP_DATA_LEN) {
 				FORMULA_OP_DATA *fd =
 					&formula_op_data[ptgbase - FORMULA_OP_START];
-				ExprTree *tr = expr_tree_new ();
-				
-				tr->oper = fd->op;
-				tr->u.binary.value_b = parse_list_pop (&stack);
-				tr->u.binary.value_a = parse_list_pop (&stack);
-				parse_list_push (&stack, tr);
+				ExprTree *l, *r;
+				r = parse_list_pop (&stack);
+				l = parse_list_pop (&stack);
+				parse_list_push (&stack, expr_tree_new_binary (l, fd->op, r));
 			} else {
 #if FORMULA_DEBUG > 0
 				printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase);
@@ -1173,27 +1182,11 @@ ms_excel_parse_formula (MS_EXCEL_WORKBOOK *wb, guint8 *mem,
 	
 	if (!stack)
 		return expr_tree_string ("Stack too short - unusual");
+
 	if (g_list_length(stack) > 1) {
-		GString *msg = g_string_new ("Overflow - probably duff arg count: try -1");
-		GList *tmp = stack;
-
-		while (tmp) {
-			g_string_sprintfa (msg, "'%s' :;: ",
-					  expr_decode_tree (tmp->data, sheet, fn_col, fn_row));
-			tmp = g_list_next (tmp);
-		}
-
-		ans = expr_tree_string (msg->str);
-		g_string_free (msg, TRUE);
 		parse_list_free (&stack);
-		return ans;
+		return expr_tree_string ("Too much data on stack - probable cause: "
+					 "fixed args function is var-arg, put '-1' in the table above");
 	}
-	ans = parse_list_pop (&stack);
-#if FORMULA_DEBUG > 0
-	printf ("Formula : '%s'\n", expr_decode_tree (ans, sheet, fn_col, fn_row));
-#endif
-	return ans;
+	return parse_list_pop (&stack);
 }
-
-
-

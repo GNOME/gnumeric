@@ -1,3 +1,29 @@
+gnumeric (0.27-1) unstable; urgency=low
+
+  * New upstream version.
+  * Recompiled against newer gnome libraries.
+
+ -- Vincent Renardias <vincent@debian.org>  Fri, 25 Jun 1999 12:24:51 +0200
+
+gnumeric (0.25-2) unstable; urgency=low
+
+  * corrected menu file; closes: #38873.
+
+ -- Vincent Renardias <vincent@debian.org>  Thu,  3 Jun 1999 18:48:12 +0200
+
+gnumeric (0.25-1) unstable; urgency=low
+
+  * New upstream version.
+  * Recompiled against newer gnome libraries.
+
+ -- Vincent Renardias <vincent@debian.org>  Tue, 18 May 1999 16:14:21 +0200
+
+gnumeric (0.24-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Vincent Renardias <vincent@debian.org>  Fri, 23 Apr 1999 13:33:55 +0200
+
 gnumeric (0.15-1) unstable; urgency=low
 
   * New upstream version.

@@ -11,10 +11,10 @@
 
 #include "sheet.h"
 
-Sheet    *gnumericReadXmlSheet     (const char *filename);
-int       gnumericWriteXmlSheet    (Sheet *sheet, const char *filename);
-Workbook *gnumericReadXmlWorkbook  (const char *filename);
-int       gnumericWriteXmlWorkbook (Workbook *sheet, const char *filename);
+Sheet    *gnumeric_xml_read_sheet     (const char *filename);
+int       gnumeric_xml_write_sheet    (Sheet *sheet, const char *filename);
+Workbook *gnumeric_xml_read_workbook  (const char *filename);
+int       gnumeric_xml_write_workbook (Workbook *sheet, const char *filename);
 
 void      xml_init (void);
 

@@ -35,7 +35,6 @@ static POA_GNOME_Gnumeric_WorkbookFactory__vepv gnumeric_workbook_factory_vepv;
 static GNOME_Gnumeric_Workbook
 WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char * filename, CORBA_Environment * ev)
 {
-	WorkbookFactoryServant *wfs = (WorkbookFactoryServant *) servant;
 	Workbook *workbook;
 	
 	workbook = workbook_read (filename);

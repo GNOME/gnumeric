@@ -53,6 +53,13 @@ HREF="http://www.gnu.org/copyleft/gpl.html">GPL.</A>
 HREF="http://www.gnome.org/gnumeric/screenshots">screenshots</A> of
 Gnumeric.
 
+<hr>
+<h3>Breaking news!</h3>
+Gnumeric on the CVS has the printing code merged finally into the HEAD
+of the CVS.  I am polishing the printing code and I will be releasing
+Gnumeric 0.28 shortly.  Stay tuned.
+
+<p>
 <P>Gnumeric is intended to be a replacement for a commercial
 spreadsheet, so a lot of effort and work has still to go into it, but
 I believe we have the right framework to do it.
@@ -65,6 +72,7 @@ href="ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric">ftp://ftp.gnome.org/pub/GN
 
 <P>Gnumeric announcements:
 <ul>
+	<li><a href="gnumeric-0.27">gnumeric-0.27</a></li>
 	<li><a href="gnumeric-0.26">gnumeric-0.26</a></li>
 	<li><a href="gnumeric-0.25">gnumeric-0.25</a></li>
 	<li><a href="gnumeric-0.24">gnumeric-0.24</a></li>
@@ -79,13 +87,6 @@ href="ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric">ftp://ftp.gnome.org/pub/GN
 I would like to add support for arbitrary precision arithmetic in the
 future using the GNU Multi-precision library.
 
-<P>Printing is going to be achieved by the GNOME printing framework
-which is being designed right now by Raph Levien.  The internal
-changes to Gnumeric to support printing are important, so the code to
-handle printing is kept on a branch in CVS until we are ready to
-deploy it in the main distribution.  You can get a copy of the printing code by using 
-the command "cvs co -r GNUMERIC_PRINT gnumeric" on the GNOME CVS or AnonCVS machine.
-
 <P>To learn more about our plans read the README and the Future-Roadmap files 
 included with Gnumeric.
 
@@ -97,8 +98,8 @@ to get a snapshot from the CVS, using the command "cvs co bonobo".  Be
 warned that until Bonobo's release we are not commiting to any sort of
 support on Gnumeric).
 
-<p> Michael Meeks, Sean Atkinson and Bruno Unna have been working on
-Excel import / export code.  Talk to them if you are interested in helping the
+<p> Michael Meeks, Jody Goldberg and Sean Atkinson are working on
+the import / export code.  Talk to them if you are interested in helping the
 project.
 
 <H3>
@@ -127,7 +128,9 @@ The Gnumeric mailing list can be reached at <A
 HREF="mailto:gnumeric-list@gnome.org">gnumeric-list@gnome.org</A>.  If
 you want to subscribe to the mailing list, send mail to: <A
 HREF="mailto:gnumeric-list-request@gnome.org">gnumeric-list-request@gnome.org</A>
-and in the body of your message put the word "subscribe".
+and in the body of your message put the word "subscribe". The lists are also <A
+HREF="http://www.gnome.org/mailing-lists/archives/gnumeric-list/">archived</A>.
+Please read some <A HREF="mailing-list.html">advice</A> before sending mail.
 
 <H3>
 <A NAME="getting"></A>Getting Gnumeric</H3>
@@ -157,6 +160,19 @@ It would also help if you CC. your mail to gnumeric-list@gnome.org.
 should <b>never</b> die (SEGV) if it does please, please put the effort in 
 to submit a bug report, it will save others lots of grief.
 
+<h3>
+<a name="support">Contractual support</h3>
+
+International GNOME support (IGS) provides <a
+href="http://www.gnome-support.com">contractual support</a> for
+Gnumeric for any extensions, or special developments you might need
+from Gnumeric.
+<p>
+All the code written by IGS is released under the terms of the GNU
+GPL.  If the code extension is general enough you extension might be
+folded into the main Gnumeric distribution. 
+<p>
+
 <H3>
 <A NAME="Thanks">Thanks to</a></H3>
 
@@ -171,7 +187,7 @@ documentation:
 <ul>
 	<li>Daniel Veillard (XML file load/save support).
 	<li>Tom Dyas (Plugin setup, Python plugin).
-	<li>Michael Meeks, Sean Atkinson and Bruno Unna (Excel file loading code).
+	<li>Michael Meeks, Jody Goldberg, Sean Atkinson and Bruno Unna (Excel file loading code).
 	<li>Jukka-Pekka Iivonen (lots of Gnumeric's functions).
 	<li>Jakub Jelinek (new scrolling engine)
 	<li>Chris Lahey (number formatting engine).

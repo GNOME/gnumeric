@@ -6,9 +6,7 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
-#include <gnome.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 
@@ -24,7 +22,7 @@ static char *help_and = {
 	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE. "
 	   "If an integer or floating point value is provided zero is considered "
 	   "FALSE and anything else is TRUE.\n"
-	   
+
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
 	   "is returned. "
@@ -33,54 +31,38 @@ static char *help_and = {
 };
 
 static int
-callback_function_and (Sheet *sheet, Value *value,
-		       char **error_string, void *closure)
+callback_function_and (const EvalPosition *ep, Value *value,
+		       ErrorMessage *error, void *closure)
 {
-	Value *result = closure;
+	int *result = closure;
+	int err;
 
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (value->v.v_int == 0){
-			result->v.v_int = 0;
-			return FALSE;
-		} else
-			result->v.v_int = 1;
-		break;
-
-	case VALUE_FLOAT:
-		if (value->v.v_float == 0.0){
-			result->v.v_int = 0;
-			return FALSE;
-		} else
-			result->v.v_int = 1;
-
-	default:
-		/* ignore strings */
-		break;
+	*result = value_get_as_bool (value, &err) && *result;
+	if (err) {
+		error_message_set (error, gnumeric_err_VALUE);
+		return FALSE;
 	}
 
 	return TRUE;
 }
 
 static Value *
-gnumeric_and (Sheet *sheet, GList *expr_node_list,
-	      int eval_col, int eval_row, char **error_string)
+gnumeric_and (FunctionEvalInfo *ei, GList *nodes)
 {
-	Value *result;
+	int result = -1;
 
-	result = value_new_int (-1);
-
-	function_iterate_argument_values (sheet, callback_function_and,
-					  result, expr_node_list,
-					  eval_col, eval_row, error_string);
+	/* Yes, AND is actually strict.  */
+	function_iterate_argument_values (&ei->pos, callback_function_and,
+					  &result, nodes,
+					  ei->error, TRUE);
+	if (error_message_is_set (ei->error))
+		return NULL;
 
 	/* See if there was any value worth using */
-	if (result->v.v_int == -1){
-		value_release (result);
-		*error_string = _("#VALUE");
-		return NULL;
-	}
-	return result;
+	if (result == -1)
+		return function_error (ei, gnumeric_err_VALUE);
+
+	return value_new_bool (result);
 }
 
 
@@ -96,14 +78,10 @@ static char *help_not = {
 };
 
 static Value *
-gnumeric_not (struct FunctionDefinition *i,
-	      Value *argv [], char **error_string)
+gnumeric_not (FunctionEvalInfo *ei, Value **argv)
 {
-	int b;
-
-	b = value_get_as_int (argv [0]);
-
-	return value_new_int (!b);
+	/* FIXME: We should probably use value_get_as_bool.  */
+	return value_new_bool (!value_get_as_int (argv [0]));
 }
 
 static char *help_or = {
@@ -124,54 +102,39 @@ static char *help_or = {
 };
 
 static int
-callback_function_or (Sheet *sheet, Value *value,
-		      char **error_string, void *closure)
+callback_function_or (const EvalPosition *ep, Value *value,
+		      ErrorMessage *error, void *closure)
 {
-	Value *result = closure;
-	
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (value->v.v_int != 0){
-			result->v.v_int = 1;
-			return FALSE;
-		} else
-			result->v.v_int = 0;
-		break;
+	int *result = closure;
+	int err;
 
-	case VALUE_FLOAT:
-		if (value->v.v_float != 0.0){
-			result->v.v_int = 1;
-			return FALSE;
-		} else
-			result->v.v_int = 0;
-
-	default:
-		/* ignore strings */
-		break;
+	*result = value_get_as_bool (value, &err) || *result == 1;
+	if (err) {
+		error_message_set (error, gnumeric_err_VALUE);
+		return FALSE;
 	}
-	
+
 	return TRUE;
 }
 
 static Value *
-gnumeric_or (Sheet *sheet, GList *expr_node_list,
-	     int eval_col, int eval_row, char **error_string)
+gnumeric_or (FunctionEvalInfo *ei, GList *nodes)
 {
-	Value *result;
+	int result = -1;
 
-	result = value_new_int (-1);
+	/* Yes, OR is actually strict.  */
+	function_iterate_argument_values (&ei->pos, callback_function_or,
+					  &result, nodes,
+					  ei->error, TRUE);
 
-	function_iterate_argument_values (sheet, callback_function_or,
-					  result, expr_node_list,
-					  eval_col, eval_row, error_string);
+	if (error_message_is_set (ei->error))
+		return NULL;
 
 	/* See if there was any value worth using */
-	if (result->v.v_int == -1){
-		value_release (result);
-		*error_string = _("#VALUE");
-		return NULL;
-	}
-	return result;
+	if (result == -1)
+		return function_error (ei, gnumeric_err_VALUE);
+
+	return value_new_bool (result);
 }
 
 static char *help_if = {
@@ -189,23 +152,19 @@ static char *help_if = {
 };
 
 static Value *
-gnumeric_if (Sheet *sheet, GList *expr_node_list,
-	     int eval_col, int eval_row, char **error_string)
+gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	ExprTree *expr;
 	Value *value;
 	int err, ret, args;
-		
+
 	/* Type checking */
 	args = g_list_length (expr_node_list);
-	if (args < 1 || args > 3){
-		*error_string = _("Invalid number of arguments");
-		return NULL;
-	}
+	if (args < 1 || args > 3)
+		return function_error (ei, _("Invalid number of arguments"));
 
 	/* Compute the if part */
-	value = eval_expr (sheet, (ExprTree *) expr_node_list->data,
-			   eval_col, eval_row, error_string);
+	value = eval_expr (ei, (ExprTree *) expr_node_list->data);
 	if (value == NULL)
 		return NULL;
 
@@ -213,31 +172,33 @@ gnumeric_if (Sheet *sheet, GList *expr_node_list,
 	ret = value_get_as_bool (value, &err);
 	value_release (value);
 	if (err)
-		return NULL;
-	
+		/* FIXME: please verify error code.  */
+		return function_error (ei, gnumeric_err_VALUE);
+
 	if (ret){
 		if (expr_node_list->next)
 			expr = (ExprTree *) expr_node_list->next->data;
 		else
-			return value_new_int (1);
+			return value_new_bool (TRUE);
 	} else {
-		if (expr_node_list->next && 
+		if (expr_node_list->next &&
 		    expr_node_list->next->next)
 			expr = (ExprTree *) expr_node_list->next->next->data;
 		else
-			return value_new_int (0);
+			return value_new_bool (FALSE);
 	}
 
 	/* Return the result */
-	return eval_expr (sheet, expr, eval_col, eval_row, error_string);
+	return eval_expr (ei, expr);
 }
 
+void logical_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Logical"));
 
-FunctionDefinition logical_functions [] = {
-	{ "and",     0,      "",          &help_and,   gnumeric_and, NULL },
-	{ "if",     0,       "logical_test,value_if_true,value_if_false", &help_if,
-	  gnumeric_if, NULL },
-	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
-	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
-	{ NULL, NULL },
-};
+	function_add_nodes (cat,"and",     0,      "",          &help_and, gnumeric_and);
+	function_add_nodes (cat,"if",      0,      "logical_test,value_if_true,value_if_false", &help_if,
+			    gnumeric_if);
+	function_add_args  (cat,"not",     "f",    "number",    &help_not, gnumeric_not);
+	function_add_nodes (cat,"or",      0,      "",          &help_or,  gnumeric_or);
+}

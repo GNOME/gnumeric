@@ -1,3 +1,27 @@
+1999-06-28 Michael Meeks  <michael@imaginator.com>
+
+	* gnumeric-0.27: Added
+
+	* index.html: Linked it in.
+
+1999-06-23  Michael Meeks  <michael@imaginator.com>
+
+	* screenshots/index.html: Added new screenshot of Excel and gnumeric
+	side by side
+
+1999-06-17  Michael Meeks  <michael@imaginator.com>
+
+	* index.html: Added link to mailing list archive,
+
+	* palaeolithic.html: Added link to gnumeric-0.3 for nostalgia.
+
+	* gnumeric-0.3: Extracted from mailing list archive
+	
+1999-06-17  Michael Meeks  <michael@imaginator.com>
+
+	* index.html: Linked in mailing-list.html
+	Updated authors to include Jody, and pruned cruft.
+
 1999-05-30  Michael Meeks  <michael@imaginator.com>
 
 	* mailing-list.html: Created.

@@ -21,8 +21,8 @@ typedef struct {
 	Sheet     *sheet;
 
 	/* The first displayed column and row */
-	ColType    left_col;
-	RowType    top_row;
+	int        left_col;
+	int        top_row;
 
 	ItemGridSelectionType selecting;
 	

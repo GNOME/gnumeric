@@ -102,8 +102,6 @@ fake_df (GoalSeekFunction f, float_t x, float_t *dfx, float_t xrelstep,
 	return GOAL_SEEK_OK;
 }
 
-/* ------------------------------------------------------------------------- */
-
 void
 goal_seek_initialise (GoalSeekData *data)
 {
@@ -112,8 +110,6 @@ goal_seek_initialise (GoalSeekData *data)
 	data->xmax = +1e10;
 	data->precision = 1e-10;
 }
-
-/* ------------------------------------------------------------------------- */
 
 /*
  * Seek a goal (root) using Newton's iterative method.
@@ -190,8 +186,6 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 	return GOAL_SEEK_ERROR;
 }
 
-/* ------------------------------------------------------------------------- */
-
 /*
  * Seek a goal (root) using bisection methods.
  *
@@ -258,8 +252,6 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 
 #undef SECANT_P
 
-/* ------------------------------------------------------------------------- */
-
 GoalSeekStatus
 goal_seek_trawl_uniformly (GoalSeekFunction f,
 			   GoalSeekData *data, void *user_data,
@@ -298,8 +290,6 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 	return GOAL_SEEK_ERROR;
 }
 
-/* ------------------------------------------------------------------------- */
-
 GoalSeekStatus
 goal_seek_trawl_normally (GoalSeekFunction f,
 			  GoalSeekData *data, void *user_data,
@@ -337,8 +327,6 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 	   root.  We report this as an error.  */
 	return GOAL_SEEK_ERROR;
 }
-
-/* ------------------------------------------------------------------------- */
 
 #ifdef STANDALONE
 static GoalSeekStatus

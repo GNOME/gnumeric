@@ -7,11 +7,9 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
-#include <gnome.h>
 #include <ctype.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 
@@ -27,8 +25,7 @@ static char *help_char = {
 };
 
 static Value *
-gnumeric_char (struct FunctionDefinition *i,
-	       Value *argv [], char **error_string)
+gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 {
 	char result [2];
 
@@ -50,15 +47,12 @@ static char *help_code = {
 };
 
 static Value *
-gnumeric_code (struct FunctionDefinition *i,
-	       Value *argv [], char **error_string)
+gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 {
 	unsigned char c;
 
-	if (argv [0]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
 	c = argv [0]->v.str->str [0];
 	return value_new_int (c);
@@ -77,13 +71,10 @@ static char *help_exact = {
 };
 
 static Value *
-gnumeric_exact (struct FunctionDefinition *i,
-		Value *argv [], char **error_string)
+gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 {
-	if (argv [0]->type != VALUE_STRING || argv [1]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING || argv [1]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
 	return value_new_int (strcmp (argv [0]->v.str->str,
 				      argv [1]->v.str->str) == 0);
@@ -101,13 +92,10 @@ static char *help_len = {
 };
 
 static Value *
-gnumeric_len (struct FunctionDefinition *i,
-	      Value *argv [], char **error_string)
+gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 {
-	if (argv [0]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
 	return value_new_int (strlen (argv [0]->v.str->str));
 }
@@ -124,8 +112,7 @@ static char *help_left = {
 };
 
 static Value *
-gnumeric_left (struct FunctionDefinition *i,
-	       Value *argv [], char **error_string)
+gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	int count;
@@ -157,24 +144,19 @@ static char *help_lower = {
 };
 
 static Value *
-gnumeric_lower (struct FunctionDefinition *i,
-		Value *argv [], char **error_string)
+gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	char *s, *p;
+	unsigned char *s, *p;
 
-	if (argv [0]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	p = s = strdup (argv [0]->v.str->str);
+	p = s = g_strdup (argv [0]->v.str->str);
 	for (; *p; p++){
 		*p = tolower (*p);
 	}
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
 	return v;
@@ -193,7 +175,7 @@ static char *help_mid = {
 };
 
 static Value *
-gnumeric_mid (struct FunctionDefinition *i, Value *argv [], char **error)
+gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	int pos, len;
@@ -201,18 +183,14 @@ gnumeric_mid (struct FunctionDefinition *i, Value *argv [], char **error)
 
 	if (argv [0]->type != VALUE_STRING ||
 	    argv [1]->type != VALUE_INTEGER ||
-	    argv [2]->type != VALUE_INTEGER){
-		*error = _("Type mismatch");
-		return NULL;
-	}
+	    argv [2]->type != VALUE_INTEGER)
+		return function_error (ei, _("Type mismatch"));
 
 	len = value_get_as_int (argv [2]);
 	pos = value_get_as_int (argv [1]);
 
-	if (len < 0 || pos <= 0){
-		*error = _("Invalid arguments");
-		return NULL;
-	}
+	if (len < 0 || pos <= 0)
+		return function_error (ei, _("Invalid arguments"));
 
 	source = argv [0]->v.str->str;
 	if (pos > strlen (source))
@@ -239,8 +217,7 @@ static char *help_right = {
 };
 
 static Value *
-gnumeric_right (struct FunctionDefinition *i,
-		Value *argv [], char **error_string)
+gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	int count, len;
@@ -276,25 +253,20 @@ static char *help_upper = {
 };
 
 static Value *
-gnumeric_upper (struct FunctionDefinition *i,
-		Value *argv [], char **error_string)
+gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	char *s, *p;
+	unsigned char *s, *p;
 
-	if (argv [0]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	p = s = strdup (argv [0]->v.str->str);
+	p = s = g_strdup (argv [0]->v.str->str);
 
 	for (;*p; p++){
 		*p = toupper (*p);
 	}
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
 	return v;
@@ -310,23 +282,21 @@ static char *help_concatenate = {
 };
 
 static Value *
-gnumeric_concatenate (Sheet *sheet, GList *l,
-		      int eval_col, int eval_row, char **error_string)
+gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 {
 	Value *v;
 	char *s, *p, *tmp;
 
-	if (l==NULL) {
-		*error_string = _("Invalid number of arguments");
-		return NULL;
-	}
+	if (l==NULL)
+		return function_error (ei, _("Invalid number of arguments"));
+
 	s = g_new(gchar, 1);
 	*s = '\0';
 	while ( l != NULL &&
-		(v=eval_expr(sheet, l->data, eval_col, eval_row, error_string)) != NULL) {
+		(v=eval_expr(ei, l->data)) != NULL) {
 /*
 		if (v->type != VALUE_STRING) {
-			*error_string = _("Invalid argument");
+			return function_error (ei, _("Invalid argument"));
 			value_release (v);
 			return NULL;
 		}
@@ -341,9 +311,7 @@ gnumeric_concatenate (Sheet *sheet, GList *l,
 		l = g_list_next (l);
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
 	return v;
@@ -359,32 +327,26 @@ static char *help_rept = {
 };
 
 static Value *
-gnumeric_rept (struct FunctionDefinition *i,
-	       Value *argv [], char **error_string)
+gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	gchar *s, *p;
 	gint num;
 	guint len;
 
-	if (argv [0]->type != VALUE_STRING) {
-		*error_string = _("Type mismatch");
-		return NULL;
-	} else if ( (num=value_get_as_int(argv[1])) < 0) {
-		*error_string = _("Invalid argument");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
+	else if ( (num=value_get_as_int(argv[1])) < 0)
+		return function_error (ei, _("Invalid argument"));
 
 	len = strlen (argv[0]->v.str->str);
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
 	p = s = g_new (gchar, 1 + len * num);
 	while (num--) {
 		strncpy (p, argv[0]->v.str->str, len);
 		p += len;
 	}
 	*p = '\0';
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
 	return v;
@@ -402,15 +364,14 @@ static char *help_clean = {
 };
 
 static Value *
-gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
+gnumeric_clean  (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *res;
-	char *copy, *p, *q;
+	unsigned char *copy, *p, *q;
 
-	if (argv [0]->type != VALUE_STRING){
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
+
 	p = argv [0]->v.str->str;
 	copy = q = g_malloc (strlen (p) + 1);
 
@@ -421,9 +382,7 @@ gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 	}
 	*q = 0;
 
-	res = g_new (Value, 1);
-	res->type = VALUE_STRING;
-	res->v.str = string_get (copy);
+	res = value_new_string (copy);
 	g_free (copy);
 
 	return res;
@@ -441,10 +400,8 @@ static char *help_find = {
 };
 
 static Value *
-gnumeric_find (struct FunctionDefinition *i,
-	       Value *argv [], char **error_string)
+gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *ret;
 	int count;
 	char *s, *p;
 
@@ -454,22 +411,15 @@ gnumeric_find (struct FunctionDefinition *i,
 		count = 1;
 
 	if ( count > strlen(argv[1]->v.str->str) ||
-	     count == 0) { /* start position too high or low */
-		*error_string = _("Invalid argument");
-		return NULL;
-	}
+	     count == 0) /* start position too high or low */
+		return function_error (ei, _("Invalid argument"));
 
 	g_assert (count >= 1);
 	s = argv[1]->v.str->str + count - 1;
-	if ( (p = strstr(s, argv[0]->v.str->str)) == NULL ) {
-		*error_string = _("Invalid argument");
-		return NULL;
-	}
+	if ( (p = strstr(s, argv[0]->v.str->str)) == NULL )
+		return function_error (ei, _("Invalid argument"));
 
-	ret = g_new(Value, 1);
-	ret->type = VALUE_INTEGER;
-	ret->v.v_int = count + p - s;
-	return ret;
+	return value_new_int (count + p - s);
 }
 
 static char *help_fixed = {
@@ -485,8 +435,7 @@ static char *help_fixed = {
 };
 
 static Value *
-gnumeric_fixed (struct FunctionDefinition *i,
-		Value *argv [], char **error_string)
+gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	gchar *s, *p, *f;
@@ -505,13 +454,11 @@ gnumeric_fixed (struct FunctionDefinition *i,
 		commas = TRUE;
 
 	if (dec >= 1000) { /* else buffer under-run */
-		*error_string = _("Invalid argument");
-		return NULL;
+		return function_error (ei, _("Invalid argument"));
 		/*
 	} else if (lc->thousands_sep[1] != '\0') {
 		fprintf (stderr, "thousands_sep:\"%s\"\n", lc->thousands_sep);
-		*error_string = _("Invalid thousands separator");
-		return NULL;
+		return function_error (ei, _("Invalid thousands separator"));
 		*/
 	} else if (dec <= 0) { /* no decimal point : just round and pad 0's */
 		dec *= -1;
@@ -569,9 +516,7 @@ gnumeric_fixed (struct FunctionDefinition *i,
 		}
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 	return v;
 }
@@ -592,19 +537,16 @@ static char *help_proper = {
 };
 
 static Value *
-gnumeric_proper (struct FunctionDefinition *i,
-		 Value *argv [], char **error_string)
+gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	gchar *s, *p;
+	unsigned char *s, *p;
 	gboolean inword = FALSE;
 
-	if (argv [0]->type != VALUE_STRING) {
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv [0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
-	s = p = argv[0]->v.str->str;
+	s = p = g_strdup (argv[0]->v.str->str);
 	while (*s) {
 		if (isalpha(*s)) {
 			if (inword) {
@@ -618,9 +560,8 @@ gnumeric_proper (struct FunctionDefinition *i,
 		s++;
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (p);
+	v = value_new_string (p);
+	g_free (p);
 	return v;
 }
 
@@ -634,8 +575,7 @@ static char *help_replace = {
 };
 
 static Value *
-gnumeric_replace (struct FunctionDefinition *i,
-		  Value *argv [], char **error_string)
+gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	gchar *s;
@@ -644,19 +584,15 @@ gnumeric_replace (struct FunctionDefinition *i,
 	if (argv[0]->type != VALUE_STRING ||
 	    argv[1]->type != VALUE_INTEGER ||
 	    argv[2]->type != VALUE_INTEGER ||
-	    argv[3]->type != VALUE_STRING ) {
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	    argv[3]->type != VALUE_STRING )
+		return function_error (ei, _("Type mismatch"));
 
 	start = value_get_as_int (argv[1]);
 	num = value_get_as_int (argv[2]);
 	oldlen = strlen(argv[0]->v.str->str);
 
-	if (start <= 0 || num <= 0 || --start + num > oldlen ) {
-		*error_string = _("Invalid arguments");
-		return NULL;
-	}
+	if (start <= 0 || num <= 0 || --start + num > oldlen )
+		return function_error (ei, _("Invalid arguments"));
 
 	newlen = strlen (argv [3]->v.str->str);
 
@@ -668,9 +604,7 @@ gnumeric_replace (struct FunctionDefinition *i,
 
 	s [newlen+oldlen-num] = '\0';
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 
 	g_free(s);
 
@@ -687,20 +621,12 @@ static char *help_t = {
 };
 
 static Value *
-gnumeric_t (struct FunctionDefinition *i,
-	    Value *argv [], char **error_string)
+gnumeric_t (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-
-	if (argv [0]->type == VALUE_STRING)
-		v->v.str = string_get (argv[0]->v.str->str);
+	if (argv[0]->type == VALUE_STRING)
+		return value_duplicate (argv[0]);
 	else
-		v->v.str = string_get ("");
-
-	return v;
+		return value_new_string ("");
 }
 
 static char *help_trim = {
@@ -713,17 +639,14 @@ static char *help_trim = {
 };
 
 static Value *
-gnumeric_trim (struct FunctionDefinition *i,
-	       Value *argv [], char **error_string)
+gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	gchar *new, *dest, *src;
 	gboolean space = TRUE;
 
-	if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
+	if (argv[0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
 
 	dest = new = g_new (gchar, strlen(argv[0]->v.str->str) + 1);
 	src = argv [0]->v.str->str;
@@ -745,9 +668,7 @@ gnumeric_trim (struct FunctionDefinition *i,
 
 	*dest = '\0';
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (new);
+	v = value_new_string (new);
 	g_free(new);
 
 	return v;
@@ -763,19 +684,13 @@ static char *help_value = {
 };
 
 static Value *
-gnumeric_value (struct FunctionDefinition *i,
-		Value *argv [], char **error_string)
+gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 /* FIXME: in Excel, VALUE("$1, 000") = 1000, and dates etc. supported */
 {
-	Value *v;
-	if (argv[0]->type != VALUE_STRING) {
-		*error_string = _("Type mismatch");
-		return NULL;
-	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = value_get_as_float (argv[0]);
-	return v;
+	if (argv[0]->type != VALUE_STRING)
+		return function_error (ei, _("Type mismatch"));
+
+	return value_new_float (value_get_as_float (argv[0]));
 }
 
 struct subs_string {
@@ -829,8 +744,7 @@ static char *help_substitute = {
 };
 
 static Value *
-gnumeric_substitute (struct FunctionDefinition *i,
-		     Value *argv [], char **error_string)
+gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	gchar *text, *old, *new, *p ,*f;
@@ -878,9 +792,7 @@ gnumeric_substitute (struct FunctionDefinition *i,
 	} else
 		p = text;
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (p);
+	v = value_new_string (p);
 
 	g_free (new);
 	g_free (old);
@@ -902,8 +814,7 @@ static char *help_dollar = {
 
 /* FIXME: should use lc->[pn]_sign_posn, mon_thousands_sep, negative_sign */
 static Value *
-gnumeric_dollar (struct FunctionDefinition *i,
-		 Value *argv [], char **error_string)
+gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v, *ag [3];
 	guint len, neg;
@@ -915,7 +826,7 @@ gnumeric_dollar (struct FunctionDefinition *i,
 	ag[1] = argv [1];
 	ag[2] = NULL;
 
-	v = gnumeric_fixed (i, ag, error_string);
+	v = gnumeric_fixed (ei, ag);
 	if (v == NULL)
 		return NULL;
 
@@ -1052,7 +963,7 @@ match_string(gchar *str, string_search_t *cond, gchar **match_start,
         gchar *p;
 
         if (cond->min_skip > strlen(str))
-	        return 0;
+		return 0;
 
 	if (*cond->str == '\0') {
 	         *match_start = str;
@@ -1063,11 +974,11 @@ match_string(gchar *str, string_search_t *cond, gchar **match_start,
 
 	/* Check no match case */
 	if (p == NULL)
-	        return 0;
+		return 0;
 
 	/* Check if match in a wrong place and no wildcard */
 	if (! cond->wildcard_prefix && p > str+cond->min_skip)
-	        return 0;
+		return 0;
 
 	/* Matches correctly */
 	*match_start = p-cond->min_skip;
@@ -1095,8 +1006,7 @@ free_all_after_search(GSList *conditions, gchar *text, gchar *within)
 }
 
 static Value *
-gnumeric_search (struct FunctionDefinition *i,
-		 Value *argv [], char **error_string)
+gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 {
         GSList          *conditions, *current;
 	string_search_t *current_cond;
@@ -1121,16 +1031,14 @@ gnumeric_search (struct FunctionDefinition *i,
 	if (within_len <= start_num) {
 	        g_free(text);
 		g_free(within);
-		*error_string = _("#VALUE!");
-		return NULL;
+		return function_error (ei, gnumeric_err_VALUE);
 	}
 
 	conditions = parse_search_string(text);
 	if (conditions == NULL) {
 	        g_free(text);
 		g_free(within);
-		*error_string = _("#VALUE!");
-		return NULL;
+		return function_error (ei, gnumeric_err_VALUE);
 	}
 
 	match_str = within;
@@ -1162,59 +1070,62 @@ match_again:
 	}
 
 	free_all_after_search(conditions, text, within);
-	*error_string = _("#VALUE!");
-	return NULL;
+
+	return function_error (ei, gnumeric_err_VALUE);
 }
 
+void
+string_functions_init ()
+{
+	FunctionCategory *cat = function_get_category (_("String"));
 
-FunctionDefinition string_functions [] = {
-	{ "char",       "f",    "number",
-	  &help_char,       NULL, gnumeric_char },
-	{ "clean",      "s",    "text",
-	  &help_clean,      NULL, gnumeric_clean },
-	{ "code",       "s",    "text",
-	  &help_code,       NULL, gnumeric_code },
-	{ "concatenate",0,      "text1,text2", 
-	  &help_concatenate,gnumeric_concatenate, NULL },
-	{ "dollar",     "f|f",  "num,decimals",
-	  &help_dollar,     NULL, gnumeric_dollar },
-	{ "exact",      "ss",   "text1,text2",
-	  &help_exact,      NULL, gnumeric_exact },
-	{ "find",       "ss|f", "text1,text2,num",
-	  &help_find,       NULL, gnumeric_find },
-	{ "fixed",      "f|fb", "num,decs,no_commas",
-	  &help_fixed,      NULL, gnumeric_fixed },
-	{ "left",       "s|f",  "text,num_chars",
-	  &help_left,       NULL, gnumeric_left },
-	{ "len",        "s",    "text",
-	  &help_len,        NULL, gnumeric_len },
-	{ "lower",      "s",    "text",
-	  &help_lower,      NULL, gnumeric_lower },
-	{ "proper",     "s",    "text",
-	  &help_proper,     NULL, gnumeric_proper },
-        { "mid",        "sff",  "text,pos,num",
-	  &help_mid,        NULL, gnumeric_mid },
-	{ "replace",    "sffs", "old,start,num,new",
-	  &help_replace,    NULL, gnumeric_replace },
-	{ "rept",       "sf",   "text,num",
-          &help_rept,       NULL, gnumeric_rept },
-	{ "right",      "s|f",  "text,num_chars",
-	  &help_right,      NULL, gnumeric_right },
-	{ "search",     "ss|f",  "find,within[,start_num]",
-	  &help_search,     NULL, gnumeric_search },
-	{ "substitute", "sss|f","text,old,new,num",
-	  &help_substitute, NULL, gnumeric_substitute },
-	{ "t",          "?",    "value",
-	  &help_t,          NULL, gnumeric_t },
-	{ "trim",       "s",    "text",
-	  &help_trim,       NULL, gnumeric_trim },
-	{ "upper",      "s",    "text",
-	  &help_upper,      NULL, gnumeric_upper },
-	{ "value",      "s",    "text",
-	  &help_value,      NULL, gnumeric_value },
-	{ NULL, NULL },
-};
+	function_add_args  (cat, "char",       "f",    "number",
+			    &help_char,       gnumeric_char);
+	function_add_args  (cat, "clean",      "s",    "text",
+			    &help_clean,      gnumeric_clean);
+	function_add_args  (cat, "code",       "s",    "text",
+			    &help_code,       gnumeric_code);
+	function_add_nodes (cat, "concatenate",0,      "text1,text2", 
+			    &help_concatenate,gnumeric_concatenate);
+	function_add_args  (cat, "dollar",     "f|f",  "num,decimals",
+			    &help_dollar,     gnumeric_dollar);
+	function_add_args  (cat, "exact",      "ss",   "text1,text2",
+			    &help_exact,      gnumeric_exact);
+	function_add_args  (cat, "find",       "ss|f", "text1,text2,num",
+			    &help_find,       gnumeric_find);
+	function_add_args  (cat, "fixed",      "f|fb", "num,decs,no_commas",
+			    &help_fixed,      gnumeric_fixed);
+	function_add_args  (cat, "left",       "s|f",  "text,num_chars",
+			    &help_left,       gnumeric_left);
+	function_add_args  (cat, "len",        "s",    "text",
+			    &help_len,        gnumeric_len);
+	function_add_args  (cat, "lower",      "s",    "text",
+			    &help_lower,      gnumeric_lower);
+	function_add_args  (cat, "proper",     "s",    "text",
+			    &help_proper,     gnumeric_proper);
+        function_add_args  (cat, "mid",        "sff",  "text,pos,num",
+			    &help_mid,        gnumeric_mid);
+	function_add_args  (cat, "replace",    "sffs", "old,start,num,new",
+			    &help_replace,    gnumeric_replace);
+	function_add_args  (cat, "rept",       "sf",   "text,num",
+			    &help_rept,       gnumeric_rept);
+	function_add_args  (cat, "right",      "s|f",  "text,num_chars",
+			    &help_right,      gnumeric_right);
+	function_add_args  (cat, "search",     "ss|f",  "find,within[,start_num]",
+			    &help_search,     gnumeric_search);
+	function_add_args  (cat, "substitute", "sss|f","text,old,new,num",
+			    &help_substitute, gnumeric_substitute);
+	function_add_args  (cat, "t",          "?",    "value",
+			    &help_t,          gnumeric_t);
+	function_add_args  (cat, "trim",       "s",    "text",
+			    &help_trim,       gnumeric_trim);
+	function_add_args  (cat, "upper",      "s",    "text",
+			    &help_upper,      gnumeric_upper);
+	function_add_args  (cat, "value",      "s",    "text",
+			    &help_value,      gnumeric_value);
 
 /* Missing:
  * TEXT(number,format) formats number
  */
+
+}

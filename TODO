@@ -1,6 +1,6 @@
 -*-outline-*-
 
-GNOME Spread Sheet task list
+Gnumeric Spread Sheet task list
 
 * Cell editing
 
@@ -9,11 +9,36 @@ GNOME Spread Sheet task list
 
      A4 -> $A$4 -> $A4 -> A$4 -> A4
 
+* Even More Functions
+
+   GROWTH, LINEST, LOGEST, PERCENTILE, MMULT, MDETERM,
+   QUARTILE, TREND, ERROR.TYPE.
+
+   (This is not a claim that these are all.)
+
+* Printing
+  * Screen layout is broken for right justified text.
+  * Save print information in workbook
+  * Load print information from workbook
+  * Preview
+  * Print setup: 
+    * Implement Print Preview, Options buttons
+    * Improve layout 
+    * Provide GUI for margin editing.
+  * Add headers and footers
+  * Add left, middle right header/footer support
+  * Add "repeat on top" support.
+  * Add font selector to the cell format.
+  * Add the missing options to the Print Dialog
+  * Display printing status (pages to go).
+  * Add column/row title printing
+  * Add color printing support.
+
 * Cell range naming
 
    Finish implementing.
 
-* Cell dimensio computation is broken on font change for multilines.
+* Cell dimension computation is broken on font change for multilines.
 
 * Number formatting
 
@@ -30,6 +55,10 @@ GNOME Spread Sheet task list
 
 * Auditing
    Write the sheet auditing code.
+
+* Searching
+
+   Searching text on the spreadhseet.
 
 * EDITION
 
@@ -104,6 +133,21 @@ GNOME Spread Sheet task list
    Get Nested OLE object streams working nicely.
 
 * OLE
+<<<<<<< TODO
+
+   Integrate into libvfs.
+   Update to better understanding of file, see wine.
+
+* Sheets
+
+When adding a sheet or renaming a sheet, should we reparse everything?
+
+* Clipboard
+
+Perhaps make a global clipboard and remove all the hacks in the
+current clipboard code to find the clipboard.=======
+
+=======
 
    Integrate into libvfs.
    Update to better understanding of file, see wine.
@@ -118,3 +162,4 @@ Perhaps make a global clipboard and remove all the hacks in the
 current clipboard code to find the clipboard.=======
 
 
+>>>>>>> 1.38.4.4
