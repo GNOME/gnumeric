@@ -1,3 +1,13 @@
+2004-09-01  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-gradient.c : conditionalize selector on WITH_GTK
+	* utils/go-pattern.c : ditto
+	* utils/go-marker.c : conditionalize selector and the use of GdkPixbuf
+
+	* utils/go-color.c : Remove unnecessary include of color-combo
+	  and conditionalize the gdk support routines in case we do not have
+	  gtk.
+
 2004-09-03  Morten Welinder  <terra@gnome.org>
 
 	* graph/plugins/plot_barcol/gog-1.5d.c

@@ -1,3 +1,36 @@
+2004-09-03  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (palette_init) : Export the xlp5 colours too
+
+	* ms-obj.c (ms_obj_read_pre_biff8_obj) : remove some unnecssary
+	  pre-conditions that got confused when there was no name even when we
+	  were not expecting one.
+	(excel_get_default_palette) : get a corrected palette for biff7.
+
+	* ms-excel-read.c (ms_sheet_realize_obj) : merge the realization of
+	  text/label/rectangle/oval they all inherit from sheet-object-filled.
+
+	* ms-escher.c (ms_escher_read_OPT) : Make some headway understanding
+	  booleans and use that to fix outline and fill handling.
+
+2004-09-02  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=151618
+	* plugins/excel/ms-chart.c (BC_R(end)) : Add the plot to the chart
+	  before setting it up so that the initial setup does not override the
+	  formating
+
+2004-08-31  Jody Goldberg <jody@gnome.org>
+
+	* ms-biff.c (ms_biff_crypt_seq) : Add some bounds checking
+	  We need more docs in here.
+
+2004-08-30  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_BOUNDSHEET) : Export the sheet types
+	  we can import (worksheet, chart, xlm).
+	  Export sheet visibility too
+
 2004-08-31  Morten Welinder  <terra@gnome.org>
 
 	* md5.c (wvMD5Init, wvMD5Update): Use ANSI prototypes.

@@ -5,6 +5,15 @@ Emmanuel Pacaud:
 	* Fix markers in xy and line plots.
 	http://bugzilla.gnome.org/show_bug.cgi?id=151529
 
+Jody:
+	* XLS import zooming for full page charts
+	* XLS export for full page charts
+	* XLS import of autoshapes with/without outlines and fills
+	* Use the right default palette for XL95
+
+Kasal:
+	* Some typos in various docs
+
 Morten:
 	* Make new windows inherit toolbar visibility from parent.
 	* Map [Enter] to next-match in search centre.

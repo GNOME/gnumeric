@@ -2406,6 +2406,7 @@ xml_write_styles (XmlParseContext *ctxt, GnmStyleList *styles)
 static void
 xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 {
+#ifdef ENABLE_SOLVER
 	SolverConstraint *c;
 	xmlNodePtr       child;
 	int              col, row, ptype;
@@ -2488,12 +2489,13 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_node_get_int (tree, "PerformR",
 			  &(param->options.performance_report));
 	xml_node_get_int (tree, "ProgramR", &(param->options.program_report));
+#endif
 }
 
 static xmlNodePtr
 xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 {
-	xmlNodePtr       cur;
+	xmlNodePtr       cur = NULL;
 	xmlNodePtr       constr;
 	xmlNodePtr       prev = NULL;
 	GSList           *constraints;
@@ -2572,7 +2574,6 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 	xml_node_set_int (cur, "LimitsR", param->options.limits_report);
 	xml_node_set_int (cur, "PerformR", param->options.performance_report);
 	xml_node_set_int (cur, "ProgramR", param->options.program_report);
-
 	return cur;
 }
 

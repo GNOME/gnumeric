@@ -49,6 +49,7 @@
 typedef GObjectClass GogErrorBarClass;
 static GObjectClass *error_bar_parent_klass;
 
+#ifdef WITH_GTK
 typedef struct {
 	GogSeries *series;
 	GogErrorBar *bar;
@@ -165,8 +166,7 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 	gog_object_request_update (GOG_OBJECT (editor->series));
 }
 
-
-GtkWidget*
+gpointer
 gog_error_bar_prefs (GogSeries *series,
 			char const* property,
 			gboolean horizontal,
@@ -299,6 +299,7 @@ gog_error_bar_prefs (GogSeries *series,
 	}
 	return GTK_WIDGET(table);
 }
+#endif
 
 static void
 gog_error_bar_init (GogErrorBar* bar)

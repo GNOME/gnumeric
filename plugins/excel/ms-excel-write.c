@@ -993,8 +993,7 @@ excel_write_get_externsheet_idx (ExcelWriteState *ewb,
  * See: S59D61.HTM
  **/
 static guint32
-excel_write_BOUNDSHEET (BiffPut *bp, MsBiffFileType type,
-			char const *name)
+excel_write_BOUNDSHEET (BiffPut *bp, Sheet *sheet)
 {
 	guint32 pos;
 	guint8 data[16];
@@ -1003,18 +1002,21 @@ excel_write_BOUNDSHEET (BiffPut *bp, MsBiffFileType type,
 	pos = bp->streamPos;
 
 	GSF_LE_SET_GUINT32 (data, 0xdeadbeef); /* To be stream start pos */
-	switch (type) {
-	case MS_BIFF_TYPE_Worksheet :	GSF_LE_SET_GUINT8 (data+4, 0); break;
-	case MS_BIFF_TYPE_Macrosheet :	GSF_LE_SET_GUINT8 (data+4, 1); break;
-	case MS_BIFF_TYPE_Chart :	GSF_LE_SET_GUINT8 (data+4, 2); break;
-	case MS_BIFF_TYPE_VBModule :	GSF_LE_SET_GUINT8 (data+4, 6); break;
+
+	/* NOTE : MS Docs appear wrong.  It is visiblity _then_ type */
+	GSF_LE_SET_GUINT8 (data+4, sheet->is_visible ? 0 : 1);
+
+	switch (sheet->sheet_type) {
 	default:
-		g_warning ("Duff type.");
+		g_warning ("unknown sheet type %d (assuming WorkSheet)", sheet->sheet_type);
 		break;
+	case GNM_SHEET_DATA :	GSF_LE_SET_GUINT8 (data+5, 0); break;
+	case GNM_SHEET_OBJECT : GSF_LE_SET_GUINT8 (data+5, 2); break;
+	case GNM_SHEET_XLM :	GSF_LE_SET_GUINT8 (data+5, 1); break;
+	/* case MS_BIFF_TYPE_VBModule :	GSF_LE_SET_GUINT8 (data+5, 6); break; */
 	}
-	GSF_LE_SET_GUINT8 (data+5, 0); /* Visible */
 	ms_biff_put_var_write (bp, data, 6);
-	excel_write_string (bp, STR_ONE_BYTE_LENGTH, name);
+	excel_write_string (bp, STR_ONE_BYTE_LENGTH, sheet->name_unquoted);
 	ms_biff_put_commit (bp);
 	return pos;
 }
@@ -1068,7 +1070,9 @@ palette_init (ExcelWriteState *ewb)
 	/* Ensure that black and white can't be swapped out */
 
 	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
-		epe = &excel_default_palette[i];
+		epe = (ewb->bp->version >= MS_BIFF_V8)
+		      ? &excel_default_palette_v8 [i]
+		      : &excel_default_palette_v7 [i];
 		num = palette_color_to_int (epe);
 		two_way_table_put (ewb->pal.two_way_table,
 				   GUINT_TO_POINTER (num), FALSE,
@@ -3958,14 +3962,30 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	gint32	 y;
 	int	 rows_in_block = ROW_BLOCK_MAX_LEN;
 	unsigned index_off;
+	MsBiffFileType type;
 
 	/* No. of blocks of rows. Only correct as long as all rows
 	 * _including empties_ have row info records
 	 */
 	guint32 nblocks = (esheet->max_row - 1) / rows_in_block + 1;
 
-	dbcells = g_array_new (FALSE, FALSE, sizeof (unsigned));
-	esheet->streamPos = excel_write_BOF (ewb->bp, MS_BIFF_TYPE_Worksheet);
+	switch (esheet->gnum_sheet->sheet_type) {
+	default :
+		g_warning ("unknown sheet type %d (assuming WorkSheet)",
+			   esheet->gnum_sheet->sheet_type);
+	case GNM_SHEET_DATA :	type = MS_BIFF_TYPE_Worksheet; break;
+	case GNM_SHEET_OBJECT : type = MS_BIFF_TYPE_Chart; break;
+	case GNM_SHEET_XLM :	type = MS_BIFF_TYPE_Macrosheet; break;
+	}
+	esheet->streamPos = excel_write_BOF (ewb->bp, type);
+	if (esheet->gnum_sheet->sheet_type == GNM_SHEET_OBJECT) {
+		GSList *objs = sheet_objects_get (esheet->gnum_sheet,
+			NULL, SHEET_OBJECT_GRAPH_TYPE);
+		g_return_if_fail (objs != NULL);
+		ms_excel_chart_write (ewb, objs->data);
+		g_slist_free (objs);
+		return;
+	}
 
 	if (ewb->bp->version >= MS_BIFF_V8) {
 		guint8 *data = ms_biff_put_len_next (ewb->bp, 0x200|BIFF_INDEX,
@@ -3991,6 +4011,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	d (1, fprintf (stderr, "Saving esheet '%s' geom (%d, %d)\n",
 		      esheet->gnum_sheet->name_unquoted,
 		      esheet->max_col, esheet->max_row););
+	dbcells = g_array_new (FALSE, FALSE, sizeof (unsigned));
 	for (y = 0; y < esheet->max_row; y = block_end + 1)
 		block_end = excel_sheet_write_block (esheet, y, rows_in_block,
 						     dbcells);
@@ -4687,9 +4708,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 	for (i = 0; i < ewb->sheets->len; i++) {
 		s = g_ptr_array_index (ewb->sheets, i);
-	        s->boundsheetPos = excel_write_BOUNDSHEET (bp,
-			MS_BIFF_TYPE_Worksheet,
-			s->gnum_sheet->name_unquoted);
+	        s->boundsheetPos = excel_write_BOUNDSHEET (bp, s->gnum_sheet);
 	}
 
 	if (bp->version >= MS_BIFF_V8) {
@@ -4947,6 +4966,10 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		esheet = excel_sheet_new (ewb, sheet, biff7, biff8);
 		if (esheet != NULL)
 			g_ptr_array_add (ewb->sheets, esheet);
+
+		if (sheet->sheet_type != GNM_SHEET_DATA)
+			continue;
+
 		if (esheet->validations != NULL)
 			excel_write_prep_validations (esheet); /* validation */
 		if (sheet->filters != NULL)

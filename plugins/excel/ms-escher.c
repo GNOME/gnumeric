@@ -1154,6 +1154,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 4 : name = "long rotation"; break;
 
 	/* Protection */
+#if 0
 		/* FALSE : */
 		case 119 : name = "bool LockRotation"; break;
 		/* FALSE : */
@@ -1170,6 +1171,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 125 : name = "bool LockText"; break;
 		/* FALSE : */
 		case 126 : name = "bool LockAdjustHandles"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* FALSE : */
 		case 127 : name = "bool LockAgainstGrouping"; break;
 
@@ -1199,6 +1202,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* LTR : Bi-Di Text direction */
 		case 139 : name = "TextDirection txdir"; break;
 
+#if 0
 		/* TRUE : TRUE if single click selects text, FALSE if two clicks */
 		case 187 : name = "bool fSelectText"; break;
 		/* FALSE : use host's margin calculations */
@@ -1207,6 +1211,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 189 : name = "bool fRotateText"; break;
 		/* FALSE : Size shape to fit text size */
 		case 190 : name = "bool fFitShapeToText"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* FALSE : Size text to fit shape size */
 		case 191 : name = "bool fFitTextToShape"; break;
 
@@ -1224,6 +1230,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* NULL : font family name */
 		case 197 : name = "wchar* gtextFont"; break;
 
+#if 0
 		/* FALSE : Reverse row order */
 		case 240 : name = "bool gtextFReverseRows"; break;
 		/* FALSE : Has text effect */
@@ -1254,6 +1261,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 253 : name = "bool gtextFShadow"; break;
 		/* FALSE : Small caps font */
 		case 254 : name = "bool gtextFSmallcaps"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* FALSE : Strike through font */
 		case 255 : name = "bool gtextFStrikethrough"; break;
 
@@ -1305,12 +1314,15 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* Comment Blip flags */
 		case 273 : name = "BlipType pibPrintFlags"; break;
 
+#if 0
 		/* FALSE : Do not hit test the picture */
 		case 316 : name = "bool fNoHitTestPicture"; break;
 		/* FALSE : grayscale display */
 		case 317 : name = "bool pictureGray"; break;
 		/* FALSE : bi-level display */
 		case 318 : name = "bool pictureBiLevel"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* FALSE : Server is active (OLE objects only) */
 		case 319 : name = "bool pictureActive"; break;
 
@@ -1353,6 +1365,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* 0 :  */
 		case 336 : name = "long adjust10Value"; break;
 
+#if 0
 		/* TRUE : Shadow may be set */
 		case 378 : name = "bool fShadowOK"; break;
 		/* TRUE : 3D may be set */
@@ -1363,6 +1376,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 381 : name = "bool fGtextOK"; break;
 		/* FALSE :  */
 		case 382 : name = "bool fFillShadeShapeOK"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* TRUE : OK to fill the shape through the UI or VBA? */
 		case 383 : name = "bool fFillOK"; break;
 
@@ -1447,6 +1462,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 412 : id = MS_OBJ_ATTR_FILL_SHADE_TYPE;
 			   name = "ShadeType fillShadeType";
 			   break;
+#if 0
 		/* TRUE : Is shape filled? */
 		case 443 : name = "bool fFilled"; break;
 		/* TRUE : Should we hit test fill?  */
@@ -1455,19 +1471,13 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 445 : name = "bool fillShape"; break;
 		/* FALSE : Use the large rect? */
 		case 446 : name = "bool fillUseRect"; break;
+#endif
 
 		/* FALSE : Hit test a shape as though filled */
 		case 447 :
-			/* NOTE : This test is somewhat questionable.
-			 * The docs say this is a bool but I have seen
-			 * 0x110000	not filled
-			 * 0x100000 	not filled
-			 * 0x110010	filled
-			 * 0x010000	filled
-			 */
-			if (val != 0x110010 && val != 0x010000)
-				id = MS_OBJ_ATTR_UNFILLED;
 			name = "bool fNoFillHitTest";
+			if (!(val & 0x10))
+				id = MS_OBJ_ATTR_UNFILLED;
 			break;
 
 	/* LineStyle */
@@ -1525,6 +1535,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 470 : name = "LineJoin lineJoinStyle"; break;
 		/* EndCapFlat : How to end lines */
 		case 471 : name = "LineCap lineEndCapStyle"; break;
+#if 0
 		/* FALSE : Allow arrowheads if prop. is set */
 		case 507 : name = "bool fArrowheadsOK"; break;
 		/* TRUE : Any line? */
@@ -1533,12 +1544,16 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 509 : name = "bool fHitTestLine"; break;
 		/* TRUE : Register pattern on shape */
 		case 510 : name = "bool lineFillShape"; break;
+#endif
+
+		/* Booleans are stored in chunks named for the last element */
 		/* FALSE : Draw a dashed line if no line */
 		case 511 : name = "bool fNoLineDrawDash";
-			   /* 0 == no line
-			    * 0x80008 == line */
-			if (val == 0)
-				id = MS_OBJ_ATTR_OUTLINE_STYLE;
+			id = MS_OBJ_ATTR_OUTLINE_STYLE;
+
+			/* TODO : write a boolean extractor to handle multiple flags in 1 value */
+			/* Test fLine (0x8) */
+			val = (val & 0x8) ? 1 : 0;
 			break;
 
 	/* ShadowStyle */
@@ -1578,8 +1593,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 528 : name = "long shadowOriginX"; break;
 		/* 0 :  */
 		case 529 : name = "long shadowOriginY"; break;
+#if 0
 		/* FALSE : Any shadow? */
 		case 574 : name = "bool fShadow"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* FALSE : Excel5-style shadow */
 		case 575 : name = "bool fshadowObscured"; break;
 
@@ -1634,12 +1652,15 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 647 : name = "Colour c3DExtrusionColor"; break;
 		/* undefined : Modification for BW views */
 		case 648 : name = "Colour c3DCrMod"; break;
+#if 0
 		/* FALSE : Does this shape have a 3D effect? */
 		case 700 : name = "bool f3D"; break;
 		/* 0 : Use metallic specularity? */
 		case 701 : name = "bool fc3DMetallic"; break;
 		/* FALSE :  */
 		case 702 : name = "bool fc3DUseExtrusionColor"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* TRUE :  */
 		case 703 : name = "bool fc3DLightFace"; break;
 
@@ -1698,6 +1719,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 729 : name = "long c3DFillZ"; break;
 		/* 38000 : Fixed point intensity */
 		case 730 : name = "long c3DFillIntensity"; break;
+#if 0
 		/* TRUE :  */
 		case 763 : name = "bool fc3DConstrainRotation"; break;
 		/* FALSE :  */
@@ -1706,6 +1728,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 765 : name = "bool fc3DParallel"; break;
 		/* 1 : Is key lighting harsh? */
 		case 766 : name = "bool fc3DKeyHarsh"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* 0 : Is fill lighting harsh?` */
 		case 767 : name = "bool fc3DFillHarsh"; break;
 
@@ -1721,6 +1745,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 773 : name = "BlackWhiteMode bWModePureBW"; break;
 		/* Automatic :  */
 		case 774 : name = "BlackWhiteMode bWModeBW"; break;
+#if 0
 		/* FALSE : For OLE objects, whether the object is in icon form */
 		case 826 : name = "bool fOleIcon"; break;
 		/* FALSE : For UI only. Prefer relative resizing.  */
@@ -1729,6 +1754,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 828 : name = "bool fLockShapeType"; break;
 		/* FALSE :  */
 		case 830 : name = "bool fDeleteAttachedObject"; break;
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* FALSE : If TRUE, this is the background shape. */
 		case 831 : name = "bool fBackground"; break;
 
@@ -1745,6 +1772,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 836 : name = "long dxyCalloutDropSpecified"; break;
 		/* 0 : if fCalloutLengthSpecified, the actual distance */
 		case 837 : name = "long dxyCalloutLengthSpecified"; break;
+#if 0
 		/* FALSE : Is the shape a callout? */
 		case 889 : name = "bool fCallout"; break;
 		/* FALSE : does callout have accent bar */
@@ -1755,12 +1783,15 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 892 : name = "bool fCalloutMinusX"; break;
 		/* FALSE :  */
 		case 893 : name = "bool fCalloutMinusY"; break;
+
 		/* FALSE : If true, then we occasionally invert the drop distance */
 		case 894 : name = "bool fCalloutDropAuto"; break;
-
-	/* GroupShape */
+#endif
+		/* Booleans are stored in chunks named for the last element */
 		/* FALSE : if true, we look at dxyCalloutLengthSpecified */
 		case 895 : name = "bool fCalloutLengthSpecified"; break;
+
+	/* GroupShape */
 		/* NULL : Shape Name (present only if explicitly set) */
 		case 896 : name = "wchar* wzName"; break;
 		/* NULL : alternate text */
@@ -1779,6 +1810,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 903 : name = "long dyWrapDistBottom"; break;
 		/* 0 : Regroup ID  */
 		case 904 : name = "long lidRegroup"; break;
+#if 0
 		/* FALSE : Has the wrap polygon been edited? */
 		case 953 : name = "bool fEditedWrap"; break;
 		/* FALSE : Word-only (shape is behind text) */
@@ -1792,6 +1824,9 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 957 : name = "bool fOneD"; break;
 		/* FALSE : Do not display */
 		case 958 : name = "bool fHidden"; break;
+#endif
+
+		/* Booleans are stored in chunks named for the last element */
 		/* TRUE : Print this shape */
 		case 959 : name = "bool fPrint"; break;
 

@@ -2,7 +2,9 @@
 # Gnumeric's Tools Makefile.
 # Author: Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
 
-SUBDIRS = solver
+if ENABLE_SOLVER
+  SUBDIRS = solver
+endif
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\

@@ -1,3 +1,22 @@
+2004-09-03  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : expand the --with-gtk tests and make --with-gnome
+	  conditional on --with-gtk
+
+2004-09-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: start implementing --with-gui via the WITH_GTK
+	  conditional.  Check also for pango, which is required even if no GUI
+	  is used.  We use gtk+-2.0 >= 2.4.0 which requires pango >= 1.4.0; so
+	  we ask pango >= 1.4.0 too.
+	* src/Makefile.am: Conditionalize solver, start using WITH_GTH.
+	* plugins/Makefile.am: compile the mps plugin only if ENABLE_SOLVER
+	  is set; --enable-plugins can override the plugin list.
+	* src/solver.h: Don't declare anything if not !ENABLE_SOLVER; supply
+	  a few stub macros instead.
+	* src/wbcg-actions.c: Conditionalize on ENABLE_SOLVER.
+	* src/xml-io.c (xml_read_solver, xml_write_solver): Likewise.
+
 2004-08-31  Jody Goldberg <jody@gnome.org>
 
 	* src/tools/dao.c : Remove unnecessary include of gtk/gtk.h

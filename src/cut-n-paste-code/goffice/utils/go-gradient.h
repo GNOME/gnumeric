@@ -23,9 +23,12 @@
 
 #include <glib.h>
 #include <goffice/utils/goffice-utils.h>
-#include <gtk/gtkwidget.h>
 #include <libart_lgpl/libart.h>
 #include <libart_lgpl/art_render_gradient.h>
+
+#ifdef WITH_GTK
+#include <gtk/gtkwidget.h>
+#endif
 
 G_BEGIN_DECLS
 
@@ -50,11 +53,14 @@ typedef enum {
 
 GOGradientDirection go_gradient_dir_from_str (const gchar *name);
 const gchar *go_gradient_dir_as_str (GOGradientDirection dir);
-GtkWidget *go_gradient_selector (GOColor fore, GOColor back);
 void go_gradient_setup (ArtGradientLinear *gradient,
 			GOGradientDirection dir, GOColor col0, GOColor col1,
 			double x0, double y0, double x1, double y1,
 			ArtGradientStop *stops);
+
+#ifdef WITH_GTK
+GtkWidget *go_gradient_selector (GOColor fore, GOColor back);
+#endif
 
 G_END_DECLS
 

@@ -648,7 +648,14 @@ static GNM_ACTION_DEF (cb_tools_auto_save)	{ dialog_autosave (wbcg); }
 static GNM_ACTION_DEF (cb_tools_goal_seek)	{ dialog_goal_seek (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_tabulate)	{ dialog_tabulate (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_merge)		{ dialog_merge (wbcg); }
-static GNM_ACTION_DEF (cb_tools_solver)		{ dialog_solver (wbcg, wbcg_cur_sheet (wbcg)); }
+
+static GNM_ACTION_DEF (cb_tools_solver)
+	{
+#ifdef ENABLE_SOLVER
+	dialog_solver (wbcg, wbcg_cur_sheet (wbcg));
+#endif
+}
+
 static GNM_ACTION_DEF (cb_tools_scenario_add)	{ dialog_scenario_add (wbcg); }
 static GNM_ACTION_DEF (cb_tools_scenarios)	{ dialog_scenarios (wbcg); }
 static GNM_ACTION_DEF (cb_tools_simulation)	{ dialog_simulation (wbcg, wbcg_cur_sheet (wbcg)); }
@@ -1430,6 +1437,11 @@ static /* const 142334 */ GtkActionEntry permanent_actions[] = {
 		NULL, N_("About this application"),
 		G_CALLBACK (cb_help_about) },
 
+	/* Special.  The sensitivity is chained to redo we do not want to
+	 * toggle it directly so we put it in here */
+	{ "Repeat", NULL, N_("Repeat"),
+		"F4", N_("Repeat the previous action"),
+		G_CALLBACK (cb_repeat) }
 };
 
 static /* const 142334 */ GtkActionEntry actions[] = {
@@ -1580,10 +1592,6 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 	{ "EditRecalc", NULL, N_("Recalculate"),
 		"F9", N_("Recalculate the spreadsheet"),
 		G_CALLBACK (cb_edit_recalc) },
-
-	{ "Repeat", NULL, N_("Repeat"),
-		"F4", N_("Repeat the previous action"),
-		G_CALLBACK (cb_repeat) },
 
 /* View */
 	{ "ViewNew", NULL, N_("_New View..."),

@@ -2,10 +2,15 @@
 # Gnumeric's Makefile.
 # Author: Miguel de Icaza (miguel@kernel.org)
 
-SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
+SUBDIRS = tools cut-n-paste-code
 
-bin_PROGRAMS = gnumeric
-check_PROGRAMS = ssconvert # test-pango number-match
+if WITH_GTK
+  SUBDIRS += pixmaps dialogs widgets
+  bin_PROGRAMS = gnumeric ssconvert
+  check_PROGRAMS = # test-pango number-match
+else
+  bin_PROGRAMS = ssconvert
+endif
 
 INCLUDES = 								\
 	-I$(top_srcdir)							\
@@ -304,13 +309,17 @@ gnumeric_LDFLAGS = -export-dynamic
 gnumeric_app_libs =				\
 	dialogs/libdialogs.a			\
 	tools/libtools.a			\
-	tools/solver/libsolver.a		\
-	tools/solver/glpk/source/libglpk.a	\
-	tools/solver/lp_solve/liblp_solve.a	\
 	cut-n-paste-code/goffice/libgoffice.la	\
 	cut-n-paste-code/goffice/cut-n-paste/pcre/libpcre.a		\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
 	widgets/libwidgets.a
+
+if ENABLE_SOLVER
+gnumeric_app_libs +=				\
+	tools/solver/libsolver.a		\
+	tools/solver/glpk/source/libglpk.a	\
+	tools/solver/lp_solve/liblp_solve.a
+endif
 
 ssconvert_LDADD   = $(gnumeric_LDADD)
 ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)

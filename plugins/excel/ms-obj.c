@@ -582,9 +582,6 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		len = GSF_LE_GET_GUINT16 (q->data + 44);
 		txo_len = GSF_LE_GET_GUINT16 (q->data + 48);
 		if_empty = GSF_LE_GET_GUINT16 (q->data + 50);
-		data = q->data + 70;
-
-		g_return_val_if_fail (data + 1 <= last, TRUE);
 
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		if (data == NULL ||
@@ -652,9 +649,6 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	case 0xE  : /* label */
 /* 70 name len, name, fmla (respect cbMacro), cbtext, text */
 		len = GSF_LE_GET_GUINT16 (q->data + 44);
-		data = q->data + 70;
-
-		g_return_val_if_fail (data + 1 <= last, TRUE);
 
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		if (data == NULL ||

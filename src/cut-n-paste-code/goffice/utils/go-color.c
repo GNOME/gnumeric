@@ -21,7 +21,6 @@
 
 #include <goffice/goffice-config.h>
 #include "go-color.h"
-#include <goffice/gui-utils/go-combo-color.h>
 
 #include <stdio.h>
 
@@ -352,6 +351,9 @@ go_color_as_str (GOColor color)
 	return g_strdup_printf ("%X:%X:%X:%X", r, g, b, a);
 }
 
+#ifdef WITH_GTK
+#include <gdk/gdkcolor.h>
+
 GdkColor *
 go_color_to_gdk	(GOColor c, GdkColor *res)
 {
@@ -364,3 +366,4 @@ go_color_to_gdk	(GOColor c, GdkColor *res)
 
 	return res;
 }
+#endif /* WITH_GTK */

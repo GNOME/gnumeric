@@ -24,6 +24,8 @@
 #ifndef GNUMERIC_SOLVER_H
 #define GNUMERIC_SOLVER_H 1
 
+#ifdef ENABLE_SOLVER
+
 #include "gnumeric.h"
 #include "numbers.h"
 
@@ -258,6 +260,18 @@ SolverConstraint* solver_get_constraint (SolverResults *res, int n);
 void              solver_insert_cols    (Sheet *sheet, int col, int count);
 void              solver_insert_rows    (Sheet *sheet, int row, int count);
 void              solver_delete_rows    (Sheet *sheet, int row, int count);
-void              solver_delete_cols    (Sheet *sheet, int row, int count);
+void              solver_delete_cols    (Sheet *sheet, int col, int count);
+
+#else /* !ENABLE_SOLVER */
+
+#define solver_param_new() NULL
+#define solver_lp_copy(src_param, new_sheet) NULL
+#define solver_param_destroy(param)
+#define solver_insert_cols(sheet, col, count)
+#define solver_insert_rows(sheet, row, count)
+#define solver_delete_cols(sheet, col, count)
+#define solver_delete_rows(sheet, row, count)
+
+#endif
 
 #endif

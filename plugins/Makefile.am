@@ -46,6 +46,12 @@ else
 GDA_DIR=
 endif
 
+if ENABLE_SOLVER
+MPS_DIR=mps
+else
+MPS_DIR=
+endif
+
 if WITH_PSICONV
 PSICONV_DIR=psiconv
 else
@@ -59,7 +65,7 @@ PARADOX_DIR=
 endif
 
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
-	plan-perfect xml_sax applix mps openoffice $(PSICONV_DIR) $(PARADOX_DIR)
+	plan-perfect xml_sax applix $(MPS_DIR) openoffice $(PSICONV_DIR) $(PARADOX_DIR)
 
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
 	fn-logical fn-complex fn-lookup fn-math fn-stat fn-string fn-random \
@@ -73,4 +79,8 @@ SUBDIRS_DATA_SOURCES = sample_datasource
 
 SUBDIRS_EXAMPLES = $(GNOME_GLOSSARY_DIR) $(PYFUNC_DIR) # uiplugins
 
-SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) $(SUBDIRS_LOADERS) $(SUBDIRS_DATA_SOURCES) $(SUBDIRS_EXAMPLES)
+if PLUGIN_LIST_GIVEN
+  SUBDIRS = @PLUGIN_LIST@
+else
+  SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) $(SUBDIRS_LOADERS) $(SUBDIRS_DATA_SOURCES) $(SUBDIRS_EXAMPLES)
+endif

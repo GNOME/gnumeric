@@ -450,26 +450,13 @@ unhandled markup for type 0xc
 			gnm_so_graphic_set_fill_color (so, color);
 		break;
 	}
-	case 0x02:
-	case 0x03: { /* Box or Oval */
-		GnmColor *fill_color = NULL;
-		GnmColor *outline_color;
-
-		if (!ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED))
-			fill_color = ms_sheet_map_color (esheet, obj,
-				MS_OBJ_ATTR_FILL_COLOR);
-		outline_color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR);
-		gnm_so_graphic_set_fill_color (so, fill_color);
-		if (outline_color)
-			gnm_so_filled_set_outline_color (so, outline_color);
-		break;
-	}
 
 	case 0x05: /* Chart */
 		/* NOTE : We should not need to do anything for charts */
 		break;
 
+	case 0x02: /* rectangle */
+	case 0x03: /* oval */
 	case 0x06: /* TextBox */
 	case 0x0E: /* Label */
 		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED))
@@ -1114,9 +1101,8 @@ ms_biff_bof_data_new (BiffQuery *q)
 
 	if ((q->opcode & 0xff) == BIFF_BOF &&
 	    (q->length >= 4)) {
-		/*
-		 * Determine type from boff
-		 */
+
+		/* Determine type from BOF */
 		switch (q->opcode >> 8) {
 		case 0: ans->version = MS_BIFF_V2;
 			break;
@@ -1420,30 +1406,30 @@ biff_format_data_destroy (BiffFormatData *d)
 }
 
 /** Default color table for BIFF5/BIFF7. */
-static ExcelPaletteEntry const excel_default_palette_v7 [] = {
-	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
-	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
+ExcelPaletteEntry const excel_default_palette_v7 [] = {
+	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0}, 
+	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255}, 
 
-	{128,  0,  0}, {  0,128,  0}, {  0,  0,128}, {128,128,  0},
-	{128,  0,128}, {  0,128,128}, {192,192,192}, {128,128,128},
+	{128,  0,  0}, {  0,128,  0}, {  0,  0,128}, {128,128,  0}, 
+	{128,  0,128}, {  0,128,128}, {192,192,192}, {128,128,128}, 
 
-	{128,128,255}, {128, 32, 96}, {255,255,192}, {160,224,224},
-	{ 96,  0,128}, {255,128,128}, {  0,128,192}, {192,192,255},
+	{128,128,255}, {128, 32, 96}, {255,255,192}, {160,224,224}, 
+	{ 96,  0,128}, {255,128,128}, {  0,128,192}, {192,192,255}, 
 
-	{  0,  0,128}, {255,  0,255}, {255,255,  0}, {  0,255,255},
-	{128,  0,128}, {128,  0,  0}, {  0,128,128}, {  0,  0,255},
+	{  0,  0,128}, {255,  0,255}, {255,255,  0}, {  0,255,255}, 
+	{128,  0,128}, {128,  0,  0}, {  0,128,128}, {  0,  0,255}, 
 
-	{  0,204,255}, {204,255,255}, {204,255,204}, {255,255,153},
-	{153,204,255}, {255,153,204}, {204,153,255}, {255,204,153},
+	{  0,204,255}, {105,255,255}, {204,255,204}, {255,255,153}, 
+	{166,202,240}, {204,156,204}, {204,153,255}, {227,227,227}, 
 
-	{ 42,111,249}, { 63,184,205}, { 72,132, 54}, {149,141, 65},
-	{142, 94, 66}, {160, 98,122}, { 98, 79,172}, {150,150,150},
+	{ 51,102,255}, { 51,204,204}, { 51,153, 51}, {153,153, 51}, 
+	{153,102, 51}, {153,102,102}, {102,102,153}, {150,150,150}, 
 
-	{ 29, 47,190}, { 40,102,118}, {  0, 69,  0}, { 69, 62,  1},
-	{106, 40, 19}, {133, 57,106}, { 74, 50,133}, { 66, 66, 66}
+	{ 51, 51,204}, { 51,102,102}, {  0, 51,  0}, { 51, 51,  0}, 
+	{102, 51,  0}, {153, 51,102}, { 51, 51,153}, { 66, 66, 66}
 };
 
-ExcelPaletteEntry const excel_default_palette [] = {
+ExcelPaletteEntry const excel_default_palette_v8 [] = {
 	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
 	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
 
@@ -1467,27 +1453,24 @@ ExcelPaletteEntry const excel_default_palette [] = {
 };
 
 static ExcelPalette *
-excel_get_default_palette (void)
+excel_get_default_palette (MsBiffVersion ver)
 {
-	static ExcelPalette *pal = NULL;
+	int entries = EXCEL_DEF_PAL_LEN;
+	ExcelPalette *pal = g_new0 (ExcelPalette, 1);
+	ExcelPaletteEntry const *defaults = (ver >= MS_BIFF_V8)
+		? excel_default_palette_v8 : excel_default_palette_v7;
 
-	if (!pal) {
-		int entries = EXCEL_DEF_PAL_LEN;
-		d (3, fprintf (stderr,"Creating default palette\n"););
+	pal->length = entries;
+	pal->red   = g_new (int, entries);
+	pal->green = g_new (int, entries);
+	pal->blue  = g_new (int, entries);
+	pal->gnm_colors = g_new (GnmColor *, entries);
 
-		pal = g_new (ExcelPalette, 1);
-		pal->length = entries;
-		pal->red   = g_new (int, entries);
-		pal->green = g_new (int, entries);
-		pal->blue  = g_new (int, entries);
-		pal->gnm_colors = g_new (GnmColor *, entries);
-
-		while (--entries >= 0) {
-			pal->red[entries]   = excel_default_palette[entries].r;
-			pal->green[entries] = excel_default_palette[entries].g;
-			pal->blue[entries]  = excel_default_palette[entries].b;
-			pal->gnm_colors[entries] = NULL;
-		}
+	while (--entries >= 0) {
+		pal->red[entries]   = defaults[entries].r;
+		pal->green[entries] = defaults[entries].g;
+		pal->blue[entries]  = defaults[entries].b;
+		pal->gnm_colors[entries] = NULL;
 	}
 
 	return pal;
@@ -2805,7 +2788,7 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 	ewb->format_table      = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify)biff_format_data_destroy);
-	ewb->palette          = excel_get_default_palette ();
+	ewb->palette          = excel_get_default_palette (ver);
 	ewb->sst   = NULL;
 	ewb->sst_len = 0;
 	return ewb;
@@ -2881,7 +2864,7 @@ excel_workbook_destroy (ExcelWorkbook *ewb)
 	g_hash_table_destroy (ewb->format_table);
 	ewb->format_table = NULL;
 
-	if (ewb->palette && ewb->palette != excel_get_default_palette ()) {
+	if (ewb->palette) {
 		excel_palette_destroy (ewb->palette);
 		ewb->palette = NULL;
 	}
@@ -4834,8 +4817,8 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		GSF_LE_GET_GUINT16 (q->data), cond, FALSE);
 }
 
-static void
-excel_read_SCL (BiffQuery *q, ExcelReadSheet *esheet)
+void
+excel_read_SCL (BiffQuery *q, Sheet *sheet)
 {
 	unsigned num, denom;
 
@@ -4846,7 +4829,7 @@ excel_read_SCL (BiffQuery *q, ExcelReadSheet *esheet)
 
 	g_return_if_fail (denom != 0);
 
-	sheet_set_zoom_factor (esheet->sheet,
+	sheet_set_zoom_factor (sheet,
 		((double)num)/((double)denom), FALSE, FALSE);
 }
 
@@ -5171,7 +5154,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			 */
 			if (q->opcode == BIFF_CHART_units)
 				ms_excel_chart_read (q, sheet_container (esheet),
-						     ver, sheet_object_graph_new (NULL));
+					ver, sheet_object_graph_new (NULL), NULL);
 			else
 				g_warning ("EXCEL: How are we seeing chart records in a sheet ?");
 			continue;
@@ -5368,7 +5351,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_FILTERMODE:		break;
 		case BIFF_AUTOFILTERINFO:	break;
 		case BIFF_AUTOFILTER:	excel_read_AUTOFILTER (q, esheet);	break;
-		case BIFF_SCL:		excel_read_SCL (q, esheet);		break;
+		case BIFF_SCL:		excel_read_SCL (q, esheet->sheet);	break;
 		case BIFF_SETUP:	excel_read_SETUP (q, esheet);		break;
 		case BIFF_GCW:			break;
 		case BIFF_SCENMAN:		break;
@@ -5638,19 +5621,11 @@ excel_read_BOF (BiffQuery	 *q,
 		if (ver->type == MS_BIFF_TYPE_Worksheet) {
 			excel_read_sheet (q, ewb, wb_view, esheet);
 			ms_container_realize_objs (sheet_container (esheet));
-		} else {
-			static GnmRange const fixed_size = { { 1, 1 }, { 12, 32 } };
-			SheetObject *so = sheet_object_graph_new (NULL);
-			SheetObjectAnchor anchor;
+		} else
+			ms_excel_chart_read (q, sheet_container (esheet),
+				ver->version, sheet_object_graph_new (NULL),
+				esheet->sheet);
 
-			ms_excel_chart_read (q, &esheet->container,
-				ver->version, so);
-			sheet_object_anchor_init (&anchor,
-				&fixed_size, NULL, NULL, SO_DIR_DOWN_RIGHT);
-			sheet_object_anchor_set (so, &anchor);
-			sheet_object_set_sheet (so, esheet->sheet);
-			g_object_unref (so);
-		}
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
 		   ver->type == MS_BIFF_TYPE_Macrosheet) {
 		/* Skip contents of Module, or MacroSheet */
@@ -5933,5 +5908,4 @@ excel_read_init (void)
 void
 excel_read_cleanup (void)
 {
-	excel_palette_destroy (excel_get_default_palette ());
 }

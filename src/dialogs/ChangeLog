@@ -1,3 +1,12 @@
+2004-09-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (base_files): Remove dialog-solver.c.
+	(libdialogs_a_SOURCES): Include it here, if ENABLE_SOLVER is true.
+
+2004-09-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-about.c (dialog_about) : make it bigger
+
 2004-09-03  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (dialog_search): In the match table, set up a

@@ -443,13 +443,21 @@ cb_redo_activated (GOActionComboStack *a, WorkbookControl *wbc)
 }
 
 static void
-cb_chain_sensitivity (GtkAction *src, GParamSpec *pspec, GObject *action)
+cb_chain_sensitivity (GtkAction *src, GParamSpec *pspec, GtkAction *action)
 
 {
+	gboolean old_val, new_val = gtk_action_is_sensitive (src);
+
 	g_return_if_fail (action != NULL);
-	g_object_set (action,
-		      "sensitive", gtk_action_is_sensitive (src),
-		      NULL);
+	g_object_get (action, "sensitive", &old_val, NULL);
+
+	if ((new_val != 0) == (old_val != 0))
+		return;
+	if (new_val)
+		gtk_action_connect_accelerator (action);
+	else
+		gtk_action_disconnect_accelerator (action);
+	g_object_set (action, "sensitive", new_val, NULL);
 }
 
 static void

@@ -374,7 +374,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		pango_font_description_from_string ("Sans Bold 12"));
 
 	state->canvas = foo_canvas_new ();
-	gtk_widget_set_size_request (state->canvas, 400, 300);
+	gtk_widget_set_size_request (state->canvas, 450, 400);
 	foo_canvas_scroll_to (FOO_CANVAS (state->canvas), 0, 0);
 
 	state->ctrl = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (state->canvas)),

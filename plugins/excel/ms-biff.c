@@ -74,11 +74,10 @@ ms_biff_query_bound_check (BiffQuery *q, guint32 offset, unsigned len)
  *  ms_biff_password_hash and ms_biff_crypt_seq
  * based on pseudo-code in the OpenOffice.org XL documentation
  **/
-
 static guint16
 ms_biff_password_hash  (char const *password)
 {
-	int tmp, index= 0, len= strlen(password);
+	int tmp, index = 0, len = strlen(password);
 	guint16 chr, hash= 0;
 
 	do {
@@ -93,24 +92,28 @@ ms_biff_password_hash  (char const *password)
 }
 
 static void
-ms_biff_crypt_seq  (guint8 *seq, guint16 key, char const *password)
+ms_biff_crypt_seq (BiffQuery *q, guint16 key, char const *password)
 {
-	guint8 low = key & 0xff, high = key >> 8;
-	guint8 preset[15] = {0xbb, 0xff, 0xff, 0xba, 0xff, 0xff, 0xb9, 0x80,
-                             0x00, 0xbe, 0x0f, 0x00, 0xbf, 0x0f, 0x00 };
-	int k, len= strlen(password);
+	static guint8 const preset [] = {
+		0xbb, 0xff, 0xff, 0xba, 0xff, 0xff, 0xb9, 0x80,
+		0x00, 0xbe, 0x0f, 0x00, 0xbf, 0x0f, 0x00, 0x00
+	};
+	guint8 const low  =        key & 0xff;
+	guint8 const high = (key >> 8) & 0xff;
+	unsigned i, len = strlen (password);
+	guint8 *seq = q->xor_key;
 
-	strcpy(seq, password);
-	for (k= 0; len + k < 16; ++k) {
-		seq[len + k]= preset[k];
+	strncpy (seq, password, 16);
+	for (i = 0; (len + i) < 16; i++)
+		seq[len + i] = preset[i];
+
+	for (i = 0; i < 16; i += 2) {
+		seq[i]   ^= low;
+		seq[i+1] ^= high;
 	}
-	for (k= 0; k < 16; k+=2) {
-		seq[k] ^= low;
-		seq[k+1] ^= high;
-	}
-	for (k= 0; k < 16; ++k) {
-		seq[k] = (seq[k] << 2) | (seq[k] >> 6);
-	}
+
+	for (i = 0; i < 16; i++)
+		seq[i] = (seq[i] << 2) | (seq[i] >> 6);
 }
 
 static gboolean
@@ -134,7 +137,7 @@ ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, char const *password)
 	if (hash != pw_hash)
 		return FALSE;
 
-	ms_biff_crypt_seq(q->xor_key, key, password);
+	ms_biff_crypt_seq (q, key, password);
 
 	q->encryption = MS_BIFF_CRYPTO_XOR;
 	return TRUE;

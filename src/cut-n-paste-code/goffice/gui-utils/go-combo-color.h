@@ -33,17 +33,18 @@
 #include <glib-object.h>
 #include <goffice/gui-utils/go-color-group.h>
 #include <goffice/utils/go-color.h>
+#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
 
 #define GO_COMBO_COLOR_TYPE	(go_combo_color_get_type ())
-#define GO_COMBO_COLOR(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GO_COMBO_COLOR_TYPE, GOComboColor))
+#define GO_COMBO_COLOR(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GO_COMBO_COLOR_TYPE, GOComboColor))
 #define IS_GO_COMBO_COLOR(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GO_COMBO_COLOR_TYPE))
 #define GO_COMBO_COLOR_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST(k), GO_COMBO_COLOR_TYPE)
 
 typedef struct _GOComboColor GOComboColor;
 
-GtkType    go_combo_color_get_type   (void);
+GType      go_combo_color_get_type   (void);
 GtkWidget *go_combo_color_new        (GdkPixbuf   *icon,
 				      char const *no_color_label,
 				      GOColor default_color,

@@ -15,7 +15,8 @@
 #include "ms-container.h"
 
 gboolean ms_excel_chart_read     (BiffQuery *q, MSContainer *container,
-				  MsBiffVersion ver, SheetObject *sog);
+				  MsBiffVersion ver, SheetObject *sog,
+				  Sheet *full_page);
 gboolean ms_excel_chart_read_BOF (BiffQuery *q, MSContainer *container,
 				  SheetObject *sog);
 

@@ -31,6 +31,7 @@
 #define GO_GO_COLOR_PALETTE_H
 
 #include <goffice/gui-utils/go-color-group.h>
+#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
 
@@ -41,7 +42,7 @@ typedef struct _GOColorPalette  GOColorPalette;
 #define GO_COLOR_PALETTE_CLASS(k) (G_TYPE_CHECK_CLASS_CAST(k), GO_COLOR_PALETTE_TYPE)
 #define IS_GO_COLOR_PALETTE(obj)  (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_COLOR_PALETTE_TYPE))
 
-GtkType    go_color_palette_get_type (void);
+GType      go_color_palette_get_type (void);
 
 GtkWidget *go_color_palette_new	      (char const *no_color_label,
 				       GOColor default_color,

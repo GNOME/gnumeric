@@ -27,6 +27,7 @@
 #include <graph.h>
 #include <style-color.h>
 #include <sheet-object-graph.h>
+#include <workbook-view.h>
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-graph.h>
@@ -1895,6 +1896,10 @@ BC_R(end)(XLChartHandler const *handle,
 
 		g_return_val_if_fail (s->plot != NULL, TRUE);
 
+		/* Add _before_ setting styles so theme does not override */
+		gog_object_add_by_name (GOG_OBJECT (s->chart),
+			"Plot", GOG_OBJECT (s->plot));
+
 		if (s->default_plot_style != NULL) {
 			char const *type = G_OBJECT_TYPE_NAME (s->plot);
 			GogStyle const *style = s->default_plot_style;
@@ -1948,8 +1953,6 @@ BC_R(end)(XLChartHandler const *handle,
 #endif
 			}
 		}
-		gog_object_add_by_name (GOG_OBJECT (s->chart),
-			"Plot", GOG_OBJECT (s->plot));
 		s->plot = NULL;
 		break;
 	}
@@ -2136,7 +2139,7 @@ chart_get_sheet (MSContainer const *container)
 
 gboolean
 ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
-		     SheetObject *sog)
+		     SheetObject *sog, Sheet *full_page)
 {
 	static MSContainerClass const vtbl = {
 		chart_realize_obj,
@@ -2261,15 +2264,25 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			case BIFF_EXTERNSHEET: /* These cannot be biff8 */
 				excel_read_EXTERNSHEET_v7 (q, &state.container);
 				break;
+
+			case BIFF_WINDOW2 :
+				if (full_page != NULL && container->ver > MS_BIFF_V2)
+					if (GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
+						wb_view_sheet_focus (container->ewb->wbv, full_page);
+				break;
+
+			case BIFF_SCL :
+				if (full_page != NULL)
+					excel_read_SCL (q, full_page);
+				break;
+
 			case BIFF_PLS:		/* Skip for Now */
 			case BIFF_DIMENSIONS :	/* Skip for Now */
 			case BIFF_HEADER :	/* Skip for Now */
 			case BIFF_FOOTER :	/* Skip for Now */
 			case BIFF_HCENTER :	/* Skip for Now */
 			case BIFF_VCENTER :	/* Skip for Now */
-			case 0x200|BIFF_WINDOW2 :
 			case BIFF_CODENAME :
-			case BIFF_SCL :		/* Are charts scaled separately from the sheet ? */
 			case BIFF_SETUP :
 				d (8, fprintf (stderr, "Handled biff %x in chart;\n",
 					     q->opcode););
@@ -2309,6 +2322,16 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	g_ptr_array_free (state.series, TRUE);
 	ms_container_finalize (&state.container);
 
+	if (full_page != NULL) {
+		static GnmRange const fixed_size = { { 1, 1 }, { 12, 32 } };
+		SheetObjectAnchor anchor;
+		sheet_object_anchor_init (&anchor,
+			&fixed_size, NULL, NULL, SO_DIR_DOWN_RIGHT);
+		sheet_object_anchor_set (sog, &anchor);
+		sheet_object_set_sheet (sog, full_page);
+		g_object_unref (sog);
+	}
+
 	return FALSE;
 }
 
@@ -2336,7 +2359,7 @@ ms_excel_chart_read_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 	 * XP saving as 95 will mark the book as biff7
 	 * but sheets and charts are marked as biff8, even though they are not
 	 * using unicode */
-	res = ms_excel_chart_read (q, container, container->ver, sog);
+	res = ms_excel_chart_read (q, container, container->ver, sog, NULL);
 
 	ms_biff_bof_data_destroy (bof);
 	return res;
@@ -3112,7 +3135,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 static void
 chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 {
-	guint16 i;
+	guint16 i = 0;
 	guint8 *data;
 	GSList *sptr, *pptr;
 	XLAxisSet *axis_set;
@@ -3120,7 +3143,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		gog_object_find_role_by_name (s->chart, "Legend"));
 
 	ms_biff_put_2byte (s->bp, BIFF_CHART_axesused, g_slist_length (sets));
-	for (i = 0, sptr = sets; sptr != NULL ; sptr = sptr->next, i++) {
+	for (sptr = sets; sptr != NULL ; sptr = sptr->next) {
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_axisparent, 4*4 + 2);
 		/* pick arbitrary position, this sort of info is in the view  */
 		GSF_LE_SET_GUINT16 (data + 0, i);
@@ -3166,7 +3189,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			}
 		}
 
-		for (pptr = axis_set[i].plots ; pptr != NULL ; pptr = pptr->next) {
+		for (pptr = axis_set[i].plots ; pptr != NULL ; pptr = pptr->next, i++) {
 			gboolean vary;
 			guint16 flags = 0;
 
@@ -3220,7 +3243,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	GogRenderer *renderer;
 	XLChartWriteState state;
 	unsigned i, num_series = 0;
-	GSList *plots, *series, *sets, *ptr;
+	GSList const *plots, *series;
+	GSList *sets, *ptr;
 	XLAxisSet *axis_set;
 
 	state.bp  = ewb->bp;

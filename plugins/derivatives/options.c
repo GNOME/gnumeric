@@ -1992,6 +1992,8 @@ static GnmValue * opt_float_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
 		return value_new_float(s * expgnum((b - r) * t) * cum_norm_dist(a1) - m * expgnum(-r * t) * cum_norm_dist(a2) +expgnum(-r * t) * (v * v) / (2.0 * b) * s * (powgnum((s / m) , (-2.0 * b / (v * v))) * cum_norm_dist(-a1 + 2.0 * b / v * sqrtgnum(t)) - expgnum(b * t) * cum_norm_dist(-a1)));
 	else if(OS_Put == call_put_flag)
 		return value_new_float(m * expgnum(-r * t) * cum_norm_dist(-a2) - s * expgnum((b - r) * t) * cum_norm_dist(-a1) + expgnum(-r * t) * (v * v) / (2.0 * b) * s * (-powgnum((s / m) , ((-2.0 * b) / (v * v))) * cum_norm_dist(a1 - 2.0 * b / v * sqrtgnum(t)) + expgnum(b * t) * cum_norm_dist(a1)));
+
+	return value_new_error_VALUE (ei->pos);
 }
 
 static char const *help_opt_float_strk_lkbk = { 
@@ -2056,6 +2058,7 @@ opt_fixed_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
 	else if (OS_Put == call_put_flag && x >= m)
 		return value_new_float(expgnum(-r * t) * (x - m) - s * expgnum((b - r) * t) * cum_norm_dist(-e1) + expgnum(-r * t) * m * cum_norm_dist(-e1 + v * sqrtgnum(t)) + expgnum(-r * t) * (v * v) / (2.0 * b) * s * (powgnum((s / m) , (-2.0 * b / (v * v))) * cum_norm_dist(-e1 + 2 * b / v * sqrtgnum(t)) - expgnum(b * t) * cum_norm_dist(-e1)));
 	
+	return value_new_error_VALUE (ei->pos);
 }
 
 static char const *help_opt_fixed_strk_lkbk = { 
@@ -2087,7 +2090,7 @@ opt_binomial(FunctionEvalInfo *ei, GnmValue *argv[])
 { 
 	OptionType amer_euro_flag = option_type(value_peek_string(argv[0]));
 	OptionSide call_put_flag = option_side(value_peek_string(argv[1]));
-	guint n = value_get_as_int(argv[2]);
+	gint n = value_get_as_int(argv[2]);
 	gnm_float s = value_get_as_float(argv[3]);
 	gnm_float x = value_get_as_float(argv[4]);
 	gnm_float t = value_get_as_float(argv[5]);

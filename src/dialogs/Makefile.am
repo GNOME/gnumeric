@@ -4,6 +4,10 @@
 
 libdialogs_a_SOURCES =	$(base_files)
 
+if ENABLE_SOLVER
+  libdialogs_a_SOURCES += dialog-solver.c
+endif
+
 INCLUDES = 								\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
@@ -56,7 +60,6 @@ base_files =					\
 	dialog-sheet-order.c			\
 	dialog-shuffle.c			\
 	dialog-simulation.c			\
-	dialog-solver.c				\
 	dialog-stf.c				\
 	dialog-stf.h				\
 	dialog-stf-main-page.c			\

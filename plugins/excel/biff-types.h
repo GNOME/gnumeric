@@ -15,10 +15,10 @@
  * Additional record names culled from various sources.
  *
  * NOTE : Use the low byte as much as possible.	The high byte is supposed to
- *	be a version (not mentioned in more recent docs).	However,	some
+ *	be a version (not mentioned in more recent docs). However, some
  *	of the low bytes types have multiple record types with different
  *	high bytes.... So much for consistancy.
- * As you add low numbers, check you don't glup an odd-ball
+ * As you add low numbers, check you don't overlap with an odd-ball
  **/
 
 #define BIFF_DIMENSIONS			0x00	/* 2, NOT 1,10 */

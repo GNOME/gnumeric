@@ -24,9 +24,11 @@
 
 #include <glib-object.h>
 #include <goffice/utils/goffice-utils.h>
-
-#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libart_lgpl/art_vpath.h>
+
+#ifdef WITH_GTK
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#endif
 
 G_BEGIN_DECLS
 
@@ -61,7 +63,11 @@ struct _GOMarker {
 	GOMarkerShape	shape;
 	GOColor		outline_color;
 	GOColor		fill_color;
+#ifdef WITH_GTK
 	GdkPixbuf	*pixbuf;
+#else
+	gpointer	 pixbuf;
+#endif
 };
 
 GType go_marker_get_type (void); 
@@ -72,8 +78,6 @@ char const      *go_marker_shape_as_str         (GOMarkerShape shape);
 void		 go_marker_get_paths		(GOMarker * marker,
 						 ArtVpath const **outline_path,
 						 ArtVpath const **fill_path);
-GdkPixbuf const *go_marker_get_pixbuf		(GOMarker *m, double scale);
-GdkPixbuf const	*go_marker_get_pixbuf_with_size (GOMarker *m, guint size);
 GOMarkerShape 	 go_marker_get_shape		(GOMarker *m);
 void 		 go_marker_set_shape 		(GOMarker *m, GOMarkerShape shape);
 GOColor 	 go_marker_get_outline_color	(GOMarker *m);
@@ -88,13 +92,17 @@ void		 go_marker_assign 		(GOMarker *dst, GOMarker const *src);
 GOMarker *	 go_marker_dup 			(GOMarker *src);
 GOMarker * 	 go_marker_new 			(void);
 
+#ifdef WITH_GTK
+GdkPixbuf const *go_marker_get_pixbuf		(GOMarker *m, double scale);
+GdkPixbuf const	*go_marker_get_pixbuf_with_size (GOMarker *m, guint size);
+
 gpointer 	 go_marker_selector 		(GOColor outline_color, 
 						 GOColor fill_color,
 						 GOMarkerShape default_shape);
 GOMarkerShape	 go_marker_selector_get_shape	(gpointer selector,
 						 int index, gboolean *is_auto);
+#endif
 	
 G_END_DECLS
 
 #endif /* GO_MARKER_H */
-

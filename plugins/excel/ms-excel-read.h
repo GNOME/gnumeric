@@ -136,6 +136,7 @@ char	      *ms_biff_get_chars (char const *ptr, guint length,
 GnmColor  *excel_palette_get (ExcelPalette const *pal, gint idx);
 
 GdkPixbuf *excel_read_IMDATA (BiffQuery *q, gboolean keep_image);
+void	   excel_read_SCL    (BiffQuery *q, Sheet *esheet);
 
 /* A utility routine to handle unexpected BIFF records */
 void excel_unexpected_biff (BiffQuery *q, char const *state, int debug_level);

@@ -28,9 +28,12 @@
 
 #include <glib.h>
 #include <goffice/utils/goffice-utils.h>
-#include <gtk/gtkwidget.h>
 #include <libart_lgpl/art_render.h>
 #include <libart_lgpl/art_svp.h>
+
+#ifdef WITH_GTK
+#include <gdk/gdktypes.h>
+#endif
 
 G_BEGIN_DECLS
 
@@ -111,7 +114,9 @@ void go_color_render_svp (GOColor color, ArtSVP const *svp,
 
 GOColor   go_color_from_str (char const *string);
 gchar    *go_color_as_str   (GOColor color);
+#ifdef WITH_GTK
 GdkColor *go_color_to_gdk   (GOColor color, GdkColor *res);
+#endif
 
 G_END_DECLS
 

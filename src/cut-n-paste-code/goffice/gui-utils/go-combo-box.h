@@ -55,7 +55,7 @@ struct _GOComboBoxClass {
 };
 
 /* public */
-GtkType	    go_combo_box_get_type     (void);
+GType	    go_combo_box_get_type     (void);
 void	    go_combo_box_set_tooltip  (GOComboBox *combo, GtkTooltips *tips,
 				       char const *text, char const *priv_text);
 void	    go_combo_box_set_relief   (GOComboBox *combo, GtkReliefStyle relief);
