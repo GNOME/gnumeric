@@ -65,7 +65,7 @@ record_seek (XBrecord *record, int whence, gsf_off_t row)
 	if (offset < 1 || offset > (int)record->file->records)
 		return FALSE;
 	record->row = offset;
-	offset = (offset-1) * record->file->fieldlen + record->file->headerlen;
+	offset = (offset-1) * record->file->fieldlen + record->file->headerlen + 1;
 	return !gsf_input_seek (record->file->input, offset, G_SEEK_SET) &&
 	    gsf_input_read (record->file->input, record->file->fieldlen, record->data) != NULL;
 }

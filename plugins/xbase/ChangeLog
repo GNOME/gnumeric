@@ -1,5 +1,6 @@
 2002-09-28  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=94341
 	* xbase.c (xbase_read_header) : don't guess about the existence of a
 	  dbc field.  Foxbase docs claim there is a 263 byte field after the
 	  field descriptors, all the other docs claim not.  Use the stored
