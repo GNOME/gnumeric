@@ -84,8 +84,17 @@ sheet_redraw_headers (Sheet const *sheet,
 void
 sheet_rename (Sheet *sheet, char const *new_name)
 {
+	Workbook *wb;
+
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (new_name != NULL);
+
+	wb = sheet->workbook;
+
+	/* FIXME: maybe have workbook_sheet_detach_internal for this.  */
+	if (wb)
+		g_hash_table_remove (wb->sheet_hash_private,
+				     sheet->name_case_insensitive);
 
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
@@ -97,6 +106,12 @@ sheet_rename (Sheet *sheet, char const *new_name)
 		g_utf8_collate_key (sheet->name_unquoted, -1);
 	sheet->name_case_insensitive =
 		g_utf8_casefold (sheet->name_unquoted, -1);
+
+	/* FIXME: maybe have workbook_sheet_attach_internal for this.  */
+	if (wb)
+		g_hash_table_insert (wb->sheet_hash_private,
+				     sheet->name_case_insensitive,
+				     sheet);
 }
 
 void
