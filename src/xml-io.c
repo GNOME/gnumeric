@@ -643,7 +643,6 @@ xml_read_style_condition_chain (XmlParseContext *ctxt, xmlNodePtr tree)
 					g_warning ("StyleConditionExpression without Expression!");
 			
 				sc = style_condition_new_expr (op, expr);
-				expr_tree_unref (expr);
 			} else
 				fprintf (stderr,
 					 "xml_read_style_condition: invalid element type %s, 'Expr' expected`\n",

@@ -1260,7 +1260,6 @@ xml_sax_style_condition_expr (XMLSaxParseState *state, xmlChar const **attrs)
 		g_warning ("StyleConditionExpression without Expression!");
 
 	sc = style_condition_new_expr (op, expr);
-	expr_tree_unref (expr);
 	xml_sax_style_condition_chain (state, sc);
 }
 

@@ -1,6 +1,11 @@
+2002-01-03  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_read_style_condition_chain) : no need to unref
+	  expr.
+
 2002-01-02  Zbigniew Chyla  <cyba@gnome.pl>
 
-	* src/sheet-object-widget.c (sheet_widget_checkbox_construct_with_range):
+	* src/sheet-object-widget.c (sheet_widget_checkbox_construct_with_ref):
 	Marked string for translation.
 
 2002-01-01  Jody Goldberg <jody@gnome.org>
