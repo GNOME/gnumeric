@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1998-07-06 13:22+0200\n"
+"POT-Creation-Date: 1998-07-15 13:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Vincent Renardias <vincent@waw.com>\n"
 "Language-Team: Vincent Renardias <vincent@waw.com>\n"
@@ -162,10 +162,10 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
-#: src/workbook.c:11
+#: src/workbook.c:18
 msgid "Exit"
 msgstr "Quitter"
 
-#: src/workbook.c:17
+#: src/workbook.c:24
 msgid "File"
 msgstr "Fichier"
