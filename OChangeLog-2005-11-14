@@ -1,3 +1,8 @@
+2004-10-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/stf.c: (stf_apply_formats): use unsigned int
+	* src/stf-parse.h: make col_import_array_len unsigned
+
 2004-10-21  Jean Brefort  <jean.brefort@normalesup.org>
 	* src/dialogs/dialog-solver.c: (revert_constraint_format): make constraints
 	display correctly in all circumstances.

@@ -136,7 +136,7 @@ stf_apply_formats (StfParseOptions_t *parseoptions,
 
 	for (ui = 0; ui < parseoptions->formats->len; ui++) {
 		if (parseoptions->col_import_array == NULL ||
-		    parseoptions->col_import_array_len <= (int)ui ||
+		    parseoptions->col_import_array_len <= ui ||
 		    parseoptions->col_import_array[ui]) {
 			GnmStyle *style = mstyle_new ();
 			GnmFormat *sf = g_ptr_array_index 

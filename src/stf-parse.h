@@ -56,7 +56,7 @@ typedef struct {
 	int                  colcount;              /* Number of columns parsed */
         gboolean             *col_import_array;     /* 0/1 array indicating  */
 	                                            /* which cols to import  */
-	int                  col_import_array_len;
+	unsigned int         col_import_array_len;
 	GPtrArray            *formats       ;       /* Contains GnmFormat *s */
 	gboolean             cols_exceeded;         /* This is set to TRUE if */
 	                                            /* we tried to import more than */
