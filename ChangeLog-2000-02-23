@@ -1,3 +1,20 @@
+2000-01-16  Morten Welinder  <terra@diku.dk>
+
+	* src/datetime.c: New file.
+	* src/datetime.h: New file.
+
+	* src/format.c (split_time): Use datetime functions.
+
+	* src/commands.c (cmd_set_date_time_redo): Do proper rounding.
+
+	* src/functions/fn-date.c: Move date handling to datetime.c
+
+	* src/utils.c: Move date stuff to datetime.c.  Renamed
+ 	systematically; all callers changed.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add datetime.c and
+ 	datetime.h.
+
 2000-01-16  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/item-cursor.c (item_cursor_request_redraw): Remove my

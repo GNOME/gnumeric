@@ -14,6 +14,7 @@
 #include "utils.h"
 #include "clipboard.h"
 #include "selection.h"
+#include "datetime.h"
 
 /*
  * NOTE : This is a work in progress
@@ -1073,13 +1074,7 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 	g_return_val_if_fail (me->contents == NULL, TRUE);
 
 	if (me->is_date) {
-		int n;
-		GDate *date = g_date_new();
-		g_date_set_time (date, time (NULL));
-		n = g_date_serial (date);
-		g_date_free( date );
-
-		v = value_new_int (n);
+		v = value_new_int (datetime_timet_to_serial (time (NULL)));
 
 		/* FIXME : the '>' prefix is intended to give the translators
 		 * a change to provide a locale specific date format.
@@ -1088,10 +1083,7 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 		 */
 		prefered_format = _(">mm/dd/yyyy");
 	} else {
-		time_t t = time (NULL);
-		struct tm *tm = localtime (&t);
-		float_t serial = (tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(24*3600.0);
-		v = value_new_float (serial);
+		v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
 
 		/* FIXME : See comment above */
 		prefered_format = _(">hh:mm");

@@ -37,6 +37,7 @@
 #include "dates.h"
 #include "utils.h"
 #include "portability.h"
+#include "datetime.h"
 
 /* Points to the locale information for number display */
 static struct lconv *lc = NULL;
@@ -690,32 +691,16 @@ split_time (gdouble number)
 	guint secs;
 	GDate* date;
 
-	/* Excel compatible rounding, I think.  -- MW.  */
-	number += 0.5 / 86400;
-
-	date = g_date_new_serial (number);
+	date = datetime_serial_to_g (datetime_serial_raw_to_serial (number));
 	g_date_to_struct_tm (date, &tm);
+	g_date_free (date);
 
-	/*
-	 * This code used to be
-	 *   secs = ((number * 86400. + .5)) - (((int)number) * 86400);
-	 * but that does not work on Sparc's.  (I don't think it really works
-	 * anywhere else, but that is just a guess.  Think overflow.
-	 *
-	 * (And that was before the += 0.5 above).
-	 */
-
-	secs = (int)((number - (int)number) * 86400);
-
+	secs = datetime_serial_raw_to_seconds (number);
 	tm.tm_hour = secs / 3600;
 	secs -= tm.tm_hour * 3600;
-
 	tm.tm_min  = secs / 60;
 	secs -= tm.tm_min * 60;
-
 	tm.tm_sec  = secs;
-
-	g_date_free (date);
 
 	return &tm;
 }

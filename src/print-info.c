@@ -649,9 +649,9 @@ HFRenderInfo *
 hf_render_info_new (void)
 {
 	HFRenderInfo *hfi;
-	
+
 	hfi = g_new0 (HFRenderInfo, 1);
-	hfi->date_time = gnumeric_return_current_time ();
+	hfi->date_time = value_new_float (datetime_timet_to_serial_raw (time (NULL)));
 
 	return hfi;
 }

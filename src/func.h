@@ -201,9 +201,6 @@ void parse_criteria                 (const char *criteria,
 				     criteria_test_fun_t *fun,
 				     Value **test_value);
 
-float_t get_serial_date (const Value *v);
-GDate *get_date (const Value *v);
-
 int  solver_simplex                 (Workbook *wb, Sheet *sheet);
 
 #endif /* GNUMERIC_FUNC_H */

@@ -9,6 +9,7 @@
 #include <config.h>
 #include "collect.h"
 #include "func.h"
+#include "datetime.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -58,7 +59,7 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
 
 	case VALUE_STRING:
 	        if (cl->flags & COLLECT_DATES) {
-		        x = get_serial_date (value);
+		        x = datetime_value_to_serial (value);
 			if (x == 0)
 			        return value_new_error (ep, gnumeric_err_VALUE);
 		} else if (cl->flags & COLLECT_IGNORE_STRINGS)

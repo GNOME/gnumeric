@@ -24,6 +24,7 @@
 #include "dates.h"
 #include "numbers.h"
 #include "utils.h"
+#include "datetime.h"
 
 /*
  * Takes a list of strings (optionally include an * at the beginning
@@ -733,7 +734,7 @@ compute_value (const char *s, const regmatch_t *mp,
 
 			date = g_date_new_dmy (day, month, year);
 
-			number = g_date_serial (date);
+			number = datetime_g_to_serial (date);
 
 			g_date_free (date);
 		}

@@ -81,6 +81,8 @@ GNUMERIC_BASE_SOURCES =				\
 	cursors.h				\
 	dates.c					\
 	dates.h					\
+	datetime.c				\
+	datetime.h				\
 	eval.h					\
 	eval.c					\
 	expr.c					\

@@ -15,6 +15,7 @@
 #include "goal-seek.h"
 #include "collect.h"
 #include "auto-format.h"
+#include "datetime.h"
 
 /*
 
@@ -126,7 +127,7 @@ annual_year_basis (Value *value_date, int basis)
 	case 0:
 	        return 360;
 	case 1:
-	        date = get_date (value_date);
+	        date = datetime_value_to_g (value_date);
 		if (date != NULL) {
 		        leap_year = g_date_is_leap_year (g_date_year (date));
 			g_date_free (date);
@@ -154,8 +155,8 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 	gboolean leap_year;
 	int      maturity, issue;
 
-	date_i = get_date (issue_date);
-	date_m = get_date (maturity_date);
+	date_i = datetime_value_to_g (issue_date);
+	date_m = datetime_value_to_g (maturity_date);
 	if (date_i != NULL && date_m != NULL) {
 	        issue_year = g_date_year (date_i);
 	        issue_month = g_date_month (date_i);
@@ -192,8 +193,8 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 	case 1:
 	case 2:
 	case 3:
-	        issue = get_serial_date (issue_date);
-	        maturity = get_serial_date (maturity_date);
+	        issue = datetime_value_to_serial (issue_date);
+	        maturity = datetime_value_to_serial (maturity_date);
 	        return maturity - issue;
 	case 4:
 	        return months * 30 + days;
@@ -1026,8 +1027,8 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 	float_t settlement, maturity, discount;
 	float_t dsm, divisor;
 
-	settlement = get_serial_date (argv[0]);
-	maturity = get_serial_date (argv[1]);
+	settlement = datetime_value_to_serial (argv[0]);
+	maturity = datetime_value_to_serial (argv[1]);
 	discount = value_get_as_float (argv[2]);
 
 	dsm = maturity - settlement;
@@ -1071,8 +1072,8 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 	float_t settlement, maturity, discount;
 	float_t res, dsm;
 
-	settlement = get_serial_date (argv[0]);
-	maturity = get_serial_date (argv[1]);
+	settlement = datetime_value_to_serial (argv[0]);
+	maturity = datetime_value_to_serial (argv[1]);
 	discount = value_get_as_float (argv[2]);
 
 	dsm = maturity - settlement;
@@ -1112,8 +1113,8 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 	float_t settlement, maturity, pr;
 	float_t res, dsm;
 
-	settlement = get_serial_date (argv[0]);
-	maturity = get_serial_date (argv[1]);
+	settlement = datetime_value_to_serial (argv[0]);
+	maturity = datetime_value_to_serial (argv[1]);
 	pr = value_get_as_float (argv[2]);
 
 	dsm = maturity - settlement;

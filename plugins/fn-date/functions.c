@@ -10,66 +10,10 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
-#include "number-match.h"
+#include "datetime.h"
 #include "auto-format.h"
 
 #define DAY_SECONDS (3600*24)
-
-float_t
-get_serial_date (const Value *v)
-{
-	float_t serial;
-
-	if (VALUE_IS_NUMBER (v))
-		serial = value_get_as_float (v);
-	else {
-		char *format;
-		double dserial;
-
-		if (format_match (v->v.str->str, &dserial, &format)) {
-			serial = dserial;
-		} else
-			serial = 0;
-	}
-
-	/* Add half a second.  Yes, Excel rounds up the date too.  */
-	serial += 0.5 / DAY_SECONDS;
-
-	return floor (serial);
-}
-
-GDate *
-get_date (const Value *v)
-{
-	float_t serial = get_serial_date (v);
-	return (serial > 0.0) ? g_date_new_serial (serial) : NULL;
-}
-
-
-static float_t
-get_serial_time (Value *v)
-{
-	float_t serial;
-
-	if (VALUE_IS_NUMBER (v))
-		serial = value_get_as_float (v);
-	else {
-		char *str, *format;
-		double dserial;
-
-		str = value_get_as_string (v);
-		if (format_match (str, &dserial, &format)) {
-			serial = dserial;
-		} else
-			serial = 0;
-		g_free (str);
-	}
-
-	/* Add half a second.  Yes, Excel rounds up the date too.  */
-	serial += 0.5 / DAY_SECONDS;
-
-	return serial - floor (serial);
-}
 
 /***************************************************************************/
 
@@ -106,7 +50,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 	else if (year < 100)
 		year += 1900;
 
-        if (!g_date_valid_dmy(1, month, year))
+        if (!g_date_valid_dmy (1, month, year))
 		return value_new_error (ei->pos, _("Invalid month or year"));
 
         g_date_clear(&date, 1);
@@ -118,10 +62,10 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 	else
 		g_date_subtract_days (&date, -day + 1);
 
-        if (!g_date_valid(&date))
+        if (!g_date_valid (&date))
 		return value_new_error (ei->pos, _("Invalid day"));
 
-	v = value_new_int (g_date_serial (&date));
+	v = value_new_int (datetime_g_to_serial (&date));
 
 	return v;
 }
@@ -145,7 +89,7 @@ static char *help_datevalue = {
 static Value *
 gnumeric_datevalue (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_int ((int) get_serial_date (argv[0]));
+	return value_new_int (datetime_value_to_serial (argv[0]));
 }
 
 /***************************************************************************/
@@ -178,9 +122,9 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	serial = value_get_as_int(argv[0]);
 	months = value_get_as_int(argv[1]);
 
-	date = g_date_new_serial (serial);
+	date = datetime_serial_to_g (serial);
 
-	if (!g_date_valid(date))
+	if (!g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (months > 0)
@@ -188,10 +132,10 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	else
 	        g_date_subtract_months (date, -months);
 
-	if (!g_date_valid(date))
+	if (!g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	res = value_new_int (g_date_serial (date));
+	res = value_new_int (datetime_g_to_serial (date));
 	g_date_free (date);
 	return res;
 }
@@ -214,12 +158,7 @@ static char *help_today = {
 static Value *
 gnumeric_today (FunctionEvalInfo *ei, Value **argv)
 {
-	GDate date;
-
-        g_date_clear(&date, 1);
-	g_date_set_time (&date, time (NULL));
-
-	return value_new_int (g_date_serial (&date));
+	return value_new_int (datetime_timet_to_serial (time (NULL)));
 }
 
 /***************************************************************************/
@@ -245,24 +184,10 @@ static char *help_now = {
 	   "@SEEALSO=TODAY, NOW")
 };
 
-Value *
-gnumeric_return_current_time (void)
-{
-	time_t t = time (NULL);
-	struct tm *tm = localtime (&t);
-	int secs;
-	GDate date;
-        g_date_clear (&date, 1);
-	g_date_set_time (&date, t);
-
-	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
-	return value_new_float (g_date_serial (&date) + secs / (double)DAY_SECONDS);
-}
-
 static Value *
 gnumeric_now (FunctionEvalInfo *ei, Value **argv)
 {
-	return gnumeric_return_current_time ();
+	return value_new_float (datetime_timet_to_serial_raw (time (NULL)));
 }
 
 /***************************************************************************/
@@ -310,7 +235,9 @@ static char *help_timevalue = {
 static Value *
 gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (get_serial_time (argv[0]));
+	float_t raw;
+	raw = datetime_value_to_serial_raw (argv[0]);
+	return value_new_float (raw - (int)raw);
 }
 
 /***************************************************************************/
@@ -336,8 +263,7 @@ static Value *
 gnumeric_hour (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
-
-	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS);
+	secs = datetime_value_to_seconds (argv[0]);
 	return value_new_int (secs / 3600);
 }
 
@@ -365,7 +291,7 @@ gnumeric_minute (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
 
-	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS);
+	secs = datetime_value_to_seconds (argv[0]);
 	return value_new_int ((secs / 60) % 60);
 }
 
@@ -393,7 +319,7 @@ gnumeric_second (FunctionEvalInfo *ei, Value **argv)
 {
 	int secs;
 
-	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS);
+	secs = datetime_value_to_seconds (argv[0]);
 	return value_new_int (secs % 60);
 }
 
@@ -419,7 +345,7 @@ static Value *
 gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1900;
-	GDate *date = get_date (argv[0]);
+	GDate *date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_year (date);
 		g_date_free (date);
@@ -449,7 +375,7 @@ static Value *
 gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1;
-	GDate *date = get_date (argv[0]);
+	GDate *date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_month (date);
 		g_date_free (date);
@@ -479,7 +405,7 @@ static Value *
 gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1;
-	GDate *date = get_date (argv[0]);
+	GDate *date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_day (date);
 		g_date_free (date);
@@ -509,7 +435,7 @@ static Value *
 gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1;
-	GDate *date = get_date (argv[0]);
+	GDate *date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = (g_date_weekday (date) + 1) % 7;
 		g_date_free (date);
@@ -560,16 +486,16 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	} else
 		method = METHOD_US;
 
-	serial1 = get_serial_date (argv[0]);
-	serial2 = get_serial_date (argv[1]);
+	serial1 = datetime_value_to_serial (argv[0]);
+	serial2 = datetime_value_to_serial (argv[1]);
 	if ((flipped = (serial1 > serial2))) {
 		float_t tmp = serial1;
 		serial1 = serial2;
 		serial2 = tmp;
 	}
 
-	date1 = g_date_new_serial (serial1);
-	date2 = g_date_new_serial (serial2);
+	date1 = datetime_serial_to_g (serial1);
+	date2 = datetime_serial_to_g (serial2);
 	day1 = g_date_day (date1);
 	day2 = g_date_day (date2);
 	month1 = g_date_month (date1);
@@ -636,9 +562,9 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *res;
 	int months = 0;
-	GDate *date = get_date (argv[0]);
+	GDate *date = datetime_value_to_g (argv[0]);
 
-	if (date == NULL || !g_date_valid(date))
+	if (date == NULL || !g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (argv[1] != NULL)
@@ -652,7 +578,7 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 	g_date_set_day(date, g_date_days_in_month(g_date_month(date),
 						  g_date_year(date)));
 
-	res = value_new_int (g_date_serial (date));
+	res = value_new_int (datetime_g_to_serial (date));
 	g_date_free (date);
 	return res;
 }
@@ -681,11 +607,11 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 	Value *res;
 	int days;
 	GDateWeekday weekday;
-	GDate *date = get_date (argv[0]);
+	GDate *date = datetime_value_to_g (argv[0]);
 
-	if (date == NULL || !g_date_valid(date))
+	if (date == NULL || !g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
-	weekday = g_date_weekday(date);
+	weekday = g_date_weekday (date);
 
 	days = value_get_as_int (argv[1]);
 
@@ -717,7 +643,7 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 			++days;
 	}
 
-	res = value_new_int (g_date_serial (date));
+	res = value_new_int (datetime_g_to_serial (date));
 	g_date_free (date);
 	return res;
 }
@@ -749,10 +675,10 @@ get_serial_weekday (int serial, int * offset)
 	GDate * date;
 	if (serial <= 0)
 		return serial;
-	date = g_date_new_serial (serial);
-        if (g_date_valid(date)) {
+	date = datetime_serial_to_g (serial);
+        if (g_date_valid (date)) {
 		/* Jan 1 1900 was a monday so we won't go < 0 */
-		*offset = (int)g_date_weekday(date) - 1;
+		*offset = (int)g_date_weekday (date) - 1;
 		serial -= *offset;
 		if (*offset > 4)
 			*offset = 4;
@@ -775,7 +701,7 @@ networkdays_holiday_callback(EvalPosition const *ep,
 	Value *res = NULL;
 	networkdays_holiday_closure * close =
 	    (networkdays_holiday_closure *)user_data;
-	int const serial = get_serial_date (v);
+	int const serial = datetime_value_to_serial (v);
 	GDate * date;
 
         if (serial <= 0)
@@ -784,9 +710,9 @@ networkdays_holiday_callback(EvalPosition const *ep,
 	if (serial < close->start_serial || close->end_serial < serial)
 		return NULL;
 
-	date = g_date_new_serial (serial);
-        if (g_date_valid(date)) {
-		if (g_date_weekday(date) < G_DATE_SATURDAY)
+	date = datetime_serial_to_g (serial);
+        if (g_date_valid (date)) {
+		if (g_date_weekday (date) < G_DATE_SATURDAY)
 			++close->res;
 	} else
 		res = value_new_error (ep, gnumeric_err_NUM);
@@ -798,8 +724,8 @@ networkdays_holiday_callback(EvalPosition const *ep,
 static Value *
 gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 {
-	int start_serial = get_serial_date (argv[0]);
-	int end_serial = get_serial_date (argv[1]);
+	int start_serial = datetime_value_to_serial (argv[0]);
+	int end_serial = datetime_value_to_serial (argv[1]);
 	int start_offset, end_offset, res;
 	networkdays_holiday_closure close;
 

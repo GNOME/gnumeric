@@ -10,14 +10,8 @@
 #include <stdio.h>
 #include <glib.h>
 #include <string.h>
-#include <string.h>
 #include <ctype.h>
-#include <gnome.h>
 #include "numbers.h"
-#include "mathfunc.h"
-#include "symbol.h"
-#include "str.h"
-#include "expr.h"
 #include "utils.h"
 #include "gnumeric.h"
 #include "sheet.h"
@@ -208,51 +202,6 @@ gnumeric_strcase_hash (gconstpointer v)
 	return h /* % M */;
 }
 
-
-/* One less that the Julian day number of 19000101.  */
-static guint32 date_origin = 0;
-
-/*
- * The serial number of 19000228.  Excel allocates a serial number for
- * the non-existing date 19000229.
- */
-static const guint32 date_serial_19000228 = 58;
-
-static void
-date_init (void)
-{
-	/* Day 1 means 1st of January of 1900 */
-	GDate* date = g_date_new_dmy (1, 1, 1900);
-	date_origin = g_date_julian (date) - 1;
-	g_date_free (date);
-}
-
-guint32
-g_date_serial (GDate* date)
-{
-	guint32 day;
-
-	if (!date_origin)
-		date_init ();
-
-	day = g_date_julian (date) - date_origin;
-	return day + (day > date_serial_19000228);
-}
-
-GDate*
-g_date_new_serial (guint32 serial)
-{
-	if (!date_origin)
-		date_init ();
-
-	if (serial <= date_serial_19000228)
-		return g_date_new_julian (serial + date_origin);
-	else if (serial == date_serial_19000228 + 1) {
-		g_warning ("Request for date 19000229.");
-		return g_date_new_julian (serial + date_origin);
-	} else
-		return g_date_new_julian (serial + date_origin - 1);
-}
 
 /*
  * Returns a list of cells in a string.  If the named cells does not
