@@ -1,3 +1,15 @@
+gnumeric (1.4.3-2) unstable; urgency=high
+
+  * [NEWS, ChangeLog, plugins/qpro/ChangeLog, plugins/qpro/plugin.xml.in,
+    po/*.po, src/gui-clipboard.c, src/gui-file.c, src/wbc-gtk.c,
+    src/workbook-control.c] Fixes from CVS gnumeric-1-4 branch, including
+    a fix for a crash with a non-UTF-8 filename. (Closes: #299805)
+  * [debian/rules] Configure --with-python=yes. The interpreter name is
+    currently not configurable.
+  * [debian/README.Debian] Minor update.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 20 Mar 2005 12:18:38 +0100
+
 gnumeric (1.4.3-1) unstable; urgency=medium
 
   * New upstream bugfix release, possibly the last of the 1.4 (stable) series.

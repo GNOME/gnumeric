@@ -13,5 +13,5 @@ A: Probably not.
 
 Q: Where is the <foo> plugin?
 A: Plugins that require additional libraries or programs are packaged 
-   separately (e.g. "gnumeric-python"). Do "apt-cache search gnumeric" to
-   find them.
+   separate from the regular "gnumeric" package. Do "apt-cache search
+   gnumeric" to find them.

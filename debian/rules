@@ -36,7 +36,7 @@ features:=
 
 # The Python support offers a nice way to extend gnumeric's functionality.
 
-features+= --with-python=python2.3
+features+= --with-python=yes
 
 # Bonobo allows us to use parts of other applications as components via
 # CORBA, and was supposed to allow us to work as a component for other
