@@ -1,5 +1,7 @@
 2002-11-15  Jon K Hellan  <hellan@acm.org>
 
+	* src/Makefile.am (GNUMERIC_BASE): Add io-context-gtk.[ch]
+
 	* src/main-application.c (warn_about_ancient_gnumerics): Take an
 	IOContext instead of a WorkbookControl.
 	(main): Create an initial IOContextGtk if started with GUI, a

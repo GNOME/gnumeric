@@ -64,6 +64,8 @@ GNUMERIC_BASE =					\
 	io-context.c				\
 	io-context.h				\
 	io-context-priv.h			\
+	io-context-gtk.c			\
+	io-context-gtk.h			\
 	complex.h				\
 	complex.c				\
 	dates.c					\
