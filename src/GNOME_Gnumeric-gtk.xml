@@ -67,9 +67,6 @@
       <menuitem action="EditGoto"/>
       <menuitem action="EditRecalc"/>
       <placeholder name="ops"/>
-      <menuitem action="FontBold"/>
-      <menuitem action="FontItalic"/>
-      <menuitem action="FontUnderline"/>
     </menu>
     <menu name="View" action="MenuView">
       <menuitem action="ViewNew"/>

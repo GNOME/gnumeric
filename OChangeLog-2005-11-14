@@ -1,3 +1,8 @@
+2004-01-12  Morten Welinder  <terra@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml: remove menu entris for bold, etc.
+	(Probably accidentally committed.)
+
 2004-01-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/GNOME_Gnumeric-gtk.xml: Add accelerators for bold, italic
