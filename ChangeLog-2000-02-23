@@ -1,3 +1,7 @@
+1999-05-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added LCM().
+	
 1999-05-13  Kjartan Maraas  <kmaraas@online.no>
 
 	* src/Gnumeric.idl: s/#include <gnome-object.idl>/

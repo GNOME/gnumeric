@@ -147,7 +147,7 @@ static char *help_gcd = {
 	   "@SYNTAX=GCD(a,b)\n"
 
 	   "@DESCRIPTION="
-	   "GCD returns the greatest common divisor of to numbers. "
+	   "GCD returns the greatest common divisor of two numbers. "
 	   "\n"
 	   "If any of the arguments is less than zero, GCD returns #NUM! "
 	   "error. "
@@ -170,6 +170,63 @@ gnumeric_gcd (struct FunctionDefinition *i,
 	}
 	        
 	return value_new_int (gcd(a, b));
+}
+
+static char *help_lcm = {
+	N_("@FUNCTION=LCM\n"
+	   "@SYNTAX=LCM(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "LCM returns the least common multiple of integers.  The least "
+	   "common multiple is the smallest positive number that is a "
+	   "multiple of all integer arguments given. "
+	   "\n"
+	   "If any of the arguments is less than one, LCM returns #NUM! "
+	   "error. "
+	   "\n"
+	   "@SEEALSO=GCD")
+};
+
+static int
+callback_function_lcm (Sheet *sheet, Value *value,
+		       char **error_string, void *closure)
+{
+	Value *result = closure;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        if (value->v.v_int < 1)
+		        return FALSE;
+	        result->v.v_int /= gcd(result->v.v_int, value->v.v_int);
+		result->v.v_int *= value->v.v_int;
+		break;
+	default:
+	        return FALSE;
+	}
+	
+	return TRUE;
+}
+
+static Value *
+gnumeric_lcm (void *tsheet, GList *expr_node_list,
+	      int eval_col, int eval_row, char **error_string)
+{
+	Value *result;
+	Sheet *sheet = (Sheet *) tsheet;
+
+	result = g_new (Value, 1);
+	result->type = VALUE_INTEGER;
+	result->v.v_int = 1;
+
+	if (function_iterate_argument_values (sheet, callback_function_lcm,
+					      result, expr_node_list,
+					      eval_col, eval_row, 
+					      error_string) == FALSE) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return result;
 }
 
 static char *help_abs = {
@@ -2280,6 +2337,7 @@ FunctionDefinition math_functions [] = {
 	{ "gcd",     "ff",   "number1,number2", &help_gcd,
 	  NULL, gnumeric_gcd },
 	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },
+	{ "lcm",     0,      "",          &help_lcm,     gnumeric_lcm, NULL },
 	{ "ln",      "f",    "number",    &help_ln,      NULL, gnumeric_ln },
 	{ "log",     "f|f",  "number[,base]", &help_log, NULL, gnumeric_log },
 	{ "log2",    "f",    "number",    &help_log2,    NULL, gnumeric_log2 },
