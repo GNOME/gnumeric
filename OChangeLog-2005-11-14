@@ -1,3 +1,7 @@
+2001-02-06  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in, README: Depend on bonobo >= 0.35.
+
 2001-02-06  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/gui-clipboard.c (x_selection_to_cell_region):
