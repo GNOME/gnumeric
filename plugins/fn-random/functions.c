@@ -1013,7 +1013,7 @@ gnumeric_randnormtail (FunctionEvalInfo *ei, Value **argv)
 	gnm_float a     = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
 
-	return value_new_float (random_norm_tail (a, sigma));
+	return value_new_float (random_gaussian_tail (a, sigma));
 }
 
 /***************************************************************************/
