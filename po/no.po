@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-05-17 08:20+0200\n"
+"POT-Creation-Date: 2002-05-29 13:51-0400\n"
 "PO-Revision-Date: 2002-05-17 08:32+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -4105,7 +4105,7 @@ msgstr ""
 #: plugins/fn-info/functions.c:1860 plugins/fn-info/functions.c:1887
 #: plugins/fn-info/functions.c:1938 plugins/fn-info/functions.c:1968
 #: plugins/fn-info/functions.c:2035 plugins/fn-logical/functions.c:275
-#: src/func.c:867
+#: src/func.c:889
 msgid "Invalid number of arguments"
 msgstr "Ugyldig antall argumenter"
 
@@ -4570,7 +4570,7 @@ msgstr ""
 #: plugins/fn-stat/functions.c:4831 plugins/fn-stat/functions.c:4833
 #: plugins/fn-stat/functions.c:4849 plugins/fn-stat/functions.c:4851
 #: plugins/fn-stat/functions.c:4853 plugins/fn-stat/functions.c:4855
-#: src/func-builtin.c:228 src/func-builtin.c:234
+#: src/func-builtin.c:225 src/func-builtin.c:231
 msgid "number,number,"
 msgstr ""
 
@@ -4810,7 +4810,7 @@ msgstr ""
 "COLUMN() i E1 er lik 5.\n"
 "@SEEALSO=COLUMNS,ROW,ROWS  "
 
-#: plugins/fn-lookup/functions.c:908
+#: plugins/fn-lookup/functions.c:907
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -4834,7 +4834,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS  "
 
-#: plugins/fn-lookup/functions.c:934
+#: plugins/fn-lookup/functions.c:933
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -4847,7 +4847,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:997
+#: plugins/fn-lookup/functions.c:996
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -4871,7 +4871,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS  "
 
-#: plugins/fn-lookup/functions.c:1050
+#: plugins/fn-lookup/functions.c:1048
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -4895,7 +4895,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS  "
 
-#: plugins/fn-lookup/functions.c:1076
+#: plugins/fn-lookup/functions.c:1074
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -4916,7 +4916,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1102
+#: plugins/fn-lookup/functions.c:1100
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -4933,53 +4933,49 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1147
+#: plugins/fn-lookup/functions.c:1145
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1149
+#: plugins/fn-lookup/functions.c:1147
 msgid "index,value,"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1151 plugins/fn-lookup/functions.c:1169
-#: plugins/fn-stat/functions.c:4723
-msgid "ref,ref,"
-msgstr ""
-
-#: plugins/fn-lookup/functions.c:1153 plugins/fn-lookup/functions.c:1171
+#: plugins/fn-lookup/functions.c:1149 plugins/fn-lookup/functions.c:1151
+#: plugins/fn-lookup/functions.c:1167 plugins/fn-lookup/functions.c:1169
 msgid "ref"
 msgstr "ref"
 
-#: plugins/fn-lookup/functions.c:1155 plugins/fn-lookup/functions.c:1175
+#: plugins/fn-lookup/functions.c:1153 plugins/fn-lookup/functions.c:1173
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1157
+#: plugins/fn-lookup/functions.c:1155
 msgid "link_location, label"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1159
+#: plugins/fn-lookup/functions.c:1157
 msgid "ref_string,format"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1161
+#: plugins/fn-lookup/functions.c:1159
 msgid "reference,row,col,area"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1163
+#: plugins/fn-lookup/functions.c:1161
 #, fuzzy
 msgid "val,range,range"
 msgstr "Dataområder"
 
-#: plugins/fn-lookup/functions.c:1165
+#: plugins/fn-lookup/functions.c:1163
 msgid "val,range,approx"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1167
+#: plugins/fn-lookup/functions.c:1165
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1173 plugins/fn-math/functions.c:3282
+#: plugins/fn-lookup/functions.c:1171 plugins/fn-math/functions.c:3282
 msgid "array"
 msgstr ""
 
@@ -9146,6 +9142,10 @@ msgstr ""
 msgid "trials,p,alpha"
 msgstr ""
 
+#: plugins/fn-stat/functions.c:4723
+msgid "ref,ref,"
+msgstr ""
+
 #: plugins/fn-stat/functions.c:4733
 #, fuzzy
 msgid "x,mean,cumulative"
@@ -9846,7 +9846,7 @@ msgid "Functions for manipulating strings"
 msgstr ""
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:140
-#: src/func.c:625
+#: src/func.c:643
 msgid "String"
 msgstr "Streng"
 
@@ -10042,27 +10042,27 @@ msgstr "Objektiv funksjon:"
 msgid "Constraints:"
 msgstr "Begrensninger:"
 
-#: plugins/mps/mps.c:240 src/dialogs/dialog-formula-guru.c:737
+#: plugins/mps/mps.c:240 src/dialogs/dialog-formula-guru.c:808
 #: src/dialogs/dialog-function-select.c:333
 #: src/dialogs/dialog-function-select.c:355
 #: src/dialogs/dialog-plugin-manager.c:709
 #: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:404
 #: src/tools/solver/reports-write.c:163 src/tools/solver/reports-write.c:185
-#: src/tools/solver/reports-write.c:212 src/tools/solver/reports-write.c:310
-#: src/tools/solver/reports-write.c:356 src/tools/solver/reports-write.c:468
-#: src/tools/solver/reports-write.c:475 src/tools/solver/reports-write.c:707
+#: src/tools/solver/reports-write.c:212 src/tools/solver/reports-write.c:319
+#: src/tools/solver/reports-write.c:365 src/tools/solver/reports-write.c:477
+#: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:716
 #: src/workbook-control.c:238
 msgid "Name"
 msgstr "Navn"
 
 #: plugins/mps/mps.c:267 src/dialogs/dialog-plugin-manager.c:714
-#: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:311
-#: src/tools/solver/reports-write.c:357 src/tools/solver/reports-write.c:469
-#: src/tools/solver/reports-write.c:476
+#: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:320
+#: src/tools/solver/reports-write.c:366 src/tools/solver/reports-write.c:478
+#: src/tools/solver/reports-write.c:485
 msgid "Value"
 msgstr "Verdi"
 
-#: plugins/mps/mps.c:268 src/dialogs/dialog-formula-guru.c:741
+#: plugins/mps/mps.c:268 src/dialogs/dialog-formula-guru.c:812
 msgid "Type"
 msgstr "Type"
 
@@ -10137,7 +10137,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -11386,7 +11386,7 @@ msgstr "Periodiske og tilfeldige utvalg"
 msgid "Preferen_ces..."
 msgstr "_Brukervalg..."
 
-#: src/GNOME_Gnumeric.xml.h:173 src/dialogs/print.glade.h:14
+#: src/GNOME_Gnumeric.xml.h:173 src/dialogs/print.glade.h:13
 #: src/workbook-control-gui.c:3429
 msgid "Print"
 msgstr "Skriv ut"
@@ -11404,7 +11404,7 @@ msgstr "Forhåndsvisning av utskrift"
 msgid "Print S_etup..."
 msgstr "Skriveropps_ett..."
 
-#: src/GNOME_Gnumeric.xml.h:177 src/dialogs/print.glade.h:16 src/print.c:1208
+#: src/GNOME_Gnumeric.xml.h:177 src/dialogs/print.glade.h:15 src/print.c:1218
 msgid "Print preview"
 msgstr "Forhåndsvisning av utskrift"
 
@@ -12540,12 +12540,12 @@ msgstr "Endre størrelse på objekt"
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5089
+#: src/commands.c:5090
 #, fuzzy, c-format
 msgid "Print Setup For %s"
 msgstr "Skriveroppsett"
 
-#: src/commands.c:5091
+#: src/commands.c:5092
 #, fuzzy
 msgid "Print Setup For All Sheets"
 msgstr "Skriv ut ark"
@@ -12921,7 +12921,7 @@ msgstr "E_rstatt:"
 
 #: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:3
-#: src/dialogs/solver.glade.h:22
+#: src/dialogs/solver.glade.h:24
 msgid "_Add"
 msgstr "_Legg til"
 
@@ -13289,7 +13289,7 @@ msgid "None          (silently accept invalid input)"
 msgstr "Ingen         (aksepter ugyldige inndata uten å gi beskjed)"
 
 #: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-search.c:144
-#: src/func.c:623
+#: src/func.c:641
 msgid "Number"
 msgstr "Tall"
 
@@ -13584,8 +13584,8 @@ msgstr "verdi >= grense              (større enn eller lik)"
 msgid "A _header"
 msgstr "En _topptekst"
 
-#: src/dialogs/cell-sort.glade.h:2 src/dialogs/print.glade.h:11
-#: src/tools/solver/reports-write.c:771
+#: src/dialogs/cell-sort.glade.h:2 src/dialogs/print.glade.h:10
+#: src/tools/solver/reports-write.c:801
 msgid "Options"
 msgstr "Alternativer"
 
@@ -13612,7 +13612,7 @@ msgstr "Sorter..."
 
 #: src/dialogs/cell-sort.glade.h:8
 #, fuzzy
-msgid "_Preserve Formating"
+msgid "_Preserves Formats"
 msgstr "_Behold store/små bokstaver"
 
 #: src/dialogs/cell-sort.glade.h:9
@@ -14417,17 +14417,17 @@ msgstr "Kunne ikke opprette navn-veiviseren."
 msgid "Could not create the Delete Cell dialog."
 msgstr "Kunne ikke opprette dialog for cellesortering."
 
-#: src/dialogs/dialog-formula-guru.c:292
+#: src/dialogs/dialog-formula-guru.c:294
 #, c-format
 msgid "[%s]"
 msgstr ""
 
-#: src/dialogs/dialog-formula-guru.c:748
+#: src/dialogs/dialog-formula-guru.c:820
 #, fuzzy
 msgid "Function/Argument"
 msgstr "Funksjonsveiviser"
 
-#: src/dialogs/dialog-formula-guru.c:909
+#: src/dialogs/dialog-formula-guru.c:987
 #, fuzzy
 msgid "Could not create the formula guru."
 msgstr "Kunne ikke opprette navn-veiviseren."
@@ -14479,7 +14479,7 @@ msgstr "Kunne ikke opprette dialogen målsøk."
 msgid "Workbook Level"
 msgstr "Arbeidsboknivå"
 
-#: src/dialogs/dialog-goto-cell.c:285 src/dialogs/print.glade.h:21
+#: src/dialogs/dialog-goto-cell.c:285 src/dialogs/print.glade.h:20
 #: src/func-builtin.c:213 src/workbook.c:955 src/workbook.c:1204
 #: src/xml-io.c:3079
 msgid "Sheet"
@@ -14490,9 +14490,9 @@ msgstr "Ark"
 #.
 #: src/dialogs/dialog-goto-cell.c:291 src/dialogs/tabulate.glade.h:1
 #: src/tools/solver/reports-write.c:162 src/tools/solver/reports-write.c:184
-#: src/tools/solver/reports-write.c:211 src/tools/solver/reports-write.c:309
-#: src/tools/solver/reports-write.c:355 src/tools/solver/reports-write.c:467
-#: src/tools/solver/reports-write.c:474
+#: src/tools/solver/reports-write.c:211 src/tools/solver/reports-write.c:318
+#: src/tools/solver/reports-write.c:364 src/tools/solver/reports-write.c:476
+#: src/tools/solver/reports-write.c:483
 msgid "Cell"
 msgstr "Celle"
 
@@ -14737,23 +14737,24 @@ msgstr ""
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
-#: src/dialogs/dialog-printer-setup.c:928
+#: src/dialogs/dialog-printer-setup.c:859
 msgid "Customize header"
 msgstr "Tilpass topptekst"
 
-#: src/dialogs/dialog-printer-setup.c:930
+#: src/dialogs/dialog-printer-setup.c:861
 msgid "Customize footer"
 msgstr "Tilpass bunntekst"
 
-#: src/dialogs/dialog-printer-setup.c:1078
+#: src/dialogs/dialog-printer-setup.c:1009
 msgid "Custom header configuration"
 msgstr "Egendefinert konfigurasjon av topptekst"
 
-#: src/dialogs/dialog-printer-setup.c:1083
+#: src/dialogs/dialog-printer-setup.c:1014
 msgid "Custom footer configuration"
 msgstr "Egendefinert konfigurasjon av bunntekst"
 
 #: src/dialogs/dialog-random-generator.c:101
+#: src/tools/solver/reports-write.c:766
 msgid "Discrete"
 msgstr "Diskret"
 
@@ -15853,7 +15854,7 @@ msgstr "Definer navn"
 msgid "Workbook"
 msgstr "Arbeidsbok"
 
-#: src/dialogs/names.glade.h:4 src/dialogs/solver.glade.h:25
+#: src/dialogs/names.glade.h:4 src/dialogs/solver.glade.h:27
 msgid "_Delete"
 msgstr "_Slett"
 
@@ -15954,112 +15955,95 @@ msgstr "To_pptekst:"
 msgid "Headers and footers"
 msgstr "Topp- og bunntekst"
 
-#: src/dialogs/print.glade.h:10 src/print-info.c:423
-msgid "In"
-msgstr "T"
-
-#: src/dialogs/print.glade.h:12
+#: src/dialogs/print.glade.h:11
 msgid "Page"
 msgstr "Side"
 
-#: src/dialogs/print.glade.h:13
+#: src/dialogs/print.glade.h:12
 msgid "Page order"
 msgstr "Siderekkefølge"
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:14
 msgid "Print _area:"
 msgstr "Utskrifts_område:"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:16
 msgid "Print setup"
 msgstr "Skriveroppsett"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:17
 msgid "R_ight, then down"
 msgstr "Hø_yre, så ned"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:18
 msgid "Row and co_lumn headings"
 msgstr "Rad og kolonnetitler"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:19
 msgid "Scale"
 msgstr "Skaler"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:21
 msgid "Styles with no content"
 msgstr "Stiler uten innhold"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:22
 msgid "Titles to print"
 msgstr "Titler som skal skrives ut"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:23
 msgid "_Adjust to:"
 msgstr "_Juster til"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:24
 msgid "_Black and white"
 msgstr "_Sort / Hvitt"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:25
 msgid "_Columns to repeat on the left side:"
 msgstr "_Kolonner som skal repeteres på venstre side:"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:26
 msgid "_Down, then right"
 msgstr "Ne_d, så til høyre"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:27
 msgid "_Fit to:"
 msgstr "_Tilpass til:"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:28
 msgid "_Footer:"
 msgstr "_Bunntekst:"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:29
 msgid "_Grid lines"
 msgstr "_Linjer for rutenett"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:30
 msgid "_Header:"
 msgstr "_Topptekst:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:31
 msgid "_Horizontally"
 msgstr "_Horisontalt"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:32
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Rader som skal repeteres i øvre region:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:33
 msgid "_Units:"
 msgstr "_Enheter:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:34
 msgid "_Vertically"
 msgstr "_Vertikalt"
 
-#. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:36 src/print-info.c:422
-msgid "cm"
-msgstr "cm"
-
-#: src/dialogs/print.glade.h:37 src/print-info.c:421
-msgid "mm"
-msgstr "mm"
-
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:35
 msgid "page(s) wide by"
 msgstr "side(r) bredere med "
 
-#: src/dialogs/print.glade.h:39 src/print-info.c:420
-msgid "pts"
-msgstr "pkt"
-
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:36
 msgid "tall"
 msgstr "høy"
 
@@ -16496,9 +16480,9 @@ msgstr "Automatisk"
 msgid "B_y Changing Cells: "
 msgstr "Ve_d å endre cellene: "
 
-#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:272
-#: src/tools/solver/reports-write.c:433 src/tools/solver/reports-write.c:589
-#: src/tools/solver/reports-write.c:618 src/tools/solver/reports-write.c:620
+#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:281
+#: src/tools/solver/reports-write.c:442 src/tools/solver/reports-write.c:598
+#: src/tools/solver/reports-write.c:627 src/tools/solver/reports-write.c:629
 msgid "Constraints"
 msgstr "Begrensninger"
 
@@ -16519,82 +16503,92 @@ msgstr "Interaksjon"
 msgid "Max _Time (sec.)"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:15
+#. Set the `Assumptions'.
+#: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:762
+msgid "Model Assumptions:"
+msgstr ""
+
+#: src/dialogs/solver.glade.h:16
+#, fuzzy
+msgid "Options:"
+msgstr "Alternativer"
+
+#: src/dialogs/solver.glade.h:17
 msgid "P_rogram"
 msgstr "P_rogram"
 
-#: src/dialogs/solver.glade.h:16
+#: src/dialogs/solver.glade.h:18
 msgid "Parameters"
 msgstr "Parametere"
 
-#: src/dialogs/solver.glade.h:17
+#: src/dialogs/solver.glade.h:19
 msgid "Reports"
 msgstr "Rapporter"
 
-#: src/dialogs/solver.glade.h:18
+#: src/dialogs/solver.glade.h:20
 #, fuzzy
 msgid "Show Iteration _Results"
 msgstr "Resultat fra problemløser"
 
-#: src/dialogs/solver.glade.h:19
+#: src/dialogs/solver.glade.h:21
 msgid "Solve"
 msgstr "Løs"
 
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:22
 msgid "Solver"
 msgstr "Problemløser"
 
-#: src/dialogs/solver.glade.h:21
+#: src/dialogs/solver.glade.h:23
 msgid "Subject to the Constraints:"
 msgstr "Utsatt for begrensningene:"
 
-#: src/dialogs/solver.glade.h:23
+#: src/dialogs/solver.glade.h:25
 msgid "_Answer"
 msgstr "Sv_ar"
 
-#: src/dialogs/solver.glade.h:24
+#: src/dialogs/solver.glade.h:26
 msgid "_Change"
 msgstr "_Endre"
 
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:28
 msgid "_Left Hand Side:"
 msgstr "_Venstresiden:"
 
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/solver.glade.h:29
 msgid "_Limits"
 msgstr "_Grenser"
 
-#: src/dialogs/solver.glade.h:28
+#: src/dialogs/solver.glade.h:30
 #, fuzzy
 msgid "_Linear Model (LP/MILP)"
 msgstr "Bruk _lineær modell"
 
-#: src/dialogs/solver.glade.h:29
+#: src/dialogs/solver.glade.h:31
 msgid "_Max"
 msgstr "_Maks"
 
-#: src/dialogs/solver.glade.h:30
+#: src/dialogs/solver.glade.h:32
 #, fuzzy
 msgid "_Performance"
 msgstr "Programnavn"
 
-#: src/dialogs/solver.glade.h:31
+#: src/dialogs/solver.glade.h:33
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:32
+#: src/dialogs/solver.glade.h:34
 msgid "_Right Hand Side:"
 msgstr "Høy_re side:"
 
-#: src/dialogs/solver.glade.h:33
+#: src/dialogs/solver.glade.h:35
 msgid "_Sensitivity"
 msgstr "_Sensitivitet"
 
-#: src/dialogs/solver.glade.h:34
+#: src/dialogs/solver.glade.h:36
 msgid "_Set Target Cell:       "
 msgstr "_Sett målcelle:         "
 
-#: src/dialogs/solver.glade.h:35
+#: src/dialogs/solver.glade.h:37
 msgid "_Type:"
 msgstr "_Type:"
 
@@ -18284,51 +18278,51 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/func-builtin.c:242
+#: src/func-builtin.c:239
 #, fuzzy
 msgid "permit_intersection"
 msgstr "Midtre del:"
 
-#: src/func.c:84
+#: src/func.c:95
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Kan ikke opprette fil %s\n"
 
-#: src/func.c:241
+#: src/func.c:257
 msgid "Function implementation not available."
 msgstr "Funksjonsimplementasjon ikke tilgjengelig."
 
-#: src/func.c:468
+#: src/func.c:480
 msgid "Unknown Function"
 msgstr "Ukjent funksjon"
 
-#: src/func.c:627
+#: src/func.c:645
 msgid "Boolean"
 msgstr "Boolsk"
 
-#: src/func.c:629
+#: src/func.c:647
 #, fuzzy
 msgid "Cell Range"
 msgstr "Celleverdi"
 
-#: src/func.c:631
+#: src/func.c:649
 msgid "Array"
 msgstr "Tabell"
 
-#: src/func.c:633
+#: src/func.c:651
 #, fuzzy
 msgid "Area"
 msgstr "_Områder"
 
-#: src/func.c:635
+#: src/func.c:653
 msgid "Scalar"
 msgstr "Skalar"
 
-#: src/func.c:637
+#: src/func.c:655
 msgid "Any"
 msgstr "Enhver"
 
-#: src/func.c:914
+#: src/func.c:936
 msgid "Function does not exist"
 msgstr "Funksjonen eksisterer ikke"
 
@@ -18548,63 +18542,63 @@ msgstr "Flytt celler til høyre og flytt"
 msgid "C_ancel"
 msgstr "_Avbryt"
 
-#: src/main-application.c:39
+#: src/main-application.c:40
 msgid "Display Gnumeric's version"
 msgstr "Vis Gnumerics versjonsinfo"
 
-#: src/main-application.c:41
+#: src/main-application.c:42
 msgid "Set the root library directory"
 msgstr "Sett rotkatalog for biblioteker"
 
-#: src/main-application.c:43
+#: src/main-application.c:44
 msgid "Adjust the root data directory"
 msgstr "Juster rotkatalog for data"
 
-#: src/main-application.c:46
+#: src/main-application.c:47
 msgid "Dumps the function definitions"
 msgstr "Dumper funksjonsdefinisjonene"
 
-#: src/main-application.c:46
+#: src/main-application.c:47
 msgid "FILE"
 msgstr "FIL"
 
-#: src/main-application.c:49
+#: src/main-application.c:50
 msgid "Enables some debugging functions"
 msgstr "Slår på noen debugging funksjoner"
 
-#: src/main-application.c:49 src/main-application.c:52
-#: src/main-application.c:54 src/main-application.c:56
+#: src/main-application.c:50 src/main-application.c:53
+#: src/main-application.c:55 src/main-application.c:57
 msgid "LEVEL"
 msgstr "NIVÅ"
 
-#: src/main-application.c:52
+#: src/main-application.c:53
 msgid "Enables some dependency related debugging functions"
 msgstr "Slår på noen avhengighetsrelaterte debugging funksjoner"
 
-#: src/main-application.c:54
+#: src/main-application.c:55
 #, fuzzy
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Slår på noen debugging funksjoner"
 
-#: src/main-application.c:56
+#: src/main-application.c:57
 msgid "Enables some print debugging behavior"
 msgstr "Slår på noen utskriftsrelaterte feilsøkingsfunksjoner"
 
-#: src/main-application.c:59
+#: src/main-application.c:60
 msgid "Specify the size and location of the initial window"
 msgstr "Spesifiser størrelse og plassering av startvinduet"
 
-#: src/main-application.c:59
+#: src/main-application.c:60
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "BREDDExHØYDE+XOFF+YOFF"
 
-#: src/main-application.c:63
+#: src/main-application.c:64
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Avslutt med én gang etter å ha åpnet de valgte arbeidsbøkene (nyttig for "
 "testing)."
 
-#: src/main-application.c:93
+#: src/main-application.c:94
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -18628,7 +18622,7 @@ msgstr ""
 "\n"
 "-- Gnumeric utviklerene."
 
-#: src/main-application.c:121
+#: src/main-application.c:122
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -19044,16 +19038,33 @@ msgid "&[DATE]"
 msgstr "&[DATO]"
 
 #: src/print-info.c:420
+msgid "pts"
+msgstr "pkt"
+
+#: src/print-info.c:420
 msgid "points"
 msgstr "punkter"
+
+#: src/print-info.c:421
+msgid "mm"
+msgstr "mm"
 
 #: src/print-info.c:421
 msgid "millimeter"
 msgstr "millimeter"
 
+#. 1in = 25.4mm, exact
+#: src/print-info.c:422
+msgid "cm"
+msgstr "cm"
+
 #: src/print-info.c:422
 msgid "centimeter"
 msgstr "centimeter"
+
+#: src/print-info.c:423
+msgid "In"
+msgstr "T"
 
 #: src/print-info.c:423
 msgid "inch"
@@ -19092,19 +19103,19 @@ msgstr "&[SIDE]"
 msgid "Print Region"
 msgstr "Skriv ut område"
 
-#: src/print.c:1124
+#: src/print.c:1134
 msgid "Print Sheets"
 msgstr "Skriv ut ark"
 
-#: src/print.c:1132
+#: src/print.c:1142
 msgid "Act_ive sheet"
 msgstr "Akt_ivt ark"
 
-#: src/print.c:1132
+#: src/print.c:1142
 msgid "S_heets"
 msgstr "Ar_k"
 
-#: src/print.c:1217
+#: src/print.c:1227
 msgid "Printing failed"
 msgstr "Feil ved utskrift"
 
@@ -19708,7 +19719,7 @@ msgstr "Kumulativ %"
 msgid "Histogram (%s)"
 msgstr "Histogram"
 
-#: src/tools/analysis-tools.c:4122 src/tools/solver/reports-write.c:683
+#: src/tools/analysis-tools.c:4122 src/tools/solver/reports-write.c:692
 msgid "Real"
 msgstr "Heltall"
 
@@ -19777,7 +19788,7 @@ msgid "Report Created: "
 msgstr ""
 
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:149 src/tools/solver/reports-write.c:268
+#: src/tools/solver/reports-write.c:149 src/tools/solver/reports-write.c:277
 msgid "Answer Report"
 msgstr "Svarrapport"
 
@@ -19807,16 +19818,20 @@ msgstr "Binding"
 msgid "Not Binding"
 msgstr "Ikke bindende"
 
-#: src/tools/solver/reports-write.c:263
+#: src/tools/solver/reports-write.c:262 src/tools/solver/reports-write.c:930
+msgid "Assume that all variables are integer."
+msgstr ""
+
+#: src/tools/solver/reports-write.c:272
 msgid "Target Cell (Maximize)"
 msgstr "Målcelle (Maksimer)"
 
-#: src/tools/solver/reports-write.c:265
+#: src/tools/solver/reports-write.c:274
 msgid "Target Cell (Minimize)"
 msgstr "Målcelle (Minimer)"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:271 src/tools/solver/reports-write.c:432
+#: src/tools/solver/reports-write.c:280 src/tools/solver/reports-write.c:441
 msgid "Adjustable Cells"
 msgstr "Justerbare celler"
 
@@ -19824,63 +19839,63 @@ msgstr "Justerbare celler"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:289 src/tools/solver/reports-write.c:429
+#: src/tools/solver/reports-write.c:298 src/tools/solver/reports-write.c:438
 msgid "Sensitivity Report"
 msgstr "Sensitivitetsrapport"
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#: src/tools/solver/reports-write.c:303 src/tools/solver/reports-write.c:349
+#: src/tools/solver/reports-write.c:312 src/tools/solver/reports-write.c:358
 msgid "Final"
 msgstr "Endelig"
 
-#: src/tools/solver/reports-write.c:304
+#: src/tools/solver/reports-write.c:313
 msgid "Reduced"
 msgstr "Redusert"
 
-#: src/tools/solver/reports-write.c:305
+#: src/tools/solver/reports-write.c:314
 msgid "Objective"
 msgstr "Objektiv"
 
-#: src/tools/solver/reports-write.c:306 src/tools/solver/reports-write.c:307
-#: src/tools/solver/reports-write.c:352 src/tools/solver/reports-write.c:353
+#: src/tools/solver/reports-write.c:315 src/tools/solver/reports-write.c:316
+#: src/tools/solver/reports-write.c:361 src/tools/solver/reports-write.c:362
 msgid "Allowable"
 msgstr "Lovlige"
 
-#: src/tools/solver/reports-write.c:312
+#: src/tools/solver/reports-write.c:321
 msgid "Cost"
 msgstr "Kostnad"
 
-#: src/tools/solver/reports-write.c:313
+#: src/tools/solver/reports-write.c:322
 msgid "Coefficient"
 msgstr "Koeffisient"
 
-#: src/tools/solver/reports-write.c:314 src/tools/solver/reports-write.c:360
+#: src/tools/solver/reports-write.c:323 src/tools/solver/reports-write.c:369
 msgid "Increase"
 msgstr "Øk"
 
-#: src/tools/solver/reports-write.c:315 src/tools/solver/reports-write.c:361
+#: src/tools/solver/reports-write.c:324 src/tools/solver/reports-write.c:370
 msgid "Decrease"
 msgstr "Senk"
 
-#: src/tools/solver/reports-write.c:350
+#: src/tools/solver/reports-write.c:359
 msgid "Shadow"
 msgstr "Skygge"
 
-#: src/tools/solver/reports-write.c:351
+#: src/tools/solver/reports-write.c:360
 msgid "Constraint"
 msgstr "Begrensning"
 
-#: src/tools/solver/reports-write.c:358
+#: src/tools/solver/reports-write.c:367
 msgid "Price"
 msgstr "Pris"
 
-#: src/tools/solver/reports-write.c:359
+#: src/tools/solver/reports-write.c:368
 msgid "R.H. Side"
 msgstr "Høyre side"
 
-#: src/tools/solver/reports-write.c:396 src/tools/solver/reports-write.c:404
+#: src/tools/solver/reports-write.c:405 src/tools/solver/reports-write.c:413
 msgid "Infinity"
 msgstr ""
 
@@ -19888,7 +19903,7 @@ msgstr ""
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:450 src/tools/solver/reports-write.c:555
+#: src/tools/solver/reports-write.c:459 src/tools/solver/reports-write.c:564
 #, fuzzy
 msgid "Limits Report"
 msgstr "Sensitivitetsrapport"
@@ -19896,33 +19911,33 @@ msgstr "Sensitivitetsrapport"
 #.
 #. * Fill in the labels.
 #.
-#: src/tools/solver/reports-write.c:466 src/tools/solver/reports-write.c:479
-#: src/tools/solver/reports-write.c:484
+#: src/tools/solver/reports-write.c:475 src/tools/solver/reports-write.c:488
+#: src/tools/solver/reports-write.c:493
 #, fuzzy
 msgid "Target"
 msgstr "For stor"
 
-#: src/tools/solver/reports-write.c:473
+#: src/tools/solver/reports-write.c:482
 #, fuzzy
 msgid "Adjustable"
 msgstr "Justerbare celler"
 
-#: src/tools/solver/reports-write.c:478
+#: src/tools/solver/reports-write.c:487
 #, fuzzy
 msgid "Lower"
 msgstr "Laster"
 
-#: src/tools/solver/reports-write.c:480 src/tools/solver/reports-write.c:485
+#: src/tools/solver/reports-write.c:489 src/tools/solver/reports-write.c:494
 #, fuzzy
 msgid "Limit"
 msgstr "_Grenser"
 
-#: src/tools/solver/reports-write.c:481 src/tools/solver/reports-write.c:486
+#: src/tools/solver/reports-write.c:490 src/tools/solver/reports-write.c:495
 #, fuzzy
 msgid "Result"
 msgstr "Resultatcelle"
 
-#: src/tools/solver/reports-write.c:483
+#: src/tools/solver/reports-write.c:492
 #, fuzzy
 msgid "Upper"
 msgstr "Øvre 95%"
@@ -19931,7 +19946,7 @@ msgstr "Øvre 95%"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:575 src/tools/solver/reports-write.c:764
+#: src/tools/solver/reports-write.c:584 src/tools/solver/reports-write.c:794
 #, fuzzy
 msgid "Performance Report"
 msgstr "Programnavn"
@@ -19939,22 +19954,22 @@ msgstr "Programnavn"
 #.
 #. * Fill in the labels of `General Statistics' section.
 #.
-#: src/tools/solver/reports-write.c:588
+#: src/tools/solver/reports-write.c:597
 #, fuzzy
 msgid "Variables"
 msgstr "X variabler:"
 
-#: src/tools/solver/reports-write.c:590
+#: src/tools/solver/reports-write.c:599
 #, fuzzy
 msgid "Int Constraints"
 msgstr "Begrensninger"
 
-#: src/tools/solver/reports-write.c:591
+#: src/tools/solver/reports-write.c:600
 #, fuzzy
 msgid "Bool Constraints"
 msgstr "Begrensninger"
 
-#: src/tools/solver/reports-write.c:592 src/tools/solver/reports-write.c:625
+#: src/tools/solver/reports-write.c:601 src/tools/solver/reports-write.c:634
 #, fuzzy
 msgid "Number of"
 msgstr "Tall"
@@ -19962,130 +19977,150 @@ msgstr "Tall"
 #.
 #. * Fill in the labels of `Data Sparsity' section.
 #.
-#: src/tools/solver/reports-write.c:615
+#: src/tools/solver/reports-write.c:624
 #, fuzzy
 msgid "Matrix"
 msgstr "Maks"
 
-#: src/tools/solver/reports-write.c:616
+#: src/tools/solver/reports-write.c:625
 #, fuzzy
 msgid "Elements"
 msgstr "kommentarer"
 
-#: src/tools/solver/reports-write.c:617 src/tools/solver/reports-write.c:621
+#: src/tools/solver/reports-write.c:626 src/tools/solver/reports-write.c:630
 msgid "Non-zeros in"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:619 src/tools/solver/reports-write.c:623
+#: src/tools/solver/reports-write.c:628 src/tools/solver/reports-write.c:632
 #, fuzzy
 msgid "Zeros in"
 msgstr "Serier inn:"
 
-#: src/tools/solver/reports-write.c:622 src/tools/solver/reports-write.c:624
+#: src/tools/solver/reports-write.c:631 src/tools/solver/reports-write.c:633
 msgid "Obj. fn"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:626
+#: src/tools/solver/reports-write.c:635
 msgid "Ratio"
 msgstr ""
 
 #.
 #. * Fill in the labels of `Computing Time' section.
 #.
-#: src/tools/solver/reports-write.c:681
+#: src/tools/solver/reports-write.c:690
 msgid "User"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:682
+#: src/tools/solver/reports-write.c:691
 msgid "System"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:684
+#: src/tools/solver/reports-write.c:693
 msgid "Time (sec.)"
 msgstr ""
 
 #.
 #. * Fill in the labels of `System Information' section.
 #.
-#: src/tools/solver/reports-write.c:704
+#: src/tools/solver/reports-write.c:713
 #, fuzzy
 msgid "CPU Model"
 msgstr "Modus"
 
-#: src/tools/solver/reports-write.c:705
+#: src/tools/solver/reports-write.c:714
 msgid "CPU MHz"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:706
+#: src/tools/solver/reports-write.c:715
 msgid "OS"
 msgstr ""
 
 #. Set the `CPU Model'.
-#: src/tools/solver/reports-write.c:719 src/tools/solver/reports-write.c:722
-#: src/tools/solver/reports-write.c:727
+#: src/tools/solver/reports-write.c:728 src/tools/solver/reports-write.c:731
+#: src/tools/solver/reports-write.c:736
 #, fuzzy
 msgid "Unknown"
 msgstr "_Ukjent"
 
-#: src/tools/solver/reports-write.c:732
+#: src/tools/solver/reports-write.c:741
 #, c-format
 msgid "%s (%s)"
 msgstr ""
 
-#.
-#. * Fill in the labels of `Options' section.
-#.
-#. Set the labels.
-#: src/tools/solver/reports-write.c:745
+#: src/tools/solver/reports-write.c:755
 msgid "Algorithm:"
 msgstr ""
 
 #. Set the `Algorithm'.
-#: src/tools/solver/reports-write.c:749
+#: src/tools/solver/reports-write.c:758
 msgid "LP Solve 3.2"
-msgstr ""
-
-#. Fill in other titles.
-#: src/tools/solver/reports-write.c:767
-#, fuzzy
-msgid "General Statistics"
-msgstr "Statistikk"
-
-#: src/tools/solver/reports-write.c:768
-msgid "Data Sparsity"
-msgstr ""
-
-#: src/tools/solver/reports-write.c:769
-msgid "Computing Time"
 msgstr ""
 
 #: src/tools/solver/reports-write.c:770
 #, fuzzy
+msgid "Non-Negative"
+msgstr "Bruk ikke-_negativ"
+
+#. Set `Autoscaling'.
+#: src/tools/solver/reports-write.c:774
+#, fuzzy
+msgid "Autoscaling:"
+msgstr "Automatisk"
+
+#: src/tools/solver/reports-write.c:776
+msgid "Yes"
+msgstr ""
+
+#: src/tools/solver/reports-write.c:778
+#, fuzzy
+msgid "No"
+msgstr "Ingen"
+
+#. Fill in other titles.
+#: src/tools/solver/reports-write.c:797
+#, fuzzy
+msgid "General Statistics"
+msgstr "Statistikk"
+
+#: src/tools/solver/reports-write.c:798
+msgid "Data Sparsity"
+msgstr ""
+
+#: src/tools/solver/reports-write.c:799
+msgid "Computing Time"
+msgstr ""
+
+#: src/tools/solver/reports-write.c:800
+#, fuzzy
 msgid "System Information"
 msgstr "Informasjon"
 
-#: src/tools/solver/reports-write.c:786 src/tools/solver/reports-write.c:900
+#: src/tools/solver/reports-write.c:816 src/tools/solver/reports-write.c:950
 #, fuzzy
 msgid "Program Report"
 msgstr "Programnavn"
 
-#: src/tools/solver/reports-write.c:905
+#: src/tools/solver/reports-write.c:939
+msgid "Assume that all variables take only positive values."
+msgstr ""
+
+#: src/tools/solver/reports-write.c:955
 #, fuzzy
 msgid "Minimize"
 msgstr "Minimum"
 
-#: src/tools/solver/reports-write.c:908
+#: src/tools/solver/reports-write.c:958
 #, fuzzy
 msgid "Maximize"
 msgstr "Maksimum"
 
-#: src/tools/solver/reports-write.c:911
+#: src/tools/solver/reports-write.c:961
 #, fuzzy
 msgid "Equal to"
 msgstr "Lik:"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:917
+#: src/tools/solver/reports-write.c:967
 msgid "Subject to"
 msgstr ""
 
@@ -20093,7 +20128,7 @@ msgstr ""
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:932 src/tools/solver/reports-write.c:945
+#: src/tools/solver/reports-write.c:982 src/tools/solver/reports-write.c:995
 #, fuzzy
 msgid "Dual Program Report"
 msgstr "Programnavn"

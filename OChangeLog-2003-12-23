@@ -1,5 +1,17 @@
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.4
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : tweak to make automake happy
+
+2002-05-27  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : up the gnome-print req.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
 	* src/parse-util.h : Add PERR_SINGLE_RANGE.
 
 2002-05-29  Jon Kåre Hellan  <hellan@acm.org>

@@ -1,3 +1,7 @@
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
 2002-05-20  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* plugin-gda.c (display_recordset): don't use GDA_IS_RECORDSET,

@@ -5,10 +5,9 @@
 SUBDIRS = pixmaps dialogs widgets tools
 
 if WITH_BONOBO
-bin_PROGRAMS = gnumeric gnumeric-component
-else
-bin_PROGRAMS = gnumeric
+component = gnumeric-component
 endif
+bin_PROGRAMS = gnumeric $(component)
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 								\

@@ -310,9 +310,12 @@ entities += 					\
 	worksheet.xml
 #	functions.xml	# added in gnumeric-doc.make
 
-#include $(top_srcdir)/doc/gnumeric-doc.make
-
 # include generated files to simplify installation
-EXTRA_DIST += gnumeric.1
+# what the hell is going on in here
+#EXTRA_DIST = gnumeric.1	\
+#	functions.xml	\
+#	func.defs	\
+#	func-list.xml	\
+#	$(srcdir)/func-header.xml $(srcdir)/func-footer.xml
 
-#dist-hook: app-dist-hook
+include $(top_srcdir)/doc/gnumeric-doc.make
