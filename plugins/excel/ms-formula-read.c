@@ -403,7 +403,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 326 */	{ "SMALL", 2 },
 /* 327 */	{ "QUARTILE", 2 },
 /* 328 */	{ "PERCENTILE", 2 },
-/* 329 */	{ "PERCENTRANK", 3 },/* Significance is optional */
+/* 329 */	{ "PERCENTRANK", -1 },/* Significance is optional */
 /* 330 */	{ "MODE", -1 },
 /* 331 */	{ "TRIMMEAN", 2 },
 /* 332 */	{ "TINV", 2 },

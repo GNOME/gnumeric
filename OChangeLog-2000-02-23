@@ -1,5 +1,10 @@
 1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/fn-stat.c (gnumeric_percentrank): Interpolation and rounding
+	fixes.
+	
+1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* src/fn-eng.c (gnumeric_erf): ERF() changed back to the previous
  	form.  Negative arguments are wrong.
 	

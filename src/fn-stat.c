@@ -3899,6 +3899,9 @@ gnumeric_percentrank (struct FunctionDefinition *i,
 
 	if (p.equal == 1)
 	        pr = (float_t) p.smaller / (p.smaller+p.greater);
+	else if (p.equal == 0)
+	        pr = (float_t) p.smaller / (p.smaller+p.greater) + 
+		  0.5 / (p.smaller+p.greater);
 	else
 	        pr = (p.smaller + 0.5 * p.equal) /
 		  (p.smaller + p.equal + p.greater);
@@ -3908,7 +3911,7 @@ gnumeric_percentrank (struct FunctionDefinition *i,
 	        k *= 10;
 
 	pr *= k;
-	pr = floor(pr);
+	pr = rint(pr+1e-12);  /* Round up */
 	pr /= k;
 
 	return value_new_float (pr);
