@@ -1,3 +1,7 @@
+2002-02-20  Jody Goldberg <jody@gnome.org>
+
+	* fn-lookup.c (HLOOKUP,VLOOKUP) : offer an 'as_index' flag.
+
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
 	* fn-*.c: Constify all help texts.

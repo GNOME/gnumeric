@@ -1,3 +1,19 @@
+2002-02-20  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.h : some house cleaning.
+
+	* src/workbook.c (workbook_is_pristine) : remove stuf for
+	  external_dependents.  No use having fogotten stubs hanging around.
+
+	* src/workbook-control-gui.c (cb_insert_component) : look for
+	  ControlFactories.
+	(cb_insert_shaped_component) : look for CanvasComponentFactories.
+
+	* src/commands.h : remove include for gtkobject.
+
+	* idl/GNOME_Gnumeric_Graph.idl : We a ControlFactory now, not an
+	  Embeddable.
+
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (display): Fix format.

@@ -285,7 +285,7 @@ workbook_is_pristine (Workbook const *wb)
 	if (workbook_is_dirty (wb))
 		return FALSE;
 
-	if (wb->names || wb->external_dependents ||
+	if (wb->names ||
 #ifdef ENABLE_BONOBO
 	    wb->priv->workbook_views ||
 #endif

@@ -2547,7 +2547,7 @@ static void
 cb_insert_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	static char const *required_interfaces [2] = {
-		"IDL:Bonobo/Embeddable:1.0", NULL
+		"IDL:Bonobo/ControlFactory:1.0", NULL
 	};
 	insert_bonobo_object (wbcg, required_interfaces);
 }
@@ -2556,7 +2556,7 @@ static void
 cb_insert_shaped_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	static char const *required_interfaces [2] = {
-		"IDL:Bonobo/Canvas/Item:1.0", NULL
+		"IDL:Bonobo/CanvasComponentFactory:1.0", NULL
 	};
 	insert_bonobo_object (wbcg, required_interfaces);
 }

@@ -2,8 +2,6 @@
 #ifndef GNUMERIC_COMMANDS_H
 #define GNUMERIC_COMMANDS_H
 
-#include <gtk/gtkobject.h>
-
 #include "consolidate.h"
 #include "gnumeric.h"
 #include "sort.h"

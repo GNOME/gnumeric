@@ -1,4 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * fn-lookup.c:  Built in lookup functions and functions registration
  *
@@ -475,7 +475,7 @@ gnumeric_choose (FunctionEvalInfo *ei, ExprList *l)
 
 static const char *help_vlookup = {
 	N_("@FUNCTION=VLOOKUP\n"
-	   "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
+	   "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
 
 	   "@DESCRIPTION="
 	   "VLOOKUP function finds the row in range that has a first "
@@ -484,7 +484,8 @@ static const char *help_vlookup = {
 	   "then the values must be sorted in order of ascending value for "
 	   "correct function; in this case it finds the row with value less "
 	   "than @value.  It returns the value in the row found at a 1 based "
-	   "offset in @column columns into the @range."
+	   "offset in @column columns into the @range.  @as_index returns the "
+	   "offset that matched rather than the value"
 	   "\n"
 	   "Returns #NUM! if @column < 0. "
 	   "Returns #REF! if @column falls outside @range."
@@ -509,17 +510,13 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 	if (col_idx > value_area_get_width (ei->pos, args [1]))
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
-	if (!args[3]) {
-		approx = TRUE;
-	} else {
-		approx = value_get_as_checked_bool (args [3]);
-	}
-
-	if (approx) {
-		index = find_index_bisection (ei, args[0], args[1], 1, TRUE);
-	} else {
-		index = find_index_linear (ei, args[0], args[1], 0, TRUE);
-	}
+	approx = (args[3] != NULL)
+		? value_get_as_checked_bool (args [3]) : TRUE;
+	index = approx
+		? find_index_bisection (ei, args[0], args[1], 1, TRUE)
+		: find_index_linear (ei, args[0], args[1], 0, TRUE);
+	if (args[4] != NULL && value_get_as_checked_bool (args [4]))
+		return value_new_int (index);
 
 	if (index >= 0) {
 	        const Value *v;
@@ -536,7 +533,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 
 static const char *help_hlookup = {
 	N_("@FUNCTION=HLOOKUP\n"
-	   "@SYNTAX=HLOOKUP(value,range,row[,approximate])\n"
+	   "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
 
 	   "@DESCRIPTION="
 	   "HLOOKUP function finds the col in range that has a first "
@@ -545,7 +542,8 @@ static const char *help_hlookup = {
 	   "then the values must be sorted in order of ascending value for "
 	   "correct function; in this case it finds the col with value less "
 	   "than @value it returns the value in the col found at a 1 based "
-	   "offset in @row rows into the @range."
+	   "offset in @row rows into the @range.  @as_index returns the offset "
+	   "that matched rather than the value"
 	   "\n"
 	   "Returns #NUM! if @row < 0. "
 	   "Returns #REF! if @row falls outside @range."
@@ -570,17 +568,13 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 	if (row_idx > value_area_get_height (ei->pos, args [1]))
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
-	if (!args[3]) {
-		approx = TRUE;
-	} else {
-		approx = value_get_as_checked_bool (args [3]);
-	}
-
-	if (approx) {
-		index = find_index_bisection (ei, args[0], args[1], 1, FALSE);
-	} else {
-		index = find_index_linear (ei, args[0], args[1], 0, FALSE);
-	}
+	approx = (args[3] != NULL)
+		? value_get_as_checked_bool (args [3]) : TRUE;
+	index = approx
+		? find_index_bisection (ei, args[0], args[1], 1, FALSE)
+		: find_index_linear (ei, args[0], args[1], 0, FALSE);
+	if (args[4] != NULL && value_get_as_checked_bool (args [4]))
+		return value_new_int (index);
 
 	if (index >= 0) {
 	        const Value *v;
@@ -1139,7 +1133,7 @@ lookup_functions_init (void)
 	function_add_args  (cat, "columns",   "A",    "ref",
 			    &help_columns, gnumeric_columns);
 	function_add_args  (cat, "hlookup",
-			    "?Af|b","val,range,col_idx,approx",
+			    "?Af|bb","val,range,col_idx,approx,as_index",
 			    &help_hlookup, gnumeric_hlookup);
 	function_add_args  (cat, "hyperlink",
 			    "s|s","link_location, optional_label",
@@ -1162,6 +1156,6 @@ lookup_functions_init (void)
 			    "array",
 			    &help_transpose,   gnumeric_transpose);
 	function_add_args  (cat, "vlookup",
-			    "?Af|b","val,range,col_idx,approx",
+			    "?Af|bb","val,range,col_idx,approx,as_index",
 			    &help_vlookup, gnumeric_vlookup);
 }

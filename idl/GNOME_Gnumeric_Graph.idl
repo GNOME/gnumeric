@@ -73,7 +73,7 @@ module GNOME {
 		void     seriesDelete (in SeriesID series) raises (Error);
 	    };
 
-	    interface Manager : Bonobo::Embeddable {
+	    interface Manager : Bonobo::ControlFactory {
 		ConfigGuru configure (in string type);
 
 		/**

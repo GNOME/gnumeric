@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sheet-object-container.c:
  *   SheetObject for containers (Bonobo, Graphs)
@@ -66,8 +67,8 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 		NULL);
 	gtk_object_set_data (GTK_OBJECT (view_item), "view_frame", view_frame);
 	g_signal_connect (G_OBJECT (view_frame),
-	    "user_activate",
-	    G_CALLBACK (cb_user_activation_request), view_item);
+		"user_activate",
+		G_CALLBACK (cb_user_activation_request), view_item);
 
 	scg_object_widget_register (so, view_widget, view_item);
 	gtk_widget_show (view_widget);

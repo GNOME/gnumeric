@@ -37,9 +37,6 @@ struct _Workbook {
 	/* User defined names */
 	GList      *names;
 
-	/* All objects with expressions */
-	Dependent  *external_dependents;
-
 	/* Attached summary information */
 	SummaryInfo *summary_info;
 
@@ -55,11 +52,7 @@ struct _Workbook {
 };
 
 typedef struct {
-	GObjectClass   gtk_parent_class;
-
-	/* Signals */
-	void (*cell_changed)  (Sheet *sheet, char *contents,
-			       int col, int row);
+	GObjectClass   base;
 } WorkbookClass;
 
 GType       workbook_get_type            (void);
