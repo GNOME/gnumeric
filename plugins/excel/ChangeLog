@@ -1,3 +1,11 @@
+2001-06-03 Jody Goldberg <jgoldberg@home.com>
+	For Vlad Harchev <hvv@hippo.ru>
+
+        * ms-excel-util.h ms-excel-util.c (excel_wcstombs) :
+	  Some utilites to handle encoding changes that fail.
+
+        * ms-excel-read.c : Use the utilities.
+
 2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* (ms_excel_read_row): Set outline using

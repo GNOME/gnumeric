@@ -181,7 +181,7 @@ get_chars (const char *ptr, guint length, gboolean high_byte)
 			wc [lp] = c;
 		}
 
-		retlength = wcstombs (ans, wc, length);
+		retlength = excel_wcstombs (ans, wc, length);
 		g_free (wc);
 		if (retlength == (size_t)-1)
 			retlength = 0;

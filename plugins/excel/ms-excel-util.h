@@ -79,6 +79,12 @@ void excel_iconv_close (excel_iconv_t handle);
 size_t excel_iconv (excel_iconv_t handle, char const **inbuf, size_t *inbytesleft,
 		    char **outbuf, size_t *outbytesleft); 
 
+/* Same as wcstombs(3), but tries to convert as much characters as possible,
+ * replacing the ones it can't convert with '?' or something resembling 
+ * original character (e.g. "(C)" for copyright sign). 
+ */
+size_t excel_wcstombs(char* outbuf,wchar_t* wc,size_t length);
+
 void destroy_xl_font_widths (void);
 
 #endif

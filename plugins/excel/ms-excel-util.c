@@ -481,7 +481,7 @@ excel_iconv_open_for_export (void)
 	iconv_handle = iconv_open (dest_charset, get_locale_charset_name ());
 	return iconv_handle;
 #endif
-};
+}
 
 void
 excel_iconv_close (excel_iconv_t handle)
@@ -505,7 +505,7 @@ excel_iconv (excel_iconv_t handle,
 	*outbytesleft -= tocopy;
 	*inbytesleft -= tocopy;
 #else
-	while (*inbytesleft){
+	while (*inbytesleft) {
 		if (handle && handle != (iconv_t)(-1))
 			iconv ((iconv_t)handle, (char **)inbuf, inbytesleft,
 			       outbuf, outbytesleft);
@@ -514,7 +514,646 @@ excel_iconv (excel_iconv_t handle,
 		/*got invalid seq - so replace it with original character*/
 		**outbuf = **inbuf; (*outbuf)++; (*outbytesleft)--;
 		(*inbuf)++; (*inbytesleft)--;
-	};
+	}
 #endif
 	return 0;
+}
+
+/*
+ * This is cut & pasted from glib 1.3
+ *
+ * We need it only for iso-8859-1 converter and it will be
+ * abandoned, if glib 2.0 or any other unicode library will
+ * be introduced.
+ */
+
+static int
+g_unichar_to_utf8 (gint c, gchar *outbuf)
+{
+  size_t len = 0;
+  int first;
+  int i;
+
+  if (c < 0x80)
+    {
+      first = 0;
+      len = 1;
+    }
+  else if (c < 0x800)
+    {
+      first = 0xc0;
+      len = 2;
+    }
+  else if (c < 0x10000)
+    {
+      first = 0xe0;
+      len = 3;
+    }
+   else if (c < 0x200000)
+    {
+      first = 0xf0;
+      len = 4;
+    }
+  else if (c < 0x4000000)
+    {
+      first = 0xf8;
+      len = 5;
+    }
+  else
+    {
+      first = 0xfc;
+      len = 6;
+    }
+
+  if (outbuf)
+    {
+      for (i = len - 1; i > 0; --i)
+	{
+	  outbuf[i] = (c & 0x3f) | 0x80;
+	  c >>= 6;
+	}
+      outbuf[0] = c | first;
+    }
+
+  return len;
+}
+
+size_t
+excel_wcstombs (char *outbuf, wchar_t *wcs, size_t length)
+{
+	size_t i;
+	char *outbuf_orig = outbuf;
+
+	excel_iconv_t cd =
+#ifndef HAVE_ICONV
+		(excel_iconv_t)(-1);
+#else
+		iconv_open (get_locale_charset_name (), "utf8");
+#endif	
+
+	for(i = 0; i < length; i++) {
+		wchar_t wc = wcs[i];
+#ifdef HAVE_ICONV	
+		if (cd != (excel_iconv_t)(-1)) {
+			char utf8buf[9];
+			size_t out_len = 10;
+			char* inbuf_ptr = utf8buf;
+			/* convert this char to utf8, and then to
+			 * locale's encoding, rathern than from UCS2, since
+			 * various iconv implementations use various byte order
+			 * and names for UCS2. Utf8 is known to every one.
+			 */
+			size_t inbuf_len = g_unichar_to_utf8((gint)wc, (gchar*)utf8buf);
+			
+			iconv((iconv_t)cd,&inbuf_ptr,&inbuf_len,&outbuf,&out_len);
+			if (!inbuf_len)
+				continue;
+		}
+		/* find a replacement for wc*/		
+		if (wc < 128) /* very strange - why can't convert? */
+			*(outbuf++) = (char)wc;
+#else
+		if (wc < 256) /* assume it's ISO-8869-1*/		
+			*(outbuf++) = (unsigned char)wc;
+#endif		
+		else {
+			const char* str;
+			switch (wc) {
+				/* The entries here are generated from
+				 * src/translit.def from libiconv package.
+				 */
+				case 0x00A2: str="c"	; break; /* CENT SIGN	*/
+				case 0x00A3: str="lb"	; break; /* POUND SIGN	*/
+				case 0x00A4: str=""	; break; /* CURRENCY SIGN	*/
+				case 0x00A5: str="yen"	; break; /* YEN SIGN	*/
+				case 0x00A6: str="|"	; break; /* BROKEN BAR	*/
+				case 0x00A7: str="SS"	; break; /* SECTION SIGN	*/
+				case 0x00A8: str="\""	; break; /* DIAERESIS	*/
+				case 0x00A9: str="(c)"	; break; /* COPYRIGHT SIGN	*/
+				case 0x00AA: str="a"	; break; /* FEMININE ORDINAL INDICATOR	*/
+				case 0x00AB: str="<<"	; break; /* LEFT-POINTING DOUBLE ANGLE QUOTATION MARK	*/
+				case 0x00AC: str="not"	; break; /* NOT SIGN	*/
+				case 0x00AD: str="-"	; break; /* SOFT HYPHEN	*/
+				case 0x00AE: str="(R)"	; break; /* REGISTERED SIGN	*/
+				case 0x00AF: str=""	; break; /* MACRON	*/
+				case 0x00B0: str="^0"	; break; /* DEGREE SIGN	*/
+				case 0x00B1: str="+/-"	; break; /* PLUS-MINUS SIGN	*/
+				case 0x00B2: str="^2"	; break; /* SUPERSCRIPT TWO	*/
+				case 0x00B3: str="^3"	; break; /* SUPERSCRIPT THREE	*/
+				case 0x00B4: str="'"	; break; /* ACUTE ACCENT	*/
+				case 0x00B5: str="u"	; break; /* MICRO SIGN	*/
+				case 0x00B6: str="P"	; break; /* PILCROW SIGN	*/
+				case 0x00B7: str="."	; break; /* MIDDLE DOT	*/
+				case 0x00B8: str=","	; break; /* CEDILLA	*/
+				case 0x00B9: str="^1"	; break; /* SUPERSCRIPT ONE	*/
+				case 0x00BA: str="o"	; break; /* MASCULINE ORDINAL INDICATOR	*/
+				case 0x00BB: str=">>"	; break; /* RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK	*/
+				case 0x00BC: str="1/4"	; break; /* VULGAR FRACTION ONE QUARTER	*/
+				case 0x00BD: str="1/2"	; break; /* VULGAR FRACTION ONE HALF	*/
+				case 0x00BE: str="3/4"	; break; /* VULGAR FRACTION THREE QUARTERS	*/
+				case 0x00BF: str="?"	; break; /* INVERTED QUESTION MARK	*/
+				case 0x00C0: str="`A"	; break; /* LATIN CAPITAL LETTER A WITH GRAVE	*/
+				case 0x00C1: str="´A"	; break; /* LATIN CAPITAL LETTER A WITH ACUTE	*/
+				case 0x00C2: str="^A"	; break; /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX	*/
+				case 0x00C3: str="~A"	; break; /* LATIN CAPITAL LETTER A WITH TILDE	*/
+				case 0x00C4: str="\"A"	; break; /* LATIN CAPITAL LETTER A WITH DIAERESIS	*/
+				case 0x00C5: str="A"	; break; /* LATIN CAPITAL LETTER A WITH RING ABOVE	*/
+				case 0x00C6: str="AE"	; break; /* LATIN CAPITAL LETTER AE	*/
+				case 0x00C7: str="C"	; break; /* LATIN CAPITAL LETTER C WITH CEDILLA	*/
+				case 0x00C8: str="`E"	; break; /* LATIN CAPITAL LETTER E WITH GRAVE	*/
+				case 0x00C9: str="´E"	; break; /* LATIN CAPITAL LETTER E WITH ACUTE	*/
+				case 0x00CA: str="^E"	; break; /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX	*/
+				case 0x00CB: str="\"E"	; break; /* LATIN CAPITAL LETTER E WITH DIAERESIS	*/
+				case 0x00CC: str="`I"	; break; /* LATIN CAPITAL LETTER I WITH GRAVE	*/
+				case 0x00CD: str="´I"	; break; /* LATIN CAPITAL LETTER I WITH ACUTE	*/
+				case 0x00CE: str="^I"	; break; /* LATIN CAPITAL LETTER I WITH CIRCUMFLEX	*/
+				case 0x00CF: str="\"I"	; break; /* LATIN CAPITAL LETTER I WITH DIAERESIS	*/
+				case 0x00D0: str="D"	; break; /* LATIN CAPITAL LETTER ETH	*/
+				case 0x00D1: str="~N"	; break; /* LATIN CAPITAL LETTER N WITH TILDE	*/
+				case 0x00D2: str="`O"	; break; /* LATIN CAPITAL LETTER O WITH GRAVE	*/
+				case 0x00D3: str="´O"	; break; /* LATIN CAPITAL LETTER O WITH ACUTE	*/
+				case 0x00D4: str="^O"	; break; /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX	*/
+				case 0x00D5: str="~O"	; break; /* LATIN CAPITAL LETTER O WITH TILDE	*/
+				case 0x00D6: str="\"O"	; break; /* LATIN CAPITAL LETTER O WITH DIAERESIS	*/
+				case 0x00D7: str="x"	; break; /* MULTIPLICATION SIGN	*/
+				case 0x00D8: str="O"	; break; /* LATIN CAPITAL LETTER O WITH STROKE	*/
+				case 0x00D9: str="`U"	; break; /* LATIN CAPITAL LETTER U WITH GRAVE	*/
+				case 0x00DA: str="´U"	; break; /* LATIN CAPITAL LETTER U WITH ACUTE	*/
+				case 0x00DB: str="^U"	; break; /* LATIN CAPITAL LETTER U WITH CIRCUMFLEX	*/
+				case 0x00DC: str="\"U"	; break; /* LATIN CAPITAL LETTER U WITH DIAERESIS	*/
+				case 0x00DD: str="´Y"	; break; /* LATIN CAPITAL LETTER Y WITH ACUTE	*/
+				case 0x00DE: str="Th"	; break; /* LATIN CAPITAL LETTER THORN	*/
+				case 0x00DF: str="ss"	; break; /* LATIN SMALL LETTER SHARP S	*/
+				case 0x00E0: str="`a"	; break; /* LATIN SMALL LETTER A WITH GRAVE	*/
+				case 0x00E1: str="´a"	; break; /* LATIN SMALL LETTER A WITH ACUTE	*/
+				case 0x00E2: str="^a"	; break; /* LATIN SMALL LETTER A WITH CIRCUMFLEX	*/
+				case 0x00E3: str="~a"	; break; /* LATIN SMALL LETTER A WITH TILDE	*/
+				case 0x00E4: str="\"a"	; break; /* LATIN SMALL LETTER A WITH DIAERESIS	*/
+				case 0x00E5: str="a"	; break; /* LATIN SMALL LETTER A WITH RING ABOVE	*/
+				case 0x00E6: str="ae"	; break; /* LATIN SMALL LETTER AE	*/
+				case 0x00E7: str="c"	; break; /* LATIN SMALL LETTER C WITH CEDILLA	*/
+				case 0x00E8: str="`e"	; break; /* LATIN SMALL LETTER E WITH GRAVE	*/
+				case 0x00E9: str="´e"	; break; /* LATIN SMALL LETTER E WITH ACUTE	*/
+				case 0x00EA: str="^e"	; break; /* LATIN SMALL LETTER E WITH CIRCUMFLEX	*/
+				case 0x00EB: str="\"e"	; break; /* LATIN SMALL LETTER E WITH DIAERESIS	*/
+				case 0x00EC: str="`i"	; break; /* LATIN SMALL LETTER I WITH GRAVE	*/
+				case 0x00ED: str="´i"	; break; /* LATIN SMALL LETTER I WITH ACUTE	*/
+				case 0x00EE: str="^i"	; break; /* LATIN SMALL LETTER I WITH CIRCUMFLEX	*/
+				case 0x00EF: str="\"i"	; break; /* LATIN SMALL LETTER I WITH DIAERESIS	*/
+				case 0x00F0: str="d"	; break; /* LATIN SMALL LETTER ETH	*/
+				case 0x00F1: str="~n"	; break; /* LATIN SMALL LETTER N WITH TILDE	*/
+				case 0x00F2: str="`o"	; break; /* LATIN SMALL LETTER O WITH GRAVE	*/
+				case 0x00F3: str="´o"	; break; /* LATIN SMALL LETTER O WITH ACUTE	*/
+				case 0x00F4: str="^o"	; break; /* LATIN SMALL LETTER O WITH CIRCUMFLEX	*/
+				case 0x00F5: str="~o"	; break; /* LATIN SMALL LETTER O WITH TILDE	*/
+				case 0x00F6: str="\"o"	; break; /* LATIN SMALL LETTER O WITH DIAERESIS	*/
+				case 0x00F7: str=":"	; break; /* DIVISION SIGN	*/
+				case 0x00F8: str="o"	; break; /* LATIN SMALL LETTER O WITH STROKE	*/
+				case 0x00F9: str="`u"	; break; /* LATIN SMALL LETTER U WITH GRAVE	*/
+				case 0x00FA: str="´u"	; break; /* LATIN SMALL LETTER U WITH ACUTE	*/
+				case 0x00FB: str="^u"	; break; /* LATIN SMALL LETTER U WITH CIRCUMFLEX	*/
+				case 0x00FC: str="\"u"	; break; /* LATIN SMALL LETTER U WITH DIAERESIS	*/
+				case 0x00FD: str="´y"	; break; /* LATIN SMALL LETTER Y WITH ACUTE	*/
+				case 0x00FE: str="th"	; break; /* LATIN SMALL LETTER THORN	*/
+				case 0x00FF: str="\"y"	; break; /* LATIN SMALL LETTER Y WITH DIAERESIS	*/
+				case 0x0100: str="A"	; break; /* LATIN CAPITAL LETTER A WITH MACRON	*/
+				case 0x0101: str="a"	; break; /* LATIN SMALL LETTER A WITH MACRON	*/
+				case 0x0102: str="A"	; break; /* LATIN CAPITAL LETTER A WITH BREVE	*/
+				case 0x0103: str="a"	; break; /* LATIN SMALL LETTER A WITH BREVE	*/
+				case 0x0104: str="A"	; break; /* LATIN CAPITAL LETTER A WITH OGONEK	*/
+				case 0x0105: str="a"	; break; /* LATIN SMALL LETTER A WITH OGONEK	*/
+				case 0x0106: str="´C"	; break; /* LATIN CAPITAL LETTER C WITH ACUTE	*/
+				case 0x0107: str="´c"	; break; /* LATIN SMALL LETTER C WITH ACUTE	*/
+				case 0x0108: str="^C"	; break; /* LATIN CAPITAL LETTER C WITH CIRCUMFLEX	*/
+				case 0x0109: str="^c"	; break; /* LATIN SMALL LETTER C WITH CIRCUMFLEX	*/
+				case 0x010A: str="C"	; break; /* LATIN CAPITAL LETTER C WITH DOT ABOVE	*/
+				case 0x010B: str="c"	; break; /* LATIN SMALL LETTER C WITH DOT ABOVE	*/
+				case 0x010C: str="C"	; break; /* LATIN CAPITAL LETTER C WITH CARON	*/
+				case 0x010D: str="c"	; break; /* LATIN SMALL LETTER C WITH CARON	*/
+				case 0x010E: str="D"	; break; /* LATIN CAPITAL LETTER D WITH CARON	*/
+				case 0x010F: str="d"	; break; /* LATIN SMALL LETTER D WITH CARON	*/
+				case 0x0110: str="D"	; break; /* LATIN CAPITAL LETTER D WITH STROKE	*/
+				case 0x0111: str="d"	; break; /* LATIN SMALL LETTER D WITH STROKE	*/
+				case 0x0112: str="E"	; break; /* LATIN CAPITAL LETTER E WITH MACRON	*/
+				case 0x0113: str="e"	; break; /* LATIN SMALL LETTER E WITH MACRON	*/
+				case 0x0114: str="E"	; break; /* LATIN CAPITAL LETTER E WITH BREVE	*/
+				case 0x0115: str="e"	; break; /* LATIN SMALL LETTER E WITH BREVE	*/
+				case 0x0116: str="E"	; break; /* LATIN CAPITAL LETTER E WITH DOT ABOVE	*/
+				case 0x0117: str="e"	; break; /* LATIN SMALL LETTER E WITH DOT ABOVE	*/
+				case 0x0118: str="E"	; break; /* LATIN CAPITAL LETTER E WITH OGONEK	*/
+				case 0x0119: str="e"	; break; /* LATIN SMALL LETTER E WITH OGONEK	*/
+				case 0x011A: str="E"	; break; /* LATIN CAPITAL LETTER E WITH CARON	*/
+				case 0x011B: str="e"	; break; /* LATIN SMALL LETTER E WITH CARON	*/
+				case 0x011C: str="^G"	; break; /* LATIN CAPITAL LETTER G WITH CIRCUMFLEX	*/
+				case 0x011D: str="^g"	; break; /* LATIN SMALL LETTER G WITH CIRCUMFLEX	*/
+				case 0x011E: str="G"	; break; /* LATIN CAPITAL LETTER G WITH BREVE	*/
+				case 0x011F: str="g"	; break; /* LATIN SMALL LETTER G WITH BREVE	*/
+				case 0x0120: str="G"	; break; /* LATIN CAPITAL LETTER G WITH DOT ABOVE	*/
+				case 0x0121: str="g"	; break; /* LATIN SMALL LETTER G WITH DOT ABOVE	*/
+				case 0x0122: str="G"	; break; /* LATIN CAPITAL LETTER G WITH CEDILLA	*/
+				case 0x0123: str="g"	; break; /* LATIN SMALL LETTER G WITH CEDILLA	*/
+				case 0x0124: str="^H"	; break; /* LATIN CAPITAL LETTER H WITH CIRCUMFLEX	*/
+				case 0x0125: str="^h"	; break; /* LATIN SMALL LETTER H WITH CIRCUMFLEX	*/
+				case 0x0126: str="H"	; break; /* LATIN CAPITAL LETTER H WITH STROKE	*/
+				case 0x0127: str="h"	; break; /* LATIN SMALL LETTER H WITH STROKE	*/
+				case 0x0128: str="~I"	; break; /* LATIN CAPITAL LETTER I WITH TILDE	*/
+				case 0x0129: str="~i"	; break; /* LATIN SMALL LETTER I WITH TILDE	*/
+				case 0x012A: str="I"	; break; /* LATIN CAPITAL LETTER I WITH MACRON	*/
+				case 0x012B: str="i"	; break; /* LATIN SMALL LETTER I WITH MACRON	*/
+				case 0x012C: str="I"	; break; /* LATIN CAPITAL LETTER I WITH BREVE	*/
+				case 0x012D: str="i"	; break; /* LATIN SMALL LETTER I WITH BREVE	*/
+				case 0x012E: str="I"	; break; /* LATIN CAPITAL LETTER I WITH OGONEK	*/
+				case 0x012F: str="i"	; break; /* LATIN SMALL LETTER I WITH OGONEK	*/
+				case 0x0130: str="I"	; break; /* LATIN CAPITAL LETTER I WITH DOT ABOVE	*/
+				case 0x0131: str="i"	; break; /* LATIN SMALL LETTER DOTLESS I	*/
+				case 0x0132: str="IJ"	; break; /* LATIN CAPITAL LIGATURE IJ	*/
+				case 0x0133: str="ij"	; break; /* LATIN SMALL LIGATURE IJ	*/
+				case 0x0134: str="^J"	; break; /* LATIN CAPITAL LETTER J WITH CIRCUMFLEX	*/
+				case 0x0135: str="^j"	; break; /* LATIN SMALL LETTER J WITH CIRCUMFLEX	*/
+				case 0x0136: str="K"	; break; /* LATIN CAPITAL LETTER K WITH CEDILLA	*/
+				case 0x0137: str="k"	; break; /* LATIN SMALL LETTER K WITH CEDILLA	*/
+				case 0x0138: str=""	; break; /* LATIN SMALL LETTER KRA	*/
+				case 0x0139: str="L"	; break; /* LATIN CAPITAL LETTER L WITH ACUTE	*/
+				case 0x013A: str="l"	; break; /* LATIN SMALL LETTER L WITH ACUTE	*/
+				case 0x013B: str="L"	; break; /* LATIN CAPITAL LETTER L WITH CEDILLA	*/
+				case 0x013C: str="l"	; break; /* LATIN SMALL LETTER L WITH CEDILLA	*/
+				case 0x013D: str="L"	; break; /* LATIN CAPITAL LETTER L WITH CARON	*/
+				case 0x013E: str="l"	; break; /* LATIN SMALL LETTER L WITH CARON	*/
+				case 0x013F: str="L"	; break; /* LATIN CAPITAL LETTER L WITH MIDDLE DOT	*/
+				case 0x0140: str="l"	; break; /* LATIN SMALL LETTER L WITH MIDDLE DOT	*/
+				case 0x0141: str="L"	; break; /* LATIN CAPITAL LETTER L WITH STROKE	*/
+				case 0x0142: str="l"	; break; /* LATIN SMALL LETTER L WITH STROKE	*/
+				case 0x0143: str="´N"	; break; /* LATIN CAPITAL LETTER N WITH ACUTE	*/
+				case 0x0144: str="´n"	; break; /* LATIN SMALL LETTER N WITH ACUTE	*/
+				case 0x0145: str="N"	; break; /* LATIN CAPITAL LETTER N WITH CEDILLA	*/
+				case 0x0146: str="n"	; break; /* LATIN SMALL LETTER N WITH CEDILLA	*/
+				case 0x0147: str="N"	; break; /* LATIN CAPITAL LETTER N WITH CARON	*/
+				case 0x0148: str="n"	; break; /* LATIN SMALL LETTER N WITH CARON	*/
+				case 0x0149: str="'n"	; break; /* LATIN SMALL LETTER N PRECEDED BY APOSTROPHE	*/
+				case 0x014A: str=""	; break; /* LATIN CAPITAL LETTER ENG	*/
+				case 0x014B: str=""	; break; /* LATIN SMALL LETTER ENG	*/
+				case 0x014C: str="O"	; break; /* LATIN CAPITAL LETTER O WITH MACRON	*/
+				case 0x014D: str="o"	; break; /* LATIN SMALL LETTER O WITH MACRON	*/
+				case 0x014E: str="O"	; break; /* LATIN CAPITAL LETTER O WITH BREVE	*/
+				case 0x014F: str="o"	; break; /* LATIN SMALL LETTER O WITH BREVE	*/
+				case 0x0150: str="\"O"	; break; /* LATIN CAPITAL LETTER O WITH DOUBLE ACUTE	*/
+				case 0x0151: str="\"o"	; break; /* LATIN SMALL LETTER O WITH DOUBLE ACUTE	*/
+				case 0x0152: str="OE"	; break; /* LATIN CAPITAL LIGATURE OE	*/
+				case 0x0153: str="oe"	; break; /* LATIN SMALL LIGATURE OE	*/
+				case 0x0154: str="´R"	; break; /* LATIN CAPITAL LETTER R WITH ACUTE	*/
+				case 0x0155: str="´r"	; break; /* LATIN SMALL LETTER R WITH ACUTE	*/
+				case 0x0156: str="R"	; break; /* LATIN CAPITAL LETTER R WITH CEDILLA	*/
+				case 0x0157: str="r"	; break; /* LATIN SMALL LETTER R WITH CEDILLA	*/
+				case 0x0158: str="R"	; break; /* LATIN CAPITAL LETTER R WITH CARON	*/
+				case 0x0159: str="r"	; break; /* LATIN SMALL LETTER R WITH CARON	*/
+				case 0x015A: str="´S"	; break; /* LATIN CAPITAL LETTER S WITH ACUTE	*/
+				case 0x015B: str="´s"	; break; /* LATIN SMALL LETTER S WITH ACUTE	*/
+				case 0x015C: str="^S"	; break; /* LATIN CAPITAL LETTER S WITH CIRCUMFLEX	*/
+				case 0x015D: str="^s"	; break; /* LATIN SMALL LETTER S WITH CIRCUMFLEX	*/
+				case 0x015E: str="S"	; break; /* LATIN CAPITAL LETTER S WITH CEDILLA	*/
+				case 0x015F: str="s"	; break; /* LATIN SMALL LETTER S WITH CEDILLA	*/
+				case 0x0160: str="S"	; break; /* LATIN CAPITAL LETTER S WITH CARON	*/
+				case 0x0161: str="s"	; break; /* LATIN SMALL LETTER S WITH CARON	*/
+				case 0x0162: str="T"	; break; /* LATIN CAPITAL LETTER T WITH CEDILLA	*/
+				case 0x0163: str="t"	; break; /* LATIN SMALL LETTER T WITH CEDILLA	*/
+				case 0x0164: str="T"	; break; /* LATIN CAPITAL LETTER T WITH CARON	*/
+				case 0x0165: str="t"	; break; /* LATIN SMALL LETTER T WITH CARON	*/
+				case 0x0166: str="T"	; break; /* LATIN CAPITAL LETTER T WITH STROKE	*/
+				case 0x0167: str="t"	; break; /* LATIN SMALL LETTER T WITH STROKE	*/
+				case 0x0168: str="~U"	; break; /* LATIN CAPITAL LETTER U WITH TILDE	*/
+				case 0x0169: str="~u"	; break; /* LATIN SMALL LETTER U WITH TILDE	*/
+				case 0x016A: str="U"	; break; /* LATIN CAPITAL LETTER U WITH MACRON	*/
+				case 0x016B: str="u"	; break; /* LATIN SMALL LETTER U WITH MACRON	*/
+				case 0x016C: str="U"	; break; /* LATIN CAPITAL LETTER U WITH BREVE	*/
+				case 0x016D: str="u"	; break; /* LATIN SMALL LETTER U WITH BREVE	*/
+				case 0x016E: str="U"	; break; /* LATIN CAPITAL LETTER U WITH RING ABOVE	*/
+				case 0x016F: str="u"	; break; /* LATIN SMALL LETTER U WITH RING ABOVE	*/
+				case 0x0170: str="\"U"	; break; /* LATIN CAPITAL LETTER U WITH DOUBLE ACUTE	*/
+				case 0x0171: str="\"u"	; break; /* LATIN SMALL LETTER U WITH DOUBLE ACUTE	*/
+				case 0x0172: str="U"	; break; /* LATIN CAPITAL LETTER U WITH OGONEK	*/
+				case 0x0173: str="u"	; break; /* LATIN SMALL LETTER U WITH OGONEK	*/
+				case 0x0174: str="^W"	; break; /* LATIN CAPITAL LETTER W WITH CIRCUMFLEX	*/
+				case 0x0175: str="^w"	; break; /* LATIN SMALL LETTER W WITH CIRCUMFLEX	*/
+				case 0x0176: str="^Y"	; break; /* LATIN CAPITAL LETTER Y WITH CIRCUMFLEX	*/
+				case 0x0177: str="^y"	; break; /* LATIN SMALL LETTER Y WITH CIRCUMFLEX	*/
+				case 0x0178: str="\"Y"	; break; /* LATIN CAPITAL LETTER Y WITH DIAERESIS	*/
+				case 0x0179: str="´Z"	; break; /* LATIN CAPITAL LETTER Z WITH ACUTE	*/
+				case 0x017A: str="´z"	; break; /* LATIN SMALL LETTER Z WITH ACUTE	*/
+				case 0x017B: str="Z"	; break; /* LATIN CAPITAL LETTER Z WITH DOT ABOVE	*/
+				case 0x017C: str="z"	; break; /* LATIN SMALL LETTER Z WITH DOT ABOVE	*/
+				case 0x017D: str="Z"	; break; /* LATIN CAPITAL LETTER Z WITH CARON	*/
+				case 0x017E: str="z"	; break; /* LATIN SMALL LETTER Z WITH CARON	*/
+				case 0x017F: str="S"	; break; /* LATIN SMALL LETTER LONG S	*/
+				case 0x018F: str=""	; break; /* LATIN CAPITAL LETTER SCHWA	*/
+				case 0x0192: str="f"	; break; /* LATIN SMALL LETTER F WITH HOOK	*/
+				case 0x0218: str="S"	; break; /* LATIN CAPITAL LETTER S WITH COMMA BELOW	*/
+				case 0x0219: str="s"	; break; /* LATIN SMALL LETTER S WITH COMMA BELOW	*/
+				case 0x021A: str="T"	; break; /* LATIN CAPITAL LETTER T WITH COMMA BELOW	*/
+				case 0x021B: str="t"	; break; /* LATIN SMALL LETTER T WITH COMMA BELOW	*/
+				case 0x0259: str=""	; break; /* LATIN SMALL LETTER SCHWA	*/
+				case 0x02C6: str="^"	; break; /* MODIFIER LETTER CIRCUMFLEX ACCENT	*/
+				case 0x02C7: str=""	; break; /* CARON	*/
+				case 0x02D8: str=""	; break; /* BREVE	*/
+				case 0x02D9: str=""	; break; /* DOT ABOVE	*/
+				case 0x02DA: str=""	; break; /* RING ABOVE	*/
+				case 0x02DB: str=""	; break; /* OGONEK	*/
+				case 0x02DC: str="~"	; break; /* SMALL TILDE	*/
+				case 0x02DD: str="\""	; break; /* DOUBLE ACUTE ACCENT	*/
+				case 0x0374: str=""	; break; /* GREEK NUMERAL SIGN	*/
+				case 0x0375: str=""	; break; /* GREEK LOWER NUMERAL SIGN	*/
+				case 0x037A: str=""	; break; /* GREEK YPOGEGRAMMENI	*/
+				case 0x037E: str=""	; break; /* GREEK QUESTION MARK	*/
+				case 0x0384: str=""	; break; /* GREEK TONOS	*/
+				case 0x0385: str=""	; break; /* GREEK DIALYTIKA TONOS	*/
+				case 0x0386: str=""	; break; /* GREEK CAPITAL LETTER ALPHA WITH TONOS	*/
+				case 0x0387: str=""	; break; /* GREEK ANO TELEIA	*/
+				case 0x0388: str=""	; break; /* GREEK CAPITAL LETTER EPSILON WITH TONOS	*/
+				case 0x0389: str=""	; break; /* GREEK CAPITAL LETTER ETA WITH TONOS	*/
+				case 0x038A: str=""	; break; /* GREEK CAPITAL LETTER IOTA WITH TONOS	*/
+				case 0x038C: str=""	; break; /* GREEK CAPITAL LETTER OMICRON WITH TONOS	*/
+				case 0x038E: str=""	; break; /* GREEK CAPITAL LETTER UPSILON WITH TONOS	*/
+				case 0x038F: str=""	; break; /* GREEK CAPITAL LETTER OMEGA WITH TONOS	*/
+				case 0x0390: str=""	; break; /* GREEK SMALL LETTER IOTA WITH DIALYTIKA AND TONOS	*/
+				case 0x0391: str=""	; break; /* GREEK CAPITAL LETTER ALPHA	*/
+				case 0x0392: str=""	; break; /* GREEK CAPITAL LETTER BETA	*/
+				case 0x0393: str=""	; break; /* GREEK CAPITAL LETTER GAMMA	*/
+				case 0x0394: str=""	; break; /* GREEK CAPITAL LETTER DELTA	*/
+				case 0x0395: str=""	; break; /* GREEK CAPITAL LETTER EPSILON	*/
+				case 0x0396: str=""	; break; /* GREEK CAPITAL LETTER ZETA	*/
+				case 0x0397: str=""	; break; /* GREEK CAPITAL LETTER ETA	*/
+				case 0x0398: str=""	; break; /* GREEK CAPITAL LETTER THETA	*/
+				case 0x0399: str=""	; break; /* GREEK CAPITAL LETTER IOTA	*/
+				case 0x039A: str=""	; break; /* GREEK CAPITAL LETTER KAPPA	*/
+				case 0x039B: str=""	; break; /* GREEK CAPITAL LETTER LAMDA	*/
+				case 0x039C: str=""	; break; /* GREEK CAPITAL LETTER MU	*/
+				case 0x039D: str=""	; break; /* GREEK CAPITAL LETTER NU	*/
+				case 0x039E: str=""	; break; /* GREEK CAPITAL LETTER XI	*/
+				case 0x039F: str=""	; break; /* GREEK CAPITAL LETTER OMICRON	*/
+				case 0x03A0: str=""	; break; /* GREEK CAPITAL LETTER PI	*/
+				case 0x03A1: str=""	; break; /* GREEK CAPITAL LETTER RHO	*/
+				case 0x03A3: str=""	; break; /* GREEK CAPITAL LETTER SIGMA	*/
+				case 0x03A4: str=""	; break; /* GREEK CAPITAL LETTER TAU	*/
+				case 0x03A5: str=""	; break; /* GREEK CAPITAL LETTER UPSILON	*/
+				case 0x03A6: str=""	; break; /* GREEK CAPITAL LETTER PHI	*/
+				case 0x03A7: str=""	; break; /* GREEK CAPITAL LETTER CHI	*/
+				case 0x03A8: str=""	; break; /* GREEK CAPITAL LETTER PSI	*/
+				case 0x03A9: str=""	; break; /* GREEK CAPITAL LETTER OMEGA	*/
+				case 0x03AA: str=""	; break; /* GREEK CAPITAL LETTER IOTA WITH DIALYTIKA	*/
+				case 0x03AB: str=""	; break; /* GREEK CAPITAL LETTER UPSILON WITH DIALYTIKA	*/
+				case 0x03AC: str=""	; break; /* GREEK SMALL LETTER ALPHA WITH TONOS	*/
+				case 0x03AD: str=""	; break; /* GREEK SMALL LETTER EPSILON WITH TONOS	*/
+				case 0x03AE: str=""	; break; /* GREEK SMALL LETTER ETA WITH TONOS	*/
+				case 0x03AF: str=""	; break; /* GREEK SMALL LETTER IOTA WITH TONOS	*/
+				case 0x03B0: str=""	; break; /* GREEK SMALL LETTER UPSILON WITH DIALYTIKA AND TONOS	*/
+				case 0x03B1: str=""	; break; /* GREEK SMALL LETTER ALPHA	*/
+				case 0x03B2: str=""	; break; /* GREEK SMALL LETTER BETA	*/
+				case 0x03B3: str=""	; break; /* GREEK SMALL LETTER GAMMA	*/
+				case 0x03B4: str=""	; break; /* GREEK SMALL LETTER DELTA	*/
+				case 0x03B5: str=""	; break; /* GREEK SMALL LETTER EPSILON	*/
+				case 0x03B6: str=""	; break; /* GREEK SMALL LETTER ZETA	*/
+				case 0x03B7: str=""	; break; /* GREEK SMALL LETTER ETA	*/
+				case 0x03B8: str=""	; break; /* GREEK SMALL LETTER THETA	*/
+				case 0x03B9: str=""	; break; /* GREEK SMALL LETTER IOTA	*/
+				case 0x03BA: str=""	; break; /* GREEK SMALL LETTER KAPPA	*/
+				case 0x03BB: str=""	; break; /* GREEK SMALL LETTER LAMDA	*/
+				case 0x03BC: str=""	; break; /* GREEK SMALL LETTER MU	*/
+				case 0x03BD: str=""	; break; /* GREEK SMALL LETTER NU	*/
+				case 0x03BE: str=""	; break; /* GREEK SMALL LETTER XI	*/
+				case 0x03BF: str=""	; break; /* GREEK SMALL LETTER OMICRON	*/
+				case 0x03C0: str=""	; break; /* GREEK SMALL LETTER PI	*/
+				case 0x03C1: str=""	; break; /* GREEK SMALL LETTER RHO	*/
+				case 0x03C2: str=""	; break; /* GREEK SMALL LETTER FINAL SIGMA	*/
+				case 0x03C3: str=""	; break; /* GREEK SMALL LETTER SIGMA	*/
+				case 0x03C4: str=""	; break; /* GREEK SMALL LETTER TAU	*/
+				case 0x03C5: str=""	; break; /* GREEK SMALL LETTER UPSILON	*/
+				case 0x03C6: str=""	; break; /* GREEK SMALL LETTER PHI	*/
+				case 0x03C7: str=""	; break; /* GREEK SMALL LETTER CHI	*/
+				case 0x03C8: str=""	; break; /* GREEK SMALL LETTER PSI	*/
+				case 0x03C9: str=""	; break; /* GREEK SMALL LETTER OMEGA	*/
+				case 0x03CA: str=""	; break; /* GREEK SMALL LETTER IOTA WITH DIALYTIKA	*/
+				case 0x03CB: str=""	; break; /* GREEK SMALL LETTER UPSILON WITH DIALYTIKA	*/
+				case 0x03CC: str=""	; break; /* GREEK SMALL LETTER OMICRON WITH TONOS	*/
+				case 0x03CD: str=""	; break; /* GREEK SMALL LETTER UPSILON WITH TONOS	*/
+				case 0x03CE: str=""	; break; /* GREEK SMALL LETTER OMEGA WITH TONOS	*/
+				case 0x0401: str=""	; break; /* CYRILLIC CAPITAL LETTER IO	*/
+				case 0x0402: str=""	; break; /* CYRILLIC CAPITAL LETTER DJE	*/
+				case 0x0403: str=""	; break; /* CYRILLIC CAPITAL LETTER GJE	*/
+				case 0x0404: str=""	; break; /* CYRILLIC CAPITAL LETTER UKRAINIAN IE	*/
+				case 0x0405: str=""	; break; /* CYRILLIC CAPITAL LETTER DZE	*/
+				case 0x0406: str=""	; break; /* CYRILLIC CAPITAL LETTER BYELORUSSIAN-UKRAINIAN I	*/
+				case 0x0407: str=""	; break; /* CYRILLIC CAPITAL LETTER YI	*/
+				case 0x0408: str=""	; break; /* CYRILLIC CAPITAL LETTER JE	*/
+				case 0x0409: str=""	; break; /* CYRILLIC CAPITAL LETTER LJE	*/
+				case 0x040A: str=""	; break; /* CYRILLIC CAPITAL LETTER NJE	*/
+				case 0x040B: str=""	; break; /* CYRILLIC CAPITAL LETTER TSHE	*/
+				case 0x040C: str=""	; break; /* CYRILLIC CAPITAL LETTER KJE	*/
+				case 0x040E: str=""	; break; /* CYRILLIC CAPITAL LETTER SHORT U	*/
+				case 0x040F: str=""	; break; /* CYRILLIC CAPITAL LETTER DZHE	*/
+				case 0x0410: str=""	; break; /* CYRILLIC CAPITAL LETTER A	*/
+				case 0x0411: str=""	; break; /* CYRILLIC CAPITAL LETTER BE	*/
+				case 0x0412: str=""	; break; /* CYRILLIC CAPITAL LETTER VE	*/
+				case 0x0413: str=""	; break; /* CYRILLIC CAPITAL LETTER GHE	*/
+				case 0x0414: str=""	; break; /* CYRILLIC CAPITAL LETTER DE	*/
+				case 0x0415: str=""	; break; /* CYRILLIC CAPITAL LETTER IE	*/
+				case 0x0416: str=""	; break; /* CYRILLIC CAPITAL LETTER ZHE	*/
+				case 0x0417: str=""	; break; /* CYRILLIC CAPITAL LETTER ZE	*/
+				case 0x0418: str=""	; break; /* CYRILLIC CAPITAL LETTER I	*/
+				case 0x0419: str=""	; break; /* CYRILLIC CAPITAL LETTER SHORT I	*/
+				case 0x041A: str=""	; break; /* CYRILLIC CAPITAL LETTER KA	*/
+				case 0x041B: str=""	; break; /* CYRILLIC CAPITAL LETTER EL	*/
+				case 0x041C: str=""	; break; /* CYRILLIC CAPITAL LETTER EM	*/
+				case 0x041D: str=""	; break; /* CYRILLIC CAPITAL LETTER EN	*/
+				case 0x041E: str=""	; break; /* CYRILLIC CAPITAL LETTER O	*/
+				case 0x041F: str=""	; break; /* CYRILLIC CAPITAL LETTER PE	*/
+				case 0x0420: str=""	; break; /* CYRILLIC CAPITAL LETTER ER	*/
+				case 0x0421: str=""	; break; /* CYRILLIC CAPITAL LETTER ES	*/
+				case 0x0422: str=""	; break; /* CYRILLIC CAPITAL LETTER TE	*/
+				case 0x0423: str=""	; break; /* CYRILLIC CAPITAL LETTER U	*/
+				case 0x0424: str=""	; break; /* CYRILLIC CAPITAL LETTER EF	*/
+				case 0x0425: str=""	; break; /* CYRILLIC CAPITAL LETTER HA	*/
+				case 0x0426: str=""	; break; /* CYRILLIC CAPITAL LETTER TSE	*/
+				case 0x0427: str=""	; break; /* CYRILLIC CAPITAL LETTER CHE	*/
+				case 0x0428: str=""	; break; /* CYRILLIC CAPITAL LETTER SHA	*/
+				case 0x0429: str=""	; break; /* CYRILLIC CAPITAL LETTER SHCHA	*/
+				case 0x042A: str=""	; break; /* CYRILLIC CAPITAL LETTER HARD SIGN	*/
+				case 0x042B: str=""	; break; /* CYRILLIC CAPITAL LETTER YERU	*/
+				case 0x042C: str=""	; break; /* CYRILLIC CAPITAL LETTER SOFT SIGN	*/
+				case 0x042D: str=""	; break; /* CYRILLIC CAPITAL LETTER E	*/
+				case 0x042E: str=""	; break; /* CYRILLIC CAPITAL LETTER YU	*/
+				case 0x042F: str=""	; break; /* CYRILLIC CAPITAL LETTER YA	*/
+				case 0x0430: str=""	; break; /* CYRILLIC SMALL LETTER A	*/
+				case 0x0431: str=""	; break; /* CYRILLIC SMALL LETTER BE	*/
+				case 0x0432: str=""	; break; /* CYRILLIC SMALL LETTER VE	*/
+				case 0x0433: str=""	; break; /* CYRILLIC SMALL LETTER GHE	*/
+				case 0x0434: str=""	; break; /* CYRILLIC SMALL LETTER DE	*/
+				case 0x0435: str=""	; break; /* CYRILLIC SMALL LETTER IE	*/
+				case 0x0436: str=""	; break; /* CYRILLIC SMALL LETTER ZHE	*/
+				case 0x0437: str=""	; break; /* CYRILLIC SMALL LETTER ZE	*/
+				case 0x0438: str=""	; break; /* CYRILLIC SMALL LETTER I	*/
+				case 0x0439: str=""	; break; /* CYRILLIC SMALL LETTER SHORT I	*/
+				case 0x043A: str=""	; break; /* CYRILLIC SMALL LETTER KA	*/
+				case 0x043B: str=""	; break; /* CYRILLIC SMALL LETTER EL	*/
+				case 0x043C: str=""	; break; /* CYRILLIC SMALL LETTER EM	*/
+				case 0x043D: str=""	; break; /* CYRILLIC SMALL LETTER EN	*/
+				case 0x043E: str=""	; break; /* CYRILLIC SMALL LETTER O	*/
+				case 0x043F: str=""	; break; /* CYRILLIC SMALL LETTER PE	*/
+				case 0x0440: str=""	; break; /* CYRILLIC SMALL LETTER ER	*/
+				case 0x0441: str=""	; break; /* CYRILLIC SMALL LETTER ES	*/
+				case 0x0442: str=""	; break; /* CYRILLIC SMALL LETTER TE	*/
+				case 0x0443: str=""	; break; /* CYRILLIC SMALL LETTER U	*/
+				case 0x0444: str=""	; break; /* CYRILLIC SMALL LETTER EF	*/
+				case 0x0445: str=""	; break; /* CYRILLIC SMALL LETTER HA	*/
+				case 0x0446: str=""	; break; /* CYRILLIC SMALL LETTER TSE	*/
+				case 0x0447: str=""	; break; /* CYRILLIC SMALL LETTER CHE	*/
+				case 0x0448: str=""	; break; /* CYRILLIC SMALL LETTER SHA	*/
+				case 0x0449: str=""	; break; /* CYRILLIC SMALL LETTER SHCHA	*/
+				case 0x044A: str=""	; break; /* CYRILLIC SMALL LETTER HARD SIGN	*/
+				case 0x044B: str=""	; break; /* CYRILLIC SMALL LETTER YERU	*/
+				case 0x044C: str=""	; break; /* CYRILLIC SMALL LETTER SOFT SIGN	*/
+				case 0x044D: str=""	; break; /* CYRILLIC SMALL LETTER E	*/
+				case 0x044E: str=""	; break; /* CYRILLIC SMALL LETTER YU	*/
+				case 0x044F: str=""	; break; /* CYRILLIC SMALL LETTER YA	*/
+				case 0x0451: str=""	; break; /* CYRILLIC SMALL LETTER IO	*/
+				case 0x0452: str=""	; break; /* CYRILLIC SMALL LETTER DJE	*/
+				case 0x0453: str=""	; break; /* CYRILLIC SMALL LETTER GJE	*/
+				case 0x0454: str=""	; break; /* CYRILLIC SMALL LETTER UKRAINIAN IE	*/
+				case 0x0455: str=""	; break; /* CYRILLIC SMALL LETTER DZE	*/
+				case 0x0456: str=""	; break; /* CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I	*/
+				case 0x0457: str=""	; break; /* CYRILLIC SMALL LETTER YI	*/
+				case 0x0458: str=""	; break; /* CYRILLIC SMALL LETTER JE	*/
+				case 0x0459: str=""	; break; /* CYRILLIC SMALL LETTER LJE	*/
+				case 0x045A: str=""	; break; /* CYRILLIC SMALL LETTER NJE	*/
+				case 0x045B: str=""	; break; /* CYRILLIC SMALL LETTER TSHE	*/
+				case 0x045C: str=""	; break; /* CYRILLIC SMALL LETTER KJE	*/
+				case 0x045E: str=""	; break; /* CYRILLIC SMALL LETTER SHORT U	*/
+				case 0x045F: str=""	; break; /* CYRILLIC SMALL LETTER DZHE	*/
+				case 0x0490: str=""	; break; /* CYRILLIC CAPITAL LETTER GHE WITH UPTURN	*/
+				case 0x0491: str=""	; break; /* CYRILLIC SMALL LETTER GHE WITH UPTURN	*/
+				case 0x05D0: str=""	; break; /* HEBREW LETTER ALEF	*/
+				case 0x05D1: str=""	; break; /* HEBREW LETTER BET	*/
+				case 0x05D2: str=""	; break; /* HEBREW LETTER GIMEL	*/
+				case 0x05D3: str=""	; break; /* HEBREW LETTER DALET	*/
+				case 0x05D4: str=""	; break; /* HEBREW LETTER HE	*/
+				case 0x05D5: str=""	; break; /* HEBREW LETTER VAV	*/
+				case 0x05D6: str=""	; break; /* HEBREW LETTER ZAYIN	*/
+				case 0x05D7: str=""	; break; /* HEBREW LETTER HET	*/
+				case 0x05D8: str=""	; break; /* HEBREW LETTER TET	*/
+				case 0x05D9: str=""	; break; /* HEBREW LETTER YOD	*/
+				case 0x05DA: str=""	; break; /* HEBREW LETTER FINAL KAF	*/
+				case 0x05DB: str=""	; break; /* HEBREW LETTER KAF	*/
+				case 0x05DC: str=""	; break; /* HEBREW LETTER LAMED	*/
+				case 0x05DD: str=""	; break; /* HEBREW LETTER FINAL MEM	*/
+				case 0x05DE: str=""	; break; /* HEBREW LETTER MEM	*/
+				case 0x05DF: str=""	; break; /* HEBREW LETTER FINAL NUN	*/
+				case 0x05E0: str=""	; break; /* HEBREW LETTER NUN	*/
+				case 0x05E1: str=""	; break; /* HEBREW LETTER SAMEKH	*/
+				case 0x05E2: str=""	; break; /* HEBREW LETTER AYIN	*/
+				case 0x05E3: str=""	; break; /* HEBREW LETTER FINAL PE	*/
+				case 0x05E4: str=""	; break; /* HEBREW LETTER PE	*/
+				case 0x05E5: str=""	; break; /* HEBREW LETTER FINAL TSADI	*/
+				case 0x05E6: str=""	; break; /* HEBREW LETTER TSADI	*/
+				case 0x05E7: str=""	; break; /* HEBREW LETTER QOF	*/
+				case 0x05E8: str=""	; break; /* HEBREW LETTER RESH	*/
+				case 0x05E9: str=""	; break; /* HEBREW LETTER SHIN	*/
+				case 0x05EA: str=""	; break; /* HEBREW LETTER TAV	*/
+				case 0x1E02: str="B"	; break; /* LATIN CAPITAL LETTER B WITH DOT ABOVE	*/
+				case 0x1E03: str="b"	; break; /* LATIN SMALL LETTER B WITH DOT ABOVE	*/
+				case 0x1E0A: str="D"	; break; /* LATIN CAPITAL LETTER D WITH DOT ABOVE	*/
+				case 0x1E0B: str="d"	; break; /* LATIN SMALL LETTER D WITH DOT ABOVE	*/
+				case 0x1E1E: str="F"	; break; /* LATIN CAPITAL LETTER F WITH DOT ABOVE	*/
+				case 0x1E1F: str="f"	; break; /* LATIN SMALL LETTER F WITH DOT ABOVE	*/
+				case 0x1E40: str="M"	; break; /* LATIN CAPITAL LETTER M WITH DOT ABOVE	*/
+				case 0x1E41: str="m"	; break; /* LATIN SMALL LETTER M WITH DOT ABOVE	*/
+				case 0x1E56: str="P"	; break; /* LATIN CAPITAL LETTER P WITH DOT ABOVE	*/
+				case 0x1E57: str="p"	; break; /* LATIN SMALL LETTER P WITH DOT ABOVE	*/
+				case 0x1E60: str="S"	; break; /* LATIN CAPITAL LETTER S WITH DOT ABOVE	*/
+				case 0x1E61: str="s"	; break; /* LATIN SMALL LETTER S WITH DOT ABOVE	*/
+				case 0x1E6A: str="T"	; break; /* LATIN CAPITAL LETTER T WITH DOT ABOVE	*/
+				case 0x1E6B: str="t"	; break; /* LATIN SMALL LETTER T WITH DOT ABOVE	*/
+				case 0x1E80: str="`W"	; break; /* LATIN CAPITAL LETTER W WITH GRAVE	*/
+				case 0x1E81: str="`w"	; break; /* LATIN SMALL LETTER W WITH GRAVE	*/
+				case 0x1E82: str="´W"	; break; /* LATIN CAPITAL LETTER W WITH ACUTE	*/
+				case 0x1E83: str="´w"	; break; /* LATIN SMALL LETTER W WITH ACUTE	*/
+				case 0x1E84: str="\"W"	; break; /* LATIN CAPITAL LETTER W WITH DIAERESIS	*/
+				case 0x1E85: str="\"w"	; break; /* LATIN SMALL LETTER W WITH DIAERESIS	*/
+				case 0x1EF2: str="`Y"	; break; /* LATIN CAPITAL LETTER Y WITH GRAVE	*/
+				case 0x1EF3: str="`y"	; break; /* LATIN SMALL LETTER Y WITH GRAVE	*/
+				case 0x2010: str="-"	; break; /* HYPHEN	*/
+				case 0x2011: str="-"	; break; /* NON-BREAKING HYPHEN	*/
+				case 0x2012: str="-"	; break; /* FIGURE DASH	*/
+				case 0x2013: str="-"	; break; /* EN DASH	*/
+				case 0x2014: str="-"	; break; /* EM DASH	*/
+				case 0x2015: str="-"	; break; /* HORIZONTAL BAR	*/
+				case 0x2016: str="||"	; break; /* DOUBLE VERTICAL LINE	*/
+				case 0x2017: str=""	; break; /* DOUBLE LOW LINE	*/
+				case 0x2018: str="`"	; break; /* LEFT SINGLE QUOTATION MARK	*/
+				case 0x2019: str="\'"	; break; /* RIGHT SINGLE QUOTATION MARK	*/
+				case 0x201A: str="\'"	; break; /* SINGLE LOW-9 QUOTATION MARK	*/
+				case 0x201B: str="\'"	; break; /* SINGLE HIGH-REVERSED-9 QUOTATION MARK	*/
+				case 0x201C: str="\""	; break; /* LEFT DOUBLE QUOTATION MARK	*/
+				case 0x201D: str="\""	; break; /* RIGHT DOUBLE QUOTATION MARK	*/
+				case 0x201E: str="\""	; break; /* DOUBLE LOW-9 QUOTATION MARK	*/
+				case 0x201F: str="\""	; break; /* DOUBLE HIGH-REVERSED-9 QUOTATION MARK	*/
+				case 0x2020: str="+"	; break; /* DAGGER	*/
+				case 0x2021: str=""	; break; /* DOUBLE DAGGER	*/
+				case 0x2022: str="o"	; break; /* BULLET	*/
+				case 0x2026: str="..."	; break; /* HORIZONTAL ELLIPSIS	*/
+				case 0x2030: str="o/oo"	; break; /* PER MILLE SIGN	*/
+				case 0x2032: str="´"	; break; /* PRIME	*/
+				case 0x2033: str="´´"	; break; /* DOUBLE PRIME	*/
+				case 0x2034: str="´´´"	; break; /* TRIPLE PRIME	*/
+				case 0x2039: str="<"	; break; /* SINGLE LEFT-POINTING ANGLE QUOTATION MARK	*/
+				case 0x203A: str=">"	; break; /* SINGLE RIGHT-POINTING ANGLE QUOTATION MARK	*/
+				case 0x203E: str=""	; break; /* OVERLINE	*/
+				case 0x20AC: str="EUR"	; break; /* EURO SIGN	*/
+				case 0x2116: str="No."	; break; /* NUMERO SIGN	*/
+				case 0x2122: str="TM"	; break; /* TRADE MARK SIGN	*/
+				case 0x2126: str="Ohm"	; break; /* OHM SIGN	*/
+				case 0x215B: str="1/8"	; break; /* VULGAR FRACTION ONE EIGHTH	*/
+				case 0x215C: str="3/8"	; break; /* VULGAR FRACTION THREE EIGHTHS	*/
+				case 0x215D: str="5/8"	; break; /* VULGAR FRACTION FIVE EIGHTHS	*/
+				case 0x215E: str="7/8"	; break; /* VULGAR FRACTION SEVEN EIGHTHS	*/
+				case 0x2190: str="<-"	; break; /* LEFTWARDS ARROW	*/
+				case 0x2191: str="^"	; break; /* UPWARDS ARROW	*/
+				case 0x2192: str="->"	; break; /* RIGHTWARDS ARROW	*/
+				case 0x2193: str="V"	; break; /* DOWNWARDS ARROW	*/
+				case 0x21D0: str="<="	; break; /* LEFTWARDS DOUBLE ARROW	*/
+				case 0x21D2: str="=>"	; break; /* RIGHTWARDS DOUBLE ARROW	*/
+				case 0x2212: str="-"	; break; /* MINUS SIGN	*/
+				case 0x2215: str="/"	; break; /* DIVISION SLASH	*/
+				case 0x2260: str="/="	; break; /* NOT EQUAL TO	*/
+				case 0x2264: str="<="	; break; /* LESS-THAN OR EQUAL TO	*/
+				case 0x2265: str=">="	; break; /* GREATER-THAN OR EQUAL TO	*/
+				case 0x226A: str="<<"	; break; /* MUCH LESS-THAN	*/
+				case 0x226B: str=">>"	; break; /* MUCH GREATER-THAN	*/
+				case 0x2409: str=""	; break; /* SYMBOL FOR HORIZONTAL TABULATION	*/
+				case 0x240A: str=""	; break; /* SYMBOL FOR LINE FEED	*/
+				case 0x240B: str=""	; break; /* SYMBOL FOR VERTICAL TABULATION	*/
+				case 0x240C: str=""	; break; /* SYMBOL FOR FORM FEED	*/
+				case 0x240D: str=""	; break; /* SYMBOL FOR CARRIAGE RETURN	*/
+				case 0x2424: str=""	; break; /* SYMBOL FOR NEWLINE	*/
+				case 0x2500: str="-"	; break; /* BOX DRAWINGS LIGHT HORIZONTAL	*/
+				case 0x2502: str="|"	; break; /* BOX DRAWINGS LIGHT VERTICAL	*/
+				case 0x250C: str="+"	; break; /* BOX DRAWINGS LIGHT DOWN AND RIGHT	*/
+				case 0x2510: str="+"	; break; /* BOX DRAWINGS LIGHT DOWN AND LEFT	*/
+				case 0x2514: str="+"	; break; /* BOX DRAWINGS LIGHT UP AND RIGHT	*/
+				case 0x2518: str="+"	; break; /* BOX DRAWINGS LIGHT UP AND LEFT	*/
+				case 0x251C: str="+"	; break; /* BOX DRAWINGS LIGHT VERTICAL AND RIGHT	*/
+				case 0x2524: str="+"	; break; /* BOX DRAWINGS LIGHT VERTICAL AND LEFT	*/
+				case 0x252C: str="+"	; break; /* BOX DRAWINGS LIGHT DOWN AND HORIZONTAL	*/
+				case 0x2534: str="+"	; break; /* BOX DRAWINGS LIGHT UP AND HORIZONTAL	*/
+				case 0x253C: str="+"	; break; /* BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL	*/
+				case 0x2592: str=""	; break; /* MEDIUM SHADE	*/
+				case 0x25AE: str=""	; break; /* BLACK VERTICAL RECTANGLE	*/
+				case 0x25C6: str=""	; break; /* BLACK DIAMOND	*/
+				case 0x266A: str=""	; break; /* EIGHTH NOTE	*/
+				default: str="?";
+			}
+			strcpy (outbuf, str);
+			outbuf += strlen (str);
+		}
+	}
+
+	excel_iconv_close(cd);
+	return outbuf - outbuf_orig;
 }
