@@ -147,7 +147,10 @@ icg_init_gui (IOContextGtk *icg)
 	GtkWidget *vbox;
 	GtkWidget *label;
 	gchar *name_string;
-	
+	int sx, sy;
+	GdkWindowHints hints;
+	GdkGeometry geom;
+
 	vbox = gtk_vbox_new (FALSE, 8);
 	gtk_box_pack_start (GTK_BOX (vbox),
 			    gnumeric_load_image ("gnome-gnumeric.png"),
@@ -176,9 +179,23 @@ icg_init_gui (IOContextGtk *icg)
 			   GTK_WIDGET (vbox));
 	g_signal_connect (G_OBJECT (icg->window), "destroy",
 			  G_CALLBACK (cb_icg_window_destroyed), icg);
-	gtk_window_set_type_hint (icg->window,
-				  GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_position (icg->window, GTK_WIN_POS_CENTER_ON_PARENT);
+
+	sx = gdk_screen_get_width (icg->window->screen);
+	sy = gdk_screen_get_height (icg->window->screen);
+	geom.min_width = geom.max_width = geom.base_width = sx / 3;
+	geom.min_height = geom.max_height = geom.base_height = sy / 3;
+
+	gtk_window_move (icg->window,
+			 sx / 2 - geom.min_width / 2,
+			 sy / 2 - geom.min_height / 2);
+	hints = GDK_HINT_POS | GDK_HINT_USER_POS |
+		GDK_HINT_BASE_SIZE | GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE |
+		GDK_HINT_USER_SIZE;
+
+	gtk_window_set_geometry_hints (icg->window,
+				       NULL, &geom,
+				       hints);
+
 	icg->timer  = g_timer_new ();
 	g_timer_start (icg->timer);
 }

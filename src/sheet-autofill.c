@@ -589,7 +589,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		int i;
 
 		i = delta->v.numstr.num + idx * delta->delta.d_int;
-		snprintf (buffer, sizeof (buffer)-1, "%d", i);
+		sprintf (buffer, "%d", i);
 
 		if (delta->v.numstr.pos == 0) {
 			char *p = delta->v.numstr.str->str;
