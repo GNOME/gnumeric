@@ -2148,6 +2148,7 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GList *expr_node_list)
 	}
 
 	fun_nbr = value_get_as_int(val);
+	value_release (val);
 	if (fun_nbr < 1 || fun_nbr > 11)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
@@ -2281,6 +2282,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	}
 
 	m = value_get_as_float(val);
+	value_release (val);
 	nodes = nodes->next;
 
 	p.n = n;

@@ -129,15 +129,23 @@ find_column_of_field (const EvalPosition *ep, Value *database, Value *field)
 	row = database->v.cell_range.cell_a.row;
 
 	for (n=begin_col; n<=end_col; n++) {
+		char *txt;
+		gboolean match;
+
 	        cell = sheet_cell_get(sheet, n, row);
 		if (cell == NULL)
 		        continue;
-		if (strcmp(field_name, cell_get_text(cell)) == 0) {
+
+		txt = cell_get_text (cell);
+		match = (strcmp (field_name, txt) == 0);
+		g_free (txt);
+		if (match) {
 		        column = n;
 			break;
 		}
 	}
 
+	g_free (field_name);
 	return column;
 }
 
@@ -149,16 +157,24 @@ free_criterias(GSList *criterias)
         GSList *list = criterias;
 
         while (criterias != NULL) {
+		GSList *l;
 	        database_criteria_t *criteria = criterias->data;
 
+		for (l = criteria->conditions; l; l = l->next) {
+			func_criteria_t *cond = l->data;
+			value_release (cond->x);
+			g_free (cond);
+		}
+
 		g_slist_free(criteria->conditions);
+		g_free (criteria);
 	        criterias = criterias->next;
 	}
 	g_slist_free(list);
 }
 
 void
-parse_criteria(char *criteria, criteria_test_fun_t *fun, Value **test_value)
+parse_criteria(const char *criteria, criteria_test_fun_t *fun, Value **test_value)
 {
 	char    *p;
 	float_t tmp;
@@ -230,12 +246,12 @@ parse_database_criteria (const EvalPosition *ep, Value *database, Value *criteri
 	        cell = sheet_cell_get(sheet, i, b_row);
 		if (cell == NULL || cell->value == NULL)
 		        continue;
-		new_criteria = g_new(database_criteria_t, 1);
 	        field_ind = find_column_of_field (ep, database, cell->value);
 		if (field_ind == -1) {
 		        free_criterias(criterias);
 		        return NULL;
 		}
+		new_criteria = g_new(database_criteria_t, 1);
 		new_criteria->column = field_ind;
 		conditions = NULL;
 
@@ -248,7 +264,7 @@ parse_database_criteria (const EvalPosition *ep, Value *database, Value *criteri
 			       continue;
 			cond = g_new(func_criteria_t, 1);
 			if (VALUE_IS_NUMBER(cell->value)) {
-			       cond->x = cell->value;
+			       cond->x = value_duplicate (cell->value);
 			       cond->fun =
 				 (criteria_test_fun_t) criteria_test_equal;
 			       conditions = g_slist_append(conditions, cond);
@@ -256,6 +272,7 @@ parse_database_criteria (const EvalPosition *ep, Value *database, Value *criteri
 			}
 			cell_str = cell_get_text(cell);
 			parse_criteria(cell_str, &cond->fun, &cond->x);
+			g_free (cell_str);
 
 			conditions = g_slist_append(conditions, cond);
 		}
@@ -697,8 +714,10 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
-	if (cells == NULL)
+	if (cells == NULL) {
+		free_criterias (criterias);
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
+	}
 
 	current = cells;
 	cell = current->data;
@@ -768,8 +787,10 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
-	if (cells == NULL)
+	if (cells == NULL) {
+		free_criterias (criterias);
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
+	}
 
 	current = cells;
 	product = 1;
@@ -905,8 +926,10 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
-	if (cells == NULL)
+	if (cells == NULL) {
+		free_criterias (criterias);
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
+	}
 
 	current = cells;
 	setup_stat_closure (&p);
@@ -974,8 +997,10 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
-	if (cells == NULL)
+	if (cells == NULL) {
+		free_criterias (criterias);
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
+	}
 
 	current = cells;
 	sum = 0;
@@ -1042,8 +1067,10 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
-	if (cells == NULL)
+	if (cells == NULL) {
+		free_criterias (criterias);
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
+	}
 
 	current = cells;
 	setup_stat_closure (&p);
@@ -1113,8 +1140,10 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
-	if (cells == NULL)
+	if (cells == NULL) {
+		free_criterias (criterias);
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
+	}
 
 	current = cells;
 	setup_stat_closure (&p);

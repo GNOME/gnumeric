@@ -163,7 +163,7 @@ int  criteria_test_greater          (Value *x, Value *y);
 int  criteria_test_less             (Value *x, Value *y);
 int  criteria_test_greater_or_equal (Value *x, Value *y);
 int  criteria_test_less_or_equal    (Value *x, Value *y);
-void parse_criteria                 (char *criteria, criteria_test_fun_t *fun,
+void parse_criteria                 (const char *criteria, criteria_test_fun_t *fun,
 				     Value **test_value);
 int  solver_simplex                 (Workbook *wb, Sheet *sheet);
 

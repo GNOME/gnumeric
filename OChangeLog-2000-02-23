@@ -1,3 +1,20 @@
+1999-07-31  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-database.c (free_criterias): Plug massive leak.
+	(parse_database_criteria): Plug leak.
+	(parse_criteria): Constify.
+	(find_column_of_field): Plug leak.
+	(parse_database_criteria): Plug leak.
+	(gnumeric_dproduct): Plug leak.
+	(gnumeric_dvar): Plug leak.
+	(gnumeric_dmin): Plug leak.
+	(find_column_of_field): Plug leak.
+
+	* src/fn-math.c (gnumeric_seriessum): Plug leak.
+	(gnumeric_subtotal): Plug leak.
+
+	* src/fn-lookup.c (gnumeric_address): Fix memory corruption.
+
 1999-07-31  Robert Meeks   <robert@imaginator.com>
 
 	* src/fn-information.c (translate_table): Populated.

@@ -74,7 +74,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	        gchar *p = args[4]->v.str->str;
 		int   space = 0;
 
-		text = g_new(gchar, strlen(p) + 3);
+		text = g_new(gchar, strlen(p) + 4);
 		while (*p)
 			if (*p++ == ' ')
 			        space = 1;
