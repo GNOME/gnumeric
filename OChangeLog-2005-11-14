@@ -1,3 +1,10 @@
+2001-06-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (cb_table_destroy) : unref the control so
+	  that it is removed from the sheets lists and cleaned up.
+
+	* gnumeric.desktop.in : restore missing content.
+
 2001-06-28  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : Add missing old changelog (doh!)

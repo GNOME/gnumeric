@@ -542,6 +542,8 @@ cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
 	}
 	scg->table = NULL;
 	scg->gsheet = NULL;
+
+	gtk_object_unref (GTK_OBJECT (scg));
 }
 
 static void
