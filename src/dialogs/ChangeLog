@@ -1,3 +1,7 @@
+2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-solver.c (cb_dialog_close_clicked): call cmd_solver
+
 2003-07-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* autoformat.glade: add help button

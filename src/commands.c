@@ -5873,6 +5873,149 @@ cmd_text_to_columns (WorkbookControl *wbc,
 }
 
 /******************************************************************/
+/******************************************************************/
+
+#define CMD_SOLVER_TYPE        (cmd_solver_get_type ())
+#define CMD_SOLVER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SOLVER_TYPE, CmdSolver))
+
+typedef struct
+{
+	GnumericCommand cmd;
+
+	GSList	  *cells;
+	GSList	  *ov;
+	GSList	  *nv;
+} CmdSolver;
+
+GNUMERIC_MAKE_COMMAND (CmdSolver, cmd_solver);
+
+static gboolean
+cmd_solver_impl (GSList *cell_stack, GSList *value_stack)
+{
+	while (cell_stack != NULL &&  value_stack != NULL) {
+		GSList *values = value_stack->data;
+		GSList *cells  = cell_stack->data;
+
+		while (values != NULL) {
+			const char *str = values->data;
+			Cell *cell = cells->data;
+			
+			if (cell != NULL)
+			{
+				sheet_cell_set_text (cell, str);
+				cells = cells->next;
+			}
+			values = values->next;
+		}
+		value_stack = value_stack->next;
+		cell_stack = cell_stack->next;
+	}
+	return FALSE;
+}
+
+
+static gboolean
+cmd_solver_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdSolver *me = CMD_SOLVER (cmd);
+
+	return cmd_solver_impl (me->cells, me->ov);;
+}
+
+static gboolean
+cmd_solver_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdSolver *me = CMD_SOLVER (cmd);
+
+	return cmd_solver_impl (me->cells, me->nv);;
+}
+
+static void
+cmd_solver_free_values (GSList *v, G_GNUC_UNUSED gpointer user_data)
+{
+	g_slist_foreach (v, (GFunc)g_free, NULL);
+	g_slist_free (v);
+}
+
+static void
+cmd_solver_finalize (GObject *cmd)
+{
+	CmdSolver *me = CMD_SOLVER (cmd);
+
+	g_slist_free (me->cells);
+	me->cells = NULL;
+	g_slist_foreach (me->ov, (GFunc)cmd_solver_free_values,
+			 NULL);
+	g_slist_free (me->ov);
+	me->ov = NULL;
+	g_slist_foreach (me->nv, (GFunc)cmd_solver_free_values,
+			 NULL);
+	g_slist_free (me->nv);
+	me->nv = NULL;
+
+	gnumeric_command_finalize (cmd);
+}
+
+static GSList *
+cmd_solver_get_cell_values (GSList *cell_stack)
+{
+	GSList *value_stack = NULL;
+	
+	while (cell_stack != NULL) {
+		GSList *cells  = cell_stack->data;
+		GSList *values = NULL;
+		while (cells != NULL) {
+			Cell *the_Cell = (Cell *)(cells->data);
+			if (the_Cell != NULL)
+				values = g_slist_append 
+					(values, 
+					 value_get_as_string 
+					 (the_Cell->value));
+			else
+				values = g_slist_append 
+					(values, NULL);
+			cells = cells->next;
+		}
+		value_stack = g_slist_append (value_stack, 
+					       values);
+		cell_stack = cell_stack->next;
+	}
+	
+	return value_stack;
+}
+
+gboolean
+cmd_solver (WorkbookControl *wbc, GSList *cells, GSList *ov, GSList *nv)
+{
+	GObject *obj;
+	CmdSolver *me;
+
+	g_return_val_if_fail (cells != NULL, TRUE);
+	g_return_val_if_fail (ov != NULL || nv != NULL, TRUE);
+
+	obj = g_object_new (CMD_SOLVER_TYPE, NULL);
+	me = CMD_SOLVER (obj);
+
+	/* Store the specs for the object */
+
+	me->cmd.sheet = NULL;
+	me->cmd.size = g_slist_length (cells);
+	me->cmd.cmd_descriptor = g_strdup_printf (_("Solver"));
+
+	me->cells = cells;
+	me->ov = ov;
+	me->nv = nv;
+
+	if (me->ov == NULL)
+		me->ov = cmd_solver_get_cell_values (cells);
+	if (me->nv == NULL)
+		me->nv = cmd_solver_get_cell_values (cells);
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
 
 #if 0
 #define CMD_FREEZE_PANES_TYPE        (cmd_freeze_panes_get_type ())

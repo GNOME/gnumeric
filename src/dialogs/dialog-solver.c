@@ -40,6 +40,7 @@
 #include <workbook.h>
 #include <parse-util.h>
 #include <ranges.h>
+#include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
@@ -545,7 +546,13 @@ static void
 cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 SolverState *state)
 {
-	gtk_widget_destroy (state->dialog);
+	if (!cmd_solver (state->wbcg, state->ov_cell_stack, 
+			 state->ov_stack, NULL))
+	{
+		state->ov_cell_stack = NULL;
+		state->ov_stack = NULL;
+		gtk_widget_destroy (state->dialog);
+	}
 }
 
 /*

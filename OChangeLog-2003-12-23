@@ -1,5 +1,10 @@
 2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_solver*): new
+	* src/commands.h (cmd_solver): new
+
+2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_text_to_columns*): new
 	* src/commands.h (cmd_text_to_columns): new
 	* src/gui-clipboard.c 

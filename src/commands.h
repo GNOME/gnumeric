@@ -135,5 +135,7 @@ gboolean cmd_text_to_columns (WorkbookControl *wbc,
 			      Range const *target, Sheet *target_sheet, 
 			      CellRegion *content);
 
+gboolean cmd_solver (WorkbookControl *wbc, 
+		     GSList *cells, GSList *ov, GSList *nv);
 
 #endif /* GNUMERIC_COMMANDS_H */
