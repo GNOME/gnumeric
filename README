@@ -36,7 +36,7 @@ You need:
 	libbonoboui	>= 2.0.0
 	libgnomeprint	>= 2.0.0
 	libgnomeprintui	>= 2.0.0
-	libgsf		>= 1.7.0
+	libgsf		>= 1.7.1
 	libglade	>= 2.0.0
 	intltools	>= 0.9
 	gal-2		>= 0.0.7	(gal-2 branch of module gal)

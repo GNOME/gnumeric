@@ -1,3 +1,8 @@
+2003-01-22  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump the gsf req to reflect the updated xml api
+	  names.
+
 2003-01-21  Jody Goldberg <jody@gnome.org>
 
 	* src/format.c (append_hour_elapsed) : rewrite to use rounding and to

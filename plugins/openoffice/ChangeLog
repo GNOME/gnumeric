@@ -1,3 +1,9 @@
+2003-01-22  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Convert to the new gsf::xml interface to get
+	  namespace support.
+	(oo_conventions) : add a map to convert ERRORTYPE -> ERROR.TYPE
+
 2003-01-02  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_date_convention) : support 1904 date

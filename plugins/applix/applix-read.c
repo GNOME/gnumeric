@@ -463,12 +463,12 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				sep += 2;
 				break;
 			} else {
-				const char *format = NULL;
+				char const *format = NULL;
 				switch (*sep) {
 				case 'D' : {
 					int id = 0;
 					char *end;
-					static const char * const date_formats[] = {
+					static char const * const date_formats[] = {
 						/*  1 */ "mmmm d, yyyy",
 						/*  2 */ "mmm d, yyyy",
 						/*  3 */ "d mmm yy",
@@ -1118,7 +1118,7 @@ applix_read_cells (ApplixReadState *state)
 				g_hash_table_insert (state->exprs, g_strdup (ptr),
 						     (gpointer)expr);
 			} else {
-				const char *key = expr_string + strlen (expr_string);
+				char const *key = expr_string + strlen (expr_string);
 				while (key > expr_string && !g_ascii_isspace (key[-1]))
 					key--;
 #if 0
@@ -1454,10 +1454,10 @@ cb_remove_style (gpointer key, gpointer value, gpointer user_data)
 	return TRUE;
 }
 
-static const struct {
-	const char *applixname;
-	const char *gnumericname;
-} simple_renames[] = {
+static struct {
+	char const *applixname;
+	char const *gnumericname;
+} const simple_renames[] = {
 	{ "IPAYMT", "IPMT" },
 	{ "PAYMT", "PMT" },
 	{ "PPAYMT", "PPMT" },
@@ -1465,7 +1465,7 @@ static const struct {
 };
 
 static GnmExpr const *
-function_renamer (const char *name,
+function_renamer (char const *name,
 		  GnmExprList *args,
 		  GnmExprConventions *convs)
 {
