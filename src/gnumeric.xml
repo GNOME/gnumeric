@@ -160,7 +160,7 @@
 		    _label="_Insert new"
 		    _tip="Insert a new sheet"/>
 
-		<menuitem name="EditRenameSheet" verb=""
+		<menuitem name="SheetChangeName" verb=""
 		    _label="Re_name"
 		    _tip="Rename the current sheet"/>
 
@@ -197,6 +197,10 @@
 		    _tip="Select all the cells that depend on the current edit cell"/>
 
 	    </submenu>
+
+	    <menuitem name="EditSearchReplace" verb=""
+		_label="Search and Replace..."
+		_tip="Search for some text and replace it with something else"/>
 
 	    <menuitem name="EditGoto" verb=""
 		_label="_Goto cell..."

@@ -1,3 +1,8 @@
+2001-01-11  Morten Welinder  <terra@diku.dk>
+
+	* src/gnumeric.xml: Fix edit->sheet->rename.
+	* src/workbook-control-gui.c: Ditto.
+
 2001-01-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (wbcg_undo_redo_labels): Add "_" in

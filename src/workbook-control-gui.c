@@ -1238,12 +1238,6 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_edit_rename_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	g_warning ("Not implemented; right-click on tab instead.");
-}
-
-static void
 cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	dialog_goto_cell (wbcg);
@@ -1416,15 +1410,15 @@ cb_insert_comment (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_sheet_change_name (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
 	char *new_name;
 
 	new_name = dialog_get_sheet_name (wbcg, sheet->name_unquoted);
 	if (!new_name)
 		return;
 
-	cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
-			  sheet->name_unquoted, new_name);
+	cmd_rename_sheet (wbc, sheet->name_unquoted, new_name);
 	g_free (new_name);
 }
 
@@ -1796,7 +1790,7 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 
 	GNOMEUIINFO_ITEM_NONE (N_("Re_name"),
 		N_("Rename the current sheet"),
-		cb_edit_rename_sheet),
+		cb_sheet_change_name),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Remove"),
 		N_("Irrevocably remove an entire sheet"),
@@ -2175,7 +2169,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditDelete", cb_edit_delete),
 	BONOBO_UI_UNSAFE_VERB ("EditDeleteSheet", cb_edit_delete_sheet),
 	BONOBO_UI_UNSAFE_VERB ("EditDuplicateSheet", cb_edit_duplicate_sheet),
-	BONOBO_UI_UNSAFE_VERB ("EditRenameSheet", cb_edit_rename_sheet),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
