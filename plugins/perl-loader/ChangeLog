@@ -1,3 +1,7 @@
+2005-04-05  Jody Goldberg <jody@gnome.org>
+
+	* perl-loader.c : Make it compile again
+
 2005-04-05  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.am (perl_loader_CFLAGS): Remove, it has no effect.

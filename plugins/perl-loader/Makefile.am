@@ -24,12 +24,12 @@ nodist_perl_loader_la_SOURCES = \
 perl_loader.so(EXEEXT): perl-loader.o boot.o
 	$(PERL_LD) $(PERL_LDDLFLAGS) -o perl_loader.so boot.o xsinit.o $(PERL_LDOPTS)
 
-.c.o:
-	$(PERL_CC) $(AM_CPPFLAGS) -o $@ -c $<
-
-.c.lo:
-	$(PERL_CC) $(AM_CPPFLAGS) $@.o -c $<
-	mv $@.o $@
+#.c.o:
+#	$(PERL_CC) $(AM_CPPFLAGS) -o $@ -c $<
+#
+#.c.lo:
+#	$(PERL_CC) $(AM_CPPFLAGS) $@.o -c $<
+#	mv $@.o $@
 
 xsinit.c:
 	$(PERL) -MExtUtils::Embed -e xsinit -- -o xsinit.c
@@ -40,4 +40,4 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 EXTRA_DIST = $(xml_in_files)
-DISTCLEANFILES = $(xml_DATA)
+DISTCLEANFILES = $(xml_DATA) xsinit.c

@@ -19,7 +19,7 @@ GType
 perl_get_loader_type (ErrorInfo **ret_error)
 {
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	return TYPE_GNM_PLUGIN_LOADER_PERL;
+	return gnm_perl_plugin_loader_get_type ();
 }
 
 G_MODULE_EXPORT void
