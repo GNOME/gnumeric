@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-30 04:13+0100\n"
-"PO-Revision-Date: 2003-10-30 04:16+0100\n"
+"POT-Creation-Date: 2003-11-01 14:01+0100\n"
+"PO-Revision-Date: 2003-11-01 14:17+0100\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -4900,7 +4900,7 @@ msgstr "%s verzija %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:528
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:549
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:114
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
@@ -12065,7 +12065,7 @@ msgid "Jump to a specified cell"
 msgstr "Skoči do određenog polja"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:578
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:599
 #: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Oznaka"
@@ -13565,7 +13565,7 @@ msgid "O_utside"
 msgstr "Sp_olja"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:475
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:490
 msgid "_Cross"
 msgstr "_Krst"
 
@@ -13597,28 +13597,28 @@ msgstr "Sp_olja"
 msgid "_Show Labels"
 msgstr "P_rikaži oznake"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:471
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:486
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "_Minimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:472
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:487
 msgid "M_ax"
 msgstr "M_aksimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:473
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:488
 msgid "Ma_jor Ticks"
 msgstr "Gla_vne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:489
 msgid "Mi_nor Ticks"
 msgstr "Sp_oredne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:556
 msgid "Bounds"
 msgstr "Ograničenja"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:540
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:561
 msgid "Details"
 msgstr "Detalji"
 
@@ -21301,28 +21301,28 @@ msgstr "Neispravna prateća obrnuta kosa crta u zameni."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "ne može biti izvršeno ako ste izabrali višestruke opsege"
 
-#: src/session.c:110
+#: src/session.c:111
 #, c-format
 msgid "Save changes to workbook '%s' before logging out?"
 msgstr "Da li želite da sačuvate promene u radnoj svesci „%s“ pre odjave?"
 
-#: src/session.c:114
+#: src/session.c:115
 msgid "Save changes to workbook before logging out?"
 msgstr "Da li želite da sačuvate promene u radnoj svesci pre odjave?"
 
-#: src/session.c:119
+#: src/session.c:120
 msgid "If you do not save, changes may be discarded."
 msgstr "Ukoliko zatvorite bez snimanja, promene će biti zanemarene."
 
-#: src/session.c:121
+#: src/session.c:122
 msgid "Do not save any"
 msgstr "Ne snimaj nijedan"
 
-#: src/session.c:123 src/session.c:126
+#: src/session.c:124 src/session.c:127
 msgid "Do not save"
 msgstr "Ne snimaj"
 
-#: src/session.c:128
+#: src/session.c:129
 msgid "Do not log out"
 msgstr "Ne odjavljuj se"
 
@@ -21538,8 +21538,8 @@ msgid "Error while trying to write csv file"
 msgstr "Greška pri pokušaju čuvanja CSV datoteke"
 
 #: src/stf.c:458
-msgid "Comma or tab separated files (CSV/TSV)"
-msgstr "Datoteke su razdvojene tačkom ili tabulatorom (CSV/TSV)"
+msgid "Comma or tab separated values (CSV/TSV)"
+msgstr "Vrednosti razdvojene zarezom ili tabulatorom (CSV/TSV)"
 
 #: src/stf.c:462
 msgid "Text import (configurable)"
@@ -21550,8 +21550,8 @@ msgid "Text export (configurable)"
 msgstr "Izvoz teksta (podesivo)"
 
 #: src/stf.c:470
-msgid "Comma separated files (CSV)"
-msgstr "Datoteke su razdvojene zarezom (CSV)"
+msgid "Comma separated values (CSV)"
+msgstr "Vrednosti razdvojene zarezom (CSV)"
 
 #: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
 #, c-format
@@ -21872,7 +21872,7 @@ msgstr "Ulazni opseg sadrži nenumeričke podatke."
 
 #: src/tools/analysis-tools.c:3128
 msgid "Anova: Two-Factor Without Replication"
-msgstr ""
+msgstr "Anova: dvofaktorska bez replikacije"
 
 #: src/tools/analysis-tools.c:3129
 msgid "/SUMMARY/Count/Sum/Average/Variance"
@@ -21884,12 +21884,12 @@ msgstr ""
 
 #: src/tools/analysis-tools.c:3338
 msgid "One of the factor combinations does not contain any observations!"
-msgstr ""
+msgstr "Jedna od kombinacija faktora uopšte ne sadrži posmatranja!"
 
 #. We are ready to create the summary table
 #: src/tools/analysis-tools.c:3347
 msgid "Anova: Two-Factor With Replication"
-msgstr ""
+msgstr "Anova: dvofaktorska sa replikacijom"
 
 #: src/tools/analysis-tools.c:3354
 msgid "/Count/Sum/Average/Variance"
@@ -21902,16 +21902,16 @@ msgstr ""
 #: src/tools/analysis-tools.c:3663
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
-msgstr ""
+msgstr "ANOVA sa dva faktora (%s),  bez replikacije"
 
 #: src/tools/analysis-tools.c:3664
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
-msgstr ""
+msgstr "ANOVA sa dva faktora (%s),  sa replikacijom"
 
 #: src/tools/analysis-tools.c:3682
 msgid "Two Factor ANOVA"
-msgstr "ANOVA dva faktora"
+msgstr "ANOVA sa dva faktora"
 
 #: src/tools/analysis-tools.c:3863
 #, c-format
