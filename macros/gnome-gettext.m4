@@ -62,7 +62,7 @@ AC_DEFUN([AM_GNOME_WITH_NLS],
 
 	   if test "$gt_cv_func_gettext_libc" = "yes" \
 	      || test "$gt_cv_func_gettext_libintl" = "yes"; then
-	      AC_DEFINE(HAVE_GETTEXT)
+	      AC_DEFINE(HAVE_GETTEXT, 1, [Define if gettext(3) is available])
 	      AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
 		[test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
 	      if test "$MSGFMT" != "no"; then

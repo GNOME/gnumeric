@@ -723,7 +723,7 @@ dnl = End tests for jw
 dnl ====================================
 
 
-AC_OUTPUT([m4/Makefile po/Makefile.in
+AC_OUTPUT([po/Makefile.in m4/Makefile 
 gnumeric.spec
 Makefile
 src/Makefile

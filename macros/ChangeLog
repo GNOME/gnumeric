@@ -1,6 +1,6 @@
 2002-11-10  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* gnome-gettext.m4 (ENABLE_NLS, HAVE_CATGETS),
+	* gnome-gettext.m4 (ENABLE_NLS, HAVE_CATGETS, HAVE_GETTEXT),
 	gnome-guile-checks.m4 (HAVE_GUILE), gnome-x-checks.m4 (HAVE_LIBSM): 
 	Changed to three-argument form of AC_DEFINE for use with recent
 	versions of automake.
