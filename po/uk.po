@@ -1251,7 +1251,7 @@ msgstr "Автозаповнення"
 
 #: src/commands.c:2171
 msgid "Target region contains merged cells"
-msgstr ""
+msgstr "Д╕апазон призначення м╕стить об'╓днан╕ ком╕рки"
 
 #. FIXME?
 #: src/commands.c:2405
@@ -1270,7 +1270,7 @@ msgstr "Об'╓днати ком╕рки"
 #. Corrected below.
 #: src/commands.c:2788
 msgid "Search and Replace"
-msgstr ""
+msgstr "Пошук ╕ зам╕на"
 
 #: src/corba-args.c:25
 msgid "Oaf options"
@@ -3089,7 +3089,7 @@ msgstr "Модиф╕ковано:"
 #: src/dialogs/dialog-plugin-manager.c:112
 #, c-format
 msgid "%c"
-msgstr ""
+msgstr "%c"
 
 #: src/dialogs/dialog-plugin-manager.c:113
 #, c-format
