@@ -253,6 +253,7 @@ static void
 start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
+	GnomeCanvasItem *tmp;
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 	Sheet *sheet = gsheet->scg->sheet;
 	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
@@ -266,13 +267,12 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 		item_cursor_set_visibility (gsheet->item_cursor, FALSE);
 
 	gsheet->selecting_cell = TRUE;
-	gsheet->sel_cursor = ITEM_CURSOR (gnome_canvas_item_new (
-		group,
+	tmp = gnome_canvas_item_new (group,
 		item_cursor_get_type (),
 		"SheetControlGUI", gsheet->scg,
-		"Grid",  gsheet->item_grid,
-		"Style", ITEM_CURSOR_ANTED, NULL));
-	item_cursor_set_bounds (ITEM_CURSOR (gsheet->sel_cursor), col, row, col, row);
+		"Style", ITEM_CURSOR_ANTED, NULL);
+	gsheet->sel_cursor = ITEM_CURSOR (tmp);
+	item_cursor_set_bounds (gsheet->sel_cursor, col, row, col, row);
 
 	/* If we are selecting a range on a different sheet this may be NULL */
 	if (gsheet->item_editor)
@@ -334,7 +334,7 @@ gnumeric_sheet_create_editing_cursor (GnumericSheet *gsheet)
 
 	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (canvas->root),
 				      item_edit_get_type (),
-				      "ItemEdit::Grid",     gsheet->item_grid,
+				      "ItemEdit::SheetControlGUI",     gsheet->scg,
 				      NULL);
 
 	gsheet->item_editor = ITEM_EDIT (item);
@@ -860,7 +860,6 @@ gnumeric_sheet_new (SheetControlGUI *scg)
 	item = gnome_canvas_item_new (gsheet_group,
 		item_cursor_get_type (),
 		"ItemCursor::SheetControlGUI", scg,
-		"ItemCursor::Grid", gsheet->item_grid,
 		NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);
 	item_cursor_set_bounds (gsheet->item_cursor, 0, 0, 0, 0); /* A1 */

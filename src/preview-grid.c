@@ -207,6 +207,34 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid *preview_grid, 
 		gdk_draw_rectangle (drawable, gc, TRUE, x+1, y+1, w-1, h-1);
 }
 
+static void
+preview_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
+			  int x, int y, int w, int h)
+{
+	StyleBorder const * const top =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
+	StyleBorder const * const left =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+	StyleBorder const * const diag =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL);
+	StyleBorder const * const rev_diag =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
+
+	if (top != NULL && top->line_type != STYLE_BORDER_NONE)
+		style_border_draw (top, STYLE_BORDER_TOP, drawable,
+				   x, y, x + w, y, left, NULL);
+	if (left != NULL && left->line_type != STYLE_BORDER_NONE)
+		style_border_draw (left, STYLE_BORDER_LEFT, drawable,
+				   x, y, x, y + h, top, NULL);
+
+	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE)
+		style_border_draw (diag, STYLE_BORDER_DIAG, drawable,
+				   x, y + h, x + w, y, NULL, NULL);
+	if (rev_diag != NULL && rev_diag->line_type != STYLE_BORDER_NONE)
+		style_border_draw (rev_diag, STYLE_BORDER_REV_DIAG, drawable,
+				   x, y, x + w, y + h, NULL, NULL);
+}
+
 /**
  * preview_grid_draw:
  *
@@ -287,11 +315,9 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 
 
 			/*
-			 * We call upon item_grid_draw_border here from item-grid.c
+			 * draw borders
 			 */
-			item_grid_draw_border (drawable, mstyle, x_paint, y_paint, w, h, FALSE);
-
-			/*preview_grid_draw_border (drawable, mstyle, x_paint, y_paint, w, h);*/
+			preview_grid_draw_border (drawable, mstyle, x_paint, y_paint, w, h);
 
 			/*
 			 * Draw the cell contents, if "cell" is non-null

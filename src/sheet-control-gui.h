@@ -15,8 +15,7 @@ typedef gboolean (*SheetControlGUISlideHandler) (SheetControlGUI *scg, int col, 
 struct _SheetControlGUI {
 	GtkTable  table;
 
-	Sheet          	*sheet;
-	GHashTable  	*object_views;
+	Sheet          		*sheet;
 	WorkbookControlGUI	*wbcg;
 
 	GtkWidget        *canvas;

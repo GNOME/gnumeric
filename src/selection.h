@@ -33,7 +33,8 @@ void        sheet_selection_walk_step         (Sheet *sheet,
 					       gboolean const forward,
 					       gboolean const horizontal);
 
-gboolean    selection_contains_colrow         (Sheet *sheet, int colrow, gboolean is_col);
+gboolean    selection_contains_colrow         (Sheet const *sheet,
+					       int colrow, gboolean is_col);
 
 /* User visible actions */
 void        sheet_selection_ant               (Sheet *sheet);

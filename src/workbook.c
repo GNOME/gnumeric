@@ -1058,6 +1058,9 @@ workbook_sheet_delete (Sheet *sheet)
 	command_list_release (wb->redo_commands);
 	wb->undo_commands = NULL;
 	wb->redo_commands = NULL;
+	WORKBOOK_FOREACH_CONTROL (wb, view, control,
+		wb_control_undo_redo_labels (control, NULL, NULL);
+	);
 
 	/* Important to do these BEFORE detaching the sheet */
 	sheet_deps_destroy (sheet);

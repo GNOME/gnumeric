@@ -116,11 +116,11 @@ sheet_view_redraw_cell_region (SheetControlGUI *scg,
 	fprintf (stderr, "%s%d\n", col_name(max_col), last_row+1);
 #endif
 
-	/* redraw a border of 1 pixel around the region to handle thick borders
-	 * NOTE the 2nd coordinates are excluded so add 1 extra (+1border +1include) */
+	/* redraw a border of 2 pixels around the region to handle thick borders
+	 * NOTE the 2nd coordinates are excluded so add 1 extra (+2border +1include) */
 	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet),
-				     x-1, y-1,
-				     x+w+1+1, y+h+1+1);
+				     x-2, y-2,
+				     x+w+4+1, y+h+4+1);
 }
 
 void
@@ -759,7 +759,6 @@ void
 sheet_view_selection_ant (SheetControlGUI *scg)
 {
 	GnomeCanvasGroup *group;
-	ItemGrid *grid;
 	GList *l;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -768,8 +767,6 @@ sheet_view_selection_ant (SheetControlGUI *scg)
 		sheet_view_selection_unant (scg);
 
 	group = scg->selection_group;
-	grid = GNUMERIC_SHEET (scg->canvas)->item_grid;
-
 	for (l = scg->sheet->selections; l; l = l->next){
 		Range *ss = l->data;
 		ItemCursor *item_cursor;
@@ -777,7 +774,6 @@ sheet_view_selection_ant (SheetControlGUI *scg)
 		item_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 			group, item_cursor_get_type (),
 			"SheetControlGUI", scg,
-			"Grid",  grid,
 			"Style", ITEM_CURSOR_ANTED,
 			NULL));
 		item_cursor_set_bounds (

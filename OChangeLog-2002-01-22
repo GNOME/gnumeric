@@ -1,5 +1,65 @@
 2001-01-16  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-style.c (sheet_style_get_uniform) : don't leak border ref.
+
+	* src/workbook.c (workbook_sheet_delete) : disable the undo/redo
+	  combos when we clear the undo stack.
+
+2001-01-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (style_row) : don't apply none to a cleared
+	  border.
+
+	* src/sheet-style.h (StyleRow) : const.
+
+	* src/mstyle.c (mstyle_get_color) : const.
+
+	* src/pattern.c (gnumeric_background_set_gc) : remove duplicate
+	  test, const.
+
+2001-01-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : rewrite.
+
+	* src/sheet-control-gui.c (sheet_view_redraw_cell_region) : make the
+	  borders wider.
+
+	* src/commands.c (cmd_format) : if there are no borders there is no
+	  need to save the surroundings.
+
+	* src/selection.c (selection_contains_colrow) : const
+
+	* src/sheet-style.c (get_style_row) : Fix stupidity.
+	(style_row) : ditto.
+
+2001-01-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : const.
+
+	* src/pattern.c (gnumeric_background_set_gc) : const.
+	(gnumeric_background_set_pc) : const.
+
+	* src/sheet-control-gui.c (sheet_view_selection_ant) : No more 'grid'
+	  argument.
+
+	* src/item-grid.c : privatize the structure in preparation for panes.
+
+	* src/item-edit.c (entry_create_feedback_range) : no more grid
+	  argument.  Use scg instead.
+	(item_edit_set_arg) : ditto.
+
+	* src/item-cursor.c (item_cursor_set_arg) : delete the GRID argument
+	  it was useless.
+
+	* src/gnumeric-sheet.c (start_cell_selection_at) : Avoid casting the
+	  result of a function call.  Remove setting 'Grid' deleted argument.
+	(gnumeric_sheet_new) : No more Grid argument.
+
+	* src/preview-grid.c (preview_grid_draw_border) : moved here from
+	  item-grid.
+
+2001-01-16  Jody Goldberg <jgoldberg@home.com>
+
 	* configure.in : Switch to AM_GNOME_GETTEXT and remove the
 	  AC_LINK_FILES line so that things configure and compile again.
 

@@ -6,7 +6,7 @@ Release Critical
 ----------------
 
 - Styles
-    - uniform
+    - uniform_get
     - test persistance
     - more tuning
 
@@ -19,35 +19,9 @@ Release Critical
 - Fix Borders
     - border style double_line does not handle all of the different
       intersection cases.
-    - We are back to drawing just top and left
-
-- > 1. Rename Sheet1 to Sheet1a.
-  > 2. Duplicate Sheet1a.
-  > 3. Remove Sheet1a.
-  > 4. Undo renaming.
-  > ** CRITICAL **: file commands.c: line 226 (command_undo): assertion `wb->undo_commands != NULL' failed.
-
-- > 1. Select B2:D3.
-  > 2. Merge cells.
-  > 3. Right-click and select "Format".
-  > 4. Click the alignment tab.
-  > 5. Select center in both directions.
-  > 6. Click ok.
-  > 7. Exit.
-  > ** CRITICAL **: file style-border.c: line 332 (style_border_unref): assertion `border != style_border_none ()' failed.
-  > ** CRITICAL **: file style-border.c: line 322 (style_border_unref): assertion `border->ref_count > 0' failed.
-  > ** CRITICAL **: file style-border.c: line 322 (style_border_unref): assertion `border->ref_count > 0' failed.
-  > ** CRITICAL **: file style-border.c: line 322 (style_border_unref): assertion `border->ref_count > 0' failed.
 
 Long term breakage
 ------------------
-
-- >          MLK: 44 bytes leaked at 0xd6d960
-  >                g_hash_table_new [ghash.c:89]
-  >                sheet_style_get_uniform [sheet-style.c:1247]
-  >                fmt_dialog_selection_type [dialog-cell-format.c:2258]
-  >                selection_foreach_range [selection.c:1148]
-  >                dialog_cell_format [dialog-cell-format.c:2296]
 
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
   In general parsing needs better error messages.

@@ -71,7 +71,7 @@ void                mstyle_unset_element   (MStyle *st, MStyleElementType t);
 void                mstyle_replace_element (MStyle *src, MStyle *dst, MStyleElementType t);
 void                mstyle_set_color       (MStyle *st, MStyleElementType t,
 					    StyleColor *col);
-StyleColor         *mstyle_get_color       (MStyle *st, MStyleElementType t);
+StyleColor         *mstyle_get_color       (const MStyle *st, MStyleElementType t);
 void                mstyle_set_border      (MStyle *st, MStyleElementType t,
 					    StyleBorder *border);
 StyleBorder	   *mstyle_get_border      (const MStyle *st, MStyleElementType t);

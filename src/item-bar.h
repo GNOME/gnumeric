@@ -4,7 +4,6 @@
 #include "gui-gnumeric.h"
 
 #define ITEM_BAR(obj)          (GTK_CHECK_CAST((obj), item_bar_get_type (), ItemBar))
-#define ITEM_BAR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_bar_get_type (), ItemBarType))
 #define IS_ITEM_BAR(o)         (GTK_CHECK_TYPE((o), item_bar_get_type ()))
 
 struct _ItemBar {
@@ -37,13 +36,5 @@ struct _ItemBar {
 
 GtkType item_bar_get_type (void);
 void    item_bar_fonts_init (ItemBar *item_bar);
-
-typedef struct {
-	GnomeCanvasItemClass parent_class;
-
-	/* Signals emited */
-	void (* selection_changed) (ItemBar *, int column, int modifiers);
-	void (* size_changed)      (ItemBar *, int column, int new_width);
-} ItemBarClass;
 
 #endif /* GNUMERIC_ITEM_BAR_H */

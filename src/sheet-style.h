@@ -10,10 +10,10 @@ struct _StyleRegion {
 
 typedef struct {
 	int row, start_col, end_col;
-	MStyle      **styles;
-	StyleBorder **top;
-	StyleBorder **bottom;
-	StyleBorder **vertical;
+	MStyle      const **styles;
+	StyleBorder const **top;
+	StyleBorder const **bottom;
+	StyleBorder const **vertical;
 } StyleRow;
 
 MStyle	*sheet_style_default		(Sheet const *sheet);

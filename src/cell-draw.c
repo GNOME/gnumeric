@@ -140,7 +140,7 @@ cell_split_text (GdkFont *font, char const *text, int const width)
  *       of the gridlines (marked a).
  */
 void
-cell_draw (Cell const *cell, MStyle *mstyle,
+cell_draw (Cell const *cell, MStyle const *mstyle,
 	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1, int width, int height)
 {
 	StyleFont    *style_font;

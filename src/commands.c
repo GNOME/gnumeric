@@ -1270,10 +1270,12 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 		Range range = *((Range const *)l->data);
 
 		/* Store the containing range to handle borders */
-		if (range.start.col > 0) range.start.col--;
-		if (range.start.row > 0) range.start.row--;
-		if (range.end.col < SHEET_MAX_COLS-1) range.end.col++;
-		if (range.end.row < SHEET_MAX_ROWS-1) range.end.row++;
+		if (borders != NULL) {
+			if (range.start.col > 0) range.start.col--;
+			if (range.start.row > 0) range.start.row--;
+			if (range.end.col < SHEET_MAX_COLS-1) range.end.col++;
+			if (range.end.row < SHEET_MAX_ROWS-1) range.end.row++;
+		}
 
 		os = g_new (CmdFormatOldStyle, 1);
 

@@ -858,31 +858,28 @@ tail_recursion :
 	return NULL;
 }
 
-static void
+static inline void
 style_row (MStyle *style, int start_col, int end_col, StyleRow *sr)
 {
 	StyleBorder *top, *bottom, *none = style_border_none ();
 	StyleBorder *left, *right, *v;
 	int const end = MIN (end_col, sr->end_col);
-	int i;
-
-	i = start_col - sr->start_col;
-	if (i < 0) {
-	} else
-		i = sr->start_col;
+	int i = MAX (start_col, sr->start_col);
 
 	top = mstyle_get_border (style, MSTYLE_BORDER_TOP);
-	bottom = mstyle_get_border (style, MSTYLE_BORDER_TOP);
+	bottom = mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);
 	left = mstyle_get_border (style, MSTYLE_BORDER_LEFT);
 	right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
 
-	if (sr->vertical [i] == NULL || sr->vertical [i] == none)
+	if (left != none &&
+	    (sr->vertical [i] == none || sr->vertical [i] == NULL))
 		sr->vertical [i] = left;
-	v = (right != none) ? left : right;
+	v = (right != none) ? right : left;
 
 	while (i <= end) {
 		sr->styles [i] = style;
-		if (sr->top [i] == NULL || sr->top [i] == none)
+		if (top != none &&
+		    (sr->top [i] == none || sr->top [i] == NULL))
 			sr->top [i] = top;
 		sr->bottom [i] = bottom;
 		sr->vertical [++i] = v;
@@ -907,30 +904,42 @@ get_style_row (CellTile const *tile, int level,
 
 	t = tile->type;
 
-	if (t != TILE_ROW && t != TILE_COL)
-		r = (sr->row - corner_row)/ h;
+	if (t != TILE_SIMPLE && t != TILE_COL) {
+		r = (sr->row > corner_row) ? (sr->row - corner_row)/ h : 0;
+		g_return_if_fail (r < TILE_SIZE_ROW);
+	}
 
 	if (t == TILE_ROW || t == TILE_SIMPLE) {
 		style_row (tile->style_any.style [r],
 			   corner_col, corner_col + width - 1, sr);
 	} else {
 		/* find the start and end */
-		int c = (sr->start_col > corner_col)
-			? (sr->start_col - corner_col) / w : 0;
+		int c;
 		int last_c = (sr->end_col - corner_col) / w;
 		if (last_c >= TILE_SIZE_COL)
 			last_c = TILE_SIZE_COL-1;
+		if (sr->start_col > corner_col) {
+			c = (sr->start_col - corner_col) / w;
+			corner_col += c * w;
+		} else
+			c = 0;
+
+		corner_row += h*r;
 
 		if (t != TILE_PTR_MATRIX) {
 			MStyle * const *styles = tile->style_any.style + r*TILE_SIZE_COL;
+
 			for ( ; c <= last_c ; c++, corner_col += w)
-				style_row (styles [c], corner_col,
-					   corner_col + w - 1, sr);
+				style_row (styles [c],
+					   corner_col, corner_col + w - 1, sr);
 		} else {
 			CellTile * const *tiles = tile->ptr_matrix.ptr + r*TILE_SIZE_COL;
+
+			g_return_if_fail (level > 0);
+
 			for ( level-- ; c <= last_c ; c++, corner_col += w)
-				get_style_row (tiles [c], level, corner_col,
-					       corner_col + w - 1, sr);
+				get_style_row (tiles [c], level,
+					       corner_col, corner_row, sr);
 		}
 	}
 }
@@ -1143,6 +1152,7 @@ typedef struct {
 	gboolean	  border_valid[STYLE_BORDER_EDGE_MAX];
 } UniformStyleClosure;
 
+#if 0
 static void
 border_invalidate (UniformStyleClosure *cl, StyleBorderLocation location)
 {
@@ -1169,6 +1179,7 @@ border_mask (UniformStyleClosure *cl, StyleBorderLocation location,
 			border_invalidate (cl, location);
 	}
 }
+#endif
 
 static void
 cb_filter_style (MStyle *style,
@@ -1210,7 +1221,6 @@ void
 sheet_style_get_uniform	(Sheet const *sheet, Range const *range,
 			 MStyle **style, StyleBorder **borders)
 {
-	GHashTable *cache;
 	StyleBorderLocation i;
 	Range all;
 	UniformStyleClosure closure;
@@ -1244,13 +1254,12 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *range,
 	/* init closure */
 	closure.result = *style;
 
-	cache = g_hash_table_new (g_direct_hash, g_direct_equal);
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, &all,
 		      cb_filter_style, &closure);
 
 	for (i = STYLE_BORDER_TOP ; i <= STYLE_BORDER_RIGHT ; i++)
-		borders [i] = style_border_none ();
+		borders [i] = style_border_ref (style_border_none ());
 
 	/* copy over the diagonals */
 	for (i = STYLE_BORDER_REV_DIAG ; i <= STYLE_BORDER_DIAG ; i++)

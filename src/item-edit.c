@@ -40,7 +40,7 @@ static GnomeCanvasItem *item_edit_parent_class;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_ITEM_GRID,		/* The ItemGrid * argument */
+	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
 };
 
 static void
@@ -121,7 +121,6 @@ entry_create_feedback_range (ItemEdit *item_edit, Range *range)
 			GNOME_CANVAS_GROUP (item->canvas->root),
 			item_cursor_get_type (),
 			"SheetControlGUI",  item_edit->scg,
-			"Grid",   item_edit->item_grid,
 			"Style",  ITEM_CURSOR_BLOCK,
 			"Color",  "red",
 			NULL);
@@ -504,12 +503,11 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	Sheet		*sheet;
 	GtkEntry        *entry;
 
-	/* We can only set the item_grid once */
-	g_return_if_fail (arg_id == ARG_ITEM_GRID);
-	g_return_if_fail (item_edit->item_grid == NULL);
+	/* We can only set the sheet-control-gui once */
+	g_return_if_fail (arg_id == ARG_SHEET_CONTROL_GUI);
+	g_return_if_fail (item_edit->scg == NULL);
 
-	item_edit->item_grid = GTK_VALUE_POINTER (*arg);
-	item_edit->scg = item_edit->item_grid->scg;
+	item_edit->scg = GTK_VALUE_POINTER (*arg);
 	sheet = item_edit->scg->sheet;
 	item_edit->entry = GTK_ENTRY (workbook_get_entry (item_edit->scg->wbcg));
 	item_edit->pos = sheet->edit_pos;
@@ -572,8 +570,8 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 	object_class = (GtkObjectClass *) item_edit_class;
 	item_class = (GnomeCanvasItemClass *) item_edit_class;
 
-	gtk_object_add_arg_type ("ItemEdit::Grid", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
+	gtk_object_add_arg_type ("ItemEdit::SheetControlGUI", GTK_TYPE_POINTER,
+				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
 
 	object_class->set_arg = item_edit_set_arg;
 	object_class->destroy = item_edit_destroy;

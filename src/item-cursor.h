@@ -20,7 +20,6 @@ struct _ItemCursor {
 	GnomeCanvasItem canvas_item;
 
 	SheetControlGUI *scg;
-	ItemGrid	*item_grid;	/* A copy of our "parent" grid */
 	Range     	 pos;
 
 	CellPos	 base_corner;	/* Corner remains static when rubber banding */

@@ -19,10 +19,7 @@
 #include "workbook-cmd-format.h"
 #include "application.h"
 #include "style.h"
-
-/* The signal signatures */
-typedef void (*ItemBarSignal1) (GtkObject *, gint arg1, gpointer data);
-typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data);
+#include "gnumeric-type-util.h"
 
 #if 0
 #ifndef __GNUC__
@@ -264,10 +261,16 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			if (element >= SHEET_MAX_ROWS)
 				return;
 
+			/* DO NOT enable resizing all until we get rid of
+			 * resize_start_pos.  It will be wrong if things ahead of it move
+			 */
 			cri = sheet_row_get_info (sheet, element);
-			pixels = (item_bar->resize_pos != element)
-			    ? cri->size_pixels
-			    : item_bar->resize_width;
+			if (item_bar->resize_pos != -1 &&
+			    ((item_bar->resize_pos == element)))
+			     /* || selection_contains_colrow (sheet, element, FALSE))) */
+				pixels = item_bar->resize_width;
+			else
+				pixels = cri->size_pixels;
 
 			if (cri->visible) {
 				total += pixels;
@@ -304,10 +307,16 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			if (element >= SHEET_MAX_COLS)
 				return;
 
+			/* DO NOT enable resizing all until we get rid of
+			 * resize_start_pos.  It will be wrong if things ahead of it move
+			 */
 			cri = sheet_col_get_info (sheet, element);
-			pixels = (item_bar->resize_pos != element)
-			    ? cri->size_pixels
-			    : item_bar->resize_width;
+			if (item_bar->resize_pos != -1 &&
+			    ((item_bar->resize_pos == element)))
+				/* || selection_contains_colrow (sheet, element, TRUE))) */
+				pixels = item_bar->resize_width;
+			else
+				pixels = cri->size_pixels;
 
 			if (cri->visible) {
 				total += pixels;
@@ -781,6 +790,14 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_bar_update (item, NULL, NULL, 0);
 }
 
+typedef struct {
+	GnomeCanvasItemClass parent_class;
+
+	/* Signals emited */
+	void (* selection_changed) (ItemBar *, int column, int modifiers);
+	void (* size_changed)      (ItemBar *, int column, int new_width);
+} ItemBarClass;
+
 /*
  * ItemBar class initialization
  */
@@ -818,25 +835,6 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	item_class->event       = item_bar_event;
 }
 
-GtkType
-item_bar_get_type (void)
-{
-	static GtkType item_bar_type = 0;
-
-	if (!item_bar_type) {
-		GtkTypeInfo item_bar_info = {
-			"ItemBar",
-			sizeof (ItemBar),
-			sizeof (ItemBarClass),
-			(GtkClassInitFunc) item_bar_class_init,
-			(GtkObjectInitFunc) item_bar_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		item_bar_type = gtk_type_unique (gnome_canvas_item_get_type (), &item_bar_info);
-	}
-
-	return item_bar_type;
-}
+GNUMERIC_MAKE_TYPE (item_bar, "ItemBar", ItemBar,
+		    item_bar_class_init, item_bar_init,
+		    gnome_canvas_item_get_type ())

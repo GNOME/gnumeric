@@ -50,7 +50,6 @@ static GnomeCanvasItem *item_cursor_parent_class;
 enum {
 	ARG_0,
 	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
-	ARG_ITEM_GRID,		/* The ItemGrid * argument */
 	ARG_STYLE,              /* The style type */
 	ARG_BUTTON,		/* The button used to drag this cursor around */
 	ARG_COLOR,              /* The optional color */
@@ -616,7 +615,6 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			GNOME_CANVAS_GROUP (canvas->root),
 			item_cursor_get_type (),
 			"ItemCursor::SheetControlGUI", ic->scg,
-			"ItemCursor::Grid",  ic->item_grid,
 			"ItemCursor::Style", style,
 			"ItemCursor::Button", ic->drag_button,
 			NULL);
@@ -1308,9 +1306,6 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_SHEET_CONTROL_GUI:
 		item_cursor->scg = GTK_VALUE_POINTER (*arg);
 		break;
-	case ARG_ITEM_GRID:
-		item_cursor->item_grid = GTK_VALUE_POINTER (*arg);
-		break;
 	case ARG_STYLE:
 		item_cursor->style = GTK_VALUE_INT (*arg);
 		break;
@@ -1346,8 +1341,6 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 
 	gtk_object_add_arg_type ("ItemCursor::SheetControlGUI", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
-	gtk_object_add_arg_type ("ItemCursor::Grid", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
 	gtk_object_add_arg_type ("ItemCursor::Style", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_STYLE);
 	gtk_object_add_arg_type ("ItemCursor::Button", GTK_TYPE_INT,

@@ -1099,7 +1099,7 @@ selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
  * more advanced.
  */
 gboolean
-selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
+selection_contains_colrow (Sheet const *sheet, int colrow, gboolean is_col)
 {
 	GList *l;
 	for (l = sheet->selections; l != NULL; l = l->next) {

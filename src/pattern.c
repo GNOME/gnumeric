@@ -104,7 +104,7 @@ gnumeric_pattern_get_stipple (gint index)
  * return : TRUE if there is a background to paint.
  */
 gboolean
-gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
+gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 			    GnomeCanvas *canvas,
 			    gboolean const is_selected)
 {
@@ -114,8 +114,6 @@ gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
 	 * Draw the background if the PATTERN is non 0
 	 * Draw a stipple too if the pattern is > 1
 	 */
-	if (!mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
-		return FALSE;
 	pattern = mstyle_get_pattern (mstyle);
 	if (pattern > 0) {
 		GdkColor   *back;
@@ -149,7 +147,7 @@ gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
 }
 
 gboolean
-gnumeric_background_set_pc (MStyle *mstyle, GnomePrintContext *context)
+gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 {
 	int pattern;
 

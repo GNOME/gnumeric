@@ -837,7 +837,7 @@ mstyle_set_color (MStyle *st, MStyleElementType t,
 }
 
 StyleColor *
-mstyle_get_color (MStyle *st, MStyleElementType t)
+mstyle_get_color (MStyle const *st, MStyleElementType t)
 {
 	g_return_val_if_fail (mstyle_is_element_set (st, t), NULL);
 
