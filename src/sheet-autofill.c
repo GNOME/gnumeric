@@ -374,13 +374,13 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 	FillItem *fi = list_last->data;
 	FillItem *lfi;
 
+	fi->delta_is_float = FALSE;
+	fi->delta.d_int = 0;
 	switch (fi->type){
 	case FILL_YEARS:
 	case FILL_MONTHS: {
 		GDate *prev, *cur;
 
-		fi->delta_is_float = FALSE;
-		fi->delta.d_int = 1;
 		if (list_last->prev == NULL)
 			return;
 
@@ -411,9 +411,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 
 		if (!list_last->prev){
 			if ((fi->delta_is_float = (fi->v.value->type == VALUE_FLOAT)))
-				fi->delta.d_float = 1.0;
-			else
-				fi->delta.d_int = 1;
+				fi->delta.d_float = 0;
 			return;
 		}
 		lfi = list_last->prev->data;
@@ -433,9 +431,6 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 	}
 
 	case FILL_STRING_WITH_NUMBER:
-		fi->delta_is_float = FALSE;
-		fi->delta.d_int = 1;
-
 		if (list_last->prev){
 			lfi = list_last->prev->data;
 
@@ -444,13 +439,11 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 		return;
 
 	case FILL_STRING_LIST:
-		fi->delta_is_float = FALSE;
 		if (list_last->prev){
 			lfi = list_last->prev->data;
 
 			fi->delta.d_int = fi->v.list.num - lfi->v.list.num;
-		} else
-			fi->delta.d_int = 1;
+		}
 		return;
 
 	case FILL_EMPTY:
@@ -459,7 +452,6 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 	case FILL_FORMULA:
 	case FILL_INVALID:
 		return;
-
 	}
 }
 
