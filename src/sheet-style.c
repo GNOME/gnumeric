@@ -460,7 +460,6 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 {
 	UniqClosure cl;
 	MStyleElement *mash;
-	int i;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -473,8 +472,7 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 	 */
 
 	mash = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
-	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
-		mash[i].type = MSTYLE_ELEMENT_UNSET;
+	mstyle_elements_init (mash);
 	cl.style = mash;
 
 	selection_foreach_range (sheet, sheet_uniq_cb, &cl);
@@ -512,4 +510,24 @@ sheet_destroy_styles (Sheet *sheet)
 	g_list_free (STYLE_LIST (sheet));
 	STYLE_LIST (sheet) = NULL;
 	sheet_style_cache_flush (sheet);	
+}
+
+void
+sheet_styles_dump (Sheet *sheet)
+{
+	GList *l;
+	int i = 0;
+
+	g_return_if_fail (sheet != NULL);
+
+	for (l = STYLE_LIST (sheet); l; l = l->next) {
+		StyleRegion *sr = l->data;
+		printf ("Range: ");
+		range_dump (&sr->range);
+		printf ("style ");
+		mstyle_dump (sr->style);
+		printf ("\n");
+		i++;
+	}
+	printf ("There were %d styles\n", i);
 }

@@ -11,6 +11,9 @@ typedef enum   _MStyleElementType MStyleElementType;
 #include "sheet.h"
 #include "str.h"
 
+/*
+ * Keep element_size up to date.
+ */
 enum _MStyleElementType {
 	/* Delimiter */ 
 	MSTYLE_ELEMENT_UNSET = 0,
@@ -102,6 +105,7 @@ void           mstyle_element_destroy  (MStyleElement e);
 gboolean       mstyle_elements_equal   (const MStyleElement *a, const MStyleElement *b);
 void           mstyle_elements_compare (MStyleElement *a, const MStyleElement *b);
 void           mstyle_elements_destroy (MStyleElement *e);
+void           mstyle_elements_init    (MStyleElement *e);
 
 MStyle     *mstyle_new         (const gchar *name);
 MStyle     *mstyle_new_elem    (const gchar *name, MStyleElement e);

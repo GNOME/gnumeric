@@ -1449,7 +1449,7 @@ deps_output (GtkWidget *widget, Workbook *wb)
 	if (!list)
 		printf ("No dependencies\n");
 
-	while (list){
+	while (list) {
 		Cell *cell = list->data;
 
 		list = g_list_next (list);
@@ -1461,6 +1461,9 @@ deps_output (GtkWidget *widget, Workbook *wb)
 
 		printf ("%s\n", cell_name (cell->col->pos, cell->row->pos));
 	}
+
+	printf ("Style list\n");
+	sheet_styles_dump (sheet);
 }
 
 static void
@@ -1508,7 +1511,7 @@ workbook_setup_edit_area (Workbook *wb)
 	}
 
 	/* Dependency Debugger, currently only enabled if you run with --debug=10 */
-	if (gnumeric_debugging > 9){
+	if (gnumeric_debugging > 9) {
 		deps_button = gtk_button_new ();
 		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_RED);
 		gtk_container_add (GTK_CONTAINER (deps_button), pix);

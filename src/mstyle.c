@@ -43,6 +43,31 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"FitInCell"
 };
 
+/* For a quick hash function */
+static int element_size[] = {
+	0, 0,
+	sizeof (StyleColor *),
+	sizeof (StyleColor *),
+	sizeof (MStyleBorder *),
+	sizeof (MStyleBorder *),
+	sizeof (MStyleBorder *),
+	sizeof (MStyleBorder *),
+	sizeof (MStyleBorder *),
+	sizeof (MStyleBorder *),
+	sizeof (guint32),
+	0, /* MAX_BLANK */
+	sizeof (StyleColor *),
+	sizeof (String *),
+	sizeof (gboolean),
+	sizeof (gboolean),
+	sizeof (gboolean),
+	sizeof (StyleFormat *),
+	sizeof (StyleVAlignFlags),
+	sizeof (StyleHAlignFlags),
+	sizeof (StyleOrientation),
+	sizeof (gboolean)
+};
+
 static char *
 mstyle_element_dump (const MStyleElement *e)
 {
@@ -50,7 +75,6 @@ mstyle_element_dump (const MStyleElement *e)
 	char    *txt_ans;
 
 	g_return_val_if_fail (e != NULL, g_strdup ("Duff element"));
-
 	
 	switch (e->type) {
 	case MSTYLE_ELEMENT_UNSET:
@@ -83,23 +107,26 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_FONT_SIZE:
 		g_string_sprintf (ans, "size %f", e->u.font.size);
 		break;
-	case MSTYLE_BORDER_TOP :
+	case MSTYLE_BORDER_TOP:
 		g_string_sprintf (ans, "border top %d", e->u.border.top->line_type);
 		break;
-	case MSTYLE_BORDER_BOTTOM :
+	case MSTYLE_BORDER_BOTTOM:
 		g_string_sprintf (ans, "border bottom %d", e->u.border.bottom->line_type);
 		break;
-	case MSTYLE_BORDER_LEFT :
+	case MSTYLE_BORDER_LEFT:
 		g_string_sprintf (ans, "border left %d", e->u.border.left->line_type);
 		break;
-	case MSTYLE_BORDER_RIGHT :
+	case MSTYLE_BORDER_RIGHT:
 		g_string_sprintf (ans, "border right %d", e->u.border.right->line_type);
 		break;
-	case MSTYLE_BORDER_DIAGONAL :
+	case MSTYLE_BORDER_DIAGONAL:
 		g_string_sprintf (ans, "border diagonal %d", e->u.border.diagonal->line_type);
 		break;
-	case MSTYLE_BORDER_REV_DIAGONAL :
+	case MSTYLE_BORDER_REV_DIAGONAL:
 		g_string_sprintf (ans, "border reverse diagonal %d", e->u.border.rev_diagonal->line_type);
+		break;
+	case MSTYLE_FORMAT:
+		g_string_sprintf (ans, "format '%s'", e->u.format->format);
 		break;
 	default:
 		g_string_sprintf (ans, "%s", mstyle_names [e->type]);
@@ -195,10 +222,24 @@ gboolean
 mstyle_elements_equal (const MStyleElement *a,
 		       const MStyleElement *b)
 {
-	int i;
+	int i, shift;
+	guint32 crca, crcb;
 
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
+
+	/* Quick check first */
+	crca = crcb = 0;
+	shift = 0;
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
+		crca = crca ^ (a[i].type << shift);
+		crcb = crcb ^ (b[i].type << shift);
+		shift++;
+		if (shift > 22)
+			shift = 0;
+	}
+	if (crca != crcb)
+		return FALSE;
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
 		if (!mstyle_element_equal (a[i], b[i])) {
@@ -288,6 +329,16 @@ mstyle_elements_destroy (MStyleElement *e)
 	if (e)
 		for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
 			mstyle_element_destroy (e[i]);
+}
+
+void
+mstyle_elements_init (MStyleElement *e)
+{
+	int i;
+	g_return_if_fail (e != NULL);
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		e[i].type = MSTYLE_ELEMENT_UNSET;
 }
 
 MStyle *

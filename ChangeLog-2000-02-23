@@ -1,3 +1,16 @@
+1999-10-15  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/ranges.c (range_equal): compare rows then cols + inline.
+
+	* src/sheet-style.c (sheet_styles_dump): implement.
+
+	* src/workbook.c (deps_output): dump styles.
+
+	* src/mstyle.c (mstyle_elements_init): create.
+	(mstyle_elements_equal): Add quick type sum check.
+
+	* src/sheet-style.c (sheet_selection_get_uniq_style): use it.
+
 1999-10-14  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/workbook-format-toolbar.c (workbook_feedback_set): kill old

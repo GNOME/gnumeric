@@ -33,7 +33,7 @@ style_format_new (const char *name)
 
 	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, name);
 
-	if (!format){
+	if (!format) {
 		format = g_new0 (StyleFormat, 1);
 		format->format = g_strdup (name);
 		format_compile (format);

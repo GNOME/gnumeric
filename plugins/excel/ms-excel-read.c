@@ -950,32 +950,25 @@ ms_excel_get_font (ExcelSheet *sheet, guint16 font_idx)
 }
 
 static StyleColor *
-ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData const *xf)
+ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData const *xf,
+			MStyleElement *elems)
 {
 	BiffFontData const * fd = ms_excel_get_font (sheet, xf->font_idx);
-	MStyleElement e;
-	MStyle *style;
 
 	if (fd == NULL)
 		return NULL;
 
-	e.type = MSTYLE_FONT_NAME;
-	e.u.font.name = string_get (fd->fontname);
-	style = mstyle_new_elem (NULL, e);
+	elems[MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
+	elems[MSTYLE_FONT_NAME].u.font.name = string_get (fd->fontname);
 
-	e.type = MSTYLE_FONT_SIZE;
-	e.u.font.size = fd->height / 20.0;
-	mstyle_add (style, e);
+	elems[MSTYLE_FONT_SIZE].type = MSTYLE_FONT_SIZE;
+	elems[MSTYLE_FONT_SIZE].u.font.size = fd->height / 20.0;
 
-	e.type = MSTYLE_FONT_BOLD;
-	e.u.font.bold = fd->boldness >= 0x2bc;
-	mstyle_add (style, e);
+	elems[MSTYLE_FONT_BOLD].type = MSTYLE_FONT_BOLD;
+	elems[MSTYLE_FONT_BOLD].u.font.bold = fd->boldness >= 0x2bc;
 
-	e.type = MSTYLE_FONT_ITALIC;
-	e.u.font.italic = fd->italic;
-	mstyle_add (style, e);
-
-	cell_set_style (cell, style);
+	elems[MSTYLE_FONT_ITALIC].type = MSTYLE_FONT_ITALIC;
+	elems[MSTYLE_FONT_ITALIC].u.font.italic = fd->italic;
 
 	return ms_excel_palette_get (sheet->wb->palette, fd->color_idx, NULL);
 }
@@ -996,50 +989,84 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 }
 
 static void
+style_optimize (ExcelSheet *sheet, Cell *cell)
+{
+	g_return_if_fail (sheet != NULL);
+
+	if (!cell) { /* Finish the job */
+		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
+		return;
+	}
+	/*
+	 * Generate a range inside which to optimise cell style regions.
+	 */
+	if (cell->row->pos > sheet->style_optimize.start.row + 2) {
+		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
+
+		sheet->style_optimize.start.col = cell->col->pos;
+		if (cell->row->pos > 0) /* Overlap upwards */
+			sheet->style_optimize.start.row = cell->row->pos - 1;
+		else
+			sheet->style_optimize.start.row = 0;
+		sheet->style_optimize.end.col   = cell->col->pos;
+		sheet->style_optimize.end.row   = cell->row->pos;
+	} else {
+		if (cell->col->pos > sheet->style_optimize.end.col)
+			sheet->style_optimize.end.col   = cell->col->pos;
+		if (cell->col->pos < sheet->style_optimize.start.col)
+			sheet->style_optimize.start.col = cell->col->pos;
+
+		if (cell->row->pos > sheet->style_optimize.end.row)
+			sheet->style_optimize.end.row   = cell->row->pos;
+		if (cell->row->pos < sheet->style_optimize.end.row)
+			sheet->style_optimize.start.row = cell->row->pos;
+	}	
+}
+
+static void
 ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 {
 	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
 	StyleColor *fore, *back, *basefore;
+	MStyleElement elems[MSTYLE_ELEMENT_MAX];
 	int back_index;
-	MStyleElement e;
 	MStyle *style;
 
 	g_return_if_fail (xf);
 	g_return_if_fail (cell->value);
 
-	e.type = MSTYLE_ALIGN_V;
-	e.u.align.v = xf->valign;
-	style = mstyle_new_elem (NULL, e);
+	mstyle_elements_init (elems);
 
-	e.type = MSTYLE_ALIGN_H;
-	e.u.align.h = xf->halign;
-	mstyle_add (style, e);
+	elems[MSTYLE_ALIGN_V].type = MSTYLE_ALIGN_V;
+	elems[MSTYLE_ALIGN_V].u.align.v = xf->valign;
 
-	e.type = MSTYLE_FIT_IN_CELL;
-	e.u.fit_in_cell = xf->wrap;
-	mstyle_add (style, e);
+	elems[MSTYLE_ALIGN_H].type = MSTYLE_ALIGN_V;
+	elems[MSTYLE_ALIGN_H].u.align.h = xf->halign;
 
-	basefore = ms_excel_set_cell_font (sheet, cell, xf);
+	elems[MSTYLE_FIT_IN_CELL].type = MSTYLE_FIT_IN_CELL;
+	elems[MSTYLE_FIT_IN_CELL].u.fit_in_cell = xf->wrap;
+
+	basefore = ms_excel_set_cell_font (sheet, cell, xf, elems);
 	if (sheet->wb->palette) {
 		int i;
  		for (i = 0; i < STYLE_ORIENT_MAX; i++) {
-			e.type = MSTYLE_BORDER_TOP + i;
-			e.u.border.any =
-				border_fetch (xf->border_type [i],
-					      ms_excel_palette_get (sheet->wb->palette,
-								    xf->border_color[i],
-								    NULL),
-					      e.type);
-			if (e.u.border.any != NULL)
-				mstyle_add (style, e);
+			MStyleBorder *border;
+			border = border_fetch (xf->border_type [i],
+					       ms_excel_palette_get (sheet->wb->palette,
+								     xf->border_color[i],
+								     NULL),
+					       MSTYLE_BORDER_TOP + i);
+			if (border) {
+				elems[MSTYLE_BORDER_TOP + i].type = MSTYLE_BORDER_TOP + i;
+				elems[MSTYLE_BORDER_TOP + i].u.border.any = border;
+			}
 		}
 	}
 
 	if (xf->style_format) {
-		e.type = MSTYLE_FORMAT;
+		elems[MSTYLE_FORMAT].type = MSTYLE_FORMAT;
 		style_format_ref (xf->style_format);
-		e.u.format = xf->style_format;
-		mstyle_add (style, e);
+		elems[MSTYLE_FORMAT].u.format = xf->style_format;
 	}
 
 
@@ -1083,34 +1110,16 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 
 	g_return_if_fail (back && fore);
 
-	e.type = MSTYLE_COLOR_FORE;
-	e.u.color.fore = fore;
-	mstyle_add (style, e);
+	elems[MSTYLE_COLOR_FORE].type = MSTYLE_COLOR_FORE;
+	elems[MSTYLE_COLOR_FORE].u.color.fore = fore;
 
-	e.type = MSTYLE_COLOR_BACK;
-	e.u.color.back = back;
-	mstyle_add (style, e);
+	elems[MSTYLE_COLOR_BACK].type = MSTYLE_COLOR_BACK;
+	elems[MSTYLE_COLOR_BACK].u.color.back = back;
 
+	style = mstyle_new_elems (NULL, elems);
 	cell_set_style (cell, style);
 
-	/*
-	 * Generate a range inside which to optimise cell style regions.
-	 */
-	if (cell->row->pos > sheet->style_optimize.start.row + 2) {
-		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
-
-		sheet->style_optimize.start = sheet->style_optimize.end;
-	} else {
-		if (cell->col->pos > sheet->style_optimize.end.col)
-			sheet->style_optimize.end.col   = cell->col->pos;
-		if (cell->col->pos < sheet->style_optimize.start.col)
-			sheet->style_optimize.start.col = cell->col->pos;
-
-		if (cell->row->pos > sheet->style_optimize.end.row)
-			sheet->style_optimize.end.row   = cell->row->pos;
-		if (cell->row->pos < sheet->style_optimize.end.row)
-			sheet->style_optimize.start.row = cell->row->pos;
-	}
+	style_optimize (sheet, cell);
 }
 
 static StyleBorderType
@@ -2525,6 +2534,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 					printf ("Serious error detaching sheet '%s'\n",
 						sheet->gnum_sheet->name);
 			}
+			style_optimize (sheet, NULL);
 			return TRUE;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */

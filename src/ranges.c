@@ -377,17 +377,18 @@ range_duplicate (Range const * src)
 	return res;
 }
 
-gboolean
+gboolean inline
 range_equal (Range const *a, Range const *b)
 {
-	if (a->start.col != b->start.col)
-		return FALSE;
 	if (a->start.row != b->start.row)
-		return FALSE;
-	if (a->end.col != b->end.col)
 		return FALSE;
 	if (a->end.row != b->end.row)
 		return FALSE;
+	if (a->start.col != b->start.col)
+		return FALSE;
+	if (a->end.col != b->end.col)
+		return FALSE;
+
 	return TRUE;
 }
 
