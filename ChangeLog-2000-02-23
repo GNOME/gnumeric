@@ -1,5 +1,9 @@
 1999-09-23  Morten Welinder  <terra@diku.dk>
 
+	* src/regression.c (linear_regression, exponential_regression):
+ 	Change to multi-dimensional regression.  (Too bad linear_solve
+ 	does not handle it yet.)  All callers changed.
+
 	* src/widgets/widget-color-combo.c (color_clicked): Plug leak.
 	(color_combo_select_color): Plug leak.
 	(emit_change): Plug leak.

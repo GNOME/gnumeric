@@ -48,7 +48,7 @@ linear_solve (float_t **A, float_t *b, int n,
 /* ------------------------------------------------------------------------- */
 
 static int
-general_linear_regression (const float_t *const *xss, int xdim,
+general_linear_regression (float_t **xss, int xdim,
 			   const float_t *ys, int n,
 			   float_t *res)
 {
@@ -117,35 +117,41 @@ general_linear_regression (const float_t *const *xss, int xdim,
 /* Please refer to description in regression.h.  */
 
 int
-linear_regression (const float_t *xs, const float_t *ys, int n,
+linear_regression (float_t **xss, int dim,
+		   const float_t *ys, int n,
 		   int affine,
 		   float_t *res)
 {
+	int result;
+
 	if (affine) {
-		const float_t *xss[2];
+		float_t **xss2;
+		xss2 = g_new (float_t *, dim + 1);
+		xss2[0] = NULL;  /* Substitute for 1-vector.  */
+		memcpy (xss2 + 1, xss, dim * sizeof (float_t *));
 
-		xss[0] = NULL;  /* Substitute for 1-vector.  */
-		xss[1] = xs;
-
-		return general_linear_regression (xss, 2, ys, n, res);
+		result = general_linear_regression (xss2, dim + 1, ys, n, res);
+		g_free (xss2);
 	} else {
 		res[0] = 0;
-		return general_linear_regression (&xs, 1, ys, n, res + 1);
+		result = general_linear_regression (xss, dim, ys, n, res + 1);
 	}
+
+	return result;
 }
 
 /* ------------------------------------------------------------------------- */
 /* Please refer to description in regression.h.  */
 
 int
-exponential_regression (const float_t *xs, const float_t *ys, int n,
+exponential_regression (float_t **xss, int dim,
+			const float_t *ys, int n,
 			int affine,
 			float_t *res)
 {
 	float_t *log_ys;
 	int result;
 	int i;
-	int dim = 1;
 
 	log_ys = g_new (float_t, n);
 	for (i = 0; i < n; i++)
@@ -157,15 +163,16 @@ exponential_regression (const float_t *xs, const float_t *ys, int n,
 		}
 
 	if (affine) {
-		const float_t *xss[dim + 1];
+		float_t **xss2;
+		xss2 = g_new (float_t *, dim + 1);
+		xss2[0] = NULL;  /* Substitute for 1-vector.  */
+		memcpy (xss2 + 1, xss, dim * sizeof (float_t *));
 
-		xss[0] = NULL;  /* Substitute for 1-vector.  */
-		xss[1] = xs;
-
-		result = general_linear_regression (xss, dim + 1, log_ys, n, res);
+		result = general_linear_regression (xss2, dim + 1, log_ys, n, res);
+		g_free (xss2);
 	} else {
 		res[0] = 0;
-		result = general_linear_regression (&xs, dim, log_ys, n, res + 1);
+		result = general_linear_regression (xss, dim, log_ys, n, res + 1);
 	}
 
 	if (result == 0)

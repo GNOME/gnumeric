@@ -3865,13 +3865,14 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 	} else
 		stat = TRUE;
 
-	if (linear_regression (xs, ys, nx, affine, linres)) {
+	/* FIXME: we should handle multi-dimensional data, but we do not.  */
+	dim = 1;
+
+	if (linear_regression (&xs, dim, ys, nx, affine, linres)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
-	/* FIXME: we should handle multi-dimensional data, but we do not.  */
-	dim = 1;
 	if (stat) {
 		int y, x;
 		result = value_new_array (dim + 1, 5);
@@ -3922,7 +3923,7 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 {
 	float_t *xs = NULL, *ys = NULL, *nxs = NULL;
 	Value *result = NULL;
-	int nx, ny, nnx, i;
+	int nx, ny, nnx, i, dim;
 	float_t linres[2];
 
 	ys = collect_floats_value (argv[0], &ei->pos,
@@ -3961,7 +3962,9 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 		goto out;
 	}
 
-	if (linear_regression (xs, ys, nx, 1, linres)) {
+	dim = 1;
+
+	if (linear_regression (&xs, dim, ys, nx, 1, linres)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4057,13 +4060,14 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv [])
 	} else
 		stat = TRUE;
 
-	if (exponential_regression (xs, ys, nx, affine, expres)) {
+	/* FIXME: we should handle multi-dimensional data, but we do not.  */
+	dim = 1;
+
+	if (exponential_regression (&xs, dim, ys, nx, affine, expres)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
-	/* FIXME: we should handle multi-dimensional data, but we do not.  */
-	dim = 1;
 	if (stat) {
 		int y, x;
 		result = value_new_array (dim + 1, 5);
@@ -4147,7 +4151,7 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 {
 	float_t x, *xs = NULL, *ys = NULL;
 	Value *result = NULL;
-	int nx, ny;
+	int nx, ny, dim;
 	float_t linres[2];
 
 	x = value_get_as_float (argv[0]);
@@ -4171,7 +4175,9 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 		goto out;
 	}
 
-	if (linear_regression (xs, ys, nx, 1, linres)) {
+	dim = 1;
+
+	if (linear_regression (&xs, dim, ys, nx, 1, linres)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4213,8 +4219,9 @@ static int
 range_intercept (const float_t *xs, const float_t *ys, int n, float_t *res)
 {
 	float_t linres[2];
+	int dim = 1;
 
-	if (linear_regression (xs, ys, n, 1, linres))
+	if (linear_regression ((float_t **)&xs, dim, ys, n, 1, linres))
 		return 1;
 
 	*res = linres[0];
@@ -4255,8 +4262,9 @@ static int
 range_slope (const float_t *xs, const float_t *ys, int n, float_t *res)
 {
 	float_t linres[2];
+	int dim = 1;
 
-	if (linear_regression (xs, ys, n, 1, linres))
+	if (linear_regression ((float_t **)&xs, dim, ys, n, 1, linres))
 		return 1;
 
 	*res = linres[1];
