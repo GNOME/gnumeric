@@ -42,7 +42,8 @@ Future value interest factor of annuities
 
 
 
-	 PV * PVIF(k%, nper) + PMT * ( 1 + rate * type ) * FVIFA(k%, nper) + FV = 0
+	 PV * PVIF(k%, nper) + PMT * ( 1 + rate * type ) *
+	      FVIFA(k%, nper) + FV = 0
 
  */
 
@@ -81,7 +82,8 @@ PR(x) = PR(0) * ( 1 + rate ) ^ x + PMT * ( ( 1 + rate ) ^ x - 1 ) / rate )
 */
 
 static float_t
-calculate_principal (float_t starting_principal, float_t payment, float_t rate, float_t period)
+calculate_principal (float_t starting_principal, float_t payment,
+		     float_t rate, float_t period)
 {
 	return (starting_principal * pow (1.0 + rate, period) + payment *
 		((pow(1+rate, period) - 1) / rate));
@@ -100,7 +102,6 @@ calculate_pmt (float_t rate, float_t nper, float_t pv, float_t fv, int type)
         return (((-1.0) * pv * pvif  - fv ) / ((1.0 + rate * type) * fvifa));
 }
 
-
 static char *help_effect = {
 	N_("@FUNCTION=EFFECT\n"
 	   "@SYNTAX=EFFECT(r,nper)\n"
@@ -117,19 +118,18 @@ static char *help_effect = {
 	   "@r = nominal interest rate (stated in yearly terms)\n"
 	   "@nper = number of periods used for compounding"
 	   "\n"
-	   "For example credit cards will list an APR (annual percentage rate) which "
-	   "is a nominal interest rate."
+	   "For example credit cards will list an APR (annual percentage "
+	   "rate) which is a nominal interest rate."
 	   "\n"
-	   "For example if you wanted to find out how much you are actually paying interest "
-	   "on your credit card that states an APR of 19% that is compounded monthly "
-	   "you would type in:"
+	   "For example if you wanted to find out how much you are actually "
+	   "paying interest on your credit card that states an APR of 19% "
+	   "that is compounded monthly you would type in:"
 	   "\n"
-	   "=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will "
-	   "pay on your loan."
+	   "=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the "
+	   "effective percentage you will pay on your loan."
 	   "\n"
 	   "@SEEALSO=NOMINAL")
 };
-
 
 static Value *
 gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
@@ -147,7 +147,6 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
         return value_new_float ( pow( (1 + rate/nper) , nper) - 1 );
 
 }
-
 
 static char *help_nominal = {
 	N_("@FUNCTION=NOMINAL\n"
@@ -289,7 +288,8 @@ static char *help_sln = {
 	   "Depriciation expense = ( cost - salvage_value ) / life"
 	   "\n"
 	   "\t@cost = cost of an asset when acquired (market value)"
-	   "\t@salvage_value = amount you get when asset sold at the end of life"
+	   "\t@salvage_value = amount you get when asset sold at the end "
+	   "of life"
 	   "\t@life = anticipated life of an asset"
 	   "\n"
 	   "@SEEALSO=SYD")
@@ -327,7 +327,8 @@ static char *help_syd = {
 	   "+ 1) * 2 / life * (life + 1)."
 	   "\n"
 	   "\t@cost = cost of an asset when acquired (market value)"
-	   "\t@salvage_value = amount you get when asset sold at the end of life"
+	   "\t@salvage_value = amount you get when asset sold at the end of "
+	   "life"
 	   "\t@life = anticipated life of an asset"
 	   "\t@period = period for which we need the expense"
 	   "\n"
@@ -348,7 +349,9 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 	if (life <= 0)
 		return value_new_error (&ei->pos, _("syd - domain error"));
 
-        return value_new_float (((cost - salvage_value) * (life - period + 1) * 2) / (life * (life + 1.0)));
+        return value_new_float (((cost - salvage_value) *
+				 (life - period + 1) * 2) /
+				(life * (life + 1.0)));
 }
 
 static char *help_dollarde = {
@@ -362,7 +365,6 @@ static char *help_dollarde = {
 	   "\n"
 	   "@SEEALSO=DOLLARFR")
 };
-
 
 static Value *
 gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
@@ -401,7 +403,6 @@ static char *help_dollarfr = {
 	   "@SEEALSO=DOLLARDE")
 };
 
-
 static Value *
 gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 {
@@ -427,6 +428,79 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 					   pow(10, n)));
 }
 
+static char *help_tbillprice = {
+	N_("@FUNCTION=TBILLPRICE\n"
+	   "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
+	   "@DESCRIPTION="
+	   "TBILLPRICE function returns the price per $100 value for a "
+	   "treasury bill where @settlement is the settlement date and "
+	   "@maturity is the maturity date of the bill.  @discount is the "
+	   "treasury bill's discount rate. "
+	   "\n"
+	   "If @settlement is after @maturity or the @maturity is set to "
+	   "over one year later than the @settlement, TBILLPRICE returns "
+	   "NUM! error. "
+	   "If @discount is negative, TBILLPRICE returns NUM! error. "
+	   "\n"
+	   "@SEEALSO=TBILLYIELD")
+};
+
+static Value *
+gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t settlement, maturity, discount;
+	float_t res, dsm;
+
+	settlement = get_serial_date (argv[0]);
+	maturity = get_serial_date (argv[1]);
+	discount = value_get_as_float (argv[2]);
+	
+	dsm = maturity - settlement;
+
+	if (settlement > maturity || discount < 0 || dsm > 356)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	res = 100 * (1.0 - (discount * dsm) / 360.0);
+
+	return value_new_float (res);
+}
+
+static char *help_tbillyield = {
+	N_("@FUNCTION=TBILLYIELD\n"
+	   "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
+	   "@DESCRIPTION="
+	   "TBILLYIELD function returns the yield for a treasury bill. "
+	   "@settlement is the settlement date and @maturity is the "
+	   "maturity date of the bill.  @discount is the treasury bill's "
+	   "discount rate. "
+	   "\n"
+	   "If @settlement is after @maturity or the @maturity is set to "
+	   "over one year later than the @settlement, TBILLYIELD returns "
+	   "NUM! error. "
+	   "If @pr is negative, TBILLYIELD returns NUM! error. "
+	   "\n"
+	   "@SEEALSO=TBILLPRICE")
+};
+
+static Value *
+gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t settlement, maturity, pr;
+	float_t res, dsm;
+
+	settlement = get_serial_date (argv[0]);
+	maturity = get_serial_date (argv[1]);
+	pr = value_get_as_float (argv[2]);
+	
+	dsm = maturity - settlement;
+
+	if (settlement > maturity || pr < 0 || dsm > 356)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	res = (100.0 - pr) / pr * (360.0 / dsm);
+
+	return value_new_float (res);
+}
 
 static char *help_rate = {
 	N_("@FUNCTION=RATE\n"
@@ -448,7 +522,8 @@ gnumeric_rate_f (float_t rate, float_t *y, void *user_data)
 		gnumeric_rate_t *data = user_data;
 
 		*y = data->pv * calculate_pvif (rate, data->nper) +
-			data->pmt * (1 + rate * data->type) * calculate_fvifa (rate, data->nper) +
+			data->pmt * (1 + rate * data->type) *
+		  calculate_fvifa (rate, data->nper) +
 			data->fv;
 		return GOAL_SEEK_OK;
 	} else
@@ -533,7 +608,6 @@ static char *help_pv = {
 	   "\n"
 	   "@SEEALSO=FV")
 };
-
 
 static Value *
 gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
@@ -661,7 +735,6 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 	return result;
 }
 
-
 static char *help_fv = {
 	N_("@FUNCTION=FV\n"
 	   "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
@@ -669,7 +742,6 @@ static char *help_fv = {
 	   "\n"
 	   "@SEEALSO=PV,PMT,PPMT")
 };
-
 
 static Value *
 gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
@@ -687,10 +759,9 @@ gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 	pvif = calculate_pvif (rate, nper);
 	fvifa = calculate_fvifa (rate, nper);
 
-        return value_new_float (-1.0 * ((pv * pvif) + pmt * (1.0 + rate * type) * fvifa));
+        return value_new_float (-1.0 * ((pv * pvif) + pmt *
+					(1.0 + rate * type) * fvifa));
 }
-
-
 
 static char *help_pmt = {
 	N_("@FUNCTION=PMT\n"
@@ -721,11 +792,11 @@ gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (calculate_pmt (rate, nper, pv, fv, type));
 }
 
-
 static char *help_ipmt = {
 	N_("@FUNCTION=IPMT\n"
 	   "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
-	   "@DESCRIPTION=Calculates the amount of a payment of an annuity going "
+	   "@DESCRIPTION="
+	   "Calculates the amount of a payment of an annuity going "
 	   "towards interest."
 	   "\n"
 	   "Formula for IPMT is:\n"
@@ -735,7 +806,8 @@ static char *help_ipmt = {
 	   "where:"
 	   "\n"
 	   "PMT = Payment received on annuity\n"
-	   "PRINCIPA(per-1) = amount of the remaining principal from last period"
+	   "PRINCIPA(per-1) = amount of the remaining principal from last "
+	   "period"
 	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
 };
@@ -760,13 +832,15 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	/* Now we need to calculate the amount of money going towards the
 	   principal */
 
-	return value_new_float (-calculate_principal (pv, pmt, rate, per-1) * rate);
+	return value_new_float (-calculate_principal (pv, pmt, rate, per-1) *
+				rate);
 }
 
 static char *help_ppmt = {
 	N_("@FUNCTION=PPMT\n"
 	   "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
-	   "@DESCRIPTION=Calculates the amount of a payment of an annuity going "
+	   "@DESCRIPTION="
+	   "Calculates the amount of a payment of an annuity going "
 	   "towards principal."
 	   "\n"
 	   "Formula for it is:"
@@ -813,7 +887,6 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (pmt - ipmt);
 }
 
-
 static char *help_nper = {
 	N_("@FUNCTION=NPER\n"
 	   "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -837,7 +910,8 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 	if (rate <= 0.0)
 		return value_new_error (&ei->pos, gnumeric_err_DIV0);
 
-	tmp = (pmt * (1.0 + rate * type) - fv * rate) / (pv * rate + pmt * (1.0 + rate * type));
+	tmp = (pmt * (1.0 + rate * type) - fv * rate) /
+	  (pv * rate + pmt * (1.0 + rate * type));
 	if (tmp <= 0.0)
 		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
@@ -847,10 +921,12 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 static char *help_duration = {
 	N_("@FUNCTION=DURATION\n"
 	   "@SYNTAX=DURATION(rate,pv,fv)\n"
-	   "@DESCRIPTION=Calculates number of periods needed for an investment to "
-	   "attain a desired value. This function is similar to FV and PV with a "
-	   "difference that we do not need give the direction of cash flows e.g. "
-	   "-100 for a cash outflow and +100 for a cash inflow."
+	   "@DESCRIPTION="
+	   "Calculates number of periods needed for an investment to "
+	   "attain a desired value. This function is similar to FV and PV "
+	   "with a difference that we do not need give the direction of "
+	   "cash flows e.g. -100 for a cash outflow and +100 for a cash "
+	   "inflow."
 	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
 };
@@ -874,6 +950,7 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (log (fv / pv) / log (1.0 + rate));
 
 }
+
 
 void finance_functions_init()
 {
@@ -920,6 +997,12 @@ void finance_functions_init()
 	function_add_args  (cat, "syd", "ffff",
 			    "cost,salvagevalue,life,period",
 			    &help_syd,      gnumeric_syd);
+        function_add_args  (cat, "tbillprice", "??f",
+			    "settlement,maturity,discount",
+			    &help_tbillprice,  gnumeric_tbillprice);
+        function_add_args  (cat, "tbillyield", "??f",
+			    "settlement,maturity,pr",
+			    &help_tbillyield,  gnumeric_tbillyield);
         function_add_args  (cat, "xnpv", "fAA", "rate,values,dates",
 			    &help_xnpv,     gnumeric_xnpv);
 }

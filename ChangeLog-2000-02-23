@@ -1,3 +1,8 @@
+1999-08-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-financial.c: Implemented TBILLPRICE() and
+ 	TBILLYIELD().
+	
 1999-08-22  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/dialogs-solver.c: Fixed a lot of things, memory
