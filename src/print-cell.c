@@ -447,8 +447,8 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	 * excluding the surrounding grid lines and margins */
 	rect_x = x1 + 1 + ci->margin_a;
 	rect_y = y1 - 1 - ri->margin_a;
-	rect_width = width;
-	rect_height = height;
+	rect_width = width + 1;
+	rect_height = height + 1;
 
 	font_height = style_font->size;
 	valign = mstyle_get_align_v (mstyle);
@@ -484,7 +484,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	/* Do not allow text to impinge upon the grid lines or margins
 	 * FIXME : Should use margins from spaninfo->left and spaninfo->right
 	 *
-	 * NOTE : postscript clip paths exclude the border, gdk includes it.
+	 * NOTE : postscript clip paths exclude near the border, gdk includes it.
 	 */
 	gnome_print_gsave (context);
 	print_make_rectangle_path (context,

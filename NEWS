@@ -20,8 +20,10 @@ Jody:
 	* Add simple bucketing of range dependencies.
 	* Add minor formating extension.
 	* Some simple recalc tuning speeds things up by a factor of 2.
+	* Basic version of just in time rendering for another factor of 2.
 	* Cleanup the DOM based xml import/export utilities.
 	* Remove irritating frame around bonobo objects.
+	* Off by 1 pixel/pt error when handling right/center alignment.
 	* Improve sheet object menus.
 	* Remove the eval queue
 	* Improve INDIRECT.

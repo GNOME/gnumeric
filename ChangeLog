@@ -1,3 +1,12 @@
+2001-09-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : off by 1.
+	* src/print-cell.c (print_cell) : off by 1.
+
+	* src/sheet.c (sheet_cell_calc_span) : support SPANCALC_NO_DRAW
+	  and don't bother rendering calculated cells.
+	(cb_max_cell_width) : render if necessary.
+
 2001-09-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style.c (style_font_get_width_pts) : renamed from

@@ -279,7 +279,7 @@ void  sheet_range_set_text   (EvalPos const *pos, Range const *r, char const *st
 void  sheet_apply_style	     (Sheet  *sheet, Range const *range, MStyle *mstyle);
 void  sheet_calc_spans	     (Sheet const *sheet,	SpanCalcFlags flags);
 void  sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
-void  sheet_cell_calc_span   (Cell const *cell,		SpanCalcFlags flags);
+void  sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
 void  sheet_regen_adjacent_spans (Sheet *sheet,
 			     int start_col, int start_row,
 			     int end_col, int end_row,

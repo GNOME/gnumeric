@@ -203,8 +203,8 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 	rect.x = x1 + 1 + ci->margin_a;
 	rect.y = y1 + 1 + ri->margin_a;
-	rect.width = width;
-	rect.height = height;
+	rect.width = width + 1;
+	rect.height = height + 1;
 
 	style_font = scg_get_style_font (sheet, mstyle);
 	font = style_font_gdk_font (style_font);

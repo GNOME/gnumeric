@@ -368,7 +368,7 @@ sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags)
 }
 
 void
-sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
+sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
 {
 	CellSpanInfo const * span;
 	int left, right;
@@ -384,9 +384,14 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	if ((flags & SPANCALC_RENDER) && cell->rendered_value == NULL)
 		render = TRUE;
 
-	if (render)
-		cell_render_value ((Cell *)cell, TRUE);
-	else if (resize)
+	if (render) {
+		if (!cell_has_expr (cell))
+			cell_render_value ((Cell *)cell, TRUE);
+		else if (cell->rendered_value) {
+			rendered_value_destroy (cell->rendered_value);
+			cell->rendered_value = NULL;
+		}
+	} else if (resize)
 		rendered_value_calc_size (cell);
 
 	/* Is there an existing span ? clear it BEFORE calculating new one */
@@ -422,7 +427,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 				min_col = merged->start.col;
 			if (max_col < merged->end.col)
 				max_col = merged->end.col;
-		} else {
+		} else if (!(flags & SPANCALC_NO_DRAW)) {
 			sheet_redraw_cell (cell);
 			return;
 		}
@@ -448,8 +453,9 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 			cell_register_span (cell, left, right);
 	}
 
-	sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
-				  min_col, max_col);
+	if (!(flags & SPANCALC_NO_DRAW))
+		sheet_redraw_partial_row (cell->base.sheet,
+			cell->pos.row, min_col, max_col);
 }
 
 /**
@@ -1242,10 +1248,8 @@ cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
 {
 	int width;
 
-	g_return_val_if_fail (cell->rendered_value != NULL, NULL);
-
 	/* Dynamic cells must be rerendered */
-	if (cell->rendered_value->dynamic_width)
+	if (cell->rendered_value == NULL || cell->rendered_value->dynamic_width)
 		cell_render_value (cell, FALSE);
 
 	width = cell_rendered_width (cell);
