@@ -1,5 +1,5 @@
 schemadir   = @GCONF_SCHEMA_FILE_DIR@
-schema_DATA = gnumeric-dialogs.schemas
+schema_DATA = gnumeric-dialogs.schemas gnumeric-general.schemas
 
 schema_source_data = $(foreach file, $(schema_DATA), $(srcdir)/$(file))
 

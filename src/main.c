@@ -319,6 +319,7 @@ main (int argc, char *argv [])
 	global_gnome_font_shutdown ();
 
 	gnome_config_drop_all ();
+	application_release_gconf_client ();
 
 	return 0;
 }

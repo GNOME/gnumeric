@@ -2,8 +2,12 @@
 #define GNUMERIC_APPLICATION_H
 
 #include "gnumeric.h"
+#include <gconf/gconf-client.h>
 
 void         application_init			(void);
+
+void         application_release_gconf_client   (void);
+GConfClient *application_get_gconf_client       (void);
 
 void         application_workbook_list_add (Workbook *wb);
 void         application_workbook_list_remove (Workbook *wb);

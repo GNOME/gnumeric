@@ -32,11 +32,11 @@
 #include <workbook.h>
 #include <str.h>
 #include <workbook-edit.h>
+#include <application.h>
 
 #include <ctype.h>
 #include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
-#include <gconf/gconf-client.h>
 #include <gal/util/e-util.h>
 
 #define GLADE_FILE "function-select.glade"
@@ -83,7 +83,7 @@ dialog_function_load_recent_funcs (FunctionSelectState *state)
 	FunctionDefinition *fd;
 	GSList *recent_funcs, *this_funcs;
 
-	client = gconf_client_get_default ();
+	client = application_get_gconf_client ();
 	recent_funcs = gconf_client_get_list (client, FUNCTION_SELECT_GCONF_RECENT,
 					      GCONF_VALUE_STRING, NULL);
 
@@ -109,7 +109,7 @@ dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinitio
 	gint limit;
 	guint ulimit;
 
-	client = gconf_client_get_default ();
+	client = application_get_gconf_client ();
 	
 	limit = gconf_client_get_int (client, FUNCTION_SELECT_GCONF_NUM_OF_RECENT, &err);
 	if (err)

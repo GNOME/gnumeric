@@ -1,5 +1,11 @@
 2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-function-select.c (dialog_function_load_recent_funcs) : 
+	  use central gconf-client
+	(dialog_function_write_recent_func) : ditto
+
+2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* tools.h : change fourier_tool into 
 	  cmd_analysis_tools engine
 	* dialog-analysis-tools.c : make fourier analysis tool

@@ -1,3 +1,15 @@
+2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : new schema file
+	* schemas/Makefile.am : added gnumeric-general.schemas
+	* src/application.h (application_release_gconf_client) : new
+	(application_get_gconf_client) : new
+	* src/application.c (application_release_gconf_client) : new
+	(application_get_gconf_client) : new
+	(app_init) : initialize new app.gconf_client
+	* src/commands.c (truncate_undo_info) : read size_left from gconf
+	* src/main.c : destroy app.gconf_client on exit
+
 2002-03-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/sheet.c (sheet_delete_rows, sheet_delete_cols) : Fixed the

@@ -69,6 +69,7 @@
 #include <ctype.h>
 
 #define MAX_DESCRIPTOR_WIDTH 15
+#define GNUMERIC_GCONF_UNDO_SIZE "/apps/gnumeric/core/undosize"
 
 /*
  * There are several distinct stages to wrapping each command.
@@ -430,10 +431,17 @@ command_list_release (GSList *cmd_list)
 static int
 truncate_undo_info (Workbook *wb)
 {
-	int size_left = 100; /* FIXME? */
+	GConfClient *client;
+	int size_left;
 	int ok_count;
 	GSList *l, *prev;
+	GError *err = NULL;
 
+	client = application_get_gconf_client ();
+	size_left = gconf_client_get_int (client, GNUMERIC_GCONF_UNDO_SIZE, &err);
+	if (err)
+		size_left = 0;
+	
 #ifdef DEBUG_TRUNCATE_UNDO
 	fprintf (stderr, "Undo sizes:");
 #endif

@@ -1,10 +1,11 @@
 Gnumeric 1.1.3
 
 Andreas:
-	* Port print-setup dialog
-	* Fix print dialog
-	* Make A-D Analysis Tools undoable
-	* Add output formatting options to Analysis Tools
+	* Port print-setup dialog.
+	* Fix print dialog.
+	* Make A-D Analysis Tools undoable.
+	* Add output formatting options to Analysis Tools.
+	* Make undo-size configurable.
 
 Jody:
 	* Add password dialog to support encrypted input.

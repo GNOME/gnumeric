@@ -1,0 +1,19 @@
+<gconfschemafile>
+    <schemalist>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/undosize</key>
+        <applyto>/apps/gnumeric/core/undosize</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>100</default>
+        <locale name="C">
+        <short>Undo Size</short>
+        <long>This value determines the length of the undo chain. Each editing action
+              has a size associate with it, to compare it with the memory
+              requirements of a simple one-cell edit (size of 1). The undo list will be
+              truncated when its total size exceeds this configurable value.</long>
+        </locale>
+      </schema>
+    </schemalist>
+</gconfschemafile>
+  

@@ -39,6 +39,8 @@ typedef struct
 	gboolean         edit_auto_complete;
 	gboolean         live_scrolling;
 	int         	 auto_expr_recalc_lag;
+	
+	GConfClient     *gconf_client;
 } GnumericApplication;
 
 static GnumericApplication app;
@@ -152,6 +154,10 @@ application_init (void)
 
 	app.clipboard_copied_contents = NULL;
 	app.clipboard_sheet = NULL;
+
+	/* Set up GConf: */
+
+	app.gconf_client = gconf_client_get_default ();
 
 	/* FIXME : 96 as the default will scale Helvetica-9 to Helvetica-12
 	 * which is not too ugly.  Ideally we could get the correct values here but,
@@ -581,3 +587,21 @@ application_history_write_config (void)
 gboolean application_use_auto_complete	  (void) { return app.edit_auto_complete; }
 gboolean application_live_scrolling	  (void) { return app.live_scrolling; }
 int	 application_auto_expr_recalc_lag (void) { return app.auto_expr_recalc_lag; }
+
+
+
+GConfClient *
+application_get_gconf_client (void) 
+{
+	if (!app.gconf_client)
+		app.gconf_client = gconf_client_get_default ();
+	return app.gconf_client; 
+}
+
+void         
+application_release_gconf_client (void) 
+{ 
+	if (app.gconf_client)
+		g_object_unref (G_OBJECT (app.gconf_client));
+	app.gconf_client = NULL;
+}
