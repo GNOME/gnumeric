@@ -354,7 +354,7 @@ axis_get_entry (GogAxis const *axis, unsigned i, gboolean *user_defined)
 	GOData *dat = axis->source [i].data;
 	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
 		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
-		if (finite (tmp)) {
+		if (finitegnum (tmp)) {
 			if (user_defined)
 				*user_defined = TRUE;
 			return tmp;
@@ -491,10 +491,10 @@ gog_axis_update (GogObject *obj)
 	else if (axis->auto_bound [AXIS_ELEM_MAX] > 0 && maxima <= 0.)
 		axis->auto_bound [AXIS_ELEM_MAX] = 0;
 
-	if (finite (axis->logical_min_val) &&
+	if (finitegnum (axis->logical_min_val) &&
 	    axis->auto_bound [AXIS_ELEM_MIN] < axis->logical_min_val)
 		axis->auto_bound [AXIS_ELEM_MIN] = axis->logical_min_val;
-	if (finite (axis->logical_max_val) &&
+	if (finitegnum (axis->logical_max_val) &&
 	    axis->auto_bound [AXIS_ELEM_MAX] > axis->logical_max_val)
 		axis->auto_bound [AXIS_ELEM_MAX] = axis->logical_max_val;
 
@@ -538,7 +538,7 @@ cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 	if (is_auto) /* clear the data */
 		gog_dataset_set_dim (closure->set, closure->dim, NULL, NULL);
 
-	if (finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
+	if (finitegnum (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
 		char *str = g_strdup_printf ("%g", bound);
 		g_object_set (closure->editor, "text", str, NULL);
 		g_free (str);
@@ -551,7 +551,7 @@ cb_axis_bound_changed (GogObject *axis, gboolean resize, ElemToggleData *closure
 {
 	if (gtk_toggle_button_get_active (closure->toggle)) {
 		double bound = GOG_AXIS (closure->set)->auto_bound [closure->dim];
-		if (finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
+		if (finitegnum (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
 			char *str = g_strdup_printf ("%g", bound);
 			g_object_set (closure->editor, "text", str, NULL);
 			g_free (str);
@@ -908,7 +908,7 @@ gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 	*minima = axis_get_entry (axis, AXIS_ELEM_MIN, NULL);
 	*maxima = axis_get_entry (axis, AXIS_ELEM_MAX, NULL);
 
-	return finite (*minima) && finite (*maxima) && *minima < *maxima;
+	return finitegnum (*minima) && finitegnum (*maxima) && *minima < *maxima;
 }
 
 /**

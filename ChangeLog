@@ -1,3 +1,12 @@
+2004-04-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.9
+
+2004-04-05  Jody Goldberg <jody@gnome.org>
+
+	* src/style-border.c (style_border_draw_diag) : back port adjustment
+	  draw double lined diagonals the same way we print them
+
 2004-04-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: substitute WARN_CFLAGS as

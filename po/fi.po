@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-05 14:56+0300\n"
+"POT-Creation-Date: 2004-04-07 10:40-0400\n"
 "PO-Revision-Date: 2004-04-05 15:00+0300\n"
 "Last-Translator: Tommi Vainikainen <Tommi.Vainikainen@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -12533,7 +12533,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Tilastollinen anal_yysi"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4044
-#: src/workbook-control-gui.c:4864 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4864 src/workbook-view.c:543
 msgid "Sum"
 msgstr "Summa"
 
@@ -24193,31 +24193,31 @@ msgstr "Aseta reunukset"
 msgid "SpinButton"
 msgstr ""
 
-#: src/workbook-view.c:273
+#: src/workbook-view.c:276
 #, c-format
 msgid "%dC"
 msgstr "%d s"
 
-#: src/workbook-view.c:275
+#: src/workbook-view.c:278
 #, c-format
 msgid "%dR"
 msgstr "%d r"
 
-#: src/workbook-view.c:277
+#: src/workbook-view.c:280
 #, c-format
 msgid "%dR x %dC"
 msgstr "%d r × %d s"
 
-#: src/workbook-view.c:419
+#: src/workbook-view.c:422
 msgid "Internal ERROR"
 msgstr "Sisäinen VIRHE"
 
-#: src/workbook-view.c:576
+#: src/workbook-view.c:579
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr ""
 
-#: src/workbook-view.c:601
+#: src/workbook-view.c:604
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr ""
@@ -24226,23 +24226,23 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:960
+#: src/workbook-view.c:611 src/workbook-view.c:974
 msgid "The filename given is not valid in the current encoding."
 msgstr ""
 
-#: src/workbook-view.c:693 src/workbook-view.c:802
+#: src/workbook-view.c:696 src/workbook-view.c:805
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:762
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr ""
 
-#: src/workbook-view.c:895
+#: src/workbook-view.c:898
 msgid "Unsupported file format."
 msgstr "Tuntematon tiedostomuoto."
 
-#: src/workbook-view.c:953
+#: src/workbook-view.c:967
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""

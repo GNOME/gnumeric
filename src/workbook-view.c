@@ -52,6 +52,9 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
+#ifdef WITH_BONOBO
+#include <gsf-gnome/gsf-input-gnomevfs.h>
+#endif
 
 #include <gsf/gsf-impl-utils.h>
 #include <locale.h>
@@ -928,7 +931,18 @@ wb_view_new_from_file (char const *filename,
 		in_mem = gsf_input_mmap_new (filename, NULL);
 		if (in_mem == NULL) {
 			in_stdio = gsf_input_stdio_new (filename, &err);
-			if (in_stdio != NULL)
+			if (in_stdio == NULL) {
+#ifdef WITH_BONOBO
+				GsfInputGnomeVFS *in_vfs;
+				
+				g_error_free (err);
+				err = NULL;
+
+				in_vfs = gsf_input_gnomevfs_new (filename, &err);
+				if (in_vfs != NULL)
+					input = GSF_INPUT (in_vfs);
+#endif
+			} else
 				input = GSF_INPUT (in_stdio);
 		} else
 			input = GSF_INPUT (in_mem);

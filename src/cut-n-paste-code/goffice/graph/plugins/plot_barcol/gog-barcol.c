@@ -123,7 +123,7 @@ gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
-			if (!finite (tmp))
+			if (!finitegnum (tmp))
 				continue;
 			if (tmp > 0.)
 				pos_sum += tmp;
@@ -317,7 +317,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (i >= lengths[j])
 					continue;
 				tmp = vals[j][i];
-				if (!finite (tmp))
+				if (!finitegnum (tmp))
 					continue;
 				if (tmp > 0.)
 					sum += tmp;
@@ -334,7 +334,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
-			if (!finite (tmp))
+			if (!finitegnum (tmp))
 				continue;
 			tmp *= data_scale;
 			if (tmp >= 0.) {

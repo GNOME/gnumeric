@@ -116,7 +116,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-19 21:19+0100\n"
+"POT-Creation-Date: 2004-04-07 10:40-0400\n"
 "PO-Revision-Date: 2004-03-20 04:33+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -1217,7 +1217,7 @@ msgstr ""
 "We hebben reeds een lengte geschreven van een tekenreeks die wordt afgekapt "
 "vanwege tekenset-problemen."
 
-#: plugins/excel/ms-excel-write.c:3805
+#: plugins/excel/ms-excel-write.c:3818
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1227,7 +1227,7 @@ msgstr ""
 "(tm) 95 bestand. Excel (tm) 95 ondersteunt slechts %d rijen, en dit werkboek "
 "heeft er %d"
 
-#: plugins/excel/ms-excel-write.c:3812
+#: plugins/excel/ms-excel-write.c:3825
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1237,11 +1237,11 @@ msgstr ""
 "(tm) bestand. MS Excel ondersteunt slechts %d rijen en dit werkboek heeft er "
 "%d"
 
-#: plugins/excel/ms-excel-write.c:4330
+#: plugins/excel/ms-excel-write.c:4343
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kon de stroom 'Map' niet openen voor schrijven\n"
 
-#: plugins/excel/ms-excel-write.c:4350
+#: plugins/excel/ms-excel-write.c:4363
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kon de stroom 'Werkmap' niet openen voor schrijven\n"
 
@@ -4666,7 +4666,7 @@ msgstr "datum1;datum2;interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:572
+#: src/print-info.c:571
 msgid "date"
 msgstr "datum"
 
@@ -4683,7 +4683,7 @@ msgid "start_date,months"
 msgstr "begindatum;maanden"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:573
+#: plugins/fn-date/functions.c:1265 src/print-info.c:572
 msgid "time"
 msgstr "tijd"
 
@@ -17356,7 +17356,7 @@ msgstr "Objectieve functie:"
 msgid "Constraints:"
 msgstr "Voorwaarden:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5736
+#: plugins/mps/mps.c:247 src/commands.c:5735
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -18082,7 +18082,7 @@ msgid "Error while opening xbase file."
 msgstr "Fout bij het openen van xbase bestand"
 
 # werkblad?
-#: plugins/xbase/boot.c:175 src/commands.c:4561
+#: plugins/xbase/boot.c:175 src/commands.c:4560
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
 #: src/xml-io.c:3726
@@ -19761,7 +19761,7 @@ msgid "Statistical Anal_ysis"
 msgstr "_Statistische Analyses"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4044
-#: src/workbook-control-gui.c:4864 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4864 src/workbook-view.c:543
 msgid "Sum"
 msgstr "Som"
 
@@ -20399,11 +20399,11 @@ msgstr "Typen \"%s%s\" in %s"
 msgid "Typing \"%s%s\""
 msgstr "Typen \"%s%s\""
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3185
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3201
 msgid "Delete Columns"
 msgstr "Kolommen Verwijderen"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3303
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3319
 msgid "Delete Rows"
 msgstr "Rijen Verwijderen"
 
@@ -20448,7 +20448,7 @@ msgid "Deleting row %s"
 msgstr "Verwijderen rij %s"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2799
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2815
 msgid "Clear"
 msgstr "Wissen"
 
@@ -20473,347 +20473,347 @@ msgstr "Alles"
 msgid "Clearing %s in %s"
 msgstr "Leeg maken van %s in %s"
 
-#: src/commands.c:1680
+#: src/commands.c:1681
 msgid "Changing Format"
 msgstr "Formatering Veranderen"
 
-#: src/commands.c:1807
+#: src/commands.c:1806
 #, c-format
 msgid "Changing format of %s"
 msgstr "Veranderen formaat van %s"
 
-#: src/commands.c:1919
+#: src/commands.c:1918
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatisch passend maken kolom %s"
 
-#: src/commands.c:1920
+#: src/commands.c:1919
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatisch passend maken rij %s"
 
-#: src/commands.c:1923
+#: src/commands.c:1922
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Instellen breedte van kolom %s op %d pixels"
 
-#: src/commands.c:1925
+#: src/commands.c:1924
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Instellen hoogte van rij %s op %d pixels"
 
-#: src/commands.c:1928
+#: src/commands.c:1927
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Instellen van kolom %s op standaardbreedte"
 
-#: src/commands.c:1931
+#: src/commands.c:1930
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Instellen van rij %s op standaardhoogte"
 
-#: src/commands.c:1935
+#: src/commands.c:1934
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatisch passend maken kolommen %s"
 
-#: src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Automatisch passend maken rijen %s"
 
-#: src/commands.c:1939
+#: src/commands.c:1938
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Instellen breedte van kolommen %s op %d pixels"
 
-#: src/commands.c:1941
+#: src/commands.c:1940
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Instellen hoogte van rijen %s op %d pixels"
 
-#: src/commands.c:1945
+#: src/commands.c:1944
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Instellen van kolommen %s op standaardbreedte"
 
-#: src/commands.c:1947
+#: src/commands.c:1946
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Instellen van rijen %s op standaardhoogte"
 
 # dit is een item van het voorkeurs-venster
-#: src/commands.c:2014 src/dialogs/dialog-preferences.c:1504
+#: src/commands.c:2013 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
 msgstr "Sorteren"
 
-#: src/commands.c:2034
+#: src/commands.c:2033
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorteren %s"
 
-#: src/commands.c:2166
+#: src/commands.c:2165
 msgid "Unhide columns"
 msgstr "Kolommen zichtbaar maken"
 
-#: src/commands.c:2166
+#: src/commands.c:2165
 msgid "Hide columns"
 msgstr "Kolommen verbergen"
 
-#: src/commands.c:2167
+#: src/commands.c:2166
 msgid "Unhide rows"
 msgstr "Rijen zichtbaar maken"
 
-#: src/commands.c:2167
+#: src/commands.c:2166
 msgid "Hide rows"
 msgstr "Rijen verbergen"
 
-#: src/commands.c:2250
+#: src/commands.c:2249
 msgid "Expand columns"
 msgstr "Kolommen uitklappen"
 
-#: src/commands.c:2250
+#: src/commands.c:2249
 msgid "Collapse columns"
 msgstr "Kolommen inklappen"
 
-#: src/commands.c:2251
+#: src/commands.c:2250
 msgid "Expand rows"
 msgstr "Rijen uitklappen"
 
-#: src/commands.c:2251
+#: src/commands.c:2250
 msgid "Collapse rows"
 msgstr "Rijen inklappen"
 
-#: src/commands.c:2278
+#: src/commands.c:2277
 #, c-format
 msgid "Show column outline %d"
 msgstr "Kolom-outline %d tonen"
 
-#: src/commands.c:2278
+#: src/commands.c:2277
 #, c-format
 msgid "Show row outline %d"
 msgstr "Rij-outline %d tonen"
 
-#: src/commands.c:2343
+#: src/commands.c:2342
 msgid "Those columns are already grouped"
 msgstr "Deze kolommen zijn reeds gegroepeerd."
 
-#: src/commands.c:2344
+#: src/commands.c:2343
 msgid "Those rows are already grouped"
 msgstr "Deze rijen zijn reeds gegroepeerd."
 
-#: src/commands.c:2367
+#: src/commands.c:2366
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 "Deze kolommen zijn niet gegroepeerd, je kunt de groepering dus niet opheffen."
 
-#: src/commands.c:2368
+#: src/commands.c:2367
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 "Deze rijen zijn niet gegroepeerd, je kunt de groepering dus niet opheffen."
 
-#: src/commands.c:2382
+#: src/commands.c:2381
 #, c-format
 msgid "Group columns %s"
 msgstr "Groepeer kolommen %s"
 
-#: src/commands.c:2382
+#: src/commands.c:2381
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Groepering opheffen kolommen %s"
 
-#: src/commands.c:2384
+#: src/commands.c:2383
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Groepeer rijen %d:%d"
 
-#: src/commands.c:2384
+#: src/commands.c:2383
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Groepering opheffen rijen %d:%d"
 
-#: src/commands.c:2618
+#: src/commands.c:2617
 #, c-format
 msgid "Moving %s"
 msgstr "Verplaatsen cellen %s"
 
-#: src/commands.c:2627 src/commands.c:2838
+#: src/commands.c:2626 src/commands.c:2837
 msgid "is beyond sheet boundaries"
 msgstr "is voorbij de werkbladgrenzen"
 
 #. FIXME?
-#: src/commands.c:2782
+#: src/commands.c:2781
 #, c-format
 msgid "Pasting into %s"
 msgstr "Plakken in %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3015 src/commands.c:3016 src/workbook-control-gui.c:2339
+#: src/commands.c:3014 src/commands.c:3015 src/workbook-control-gui.c:2339
 msgid "Autofill"
 msgstr "Autovul"
 
 #. Changed in initial redo.
-#: src/commands.c:3039
+#: src/commands.c:3038
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autovul cellen %s"
 
-#: src/commands.c:3189
+#: src/commands.c:3188
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatisch cellen %s opmaken"
 
-#: src/commands.c:3299
+#: src/commands.c:3298
 #, c-format
 msgid "Unmerging %s"
 msgstr "Cellen Splitsen %s"
 
-#: src/commands.c:3437
+#: src/commands.c:3436
 #, c-format
 msgid "Merging %s"
 msgstr "Samenvoegen cellen %s"
 
 #. Corrected below.
-#: src/commands.c:3819 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3818 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Zoek en Vervang"
 
-#: src/commands.c:3916
+#: src/commands.c:3915
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Instellen breedte van kolommen op %.2fpts"
 
-#: src/commands.c:3917
+#: src/commands.c:3916
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Instellen hoogte van rijen op %.2fpts"
 
-#: src/commands.c:4034
+#: src/commands.c:4033
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s tot %.0f%%"
 
-#: src/commands.c:4104
+#: src/commands.c:4103
 msgid "Insert object"
 msgstr "Nieuw object invoegen"
 
-#: src/commands.c:4163
+#: src/commands.c:4162
 msgid "Delete object"
 msgstr "Object verwijderen"
 
-#: src/commands.c:4244
+#: src/commands.c:4243
 msgid "Resize object"
 msgstr "Grootte van object veranderen"
 
-#: src/commands.c:4244
+#: src/commands.c:4243
 msgid "Move object"
 msgstr "Object verplaatsen"
 
-#: src/commands.c:4805
+#: src/commands.c:4804
 msgid "Reordering Sheets"
 msgstr "Bladen Herordenen"
 
-#: src/commands.c:4808
+#: src/commands.c:4807
 msgid "Renaming Sheets"
 msgstr "Bladen Hernoemen"
 
-#: src/commands.c:4811
+#: src/commands.c:4810
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "%i bladen toevoegen"
 
-#: src/commands.c:4815
+#: src/commands.c:4814
 msgid "Changing Tab Colors"
 msgstr "Kleur van Tabs Veranderen"
 
-#: src/commands.c:4818
+#: src/commands.c:4817
 msgid "Changing Sheet Protection"
 msgstr "Bladbeveiliging Veranderen"
 
-#: src/commands.c:4821
+#: src/commands.c:4820
 msgid "Delete sheets"
 msgstr "Werkbladen verwijderen"
 
-#: src/commands.c:4824
+#: src/commands.c:4823
 msgid "Delete a sheet"
 msgstr "Een werkblad verwijderen"
 
-#: src/commands.c:4827
+#: src/commands.c:4826
 msgid "Reorganizing Sheets"
 msgstr "Bladen Herordenen"
 
-#: src/commands.c:4977
+#: src/commands.c:4976
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Commentaar van %s wissen"
 
-#: src/commands.c:4978
+#: src/commands.c:4977
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Commentaar van %s instellen"
 
-#: src/commands.c:5358
+#: src/commands.c:5357
 #, c-format
 msgid "Merging data into %s"
 msgstr "Samenvoegen gegevens naar %s"
 
-#: src/commands.c:5460
+#: src/commands.c:5459
 msgid "Changing summary info"
 msgstr "Veranderen samevatting"
 
-#: src/commands.c:5551
+#: src/commands.c:5550
 msgid "Raise object"
 msgstr "Object naar voren halen"
 
-#: src/commands.c:5554
+#: src/commands.c:5553
 msgid "Lower object"
 msgstr "Object naar achteren brengen"
 
-#: src/commands.c:5557
+#: src/commands.c:5556
 msgid "Raise object to top"
 msgstr "Object bovenop leggen"
 
-#: src/commands.c:5560
+#: src/commands.c:5559
 msgid "Lower object to bottom"
 msgstr "Object onderaan leggen"
 
-#: src/commands.c:5675
+#: src/commands.c:5674
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Paginainstellingen voor %s"
 
-#: src/commands.c:5677
+#: src/commands.c:5676
 msgid "Page Setup For All Sheets"
 msgstr "Paginainstellingen voor alle werkbladen"
 
-#: src/commands.c:5793
+#: src/commands.c:5792
 msgid "has a circular reference"
 msgstr "bevat een kringverwijzing"
 
-#: src/commands.c:5816
+#: src/commands.c:5815
 #, c-format
 msgid "Define Name %s"
 msgstr "Naam %s definiëren"
 
-#: src/commands.c:5819
+#: src/commands.c:5818
 #, c-format
 msgid "Update Name %s"
 msgstr "Naam %s bijwerken"
 
-#: src/commands.c:5883
+#: src/commands.c:5882
 msgid "Add scenario"
 msgstr "Scenario toevoegen"
 
-#: src/commands.c:5958
+#: src/commands.c:5957
 msgid "Scenario Show"
 msgstr "Scenario tonen"
 
-#: src/commands.c:6022
+#: src/commands.c:6021
 msgid "Shuffle Data"
 msgstr "Data husselen"
 
 #. FIXME?
-#: src/commands.c:6133
+#: src/commands.c:6132
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) naar kolommen (%s)"
@@ -20823,28 +20823,28 @@ msgstr "Tekst (%s) naar kolommen (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6279 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Oplosser"
 
-#: src/commands.c:6367
+#: src/commands.c:6366
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Doelzoeken (%s)"
 
-#: src/commands.c:6509
+#: src/commands.c:6508
 #, c-format
 msgid "Duplicating %s"
 msgstr "%s dupliceren"
 
-#: src/commands.c:6589
+#: src/commands.c:6588
 msgid "Tabulating Dependencies"
 msgstr "Afhankelijkhedeb tabuleren"
 
-#: src/commands.c:6665
+#: src/commands.c:6664
 msgid "Reconfigure Graph"
 msgstr "Diagram opnieuw configureren"
 
@@ -21285,7 +21285,7 @@ msgstr "Waarden"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3969
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -21732,7 +21732,7 @@ msgid "_Bubbles scaled to"
 msgstr "_Ballonnen geschaald op"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
-msgid "_Size reprented by:"
+msgid "_Size represented by:"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
@@ -22427,7 +22427,7 @@ msgstr "Eerste Letter"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2188 src/format.c:2317 src/format.c:2323 src/format.c:2399
+#: src/format.c:2195 src/format.c:2324 src/format.c:2330 src/format.c:2406
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "Algemeen"
@@ -23555,8 +23555,8 @@ msgid "Mar"
 msgstr "Mar"
 
 #: src/dialogs/dialog-autoformat.c:75 src/dialogs/dialog-autoformat.c:79
-#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
-#: src/tools/analysis-tools.c:3370
+#: src/tools/analysis-tools.c:3353 src/tools/analysis-tools.c:3363
+#: src/tools/analysis-tools.c:3371
 msgid "Total"
 msgstr "Totaal"
 
@@ -25314,8 +25314,8 @@ msgstr "_Aanpassen selectie %"
 msgid "0.2"
 msgstr "0,2"
 
-#: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2689
-#: src/tools/analysis-tools.c:2692
+#: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2690
+#: src/tools/analysis-tools.c:2693
 msgid "Exponential Smoothing"
 msgstr "Exponentieel Glad"
 
@@ -25577,8 +25577,8 @@ msgstr "Bin _Labels"
 msgid "C_umulative Percentages"
 msgstr "C_umulatieve Percentages"
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
-#: src/tools/analysis-tools.c:4072
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4070
+#: src/tools/analysis-tools.c:4073
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -25807,8 +25807,8 @@ msgstr "3"
 msgid "In_terval:"
 msgstr "In_terval:"
 
-#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2556
-#: src/tools/analysis-tools.c:2559
+#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2557
+#: src/tools/analysis-tools.c:2560
 msgid "Moving Average"
 msgstr "Bewegend Gemiddelde"
 
@@ -27111,40 +27111,40 @@ msgstr "WAAR"
 msgid "FALSE"
 msgstr "ONWAAR"
 
-#: src/format.c:656
+#: src/format.c:663
 msgid "Black"
 msgstr "Zwart"
 
-#: src/format.c:657
+#: src/format.c:664
 msgid "Blue"
 msgstr "Blauw"
 
-#: src/format.c:658
+#: src/format.c:665
 msgid "Cyan"
 msgstr "Cyaan"
 
-#: src/format.c:659
+#: src/format.c:666
 msgid "Green"
 msgstr "Groen"
 
-#: src/format.c:660
+#: src/format.c:667
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:661
+#: src/format.c:668
 msgid "Red"
 msgstr "Rood"
 
-#: src/format.c:662
+#: src/format.c:669
 msgid "White"
 msgstr "Wit"
 
-#: src/format.c:663
+#: src/format.c:670
 msgid "Yellow"
 msgstr "Geel"
 
 #. Array of arrays ??
-#: src/format.c:2080
+#: src/format.c:2087
 msgid "ARRAY"
 msgstr "REEKS"
 
@@ -28711,27 +28711,27 @@ msgstr "&[DATUM]"
 msgid "File Name"
 msgstr "Bestandsnaam"
 
-#: src/print-info.c:561
+#: src/print-info.c:560
 msgid "Path "
 msgstr "Map "
 
-#: src/print-info.c:569
+#: src/print-info.c:568
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:570
+#: src/print-info.c:569
 msgid "page"
 msgstr "pagina"
 
-#: src/print-info.c:571
+#: src/print-info.c:570
 msgid "pages"
 msgstr "pagina's"
 
-#: src/print-info.c:574
+#: src/print-info.c:573
 msgid "file"
 msgstr "bestand"
 
-#: src/print-info.c:575
+#: src/print-info.c:574
 msgid "path"
 msgstr "Map"
 
@@ -28963,23 +28963,23 @@ msgstr ""
 "dezelfde naam heeft.  Er moet rekening worden gehouden met vreemd\n"
 "gedrag."
 
-#: src/sheet.c:1962
+#: src/sheet.c:1971
 msgid "Target region contains merged cells"
 msgstr "Doelgebied bevat samengevoegde cellen"
 
-#: src/sheet.c:2024
+#: src/sheet.c:2033
 msgid "cannot operate on merged cells"
 msgstr "kan niet toepassen op samengevoegde cellen"
 
-#: src/sheet.c:2034
+#: src/sheet.c:2043
 msgid "cannot operate on array formulae"
 msgstr "kan niet worden toegepast op array formules"
 
-#: src/sheet.c:3126
+#: src/sheet.c:3142
 msgid "Insert Columns"
 msgstr "Kolommen Invoegen"
 
-#: src/sheet.c:3244
+#: src/sheet.c:3260
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
@@ -29043,12 +29043,12 @@ msgstr "Tekst-export (instelbaar)"
 msgid "Comma separated values (CSV)"
 msgstr "Waarden gescheiden door kommas (CSV)"
 
-#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
+#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3297
 #, c-format
 msgid "Row %i"
 msgstr "Rij %i"
 
-#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3288
+#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3289
 #, c-format
 msgid "Column %i"
 msgstr "Kolom %i"
@@ -29317,173 +29317,173 @@ msgstr "Regressie (%s)"
 msgid "Standard Error"
 msgstr "Standaard Fout"
 
-#: src/tools/analysis-tools.c:2543
+#: src/tools/analysis-tools.c:2544
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Bewegend Gemiddelde (%s)"
 
-#: src/tools/analysis-tools.c:2676
+#: src/tools/analysis-tools.c:2677
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Exponentieel Glad (%s)"
 
-#: src/tools/analysis-tools.c:2744
+#: src/tools/analysis-tools.c:2745
 msgid "Point"
 msgstr "Punt"
 
-#: src/tools/analysis-tools.c:2746
+#: src/tools/analysis-tools.c:2747
 msgid "Rank"
 msgstr "Rang"
 
-#: src/tools/analysis-tools.c:2747
+#: src/tools/analysis-tools.c:2748
 msgid "Percentile"
 msgstr "Percentiel"
 
-#: src/tools/analysis-tools.c:2807
+#: src/tools/analysis-tools.c:2808
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rangen (%s)"
 
-#: src/tools/analysis-tools.c:2819 src/tools/analysis-tools.c:2822
+#: src/tools/analysis-tools.c:2820 src/tools/analysis-tools.c:2823
 msgid "Ranks"
 msgstr "Rangen"
 
-#: src/tools/analysis-tools.c:2860
+#: src/tools/analysis-tools.c:2861
 msgid "Anova: Single Factor"
 msgstr "Anova: Enkel Factor"
 
-#: src/tools/analysis-tools.c:2861 src/tools/analysis-tools.c:3348
+#: src/tools/analysis-tools.c:2862 src/tools/analysis-tools.c:3349
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "SAMENVATTING"
 
-#: src/tools/analysis-tools.c:2862
+#: src/tools/analysis-tools.c:2863
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Groepen/Telling/Som/Gemiddelde/Variantie"
 
-#: src/tools/analysis-tools.c:2916
+#: src/tools/analysis-tools.c:2917
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Bron van Variantie/Tussen Groepen/Binnen Groepen/Totaal"
 
-#: src/tools/analysis-tools.c:2921 src/tools/analysis-tools.c:3198
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:2922 src/tools/analysis-tools.c:3199
+#: src/tools/analysis-tools.c:3373
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-waarde/F kritisch"
 
-#: src/tools/analysis-tools.c:2999
+#: src/tools/analysis-tools.c:3000
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Een Factor ANOVA (%s)"
 
-#: src/tools/analysis-tools.c:3010 src/tools/analysis-tools.c:3679
+#: src/tools/analysis-tools.c:3011 src/tools/analysis-tools.c:3680
 msgid "Anova"
 msgstr "Anova"
 
-#: src/tools/analysis-tools.c:3013
+#: src/tools/analysis-tools.c:3014
 msgid "Single Factor ANOVA"
 msgstr "Enkel Factor ANOVA"
 
-#: src/tools/analysis-tools.c:3120
+#: src/tools/analysis-tools.c:3121
 msgid "The input range contains non-numeric data."
 msgstr "Het invoerbereik bevat niet-numerieke gegevens."
 
-#: src/tools/analysis-tools.c:3128
+#: src/tools/analysis-tools.c:3129
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Twee-Factor Zonder Herhaling"
 
-#: src/tools/analysis-tools.c:3129
+#: src/tools/analysis-tools.c:3130
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SAMENVATTING/Telling/Som/Gemiddelde/Variantie"
 
-#: src/tools/analysis-tools.c:3192
+#: src/tools/analysis-tools.c:3193
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Bron van Variantie/Rijen/Kolommen/Fout/Totaal"
 
-#: src/tools/analysis-tools.c:3338
+#: src/tools/analysis-tools.c:3339
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "Een van de factorcombinaties bevat geen waarnemingen!"
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3347
+#: src/tools/analysis-tools.c:3348
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Twee-Factor met Herhaling"
 
-#: src/tools/analysis-tools.c:3354
+#: src/tools/analysis-tools.c:3355
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Telling/Som/Gemiddelde/Variantie"
 
-#: src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3365
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Bron van Variantie/Rijen/Kolommen/Interactie/Binnen"
 
-#: src/tools/analysis-tools.c:3663
+#: src/tools/analysis-tools.c:3664
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Twee-Factor ANOVA (%s), geen herhaling"
 
-#: src/tools/analysis-tools.c:3664
+#: src/tools/analysis-tools.c:3665
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Twee-Factor ANOVA(%s), met herhaling"
 
-#: src/tools/analysis-tools.c:3682
+#: src/tools/analysis-tools.c:3683
 msgid "Two Factor ANOVA"
 msgstr "Twee Factor ANOVA"
 
-#: src/tools/analysis-tools.c:3863
+#: src/tools/analysis-tools.c:3864
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3867
+#: src/tools/analysis-tools.c:3868
 msgid "Too Small"
 msgstr "Te Klein"
 
-#: src/tools/analysis-tools.c:3884
+#: src/tools/analysis-tools.c:3885
 msgid "More"
 msgstr "Meer"
 
-#: src/tools/analysis-tools.c:3893
+#: src/tools/analysis-tools.c:3894
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3897
+#: src/tools/analysis-tools.c:3898
 msgid "Too Large"
 msgstr "Te Groot"
 
-#: src/tools/analysis-tools.c:3941
+#: src/tools/analysis-tools.c:3942
 msgid "Bin"
 msgstr "Bin"
 
-#: src/tools/analysis-tools.c:3966
+#: src/tools/analysis-tools.c:3967
 msgid "Frequency"
 msgstr "Frequentie"
 
-#: src/tools/analysis-tools.c:3971
+#: src/tools/analysis-tools.c:3972
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Cumulatief %"
 
-#: src/tools/analysis-tools.c:4050
+#: src/tools/analysis-tools.c:4051
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Histogram (%s)"
 
-#: src/tools/analysis-tools.c:4157 src/tools/solver/reports-write.c:647
+#: src/tools/analysis-tools.c:4158 src/tools/solver/reports-write.c:647
 msgid "Real"
 msgstr "Reëel"
 
-#: src/tools/analysis-tools.c:4158
+#: src/tools/analysis-tools.c:4159
 msgid "Imaginary"
 msgstr "Imaginair"
 
-#: src/tools/analysis-tools.c:4218
+#: src/tools/analysis-tools.c:4219
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourier Serie (%s)"
 
-#: src/tools/analysis-tools.c:4230 src/tools/analysis-tools.c:4233
+#: src/tools/analysis-tools.c:4231 src/tools/analysis-tools.c:4234
 msgid "Fourier Series"
 msgstr "Fourier Serie"
 
@@ -31783,31 +31783,31 @@ msgstr "Randen instellen"
 msgid "SpinButton"
 msgstr "Spinknop"
 
-#: src/workbook-view.c:273
+#: src/workbook-view.c:276
 #, c-format
 msgid "%dC"
 msgstr "%dK"
 
-#: src/workbook-view.c:275
+#: src/workbook-view.c:278
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: src/workbook-view.c:277
+#: src/workbook-view.c:280
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dK"
 
-#: src/workbook-view.c:419
+#: src/workbook-view.c:422
 msgid "Internal ERROR"
 msgstr "Interne FOUT"
 
-#: src/workbook-view.c:576
+#: src/workbook-view.c:579
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Kan '%s' niet openen voor schrijven: %s"
 
-#: src/workbook-view.c:601
+#: src/workbook-view.c:604
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Er ontstond een onverklaarbare fout bij het opslaan van %s"
@@ -31816,23 +31816,23 @@ msgstr "Er ontstond een onverklaarbare fout bij het opslaan van %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:960
+#: src/workbook-view.c:611 src/workbook-view.c:974
 msgid "The filename given is not valid in the current encoding."
 msgstr "De opgegeven bestandsnaam is niet geldig in de huidige tekenset."
 
-#: src/workbook-view.c:693 src/workbook-view.c:802
+#: src/workbook-view.c:696 src/workbook-view.c:805
 msgid "Default file saver is not available."
 msgstr "Standaard bestandsopslag is niet beschikbaar."
 
-#: src/workbook-view.c:762
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr "Kon geen tijdelijk bestand aanmaken voor verzenden."
 
-#: src/workbook-view.c:895
+#: src/workbook-view.c:898
 msgid "Unsupported file format."
 msgstr "Niet ondersteund bestandsformaat."
 
-#: src/workbook-view.c:953
+#: src/workbook-view.c:967
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Er trad een onverklaarbare fout op bij het openen van %s"

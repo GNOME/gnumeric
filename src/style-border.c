@@ -702,24 +702,22 @@ style_border_draw_diag (GnmStyle const *style,
 
 	diag = mstyle_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
 	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
-		int a = 0;
 		gc = style_border_get_gc (diag, drawable);
 		if (diag->line_type == STYLE_BORDER_DOUBLE) {
-			gdk_draw_line (drawable, gc, x1, y1+2, x2-2, y2);
-			a = 2;
-		}
-		gdk_draw_line (drawable, gc, x1+a, y1, x2, y2-a);
+			gdk_draw_line (drawable, gc, x1+1, y1+3, x2-3, y2-1);
+			gdk_draw_line (drawable, gc, x1+3, y1+1, x2-1, y2-3);
+		} else
+			gdk_draw_line (drawable, gc, x1, y1, x2, y2);
 	}
 
 	diag = mstyle_get_border (style, MSTYLE_BORDER_DIAGONAL);
 	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
-		int a = 0;
 		gc = style_border_get_gc (diag, drawable);
 		if (diag->line_type == STYLE_BORDER_DOUBLE) {
-			gdk_draw_line (drawable, gc, x1, y2-2, x2-2, y1);
-			a = 2;
-		}
-		gdk_draw_line (drawable, gc, x1+a, y2, x2, y1+a);
+			gdk_draw_line (drawable, gc, x1+1, y2-3, x2-3, y1+1);
+			gdk_draw_line (drawable, gc, x1+3, y2-1, x2-1, y1+3);
+		} else
+			gdk_draw_line (drawable, gc, x1, y2, x2, y1);
 	}
 }
 

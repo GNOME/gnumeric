@@ -1,3 +1,7 @@
+2004-04-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.9
+
 2004-03-30  Jody Goldberg <jody@gnome.org>
 
 	* dialog-stf-main-page.c (stf_dialog_main_page_init) : connect to

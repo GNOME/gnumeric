@@ -28,6 +28,7 @@
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
+#include <string.h>
 
 GtkWidget *gog_bubble_plot_pref   (GogBubblePlot *bubble, GnmCmdContext *cc);
 

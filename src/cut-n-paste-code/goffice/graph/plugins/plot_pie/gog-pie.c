@@ -393,7 +393,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 		for (k = 0 ; k < series->base.num_elements; k++) {
 			len = fabs (vals[k]) * scale;
-			if (!finite (len) || len < 1e-3)
+			if (!finitegnum (len) || len < 1e-3)
 				continue;
 
 			/* only separate the outer ring */
@@ -540,7 +540,7 @@ gog_pie_series_update (GogObject *obj)
 	series->base.num_elements = len;
 
 	for (total = 0. ; len-- > 0 ;)
-		if (finite (vals[len]))
+		if (finitegnum (vals[len]))
 			total += fabs (vals[len]);
 	series->total = total;
 

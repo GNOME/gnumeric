@@ -96,7 +96,7 @@ gog_2d_plot_update (GogObject *obj)
 			go_data_vector_get_minmax (GO_DATA_VECTOR (
 				series->base.values[0].data), &tmp_min, &tmp_max);
 
-			if (!finite (tmp_min) || !finite (tmp_max) ||
+			if (!finitegnum (tmp_min) || !finitegnum (tmp_max) ||
 			    tmp_min > tmp_max) {
 				tmp_min = 0;
 				tmp_max = go_data_vector_get_len (
@@ -176,8 +176,8 @@ gog_2d_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.minima = model->x.minima;
 		bounds->val.maxima = model->x.maxima;
 		bounds->is_discrete = model->x.minima > model->x.maxima ||
-			!finite (model->x.minima) ||
-			!finite (model->x.maxima);
+			!finitegnum (model->x.minima) ||
+			!finitegnum (model->x.maxima);
 		if (bounds->fmt == NULL && model->x.fmt != NULL)
 			bounds->fmt = go_format_ref (model->x.fmt);
 
@@ -593,7 +593,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			double zmin;
 			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
 			show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
-			if ((! finite (zmax)) || (!show_negatives && (zmax <= 0))) continue;
+			if ((! finitegnum (zmax)) || (!show_negatives && (zmax <= 0))) continue;
 			rmax = MIN (view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO
 						* GOG_BUBBLE_PLOT (view->model)->bubble_scale;
 			size_as_area = GOG_BUBBLE_PLOT (view->model)->size_as_area;
@@ -639,19 +639,19 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			y = *y_vals++;
 			valid = !isnan (y) && !isnan (x);
 			if (valid) {
-				/* We are checking with finite here because isinf
+				/* We are checking with finitegnum here because isinf
 				   if not available everywhere.  Note, that NANs
 				   have been ruled out.  */
-				if (!finite (y))
+				if (!finitegnum (y))
 					y = 0; /* excel is just sooooo consistent */
-				if (!finite (x))
+				if (!finitegnum (x))
 					x = i;
 #warning "move map into axis"
 				x = x_off + x_scale * x;
 				y = y_off + y_scale * y;
 				if (GOG_IS_BUBBLE_PLOT (model)) {
 					z = *z_vals++;
-					if (!finite (z)) continue;
+					if (!finitegnum (z)) continue;
 					if (z < 0) {
 						if (GOG_BUBBLE_PLOT(model)->show_negatives) {
 							gog_renderer_push_style (view->renderer, neg_style);

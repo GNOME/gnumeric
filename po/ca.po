@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-29 12:52+0200\n"
+"POT-Creation-Date: 2004-04-07 10:40-0400\n"
 "PO-Revision-Date: 2003-10-31 18:34+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg@retemail.es>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -1073,7 +1073,7 @@ msgstr ""
 "Ja s'ha escrit una llargada per una cadena que serà tallada per problemes de "
 "codificació."
 
-#: plugins/excel/ms-excel-write.c:3805
+#: plugins/excel/ms-excel-write.c:3818
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1082,7 +1082,7 @@ msgstr ""
 "Alguns continguts es perdran si es grava com a MS Excel (tm) 95. Només "
 "suporta %d files, i aquesta fulla té %d"
 
-#: plugins/excel/ms-excel-write.c:3812
+#: plugins/excel/ms-excel-write.c:3825
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1091,11 +1091,11 @@ msgstr ""
 "Alguns continguts es perdran si es grava com a MS Excel (tm). Només suporta %"
 "d files, i aquesta fulla té %d"
 
-#: plugins/excel/ms-excel-write.c:4330
+#: plugins/excel/ms-excel-write.c:4343
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No es pot obrir el flux 'Book' per escriure\n"
 
-#: plugins/excel/ms-excel-write.c:4350
+#: plugins/excel/ms-excel-write.c:4363
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No es pot obrir el flux 'Korkbook' per escriure\n"
 
@@ -3792,7 +3792,7 @@ msgstr "date1,date2,interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:572
+#: src/print-info.c:571
 msgid "date"
 msgstr "data"
 
@@ -3809,7 +3809,7 @@ msgid "start_date,months"
 msgstr "data_inici,mesos"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:573
+#: plugins/fn-date/functions.c:1265 src/print-info.c:572
 msgid "time"
 msgstr "hora"
 
@@ -16164,7 +16164,7 @@ msgstr "Funció objectiu:"
 msgid "Constraints:"
 msgstr "Restriccions"
 
-#: plugins/mps/mps.c:247 src/commands.c:5736
+#: plugins/mps/mps.c:247 src/commands.c:5735
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -16917,7 +16917,7 @@ msgid "Error while opening xbase file."
 msgstr "S'ha produït un error mentre s'obria el fitxer xbase."
 
 # src/functions/fn-sheet.c:104
-#: plugins/xbase/boot.c:175 src/commands.c:4561
+#: plugins/xbase/boot.c:175 src/commands.c:4560
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
 #: src/xml-io.c:3726
@@ -18657,7 +18657,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Anàlisi estadístic"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4044
-#: src/workbook-control-gui.c:4864 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4864 src/workbook-view.c:543
 msgid "Sum"
 msgstr "Suma"
 
@@ -19344,11 +19344,11 @@ msgstr "S'està escrivint \"%s%s\" a %s"
 msgid "Typing \"%s%s\""
 msgstr "S'està escrivint \"%s%s\""
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3185
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3201
 msgid "Delete Columns"
 msgstr "Suprimeix Columnes"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3303
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3319
 msgid "Delete Rows"
 msgstr "Suprimeix Files"
 
@@ -19393,7 +19393,7 @@ msgid "Deleting row %s"
 msgstr "S'està suprimint la fila %s"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2799
+#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2815
 msgid "Clear"
 msgstr "Buida"
 
@@ -19418,359 +19418,359 @@ msgstr "tot"
 msgid "Clearing %s in %s"
 msgstr "S'està esborrant %s a %s"
 
-#: src/commands.c:1680
+#: src/commands.c:1681
 msgid "Changing Format"
 msgstr "S'està canviant el format"
 
-#: src/commands.c:1807
+#: src/commands.c:1806
 #, c-format
 msgid "Changing format of %s"
 msgstr "S'està canviant el format de %s"
 
-#: src/commands.c:1919
+#: src/commands.c:1918
 #, c-format
 msgid "Autofitting column %s"
 msgstr "S'està ajustant automàticament la columna %s"
 
-#: src/commands.c:1920
+#: src/commands.c:1919
 #, c-format
 msgid "Autofitting row %s"
 msgstr "S'està ajustant automàticament la fila %s"
 
-#: src/commands.c:1923
+#: src/commands.c:1922
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "S'està especificant l'amplada de la columna %s a %d píxels"
 
-#: src/commands.c:1925
+#: src/commands.c:1924
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "S'està especificant l'alçada de la fila %s a %d píxels"
 
-#: src/commands.c:1928
+#: src/commands.c:1927
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "S'està especificant l'amplada de la columna %s per defecte"
 
-#: src/commands.c:1931
+#: src/commands.c:1930
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "S'està especificant l'alçada de la fila %s per defecte"
 
-#: src/commands.c:1935
+#: src/commands.c:1934
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "S'estan ajustant automàticament les columnes %s"
 
-#: src/commands.c:1936
+#: src/commands.c:1935
 #, fuzzy, c-format
 msgid "Autofitting rows %s"
 msgstr "S'està ajustant automàticament la fila %s"
 
-#: src/commands.c:1939
+#: src/commands.c:1938
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "S'està especificant l'amplada de les columnes %s a %d píxels"
 
-#: src/commands.c:1941
+#: src/commands.c:1940
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "S'està especificant l'alçada de les files %s a %d píxels"
 
-#: src/commands.c:1945
+#: src/commands.c:1944
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "S'està especificant l'amplada de les columnes %s per defecte"
 
-#: src/commands.c:1947
+#: src/commands.c:1946
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "S'està especificant l'alçada de les files %s per defecte"
 
-#: src/commands.c:2014 src/dialogs/dialog-preferences.c:1504
+#: src/commands.c:2013 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
 msgstr "S'està ordenant"
 
-#: src/commands.c:2034
+#: src/commands.c:2033
 #, c-format
 msgid "Sorting %s"
 msgstr "S'està ordenant %s"
 
-#: src/commands.c:2166
+#: src/commands.c:2165
 msgid "Unhide columns"
 msgstr "Mostra columnes"
 
-#: src/commands.c:2166
+#: src/commands.c:2165
 msgid "Hide columns"
 msgstr "Amaga columnes"
 
-#: src/commands.c:2167
+#: src/commands.c:2166
 msgid "Unhide rows"
 msgstr "Mostra files"
 
-#: src/commands.c:2167
+#: src/commands.c:2166
 msgid "Hide rows"
 msgstr "Amaga files"
 
-#: src/commands.c:2250
+#: src/commands.c:2249
 msgid "Expand columns"
 msgstr "Expandeix les columnes"
 
-#: src/commands.c:2250
+#: src/commands.c:2249
 msgid "Collapse columns"
 msgstr "Redueix les columnes"
 
-#: src/commands.c:2251
+#: src/commands.c:2250
 msgid "Expand rows"
 msgstr "Expandeix les files"
 
-#: src/commands.c:2251
+#: src/commands.c:2250
 msgid "Collapse rows"
 msgstr "Redueix les files"
 
-#: src/commands.c:2278
+#: src/commands.c:2277
 #, c-format
 msgid "Show column outline %d"
 msgstr "Ensenya el contorn de columna %d"
 
-#: src/commands.c:2278
+#: src/commands.c:2277
 #, c-format
 msgid "Show row outline %d"
 msgstr "Ensenya el contorn de fila %d"
 
-#: src/commands.c:2343
+#: src/commands.c:2342
 msgid "Those columns are already grouped"
 msgstr "Aquestes columnes ja estan agrupades"
 
-#: src/commands.c:2344
+#: src/commands.c:2343
 msgid "Those rows are already grouped"
 msgstr "Aquestes files ja estan agrupades"
 
-#: src/commands.c:2367
+#: src/commands.c:2366
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Aquestes columnes no estan agrupades, no les podeu desagrupar"
 
-#: src/commands.c:2368
+#: src/commands.c:2367
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Aquestes files no estan agrupades, no les podeu desagrupar"
 
-#: src/commands.c:2382
+#: src/commands.c:2381
 #, c-format
 msgid "Group columns %s"
 msgstr "Agrupa les columnes %s"
 
-#: src/commands.c:2382
+#: src/commands.c:2381
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Desagrupa les columnes %s"
 
-#: src/commands.c:2384
+#: src/commands.c:2383
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Agrupa les files %d:%d"
 
-#: src/commands.c:2384
+#: src/commands.c:2383
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Desagrupa les files %d:%d"
 
-#: src/commands.c:2618
+#: src/commands.c:2617
 #, c-format
 msgid "Moving %s"
 msgstr "S'està movent %s"
 
-#: src/commands.c:2627 src/commands.c:2838
+#: src/commands.c:2626 src/commands.c:2837
 msgid "is beyond sheet boundaries"
 msgstr "està fora dels límits del full"
 
 #. FIXME?
-#: src/commands.c:2782
+#: src/commands.c:2781
 #, c-format
 msgid "Pasting into %s"
 msgstr "S'està enganxant a %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3015 src/commands.c:3016 src/workbook-control-gui.c:2339
+#: src/commands.c:3014 src/commands.c:3015 src/workbook-control-gui.c:2339
 msgid "Autofill"
 msgstr "Omple automàticament"
 
 #. Changed in initial redo.
-#: src/commands.c:3039
+#: src/commands.c:3038
 #, c-format
 msgid "Autofilling %s"
 msgstr "S'està omplint automàticament %s"
 
-#: src/commands.c:3189
+#: src/commands.c:3188
 #, c-format
 msgid "Autoformatting %s"
 msgstr "S'està autoformatant %s"
 
-#: src/commands.c:3299
+#: src/commands.c:3298
 #, c-format
 msgid "Unmerging %s"
 msgstr "S'està anul·lant la fusió de %s"
 
-#: src/commands.c:3437
+#: src/commands.c:3436
 #, c-format
 msgid "Merging %s"
 msgstr "S'està fusionant %s"
 
 #. Corrected below.
-#: src/commands.c:3819 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3818 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Cerca i reemplaça"
 
-#: src/commands.c:3916
+#: src/commands.c:3915
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "S'està especificant l'amplada per defecte de les columnes a %.2fpts"
 
-#: src/commands.c:3917
+#: src/commands.c:3916
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "S'està especificant l'alçada per defecte de les files a %.2fpts"
 
-#: src/commands.c:4034
+#: src/commands.c:4033
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s a %.0f%%"
 
 #
-#: src/commands.c:4104
+#: src/commands.c:4103
 msgid "Insert object"
 msgstr "Insereix un objecte"
 
 #
-#: src/commands.c:4163
+#: src/commands.c:4162
 msgid "Delete object"
 msgstr "Suprimeix l'objecte"
 
 #
-#: src/commands.c:4244
+#: src/commands.c:4243
 msgid "Resize object"
 msgstr "Redimensiona l'objecte"
 
-#: src/commands.c:4244
+#: src/commands.c:4243
 msgid "Move object"
 msgstr "Mou l'objecte"
 
 #
-#: src/commands.c:4805
+#: src/commands.c:4804
 msgid "Reordering Sheets"
 msgstr "Reordenant els fulls"
 
 #
-#: src/commands.c:4808
+#: src/commands.c:4807
 msgid "Renaming Sheets"
 msgstr "Reanomenant el full"
 
 #
-#: src/commands.c:4811
+#: src/commands.c:4810
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Reanomenant el full"
 
 #
-#: src/commands.c:4815
+#: src/commands.c:4814
 msgid "Changing Tab Colors"
 msgstr "Canviant els Colors Tab"
 
-#: src/commands.c:4818
+#: src/commands.c:4817
 msgid "Changing Sheet Protection"
 msgstr "Canvia protecció de la fulla"
 
-#: src/commands.c:4821
+#: src/commands.c:4820
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Suprimeix cel·les"
 
 #
-#: src/commands.c:4824
+#: src/commands.c:4823
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Suprimeix l'objecte"
 
 #
-#: src/commands.c:4827
+#: src/commands.c:4826
 msgid "Reorganizing Sheets"
 msgstr "Reorganitza els Fulls"
 
-#: src/commands.c:4977
+#: src/commands.c:4976
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Netejant el comentari de %s"
 
-#: src/commands.c:4978
+#: src/commands.c:4977
 #, c-format
 msgid "Setting comment of %s"
 msgstr "S'està especificant el comentari de %s"
 
-#: src/commands.c:5358
+#: src/commands.c:5357
 #, c-format
 msgid "Merging data into %s"
 msgstr "Fusionant la dada cap a %s"
 
 #
-#: src/commands.c:5460
+#: src/commands.c:5459
 msgid "Changing summary info"
 msgstr "Canviant la informació del sumari"
 
 #
-#: src/commands.c:5551
+#: src/commands.c:5550
 msgid "Raise object"
 msgstr "Puja l'objecte"
 
 #
-#: src/commands.c:5554
+#: src/commands.c:5553
 msgid "Lower object"
 msgstr "Objecte de sota"
 
 #
-#: src/commands.c:5557
+#: src/commands.c:5556
 msgid "Raise object to top"
 msgstr "Posa l'objecte al capdavant"
 
-#: src/commands.c:5560
+#: src/commands.c:5559
 msgid "Lower object to bottom"
 msgstr "Objecte de sota al final"
 
-#: src/commands.c:5675
+#: src/commands.c:5674
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configuració de la pàgina per %s"
 
-#: src/commands.c:5677
+#: src/commands.c:5676
 msgid "Page Setup For All Sheets"
 msgstr "Configuració d'Impressió per a totes les fulles"
 
-#: src/commands.c:5793
+#: src/commands.c:5792
 msgid "has a circular reference"
 msgstr "té una referència circular"
 
-#: src/commands.c:5816
+#: src/commands.c:5815
 #, c-format
 msgid "Define Name %s"
 msgstr "Defineix el Nom %s"
 
-#: src/commands.c:5819
+#: src/commands.c:5818
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualitza Nom %s"
 
-#: src/commands.c:5883
+#: src/commands.c:5882
 msgid "Add scenario"
 msgstr "Afegeix escenari"
 
-#: src/commands.c:5958
+#: src/commands.c:5957
 msgid "Scenario Show"
 msgstr "Ensenya escenaris"
 
-#: src/commands.c:6022
+#: src/commands.c:6021
 msgid "Shuffle Data"
 msgstr "Mescla les dades"
 
 #. FIXME?
-#: src/commands.c:6133
+#: src/commands.c:6132
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text a les columnes"
@@ -19781,7 +19781,7 @@ msgstr "Text a les columnes"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6279 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
@@ -19789,23 +19789,23 @@ msgid "Solver"
 msgstr "Solucionador"
 
 #
-#: src/commands.c:6367
+#: src/commands.c:6366
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "Cerca d'objectius"
 
-#: src/commands.c:6509
+#: src/commands.c:6508
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "_Duplica"
 
-#: src/commands.c:6589
+#: src/commands.c:6588
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Dependència Tabulada"
 
 #
-#: src/commands.c:6665
+#: src/commands.c:6664
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "Configura el gràfic"
@@ -20303,7 +20303,7 @@ msgstr "Valors"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3969
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -21506,7 +21506,7 @@ msgstr "Primera Lletra"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2188 src/format.c:2317 src/format.c:2323 src/format.c:2399
+#: src/format.c:2195 src/format.c:2324 src/format.c:2330 src/format.c:2406
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "General"
@@ -22723,8 +22723,8 @@ msgid "Mar"
 msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:75 src/dialogs/dialog-autoformat.c:79
-#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
-#: src/tools/analysis-tools.c:3370
+#: src/tools/analysis-tools.c:3353 src/tools/analysis-tools.c:3363
+#: src/tools/analysis-tools.c:3371
 msgid "Total"
 msgstr "Total"
 
@@ -24595,8 +24595,8 @@ msgid "0.2"
 msgstr "0.2"
 
 #
-#: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2689
-#: src/tools/analysis-tools.c:2692
+#: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2690
+#: src/tools/analysis-tools.c:2693
 msgid "Exponential Smoothing"
 msgstr "Exponencial"
 
@@ -24893,8 +24893,8 @@ msgstr "_Etiquetes Bin"
 msgid "C_umulative Percentages"
 msgstr "Percentatges A_cumuluatius"
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
-#: src/tools/analysis-tools.c:4072
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4070
+#: src/tools/analysis-tools.c:4073
 msgid "Histogram"
 msgstr "Histograma"
 
@@ -25156,8 +25156,8 @@ msgstr "3"
 msgid "In_terval:"
 msgstr "In_terval:"
 
-#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2556
-#: src/tools/analysis-tools.c:2559
+#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2557
+#: src/tools/analysis-tools.c:2560
 msgid "Moving Average"
 msgstr "Mitjana mòbil"
 
@@ -26587,40 +26587,40 @@ msgstr "CERT"
 msgid "FALSE"
 msgstr "FALS"
 
-#: src/format.c:656
+#: src/format.c:663
 msgid "Black"
 msgstr "Negre"
 
-#: src/format.c:657
+#: src/format.c:664
 msgid "Blue"
 msgstr "Blau"
 
-#: src/format.c:658
+#: src/format.c:665
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/format.c:659
+#: src/format.c:666
 msgid "Green"
 msgstr "Verd"
 
-#: src/format.c:660
+#: src/format.c:667
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:661
+#: src/format.c:668
 msgid "Red"
 msgstr "Vermell"
 
-#: src/format.c:662
+#: src/format.c:669
 msgid "White"
 msgstr "Blanc"
 
-#: src/format.c:663
+#: src/format.c:670
 msgid "Yellow"
 msgstr "Groc"
 
 #. Array of arrays ??
-#: src/format.c:2080
+#: src/format.c:2087
 msgid "ARRAY"
 msgstr "CADENA"
 
@@ -28348,28 +28348,28 @@ msgstr "&[DATE]"
 msgid "File Name"
 msgstr "Nom Nou"
 
-#: src/print-info.c:561
+#: src/print-info.c:560
 #, fuzzy
 msgid "Path "
 msgstr "Enganxa"
 
-#: src/print-info.c:569
+#: src/print-info.c:568
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:570
+#: src/print-info.c:569
 msgid "page"
 msgstr "pàgina"
 
-#: src/print-info.c:571
+#: src/print-info.c:570
 msgid "pages"
 msgstr "pàgines"
 
-#: src/print-info.c:574
+#: src/print-info.c:573
 msgid "file"
 msgstr "fitxer"
 
-#: src/print-info.c:575
+#: src/print-info.c:574
 #, fuzzy
 msgid "path"
 msgstr "Línia superior"
@@ -28611,25 +28611,25 @@ msgstr ""
 "columna anomenada VERTADER pot col·lidir amb la constant del\n"
 "mateix nom. Espereu fenòments sobrenaturals."
 
-#: src/sheet.c:1962
+#: src/sheet.c:1971
 msgid "Target region contains merged cells"
 msgstr "L'àrea de destí conté cel·les fusionades"
 
 #
-#: src/sheet.c:2024
+#: src/sheet.c:2033
 msgid "cannot operate on merged cells"
 msgstr "no pot treballar en cel·les fusionades"
 
 #
-#: src/sheet.c:2034
+#: src/sheet.c:2043
 msgid "cannot operate on array formulae"
 msgstr "no pot funcionar en fórmules de matriu"
 
-#: src/sheet.c:3126
+#: src/sheet.c:3142
 msgid "Insert Columns"
 msgstr "Insereix Columnes"
 
-#: src/sheet.c:3244
+#: src/sheet.c:3260
 msgid "Insert Rows"
 msgstr "Insereix Files"
 
@@ -28693,12 +28693,12 @@ msgstr "Importació de fitxers de text (personalitzable)"
 msgid "Comma separated values (CSV)"
 msgstr "fitxers separats per coma o tab (CSV/TSV)"
 
-#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
+#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3297
 #, c-format
 msgid "Row %i"
 msgstr "Fila %i"
 
-#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3288
+#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3289
 #, c-format
 msgid "Column %i"
 msgstr "Columna %i"
@@ -28966,184 +28966,184 @@ msgstr "Regressió (%s)"
 msgid "Standard Error"
 msgstr "Error estàndard"
 
-#: src/tools/analysis-tools.c:2543
+#: src/tools/analysis-tools.c:2544
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Mitjanes mòbils (%s)"
 
-#: src/tools/analysis-tools.c:2676
+#: src/tools/analysis-tools.c:2677
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2744
+#: src/tools/analysis-tools.c:2745
 msgid "Point"
 msgstr "Punt"
 
-#: src/tools/analysis-tools.c:2746
+#: src/tools/analysis-tools.c:2747
 msgid "Rank"
 msgstr "Rang"
 
 #
-#: src/tools/analysis-tools.c:2747
+#: src/tools/analysis-tools.c:2748
 msgid "Percentile"
 msgstr "Percent"
 
-#: src/tools/analysis-tools.c:2807
+#: src/tools/analysis-tools.c:2808
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rangs (%s)"
 
-#: src/tools/analysis-tools.c:2819 src/tools/analysis-tools.c:2822
+#: src/tools/analysis-tools.c:2820 src/tools/analysis-tools.c:2823
 msgid "Ranks"
 msgstr "Rangs"
 
-#: src/tools/analysis-tools.c:2860
+#: src/tools/analysis-tools.c:2861
 msgid "Anova: Single Factor"
 msgstr "Anova: d'un Factor"
 
-#: src/tools/analysis-tools.c:2861 src/tools/analysis-tools.c:3348
+#: src/tools/analysis-tools.c:2862 src/tools/analysis-tools.c:3349
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "RESUM"
 
-#: src/tools/analysis-tools.c:2862
+#: src/tools/analysis-tools.c:2863
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grups/Compta/Suma/Mitjana/Variança"
 
-#: src/tools/analysis-tools.c:2916
+#: src/tools/analysis-tools.c:2917
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Font de variació/Entre grups/Dins de grups/Total"
 
-#: src/tools/analysis-tools.c:2921 src/tools/analysis-tools.c:3198
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:2922 src/tools/analysis-tools.c:3199
+#: src/tools/analysis-tools.c:3373
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/Valor P/F crítica"
 
-#: src/tools/analysis-tools.c:2999
+#: src/tools/analysis-tools.c:3000
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Factor Únic ANOVA (%s)"
 
-#: src/tools/analysis-tools.c:3010 src/tools/analysis-tools.c:3679
+#: src/tools/analysis-tools.c:3011 src/tools/analysis-tools.c:3680
 msgid "Anova"
 msgstr "Anova"
 
 #
-#: src/tools/analysis-tools.c:3013
+#: src/tools/analysis-tools.c:3014
 msgid "Single Factor ANOVA"
 msgstr "ANOVA d'un factor"
 
 #
-#: src/tools/analysis-tools.c:3120
+#: src/tools/analysis-tools.c:3121
 msgid "The input range contains non-numeric data."
 msgstr "El abast d'entrada conté dades no numèriques."
 
-#: src/tools/analysis-tools.c:3128
+#: src/tools/analysis-tools.c:3129
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: dos factors sense replicació"
 
-#: src/tools/analysis-tools.c:3129
+#: src/tools/analysis-tools.c:3130
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/RESUM/Compta/Suma/Mitjana/Variança"
 
-#: src/tools/analysis-tools.c:3192
+#: src/tools/analysis-tools.c:3193
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Font de variació/Files/Columnes/Error/Total"
 
-#: src/tools/analysis-tools.c:3338
+#: src/tools/analysis-tools.c:3339
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "Una de les combinacions de factors no conté cap observació!"
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3347
+#: src/tools/analysis-tools.c:3348
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: dos factors amb replicació"
 
 #
-#: src/tools/analysis-tools.c:3354
+#: src/tools/analysis-tools.c:3355
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Grups/Compta/Suma/Mitjana/Variança"
 
 #
-#: src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3365
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Font de variació/Files/Columnes/Error/Total"
 
-#: src/tools/analysis-tools.c:3663
+#: src/tools/analysis-tools.c:3664
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Dos Factors ANOVA (%s), sense replicació"
 
-#: src/tools/analysis-tools.c:3664
+#: src/tools/analysis-tools.c:3665
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Dos factors ANOVA (%s), amb replicació"
 
 #
-#: src/tools/analysis-tools.c:3682
+#: src/tools/analysis-tools.c:3683
 msgid "Two Factor ANOVA"
 msgstr "ANOVA dos Factors"
 
-#: src/tools/analysis-tools.c:3863
+#: src/tools/analysis-tools.c:3864
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3867
+#: src/tools/analysis-tools.c:3868
 msgid "Too Small"
 msgstr "Massa Petit"
 
 #
-#: src/tools/analysis-tools.c:3884
+#: src/tools/analysis-tools.c:3885
 msgid "More"
 msgstr "Més"
 
-#: src/tools/analysis-tools.c:3893
+#: src/tools/analysis-tools.c:3894
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
 #
-#: src/tools/analysis-tools.c:3897
+#: src/tools/analysis-tools.c:3898
 msgid "Too Large"
 msgstr "Massa Gran"
 
-#: src/tools/analysis-tools.c:3941
+#: src/tools/analysis-tools.c:3942
 msgid "Bin"
 msgstr "Bin"
 
-#: src/tools/analysis-tools.c:3966
+#: src/tools/analysis-tools.c:3967
 msgid "Frequency"
 msgstr "Freqüència"
 
-#: src/tools/analysis-tools.c:3971
+#: src/tools/analysis-tools.c:3972
 #, no-c-format
 msgid "Cumulative %"
 msgstr "% acumulat"
 
-#: src/tools/analysis-tools.c:4050
+#: src/tools/analysis-tools.c:4051
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Histograma (%s)"
 
 #
-#: src/tools/analysis-tools.c:4157 src/tools/solver/reports-write.c:647
+#: src/tools/analysis-tools.c:4158 src/tools/solver/reports-write.c:647
 msgid "Real"
 msgstr "Real"
 
 #
-#: src/tools/analysis-tools.c:4158
+#: src/tools/analysis-tools.c:4159
 msgid "Imaginary"
 msgstr "Imaginari"
 
-#: src/tools/analysis-tools.c:4218
+#: src/tools/analysis-tools.c:4219
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Sèries de Fourier (%s)"
 
 #
-#: src/tools/analysis-tools.c:4230 src/tools/analysis-tools.c:4233
+#: src/tools/analysis-tools.c:4231 src/tools/analysis-tools.c:4234
 msgid "Fourier Series"
 msgstr "Sèries de Fourier"
 
@@ -31594,31 +31594,31 @@ msgstr "Estableix les Vores"
 msgid "SpinButton"
 msgstr "Botó"
 
-#: src/workbook-view.c:273
+#: src/workbook-view.c:276
 #, c-format
 msgid "%dC"
 msgstr ""
 
-#: src/workbook-view.c:275
+#: src/workbook-view.c:278
 #, c-format
 msgid "%dR"
 msgstr ""
 
-#: src/workbook-view.c:277
+#: src/workbook-view.c:280
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:419
+#: src/workbook-view.c:422
 msgid "Internal ERROR"
 msgstr "ERROR intern"
 
-#: src/workbook-view.c:576
+#: src/workbook-view.c:579
 #, fuzzy, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "No es pot obrir"
 
-#: src/workbook-view.c:601
+#: src/workbook-view.c:604
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "S'ha produït un error no explicat desant %s"
@@ -31627,25 +31627,25 @@ msgstr "S'ha produït un error no explicat desant %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:960
+#: src/workbook-view.c:611 src/workbook-view.c:974
 #, fuzzy
 msgid "The filename given is not valid in the current encoding."
 msgstr "El valor donat en 'a Valor:' no és vàlid."
 
-#: src/workbook-view.c:693 src/workbook-view.c:802
+#: src/workbook-view.c:696 src/workbook-view.c:805
 msgid "Default file saver is not available."
 msgstr "El desador de fitxers per defecte no està disponible."
 
-#: src/workbook-view.c:762
+#: src/workbook-view.c:765
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "No es pot crear un fitxer temporal."
 
-#: src/workbook-view.c:895
+#: src/workbook-view.c:898
 msgid "Unsupported file format."
 msgstr "Format de fitxer no implementat"
 
-#: src/workbook-view.c:953
+#: src/workbook-view.c:967
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "S'ha produït un error no explicat obrint %s"

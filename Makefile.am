@@ -27,9 +27,9 @@ GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in Makefile
 
 @INTLTOOL_SERVER_RULE@
 
-CLEANFILES = intltool-extract intltool-merge intltool-update \
-	 $(server_in_files)
+CLEANFILES = $(server_in_files)
 
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in\
 	gnumeric.keys.in gnumeric.mime 					\

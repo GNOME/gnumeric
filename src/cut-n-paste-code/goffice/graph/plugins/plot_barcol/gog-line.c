@@ -105,7 +105,7 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
-			if (!finite (tmp))
+			if (!finitegnum (tmp))
 				continue;
 			sum += tmp;
 			abs_sum += fabs (tmp);
@@ -292,7 +292,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			for (i = 0; i < num_series; i++)
-				if (finite (vals[i][j-1]))
+				if (finitegnum (vals[i][j-1]))
 					abs_sum += fabs (vals[i][j-1]);
 			is_null = (gnumeric_sub_epsilon (abs_sum) <= 0.);
 		} else
@@ -302,7 +302,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (j > lengths[i])
 				continue;
 
-			value = (vals[i] && finite (vals[i][j-1])) ? vals[i][j-1] : 0.0;
+			value = (vals[i] && finitegnum (vals[i][j-1])) ? vals[i][j-1] : 0.0;
 			k = 2 * lengths[i] - j + 1;
 
 			if (is_area_plot && (type != GOG_1_5D_NORMAL)) {

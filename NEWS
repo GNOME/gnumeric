@@ -14,6 +14,7 @@ Jody:
 	* Fix redraw for hashed (####) values
 	* Fix redraw for alignment changes in spans
 	* Overlay falue_fmts on xls export because XL does not support them
+	* Portability enhancements for hpux/irix
 
 Morten:
 	http://bugzilla.gnome.org/show_bug.cgi?id=138600
