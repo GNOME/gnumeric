@@ -1,8 +1,13 @@
 1999-06-21  Morten Welinder  <terra@diku.dk>
 
-	* src/fn-information.c (gnumeric_n): Implement.
-
-	* src/fn-information.c (gnumeric_iseven): Implement.
+	* src/fn-information.c (get_value_class): New function.
+	(gnumeric_isnontext): Make non-strict.
+	(gnumeric_istext): Make non-strict.
+	(gnumeric_type): Make non-strict.
+	(gnumeric_islogical): Make non-strict.
+	(gnumeric_isnumber): Make non-strict.
+	(gnumeric_n): Implement.
+	(gnumeric_iseven): Implement.
 	(gnumeric_isodd): Ditto.
 	(gnumeric_cell): Fix error message.
 	(gnumeric_info): Ditto.

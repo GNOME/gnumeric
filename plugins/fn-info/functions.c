@@ -11,7 +11,49 @@
 #include "utils.h"
 #include "func.h"
 #include "number-match.h"
-#include <sys/systeminfo.h>
+#include <sys/utsname.h>
+
+
+enum Value_Class {
+	VALUE_CLASS_NUMBER = 1,
+	VALUE_CLASS_TEXT = 2,
+	VALUE_CLASS_BOOL = 4,
+	VALUE_CLASS_FORMULA = 8,
+	VALUE_CLASS_ERROR = 16,
+	VALUE_CLASS_ARRAY = 64,
+	VALUE_CLASS_BOGUS = -1,
+};
+
+
+static enum Value_Class
+get_value_class (ExprTree *expr, Sheet *sheet, int col, int row)
+{
+	char *error_string;
+	Value *value;
+	enum Value_Class res;
+
+	value = eval_expr (sheet, expr, col, row, &error_string);
+	if (value) {
+		switch (value->type) {
+		case VALUE_INTEGER:
+		case VALUE_FLOAT:
+			res = VALUE_CLASS_NUMBER;
+			break;
+		case VALUE_STRING:
+			res = VALUE_CLASS_TEXT;
+			break;
+		case VALUE_ARRAY:
+			res = VALUE_CLASS_ARRAY;
+			break;
+		default:
+			res = VALUE_CLASS_BOGUS;
+			break;
+		}
+	} else
+		res = VALUE_CLASS_ERROR;
+
+	return res;
+}
 
 
 static char *help_cell = {
@@ -159,19 +201,6 @@ static char *help_info = {
 	   "@SEEALSO=")
 };
 
-static char *
-value_from_sysinfo (int syscommand)
-{
-	char buffer[1024];
-	long size = sizeof (buffer);
-	long result;
-	result = sysinfo (syscommand, buffer, size);
-	if (result == -1 || result >= size)
-		return NULL;
-	else
-		return g_strdup (buffer);
-}
-
 
 static Value *
 gnumeric_info (struct FunctionDefinition *n,
@@ -201,23 +230,19 @@ gnumeric_info (struct FunctionDefinition *n,
 		return NULL;
 	} else if (!strcasecmp (info_type, "osversion")) {
 		/* Current operating system version, as text.  */
-		char *osname = value_from_sysinfo (SI_SYSNAME);
-		char *osversion = value_from_sysinfo (SI_RELEASE);
-		Value *res;
+		struct utsname unamedata;
 
-		if (osname && osversion) {
-			char *tmp = g_strdup_printf (_("%s version %s"),
-						     osname, osversion);
-			res = value_new_string (tmp);
-			g_free (tmp);
-		} else {
+		if (uname (&unamedata) == -1) {
 			*error_string = _("Unknown version");
-			res = NULL;
+			return NULL;
+		} else {
+			char *tmp = g_strdup_printf (_("%s version %s"),
+						     unamedata.sysname,
+						     unamedata.release);
+			Value *res = value_new_string (tmp);
+			g_free (tmp);
+			return res;
 		}
-
-		if (osname) g_free (osname);
-		if (osversion) g_free (osversion);
-		return res;
 	} else if (!strcasecmp (info_type, "recalc")) {
 		/* Current recalculation mode; returns "Automatic" or "Manual".  */
 		return value_new_string (_("Automatic"));
@@ -226,15 +251,13 @@ gnumeric_info (struct FunctionDefinition *n,
 		return value_new_string (GNUMERIC_VERSION);
 	} else if (!strcasecmp (info_type, "system")) {
 		/* Name of the operating environment.  */
-		char *name = value_from_sysinfo (SI_SYSNAME);
-		if (name) {
-			Value *res = value_new_string (name);
-			g_free (name);
-			return res;
-		} else {
+		struct utsname unamedata;
+
+		if (uname (&unamedata) == -1) {
 			*error_string = _("Unknown system");
 			return NULL;
-		}
+		} else
+			return value_new_string (unamedata.sysname);
 	} else if (!strcasecmp (info_type, "totmem")) {
 		/* Total memory available, including memory already in use, in
 		 * bytes.
@@ -298,14 +321,22 @@ static char *help_islogical = {
 };
 
 static Value *
-gnumeric_islogical (struct FunctionDefinition *n,
-		    Value *argv [], char **error_string)
+gnumeric_islogical (Sheet *sheet, GList *expr_node_list,
+		    int eval_col, int eval_row, char **error_string)
 {
-	int result = 0;
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
-	return value_new_bool (result);
+	enum Value_Class cl;
+
+	if (g_list_length (expr_node_list) != 1){
+		*error_string = _("Invalid number of arguments");
+		return NULL;
+	}
+
+	cl = get_value_class (expr_node_list->data, sheet, eval_col, eval_row);
+
+	/* FIXME -- this is a hack needed until we have a proper bool type.  */
+	if (cl == VALUE_CLASS_NUMBER)
+		cl = VALUE_CLASS_BOOL;
+	return value_new_bool (cl == VALUE_CLASS_BOOL);
 }
 
 
@@ -320,14 +351,15 @@ static char *help_isnontext = {
 };
 
 static Value *
-gnumeric_isnontext (struct FunctionDefinition *n,
-		    Value *argv [], char **error_string)
+gnumeric_isnontext (Sheet *sheet, GList *expr_node_list,
+		    int eval_col, int eval_row, char **error_string)
 {
-	int result = 0;
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
-	return value_new_bool (result);
+	if (g_list_length (expr_node_list) != 1){
+		*error_string = _("Invalid number of arguments");
+		return NULL;
+	}
+
+	return value_new_bool (get_value_class (expr_node_list->data, sheet, eval_col, eval_row) != VALUE_CLASS_TEXT);
 }
 
 
@@ -342,12 +374,15 @@ static char *help_isnumber = {
 };
 
 static Value *
-gnumeric_isnumber (struct FunctionDefinition *n,
-		   Value *argv [], char **error_string)
+gnumeric_isnumber (Sheet *sheet, GList *expr_node_list,
+		   int eval_col, int eval_row, char **error_string)
 {
-	/* FIXME FIXME FIXME */
-	/* Do I need to run strtod on a string too ?? */
-	return value_new_bool (VALUE_IS_NUMBER (argv [0]));
+	if (g_list_length (expr_node_list) != 1){
+		*error_string = _("Invalid number of arguments");
+		return NULL;
+	}
+
+	return value_new_bool (get_value_class (expr_node_list->data, sheet, eval_col, eval_row) == VALUE_CLASS_NUMBER);
 }
 
 
@@ -402,14 +437,15 @@ static char *help_istext = {
 };
 
 static Value *
-gnumeric_istext (struct FunctionDefinition *n,
-		 Value *argv [], char **error_string)
+gnumeric_istext (Sheet *sheet, GList *expr_node_list,
+		 int eval_col, int eval_row, char **error_string)
 {
-	int result = 0;
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
-	return value_new_bool (result);
+	if (g_list_length (expr_node_list) != 1){
+		*error_string = _("Invalid number of arguments");
+		return NULL;
+	}
+
+	return value_new_bool (get_value_class (expr_node_list->data, sheet, eval_col, eval_row) == VALUE_CLASS_TEXT);
 }
 
 
@@ -460,34 +496,15 @@ static char *help_type = {
 };
 
 static Value *
-gnumeric_type (struct FunctionDefinition *n,
-	       Value *argv [], char **error_string)
+gnumeric_type (Sheet *sheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string)
 {
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
-
-	/*
-	Number		1
-	Text		2
-	Logical value	4
-	Formula		8
-	Error value	16
-	Array		64
-	*/
-
-	switch (argv[0]->type) {
-	case VALUE_INTEGER:
-	case VALUE_FLOAT:
-		return value_new_int (1);
-	case VALUE_STRING:
-		return value_new_int (2);
-	case VALUE_ARRAY:
-		return value_new_int (64);
-	default:
-		*error_string = _("Unknown value type");
+	if (g_list_length (expr_node_list) != 1){
+		*error_string = _("Invalid number of arguments");
 		return NULL;
 	}
+
+	return value_new_int (get_value_class (expr_node_list->data, sheet, eval_col, eval_row));
 }
 
 
@@ -502,21 +519,21 @@ FunctionDefinition information_functions [] = {
 	  NULL, gnumeric_isblank},
 	{ "iseven", "?", "value",		&help_iseven,
 	  NULL, gnumeric_iseven},
-	{ "islogical", "?", "value",		&help_islogical,
-	  NULL, gnumeric_islogical},
-	{ "isnontext", "?", "value",		&help_isnontext,
-	  NULL, gnumeric_isnontext},
-	{ "isnumber", "?", "value",		&help_isnumber,
-	  NULL, gnumeric_isnumber},
+	{ "islogical", NULL, "value",		&help_islogical,
+	  gnumeric_islogical, NULL}, /* Handles args manually */
+	{ "isnontext", NULL, "value",		&help_isnontext,
+	  gnumeric_isnontext, NULL}, /* Handles args manually */
+	{ "isnumber", NULL, "value",		&help_isnumber,
+	  gnumeric_isnumber, NULL}, /* Handles args manually */
 	{ "isodd", "?", "value",		&help_isodd,
 	  NULL, gnumeric_isodd},
 	{ "isref", "?", "value",		&help_isref,
 	  NULL, gnumeric_isref},
-	{ "istext", "?", "value",		&help_istext,
-	  NULL, gnumeric_istext},
+	{ "istext", NULL, "value",		&help_istext,
+	  gnumeric_istext, NULL }, /* Handles args manually */
 	{ "n", "?", "value",			&help_n,
 	  NULL, gnumeric_n},
-	{ "type", "?", "value",			&help_type,
-	  NULL, gnumeric_type},
+	{ "type", NULL,   "value",              &help_type,
+	  gnumeric_type, NULL }, /* Handles args manually */
         { NULL, NULL }
 };
