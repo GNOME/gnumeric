@@ -1,3 +1,8 @@
+2001-04-23  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-define-names.c (cb_name_guru_add):
+	Correct use of expr_parse_string.
+
 2001-04-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-stf-export-sheet-page.c (stf_export_dialog_sheet_page_init) :

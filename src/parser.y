@@ -333,7 +333,7 @@ gnumeric_parse_error (ParserState *state, char *message, int end, int relative_b
 	g_return_val_if_fail (state->error != NULL, ERROR);
 
 	state->error->message    = message;
-	state->error->begin_char = end - relative_begin;
+	state->error->begin_char = (end - relative_begin);
 	state->error->end_char   = end;
 
 	return ERROR;
@@ -437,7 +437,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		if (expr_name == NULL) {
 			int retval = gnumeric_parse_error (
 				state, g_strdup_printf (_("Expression '%s' does not exist on sheet '%s'"), name, $1->name_quoted),
-				(state->expr_text - state->expr_backup), strlen (name) - 1);
+				state->expr_text - state->expr_backup + 1, strlen (name));
 				
 			unregister_allocation ($2); expr_tree_unref ($2);
 			return retval;
@@ -457,7 +457,7 @@ sheetref: string_opt_quote SHEET_SEP {
 		if (sheet == NULL) {
 			int retval = gnumeric_parse_error (
 				state, g_strdup_printf (_("Unknown sheet '%s'"), name),
-				(state->expr_text - state->expr_backup) - 1, strlen (name) - 1);
+				state->expr_text - state->expr_backup, strlen (name));
 				
 			unregister_allocation ($1); expr_tree_unref ($1);
 			return retval;
@@ -487,7 +487,7 @@ sheetref: string_opt_quote SHEET_SEP {
 		if (sheet == NULL) {
 			int retval = gnumeric_parse_error (
 				state, g_strdup_printf (_("Unknown sheet '%s'"), sheetname),
-				(state->expr_text - state->expr_backup) - 1, strlen (sheetname) - 1);
+				state->expr_text - state->expr_backup, strlen (sheetname));
 				
 			unregister_allocation ($4); expr_tree_unref ($4);
 			return retval;
@@ -579,7 +579,7 @@ array_row: array_exp {
 		} else {
 			return gnumeric_parse_error (
 				state, g_strdup_printf (_("The character %c can not be used to separate array elements"),
-				state->array_col_separator), (state->expr_text - state->expr_backup), 1);
+				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
 		}
 	}
 	| array_exp '\\' array_row {
@@ -592,7 +592,7 @@ array_row: array_exp {
 			/* FIXME: Is this the right error to display? */
 			return gnumeric_parse_error (
 				state, g_strdup_printf (_("The character %c can not be used to separate array elements"),
-				state->array_col_separator), (state->expr_text - state->expr_backup), 1);
+				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
 		}
 	}
         | { $$ = NULL; }
@@ -699,9 +699,21 @@ yylex (void)
 					v = value_new_float ((gnum_float)d);
 					state->expr_text = end;
 				} else {
-					return gnumeric_parse_error (
-						state, g_strdup (_("The number is out of range")),
-						state->expr_text - state->expr_backup - 1, end - start);
+					if (tolower (c) != 'e') {
+						return gnumeric_parse_error (
+							state, g_strdup (_("The number is out of range")),
+							state->expr_text - state->expr_backup, end - start);
+					} else {
+						/*
+						 * For an exponent it's hard to highlight
+						 * the right region w/o it turning into an
+						 * ugly hack, for now the cursor is put
+						 * at the end.
+						 */
+						return gnumeric_parse_error (
+							state, g_strdup (_("The number is out of range")),
+							0, 0);
+					}
 				}
 			} else
 				g_warning ("%s is not a double, but was expected to be one", start);
@@ -726,7 +738,7 @@ yylex (void)
 					if (l == LONG_MIN || l == LONG_MAX) {
 						return gnumeric_parse_error (
 							state, g_strdup (_("The number is out of range")),
-							state->expr_text - state->expr_backup - 1, end - start);
+							state->expr_text - state->expr_backup, end - start);
 					}
 				}
 			} else
@@ -758,7 +770,7 @@ yylex (void)
                 if (!*state->expr_text) {
 			return gnumeric_parse_error (
 				state, g_strdup (_("Could not find matching closing quote")),
-				(p - state->expr_backup), 1);
+				(p - state->expr_backup) + 1, 1);
 		}
 
 		s = string = (char *) alloca (1 + state->expr_text - p);
@@ -901,6 +913,18 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 #ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
 	deallocate_uninit ();
 #endif
+	/*
+	 * If an error has occured we ALWAYS return NULL.
+	 * In some cases the expression tree may have been partially
+	 * built-up before an error occurs. Therefore the pstate.result
+	 * (which is resulting ExprTree) must be freed in case it's non-null
+	 * and an error has occured.
+	 */
+	if (pstate.error->message != NULL) {
+		if (pstate.result)
+			expr_tree_unref (pstate.result);
 
-	return pstate.result;
+		return NULL;
+	} else
+		return pstate.result;
 }

@@ -3906,13 +3906,14 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 #if 0	/* Feature not implemented, not cloning it yet. */
 	for (; names; names = names->next) {
 		NamedExpression *expresion = names->data;
+		ParseError perr;
 		gchar *text;
-		gchar *error;
 		g_return_if_fail (expresion != NULL);
 		text = expr_name_value (expresion);
-		if (!expr_name_create (dst->workbook, dst, expresion->name->str, text, &error))
+		if (!expr_name_create (dst->workbook, dst, expresion->name->str, text, &perr))
 			g_warning ("Could not create expression. Sheet.c :%i, Error %s",
-				   __LINE__, error);
+				   __LINE__, perr.message);
+		parse_error_free (&perr);
 	}
 #endif
 	g_list_free (names);

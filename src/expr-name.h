@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "expr.h"
+#include "parse-util.h"
 
 /* Initialise builtins */
 void      expr_name_init       (void);
@@ -13,7 +14,7 @@ NamedExpression *expr_name_add        (Workbook *wb, Sheet *sheet, const char *n
 
 /* Convenience function to parse the name */
 NamedExpression *expr_name_create     (Workbook *wb, Sheet *sheet, const char *name,
-				       const char *value, char **error_msg);
+				       const char *value, ParseError *error);
 
 /* Lookup - use sparingly */
 NamedExpression *expr_name_lookup     (const ParsePos *pos, const char *name);

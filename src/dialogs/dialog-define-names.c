@@ -433,6 +433,7 @@ cb_name_guru_add (NameGuruState *state)
 {
 	NamedExpression *expr_name;
 	ParsePos      pos, *pp;
+	ParseError    perr;
 	ExprTree *expr;
 	char const *name, *expr_text, *tmp;
 	gchar *error;
@@ -457,11 +458,11 @@ cb_name_guru_add (NameGuruState *state)
 
 	if (NULL != (tmp = gnumeric_char_start_expr_p (expr_text)))
 		expr_text = tmp;
-	expr = expr_parse_string (expr_text, pp, NULL, &error);
+	expr = expr_parse_string (expr_text, pp, NULL, &perr);
 
 	/* If the expression is invalid */
 	if (expr == NULL) {
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, error);
+		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, perr.message);
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_text));
 		return FALSE;
 	} else if (expr_name) {

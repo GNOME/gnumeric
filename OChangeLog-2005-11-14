@@ -1,3 +1,33 @@
+2001-04-23  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-edit.c (workbook_finish_editing): Give focus
+	to the edit line when an error is encountered.
+	* src/workbook-control-gui.c
+	(wbcg_close_control) : Don't store the partially entered expression
+	when we are going to close.
+	(cb_file_quit) : Idem.
+	(cb_notebook_switch_page) : Idem, for switching between tabs
+	when we are _not_ in a subexpression.
+
+	* src/parser.y : Correct off-by-one glitches and strtod exponent
+	out of range error problem.
+
+	* src/expr.[ch] (expr_parse_string): Use a ParseError struct
+	instead of an error string.
+
+	* src/commands.c (cmd_area_set_text_redo): Use expr_parse_string
+	in the newly corrected fashion.
+	* src/expr-name.c (expr_name_create): Idem, require a ParseError
+	struct to be passed instead of a char** aswell.
+	* src/parse-util.c (parse_text_value_or_expr): Idem.
+	* src/sheet-object-widget.c (cb_checkbox_config_clicked): Idem.
+	* src/test-parser.c (main): Idem.
+	* src/xml-io.c (xml_cell_set_array_expr): Idem.
+
+	* src/sheet.c (sheet_clone_names): Use expr_name_create which now
+	uses ParseError instead of char **.
+	* src/xml-io.c (xml_read_names): Idem.
+	
 2001-04-23  Morten Welinder  <terra@diku.dk>
 
 	* src/GNOME_Gnumeric.xml: Define a few more outline commands, just

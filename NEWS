@@ -1,5 +1,9 @@
 Gnumeric 0.65
 
+Almer:
+	* Fix a variety of bugs
+	* Improve parser error messages
+
 Chema:
 	* GNUMERIC_ENABLE_XL_OVERWRITE
 

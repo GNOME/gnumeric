@@ -517,14 +517,12 @@ parse_text_value_or_expr (EvalPos const *pos, char const *text,
 
 	if (NULL != expr_start) {
 		if (*expr_start) {
-			char *error_msg = _("ERROR");
 			ParsePos pp;
 
 			/* Parse in the supplied eval context */
 			*expr = expr_parse_string (expr_start,
 				parse_pos_init_evalpos (&pp, pos),
-				&desired_format,
-				&error_msg);
+				&desired_format, NULL);
 
 			/* If the parse fails set the value to be the syntax error */
 			if (*expr == NULL)

@@ -200,17 +200,22 @@ expr_name_add (Workbook *wb, Sheet *sheet, const char *name,
  **/
 NamedExpression *
 expr_name_create (Workbook *wb, Sheet *sheet, const char *name,
-		  const char *value, char **error_msg)
+		  const char *value, ParseError *error)
 {
 	ExprTree *tree;
 	ParsePos pos, *pp;
 
 	pp = parse_pos_init (&pos, wb, sheet, 0, 0);
-	tree = expr_parse_string (value, pp, NULL, error_msg);
+	tree = expr_parse_string (value, pp, NULL, error);
 	if (!tree)
 		return NULL;
 
-	return expr_name_add (wb, sheet, name, tree, error_msg);
+	/*
+	 * We know there has been no parse error, but set the
+	 * use the message part of the struct to pass a name
+	 * creation error back to the calling routine
+	 */
+	return expr_name_add (wb, sheet, name, tree, &error->message);
 }
 
 static void

@@ -865,17 +865,18 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree, Workbook *wb,
 				if (!strcmp (bits->name, "name")) {
 					name = xmlNodeGetContent (bits);
 				} else {
-					char     *txt;
-					char     *error;
+					char       *txt;
+					ParseError  perr;
 					g_return_if_fail (name != NULL);
 
 					txt = xmlNodeGetContent (bits);
 					g_return_if_fail (txt != NULL);
 					g_return_if_fail (!strcmp (bits->name, "value"));
 
-					if (!expr_name_create (wb, sheet, name, txt, &error))
-						g_warning (error);
-
+					if (!expr_name_create (wb, sheet, name, txt, &perr))
+						g_warning (perr.message);
+					parse_error_free (&perr);
+					
 					xmlFree (txt);
 				}
 				bits = bits->next;
@@ -1778,13 +1779,12 @@ static void
 xml_cell_set_array_expr (Cell *cell, char const *text,
 			 int const rows, int const cols)
 {
-	char *error_string = NULL;
 	ParsePos pp;
 	ExprTree * expr;
 
 	expr = expr_parse_string (text,
 				  parse_pos_init_cell (&pp, cell),
-				  NULL, &error_string);
+				  NULL, NULL);
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,

@@ -467,10 +467,9 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 
 		if (text != NULL && *text) {
 			ParsePos pp;
-			char *error_string = NULL;
 			ExprTree *expr = expr_parse_string (text,
 				parse_pos_init (&pp, NULL, so->sheet, 0, 0),
-				NULL, &error_string);
+				NULL, NULL);
 
 			/* FIXME : Should we be more verbose about errors */
 			if (expr != NULL && expr->any.oper == OPER_VAR)

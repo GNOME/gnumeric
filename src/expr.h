@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
+#include "parse-util.h"
 #include "position.h"
 
 /* Warning: if you add something here, see do_expr_decode_tree ! */
@@ -141,7 +142,7 @@ struct _NamedExpression {
 };
 
 ExprTree   *expr_parse_string      (char const *expr, ParsePos const *pp,
-				    StyleFormat **desired_format, char **error_msg);
+				    StyleFormat **desired_format, ParseError *error);
 ExprTree   *expr_tree_duplicate    (ExprTree *expr);
 char       *expr_tree_as_string    (ExprTree const *tree, ParsePos const *fp);
 

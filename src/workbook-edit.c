@@ -106,28 +106,39 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean accept)
 		if (expr_txt != NULL) {
 			ParsePos    pp;
 			ParseError  perr;
+			ExprTree   *tree;
 
 			parse_pos_init (&pp, wb_control_workbook (wbc), sheet,
 					sheet->edit_pos.col, sheet->edit_pos.row);
 			parse_error_init (&perr);
 			
-			gnumeric_expr_parser (expr_txt, &pp, TRUE, FALSE, NULL, &perr);
-
-			/*
-			 * We check to see if any error has occured by querying
-			 * if an error message is set. The return value of
-			 * gnumeric_expr_parser is no good for this purpose
-			 */
-			if (perr.message != NULL) {
-				gtk_entry_select_region (
-					GTK_ENTRY (workbook_get_entry (wbcg)),
-					perr.begin_char, perr.end_char);
+			tree = gnumeric_expr_parser (expr_txt, &pp, TRUE, FALSE, NULL, &perr);
+			
+			if (!tree) {
+				/*
+				 *If begin and end char are zero we'll simply
+				 * put the cursor at the end, otherwise we
+				 * select the region indicated.
+				 */
+				if (perr.begin_char == 0 && perr.end_char == 0)
+					gtk_editable_set_position (
+						GTK_EDITABLE (workbook_get_entry (wbcg)), -1);
+				else
+					gtk_entry_select_region (
+						GTK_ENTRY (workbook_get_entry (wbcg)),
+						perr.begin_char, perr.end_char);
+						
 				gnome_error_dialog_parented (perr.message, wbcg->toplevel);
 				parse_error_free (&perr);
 
+				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+						      GTK_WIDGET (workbook_get_entry (wbcg)));
+
 				return FALSE;
-			} else
+			} else {
 				cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
+				expr_tree_unref (tree);
+			}
 
 			parse_error_free (&perr);
 		} else

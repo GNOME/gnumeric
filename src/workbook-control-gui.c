@@ -1080,8 +1080,8 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), TRUE);
 	g_return_val_if_fail (wb_view->wb_controls != NULL, TRUE);
 
-	/* If we were editing when the quit request came in save the edit. */
-	workbook_finish_editing (wbcg, TRUE);
+	/* If we were editing when the quit request came in abort the edit. */
+	workbook_finish_editing (wbcg, FALSE);
 
 	/* This is the last control */
 	if (wb_view->wb_controls->len <= 1) {
@@ -1196,8 +1196,8 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		return;
 	}
 
-	/* If we were editing when the quit request came in save the edit. */
-	workbook_finish_editing (wbcg, TRUE);
+	/* If we were editing when the quit request came in abort the edit. */
+	workbook_finish_editing (wbcg, FALSE);
 
 	/* list is modified during workbook destruction */
 	workbooks = g_list_copy (application_workbook_list ());
@@ -3049,7 +3049,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		/* If we are not at a subexpression boundary then finish editing */
 		accept = !workbook_editing_expr (wbcg);
 		if (accept)
-			workbook_finish_editing (wbcg, TRUE);
+			workbook_finish_editing (wbcg, FALSE);
 	}
 
 	/* if we are not selecting a range for an expression update */

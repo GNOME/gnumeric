@@ -696,11 +696,10 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	l = me->selection;
 	start = gnumeric_char_start_expr_p (me->text);
 	if (start != NULL && me->as_array && l != NULL && l->next == NULL) {
-		char *error_string = NULL;
 		ParsePos pp;
 		expr = expr_parse_string (start,
 		    parse_pos_init_evalpos (&pp, &me->pos),
-		    NULL, &error_string);
+		    NULL, NULL);
 
 		if (expr == NULL)
 			return TRUE;

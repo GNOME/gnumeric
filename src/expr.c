@@ -183,24 +183,32 @@ expr_tree_get_const_str (ExprTree const *expr)
 	return expr->constant.value->v_str.val->str;
 }
 
+/**
+ * expr_parse_string:
+ *
+ * Parse a string. if @error is non-null it will be assumed that the
+ * caller has passed a pointer to a ParseError struct AND that it will
+ * take responsibility for freeing that struct and it's contents.
+ * with parse_error_free.
+ **/
 ExprTree *
 expr_parse_string (char const *expr_text, ParsePos const *pp,
-		   StyleFormat **desired_format, char **error_msg)
+		   StyleFormat **desired_format, ParseError *error)
 {
 	ExprTree   *tree;
-	ParseError  perr;
+	ParseError *perr = error;
 
 	g_return_val_if_fail (expr_text != NULL, NULL);
 
+	if (error == NULL)
+		perr = g_new0 (ParseError, 1);
+		
 	tree = gnumeric_expr_parser (expr_text, pp, TRUE, FALSE, desired_format,
-				     parse_error_init (&perr));
+				     parse_error_init (perr));
 
-	/* TODO : use perr when we populate it */
-	if (tree == NULL)
-		*error_msg = perr.message;
-	else
-		*error_msg = NULL;
-	parse_error_free (&perr);
+	if (error == NULL)
+		parse_error_free (perr);
+
 	return tree;
 }
 

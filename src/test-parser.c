@@ -25,14 +25,15 @@ main ()
 {
 	Value *v;
 	EvalTree *node;
+	ParseError perr;
 	int i;
 	char *error;
 
 	for (i = 0; exp [i]; i++){
 		printf ("Expression: %s;  ", exp [i]);
-		node = expr_parse_string (exp [i], 0, 0, 0, NULL, &error);
+		node = expr_parse_string (exp [i], 0, 0, 0, NULL, &perr);
 		if (node == NULL){
-			printf ("parse error: %s\n", error);
+			printf ("parse error: %s\n", perr.message);
 			continue;
 		}
 		v = eval_expr (NULL, node, 0, 0, &error);
