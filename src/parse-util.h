@@ -47,6 +47,7 @@ typedef enum {
 } ParseErr;
 ParseErr    gnumeric_expr_parser   (const char *expr,
 				    const ParsePosition *pp,
+				    gboolean use_excel_range_conventions,
 				    char **desired_format,
 				    ExprTree **result);
 

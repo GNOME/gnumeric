@@ -206,6 +206,7 @@ static char **parser_desired_format;
 static char parser_decimal_point;
 static char parser_separator;
 static char parser_array_col_separator;
+static gboolean parser_use_excel_reference_conventions;
 
 static ExprTree **parser_result;
 
@@ -295,7 +296,7 @@ int yyparse(void);
 %left '-' '+'
 %left '*' '/'
 %left NEG PLUS
-%left '!'
+%left RANGE_SEP SHEET_SEP
 %right '^'
 %right '%'
 
@@ -343,7 +344,7 @@ exp:	  NUMBER 	{ $$ = $1; }
 	}
 	;
 
-sheetref: STRING '!' {
+sheetref: STRING SHEET_SEP {
 		Sheet *sheet = sheet_lookup_by_name (parser_wb, $1->u.constant->v.str->str);
 		/* TODO : Get rid of ParseErr and replace it with something richer. */
 		unregister_allocation ($1); expr_tree_unref ($1);
@@ -354,7 +355,7 @@ sheetref: STRING '!' {
 	        $$ = sheet;
 	}
 
-	| '[' STRING ']' STRING '!' {
+	| '[' STRING ']' STRING SHEET_SEP {
 		/* TODO : Get rid of ParseErr and replace it with something richer.
 		 * The replace ment should include more detail as to what the error
 		 * was,  and where in the expr string to highlight.
@@ -394,7 +395,7 @@ cellref:  CELLREF {
 	        $$ = $2;
 	}
 
-	| CELLREF ':' CELLREF {
+	| CELLREF RANGE_SEP CELLREF {
 		unregister_allocation ($3);
 		unregister_allocation ($1);
 		$$ = register_expr_allocation
@@ -405,7 +406,7 @@ cellref:  CELLREF {
 		expr_tree_unref ($1);
 	}
 
-	| sheetref CELLREF ':' opt_sheetref CELLREF {
+	| sheetref CELLREF RANGE_SEP opt_sheetref CELLREF {
 		unregister_allocation ($5);
 		unregister_allocation ($2);
 		$2->u.ref.sheet = $1;
@@ -603,6 +604,20 @@ yylex (void)
         if (c == '(' || c == ')')
                 return c;
 
+	if (parser_use_excel_reference_conventions) {
+		if (c == ':')
+			return RANGE_SEP;
+		if (c == '!')
+			return SHEET_SEP;
+	} else {
+		if (c == '.' && *parser_expr == '.') {
+			parser_expr++;
+			return RANGE_SEP;
+		}
+		if (c == ':')
+			return SHEET_SEP;
+	}
+
 	if (c == parser_separator)
 		return SEPARATOR;
 
@@ -707,7 +722,8 @@ yylex (void)
 		int  len;
 
 		while (isalnum ((unsigned char)*parser_expr) || *parser_expr == '_' ||
-		       *parser_expr == '$' || *parser_expr == '.')
+		       *parser_expr == '$' ||
+		       (parser_use_excel_reference_conventions  && *parser_expr == '.'))
 			parser_expr++;
 
 		len = parser_expr - start;
@@ -754,6 +770,7 @@ yyerror (char *s)
 
 ParseErr
 gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
+		      gboolean use_excel_range_conventions,
 		      char **desired_format, ExprTree **result)
 {
 	struct lconv *locinfo;
@@ -772,6 +789,8 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 
 	if (parser_desired_format)
 		*parser_desired_format = NULL;
+
+	parser_use_excel_reference_conventions = use_excel_range_conventions;
 
 	locinfo = localeconv ();
 	if (locinfo->decimal_point && locinfo->decimal_point[0] &&

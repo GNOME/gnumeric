@@ -111,13 +111,8 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 		/* If the current workbook is empty and untouched remove it
 		 * in favour of the new book
 		 */
-		if (workbook_is_pristine (wb)) {
-#ifdef ENABLE_BONOBO
-			bonobo_object_unref (BONOBO_OBJECT (wb));
-#else
-			gtk_object_unref (GTK_OBJECT (wb));
-#endif
-		}
+		if (workbook_is_pristine (wb))
+			workbook_unref (wb);
 	}
 	g_free (fname);
 }
@@ -136,13 +131,8 @@ file_import_cmd (GtkWidget *widget, Workbook *wb)
 	if (new_wb) {
 		gtk_widget_show (new_wb->toplevel);
 
-		if (workbook_is_pristine (wb)) {
-#ifdef ENABLE_BONOBO
-			bonobo_object_unref (BONOBO_OBJECT (wb));
-#else
-			gtk_object_unref (GTK_OBJECT (wb));
-#endif
-		}
+		if (workbook_is_pristine (wb))
+			workbook_unref (wb);
 	}
 	g_free (fname);
 }
@@ -578,15 +568,7 @@ workbook_close_if_user_permits (Workbook *wb)
 	in_can_close = FALSE;
 	
 	if (can_close) {
-#ifdef ENABLE_BONOBO
-		if (wb->workbook_views) {
-			gtk_widget_hide (GTK_WIDGET (wb->toplevel));
-			return FALSE;
-		}
-		bonobo_object_unref (BONOBO_OBJECT (wb));
-#else
-		gtk_object_unref   (GTK_OBJECT   (wb));
-#endif
+		workbook_unref (wb);
 		return FALSE;
 	} else
 		return TRUE;
@@ -1940,7 +1922,7 @@ workbook_set_auto_expr (Workbook *wb,
 		expr_tree_unref (wb->auto_expr);
 
 	g_assert (gnumeric_expr_parser (expression, parse_pos_init (&pp, wb, NULL, 0, 0),
-					NULL, &wb->auto_expr) == PARSE_OK);
+					TRUE, NULL, &wb->auto_expr) == PARSE_OK);
 
 	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
@@ -3681,4 +3663,17 @@ workbook_get_entry (Workbook const *wb)
 
 	/* TODO : If there is an function wizard up use the edit line from there */
 	return wb->priv->edit_line;
+}
+
+void
+workbook_unref (Workbook *wb)
+{
+#ifdef ENABLE_BONOBO
+	if (wb->workbook_views)
+		gtk_widget_hide (GTK_WIDGET (wb->toplevel));
+	else
+		bonobo_object_unref (BONOBO_OBJECT (wb));
+#else
+	gtk_object_unref (GTK_OBJECT (wb));
+#endif
 }

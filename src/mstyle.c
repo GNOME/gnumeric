@@ -592,8 +592,11 @@ mstyle_unref (MStyle *style)
 
 	style->ref_count--;
 
-	if (style->ref_count == 0)
+	if (style->ref_count <= 0) {
+		if (default_mstyle == style)
+			default_mstyle = NULL;
 		mstyle_destroy (style);
+	}
 }
 
 MStyle *

@@ -39,9 +39,6 @@ static GnumericApplication app;
 void
 application_init (void)
 {
-	gboolean h_was_default = TRUE;
-	gboolean v_was_default = TRUE;
-
 	app.clipboard_copied_contents = NULL;
 	app.clipboard_sheet = NULL;
 
@@ -58,31 +55,14 @@ application_init (void)
 	 * I'll leave it as is for now, and revisit the solution when we shake
 	 * out the flaws in the display code.
 	 */
-	app.horizontal_dpi = 96.;
-	app.vertical_dpi = 96.;
-
 	gnome_config_push_prefix ("Gnumeric/Screen_Resolution/"); 
-	app.horizontal_dpi =
-		gnome_config_get_float_with_default ("Horizontal_dpi=96", 
-						     &h_was_default);
-	app.vertical_dpi = 
-		gnome_config_get_float_with_default ("Vertical_dpi=96", 
-						     &v_was_default);
-
-	if (h_was_default)
-		gnome_config_set_float ("Horizontal_dpi", app.horizontal_dpi);
-	if (v_was_default)
-		gnome_config_set_float ("Vertical_dpi", app.vertical_dpi);
-	if (h_was_default || v_was_default)
-		gnome_config_sync ();
-
+	app.horizontal_dpi = gnome_config_get_float ("Horizontal_dpi=96");
+	app.vertical_dpi = gnome_config_get_float ("Vertical_dpi=96");
 	gnome_config_pop_prefix ();
 
-	gnome_config_push_prefix ("Gnumeric/Editing");
-	app.edit_auto_complete =
-		gnome_config_get_bool ("AutoComplete=true");
+	gnome_config_push_prefix ("Gnumeric/Editing/");
+	app.edit_auto_complete = gnome_config_get_bool ("AutoComplete=true");
 	gnome_config_pop_prefix ();
-	
 }
 
 /**

@@ -1,3 +1,17 @@
+2000-04-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parser.y : Make the sheet_sep, and range_sep conditional
+	  so that I can use the parser for applix too.
+
+	* src/workbook.c (workbook_unref) : encapsulate workbook_unref.
+
+	* src/application.c (application_init) : Do not save the value if it
+	  is not there.  Fix typo.
+
+	* src/mstyle.c (mstyle_unref) : If the default style is released
+	  clear the cached pointer.  This can happen if the first workbook
+	  loaded fails.
+
 2000-04-28  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/complete.c (complete_idle): Removed debugging messages

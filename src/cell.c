@@ -583,7 +583,8 @@ cell_is_error (Cell const * const cell)
 inline gboolean
 cell_is_number (const Cell *cell)
 {
-	return cell->value && VALUE_IS_NUMBER (cell->value);
+	/* FIXME : This does not handle arrays or ranges */
+	return (cell->value && VALUE_IS_NUMBER (cell->value));
 }
 
 gboolean

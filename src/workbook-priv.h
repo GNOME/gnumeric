@@ -142,8 +142,8 @@ typedef struct {
 
 GtkType     workbook_get_type            (void);
 Workbook   *workbook_new                 (void);
-Workbook   *workbook_core_new            (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
+void	    workbook_unref		 (Workbook *wb);
 
 void        workbook_set_attributev      (Workbook *wb, GList *list);
 GtkArg     *workbook_get_attributev      (Workbook *wb, guint *n_args);

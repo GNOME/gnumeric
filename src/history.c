@@ -31,7 +31,7 @@ file_history_cmd (GtkWidget *widget, Workbook *wb)
 		gtk_widget_show (new_wb->toplevel);
 
 		if (workbook_is_pristine (wb))
-			gtk_object_unref (GTK_OBJECT (wb));
+			workbook_unref (wb);
 	}
 }
 
@@ -51,7 +51,7 @@ file_history_cmd (BonoboUIHandler *uih, Workbook *wb, const char *path)
 		gtk_widget_show (new_wb->toplevel);
 
 		if (workbook_is_pristine (wb))
-			bonobo_object_unref (BONOBO_OBJECT (wb));
+			workbook_unref (wb);
 	}
 }
 #endif
