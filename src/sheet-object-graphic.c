@@ -478,6 +478,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 
  	table = glade_xml_get_widget (state->gui, "table");
 	state->canvas = foo_canvas_new ();
+	g_object_set (G_OBJECT (state->canvas), "can_focus", FALSE, NULL);
 	gtk_table_attach_defaults (GTK_TABLE (table), state->canvas,
 				   2, 3, 0, (sog->type != SHEET_OBJECT_ARROW) ? 2 : 5);
 	gtk_widget_show (GTK_WIDGET (state->canvas));

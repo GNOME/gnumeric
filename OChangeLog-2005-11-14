@@ -1,3 +1,8 @@
+2003-08-03  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_user_config):
+	Remove preview from tab sequence, yielding sane tabbing behaviour.
+
 2003-08-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_set_comment_redo): don't keep a sheet
