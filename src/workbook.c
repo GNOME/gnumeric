@@ -1385,16 +1385,14 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_box_pack_start (GTK_BOX (box), ok_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), cancel_button, 0, 0, 0);
 
-	/* Function Wizard, currently only enabled if you run with --debug=1 */
-	if (gnumeric_debugging){
-		wizard_button = gtk_button_new ();
-		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_GREEN);
-		gtk_container_add (GTK_CONTAINER (wizard_button), pix);
-		GTK_WIDGET_UNSET_FLAGS (wizard_button, GTK_CAN_FOCUS);
-		gtk_signal_connect (GTK_OBJECT (wizard_button), "clicked",
-				    GTK_SIGNAL_FUNC(wizard_input), wb);
-		gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
-	}
+	/* Function Wizard */
+	wizard_button = gtk_button_new ();
+	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_GREEN);
+	gtk_container_add (GTK_CONTAINER (wizard_button), pix);
+	GTK_WIDGET_UNSET_FLAGS (wizard_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (wizard_button), "clicked",
+			    GTK_SIGNAL_FUNC(wizard_input), wb);
+	gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
 
 	/* Dependency Debugger, currently only enabled if you run with --debug=10 */
 	if (gnumeric_debugging > 9){

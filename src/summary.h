@@ -46,6 +46,7 @@ struct _SummaryItem {
 SummaryItem *summary_item_new_int    (const gchar *name, gint i);
 SummaryItem *summary_item_new_time   (const gchar *name, GTimeVal t);
 SummaryItem *summary_item_new_string (const gchar *name, const gchar *string);
+char        *summary_item_as_text    (const SummaryItem *sit);
 void         summary_item_free       (SummaryItem *sit);
 
 struct _SummaryInfo {

@@ -1,3 +1,17 @@
+1999-07-17  Michael Meeks  <michael@edenproject.org>
+
+	* src/workbook.c (workbook_setup_edit_area): Enabled function
+	wizard.
+
+1999-07-16  Michael Meeks  <michael@edenproject.org>
+
+	* src/summary.c (summary_item_as_text): Implemented.
+	(summary_item_dump): Simplified.
+
+	* src/xml-io.c (xml_write_summary, xml_read_summary): Created.
+	(xml_workbook_read, xml_write_summary): Added summary stuff.
+
+
 1999-07-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* doc/C/analysis-tools.sgml: Added documentation of anova, single

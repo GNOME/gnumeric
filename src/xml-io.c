@@ -658,6 +658,97 @@ xml_write_style (parse_xml_context_t *ctxt, Style *style, int style_idx)
 	return cur;
 }
 
+static xmlNodePtr
+xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *sin)
+{
+	GList *items, *m;
+	xmlNodePtr cur;
+
+	if (!sin)
+		return NULL;
+
+	m = items = summary_info_as_list (sin);
+
+	if (!items)
+		return NULL;
+
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Summary", NULL);
+
+	while (items) {
+		xmlNodePtr   tmp;
+		SummaryItem *sit = items->data;
+		if (sit) {
+			char *text;
+
+			tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Item", NULL);
+			xmlNewChild (tmp, ctxt->ns, "name",
+				     xmlEncodeEntities (ctxt->doc, sit->name));
+
+			if (sit->type == SUMMARY_INT) {
+
+				text = g_strdup_printf ("%d", sit->v.i);
+				xmlNewChild (tmp, ctxt->ns, "val-int",
+					     xmlEncodeEntities (ctxt->doc, text));
+
+			} else {
+
+				text = summary_item_as_text (sit);
+				xmlNewChild (tmp, ctxt->ns, "val-string",
+					     xmlEncodeEntities (ctxt->doc, text));
+
+			}
+			g_free (text);
+		}
+		xmlAddChild (cur, tmp);
+		items = g_list_next (items);
+	}
+	g_list_free (m);
+	return cur;
+}
+
+static void
+xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *sin)
+{
+	xmlNodePtr child, tmp;
+
+	g_return_if_fail (sin);
+	g_return_if_fail (ctxt);
+	g_return_if_fail (tree);
+
+	child = tree->childs;
+	while (child) {
+		if (child->name && !strcmp (child->name, "Item")) {
+			xmlNodePtr bits;
+
+			bits = child->childs;
+			while (bits) {
+				SummaryItem *sit = NULL;
+				char *name = NULL;
+				
+				if (!strcmp (bits->name, "name")) {
+					name = xmlNodeGetContent(bits);
+				} else {
+					char *txt;
+					g_return_if_fail (name);
+
+					txt = xmlNodeGetContent (bits);
+					g_return_if_fail (txt);
+
+					if (!strcmp (bits->name, "val-string"))
+						sit = summary_item_new_string (name, txt);
+					else if (!strcmp (bits->name, "val-int"))
+						sit = summary_item_new_int    (name, atoi (txt));
+
+					if (sit)
+						summary_info_add (sin, sit);
+					g_free (txt);
+				}
+			}
+		}
+		child = child->next;
+	}
+}
+
 static const char *
 font_component (const char *fontname, int idx)
 {
@@ -1494,6 +1585,10 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	if (cur == NULL)
 		return NULL;
 
+	child = xml_write_summary (ctxt, wb->sin);
+	if (child)
+		xmlAddChild (cur, child);
+
 	child = xml_write_style (ctxt, &wb->style, -1);
 	if (child)
 		xmlAddChild (cur, child);
@@ -1568,6 +1663,10 @@ xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	ret = workbook_new ();
 	ctxt->wb = ret;
 
+	child = xml_search_child (tree, "Summary");
+	if (child)
+		xml_read_summary (ctxt, child, ret->sin);
+
 	child = xml_search_child (tree, "Geometry");
 	if (child){
 		int width, height;
@@ -1576,6 +1675,7 @@ xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		xml_get_value_int (child, "Height", &height);
 /*      gtk_widget_set_usize(ret->toplevel, width, height); */
 	}
+
 	child = xml_search_child (tree, "Style");
 	if (child != NULL)
 		xml_read_style (ctxt, child, &ret->style);

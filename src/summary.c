@@ -34,7 +34,7 @@ summary_item_new (const gchar *name, SummaryItemType t)
 
 
 SummaryItem *
-summary_item_new_int    (const gchar *name, gint i)
+summary_item_new_int (const gchar *name, gint i)
 {
 	SummaryItem *sit = summary_item_new (name, SUMMARY_INT);
 	sit->v.i = i;
@@ -42,7 +42,7 @@ summary_item_new_int    (const gchar *name, gint i)
 }
 
 SummaryItem *
-summary_item_new_time   (const gchar *name, GTimeVal t)
+summary_item_new_time (const gchar *name, GTimeVal t)
 {
 	SummaryItem *sit = summary_item_new (name, SUMMARY_TIME);
 	sit->v.time = t;
@@ -55,6 +55,25 @@ summary_item_new_string (const gchar *name, const gchar *string)
 	SummaryItem *sit = summary_item_new (name, SUMMARY_STRING);
 	sit->v.txt = g_strdup (string);
 	return sit;
+}
+
+char *
+summary_item_as_text (const SummaryItem *sit)
+{
+	g_return_val_if_fail (sit != NULL, NULL);
+	
+	switch (sit->type) {
+	case SUMMARY_STRING:
+		if (sit->v.txt)
+			return g_strdup (sit->v.txt);
+		else
+			return g_strdup ("Internal Error");
+		break;
+	case SUMMARY_INT:
+		return g_strdup_printf ("%d", sit->v.i);
+	default:
+		return g_strdup ("Unhandled type");
+	}
 }
 
 void
@@ -81,25 +100,15 @@ summary_item_free (SummaryItem *sit)
 static void
 summary_item_dump (SummaryItem *sit)
 {
+	char *txt;
 	g_return_if_fail (sit);
 	g_return_if_fail (sit->name);
 
 	printf (" '%s' = ", sit->name);
-	switch (sit->type)
-	{
-	case SUMMARY_STRING:
-		printf (" '%s'\n", sit->v.txt);
-		break;
-	case SUMMARY_INT:
-		printf (" %d\n", sit->v.i);
-		break;
-	case SUMMARY_TIME:
-		printf (" Unimplemented\n");
-		break;
-	default:
-		g_warning ("unknown / unimplemented summary type");
-		break;
-	}
+	
+	txt = summary_item_as_text (sit);
+	printf (" %s\n", txt);
+	g_free (txt);
 }
 
 static gint
