@@ -3353,7 +3353,7 @@ col_row_info_init (Sheet *sheet, double pts, int margin_a, int margin_b,
 	cri->hard_size = FALSE;
 	cri->visible = TRUE;
 	cri->spans = NULL;
-	colrow_compute_pixels_from_pts (sheet, cri, is_horizontal);
+	colrow_compute_pixels_from_pts (sheet, cri, (void *)is_horizontal);
 }
 
 /************************************************************************/
@@ -3638,5 +3638,5 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts,
 	/* Why XL chooses to be asymetric I don't know */
 	int const a = thick_a ? 2 : 1;
 	int const b = thick_b ? 1 : 0;
-	col_row_info_init (sheet, height_pts, a, b);
+	col_row_info_init (sheet, height_pts, a, b, FALSE);
 }
