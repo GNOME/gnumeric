@@ -514,22 +514,25 @@ dump_allocation (MsOle *f)
 }
 
 /**
- * Dump tree.
- **/
-ms_ole_dump_tree (MsOle *f)
-{
-	if (f->pps)
-		dump_tree (f->pps, 0);
-}
-
-/**
  * Dump some useful facts.
+ * magic: 2       : dump tree
+ *        default : dump header and allocation
  **/
 void
 ms_ole_debug (MsOle *f, int magic)
 {
-	dump_header (f);
-	dump_allocation (f);
+	switch (magic) {
+	case 2:
+		if (f->pps)
+			dump_tree (f->pps, 0);
+		else
+			printf ("There are no tree (no pps)\n");
+		break;
+	default:
+		dump_header (f);
+		dump_allocation (f);
+		break;
+	}
 }
 
 static BLP

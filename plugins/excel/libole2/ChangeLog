@@ -1,3 +1,10 @@
+1999-10-22  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c (ms_ole_dump_tree): Deleted.
+	(ms_ole_debug): If magic is 2, dump the tree.
+
+	* ms-ole.h (ms_ole_open_vfs): Fix declaration.
+
 1999-10-21  Arturo Tena <arturo@directmail.org>
 
 	* ms-ole.c (ms_ole_dump_tree): Added.

@@ -86,8 +86,8 @@ extern MsOleErr ms_ole_create_vfs  (MsOle **, const char *name, int try_mmap,
 				    MsOleSysWrappers *wrappers);
 /* Open existing OLE file */
 #define ms_ole_open(n,m) ms_ole_open_vfs ((n), (m), MsOleDoMmap, NULL)
-extern MsOleErr ms_ole_open_vfs    (MsOle **, const char *name, int try_mmap,
-				    MsOleSysWrappers *wrappers);
+extern MsOleErr ms_ole_open_vfs    (MsOle **, const char *name,
+				    gboolean try_mmap, MsOleSysWrappers *);
 extern void     ms_ole_ref         (MsOle *);
 extern void     ms_ole_unref       (MsOle *);
 extern void     ms_ole_destroy     (MsOle **);
