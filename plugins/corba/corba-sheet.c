@@ -24,7 +24,6 @@
 #include <gnumeric.h>
 
 #include "corba-sheet.h"
-#include "GNOME_Gnumeric.h"
 
 #include <sheet.h>
 #include <sheet-control-priv.h>
@@ -32,18 +31,36 @@
 #include <gsf/gsf-impl-utils.h>
 #include <bonobo.h>
 
-BONOBO_TYPE_FUNC_FULL (SheetControl, 
-		       GNOME_Gnumeric_Sheet,
-		       BONOBO_OBJECT_TYPE,
-		       csheet);
+#define CORBA_SHEET_TYPE	(csheet_get_type ())
+#define CORBA_SHEET(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), CORBA_SHEET_TYPE, CorbaSheet))
+#define IS_CORBA_SHEET(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), CORBA_SHEET_TYPE))
 
-#define SERVANT_TO_SC(s) (SHEET_CONTROL (bonobo_object (s)))
+typedef struct _SheetControlCORBA SheetControlCORBA;
+typedef struct {
+	BonoboObject	   base;
+	SheetControlCORBA *container;
+} CorbaSheet;
+
+typedef struct {
+	BonoboObjectClass      parent_class;
+
+	POA_GNOME_Gnumeric_Sheet__epv epv;
+} CorbaSheetClass;
+
+static GType csheet_get_type   (void);
+
+static Sheet *
+servant_to_sheet (PortableServer_Servant servant)
+{
+	CorbaSheet *cs = CORBA_SHEET (bonobo_object (servant));
+	return sc_sheet (SHEET_CONTROL (cs->container));
+}
 
 static CORBA_string
 csheet_get_name (PortableServer_Servant servant,
 		 CORBA_Environment *ev)
 {
-	Sheet *sheet = sc_sheet	(SERVANT_TO_SC (servant));
+	Sheet *sheet = servant_to_sheet (servant);
 	return CORBA_string_dup (sheet->name_unquoted);
 }
 
@@ -51,7 +68,7 @@ static void
 csheet_set_name (PortableServer_Servant servant, CORBA_char const * value,
 		    CORBA_Environment *ev)
 {
-	Sheet *sheet = sc_sheet	(SERVANT_TO_SC (servant));
+	Sheet *sheet = servant_to_sheet (servant);
 
 	/* DO NOT CALL sheet_rename that is too low level */
 }
@@ -60,7 +77,7 @@ static CORBA_short
 csheet_get_index (PortableServer_Servant servant,
 		  CORBA_Environment *ev)
 {
-	Sheet *sheet = sc_sheet	(SERVANT_TO_SC (servant));
+	Sheet *sheet = servant_to_sheet (servant);
 	return sheet->index_in_wb;
 }
 
@@ -69,44 +86,89 @@ csheet_set_index (PortableServer_Servant servant,
 		  CORBA_short indx,
 		  CORBA_Environment *ev)
 {
-	Sheet *sheet = sc_sheet	(SERVANT_TO_SC (servant));
+	Sheet *sheet = servant_to_sheet (servant);
 	/* FIXME: do something */
 }
 
 static void
-csheet_dispose (SheetControl *sc)
+csheet_dispose (GObject *obj)
 {
-	if (sc->view) {
-		SheetView *v = sc->view;
-		sc->view = NULL;
-		g_object_unref (v);
-	}
+	/* FIXME : do we need to unref the container ? */
 }
 
 static void
-csheet_instance_init (SheetControl *sc)
+csheet_init (GObject *obg)
 {
 }
 
 static void
-csheet_class_init (SheetControlClass *sc_class)
+csheet_class_init (GObjectClass *gobject_class)
 {
-	GObjectClass *gobject_class = (GObjectClass *) sc_class;
+	CorbaSheetClass *cs_class = (CorbaSheetClass *) gobject_class;
 
 	gobject_class->dispose = csheet_dispose;
 
 	/* populate CORBA epv */
-	sc_class->epv._get_name  = csheet_get_name;
-	sc_class->epv._set_name  = csheet_set_name;
-	sc_class->epv._get_index = csheet_get_index;
-	sc_class->epv._set_index = csheet_set_index;
+	cs_class->epv._get_name  = csheet_get_name;
+	cs_class->epv._set_name  = csheet_set_name;
+	cs_class->epv._get_index = csheet_get_index;
+	cs_class->epv._set_index = csheet_set_index;
 }
+
+BONOBO_TYPE_FUNC_FULL (CorbaSheet, 
+		       GNOME_Gnumeric_Sheet,
+		       BONOBO_OBJECT_TYPE,
+		       csheet);
+
+/*************************************************************************/
+
+struct _SheetControlCORBA {
+	SheetControl base;
+
+	CorbaSheet *servant;
+};
+
+typedef struct {
+	SheetControlClass   base;
+} SheetControlCORBAClass;
+
+static void
+scc_finalize (GObject *obj)
+{
+	GObjectClass *parent_class;
+	SheetControlCORBA *scc = SHEET_CONTROL_CORBA (obj);
+
+	if (scc->servant != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (scc->servant));
+		scc->servant = NULL;
+	}
+
+	parent_class = g_type_class_peek (SHEET_CONTROL_TYPE);
+	if (parent_class->finalize)
+		parent_class->finalize (obj);
+}
+
+static void
+scc_class_init (GObjectClass *object_class)
+{
+	object_class->finalize	    = &scc_finalize;
+}
+
+static void
+scc_init (SheetControlCORBA *scc)
+{
+}
+
+GSF_CLASS (SheetControlCORBA, sheet_control_corba,
+	   scc_class_init, scc_init, SHEET_CONTROL_TYPE);
 
 SheetControl *
 sheet_control_corba_new (SheetView *sv)
 {
-	SheetControl *sc =
-		g_object_new (sheet_control_corba_get_type (), NULL);
-	sc->view = g_object_ref (sv);
-	return sc;
+	SheetControlCORBA *scc =
+		g_object_new (SHEET_CONTROL_CORBA_TYPE, NULL);
+	scc->servant = g_object_new (CORBA_SHEET_TYPE, NULL);
+	scc->servant->container = scc;
+	sv_attach_control (sv, SHEET_CONTROL (scc));
+	return SHEET_CONTROL (scc);
 }

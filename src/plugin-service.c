@@ -186,7 +186,7 @@ static void
 plugin_service_general_activate (PluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceGeneral *service_general = GNM_PLUGIN_SERVICE_GENERAL (service);
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	plugin_service_load (service, &error);
@@ -211,7 +211,7 @@ static void
 plugin_service_general_deactivate (PluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceGeneral *service_general = GNM_PLUGIN_SERVICE_GENERAL (service);
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	g_return_if_fail (service_general->cbs.plugin_func_cleanup != NULL);
@@ -579,7 +579,7 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 	}
 
 	if (service_file_opener->has_probe) {
-		ErrorInfo *ignored_error;
+		ErrorInfo *ignored_error = NULL;
 
 		plugin_service_load (pfo->service, &ignored_error);
 		if (ignored_error != NULL) {
@@ -603,7 +603,7 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 {
 	GnumPluginFileOpener *pfo = GNUM_PLUGIN_FILE_OPENER (fo);
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 
 	g_return_if_fail (GSF_IS_INPUT (input));
 
@@ -874,7 +874,7 @@ gnum_plugin_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 {
 	GnumPluginFileSaver *pfs = GNUM_PLUGIN_FILE_SAVER (fs);
 	PluginServiceFileSaver *service_file_saver = GNM_PLUGIN_SERVICE_FILE_SAVER (pfs->service);
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 
 	g_return_if_fail (file_name != NULL);
 
@@ -1066,7 +1066,7 @@ plugin_service_function_group_get_full_info_callback (
 {
 	PluginService *service;
 	PluginServiceFunctionGroup *service_function_group;
-	ErrorInfo *error;
+	ErrorInfo *error =NULL;
 
 	g_return_val_if_fail (fn_def != NULL, FALSE);
 
@@ -1213,7 +1213,7 @@ GType
 plugin_service_plugin_loader_generate_type (PluginService *service, ErrorInfo **ret_error)
 {
 	PluginServicePluginLoader *service_plugin_loader = GNM_PLUGIN_SERVICE_PLUGIN_LOADER (service);
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 	GType loader_type;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
@@ -1362,13 +1362,13 @@ static void
 ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, const gchar *cname)
 {
 	PluginService *service = GNM_PLUGIN_SERVICE (user_data);
-	ErrorInfo *load_error;
+	ErrorInfo *load_error = NULL;
 	
 	plugin_service_load (service, &load_error);
 	if (load_error == NULL) {
 		PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 		WorkbookControlGUI *wbcg;
-		ErrorInfo *ignored_error;
+		ErrorInfo *ignored_error = NULL;
 
 		g_return_if_fail (service_ui->cbs.plugin_func_exec_verb != NULL);
 		wbcg = g_object_get_data (
@@ -1481,7 +1481,7 @@ plugin_service_load (PluginService *service, ErrorInfo **ret_error)
 static void
 plugin_service_unload (PluginService *service, ErrorInfo **ret_error)
 {
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE (service));
 
@@ -1514,7 +1514,7 @@ plugin_service_new (xmlNode *tree, ErrorInfo **ret_error)
 {
 	PluginService *service = NULL;
 	char *id, *type_str;
-	ErrorInfo *service_error;
+	ErrorInfo *service_error = NULL;
 	int ti;
 
 	g_return_val_if_fail (tree != NULL, NULL);
@@ -1615,7 +1615,7 @@ plugin_service_activate (PluginService *service, ErrorInfo **ret_error)
 	}
 #ifdef PLUGIN_ALWAYS_LOAD
 	{
-		ErrorInfo *load_error;
+		ErrorInfo *load_error = NULL;
 
 		plugin_service_load (service, &load_error);
 		if (load_error != NULL) {
@@ -1640,7 +1640,7 @@ plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error)
 	}
 	GPS_GET_CLASS (service)->deactivate (service, ret_error);
 	if (*ret_error == NULL) {
-		ErrorInfo *ignored_error;
+		ErrorInfo *ignored_error = NULL;
 
 		service->is_active = FALSE;
 		/* FIXME */

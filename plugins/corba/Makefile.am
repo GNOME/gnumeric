@@ -9,10 +9,10 @@ gnumeric_plugin_corba_LTLIBRARIES = corba.la
 corba_la_LDFLAGS = -module -avoid-version
 corba_la_SOURCES = $(GNUMERIC_GENERATED)	\
 	corba-application.c 			\
-	corba-application.h 			\
 	corba-workbook.c 			\
 	corba-workbook.h 			\
-	corba-sheet.c 
+	corba-sheet.c 				\
+	corba-sheet.h
 
 GNUMERIC_GENERATED = 		\
 	GNOME_Gnumeric-common.c		\

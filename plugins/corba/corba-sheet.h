@@ -1,34 +1,15 @@
 #ifndef GNUMERIC_SHEET_CONTROL_CORBA_H
 #define GNUMERIC_SHEET_CONTROL_CORBA_H
 
-#include "sheet-control.h"
+#include <gnumeric.h>
+#include "GNOME_Gnumeric.h"
 
-#define SHEET_TYPE_CONTROL        (sheet_control_get_type ())
-#define SHEET_CONTROL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), SHEET_TYPE_CONTROL, SheetControl))
-#define SHEET_CONTROL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_TYPE_CONTROL, SheetControlClass))
-#define SHEET_IS_CONTROL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_TYPE_CONTROL))
-#define SHEET_IS_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), SHEET_TYPE_CONTROL))
+#define SHEET_CONTROL_CORBA_TYPE     (sheet_control_corba_get_type ())
+#define SHEET_CONTROL_CORBA(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_CONTROL_CORBA_TYPE, SheetControlCORBA))
+#define IS_SHEET_CONTROL_CORBA(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_CONTROL_CORBA_TYPE))
 
-typedef struct _SheetControlPrivate SheetControlPrivate;
-
-struct _SheetControl {
-	BonoboObject base;
-
-	/*
-	 *  Of course, proxy objects are a painful pile of
-	 * typing, but then using CORBA types internally is
-	 * perhaps harder ?
-	 */
-	SheetView *view;
-};
-
-typedef struct {
-	BonoboObjectClass      parent_class;
-
-	POA_GNOME_Gnumeric_Sheet__epv epv;
-} SheetControlClass;
-
-GType         sheet_control_corba_get_type (void);
-SheetControl *sheet_control_corba_new      (SheetView *view);
+GType         sheet_control_corba_get_type   (void);
+SheetControl *sheet_control_corba_new        (SheetView *view);
+GNOME_Gnumeric_Sheet sheet_control_corba_obj (SheetControl *sc);
 
 #endif /* GNUMERIC_SHEET_CONTROL_CORBA_H */

@@ -193,228 +193,8 @@ xml_sax_attr_range (xmlChar const * const *attrs, Range *res)
 
 /*****************************************************************************/
 
-#if 0
-/*
- * Save a Workbook in an XML file
- */
-void
-xmlSax_write (Workbook *wb, char const *filename, ErrorInfo **ret_error)
-{
-	g_return_val_if_fail (wb != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
-
-	*ret_error = NULL;
-}
-#endif
-
-/*****************************************************************************/
-
-typedef enum {
-STATE_START,
-
-STATE_WB,
-	STATE_WB_ATTRIBUTES,
-		STATE_WB_ATTRIBUTES_ELEM,
-			STATE_WB_ATTRIBUTES_ELEM_NAME,
-			STATE_WB_ATTRIBUTES_ELEM_TYPE,
-			STATE_WB_ATTRIBUTES_ELEM_VALUE,
-	STATE_WB_SUMMARY,
-		STATE_WB_SUMMARY_ITEM,
-			STATE_WB_SUMMARY_ITEM_NAME,
-			STATE_WB_SUMMARY_ITEM_VALUE_STR,
-			STATE_WB_SUMMARY_ITEM_VALUE_INT,
-	STATE_WB_SHEETNAME_INDEX,
-		STATE_WB_SHEETNAME,
-        STATE_NAMES,
-                STATE_NAMES_NAME,
-                        STATE_NAMES_NAME_NAME,
-                        STATE_NAMES_NAME_VALUE,
-                        STATE_NAMES_NAME_POSITION,
-	STATE_WB_GEOMETRY,
-	STATE_WB_SHEETS,
-		STATE_SHEET,
-			STATE_SHEET_NAME,	/* convert to attr */
-			STATE_SHEET_MAXCOL,	/* convert to attr */
-			STATE_SHEET_MAXROW,	/* convert to attr */
-			STATE_SHEET_ZOOM,	/* convert to attr */
-			STATE_SHEET_NAMES,
-				STATE_SHEET_NAMES_NAME,
-					STATE_SHEET_NAMES_NAME_NAME,
-					STATE_SHEET_NAMES_NAME_VALUE,
-					STATE_SHEET_NAMES_NAME_POSITION,
-			STATE_SHEET_PRINTINFO,
-                                STATE_PRINT_MARGINS,
-					STATE_PRINT_MARGIN_TOP,
-					STATE_PRINT_MARGIN_BOTTOM,
-					STATE_PRINT_MARGIN_LEFT,
-					STATE_PRINT_MARGIN_RIGHT,
-					STATE_PRINT_MARGIN_HEADER,
-					STATE_PRINT_MARGIN_FOOTER,
-                                STATE_PRINT_SCALE,
-				STATE_PRINT_VCENTER,
-				STATE_PRINT_HCENTER,
-				STATE_PRINT_GRID,
-				STATE_PRINT_MONO,
-				STATE_PRINT_AS_DRAFT,
-				STATE_PRINT_COMMENTS,
-				STATE_PRINT_TITLES,
-				STATE_PRINT_REPEAT_TOP,
-				STATE_PRINT_REPEAT_LEFT,
-				STATE_PRINT_ORDER,
-				STATE_PRINT_ORIENT,
-				STATE_PRINT_HEADER,
-				STATE_PRINT_FOOTER,
-				STATE_PRINT_PAPER,
-				STATE_PRINT_EVEN_ONLY_STYLE,
-			STATE_SHEET_STYLES,
-				STATE_STYLE_REGION,
-					STATE_STYLE_STYLE,
-						STATE_STYLE_FONT,
-						STATE_STYLE_BORDER,
-							STATE_BORDER_TOP,
-							STATE_BORDER_BOTTOM,
-							STATE_BORDER_LEFT,
-							STATE_BORDER_RIGHT,
-							STATE_BORDER_DIAG,
-							STATE_BORDER_REV_DIAG,
-						STATE_STYLE_VALIDATION,
-							STATE_STYLE_VALIDATION_EXPR0,
-							STATE_STYLE_VALIDATION_EXPR1,
-			STATE_SHEET_COLS,
-				STATE_COL,
-			STATE_SHEET_ROWS,
-				STATE_ROW,
-			STATE_SHEET_SELECTIONS,
-				STATE_SELECTION,
-			STATE_SHEET_CELLS,
-				STATE_CELL,
-					STATE_CELL_CONTENT,
-			STATE_SHEET_MERGED_REGION,
-				STATE_SHEET_MERGE,
-			STATE_SHEET_LAYOUT,
-				STATE_SHEET_FREEZEPANES,
-			STATE_SHEET_SOLVER,
-		STATE_SHEET_OBJECTS,
-			STATE_OBJECT_POINTS,
-			STATE_OBJECT_RECTANGLE,
-			STATE_OBJECT_ELLIPSE,
-			STATE_OBJECT_ARROW,
-			STATE_OBJECT_LINE,
-
-	STATE_WB_VIEW,
-
-	STATE_UNKNOWN
-} xmlSaxState;
-
-/*
- * This is not complete yet.
- * I just pulled it out of a single saved gnumeric file.
- * However, with a bit of cleanup, we should be able to use it as the basis for a dtd.
- */
-static char const * const xmlSax_state_names[] =
-{
-"START",
-"gmr:Workbook",
-	"gmr:Attributes",
-		"gmr:Attribute",
-			"gmr:name",
-			"gmr:type",
-			"gmr:value",
-	"gmr:Summary",
-		"gmr:Item",
-			"gmr:name",
-			"gmr:val-string",
-			"gmr:val-int",
-	"gmr:SheetNameIndex",
-		"gmr:SheetName",
-        "gmr:Names",
-                "gmr:Name",
-                        "gmr:name",
-                        "gmr:value",
-                        "gmr:position",
-	"gmr:Geometry",
-	"gmr:Sheets",
-		"gmr:Sheet",
-			"gmr:Name",
-			"gmr:MaxCol",
-			"gmr:MaxRow",
-			"gmr:Zoom",
-			"gmr:Names",
-				"gmr:Name",
-					"gmr:name",
-					"gmr:value",
-					"gmr:position",
-			"gmr:PrintInformation",
-				"gmr:Margins",
-					"gmr:top",
-					"gmr:bottom",
-					"gmr:left",
-					"gmr:right",
-					"gmr:header",
-					"gmr:footer",
-				"gmr:Scale",
-				"gmr:vcenter",
-				"gmr:hcenter",
-				"gmr:grid",
-				"gmr:monochrome",
-				"gmr:draft",
-				"gmr:comments",
-				"gmr:titles",
-				"gmr:repeat_top",
-				"gmr:repeat_left",
-				"gmr:order",
-				"gmr:orientation",
-				"gmr:Footer",
-				"gmr:Header",
-				"gmr:paper",
-				"gmr:even_if_only_styles",
-			"gmr:Styles",
-				"gmr:StyleRegion",
-					"gmr:Style",
-						"gmr:Font",
-						"gmr:StyleBorder",
-							"gmr:Top",
-							"gmr:Bottom",
-							"gmr:Left",
-							"gmr:Right",
-							"gmr:Diagonal",
-							"gmr:Rev-Diagonal",
-						"gmr:Validation",
-							"gmr:Expression0",
-							"gmr:Expression1",
-
-			"gmr:Cols",
-				"gmr:ColInfo",
-
-			"gmr:Rows",
-				"gmr:RowInfo",
-			"gmr:Selections",
-				"gmr:Selection",
-			"gmr:Cells",
-				"gmr:Cell",
-					"gmr:Content",
-			"gmr:MergedRegions",
-				"gmr:Merge",
-			"gmr:SheetLayout",
-				"gmr:FreezePanes",
-			"gmr:Solver",
-			"gmr:Objects",
-				"gmr:Points",
-				"gmr:Rectangle",
-				"gmr:Ellipse",
-				"gmr:Arrow",
-				"gmr:Line",
-	"gmr:UIData",
-
-	"Unknown",
-NULL
-};
-
-typedef struct
-{
-	xmlSaxState state;
-	gint	  unknown_depth;	/* handle recursive unknown tags */
-	GSList	 *state_stack;
+typedef struct {
+	GsfXmlSAXState base;
 
 	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
@@ -457,8 +237,6 @@ typedef struct
 	int value_type;
 	StyleFormat *value_fmt;
 
-	GString *content;
-
 	int display_formulas;
 	int hide_zero;
 	int hide_grid;
@@ -473,59 +251,19 @@ typedef struct
 	GHashTable *expr_map;
 } XMLSaxParseState;
 
-static void
-xml_sax_unknown_attr (XMLSaxParseState *state, xmlChar const * const *attrs, char const *name)
-{
-	g_return_if_fail (attrs != NULL);
-
-	/* FIXME : Use IOContext to get these messages back to the user. */
-	if (state->version == GNUM_XML_LATEST)
-		g_warning ("Unexpected attribute '%s'='%s' for element of type %s.",
-			   attrs[0], attrs[1], name);
-}
-
-static void
-xml_sax_warning (XMLSaxParseState *state, const char *msg, ...)
-{
-	va_list args;
-
-	va_start (args, msg);
-	g_logv ("XML", G_LOG_LEVEL_WARNING, msg, args);
-	va_end (args);
-}
-
-static void
-xml_sax_error (XMLSaxParseState *state, const char *msg, ...)
-{
-	va_list args;
-
-	va_start (args, msg);
-	g_logv ("XML", G_LOG_LEVEL_CRITICAL, msg, args);
-	va_end (args);
-}
-
-static void
-xml_sax_fatal_error (XMLSaxParseState *state, const char *msg, ...)
-{
-	va_list args;
-
-	va_start (args, msg);
-	g_logv ("XML", G_LOG_LEVEL_ERROR, msg, args);
-	va_end (args);
-}
-
-
 /****************************************************************************/
 
 static void
-xml_sax_wb (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_wb (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (strcmp (attrs[0], "xmlns:gmr") == 0) {
-			static const struct {
+			static struct {
 				char const * const id;
 				GnumericXMLVersion const version;
-			} GnumericVersions [] = {
+			} const GnumericVersions [] = {
 				{ "http://www.gnumeric.org/v10.dtd", GNUM_XML_V10 },	/* 1.0.3 */
 				{ "http://www.gnumeric.org/v9.dtd", GNUM_XML_V9 },	/* 0.73 */
 				{ "http://www.gnumeric.org/v8.dtd", GNUM_XML_V8 },	/* 0.71 */
@@ -556,16 +294,20 @@ xml_sax_wb (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_wb_sheetname (XMLSaxParseState *state)
+xml_sax_wb_sheetname (GsfXmlSAXState *gsf_state)
 {
-	char const * content = state->content->str;
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
+	char const *content = state->base.content->str;
 	Sheet *sheet = sheet_new (state->wb, content);
 	workbook_sheet_attach (state->wb, sheet, NULL);
 }
 
 static void
-xml_sax_wb_view (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_wb_view (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	int sheet_index;
 	int width = -1, height = -1;
 
@@ -583,8 +325,10 @@ xml_sax_wb_view (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_finish_parse_wb_attr (XMLSaxParseState *state)
+xml_sax_finish_parse_wb_attr (GsfXmlSAXState *gsf_state)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	g_return_if_fail (state->attribute.name != NULL);
 	g_return_if_fail (state->attribute.value != NULL);
 
@@ -596,23 +340,22 @@ xml_sax_finish_parse_wb_attr (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_attr_elem (XMLSaxParseState *state)
+xml_sax_attr_elem (GsfXmlSAXState *gsf_state)
 {
-	char const * content = state->content->str;
-	int const len = state->content->len;
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	switch (state->state) {
-	case STATE_WB_ATTRIBUTES_ELEM_NAME :
+	char const *content = state->base.content->str;
+	int const len = state->base.content->len;
+
+	switch (gsf_state->node->user_data.v_int) {
+	case 0 :
 		g_return_if_fail (state->attribute.name == NULL);
 		state->attribute.name = g_strndup (content, len);
 		break;
 
-	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
+	case 1 :
 		g_return_if_fail (state->attribute.value == NULL);
 		state->attribute.value = g_strndup (content, len);
-		break;
-
-	case STATE_WB_ATTRIBUTES_ELEM_TYPE : /* ignore */
 		break;
 
 	default :
@@ -621,8 +364,10 @@ xml_sax_attr_elem (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_sheet_start (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_sheet_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	gboolean tmp;
 	StyleColor *color = NULL;
 
@@ -657,8 +402,10 @@ xml_sax_sheet_start (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_sheet_end (XMLSaxParseState *state)
+xml_sax_sheet_end (GsfXmlSAXState *gsf_state)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	g_return_if_fail (state->sheet != NULL);
 
 	/* Init ColRowInfo's size_pixels and force a full respan */
@@ -669,13 +416,14 @@ xml_sax_sheet_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_sheet_name (XMLSaxParseState *state)
+xml_sax_sheet_name (GsfXmlSAXState *gsf_state)
 {
-	char const * content = state->content->str;
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
+	char const * content = state->base.content->str;
 	g_return_if_fail (state->sheet == NULL);
 
-	/*
-	 * FIXME: Pull this out at some point, so we don't
+	/* * FIXME: Pull this out at some point, so we don't
 	 * have to support < GNUM_XML_V7 anymore
 	 */
 	if (state->version >= GNUM_XML_V7) {
@@ -708,9 +456,11 @@ xml_sax_sheet_name (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_sheet_zoom (XMLSaxParseState *state)
+xml_sax_sheet_zoom (GsfXmlSAXState *gsf_state)
 {
-	char const * content = state->content->str;
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
+	char const * content = state->base.content->str;
 	double zoom;
 
 	g_return_if_fail (state->sheet != NULL);
@@ -754,32 +504,34 @@ xml_sax_print_margins_unit (XMLSaxParseState *state, xmlChar const **attrs, Prin
 }
 
 static void
-xml_sax_print_margins (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_print_margins (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	PrintInformation *pi;
 
 	g_return_if_fail (state->sheet != NULL);
 	g_return_if_fail (state->sheet->print_info != NULL);
 
 	pi = state->sheet->print_info;
-	switch (state->state) {
-	case STATE_PRINT_MARGIN_TOP:
-		xml_sax_print_margins_unit (state, attrs,  &pi->margins.top);
+	switch (gsf_state->node->user_data.v_int) {
+	case 0: xml_sax_print_margins_unit (state, attrs,
+			&pi->margins.top);
 		break;
-	case STATE_PRINT_MARGIN_BOTTOM:
-		xml_sax_print_margins_unit (state, attrs,  &pi->margins.bottom);
+	case 1: xml_sax_print_margins_unit (state, attrs,
+			&pi->margins.bottom);
 		break;
-	case STATE_PRINT_MARGIN_LEFT:
-		print_info_set_margin_left (pi, xml_sax_print_margins_get_double (state, attrs));
+	case 2: print_info_set_margin_left (pi,
+			xml_sax_print_margins_get_double (state, attrs));
 		break;
-	case STATE_PRINT_MARGIN_RIGHT:
-		print_info_set_margin_right (pi, xml_sax_print_margins_get_double (state, attrs));
+	case 3: print_info_set_margin_right (pi,
+			xml_sax_print_margins_get_double (state, attrs));
 		break;
-	case STATE_PRINT_MARGIN_HEADER:
-		print_info_set_margin_header (pi, xml_sax_print_margins_get_double (state, attrs));
+	case 4: print_info_set_margin_header (pi,
+			xml_sax_print_margins_get_double (state, attrs));
 		break;
-	case STATE_PRINT_MARGIN_FOOTER:
-		print_info_set_margin_footer (pi, xml_sax_print_margins_get_double (state, attrs));
+	case 5: print_info_set_margin_footer (pi,
+			xml_sax_print_margins_get_double (state, attrs));
 		break;
 	default:
 		return;
@@ -790,8 +542,10 @@ xml_sax_print_margins (XMLSaxParseState *state, xmlChar const **attrs)
 
 
 static void
-xml_sax_print_scale (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_print_scale (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	PrintInformation *pi;
 	double percentage;
 	int cols, rows;
@@ -814,8 +568,10 @@ xml_sax_print_scale (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_selection_range (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_selection_range (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	Range r;
 	if (xml_sax_attr_range (attrs, &r))
 		sv_selection_add_range (
@@ -826,8 +582,10 @@ xml_sax_selection_range (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_selection (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_selection (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	int col = -1, row = -1;
 
 	sv_selection_reset (sheet_get_view (state->sheet, state->wb_view));
@@ -847,16 +605,20 @@ xml_sax_selection (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_selection_end (XMLSaxParseState *state)
+xml_sax_selection_end (GsfXmlSAXState *gsf_state)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	CellPos const pos = state->cell;
 	state->cell.col = state->cell.row = -1;
 	sv_set_edit_pos (sheet_get_view (state->sheet, state->wb_view), &pos);
 }
 
 static void
-xml_sax_sheet_layout (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_sheet_layout (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	CellPos tmp;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -869,8 +631,10 @@ xml_sax_sheet_layout (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_sheet_freezepanes (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_sheet_freezepanes (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	CellPos frozen_tl, unfrozen_tl;
 	int flags = 0;
 
@@ -888,9 +652,12 @@ xml_sax_sheet_freezepanes (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_cols_rows (XMLSaxParseState *state, xmlChar const **attrs, gboolean is_col)
+xml_sax_cols_rows (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	double def_size;
+	gboolean const is_col = gsf_state->node->user_data.v_bool;
 
 	g_return_if_fail (state->sheet != NULL);
 
@@ -904,12 +671,15 @@ xml_sax_cols_rows (XMLSaxParseState *state, xmlChar const **attrs, gboolean is_c
 }
 
 static void
-xml_sax_colrow (XMLSaxParseState *state, xmlChar const **attrs, gboolean is_col)
+xml_sax_colrow (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	ColRowInfo *cri = NULL;
 	double size = -1.;
 	int dummy;
 	int count = 1;
+	gboolean const is_col = gsf_state->node->user_data.v_bool;
 
 	g_return_if_fail (state->sheet != NULL);
 
@@ -960,8 +730,10 @@ xml_sax_colrow (XMLSaxParseState *state, xmlChar const **attrs, gboolean is_col)
 }
 
 static void
-xml_sax_style_region_start (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_style_region_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
 
@@ -971,8 +743,10 @@ xml_sax_style_region_start (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_style_region_end (XMLSaxParseState *state)
+xml_sax_style_region_end (GsfXmlSAXState *gsf_state)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	g_return_if_fail (state->style_range_init);
 	g_return_if_fail (state->style != NULL);
 	g_return_if_fail (state->sheet != NULL);
@@ -984,8 +758,10 @@ xml_sax_style_region_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_styleregion_start (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_styleregion_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	int val;
 	StyleColor *colour;
 
@@ -1029,8 +805,10 @@ xml_sax_styleregion_start (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_styleregion_font (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_styleregion_font (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	double size_pts = 10.;
 	int val;
 
@@ -1048,7 +826,7 @@ xml_sax_styleregion_font (XMLSaxParseState *state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "StrikeThrough", &val))
 			mstyle_set_font_strike (state->style, val ? TRUE : FALSE);
 		else
-			xml_sax_unknown_attr (state, attrs, "StyleFont");
+			xml_sax_unknown_attr (gsf_state, attrs, "StyleFont");
 	}
 }
 
@@ -1056,9 +834,9 @@ static const char *
 font_component (const char *fontname, int idx)
 {
 	int i = 0;
-	const char *p = fontname;
+	char const *p = fontname;
 
-	for (; *p && i < idx; p++){
+	for (; *p && i < idx; p++) {
 		if (*p == '-')
 			i++;
 	}
@@ -1081,13 +859,11 @@ font_component (const char *fontname, int idx)
 static void
 style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
 {
-	const char *c;
+	char const *c;
 
-	/*
-	 * FIXME: we should do something about the typeface instead
+	/* FIXME: we should do something about the typeface instead
 	 * of hardcoding it to helvetica.
 	 */
-
 	c = font_component (fontname, 2);
 	if (strncmp (c, "bold", 4) == 0)
 		mstyle_set_font_bold (mstyle, TRUE);
@@ -1101,10 +877,12 @@ style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
 }
 
 static void
-xml_sax_styleregion_font_end (XMLSaxParseState *state)
+xml_sax_styleregion_font_end (GsfXmlSAXState *gsf_state)
 {
-	if (state->content->len > 0) {
-		char const * content = state->content->str;
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
+	if (state->base.content->len > 0) {
+		char const * content = state->base.content->str;
 		if (*content == '-')
 			style_font_read_from_x11 (state->style, content);
 		else
@@ -1113,8 +891,10 @@ xml_sax_styleregion_font_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_validation (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_validation (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	int dummy;
 	gboolean b_dummy;
 
@@ -1150,8 +930,10 @@ xml_sax_validation (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_validation_end (XMLSaxParseState *state)
+xml_sax_validation_end (GsfXmlSAXState *gsf_state)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	g_return_if_fail (state->style != NULL);
 
 	mstyle_set_validation (state->style,
@@ -1177,15 +959,17 @@ xml_sax_validation_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_validation_expr_end (XMLSaxParseState *state)
+xml_sax_validation_expr_end (GsfXmlSAXState *gsf_state)
 {
-	int const i = (state->state == STATE_STYLE_VALIDATION_EXPR0) ? 0 : 1;
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
+	int const i = gsf_state->node->user_data.v_int;
 	GnmExpr const *expr;
 	ParsePos pos;
 
 	g_return_if_fail (state->validation.expr [i] == NULL);
 
-	expr = gnm_expr_parse_str_simple (state->content->str,
+	expr = gnm_expr_parse_str_simple (state->base.content->str,
 		parse_pos_init (&pos, state->wb, state->sheet, 0, 0));
 
 	g_return_if_fail (expr != NULL);
@@ -1194,8 +978,10 @@ xml_sax_validation_expr_end (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_style_region_borders (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_style_region_borders (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	int pattern = -1;
 	StyleColor *colour = NULL;
 
@@ -1210,8 +996,7 @@ xml_sax_style_region_borders (XMLSaxParseState *state, xmlChar const **attrs)
 	}
 
 	if (pattern >= STYLE_BORDER_NONE) {
-		MStyleElementType const type = MSTYLE_BORDER_TOP +
-			state->state - STATE_BORDER_TOP;
+		MStyleElementType const type = gsf_state->node->user_data.v_int;
 		StyleBorder *border =
 			style_border_fetch ((StyleBorderType)pattern, colour,
 					    style_border_get_orientation (type));
@@ -1220,8 +1005,10 @@ xml_sax_style_region_borders (XMLSaxParseState *state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_cell (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_cell (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
 	int value_type = -1;
@@ -1339,8 +1126,10 @@ xml_not_used_old_array_spec (Cell *cell, char const *content)
 }
 
 static void
-xml_sax_cell_content (XMLSaxParseState *state)
+xml_sax_cell_content (GsfXmlSAXState *gsf_state)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	gboolean is_new_cell, is_post_52_array = FALSE;
 	Cell *cell;
 
@@ -1376,8 +1165,8 @@ xml_sax_cell_content (XMLSaxParseState *state)
 
 	is_post_52_array = (array_cols > 0) && (array_rows > 0);
 
-	if (state->content->len > 0) {
-		char const * content = state->content->str;
+	if (state->base.content->len > 0) {
+		char const * content = state->base.content->str;
 
 		if (is_post_52_array) {
 			g_return_if_fail (content[0] == '=');
@@ -1427,24 +1216,27 @@ xml_sax_cell_content (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_merge (XMLSaxParseState *state)
+xml_sax_merge (GsfXmlSAXState *gsf_state)
 {
-	Range r;
-	g_return_if_fail (state->content->len > 0);
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	if (parse_range (state->content->str, &r))
+	Range r;
+	g_return_if_fail (state->base.content->len > 0);
+
+	if (parse_range (state->base.content->str, &r))
 		sheet_merge_add (NULL, state->sheet, &r, FALSE);
 }
 
 static void
-xml_sax_object (XMLSaxParseState *state, xmlChar const **attrs)
+xml_sax_object (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
-
 }
 
 static void
-xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
+xml_sax_finish_parse_wb_names_name (GsfXmlSAXState *gsf_state)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
@@ -1490,8 +1282,10 @@ xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_finish_parse_sheet_names_name (XMLSaxParseState *state)
+xml_sax_finish_parse_sheet_names_name (GsfXmlSAXState *gsf_state)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+
 	ParseError  perr;
 	ParsePos    pos;
 
@@ -1525,24 +1319,23 @@ xml_sax_finish_parse_sheet_names_name (XMLSaxParseState *state)
 }
 
 static void
-xml_sax_name (XMLSaxParseState *state)
+xml_sax_name (GsfXmlSAXState *gsf_state)
 {
-	char const * content = state->content->str;
-	int const len = state->content->len;
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	switch (state->state) {
-	case STATE_SHEET_NAMES_NAME_NAME:
-	case STATE_NAMES_NAME_NAME:
+	char const * content = state->base.content->str;
+	int const len = state->base.content->len;
+
+	switch (gsf_state->node->user_data.v_int) {
+	case 0:
 		g_return_if_fail (state->name.name == NULL);
 		state->name.name = g_strndup (content, len);
 		break;
-	case STATE_SHEET_NAMES_NAME_VALUE:
-	case STATE_NAMES_NAME_VALUE:
+	case 1:
 		g_return_if_fail (state->name.value == NULL);
 		state->name.value = g_strndup (content, len);
 		break;
-	case STATE_SHEET_NAMES_NAME_POSITION:
-	case STATE_NAMES_NAME_POSITION:
+	case 2:
 		g_return_if_fail (state->name.position == NULL);
 		state->name.position = g_strndup (content, len);
 		break;
@@ -1553,571 +1346,147 @@ xml_sax_name (XMLSaxParseState *state)
 
 /****************************************************************************/
 
-static gboolean
-xml_sax_switch_state (XMLSaxParseState *state, xmlChar const *name, xmlSaxState const newState)
-{
-	if (strcmp (name, xmlSax_state_names[newState]))
-		    return FALSE;
-
-	state->state_stack = g_slist_prepend (state->state_stack, GINT_TO_POINTER (state->state));
-	state->state = newState;
-	return TRUE;
-}
-
-static void
-xml_sax_unknown_state (XMLSaxParseState *state, xmlChar const *name)
-{
-	if (state->unknown_depth++)
-		return;
-	g_warning ("Unexpected element '%s' in state %s.", name, xmlSax_state_names[state->state]);
-}
-
-/*
- * We parse and do some limited validation of the XML file, if this
- * passes, then we return TRUE
-gboolean
-xml_sax_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
-{
-	return TRUE;
-}
- */
-
-static void
-xml_sax_start_element (XMLSaxParseState *state, xmlChar const *name, xmlChar const **attrs)
-{
-	switch (state->state) {
-	case STATE_START:
-		if (xml_sax_switch_state (state, name, STATE_WB)) {
-			xml_sax_wb (state, attrs);
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_WB :
-		if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_SHEETNAME_INDEX)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_GEOMETRY)) {
-			xml_sax_wb_view (state, attrs);
-		} else if (xml_sax_switch_state (state, name, STATE_WB_SHEETS)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_VIEW)) {
-			xml_sax_wb_view (state, attrs);
-		} else if (xml_sax_switch_state (state, name, STATE_NAMES)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_WB_ATTRIBUTES :
-		if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES_ELEM)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_WB_ATTRIBUTES_ELEM :
-		if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES_ELEM_NAME)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES_ELEM_TYPE)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_ATTRIBUTES_ELEM_VALUE)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_WB_SUMMARY :
-		if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY_ITEM)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_WB_SUMMARY_ITEM :
-		if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY_ITEM_NAME)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY_ITEM_VALUE_STR)) {
-		} else if (xml_sax_switch_state (state, name, STATE_WB_SUMMARY_ITEM_VALUE_INT)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_WB_SHEETNAME_INDEX :
-		if (xml_sax_switch_state (state, name, STATE_WB_SHEETNAME)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_WB_SHEETS :
-		if (xml_sax_switch_state (state, name, STATE_SHEET)) {
-			xml_sax_sheet_start (state, attrs);
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET :
-		if (xml_sax_switch_state (state, name, STATE_SHEET_NAME)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MAXCOL)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MAXROW)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_ZOOM)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_PRINTINFO)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_STYLES)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_COLS)) {
-			xml_sax_cols_rows (state, attrs, TRUE);
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_ROWS)) {
-			xml_sax_cols_rows (state, attrs, FALSE);
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_SELECTIONS)) {
-			xml_sax_selection (state, attrs);
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_CELLS)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MERGED_REGION)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_LAYOUT)) {
-			xml_sax_sheet_layout (state, attrs);
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_SOLVER)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_OBJECTS)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_NAMES:
-		if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-	case STATE_SHEET_NAMES_NAME:
-		if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME_NAME)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME_VALUE)) {
-		} else if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME_POSITION)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_MERGED_REGION :
-		if (!xml_sax_switch_state (state, name, STATE_SHEET_MERGE))
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_LAYOUT :
-		if (xml_sax_switch_state (state, name, STATE_SHEET_FREEZEPANES))
-			xml_sax_sheet_freezepanes (state, attrs);
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_PRINTINFO :
-		if (xml_sax_switch_state (state, name, STATE_PRINT_MARGINS)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_SCALE)) {
-			xml_sax_print_scale (state, attrs);
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_VCENTER)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_HCENTER)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_GRID)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_MONO)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_AS_DRAFT)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_COMMENTS)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_TITLES)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_REPEAT_TOP)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_REPEAT_LEFT)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_ORDER)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_ORIENT)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_HEADER)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_FOOTER)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_PAPER)) {
-		} else if (xml_sax_switch_state (state, name, STATE_PRINT_EVEN_ONLY_STYLE)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_PRINT_MARGINS :
-		if (xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_TOP) ||
-		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_BOTTOM) ||
-		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_LEFT) ||
-		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_RIGHT) ||
-		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_HEADER) ||
-		    xml_sax_switch_state (state, name, STATE_PRINT_MARGIN_FOOTER)) {
-			xml_sax_print_margins (state, attrs);
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_STYLES :
-		if (xml_sax_switch_state (state, name, STATE_STYLE_REGION))
-			xml_sax_style_region_start (state, attrs);
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_STYLE_REGION :
-		if (xml_sax_switch_state (state, name, STATE_STYLE_STYLE))
-			xml_sax_styleregion_start (state, attrs);
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_STYLE_STYLE :
-		if (xml_sax_switch_state (state, name, STATE_STYLE_FONT))
-			xml_sax_styleregion_font (state, attrs);
-		else if (xml_sax_switch_state (state, name, STATE_STYLE_BORDER)) {
-		} else if (xml_sax_switch_state (state, name, STATE_STYLE_VALIDATION)) {
-			xml_sax_validation (state, attrs);
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_STYLE_BORDER :
-		if (xml_sax_switch_state (state, name, STATE_BORDER_TOP) ||
-		    xml_sax_switch_state (state, name, STATE_BORDER_BOTTOM) ||
-		    xml_sax_switch_state (state, name, STATE_BORDER_LEFT) ||
-		    xml_sax_switch_state (state, name, STATE_BORDER_RIGHT) ||
-		    xml_sax_switch_state (state, name, STATE_BORDER_DIAG) ||
-		    xml_sax_switch_state (state, name, STATE_BORDER_REV_DIAG))
-			xml_sax_style_region_borders (state, attrs);
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_STYLE_VALIDATION :
-		if (xml_sax_switch_state (state, name, STATE_STYLE_VALIDATION_EXPR0));
-		else if (xml_sax_switch_state (state, name, STATE_STYLE_VALIDATION_EXPR1));
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_COLS :
-		if (xml_sax_switch_state (state, name, STATE_COL))
-			xml_sax_colrow (state, attrs, TRUE);
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_ROWS :
-		if (xml_sax_switch_state (state, name, STATE_ROW))
-			xml_sax_colrow (state, attrs, FALSE);
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_SELECTIONS :
-		if (xml_sax_switch_state (state, name, STATE_SELECTION))
-			xml_sax_selection_range (state, attrs);
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_CELLS :
-		if (xml_sax_switch_state (state, name, STATE_CELL))
-			xml_sax_cell (state, attrs);
-		else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_CELL :
-		if (!xml_sax_switch_state (state, name, STATE_CELL_CONTENT))
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_SHEET_OBJECTS :
-		if (xml_sax_switch_state (state, name, STATE_OBJECT_RECTANGLE) ||
-		    xml_sax_switch_state (state, name, STATE_OBJECT_ELLIPSE) ||
-		    xml_sax_switch_state (state, name, STATE_OBJECT_ARROW) ||
-		    xml_sax_switch_state (state, name, STATE_OBJECT_LINE)) {
-			xml_sax_object (state, attrs);
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_OBJECT_RECTANGLE :
-	case STATE_OBJECT_ELLIPSE :
-	case STATE_OBJECT_ARROW :
-	case STATE_OBJECT_LINE :
-		if (xml_sax_switch_state (state, name, STATE_OBJECT_POINTS)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	case STATE_NAMES:
-		if (xml_sax_switch_state (state, name, STATE_NAMES_NAME)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-	case STATE_NAMES_NAME:
-		if (xml_sax_switch_state (state, name, STATE_NAMES_NAME_NAME)) {
-		} else if (xml_sax_switch_state (state, name, STATE_NAMES_NAME_VALUE)) {
-		} else if (xml_sax_switch_state (state, name, STATE_NAMES_NAME_POSITION)) {
-		} else
-			xml_sax_unknown_state (state, name);
-		break;
-
-	default :
-		break;
-	};
-}
-
-static void
-xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
-{
-	if (state->unknown_depth > 0) {
-		state->unknown_depth--;
-		return;
-	}
-
-	g_return_if_fail (state->state_stack != NULL);
-	g_return_if_fail (!strcmp (name, xmlSax_state_names[state->state]));
-
-	switch (state->state) {
-	case STATE_SHEET :
-		xml_sax_sheet_end (state);
-		break;
-
-	case STATE_WB_ATTRIBUTES_ELEM :
-		xml_sax_finish_parse_wb_attr (state);
-		break;
-
-	case STATE_SHEET_SELECTIONS :
-		xml_sax_selection_end (state);
-		break;
-
-	case STATE_STYLE_REGION :
-		xml_sax_style_region_end (state);
-		break;
-
-	case STATE_STYLE_FONT :
-		xml_sax_styleregion_font_end (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_WB_ATTRIBUTES_ELEM_NAME :
-	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
-		xml_sax_attr_elem (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_WB_SUMMARY_ITEM_NAME :
-	case STATE_WB_SUMMARY_ITEM_VALUE_STR :
-	case STATE_WB_SUMMARY_ITEM_VALUE_INT :
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_WB_SHEETNAME :
-		xml_sax_wb_sheetname (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_SHEET_NAME :
-		xml_sax_sheet_name (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_SHEET_ZOOM :
-		xml_sax_sheet_zoom (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_SHEET_NAMES_NAME :
-		xml_sax_finish_parse_sheet_names_name (state);
-		break;
-	case STATE_SHEET_NAMES_NAME_NAME :
-	case STATE_SHEET_NAMES_NAME_VALUE :
-	case STATE_SHEET_NAMES_NAME_POSITION :
-		xml_sax_name (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_PRINT_MARGIN_TOP :
-	case STATE_PRINT_MARGIN_BOTTOM :
-	case STATE_PRINT_MARGIN_LEFT :
-	case STATE_PRINT_MARGIN_RIGHT :
-	case STATE_PRINT_MARGIN_HEADER :
-	case STATE_PRINT_MARGIN_FOOTER :
-	case STATE_PRINT_ORDER :
-	case STATE_PRINT_ORIENT :
-	case STATE_PRINT_PAPER :
-	case STATE_PRINT_EVEN_ONLY_STYLE :
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_STYLE_VALIDATION :
-		xml_sax_validation_end (state);
-		break;
-
-	case STATE_STYLE_VALIDATION_EXPR0 :
-	case STATE_STYLE_VALIDATION_EXPR1 :
-		xml_sax_validation_expr_end (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_CELL :
-		if (state->version >= GNUM_XML_V10 ||
-		    state->cell.row >= 0 ||
-		    state->cell.col >= 0)
-			xml_sax_cell_content (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_CELL_CONTENT :
-		xml_sax_cell_content (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_SHEET_MERGE :
-		xml_sax_merge (state);
-		g_string_truncate (state->content, 0);
-		break;
-
-	case STATE_NAMES_NAME :
-		xml_sax_finish_parse_wb_names_name (state);
-		break;
-	case STATE_NAMES_NAME_NAME :
-	case STATE_NAMES_NAME_VALUE :
-	case STATE_NAMES_NAME_POSITION :
-		xml_sax_name (state);
-		g_string_truncate (state->content, 0);
-		break;
-	default :
-		break;
-	};
-
-	/* pop the state stack */
-	state->state = GPOINTER_TO_INT (state->state_stack->data);
-	state->state_stack = g_slist_remove (state->state_stack, state->state_stack->data);
-}
-
-static void
-xml_sax_characters (XMLSaxParseState *state, const xmlChar *chars, int len)
-{
-	switch (state->state) {
-	case STATE_WB_ATTRIBUTES_ELEM_NAME :
-	case STATE_WB_ATTRIBUTES_ELEM_VALUE :
-	case STATE_WB_SUMMARY_ITEM_NAME :
-	case STATE_WB_SUMMARY_ITEM_VALUE_INT :
-	case STATE_WB_SUMMARY_ITEM_VALUE_STR :
-	case STATE_WB_SHEETNAME :
-	case STATE_SHEET_NAME :
-	case STATE_SHEET_ZOOM :
-	case STATE_SHEET_NAMES_NAME_NAME :
-	case STATE_SHEET_NAMES_NAME_VALUE :
-	case STATE_SHEET_NAMES_NAME_POSITION :
-	case STATE_PRINT_MARGIN_TOP :
-	case STATE_PRINT_MARGIN_BOTTOM :
-	case STATE_PRINT_MARGIN_LEFT :
-	case STATE_PRINT_MARGIN_RIGHT :
-	case STATE_PRINT_MARGIN_HEADER :
-	case STATE_PRINT_MARGIN_FOOTER :
-	case STATE_PRINT_ORDER :
-	case STATE_PRINT_ORIENT :
-	case STATE_PRINT_PAPER :
-	case STATE_PRINT_EVEN_ONLY_STYLE :
-	case STATE_STYLE_FONT :
-	case STATE_STYLE_VALIDATION_EXPR0 :
-	case STATE_STYLE_VALIDATION_EXPR1 :
-	case STATE_CELL :
-	case STATE_CELL_CONTENT :
-	case STATE_SHEET_MERGE :
-	case STATE_NAMES_NAME_NAME :
-	case STATE_NAMES_NAME_VALUE :
-	case STATE_NAMES_NAME_POSITION :
-		while (len-- > 0)
-			g_string_append_c (state->content, *chars++);
-
-	default :
-		break;
-	};
-}
-
-static xmlEntityPtr
-xml_sax_get_entity (XMLSaxParseState *state, const xmlChar *name)
-{
-	return xmlGetPredefinedEntity (name);
-}
-
-static void
-xml_sax_start_document (XMLSaxParseState *state)
-{
-	state->state = STATE_START;
-	state->unknown_depth = 0;
-	state->state_stack = NULL;
-
-	state->sheet = NULL;
-	state->version = GNUM_XML_UNKNOWN;
-
-	state->content = g_string_sized_new (128);
-
-	state->attribute.name = state->attribute.value = NULL;
-
-	state->name.name = state->name.value = state->name.position = NULL;
-
-	state->style_range_init = FALSE;
-	state->style = NULL;
-
-	state->cell.row = state->cell.col = -1;
-	state->array_rows = state->array_cols = -1;
-	state->expr_id = -1;
-	state->value_type = -1;
-	state->value_fmt = NULL;
-
-	state->validation.title = state->validation.msg = NULL;
-	state->validation.expr[0] = state->validation.expr[1] = NULL;
-
-	state->expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
-}
-
-static void
-xml_sax_end_document (XMLSaxParseState *state)
-{
-	g_string_free (state->content, TRUE);
-	g_hash_table_destroy (state->expr_map);
-
-	g_return_if_fail (state->state == STATE_START);
-	g_return_if_fail (state->unknown_depth == 0);
-}
-
-static xmlSAXHandler xmlSaxSAXParser = {
-	0, /* internalSubset */
-	0, /* isStandalone */
-	0, /* hasInternalSubset */
-	0, /* hasExternalSubset */
-	0, /* resolveEntity */
-	(getEntitySAXFunc)xml_sax_get_entity, /* getEntity */
-	0, /* entityDecl */
-	0, /* notationDecl */
-	0, /* attributeDecl */
-	0, /* elementDecl */
-	0, /* unparsedEntityDecl */
-	0, /* setDocumentLocator */
-	(startDocumentSAXFunc)xml_sax_start_document, /* startDocument */
-	(endDocumentSAXFunc)xml_sax_end_document, /* endDocument */
-	(startElementSAXFunc)xml_sax_start_element, /* startElement */
-	(endElementSAXFunc)xml_sax_end_element, /* endElement */
-	0, /* reference */
-	(charactersSAXFunc)xml_sax_characters, /* characters */
-	0, /* ignorableWhitespace */
-	0, /* processingInstruction */
-	0, /* comment */
-	(warningSAXFunc)xml_sax_warning, /* warning */
-	(errorSAXFunc)xml_sax_error, /* error */
-	(fatalErrorSAXFunc)xml_sax_fatal_error, /* fatalError */
+static GsfXmlSAXNode gnumeric_1_0_dtd[] = {
+GSF_XML_SAX_NODE (START, WB, "gmr:Workbook", FALSE, &xml_sax_wb, NULL, 0),
+  GSF_XML_SAX_NODE (WB, WB_ATTRIBUTES, "gmr:Attributes", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (WB_ATTRIBUTES, WB_ATTRIBUTE, "gmr:Attribute", FALSE, NULL, &xml_sax_finish_parse_wb_attr, 0),
+      GSF_XML_SAX_NODE (WB_ATTRIBUTE, WB_ATTRIBUTE_NAME, "gmr:name", TRUE, NULL, &xml_sax_attr_elem, 0),
+      GSF_XML_SAX_NODE (WB_ATTRIBUTE, WB_ATTRIBUTE_VALUE, "gmr:value", TRUE, NULL, &xml_sax_attr_elem, 1),
+      GSF_XML_SAX_NODE (WB_ATTRIBUTE, WB_ATTRIBUTE_TYPE, "gmr:type", FALSE, NULL, NULL, 0),
+
+  GSF_XML_SAX_NODE (WB, WB_SUMMARY, "gmr:Summary", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (WB_SUMMARY, WB_SUMMARY_ITEM, "gmr:Item", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_NAME, "gmr:name", TRUE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_VALUE_STR, "gmr:val-string", TRUE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_VALUE_INT, "gmr:val-int", TRUE, NULL, NULL, 0),
+
+  GSF_XML_SAX_NODE (WB, WB_SHEETNAME_INDEX, "gmr:SheetNameIndex", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (WB_SHEETNAME_INDEX, WB_SHEETNAME, "gmr:SheetName", TRUE, NULL, &xml_sax_wb_sheetname, 0),
+
+  GSF_XML_SAX_NODE (WB, WB_NAMES, "gmr:Names", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (WB_NAMES, WB_NAME, "gmr:Name", FALSE, NULL, &xml_sax_finish_parse_wb_names_name, 0),
+      GSF_XML_SAX_NODE (WB_NAME, WB_NAME_NAME,	   "gmr:name",	   TRUE, NULL, &xml_sax_name, 0),
+      GSF_XML_SAX_NODE (WB_NAME, WB_NAME_VALUE,	   "gmr:value",    TRUE, NULL, &xml_sax_name, 1),
+      GSF_XML_SAX_NODE (WB_NAME, WB_NAME_POSITION, "gmr:position", TRUE, NULL, &xml_sax_name, 2),
+
+  GSF_XML_SAX_NODE (WB, WB_SHEETS, "gmr:Sheets", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (WB_SHEETS, SHEET, "gmr:Sheet", FALSE, &xml_sax_sheet_start, &xml_sax_sheet_end, 0),
+      GSF_XML_SAX_NODE (SHEET, SHEET_NAME, "gmr:Name", TRUE, NULL, &xml_sax_sheet_name, 0),
+      GSF_XML_SAX_NODE (SHEET, SHEET_MAXCOL, "gmr:MaxCol", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (SHEET, SHEET_MAXROW, "gmr:MaxRow", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (SHEET, SHEET_ZOOM, "gmr:Zoom", TRUE, NULL, &xml_sax_sheet_zoom, 0),
+      GSF_XML_SAX_NODE (SHEET, SHEET_NAMES, "gmr:Names", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_NAMES, SHEET_NAME, "gmr:Name", FALSE, NULL, &xml_sax_finish_parse_sheet_names_name, 0),
+	  GSF_XML_SAX_NODE (SHEET_NAME, SHEET_NAME_NAME,	"gmr:name",     TRUE, NULL, &xml_sax_name, 0),
+	  GSF_XML_SAX_NODE (SHEET_NAME, SHEET_NAME_VALUE,	"gmr:value",    TRUE, NULL, &xml_sax_name, 1),
+	  GSF_XML_SAX_NODE (SHEET_NAME, SHEET_NAME_POSITION,	"gmr:position", TRUE, NULL, &xml_sax_name, 2),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_PRINTINFO, "gmr:PrintInformation", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_MARGINS, "gmr:Margins", FALSE, NULL, NULL, 0),
+	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_TOP, "gmr:top",		TRUE, &xml_sax_print_margins, NULL, 0),
+	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_BOTTOM, "gmr:bottom",	TRUE, &xml_sax_print_margins, NULL, 1),
+	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_LEFT, "gmr:left",	TRUE, &xml_sax_print_margins, NULL, 2),
+	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_RIGHT, "gmr:right",	TRUE, &xml_sax_print_margins, NULL, 3),
+	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_HEADER, "gmr:header",	TRUE, &xml_sax_print_margins, NULL, 4),
+	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_FOOTER, "gmr:footer",	TRUE, &xml_sax_print_margins, NULL, 5),
+
+	GSF_XML_SAX_NODE (PRINT_MARGIN_FOOTER, PRINT_SCALE, "gmr:Scale", TRUE, &xml_sax_print_scale, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_SCALE, PRINT_VCENTER, "gmr:vcenter", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_VCENTER, PRINT_HCENTER, "gmr:hcenter", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_HCENTER, PRINT_GRID, "gmr:grid", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_GRID, PRINT_MONO, "gmr:monochrome", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_MONO, PRINT_AS_DRAFT, "gmr:draft", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_AS_DRAFT, PRINT_COMMENTS, "gmr:comments", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_COMMENTS, PRINT_TITLES, "gmr:titles", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_TITLES, PRINT_REPEAT_TOP, "gmr:repeat_top", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_REPEAT_TOP, PRINT_REPEAT_LEFT, "gmr:repeat_left", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_REPEAT_LEFT, PRINT_ORDER, "gmr:order", TRUE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_ORIENT, PRINT_HEADER, "gmr:Footer", TRUE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_HEADER, PRINT_FOOTER, "gmr:Header", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (PRINT_FOOTER, PRINT_PAPER, "gmr:paper", TRUE, NULL, NULL, 0),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_STYLES, "gmr:Styles", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_STYLES, STYLE_REGION, "gmr:StyleRegion", FALSE, &xml_sax_style_region_start, &xml_sax_style_region_end, 0),
+	  GSF_XML_SAX_NODE (STYLE_REGION, STYLE_STYLE, "gmr:Style", FALSE, &xml_sax_styleregion_start, NULL, 0),
+	    GSF_XML_SAX_NODE (STYLE_STYLE, STYLE_FONT, "gmr:Font", TRUE, &xml_sax_styleregion_font, &xml_sax_styleregion_font_end, 0),
+	    GSF_XML_SAX_NODE (STYLE_STYLE, STYLE_BORDER, "gmr:StyleBorder", FALSE, NULL, NULL, 0),
+	      GSF_XML_SAX_NODE (STYLE_BORDER, BORDER_TOP,	"gmr:Top", FALSE, &xml_sax_style_region_borders, NULL,	MSTYLE_BORDER_TOP),
+	      GSF_XML_SAX_NODE (STYLE_BORDER, BORDER_BOTTOM,	"gmr:Bottom", FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_BOTTOM),
+	      GSF_XML_SAX_NODE (STYLE_BORDER, BORDER_LEFT,	"gmr:Left", FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_LEFT),
+	      GSF_XML_SAX_NODE (STYLE_BORDER, BORDER_RIGHT,	"gmr:Right", FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_RIGHT),
+	      GSF_XML_SAX_NODE (STYLE_BORDER, BORDER_DIAG,	"gmr:Diagonal", FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_DIAGONAL),
+	      GSF_XML_SAX_NODE (STYLE_BORDER, BORDER_REV_DIAG,	"gmr:Rev-Diagonal", FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_REV_DIAGONAL),
+
+	    GSF_XML_SAX_NODE (STYLE_STYLE, STYLE_VALIDATION, "gmr:Validation", FALSE, &xml_sax_validation, &xml_sax_validation_end, 0),
+	      GSF_XML_SAX_NODE (STYLE_VALIDATION, STYLE_VALIDATION_EXPR0, "gmr:Expression0", TRUE, NULL, &xml_sax_validation_expr_end, 0),
+	      GSF_XML_SAX_NODE (STYLE_VALIDATION, STYLE_VALIDATION_EXPR1, "gmr:Expression1", TRUE, NULL, &xml_sax_validation_expr_end, 1),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_COLS, "gmr:Cols", FALSE, &xml_sax_cols_rows, NULL, TRUE),
+	GSF_XML_SAX_NODE (SHEET_COLS, COL, "gmr:ColInfo", FALSE, &xml_sax_colrow, NULL, TRUE),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_ROWS, "gmr:Rows", FALSE, &xml_sax_cols_rows, NULL, FALSE),
+	GSF_XML_SAX_NODE (SHEET_ROWS, ROW, "gmr:RowInfo", FALSE, &xml_sax_colrow, NULL, FALSE),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_SELECTIONS, "gmr:Selections", FALSE, &xml_sax_selection, &xml_sax_selection_end, 0),
+	GSF_XML_SAX_NODE (SHEET_SELECTIONS, SELECTION, "gmr:Selection", FALSE, &xml_sax_selection_range, NULL, 0),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_CELLS, "gmr:Cells", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_CELLS, CELL, "gmr:Cell", TRUE, &xml_sax_cell, &xml_sax_cell_content, 0),
+	  GSF_XML_SAX_NODE (CELL, CELL_CONTENT, "gmr:Content", TRUE, NULL, &xml_sax_cell_content, 0),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_MERGED_REGION, "gmr:MergedRegions", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_MERGED_REGION, SHEET_MERGE, "gmr:Merge", TRUE, NULL, &xml_sax_merge, 0),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_LAYOUT, "gmr:SheetLayout", FALSE, &xml_sax_sheet_layout, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, "gmr:FreezePanes", FALSE, &xml_sax_sheet_freezepanes, NULL, 0),
+
+      GSF_XML_SAX_NODE (SHEET, SHEET_SOLVER, "gmr:Solver", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (SHEET, SHEET_OBJECTS, "gmr:Objects", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_OBJECTS, OBJECT_POINTS, "gmr:Points", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_OBJECTS, OBJECT_RECTANGLE, "gmr:Rectangle", FALSE, &xml_sax_object, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_OBJECTS, OBJECT_ELLIPSE, "gmr:Ellipse", FALSE, &xml_sax_object, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_OBJECTS, OBJECT_ARROW, "gmr:Arrow", FALSE, &xml_sax_object, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_OBJECTS, OBJECT_LINE, "gmr:Line", FALSE, &xml_sax_object, NULL, 0),
+
+  GSF_XML_SAX_NODE (WB, WB_GEOMETRY, "gmr:Geometry", FALSE, &xml_sax_wb_view, NULL, 0),
+  GSF_XML_SAX_NODE (WB, WB_VIEW, "gmr:UIData", FALSE, &xml_sax_wb_view, NULL, 0),
+  { NULL }
 };
 
 void
 xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		   WorkbookView *wb_view, GsfInput *input)
 {
-	xmlParserCtxtPtr ctxt;
 	XMLSaxParseState state;
 
 	g_return_if_fail (wb_view != NULL);
 	g_return_if_fail (input != NULL);
 
+	/* init */
 	state.context = io_context;
 	state.wb_view = wb_view;
 	state.wb = wb_view_workbook (wb_view);
+	state.sheet = NULL;
+	state.version = GNUM_XML_UNKNOWN;
+	state.attribute.name = state.attribute.value = NULL;
+	state.name.name = state.name.value = state.name.position = NULL;
+	state.style_range_init = FALSE;
+	state.style = NULL;
+	state.cell.row = state.cell.col = -1;
+	state.array_rows = state.array_cols = -1;
+	state.expr_id = -1;
+	state.value_type = -1;
+	state.value_fmt = NULL;
+	state.validation.title = state.validation.msg = NULL;
+	state.validation.expr[0] = state.validation.expr[1] = NULL;
+	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	ctxt = gsf_xml_parser_context (input);
-
-	g_return_if_fail (ctxt != NULL);
-
-	ctxt->sax = &xmlSaxSAXParser;
-	ctxt->userData = &state;
-
-	xmlParseDocument (ctxt);
-
-	if (!ctxt->wellFormed)
+	state.base.root = gnumeric_1_0_dtd;
+	if (!gsf_xmlSAX_parse (input, &state.base))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	else
 		workbook_queue_all_recalc (state.wb);
 
-	ctxt->sax = NULL;
-	xmlFreeParserCtxt (ctxt);
+	/* cleanup */
+	g_hash_table_destroy (state.expr_map);
 }

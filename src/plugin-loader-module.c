@@ -210,7 +210,7 @@ typedef struct {
 static void
 gnumeric_plugin_loader_module_func_init (PluginService *service, ErrorInfo **ret_error)
 {
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 	ServiceLoaderDataGeneral *loader_data;
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_GENERAL (service));
@@ -224,7 +224,7 @@ gnumeric_plugin_loader_module_func_init (PluginService *service, ErrorInfo **ret
 static void
 gnumeric_plugin_loader_module_func_cleanup (PluginService *service, ErrorInfo **ret_error)
 {
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 	ServiceLoaderDataGeneral *loader_data;
 
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_GENERAL (service));
@@ -535,7 +535,7 @@ gnumeric_plugin_loader_module_func_get_loader_type (PluginService *service,
                                                     ErrorInfo **ret_error)
 {
 	ServiceLoaderDataPluginLoader *loader_data;
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 	GType loader_type;
 
 	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service), 0);

@@ -2740,6 +2740,11 @@ cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_insert_hyperlink (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+}
+
+static void
 cb_formula_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	dialog_formula_guru (wbcg, NULL);
@@ -3147,6 +3152,11 @@ static GnomeUIInfo workbook_menu_insert [] = {
 		N_("Edit the selected cell's comment"),
 		cb_insert_comment, "Gnumeric_CommentEdit"),
 
+	{ GNOME_APP_UI_ITEM, N_("Hyper_link..."),
+	  N_("Insert a Hyperlink"),
+	  cb_insert_hyperlink, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, "Gnumeric_Link_Add", 'k', GDK_CONTROL_MASK },
+
 	GNOMEUIINFO_SUBTREE(N_("S_pecial"), workbook_menu_insert_special),
 	GNOMEUIINFO_END
 };
@@ -3520,7 +3530,10 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-/* TODO : insert hyper link */
+	{ GNOME_APP_UI_ITEM, N_("Hyper_link..."),
+	  N_("Insert a Hyperlink"),
+	  cb_insert_hyperlink, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, "Gnumeric_Link_Add", 'k', GDK_CONTROL_MASK },
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Sum"),
 		N_("Sum into the current cell."),
@@ -3605,6 +3618,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("InsertFormula", cb_formula_guru),
 	BONOBO_UI_UNSAFE_VERB ("InsertComment", cb_insert_comment),
 	BONOBO_UI_UNSAFE_VERB ("InsertImage", cb_insert_image),
+	BONOBO_UI_UNSAFE_VERB ("InsertHyperlink", cb_insert_hyperlink),
 
 	BONOBO_UI_UNSAFE_VERB ("ColumnAutoSize",
 		workbook_cmd_format_column_auto_fit),

@@ -22,6 +22,10 @@ Jody:
 	* Fix sheet object ref counting error that Morten found.
 	* Fix crash when destroying unshared view.
 	* Start fleshing out support signals to give scripting more power
+	* Move the CORBA support code into a plugin and make it functional.
+
+Michael Meeks:
+	* Spruce up the CORBA code to use some bonobo utils.
 
 Morten:
 	* Leak plugging.

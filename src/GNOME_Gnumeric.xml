@@ -382,6 +382,11 @@
 		_label="_Add / Modify comment..."
 		_tip="Edit the selected cell's comment"/>
 
+	    <menuitem name="InsertHyperLink" verb=""
+		pixtype="stock" pixname="Gnumeric_Link_Add"
+		_label="Hyper_link..."
+		_tip="Insert a Hyperlink"/>
+
 	    <submenu name="Special" _label="S_pecial">
 
 		<menuitem name="Date" verb="InsertCurrentDate"
@@ -714,6 +719,12 @@
 	<control name="EditRedo" _tip="Redo the undone action"/>
 
 	<separator/>
+
+	<toolitem name="InsertHyperlink"
+	    pixtype="stock" pixname="Gnumeric_Link_Add"
+	    _label="Hyper_link..."
+	    _tip="Insert a Hyperlink"
+	    verb="InsertHyperlink"/>
 
 	<toolitem name="Sum"
 	    pixtype="stock" pixname="Gnumeric_AutoSum"

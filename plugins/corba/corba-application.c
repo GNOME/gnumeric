@@ -37,10 +37,16 @@
 
 #include <bonobo.h>
 
-BONOBO_TYPE_FUNC_FULL (CorbaApplication, 
-		       GNOME_Gnumeric_Application,
-		       BONOBO_OBJECT_TYPE,
-		       capp);
+typedef struct {
+	BonoboObject base;
+	/* No need for any data */
+} CorbaApplication;
+
+typedef struct {
+	BonoboObjectClass      parent_class;
+
+	POA_GNOME_Gnumeric_Application__epv epv;
+} CorbaApplicationClass;
 
 static GNOME_Gnumeric_Workbook
 capp_workbook_open (PortableServer_Servant ignore,
@@ -85,7 +91,7 @@ capp_workbooks (PortableServer_Servant ignore,
 }
 
 static void
-capp_instance_init (CorbaApplication *capp)
+capp_init (CorbaApplication *capp)
 {
 }
 
@@ -96,6 +102,12 @@ capp_class_init (CorbaApplicationClass *capp)
 	capp->epv.workbook_open	= capp_workbook_open;
 }
 
+BONOBO_TYPE_FUNC_FULL (CorbaApplication, 
+		       GNOME_Gnumeric_Application,
+		       BONOBO_OBJECT_TYPE,
+		       capp);
+
+/***************************************************************/
 static CorbaApplication *capp = NULL;
 
 void
@@ -110,7 +122,7 @@ plugin_init_general (ErrorInfo **ret_error)
 		bonobo_init (&argc, argv);
 	}
 
-	capp = g_object_new (CORBA_TYPE_APPLICATION, NULL);
+	capp = g_object_new (capp_get_type(), NULL);
 
 	bonobo_activation_active_server_register (
 		"OAFIID:GNOME_Gnumeric_Application",

@@ -182,7 +182,7 @@ void
 gnumeric_plugin_loader_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (!loader->is_base_loaded);
@@ -203,7 +203,7 @@ void
 gnumeric_plugin_loader_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (loader->is_base_loaded);
@@ -225,7 +225,7 @@ void
 gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 	void (*load_service_method) (GnumericPluginLoader *, PluginService *, ErrorInfo **) = NULL;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
@@ -267,7 +267,7 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
 	void (*unload_service_method) (GnumericPluginLoader *, PluginService *, ErrorInfo **) = NULL;
-	ErrorInfo *error;
+	ErrorInfo *error = NULL;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE (service));

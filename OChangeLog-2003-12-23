@@ -1,5 +1,20 @@
 2002-09-20  Jody Goldberg <jody@gnome.org>
 
+	* src/plugin-util.c (gnumeric_mmap_error_info) : delete.
+
+	* src/plugin-service.c (plugin_service_general_activate) : init error.
+	(plugin_service_general_deactivate) : ditto.
+	(gnum_plugin_file_opener_probe) : ditto.
+
+2002-09-20  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c : Add entries for insert hyperlink to
+	  toolbar and insert menu.
+	* src/GNOME_Gnumeric.xml : ditto.
+	* src/sheet-control-gui.c (scg_context_menu) : Use the new link icons.
+
+2002-09-20  Jody Goldberg <jody@gnome.org>
+
 	* src/print.c : revert to gnome-2-0 versions of gnome-print
 
 	* src/application.c (gnumeric_application_setup_icons) : Add jimmac's
