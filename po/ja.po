@@ -5252,19 +5252,16 @@ msgid "circuits,gos"
 msgstr ""
 
 #: plugins/fn-erlang/plugin.xml.in.h:1
-#, fuzzy
 msgid "Erlang"
-msgstr "範囲"
+msgstr "アーラン"
 
 #: plugins/fn-erlang/plugin.xml.in.h:2
-#, fuzzy
 msgid "Erlang Functions"
-msgstr "文字列操作関数"
+msgstr "アーラン関数"
 
 #: plugins/fn-erlang/plugin.xml.in.h:3
-#, fuzzy
 msgid "Functions to help Erlang Analysis"
-msgstr "文字列操作関数"
+msgstr "アーラン解析を補助するための関数"
 
 #: plugins/fn-financial/functions.c:306
 #, fuzzy
@@ -25957,14 +25954,12 @@ msgid "Function does not exist"
 msgstr "関数がありません"
 
 #: src/gnm-so-filled.c:163
-#, fuzzy
 msgid "Filled Object Properties"
-msgstr "フレームのプロパティ"
+msgstr "塗りつぶされたオブジェクトのプロパティ"
 
 #: src/gnm-so-line.c:148
-#, fuzzy
 msgid "Line/Arrow Properties"
-msgstr "矢印/線のプロパティ"
+msgstr "線/矢印のプロパティ"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:1
 msgid "FormatToolbar"
@@ -26030,13 +26025,13 @@ msgid ""
 msgstr "%s に保存するためのパーミッションがありません"
 
 #: src/gui-file.c:411
-#, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
 "Do you want to save over it?"
 msgstr ""
-"ワークブック %s はすでにあります。\n"
+"ファイル <i>%s</i> はすでに %s に存在します。\n"
+"\n"
 "上書き保存しますか?"
 
 #: src/gui-file.c:469
@@ -26044,12 +26039,10 @@ msgid "Images"
 msgstr "画像"
 
 #: src/gui-file.c:509
-#, fuzzy
 msgid "Save as"
-msgstr "すべてを保存"
+msgstr "名前を付けて保存"
 
 #: src/gui-file.c:558 src/gui-file.c:754
-#, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -26329,13 +26322,12 @@ msgstr ""
 "ライブラリ格納パス := '%s'\n"
 
 #: src/parser.y:298
-#, fuzzy
 msgid "An array must have at least 1 element"
-msgstr "シート名は少なくとも 1文字必要です"
+msgstr "配列には少なくとも1つの要素が必要です"
 
 #: src/parser.y:330
 msgid "Arrays must be rectangular"
-msgstr ""
+msgstr "配列は矩形でなければなりません"
 
 #: src/parser.y:349
 msgid "Constructed ranges use simple references"
@@ -26848,7 +26840,7 @@ msgstr "置換する中に不正なバックスラッシュ '\\' があります
 #: src/selection.c:347
 #, c-format
 msgid "%s does not support multiple ranges"
-msgstr ""
+msgstr "%s は複数範囲をサポートしていません"
 
 #: src/session.c:112
 #, c-format
@@ -26915,14 +26907,12 @@ msgstr "特別貼り付け(_S)"
 #. * strings, and the logic that knows the count is elsewhere
 #.
 #: src/sheet-control-gui.c:1520
-#, fuzzy
 msgid "_Insert Cells..."
-msgstr "セルを挿入"
+msgstr "セルを挿入(_I)..."
 
 #: src/sheet-control-gui.c:1522
-#, fuzzy
 msgid "_Delete Cells..."
-msgstr "セルを削除"
+msgstr "セルを削除(_D)..."
 
 #: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
@@ -26986,22 +26976,18 @@ msgstr "ハイパーリンクの削除(_R)"
 
 #. This is somewhat cheesy and should use ngettext
 #: src/sheet-control-gui.c:1956
-#, fuzzy
 msgid "Duplicate Object"
-msgstr "複製"
+msgstr "オブジェクトの複製"
 
 #: src/sheet-control-gui.c:1956
-#, fuzzy
 msgid "Insert Object"
 msgstr "オブジェクトの挿入"
 
 #: src/sheet-control-gui.c:1957
-#, fuzzy
 msgid "Move Object"
 msgstr "オブジェクトの移動"
 
 #: src/sheet-control-gui.c:1957
-#, fuzzy
 msgid "Resize Object"
 msgstr "オブジェクトのサイズ変更"
 
@@ -27041,19 +27027,19 @@ msgstr ""
 
 #: src/sheet-object.c:108
 msgid "Pul_l to Front"
-msgstr ""
+msgstr "最前面に送る(_L)"
 
 #: src/sheet-object.c:109
 msgid "Pull _Forward"
-msgstr ""
+msgstr "1つ前面に送る(_F)"
 
 #: src/sheet-object.c:110
 msgid "Push _Backward"
-msgstr ""
+msgstr "1つ背面に送る(_B)"
 
 #: src/sheet-object.c:111
 msgid "Pus_h to Back"
-msgstr ""
+msgstr "最背面に送る(_H)"
 
 #: src/sheet-object-container.c:169
 #, c-format
@@ -27067,20 +27053,19 @@ msgstr "ファイルを読み込めませんでした: %s"
 
 #: src/sheet-object-graph.c:205 src/sheet-object-image.c:342
 msgid "SVG (vector graphics)"
-msgstr ""
+msgstr "SVG (ベクターグラフィックス)"
 
 #: src/sheet-object-graph.c:206 src/sheet-object-image.c:338
 msgid "PNG (raster graphics)"
-msgstr ""
+msgstr "PNG (ラスターグラフィックス)"
 
 #: src/sheet-object-graph.c:207 src/sheet-object-image.c:340
 msgid "JPEG (photograph)"
-msgstr ""
+msgstr "JPEG (写真)"
 
 #: src/sheet-object-graph.c:249 src/sheet-object-image.c:468
-#, fuzzy
 msgid "Unknown failure while saving image"
-msgstr "グラフのSVG型式での生成で不明なエラー"
+msgstr "画像の保存で不明なエラー"
 
 #: src/sheet-object-graph.c:262 src/sheet-object-image.c:483
 msgid "_Save as image"
@@ -27134,23 +27119,23 @@ msgstr "切り取り"
 
 #: src/ssconvert.c:50
 msgid "Optionally specify an encoding for imported content"
-msgstr ""
+msgstr "インポートする内容のエンコーディングをオプションで指定します"
 
 #: src/ssconvert.c:50
 msgid "ENCODING"
-msgstr ""
+msgstr "エンコーディング"
 
 #: src/ssconvert.c:52
 msgid "Optionally specify which exporter to use"
-msgstr ""
+msgstr "使用するエクスポータをオプションで指定します"
 
 #: src/ssconvert.c:54
 msgid "List the available exporters"
-msgstr ""
+msgstr "利用可能なエクスポータの一覧"
 
 #: src/ssconvert.c:56
 msgid "List the available importers"
-msgstr ""
+msgstr "利用可能なインポータの一覧"
 
 #: src/ssconvert.c:58
 msgid ""
@@ -27227,7 +27212,7 @@ msgstr "ファイルは指定されたエンコーディングではありませ
 msgid ""
 "Some columns of data were dropped since they exceeded the available sheet "
 "size."
-msgstr ""
+msgstr "いくつかの列データは、利用可能なシートのサイズを超えたので捨てられました。"
 
 #: src/stf.c:393
 msgid "Parse error while trying to parse data into sheet"
@@ -27267,6 +27252,7 @@ msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
 msgstr ""
+"シートの空欄よりも多くの列データがあります。収まらない列は無視されます。"
 
 #: src/tools/analysis-tools.c:220 src/tools/analysis-tools.c:409
 #: src/tools/analysis-tools.c:4658
@@ -27382,15 +27368,14 @@ msgid "z-Test"
 msgstr "z検定"
 
 #: src/tools/analysis-tools.c:1870
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
-"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
-"Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
-"(T<=t) two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
+"Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
+"tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: src/tools/analysis-tools.c:2131
 #, c-format
@@ -27835,7 +27820,7 @@ msgstr "(入力)"
 
 #: src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
-msgstr ""
+msgstr "最大時間を超えました。シミュレーションは完了しませんでした。"
 
 #: src/tools/solver/reports.c:328
 msgid ""
@@ -27881,7 +27866,7 @@ msgstr "バインドなし"
 
 #: src/tools/solver/reports-write.c:178 src/tools/solver/reports-write.c:884
 msgid "Assume that all variables are integers."
-msgstr ""
+msgstr "すべての変数が整数だと仮定します。"
 
 #: src/tools/solver/reports-write.c:188
 msgid "Target Cell (Maximize)"
@@ -28013,11 +27998,11 @@ msgstr "最適解が見つかりました"
 
 #: src/tools/solver/reports-write.c:539
 msgid "Unbounded problem"
-msgstr ""
+msgstr "無限の問題"
 
 #: src/tools/solver/reports-write.c:542
 msgid "Infeasible problem"
-msgstr ""
+msgstr "実行不可能な問題"
 
 #: src/tools/solver/reports-write.c:546
 msgid "Maximum number of iterations exceeded: optimization interupted"
@@ -28143,7 +28128,7 @@ msgstr "一般情報"
 
 #: src/tools/solver/reports-write.c:747
 msgid "Problem Size"
-msgstr ""
+msgstr "問題のサイズ"
 
 #: src/tools/solver/reports-write.c:748
 msgid "Data Sparsity"
@@ -28163,7 +28148,7 @@ msgstr "プログラムの報告"
 
 #: src/tools/solver/reports-write.c:893
 msgid "Assume that all variables take only positive values."
-msgstr ""
+msgstr "すべての変数が正の値だけをとると仮定します。"
 
 #: src/tools/solver/reports-write.c:909
 msgid "Minimize"
@@ -28259,7 +28244,7 @@ msgstr ""
 
 #: src/validation.c:313
 msgid "Gnumeric: Validation"
-msgstr "Gnumeric: 変化量"
+msgstr "Gnumeric: 検証"
 
 #: src/value.c:52
 msgid "#NULL!"
@@ -28773,7 +28758,7 @@ msgstr "連続データ(_S)..."
 
 #: src/wbcg-actions.c:1590
 msgid "Fill according to a linear or exponential series"
-msgstr ""
+msgstr "線形または指数級数にしたがってフィルします"
 
 #: src/wbcg-actions.c:1592
 msgid "_Random Generator..."
@@ -29157,24 +29142,21 @@ msgid "_One Factor..."
 msgstr "一元配置分散分析(_O)..."
 
 #: src/wbcg-actions.c:1783
-#, fuzzy
 msgid "One Factor Analysis of Variance..."
-msgstr "変化量の一要素の解析"
+msgstr "一元配置の分散を分析します..."
 
 #: src/wbcg-actions.c:1785
 msgid "_Two Factor..."
 msgstr "二元配置分散分析(_T)..."
 
 #: src/wbcg-actions.c:1786
-#, fuzzy
 msgid "Two Factor Analysis of Variance..."
-msgstr "変化量の二要素の解析"
+msgstr "二元配置の分散を分析します..."
 
 #. Tools -> Forecasting
 #: src/wbcg-actions.c:1790
-#, fuzzy
 msgid "_Exponential Smoothing..."
-msgstr "指数のスムーズ化(_E)"
+msgstr "指数のスムーズ化(_E)..."
 
 #: src/wbcg-actions.c:1791
 msgid "Exponential smoothing..."
@@ -29785,9 +29767,8 @@ msgid "F_ull Screen..."
 msgstr "全画面表示(_U)..."
 
 #: src/wbcg-actions.c:2104
-#, fuzzy
 msgid "in or out"
-msgstr "閉じない"
+msgstr "inまたはout"
 
 #: src/wbcg-actions.c:2109
 msgid "_Bold"
@@ -29833,9 +29814,8 @@ msgid "Double Underline"
 msgstr "二重下線"
 
 #: src/wbc-gtk.c:171
-#, fuzzy
 msgid "_Zoom"
-msgstr "ズーム"
+msgstr "ズーム(_Z)"
 
 #: src/wbc-gtk.c:201
 msgid "Clear Borders"
@@ -30043,7 +30023,7 @@ msgstr "ベトナム語"
 
 #: src/widgets/widget-charmap-selector.c:88
 msgid "Western"
-msgstr "西"
+msgstr "西欧"
 
 #: src/widgets/widget-charmap-selector.c:89
 #: src/widgets/widget-locale-selector.c:76
