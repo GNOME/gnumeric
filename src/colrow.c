@@ -578,7 +578,7 @@ colrow_visibility (Sheet const *sheet, struct colrow_visiblity * const dat,
 				break;
 		}
 		res = g_new (ColRowIndex, 1);
-		res->first = (j > first) ? j : first;
+		res->first = (j >= first) ? j+1 : first;
 		res->last = i;
 #if 0
 		printf ("%d %d\n", res->index, res->count);

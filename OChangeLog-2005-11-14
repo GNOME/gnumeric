@@ -1,5 +1,10 @@
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/colrow.c (colrow_visibility) : we stop wither at the edge, or 1
+	  past the last match.
+
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
 	* src/mstyle.c (mstyle_merge) : delete.
 
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
