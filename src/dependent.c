@@ -769,8 +769,8 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_NAME:
 		expr_name_add_dep (tree->name.name, dep);
 		if (tree->name.name->active)
-			return link_expr_dep (dep, pos, tree->name.name->expr_tree);
-		return DEPENDENT_NO_FLAG;
+			return link_expr_dep (dep, pos, tree->name.name->expr_tree) | DEPENDENT_USES_NAME;
+		return DEPENDENT_USES_NAME;
 
 	case GNM_EXPR_OP_ARRAY:
 		if (tree->array.x != 0 || tree->array.y != 0) {
@@ -1767,7 +1767,6 @@ cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
 		    GnmExprRewriteInfo const *rwinfo)
 {
 	GnmExpr const *new_expr = NULL;
-	GHashTable *name_deps = nexpr->dependents;
 
 	if (((rwinfo->type == GNM_EXPR_REWRITE_SHEET &&
 	     rwinfo->u.sheet != nexpr->pos.sheet) ||
@@ -1777,10 +1776,9 @@ cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
 		g_return_if_fail (new_expr != NULL);
 	}
 
-	/* short circuit the link/unlink phase */
-	nexpr->dependents = NULL;
+	g_return_if_fail (nexpr->dependents == NULL ||
+			  g_hash_table_size (nexpr->dependents) == 0);
 	expr_name_set_expr (nexpr, new_expr);
-	nexpr->dependents = name_deps;
 }
 
 static void
@@ -1903,7 +1901,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	/* TODO : when we support inter-app depends we'll need a new flag */
 	/* TODO : Add an 'application quit flag' to ignore interbook too */
 	if (sheet->deps == NULL) {
-		filter = DEPENDENT_GOES_INTERBOOK;
+		filter = DEPENDENT_GOES_INTERBOOK | DEPENDENT_USES_NAME;
 		if (rwinfo->type == GNM_EXPR_REWRITE_SHEET)
 			filter |= DEPENDENT_GOES_INTERSHEET;
 	}

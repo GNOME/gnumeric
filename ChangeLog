@@ -1,3 +1,12 @@
+2002-10-28  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c (link_expr_dep) : DEPENDENT_USES_NAME flag.
+	(cb_name_invalidate) : no need to short cuircuit anything.  All the
+	  deps are already unlinked.
+	(do_deps_destroy) : make sure to unlink things that use names from
+	  other sheets so that they don't have stale deps in their
+	  GnmNamedExpr::dependents hash.
+
 2002-10-28  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_sheet_write): fix number of cells.
