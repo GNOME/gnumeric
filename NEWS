@@ -27,6 +27,7 @@ Andreas:
 	* Implement cell borders in LaTeX exporter
 	* Fix merged cell to merged cell copy (#65760 & #58691)
 	* Removed latex209 exporter
+	* Implement spans in LaTeX exporter
 
 Jody:
 	* Tricky corner cases for style applications.
@@ -52,7 +53,7 @@ Morten:
 
 Sultanov Albert:
 	* http://bugzilla.gnome.org/show_bug.cgi?id=55142
-	Do charset conversions on summary fields to/form XL.
+	Do charset conversions on summary fields to/from XL.
 
 Toralf Lund:
 	* http://bugzilla.gnome.org/show_bug.cgi?id=60468

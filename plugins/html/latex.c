@@ -53,8 +53,10 @@
 #include <style-border.h>
 #include <sheet-style.h>
 #include <parse-util.h>
+#include <cellspan.h>
 
 #include <errno.h>
+#include <stdio.h>
 
 typedef enum {
 	LATEX_NO_BORDER = 0,
@@ -98,29 +100,29 @@ static const latex_border_connectors_t conn_styles[LATEX_MAX_BORDER]
         /*  FIXME: once we are sure that none of the numbered */
         /*entries are in fact needed we should removed the digits */ 
 	{{{{"",""}, { "",""}, { "",""}},
-	  {{"",""}, { "",""}, { "32",""}},
+	  {{"",""}, { "|",""}, { "32",""}},
 	  {{"",""}, { "11",""}, { "","|t:"}}},
 	 {{{"",""}, { "",""}, { "",""}},
-	  {{"",""}, { "12",""}, { "33",""}},
+	  {{"","|"}, { "|",""}, { "33",""}},
 	  {{"1",""}, { "13",""}, { "34",""}}},
 	 {{{"",""}, { "",""}, { "|","|"}},
-	  {{"2",""}, { "14",""}, { "|","|"}},
+	  {{"","|b|"}, { "14",""}, { "|","|"}},
 	  {{"","|b:"}, { "15",""}, { "|",":"}}}},
-	{{{{"",""}, { "",""}, { "",""}},
-	  {{"",""}, { "16",""}, { "35",""}},
+	{{{{"",""}, { "","|"}, { "",""}},
+	  {{"",""}, { "|",""}, { "35",""}},
 	  {{"","|"}, { "17",""}, { "36",""}}},
-	 {{{"",""}, { "18",""}, { "37",""}},
-	  {{"3",""}, { "",""}, { "38",""}},
+	 {{{"","|"}, { "|",""}, { "37",""}},
+	  {{"|",""}, { "",""}, { "38",""}},
 	  {{"4",""}, { "19",""}, { "39",""}}},
 	 {{{"","|b|"}, { "20",""}, { "|","|"}},
 	  {{"5",""}, { "21",""}, { "|","|"}},
 	  {{"6",""}, { "22",""}, { "40",""}}}},
 	{{{{"",""}, { "23",""}, { ":t|",""}},
 	  {{"|",""}, { "24",""}, { ":t|",""}},
-	  {{"",""}, { "25",""}, { "41",""}}},
+	  {{"",""}, { "",""}, { "41",""}}},
 	 {{{"7",""}, { "26",""}, { "42",""}},
 	  {{"8",""}, { "27",""}, { "43",""}},
-	  {{"9",""}, { "28",""}, { "44",""}}},
+	  {{"",""}, { "28",""}, { "44",""}}},
 	 {{{":b|",""}, { "29",""}, { ":","|"}},
 	  {{":b|",""}, { "30",""}, { "45",""}},
 	  {{"10",""}, { "31",""}, { ":",":"}}}}
@@ -203,8 +205,15 @@ latex2e_write_file_header(FILE *fp)
 %%    \\usepackage{calc}                                             %%
 %%    \\usepackage{multirow}                                         %%
 %%    \\usepackage{hhline}                                           %%
+%%    \\usepackage{ifthen}                                           %%
 %%  optionally (for landscape tables embedded in another document): %%
 %%    \\usepackage{lscape}                                           %%
+%%                                                                  %%
+%%  In addition the following commands need to be executed in the   %%
+%%  preamble:                                                       %%
+%%                                                                  %%
+%%  \\newlength{\\gnumericTableWidth}                                 %%
+%%  \\newlength{\\gnumericTableWidthComplete}                         %%
 %%                                                                  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -243,8 +252,12 @@ latex2e_write_file_header(FILE *fp)
         \\usepackage{calc}
         \\usepackage{multirow}
         \\usepackage{hhline}
+        \\usepackage{ifthen}
 
 	\\begin{document}
+
+        \\newlength{\\gnumericTableWidth}
+        \\newlength{\\gnumericTableWidthComplete}
 
 %%  End of the preamble for the standalone. The next section is for %%
 %%  documents which are included into other LaTeX2e files.          %%
@@ -283,6 +296,7 @@ latex2e_write_file_header(FILE *fp)
 
 %% to adjust positions in multirow situations                       %%
 \\setlength{\\bigstrutjot}{\\jot}
+\\setlength{\\extrarowheight}{\\doublerulesep}
 
 %%  The \\setlongtables command keeps column widths the same across %%
 %%  pages. Simply comment out next line for varying column widths.  %%
@@ -508,6 +522,7 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 
 	/* We only set up a multicolumn command if necessary */
 	if (num_merged_cols > 1) {
+		int i;
 		
 		/* Open the multicolumn statement. */
 		fprintf (fp, "\\multicolumn{%d}{", num_merged_cols);
@@ -515,10 +530,17 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 		if (left_border != STYLE_BORDER_NONE)
 			latex2e_print_vert_border (fp, left_border);
 		
-		/* Drop in the left hand format delimiter. */
-		fprintf (fp, "p{%ipt+\\tabcolsep*%i}", 
-			 merge_width * 10 / 12, 2 * (num_merged_cols - 1));
-		
+		if (num_merged_rows > 1) {
+			fprintf (fp, "c");
+		} else {
+			fprintf (fp, "p{");
+			for (i = 0; i < num_merged_cols; i++) {
+				fprintf (fp, "\t\\gnumericCol%s+%%\n", 
+					 col_name (cell->col_info->pos + i));
+			}
+			fprintf (fp, "\t\\tabcolsep*2*%i}", num_merged_cols - 1);
+		}
+
 		if (right_border != STYLE_BORDER_NONE)
 			latex2e_print_vert_border (fp, right_border);
 
@@ -546,11 +568,17 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	
 
 	if (num_merged_rows > 1) {
+		int i;
 		/* Open the multirow statement. */
-/* FIXME: this multirow width should not be hardcoded*/
-		fprintf (fp, "\\multirow{%d}[%i]{%ipt}{", 
-			 num_merged_rows, num_merged_rows/2, merge_width * 10 / 12
-			 + 10 * (num_merged_cols - 1));
+		fprintf (fp, "\\multirow{%d}[%i]*{\\begin{tabular}{p{", 
+			 num_merged_rows, num_merged_rows/2);
+		for (i = 0; i < num_merged_cols; i++) {
+			fprintf (fp, "\t\\gnumericCol%s+%%\n", col_name (cell->col_info->pos + i));
+		}
+		if (num_merged_cols > 2) 
+			fprintf (fp, "\t\\tabcolsep*2*%i}}", num_merged_cols - 2);
+		else 
+			fprintf (fp, "\t0pt}}");
 	}
 	
 
@@ -560,8 +588,8 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	case HALIGN_RIGHT:
 		fprintf (fp, "\\gnumericPB{\\raggedleft}");
 		break;
-	case  HALIGN_CENTER:
-		/*case HALIGN_CENTER_ACROSS_SELECTION: No not here. */
+	case HALIGN_CENTER:
+	case HALIGN_CENTER_ACROSS_SELECTION:
 		fprintf (fp, "\\gnumericPB{\\centering}");
 		break;
 	case HALIGN_LEFT:
@@ -583,8 +611,8 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 		case HALIGN_RIGHT:
 			fprintf (fp, "\\gnumbox[r]{");
 			break;
-		case  HALIGN_CENTER:
-			/*case HALIGN_CENTER_ACROSS_SELECTION: No not here. */
+		case HALIGN_CENTER:
+		case HALIGN_CENTER_ACROSS_SELECTION:
 			fprintf (fp, "\\gnumbox{");
 			break;
 		case HALIGN_LEFT:
@@ -656,9 +684,9 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	if (!wrap)
 		fprintf (fp, "}");
 
-	/* Close the multirowtext bracket. */
+	/* Close the multirowtext. */
 	if (num_merged_rows > 1)
-		fprintf(fp, "}");
+		fprintf(fp, "\\end{tabular}}");
 
 	/* Close the multicolumn text bracket. */
 	if (num_merged_cols > 1 || left_border != STYLE_BORDER_NONE 
@@ -817,7 +845,21 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	num_cols = total_range.end.col - total_range.start.col + 1;
 
-	fputs ("
+	fprintf (fp, "\\setlength\\gnumericTableWidth{%%\n");
+	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
+		ColRowInfo const * ci;
+		ci = sheet_col_get_info (current_sheet, col);
+		fprintf (fp, "\t%ipt+%%\n", ci->size_pixels * 10 / 12);
+	}
+	fprintf (fp, "0pt}\n\\def\\gumericNumCols{%i}\n", num_cols);
+
+	fputs (""
+"\\setlength\\gnumericTableWidthComplete{\\gnumericTableWidth+\\tabcolsep*\\gumericNumCols*2+\\arrayrulewidth*\\gumericNumCols}\n"
+"\\ifthenelse{\\lengthtest{\\gnumericTableWidthComplete > \\textwidth}}%\n"
+"{\\def\\gnumericScale{\\ratio{\\textwidth-\\tabcolsep*\\gumericNumCols*2-\\arrayrulewidth*\\gumericNumCols}%\n"
+"{\\gnumericTableWidth}}}%\n"
+"{\\def\\gnumericScale{1}}\n"
+"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                                                  %%
 %% The following are the widths of the various columns. We are      %%
@@ -831,14 +873,14 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
 		ColRowInfo const * ci;
 		ci = sheet_col_get_info (current_sheet, col);
-		fprintf (fp, "\\def\\gnumericCol%s{%ipt}\n", col_name (col), 
+		fprintf (fp, "\\def\\gnumericCol%s{%ipt*\\gnumericScale}\n", col_name (col), 
 			 ci->size_pixels * 10 / 12);
 	}
 
 	/* Start outputting the table. */
 	fprintf (fp, "\n\\begin{longtable}[c]{%%\n");
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
-		fprintf (fp, "\tp{\\gnumericCol%s}%%\n", col_name (col));
+		fprintf (fp, "\tb{\\gnumericCol%s}%%\n", col_name (col));
 	}
 	fprintf (fp, "\t}\n\n");
 
@@ -848,6 +890,8 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	/* Step through the sheet, writing cells as appropriate. */
 	for (row = total_range.start.row; row <= total_range.end.row; row++) {
+		ColRowInfo const * ri;
+		ri = sheet_row_get_info (current_sheet, row);
 
 		/* We need to check for horizontal borders at the top of this row */
 		length = num_cols;
@@ -894,6 +938,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		g_free (clines);
 
 		for (col = total_range.start.col; col <= total_range.end.col; col++) {
+			CellSpanInfo const *the_span;
 
 			/* Get the cell. */
 			cell = sheet_cell_get (current_sheet, col, row);
@@ -903,6 +948,20 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 				fprintf (fp, "\t&");
 			else
 				fprintf (fp, "\t ");
+
+			/* Even an empty cell (especially an empty cell!) can be */
+			/* covered by a span!                                    */
+			the_span = row_span_get (ri, col);
+			if (the_span != NULL) {
+				latex2e_write_multicolumn_cell(fp, the_span->cell,
+							       the_span->right - 
+							       col + 1, 1,
+							       col - total_range.start.col,
+							       next_vert, current_sheet);
+				col += the_span->right - col;
+				continue;
+			}
+			
 
 			/* A blank cell has only a few options*/
 			if (cell_is_blank(cell)) {
@@ -930,6 +989,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 						       col - total_range.start.col,
 						       next_vert, current_sheet);
 			col += (num_merged_cols - 1);
+			next_row : continue;
 		}
 		fprintf (fp, "\\\\\n");
 		if (prev_vert != NULL) 
@@ -942,8 +1002,18 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	length = num_cols;
 	this_clines = clines;
 	for (col = total_range.start.col; col <= total_range.end.col; col++) {
-		needs_hline = latex2e_find_hhlines (this_clines, length,  col, row - 1,
-						    current_sheet, MSTYLE_BORDER_BOTTOM) 
+		needs_hline = latex2e_find_hhlines (this_clines, length,  col, row,
+						    current_sheet, MSTYLE_BORDER_TOP) 
+			|| needs_hline;
+		this_clines ++;
+		length--;
+	}
+	length = num_cols;
+	this_clines = clines;
+	for (col = total_range.start.col; col <= total_range.end.col; col++) {
+		needs_hline = latex2e_find_hhlines (this_clines, length,  col, 
+						    row - 1, current_sheet, 
+						    MSTYLE_BORDER_BOTTOM) 
 			|| needs_hline;
 		this_clines ++;
 		length--;
