@@ -1,3 +1,10 @@
+1999-02-01  Jaka Mocnik  <jaka.mocnik@kiss.uni-lj.si>
+
+	* src/widget-editable-label.c (el_realize): new function.
+	set the font for text_item here to match the widget's style.
+	(editable_label_set_text): don't bother to set the font when
+	creating the text_item, as the style is not set properly yet.
+	
 1999-01-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/fn-misc.c: Added documentation for the functions in this file.

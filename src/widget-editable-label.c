@@ -33,6 +33,7 @@ static GnomeCanvasClass *el_parent_class;
 
 static void el_stop_editing (El *el);
 static void el_change_text (El *el, const char *text);
+static void el_realize (GtkWidget *widget);
 
 static void
 el_entry_activate (GtkWidget *entry, El *el)
@@ -290,6 +291,17 @@ el_key_press_event (GtkWidget *widget, GdkEventKey *event)
 }
 
 static void
+el_realize(GtkWidget *widget)
+{
+  if (GTK_WIDGET_CLASS (el_parent_class)->realize)
+    (*GTK_WIDGET_CLASS (el_parent_class)->realize)(widget);
+
+  gnome_canvas_item_set(GNOME_CANVAS_ITEM (EL (widget)->text_item),
+                        "font_gdk",
+                        widget->style->font, NULL);
+}
+
+static void
 el_class_init (ElClass *class)
 {
 	GtkObjectClass *object_class;
@@ -306,6 +318,7 @@ el_class_init (ElClass *class)
 	widget_class->size_request = el_size_request;
 	widget_class->button_press_event = el_button_press_event;
 	widget_class->key_press_event = el_key_press_event;
+  widget_class->realize = el_realize;
 
 	/* The signals */
 	el_signals [TEXT_CHANGED] =
@@ -372,7 +385,6 @@ editable_label_set_text (EditableLabel *el, const char *text)
 			"text",     text,
 			"x",        (double) 1,
 			"y",        (double) 1,
-			"font_gdk", GTK_WIDGET (el)->style->font,
 			NULL);
 	} else {
 		char *item_text;
