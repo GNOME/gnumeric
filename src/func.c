@@ -254,45 +254,45 @@ error_function_no_full_info (FunctionEvalInfo *ei, ExprList *expr_node_list)
 }
 
 void
-function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
+func_def_load (FunctionDefinition *fn_def)
 {
-	if (fn_def->fn_type == FUNCTION_NAMEONLY) {
-		gchar const *args;
-		gchar const *arg_names;
-		gchar const **help;
-		FunctionArgs	 fn_args;
-		FunctionNodes	 fn_nodes;
-		FuncLinkHandle	 fn_link;
-		FuncUnlinkHandle fn_unlink;
-		gboolean success;
+	gchar const *args;
+	gchar const *arg_names;
+	gchar const **help;
+	FunctionArgs	 fn_args;
+	FunctionNodes	 fn_nodes;
+	FuncLinkHandle	 fn_link;
+	FuncUnlinkHandle fn_unlink;
+	gboolean success;
 
-		success = fn_def->get_full_info_callback (
-		          fn_def, &args, &arg_names, &help,
-		          &fn_args, &fn_nodes, &fn_link, &fn_unlink);
+	g_return_if_fail (fn_def->fn_type == FUNCTION_NAMEONLY);
 
-		if (success) {
-			fn_def->named_arguments = arg_names;
-			fn_def->help = help;
-			if (fn_args != NULL) {
-				fn_def->fn_type = FUNCTION_ARGS;
-				fn_def->fn.args.func = fn_args;
-				fn_def->fn.args.arg_spec = args;
-				extract_arg_types (fn_def);
-			} else if (fn_nodes != NULL) {
-				fn_def->fn_type = FUNCTION_NODES;
-				fn_def->fn.fn_nodes = fn_nodes;
-			} else {
-				g_assert_not_reached ();
-			}
-			fn_def->link = fn_link;
-			fn_def->unlink = fn_unlink;
-		} else {
-			fn_def->named_arguments = "";
+	success = fn_def->get_full_info_callback (
+		  fn_def, &args, &arg_names, &help,
+		  &fn_args, &fn_nodes, &fn_link, &fn_unlink);
+
+	if (success) {
+		fn_def->named_arguments = arg_names;
+		fn_def->help = help;
+		if (fn_args != NULL) {
+			fn_def->fn_type = FUNCTION_ARGS;
+			fn_def->fn.args.func = fn_args;
+			fn_def->fn.args.arg_spec = args;
+			extract_arg_types (fn_def);
+		} else if (fn_nodes != NULL) {
 			fn_def->fn_type = FUNCTION_NODES;
-			fn_def->fn.fn_nodes = &error_function_no_full_info;
-			fn_def->link = NULL;
-			fn_def->unlink = NULL;
+			fn_def->fn.fn_nodes = fn_nodes;
+		} else {
+			g_assert_not_reached ();
 		}
+		fn_def->link = fn_link;
+		fn_def->unlink = fn_unlink;
+	} else {
+		fn_def->named_arguments = "";
+		fn_def->fn_type = FUNCTION_NODES;
+		fn_def->fn.fn_nodes = &error_function_no_full_info;
+		fn_def->link = NULL;
+		fn_def->unlink = NULL;
 	}
 }
 
@@ -545,7 +545,8 @@ function_def_count_args (FunctionDefinition const *fn_def,
 	g_return_if_fail (max != NULL);
 	g_return_if_fail (fn_def != NULL);
 
-	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
+	if (fn_def->fn_type == FUNCTION_NAMEONLY)
+		func_def_load ((FunctionDefinition *) fn_def);
 
 	/*
 	 * FIXME: clearly for 'nodes' functions many of
@@ -606,7 +607,8 @@ function_def_get_arg_type (FunctionDefinition const *fn_def,
 	g_return_val_if_fail (arg_idx >= 0, '?');
 	g_return_val_if_fail (fn_def != NULL, '?');
 
-	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
+	if (fn_def->fn_type == FUNCTION_NAMEONLY)
+		func_def_load ((FunctionDefinition *) fn_def);
 
 	for (ptr = fn_def->fn.args.arg_spec; ptr && *ptr; ptr++) {
 		if (*ptr == '|')
@@ -790,7 +792,8 @@ function_call_with_list (FunctionEvalInfo *ei, ExprList *l)
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
 	fn_def = ei->func_call->func;
-	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
+	if (fn_def->fn_type == FUNCTION_NAMEONLY)
+		func_def_load ((FunctionDefinition *) fn_def);
 
 	/* Functions that deal with ExprNodes */
 	if (fn_def->fn_type == FUNCTION_NODES)
@@ -866,7 +869,8 @@ function_def_call_with_values (EvalPos const *ep,
 	fs.func_call = &ef;
 	ef.func = (FunctionDefinition *)fn_def;
 
-	function_def_get_full_info_if_needed (ef.func);
+	if (fn_def->fn_type == FUNCTION_NAMEONLY)
+		func_def_load (ef.func);
 
 	if (fn_def->fn_type == FUNCTION_NODES) {
 		/*
@@ -1075,7 +1079,8 @@ tokenized_help_new (FunctionDefinition const *fn_def)
 
 	g_return_val_if_fail (fn_def != NULL, NULL);
 
-	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
+	if (fn_def->fn_type == FUNCTION_NAMEONLY)
+		func_def_load ((FunctionDefinition *) fn_def);
 
 	tok = g_new (TokenizedHelp, 1);
 	tok->fndef = fn_def;

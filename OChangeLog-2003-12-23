@@ -1,3 +1,11 @@
+2002-03-09  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (func_def_load) : rename from function_def_get_full_info_if_needed
+	  and remove the condition.
+
+	* src/eval.c (link_expr_dep) : Call func_def_load if necessary to
+	  check for a link function.
+
 2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* samples/solver/blend.mps: Added another Netlib demo.  The

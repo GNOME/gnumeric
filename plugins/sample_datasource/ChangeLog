@@ -1,3 +1,9 @@
+2002-03-09  Jody Goldberg <jody@gnome.org>
+
+	This is not really a change note.  However, I wanted to point out that
+	the 2nd limitation below is fixed now link functions are now called
+	correctly.
+
 2002-03-01  Jody Goldberg <jody@gnome.org>
 
 	* sample_datasource.c : Initial implementation of an external data

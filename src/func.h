@@ -120,7 +120,7 @@ void func_ref	 (FunctionDefinition *fn_def);
 void func_unref  (FunctionDefinition *fn_def);
 gint func_get_ref_count (FunctionDefinition *fn_def);
 
-void function_def_get_full_info_if_needed (FunctionDefinition *fn_def);
+void func_def_load (FunctionDefinition *fn_def);
 
 FunctionDefinition *func_lookup_by_name	(gchar const *fn_name,
                                          Workbook const *optional_scope);

@@ -682,6 +682,8 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 	case OPER_FUNCALL: {
 		ExprList *l;
 		DependentFlags flag = DEPENDENT_NO_FLAG;
+		if (tree->func.func->fn_type == FUNCTION_NAMEONLY)
+			func_def_load (tree->func.func);
 		if (tree->func.func->link) {
 			EvalPos		 ep;
 			FunctionEvalInfo fei;
