@@ -1238,13 +1238,16 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 						numerator = (int)((number - (int)number) * denominator + 0.5);
 					}
 				} else {
-					static int const powers[3] = { 10, 100, 1000 };
+					static int const powers[8] = {
+						10, 100, 1000, 10000, 100000,
+						1000000, 10000000, 100000000
+					};
 
 					format += size + 1;
-					if (size > 3)
-						size = 3;
-					stern_brocot (number - (int)number, powers[size - 1],
-						      &numerator, &denominator);
+					if (size > 8)
+						size = 8;
+					continued_fraction (number - (int)number, powers[size - 1],
+							    &numerator, &denominator);
 				}
 
 				if (denominator > 0) {

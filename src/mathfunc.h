@@ -160,6 +160,7 @@ gnm_float     fact   (int n);
 
 /* ------------------------------------------------------------------------- */
 
+void continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_denom);
 void stern_brocot (float val, int max_denom, int *res_num, int *res_denom);
 
 #endif

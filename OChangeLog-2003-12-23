@@ -1,3 +1,10 @@
+2003-01-24  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (format_number): Allow more digits in fractions and
+	use continued_fraction.
+
+	* src/mathfunc.c (continued_fraction): New function.
+
 2003-01-23  Jody Goldberg <jody@gnome.org>
 
 	For Murray Cumming  <murrayc@usa.net>

@@ -5944,6 +5944,48 @@ mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 }
 
 void
+continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_denom)
+{
+	int n1, n2, d1, d2;
+	gnm_float x, y;
+
+	if (val < 0) {
+		continued_fraction (gnumabs (val), max_denom, res_num, res_denom);
+		*res_num = -*res_num;
+		return;
+	}
+
+	n1 = 0; d1 = 1;
+	n2 = 1; d2 = 0;
+
+	x = val;
+	y = 1;
+
+	do {
+		int a = (int) (x / y);
+		gnm_float newy = x - a * y;
+		int n3 = a * n2 + n1;
+		int d3 = a * d2 + d1;
+
+		x = y;
+		y = newy;
+
+		n1 = n2; n2 = n3;
+		d1 = d2; d2 = d3;
+
+		if (d3 > max_denom) {
+		  *res_num = n1;
+		  *res_denom = d1;
+		  return;
+		}
+	} while (y > 1e-10);
+
+	*res_num = n2;
+	*res_denom = d2;
+}
+
+
+void
 stern_brocot (float val, int max_denom, int *res_num, int *res_denom)
 {
 	int an = 0, ad = 1;
