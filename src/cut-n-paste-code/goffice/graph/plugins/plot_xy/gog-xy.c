@@ -358,10 +358,9 @@ static void
 gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
+	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
 
 	bubble_parent_klass = g_type_class_peek_parent (plot_klass);
-
-	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
 
 	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 	gog_klass->type_name	= gog_bubble_plot_type_name;
@@ -629,8 +628,7 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 	if (!style->needs_obj_defaults || series->plot == NULL)
 		return;
 	if (series->plot->desc.series.num_dim != 3) {
-		GogXYPlot const *xy;
-		xy = GOG_XY_PLOT (series->plot);
+		GogXYPlot const *xy = GOG_XY_PLOT (series->plot);
 	
 		if (style->marker.auto_shape && !xy->default_style_has_markers) {
 			GOMarker *m = go_marker_new ();
