@@ -469,7 +469,7 @@ static char *help_ceil = {
 static Value *
 gnumeric_ceil (FunctionEvalInfo *ei, Value **args)
 {
-	return value_new_float (ceil (value_get_as_float (args [0])));
+	return value_new_float (gnumeric_fake_ceil (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -741,7 +741,7 @@ gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
 	if (s == 0 || number / s < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (ceil (number / s) * s);
+	return value_new_float (gnumeric_fake_ceil (number / s) * s);
 }
 
 /***************************************************************************/
@@ -947,7 +947,7 @@ gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 	if (s == 0 || (number / s) < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (floor (number / s) * s);
+	return value_new_float (gnumeric_fake_floor (number / s) * s);
 }
 
 /***************************************************************************/
@@ -971,7 +971,7 @@ static char *help_int = {
 static Value *
 gnumeric_int (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_float (floor (value_get_as_float (argv [0])));
+	return value_new_float (gnumeric_fake_floor (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1760,11 +1760,7 @@ gnumeric_trunc (FunctionEvalInfo *ei, Value **argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gpow10 (digits);
-
-	if (number < 0)
-		return value_new_float (-floor (-number * p10) / p10);
-	else
-		return value_new_float (floor (number * p10) / p10);
+	return value_new_float (gnumeric_fake_trunc (number * p10) / p10);
 }
 
 /***************************************************************************/
@@ -2050,10 +2046,7 @@ gnumeric_rounddown (FunctionEvalInfo *ei, Value **argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gpow10 (digits);
-	if (number < 0)
-		return value_new_float (-ceil (-number * p10) / p10);
-	else
-		return value_new_float (floor (number * p10) / p10);
+	return value_new_float (gnumeric_fake_floor (number * p10) / p10);
 }
 
 /***************************************************************************/
@@ -2094,10 +2087,7 @@ gnumeric_round (FunctionEvalInfo *ei, Value **argv)
 	digits = argv[1] ? value_get_as_int (argv[1]) : 0;
 
 	p10 = gpow10 (digits);
-	if (number < 0)
-		return value_new_float (-floor (-number * p10 + 0.5) / p10);
-	else
-		return value_new_float (floor (number * p10 + 0.5) / p10);
+	return value_new_float (gnumeric_fake_round (number * p10) / p10);
 }
 
 /***************************************************************************/
@@ -2141,10 +2131,7 @@ gnumeric_roundup (FunctionEvalInfo *ei, Value **argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gpow10 (digits);
-	if (number < 0)
-		return value_new_float (-floor (-number * p10) / p10);
-	else
-		return value_new_float (ceil (number * p10) / p10);
+	return value_new_float (gnumeric_fake_ceil (number * p10) / p10);
 }
 
 /***************************************************************************/

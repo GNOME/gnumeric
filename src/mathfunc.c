@@ -22,7 +22,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <float.h>
-#ifdef HAVE_IEEEFP
+#ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
 /* Make sure we have this symbol defined, since the existance of the header
    file implies it.  */
@@ -82,6 +82,54 @@ d1mach (int i)
 }
 
 /* MW ---------------------------------------------------------------------- */
+
+/*
+ * In preparation for truncation, make the value a tiny bit larger (seen
+ * absolutely).  This makes ROUND (etc.) behave a little closer to what
+ * people want, even if it is a bit bogus.
+ */
+static double
+gnumeric_add_epsilon (double x)
+{
+  if (!finite (x) || x == 0)
+    return x;
+  else {
+    int exp;
+    double mant = frexp (fabs (x), &exp);
+    double absres = ldexp (mant + DBL_EPSILON, exp);
+    return (x < 0) ? -absres : absres;
+  }
+}
+
+double
+gnumeric_fake_floor (double x)
+{
+  return floor (gnumeric_add_epsilon (x));
+}
+
+double
+gnumeric_fake_ceil (double x)
+{
+  return ceil (gnumeric_add_epsilon (x));
+}
+
+double
+gnumeric_fake_round (double x)
+{
+  return (x >= 0)
+    ? gnumeric_fake_floor (x + 0.5)
+    : -gnumeric_fake_floor (-x + 0.5);
+}
+
+double
+gnumeric_fake_trunc (double x)
+{
+  return (x >= 0)
+    ? gnumeric_fake_floor (x)
+    : gnumeric_fake_ceil (x);
+}
+
+
 
 /* Arithmetic sum.  */
 int

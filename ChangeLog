@@ -1,3 +1,14 @@
+2000-12-20  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (gnumeric_add_epsilon): New function for more
+ 	user-wanted rounding behaviour.
+	(gnumeric_fake_floor, gnumeric_fake_ceil, gnumeric_fake_round):
+ 	New functions.
+
+	* src/fn-math (gnumeric_round, gnumeric_roundup,
+ 	gnumeric_rounddown, gnumeric_trunc, gnumeric_ceil,
+ 	gnumeric_floor): use fake rounding.
+
 2000-12-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (insert_bonobo_object) : utility routine

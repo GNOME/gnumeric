@@ -22,6 +22,11 @@
 
 /* ------------------------------------------------------------------------- */
 
+double gnumeric_fake_floor (double x);
+double gnumeric_fake_ceil (double x);
+double gnumeric_fake_round (double x);
+double gnumeric_fake_trunc (double x);
+
 int range_sum (const float_t *xs, int n, float_t *res);
 int range_product (const float_t *xs, int n, float_t *res);
 
