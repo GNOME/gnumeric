@@ -30,14 +30,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-08-21 15:16+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-08-21 18:36-0400\n"
 "PO-Revision-Date: 2003-08-21 15:20+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -8414,7 +8414,7 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:163
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:207
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:95
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -9154,7 +9154,7 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:328
-#: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3244
+#: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3245
 #: plugins/fn-stat/functions.c:5674 plugins/fn-stat/functions.c:5678
 #: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5720
 #: plugins/fn-stat/functions.c:5723 plugins/fn-stat/functions.c:5732
@@ -9173,23 +9173,23 @@ msgid "number,number,"
 msgstr "tal;tal;"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3085
-#: plugins/fn-math/functions.c:3089 plugins/fn-math/functions.c:3092
-#: plugins/fn-math/functions.c:3095 plugins/fn-math/functions.c:3098
-#: plugins/fn-math/functions.c:3101 plugins/fn-math/functions.c:3104
-#: plugins/fn-math/functions.c:3110 plugins/fn-math/functions.c:3119
-#: plugins/fn-math/functions.c:3128 plugins/fn-math/functions.c:3136
-#: plugins/fn-math/functions.c:3139 plugins/fn-math/functions.c:3142
-#: plugins/fn-math/functions.c:3145 plugins/fn-math/functions.c:3150
-#: plugins/fn-math/functions.c:3154 plugins/fn-math/functions.c:3160
-#: plugins/fn-math/functions.c:3167 plugins/fn-math/functions.c:3174
-#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
-#: plugins/fn-math/functions.c:3196 plugins/fn-math/functions.c:3202
-#: plugins/fn-math/functions.c:3208 plugins/fn-math/functions.c:3229
-#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3235
-#: plugins/fn-math/functions.c:3238 plugins/fn-math/functions.c:3241
-#: plugins/fn-math/functions.c:3254 plugins/fn-math/functions.c:3266
-#: plugins/fn-math/functions.c:3269 plugins/fn-stat/functions.c:5744
+#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3086
+#: plugins/fn-math/functions.c:3090 plugins/fn-math/functions.c:3093
+#: plugins/fn-math/functions.c:3096 plugins/fn-math/functions.c:3099
+#: plugins/fn-math/functions.c:3102 plugins/fn-math/functions.c:3105
+#: plugins/fn-math/functions.c:3111 plugins/fn-math/functions.c:3120
+#: plugins/fn-math/functions.c:3129 plugins/fn-math/functions.c:3137
+#: plugins/fn-math/functions.c:3140 plugins/fn-math/functions.c:3143
+#: plugins/fn-math/functions.c:3146 plugins/fn-math/functions.c:3151
+#: plugins/fn-math/functions.c:3155 plugins/fn-math/functions.c:3161
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3175
+#: plugins/fn-math/functions.c:3181 plugins/fn-math/functions.c:3184
+#: plugins/fn-math/functions.c:3197 plugins/fn-math/functions.c:3203
+#: plugins/fn-math/functions.c:3209 plugins/fn-math/functions.c:3230
+#: plugins/fn-math/functions.c:3233 plugins/fn-math/functions.c:3236
+#: plugins/fn-math/functions.c:3239 plugins/fn-math/functions.c:3242
+#: plugins/fn-math/functions.c:3255 plugins/fn-math/functions.c:3267
+#: plugins/fn-math/functions.c:3270 plugins/fn-stat/functions.c:5744
 #: plugins/fn-stat/functions.c:5747 plugins/fn-stat/functions.c:5765
 #: plugins/fn-stat/functions.c:5843 plugins/fn-string/functions.c:1129
 #: plugins/fn-string/functions.c:1132
@@ -9782,7 +9782,7 @@ msgstr "värde;område;approx"
 msgid "ref,row,col,height,width"
 msgstr "ref;rad;kol;höjd;bredd"
 
-#: plugins/fn-lookup/functions.c:1269 plugins/fn-math/functions.c:3282
+#: plugins/fn-lookup/functions.c:1269 plugins/fn-math/functions.c:3283
 msgid "array"
 msgstr "fält"
 
@@ -11640,7 +11640,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2849
+#: plugins/fn-math/functions.c:2850
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -11666,7 +11666,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:2925
+#: plugins/fn-math/functions.c:2926
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -11700,7 +11700,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:2973
+#: plugins/fn-math/functions.c:2974
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -11738,11 +11738,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3107
+#: plugins/fn-math/functions.c:3108
 msgid "xnum,ynum"
 msgstr "xtal;ytal"
 
-#: plugins/fn-math/functions.c:3113 plugins/fn-math/functions.c:3116
+#: plugins/fn-math/functions.c:3114 plugins/fn-math/functions.c:3117
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
@@ -11750,67 +11750,67 @@ msgid "a,b"
 msgstr "a;b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3124
+#: plugins/fn-math/functions.c:3125
 msgid "range,criteria"
 msgstr "område;kriterium"
 
-#: plugins/fn-math/functions.c:3132
+#: plugins/fn-math/functions.c:3133
 msgid "number,significance"
 msgstr "tal;signifikans"
 
-#: plugins/fn-math/functions.c:3157 plugins/fn-stat/functions.c:5858
+#: plugins/fn-math/functions.c:3158 plugins/fn-stat/functions.c:5858
 msgid "n,k"
 msgstr "n;k"
 
-#: plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3165
 msgid "number,number"
 msgstr "tal;tal"
 
-#: plugins/fn-math/functions.c:3177
+#: plugins/fn-math/functions.c:3178
 msgid "number,base"
 msgstr "tal;bas"
 
-#: plugins/fn-math/functions.c:3186 plugins/fn-math/functions.c:3205
+#: plugins/fn-math/functions.c:3187 plugins/fn-math/functions.c:3206
 msgid "numerator,denominator"
 msgstr "numerator;denominator"
 
-#: plugins/fn-math/functions.c:3189
+#: plugins/fn-math/functions.c:3190
 msgid "number,multiple"
 msgstr "tal;multipel"
 
-#: plugins/fn-math/functions.c:3199
+#: plugins/fn-math/functions.c:3200
 msgid "base,exponent"
 msgstr "bas;exponent"
 
-#: plugins/fn-math/functions.c:3211
+#: plugins/fn-math/functions.c:3212
 msgid "number,type"
 msgstr "tal;typ"
 
-#: plugins/fn-math/functions.c:3214 plugins/fn-math/functions.c:3218
-#: plugins/fn-math/functions.c:3222 plugins/fn-math/functions.c:3272
+#: plugins/fn-math/functions.c:3215 plugins/fn-math/functions.c:3219
+#: plugins/fn-math/functions.c:3223 plugins/fn-math/functions.c:3273
 msgid "number,digits"
 msgstr "tal;siffror"
 
-#: plugins/fn-math/functions.c:3226
+#: plugins/fn-math/functions.c:3227
 msgid "x,n,m,coefficients"
 msgstr "x;n;m;koefficienter"
 
-#: plugins/fn-math/functions.c:3248
+#: plugins/fn-math/functions.c:3249
 msgid "range,criteria,actual_range"
 msgstr "område;kriterium;verkligt_område"
 
-#: plugins/fn-math/functions.c:3251
+#: plugins/fn-math/functions.c:3252
 msgid "range,range,"
 msgstr "område;område;"
 
-#: plugins/fn-math/functions.c:3257 plugins/fn-math/functions.c:3260
-#: plugins/fn-math/functions.c:3263 plugins/fn-math/functions.c:3279
+#: plugins/fn-math/functions.c:3258 plugins/fn-math/functions.c:3261
+#: plugins/fn-math/functions.c:3264 plugins/fn-math/functions.c:3280
 #: plugins/fn-stat/functions.c:5717 plugins/fn-stat/functions.c:5726
 #: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5905
 msgid "array1,array2"
 msgstr "vektor1;vektor2"
 
-#: plugins/fn-math/functions.c:3285 plugins/fn-math/functions.c:3289
+#: plugins/fn-math/functions.c:3286 plugins/fn-math/functions.c:3290
 msgid "array,matrix_type,bandsize"
 msgstr "vektor;matristyp;bandstorlek"
 
@@ -17314,10 +17314,11 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -19083,7 +19084,7 @@ msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:234
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Rubrik"
@@ -20561,61 +20562,61 @@ msgstr "Duplicerar %s"
 msgid "Tabulating Dependencies"
 msgstr "Tabulerar beroenden"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:145
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:145
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
 msgid "M_ax"
 msgstr "M_ax"
 
 # ZZZ
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:146
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 msgid "Ma_jor Ticks"
 msgstr "S_tora skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
 msgid "Mi_nor Ticks"
 msgstr "S_må skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:170
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:214
 msgid "Bounds"
 msgstr "Gränser"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:218
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:177
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:221
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:135
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stil"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
 msgid "Plot"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:150
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
 msgid "Legend"
 msgstr "Förklaring"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:153
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
 msgid "Title"
 msgstr "Titel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:156
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:177
 msgid "X-Axis"
 msgstr "X-axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:160
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:181
 msgid "Y-Axis"
 msgstr "Y-axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:185
 msgid "Z-Axis"
 msgstr "Z-aAxel"
 
@@ -22584,13 +22585,15 @@ msgstr "John Gotts, rpm-paketering."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:65
-msgid "Andreas J. Glzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric-hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:68
-msgid "Jon Kre Hellan, Gnumeric hacker."
+#, fuzzy
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric-hacker."
 
 #: src/dialogs/dialog-about.c:69
@@ -27554,7 +27557,7 @@ msgstr ""
 "\n"
 "-- Gnumeric-teamet."
 
-#: src/main-application.c:143
+#: src/main-application.c:144
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"

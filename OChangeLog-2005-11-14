@@ -1,5 +1,10 @@
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump to 1.1.90 in prep for beta status
+	  next week.
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.1.20
 
 2003-08-21  Jody Goldberg <jody@gnome.org>
