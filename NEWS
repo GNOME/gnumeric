@@ -3,6 +3,8 @@ Gnumeric 0.32
 Jukka:
 	* More work done on documenting the analysis tools.
 	* Implemented MDETERM and MINVERSE matrix functions.
+	* Finished the ROMAN function completing the mathematical
+          functions.
 
 Michael:
 	* Added GUI for Summary Info.

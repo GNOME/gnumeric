@@ -1791,7 +1791,10 @@ static char *help_roman = {
 	   "\n"
 	   "If @type is 0 or it is omitted, ROMAN returns classic roman "
 	   "numbers. "
-	   "Types 1,2,3, and 4 are not implemented yet. "
+	   "Type 1 is more concise than classic type, type 2 is more concise "
+	   "than type 1, and type 3 is more concise than type 2.  Type 4 "
+	   "is simplified type. "
+	   "\n"
 	   "If @number is negative or greater than 3999, ROMAN returns "
 	   "#VALUE! error. "
 	   "\n"
@@ -1805,6 +1808,8 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	const int  largest = 1000;
 
 	static char buf[256];
+	char        *p;
+
 	int n, form;
 	int i, j, dec;
 
@@ -1823,9 +1828,6 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 
 	if (form < 0 || form > 4)
 		return value_new_error (&ei->pos, gnumeric_err_NUM );
-
-	if (form > 0)
-		return value_new_error (&ei->pos, _("#Unimplemented!") );
 
 	for (i = j = 0; dec > 1; dec /= 10, j+=2){
 	        for (; n > 0; i++){
@@ -1851,6 +1853,188 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 		}
 	}
 	buf [i] = '\0';
+
+
+	if (form > 0) {
+	        /* Replace ``XLV'' with ``VL'' */
+	        if ((p = strstr(buf, "XLV")) != NULL) {
+		        *p++ = 'V';
+			*p++ = 'L';
+			for ( ; *p; p++)
+			        *p = *(p+1);
+		} 
+	        /* Replace ``XCV'' with ``VC'' */
+	        if ((p = strstr(buf, "XCV")) != NULL) {
+		        *p++ = 'V';
+			*p++ = 'C';
+			for ( ; *p; p++)
+			        *p = *(p+1);
+		} 
+	        /* Replace ``CDL'' with ``LD'' */
+	        if ((p = strstr(buf, "CDL")) != NULL) {
+		        *p++ = 'L';
+			*p++ = 'D';
+			for ( ; *p; p++)
+			        *p = *(p+1);
+		} 
+	        /* Replace ``CML'' with ``LM'' */
+	        if ((p = strstr(buf, "CML")) != NULL) {
+		        *p++ = 'L';
+			*p++ = 'M';
+			for ( ; *p; p++)
+			        *p = *(p+1);
+		} 
+	        /* Replace ``CMVC'' with ``LMVL'' */
+	        if ((p = strstr(buf, "CMVC")) != NULL) {
+		        *p++ = 'L';
+			*p++ = 'M';
+			*p++ = 'V';
+			*p++ = 'L';
+		} 
+	}
+	if (form == 1) {
+	        /* Replace ``CDXC'' with ``LDXL'' */
+	        if ((p = strstr(buf, "CDXC")) != NULL) {
+		        *p++ = 'L';
+			*p++ = 'D';
+			*p++ = 'X';
+			*p++ = 'L';
+		} 
+	        /* Replace ``CDVC'' with ``LDVL'' */
+	        if ((p = strstr(buf, "CDVC")) != NULL) {
+		        *p++ = 'L';
+			*p++ = 'D';
+			*p++ = 'V';
+			*p++ = 'L';
+		} 
+	        /* Replace ``CMXC'' with ``LMXL'' */
+	        if ((p = strstr(buf, "CMXC")) != NULL) {
+		        *p++ = 'L';
+			*p++ = 'M';
+			*p++ = 'X';
+			*p++ = 'L';
+		} 
+	        /* Replace ``XCIX'' with ``VCIV'' */
+	        if ((p = strstr(buf, "XCIX")) != NULL) {
+		        *p++ = 'V';
+			*p++ = 'C';
+			*p++ = 'I';
+			*p++ = 'V';
+		} 
+	        /* Replace ``XLIX'' with ``VLIV'' */
+	        if ((p = strstr(buf, "XLIX")) != NULL) {
+		        *p++ = 'V';
+			*p++ = 'L';
+			*p++ = 'I';
+			*p++ = 'V';
+		} 
+	}
+	if (form > 1) {
+	        /* Replace ``XLIX'' with ``IL'' */
+	        if ((p = strstr(buf, "XLIX")) != NULL) {
+		        *p++ = 'I';
+			*p++ = 'L';
+			for ( ; *p; p++)
+			        *p = *(p+2);
+		} 
+	        /* Replace ``XCIX'' with ``IC'' */
+	        if ((p = strstr(buf, "XCIX")) != NULL) {
+		        *p++ = 'I';
+			*p++ = 'C';
+			for ( ; *p; p++)
+			        *p = *(p+2);
+		} 
+	        /* Replace ``CDXC'' with ``XD'' */
+	        if ((p = strstr(buf, "CDXC")) != NULL) {
+		        *p++ = 'X';
+			*p++ = 'D';
+			for ( ; *p; p++)
+			        *p = *(p+2);
+		} 
+	        /* Replace ``CDVC'' with ``XDV'' */
+	        if ((p = strstr(buf, "CDVC")) != NULL) {
+		        *p++ = 'X';
+			*p++ = 'D';
+			*p++ = 'V';
+			for ( ; *p; p++)
+			        *p = *(p+1);
+		} 
+	        /* Replace ``CDIC'' with ``XDIX'' */
+	        if ((p = strstr(buf, "CDIC")) != NULL) {
+		        *p++ = 'X';
+			*p++ = 'D';
+			*p++ = 'I';
+			*p++ = 'X';
+		} 
+	        /* Replace ``LMVL'' with ``XMV'' */
+	        if ((p = strstr(buf, "LMVL")) != NULL) {
+		        *p++ = 'X';
+			*p++ = 'M';
+			*p++ = 'V';
+			for ( ; *p; p++)
+			        *p = *(p+1);
+		} 
+	        /* Replace ``CMIC'' with ``XMIX'' */
+	        if ((p = strstr(buf, "CMIC")) != NULL) {
+		        *p++ = 'X';
+			*p++ = 'M';
+			*p++ = 'I';
+			*p++ = 'X';
+		} 
+	        /* Replace ``CMXC'' with ``XM'' */
+	        if ((p = strstr(buf, "CMXC")) != NULL) {
+		        *p++ = 'X';
+			*p++ = 'M';
+			for ( ; *p; p++)
+			        *p = *(p+2);
+		} 
+	}
+	if (form > 2) {
+	        /* Replace ``XDV'' with ``VD'' */
+	        if ((p = strstr(buf, "XDV")) != NULL) {
+		        *p++ = 'V';
+			*p++ = 'D';
+			for ( ; *p; p++)
+			        *p = *(p+1);
+		} 
+	        /* Replace ``XDIX'' with ``VDIV'' */
+	        if ((p = strstr(buf, "XDIX")) != NULL) {
+		        *p++ = 'V';
+			*p++ = 'D';
+			*p++ = 'I';
+			*p++ = 'V';
+		} 
+	        /* Replace ``XMV'' with ``VM'' */
+	        if ((p = strstr(buf, "XMV")) != NULL) {
+		        *p++ = 'V';
+			*p++ = 'M';
+			for ( ; *p; p++)
+			        *p = *(p+1);
+		} 
+	        /* Replace ``XMIX'' with ``VMIV'' */
+	        if ((p = strstr(buf, "XMIX")) != NULL) {
+		        *p++ = 'V';
+			*p++ = 'M';
+			*p++ = 'I';
+			*p++ = 'V';
+		} 
+	}
+	if (form == 4) {
+	        /* Replace ``VDIV'' with ``ID'' */
+	        if ((p = strstr(buf, "VDIV")) != NULL) {
+		        *p++ = 'I';
+			*p++ = 'D';
+			for ( ; *p; p++)
+			        *p = *(p+2);
+		} 
+	        /* Replace ``VMIV'' with ``IM'' */
+	        if ((p = strstr(buf, "VMIV")) != NULL) {
+		        *p++ = 'I';
+			*p++ = 'M';
+			for ( ; *p; p++)
+			        *p = *(p+2);
+		} 
+	}
 
 	return value_new_string (buf);
 }

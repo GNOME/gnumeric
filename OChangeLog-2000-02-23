@@ -1,5 +1,10 @@
 1999-08-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/fn-math.c: Finished ROMAN().  Gnumeric now supports all the
+ 	60 mathematical functions of Excel 2000.
+
+1999-08-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* src/fn-math.c: Added MDETERM().
 
 1999-08-09  Michael Meeks  <michael@imaginator.com>
