@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * fn-erlang.c:  Built in date functions.
+ * fn-erlang.c:  Teletraffic functions.
  *
  * Authors:
  *   Arief Mulya Utama <arief_m_utama@telkomsel.co.id>
