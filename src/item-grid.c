@@ -44,6 +44,7 @@
 #include <gal/widgets/e-cursors.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
+#include <string.h>
 #define GNUMERIC_ITEM "GRID"
 #include "item-debug.h"
 
@@ -104,7 +105,7 @@ static void
 ig_clear_hlink_tip (ItemGrid *ig)
 {
 	if (ig->tip_timer != 0) {
-		gtk_timeout_remove (ig->tip_timer);
+		g_source_remove (ig->tip_timer);
 		ig->tip_timer = 0;
 	}
 
@@ -120,7 +121,7 @@ item_grid_destroy (GtkObject *object)
 	ItemGrid *ig = ITEM_GRID (object);
 
 	if (ig->cursor_timer != 0) {
-		gtk_timeout_remove (ig->cursor_timer);
+		g_source_remove (ig->cursor_timer);
 		ig->cursor_timer = 0;
 	}
 	ig_clear_hlink_tip (ig);
@@ -1159,12 +1160,12 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 		switch (ig->selecting) {
 		case ITEM_GRID_NO_SELECTION:
 			if (ig->cursor_timer == 0)
-				ig->cursor_timer = gtk_timeout_add (100,
-					(GtkFunction)cb_cursor_motion, ig);
+				ig->cursor_timer = g_timeout_add (100,
+					(GSourceFunc)cb_cursor_motion, ig);
 			if (ig->tip_timer != 0)
-				gtk_timeout_remove (ig->tip_timer);
-			ig->tip_timer = gtk_timeout_add (500,
-					(GtkFunction)cb_cursor_come_to_rest, ig);
+				g_source_remove (ig->tip_timer);
+			ig->tip_timer = g_timeout_add (500,
+					(GSourceFunc)cb_cursor_come_to_rest, ig);
 			ig->last_x = event->motion.x;
 			ig->last_y = event->motion.y;
 			return TRUE;

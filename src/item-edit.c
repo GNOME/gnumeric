@@ -382,7 +382,7 @@ item_edit_cursor_blink_stop (ItemEdit *item_edit)
 	if (item_edit->blink_timer == -1)
 		return;
 
-	gtk_timeout_remove (item_edit->blink_timer);
+	g_source_remove (item_edit->blink_timer);
 	item_edit->blink_timer = -1;
 }
 
@@ -398,8 +398,8 @@ item_edit_cursor_blink_start (ItemEdit *item_edit)
 		"gtk-cursor-blink", 	&blink,
 		NULL);
 	if (blink)
-		item_edit->blink_timer = gtk_timeout_add ( blink_time,
-			(GtkFunction)&cb_item_edit_cursor_blink,
+		item_edit->blink_timer = g_timeout_add ( blink_time,
+			(GSourceFunc) cb_item_edit_cursor_blink,
 			item_edit);
 }
 

@@ -572,12 +572,6 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 	return vector ? vector->id : -1;
 }
 
-static gboolean
-gnm_graph_setup (GnmGraph *graph)
-{
-	return graph == NULL;
-}
-
 /* FIXME : Should we take a CommandContext to report errors to ? */
 /* FIXME : should take a DependentContainer when we create one
  * so that we can handle standalone graphs.

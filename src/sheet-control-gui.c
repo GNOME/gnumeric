@@ -1210,7 +1210,7 @@ static void
 scg_comment_timer_clear (SheetControlGUI *scg)
 {
 	if (scg->comment.timer != -1) {
-		gtk_timeout_remove (scg->comment.timer);
+		g_source_remove (scg->comment.timer);
 		scg->comment.timer = -1;
 	}
 }
@@ -1233,7 +1233,7 @@ scg_finalize (GObject *object)
 	scg_comment_timer_clear (scg);
 
 	if (scg->delayedMovement.timer != -1) {
-		gtk_timeout_remove (scg->delayedMovement.timer);
+		g_source_remove (scg->delayedMovement.timer);
 		scg->delayedMovement.timer = -1;
 	}
 
@@ -1984,7 +1984,7 @@ scg_comment_select (SheetControlGUI *scg, CellComment *cc)
 		scg_comment_unselect (scg, scg->comment.selected);
 
 	scg->comment.selected = cc;
-	scg->comment.timer = gtk_timeout_add (1000,
+	scg->comment.timer = g_timeout_add (1000,
 		(GtkFunction)cb_cell_comment_timer, scg);
 }
 
@@ -2573,7 +2573,7 @@ scg_queue_movement (SheetControlGUI	*scg,
 		    scg->delayedMovement.counter > 3 ||
 		    scg->delayedMovement.handler != handler ||
 		    scg->delayedMovement.horiz != horiz) {
-			gtk_timeout_remove (scg->delayedMovement.timer);
+			g_source_remove (scg->delayedMovement.timer);
 			(*scg->delayedMovement.handler) (scg,
 				scg->delayedMovement.n, FALSE,
 				scg->delayedMovement.horiz);
@@ -2596,6 +2596,6 @@ scg_queue_movement (SheetControlGUI	*scg,
 	scg->delayedMovement.handler = handler;
 	scg->delayedMovement.horiz   = horiz;
 	scg->delayedMovement.n	     = n;
-	scg->delayedMovement.timer   = gtk_timeout_add (10,
-		(GtkFunction)cb_scg_queued_movement, scg);
+	scg->delayedMovement.timer   = g_timeout_add (10,
+		(GSourceFunc)cb_scg_queued_movement, scg);
 }

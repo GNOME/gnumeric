@@ -32,6 +32,7 @@
 #include "clipboard.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
+#include <string.h>
 
 static FooCanvasClass *parent_klass;
 
@@ -1149,7 +1150,7 @@ gcanvas_sliding_callback (gpointer data)
 
 	if (slide_x || slide_y) {
 		if (gcanvas->sliding == -1)
-			gcanvas->sliding = gtk_timeout_add (
+			gcanvas->sliding = g_timeout_add (
 				300, gcanvas_sliding_callback, gcanvas);
 	} else
 		gnm_canvas_slide_stop (gcanvas);

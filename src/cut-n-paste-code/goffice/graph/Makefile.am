@@ -13,6 +13,8 @@ libgoffice_graph_a_SOURCES = \
 	goffice-graph.h			\
 	gog-object.c			\
 	gog-object.h			\
+	gog-styled-object.c		\
+	gog-styled-object.h		\
 	gog-view.c			\
 	gog-view.h			\
 	\
@@ -25,8 +27,6 @@ libgoffice_graph_a_SOURCES = \
 	\
 	gog-axis.c			\
 	gog-axis.h			\
-	gog-background.c		\
-	gog-background.h		\
 	gog-legend.c			\
 	gog-legend.h			\
 	\
@@ -56,7 +56,10 @@ libgoffice_graph_a_SOURCES = \
 	gog-renderer-pixbuf.c		\
 	gog-renderer-pixbuf.h		\
 	gog-control-foocanvas.c		\
-	gog-control-foocanvas.h
+	gog-control-foocanvas.h		\
+	\
+	art_rgba_svp.c			\
+	art_rgba_svp.h
 
 gnumeric_glade_DATA = \
 	gog-guru.glade

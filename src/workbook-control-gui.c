@@ -292,7 +292,7 @@ wbcg_autosave_cancel (WorkbookControlGUI *wbcg)
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	if (wbcg->autosave_timer != 0) {
-		gtk_timeout_remove (wbcg->autosave_timer);
+		g_source_remove (wbcg->autosave_timer);
 		wbcg->autosave_timer = 0;
 	}
 }
@@ -309,8 +309,8 @@ wbcg_autosave_set (WorkbookControlGUI *wbcg, int minutes, gboolean prompt)
 	wbcg->autosave_prompt = prompt;
 
 	if (wbcg->autosave)
-		wbcg->autosave_timer = gtk_timeout_add (minutes * 60000,
-			(GtkFunction) cb_autosave, wbcg);
+		wbcg->autosave_timer = g_timeout_add (minutes * 60000,
+			(GSourceFunc) cb_autosave, wbcg);
 }
 /****************************************************************************/
 
@@ -422,7 +422,7 @@ wbcg_toolbar_timer_clear (WorkbookControlGUI *wbcg)
 {
 	/* Remove previous ui timer */
 	if (wbcg->toolbar_sensitivity_timer != 0) {
-		gtk_timeout_remove (wbcg->toolbar_sensitivity_timer);
+		g_source_remove (wbcg->toolbar_sensitivity_timer);
 		wbcg->toolbar_sensitivity_timer = 0;
 	}
 }
@@ -508,10 +508,8 @@ wbcg_edit_set_sensitive (WorkbookControl *wbc,
 	/* Toolbars are insensitive while editing */
 	if (func_guru_flag) {
 		/* We put the re-enabling of the ui on a timer */
-		wbcg->toolbar_sensitivity_timer =
-			gtk_timeout_add (300, /* seems a reasonable amount */
-					 (GtkFunction) cb_thaw_ui_toolbar,
-					 wbcg);
+		wbcg->toolbar_sensitivity_timer = g_timeout_add (300,
+			(GSourceFunc) cb_thaw_ui_toolbar, wbcg);
 	} else
 		wbcg_menu_state_sensitivity (wbcg, func_guru_flag);
 }
