@@ -2,7 +2,7 @@
 /**
  * ms-excel.c: MS Excel import
  *
- * (C) 1998-2004 Michael Meeks, Jody Goldberg
+ * (C) 1998-2004 Jody Goldberg, Michael Meeks
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -764,7 +764,7 @@ excel_unexpected_biff (BiffQuery *q, char const *state,
  * excel_read_string_header :
  * @ptr : a pointer to the start of the string header
  * @use_utf16 : Is the content in 8 or 16 bit chars
- * @has_markup : Is there trailing markup
+ * @n_markup : number of trailing markup records
  * @has_extended : Is there trailing extended string info (eg japanese PHONETIC)
  * @post_data_len :
  *
@@ -773,7 +773,7 @@ excel_unexpected_biff (BiffQuery *q, char const *state,
 static unsigned
 excel_read_string_header (guint8 const *data,
 			  gboolean *use_utf16,
-			  gboolean *has_markup,
+			  unsigned *n_markup,
 			  gboolean *has_extended,
 			  unsigned  *post_data_len)
 {
@@ -787,11 +787,12 @@ excel_read_string_header (guint8 const *data,
 		*use_utf16  = (header & 0x1) != 0;
 
 		ptr++; /* skip header */
-		if ((*has_markup = (header & 0x8) != 0)) {
-			guint16 formatting_runs = GSF_LE_GET_GUINT16 (ptr);
-			*post_data_len += formatting_runs * 4; /* 4 bytes per */
-			ptr      += 2;
-		}
+		if ((header & 0x8) != 0) {
+			*n_markup = GSF_LE_GET_GUINT16 (ptr);
+			*post_data_len += *n_markup * 4; /* 4 bytes per */
+			ptr += 2;
+		} else
+			*n_markup = 0;
 		if ((*has_extended   = (header & 0x4) != 0)) {
 			guint32 len_ext_rst = GSF_LE_GET_GUINT32 (ptr); /* A byte length */
 			*post_data_len += len_ext_rst;
@@ -802,7 +803,8 @@ excel_read_string_header (guint8 const *data,
 		}
 	} else {
 		g_warning ("potential problem.  A string with an invalid header was found");
-		*use_utf16 = *has_extended = *has_markup = FALSE;
+		*use_utf16 = *has_extended = FALSE;
+		*n_markup = 0;
 	}
 
 	return ptr - data;
@@ -850,8 +852,8 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length,
 {
 	char *ans;
 	guint8 const *ptr;
-	unsigned byte_len, trailing_data_len;
-	gboolean use_utf16, has_markup, has_extended;
+	unsigned byte_len, trailing_data_len, n_markup;
+	gboolean use_utf16, has_extended;
 
 	if (byte_length == NULL)
 		byte_length = &byte_len;
@@ -861,14 +863,15 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length,
 		if (length == 0)
 			return NULL;
 		ptr = pos + excel_read_string_header (pos,
-			&use_utf16, &has_markup, &has_extended, &trailing_data_len);
+			&use_utf16, &n_markup, &has_extended, &trailing_data_len);
 		*byte_length += trailing_data_len;
 	} else {
 		*byte_length = 0; /* no header */
 		if (length == 0)
 			return NULL;
 		trailing_data_len = 0;
-		use_utf16 = has_markup = has_extended = FALSE;
+		use_utf16 = has_extended = FALSE;
+		n_markup = 0;
 		ptr = pos;
 	}
 
@@ -879,7 +882,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length,
 		fprintf (stderr,"String len %d, byte length %d: %s %s %s:\n",
 			length, *byte_length,
 			(use_utf16 ? "UTF16" : "1byte"),
-			(has_markup ? "has markup" :""),
+			((n_markup > 0) ? "has markup" :""),
 			(has_extended ? "has extended phonetic info" : ""));
 		gsf_mem_dump (pos, *byte_length);
 	});
@@ -913,27 +916,26 @@ sst_bound_check (BiffQuery *q, guint32 offset)
  * of the string, which may also be split over continues.
  */
 static guint32
-sst_read_string (BiffQuery *q, char **output, guint32 offset)
+sst_read_string (BiffQuery *q, ExcelStringEntry *res, guint32 offset)
 {
 	guint32  new_offset, total_len, total_end_len, chars_left, get_len;
-	unsigned post_data_len;
-	gboolean use_utf16, has_markup, has_extended;
+	unsigned post_data_len, n_markup, total_n_markup;
+	gboolean use_utf16, has_extended;
 	char    *str;
 
-	g_return_val_if_fail (
-			      offset < q->length, 0);
+	g_return_val_if_fail (offset < q->length, 0);
 
-	*output       = NULL;
 	total_len     = GSF_LE_GET_GUINT16 (q->data + offset);
 	new_offset    = offset + 2;
-	total_end_len = 0;
+	total_end_len = total_n_markup = 0;
 
 	do {
 		new_offset = sst_bound_check (q, new_offset);
 		new_offset += excel_read_string_header (q->data + new_offset,
-				&use_utf16, &has_markup, &has_extended,
+				&use_utf16, &n_markup, &has_extended,
 				&post_data_len);
 		total_end_len += post_data_len;
+		total_n_markup += n_markup;
 		chars_left = (q->length - new_offset) / (use_utf16 ? 2 : 1);
 		get_len = (chars_left > total_len) ? total_len : chars_left;
 		total_len -= get_len;
@@ -943,15 +945,17 @@ sst_read_string (BiffQuery *q, char **output, guint32 offset)
 		str = ms_biff_get_chars ((char *)(q->data + new_offset), get_len, use_utf16);
 		new_offset += get_len * (use_utf16 ? 2 : 1);
 
-		if (*output != NULL) {
-			char *old_output = *output;
-			*output = g_strconcat (*output, str, NULL);
+		if (res->str != NULL) {
+			char *old_res = res->str;
+			res->str = g_strconcat (old_res, str, NULL);
 			g_free (str);
-			g_free (old_output);
+			g_free (old_res);
 		} else
-			*output = str;
-
+			res->str = str;
 	} while (total_len > 0);
+
+	if (total_n_markup > 0) {
+	}
 
 	return sst_bound_check (q, new_offset + total_end_len);
 }
@@ -960,7 +964,7 @@ static void
 excel_read_SST (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	guint32 offset;
-	unsigned k;
+	unsigned i;
 
 	d (4, {
 		fprintf (stderr, "SST total = %u, sst = %u\n",
@@ -969,20 +973,19 @@ excel_read_SST (BiffQuery *q, ExcelWorkbook *ewb)
 		gsf_mem_dump (q->data, q->length);
 	});
 
-	ewb->global_string_max = GSF_LE_GET_GUINT32 (q->data + 4);
-	ewb->global_strings = g_new (char *, ewb->global_string_max);
+	ewb->sst_len = GSF_LE_GET_GUINT32 (q->data + 4);
+	ewb->sst = g_new0 (ExcelStringEntry, ewb->sst_len);
 
 	offset = 8;
+	for (i = 0; i < ewb->sst_len; i++) {
+		offset = sst_read_string (q, ewb->sst + i, offset);
 
-	for (k = 0; k < ewb->global_string_max; k++) {
-		offset = sst_read_string (q, &ewb->global_strings[k], offset);
-
-		if (!ewb->global_strings[k]) {
-			d (4, fprintf (stderr,"Blank string in table at 0x%x.\n", k););
+		if (ewb->sst[i].str == NULL) {
+			d (4, fprintf (stderr,"Blank string in table at 0x%x.\n", i););
 		}
 #ifndef NO_DEBUG_EXCEL
 		else if (ms_excel_read_debug > 4)
-			puts (ewb->global_strings[k]);
+			puts (ewb->sst[i].str);
 #endif
 	}
 }
@@ -2716,8 +2719,8 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 		g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify)biff_format_data_destroy);
 	ewb->palette          = excel_get_default_palette ();
-	ewb->global_strings   = NULL;
-	ewb->global_string_max = 0;
+	ewb->sst   = NULL;
+	ewb->sst_len = 0;
 	return ewb;
 }
 
@@ -2810,11 +2813,14 @@ excel_workbook_destroy (ExcelWorkbook *ewb)
 		ewb->v8.externsheet = NULL;
 	}
 
-	if (ewb->global_strings) {
-		unsigned i;
-		for (i = 0; i < ewb->global_string_max; i++)
-			g_free (ewb->global_strings[i]);
-		g_free (ewb->global_strings);
+	if (ewb->sst != NULL) {
+		unsigned i = ewb->sst_len;
+		while (i-- > 0) {
+			g_free (ewb->sst[i].str);
+			if (ewb->sst[i].markup != NULL)
+				pango_attr_list_unref (ewb->sst[i].markup);
+		}
+		g_free (ewb->sst);
 	}
 
 	ms_container_finalize (&ewb->container);
@@ -2934,8 +2940,8 @@ static char *
 excel_read_name_str (guint8 const *data, unsigned *name_len, gboolean is_builtin,
 		     MsBiffVersion ver)
 {
-	gboolean use_utf16, has_markup, has_extended;
-	unsigned trailing_data_len;
+	gboolean use_utf16, has_extended;
+	unsigned trailing_data_len, n_markup;
 	char *name = NULL;
 
 	/* Lovely, they put suffixes on builtins.  Then those !#$^
@@ -2948,11 +2954,11 @@ excel_read_name_str (guint8 const *data, unsigned *name_len, gboolean is_builtin
 		char const *builtin;
 
 		if (ver < MS_BIFF_V8) {
-			use_utf16 = has_markup = has_extended = FALSE;
-			trailing_data_len = 0;
+			use_utf16 = has_extended = FALSE;
+			n_markup = trailing_data_len = 0;
 		} else
 			str += excel_read_string_header (str,
-				&use_utf16, &has_markup, &has_extended,
+				&use_utf16, &n_markup, &has_extended,
 				&trailing_data_len);
 
 		/* pull out the magic builtin enum */
@@ -5290,8 +5296,8 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_LABELSST: { /* See: S59D9E.HTM */
 			guint32 const idx = GSF_LE_GET_GUINT32 (q->data + 6);
 
-			if (esheet->container.ewb->global_strings && idx < esheet->container.ewb->global_string_max) {
-				char const *str = esheet->container.ewb->global_strings[idx];
+			if (esheet->container.ewb->sst && idx < esheet->container.ewb->sst_len) {
+				char const *str = esheet->container.ewb->sst[idx].str;
 				/* FIXME FIXME FIXME: Why would there be a NULL?  */
 				if (str == NULL)
 					str = "";
@@ -5299,7 +5305,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 					value_new_string (str));
 			} else
 				fprintf (stderr,"string index 0x%u >= 0x%x\n",
-					idx, esheet->container.ewb->global_string_max);
+					idx, esheet->container.ewb->sst_len);
 			break;
 		}
 

@@ -1,3 +1,12 @@
+2004-04-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_pre_biff8_obj) : fix the name offset for
+	  polygons
+
+	* ms-excel-read.c : convert global_string char * array into an
+	  ExcelStringEntry sst array with strings and markup in preparation
+	  for reading richtext from an SST.
+
 2004-04-17  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_HEADER_FOOTER) : new to handle biff8 vs

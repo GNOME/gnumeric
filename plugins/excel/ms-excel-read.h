@@ -99,6 +99,11 @@ typedef struct {
 	char *name;
 } BiffFormatData;
 
+typedef struct {
+	char		*str;
+	PangoAttrList	*markup;
+} ExcelStringEntry;
+
 struct _ExcelWorkbook {
 	MSContainer	  container;
 	IOContext	 *context;
@@ -115,8 +120,8 @@ struct _ExcelWorkbook {
 		GArray	 *externsheet;
 	} v8; /* biff8 does this in the workbook */
 	ExcelPalette	 *palette;
-	char		**global_strings;
-	guint32		  global_string_max;
+	unsigned	  sst_len;
+	ExcelStringEntry *sst;
 
 	ExprTreeSharer   *expr_sharer;
 
