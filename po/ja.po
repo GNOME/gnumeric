@@ -6,11 +6,12 @@
 # Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
 # 
+#, no-wrap
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.0.5\n"
-"POT-Creation-Date: 2002-04-13 18:34-0400\n"
-"PO-Revision-Date: 2002-03-11 23:17+0900\n"
+"Project-Id-Version: gnumeric 1.0.6\n"
+"POT-Creation-Date: 2002-04-18 12:31+0900\n"
+"PO-Revision-Date: 2002-04-18 12:30+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -651,9 +652,8 @@ msgstr ""
 ".po ファイルの中にある GNOME 用語を保存するためのサポートを提供します。"
 
 #: plugins/guile/plugin.c:106
-#, fuzzy
 msgid "Guile error"
-msgstr "乗算エラー"
+msgstr "Guile エラー"
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
@@ -20684,62 +20684,3 @@ msgstr "Gnumericワークブックファイルではありません"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ファイル形式"
-
-#~ msgid "First argument to SCM must be a Guile expression"
-#~ msgstr "SCM の最初の引数は Guile 式でなければなりません"
-
-#~ msgid "Undefined scheme function"
-#~ msgstr "未定義の scheme 関数"
-
-#~ msgid "Could not evaluate argument"
-#~ msgstr "引数を評価できません"
-
-#~ msgid ""
-#~ "Thank you for using Gnumeric!\n"
-#~ "\n"
-#~ "The version of Gnumeric you are using is quite old\n"
-#~ "by now.  It is likely that many bugs have been fixed\n"
-#~ "and that new features have been added in the meantime.\n"
-#~ "\n"
-#~ "Please consider upgrading before reporting any bugs.\n"
-#~ "Consult http://www.gnumeric.org/ for details.\n"
-#~ "\n"
-#~ "-- The Gnumeric Team."
-#~ msgstr ""
-#~ "Gnumeric を使ってくれてありがとう！\n"
-#~ "\n"
-#~ "ご使用のこのバージョンの Gnumeric ではちょっとだけ\n"
-#~ "新しくなっています。そうこうしている間に、おそらく\n"
-#~ "沢山のバグが Fix され、新しい機能が追加されるでしょう。\n"
-#~ "\n"
-#~ "バグを報告する前にバージョンアップをしてみて下さい。\n"
-#~ "詳細は http://www.gnumeric.org/ でどうぞ。\n"
-#~ "\n"
-#~ "-- Gnumeric チーム。"
-
-#~ msgid ""
-#~ "@FUNCTION=RandBinom\n"
-#~ "@SYNTAX=RandBinom(p,trials)\n"
-#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
-#~ "RandBinom returns #NUM! error. \n"
-#~ "@EXAMPLES=\n"
-#~ "RandBinom(0.5,2).\n"
-#~ "\n"
-#~ "@SEEALSO=RAND,RANDBETWEEN"
-#~ msgstr ""
-#~ "@FUNCTION=RandBinom\n"
-#~ "@SYNTAX=RandBinom(p,試行回数)\n"
-#~ "@DESCRIPTION=RandBinom 関数は二項分布を用いて乱数を発生させます。\n"
-#~ "@p < 0 または @p > 1 の場合、#NUM! エラーが返されます。また、@試行回数 < 0"
-#~ "の場合、#NUM! が返されます。\n"
-#~ "@EXAMPLES=\n"
-#~ "RandBinom(0.5,2)\n"
-#~ "\n"
-#~ "@SEEALSO=RAND,RANDBETWEEN"
-
-#~ msgid "Text File Export (*.csv)"
-#~ msgstr "テキストファイルのエクスポート (*.csv)"
-
-#~ msgid "'%f' is not a number"
-#~ msgstr "'%f' は数値ではありません"
