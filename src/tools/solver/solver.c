@@ -624,10 +624,7 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 	CellList *inputs;
 
 	if (src_param->target_cell != NULL)
-	        dst_param->target_cell =
-		    sheet_cell_fetch (new_sheet,
-				      src_param->target_cell->pos.row,
-				      src_param->target_cell->pos.col);
+	        dst_param->target_cell = solver_get_target_cell (new_sheet);
 
 	dst_param->problem_type = src_param->problem_type;
 	g_free (dst_param->input_entry_str);

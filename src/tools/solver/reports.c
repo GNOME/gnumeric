@@ -275,8 +275,7 @@ solver_prepare_reports (SolverProgram *program, SolverResults *res,
 	 * Fetch the target cell value from the sheet since it's
 	 * formula may have a constant increment or decrement.
 	 */
-	cell = sheet_cell_get (sheet, param->target_cell->pos.col,
-			       param->target_cell->pos.row);
+	cell = solver_get_target_cell (sheet);
 	res->value_of_obj_fn = value_get_as_float (cell->value);
 
 	/*
