@@ -306,7 +306,7 @@ get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
 	g_assert (!attr->data);
 	if (min) {
 		g_assert (min->data);
-#if EXCEL_DEBUG > 0
+#if OLE_DEBUG > 0
 		printf ("Replacing cache block %d with %d\n", min->blk, b);
 #endif
 		if (min->dirty)
@@ -1025,13 +1025,13 @@ pps_encode_tree_initial (MsOle *f, GList *list, PPS_IDX *p)
 	g_return_if_fail (list->data);
 	
 	pps = list->data;
+	pps->idx = *p;
+	(*p)++;
 
 #if OLE_DEBUG > 0
 	printf ("encoding '%s' as %d\n", pps->name, pps->idx);
 #endif
 
-	pps->idx = *p;
-	(*p)++;
 	mem = get_pps_ptr (f, pps->idx, TRUE);
 
 	/* Blank stuff I don't understand */
@@ -1071,7 +1071,7 @@ pps_encode_tree_initial (MsOle *f, GList *list, PPS_IDX *p)
 	PPS_SET_PREV (mem, PPS_END_OF_CHAIN);
 	PPS_SET_DIR  (mem, PPS_END_OF_CHAIN);
 
-#if MsOle_DEBUG > 1
+#if OLE_DEBUG > 1
 	printf ("Encode '%s' as \n", pps->name);
 	dump (mem, PPS_BLOCK_SIZE);
 #endif

@@ -1,3 +1,7 @@
+1999-11-08  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c: Fixed some OLE_DEBUG #if's.
+
 1999-10-31  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-ole.c (extend_file): kill struct stat st.
