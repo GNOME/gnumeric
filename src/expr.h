@@ -33,10 +33,9 @@ typedef struct {
 } CellPos;
 
 typedef struct {
-	int col, int row;
-
-	unsigned int col_abs:1
-	unsigned int row_abs:1
+	int col, row;
+	unsigned int col_abs:1;
+	unsigned int row_abs:1;
 } CellRef;
 
 typedef struct {

@@ -93,7 +93,7 @@ eval_release_node (EvalNode *node)
 Value *
 eval_node (EvalNode *node)
 {
-	case (node->oper){
+	switch (node->oper){
 	case OP_ADD:
 	case OP_SUB:
 	case OP_MULT:
