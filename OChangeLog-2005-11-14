@@ -1,3 +1,7 @@
+2004-10-26  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* schemas/gnumeric-dialogs.schemas.in: Fixed Typo
+
 2004-10-26  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (pgamma): Fix various accuracy problems for
