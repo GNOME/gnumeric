@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.76\n"
-"POT-Creation-Date: 2001-11-07 18:33+0100\n"
+"POT-Creation-Date: 2001-11-07 10:41-0500\n"
 "PO-Revision-Date: 2001-11-06 13:30+0100\n"
 "Last-Translator: Olivier Jousselin <o_j@club-internet.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"

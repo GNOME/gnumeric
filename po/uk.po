@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2001-11-07 12:30+0200\n"
+"POT-Creation-Date: 2001-11-07 10:41-0500\n"
 "PO-Revision-Date: 1999-12-08 14:44+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -1513,8 +1513,8 @@ msgstr "Вставити вм╕ст буферу обм╕ну чи буферу вир╕зання"
 msgid "Paste with optional filters and transformations"
 msgstr "Вставка з необов'язковими ф╕льтрами та перетворенями"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2665
-#: src/analysis-tools.c:2691 src/workbook-format-toolbar.c:467
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2733
+#: src/analysis-tools.c:2759 src/workbook-format-toolbar.c:467
 msgid "Percent"
 msgstr "В╕дсоток"
 
@@ -1738,7 +1738,7 @@ msgstr "Статистичн╕ методи"
 msgid "Su_mmary..."
 msgstr "Зведення..."
 
-#: src/GNOME_Gnumeric.xml.h:202 src/analysis-tools.c:3236
+#: src/GNOME_Gnumeric.xml.h:202 src/analysis-tools.c:3304
 #: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2971
 #: src/workbook-control-gui.c:3593 src/workbook-view.c:520
 msgid "Sum"
@@ -2131,8 +2131,8 @@ msgstr "Зведена статистика"
 #.
 #: src/analysis-tools.c:1086
 msgid ""
-"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
-"Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
+"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
+"Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
 #: src/analysis-tools.c:1211
@@ -2140,6 +2140,7 @@ msgid "Confidence Interval for the Mean"
 msgstr ""
 
 #: src/analysis-tools.c:1212
+#, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr ""
 
@@ -2161,7 +2162,7 @@ msgstr "К-те найменше"
 msgid "Smallest (%d)"
 msgstr "Найменше (%d)"
 
-#: src/analysis-tools.c:1400 src/analysis-tools.c:3280
+#: src/analysis-tools.c:1400 src/analysis-tools.c:3348
 #: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "Зразок"
@@ -2195,16 +2196,16 @@ msgstr "t-тест"
 
 #: src/analysis-tools.c:1632
 msgid ""
-"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
-"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
-"two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
+"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
+"two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1770
 msgid ""
-"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
-"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
-"two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/df/"
+"t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
+"two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1887
@@ -2229,16 +2230,15 @@ msgstr "Випадково"
 msgid "Not implemented yet.\n"
 msgstr "Ще не реал╕зовано.\n"
 
-#: src/analysis-tools.c:2346 src/dialogs/dialog-analysis-tools.c:3699
+#: src/analysis-tools.c:2346 src/dialogs/dialog-analysis-tools.c:3901
 #: src/dialogs/regression.glade.h:7
 msgid "Regression"
 msgstr "Ре╜рес╕я"
 
 #: src/analysis-tools.c:2348
 msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R "
-"Square/Standard "
-"Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
+"Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
 #: src/analysis-tools.c:2367
@@ -2258,151 +2258,156 @@ msgstr ""
 msgid "Moving Averages"
 msgstr ""
 
-#: src/analysis-tools.c:2646
+#: src/analysis-tools.c:2643 src/dialogs/dialog-analysis-tools.c:3889
+#, fuzzy
+msgid "Exponential Smoothing"
+msgstr "Експоненц╕альне"
+
+#: src/analysis-tools.c:2714
 msgid "Ranks"
 msgstr "Ран╜и"
 
-#: src/analysis-tools.c:2654 src/analysis-tools.c:2679
+#: src/analysis-tools.c:2722 src/analysis-tools.c:2747
 msgid "Point"
 msgstr "Точка"
 
-#: src/analysis-tools.c:2662 src/analysis-tools.c:2804
-#: src/analysis-tools.c:2970
+#: src/analysis-tools.c:2730 src/analysis-tools.c:2872
+#: src/analysis-tools.c:3038 src/dialogs/dialog-stf-preview.h:19
 #, c-format
 msgid "Column %d"
 msgstr "Стовпчик %d"
 
-#: src/analysis-tools.c:2664 src/analysis-tools.c:2690
+#: src/analysis-tools.c:2732 src/analysis-tools.c:2758
 msgid "Rank"
 msgstr "Ран╜"
 
-#: src/analysis-tools.c:2688 src/analysis-tools.c:2826
-#: src/analysis-tools.c:2987
+#: src/analysis-tools.c:2756 src/analysis-tools.c:2894
+#: src/analysis-tools.c:3055
 #, c-format
 msgid "Row %d"
 msgstr "Рядок %d"
 
-#: src/analysis-tools.c:2781 src/analysis-tools.c:2952
-#: src/analysis-tools.c:3143
+#: src/analysis-tools.c:2849 src/analysis-tools.c:3020
+#: src/analysis-tools.c:3211
 msgid "Anova"
 msgstr "Дисперс╕йний анал╕з"
 
-#: src/analysis-tools.c:2786 src/dialogs/dialog-analysis-tools.c:3677
+#: src/analysis-tools.c:2854 src/dialogs/dialog-analysis-tools.c:3877
 msgid "Anova: Single Factor"
 msgstr "Дисперсний анал╕з: однофакторний"
 
-#: src/analysis-tools.c:2787 src/analysis-tools.c:3146
+#: src/analysis-tools.c:2855 src/analysis-tools.c:3214
 msgid "SUMMARY"
 msgstr "ЗВЕДЕННЯ"
 
-#: src/analysis-tools.c:2788
+#: src/analysis-tools.c:2856
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Групи/К╕льк╕сть/Сума/Середн╓/Дисперс╕я"
 
-#: src/analysis-tools.c:2859
+#: src/analysis-tools.c:2927
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/Дисперсний анал╕з/Джерело дисперс╕╖/М╕ж групами/В групах/Всього"
 
-#: src/analysis-tools.c:2864 src/analysis-tools.c:3060
+#: src/analysis-tools.c:2932 src/analysis-tools.c:3128
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 "/Сума квадрат╕в/Степ╕нь свободи/Квадрат середнього/F/P-значення/F критичне"
 
-#: src/analysis-tools.c:2957
+#: src/analysis-tools.c:3025
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперс╕йний анал╕з: двофакторний без в╕дтворення"
 
-#: src/analysis-tools.c:2958
+#: src/analysis-tools.c:3026
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3054
+#: src/analysis-tools.c:3122
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/analysis-tools.c:3145
+#: src/analysis-tools.c:3213
 msgid "Anova: Two-Factor With Replication"
 msgstr "Дисперс╕йний анал╕з: двофакторний з в╕дтворенням"
 
-#: src/analysis-tools.c:3162 src/analysis-tools.c:3233
-#: src/analysis-tools.c:3284 src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3230 src/analysis-tools.c:3301
+#: src/analysis-tools.c:3352 src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
 msgid "Total"
 msgstr "Загалом"
 
-#: src/analysis-tools.c:3235 src/dialogs/consolidate.glade.h:5
+#: src/analysis-tools.c:3303 src/dialogs/consolidate.glade.h:5
 #: src/workbook-control-gui.c:3597
 msgid "Count"
 msgstr "К╕льк╕сть"
 
-#: src/analysis-tools.c:3237 src/dialogs/consolidate.glade.h:2
+#: src/analysis-tools.c:3305 src/dialogs/consolidate.glade.h:2
 #: src/workbook-control-gui.c:3596
 msgid "Average"
 msgstr "Середн╓"
 
-#: src/analysis-tools.c:3238
+#: src/analysis-tools.c:3306
 msgid "Variance"
 msgstr "Дисперс╕я"
 
-#: src/analysis-tools.c:3278
+#: src/analysis-tools.c:3346
 msgid "ANOVA"
 msgstr "Дисперс╕йний анал╕з"
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3347
 msgid "Source of Variation"
 msgstr "Джерело дисперс╕╖"
 
-#: src/analysis-tools.c:3281 src/dialogs/dialog-stf.glade.h:17
+#: src/analysis-tools.c:3349 src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "Стовпчики"
 
-#: src/analysis-tools.c:3282
+#: src/analysis-tools.c:3350
 msgid "Interaction"
 msgstr "Вза╓мод╕я"
 
-#: src/analysis-tools.c:3283
+#: src/analysis-tools.c:3351
 msgid "Within"
 msgstr "В"
 
-#: src/analysis-tools.c:3286
+#: src/analysis-tools.c:3354
 msgid "SS"
 msgstr "Сума квадрат╕в"
 
-#: src/analysis-tools.c:3293
+#: src/analysis-tools.c:3361
 msgid "df"
 msgstr "ст. свободи"
 
 #. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same
-#: src/analysis-tools.c:3302
+#: src/analysis-tools.c:3370
 msgid "MS"
 msgstr "Квадрат середнього"
 
-#: src/analysis-tools.c:3309
+#: src/analysis-tools.c:3377
 msgid "F"
 msgstr "F"
 
-#: src/analysis-tools.c:3315
+#: src/analysis-tools.c:3383
 msgid "P-value"
 msgstr "P-значення"
 
-#: src/analysis-tools.c:3320
+#: src/analysis-tools.c:3388
 msgid "F crit"
 msgstr "F критичне"
 
-#: src/analysis-tools.c:3373 src/dialogs/dialog-analysis-tools.c:3691
+#: src/analysis-tools.c:3441 src/dialogs/dialog-analysis-tools.c:3893
 #: src/dialogs/histogram.glade.h:4
 msgid "Histogram"
 msgstr "Г╕стограма"
 
-#: src/analysis-tools.c:3376
+#: src/analysis-tools.c:3444
 msgid "Bin"
 msgstr "Дв╕йкове"
 
-#: src/analysis-tools.c:3377
+#: src/analysis-tools.c:3445
 msgid "Frequency"
 msgstr "Частота"
 
-#: src/analysis-tools.c:3380
+#: src/analysis-tools.c:3448
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Кумулятивний %"
@@ -2788,6 +2793,7 @@ msgid "Consolidating to %s!%s"
 msgstr ""
 
 #: src/commands.c:3904
+#, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr ""
 
@@ -3066,8 +3072,8 @@ msgstr "Д╕апазон виводу:"
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:9
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
 #: src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:763
-#: src/dialogs/dialog-analysis-tools.c:3259
+#: src/dialogs/dialog-analysis-tools.c:790
+#: src/dialogs/dialog-analysis-tools.c:3459
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:8
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:7
 msgid "_Input Range:"
@@ -3973,7 +3979,7 @@ msgstr "Функц╕я: "
 msgid "_Put :"
 msgstr ""
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:3681
+#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:3881
 msgid "Correlation"
 msgstr "Кореляц╕я"
 
@@ -3983,7 +3989,7 @@ msgstr "Кореляц╕я"
 msgid "_Areas"
 msgstr "П╕дкреслення:"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:3683
+#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:3883
 msgid "Covariance"
 msgstr "Ковариц╕я"
 
@@ -4025,7 +4031,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr ""
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:3685
+#: src/dialogs/dialog-analysis-tools.c:3885
 msgid "Descriptive Statistics"
 msgstr "Описова статистика"
 
@@ -4203,155 +4209,155 @@ msgid ""
 "`Criteria Range:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:957
-#: src/dialogs/dialog-analysis-tools.c:1067
+#: src/dialogs/dialog-analysis-tools.c:984
+#: src/dialogs/dialog-analysis-tools.c:1094
 msgid "The selected input rows must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:961
-#: src/dialogs/dialog-analysis-tools.c:1071
+#: src/dialogs/dialog-analysis-tools.c:988
+#: src/dialogs/dialog-analysis-tools.c:1098
 msgid "The selected input columns must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:965
-#: src/dialogs/dialog-analysis-tools.c:1075
+#: src/dialogs/dialog-analysis-tools.c:992
+#: src/dialogs/dialog-analysis-tools.c:1102
 msgid "The selected input areas must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1011
+#: src/dialogs/dialog-analysis-tools.c:1038
 #, fuzzy
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:1121
+#: src/dialogs/dialog-analysis-tools.c:1148
 #, fuzzy
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:1323
+#: src/dialogs/dialog-analysis-tools.c:1350
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1420
+#: src/dialogs/dialog-analysis-tools.c:1447
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1535
+#: src/dialogs/dialog-analysis-tools.c:1562
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Сталася неоч╕кувана помилка: %d."
 
-#: src/dialogs/dialog-analysis-tools.c:1760
+#: src/dialogs/dialog-analysis-tools.c:1787
 msgid "Var_iable 1 Range:"
 msgstr "Д╕апазон зм╕нно╖ 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1761
+#: src/dialogs/dialog-analysis-tools.c:1788
 msgid "_Variable 2 Range:"
 msgstr "Д╕апазон зм╕нно╖ 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1765
+#: src/dialogs/dialog-analysis-tools.c:1792
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:1945
+#: src/dialogs/dialog-analysis-tools.c:1972
 msgid "Var_iable 1 Range"
 msgstr "Д╕апазон зм╕нно╖ 1"
 
-#: src/dialogs/dialog-analysis-tools.c:1946
+#: src/dialogs/dialog-analysis-tools.c:1973
 msgid "_Variable 2 Range"
 msgstr "Д╕апазон зм╕нно╖ 2"
 
-#: src/dialogs/dialog-analysis-tools.c:1950
+#: src/dialogs/dialog-analysis-tools.c:1977
 #, fuzzy
 msgid "Could not create the FTest Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:2207
+#: src/dialogs/dialog-analysis-tools.c:2234
 #, fuzzy
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:2244
+#: src/dialogs/dialog-analysis-tools.c:2271
 msgid "Discrete"
 msgstr "Дискретне"
 
-#: src/dialogs/dialog-analysis-tools.c:2244
+#: src/dialogs/dialog-analysis-tools.c:2271
 #, fuzzy
 msgid "_Value And Probability Input Range:"
 msgstr "Вх╕дний д╕апазон значень та в╕рог╕дностей:"
 
-#: src/dialogs/dialog-analysis-tools.c:2246
+#: src/dialogs/dialog-analysis-tools.c:2273
 #: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "Нормальне"
 
-#: src/dialogs/dialog-analysis-tools.c:2246
+#: src/dialogs/dialog-analysis-tools.c:2273
 msgid "_Mean:"
 msgstr "Середн╓:"
 
-#: src/dialogs/dialog-analysis-tools.c:2246
+#: src/dialogs/dialog-analysis-tools.c:2273
 #, fuzzy
 msgid "_Standard Deviation:"
 msgstr "Стандартне в╕дхилення:"
 
-#: src/dialogs/dialog-analysis-tools.c:2248
+#: src/dialogs/dialog-analysis-tools.c:2275
 msgid "Poisson"
 msgstr "Пуасон"
 
-#: src/dialogs/dialog-analysis-tools.c:2248
+#: src/dialogs/dialog-analysis-tools.c:2275
 msgid "_Lambda:"
 msgstr "Лямбда:"
 
-#: src/dialogs/dialog-analysis-tools.c:2250
+#: src/dialogs/dialog-analysis-tools.c:2277
 msgid "Exponential"
 msgstr "Експоненц╕альне"
 
-#: src/dialogs/dialog-analysis-tools.c:2250
+#: src/dialogs/dialog-analysis-tools.c:2277
 msgid "_b Value:"
 msgstr "Значення _b:"
 
-#: src/dialogs/dialog-analysis-tools.c:2252
+#: src/dialogs/dialog-analysis-tools.c:2279
 msgid "Binomial"
 msgstr "Б╕ном╕нальне"
 
-#: src/dialogs/dialog-analysis-tools.c:2252
-#: src/dialogs/dialog-analysis-tools.c:2254
-#: src/dialogs/dialog-analysis-tools.c:2257
+#: src/dialogs/dialog-analysis-tools.c:2279
+#: src/dialogs/dialog-analysis-tools.c:2281
+#: src/dialogs/dialog-analysis-tools.c:2284
 msgid "_p Value:"
 msgstr "Значення _p:"
 
-#: src/dialogs/dialog-analysis-tools.c:2252
+#: src/dialogs/dialog-analysis-tools.c:2279
 #, fuzzy
 msgid "N_umber of Trials:"
 msgstr "К╕льк╕сть випробувань"
 
-#: src/dialogs/dialog-analysis-tools.c:2254
+#: src/dialogs/dialog-analysis-tools.c:2281
 msgid "Negative Binomial"
 msgstr "В╕д'╓мне б╕ном╕нальне"
 
-#: src/dialogs/dialog-analysis-tools.c:2255
+#: src/dialogs/dialog-analysis-tools.c:2282
 msgid "N_umber of Failures"
 msgstr "К╕льк╕сть невдач"
 
-#: src/dialogs/dialog-analysis-tools.c:2257
+#: src/dialogs/dialog-analysis-tools.c:2284
 msgid "Bernoulli"
 msgstr "Бернул╕"
 
-#: src/dialogs/dialog-analysis-tools.c:2259
+#: src/dialogs/dialog-analysis-tools.c:2286
 msgid "Uniform"
 msgstr "Однор╕дне"
 
-#: src/dialogs/dialog-analysis-tools.c:2259
+#: src/dialogs/dialog-analysis-tools.c:2286
 msgid "_Lower Bound:"
 msgstr "Нижня межа:"
 
-#: src/dialogs/dialog-analysis-tools.c:2259
+#: src/dialogs/dialog-analysis-tools.c:2286
 msgid "_Upper Bound:"
 msgstr "Верхня межа:"
 
-#: src/dialogs/dialog-analysis-tools.c:2508
+#: src/dialogs/dialog-analysis-tools.c:2535
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
@@ -4359,147 +4365,152 @@ msgstr ""
 "Необх╕дно ввести в╕рний д╕апазон ком╕рок для \"Вх╕дний д╕апазон значень та "
 "в╕рог╕дностей\""
 
-#: src/dialogs/dialog-analysis-tools.c:2686
+#: src/dialogs/dialog-analysis-tools.c:2713
 #, fuzzy
 msgid "Could not create the Random Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:2727
+#: src/dialogs/dialog-analysis-tools.c:2754
 #, fuzzy
 msgid "You should introduce a valid cell range in 'X Variables:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Зм╕нна 1:\""
 
-#: src/dialogs/dialog-analysis-tools.c:2756
+#: src/dialogs/dialog-analysis-tools.c:2783
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2762
+#: src/dialogs/dialog-analysis-tools.c:2789
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2769
+#: src/dialogs/dialog-analysis-tools.c:2796
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2881
+#: src/dialogs/dialog-analysis-tools.c:2908
 #, fuzzy
 msgid "_X Variables:"
 msgstr "X-зм╕нна %d"
 
-#: src/dialogs/dialog-analysis-tools.c:2882
+#: src/dialogs/dialog-analysis-tools.c:2909
 #, fuzzy
 msgid "_Y Variables:"
 msgstr "Д╕апазон зм╕нно╖ 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:2886
+#: src/dialogs/dialog-analysis-tools.c:2913
 #, fuzzy
 msgid "Could not create the Regression Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:3054
+#: src/dialogs/dialog-analysis-tools.c:3085
+#, fuzzy
+msgid "Could not create the Exponential Smoothing Tool dialog."
+msgstr "Не вдалося створити ╫уру назв."
+
+#: src/dialogs/dialog-analysis-tools.c:3254
 #, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:3101
+#: src/dialogs/dialog-analysis-tools.c:3301
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Анал╕з Фур'╓ ще не реал╕зовано.  Вибачте."
 
-#: src/dialogs/dialog-analysis-tools.c:3144
+#: src/dialogs/dialog-analysis-tools.c:3344
 #, fuzzy
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:3216
-#: src/dialogs/dialog-analysis-tools.c:3519
+#: src/dialogs/dialog-analysis-tools.c:3416
+#: src/dialogs/dialog-analysis-tools.c:3719
 msgid "Given input range contains non-numeric data."
 msgstr "Даний д╕апазон вводу м╕стить нечислов╕ дан╕."
 
-#: src/dialogs/dialog-analysis-tools.c:3221
+#: src/dialogs/dialog-analysis-tools.c:3421
 msgid "Given bin range contains non-numeric data."
 msgstr "Даний дв╕йковий д╕апазон м╕стить нечислов╕ дан╕."
 
-#: src/dialogs/dialog-analysis-tools.c:3260 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3460 src/dialogs/histogram.glade.h:1
 #, fuzzy
 msgid "Bin _Range:"
 msgstr "Дв╕йковий д╕апазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:3267
+#: src/dialogs/dialog-analysis-tools.c:3467
 #, fuzzy
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:3441
+#: src/dialogs/dialog-analysis-tools.c:3641
 #, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:3514
+#: src/dialogs/dialog-analysis-tools.c:3714
 msgid "Each sample must contain the same number of rows."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3524
+#: src/dialogs/dialog-analysis-tools.c:3724
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3648
+#: src/dialogs/dialog-analysis-tools.c:3848
 #, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Не вдалося створити ╫уру назв."
 
-#: src/dialogs/dialog-analysis-tools.c:3679
+#: src/dialogs/dialog-analysis-tools.c:3879
 #, fuzzy
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Дисперс╕йний анал╕з: двофакторний без в╕дтворення"
 
-#: src/dialogs/dialog-analysis-tools.c:3687
+#: src/dialogs/dialog-analysis-tools.c:3887
 msgid "F-Test: Two-Sample for Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3689
+#: src/dialogs/dialog-analysis-tools.c:3891
 #: src/dialogs/fourier-analysis.glade.h:1
 msgid "Fourier Analysis"
 msgstr "Анал╕з Фур'╓"
 
-#: src/dialogs/dialog-analysis-tools.c:3693
+#: src/dialogs/dialog-analysis-tools.c:3895
 #: src/dialogs/moving-averages.glade.h:5
 msgid "Moving Average"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3695
+#: src/dialogs/dialog-analysis-tools.c:3897
 #: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "Генерац╕я випадкових чисел"
 
-#: src/dialogs/dialog-analysis-tools.c:3697 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:3899 src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3701 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:3903 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "Виб╕рка"
 
-#: src/dialogs/dialog-analysis-tools.c:3703
+#: src/dialogs/dialog-analysis-tools.c:3905
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Тест: пор╕вняння середн╕й для двох виборок"
 
-#: src/dialogs/dialog-analysis-tools.c:3705
+#: src/dialogs/dialog-analysis-tools.c:3907
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3707
+#: src/dialogs/dialog-analysis-tools.c:3909
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3709
+#: src/dialogs/dialog-analysis-tools.c:3911
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: середн╓ двох виборок"
 
@@ -8175,6 +8186,7 @@ msgstr "Нев╕дома функц╕я"
 msgid "Function does not exist"
 msgstr "Функц╕╖ не ╕сну╓"
 
+#. *************************************************************************
 #: src/functions/fn-database.c:503
 msgid ""
 "@FUNCTION=DAVERAGE\n"
@@ -8186,6 +8198,17 @@ msgstr ""
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
 "@DESCRIPTION=Функц╕я DAVERAGE поверта╓ середн╓ значень з списку чи бази "
 "даних, що забов╕льнять вказаним умовам. \n"
+
+#: src/functions/fn-database.c:511
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:572
 msgid ""
@@ -8199,6 +8222,16 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DCOUNT п╕драхову╓ ком╕рки, що м╕стять числа в баз╕ "
 "даних, як╕ задов╕льняють вказаним умовам. \n"
 
+#: src/functions/fn-database.c:580
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
+
 #: src/functions/fn-database.c:633
 msgid ""
 "@FUNCTION=DCOUNTA\n"
@@ -8210,6 +8243,16 @@ msgstr ""
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
 "@DESCRIPTION=Функц╕я DCOUNTA п╕драхову╓ ком╕рки, що м╕стять дан╕ в баз╕ "
 "даних, як╕ задов╕льняють вказаним умовам. \n"
+
+#: src/functions/fn-database.c:641
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:691
 msgid ""
@@ -8223,6 +8266,17 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DGET поверта╓ одне значення з стовпчика, яке "
 "задов╕льня╓ вказаним умовам. \n"
 
+#: src/functions/fn-database.c:699
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:759
 msgid ""
 "@FUNCTION=DMAX\n"
@@ -8234,6 +8288,16 @@ msgstr ""
 "@SYNTAX=DMAX(база_даних,поле,критер╕й)\n"
 "@DESCRIPTION=Функц╕я DMAX поверта╓ найб╕льше число в стовпчику, яке "
 "задов╕льня╓ вказаним умовам. \n"
+
+#: src/functions/fn-database.c:767
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
 
 #: src/functions/fn-database.c:830
 msgid ""
@@ -8247,6 +8311,15 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DMIN поверта╓ найменше число в стовпчику, яке "
 "задов╕льня╓ вказаним умовам. \n"
 
+#: src/functions/fn-database.c:838
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:900
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -8259,6 +8332,14 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DPRODUCT поверта╓ добуток чисел в стовпчику, що "
 "задов╕льня╓ вказан╕й умов╕. \n"
 
+#: src/functions/fn-database.c:908
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
+
 #: src/functions/fn-database.c:967
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -8268,6 +8349,15 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:976
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1033
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -8275,6 +8365,15 @@ msgid ""
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1042
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
 msgstr ""
 
 #: src/functions/fn-database.c:1101
@@ -8289,6 +8388,15 @@ msgstr ""
 "@DESCRIPTION=Функц╕я DSUM поверта╓ суму чисел в стовпчику, що задов╕льня╓ "
 "вказан╕й умов╕. \n"
 
+#: src/functions/fn-database.c:1109
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
+
 #: src/functions/fn-database.c:1168
 msgid ""
 "@FUNCTION=DVAR\n"
@@ -8298,6 +8406,15 @@ msgid ""
 "specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:1177
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1236
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -8305,6 +8422,15 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1245
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1305
@@ -8323,8 +8449,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=DATE returns the number of days since the 1st of january of "
-"1900(the date serial number) for the given year, month and day.\n"
+"@DESCRIPTION=DATE returns the number of days since the 1st of january of 1900"
+"(the date serial number) for the given year, month and day.\n"
 "The @day might be negative (to count backwards) and it is relative to the "
 "previous @month.  The @years should be at least 1900.  If @years <= 30, it "
 "is assumed to be 2000 + @years.  If 30 < @years < 100, it is assumed to be "
@@ -8374,8 +8500,8 @@ msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
 "@DESCRIPTION=DATEDIF returns the difference between two dates.  @interval is "
-"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and "
-"\"yd\".\n"
+"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and \"yd"
+"\".\n"
 "The first three options will return the number of complete years, months, or "
 "days, respectively, between the two dates specified.\n"
 "\"ym\" will return the number of full months between the two dates, not "
@@ -8414,8 +8540,8 @@ msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
 "@DESCRIPTION=TODAY returns the serial number for today (the number of days "
-"elapsed since the 1st of January of 1900).This function is Excel compatible. "
-"\n"
+"elapsed since the 1st of January of 1900).This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "TODAY() returns Nov 6, 2001 on that particular day.\n"
 " \n"
@@ -8439,8 +8565,8 @@ msgid ""
 "the number of days since the 1st of January of 1900.  The decimal part "
 "represent the fraction of the day and is mapped into hour, minutes and "
 "seconds.\n"
-"For example: .0 represents the beginning of the day, and 0.5 represents "
-"noon.This function is Excel compatible. \n"
+"For example: .0 represents the beginning of the day, and 0.5 represents noon."
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "NOW().\n"
 "\n"
@@ -8883,8 +9009,8 @@ msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
 "@DESCRIPTION=BESSELJ function returns the bessel function with @x is where "
-"the function is evaluated. @y is the order of the bessel function, if "
-"non-integer it is truncated.\n"
+"the function is evaluated. @y is the order of the bessel function, if non-"
+"integer it is truncated.\n"
 "If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! "
 "error is returned. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -9717,8 +9843,8 @@ msgid ""
 "The formula used for straight line depriciation is:\n"
 "Depriciation expense = ( @cost - @salvage_value ) / @life\n"
 "\t@cost = cost of an asset when acquired (market value).\t@salvage_value = "
-"amount you get when asset sold at the end of the assets's useful "
-"life.\t@life = anticipated life of an asset.\n"
+"amount you get when asset sold at the end of the assets's useful life."
+"\t@life = anticipated life of an asset.\n"
 "@EXAMPLES=\n"
 "For example, lets suppose your company purchases a new machine for $10,000, "
 "which has a salvage value of $700 and will have a useful life of 10 years. "
@@ -9822,8 +9948,8 @@ msgid ""
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a "
 "treasury bill where @settlement is the settlement date and @maturity is the "
-"maturity date of the bill.  @discount is the treasury bill's discount rate. "
-"\n"
+"maturity date of the bill.  @discount is the treasury bill's discount "
+"rate. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is "
 "negative, TBILLPRICE returns #NUM! error. \n"
@@ -9938,14 +10064,14 @@ msgid ""
 "@values contains the serie of cash flow generated by the investment.  @dates "
 "contains the dates of the payments.  The first date describes the payment "
 "day of the initial payment and thus all the other dates should be after this "
-"date. The optional @guess is the initial value used in calculating the XIRR. "
-" You do not have to use that, it is only provided for the Excel "
+"date. The optional @guess is the initial value used in calculating the "
+"XIRR.  You do not have to use that, it is only provided for the Excel "
 "compatibility. \n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, "
-"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", "
-"\"1999-04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
+"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", \"1999-"
+"04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
 "XIRR(A1:A5,B1:B5) returns 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 msgstr ""
@@ -10199,8 +10325,8 @@ msgstr ""
 #: src/functions/fn-financial.c:3027
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
-"requency[,basis])\n"
+"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
+"frequency[,basis])\n"
 "@DESCRIPTION=ODDFYIELD FIXME. @frequency is the number of coupon payments "
 "per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 "@basis is the type of day counting system you want to use:\n"
@@ -10222,8 +10348,8 @@ msgstr ""
 #: src/functions/fn-financial.c:3061
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
-"ency[,basis])\n"
+"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
+"frequency[,basis])\n"
 "@DESCRIPTION=ODDLPRICE FIXME.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -10233,8 +10359,8 @@ msgstr ""
 #: src/functions/fn-financial.c:3081
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
-"ncy[,basis])\n"
+"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
+"frequency[,basis])\n"
 "@DESCRIPTION=ODDLYIELD FIXME.@frequency is the number of coupon payments per "
 "year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis "
 "is the type of day counting system you want to use:\n"
@@ -10256,12 +10382,12 @@ msgstr ""
 #: src/functions/fn-financial.c:3115
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
-"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis]"
-")\n"
-"@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting "
-"period.@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
+"basis])\n"
+"@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting period."
+"@frequency is the number of coupon payments per year. Allowed frequencies "
+"are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting "
+"system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10280,12 +10406,12 @@ msgstr ""
 #: src/functions/fn-financial.c:3149
 msgid ""
 "@FUNCTION=AMORLINC\n"
-"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])"
-"\n"
-"@DESCRIPTION=AMORLINC returns the depreciation for each accounting "
-"period.@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
+"basis])\n"
+"@DESCRIPTION=AMORLINC returns the depreciation for each accounting period."
+"@frequency is the number of coupon payments per year. Allowed frequencies "
+"are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting "
+"system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10397,10 +10523,10 @@ msgstr ""
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
-"@DESCRIPTION=COUPPCD returns the coupon date preceeding "
-"settlement.@frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement."
+"@frequency is the number of coupon payments per year. Allowed frequencies "
+"are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting "
+"system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -11408,8 +11534,8 @@ msgid ""
 "@DESCRIPTION=ATAN2 function calculates the arc tangent of the two variables "
 "@b1 and @b2.  It is similar to calculating the arc tangent of @b2 / @b1, "
 "except that the signs of both arguments are used to determine the quadrant "
-"of the result. The result is in radians. This function is Excel compatible. "
-"\n"
+"of the result. The result is in radians. This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "ATAN2(0.5,1.0) equals 1.107149.\n"
 "ATAN2(-0.5,2.0) equals 1.815775.\n"
@@ -12002,8 +12128,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number. "
-"\n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a "
+"@number. \n"
 "If @number is not an integer, it is truncated. If @number is negative "
 "FACTDOUBLE returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -12284,8 +12410,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
-"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. "
-"\n"
+"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given "
+"matrix. \n"
 "If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
 "@matrix does not contain equal number of columns and rows, MINVERSE returns "
 "#VALUE! error. This function is Excel compatible. \n"
@@ -12419,8 +12545,8 @@ msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
 "@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating "
-"these numbers as members of a population. This function is Excel compatible. "
-"\n"
+"these numbers as members of a population. This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1.  Then\n"
@@ -12607,8 +12733,8 @@ msgid ""
 "@DESCRIPTION=MODE returns the most common number of the data set. If the "
 "data set has many most common numbers MODE returns the first one of them. \n"
 "Strings and empty cells are simply ignored. If the data set does not contain "
-"any duplicates MODE returns #N/A! error. This function is Excel compatible. "
-"\n"
+"any duplicates MODE returns #N/A! error. This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "11.4, 25.9, and 40.1.  Then\n"
@@ -12818,8 +12944,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
-"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the "
-"chi-squared distribution. @dof is the number of degrees of freedom.\n"
+"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-"
+"squared distribution. @dof is the number of degrees of freedom.\n"
 "If @dof is non-integer it is truncated. If @dof < 1 CHIDIST returns #NUM! "
 "error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -12846,8 +12972,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
-"@DESCRIPTION=CHITEST function returns the test for independence of "
-"chi-squared distribution.\n"
+"@DESCRIPTION=CHITEST function returns the test for independence of chi-"
+"squared distribution.\n"
 "@actual_range is a range that contains the observed data points. "
 "@theoretical_range is a range that contains the expected values of the data "
 "points. This function is Excel compatible. \n"
@@ -12894,8 +13020,8 @@ msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
 "@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
-"the degree of freedom and @tails is 1 or 2 depending on whether you want "
-"one-tailed or two-tailed distribution.\n"
+"the degree of freedom and @tails is 1 or 2 depending on whether you want one-"
+"tailed or two-tailed distribution.\n"
 "If @dof < 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST "
 "returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -12908,8 +13034,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
-"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's "
-"t-distribution.\n"
+"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's t-"
+"distribution.\n"
 "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -13050,8 +13176,8 @@ msgid ""
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 "@DESCRIPTION=WEIBULL function returns the Weibull distribution. If the "
 "@cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), "
-"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * "
-"exp(-(@x/@beta^@alpha)). \n"
+"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/"
+"@beta^@alpha)). \n"
 "If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL "
 "returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -13290,11 +13416,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
-"@DESCRIPTION=STEYX function returns the standard error of the predicted "
-"y-value for each x in the regression.\n"
+"@DESCRIPTION=STEYX function returns the standard error of the predicted y-"
+"value for each x in the regression.\n"
 "If @known_y's and @known_x's are empty or have a different number of "
-"arguments then STEYX returns #N/A! error. This function is Excel compatible. "
-"\n"
+"arguments then STEYX returns #N/A! error. This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, "
@@ -13582,8 +13708,8 @@ msgid ""
 "in the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the "
-"F-observed value and the degrees of freedom.  The last row contains the "
+"the standard error for the y estimate.  The third row contains the F-"
+"observed value and the degrees of freedom.  The last row contains the "
 "regression sum of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
@@ -13597,9 +13723,9 @@ msgid ""
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
 "@DESCRIPTION=TREND function estimates future values of a given data set "
 "using the ``least squares'' line that best fit to your data. @known_y's is "
-"the y-values where y=mx+b and @known_x's contains the corresponding "
-"x-values.  @new_x's contains the x-values for which you want to estimate the "
-"y-values. \n"
+"the y-values where y=mx+b and @known_x's contains the corresponding x-"
+"values.  @new_x's contains the x-values for which you want to estimate the y-"
+"values. \n"
 "If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
 "omitted, it is assumed to be the same as @known_x's. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
@@ -13630,8 +13756,8 @@ msgid ""
 "in the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the "
-"F-observed value and the degrees of freedom.  The last row contains the "
+"the standard error for the y estimate.  The third row contains the F-"
+"observed value and the degrees of freedom.  The last row contains the "
 "regression sum of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
@@ -13801,8 +13927,8 @@ msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
 "@DESCRIPTION=LEFT returns the leftmost @num_chars characters or the left "
-"character if @num_chars is not specified.This function is Excel compatible. "
-"\n"
+"character if @num_chars is not specified.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "LEFT(\"Directory\",3) equals \"Dir\".\n"
 "\n"
@@ -13869,8 +13995,8 @@ msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
 "@DESCRIPTION=RIGHT returns the rightmost @num_chars characters or the right "
-"character if @num_chars is not specified.This function is Excel compatible. "
-"\n"
+"character if @num_chars is not specified.This function is Excel "
+"compatible. \n"
 "@EXAMPLES=\n"
 "RIGHT(\"end\") equals \"d\".\n"
 "RIGHT(\"end\",2) equals \"nd\".\n"
@@ -14024,8 +14150,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
-"@DESCRIPTION=PROPER returns @string with initial of each word "
-"capitalised.This function is Excel compatible. \n"
+"@DESCRIPTION=PROPER returns @string with initial of each word capitalised."
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "PROPER(\"j. f. kennedy\") equals \"J. F. Kennedy\".\n"
 "\n"
@@ -14167,8 +14293,8 @@ msgstr ""
 "застосову╓ться до входження @old номер @номер по порядку, якщо не вказано, "
 "то зам╕щу╓ться кожне входження.\n"
 "@EXAMPLES=\n"
-"SUBSTITUTE(\"testing testing\",\"test\",\"wait\",2) р╕вне \"testing "
-"waiting\".\n"
+"SUBSTITUTE(\"testing testing\",\"test\",\"wait\",2) р╕вне \"testing waiting"
+"\".\n"
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
@@ -15336,6 +15462,16 @@ msgstr "Ц╕на"
 #: src/solver-lp.c:1098
 msgid "R.H. Side"
 msgstr "Права сторона"
+
+#: src/stf-parse.c:31
+#, fuzzy, c-format
+msgid "Too many rows in data to parse: %d"
+msgstr "Надто багато рядк╕в для цього формату"
+
+#: src/stf-parse.c:32
+#, c-format
+msgid "Too many columns in data to parse: %d"
+msgstr ""
 
 #: src/stf.c:116
 msgid "Error while trying to memory map file"
