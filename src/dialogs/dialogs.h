@@ -77,6 +77,7 @@ typedef struct {
         gboolean                    labels_flag;
 } data_analysis_output_t;
 
+
 void   	 dialog_goto_cell       (Workbook  *wb);
 void   	 dialog_cell_format     (Workbook  *wb, Sheet *sheet);
 int    	 dialog_paste_special   (Workbook  *wb);
@@ -93,6 +94,7 @@ void   	 dialog_goal_seek       (Workbook  *wb, Sheet *sheet);
 void   	 dialog_solver          (Workbook  *wb, Sheet *sheet);
 void   	 dialog_printer_setup   (Workbook  *wb, Sheet *sheet);
 void   	 dialog_summary_update  (Workbook  *wb, SummaryInfo *sin);
+void     dialog_autocorrect     (Workbook  *wb);
 void   	 dialog_autosave        (Workbook  *wb);
 gint     dialog_autosave_callback (gpointer *data);
 void     dialog_data_analysis   (Workbook *wb, Sheet *sheet);

@@ -1,3 +1,12 @@
+2000-01-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-autocorrect.c, src/autocorrect.glade,
+ 	src/autocorrect-exceptions.glade: New tool added.  Most things
+ 	should work but not all have been completed.
+
+	* workbook.c: Created `Data' menu and moved `Sort' into it.
+  	Added `AutoCorrect' tool.
+	
 2000-01-14  Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* src/xml-io.c (xml_probe) made the routine silent

@@ -136,6 +136,12 @@ summary_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+autocorrect_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_autocorrect (wb);
+}
+
+static void
 autosave_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_autosave (wb);
@@ -1145,15 +1151,22 @@ static GnomeUIInfo workbook_menu_format [] = {
 
 /* Tools menu */
 static GnomeUIInfo workbook_menu_tools [] = {
+	{ GNOME_APP_UI_ITEM, N_("Auto _Correct..."), N_("Auto Correct"),
+	  autocorrect_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Auto Save..."), N_("Auto Save"),
 	  autosave_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Sort..."),
-	  N_("Sort the selected cells"), sort_cells_cmd },
 	GNOMEUIINFO_SEPARATOR,
 	{ GNOME_APP_UI_ITEM, N_("_Goal Seek..."), NULL, goal_seek_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Solver..."),    NULL, solver_cmd },
 	GNOMEUIINFO_SEPARATOR,
 	{ GNOME_APP_UI_ITEM, N_("_Data Analysis..."), NULL, data_analysis_cmd },
+	GNOMEUIINFO_END
+};
+
+/* Data menu */
+static GnomeUIInfo workbook_menu_data [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Sort..."),
+	  N_("Sort the selected cells"), sort_cells_cmd },
 	GNOMEUIINFO_END
 };
 
@@ -1172,6 +1185,7 @@ static GnomeUIInfo workbook_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
 	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, workbook_menu_tools },
+	{ GNOME_APP_UI_SUBTREE, N_("_Data"), NULL, workbook_menu_data },
 #ifdef ENABLE_BONOBO
 #warning Should enable this when Bonobo gets menu help support
 #else

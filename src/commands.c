@@ -366,13 +366,12 @@ cmd_set_text (CommandContext *context,
 	GtkObject *obj;
 	CmdSetText *me;
 	gchar *pad = "";
-	gchar *text; 
-
-	/* Autocorrect `new_text' here */
+	gchar *text;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
 
+	autocorrect_tool (new_text);
 	obj = gtk_type_new (CMD_SET_TEXT_TYPE);
 	me = CMD_SET_TEXT (obj);
 
@@ -387,9 +386,10 @@ cmd_set_text (CommandContext *context,
 	/* Limit the size of the descriptor to something reasonable */
 	if (strlen(new_text) > max_descriptor_width) {
 		pad = "..."; /* length of 3 */
-		text = g_strndup (new_text, max_descriptor_width - 3);
+		text = g_strndup (new_text,
+				  max_descriptor_width - 3);
 	} else
-		text = (gchar *)new_text;
+		text = (gchar *) new_text;
 
 	me->parent.cmd_descriptor =
 	    g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad,

@@ -36,4 +36,6 @@ gboolean cmd_paste_cut (CommandContext *context,
 gboolean cmd_rename_sheet (CommandContext *context, Workbook *wb,
 			   const char *old_name, const char *new_name);
 
+void autocorrect_tool (char *command);
+
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */
