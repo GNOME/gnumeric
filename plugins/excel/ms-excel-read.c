@@ -1203,9 +1203,6 @@ style_optimize (ExcelSheet *sheet, int col, int row)
 		if (row < sheet->style_optimize.end.row)
 			sheet->style_optimize.start.row = row;
 	}
-
-	if (sheet->style_optimize.end.col >= 256)
-		g_print ("Of course!");
 }
 
 static MStyle * const *
