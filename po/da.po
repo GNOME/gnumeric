@@ -5,7 +5,8 @@
 # Jan Normann Nielsen <normann@diku.dk>, 1999.
 # Kenneth Christiansen <kenneth@ripen.dk>, 1999-2000.
 # Birger Langkjer <birger.langkjer@image.dk>, 1999.
-# Keld Simonsen <keld@dkuug.dk, 2000.
+# Keld Simonsen <keld@dkuug.dk>, 2000.
+# Morten Welinder <terra@diku.dk>, 2000.
 #
 # LÆS README..vigtigt!
 # Formater og formatér er med ét T
@@ -35,7 +36,7 @@ msgstr "Importerer version 4.[234] regneark"
 
 #: plugins/dif/dif.c:279
 msgid "DIF : Failed to load sheet"
-msgstr "DOF: Kunne ikke indlæse ark"
+msgstr "DIF: Kunne ikke indlæse ark"
 
 #: plugins/dif/dif.c:288 plugins/plan-perfect/pln.c:922
 msgid "Unable to mmap the file"
@@ -187,7 +188,7 @@ msgstr "Første argument til SCM skal være et Guile udtryk"
 
 #: plugins/guile/plugin.c:77
 msgid "Undefined scheme function"
-msgstr "Udefineret skema funktion"
+msgstr "Udefineret skemafunktion"
 
 #: plugins/guile/plugin.c:95
 msgid "Could not evaluate argument"
@@ -199,11 +200,11 @@ msgstr "Gnumeric er ikke oversat med understøttelse for Guile."
 
 #: plugins/guile/plugin.c:234
 msgid "Guile Plugin"
-msgstr "Guile-indstik"
+msgstr "Guile-modul"
 
 #: plugins/guile/plugin.c:235
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "Denne indstik aktiverer Guile(scheme) understøttelse"
+msgstr "Denne modul aktiverer Guile(scheme) understøttelse"
 
 #: plugins/html/boot.c:74
 msgid "HTML 3.2 file format (*.html)"
@@ -416,7 +417,6 @@ msgstr ""
 "@SYNTAX=BITXOR(a,b)\n"
 "@DESCRIPTION=BITXOR funktionen returnerer bitvis ekslusiv ELLER af dens "
 "argumenter.\n"
-"arguments.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
@@ -489,7 +489,7 @@ msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
 msgstr ""
-"Forskellige basale programmer for primtal, pi, sigma. Den indeholder også "
+"Forskellige basale programmer for primtal, pi, sigma.  Modulet indeholder også "
 "nogle simple bitvise operationer"
 
 #: plugins/oleo/boot.c:90
@@ -523,11 +523,11 @@ msgstr ""
 
 #: plugins/plan-perfect/pln.c:731
 msgid "PLN : Not a PlanPerfect File"
-msgstr "PLN : ikke en PlanPerfect fil"
+msgstr "PLN: ikke en PlanPerfect fil"
 
 #: plugins/plan-perfect/pln.c:737
 msgid "PLN : Spreadsheet is password encrypted"
-msgstr "PLN : regneark er krypteret med adgangskode"
+msgstr "PLN: regneark er krypteret med adgangskode"
 
 #: plugins/plan-perfect/pln.c:807
 msgid "rows"
@@ -641,7 +641,7 @@ msgstr "Kenneth Christiansen, i18n, samt mere."
 
 #: src/about.c:41
 msgid "Tom Dyas, plugin support."
-msgstr "Tom Dyas, indstiksunderstøttelse."
+msgstr "Tom Dyas, modulunderstøttelse."
 
 #: src/about.c:42
 msgid "Gergõ Érdi, Gnumeric hacker."
@@ -677,7 +677,7 @@ msgstr "Adrian Likins, dokumentation, fejlfinding."
 
 #: src/about.c:50
 msgid "Takashi Matsuda, original text plugin."
-msgstr "Takashi Matsuda, oprindeligt tekstindstik."
+msgstr "Takashi Matsuda, oprindeligt tekstmodul."
 
 #: src/about.c:51
 msgid "Michael Meeks, Excel and OLE2 importing."
@@ -705,7 +705,7 @@ msgstr "Ariel Rios, Guile-understøttelse."
 
 #: src/about.c:57
 msgid "Almer S. Tigelaar, text import."
-msgstr "Almer S. Tigelaar, tekst import."
+msgstr "Almer S. Tigelaar, tekst-import."
 
 #: src/about.c:58
 msgid "Bruno Unna, Excel bits."
@@ -788,7 +788,7 @@ msgstr "Tilstand"
 
 #: src/analysis-tools.c:743
 msgid "Standard Deviation"
-msgstr "Standard afvigelse"
+msgstr "Standardafvigelse"
 
 #: src/analysis-tools.c:744
 msgid "Sample Variance"
@@ -832,6 +832,7 @@ msgid "Confidence Level"
 msgstr "Konfidensniveau"
 
 #: src/analysis-tools.c:852
+#, c-format
 msgid "Confidence Level (%g%%)"
 msgstr "Konfidensniveau (%g%%)"
 
@@ -1132,7 +1133,7 @@ msgstr "Mellem grupper"
 
 #: src/analysis-tools.c:2413
 msgid "Within Groups"
-msgstr "Indenfor grupper"
+msgstr "Inden for grupper"
 
 #: src/analysis-tools.c:2498 src/dialogs/dialog-analysis-tools.c:87
 msgid "Anova: Two-Factor Without Replication"
@@ -1208,7 +1209,7 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"målet er ikke et lige gange antallet af kildekolonner (%d mod %d)\n"
+"målet er ikke et lige multiplum af antallet af kildekolonner (%d mod %d)\n"
 " \n"
 "Prøv at vælge en enkelt celle eller et område med samme form og størrelse."
 
@@ -1223,7 +1224,7 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"målet er ikke et lige gange antallet af kilderækker (%d mod %d)\n"
+"målet er ikke et lige multiplum af antallet af kilderækker (%d mod %d)\n"
 " \n"
 "Prøv at vælge en enkelt celle eller et område med samme form og størrelse."
 
@@ -1238,7 +1239,7 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"målet har en form (%dRx%dC) forskellig fra den oprindelige (%dRx%dC)\n"
+"målet har en form (%dRx%dC), der er forskellig fra den oprindelige (%dRx%dC)\n"
 " \n"
 "Prøv at vælge en enkelt celle eller et område med samme form og størrelse."
 
@@ -1267,7 +1268,7 @@ msgstr "Indtaster \"%s%s\""
 #: src/commands.c:927
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr "indsætter %d kolonner før %s"
+msgstr "Indsætter %d kolonner før %s"
 
 #: src/commands.c:928
 #, c-format
@@ -1317,7 +1318,7 @@ msgstr "Ryd"
 
 #: src/commands.c:1306
 msgid "Format cells"
-msgstr "Formattér celler"
+msgstr "Formatér celler"
 
 #: src/commands.c:1379
 #, c-format
@@ -1347,20 +1348,20 @@ msgstr "Sæt dato/klokkeslet"
 #: src/commands.c:1523
 #, c-format
 msgid "Setting current date in %s"
-msgstr "Indsætter nuværende dato i %s"
+msgstr "Indsætter dags dato i %s"
 
 #: src/commands.c:1524
 #, c-format
 msgid "Setting current time in %s"
-msgstr "Indsætter nuværende tidspunkt i %s"
+msgstr "Indsætter klokkeslet i %s"
 
 #: src/commands.c:1626
 msgid "Setting width of columns"
-msgstr "Indsætter bredde på kolonner"
+msgstr "Sætter bredde på kolonner"
 
 #: src/commands.c:1627
 msgid "Setting height of rows"
-msgstr "Indsætter højde på rækker"
+msgstr "Sætter højde på rækker"
 
 #: src/commands.c:1724
 #, c-format
@@ -1582,7 +1583,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:89
 msgid "Correlation"
-msgstr "Orientering"
+msgstr "Korrelation"
 
 #: src/dialogs/dialog-analysis-tools.c:91
 msgid "Covariance"
@@ -1603,7 +1604,7 @@ msgstr "Fourier-analyse"
 
 #: src/dialogs/dialog-analysis-tools.c:101
 msgid "Moving Average"
-msgstr "Flytter gennemsnit"
+msgstr "Rullende gennemsnit"
 
 #: src/dialogs/dialog-analysis-tools.c:103
 msgid "Random Number Generation"
@@ -1616,7 +1617,7 @@ msgstr "Grad og percentil"
 #: src/dialogs/dialog-analysis-tools.c:109
 #: src/dialogs/dialog-analysis-tools.c:804
 msgid "Sampling"
-msgstr "Datasamling"
+msgstr "Stikprøveudtagelse"
 
 #: src/dialogs/dialog-analysis-tools.c:111
 msgid "t-Test: Paired Two Sample for Means"
@@ -1624,16 +1625,16 @@ msgstr "t-Test: Parvis to-prøve for medianer"
 
 #: src/dialogs/dialog-analysis-tools.c:113
 msgid "t-Test: Two-Sample Assuming Equal Variances"
-msgstr "t-Test: To-prøve som forudsætter ens varians"
+msgstr "t-Test: To-prøve under antagelse af ens varians"
 
 #: src/dialogs/dialog-analysis-tools.c:115
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
-msgstr "t-Test: To-prøve som forudsætter uens varians"
+msgstr "t-Test: To-prøve under antagelse af uens varians"
 
 #: src/dialogs/dialog-analysis-tools.c:117
 #: src/dialogs/dialog-analysis-tools.c:1019
 msgid "z-Test: Two Sample for Means"
-msgstr "z-Test: To-prøve for medianer"
+msgstr "z-Test: To-prøve for gennemsnit"
 
 #: src/dialogs/dialog-analysis-tools.c:125
 msgid "Discrete"
@@ -1654,7 +1655,7 @@ msgstr "_Gennemsnit:"
 
 #: src/dialogs/dialog-analysis-tools.c:127
 msgid "_Standard deviation:"
-msgstr "_Standard afvigelse:"
+msgstr "_Standardafvigelse:"
 
 #: src/dialogs/dialog-analysis-tools.c:129
 msgid "Poisson"
@@ -1907,11 +1908,11 @@ msgstr ""
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
-"Der skal være lige mange antal indgange for alle variabel i regressionen."
+"Der skal være lige mange værdier for alle variabler i regressionen."
 
 #: src/dialogs/dialog-analysis-tools.c:2324
 msgid "Fourier analysis is not implemented yet.  Sorry."
-msgstr "Fourier-analyse ikke implementeret endnu. Undskyld."
+msgstr "Fourier-analyse ikke implementeret endnu. Vi beklager."
 
 #: src/dialogs/dialog-analysis-tools.c:2432
 msgid "You should introduce a valid cell range in 'Bin Range:'"
@@ -1920,23 +1921,23 @@ msgstr "Du skal opgive et gyldigt celleområde i 'Bin omfang:'"
 #: src/dialogs/dialog-analysis-tools.c:2461
 #: src/dialogs/dialog-analysis-tools.c:2911
 msgid "Given input range contains non-numeric data."
-msgstr "Givet indput område indeholder ikke-numeriske data."
+msgstr "Det givne indput område indeholder ikke-numeriske data."
 
 #: src/dialogs/dialog-analysis-tools.c:2466
 msgid "Given bin range contains non-numeric data."
-msgstr "Givet bin område indeholder ikke-numeriske data."
+msgstr "Det givne bin område indeholder ikke-numeriske data."
 
 #: src/dialogs/dialog-analysis-tools.c:2906
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
 msgstr ""
-"Hver stikprøve bør indeholde samme antal rækker ('Rækker pr stikprøve:)"
+"Hver stikprøve skal indeholde samme antal rækker ('Rækker per stikprøve:)"
 
 #: src/dialogs/dialog-analysis-tools.c:2916
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
-"Det givne indput område bør indeholde mindst to kolonner med data og "
+"Det givne indput område skal indeholde mindst to kolonner med data og "
 "etiketterne."
 
 #: src/dialogs/dialog-autoformat.c:868 src/dialogs/dialog-stf-export.c:380
@@ -1951,7 +1952,7 @@ msgstr "En fejl skete under læsning af kategorilisten"
 
 #: src/dialogs/dialog-autosave.c:134
 msgid "You should introduce a proper number of minutes in the entry."
-msgstr "Du skal opgive et gyldig antal minutter i indtastningen"
+msgstr "Du skal angive et gyldig antal minutter i indtastningen"
 
 #: src/dialogs/dialog-cell-comment.c:32
 msgid "Cell comment"
@@ -1976,7 +1977,7 @@ msgstr "Enkel"
 
 #: src/dialogs/dialog-cell-format.c:1213 src/dialogs/dialog-cell-format.c:1279
 msgid "Double"
-msgstr "Dobbel"
+msgstr "Dobbelt"
 
 #: src/dialogs/dialog-cell-format.c:1215 src/dialogs/dialog-cell-format.c:1277
 #: src/dialogs/dialog-paste-special.c:32
@@ -2001,11 +2002,11 @@ msgstr "Avanceret..."
 
 #: src/dialogs/dialog-cell-sort.c:322
 msgid "Column must be within range"
-msgstr "Kolonne skal være indenfor omfang"
+msgstr "Kolonne skal være inden for omfang"
 
 #: src/dialogs/dialog-cell-sort.c:323
 msgid "Row must be within range"
-msgstr "Række skal være indenfor omfang"
+msgstr "Række skal være inden for omfang"
 
 #: src/dialogs/dialog-cell-sort.c:330
 msgid "First column must be valid"
@@ -2025,7 +2026,7 @@ msgstr "Kan ikke tilføje flere end den valgte længde"
 
 #: src/dialogs/dialog-cell-sort.c:382
 msgid "Maximum number of clauses has been reached."
-msgstr "Maksimal antallet af klausuler er nået."
+msgstr "Det maksimale antal klausuler er nået."
 
 #: src/dialogs/dialog-cell-sort.c:385 src/dialogs/dialog-cell-sort.c:388
 #: src/dialogs/dialog-cell-sort.c:571
@@ -2052,7 +2053,7 @@ msgstr "Man kan ikke omdefinere et indbygget navn."
 
 #: src/dialogs/dialog-define-names.c:644
 msgid "Could not create the Name Guru."
-msgstr "Kunne ikke oprette navne-vismanden."
+msgstr "Kunne ikke fremmane navne-vismanden."
 
 #: src/dialogs/dialog-delete-cells.c:98
 msgid "Delete cells"
@@ -2081,7 +2082,7 @@ msgstr "Matrix"
 
 #: src/dialogs/dialog-function-wizard.c:410
 msgid "Range/Array"
-msgstr "Omfang/Matrise"
+msgstr "Omfang/Matrix"
 
 #: src/dialogs/dialog-function-wizard.c:411
 msgid "Scalar"
@@ -4435,9 +4436,9 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 "@FUNCTION=WORKDAY\n"
-"@SYNTAX=WORKDAY (start_dato,dage,fridage)\n"
+"@SYNTAX=WORKDAY (start_dato,dage,helligdage)\n"
 "@DESCRIPTION=Returnerer dagen som er @dage arbejdsdage fra @start_dato. "
-"Weekender og fridage som som opgives i @fridage bliver taget i betragtning. "
+"Weekender og helligdage som som opgives i @helligdage bliver taget i betragtning. "
 "Returnerer #NUM! hvis @start_dato eller @dage er ugyldig.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -4466,9 +4467,9 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 "@FUNCTION=NETWORKDAYS\n"
-"@SYNTAX=NETWORKDAYS (start_dato,slut_dato,fridage)\n"
-"@DESCRIPTION=Returnerer antal dage som ikke er weekend eller fridage, mellem "
-"@start_dato og @slut_dato. Fridage kan opgives i @fridage.\n"
+"@SYNTAX=NETWORKDAYS (start_dato,slut_dato,helligdage)\n"
+"@DESCRIPTION=Returnerer antal dage som ikke er weekend eller helligdage, mellem "
+"@start_dato og @slut_dato. Helligdage kan opgives i @helligdage.\n"
 "Returnerer #NUM hvis start_dato eller slut_dato er ugyldig\n"
 "@EXAMPLES=\n"
 "\n"
@@ -5046,7 +5047,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(ital)\n"
-"@DESCRIPTION=IMEXP returnerer eksponenten til et komplekst tal. Denne "
+"@DESCRIPTION=IMEXP er den komplekse exponentialfunktion. Denne "
 "funktion er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "IMEXP(\"2-j\") er lig 3.992324-6.217676j.\n"
@@ -5090,7 +5091,7 @@ msgstr ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(ital)\n"
 "@DESCRIPTION=IMLN returnerer den naturlige logaritme til et komplekst tal. "
-"Resultatet vil have en imaginær del mellem -pi og +pi. Den naturlige "
+"(Resultatet vil have en imaginær del mellem -pi og +pi. Den naturlige "
 "logaritme er ikke defineret unikt med komplekse tal. Du bliver måske nødt "
 "til at addere eller subtrahere et lige multiplum af pi til den imaginære "
 "del.) Denne funktion er Excel kompatibel. \n"
@@ -5153,10 +5154,10 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 "@FUNCTION=IMPOWER\n"
-"@SYNTAX=IMPOWER(ital,tal)\n"
-"@DESCRIPTION=IMPOWER returnerer et komplekst tal ophøjet. @ital \n"
-"er det komplekse tal som skal ophøjes og @tal er potensen det skal \n"
-"ophøjes i. Denne funktion er Excel kompatibel. \n"
+"@SYNTAX=IMPOWER(rod,exp)\n"
+"@DESCRIPTION=IMPOWER returnerer et komplekst tal ophøjet til et andel. @rod \n"
+"er det komplekse tal som skal ophøjes og @exp er potensen det skal \n"
+"ophøjes til. Denne funktion er Excel kompatibel. \n"
 "@EXAMPLES\n"
 "IMPOWER(\"4-j\",2) er lig med 15-8j.\n"
 "\n"
@@ -5255,7 +5256,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(ital1[,ital2,...])\n"
-"@DESCRIPTION=IMPRODUCT returnerer produktet af given komplekse tal. Denne "
+"@DESCRIPTION=IMPRODUCT returnerer produktet af givne komplekse tal. Denne "
 "funktion er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "IMPRODUCT(\"2-j\",\"4-2j\") er lig 6-8j.\n"
@@ -6703,7 +6704,7 @@ msgstr ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(møntenhed)\n"
 "@DESCRIPTION=EURO konverterer en Euro til en given national møntenhed "
-"indenfor Euroland (ØMU-medlemslandene). @møntenhed er en af de følgende:\n"
+"inden for Euroland (ØMU-medlemslandene). @møntenhed er en af de følgende:\n"
 "    ATS     (Østrig)\n"
 "    BEF     (Belgien)\n"
 "    DEM     (Tyskland)\n"
@@ -7731,7 +7732,7 @@ msgstr ""
 "rækken med værdien mindre end @værdi. Den returnerer værdien i rækken fundet "
 "ved 1 mere i @kolonne kolonner inde i @område.\n"
 "Returnerer #NUM! hvis @kolonne < 0. Returnerer #REF! hvis @kolonne falder "
-"udenfor @område.\n"
+"uden for @område.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
@@ -7760,7 +7761,7 @@ msgstr ""
 "finder den kolonnen med værdien mindre end @værdi. Den returnerer værdien i "
 "kolonnen fundet ved 1 mere i @række rækker inde i @område.\n"
 "Returnerer #NUM! hvis @række < 0. Returnerer #REF! hvis @række falder "
-"udenfor @område.\n"
+"uden for @område.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=VLOOKUP"
@@ -8095,7 +8096,7 @@ msgstr ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
 "@DESCRIPTION=Implementerer absolut-værdi funktionen: resultatet er at fjerne "
-"minus-tegnet (hvis fundet).  Dette kan gøres for heltal og flydendetal. "
+"minus-tegnet (hvis fundet).  Dette kan gøres for heltal og flydende tal. "
 "Denne funktion er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ABS(7) er lig 7.\n"
@@ -8120,8 +8121,8 @@ msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
 "@DESCRIPTION=ACOS funktionen beregner arksinus af x; det vil sige værdien "
-"hvis kosinus er @x.  Hvis @x falder udenfor området -1 til 1, fejler ACOS og "
-"returnerer fejlen NUM!.  Værdien den returnerer er givet i radianer. Denne "
+"hvis kosinus er @x.  Hvis @x falder uden for området -1 til 1, fejler ACOS og "
+"returnerer fejlen NUM!.  Værdien den returnerer, er givet i radianer. Denne "
 "funktion er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ACOS(0.1) er lig 1.470629.\n"
@@ -8170,7 +8171,7 @@ msgstr ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
 "@DESCRIPTION=ASIN-funktionen beregner arkus sinus af @x; det vil sige "
-"værdien hvis sinus er @x. Hvis @x falder udenfor området -1 to 1, fejler "
+"værdien hvis sinus er @x. Hvis @x falder uden for området -1 to 1, fejler "
 "ASIN og returnerer en NUM!-fejl. Denne funktion er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ASIN(0.5) er lig 0.523599.\n"
@@ -12882,8 +12883,8 @@ msgid ""
 "Unable to open plugin '%s'\n"
 "Plugin version '%s' is different from application '%s'."
 msgstr ""
-"Kan ikke åbne indstik '%s'\n"
-"indstiksversion '%s' er forskellig fra applikation '%s'."
+"Kan ikke åbne modul '%s'\n"
+"modulversion '%s' er forskellig fra applikation '%s'."
 
 #: src/plugin.c:122
 msgid "unable to open module file: "
@@ -12891,7 +12892,7 @@ msgstr "kan ikke åbne modulfil: "
 
 #: src/plugin.c:132
 msgid "Plugin must contain init_plugin function."
-msgstr "Indstik skal indeholde init_plugin funktion."
+msgstr "Modul skal indeholde init_plugin funktion."
 
 #: src/plugin.c:138
 msgid "Couldn't determine size or modification date"
@@ -12908,13 +12909,13 @@ msgid ""
 "The plugin did not check it's version.\n"
 "It is probably for a different version of Gnumeric than '%s'."
 msgstr ""
-"Kan ikke åbne indstik '%s'\n"
-"Indstikket kontrollerede ikke sin version.\n"
+"Kan ikke åbne modulet '%s'\n"
+"Modulet kontrollerede ikke sin version.\n"
 "Der er nok fra en anden version af Gnumeric end '%s'."
 
 #: src/plugin.c:183
 msgid "Plugin is still in use."
-msgstr "Indstik er stadig i brug."
+msgstr "Modulet er stadig i brug."
 
 #: src/print-info.c:21 src/print-info.c:24 src/print-info.c:25
 #: src/print-info.c:278
@@ -13512,11 +13513,11 @@ msgstr "Alle kanter"
 
 #: src/workbook-format-toolbar.c:549
 msgid "Outside Borders"
-msgstr "Kanter udenfor"
+msgstr "Kanter udenom"
 
 #: src/workbook-format-toolbar.c:550
 msgid "Thick Outside Borders"
-msgstr "Tykke kanter udenfor"
+msgstr "Tykke kanter udenom"
 
 #: src/workbook-format-toolbar.c:552
 msgid "Bottom"
@@ -14075,11 +14076,11 @@ msgstr "Ændr arbejdsbogens tilhørender"
 
 #: src/workbook-control-gui.c:1976
 msgid "_Plug-ins..."
-msgstr "Indstik..."
+msgstr "Modul..."
 
 #: src/workbook-control-gui.c:1977
 msgid "Manage available plugin modules."
-msgstr "Håndtér tilgængelige indstiksmoduler."
+msgstr "Håndtér tilgængelige moduler."
 
 #: src/workbook-control-gui.c:1982
 msgid "Auto _Correct..."
@@ -15340,10 +15341,10 @@ msgstr "Fejl ved forsøg på at bygge træ fra autoformat skabelonsfil"
 #~ msgstr "dato"
 
 #~ msgid "Gnumeric Plugin Manager"
-#~ msgstr "Gnumeric indstikshåndtering"
+#~ msgstr "Gnumeric modulhåndtering"
 
 #~ msgid "Installed Plugins"
-#~ msgstr "Installerede indstik"
+#~ msgstr "Installerede moduler"
 
 #~ msgid "Path:"
 #~ msgstr "Sti:"
@@ -15821,7 +15822,7 @@ msgstr "Fejl ved forsøg på at bygge træ fra autoformat skabelonsfil"
 #~ msgstr "Gør skriften kursiv"
 
 #~ msgid "Manage available plugin modules"
-#~ msgstr "Administrér tilgængelige indstik-moduler"
+#~ msgstr "Administrér tilgængelige moduler"
 
 #~ msgid "Mark the current selection for movement"
 #~ msgstr "Markér det valgte til flytning"
