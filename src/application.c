@@ -3,13 +3,8 @@
  *
  * Author:
  *     Jody Goldberg <jgoldberg@home.com>
- *
  */
 #include <config.h>
-#include <gtk/gtk.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-config.h>
-#include <libgnomeui/gnome-stock.h>
 #include "application.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -18,6 +13,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "sheet-private.h"
+#include "auto-correct.h"
 
 #include "pixmaps/menu-print-preview.xpm"
 #include "pixmaps/print-preview.xpm"
@@ -104,6 +100,11 @@
 #include "pixmaps/24_ungroup.xpm"
 #include "pixmaps/24_show_detail.xpm"
 #include "pixmaps/24_hide_detail.xpm"
+
+#include <gtk/gtk.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
+#include <libgnomeui/gnome-stock.h>
 
 typedef struct
 {
@@ -278,6 +279,8 @@ application_init (void)
 	 */
 	app.auto_expr_recalc_lag = gnome_config_get_int ("AutoExprRecalcLag=200");
 	gnome_config_pop_prefix ();
+
+	autocorrect_init ();
 }
 
 static GList *workbook_list = NULL;

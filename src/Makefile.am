@@ -27,6 +27,8 @@ GNUMERIC_BASE =					\
 	application.h				\
 	auto-format.c				\
 	auto-format.h				\
+	auto-correct.c				\
+	auto-correct.h				\
 	cell.h					\
 	cell.c					\
 	cell-draw.c				\

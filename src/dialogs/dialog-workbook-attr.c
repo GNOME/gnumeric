@@ -46,6 +46,7 @@ typedef struct _AttrState
 		GtkToggleButton	*show_hsb;
 		GtkToggleButton	*show_vsb;
 		GtkToggleButton	*show_tabs;
+		GtkToggleButton	*autocomplete;
 	} view;
 } AttrState;
 
@@ -91,6 +92,8 @@ cb_attr_dialog_dialog_apply (GtkObject *w, int page, AttrState *state)
 		gtk_toggle_button_get_active (state->view.show_vsb);
 	state->wbv->show_notebook_tabs =
 		gtk_toggle_button_get_active (state->view.show_tabs);
+	state->wbv->do_auto_completion =
+		gtk_toggle_button_get_active (state->view.autocomplete);
 
 	wb_view_prefs_update (state->wbv);
 }
@@ -112,51 +115,39 @@ cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
 /*****************************************************************************/
 
 static void
-cb_show_hsb_toggled (GtkWidget *widget, AttrState *state)
+cb_toggled (GtkWidget *widget, AttrState *state)
 {
 	attr_dialog_changed (state);
 }
 
-static void
-cb_show_vsb_toggled (GtkWidget *widget, AttrState *state)
+static GtkToggleButton *
+attr_dialog_init_toggle (AttrState *state, char const *name, gboolean val)
 {
-	attr_dialog_changed (state);
-}
+	GtkWidget *w = glade_xml_get_widget (state->gui, name);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), val);
+	gtk_signal_connect (GTK_OBJECT (w),
+		"toggled",
+		GTK_SIGNAL_FUNC (cb_toggled), state);
 
-static void
-cb_show_tabs_toggled (GtkWidget *widget, AttrState *state)
-{
-	attr_dialog_changed (state);
+	return GTK_TOGGLE_BUTTON (w);
 }
 
 static void
 attr_dialog_init_view_page (AttrState *state)
 {
-	state->view.show_hsb = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "Workbook::show_horizontal_scrollbar"));
-	state->view.show_vsb = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "Workbook::show_vertical_scrollbar"));
-	state->view.show_tabs = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "Workbook::show_notebook_tabs"));
-
-	gtk_toggle_button_set_active (state->view.show_hsb, state->wbv->show_horizontal_scrollbar);
-	gtk_toggle_button_set_active (state->view.show_vsb, state->wbv->show_vertical_scrollbar);
-	gtk_toggle_button_set_active (state->view.show_tabs, state->wbv->show_notebook_tabs);
-
-	/* Setup special handlers for : Numbers */
-	gtk_signal_connect (GTK_OBJECT (state->view.show_hsb),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (cb_show_hsb_toggled),
-			    state);
-
-	gtk_signal_connect (GTK_OBJECT (state->view.show_vsb),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (cb_show_vsb_toggled),
-			    state);
-
-	gtk_signal_connect (GTK_OBJECT (state->view.show_tabs),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (cb_show_tabs_toggled),
-			    state);
+	state->view.show_hsb     = attr_dialog_init_toggle (state,
+		"WorkbookView::show_horizontal_scrollbar",
+		state->wbv->show_horizontal_scrollbar);
+	state->view.show_vsb     = attr_dialog_init_toggle (state,
+		"WorkbookView::show_vertical_scrollbar",
+		state->wbv->show_vertical_scrollbar);
+	state->view.show_tabs    = attr_dialog_init_toggle (state,
+		"WorkbookView::show_notebook_tabs",
+		state->wbv->show_notebook_tabs);
+	state->view.autocomplete = attr_dialog_init_toggle (state,
+		"WorkbookView::do_auto_completion",
+		state->wbv->do_auto_completion);
 }
-
 
 /*****************************************************************************/
 

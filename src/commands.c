@@ -44,9 +44,8 @@
 #include "selection.h"
 #include "datetime.h"
 #include "colrow.h"
-#include "dialogs.h"
 #include "style-border.h"
-#include "dialogs/dialog-autocorrect.h"
+#include "auto-correct.h"
 #include "sheet-autofill.h"
 #include "mstyle.h"
 #include "search.h"
@@ -638,8 +637,6 @@ cmd_set_text (WorkbookControl *wbc,
 		return TRUE;
 	}
 
-	/* FIXME : abstract this */
-	/* From src/dialogs/dialog-autocorrect.c */
 	corrected_text = autocorrect_tool (new_text);
 
 	obj = gtk_type_new (CMD_SET_TEXT_TYPE);

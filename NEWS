@@ -14,6 +14,9 @@ Jody:
 	* Improve formula guru.
 	* Support scrollwheel in a larger area.
 	* Fix Edit -> Fill -> Autofill
+	* Improve dbf importer.
+	* Make autocorrect non-modal and cleaner.
+	* Make autocompletion a view attribute, with a gui.
 
 Jukka:
 	* Lots of documentation added.

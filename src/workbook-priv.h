@@ -103,11 +103,6 @@ gboolean    workbook_is_dirty            (Workbook const *wb);
 gboolean    workbook_is_pristine         (Workbook const *wb);
 char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
 
-GSList     *workbook_expr_relocate       (Workbook *wb,
-					  ExprRelocateInfo const *info);
-void        workbook_expr_unrelocate     (Workbook *wb, GSList *info);
-void        workbook_expr_unrelocate_free(GSList *info);
-
 /* See also sheet_cell_foreach_range */
 Value	   *workbook_foreach_cell_in_range (EvalPos const *pos,
 					    Value const	  *cell_range,
@@ -123,6 +118,10 @@ gboolean workbook_enable_recursive_dirty (Workbook *wb, gboolean enable);
 void     workbook_iteration_enabled	 (Workbook *wb, gboolean enable);
 void     workbook_iteration_max_number	 (Workbook *wb, int max_number);
 void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
+GSList  *workbook_expr_relocate		 (Workbook *wb,
+					  ExprRelocateInfo const *info);
+void     workbook_expr_unrelocate     	 (Workbook *wb, GSList *info);
+void     workbook_expr_unrelocate_free	 (GSList *info);
 
 void        workbook_calc_spans          (Workbook *wb, SpanCalcFlags const flags);
 

@@ -1,8 +1,24 @@
-#ifndef DIALOG_AUTOCORRECT_H
-#define DIALOG_AUTOCORRECT_H
+#ifndef AUTO_CORRECT_H
+#define AUTO_CORRECT_H
 
 #include "gnumeric.h"
 
-char *autocorrect_tool (const char *command);
+typedef enum {
+	AC_INIT_CAPS,
+	AC_FIRST_LETTER,
+	AC_NAMES_OF_DAYS,
+	AC_CAPS_LOCK,
+	AC_REPLACE,
+	AC_MAX_FEATURE
+} AutoCorrectFeature;
 
-#endif /* DIALOG_AUTOCORRECT_H */
+void	 autocorrect_init     	    (void);
+void	 autocorrect_store_config   (void);
+gboolean autocorrect_get_feature    (AutoCorrectFeature feat);
+void	 autocorrect_set_feature    (AutoCorrectFeature feat, gboolean val);
+GList	*autocorrect_get_exceptions (AutoCorrectFeature feat);
+void	 autocorrect_set_exceptions (AutoCorrectFeature feat, GList *list);
+
+char    *autocorrect_tool 	 (char const *input);
+
+#endif /* AUTO_CORRECT_H */

@@ -13,8 +13,8 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "complete-sheet.h"
 #include "application.h"
+#include "complete-sheet.h"
 #include "commands.h"
 #include "mstyle.h"
 #include "sheet-control-gui.h"
@@ -327,7 +327,7 @@ entry_changed (GtkEntry *entry, void *data)
 	WorkbookControlGUI *wbcg = data;
 	char *text;
 	int text_len;
-
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 
 	text = gtk_entry_get_text (GTK_ENTRY (wbcg_get_entry (wbcg)));
 	text_len = strlen (text);
@@ -343,7 +343,7 @@ entry_changed (GtkEntry *entry, void *data)
 	    !isalpha((unsigned char)*text))
 		wbcg->auto_completing = FALSE;
 
-	if (application_use_auto_complete () && wbcg->auto_completing)
+	if (wbv->do_auto_completion && wbcg->auto_completing)
 		complete_start (wbcg->auto_complete, text);
 }
 
@@ -372,8 +372,9 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	Cell *cell;
 	char *text = NULL;
 	int col, row;
+	WorkbookView *wbv;
 
-	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	if (wbcg->editing)
 		return;
@@ -384,10 +385,9 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 	inside_editing = TRUE;
 
+	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	g_return_if_fail (IS_SHEET (sheet));
 	scg = wb_control_gui_cur_sheet (wbcg);
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	col = sheet->edit_pos.col;
 	row = sheet->edit_pos.row;
@@ -422,8 +422,8 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	sheet_redraw_region (sheet, col, row, col, row);
 
 	/* Activate auto-completion if this is not an expression */
-	if (application_use_auto_complete () &&
-	    (text == NULL || isalpha((unsigned char)*text))) {
+	if (wbv->do_auto_completion &&
+	    (text == NULL || isalpha ((unsigned char)*text))) {
 		wbcg->auto_complete = complete_sheet_new (
 			sheet, col, row,
 			workbook_edit_complete_notify, wbcg);

@@ -1,3 +1,23 @@
+2001-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-edit.c (entry_changed) : autocomplete is in the wbv now.
+	(wbcg_edit_start) : ditto.
+
+	* src/sheet-style.c (rstyle_apply) : fix some silliness in the new
+	  code, but more work to come.
+
+	* src/commands.c (cmd_set_text) : Yay! autocorrect is no longer tied
+	  to the gui.
+
+	* src/application.c (application_init) : Init autocorrection.
+
+	* src/workbook-view.c (wb_view_set_arg) : add do_auto_completion.
+	  Make this a per workbook-view, persistent attribute.  We still
+	  initialize from gnome-config, butthis should make things easier
+	  for users.
+	(wb_view_get_arg) : ditto.
+	(workbook_view_class_init) : ditto.
+
 2001-11-01  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/GNOME_Gnumeric.xml, src/worbook-control-gui.c: Added Filter

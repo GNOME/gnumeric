@@ -130,7 +130,8 @@ rstyle_apply (MStyle **old, ReplacementStyle *rs)
 		 */
 		s = (MStyle *)g_hash_table_lookup (rs->cache, *old);
 		if (s == NULL) {
-			s = mstyle_copy_merge (*old, rs->pstyle);
+			MStyle *tmp = mstyle_copy_merge (*old, rs->pstyle);
+			s = sheet_style_find (rs->sheet, tmp);
 			mstyle_ref (*old);
 			g_hash_table_insert (rs->cache, *old, s);
 		}
@@ -142,7 +143,7 @@ rstyle_apply (MStyle **old, ReplacementStyle *rs)
 		if (*old) {
 			if (mstyle_unref (*old) == 1) {
 				g_hash_table_remove (rs->sheet->style_data->style_hash, *old);
-				mstyle_ref (*old);
+				mstyle_unref (*old);
 			}
 		}
 		*old = s;

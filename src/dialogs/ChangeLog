@@ -1,3 +1,15 @@
+2001-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-autocorrect.c (cb_remove_clicked) : generalize and fix leak.
+	(cb_add_clicked) : generalize.
+	(cb_select_row) : generalize.
+	(autocorrect_init_exception_list) : new.
+	(exceptions_callback) : clean up slightly.
+	(ac_button_toggled) : simplify.
+	(ac_dialog_toggle_init) : new.
+	(dialog_autocorrect) : simplify.  Rather than saving the content
+          and restoring on cancel, only store the new values on <OK>.
+
 2001-11-01  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-autosave.c (dialog_autosave): Fixed the help button.

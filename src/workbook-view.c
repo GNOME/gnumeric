@@ -46,11 +46,12 @@
 #include <gal/util/e-util.h>
 #include <locale.h>
 
-/* Persistent attribute ids */
+/* Persistent attribute ids, do not change them */
 enum {
 	ARG_VIEW_HSCROLLBAR = 1,
 	ARG_VIEW_VSCROLLBAR,
-	ARG_VIEW_TABS
+	ARG_VIEW_TABS,
+	ARG_VIEW_DO_AUTO_COMPLETION,
 };
 
 /* WorkbookView signals */
@@ -397,6 +398,9 @@ wb_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_VIEW_TABS:
 		wbv->show_notebook_tabs = GTK_VALUE_BOOL (*arg);
 		break;
+	case ARG_VIEW_DO_AUTO_COMPLETION:
+		wbv->do_auto_completion = GTK_VALUE_BOOL (*arg);
+		break;
 	}
 	wb_view_prefs_update (wbv);
 }
@@ -419,6 +423,10 @@ wb_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_VIEW_TABS:
 		GTK_VALUE_BOOL (*arg) = wbv->show_notebook_tabs;
+		break;
+
+	case ARG_VIEW_DO_AUTO_COMPLETION:
+		GTK_VALUE_BOOL (*arg) = wbv->do_auto_completion;
 		break;
 	}
 }
@@ -503,6 +511,7 @@ workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
+	wbv->do_auto_completion = application_use_auto_complete ();
 
 	/* Set the default operation to be performed over selections */
 	wbv->auto_expr      = NULL;
@@ -544,6 +553,9 @@ workbook_view_class_init (GtkObjectClass *object_class)
 	gtk_object_add_arg_type ("WorkbookView::show_notebook_tabs",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
 				 ARG_VIEW_TABS);
+	gtk_object_add_arg_type ("WorkbookView::do_auto_completion",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_VIEW_DO_AUTO_COMPLETION);
 
 	workbook_view_signals [SHEET_ENTERED] =
 		gtk_signal_new (

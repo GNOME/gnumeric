@@ -17,6 +17,7 @@ struct _WorkbookView {
 	gboolean   show_horizontal_scrollbar;
 	gboolean   show_vertical_scrollbar;
 	gboolean   show_notebook_tabs;
+	gboolean   do_auto_completion;
 
 	/* Non-normative size information */
 	int preferred_width, preferred_height;
