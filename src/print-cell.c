@@ -412,7 +412,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	double line_offset [3]; /* There are up to 3 lines, double underlined strikethroughs */
 	char const *text;
 	StyleColor *fore;
-	double cell_width_pts, indent = 0.; /* FIXME : how to calculate indent for printing */
+	double cell_width_pts, indent = 0.;
 
 	/* Don't print zeros if they should be ignored. */
 	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
@@ -435,6 +435,11 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 		width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1.);
 	if (height < 0) /* DEPRECATED */
 		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1.);
+
+	/* This rectangle has the whole area used by this cell
+	 * excluding the surrounding grid lines and margins */
+	if (width <= 0 || height <= 0)
+		return;
 
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
@@ -514,7 +519,13 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 		line_offset[num_lines++] = font_ascent/-2;
 
 	/* FIXME : This will be wrong for JUSTIFIED halignments */
+	halign = style_default_halign (mstyle, cell);
 	cell_width_pts = get_width_string (print_font, text);
+	if (halign == HALIGN_LEFT || halign == HALIGN_RIGHT) {
+		/* 2*width seems to be pretty close to XL's notion */
+		indent = mstyle_get_indent (mstyle) *
+			2. * style_font->approx_width.pts;
+	}
 
 	/* if a number overflows, do special drawing */
 	if ((cell_width_pts + indent) > width && cell_is_number (cell) &&
@@ -526,7 +537,6 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 		return;
 	}
 
-	halign = style_default_halign (mstyle, cell);
 	if (halign == HALIGN_CENTER_ACROSS_SELECTION || h_center <= 0.)
 		h_center = width / 2.;
 

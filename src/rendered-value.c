@@ -114,7 +114,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 	res = g_new (RenderedValue, 1);
 	res->rendered_text = string_get (str);
 	res->render_color = color;
-	res->width_pixel = res->height_pixel = res->offset = 0;
+	res->width_pixel = res->height_pixel = res->offset_pixel = 0;
 	res->dynamic_width = dynamic_width;
 	g_free (str);
 
@@ -253,8 +253,8 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 
 	/* 2*width seems to be pretty close to XL's notion */
 	if (halign == HALIGN_LEFT || halign == HALIGN_RIGHT)
-		rv->offset = rint (mstyle_get_indent (mstyle) *
-				    2 * style_font->approx_width);
+		rv->offset_pixel = rint (mstyle_get_indent (mstyle) *
+			2 * style_font->approx_width.pixels);
 	style_font_unref (style_font);
 }
 
@@ -349,5 +349,5 @@ cell_rendered_offset (Cell const * cell)
 	if (!cell || !cell->rendered_value)
 		return 0;
 	else
-		return cell->rendered_value->offset;
+		return cell->rendered_value->offset_pixel;
 }

@@ -98,7 +98,10 @@ style_font_new_simple (const char *font_name, double size, double scale,
 		 * inter character spacing by measuring a
 		 * string with 10 digits
 		 */
-		font->approx_width = font->gdk_font
+		font->approx_width.pixels = font->gdk_font
+			? gdk_string_width (font->gdk_font, "4444444444") / 10.
+			: 1.;
+		font->approx_width.pts = font->font
 			? gnome_font_get_width_string (font->font, "4444444444") / 10.
 			: 1.;
 
@@ -159,7 +162,7 @@ style_font_get_width (StyleFont const *sf)
 {
 	g_return_val_if_fail (sf != NULL, 0);
 
-	return sf->approx_width;
+	return sf->approx_width.pixels;
 }
 
 void

@@ -1,3 +1,10 @@
+2001-09-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style.c (style_font_new_simple) : store the width in pixels as
+	  well as pts.
+
+	* src/print-cell.c (print_cell) : sync with the drawing code.
+
 2001-09-10  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_probe): Don't be picky about file name case.

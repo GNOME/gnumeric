@@ -990,7 +990,7 @@ range_trim(Sheet const *sheet, Range *range, gboolean cols)
 	while (1) {
 		*mid = (low + *high + 1) / 2; /* Middle Cell (Round up) */
 
-		if (sheet_is_region_empty (sheet, range)) {
+		if (sheet_is_region_empty ((Sheet *)sheet, range)) {
 			if (*high == low)
 				return TRUE; /* Range is totally empty */
 			*high = *mid - 1;

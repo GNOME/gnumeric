@@ -158,10 +158,11 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 {
 	int pattern;
 
-	if (!mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
-		return FALSE;
+	/*
+	 * Draw the background if the PATTERN is non 0
+	 * Draw a stipple too if the pattern is > 1
+	 */
 	pattern = mstyle_get_pattern (mstyle);
-
 	if (pattern > 0) {
 		StyleColor *back_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
@@ -190,9 +191,9 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 #endif
 
 			gnome_print_setrgbcolor (context,
-			 back_col->red * grey[pattern]    / (double) 0xffff,
-			 back_col->green * grey[pattern]  / (double) 0xffff,
-			 back_col->blue * grey[pattern]   / (double) 0xffff);
+				back_col->red * grey[pattern]    / (double) 0xffff,
+				back_col->green * grey[pattern]  / (double) 0xffff,
+				back_col->blue * grey[pattern]   / (double) 0xffff);
 		}
 
 		/* This is a special case where the user has selected 
@@ -201,7 +202,7 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 		 */
 		if (pattern == 24) {
 			StyleColor *pat_col =
-			mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			gnome_print_setrgbcolor (context,

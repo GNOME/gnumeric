@@ -8,17 +8,13 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *
  */
 #include <config.h>
-#include <bonobo/bonobo-embeddable.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include "idl/Gnumeric.h"
+#include "embeddable-grid.h"
 #include "sheet.h"
 #include "workbook.h"
-#include "embeddable-grid.h"
 #include "sheet-private.h"
-
+#include <bonobo/bonobo-generic-factory.h>
 
 static BonoboGenericFactory *bonobo_embeddable_grid_factory;
 

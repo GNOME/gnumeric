@@ -33,7 +33,7 @@
 #include "ranges.h"
 #include "selection.h"
 #include "sheet-object-container.h"
-#include "idl/gnumeric-graphs.h"
+#include <idl/GNOME_Gnumeric_Graph.h>
 
 #include <bonobo.h>
 #include <liboaf/liboaf.h>

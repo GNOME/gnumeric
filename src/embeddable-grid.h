@@ -2,9 +2,9 @@
 #define GNUMERIC_EMBEDDABLE_GRID_H
 
 #include <bonobo/bonobo-embeddable.h>
-#include "idl/Gnumeric.h"
+#include <idl/GNOME_Gnumeric.h>
 
-#include "sheet-control-gui-priv.h"
+#include "sheet-control-gui.h"
 
 #define EMBEDDABLE_GRID_TYPE        (embeddable_grid_get_type ())
 #define EMBEDDABLE_GRID(o)          (GTK_CHECK_CAST ((o), EMBEDDABLE_GRID_TYPE, EmbeddableGrid))
@@ -57,15 +57,15 @@ typedef struct _GridView GridView;
 struct _GridView {
 	BonoboView view;
 
-	SheetControlGUI      *scg;
-	EmbeddableGrid *embeddable;
+	SheetControlGUI *scg;
+	EmbeddableGrid  *embeddable;
 };
 
 typedef struct {
 	BonoboViewClass parent_class;
 } GridViewClass;
 
-GtkType         grid_view_get_type           (void);
-BonoboView      *grid_view_new                (EmbeddableGrid *container);
+GtkType     grid_view_get_type (void);
+BonoboView *grid_view_new      (EmbeddableGrid *container);
 
 #endif /* GNUMERIC_EMBEDDABLE_GRID_H */

@@ -1182,7 +1182,7 @@ scg_adjust_preferences (SheetControl *sc)
 }
 
 StyleFont *
-scg_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
+scg_get_style_font (Sheet const *sheet, MStyle const *mstyle)
 {
 	/* Scale the font size by the average scaling factor for the
 	 * display.  72dpi is base size

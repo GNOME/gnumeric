@@ -244,7 +244,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		double charwidth;
 		int    cellwidth;
 
-		charwidth = style_font_get_width (gnumeric_default_font);
+		charwidth = gnumeric_default_font->approx_width.pts;
 		cellwidth = info->size_pts;
 
 		return value_new_int (rint (cellwidth / charwidth));

@@ -44,7 +44,11 @@ struct _StyleFont {
 	char              *font_name;
 	float             size;
 	float             scale;
-	float		  approx_width;
+	struct {
+	    float pixels;   /* this does not belong here */
+	    float pts;
+	} approx_width;
+
 	GnomeDisplayFont  *dfont;
 	GnomeFont         *font;
 	GdkFont		  *gdk_font;
