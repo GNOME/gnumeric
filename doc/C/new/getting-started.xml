@@ -110,7 +110,7 @@
   
   <para>
 	The main cell area contains a grid of boxes which are called 
-	<link linkend="cells">cells</link>.  When a cell is highlighted each 
+	cells.  When a cell is highlighted each 
 	row and column is also highlighted by changing the row and column 
 	color from a light gray to a dark gray.  Click on a cell in the main 
 	cell area to highlight a single cell.  You will notice one column and 
@@ -223,7 +223,7 @@
 		If you have already clicked on the <guibutton>enter</guibutton> 
 		button or pressed the Enter key you cannot use the 
 		<guibutton>cancel</guibutton> button to undo the mistake.  Instead 
-		use the <link linkend="undo"><guibutton>undo</guibutton></link> 
+		use the undo
 		button.
 	  </para>
 	</note>

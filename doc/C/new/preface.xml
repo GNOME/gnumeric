@@ -1,0 +1,73 @@
+<preface id="introduction">
+  <title>About this Book</title>
+  <sect1 id="introduction-organization">
+    <title>Organization</title>
+    <para>
+      The documentation is divided up into three parts.  The first part is 
+      a basic tutorial on <application>Gnumeric</application>.  The second 
+      part is an advanced tutorial on the data analysis tools and plugins 
+      <application>Gnumeric</application> offers.  The third part is a 
+      reference to the program, listing in detail all the options and 
+      features, and a reference to the functions 
+      <application>Gnumeric</application> provides.
+    </para>
+  </sect1>
+  <sect1 id="introduction-typography">
+    <title>Typographical Conventions</title>
+    <para>
+      In this book, we'll mark some words with special typography:
+      <simplelist>
+	<member><application>Applications</application></member>
+	<member><command>Commands</command> you type at the command
+	line</member>
+	<member><guilabel>Labels</guilabel> for buttons or other parts
+	of the graphical user interface</member>
+	<member> Menu selectinos look like this:
+	  <menuchoice>
+	    <guimenuitem>Menu</guimenuitem>
+	    <guisubmenu>Submenu</guisubmenu>
+	    <guimenuitem>Menu Item</guimenuitem>
+	  </menuchoice>
+	  </member>
+	<member><guibutton>Buttons</guibutton> you can click</member>
+	<member><userinput>Anything you type in</userinput></member>
+	<member><computeroutput>Text output from a
+	computer</computeroutput></member>
+	<member><glossterm linkend="appendix-glossary">Words</glossterm> that
+	are defined in the <xref linkend="appendix-glossary">.</member>
+      </simplelist>
+    </para>
+    <para>
+      We'll also provide additional bits of information that are set
+      aside from the rest of the text.
+
+      <tip id="introduction-typography-example-tip">
+	<title>Tip</title>
+	<para>
+	  A tip are extra bits of information that are meant to make
+	  your life easier.  Tips look like this.
+	</para>
+      </tip>
+      
+      <example>
+	<title>Example Example</title>
+	<para>
+	  Examples are places where a demonstration is setup to help
+	  explain a concept.  Examples look like this.
+	</para>
+      </example>
+
+      <warning id="introduction-typography-warning-tip">
+	<title>Warning Example</title>
+	<para>
+	  Warnings are places where something bad may happen, so the
+	  information is put aside for you to acknowledge.  It is
+	  important that you read these.  This is what a warning looks
+	  like.
+	</para>
+      </warning>
+    </para>
+  </sect1>
+</preface>
+
+

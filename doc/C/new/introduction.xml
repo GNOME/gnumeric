@@ -1,14 +1,11 @@
 <sect1 id="intro">
-  <title>Organization</title>
-
+  <title>Introduction</title>
   <para>
-	The documentation is divided up into three parts.  The first part is 
-	a basic tutorial on <application>Gnumeric</application>.  The second 
-	part is an advanced tutorial on the data analysis tools and plugins 
-	<application>Gnumeric</application> offers.  The third part is a 
-	reference to the program, listing in detail all the options and 
-	features, and a reference to the functions 
-	<application>Gnumeric</application> provides.
-  </para>
-
+    <application>Gnumeric</application> is a spreadsheet program.  It's 
+    goal is to provide you with a tool to manipulate and calculate 
+      data.  Different people will have many different uses for 
+    <application>Gnumeric</application>.  Spreadsheet applications
+    have found themselves a home in most professions ranging from a
+    school teacher to financial manager.
+  </para>	
 </sect1>
