@@ -1188,7 +1188,6 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
 			iterator++;
 		}
 	} else {
-
 		colcount = parseoptions->splitpositions->len - 1;
 	}
 
@@ -1533,7 +1532,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 		 * Split these columns in 2
 		 */
 
-		for (i = 0; i < parseoptions->splitpositions->len - 1; i++) {
+		for (i = 0; i + 1 < parseoptions->splitpositions->len; i++) {
 			int begin = g_array_index (parseoptions->splitpositions, int, i);
 			int end   = g_array_index (parseoptions->splitpositions, int, i + 1);
 			int num_spaces   = -1;
@@ -1615,7 +1614,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 		/*
 		 * Remove empty columns here if needed
 		 */
-		for (i = 0; i < parseoptions->splitpositions->len - 1; i++) {
+		for (i = 0; i + 1 < parseoptions->splitpositions->len; i++) {
 			int begin = g_array_index (parseoptions->splitpositions, int, i);
 			int end = g_array_index (parseoptions->splitpositions, int, i + 1);
 			gboolean only_spaces = TRUE;

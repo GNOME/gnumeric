@@ -1,3 +1,9 @@
+2001-04-26  Morten Welinder  <terra@diku.dk>
+
+	* src/stf-parse.c (stf_parse_options_fixed_autodiscover): Fix a
+ 	signed vs. unsigned error.  (We underflowed from 0 to
+ 	0xffff...ff.)
+
 2001-04-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-grid.c (item_grid_class_init) : Drat part of a canceled
