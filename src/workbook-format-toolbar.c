@@ -614,15 +614,16 @@ workbook_create_format_toolbar (Workbook *wb)
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fontsel), _("Font"));
 	gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0);
 
-	/* An empty item for the case of no font that applies */
-	gtk_combo_text_add_item (GTK_COMBO_TEXT (fontsel), "", "");
-	
 	len = 0;
 	for (l = gnumeric_font_family_list; l; l = l->next){
-		int tmp = gdk_string_measure (entry->style->font, l->data);
-		if (tmp > len)
-			len = tmp;
-		gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsel), l->data, l->data);
+		if (l->data) {	/* Don't include empty fonts in list. */
+			int tmp = gdk_string_measure (entry->style->font,
+						      l->data);
+			if (tmp > len)
+				len = tmp;
+			gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsel),
+						l->data, l->data);
+		}
 	}
 
 	/* Set a reasonable default width */
@@ -765,7 +766,6 @@ workbook_feedback_set (Workbook *wb, MStyle *style)
 	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (wb->priv->format_toolbar);
 	GtkComboText    *fontsel = GTK_COMBO_TEXT (wb->priv->font_name_selector);
 	GtkComboText    *fontsize= GTK_COMBO_TEXT (wb->priv->font_size_selector);
-	gboolean         font_set;
 	char             size_str [40];
 
 	g_return_if_fail (wb != NULL);
@@ -804,21 +804,13 @@ workbook_feedback_set (Workbook *wb, MStyle *style)
 	/* Do no update the font when we update the status display */
 	gtk_signal_handler_block_by_func (GTK_OBJECT (fontsize->entry),
 					  &change_font_size_in_selection_cmd, wb);
-
-	gtk_entry_set_text (GTK_ENTRY(fontsize->entry), size_str);
+	
+	gtk_combo_text_set_text (fontsize, size_str);
 
 	/* Restore callback */
 	gtk_signal_handler_unblock_by_func (GTK_OBJECT (fontsize->entry),
 					    &change_font_size_in_selection_cmd, wb);
 
-	/*
-	 * hack: we try to find the key "gnumeric-index" in the
-	 * GnomeFont object, this key represents the index of the
-	 * font name on the Optionmenu we have.
-	 *
-	 * If this is not set, then we compute it
-	 */
-	font_set = FALSE;
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
 
 	/* Do no update the font when we update the status display */
@@ -827,38 +819,11 @@ workbook_feedback_set (Workbook *wb, MStyle *style)
 
 	{
 		const char *font_name = mstyle_get_font_name (style);
-		int np = 0;
 		
 		wb->priv->current_font_name = font_name;
 
-		/*
-		 * We need the cache again sometime for performance on
-		 * systems with lots of fonts.
-		 */
-/*		np = gtk_object_get_data ((GtkObject *)font, "gnumeric-idx");
-		if (np == NULL)*/ {
-			GList *l;
-			int idx = 0;
- 
-			for (l = gnumeric_font_family_list; l; l = l->next, idx++) {
-				char *f = l->data;
-				
-				if (strcmp (f, font_name) == 0) {
-					np = idx;
-/*					gtk_object_set_data ((GtkObject *) font,
-					"gnumeric-idx", np);*/
-					break;
-				}
-			}
-		}
-		/*
-		 * +1 means, skip over the "undefined font" element
-		 */
-		gtk_combo_text_select_item (fontsel, np+1);
-		font_set = TRUE;
+		gtk_combo_text_set_text (fontsel, font_name);
 	}
-	if (!font_set)
-		gtk_combo_text_select_item (fontsel, 0);
 
 	/* Reenable the status display */
 	gtk_signal_handler_unblock_by_func (GTK_OBJECT (fontsel->entry),

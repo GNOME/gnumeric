@@ -1,3 +1,25 @@
+2000-06-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook.c (change_displayed_zoom_cb): Set zoom using
+	gtk_combo_text_set_text.
+	(change_zoom_in_current_sheet_cb): Check that current sheet is non
+	NULL.
+	(workbook_zoom_feedback_set): Block callbacks while changing
+	displayed zoom.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Drop the empty font name - that was needed in the option menu, but
+	not now we're using a combo box.  Ignore nameless fonts in
+	gnumeric_font_family_list. (We were displaying *two* blank lines
+	at the top - now we've got rid of both.)
+	(workbook_feedback_set): Set font size and font name using
+	gtk_combo_text_set_text, which also selects the item in the combo
+	list if present.  Get rid of hack to select font name in list -
+	this is now done in the widget.
+	(workbook_feedback_set):
+
+	* src/sheet.c (sheet_set_zoom_factor): Check that sheet isn't NULL.
+
 2000-06-07  Morten Welinder  <terra@diku.dk>
 
 	* src/sort.c (sort_contents): Use the C-library's qosrt.

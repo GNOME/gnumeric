@@ -2442,8 +2442,7 @@ change_displayed_zoom_cb (GtkObject *unused, Sheet* sheet, gpointer data)
 
 	str = g_strdup_printf("%d%%", factor);
 
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO_TEXT (combo)->entry),
-			    str);
+	gtk_combo_text_set_text (GTK_COMBO_TEXT (combo), str);
 
 	g_free (str);
 }
@@ -2451,8 +2450,13 @@ change_displayed_zoom_cb (GtkObject *unused, Sheet* sheet, gpointer data)
 static void
 change_zoom_in_current_sheet_cb (GtkWidget *caller, Workbook *wb)
 {
-	int factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
-	sheet_set_zoom_factor(wb->current_sheet, (double)factor / 100);
+	int factor;
+
+	if (!wb->current_sheet)
+		return;
+
+	factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
+	sheet_set_zoom_factor (wb->current_sheet, (double) factor / 100);
 
 	/* Restore the focus to the sheet */
 	workbook_focus_current_sheet (wb);
@@ -2466,7 +2470,17 @@ workbook_zoom_feedback_set (Workbook *wb, double zoom_factor)
 {
 	g_return_if_fail (wb->current_sheet);
 
+	/* Do no update the zoom when we update the status display */
+	gtk_signal_handler_block_by_func
+		(GTK_OBJECT (GTK_COMBO_TEXT (wb->priv->zoom_entry)->entry),
+		 change_zoom_in_current_sheet_cb, wb);
+	
 	change_displayed_zoom_cb (NULL, wb->current_sheet, wb);
+
+	/* Restore callback */
+	gtk_signal_handler_unblock_by_func
+		(GTK_OBJECT (GTK_COMBO_TEXT (wb->priv->zoom_entry)->entry),
+		 change_zoom_in_current_sheet_cb, wb);
 }
 
 /*

@@ -459,10 +459,13 @@ sheet_set_zoom_factor (Sheet *sheet, double const f)
 {
 	GList *l, *cl;
 	struct resize_colrow closure;
+	double factor, diff;
 
+	g_return_if_fail (sheet != NULL);
+	
 	/* Bound zoom between 10% and 500% */
-	double const factor = (f < .1) ? .1 : ((f > 5.) ? 5. : f);
-	double const diff = sheet->last_zoom_factor_used - factor;
+	factor = (f < .1) ? .1 : ((f > 5.) ? 5. : f);
+	diff = sheet->last_zoom_factor_used - factor;
 
 	if (-.0001 < diff && diff < .0001)
 		return;

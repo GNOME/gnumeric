@@ -108,6 +108,35 @@ gtk_combo_text_select_item (GtkComboText *ct, int elem)
 	gtk_list_select_item (GTK_LIST(ct->list), elem);
 }
 
+void
+gtk_combo_text_set_text (GtkComboText *ct, const gchar *text)
+{
+	GtkWidget *child;
+	
+	gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
+
+	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
+					  GTK_SIGNAL_FUNC (list_select_cb),
+					  (gpointer) ct);
+	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
+					  GTK_SIGNAL_FUNC (list_unselect_cb),
+					  (gpointer) ct);
+	
+	gtk_list_unselect_all (GTK_LIST (ct->list));
+	child = GTK_WIDGET (g_hash_table_lookup (ct->elements,
+						 (gconstpointer) text));
+	if (child && GTK_IS_WIDGET (child)) {
+		gtk_list_select_child (GTK_LIST (ct->list), child);
+		gtk_widget_grab_focus (child);
+	}
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
+					    GTK_SIGNAL_FUNC (list_select_cb),
+					    (gpointer) ct);
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
+					    GTK_SIGNAL_FUNC (list_unselect_cb),
+					    (gpointer) ct);
+}
+
 /*
  * We can't just cache the old widget state on entry: If the pointer is
  * dragged, we receive two enter-notify-events, and the original cached
@@ -156,6 +185,18 @@ cb_pop_down (GtkWidget *w, GtkWidget *pop_down, gpointer dummy)
 	return FALSE;
 }
 
+static void
+cb_remove_from_hash (GtkWidget *child, gpointer data)
+{
+	GtkComboText *ct = GTK_COMBO_TEXT (data);
+	gchar *value;
+	
+	if (ct->elements) {
+		value = gtk_object_get_data (GTK_OBJECT (child), "value");
+		g_hash_table_remove (ct->elements, value);
+	}
+}
+
 void
 gtk_combo_text_add_item (GtkComboText *ct,
 			 const gchar *item,
@@ -170,8 +211,6 @@ gtk_combo_text_add_item (GtkComboText *ct,
 		value = item;
 
 	value_copy = g_strdup (value);
-	g_hash_table_insert (ct->elements, (gpointer)value_copy,
-			     GINT_TO_POINTER (g_hash_table_size (ct->elements)));
 
 	listitem = gtk_list_item_new_with_label (item);
 	gtk_widget_show (listitem);
@@ -190,6 +229,13 @@ gtk_combo_text_add_item (GtkComboText *ct,
 
 	gtk_container_add (GTK_CONTAINER (ct->list),
 			   listitem);
+
+	g_hash_table_insert (ct->elements, (gpointer)value_copy,
+			     (gpointer) listitem);
+
+	gtk_signal_connect (GTK_OBJECT (listitem), "destroy",
+			    GTK_SIGNAL_FUNC (cb_remove_from_hash),
+			    (gpointer) ct);
 }
 
 static void

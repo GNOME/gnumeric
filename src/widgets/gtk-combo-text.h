@@ -32,6 +32,8 @@ GtkWidget *gtk_combo_text_new(gboolean const is_scrolled);
 
 void       gtk_combo_text_select_item (GtkComboText *combo_text,
 				       int elem);
+void       gtk_combo_text_set_text (GtkComboText *combo_text,
+				       const gchar *text);
 void       gtk_combo_text_add_item    (GtkComboText *combo_text,
 				       const gchar *item,
 				       const gchar *value);
