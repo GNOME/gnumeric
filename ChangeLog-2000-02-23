@@ -1,3 +1,38 @@
+2000-01-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cell.c (cell_set_text): Add warning if cell_set_text is
+	invoked with the empty string.
+
+	* src/workbook.c (workbook_edit_comment): Set the cell value to
+	VALUE_EMPTY instead of setting it to "".
+
+	* src/sheet.c (cellref_a1_get): Chek the range
+
+2000-01-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Use
+	application_clipboar_unant here. 
+	(gnumeric_sheet_key_mode_object): ditto.
+	
+	* src/sheet.c (sheet_start_editing_at_cursor): ditto.
+
+	* src/workbook-format-toolbar.c (change_selection_font): ditto
+	(set_selection_halign): ditto
+
+	* src/application.c (application_clipboard_copy): Use defines.
+	(application_clipboard_cut): Use defines.
+	(application_clipboard_unant): New function, less agressive
+	marking of unanting.
+
+	* src/workbook-view.c (workbook_view_set_paste_state): Use
+	named defines instead of arbitrary constants.  Please, no magic
+	constants ever in Gnumeric guys.
+
+	* src/application.c: 
+
+	* src/workbook-private.h: Move the menu_item fields to
+	workbook_private. 
+
 1999-12-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/file.c (workbook_import) : Support new plugin interface.

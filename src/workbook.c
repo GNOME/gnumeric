@@ -925,7 +925,7 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 
 	if (!cell){
 		cell = sheet_cell_new (sheet, sheet->cursor_col, sheet->cursor_row);
-		cell_set_text (cell, "");
+		cell_set_value (cell, value_new_empty ());
 	}
 
 	dialog_cell_comment (wb, cell);

@@ -2940,6 +2940,8 @@ cellref_a1_get (CellRef *out, const char *in, int parse_col, int parse_row)
 		row = row * 10 + *in - '0';
 		in++;
 	}
+	if (row > SHEET_MAX_ROWS)
+		return FALSE;
 	row--;
 
 	if (*in) /* We havn't hit the end yet */

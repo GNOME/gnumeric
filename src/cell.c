@@ -543,6 +543,16 @@ cell_set_text (Cell *cell, const char *text)
 		return;
 	}
 
+	if (*text == 0){
+		static int warn_shown;
+
+		if (!warn_shown){
+			g_warning (
+				"Cell value being set to empty string");
+			warn_shown = 1;
+		}
+	}
+	
 	cell_queue_redraw (cell);
 
 	cell_set_text_simple (cell, text);
