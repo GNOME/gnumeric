@@ -51,6 +51,7 @@ item_grid_realize (GnomeCanvasItem *item)
 	GnomeCanvas *canvas = item->canvas;
 	GdkVisual *visual;
 	GdkWindow *window;
+	GtkStyle  *style;
 	ItemGrid  *item_grid;
 	GdkGC     *gc;
 
@@ -59,6 +60,14 @@ item_grid_realize (GnomeCanvasItem *item)
 
 	item_grid = ITEM_GRID (item);
 	window = GTK_WIDGET (item->canvas)->window;
+
+	/* Set the default background color of the canvas itself to white.
+	 * This makes the redraws when the canvas scrolls flicker less.
+	 */
+	style = gtk_style_copy (GTK_WIDGET (item->canvas)->style);
+	style->bg[GTK_STATE_NORMAL] = gs_white;
+	gtk_widget_set_style (GTK_WIDGET (item->canvas), style);
+	gtk_style_unref (style);
 
 	/* Configure the default grid gc */
 	item_grid->grid_gc = gc = gdk_gc_new (window);
