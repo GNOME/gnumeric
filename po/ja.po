@@ -5,14 +5,15 @@
 # Mitsuo Hamada <mhamada@redhat.com>, 2000.
 # Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001,2003.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
+# Ryoichi INAGAKI <ryo1@bc.wakwak.com>, 2004.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-04 12:05+0900\n"
-"PO-Revision-Date: 2003-09-11 18:30+0900\n"
-"Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
+"POT-Creation-Date: 2004-08-23 22:08+0900\n"
+"PO-Revision-Date: 2004-08-24 00:45+0900\n"
+"Last-Translator: Ryoichi INAGAKI <ryo1@bc.wakwak.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,24 +21,23 @@ msgstr ""
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
-msgstr "Gnumericワークブック"
+msgstr "Gnumeric ワークブック"
 
 #: GNOME_Gnumeric.server.in.in.h:2
 msgid "Gnumeric Workbook Viewer"
-msgstr "Gnumericワークブックビューア"
+msgstr "Gnumeric ワークブックビューア"
 
 #: GNOME_Gnumeric.server.in.in.h:3
 msgid "Gnumeric Workbook viewer factory"
-msgstr "Gnumericワークブックビューアファクトリ"
+msgstr "Gnumeric ワークブックビューアファクトリ"
 
 #: gnumeric.desktop.in.h:1
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric スプレッドシート"
 
 #: gnumeric.desktop.in.h:2
-#, fuzzy
 msgid "Spreadsheet"
-msgstr "Gnumeric スプレッドシート"
+msgstr "スプレッドシート"
 
 #: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
@@ -1095,7 +1095,7 @@ msgstr "MS Excel (tm) 97/2000/XP ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:6
 #, fuzzy
-msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
+msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP 及び 5.0/95 ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:7
@@ -1190,7 +1190,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: plugins/fn-complex/functions.c:185
+#: plugins/fn-complex/functions.c:182
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -1217,7 +1217,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY"
 
-#: plugins/fn-complex/functions.c:218
+#: plugins/fn-complex/functions.c:215
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -1245,7 +1245,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
-#: plugins/fn-complex/functions.c:252
+#: plugins/fn-complex/functions.c:246
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -1276,7 +1276,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-complex/functions.c:283
+#: plugins/fn-complex/functions.c:277
 msgid ""
 "@FUNCTION=IMNEG\n"
 "@SYNTAX=IMNEG(inumber)\n"
@@ -1306,7 +1306,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-complex/functions.c:314
+#: plugins/fn-complex/functions.c:308
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -1332,7 +1332,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 
-#: plugins/fn-complex/functions.c:345
+#: plugins/fn-complex/functions.c:339
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -1357,7 +1357,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
-#: plugins/fn-complex/functions.c:376
+#: plugins/fn-complex/functions.c:370
 msgid ""
 "@FUNCTION=IMSEC\n"
 "@SYNTAX=IMSEC(inumber)\n"
@@ -1386,7 +1386,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCSC, IMCOT"
 
-#: plugins/fn-complex/functions.c:409
+#: plugins/fn-complex/functions.c:403
 msgid ""
 "@FUNCTION=IMCSC\n"
 "@SYNTAX=IMCSC(inumber)\n"
@@ -1415,7 +1415,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSEC,IMCOT"
 
-#: plugins/fn-complex/functions.c:442
+#: plugins/fn-complex/functions.c:436
 msgid ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(inumber)\n"
@@ -1443,7 +1443,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSEC,IMCSC"
 
-#: plugins/fn-complex/functions.c:475
+#: plugins/fn-complex/functions.c:469
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -1469,7 +1469,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN"
 
-#: plugins/fn-complex/functions.c:506
+#: plugins/fn-complex/functions.c:500
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1500,7 +1500,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-complex/functions.c:538
+#: plugins/fn-complex/functions.c:532
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -1534,7 +1534,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
-#: plugins/fn-complex/functions.c:574
+#: plugins/fn-complex/functions.c:568
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -1560,7 +1560,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
-#: plugins/fn-complex/functions.c:606
+#: plugins/fn-complex/functions.c:600
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -1586,7 +1586,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 
-#: plugins/fn-complex/functions.c:638
+#: plugins/fn-complex/functions.c:632
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1617,7 +1617,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSQRT"
 
-#: plugins/fn-complex/functions.c:677
+#: plugins/fn-complex/functions.c:671
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber1,inumber2)\n"
@@ -1645,7 +1645,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 
-#: plugins/fn-complex/functions.c:714
+#: plugins/fn-complex/functions.c:708
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -1671,7 +1671,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: plugins/fn-complex/functions.c:744
+#: plugins/fn-complex/functions.c:738
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1700,7 +1700,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOSH,IMTANH"
 
-#: plugins/fn-complex/functions.c:776
+#: plugins/fn-complex/functions.c:770
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1729,7 +1729,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSINH,IMTANH"
 
-#: plugins/fn-complex/functions.c:807
+#: plugins/fn-complex/functions.c:801
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -1756,7 +1756,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSINH,IMCOSH"
 
-#: plugins/fn-complex/functions.c:838
+#: plugins/fn-complex/functions.c:832
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -1785,7 +1785,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCSCH,IMCOTH"
 
-#: plugins/fn-complex/functions.c:869
+#: plugins/fn-complex/functions.c:863
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -1814,7 +1814,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSECH,IMCOTH"
 
-#: plugins/fn-complex/functions.c:900
+#: plugins/fn-complex/functions.c:894
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(inumber)\n"
@@ -1843,7 +1843,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSECH,IMCSCH"
 
-#: plugins/fn-complex/functions.c:931
+#: plugins/fn-complex/functions.c:925
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -1872,7 +1872,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCOS,IMARCTAN"
 
-#: plugins/fn-complex/functions.c:963
+#: plugins/fn-complex/functions.c:957
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -1900,7 +1900,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCTAN"
 
-#: plugins/fn-complex/functions.c:995
+#: plugins/fn-complex/functions.c:989
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(inumber)\n"
@@ -1926,7 +1926,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCCOS"
 
-#: plugins/fn-complex/functions.c:1027
+#: plugins/fn-complex/functions.c:1021
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(inumber)\n"
@@ -1957,7 +1957,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCSC, IMARCCOT"
 
-#: plugins/fn-complex/functions.c:1058
+#: plugins/fn-complex/functions.c:1052
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(inumber)\n"
@@ -1988,7 +1988,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCOT"
 
-#: plugins/fn-complex/functions.c:1089
+#: plugins/fn-complex/functions.c:1083
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(inumber)\n"
@@ -2018,7 +2018,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCSC"
 
-#: plugins/fn-complex/functions.c:1120
+#: plugins/fn-complex/functions.c:1114
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -2047,7 +2047,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCOSH,IMARCTANH"
 
-#: plugins/fn-complex/functions.c:1152
+#: plugins/fn-complex/functions.c:1146
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -2075,7 +2075,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCTANH"
 
-#: plugins/fn-complex/functions.c:1184
+#: plugins/fn-complex/functions.c:1178
 msgid ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(inumber)\n"
@@ -2104,7 +2104,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCCOSH"
 
-#: plugins/fn-complex/functions.c:1216
+#: plugins/fn-complex/functions.c:1210
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
@@ -2135,7 +2135,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCSCH,IMARCCOTH"
 
-#: plugins/fn-complex/functions.c:1248
+#: plugins/fn-complex/functions.c:1242
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
@@ -2166,7 +2166,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCOTH"
 
-#: plugins/fn-complex/functions.c:1279
+#: plugins/fn-complex/functions.c:1273
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(inumber)\n"
@@ -2197,7 +2197,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCSCH"
 
-#: plugins/fn-complex/functions.c:1311
+#: plugins/fn-complex/functions.c:1305
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -2222,7 +2222,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPOWER"
 
-#: plugins/fn-complex/functions.c:1342
+#: plugins/fn-complex/functions.c:1336
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber1,inumber2)\n"
@@ -2250,7 +2250,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUM"
 
-#: plugins/fn-complex/functions.c:1376
+#: plugins/fn-complex/functions.c:1370
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -2278,7 +2278,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMDIV"
 
-#: plugins/fn-complex/functions.c:1448
+#: plugins/fn-complex/functions.c:1442
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber1,inumber2)\n"
@@ -2306,18 +2306,19 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUB"
 
-#: plugins/fn-complex/functions.c:1484
+#: plugins/fn-complex/functions.c:1478
 msgid "real,im,suffix"
 msgstr "実数,虚数,虚数単位"
 
+#: plugins/fn-complex/functions.c:1481 plugins/fn-complex/functions.c:1484
 #: plugins/fn-complex/functions.c:1487 plugins/fn-complex/functions.c:1490
-#: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1496
-#: plugins/fn-complex/functions.c:1499 plugins/fn-complex/functions.c:1505
-#: plugins/fn-complex/functions.c:1508 plugins/fn-complex/functions.c:1511
-#: plugins/fn-complex/functions.c:1514 plugins/fn-complex/functions.c:1520
-#: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
-#: plugins/fn-complex/functions.c:1536 plugins/fn-complex/functions.c:1539
-#: plugins/fn-complex/functions.c:1542 plugins/fn-complex/functions.c:1548
+#: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1499
+#: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1505
+#: plugins/fn-complex/functions.c:1508 plugins/fn-complex/functions.c:1514
+#: plugins/fn-complex/functions.c:1517 plugins/fn-complex/functions.c:1520
+#: plugins/fn-complex/functions.c:1530 plugins/fn-complex/functions.c:1533
+#: plugins/fn-complex/functions.c:1536 plugins/fn-complex/functions.c:1542
+#: plugins/fn-complex/functions.c:1545 plugins/fn-complex/functions.c:1548
 #: plugins/fn-complex/functions.c:1551 plugins/fn-complex/functions.c:1554
 #: plugins/fn-complex/functions.c:1557 plugins/fn-complex/functions.c:1560
 #: plugins/fn-complex/functions.c:1563 plugins/fn-complex/functions.c:1566
@@ -2327,13 +2328,12 @@ msgstr "実数,虚数,虚数単位"
 #: plugins/fn-complex/functions.c:1587 plugins/fn-complex/functions.c:1590
 #: plugins/fn-complex/functions.c:1593 plugins/fn-complex/functions.c:1596
 #: plugins/fn-complex/functions.c:1599 plugins/fn-complex/functions.c:1602
-#: plugins/fn-complex/functions.c:1605 plugins/fn-complex/functions.c:1608
 msgid "inumber"
 msgstr "虚数"
 
-#: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1517
-#: plugins/fn-complex/functions.c:1529 plugins/fn-complex/functions.c:1532
-#: plugins/fn-complex/functions.c:1545
+#: plugins/fn-complex/functions.c:1496 plugins/fn-complex/functions.c:1511
+#: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
+#: plugins/fn-complex/functions.c:1539
 msgid "inumber,inumber"
 msgstr "虚数"
 
@@ -7517,7 +7517,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1685
-#, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -7533,14 +7532,15 @@ msgstr ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(値)\n"
 "@DESCRIPTION=ISTEXT 関数は値がテキストであれば TRUE を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ISTEXT(\"text\") = TRUE です。\n"
 "\n"
 "@SEEALSO=ISNONTEXT"
 
 #: plugins/fn-info/functions.c:1707
-#, fuzzy
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -7558,14 +7558,15 @@ msgstr ""
 "@SYNTAX=N(値)\n"
 "@DESCRIPTION=N 関数は値を数値に変換して返します。テキストを含んだ文字列は0(ゼ"
 "ロ)に変換されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "N(\"42\") = 42 です。\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1747
-#, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -7587,7 +7588,13 @@ msgstr ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(値)\n"
 "@DESCRIPTION=TYPE 関数は値のデータ型を表す番号を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"1  == 数値\n"
+"2  == テキスト\n"
+"4  == 真偽値\n"
+"16 == エラー\n"
+"64 == 配列\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "TYPE(3) = 1 です。\n"
 "TYPE(\"text\") = 2 です。\n"
@@ -7595,7 +7602,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1796
-#, fuzzy
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -7612,8 +7618,8 @@ msgstr ""
 "@DESCRIPTION=GETENV 関数は @文字列 で指定された環境変数に対する値を返しま"
 "す。\n"
 "\n"
-"@文字列 で指定された変数が存在しない場合、#N/A! が返されます。 環境変数の名前"
-"は大小文字を区別しないことに注意して下さい。\n"
+"* @文字列 で指定された変数が存在しない場合、#N/A! が返されます。環境変数の名"
+"前は大小文字を区別しないことに注意して下さい。\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8384,7 +8390,6 @@ msgstr ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: plugins/fn-lookup/functions.c:1125
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -8403,15 +8408,16 @@ msgstr ""
 "@SYNTAX=ROWS(範囲)\n"
 "@DESCRIPTION=ROWS 関数は @範囲 で指定された範囲、あるいは配列の行数を返しま"
 "す。\n"
-"@範囲 に指定されたものが、配列、セル範囲の参照でない場合、#VALUE! エラーが返"
-"されます。\n"
+"\n"
+"* @範囲 に指定されたものが、配列、セル範囲の参照でない場合、#VALUE! エラーが"
+"返されます。\n"
+"\n"
 "@EXAMPLES=\n"
 "ROWS(H7:I13) = 7 です。\n"
 "\n"
-"@SEEALSO=COLUMN,ROW,ROWS"
+"@SEEALSO=COLUMN,COLUMNS,ROW"
 
 #: plugins/fn-lookup/functions.c:1150
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -8424,7 +8430,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=HYPERLINK\n"
-"@SYNTAX=HYPERLINK(リンクの場所, オプションラベル)\n"
+"@SYNTAX=HYPERLINK(リンクの場所[, オプションラベル])\n"
 "@DESCRIPTION=HYPERLINK 関数は現時点では二番目の引数を返します。またはそれが省"
 "略されている場合に、一番目の引数を返します。\n"
 "\n"
@@ -8434,7 +8440,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:1175
-#, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -8448,6 +8453,7 @@ msgstr ""
 "@SYNTAX=TRANSPOSE(配列)\n"
 "@DESCRIPTION=TRANSPOSE 関数は入力された @配列 の縦方向と横方向を変換しま"
 "す。\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT"
@@ -8457,9 +8463,8 @@ msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:1222
-#, fuzzy
 msgid "reference"
-msgstr "設定(_C)..."
+msgstr "参照"
 
 #: plugins/fn-lookup/functions.c:1225
 msgid "index,value,"
@@ -8505,7 +8510,6 @@ msgid "ref,row,col,height,width"
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:1264 plugins/fn-math/functions.c:3264
-#, fuzzy
 msgid "array"
 msgstr "配列"
 
@@ -8522,7 +8526,6 @@ msgid "Lookup Functions"
 msgstr "検索関数"
 
 #: plugins/fn-math/functions.c:143
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -8541,9 +8544,11 @@ msgstr ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(数値1,数値2,...)\n"
 "@DESCRIPTION=GCD 関数は指定された数値の最大公約数を返します。\n"
-"数値のいずれかが 0(ゼロ)より小さい場合、#NUM! エラーが返されます。数値が整数"
-"以外の数値の場合、小数点以下を無視します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* 数値のいずれかが 0(ゼロ)より小さい場合、#NUM! エラーが返されます。* 数値が"
+"整数以外の数値の場合、小数点以下を無視します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "GCD(470,770) = 10 です。\n"
 "GCD(470,770,1495) = 5 です。\n"
@@ -8551,7 +8556,6 @@ msgstr ""
 "@SEEALSO=LCM"
 
 #: plugins/fn-math/functions.c:195
-#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -8573,8 +8577,11 @@ msgstr ""
 "@SYNTAX=LCM(数値1,数値2,...)\n"
 "@DESCRIPTION=LCM 関数は指定された数値の最小公倍数を返します。最小公倍数は @数"
 "値... で指定された全ての整数に共通する倍数の中で、もっとも小さい倍数です。\n"
-"指定された数値のいずれかが 1 より小さいと、#NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* 指定された数値のいずれかが 1 より小さいと、#NUM! エラーが返されます。\n"
+"* 数値が整数以外の数値の場合、小数点以下を無視します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "LCM(2,13) = 26 です。\n"
 "LCM(4,7,5) = 140 です。\n"
@@ -8582,7 +8589,6 @@ msgstr ""
 "@SEEALSO=GCD"
 
 #: plugins/fn-math/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -8602,7 +8608,9 @@ msgstr ""
 "@SYNTAX=ABS(b1)\n"
 "@DESCRIPTION=ABS 関数は絶対値関数を実行します。この結果は(もしあれば)負の符号"
 "を切り落とします。この関数は整数および実数にのみ有効です。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ABS(7) = 7 です。\n"
 "ABS(-3.14) = 3.14 です。\n"
@@ -8610,7 +8618,6 @@ msgstr ""
 "@SEEALSO=CEIL, FLOOR"
 
 #: plugins/fn-math/functions.c:277
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -8630,9 +8637,12 @@ msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
 "@DESCRIPTION=ACOS 関数は @x の逆余弦を求めます。つまり、結果の値の余弦は x に"
-"なります。もし @x が -1 から 1 の範囲外なら、ACOS は失敗し、NUM! エラーを返し"
-"ます。返り値はラジアンで返されます。\n"
-"この関数は Excel 互換です。\n"
+"なります。\n"
+"\n"
+"* 返り値はラジアンで返されます。\n"
+"* @x が -1 から 1 の範囲外なら、ACOS は失敗し、NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ACOS(0.1) = 1.470629 です。\n"
 "ACOS(-0.1) = 1.670964 です。\n"
@@ -8640,7 +8650,6 @@ msgstr ""
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:311
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -8659,9 +8668,11 @@ msgstr ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=ACOSH 関数は @x の逆双曲線余弦を計算します。つまり、結果の値の双"
-"曲線余弦(cosh)が @x となります。もし @x が 1.0 以下なら、acosh() は NUM! エ"
-"ラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"曲線余弦(cosh)が @x となります。\n"
+"\n"
+"* もし @x が 1.0 以下なら、acosh() は NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ACOSH(2) = 1.31696 です。\n"
 "ACOSH(5.3) = 2.35183 です。\n"
@@ -8669,7 +8680,6 @@ msgstr ""
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 
 #: plugins/fn-math/functions.c:344
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -8690,7 +8700,9 @@ msgstr ""
 "@DESCRIPTION=ASIN 関数は @x の逆正弦を計算します。つまり、結果の正弦が @x に"
 "なります。もし @x が -1 から 1 の範囲外だと、ASIN は失敗し、#NUM! エラーを返"
 "します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ASIN(0.5) = 0.523599 です。\n"
 "ASIN(1) = 1.570797 です。\n"
@@ -8698,7 +8710,6 @@ msgstr ""
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:377
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -8717,7 +8728,9 @@ msgstr ""
 "@SYNTAX=ASINH(x)\n"
 "@DESCRIPTION=ASIN 関数は @x の逆双曲線正弦を計算します。つまり、結果の双曲線"
 "正弦(sinh)が @x になります。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ASINH(0.5) = 0.481212 です。\n"
 "ASINH(1.0) = 0.881374 です。\n"
@@ -8725,7 +8738,6 @@ msgstr ""
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:401
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -8744,8 +8756,11 @@ msgstr ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
 "@DESCRIPTION=ATAN 関数は @x の逆正接を計算します。すなわち、結果の正接が @x "
-"なります。返り値はラジアンで返されます。\n"
-"この関数は Excel 互換です。\n"
+"なります。\n"
+"\n"
+"* 返り値はラジアンで返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ATAN(0.5) = 0,463648 です。\n"
 "ATAN(1) = 0,785398 です。\n"
@@ -8753,7 +8768,6 @@ msgstr ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:426
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -8773,9 +8787,11 @@ msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=ATANH 関数は @x の逆双曲線正接を計算します。すなわち結果の双曲線"
-"正接(tanh)が @x となります。もし @x の絶対値が 1.0 より大きいと、ATANH は "
-"#NUM! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"正接(tanh)が @x となります。\n"
+"\n"
+"* もし @x の絶対値が 1.0 より大きいと、ATANH は #NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ATANH(0.5) = 0.549306 です。\n"
 "ATANH(0.8) = 1.098612 です。\n"
@@ -8783,7 +8799,6 @@ msgstr ""
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:459
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -8805,8 +8820,11 @@ msgstr ""
 "@SYNTAX=ATAN2(b1,b2)\n"
 "@DESCRIPTION=ATAN2 関数は二つの変数 @b1 と @b2 の逆正接を計算します。これは "
 "@b2 / @b1 の逆正接を求めるのに似ていますが、この結果の象限を決定するために両"
-"引数の符号が使われる点が違います。結果はラジアンで返されます。\n"
-"この関数は Excel 互換です。\n"
+"引数の符号が使われる点が違います。\n"
+"\n"
+"* 結果はラジアンで返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ATAN2(0.5,1.0) = 1.107149 です。\n"
 "ATAN2(-0.5,2.0) = 1.815775 です。\n"
@@ -8814,7 +8832,6 @@ msgstr ""
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:487
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -8832,7 +8849,9 @@ msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
 "@DESCRIPTION=CEIL 関数は @x を一番近い次の整数に切り上げます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "CEIL(0.4) = 1\n"
 "CEIL(-1.1) = -1\n"
@@ -8841,7 +8860,6 @@ msgstr ""
 "@SEEALSO=ABS, FLOOR, INT"
 
 #: plugins/fn-math/functions.c:512
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -8863,7 +8881,9 @@ msgstr ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(範囲,条件)\n"
 "@DESCRIPTION=COUNTIF 関数は @条件 に合致する @範囲 内のセルの数を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 23, 27, 28, 33, 39 とすると\n"
 "COUNTIF(A1:A5,\"<=28\") = 3 です。\n"
@@ -8901,7 +8921,9 @@ msgstr ""
 "@DESCRIPTION=SUMIF 関数は @条件 に一致するセルの値を合計します。@合計範囲 を"
 "指定すると @合計範囲 に含まれるセルのうち、@範囲 内の @条件 を満たすセルに対"
 "応するセルだけを計算対象とします。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 23, 27, 28, 33, 39 とすると\n"
 "SUMIF(A1:A5,\"<=28\") = 78 です。\n"
@@ -8912,7 +8934,6 @@ msgstr ""
 "@SEEALSO=COUNTIF, SUM"
 
 #: plugins/fn-math/functions.c:727
-#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -8933,9 +8954,11 @@ msgstr ""
 "@SYNTAX=CEILING(数値,基準)\n"
 "@DESCRIPTION=CEILING 関数は @数値 を @基準 の倍数のうち0から遠いほうで最も近"
 "い値に丸めます。\n"
-"@数値 または @基準 が数値以外の場合には、#VALUE! エラーが返されます。@数値 "
-"と @基準 の符号が異なる場合、#NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @数値 または @基準 が数値以外の場合には、#VALUE! エラーが返されます。\n"
+"* @数値 と @基準 の符号が異なる場合、#NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "CEILING(2.43,1) = 3 です。\n"
 "CEILING(123.123,3) = 126 です。\n"
@@ -8943,7 +8966,6 @@ msgstr ""
 "@SEEALSO=CEIL"
 
 #: plugins/fn-math/functions.c:768
-#, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -8962,7 +8984,9 @@ msgstr ""
 "@SYNTAX=COS(x)\n"
 "@DESCRIPTION=COS 関数は x の余弦を返します。この x はラジアンで与えられま"
 "す。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "COS(0.5) = 0.877583 です。\n"
 "COS(1) = 0.540302 です。\n"
@@ -8970,7 +8994,6 @@ msgstr ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: plugins/fn-math/functions.c:792
-#, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -8990,9 +9013,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
-"@DESCRIPTION=COSH 関数は x の双曲線余弦を返します。数学的には (exp(x) + exp(-"
-"x)) / 2 として定義されます。x はラジアンを用います。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=COSH 関数は @x の双曲線余弦を返します。数学的には\n"
+"\n"
+"\t(exp(@x) + exp(-@x)) / 2 と定義されます。\n"
+"\n"
+"* @x はラジアンを用います。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "COSH(0.5) = 1.127626 です。\n"
 "COSH(1) = 1.543081 です。\n"
@@ -9000,7 +9027,6 @@ msgstr ""
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
 #: plugins/fn-math/functions.c:817
-#, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -9017,14 +9043,15 @@ msgstr ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
 "@DESCRIPTION=DEGREES 関数は @x ラジアンに対応する度数を計算します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "DEGREES(2.5) = 143.2394 です。\n"
 "\n"
 "@SEEALSO=RADIANS, PI"
 
 #: plugins/fn-math/functions.c:841
-#, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -9040,15 +9067,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
-"@DESCRIPTION=EXP 関数は e(自然対数の底)の x 乗(べき乗)の値を計算します。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=EXP 関数は e(自然対数の底)の @x 乗(べき乗)の値を計算します。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "EXP(2) = 7.389056 です。\n"
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
 #: plugins/fn-math/functions.c:864
-#, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -9064,8 +9092,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT 関数は x の階乗を計算します(x!)。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=FACT 関数は @x の階乗を計算します(@x!)。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "FACT(3) = 6 です。\n"
 "FACT(9) = 362880 です。\n"
@@ -9073,7 +9103,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:900
-#, fuzzy
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -9089,13 +9118,6 @@ msgid ""
 "\n"
 "@SEEALSO=BETALN,GAMMALN"
 msgstr ""
-"@FUNCTION=ISPMT\n"
-"@SYNTAX=ISPMT(利率,期,期間,現在価値)\n"
-"@DESCRIPTION=ISPMT 関数は @期間内 の指定された @期 に支払われる金利を返しま"
-"す。@期 が1より小さく、@期間 より大きい場合、#NUM! エラーが返されます。\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=PV"
 
 #: plugins/fn-math/functions.c:930
 #, fuzzy
@@ -9151,7 +9173,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:992
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -9172,8 +9193,11 @@ msgstr ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(数値,基準値)\n"
 "@DESCRIPTION=FLOOR 関数は @数値 を挟む @基準値 の倍数のうち、0 に近い方の値を"
-"返します。@基準値 のデフォルトは1です。\n"
-"この関数は Excel 互換です。\n"
+"返します。\n"
+"\n"
+"* @基準値 のデフォルトは1です。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "FLOOR(0.5) = 0 です。\n"
 "FLOOR(5,2) = 4 です。\n"
@@ -9183,7 +9207,6 @@ msgstr ""
 "@SEEALSO=CEIL, ABS, INT"
 
 #: plugins/fn-math/functions.c:1030
-#, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -9201,7 +9224,9 @@ msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
 "@DESCRIPTION=INT 関数は引数よりも大きくない、最も大きな整数値を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "INT(7.2) = 7 です。\n"
 "INT(-5.5) = -6 です。\n"
@@ -9209,7 +9234,6 @@ msgstr ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 
 #: plugins/fn-math/functions.c:1055
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -9229,7 +9253,9 @@ msgstr ""
 "@SYNTAX=LOG(数値,[底])\n"
 "@DESCRIPTION=LOG 関数は @底 に指定された値を底として、@x の対数を計算します。"
 "@底が指定されない場合、10 を底とみなします。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "LOG(2) = 0.30103 です。\n"
 "LOG(8192,2) = 13 です。\n"
@@ -9237,7 +9263,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: plugins/fn-math/functions.c:1089
-#, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -9253,16 +9278,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN 関数は @x の自然対数を返します。@x <= 0 の場合、LN は#NUM! エ"
-"ラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=LN 関数は @x の自然対数を返します。\n"
+"\n"
+"* @x <= 0 の場合、LN は#NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "LN(7) = 1.94591 です。\n"
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: plugins/fn-math/functions.c:1118
-#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -9283,7 +9309,13 @@ msgstr ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
 "@DESCRIPTION=POWER 関数は @x の @y 乗を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"\n"
+"* @x と @y がともに 0 の場合、POWER は #NUM! エラーを返します。\n"
+"* @x が 0 で @y が 0 未満の場合、POWER は #DIV/0! エラーを返します。\n"
+"* @x が 0 未満で @y が整数でない場合、POWER は #NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "POWER(2,7) = 128 です。\n"
 "POWER(3,3.141) = 31.523749 です。\n"
@@ -9291,7 +9323,6 @@ msgstr ""
 "@SEEALSO=EXP"
 
 #: plugins/fn-math/functions.c:1154
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -9306,15 +9337,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
-"@DESCRIPTION=LOG2 関数は底を 2 とした x の対数を計算します。@x <= 0 の場合"
-"LOG2 は #NUM! エラーを返します。\n"
+"@DESCRIPTION=LOG2 関数は底を 2 とした x の対数を計算します。\n"
+"\n"
+"* @x <= 0 の場合、LOG2 は #NUM! エラーを返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "LOG2(1024) = 10 です。\n"
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
 #: plugins/fn-math/functions.c:1180
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -9330,16 +9362,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
-"@DESCRIPTION=LOG10 関数は底を 10 とした x の対数を計算します。@x <= 0 の場合"
-"LOG10 は #NUM! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=LOG10 関数は底を 10 とした x の対数を計算します。|n"
+"\n"
+"* @x <= 0 の場合、LOG10 は #NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "LOG10(7) = 0.845098 です。\n"
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: plugins/fn-math/functions.c:1209
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -9357,8 +9390,9 @@ msgstr ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(数値,除数)\n"
 "@DESCRIPTION=MOD 関数は @数値 を @除数 で割ったときの余りを返します。\n"
-"この関数は Excel 互換です。\n"
-"@除数に0(ゼロ)を指定すると、#DIV/0! エラーが返されます。\n"
+"\n"
+"* @除数に0(ゼロ)を指定すると、MOD は #DIV/0! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
 "MOD(23,7) = 2 です。\n"
@@ -9366,7 +9400,6 @@ msgstr ""
 "@SEEALSO=INT,FLOOR,CEIL"
 
 #: plugins/fn-math/functions.c:1260
-#, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -9383,14 +9416,15 @@ msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
 "@DESCRIPTION=RADIANS 関数は @x 度に対応するラジアンの数を求めます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "RADIANS(180) = 3.14159 です。\n"
 "\n"
 "@SEEALSO=PI,DEGREES"
 
 #: plugins/fn-math/functions.c:1284
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -9407,14 +9441,15 @@ msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
 "@DESCRIPTION=SIN 関数は x の正弦を返します。@x はラジアンで指定します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "SIN(0.5) = 0.479426 です。\n"
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: plugins/fn-math/functions.c:1307
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -9432,16 +9467,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
-"@DESCRIPTION=SINH 関数は x の双曲線正弦を返します。数学的には (exp(x) - exp(-"
-"x)) / 2 として定義されます。x にはラジアンを用います。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=SINH 関数は @x の双曲線正弦を返します。数学的には\n"
+"\n"
+"\t(exp(@x) - exp(-@x)) / 2 として定義されます。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "SINH(0.5) = 0.521095 です。\n"
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: plugins/fn-math/functions.c:1331
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -9457,16 +9494,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=SQRT 関数は @x の平方根を返します。@x に負の値を指定すると、"
-"#NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=SQRT 関数は @x の平方根を返します。\n"
+"\n"
+"* @x に負の値を指定すると、#NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "SQRT(2) = 1.4142136 です。\n"
 "\n"
 "@SEEALSO=POWER"
 
 #: plugins/fn-math/functions.c:1359
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -9489,6 +9527,7 @@ msgstr ""
 "す。数値、文字列、論理値も計算に含まれます。セルの内容が文字列または論理値の"
 "FALSE の場合には、0(ゼロ)として計算され、論理値の TRUE の場合には 1 として計"
 "算されます。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 がそれぞれ 11, 15, 17, 21, 43 とすると\n"
 "SUM(A1:A5) = 107 です。\n"
@@ -9496,7 +9535,6 @@ msgstr ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: plugins/fn-math/functions.c:1391
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -9516,7 +9554,9 @@ msgstr ""
 "@SYNTAX=SUMSQ(数値1, 数値2, ...)\n"
 "@DESCRIPTION=SUMSQ 関数は引数に指定された数値、あるいは引数で指定されたセル範"
 "囲の数値の二乗の和を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11, 15, 17, 21, 43 とすると\n"
 "SUMSQ(A1:A5) = 2925 です。\n"
@@ -9524,7 +9564,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT"
 
 #: plugins/fn-math/functions.c:1422
-#, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -9542,14 +9581,15 @@ msgstr ""
 "@SYNTAX=MULTINOMIAL(数値1, 数値2, ...)\n"
 "@DESCRIPTION=MULTINOMIAL 関数は指定された数値の和の階乗と、指定された数値の階"
 "乗の積との比を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "MULTINOMIAL(2,3,4) = 1260 です。\n"
 "\n"
 "@SEEALSO=SUM"
 
 #: plugins/fn-math/functions.c:1451
-#, fuzzy
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -9566,14 +9606,16 @@ msgstr ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(数値1, 数値2, ...)\n"
 "@DESCRIPTION=G_PRODUCT 関数は指定された数値、セル参照に含まれるすべての数値の"
-"積を返します。空白セルは 1 として計算されます。\n"
+"積を返します。\n"
+"\n"
+"* 空白セルは 1 として計算されます。\n"
+"\n"
 "@EXAMPLES=\n"
 "G_PRODUCT(2,5,9) = 90 です。\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
 
 #: plugins/fn-math/functions.c:1479
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -9590,14 +9632,15 @@ msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
 "@DESCRIPTION=TAN 関数は @x の正弦を返します。@x はラジアンで指定します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "TAN(3) = -0.1425465 です。\n"
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:1502
-#, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -9615,16 +9658,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION=TANH 関数は @x の双曲線余弦を返します。これは数学的にsinh(@x) / "
-"cosh(@x) で定義されます。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=TANH 関数は @x の双曲線余弦を返します。これは数学的には\n"
+"\n"
+"\tsinh(@x) / cosh(@x) と定義されます。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "TANH(2) = 0.96402758 です。\n"
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:1525
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -9642,15 +9687,16 @@ msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
 "@DESCRIPTION=PI 関数は円周率πの値を返します。\n"
-"この関数には引数はありません。\n"
-"この関数は Excel 互換ですが、もっとも良い精度で返します。\n"
+"\n"
+"* この関数には引数はありません。\n"
+"* この関数は Excel 互換ですが、もっとも良い精度で返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "PI() = 約 3.141593 です。\n"
 "\n"
 "@SEEALSO=SQRTPI"
 
 #: plugins/fn-math/functions.c:1550
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -9670,9 +9716,11 @@ msgstr ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(数値[,列数])\n"
 "@DESCRIPTION=TRUNC 関数は @数値 に指定された値を @列数 で指定された小数部の列"
-"数にあわせて切り捨てた値を返します。@列数 が省略されると、0(ゼロ)が指定された"
-"と見なされます。\n"
-"この関数は Excel 互換です。\n"
+"数にあわせて切り捨てた値を返します。\n"
+"\n"
+"* @列数 が省略されると、0(ゼロ)が指定されたと見なされます。\n"
+"*この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "TRUNC(3.12) = 3 です。\n"
 "TRUNC(4.15,1) = 4.1 です。\n"
@@ -9680,7 +9728,6 @@ msgstr ""
 "@SEEALSO=INT"
 
 #: plugins/fn-math/functions.c:1586
-#, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -9698,14 +9745,15 @@ msgstr ""
 "@SYNTAX=EVEN(数値)\n"
 "@DESCRIPTION=EVEN 関数は指定された @数値 にもっとも近い偶数の整数に切り上げ、"
 "その値を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "EVEN(5.4) = 6 です。\n"
 "\n"
 "@SEEALSO=ODD"
 
 #: plugins/fn-math/functions.c:1624
-#, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -9723,14 +9771,15 @@ msgstr ""
 "@SYNTAX=ODD(number)\n"
 "@DESCRIPTION=ODD 関数は指定された @数値 にもっとも近い奇数の整数に切り上げ、"
 "その値を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ODD(4.4) = 5 です。\n"
 "\n"
 "@SEEALSO=EVEN"
 
 #: plugins/fn-math/functions.c:1662
-#, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -9750,16 +9799,17 @@ msgstr ""
 "@SYNTAX=FACTDOUBLE(数値)\n"
 "@DESCRIPTION=FACTDOUBLE 関数は @数値 の二重階乗を返します。つまり x!! で"
 "す。\n"
-"@数値 が整数でない数値の場合、小数点以下は無視されます。@数値 が負の数の場"
-"合、#NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @数値 が整数でない数値の場合、小数点以下は無視されます。\n"
+"* @数値 が負の数の場合、#NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "FACTDOUBLE(5) = 15 です。\n"
 "\n"
 "@SEEALSO=FACT"
 
 #: plugins/fn-math/functions.c:1700
-#, fuzzy
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -9773,20 +9823,19 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(数値)\n"
-"@DESCRIPTION=FACTDOUBLE 関数は @数値 の二重階乗を返します。つまり x!! で"
-"す。\n"
-"@数値 が整数でない数値の場合、小数点以下は無視されます。@数値 が負の数の場"
-"合、#NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"FACTDOUBLE(5) = 15 です。\n"
+"@FUNCTION=FIB\n"
+"@SYNTAX=FIB(数値)\n"
+"@DESCRIPTION=FIB 関数はフィボナッチ数を計算します。\n"
 "\n"
-"@SEEALSO=FACT"
+"* @数値 が整数でない数値の場合、小数点以下は無視されます。\n"
+"* @数値 が負の数または 0 の場合、FIB は #NUM! エラーを返します。\n"
+"\n"
+"@EXAMPLES=\n"
+"FIB(12) equals 144.\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-math/functions.c:1748
-#, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -9803,16 +9852,16 @@ msgstr ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(分子,分母)\n"
 "@DESCRIPTION=QUOTIENT 関数は商の整数部を返します。\n"
-"@分子 は割られる数です。\n"
-"@分母 は割る数です。\n"
+"@分子 は割られる数、@分母 は割る数です。\n"
+"\n"
 "この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "QUOTIENT(23,5) = 4 です。\n"
 "\n"
 "@SEEALSO=MOD"
 
 #: plugins/fn-math/functions.c:1780
-#, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -9832,7 +9881,9 @@ msgstr ""
 "@SYNTAX=SIGN(数値)\n"
 "@DESCRIPTION=SIGN 関数は @数値 が正の数の場合に 1 を返し、0(ゼロ)の場合には0"
 "(ゼロ)を返し、負の数の場合には -1 を返します。\n"
+"\n"
 "この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "SIGN(3) = 1 です。\n"
 "SIGN(-3) = -1 です。\n"
@@ -9841,7 +9892,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:1814
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -9858,14 +9908,15 @@ msgstr ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(数値)\n"
 "@DESCRIPTION=SQRTPI 関数は (@数値 * π) の平方根を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "SQRTPI(2) equals 2.506628275 です。\n"
 "\n"
 "@SEEALSO=PI"
 
 #: plugins/fn-math/functions.c:1843
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -9893,10 +9944,13 @@ msgstr ""
 "@SYNTAX=ROUNDDOWN(数値[,列数])\n"
 "@DESCRIPTION=ROUNDDOWN 関数は数値を指定された列数で切り捨てます。@数値 は切り"
 "捨ての対象となる数値、@列数 は切り捨ての列数を指定します。\n"
-"@列数 が正の数の場合、@数値 は指定された列数までに切り捨てられます。@列数 が "
-"0(ゼロ) あるいは省略された場合、@数値 は小数点以下がすべて切り捨てられます。@"
-"列数 が負の数の場合、整数部分の指定された列数で切り捨てられます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @列数 が正の数の場合、@数値 は指定された列数までに切り捨てられます。\n"
+"* @列数 が 0(ゼロ) あるいは省略された場合、@数値 は小数点以下がすべて切り捨て"
+"られます。\n"
+"* @列数 が負の数の場合、整数部分の指定された列数で切り捨てられます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ROUNDDOWN(5.5) = 5 です。\n"
 "ROUNDDOWN(-3.3) = -4 です。\n"
@@ -9906,7 +9960,6 @@ msgstr ""
 "@SEEALSO=ROUND,ROUNDUP"
 
 #: plugins/fn-math/functions.c:1887
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -9932,13 +9985,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(数値[,列数])\n"
-"@DESCRIPTION=ROUND 関数は数値を四捨五入します。@数値 には四捨五入の対象となる"
-"数値を指定します。@列数 には四捨五入した結果の列数を指定します。\n"
-"@列数 が正の数の場合、@数値 は小数点以下で四捨五入され、小数点以下の列数が@列"
-"数に等しくなります。@列数 が 0(ゼロ) あるいは省略された場合、@数値 はもっとも"
-"近い整数に四捨五入されます。@列数 が負の数の場合、整数部分の指定された列数で"
-"四捨五入されます。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=ROUND 関数は数値を四捨五入します。\n"
+"\n"
+"@数値 には四捨五入の対象となる数値を指定します。@列数 には四捨五入した結果の"
+"列数を指定します。\n"
+"\n"
+"* @列数 が正の数の場合、@数値 は小数点以下で四捨五入され、小数点以下の列数が@列"
+"数に等しくなります。\n"
+"* @列数 が 0(ゼロ) あるいは省略された場合、@数値 はもっとも近い整数に四捨五入"
+"されます。\n"
+"* @列数 が負の数の場合、整数部分の指定された列数で四捨五入されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ROUND(5.5) = 6 です。\n"
 "ROUND(-3.3) = -3 です。\n"
@@ -9948,7 +10006,6 @@ msgstr ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: plugins/fn-math/functions.c:1928
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -9975,12 +10032,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(数値[,列数])\n"
-"@DESCRIPTION=ROUNDUP 関数は数値を指定された列数で切り上げます。@数値 は切り上"
-"げの対象となる数値、@列数 は切り上げの列数を指定します。\n"
-"@列数 が正の数の場合、@数値 は指定された列数までに切り上げられます。@列数 が "
-"0(ゼロ) あるいは省略された場合、@数値 は小数点以下がすべて切り上げられます。@"
-"列数 が負の数の場合、整数部分の指定された列数で切り上げられます。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=ROUNDUP 関数は数値を指定された列数で切り上げます。\n"
+"\n"
+"@数値 は切り上げの対象となる数値、@列数 は切り上げの列数を指定します。\n"
+"\n"
+"* @列数 が正の数の場合、@数値 は指定された列数までに切り上げられます。\n"
+"* @列数 が 0(ゼロ) あるいは省略された場合、@数値 は小数点以下がすべて切り上げ"
+"られます。\n"
+"* @列数 が負の数の場合、整数部分の指定された列数で切り上げられます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ROUNDUP(5.5) = 6 です。\n"
 "ROUNDUP(-3.3) = -3 です。\n"
@@ -9990,7 +10051,6 @@ msgstr ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 
 #: plugins/fn-math/functions.c:1972
-#, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -10010,11 +10070,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(数値,倍数)\n"
-"@DESCRIPTION=MROUND 関数は指定された値の倍数になるように数値を丸めます。@数"
-"値 は丸める数値を指定します。@倍数 には丸められた数値がその倍数になるような数"
-"値を指定します。\n"
-"@数値 と @倍数 の符号が違う場合は、#NUM! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=MROUND 関数は指定された値の倍数になるように数値を丸めます。\n"
+"\n"
+"@数値 は丸める数値を指定します。@倍数 には丸められた数値がその倍数になるような"
+"数値を指定します。\n"
+"\n"
+"* @数値 と @倍数 の符号が違う場合は、#NUM! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "MROUND(1.7,0.2) = 1.8 です。\n"
 "MROUND(321.123,0.12) = 321.12 です。\n"
@@ -10049,12 +10112,16 @@ msgstr ""
 "@SYNTAX=ROMAN(数値[,形式])\n"
 "@DESCRIPTION=ROMAN 関数はアラビア数字をローマ数字の形式の文字列に変換します。"
 "@数値 は変換したいアラビア数字、@形式 は変換したいローマ数字の形式を指定しま"
-"す。@形式 に 0(ゼロ) を指定、もしくは省略した場合、古典的なローマ数字が返され"
-"ます。@形式 に 1 を指定すると簡略形式で返されます。2 を指定すると、1 よりさら"
+"す。\n"
+"\n"
+"* @形式 に 0(ゼロ) を指定、もしくは省略した場合、古典的なローマ数字が返され"
+"ます。\n"
+"* @形式 に 1 を指定すると簡略形式で返されます。2 を指定すると、1 よりさら"
 "に簡略化された形式で返されます。3 を指定すると、2 よりさらに簡略化された形式"
 "で返されます。4 を指定すると、簡略形式で返されます。\n"
-"@数値が負の数や、3999 より大きい場合、#VALUE! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"* @数値が負の数や、3999 より大きい場合、#VALUE! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "ROMAN(999) = CMXCIX です。\n"
 "ROMAN(999,1) = LMVLIV です。\n"
@@ -10065,7 +10132,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:2292
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -10091,9 +10157,11 @@ msgstr ""
 "@SYNTAX=SUMX2MY2(配列1,配列2)\n"
 "@DESCRIPTION=SUMX2MY2 関数は二つの配列の対応する要素の平方差の合計を返しま"
 "す。SUMX2MY2 は SUM (X^2 - Y^2) の式で表すことができます。\n"
-"文字列や空白セルは単純に無視されます。\n"
-"@配列1 と @配列2 の要素の数が違う場合、#N/A! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* 文字列や空白セルは単純に無視されます。\n"
+"* @配列1 と @配列2 の要素の数が違う場合、#N/A! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11, 15, 17, 21, 43 で、セル B1, B2, ..., "
 "B5 の値がそれぞれ 13, 22, 31, 33, 39 とすると\n"
@@ -10106,10 +10174,9 @@ msgstr ""
 #: plugins/fn-math/functions.c:2572 plugins/fn-math/functions.c:2592
 #: plugins/fn-stat/functions.c:2920 plugins/fn-stat/functions.c:2950
 msgid "Array version not implemented!"
-msgstr "配列バージョンはまだ実装されてません"
+msgstr "配列バージョンはまだ実装されてません!"
 
 #: plugins/fn-math/functions.c:2406
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -10135,9 +10202,11 @@ msgstr ""
 "@SYNTAX=SUMX2PY2(配列1,配列2)\n"
 "@DESCRIPTION=SUMX2PY2 関数は二つの配列の対応する要素の平方和の合計を返しま"
 "す。SUMX2PY2 は SUM (X^2 + Y^2) の式で表すことができます。\n"
-"文字列や空白セルは単純に無視されます。\n"
-"@配列1 と @配列2 の要素の数が違う場合、#N/A! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* 文字列や空白セルは単純に無視されます。\n"
+"* @配列1 と @配列2 の要素の数が違う場合、#N/A! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11, 15, 17, 21, 43 で、セル B1, B2, ..., "
 "B5 の値がそれぞれ 13, 22, 31, 33, 39 とすると\n"
@@ -10146,7 +10215,6 @@ msgstr ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
 #: plugins/fn-math/functions.c:2517
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -10172,9 +10240,11 @@ msgstr ""
 "@SYNTAX=SUMXMY2(配列1,配列2)\n"
 "@DESCRIPTION=SUMXMY2 関数は二つの配列の対応する要素の差を二乗してその合計を返"
 "します。SUMXMY2 は SUM (X - Y)^2 で表すことができます。\n"
-"文字列や空白セルは単純に無視されます。\n"
-"@配列1 と @配列2 の要素の数が違う場合、#N/A! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* 文字列や空白セルは単純に無視されます。\n"
+"* @配列1 と @配列2 の要素の数が違う場合、#N/A! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11, 15, 17, 21, 43 で、セル B1, B2, ..., "
 "B5 の値がそれぞれ 13, 22, 31, 33, 39 とすると\n"
@@ -10183,7 +10253,6 @@ msgstr ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
 #: plugins/fn-math/functions.c:2630
-#, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -10206,7 +10275,9 @@ msgstr ""
 "@DESCRIPTION=SERIESSUM 関数はべき級数を返します。@x はべき級数の基底、@n は "
 "@x のべき乗の初期値、@m は級数の各項に対する @n の増加分、@係数は級数の各項に"
 "掛けられる係数です。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 1.23, 2.32, 2.98, 3.42, 4.33 とすると\n"
 "SERIESSUM(3,1,2.23,A1:A5) = 251416.43018 です。\n"
@@ -10214,7 +10285,6 @@ msgstr ""
 "@SEEALSO=COUNT,SUM"
 
 #: plugins/fn-math/functions.c:2688
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -10232,15 +10302,16 @@ msgstr ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(行列)\n"
 "@DESCRIPTION=MINVERSE 関数は行列の逆行列を返します。\n"
-"@行列 を逆行列に変換できない場合、#NUM! エラーが返されます。また、@行列 の行"
-"数と列数が等しくない場合、#VALUE! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @行列 を逆行列に変換できない場合、#NUM! エラーが返されます。\n"
+"* また、@行列 の行数と列数が等しくない場合、#VALUE! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
 #: plugins/fn-math/functions.c:2831
-#, fuzzy
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -10258,13 +10329,14 @@ msgstr ""
 "@SYNTAX=MMULT(配列1,配列2)\n"
 "@DESCRIPTION=MMULT 関数は二つの配列の行列積を返します。計算結果は、@配列1 と"
 "同じ行数、@配列2 と同じ列数の行列になります。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
 #: plugins/fn-math/functions.c:2907
-#, fuzzy
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -10285,8 +10357,10 @@ msgstr ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(行列)\n"
 "@DESCRIPTION=MDETERM 関数は行列の行列式を返します。\n"
-"@行列の行数と列数が等しくない場合、#VALUE! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @行列の行数と列数が等しくない場合、#VALUE! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, ..., A4 の値がそれぞれ 2, 3, 7, 3、セル B1, ..., B4 の値がそれぞれ、"
 "4, 2, 4, 1、セル C1, ..., C4 の値がそれぞれ、9, 4, 3, 2、セル D1, ..., D4 の"
@@ -10296,7 +10370,6 @@ msgstr ""
 "@SEEALSO=MMULT, MINVERSE"
 
 #: plugins/fn-math/functions.c:2955
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -10321,9 +10394,11 @@ msgstr ""
 "@DESCRIPTION=SUMPRODUCT 関数は指定された配列または範囲に対応する要素間の積を"
 "計算し、その合計を返します。指定された配列が数値ではない場合、数値の 0 が指定"
 "されたものとみなされます。\n"
-"指定された配列または範囲の両方の次元が等しくない場合、SUMPRODUCT 関数は "
+"\n"
+"* 指定された配列または範囲の両方の次元が等しくない場合、SUMPRODUCT 関数は "
 "#VALUE! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11, 15, 17, 21, 43、セル  B1, B2, ..., B5"
 "の値がそれぞれ 13, 22, 31, 33, 39 とすると\n"
@@ -10339,15 +10414,13 @@ msgstr ""
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
-#, fuzzy
 msgid "a,b"
-msgstr "タブ"
+msgstr "a,b"
 
 #. MS Excel puts this in statistical
 #: plugins/fn-math/functions.c:3106
-#, fuzzy
 msgid "range,criteria"
-msgstr "条件"
+msgstr "範囲,条件"
 
 #: plugins/fn-math/functions.c:3114
 msgid "number,significance"
@@ -10355,7 +10428,7 @@ msgstr ""
 
 #: plugins/fn-math/functions.c:3139 plugins/fn-stat/functions.c:5810
 msgid "n,k"
-msgstr ""
+msgstr "n,k"
 
 #: plugins/fn-math/functions.c:3146
 msgid "number,number"
@@ -10389,9 +10462,8 @@ msgid "number,digits"
 msgstr "数値"
 
 #: plugins/fn-math/functions.c:3208
-#, fuzzy
 msgid "x,n,m,coefficients"
-msgstr "係数"
+msgstr ""
 
 #: plugins/fn-math/functions.c:3230
 msgid "range,criteria,actual_range"
@@ -10399,14 +10471,14 @@ msgstr ""
 
 #: plugins/fn-math/functions.c:3233
 msgid "range,range,"
-msgstr ""
+msgstr "範囲,範囲,"
 
 #: plugins/fn-math/functions.c:3239 plugins/fn-math/functions.c:3242
 #: plugins/fn-math/functions.c:3245 plugins/fn-math/functions.c:3261
 #: plugins/fn-stat/functions.c:5669 plugins/fn-stat/functions.c:5678
 #: plugins/fn-stat/functions.c:5801 plugins/fn-stat/functions.c:5857
 msgid "array1,array2"
-msgstr ""
+msgstr "配列1,配列2"
 
 #: plugins/fn-math/functions.c:3267 plugins/fn-math/functions.c:3271
 msgid "array,matrix_type,bandsize"
@@ -10425,7 +10497,6 @@ msgid "Mathematics"
 msgstr "数学"
 
 #: plugins/fn-random/functions.c:49
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -10441,7 +10512,9 @@ msgstr ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
 "@DESCRIPTION=RAND 関数は 0 と 1 の間の乱数を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "RAND() は 0 より大きく、1 より小さい乱数を返します。\n"
 "\n"
@@ -10496,7 +10569,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:236
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
@@ -10510,13 +10582,13 @@ msgstr ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
 "@DESCRIPTION=RANDEXP 関数は指数分布を用いて乱数を発生させます。\n"
+"\n"
 "@EXAMPLES=\n"
 "RANDEXP(0.5)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:259
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
@@ -10532,13 +10604,15 @@ msgstr ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
 "@DESCRIPTION=RANDPOISSON 関数はポアソン分布を用いて、乱数を発生させます。\n"
+"\n"
+"* @lambda が負数の場合、RANDPOISSON 関数は #NUM! エラーを返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "RANDPOISSON(3)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:287
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -10554,15 +10628,16 @@ msgstr ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,試行回数)\n"
 "@DESCRIPTION=RANDBINOM 関数は二項分布を用いて乱数を発生させます。\n"
-"@p < 0 または @p > 1 の場合、RANDBINOM 関数は #NUM! エラーを返します。@試行回"
-"数 < 0 の場合、RANDBINOM 関数は #NUM! エラーを返します。\n"
+"\n"
+"* @p < 0 または @p > 1 の場合、RANDBINOM 関数は #NUM! エラーを返します。\n"
+"* @試行回数 < 0 の場合、RANDBINOM 関数は #NUM! エラーを返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0.5,2)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:317
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -10582,16 +10657,17 @@ msgstr ""
 "@SYNTAX=RANDBETWEEN(最小値,最大値)\n"
 "@DESCRIPTION=RANDBETWEEN 関数は @最小値 と @最大値 で指定された範囲で一様に分"
 "布する整数の乱数を返します。\n"
-"@最小値 または @最大値 が整数でない数値の場合は、小数点以下が無視されます。@"
-"最小値 が @最大値より大きい場合、#NUM!エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @最小値 または @最大値 が整数でない数値の場合は、小数点以下が無視されます。\n"
+"* @最小値 が @最大値より大きい場合、#NUM!エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "RANDBETWEEN(3,7) です。\n"
 "\n"
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:352
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -10609,15 +10685,16 @@ msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,失敗数)\n"
 "@DESCRIPTION=RANDNEGBINOM 関数は負の二項分布を用いて乱数を発生させます。\n"
-"@p < 0 または @p > 1 の場合、RANDNEGBINOM 関数は #NUM! エラーを返します。@失"
-"敗数 < 0 の場合、RANDNEGBINOM 関数は #NUM! エラーを返します。\n"
+"\n"
+"* @p < 0 または @p > 1 の場合、RANDNEGBINOM 関数は #NUM! エラーを返します。\n"
+"* @失敗数 < 0 の場合、RANDNEGBINOM 関数は #NUM! エラーを返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0.5,2)\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:383
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
@@ -10633,7 +10710,9 @@ msgstr ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
 "@DESCRIPTION=RANDBERNOULLI 関数はベルヌーイ分布を用いて乱数を発生させます。\n"
-"@p < 0 または @p > 1 の場合、RANDBERNOULLI 関数は #NUM! エラーを返します。\n"
+"\n"
+"* @p < 0 または @p > 1 の場合、RANDBERNOULLI 関数は #NUM! エラーを返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "RandBernoulli(0.5)\n"
 "\n"
@@ -11191,9 +11270,8 @@ msgid "bottom,top"
 msgstr "下"
 
 #: plugins/fn-random/functions.c:1109
-#, fuzzy
 msgid "p,trials"
-msgstr "4月"
+msgstr "p,試行回数"
 
 #: plugins/fn-random/functions.c:1112 plugins/fn-random/functions.c:1148
 #: plugins/fn-random/functions.c:1157
@@ -11246,27 +11324,24 @@ msgid "mean,stdev"
 msgstr ""
 
 #: plugins/fn-random/functions.c:1172
-#, fuzzy
 msgid "lambda"
-msgstr "ラムダ(_L):"
+msgstr "λ"
 
 #: plugins/fn-random/functions.c:1175
 msgid "sigma"
-msgstr ""
+msgstr "Σ"
 
 #: plugins/fn-random/functions.c:1190
 msgid "d1,d2,...,dN"
 msgstr ""
 
 #: plugins/fn-random/plugin.xml.in.h:1
-#, fuzzy
 msgid "Functions for generating random numbers"
-msgstr "論理関数"
+msgstr "乱数を生成するための関数"
 
 #: plugins/fn-random/plugin.xml.in.h:2
-#, fuzzy
 msgid "Random Number Functions"
-msgstr "乱数生成"
+msgstr "乱数関数"
 
 #: plugins/fn-random/plugin.xml.in.h:3 src/tools/random-generator.c:674
 #: src/tools/random-generator.c:677
@@ -11274,7 +11349,6 @@ msgid "Random Numbers"
 msgstr "乱数"
 
 #: plugins/fn-stat/functions.c:139
-#, fuzzy
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -11294,7 +11368,11 @@ msgstr ""
 "@SYNTAX=VARP(b1, b2, ...)\n"
 "@DESCRIPTION=VARP 関数は引数を集団の要素であり、母集団全体であるとして、母集"
 "団の分散を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* VARP 関数は N-分散として知られています。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "VARP(A1:A5) = 94.112 です。\n"
@@ -11324,9 +11402,11 @@ msgstr ""
 "@SYNTAX=VAR(b1, b2, ...)\n"
 "@DESCRIPTION=VAR 関数は引数を母集団の標本と見なして母集団に対する分散を返しま"
 "す。引数を母集団全体と見なす場合、VARP 関数を使用してください。\n"
-"(VAR 関数も N-1-母集団全体 を使います。最適な条件下では、母集団全体の最大可能"
-"評価です。)\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* VAR 関数は N-1-分散として知られています。最適な条件下では、母集団全体の最大"
+"可能評価です。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "VAR(A1:A5) = 117.64 です。\n"
@@ -11334,7 +11414,6 @@ msgstr ""
 "@SEEALSO=VARP,STDEV"
 
 #: plugins/fn-stat/functions.c:205
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -11354,7 +11433,9 @@ msgstr ""
 "@SYNTAX=STDEV(b1, b2, ...)\n"
 "@DESCRIPTION=STDEV 関数は引数を母集団の標本と見なして母集団に対する標準偏差を"
 "返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "STDEV(A1:A5) = 10.84619749 です。\n"
@@ -11362,7 +11443,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
 #: plugins/fn-stat/functions.c:235
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -11382,7 +11462,9 @@ msgstr ""
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
 "@DESCRIPTION=STDEVP 関数は引数を母集団全体と見なして母集団に対する標準偏差を"
 "返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "STDEVP(A1:A5) = 9.701133954 です。\n"
@@ -11390,7 +11472,6 @@ msgstr ""
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 
 #: plugins/fn-stat/functions.c:265
-#, fuzzy
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -11414,7 +11495,9 @@ msgstr ""
 "数値 は順位を調べたい数値、@範囲 は数値の配列やセル範囲、@順序 は@範囲に指定"
 "された数値をどのように並べるかを指定します。@順序 が 0(ゼロ)あるいは省略され"
 "た場合、降順に並べ替えられます。それ以外の場合は、昇順に並べ替えられます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "RANK(17.3,A1:A5) = 4 です。\n"
@@ -11422,7 +11505,6 @@ msgstr ""
 "@SEEALSO=PERCENTRANK"
 
 #: plugins/fn-stat/functions.c:358
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
@@ -11449,7 +11531,9 @@ msgstr ""
 "下の数値です。例として @小数部 = 0.2 とすると 40 個の数値がある場合は、8 個の"
 "数値はデータセット (40 x 0.2) から数値 \"8\" が取得され、その数値の上から \"4"
 "\" と下から \"4\"のセットが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "TRIMMEAN(A1:A5,0.2) = 23.2 です。\n"
@@ -11457,7 +11541,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 
 #: plugins/fn-stat/functions.c:420
-#, fuzzy
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -11477,8 +11560,10 @@ msgstr ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(配列1,配列2)\n"
 "@DESCRIPTION=COVAR 関数は二つのデータセットの範囲を返します。\n"
-"文字列と空セルは無視されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* 文字列と空セルは無視されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1、セル B1, "
 "B2, ..., B5 の値がそれぞれ 23.2, 25.8, 29.9, 33.5, 42.7 とすると、\n"
@@ -11487,7 +11572,6 @@ msgstr ""
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
 #: plugins/fn-stat/functions.c:452
-#, fuzzy
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -11507,8 +11591,10 @@ msgstr ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(配列1,配列2)\n"
 "@DESCRIPTION=CORREL 関数は二つのデータセットの相関係数を返します。\n"
-"文字列と空セルは無視されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* 文字列と空セルは無視されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1、セル B1, "
 "B2, ..., B5 の値がそれぞれ 23.2, 25.8, 29.9, 33.5, 42.7 とすると、\n"
@@ -11517,7 +11603,6 @@ msgstr ""
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 
 #: plugins/fn-stat/functions.c:484
-#, fuzzy
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -11539,17 +11624,18 @@ msgstr ""
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
 "@DESCRIPTION=NEGBINOMDIST 関数は否定二項分布を返します。@f は失敗した数で、"
 "@t は成功した数のしきい値で、@p は成功するかもしれない数です。\n"
-"@f または @t が整数でなければ切りつめられます。(@f + @t -1 ) <= 0 の場合は "
-"#NUM! エラーが返されます。@p < 0 か @p > 1 の場合は #NUM! エラーをそれぞれ返"
-"します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @f または @t が整数でなければ切りつめられます。\n"
+"* (@f + @t -1 ) <= 0 の場合、#NUM! エラーを返します。\n"
+"* @p < 0 か @p > 1 の場合、#NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "NEGBINOMDIST(2,5,0.55) = 0.152872629 です。\n"
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
 #: plugins/fn-stat/functions.c:522
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -11566,14 +11652,15 @@ msgstr ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
 "@DESCRIPTION=NORMSDIST 関数は標準累積分布を返します。@x は配分値です。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "NORMSDIST(2) = 0.977249868 です。\n"
 "\n"
 "@SEEALSO=NORMDIST"
 
 #: plugins/fn-stat/functions.c:551
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -11593,15 +11680,16 @@ msgstr ""
 "@SYNTAX=NORMSINV(p)\n"
 "@DESCRIPTION=NORMSINV 関数は反対の標準累積分布を返します。@p は標準累積に対応"
 "する確率です。\n"
-"@p < 0 または @p > 1 の場合は #NUM! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @p < 0 または @p > 1 の場合、#NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "NORMSINV(0.2) = -0.841621234 です。\n"
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
 #: plugins/fn-stat/functions.c:583
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
@@ -11623,17 +11711,18 @@ msgstr ""
 "@DESCRIPTION=LOGNORMDIST 関数は対数正規累積分布関数の値を返します。@x は分布"
 "関数に代入する値で、@平均 は対数 ln(x) の平均値で、@標準偏差 は対数 ln(x) の"
 "標準偏差です。\n"
-"@標準偏差 = 0 の場合 LOGNORMDIST 関数は #DIV/0! エラーを返します。@x <= 0、@"
-"平均 < 0 または @標準偏差 < 0 の場合 LOGNORMDIST 関数は #NUM! エラーを返しま"
-"す。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @標準偏差 = 0 の場合 LOGNORMDIST 関数は #DIV/0! エラーを返します。\n"
+"* @x <= 0、@平均 < 0 または @標準偏差 < 0 の場合 LOGNORMDIST 関数は #NUM! "
+"エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "LOGNORMDIST(3,1,2) = 0.519662328 です。\n"
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
 #: plugins/fn-stat/functions.c:623
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stddev)\n"
@@ -11655,16 +11744,17 @@ msgstr ""
 "@DESCRIPTION=LOGINV 関数は対数正規累積分布関数の逆関数の値を返します。@確率 "
 "は対数正規型分布に伴う確率で、@平均 は対数 ln(x) の平均値で、@標準偏差 は対"
 "数 ln(x) の標準偏差です。\n"
-"@確率 < 0 または @確率 > 1 または @標準偏差 < 0 の場合 LOGINV 関数は #NUM! エ"
-"ラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @確率 < 0 または @確率 > 1 または @標準偏差 < 0 の場合、LOGINV 関数は "
+"#NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "LOGINV(0.5,2,3) = 7.389056099 です。\n"
 "\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 
 #: plugins/fn-stat/functions.c:660
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -11681,16 +11771,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
-"@DESCRIPTION=FISHERINV 関数は @x でのフィッシャー変換の逆関数を返します。 \n"
-"@x が数値でない場合 FISHERINV 関数は #VALUE! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=FISHERINV 関数は @x でのフィッシャー変換の逆関数を返します。\n"
+"\n"
+"* @x が数値でない場合、FISHERINV 関数は #VALUE! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "FISHERINV(2) = 0.96402758 です。\n"
 "\n"
 "@SEEALSO=FISHER"
 
 #: plugins/fn-stat/functions.c:687
-#, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -11712,9 +11803,12 @@ msgstr ""
 "@SYNTAX=MODE(数値1, 数値2, ...)\n"
 "@DESCRIPTION=MODE 関数は最頻度 (モード) を返します。データの集合が共に同じ最"
 "頻度の場合 MODE は一番最初の数を返します。\n"
-"数値が文字列や空の場合は、単に無視するだけです。データの集合に重複するデータ"
-"が含まれていない場合 MODE 関数は #N/A! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* 数値が文字列や空の場合は、単に無視するだけです。\n"
+"* データの集合に重複するデータが含まれていない場合、MODE 関数は #N/A! エラー"
+"を返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 11.4, 25.9, 40.1 とすると\n"
 "MODE(A1:A5) = 11.4 です。\n"
@@ -11722,7 +11816,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,MEDIAN"
 
 #: plugins/fn-stat/functions.c:723
-#, fuzzy
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -11742,7 +11835,9 @@ msgstr ""
 "@SYNTAX=HARMEAN(数値1, 数値2, ...)\n"
 "@DESCRIPTION=HARMEAN 関数は N 個の調和平均 (つまり、各引数の逆数の総和で個数"
 "を割ります) を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "HARMEAN(A1:A5) = 19.529814427 です。\n"
@@ -11778,7 +11873,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
 #: plugins/fn-stat/functions.c:786
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -11797,7 +11891,9 @@ msgstr ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(数値1, 数値2, ...)\n"
 "@DESCRIPTION=COUNT 関数は引数に含まれる数値や論理値などの個数を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "COUNT(A1:A5) = 5 です。\n"
@@ -11834,7 +11930,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
 #: plugins/fn-stat/functions.c:871
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -11855,7 +11950,9 @@ msgstr ""
 "@SYNTAX=AVERAGE(数値1, 数値2,...)\n"
 "@DESCRIPTION=AVERAGE 関数は全ての値や引数に与えられたセルの参照の平均を返しま"
 "す。これは引数の総和を引数の個数で割ったものです。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "AVERAGE(A1:A5) = 23.2 です。\n"
@@ -11863,7 +11960,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT"
 
 #: plugins/fn-stat/functions.c:903
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -11884,7 +11980,9 @@ msgstr ""
 "@SYNTAX=MIN(数値1, 数値2, ...)\n"
 "@DESCRIPTION=MIN 関数は渡された値のうちで一番小さい値を返します。負の数は正の"
 "数より小さいと見なされます。\n"
-"この関数はExcel互換です。\n"
+"\n"
+"* この関数はExcel互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "MIN(A1:A5) = 11.4 です。\n"
@@ -11892,7 +11990,6 @@ msgstr ""
 "@SEEALSO=MAX,ABS"
 
 #: plugins/fn-stat/functions.c:945
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -11913,7 +12010,9 @@ msgstr ""
 "@SYNTAX=MAX(数値1, 数値2, ...)\n"
 "@DESCRIPTION=MAX は渡された値のうち一番大きい値を返します。負の数は正の数より"
 "小さいと見なされます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "MAX(A1:A5) = 40.1 です。\n"
@@ -11921,7 +12020,6 @@ msgstr ""
 "@SEEALSO=MIN,ABS"
 
 #: plugins/fn-stat/functions.c:987
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -11946,11 +12044,13 @@ msgstr ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(数値1, 数値2, ...)\n"
 "@DESCRIPTION=SKEW 関数はデータの集まりの高次の代表値 (歪度) を返します。\n"
-"(注記) これは標本が三つある場合にのみ有効です。標本の標準偏差は 0 になりま"
-"す。\n"
-"セルが文字列や空の場合は単に無視されるだけです。\n"
-"引数が二個以下の場合 SKEW 関数は #DIV/0! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"(注記) これは標本が三つある場合にのみ有効です。標本の標準偏差は 0 になります。\n"
+"\n"
+"* セルが文字列や空の場合は単に無視されるだけです。\n"
+"* 引数が二個以下の場合 SKEW 関数は #DIV/0! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "SKEW(A1:A5) = 0.976798268 です。\n"
@@ -11958,7 +12058,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
 #: plugins/fn-stat/functions.c:1025
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -11977,9 +12076,11 @@ msgstr ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(数値1, 数値2, ...)\n"
 "@DESCRIPTION=SKEWP 関数はデータの集まりの高次の代表値 (歪度) を返します。\n"
-"セルが文字列や空の場合は、単に無視されます。\n"
-"指定された二つの数値よりも小さい場合は SKEWP 関数は #DIV/0! エラーを返しま"
-"す。\n"
+"\n"
+"* セルが文字列や空の場合は、単に無視されます。\n"
+"* 指定された二つの数値よりも小さい場合は SKEWP 関数は #DIV/0! エラーを"
+"返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると、\n"
 "SKEWP(A1:A5) = 0.655256198 です。\n"
@@ -12011,10 +12112,15 @@ msgstr ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,関数形式)\n"
 "@DESCRIPTION=EXPONDIST 関数は指数分布関数の値を返します。@関数形式 の論理値が"
-"偽 (0) の場合の返り値は @y * exp (-@y*@x) で、それ以外は 1 - exp (-@y*@x) で"
-"す。\n"
-"@x < 0 または @y <= 0 の場合はエラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"偽 (0) の場合の返り値は:\n"
+"\n"
+"\t@y * exp (-@y*@x) で、それ以外は\n"
+"\n"
+"\t1 - exp (-@y*@x) です。\n"
+"\n"
+"* @x < 0 または @y <= 0 の場合、エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "EXPONDIST(2,4,0) = 0.001341851 です。\n"
 "\n"
@@ -12046,7 +12152,6 @@ msgstr ""
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-stat/functions.c:1144
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -12065,16 +12170,17 @@ msgstr ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
 "@DESCRIPTION=GAMMALN 関数はガンマ関数の値の自然対数を返します。\n"
-"@x が数値でない場合 GAMMALN 関数は #VALUE! エラーを返します。@x <= 0 の場合 "
-"GAMMALN 関数は #NUM! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @x が数値でない場合、GAMMALN 関数は #VALUE! エラーを返します。\n"
+"* @x <= 0 の場合、GAMMALN 関数は #NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "GAMMALN(23) = 48.471181352 です。\n"
 "\n"
 "@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:1181
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -12096,16 +12202,17 @@ msgstr ""
 "@DESCRIPTION=GAMMADIST 関数はガンマ分布関数の値を返します。@関数形式 の論理値"
 "が真 (1) の場合 GAMMADIST 関数は累積分布関数の値を返し、それ以外は確率密度関"
 "数の値を返します。\n"
-"@x < 0 の場合 GAMMADIST 関数は #NUM! エラーを返します。@α <= 0 または @β <= "
-"0 の場合 GAMMADIST 関数は #NUM! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @x < 0 の場合、GAMMADIST 関数は #NUM! エラーを返します。\n"
+"* @α <= 0 または @β <= 0 の場合、GAMMADIST 関数は #NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "GAMMADIST(1,2,3,0) = 0.07961459 です。\n"
 "\n"
 "@SEEALSO=GAMMAINV"
 
 #: plugins/fn-stat/functions.c:1222
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -12124,16 +12231,17 @@ msgstr ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(確率,α,β)\n"
 "@DESCRIPTION=GAMMAINV 関数はガンマ累積分布関数の逆関数の値を返します。\n"
-"@確率 < 0 または @確率 > 1 の場合 GAMMAINV 関数は #NUM! エラーを返します。@α "
-"<= 0 または @β <= 0 の場合 GAMMAINV は #NUM! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @確率 < 0 または @確率 > 1 の場合、GAMMAINV 関数は #NUM! エラーを返します。\n"
+"* @α <= 0 または @β <= 0 の場合、GAMMAINV は #NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "GAMMAINV(0.34,2,4) = 4.829093908 です。\n"
 "\n"
 "@SEEALSO=GAMMADIST"
 
 #: plugins/fn-stat/functions.c:1257
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -12153,16 +12261,17 @@ msgstr ""
 "@SYNTAX=CHIDIST(x,自由度)\n"
 "@DESCRIPTION=CHIDIST 関数は片側カイ二乗分布の確率を返します。@自由度 は自由度"
 "の数値です。\n"
-"@自由度 が整数でない場合は切り捨てられます。@自由度 < 1 の場合 CHIDIST 関数"
-"は #NUM! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @自由度 が整数でない場合は切り捨てられます。\n"
+"* @自由度 < 1 の場合、CHIDIST 関数は #NUM! エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "CHIDIST(5.3,2) = 0.070651213 です。\n"
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 
 #: plugins/fn-stat/functions.c:1293
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -12180,9 +12289,11 @@ msgstr ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(確率,自由度)\n"
 "@DESCRIPTION=CHIINV 関数は片側カイ二乗分布の逆関数の値を返します。\n"
-"@確率 < 0 または @確率 > 1 または @自由度 < 1 の場合 CHIINV 関数は #NUM! を返"
-"します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @確率 < 0 または @確率 > 1 または @自由度 < 1 の場合、CHIINV 関数は #NUM! "
+"を返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "CHIINV(0.98,7) = 1.564293004 です。\n"
 "\n"
@@ -13529,7 +13640,6 @@ msgstr ""
 "@SEEALSO=QUARTILE"
 
 #: plugins/fn-stat/functions.c:3503
-#, fuzzy
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -13559,17 +13669,20 @@ msgstr ""
 "@SYNTAX=QUARTILE(配列,戻り値)\n"
 "@DESCRIPTION=QUARTILE 関数は指定された @配列 から @戻り値 に従った四分位数を"
 "返します。\n"
-"@戻り値 の値         : QUARTILE 関数の返り値\n"
-"0                      @配列内の最小値\n"
-"1                      下位 1/4 の値 (25%)\n"
-"2                      @配列内の中央値 (50%)\n"
-"3                      上位 1/4 の値 (75%)\n"
-"4                      @配列内の最大値\n"
 "\n"
-"@配列 が空の場合は QUARTILE 関数は #NUM! エラーを返します。@戻り値 が 0 未満"
-"や 4 を越える場合は QUARTILE 関数は #NUM! エラーを返します。@戻り値 が整数で"
-"ない場合は切り捨てられます。\n"
-"この関数は Excel 互換です。\n"
+"@戻り値 の値         : QUARTILE 関数の返り値\n"
+"0                     @配列内の最小値\n"
+"1                     下位 1/4 の値 (25%)\n"
+"2                     @配列内の中央値 (50%)\n"
+"3                     上位 1/4 の値 (75%)\n"
+"4                     @配列内の最大値\n"
+"\n"
+"* @配列 が空の場合は QUARTILE 関数は #NUM! エラーを返します。\n"
+"* @戻り値 が 0 未満や 4 を越える場合は QUARTILE 関数は #NUM! エラーを返し"
+"ます。\n"
+"* @戻り値 が整数でない場合は切り捨てられます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値をそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1 とすると\n"
 "QUARTILE(A1:A5,1) = 17.3 です。\n"
@@ -13577,7 +13690,6 @@ msgstr ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
 #: plugins/fn-stat/functions.c:3559
-#, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -13597,7 +13709,9 @@ msgstr ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(配列1,配列2)\n"
 "@DESCRIPTION=FTEST 関数は F-検定による等分散検定の結果を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値をそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1、セル B1, "
 "B2, ... B5 の値をそれぞれ 23.2, 25.8, 29.9, 33.5, 42.7 とすると\n"
@@ -13606,7 +13720,6 @@ msgstr ""
 "@SEEALSO=FDIST,FINV"
 
 #: plugins/fn-stat/functions.c:3609
-#, fuzzy
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -13643,16 +13756,20 @@ msgstr ""
 "@配列1 は一番目のデータ組で @配列2 は二番目のデータ組です。@尾部 に 1 が指定"
 "されると TTEST 関数は片側の分布が使用され @尾部 に 2 が指定されると TTEST 関"
 "数は両側の分布を使用します。@検定の種類 は実行する検定の種類を指定します:\n"
-"1  対をなすデータの t-検定\n"
-"2  等分散の 2 標本を対象とする t-検定\n"
-"3  非等分散の 2 標本を対象とする t-検定\n"
 "\n"
-"@配列1 と @配列2 のデータの個数が異なる場合に @検定の種類 に 1 を指定すると "
-"TTEST 関数は #N/A エラーを返します。@尾部 と @検定の種類 に整数でない値を指定"
-"すると、小数点以下が切り捨てられます。@尾部 に数値でない値を指定すると TTEST "
-"関数は #NUM! エラーを返します。@検定の種類 に数値でない値を指定すると TTEST "
-"関数は #NUM! エラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\t1  対をなすデータの t-検定\n"
+"\t2  等分散の 2 標本を対象とする t-検定\n"
+"\t3  非等分散の 2 標本を対象とする t-検定\n"
+"\n"
+"* @配列1 と @配列2 のデータの個数が異なる場合に @検定の種類 に 1 を指定する"
+"と TTEST 関数は #N/A エラーを返します。\n"
+"* @尾部 と @検定の種類 に整数でない値を指定すると、小数点以下が切り捨てられ"
+"ます。\n"
+"* @尾部 に数値でない値を指定すると TTEST 関数は #NUM! エラーを返します。\n"
+"* @検定の種類 に数値でない値を指定すると TTEST 関数は #NUM! エラーを返しま"
+"す。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値をそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1、セル B1, "
 "B2, ... B5 の値をそれぞれ 23.2, 25.8, 29.9, 33.5, 42.7 とすると\n"
@@ -13930,7 +14047,6 @@ msgstr ""
 "@SEEALSO=LOGEST,TREND"
 
 #: plugins/fn-stat/functions.c:4868
-#, fuzzy
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -13955,19 +14071,20 @@ msgstr ""
 "@SYNTAX=GROWTH(既知のy[,既知のx,新しいx,定数])\n"
 "@DESCRIPTION=GROWTH 関数は回帰指数曲線に \"最小二乗法\" を適用して、回帰指数"
 "曲線に対する複数の予測値を算出します。\n"
-"@既知のx が省略された場合は配列 {1, 2, 3, ...} が使用されます。@新しいx が省"
-"略された場合は @既知のx と同じ値であると見なされます。\n"
 "GROWTH 関数は @新しいx の各データに対して 1 行 1 列の配列を返します。\n"
-"@既知のy と @既知のx のデータ数が同じでない場合は GROWTH 関数は #NUM! エラー"
-"を返します。\n"
-"@定数に 0(偽) を指定すると強制的に原点をとおる直線になります。つまり係数 (b) "
+"\n"
+"* @既知のx が省略された場合は配列 {1, 2, 3, ...} が使用されます。\n"
+"* @新しいx が省略された場合は @既知のx と同じ値であると見なされます。\n"
+"* @既知のy と @既知のx のデータ数が同じでない場合は GROWTH 関数は #NUM! "
+"エラーを返します。\n"
+"* @定数に 0(偽) を指定すると強制的に原点をとおる直線になります。つまり係数 (b) "
 "が 0 になります。デフォルトは 1(真) です。\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
 #: plugins/fn-stat/functions.c:4980
-#, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -13992,10 +14109,12 @@ msgstr ""
 "@SYNTAX=FORECAST(x,既知のy,既知のx)\n"
 "@DESCRIPTION=FORECAST 関数は一つの一次独立変数 (x,y) の回帰直線の予測値を返し"
 "ます。予測値は指定された x値 (@x) に対する y値です。\n"
-"@既知のy と @既知のx が空かまたは両者のデータ数が異なる場合 FORECAST 関数は "
-"#N/A! エラーを返します。@既知のx の傾きが 0 の場合 FORECAST 関数は #DIV/0 エ"
-"ラーを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @既知のy と @既知のx が空かまたは両者のデータ数が異なる場合 FORECAST 関数は "
+"#N/A! エラーを返します。\n"
+"* @既知のx の傾きが 0 の場合 FORECAST 関数は #DIV/0 エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値をそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1、セル B1, "
 "B2, ... B5 の値をそれぞれ 23.2, 25.8, 29.9, 33.5, 42.7 とすると\n"
@@ -14040,7 +14159,6 @@ msgstr ""
 "@SEEALSO=FORECAST,TREND"
 
 #: plugins/fn-stat/functions.c:5101
-#, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -14059,7 +14177,9 @@ msgstr ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(既知のy,既知のx)\n"
 "@DESCRIPTION=SLOPE 関数は一つの一次独立変数の回帰直線の傾きを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値をそれぞれ 11.4, 17.3, 21.3, 25.9, 40.1、セル B1, "
 "B2, ... B5 の値をそれぞれ 23.2, 25.8, 29.9, 33.5, 42.7 とすると\n"
@@ -14068,7 +14188,6 @@ msgstr ""
 "@SEEALSO=STDEV,STDEVPA"
 
 #: plugins/fn-stat/functions.c:5145
-#, fuzzy
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -14106,19 +14225,24 @@ msgstr ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(集計方法,範囲1,範囲2,...)\n"
 "@DESCRIPTION=SUBTOTAL 関数は引数に与えられたリストの集計を返します。@集計方"
-"法 には集計を計算するために使用する関数を数字で指定します。次の関数が利用可能"
-"です。\n"
-"1   AVERAGE 関数\n"
-"2   COUNT 関数\n"
-"3   COUNTA 関数\n"
-"4   MAX 関数\n"
-"5   MIN 関数\n"
-"6   PRODUCT 関数\n"
-"7   STDEV 関数\n"
-"8   STDEVP 関数\n"
-"9   SUM 関数\n"
-"10   VAR 関数\n"
-"この関数は Excel 互換です。\n"
+"法 には集計を計算するために使用する関数を数字で指定します。\n"
+"\n"
+"次の関数が利用可能です:\n"
+"\n"
+"\t1   AVERAGE 関数\n"
+"\t2   COUNT 関数\n"
+"\t3   COUNTA 関数\n"
+"\t4   MAX 関数\n"
+"\t5   MIN 関数\n"
+"\t6   PRODUCT 関数\n"
+"\t7   STDEV 関数\n"
+"\t8   STDEVP 関数\n"
+"\t9   SUM 関数\n"
+"\t10   VAR 関数\n"
+"\t11   VARP 関数\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "セル A1, A2, ..., A5 の値がそれぞれ 23, 27, 28, 33, 39 とすると\n"
 "SUBTOTAL(1,A1:A5) = 30 です。\n"
@@ -14351,7 +14475,7 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5702
 msgid "x,known y's,known x's"
-msgstr ""
+msgstr "x,既知のy,既知のx"
 
 #: plugins/fn-stat/functions.c:5705
 msgid "data_array,bins_array"
@@ -14452,18 +14576,17 @@ msgid "ref,x"
 msgstr ""
 
 #: plugins/fn-stat/functions.c:5898 plugins/fn-stat/functions.c:5916
-#, fuzzy
 msgid "x,a,b"
-msgstr "タブ"
+msgstr "x,a,b"
 
 #: plugins/fn-stat/functions.c:5907
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: plugins/fn-stat/functions.c:5910 plugins/fn-stat/functions.c:5913
 msgid "x,a"
-msgstr ""
+msgstr "x,a"
 
 #: plugins/fn-stat/functions.c:5919
 msgid "x,sigma"
@@ -14701,6 +14824,7 @@ msgstr ""
 "ます。\n"
 "\n"
 "* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "MID(\"testing\",2,3) = \"est\" です。\n"
 "\n"
@@ -14727,6 +14851,7 @@ msgstr ""
 "文字数 の指定がない場合は右端の文字を返します。\n"
 "\n"
 "* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "RIGHT(\"end\") = \"d\" です。\n"
 "RIGHT(\"end\",2) = \"nd\" です。\n"
@@ -14734,7 +14859,6 @@ msgstr ""
 "@SEEALSO=MID, LEFT"
 
 #: plugins/fn-string/functions.c:422
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -14750,14 +14874,15 @@ msgstr ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(テキスト)\n"
 "@DESCRIPTION=UPPER 関数は文字列 @テキスト を大文字にしたものを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "UPPER(\"canceled\") = \"CANCELED\" です。\n"
 "\n"
 "@SEEALSO=LOWER"
 
 #: plugins/fn-string/functions.c:444
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -14774,14 +14899,15 @@ msgstr ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(文字列1[,文字列2...])\n"
 "@DESCRIPTION=CONCATENATE 関数は引数の文字列を連結した文字列を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "CONCATENATE(\"aa\",\"bb\") = \"aabb\" です。\n"
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
 #: plugins/fn-string/functions.c:469
-#, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -14797,14 +14923,15 @@ msgstr ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(文字列,個数)\n"
 "@DESCRIPTION=REPT 関数は @文字列 を @個数 だけ繰り返したものを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "REPT(\".\",3) = \"...\" です。\n"
 "\n"
 "@SEEALSO=CONCATENATE"
 
 #: plugins/fn-string/functions.c:515
-#, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -14821,7 +14948,9 @@ msgstr ""
 "SYNTAX=CLEAN(文字列)\n"
 "@DESCRIPTION=CLEAN 関数は印刷できない文字列(プリンタ制御文字など)を削除しま"
 "す。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "CLEAN(\"one\"\\&char(7)) = \"one\" です。\n"
 "\n"
@@ -14854,7 +14983,6 @@ msgstr ""
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 #: plugins/fn-string/functions.c:606
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -14872,14 +15000,15 @@ msgstr ""
 "@SYNTAX=FIXED(数値,[桁数,桁区切り])\n"
 "@DESCRIPTION=FIXED 関数は @桁数 の数で整形した @数値 を返します。@桁区切り が"
 "指定された場合はコンマを無視します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "FIXED(1234.567,2) = \"1,234.57\" です。\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/fn-string/functions.c:671
-#, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -14896,14 +15025,15 @@ msgstr ""
 "@SYNTAX=PROPER(文字列)\n"
 "@DESCRIPTION=PROPER 関数は @文字列 の先頭の単語を大文字にしたものを返しま"
 "す。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "PROPER(\"j. f. kennedy\") = \"J. F. Kennedy\" です。\n"
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
 #: plugins/fn-string/functions.c:723
-#, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -14921,7 +15051,9 @@ msgstr ""
 "@SYNTAX=REPLACE(文字列,開始位置,文字数,置換文字列)\n"
 "@DESCRIPTION=REPLACE 関数は @文字列 の @開始位置 から @文字数 分の文字を @置"
 "換文字 で置き換えたものを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "REPLACE(\"testing\",2,3,\"*****\") = \"t*****ing\" です。\n"
 "\n"
@@ -14933,7 +15065,6 @@ msgid "Arguments out of range"
 msgstr "有効範囲を越えています"
 
 #: plugins/fn-string/functions.c:772
-#, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -14952,7 +15083,9 @@ msgstr ""
 "@SYNTAX=T(値)\n"
 "@DESCRIPTION=T 関数はテキストであれば @値 を返し、それ以外は空白文字を返しま"
 "す。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "T(\"text\") equals \"text\" です。\n"
 "T(64) は空白のセルを返します。\n"
@@ -14960,7 +15093,6 @@ msgstr ""
 "@SEEALSO=CELL, N, VALUE"
 
 #: plugins/fn-string/functions.c:800
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -14978,7 +15110,9 @@ msgstr ""
 "@SYNTAX=TEXT(数値,表示形式)\n"
 "@DESCRIPTION=TEXT 関数は @数値 を指定した @表示形式 に変換したものを返しま"
 "す。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "TEXT(3.223,\"$0.00\") = \"$3.22\" です。\n"
 "TEXT(date(1999,4,15),\"mmmm, dd, yy\") = \"April, 15, 99\" です。\n"
@@ -14990,7 +15124,6 @@ msgid "Type mismatch"
 msgstr "型の不一致"
 
 #: plugins/fn-string/functions.c:850
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -15007,14 +15140,15 @@ msgstr ""
 "@SYNTAX=TRIM(文字列)\n"
 "@DESCRIPTION=TRIM 関数は @文字列 の各単語間のスペースを一つだけにした文字列を"
 "返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "TRIM(\"  a bbb  cc\") = \"a bbb cc\" です。\n"
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 #: plugins/fn-string/functions.c:902
-#, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -15030,14 +15164,15 @@ msgstr ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(文字列)\n"
 "@DESCRIPTION=VALUE 関数は @文字列 の数値を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "VALUE(\"$1,000\") = 1000 です。\n"
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: plugins/fn-string/functions.c:945
-#, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -15057,14 +15192,15 @@ msgstr ""
 "@DESCRIPTION=SUBSTITUTE 関数は @文字列 の中にある @検索文字列 を @置換文字列 "
 "に置き換えたものを返します。置換は @文字列 の中にある @検索文字列 の中にある "
 "@置換対象 だけに適用され、それ以外は全て置換対象になります。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "SUBSTITUTE(\"testing\",\"test\",\"wait\") = \"waiting\" です。\n"
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
 #: plugins/fn-string/functions.c:1002
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -15080,7 +15216,9 @@ msgstr ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(数値[,小数])\n"
 "@DESCRIPTION=DOLLAR 関数は金額にフォーマットされた @数値 を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "DOLLAR(12345) = \"$12,345.00\" です。\n"
 "\n"
@@ -15135,7 +15273,7 @@ msgstr ""
 
 #: plugins/fn-string/functions.c:1144
 msgid "text,text,"
-msgstr ""
+msgstr "文字列,文字列,"
 
 #: plugins/fn-string/functions.c:1147
 #, fuzzy
@@ -15144,11 +15282,11 @@ msgstr "小数点(-)"
 
 #: plugins/fn-string/functions.c:1150
 msgid "text1,text2"
-msgstr ""
+msgstr "文字列1,文字列2"
 
 #: plugins/fn-string/functions.c:1153
 msgid "text1,text2,num"
-msgstr ""
+msgstr "文字列1,文字列2,数値"
 
 #: plugins/fn-string/functions.c:1156
 msgid "num,decs,no_commas"
@@ -15168,7 +15306,7 @@ msgstr ""
 
 #: plugins/fn-string/functions.c:1180
 msgid "text,num"
-msgstr ""
+msgstr "文字列,数値"
 
 #: plugins/fn-string/functions.c:1186
 msgid "search_string,text,start_num"
@@ -15180,7 +15318,7 @@ msgstr ""
 
 #: plugins/fn-string/functions.c:1195
 msgid "value,format_text"
-msgstr ""
+msgstr "数値,表示形式"
 
 #: plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
@@ -15365,7 +15503,7 @@ msgstr ""
 
 #: plugins/html/plugin.xml.in.h:2
 #, fuzzy
-msgid "HTML &amp; TeX"
+msgid "HTML & TeX"
 msgstr "HTML と TeX"
 
 #: plugins/html/plugin.xml.in.h:3
@@ -16934,7 +17072,7 @@ msgstr "選択範囲のコピー"
 
 #: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:4022
 msgid "Copy the selection to the clipboard"
-msgstr "選択範囲をクリップボードにコピー"
+msgstr "選択範囲をクリップボードにコピーします"
 
 #: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:888 src/tools/analysis-tools.c:891
@@ -17035,9 +17173,8 @@ msgid "Cut the selection"
 msgstr "選択範囲を切り取ります"
 
 #: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:4019
-#, fuzzy
 msgid "Cut the selection to the clipboard"
-msgstr "選択部分をクリップボードにカット"
+msgstr "選択部分をクリップボードに切り取ります"
 
 #: src/GNOME_Gnumeric.xml.h:78 src/workbook-format-toolbar.c:401
 #: src/workbook-format-toolbar.c:481
@@ -17049,9 +17186,8 @@ msgid "Decrease Precision"
 msgstr "精度の緩和"
 
 #: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:475
-#, fuzzy
 msgid "Decrease the number of decimals displayed"
-msgstr "表示される小数点以下の列を減らす"
+msgstr "表示される小数点以下の桁数を減らします"
 
 #: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3684
 msgid "Display _Formulas"
@@ -17066,9 +17202,8 @@ msgid "Display the value of a formula or the formula itself"
 msgstr "式の値または式の表示/非表示を切り替えます"
 
 #: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:4053
-#, fuzzy
 msgid "Edit a function in the current cell"
-msgstr "選択されたセルにある関数を編集します。"
+msgstr "現在のセルにある関数を編集します"
 
 #: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3371
 msgid "Edit descriptive information"
@@ -17319,9 +17454,8 @@ msgstr "ラベル"
 
 #: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:3613
 #: src/workbook-control-gui.c:4066
-#, fuzzy
 msgid "Launch the Chart Guru"
-msgstr "グラフ Guru"
+msgstr "グラフ・ウィザードの起動"
 
 #: src/GNOME_Gnumeric.xml.h:144 src/workbook-format-toolbar.c:438
 msgid "Left Align"
@@ -17410,7 +17544,6 @@ msgid "Open"
 msgstr "開く"
 
 #: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:4001
-#, fuzzy
 msgid "Open a file"
 msgstr "ファイルを読み込みます"
 
@@ -17583,9 +17716,8 @@ msgid "Save the current workbook"
 msgstr "編集中のワークブックを保存します"
 
 #: src/GNOME_Gnumeric.xml.h:205
-#, fuzzy
 msgid "Save the current workbook with a different name"
-msgstr "編集中のファイルを別の名前で保存します"
+msgstr "編注中のワークブックを別の名前で保存します"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3874
 msgid "Sce_narios"
@@ -17629,9 +17761,8 @@ msgid "Select _Depends"
 msgstr "依存セルの選択(_D)"
 
 #: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3429
-#, fuzzy
 msgid "Select _Inputs"
-msgstr "フォント"
+msgstr "入力を選択(_I)"
 
 #: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3415
 msgid "Select _Row"
@@ -17642,9 +17773,8 @@ msgid "Select all cells in the spreadsheet"
 msgstr "スプレッドシート中の全てのセルを選択します"
 
 #: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3430
-#, fuzzy
 msgid "Select all the cells are used by the current edit cell"
-msgstr "編集中のセルに依存する全てのセルを選択します"
+msgstr "編集中のセルで使用しているすべてのセルを選択します"
 
 #: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3426
 msgid "Select all the cells that depend on the current edit cell"
@@ -17671,19 +17801,16 @@ msgid "Send the current file via email"
 msgstr "編集中のファイルをE-メールで送信します"
 
 #: src/GNOME_Gnumeric.xml.h:226 src/workbook-format-toolbar.c:469
-#, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "選択したセルに 1000 単位のカンマを付与します"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/workbook-format-toolbar.c:463
-#, fuzzy
 msgid "Set the format of the selected cells to monetary"
-msgstr "選択されているセルの形式を通貨にする"
+msgstr "選択したセルの書式を通貨形式にする"
 
 #: src/GNOME_Gnumeric.xml.h:228 src/workbook-format-toolbar.c:466
-#, fuzzy
 msgid "Set the format of the selected cells to percentage"
-msgstr "選択されているセルの形式をパーセントにする"
+msgstr "選択されているセルの書式をパーセントにする"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/GNOME_Gnumeric_Component.xml.h:11
 #: src/workbook-control-gui.c:3355
@@ -17699,18 +17826,16 @@ msgid "Si_mulation..."
 msgstr "シミュレーション(_M)..."
 
 #: src/GNOME_Gnumeric.xml.h:232 src/workbook-object-toolbar.c:193
-#, fuzzy
 msgid "Slider"
-msgstr "色なし"
+msgstr "スライダ"
 
 #: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:4059
 msgid "Sort Descending"
 msgstr "降順"
 
 #: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3947
-#, fuzzy
 msgid "Sort the selected region"
-msgstr "選択された範囲の並べ替え"
+msgstr "選択した範囲で並び替え"
 
 #: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:4057
 msgid ""
@@ -17725,9 +17850,8 @@ msgid ""
 msgstr "選択した最初の列にもとづいて、選択した範囲を降順に並べ替えます"
 
 #: src/GNOME_Gnumeric.xml.h:238
-#, fuzzy
 msgid "Spin Button"
-msgstr "ボタン"
+msgstr "スピンボタン"
 
 #: src/GNOME_Gnumeric.xml.h:239 src/workbook-format-toolbar.c:457
 msgid "Split"
@@ -17757,7 +17881,6 @@ msgid ""
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:245 src/workbook-format-toolbar.c:469
-#, fuzzy
 msgid "Thousands Separator"
 msgstr "カンマ"
 
@@ -17810,14 +17933,12 @@ msgid "Undo the last action"
 msgstr "直前の操作を取り消します"
 
 #: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3783
-#, fuzzy
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
-msgstr "対でないサンプル、変化量は等しい: T-検定(_E)"
+msgstr "対でないサンプル、変化量は等しい: T-検定...(_E)"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3788
-#, fuzzy
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
-msgstr "対でないサンプル、変化量は等しい: T-検定(_U)"
+msgstr "対でないサンプル、変化量は等しい: T-検定...(_U)"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3954
 msgid "Validate input with preset criteria"
@@ -17939,9 +18060,8 @@ msgid "_Edit"
 msgstr "編集(_E)"
 
 #: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3766
-#, fuzzy
 msgid "_Exponential Smoothing..."
-msgstr "指数のスムーズ化(_E)"
+msgstr "指数のスムーズ化...(_E)"
 
 #: src/GNOME_Gnumeric.xml.h:287 src/GNOME_Gnumeric_Component.xml.h:16
 msgid "_File"
@@ -17961,9 +18081,8 @@ msgid "_Formats"
 msgstr "書式設定(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3818
-#, fuzzy
 msgid "_Fourier Analysis..."
-msgstr "フーリエ解析(_F)"
+msgstr "フーリエ解析...(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:1536
 #: src/workbook-control-gui.c:3560
@@ -18009,9 +18128,8 @@ msgid "_Hide Detail"
 msgstr "詳細を隠す"
 
 #: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3821
-#, fuzzy
 msgid "_Histogram..."
-msgstr "ヒストグラム(_H)"
+msgstr "ヒストグラム...(_H)"
 
 #: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3616
 msgid "_Image..."
@@ -18023,9 +18141,8 @@ msgid "_Insert"
 msgstr "挿入(_I)"
 
 #: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3793
-#, fuzzy
 msgid "_Known Variances or Large Sample: Z-Test..."
-msgstr "既知の変化量または大きいサンプル: Z-検定(_K)"
+msgstr "既知の変化量または大きいサンプル: Z-検定...(_K)"
 
 #: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3458
 #: src/workbook-control-gui.c:3675
@@ -18037,9 +18154,8 @@ msgid "_Merge..."
 msgstr "結合(_M)..."
 
 #: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3770
-#, fuzzy
 msgid "_Moving Average..."
-msgstr "移動平均(_M)"
+msgstr "移動平均...(_M)"
 
 #: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3624
 msgid "_Name"
@@ -18058,9 +18174,8 @@ msgid "_Object..."
 msgstr "オブジェクト(_O)..."
 
 #: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3754
-#, fuzzy
 msgid "_One Factor..."
-msgstr "一次元配置(_O)"
+msgstr "一次元配置...(_O)"
 
 #: src/GNOME_Gnumeric.xml.h:314
 msgid "_Open..."
@@ -18124,9 +18239,8 @@ msgid "_Rows"
 msgstr "行(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3830
-#, fuzzy
 msgid "_Sampling..."
-msgstr "サンプリング(_S)"
+msgstr "サンプリング...(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:328
 msgid "_Save"
@@ -18137,9 +18251,8 @@ msgid "_Select"
 msgstr "選択(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3446
-#, fuzzy
 msgid "_Series..."
-msgstr "連続(_S)"
+msgstr "連続...(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:331
 msgid "_Shaped Object"
@@ -18151,9 +18264,8 @@ msgid "_Sheet"
 msgstr "シート(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3934
-#, fuzzy
 msgid "_Show All"
-msgstr "詳細の表示(_S)"
+msgstr "すべて表示(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3890
 msgid "_Show Detail"
@@ -18192,14 +18304,12 @@ msgid "_Tools"
 msgstr "ツール(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3757
-#, fuzzy
 msgid "_Two Factor..."
-msgstr "二次元配置(_T)"
+msgstr "二次元配置...(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3836
-#, fuzzy
 msgid "_Two Variances: FTest..."
-msgstr "二つの変化量: F-検定(_T)"
+msgstr "二つの変化量: F-検定...(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:1579
 msgid "_Undo"
@@ -18260,23 +18370,20 @@ msgid "Search Workbook"
 msgstr "ワークブックの検索"
 
 #: src/GNOME_Gnumeric_Component.xml.h:12
-#, fuzzy
 msgid "View descriptive information"
-msgstr "ワークブック情報を編集します"
+msgstr "ワークブック情報の表示"
 
 #: src/GNOME_Gnumeric_Component.xml.h:13
 msgid "_About Gnumeric"
-msgstr "Gnumericについて(_A)"
+msgstr "Gnumeric について(_A)"
 
 #: src/GNOME_Gnumeric_Component.xml.h:14
-#, fuzzy
 msgid "_Copy Cells"
-msgstr "ラベルのコピー(_O)"
+msgstr "セルのコピー(_C)"
 
 #: src/GNOME_Gnumeric_Component.xml.h:18
-#, fuzzy
 msgid "_Paste Cells"
-msgstr "セルの書式設定"
+msgstr "セルの貼り付け(_P)"
 
 #: src/clipboard.c:302 src/clipboard.c:314 src/clipboard.c:325
 #: src/clipboard.c:333
@@ -18358,9 +18465,10 @@ msgid "Would split an array"
 msgstr "配列に分割されます"
 
 #: src/commands.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
-msgstr "ワークブックは編集可能です (保護なし)"
+msgstr ""
+"%s はロックされています。ワークブックを編集するには保護を解除してください。"
 
 #: src/commands.c:255
 #, c-format
@@ -18460,9 +18568,8 @@ msgid "Clearing %s in %s"
 msgstr "%s のクリア (%s 内の)"
 
 #: src/commands.c:1681
-#, fuzzy
 msgid "Changing Format"
-msgstr "書式 %s の変更"
+msgstr "書式の変更"
 
 #: src/commands.c:1806
 #, c-format
@@ -18505,7 +18612,7 @@ msgid "Autofitting columns %s"
 msgstr "列 %s の自動調整"
 
 #: src/commands.c:1935
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting rows %s"
 msgstr "行 %s の自動調整"
 
@@ -18714,17 +18821,15 @@ msgstr "タブの色の変更"
 
 #: src/commands.c:4821
 msgid "Changing Sheet Protection"
-msgstr ""
+msgstr "シート保護の変更"
 
 #: src/commands.c:4824
-#, fuzzy
 msgid "Delete sheets"
-msgstr "セルを削除"
+msgstr "シートの削除"
 
 #: src/commands.c:4827
-#, fuzzy
 msgid "Delete a sheet"
-msgstr "オブジェクトの削除"
+msgstr "シートの削除"
 
 #: src/commands.c:4830
 msgid "Reorganizing Sheets"
@@ -18750,14 +18855,12 @@ msgid "Changing summary info"
 msgstr "サマリ情報の変更"
 
 #: src/commands.c:5554
-#, fuzzy
 msgid "Raise object"
-msgstr "オブジェクトのサイズ変更"
+msgstr "オブジェクトを前面へ"
 
 #: src/commands.c:5557
-#, fuzzy
 msgid "Lower object"
-msgstr "オブジェクトの移動"
+msgstr "オブジェクトを背面へ"
 
 #: src/commands.c:5560
 #, fuzzy
@@ -18769,9 +18872,9 @@ msgid "Lower object to bottom"
 msgstr ""
 
 #: src/commands.c:5678
-#, fuzzy, c-format
+#, c-format
 msgid "Page Setup For %s"
-msgstr "印刷設定"
+msgstr "%s の印刷設定"
 
 #: src/commands.c:5680
 #, fuzzy
@@ -18784,9 +18887,9 @@ msgid "has a circular reference"
 msgstr "'%s' が参照を繰り返しています"
 
 #: src/commands.c:5819
-#, fuzzy, c-format
+#, c-format
 msgid "Define Name %s"
-msgstr "定義名"
+msgstr "定義名 %s"
 
 #: src/commands.c:5822
 #, c-format
@@ -18799,11 +18902,11 @@ msgstr "シナリオの追加"
 
 #: src/commands.c:5961
 msgid "Scenario Show"
-msgstr ""
+msgstr "シナリオの表示"
 
 #: src/commands.c:6025
 msgid "Shuffle Data"
-msgstr ""
+msgstr "データのシャッフル"
 
 #. FIXME?
 #: src/commands.c:6136
@@ -18824,9 +18927,9 @@ msgid "Solver"
 msgstr "ソルバ"
 
 #: src/commands.c:6370
-#, fuzzy, c-format
+#, c-format
 msgid "Goal Seek (%s)"
-msgstr "目標探索"
+msgstr "目標探索 (%s)"
 
 #: src/commands.c:6512
 #, fuzzy, c-format
@@ -18834,14 +18937,12 @@ msgid "Duplicating %s"
 msgstr "複製"
 
 #: src/commands.c:6592
-#, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "依存関係を表にする"
 
 #: src/commands.c:6668
-#, fuzzy
 msgid "Reconfigure Graph"
-msgstr "ツールバーを設定します"
+msgstr "グラフの再設定"
 
 #: src/consolidate.c:773
 #, fuzzy, c-format
@@ -18864,35 +18965,29 @@ msgid "<b>Minor Ticks:</b>"
 msgstr "<b>パターン</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
 msgid "I_nside"
-msgstr "内側"
+msgstr "内側(_N)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "O_utside"
-msgstr "外枠"
+msgstr "外枠(_U)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
-#, fuzzy
 msgid "_Cross"
-msgstr "閉じる(_C)"
+msgstr "交差(_C)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
-#, fuzzy
 msgid "_High"
-msgstr "高さ"
+msgstr "高さ(_H)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#, fuzzy
 msgid "_Inside"
-msgstr "内側"
+msgstr "内側(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
-#, fuzzy
 msgid "_Invert"
-msgstr "挿入(_I)"
+msgstr "反転(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
 #, fuzzy
@@ -18900,19 +18995,16 @@ msgid "_Low"
 msgstr "行(_R)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
-#, fuzzy
 msgid "_Map:"
-msgstr "グラフ(_G)..."
+msgstr "マップ(_M)..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
-#, fuzzy
 msgid "_Outside"
-msgstr "外枠"
+msgstr "外枠(_O)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
-#, fuzzy
 msgid "_Show Labels"
-msgstr "ラベル(_L)"
+msgstr "ラベルを表示(_S)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:568
 #: src/dialogs/solver.glade.h:14
@@ -18920,9 +19012,8 @@ msgid "M_in"
 msgstr "最小(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:569
-#, fuzzy
 msgid "M_ax"
-msgstr "最大"
+msgstr "最大(_A)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:570
 msgid "Ma_jor Ticks"
@@ -18933,14 +19024,12 @@ msgid "Mi_nor Ticks"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:649
-#, fuzzy
 msgid "Details"
-msgstr "詳細を隠す"
+msgstr "詳細"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:682
-#, fuzzy
 msgid "Bounds"
-msgstr "背景"
+msgstr "境界"
 
 #. TOO CHEESY to go into production
 #. * We need a way to toggle auto vs user formats
@@ -18963,9 +19052,8 @@ msgid "Title"
 msgstr "題名"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
-#, fuzzy
 msgid "Grid"
-msgstr "金曜日"
+msgstr "格子"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:199
 msgid "X-Axis"
@@ -19025,7 +19113,7 @@ msgstr "図表のカスタマイズ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1183
 msgid "_Plot Type"
-msgstr "プロットタイプ(_P)"
+msgstr "プロット形式(_P)"
 
 #. Set up sample button
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1273
@@ -19033,8 +19121,8 @@ msgid ""
 "Show\n"
 "Sample"
 msgstr ""
-"表示\n"
-"サンプル"
+"サンプルの\n"
+"表示"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1282
 #: src/dialogs/dialog-plugin-manager.c:712
@@ -19044,7 +19132,7 @@ msgstr "説明"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
-msgstr "GNOMEオフィス グラフ"
+msgstr "GNOME オフィス グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
@@ -19080,16 +19168,14 @@ msgid "_Top"
 msgstr "上(_T)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:107
-#, fuzzy
 msgid "_Text:"
-msgstr "テキスト(_X)"
+msgstr "テキスト(_T):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:113
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:196
 #: src/dialogs/dialog-stf.glade.h:15
-#, fuzzy
 msgid "Data"
-msgstr "データ(_D)"
+msgstr "データ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 #, fuzzy
@@ -19097,18 +19183,16 @@ msgid "Plot Engine"
 msgstr "プロット名"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:230
-#, fuzzy
 msgid "Plot Type"
-msgstr "プロット名"
+msgstr "プロット形式"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:312
 msgid "Chart Theme"
-msgstr ""
+msgstr "図表テーマ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:182
-#, fuzzy
 msgid "Series"
-msgstr "連続(_S)"
+msgstr "連続"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
 #, fuzzy
@@ -19137,12 +19221,11 @@ msgstr "<b>行</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
 msgid "Brightness"
-msgstr ""
+msgstr "明るさ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#, fuzzy
 msgid "C_olor:"
-msgstr "色:"
+msgstr "色(_O):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to a darker/lighter version of that color"
@@ -19172,34 +19255,28 @@ msgid "Pattern"
 msgstr "パターン"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "Si_ze:"
-msgstr "サイズ:"
+msgstr "サイズ(_Z):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "T_ype:"
-msgstr "型(_T):"
+msgstr "型(_Y):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
-#, fuzzy
 msgid "_Background:"
-msgstr "背景"
+msgstr "背景(_B):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-#, fuzzy
 msgid "_Direction:"
-msgstr "方向"
+msgstr "方向(_D):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-#, fuzzy
 msgid "_End:"
-msgstr "終了"
+msgstr "終了(_E):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
-#, fuzzy
 msgid "_Fill color:"
-msgstr "色(_C):"
+msgstr "塗りつぶす色(_F):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 #, fuzzy
@@ -19207,24 +19284,20 @@ msgid "_Fit:"
 msgstr "次のサイズに合わせる(_F):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
-#, fuzzy
 msgid "_Foreground:"
-msgstr "背景"
+msgstr "前景色(_F):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_Outline color:"
-msgstr "アウトラインカラー(_U):"
+msgstr "外枠線の色(_O):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Pattern:"
-msgstr "パターン"
+msgstr "パターン(_P):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
-#, fuzzy
 msgid "_Select..."
-msgstr "選択(_S)"
+msgstr "選択...(_S)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
 #, fuzzy
@@ -19232,14 +19305,12 @@ msgid "_Shape:"
 msgstr "範囲(_S):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-#, fuzzy
 msgid "_Size:"
-msgstr "サイズ:"
+msgstr "サイズ(_S):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-#, fuzzy
 msgid "_Start:"
-msgstr "状態"
+msgstr "開始(_S):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
@@ -19247,14 +19318,12 @@ msgid "_Type:"
 msgstr "型(_T):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#, fuzzy
 msgid "_brighter"
-msgstr "右(_R)"
+msgstr "明るく(_B)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
-#, fuzzy
 msgid "_darker"
-msgstr "配列"
+msgstr "暗く(_D)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "pts"
@@ -19265,7 +19334,6 @@ msgid "stretched"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
-#, fuzzy
 msgid "wallpaper"
 msgstr "壁紙"
 
@@ -19277,15 +19345,13 @@ msgstr "%dR x %dC"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:579
 #: src/workbook-control-gui.c:3155
-#, fuzzy
 msgid "Select an image"
-msgstr "列全体を選択します"
+msgstr "画像を選択します"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:995
 #: src/dialogs/pivottable.glade.h:4
-#, fuzzy
 msgid "Style"
-msgstr "スタイル(_S)"
+msgstr "スタイル"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
@@ -19357,9 +19423,8 @@ msgstr "プロット(_P)"
 #. * 	PlotArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
-#, fuzzy
 msgid "PlotArea"
-msgstr "プロット(_P)"
+msgstr "プロット範囲"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 #, fuzzy
@@ -19427,9 +19492,8 @@ msgid "Area plot."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Areas"
-msgstr "範囲(_A)"
+msgstr "範囲"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
@@ -19445,7 +19509,6 @@ msgid "Line plot."
 msgstr "インポートする行"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
 msgid "Lines"
 msgstr "直線"
 
@@ -19629,9 +19692,8 @@ msgid "degrees"
 msgstr "度"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:103
-#, fuzzy
 msgid "PlotPie"
-msgstr "プロット(_P)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:226
 #, fuzzy
@@ -19640,7 +19702,7 @@ msgstr "なし"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
-msgstr "中心サイズ:"
+msgstr "中心サイズ(_T):"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -19662,7 +19724,6 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Multi-Pie"
 msgstr "複数円グラフ"
 
@@ -19733,7 +19794,7 @@ msgid "Ring plotting engine"
 msgstr "リンググラフプロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of default size"
 msgstr "% (標準サイズに対する比率)"
 
@@ -19742,18 +19803,16 @@ msgid "3_d"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
-#, fuzzy
 msgid "Dia_meter"
-msgstr "センチメートル"
+msgstr "センチメートル(_M)"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
 msgid "Show _negative values"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
-#, fuzzy
 msgid "Sur_face"
-msgstr "ソース"
+msgstr "表面(_F)"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
 msgid "_Bubbles scaled to"
@@ -19771,19 +19830,18 @@ msgstr ""
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:262
-#, fuzzy
 msgid "PlotXY"
-msgstr "プロット"
+msgstr "散布図"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:466
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:468
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 #, fuzzy
@@ -19792,9 +19850,8 @@ msgstr "二重"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:470
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
-#, fuzzy
 msgid "Bubble"
-msgstr "二重"
+msgstr "バブル"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
 msgid ""
@@ -19807,9 +19864,8 @@ msgid "Linearly interpolate between multi-dimensional points."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
-#, fuzzy
 msgid "Markers at each point."
-msgstr "列を削除"
+msgstr "各点をマークします．"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
 msgid "Multi-dimensional points with circle at each point."
@@ -19821,7 +19877,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
-msgstr ""
+msgstr "XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 #, fuzzy
@@ -19852,12 +19908,10 @@ msgid "Stock Scatter plot types"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:5
-#, fuzzy
 msgid "XY Charts"
-msgstr "円グラフ"
+msgstr "散布図"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
-#, fuzzy
 msgid "none"
 msgstr "なし"
 
@@ -19889,11 +19943,8 @@ msgid "triangle left"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
-#, fuzzy
 msgid "circle"
 msgstr ""
-"-adobe-helvetica-medium-r-normal-*-14-*-*-*-p-*-*,-alias-fixed-medium-r-"
-"normal-*-14-*-*-*-c-*-*,*-r-*"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:231
 #, fuzzy
@@ -20335,9 +20386,8 @@ msgstr "グループ化"
 #: src/dialogs/moving-averages.glade.h:10
 #: src/dialogs/random-generation.glade.h:7 src/dialogs/rank.glade.h:6
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "O_ptions"
-msgstr "オプション"
+msgstr "オプション(_P)"
 
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:10
 #: src/dialogs/consolidate.glade.h:17 src/dialogs/correlation.glade.h:6
@@ -20416,9 +20466,8 @@ msgstr "ラベル(_L)"
 #: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:17
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:22
 #: src/dialogs/variance-tests.glade.h:15
-#, fuzzy
 msgid "_Output"
-msgstr "出力"
+msgstr "出力(_O)"
 
 #: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:4
 #: src/dialogs/random-generation.glade.h:2 src/dialogs/sampling.glade.h:2
@@ -20430,9 +20479,8 @@ msgid "ANOVA - Two-Factor"
 msgstr "分散解析 - 二次元配置"
 
 #: src/dialogs/anova-two.glade.h:8
-#, fuzzy
 msgid "Number of Rows _Per Sample:"
-msgstr "標本数(_U):"
+msgstr "標本あたりの行数(_P):"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -20451,18 +20499,16 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "2文字目を小文字にする。                                 "
 
 #: src/dialogs/autocorrect.glade.h:6
-#, fuzzy
 msgid "Do _not capitalize after:"
-msgstr "次に続く単語の先頭を大文字にしない:"
+msgstr "次に続く単語の先頭を大文字にしない(_N):"
 
 #: src/dialogs/autocorrect.glade.h:7
 msgid "Do _not correct:"
 msgstr "訂正しない(_N)"
 
 #: src/dialogs/autocorrect.glade.h:8
-#, fuzzy
 msgid "First Letter"
-msgstr "先頭の文字(_F)"
+msgstr "先頭の文字"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
@@ -20524,9 +20570,8 @@ msgid "does not begin with"
 msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:10
-#, fuzzy
 msgid "does not contain"
-msgstr "Gnumericワークブックファイルがありません"
+msgstr "含まない"
 
 #: src/dialogs/autofilter-expression.glade.h:11
 #, fuzzy
@@ -20535,7 +20580,7 @@ msgstr "関数がありません"
 
 #: src/dialogs/autofilter-expression.glade.h:12
 msgid "does not equal"
-msgstr ""
+msgstr "等しくない"
 
 #: src/dialogs/autofilter-expression.glade.h:13
 #, fuzzy
@@ -20543,9 +20588,8 @@ msgid "ends with"
 msgstr "固定幅(_D)"
 
 #: src/dialogs/autofilter-expression.glade.h:14
-#, fuzzy
 msgid "equals"
-msgstr "不等号(_U)"
+msgstr "等しい"
 
 #: src/dialogs/autofilter-expression.glade.h:15
 msgid "is greater than"
@@ -20675,7 +20719,6 @@ msgid "Auto Save"
 msgstr "自動保存"
 
 #: src/dialogs/autosave.glade.h:3
-#, fuzzy
 msgid "_Automatically save every"
 msgstr "常に自動保存(_A)"
 
@@ -21013,9 +21056,8 @@ msgid "Sort..."
 msgstr "並べ替え(_S)..."
 
 #: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
-#, fuzzy
 msgid "_Preserves Formats"
-msgstr "対象外の部分(_P)"
+msgstr "書式の維持(_P)"
 
 #: src/dialogs/cell-sort.glade.h:8
 msgid "_Right-Left"
@@ -21361,7 +21403,8 @@ msgstr ""
 "岡 充 <mitsu-o@is.aist-nara.ac.jp>, 1999-2000\n"
 "濱田 充男 <mhamada@redhat.com>, 2000\n"
 "中井 幸博 <nakai@gnome.gr.jp>, 2000-2001,2003\n"
-"相花 毅 <aihana@gnome.gr.jp>, 2000-2002"
+"相花 毅 <aihana@gnome.gr.jp>, 2000-2002\n"
+"稲垣 良一 <ryo1@bc.wakwak.com>, 2004"
 
 #: src/dialogs/dialog-about.c:125
 msgid "Gnumeric Home Page"
@@ -22155,7 +22198,6 @@ msgid "Internal"
 msgstr "内部"
 
 #: src/dialogs/dialog-preferences.c:1507
-#, fuzzy
 msgid "Header/Footer"
 msgstr "ヘッダとフッタ"
 
@@ -22227,7 +22269,7 @@ msgstr "ベルヌーイ"
 #: src/dialogs/dialog-random-generator.c:152
 #: src/dialogs/dialog-random-generator.c:158
 msgid "_p Value:"
-msgstr "_p 値(_P):"
+msgstr "p 値(_P):"
 
 #: src/dialogs/dialog-random-generator.c:122
 msgid "Beta"
@@ -22246,7 +22288,7 @@ msgstr "ベータ"
 #: src/dialogs/dialog-random-generator.c:167
 #: src/dialogs/dialog-random-generator.c:171
 msgid "_a Value:"
-msgstr "_a 値(_A):"
+msgstr "a 値(_A):"
 
 #: src/dialogs/dialog-random-generator.c:122
 #: src/dialogs/dialog-random-generator.c:130
@@ -22257,7 +22299,7 @@ msgstr "_a 値(_A):"
 #: src/dialogs/dialog-random-generator.c:161
 #: src/dialogs/dialog-random-generator.c:171
 msgid "_b Value:"
-msgstr "_b 値(_B):"
+msgstr "b 値(_B):"
 
 #: src/dialogs/dialog-random-generator.c:124
 msgid "Binomial"
@@ -22276,9 +22318,8 @@ msgid "Chisq"
 msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:128
-#, fuzzy
 msgid "_nu Value:"
-msgstr "_p 値(_P):"
+msgstr "nu 値(_N):"
 
 #: src/dialogs/dialog-random-generator.c:130
 msgid "Exponential"
@@ -22318,9 +22359,8 @@ msgid "_Sigma"
 msgstr "シグマ(_S)"
 
 #: src/dialogs/dialog-random-generator.c:140
-#, fuzzy
 msgid "Geometric"
-msgstr "Gnumeric"
+msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:142
 msgid "Gumbel (Type I)"
@@ -22442,14 +22482,12 @@ msgid "Changing cells should be on the current sheet only."
 msgstr "変更中のセルは現在のシートになければなりません。"
 
 #: src/dialogs/dialog-scenarios.c:147
-#, fuzzy
 msgid "Scenario name already used"
-msgstr "これらの行は既にグループ化されています"
+msgstr "シナリオ名はすでに使用されています"
 
 #: src/dialogs/dialog-scenarios.c:152
-#, fuzzy
 msgid "Invalid scenario name"
-msgstr "検索パターンが正しくありません。"
+msgstr "不適切なシナリオ名です"
 
 #: src/dialogs/dialog-scenarios.c:177
 msgid ""
@@ -22464,9 +22502,8 @@ msgid "Could not create the Scenario Add dialog."
 msgstr "ソルバダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-scenarios.c:228 src/dialogs/scenario-add.glade.h:5
-#, fuzzy
 msgid "_Changing cells:"
-msgstr "変更するセル:"
+msgstr "変更するセル(_C):"
 
 #: src/dialogs/dialog-scenarios.c:243
 #, fuzzy
@@ -22593,7 +22630,6 @@ msgid "Run on"
 msgstr ""
 
 #: src/dialogs/dialog-simulation.c:245
-#, fuzzy
 msgid "Variable"
 msgstr "変数"
 
@@ -22630,9 +22666,8 @@ msgid "_Outputs:"
 msgstr "出力(_O):"
 
 #: src/dialogs/dialog-simulation.c:431
-#, fuzzy
 msgid "Could not create the Simulation dialog."
-msgstr "ジャンプ・ダイアログが作成できませんでした。"
+msgstr "シミュレーション・ダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-solver.c:100
 #, fuzzy
@@ -22715,7 +22750,7 @@ msgstr "制約'%s'は入力セルではないセルに対するものです。"
 
 #: src/dialogs/dialog-solver.c:1048
 msgid "No constraints defined for the problem."
-msgstr ""
+msgstr "問題に対する制約が定義されていません。"
 
 #: src/dialogs/dialog-solver.c:1100
 msgid ""
@@ -22942,9 +22977,8 @@ msgid "Import all columns on left"
 msgstr "左の列をすべてインポート"
 
 #: src/dialogs/dialog-stf-format-page.c:261
-#, fuzzy
 msgid "Copy format to right"
-msgstr "左から右へ"
+msgstr "書式を右へコピー"
 
 #: src/dialogs/dialog-stf-format-page.c:399
 msgid ""
@@ -22963,9 +22997,9 @@ msgid "Column %d"
 msgstr "%d 列"
 
 #: src/dialogs/dialog-stf-main-page.c:150
-#, fuzzy, c-format
-msgid "%d of %d lines to import"
-msgstr "%d 行をインポート"
+#, c-format
+msgid "%$1d of %$2d lines to import"
+msgstr "%$2d 行中 %$1d 行目をインポート"
 
 #: src/dialogs/dialog-stf-main-page.c:171
 #, c-format
@@ -22997,7 +23031,7 @@ msgstr "感嘆符(!) (_G)"
 
 #: src/dialogs/dialog-stf.glade.h:8
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: src/dialogs/dialog-stf.glade.h:9
 msgid "C_ustom"
@@ -23049,9 +23083,8 @@ msgid "F_inish"
 msgstr "終了(_I)"
 
 #: src/dialogs/dialog-stf.glade.h:20
-#, fuzzy
 msgid "Fixed"
-msgstr "ファイル(_F)/"
+msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid "Fr_om line:"
@@ -23343,7 +23376,7 @@ msgstr "選択部分のフィット(_F) %"
 
 #: src/dialogs/exp-smoothing.glade.h:2
 msgid "0.2"
-msgstr ""
+msgstr "0.2"
 
 #: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2690
 #: src/tools/analysis-tools.c:2693
@@ -23666,7 +23699,6 @@ msgid "_Autofit Columns"
 msgstr "列の自動調整(_A)"
 
 #: src/dialogs/histogram.glade.h:20
-#, fuzzy
 msgid "_Bins"
 msgstr "貯蓄(_B)"
 
@@ -23744,9 +23776,8 @@ msgid "Shift cells _down"
 msgstr "セルを下に移動()D)"
 
 #: src/dialogs/insert-cells.glade.h:5
-#, fuzzy
 msgid "_Insert column(s)"
-msgstr "列を挿入(_C)"
+msgstr "列を挿入(_I)"
 
 #: src/dialogs/insert-cells.glade.h:6
 msgid "_Shift cells right"
@@ -23770,18 +23801,16 @@ msgid "Testing the Difference of 2 Means"
 msgstr "二つの意味の違いをテストします"
 
 #: src/dialogs/mean-tests.glade.h:14
-#, fuzzy
 msgid "Variable _1 Population Variance:"
-msgstr "変数 1 の分散の相違:"
+msgstr "変数 1 の分散の相違(_1):"
 
 #: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:9
 msgid "Variable _1 Range:"
 msgstr "変数 1の範囲(_1):"
 
 #: src/dialogs/mean-tests.glade.h:16
-#, fuzzy
 msgid "Variable _2 Population Variance:"
-msgstr "変数 2の分散の相違:"
+msgstr "変数 2の分散の相違(_2):"
 
 #: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:10
 msgid "Variable _2 Range:"
@@ -24215,9 +24244,8 @@ msgid "<span weight=\"bold\">Changing Cells</span>"
 msgstr "<span weight=\"bold\">ゴール</span>"
 
 #: src/dialogs/scenario-manager.glade.h:4
-#, fuzzy
 msgid "<span weight=\"bold\">Comment</span>"
-msgstr "<span weight=\"bold\">入力</span>"
+msgstr "<span weight=\"bold\">コメント</span>"
 
 #: src/dialogs/scenario-manager.glade.h:5
 #, fuzzy
@@ -24225,13 +24253,12 @@ msgid "<span weight=\"bold\">Reporting</span>"
 msgstr "<span weight=\"bold\">オプション</span>"
 
 #: src/dialogs/scenario-manager.glade.h:6
-#, fuzzy
 msgid "<span weight=\"bold\">Scenarios</span>"
-msgstr "<span weight=\"bold\">オプション</span>"
+msgstr "<span weight=\"bold\">シナリオ</span>"
 
 #: src/dialogs/scenario-manager.glade.h:7
 msgid "Create _Report"
-msgstr "プログラムの作成(_R)"
+msgstr "レポートの作成(_R)"
 
 #: src/dialogs/scenario-manager.glade.h:11
 msgid "Scenario Manager"
@@ -24583,24 +24610,20 @@ msgid "Find Min."
 msgstr "最小検索。"
 
 #: src/dialogs/simulation.glade.h:7
-#, fuzzy
 msgid "First Round #:"
 msgstr "開始ラウンド #:"
 
 #: src/dialogs/simulation.glade.h:8
-#, fuzzy
 msgid "Inputs:"
-msgstr "入力(_I):"
+msgstr "入力:"
 
 #: src/dialogs/simulation.glade.h:9
-#, fuzzy
 msgid "Iterations:"
-msgstr "繰り返し: "
+msgstr "繰り返し:"
 
 #: src/dialogs/simulation.glade.h:10
-#, fuzzy
 msgid "Last Round #:"
-msgstr "最終ラウンド #: "
+msgstr "最終ラウンド #:"
 
 #: src/dialogs/simulation.glade.h:11 src/tools/solver/reports-write.c:706
 msgid "Max Time:"
@@ -24611,12 +24634,10 @@ msgid "Next Sim."
 msgstr "次のシミュレーション。"
 
 #: src/dialogs/simulation.glade.h:15
-#, fuzzy
 msgid "Outputs:"
-msgstr "出力: "
+msgstr "出力:"
 
 #: src/dialogs/simulation.glade.h:16
-#, fuzzy
 msgid "Prev. Sim."
 msgstr "前のシミュレーション。"
 
@@ -24626,16 +24647,14 @@ msgid "Risk Simulation"
 msgstr "リスクシミュレーション"
 
 #: src/dialogs/simulation.glade.h:18
-#, fuzzy
 msgid "Simulation Summary:"
-msgstr "シミュレーション: "
+msgstr "シミュレーションサマリ: "
 
 #: src/dialogs/simulation.glade.h:19 src/dialogs/summary.glade.h:6
 msgid "Summary"
 msgstr "サマリ"
 
 #: src/dialogs/simulation.glade.h:20
-#, fuzzy
 msgid "Summary of Results:"
 msgstr "結果のサマリ:"
 
@@ -24644,9 +24663,8 @@ msgid "_Options"
 msgstr "オプション(_O)"
 
 #: src/dialogs/simulation.glade.h:24
-#, fuzzy
 msgid "_Variables"
-msgstr "変数"
+msgstr "変数(_V)"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
@@ -25913,6 +25931,7 @@ msgstr ""
 "\n"
 "* この関数は Excel 互換です。セル範囲に含まれるセルがすべて空白セルの場合、結"
 "果は0(ゼロ)になります。\n"
+"\n"
 "@EXAMPLES=\n"
 "PRODUCT(2,5,9) = 90 です。\n"
 "\n"
@@ -25959,9 +25978,8 @@ msgid "Cell Range"
 msgstr "セルの範囲"
 
 #: src/func.c:681
-#, fuzzy
 msgid "Scalar or Blank"
-msgstr "スカラまたはエラー"
+msgstr "スカラまたは空白"
 
 #: src/func.c:683
 msgid "Scalar or Error"
@@ -26553,7 +26571,7 @@ msgstr "ファイルからプラグイン情報が読み込めませんでした
 
 #: src/plugin.c:468
 msgid "Unknown name"
-msgstr "名前が不明です"
+msgstr "不明な名前です"
 
 #: src/plugin.c:565
 #, c-format
