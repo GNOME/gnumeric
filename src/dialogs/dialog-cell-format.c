@@ -291,15 +291,18 @@ setup_color_pickers (GladeXML	 *gui,
 		     MStyle	 *mstyle)
 {
 	StyleColor *mcolor = NULL;
-
-	GtkWidget *tmp = glade_xml_get_widget (gui, picker_name);
-	g_return_if_fail (tmp && NULL != (color_state->picker = GNOME_COLOR_PICKER (tmp)));
-
+	GtkWidget *tmp;
+	
+	tmp = glade_xml_get_widget (gui, picker_name);
+	color_state->picker = GNOME_COLOR_PICKER (tmp);
 	tmp = glade_xml_get_widget (gui, custom_radio_name);
-	g_return_if_fail (tmp && NULL != (color_state->custom = GTK_TOGGLE_BUTTON (tmp)));
-
+	color_state->custom = GTK_TOGGLE_BUTTON (tmp);
 	tmp = glade_xml_get_widget (gui, auto_name);
-	g_return_if_fail (tmp && NULL != (color_state->autob = GTK_TOGGLE_BUTTON (tmp)));
+	color_state->autob = GTK_TOGGLE_BUTTON (tmp);
+
+	g_return_if_fail (color_state->picker != NULL &&
+	                  color_state->custom != NULL &&
+	                  color_state->autob != NULL);
 
 	color_state->auto_color = auto_color;
 	color_state->preview_update = preview_update;

@@ -9,6 +9,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
+#include <gal/util/e-util.h>
 #include "gnumeric.h"
 #include "workbook-view.h"
 #include "gnumeric-util.h"
@@ -121,17 +122,6 @@ string_pos_in_list (gchar *str, GList *list)
 	}
 
 	return -1;
-}
-
-static void
-free_string_list (GList *list)
-{
-	GList *l;
-
-	for (l = list; l; l = l->next)
-		g_free (l->data);
-
-	g_list_free (list);
 }
 
 /* Advanced dialog */
@@ -608,16 +598,18 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	}
 
 	/* Clean up */
+	g_free (sort_flow.sel);
+
 	if (sort_flow.dialog)
 		gtk_object_destroy (GTK_OBJECT (sort_flow.dialog));
 
 	for (lp = 0; lp < sort_flow.num_clause; lp++)
 		order_box_destroy (sort_flow.clauses [lp]);
 
-	free_string_list (sort_flow.colnames_plain);
-	free_string_list (sort_flow.colnames_header);
-	free_string_list (sort_flow.rownames_plain);
-	free_string_list (sort_flow.rownames_header);
+	e_free_string_list (sort_flow.colnames_plain);
+	e_free_string_list (sort_flow.colnames_header);
+	e_free_string_list (sort_flow.rownames_plain);
+	e_free_string_list (sort_flow.rownames_header);
 
 	gtk_object_unref (GTK_OBJECT (gui));
 }

@@ -1,3 +1,14 @@
+2001-02-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/dialogs/dialog-cell-format.c (setup_color_pickers): Move
+	variable assignments out of assertions to allow compilation with
+	"G_DISABLE_ASSERT" defined.
+
+	* src/dialogs/dialog-cell-sort.c:
+	Use e_free_string_list() from GAL instead of newly defined
+	free_string_list().
+	(dialog_cell_sort): Plug leak.
+
 2001-02-20  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (LUPDecomp): Really fix row flipping.
