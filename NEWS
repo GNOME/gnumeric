@@ -5,8 +5,8 @@ Christian Neumair:
 	* HIGify some dialogs when it comes to spacing.
 
 Morten:
-	* Fix crash related to database functions.  [backported]
-	* Fix [h]:mm precision (#138182).
+	* Fix crash related to database functions (#138600).  [backported]
+	* Fix [h]:mm precision (#138182).  [backported]
 
 --------------------------------------------------------------------------
 
