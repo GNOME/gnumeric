@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-10 04:43+0200\n"
+"POT-Creation-Date: 2004-07-28 03:56+0200\n"
 "PO-Revision-Date: 2004-06-29 13:01+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -971,7 +971,7 @@ msgid ""
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:185
+#: plugins/fn-complex/functions.c:182
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -986,7 +986,7 @@ msgid ""
 "@SEEALSO=IMAGINARY"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:218
+#: plugins/fn-complex/functions.c:215
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -1002,7 +1002,7 @@ msgid ""
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:252
+#: plugins/fn-complex/functions.c:246
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -1019,7 +1019,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-complex/functions.c:283
+#: plugins/fn-complex/functions.c:277
 msgid ""
 "@FUNCTION=IMNEG\n"
 "@SYNTAX=IMNEG(inumber)\n"
@@ -1036,7 +1036,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-complex/functions.c:314
+#: plugins/fn-complex/functions.c:308
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -1051,7 +1051,7 @@ msgid ""
 "@SEEALSO=IMSIN,IMTAN"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:345
+#: plugins/fn-complex/functions.c:339
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -1066,7 +1066,7 @@ msgid ""
 "@SEEALSO=IMSIN,IMCOS"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:376
+#: plugins/fn-complex/functions.c:370
 msgid ""
 "@FUNCTION=IMSEC\n"
 "@SYNTAX=IMSEC(inumber)\n"
@@ -1083,7 +1083,7 @@ msgid ""
 "@SEEALSO=IMCSC,IMCOT"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:409
+#: plugins/fn-complex/functions.c:403
 msgid ""
 "@FUNCTION=IMCSC\n"
 "@SYNTAX=IMCSC(inumber)\n"
@@ -1100,7 +1100,7 @@ msgid ""
 "@SEEALSO=IMSEC,IMCOT"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:442
+#: plugins/fn-complex/functions.c:436
 msgid ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(inumber)\n"
@@ -1117,7 +1117,7 @@ msgid ""
 "@SEEALSO=IMSEC,IMCSC"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:475
+#: plugins/fn-complex/functions.c:469
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -1132,7 +1132,7 @@ msgid ""
 "@SEEALSO=IMLN"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:506
+#: plugins/fn-complex/functions.c:500
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1150,7 +1150,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-complex/functions.c:538
+#: plugins/fn-complex/functions.c:532
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -1169,7 +1169,7 @@ msgid ""
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:574
+#: plugins/fn-complex/functions.c:568
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -1184,7 +1184,7 @@ msgid ""
 "@SEEALSO=IMLN,IMLOG10"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:606
+#: plugins/fn-complex/functions.c:600
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -1199,7 +1199,7 @@ msgid ""
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:638
+#: plugins/fn-complex/functions.c:632
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1217,7 +1217,7 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:677
+#: plugins/fn-complex/functions.c:671
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber1,inumber2)\n"
@@ -1233,7 +1233,7 @@ msgid ""
 "@SEEALSO=IMPRODUCT"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:714
+#: plugins/fn-complex/functions.c:708
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -1248,7 +1248,7 @@ msgid ""
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:744
+#: plugins/fn-complex/functions.c:738
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1265,7 +1265,7 @@ msgid ""
 "@SEEALSO=IMCOSH,IMTANH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:776
+#: plugins/fn-complex/functions.c:770
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1282,7 +1282,7 @@ msgid ""
 "@SEEALSO=IMSINH,IMTANH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:807
+#: plugins/fn-complex/functions.c:801
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -1299,7 +1299,7 @@ msgid ""
 "@SEEALSO=IMSINH,IMCOSH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:838
+#: plugins/fn-complex/functions.c:832
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -1316,7 +1316,7 @@ msgid ""
 "@SEEALSO=IMCSCH,IMCOTH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:869
+#: plugins/fn-complex/functions.c:863
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -1333,7 +1333,7 @@ msgid ""
 "@SEEALSO=IMSECH,IMCOTH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:900
+#: plugins/fn-complex/functions.c:894
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(inumber)\n"
@@ -1350,7 +1350,7 @@ msgid ""
 "@SEEALSO=IMSECH,IMCSCH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:931
+#: plugins/fn-complex/functions.c:925
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -1367,7 +1367,7 @@ msgid ""
 "@SEEALSO=IMARCCOS,IMARCTAN"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:963
+#: plugins/fn-complex/functions.c:957
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -1384,7 +1384,7 @@ msgid ""
 "@SEEALSO=IMARCSIN,IMARCTAN"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:995
+#: plugins/fn-complex/functions.c:989
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(inumber)\n"
@@ -1400,7 +1400,7 @@ msgid ""
 "@SEEALSO=IMARCSIN,IMARCCOS"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1027
+#: plugins/fn-complex/functions.c:1021
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(inumber)\n"
@@ -1418,7 +1418,7 @@ msgid ""
 "@SEEALSO=IMARCCSC,IMARCCOT"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1058
+#: plugins/fn-complex/functions.c:1052
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(inumber)\n"
@@ -1436,7 +1436,7 @@ msgid ""
 "@SEEALSO=IMARCSEC,IMARCCOT"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1089
+#: plugins/fn-complex/functions.c:1083
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(inumber)\n"
@@ -1454,7 +1454,7 @@ msgid ""
 "@SEEALSO=IMARCSEC,IMARCCSC"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1120
+#: plugins/fn-complex/functions.c:1114
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -1471,7 +1471,7 @@ msgid ""
 "@SEEALSO=IMARCCOSH,IMARCTANH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1152
+#: plugins/fn-complex/functions.c:1146
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -1487,7 +1487,7 @@ msgid ""
 "@SEEALSO=IMARCSINH,IMARCTANH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1184
+#: plugins/fn-complex/functions.c:1178
 msgid ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(inumber)\n"
@@ -1504,7 +1504,7 @@ msgid ""
 "@SEEALSO=IMARCSINH,IMARCCOSH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1216
+#: plugins/fn-complex/functions.c:1210
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
@@ -1522,7 +1522,7 @@ msgid ""
 "@SEEALSO=IMARCCSCH,IMARCCOTH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1248
+#: plugins/fn-complex/functions.c:1242
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
@@ -1540,7 +1540,7 @@ msgid ""
 "@SEEALSO=IMARCSECH,IMARCCOTH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1279
+#: plugins/fn-complex/functions.c:1273
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(inumber)\n"
@@ -1558,7 +1558,7 @@ msgid ""
 "@SEEALSO=IMARCSECH,IMARCCSCH"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1311
+#: plugins/fn-complex/functions.c:1305
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -1573,7 +1573,7 @@ msgid ""
 "@SEEALSO=IMPOWER"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1342
+#: plugins/fn-complex/functions.c:1336
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber1,inumber2)\n"
@@ -1589,7 +1589,7 @@ msgid ""
 "@SEEALSO=IMSUM"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1376
+#: plugins/fn-complex/functions.c:1370
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -1605,7 +1605,7 @@ msgid ""
 "@SEEALSO=IMDIV"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1448
+#: plugins/fn-complex/functions.c:1442
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber1,inumber2)\n"
@@ -1621,18 +1621,19 @@ msgid ""
 "@SEEALSO=IMSUB"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1484
+#: plugins/fn-complex/functions.c:1478
 msgid "real,im,suffix"
 msgstr ""
 
+#: plugins/fn-complex/functions.c:1481 plugins/fn-complex/functions.c:1484
 #: plugins/fn-complex/functions.c:1487 plugins/fn-complex/functions.c:1490
-#: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1496
-#: plugins/fn-complex/functions.c:1499 plugins/fn-complex/functions.c:1505
-#: plugins/fn-complex/functions.c:1508 plugins/fn-complex/functions.c:1511
-#: plugins/fn-complex/functions.c:1514 plugins/fn-complex/functions.c:1520
-#: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
-#: plugins/fn-complex/functions.c:1536 plugins/fn-complex/functions.c:1539
-#: plugins/fn-complex/functions.c:1542 plugins/fn-complex/functions.c:1548
+#: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1499
+#: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1505
+#: plugins/fn-complex/functions.c:1508 plugins/fn-complex/functions.c:1514
+#: plugins/fn-complex/functions.c:1517 plugins/fn-complex/functions.c:1520
+#: plugins/fn-complex/functions.c:1530 plugins/fn-complex/functions.c:1533
+#: plugins/fn-complex/functions.c:1536 plugins/fn-complex/functions.c:1542
+#: plugins/fn-complex/functions.c:1545 plugins/fn-complex/functions.c:1548
 #: plugins/fn-complex/functions.c:1551 plugins/fn-complex/functions.c:1554
 #: plugins/fn-complex/functions.c:1557 plugins/fn-complex/functions.c:1560
 #: plugins/fn-complex/functions.c:1563 plugins/fn-complex/functions.c:1566
@@ -1642,13 +1643,12 @@ msgstr ""
 #: plugins/fn-complex/functions.c:1587 plugins/fn-complex/functions.c:1590
 #: plugins/fn-complex/functions.c:1593 plugins/fn-complex/functions.c:1596
 #: plugins/fn-complex/functions.c:1599 plugins/fn-complex/functions.c:1602
-#: plugins/fn-complex/functions.c:1605 plugins/fn-complex/functions.c:1608
 msgid "inumber"
 msgstr ""
 
-#: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1517
-#: plugins/fn-complex/functions.c:1529 plugins/fn-complex/functions.c:1532
-#: plugins/fn-complex/functions.c:1545
+#: plugins/fn-complex/functions.c:1496 plugins/fn-complex/functions.c:1511
+#: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
+#: plugins/fn-complex/functions.c:1539
 msgid "inumber,inumber"
 msgstr ""
 
@@ -11429,10 +11429,11 @@ msgstr "Me të trasha"
 msgid "Borders"
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:439
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
-msgstr "Pulsant (buton)"
+msgstr "Butoni"
 
 #: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3597
 msgid "C_ells..."
@@ -12427,9 +12428,10 @@ msgstr ""
 msgid "Uncollapse an outline group"
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:256 src/workbook-format-toolbar.c:429
 msgid "Underline"
-msgstr "Nënvizimi"
+msgstr "Nënvizuar"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:4286
 msgid "Undo the last action"
@@ -12502,9 +12504,10 @@ msgstr ""
 msgid "_Cells..."
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:274
 msgid "_Close"
-msgstr "_Mbylle"
+msgstr "_Mbyll"
 
 #: src/GNOME_Gnumeric.xml.h:275 src/dialogs/anova-one.glade.h:13
 #: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:9
@@ -12659,9 +12662,10 @@ msgstr ""
 msgid "_Moving Average..."
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3624
 msgid "_Name"
-msgstr ""
+msgstr "_Emri"
 
 #: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3344
 msgid "_New"
@@ -12719,10 +12723,11 @@ msgstr "_Përsërit"
 msgid "_Regression..."
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:324 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3476
 msgid "_Remove"
-msgstr "_Hiqe"
+msgstr "_Hiq"
 
 #: src/GNOME_Gnumeric.xml.h:325 src/dialogs/pivottable.glade.h:13
 #: src/workbook-control-gui.c:3724
@@ -13033,10 +13038,11 @@ msgstr ""
 msgid "Deleting row %s"
 msgstr ""
 
+#. GRUT modified this item
 #. Check for locked cells
 #: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2815
 msgid "Clear"
-msgstr "Pastro (fshi)"
+msgstr "Pastro"
 
 #: src/commands.c:1580
 msgid "contents"
@@ -13699,9 +13705,10 @@ msgstr ""
 msgid "Brightness"
 msgstr ""
 
+#. GRUT modified this item
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "C_olor:"
-msgstr "N_gjyra:"
+msgstr "Ngjyr_a:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to a darker/lighter version of that color"
@@ -16917,10 +16924,11 @@ msgstr ""
 msgid "Comment"
 msgstr "Komenti"
 
+#. GRUT modified this item
 #: src/dialogs/dialog-search.c:131 src/tools/solver/reports-write.c:408
 #: src/tools/solver/reports-write.c:413
 msgid "Result"
-msgstr ""
+msgstr "Rezultati"
 
 #: src/dialogs/dialog-search.c:141
 msgid "Expression"
@@ -17677,9 +17685,10 @@ msgstr ""
 msgid "Sheets"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4246
 msgid "Zoom"
-msgstr "Shkalla"
+msgstr "Shkalla e zmadhimit"
 
 #: src/dialogs/dialog-zoom.glade.h:9
 #, no-c-format
@@ -17876,9 +17885,10 @@ msgstr ""
 msgid "Specify an XL-style format directly"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/format-selector.glade.h:18
 msgid "_Format:"
-msgstr ""
+msgstr "_Formati:"
 
 #: src/dialogs/format-selector.glade.h:19
 msgid "_Use Separator for 1000's"
@@ -18608,9 +18618,10 @@ msgstr ""
 msgid "<span weight=\"bold\">Search Text Type</span>"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/search-replace.glade.h:5 src/dialogs/search.glade.h:1
 msgid "Advanced"
-msgstr "Të hollësishme"
+msgstr "Të detajuara"
 
 #: src/dialogs/search-replace.glade.h:6
 msgid "Ask before each change"
@@ -18672,9 +18683,10 @@ msgstr ""
 msgid "Re_gular expression"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/search-replace.glade.h:22
 msgid "Scope"
-msgstr ""
+msgstr "Qëllimi"
 
 #: src/dialogs/search-replace.glade.h:23
 msgid "Search"
@@ -19221,9 +19233,10 @@ msgstr ""
 msgid "Com_pany:"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/summary.glade.h:5
 msgid "File:"
-msgstr ""
+msgstr "File:"
 
 #: src/dialogs/summary.glade.h:7
 msgid "_Author:"
@@ -19310,9 +19323,10 @@ msgstr "Vendodhja"
 msgid "New view will be opened on specified screen"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/view.glade.h:6
 msgid "Sharing"
-msgstr ""
+msgstr "Duke ndarë"
 
 #: src/dialogs/view.glade.h:7
 msgid "Views will have separate cursor locations"
@@ -20989,9 +21003,10 @@ msgstr ""
 msgid "Path "
 msgstr ""
 
+#. GRUT modified this item
 #: src/print-info.c:568
 msgid "tab"
-msgstr "skedë"
+msgstr "tab"
 
 #: src/print-info.c:569
 msgid "page"
@@ -21005,9 +21020,10 @@ msgstr ""
 msgid "file"
 msgstr ""
 
+#. GRUT modified this item
 #: src/print-info.c:574
 msgid "path"
-msgstr ""
+msgstr "pozicioni"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:577
@@ -21972,13 +21988,14 @@ msgstr ""
 msgid "Limits Report"
 msgstr ""
 
+#. GRUT modified this item
 #.
 #. * Fill in the labels.
 #.
 #: src/tools/solver/reports-write.c:393 src/tools/solver/reports-write.c:406
 #: src/tools/solver/reports-write.c:411
 msgid "Target"
-msgstr "Destinimi"
+msgstr "Objektivi"
 
 #: src/tools/solver/reports-write.c:400
 msgid "Adjustable"
@@ -22115,7 +22132,6 @@ msgstr ""
 msgid "Unknown"
 msgstr "Nuk njihet"
 
-#. GRUT modified this item
 #: src/tools/solver/reports-write.c:688
 #, c-format
 msgid "%s (%s)"
@@ -22423,9 +22439,10 @@ msgstr "e verdhë"
 msgid "green"
 msgstr "jeshile"
 
+#. GRUT modified this item
 #: src/widgets/color-palette.c:561 src/widgets/color-palette.c:591
 msgid "cyan"
-msgstr "cyan"
+msgstr "lejla"
 
 #: src/widgets/color-palette.c:562
 msgid "bright blue"
@@ -22952,9 +22969,10 @@ msgstr ""
 msgid "Eastern Europe"
 msgstr ""
 
+#. GRUT modified this item
 #: src/widgets/widget-locale-selector.c:71
 msgid "North America"
-msgstr "Amerika Veriut"
+msgstr "Amerika e Veriut"
 
 #: src/widgets/widget-locale-selector.c:72
 msgid "South & Central America"
