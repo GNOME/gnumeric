@@ -37,7 +37,9 @@
     <copyright>
       <year>1998, 1999</year> <holder>Miguel de Icaza (n.)</holder>
     </copyright>
-
+    <abstract>
+     <para>日本語翻訳：レーザーファイブ (info@laser5.co.jp)</para>
+    </abstract>
     <legalnotice>
       <para>
 この文書はフリー・ソフトウェアです。したがって、Free Software Foundationの発行するGNU General Public License、バージョン2、あるいはそれ以降のバージョンの条項に則って再配布・変更を行うことができます。 
