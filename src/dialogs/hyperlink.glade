@@ -4,7 +4,6 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="hyperlink-dialog">
-  <property name="visible">True</property>
   <property name="title" translatable="yes">HyperLink</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_MOUSE</property>
@@ -247,7 +246,7 @@
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
-		  <property name="activates_default">False</property>
+		  <property name="activates_default">True</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -334,7 +333,7 @@
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
-		  <property name="activates_default">False</property>
+		  <property name="activates_default">True</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -355,7 +354,7 @@
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
-		  <property name="activates_default">False</property>
+		  <property name="activates_default">True</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -413,7 +412,7 @@
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
-		  <property name="activates_default">False</property>
+		  <property name="activates_default">True</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
@@ -484,7 +483,7 @@
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
-		  <property name="activates_default">False</property>
+		  <property name="activates_default">True</property>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>

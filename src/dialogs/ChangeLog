@@ -1,5 +1,41 @@
 2003-01-04  Jon K Hellan  <hellan@acm.org>
 
+	* dialog-hyperlink.c (struct HyperlinkState): Add sheet control,
+	internal link expr entry and is_new flag.
+	(dialog_hyperlink_free, cb_cancel, cb_ok)
+	(dialog_hyperlink_setup_type, dialog_hyperlink_set_type)
+	(cb_menu_activate, dialog_hyperlink_init): Rename to dhl_xxx.
+	(dhl_set_tip): New. Set "tip" field in dialog.
+	(dhl_get_tip): New. Get "tip" field from dialog.
+	(dhl_set_target_cur_wb): New. Set "target range" field in internal
+	link variant of dialog.
+	(dhl_get_target_cur_wb): New. Get "target range" field from
+	dialog.
+	(dhl_set_target_external): New. Set "file" field in external link
+	variant of dialog.
+	(dhl_get_target_external): New. Get "file" field from dialog.
+	(dhl_set_target_url): New. Set "Web address" field in URL variant
+	of dialog.
+	(dhl_get_target_url): New. Get "Web address" field from URL
+	variant of dialog.
+	(type): Add set_target and get_target methods.
+	(dhl_set_target): New. Set target field in dialog.
+	(dhl_get_target): New. Get target field from dialog.
+	(dhl_cb_ok): Use the results.
+	(dhl_set_type): Unref old.
+	(dhl_init): Don't call gnumeric_editable_enters on
+	entries. Instead, we set "activates_default" to true in the glade.
+	Conditionalize email link and disable for now. Reason: needs RFC
+	2047 header encoding/decoding.
+	(dialog_hyperlink): Init state->sc, state->internal_link_ee and
+	state->is_new. Ref the link. Drop last_link_type. Use
+	dhl_setup_type instead of dhl_set_type.
+
+	* hyperlink.glade: Set dialog invisible. Set activates_default to
+	true for entries.
+
+2003-01-04  Jon K Hellan  <hellan@acm.org>
+
 	* dialog-solver.c (dialog_init): Use gnm_expr_entry_grab_focus to
 	grab focus.
 

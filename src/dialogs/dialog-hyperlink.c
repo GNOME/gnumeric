@@ -23,30 +23,43 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 
+#include <commands.h>
+#include <widgets/gnumeric-expr-entry.h>
+#include "expr-name.h"
 #include <gui-util.h>
 #include <hlink.h>
+#include <mstyle.h>
 #include <sheet-control.h>
 #include <sheet-view.h>
 #include <sheet-style.h>
+#include <value.h>
 #include <workbook-edit.h>
 #include <gnumeric-i18n.h>
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;
 	Workbook  *wb;
+	SheetControl *sc;
 
 	GladeXML  *gui;
 	GtkWidget *dialog;
 
 	GtkImage  *type_image;
 	GtkLabel  *type_descriptor;
+	GnumericExprEntry *internal_link_ee;
 	GnmHLink  *link;
+	gboolean   is_new;
 } HyperlinkState;
 
-static GType last_link_type = 0;
+/*
+ * FIXME: The special GUI for email is nice, but it really requires proper
+ * URL escaping/unescaping (not much code) and RFC 2047 header
+ * encoding/decoding (much code). Disable for now.
+ */
+#define GNM_NO_MAILTO
 
 static void
-dialog_hyperlink_free (HyperlinkState *state)
+dhl_free (HyperlinkState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 
@@ -63,16 +76,101 @@ dialog_hyperlink_free (HyperlinkState *state)
 }
 
 static void
-cb_cancel (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
+dhl_set_tip (HyperlinkState* state)
 {
-	gtk_widget_destroy (state->dialog);
+	const char* tip = gnm_hlink_get_tip (state->link);
+
+	if (tip) {
+		GtkWidget *w = glade_xml_get_widget (state->gui, "tip-entry");
+		gtk_entry_set_text (GTK_ENTRY (w), tip);
+	}
+}
+
+static const char *
+dhl_get_tip (HyperlinkState *state)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, "tip-entry");
+	const char *tip = gtk_entry_get_text (GTK_ENTRY (w));
+	return strlen (tip) > 0 ? tip : NULL;
 }
 
 static void
-cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
+dhl_set_target_cur_wb (HyperlinkState *state, const char* const target)
 {
-#warning todo assign the result
-	gtk_widget_destroy (state->dialog);
+	gnm_expr_entry_load_from_text (state->internal_link_ee, target);
+}
+
+static const char *
+dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
+{
+	char *ret = NULL;
+	GnumericExprEntry *gee = state->internal_link_ee;
+	char const *target = gnm_expr_entry_get_text (gee);
+	Sheet *sheet = sc_sheet (state->sc);
+	Value *val;
+
+	*success = FALSE;
+	if (strlen (target) == 0) {
+		*success = TRUE;
+	} else {
+		val = gnm_expr_entry_parse_as_value (gee, sheet);
+		if (!val) {
+			/* not an address, is it a name ? */
+			ParsePos pp;
+			GnmNamedExpr *nexpr;
+
+			parse_pos_init (&pp, NULL, sheet, 0, 0);
+			nexpr = expr_name_lookup (&pp, target);
+			if (nexpr != NULL)
+				val = gnm_expr_get_range (nexpr->expr);
+		}
+		if (val) {
+			*success = TRUE;
+			ret = (char *) target;
+			value_release (val);
+		} else {
+			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+					 _("Not a range or name"));
+			gnm_expr_entry_grab_focus (gee, TRUE);
+		}
+	}
+	return ret;
+}
+
+static void
+dhl_set_target_external (HyperlinkState *state, const char* const target)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, "external-link");
+
+	gtk_entry_set_text (GTK_ENTRY (w), target);
+}
+
+static const char *
+dhl_get_target_external (HyperlinkState *state, gboolean *success)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, "external-link");
+	const char *target = gtk_entry_get_text (GTK_ENTRY (w));
+
+	*success = TRUE;
+	return strlen (target) > 0 ? target : NULL;
+}
+
+static void
+dhl_set_target_url (HyperlinkState *state, const char* const target)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, "url");
+
+	gtk_entry_set_text (GTK_ENTRY (w), target);
+}
+
+static const char *
+dhl_get_target_url (HyperlinkState *state, gboolean *success)
+{
+	GtkWidget *w = glade_xml_get_widget (state->gui, "url");
+	const char *target = gtk_entry_get_text (GTK_ENTRY (w));
+
+	*success = TRUE;
+	return strlen (target) > 0 ? target : NULL;
 }
 
 static struct {
@@ -81,23 +179,112 @@ static struct {
 	char const *name;
 	char const *widget_name;
 	char const *descriptor;
+	void (*set_target) (HyperlinkState *state, const char* const target);
+	char const * (*get_target) (HyperlinkState *state, gboolean *success);
 } const type [] = {
 	{ N_("_Internal Link"), "Gnumeric_Link_Internal",
 	  "GnmHLinkCurWB",	"internal-link-box",
-	  N_("Jump to specific cells or named range in the current workbook") },
+	  N_("Jump to specific cells or named range in the current workbook"),
+	  dhl_set_target_cur_wb,
+	  dhl_get_target_cur_wb },
+	
 	{ N_("_External Link"), "Gnumeric_Link_External",
 	  "GnmHLinkExternal",	"external-link-box" ,
-	  N_("Open an external file with the specified name") },
+	  N_("Open an external file with the specified name"),
+	  dhl_set_target_external,
+	  dhl_get_target_external },
+#ifndef GNM_NO_MAILTO	
 	{ N_("Send _Email"),	"Gnumeric_Link_EMail",
 	  "GnmHLinkEMail",	"email-box" ,
-	  N_("Prepare an email") },
+	  N_("Prepare an email"), NULL },
+#endif
 	{ N_("_URL"),		"Gnumeric_Link_URL",
 	  "GnmHLinkURL",	"url-box" ,
-	  N_("Browse to the specified URL") },
+	  N_("Browse to the specified URL"),
+	  dhl_set_target_url,
+	  dhl_get_target_url }
 };
 
 static void
-dialog_hyperlink_setup_type (HyperlinkState *state)
+dhl_set_target (HyperlinkState* state)
+{
+	unsigned i;
+	const char* const target = gnm_hlink_get_target (state->link);
+	const char* type_name;
+	
+	if (target) {
+		type_name = G_OBJECT_TYPE_NAME (state->link);
+		for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
+			if (strcmp (type_name, type[i].name) == 0) {
+				if (type[i].set_target)
+					(type[i].set_target) (state, target);
+				break;
+			}
+		}
+	}
+}
+
+static const char *
+dhl_get_target (HyperlinkState *state, gboolean *success)
+{
+	unsigned i;
+	const char *type_name = G_OBJECT_TYPE_NAME (state->link);
+
+	*success = FALSE;
+	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
+		if (strcmp (type_name, type[i].name) == 0) {
+			if (type[i].get_target)
+				return (type[i].get_target) (state, success);
+			break;
+		}
+	}
+	
+	return NULL;
+}
+
+
+static void
+dhl_cb_cancel (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
+{
+	gtk_widget_destroy (state->dialog);
+}
+
+static void
+dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
+{
+	MStyle *style;
+	char *cmdname;
+	const char *target;
+	gboolean success;
+	
+	target = dhl_get_target (state, &success);
+	if (!success)
+		return;		/* Let user continue editing */
+	
+	if (target) {
+		gnm_hlink_set_target (state->link, target);
+		gnm_hlink_set_tip (state->link, dhl_get_tip (state));
+		style = mstyle_new ();
+		mstyle_set_hlink (style, g_object_ref (state->link));
+
+		if (state->is_new)
+			cmdname = _("Add Hyperlink");
+		else
+			cmdname = _("Edit Hyperlink");
+		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
+				      NULL, cmdname);
+	} else if (!state->is_new) {
+		style = mstyle_new ();
+		mstyle_set_hlink (style, NULL);
+		cmdname = _("Remove Hyperlink");
+		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
+				      NULL, cmdname);
+	}		
+	gtk_widget_destroy (state->dialog);
+}
+
+static void
+dhl_setup_type (HyperlinkState *state)
 {
 	GtkWidget *w;
 	char const *name = G_OBJECT_TYPE_NAME (state->link);
@@ -108,39 +295,40 @@ dialog_hyperlink_setup_type (HyperlinkState *state)
 
 		if (!strcmp (name, type[i].name)) {
 			gtk_widget_show_all (w);
-			gtk_image_set_from_stock (state->type_image,
-				type[i].image_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
+			gtk_image_set_from_stock
+				(state->type_image, type[i].image_name,
+				 GTK_ICON_SIZE_LARGE_TOOLBAR);
 			gtk_label_set_text (state->type_descriptor,
-				_(type[i].descriptor));
+					    _(type[i].descriptor));
 		} else
 			gtk_widget_hide (w);
 	}
 }
 
 static void
-dialog_hyperlink_set_type (HyperlinkState *state, GType type)
+dhl_set_type (HyperlinkState *state, GType type)
 {
 	GnmHLink *old = state->link;
 
-	last_link_type = type;
 	state->link = g_object_new (type, NULL);
 	if (old != NULL) {
 		gnm_hlink_set_target (state->link, gnm_hlink_get_target (old));
 		gnm_hlink_set_tip (state->link, gnm_hlink_get_tip (old));
+		g_object_unref (old);
 	}
-	dialog_hyperlink_setup_type (state);
+	dhl_setup_type (state);
 }
 
 static void
-cb_menu_activate (GObject *elem, HyperlinkState *state)
+dhl_cb_menu_activate (GObject *elem, HyperlinkState *state)
 {
 	gpointer tmp = g_object_get_data (elem, "type-index");
-	dialog_hyperlink_set_type (state, g_type_from_name (
+	dhl_set_type (state, g_type_from_name (
 		type [GPOINTER_TO_INT (tmp)].name));
 }
 
 static gboolean
-dialog_hyperlink_init (HyperlinkState *state)
+dhl_init (HyperlinkState *state)
 {
 	static char const * const label[] = {
 		"internal-link-label",
@@ -150,18 +338,14 @@ dialog_hyperlink_init (HyperlinkState *state)
 		"url-label",
 		"tip-label"
 	};
-	static char const * const entry[] = {
-		"external-link",
-		"email-address",
-		"email-subject",
-		"url",
-		"tip-entry",
-	};
 	GtkWidget *w, *menu;
 	GtkSizeGroup *size_group;
 	GnumericExprEntry *expr_entry;
 	unsigned i, select = 0;
 
+#ifdef GNM_NO_MAILTO	
+	gtk_widget_hide (glade_xml_get_widget (state->gui, "email-box"));
+#endif
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 	for (i = 0 ; i < G_N_ELEMENTS (label); i++)
 		gtk_size_group_add_widget (size_group,
@@ -175,23 +359,20 @@ dialog_hyperlink_init (HyperlinkState *state)
 	w = glade_xml_get_widget (state->gui, "internal-link-box");
 	expr_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gtk_box_pack_end (GTK_BOX (w), GTK_WIDGET (expr_entry), TRUE, TRUE, 0);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-		GTK_WIDGET (expr_entry));
+	gtk_entry_set_activates_default
+		(gnm_expr_entry_get_entry (expr_entry), TRUE);
 	gnm_expr_entry_set_scg (expr_entry, wbcg_cur_scg (state->wbcg));
-
-	for (i = 0 ; i < G_N_ELEMENTS (entry); i++)
-		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-			glade_xml_get_widget (state->gui, entry[i]));
+	state->internal_link_ee = expr_entry;
 
 	w = glade_xml_get_widget (state->gui, "cancel_button");
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
-		G_CALLBACK (cb_cancel), state);
+		G_CALLBACK (dhl_cb_cancel), state);
 
 	w  = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
-		G_CALLBACK (cb_ok), state);
+		G_CALLBACK (dhl_cb_ok), state);
 	gtk_window_set_default (GTK_WINDOW (state->dialog), w);
 
 	gnumeric_init_help_button (
@@ -209,10 +390,11 @@ dialog_hyperlink_init (HyperlinkState *state)
 			image);
 		g_object_set_data (G_OBJECT (elem), "type-index", GINT_TO_POINTER(i));
 		g_signal_connect (G_OBJECT (elem), "activate",
-			G_CALLBACK (cb_menu_activate),
+			G_CALLBACK (dhl_cb_menu_activate),
 			state);
 		gtk_menu_append (GTK_MENU (menu), elem);
-		if (last_link_type == g_type_from_name (type [i].name))
+		if (strcmp (G_OBJECT_TYPE_NAME (state->link),
+			    type [i].name) == 0)
 			select = i;
 	}
 	gtk_menu_set_active (GTK_MENU (menu), select);
@@ -247,6 +429,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 	state = g_new (HyperlinkState, 1);
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sc   = sc;
 
 	/* Get the dialog and check for errors */
 	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
@@ -263,26 +446,32 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 		if (NULL != (link = sheet_style_region_contains_link (sheet, ptr->data)))
 			break;
 
-	state->link = NULL;
-	if (link != NULL)
-		last_link_type = G_OBJECT_TYPE (link);
-	else if (last_link_type == 0)
-		last_link_type = gnm_hlink_url_get_type ();
-
-	if (dialog_hyperlink_init (state)) {
+	if (link == NULL) {
+		link = g_object_new (gnm_hlink_url_get_type (), NULL);
+		state->is_new = TRUE;
+	} else {
+		g_object_ref (link);
+		state->is_new = FALSE;
+	}
+	
+	state->link = link;
+	if (dhl_init (state)) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the hyperlink dialog."));
 		g_free (state);
 		return;
 	}
 
-	dialog_hyperlink_set_type (state, last_link_type);
+	dhl_setup_type (state);
+
+	dhl_set_target (state);
+	dhl_set_tip (state);
 
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) dialog_hyperlink_free);
+		"state", state, (GDestroyNotify) dhl_free);
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);
