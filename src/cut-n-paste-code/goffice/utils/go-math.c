@@ -2,46 +2,7 @@
  * go-math.c:  Mathematical functions.
  *
  * Authors:
- *   Ross Ihaka.  (See note 1.)
- *   The R Development Core Team.  (See note 1.)
  *   Morten Welinder <terra@gnome.org>
- *   Miguel de Icaza (miguel@gnu.org)
- *   Jukka-Pekka Iivonen (iivonen@iki.fi)
- *   James Theiler.  (See note 2.)
- *   Brian Gough.  (See note 2.)
- *   Makoto Matsumoto and Takuji Nishimura (Mersenne Twister, see note in code)
- *   Ian Smith (iandjmsmith@aol.com).  (See note 3.)
- */
-
-/*
- * NOTE 1: most of this file comes from the "R" package, notably version 1.8.1
- * or newer (we re-sync from time to time).
- * "R" is distributed under GPL licence, see file COPYING.
- * The relevant parts are copyright (C) 1998 Ross Ihaka and
- * 2000-2002 The R Development Core Team.
- *
- * Thank you!
- */
-
-/*
- * NOTE 2: most of the random distribution code comes from the GNU Scientific
- * Library (GSL), notably version 1.1.1.  GSL is distributed under GPL licence,
- * see COPYING. The relevant parts are copyright (C) 1996, 1997, 1998, 1999,
- * 2000 James Theiler and Brian Gough.
- *
- * Thank you!
- */
-
-/*
- * NOTE 3: the pbeta (and support) code comes from Ian Smith.  (Translated
- * into C, adapted to Gnumeric naming convensions, and R's API conventions
- * by Morten Welinder.  Blame me for problems.)
- *
- * Copyright © Ian Smith 2002-2003
- * Version 1.0.24
- * Thanks to Jerry W. Lewis for help with testing of and improvements to the code. 
- *
- * Thank you!
  */
 
 #include <goffice/goffice-config.h>
