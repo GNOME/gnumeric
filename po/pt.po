@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.2\n"
-"POT-Creation-Date: 2003-03-13 00:37+0000\n"
-"PO-Revision-Date: 2003-03-13 00:38+0000\n"
+"POT-Creation-Date: 2003-03-16 03:07+0000\n"
+"PO-Revision-Date: 2003-03-16 03:08+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -924,7 +924,7 @@ msgstr "#DESCONHECIDO!"
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1084 plugins/excel/ms-excel-read.c:1095
-#: plugins/oleo/oleo.c:345 plugins/psiconv/psiconv-read.c:516
+#: plugins/oleo/oleo.c:345 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:433 src/dialogs/dialog-sheet-order.c:437
 #, c-format
 msgid "Sheet%d"
@@ -17296,11 +17296,11 @@ msgstr "Psiconv"
 msgid "Psion (*.psisheet)"
 msgstr "Psion (*.psisheet)"
 
-#: plugins/psiconv/psiconv-read.c:593
+#: plugins/psiconv/psiconv-read.c:592
 msgid "Error while reading psiconv file."
 msgstr "Erro ao ler ficheiro psiconv."
 
-#: plugins/psiconv/psiconv-read.c:602
+#: plugins/psiconv/psiconv-read.c:601
 msgid "Error while parsing psiconv file."
 msgstr "Erro ao parsear ficheiro psiconv."
 
@@ -20272,7 +20272,7 @@ msgstr "Primeira Letra"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:671
-#: src/format.c:1786 src/format.c:1868 src/format.c:1877 src/format.c:1944
+#: src/format.c:1789 src/format.c:1871 src/format.c:1880 src/format.c:1947
 #: src/plugin-service.c:200
 msgid "General"
 msgstr "Geral"
@@ -20500,7 +20500,7 @@ msgstr "Cust_omizar"
 #: src/dialogs/dialog-stf-format-page.c:190
 #: src/dialogs/dialog-stf-format-page.c:399
 msgid "Custom"
-msgstr "Customizar"
+msgstr "Costumizar"
 
 #: src/dialogs/cell-format.glade.h:28
 msgid "Date"
@@ -21151,163 +21151,163 @@ msgstr "Kº Menor"
 msgid "S_ummary Statistics"
 msgstr "Resumo das Estatísticas"
 
-#: src/dialogs/dialog-about.c:45
+#: src/dialogs/dialog-about.c:44
 msgid "Miguel de Icaza, creator."
 msgstr "Miguel de Icaza, criador."
 
-#: src/dialogs/dialog-about.c:46
+#: src/dialogs/dialog-about.c:45
 msgid "Jody Goldberg, maintainer."
 msgstr "Jody Goldberg, manutenção."
 
-#: src/dialogs/dialog-about.c:47
+#: src/dialogs/dialog-about.c:46
 msgid "Sean Atkinson, functions and X-Base importing."
 msgstr "Sean Atkinson, funções e importação X-Base."
 
-#: src/dialogs/dialog-about.c:48
+#: src/dialogs/dialog-about.c:47
 msgid "Michel Berkelaar, Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 "Michel Berkelaar, algorítmo de Simplex para Solucionador (Solucionador LP)."
 
-#: src/dialogs/dialog-about.c:49
+#: src/dialogs/dialog-about.c:48
 msgid "Grandma Chema Celorio, Tester and sheet copy."
 msgstr "Grandma Chema Celorio, Testes e cópia de folhas."
 
-#: src/dialogs/dialog-about.c:50
+#: src/dialogs/dialog-about.c:49
 msgid "Frank Chiulli, OLE support."
 msgstr "Frank Chiulli, suporte OLE."
 
-#: src/dialogs/dialog-about.c:51
+#: src/dialogs/dialog-about.c:50
 msgid "Kenneth Christiansen, i18n, misc stuff."
 msgstr "Kenneth Christiansen, i18n, várias coisas."
 
-#: src/dialogs/dialog-about.c:52
+#: src/dialogs/dialog-about.c:51
 msgid "Zbigniew Chyla, plugin system, i18n."
 msgstr "Zbigniew Chyla, sistema de plugins, i18n."
 
-#: src/dialogs/dialog-about.c:53
+#: src/dialogs/dialog-about.c:52
 msgid "J.H.M. Dassen (Ray), debian packaging."
 msgstr "J.H.M. Dassen (Ray), pacotes debian."
 
-#: src/dialogs/dialog-about.c:54
+#: src/dialogs/dialog-about.c:53
 msgid "Jeroen Dirks, Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 "Jeroen Dirks, algorítmo de Simplex para Solucionador (Solucionador LP)."
 
-#: src/dialogs/dialog-about.c:55
+#: src/dialogs/dialog-about.c:54
 msgid "Tom Dyas, plugin support."
 msgstr "Tom Dyas, suporte plugin."
 
 #. if your charset allows it, replace the 'o' of 'Gergo'
 #. * with 'odoubleacute' (U0151) and the 'E' of 'Erdi'
 #. * with 'Eacute' (U00C9)
-#: src/dialogs/dialog-about.c:59
+#: src/dialogs/dialog-about.c:58
 msgid "Gergo Erdi, Gnumeric hacker."
 msgstr "Gergô Érdi, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:60
+#: src/dialogs/dialog-about.c:59
 msgid "John Gotts, rpm packaging."
 msgstr "John Gotts, pacotes rpm."
 
 #. The funny character between "G" and "l" here is a \"u.
-#: src/dialogs/dialog-about.c:62
+#: src/dialogs/dialog-about.c:61
 msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, programador Gnumeric."
 
 #. The funny character between "K" and "r" here is 'aring'.
-#: src/dialogs/dialog-about.c:64
+#: src/dialogs/dialog-about.c:63
 msgid "Jon Kre Hellan, Gnumeric hacker."
 msgstr "Jon Käre Hellan, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:65
+#: src/dialogs/dialog-about.c:64
 msgid "Ross Ihaka, special functions."
 msgstr "Ross Ihaka, funções especiais."
 
-#: src/dialogs/dialog-about.c:66
+#: src/dialogs/dialog-about.c:65
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
 msgstr "Jukka-Pekka Iivonen, numerosas funções e ferramentas."
 
-#: src/dialogs/dialog-about.c:67
+#: src/dialogs/dialog-about.c:66
 msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:68
+#: src/dialogs/dialog-about.c:67
 msgid "Chris Lahey, number format engine."
 msgstr "Chris Lahey, motor de formatação de números."
 
-#: src/dialogs/dialog-about.c:69
+#: src/dialogs/dialog-about.c:68
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, plugin de texto original."
 
-#: src/dialogs/dialog-about.c:70
+#: src/dialogs/dialog-about.c:69
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, importação Excel e OLE2."
 
-#: src/dialogs/dialog-about.c:71
+#: src/dialogs/dialog-about.c:70
 msgid "Lutz Muller, SheetObject improvements"
 msgstr "Lutz Muller, melhoramentos SheetObject"
 
-#: src/dialogs/dialog-about.c:72
+#: src/dialogs/dialog-about.c:71
 msgid "Federico M. Quintero, canvas support."
 msgstr "Federico M. Quintero, suporte cânhamo."
 
-#: src/dialogs/dialog-about.c:73
+#: src/dialogs/dialog-about.c:72
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, suporte Guile."
 
-#: src/dialogs/dialog-about.c:74
+#: src/dialogs/dialog-about.c:73
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, exportadores HTML, troff e LaTeX."
 
-#: src/dialogs/dialog-about.c:75
+#: src/dialogs/dialog-about.c:74
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, suporte CSV original, localização em Francês."
 
-#: src/dialogs/dialog-about.c:76
+#: src/dialogs/dialog-about.c:75
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, suporte Guile."
 
-#: src/dialogs/dialog-about.c:77
+#: src/dialogs/dialog-about.c:76
 msgid "Arturo Tena, OLE support."
 msgstr "Arturo Tena, suporte OLE."
 
-#: src/dialogs/dialog-about.c:78
+#: src/dialogs/dialog-about.c:77
 msgid "Almer S. Tigelaar, Gnumeric hacker."
 msgstr "Almer S. Tigelaar, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:79
+#: src/dialogs/dialog-about.c:78
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, promenores Excel."
 
-#: src/dialogs/dialog-about.c:80
+#: src/dialogs/dialog-about.c:79
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, suporte XML."
 
-#: src/dialogs/dialog-about.c:81
+#: src/dialogs/dialog-about.c:80
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, funções financeiras."
 
-#: src/dialogs/dialog-about.c:82
+#: src/dialogs/dialog-about.c:81
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:107 src/func-builtin.c:127
+#: src/dialogs/dialog-about.c:106 src/func-builtin.c:127
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/dialogs/dialog-about.c:110
+#: src/dialogs/dialog-about.c:109
 msgid "A production ready spreadsheet"
 msgstr "Uma folha de cálculo de qualidade comercial"
 
 #. Translate the following string with the names of all translators for this locale.
-#: src/dialogs/dialog-about.c:113
+#: src/dialogs/dialog-about.c:112
 msgid "This is an untranslated version of Gnumeric."
 msgstr "Duarte Loreto <happyguy_pt@hotmail.com>"
 
-#: src/dialogs/dialog-about.c:118
+#: src/dialogs/dialog-about.c:117
 msgid "Gnumeric Home Page"
 msgstr "Página Web Gnumeric"
 
-#: src/dialogs/dialog-about.c:124
+#: src/dialogs/dialog-about.c:123
 msgid "Contract Support"
 msgstr "Contrato de Suporte"
 
@@ -21517,7 +21517,7 @@ msgstr ""
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Incapaz de criar a janela de Ferramenta de ANOVA (factor duplo)."
 
-#: src/dialogs/dialog-autocorrect.c:335
+#: src/dialogs/dialog-autocorrect.c:320
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Incapaz de criar a janela de Auto Correcção."
 
@@ -21820,7 +21820,7 @@ msgstr "Dados do Gráfico"
 
 #: src/dialogs/dialog-graph-guru.c:1204
 msgid "Step 3 of 3: Customize graph"
-msgstr "Passo 3 de 3: Customizar gráfico"
+msgstr "Passo 3 de 3: Costumizar gráfico"
 
 #: src/dialogs/dialog-graph-guru.c:1206
 msgid "Format Graph"
@@ -22070,13 +22070,13 @@ msgid "Directory"
 msgstr "Directório"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:374 src/format.c:1672
+#: src/dialogs/dialog-preferences.c:374 src/format.c:1675
 #: src/number-match.c:1067 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "VERDADE"
 
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1672
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1675
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
@@ -22085,7 +22085,7 @@ msgstr "FALSO"
 #: src/dialogs/dialog-preferences.c:671
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
-"Os ítens nesta página customizam o comportamento do sistema de desfazer/"
+"Os ítens nesta página costumizam o comportamento do sistema de desfazer/"
 "refazer."
 
 #: src/dialogs/dialog-preferences.c:821
@@ -22093,12 +22093,12 @@ msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
-"Os ítens nesta página customizam as definições iniciais do diálogo de "
+"Os ítens nesta página costumizam as definições iniciais do diálogo de "
 "ordenação e o comportamento dos botões da barra de ordenação."
 
 #: src/dialogs/dialog-preferences.c:968
 msgid "The items on this page customize the new default workbook."
-msgstr "Os ítens nesta página customizam o novo livro de trabalho por omissão."
+msgstr "Os ítens nesta página costumizam o novo livro de trabalho por omissão."
 
 #: src/dialogs/dialog-preferences.c:1153
 msgid "The items on this page are related to the saving and opening of files."
@@ -22112,15 +22112,15 @@ msgstr "Costumizar cabeçalho"
 
 #: src/dialogs/dialog-printer-setup.c:850
 msgid "Customize footer"
-msgstr "Customizar rodapé"
+msgstr "Costumizar rodapé"
 
 #: src/dialogs/dialog-printer-setup.c:1000
 msgid "Custom header configuration"
-msgstr "Configuração de cabeçalho customizado"
+msgstr "Configuração de cabeçalho costumizado"
 
 #: src/dialogs/dialog-printer-setup.c:1005
 msgid "Custom footer configuration"
-msgstr "Configuração de rodapé customizado"
+msgstr "Configuração de rodapé costumizado"
 
 #: src/dialogs/dialog-random-generator.c:106
 msgid "Uniform"
@@ -22672,7 +22672,7 @@ msgid ""
 "used for terminating a line in the text file. Whether the quote character is "
 "placed around cells depends on the value chosen for quoting."
 msgstr ""
-"Customize o formato de exportação. O terminador de linha é a sequência de "
+"Costumize o formato de exportação. O terminador de linha é a sequência de "
 "caracteres utilizado para terminar uma linha no ficheiro de texto. O "
 "caracter de aspas será colocado ou não à volta das células dependendo do "
 "valor seleccionado para comentar."
@@ -22808,7 +22808,7 @@ msgstr "Excla_mação (!)"
 
 #: src/dialogs/dialog-stf.glade.h:10
 msgid "C_ustom"
-msgstr "C_ustomizar"
+msgstr "C_ostumizar"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid ""
@@ -22848,14 +22848,14 @@ msgstr "Colunas"
 
 #: src/dialogs/dialog-stf.glade.h:19
 msgid "Custom separator, this can be any character"
-msgstr "Separador customizado, pode ser qualquer caracter"
+msgstr "Separador costumizado, pode ser qualquer caracter"
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid ""
 "Customize the columns using the buttons or the mouse (hover mouse above "
 "example for instructions)"
 msgstr ""
-"Customizar as colunas utilizando os botões do rato (passar o rato sobre o "
+"Costumizar as colunas utilizando os botões do rato (passar o rato sobre o "
 "exemplo para instruções)"
 
 #: src/dialogs/dialog-stf.glade.h:21
@@ -22884,7 +22884,7 @@ msgstr "Largura fi_xa"
 
 #: src/dialogs/dialog-stf.glade.h:26
 msgid "Fixed width customization"
-msgstr "Customização de largura fixa"
+msgstr "Costumização de largura fixa"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Formatting for the selected column"
@@ -22984,7 +22984,7 @@ msgid ""
 msgstr ""
 "Seleccione o formato para cada coluna. Pode clicar na lista de colunas à "
 "esquerda ou no exemplo para seleccionar uma coluna. Poderá então introduzir "
-"um formato customizado ou seleccionar um da lista à direita."
+"um formato costumizado ou seleccionar um da lista à direita."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -22992,7 +22992,7 @@ msgid ""
 "separators if desired and also enter a custom one)"
 msgstr ""
 "Seleccione os separadores que surgem no texto (pode seleccionar múltiplos "
-"separadores caso deseje ou introduzir um customizado)"
+"separadores caso deseje ou introduzir um costumizado)"
 
 #: src/dialogs/dialog-stf.glade.h:50
 msgid "Select the structure of the text that most closely matches the data."
@@ -23004,7 +23004,7 @@ msgstr "Po_nto e vírgula (;)"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Separation customization"
-msgstr "Customização de separação"
+msgstr "Costumização de separação"
 
 #: src/dialogs/dialog-stf.glade.h:53
 msgid "Separators"
@@ -23146,7 +23146,7 @@ msgstr "_75 %"
 
 #: src/dialogs/dialog-zoom.glade.h:16
 msgid "_Custom"
-msgstr "_Customizado"
+msgstr "_Costumizado"
 
 #: src/dialogs/dialog-zoom.glade.h:18
 #, no-c-format
@@ -24632,40 +24632,40 @@ msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
 "A área alvo é demasiado pequena.  Deverá ter pelo menos %d linhas de altura"
 
-#: src/format.c:598
+#: src/format.c:601
 msgid "Black"
 msgstr "Preto"
 
-#: src/format.c:599
+#: src/format.c:602
 msgid "Blue"
 msgstr "Azul"
 
-#: src/format.c:600
+#: src/format.c:603
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/format.c:601
+#: src/format.c:604
 msgid "Green"
 msgstr "Verde"
 
-#: src/format.c:602
+#: src/format.c:605
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:603
+#: src/format.c:606
 msgid "Red"
 msgstr "Vermelho"
 
-#: src/format.c:604
+#: src/format.c:607
 msgid "White"
 msgstr "Branco"
 
-#: src/format.c:605
+#: src/format.c:608
 msgid "Yellow"
 msgstr "Amarelo"
 
 #. Array of arrays ??
-#: src/format.c:1715
+#: src/format.c:1718
 msgid "ARRAY"
 msgstr "MATRIZ"
 
@@ -25613,7 +25613,7 @@ msgstr "Que formato de ficheiro deseja?"
 msgid "Multiple errors\n"
 msgstr "Múltiplos erros\n"
 
-#: src/gui-util.c:788
+#: src/gui-util.c:802
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Incapaz de abrir ficheiro '%s'"
@@ -25946,12 +25946,13 @@ msgstr "Módulo não contém função \"%s\"."
 msgid "Unknown verb: %s"
 msgstr "Verbo desconhecido: %s"
 
-#: src/plugin-loader.c:267 src/plugin-loader.c:311
-msgid "Service not supported by loader."
-msgstr "Serviço não suportado pelo carregador."
+#: src/plugin-loader.c:261 src/plugin-loader.c:303
+#, c-format
+msgid "Service '%s' not supported by loader."
+msgstr "Serviço '%s' não suportado pelo carregador."
 
 #: src/plugin-service.c:164 src/plugin-service.c:254 src/plugin-service.c:1160
-#: src/plugin-service.c:1417 src/plugin-service.c:1433
+#: src/plugin-service.c:1416
 msgid "Error while loading plugin service."
 msgstr "Erro ao carregar o serviço de plugin."
 
@@ -26034,24 +26035,24 @@ msgstr "Interface utilizador com %d acção"
 msgid "User interface with %d actions"
 msgstr "Interface utilizador com %d acções"
 
-#: src/plugin-service.c:1449
+#: src/plugin-service.c:1432
 msgid "GObject loader"
 msgstr "Leitor GObject"
 
-#: src/plugin-service.c:1516
+#: src/plugin-service.c:1530
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Nenhum atributo \"tipo\" no elemento \"serviço\"."
 
-#: src/plugin-service.c:1522
+#: src/plugin-service.c:1536
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Tipo de serviço desconhecido: %s."
 
-#: src/plugin-service.c:1538
+#: src/plugin-service.c:1552
 msgid "Error reading service information."
 msgstr "Erro ao ler informação de serviço."
 
-#: src/plugin-service.c:1609
+#: src/plugin-service.c:1614
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -26084,144 +26085,144 @@ msgstr "Erro ao abrir ficheiro \"%s\" para escrita."
 msgid "Error while opening file \"%s\" for reading."
 msgstr "Erro ao abrir o ficheiro \"%s\" para leitura."
 
-#: src/plugin.c:357
+#: src/plugin.c:358
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
 "Ficheiro contém informação de plugin com id inválido (%s), esperado %s."
 
-#: src/plugin.c:361
+#: src/plugin.c:362
 msgid "Couldn't read plugin info from file."
 msgstr "Incapaz de ler a informação de plugin do ficheiro."
 
-#: src/plugin.c:470
+#: src/plugin.c:471
 msgid "Unknown name"
 msgstr "Nome desconhecido"
 
-#: src/plugin.c:567
+#: src/plugin.c:568
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "Tipo de carregador não suportado \"%s\"."
 
-#: src/plugin.c:575
+#: src/plugin.c:576
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr "Erro ao preparar o carregador \"%s\"."
 
-#: src/plugin.c:649
+#: src/plugin.c:652
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Erro ao ler a informação de serviço #%d."
 
-#: src/plugin.c:730
+#: src/plugin.c:731
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "Incapaz de ler o ficheiro de informação de plugin (\"%s\")."
 
-#: src/plugin.c:734
+#: src/plugin.c:735
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "\"%s\" não é um ficheiro de informação de plugin válido."
 
-#: src/plugin.c:833
-msgid "Plugin has no id."
-msgstr "Plugin não tem id."
+#: src/plugin.c:823
+#, c-format
+msgid "Errors while reading services for plugin with id=\"%s\"."
+msgstr "Erros ao ler serviços do plugin com o id=\"%s\"."
 
-#: src/plugin.c:841
+#: src/plugin.c:828
+#, c-format
+msgid "No services defined for plugin with id=\"%s\"."
+msgstr "Nenhuns serviços definidos para o plugin com o id=\"%s\"."
+
+#: src/plugin.c:838
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
 msgstr "ID plugin contém caracteres inválidos (%s)."
 
-#: src/plugin.c:845
+#: src/plugin.c:842
 msgid "Unknown plugin name."
 msgstr "Nome de plugin desconhecido."
 
-#: src/plugin.c:849
+#: src/plugin.c:846
 #, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
 "Nenhum leitor definido ou id de leitor inválido para plugin com o id=\"%s\"."
 
-#: src/plugin.c:854
-#, c-format
-msgid "Errors while reading services for plugin with id=\"%s\"."
-msgstr "Erros ao ler serviços do plugin com o id=\"%s\"."
+#: src/plugin.c:852
+msgid "Plugin has no id."
+msgstr "Plugin não tem id."
 
-#: src/plugin.c:859
-#, c-format
-msgid "No services defined for plugin with id=\"%s\"."
-msgstr "Nenhuns serviços definidos para o plugin com o id=\"%s\"."
-
-#: src/plugin.c:912
+#: src/plugin.c:895
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Erro ao inicializar o carregardor de plugins (\"%s\")."
 
-#: src/plugin.c:943 src/plugin.c:1100
+#: src/plugin.c:926 src/plugin.c:1083
 msgid "Detected cyclic plugin dependencies."
 msgstr "Detectadas dependências cíclicas de plugin."
 
-#: src/plugin.c:967
+#: src/plugin.c:950
 #, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr "Incapaz de activar plugin com o id =\"%s\"."
 
-#: src/plugin.c:973 src/plugin.c:1146
+#: src/plugin.c:956 src/plugin.c:1129
 #, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
 msgstr "Incapaz de encontrar o plugin com o id=\"%s\"."
 
-#: src/plugin.c:980
+#: src/plugin.c:963
 msgid "Error while activating plugin dependencies."
 msgstr "Erro ao activar dependências do plugin."
 
-#: src/plugin.c:994
+#: src/plugin.c:977
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Erro ao activar o serviço de plugin #%d."
 
-#: src/plugin.c:1047
+#: src/plugin.c:1030
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Erro ao desactivar o serviço de plugin #%d."
 
-#: src/plugin.c:1112 src/plugin.c:1133
+#: src/plugin.c:1095 src/plugin.c:1116
 msgid "Cannot load plugin loader."
 msgstr "Incapaz de carregar o leitor de plugins."
 
-#: src/plugin.c:1140
+#: src/plugin.c:1123
 #, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
 msgstr "Incapaz de ler plugin com o id=\"%s\"."
 
-#: src/plugin.c:1153
+#: src/plugin.c:1136
 msgid "Error while loading plugin dependencies."
 msgstr "Erro ao ler dependências do plugin."
 
-#: src/plugin.c:1329
+#: src/plugin.c:1312
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr "Ocorreram erros ao ler do ficheiro a informação de plugins \"%s\"."
 
-#: src/plugin.c:1478
+#: src/plugin.c:1461
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "Incapaz de activar plugin \"%s\" (ID: %s)."
 
-#: src/plugin.c:1513
+#: src/plugin.c:1496
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Incapaz de desactivar plugin \"%s\" (ID: %s)."
 
-#: src/plugin.c:1617 src/plugin.c:1747
+#: src/plugin.c:1600 src/plugin.c:1730
 msgid "Errors while reading info about available plugins."
 msgstr "Erros ao ler informação sobre os plugins disponíveis."
 
-#: src/plugin.c:1641
+#: src/plugin.c:1624
 msgid "Errors while deactivating plugins that are no longer on disk."
 msgstr "Erro ao desactivar plugins que já não se encontram em disco."
 
-#: src/plugin.c:1662
+#: src/plugin.c:1645
 #, c-format
 msgid ""
 "The following plugins are no longer on disk but are still active:\n"
@@ -26232,11 +26233,11 @@ msgstr ""
 "%s.\n"
 "Deverá reiniciar o Gnumeric agora."
 
-#: src/plugin.c:1770
+#: src/plugin.c:1753
 msgid "Errors while activating plugins."
 msgstr "Erros ao activar plugins."
 
-#: src/plugin.c:1777
+#: src/plugin.c:1760
 msgid "Errors while initializing plugin system."
 msgstr "Erros ao inicializar o sistema de plugins."
 
