@@ -25,8 +25,9 @@ Jody:
 	* Fix sheet object ref counting error that Morten found.
 	* Fix crash when destroying unshared view.
 	* Start fleshing out support signals to give scripting more power
-	* Move the CORBA support code into a plugin and make it functional.
-	* Add some UI for managing hyperlinks of various sorts.
+	* Move the CORBA support code into a plugin and make more functional.
+	* Add some UI for managing hyperlinks of various sorts (unfinished)
+	* Make the location status box smarter about named ranges
 
 Michael Meeks:
 	* Spruce up the CORBA code to use some bonobo utils.
@@ -38,6 +39,9 @@ Morten:
 	* Really make autocorrect utf8 safe.
 	* Add FIB function.
 
+Lutz Müller:
+	* Drag & Drop sheet re-ordering
+	
 --------------------------------------------------------------------------
 Gnumeric 1.1.8
 

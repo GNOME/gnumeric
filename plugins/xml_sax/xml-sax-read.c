@@ -254,6 +254,18 @@ typedef struct {
 /****************************************************************************/
 
 static void
+unknown_attr (XMLSaxParseState *state,
+	      xmlChar const * const *attrs, char const *name)
+{
+	g_return_if_fail (attrs != NULL);
+
+	if (state->version == GNUM_XML_LATEST)
+		gnm_io_warning (state->context,
+			_("Unexpected attribute '%s'='%s' for element of type %s."),
+			name, attrs[0], attrs[1]);
+}
+
+static void
 xml_sax_wb (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
@@ -280,8 +292,9 @@ xml_sax_wb (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
 				if (strcmp (attrs[1], GnumericVersions [i].id) == 0) {
 					if (state->version != GNUM_XML_UNKNOWN)
-						xml_sax_warning (state, "Multiple version specifications.  Assuming %d",
-								state->version);
+						gnm_io_warning (state->context,
+							_("Multiple version specifications.  Assuming %d"),
+							state->version);
 					else {
 						state->version = GnumericVersions [i].version;
 						break;
@@ -290,7 +303,7 @@ xml_sax_wb (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		} else if (!strcmp (attrs[0], "xmlns:xsi")) {
 		} else if (!strcmp (attrs[0], "xsi:schemaLocation")) {
 		} else
-			xml_sax_unknown_attr (state, attrs, "Workbook");
+			unknown_attr (state, attrs, "Workbook");
 }
 
 static void
@@ -318,7 +331,7 @@ xml_sax_wb_view (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "Width", &width)) ;
 		else if (xml_sax_attr_int (attrs, "Height", &height)) ;
 		else
-			xml_sax_unknown_attr (state, attrs, "WorkbookView");
+			unknown_attr (state, attrs, "WorkbookView");
 
 	if (width > 0 && height > 0)
 		wb_view_preferred_size (state->wb_view, width, height);
@@ -398,7 +411,7 @@ xml_sax_sheet_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
 			state->tab_color = color;
 		else
-			xml_sax_unknown_attr (state, attrs, "Sheet");
+			unknown_attr (state, attrs, "Sheet");
 }
 
 static void
@@ -430,7 +443,8 @@ xml_sax_sheet_name (GsfXmlSAXState *gsf_state)
 		state->sheet = workbook_sheet_by_name (state->wb, content);
 
 		if (!state->sheet)
-			xml_sax_fatal_error (state, "SheetNameIndex reading failed");
+			gnumeric_io_error_string (state->context,
+				_("File has inconsistent SheetNameIndex element."));
 	} else {
 		state->sheet = sheet_new (state->wb, content);
 		workbook_sheet_attach (state->wb, state->sheet, NULL);
@@ -477,7 +491,7 @@ xml_sax_print_margins_get_double (XMLSaxParseState *state, xmlChar const **attrs
 		if (xml_sax_attr_double (attrs, "Points", &points))
 			return points;
 		else if (strcmp (attrs[0], "PrefUnit"))
-			xml_sax_unknown_attr (state, attrs, "Margin");
+			unknown_attr (state, attrs, "Margin");
 	}
 	return 0.0;
 }
@@ -499,7 +513,7 @@ xml_sax_print_margins_unit (XMLSaxParseState *state, xmlChar const **attrs, Prin
 			else if (!strcmp (attrs[1], "in"))
 				pu->desired_display = UNIT_INCH;
 		} else
-			xml_sax_unknown_attr (state, attrs, "Margin");
+			unknown_attr (state, attrs, "Margin");
 	}
 }
 
@@ -594,7 +608,7 @@ xml_sax_selection (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		if (xml_sax_attr_int (attrs, "CursorCol", &col)) ;
 		else if (xml_sax_attr_int (attrs, "CursorRow", &row)) ;
 		else
-			xml_sax_unknown_attr (state, attrs, "Selection");
+			unknown_attr (state, attrs, "Selection");
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
@@ -627,7 +641,7 @@ xml_sax_sheet_layout (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 				sheet_get_view (state->sheet, state->wb_view),
 				tmp.col, tmp.row);
 		else
-			xml_sax_unknown_attr (state, attrs, "SheetLayout");
+			unknown_attr (state, attrs, "SheetLayout");
 }
 
 static void
@@ -644,7 +658,7 @@ xml_sax_sheet_freezepanes (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_cellpos (attrs, "UnfrozenTopLeft", &unfrozen_tl))
 			flags |= 2;
 		else
-			xml_sax_unknown_attr (state, attrs, "SheetLayout");
+			unknown_attr (state, attrs, "SheetLayout");
 
 	if (flags == 3)
 		sv_freeze_panes (sheet_get_view (state->sheet, state->wb_view),
@@ -708,7 +722,7 @@ xml_sax_colrow (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 			else if (xml_sax_attr_int (attrs, "OutlineLevel", &dummy))
 				cri->outline_level = dummy;
 			else
-				xml_sax_unknown_attr (state, attrs, "ColRow");
+				unknown_attr (state, attrs, "ColRow");
 		}
 	}
 
@@ -737,7 +751,10 @@ xml_sax_style_region_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
 
-	state->style = mstyle_new ();
+	state->style = (state->version >= GNUM_XML_V6 ||
+			state->version <= GNUM_XML_V2)
+		? mstyle_new_default ()
+		: mstyle_new ();
 	state->style_range_init =
 		xml_sax_attr_range (attrs, &state->style_range);
 }
@@ -800,7 +817,7 @@ xml_sax_styleregion_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "Locked", &val))
 			mstyle_set_content_locked (state->style, val);
 		else
-			xml_sax_unknown_attr (state, attrs, "StyleRegion");
+			unknown_attr (state, attrs, "StyleRegion");
 	}
 }
 
@@ -826,7 +843,7 @@ xml_sax_styleregion_font (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "StrikeThrough", &val))
 			mstyle_set_font_strike (state->style, val ? TRUE : FALSE);
 		else
-			xml_sax_unknown_attr (gsf_state, attrs, "StyleFont");
+			unknown_attr (state, attrs, "StyleFont");
 	}
 }
 
@@ -925,7 +942,7 @@ xml_sax_validation (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		} else if (xml_sax_attr_bool (attrs, "UseDropdown", &b_dummy)) {
 			state->validation.use_dropdown = b_dummy;
 		} else
-			xml_sax_unknown_attr (state, attrs, "Validation");
+			unknown_attr (state, attrs, "Validation");
 	}
 }
 
@@ -992,7 +1009,7 @@ xml_sax_style_region_borders (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		if (xml_sax_attr_color (attrs, "Color", &colour)) ;
 		else if (xml_sax_attr_int (attrs, "Style", &pattern)) ;
 		else
-			xml_sax_unknown_attr (state, attrs, "StyleBorder");
+			unknown_attr (state, attrs, "StyleBorder");
 	}
 
 	if (pattern >= STYLE_BORDER_NONE) {
@@ -1032,7 +1049,7 @@ xml_sax_cell (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		else if (!strcmp (attrs[0], "ValueFormat"))
 			value_fmt = style_format_new_XL ((char *)attrs[1], FALSE);
 		else
-			xml_sax_unknown_attr (state, attrs, "Cell");
+			unknown_attr (state, attrs, "Cell");
 	}
 
 	g_return_if_fail (col >= 0);
@@ -1347,6 +1364,7 @@ xml_sax_name (GsfXmlSAXState *gsf_state)
 /****************************************************************************/
 
 static GsfXmlSAXNode gnumeric_1_0_dtd[] = {
+GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
 GSF_XML_SAX_NODE (START, WB, "gmr:Workbook", FALSE, &xml_sax_wb, NULL, 0),
   GSF_XML_SAX_NODE (WB, WB_ATTRIBUTES, "gmr:Attributes", FALSE, NULL, NULL, 0),
     GSF_XML_SAX_NODE (WB_ATTRIBUTES, WB_ATTRIBUTE, "gmr:Attribute", FALSE, NULL, &xml_sax_finish_parse_wb_attr, 0),
@@ -1363,11 +1381,11 @@ GSF_XML_SAX_NODE (START, WB, "gmr:Workbook", FALSE, &xml_sax_wb, NULL, 0),
   GSF_XML_SAX_NODE (WB, WB_SHEETNAME_INDEX, "gmr:SheetNameIndex", FALSE, NULL, NULL, 0),
     GSF_XML_SAX_NODE (WB_SHEETNAME_INDEX, WB_SHEETNAME, "gmr:SheetName", TRUE, NULL, &xml_sax_wb_sheetname, 0),
 
-  GSF_XML_SAX_NODE (WB, WB_NAMES, "gmr:Names", FALSE, NULL, NULL, 0),
-    GSF_XML_SAX_NODE (WB_NAMES, WB_NAME, "gmr:Name", FALSE, NULL, &xml_sax_finish_parse_wb_names_name, 0),
-      GSF_XML_SAX_NODE (WB_NAME, WB_NAME_NAME,	   "gmr:name",	   TRUE, NULL, &xml_sax_name, 0),
-      GSF_XML_SAX_NODE (WB_NAME, WB_NAME_VALUE,	   "gmr:value",    TRUE, NULL, &xml_sax_name, 1),
-      GSF_XML_SAX_NODE (WB_NAME, WB_NAME_POSITION, "gmr:position", TRUE, NULL, &xml_sax_name, 2),
+  GSF_XML_SAX_NODE (WB, WB_NAMED_EXPRS, "gmr:Names", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (WB_NAMED_EXPRS, WB_NAMED_EXPR, "gmr:Name", FALSE, NULL, &xml_sax_finish_parse_wb_names_name, 0),
+      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_NAME,	"gmr:name",	TRUE, NULL, &xml_sax_name, 0),
+      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_VALUE,	"gmr:value",    TRUE, NULL, &xml_sax_name, 1),
+      GSF_XML_SAX_NODE (WB_NAMED_EXPR, WB_NAMED_EXPR_POSITION,	"gmr:position", TRUE, NULL, &xml_sax_name, 2),
 
   GSF_XML_SAX_NODE (WB, WB_SHEETS, "gmr:Sheets", FALSE, NULL, NULL, 0),
     GSF_XML_SAX_NODE (WB_SHEETS, SHEET, "gmr:Sheet", FALSE, &xml_sax_sheet_start, &xml_sax_sheet_end, 0),
@@ -1375,35 +1393,37 @@ GSF_XML_SAX_NODE (START, WB, "gmr:Workbook", FALSE, &xml_sax_wb, NULL, 0),
       GSF_XML_SAX_NODE (SHEET, SHEET_MAXCOL, "gmr:MaxCol", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (SHEET, SHEET_MAXROW, "gmr:MaxRow", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (SHEET, SHEET_ZOOM, "gmr:Zoom", TRUE, NULL, &xml_sax_sheet_zoom, 0),
-      GSF_XML_SAX_NODE (SHEET, SHEET_NAMES, "gmr:Names", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (SHEET_NAMES, SHEET_NAME, "gmr:Name", FALSE, NULL, &xml_sax_finish_parse_sheet_names_name, 0),
-	  GSF_XML_SAX_NODE (SHEET_NAME, SHEET_NAME_NAME,	"gmr:name",     TRUE, NULL, &xml_sax_name, 0),
-	  GSF_XML_SAX_NODE (SHEET_NAME, SHEET_NAME_VALUE,	"gmr:value",    TRUE, NULL, &xml_sax_name, 1),
-	  GSF_XML_SAX_NODE (SHEET_NAME, SHEET_NAME_POSITION,	"gmr:position", TRUE, NULL, &xml_sax_name, 2),
+      GSF_XML_SAX_NODE (SHEET, SHEET_NAMED_EXPRS, "gmr:Names", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_NAMED_EXPRS, SHEET_NAMED_EXPR, "gmr:Name", FALSE, NULL, &xml_sax_finish_parse_sheet_names_name, 0),
+	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_NAME,	 "gmr:name",     TRUE, NULL, &xml_sax_name, 0),
+	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_VALUE,	 "gmr:value",    TRUE, NULL, &xml_sax_name, 1),
+	  GSF_XML_SAX_NODE (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_POSITION, "gmr:position", TRUE, NULL, &xml_sax_name, 2),
 
       GSF_XML_SAX_NODE (SHEET, SHEET_PRINTINFO, "gmr:PrintInformation", FALSE, NULL, NULL, 0),
 	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_MARGINS, "gmr:Margins", FALSE, NULL, NULL, 0),
 	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_TOP, "gmr:top",		TRUE, &xml_sax_print_margins, NULL, 0),
 	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_BOTTOM, "gmr:bottom",	TRUE, &xml_sax_print_margins, NULL, 1),
-	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_LEFT, "gmr:left",	TRUE, &xml_sax_print_margins, NULL, 2),
-	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_RIGHT, "gmr:right",	TRUE, &xml_sax_print_margins, NULL, 3),
+	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_LEFT,	"gmr:left",	TRUE, &xml_sax_print_margins, NULL, 2),
+	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_RIGHT,	"gmr:right",	TRUE, &xml_sax_print_margins, NULL, 3),
 	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_HEADER, "gmr:header",	TRUE, &xml_sax_print_margins, NULL, 4),
 	  GSF_XML_SAX_NODE (PRINT_MARGINS, PRINT_MARGIN_FOOTER, "gmr:footer",	TRUE, &xml_sax_print_margins, NULL, 5),
 
-	GSF_XML_SAX_NODE (PRINT_MARGIN_FOOTER, PRINT_SCALE, "gmr:Scale", TRUE, &xml_sax_print_scale, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_SCALE, PRINT_VCENTER, "gmr:vcenter", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_VCENTER, PRINT_HCENTER, "gmr:hcenter", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_HCENTER, PRINT_GRID, "gmr:grid", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_GRID, PRINT_MONO, "gmr:monochrome", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_MONO, PRINT_AS_DRAFT, "gmr:draft", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_AS_DRAFT, PRINT_COMMENTS, "gmr:comments", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_COMMENTS, PRINT_TITLES, "gmr:titles", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_TITLES, PRINT_REPEAT_TOP, "gmr:repeat_top", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_REPEAT_TOP, PRINT_REPEAT_LEFT, "gmr:repeat_left", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_REPEAT_LEFT, PRINT_ORDER, "gmr:order", TRUE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_ORIENT, PRINT_HEADER, "gmr:Footer", TRUE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_HEADER, PRINT_FOOTER, "gmr:Header", FALSE, NULL, NULL, 0),
-	GSF_XML_SAX_NODE (PRINT_FOOTER, PRINT_PAPER, "gmr:paper", TRUE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_SCALE,		"gmr:Scale",	  TRUE, &xml_sax_print_scale, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_VCENTER,	"gmr:vcenter",	  FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_HCENTER,	"gmr:hcenter",	  FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_GRID,		"gmr:grid",	  FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_MONO,		"gmr:monochrome", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_AS_DRAFT,	"gmr:draft",	  FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_COMMENTS,	"gmr:comments",   FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_TITLES,	"gmr:titles",	  FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_REPEAT_TOP,	"gmr:repeat_top", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_REPEAT_LEFT,	"gmr:repeat_left",FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_HEADER,	"gmr:Footer",	  FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_FOOTER,	"gmr:Header",	  FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_ORDER,		"gmr:order",	  TRUE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_PAPER,		"gmr:paper",	  TRUE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	"gmr:orientation",TRUE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE,	"gmr:even_if_only_styles", TRUE, NULL, NULL, 0),
 
       GSF_XML_SAX_NODE (SHEET, SHEET_STYLES, "gmr:Styles", FALSE, NULL, NULL, 0),
 	GSF_XML_SAX_NODE (SHEET_STYLES, STYLE_REGION, "gmr:StyleRegion", FALSE, &xml_sax_style_region_start, &xml_sax_style_region_end, 0),

@@ -119,6 +119,11 @@ struct _CustomXmlUI {
 
 static GSList *registered_xml_uis = NULL;
 
+enum {
+	TARGET_URI_LIST,
+	TARGET_SHEET
+};
+
 gboolean
 wbcg_ui_update_begin (WorkbookControlGUI *wbcg)
 {
@@ -672,6 +677,189 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	return FALSE;
 }
 
+static gint
+gtk_notebook_page_num_by_label (GtkNotebook *notebook, GtkWidget *label)
+{
+        guint i;
+        GtkWidget *page, *l;
+
+        g_return_val_if_fail (GTK_IS_NOTEBOOK (notebook), -1);
+        g_return_val_if_fail (GTK_IS_WIDGET (label), -1);
+
+        for (i = g_list_length (notebook->children); i-- > 0 ; ) {
+                page = gtk_notebook_get_nth_page (notebook, i);
+                l = gtk_notebook_get_tab_label (notebook, page);
+                if (label == l)
+                        return i;
+        }
+
+        return -1;
+}
+
+static void
+cb_sheet_label_drag_data_get (GtkWidget *widget, GdkDragContext *context,
+	GtkSelectionData *selection_data, guint info, guint time,
+	WorkbookControlGUI *wbcg)
+{
+	SheetControlGUI *scg;
+	gint n_source;
+	GtkWidget *p_source;
+
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, widget);
+	p_source = gtk_notebook_get_nth_page (wbcg->notebook, n_source);
+	scg = g_object_get_data (G_OBJECT (p_source), SHEET_CONTROL_KEY);
+
+	gtk_selection_data_set (selection_data, selection_data->target,
+		8, (void *) scg, sizeof (scg));
+}
+
+static void
+cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
+	gint x, gint y, GtkSelectionData *data, guint info, guint time,
+	WorkbookControlGUI *wbcg)
+{
+	GtkWidget *w_source;
+	gint n_source, n_dest;
+	Sheet *sheet;
+	GSList *old_order= NULL, *new_order;
+	Workbook *wb;
+	guint n, i;
+
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	w_source = gtk_drag_get_source_widget (context);
+	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, w_source);
+
+	/*
+	 * Is this a sheet of our workbook? If yes, we just reorder
+	 * the sheets.
+	 */
+	if (n_source >= 0) {
+
+		/* Make a list of the current order. */
+		wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		n = workbook_sheet_count (wb);
+		for (i = 0; i < n; i++) {
+			sheet = workbook_sheet_by_index (wb, i);
+			old_order = g_slist_append (old_order, sheet);
+		}
+	
+		/* Make a list of the new order. */
+		new_order = g_slist_copy (old_order);
+		sheet = g_slist_nth_data (new_order, n_source);
+		new_order = g_slist_remove (new_order, sheet);
+		n_dest = gtk_notebook_page_num_by_label (wbcg->notebook,
+							 widget);
+		new_order = g_slist_insert (new_order, sheet, n_dest);
+
+		/* Reorder the sheets! */
+		cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), old_order,
+			new_order, NULL, NULL, NULL, NULL, NULL, NULL,
+			NULL, NULL);
+	} else {
+
+		g_return_if_fail (IS_SHEET_CONTROL_GUI (data->data));
+
+		g_warning ("Not yet implemented!");
+	}
+}
+
+static const char *arrow_xpm[] = {
+	"13 14 2 1",
+	"       c None",
+	".      c #000000",
+	"     ...     ",
+	"     ...     ",
+	"     ...     ",
+	"     ...     ",
+	"     ...     ",
+	"     ...     ",
+	"     ...     ",
+	".............",
+	" ........... ",
+	"  .........  ",
+	"   .......   ",
+	"    .....    ",
+	"     ...     ",
+	"      .      "
+};
+
+static void
+cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
+	WorkbookControlGUI *wbcg)
+{
+	GtkWidget *arrow, *image;
+	GdkPixbuf *pixbuf;
+	GdkBitmap *bitmap;
+
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	g_message ("cb_sheet_label_drag_begin");
+
+	/* Create the arrow. */
+	arrow = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_widget_realize (arrow);
+	pixbuf = gdk_pixbuf_new_from_xpm_data (arrow_xpm);
+	image = gtk_image_new_from_pixbuf (pixbuf);
+	gtk_widget_show (image);
+	gtk_container_add (GTK_CONTAINER (arrow), image);
+	gdk_pixbuf_render_pixmap_and_mask (pixbuf, NULL, &bitmap, 128);
+	g_object_unref (G_OBJECT (pixbuf));
+	gtk_widget_shape_combine_mask (arrow, bitmap, 0, 0);
+	gdk_bitmap_unref (bitmap);
+	g_object_ref (G_OBJECT (arrow));
+	gtk_object_sink (GTK_OBJECT (arrow));
+	g_object_set_data (G_OBJECT (widget), "arrow", arrow);
+}
+
+static void
+cb_sheet_label_drag_end (GtkWidget *widget, GdkDragContext *context,
+			 WorkbookControlGUI *wbcg)
+{
+	GtkWidget *arrow;
+
+	g_return_if_fail (IS_WORKBOOK_CONTROL (wbcg));
+
+	/* Destroy the arrow. */
+	arrow = g_object_get_data (G_OBJECT (widget), "arrow");
+	gtk_object_destroy (GTK_OBJECT (arrow));
+	g_object_set_data (G_OBJECT (widget), "arrow", NULL);
+}
+
+static gboolean
+cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
+	gint x, gint y, guint time, WorkbookControlGUI *wbcg)
+{
+	GtkWidget *w_source, *arrow, *window;
+	gint n_source, n_dest, root_x, root_y, pos_x, pos_y;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
+
+	g_message ("cb_sheet_label_drag_motion");
+
+	/* Make sure we are really hovering over another label. */
+	w_source = gtk_drag_get_source_widget (context);
+	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, w_source);
+	n_dest   = gtk_notebook_page_num_by_label (wbcg->notebook, widget);
+	if (n_source == n_dest)
+		return (FALSE);
+
+	/* Move the arrow to the correct position and show it. */
+	arrow = g_object_get_data (G_OBJECT (w_source), "arrow");
+	window = gtk_widget_get_ancestor (widget, GTK_TYPE_WINDOW);
+	gtk_window_get_position (GTK_WINDOW (window), &root_x, &root_y);
+	pos_x = root_x + widget->allocation.x;
+	pos_y = root_y + widget->allocation.y;
+	if (n_source < n_dest)
+		pos_x += widget->allocation.width;
+	gtk_window_move (GTK_WINDOW (arrow), pos_x, pos_y);
+	gtk_widget_show (arrow);
+
+	return (TRUE);
+}
+
 static void workbook_setup_sheets (WorkbookControlGUI *wbcg);
 static void wbcg_menu_state_sheet_count (WorkbookControl *wbc);
 
@@ -689,6 +877,9 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	SheetControl	*sc;
 	Sheet		*sheet;
 	GList *ptr;
+	static GtkTargetEntry const drag_types[] = {
+		{ (char *) "GNUMERIC_SHEET", 0, TARGET_SHEET }
+	};
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -717,6 +908,24 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	g_signal_connect_after (G_OBJECT (scg->label),
 		"button_press_event",
 		G_CALLBACK (cb_sheet_label_button_press), scg->table);
+
+	/* Drag & Drop */
+	gtk_drag_source_set (scg->label, GDK_BUTTON1_MASK | GDK_BUTTON3_MASK,
+			drag_types, G_N_ELEMENTS (drag_types),
+			GDK_ACTION_MOVE);
+	gtk_drag_dest_set (scg->label, GTK_DEST_DEFAULT_ALL,
+			drag_types, G_N_ELEMENTS (drag_types),
+			GDK_ACTION_MOVE);
+	g_signal_connect (G_OBJECT (scg->label), "drag_begin",
+			G_CALLBACK (cb_sheet_label_drag_begin), wbcg);
+	g_signal_connect (G_OBJECT (scg->label), "drag_end",
+			G_CALLBACK (cb_sheet_label_drag_end), wbcg);
+	g_signal_connect (G_OBJECT (scg->label), "drag_data_get",
+			G_CALLBACK (cb_sheet_label_drag_data_get), wbcg);
+	g_signal_connect (G_OBJECT (scg->label), "drag_data_received",
+			G_CALLBACK (cb_sheet_label_drag_data_received), wbcg);
+	g_signal_connect (G_OBJECT (scg->label), "drag_motion",
+			G_CALLBACK (cb_sheet_label_drag_motion), wbcg);
 
 	gtk_widget_show (scg->label);
 	gtk_widget_show_all (GTK_WIDGET (scg->table));
@@ -4673,9 +4882,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 			   WorkbookView *optional_view, Workbook *optional_wb)
 {
 	static GtkTargetEntry const drag_types[] = {
-		{ (char *)"text/uri-list", 0, 0 }
+		{ (char *) "text/uri-list", 0, TARGET_URI_LIST }
 	};
-
+	
 #ifdef WITH_BONOBO
 	BonoboUIContainer *ui_container;
 #endif
@@ -4831,9 +5040,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		G_CALLBACK (cb_realize), wbcg);
 	/* Setup a test of Drag and Drop */
 	gtk_drag_dest_set (GTK_WIDGET (wbcg_toplevel (wbcg)),
-			   GTK_DEST_DEFAULT_ALL,
-		drag_types, G_N_ELEMENTS (drag_types),
-			   GDK_ACTION_COPY);
+		GTK_DEST_DEFAULT_ALL, drag_types, G_N_ELEMENTS (drag_types),
+		GDK_ACTION_COPY);
 	g_signal_connect (G_OBJECT (wbcg_toplevel (wbcg)),
 		"drag_data_received",
 		G_CALLBACK (wbcg_filenames_dropped), wbcg);

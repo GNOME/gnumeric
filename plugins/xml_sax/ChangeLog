@@ -1,3 +1,10 @@
+2002-09-23  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c (unknown_attr) : restore this and have it use
+	  io-context.
+	(gnumeric_1_0_dtd) : fix.
+	(xml_sax_style_region_start) : Use new_default for newer versions
+
 2002-09-06  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c (xml_sax_finish_parse_wb_names_name) : convert to
