@@ -1,8 +1,9 @@
 /*
  * fn-math.c:  Built in mathematical functions and functions registration
  *
- * Author:
+ * Authors:
  *  Miguel de Icaza (miguel@gnu.org)
+ *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
 #include <gnome.h>
@@ -563,6 +564,48 @@ gnumeric_fact (struct FunctionDefinition *id, Value *argv [], char **error_strin
 		res->type = VALUE_INTEGER;
 		res->v.v_int = fact ((int)i);
 	}
+	return res;
+}
+
+static char *help_combin = {
+	N_("@FUNCTION=COMBIN\n"
+	   "@SYNTAX=COMBIN(n,k)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the number of combinations."
+	   "\n"
+	   "Performing this function on a non-integer or a negative number "
+           "returns an error. Also if n is less than k returns an error."
+	   "\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+float_t
+combin (int n, int k)
+{
+	return fact(n) / (fact(k) * fact(n-k));
+}
+
+static Value *
+gnumeric_combin (struct FunctionDefinition *id, Value *argv [], char **error_string)
+{
+	Value *res;
+	float_t n, k;
+
+	if (argv [0]->type == VALUE_INTEGER &&
+	    argv [1]->type == VALUE_INTEGER &&
+	    argv[0]->v.v_int >= argv[1]->v.v_int){
+		n = argv [0]->v.v_int;
+		k = argv [1]->v.v_int;
+	} else {
+		*error_string = "#NUM!";
+		return NULL;
+	}
+	
+	res = g_new (Value, 1);
+	res->type = VALUE_INTEGER;
+	res->v.v_int = combin ((int)n, (int)k);
 	return res;
 }
 
@@ -1222,6 +1265,7 @@ FunctionDefinition math_functions [] = {
 	{ "degrees", "f",    "number",    &help_degrees, NULL, gnumeric_degrees },
 	{ "exp",     "f",    "number",    &help_exp,     NULL, gnumeric_exp },
 	{ "fact",    "f",    "number",    &help_fact,    NULL, gnumeric_fact },
+	{ "combin",  "ff",   "n,k",       &help_combin,  NULL, gnumeric_combin },
 	{ "floor",   "f",    "number",    &help_floor,   NULL, gnumeric_floor },
 	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },
 	{ "log",     "f",    "number",    &help_log,     NULL, gnumeric_log },

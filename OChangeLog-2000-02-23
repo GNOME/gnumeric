@@ -1,3 +1,9 @@
+1999-03-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+ 
+ 	* src/fn-math.c: combin added.
+ 
+ 	* src/fn-stat.c: binomdist, harmean, and hypgeomdist added.
+ 
 1999-03-18  Michael Meeks  <michael@imaginator.com>
 
 	* src/fn-eng.c (val_to_base): Minor fixes

@@ -1,8 +1,9 @@
 /*
  * fn-stat.c:  Built in statistical functions and functions registration
  *
- * Author:
+ * Authors:
  *  Michael Meeks <michael@imaginator.com>
+ *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 #include <config.h>
 #include <gnome.h>
@@ -187,6 +188,66 @@ gnumeric_stdevp (void *tsheet, GList *expr_node_list, int eval_col, int eval_row
 	return ans ;
 }
 
+static char *help_harmean = {
+	N_("@FUNCTION=HARMEAN\n"
+	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "HARMEAN returns the harmonic mean of the N data"
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE")
+};
+
+typedef struct {
+	int first ;
+	guint32 num ;
+	float_t sum;
+} stat_inv_sum_t;
+
+static int
+callback_function_stat_inv_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_inv_sum_t *mm = closure;
+	
+	switch (value->type){
+	case VALUE_INTEGER:
+		mm->num++ ;
+		mm->sum = mm->first?1.0/value->v.v_int:mm->sum+1.0/value->v.v_int ;
+		break;
+
+	case VALUE_FLOAT:
+		mm->num++ ;
+		mm->sum = mm->first?1.0/value->v.v_float:mm->sum+1.0/value->v.v_float ;
+		break ;
+	default:
+		/* ignore strings */
+		break;
+	}
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_harmean (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_inv_sum_t pr;
+	Sheet *sheet = (Sheet *) tsheet;
+	float_t ans, num ;
+
+	pr.first = TRUE ;
+	pr.num   = 0 ;
+	pr.sum   = 0.0 ;
+
+	function_iterate_argument_values (sheet, callback_function_stat_inv_sum,
+					  &pr, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	num = (float_t)pr.num ;
+	return value_float (1.0 / (1.0/num * pr.sum)) ;
+}
+
 static char *help_geomean = {
 	N_("@FUNCTION=GEOMEAN\n"
 	   "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -197,7 +258,7 @@ static char *help_geomean = {
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
-	   "@SEEALSO=MEDIAN,MEAN,MODE")
+	   "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE")
 };
 
 typedef struct {
@@ -319,6 +380,105 @@ gnumeric_gammaln (struct FunctionDefinition *i, Value *argv [], char **error_str
 	return value_float (lgamma(x)) ;
 }
 
+static char *help_binomdist = {
+	N_("@FUNCTION=BINOMDIST\n"
+	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
+
+	   "@DESCRIPTION="
+	   "The BINOMDIST function returns the binomial distribution "
+	   "@n is the number of successes, @trials is the total number of "
+           "independent trials, @p is the probability of success in trials, "
+           "and @cumulative describes whether to return the sum of the"
+           "binomial function from 0 to n."
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error."
+	   "if n or trials is a non-integer it is truncated. "
+	   "if n < 0 or trials < 0 BINOMDIST returns #NUM! error. "
+	   "if n > trials BINOMDIST returns #NUM! error. "
+	   "if p < 0 or p > 1 BINOMDIST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=POISSON")
+};
+
+float_t combin (int n, int k);
+
+static Value *
+gnumeric_binomdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	int n, trials;
+	float_t p;
+	int cuml, err, x;
+
+	if (!VALUE_IS_NUMBER(argv[0]) ||
+	    !VALUE_IS_NUMBER(argv[1]) ||
+	    !VALUE_IS_NUMBER(argv[2])){
+		*error_string = _("#VALUE!") ;
+		return NULL;
+	}
+	n = value_get_as_int (argv [0]);
+	trials = value_get_as_int (argv [1]);
+	p = value_get_as_double (argv[2]);
+	if (n<0 || trials<0 || p<0 || p>1 || n>trials) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+
+	cuml = value_get_bool (argv[3], &err) ;
+
+	if (cuml) {
+		float_t v=0;
+		for (x=0; x<=n; x++)
+		        v += (combin(trials, x) * pow(p, x) *
+				    pow(1-p, trials-x));
+		return value_float (v);
+	} else
+		return value_float (combin(trials, n) * pow(p, n) *
+				    pow(1-p, trials-n));
+}
+
+static char *help_hypgeomdist = {
+	N_("@FUNCTION=HYPGEOMDIST\n"
+	   "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
+
+	   "@DESCRIPTION="
+	   "The HYPGEOMDIST function returns the hypergeometric distribution "
+	   "@x is the number of successes in the sample, @n is the number "
+           "of trials, @M is the number of successes overall, and @N is the"
+           "population size."
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error."
+	   "if x,n,M or N is a non-integer it is truncated. "
+	   "if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. "
+	   "if x > M or n > N HYPGEOMDIST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=BINOMDIST,POISSON")
+};
+
+static Value *
+gnumeric_hypgeomdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	int x, n, M, N;
+	int err;
+
+	if (!VALUE_IS_NUMBER(argv[0]) ||
+	    !VALUE_IS_NUMBER(argv[1]) ||
+	    !VALUE_IS_NUMBER(argv[2])){
+		*error_string = _("#VALUE!") ;
+		return NULL;
+	}
+	x = value_get_as_int (argv [0]);
+	n = value_get_as_int (argv [1]);
+	M = value_get_as_int (argv [2]);
+	N = value_get_as_int (argv [3]);
+
+	if (x<0 || n<0 || M<0 || N<0 || x>M || n>N) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+
+	return value_float ((combin(M, x) * combin(N-M, n-x)) / combin(N,n));
+}
+
 static char *help_poisson = {
 	N_("@FUNCTION=POISSON\n"
 	   "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -368,10 +528,13 @@ gnumeric_poisson (struct FunctionDefinition *i, Value *argv [], char **error_str
 }
 
 FunctionDefinition stat_functions [] = {
+	{ "binomdist", "fffb", "n,t,p,c",   &help_poisson,   NULL, gnumeric_binomdist },
 	{ "poisson",   "ffb",  "",          &help_poisson,   NULL, gnumeric_poisson },
 	{ "expondist", "ffb",  "",          &help_expondist, NULL, gnumeric_expondist },
 	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
 	{ "geomean",   0,      "",          &help_geomean,   gnumeric_geomean, NULL },
+	{ "harmean",   0,      "",          &help_harmean,   gnumeric_harmean, NULL },
+	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist, NULL, gnumeric_hypgeomdist },
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
 	{ "var",       0,      "",          &help_var,       gnumeric_var, NULL },
