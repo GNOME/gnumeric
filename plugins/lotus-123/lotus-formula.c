@@ -404,7 +404,7 @@ lotus_parse_formula (LotusWk1Read *state, guint32 col, guint32 row,
 	GnmCellRef   a, b;
 	gboolean  done  = FALSE;
 
-	for (i = 0; (i < len) & !done;) {
+	for (i = 0; (i < len) && !done;) {
 		switch (data[i]) {
 		case LOTUS_FORMULA_CONSTANT:
 			parse_list_push_value (&stack,
