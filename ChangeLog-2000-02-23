@@ -1,3 +1,25 @@
+1999-03-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	I do not like the current approach.  I do think that StyleFonts
+	should be static with regard to Zoom.  
+
+	And we would keep a cache of X fonts that are used for a
+	particular size. 
+	
+	* src/style.c (style_font_new_from): New routine that creates a
+	new font.
+
+	* src/sheet.c (sheet_set_zoom_factor): Scale fonts used in the
+	Sheet.
+
+1999-02-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/dialog-printer-setup.c: New file.  Implements the workbook
+	page configuration dialog box.
+
+	* src/print-info.c, src/print-info.h: Manages the per-worbook
+	print options. 
+
 1999-02-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/style.c (font_equal): Adapt function to the new StyleFont. 

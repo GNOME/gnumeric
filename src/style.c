@@ -90,7 +90,7 @@ style_font_new_simple (char *font_name, double size, double scale, int bold, int
 			font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
 			italic,
-			size, 1.0);
+			size, scale);
 		
 		if (!display_font)
 			return NULL;
@@ -124,6 +124,26 @@ style_font_new (char *font_name, double size, double scale, int bold, int italic
 	}
 
 	return font;
+}
+
+/*
+ * Creates a new StyleFont from an existing StyleFont
+ * at the scale @scale
+ */
+StyleFont *
+style_font_new_from (StyleFont *sf, double scale)
+{
+	StyleFont *new_sf;
+	
+	g_return_val_if_fail (sf != NULL, NULL);
+	g_return_val_if_fail (scale != 0.0, NULL);
+
+	new_sf = style_font_new_simple (sf->font_name, sf->size, scale, sf->is_bold, sf->is_italic);
+	if (!new_sf){
+	        new_sf = gnumeric_default_font;
+		style_font_ref (new_sf);
+	}
+	return new_sf;
 }
 
 GdkFont *
@@ -552,8 +572,8 @@ font_init (void)
 
 	g_warning ("Using hard coded 14!\n");
 	
-	gnumeric_default_bold_font = style_font_new (DEFAULT_FONT, 13, 1.0, TRUE, FALSE);
-	gnumeric_default_italic_font = style_font_new (DEFAULT_FONT, 13, 1.0, FALSE, TRUE);
+	gnumeric_default_bold_font = style_font_new (DEFAULT_FONT, 14, 1.0, TRUE, FALSE);
+	gnumeric_default_italic_font = style_font_new (DEFAULT_FONT, 14, 1.0, FALSE, TRUE);
 
 	printf ("Font: %s\n", gnumeric_default_bold_font->dfont->x_font_name);
 	{
