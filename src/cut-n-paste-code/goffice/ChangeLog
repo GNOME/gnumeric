@@ -1,4 +1,14 @@
+2004-05-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-chart.c (gog_chart_view_class_init) : set call_parent_render
+	to FALSE.
+	* graph/gog-outlined-object.c (gog_outlined_view_render) : call parent
+	render method only if call_parent_render is TRUE;
+	(gog_outlined_view_class_init) : set call_parent_render to TRUE;
+	* graph/gog-outlined-object.h : add a call_parent_render boolean.
+
 2004-05-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=142212
 	* graph/plugins/plot-barcol/gog-line.c (gog_line_view_render) : don't
 	use '0' if Y value is missing.

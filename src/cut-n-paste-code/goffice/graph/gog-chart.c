@@ -633,10 +633,13 @@ static void
 gog_chart_view_class_init (GogChartViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
+	GogOutlinedViewClass *oview_klass = (GogOutlinedViewClass *) gview_klass;
 
 	cview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_allocate   = gog_chart_view_size_allocate;
 	view_klass->render = gog_chart_view_render;
+
+	oview_klass->call_parent_render = FALSE;
 }
 
 static GSF_CLASS (GogChartView, gog_chart_view,

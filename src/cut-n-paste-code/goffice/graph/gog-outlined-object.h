@@ -31,7 +31,8 @@ typedef struct {
 	GogStyledObject	base;
 	double	 padding_pts;
 } GogOutlinedObject;
-typedef GogStyledObjectClass GogOutlinedObjectClass;
+
+typedef	GogStyledObjectClass GogOutlinedObjectClass; 
 
 #define GOG_OUTLINED_OBJECT_TYPE  (gog_outlined_object_get_type ())
 #define GOG_OUTLINED_OBJECT(o)	  (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_OUTLINED_OBJECT_TYPE, GogOutlinedObject))
@@ -43,11 +44,15 @@ double gog_outlined_object_get_pad  (GogOutlinedObject const *goo);
 /****************************************************************************/
 
 typedef GogView		GogOutlinedView;
-typedef GogViewClass	GogOutlinedViewClass;
+typedef struct {
+	GogViewClass	base;
+	gboolean	call_parent_render;
+} GogOutlinedViewClass;
 
-#define GOG_OUTLINED_VIEW_TYPE  (gog_outlined_view_get_type ())
-#define GOG_OUTLINED_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_OUTLINED_VIEW_TYPE, GogOutlinedView))
-#define IS_GOG_OUTLINED_VIEW(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_OUTLINED_VIEW_TYPE))
+#define GOG_OUTLINED_VIEW_TYPE  	(gog_outlined_view_get_type ())
+#define GOG_OUTLINED_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_OUTLINED_VIEW_TYPE, GogOutlinedView))
+#define IS_GOG_OUTLINED_VIEW(o) 	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_OUTLINED_VIEW_TYPE))
+#define GOG_OUTLINED_VIEW_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_OUTLINED_VIEW_TYPE, GogOutlinedViewClass))
 
 GType   gog_outlined_view_get_type (void);
 

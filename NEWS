@@ -22,6 +22,7 @@ Jody:
 	* Fix xls named expression and addin import/export
 	http://bugzilla.gnome.org/show_bug.cgi?id=142474
 	* Use first rather than last conditional value fmt as catch-all
+	* Enable implicit iteration for operators
 
 Morten:
 	* Fix image-inside-xls problem.
