@@ -1629,7 +1629,7 @@ static char const *help_pi = {
 static GnmValue *
 gnumeric_pi (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (4.0);
+	return value_new_float (M_PIgnum);
 }
 
 /***************************************************************************/
