@@ -1168,7 +1168,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			ptg_length = 3 ;
 			if (grbit == 0x00) {
 				ms_excel_dump_cellname (sheet, fn_col, fn_row);
-				printf ("Hmm, ptgAttr with flag of 0 ??\n"
+				printf ("Hmm, ptgAttr of type 0 ??\n"
 					"This appears to indicate a 1x1 array formula, what do the flags mean.\n"
 					"I have seen flags of 0x3, and 0xA.  What values does this one have ?\n"
 					"flags = 0x%X\n", w);
