@@ -1696,6 +1696,282 @@ gnumeric_geomean (void *tsheet, GList *expr_node_list,
 	return value_float (pow (pr.product, 1.0/num));
 }
 
+static char *help_count = {
+	N_("@FUNCTION=COUNT\n"
+	   "@SYNTAX=COUNT(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the total number of integer or floating point "
+	   "arguments passed."
+	   "\n"
+	   "Performing this function on a string or empty cell simply does "
+	   "nothing."
+	   "\n"
+	   "@SEEALSO=AVERAGE")
+};
+
+static int
+callback_function_count (Sheet *sheet, Value *value,
+			 char **error_string, void *closure)
+{
+	Value *result = (Value *) closure;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+		result->v.v_int++;
+		break;
+		
+	case VALUE_FLOAT:
+		result->v.v_int++;
+		break;
+		
+	default:
+		break;
+	}		
+	return TRUE;
+}
+
+Value *
+gnumeric_count (void *tsheet, GList *expr_node_list,
+		int eval_col, int eval_row, char **error_string)
+{
+	Value *result;
+	Sheet *sheet = (Sheet *) tsheet;
+
+	result = g_new (Value, 1);
+	result->type = VALUE_INTEGER;
+	result->v.v_int = 0;
+	
+	function_iterate_argument_values (sheet, callback_function_count,
+					  result, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	return result;
+}
+
+static char *help_counta = {
+        N_("@FUNCTION=COUNTA\n"
+           "@SYNTAX=COUNTA(b1, b2, ...)\n"
+
+           "@DESCRIPTION="
+           "Returns the number of arguments passed not including empty cells."
+           "\n"
+           "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM")
+};
+
+static int
+callback_function_counta (Sheet *sheet, Value *value,
+			  char **error_string, void *
+closure)
+{
+        Value *result = (Value *) closure;
+
+        switch (value->type){
+        case VALUE_INTEGER:
+        case VALUE_FLOAT:
+	case VALUE_STRING:
+	case VALUE_CELLRANGE:
+	case VALUE_ARRAY:
+                result->v.v_int++;
+                break;
+        default:
+                break;
+        }
+        return TRUE;
+}
+
+Value *
+gnumeric_counta (void *tsheet, GList *expr_node_list,
+		 int eval_col, int eval_row, char **error_string)
+{
+        Value *result;
+        Sheet *sheet = (Sheet *) tsheet;
+
+        result = g_new (Value, 1);
+        result->type = VALUE_INTEGER;
+        result->v.v_int = 0;
+
+        function_iterate_argument_values (sheet, callback_function_counta,
+					  result, expr_node_list,
+                                          eval_col, eval_row, error_string);
+
+        return result;
+}
+
+static char *help_average = {
+	N_("@FUNCTION=AVERAGE\n"
+	   "@SYNTAX=AVERAGE(value1, value2,...)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the average of all the values and cells referenced in "
+	   "the argument list.  This is equivalent to the sum of the "
+	   "arguments divided by the count of the arguments."
+	   "\n"
+	   "@SEEALSO=SUM, COUNT")
+};
+
+Value *
+gnumeric_average (void *tsheet, GList *expr_node_list,
+		  int eval_col, int eval_row, char **error_string)
+{
+	Value *result;
+	Value *sum, *count;
+	double c;
+	
+	sum = gnumeric_sum (tsheet, expr_node_list,
+			    eval_col, eval_row, error_string);
+	if (!sum)
+		return NULL;
+	
+	count = gnumeric_count (tsheet, expr_node_list,
+				eval_col, eval_row, error_string);
+	if (!count){
+		value_release (sum);
+		return NULL;
+	}
+
+	c = value_get_as_double (count);
+	
+	if (c == 0.0){
+		*error_string = "Division by zero";
+		value_release (sum);
+		return NULL;
+	}
+	
+	result = value_float (value_get_as_double (sum) / c);
+
+	value_release (count);
+	value_release (sum);
+	
+	return result;
+}
+
+static char *help_min = {
+	N_("@FUNCTION=MIN\n"
+	   "@SYNTAX=MIN(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "MIN returns the value of the element of the values passed "
+	   "that has the smallest value. With negative numbers considered "
+	   "smaller than positive numbers."
+	   "\n"
+	   "Performing this function on a string or empty cell simply does "
+	   "nothing."
+	   "\n"
+	   "@SEEALSO=MAX,ABS")
+};
+
+static char *help_max = {
+	N_("@FUNCTION=MAX\n"
+	   "@SYNTAX=MAX(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "MAX returns the value of the element of the values passed "
+	   "that has the largest value. With negative numbers considered "
+	   "smaller than positive numbers."
+	   "\n"
+	   "Performing this function on a string or empty cell simply does "
+	   "nothing."
+	   "\n"
+	   "@SEEALSO=MIN,ABS")
+};
+
+enum {
+	OPER_MIN,
+	OPER_MAX
+};
+
+typedef struct {
+	int   operation;
+	int   found;
+	Value *result;
+} min_max_closure_t;
+
+static int
+callback_function_min_max (Sheet *sheet, Value *value,
+			   char **error_string, void *closure)
+{
+	min_max_closure_t *mm = closure;
+	
+	switch (value->type){
+	case VALUE_INTEGER:
+		if (mm->found){
+			if (mm->operation == OPER_MIN){
+				if (value->v.v_int < mm->result->v.v_float)
+					mm->result->v.v_float = value->v.v_int;
+			} else {
+				if (value->v.v_int > mm->result->v.v_float)
+					mm->result->v.v_float = value->v.v_int;
+			}
+		} else {
+			mm->found = 1;
+			mm->result->v.v_float = value->v.v_int;
+		}
+		break;
+
+	case VALUE_FLOAT:
+		if (mm->found){
+			if (mm->operation == OPER_MIN){
+				if (value->v.v_float < mm->result->v.v_float)
+					mm->result->v.v_float =
+					  value->v.v_float;
+			} else {
+				if (value->v.v_float > mm->result->v.v_float)
+					mm->result->v.v_float =
+					  value->v.v_float;
+			}
+		} else {
+			mm->found = 1;
+			mm->result->v.v_float = value->v.v_float;
+		}
+
+	default:
+		/* ignore strings */
+		break;
+	}
+	
+	return TRUE;
+}
+
+static Value *
+gnumeric_min (void *tsheet, GList *expr_node_list,
+	      int eval_col, int eval_row, char **error_string)
+{
+	min_max_closure_t closure;
+	Sheet *sheet = (Sheet *) tsheet;
+
+	closure.operation = OPER_MIN;
+	closure.found  = 0;
+	closure.result = g_new (Value, 1);
+	closure.result->type = VALUE_FLOAT;
+	closure.result->v.v_float = 0;
+
+	function_iterate_argument_values (sheet, callback_function_min_max,
+					  &closure, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	return 	closure.result;
+}
+
+static Value *
+gnumeric_max (void *tsheet, GList *expr_node_list,
+	      int eval_col, int eval_row, char **error_string)
+{
+	min_max_closure_t closure;
+	Sheet *sheet = (Sheet *) tsheet;
+
+	closure.operation = OPER_MAX;
+	closure.found  = 0;
+	closure.result = g_new (Value, 1);
+	closure.result->type = VALUE_FLOAT;
+	closure.result->v.v_float = 0;
+
+	function_iterate_argument_values (sheet, callback_function_min_max,
+					  &closure, expr_node_list,
+					  eval_col, eval_row, error_string);
+	return 	closure.result;
+}
+
 static char *help_skew = {
 	N_("@FUNCTION=SKEW\n"
 	   "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -2102,6 +2378,61 @@ gnumeric_tdist (struct FunctionDefinition *i, Value *argv [],
 	        return value_float (pt(x, dof)*2);
 }
 
+static char *help_tinv = {
+       N_("@FUNCTION=TINV\n"
+          "@SYNTAX=TINV(p,dof)\n"
+
+          "@DESCRIPTION="
+          "The TINV function returns the inverse of the two-tailed Student's "
+	  "t-distribution. TINV uses an iterative algorithm for calculating "
+	  "the result. If TINV does not converge (accuracy within +/- 3x10^7) "
+	  "after 100 iterations, the function returns #N/A! error. "
+          "\n"
+	  "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. "
+	  "\n"
+          "@SEEALSO=TDIST,TTEST")
+};
+
+static Value *
+gnumeric_tinv (struct FunctionDefinition *i, Value *argv [],
+		 char **error_string)
+{
+        const int left = 1;
+	const int right = 2;
+        const int iterations = 200;
+	const float_t accuracy_limit = 0.00000003;
+        float_t p, p_test, x, step;
+	int     dof, n, dir = 0;
+
+        p = value_get_as_double (argv [0]);
+	dof = value_get_as_int (argv [1]);
+
+	if (p<0 || p>1 || dof<1) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	x = 10;
+	step = 1;
+	for (n=0; n<iterations; n++) {
+	        p_test = pt(x, dof)*2;
+		if (fabs(p - p_test) < accuracy_limit)
+		        return value_float (x);
+		if (p < p_test) {
+		        if (dir == right)
+			        step /= 2;
+		        x += step;
+			dir = left;
+		} else {
+		        if (dir == left)
+			        step /= 2;
+		        x -= step;
+			dir = right;
+		}
+	}
+	*error_string = _("#N/A!");
+	return NULL;
+}
+
 static char *help_fdist = {
 	N_("@FUNCTION=FDIST\n"
 	   "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -2133,6 +2464,63 @@ gnumeric_fdist (struct FunctionDefinition *i, Value *argv [],
 		return NULL;
 	}
 	return value_float (pf(x, dof1, dof2));
+}
+
+static char *help_finv = {
+       N_("@FUNCTION=FINV\n"
+          "@SYNTAX=TINV(p,dof)\n"
+
+          "@DESCRIPTION="
+          "The FINV function returns the inverse of the F probability "
+	  "distribution. FINV uses an iterative algorithm for calculating "
+	  "the result. If FINV does not converge (accuracy within +/- 3x10^7) "
+	  "after 100 iterations, the function returns #N/A! error. "
+          "\n"
+	  "If @p < 0 or @p > 1 FINV returns #NUM! error. "
+	  "If @dof1 < 0 or @dof2 > 1 FINV returns #NUM! error. "
+	  "\n"
+          "@SEEALSO=FDIST")
+};
+
+static Value *
+gnumeric_finv (struct FunctionDefinition *i, Value *argv [],
+		 char **error_string)
+{
+        const int left = 1;
+	const int right = 2;
+        const int iterations = 200;
+	const float_t accuracy_limit = 0.00000003;
+        float_t p, p_test, x, step;
+	int     dof1, dof2, n, dir = 0;
+
+        p = value_get_as_double (argv [0]);
+	dof1 = value_get_as_int (argv [1]);
+	dof2 = value_get_as_int (argv [2]);
+
+	if (p<0 || p>1 || dof1<1 || dof2<1) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	x = 10;
+	step = 1;
+	for (n=0; n<iterations; n++) {
+	        p_test = pf(x, dof1, dof2);
+		if (fabs(p - p_test) < accuracy_limit)
+		        return value_float (x);
+		if (p < p_test) {
+		        if (dir == right)
+			        step /= 2;
+		        x += step;
+			dir = left;
+		} else {
+		        if (dir == left)
+			        step /= 2;
+		        x -= step;
+			dir = right;
+		}
+	}
+	*error_string = _("#N/A!");
+	return NULL;
 }
 
 static char *help_binomdist = {
@@ -3301,11 +3689,14 @@ gnumeric_ztest (void *tsheet, GList *expr_node_list,
 
 FunctionDefinition stat_functions [] = {
         { "avedev",    0,      "",          &help_avedev,    gnumeric_avedev, NULL },
+	{ "average", 0,      "",            &help_average, gnumeric_average, NULL },
 	{ "betadist", "fff", "",            &help_betadist, NULL, gnumeric_betadist },
 	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist, NULL, gnumeric_binomdist },
 	{ "chidist",   "ff",  "",           &help_chidist, NULL, gnumeric_chidist },
 	{ "chiinv",    "ff",  "",           &help_chiinv, NULL, gnumeric_chiinv },
 	{ "confidence", "fff",  "x,stddev,size", &help_confidence, NULL, gnumeric_confidence },
+	{ "count",     0,      "",          &help_count,   gnumeric_count, NULL },
+	{ "counta",    0,      "",          &help_counta,    gnumeric_counta, NULL },
 	{ "critbinom",  "fff",  "trials,p,alpha", &help_critbinom, NULL, gnumeric_critbinom },
         { "correl",     0,      "",         &help_correl,    gnumeric_correl, NULL },
         { "covar",      0,      "",         &help_covar,     gnumeric_covar, NULL },
@@ -3314,6 +3705,7 @@ FunctionDefinition stat_functions [] = {
 	{ "poisson",   "ffb",  "",          &help_poisson,   NULL, gnumeric_poisson },
 	{ "expondist", "ffb",  "",          &help_expondist, NULL, gnumeric_expondist },
 	{ "fdist",   "fff",  "",            &help_fdist,  NULL, gnumeric_fdist },
+	{ "finv",   "fff",  "",             &help_finv,  NULL, gnumeric_finv },
         { "fisher",    "f",    "",          &help_fisher,    NULL, gnumeric_fisher },
         { "fisherinv", "f",    "",          &help_fisherinv, NULL, gnumeric_fisherinv },
 	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
@@ -3326,7 +3718,9 @@ FunctionDefinition stat_functions [] = {
 	{ "large",  0,      "",             &help_large,  gnumeric_large, NULL },
 	{ "loginv",  "fff",  "",            &help_loginv, NULL, gnumeric_loginv },
 	{ "lognormdist",  "fff",  "",       &help_lognormdist, NULL, gnumeric_lognormdist },
+	{ "max",     0,      "",            &help_max,     gnumeric_max, NULL },
 	{ "median",    0,      "",          &help_median,    gnumeric_median, NULL },
+	{ "min",     0,      "",            &help_min,     gnumeric_min, NULL },
 	{ "mode",      0,      "",          &help_mode,   gnumeric_mode, NULL },
 	{ "negbinomdist", "fff", "f,t,p",   &help_negbinomdist, NULL, gnumeric_negbinomdist },
 	{ "normdist",   "fffb",  "",        &help_normdist,  NULL, gnumeric_normdist },
@@ -3342,6 +3736,7 @@ FunctionDefinition stat_functions [] = {
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
 	{ "tdist",   "fff",  "",            &help_tdist,  NULL, gnumeric_tdist },
+	{ "tinv",    "ff",  "",             &help_tinv,  NULL, gnumeric_tinv },
 	{ "trimmean",  0,      "",          &help_trimmean,  gnumeric_trimmean, NULL },
 	{ "var",       0,      "",          &help_var,       gnumeric_var, NULL },
 	{ "varp",      0,      "",          &help_varp,      gnumeric_varp, NULL },

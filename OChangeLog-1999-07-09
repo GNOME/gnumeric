@@ -1,3 +1,11 @@
+1999-04-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added COUNTA(), FINV(), and TINV().
+
+	* src/fn-stat.c, src/fn-math.c: AVERAGE(), COUNT(), MAX(), and
+	MIN() moved from fn-math.c to fn-stat.c.  They are in the
+	statistical function group in Excel.
+	
 1999-04-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: Added BETADIST(), FDIST(), and TDIST().

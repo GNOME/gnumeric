@@ -316,51 +316,6 @@ gnumeric_atan2 (struct FunctionDefinition *i, Value *argv [], char **error_strin
 				   value_get_as_double (argv [1])));
 }
 
-static char *help_average = {
-	N_("@FUNCTION=AVERAGE\n"
-	   "@SYNTAX=AVERAGE(value1, value2,...)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the average of all the values and cells referenced in the "
-	   "argument list.  This is equivalent to the sum of the arguments divided "
-	   "by the count of the arguments."
-	   "\n"
-	   "@SEEALSO=SUM, COUNT")
-};
-
-Value *
-gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
-{
-	Value *result;
-	Value *sum, *count;
-	double c;
-	
-	sum = gnumeric_sum (tsheet, expr_node_list, eval_col, eval_row, error_string);
-	if (!sum)
-		return NULL;
-	
-	count = gnumeric_count (tsheet, expr_node_list, eval_col, eval_row, error_string);
-	if (!count){
-		value_release (sum);
-		return NULL;
-	}
-
-	c = value_get_as_double (count);
-	
-	if (c == 0.0){
-		*error_string = "Division by zero";
-		value_release (sum);
-		return NULL;
-	}
-	
-	result = value_float (value_get_as_double (sum) / c);
-
-	value_release (count);
-	value_release (sum);
-	
-	return result;
-}
-
 static char *help_ceil = {
 	N_("@FUNCTION=CEIL\n"
 	   "@SYNTAX=CEIL(x)\n"
@@ -475,54 +430,6 @@ static Value *
 gnumeric_cosh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	return value_float (cosh (value_get_as_double (argv [0])));
-}
-
-static int
-callback_function_count (Sheet *sheet, Value *value, char **error_string, void *closure)
-{
-	Value *result = (Value *) closure;
-
-	switch (value->type){
-	case VALUE_INTEGER:
-		result->v.v_int++;
-		break;
-		
-	case VALUE_FLOAT:
-		result->v.v_int++;
-		break;
-		
-	default:
-		break;
-	}		
-	return TRUE;
-}
-
-static char *help_count = {
-	N_("@FUNCTION=COUNT\n"
-	   "@SYNTAX=COUNT(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "Returns the total number of arguments passed."
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=AVERAGE")
-};
-
-Value *
-gnumeric_count (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
-{
-	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
-
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = 0;
-	
-	function_iterate_argument_values (sheet, callback_function_count, result, expr_node_list,
-					  eval_col, eval_row, error_string);
-
-	return result;
 }
 
 static char *help_degrees = {
@@ -800,125 +707,6 @@ gnumeric_log10 (struct FunctionDefinition *i, Value *argv [], char **error_strin
 		return NULL;
 	}
 	return value_float (log10 (t));
-}
-
-static char *help_min = {
-	N_("@FUNCTION=MIN\n"
-	   "@SYNTAX=MIN(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "MIN returns the value of the element of the values passed "
-	   "that has the smallest value. With negative numbers considered "
-	   "smaller than positive numbers."
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=MAX,ABS")
-};
-
-static char *help_max = {
-	N_("@FUNCTION=MAX\n"
-	   "@SYNTAX=MAX(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "MAX returns the value of the element of the values passed "
-	   "that has the largest value. With negative numbers considered "
-	   "smaller than positive numbers."
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=MIN,ABS")
-};
-
-enum {
-	OPER_MIN,
-	OPER_MAX
-};
-
-typedef struct {
-	int   operation;
-	int   found;
-	Value *result;
-} min_max_closure_t;
-
-static int
-callback_function_min_max (Sheet *sheet, Value *value, char **error_string, void *closure)
-{
-	min_max_closure_t *mm = closure;
-	
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (mm->found){
-			if (mm->operation == OPER_MIN){
-				if (value->v.v_int < mm->result->v.v_float)
-					mm->result->v.v_float = value->v.v_int;
-			} else {
-				if (value->v.v_int > mm->result->v.v_float)
-					mm->result->v.v_float = value->v.v_int;
-			}
-		} else {
-			mm->found = 1;
-			mm->result->v.v_float = value->v.v_int;
-		}
-		break;
-
-	case VALUE_FLOAT:
-		if (mm->found){
-			if (mm->operation == OPER_MIN){
-				if (value->v.v_float < mm->result->v.v_float)
-					mm->result->v.v_float = value->v.v_float;
-			} else {
-				if (value->v.v_float > mm->result->v.v_float)
-					mm->result->v.v_float = value->v.v_float;
-			}
-		} else {
-			mm->found = 1;
-			mm->result->v.v_float = value->v.v_float;
-		}
-
-	default:
-		/* ignore strings */
-		break;
-	}
-	
-	return TRUE;
-}
-
-static Value *
-gnumeric_min (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
-{
-	min_max_closure_t closure;
-	Sheet *sheet = (Sheet *) tsheet;
-
-	closure.operation = OPER_MIN;
-	closure.found  = 0;
-	closure.result = g_new (Value, 1);
-	closure.result->type = VALUE_FLOAT;
-	closure.result->v.v_float = 0;
-
-	function_iterate_argument_values (sheet, callback_function_min_max,
-					  &closure, expr_node_list,
-					  eval_col, eval_row, error_string);
-
-	return 	closure.result;
-}
-
-static Value *
-gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
-{
-	min_max_closure_t closure;
-	Sheet *sheet = (Sheet *) tsheet;
-
-	closure.operation = OPER_MAX;
-	closure.found  = 0;
-	closure.result = g_new (Value, 1);
-	closure.result->type = VALUE_FLOAT;
-	closure.result->v.v_float = 0;
-
-	function_iterate_argument_values (sheet, callback_function_min_max,
-					  &closure, expr_node_list,
-					  eval_col, eval_row, error_string);
-	return 	closure.result;
 }
 
 static char *help_mod = {
@@ -1733,10 +1521,8 @@ FunctionDefinition math_functions [] = {
 	{ "atanh",   "f",    "number",    &help_atanh, NULL, gnumeric_atanh },
 	{ "atan2",   "ff",   "xnum,ynum", &help_atan2, NULL, gnumeric_atan2 },
 	/* avedev */
-	{ "average", 0,      "",          &help_average, gnumeric_average, NULL },
 	{ "cos",     "f",    "number",    &help_cos,     NULL, gnumeric_cos },
 	{ "cosh",    "f",    "number",    &help_cosh,    NULL, gnumeric_cosh },
-	{ "count",   0,      "",          &help_count,   gnumeric_count, NULL },
 	{ "ceil",    "f",    "number",    &help_ceil,    NULL, gnumeric_ceil },
 	{ "ceiling", "ff",   "number,significance",    &help_ceiling, NULL, gnumeric_ceiling },
 	{ "degrees", "f",    "number",    &help_degrees, NULL, gnumeric_degrees },
@@ -1750,8 +1536,6 @@ FunctionDefinition math_functions [] = {
 	{ "log",     "f",    "number",    &help_log,     NULL, gnumeric_log },
 	{ "log2",    "f",    "number",    &help_log2,    NULL, gnumeric_log2 },
 	{ "log10",   "f",    "number",    &help_log10,   NULL, gnumeric_log10 },
-	{ "max",     0,      "",          &help_max,     gnumeric_max, NULL },
-	{ "min",     0,      "",          &help_min,     gnumeric_min, NULL },
 	{ "mod",     "ff",   "num,denom", &help_mod,     NULL, gnumeric_mod },
 	{ "multinomial", 0,  "",          &help_multinomial, gnumeric_multinomial, NULL },
 	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
