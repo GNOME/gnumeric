@@ -1,3 +1,9 @@
+2000-05-11  Michael Meeks  <michael@helixcode.com>
+
+	* boot.c (excel_load): add basic hooks.
+
+	* excel.h: ditto.
+
 2000-05-16  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am (INCLUDES): add libole2 include.

@@ -23,6 +23,7 @@
 
 #include <gb/libgb.h>
 #include <gbrun/libgbrun.h>
+#include <libole2/ms-ole-vba.h>
 
 #include "gnumeric.h"
 #include "symbol.h"
@@ -30,10 +31,20 @@
 #include "expr.h"
 #include "func.h"
 
+#include "streams.h"
+#include "../excel/excel.h"
+
 #ifndef MAP_FAILED
 /* Someone needs their head examining - BSD ? */
 #	define MAP_FAILED ((void *)-1)
 #endif
+
+#define GB_PROJECT_KEY "GBRun::Project"
+
+typedef struct {
+	GBRunEvalContext *ec;
+	GBRunProject     *proj;
+} GBWorkbookData;
 
 int gb_debug = 0;
 
@@ -106,16 +117,11 @@ dont_unload (PluginData *pd)
 static void
 cleanup (PluginData *pd)
 {
-	void *user_data;
-
-	if ((user_data = plugin_data_get_user_data (pd)))
-		gbrun_context_destroy (user_data);
-	plugin_data_set_user_data (pd, NULL);
-
 	gbrun_shutdown ();
 	gb_shutdown ();
 }
 
+/*
 static const GBModule *
 parse_file (char const * filename)
 {
@@ -151,7 +157,6 @@ parse_file (char const * filename)
 	ec = gb_eval_context_new ();
 	module = gb_parse_stream (data, len, ec);
 	if (!module)
-		/* FIXME : Move error into error_result */
 		fprintf (stderr, "%s : %s", filename,
 			 gb_eval_context_get_text (ec));
 	gtk_object_destroy (GTK_OBJECT (ec));
@@ -166,7 +171,9 @@ typedef struct {
 	GBRunContext *rc;
 	GBRoutine     *r;
 } func_data_t;
+*/
 
+#if 0
 static Value *
 generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 {
@@ -183,7 +190,8 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 	g_return_val_if_fail (fd != NULL, NULL);
 
 	for (l = nodes; l; l = l->next) {
-		/* TODO : When the translation mechanism is more complete
+		/*
+		 * TODO : When the translation mechanism is more complete
 		 * this can be relaxed.  We do not need to require
 		 * non emptiness, or scalarness.
 		 */
@@ -222,7 +230,9 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 	return ans;
 }
+#endif
 
+/*
 typedef struct {
 	FunctionCategory *cat;
 	GBRunContext    *rc;
@@ -245,34 +255,115 @@ cb_register_functions (gpointer key, gpointer value, gpointer user_data)
 
 	function_def_set_user_data (fndef, fd);
 }
+*/
+
+static GBLexerStream *
+stream_provider (GBRunEvalContext *ec,
+		 const char       *name,
+		 gpointer          user_data)
+{
+	MsOle         *f = user_data;
+	MsOleStream   *s;
+	MsOleVba      *vba;
+	
+	if (ms_ole_stream_open (&s, f, "_VBA_PROJECT_CUR/VBA", name, 'r')
+	    != MS_OLE_ERR_OK) {
+		g_warning ("Error opening %s", name);
+		return NULL;
+	}
+
+	vba = ms_ole_vba_open (s);
+	ms_ole_stream_close (&s);
+
+	if (!vba) {
+		g_warning  ("Error file '%s' is not a valid VBA stream", name);
+		return NULL;
+	}
+
+	return gb_ole_stream_new (vba);
+}
+
+/**
+ * read_gb:
+ * @context: 
+ * @wb: 
+ * @f: 
+ * 
+ * The main function that organises all of the GB from a new Excel file.
+ * 
+ * Return value: TRUE on success.
+ **/
+static gboolean
+read_gb (CommandContext *context, Workbook *wb, MsOle *f)
+{
+	GBLexerStream    *proj_stream;
+	GBWorkbookData   *wd;
+	GBProject        *gb_proj;
+
+	g_return_val_if_fail (f != NULL, -1);
+	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (context != NULL, -1);
+
+	proj_stream = gb_project_stream (context, f);
+	if (!proj_stream)
+		return TRUE;
+
+	wd = g_new0 (GBWorkbookData, 1);
+	gtk_object_set_data (GTK_OBJECT (wb), GB_PROJECT_KEY, wd);
+
+	wd->ec = gbrun_eval_context_new ("Gnumeric GB plugin",
+					 GBRUN_SEC_HARD);
+
+	gb_proj = gb_project_new (GB_EVAL_CONTEXT (wd->ec), proj_stream);
+	if (!gb_proj) {
+		g_warning ("Failed to parse project file '%s'",
+			   gbrun_eval_context_get_text (wd->ec));
+		return FALSE;
+  	}
+
+	wd->proj = gbrun_project_new (wd->ec, gb_proj, stream_provider, f);
+
+	if (!wd->proj) {
+		g_warning ("Error creating project '%s'",
+			   gbrun_eval_context_get_text (wd->ec));
+		return FALSE;
+	} else {
+		GSList *fns, *f;
+
+		fns = gbrun_project_fn_names (wd->proj);
+		
+		/*
+		 * FIXME: Argh, this means we need per workbook functions; ha, ha ha.
+		 */ 
+		for (f = fns; f; f = f->next) {
+			g_warning ("FIXME: register function '%s'", (char *)f->data);
+		}
+	}
+
+	return TRUE;
+}
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
-	register_closure_t c = { NULL, NULL };
-	char              *fname;
+	GBEvalContext *ec;
 
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
+	if (plugin_version_mismatch (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
 	gb_init ();
-	gbrun_init ();
 
-	fname = gnome_util_prepend_user_home (".gnumeric-vb");
-	if (g_file_exists (fname)) {
-		const GBModule *module;
-
-		module = parse_file (fname);
-		if (module) {
-			c.cat = function_get_category ("Gnome Basic");
-			c.rc  = gbrun_context_new (module, GB_RUN_SEC_HARD);
-			g_hash_table_foreach (module->routines,
-					      cb_register_functions, &c);
-		}
+	ec = gb_eval_context_new ();
+	gbrun_init (ec);
+	if (gb_eval_exception (ec)) {
+		g_warning ("Error initializing gb '%s'",
+			   gb_eval_context_get_text (ec));
+		return PLUGIN_ERROR;
 	}
-	g_free (fname);
 
-	plugin_data_set_user_data (pd, c.rc);
+/*	plugin_data_set_user_data (pd, gb_pd);*/
+
+	ms_excel_read_gb = read_gb;
 
 	if (plugin_data_init (pd, dont_unload, cleanup,
 			      _("Gnome Basic"),
@@ -283,3 +374,4 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	return PLUGIN_OK;
 }
+

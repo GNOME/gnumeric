@@ -10,7 +10,13 @@
 #define GNUMERIC_EXCEL_H
 
 #include <libole2/ms-ole.h>
+
+#include "command-context.h"
+#include "workbook.h"
 #include "sheet.h"
+
+typedef gboolean (*MsExcelReadGbFn) (CommandContext *context, Workbook *wb, MsOle *f);
+extern MsExcelReadGbFn ms_excel_read_gb;
 
 typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
 			      eBiffV4=4,

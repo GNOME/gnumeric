@@ -6,5 +6,5 @@ INCLUDES = \
 
 gnumeric_plugin_LTLIBRARIES = gnum_gb.la
 gnum_gb_la_LDFLAGS = -module -avoid-version
-gnum_gb_la_SOURCES = plugin.c
+gnum_gb_la_SOURCES = plugin.c streams.c streams.h
 gnum_gb_la_LIBADD = $(GB_LIBS) $(EXTRA_GNOME_LIBS) -lm @GLIB_LIBS@ -lgb -lgbrun

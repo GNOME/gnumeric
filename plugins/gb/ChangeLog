@@ -1,3 +1,14 @@
+2000-05-11  Michael Meeks  <michael@helixcode.com>
+
+	* streams.[ch]: Implement.
+
+2000-05-09  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (value_to_gb): update to new value types.
+	(stream_provider): implement.
+
+	* Makefile.am (gnum_gb_la_SOURCES): add streams.[ch].
+
 2000-05-16  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am (-DGNOMELOCALEDIR): add libole2 include.

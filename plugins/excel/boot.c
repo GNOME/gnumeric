@@ -23,6 +23,7 @@
 #include "boot.h"
 
 extern int ms_excel_read_debug;
+MsExcelReadGbFn ms_excel_read_gb = NULL;
 
 static int
 excel_save_95 (CommandContext *context, Workbook *wb, const char *filename);
@@ -83,6 +84,11 @@ excel_load (CommandContext *context, Workbook *wb, const char *filename)
 
 		if (ms_excel_read_debug > 0)
 			summary_info_dump (wb->summary_info);
+
+		if (ms_excel_read_gb) {
+			if (!ms_excel_read_gb (context, wb, f))
+				g_warning ("Failed to read Basic scripts");
+		}
 
 		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL,
 				       excel_save_95);
