@@ -25,9 +25,10 @@ Jody:
 	* Pretty up the legend a bit
 	* Be more expansive about what constitutes General.
 	* Tweak the paramters of what XL thinks the size of 'Courier' is.
+	* Add basic Scatter plot.
+	http://bugzilla.gnome.org/show_bug.cgi?id=121560
 	* Fix dynamic depend leak.
 	* Improve performance when deleting multiple sheets at once.
-	* Add basic Scatter plot.
 
 Jon Kåre:
 	* Add 'Save As' entry for graph objects.  Support png for now.
