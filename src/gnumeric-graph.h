@@ -39,8 +39,9 @@ extern char const * const gnm_graph_vector_type_name [];
 #define IS_GNUMERIC_GRAPH_VECTOR(o)	(GTK_CHECK_TYPE ((o), GNUMERIC_GRAPH_VECTOR_TYPE))
 
 GtkType	gnm_graph_vector_get_type    (void);
-char   *gnm_graph_vector_as_string   (GnmGraphVector const *vec);
-void	gnm_graph_vector_from_string (GnmGraphVector const *vec, char *);
+Dependent const *gnm_graph_vector_get_dependent (GnmGraphVector const *v);
+void	         gnm_graph_vector_from_string   (GnmGraphVector const *v,
+						 char const *str);
 
 /* Some xml utilities */
 xmlNode *gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *element);

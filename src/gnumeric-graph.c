@@ -331,20 +331,17 @@ impl_string_vector_changed (PortableServer_Servant servant,
 	g_warning ("Gnumeric : string vector changed remotely (%p)", vector);
 }
 
-char *
-gnm_graph_vector_as_string (GnmGraphVector const *vector)
+void
+gnm_graph_vector_from_string (GnmGraphVector const *vec, char const *str)
 {
-	ParsePos pp;
-
-	g_return_val_if_fail (IS_GNUMERIC_GRAPH_VECTOR (vector), g_strdup ("ERROR"));
-
-	return expr_tree_as_string (vector->dep.expression,
-		parse_pos_init_dep (&pp, &vector->dep));
 }
 
-void
-gnm_graph_vector_from_string (GnmGraphVector const *vec, char * str)
+Dependent const *
+gnm_graph_vector_get_dependent (GnmGraphVector const *vec)
 {
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH_VECTOR (vec), NULL);
+
+	return &vec->dep;
 }
 
 /******************************************************************************/

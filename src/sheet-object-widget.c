@@ -820,14 +820,8 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 					  NULL);
 	state->expresion = gnumeric_expr_entry_new (wbcg);
 	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->expresion), scg);
-	if (swc->dep.expression != NULL) {
-		ParsePos pp;
-		char *text = expr_tree_as_string (swc->dep.expression,
-			parse_pos_init (&pp, NULL, so->sheet, 0, 0));
-		gnumeric_expr_entry_set_rangesel_from_text (
-			GNUMERIC_EXPR_ENTRY (state->expresion), text);
-		g_free (text);
-	}
+	gnumeric_expr_entry_set_rangesel_from_dep (
+		GNUMERIC_EXPR_ENTRY (state->expresion), &swc->dep);
 
  	state->label = gtk_entry_new ();
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);

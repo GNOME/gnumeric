@@ -1,3 +1,8 @@
+2001-09-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config) : Use
+	  gnumeric_expr_entry_set_rangesel_from_dep.
+
 2001-10-01  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/xml-io.c (xml_probe): Accept .gnumeric, .xml, .xml.gz not

@@ -1,3 +1,16 @@
+2001-10-01  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (vector_state_fill) : Use
+	  gnumeric_expr_entry_clear, gnumeric_expr_entry_set_rangesel_from_dep.
+	(cb_graph_guru_entry_changed) : flag changes.
+	(vector_state_new) : init the new flags and connect he changed signal,
+	  and the gtk_object_data.
+	(vector_state_destroy) : clear the stored vector.
+	(graph_guru_init_data_page) : disable the debug spew.
+	(cb_graph_guru_focus) : use window::set_focus in place of
+	  focus-{in,out} for each entry.  This is still a stub.
+	(graph_guru_init) : connect cb_graph_guru_focus.
+
 2001-09-30  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (vector_state_fill) : Use gnm_graph_series_get_dimension.

@@ -44,6 +44,8 @@ typedef struct
 	xmlChar	  	*element;
 	int	   	 index;
 	gboolean   	 is_optional, is_shared;
+	gboolean   	 changed;
+	GnmGraphVector	*vector;
 
 	GtkWidget	  *name_label;
 	GnumericExprEntry *entry;
@@ -82,6 +84,7 @@ struct _GraphGuruState
 	int current_page, initial_page;
 	gboolean valid;
 	gboolean updating;
+	VectorState *current_vector;
 
 	gboolean  is_columns;
 	xmlDoc 	 *xml_doc;
@@ -114,7 +117,7 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 
 	/* clear beforehand to make error handling simpler */
 	vs->state->updating = TRUE;
-	gnumeric_expr_entry_set_rangesel_from_text (vs->entry,"");
+	gnumeric_expr_entry_clear (vs->entry);
 	gnumeric_expr_entry_set_flags (vs->entry,
 		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
 	vs->state->updating = FALSE;
@@ -123,15 +126,15 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 	if (dim != NULL) {
 		id = e_xml_get_integer_prop_by_name_with_default (dim, "ID", -1);
 		if (id >= 0) {
-			char *content = gnm_graph_vector_as_string (
-				gnm_graph_get_vector (vs->state->graph, id));
-			gnumeric_expr_entry_set_rangesel_from_text (
-				vs->entry, content);
+			vs->vector = gnm_graph_get_vector (vs->state->graph, id);
+			gnumeric_expr_entry_set_rangesel_from_dep (
+				vs->entry,
+				gnm_graph_vector_get_dependent (vs->vector));
 			gnumeric_expr_entry_set_flags (vs->entry,
 				GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
-			g_free (content);
 		}
-	}
+	} else
+		vs->vector = NULL;
 }
 
 static void
@@ -158,11 +161,11 @@ vector_state_init (VectorState *vs, xmlNode *descriptor)
 	gtk_widget_show (GTK_WIDGET (vs->entry));
 }
 
-static gboolean
-cb_graph_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, VectorState *vs)
+static void
+cb_graph_guru_entry_changed (GtkEditable *editable, VectorState *vs)
 {
-	wbcg_set_entry (vs->state->wbcg, vs->entry);
-	return FALSE;
+	if (!vs->state->updating)
+		vs->changed = TRUE;
 }
 
 static VectorState *
@@ -177,6 +180,8 @@ vector_state_new (GraphGuruState *state, gboolean shared, int indx)
 	vs->index = indx;
 	vs->element  = NULL;
 	vs->is_shared = shared;
+	vs->changed = FALSE;
+	vs->vector  = NULL;
 
 	table = GTK_TABLE (shared
 			   ? state->shared_series_details
@@ -194,10 +199,11 @@ vector_state_new (GraphGuruState *state, gboolean shared, int indx)
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 		GTK_EDITABLE (vs->entry));
 
-	/* FIXME : Do I really need focus-in ?  is there something less draconian */
+	/* flag when things change so we'll know if we need to update the vector */
 	gtk_signal_connect (GTK_OBJECT (vs->entry),
-		"focus-in-event",
-		GTK_SIGNAL_FUNC (cb_graph_guru_entry_focus_in), vs);
+		"changed",
+		GTK_SIGNAL_FUNC (cb_graph_guru_entry_changed), vs);
+	gtk_object_set_data (GTK_OBJECT (vs->entry), "VectorState", vs);
 
 	return vs;
 }
@@ -205,6 +211,7 @@ vector_state_new (GraphGuruState *state, gboolean shared, int indx)
 static void
 vector_state_destroy (VectorState *vs, gboolean destroywidgets)
 {
+	vs->vector = NULL;
 	if (vs->element) {
 		xmlFree (vs->element);
 		vs->element = NULL;
@@ -437,7 +444,9 @@ graph_guru_init_data_page (GraphGuruState *s)
 	xmlNode *plot;
 
 	g_return_if_fail (s->xml_doc != NULL);
+#if 0
 	xmlDocDump (stdout, s->xml_doc);
+#endif
 
 	graph_guru_clear_sample (s);
 
@@ -549,12 +558,10 @@ cb_series_entry_activate (GtkWidget *caller, GraphGuruState *state)
 {
 	if (state->updating)
 		return;
-	puts (gtk_entry_get_text (GTK_ENTRY (caller)));
 }
 static void
 cb_series_list_select (GtkWidget *list, GtkWidget *child, gpointer data)
 {
-	puts ("foo");
 }
 
 static void
@@ -562,12 +569,10 @@ cb_plot_entry_activate (GtkWidget *caller, GraphGuruState *state)
 {
 	if (state->updating)
 		return;
-	puts (gtk_entry_get_text (GTK_ENTRY (caller)));
 }
 static void
 cb_plot_list_select (GtkWidget *list, GtkWidget *child, gpointer data)
 {
-	puts ("bar");
 }
 
 static GtkWidget *
@@ -587,6 +592,42 @@ graph_guru_selector_init (GraphGuruState *s, char const *name, int i,
 		list_select, s);
 
 	return w;
+}
+
+static void
+cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
+{
+	VectorState *vs = state->current_vector;
+
+	if (vs != NULL && vs->changed) {
+		char const *str = gtk_entry_get_text (GTK_ENTRY (vs->entry));
+		state->current_vector = NULL;
+		vs->changed = FALSE;
+
+		printf ("parse (%s): %s\n", vs->element, str);
+
+		/* Are we adding a dimension that was not there previously ? */
+		if (*str) {
+			if (vs->vector != NULL) {
+				puts ("changing an existing");
+			} else {
+				puts ("Adding a new dimension");
+			}
+		} else if (vs->vector != NULL) {
+			puts ("removing an existing (check optional)");
+		} else {
+			puts ("should not happen");
+		}
+	}
+
+	if (focus != NULL) {
+		vs = gtk_object_get_data (GTK_OBJECT (focus), "VectorState");
+		if (vs != NULL) {
+			state->current_vector = vs;
+			vs->changed = FALSE;
+			wbcg_set_entry (vs->state->wbcg, vs->entry);
+		}
+	}
 }
 
 static gboolean
@@ -630,6 +671,9 @@ graph_guru_init (GraphGuruState *s)
 	gtk_signal_connect (GTK_OBJECT (s->dialog),
 		"key_press_event",
 		GTK_SIGNAL_FUNC (cb_graph_guru_key_press), s);
+	gtk_signal_connect (GTK_OBJECT (s->dialog),
+		"set-focus",
+		GTK_SIGNAL_FUNC (cb_graph_guru_focus), s);
 
 	return FALSE;
 }
@@ -665,6 +709,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->current_page = -1;
 	state->current_plot   = NULL;
 	state->current_series = NULL;
+	state->current_vector = NULL;
 
 	if (graph != NULL) {
 		g_return_if_fail (IS_GNUMERIC_GRAPH (graph));

@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * gnumeric-expr-entry.c: An entry widget specialized to handle expressions
  * and ranges. 
@@ -8,16 +10,18 @@
 
 #include <config.h>
 #include "gnumeric-expr-entry.h"
-#include "workbook-edit.h"
-#include "workbook-control-gui-priv.h"
-#include "sheet-control-gui.h"
-#include "sheet-merge.h"
-#include "parse-util.h"
-#include "gui-util.h"
-#include "ranges.h"
-#include "value.h"
-#include "sheet.h"
-#include "commands.h"
+#include <workbook-edit.h>
+#include <workbook-control-gui-priv.h>
+#include <sheet-control-gui.h>
+#include <sheet-merge.h>
+#include <parse-util.h>
+#include <gui-util.h>
+#include <ranges.h>
+#include <value.h>
+#include <expr.h>
+#include <eval.h>
+#include <sheet.h>
+#include <commands.h>
 
 #include <gal/util/e-util.h>
 #include <gtk/gtkentry.h>
@@ -167,14 +171,15 @@ gnumeric_expr_entry_key_press_event (GtkWidget *widget, GdkEventKey *event)
 
 	case GDK_KP_Enter:
 	case GDK_Return:
-		if (!wb_control_gui_is_editing (wbcg))
-			break;
-
 		/* Is this the right way to append a newline ?? */
 		if (state == GDK_MOD1_MASK) {
 			gtk_entry_append_text (entry, "\n");
 			return TRUE;
 		}
+
+		/* Ctrl-enter is only applicable for the main entry */
+		if (!wb_control_gui_is_editing (wbcg))
+			break;
 
 		if (state == GDK_CONTROL_MASK ||
 		    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
@@ -357,9 +362,26 @@ gnumeric_expr_entry_set_scg (GnumericExprEntry *expr_entry,
 }
 
 /**
- * gnumeric_expr_entry_set_rangesel_from_text
+ * gnumeric_expr_entry_clear :
+ * @gee : The expr_entry
+ *
+ * Clear flags and entry.
+ */
+void
+gnumeric_expr_entry_clear (GnumericExprEntry *expr_entry)
+{
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
+	/* We have nowhere to store the text while frozen. */
+	g_return_if_fail (expr_entry->freeze_count == 0);
+
+	reset_rangesel (expr_entry);
+	gtk_entry_set_text (GTK_ENTRY (expr_entry), "");
+}
+
+/**
+ * gnumeric_expr_entry_set_rangesel_from_dep
  * @expr_entry: a #GnumericExprEntry
- * @text:       a string
+ * @dep: A dependent
  * 
  * Sets the text of the entry, and removes saved information about earlier
  * range selections.
@@ -368,18 +390,25 @@ gnumeric_expr_entry_set_scg (GnumericExprEntry *expr_entry,
    gnumeric_expr_entry_set_rangesel_from_range?
    Should it parse the rangesel? */
 void
-gnumeric_expr_entry_set_rangesel_from_text (GnumericExprEntry *expr_entry,
-					    char *text)
+gnumeric_expr_entry_set_rangesel_from_dep (GnumericExprEntry *expr_entry,
+					   Dependent const *dep)
 {
 	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (expr_entry));
-	g_return_if_fail (text != NULL);
+	g_return_if_fail (dep != NULL);
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (expr_entry->freeze_count == 0);
 
-	reset_rangesel (expr_entry);
+	if (dep->expression != NULL) {
+		ParsePos pp;
+		char *text = expr_tree_as_string (dep->expression,
+			parse_pos_init_dep (&pp, dep));
 
-	gtk_entry_set_text (GTK_ENTRY (expr_entry), text);
-	expr_entry->rangesel.text_end = strlen (text);
+		reset_rangesel (expr_entry);
+		gtk_entry_set_text (GTK_ENTRY (expr_entry), text);
+		expr_entry->rangesel.text_end = strlen (text);
+		g_free (text);
+	} else
+		gnumeric_expr_entry_clear (expr_entry);
 }
 
 static void

@@ -1,3 +1,13 @@
+2001-09-30  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_set_rangesel_from_dep) :
+	  rename from gnumeric_expr_entry_set_rangesel_from_text and make it
+	  more applicable.  This gives us easier access to the parsed
+	  expression.
+	(gnumeric_expr_entry_key_press_event) : Alt-Enter should be supported
+	  in all entries, but only the main entry should get ctrl-enter
+	  support.
+
 2001-09-28  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am (libwidgets_a_SOURCES) : temporarily move gal's
