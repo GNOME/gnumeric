@@ -65,4 +65,7 @@ gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr);
 
+gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
+				 gboolean is_cols, double new_default);
+				 
 #endif /* GNUMERIC_COMMANDS_H */

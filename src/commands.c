@@ -3181,6 +3181,92 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
 	return FALSE;
 }
 
+/******************************************************************/
+
+#define CMD_COLROW_STD_SIZE_TYPE        (cmd_colrow_std_size_get_type ())
+#define CMD_COLROW_STD_SIZE(o)          (GTK_CHECK_CAST ((o), CMD_COLROW_STD_SIZE_TYPE, CmdColRowStdSize))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Sheet		*sheet;
+	gboolean	 is_cols;
+	double		 new_default;
+	double           old_default;
+} CmdColRowStdSize;
+
+GNUMERIC_MAKE_COMMAND (CmdColRowStdSize, cmd_colrow_std_size);
+
+static gboolean
+cmd_colrow_std_size_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdColRowStdSize *me = CMD_COLROW_STD_SIZE (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->old_default != 0, TRUE);
+
+	if (me->is_cols)
+		sheet_col_set_default_size_pts (me->sheet, me->old_default);
+	else
+		sheet_row_set_default_size_pts (me->sheet, me->old_default);
+
+	me->old_default = 0;
+
+	return FALSE;
+}
+
+static gboolean
+cmd_colrow_std_size_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdColRowStdSize *me = CMD_COLROW_STD_SIZE (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->old_default == 0, TRUE);
+
+	if (me->is_cols) {
+		me->old_default = sheet_col_get_default_size_pts (me->sheet);
+		sheet_col_set_default_size_pts (me->sheet, me->new_default);
+	} else {
+		me->old_default = sheet_row_get_default_size_pts (me->sheet);
+		sheet_row_set_default_size_pts (me->sheet, me->new_default);
+	}
+	
+	return FALSE;
+}
+static void
+cmd_colrow_std_size_destroy (GtkObject *cmd)
+{
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
+		     gboolean is_cols, double new_default)
+{
+	GtkObject *obj;
+	CmdColRowStdSize *me;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_COLROW_STD_SIZE_TYPE);
+	me = CMD_COLROW_STD_SIZE (obj);
+
+	/* Store the specs for the object */
+	me->sheet = sheet;
+	me->is_cols = is_cols;
+	me->new_default = new_default;
+	me->old_default = 0;
+
+	me->parent.sheet = sheet;
+	me->parent.size = 1;  /* Changed in initial redo.  */
+	me->parent.cmd_descriptor = is_cols
+		? g_strdup_printf (_("Setting default width of columns to %.2f"), new_default)
+		: g_strdup_printf (_("Setting height of rows to %.2f"), new_default);
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
 
 /******************************************************************/
 

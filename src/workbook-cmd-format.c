@@ -188,7 +188,55 @@ workbook_cmd_format_column_unhide (GtkWidget *widget, WorkbookControl *wbc)
 void
 workbook_cmd_format_column_std_width (GtkWidget *widget, WorkbookControl *wbc)
 {
-	/* TODO */
+	WorkbookControlGUI *wbcg  = (WorkbookControlGUI *)wbc;
+	Sheet              *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	double              value = sheet_col_get_default_size_pts (sheet);
+
+	/* Scale and round to 3 decimal places */
+	value *= 1000.;
+	value = (int)(value + .5);
+	value /= 1000.;
+
+	do {
+		if (!dialog_get_number (wbcg, "col-width.glade", &value))
+			return;
+
+		if (value > 0.0)
+			break;
+			
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 N_("You entered an invalid default column width value.  It must be bigger than 0"));
+	} while (1);
+
+	cmd_colrow_std_size (wbc, sheet, TRUE, value);
+}
+
+
+void
+workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
+{
+	WorkbookControlGUI *wbcg  = (WorkbookControlGUI *)wbc;
+	Sheet              *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	double              value = sheet_row_get_default_size_pts (sheet);
+
+
+	/* Scale and round to 3 decimal places */
+	value *= 1000.;
+	value = (int)(value + .5);
+	value /= 1000.;
+
+	do {
+		if (!dialog_get_number (wbcg, "row-height.glade", &value))
+			return;
+
+		if (value > 0.0)
+			break;
+			
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 N_("You entered an invalid default row height value.  It must be bigger than 0"));
+	} while (1);
+
+	cmd_colrow_std_size (wbc, sheet, FALSE, value);
 }
 
 void
@@ -204,10 +252,3 @@ workbook_cmd_format_row_unhide (GtkWidget *widget, WorkbookControl *wbc)
 	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
 				   FALSE, TRUE);
 }
-
-void
-workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
-{
-	/* TODO */
-}
-

@@ -1,3 +1,16 @@
+2001-02-27  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-cmd-format.c
+	(workbook_cmd_format_column_std_width) : Implement.
+	(workbook_cmd_format_row_std_height) : Idem.
+
+	* src/commands.c, src/commands.h
+	(cmd_colrow_std_size_undo) : New, Undo for the std row-height/col-width
+	setting.
+	(cmd_colrow_std_size_redo) : Idem, for redo.
+	(cmd_colrow_std_size_destroy) : Idem.
+	(cmd_colrow_std_size) : Entry point for std row-height/col-width command.
+	
 2001-02-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (zoom_changed) : round the zoom factor
