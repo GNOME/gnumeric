@@ -42,7 +42,7 @@ Output values (pointed destination holds result)
 
 	Desired API:
 
-	char *format_number (Value value, GdkColor *computed_color)
+	char *format_number (char *format_string, Value value, GdkColor *computed_color)
 
 	Input values:
 		value	The value that is either a VALUE_INTEGER or
