@@ -3659,8 +3659,10 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 }
 
 static ExcelWriteSheet *
-excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, int maxrows)
+excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet,
+		 gboolean biff7, gboolean biff8)
 {
+	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
 	ExcelWriteSheet *esheet = g_new (ExcelWriteSheet, 1);
 	Range       extent;
 
@@ -3690,7 +3692,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, int maxrows)
 	/* makes it easier to refer to 1 past the end */
 	esheet->max_col    = extent.end.col + 1;
 	esheet->max_row    = extent.end.row + 1;
-	esheet->validations= (ewb->bp->version >= MS_BIFF_V8)
+	esheet->validations= biff8
 		? sheet_style_get_validation_list (gnum_sheet, NULL)
 		: NULL;
 
@@ -4137,7 +4139,6 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	ExcelWriteSheet *esheet;
 	Sheet		*sheet;
 	int i;
-	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
 
 	g_return_val_if_fail (ewb != NULL, NULL);
 
@@ -4166,7 +4167,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 
 	for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++) {
 		sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
-		esheet = excel_sheet_new (ewb, sheet, maxrows);
+		esheet = excel_sheet_new (ewb, sheet, biff7, biff8);
 		if (esheet != NULL)
 			g_ptr_array_add (ewb->sheets, esheet);
 		if (esheet->validations != NULL)

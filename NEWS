@@ -4,6 +4,7 @@ Jody:
 	* Support Mac Office style 1904 date convention.
 	* Fix recalc problem with MMULT.
 	* Bump libgsf req to 1.7.0
+	* Fixed XL export (apologies to all)
 
 Jon Kåre:
 	* Finish UI for managing hyperlinks of various sorts.

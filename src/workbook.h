@@ -57,7 +57,7 @@ void        workbook_set_placeholder	(Workbook *wb, gboolean is_placeholder);
 gboolean    workbook_is_placeholder	(Workbook const *wb);
 
 void         workbook_add_summary_info    (Workbook *wb, SummaryItem *sit);
-SummaryInfo *workbook_metadata    	  (Workbook *wb);
+SummaryInfo *workbook_metadata    	  (Workbook const *wb);
 
 /* See also sheet_cell_foreach_range */
 Value	   *workbook_foreach_cell_in_range (EvalPos const *pos,

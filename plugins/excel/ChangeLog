@@ -1,3 +1,8 @@
+2003-01-06  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_state_new) : bp is not valid yet
+	  take biff7 and biff8 flags directly.
+
 2003-01-02  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_1904) : Enable 1904 support.

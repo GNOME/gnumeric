@@ -563,7 +563,7 @@ workbook_add_summary_info (Workbook *wb, SummaryItem *sit)
 }
 
 SummaryInfo *
-workbook_metadata (Workbook *wb)
+workbook_metadata (Workbook const *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 	return wb->summary_info;
