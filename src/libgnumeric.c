@@ -2,6 +2,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "xml-io.h"
+#include "csv-io.h"
 #include "plugin.h"
 #include "format.h"
 #include "cursors.h"
@@ -55,6 +56,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	/* The statically linked in file formats */
 	xml_init ();
 	excel_init ();
+	csv_init ();
 	
 	if (dump_file_name){
 		dump_functions (dump_file_name);

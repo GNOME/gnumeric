@@ -30,6 +30,7 @@ dialog_about (Workbook *wb)
 		"Michael Meeks, Excel and OLE2 importing",
 		"Bruno Unna, Excel code",
 		"Mark Probst, Guile support",
+		"Vincent Renardias, CSV support",
 		NULL
 	};
 
