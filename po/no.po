@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-06-02 00:55+0200\n"
+"POT-Creation-Date: 2002-06-02 23:36-0400\n"
 "PO-Revision-Date: 2002-06-02 01:02+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -625,7 +625,7 @@ msgstr "Begrensninger:"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:511 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
-#: src/workbook-control.c:234
+#: src/workbook-control.c:237
 msgid "Name"
 msgstr "Navn"
 
@@ -941,52 +941,6 @@ msgstr "Aktiverer støtte for oppretting av funksjoner i Perl"
 msgid "Perl"
 msgstr "Perl"
 
-#: plugins/plan-perfect/pln.c:741
-msgid "PLN : Not a PlanPerfect File"
-msgstr "PLN: Ikke en PlanPerfect fil"
-
-#: plugins/plan-perfect/pln.c:746
-msgid "PLN : Spreadsheet is password encrypted"
-msgstr "PLN: Regnearket er passordkryptert"
-
-#: plugins/plan-perfect/pln.c:817
-#, c-format
-msgid ""
-"Invalid PLN file has more than the maximum\n"
-"number of %s %d"
-msgstr ""
-"Ugyldig PLN-fil har høyere enn maksimalt\n"
-"antall %s %d"
-
-#: plugins/plan-perfect/pln.c:819
-msgid "rows"
-msgstr "rader"
-
-#.
-#. * Add Sheet
-#.
-#: plugins/plan-perfect/pln.c:912 plugins/sc/sc.c:420 plugins/sylk/sylk.c:461
-#: src/stf.c:176 src/stf.c:276
-#, c-format
-msgid "Imported %s"
-msgstr "Importerte %s"
-
-#: plugins/plan-perfect/pln.c:930
-msgid "Unable to mmap the file"
-msgstr "Kunne ikke kjøre mmap på filen"
-
-#: plugins/plan-perfect/plugin.xml.in.h:1
-msgid "Imports Plan Perfect Formatted Documents"
-msgstr "Importerer Plan Perfect formaterte dokumenter"
-
-#: plugins/plan-perfect/plugin.xml.in.h:2
-msgid "Plan Perfect"
-msgstr "Plan Perfect"
-
-#: plugins/plan-perfect/plugin.xml.in.h:3
-msgid "Plan Perfect Format (PLN) import"
-msgstr "Plan Perfect Format (PLN) import"
-
 #: plugins/psiconv/plugin.xml.in.h:1
 msgid "Imports Psion 5 series Sheet files"
 msgstr "Importerer Psion 5 ark"
@@ -1149,6 +1103,14 @@ msgstr "SC/xspread"
 msgid "Error parsing line"
 msgstr "Feil under lesing av linje"
 
+#.
+#. * Add Sheet
+#.
+#: plugins/sc/sc.c:420 plugins/sylk/sylk.c:461 src/stf.c:176 src/stf.c:279
+#, c-format
+msgid "Imported %s"
+msgstr "Importerte %s"
+
 #: plugins/sc/sc.c:433
 msgid "Error reading sheet."
 msgstr "Feil under lesing av ark."
@@ -1221,11 +1183,11 @@ msgstr "XML-dokumentet er ikke riktig utformet!"
 msgid "About this application"
 msgstr "Om denne applikasjonen"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3101
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3110
 msgid "Add an outline group"
 msgstr "Legg til en disposisjonsgruppe"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3131
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3140
 msgid "Advanced _Filter..."
 msgstr "Avansert _filter..."
 
@@ -1241,23 +1203,23 @@ msgstr "Justerer innholdet til venstre og øker innrykket"
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3069
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3078
 msgid "Auto _Correct..."
 msgstr "Auto_korriger..."
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2684
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2693
 msgid "Auto_fill"
 msgstr "Auto_fyll"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2685
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2694
 msgid "Automatically fill the current selection"
 msgstr "Fyll ut aktivt utvalg automatisk"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3070
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3079
 msgid "Automatically perform simple spell checking"
 msgstr "Utfør enkel stavekontroll automatisk"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3073
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3082
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatisk lagring av aktivt dokument med jevne mellomrom"
 
@@ -1282,15 +1244,15 @@ msgstr "Kanter"
 msgid "Button"
 msgstr "Knapp"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2852
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2861
 msgid "C_ells..."
 msgstr "C_eller..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2753
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2762
 msgid "C_lear"
 msgstr "T_øm"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2956
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2965
 msgid "C_olumn"
 msgstr "K_olonne"
 
@@ -1310,24 +1272,24 @@ msgstr "Sentrerer over valgte celler"
 msgid "Centers the text in each selection"
 msgstr "Sentrerer teksten i hvert utvalg"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2890
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2899
 msgid "Change height of the selected rows"
 msgstr "Endre høyde for valgte rader"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2883
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2892
 msgid "Change the default column width"
 msgstr "Endre forvalgt kolonnenebredde"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2902
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2911
 msgid "Change the default row height"
 msgstr "Endre forvalgt radhøyde"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2711
-#: src/workbook-control-gui.c:2912
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2720
+#: src/workbook-control-gui.c:2921
 msgid "Change the order the sheets are displayed"
 msgstr "Endre rekkefølge for visning av ark"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2880
 msgid "Change width of the selected columns"
 msgstr "Endre bredde for valgte kolonner"
 
@@ -1335,19 +1297,19 @@ msgstr "Endre bredde for valgte kolonner"
 msgid "Checkbox"
 msgstr "Avkrysningsboks"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2645
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2654
 msgid "Clear the selected cells' comments"
 msgstr "Fjern valgte cellers kommentarer"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2648
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2657
 msgid "Clear the selected cells' contents"
 msgstr "Fjern valgte celles innhold"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2642
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2651
 msgid "Clear the selected cells' formats"
 msgstr "Fjern valgte cellers formatering"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2639
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2648
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Fjern valgte cellers formatering, kommentarer og innhold"
 
@@ -1356,15 +1318,15 @@ msgid "Close the current file"
 msgstr "Lukk aktiv fil"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2644
+#: src/workbook-control-gui.c:2653
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3028
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3037
 msgid "Co_variance"
 msgstr "Ko_varians"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3095
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3104
 msgid "Collapse an outline group"
 msgstr "Slå sammen en disposisjonsgruppe"
 
@@ -1372,17 +1334,17 @@ msgstr "Slå sammen en disposisjonsgruppe"
 msgid "Combo Box"
 msgstr "Komboboks"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3000
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3009
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr "Sammenligner to populasjonsmedianer for toparutvalg.: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3004
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3013
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr "SUM"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3009
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3018
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
@@ -1390,7 +1352,7 @@ msgstr ""
 "Sammenligner to populasjonsmedianer for to utvalg som ikke er i par fra "
 "populasjon med ulik varians: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3023
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
@@ -1398,7 +1360,7 @@ msgstr ""
 "Sammenligner to populasjonsmedianer med kjente varianser eller ved bruk av "
 "et stort utvalg: z- test"
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3056
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3065
 msgid "Comparing two population variances"
 msgstr "Sammenligner varians for to populasjoner"
 
@@ -1406,12 +1368,12 @@ msgstr "Sammenligner varians for to populasjoner"
 msgid "Configure toolbars"
 msgstr "Konfigurer verktøylinjer"
 
-#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3149
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3158
 msgid "Consolidate regions using a function"
 msgstr "Slå sammen regioner ved bruk av en funksjon"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/selection.c:497
-#: src/workbook-control-gui.c:3203
+#: src/workbook-control-gui.c:3212
 msgid "Copy"
 msgstr "Kopier"
 
@@ -1419,12 +1381,12 @@ msgstr "Kopier"
 msgid "Copy the current selection to the clipboard"
 msgstr "Kopier aktivt utvalg til utklippstavlen"
 
-#: src/GNOME_Gnumeric.xml.h:47 src/workbook-control-gui.c:2739
+#: src/GNOME_Gnumeric.xml.h:47 src/workbook-control-gui.c:2748
 msgid "Copy the selection"
 msgstr "Kopier utvalget"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/dialogs/covariance.glade.h:2
-#: src/workbook-control-gui.c:3029
+#: src/workbook-control-gui.c:3038
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -1456,15 +1418,15 @@ msgstr "Lag en linje"
 msgid "Create a list"
 msgstr "Lag en liste"
 
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2795
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2804
 msgid "Create a new shared view of the workbook"
 msgstr "Lag en ny delt visning av arbeidsboken"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2601
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2610
 msgid "Create a new spreadsheet"
 msgstr "Lag et nytt regneark"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2798
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2807
 msgid "Create a new unshared view of the workbook"
 msgstr "Lag en ny udelt visning av arbeidsboken"
 
@@ -1485,26 +1447,26 @@ msgid "Create an arrow"
 msgstr "Lag en pil"
 
 #: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1394
-#: src/workbook-control-gui.c:2734
+#: src/workbook-control-gui.c:2743
 msgid "Cu_t"
 msgstr "Klipp u_t"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2816
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2825
 msgid "Current _date"
 msgstr "Nåværende _dato"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2822
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2831
 msgid "Current _time"
 msgstr "Nåværende _tid"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/selection.c:523 src/selection.c:526
-#: src/workbook-control-gui.c:3200
+#: src/workbook-control-gui.c:3209
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/GNOME_Gnumeric.xml.h:67 src/workbook-control-gui.c:2735
+#: src/GNOME_Gnumeric.xml.h:67 src/workbook-control-gui.c:2744
 msgid "Cut the selection"
 msgstr "Klipp ut utvalget"
 
@@ -1521,15 +1483,15 @@ msgstr "Mindre presisjon"
 msgid "Decreases the number of decimals displayed"
 msgstr "Minsker antallet desimaler som vises"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2917
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2926
 msgid "Display _Formulas"
 msgstr "Vis _formler"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3110
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3119
 msgid "Display _Outlines"
 msgstr "Vis _omriss"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2918
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2927
 msgid "Display the value of a formula or the formula itself"
 msgstr "Vis verdien av en formel eller selve formelen"
 
@@ -1549,27 +1511,27 @@ msgstr "A_vslutt"
 msgid "Edit a formula in the current cell"
 msgstr "Rediger en formel i aktiv celle"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2625
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2634
 msgid "Edit descriptive information"
 msgstr "Ekstra beskrivende informasjon"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2831
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2840
 msgid "Edit sheet and workbook names"
 msgstr "Rediger navn på ark og arbeidsbok"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2918
 msgid "Edit the name of the current sheet"
 msgstr "Rediger kommentar for valgt celle"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2861
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:2870
 msgid "Edit the selected cell's comment"
 msgstr "Rediger valgt celles kommentar"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2874
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2883
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Forsikre at kolonner er akkurat brede nok til å vise innholdet"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2893
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2902
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Forsikre at rader er akkurat høye nok til å vise innholdet"
 
@@ -1577,19 +1539,19 @@ msgstr "Forsikre at rader er akkurat høye nok til å vise innholdet"
 msgid "Exit the program"
 msgstr "Avslutt programmet"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2987
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2996
 msgid "Exponential smoothing"
 msgstr "Eksponentiell utjevning"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3035
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3044
 msgid "F_orecasting"
 msgstr "F_orhåndsmelding"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3170
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3179
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3132
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3141
 msgid "Filter data with given criteria"
 msgstr "Filtrer data etter gitte kriterier"
 
@@ -1612,12 +1574,12 @@ msgstr "Skriftvalg"
 msgid "Foreground"
 msgstr "Forgrunn"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2961
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2970
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formater et celleområde i tråd med en forhåndsdefinert mal"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4096
-#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
+#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3047
 msgid "Fourier Analysis"
 msgstr "Fourier analyse"
 
@@ -1630,7 +1592,7 @@ msgstr "Ramme"
 msgid "Function Guru"
 msgstr "Funksjonsveiviser"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2691
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2700
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Generer tildelfige tall fra et utvalg av distribusjoner"
 
@@ -1638,7 +1600,7 @@ msgstr "Generer tildelfige tall fra et utvalg av distribusjoner"
 msgid "Graph Guru"
 msgstr "Veiviser for graf"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2889
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2898
 msgid "H_eight..."
 msgstr "Høyd_e..."
 
@@ -1646,7 +1608,7 @@ msgstr "Høyd_e..."
 msgid "Hide _Column Headers"
 msgstr "Vis _kolonnetopptekst"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2929
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2938
 msgid "Hide _Gridlines"
 msgstr "Skjul _linjer for rutenett"
 
@@ -1654,19 +1616,19 @@ msgstr "Skjul _linjer for rutenett"
 msgid "Hide _Row Headers"
 msgstr "Skjul _radtopptekst"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2923
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2932
 msgid "Hide _Zeros"
 msgstr "Sk_jul nuller"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2877
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2886
 msgid "Hide the selected columns"
 msgstr "Skjul valgte kolonner"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2896
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2905
 msgid "Hide the selected rows"
 msgstr "Skjul valgte rader"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2605
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2614
 msgid "Imports a file"
 msgstr "Importerer en fil"
 
@@ -1691,12 +1653,12 @@ msgstr "Sett inn komponent"
 msgid "Insert Shaped Component"
 msgstr "Sett inn formet komponent"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:484
-#: src/workbook-control-gui.c:2703
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:493
+#: src/workbook-control-gui.c:2712
 msgid "Insert a new sheet"
 msgstr "Sett inn et nytt ark"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2844
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2853
 msgid "Insert a new spreadsheet"
 msgstr "Sett inn et nytt regneark"
 
@@ -1708,23 +1670,23 @@ msgstr "Sett inn en formet komponent i regnearket"
 msgid "Insert an object into the spreadsheet"
 msgstr "Sett inn et objekt i regnearket"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2853
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2862
 msgid "Insert new cells"
 msgstr "Sett inn nye celler"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2856
 msgid "Insert new columns"
 msgstr "Sett inn nye kolonner"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2859
 msgid "Insert new rows"
 msgstr "Sett inn nye rader"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2817
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2826
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Sett nåværende dato inn i valgt(e) celle(r)"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2823
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2832
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Sett inn nåværende tid i valgt(e) celle(r)"
 
@@ -1740,7 +1702,7 @@ msgstr "Setter inn et formet Bonobo-objekt"
 msgid "Invoke the graph guru to create a graph"
 msgstr "Start diagramveiviseren for å lage et diagram"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2715
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2724
 msgid "Irrevocably remove an entire sheet"
 msgstr "Fjern et helt ark, uten muligheter for å hente det tilbake"
 
@@ -1748,15 +1710,15 @@ msgstr "Fjern et helt ark, uten muligheter for å hente det tilbake"
 msgid "Italicize"
 msgstr "Gjør kursiv"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3079
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3088
 msgid "Iteratively recalculate to find a target value"
 msgstr "Interaktiv rekalkulasjon for å finne en målverdi"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3083
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3092
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Interaktiv rekalkulasjon med begrensninger for å nærme seg en målverdi"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2779
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2788
 msgid "Jump to a specified cell"
 msgstr "Gå til spesifisert celle"
 
@@ -1787,19 +1749,19 @@ msgstr "Liste"
 msgid "Lock or unlock the top left cols/rows"
 msgstr "Lås eller lås opp kolonner/rader øverst til venstre"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2699
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2708
 msgid "Make a copy of the current sheet"
 msgstr "Lag en kopi av aktivt ark"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2688
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2697
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Lag en tabell av en celles verdi som en funksjon av andre celler"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2880
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2889
 msgid "Make any hidden columns in the selection visible"
 msgstr "Gjør alle skjulte kolonner i utvalget synlige"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2899
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2908
 msgid "Make any hidden rows in the selection visible"
 msgstr "Gjør alle skjulte rader i utvalget synlig"
 
@@ -1828,11 +1790,11 @@ msgstr "Slå sammen"
 msgid "Merge a range of cells"
 msgstr "Slå sammen et celleområde"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2953
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2962
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifiser formateringen til valgte celler"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2965
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2974
 msgid "Modify the workbook attributes"
 msgstr "Endre attributtene for arbeidsboken"
 
@@ -1840,27 +1802,27 @@ msgstr "Endre attributtene for arbeidsboken"
 msgid "Money"
 msgstr "Valuta"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2991
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3000
 msgid "Moving average"
 msgstr "Bevegelig gjennomsnitt"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3179
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3188
 msgid "New"
 msgstr "Ny"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2794
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2803
 msgid "New _Shared"
 msgstr "Ny _delt"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2797
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2806
 msgid "New _Unshared"
 msgstr "Ny _udelt"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2975
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2984
 msgid "One Factor Analysis of Variance"
 msgstr "Enfaktor analyse av varians"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3182
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3191
 msgid "Open"
 msgstr "Åpne"
 
@@ -1872,11 +1834,11 @@ msgstr "Åpne et regneark"
 msgid "Open an existing workbook"
 msgstr "Åpne en eksisterende arbeidsbok"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3116
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3125
 msgid "Outlines _Below"
 msgstr "Disponer _under"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3122
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3131
 msgid "Outlines _Right"
 msgstr "Disponer til høy_re"
 
@@ -1888,16 +1850,16 @@ msgstr "Oval"
 msgid "P_aste Special..."
 msgstr "Lim inn spesi_al..."
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2624
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2633
 msgid "P_roperties..."
 msgstr "Egenskape_r..."
 
 #: src/GNOME_Gnumeric.xml.h:161 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3206
+#: src/workbook-control-gui.c:3215
 msgid "Paste"
 msgstr "Lim inn"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2743
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2752
 msgid "Paste the clipboard"
 msgstr "Lim inn fra utklippstavlen"
 
@@ -1905,11 +1867,11 @@ msgstr "Lim inn fra utklippstavlen"
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Lim inn innhold fra utklippstavlen eller utklippsbufferen"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2748
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2757
 msgid "Paste with optional filters and transformations"
 msgstr "Lim inn med alternative filtre og transformasjoner"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3026
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3035
 msgid "Pearson Correlation"
 msgstr "Pearson-korrelasjon"
 
@@ -1918,21 +1880,21 @@ msgstr "Pearson-korrelasjon"
 msgid "Percent"
 msgstr "Prosent"
 
-#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3050
+#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3059
 msgid "Periodic and random samples"
 msgstr "Periodiske og tilfeldige utvalg"
 
 #: src/GNOME_Gnumeric.xml.h:168 src/dialogs/print.glade.h:16
-#: src/workbook-control-gui.c:3191
+#: src/workbook-control-gui.c:3200
 msgid "Print"
 msgstr "Skriv ut"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2618
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2627
 msgid "Print Pre_view..."
 msgstr "Forhånds_visning av utskrift..."
 
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2618
-#: src/workbook-control-gui.c:3194
+#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2627
+#: src/workbook-control-gui.c:3203
 msgid "Print Preview"
 msgstr "Forhåndsvisning av utskrift"
 
@@ -1960,12 +1922,12 @@ msgstr "Radioknapp"
 msgid "Ranks and _Percentiles"
 msgstr "Grader og _prosentiler"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3044
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3053
 msgid "Ranks, placements and percentiles"
 msgstr "Grader, plassering og prosentiler"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2710
-#: src/workbook-control-gui.c:2911
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2719
+#: src/workbook-control-gui.c:2920
 msgid "Re-_Order Sheets..."
 msgstr "St_okk om ark..."
 
@@ -1973,15 +1935,15 @@ msgstr "St_okk om ark..."
 msgid "Re-_Order..."
 msgstr "St_okk om..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2706
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2715
 msgid "Re_name..."
 msgstr "Endre _navn..."
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2783
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2792
 msgid "Recalculate"
 msgstr "Beregn på nytt"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2784
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2793
 msgid "Recalculate the spreadsheet"
 msgstr "Rekalkuler regnearket"
 
@@ -1989,15 +1951,15 @@ msgstr "Rekalkuler regnearket"
 msgid "Rectangle"
 msgstr "Rektangel"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2737
 msgid "Redo the undone action"
 msgstr "Gjør om den angrede handlingen"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3047
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3056
 msgid "Regression Analysis"
 msgstr "Regresjonsanalyse"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3104
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3113
 msgid "Remove an outline group"
 msgstr "Fjern en disposisjonsgruppe"
 
@@ -2005,7 +1967,7 @@ msgstr "Fjern en disposisjonsgruppe"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Fjern valgte celler, og flytt andre til sin plass"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2707
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2716
 msgid "Rename the current sheet"
 msgstr "Gi nytt navn til aktivt ark"
 
@@ -2018,20 +1980,20 @@ msgstr "Høyre"
 msgid "Right justifies the contents of each cell"
 msgstr "Høyrejusterer innholdet i hver celle"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2760
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2769
 msgid "S_heet"
 msgstr "Ar_k"
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2864
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2873
 msgid "S_pecial"
 msgstr "S_pesial"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2607
-#: src/workbook-control-gui.c:3185
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2616
+#: src/workbook-control-gui.c:3194
 msgid "Save"
 msgstr "Lagre"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2610
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2619
 msgid "Save _As..."
 msgstr "L_agre som..."
 
@@ -2051,43 +2013,43 @@ msgstr "Lagre aktiv arbeidsbok"
 msgid "Scrollbar"
 msgstr "Rullefelt"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2772
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2781
 msgid "Search and Replace..."
 msgstr "Søk og erstatt..."
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2767
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2776
 msgid "Search for some text"
 msgstr "Søk etter tekst"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2773
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2782
 msgid "Search for some text and replace it with something else"
 msgstr "Søk etter tekst og erstatt den med noe annet"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2766
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2775
 msgid "Search..."
 msgstr "Søk..."
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2671
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2680
 msgid "Select Arra_y"
 msgstr "Velg mat_rise"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2656
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2665
 msgid "Select _All"
 msgstr "Velg _alt"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2670
 msgid "Select _Column"
 msgstr "Velg _kolonne"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2676
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2685
 msgid "Select _Depends"
 msgstr "Velg _avhengigheter"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2675
 msgid "Select _Row"
 msgstr "Velg _rad"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2657
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2666
 msgid "Select all cells in the spreadsheet"
 msgstr "Velg alle celler i regnearket"
 
@@ -2095,15 +2057,15 @@ msgstr "Velg alle celler i regnearket"
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Velg alle celler som er avhengig av den aktive cellen"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2672
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2681
 msgid "Select an array of cells"
 msgstr "Velg en tabell med celler"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2671
 msgid "Select an entire column"
 msgstr "Velg en hel kolonne"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2676
 msgid "Select an entire row"
 msgstr "Velg en hel rad"
 
@@ -2124,11 +2086,11 @@ msgstr "Setter formateringen for valgte celler til prosent"
 msgid "Setup the page settings for your current printer"
 msgstr "Endre sideoppsettet for din skriver"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3233
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3242
 msgid "Sort Ascending"
 msgstr "Sorter stigende"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3236
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3245
 msgid "Sort Descending"
 msgstr "Sorter synkende"
 
@@ -2160,12 +2122,12 @@ msgstr "Del opp"
 msgid "Split merged ranges of cells"
 msgstr "Del opp et sammenføyd område med celler"
 
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3088
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3097
 msgid "Statistical Anal_ysis"
 msgstr "Statistisk anal_yse"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3226 src/workbook-control-gui.c:3844
+#: src/workbook-control-gui.c:3235 src/workbook-control-gui.c:3853
 #: src/workbook-view.c:521
 msgid "Sum"
 msgstr "Sum"
@@ -2178,43 +2140,43 @@ msgstr "Summer inn i aktiv celle"
 msgid "Thousand separator"
 msgstr "Tusenskilletegn"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2936
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2945
 msgid "Toggle whether or not to display column headers"
 msgstr "Slå av/på visning av kolonnetopptekst"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2930
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2939
 msgid "Toggle whether or not to display gridlines"
 msgstr "Slå av/på visning av rutenett"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3111
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3120
 msgid "Toggle whether or not to display outline groups"
 msgstr "Slå av/på visning av omrissgrupper"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2942
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2951
 msgid "Toggle whether or not to display row headers"
 msgstr "Slå av/på visning av topptekst for rad"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2924
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2933
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Slå av/på visning av nuller som blanke felt"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3123
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3132
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Slå av/på visning av kolonne-disposisjon til venstre eller høyre"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3117
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3126
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Slå av/på visning av omriss øverst eller nederst"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2978
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2987
 msgid "Two Factor Analysis of Variance"
 msgstr "Tofaktor analyse av varians"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3053
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3062
 msgid "Two _Means"
 msgstr "To _medianer"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3098
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3107
 msgid "Uncollapse an outline group"
 msgstr "Bryt opp en disposisjonsgruppe"
 
@@ -2226,35 +2188,35 @@ msgstr "Understrek"
 msgid "Underlines the text"
 msgstr "Understreker teksten"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2724
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2733
 msgid "Undo the last action"
 msgstr "Angre siste handling"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3003
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3012
 msgid "Unpaired Samples, E_qual Var.: T-Test"
 msgstr "Utvalg som ikke er i par, li_k var.: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3008
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3017
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr "Utvalg som ikke er i par, _ulik var.: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3146
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3155
 msgid "Validate input with preset criteria"
 msgstr "Bekreft inndata med forhåndssatt kriterie"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3041
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3050
 msgid "Various frequency tables"
 msgstr "Forskjellige frekvenstabeller"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3032
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3041
 msgid "Various summary statistics"
 msgstr "Forskjellig sammendragsstatistikk"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2804
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2813
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom inn eller ut i regnearket"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3023
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3032
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
@@ -2262,29 +2224,29 @@ msgstr "_ANOVA"
 msgid "_About..."
 msgstr "_Om..."
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2860
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2869
 msgid "_Add / Modify comment..."
 msgstr "_Legg til / modifiser kommentar..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2638
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2647
 msgid "_All"
 msgstr "_Alle"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3072
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3081
 msgid "_Auto Save..."
 msgstr "_Autolagre..."
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2873
-#: src/workbook-control-gui.c:2892
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2882
+#: src/workbook-control-gui.c:2901
 msgid "_Auto fit selection"
 msgstr "Tilp_ass utvalget automatisk"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2960
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2969
 msgid "_Autoformat..."
 msgstr "_Autoformat..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2952
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2961
 msgid "_Cells..."
 msgstr "_Celler..."
 
@@ -2302,45 +2264,45 @@ msgstr "_Lukk"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2846
+#: src/workbook-control-gui.c:2855
 msgid "_Columns"
 msgstr "_Kolonner"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3148
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3157
 msgid "_Consolidate..."
 msgstr "_Konsolider..."
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2647
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2656
 msgid "_Content"
 msgstr "_Innhold"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1011
-#: src/sheet-control-gui.c:1396 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1396 src/workbook-control-gui.c:2747
 msgid "_Copy"
 msgstr "_Kopier"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3025
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3034
 msgid "_Correlation"
 msgstr "_Korrelasjon"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3172
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3181
 msgid "_Data"
 msgstr "_Data"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2830
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2839
 msgid "_Define..."
 msgstr "_Definer..."
 
 #: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1414
-#: src/workbook-control-gui.c:2755
+#: src/workbook-control-gui.c:2764
 msgid "_Delete..."
 msgstr "_Slett..."
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3031
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3040
 msgid "_Descriptive Statistics"
 msgstr "_Beskrivende statistikk"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2698
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2707
 msgid "_Duplicate"
 msgstr "_Dupliser"
 
@@ -2348,7 +2310,7 @@ msgstr "_Dupliser"
 msgid "_Edit"
 msgstr "_Rediger"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2986
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2995
 msgid "_Exponential Smoothing"
 msgstr "_Eksponentiell utjevning"
 
@@ -2357,32 +2319,32 @@ msgid "_File"
 msgstr "_Fil"
 
 #: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:107
-#: src/workbook-control-gui.c:2764
+#: src/workbook-control-gui.c:2773
 msgid "_Fill"
 msgstr "_Fyll ut"
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3144
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3153
 msgid "_Filter"
 msgstr "_Filter"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2641
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2650
 msgid "_Formats"
 msgstr "_Formater"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3037
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3046
 msgid "_Fourier Analysis"
 msgstr "_Fourier-analyse"
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:970
-#: src/workbook-control-gui.c:2806
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:979
+#: src/workbook-control-gui.c:2815
 msgid "_Freeze Panes"
 msgstr "_Frys ruter"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3078
+#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3087
 msgid "_Goal Seek..."
 msgstr "_Målsøk..."
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2778
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2787
 msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
@@ -2394,7 +2356,7 @@ msgstr "_Graf..."
 msgid "_Group"
 msgstr "_Grupper"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3154
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3163
 msgid "_Group and Outline"
 msgstr "_Grupper og disponer"
 
@@ -2403,25 +2365,25 @@ msgid "_Help"
 msgstr "_Hjelp"
 
 #: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1437
-#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2876
-#: src/workbook-control-gui.c:2895
+#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2885
+#: src/workbook-control-gui.c:2904
 msgid "_Hide"
 msgstr "_Skjul"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3094
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3103
 msgid "_Hide Detail"
 msgstr "S_kjul detaljer"
 
-#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3040
+#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3049
 msgid "_Histogram"
 msgstr "_Histogram"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2605
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2614
 msgid "_Import..."
 msgstr "_Importer..."
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2702
-#: src/workbook-control-gui.c:3169
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2711
+#: src/workbook-control-gui.c:3178
 msgid "_Insert"
 msgstr "Sett _inn"
 
@@ -2429,19 +2391,19 @@ msgstr "Sett _inn"
 msgid "_Insert new"
 msgstr "Sett _inn ny"
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3013
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3022
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr "_Kjente varianser eller stort utvalg: Z-test"
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:2990
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:2999
 msgid "_Moving Average"
 msgstr "_Bevegelig gjennomsnitt"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2858
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2867
 msgid "_Name"
 msgstr "_Navn"
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:2601
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:2610
 msgid "_New"
 msgstr "_Ny"
 
@@ -2449,7 +2411,7 @@ msgstr "_Ny"
 msgid "_Object..."
 msgstr "_Objekt..."
 
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:2974
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:2983
 msgid "_One Factor"
 msgstr "_Enkeltfaktor"
 
@@ -2457,16 +2419,16 @@ msgstr "_Enkeltfaktor"
 msgid "_Open..."
 msgstr "_Åpne..."
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:2999
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3008
 msgid "_Paired Samples: T-Test"
 msgstr "_Utvalg i par: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1398
-#: src/workbook-control-gui.c:2742
+#: src/workbook-control-gui.c:2751
 msgid "_Paste"
 msgstr "_Lim inn"
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3063
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3072
 msgid "_Plug-ins..."
 msgstr "Tille_gg..."
 
@@ -2474,25 +2436,25 @@ msgstr "Tille_gg..."
 msgid "_Print..."
 msgstr "S_kriv ut..."
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:2690
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:2699
 msgid "_Random Generator..."
 msgstr "Gene_rering av tilfeldige tall..."
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:1036
-#: src/workbook-control-gui.c:2727
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:1045
+#: src/workbook-control-gui.c:2736
 msgid "_Redo"
 msgstr "Gjø_r om"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3046
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3055
 msgid "_Regression"
 msgstr "_Regresjon"
 
 #: src/GNOME_Gnumeric.xml.h:301 src/dialogs/autocorrect.glade.h:12
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2714
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2723
 msgid "_Remove"
 msgstr "Fje_rn"
 
-#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:2957
+#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:2966
 msgid "_Row"
 msgstr "_Rad"
 
@@ -2502,11 +2464,11 @@ msgstr "_Rad"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2858
 msgid "_Rows"
 msgstr "_Rader"
 
-#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3049
+#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3058
 msgid "_Sampling"
 msgstr "_Utvalg"
 
@@ -2514,7 +2476,7 @@ msgstr "_Utvalg"
 msgid "_Save"
 msgstr "_Lagre"
 
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:2762
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:2771
 msgid "_Select"
 msgstr "_Velg"
 
@@ -2522,16 +2484,16 @@ msgstr "_Velg"
 msgid "_Shaped Object"
 msgstr "_Formet objekt"
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:2843
-#: src/workbook-control-gui.c:2958
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:2852
+#: src/workbook-control-gui.c:2967
 msgid "_Sheet"
 msgstr "_Ark"
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3097
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3106
 msgid "_Show Detail"
 msgstr "Vi_s detaljer"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3082
+#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3091
 msgid "_Solver..."
 msgstr "_Problemløser..."
 
@@ -2539,15 +2501,15 @@ msgstr "_Problemløser..."
 msgid "_Sort..."
 msgstr "_Sorter..."
 
-#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:2901
+#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:2910
 msgid "_Standard Height"
 msgstr "_Standard høyde"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:2882
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:2891
 msgid "_Standard Width"
 msgstr "_Standard bredde"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2687
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2696
 msgid "_Tabulate Dependency..."
 msgstr "_Tabuler avhengighet..."
 
@@ -2555,20 +2517,20 @@ msgstr "_Tabuler avhengighet..."
 msgid "_Toolbars..."
 msgstr "Verk_tøylinjer..."
 
-#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3171
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3180
 msgid "_Tools"
 msgstr "Verk_tøy"
 
-#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:2977
+#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:2986
 msgid "_Two Factor"
 msgstr "_Tofaktor"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3055
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3064
 msgid "_Two Variances: FTest"
 msgstr "_To varianser: FTest"
 
-#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:1035
-#: src/workbook-control-gui.c:2723
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:1044
+#: src/workbook-control-gui.c:2732
 msgid "_Undo"
 msgstr "_Angre"
 
@@ -2577,12 +2539,12 @@ msgid "_Ungroup"
 msgstr "_Fjern gruppering"
 
 #: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1439
-#: src/sheet-control-gui.c:1447 src/workbook-control-gui.c:2879
-#: src/workbook-control-gui.c:2898
+#: src/sheet-control-gui.c:1447 src/workbook-control-gui.c:2888
+#: src/workbook-control-gui.c:2907
 msgid "_Unhide"
 msgstr "_Ta frem"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3145
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3154
 msgid "_Validate..."
 msgstr "_Bekreft..."
 
@@ -2590,15 +2552,15 @@ msgstr "_Bekreft..."
 msgid "_View"
 msgstr "_Vis"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:2870
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:2879
 msgid "_Width..."
 msgstr "_Bredde..."
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:2964
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:2973
 msgid "_Workbook..."
 msgstr "_Arbeidsbok..."
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:2812
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -2985,12 +2947,12 @@ msgstr "Flytt kolonner %s"
 msgid "Shift column %s"
 msgstr "Flytt kolonne %s"
 
-#: src/command-context-stderr.c:99 src/workbook-control-gui.c:1188
+#: src/command-context-stderr.c:99 src/workbook-control-gui.c:1197
 #, c-format
 msgid "Would split array %s"
 msgstr "Vil dele tabell %s"
 
-#: src/command-context-stderr.c:102 src/workbook-control-gui.c:1190
+#: src/command-context-stderr.c:102 src/workbook-control-gui.c:1199
 msgid "Would split an array"
 msgstr "Vil dele en tabell"
 
@@ -3221,7 +3183,7 @@ msgid "Pasting into %s"
 msgstr "Limer inn i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2825 src/commands.c:2826 src/workbook-control-gui.c:1841
+#: src/commands.c:2825 src/commands.c:2826 src/workbook-control-gui.c:1850
 msgid "Autofill"
 msgstr "Autofyll"
 
@@ -4254,7 +4216,7 @@ msgstr "_Bryt tekst"
 
 #: src/dialogs/cell-format.glade.h:129
 #, fuzzy
-msgid "min <= val <= max         (between)"
+msgid "min &lt;= val &lt;= max         (between)"
 msgstr "min &lt;= val &lt;= maks        (mellom)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4263,32 +4225,32 @@ msgstr "val != grense                 (ikke lik)"
 
 #: src/dialogs/cell-format.glade.h:131
 #, fuzzy
-msgid "val <  bound                  (less than)"
-msgstr "verdi &gt; grense                (mindre enn)"
+msgid "val &gt;  bound                  (greater than)"
+msgstr "verdi &gt; grense                (større enn)"
 
 #: src/dialogs/cell-format.glade.h:132
 #, fuzzy
-msgid "val <= min || max <= val (not between)"
-msgstr "verdi &lt;= min || maks &lt;= verdi (ikke mellom)"
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr "verdi &gt;= grense              (større enn eller lik)"
 
 #: src/dialogs/cell-format.glade.h:133
 #, fuzzy
-msgid "val <=bound                  (less than or equal to)"
-msgstr "verdi &lt;= grense              (mindre enn eller lik)"
+msgid "val &lt;  bound                  (less than)"
+msgstr "verdi &gt; grense                (mindre enn)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val == bound                 (equal to)"
-msgstr "verdi == grense              (lik)"
+#, fuzzy
+msgid "val &lt;= min || max &lt;= val (not between)"
+msgstr "verdi &lt;= min || maks &lt;= verdi (ikke mellom)"
 
 #: src/dialogs/cell-format.glade.h:135
 #, fuzzy
-msgid "val >  bound                  (greater than)"
-msgstr "verdi &gt; grense                (større enn)"
+msgid "val &lt;=bound                  (less than or equal to)"
+msgstr "verdi &lt;= grense              (mindre enn eller lik)"
 
 #: src/dialogs/cell-format.glade.h:136
-#, fuzzy
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "verdi &gt;= grense              (større enn eller lik)"
+msgid "val == bound                 (equal to)"
+msgstr "verdi == grense              (lik)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -4315,7 +4277,7 @@ msgid "Selection has"
 msgstr "Utvalget har"
 
 #: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-cell-sort.c:503
-#: src/workbook-control-gui.c:2481
+#: src/workbook-control-gui.c:2490
 msgid "Sort"
 msgstr "Sorter"
 
@@ -4359,7 +4321,7 @@ msgstr "_Kolonnebredde (pkt):"
 msgid "Add the entered area to the list of source areas"
 msgstr "Legg til oppgitt område i listen over kildeområder"
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3847
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3856
 msgid "Average"
 msgstr "Gjennomsnitt"
 
@@ -4371,7 +4333,7 @@ msgstr "K_opier etiketter"
 msgid "Clear the list of source areas"
 msgstr "Tøm listen med kildeområder"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3848
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3857
 msgid "Count"
 msgstr "Teller"
 
@@ -4403,11 +4365,11 @@ msgstr "I øvers_te rad"
 msgid "Labels"
 msgstr "Etiketter"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3846
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3855
 msgid "Max"
 msgstr "Maks"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3845
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3854
 msgid "Min"
 msgstr "Min"
 
@@ -5537,20 +5499,20 @@ msgstr "Annen verdi"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:417
+#: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:426
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du vil fjerne arket med navn «%s»?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5597,24 +5559,28 @@ msgstr "Er du sikker på at du vil avbryte?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+#, fuzzy
+msgid "&lt;- Remove"
+msgstr "<- Fjern"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "&lt;- Remove all"
+msgstr "<- Fjern alle"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<- Fjern"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<- Fjern alle"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
+#, fuzzy
+msgid "Add -&gt;"
 msgstr "Legg til ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
+#, fuzzy
+msgid "Add all -&gt;"
 msgstr "Legg til alle->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -6106,8 +6072,8 @@ msgstr "Forstørrelse"
 msgid "Sheets"
 msgstr "Ark"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3397
-#: src/workbook-control-gui.c:3439
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3406
+#: src/workbook-control-gui.c:3448
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -7096,6 +7062,14 @@ msgstr "Skriv inn nytt navn på _ark:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Endre navn på arket"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr ""
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -18811,23 +18785,23 @@ msgstr ""
 "Tegnet '%c' (ASCII desimal %d) ble funnet.\n"
 "Sannsynligvis er dine locale innstillinger feil."
 
-#: src/stf.c:220 src/stf.c:305
+#: src/stf.c:220 src/stf.c:308
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Fortolkningsfeil under forsøk på å lese data inn i arket"
 
-#: src/stf.c:432
+#: src/stf.c:433
 msgid "Error while trying to write csv file"
 msgstr "Feil under forsøk på å skrive csv-fil"
 
-#: src/stf.c:455
+#: src/stf.c:456
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr "Tekstimport (finn CSV eller tab-separert automatisk)"
 
-#: src/stf.c:459
+#: src/stf.c:460
 msgid "Text import (configurable)"
 msgstr "Tekstimport (konfigurerbar)"
 
-#: src/stf.c:463
+#: src/stf.c:464
 msgid "Text export (configurable)"
 msgstr "Teksteksport (konfigurerbar)"
 
@@ -18990,50 +18964,50 @@ msgstr "Forvalgt radhøyde må være > %d."
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:483
+#: src/workbook-control-gui.c:492
 msgid "Duplicate this sheet"
 msgstr "Dupliser dette arket"
 
-#: src/workbook-control-gui.c:485
+#: src/workbook-control-gui.c:494
 msgid "Rename this sheet"
 msgstr "Endre navn på dette arket"
 
-#: src/workbook-control-gui.c:486
+#: src/workbook-control-gui.c:495
 msgid "Re-order sheets"
 msgstr "Omplasser ark"
 
-#: src/workbook-control-gui.c:487
+#: src/workbook-control-gui.c:496
 msgid "Remove this sheet"
 msgstr "Fjern dette arket"
 
-#: src/workbook-control-gui.c:820 src/workbook-control-gui.c:878
+#: src/workbook-control-gui.c:829 src/workbook-control-gui.c:887
 msgid "Nothing"
 msgstr "Ingenting"
 
-#: src/workbook-control-gui.c:970
+#: src/workbook-control-gui.c:979
 msgid "Un_freeze Panes"
 msgstr "S_melt panes"
 
-#: src/workbook-control-gui.c:1032 src/workbook-control-gui.c:3213
-#: src/workbook-control-gui.c:3409 src/workbook-control-gui.c:3433
+#: src/workbook-control-gui.c:1041 src/workbook-control-gui.c:3222
+#: src/workbook-control-gui.c:3418 src/workbook-control-gui.c:3442
 msgid "Undo"
 msgstr "Angre"
 
-#: src/workbook-control-gui.c:1033 src/workbook-control-gui.c:3216
-#: src/workbook-control-gui.c:3417 src/workbook-control-gui.c:3436
+#: src/workbook-control-gui.c:1042 src/workbook-control-gui.c:3225
+#: src/workbook-control-gui.c:3426 src/workbook-control-gui.c:3445
 msgid "Redo"
 msgstr "Gjenopprett"
 
-#: src/workbook-control-gui.c:1251
+#: src/workbook-control-gui.c:1260
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbeidsboken %s har ikke-lagrede endringer, lagre dem?"
 
-#: src/workbook-control-gui.c:1254
+#: src/workbook-control-gui.c:1263
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbeidsboken har ikke-lagrede endringer, lagre dem?"
 
-#: src/workbook-control-gui.c:1753
+#: src/workbook-control-gui.c:1762
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -19052,7 +19026,7 @@ msgstr ""
 "\n"
 "Erstatingen er avbrutt og ingenting er endret."
 
-#: src/workbook-control-gui.c:1791
+#: src/workbook-control-gui.c:1800
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Kommentar i celle %s!%s"
@@ -19061,7 +19035,7 @@ msgstr "Kommentar i celle %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1995
+#: src/workbook-control-gui.c:2004
 msgid "Insert rows"
 msgstr "Sett inn rader"
 
@@ -19069,156 +19043,156 @@ msgstr "Sett inn rader"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:2013
+#: src/workbook-control-gui.c:2022
 msgid "Insert columns"
 msgstr "Sett inn kolonner"
 
-#: src/workbook-control-gui.c:2357
+#: src/workbook-control-gui.c:2366
 msgid "Show"
 msgstr "Vis"
 
-#: src/workbook-control-gui.c:2357
+#: src/workbook-control-gui.c:2366
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/workbook-control-gui.c:2374
+#: src/workbook-control-gui.c:2383
 msgid "can only be performed on an existing group"
 msgstr "kan kun utføres på en eksisterende gruppe"
 
-#: src/workbook-control-gui.c:2398
+#: src/workbook-control-gui.c:2407
 msgid "Group"
 msgstr "Grupper"
 
-#: src/workbook-control-gui.c:2398
+#: src/workbook-control-gui.c:2407
 msgid "Ungroup"
 msgstr "Fjern gruppering"
 
-#: src/workbook-control-gui.c:2543
+#: src/workbook-control-gui.c:2552
 msgid "Select an object to add"
 msgstr "Velg et objekt å legge til"
 
-#: src/workbook-control-gui.c:2554
+#: src/workbook-control-gui.c:2563
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Kan ikke opprette objekt av type '%s'"
 
-#: src/workbook-control-gui.c:2607
+#: src/workbook-control-gui.c:2616
 msgid "_Save..."
 msgstr "_Lagre..."
 
-#: src/workbook-control-gui.c:2610
+#: src/workbook-control-gui.c:2619
 msgid "Save with a new name or format"
 msgstr "Lagre med nytt navn eller format"
 
-#: src/workbook-control-gui.c:2677
+#: src/workbook-control-gui.c:2686
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Velg alle celler som er avhengig av den aktive cellen."
 
-#: src/workbook-control-gui.c:2747
+#: src/workbook-control-gui.c:2756
 msgid "P_aste special..."
 msgstr "Lim inn spesi_al..."
 
-#: src/workbook-control-gui.c:2756
+#: src/workbook-control-gui.c:2765
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Fjern valgte celler, og flytt andre inn på plassen"
 
-#: src/workbook-control-gui.c:2807
+#: src/workbook-control-gui.c:2816
 msgid "Freeze the top left of the sheet"
 msgstr "Frys øverste venstre del av arket"
 
-#: src/workbook-control-gui.c:2835
+#: src/workbook-control-gui.c:2844
 msgid "_Auto generate names..."
 msgstr "_Automatisk generering av navn..."
 
-#: src/workbook-control-gui.c:2836
+#: src/workbook-control-gui.c:2845
 msgid "Use the current selection to create names"
 msgstr "Bruk aktivt utvalg til å opprette navn"
 
-#: src/workbook-control-gui.c:2908
+#: src/workbook-control-gui.c:2917
 msgid "_Change name"
 msgstr "_Endre navn"
 
-#: src/workbook-control-gui.c:2935
+#: src/workbook-control-gui.c:2944
 msgid "Hide _Column Header"
 msgstr "Vis _kolonnetopptekst"
 
-#: src/workbook-control-gui.c:2941
+#: src/workbook-control-gui.c:2950
 msgid "Hide _Row Header"
 msgstr "Skjul _radtopptekst"
 
-#: src/workbook-control-gui.c:3043
+#: src/workbook-control-gui.c:3052
 msgid "Ranks And _Percentiles"
 msgstr "Grader og _prosentiler"
 
-#: src/workbook-control-gui.c:3064
+#: src/workbook-control-gui.c:3073
 msgid "Manage available plugin modules."
 msgstr "Håndtering av tilgjengelige tilleggsmoduler."
 
-#: src/workbook-control-gui.c:3100
+#: src/workbook-control-gui.c:3109
 msgid "_Group..."
 msgstr "_Grupper..."
 
-#: src/workbook-control-gui.c:3103
+#: src/workbook-control-gui.c:3112
 msgid "_Ungroup..."
 msgstr "_Avgrupper..."
 
-#: src/workbook-control-gui.c:3141
+#: src/workbook-control-gui.c:3150
 msgid "_Sort"
 msgstr "_Sorter"
 
-#: src/workbook-control-gui.c:3142
+#: src/workbook-control-gui.c:3151
 msgid "Sorts the selected region."
 msgstr "Sorter valgte område."
 
-#: src/workbook-control-gui.c:3179
+#: src/workbook-control-gui.c:3188
 msgid "Creates a new workbook"
 msgstr "Oppretter en ny arbeidsbok"
 
-#: src/workbook-control-gui.c:3182
+#: src/workbook-control-gui.c:3191
 msgid "Opens an existing workbook"
 msgstr "Åpner en eksisterende arbeidsbok"
 
-#: src/workbook-control-gui.c:3185
+#: src/workbook-control-gui.c:3194
 msgid "Saves the workbook"
 msgstr "Lagrer arbeidsboken"
 
-#: src/workbook-control-gui.c:3191
+#: src/workbook-control-gui.c:3200
 msgid "Prints the workbook"
 msgstr "Skriver ut arbeidsboken"
 
-#: src/workbook-control-gui.c:3200
+#: src/workbook-control-gui.c:3209
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper ut utvalget til utklippstavlen"
 
-#: src/workbook-control-gui.c:3203
+#: src/workbook-control-gui.c:3212
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierer utvalget til utklippstavlen"
 
-#: src/workbook-control-gui.c:3206
+#: src/workbook-control-gui.c:3215
 msgid "Pastes the clipboard"
 msgstr "Limer inn fra utklippstavlen"
 
-#: src/workbook-control-gui.c:3213
+#: src/workbook-control-gui.c:3222
 msgid "Undo the operation"
 msgstr "Angrer operasjonen"
 
-#: src/workbook-control-gui.c:3216
+#: src/workbook-control-gui.c:3225
 msgid "Redo the operation"
 msgstr "Gjør operasjonen på nytt"
 
-#: src/workbook-control-gui.c:3226
+#: src/workbook-control-gui.c:3235
 msgid "Sum into the current cell."
 msgstr "Summer inn i aktiv celle."
 
-#: src/workbook-control-gui.c:3229
+#: src/workbook-control-gui.c:3238
 msgid "Function"
 msgstr "Funksjon"
 
-#: src/workbook-control-gui.c:3229
+#: src/workbook-control-gui.c:3238
 msgid "Edit a function in the current cell."
 msgstr "Rediger en funksjon i aktiv celle."
 
-#: src/workbook-control-gui.c:3233
+#: src/workbook-control-gui.c:3242
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -19226,7 +19200,7 @@ msgstr ""
 "Sorterer det valgte området i stigende rekkefølge basert på den første "
 "kolonnen som er valgt."
 
-#: src/workbook-control-gui.c:3236
+#: src/workbook-control-gui.c:3245
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -19234,35 +19208,35 @@ msgstr ""
 "Sorterer det valgte området i synkende rekkefølge basert på den første "
 "kolonnen som er valgt."
 
-#: src/workbook-control-gui.c:4176
+#: src/workbook-control-gui.c:4185
 msgid "Send"
 msgstr "Send"
 
-#: src/workbook-control-gui.c:4176
+#: src/workbook-control-gui.c:4185
 msgid "Send the current file in email"
 msgstr "Send aktiv fil i e-post"
 
-#: src/workbook-control-gui.c:4379
+#: src/workbook-control-gui.c:4388
 msgid "Re-Edit"
 msgstr "Rediger på nytt"
 
-#: src/workbook-control-gui.c:4379 src/workbook-control-gui.c:4385
+#: src/workbook-control-gui.c:4388 src/workbook-control-gui.c:4394
 msgid "Discard"
 msgstr "Forkast"
 
-#: src/workbook-control-gui.c:4385
+#: src/workbook-control-gui.c:4394
 msgid "Accept"
 msgstr "Godta"
 
-#: src/workbook-control-gui.c:4390
+#: src/workbook-control-gui.c:4399
 msgid "Ok"
 msgstr "Ok"
 
-#: src/workbook-control.c:218
+#: src/workbook-control.c:221
 msgid "Define Name"
 msgstr "Definer navn"
 
-#: src/workbook-control.c:241
+#: src/workbook-control.c:244
 msgid "Address"
 msgstr "Adresse"
 
@@ -19546,6 +19520,34 @@ msgstr "Er ikke en Gnumeric arbeidsbok"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#~ msgid "PLN : Not a PlanPerfect File"
+#~ msgstr "PLN: Ikke en PlanPerfect fil"
+
+#~ msgid "PLN : Spreadsheet is password encrypted"
+#~ msgstr "PLN: Regnearket er passordkryptert"
+
+#~ msgid ""
+#~ "Invalid PLN file has more than the maximum\n"
+#~ "number of %s %d"
+#~ msgstr ""
+#~ "Ugyldig PLN-fil har høyere enn maksimalt\n"
+#~ "antall %s %d"
+
+#~ msgid "rows"
+#~ msgstr "rader"
+
+#~ msgid "Unable to mmap the file"
+#~ msgstr "Kunne ikke kjøre mmap på filen"
+
+#~ msgid "Imports Plan Perfect Formatted Documents"
+#~ msgstr "Importerer Plan Perfect formaterte dokumenter"
+
+#~ msgid "Plan Perfect"
+#~ msgstr "Plan Perfect"
+
+#~ msgid "Plan Perfect Format (PLN) import"
+#~ msgstr "Plan Perfect Format (PLN) import"
 
 #~ msgid "Text import (defaults to csv)"
 #~ msgstr "Tekstimport (standardvalg er csv)"

@@ -31,8 +31,6 @@ plugins/numtheory/plugin.xml.in
 plugins/oleo/oleo.c
 plugins/oleo/plugin.xml.in
 plugins/perl/plugin.xml.in
-#plugins/plan-perfect/pln.c
-#plugins/plan-perfect/plugin.xml.in
 plugins/psiconv/plugin.xml.in
 plugins/psiconv/psiconv-read.c
 plugins/py-func/plugin.xml.in
