@@ -1,3 +1,7 @@
+2002-05-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (biff_put_text) : suppress warnings.
+
 2002-04-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.6

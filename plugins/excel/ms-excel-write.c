@@ -126,7 +126,8 @@ biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 #define BLK_LEN 16
 
 	guint8 data[BLK_LEN];
-	guint32 lp, ans;
+	guint32 ans;
+	int lp;
 
 	gboolean sixteen_bit_len;
 	gboolean unicode;
