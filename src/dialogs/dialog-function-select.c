@@ -213,7 +213,7 @@ dialog_function_select_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 
 	do
 		/* Bring up the dialog */
-		res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (state.dialog));
+		res = gnumeric_dialog_run (wbcg, GTK_DIALOG (state.dialog));
 	while (res == HELP_BUTTON);
 
 	if (state.func_help != NULL)

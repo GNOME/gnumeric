@@ -66,7 +66,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 	gtk_widget_show (textbox);
 	gtk_widget_grab_focus (textbox);
 
-	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
+	v = gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 	if (v == -1)
 		return;
 

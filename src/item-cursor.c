@@ -913,15 +913,14 @@ item_cursor_target_region_ok (ItemCursor *ic)
 	if (sheet_is_region_empty_or_selected (sc->sheet, &ic->pos))
 		return TRUE;
 
-	message = gnome_message_box_new (
+	message = gtk_message_dialog_new (wbcg_toplevel (ic->scg->wbcg),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_WARNING,
+		GTK_BUTTONS_YES_NO,
 		_("The cells dragged will overwrite the contents of the\n"
 		  "existing cells in that range.  Do you want me to replace\n"
-		  "the contents in this region?"),
-		GNOME_MESSAGE_BOX_WARNING,
-		GNOME_STOCK_BUTTON_YES,
-		GNOME_STOCK_BUTTON_NO,
-		NULL);
-	v = gnumeric_dialog_run (ic->scg->wbcg, GNOME_DIALOG (message));
+		  "the contents in this region?"));
+	v = gtk_dialog_run (GTK_DIALOG (message));
 
 	if (v == 0)
 		return TRUE;

@@ -451,6 +451,7 @@ src/pixmaps/Makefile
 src/widgets/Makefile
 doc/Makefile
 doc/C/Makefile
+omf-install/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
 plugins/derivatives/Makefile

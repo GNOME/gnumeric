@@ -982,8 +982,8 @@ fmt_dialog_init_format_page (FormatState *state)
 		state);
 
 	/* Catch <return> in the spin box */
-	gnome_dialog_editable_enters (
-		GNOME_DIALOG (state->dialog),
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
 		GTK_EDITABLE (state->format.widget[F_DECIMAL_SPIN]));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->format.widget[F_SEPARATOR]),
@@ -1033,8 +1033,9 @@ fmt_dialog_init_format_page (FormatState *state)
 	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_ENTRY]),
 			    "changed", GTK_SIGNAL_FUNC (cb_format_entry),
 			    state);
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (state->format.widget[F_ENTRY]));
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (state->format.widget[F_ENTRY]));
 
 	/* Setup format buttons to toggle between the format pages */
 	for (i = 0; (name = format_buttons[i]) != NULL; ++i) {
@@ -1225,8 +1226,8 @@ fmt_dialog_init_align_page (FormatState *state)
 			    state);
 
 	/* Catch <return> in the spin box */
-	gnome_dialog_editable_enters (
-		GNOME_DIALOG (state->dialog),
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
 		GTK_EDITABLE (w));
 }
 
@@ -1330,12 +1331,15 @@ fmt_dialog_init_font_page (FormatState *state)
 	gtk_box_pack_start (GTK_BOX (container), tmp, TRUE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (container), tmp, 0);
 
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (font_widget->font_name_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (font_widget->font_style_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
-				      GTK_EDITABLE (font_widget->font_size_entry));
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (font_widget->font_name_entry));
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (font_widget->font_style_entry));
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (font_widget->font_size_entry));
 
 	state->font.selector = FONT_SELECTOR (font_widget);
 
@@ -2041,7 +2045,7 @@ validation_rebuild_validation (FormatState *state)
 		ValidationStyle style = gnumeric_option_menu_get_selected_index (state->validation.error.action);
 		ValidationOp    op    = gnumeric_option_menu_get_selected_index (state->validation.op);
 		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
-		char *msg   = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.msg), 0, -1);
+		char *msg   = gnumeric_textview_get_text (state->validation.error.msg);
 		mstyle_set_validation (state->result,
 			validation_new (style, type, op, title, msg,
 				validation_entry_to_expr (state->sheet, state->validation.expr0.entry),
@@ -2179,8 +2183,10 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 		GTK_WIDGET (entry->entry),
 		1, 3, 2+i, 3+i, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show (GTK_WIDGET (entry->entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (entry->entry));
-	gnumeric_expr_entry_set_scg (entry->entry, wb_control_gui_cur_sheet (state->wbcg));
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (entry->entry));
+	gnumeric_expr_entry_set_scg (entry->entry, wbcg_cur_scg (state->wbcg));
 	gtk_signal_connect (GTK_OBJECT (entry->entry), "changed",
 		GTK_SIGNAL_FUNC (cb_validation_changed), state);
 }
@@ -2212,7 +2218,9 @@ fmt_dialog_init_validation_page (FormatState *state)
 	state->validation.error.msg          = GTK_TEXT_VIEW   (glade_xml_get_widget (state->gui, "validation_error_msg"));
 	state->validation.error.image        = GTK_IMAGE       (glade_xml_get_widget (state->gui, "validation_error_image"));
 
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->validation.error.title));
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (state->validation.error.title));
 
 
 	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)), "deactivate",
@@ -2239,7 +2247,6 @@ fmt_dialog_init_validation_page (FormatState *state)
 	    !mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION)) {
 		Validation const *v = mstyle_get_validation (state->style);
 		ParsePos pp;
-		int dummy = 0;
 
 		gtk_option_menu_set_history (state->validation.error.action, v->style);
 		gtk_option_menu_set_history (state->validation.constraint_type, v->type);
@@ -2248,8 +2255,8 @@ fmt_dialog_init_validation_page (FormatState *state)
 		gtk_entry_set_text (GTK_ENTRY (state->validation.error.title),
 			(v->title != NULL) ? v->title->str : "");
 		if (v->msg != NULL)
-			gtk_editable_insert_text (GTK_EDITABLE (state->validation.error.msg),
-				v->msg->str, strlen (v->msg->str), &dummy);
+			gnumeric_textview_set_text (GTK_TEXT_VIEW (state->validation.error.msg),
+				v->msg->str);
 		gtk_toggle_button_set_active (state->validation.allow_blank,  v->allow_blank);
 		gtk_toggle_button_set_active (state->validation.use_dropdown, v->use_dropdown);
 
@@ -2298,8 +2305,12 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	state->input_msg.title       = GTK_ENTRY         (glade_xml_get_widget (state->gui, "input_msg_title"));
 	state->input_msg.msg         = GTK_TEXT_VIEW     (glade_xml_get_widget (state->gui, "input_msg_msg"));
 
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->input_msg.title));
-	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->input_msg.msg));
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (state->input_msg.title));
+	gnumeric_editable_enters (
+		GTK_WINDOW (state->dialog),
+		GTK_EDITABLE (state->input_msg.msg));
 
 	gtk_signal_connect (GTK_OBJECT (state->input_msg.flag), "toggled",
 			    GTK_SIGNAL_FUNC (cb_input_msg_flag_toggled), state);
@@ -2671,7 +2682,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 */
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 
-	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);
+	gnumeric_dialog_show (state->wbcg, GTK_DIALOG (dialog), FALSE, TRUE);
 }
 
 static gboolean

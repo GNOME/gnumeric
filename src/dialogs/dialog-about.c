@@ -76,11 +76,10 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 #ifdef ENABLE_NLS
 	{
- 	    int i;
+		int i;
 
-	    for (i = 0; authors[i] != NULL; i++){
+		for (i = 0; authors[i] != NULL; i++)
 		    authors[i] = _(authors[i]);
-	    }
 	}
 #endif
 	/* Ensure we only pop up one copy per workbook */
@@ -95,11 +94,10 @@ dialog_about (WorkbookControlGUI *wbcg)
 				 gdk_pixbuf_new_from_file ("gnome-gnumeric.png", NULL));
 
 	hbox = gtk_hbox_new (TRUE, 0);
-	{
-		GtkWidget *href = gnome_href_new ("http://www.gnumeric.org",
-						  _("Gnumeric Home Page"));
-		gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
-	}
+	gtk_box_pack_start (GTK_BOX (hbox), 
+		gnome_href_new ("http://www.gnumeric.org", _("Gnumeric Home Page")),
+		FALSE, FALSE, 0);
+
 #ifdef WEB_BIT_ROT
 	{
 		GtkWidget *href = gnome_href_new ("http://www.ximian.com/apps/gnumeric.php3",
@@ -112,7 +110,5 @@ dialog_about (WorkbookControlGUI *wbcg)
 	gtk_widget_show_all (hbox);
 
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (about), ABOUT_KEY);
-
-	/* Close on click, close with parent */
-	gnumeric_dialog_show (wbcg, GNOME_DIALOG (about), TRUE, TRUE);
+	gnumeric_dialog_show (wbcg, GTK_DIALOG (about), TRUE, TRUE);
 }

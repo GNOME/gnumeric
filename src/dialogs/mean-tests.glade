@@ -367,7 +367,7 @@
                 <property name="yalign">0.5</property>
                 <property name="xpad">5</property>
                 <property name="ypad">0</property>
-                <property name="focus_target">var2-variance</property>
+                <property name="mnemonic_widget">var2-variance</property>
                 <property name="visible">yes</property>
               </widget>
               <packing>
@@ -435,7 +435,7 @@
                 <property name="yalign">0.5</property>
                 <property name="xpad">5</property>
                 <property name="ypad">0</property>
-                <property name="focus_target">var1-variance</property>
+                <property name="mnemonic_widget">var1-variance</property>
                 <property name="visible">yes</property>
               </widget>
               <packing>
@@ -491,7 +491,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">5</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">meandiff</property>
+                        <property name="mnemonic_widget">meandiff</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>
@@ -516,7 +516,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">5</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">one_alpha</property>
+                        <property name="mnemonic_widget">one_alpha</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>

@@ -23,6 +23,8 @@ INCLUDES = 								\
 	$(GNUMERIC_CFLAGS)
 
 GNUMERIC_BASE =					\
+	gui-gtkmarshalers.h			\
+	gui-gtkmarshalers.c			\
 	analysis-tools.c			\
 	analysis-tools.h			\
 	application.c				\
@@ -244,9 +246,7 @@ GNUMERIC_BASE =					\
 	xml-io.h				\
 	xml-io-version.h			\
 	xml-io-autoft.c				\
-	xml-io-autoft.h				\
-	gui-gtkmarshalers.h			\
-	gui-gtkmarshalers.c
+	xml-io-autoft.h	
 
 # TODO : split the bonobo and corba tests one day
 GNUMERIC_CORBA = 				\

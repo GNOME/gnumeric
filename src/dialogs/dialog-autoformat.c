@@ -98,7 +98,7 @@ typedef struct {
 	/*
 	 * Gui elements
 	 */
-	GnomeDialog    *dialog;
+	GtkDialog      *dialog;
 
 	GtkCombo       *category;
 
@@ -451,7 +451,7 @@ cb_cancel_clicked (GtkButton *button, AutoFormatInfo *info)
  * Return value: always TRUE indicating that we have closed the dialog.
  **/
 static int
-cb_dialog_close (GnomeDialog *dialog, AutoFormatInfo *info)
+cb_dialog_close (GtkDialog *dialog, AutoFormatInfo *info)
 {
 	info->canceled = TRUE;
 	gtk_main_quit ();
@@ -834,7 +834,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	info->selected_template = NULL;
 	info->tooltips          = gtk_tooltips_new ();
 
-	info->dialog     = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog"));
+	info->dialog     = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));
 
 	info->category   = GTK_COMBO (glade_xml_get_widget (gui, "format_category"));
 
@@ -971,14 +971,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 		cb_category_popwin_hide (GTK_WIDGET (info->category), info);
 	}
 
-	/*
-	 * Make sure we just hide the dialog when the close button
-	 * is pressed, we'll handle closing the dialog ourselves.
-	 */
-	gnome_dialog_close_hides (info->dialog, TRUE);
-
-
-	gnome_dialog_set_default (info->dialog, 0);
+	gtk_dialog_set_default_response (info->dialog, GTK_RESPONSE_OK);
 
 	/*
 	 * Show the dialog and enter gtk main loop

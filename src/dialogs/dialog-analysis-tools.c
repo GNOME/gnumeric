@@ -812,7 +812,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
                                       GNUM_EE_SINGLE_RANGE,
                                       GNUM_EE_MASK);
         gnumeric_expr_entry_set_scg (state->output_entry, 
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -900,7 +900,7 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags (state->input_entry, flags, GNUM_EE_MASK);
         gnumeric_expr_entry_set_scg (state->input_entry, 
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -933,7 +933,7 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 							    (state->wbcg));
 		gnumeric_expr_entry_set_flags (state->input_entry_2, flags, GNUM_EE_MASK);
 		gnumeric_expr_entry_set_scg (state->input_entry_2,
-					     wb_control_gui_cur_sheet (state->wbcg));
+					     wbcg_cur_scg (state->wbcg));
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -2922,7 +2922,7 @@ dialog_random_tool_init (RandomToolState *state)
 	gnumeric_expr_entry_set_flags (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
 				       GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
         gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, state->par1_expr_entry,
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -3170,7 +3170,7 @@ dialog_regression_tool_init (RegressionToolState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
 	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags (state->input_entry, 0, GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg (state->input_entry, wb_control_gui_cur_sheet (state->wbcg));
+        gnumeric_expr_entry_set_scg (state->input_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -3195,7 +3195,7 @@ dialog_regression_tool_init (RegressionToolState *state)
 	gnumeric_expr_entry_set_flags (state->input_entry_2, GNUM_EE_SINGLE_RANGE, 
 				       GNUM_EE_MASK);
 	gnumeric_expr_entry_set_scg (state->input_entry_2,
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -3947,7 +3947,7 @@ dialog_histogram_tool_init (HistogramToolState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
 	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags (state->input_entry, 0, GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg (state->input_entry, wb_control_gui_cur_sheet (state->wbcg));
+        gnumeric_expr_entry_set_scg (state->input_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -3973,7 +3973,7 @@ dialog_histogram_tool_init (HistogramToolState *state)
 	state->input_entry_2 = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags (state->input_entry_2, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
 	gnumeric_expr_entry_set_scg (state->input_entry_2,
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,

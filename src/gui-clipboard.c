@@ -190,7 +190,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 		 * request the data in gnumeric XML format. If not, just
 		 * request it in string format
 		 */
-		toplevel = GTK_WIDGET (wb_control_gui_toplevel (wbcg));
+		toplevel = GTK_WIDGET (wbcg_toplevel (wbcg));
 		if (gnumeric_format)
 			gtk_selection_convert (toplevel,
 					       GDK_SELECTION_PRIMARY,
@@ -348,7 +348,7 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt, guint32 ti
 
 	/* Query the formats, This will callback x_selection_received */
 	gtk_selection_convert (
-		GTK_WIDGET (wb_control_gui_toplevel (wbcg)),
+		GTK_WIDGET (wbcg_toplevel (wbcg)),
 		GDK_SELECTION_PRIMARY,
 		gdk_atom_intern (TARGETS_ATOM_NAME, FALSE), time);
 }
@@ -362,7 +362,7 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt, guint32 ti
 int
 x_clipboard_bind_workbook (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *toplevel = GTK_WIDGET (wb_control_gui_toplevel (wbcg));
+	GtkWidget *toplevel = GTK_WIDGET (wbcg_toplevel (wbcg));
 	GtkTargetEntry targets;
 
 	wbcg->clipboard_paste_callback_data = NULL;

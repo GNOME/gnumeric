@@ -127,7 +127,7 @@ sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetControlGUI **r
 }
 
 GtkWindow *
-wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
+wbcg_toplevel (WorkbookControlGUI *wbcg)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
@@ -135,7 +135,7 @@ wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
 }
 
 /**
- * wb_control_gui_focus_cur_sheet :
+ * wbcg_focus_cur_sheet :
  * @wbcg : The workbook control to operate on.
  *
  * A utility routine to safely ensure that the keyboard focus
@@ -144,29 +144,27 @@ wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
  *
  * It is called for zoom, font name/size, and accept/cancel for the editline.
  */
-Sheet *
-wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
+void
+wbcg_focus_cur_sheet (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *table;
 	GtkObject *obj;
 	SheetControlGUI *scg;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	table = gtk_notebook_get_nth_page (wbcg->notebook,
 		gtk_notebook_get_current_page (wbcg->notebook));
 	obj = gtk_object_get_data (GTK_OBJECT (table), SHEET_CONTROL_KEY);
 	scg = SHEET_CONTROL_GUI (obj);
 
-	g_return_val_if_fail (scg != NULL, NULL);
+	g_return_if_fail (scg != NULL);
 
 	scg_take_focus (scg);
-
-	return ((SheetControl *) scg)->sheet;
 }
 
 SheetControlGUI *
-wb_control_gui_cur_sheet (WorkbookControlGUI *wbcg)
+wbcg_cur_scg (WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg;
 
@@ -291,7 +289,7 @@ wbcg_title_set (WorkbookControl *wbc, char const *title)
 
 	full_title = g_strconcat (title, _(" : Gnumeric"), NULL);
 
- 	gtk_window_set_title (wb_control_gui_toplevel (wbcg), full_title);
+ 	gtk_window_set_title (wbcg_toplevel (wbcg), full_title);
 	g_free (full_title);
 }
 
@@ -337,7 +335,7 @@ zoom_changed (WorkbookControlGUI *wbcg, Sheet* sheet)
 		wbcg_ui_update_end (wbcg);
 	}
 
-	scg_object_update_bbox (wb_control_gui_cur_sheet (wbcg),
+	scg_object_update_bbox (wbcg_cur_scg (wbcg),
 				NULL, NULL);
 }
 
@@ -374,14 +372,14 @@ cb_sheet_label_changed (EditableLabel *el,
 {
 	gboolean ans = !cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
 		editable_label_get_text (el), new_name);
-	wb_control_gui_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_sheet (wbcg);
 	return ans;
 }
 
 static void
 cb_sheet_label_edit_stopped (EditableLabel *el, WorkbookControlGUI *wbcg)
 {
-	wb_control_gui_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_sheet (wbcg);
 }
 
 static void
@@ -390,7 +388,7 @@ sheet_action_add_sheet (GtkWidget *widget, SheetControlGUI *scg)
 	SheetControl *sc = (SheetControl *) scg;
 
 	workbook_sheet_add (wb_control_workbook (sc->wbc), sc->sheet, TRUE);
-	wb_control_gui_focus_cur_sheet (scg->wbcg);
+	wbcg_focus_cur_sheet (scg->wbcg);
 }
 
 static void
@@ -398,16 +396,15 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
 	Workbook *wb = wb_control_workbook (sc->wbc);
-	GtkWidget *d, *button_no;
+	GtkWidget *dialog;
 	char *message;
-	int r;
+	int response;
 
-	/*
-	 * If this is the last sheet left, ignore the request
-	 */
+	/* If this is the last sheet left, ignore the request */
 	if (workbook_sheet_count (wb) == 1)
 		return;
 
+	/* Don't prompt for things that are pristine */
 	if (sc->sheet->pristine) {
 		workbook_sheet_delete (sc->sheet);
 		return;
@@ -417,22 +414,18 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 		_("Are you sure you want to remove the sheet called `%s'?"),
 		sc->sheet->name_unquoted);
 
-	d = gnome_message_box_new (
-		message, GNOME_MESSAGE_BOX_QUESTION,
-		GNOME_STOCK_BUTTON_YES,
-		GNOME_STOCK_BUTTON_NO,
-		NULL);
+	dialog = gtk_message_dialog_new (wbcg_toplevel (scg->wbcg),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_QUESTION,
+		GTK_BUTTONS_YES_NO,
+		message);
 	g_free (message);
-	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
-	gtk_widget_grab_focus (button_no);
-
-	r = gnumeric_dialog_run (scg->wbcg, GNOME_DIALOG (d));
-
-	if (r != 0)
-		return;
-
-	workbook_sheet_delete (sc->sheet);
-	workbook_recalc_all (wb);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (response == GTK_RESPONSE_YES) {
+		workbook_sheet_delete (sc->sheet);
+		workbook_recalc_all (wb);
+	}
 }
 
 static void
@@ -457,7 +450,7 @@ sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 
 	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet);
 	sheet_set_dirty (new_sheet, TRUE);
-	wb_control_gui_focus_cur_sheet (scg->wbcg);
+	wbcg_focus_cur_sheet (scg->wbcg);
 }
 
 static void
@@ -729,7 +722,7 @@ cb_change_zoom (GtkWidget *caller, char *new_zoom, WorkbookControlGUI *wbcg)
 	else
 		zoom_changed (wbcg, sheet);
 
-	wb_control_gui_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_sheet (wbcg);
 
 	/* because we are updating it there is no need to apply it now */
 	return FALSE;
@@ -1583,7 +1576,7 @@ cb_edit_clear_content (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_edit_select_all (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	scg_select_all (wb_control_gui_cur_sheet (wbcg));
+	scg_select_all (wbcg_cur_scg (wbcg));
 }
 static void
 cb_edit_select_row (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -1909,7 +1902,7 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 
 	scg_mode_edit (SHEET_CONTROL (scg));
 	if (scg->active_panes == 1) {
@@ -2535,7 +2528,7 @@ cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 {
-	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	SheetControl *sc = (SheetControl *) scg;
 	char  *obj_id, *msg;
 	SheetObject *so = NULL;
@@ -3461,7 +3454,7 @@ static void
 wb_jump_to_cell (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
 	wb_control_parse_and_jump (WORKBOOK_CONTROL (wbcg), gtk_entry_get_text (entry));
-	wb_control_gui_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_sheet (wbcg);
 }
 
 static void
@@ -3598,7 +3591,7 @@ static void
 wbcg_set_focus (GtkWindow *window, GtkWidget *focus, WorkbookControlGUI *wbcg)
 {
 	if (focus && !window->focus_widget)
-		wb_control_gui_focus_cur_sheet (wbcg);
+		wbcg_focus_cur_sheet (wbcg);
 }
 
 static void
@@ -3656,8 +3649,9 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 			     GINT_TO_POINTER (gtk_notebook_get_current_page (notebook)));
 
 	/* if we are not selecting a range for an expression update */
-	sheet = wb_control_gui_focus_cur_sheet (wbcg);
-	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
+	wbcg_focus_cur_sheet (wbcg);
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	if (sheet != NULL) {
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
 		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
@@ -3697,7 +3691,7 @@ cb_scroll_wheel_support (GtkWidget *ignored, GdkEventButton *button,
 			 WorkbookControlGUI *wbcg)
 {
 	/* scroll always operates on pane 0 */
-	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 
 	if (button->button != 4 && button->button != 5)
@@ -4141,7 +4135,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {
 		SheetControl *sc;
 
-		sc = SHEET_CONTROL (wb_control_gui_cur_sheet (wbcg));
+		sc = SHEET_CONTROL (wbcg_cur_scg (wbcg));
 		scg_adjust_preferences (sc);
 	}
 
@@ -4356,36 +4350,45 @@ wbcg_validation_msg (WorkbookControl *wbc, Validation const *v,
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	ValidationStatus res0, res1;
-	int button;
+	char *btn0, *btn1;
+	GtkMessageType  type;
 	GtkWidget  *dialog;
+	int response;
 
 	switch (v->style) {
 	case VALIDATION_STYLE_STOP :
-		res0 = VALIDATION_STATUS_INVALID_EDIT;
-		res1 = VALIDATION_STATUS_INVALID_DISCARD;
-		dialog = gnome_message_box_new ( msg, GNOME_MESSAGE_BOX_ERROR,
-			_("Re-Edit"), _("Discard"), NULL);
+		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("Re-Edit");
+		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("Discard");
+		type = GTK_MESSAGE_ERROR;
 		break;
 	case VALIDATION_STYLE_WARNING :
-		res0 = VALIDATION_STATUS_VALID;
-		res1 = VALIDATION_STATUS_INVALID_DISCARD;
-		dialog = gnome_message_box_new (msg , GNOME_MESSAGE_BOX_WARNING,
-			_("Accept"), _("Discard"), NULL);
+		res0 = VALIDATION_STATUS_VALID;			btn0 = _("Accept");
+		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("Discard");
+		type = GTK_MESSAGE_WARNING;
 		break;
 	case VALIDATION_STYLE_INFO :
-		res0 = res1 = VALIDATION_STATUS_VALID;
-		dialog = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO,
-			_("Ok"), NULL);
+		res0 = VALIDATION_STATUS_VALID;			btn0 = GTK_STOCK_OK;
+		btn1 = NULL;
+		type = GTK_MESSAGE_INFO;
 		break;
+
 	default : g_return_val_if_fail (FALSE, 1);
 	}
 
+	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		type, GTK_BUTTONS_NONE, msg);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+		btn0, GTK_RESPONSE_YES,
+		btn1, GTK_RESPONSE_NO,
+		NULL);
+	/* TODO : what to use if nothing is specified ? */
+	/* TODO : do we want the document name here too ? */
 	if (title)
 		gtk_window_set_title (GTK_WINDOW (dialog), title);
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-	button = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-
-	return (button != 1) ? res0 : res1;
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	return (response != GTK_RESPONSE_NO) ? res1 : res0;
 }
 
 static void

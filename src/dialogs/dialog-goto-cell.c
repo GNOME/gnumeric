@@ -84,7 +84,7 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 	gtk_widget_grab_focus (entry);
 
 	/* Run the dialog */
-	res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
+	res = gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 	if (res == GNOME_OK) {
 
 		text = gtk_entry_get_text (GTK_ENTRY (entry));

@@ -225,7 +225,7 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	gtk_widget_grab_focus (list_range);
 	gtk_widget_set_sensitive (copy_to, FALSE);
 loop:
-	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GTK_DIALOG (dia));
 
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 

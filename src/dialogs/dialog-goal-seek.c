@@ -586,7 +586,7 @@ dialog_init (GoalSeekState *state)
 	gnumeric_expr_entry_set_flags (state->set_cell_entry,
                                       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
                                       GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg (state->set_cell_entry, wb_control_gui_cur_sheet (state->wbcg));
+        gnumeric_expr_entry_set_scg (state->set_cell_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->set_cell_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
@@ -600,7 +600,7 @@ dialog_init (GoalSeekState *state)
 				       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
 				       GNUM_EE_MASK);
 	gnumeric_expr_entry_set_scg (state->change_cell_entry, 
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,

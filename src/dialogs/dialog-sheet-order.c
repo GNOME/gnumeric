@@ -147,14 +147,14 @@ delete_clicked_cb (GtkWidget *button, SheetManager *sm)
 		_("Are you sure you want to remove the sheet called `%s'?"),
 		sheet->name_unquoted);
 
-	popup = gnome_message_box_new (
-		message, GNOME_MESSAGE_BOX_QUESTION,
-		GNOME_STOCK_BUTTON_YES,
-		GNOME_STOCK_BUTTON_NO,
-		NULL);
+	popup = gtk_message_dialog_new (wbcg_toplevel (sm->wbcg),
+		  GTK_DIALOG_DESTROY_WITH_PARENT,
+		  GTK_MESSAGE_QUESTION,
+		  GTK_BUTTONS_YES_NO,
+		  message, NULL);
 	g_free (message);
 
-	response = gnumeric_dialog_run (sm->wbcg, GNOME_DIALOG (popup));
+	response = gnumeric_dialog_run (sm->wbcg, GTK_DIALOG (popup));
 	if (response != 0)
 		return;
 

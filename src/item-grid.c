@@ -818,7 +818,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		if (!wbcg_edit_has_guru (scg->wbcg))
 			scg_mode_edit (sc);
 	} else
-		wb_control_gui_focus_cur_sheet (scg->wbcg);
+		wbcg_focus_cur_sheet (scg->wbcg);
 
 	/* If we were already selecting a range of cells for a formula,
 	 * reset the location to a new place, or extend the selection.

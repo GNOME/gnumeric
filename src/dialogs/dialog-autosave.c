@@ -49,7 +49,7 @@ dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 		return 0;
 	}
 
-	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GTK_DIALOG (dia));
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dia));
 	g_object_unref (G_OBJECT (gui));
@@ -107,7 +107,7 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	gtk_toggle_button_set_active ((GtkToggleButton *) p.prompt_cb,
 				      wbcg->autosave_prompt);
 loop:
-	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GTK_DIALOG (dia));
 
 	if (v == 0) {
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autosave_on_off))) {

@@ -1057,7 +1057,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 
 	state = g_new0 (GraphGuruState, 1);
 	state->wbcg	= wbcg;
-	state->scg	= wb_control_gui_cur_sheet (wbcg);
+	state->scg	= wbcg_cur_scg (wbcg);
 	state->wb	= wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet	= wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	state->valid	= FALSE;

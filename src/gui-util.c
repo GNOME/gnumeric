@@ -32,11 +32,11 @@
 
 gboolean
 gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
-                                 const gchar *message,
+                                 gchar const *message,
                                  gboolean default_answer)
 {
-	GtkWidget *dialog = gtk_message_dialog_new (wb_control_gui_toplevel (wbcg),
-		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+	GtkWidget *dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_YES_NO,
 		message);
@@ -45,6 +45,21 @@ gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
 
 	return gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
 }
+/*
+ * TODO:
+ * Get rid of trailing newlines /whitespace.
+ * Wrap overlong lines.
+ */
+void
+gnumeric_notice (WorkbookControlGUI *wbcg, char const *type, char const *str)
+{
+	GtkWidget *dialog;
+
+	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
+
+	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
+}
+
 
 static void
 fsel_dialog_finish (GtkWidget *widget)
@@ -132,28 +147,13 @@ gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel
 	return result;
 }
 
-/*
- * TODO:
- * Get rid of trailing newlines /whitespace.
- * Wrap overlong lines.
- */
-void
-gnumeric_notice (WorkbookControlGUI *wbcg, const char *type, const char *str)
-{
-	GtkWidget *dialog;
-
-	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
-
-	gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-}
-
 /**
  * gnumeric_dialog_run
  *
  * Pop up a dialog as child of a workbook.
  */
 gint
-gnumeric_dialog_run (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
+gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 {
 	GtkWindow *toplevel;
 
@@ -162,68 +162,11 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
 	if (wbcg) {
 		g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
 
-		toplevel = wb_control_gui_toplevel (wbcg);
+		toplevel = wbcg_toplevel (wbcg);
 		if (GTK_WINDOW (dialog)->transient_parent != toplevel)
-			gnome_dialog_set_parent (GNOME_DIALOG (dialog), toplevel);
+			gtk_window_set_transient_for (GTK_WINDOW (dialog), toplevel);
 	}
-	return gnome_dialog_run (dialog);
-}
-
-/**
- * Data structure and callbacks for dialogs which do not use recursive
- * mainloop.  */
-typedef struct {
-	GtkWidget *parent_toplevel;
-	gint       parent_close_id;
-} DialogRunInfo;
-
-static gboolean
-on_parent_close (GnomeDialog *parent, GnomeDialog *dialog)
-{
-	gnome_dialog_close (dialog);
-	return FALSE;
-}
-
-static gboolean
-on_parent_delete (GnomeDialog *parent, GdkEvent *event, GnomeDialog *dialog)
-{
-	return on_parent_close (parent, dialog);
-}
-
-static gboolean
-on_close (GnomeDialog *dialog,
-	  DialogRunInfo *run_info)
-{
-	gtk_signal_disconnect(GTK_OBJECT (run_info->parent_toplevel),
-			      run_info->parent_close_id);
-	g_free (run_info);
-	return FALSE;
-}
-
-/**
- * connect_to_parent_close
- *
- * Attach a handler to close if the parent closes.
- */
-static void
-connect_to_parent_close (GnomeDialog *dialog, DialogRunInfo *run_info)
-{
-	if (GNOME_IS_DIALOG (run_info->parent_toplevel)) {
-		run_info->parent_close_id =
-			gtk_signal_connect
-			(GTK_OBJECT (run_info->parent_toplevel),
-			 "close", (GtkSignalFunc) on_parent_close,
-			 dialog);
-	} else {
-		run_info->parent_close_id =
-			gtk_signal_connect
-			(GTK_OBJECT (run_info->parent_toplevel),
-			 "delete_event",
-			 (GtkSignalFunc) on_parent_delete,
-			 dialog);
-	}
-	gtk_signal_connect (GTK_OBJECT (dialog), "close",
-			    (GtkSignalFunc) on_close, run_info);
+	return gtk_dialog_run (dialog);
 }
 
 /**
@@ -240,11 +183,11 @@ connect_to_parent_close (GnomeDialog *dialog, DialogRunInfo *run_info)
  * up here.
  */
 void
-gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
+gnumeric_dialog_show (WorkbookControlGUI *wbcg, GtkDialog *dialog,
 		      gboolean click_closes, gboolean close_with_parent)
 {
 #if 0
-	GtkWindow *parent = wb_control_gui_toplevel (wbcg);
+	GtkWindow *parent = wbcg_toplevel (wbcg);
 	DialogRunInfo *run_info = NULL;
 	g_return_if_fail (GNOME_IS_DIALOG (dialog));
 	if (parent != NULL) {
@@ -255,12 +198,12 @@ gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
 		gnome_dialog_set_parent
 			(GNOME_DIALOG (dialog),
 			 GTK_WINDOW (run_info->parent_toplevel));
-		if (close_with_parent)
-			connect_to_parent_close (dialog, run_info);
+		gtk_window_set_destroy_with_parent  (GTK_WINDOW (dialog),
+			close_with_parent);
 	}
+#endif
 
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), click_closes);
-#endif
 
 	if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (dialog)))	/* Pop up the dialog */
 		gtk_widget_show (GTK_WIDGET (dialog));
@@ -324,21 +267,15 @@ gnumeric_error_info_dialog_show_full (WorkbookControlGUI *wbcg, ErrorInfo *error
 	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
 
-#warning why are we mucking with the dialog button layout directly ?
-#if 0
-	GtkWidget *dialog_action_area;
-	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
-	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area), 8);
-#endif
-
 	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_CLOSE);
 	button_close = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
 	GTK_WIDGET_SET_FLAGS (button_close, GTK_CAN_DEFAULT);
 
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
-	gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
+	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }
+
+#define GNUMERIC_RESPONSE_DETAILS	1
 
 /**
  * gnumeric_error_info_dialog_show
@@ -350,13 +287,13 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 	GString *str;
 	GList *details;
 	gboolean has_extra_details;
-	GtkWidget *dialog, *default_button;
+	GtkWidget *dialog;
 
 	str = g_string_new (error_info_peek_message (error));
 	details = error_info_peek_details (error);
 	if (g_list_length (details) == 1) {
 		ErrorInfo *details_error = details->data;
-		const gchar *s;
+		gchar const *s;
 
 		s = error_info_peek_message (details_error);
 		if (s != NULL) {
@@ -364,27 +301,24 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 			g_string_append (str, s);
 		}
 		has_extra_details = error_info_peek_details (details_error) != NULL;
-	} else {
+	} else
 		has_extra_details = details != NULL;
-	}
-	if (has_extra_details) {
-		dialog = gnome_message_box_new (
-		         str->str, GNOME_MESSAGE_BOX_ERROR,
-		         _("Show details"), GNOME_STOCK_BUTTON_CLOSE, NULL);
-		default_button = (GtkWidget *) GNOME_DIALOG (dialog)->buttons->next->data;
-	} else {
-		dialog = gnome_message_box_new (
-		         str->str, GNOME_MESSAGE_BOX_ERROR,
-		         GNOME_STOCK_BUTTON_CLOSE, NULL);
-		default_button = (GtkWidget *) GNOME_DIALOG (dialog)->buttons->data;
-	}
-	g_string_free (str, TRUE);
-	gtk_widget_grab_focus (default_button);
 
-	if (gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog)) == 0 &&
-	    has_extra_details) {
+	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_ERROR,
+			GTK_BUTTONS_NONE,
+			str->str);
+	g_string_free (str, TRUE);
+
+	if (has_extra_details)
+		gtk_dialog_add_button (GTK_DIALOG (dialog),
+			_("Show details"), GNUMERIC_RESPONSE_DETAILS);
+	gtk_dialog_add_button (GTK_DIALOG (dialog),
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
+	if (gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog)) == GNUMERIC_RESPONSE_DETAILS)
 		gnumeric_error_info_dialog_show_full (wbcg, error);
-	}
 }
 
 /**
@@ -406,7 +340,7 @@ gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (window));
 
-	toplevel = wb_control_gui_toplevel (wbcg);
+	toplevel = wbcg_toplevel (wbcg);
 	gtk_window_set_transient_for (window, toplevel);
 
 #warning what replaces these ?
@@ -1084,4 +1018,25 @@ gnumeric_pbox_init_help (GtkWidget *dialog, char const *link)
 {
 	gtk_signal_connect (GTK_OBJECT (dialog), "help",
 		GTK_SIGNAL_FUNC (gnumeric_help_pbox_goto), (gpointer)link);
+}
+
+char *
+gnumeric_textview_get_text (GtkTextView *text_view)
+{
+	GtkTextIter    start, end;
+	GtkTextBuffer *buf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+
+	g_return_val_if_fail (buf != NULL, NULL);
+
+	gtk_text_buffer_get_start_iter (buf, &start);
+	gtk_text_buffer_get_end_iter (buf, &end);
+	return gtk_text_buffer_get_text (buf, &start, &end, FALSE);
+}
+
+void
+gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
+{
+	gtk_text_buffer_set_text (
+		gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view)),
+		txt, -1);
 }

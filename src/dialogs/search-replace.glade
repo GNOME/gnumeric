@@ -107,7 +107,7 @@
                                 <property name="yalign">0.5</property>
                                 <property name="xpad">4</property>
                                 <property name="ypad">0</property>
-                                <property name="focus_target">replacetext</property>
+                                <property name="mnemonic_widget">replacetext</property>
                                 <property name="visible">yes</property>
                                 <property name="use_underline">yes</property>
                               </widget>
@@ -132,7 +132,7 @@
                                 <property name="yalign">0.5</property>
                                 <property name="xpad">4</property>
                                 <property name="ypad">0</property>
-                                <property name="focus_target">searchtext</property>
+                                <property name="mnemonic_widget">searchtext</property>
                                 <property name="visible">yes</property>
                                 <property name="use_underline">yes</property>
                               </widget>
@@ -896,7 +896,7 @@
                 <property name="yalign">0.5</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="focus_target">qd_location</property>
+                <property name="mnemonic_widget">qd_location</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -921,7 +921,7 @@
                 <property name="yalign">0.5</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="focus_target">qd_old_text</property>
+                <property name="mnemonic_widget">qd_old_text</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -946,7 +946,7 @@
                 <property name="yalign">0.5</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="focus_target">qd_new_text</property>
+                <property name="mnemonic_widget">qd_new_text</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>

@@ -150,7 +150,7 @@ gnumeric_notebook_set_page_enabled (GnumericNotebook *mn, gint page_num, gboolea
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
-	GnomeDialog *dialog_pm;
+	GtkDialog *dialog_pm;
 	GnumericNotebook *gnotebook;
 	gint plugin_list_page_no, plugin_details_page_no;
 	GtkCList *clist_active, *clist_inactive;
@@ -573,7 +573,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	pm_gui = g_new (PluginManagerGUI, 1);
 	pm_gui->wbcg = wbcg;
-	pm_gui->dialog_pm = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog_plugin_manager"));
+	pm_gui->dialog_pm = GTK_DIALOG (glade_xml_get_widget (gui, "dialog_plugin_manager"));
 	pm_gui->clist_active = GTK_CLIST (glade_xml_get_widget (gui, "clist_active"));
 	pm_gui->clist_inactive = GTK_CLIST (glade_xml_get_widget (gui, "clist_inactive"));
 	pm_gui->button_activate_plugin = GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_plugin"));

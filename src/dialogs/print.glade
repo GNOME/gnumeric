@@ -723,7 +723,7 @@
                             <property name="yalign">1</property>
                             <property name="xpad">0</property>
                             <property name="ypad">0</property>
-                            <property name="focus_target">spin-left</property>
+                            <property name="mnemonic_widget">spin-left</property>
                             <property name="visible">yes</property>
                             <property name="use_underline">yes</property>
                           </widget>
@@ -780,7 +780,7 @@
                             <property name="yalign">1</property>
                             <property name="xpad">0</property>
                             <property name="ypad">0</property>
-                            <property name="focus_target">spin-right</property>
+                            <property name="mnemonic_widget">spin-right</property>
                             <property name="visible">yes</property>
                             <property name="use_underline">yes</property>
                           </widget>
@@ -927,7 +927,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">0</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">option-menu-units</property>
+                        <property name="mnemonic_widget">option-menu-units</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>
@@ -1040,7 +1040,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">0</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">spin-top</property>
+                        <property name="mnemonic_widget">spin-top</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>
@@ -1065,7 +1065,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">0</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">spin-header</property>
+                        <property name="mnemonic_widget">spin-header</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>
@@ -1090,7 +1090,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">0</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">spin-footer</property>
+                        <property name="mnemonic_widget">spin-footer</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>
@@ -1115,7 +1115,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">0</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">spin-bottom</property>
+                        <property name="mnemonic_widget">spin-bottom</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>

@@ -801,7 +801,7 @@ gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp,
 	/* Reset the entry in case something changed */
 	str = expr_tree_as_string (expr, pp);
 	if (strcmp (str, text)) {
-		SheetControlGUI *scg = wb_control_gui_cur_sheet (ee->wbcg);
+		SheetControlGUI *scg = wbcg_cur_scg (ee->wbcg);
 		if (start_sel && sc_sheet (SHEET_CONTROL (scg)) == ee->rangesel.sheet) {
 			Range const *r = &ee->rangesel.range;
 			scg_rangesel_bound (scg,

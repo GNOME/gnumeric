@@ -558,7 +558,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			       DEFINE_NAMES_KEY);
 
 	gnumeric_expr_entry_set_scg (state->expr_text,
-				     wb_control_gui_cur_sheet (wbcg));
+				     wbcg_cur_scg (wbcg));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 
 	return FALSE;

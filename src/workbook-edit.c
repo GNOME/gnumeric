@@ -134,7 +134,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	wbc = WORKBOOK_CONTROL (wbcg);
 	wbv = wb_control_view (wbc);
 
-	wb_control_gui_focus_cur_sheet (wbcg);
+	wbcg_focus_cur_sheet (wbcg);
 
 	/* Remove the range selection cursor if it exists */
 	if (NULL != wbcg->rangesel)
@@ -260,7 +260,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
 
 	/* Only the edit sheet has an edit cursor */
-	scg_edit_stop (wb_control_gui_cur_sheet (wbcg));
+	scg_edit_stop (wbcg_cur_scg (wbcg));
 
 	wbcg_auto_complete_destroy (wbcg);
 
@@ -347,7 +347,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	scg = wb_control_gui_cur_sheet (wbcg);
+	scg = wbcg_cur_scg (wbcg);
 
 	col = sheet->edit_pos.col;
 	row = sheet->edit_pos.row;
@@ -443,7 +443,7 @@ wbcg_set_entry (WorkbookControlGUI *wbcg, GnumericExprEntry *entry)
 
 	if (wbcg->edit_line.temp_entry != entry) {
 		wbcg->edit_line.temp_entry = entry;
-		scg_rangesel_stop (wb_control_gui_cur_sheet (wbcg), FALSE);
+		scg_rangesel_stop (wbcg_cur_scg (wbcg), FALSE);
 	}
 }
 

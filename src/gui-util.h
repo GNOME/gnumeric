@@ -14,9 +14,9 @@ gboolean   gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSele
 void       gnumeric_notice (WorkbookControlGUI *wbcg, const char *type, const char *str);
 
 void       gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog);
-gint       gnumeric_dialog_run  (WorkbookControlGUI *wbcg, GnomeDialog *dialog);
+gint       gnumeric_dialog_run  (WorkbookControlGUI *wbcg, GtkDialog *dialog);
 void       gnumeric_dialog_show (WorkbookControlGUI *wbcg,
-				 GnomeDialog *dialog,
+				 GtkDialog *dialog,
                                  gboolean click_closes,
                                  gboolean close_with_parent);
 void       gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg,
@@ -107,5 +107,8 @@ GtkWidget *gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos);
 
 void gnumeric_help_display	(char const *link);
 void gnumeric_pbox_init_help	(GtkWidget *dialog, char const *link);
+
+char *gnumeric_textview_get_text (GtkTextView *text_view);
+void  gnumeric_textview_set_text (GtkTextView *text_view, char const *txt);
 
 #endif /* GNUMERIC_GUI_UTIL_H */

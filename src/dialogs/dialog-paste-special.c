@@ -9,14 +9,13 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 
+#include <workbook-control-gui.h>
 #include <gui-util.h>
 #include <clipboard.h>
 #include <eval.h>
 
 #include <libgnome/gnome-i18n.h>
 
-#define BUTTON_OK         1
-#define BUTTON_CANCEL     2
 #define BUTTON_PASTE_LINK 0
 
 static struct {
@@ -40,7 +39,7 @@ static char *paste_ops[] = {
 };
 
 typedef struct {
-	GnomeDialog     *dialog;
+	GtkDialog       *dialog;
 	GSList          *group_type;
 	GSList          *group_ops;
 	GtkToggleButton *transpose;
@@ -84,8 +83,8 @@ paste_link_set_sensitive (GtkWidget *widget, PasteSpecialState *state)
 		!state->transpose->active &&
 		!state->skip_blanks->active;
 
-	gnome_dialog_set_sensitive (state->dialog,
-				    BUTTON_PASTE_LINK, sensitive);
+	gtk_dialog_set_response_sensitive (state->dialog,
+		BUTTON_PASTE_LINK, sensitive);
 }
 
 int
@@ -102,14 +101,18 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 
 	state = g_new (PasteSpecialState, 1);
 
-	tmp = gnome_dialog_new (_("Paste special"), _("Paste Link"),
-				GNOME_STOCK_BUTTON_OK,
-				GNOME_STOCK_BUTTON_CANCEL,
-				NULL);
-	state->dialog = GNOME_DIALOG (tmp);
+	tmp = gtk_dialog_new_with_buttons (_("Paste special"),
+		wbcg_toplevel (wbcg),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		_("Paste Link"),	BUTTON_PASTE_LINK,
+		GTK_STOCK_OK,		GTK_RESPONSE_OK,
+		GTK_STOCK_CANCEL,	GTK_RESPONSE_CANCEL,
+		NULL);
+	state->dialog = GTK_DIALOG (tmp);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy), state);
-	gnome_dialog_set_default (state->dialog, BUTTON_CANCEL);
+	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_CANCEL);
+
 	f1  = gtk_frame_new (_("Paste type"));
 	f1v = gtk_vbox_new (TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (f1), f1v);
@@ -192,7 +195,7 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	result = 0;
 
 	/* Fetch the results */
-	if (v == BUTTON_OK){
+	if (v == GTK_RESPONSE_OK) {
 		result = 0;
 		i = gtk_radio_group_get_selected (state->group_type);
 

@@ -1,8 +1,16 @@
+2002-01-24  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : Apparently the sources list is order dependent.
+	  Put the built sources at the top.
+
 2002-01-24  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* configure.in: fixed libgda detection for GNOME 2.
 
 2002-01-23  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gnumeric_textview_get_text) : new utility.
+	(gnumeric_textview_set_text) : ditto.
 
 	* src/history.c : tidy up a mite.
 

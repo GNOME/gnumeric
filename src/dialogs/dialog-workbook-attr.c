@@ -197,7 +197,7 @@ attr_dialog_impl (AttrState *state)
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
 	/* Bring up the dialog */
-	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);
+	gnumeric_dialog_show (state->wbcg, GTK_DIALOG (dialog), FALSE, TRUE);
 }
 
 void

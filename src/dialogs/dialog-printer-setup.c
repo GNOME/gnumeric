@@ -1350,7 +1350,7 @@ do_setup_page_info (PrinterSetupState *state)
 
 	state->area_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_scg (state->area_entry,
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gnumeric_expr_entry_set_flags (state->area_entry,
 				       GNUM_EE_SHEET_OPTIONAL,
 				       GNUM_EE_SHEET_OPTIONAL);
@@ -1360,7 +1360,7 @@ do_setup_page_info (PrinterSetupState *state)
 
 	state->top_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_scg (state->top_entry,
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gnumeric_expr_entry_set_flags (
 		state->top_entry,
 		GNUM_EE_FULL_ROW | GNUM_EE_SHEET_OPTIONAL,
@@ -1373,7 +1373,7 @@ do_setup_page_info (PrinterSetupState *state)
 
 	state->left_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_scg (state->left_entry,
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gnumeric_expr_entry_set_flags (
 		state->left_entry,
 		GNUM_EE_FULL_COL | GNUM_EE_SHEET_OPTIONAL,

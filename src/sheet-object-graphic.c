@@ -448,7 +448,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 				   GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-				 wb_control_gui_toplevel (wbcg));
+				 wbcg_toplevel (wbcg));
 	tooltips = gtk_tooltips_new ();
 
 	table = gtk_table_new (3, 5, FALSE);
@@ -844,7 +844,7 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 				   GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-				 wb_control_gui_toplevel (wbcg));
+				 wbcg_toplevel (wbcg));
 
 	table = gtk_table_new (2, 3, FALSE);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 10);

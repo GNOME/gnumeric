@@ -155,7 +155,7 @@
                     <property name="yalign">0.5</property>
                     <property name="xpad">5</property>
                     <property name="ypad">0</property>
-                    <property name="focus_target">distribution_combo_entry</property>
+                    <property name="mnemonic_widget">distribution_combo_entry</property>
                     <property name="visible">yes</property>
                     <property name="use_underline">yes</property>
                   </widget>
@@ -222,7 +222,7 @@
                     <property name="yalign">0.5</property>
                     <property name="xpad">5</property>
                     <property name="ypad">0</property>
-                    <property name="focus_target">par1_entry</property>
+                    <property name="mnemonic_widget">par1_entry</property>
                     <property name="visible">yes</property>
                   </widget>
                   <packing>
@@ -246,7 +246,7 @@
                     <property name="yalign">0.5</property>
                     <property name="xpad">5</property>
                     <property name="ypad">0</property>
-                    <property name="focus_target">par2_entry</property>
+                    <property name="mnemonic_widget">par2_entry</property>
                     <property name="visible">yes</property>
                   </widget>
                   <packing>
@@ -288,7 +288,7 @@
                 <property name="yalign">0.5</property>
                 <property name="xpad">5</property>
                 <property name="ypad">0</property>
-                <property name="focus_target">vars_entry</property>
+                <property name="mnemonic_widget">vars_entry</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -313,7 +313,7 @@
                 <property name="yalign">0.5</property>
                 <property name="xpad">5</property>
                 <property name="ypad">0</property>
-                <property name="focus_target">count_entry</property>
+                <property name="mnemonic_widget">count_entry</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>

@@ -555,7 +555,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 	cursor_change (dd->e_table, 0, dd);
 	gtk_widget_show_all (dialog->vbox);
 	gnumeric_expr_entry_set_scg (dd->rangetext,
-				     wb_control_gui_cur_sheet (wbcg));
+				     wbcg_cur_scg (wbcg));
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog, SEARCH_KEY);

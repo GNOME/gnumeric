@@ -27,27 +27,19 @@ summary_get (GladeXML *gui, SummaryInfo *sin)
 		gchar *name = g_strconcat ("glade_", summary_item_name[lp], NULL);
 		GtkWidget *w = glade_xml_get_widget (gui, name);
 
-		if (!w)
-#if SUMMARY_DEBUG > 0
-			printf ("Error missing builtin summary name '%s'\n", name);
-#else
-		;
-#endif
-		else { /* FIXME: OK so far, but what if it isn't editable ? */
-			if (lp == SUMMARY_I_COMMENTS) {
-				GtkTextBuffer *buf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (2));
-				GtkTextIter    start, end;
-				gtk_text_buffer_get_start_iter (buf, &start);
-				gtk_text_buffer_get_end_iter (buf, &end);
-				sit = summary_item_new_string (summary_item_name[lp],
-					gtk_text_buffer_get_text (buf, &start, &end, FALSE), FALSE);
-			} else {
-				const char *txt = gtk_entry_get_text (GTK_ENTRY (w));
-				sit = summary_item_new_string (summary_item_name[lp], txt, TRUE);
-			}
+		g_return_if_fail (w != NULL);
 
-			summary_info_add (sin, sit);
+		if (lp == SUMMARY_I_COMMENTS) {
+			char *comments = gnumeric_textview_get_text (GTK_TEXT_VIEW (w));
+			sit = summary_item_new_string (summary_item_name[lp],
+				comments, FALSE);
+		} else {
+			const char *txt = gtk_entry_get_text (GTK_ENTRY (w));
+			sit = summary_item_new_string (summary_item_name[lp],
+				txt, TRUE);
 		}
+
+		summary_info_add (sin, sit);
 		g_free (name);
 	}
 }
@@ -87,17 +79,16 @@ dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 {
 	GladeXML  *gui;
 	GtkWidget *dia, *comments;
+	gint v;
 	int i;
-	static char *names[]
-	  = {
+	static char *names[] = {
 	     "glade_title",
 	     "glade_author",
 	     "glade_category",
 	     "glade_keywords",
 	     "glade_manager",
 	     "glade_company"
-	    };
-	gint v;
+	};
 
 	gui = gnumeric_glade_xml_new (wbcg, "summary.glade");
         if (gui == NULL)
@@ -120,7 +111,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 
 	summary_put (gui, sin);
 
-	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GTK_DIALOG (dia));
 	if (v == 0)
 		summary_get (gui, sin);
 

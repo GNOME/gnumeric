@@ -479,7 +479,7 @@ formula_guru_arg_new (char * const name,
 		GTK_SIGNAL_FUNC (cb_formula_guru_entry_event), as);
 
 	gnumeric_expr_entry_set_scg (as->entry,
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 
 	g_ptr_array_add (state->args, as);
 	if (row == 0)
@@ -673,7 +673,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	/* Lifecyle management */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->rolled_entry),
-				     wb_control_gui_cur_sheet (state->wbcg));
+				     wbcg_cur_scg (state->wbcg));
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),
 			    state);

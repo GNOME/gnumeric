@@ -420,7 +420,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">0</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">max_entry</property>
+                        <property name="mnemonic_widget">max_entry</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>
@@ -445,7 +445,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">0</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">n_entry</property>
+                        <property name="mnemonic_widget">n_entry</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>
@@ -470,7 +470,7 @@
                         <property name="yalign">0.5</property>
                         <property name="xpad">0</property>
                         <property name="ypad">0</property>
-                        <property name="focus_target">min_entry</property>
+                        <property name="mnemonic_widget">min_entry</property>
                         <property name="visible">yes</property>
                         <property name="use_underline">yes</property>
                       </widget>

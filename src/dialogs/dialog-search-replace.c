@@ -273,7 +273,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 
 	gtk_widget_show_all (dialog->vbox);
 	gnumeric_expr_entry_set_scg (dd->rangetext,
-				     wb_control_gui_cur_sheet (wbcg));
+				     wbcg_cur_scg (wbcg));
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
@@ -287,7 +287,7 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 			     const char *new_text)
 {
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	int res;
 
 	g_return_val_if_fail (wbcg != NULL, 0);
@@ -296,7 +296,7 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
         if (gui == NULL)
                 return 0;
 
-	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "query_dialog"));
+	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "query_dialog"));
 
 	gtk_entry_set_text (GTK_ENTRY (glade_xml_get_widget (gui, "qd_location")),
 			    location);

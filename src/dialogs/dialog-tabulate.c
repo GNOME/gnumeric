@@ -535,7 +535,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 				  GTK_FILL, GTK_FILL,
 				  0, 0);
 		gnumeric_expr_entry_set_scg (ge,
-					     wb_control_gui_cur_sheet (wbcg));
+					     wbcg_cur_scg (wbcg));
 		gtk_widget_show (GTK_WIDGET (ge));
 	}
 
@@ -547,7 +547,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 			    GTK_WIDGET (dd->resultrangetext),
 			    TRUE, TRUE, 0);
 	gnumeric_expr_entry_set_scg (dd->resultrangetext,
-				     wb_control_gui_cur_sheet (wbcg));
+				     wbcg_cur_scg (wbcg));
 	gtk_widget_show (GTK_WIDGET (dd->resultrangetext));
 
 	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "ok_button")),

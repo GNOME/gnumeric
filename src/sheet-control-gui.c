@@ -589,7 +589,7 @@ cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
 	scg_unant (sc);		/* Make sure that everything is unanted */
 
  	if (scg->wbcg) {
-		GtkWindow *toplevel = wb_control_gui_toplevel (scg->wbcg);
+		GtkWindow *toplevel = wbcg_toplevel (scg->wbcg);
 
 		/* Only pane-0 ever gets focus */
 		if (NULL != toplevel &&
@@ -2771,7 +2771,7 @@ scg_take_focus (SheetControlGUI *scg)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	gtk_window_set_focus (wb_control_gui_toplevel (scg->wbcg),
+	gtk_window_set_focus (wbcg_toplevel (scg->wbcg),
 			      GTK_WIDGET (scg_pane (scg, 0)));
 }
 

@@ -1,5 +1,12 @@
 2002-01-23  Jody Goldberg <jody@gnome.org>
 
+	* cell-format.glade : Add use_underline to the radio buttons.
+
+	* dialog-cell-format.c (validation_rebuild_validation) : Use
+	  gnumeric_textview_get_text.
+
+2002-01-23  Jody Goldberg <jody@gnome.org>
+
 	* cell-format.glade : remove place holders, s/columns/n-columns/
 	d/focus_target/
 

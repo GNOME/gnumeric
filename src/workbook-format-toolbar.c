@@ -250,7 +250,7 @@ change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
 			    _("Set Font"));
 
 		/* Restore the focus to the sheet */
-		wb_control_gui_focus_cur_sheet	(wbcg);
+		wbcg_focus_cur_sheet	(wbcg);
 	}
 }
 
@@ -283,7 +283,7 @@ change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 		    _("Set Font Size"));
 
 	/* Restore the focus to the sheet */
-	wb_control_gui_focus_cur_sheet	(wbcg);
+	wbcg_focus_cur_sheet (wbcg);
 }
 
 static void

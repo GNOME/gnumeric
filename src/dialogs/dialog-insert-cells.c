@@ -39,7 +39,7 @@ dialog_insert_cells_impl (WorkbookControlGUI *wbcg, GladeXML *gui,
 	g_return_if_fail (radio_0 != NULL);
 
 	/* Bring up the dialog */
-	res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
+	res = gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 	if (res == GNOME_OK) {
 		i = gtk_radio_group_get_selected
 			(GTK_RADIO_BUTTON (radio_0)->group);

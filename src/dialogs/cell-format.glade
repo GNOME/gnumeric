@@ -5,12 +5,12 @@
   <requires lib="gnome" />
   <requires lib="canvas" />
 
-  <widget class="GnomePropertyBox" id="CellFormat">
+  <widget class="GtkDialog" id="CellFormat">
     <property name="visible">no</property>
     <property name="modal">no</property>
     <property name="allow_shrink">no</property>
     <property name="allow_grow">no</property>
-    <property name="window-position">GTK_WIN_POS_NONE</property>
+    <property name="window-position">GTK_WIN_POS_MOUSE</property>
 
     <child internal-child="notebook">
       <widget class="GtkNotebook" id="MainNotebook">
@@ -52,6 +52,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -69,6 +70,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -86,6 +88,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -103,6 +106,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -120,6 +124,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -137,6 +142,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -154,6 +160,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -171,6 +178,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -188,6 +196,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -205,6 +214,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -222,6 +232,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -239,6 +250,7 @@
                         <property name="height-request">22</property>
                         <property name="visible">yes</property>
                         <property name="group">format_general</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -715,6 +727,7 @@
                                 <property name="active">no</property>
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -736,6 +749,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">halign_justify</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -757,6 +771,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">halign_justify</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -778,6 +793,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">halign_justify</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -799,6 +815,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">halign_justify</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -820,6 +837,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">halign_justify</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -848,6 +866,7 @@
                             <property name="draw_indicator">yes</property>
                             <property name="visible">yes</property>
                             <property name="group">halign_justify</property>
+			    <property name="use_underline">yes</property>
                           </widget>
                           <packing>
                             <property name="padding">0</property>
@@ -959,6 +978,7 @@
                                     <property name="active">no</property>
                                     <property name="draw_indicator">yes</property>
                                     <property name="visible">yes</property>
+				    <property name="use_underline">yes</property>
                                   </widget>
                                   <packing>
                                     <property name="padding">0</property>
@@ -975,6 +995,7 @@
                                     <property name="draw_indicator">yes</property>
                                     <property name="visible">yes</property>
                                     <property name="group">valign_top</property>
+				    <property name="use_underline">yes</property>
                                   </widget>
                                   <packing>
                                     <property name="padding">0</property>
@@ -991,6 +1012,7 @@
                                     <property name="draw_indicator">yes</property>
                                     <property name="visible">yes</property>
                                     <property name="group">valign_top</property>
+				    <property name="use_underline">yes</property>
                                   </widget>
                                   <packing>
                                     <property name="padding">0</property>
@@ -1014,6 +1036,7 @@
                                 <property name="draw_indicator">yes</property>
                                 <property name="visible">yes</property>
                                 <property name="group">valign_top</property>
+				<property name="use_underline">yes</property>
                               </widget>
                               <packing>
                                 <property name="padding">5</property>

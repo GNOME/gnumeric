@@ -21,7 +21,7 @@ dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,
 			    gboolean *is_cols)
 {
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	GtkToggleButton *rows;
 	gboolean res = FALSE;
 
@@ -29,7 +29,7 @@ dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,
         if (gui == NULL)
                 return FALSE;
 
-	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog1"));
+	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "dialog1"));
 	if (dialog == NULL){
 		g_warning ("Cannot find the `dialog1' widget in colrow.glade");
 		gtk_object_destroy (GTK_OBJECT (gui));
@@ -51,7 +51,7 @@ dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,
 		*is_cols = !gtk_toggle_button_get_active (rows);
 	}
 	
-	gnome_dialog_close (dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	gtk_object_destroy (GTK_OBJECT (gui));
 	
 	return res;
@@ -62,7 +62,7 @@ dialog_get_number (WorkbookControlGUI *wbcg,
 		   const char *glade_file, double *init_and_return)
 {
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	GtkWidget *entry;
 	gboolean res = FALSE;
 
@@ -70,7 +70,7 @@ dialog_get_number (WorkbookControlGUI *wbcg,
         if (gui == NULL)
                 return FALSE;
 
-	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog1"));
+	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "dialog1"));
 	if (dialog == NULL){
 		g_warning ("Cannot find the `dialog1' widget in %s", glade_file);
 		gtk_object_destroy (GTK_OBJECT (gui));
@@ -85,7 +85,7 @@ dialog_get_number (WorkbookControlGUI *wbcg,
 
 		gtk_entry_set_text (GTK_ENTRY (entry), buffer);
 	}
-	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
+	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_EDITABLE (entry));
 
 	switch (gnumeric_dialog_run (wbcg, dialog)){
 	case 1:			/* cancel */
@@ -100,7 +100,7 @@ dialog_get_number (WorkbookControlGUI *wbcg,
 		*init_and_return = atof (gtk_entry_get_text (GTK_ENTRY (entry)));
 	}
 
-	gnome_dialog_close (dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	gtk_object_destroy (GTK_OBJECT (gui));
 
 	return res;
@@ -110,7 +110,7 @@ char *
 dialog_get_sheet_name (WorkbookControlGUI *wbcg, const char *current)
 {
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	GtkWidget *entry;
 	char *str = NULL;
 
@@ -118,7 +118,7 @@ dialog_get_sheet_name (WorkbookControlGUI *wbcg, const char *current)
         if (gui == NULL)
                 return NULL;
 
-	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog"));
+	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));
 	if (dialog == NULL){
 		g_warning ("Cannot find the `dialog' widget in sheet-rename.glade");
 		gtk_object_destroy (GTK_OBJECT (gui));
@@ -129,7 +129,7 @@ dialog_get_sheet_name (WorkbookControlGUI *wbcg, const char *current)
 	gtk_entry_set_text (GTK_ENTRY (entry), current);
 	gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
 
-	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
+	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_EDITABLE (entry));
 
 	switch (gnumeric_dialog_run (wbcg, dialog)){
 	case 1:			/* cancel */
@@ -142,7 +142,7 @@ dialog_get_sheet_name (WorkbookControlGUI *wbcg, const char *current)
 		str = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	}
 
-	gnome_dialog_close (dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	gtk_object_destroy (GTK_OBJECT (gui));
 
 	return str;

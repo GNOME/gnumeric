@@ -161,7 +161,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 				      !(orderbox->val));
 
 	/* Run the dialog and save the state if necessary */
-	btn = gnumeric_dialog_run (orderbox->wbcg, GNOME_DIALOG (dialog));
+	btn = gnumeric_dialog_run (orderbox->wbcg, GTK_DIALOG (dialog));
 	if (btn == 0) {
 		orderbox->cs  = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
 		orderbox->val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1));
@@ -596,7 +596,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	/* Run the dialog */
 	cont = TRUE;
 	while (cont) {
-		btn = gnumeric_dialog_run (wbcg, GNOME_DIALOG (sort_flow.dialog));
+		btn = gnumeric_dialog_run (wbcg, GTK_DIALOG (sort_flow.dialog));
 		if (btn == BUTTON_OK)
 			cont = dialog_cell_sort_ok (&sort_flow);
 		else if (btn == BUTTON_ADD)
