@@ -565,6 +565,10 @@ gnumeric_bessely (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
+/* FIXME: "deka" is US-centric. The official SI prefix is "deca" (see
+ * http://en.wikipedia.org/wiki/SI_unit and
+ * http://en.wikipedia.org/wiki/SI_prefix) */
+
 static char const *help_convert = {
 	N_("@FUNCTION=CONVERT\n"
 	   "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
