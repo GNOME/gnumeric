@@ -20,6 +20,8 @@ Morten:
 	* Partial buffer overrun audit.
 	* Move pango attribute calculation into rendered value.  (Operation
 	  Snappiness, Part 1 of many.)
+	* Eliminate StyleColor member of RenderedValue.  (Operation
+	  Snappiness, Part 2.)
 
 Theppitak Karoonboonyanan:
 	* Improve XIM support.
