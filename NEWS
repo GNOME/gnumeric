@@ -131,6 +131,7 @@ Morten:
 	* Improve progress display a bit.
 	* Show default image for types we don't recognize.
 	* Improve fixed-width stf.
+	* Fix reading 1.0 xml files lacking encoding.
 
 --------------------------------------------------------------------------
 

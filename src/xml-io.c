@@ -57,6 +57,7 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-output-gzip.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-input-memory.h>
 
 #include <libgnomeprint/gnome-print-config.h>
 
@@ -148,7 +149,7 @@ e_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
 
 	g_return_val_if_fail (parent != NULL, NULL);
 	g_return_val_if_fail (child_name != NULL, NULL);
-	
+
 	for (child = parent->xmlChildrenNode; child != NULL; child = child->next) {
 		if (xmlStrcmp (child->name, child_name) == 0) {
 			return child;
@@ -216,7 +217,7 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 		xmlFree (lang);
 		if (*best_lang_score == 0) {
 			return best_node;
-		} 
+		}
 	}
 
 	return best_node;
@@ -3750,6 +3751,72 @@ xml_workbook_read (IOContext *context,
 	return TRUE;
 }
 
+static GsfInput *
+maybe_gunzip (GsfInput *input)
+{
+	GsfInput *gzip = GSF_INPUT (gsf_input_gzip_new (input, NULL));
+	if (gzip) {
+		g_object_unref (input);
+		return gzip;
+	} else
+		return input;
+}
+
+static GsfInput *
+maybe_convert (GsfInput *input, gboolean quiet)
+{
+	const char *noencheader = "<?xml version=\"1.0\"?>";
+	const char *encheader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	guint8 const *buf;
+	gsf_off_t input_size;
+	GString *buffer;
+	guint ui;
+
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
+		return input;
+
+	buf = gsf_input_read (input, strlen (noencheader), NULL);
+	if (!buf || strncmp (noencheader, buf, strlen (noencheader)) != 0)
+		return input;
+
+	input_size = gsf_input_remaining (input);
+	buffer = g_string_sized_new (input_size + strlen (encheader));
+	g_string_append (buffer, encheader);
+	if (!gsf_input_read (input, input_size, buffer->str + strlen (encheader))) {
+		g_string_free (buffer, TRUE);
+		return input;
+	}
+	buffer->len = input_size + strlen (encheader);
+	buffer->str[buffer->len] = 0;
+
+	for (ui = 0; ui < buffer->len; ui++) {
+		if (buffer->str[ui] == '&' &&
+		    buffer->str[ui + 1] == '#' &&
+		    g_ascii_isdigit (buffer->str[ui + 2])) {
+			guint start = ui;
+			guint c = 0;
+			ui += 2;
+			while (g_ascii_isdigit (buffer->str[ui])) {
+				c = c * 10 + (buffer->str[ui] - '0');
+				ui++;
+			}
+			if (buffer->str[ui] == ';' && c >= 128 && c <= 255) {
+				buffer->str[start] = c;
+				g_string_erase (buffer, start + 1, ui - start);
+				ui = start;
+			}
+		}
+	}
+
+	if (!quiet)
+		g_warning ("Converted xml document with no encoding from pseudo-UTF-8 to UTF-8.");
+	g_object_unref (input);
+	input = GSF_INPUT (gsf_input_memory_new (buffer->str, buffer->len, TRUE));
+	g_string_free (buffer, FALSE);
+
+	return input;
+}
+
 /*
  * We parse and do some limited validation of the XML file, if this
  * passes, then we return TRUE
@@ -3758,7 +3825,7 @@ static gboolean
 xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	int ret;
-	xmlDocPtr res = NULL;
+	xmlDocPtr res;
 	xmlParserCtxt *ctxt;
 	GnumericXMLVersion version;
 
@@ -3783,29 +3850,36 @@ xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return FALSE;
 
-	/* handles gzip internally */
+	g_object_ref (input);
+	input = maybe_gunzip (input);
+	input = maybe_convert (input, TRUE);
 	ctxt = gsf_xml_parser_context (input);
-	if (ctxt == NULL)
-		return FALSE;
 
-	/* Do a silent call to the XML parser. */
-	ctxt->sax->comment    = NULL;
-	ctxt->sax->warning    = NULL;
-	ctxt->sax->error      = NULL;
-	ctxt->sax->fatalError = NULL;
+	if (ctxt) {
+		/* Do a silent call to the XML parser. */
+		ctxt->sax->comment    = NULL;
+		ctxt->sax->warning    = NULL;
+		ctxt->sax->error      = NULL;
+		ctxt->sax->fatalError = NULL;
 
-	xmlParseDocument (ctxt);
-	ret = ctxt->wellFormed;
-	res = ctxt->myDoc;
-	xmlFreeParserCtxt (ctxt);
+		xmlParseDocument (ctxt);
+		ret = ctxt->wellFormed;
+		res = ctxt->myDoc;
+		xmlFreeParserCtxt (ctxt);
+	} else {
+		ret = FALSE;
+		res = NULL;
+	}
 
-	if (res == NULL)
-		return FALSE;
-	if (ret && res->xmlRootNode != NULL)
+	if (ret && res && res->xmlRootNode != NULL)
 		ret = NULL != xml_check_version (res, &version);
 	else
 		ret = FALSE;
-	xmlFreeDoc (res);
+	if (res)
+		xmlFreeDoc (res);
+
+	g_object_unref (input);
+
 	return ret;
 }
 
@@ -3821,12 +3895,10 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
                             GsfInput *input)
 {
 	xmlParserCtxtPtr pctxt;
-	xmlDocPtr res = NULL;
+	xmlDocPtr res;
 	xmlNsPtr gmr;
 	XmlParseContext *ctxt;
 	GnumericXMLVersion    version;
-	GsfInputGZip *gzip = NULL;
-	GsfInput *source = NULL;
 	guint8 const *buf;
 	gsf_off_t size;
 	size_t len;
@@ -3839,36 +3911,36 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	io_progress_message (context, _("Reading file..."));
 	io_progress_range_push (context, 0.0, 0.5);
 
-	gzip = gsf_input_gzip_new (input, NULL);
-	source = (gzip != NULL) ? GSF_INPUT (gzip) : input;
+	g_object_ref (input);
+	input = maybe_gunzip (input);
+	input = maybe_convert (input, FALSE);
 
-#warning Possible overflow
-	value_io_progress_set (context, gsf_input_size (source), 0);
+	value_io_progress_set (context, gsf_input_size (input), 0);
 
-	buf = gsf_input_read (source, 4, NULL);
-	size = gsf_input_remaining (source);
-	if (buf != NULL) {
+	buf = gsf_input_read (input, 4, NULL);
+	size = gsf_input_remaining (input);
+	if (buf) {
 		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
-			(char *)buf, 4, gsf_input_name (source));
+			(char *)buf, 4, gsf_input_name (input));
 
 		for (; size > 0 ; size -= len) {
 			len = XML_INPUT_BUFFER_SIZE;
 			if (len > size)
 				len =  size;
-		       buf = gsf_input_read (source, len, NULL);
-		       if (buf == NULL)
-			       break;
-		       xmlParseChunk (pctxt, (char *)buf, len, 0);
-#warning Possible overflow
-		       value_io_progress_update (context, gsf_input_tell (source));
+			buf = gsf_input_read (input, len, NULL);
+			if (buf == NULL)
+				break;
+			xmlParseChunk (pctxt, (char *)buf, len, 0);
+			value_io_progress_update (context, gsf_input_tell (input));
 		}
 		xmlParseChunk (pctxt, (char *)buf, 0, 1);
 		res = pctxt->myDoc;
 		xmlFreeParserCtxt (pctxt);
+	} else {
+		res = NULL;
 	}
 
-	if (gzip != NULL)
-		g_object_unref (G_OBJECT (gzip));
+	g_object_unref (input);
 	io_progress_unset (context);
 	io_progress_range_pop (context);
 
