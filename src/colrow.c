@@ -431,18 +431,25 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 
 		for (i = index->first ; i <= index->last ; ++i) {
 			int tmp = new_size;
-			if (tmp < 0)
+			gboolean set_default = (tmp == 0);
+
+			if (tmp < 0 || (set_default && !is_cols))
 				tmp = (is_cols)
 					? sheet_col_size_fit_pixels (sheet, i)
 					: sheet_row_size_fit_pixels (sheet, i);
 
-			if (tmp <= 0)
+			if (tmp <= 0 && !set_default)
 				continue;
 
+			if (set_default && tmp == 0)
+				tmp = (is_cols)
+					? sheet_col_get_default_size_pixels (sheet)
+					: sheet_row_get_default_size_pixels (sheet);
+
 			if (is_cols)
-				sheet_col_set_size_pixels (sheet, i, tmp, TRUE);
+				sheet_col_set_size_pixels (sheet, i, tmp, !set_default);
 			else
-				sheet_row_set_size_pixels (sheet, i, tmp, TRUE);
+				sheet_row_set_size_pixels (sheet, i, tmp, !set_default);
 		}
 	}
 

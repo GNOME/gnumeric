@@ -230,10 +230,10 @@ summary_info_add (SummaryInfo *sin, SummaryItem *sit)
 {
 	SummaryItem *tsit;
 
-	g_return_if_fail (sin != NULL);
-	g_return_if_fail (sit != NULL);
-	g_return_if_fail (sit->name != NULL);
-	g_return_if_fail (sin->names != NULL);
+	g_return_val_if_fail (sin != NULL, FALSE);
+	g_return_val_if_fail (sit != NULL, FALSE);
+	g_return_val_if_fail (sit->name != NULL, FALSE);
+	g_return_val_if_fail (sin->names != NULL, FALSE);
 
 	/* remove existing items if it is different */
 	if ((tsit = summary_info_get (sin, sit->name))) {

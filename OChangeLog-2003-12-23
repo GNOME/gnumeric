@@ -1,3 +1,14 @@
+2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/colrow.c (colrow_set_sizes) : set to default if size is 0
+	* src/commands.c (cmd_resize_colrow) : size == 0 means default size
+	* src/summary.c : avoid warnings
+	* src/workbook-cmd-format.c (sheet_dialog_set_column_width) : just
+	  call dialog_col_width
+	(workbook_cmd_format_column_std_width) : ditto
+	(sheet_dialog_set_row_height) : just call dialog_row_height
+	(workbook_cmd_format_row_std_height) : ditto
+
 2002-04-07  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Test for isfinite as a macro.

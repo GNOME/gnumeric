@@ -87,6 +87,7 @@ src/dialogs/dialog-autosave.c
 src/dialogs/dialog-cell-comment.c
 src/dialogs/dialog-cell-format.c
 src/dialogs/dialog-cell-sort.c
+src/dialogs/dialog-col-width.c
 src/dialogs/dialog-consolidate.c
 src/dialogs/dialog-define-names.c
 src/dialogs/dialog-delete-cells.c
@@ -102,6 +103,7 @@ src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-preferences.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-random-generator.c
+src/dialogs/dialog-row-height.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
 src/dialogs/dialog-sheet-order.c

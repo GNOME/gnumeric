@@ -94,55 +94,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, WorkbookControl *wbc)
 void
 sheet_dialog_set_column_width (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	GList *l;
-	double value = 0.0;
-	double min = 5.;
-
-	/* Find out the initial value to display */
-	for (l = sheet->selections; l; l = l->next) {
-		Range *ss = l->data;
-		int col;
-
-		for (col = ss->start.col; col <= ss->end.col; ++col){
-			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
-			if (value == 0.0)
-				value = ci->size_pts;
-			else if (value != ci->size_pts){
-				/* Values differ, so let the user enter the data */
-				value = 0.0;
-				break;
-			}
-			if (min > (ci->margin_a + ci->margin_b))
-			    min = (ci->margin_a + ci->margin_b);
-		}
-	}
-
-	/* Scale and round to 3 decimal places */
-	value *= 1000.;
-	value = (int)(value + .5);
-	value /= 1000.;
-
-loop :
-	if (!dialog_get_number (wbcg, "col-width.glade", &value))
-		return;
-
-	if (value <= min) {
-		char *msg = g_strdup_printf (
-			_("You entered an invalid column width value.  It must be bigger than %d"),
-			(int)min);
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
-		goto loop;
-	}
-	{
-		double const scale =
-			sheet->last_zoom_factor_used *
-			application_display_dpi_get (TRUE) / 72.;
-		int size_pixels = (int)(value * scale + 0.5);
-		workbook_cmd_resize_selected_colrow (WORKBOOK_CONTROL (wbcg),
-						     TRUE, sheet, size_pixels);
-	}
+	dialog_col_width (wbcg, FALSE);
 }
 
 void
@@ -155,57 +107,7 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, WorkbookControl *wbc)
 void
 sheet_dialog_set_row_height (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	GList *l;
-	double value = 0.0;
-	double min = 5.;
-
-	/*
-	 * Find out the initial value to display
-	 */
-	for (l = sheet->selections; l; l = l->next){
-		Range *ss = l->data;
-		int row;
-
-		for (row = ss->start.row; row <= ss->end.row; row++){
-			ColRowInfo const *ri = sheet_row_get_info (sheet, row);
-			if (value == 0.0)
-				value = ri->size_pts;
-			else if (value != ri->size_pts){
-				/* Values differ, so let the user enter the data */
-				value = 0.0;
-				break;
-			}
-			if (min > (ri->margin_a + ri->margin_b))
-			    min = (ri->margin_a + ri->margin_b);
-		}
-	}
-
-	/* Scale and round to 3 decimal places */
-	value *= 1000.;
-	value = (int)(value + .5);
-	value /= 1000.;
-
-loop :
-	if (!dialog_get_number (wbcg, "row-height.glade", &value))
-		return;
-
-	if (value <= min) {
-		char *msg = g_strdup_printf(
-			_("You entered an invalid row height value.  It must be bigger than %d"),
-			(int)min);
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
-		goto loop;
-	}
-	{
-		double const scale =
-			sheet->last_zoom_factor_used *
-			application_display_dpi_get (FALSE) / 72.;
-		int size_pixels = (int)(value * scale + 0.5);
-		workbook_cmd_resize_selected_colrow (WORKBOOK_CONTROL (wbcg),
-						     FALSE, sheet, size_pixels);
-	}
+	dialog_row_height (wbcg, FALSE);
 }
 
 void
@@ -225,60 +127,13 @@ workbook_cmd_format_column_unhide (GtkWidget *widget, WorkbookControl *wbc)
 void
 workbook_cmd_format_column_std_width (GtkWidget *widget, WorkbookControl *wbc)
 {
-	WorkbookControlGUI *wbcg  = (WorkbookControlGUI *)wbc;
-	Sheet              *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	double              value = sheet_col_get_default_size_pts (sheet);
-	double const 	    min   = sheet->cols.default_style.margin_a +
-				    sheet->cols.default_style.margin_b;
-	char *msg;
-
-	/* Scale and round to 3 decimal places */
-	value *= 1000.;
-	value = (int)(value + .5);
-	value /= 1000.;
-
-	do {
-		if (!dialog_get_number (wbcg, "col-width.glade", &value))
-			return;
-		if (value > min)
-			break;
-		msg = g_strdup_printf (
-			_("The default column width must be > %d."), (int)min);
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
-	} while (1);
-
-	cmd_colrow_std_size (wbc, sheet, TRUE, value);
+	dialog_col_width ((WorkbookControlGUI *)wbc, TRUE);
 }
 
 void
 workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
 {
-	WorkbookControlGUI *wbcg  = (WorkbookControlGUI *)wbc;
-	Sheet              *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	double              value = sheet_row_get_default_size_pts (sheet);
-	double const 	    min   = sheet->rows.default_style.margin_a +
-				    sheet->rows.default_style.margin_b;
-	char *msg;
-
-
-	/* Scale and round to 3 decimal places */
-	value *= 1000.;
-	value = (int)(value + .5);
-	value /= 1000.;
-
-	do {
-		if (!dialog_get_number (wbcg, "row-height.glade", &value))
-			return;
-		if (value > min)
-			break;
-		msg = g_strdup_printf (
-			_("The default row height must be > %d."), (int)min);
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
-	} while (1);
-
-	cmd_colrow_std_size (wbc, sheet, FALSE, value);
+	dialog_row_height ((WorkbookControlGUI *)wbc, TRUE);
 }
 
 void

@@ -1,3 +1,13 @@
+2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : added dialog-row-height.c and dialog-col-width.c
+	* dialog-row-height.c : new
+	* dialog-col-width.c : new
+	* dialog-row-heigth.glade : added checkbox and spin button
+	* dialog-col-width.glade : ditto
+	* dialogs.h : added dialog_row_height and dialog_col_width
+	* dialog-zoom.glade : fix button formating
+
 2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-random-generator.c : make undoable

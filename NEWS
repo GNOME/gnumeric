@@ -10,6 +10,7 @@ Andreas:
 	* Add preference dialog.
 	* Improve treeview cell renderers.
 	* Make Random Generator Tool undoable.
+	* Fix and improve row-height dialog.
 
 Jody:
 	* Add password dialog to support encrypted input.

@@ -33,6 +33,7 @@ base_files =					\
 	dialog-cell-comment.c			\
 	dialog-cell-format.c			\
 	dialog-cell-sort.c			\
+	dialog-col-width.c			\
 	dialog-consolidate.c			\
 	dialog-function-select.c		\
 	dialog-formula-guru.c			\
@@ -47,6 +48,7 @@ base_files =					\
 	dialog-printer-setup.c			\
 	dialog-preferences.c			\
 	dialog-random-generator.c		\
+	dialog-row-height.c			\
 	dialog-search.c				\
 	dialog-search-replace.c			\
 	dialog-sheet-order.c			\
