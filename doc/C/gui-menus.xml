@@ -2029,27 +2029,29 @@
 	keyboard key and a mouse buttons. The user will have to find how to do this
 	themselves.</para>
 
-	<para> Currently Gnumeric provides five
-	different context menus. The context menu that is called in the central
-	grid area is discussed next in <xref
-	linkend="menu-context-grid" />. The
-	Context menu that appears when the pointer is over the row headers or
-	column headers is presented in <xref
-	linkend="menu-context-col-row-header" />. Another context menu relates to the
-	worksheet tabs and is explained in <xref
-	linkend="menu-context-tabs" />. Yet
-	another context menu applies to embedded objects or shaped components such
-	as a plot. These are shown in <xref
-	linkend="menu-context-object" />. The
-	final context menu allows the configuration of the toolbars. This menu is
-	presented in <xref linkend="menu-context-toolbars" />.</para>
+  <para>
+    Currently Gnumeric provides five different context menus. The
+    context menu that is called in the central grid area is discussed
+    next in <xref linkend="menu-context-grid" />. The Context menu
+    that appears when the pointer is over the row headers or column
+    headers is presented in <xref
+    linkend="menu-context-col-row-header" />. Another context menu
+    relates to the worksheet tabs and is explained in <xref
+    linkend="menu-context-tabs" />. Yet another context menu applies
+    to embedded objects or shaped components such as a plot. These are
+    shown in <xref linkend="menu-context-object" />.
+  </para>
 
 
-<sect2 id="menu-context-grid">
-	<title>The Context Menu for the Cell Grid Area</title>
-	<para>The context menu in the cell grid area appears when the pointer is over the cell
-	grid area. This menu applies to the cells that have been selected, not
-	necessarily the cell underneath the mouse pointer. </para>
+  <sect2 id="menu-context-grid">
+    <title>The Context Menu for the Cell Grid Area</title>
+
+    <para>
+      The context menu in the cell grid area appears when the pointer
+      is over the cell grid area. This menu applies to the cells that
+      have been selected, not necessarily the cell underneath the
+      mouse pointer.
+    </para>
 		<figure id="menu-context-grid.png">
 		    <title>The Context Menu for the Cell Grid Area.</title>
 		    <screenshot>

@@ -1,3 +1,14 @@
+2004-11-28  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Tweaks for release.
+
+	* configuration-preferences.xml: Remove duplicate id.
+	* gui-menus.xml: Remove id to toolbar context menu.
+	* gui-toolbars.xml: Remove id to toolbar context menu.
+	* functions.xml: Change EXCH to EXCHANGE, the real fix should be
+	                 in plugins/derivatives/options.c line 1921.
+
+
 2004-11-22  Adrian Custer <acuster@gnome.org>
 
 	* NEWS Comment out worksheet/workbook.

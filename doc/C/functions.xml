@@ -6297,7 +6297,7 @@
       </refsect1>
       <refsect1>
         <title>See also</title>
-        <para><link linkend="gnumeric-OPT_EURO_EXCH"><function>OPT_EURO_EXCH</function></link>,
+        <para><link linkend="gnumeric-OPT_EURO_EXCHANGE"><function>OPT_EURO_EXCHANGE</function></link>,
         <link linkend="gnumeric-OPT_BS"><function>OPT_BS</function></link>,
         <link linkend="gnumeric-OPT_BS_DELTA"><function>OPT_BS_DELTA</function></link>,
         <link linkend="gnumeric-OPT_BS_RHO"><function>OPT_BS_RHO</function></link>,
