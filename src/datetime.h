@@ -72,8 +72,9 @@ typedef enum { /* see doc/fn-financial-basis.txt for details */
 	BASIS_LAST        = 6
 } basis_t;
 
-void   adjust_dates_basis (GDate const *from, GDate const *to, int basis);
-gint32 days_between_basis (GDate const *from, GDate const *to, int basis);
+gint32  days_between_basis (GDate const *from, GDate const *to, basis_t basis);
+int     annual_year_basis  (Value const *value_date, basis_t basis,
+			    GnmDateConventions const *date_conv);
 
 typedef struct {
 	int	 freq;

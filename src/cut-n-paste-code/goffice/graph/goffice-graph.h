@@ -77,9 +77,14 @@ typedef enum {
 	GOG_AXIS_X,
 	GOG_AXIS_Y,
 	GOG_AXIS_Z,
-	GOG_AXIS_RADIAL,
 	GOG_AXIS_TYPES
 } GogAxisType;
+typedef enum {
+	GOG_AXES_XY,
+	GOG_AXES_XY_pseduo_3d,
+	GOG_AXES_XYZ,
+	GOG_AXES_TYPES
+} GogAxesType;
 
 typedef enum {
 	GOG_DIM_INVALID = -1,

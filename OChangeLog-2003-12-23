@@ -1,3 +1,9 @@
+2003-06-27  Jody Goldberg <jody@gnome.org>
+
+	* src/datetime.c (days_between_basis) : tidy up a bit.
+	(annual_year_basis) : move this here from the date plugin and use the
+	  enum to improve clarity.
+
 2003-06-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=115503

@@ -1237,7 +1237,21 @@ static char const *help_yearfrac = {
 static Value *
 gnumeric_yearfrac (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error_VALUE (ei->pos);
+	GnmDateConventions const *conv = DATE_CONV (ei->pos);
+	GDate start_date, end_date;
+	int basis = (argv[2] != NULL)
+		? value_get_as_int (argv[2])
+		: BASIS_MSRB_30_360;
+
+	if (basis < 0 || basis > 4 ||
+	    !datetime_value_to_g (&start_date, argv[0], conv) ||
+	    !datetime_value_to_g (&end_date, argv[1], conv) ||
+	    !g_date_valid (&start_date) || !g_date_valid (&end_date))
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (
+		(double) days_between_basis (&start_date, &end_date, basis) /
+		(double) annual_year_basis  (argv[0], basis, conv));
 }
 
 /***************************************************************************/

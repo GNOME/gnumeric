@@ -406,31 +406,29 @@ days_between_BASIS_30Ep_360 (GDate const *from, GDate const *to)
  */
 
 gint32
-days_between_basis (GDate const *from, GDate const *to, int basis)
+days_between_basis (GDate const *from, GDate const *to, basis_t basis)
 {
-	switch (g_date_compare (from, to)) {
-	case 1:
-		return (- days_between_basis (to, from, basis));
-	default:
-		break;
+	int sign = 1;
+
+	if (g_date_compare (from, to) == 1) {
+		GDate const *tmp = from;
+		from = to;
+		to = tmp;
+		sign = -1;
 	}
 
 	switch (basis) {
 	case BASIS_ACT_ACT:
 	case BASIS_ACT_360:
 	case BASIS_ACT_365:
-		return (g_date_get_julian (to) - g_date_get_julian (from));
-		break;
+		return sign * (g_date_get_julian (to) - g_date_get_julian (from));
 	case BASIS_30E_360:
-		return days_between_BASIS_30E_360 (from, to);
-		break;
+		return sign * days_between_BASIS_30E_360 (from, to);
 	case BASIS_30Ep_360:
-		return days_between_BASIS_30Ep_360 (from, to);
-		break;
+		return sign * days_between_BASIS_30Ep_360 (from, to);
 	case BASIS_MSRB_30_360:
 	default:
-		return days_between_BASIS_MSRB_30_360 (from, to);
-		break;
+		return sign * days_between_BASIS_MSRB_30_360 (from, to);
 	}
 }
 
@@ -563,3 +561,45 @@ gnm_date_convention_base (GnmDateConventions const *conv)
 	g_return_val_if_fail (conv != NULL, 1900);
 	return conv->use_1904 ? 1904 : 1900;
 }
+
+/*
+ * Returns the number of days in the year for the given date accoring to
+ * the day counting system specified by 'basis' argument.  Basis may have
+ * one of the following values:
+ *
+ *	0  for US 30/360 (days in a month/days in a year)
+ *	1  for actual days/actual days
+ *	2  for actual days/360
+ *	3  for actual days/365
+ *	4  for European 30/360
+ *
+ * This function returns 360 for basis 0, 2, and 4, it returns value
+ * 365 for basis 3, and value 365 or 366 for basis 1 accoring to the
+ * year of the given date (366 is returned if the date is in a leap
+ * year).
+ */
+int
+annual_year_basis (Value const *value_date, basis_t basis,
+		   GnmDateConventions const *date_conv)
+{
+        GDate    date;
+
+	switch (basis) {
+	case BASIS_MSRB_30_360:
+	        return 360;
+	case BASIS_ACT_ACT:
+		if (!datetime_value_to_g (&date, value_date, date_conv))
+		        return -1;
+		return g_date_is_leap_year (g_date_get_year (&date))
+			? 366 : 365;
+	case BASIS_ACT_360:
+	        return 360;
+	case BASIS_ACT_365:
+	        return 365;
+	case BASIS_30E_360:
+	        return 360;
+	default:
+	        return -1;
+	}
+}
+

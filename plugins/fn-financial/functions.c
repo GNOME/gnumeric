@@ -128,47 +128,6 @@ calculate_pmt (gnm_float rate, gnm_float nper, gnm_float pv, gnm_float fv,
 
 /***************************************************************************/
 
-/*
- * Returns the number of days in the year for the given date accoring to
- * the day counting system specified by 'basis' argument.  Basis may have
- * one of the following values:
- *
- *	0  for US 30/360 (days in a month/days in a year)
- *	1  for actual days/actual days
- *	2  for actual days/360
- *	3  for actual days/365
- *	4  for European 30/360
- *
- * This function returns 360 for basis 0, 2, and 4, it returns value
- * 365 for basis 3, and value 365 or 366 for basis 1 accoring to the
- * year of the given date (366 is returned if the date is in a leap
- * year).
- */
-static int
-annual_year_basis (Value *value_date, int basis,
-		   GnmDateConventions const *date_conv)
-{
-        GDate    date;
-
-	switch (basis) {
-	case 0:
-	        return 360;
-	case 1:
-		if (!datetime_value_to_g (&date, value_date, date_conv))
-		        return -1;
-		return g_date_is_leap_year (g_date_get_year (&date))
-			? 366 : 365;
-	case 2:
-	        return 360;
-	case 3:
-	        return 365;
-	case 4:
-	        return 360;
-	default:
-	        return -1;
-	}
-}
-
 /* Returns the number of days between issue date and maturity date
  * accoring to the day counting system specified by the 'basis'
  * argument.  Basis may have one of the following values:

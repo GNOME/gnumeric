@@ -61,6 +61,8 @@ typedef struct {
 	GogPlotDesc	desc;
 	GType		series_type;
 
+	unsigned	supports_vary_by_element : 1;
+
 	/* Virtuals */
 	GOData	  *(*axis_bounds)  (GogPlot *plot, unsigned axis,
 				    double *min, double *max);

@@ -524,7 +524,6 @@ Function Breakage
 - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
   algorithm, see Knuth.
 - WORKDAY	Add holiday support
-- YEARFRAC	Move to fn-finance and use the available routines.
 
 * Convert the code from sc to use our more accurate date routines
 - ODDFPRICE	(test fails)

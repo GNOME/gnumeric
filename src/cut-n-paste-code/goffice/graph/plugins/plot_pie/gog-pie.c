@@ -201,6 +201,7 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 	plot_klass->desc.num_series_min = plot_klass->desc.num_series_max = 1;
 	plot_klass->series_type  = gog_pie_series_get_type ();
 	plot_klass->foreach_elem = gog_pie_plot_foreach_elem;
+	plot_klass->supports_vary_by_element = TRUE;
 }
 
 static void
