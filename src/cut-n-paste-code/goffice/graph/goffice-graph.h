@@ -71,6 +71,11 @@ typedef struct {
 	double x, y;
 } GogViewAllocation;
 
+typedef struct {
+	double wr, hb;
+	double wl, ht;
+} GogViewPadding;
+
 typedef void (*GogEnumFunc) (unsigned i, GogStyle *style,
 			     char const *name, gpointer data);
 

@@ -224,6 +224,7 @@ static GogObjectRole const roles[] = {
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } }
 };
+
 static void
 gog_chart_class_init (GogObjectClass *gog_klass)
 {
@@ -513,8 +514,7 @@ gog_chart_get_grid (GogChart const *chart)
 typedef struct {
 	GogOutlinedView base;
 
-	/* indents */
-	double pre_x, post_x;
+	GogViewAllocation	plot_area;
 } GogChartView;
 typedef GogOutlinedViewClass	GogChartViewClass;
 
@@ -524,97 +524,136 @@ typedef GogOutlinedViewClass	GogChartViewClass;
 
 static GogViewClass *cview_parent_klass;
 
+GogViewAllocation const *
+gog_chart_view_get_plot_area (GogView const *view)
+{
+	g_return_val_if_fail ((GOG_CHART_VIEW (view) != NULL), NULL);
+
+	return & (GOG_CHART_VIEW(view)->plot_area);
+}
+
+static void
+child_request (GogView *view, GogViewAllocation *res, 
+	       GogViewAllocation const *plot_area,
+	       gboolean allocate)
+{
+	GSList *ptr;
+	GogView *child;
+	GogAxis const *axis;
+	GogViewRequisition req;
+	GogViewAllocation allocation;
+
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+		if (child->model->position != GOG_POSITION_SPECIAL ||
+		    !IS_GOG_AXIS (child->model))
+			continue;
+
+		axis = GOG_AXIS (child->model);
+		req.w = req.h = 0.;
+		gog_view_size_request (child, &req);
+		allocation = *plot_area;
+		switch (gog_axis_get_atype (axis)) {
+			case GOG_AXIS_X:
+				if (req.h > 0) {
+					res->h -= req.h;
+					allocation.h = req.h;
+					if (gog_axis_get_pos (axis) == GOG_AXIS_AT_HIGH) {
+						allocation.y = res->y;
+						res->y += req.h;
+					} else
+						allocation.y = res->y + res->h;	
+				}
+				
+				
+				break;
+			case GOG_AXIS_Y:
+				if (req.w > 0) {
+					res->w -= req.w;
+					allocation.w = req.w;
+					if (gog_axis_get_pos (axis) == GOG_AXIS_AT_LOW) {
+						allocation.x = res->x;
+						res->x += req.w;
+					} else
+						allocation.x = res->x + res->w;
+				}
+				break;
+			default:
+				break;
+		}
+		if (allocate)
+			gog_view_size_allocate (child, &allocation);
+	}
+}
+
 static void
 gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 {
 	GSList *ptr;
 	GogView *child;
-	GogChartView	*cview = GOG_CHART_VIEW (view);
-	GogChart	*chart = GOG_CHART (view->model);
-	GogAxis const *axis;
-	GogViewAllocation tmp, res = *allocation;
-	GogViewRequisition req;
+	GogChart *chart = GOG_CHART (view->model);
+	GogViewAllocation res = *allocation;
+	GogViewAllocation tmp, axis_alloc;
 
 	(cview_parent_klass->size_allocate) (view, &res);
 
-	res = view->residual;
+	res = view->residual; 
 	switch (chart->axis_set) {
-	case GOG_AXIS_SET_XY: {
-		/* position the X & Y axes */
-		double pre_x = 0., post_x = 0., pre_y = 0, post_y = 0.;
-		double old_pre_x, old_post_x, old_pre_y, old_post_y;
 
-		do {
-			old_pre_x  = pre_x;	old_post_x = post_x;
-			old_pre_y  = pre_y;	old_post_y = post_y;
-			pre_x = post_x = pre_y = post_y = 0.;
+		case GOG_AXIS_SET_XY:
+		{
+			GogViewPadding axis_padding, padding = {0., 0., 0., 0.};
+
+			tmp = res;
+			child_request (view, &res, &res, FALSE);
+			
+			/* FIXME: we need to iterate until convergence */ 
+			for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+				child = ptr->data;
+				if (child->model->position != GOG_POSITION_SPECIAL ||
+				    !IS_GOG_AXIS (child->model))
+					continue;
+				
+				gog_axis_view_padding_request (child, &axis_padding, &res);
+				padding.wr = MAX (padding.wr, axis_padding.wr);
+				padding.wl = MAX (padding.wl, axis_padding.wl);
+				padding.hb = MAX (padding.hb, axis_padding.hb);
+				padding.ht = MAX (padding.ht, axis_padding.ht);
+			}
+			res.x += padding.wl;
+			res.w -= padding.wl + padding.wr;
+			res.y += padding.ht;
+			res.h -= padding.ht + padding.hb;
+
 			for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 				child = ptr->data;
 				if (child->model->position != GOG_POSITION_SPECIAL ||
 				    !IS_GOG_AXIS (child->model))
 					continue;
 
-				axis = GOG_AXIS (child->model);
-
-				req.w = res.w - pre_x - post_x;
-				req.h = res.h - pre_y - post_y;
-				gog_view_size_request (child, &req);
-
-				switch (gog_axis_get_atype (axis)) {
-				case GOG_AXIS_X:
-					/* X axis fill the bottom and top */
-					tmp.x = res.x;
-					tmp.w = res.w;
-					tmp.h = req.h;
-					switch (gog_axis_get_pos (axis)) {
-					case GOG_AXIS_AT_LOW:
-						post_y += req.h;
-						tmp.y   = res.y + res.h - post_y;
+				switch (gog_axis_get_atype (GOG_AXIS (child->model))) 
+				{
+					case GOG_AXIS_X:
+						axis_alloc = tmp;
+						axis_alloc.x = res.x;
+						axis_alloc.w = res.w;
+						gog_view_size_allocate (child, &axis_alloc);
 						break;
-					case GOG_AXIS_AT_HIGH:
-						tmp.y  = res.y + pre_y;
-						pre_y += req.h;
+
+					case GOG_AXIS_Y:
+						axis_alloc = tmp;
+						axis_alloc.y = res.y;
+						axis_alloc.h = res.h;
+						gog_view_size_allocate (child, &axis_alloc);
 						break;
+
 					default:
 						break;
-					}
-					break;
-				case GOG_AXIS_Y:
-					/* Y axis take just the previous middle,
-					 * if it changes we'll iterate back */
-					tmp.y = res.y + old_pre_y;
-					tmp.h = res.h - old_pre_y - old_post_y;
-					tmp.w = req.w;
-					switch (gog_axis_get_pos (axis)) {
-					case GOG_AXIS_AT_LOW:
-						tmp.x = res.x + pre_x;
-						pre_x  += req.w;
-						break;
-					case GOG_AXIS_AT_HIGH:
-						post_x  += req.w;
-						tmp.x = res.x + res.w - post_x;
-						break;
-					default:
-						break;
-					}
-					break;
-
-				default: break;
-				}
-				gog_view_size_allocate (child, &tmp);
+				}	
 			}
-		/* as things get narrower their size may change */
-		} while (fabs (old_pre_x - pre_x) > 1e-4 ||
-			 fabs (old_post_x- post_x) > 1e-4 ||
-			 fabs (old_pre_y - pre_y) > 1e-4 ||
-			 fabs (old_post_y- post_y) > 1e-4);
-
-		cview->pre_x  = pre_x;
-		cview->post_x = post_x;
-		res.x += pre_x;	res.w -= pre_x + post_x;
-		res.y += pre_y;	res.h -= pre_y + post_y;
+		}		      
 		break;
-	}
+
 	case GOG_AXIS_SET_RADAR:
 		/* Give the axes the whole residual area. */
 		for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
@@ -640,12 +679,13 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 		    (IS_GOG_PLOT (child->model) || child->model == chart->grid))
 			gog_view_size_allocate (child, &res);
 	}
+	
+	GOG_CHART_VIEW(view)->plot_area = res;
 }
 
 static void
 gog_chart_view_init (GogChartView *cview)
 {
-	cview->pre_x = cview->post_x = 0.;
 }
 
 static void
@@ -661,23 +701,3 @@ gog_chart_view_class_init (GogChartViewClass *gview_klass)
 static GSF_CLASS (GogChartView, gog_chart_view,
 		  gog_chart_view_class_init, gog_chart_view_init,
 		  GOG_OUTLINED_VIEW_TYPE)
-
-/**
- * gog_chart_view_get_indents :
- * @view : #GogChartView, publicly a GogView to keep this type private
- * @pre	 :
- * @post :
- *
- * Get the indentation necessary to align the lines for axis from different
- * dimensions.
- **/
-void
-gog_chart_view_get_indents (GogView const *view, double *pre, double *post)
-{
-	GogChartView *cview = GOG_CHART_VIEW (view);
-
-	g_return_if_fail (cview != NULL);
-
-	*pre = cview->pre_x;
-	*post = cview->post_x;
-}

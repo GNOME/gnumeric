@@ -512,7 +512,7 @@ map_log_to_canvas (GogAxisMap *map, double value, gboolean inverted)
 	
 	if (value <= 0.) 
 		/* Make libart happy */
-		result = inverted ? DBL_MIN : DBL_MAX; 
+		result = inverted ? -DBL_MAX : DBL_MAX; 
 	else
 		result = inverted ? 
 			log (value) * data->a_inv + data->b_inv :
@@ -1824,45 +1824,99 @@ typedef GogViewClass	GogAxisViewClass;
 
 static GogViewClass *aview_parent_klass;
 
-static void
-gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
+void
+gog_axis_view_padding_request (GogView *v, GogViewPadding *padding,
+			       GogViewAllocation *bbox)
 {
 	GogAxis *axis = GOG_AXIS (v->model);
-	GogViewRequisition txt_size, available;
+	GogViewRequisition txt_size;
 	gboolean const is_horiz = axis->type == GOG_AXIS_X;
-	char *label;
 	unsigned i;
-	double total = 0., txt_max = 0., tick_major = 0., tick_minor = 0.;
+	double tick_major = 0., tick_minor = 0.;
+	double txt_max_h, txt_max_w;
 	double line_width = gog_renderer_line_size (
 		v->renderer, axis->base.style->line.width);
+	
+	double Xl, Xr, wl, wr, xm;
+	gboolean label_found = FALSE;
+	double position;
+	char *label = NULL;
+	double padding_l, padding_r, padding_label;
+	gboolean is_l_valid, is_r_valid;
 
-	if (axis->type != GOG_AXIS_X && axis->type != GOG_AXIS_Y)
+	GogAxisMap *map;
+
+	padding->wr = padding->wl = padding->ht = padding->hb = 0.;
+
+	if ((axis->type != GOG_AXIS_X && axis->type != GOG_AXIS_Y))
 		return;
 
-/* TODO : Think about rotating things or dropping markers periodically if
- * things are too big */
-	if (axis->major_tick_labeled) {
-		gog_renderer_push_style (v->renderer, axis->base.style);
-		for (i = 0; i < axis->tick_nbr; i++) {
-			label = axis->ticks[i].label;
-			if (label != NULL) {
-				gog_renderer_measure_text (v->renderer, label,
-							   &txt_size);
-				if (is_horiz) {
-					total += txt_size.w;
-					if (txt_max < txt_size.h)
-						txt_max = txt_size.h;
-				} else {
-					total += txt_size.h;
-					if (txt_max < txt_size.w)
-						txt_max = txt_size.w;
-				}
-			}
-		}
-		gog_renderer_pop_style (v->renderer);
+	map = gog_axis_map_new (axis, 0., 1.);
+
+	if (is_horiz) {
+		xm = bbox->w - bbox->x;
+	} else {
+		xm = bbox->h - bbox->y;
 	}
 
-	available = *req; /* store available */
+
+	padding_l = padding_r = padding_label = 0.;
+	Xl = DBL_MAX;
+	Xr = -DBL_MAX;
+	wl = wr = 0.;
+	txt_max_w = txt_max_h = 0.;
+	gog_renderer_push_style (v->renderer, axis->base.style);
+	for (i = 0; i < axis->tick_nbr; i++) {
+		label = axis->ticks[i].label;
+		if (label != NULL) {
+			label_found = TRUE;
+			position = gog_axis_map (map, axis->ticks[i].position);
+			gog_renderer_measure_text (v->renderer, label,
+						   &txt_size);
+			
+			if (txt_max_h < txt_size.h)
+				txt_max_h = txt_size.h;
+			if (txt_max_w < txt_size.w)
+				txt_max_w = txt_size.w;
+			
+			if (position < Xl) {
+				Xl = position;
+				wl = (is_horiz ? txt_size.w : txt_size.h) / 2.;
+			}
+			if (position > Xr) {
+				Xr = position;
+				wr = (is_horiz ? txt_size.w : txt_size.h) / 2.;
+			}
+		}
+	}
+	gog_renderer_pop_style (v->renderer);
+
+	if (label_found) { 
+		if (Xl != Xr) {
+			padding_l = (Xr * wl + Xl * (wr - xm)) / (Xr - Xl);
+			padding_r = xm - (((Xr - 1.0) * wl + (Xl - 1.0) * (wr - xm)) / (Xr - Xl));
+			is_l_valid = padding_l > 0.;
+			is_r_valid = padding_r > 0.;
+		} else {
+			is_l_valid = Xl > .5;
+			is_r_valid = ! is_l_valid;
+		}
+		
+		if (!is_l_valid) {
+			padding_l = 0.;
+			if (Xr > 0.)
+				padding_r = MAX (xm - ((xm - wr)  / Xr), 0.);
+			else
+				padding_r = 0.;
+		} else if (!is_r_valid) {
+			padding_r = 0.;
+			if (Xl < 1.0) 
+				padding_l = MAX ((wl -Xl * xm) / (1 - Xl), 0.);
+			else
+				padding_l = 0.;
+		}
+	}
+
 	if (is_horiz) {
 		if (line_width > 0) {
 			if (axis->major.tick_out)
@@ -1872,16 +1926,10 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 				tick_minor = gog_renderer_pt2r_y (v->renderer,
 							  axis->minor.size_pts);
 		}
-		req->w = total;
-		req->h = line_width;
-		if (axis->major_tick_labeled) {
-			txt_max += gog_renderer_pt2r_y (v->renderer, TICK_LABEL_PAD_VERT);
-			if (axis->is_discrete)
-				req->h += MAX (txt_max, MAX (tick_major, tick_minor));
-			else
-				req->h += MAX (tick_major + txt_max, tick_minor);
-		} else
-			req->h += MAX (tick_major, tick_minor);
+		padding_label = (axis->is_discrete ?
+			MAX (txt_max_h, MAX (tick_minor, tick_major)):
+			MAX (tick_major + txt_max_h, tick_minor)) +
+			line_width;	
 	} else {
 		if (line_width > 0) {
 			if (axis->major.tick_out)
@@ -1891,47 +1939,41 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 				tick_minor = gog_renderer_pt2r_x (v->renderer,
 								  axis->minor.size_pts);
 		}
-		req->h = total;
-		req->w = line_width;
-		if (axis->major_tick_labeled) {
-			txt_max += gog_renderer_pt2r_x (v->renderer, TICK_LABEL_PAD_HORIZ);
-			if (axis->is_discrete)
-				req->w += MAX (txt_max, MAX (tick_major, tick_minor));
-			else
-				req->w += MAX (tick_major + txt_max, tick_minor);
-		} else
-			req->w += MAX (tick_major, tick_minor);
+		padding_label = (axis->is_discrete ?
+			MAX (txt_max_w, MAX (tick_major, tick_minor)):
+			MAX (tick_major + txt_max_w, tick_minor)) +
+			line_width;	
 	}
 
-	gog_view_size_child_request (v, &available, req);
+	if (is_horiz) {
+		padding->wl = padding_l;
+		padding->wr = padding_r;
+		if (axis->pos == GOG_AXIS_AT_LOW) {
+			padding->hb = padding_label;
+			padding->ht = line_width;
+		} else {
+			padding->hb = line_width;
+			padding->ht = padding_label;
+		}
+	} else {
+		padding->ht = padding_r;
+		padding->hb = padding_l;
+		if (axis->pos == GOG_AXIS_AT_LOW) {
+			padding->wl = padding_label;
+			padding->wr = line_width;
+		} else {
+			padding->wl = line_width;
+			padding->wr = padding_label;
+		}
+	}
+
+	gog_axis_map_free (map);
 }
 
 static void
-gog_axis_size_allocate (GogView *v, GogViewAllocation const *a)
+gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 {
-#if 1
-	aview_parent_klass->size_allocate (v, a);
-#else
-	GogAxis *axis = GOG_AXIS (v->model);
-	GogViewRequisition tmp;
-	char *label;
-	int i, n, step = 1;
-	/* double total = 0., max = 0., tick_major = 0., tick_minor = 0., pad = 0.; */
-
-	if (!axis->major_tick_labeled || axis->type != GOG_AXIS_X)
-		return;
-
-	aview_parent_klass->size_allocate (v, a);
-
-	gog_renderer_push_style (v->renderer, axis->base.style);
-	n = gog_axis_num_markers (axis, NULL, NULL);
-	for (i = 0 ; i < n ; i += step) {
-		label = gog_axis_get_marker (axis, i);
-		gog_renderer_measure_text (v->renderer, label, &tmp);
-		g_free (label);
-	}
-	gog_renderer_pop_style (v->renderer);
-#endif
+	gog_view_size_child_request (v, req, req);
 }
 
 static gboolean
@@ -1988,6 +2030,7 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 		path[0].y = ay;
 		path[1].x = bx;
 		path[1].y = by;
+		path[2].code = ART_END;
 		map = gog_axis_map_new (axis, 0., axis_length);
 	}
 
@@ -2065,14 +2108,14 @@ static void
 gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 {
 	GtkAnchorType anchor;
-	GogViewAllocation const *area = &v->residual;
+	GogViewAllocation const *area;
 	GogViewAllocation label_pos, label_result;
 	GogViewRequisition txt_size;
-	double last_label_pos = .0, last_label_size = -1.;
+	double last_label_pos = .0, last_label_size = -DBL_MAX;
 	ArtVpath *path = NULL;
 	GogAxis *axis = GOG_AXIS (v->model);
 	unsigned i;
-	double pre, post, tick_len, label_pad, dir, center, label_spacing = 0.;
+	double tick_len, label_pad, dir, center, label_spacing = 0.;
 	double line_width = gog_renderer_line_size (
 		v->renderer, axis->base.style->line.width) / 2;
 	double pos, offset;
@@ -2082,24 +2125,26 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	(aview_parent_klass->render) (v, bbox);
 
 	g_return_if_fail (axis->pos != GOG_AXIS_IN_MIDDLE);
+	g_return_if_fail (v->parent != NULL);
+	area = gog_chart_view_get_plot_area (v->parent);
+	g_return_if_fail (area != NULL);
 
 	gog_renderer_push_style (v->renderer, axis->base.style);
 
 	switch (axis->type) {
 	case GOG_AXIS_X:
-		gog_chart_view_get_indents (v->parent, &pre, &post);
 		switch (axis->pos) {
 			default :
 			case GOG_AXIS_AT_LOW:
 				anchor = GTK_ANCHOR_N;
 				dir = 1.;
-				center = area->y;
+				center = area->y + area->h;
 				break;
 
 			case GOG_AXIS_AT_HIGH:
 				anchor = GTK_ANCHOR_S;
 				dir = -1.;
-				center = area->y + area->h;
+				center = area->y;
 				break;
 		}
 
@@ -2113,10 +2158,11 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			
 			path = g_new (ArtVpath, axis->tick_nbr * 2 + 3);
 			path[0].y = path[1].y = center;
-			path[0].x = area->x + pre - line_width;
-			path[1].x = area->x + area->w - post + line_width;
+			path[0].x = area->x - line_width;
+			path[1].x = area->x + area->w + line_width;
 			path[0].code = ART_MOVETO;
 			path[1].code = ART_LINETO;
+			path[2].code = ART_END;
 		}
 		
 		if (axis->major_tick_labeled) {
@@ -2131,7 +2177,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		}
 
 		if (axis->tick_nbr > 0) {
-			GogAxisMap *map = gog_axis_map_new (axis, area->x + pre, area->w - pre - post);
+			GogAxisMap *map = gog_axis_map_new (axis, area->x, area->w);
 			offset = axis->is_discrete ? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
 
@@ -2161,11 +2207,13 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 				if (axis->ticks[i].label != NULL) {
 					label_pos.x = gog_axis_map_to_canvas (map, axis->ticks[i].position);
-					if (fabs (last_label_pos - label_pos.x) > last_label_size) {
+					gog_renderer_measure_text (v->renderer, axis->ticks[i].label, &txt_size);
+					txt_size.w /= 2.0;
+					if (fabs (last_label_pos - label_pos.x) > last_label_size + txt_size.w + label_spacing) {
 						gog_renderer_draw_text (v->renderer, axis->ticks[i].label,
 									&label_pos, anchor, &label_result);
 						last_label_pos = label_pos.x;
-						last_label_size = label_result.w + label_spacing;
+						last_label_size = txt_size.w;
 					}
 				}
 			}
@@ -2186,12 +2234,12 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			case GOG_AXIS_AT_LOW:
 				anchor = GTK_ANCHOR_E;
 				dir = -1.;
-				center = area->x + area->w;
+				center = area->x;
 				break;
 			case GOG_AXIS_AT_HIGH:
 				anchor = GTK_ANCHOR_W;
 				dir = 1.;
-				center = area->x;
+				center = area->x + area->w;
 				break;
 		}
 
@@ -2209,6 +2257,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			path[1].y = area->y - line_width;
 			path[0].code = ART_MOVETO;
 			path[1].code = ART_LINETO;
+			path[2].code = ART_END;
 		}
 
 		if (axis->major_tick_labeled) {
@@ -2249,11 +2298,13 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 				if (axis->ticks[i].label != NULL) {
 					label_pos.y = gog_axis_map_to_canvas (map, axis->ticks[i].position);
-					if (fabs (last_label_pos - label_pos.y) > last_label_size) {
+					gog_renderer_measure_text (v->renderer, axis->ticks[i].label, &txt_size);
+					txt_size.h /= 2.0;
+					if (fabs (last_label_pos - label_pos.y) > last_label_size + txt_size.h) {
 						gog_renderer_draw_text (v->renderer, axis->ticks[i].label,
 									&label_pos, anchor, &label_result);
 						last_label_pos = label_pos.y;
-						last_label_size = label_result.h;
+						last_label_size = txt_size.h;
 					}
 				}
 			}
@@ -2320,7 +2371,6 @@ gog_axis_view_class_init (GogAxisViewClass *gview_klass)
 
 	aview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_request  = gog_axis_view_size_request;
-	view_klass->size_allocate = gog_axis_size_allocate;
 	view_klass->render	  = gog_axis_view_render;
 }
 

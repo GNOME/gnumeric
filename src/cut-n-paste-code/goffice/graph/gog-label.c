@@ -206,15 +206,30 @@ static void
 gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogLabel *l = GOG_LABEL (view->model);
-
-	(lview_parent_klass->render) (view, bbox);
+	GogOutlinedObject *goo = GOG_OUTLINED_OBJECT (view->model);
 
 	gog_renderer_push_style (view->renderer, l->base.base.style);
 	if (l->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
-		if (text != NULL)
+		if (text != NULL) {
+			double outline = gog_renderer_line_size (
+				view->renderer, goo->base.style->outline.width);
+			
+			if (outline > 0.) {
+				GogViewRequisition req;
+				GogViewAllocation rect;
+				double pad_x = gog_renderer_pt2r_x (view->renderer, goo->padding_pts);
+				double pad_y = gog_renderer_pt2r_y (view->renderer, goo->padding_pts);
+				
+				gog_renderer_measure_text (view->renderer, text, &req);
+				rect = view->allocation;
+				rect.w = req.w + 2. * outline + pad_x;
+				rect.h = req.h + 2. * outline + pad_y;
+				gog_renderer_draw_rectangle (view->renderer, &rect, NULL);
+			}
 			gog_renderer_draw_text (view->renderer, text,
-				&view->residual, GTK_ANCHOR_NW, NULL);
+						&view->residual, GTK_ANCHOR_NW, NULL);
+		}
 	}
 	gog_renderer_pop_style (view->renderer);
 }

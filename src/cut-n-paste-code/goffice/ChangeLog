@@ -1,3 +1,30 @@
+2004-09-07  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=151530
+	tick label truncated by chart outline
+	http://bugzilla.gnome.org/show_bug.cgi?id=151527
+	pb when exporting to svg a chart without outline
+	http://bugzilla.gnome.org/show_bug.cgi?id=127203
+	X axis labels centre on chart, not on axis
+	
+	* graph/goffice-graph.h: new GogViewPadding type.
+	* graph/gog-axis.c (map_log_to_canvas): DBL_MIN is not -DBL_MAX.
+	(gog_axis_view_padding_request): new.
+	(gog_axis_view_size_request): just call gog_view_size_child_request.
+	(gog_axis_view_size_allocate): remove.
+	(gog_axi_view_render): stop libart path to third element in case of
+        line_width <= 0. Fix label dropping. Use Chart->plot_area for axis
+	drawing.
+	* graph/gog-chart.c (gog_chart_view_get_plot_area): new.
+	(child_request): new.
+	(gog_chart_view_size_allocate): axis now request space around
+	residual. Store residual in Chart->plot_area.
+	* graph/gog-label.c (gog_label_view_render): draw rectangle here,
+	since in gog_outlined_object, rectangle around label is clipped to
+	view->allocation.
+	* grapg/gog-renderer-pixbuf.c (draw_text): don't clip text, to be
+	consistent with svg and gnome-print renderer.
+	
 2004-09-06  Jody Goldberg <jody@gnome.org>
 
 	* gui-utils/go-color-palette.c (go_color_palette_setup) : warning

@@ -478,8 +478,9 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	}
 	x = (x > 0) ? (x + PANGO_SCALE / 2) / PANGO_SCALE : 0;
 	w = (rect.width + PANGO_SCALE / 2) / PANGO_SCALE;
-	if (w > pos->w && pos->w >= 0)
-		w = pos->w;
+/*	Makes rendering inconsitent with gnome-print and svg renderer */
+/*	if (w > pos->w && pos->w >= 0)*/
+/*		w = pos->w;*/
 	if ((x + w) > prend->w)
 		w = prend->w - x;
 
@@ -494,8 +495,9 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	}
 	y = (y > 0) ? (y + PANGO_SCALE / 2) / PANGO_SCALE : 0;
 	h = (rect.height + PANGO_SCALE / 2) / PANGO_SCALE;
-	if (h > pos->h && pos->h >= 0)
-		h = pos->h;
+/*	Makes rendering inconsitent with gnome-print and svg renderer */
+/*	if (h > pos->h && pos->h >= 0)*/
+/*		h = pos->h;*/
 	if ((y + h) > prend->h)
 		h = prend->h - y;
 

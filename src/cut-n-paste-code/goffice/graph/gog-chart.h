@@ -53,8 +53,7 @@ GSList	*gog_chart_get_axis	     (GogChart const *chart, GogAxisType type);
 GogGrid *gog_chart_get_grid	     (GogChart const *chart);
 
 /* View utils */
-void	 gog_chart_view_get_indents  (GogView const *view,
-				      double *pre, double *post);
+GogViewAllocation const *gog_chart_view_get_plot_area (GogView const *view);
 
 G_END_DECLS
 

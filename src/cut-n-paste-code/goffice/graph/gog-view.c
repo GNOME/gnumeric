@@ -245,50 +245,50 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 				vertical = FALSE;
 			} 
 
-			if (pos & GOG_POSITION_E) {
-				if (req.w > 0) {
-					res.w -= req.w + pad_w;
-					tmp.x  = res.x + res.w + pad_w;
-				} else
-					req.w = 0;
-				tmp.w  = req.w;
-				/* For NE & NW only alignment fill makes sense */
-				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
-					pos = GOG_POSITION_ALIGN_FILL;
-			} else if (pos & GOG_POSITION_W) {
-				if (req.w > 0) {
-					res.x += req.w + pad_w;
-					res.w -= req.w + pad_w;
-				} else
-					req.w = 0;
-				tmp.w  = req.w;
-				/* For NE & NW only alignment fill makes sense */
-				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
-					pos = GOG_POSITION_ALIGN_FILL;
-			}
+				if (pos & GOG_POSITION_E) {
+					if (req.w > 0) {
+						res.w -= req.w + pad_w;
+						tmp.x  = res.x + res.w + pad_w;
+					} else
+						req.w = 0;
+					tmp.w  = req.w;
+					/* For NE & NW only alignment fill makes sense */
+					if (pos & (GOG_POSITION_N|GOG_POSITION_S))
+						pos = GOG_POSITION_ALIGN_FILL;
+				} else if (pos & GOG_POSITION_W) {
+					if (req.w > 0) {
+						res.x += req.w + pad_w;
+						res.w -= req.w + pad_w;
+					} else
+						req.w = 0;
+					tmp.w  = req.w;
+					/* For NE & NW only alignment fill makes sense */
+					if (pos & (GOG_POSITION_N|GOG_POSITION_S))
+						pos = GOG_POSITION_ALIGN_FILL;
+ 				}
 
-			pos &= GOG_POSITION_ALIGNMENT;
-			if (GOG_POSITION_ALIGN_FILL != pos) {
-				if (vertical) {
-					if (GOG_POSITION_ALIGN_END == pos) {
-						if (tmp.h >= req.h)
-							tmp.y += tmp.h - req.h;
-					} else if (GOG_POSITION_ALIGN_CENTER == pos) {
-						if (tmp.h >= req.h)
-							tmp.y += (tmp.h - req.h) / 2.;
+				pos &= GOG_POSITION_ALIGNMENT;
+				if (GOG_POSITION_ALIGN_FILL != pos) {
+					if (vertical) {
+						if (GOG_POSITION_ALIGN_END == pos) {
+							if (tmp.h >= req.h)
+								tmp.y += tmp.h - req.h;
+						} else if (GOG_POSITION_ALIGN_CENTER == pos) {
+							if (tmp.h >= req.h)
+								tmp.y += (tmp.h - req.h) / 2.;
+						}
+						tmp.h = req.h;
+					} else {
+						if (GOG_POSITION_ALIGN_END == pos) {
+							if (tmp.w >= req.w)
+								tmp.x += tmp.w - req.w;
+						} else if (GOG_POSITION_ALIGN_CENTER == pos) {
+							if (tmp.w >= req.w)
+								tmp.x += (tmp.w - req.w) / 2.;
+						}
+						tmp.w = req.w;
 					}
-					tmp.h = req.h;
-				} else {
-					if (GOG_POSITION_ALIGN_END == pos) {
-						if (tmp.w >= req.w)
-							tmp.x += tmp.w - req.w;
-					} else if (GOG_POSITION_ALIGN_CENTER == pos) {
-						if (tmp.w >= req.w)
-							tmp.x += (tmp.w - req.w) / 2.;
-					}
-					tmp.w = req.w;
 				}
-			}
 
 			gog_view_size_allocate (child, &tmp);
 		} else if (pos != GOG_POSITION_SPECIAL)
@@ -634,4 +634,3 @@ gog_view_find_child_view  (GogView const *container, GogObject const *target_mod
 
 	return (GogView *)container;
 }
-

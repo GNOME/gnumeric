@@ -65,6 +65,9 @@ GSList const *gog_axis_contributors	  (GogAxis *axis);
 void	      gog_axis_clear_contributors (GogAxis *axis);
 void	      gog_axis_bound_changed	  (GogAxis *axis, GogObject *contrib);
 
+void	      gog_axis_view_padding_request (GogView *v, GogViewPadding *padding,
+					     GogViewAllocation *bbox);
+
 typedef struct _GogAxisMapDesc GogAxisMapDesc;
 
 typedef struct {
