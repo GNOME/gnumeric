@@ -3,7 +3,7 @@
 /*
  * sheet-object-widget.c: SheetObject wrappers for simple gtk widgets.
  *
- * Copyright (C) 2000 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2003 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -266,11 +266,10 @@ typedef struct {
   	Sheet		   *sheet;
 } FrameConfigState;
 
-static gboolean
-cb_frame_config_destroy (GtkObject *w, FrameConfigState *state)
+static void
+cb_frame_config_destroy (FrameConfigState *state)
 {
- 	g_return_val_if_fail (w != NULL, FALSE);
- 	g_return_val_if_fail (state != NULL, FALSE);
+ 	g_return_if_fail (state != NULL);
 
  	wbcg_edit_detach_guru (state->wbcg);
 
@@ -283,8 +282,6 @@ cb_frame_config_destroy (GtkObject *w, FrameConfigState *state)
  	state->old_label = NULL;
  	state->dialog = NULL;
  	g_free (state);
-
- 	return FALSE;
 }
 
 static void
@@ -360,18 +357,14 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 	table = glade_xml_get_widget(state->gui, "table");
 
   	state->label = glade_xml_get_widget (state->gui, "entry");
-
   	gtk_entry_set_text (GTK_ENTRY(state->label),swc->label);
-	gtk_editable_select_region (GTK_EDITABLE(state->label),0,-1);
+	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->label));
 
   	g_signal_connect (G_OBJECT(state->label),
 			  "changed",
 			  G_CALLBACK (cb_frame_label_changed), state);
-
-  	g_signal_connect (G_OBJECT (state->dialog),
-			  "destroy",
-			  G_CALLBACK (cb_frame_config_destroy), state);
-
   	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
 							  "ok_button")),
 			  "clicked",
@@ -380,6 +373,10 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 							  "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_cancel_clicked), state);
+
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_frame_config_destroy);
+
   	gnumeric_init_help_button (
   		glade_xml_get_widget (state->gui, "help_button"),
   		"so-frame.html");
@@ -732,11 +729,10 @@ cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	state->old_focus = focus_widget;
 }
 
-static gboolean
-cb_scrollbar_config_destroy (GtkObject *w, ScrollbarConfigState *state)
+static void
+cb_scrollbar_config_destroy (ScrollbarConfigState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
+	g_return_if_fail (state != NULL);
 
 	wbcg_edit_detach_guru (state->wbcg);
 
@@ -747,8 +743,6 @@ cb_scrollbar_config_destroy (GtkObject *w, ScrollbarConfigState *state)
 
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -830,20 +824,18 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 	state->page = glade_xml_get_widget (state->gui, "spin_page");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->page), swb->adjustment->page_increment);
 
-	g_signal_connect (G_OBJECT (state->dialog),
-		"destroy",
-		G_CALLBACK (cb_scrollbar_config_destroy), state);
-
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
 		"clicked",
 		G_CALLBACK (cb_scrollbar_config_ok_clicked), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_scrollbar_config_cancel_clicked), state);
+
+	g_object_set_data_full (G_OBJECT (state->dialog),
+		"state", state, (GDestroyNotify) cb_scrollbar_config_destroy);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		"so-scrollbar.html");
-
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
@@ -1187,10 +1179,10 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	state->old_focus = focus_widget;
 }
 
-static gboolean
+static void
 cb_checkbox_config_destroy (CheckboxConfigState *state)
 {
-	g_return_val_if_fail (state != NULL, FALSE);
+	g_return_if_fail (state != NULL);
 
 	wbcg_edit_detach_guru (state->wbcg);
 
@@ -1203,8 +1195,6 @@ cb_checkbox_config_destroy (CheckboxConfigState *state)
 	state->old_label = NULL;
 	state->dialog = NULL;
 	g_free (state);
-
-	return FALSE;
 }
 
 static void
@@ -1236,7 +1226,6 @@ cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
 {
 	sheet_widget_checkbox_set_label	(SHEET_OBJECT (state->swc),
 		gtk_entry_get_text (GTK_ENTRY (entry)));
-	gtk_widget_destroy (state->dialog);
 }
 
 static void
@@ -1276,10 +1265,11 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 			  0, 0);
 	gtk_widget_show (GTK_WIDGET (state->expression));
 
-
  	state->label = glade_xml_get_widget (state->gui, "label_entry");
-
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
+	gtk_editable_select_region (GTK_EDITABLE(state->label), 0, -1);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_WIDGET (state->label));
 
  	g_signal_connect (G_OBJECT (state->label),
 		"changed",
@@ -1290,6 +1280,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cb_checkbox_config_cancel_clicked), state);
+
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_checkbox_config_destroy);
 	gnumeric_init_help_button (

@@ -1,5 +1,9 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=114097.
+	* src/sheet-object-widget.c : while we're in here clean up a bit.
+	(cb_checkbox_label_changed) : doh!
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=114079.
 	* src/colrow.c (colrow_get_states) : a difference in the default state
 	  will also split a run. (fixes crash #2)
