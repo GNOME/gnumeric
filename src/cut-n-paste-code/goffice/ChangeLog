@@ -1,3 +1,10 @@
+2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
+
+	* graph/gog-axis.c: add center_on_ticks boolean to force centering labels
+	on ticks for discree mapped axis.
+	* graph/gog-plot.h: ditto.
+	* graph/gog-plot.c: ditto.
+
 2004-10-19  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-file.c (go_dirname_from_uri): New function.

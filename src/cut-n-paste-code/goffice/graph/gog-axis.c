@@ -72,6 +72,7 @@ struct _GogAxis {
 	double		logical_min_val, logical_max_val;
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
 	gboolean	is_discrete;
+	gboolean	center_on_ticks;
 	GODataVector   *labels;
 	GogPlot	       *plot_that_supplied_labels;
 	GOFormat       *format, *assigned_format;
@@ -170,7 +171,9 @@ map_discrete_init (GogAxisMap *map, double offset, double length)
 	data = map->data;
 
 	if (gog_axis_get_bounds (map->axis, &data->min, &data->max)) {
-		data->scale = 1.0 / (data->max - data->min);
+		data->scale = (map->axis->center_on_ticks)?
+				1.0 / (data->max - data->min - 1):
+				1.0 / (data->max - data->min);
 		data->a = data->scale * length;
 		data->b = offset - data->a * data->min;
 		return TRUE;
@@ -197,7 +200,9 @@ map_discrete_to_canvas (GogAxisMap *map, double value, gboolean inverted)
 	MapData *data = map->data;
 
 	return inverted ? 
-		(data->min + data->max - value) * data->a + data->b :
+		((map->axis->center_on_ticks)?
+			(data->min + data->max - 1 - value) * data->a + data->b :
+			(data->min + data->max - value) * data->a + data->b) :
 		value * data->a + data->b;
 }
 
@@ -246,6 +251,8 @@ map_discrete_calc_ticks (GogAxis *axis,
 	}
 		
 	tick_nbr = rint (maximum -minimum) + 1;
+	if (axis->center_on_ticks)
+		tick_nbr--;
 	if (tick_nbr < 1) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
@@ -262,7 +269,7 @@ map_discrete_calc_ticks (GogAxis *axis,
 			ticks[count].type = GOG_AXIS_TICK_MAJOR;
 
 		/* Minimum >= .0 test is a trick to know if it's a barcol or an area/line plot */
-		if (i == 0 && minimum >=.0)
+		if (i == 0 && minimum >=.0 && !axis->center_on_ticks)
 			ticks[count].type = GOG_AXIS_TICK_NONE;
 		if ((i % major_label == 0) && draw_labels && 
 		    (i < tick_nbr - 1 || minimum >= .0)) {
@@ -1216,6 +1223,7 @@ gog_axis_update (GogObject *obj)
 			g_object_ref (labels);
 			axis->labels = GO_DATA_VECTOR (labels);
 			axis->plot_that_supplied_labels = GOG_PLOT (ptr->data);
+			axis->center_on_ticks = bounds.center_on_ticks;
 		}
 
 		if (axis->min_val > bounds.val.minima) {
@@ -1627,6 +1635,7 @@ gog_axis_init (GogAxis *axis)
 	axis->max_val = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
 	axis->is_discrete = FALSE;
+	axis->center_on_ticks = FALSE;
 	axis->labels = NULL;
 	axis->plot_that_supplied_labels = NULL;
 	axis->format = axis->assigned_format = NULL;
@@ -2221,7 +2230,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		if (axis->major_tick_labeled) {
 			label_pad = gog_renderer_pt2r_y (v->renderer, TICK_LABEL_PAD_VERT);
-			label_pos.y = (axis->major.tick_out && !axis->is_discrete)
+			label_pos.y = (axis->major.tick_out && (!axis->is_discrete || axis->center_on_ticks))
 				? major_out + dir * label_pad
 				: center + dir * (line_width + label_pad);
 			label_pos.h  = area->h - line_width;
@@ -2232,7 +2241,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		if (axis->tick_nbr > 0) {
 			GogAxisMap *map = gog_axis_map_new (axis, area->x, area->w);
-			offset = axis->is_discrete ? -0.5 : 0.0;
+			offset = (axis->is_discrete && !axis->center_on_ticks)? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
 
 				if (line_width > 0) {
@@ -2262,7 +2271,6 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 							break;
 					}
 				}
-
 				if (axis->ticks[i].label != NULL) {
 					label_pos.x = gog_axis_map_to_canvas (map, axis->ticks[i].position);
 					if (fabs (last_label_pos - label_pos.x) > last_label_size + label_spacing) {
@@ -2313,7 +2321,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		if (axis->major_tick_labeled) {
 			label_pad = gog_renderer_pt2r_x (v->renderer, TICK_LABEL_PAD_HORIZ);
-			label_pos.x = (axis->major.tick_out && !axis->is_discrete)
+			label_pos.x = (axis->major.tick_out && (!axis->is_discrete || axis->center_on_ticks))
 				? major_out + dir * label_pad
 				: center + dir * (line_width + label_pad);
 			label_pos.w  = area->w - line_width;
@@ -2322,7 +2330,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		if (axis->tick_nbr > 0) {
 			GogAxisMap *map = gog_axis_map_new (axis, area->h + area->y, -area->h);
-			offset = axis->is_discrete ? -0.5 : 0.0;
+			offset = (axis->is_discrete && !axis->center_on_ticks)? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
 				
 				if (line_width > 0) {
