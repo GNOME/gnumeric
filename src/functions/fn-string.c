@@ -20,7 +20,7 @@ static char *help_char = {
 	   "@SYNTAX=CHAR(x)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the ascii character represented by the number x."
+	   "Returns the ASCII character represented by the number @x."
 	   "\n"
 
 	   "@SEEALSO=CODE")
@@ -42,7 +42,7 @@ static char *help_code = {
 	   "@SYNTAX=CODE(char)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the ASCII number for the character char."
+	   "Returns the ASCII number for the character @char."
 	   "\n"
 
 	   "@SEEALSO=CHAR")
@@ -65,7 +65,7 @@ static char *help_exact = {
 	   "@SYNTAX=EXACT(string1, string2)\n"
 
 	   "@DESCRIPTION="
-	   "Returns true if string1 is exactly equal to string2 "
+	   "Returns true if @string1 is exactly equal to @string2 "
 	   "(this routine is case sensitive)."
 	   "\n"
 
@@ -107,8 +107,8 @@ static char *help_left = {
 	   "@SYNTAX=LEFT(text[,num_chars])\n"
 
 	   "@DESCRIPTION="
-	   "Returns the leftmost num_chars characters or the left"
-	   " character if num_chars is not specified"
+	   "Returns the leftmost @num_chars characters or the left "
+	   "character if @num_chars is not specified."
 	   "\n"
 	   "@SEEALSO=MID, RIGHT")
 };
@@ -212,8 +212,8 @@ static char *help_right = {
 	   "@SYNTAX=RIGHT(text[,num_chars])\n"
 
 	   "@DESCRIPTION="
-	   "Returns the rightmost num_chars characters or the right "
-	   "character if num_chars is not specified"
+	   "Returns the rightmost @num_chars characters or the right "
+	   "character if @num_chars is not specified."
 	   "\n"
 	   "@SEEALSO=MID, LEFT")
 };
@@ -249,7 +249,7 @@ static char *help_upper = {
 	   "@SYNTAX=UPPER(text)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a upper-case version of the string in @text"
+	   "Returns a upper-case version of the string in @text."
 	   "\n"
 	   "@SEEALSO=LOWER")
 };

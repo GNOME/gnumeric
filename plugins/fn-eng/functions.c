@@ -138,7 +138,7 @@ static char *help_bin2dec = {
 	   "in string or number to its decimal equivalent."
 	   "\n"
 	   "\n"
-	   "@SEEALSO=DEC2BIN")
+	   "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX")
 };
 
 static Value *
@@ -152,13 +152,13 @@ static char *help_bin2oct = {
 	   "@SYNTAX=BIN2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The BIN2OCT function converts a binary number to an octal number."
-	   "places is an optional field, specifying to zero pad to that "
+	   "The BIN2OCT function converts a binary number to an octal number. "
+	   "@places is an optional field, specifying to zero pad to that "
 	   "number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=OCT2BIN")
+	   "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX")
 };
 
 static Value *
@@ -176,9 +176,9 @@ static char *help_bin2hex = {
 	   "hexadecimal number.  @places is an optional field, specifying "
 	   "to zero pad to that number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=HEX2BIN")
+	   "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC")
 };
 
 static Value *
@@ -192,13 +192,13 @@ static char *help_dec2bin = {
 	   "@SYNTAX=DEC2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The DEC2BIN function converts a binary number to an octal number."
-	   "places is an optional field, specifying to zero pad to that "
+	   "The DEC2BIN function converts a decimal number to a binary number. "
+	   "@places is an optional field, specifying to zero pad to that "
 	   "number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=BIN2DEC")
+	   "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX")
 };
 
 static Value *
@@ -212,13 +212,13 @@ static char *help_dec2oct = {
 	   "@SYNTAX=DEC2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The DEC2OCT function converts a binary number to an octal number."
-	   "places is an optional field, specifying to zero pad to that "
+	   "The DEC2OCT function converts a decimal number to an octal number. "
+	   "@places is an optional field, specifying to zero pad to that "
 	   "number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=OCT2DEC")
+	   "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX")
 };
 
 static Value *
@@ -232,13 +232,13 @@ static char *help_dec2hex = {
 	   "@SYNTAX=DEC2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The DEC2HEX function converts a binary number to an octal number."
-	   "places is an optional field, specifying to zero pad to that "
+	   "The DEC2HEX function converts a decimal number to a hexadecimal number. "
+	   "@places is an optional field, specifying to zero pad to that "
 	   "number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=HEX2DEC")
+	   "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT")
 };
 
 static Value *
@@ -256,7 +256,7 @@ static char *help_oct2dec = {
 	   "in a string or number to its decimal equivalent."
 	   "\n"
 	   "\n"
-	   "@SEEALSO=DEC2OCT")
+	   "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX")
 };
 
 static Value *
@@ -270,13 +270,13 @@ static char *help_oct2bin = {
 	   "@SYNTAX=OCT2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The OCT2BIN function converts a binary number to a hexadecimal "
+	   "The OCT2BIN function converts an octal number to a binary "
 	   "number.  @places is an optional field, specifying to zero pad "
 	   "to that number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=BIN2OCT")
+	   "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX")
 };
 
 static Value *
@@ -290,13 +290,13 @@ static char *help_oct2hex = {
 	   "@SYNTAX=OCT2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The OCT2HEX function converts a binary number to a hexadecimal "
+	   "The OCT2HEX function converts an octal number to a hexadecimal "
 	   "number.  @places is an optional field, specifying to zero pad "
 	   "to that number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=OCT2HEX")
+	   "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC")
 };
 
 static Value *
@@ -310,13 +310,13 @@ static char *help_hex2bin = {
 	   "@SYNTAX=HEX2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The HEX2BIN function converts a binary number to a hexadecimal "
+	   "The HEX2BIN function converts a hexadecimal number to a binary "
 	   "number.  @places is an optional field, specifying to zero pad "
 	   "to that number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=BIN2HEX")
+	   "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC")
 };
 
 static Value *
@@ -330,13 +330,13 @@ static char *help_hex2oct = {
 	   "@SYNTAX=HEX2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The HEX2OCT function converts a binary number to a hexadecimal "
+	   "The HEX2OCT function converts a hexadecimal number to an octal "
 	   "number.  @places is an optional field, specifying to zero pad "
 	   "to that number of spaces."
 	   "\n"
-	   "if places is too small or negative #NUM! error is returned."
+	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
-	   "@SEEALSO=BIN2HEX")
+	   "@SEEALSO=OCT2HEX. HEX2BIN, HEX2DEC")
 };
 
 static Value *
@@ -350,11 +350,11 @@ static char *help_hex2dec = {
 	   "@SYNTAX=HEX2DEC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The HEX2DEC function converts a binary number "
-	   "in string or number to its decimal equivalent."
+	   "The HEX2DEC function converts a hexadecimal number "
+	   "to its decimal equivalent."
 	   "\n"
 	   "\n"
-	   "@SEEALSO=DEC2HEX")
+	   "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT")
 };
 
 static Value *
@@ -375,8 +375,8 @@ static char *help_besseli = {
 	   "truncated."
 	   "\n"
 
-	   "if x or n are not numeric a #VALUE! error is returned."
-	   "if n < 0 a #NUM! error is returned." 
+	   "If @x or @n are not numeric a #VALUE! error is returned."
+	   "If @n < 0 a #NUM! error is returned." 
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
 };
@@ -681,7 +681,7 @@ static char *help_imcos = {
 	   "@DESCRIPTION="
 	   "IMCOS returns the cosine of a complex number."
 	   "\n"
-	   "@SEEALSO=IMSIN")
+	   "@SEEALSO=IMSIN,IMTAN")
 };
 
 static Value *
@@ -701,9 +701,9 @@ static char *help_imtan = {
 	N_("@FUNCTION=IMTAN\n"
 	   "@SYNTAX=IMTAN(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMCOS returns the tangent of a complex number."
+	   "IMTAN returns the tangent of a complex number."
 	   "\n"
-	   "@SEEALSO=IMTAN")
+	   "@SEEALSO=IMSIN,IMCOS")
 };
 
 static Value *
@@ -771,7 +771,7 @@ static char *help_imln = {
 	   "logarithm is not uniquely defined on complex numbers.  You may need "
 	   "to add or subtract an even multiple of pi to the imaginary part.)"
 	   "\n"
-	   "@SEEALSO=IMEXP")
+	   "@SEEALSO=IMEXP,IMLOG2,IMLOG10")
 };
 
 static Value *
@@ -843,7 +843,7 @@ static char *help_impower = {
 	   "the complex number to be raised to a power and @number is the "
 	   "power to which you want to raise the complex number."
 	   "\n"
-	   "@SEEALSO=IMEXP,IMLN")
+	   "@SEEALSO=IMSQRT")
 };
 
 static Value *
@@ -899,7 +899,7 @@ static char *help_imsin = {
 	   "@DESCRIPTION="
 	   "IMSIN returns the sine of a complex number."
 	   "\n"
-	   "@SEEALSO=IMCOS")
+	   "@SEEALSO=IMCOS,IMTAN")
 };
 
 static Value *
@@ -921,7 +921,7 @@ static char *help_imsqrt = {
 	   "@DESCRIPTION="
 	   "IMSQRT returns the square root of a complex number."
 	   "\n"
-	   "@SEEALSO=IMEXP")
+	   "@SEEALSO=IMPOWER")
 };
 
 static Value *
@@ -1061,7 +1061,7 @@ static char *help_convert = {
 	   "CONVERT returns a conversion from one measurement system to "
 	   "another.  For example, you can convert a weight in pounds "
 	   "to a weight in grams.  @number is the value you want to "
-	   "convert, @from_unit specifies the unit of the number, and "
+	   "convert, @from_unit specifies the unit of the @number, and "
 	   "@to_unit is the unit for the result."
 	   "\n"
 	   "@from_unit and @to_unit can be any of the following:\n\n"
@@ -1446,12 +1446,12 @@ static char *help_erf = {
 
 	   "@DESCRIPTION="
 	   "The ERF function returns the integral of the error function "
-	   "between the limits.  If the upper limit ommitted ERF returns "
-	   "the integral between zero and the lower limit."
+	   "between the limits.  If the @upper_limit ommitted ERF returns "
+	   "the integral between zero and the @lower_limit."
 	   "\n"
-	   "If either lower or upper are not numeric a #VALUE! error is "
+	   "If either @lower_limit or @upper_limit are not numeric a #VALUE! error is "
 	   "returned.  "
-	   "If either lower or upper are < 0 a #NUM! error is returned."
+	   "If either @lower_limit or @upper_limit are < 0 a #NUM! error is returned."
 	   "\n"
 	   "@SEEALSO=ERFC")
 };
@@ -1483,11 +1483,11 @@ static char *help_erfc = {
 
 	   "@DESCRIPTION="
 	   "The ERFC function returns the integral of the complimentary "
-	   "error function between the limits 0 and x."
+	   "error function between the limits 0 and @x."
 	   "\n"
 
-	   "If x is not numeric a #VALUE! error is returned.  "
-	   "If x < 0 a #NUM! error is returned."
+	   "If @x is not numeric a #VALUE! error is returned.  "
+	   "If @x < 0 a #NUM! error is returned."
 	   "\n"
 	   "@SEEALSO=ERF")
 };
@@ -1510,7 +1510,7 @@ static char *help_delta = {
 	   "@DESCRIPTION="
 	   "The DELTA function test for numerical eqivilance of two "
 	   "arguments returning 1 in equality "
-	   "y is optional, and defaults to 0."
+	   "@y is optional, and defaults to 0."
 	   "\n"
 
 	   "If either argument is non-numeric returns a #VALUE! error."
@@ -1560,8 +1560,8 @@ static char *help_gestep = {
 	   "@SYNTAX=GESTEP(x[,y])\n"
 
 	   "@DESCRIPTION="
-	   "The GESTEP function test for if x is >= y, returning 1 if it "
-	   "is so, and 0 otherwise y is optional, and defaults to 0."
+	   "The GESTEP function test for if @x is >= @y, returning 1 if it "
+	   "is so, and 0 otherwise @y is optional, and defaults to 0."
 	   "\n"
 
 	   "If either argument is non-numeric returns a #VALUE! error."

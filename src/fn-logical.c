@@ -19,7 +19,7 @@ static char *help_and = {
 	   "if all of the expression evaluates to TRUE, otherwise it returns "
 	   "FALSE.\n"
 
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE. "
+	   "@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. "
 	   "If an integer or floating point value is provided zero is considered "
 	   "FALSE and anything else is TRUE.\n"
 
@@ -68,7 +68,7 @@ static char *help_not = {
 
 	   "@DESCRIPTION="
 	   "Implements the logical NOT function: the result is TRUE if the "
-	   "number is zero;  othewise the result is FALSE.\n\n"
+	   "@number is zero;  othewise the result is FALSE.\n\n"
 
 	   "@SEEALSO=AND, OR")
 };
@@ -89,7 +89,7 @@ static char *help_or = {
 	   "@DESCRIPTION="
 	   "Implements the logical OR function: the result is TRUE if any of the "
 	   "values evaluated to TRUE.\n"
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE. "
+	   "@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. "
 	   "If an integer or floating point value is provided zero is considered "
 	   "FALSE and anything else is TRUE.\n"
 	   "If the values contain strings or empty cells those values are "
@@ -139,8 +139,8 @@ static char *help_if = {
 	   "Use the IF statement to evaluate conditionally other expressions "
 	   "IF evaluates @condition.  If @condition returns a non-zero value "
 	   "the result of the IF expression is the @if-true expression, otherwise "
-	   "IF evaluates to the value of @if-false."
-	   "If ommitted if-true defaults to TRUE and if-false to FALSE."
+	   "IF evaluates to the value of @if-false. "
+	   "If ommitted @if-true defaults to TRUE and @if-false to FALSE."
 	   "\n"
 	   "@SEEALSO=")
 };

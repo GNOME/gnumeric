@@ -66,7 +66,7 @@ static char *help_isna = {
 	   "@SYNTAX=ISNA()\n"
 
 	   "@DESCRIPTION="
-	   "ISNA Returns TRUE if the value is the #N/A error value. "
+	   "ISNA returns TRUE if the value is the #N/A error value. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -96,7 +96,7 @@ static char *help_iserr = {
 	   "@SYNTAX=ISERR()\n"
 
 	   "@DESCRIPTION="
-	   "ISERR Returns TRUE if the value is any error value except #N/A. "
+	   "ISERR returns TRUE if the value is any error value except #N/A. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -170,7 +170,7 @@ static char *help_na = {
 	   "@SYNTAX=NA()\n"
 
 	   "@DESCRIPTION="
-	   "NA Returns the error value #N/A. "
+	   "NA returns the error value #N/A. "
 	   "\n"
 	   "@SEEALSO=")
 };

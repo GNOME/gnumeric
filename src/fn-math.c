@@ -268,8 +268,8 @@ static char *help_acos = {
 	   "@SYNTAX=ACOS(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ACOS function calculates the arc cosine of x; that "
-	   " is the value whose cosine is x.  If x  falls  outside  the "
+	   "The ACOS function calculates the arc cosine of @x; that "
+	   " is the value whose cosine is @x.  If @x  falls  outside  the "
 	   " range -1 to 1, ACOS fails and returns the error 'acos - domain error'. "
 	   " The value it returns is in radians. "
 	   "\n"
@@ -297,14 +297,14 @@ static char *help_acosh = {
 
 	   "@DESCRIPTION="
 	   "The ACOSH  function  calculates  the inverse hyperbolic "
-	   "cosine of x; that is the value whose hyperbolic cosine is "
-	   "x. If x is less than 1.0, acosh() returns the error "
+	   "cosine of @x; that is the value whose hyperbolic cosine is "
+	   "@x. If @x is less than 1.0, acosh() returns the error "
 	   " 'acosh - domain error'"
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   "@SEEALSO=ACOS, DEGREES, RADIANS ")
+	   "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS ")
 };
 
 static Value *
@@ -324,9 +324,9 @@ static char *help_asin = {
 	   "@SYNTAX=ASIN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ASIN function calculates the arc sine of x; that is "
-	   "the value whose sine is x. If x falls outside  the  range "
-	   "-1 to 1, ASIN fails and returns the error 'asin - domain error'   "
+	   "The ASIN function calculates the arc sine of @x; that is "
+	   "the value whose sine is @x. If @x falls outside  the  range "
+	   "-1 to 1, ASIN fails and returns the error 'asin - domain error'. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -352,13 +352,13 @@ static char *help_asinh = {
 
 	   "@DESCRIPTION="
 	   "The ASINH  function  calculates  the inverse hyperbolic "
-	   " sine of x; that is the value whose hyperbolic sine is x. "
+	   " sine of @x; that is the value whose hyperbolic sine is @x. "
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS")
+	   "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS")
 };
 
 static Value *
@@ -372,8 +372,8 @@ static char *help_atan = {
 	   "@SYNTAX=ATAN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ATAN function calculates the arc tangent of x; that "
-	   " is the value whose tangent is x."
+	   "The ATAN function calculates the arc tangent of @x; that "
+	   " is the value whose tangent is @x."
 	   "Return value is in radians."
 	   "\n"
 
@@ -396,8 +396,8 @@ static char *help_atanh = {
 
 	   "@DESCRIPTION="
 	   "The  ATANH  function  calculates  the inverse hyperbolic "
-	   "tangent of x; that is the value whose  hyperbolic  tangent "
-	   "is  x.   If  the  absolute value of x is greater than 1.0, "
+	   "tangent of @x; that is the value whose  hyperbolic  tangent "
+	   "is  @x.   If  the  absolute value of @x is greater than 1.0, "
 	   " ATANH returns an error of 'atanh: domain error'      "
 	   "\n"
 
@@ -425,10 +425,10 @@ static char *help_atan2 = {
 
 	   "@DESCRIPTION="
 	   "The ATAN2 function calculates the arc tangent of the two "
-	   "variables b1 and b2.  It is similar to calculating  the  arc "
-	   "tangent  of b2 / b1, except that the signs of both arguments "
+	   "variables @b1 and @b2.  It is similar to calculating  the  arc "
+	   "tangent  of @b2 / @b1, except that the signs of both arguments "
 	   "are used to determine the quadrant of the result. "
-	   "The result is in Radians."
+	   "The result is in radians."
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -447,7 +447,7 @@ static char *help_ceil = {
 	N_("@FUNCTION=CEIL\n"
 	   "@SYNTAX=CEIL(x)\n"
 
-	   "@DESCRIPTION=The CEIL function rounds x up to the next nearest "
+	   "@DESCRIPTION=The CEIL function rounds @x up to the next nearest "
 	   "integer.\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
@@ -467,8 +467,8 @@ static char *help_countif = {
 	   "@SYNTAX=COUNTIF(range,criteria)\n"
 
 	   "@DESCRIPTION="
-	   "COUNTIF function counts the number of cells in the given range "
-	   "that meet the given criteria. "
+	   "COUNTIF function counts the number of cells in the given @range "
+	   "that meet the given @criteria. "
 
 	   "\n"
 
@@ -536,12 +536,12 @@ static char *help_sumif = {
 	   "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
 
 	   "@DESCRIPTION="
-	   "SUMIF function sums the values in the given range that meet "
-	   "the given criteria.  If @actual_range is given, SUMIF sums "
+	   "SUMIF function sums the values in the given @range that meet "
+	   "the given @criteria.  If @actual_range is given, SUMIF sums "
 	   "the values in the @actual_range whose corresponding components "
-	   "in @range meet the given criteria. "
+	   "in @range meet the given @criteria. "
 	   "\n"
-	   "@SEEALSO=COUNTIF,SUM")
+	   "@SEEALSO=COUNTIF, SUM")
 };
 
 static Value *
@@ -679,12 +679,12 @@ static char *help_ceiling = {
 	N_("@FUNCTION=CEILING\n"
 	   "@SYNTAX=CEILING(x,significance)\n"
 
-	   "@DESCRIPTION=The CEILING function rounds x up to the nearest "
+	   "@DESCRIPTION=The CEILING function rounds @x up to the nearest "
 	   "multiple of significance. "
 	   "\n"
 
-	   "If x or significance is non-numeric CEILING returns #VALUE! error. "
-	   "If n and significance have different signs CEILING returns #NUM! error. "
+	   "If @x or @significance is non-numeric CEILING returns #VALUE! error. "
+	   "If @x and @significance have different signs CEILING returns #NUM! error. "
 	   "\n"
 
 	   "@SEEALSO=CEIL")
@@ -713,7 +713,7 @@ static char *help_cos = {
 	   "@SYNTAX=COS(x)\n"
 
 	   "@DESCRIPTION="
-	   "The  COS  function  returns  the cosine of x, where x is "
+	   "The  COS  function  returns  the cosine of @x, where @x is "
            "given in radians.  "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -733,9 +733,9 @@ static char *help_cosh = {
 	   "@SYNTAX=COSH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The COSH  function  returns the hyperbolic cosine of x, "
-	   " which is defined mathematically as (exp(x) + exp(-x)) / 2.   "
-	   " x is in radians. "
+	   "The COSH  function  returns the hyperbolic cosine of @x, "
+	   " which is defined mathematically as (exp(@x) + exp(-@x)) / 2.   "
+	   " @x is in radians. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -755,7 +755,7 @@ static char *help_degrees = {
 
 	   "@DESCRIPTION="
 	   "Computes the number of degrees equivalent to "
-	   " x radians."
+	   "@x radians."
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -775,8 +775,8 @@ static char *help_exp = {
 	   "@SYNTAX=EXP(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the value of e(the base of natural logarithmns) raised "
-	   "to the power of x. "
+	   "Computes the value of e (the base of natural logarithmns) raised "
+	   "to the power of @x. "
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error."
 	   "\n"
@@ -802,9 +802,9 @@ static char *help_fact = {
 	   "@SYNTAX=FACT(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the factorial of x. ie, x!"
+	   "Computes the factorial of @x. ie, @x!"
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error"
+	   "Performing this function on a string or empty cell returns an error."
 	   "\n"
 	   "\n"
 	   "@SEEALSO=")
@@ -842,7 +842,7 @@ static char *help_combin = {
 	   "Computes the number of combinations."
 	   "\n"
 	   "Performing this function on a non-integer or a negative number "
-           "returns an error. Also if n is less than k returns an error."
+           "returns an error. Also if @n is less than @k returns an error."
 	   "\n"
 	   "\n"
 	   "@SEEALSO=")
@@ -882,7 +882,7 @@ static char *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
 	   "@SYNTAX=FLOOR(x,significance)\n"
 
-	   "@DESCRIPTION=The FLOOR function rounds x down to the next nearest "
+	   "@DESCRIPTION=The FLOOR function rounds @x down to the next nearest "
 	   "multiple of @significance.  @significance defaults to 1."
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
@@ -913,10 +913,10 @@ static char *help_int = {
 	   "@SYNTAX=INT(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "The INT function round b1 now to the nearest int. "
+	   "The INT function round @b1 now to the nearest int. "
 	   "Where 'nearest' implies being closer to zero. "
-	   "Equivalent to FLOOR(b1) for b1 >= 0, amd CEIL(b1) "
-	   "for b1 < 0. "
+	   "Equivalent to FLOOR(b1) for @b1 >= 0, amd CEIL(b1) "
+	   "for @b1 < 0. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
 	   ""
@@ -940,7 +940,7 @@ static char *help_log = {
 	   "@SYNTAX=LOG(x[,base])\n"
 
 	   "@DESCRIPTION="
-	   "Computes the logarithm of x in the given base.  If no base is "
+	   "Computes the logarithm of @x in the given base @base.  If no @base is "
 	   "given LOG returns the logarithm in base 10. "
 	   "\n"
 	   "@SEEALSO=LN, LOG2, LOG10")
@@ -969,7 +969,7 @@ static char *help_ln = {
 	   "@SYNTAX=LN(x)\n"
 
 	   "@DESCRIPTION="
-	   "LN returns the natural logarithm of x. "
+	   "LN returns the natural logarithm of @x. "
 	   "\n"
 	   "@SEEALSO=EXP, LOG2, LOG10")
 };
@@ -992,7 +992,7 @@ static char *help_power = {
 	   "@SYNTAX=POWER(x,y)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the value of x raised to the power y."
+	   "Returns the value of @x raised to the power @y."
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error."
 	   "\n"
@@ -1019,7 +1019,7 @@ static char *help_log2 = {
 	   "@SYNTAX=LOG2(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the base-2 logarithm  of x. "
+	   "Computes the base-2 logarithm  of @x. "
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error. "
 	   "\n"
@@ -1043,7 +1043,7 @@ static char *help_log10 = {
 	   "@SYNTAX=LOG10(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the base-10 logarithm  of x. "
+	   "Computes the base-10 logarithm  of @x. "
 	   "\n"
 
 	   "Performing this function on a string or empty cell returns an error. "
@@ -1068,10 +1068,10 @@ static char *help_mod = {
 	   "@SYNTAX=MOD(number,divisor)\n"
 
 	   "@DESCRIPTION="
-	   "Implements modulo arithmetic."
+	   "Implements modulo arithmetic. "
 	   "Returns the remainder when @divisor is divided into @number."
 	   "\n"
-	   "Returns #DIV/0! if divisor is zero."
+	   "Returns #DIV/0! if divisor is zero.\n"
 	   "@SEEALSO=INT,FLOOR,CEIL")
 };
 
@@ -1106,7 +1106,7 @@ static char *help_radians = {
 
 	   "@DESCRIPTION="
 	   "Computes the number of radians equivalent to  "
-	   "x degrees. "
+	   "@x degrees. "
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -1144,8 +1144,8 @@ static char *help_sin = {
 	   "@SYNTAX=SIN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SIN function returns the sine of x, where x is given "
-           " in radians."
+	   "The SIN function returns the sine of @x, where @x is given "
+           "in radians."
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -1165,7 +1165,7 @@ static char *help_sinh = {
 
 	   "@DESCRIPTION="
 	   "The SINH function returns the hyperbolic sine of @x, "
-	   "which is defined mathematically as (exp(x) - exp(-x)) / 2."
+	   "which is defined mathematically as (exp(@x) - exp(-@x)) / 2."
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -1186,7 +1186,7 @@ static char *help_sqrt = {
 	   "@DESCRIPTION="
 	   "The SQRT function returns the square root of @x."
 	   "\n"
-	   "If x is negative returns #NUM!."
+	   "If @x is negative returns #NUM!. "
 	   "This function only takes one argument."
 	   "\n"
 	   "@SEEALSO=POW")
@@ -1371,8 +1371,8 @@ static char *help_tanh = {
 	   "@SYNTAX=TANH(x)\n"
 
 	   "@DESCRIPTION="
-	   " The TANH function returns the hyperbolic tangent of x, "
-	   " which is defined mathematically as sinh(x) / cosh(x). "
+	   " The TANH function returns the hyperbolic tangent of @x, "
+	   " which is defined mathematically as sinh(@x) / cosh(@x). "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -1473,7 +1473,7 @@ static char *help_odd = {
 	N_("@FUNCTION=ODD\n"
 	   "@SYNTAX=ODD(number)\n"
 
-	   "@DESCRIPTION=ODD function returns the number rounded up to the "
+	   "@DESCRIPTION=ODD function returns the @number rounded up to the "
 	   "nearest odd integer. "
 	   "\n"
 	   "@SEEALSO=EVEN")
@@ -1505,7 +1505,7 @@ static char *help_factdouble = {
 	   "@SYNTAX=FACTDOUBLE(number)\n"
 
 	   "@DESCRIPTION=FACTDOUBLE function returns the double factorial "
-	   "of a number. "
+	   "of a @number. "
 	   "\n"
 	   "If @number is not an integer, it is truncated. "
 	   "If @number is negative FACTDOUBLE returns #NUM! error. "
@@ -1554,10 +1554,10 @@ gnumeric_quotient (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_sign = {
 	N_("@FUNCTION=SIGN\n"
-	   "@SYNTAX=SIGN(num)\n"
+	   "@SYNTAX=SIGN(number)\n"
 
-	   "@DESCRIPTION=SIGN function returns 1 if the number is positive, "
-	   "zero if the number is 0, and -1 if the number is negative. "
+	   "@DESCRIPTION=SIGN function returns 1 if the @number is positive, "
+	   "zero if the @number is 0, and -1 if the @number is negative. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -1581,7 +1581,7 @@ static char *help_sqrtpi = {
 	N_("@FUNCTION=SQRTPI\n"
 	   "@SYNTAX=SQRTPI(number)\n"
 
-	   "@DESCRIPTION=SQRTPI function returns the square root of a number "
+	   "@DESCRIPTION=SQRTPI function returns the square root of a @number "
 	   "multiplied by pi. "
 	   "\n"
 	   "@SEEALSO=PI")
@@ -1630,15 +1630,15 @@ static char *help_rounddown = {
 	   "@SYNTAX=ROUNDDOWN(number[,digits])\n"
 
 	   "@DESCRIPTION="
-	   "ROUNDDOWN function rounds a given number down, towards zero. "
+	   "ROUNDDOWN function rounds a given @number down, towards zero. "
 	   "@number is the number you want rounded down and @digits is the "
 	   "number of digits to which you want to round that number. "
 	   "\n"
-	   "If digits is greater than zero, number is rounded down to the "
+	   "If @digits is greater than zero, @number is rounded down to the "
 	   "given number of digits. "
-	   "If digits is zero or omitted, number is rounded down to the "
+	   "If @digits is zero or omitted, @number is rounded down to the "
 	   "nearest integer. "
-	   "If digits is less than zero, number is rounded down to the left "
+	   "If @digits is less than zero, @number is rounded down to the left "
 	   "of the decimal point. "
 	   "\n"
 	   "@SEEALSO=ROUNDUP")
@@ -1672,11 +1672,11 @@ static char *help_round = {
 	   "@number is the number you want rounded and @digits is the "
 	   "number of digits to which you want to round that number. "
 	   "\n"
-	   "If digits is greater than zero, number is rounded to the "
+	   "If @digits is greater than zero, @number is rounded to the "
 	   "given number of digits. "
-	   "If digits is zero or omitted, number is rounded to the "
+	   "If @digits is zero or omitted, @number is rounded to the "
 	   "nearest integer. "
-	   "If digits is less than zero, number is rounded to the left "
+	   "If @digits is less than zero, @number is rounded to the left "
 	   "of the decimal point. "
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN,ROUNDUP")
@@ -1707,11 +1707,11 @@ static char *help_roundup = {
 	   "@number is the number you want rounded up and @digits is the "
 	   "number of digits to which you want to round that number. "
 	   "\n"
-	   "If digits is greater than zero, number is rounded up to the "
+	   "If @digits is greater than zero, @number is rounded up to the "
 	   "given number of digits. "
-	   "If digits is zero or omitted, number is rounded up to the "
+	   "If @digits is zero or omitted, @number is rounded up to the "
 	   "nearest integer. "
-	   "If digits is less than zero, number is rounded up to the left "
+	   "If @digits is less than zero, @number is rounded up to the left "
 	   "of the decimal point. "
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN")
@@ -1746,7 +1746,7 @@ static char *help_mround = {
 	   "the multiple to which you wnat to round the number. "
 	   "For example, MROUND(1.7, 0.2) equals 1.8. "
 	   "\n"
-	   "If the number and the multiple have different sign, MROUND "
+	   "If @number and @multiple have different sign, MROUND "
 	   "returns #NUM! error. "
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP")
@@ -2319,8 +2319,8 @@ static char *help_transpose = {
 	   "@SYNTAX=TRANSPOSE(matrix)\n"
 
 	   "@DESCRIPTION="
-	   "TRANSPOSE function Returns the transpose of the input"
-	   "matrix.\n"
+	   "TRANSPOSE function returns the transpose of the input "
+	   "@matrix.\n"
 	   "@SEEALSO=MMULT")
 };
 
@@ -2362,9 +2362,9 @@ static char *help_mmult = {
 	   "@SYNTAX=MMULT(array1,array2)\n"
 
 	   "@DESCRIPTION="
-	   "MMULT function Returns the matrix product of two arrays. The "
-	   "result is an array with the same number of rows as array1 and the "
-	   "same number of columns as array2."
+	   "MMULT function returns the matrix product of two arrays. The "
+	   "result is an array with the same number of rows as @array1 and the "
+	   "same number of columns as @array2."
 	   "\n"
 	   "@SEEALSO=TRANSPOSE,MINVERSE")
 };

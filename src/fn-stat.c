@@ -261,7 +261,7 @@ static char *help_trimmean = {
 	   "TRIMMEAN returns the mean of the interior of a data set. @ref "
 	   "is the list of numbers whose mean you want to calculate and "
 	   "@percent is the percentage of number excluded from the mean. "
-	   "For example, if percent=0.2 and the data set contains 40 numbers, "
+	   "For example, if @percent=0.2 and the data set contains 40 numbers, "
 	   "8 numbers are trimmed from the data set (40 x 0.2), 4 from the "
 	   "top and 4 from the bottom of the set."
 	   "\n"
@@ -358,9 +358,9 @@ static char *help_negbinomdist = {
 	   "distribution. @f is the number of failures, @t is the threshold "
 	   "number of successes, and @p is the probability of a success."
 	   "\n"
-	   "if f or t is a non-integer it is truncated. "
-	   "if (f + t -1) <= 0 NEGBINOMDIST returns #NUM! error. "
-	   "if p < 0 or p > 1 NEGBINOMDIST returns #NUM! error."
+	   "If @f or @t is a non-integer it is truncated. "
+	   "If (@f + @t -1) <= 0 NEGBINOMDIST returns #NUM! error. "
+	   "If @p < 0 or @p > 1 NEGBINOMDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT")
 };
@@ -442,8 +442,8 @@ static char *help_lognormdist = {
 	  "of the distribution. "
           "\n"
           "Performing this function on a string or empty cell simply does nothing. "
-          "if @stdev = 0 LOGNORMDIST returns #DIV/0! error. "
-	  "if @x<=0, @mean<0 or @stdev<0 LOGNORMDIST returns #NUM! error. "
+          "If @stdev = 0 LOGNORMDIST returns #DIV/0! error. "
+	  "If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! error. "
           "\n"
           "@SEEALSO=NORMDIST")
 };
@@ -499,13 +499,13 @@ gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_fisherinv = {
        N_("@FUNCTION=FISHERINV\n"
-          "@SYNTAX=FISHERINV(y)\n"
+          "@SYNTAX=FISHERINV(x)\n"
 
           "@DESCRIPTION="
           "The FISHERINV function returns the inverse of the Fisher "
-	  "transformation at x. "
+	  "transformation at @x. "
           "\n"
-          "If x is non-number FISHER returns #VALUE! error."
+          "If @x is non-number FISHERINV returns #VALUE! error."
           "\n"
           "@SEEALSO=FISHER")
 };
@@ -632,7 +632,7 @@ static char *help_geomean = {
 
 	   "@DESCRIPTION="
 	   "GEOMEAN returns the geometric mean of the given arguments. "
-	   "This is equal to the Nth root of the product of the terms"
+	   "This is equal to the Nth root of the product of the terms."
 	   "\n"
 	   "Performing this function on a string or empty cell simply "
 	   "does nothing."
@@ -848,10 +848,10 @@ static char *help_expondist = {
 
 	   "@DESCRIPTION="
 	   "The EXPONDIST function returns the exponential distribution. "
-	   "If the cumulative boolean is false it will return: "
-	   "y * exp (-y*x), otherwise it will return 1 - exp (-y*x)."
+	   "If the @cumulative boolean is false it will return: "
+	   "@y * exp (-@y*@x), otherwise it will return 1 - exp (-@y*@x)."
 	   "\n"
-	   "If x<0 or y<=0 this will return an error.  "
+	   "If @x < 0 or @y <= 0 this will return an error.  "
 	   "Performing this function on a string or empty cell simply "
 	   "does nothing."
 	   "\n"
@@ -922,7 +922,7 @@ static char *help_gammadist = {
 	   "otherwise it returns the probability mass function."
 	   "\n"
 	   "If @x < 0 GAMMADIST returns #NUM! error. "
-	   "If @alpha <= 0 or beta <= 0, GAMMADIST returns #NUM! error."
+	   "If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=GAMMAINV")
 };
@@ -1185,7 +1185,7 @@ static char *help_betadist = {
 	   "not given, BETADIST uses 1."
 	   "\n"
 	   "If @x < @a or @x > @b BETADIST returns #NUM! error. "
-	   "If @alpha <= 0 or beta <= 0, BETADIST returns #NUM! error. "
+	   "If @alpha <= 0 or @beta <= 0, BETADIST returns #NUM! error. "
 	   "If @a >= @b BETADIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=BETAINV")
@@ -1225,7 +1225,7 @@ static char *help_betainv = {
 	   "BETAINV uses 0.  If @b is not given, BETAINV uses 1."
 	   "\n"
 	   "If @p < 0 or @p > 1 BETAINV returns #NUM! error. "
-	   "If @alpha <= 0 or beta <= 0, BETAINV returns #NUM! error. "
+	   "If @alpha <= 0 or @beta <= 0, BETAINV returns #NUM! error. "
 	   "If @a >= @b BETAINV returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=BETADIST")
@@ -1326,7 +1326,7 @@ static char *help_fdist = {
 	   "degrees of freedom."
 	   "\n"
 	   "If @x < 0 FDIST returns #NUM! error. "
-	   "If @dof1 < 1 or @dof2 < 1, GAMMADIST returns #NUM! error."
+	   "If @dof1 < 1 or @dof2 < 1, FDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=FINV")
 };
@@ -1389,10 +1389,10 @@ static char *help_binomdist = {
            "binomial function from 0 to @n."
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error."
-	   "if @n or @trials are non-integer they are truncated. "
-	   "if @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. "
-	   "if @n > trials BINOMDIST returns #NUM! error. "
-	   "if @p < 0 or @p > 1 BINOMDIST returns #NUM! error."
+	   "If @n or @trials are non-integer they are truncated. "
+	   "If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. "
+	   "If @n > trials BINOMDIST returns #NUM! error. "
+	   "If @p < 0 or @p > 1 BINOMDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -1428,10 +1428,10 @@ static char *help_critbinom = {
           "@n is the number of trials, @p is the probability of success in "
           "trials, and @alpha is the criterion value. "
           "\n"
-          "if trials is a non-integer it is truncated. "
-          "if trials < 0 CRITBINOM returns #NUM! error. "
-          "if p < 0 or p > 1 CRITBINOM returns #NUM! error. "
-          "if alpha < 0 or alpha > 1 CRITBINOM returns #NUM! error. "
+          "If @trials is a non-integer it is truncated. "
+          "If @trials < 0 CRITBINOM returns #NUM! error. "
+          "If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. "
+          "If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. "
           "\n"
           "@SEEALSO=BINOMDIST")
 };
@@ -1461,8 +1461,8 @@ static char *help_permut = {
            "@n is the number of objects, @k is the number of objects in each "
            "permutation."
 	   "\n"
-	   "if n = 0 PERMUT returns #NUM! error. "
-	   "if n < k PERMUT returns #NUM! error."
+	   "If @n = 0 PERMUT returns #NUM! error. "
+	   "If @n < @k PERMUT returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=COMBIN")
 };
@@ -1491,9 +1491,9 @@ static char *help_hypgeomdist = {
            "of trials, @M is the number of successes overall, and @N is the"
            "population size."
 	   "\n"
-	   "if x,n,M or N is a non-integer it is truncated. "
-	   "if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. "
-	   "if x > M or n > N HYPGEOMDIST returns #NUM! error."
+	   "If @x,@n,@M or @N is a non-integer it is truncated. "
+	   "If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error. "
+	   "If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=BINOMDIST,POISSON")
 };
@@ -1523,9 +1523,9 @@ static char *help_confidence = {
 	   "@x is the significance level, @stddev is the standard deviation, "
 	   "and @size is the size of the sample."
 	   "\n"
-	   "if size is non-integer it is truncated. "
-	   "if size < 0 CONFIDENCE returns #NUM! error. "
-	   "if size is 0 CONFIDENCE returns #DIV/0! error."
+	   "If @size is non-integer it is truncated. "
+	   "If @size < 0 CONFIDENCE returns #NUM! error. "
+	   "If @size is 0 CONFIDENCE returns #DIV/0! error."
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -1586,12 +1586,12 @@ static char *help_weibull = {
 
            "@DESCRIPTION="
            "The WEIBULL function returns the Weibull distribution. "
-           "If the cumulative boolean is true it will return: "
-           "1 - exp (-(x/beta)^alpha), otherwise it will return "
-           "(alpha/beta^alpha) * x^(alpha-1) * exp(-(x/beta^alpha)). "
+           "If the @cumulative boolean is true it will return: "
+           "1 - exp (-(@x/@beta)^@alpha), otherwise it will return "
+           "(@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)). "
            "\n"
-           "if x < 0 WEIBULL returns #NUM! error. "
-           "if alpha <= 0 or beta <= 0 WEIBULL returns #NUM! error. "
+           "If @x < 0 WEIBULL returns #NUM! error. "
+           "If @alpha <= 0 or @beta <= 0 WEIBULL returns #NUM! error. "
            "\n"
            "@SEEALSO=POISSON")
 };
@@ -1629,7 +1629,7 @@ static char *help_normdist = {
 	   "@x is the value for which you want the distribution, @mean is "
 	   "the mean of the distribution, @stdev is the standard deviation. "
            "\n"
-           "If stdev is 0 NORMDIST returns #DIV/0! error. "
+           "If @stdev is 0 NORMDIST returns #DIV/0! error. "
            "\n"
            "@SEEALSO=POISSON")
 };
@@ -1796,10 +1796,10 @@ static char *help_fisher = {
            "@SYNTAX=FISHER(x)\n"
 
            "@DESCRIPTION="
-           "The FISHER function returns the Fisher transformation at x."
+           "The FISHER function returns the Fisher transformation at @x."
            "\n"
-           "If x is not-number FISHER returns #VALUE! error."
-           "If x<=-1 or x>=1 FISHER returns #NUM! error"
+           "If @x is not-number FISHER returns #VALUE! error."
+           "If @x <= -1 or @x >= 1 FISHER returns #NUM! error"
            "\n"
            "@SEEALSO=SKEW")
 };
@@ -1828,13 +1828,13 @@ static char *help_poisson = {
 	   "The POISSON function returns the Poisson distribution "
 	   "@x is the number of events, @mean is the expected numeric value "
 	   "@cumulative describes whether to return the sum of the "
-	   "poisson function from 0 to x."
+	   "poisson function from 0 to @x."
 	   "\n"
-	   "if x is a non-integer it is truncated. "
-	   "if x <= 0 POISSON returns #NUM! error. "
-	   "if mean <= 0 POISSON returns the #NUM! error."
+	   "If @x is a non-integer it is truncated. "
+	   "If @x <= 0 POISSON returns #NUM! error. "
+	   "If @mean <= 0 POISSON returns the #NUM! error."
 	   "\n"
-	   "@SEEALSO=POISSON")
+	   "@SEEALSO=NORMDIST, WEIBULL")
 };
 
 static Value *
@@ -1909,7 +1909,7 @@ static char *help_median = {
           "@DESCRIPTION="
           "MEDIAN returns the median of the given data set."
           "\n"
-          "Strings and empty cells are simply ignored."
+          "Strings and empty cells are simply ignored. "
 	  "If even numbers are given MEDIAN returns the average of the two "
 	  "numbers in the middle."
           "\n"
@@ -1950,7 +1950,7 @@ static char *help_large = {
 	   "LARGE returns the k-th largest value in a data set."
 	   "\n"
 	   "If data set is empty LARGE returns #NUM! error. "
-	   "If k<=0 or k is greater than the number of data items given "
+	   "If @k <= 0 or @k is greater than the number of data items given "
 	   "LARGE returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL")
@@ -1992,7 +1992,7 @@ static char *help_small = {
 	   "SMALL returns the k-th smallest value in a data set."
 	   "\n"
 	   "If data set is empty SMALL returns #NUM! error. "
-	   "If k<=0 or k is greater than the number of data items given "
+	   "If @k <= 0 or @k is greater than the number of data items given "
 	   "SMALL returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE")
@@ -2349,7 +2349,7 @@ static char *help_ztest = {
 	   "\n"
 	   "@ref is the data set and @x is the value to be tested."
 	   "\n"
-	   "If ref contains less than two data items ZTEST "
+	   "If @ref contains less than two data items ZTEST "
 	   "returns #DIV/0! error."
 	   "\n"
 	   "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,"
@@ -2494,7 +2494,7 @@ static char *help_vara = {
 	   "@DESCRIPTION="
 	   "VARA returns the variance based on a sample.  Numbers, text "
 	   "and logical values are included in the calculation too. "
-	   "If the cell contains text or the argument evaluates"
+	   "If the cell contains text or the argument evaluates "
 	   "to FALSE, it is counted as value zero (0).  If the "
 	   "argument evaluates to TRUE, it is counted as one (1).  Note "
 	   "that empty cells are not counted."
@@ -2930,10 +2930,10 @@ static char *help_ttest = {
 	   "3  Two-sample unequal variance\n"
 	   "\n"
 	   "If the data sets contain a different number of data points and "
-	   "the test is paired (type one), TTEST returns the #N/A error. "
+	   "the test is paired (@type one), TTEST returns the #N/A error. "
 	   "@tails and @type are truncated to integers. "
-	   "If tails is not one or two, TTEST returns #NUM! error. "
-	   "If type is any other than one, two, or three, TTEST returns "
+	   "If @tails is not one or two, TTEST returns #NUM! error. "
+	   "If @type is any other than one, two, or three, TTEST returns "
 	   "#NUM! error. "
 	   "\n"
 	   "@SEEALSO=FDIST,FINV")
@@ -3154,9 +3154,9 @@ static char *help_forecast = {
 	   "existing values using simple linear regression.  The estimated "
 	   "future value is a y-value for a given x-value (@x). "
 	   "\n"
-	   "If known_x or known_y contains no data entries or different "
+	   "If @known_x or @known_y contains no data entries or different "
 	   "number of data entries, FORECAST returns #N/A! error. "
-	   "If the variance of the known_x is zero, FORECAST returns #DIV/0 "
+	   "If the variance of the @known_x is zero, FORECAST returns #DIV/0 "
 	   "error. "
 	   "\n"
 	   "@SEEALSO=INTERCEPT,TREND")
@@ -3293,9 +3293,9 @@ static char *help_intercept = {
 	   "INTERCEPT function calculates the point where the linear "
 	   "regression line intersects the y-axis.  "
 	   "\n"
-	   "If known_x or known_y contains no data entries or different "
+	   "If @known_x or @known_y contains no data entries or different "
 	   "number of data entries, INTERCEPT returns #N/A! error. "
-	   "If the variance of the known_x is zero, INTERCEPT returns #DIV/0 "
+	   "If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 "
 	   "error. "
 	   "\n"
 	   "@SEEALSO=FORECAST,TREND")

@@ -17,7 +17,7 @@ static char *help_selection = {
 
 	   "@DESCRIPTION="
 	   "The SELECTION function returns a list with the values in the current mouse cursor. "
-	   "This is usually used to implement on-the-flight computation of values"
+	   "This is usually used to implement on-the-flight computation of values."
 	   "\n"
 	   "@SEEALSO=")
 };

@@ -212,7 +212,7 @@ static char *help_countblank = {
            "@SYNTAX=COUNTBLANK(range)\n"
 
            "@DESCRIPTION="
-           "COUNTBLANK returns the number of blank cells in a range. "
+           "COUNTBLANK returns the number of blank cells in a @range. "
            "\n"
            "@SEEALSO=COUNT")
 };
@@ -247,7 +247,7 @@ static char *help_info = {
 	   "@SYNTAX=INFO()\n"
 
 	   "@DESCRIPTION="
-	   "INFO Returns information about the current operating environment. "
+	   "INFO returns information about the current operating environment. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -320,7 +320,7 @@ static char *help_isblank = {
 	   "@SYNTAX=ISBLANK()\n"
 
 	   "@DESCRIPTION="
-	   "ISBLANK Returns TRUE if the value is blank. "
+	   "ISBLANK returns TRUE if the value is blank. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -363,9 +363,9 @@ static char *help_iseven = {
 	   "@SYNTAX=ISEVEN()\n"
 
 	   "@DESCRIPTION="
-	   "ISEVEN Returns TRUE if the number is even. "
+	   "ISEVEN returns TRUE if the number is even. "
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=ISODD")
 };
 
 static Value *
@@ -380,7 +380,7 @@ static char *help_islogical = {
 	   "@SYNTAX=ISLOGICAL()\n"
 
 	   "@DESCRIPTION="
-	   "ISLOGICAL Returns TRUE if the value is a logical value. "
+	   "ISLOGICAL returns TRUE if the value is a logical value. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -406,7 +406,7 @@ static char *help_isnontext = {
 	   "@DESCRIPTION="
 	   "ISNONTEXT Returns TRUE if the value is not text. "
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=ISTEXT")
 };
 
 static Value *
@@ -425,7 +425,7 @@ static char *help_isnumber = {
 	   "@SYNTAX=ISNUMBER()\n"
 
 	   "@DESCRIPTION="
-	   "ISNUMBER Returns TRUE if the value is a number. "
+	   "ISNUMBER returns TRUE if the value is a number. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -446,9 +446,9 @@ static char *help_isodd = {
 	   "@SYNTAX=ISODD()\n"
 
 	   "@DESCRIPTION="
-	   "ISODD Returns TRUE if the number is odd. "
+	   "ISODD returns TRUE if the number is odd. "
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=ISEVEN")
 };
 
 static Value *
@@ -463,7 +463,7 @@ static char *help_isref = {
 	   "@SYNTAX=ISREF()\n"
 
 	   "@DESCRIPTION="
-	   "ISREF Returns TRUE if the value is a reference. "
+	   "ISREF returns TRUE if the value is a reference. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -489,9 +489,9 @@ static char *help_istext = {
 	   "@SYNTAX=ISTEXT()\n"
 
 	   "@DESCRIPTION="
-	   "ISTEXT Returns TRUE if the value is text. "
+	   "ISTEXT returns TRUE if the value is text. "
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=ISNONTEXT")
 };
 
 static Value *
@@ -510,7 +510,7 @@ static char *help_n = {
 	   "@SYNTAX=N()\n"
 
 	   "@DESCRIPTION="
-	   "N Returns a value converted to a number.  Strings containing "
+	   "N returns a value converted to a number.  Strings containing "
 	   "text are converted to the zero value. "
 	   "\n"
 	   "@SEEALSO=")
@@ -545,7 +545,7 @@ static char *help_type = {
 	   "@SYNTAX=TYPE()\n"
 
 	   "@DESCRIPTION="
-	   "TYPE Returns a number indicating the data type of a value. "
+	   "TYPE returns a number indicating the data type of a value. "
 	   "\n"
 	   "@SEEALSO=")
 };

@@ -102,7 +102,7 @@ calculate_pmt (float_t rate, float_t nper, float_t pv, float_t fv, int type)
 
 static char *help_effect = {
 	N_("@FUNCTION=EFFECT\n"
-	   "@SYNTAX=EFFECT(b1,b2)\n"
+	   "@SYNTAX=EFFECT(r,nper)\n"
 	   "@DESCRIPTION=Calculates the effective interest rate from "
 	   "a given nominal rate.\n"
 	   "Effective interest rate is calculated using this formulae:\n"
@@ -113,8 +113,8 @@ static char *help_effect = {
 	   "\n"
 	   "where:\n"
 	   "\n"
-	   "r = nominal interest rate (stated in yearly terms)"
-	   "nper = number of periods used for compounding"
+	   "@r = nominal interest rate (stated in yearly terms)\n"
+	   "@nper = number of periods used for compounding"
 	   "\n"
 	   "For example credit cards will list an APR (annual percentage rate) which "
 	   "is a nominal interest rate."
@@ -150,7 +150,7 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_nominal = {
 	N_("@FUNCTION=NOMINAL\n"
-	   "@SYNTAX=NOMINAL(b1,b2)\n"
+	   "@SYNTAX=NOMINAL(r,nper)\n"
 	   "@DESCRIPTION=Calculates the nominal interest rate from "
 	   "a given effective rate.\n"
 	   "Nominal interest rate is given by a formula:\n"
@@ -159,7 +159,7 @@ static char *help_nominal = {
 	   "\n"
 	   "where:\n"
 	   "\n"
-	   "r = effective interest rate"
+	   "r = effective interest rate\n"
 	   "nper = number of periods used for compounding"
 	   "\n"
 	   "@SEEALSO=EFFECT")
@@ -187,18 +187,18 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_sln = {
 	N_("@FUNCTION=SLN\n"
-	   "@SYNTAX=SLN(cost,salvage value,life)\n"
+	   "@SYNTAX=SLN(cost,salvage_value,life)\n"
 
-	   "@DESCRIPTION=Calculates the straight line depriciation for an"
+	   "@DESCRIPTION=Calculates the straight line depriciation for an "
 	   "asset based on its cost, salvage value and anticipated life."
 	   "\n"
 	   "Formula for straight line depriciation is:"
 	   "\n"
-	   "Depriciation expense = ( cost - salvage value ) / life"
+	   "Depriciation expense = ( cost - salvage_value ) / life"
 	   "\n"
-	   "\tcost = cost of an asset when acquired (market value)"
-	   "\tsalvage_value = amount you get when asset sold at the end of life"
-	   "\tlife = anticipated life of an asset"
+	   "\t@cost = cost of an asset when acquired (market value)"
+	   "\t@salvage_value = amount you get when asset sold at the end of life"
+	   "\t@life = anticipated life of an asset"
 	   "\n"
 	   "@SEEALSO=SYD")
 };
@@ -222,20 +222,20 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_syd = {
 	N_("@FUNCTION=SYD\n"
-	   "@SYNTAX=SYD(cost,salvage value,life,period)\n"
+	   "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
 
-	   "@DESCRIPTION=Calculates the sum-of-years digits depriciation for an"
-	   "asset based on its cost, salvage value, anticipated life and a"
+	   "@DESCRIPTION=Calculates the sum-of-years digits depriciation for an "
+	   "asset based on its cost, salvage value, anticipated life and a "
 	   "particular period."
 	   "\n"
 	   "Formula for sum-of-years digits depriciation is:"
 	   "\n"
-	   "Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)"
+	   "Depriciation expense = ( cost - salvage_value ) * (life - period + 1) * 2 / life * (life + 1)"
 	   "\n"
-	   "\tcost = cost of an asset when acquired (market value)"
-	   "\tsalvage_value = amount you get when asset sold at the end of life"
-	   "\tlife = anticipated life of an asset"
-	   "\tperiod = period for which we need the expense"
+	   "\t@cost = cost of an asset when acquired (market value)"
+	   "\t@salvage_value = amount you get when asset sold at the end of life"
+	   "\t@life = anticipated life of an asset"
+	   "\t@period = period for which we need the expense"
 	   "\n"
 	   "@SEEALSO=SLN")
 };
@@ -263,8 +263,8 @@ static char *help_dollarde = {
 	   "@DESCRIPTION=DOLLARDE converts a dollar price expressed as a "
 	   "fraction into a dollar price expressed as a decimal number. "
 	   "\n"
-	   "If fraction is non-integer it is truncated. "
-	   "If fraction<=0 DOLLARDE returns #NUM! error. "
+	   "If @fraction is non-integer it is truncated. "
+	   "If @fraction<=0 DOLLARDE returns #NUM! error. "
 	   "\n"
 	   "@SEEALSO=DOLLARFR")
 };
@@ -301,8 +301,8 @@ static char *help_dollarfr = {
 	   "@DESCRIPTION=DOLLARFR converts a decimal dollar price into "
 	   "a dollar price expressed as a fraction. "
 	   "\n"
-	   "If fraction is non-integer it is truncated. "
-	   "If fraction<=0 DOLLARDE returns #NUM! error. "
+	   "If @fraction is non-integer it is truncated. "
+	   "If @fraction <= 0 DOLLARDE returns #NUM! error. "
 	   "\n"
 	   "@SEEALSO=DOLLARDE")
 };
@@ -574,7 +574,7 @@ static char *help_ipmt = {
 	   "\n"
 	   "where:"
 	   "\n"
-	   "PMT = Payment received on annuity"
+	   "PMT = Payment received on annuity\n"
 	   "PRINCIPA(per-1) = amount of the remaining principal from last period"
 	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
@@ -615,7 +615,7 @@ static char *help_ppmt = {
 	   "\n"
 	   "where:"
 	   "\n"
-	   "PMT = Payment received on annuity"
+	   "PMT = Payment received on annuity\n"
 	   "IPMT(per) = amount of interest for period per"
 	   "\n"
 	   "@SEEALSO=IPMT,PV,FV")

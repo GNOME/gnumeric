@@ -70,8 +70,8 @@ static char *help_date = {
 	   "Computes the number of days since the 1st of january of 1900"
 	   "(the date serial number) for the given year, month and day.\n"
 
-	   "The day might be negative (to count backwards) and it is relative "
-	   "to the previous month.  The years should be at least 1900."
+	   "The @day might be negative (to count backwards) and it is relative "
+	   "to the previous @month.  The @years should be at least 1900."
 	   "\n"
 	   ""
 	   "@SEEALSO=TODAY, NOW")
@@ -91,7 +91,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 	/* FIXME: someone should check this.  */
 	if (year <= 30)
 		year += 2000;
-	else if (year <= 99)
+	
 		year += 1900;
 
         if (!g_date_valid_dmy(1, month, year))
@@ -136,7 +136,7 @@ gnumeric_datevalue (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_edate = {
 	N_("@FUNCTION=EDATE\n"
-	   "@SYNTAX=EDATE(serial_number,months)\n"
+	   "@SYNTAX=EDATE(date,months)\n"
 
 	   "@DESCRIPTION="
 	   "EDATE returns the serial number of the date that is the "
@@ -184,7 +184,7 @@ static char *help_today = {
 
 	   "@DESCRIPTION="
 	   "Returns the serial number for today (the number of days "
-	   "elapsed since the 1st of January of 1900)"
+	   "elapsed since the 1st of January of 1900)."
 	   "\n"
 
 	   ""
@@ -213,10 +213,10 @@ static char *help_now = {
 	   "Serial Numbers in Gnumeric are represented as follows:"
 	   "The integral part is the number of days since the 1st of "
 	   "January of 1900.  The decimal part represent the fraction "
-	   "of the day and is mapped into hour, minutes and seconds\n"
+	   "of the day and is mapped into hour, minutes and seconds.\n"
 	   ""
 	   "For example: .0 represents the beginning of the day, and 0.5 "
-	   "represents noon"
+	   "represents noon."
 	   "\n"
 
 	   ""
@@ -293,7 +293,7 @@ static char *help_hour = {
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to an hour.  The hour is returned as "
-	   "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)"
+	   "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
@@ -318,7 +318,7 @@ static char *help_minute = {
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to a minute.  The minute is returned as "
-	   "an integer in the range 0 to 59"
+	   "an integer in the range 0 to 59."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
@@ -343,7 +343,7 @@ static char *help_second = {
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to a second.  The second is returned as "
-	   "an integer in the range 0 to 59"
+	   "an integer in the range 0 to 59."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
@@ -478,10 +478,10 @@ static char *help_days360 = {
 	   "Returns the number of days from @date1 to @date2 following a "
 	   "360-day calendar in which all months are assumed to have 30 days."
 	   "\n"
-	   "If method is true, the European method will be used.  In this "
+	   "If @method is true, the European method will be used.  In this "
 	   "case, if the day of the month is 31 it will be considered as 30."
 	   "\n"
-	   "If method is false or omitted, the US method will be used.  "
+	   "If @method is false or omitted, the US method will be used.  "
 	   "This is a somewhat complicated industry standard method."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
