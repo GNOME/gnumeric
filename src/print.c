@@ -134,7 +134,7 @@ print_page_cells (Sheet const *sheet,
 	print_cell_range (pj->print_context, sheet,
 		start_col, start_row,
 		end_col, end_row,
-		base_x, base_y, pj->pi->print_grid_lines);
+		base_x, base_y, !pj->pi->print_grid_lines);
 }
 
 /*

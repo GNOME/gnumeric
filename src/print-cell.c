@@ -415,7 +415,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	cell_width_pts = gnome_font_get_width_string (print_font, text);
 
 	/* if a number overflows, do special drawing */
-	if ((cell_width_pts + indent) < width && cell_is_number (cell) &&
+	if ((cell_width_pts + indent) > width && cell_is_number (cell) &&
 	    sheet && !sheet->display_formulas) {
 		print_overflow (context, print_font, rect_x,
 				text_base, width, line_offset, num_lines);
