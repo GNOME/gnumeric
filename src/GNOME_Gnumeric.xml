@@ -1,0 +1,281 @@
+<Root>
+	<menu>
+
+		<submenu name="File" _label="_File">
+        
+			<menuitem name="FileNew" verb="" _label="_New"
+			_descr="Create a new spreadsheet"
+			pixtype="stock" pixname="Menu_New"/>
+        
+			<menuitem name="FileOpen" verb="" _label="_Open..."
+			_descr="Open a file"
+			pixtype="stock" pixname="Menu_Open" accel="F3"/>
+	
+			<placeholder name="open"/>
+
+			<menuitem name="FileImport" verb="" _label="_Import..."
+			_descr="Imports a file"
+			pixtype="stock" pixname="Menu_Open"/>
+
+			<menuitem name="FileSave" verb="" _label="_Save"
+			_descr="Save the current file" pixtype="stock" pixname="Menu_Save"
+			accel="&lt;Control&gt;s"/>
+	
+			<menuitem name="FileSaveAs" verb="" _label="Save _As..."
+			_descr="Save the current file with a different name"
+			pixtype="stock" pixname="Menu_Save As"/>
+
+			<placeholder/>
+	
+			<menuitem name="FileSummary" verb="" _label="Su_mmary..."
+			_descr="Summary information"/>
+	
+			<menuitem/>
+
+			<menuitem name="FilePrint" verb="" _label="_Print"
+			_descr="Print the current file" pixtype="stock"
+			pixname="Menu_Print"/>
+	
+			<menuitem name="FilePrintSetup" verb=""
+			_label="Print S_etup..."
+			_descr="Setup the page settings for your current printer"
+			pixtype="stock" pixname="Menu_Print"/>
+	
+			<menuitem name="FileClose" verb="" _label="_Close"
+			_descr="Close the current file" pixtype="stock" pixname="Menu_Close"
+			accel="&lt;Control&gt;w"/>
+
+			<menuitem/>
+	
+			<menuitem name="FileExit" verb="" _label="E_xit" _descr="Exit the program"
+			pixtype="stock" pixname="Menu_Exit" accel="&lt;Control&gt;q"/>
+
+		</submenu>
+
+		<submenu name="Edit" _label="_Edit">
+
+			<menuitem name="EditUndo" verb="" _label="_Undo" _descr="Undo the last action"
+			pixtype="stock" pixname="Menu_Undo" accel="&lt;Control&gt;z"/>
+	
+			<menuitem name="EditRedo" verb="" _label="_Redo" _descr="Redo the undone action"
+			pixtype="stock" pixname="Menu_Redo" accel="&lt;Control&gt;r"/>
+
+			<menuitem/>
+	
+			<menuitem name="EditCut" verb="" _label="C_ut" _descr="Cut the selection"
+			pixtype="stock" pixname="Menu_Cut" accel="&lt;Control&gt;x"/>
+	
+			<menuitem name="EditCopy" verb="" _label="_Copy"
+			_descr="Copy the selection" pixtype="stock" pixname="Menu_Copy"
+			accel="&lt;Control&gt;c"/>
+	
+			<menuitem name="EditPaste" verb="" _label="_Paste"
+			_descr="Paste the clipboard" pixtype="stock" pixname="Menu_Paste"
+			accel="&lt;Control&gt;v"/>
+	
+			<placeholder delimit="both"/>
+
+			<menuitem name="EditPasteSpecial" verb=""
+			_label="_Paste special..."
+			_descr="Paste with optional filters and transformations"
+			pixtype="stock" pixname="Menu_Paste"
+			accel="&lt;Control&gt;v"/>
+
+			<submenu name="Clear" _label="C_lear...">
+
+				<menuitem name="EditClearAll" verb=""
+				_label="_All"
+				_descr="Clear the selected cells' formats, comments, and contents"/>
+				
+				<menuitem name="EditClearFormats" verb=""
+				_label="_Formats"
+				_descr="Clear the selected cells' formats"/>
+
+				<menuitem name="EditClearComments" verb=""
+				_label="Co_mments"
+				_descr="Clear the selected cells' comments"/>
+
+				<menuitem name="EditClearContent" verb=""
+				_label="_Content"
+				_descr="Clear the selected cells' contents"/>
+
+			</submenu>
+
+			<menuitem name="EditClear" verb="" _label="C_lear"
+			_descr="Clear the selection"/>
+
+			<menuitem name="EditDelete" verb="" _label="_Delete..."
+			_descr="Remove selected cells, shifting others into their place"/>
+
+			<menuitem name="EditDeleteSheet" verb=""
+			_label="De_lete Sheet"
+			_descr="Irrevocably remove an entire sheet"/>
+
+			<menuitem/>
+
+			<submenu name="_Select...">
+
+				<menuitem name="EditSelectAll" verb=""
+				_label="Select _All" accel="&lt;Control&gt;a"
+				_descr="Select all cells in the spreadsheet"/>
+
+				<menuitem name="EditSelectRow" verb=""
+				_label="Select _Row" accel="&lt;Shift&gt; "
+				_descr="Select an entire row"/>
+
+				<menuitem name="EditSelectColumn" verb=""
+				_label="Select _Column" accel="&lt;Control&gt; "
+				_descr="Select an entire column"/>
+
+				<menuitem name="EditSelectArray" verb=""
+				_label="Select Arra_y" accel="&lt;Control&gt;/"
+				_descr="Select an array of cells"/>
+
+				<menuitem name="EditSelectDepends" verb=""
+				_label="Select _Depends"
+				_descr="Select all the cells that depend on the current edit cell."/>
+
+			</submenu>
+
+			<menuitem name="EditGoto" verb=""
+			_label="_Goto cell..."
+			_descr="Jump to a specified cell"/>
+
+			<menuitem name="EditRecalc" verb=""
+			_label="_Recalculate"
+			_descr="Recalculate the spreadsheet" accel="F9"/>
+
+	
+			<placeholder name="ops"/>
+
+		</submenu>
+
+		<submenu name="View" _label="_View">
+
+			<menuitem name="ViewZoom" verb="" _label="_Zoom..."
+			_descr="Zoom the spreadsheet in or out"/>
+
+		</submenu>
+
+		<submenu name="Insert" _label="_Insert">
+
+			<menuitem name="InsertSheet" verb=""
+			_label="_Sheet" _descr="Insert a new spreadsheet"/>
+
+			<menuitem name="InsertRows" verb=""
+			_label="_Rows" _descr="Insert new rows"/>
+
+			<menuitem name="InsertColumns" verb=""
+			_label="_Columns" _descr="Insert new columns"/>
+
+			<menuitem name="InsertCells" verb=""
+			_label="_Cells" _descr="Insert new cells"/>
+
+			<menuitem name="InsertObject" verb=""
+			_label="_Object" _descr="Inserts a Bonobo object"/>
+
+			<menuitem/>
+
+			<submenu name="Names" _label="N_ames">
+
+				<menuitem name="Names" verb="EditNames"
+				_label="Edit sheet and workbook names"/>
+
+			</submenu>
+
+			<menuitem name="InsertComment" verb=""
+			_label="_Add / modify comment..."
+			_descr="Edit the selected cell's comment"/>
+
+			<submenu name="Special" _label="S_pecial">
+
+				<menuitem name="Date" verb="InsertCurrentDate"
+				_label="Current _date"
+				_descr="Insert the current date into the selected cell(s)"
+				accel="&lt;Control&gt;;"/>
+
+				<menuitem name="Time" verb="InsertCurrentTime"
+				_label="Current _time"
+				_descr="Insert the current time into the selected cell(s)"
+				accel="&lt;Control&gt;:"/>
+
+			</submenu>
+
+		</submenu>
+
+
+		<submenu name="Format" _label="F_ormat">
+
+			<menuitem name="FormatCells" verb=""
+			_label="_Cells..."
+			_descr="Modify the formatting of the selected cells"
+			accel="&lt;Control&gt;1"/>
+
+			<submenu _label="C_olumn"/>
+			<submenu _label="_Row"/>
+			<submenu _label="_Sheet"/>
+
+			<menuitem name="FormatAuto" verb=""
+			_label="_Autoformat..."
+			_descr="Format a region of cells according to a pre-defined template"/>
+
+			<menuitem name="FormatWorkbook" verb=""
+			_label="_Workbook..."
+			_descr="Modify the workbook attributes"/>
+
+		</submenu>
+
+		<submenu name="Tools" _label="_Tools">
+
+			<menuitem name="ToolsPlugins" verb=""
+			_label="_Plug-ins..."
+			_descr="Manage available plugin modules."/>
+
+			<menuitem/>
+
+			<menuitem name="ToolsAutoCorrect" verb=""
+			_label="Auto _Correct..."
+			_descr="Automaticaly perform simple spell checking"/>
+
+			<menuitem name="ToolsAutoSave" verb=""
+			_label="_Auto Save..."
+			_descr="Automaticaly save the current document at regular intervals"/>
+
+			<menuitem/>
+
+			<menuitem name="ToolsGoalSeek" verb=""
+			_label="_Goal Seek..."
+			_descr="Iteratively recalculate to find a target value"/>
+
+			<menuitem name="ToolsSolver" verb=""
+			_label="_Solver..."
+			_descr="Iteratively recalculate with constraints to approach a target value"/>
+
+			<menuitem/>
+
+			<menuitem name="ToolsDataAnalysis" verb=""
+			_label="_Data Analysis..."
+			_descr="Statistical methods"/>
+
+		</submenu>
+
+		<submenu name="Data" _label="_Data">
+
+			<menuitem name="DataSort" verb=""
+			_label="_Sort..." _descr="Sort the selected cells"/>
+
+			<menuitem name="DataFilter" verb=""
+			_label="_Filter..." _descr="Filter data with given criteria"/>
+
+		</submenu>
+
+		<submenu name="Help" _label="_Help">
+	
+			<menuitem name="HelpAbout" verb="" _label="_About..." _descr="About this application"
+			pixtype="stock" pixname="Menu_About"/>
+
+		</submenu>
+
+	</menu>
+
+</Root>
