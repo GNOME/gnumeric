@@ -44,6 +44,7 @@ typedef struct
 
 	char const *	    charset;		  /* Desired charset */
 	StfTransliterateMode_t transliterate_mode;/* How to handle strange chars */
+	gboolean            preserve_format;      /* whether to use rendered strings */
 
 	StfEWriteFunc       write_func;           /* Write callback routine */
 	gpointer            write_data;           /* Data to pass to callback routine (2nd param)*/
@@ -64,6 +65,7 @@ void stf_export_options_set_quoting_mode    (StfExportOptions_t *export_options,
 void stf_export_options_set_quoting_char    (StfExportOptions_t *export_options, gunichar quoting_char);
 void stf_export_options_set_charset 	    (StfExportOptions_t *export_options, char const * charset);
 void stf_export_options_set_transliterate_mode (StfExportOptions_t *export_options, StfTransliterateMode_t transliterate_mode);
+void stf_export_options_set_format_mode (StfExportOptions_t *export_options, gboolean preserve_format);
 void stf_export_options_set_write_callback  (StfExportOptions_t *export_options, StfEWriteFunc write_func, gpointer data);
 void stf_export_options_sheet_list_clear    (StfExportOptions_t *export_options);
 void stf_export_options_sheet_list_add      (StfExportOptions_t *export_options, Sheet *sheet);

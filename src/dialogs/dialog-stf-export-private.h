@@ -50,6 +50,7 @@ typedef struct {
 	GtkCombo      	*format_quotechar;
 	CharmapSelector *format_charset;
 	GtkOptionMenu 	*format_transliterate;
+	GtkCheckButton  *format_preserve;
 } StfE_FormatPageData_t;
 
 /* Global stuff */

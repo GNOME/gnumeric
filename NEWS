@@ -8,6 +8,9 @@ Andreas
 	  Mark workbook as dirty on sheet deletion/addition
 	* Bug fixes: 128915
 	* Minor changes to the sort dialog
+	* http://bugzilla.gnome.org/show_bug.cgi?id=128936
+	  Allow text export to use the rendered strings rather than the 
+	  stored values
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=128565

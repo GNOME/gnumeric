@@ -1,3 +1,12 @@
+2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.glade: add `Preserve Formats' checkbutton
+	* dialog-stf-export-private.h (StfE_FormatPageData_t): add
+	  GtkCheckButton  *format_preserve
+	* dialog-stf-export-format-page.c (stf_export_dialog_format_page_init):
+	  initialize format_preserve checkbutton
+	(stf_export_dialog_format_page_result): extract format_preserve
+
 2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-cell-sort.c (build_sort_field_menu): balance the size

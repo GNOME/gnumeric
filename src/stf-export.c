@@ -56,7 +56,9 @@ stf_export_options_new (void)
 	export_options->quoting_char      = 0;
 	export_options->sheet_list        = NULL;
 	export_options->quoting_mode      = QUOTING_MODE_UNKNOWN;
+	export_options->preserve_format	  = FALSE;
 	export_options->charset	  	  = NULL;
+	export_options->transliterate_mode= TRANSLITERATE_MODE_UNKNOWN;
 
 	export_options->write_func        = NULL;
 	export_options->write_data        = NULL;
@@ -144,6 +146,20 @@ stf_export_options_set_transliterate_mode (StfExportOptions_t *export_options, S
 	export_options->transliterate_mode = transliterate_mode;
 }
 
+/**
+ * stf_export_options_set_format_mode:
+ * @export_options: an export options struct
+ * @preserve_format: whether to preserve formats
+ *
+ * Sets the transliterate mode (trans/escape)
+ **/
+void
+stf_export_options_set_format_mode (StfExportOptions_t *export_options, gboolean preserve_format)
+{
+	g_return_if_fail (export_options != NULL);
+
+	export_options->preserve_format = preserve_format;
+}
 
 /**
  * stf_export_options_set_quoting_char:
@@ -246,10 +262,17 @@ stf_export_cell (StfExportOptions_t *export_options, GnmCell *cell)
 
 	if (cell) {
 		gboolean quoting = FALSE;
-		char *text = cell->value
-			? value_get_as_string (cell->value)
-			: g_strdup ("");
-		const char *s = text;
+		char *text;
+		const char *s;
+		
+		if (export_options->preserve_format) 
+			text = cell_get_rendered_text (cell);
+		else
+			text = cell->value
+				? value_get_as_string (cell->value)
+				: g_strdup ("");
+		
+		s = text;
 		GString *res = g_string_new (NULL);
 
 		gsize bytes_read;

@@ -1,3 +1,12 @@
+2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf-export.c (stf_export_options_set_format_mode): new
+	(stf_export_options_new): initialize new fields
+	(stf_export_options_set_format_mode): new
+	(stf_export_cell): use rendered text if required
+	* src/stf-export.h (StfExportOptions_t): add preserve_format
+	(stf_export_options_set_format_mode): new
+
 2003-12-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_popup_menu): handle NULL event.
