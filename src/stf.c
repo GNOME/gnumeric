@@ -113,7 +113,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 	DialogStfResult_t *dialogresult;
 	char *name;
 	char *data;
-	char *c;
+	unsigned char *c;
 	Sheet *sheet;
 
 	data = stf_open_and_read (filename);

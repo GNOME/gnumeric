@@ -588,7 +588,7 @@ x_selection_to_cell_region (CommandContext *context, const char *src,
 	CellRegion *cr = NULL;
 	CellRegion *crerr;
 	char *data;
-	char *c;
+	unsigned char *c;
 
 	data = g_new (char, len + 1);
 	memcpy (data, src, len);

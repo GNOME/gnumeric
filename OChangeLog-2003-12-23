@@ -1,3 +1,12 @@
+2000-10-28  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/clipboard.c:
+	(x_selection_to_cell_region): Correct 'char' into 'unsigned char' so the eror
+	message will display the correct ASCII decimal.
+
+	* src/stf.c:
+	(stf_read_workbook): Idem.
+
 2000-10-28  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Require Bonobo >= 0.26.
