@@ -10,7 +10,9 @@ Andreas:
 	* Add zoom factor preference.
 	* Add sheet selector to print-setup dialog.
 	* Fix print range selection.
-	* Added new stats function CRONBACH
+	* Added new stats function CRONBACH.
+	* Improve focus handling in search dialog 
+	  (http://bugzilla.gnome.org/show_bug.cgi?id=81087).
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925
