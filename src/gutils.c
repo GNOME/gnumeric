@@ -816,8 +816,6 @@ gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
 #ifdef DEBUG_CHUNK_ALLOCATOR
 		g_print ("Releasing chunk %d for %s.\n", block->id, chunk->name);
 #endif
-		g_free (block->data);
-
 		/*
 		 * FIXME -- this could be faster if we rolled our own lists.
 		 * Hopefully, however, (a) the number of blocks is small,
@@ -826,6 +824,9 @@ gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
 		 */
 		chunk->blocklist = g_slist_remove (chunk->blocklist, block);
 		chunk->freeblocks = g_list_remove (chunk->freeblocks, block);
+
+		g_free (block->data);
+		g_free (block);
 	}
 }
 
