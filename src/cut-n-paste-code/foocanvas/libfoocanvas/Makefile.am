@@ -62,9 +62,9 @@ dist-hook:
 	done
 
 noinst_HEADERS = \
+	foo-canvas-marshal.h \
 	foo-canvas-i18n.h \
 	foo-canvas-line.h \
-	foo-canvas-marshal.h \
 	foo-canvas-pixbuf.h \
 	foo-canvas-polygon.h \
 	foo-canvas-rect-ellipse.h \
