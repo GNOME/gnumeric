@@ -105,8 +105,8 @@ gnumeric_reqs="
 	libgsf-1		>= 1.11.1
 	libgoffice-1		>= 0.0.1
 	libxml-2.0		>= 2.4.12
-	pango			>= 1.8.0
-	pangoft2		>= 1.8.0
+	pango			>= 1.8.1
+	pangoft2		>= 1.8.1
 "
 gnumeric_gtk_reqs="
 	gtk+-2.0		>= 2.6.0
