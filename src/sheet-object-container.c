@@ -27,12 +27,10 @@
 
 #ifdef GNOME2_CONVERSION_COMPLETE
 static void
-cb_user_activation_request (BonoboViewFrame *view_frame, GtkObject *so_view)
+cb_user_activation_request (BonoboViewFrame *view_frame, FooCanvasItem *so_view)
 {
-	SheetControlGUI *scg = sheet_object_view_control (so_view);
-	SheetObject *so = sheet_object_view_obj (so_view);
-
-	scg_mode_edit_object (scg, so);
+	scg_object_select (GNM_SIMPLE_CANVAS (item->canvas)->scg,
+		sheet_object_view_get_so (so_view));
 }
 
 static void
@@ -49,7 +47,7 @@ cb_container_update_bounds (SheetObject *so, FooCanvasItem *view)
 		"height", coords [3] - coords [1] + 1.,
 		NULL);
 
-	if (so->is_visible)
+	if ((so->flags & SHEET_OBJECT_IS_VISIBLE))
 		foo_canvas_item_show (view);
 	else
 		foo_canvas_item_hide (view);

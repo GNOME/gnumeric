@@ -325,7 +325,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 	int prev_level;
 	GdkRectangle rect;
 	GdkPoint points[3];
-	gboolean has_object = scg->new_object != NULL || scg->current_object != NULL;
+	gboolean has_object = scg->new_object != NULL || scg->selected_objects != NULL;
 	int shadow;
 	int first_line_offset = 1;
 

@@ -52,6 +52,80 @@ enum {
 
 static GObjectClass *parent_klass;
 
+#define TRIANGLE_WIDTH 6
+static FooCanvasPoints *
+comment_get_points (SheetControlGUI *scg, SheetObject *so)
+{
+	FooCanvasPoints *points;
+	int x, y, i, far_col;
+	GnmRange const *r;
+
+	r = sheet_merge_is_corner (so->sheet, &so->anchor.cell_bound.start);
+	if (r != NULL) {
+		so->anchor.cell_bound.end.col = r->end.col;
+		far_col = 1 + r->end.col;
+	} else
+		far_col = 1 + so->anchor.cell_bound.start.col;
+
+	/* TODO : This could be optimized using the offsets associated with the visible region */
+	/* Add 1 to y because we measure from start, x is measured from end, so
+	 * it does not need it */
+	y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row)+ 1;
+	x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
+
+	points = foo_canvas_points_new (3);
+	points->coords [0] = x - TRIANGLE_WIDTH;
+	points->coords [1] = y;
+	points->coords [2] = x;
+	points->coords [3] = y;
+	points->coords [4] = x;
+	points->coords [5] = y + TRIANGLE_WIDTH;
+
+	/* Just use pane 0 for sizing, it always exists */
+	for (i = 0; i < 3; i++)
+		foo_canvas_w2c_d (FOO_CANVAS (scg_pane (scg, 0)),
+				  points->coords [i*2],
+				  points->coords [i*2+1],
+				  &(points->coords [i*2]),
+				  &(points->coords [i*2+1]));
+
+	return points;
+}
+
+
+static void
+comment_view_destroy (SheetObjectView *sov)
+{
+	gtk_object_destroy (GTK_OBJECT (sov));
+}
+static void
+comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
+{
+	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	if (visible) {
+		FooCanvasPoints *points = comment_get_points (
+			GNM_SIMPLE_CANVAS (view->canvas)->scg,
+			sheet_object_view_get_so (sov));
+		foo_canvas_item_set (view, "points", points, NULL);
+		foo_canvas_points_free (points);
+		foo_canvas_item_show (view);
+	} else
+		foo_canvas_item_hide (view);
+}
+
+static void
+comment_foo_view_init (SheetObjectViewIface *sov_iface)
+{
+	sov_iface->destroy	= comment_view_destroy;
+	sov_iface->set_bounds	= comment_view_set_bounds;
+}
+typedef FooCanvasPolygon	CommentFooView;
+typedef FooCanvasPolygonClass	CommentFooViewClass;
+static GSF_CLASS_FULL (CommentFooView, comment_foo_view,
+	NULL, NULL,
+	FOO_TYPE_CANVAS_POLYGON, 0,
+	GSF_INTERFACE (comment_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
 static void
 cell_comment_finalize (GObject *object)
 {
@@ -118,46 +192,6 @@ cell_comment_get_property (GObject *obj, guint param_id,
 	}
 }
 
-#define TRIANGLE_WIDTH 6
-static FooCanvasPoints *
-comment_get_points (SheetControlGUI *scg, SheetObject *so)
-{
-	FooCanvasPoints *points;
-	int x, y, i, far_col;
-	GnmRange const *r;
-
-	r = sheet_merge_is_corner (so->sheet, &so->anchor.cell_bound.start);
-	if (r != NULL) {
-		so->anchor.cell_bound.end.col = r->end.col;
-		far_col = 1 + r->end.col;
-	} else
-		far_col = 1 + so->anchor.cell_bound.start.col;
-
-	/* TODO : This could be optimized using the offsets associated with the visible region */
-	/* Add 1 to y because we measure from start, x is measured from end, so
-	 * it does not need it */
-	y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row)+ 1;
-	x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
-
-	points = foo_canvas_points_new (3);
-	points->coords [0] = x - TRIANGLE_WIDTH;
-	points->coords [1] = y;
-	points->coords [2] = x;
-	points->coords [3] = y;
-	points->coords [4] = x;
-	points->coords [5] = y + TRIANGLE_WIDTH;
-
-	/* Just use pane 0 for sizing, it always exists */
-	for (i = 0; i < 3; i++)
-		foo_canvas_w2c_d (FOO_CANVAS (scg_pane (scg, 0)),
-				  points->coords [i*2],
-				  points->coords [i*2+1],
-				  &(points->coords [i*2]),
-				  &(points->coords [i*2+1]));
-
-	return points;
-}
-
 static int
 cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 {
@@ -178,7 +212,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 		break;
 	}
 
-	so = sheet_object_view_obj (G_OBJECT (view));
+	so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
 	cc = CELL_COMMENT (so);
 
 	g_return_val_if_fail (cc != NULL, FALSE);
@@ -208,51 +242,19 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 	return TRUE;
 }
 
-static void
-cb_comment_bounds_changed (SheetObject *so, FooCanvasItem *view)
+static SheetObjectView *
+cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	FooCanvasPoints *points = comment_get_points (
-		GNM_SIMPLE_CANVAS (view->canvas)->scg, so);
-	foo_canvas_item_set (view, "points", points, NULL);
-	foo_canvas_points_free (points);
-
-	if (so->is_visible)
-		foo_canvas_item_show (view);
-	else
-		foo_canvas_item_hide (view);
-}
-
-static GObject *
-cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
-	FooCanvasPoints	*points;
-	FooCanvasItem	*view = NULL;
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
-	GnmComment *cc = CELL_COMMENT (so);
-
-	g_return_val_if_fail (cc != NULL, NULL);
-	g_return_val_if_fail (scg != NULL, NULL);
-	g_return_val_if_fail (key != NULL, NULL);
-
-	points = comment_get_points (scg, so);
-	view = foo_canvas_item_new (gcanvas->grid_items,
-		FOO_TYPE_CANVAS_POLYGON,
-		"points",	points,
+	GnmCanvas	*gcanvas = ((GnmPane *)container)->gcanvas;
+	FooCanvasItem	*view = foo_canvas_item_new (gcanvas->grid_items,
+		comment_foo_view_get_type (),
 		"fill_color",	"red",
 		NULL);
-	foo_canvas_points_free (points);
-
 	/* Do not use the standard handler, comments are not movable */
 	g_signal_connect (view,
 		"event",
-		G_CALLBACK (cell_comment_event), scg);
-	cb_comment_bounds_changed (so, view);
-	g_signal_connect_object (so,
-		"bounds-changed",
-		G_CALLBACK (cb_comment_bounds_changed), view, 0);
-
-	return G_OBJECT (view);
+		G_CALLBACK (cell_comment_event), container);
+	return SHEET_OBJECT_VIEW (view);
 }
 
 static gboolean

@@ -10,18 +10,22 @@
 #include <libgnomeprint/gnome-print.h>
 
 typedef enum {
-	SHEET_OBJECT_ACTION_STATIC,
-	SHEET_OBJECT_ACTION_CAN_PRESS
-} SheetObjectBehavior;
+	SHEET_OBJECT_IS_VISIBLE	= 1 << 0,	/* user selectable */
+	SHEET_OBJECT_PRINT	= 1 << 1,
+	SHEET_OBJECT_CAN_PRESS	= 1 << 2,
+
+	/* Gnumeric specific properties */
+	SHEET_OBJECT_MOVE_WITH_CELLS	= 1 << 16,
+	SHEET_OBJECT_SIZE_WITH_CELLS	= 1 << 17,
+	SHEET_OBJECT_OBSCURED		= 1 << 18	/* cells associated with region are hidden */
+} SheetObjectFlags;
 
 struct _SheetObject {
 	GObject            parent_object;
-	SheetObjectBehavior  type;
 	Sheet             *sheet;
 	GList             *realized_list;
 	SheetObjectAnchor  anchor;
-	unsigned	   is_visible;
-	unsigned	   move_with_cells;
+	SheetObjectFlags   flags;
 };
 
 typedef void (*SheetObjectActionFunc) (SheetObject *so, SheetControl *sc);
@@ -45,15 +49,12 @@ typedef struct {
 	gboolean   (*assign_to_sheet) (SheetObject	*sheet_object,
 				       Sheet		*sheet);
 
-	GObject *      (*new_view)   (SheetObject	*sheet_object,
-				      SheetControl	*s_control, gpointer key);
+	SheetObjectView	*(*new_view) (SheetObject	*sheet_object,
+				      SheetObjectViewContainer *container);
 	void        (*populate_menu) (SheetObject	*sheet_object,
 				      GPtrArray		*actions);
 	void	      (*user_config) (SheetObject	*sheet_object,
 				      SheetControl	*s_control);
-	void           (*set_active) (SheetObject	*so,
-				      GObject           *obj_view,
-				      gboolean		val);
 	gboolean     (*read_xml_dom) (SheetObject	*so,
 				      char const *type_name,	/* for versioning */
 				      XmlParseContext const *ctxt,
@@ -95,7 +96,48 @@ typedef struct {
 	void *data_pad3;
 	void *data_pad4;
 } SheetObjectClass;
-
 #define SHEET_OBJECT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))
+
+/***************************************************************************/
+
+typedef struct {
+	GTypeInterface base;
+
+	void (*destroy)    (SheetObjectView *sov);
+	void (*active)	   (SheetObjectView *sov, gboolean is_active);
+	void (*set_bounds) (SheetObjectView *sov,
+			    double const *coords, gboolean visible);
+} SheetObjectViewIface;
+
+#define SHEET_OBJECT_VIEW_TYPE		(sheet_object_view_get_type ())
+#define SHEET_OBJECT_VIEW(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_VIEW_TYPE, SheetObjectView))
+#define IS_SHEET_OBJECT_VIEW(o)		(G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_VIEW_TYPE))
+#define SHEET_OBJECT_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewIface))
+#define IS_SHEET_OBJECT_VIEW_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE((k), SHEET_OBJECT_VIEW_TYPE))
+#define SHEET_OBJECT_VIEW_GET_CLASS(inst)  (G_TYPE_INSTANCE_GET_INTERFACE ((inst), SHEET_OBJECT_VIEW_TYPE, SheetObjectViewIface))
+
+GType	     sheet_object_view_get_type	  (void);
+SheetObject *sheet_object_view_get_so	  (SheetObjectView *sov);
+void	     sheet_object_view_destroy	  (SheetObjectView *sov);
+void	     sheet_object_view_set_bounds (SheetObjectView *sov,
+					   double const *coords,
+					   gboolean visible);
+
+/***************************************************************************/
+
+typedef struct {
+	GTypeInterface base;
+
+	/* Map between anchors and un-normalized coordinates */
+	void (*anchor_to_coords) (SheetObjectViewContainer *sovc,
+				  SheetObjectAnchor const *input, double *output);
+	void (*coords_to_anchor) (SheetObjectViewContainer *sovc,
+				  double const *input, SheetObjectAnchor *output);
+} SheetObjectViewContainerIface;
+
+void so_vc_anchor_to_coords (SheetObjectViewContainer *sovc,
+			     SheetObjectAnchor const *input, double *output);
+void so_vc_coords_to_anchor (SheetObjectViewContainer *sovc,
+			     double const *input, SheetObjectAnchor *output);
 
 #endif /* GNUMERIC_SHEET_OBJECT_PRIV_H */

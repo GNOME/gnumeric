@@ -49,50 +49,43 @@ Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
 gboolean      sheet_object_clear_sheet	 (SheetObject *so);
 
 SheetObject  *sheet_object_dup		 (SheetObject const *so);
+gboolean      sheet_object_can_print	 (SheetObject const *so);
 void          sheet_object_print	 (SheetObject const *so,
 					  GnomePrintContext *ctx,
 					  double width, double height);
-void          sheet_object_clone_sheet   (Sheet const *src, Sheet *dst, GnmRange *range);
-void          sheet_object_update_bounds (SheetObject *so, GnmCellPos const *p);
-void	      sheet_object_default_size	 (SheetObject *so,
-					  double *w, double *h);
-
-void	      sheet_object_new_view	 (SheetObject *so, SheetControl *sc,
-					  gpointer key);
-GObject	     *sheet_object_get_view	 (SheetObject *so, gpointer key);
-SheetObject  *sheet_object_view_obj	 (GObject *view);
-SheetControl *sheet_object_view_control  (GObject *view);
-gpointer      sheet_object_view_key	 (GObject *view);
-
+void	     sheet_object_update_bounds  (SheetObject *so, GnmCellPos const *p);
+void	     sheet_object_default_size	 (SheetObject *so, double *w, double *h);
+gint	     sheet_object_adjust_stacking(SheetObject *so, gint positions);
+void	     sheet_object_new_view	 (SheetObject *so,
+					  SheetObjectViewContainer *container);
+SheetObjectView	*sheet_object_get_view	 (SheetObject const *so,
+					  SheetObjectViewContainer *container);
 GnmRange const	*sheet_object_get_range	 (SheetObject const *so);
 void		 sheet_object_set_anchor (SheetObject *so,
 					  SheetObjectAnchor const *anchor);
-SheetObjectAnchor const *sheet_object_get_anchor (SheetObject const *so);
 
-void sheet_object_position_pts_get	   (SheetObject const *so, double *pos);
-void sheet_object_position_pixels_get	   (SheetObject const *so,
-					    SheetControl const *sc, double *pos);
-void sheet_object_position_pixels_set	   (SheetObject const *so,
-					    SheetControl const *sc, double const *pos);
-gint sheet_object_adjust_stacking          (SheetObject *so, gint positions);
+SheetObjectAnchor const *sheet_object_get_anchor (SheetObject const *so);
+void sheet_object_position_pts_get (SheetObject const *so, double *coords);
 
 /* Object Management */
-void    sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update);
-void    sheet_objects_clear    (Sheet const *sheet, GnmRange const *r, GType t);
-GSList *sheet_objects_get      (Sheet const *sheet, GnmRange const *r, GType t);
+void    sheet_objects_relocate   (GnmExprRelocateInfo const *rinfo, gboolean update);
+void    sheet_objects_clear      (Sheet const *sheet, GnmRange const *r, GType t);
+GSList *sheet_objects_get        (Sheet const *sheet, GnmRange const *r, GType t);
+void    sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range);
 
 void     sheet_object_direction_set (SheetObject *so, gdouble const *coords);
 gboolean sheet_object_rubber_band_directly (SheetObject const *so);
 
 /* Anchor utilities */
-void sheet_object_anchor_init	    (SheetObjectAnchor *anchor,
-				     GnmRange const *cell_bound,
-				     float const	offset [4],
-				     SheetObjectAnchorType const type [4],
-				     SheetObjectDirection direction);
-void sheet_object_anchor_cpy	    (SheetObjectAnchor *dst,
-				     SheetObjectAnchor const *src);
-
+void sheet_object_anchor_to_pts	(SheetObjectAnchor const *anchor,
+				 Sheet const *sheet, double *res_pts);
+void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
+				 GnmRange const *cell_bound,
+				 float const	offset [4],
+				 SheetObjectAnchorType const type [4],
+				 SheetObjectDirection direction);
+void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
+				 SheetObjectAnchor const *src);
 
 /* management routine to register all the builtin object types */
 void sheet_objects_init (void);

@@ -3,7 +3,7 @@
 /*
  * sheet-object-graph.c: Wrapper for GNOME Office graphs in gnumeric
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -54,7 +54,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkstock.h>
-#include <gtk/gtkimage.h>
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
@@ -62,6 +61,43 @@
 #include <math.h>
 #include <string.h>
 
+static void
+so_graph_view_destroy (SheetObjectView *sov)
+{
+	gtk_object_destroy (GTK_OBJECT (sov));
+}
+static void
+so_graph_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
+{
+	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+
+	if (visible) {
+		foo_canvas_item_set (view,
+			"x", MIN (coords [0], coords[2]),
+			"y", MIN (coords [3], coords[1]),
+			"w", fabs (coords [2] - coords [0]) + 1.,
+			"h", fabs (coords [3] - coords [1]) + 1.,
+			NULL);
+
+		foo_canvas_item_show (view);
+	} else
+		foo_canvas_item_hide (view);
+}
+
+static void
+so_graph_foo_view_init (SheetObjectViewIface *sov_iface)
+{
+	sov_iface->destroy	= so_graph_view_destroy;
+	sov_iface->set_bounds	= so_graph_view_set_bounds;
+}
+typedef GogControlFooCanvas		SOGraphFooView;
+typedef GogControlFooCanvasClass	SOGraphFooViewClass;
+static GSF_CLASS_FULL (SOGraphFooView, so_graph_foo_view,
+	NULL, NULL,
+	GOG_CONTROL_FOOCANVAS_TYPE, 0,
+	GSF_INTERFACE (so_graph_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+/****************************************************************************/
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-graph-key"
 
 #define SHEET_OBJECT_GRAPH_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPH_TYPE, SheetObjectGraphClass))
@@ -119,40 +155,17 @@ sheet_object_graph_finalize (GObject *obj)
 	parent_klass->finalize (obj);
 }
 
-static void
-cb_graph_bounds_changed (SheetObject *so, FooCanvasItem *view)
+static SheetObjectView *
+sheet_object_graph_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	double coords [4];
-	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
-
-	scg_object_view_position (scg, so, coords);
-	foo_canvas_item_set (view,
-		"x", MIN (coords [0], coords[2]),
-		"y", MIN (coords [3], coords[1]),
-		"w", fabs (coords [2] - coords [0]) + 1.,
-		"h", fabs (coords [3] - coords [1]) + 1.,
-		NULL);
-
-	if (so->is_visible)
-		foo_canvas_item_show (view);
-	else
-		foo_canvas_item_hide (view);
-}
-
-static GObject *
-sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	FooCanvasItem *view = foo_canvas_item_new (gcanvas->object_views,
-		GOG_CONTROL_FOOCANVAS_TYPE,
+		so_graph_foo_view_get_type (),
 		"renderer",	sog->renderer,
 		NULL);
-
-	gnm_pane_object_register (so, view, cb_graph_bounds_changed);
-	return G_OBJECT (view);
+	return gnm_pane_object_register (so, view);
 }
-
 
 static gboolean
 sog_gsf_gdk_pixbuf_save (const gchar *buf,

@@ -86,13 +86,11 @@ gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
 
-gboolean cmd_object_insert	(WorkbookControl *wbc, SheetObject *so,
-				 Sheet *sheet, char const *name);
-gboolean cmd_object_delete	(WorkbookControl *wbc, SheetObject *so,
+gboolean cmd_objects_delete	(WorkbookControl *wbc, GSList *objects,
 				 char const *name);
-gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,
-				 SheetObjectAnchor const *old_anchor,
-				 gboolean resize, gboolean was_a_dup);
+gboolean cmd_objects_move	(WorkbookControl *wbc,
+				 GSList *objects, GSList *anchors,
+				 gboolean objects_created, char const *name);
 gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
 				 gpointer orig_style);
 

@@ -10,12 +10,16 @@ Release Critical
 
 debian 272697
 
-    : Don't leak dropped objects from sheet_objects_relocate
-    : Don't leak dropped objects from sheet_objects_clear
+    http://bugzilla.gnome.org/show_bug.cgi?id=152434
+    : file save gremlins
+
+    : provide undo for dropped objects from sheet_objects_relocate
+    : provide undo for dropped objects from sheet_objects_clear
     : undo of pasting copy/cut of objects
     : kasal's popt patch
 
-    : editing text boxes
+    : editing text boxes (do a derived FooCanvasEditableTextItem)
+      we can steal some of the xim support from item-edit.
     http://bugzilla.gnome.org/show_bug.cgi?id=152528
     : No crash when reading broken xls
 
@@ -163,7 +167,8 @@ Target Features
 - ssconvert for non-gnome					(DONE)
 
 Excel i/o
-    - 'Forms' import.
+    - 'Forms' import						(DONE)
+    - Properties of 'Forms'
 
 -------------------------------------------------------------------------------
 Short Term Goals
@@ -269,7 +274,7 @@ Short Term Goals
 	1.12.2) Take marker sizes into account at bounds	(DONE)
 	1.12.3) Bounds on 1 axis explicitly clip the other
 	1.12.4) Splined interpolation
-	1.12.5) Bubbles {Jean has patch}			(DONE)
+	1.12.5) Bubbles 					(DONE)
     1.13) Decide on recalc strategy				(DONE)
 	1.13.1) Getting data from sheet -> graphs		(DONE)
 	1.13.2) linking unlinking				(DONE)
@@ -396,7 +401,9 @@ Short Term Goals
 	1.30.2) Theme it					(DONE)
 	1.30.3) Add or remove it depending on chart axis set	(DONE)
 	1.30.4) Render background				(DONE)
-	1.30.5) Draw grid lines when appropriate
+	1.30.5) Support grid lines (added to axis)		(DONE)
+	1.30.6) XLS import of grid lines
+	1.30.7) XLS export of grid lines
     1.31) SVG Render
 	1.31.1) Paths						(DONE)
 	1.31.2) Solid Fills					(DONE)
@@ -410,8 +417,14 @@ Short Term Goals
     1.32) Radar plots
 	1.32.1) line						(DONE)
 	1.32.2) area						(DONE)
-	1.32.3) axis labels
+	1.32.3) axis labels			{partial}
 	1.32.4) fix xls import of marker vs no marker
+    1.33) Contour plots					{Jean}
+	1.33.1) Initial implementation
+	1.33.2) GOMatrix
+	1.33.3) Axis changes
+	1.33.4) XLS import
+	1.33.4) XLS export
 
 2) stf							{Andreas/Morten}
     2.1) UTF-8 cleanliness					(DONE)
@@ -672,14 +685,36 @@ Short Term Goals
 
 31) sylk
     31.1) importer
-	31.1.1) constants					(DONE)
+	31.1.1) constants						(DONE)
 	31.1.2) expressions (needs r1c1 parser)
 	31.1.3) array expressions
-	31.1.4) column widths					(DONE)
-	31.1.5) formats						(DONE)
+	31.1.4) column widths						(DONE)
+	31.1.5) formats							(DONE)
 	31.1.6) fonts 					{partial}
-	31.1.7) styles						(DONE)
+	31.1.7) styles							(DONE)
     31.2) exporter
+
+32) SheetObjects
+    32.1) SheetView specific objects	{partial}
+    32.2) Add acetate_create virtual to handle shaped objects.
+    32.3) Other anchor types for sheet objects
+    32.4) Add keyboard controls for the control points			(DONE)
+	32.4.1) Arrows move						(DONE)
+	32.4.2) Ctrl Arrows expand					(DONE)
+	32.4.3) Shift Ctrl Arrows shrink				(DONE)
+    32.5) Use delta from start of drag rather than previous movement
+    32.6) Add 'is_printable' flag					(DONE)
+    32.7) Add 'move_with_cells' flag					(DONE)
+    32.8) Add ability to fix aspect ratio of drag resize
+    32.9) Honour rubber_band_directly during resize too			(DONE)
+    32.10) research the other xl object flags.
+    32.11) remove update_view_bounds and have the model emit a		(DONE)
+    	   bound_changed signal
+    32.12) double click to bring up prefs dialog
+    32.13) selecting object with other objects on top of it should
+   	   hide them while editing
+    32.14) ngettext for insert/delete objects undo message
+    32.15) Check the stacking of ctrl pts when moving multiple selections
 
 Misc stuff that should be fixed
 -------------------------------
@@ -700,7 +735,7 @@ Misc stuff that should be fixed
     - Freeze panes (tricky this is a view attribute)
     - Remove sheet. (Done except that references are not linked back.)
     - `Add Scenario' Portion of Solver
-    - Sheet object configuration changes. (Done for graphs.)
+    - Sheet object configuration changes. (Done for graphs, lines, and fills)
     - Workbook attr changes
 
 - cols/rows
@@ -771,23 +806,6 @@ Misc stuff that should be fixed
     : improve uniform_get to handle full sheet more quickly.
     : Borders
 	* use new border code for cell format dialog (possibly preview-grid)
-
-- SheetObjects
-    : SheetView specific objects
-    : Add acetate_create virtual to handle shaped objects.
-    : Other anchor types for sheet objects
-    : Add keyboard controls for the control points
-    : Add object control for resize to disable invalid sizes.
-    : Add 'is_printable' flag and import
-    : Add 'move_with_cells' flag					(DONE)
-    : Add ability to fix aspect ratio of drag resize
-    : Honour rubber_band_directly during resize too
-    : research the other xl object flags.
-    : remove update_view_bounds and have the model emit a		(DONE)
-    	bound_changed signal
-    : double click to bring up prefs dialog
-    : selecting object with other objects on top of it should hide them while
-      editing
 
 Dialogs
 -------

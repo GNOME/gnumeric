@@ -263,8 +263,9 @@ static GNM_ACTION_DEF (cb_edit_cut)
 		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
-		if (scg != NULL && scg->current_object != NULL)
-			gnm_app_clipboard_cut_copy_obj (wbc, FALSE, sv, scg->current_object);
+		if (scg != NULL && scg->selected_objects != NULL)
+			gnm_app_clipboard_cut_copy_obj (wbc, TRUE, sv,
+				gnm_hash_keys (scg->selected_objects));
 		else
 			sv_selection_cut (sv, wbc);
 	} else
@@ -277,8 +278,9 @@ static GNM_ACTION_DEF (cb_edit_copy)
 		SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
-		if (scg != NULL && scg->current_object != NULL)
-			gnm_app_clipboard_cut_copy_obj (wbc, FALSE, sv, scg->current_object);
+		if (scg != NULL && scg->selected_objects != NULL)
+			gnm_app_clipboard_cut_copy_obj (wbc, FALSE, sv,
+				gnm_hash_keys (scg->selected_objects));
 		else
 			sv_selection_copy (sv, wbc);
 	} else

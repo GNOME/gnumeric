@@ -1,3 +1,49 @@
+2004-10-08  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : throw in
+	  support for tabbing fwd/back through the list of objects.
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_create_widget) :
+	  Tweak to support toggle buttons too
+
+2004-10-08  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.c : Add a SheetObjectView interface and use it to
+	  give us more control over things.
+
+	* src/workbook-control-gui.c (wbcg_zoom_feedback) : no need to
+	  reposition objects manually here.
+
+	* src/print.c (print_sheet_objects) : Use sheet_object_can_print.
+
+	* src/gutils.c : Clean up the name spacing
+
+	* src/sheet-filter.c : Support the new SheetObjectView interface
+	* src/sheet-object-cell-comment.c : ditto
+	* src/sheet-object-graph.c : ditto
+	* src/sheet-object-image.c : ditto
+	* src/sheet-object-widget.c : ditto
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) :
+	  - arrow moves the objects
+	  - ctrl arrow expands an edge
+	  - shift ctrl arrow shrinks an edge
+
+	* src/commands.c (CmdObjectInsert) : delete
+	(CmdObjectDelete) : Rename to CmdObjectsDelete and handle multiples
+	(CmdObjectMove) : Rename to CmdObjectsMove and handle multiples
+
+	* src/application.c (gnm_app_clipboard_cut_copy_obj) : handle multiple
+	  objects.
+	* src/gnumeric-pane.c : ditto.
+	* src/sheet-control-gui.c : ditto.
+	* src/item-grid.c : ditto.  Also there is no need to handle object
+	  creation here as a special case just use the object editing
+	  directly.
+
+	* src/sheet-object.c (sheet_object_anchor_init) : pick a default that
+	  we've actually implemented.
+
 2004-10-08  Morten Welinder  <terra@gnome.org>
 
 	* src/rangefunc.c (range_hypot): New function.

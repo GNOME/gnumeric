@@ -579,9 +579,6 @@ static void
 sheet_reposition_objects (Sheet const *sheet, GnmCellPos const *pos)
 {
 	GList *ptr;
-
-	g_return_if_fail (IS_SHEET (sheet));
-
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
 		sheet_object_update_bounds (SHEET_OBJECT (ptr->data), pos);
 }

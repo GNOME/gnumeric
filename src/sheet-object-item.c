@@ -26,7 +26,7 @@ cb_item_update_bounds (SheetObject *so, FooCanvasItem *view)
 {
 	/* FIXME : what goes here ?? */
 
-	if (so->is_visible)
+	if ((so->flags & SHEET_OBJECT_IS_VISIBLE))
 		foo_canvas_item_show (view);
 	else
 		foo_canvas_item_hide (view);

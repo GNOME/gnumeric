@@ -23,6 +23,7 @@
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
+#include <libfoocanvas/foo-canvas-util.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
@@ -173,26 +174,24 @@ gog_control_foocanvas_update (FooCanvasItem *item,
 			      double i2w_dx, double i2w_dy, gint flags)
 {
 	GogControlFooCanvas *ctrl = GOG_CONTROL_FOOCANVAS (item);
-	int x1, x2, y1, y2;
 	gboolean redraw;
+	int x1, x2, y1, y2;
+	int orig_x1 = item->x1, orig_x2 = item->x2, orig_y1 = item->y1, orig_y2 = item->y2;
 
 	if (FOO_CANVAS_ITEM_CLASS (parent_klass)->update)
 		(FOO_CANVAS_ITEM_CLASS (parent_klass)->update) (item, i2w_dx, i2w_dy, flags);
+	/* foo_canvas_group_update wipes the bbox */
+	item->x1 = orig_x1;	item->x2 = orig_x2;
+	item->y1 = orig_y1;	item->y2 = orig_y2;
 
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos, ctrl->base.ypos, &x1, &y1);
 	foo_canvas_w2c (item->canvas, ctrl->base.xpos + ctrl->new_w, ctrl->base.ypos + ctrl->new_h, &x2, &y2);
 
 	redraw = gog_renderer_pixbuf_update (ctrl->renderer, x2-x1, y2-y1,
-					     item->canvas->pixels_per_unit) ||
-		 item->x1 != x1 || item->y1 != y1 ||
-		 item->x2 != x2 || item->y2 != y2;
-
-	item->x1 = x1;
-	item->y1 = y1;
-	item->x2 = x2;
-	item->y2 = y2;
-
-	if (redraw)
+		item->canvas->pixels_per_unit);
+	if (item->x1 != x1 || item->y1 != y1 || item->x2 != x2 || item->y2 != y2)
+		foo_canvas_update_bbox (FOO_CANVAS_ITEM (ctrl), x1, y1, x2, y2);
+	else if (redraw)
 		foo_canvas_item_request_redraw (FOO_CANVAS_ITEM (ctrl));
 }
 

@@ -242,7 +242,6 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 	g_return_if_fail (app != NULL);
 
 	gnm_app_clipboard_clear (FALSE);
-
 	if (wb_control_claim_selection (wbc)) {
 		Sheet *sheet = sv_sheet (sv);
 		g_free (app->clipboard_cut_range);
@@ -264,47 +263,51 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 		g_warning ("Unable to set selection ?");
 	}
 }
+
 /** gnm_app_clipboard_cut_copy_obj :
  * @wbc : #WorkbookControl
  * @is_cut : 
  * @sv : #SheetView
- * @so : #SheetObject
+ * @objects : a list of #SheetObject which is freed
  *
- * Different than copying/cutting a region, this can actually cut an object
+ * Different than copying/cutting a region, this can actually cuts an object
  **/
 void
 gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
-				SheetView *sv, SheetObject *so)
+				SheetView *sv, GSList *objects)
 {
+	SheetObject *so;
+	GnmRange *r;
+	GSList *ptr;
+
 	g_return_if_fail (IS_SHEET_VIEW (sv));
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (objects != NULL);
 	g_return_if_fail (app != NULL);
 
 	gnm_app_clipboard_clear (FALSE);
-
 	if (wb_control_claim_selection (wbc)) {
-		GnmRange *r;
-		Sheet *sheet = sv_sheet (sv);
-
 		app->clipboard_cut_range = NULL;
 		sv_weak_ref (sv, &(app->clipboard_sheet_view));
+		app->clipboard_copied_contents = cellregion_new	(sv_sheet (sv));
+		for (ptr = objects ; ptr != NULL ; ptr = ptr->next) {
+			so = sheet_object_dup (ptr->data);
+			r = (GnmRange *) sheet_object_get_range	(so);
+			range_translate (r,
+				-MIN (r->start.col, r->end.col),
+				-MIN (r->start.row, r->end.row));
+			app->clipboard_copied_contents->objects = g_slist_prepend (
+				app->clipboard_copied_contents->objects, so);
+		}
 
-		app->clipboard_copied_contents = cellregion_new	(sheet);
-		if (is_cut)
-			cmd_object_delete (wbc, so, _("Cut Object"));
-		so = sheet_object_dup (so);
-
-		r = (GnmRange *) sheet_object_get_range	(so);
-		range_translate (r,
-			-MIN (r->start.col, r->end.col),
-			-MIN (r->start.row, r->end.row));
-		app->clipboard_copied_contents->objects = g_slist_prepend (
-			app->clipboard_copied_contents->objects, so);
-
+		if (is_cut) {
+			cmd_objects_delete (wbc, objects, _("Cut Object"));
+			objects = NULL;
+		}
 		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
 	} else {
 		g_warning ("Unable to set selection ?");
 	}
+	g_slist_free (objects);
 }
 
 gboolean

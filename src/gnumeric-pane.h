@@ -30,10 +30,13 @@ struct _GnumericPane {
 	} cursor;
 	GSList		*anted_cursors;
 
-	SheetObject	*drag_object;
-	int		 drag_button;	/* the button that intiated the object drag */
-	gboolean	 drag_is_a_dup;
-	FooCanvasItem   *control_points [9]; /* Control points for the current item */
+	struct {
+	    int		 button;	  /* the button that intiated the object drag */
+	    gboolean	 created_objects;
+	    gboolean	 had_motion;	  /* while dragging did we actually move */
+	    GHashTable	*ctrl_pts;	  /* arrays of FooCanvasItems hashed by sheet object */
+	    double	 last_x, last_y, origin_x, origin_y;
+	} drag;
 
 	GdkCursor	*mouse_cursor;
 	GtkWidget       *size_tip;
@@ -65,15 +68,13 @@ void gnm_pane_special_cursor_start 		(GnmPane *pane, int style, int button);
 void gnm_pane_special_cursor_stop		(GnmPane *pane);
 void gnm_pane_mouse_cursor_set                  (GnmPane *pane, GdkCursor *c);
 
-void gnm_pane_object_stop_editing (GnmPane *pane);
-void gnm_pane_object_set_bounds   (GnmPane *pane, SheetObject *so,
-				   double l, double t, double r, double b);
+void gnm_pane_object_unselect	  (GnmPane *pane, SheetObject *so);
+void gnm_pane_object_update_bbox  (GnmPane *pane, SheetObject *so);
+void gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
+				   SheetObject *so, int drag_type);
 
 /* A convenience api */
-typedef void (*GnmPaneObjectBoundsChanged) (SheetObject *so, FooCanvasItem *view);
-GObject *gnm_pane_object_register (SheetObject *so, FooCanvasItem *view,
-				   GnmPaneObjectBoundsChanged bounds_changed);
-GObject *gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view,
-				   GnmPaneObjectBoundsChanged bounds_changed);
+SheetObjectView *gnm_pane_object_register (SheetObject *so, FooCanvasItem *view);
+SheetObjectView *gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view);
 
 #endif /* GNUMERIC_PANE_H */

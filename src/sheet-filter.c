@@ -135,38 +135,6 @@ filter_field_finalize (GObject *object)
 	parent->finalize (object);
 }
 
-static void
-cb_filter_bounds_changed (SheetObject *so, FooCanvasItem *view)
-{
-	double coords [4], tmp;
-	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
-
- 	scg_object_view_position (scg, so, coords);
-
-	/* clip vertically */
-	tmp = (coords[3] - coords[1]);
-	if (tmp > 20.) {
-		tmp = 20.;
-		coords[1] = coords[3] - tmp;
-	}
-	/* maintain squareness horzontally */
-	tmp = coords[2] - tmp;
-	if (coords[0] < tmp)
-		coords[0] = tmp;
-
-	/* NOTE : far point is EXCLUDED so we add 1 */
-	foo_canvas_item_set (view,
-		"x", coords [0], "y", coords [1],
-		"width",  coords [2] - coords [0] + 1.,
-		"height", coords [3] - coords [1] + 1.,
-		NULL);
-
-	if (so->is_visible)
-		foo_canvas_item_show (view);
-	else
-		foo_canvas_item_hide (view);
-}
-
 /* Cut and paste from gtkwindow.c */
 static void
 do_focus_change (GtkWidget *widget, gboolean in)
@@ -441,12 +409,13 @@ cb_focus_changed (GtkWindow *toplevel)
 }
 
 static void
-cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
+cb_filter_button_pressed (GtkButton *button, FooCanvasItem *view)
 {
-	GObject	  *view = g_object_get_data (G_OBJECT (button), VIEW_ITEM_ID);
-	GnmPane   *pane = sheet_object_view_key (G_OBJECT (view));
-	GtkWidget *frame, *popup, *list, *container;
+	GnmPane		*pane = GNM_CANVAS (view->canvas)->pane;
 	SheetControlGUI *scg = pane->gcanvas->simple.scg;
+	SheetObject	*so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
+	GnmFilterField	*field = FILTER_FIELD (so);
+	GtkWidget *frame, *popup, *list, *container;
 	int root_x, root_y;
 	GtkListStore  *model;
 	GtkTreeViewColumn *column;
@@ -454,7 +423,6 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 	GtkRequisition	req;
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
-
 	model = collect_unique_elements (field, &clip, &select);
 	column = gtk_tree_view_column_new_with_attributes ("ID",
 			gtk_cell_renderer_text_new (), "text", 0,
@@ -551,14 +519,62 @@ filter_field_arrow_format (GnmFilterField *field, GtkWidget *arrow)
 		field->cond != NULL ? &gs_yellow : &gs_black);
 }
 
-static GObject *
-filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+static void
+filter_view_destroy (SheetObjectView *sov)
 {
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	gtk_object_destroy (GTK_OBJECT (sov));
+}
+static void
+filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
+{
+	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+
+	if (visible) {
+		double h, x;
+		/* clip vertically */
+		h = (coords[3] - coords[1]);
+		if (h > 20.)
+			h = 20.;
+
+		/* maintain squareness horzontally */
+		x = coords[2] - h;
+		if (x < coords[0])
+			x = coords[0];
+
+		/* NOTE : far point is EXCLUDED so we add 1 */
+		foo_canvas_item_set (view,
+			"x",	x,
+			"y",	coords [1],
+			"width",  coords [3] - x,
+			"height", h + 1.,
+			NULL);
+
+		foo_canvas_item_show (view);
+	} else
+		foo_canvas_item_hide (view);
+}
+
+static void
+filter_foo_view_init (SheetObjectViewIface *sov_iface)
+{
+	sov_iface->destroy	= filter_view_destroy;
+	sov_iface->set_bounds	= filter_view_set_bounds;
+}
+typedef FooCanvasWidget		FilterFooView;
+typedef FooCanvasWidgetClass	FilterFooViewClass;
+static GSF_CLASS_FULL (FilterFooView, filter_foo_view,
+	NULL, NULL,
+	FOO_TYPE_CANVAS_WIDGET, 0,
+	GSF_INTERFACE (filter_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+static SheetObjectView *
+filter_field_new_view (SheetObject *so, SheetObjectViewContainer *container)
+{
+	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	GtkWidget *arrow, *view_widget = gtk_button_new ();
 	GnmFilterField *field = (GnmFilterField *) so;
 	FooCanvasItem *view_item = foo_canvas_item_new (gcanvas->object_views,
-		foo_canvas_widget_get_type (),
+		filter_foo_view_get_type (),
 		"widget",	view_widget,
 		"size_pixels",	FALSE,
 		NULL);
@@ -573,25 +589,20 @@ filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_object_set_data (G_OBJECT (view_item), ARROW_ID, arrow);
 	g_signal_connect (view_widget,
 		"pressed",
-		G_CALLBACK (cb_filter_button_pressed), so);
+		G_CALLBACK (cb_filter_button_pressed), view_item);
 
 	/* Do not use the standard handler the combo is not editable */
 	/* gnm_pane_widget_register (so, view_widget, view_item); */
 
 	gtk_widget_show_all (view_widget);
-
-	cb_filter_bounds_changed (so, view_item);
-	g_signal_connect_object (so,
-		"bounds-changed",
-		G_CALLBACK (cb_filter_bounds_changed), view_item, 0);
-	return G_OBJECT (view_item);
+	return SHEET_OBJECT_VIEW (view_item);
 }
 
 static void
 filter_field_init (SheetObject *so)
 {
 	/* keep the arrows from wandering with their cells */
-	so->move_with_cells = FALSE;
+	so->flags &= ~SHEET_OBJECT_MOVE_WITH_CELLS;
 }
 
 static void

@@ -44,7 +44,7 @@ void		 gnm_app_clipboard_cut_copy	  (WorkbookControl *wbc, gboolean is_cut,
 						   SheetView *sv, GnmRange const *area,
 						   gboolean animate_range);
 void		 gnm_app_clipboard_cut_copy_obj	  (WorkbookControl *wbc, gboolean is_cut,
-						   SheetView *sv, SheetObject *so);
+						   SheetView *sv, GSList *objects);
 void		 gnm_app_clipboard_unant	  (void);
 gboolean	 gnm_app_clipboard_is_empty	  (void);
 gboolean	 gnm_app_clipboard_is_cut	  (void);

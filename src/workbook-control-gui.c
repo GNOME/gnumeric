@@ -374,8 +374,6 @@ wbcg_zoom_feedback (WorkbookControl *wbc)
 		g_free (buffer);
 		wbcg_ui_update_end (wbcg);
 	}
-
-	scg_object_update_bbox (wbcg_cur_scg (wbcg), NULL, NULL);
 }
 
 static void
@@ -969,7 +967,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	gboolean const has_guru = wbcg_edit_get_guru (wbcg) != NULL;
 	gboolean has_filtered_rows = sheet->has_filtered_rows;
 	gboolean edit_object = scg != NULL &&
-		(scg->current_object != NULL || scg->new_object != NULL);
+		(scg->selected_objects != NULL || scg->new_object != NULL);
 
 	if (!has_filtered_rows) {
 		GSList *ptr = sheet->filters;

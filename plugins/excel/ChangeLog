@@ -1,3 +1,12 @@
+2004-10-08  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : some simple mapping from Forms
+	  objects to things we understand.  No properties imported yet.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=154734
+	* ms-chart.c (BC_R(end)) : cheesy swapping of the formatting
+	  associated with X and Y axes for bar plots.
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91

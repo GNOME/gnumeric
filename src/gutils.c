@@ -30,33 +30,52 @@
 #include <floatingpoint.h>
 #endif
 
-/* ------------------------------------------------------------------------- */
-
-static GList *timers_stack = NULL;
-
-void
-gnumeric_time_counter_push (void)
+static void
+cb_hash_collect_keys (gpointer key, gpointer value, GSList **accum)
 {
-	GTimer *timer;
-
-	timer = g_timer_new ();
-	timers_stack = g_list_prepend (timers_stack, timer);
+	*accum = g_slist_prepend (*accum, key);
 }
 
-gdouble
-gnumeric_time_counter_pop (void)
+/**
+ * gnm_hash_keys :
+ * @hash : #GHashTable
+ *
+ * Collects an unordered list of the keys in @hash.
+ *
+ * Returns a list which the caller needs to free.
+ * 	The content has not additional references added
+ **/
+GSList *
+gnm_hash_keys (GHashTable *hash)
 {
-	GTimer *timer;
-	gdouble ret_val;
+	GSList *accum = NULL;
+	g_hash_table_foreach (hash,
+		(GHFunc )cb_hash_collect_keys, &accum);
+	return accum;
+}
 
-	g_assert (timers_stack != NULL);
+static void
+cb_hash_collect_values (gpointer key, gpointer value, GSList **accum)
+{
+	*accum = g_slist_prepend (*accum, value);
+}
 
-	timer = (GTimer *) timers_stack->data;
-	timers_stack = g_list_remove (timers_stack, timers_stack->data);
-	ret_val = g_timer_elapsed (timer, NULL);
-	g_timer_destroy (timer);
-
-	return ret_val;
+/**
+ * gnm_hash_values :
+ * @hash : #GHashTable
+ *
+ * Collects an unordered list of the values in @hash.
+ *
+ * Returns a list which the caller needs to free.
+ * 	The content has not additional references added
+ **/
+GSList *
+gnm_hash_values (GHashTable *hash)
+{
+	GSList *accum = NULL;
+	g_hash_table_foreach (hash,
+		(GHFunc )cb_hash_collect_values, &accum);
+	return accum;
 }
 
 /***************************************************************************/
@@ -78,15 +97,15 @@ gnm_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 }
 
 /**
- * gnm_create_slist:
+ * gnm_slist_create:
  * @item1: First item.
  *
  * Creates a GList from NULL-terminated list of arguments.
  *
  * Return value: created list.
- */
+ **/
 GSList *
-gnm_create_slist (gpointer item1, ...)
+gnm_slist_create (gpointer item1, ...)
 {
 	va_list args;
 	GSList *list = NULL;
@@ -99,6 +118,42 @@ gnm_create_slist (gpointer item1, ...)
 	va_end (args);
 
 	return g_slist_reverse (list);
+}
+
+/**
+ * gnm_slist_map:
+ * @list        : list of some items
+ * @map_func    : mapping function
+ *
+ **/
+GSList *
+gnm_slist_map (GSList const *list, GnmMapFunc map_func)
+{
+	GSList *list_copy = NULL;
+
+	GNM_SLIST_FOREACH (list, void, value,
+		GNM_SLIST_PREPEND (list_copy, map_func (value))
+	);
+
+	return g_slist_reverse (list_copy);
+}
+
+/**
+ * gnm_slist_free_custom:
+ * @list: list of some items
+ * @free_func: function freeing list item
+ *
+ * Clears a list, calling @free_func for each list item.
+ **/
+void
+gnm_slist_free_custom (GSList *list, GFreeFunc free_func)
+{
+	GSList *l;
+
+	for (l = list; l != NULL; l = l->next) {
+		free_func (l->data);
+	}
+	g_slist_free (list);
 }
 
 gint
@@ -136,23 +191,6 @@ gnm_list_free_custom (GList *list, GFreeFunc free_func)
 }
 
 /**
- * gnm_slist_map:
- * @list        : list of some items
- * @map_func    : mapping function
- */
-GSList *
-gnm_slist_map (GSList const *list, GnmMapFunc map_func)
-{
-	GSList *list_copy = NULL;
-
-	GNM_SLIST_FOREACH (list, void, value,
-		GNM_SLIST_PREPEND (list_copy, map_func (value))
-	);
-
-	return g_slist_reverse (list_copy);
-}
-
-/**
  * gnm_strsplit_to_slist:
  * @string: String to split
  * @delimiter: Token delimiter
@@ -179,24 +217,6 @@ gnm_strsplit_to_slist (gchar const *string, gchar const *delimiter)
 	}
 
 	return string_list;
-}
-
-/**
- * gnm_slist_free_custom:
- * @list: list of some items
- * @free_func: function freeing list item
- *
- * Clears a list, calling @free_func for each list item.
- **/
-void
-gnm_slist_free_custom (GSList *list, GFreeFunc free_func)
-{
-	GSList *l;
-
-	for (l = list; l != NULL; l = l->next) {
-		free_func (l->data);
-	}
-	g_slist_free (list);
 }
 
 gint
@@ -1016,3 +1036,33 @@ gnm_destroy_password (char *passwd)
 {
 	memset (passwd, 0, strlen (passwd));
 }
+
+/* ------------------------------------------------------------------------- */
+
+static GList *timers_stack = NULL;
+
+void
+gnm_time_counter_push (void)
+{
+	GTimer *timer;
+
+	timer = g_timer_new ();
+	timers_stack = g_list_prepend (timers_stack, timer);
+}
+
+gdouble
+gnm_time_counter_pop (void)
+{
+	GTimer *timer;
+	gdouble ret_val;
+
+	g_assert (timers_stack != NULL);
+
+	timer = (GTimer *) timers_stack->data;
+	timers_stack = g_list_remove (timers_stack, timers_stack->data);
+	ret_val = g_timer_elapsed (timer, NULL);
+	g_timer_destroy (timer);
+
+	return ret_val;
+}
+

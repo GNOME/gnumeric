@@ -1,3 +1,16 @@
+2004-10-08  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-object.c (gog_object_dup) : copy the position.
+
+2004-10-06  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-control-foocanvas.c (gog_control_foocanvas_update) : Fix
+	  redraw.  There were two bugs.
+	  1) foocanvas_group_update was wiping tbe bounds (things always look
+	     like they move)
+	  2) We were not requesting a redraw for the old position before
+	     moving.
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91

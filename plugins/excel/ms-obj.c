@@ -734,7 +734,23 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	return FALSE;
 }
 
-/* S59DAD.HTM */
+static struct {
+	char const *name;
+	unsigned excel_type;
+} const map_forms [] = {
+	{ "ScrollBar",		0x11 },
+	{ "CheckBox",		0x0B },
+	{ "TextBox",		0x06 },
+	{ "CommandButton",	0x07 },
+	{ "OptionButton",	0x0C },
+	{ "ListBox",		0x12 },
+	{ "ComboBox",		0x14 },
+	{ "ToggleButton",	0x0 },	/* TODO */
+	{ "SpinButton",		0x10 },
+	{ "Label",		0x0E },
+	{ "Image",		0x08 }
+};
+
 static gboolean
 ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
@@ -814,6 +830,21 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 		case GR_PICTURE_FORMULA :
 			ms_obj_dump (data, len, data_len_left, "PictFormula");
+			/* Forms are stored as pictures */
+			if (obj->excel_type == 8 &&
+			    len > 26 && 0 == strncmp (data+21, "Forms.", 6)) {
+				unsigned i = G_N_ELEMENTS (map_forms);
+				while (i-- > 0) {
+					char const *key = map_forms[i].name;
+					unsigned key_len = strlen (key);
+					if (0 == strncmp (data+27, key, key_len)) {
+						gsf_mem_dump (data, len+4);
+						if (map_forms [i].excel_type > 0)
+							obj->excel_type = map_forms [i].excel_type;
+						break;
+					}
+				} 
+			}
 			break;
 
 		case GR_CHECKBOX_LINK :

@@ -1864,6 +1864,18 @@ cb_store_singletons (gpointer indx, GogStyle *style, GogObject *series)
 	}
 }
 
+static void
+xl_axis_swap_elem (GogAxis *a, GogAxis *b, unsigned dim)
+{
+	GOData *a_dat = gog_dataset_get_dim (GOG_DATASET (a), dim);
+	GOData *b_dat = gog_dataset_get_dim (GOG_DATASET (b), dim);
+
+	if (a_dat != NULL) g_object_ref (a_dat);
+	if (b_dat != NULL) g_object_ref (b_dat);
+	gog_dataset_set_dim (GOG_DATASET (a), dim, b_dat, NULL);
+	gog_dataset_set_dim (GOG_DATASET (b), dim, a_dat, NULL);
+}
+
 static gboolean
 BC_R(end)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
@@ -1971,14 +1983,26 @@ BC_R(end)(XLChartHandler const *handle,
 					(GHFunc) cb_store_singletons, series);
 		}
 
+		/* Vile cheesy hack.
+		 * XL stores axis as 'value' and 'category' whereas we use X and Y.
+		 * When importing bar plots things are transposed, but we do
+		 * not know it until we import the plot.  Swap the contents of the axes */
 		if (0 == strcmp (G_OBJECT_TYPE_NAME (s->plot), "GogBarColPlot")) {
 			gboolean horizontal;
 			g_object_get (s->plot, "horizontal", &horizontal, NULL);
 			if (horizontal) {
-				g_warning ("the axes will be reversed.  fix this");
-#if 0
-				gog_chart_swap_xy_axes (s->chart);
-#endif
+				GogAxis	*x = gog_plot_get_axis (s->plot, GOG_AXIS_X);
+				GogAxis	*y = gog_plot_get_axis (s->plot, GOG_AXIS_Y);
+				GogStyle *x_style, *y_style;
+				int i;
+				for (i = 0 ; i < AXIS_ELEM_MAX_ENTRY ; i++)
+					xl_axis_swap_elem (x, y, i);
+				g_object_get (G_OBJECT (x), "style", &x_style, NULL);
+				g_object_get (G_OBJECT (y), "style", &y_style, NULL);
+				g_object_set (G_OBJECT (y), "style", x_style, NULL);
+				g_object_set (G_OBJECT (x), "style", y_style, NULL);
+				g_object_unref (x_style);
+				g_object_unref (y_style);
 			}
 		}
 		s->plot = NULL;

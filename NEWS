@@ -1,5 +1,11 @@
 Gnumeric 1.3.92
 
+Jody:
+	* Enable selecting and moving multiple drawing objects
+	http://bugzilla.gnome.org/show_bug.cgi?id=154734
+	* Swap X & Y axis content when importing xls bar plots
+	* Basic handling for XL 'Forms' Objects
+
 Morten:
 	* Implement Edit->Select->Input. [#154735]
 	* Fix sample datasource's recalc.  [#154857]

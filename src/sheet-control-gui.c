@@ -627,7 +627,7 @@ scg_init (SheetControlGUI *scg)
 
 	scg->grab_stack = 0;
 	scg->new_object = NULL;
-	scg->current_object = NULL;
+	scg->selected_objects = NULL;
 }
 
 /*************************************************************************/
@@ -1236,13 +1236,16 @@ static void
 scg_finalize (GObject *object)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
-	SheetControl *sc = (SheetControl *) scg;
-	Sheet	     *sheet = sc_sheet (sc);
+	SheetControl	*sc = (SheetControl *) scg;
+	Sheet		*sheet = sc_sheet (sc);
 	GList *ptr;
 
 	/* remove the object view before we disappear */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
-		sc_object_destroy_view (sc, SHEET_OBJECT (ptr->data));
+		SCG_FOREACH_PANE (scg, pane,
+			sheet_object_view_destroy (
+				sheet_object_get_view (ptr->data, (gpointer)pane));
+		);
 
 	g_ptr_array_free (scg->col_group.buttons, TRUE);
 	g_ptr_array_free (scg->row_group.buttons, TRUE);
@@ -1638,70 +1641,6 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 
 /***************************************************************************/
 
-#define SO_CLASS(so) SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))
-
-static void
-cb_scg_object_bounds_changed (SheetObject *so, SheetControlGUI *scg)
-{
-	scg_object_update_bbox (scg, so, NULL);
-}
-
-/** scg_set_current_object :
- * @scg #SheetControlGUI
- * @so : #SheetObject
- *
- * If @so is different from the current Scg::current_object the current object
- * is disconnected and if @so is non-NULL it is set as the object being edited.
- * NOTE
- * 1) This adds a reference to @so if it is not already current_object
- * 2) This intentionally does _NOT_ change the ctrl_points, just scg::current_object
- **/
-void
-scg_set_current_object (SheetControlGUI *scg, SheetObject *so)
-{
-	if (so == scg->current_object)
-		return;
-
-	if (scg->current_object != NULL) {
-		SheetObject *old = scg->current_object;
-		scg->current_object = NULL;
-		g_signal_handlers_disconnect_by_func (old,
-			cb_scg_object_bounds_changed, scg);
-		g_signal_handlers_disconnect_by_func (old,
-			scg_mode_edit, scg);
-
-		if (SO_CLASS (old)->set_active != NULL)
-			SCG_FOREACH_PANE (scg, pane, {
-				SO_CLASS (old)->set_active (old, 
-					sheet_object_get_view (old, pane), FALSE);
-			});
-		g_object_unref (old);
-	}
-
-	if (so != NULL) {
-		scg->current_object = g_object_ref (so);
-		g_signal_connect_object (so, "bounds-changed",
-			G_CALLBACK (cb_scg_object_bounds_changed), scg, 0);
-		g_signal_connect_object (so, "unrealized",
-			G_CALLBACK (scg_mode_edit), scg, G_CONNECT_SWAPPED);
-
-		if (SO_CLASS (so)->set_active != NULL)
-			SCG_FOREACH_PANE (scg, pane, {
-				SO_CLASS (so)->set_active (so, 
-					sheet_object_get_view (so, pane), TRUE);
-			});
-	}
-}
-
-void
-scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
-{
-	if (so == NULL || so != scg->current_object)
-		return;
-	SCG_FOREACH_PANE (scg, pane, gnm_pane_object_stop_editing (pane););
-	scg_set_current_object (scg, NULL);
-}
-
 static gboolean
 scg_mode_clear (SheetControlGUI *scg)
 {
@@ -1711,19 +1650,19 @@ scg_mode_clear (SheetControlGUI *scg)
 		g_object_unref (G_OBJECT (scg->new_object));
 		scg->new_object = NULL;
 	}
-	scg_object_stop_editing (scg, scg->current_object);
+	scg_object_unselect (scg, NULL);
 
 	return TRUE;
 }
 
-/*
+/**
  * scg_mode_edit:
  * @sc:  The sheet control
  *
  * Put @sheet into the standard state 'edit mode'.  This shuts down
  * any object editing and frees any objects that are created but not
  * realized.
- */
+ **/
 void
 scg_mode_edit (SheetControl *sc)
 {
@@ -1732,49 +1671,17 @@ scg_mode_edit (SheetControl *sc)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	scg_mode_clear (scg);
-	scg_set_display_cursor (scg);
 
 	/* During destruction we have already been disconnected
 	 * so don't bother changing the cursor
 	 */
-	if (sc->sheet != NULL && sc->view != NULL)
-		scg_cursor_visible (scg, TRUE);
-
-	if (scg->wbcg != NULL) {
-		if (wbcg_edit_get_guru (scg->wbcg) != NULL)
-			wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
-	}
-}
-
-/**
- * scg_mode_edit_object
- * @scg: The #SheetControl to edit in.
- * @so : The #SheetObject to select.
- *
- * Makes @so the currently selected object and prepares it for
- * user editing.
- **/
-void
-scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
-{
-	g_return_if_fail (IS_SHEET_OBJECT (so));
-
-	if (wb_view_is_protected (sv_wbv (sc_view ((SheetControl *)scg)), TRUE))
-		return;
-
-	/* Add protective ref before clearing the mode, in case we are starting
-	 * to edit a newly created object */
-	g_object_ref (so);
-	if (wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL) &&
-	    scg_mode_clear (scg)) {
-
-		scg_set_current_object (scg, so);
-		scg_cursor_visible (scg, FALSE);
-		scg_object_update_bbox (scg, so, NULL);
+	if (sc->sheet != NULL && sc->view != NULL) {
 		scg_set_display_cursor (scg);
-		scg_unant (SHEET_CONTROL (scg));
+		scg_cursor_visible (scg, TRUE);
 	}
-	g_object_unref (so);
+
+	if (scg->wbcg != NULL && wbcg_edit_get_guru (scg->wbcg) != NULL)
+		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 }
 
 /**
@@ -1784,7 +1691,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
  * Takes a newly created SheetObject that has not yet been realized and
  * prepares to place it on the sheet.
  * NOTE : Absorbs a reference to the object.
- */
+ **/
 void
 scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 {
@@ -1798,70 +1705,8 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 	}
 }
 
-void
-scg_object_nudge (SheetControlGUI *scg, int x_offset, int y_offset)
-{
-	int i;
-	double new_coords [4];
-
-	if (scg->current_object == NULL)
-		return;
-
-	for (i = 4; i-- > 0; )
-		new_coords [i] = scg->object_coords [i];
-
-	new_coords [0] += x_offset;
-	new_coords [1] += y_offset;
-	new_coords [2] += x_offset;
-	new_coords [3] += y_offset;
-
-	/* Tell the object to update its co-ordinates */
-	scg_object_update_bbox (scg, scg->current_object, new_coords);
-}
-
-/**
- * scg_object_update_bbox:
- *
- * @scg : The Sheet control
- * @so : the optional sheet object
- * @new_coords : optionally jump the object to new coordinates
- *
- * Re-align the control points so that they appear at the correct verticies for
- * this view of the object.
- */
-void
-scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
-			double const *new_coords)
-{
-	double l, t, r ,b;
-
-	if (scg == NULL)
-		return;
-
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-
-	if (so == NULL)
-		so = scg->current_object;
-	if (so == NULL)
-		return;
-	g_return_if_fail (IS_SHEET_OBJECT (so));
-
-	if (new_coords != NULL)
-		scg_object_calc_position (scg, so, new_coords);
-	else
-		scg_object_view_position (scg, so, scg->object_coords);
-
-	l = scg->object_coords [0];
-	t = scg->object_coords [1];
-	r = scg->object_coords [2];
-	b = scg->object_coords [3];
-
-	SCG_FOREACH_PANE (scg, pane,
-		gnm_pane_object_set_bounds (pane, so, l, t, r ,b););
-}
-
 static int
-calc_obj_place (GnmCanvas *gcanvas, int pixel, gboolean is_col,
+calc_obj_place (GnmCanvas *gcanvas, double pixel, gboolean is_col,
 		SheetObjectAnchorType anchor_type, float *offset)
 {
 	int origin;
@@ -1870,10 +1715,10 @@ calc_obj_place (GnmCanvas *gcanvas, int pixel, gboolean is_col,
 	Sheet *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
 
 	if (is_col) {
-		colrow = gnm_canvas_find_col (gcanvas, pixel, &origin);
+		colrow = gnm_canvas_find_col (gcanvas, (int)(pixel + .5), &origin);
 		cri = sheet_col_get_info (sheet, colrow);
 	} else {
-		colrow = gnm_canvas_find_row (gcanvas, pixel, &origin);
+		colrow = gnm_canvas_find_row (gcanvas, (int)(pixel + .5), &origin);
 		cri = sheet_row_get_info (sheet, colrow);
 	}
 
@@ -1884,19 +1729,252 @@ calc_obj_place (GnmCanvas *gcanvas, int pixel, gboolean is_col,
 	return colrow;
 }
 
+#define SO_CLASS(so) SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))
+
+/**
+ * scg_object_select
+ * @scg: The #SheetControl to edit in.
+ * @so : The #SheetObject to select.
+ *
+ * Adds @so to the set of selected objects and prepares it for user editing.
+ * Adds a reference to @ref if it is selected.
+ **/
 void
-scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *coords)
+scg_object_select (SheetControlGUI *scg, SheetObject *so)
 {
-	GnmCanvas *gcanvas;
-	SheetObjectAnchor anchor;
-	int i, pixels [4];
-	double tmp [4];
+	double *coords;
+
+	if (scg->selected_objects == NULL) {
+		if (wb_view_is_protected (sv_wbv (sc_view ((SheetControl *)scg)), TRUE) ||
+		    !wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL))
+			return;
+		g_object_ref (so);
+		scg_mode_clear (scg);
+		scg_cursor_visible (scg, FALSE);
+		scg_set_display_cursor (scg);
+		scg_unant (SHEET_CONTROL (scg));
+
+		scg->selected_objects = g_hash_table_new_full (
+			g_direct_hash, g_direct_equal,
+			(GDestroyNotify) g_object_unref, (GDestroyNotify) g_free);
+		wb_control_edit_set_sensitive (sc_wbc (SHEET_CONTROL (scg)), FALSE, FALSE);
+	} else {
+		g_return_if_fail (g_hash_table_lookup (scg->selected_objects, so) == NULL);
+		g_object_ref (so);
+	}
+
+	coords = g_new (double, 4);
+	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
+	g_hash_table_insert (scg->selected_objects, so, coords);
+	g_signal_connect_object (so, "unrealized",
+		G_CALLBACK (scg_mode_edit), scg, G_CONNECT_SWAPPED);
+
+#if 0
+	if (SO_CLASS (so)->set_active != NULL)
+		SCG_FOREACH_PANE (scg, pane, {
+			SO_CLASS (so)->set_active (so, 
+				sheet_object_get_view (so, pane), TRUE);
+		});
+	}
+#endif
+	SCG_FOREACH_PANE (scg, pane,
+		gnm_pane_object_update_bbox (pane, so););
+}
+
+static void
+cb_scg_object_unselect (SheetObject *so, double *coords, SheetControlGUI *scg)
+{
+	SCG_FOREACH_PANE (scg, pane, gnm_pane_object_unselect (pane, so););
+	g_signal_handlers_disconnect_by_func (so,
+		scg_mode_edit, scg);
+
+#if 0
+	if (SO_CLASS (old)->set_active != NULL)
+		SCG_FOREACH_PANE (scg, pane, {
+			SO_CLASS (old)->set_active (old, 
+				sheet_object_get_view (old, pane), FALSE);
+		});
+#endif
+}
+
+/**
+ * scg_object_unselect :
+ * @scg : #SheetControlGUI
+ * @so : #SheetObject (optionally NULL)
+ *
+ * unselect the supplied object, and drop out of edit mode if this is the last
+ * one.  If @so == NULL unselect _all_ objects.
+ **/
+void
+scg_object_unselect (SheetControlGUI *scg, SheetObject *so)
+{
+	/* cheesy cycle avoidance */
+	if (scg->selected_objects == NULL)
+		return;
+
+	if (so != NULL) {
+		double *pts = g_hash_table_lookup (scg->selected_objects, so);
+		g_return_if_fail (pts != NULL);
+		cb_scg_object_unselect (so, pts, scg);
+		g_hash_table_remove (scg->selected_objects, so);
+		if (g_hash_table_size (scg->selected_objects) > 0)
+			return;
+	} else
+		g_hash_table_foreach (scg->selected_objects,
+			(GHFunc) cb_scg_object_unselect, scg);
+
+	g_hash_table_destroy (scg->selected_objects);
+	scg->selected_objects = NULL;
+	scg_mode_edit (SHEET_CONTROL (scg));
+	wb_control_edit_set_sensitive (sc_wbc (SHEET_CONTROL (scg)), TRUE, TRUE);
+}
+
+typedef struct {
+	SheetControlGUI *scg;
+	int	 drag_type;
+	double	 dx, dy;
+	gboolean symmetric;
+} ObjDragInfo;
+ 
+static void
+cb_drag_selected_objects (SheetObject *so,
+			  double *coords, ObjDragInfo const *info)
+{
+	switch (info->drag_type) {
+	case 0: coords [0] += info->dx;
+		coords [1] += info->dy;
+		if (info->symmetric) {
+			coords [2] -= info->dx;
+			coords [3] -= info->dy;
+		}
+		break;
+	case 1: coords [1] += info->dy;
+		if (info->symmetric)
+			coords [3] -= info->dy;
+		break;
+	case 2: coords [1] += info->dy;
+		coords [2] += info->dx;
+		if (info->symmetric) {
+			coords [3] -= info->dy;
+			coords [0] -= info->dx;
+		}
+		break;
+	case 3: coords [0] += info->dx;
+		if (info->symmetric)
+			coords [2] -= info->dx;
+		break;
+	case 4: coords [2] += info->dx;
+		if (info->symmetric)
+			coords [0] -= info->dx;
+		break;
+	case 5: coords [0] += info->dx;
+		coords [3] += info->dy;
+		if (info->symmetric) {
+			coords [2] -= info->dx;
+			coords [1] -= info->dy;
+		}
+		break;
+	case 6: coords [3] += info->dy;
+		if (info->symmetric)
+			coords [1] -= info->dy;
+		break;
+	case 7: coords [2] += info->dx;
+		coords [3] += info->dy;
+		if (info->symmetric) {
+			coords [0] -= info->dx;
+			coords [1] -= info->dy;
+		}
+		break;
+	case 8: coords [0] += info->dx;
+		coords [1] += info->dy;
+		coords [2] += info->dx;
+		coords [3] += info->dy;
+		break;
+
+	default:
+		g_warning ("Should not happen %d", info->drag_type);
+		return;
+	}
+	SCG_FOREACH_PANE (info->scg, pane,
+		gnm_pane_object_update_bbox (pane, so););
+}
+
+/**
+ * scg_objects_drag :
+ * @scg : #SheetControlGUI
+ * @primary : #SheetObject (optionally NULL)
+ * @dx : 
+ * @dy :
+ * @drag_type :
+ * @symmetric :
+ *
+ * Move the control points and drag views of the currently selected objects to
+ * a new position.  This movement is only made in @scg not in the actual
+ * objects.
+ **/ 
+void
+scg_objects_drag (SheetControlGUI *scg, SheetObject *primary,
+		  gdouble dx, gdouble dy,
+		  int drag_type, gboolean symmetric)
+{
+	ObjDragInfo info;
+	info.scg = scg;
+	info.dx = dx;
+	info.dy = dy;
+	info.symmetric = symmetric;
+	info.drag_type = drag_type;
+	g_hash_table_foreach (scg->selected_objects,
+		(GHFunc) cb_drag_selected_objects, &info);
+}
+
+typedef struct {
+	SheetControlGUI *scg;
+	GSList *objects, *anchors;
+} CollectObjectsData;
+static void
+cb_collect_objects (SheetObject *so, double *coords, CollectObjectsData *data)
+{
+	SheetObjectAnchor *anchor = g_new0 (SheetObjectAnchor, 1);
+	sheet_object_anchor_cpy	(anchor, sheet_object_get_anchor (so));
+	scg_object_coords_to_anchor (data->scg, coords, anchor);
+	data->objects = g_slist_prepend (data->objects, so);
+	data->anchors = g_slist_prepend (data->anchors, anchor);
+}
+
+void
+scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
+			 gboolean created_objects)
+{
+	CollectObjectsData data;
+	data.objects = data.anchors = NULL;
+	data.scg = scg;
+	g_hash_table_foreach (scg->selected_objects,
+		(GHFunc) cb_collect_objects, &data);
+	cmd_objects_move (WORKBOOK_CONTROL (scg_get_wbcg (scg)),
+		data.objects, data.anchors, created_objects,
+		created_objects /* This is somewhat cheesy and should use ngettext */
+			? ((drag_type == 8) ? _("Duplicate Object") : _("Insert Object"))
+			: ((drag_type == 8) ? _("Move Object")	    : _("Resize Object")));
+}
+
+void
+scg_objects_nudge (SheetControlGUI *scg, int drag_type, int dx, int dy)
+{
+	scg_objects_drag (scg, NULL, dx, dy, drag_type, FALSE);
+	scg_objects_drag_commit (scg, drag_type, FALSE);
+}
+
+void
+scg_object_coords_to_anchor (SheetControlGUI const *scg,
+			     double const *coords, SheetObjectAnchor *in_out)
+{
+	/* pane 0 always exists and the others are always use the same basis */
+	GnmCanvas *gcanvas = scg_pane ((SheetControlGUI *)scg, 0);
+	double	tmp [4];
+	int pixels [4];
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-	g_return_if_fail (IS_SHEET_OBJECT (so));
 	g_return_if_fail (coords != NULL);
-
-	sheet_object_anchor_cpy (&anchor, sheet_object_get_anchor (so));
 
 	if (coords [0] > coords [2]) {
 		tmp [0] = coords [2];
@@ -1913,48 +1991,72 @@ scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *c
 		tmp [3] = coords [3];
 	}
 
-	for (i = 4; i-- > 0 ;)
-		scg->object_coords [i] = coords [i];
-
-	/* pane 0 always exists and the others are always use the same basis */
-	gcanvas = scg_pane (scg, 0);
-	foo_canvas_w2c (FOO_CANVAS (gcanvas),
-		tmp [0], tmp [1],
+	foo_canvas_w2c (FOO_CANVAS (gcanvas), tmp [0], tmp [1],
 		pixels + 0, pixels + 1);
 	foo_canvas_w2c (FOO_CANVAS (gcanvas),
 		tmp [2], tmp [3],
 		pixels + 2, pixels + 3);
-	anchor.cell_bound.start.col = calc_obj_place (gcanvas, pixels [0], TRUE,
-		so->anchor.type [0], anchor.offset + 0);
-	anchor.cell_bound.start.row = calc_obj_place (gcanvas, pixels [1], FALSE,
-		so->anchor.type [1], anchor.offset + 1);
-	anchor.cell_bound.end.col = calc_obj_place (gcanvas, pixels [2], TRUE,
-		so->anchor.type [2], anchor.offset + 2);
-	anchor.cell_bound.end.row = calc_obj_place (gcanvas, pixels [3], FALSE,
-		so->anchor.type [3], anchor.offset + 3);
+	in_out->cell_bound.start.col = calc_obj_place (gcanvas, pixels [0], TRUE,
+		in_out->type [0], in_out->offset + 0);
+	in_out->cell_bound.start.row = calc_obj_place (gcanvas, pixels [1], FALSE,
+		in_out->type [1], in_out->offset + 1);
+	in_out->cell_bound.end.col = calc_obj_place (gcanvas, pixels [2], TRUE,
+		in_out->type [2], in_out->offset + 2);
+	in_out->cell_bound.end.row = calc_obj_place (gcanvas, pixels [3], FALSE,
+		in_out->type [3], in_out->offset + 3);
+}
 
-	sheet_object_set_anchor (so, &anchor);
+static double
+cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
+			SheetObjectAnchorType anchor_type, float offset)
+{
+	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
+	/* TODO : handle other anchor types */
+	if (anchor_type == SO_ANCHOR_PERCENTAGE_FROM_COLROW_END)
+		return (1. - offset) * cri->size_pixels;
+	return offset * cri->size_pixels;
 }
 
 void
-scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
+scg_object_anchor_to_coords (SheetControlGUI const *scg,
+			     SheetObjectAnchor const *anchor, double *coords)
 {
+	/* pane 0 always exists and the others are always use the same basis */
+	GnmCanvas *gcanvas = scg_pane ((SheetControlGUI *)scg, 0);
+	Sheet *sheet = ((SheetControl const *) scg)->sheet;
 	SheetObjectDirection direction;
 	double pixels [4];
-	/* pane 0 always exists and the others are always use the same basis */
-	FooCanvas *canvas = FOO_CANVAS (scg_pane (scg, 0));
+	GnmRange const *r;
 
-	sheet_object_position_pixels_get (so, SHEET_CONTROL (scg), pixels);
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (anchor != NULL);
+	g_return_if_fail (coords != NULL);
 
-	direction = so->anchor.direction;
+	r = &anchor->cell_bound;
+	pixels [0] = scg_colrow_distance_get (scg, TRUE, 0,  r->start.col);
+	pixels [2] = pixels [0] + scg_colrow_distance_get (scg, TRUE,
+		r->start.col, r->end.col);
+	pixels [1] = scg_colrow_distance_get (scg, FALSE, 0, r->start.row);
+	pixels [3] = pixels [1] + scg_colrow_distance_get (scg, FALSE,
+		r->start.row, r->end.row);
+	pixels [0] += cell_offset_calc_pixel (sheet, r->start.col,
+		TRUE, anchor->type [0], anchor->offset [0]);
+	pixels [1] += cell_offset_calc_pixel (sheet, r->start.row,
+		FALSE, anchor->type [1], anchor->offset [1]);
+	pixels [2] += cell_offset_calc_pixel (sheet, r->end.col,
+		TRUE, anchor->type [2], anchor->offset [2]);
+	pixels [3] += cell_offset_calc_pixel (sheet, r->end.row,
+		FALSE, anchor->type [3], anchor->offset [3]);
+
+	direction = anchor->direction;
 	if (direction == SO_DIR_UNKNOWN)
 		direction = SO_DIR_DOWN_RIGHT;
 
-	foo_canvas_window_to_world (canvas,
+	foo_canvas_window_to_world (FOO_CANVAS (gcanvas),
 		pixels [direction & SO_DIR_H_MASK  ? 0 : 2],
 		pixels [direction & SO_DIR_V_MASK  ? 1 : 3],
 		coords +0, coords + 1);
-	foo_canvas_window_to_world (canvas,
+	foo_canvas_window_to_world (FOO_CANVAS (gcanvas),
 		pixels [direction & SO_DIR_H_MASK  ? 2 : 0],
 		pixels [direction & SO_DIR_V_MASK  ? 3 : 1],
 		coords +2, coords + 3);
@@ -2151,14 +2253,6 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 	return pixels*sign;
 }
 
-static float
-scg_colrow_distance_get_virtual (SheetControl const *sc, gboolean is_cols,
-				 int from, int to)
-{
-	return scg_colrow_distance_get (SHEET_CONTROL_GUI (sc), is_cols,
-					from, to);
-}
-
 /*************************************************************************/
 
 static void
@@ -2317,8 +2411,6 @@ scg_set_display_cursor (SheetControlGUI *scg)
 
 	if (scg->new_object != NULL)
 		cursor = GDK_CROSSHAIR;
-	else if (scg->current_object != NULL)
-		cursor = GDK_ARROW;
 
 	SCG_FOREACH_PANE (scg, pane, {
 		GtkWidget *w = GTK_WIDGET (pane->gcanvas);
@@ -2574,19 +2666,7 @@ scg_object_create_view	(SheetControl *sc, SheetObject *so)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 	SCG_FOREACH_PANE (scg, pane,
-		sheet_object_new_view (so, sc, (gpointer)pane););
-}
-
-static void
-scg_object_destroy_view	(SheetControl *sc, SheetObject *so)
-{
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
-	GObject *view;
-	SCG_FOREACH_PANE (scg, pane, {
-		view = sheet_object_get_view (so, (gpointer)pane);
-		if (view != NULL) /* may already be gone */
-			gtk_object_destroy (GTK_OBJECT (view));
-	});
+		sheet_object_new_view (so, (SheetObjectViewContainer *)pane););
 }
 
 static void
@@ -2613,9 +2693,7 @@ scg_class_init (GObjectClass *object_class)
 	sc_class->make_cell_visible      = scg_make_cell_visible_virt; /* wrapper */
 	sc_class->cursor_bound           = scg_cursor_bound;
 	sc_class->set_panes		 = scg_set_panes;
-	sc_class->colrow_distance_get	 = scg_colrow_distance_get_virtual;
 	sc_class->object_create_view	 = scg_object_create_view;
-	sc_class->object_destroy_view	 = scg_object_destroy_view;
 }
 
 GSF_CLASS (SheetControlGUI, sheet_control_gui,

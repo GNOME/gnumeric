@@ -119,18 +119,3 @@ SC_VIRTUAL (cursor_bound, (SheetControl *sc, GnmRange const *r), (sc, r))
 SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so));
-SC_VIRTUAL (object_destroy_view, (SheetControl *sc, SheetObject *so), (sc, so));
-
-float
-sc_colrow_distance_get (SheetControl const *sc, gboolean is_col,
-			int start, int end)
-{
-	SheetControlClass *sc_class;
-
-	g_return_val_if_fail (IS_SHEET_CONTROL (sc),1.);
-
-	sc_class = SC_CLASS (sc);
-	if (sc_class->colrow_distance_get != NULL)
-		return sc_class->colrow_distance_get (sc, is_col,start, end);
-	return 1.;
-}

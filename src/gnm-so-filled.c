@@ -31,6 +31,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <math.h>
+
 
 #define GNM_SO_FILLED(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_SO_FILLED_TYPE, GnmSOFilled))
 #define GNM_SO_FILLED_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k),   GNM_SO_FILLED_TYPE, GnmSOFilledClass))
@@ -49,6 +51,74 @@ typedef struct {
 	} margin_pts;
 } GnmSOFilled;
 typedef SheetObjectClass GnmSOFilledClass;
+
+#ifdef WITH_GTK
+#include <libfoocanvas/foo-canvas.h>
+static void
+so_filled_view_destroy (SheetObjectView *sov)
+{
+	gtk_object_destroy (GTK_OBJECT (sov));
+}
+static void
+so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
+{
+	FooCanvasItem  *view = FOO_CANVAS_ITEM (sov);
+
+	if (visible) {
+		FooCanvasGroup	*group = FOO_CANVAS_GROUP (sov);
+		SheetObject	*so = sheet_object_view_get_so (sov);
+		GnmSOFilled	*sof  = GNM_SO_FILLED (so);
+		double w = fabs (coords [2] - coords [0]);
+		double h = fabs (coords [3] - coords [1]);
+
+		foo_canvas_item_set (FOO_CANVAS_ITEM (group),
+			"x", MIN (coords [0], coords [2]),
+			"y", MIN (coords [1], coords [3]),
+			NULL);
+
+		foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->data),
+			"x2", w, "y2", h,
+			NULL);
+
+		if (sof->text != NULL && group->item_list->next) {
+			view = FOO_CANVAS_ITEM (group->item_list->next->data);
+			w -= (sof->margin_pts.left + sof->margin_pts.right)
+				* view->canvas->pixels_per_unit;
+			h -= (sof->margin_pts.top + sof->margin_pts.bottom)
+				* view->canvas->pixels_per_unit;
+
+			foo_canvas_item_set (view,
+				"clip_height", h,
+				"clip_width",  w,
+				"wrap_width",  w,
+
+				/* cheap hack to force the attributes to regenerate for
+				 * the rare case where the repositioning was caused by
+				 * a change in zoom */
+				"underline_set", FALSE,
+				NULL);
+		}
+
+		foo_canvas_item_show (view);
+	} else
+		foo_canvas_item_hide (view);
+}
+
+static void
+so_filled_foo_view_init (SheetObjectViewIface *sov_iface)
+{
+	sov_iface->destroy	= so_filled_view_destroy;
+	sov_iface->set_bounds	= so_filled_view_set_bounds;
+}
+typedef FooCanvasGroup		FilledFooView;
+typedef FooCanvasGroupClass	FilledFooViewClass;
+static GSF_CLASS_FULL (FilledFooView, so_filled_foo_view,
+	NULL, NULL,
+	FOO_TYPE_CANVAS_GROUP, 0,
+	GSF_INTERFACE (so_filled_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+#endif /* WITH_GTK */
+
+/*****************************************************************************/
 
 static SheetObjectClass *gnm_so_filled_parent_class;
 
@@ -80,7 +150,6 @@ sof_default_style ()
 #include <src/gnumeric-pane.h>
 #include <src/gnumeric-simple-canvas.h>
 #include <src/gnumeric-canvas.h>
-#include <libfoocanvas/foo-canvas.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-util.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
@@ -146,60 +215,14 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 		g_object_unref (group->item_list->next->data);
 }
 
-static void
-cb_filled_update_bounds (SheetObject *so, FooCanvasItem *view)
-{
-	GnmSOFilled *sof  = GNM_SO_FILLED (so);
-	FooCanvasGroup *group = FOO_CANVAS_GROUP (view);
-	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
-	double coords [4], h, w;
-
-	if (!so->is_visible) {
-		foo_canvas_item_hide (view);
-		return;
-	}
-
-	scg_object_view_position (scg, so, coords);
-	w = fabs (coords [2] - coords [0]);
-	h = fabs (coords [3] - coords [1]);
-
-	foo_canvas_item_set (FOO_CANVAS_ITEM (group),
-		"x", MIN (coords [0], coords [2]),
-		"y", MIN (coords [1], coords [3]),
-		NULL);
-
-	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->data),
-		"x2", w, "y2", h,
-		NULL);
-
-	if (sof->text != NULL && group->item_list->next) {
-		view = FOO_CANVAS_ITEM (group->item_list->next->data);
-		w -= (sof->margin_pts.left + sof->margin_pts.right)
-			* view->canvas->pixels_per_unit;
-		h -= (sof->margin_pts.top + sof->margin_pts.bottom)
-			* view->canvas->pixels_per_unit;
-
-		foo_canvas_item_set (view,
-			"clip_height", h,
-			"clip_width",  w,
-			"wrap_width",  w,
-
-			/* cheap hack to force the attributes to regenerate for
-			 * the rare case where the repositioning was caused by
-			 * a change in zoom */
-			"underline_set", FALSE,
-			NULL);
-	}
-	foo_canvas_item_show (view);
-}
-
-static GObject *
-gnm_so_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+static SheetObjectView *
+gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
 	FooCanvasGroup *group = (FooCanvasGroup *) foo_canvas_item_new (
-		((GnmPane *)key)->gcanvas->object_views,
-		FOO_TYPE_CANVAS_GROUP, NULL);
+		((GnmPane *)container)->gcanvas->object_views,
+		so_filled_foo_view_get_type (),
+		NULL);
 
 	foo_canvas_item_new (group,
 		sof->is_oval ?  FOO_TYPE_CANVAS_ELLIPSE : FOO_TYPE_CANVAS_RECT,
@@ -209,9 +232,7 @@ gnm_so_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_signal_connect_object (sof,
 		"notify", G_CALLBACK (cb_gnm_so_filled_changed),
 		group, 0);
-	gnm_pane_object_register (so, FOO_CANVAS_ITEM (group),
-		cb_filled_update_bounds);
-	return G_OBJECT (group);
+	return gnm_pane_object_register (so, FOO_CANVAS_ITEM (group));
 }
 
 static void
@@ -564,53 +585,78 @@ typedef GnmSOFilledClass GnmSOPolygonClass;
 static SheetObjectClass *gnm_so_polygon_parent_class;
 
 #ifdef WITH_GTK
-
+#include <libfoocanvas/foo-canvas.h>
 static void
-cb_polygon_update_bounds (SheetObject *so, FooCanvasItem *view)
+so_polygon_view_destroy (SheetObjectView *sov)
 {
-	GnmSOPolygon const *sop = GNM_SO_POLYGON (so);
-	FooCanvasPolygon *poly = FOO_CANVAS_POLYGON (view);
-	double *dst, coords[4], x_scale, y_scale, x_translate, y_translate;
-	double const *src;
-	unsigned i = poly->num_points;
+	gtk_object_destroy (GTK_OBJECT (sov));
+}
+static void
+so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
+{
+	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
 
-	g_return_if_fail (poly->num_points*2 == (int)sop->points->len);
+	if (visible) {
+		FooCanvasPolygon	*poly = FOO_CANVAS_POLYGON (view);
+		SheetObject		*so   = sheet_object_view_get_so (sov);
+		GnmSOPolygon const	*sop  = GNM_SO_POLYGON (so);
+		double *dst, x_scale, y_scale, x_translate, y_translate;
+		double const *src;
+		unsigned i = poly->num_points;
 
-	scg_object_view_position (GNM_SIMPLE_CANVAS (view->canvas)->scg, so, coords);
-	x_scale = fabs (coords[2] - coords[0]);
-	y_scale = fabs (coords[3] - coords[1]);
-	x_translate = MIN (coords[0], coords[2]),
-	y_translate = MIN (coords[1], coords[3]);
+		g_return_if_fail (poly->num_points*2 == (int)sop->points->len);
 
-	src = (double *)sop->points->data;
-	dst = poly->coords;
-	for ( ; i-- > 0; dst += 2, src += 2) {
-		dst[0] = x_translate + x_scale * src[0];
-		dst[1] = y_translate + y_scale * src[1];
-	}
+		x_scale = fabs (coords[2] - coords[0]);
+		y_scale = fabs (coords[3] - coords[1]);
+		x_translate = MIN (coords[0], coords[2]),
+		y_translate = MIN (coords[1], coords[3]);
 
-	if (so->is_visible)
+		src = (double *)sop->points->data;
+		dst = poly->coords;
+		for ( ; i-- > 0; dst += 2, src += 2) {
+			dst[0] = x_translate + x_scale * src[0];
+			dst[1] = y_translate + y_scale * src[1];
+		}
+
 		foo_canvas_item_show (view);
-	else
+	} else
 		foo_canvas_item_hide (view);
 }
 
-static GObject *
-gnm_so_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+static void
+so_polygon_foo_view_init (SheetObjectViewIface *sov_iface)
 {
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	sov_iface->destroy	= so_polygon_view_destroy;
+	sov_iface->set_bounds	= so_polygon_view_set_bounds;
+}
+typedef FooCanvasPolygon	PolygonFooView;
+typedef FooCanvasPolygonClass	PolygonFooViewClass;
+static GSF_CLASS_FULL (PolygonFooView, so_polygon_foo_view,
+	NULL, NULL,
+	FOO_TYPE_CANVAS_POLYGON, 0,
+	GSF_INTERFACE (so_polygon_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+#endif /* WITH_GTK */
+
+/*****************************************************************************/
+
+#ifdef WITH_GTK
+static SheetObjectView *
+gnm_so_polygon_new_view (SheetObject *so, SheetObjectViewContainer *container)
+{
+	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
 	FooCanvasItem *item = foo_canvas_item_new (gcanvas->object_views,
-		FOO_TYPE_CANVAS_POLYGON,
+		so_polygon_foo_view_get_type (),
 		"points",		sop->points,
-		/* "join_style",		GDK_JOIN_ROUND, */
+		/* "join_style",	GDK_JOIN_ROUND, */
 		NULL);
+#if 0
 	cb_gnm_so_filled_style_changed (item, &sop->base);
 	g_signal_connect_object (sop,
 		"notify", G_CALLBACK (cb_gnm_so_filled_style_changed),
 		item, 0);
-	gnm_pane_object_register (so, item, cb_polygon_update_bounds);
-	return G_OBJECT (item);
+#endif
+	return gnm_pane_object_register (so, item);
 }
 
 static void
@@ -694,7 +740,7 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 	so_class->write_xml_sax		= gnm_so_polygon_write_xml_sax;
 	so_class->copy			= gnm_so_polygon_copy;
 	so_class->rubber_band_directly	= FALSE;
-	so_class->xml_export_name	= "SheetObjectFilled";
+	so_class->xml_export_name	= "SheetObjectPolygon";
 
 #ifdef WITH_GTK
 	so_class->new_view		= gnm_so_polygon_new_view;

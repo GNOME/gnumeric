@@ -1416,7 +1416,7 @@ plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
 	ErrorInfo *error;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	dir_list = gnm_create_slist (gnm_sys_plugin_dir (),
+	dir_list = gnm_slist_create (gnm_sys_plugin_dir (),
 				     gnm_usr_plugin_dir (),
 				     NULL);
 	GNM_SLIST_CONCAT (dir_list, gnumeric_extra_plugin_dirs ());
@@ -1693,7 +1693,7 @@ plugins_init (GnmCmdContext *context)
 	ErrorInfo *error;
 	GSList *plugin_list;
 
-	gnumeric_time_counter_push ();
+	gnm_time_counter_push ();
 
 	loader_services = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
@@ -1755,7 +1755,7 @@ plugins_init (GnmCmdContext *context)
 		error_info_free (error);
 	}
 
-	plugin_message (4, "plugins_init() time: %fs\n", gnumeric_time_counter_pop ());
+	plugin_message (4, "plugins_init() time: %fs\n", gnm_time_counter_pop ());
 }
 
 static void

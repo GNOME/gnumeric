@@ -4349,126 +4349,62 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 
 /******************************************************************/
 
-#define CMD_OBJECT_INSERT_TYPE (cmd_object_insert_get_type ())
-#define CMD_OBJECT_INSERT(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECT_INSERT_TYPE, CmdObjectInsert))
+#define CMD_OBJECTS_DELETE_TYPE (cmd_objects_delete_get_type ())
+#define CMD_OBJECTS_DELETE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECTS_DELETE_TYPE, CmdObjectsDelete))
 
 typedef struct {
 	GnmCommand cmd;
-	SheetObject *so;
-} CmdObjectInsert;
+	GSList *objects;
+} CmdObjectsDelete;
 
-MAKE_GNM_COMMAND (CmdObjectInsert, cmd_object_insert, NULL);
+MAKE_GNM_COMMAND (CmdObjectsDelete, cmd_objects_delete, NULL);
 
 static gboolean
-cmd_object_insert_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_objects_delete_redo (GnmCommand *cmd,
+			G_GNUC_UNUSED WorkbookControl *wbc)
 {
-	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
-	sheet_object_set_sheet (me->so, me->cmd.sheet);
+	CmdObjectsDelete *me = CMD_OBJECTS_DELETE (cmd);
+	g_slist_foreach (me->objects, (GFunc) sheet_object_clear_sheet, NULL);
 	return FALSE;
 }
 
 static gboolean
-cmd_object_insert_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_objects_delete_undo (GnmCommand *cmd,
+			G_GNUC_UNUSED WorkbookControl *wbc)
 {
-	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
-	sheet_object_clear_sheet (me->so);
+	CmdObjectsDelete *me = CMD_OBJECTS_DELETE (cmd);
+	g_slist_foreach (me->objects,
+		(GFunc) sheet_object_set_sheet, me->cmd.sheet);
 	return FALSE;
 }
 
 static void
-cmd_object_insert_finalize (GObject *cmd)
+cmd_objects_delete_finalize (GObject *cmd)
 {
-	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
-	g_object_unref (G_OBJECT (me->so));
+	CmdObjectsDelete *me = CMD_OBJECTS_DELETE (cmd);
+	g_slist_foreach (me->objects, (GFunc) g_object_unref, NULL);
+	g_slist_free (me->objects);
 	gnm_command_finalize (cmd);
 }
 
-/**
- * cmd_object_insert :
- * @wbc :
- * @so :
- * @sheet
- *
- * Adds a ref to @so and inserts it into @sheet
- **/
+/* Absorbs the list, adding references to the content */
 gboolean
-cmd_object_insert (WorkbookControl *wbc, SheetObject *so, Sheet *sheet,
-		   char const *name)
+cmd_objects_delete (WorkbookControl *wbc, GSList *objects,
+		    char const *name)
 {
 	GObject *object;
-	CmdObjectInsert *me;
+	CmdObjectsDelete *me;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+	g_return_val_if_fail (objects != NULL, TRUE);
 
-	object = g_object_new (CMD_OBJECT_INSERT_TYPE, NULL);
-	me = CMD_OBJECT_INSERT (object);
+	object = g_object_new (CMD_OBJECTS_DELETE_TYPE, NULL);
+	me = CMD_OBJECTS_DELETE (object);
 
-	me->so = so;
-	g_object_ref (G_OBJECT (so));
+	me->objects = objects;
+	g_slist_foreach (me->objects, (GFunc) g_object_ref, NULL);
 
-	me->cmd.sheet = sheet;
-	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup (name ? name : _("Insert Object"));
-
-	return command_push_undo (wbc, object);
-}
-
-/******************************************************************/
-
-#define CMD_OBJECT_DELETE_TYPE (cmd_object_delete_get_type ())
-#define CMD_OBJECT_DELETE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECT_DELETE_TYPE, CmdObjectDelete))
-
-typedef struct {
-	GnmCommand cmd;
-	SheetObject *so;
-} CmdObjectDelete;
-
-MAKE_GNM_COMMAND (CmdObjectDelete, cmd_object_delete, NULL);
-
-static gboolean
-cmd_object_delete_redo (GnmCommand *cmd,
-			G_GNUC_UNUSED WorkbookControl *wbc)
-{
-	CmdObjectDelete *me = CMD_OBJECT_DELETE (cmd);
-	sheet_object_clear_sheet (me->so);
-	return FALSE;
-}
-
-static gboolean
-cmd_object_delete_undo (GnmCommand *cmd,
-			G_GNUC_UNUSED WorkbookControl *wbc)
-{
-	CmdObjectDelete *me = CMD_OBJECT_DELETE (cmd);
-	sheet_object_set_sheet (me->so, me->cmd.sheet);
-	return FALSE;
-}
-
-static void
-cmd_object_delete_finalize (GObject *cmd)
-{
-	CmdObjectDelete *me = CMD_OBJECT_DELETE (cmd);
-	g_object_unref (G_OBJECT (me->so));
-	gnm_command_finalize (cmd);
-}
-
-gboolean
-cmd_object_delete (WorkbookControl *wbc, SheetObject *so,
-		   char const *name)
-{
-	GObject *object;
-	CmdObjectDelete *me;
-
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
-
-	object = g_object_new (CMD_OBJECT_DELETE_TYPE, NULL);
-	me = CMD_OBJECT_DELETE (object);
-
-	me->so = so;
-	g_object_ref (G_OBJECT (so));
-
-	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.sheet = sheet_object_get_sheet (objects->data);
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor = g_strdup (name ? name : _("Delete Object"));
 
@@ -4477,92 +4413,90 @@ cmd_object_delete (WorkbookControl *wbc, SheetObject *so,
 
 /******************************************************************/
 
-#define CMD_OBJECT_MOVE_TYPE (cmd_object_move_get_type ())
-#define CMD_OBJECT_MOVE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECT_MOVE_TYPE, CmdObjectMove))
+#define CMD_OBJECTS_MOVE_TYPE (cmd_objects_move_get_type ())
+#define CMD_OBJECTS_MOVE(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_OBJECTS_MOVE_TYPE, CmdObjectsMove))
 
 typedef struct {
 	GnmCommand cmd;
+	GSList *objects;
+	GSList *anchors;
+	gboolean objects_created, first_time;
+} CmdObjectsMove;
 
-	SheetObject *so;
-
-	SheetObjectAnchor anchor;
-	gboolean first_time, was_a_dup;
-} CmdObjectMove;
-
-MAKE_GNM_COMMAND (CmdObjectMove, cmd_object_move, NULL);
+MAKE_GNM_COMMAND (CmdObjectsMove, cmd_objects_move, NULL);
 
 static gboolean
-cmd_object_move_redo (GnmCommand *cmd,
-		      G_GNUC_UNUSED WorkbookControl *wbc)
+cmd_objects_move_redo (GnmCommand *cmd,
+		       G_GNUC_UNUSED WorkbookControl *wbc)
 {
-	CmdObjectMove *me = CMD_OBJECT_MOVE (cmd);
+	CmdObjectsMove *me = CMD_OBJECTS_MOVE (cmd);
+	SheetObjectAnchor tmp;
+	GSList *obj = me->objects, *anch = me->anchors;
 
-	if (me->first_time)
-		me->first_time = FALSE;
-	else {
-		SheetObjectAnchor tmp;
-
-		/* For duplicates we also mange the insertion.  This is
-		 * necessary to avoid listing an insert and a move undo record. */
-		if (me->was_a_dup) {
-			if (NULL != sheet_object_get_sheet (me->so))
-				sheet_object_clear_sheet (me->so);
+	for (; obj != NULL && anch != NULL ; obj = obj->next, anch = anch->next) {
+		/* If these were newly created objects remove them on undo and
+		 * re-insert on subsequent redos */
+		if (me->objects_created && !me->first_time) {
+			if (NULL != sheet_object_get_sheet (obj->data))
+				sheet_object_clear_sheet (obj->data);
 			else
-				sheet_object_set_sheet (me->so, cmd->sheet);
+				sheet_object_set_sheet (obj->data, cmd->sheet);
 		}
-		sheet_object_anchor_cpy	(&tmp, sheet_object_get_anchor (me->so));
-		sheet_object_set_anchor	(me->so, &me->anchor);
-		sheet_object_anchor_cpy	(&me->anchor, &tmp);
+		sheet_object_anchor_cpy	(&tmp, sheet_object_get_anchor (obj->data));
+		sheet_object_set_anchor	(obj->data, anch->data);
+		sheet_object_anchor_cpy	(anch->data, &tmp);
 	}
+	me->first_time = FALSE;
 
 	return FALSE;
 }
 
 static gboolean
-cmd_object_move_undo (GnmCommand *cmd, WorkbookControl *wbc)
+cmd_objects_move_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
-	return cmd_object_move_redo (cmd, wbc);
+	return cmd_objects_move_redo (cmd, wbc);
 }
 
 static void
-cmd_object_move_finalize (GObject *cmd)
+cmd_objects_move_finalize (GObject *cmd)
 {
-	CmdObjectMove *me = CMD_OBJECT_MOVE (cmd);
-	g_object_unref (G_OBJECT (me->so));
+	CmdObjectsMove *me = CMD_OBJECTS_MOVE (cmd);
+	g_slist_foreach (me->objects, (GFunc) g_object_unref, NULL);
+	g_slist_free (me->objects);
+	g_slist_foreach (me->anchors, (GFunc) g_free, NULL);
+	g_slist_free (me->anchors);
 	gnm_command_finalize (cmd);
 }
 
 gboolean
-cmd_object_move (WorkbookControl *wbc, SheetObject *so,
-		 SheetObjectAnchor const *old_anchor,
-		 gboolean is_resize, gboolean was_a_dup)
+cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
+		  gboolean objects_created, char const *name)
 {
 	GObject *object;
-	CmdObjectMove *me;
+	CmdObjectsMove *me;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+	g_return_val_if_fail (NULL != objects, TRUE);
+	g_return_val_if_fail (NULL != anchors, TRUE);
+	g_return_val_if_fail (g_slist_length (objects) == g_slist_length (anchors), TRUE);
 
 	/*
 	 * There is no need to move the object around, because this has
 	 * already happened.
 	 */
 
-	object = g_object_new (CMD_OBJECT_MOVE_TYPE, NULL);
-	me = CMD_OBJECT_MOVE (object);
+	object = g_object_new (CMD_OBJECTS_MOVE_TYPE, NULL);
+	me = CMD_OBJECTS_MOVE (object);
 
 	me->first_time = TRUE;
-	me->was_a_dup  = was_a_dup;
-	me->so = so;
-	g_object_ref (G_OBJECT (so));
+	me->objects_created  = objects_created;
+	me->objects = objects;
+	g_slist_foreach (me->objects, (GFunc) g_object_ref, NULL);
+	me->anchors = anchors;
 
-	sheet_object_anchor_cpy (&me->anchor, old_anchor);
-
-	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.sheet = sheet_object_get_sheet (objects->data);
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup (was_a_dup ? _("Duplicate Object")
-						     : (is_resize ? _("Resize Object")
-								  : _("Move Object")));
+	me->cmd.cmd_descriptor = g_strdup (name);
 
 	return command_push_undo (wbc, object);
 }

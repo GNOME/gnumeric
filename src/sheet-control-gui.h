@@ -18,16 +18,26 @@ SheetControlGUI *sheet_control_gui_new	    (SheetView *sv, WorkbookControlGUI *w
 GtkWidget *scg_toplevel		(SheetControlGUI *scg);
 void scg_take_focus             (SheetControlGUI *scg);
 
-void scg_mode_edit_object	(SheetControlGUI *scg, SheetObject *so);
 void scg_mode_create_object	(SheetControlGUI *scg, SheetObject *so);
 
 void scg_context_menu		(SheetControlGUI *scg, GdkEventButton *event,
 				 gboolean is_col, gboolean is_row);
-void scg_object_nudge		(SheetControlGUI *scg, int x_offset, int y_offset);
-void scg_object_update_bbox	(SheetControlGUI *scg, SheetObject *so, double const *offset);
-void scg_object_calc_position	(SheetControlGUI *scg, SheetObject *so, double const *coords);
-void scg_object_view_position	(SheetControlGUI *scg, SheetObject *so, double *coords);
-void scg_object_stop_editing	(SheetControlGUI *scg, SheetObject *so);
+
+void scg_object_anchor_to_coords (SheetControlGUI const *scg,
+				  SheetObjectAnchor const *anchor, double *coords);
+void scg_object_coords_to_anchor (SheetControlGUI const *scg,
+				  double const *coords, SheetObjectAnchor *in_out);
+
+void scg_objects_drag		(SheetControlGUI *scg, SheetObject *primary,
+				 gdouble dx, gdouble dy,
+				 int drag_type, gboolean symmetric);
+void scg_objects_drag_commit	(SheetControlGUI *scg, int drag_type,
+				 gboolean created_objects);
+void scg_objects_nudge		(SheetControlGUI *scg,
+				 int drag_type, int dx, int dy);
+
+void scg_object_select		(SheetControlGUI *scg, SheetObject *so);
+void scg_object_unselect	(SheetControlGUI *scg, SheetObject *so);
 
 void scg_comment_select		(SheetControlGUI *scg, GnmComment *cc);
 void scg_comment_display	(SheetControlGUI *scg, GnmComment *cc);

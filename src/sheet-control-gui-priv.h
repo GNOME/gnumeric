@@ -35,11 +35,7 @@ struct _SheetControlGUI {
 
 	/* SheetObject support */
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
-	SheetObject	 *current_object; /* Use scg_set_current_object to change */
-	SheetObjectAnchor old_anchor;
-	gboolean	  object_was_resized;
-	double		  object_coords [4];
-	double		  last_x, last_y;
+	GHashTable	 *selected_objects;
 
 	/* Keep track of a rangeselector state */
 	struct {
@@ -69,9 +65,6 @@ void scg_set_zoom_factor        (SheetControl *sc);
 void scg_adjust_preferences     (SheetControl *sc);
 void scg_scrollbar_config       (SheetControl const *sc);
 void scg_mode_edit		(SheetControl *sc);
-
-/* protected */
-void scg_set_current_object	(SheetControlGUI *scg, SheetObject *so);
 
 #define SCG_FOREACH_PANE(scg, pane, code)		\
   do {							\

@@ -334,13 +334,14 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 }
 
 static gboolean
-gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *event)
+gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 {
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	SheetControl    *sc = SHEET_CONTROL (scg);
-	int size = (event->state & GDK_CONTROL_MASK) ? 1 : 10;
+	gboolean const resize = 0 != (ev->state & GDK_CONTROL_MASK);
+	gboolean const shrink = 0 != (ev->state & GDK_SHIFT_MASK);
 
-	switch (event->keyval) {
+	switch (ev->keyval) {
 	case GDK_Escape:
 		scg_mode_edit (sc);
 		gnm_app_clipboard_unant ();
@@ -349,24 +350,55 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_BackSpace: /* Ick! */
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		if (scg->current_object != NULL) {
-			cmd_object_delete (sc->wbc, scg->current_object, NULL);
+		if (scg->selected_objects != NULL) {
+			cmd_objects_delete (sc->wbc,
+				gnm_hash_keys (scg->selected_objects), NULL);
 			return TRUE;
 		}
 		sc_mode_edit (sc);
 		break;
 
+	case GDK_Tab:
+	case GDK_ISO_Left_Tab:
+	case GDK_KP_Tab:
+		if (scg->selected_objects != NULL) {
+			Sheet *sheet = sc_sheet (sc);
+			GList *ptr = sheet->sheet_objects;
+			for (; ptr != NULL ; ptr = ptr->next)
+				if (NULL != g_hash_table_lookup (scg->selected_objects, ptr->data)) {
+					SheetObject *target;
+					if ((ev->state & GDK_SHIFT_MASK)) {
+						if (ptr->next == NULL)
+							target = sheet->sheet_objects->data;
+						else
+							target = ptr->next->data;
+					} else {
+						if (ptr->prev == NULL) {
+							GList *last = g_list_last (ptr);
+							target = last->data;
+						} else
+							target = ptr->prev->data;
+					}
+					if (ptr->data != target) {
+						scg_object_unselect (scg, NULL);
+						scg_object_select (scg, target);
+						return TRUE;
+					}
+				}
+		}
+		break;
+
 	case GDK_KP_Left: case GDK_Left:
-		scg_object_nudge (scg, -size, 0);
+		scg_objects_nudge (scg, (resize ? 3 : 8), ((resize && shrink) ?  1 : -1), 0);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
-		scg_object_nudge (scg,  size, 0);
+		scg_objects_nudge (scg, (resize ? 4 : 8), ((resize && shrink) ? -1 :  1), 0);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
-		scg_object_nudge (scg, 0, -size);
+		scg_objects_nudge (scg, (resize ? 1 : 8), 0, ((resize && shrink) ? -1 :  1));
 		return TRUE;
 	case GDK_KP_Down: case GDK_Down:
-		scg_object_nudge (scg, 0,  size);
+		scg_objects_nudge (scg, (resize ? 6 : 8), 0, ((resize && shrink) ?  1 : -1));
 		return TRUE;
 
 	default:
@@ -386,7 +418,7 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 		return TRUE;
 
 	if (wbcg_edit_get_guru (scg->wbcg) == NULL  &&
-	    (scg->current_object != NULL || scg->new_object != NULL))
+	    (scg->selected_objects != NULL || scg->new_object != NULL))
 		res = gnm_canvas_key_mode_object (gcanvas, event);
 	else {
 		gcanvas->mask_state = event->state;
@@ -440,7 +472,7 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 	 * is released, or the mouse button is release we need to reset
 	 * to displaying the edit pos.
 	 */
-	if (gcanvas->simple.scg->current_object == NULL &&
+	if (gcanvas->simple.scg->selected_objects == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
 		wb_view_selection_desc (wb_control_view (
 			sc->wbc), TRUE, NULL);

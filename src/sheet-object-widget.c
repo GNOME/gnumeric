@@ -64,6 +64,46 @@
 #include <gtk/gtkvscale.h>
 #include <math.h>
 
+
+/****************************************************************************/
+
+static void
+so_widget_view_destroy (SheetObjectView *sov)
+{
+	gtk_object_destroy (GTK_OBJECT (sov));
+}
+static void
+so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
+{
+	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	if (visible) {
+		/* NOTE : far point is EXCLUDED so we add 1 */
+		foo_canvas_item_set (view,
+			"x",	  MIN (coords [0], coords [2]),
+			"y",	  MIN (coords [1], coords [3]),
+			"width",  fabs (coords [2] - coords [0]) + 1.,
+			"height", fabs (coords [3] - coords [1]) + 1.,
+			NULL);
+		foo_canvas_item_show (view);
+	} else
+		foo_canvas_item_hide (view);
+}
+
+static void
+so_widget_foo_view_init (SheetObjectViewIface *sov_iface)
+{
+	sov_iface->destroy	= so_widget_view_destroy;
+	sov_iface->set_bounds	= so_widget_view_set_bounds;
+}
+typedef FooCanvasWidget		SOWidgetFooView;
+typedef FooCanvasWidgetClass	SOWidgetFooViewClass;
+static GSF_CLASS_FULL (SOWidgetFooView, so_widget_foo_view,
+	NULL, NULL,
+	FOO_TYPE_CANVAS_WIDGET, 0,
+	GSF_INTERFACE (so_widget_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+/****************************************************************************/
+
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-config-dialog"
 
 #define SHEET_OBJECT_WIDGET_TYPE     (sheet_object_widget_get_type ())
@@ -97,7 +137,7 @@ GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,				\
 typedef SheetObject SheetObjectWidget;
 typedef struct {
 	SheetObjectClass parent_class;
-	GtkWidget *(*create_widget)(SheetObjectWidget *, SheetControlGUI *);
+	GtkWidget *(*create_widget)(SheetObjectWidget *, SheetObjectViewContainer *);
 } SheetObjectWidgetClass;
 
 static SheetObjectClass *sheet_object_widget_parent_class = NULL;
@@ -148,43 +188,20 @@ read_dep (GnmDependent *dep, char const *name,
 	}
 }
 
-static void
-cb_widget_update_bounds (SheetObject *so, FooCanvasItem *view)
+static SheetObjectView *
+sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	SheetControlGUI	*scg  = GNM_SIMPLE_CANVAS (view->canvas)->scg;
-	double coords [4];
-
-	/* NOTE : far point is EXCLUDED so we add 1 */
- 	scg_object_view_position (scg, so, coords);
-	foo_canvas_item_set (view,
-		"x", coords [0], "y", coords [1],
-		"width",  coords [2] - coords [0] + 1.,
-		"height", coords [3] - coords [1] + 1.,
-		NULL);
-
-	if (so->is_visible)
-		foo_canvas_item_show (view);
-	else
-		foo_canvas_item_hide (view);
-}
-
-static GObject *
-sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
-		SHEET_OBJECT_WIDGET (so), SHEET_CONTROL_GUI (sc));
+		SHEET_OBJECT_WIDGET (so), container);
 	FooCanvasItem *view_item = foo_canvas_item_new (
 		gcanvas->object_views,
-		foo_canvas_widget_get_type (),
+		so_widget_foo_view_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,
 		NULL);
-	gnm_pane_widget_register (so,
-		view_widget, view_item, &cb_widget_update_bounds);
 	gtk_widget_show_all (view_widget);
-
-	return G_OBJECT (view_item);
+	return gnm_pane_widget_register (so, view_widget, view_item);
 }
 
 static void
@@ -206,14 +223,13 @@ static void
 sheet_object_widget_init (SheetObjectWidget *sow)
 {
 	SheetObject *so = SHEET_OBJECT (sow);
-	so->type = SHEET_OBJECT_ACTION_CAN_PRESS;
+	so->flags |= SHEET_OBJECT_CAN_PRESS;
 }
 
 static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
 		  sheet_object_widget_class_init,
 		  sheet_object_widget_init,
 		  SHEET_OBJECT_TYPE);
-
 /****************************************************************************/
 #define SHEET_WIDGET_FRAME_TYPE     (sheet_widget_frame_get_type ())
 #define SHEET_WIDGET_FRAME(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_FRAME_TYPE, SheetWidgetFrame))
@@ -249,11 +265,10 @@ sheet_widget_frame_finalize (GObject *obj)
 }
 
 static GtkWidget *
-sheet_widget_frame_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_frame_create_widget (SheetObjectWidget *sow,
+				  G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
-	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (sow);
-
-	return gtk_frame_new (swf->label);
+	return gtk_frame_new (SHEET_WIDGET_FRAME (sow)->label);
 }
 
 static void
@@ -479,11 +494,10 @@ sheet_widget_button_finalize (GObject *obj)
 }
 
 static GtkWidget *
-sheet_widget_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_button_create_widget (SheetObjectWidget *sow,
+				   G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
-	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (sow);
-
-	return gtk_button_new_with_label (swb->label);
+	return gtk_button_new_with_label (SHEET_WIDGET_BUTTON (sow)->label);
 }
 
 static void
@@ -982,7 +996,8 @@ sheet_widget_adjustment_set_details (SheetObject *so, GnmExpr const *link,
 }
 
 static GtkWidget *
-sheet_widget_adjustment_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_adjustment_create_widget (SheetObjectWidget *sow,
+				       G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	g_warning("ERROR: sheet_widget_adjustment_create_widget SHOULD NEVER BE CALLED (but it has been)!\n");
 	return gtk_frame_new ("invisiwidget(WARNING: I AM A BUG!)");
@@ -1006,7 +1021,8 @@ typedef SheetWidgetAdjustment		SheetWidgetScrollbar;
 typedef SheetWidgetAdjustmentClass	SheetWidgetScrollbarClass;
 
 static GtkWidget *
-sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow,
+				      G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	SheetObject *so = SHEET_OBJECT (sow);
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (sow);
@@ -1046,7 +1062,8 @@ typedef SheetWidgetAdjustment		SheetWidgetSpinbutton;
 typedef SheetWidgetAdjustmentClass	SheetWidgetSpinbuttonClass;
 
 static GtkWidget *
-sheet_widget_spinbutton_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_spinbutton_create_widget (SheetObjectWidget *sow,
+				       G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (sow);
 	GtkWidget *spinbutton;
@@ -1078,7 +1095,8 @@ typedef SheetWidgetAdjustment		SheetWidgetSlider;
 typedef SheetWidgetAdjustmentClass	SheetWidgetSliderClass;
 
 static GtkWidget *
-sheet_widget_slider_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_slider_create_widget (SheetObjectWidget *sow,
+				   G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	SheetObject *so = SHEET_OBJECT (sow);
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (sow);
@@ -1116,10 +1134,11 @@ GSF_CLASS (SheetWidgetSlider, sheet_widget_slider,
 typedef struct {
 	SheetObjectWidget	sow;
 
-	char	 *label;
-	gboolean  being_updated;
-	GnmDependent dep;
-	gboolean  value;
+	GnmDependent	 dep;
+	char		*label;
+	gboolean 	 value;
+	gboolean	 being_updated;
+	gboolean	 is_toggle;
 } SheetWidgetCheckbox;
 typedef SheetObjectWidgetClass SheetWidgetCheckboxClass;
 
@@ -1162,7 +1181,8 @@ checkbox_eval (GnmDependent *dep)
 static void
 checkbox_debug_name (GnmDependent const *dep, FILE *out)
 {
-	fprintf (out, "Checkbox%p", dep);
+	SheetWidgetCheckbox *swc = DEP_TO_CHECKBOX(dep);
+	fprintf (out, (swc->is_toggle ? "ToggleButton%p" : "Checkbox%p"), dep);
 }
 
 static DEPENDENT_MAKE_TYPE (checkbox, NULL)
@@ -1252,14 +1272,17 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 }
 
 static GtkWidget *
-sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_checkbox_create_widget (SheetObjectWidget *sow,
+				     G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
 	GtkWidget *button;
 
 	g_return_val_if_fail (swc != NULL, NULL);
 
-	button = gtk_check_button_new_with_label (swc->label);
+	button = swc->is_toggle
+		? gtk_toggle_button_new_with_label (swc->label)
+		: gtk_check_button_new_with_label (swc->label);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
 	g_signal_connect (G_OBJECT (button),
@@ -1625,7 +1648,8 @@ sheet_widget_radio_button_toggled (GtkToggleButton *button,
 }
 
 static GtkWidget *
-sheet_widget_radio_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_radio_button_create_widget (SheetObjectWidget *sow,
+					 G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	GtkWidget *w = gtk_radio_button_new_with_label (NULL, "RadioButton");
 	g_signal_connect (G_OBJECT (w),
@@ -1847,7 +1871,8 @@ sheet_widget_list_base_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 static GtkWidget *
-sheet_widget_list_base_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_list_base_create_widget (SheetObjectWidget *sow,
+				      G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	g_warning("ERROR: sheet_widget_list_base_create_widget SHOULD NEVER BE CALLED (but it has been)!\n");
 	return gtk_frame_new ("invisiwidget(WARNING: I AM A BUG!)");
@@ -1870,7 +1895,8 @@ typedef SheetWidgetListBase		SheetWidgetList;
 typedef SheetWidgetListBaseClass	SheetWidgetListClass;
 
 static GtkWidget *
-sheet_widget_list_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_list_create_widget (SheetObjectWidget *sow,
+				 G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	return gtk_tree_view_new ();
 }
@@ -1893,7 +1919,8 @@ typedef SheetWidgetListBase		SheetWidgetCombo;
 typedef SheetWidgetListBaseClass	SheetWidgetComboClass;
 
 static GtkWidget *
-sheet_widget_combo_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
+sheet_widget_combo_create_widget (SheetObjectWidget *sow,
+				  G_GNUC_UNUSED SheetObjectViewContainer *container)
 {
 	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (sow);
 	GtkWidget *combo;

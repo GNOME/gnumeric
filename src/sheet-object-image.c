@@ -39,6 +39,62 @@
 
 #define CC2XML(s) ((const xmlChar *)(s))
 
+static void
+so_image_view_destroy (SheetObjectView *sov)
+{
+	gtk_object_destroy (GTK_OBJECT (sov));
+}
+static void
+so_image_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
+{
+	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	if (visible) {
+		double x, y, width, height;
+		double old_x1, old_y1, old_x2, old_y2, old_width, old_height;
+		GdkPixbuf *placeholder = g_object_get_data (G_OBJECT (view), "tile");
+
+		x = MIN (coords [0], coords [2]);
+		y = MIN (coords [1], coords [3]);
+		width  = fabs (coords [2] - coords [0]);
+		height = fabs (coords [3] - coords [1]);
+
+		foo_canvas_item_get_bounds (view, &old_x1, &old_y1, &old_x2, &old_y2);
+		foo_canvas_item_set (view,
+			"x", x,			"y", y,
+			"width",  width,	"width_set",  (width > 0.),
+			"height", height,	"height_set", (height > 0.),
+			NULL);
+
+		/* regenerate the image if necessary */
+		old_width = fabs (old_x1 - old_x2);
+		old_height = fabs (old_y1 - old_y2);
+		if (placeholder != NULL &&
+		    (fabs (width - old_width) > 0.5 || fabs (height - old_height) > 0.5)) {
+			GdkPixbuf *newimage = gnm_pixbuf_tile (placeholder,
+				(int)width, (int)height);
+			foo_canvas_item_set (view, "pixbuf", newimage, NULL);
+			g_object_unref (newimage);
+		}
+
+		foo_canvas_item_show (view);
+	} else
+		foo_canvas_item_hide (view);
+}
+
+static void
+so_image_foo_view_init (SheetObjectViewIface *sov_iface)
+{
+	sov_iface->destroy	= so_image_view_destroy;
+	sov_iface->set_bounds	= so_image_view_set_bounds;
+}
+typedef FooCanvasPixbuf		SOImageFooView;
+typedef FooCanvasPixbufClass	SOImageFooViewClass;
+static GSF_CLASS_FULL (SOImageFooView, so_image_foo_view,
+	NULL, NULL,
+	FOO_TYPE_CANVAS_PIXBUF, 0,
+	GSF_INTERFACE (so_image_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
+
+/****************************************************************************/
 struct _SheetObjectImage {
 	SheetObject  sheet_object;
 
@@ -236,56 +292,13 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 	return pixbuf;
 }
 
-static void
-cb_image_update_bounds (SheetObject *so, FooCanvasItem *view)
+static SheetObjectView *
+sheet_object_image_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	SheetControlGUI	*scg  = GNM_SIMPLE_CANVAS (view->canvas)->scg;
-	double coords[4];
-	double x, y, width, height;
-	double old_x1, old_y1, old_x2, old_y2, old_width, old_height;
-	GdkPixbuf *placeholder = g_object_get_data (G_OBJECT (view), "tile");
-
-	scg_object_view_position (scg, so, coords);
-
-	x = MIN (coords [0], coords [2]);
-	y = MIN (coords [1], coords [3]);
-	width  = fabs (coords [2] - coords [0]);
-	height = fabs (coords [3] - coords [1]);
-
-	foo_canvas_item_get_bounds (view, &old_x1, &old_y1, &old_x2, &old_y2);
-	foo_canvas_item_set (view,
-		"x", x,			"y", y,
-		"width",  width,	"width_set",  (width > 0.),
-		"height", height,	"height_set", (height > 0.),
-		NULL);
-
-	/* regenerate the image if necessary */
-	old_width = fabs (old_x1 - old_x2);
-	old_height = fabs (old_y1 - old_y2);
-	if (placeholder != NULL &&
-	    (fabs (width - old_width) > 0.5 || fabs (height - old_height) > 0.5)) {
-		GdkPixbuf *newimage = gnm_pixbuf_tile (placeholder,
-			(int)width, (int)height);
-		foo_canvas_item_set (view, "pixbuf", newimage, NULL);
-		g_object_unref (newimage);
-	}
-
-	if (so->is_visible)
-		foo_canvas_item_show (view);
-	else
-		foo_canvas_item_hide (view);
-}
-
-static GObject *
-sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
-{
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 	FooCanvasItem *item = NULL;
 	GdkPixbuf *pixbuf, *placeholder = NULL;
-
-	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), NULL);
-	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
 
 	pixbuf = soi_get_pixbuf (soi, 1.);
 
@@ -295,7 +308,7 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	}
 
 	item = foo_canvas_item_new (gcanvas->object_views,
-		FOO_TYPE_CANVAS_PIXBUF,
+		so_image_foo_view_get_type (),
 		"pixbuf", pixbuf,
 		NULL);
 	g_object_unref (G_OBJECT (pixbuf));
@@ -303,8 +316,7 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	if (placeholder)
 		g_object_set_data (G_OBJECT (item), "tile", placeholder);
 
-	gnm_pane_object_register (so, item, cb_image_update_bounds);
-	return G_OBJECT (item);
+	return gnm_pane_object_register (so, item);
 }
 
 static gboolean

@@ -157,8 +157,7 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range
 		SheetObject *so = SHEET_OBJECT (l->data);
 		double coords [4];
 
-		/* First check if we need to print this object */
-		if (!so->is_visible ||
+		if (!sheet_object_can_print (so) ||
 		    !range_overlap (range, &so->anchor.cell_bound))
 			continue;
 
