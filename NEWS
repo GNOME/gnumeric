@@ -1,5 +1,9 @@
 Gnumeric 1.2.0
 
+Jon Kåre:
+        * Ensure that scrollbars always show up in font combo when
+ 	  needed (http://bugzilla.gnome.org/show_bug.cgi?id=121877).
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.90
 
