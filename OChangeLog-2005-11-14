@@ -1,3 +1,9 @@
+2004-10-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152516
+	* src/sheet-control-gui.c (scg_context_menu) : minor string change
+	  It is clearer to say 'Cells' for insert and delete.
+
 2004-10-16  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-pane.c (gnm_pane_object_register) : Take a 'selectable'

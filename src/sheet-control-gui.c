@@ -1517,9 +1517,9 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		 * This is hard for now because there is no memory management for the label
 		 * strings, and the logic that knows the count is elsewhere
 		 */
-		{ N_("_Insert..."),	NULL,
+		{ N_("_Insert Cells..."),	NULL,
 		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_INSERT },
-		{ N_("_Delete..."),	GTK_STOCK_DELETE,
+		{ N_("_Delete Cells..."),	GTK_STOCK_DELETE,
 		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DELETE },
 		{ N_("_Insert Column(s)"), "Gnumeric_ColumnAdd",
 		    CONTEXT_DISPLAY_FOR_COLS, CONTEXT_DISABLE_FOR_COLS, CONTEXT_INSERT },
