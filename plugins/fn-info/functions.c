@@ -232,8 +232,8 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* absolutely pointless - compatibility only */
 	} else if (!g_ascii_strcasecmp (info_type, "contents") ||
 		   !g_ascii_strcasecmp (info_type, "value")) {
-		GnmCell const *cell =
-			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
+		GnmCell const *cell = sheet_cell_get (
+			eval_sheet (ref->sheet, ei->pos->sheet), ref->col, ref->row);
 		if (cell && cell->value)
 			return value_dup (cell->value);
 		return value_new_empty ();

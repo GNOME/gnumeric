@@ -1,3 +1,9 @@
+2005-03-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=169802
+	* functions.c (gnumeric_cell) : honour explicit target
+	  sheets for CELL ("contents"
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0
