@@ -1149,7 +1149,7 @@ fonts_get_index (ExcelWorkbook *wb, const ExcelFont *f)
  * font is added. Free resources when it was already there.
  **/
 static void
-after_put_font (ExcelFont *f, gboolean was_added, gint index, gpointer dummy)
+after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
 		d (1, printf ("Found unique font %d - %s\n",
@@ -1584,7 +1584,7 @@ xf_free (ExcelWorkbook *wb)
  * style is added. Add a reference when putting a style into the table.
  **/
 static void
-after_put_mstyle (MStyle *st, gboolean was_added, gint index, gpointer dummy)
+after_put_mstyle (MStyle *st, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
 		d (1, {

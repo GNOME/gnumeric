@@ -377,9 +377,10 @@ callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n, void *da
         int     i;
 
 	printf ("Iteration=%3d ", iter + 1);
-	printf ("bv=%9.4f cx=%9.4f gap=%9.4f\n", bv, cx, fabs (bv-cx));
+	printf ("bv=%9.4" GNUM_FORMAT_f " cx=%9.4" GNUM_FORMAT_f " gap=%9.4" GNUM_FORMAT_f "\n",
+		bv, cx, fabs (bv - cx));
 	for (i = 0; i < n; i++)
-	        printf ("%8.4f ", x[i]);
+	        printf ("%8.4" GNUM_FORMAT_f " ", x[i]);
         printf ("\n");
 }
 

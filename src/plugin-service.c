@@ -903,9 +903,9 @@ plugin_service_function_group_free (PluginService *service)
 
 static gboolean
 plugin_service_function_group_get_full_info_callback (FunctionDefinition *fn_def,
-                                                      gchar **args_ptr,
-                                                      gchar **arg_names_ptr,
-                                                      gchar ***help_ptr,
+                                                      const gchar **args_ptr,
+                                                      const gchar **arg_names_ptr,
+                                                      const gchar ***help_ptr,
                                                       FunctionArgs **fn_args_ptr,
                                                       FunctionNodes **fn_nodes_ptr)
 {
@@ -919,8 +919,9 @@ plugin_service_function_group_get_full_info_callback (FunctionDefinition *fn_def
 	service_function_group = &service->t.function_group;
 	plugin_service_load (service, &error);
 	if (error == NULL) {
-		gchar *args, *arg_names;
-		gchar **help;
+		const gchar *args;
+		const gchar *arg_names;
+		const gchar **help;
 		FunctionArgs *fn_args;
 		FunctionNodes *fn_nodes;
 

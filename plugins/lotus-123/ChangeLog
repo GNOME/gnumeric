@@ -1,3 +1,7 @@
+2002-02-21  Morten Welinder <terra@diku.dk>
+
+	* lotus-formula.c (make_function): Constify.
+
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
 	* lotus.c (lotus_special_formats): Constify and make static.

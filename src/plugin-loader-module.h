@@ -30,10 +30,10 @@ typedef struct {
 #define GNUMERIC_MODULE_PLUGIN_FILE_STRUCT_INITIALIZER  {GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER, GNUMERIC_VERSION}
 
 typedef struct {
-	gchar const *fn_name;
-	gchar *args;
-	gchar *arg_names;
-	gchar **help;
+	const gchar *fn_name;
+	const gchar *args;
+	const gchar *arg_names;
+	const gchar **help;
 	FunctionArgs *fn_args;
 	FunctionNodes *fn_nodes;
 } ModulePluginFunctionInfo;

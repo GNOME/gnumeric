@@ -260,7 +260,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 			g_warning ("oleo: Don't know how to deal with C; '%c'\n",
 				   *ptr);
 #endif
-			ptr = ""; /* I wish C had multilevel break */
+			ptr = (char *)""; /* I wish C had multilevel break */
 			break;
 		}
 

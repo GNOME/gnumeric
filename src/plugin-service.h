@@ -72,9 +72,10 @@ struct _PluginServiceFunctionGroup {
 	FunctionCategory *category;
 	/* fields available after loading */
 	gboolean (*plugin_func_get_full_function_info) (PluginService *service,
-	                                                gchar const *fn_name, gchar **args_ptr,
-	                                                gchar **arg_names_ptr,
-	                                                gchar ***help_ptr,
+	                                                const gchar *fn_name,
+							const gchar **args_ptr,
+	                                                const gchar **arg_names_ptr,
+	                                                const gchar ***help_ptr,
 	                                                FunctionArgs **fn_args_ptr,
 	                                                FunctionNodes **fn_nodes_ptr);
 };

@@ -239,7 +239,7 @@ static gint32
 make_function (ExprList **stack, guint16 idx, guint8 *data)
 {
 	gint32 ans, numargs;
-	func_struct_t *f = &functions[idx];
+	const func_struct_t *f = &functions[idx];
 
 	if (f->args < 0) {
 		numargs = *(data + 1);

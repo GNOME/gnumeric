@@ -67,9 +67,9 @@ void func_unref (FunctionDefinition *fn_def);
 gint func_get_ref_count (FunctionDefinition *fn_def);
 
 typedef gboolean (*FunctionGetFullInfoCallback) (FunctionDefinition *fn_def,
-                                                 gchar **args_ptr,
-                                                 gchar **arg_names_ptr,
-                                                 gchar ***help_ptr,
+                                                 const gchar **args_ptr,
+                                                 const gchar **arg_names_ptr,
+                                                 const gchar ***help_ptr,
                                                  FunctionArgs **fn_args_ptr,
                                                  FunctionNodes **fn_nodes_ptr);
 

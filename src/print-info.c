@@ -575,7 +575,7 @@ render_time (GString *target, HFRenderInfo *info, const char *args)
 }
 
 static const struct {
-	char *name;
+	const char *name;
 	void (*render)(GString *target, HFRenderInfo *info, const char *args);
 } render_ops [] = {
 	{ N_("tab"),   render_tab   },

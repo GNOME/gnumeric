@@ -367,13 +367,12 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				sep += 2;
 				break;
 			} else {
-				char *format = NULL;
-				gboolean needs_free = FALSE;
+				const char *format = NULL;
 				switch (*sep) {
 				case 'D' : {
 					int id = 0;
 					char *end;
-					static char * const date_formats[] = {
+					static const char * const date_formats[] = {
 						/*  1 */ "mmmm d, yyyy",
 						/*  2 */ "mmm d, yyyy",
 						/*  3 */ "d mmm yy",
@@ -404,7 +403,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					    id < 1 || id > 16)
 						(void) applix_parse_error (state, "Unknown format %d", id);
 
-					format = date_formats[id-1];
+					format = date_formats[id - 1];
 					sep = end;
 					break;
 				}
@@ -490,8 +489,6 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				};
 				if (format)
 					mstyle_set_format_text (style, format);
-				if (needs_free)
-					g_free (format);
 			}
 		}
 

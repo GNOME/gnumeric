@@ -1,3 +1,7 @@
+2002-02-21  Morten Welinder <terra@diku.dk>
+
+	* applix-read.c (applix_parse_style): Constify.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0

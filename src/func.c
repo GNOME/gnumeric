@@ -288,7 +288,9 @@ static void
 function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 {
 	if (fn_def->fn_type == FUNCTION_NAMEONLY) {
-		gchar *args, *arg_names, **help;
+		const gchar *args;
+		const gchar *arg_names;
+		const gchar **help;
 		FunctionArgs *fn_args;
 		FunctionNodes *fn_nodes;
 		gboolean success;

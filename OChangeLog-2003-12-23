@@ -1,3 +1,11 @@
+2002-02-21  Morten Welinder <terra@diku.dk>
+
+	* src/solver-lp.c (callback): Fix formats.
+
+	* src/plugin-loader-module.h (ModulePluginFunctionInfo): Constify.
+	* src/plugin-loader-module.c (gnumeric_plugin_loader_module_func_get_full_function_info): Constify.
+	* src/func.c (function_def_get_full_info_if_needed): Constify.
+
 2002-02-20  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.h : some house cleaning.

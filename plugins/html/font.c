@@ -26,7 +26,7 @@
 #include "style.h"
 
 static int
-font_match (MStyle *mstyle, char **names)
+font_match (MStyle *mstyle, const char **names)
 {
 	int i;
 	const char *font_name;
@@ -50,7 +50,7 @@ font_match (MStyle *mstyle, char **names)
 int
 font_is_monospaced (MStyle *mstyle)
 {
-	char *names[] = { "Courier", "fixed", NULL };
+	const char *names[] = { "Courier", "fixed", NULL };
 
 	return font_match (mstyle, names);
 }
@@ -60,7 +60,7 @@ font_is_monospaced (MStyle *mstyle)
 int
 font_is_helvetica (MStyle *mstyle)
 {
-	char *names [] = { "Helvetica", NULL };
+	const char *names [] = { "Helvetica", NULL };
 
 	return font_match (mstyle, names);
 }
@@ -70,9 +70,9 @@ font_is_helvetica (MStyle *mstyle)
 int
 font_is_sansserif (MStyle *mstyle)
 {
-	char *names [] = { "helvetica", "avantgarde",
-			   "neep", "blippo", "capri",
-			   "clean", "fixed", NULL };
+	const char *names [] = { "helvetica", "avantgarde",
+				 "neep", "blippo", "capri",
+				 "clean", "fixed", NULL };
 
 	return font_match (mstyle, names);
 }
