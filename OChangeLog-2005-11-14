@@ -1,3 +1,9 @@
+2003-07-17  Morten Welinder  <terra@gnome.org>
+
+	* src/item-bar.c (item_bar_calc_size): Calculate the width based
+	on SHEET_MAX_ROWS.  (This makes it slightly narrower than it used to,
+	probably a good thing.)
+
 2003-07-16  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c : include gog-data-set.h
@@ -14,7 +20,7 @@
 	application.  (So it can be displayed fast.)
 
 	* src/application.c (gnumeric_application_setup_pixbufs): Add line
-	and background patterns.
+	and background patterns.  Ditto for splash and borders.
 
 	* src/format.c (style_format_equal): Just compare pointers.
 

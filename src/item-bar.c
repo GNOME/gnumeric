@@ -139,7 +139,12 @@ item_bar_calc_size (ItemBar *ib)
 			      pango_font_metrics_get_descent (metrics));
 
 	/* 5 pixels left and right plus the width of the widest string I can think of */
-	ib->cell_width = 5 + 5 + gnm_measure_string (context, desc, "188888");
+	{
+		const char eights[10 + 1] = "8888888888";
+		int digits = 1 + (int) floorgnum (log10gnum (SHEET_MAX_ROWS + 0.5));
+		ib->cell_width = 5 + 5 + gnm_measure_string (context, desc,
+							     eights + (10 - digits));
+	}
 
 	pango_font_metrics_unref (metrics);
 	pango_font_description_free (desc);
