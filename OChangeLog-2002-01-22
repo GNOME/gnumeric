@@ -1,5 +1,13 @@
 2000-09-28  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Bump gnome-print req to 0.24
+	* README : Ditto.
+	* gnumeric.spec.in : Ditto.
+
+	* configure.in : Fix typo with double 'share'
+
+2000-09-28  Jody Goldberg <jgoldberg@home.com>
+
 	* idl/gnumeric-graphs.idl : Resume using studlyCaps.
 	* src/graph-series.c : Ditto.
 	* src/dialogs/dialog-graph-guru.c : Ditto.
