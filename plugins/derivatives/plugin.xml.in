@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="function_group" id="derivatives">
-			<_category>Financial</_category>
+			<_category>Finance</_category>
 			<functions>
 				<function name="cum_biv_norm_dist"/>
 				<function name="opt_bs"/>

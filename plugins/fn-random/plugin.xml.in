@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="function_group" id="random">
-			<_category>Random</_category>
+			<_category>Random Numbers</_category>
 			<functions>
 				<function name="rand"/>
 				<function name="randbernoulli"/>

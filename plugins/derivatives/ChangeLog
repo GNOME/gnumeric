@@ -1,3 +1,7 @@
+2003-06-26  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	*plugin.xml.in: change to Finance category
+
 2003-06-11  Jody Goldberg <jody@gnome.org>
 
 	* options.c (cum_biv_norm_dist) : missing space in string.
