@@ -379,11 +379,10 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotBubble");
 }
 
-extern gpointer gog_bubble_plot_pref (GogBubblePlot *pie, GnmCmdContext *cc);
+extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GnmCmdContext *cc);
 static gpointer
-gog_bubble_plot_editor (GogObject *item,
-		    G_GNUC_UNUSED GogDataAllocator *dalloc,
-		    GnmCmdContext *cc)
+gog_bubble_plot_editor (GogObject *item, G_GNUC_UNUSED GogDataAllocator *dalloc,
+			GnmCmdContext *cc)
 {
 	return gog_bubble_plot_pref (GOG_BUBBLE_PLOT (item), cc);
 }
