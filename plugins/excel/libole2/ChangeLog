@@ -1,4 +1,9 @@
-1999-09-25    <arturo@localhost.localdomain>
+1999-09-26    <arturo@directmail.org>
+
+	* test/, test/test-ole.c, test/Makefile.am: Added.
+	  Makefile.am: Added test.
+
+1999-09-25    <arturo@directmail.org>
 
 	* gnome-stream-ole.c, gnome-stream-ole.h, gnome-storage-ole.h,
 	gnome-storage-ole.c: Killed again.
