@@ -1210,6 +1210,9 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	gnm_set_untranslated_bools ();
 
 	gsf_xml_out_start_element (state.output, GMR "ClipboardRange");
+	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gmr",
+		"http://www.gnumeric.org/v10.dtd");
+
 	gsf_xml_out_add_int (state.output, "Cols", cr->cols);
 	gsf_xml_out_add_int (state.output, "Rows", cr->rows);
 	gsf_xml_out_add_int (state.output, "BaseCol", cr->base.col);

@@ -1,5 +1,9 @@
 2005-04-04  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-sax-write.c (gnm_cellregion_to_xml) : add a namespace decl
+
+2005-04-04  Jody Goldberg <jody@gnome.org>
+
 	* src/xml-sax-read.c : moved into the core from a plugin
 	* src/xml-sax-write.c : ditto.
 	(gnm_cellregion_to_xml) : new.
