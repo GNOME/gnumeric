@@ -1,7 +1,7 @@
 2004-06-01  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (cb_rotate_canvas_realize): Unref the
-	layout.
+	layout.  Unref the attribute list.  Free the bitmap.
 
 2004-05-24  Jody Goldberg <jody@gnome.org>
 

@@ -674,11 +674,12 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 		pango_context_get_font_description (gtk_widget_get_pango_context (GTK_WIDGET (canvas))));
 	pango_layout_set_text (layout, _("Text"), -1);
  	attrs = pango_attr_list_new ();
-	pango_layout_set_attributes (layout, attrs);
 	attr = pango_attr_scale_new (1.3);
 	attr->start_index = 0;
 	attr->end_index = -1;
 	pango_attr_list_insert (attrs, attr);
+	pango_layout_set_attributes (layout, attrs);
+	pango_attr_list_unref (attrs);
 
 	pango_layout_get_pixel_size (layout, &w, &h);
 
@@ -711,6 +712,7 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 			*pd++ = *ps++;
 		}
 	}
+	g_free (ft_bitmap.buffer);
 
 	gnome_canvas_item_set (state->align.text,
 		"pixbuf",	pixbuf,
