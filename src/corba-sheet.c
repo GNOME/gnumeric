@@ -23,6 +23,7 @@
 #include "commands.h"
 #include "command-context-corba.h"
 #include "cell.h"
+#include "sheet.h"
 #include "colrow.h"
 #include "value.h"
 #include "format.h"
