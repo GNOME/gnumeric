@@ -1,3 +1,32 @@
+2001-10-22  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/style-condition.h :
+	Re-Order validation Enum and define new StyleCondition
+	types.
+
+	* src/style-condition.c (style_condition_expr_dep_eval) :
+	Renamed from style_condition_dep_eval.
+	(style_condition_expr_set_expr) :
+	Renamed from style_condition_set_expr.
+	(style_condition_expr_dep_debug_name) :
+	Renamed from style_condition_dep_debug_name.
+	(style_condition_new_expr): Renamed from
+	style_condition_new.
+	(style_condition_new_constraint): New, creates a
+	stylecondition of type constraint.
+	(style_condition_new_flags): New, creates a stylecondition
+	of type flags.
+	(style_condition_unref): Deal with changes in stylecondition
+	structure.
+	(style_condition_chain): Add operator parameter.
+	(style_condition_expr_eval): Split out from style_condition_eval.
+	(style_condition_constraint_eval): Idem.
+	(style_condition_flags_eval): New, handles allow blank.
+	(style_condition_dump): New, dumps a style condition chain to the
+	screen. For debugging purposes.
+	(style_condition_eval): Handle the new chain operators and use
+	the *_eval functions.
+
 2001-10-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr-name.c (name_refer_circular) : fix.
