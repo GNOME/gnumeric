@@ -97,11 +97,11 @@ build-stamp:
 	dh_testdir
 
 	cd build && $(MAKE)
-	cd doc/C && yelp-pregenerate gnumeric.xml
-	# Touch up the pregenerated HTML so that yelp will know how to
-	# follow references and how to find images.
-	cd doc/C && perl -spi -e 's|"ghelp:gnumeric.xml|"ghelp:gnumeric|g;' \
-			-e 's|<img src="file://./|<img src="|g' gnumeric.html
+#	cd doc/C && yelp-pregenerate gnumeric.xml
+#	# Touch up the pregenerated HTML so that yelp will know how to
+#	# follow references and how to find images.
+#	cd doc/C && perl -spi -e 's|"ghelp:gnumeric.xml|"ghelp:gnumeric|g;' \
+#			-e 's|<img src="file://./|<img src="|g' gnumeric.html
 
 	touch build-stamp
 
@@ -155,10 +155,11 @@ install: build
 		localstatedir=`pwd`/../debian/tmp/var/lib \
 		libexecdir=`pwd`/../debian/tmp/usr/bin
 
-	# Copy the prerendered manual
-	cp doc/C/gnumeric.html `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/
-	# Ensure that the prerendered manual won't be considered out of date
-	sleep 1 && touch `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/gnumeric.html
+#	# Copy the prerendered manual
+#	mkdir -p `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/
+#	cp doc/C/gnumeric.html `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/
+#	# Ensure that the prerendered manual won't be considered out of date
+#	sleep 1 && touch `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/gnumeric.html
 
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
@@ -182,6 +183,9 @@ install: build
 
 	dh_install --sourcedir=debian/tmp --list-missing
 
+	# Name the binary just "gnumeric"
+	cd debian/gnumeric/usr/bin && mv gnumeric-* gnumeric
+
 	# gnumeric and gnumeric-common are always installed together; they
 	# can share a doc dir.
 	# (Note that's not the case with gnumeric-doc as it can be installed
@@ -197,7 +201,7 @@ install: build
 	# Link to fix the Help buttons in dialogs
 	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric usr/share/gnumeric/$(upstreamversion)/gnome/help/gnumeric
 
-	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric/C/gnumeric.html usr/share/doc/gnumeric-doc/gnumeric.html
+#	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric/C/gnumeric.html usr/share/doc/gnumeric-doc/gnumeric.html
 
 	# Remove files from the main package that belong to a more
 	# specialist package
