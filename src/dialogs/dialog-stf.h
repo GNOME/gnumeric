@@ -27,6 +27,7 @@ typedef struct {
 	GtkRadioButton *main_fixed;
 	GtkSpinButton  *main_startrow;
 	GtkSpinButton  *main_stoprow;
+	GtkOptionMenu  *main_trim;
 	GtkLabel       *main_lines;
 	GtkFrame       *main_frame;
 	GnomeCanvas    *main_canvas;
@@ -131,6 +132,8 @@ typedef struct {
 
 	gboolean       canceled;   /* Indicates weather the user pressed cancel button */
 	StfParseType_t parsetype;  /* Indicates the parse type the user choose */
+
+	StfTrimType_t  trim;       /* Do we want to trim and if so -> how? */
 } DruidPageData_t;
 
 typedef struct {

@@ -6,10 +6,18 @@
 
 gchar *s = N_("Gnumeric : Importing structured text");
 gchar *s = N_("Data type and number of lines");
-gchar *s = N_("Select the structure of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. You should also select what part of the data you want to import by adjusting the from and to line.");
-gchar *s = N_("Original data type");
+gchar *s = N_("Select the structure of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. In addition to that you can specify wether you want to trim spaces and how, if you are not sure just leave this at the default setting. You should also select what part of the data you want to import by adjusting the from and to line.");
+gchar *s = N_("Formatting options");
+gchar *s = N_("Trim :");
+gchar *s = N_("Original data type :");
+gchar *s = N_("Always (Both sides)\n"
+              "Never\n"
+              "On left side only\n"
+              "On right side only\n"
+              "");
 gchar *s = N_("_Separated");
 gchar *s = N_("Fixed wi_dth");
+gchar *s = N_("Lines to import");
 gchar *s = N_("Fr_om line :");
 gchar *s = N_("_To line : ");
 gchar *s = N_("Number of lines to import");

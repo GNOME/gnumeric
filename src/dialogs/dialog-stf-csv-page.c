@@ -165,11 +165,16 @@ stf_dialog_csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageD
 {
 	CsvInfo_t *info = pagedata->csv_info;
 
-	if (pagedata->cur != info->csv_run_cacheoptions->data || pagedata->importlines != info->csv_run_parseoptions->parselines) {
+	if (pagedata->cur != info->csv_run_cacheoptions->data ||
+	    pagedata->importlines != info->csv_run_parseoptions->parselines)
+	{
 	
 		stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, pagedata->importlines);
 		stf_cache_options_set_data  (info->csv_run_cacheoptions, info->csv_run_parseoptions, pagedata->cur);
 	}
+
+	stf_parse_options_set_trim_spaces (info->csv_run_parseoptions, pagedata->trim);
+		
 	stf_cache_options_invalidate (info->csv_run_cacheoptions);
 
 	pagedata->colcount = stf_parse_get_colcount (info->csv_run_parseoptions, pagedata->cur);

@@ -17,7 +17,6 @@ void       gnumeric_editable_enters (GtkWindow *window,
 				     GtkEditable *editable);
 void       gnumeric_combo_enters (GtkWindow *window,
 				  GtkCombo *combo);
-
 void
 gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
 				       const char *tooltip_text,
@@ -50,6 +49,9 @@ void gnumeric_clist_moveto (GtkCList *clist, gint row);
 
 /* Scroll the viewing area of the list to the first selected row */
 void gnumeric_clist_make_selection_visible (GtkCList *clist);
+
+/* Get the selected index of an option menu */
+int  gnumeric_option_menu_get_selected_index (GtkOptionMenu *optionmenu);
 
 /*
  * Pseudo-tool-tip support code.

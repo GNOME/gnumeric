@@ -64,16 +64,17 @@ stf_parse_options_new (void)
 {
 	StfParseOptions_t* parseoptions = g_new0 (StfParseOptions_t, 1);
 
-	parseoptions->parsetype  = PARSE_TYPE_NOTSET;
-	parseoptions->terminator = '\n';
-	parseoptions->parselines = -1;
+	parseoptions->parsetype   = PARSE_TYPE_NOTSET;
+	parseoptions->terminator  = '\n';
+	parseoptions->parselines  = -1;
+	parseoptions->trim_spaces = (TRIM_TYPE_RIGHT | TRIM_TYPE_LEFT);
 
-	parseoptions->splitpositions = g_array_new (FALSE, FALSE, sizeof (int));
+	parseoptions->splitpositions    = g_array_new (FALSE, FALSE, sizeof (int));
 	parseoptions->oldsplitpositions = NULL;
-	parseoptions->modificationmode = FALSE;
+	parseoptions->modificationmode  = FALSE;
 
 	parseoptions->indicator_2x_is_single = TRUE;
-	parseoptions->duplicates = FALSE;
+	parseoptions->duplicates             = FALSE;
 
 	return parseoptions;
 }
@@ -161,6 +162,25 @@ stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int lines
 		parseoptions->modified = TRUE;
 
 	parseoptions->parselines = lines;
+}
+
+/**
+ * stf_parse_options_set_trim_spaces:
+ * @parseoptions: a parse options struct
+ * @trim_spaces: wether you want to trim spaces or not
+ * 
+ * If enabled will trim spaces in every parsed field on left and right
+ * sides.
+ **/
+void
+stf_parse_options_set_trim_spaces (StfParseOptions_t *parseoptions, StfTrimType_t trim_spaces)
+{
+	g_return_if_fail (parseoptions != NULL);
+
+	if (parseoptions->trim_spaces != trim_spaces)
+		parseoptions->trim_spaces = TRUE;
+
+	parseoptions->trim_spaces = trim_spaces;
 }
 
 /**
@@ -701,6 +721,15 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	res = g_string_new ("");
 
+	/*
+	 * Skip initial spaces
+	 */
+	if (parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
+
+		while (*cur && *cur != parseoptions->terminator && *cur == ' ')
+			cur++;
+	}
+	
 	while (*cur && *cur != parseoptions->terminator) {
 
 		if (!sawstringterm) {
@@ -739,6 +768,20 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		cur++;
 	}
 
+	/*
+	 * Skip trailing spaces
+	 */
+	if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
+		int cnt;
+		
+		for (cnt = res->len - 1; cnt >= 0; cnt--) {
+	
+			if (res->str[cnt] != ' ')
+				break;
+		}
+		g_string_truncate (res, cnt + 1);
+	}
+	
 	/* Only skip over cell terminators, not line terminators or terminating nulls*/
 	if (*cur != parseoptions->terminator && *cur)
 		cur++;
@@ -813,7 +856,8 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GString *res;
 	const char* cur;
-	int splitval, len = 0;
+	int splitval;
+	int len = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
@@ -826,7 +870,17 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	else
 		splitval = -1;
 
+	/*
+	 * Skip leading spaces
+	 */
+	if (parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
+
+		while (*cur && *cur != parseoptions->terminator && *cur == ' ')
+			cur++;
+	}
+	
 	while (*cur && *cur != parseoptions->terminator  && splitval != src->linepos) {
+
 		g_string_append_c (res, *cur);
 
 		src->linepos++;
@@ -834,6 +888,23 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		len++;
 	}
 
+	/*
+	 * Remove trailing spaces from the string
+	 */
+	if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
+		int cnt;
+
+		for (cnt = res->len - 1; cnt >= 0; cnt--) {
+			
+			if (res->str[cnt] != ' ') {
+
+				break;
+			}
+		}
+		
+		g_string_truncate (res, cnt + 1);
+	}
+	
 	src->position = cur;
 
 	if (len != 0) {
@@ -1173,11 +1244,11 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, const char *da
 				longest = len;
 
 			len = 0;
+			row++;
 		}
 
 		iterator++;
 		len++;
-		row++;
 
 		if (parseoptions->parselines != -1)
 			if (row > parseoptions->parselines)

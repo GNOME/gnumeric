@@ -1,3 +1,58 @@
+2000-05-27  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/stf-parse.c: 
+	(stf_parse_options_set_trim_spaces): New function.
+	(stf_parse_csv_cell): Modified so it can trim spaces in 
+	several ways
+	(stf_parse_fixed_cell): Ditto.
+	(stf_parse_get_longest_row_width) : Fixed small bug which
+	caused incorrect width to be returned.
+
+	* src/dialogs/dialog-stf.glade:
+	Added trim spaces option and did some general polishing.
+	
+	* src/dialogs/dialog-stf.h:
+	Added new member to DruidPageData_t which indicates weather
+	the user wants to trim spaces and in which way.
+	
+	* src/dialogs/dialog-stf-main-page.c:
+	(stf_dialog_main_page_init): Modified so it loads the trim optionmenu.
+	(main_page_trim_menu_deactivate): New.
+
+	* src/dialogs/dialog-stf-csv-page.c:
+	(stf_dialog_csv_page_prepare): Now sets the trim member of the parse
+	options struct.
+
+	* src/dialogs/dialog-stf-fixed-page.c:
+	(stf_dialog_fixed_page_prepare): Now sets the trim member of the 
+	parse options struct.
+	(stf_dialog_fixed_page_prepare): Did not honor the from/to line 
+	settings.
+	(fixed_page_remove_clicked): Added gnumeric_clist_moveto to make 
+	selection visible.
+	(fixed_page_add_clicked): Ditto.
+
+	* src/dialogs/dialog-stf-format-page.c:
+	(format_page_canvas_button_press_event): Modified to use
+	gnumeric_clist_moveto
+	(format_page_collist_select_row): Ditto.
+	(format_page_format_changed): Ditto.
+	(stf_dialog_format_page_prepare): Ditto.
+	
+	* src/gnumeric-util.c, src/gnumeric-util.h:
+	(gnumeric_option_menu_get_selected_index): New function, Returns
+	the selected index of a GtkOptionMenu. (Originally from
+	dialog-stf-export-format-page.c)	
+
+	* src/dialogs/dialog-stf-export-format-page.c:
+	(stf_export_dialog_option_menu_index): Removed.
+	(sheet_page_separator_menu_deactivate): Modified to use the new
+	gnumeric_option_menu_get_selected_index.
+	(stf_export_dialog_format_page_result): Ditto.
+
+	* doc/stf-parser.txt:
+	Update documentation.
+	
 2000-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (clipboard_paste_region) : Fix typo, and thinko.

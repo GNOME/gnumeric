@@ -18,45 +18,6 @@
  * MISC UTILITY FUNCTIONS
  *************************************************************************************************/
 
-/**
- * stf_export_dialog_option_menu_index:
- * @optionmenu: a gtkoptionmenu
- * 
- * Tries to find out (in an ugly way) the selected
- * item in @optionsmenu
- * 
- * Return value: the selected index
- **/
-static int
-stf_export_dialog_option_menu_index (GtkOptionMenu *optionmenu)
-{
-	GtkMenu *menu;
-	GtkMenuItem *selected;
-	GList *iterator;
-	int index = -1;
-	int i = 0;
-
-	g_return_val_if_fail (optionmenu != NULL, -1);
-	
-	menu = (GtkMenu *) gtk_option_menu_get_menu (optionmenu);
-	iterator = GTK_MENU_SHELL (menu)->children;
-	selected = (GtkMenuItem *) gtk_menu_get_active (menu);
-	
-	while (iterator) {
-		
-		if (iterator->data == selected) {
-		
-			index = i;
-			break;
-		}
-		
-		iterator = iterator->next;
-		i++;
-	}
-
-	return index;
-}
-
 /*************************************************************************************************
  * SIGNAL HANDLERS
  *************************************************************************************************/
@@ -71,7 +32,7 @@ stf_export_dialog_option_menu_index (GtkOptionMenu *optionmenu)
 static void
 sheet_page_separator_menu_deactivate (GtkMenuShell *shell, StfE_FormatPageData_t *data)
 {
-	if (stf_export_dialog_option_menu_index (data->format_separator) == CUSTOM_INDEX) {
+	if (gnumeric_option_menu_get_selected_index (data->format_separator) == CUSTOM_INDEX) {
 	
 		gtk_widget_set_sensitive (GTK_WIDGET (data->format_custom), TRUE);
 		gtk_widget_grab_focus      (GTK_WIDGET (data->format_custom));
@@ -144,7 +105,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (export_options != NULL);
 	
-	switch (stf_export_dialog_option_menu_index (data->format_termination)) {
+	switch (gnumeric_option_menu_get_selected_index (data->format_termination)) {
 	case 0 : terminator = TERMINATOR_TYPE_LINEFEED; break;
 	case 1 : terminator = TERMINATOR_TYPE_RETURN; break;
 	case 2 : terminator = TERMINATOR_TYPE_RETURN_LINEFEED; break;
@@ -155,7 +116,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	
 	stf_export_options_set_terminator_type (export_options, terminator);
 
-	switch (stf_export_dialog_option_menu_index (data->format_quote)) {
+	switch (gnumeric_option_menu_get_selected_index (data->format_quote)) {
 	case 0 : quotingmode = QUOTING_MODE_AUTO; break;
 	case 1 : quotingmode = QUOTING_MODE_ALWAYS; break;
 	case 2 : quotingmode = QUOTING_MODE_NEVER; break;
@@ -171,7 +132,7 @@ stf_export_dialog_format_page_result (StfE_FormatPageData_t *data, StfExportOpti
 	g_free (text);
 
 	separator = '\0';
-	switch (stf_export_dialog_option_menu_index (data->format_separator)) {
+	switch (gnumeric_option_menu_get_selected_index (data->format_separator)) {
 	case 0 : separator = ' '; break;
 	case 1 : separator = '\t'; break;
 	case 2 : separator = '!'; break;

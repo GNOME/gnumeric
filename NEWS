@@ -8,6 +8,9 @@ Morten:
 	  of throwing strings around.
 	* Improved the optimization of styles.
 
+Almer:
+	* Stf importer bug fixes and enhancements.
+
 Translations:
 	* Updated: de (Karl), ja (Oka), no (Kjartan), and more.
 	* Updates not new, but not mentioned the last time: it (Leandro)

@@ -25,12 +25,19 @@ typedef enum {
 	PARSE_TYPE_CSV       = 1 << 1,
 	PARSE_TYPE_FIXED     = 1 << 2
 } StfParseType_t;
-	
+
+typedef enum {
+	TRIM_TYPE_NEVER      = 1 << 0,
+	TRIM_TYPE_LEFT       = 1 << 1,
+	TRIM_TYPE_RIGHT      = 1 << 2
+} StfTrimType_t;
+
 typedef struct {
 	StfParseType_t       parsetype;             /* The type of import to do */
 	char                 terminator;            /* Line terminator */
 	int                  parselines;            /* Number of lines to parse */
-	
+	StfTrimType_t        trim_spaces;           /* Trim spaces in fields ? */
+		
 	/* CSV related */
 	StfTextSeparator_t   separators;            /* Text separator(s) */
 	char                 customfieldseparator;  /* Custom text separator */
@@ -71,6 +78,7 @@ void                stf_parse_options_free                            (StfParseO
 void                stf_parse_options_set_type                        (StfParseOptions_t *parseoptions, StfParseType_t parsetype);
 void                stf_parse_options_set_line_terminator             (StfParseOptions_t *parseoptions, char terminator);
 void                stf_parse_options_set_lines_to_parse              (StfParseOptions_t *parseoptions, int lines);
+void                stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parseoptions, StfTrimType_t trim_spaces);
 
 void                stf_parse_options_before_modification             (StfParseOptions_t *parseoptions);
 gboolean            stf_parse_options_after_modification              (StfParseOptions_t *parseoptions);

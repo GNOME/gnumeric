@@ -136,6 +136,26 @@ main_page_stoprow_changed (GtkSpinButton* button, DruidPageData_t *data)
 	main_page_set_scroll_region_and_prevent_center (data);
 }
 
+/**
+ * main_page_trim_toggled:
+ * @button: the toggle button the event handler is attached to
+ * @data: mother struct
+ * 
+ **/
+static void
+main_page_trim_menu_deactivate (GtkMenuShell *shell, DruidPageData_t *data)
+{
+	MainInfo_t *info = data->main_info;
+
+	switch (gnumeric_option_menu_get_selected_index (info->main_trim)) {
+	case 0 : data->trim = (TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT); break;
+	case 1 : data->trim = TRIM_TYPE_NEVER; break;
+	case 2 : data->trim = TRIM_TYPE_LEFT; break;
+	case 3 : data->trim = TRIM_TYPE_RIGHT; break;
+	default : g_warning ("Unknown trim type selected");
+	}
+}
+
 /*************************************************************************************************
  * MAIN EXPORTED FUNCTIONS
  *************************************************************************************************/
@@ -155,6 +175,7 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	MainInfo_t *info = pagedata->main_info;
 	char *label;
+	GtkMenu *menu;
 
 	/* Create/get object and fill information struct */
 
@@ -162,6 +183,7 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->main_fixed     = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_fixed"));
 	info->main_startrow  = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_startrow"));
 	info->main_stoprow   = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_stoprow"));
+	info->main_trim      = GTK_OPTION_MENU  (glade_xml_get_widget (gui, "main_trim"));
 	info->main_lines     = GTK_LABEL        (glade_xml_get_widget (gui, "main_lines"));
 	info->main_frame     = GTK_FRAME        (glade_xml_get_widget (gui, "main_frame"));
 	info->main_canvas    = GNOME_CANVAS     (glade_xml_get_widget (gui, "main_canvas"));
@@ -186,17 +208,13 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 									NULL));
 
 	/* Set properties */
-
+	
 	main_page_set_spin_button_adjustment (info->main_startrow, 1, pagedata->lines);
 	main_page_set_spin_button_adjustment (info->main_stoprow, 1, pagedata->lines);
 	gtk_spin_button_set_value (info->main_stoprow, (float) pagedata->lines);
 	
 	main_page_set_scroll_region_and_prevent_center (pagedata);
 		
-	label = g_strdup_printf (_("%d lines to import"), pagedata->lines);
-	gtk_label_set_text (info->main_lines, label);
-	g_free (label);
-
         label = g_strdup_printf (_("Data (from %s)"), g_basename (pagedata->filename));
 	gtk_frame_set_label (info->main_frame, label);
 	g_free (label);
@@ -209,19 +227,19 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 
 	gtk_signal_connect (GTK_OBJECT (info->main_stoprow), "changed",
 			    GTK_SIGNAL_FUNC (main_page_stoprow_changed), 
-			    pagedata); 
+			    pagedata);
+
+	menu = (GtkMenu *) gtk_option_menu_get_menu (info->main_trim);
+	gtk_signal_connect (GTK_OBJECT (menu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (main_page_trim_menu_deactivate),
+			    pagedata);
+			    
+	/* Emit signals */
+	
+	gtk_signal_emit_by_name (GTK_OBJECT (info->main_startrow), "changed",
+				 info->main_startrow);
+
+	gtk_signal_emit_by_name (GTK_OBJECT (menu), "deactivate",
+				 menu);	
 }
- 
-
-
-
-
-
-
-
-
-
-
-
-
-

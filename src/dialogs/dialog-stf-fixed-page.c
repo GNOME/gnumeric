@@ -162,6 +162,8 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 					colend = max;
 
 				gtk_clist_select_row (info->fixed_collist, info->fixed_run_column, 0);
+				gnumeric_clist_moveto (info->fixed_collist, info->fixed_run_column);
+				
 				gtk_spin_button_set_value (info->fixed_colend, colend);
 
 				fixed_page_update_preview (data);
@@ -206,7 +208,7 @@ fixed_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *event
 		if (column != -1) {
 
 			info->fixed_run_xorigin   = worldx;
-			info->fixed_run_column    = column;	
+			info->fixed_run_column    = column;
 			info->fixed_run_mousedown = TRUE;
 		}
 	} break;
@@ -215,7 +217,8 @@ fixed_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *event
 		if (column != -1) {
 
 			gtk_clist_select_row (info->fixed_collist, column, 0);
-
+			gnumeric_clist_moveto (info->fixed_collist, column);
+			
 			gtk_signal_emit_by_name (GTK_OBJECT (info->fixed_remove),
 						 "clicked",
 						 data);
@@ -379,6 +382,7 @@ fixed_page_add_clicked (GtkButton *button, DruidPageData_t *data)
 	g_free (tset[1]);
 
 	gtk_clist_select_row (info->fixed_collist, info->fixed_collist->rows - 2, 0);
+	gnumeric_clist_moveto (info->fixed_collist, info->fixed_collist->rows - 2);
 	
 	fixed_page_update_preview (data);
 }
@@ -411,6 +415,7 @@ fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
 	}
 	
 	gtk_clist_select_row (info->fixed_collist, info->fixed_run_index, 0);
+	gnumeric_clist_moveto (info->fixed_collist, info->fixed_run_index);
 
 	fixed_page_update_preview (data);
 }
@@ -434,11 +439,16 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 {
 	FixedInfo_t *info = pagedata->fixed_info;
 	GtkAdjustment *spinadjust;
+
+	if (pagedata->cur != info->fixed_run_cacheoptions->data ||
+	    pagedata->importlines != info->fixed_run_parseoptions->parselines)
+	{
 	
-	if (pagedata->cur != info->fixed_run_cacheoptions->data) {
-	
+		stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, pagedata->importlines);
 		stf_cache_options_set_data (info->fixed_run_cacheoptions, info->fixed_run_parseoptions, pagedata->cur);
 	}
+
+	stf_parse_options_set_trim_spaces (info->fixed_run_parseoptions, pagedata->trim);
 	
 	stf_cache_options_invalidate (info->fixed_run_cacheoptions);
 
@@ -567,7 +577,3 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    GTK_SIGNAL_FUNC (fixed_page_scroll_value_changed),
 			    pagedata);
 }
-
-
-
-

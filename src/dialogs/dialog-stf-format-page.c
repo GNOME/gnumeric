@@ -91,11 +91,14 @@ format_page_canvas_button_press_event (GnomeCanvas *canvas, GdkEventButton *even
 {
 	FormatInfo_t *info = data->format_info;
 	double worldx, worldy;
+	int column;
 
 	gnome_canvas_window_to_world (canvas, event->x, event->y, &worldx, &worldy);
-	
-	gtk_clist_select_row (info->format_collist, stf_preview_get_column_at_x (info->format_run_renderdata, worldx), 0);
-	
+
+	column = stf_preview_get_column_at_x (info->format_run_renderdata, worldx);
+	gtk_clist_select_row (info->format_collist, column, 0);
+	gnumeric_clist_moveto (info->format_collist, column);
+		
 	return TRUE;
 }
  
@@ -121,8 +124,7 @@ format_page_collist_select_row (GtkCList *clist, int row, int column, GdkEventBu
 
 	stf_preview_set_activecolumn (info->format_run_renderdata, row);
 
-	if (gtk_clist_row_is_visible (info->format_collist, row) == GTK_VISIBILITY_NONE)
-		gtk_clist_moveto (info->format_collist, row, 0, 0.5, 0.5);
+	gnumeric_clist_moveto (info->format_collist, row);
 		
 	if (info->format_run_manual_change) {
 		info->format_run_manual_change = FALSE;
@@ -216,10 +218,7 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 		
 		info->format_run_manual_change = TRUE;
 		gtk_clist_select_row (info->format_sublist, found, 0);
-		
-		if (gtk_clist_row_is_visible (info->format_sublist, found) == GTK_VISIBILITY_NONE)
-			gtk_clist_moveto (info->format_sublist, found, 0, 0.5, 0.5);
-			
+		gnumeric_clist_moveto (info->format_sublist, found);
 	}
 		
 	format_page_update_preview (data);
@@ -282,6 +281,7 @@ stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	
 	info->format_run_manual_change = TRUE;
 	gtk_clist_select_row (info->format_collist, 0, 0);
+	gnumeric_clist_moveto (info->format_collist, 0);
 	
 	info->format_run_index = 0;
 	

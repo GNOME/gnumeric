@@ -5,15 +5,16 @@ Almer. S. Tigelaar.
 
 1. Creation/destruction
 2. Row separators
-3. Modification determination
-4. CSV Parsing
-	4.1 General
-	4.2 What is the string indicator?
-	4.3 How are adjacent string indicators handled?
-	4.4 What is the custom separator?
-	4.5 What does "duplicates" mean?
-5. Fixed width parsing
-6. Cached parsing
+3. Trimming
+4. Modification determination
+5. CSV Parsing
+	5.1 General
+	5.2 What is the string indicator?
+	5.3 How are adjacent string indicators handled?
+	5.4 What is the custom separator?
+	5.5 What does "duplicates" mean?
+6. Fixed width parsing
+7. Cached parsing
 
 1. Creation/Destruction
 =======================
@@ -45,7 +46,27 @@ Almer. S. Tigelaar.
 
 		stf_parse_options_set_line_terminator (parseoptions, '\r');
 
-3. Modification determination
+3. Trimming
+===========
+	
+	An common problem is to get excess spaces on left and/or right sides
+	of parsed text, e.g :
+	
+		" Example "
+	
+	This is in most cases undesirable. Therefore the stf parser removes
+	these spaces on _both_ sides by default :
+
+		"Example"
+
+	You can turn this off or change this with :
+
+		stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
+		stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_LEFT);
+		stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_RIGHT);
+		stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+
+4. Modification determination
 =============================
 
 	If you want to know, between several functions calls, if the actual contents of
@@ -76,7 +97,7 @@ Almer. S. Tigelaar.
 	and re-added them the contents (5, 7 and 9) remain the same, so the parseoptions have not been
 	modified.
 	
-4.1 CSV Parsing -> General
+5.1 CSV Parsing -> General
 ==========================
 
 	CSV parsing is parsing data like :
@@ -105,7 +126,7 @@ Almer. S. Tigelaar.
 
 		mylist = stf_parse_general (parseoptions);
 
-4.2 CSV Parsing -> What is the string indicator?
+5.2 CSV Parsing -> What is the string indicator?
 ================================================
 
 	If you have data where the column separator(s) also appear within
@@ -128,7 +149,7 @@ Almer. S. Tigelaar.
 	some
 	example;data
 
-4.3 CSV Parsing -> How are adjacent string indicators handled?
+5.3 CSV Parsing -> How are adjacent string indicators handled?
 ============================================================
 
 	When parsing fields which are bounded by string indicators the convention
@@ -139,8 +160,12 @@ Almer. S. Tigelaar.
 		a"b
 	    or
 		ab
+	
+	To turn this off (it is turned on by default) you can use the following function :
 
-4.4 CSV Parsing -> What is the custom separator?
+		stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions, FALSE);
+
+5.4 CSV Parsing -> What is the custom separator?
 ================================================
 
 	Even though there are some default separators (namely tab, colon, comma and space)
@@ -154,7 +179,7 @@ Almer. S. Tigelaar.
 	is also set in addition to the tab and colon. In this example the custom field separator is set to
 	the "x" character.
 
-4.5 CSV Parsing -> What does duplicates mean?
+5.5 CSV Parsing -> What does duplicates mean?
 =============================================
 
 	This means that several column separators are seen as one.
@@ -180,7 +205,7 @@ Almer. S. Tigelaar.
 
 	So the two colons between "some" and "data" are seen as one.
 
-5. Fixed width parsing
+6. Fixed width parsing
 ======================
 
 	Fixed width means that each column consists of a fixed number of characters.
@@ -212,7 +237,7 @@ Almer. S. Tigelaar.
 
 		mylist = stf_parse_general (parseoptions);
 
-6. Cached parsing	
+7. Cached parsing	
 =================
 
 	If you don't want to parse ALL the data you have in one swoop, you 
