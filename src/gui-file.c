@@ -10,8 +10,6 @@
 #undef GTK_DISABLE_DEPRECATED
 #warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu and GtkCombo"
 
-#define USE_FILECHOOSER
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
@@ -34,10 +32,8 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcombo.h>
-#ifdef USE_FILECHOOSER
 #include <gtk/gtkstock.h>
 #include <gtk/gtkfilechooserdialog.h>
-#endif
 #include <glade/glade.h>
 #include <unistd.h>
 #include <errno.h>
@@ -144,8 +140,8 @@ file_format_changed_cb (GtkOptionMenu *omenu_format,
 		gtk_option_menu_get_history (omenu_format));
 	gboolean is_sensitive = fo != NULL && gnm_file_opener_is_encoding_dependent (fo);
 
-	charmap_selector_set_sensitive (data->charmap_selector,  is_sensitive);
-	gtk_widget_set_sensitive (data->charmap_label,  is_sensitive);
+	charmap_selector_set_sensitive (data->charmap_selector, is_sensitive);
+	gtk_widget_set_sensitive (data->charmap_label, is_sensitive);
 }
 
 
@@ -175,44 +171,39 @@ void
 gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 {
 	GList *openers;
-#ifdef USE_FILECHOOSER
 	GtkFileChooser *fsel;
-	gchar *file_name;
-#else
-	GtkFileSelection *fsel;
-	gchar const *file_name;
-#endif
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
 	GtkWidget *charmap_selector;
-	GtkWidget *box, *label;
-	GnmFileOpener *fo = NULL;
-	gchar const *encoding;
 	file_format_changed_cb_data data;
 	gint opener_default;
 	char const *title;
 
-	openers = get_file_openers ();
-
-	openers = g_list_copy (openers);
-	openers = g_list_sort (openers, file_opener_description_cmp);
+	openers = g_list_sort (g_list_copy (get_file_openers ()),
+			       file_opener_description_cmp);
 	/* NULL represents automatic file type recognition */
 	openers = g_list_prepend (openers, NULL);
 	opener_default = file_opener_find_by_id (openers, default_format);
-	title = (opener_default == 0) ? _("Load file") 
-		: gnm_file_opener_get_description 
-		(g_list_nth_data(openers, opener_default));
-
-	/* Make format chooser */
-	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
-	format_chooser = make_format_chooser (openers, omenu);
+	title = (opener_default == 0)
+		? _("Load file") 
+		: (gnm_file_opener_get_description 
+		   (g_list_nth_data (openers, opener_default)));
+	data.openers = openers;
 
 	/* Make charmap chooser */
 	charmap_selector = charmap_selector_new (CHARMAP_SELECTOR_TO_UTF8);
 	data.charmap_selector = CHARMAP_SELECTOR(charmap_selector);
 	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:"));
 
-#ifdef USE_FILECHOOSER
+	/* Make format chooser */
+	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
+	format_chooser = make_format_chooser (openers, omenu);
+	g_signal_connect (G_OBJECT (omenu), "changed",
+                          G_CALLBACK (file_format_changed_cb), &data);
+	gtk_option_menu_set_history (omenu, opener_default);
+	gtk_widget_set_sensitive (GTK_WIDGET (omenu), opener_default == 0);
+	file_format_changed_cb (omenu, &data);
+
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -223,6 +214,14 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
+
+#warning "FIXME: this is a gross way to set size."
+	{
+		GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (fsel));
+		gtk_window_set_default_size (GTK_WINDOW (fsel),
+					     gdk_screen_get_width (screen) / 3,
+					     gdk_screen_get_width (screen) / 3);
+	}
 
 	/* Filters */
 	{	
@@ -248,66 +247,46 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		/* Make this filter the default */
 		gtk_file_chooser_set_filter (fsel, filter);
 	}
-#else
-	/* Pack it into file selector */
-	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (title));
-	gtk_file_selection_hide_fileop_buttons (fsel);
-#endif
 
-	box = gtk_table_new (2, 2, FALSE);
-	gtk_table_attach (GTK_TABLE (box),
-			  format_chooser,
-			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
-	label = gtk_label_new_with_mnemonic (_("File _type:")),
-	gtk_table_attach (GTK_TABLE (box), label,
-			  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), format_chooser);
+	{
+		GtkWidget *label;
+		GtkWidget *box = gtk_table_new (2, 2, FALSE);
 
-        gtk_table_attach (GTK_TABLE (box),
-                          charmap_selector,
-			  1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
-	gtk_table_attach (GTK_TABLE (box), data.charmap_label,
-			  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
-				       charmap_selector);
+		gtk_table_attach (GTK_TABLE (box),
+				  format_chooser,
+				  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
+		label = gtk_label_new_with_mnemonic (_("File _type:")),
+			gtk_table_attach (GTK_TABLE (box), label,
+					  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), format_chooser);
 
-#ifdef USE_FILECHOOSER
-	gtk_file_chooser_set_extra_widget (fsel, box);
-#else
-	gtk_box_pack_start (GTK_BOX (fsel->action_area), box, FALSE, TRUE, 0);
-#endif
+		gtk_table_attach (GTK_TABLE (box),
+				  charmap_selector,
+				  1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
+		gtk_table_attach (GTK_TABLE (box), data.charmap_label,
+				  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
+					       charmap_selector);
 
-	data.openers = openers;
-	g_signal_connect (G_OBJECT (omenu), "changed",
-                          G_CALLBACK (file_format_changed_cb), &data);
-	gtk_option_menu_set_history 
-		(omenu, opener_default);
-	gtk_widget_set_sensitive (GTK_WIDGET (omenu), opener_default == 0);
-	file_format_changed_cb (omenu, &data);
-
-	/* Show file selector */
-	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
-		g_list_free (openers);
-#if 1
-		gtk_object_destroy (GTK_OBJECT (fsel));
-#endif
-		return;
+		gtk_file_chooser_set_extra_widget (fsel, box);
 	}
 
-	fo = g_list_nth_data (openers,
-			      gtk_option_menu_get_history (omenu));
+	/* Show file selector */
+	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
+		goto out;
 
-#ifdef USE_FILECHOOSER
-	file_name = gtk_file_chooser_get_filename (fsel);
-#else
-	file_name = gtk_file_selection_get_filename (fsel);
-#endif
-	encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR (charmap_selector));
-	gui_file_read (wbcg, file_name, fo, encoding);
-#ifdef USE_FILECHOOSER
-	g_free (file_name);
-#endif
+	{
+		/* NOTE: we get a filename here.  Think about URIs later.  */
+		char *file_name = gtk_file_chooser_get_filename (fsel);
+		const char *encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR (charmap_selector));
+		GnmFileOpener *fo =
+			g_list_nth_data (openers,
+					 gtk_option_menu_get_history (omenu));
+		gui_file_read (wbcg, file_name, fo, encoding);
+		g_free (file_name);
+	}
 
+ out:
 	gtk_object_destroy (GTK_OBJECT (fsel));
 	g_list_free (openers);
 }
