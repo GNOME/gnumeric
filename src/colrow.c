@@ -430,6 +430,7 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 	int i;
 	ColRowStateGroup *res = NULL;
 	ColRowIndexList *ptr;
+	ColRowInfo *cri;
 
 	for (ptr = src; ptr != NULL ; ptr = ptr->next) {
 		ColRowIndex const *index = ptr->data;
@@ -445,7 +446,7 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		 * we need better management of rows/cols.  Currently if they are all
 		 * defined calculation speed grinds to a halt.
 		 */
-		if (new_size >= 0 && index->first == 0 &&
+		if (new_size > 0 && index->first == 0 &&
 		    (index->last+1) >= colrow_max (is_cols)) {
 			struct resize_closure closure;
 			ColRowRLEState *rles = g_new0 (ColRowRLEState, 1);
@@ -479,25 +480,26 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 
 		for (i = index->first ; i <= index->last ; ++i) {
 			int tmp = new_size;
-			gboolean set_default = (tmp == 0);
-
-			if (tmp < 0 || (set_default && !is_cols))
+			if (tmp < 0)
+				/* Fall back to assigning the defaul if it is empty */
 				tmp = (is_cols)
 					? sheet_col_size_fit_pixels (sheet, i)
 					: sheet_row_size_fit_pixels (sheet, i);
 
-			if (tmp <= 0 && !set_default)
-				continue;
-
-			if (set_default && tmp == 0)
-				tmp = (is_cols)
-					? sheet_col_get_default_size_pixels (sheet)
-					: sheet_row_get_default_size_pixels (sheet);
-
-			if (is_cols)
-				sheet_col_set_size_pixels (sheet, i, tmp, !set_default);
-			else
-				sheet_row_set_size_pixels (sheet, i, tmp, !set_default);
+			if (tmp > 0) {
+				if (is_cols)
+					sheet_col_set_size_pixels (sheet, i, tmp, new_size > 0);
+				else
+					sheet_row_set_size_pixels (sheet, i, tmp, new_size > 0);
+			} else if (sheet_colrow_get (sheet, i, is_cols) != NULL) {
+				if (is_cols)
+					sheet_col_set_size_pixels (sheet, i,
+						sheet_col_get_default_size_pixels (sheet), FALSE);
+				else
+					sheet_row_set_size_pixels (sheet, i,
+						sheet_row_get_default_size_pixels (sheet), FALSE);
+				}
+			}
 		}
 	}
 

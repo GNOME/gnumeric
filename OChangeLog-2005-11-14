@@ -1,3 +1,12 @@
+2004-10-01  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_set_sizes) : no need to calculate the size if
+	  we're assigning the default.  Clean up the logic for assigning the
+	  default to
+	  1) Not assign to an empty col/row
+	  2) Break XL compat and have autosize of empty do the same thing for
+	    col and row.
+
 2004-10-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_open): Specifically list "*.csv" and
