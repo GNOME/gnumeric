@@ -21,10 +21,16 @@ typedef struct _ValueArray	ValueArray;
 
 typedef struct _RenderedValue	RenderedValue;
 
-typedef struct _ExprTree	   ExprTree;
-typedef struct _ArrayRef	   ArrayRef;
-typedef struct _ExprName	   ExprName;
-typedef struct _ExprRelocateInfo   ExprRelocateInfo;
+typedef union _ExprTree	 	ExprTree;
+typedef struct _ExprConstant	 ExprConstant;
+typedef struct _ExprFunction	 ExprFunction;
+typedef struct _ExprUnary	 ExprUnary;
+typedef struct _ExprBinary	 ExprBinary;
+typedef struct _ExprName	 ExprName;
+typedef struct _ExprVar		 ExprVar;
+typedef struct _ExprArray	 ExprArray;
+typedef struct _ExprRelocateInfo ExprRelocateInfo;
+typedef struct _NamedExpression	 NamedExpression;
 
 typedef struct _CellRegion	CellRegion;
 typedef		GList		CellList;

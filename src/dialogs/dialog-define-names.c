@@ -33,7 +33,7 @@ update_edit (state_t *state)
 	/* ICK!  parse names as if we are in A1 ?? Why ? */
 	static CellPos const pos = {0,0};
 	gint          i = state->selected;
-	ExprName     *expr_name;
+	NamedExpression     *expr_name;
 	Sheet        *sheet;
 	EvalPosition  ep;
 	char         *txt;
@@ -60,7 +60,7 @@ select_name (GtkWidget *w, state_t *state)
 	guint     i    = 0;
 	GList    *sel  = GTK_LIST(w)->selection;
 	GList    *p    = state->expr_names;
-	ExprName *name;
+	NamedExpression *name;
 
 	if (sel == NULL)
 		return;
@@ -95,7 +95,7 @@ fill_list (state_t *state)
 	state->expr_names = names = expr_name_list (state->wb, NULL, FALSE);
 
 	while (names) {
-		ExprName *expr_name = names->data;
+		NamedExpression *expr_name = names->data;
 		GtkWidget *li = gtk_list_item_new_with_label (expr_name->name->str);
 		gtk_object_set_data (GTK_OBJECT (li), LIST_KEY, expr_name);
 		gtk_widget_show (GTK_WIDGET (li));
@@ -158,7 +158,7 @@ grab_text_ok (state_t *state, gboolean update_list)
 {
 	gchar        *name;
 	gchar        *value;
-	ExprName     *expr_name;
+	NamedExpression     *expr_name;
 	char         *error;
 
 	g_return_val_if_fail (state != NULL, FALSE);

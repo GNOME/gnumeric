@@ -37,7 +37,7 @@ get_real_wb (Workbook *wb, Sheet *sheet)
 	return NULL;
 }
 
-ExprName *
+NamedExpression *
 expr_name_lookup (Workbook *wb, Sheet *sheet, char const *name)
 {
 	GList *p = global_names;
@@ -45,7 +45,7 @@ expr_name_lookup (Workbook *wb, Sheet *sheet, char const *name)
 	g_return_val_if_fail (name != NULL, NULL);
 
 	while (p) {
-		ExprName *expr_name = p->data;
+		NamedExpression *expr_name = p->data;
 		g_return_val_if_fail (expr_name != NULL, 0);
 		if (g_strcasecmp (expr_name->name->str, name) == 0)
 			return expr_name;
@@ -55,7 +55,7 @@ expr_name_lookup (Workbook *wb, Sheet *sheet, char const *name)
 	if (wb)
 		p = wb->names;
 	while (p) {
-		ExprName *expr_name = p->data;
+		NamedExpression *expr_name = p->data;
 		g_return_val_if_fail (expr_name != NULL, 0);
 		if (g_strcasecmp (expr_name->name->str, name) == 0)
 			return expr_name;
@@ -65,7 +65,7 @@ expr_name_lookup (Workbook *wb, Sheet *sheet, char const *name)
 	if (sheet)
 		p = sheet->names;
 	while (p) {
-		ExprName *expr_name = p->data;
+		NamedExpression *expr_name = p->data;
 		g_return_val_if_fail (expr_name != NULL, 0);
 		if (g_strcasecmp (expr_name->name->str, name) == 0)
 			return expr_name;
@@ -75,15 +75,15 @@ expr_name_lookup (Workbook *wb, Sheet *sheet, char const *name)
 	return NULL;
 }
 
-static ExprName *
+static NamedExpression *
 add_real (Workbook *wb, Sheet *sheet, const char *name,
 	  gboolean builtin, ExprTree *expr_tree, void *expr_func)
 {
-	ExprName *expr_name;
+	NamedExpression *expr_name;
 
 	g_return_val_if_fail (name != NULL, NULL);
 
-	expr_name = g_new (ExprName,1);
+	expr_name = g_new (NamedExpression,1);
 
 	expr_name->wb      = wb;
 	expr_name->sheet   = sheet;
@@ -110,20 +110,20 @@ name_refer_circular (const char *name, ExprTree *expr)
 {
 	g_return_val_if_fail (expr != NULL, TRUE);
 
-	switch (expr->oper) {
+	switch (expr->any.oper) {
 	case OPER_ANY_BINARY:
-		if (!name_refer_circular (name, expr->u.binary.value_a))
+		if (!name_refer_circular (name, expr->binary.value_a))
 			return TRUE;
-		if (!name_refer_circular (name, expr->u.binary.value_b))
+		if (!name_refer_circular (name, expr->binary.value_b))
 			return TRUE;
 		break;
 	case OPER_ANY_UNARY:
-		if (!name_refer_circular (name, expr->u.value))
+		if (!name_refer_circular (name, expr->unary.value))
 			return TRUE;
 		break;
 	case OPER_NAME:
 	{
-		const ExprName *expr_name = expr->u.name;
+		const NamedExpression *expr_name = expr->name.name;
 		if (!g_strcasecmp (expr_name->name->str, name))
 			return TRUE;
 		/* And look inside this name tree too */
@@ -134,7 +134,7 @@ name_refer_circular (const char *name, ExprTree *expr)
 	}
 	case OPER_FUNCALL:
 	{
-		GList *l = expr->u.function.arg_list;
+		GList *l = expr->func.arg_list;
 		while (l) {
 			if (name_refer_circular (name, l->data))
 				return TRUE;
@@ -165,11 +165,11 @@ name_refer_circular (const char *name, ExprTree *expr)
  * 
  * Return value: 
  **/
-ExprName *
+NamedExpression *
 expr_name_add (Workbook *wb, Sheet *sheet, char const *name,
 	       ExprTree *expr, char **error_msg)
 {
-	ExprName *expr_name;
+	NamedExpression *expr_name;
 
 	g_return_val_if_fail (name != NULL, 0);
 	g_return_val_if_fail (expr != NULL, 0);
@@ -212,9 +212,9 @@ expr_name_add (Workbook *wb, Sheet *sheet, char const *name,
  * either as a workbook name if @sheet == NULL or a sheet
  * name if @wb == NULL.
  * 
- * Return value: The created ExprName.
+ * Return value: The created NamedExpression.
  **/
-ExprName *
+NamedExpression *
 expr_name_create (Workbook *wb, Sheet *sheet, const char *name,
 		  const char *value, char **error_msg)
 {
@@ -235,7 +235,7 @@ expr_name_create (Workbook *wb, Sheet *sheet, const char *name,
 }
 
 void
-expr_name_remove (ExprName *expr_name)
+expr_name_remove (NamedExpression *expr_name)
 {
 	Workbook *wb;
 	Sheet    *sheet;
@@ -283,7 +283,7 @@ expr_name_clean_sheet (Sheet *sheet)
 	GList *p = global_names;
 	GList *next ;
 	while (p) {
-		ExprName *expr_name = p->data;
+		NamedExpression *expr_name = p->data;
 		g_return_if_fail (expr_name);
 
 		next = g_list_next (p);
@@ -300,7 +300,7 @@ expr_name_clean_workbook (Workbook *wb)
 	GList *p = global_names;
 	GList *next ;
 	while (p) {
-		ExprName *expr_name = p->data;
+		NamedExpression *expr_name = p->data;
 		g_return_if_fail (expr_name);
 
 		next = g_list_next (p);
@@ -328,7 +328,7 @@ expr_name_list (Workbook *wb, Sheet *sheet, gboolean builtins_too)
 }
 
 char *
-expr_name_value (const ExprName *expr_name)
+expr_name_value (const NamedExpression *expr_name)
 {
 	gchar         *val;
 	ParsePosition  pp;
@@ -353,7 +353,7 @@ expr_name_value (const ExprName *expr_name)
 
 
 Value *
-eval_expr_name (EvalPosition const * const pos, const ExprName *expr_name,
+eval_expr_name (EvalPosition const * const pos, const NamedExpression *expr_name,
 		ExprEvalFlags const flags)
 {
 	g_return_val_if_fail (pos, NULL);
@@ -424,7 +424,7 @@ expr_name_init (void)
 	
 	/* Not in global function table though ! */
 	while (builtins[lp].name) {
-		ExprName *expr_name;
+		NamedExpression *expr_name;
 		expr_name = add_real (NULL, NULL, builtins[lp].name, TRUE, NULL,
 				      builtins[lp].fn);
 		global_names = g_list_append (global_names, expr_name);

@@ -920,7 +920,7 @@ xml_write_names (parse_xml_context_t *ctxt, GList *names)
 
 	while (names) {
 		xmlNodePtr   tmp;
-		ExprName    *expr_name = names->data;
+		NamedExpression    *expr_name = names->data;
 		char        *text;
 
 		g_return_val_if_fail (expr_name != NULL, NULL);
@@ -1816,7 +1816,7 @@ xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int
 {
 	xmlNodePtr cur, child;
 	char *text, *tstr;
-	ArrayRef const * ar;
+	ExprArray const *ar;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", col);

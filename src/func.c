@@ -340,10 +340,10 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	 *  This is so we don't dereference 'A1' by accident
 	 * when we want a range instead.
 	 */
-	if (t->oper == OPER_VAR &&
+	if (t->any.oper == OPER_VAR &&
 	    (arg_type == 'A' ||
 	     arg_type == 'r'))
-		v = value_new_cellrange (&t->u.ref, &t->u.ref,
+		v = value_new_cellrange (&t->var.ref, &t->var.ref,
 					 ei->pos->eval.col,
 					 ei->pos->eval.row);
 	else
@@ -692,18 +692,18 @@ function_def_call_with_values (const EvalPosition *ep,
 		 * If function deals with ExprNodes, create some
 		 * temporary ExprNodes with constants.
 		 */
-		ExprTree *tree = NULL;
+		ExprConstant *tree = NULL;
 		GList *l = NULL;
 		int i;
 
 		if (argc) {
-			tree = g_new (ExprTree, argc);
+			tree = g_new (ExprConstant, argc);
 
 			for (i = 0; i < argc; i++) {
 				/* FIXME : this looks like a leak */
-				tree [i].oper = OPER_CONSTANT;
+				*((Operation *)&(tree [i].oper)) = OPER_CONSTANT;
 				tree [i].ref_count = 1;
-				tree [i].u.constant = values [i];
+				tree [i].value = values [i];
 
 				l = g_list_append (l, &(tree [i]));
 			}

@@ -580,14 +580,14 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 		return value_new_bool (FALSE);
 
 	/* Handle pointless arrays */
-	if (expr->oper == OPER_ARRAY) {
-		if (expr->u.array.rows != 1 || expr->u.array.cols != 1)
+	if (expr->any.oper == OPER_ARRAY) {
+		if (expr->array.rows != 1 || expr->array.cols != 1)
 			return value_new_bool (FALSE);
-		expr = expr->u.array.corner.func.expr;
+		expr = expr->array.corner.func.expr;
 	}
 
-	if (expr->oper == OPER_VAR) {
-		CellRef const *ref = &expr->u.ref;
+	if (expr->any.oper == OPER_VAR) {
+		CellRef const *ref = &expr->var.ref;
 		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 		int row, col;
 		cell_get_abs_col_row(ref, &ei->pos->eval, &col, &row);
@@ -747,7 +747,7 @@ gnumeric_isref (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (!t)
 		return NULL;
 
-	return value_new_bool (t->oper == OPER_VAR);
+	return value_new_bool (t->any.oper == OPER_VAR);
 }
 
 /***************************************************************************/

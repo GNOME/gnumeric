@@ -19,9 +19,9 @@
 Value *
 value_new_empty (void)
 {
-	ValueType *v = g_new (ValueType, 1);
-	*v = VALUE_EMPTY;
-	return (Value *)v;
+	/* This is a constant.  no need to allocate  any memory */
+	static ValueType v = VALUE_EMPTY;
+	return (Value *)&v;
 }
 
 Value *
@@ -214,6 +214,9 @@ value_release (Value *value)
 
 	switch (value->type) {
 	case VALUE_EMPTY:
+		/* We did not allocate anything, there is nothing to free */
+		return;
+
 	case VALUE_BOOLEAN:
 		break;
 

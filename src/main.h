@@ -12,7 +12,8 @@ extern gboolean initial_worbook_open_complete;
 
 void   gnumeric_arg_parse (int argc, char *argv []);
 
-/* A necessary bogosity that is required to avoid bug #7948 with current
+/*
+ * A necessary bogosity that is required to avoid bug #7948 with current
  * versions of guile
  */
 gboolean has_gnumeric_been_compiled_with_guile_support (void);

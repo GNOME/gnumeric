@@ -1177,7 +1177,7 @@ sheet_load_cell_val (Sheet const *sheet)
 	GtkEntry *entry;
 	Cell     *cell;
 	char     *text;
-	ArrayRef const * ar;
+	ExprArray const* ar;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1583,7 +1583,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 	return new_row;
 }
 
-static ArrayRef const *
+static ExprArray const*
 sheet_is_cell_array (Sheet const *sheet, int const col, int const row)
 {
 	return cell_is_array (sheet_cell_get (sheet, col, row));
@@ -1600,7 +1600,7 @@ sheet_range_splits_array (Sheet const *sheet,
 			  int const start_col, int const start_row,
 			  int end_col, int end_row)
 {
-	ArrayRef const *a;
+	ExprArray const *a;
 	gboolean nosplit = TRUE;
 	gboolean single;
 	int r, c;
@@ -1874,6 +1874,7 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	cell->sheet = sheet;
 	cell->col_info   = sheet_col_fetch (sheet, col);
 	cell->row_info   = sheet_row_fetch (sheet, row);
+	cell->value      = value_new_empty ();
 
 	sheet_cell_add_to_hash (sheet, cell);
 	return cell;
@@ -2589,12 +2590,9 @@ static Value *
 avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
 				 void *user_data)
 {
-	if (cell == NULL ||
-	    !cell_has_expr (cell) ||
-	    cell->u.expression->oper != OPER_ARRAY ||
-	    cell->u.expression->u.array.x <= 0)
-		return NULL;
-	return value_terminate ();
+	if (cell_is_array (cell) && cell->u.expression->array.x > 0)
+		return value_terminate ();
+	return NULL;
 }
 
 /*
@@ -2605,12 +2603,9 @@ static Value *
 avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
 			       void *user_data)
 {
-	if (cell == NULL ||
-	    !cell_has_expr (cell) ||
-	    cell->u.expression->oper != OPER_ARRAY ||
-	    cell->u.expression->u.array.y <= 0)
-		return NULL;
-	return value_terminate ();
+	if (cell_is_array (cell) && cell->u.expression->array.y > 0)
+		return value_terminate ();
+	return NULL;
 }
 
 /*

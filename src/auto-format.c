@@ -109,7 +109,7 @@ cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
 static AutoFormatTypes
 do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 {
-	switch (expr->oper) {
+	switch (expr->any.oper) {
 	case OPER_EQUAL:
 	case OPER_GT:
 	case OPER_LT:
@@ -124,19 +124,19 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 		/* Return the first interesting type we see.  */
 		AutoFormatTypes typ;
 
-		typ = do_af_suggest (expr->u.binary.value_a, ppos, explicit);
+		typ = do_af_suggest (expr->binary.value_a, ppos, explicit);
 		if (typ != AF_UNKNOWN && typ != AF_UNITLESS)
 			return typ;
 
-		return do_af_suggest (expr->u.binary.value_b, ppos, explicit);
+		return do_af_suggest (expr->binary.value_b, ppos, explicit);
 	}
 
 	case OPER_SUB: {
 		AutoFormatTypes typ1, typ2;
 		char *explicit1 = NULL, *explicit2 = NULL;
 
-		typ1 = do_af_suggest (expr->u.binary.value_a, ppos, &explicit1);
-		typ2 = do_af_suggest (expr->u.binary.value_b, ppos, &explicit2);
+		typ1 = do_af_suggest (expr->binary.value_a, ppos, &explicit1);
+		typ2 = do_af_suggest (expr->binary.value_b, ppos, &explicit2);
 
 		if (typ1 == AF_DATE && typ2 == AF_DATE)
 			return AF_UNITLESS;
@@ -153,25 +153,25 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 
 	case OPER_DIV:
 		/* Check the left-hand side only.  */
-		return do_af_suggest (expr->u.binary.value_a, ppos, explicit);
+		return do_af_suggest (expr->binary.value_a, ppos, explicit);
 
 	case OPER_FUNCALL: {
 		AutoFormatTypes typ;
 		const char *name;
 
-		name = expr->u.function.symbol->str;
+		name = expr->func.symbol->str;
 		typ = (AutoFormatTypes)
 			GPOINTER_TO_INT
 			(g_hash_table_lookup (auto_format_function_hash, name));
 
 		switch (typ) {
 		case AF_FIRST_ARG_FORMAT:
-			return do_af_suggest_list (expr->u.function.arg_list,
+			return do_af_suggest_list (expr->func.arg_list,
 						   ppos, explicit);
 
 		case AF_FIRST_ARG_FORMAT2: {
 			GList *l;
-			l = expr->u.function.arg_list;
+			l = expr->func.arg_list;
 			if (l) l = l->next;
 			return do_af_suggest_list (l, ppos, explicit);
 		}
@@ -182,7 +182,7 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 	}
 
 	case OPER_CONSTANT: {
-		const Value *v = expr->u.constant;
+		const Value *v = expr->constant.value;
 
 		switch (v->type) {
 		case VALUE_STRING:
@@ -226,7 +226,7 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 		int col, row;
 		const Cell *cell;
 
-		ref = &expr->u.ref;
+		ref = &expr->var.ref;
 		sheet = eval_sheet (ref->sheet, ppos->sheet);
 		/* If we don't have a sheet, we cannot look up vars.  */
 		if (sheet == NULL)
@@ -243,7 +243,7 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 
 	case OPER_UNARY_NEG:
 	case OPER_UNARY_PLUS:
-		return do_af_suggest (expr->u.value, ppos, explicit);
+		return do_af_suggest (expr->unary.value, ppos, explicit);
 
 	case OPER_PERCENT:
 		return AF_PERCENT;

@@ -527,26 +527,26 @@ handle_tree_deps (Cell *cell, ExprTree *tree, DepOperation operation)
 {
 	GList *l;
 
-	switch (tree->oper) {
+	switch (tree->any.oper) {
 	case OPER_ANY_BINARY:
-		handle_tree_deps (cell, tree->u.binary.value_a, operation);
-		handle_tree_deps (cell, tree->u.binary.value_b, operation);
+		handle_tree_deps (cell, tree->binary.value_a, operation);
+		handle_tree_deps (cell, tree->binary.value_b, operation);
 		return;
 
 	case OPER_ANY_UNARY:
-		handle_tree_deps (cell, tree->u.value, operation);
+		handle_tree_deps (cell, tree->unary.value, operation);
 		return;
 
 	case OPER_VAR:
 		handle_cell_range_deps (
 			cell,
-			&tree->u.ref,
-			&tree->u.ref,
+			&tree->var.ref,
+			&tree->var.ref,
 			operation);
 		return;
 
 	case OPER_CONSTANT:
-		handle_value_deps (cell, tree->u.constant, operation);
+		handle_value_deps (cell, tree->constant.value, operation);
 		return;
 
 	/*
@@ -554,31 +554,31 @@ handle_tree_deps (Cell *cell, ExprTree *tree, DepOperation operation)
 	 * more cunning handling of argument type matching.
 	 */
 	case OPER_FUNCALL:
-		for (l = tree->u.function.arg_list; l; l = l->next)
+		for (l = tree->func.arg_list; l; l = l->next)
 			handle_tree_deps (cell, l->data, operation);
 		return;
 
 	case OPER_NAME:
-		if (tree->u.name->builtin) {
+		if (tree->name.name->builtin) {
 			/* FIXME: insufficiently flexible dependancy code (?) */
 		} else
-			handle_tree_deps (cell, tree->u.name->t.expr_tree, operation);
+			handle_tree_deps (cell, tree->name.name->t.expr_tree, operation);
 		return;
 
 	case OPER_ARRAY:
-		if (tree->u.array.x != 0 || tree->u.array.y != 0) {
+		if (tree->array.x != 0 || tree->array.y != 0) {
 			/* Non-corner cells depend on the corner */
 			CellRef a;
 
 			a.col_relative = a.row_relative = 0;
 			a.sheet = cell->sheet;
-			a.col   = cell->col_info->pos - tree->u.array.x;
-			a.row   = cell->row_info->pos - tree->u.array.y;
+			a.col   = cell->col_info->pos - tree->array.x;
+			a.row   = cell->row_info->pos - tree->array.y;
 
 			handle_cell_range_deps (cell, &a, &a, operation);
 		} else
 			/* Corner cell depends on the contents of the expr */
-			handle_tree_deps (cell, tree->u.array.corner.func.expr,
+			handle_tree_deps (cell, tree->array.corner.func.expr,
 					  operation);
 		return;
 	default:

@@ -252,9 +252,9 @@ build_array (GList *cols)
 		x = 0;
 		while (row && x < mx) {
 			ExprTree *expr = row->data;
-			Value    *v = expr->u.constant;
+			Value    *v = expr->constant.value;
 
-			g_assert (expr->oper == OPER_CONSTANT);
+			g_assert (expr->any.oper == OPER_CONSTANT);
 
 			value_array_set (array, x, y, value_duplicate (v));
 
@@ -340,12 +340,12 @@ exp:	  NUMBER 	{ $$ = $1; }
 	| FUNCALL '(' arg_list ')' {
 		unregister_allocation ($3);
 		$$ = $1;
-		$$->u.function.arg_list = $3;
+		$$->func.arg_list = $3;
 	}
 	;
 
 sheetref: STRING SHEET_SEP {
-		Sheet *sheet = sheet_lookup_by_name (parser_wb, $1->u.constant->v_str.val->str);
+		Sheet *sheet = sheet_lookup_by_name (parser_wb, $1->constant.value->v_str.val->str);
 		/* TODO : Get rid of ParseErr and replace it with something richer. */
 		unregister_allocation ($1); expr_tree_unref ($1);
 		if (sheet == NULL) {
@@ -365,11 +365,11 @@ sheetref: STRING SHEET_SEP {
 		 *  to mark the offending region.
 		 */
 		Workbook * wb =
-		    application_workbook_get_by_name ($2->u.constant->v_str.val->str);
+		    application_workbook_get_by_name ($2->constant.value->v_str.val->str);
 		Sheet *sheet = NULL;
 
 		if (wb != NULL)
-			sheet = sheet_lookup_by_name (wb, $4->u.constant->v_str.val->str);
+			sheet = sheet_lookup_by_name (wb, $4->constant.value->v_str.val->str);
 
 		unregister_allocation ($4); expr_tree_unref ($4);
 		unregister_allocation ($2); expr_tree_unref ($2);
@@ -391,7 +391,7 @@ cellref:  CELLREF {
 	}
 
 	| sheetref CELLREF {
-		$2->u.ref.sheet = $1;
+		$2->var.ref.sheet = $1;
 	        $$ = $2;
 	}
 
@@ -400,7 +400,7 @@ cellref:  CELLREF {
 		unregister_allocation ($1);
 		$$ = register_expr_allocation
 			(expr_tree_new_constant
-			 (value_new_cellrange (&($1->u.ref), &($3->u.ref),
+			 (value_new_cellrange (&($1->var.ref), &($3->var.ref),
 					       parser_col, parser_row)));
 		expr_tree_unref ($3);
 		expr_tree_unref ($1);
@@ -409,11 +409,11 @@ cellref:  CELLREF {
 	| sheetref CELLREF RANGE_SEP opt_sheetref CELLREF {
 		unregister_allocation ($5);
 		unregister_allocation ($2);
-		$2->u.ref.sheet = $1;
-		$5->u.ref.sheet = $4 ? $4 : $1;
+		$2->var.ref.sheet = $1;
+		$5->var.ref.sheet = $4 ? $4 : $1;
 		$$ = register_expr_allocation
 			(expr_tree_new_constant
-			 (value_new_cellrange (&($2->u.ref), &($5->u.ref),
+			 (value_new_cellrange (&($2->var.ref), &($5->var.ref),
 					       parser_col, parser_row)));
 
 		expr_tree_unref ($5);
@@ -545,7 +545,7 @@ return_symbol (Symbol *sym)
 }
 
 static int
-return_name (ExprName *exprn)
+return_name (NamedExpression *exprn)
 {
 	yylval.tree = register_expr_allocation (expr_tree_new_name (exprn));
 	return CONSTANT;
@@ -581,7 +581,7 @@ try_symbol (char *string, gboolean try_cellref_and_number)
 		 * FIXME: we need a good bit of work to get sheet
 		 * scope names working well
 		 */
-		ExprName *name = expr_name_lookup (parser_wb, NULL,
+		NamedExpression *name = expr_name_lookup (parser_wb, NULL,
 						   string);
 		if (name)
 			return return_name (name);

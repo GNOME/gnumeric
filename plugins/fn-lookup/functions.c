@@ -808,13 +808,13 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 
 	expr = (ExprTree *)nodes->data;
 
-	if (expr->oper == OPER_VAR)
-		return value_new_int (cell_ref_get_abs_col (&expr->u.ref,
+	if (expr->any.oper == OPER_VAR)
+		return value_new_int (cell_ref_get_abs_col (&expr->var.ref,
 							    ei->pos) + 1);
-	if (expr->oper == OPER_CONSTANT &&
-	    expr->u.constant->type == VALUE_CELLRANGE) {
+	if (expr->any.oper == OPER_CONSTANT &&
+	    expr->constant.value->type == VALUE_CELLRANGE) {
 		int i, j, col;
-		Value const * range = expr->u.constant;
+		Value const * range = expr->constant.value;
 		CellRef const * a = &range->v_range.cell_a;
 		CellRef const * b = &range->v_range.cell_b;
 		Value * res = value_new_array (b->col - a->col + 1,
@@ -951,13 +951,13 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 
 	expr = (ExprTree *)nodes->data;
 
-	if (expr->oper == OPER_VAR)
-		return value_new_int (cell_ref_get_abs_row (&expr->u.ref,
+	if (expr->any.oper == OPER_VAR)
+		return value_new_int (cell_ref_get_abs_row (&expr->var.ref,
 							    ei->pos) + 1);
-	if (expr->oper == OPER_CONSTANT &&
-	    expr->u.constant->type == VALUE_CELLRANGE) {
+	if (expr->any.oper == OPER_CONSTANT &&
+	    expr->constant.value->type == VALUE_CELLRANGE) {
 		int i, j, row;
-		Value const * range = expr->u.constant;
+		Value const * range = expr->constant.value;
 		CellRef const * a = &range->v_range.cell_a;
 		CellRef const * b = &range->v_range.cell_b;
 		Value * res = value_new_array (b->col - a->col + 1,

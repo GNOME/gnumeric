@@ -1,3 +1,28 @@
+2000-05-01  Jody Goldberg <jgoldberg@home.com>
+
+	* ExprName -> NamedExpression
+	  ArrayRef -> ExprArray
+
+	change ExprTree to be a union of similar types and split
+	the elements into discrete types.
+	    ExprConstant
+	    ExprFunction
+	    ExprUnary
+	    ExprBinary
+	    ExprName
+	    ExprVar
+	    ExprArray
+
+	    expr->oper -> expr->any.oper
+
+2000-04-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/value.c (value_new_empty) : Don't allocate any memory.
+	(value_release) : Don't free any either.
+
+	* src/sheet-style.c (border_check) : Init outer_style to remove a
+	  warning.
+
 2000-05-01  Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/dialog-analysis-tools.c (selection_made): Popup tool

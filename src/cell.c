@@ -41,7 +41,7 @@ cell_dirty (Cell *cell)
  * INTERNAL.
  */
 static void
-cell_formula_changed (Cell *cell, gboolean const queue_recalc)
+cell_formula_changed (Cell *cell, gboolean queue_recalc)
 {
 	sheet_cell_formula_link (cell);
 	if (queue_recalc)
@@ -106,7 +106,7 @@ cell_cleanout (Cell *cell)
  * Returns a copy of the cell.
  */
 Cell *
-cell_copy (const Cell *cell)
+cell_copy (Cell const *cell)
 {
 	Cell *new_cell;
 
@@ -184,7 +184,7 @@ cell_content_changed (Cell *cell)
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_relocate (Cell *cell, gboolean const check_bounds)
+cell_relocate (Cell *cell, gboolean check_bounds)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -204,11 +204,11 @@ cell_relocate (Cell *cell, gboolean const check_bounds)
 		 * WARNING WARNING WARNING
 		 */
 		/* If cell was part of an array, reset the corner pointer */
-		if (cell->u.expression->oper == OPER_ARRAY) {
-			int const x = cell->u.expression->u.array.x;
-			int const y = cell->u.expression->u.array.y;
+		if (cell->u.expression->any.oper == OPER_ARRAY) {
+			int const x = cell->u.expression->array.x;
+			int const y = cell->u.expression->array.y;
 			if (x != 0 || y != 0)
-				cell->u.expression->u.array.corner.cell =
+				cell->u.expression->array.corner.cell =
 					sheet_cell_get (cell->sheet,
 							cell->col_info->pos - x,
 							cell->row_info->pos - y);
@@ -267,7 +267,7 @@ cell_relocate (Cell *cell, gboolean const check_bounds)
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_text (Cell *cell, const char *text)
+cell_set_text (Cell *cell, char const *text)
 {
 	char const *format;
 	Value *val;
@@ -520,7 +520,7 @@ void
 cell_set_array_formula (Sheet *sheet,
 			int row_a, int col_a, int row_b, int col_b,
 			ExprTree *formula,
-			gboolean const queue_recalc)
+			gboolean queue_recalc)
 {
 	int const num_rows = 1 + row_b - row_a;
 	int const num_cols = 1 + col_b - col_a;
@@ -533,9 +533,9 @@ cell_set_array_formula (Sheet *sheet,
 	g_return_if_fail (formula != NULL);
 	g_return_if_fail (corner != NULL);
 
-	wrapper = expr_tree_array_formula (0, 0, num_rows, num_cols);
-	wrapper->u.array.corner.func.value = NULL;
-	wrapper->u.array.corner.func.expr = formula;
+	wrapper = expr_tree_new_array (0, 0, num_rows, num_cols);
+	wrapper->array.corner.func.value = NULL;
+	wrapper->array.corner.func.expr = formula;
 	expr_tree_ref (formula);
 	cell_set_expr_internal (corner, wrapper, NULL);
 	expr_tree_unref (wrapper);
@@ -548,9 +548,8 @@ cell_set_array_formula (Sheet *sheet,
 				continue;
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
-			wrapper = expr_tree_array_formula (x, y,
-							   num_rows, num_cols);
-			wrapper->u.array.corner.cell = corner;
+			wrapper = expr_tree_new_array (x, y, num_rows, num_cols);
+			wrapper->array.corner.cell = corner;
 			cell_set_expr_internal (cell, wrapper, NULL);
 			cell_formula_changed (cell, queue_recalc);
 			expr_tree_unref (wrapper);
@@ -563,14 +562,14 @@ cell_set_array_formula (Sheet *sheet,
 /***************************************************************************/
 
 gboolean
-cell_is_blank (Cell const * const cell)
+cell_is_blank (Cell const * cell)
 {
 	return (cell == NULL || cell->value == NULL ||
 		cell->value->type == VALUE_EMPTY);
 }
 
 Value *
-cell_is_error (Cell const * const cell)
+cell_is_error (Cell const * cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
@@ -581,14 +580,14 @@ cell_is_error (Cell const * const cell)
 }
 
 inline gboolean
-cell_is_number (const Cell *cell)
+cell_is_number (Cell const *cell)
 {
 	/* FIXME : This does not handle arrays or ranges */
 	return (cell->value && VALUE_IS_NUMBER (cell->value));
 }
 
 gboolean
-cell_is_zero (const Cell *cell)
+cell_is_zero (Cell const *cell)
 {
 	Value const * const v = cell->value;
 	if (v == NULL)
@@ -607,19 +606,19 @@ cell_is_zero (const Cell *cell)
 	}
 }
 
-inline ArrayRef const *
-cell_is_array (Cell const * const cell)
+inline ExprArray const *
+cell_is_array (Cell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell) &&
-	    cell->u.expression->oper == OPER_ARRAY)
-		return &cell->u.expression->u.array;
+	    cell->u.expression->any.oper == OPER_ARRAY)
+		return &cell->u.expression->array;
 	return NULL;
 }
 
 gboolean
-cell_is_partial_array (Cell const * const cell)
+cell_is_partial_array (Cell const *cell)
 {
-	ArrayRef const * ref = cell_is_array (cell);
+	ExprArray const *ref = cell_is_array (cell);
 	return ref != NULL && (ref->cols > 1 || ref->rows > 1);
 }
 
@@ -649,7 +648,7 @@ cell_render_value (Cell *cell)
 
 
 MStyle *
-cell_get_mstyle (const Cell *cell)
+cell_get_mstyle (Cell const *cell)
 {
 	return sheet_style_compute (cell->sheet,
 				    cell->col_info->pos,
@@ -657,7 +656,7 @@ cell_get_mstyle (const Cell *cell)
 }
 
 void
-cell_set_mstyle (const Cell *cell, MStyle *mstyle)
+cell_set_mstyle (Cell const *cell, MStyle *mstyle)
 {
 	Range         range;
 
@@ -669,14 +668,14 @@ cell_set_mstyle (const Cell *cell, MStyle *mstyle)
 }
 
 char *
-cell_get_format (const Cell *cell)
+cell_get_format (Cell const *cell)
 {
 	MStyle *mstyle;
 	char *result;
 
 	mstyle = cell_get_mstyle (cell);
 	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
-		const char *format;
+		char const *format;
 		format = mstyle_get_format (mstyle)->format;
 		/* FIXME: we really should distinguish between "not assigned"
 		   and "assigned General".  */
@@ -700,7 +699,7 @@ cell_get_format (const Cell *cell)
  * Does not render, redraw, or respan.
  */
 void
-cell_set_format (Cell *cell, const char *format)
+cell_set_format (Cell *cell, char const *format)
 {
 	MStyle * mstyle = cell_get_mstyle (cell);
 

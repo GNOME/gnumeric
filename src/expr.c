@@ -103,95 +103,166 @@ parse_pos_evalpos (ParsePosition *pp, EvalPosition const *ep)
 ExprTree *
 expr_tree_new_constant (Value *v)
 {
-	ExprTree *ans;
+	ExprConstant *ans;
 
-	ans = g_new (ExprTree, 1);
+	ans = g_new (ExprConstant, 1);
 	if (!ans)
 		return NULL;
 	
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_CONSTANT;
-	ans->u.constant = v;
+	ans->value= v;
 
-	return ans;
+	return (ExprTree *)ans;
 }
 
 ExprTree *
+expr_tree_new_error (char const *txt)
+{
+	Symbol *func;
+	GList *args = NULL;
+
+	if (strcmp (txt, gnumeric_err_NA) == 0) {
+		func = symbol_lookup (global_symbol_table, "NA");
+	} else {
+		func = symbol_lookup (global_symbol_table, "ERROR");
+		args = g_list_prepend (NULL,
+				       expr_tree_new_constant (value_new_string (txt)));
+	}
+
+	symbol_ref (func);
+	return expr_tree_new_funcall (func, args);
+}
+
+ExprTree *
+expr_tree_new_funcall (Symbol *sym, GList *args)
+{
+	ExprFunction *ans;
+	g_return_val_if_fail (sym, NULL);
+
+	ans = g_new (ExprFunction, 1);
+	if (!ans)
+		return NULL;
+	
+	ans->ref_count = 1;
+	*((Operation *)&(ans->oper)) = OPER_FUNCALL;
+	ans->symbol = sym;;
+	ans->arg_list = args;
+
+	return (ExprTree *)ans;
+}
+       
+ExprTree *
 expr_tree_new_unary  (Operation op, ExprTree *e)
 {
-	ExprTree *ans;
+	ExprUnary *ans;
 
-	ans = g_new (ExprTree, 1);
+	ans = g_new (ExprUnary, 1);
 	if (!ans)
 		return NULL;
 
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = op;
-	ans->u.value = e;
+	ans->value = e;
 
-	return ans;
+	return (ExprTree *)ans;
 }
 
 
 ExprTree *
 expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
 {
-	ExprTree *ans;
+	ExprBinary *ans;
 
-	ans = g_new (ExprTree, 1);
+	ans = g_new (ExprBinary, 1);
 	if (!ans)
 		return NULL;
 	
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = op;
-	ans->u.binary.value_a = l;
-	ans->u.binary.value_b = r;
+	ans->value_a = l;
+	ans->value_b = r;
 
-	return ans;
+	return (ExprTree *)ans;
 }
 
 ExprTree *
-expr_tree_new_funcall (Symbol *sym, GList *args)
+expr_tree_new_name (NamedExpression const *name)
 {
-	ExprTree *ans;
-	g_return_val_if_fail (sym, NULL);
+	ExprName *ans;
 
-	ans = g_new (ExprTree, 1);
+	ans = g_new (ExprName, 1);
 	if (!ans)
 		return NULL;
 	
 	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_FUNCALL;
-	ans->u.function.symbol = sym;;
-	ans->u.function.arg_list = args;
+	*((Operation *)&(ans->oper)) = OPER_NAME;
+	ans->name = name;
 
-	return ans;
-}
-       
-int
-expr_tree_get_const_int (ExprTree const * const expr)
-{
-	g_return_val_if_fail (expr != NULL, 0);
-	g_return_val_if_fail (expr->oper == OPER_CONSTANT, 0);
-	g_return_val_if_fail (expr->u.constant, 0);
-	g_return_val_if_fail (expr->u.constant->type == VALUE_INTEGER, 0);
-
-	return expr->u.constant->v_int.val;
-}
-
-char const *
-expr_tree_get_const_str (ExprTree const *const expr)
-{
-	g_return_val_if_fail (expr != NULL, NULL);
-	g_return_val_if_fail (expr->oper == OPER_CONSTANT, NULL);
-	g_return_val_if_fail (expr->u.constant, NULL);
-	g_return_val_if_fail (expr->u.constant->type == VALUE_STRING, NULL);
-
-	return expr->u.constant->v_str.val->str;
+	return (ExprTree *)ans;
 }
 
 ExprTree *
-expr_parse_string (const char *expr, const ParsePosition *pp,
+expr_tree_new_var (CellRef const *cr)
+{
+	ExprVar *ans;
+
+	ans = g_new (ExprVar, 1);
+	if (!ans)
+		return NULL;
+	
+	ans->ref_count = 1;
+	*((Operation *)&(ans->oper)) = OPER_VAR;
+	ans->ref = *cr;
+
+	return (ExprTree *)ans;
+}
+
+ExprTree *
+expr_tree_new_array (int x, int y, int rows, int cols)
+{
+	ExprArray *ans;
+
+	ans = g_new (ExprArray, 1);
+	if (ans == NULL)
+		return NULL;
+	
+	ans->ref_count = 1;
+	*((Operation *)&(ans->oper)) = OPER_ARRAY;
+	ans->x = x;
+	ans->y = y;
+	ans->rows = rows;
+	ans->cols = cols;
+	ans->corner.func.value = NULL;
+	ans->corner.func.expr = NULL;
+	ans->corner.cell = NULL;
+	return (ExprTree *)ans;
+}
+
+int
+expr_tree_get_const_int (ExprTree const *expr)
+{
+	g_return_val_if_fail (expr != NULL, 0);
+	g_return_val_if_fail (expr->any.oper == OPER_CONSTANT, 0);
+	g_return_val_if_fail (expr->constant.value, 0);
+	g_return_val_if_fail (expr->constant.value->type == VALUE_INTEGER, 0);
+
+	return expr->constant.value->v_int.val;
+}
+
+char const *
+expr_tree_get_const_str (ExprTree const *expr)
+{
+	g_return_val_if_fail (expr != NULL, NULL);
+	g_return_val_if_fail (expr->any.oper == OPER_CONSTANT, NULL);
+	g_return_val_if_fail (expr->constant.value, NULL);
+	g_return_val_if_fail (expr->constant.value->type == VALUE_STRING, NULL);
+
+	return expr->constant.value->v_str.val->str;
+}
+
+ExprTree *
+expr_parse_string (char const *expr, ParsePosition const *pp,
 		   char **desired_format, char **error_msg)
 {
 	ExprTree *tree;
@@ -217,97 +288,11 @@ expr_parse_string (const char *expr, const ParsePosition *pp,
 	return NULL;
 }
 
-ExprTree *
-expr_tree_new_name (const ExprName *name)
-{
-	ExprTree *ans;
-
-	ans = g_new (ExprTree, 1);
-	if (!ans)
-		return NULL;
-	
-	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_NAME;
-	ans->u.name = name;
-
-	return ans;
-}
-
-/*ExprTree *
-expr_tree_new (void)
-{
-	ExprTree *ans;
-
-	ans = g_new (ExprTree, 1);
-	if (!ans)
-		return NULL;
-	
-	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_CONSTANT;
-	ans->u.constant = NULL;
-	return ans;
-}*/
-
-ExprTree *
-expr_tree_new_var (const CellRef *cr)
-{
-	ExprTree *ans;
-
-	ans = g_new (ExprTree, 1);
-	if (!ans)
-		return NULL;
-	
-	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_VAR;
-	ans->u.ref = *cr;
-
-	return ans;
-}
-
-ExprTree *
-expr_tree_new_error (const char *txt)
-{
-	Symbol *func;
-	GList *args = NULL;
-
-	if (strcmp (txt, gnumeric_err_NA) == 0) {
-		func = symbol_lookup (global_symbol_table, "NA");
-	} else {
-		func = symbol_lookup (global_symbol_table, "ERROR");
-		args = g_list_prepend (NULL,
-				       expr_tree_new_constant (value_new_string (txt)));
-	}
-
-	symbol_ref (func);
-	return expr_tree_new_funcall (func, args);
-}
-
-ExprTree *
-expr_tree_array_formula (int const x, int const y, int const rows, int const cols)
-{
-	ExprTree *ans;
-
-	ans = g_new (ExprTree, 1);
-	if (ans == NULL)
-		return NULL;
-	
-	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_ARRAY;
-	ans->u.array.x = x;
-	ans->u.array.y = y;
-	ans->u.array.rows = rows;
-	ans->u.array.cols = cols;
-	ans->u.array.corner.func.value = NULL;
-	ans->u.array.corner.func.expr = NULL;
-	ans->u.array.corner.cell = NULL;
-	return ans;
-}
-
 
 static ExprTree *
 expr_tree_array_formula_corner (ExprTree const *expr, EvalPosition const *pos)
 {
-	Cell * corner = expr->u.array.corner.cell;
+	Cell * corner = expr->array.corner.cell;
 
 	/* Attempt to set the corner if it is not already set */
 	if (corner == NULL) {
@@ -315,9 +300,9 @@ expr_tree_array_formula_corner (ExprTree const *expr, EvalPosition const *pos)
 		g_return_val_if_fail (pos->sheet != NULL, NULL);
 
 		corner = sheet_cell_get (pos->sheet,
-					 pos->eval.col - expr->u.array.x,
-					 pos->eval.row - expr->u.array.y);
-		((ExprTree *)expr)->u.array.corner.cell = corner;
+					 pos->eval.col - expr->array.x,
+					 pos->eval.row - expr->array.y);
+		((ExprTree *)expr)->array.corner.cell = corner;
 	}
 
 	g_return_val_if_fail (corner != NULL, NULL);
@@ -325,9 +310,9 @@ expr_tree_array_formula_corner (ExprTree const *expr, EvalPosition const *pos)
 
 	/* Sanity check incase the corner gets removed for some reason */
 	g_return_val_if_fail (corner->u.expression != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (corner->u.expression->oper == OPER_ARRAY, NULL);
-	g_return_val_if_fail (corner->u.expression->u.array.x == 0, NULL);
-	g_return_val_if_fail (corner->u.expression->u.array.y == 0, NULL);
+	g_return_val_if_fail (corner->u.expression->any.oper == OPER_ARRAY, NULL);
+	g_return_val_if_fail (corner->u.expression->array.x == 0, NULL);
+	g_return_val_if_fail (corner->u.expression->array.y == 0, NULL);
 
 	return corner->u.expression;
 }
@@ -340,32 +325,32 @@ void
 expr_tree_ref (ExprTree *tree)
 {
 	g_return_if_fail (tree != NULL);
-	g_return_if_fail (tree->ref_count > 0);
+	g_return_if_fail (tree->any.ref_count > 0);
 
-	tree->ref_count++;
+	tree->any.ref_count++;
 }
 
 static void
 do_expr_tree_unref (ExprTree *tree)
 {
-	if (--tree->ref_count > 0)
+	if (--tree->any.ref_count > 0)
 		return;
 
-	switch (tree->oper){
+	switch (tree->any.oper){
 	case OPER_VAR:
 		break;
 
 	case OPER_CONSTANT:
-		value_release (tree->u.constant);
+		value_release (tree->constant.value);
 		break;
 
 	case OPER_FUNCALL: {
 		GList *l;
 
-		for (l = tree->u.function.arg_list; l; l = l->next)
+		for (l = tree->func.arg_list; l; l = l->next)
 			do_expr_tree_unref (l->data);
-		g_list_free (tree->u.function.arg_list);
-		symbol_unref (tree->u.function.symbol);
+		g_list_free (tree->func.arg_list);
+		symbol_unref (tree->func.symbol);
 		break;
 	}
 
@@ -373,18 +358,18 @@ do_expr_tree_unref (ExprTree *tree)
 		break;
 
 	case OPER_ANY_BINARY:
-		do_expr_tree_unref (tree->u.binary.value_a);
-		do_expr_tree_unref (tree->u.binary.value_b);
+		do_expr_tree_unref (tree->binary.value_a);
+		do_expr_tree_unref (tree->binary.value_b);
 		break;
 
 	case OPER_ANY_UNARY:
-		do_expr_tree_unref (tree->u.value);
+		do_expr_tree_unref (tree->unary.value);
 		break;
 	case OPER_ARRAY:
-		if (tree->u.array.x == 0 && tree->u.array.y == 0) {
-			if (tree->u.array.corner.func.value)
-				value_release (tree->u.array.corner.func.value);
-			do_expr_tree_unref (tree->u.array.corner.func.expr);
+		if (tree->array.x == 0 && tree->array.y == 0) {
+			if (tree->array.corner.func.value)
+				value_release (tree->array.corner.func.value);
+			do_expr_tree_unref (tree->array.corner.func.expr);
 		}
 		break;
 	default:
@@ -405,23 +390,23 @@ void
 expr_tree_unref (ExprTree *tree)
 {
 	g_return_if_fail (tree != NULL);
-	g_return_if_fail (tree->ref_count > 0);
+	g_return_if_fail (tree->any.ref_count > 0);
 
 	do_expr_tree_unref (tree);
 }
 
 static Value *
-eval_funcall (EvalPosition const * const pos, ExprTree const *tree)
+eval_funcall (EvalPosition const *pos, ExprTree const *tree)
 {
 	FunctionEvalInfo ei;
-	const Symbol *sym;
+	Symbol const *sym;
 	FunctionDefinition *fd;
 	GList *args;
 
 	g_return_val_if_fail (pos != NULL, NULL);
 	g_return_val_if_fail (tree != NULL, NULL);
 
-	sym = tree->u.function.symbol;
+	sym = tree->func.symbol;
 
 	if (sym->type != SYMBOL_FUNCTION)
 		return value_new_error (pos, _("Internal error"));
@@ -429,7 +414,7 @@ eval_funcall (EvalPosition const * const pos, ExprTree const *tree)
 	fd = (FunctionDefinition *)sym->data;
 	ei.func_def = fd;
 	ei.pos = pos;
-	args = tree->u.function.arg_list;
+	args = tree->func.arg_list;
 
 	return function_call_with_list (&ei, args);
 }
@@ -449,8 +434,8 @@ eval_funcall (EvalPosition const * const pos, ExprTree const *tree)
  *     at the intersection point.  This value needs to be freed.
  **/
 Value *
-expr_implicit_intersection (EvalPosition const * const pos,
-			    Value * const v)
+expr_implicit_intersection (EvalPosition const *pos,
+			    Value *v)
 {
 	/*
 	 * Handle the implicit union of a single row or
@@ -491,7 +476,7 @@ typedef enum {
 } compare_t;
 
 static compare_t
-compare_bool_bool (Value const * const va, Value const * const vb)
+compare_bool_bool (Value const *va, Value const *vb)
 {
 	gboolean err; /* Ignored */
 	gboolean const a = value_get_as_bool (va, &err);
@@ -502,7 +487,7 @@ compare_bool_bool (Value const * const va, Value const * const vb)
 }
 
 static compare_t
-compare_int_int (Value const * const va, Value const * const vb)
+compare_int_int (Value const *va, Value const *vb)
 {
 	int const a = value_get_as_int (va);
 	int const b = value_get_as_int (vb);
@@ -515,7 +500,7 @@ compare_int_int (Value const * const va, Value const * const vb)
 }
 
 static compare_t
-compare_float_float (Value const * const va, Value const * const vb)
+compare_float_float (Value const *va, Value const *vb)
 {
 	float_t const a = value_get_as_float (va);
 	float_t const b = value_get_as_float (vb);
@@ -534,7 +519,7 @@ compare_float_float (Value const * const va, Value const * const vb)
  * cellranges.
  */
 static compare_t
-compare (Value const * const a, Value const * const b)
+compare (Value const *a, Value const *b)
 {
 	ValueType ta, tb;
 
@@ -613,7 +598,7 @@ compare (Value const * const a, Value const * const b)
  * necessary.
  */
 static void
-eval_range (EvalPosition const * const pos, Value *v)
+eval_range (EvalPosition const *pos, Value *v)
 {
 	int start_col, start_row, end_col, end_row;
 	CellRef * a = &v->v_range.cell_a;
@@ -642,15 +627,15 @@ eval_range (EvalPosition const * const pos, Value *v)
 }
 
 static Value *
-eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
-		ExprEvalFlags const flags)
+eval_expr_real (EvalPosition const *pos, ExprTree const *tree,
+		ExprEvalFlags flags)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
 	
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
 
-	switch (tree->oper){
+	switch (tree->any.oper){
 	case OPER_EQUAL:
 	case OPER_NOT_EQUAL:
 	case OPER_GT:
@@ -659,7 +644,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 	case OPER_LTE: {
 		int comp;
 
-		a = eval_expr_real (pos, tree->u.binary.value_a, flags);
+		a = eval_expr_real (pos, tree->binary.value_a, flags);
 		if (a != NULL) {
 			if (a->type == VALUE_CELLRANGE) {
 				a = expr_implicit_intersection (pos, a);
@@ -669,7 +654,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 				return a;
 		}
 
-		b = eval_expr_real (pos, tree->u.binary.value_b, flags);
+		b = eval_expr_real (pos, tree->binary.value_b, flags);
 		if (b != NULL) {
 			Value *res = NULL;
 			if (b->type == VALUE_CELLRANGE) {
@@ -698,15 +683,15 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 			 *    regarding what is comparing to what
 			 */
 			/* For equality comparisons even errors are ok */
-			if (tree->oper == OPER_EQUAL)
+			if (tree->any.oper == OPER_EQUAL)
 				return value_new_bool (FALSE);
-			if (tree->oper == OPER_NOT_EQUAL)
+			if (tree->any.oper == OPER_NOT_EQUAL)
 				return value_new_bool (TRUE);
 
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
-		switch (tree->oper) {
+		switch (tree->any.oper) {
 		case OPER_EQUAL:
 			res = value_new_bool (comp == IS_EQUAL);
 			break;
@@ -754,7 +739,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		 */
 
 	        /* Ensure a != NULL */
-		a = eval_expr (pos, tree->u.binary.value_a,
+		a = eval_expr (pos, tree->binary.value_a,
 			       flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
@@ -775,7 +760,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		}
 
 	        /* Garantees that b != NULL */
-		b = eval_expr (pos, tree->u.binary.value_b,
+		b = eval_expr (pos, tree->binary.value_b,
 			       flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
@@ -809,7 +794,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 
 			/* FIXME: we could use simple (cheap) heuristics to
 			   catch most cases where overflow will not happen.  */
-			switch (tree->oper){
+			switch (tree->any.oper){
 			case OPER_ADD:
 				dres = (double)ia + (double)ib;
 				ires = (int)dres;
@@ -863,7 +848,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 			value_release (a);
 			value_release (b);
 
-			switch (tree->oper){
+			switch (tree->any.oper){
 			case OPER_ADD:
 				return value_new_float (va + vb);
 
@@ -895,7 +880,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 	case OPER_UNARY_NEG:
 	case OPER_UNARY_PLUS:
 	        /* Garantees that a != NULL */
-		a = eval_expr (pos, tree->u.value, flags & (~EVAL_PERMIT_EMPTY));
+		a = eval_expr (pos, tree->unary.value, flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
@@ -907,14 +892,14 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		if (a->type == VALUE_ERROR)
 			return a;
 
-		if (tree->oper == OPER_UNARY_PLUS)
+		if (tree->any.oper == OPER_UNARY_PLUS)
 			return a;
 
 		if (!VALUE_IS_NUMBER (a)){
 			value_release (a);
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
-		if (tree->oper == OPER_UNARY_NEG) {
+		if (tree->any.oper == OPER_UNARY_NEG) {
 			if (a->type == VALUE_INTEGER)
 				res = value_new_int (-a->v_int.val);
 			else if (a->type == VALUE_FLOAT)
@@ -929,10 +914,10 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
-		a = eval_expr_real (pos, tree->u.binary.value_a, flags);
+		a = eval_expr_real (pos, tree->binary.value_a, flags);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
-		b = eval_expr_real (pos, tree->u.binary.value_b, flags);
+		b = eval_expr_real (pos, tree->binary.value_b, flags);
 		if (b != NULL && b->type == VALUE_ERROR) {
 			if (a != NULL)
 				value_release (a);
@@ -959,7 +944,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		return eval_funcall (pos, tree);
 
 	case OPER_NAME:
-		return eval_expr_name (pos, tree->u.name, flags);
+		return eval_expr_name (pos, tree->name.name, flags);
 
 	case OPER_VAR: {
 		Sheet *cell_sheet;
@@ -972,7 +957,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 			return value_new_float (3.14);
 		}
 
-		ref = &tree->u.ref;
+		ref = &tree->var.ref;
 		cell_get_abs_col_row (ref, &pos->eval, &col, &row);
 
 		cell_sheet = eval_sheet (ref->sheet, pos->sheet);
@@ -987,7 +972,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 	}
 
 	case OPER_CONSTANT:
-		res = tree->u.constant;
+		res = tree->constant.value;
 		if (res->type != VALUE_CELLRANGE)
 			return value_duplicate (res);
 		if (flags & EVAL_PERMIT_NON_SCALAR) {
@@ -1040,11 +1025,11 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 	case OPER_ARRAY:
 	{
 		/* The upper left corner manages the recalc of the expr */
-		int x = tree->u.array.x;
-		int y = tree->u.array.y;
+		int x = tree->array.x;
+		int y = tree->array.y;
 		if (x == 0 && y == 0){
 			/* Release old value if necessary */
-			a = tree->u.array.corner.func.value;
+			a = tree->array.corner.func.value;
 			if (a != NULL)
 				value_release (a);
 
@@ -1064,14 +1049,14 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 			 * is an array return the result, else build an array and
 			 * iterate over the elements, but that theory needs validation.
 			 */
-			a = eval_expr_real (pos, tree->u.array.corner.func.expr,
+			a = eval_expr_real (pos, tree->array.corner.func.expr,
 					    EVAL_PERMIT_NON_SCALAR);
-			*((Value **)&(tree->u.array.corner.func.value)) = a;
+			*((Value **)&(tree->array.corner.func.value)) = a;
 		} else {
 			ExprTree const * const array =
 			    expr_tree_array_formula_corner (tree, pos);
 			if (array)
-				a = array->u.array.corner.func.value;
+				a = array->array.corner.func.value;
 			else
 				a = NULL;
 		}
@@ -1107,8 +1092,8 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 }
 
 Value *
-eval_expr (EvalPosition const * const pos, ExprTree const *tree,
-	   ExprEvalFlags const flags)
+eval_expr (EvalPosition const *pos, ExprTree const *tree,
+	   ExprEvalFlags flags)
 {
 	Value * res = eval_expr_real (pos, tree, flags);
 
@@ -1126,9 +1111,9 @@ eval_expr (EvalPosition const * const pos, ExprTree const *tree,
 }
 
 void
-cell_ref_make_abs (CellRef * const dest,
-		   CellRef const * const src,
-		   EvalPosition const * const ep)
+cell_ref_make_abs (CellRef *dest,
+		   CellRef const *src,
+		   EvalPosition const *ep)
 {
 	g_return_if_fail (dest != NULL);
 	g_return_if_fail (src != NULL);
@@ -1145,7 +1130,7 @@ cell_ref_make_abs (CellRef * const dest,
 }
 
 int
-cell_ref_get_abs_col (CellRef const * const ref, EvalPosition const * const pos)
+cell_ref_get_abs_col (CellRef const *ref, EvalPosition const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
@@ -1156,7 +1141,7 @@ cell_ref_get_abs_col (CellRef const * const ref, EvalPosition const * const pos)
 
 }
 int
-cell_ref_get_abs_row (CellRef const * const ref, EvalPosition const * const pos)
+cell_ref_get_abs_row (CellRef const *ref, EvalPosition const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
@@ -1168,9 +1153,9 @@ cell_ref_get_abs_row (CellRef const * const ref, EvalPosition const * const pos)
 
 
 void
-cell_get_abs_col_row (CellRef const * const cell_ref,
-		      CellPos const * const pos,
-		      int * const col, int * const row)
+cell_get_abs_col_row (CellRef const *cell_ref,
+		      CellPos const *pos,
+		      int *col, int *row)
 {
 	g_return_if_fail (cell_ref != NULL);
 
@@ -1235,7 +1220,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		     int paren_level)
 {
 	static struct {
-		const char *name;
+		char const *name;
 		int prec;	              /* Precedences -- should match parser.y  */
 		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
 	} operations [] = {
@@ -1262,7 +1247,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 	};
 	int op;
 
-	op = tree->oper;
+	op = tree->any.oper;
 
 	switch (op) {
 	case OPER_ANY_BINARY: {
@@ -1272,8 +1257,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 
 		prec = operations[op].prec;
 
-		a = do_expr_decode_tree (tree->u.binary.value_a, pp, prec - operations[op].assoc_left);
-		b = do_expr_decode_tree (tree->u.binary.value_b, pp, prec - operations[op].assoc_right);
+		a = do_expr_decode_tree (tree->binary.value_a, pp, prec - operations[op].assoc_left);
+		b = do_expr_decode_tree (tree->binary.value_b, pp, prec - operations[op].assoc_right);
 		opname = operations[op].name;
 
 		if (prec <= paren_level)
@@ -1292,10 +1277,10 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		int prec;
 
 		prec = operations[op].prec;
-		a = do_expr_decode_tree (tree->u.value, pp, operations[op].prec);
+		a = do_expr_decode_tree (tree->unary.value, pp, operations[op].prec);
 		opname = operations[op].name;
 
-		if (tree->oper != OPER_PERCENT) {
+		if (tree->any.oper != OPER_PERCENT) {
 			if (prec <= paren_level)
 				res = g_strconcat ("(", opname, a, ")", NULL);
 			else
@@ -1317,8 +1302,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		char **args;
 		int  argc;
 
-		fd = tree->u.function.symbol->data;
-		arg_list = tree->u.function.arg_list;
+		fd = tree->func.symbol->data;
+		arg_list = tree->func.arg_list;
 		argc = g_list_length (arg_list);
 
 		if (argc) {
@@ -1358,15 +1343,15 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 	}
 
 	case OPER_NAME:
-		return g_strdup (tree->u.name->name->str);
+		return g_strdup (tree->name.name->name->str);
 
 	case OPER_VAR: {
-		CellRef *cell_ref = &tree->u.ref;
+		CellRef *cell_ref = &tree->var.ref;
 		return cellref_name (cell_ref, pp);
 	}
 
 	case OPER_CONSTANT: {
-		Value *v = tree->u.constant;
+		Value *v = tree->constant.value;
 
 		switch (v->type) {
 		case VALUE_CELLRANGE: {
@@ -1426,8 +1411,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 	}
 	case OPER_ARRAY:
 	{
-		int const x = tree->u.array.x;
-		int const y = tree->u.array.y;
+		int const x = tree->array.x;
+		int const y = tree->array.y;
 		char *res;
 		if (x != 0 || y != 0) {
 			ExprTree *array =
@@ -1438,13 +1423,13 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 				tmp_pos.col = pp->col - x;
 				tmp_pos.row = pp->row - y;
 				res = do_expr_decode_tree (
-					array->u.array.corner.func.expr,
+					array->array.corner.func.expr,
 					&tmp_pos, 0);
 			} else
 				res = g_strdup ("<ERROR>");
 		} else {
 			res = do_expr_decode_tree (
-			    tree->u.array.corner.func.expr, pp, 0);
+			    tree->array.corner.func.expr, pp, 0);
 		}
 
 		return res;
@@ -1456,7 +1441,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 }
 
 char *
-expr_decode_tree (ExprTree *tree, const ParsePosition *pp)
+expr_decode_tree (ExprTree *tree, ParsePosition const *pp)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
 
@@ -1470,9 +1455,9 @@ enum CellRefRelocate {
 };
 
 static enum CellRefRelocate
-cellref_relocate (CellRef * const ref,
-		  const EvalPosition * const pos,
-		  const ExprRelocateInfo * const rinfo)
+cellref_relocate (CellRef *ref,
+		  EvalPosition const *pos,
+		  ExprRelocateInfo const *rinfo)
 {
 	/* For row or column refs
 	 * Ref	From	To
@@ -1573,33 +1558,33 @@ cellref_relocate (CellRef * const ref,
  * the move.
  */
 ExprTree *
-expr_relocate (const ExprTree *expr,
-	       const EvalPosition *pos,
-	       const ExprRelocateInfo *rinfo)
+expr_relocate (ExprTree const *expr,
+	       EvalPosition const *pos,
+	       ExprRelocateInfo const *rinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	switch (expr->oper) {
+	switch (expr->any.oper) {
 	case OPER_ANY_BINARY: {
-		ExprTree *a = expr_relocate (expr->u.binary.value_a, pos, rinfo);
-		ExprTree *b = expr_relocate (expr->u.binary.value_b, pos, rinfo);
+		ExprTree *a = expr_relocate (expr->binary.value_a, pos, rinfo);
+		ExprTree *b = expr_relocate (expr->binary.value_b, pos, rinfo);
 
 		if (a == NULL && b == NULL)
 			return NULL;
 
 		if (a == NULL)
-			expr_tree_ref ((a = expr->u.binary.value_a));
+			expr_tree_ref ((a = expr->binary.value_a));
 		else if (b == NULL)
-			expr_tree_ref ((b = expr->u.binary.value_b));
+			expr_tree_ref ((b = expr->binary.value_b));
 
-		return expr_tree_new_binary (a, expr->oper, b);
+		return expr_tree_new_binary (a, expr->any.oper, b);
 	}
 
 	case OPER_ANY_UNARY: {
-		ExprTree *a = expr_relocate (expr->u.value, pos, rinfo);
+		ExprTree *a = expr_relocate (expr->unary.value, pos, rinfo);
 		if (a == NULL)
 			return NULL;
-		return expr_tree_new_unary (expr->oper, a);
+		return expr_tree_new_unary (expr->any.oper, a);
 	}
 
 	case OPER_FUNCALL: {
@@ -1607,7 +1592,7 @@ expr_relocate (const ExprTree *expr,
 		GList *new_args = NULL;
 		GList *l;
 
-		for (l = expr->u.function.arg_list; l; l = l->next) {
+		for (l = expr->func.arg_list; l; l = l->next) {
 			ExprTree *arg = expr_relocate (l->data, pos, rinfo);
 			new_args = g_list_append (new_args, arg);
 			if (arg != NULL)
@@ -1617,13 +1602,13 @@ expr_relocate (const ExprTree *expr,
 		if (relocate) {
 			GList *m;
 
-			for (l = expr->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
+			for (l = expr->func.arg_list, m = new_args; l; l = l->next, m = m->next) {
 				if (m->data == NULL)
 					expr_tree_ref ((m->data = l->data));
 			}
 
-			symbol_ref (expr->u.function.symbol);
-			return expr_tree_new_funcall (expr->u.function.symbol, new_args);
+			symbol_ref (expr->func.symbol);
+			return expr_tree_new_funcall (expr->func.symbol, new_args);
 		}
 		g_list_free (new_args);
 		return NULL;
@@ -1634,7 +1619,7 @@ expr_relocate (const ExprTree *expr,
 
 	case OPER_VAR:
 	{
-		CellRef res = expr->u.ref; /* Copy */
+		CellRef res = expr->var.ref; /* Copy */
 		switch (cellref_relocate (&res, pos, rinfo)) {
 		case CELLREF_NO_RELOCATE :
 			return NULL;
@@ -1648,7 +1633,7 @@ expr_relocate (const ExprTree *expr,
 	}
 
 	case OPER_CONSTANT: {
-		Value const * const v = expr->u.constant;
+		Value const * const v = expr->constant.value;
 		if  (v->type == VALUE_CELLRANGE) {
 			/* TODO : Figure out the logic of 1 ref error 1 ok */
 			CellRef ref_a = v->v_range.cell_a;
@@ -1691,17 +1676,16 @@ expr_relocate (const ExprTree *expr,
 	}
 
 	case OPER_ARRAY: {
-		ArrayRef const * a = &expr->u.array;
+		ExprArray const * a = &expr->array;
 		if (a->x == 0 && a->y == 0) {
 			ExprTree *func =
 				expr_relocate (a->corner.func.expr, pos, rinfo);
 
 			if (func != NULL) {
 				ExprTree *res =
-					expr_tree_array_formula (0, 0,
-								 a->rows, a->cols);
-				res->u.array.corner.func.value = NULL;
-				res->u.array.corner.func.expr = func;
+					expr_tree_new_array (0, 0, a->rows, a->cols);
+				res->array.corner.func.value = NULL;
+				res->array.corner.func.expr = func;
 				return res;
 			}
 		}
@@ -1715,12 +1699,12 @@ expr_relocate (const ExprTree *expr,
 
 /* Debugging utility to print an expression */
 void
-expr_dump_tree (const ExprTree *tree)
+expr_dump_tree (ExprTree const *tree)
 {
-	switch (tree->oper){
+	switch (tree->any.oper){
 	case OPER_VAR: {
-		const CellRef *cr;	
-		cr = &tree->u.ref;
+		CellRef const *cr;	
+		cr = &tree->var.ref;
 		printf ("Cell: %s%c%s%d\n",
 			cr->col_relative ? "" : "$",
 			cr->col + 'A',
@@ -1730,24 +1714,24 @@ expr_dump_tree (const ExprTree *tree)
 	}
 		
 	case OPER_CONSTANT:
-		value_dump (tree->u.constant);
+		value_dump (tree->constant.value);
 		return;
 
 	case OPER_FUNCALL: {
-		const Symbol *s;
-		s = symbol_lookup (global_symbol_table, tree->u.function.symbol->str);
+		Symbol const *s;
+		s = symbol_lookup (global_symbol_table, tree->func.symbol->str);
 		printf ("Function call: %s\n", s->str);
 		return;
 	}
 
 	case OPER_NAME:
-		printf ("Name : %s\n", tree->u.name->name->str);
+		printf ("Name : %s\n", tree->name.name->name->str);
 		return;
 
 	case OPER_ANY_BINARY:
-		expr_dump_tree (tree->u.binary.value_a);
-		expr_dump_tree (tree->u.binary.value_b);
-		switch (tree->oper){
+		expr_dump_tree (tree->binary.value_a);
+		expr_dump_tree (tree->binary.value_b);
+		switch (tree->any.oper){
 		case OPER_ADD: printf ("ADD\n"); break;
 		case OPER_SUB: printf ("SUB\n"); break;
 		case OPER_MULT: printf ("MULT\n"); break;
@@ -1768,10 +1752,10 @@ expr_dump_tree (const ExprTree *tree)
 	case OPER_PERCENT:
 	case OPER_UNARY_NEG:
 	case OPER_UNARY_PLUS:
-		expr_dump_tree (tree->u.value);
-		if (tree->oper == OPER_PERCENT)
+		expr_dump_tree (tree->unary.value);
+		if (tree->any.oper == OPER_PERCENT)
 			printf ("PERCENT\n");
-		else if (tree->oper == OPER_UNARY_NEG)
+		else if (tree->any.oper == OPER_UNARY_NEG)
 			printf ("NEGATIVE\n");
 		else
 			printf ("POSITIVE\n");
