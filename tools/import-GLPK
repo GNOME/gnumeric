@@ -184,6 +184,11 @@ for ($i = 0; $src[$i] ne "@"; $i++) {
 	    # Use g_free instead of free
 	    $line =~s/[^u]free\s*\(/g_free \(/g;
 
+	    # Constify a few routines.
+	    if (/^void\s+(_insist|lib_set_fault_hook|fault|lib_set_print_hook|print)\b/) {
+		s/\bchar\s+\*/const char */g;
+	    }
+
 	    print OUTFILE "$line\n";
 
 	    # Add Gnumeric headers
