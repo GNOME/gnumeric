@@ -154,9 +154,27 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 }
 
 void
-sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
+sheet_view_update_cursor_pos (SheetView *sheet_view)
 {
 	GList *l;
+	GnumericSheet *gsheet;
+
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+
+	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+
+	/* Repsition the selection cursor */
+	item_cursor_reposition (gsheet->item_cursor);
+
+	/* Reposition the animated cursors */
+	for (l = sheet_view->anted_cursors; l; l = l->next)
+		item_cursor_reposition (ITEM_CURSOR (l->data));
+}
+
+void
+sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
+{
 	GnumericSheet *gsheet;
 	ItemBar *col_item, *row_item;
 	int h, w;
@@ -207,12 +225,7 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 			 sheet_view->sheet->cursor.edit_pos.row,
 			 TRUE);
 
-	/* Repsition the cursor */
-	item_cursor_reposition (gsheet->item_cursor);
-
-	/* Adjust the animated cursors */
-	for (l = sheet_view->anted_cursors; l; l = l->next)
-		item_cursor_reposition (ITEM_CURSOR (l->data));
+	sheet_view_update_cursor_pos (sheet_view);
 }
 
 static void

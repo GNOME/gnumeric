@@ -732,6 +732,7 @@ sheet_update (Sheet const *sheet)
 		 */
 		p->recompute_visibility = FALSE;
 		sheet_compute_visible_ranges (sheet);
+		sheet_update_cursor_pos (sheet);
 		sheet_redraw_all (sheet);
 	}
 
@@ -2292,8 +2293,11 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 					  end_col, end_row);
 
 	/* Clear the style in the region (new_default will ref the style for us). */
-	if (clear_flags & CLEAR_FORMATS)
+	if (clear_flags & CLEAR_FORMATS) {
 		sheet_style_attach (sheet, r, mstyle_new_default ());
+		sheet_range_calc_spans (sheet, r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
+		rows_height_update (sheet, &r);
+	}
 
 	if (clear_flags & CLEAR_COMMENTS)
 		sheet_cell_foreach_range (sheet, TRUE,
@@ -2464,6 +2468,20 @@ sheet_cursor_set (Sheet *sheet,
 			MIN (base_row, move_row),
 			MAX (base_col, move_col),
 			MAX (base_row, move_row));
+	}
+}
+
+void
+sheet_update_cursor_pos (Sheet *sheet)
+{
+	GList *l;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->sheet_views; l; l = l->next) {
+		SheetView *sheet_view = l->data;
+		sheet_view_update_cursor_pos (sheet_view);
 	}
 }
 
@@ -3297,8 +3315,10 @@ sheet_row_col_visible (Sheet *sheet, gboolean const is_col, gboolean const visib
 		    ? sheet_col_fetch (sheet, index++)
 		    : sheet_row_fetch (sheet, index++);
 
-		if (visible ^ cri->visible)
+		if (visible ^ cri->visible) {
 			cri->visible = visible;
+			sheet->priv->recompute_visibility = TRUE;
+		}
 	}
 }
 
