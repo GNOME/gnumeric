@@ -120,7 +120,7 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
                  WorkbookView *wbv, GsfInput *input)
 {
 	static char const * const content[] = {
-		"Workbook",	"WORKBOOK",	"workbook"
+		"Workbook",	"WORKBOOK",	"workbook",
 		"Book",		"BOOK",		"book"
 	};
 

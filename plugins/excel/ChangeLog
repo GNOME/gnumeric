@@ -1,3 +1,7 @@
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (excel_file_open) : typo
+
 2002-09-27  Jody Goldberg <jody@gnome.org>
 
 	* boot.c (excel_save) : restore macros.
