@@ -332,7 +332,13 @@ get_locale_name (LocaleSelector *ls)
 	char const *cur_locale, *name;
 	char *locale, *p;
 
-	cur_locale = setlocale (LC_ALL, NULL);
+	/*
+	 * We cannot use LC_ALL here because a composite locale may have
+	 * a string that is a mile wide (and not be intented for humans
+	 * anyway).  Why use LC_MESSAGES?  Good question, but it actuality
+	 * I doubt it will matter.  It's an arbitrary choice.
+	 */
+	cur_locale = setlocale (LC_MESSAGES, NULL);
 	if (!cur_locale) cur_locale = "C";  /* Just in case.  */
 	locale = g_strdup (cur_locale);
 
@@ -348,8 +354,14 @@ get_locale_name (LocaleSelector *ls)
 	if (name) {
 		g_free (locale);
 		return g_strdup (name);
-	} else
+	} else {
+		/* Just in case we get something really wide.  */
+		const char *ellipsis = "...";
+		if ((size_t)g_utf8_strlen (locale, -1) > 50 + strlen (ellipsis))
+			strcpy (g_utf8_offset_to_pointer (locale, 50), ellipsis);
+
 		return locale;
+	}
 }
 
 static void
