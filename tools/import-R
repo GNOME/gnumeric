@@ -5,6 +5,7 @@ use strict;
 
 my @files =
     ("dpq.h",
+     "ftrunc.c",
      "dnorm.c",
      "pnorm.c",
      "qnorm.c",
@@ -139,7 +140,7 @@ sub import_file {
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
 
-	    s/\b(trunc|ftrunc)\b/floorgnum/g;
+	    s/\b(trunc|ftrunc)\b/gnumeric_trunc/g;
 	    s/\b(lgammafn|lgamma)\b/lgammagnum/g;
 	    s/\bML_NAN\b/gnm_nan/g;
 	    s/\bML_VALID\b/\!isnangnum/g;
@@ -149,6 +150,8 @@ sub import_file {
 	    # Improve precision of "lgammagnum(x+1)".
 	    s/\blgammagnum\s*\(([^()]*\S)\s*\+\s*1(.0*)?\s*\)/lgamma1p ($1)/;
 	    s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/expgnum(lgamma1p ($1))/;
+	    s/\bR_Log1_Exp\b/swap_log_tail/g;
+
 	    if ($filename =~ m|/bessel_i\.c$|) {
 		s/\bgamma_cody\(empal\)/expgnum(lgamma1p(nu))/;
 	    }

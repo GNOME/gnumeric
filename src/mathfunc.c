@@ -215,9 +215,8 @@ gnumeric_fake_trunc (gnm_float x)
 #define R_D_Clog(p)	(log_p	? log1pgnum(-(p)) : (1 - (p)))/* [log](1-p) */
 
 /* loggnum(1-expgnum(x)):  R_D_LExp(x) == (log1pgnum(- R_D_qIv(x))) but even more stable:*/
-#define R_D_LExp(x)     (log_p ? \
-                           ((x) > -M_LN2gnum ? loggnum(-expm1gnum(x)) : log1pgnum(-expgnum(x))) : \
-			 log1pgnum(-x))
+#define R_D_LExp(x)     (log_p ? swap_log_tail(x) : log1pgnum(-x))
+
 /*till 1.8.x:
  * #define R_DT_val(x)	R_D_val(R_D_Lval(x))
  * #define R_DT_Cval(x)	R_D_val(R_D_Cval(x)) */
@@ -237,6 +236,9 @@ gnumeric_fake_trunc (gnm_float x)
 
 #define R_DT_log(p)	(lower_tail? R_D_log(p) : R_D_LExp(p))/* loggnum(p) in qF */
 #define R_DT_Clog(p)	(lower_tail? R_D_LExp(p): R_D_log(p))/* log1pgnum (-p) in qF*/
+#define R_DT_Log(p)	(lower_tail? (p) : swap_log_tail(p))
+/* ==   R_DT_log when we already "know" log_p == TRUE :*/
+
 
 #define R_Q_P01_check(p)			\
     if ((log_p	&& p > 0) ||			\
@@ -248,13 +250,51 @@ gnumeric_fake_trunc (gnm_float x)
 #define R_D_fexp(f,x)     (give_log ? -0.5*loggnum(f)+(x) : expgnum(x)/sqrtgnum(f))
 #define R_D_forceint(x)   floorgnum((x) + 0.5)
 #define R_D_nonint(x) 	  (gnumabs((x) - floorgnum((x)+0.5)) > 1e-7)
-#define R_D_notnnegint(x) (x < 0. || R_D_nonint(x))
+/* [neg]ative or [non int]eger : */
+#define R_D_negInonint(x) (x < 0. || R_D_nonint(x))
 
 #define R_D_nonint_check(x) 				\
    if(R_D_nonint(x)) {					\
 	MATHLIB_WARNING("non-integer x = %" GNUM_FORMAT_f "", x);	\
 	return R_D__0;					\
    }
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/ftrunc.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  SYNOPSIS
+ *
+ *    #include <Rmath.h>
+ *    double ftrunc(double x);
+ *
+ *  DESCRIPTION
+ *
+ *    Truncation toward zero.
+ */
+
+
+gnm_float gnumeric_trunc(gnm_float x)
+{
+	if(x >= 0) return floorgnum(x);
+	else return ceil(x);
+}
 
 /* ------------------------------------------------------------------------ */
 /* Imported src/nmath/dnorm.c from R.  */
@@ -507,7 +547,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 	temp = (xnum + c[7]) / (xden + d[7]);
 
 #define do_del(X)							\
-	xsq = floorgnum(X * SIXTEN) / SIXTEN;				\
+	xsq = gnumeric_trunc(X * SIXTEN) / SIXTEN;				\
 	del = (X - xsq) * (X + xsq);					\
 	if(log_p) {							\
 	    *cum = (-xsq * xsq * 0.5) + (-del * 0.5) + loggnum(temp);	\
@@ -1450,9 +1490,7 @@ gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_ta
 	return(arg);
     /* else */
     /* sum = expgnum(arg); and return   if(lower_tail) sum  else 1-sum : */
-    return (lower_tail) ? expgnum(arg)
-	: (log_p ? (arg > -M_LN2gnum ? loggnum(-expm1gnum(arg)) : log1pgnum(-expgnum(arg)))
-                 : -expm1gnum(arg));
+    return (lower_tail) ? expgnum(arg) : (log_p ? swap_log_tail(arg) : -expm1gnum(arg));
 }
 /* Cleaning up done by tools/import-R:  */
 #undef USE_PNORM
@@ -2320,13 +2358,14 @@ gnm_float dbinom(gnm_float x, gnm_float n, gnm_float p, gboolean give_log)
     if (isnangnum(x) || isnangnum(n) || isnangnum(p)) return x + n + p;
 #endif
 
-  if (p < 0 || p > 1 || R_D_notnnegint(n)) ML_ERR_return_NAN;
-  R_D_nonint_check(x);
+    if (p < 0 || p > 1 || R_D_negInonint(n))
+	ML_ERR_return_NAN;
+    R_D_nonint_check(x);
 
-  n = R_D_forceint(n);
-  x = R_D_forceint(x);
+    n = R_D_forceint(n);
+    x = R_D_forceint(x);
 
-  return dbinom_raw(x,n,p,1-p,give_log);
+    return dbinom_raw(x,n,p,1-p,give_log);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -2335,6 +2374,7 @@ gnm_float dbinom(gnm_float x, gnm_float n, gnm_float p, gboolean give_log)
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998 Ross Ihaka
  *  Copyright (C) 2000, 2002 The R Development Core Team
+ *  Copyright (C) 2003--2004 The R Foundation
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -2380,7 +2420,7 @@ gnm_float qbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, gb
     if (pr < 0 || pr > 1 || n < 0)
 	ML_ERR_return_NAN;
 
-    if (pr == R_DT_0 || n == 0) return 0.;
+    if (pr == 0. || n == 0) return 0.;
     if (p == R_DT_0) return 0.;
     if (p == R_DT_1) return n;
 
@@ -2777,9 +2817,13 @@ gnm_float dbeta(gnm_float x, gnm_float a, gnm_float b, gboolean give_log)
  *    items without replacement. The hypergeometric probability is the
  *    probability of x successes:
  *
- *                   dbinom(x,r,p) * dbinom(n-x,b,p)
- *      p(x;r,b,n) = ---------------------------------
- *                             dbinom(n,r+b,p)
+ *		       choose(r, x) * choose(b, n-x)
+ *	p(x; r,b,n) =  -----------------------------  =
+ *			       choose(r+b, n)
+ *
+ *		      dbinom(x,r,p) * dbinom(n-x,b,p)
+ *		    = --------------------------------
+ *			       dbinom(n,r+b,p)
  *
  *    for any p. For numerical stability, we take p=n/(r+b); with this choice,
  *    the denominator is not exponentially small.
@@ -2792,13 +2836,14 @@ gnm_float dhyper(gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean gi
 
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(r) || isnangnum(b) || isnangnum(n))
-        return x + r + b + n;
+	return x + r + b + n;
 #endif
 
-    if (R_D_notnnegint(r) || R_D_notnnegint(b) || R_D_notnnegint(n) || n > r+b)
+    if (R_D_negInonint(r) || R_D_negInonint(b) || R_D_negInonint(n) || n > r+b)
 	ML_ERR_return_NAN;
+    if (R_D_negInonint(x))
+	return(R_D__0);
 
-    if (R_D_notnnegint(x)) return(R_D__0);
     x = R_D_forceint(x);
     r = R_D_forceint(r);
     b = R_D_forceint(b);
@@ -2810,7 +2855,7 @@ gnm_float dhyper(gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean gi
     p = ((gnm_float)n)/((gnm_float)(r+b));
     q = ((gnm_float)(r+b-n))/((gnm_float)(r+b));
 
-    p1 = dbinom_raw(x,  r, p,q,give_log);
+    p1 = dbinom_raw(x,	r, p,q,give_log);
     p2 = dbinom_raw(n-x,b, p,q,give_log);
     p3 = dbinom_raw(n,r+b, p,q,give_log);
 
@@ -4036,7 +4081,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		/* ----------------------------------------------------------
 		   Calculation of K(ALPHA+1,X)/K(ALPHA,X),  1.0 <= X <= 4.0
 		   ----------------------------------------------------------*/
-		d2 = floorgnum(estm[0] / ex + estm[1]);
+		d2 = gnumeric_trunc(estm[0] / ex + estm[1]);
 		m = (long) d2;
 		d1 = d2 + d2;
 		d2 -= .5;
@@ -4050,7 +4095,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		   Calculation of I(|ALPHA|,X) and I(|ALPHA|+1,X) by backward
 		   recurrence and K(ALPHA,X) from the wronskian
 		   -----------------------------------------------------------*/
-		d2 = floorgnum(estm[2] * ex + estm[3]);
+		d2 = gnumeric_trunc(estm[2] * ex + estm[3]);
 		m = (long) d2;
 		c = gnumabs(nu);
 		d3 = c + c;
@@ -4084,7 +4129,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		   Calculation of K(ALPHA,X) and K(ALPHA+1,X)/K(ALPHA,X), by
 		   backward recurrence, for  X > 4.0
 		   ----------------------------------------------------------*/
-		dm = floorgnum(estm[4] / ex + estm[5]);
+		dm = gnumeric_trunc(estm[4] / ex + estm[5]);
 		m = (long) dm;
 		d2 = dm - .5;
 		d2 *= d2;
