@@ -1,3 +1,15 @@
+2001-08-03  Jody Goldberg <jgoldberg@home.com>
+
+	Consistently refer to /ExcelSheet/ instances as esheet.
+	Ensure that the BiffQuery is the first arg.
+	* ms-excel-read.c (ms_excel_sheet_new) : Explicitly request a full
+	  respan for the update after we load.  I had been relying on there
+	  being a col/row or default col/row sizing to force it.
+
+2001-08-02  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_blip_new) : be consistent and use #ifdef
+
 2001-07-25  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_window2) : Tidy up a bit.

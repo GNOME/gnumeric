@@ -56,8 +56,6 @@ static excel_iconv_t current_workbook_iconv = NULL;
 /* Forward references */
 static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 					     const char *name);
-static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
-					     ExcelSheet *ans);
 static void        margin_read (PrintUnit *pu, double val);
 
 void
@@ -384,7 +382,7 @@ get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 }
 
 static void
-read_sst (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
+read_sst (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	guint32 offset;
 	unsigned k;
@@ -530,11 +528,42 @@ ms_biff_bof_data_destroy (MsBiffBofData *data)
 	g_free (data);
 }
 
+static void
+ms_excel_workbook_attach (ExcelWorkbook *wb, ExcelSheet *ans)
+{
+	g_return_if_fail (wb);
+	g_return_if_fail (ans);
+
+	workbook_sheet_attach (wb->gnum_wb, ans->gnum_sheet, NULL);
+	g_ptr_array_add (wb->excel_sheets, ans);
+}
+
+static gboolean
+ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
+{
+	unsigned idx = 0;
+
+	if (ans->gnum_sheet) {
+		if (!workbook_sheet_detach (wb->gnum_wb, ans->gnum_sheet))
+			return FALSE;
+		/* Detaching the sheet deletes it */
+		ans->gnum_sheet = NULL;
+	}
+	for (idx = 0; idx < wb->excel_sheets->len; idx++)
+		if (g_ptr_array_index (wb->excel_sheets, idx) == ans) {
+			g_ptr_array_index (wb->excel_sheets, idx) = NULL;
+			return TRUE;
+		}
+
+	printf ("Sheet not in list of sheets !\n");
+	return FALSE;
+}
+
 /**
  * See S59D61.HTM
  **/
 static void
-biff_boundsheet_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
+biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	BiffBoundsheetData *ans = g_new (BiffBoundsheetData, 1);
 
@@ -615,7 +644,7 @@ biff_boundsheet_data_destroy (gpointer key, BiffBoundsheetData *d, gpointer user
  * NB. 'fount' is the correct, and original _English_
  **/
 static void
-biff_font_data_new (ExcelWorkbook *wb, BiffQuery *q)
+biff_font_data_new (BiffQuery *q, ExcelWorkbook *wb)
 {
 	BiffFontData *fd = g_new (BiffFontData, 1);
 	guint16 data;
@@ -812,15 +841,15 @@ biff_name_data_new (ExcelWorkbook *wb, char const *name,
 }
 
 ExprTree *
-biff_name_data_get_name (ExcelSheet const *sheet, int idx)
+biff_name_data_get_name (ExcelSheet const *esheet, int idx)
 {
 	BiffNameData *bnd;
 	GPtrArray    *a;
 
-	g_return_val_if_fail (sheet, NULL);
-	g_return_val_if_fail (sheet->wb, NULL);
+	g_return_val_if_fail (esheet, NULL);
+	g_return_val_if_fail (esheet->wb, NULL);
 
-	a = sheet->wb->name_data;
+	a = esheet->wb->name_data;
 
 	if (a == NULL || idx < 0 || (int)a->len <= idx ||
 	    (bnd = g_ptr_array_index (a, idx)) == NULL) {
@@ -830,7 +859,7 @@ biff_name_data_get_name (ExcelSheet const *sheet, int idx)
 	}
 
 	if (bnd->type == BNDStore && bnd->v.store.data) {
-		ExprTree *tree = ms_excel_parse_formula (sheet,
+		ExprTree *tree = ms_excel_parse_formula (esheet,
 							 bnd->v.store.data,
 							 0, 0, FALSE,
 							 bnd->v.store.len,
@@ -842,9 +871,9 @@ biff_name_data_get_name (ExcelSheet const *sheet, int idx)
 		if (tree) {
 			char *duff = "Some Error";
 			bnd->v.name = (bnd->sheet_index > 0)
-				? expr_name_add (NULL, sheet->gnum_sheet,
+				? expr_name_add (NULL, esheet->gnum_sheet,
 						  bnd->name, tree, &duff)
-				: expr_name_add (sheet->wb->gnum_wb, NULL,
+				: expr_name_add (esheet->wb->gnum_wb, NULL,
 						 bnd->name, tree, &duff);
 
 			if (!bnd->v.name)
@@ -853,7 +882,7 @@ biff_name_data_get_name (ExcelSheet const *sheet, int idx)
 #ifndef NO_DEBUG_EXCEL
 			else if (ms_excel_read_debug > 1) {
 				ParsePos ep;
-				parse_pos_init (&ep, NULL, sheet->gnum_sheet, 0, 0);
+				parse_pos_init (&ep, NULL, esheet->gnum_sheet, 0, 0);
 				printf ("Parsed name: '%s' = '%s'\n",
 					bnd->name, tree
 					? expr_tree_as_string (tree, &ep)
@@ -1099,9 +1128,9 @@ ms_excel_palette_destroy (ExcelPalette *pal)
  * Returns the font color if there is one.
  **/
 static BiffFontData const *
-ms_excel_get_font (ExcelSheet *sheet, guint16 font_idx)
+ms_excel_get_font (ExcelSheet *esheet, guint16 font_idx)
 {
-	BiffFontData const *fd = g_hash_table_lookup (sheet->wb->font_data,
+	BiffFontData const *fd = g_hash_table_lookup (esheet->wb->font_data,
 						      &font_idx);
 
 	g_return_val_if_fail (fd != NULL, NULL); /* flag the problem */
@@ -1110,10 +1139,10 @@ ms_excel_get_font (ExcelSheet *sheet, guint16 font_idx)
 }
 
 static BiffXFData const *
-ms_excel_get_xf (ExcelSheet *sheet, int xfidx)
+ms_excel_get_xf (ExcelSheet *esheet, int xfidx)
 {
 	BiffXFData *xf;
-	GPtrArray const * const p = sheet->wb->XF_cell_records;
+	GPtrArray const * const p = esheet->wb->XF_cell_records;
 
 	g_return_val_if_fail (p != NULL, NULL);
 	if (0 > xfidx || xfidx >= (int)p->len) {
@@ -1159,9 +1188,9 @@ get_substitute_font (gchar *fontname)
 }
 
 static MStyle *
-ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
+ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 {
-	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
+	BiffXFData const *xf = ms_excel_get_xf (esheet, xfidx);
 	BiffFontData const *fd;
 	StyleColor	*pattern_color, *back_color, *font_color;
 	int		 pattern_index,  back_index,  font_index;
@@ -1198,7 +1227,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	/* mstyle_set_orientation (mstyle, ); */
 
 	/* Font */
-	fd = ms_excel_get_font (sheet, xf->font_idx);
+	fd = ms_excel_get_font (esheet, xf->font_idx);
 	if (fd != NULL) {
 		StyleUnderlineType underline = UNDERLINE_NONE;
 		subs_fontname = get_substitute_font (fd->fontname);
@@ -1274,7 +1303,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 				style_color_ref ((pattern_color = font_color));
 			} else {
 				pattern_color =
-					ms_excel_palette_get (sheet->wb->palette,
+					ms_excel_palette_get (esheet->wb->palette,
 							      pattern_index);
 
 				/* Contrast back to pattern, and font to back */
@@ -1285,7 +1314,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 				font_color = black_or_white_contrast (back_color);
 			}
 		} else {
-			back_color = ms_excel_palette_get (sheet->wb->palette,
+			back_color = ms_excel_palette_get (esheet->wb->palette,
 							   back_index);
 
 			/* Contrast font to back */
@@ -1296,12 +1325,12 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 				style_color_ref ((pattern_color = font_color));
 			else
 				pattern_color =
-					ms_excel_palette_get (sheet->wb->palette,
+					ms_excel_palette_get (esheet->wb->palette,
 							      pattern_index);
 		}
 	} else {
 		/* Use the font as a baseline */
-		font_color = ms_excel_palette_get (sheet->wb->palette,
+		font_color = ms_excel_palette_get (esheet->wb->palette,
 						   font_index);
 
 		if (back_index == 64 || back_index == 65 || back_index == 0) {
@@ -1312,14 +1341,14 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 				pattern_color = black_or_white_contrast (back_color);
 			} else {
 				pattern_color =
-					ms_excel_palette_get (sheet->wb->palette,
+					ms_excel_palette_get (esheet->wb->palette,
 							      pattern_index);
 
 				/* Contrast back to pattern */
 				back_color = black_or_white_contrast (pattern_color);
 			}
 		} else {
-			back_color = ms_excel_palette_get (sheet->wb->palette,
+			back_color = ms_excel_palette_get (esheet->wb->palette,
 							   back_index);
 
 			/* Pattern is auto contrast it to back */
@@ -1327,7 +1356,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 				pattern_color = black_or_white_contrast (back_color);
 			else
 				pattern_color =
-					ms_excel_palette_get (sheet->wb->palette,
+					ms_excel_palette_get (esheet->wb->palette,
 							      pattern_index);
 		}
 	}
@@ -1362,7 +1391,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			? black_or_white_contrast (back_color)
 #endif
 			? style_color_black ()
-			: ms_excel_palette_get (sheet->wb->palette,
+			: ms_excel_palette_get (esheet->wb->palette,
 						color_index);
 
 		mstyle_set_border (tmp, t,
@@ -1377,29 +1406,29 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 }
 
 static void
-ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
+ms_excel_set_xf (ExcelSheet *esheet, int col, int row, guint16 xfidx)
 {
-	MStyle *const mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle *const mstyle = ms_excel_get_style_from_xf (esheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 2) {
-		printf ("%s!%s%d = xf(%d)\n", sheet->gnum_sheet->name_unquoted,
+		printf ("%s!%s%d = xf(%d)\n", esheet->gnum_sheet->name_unquoted,
 			col_name (col), row + 1, xfidx);
 	}
 #endif
 
-	sheet_style_set_pos (sheet->gnum_sheet, col, row, mstyle);
+	sheet_style_set_pos (esheet->gnum_sheet, col, row, mstyle);
 }
 
 static void
-ms_excel_set_xf_segment (ExcelSheet *sheet,
+ms_excel_set_xf_segment (ExcelSheet *esheet,
 			 int start_col, int end_col,
 			 int start_row, int end_row, guint16 xfidx)
 {
 	Range   range;
-	MStyle * const mstyle  = ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle * const mstyle  = ms_excel_get_style_from_xf (esheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
@@ -1407,7 +1436,7 @@ ms_excel_set_xf_segment (ExcelSheet *sheet,
 	range.start.row = start_row;
 	range.end.col   = end_col;
 	range.end.row   = end_row;
-	sheet_style_set_range (sheet->gnum_sheet, &range, mstyle);
+	sheet_style_set_range (esheet->gnum_sheet, &range, mstyle);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 2) {
@@ -1475,7 +1504,7 @@ excel_map_pattern_index_from_excel (int const i)
  * Parse the BIFF XF Data structure into a nice form, see S59E1E.HTM
  **/
 static void
-biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
+biff_xf_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	BiffXFData *xf = g_new (BiffXFData, 1);
 	guint32 data, subdata;
@@ -1758,21 +1787,21 @@ biff_xf_data_destroy (BiffXFData *xf)
 }
 
 static void
-ms_excel_sheet_set_version (ExcelSheet *sheet, MsBiffVersion ver)
+ms_excel_sheet_set_version (ExcelSheet *esheet, MsBiffVersion ver)
 {
-	sheet->container.ver = ver;
+	esheet->container.ver = ver;
 }
 
 static void
-ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
+ms_excel_sheet_insert (ExcelSheet *esheet, int xfidx,
 		       int col, int row, const char *text)
 {
 	Cell *cell;
 
-	ms_excel_set_xf (sheet, col, row, xfidx);
+	ms_excel_set_xf (esheet, col, row, xfidx);
 
 	if (text) {
-		cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+		cell = sheet_cell_fetch (esheet->gnum_sheet, col, row);
 		cell_set_value (cell, value_new_string (text), NULL);
 	}
 }
@@ -1788,7 +1817,7 @@ biff_shared_formula_destroy (gpointer key, BiffSharedFormula *sf,
 }
 
 static ExprTree *
-ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
+ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 {
 	int has_next_record = ms_biff_query_next (q);
 
@@ -1804,7 +1833,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 			q->data + (is_array ? 14 : 10);
 		const guint16 data_len =
 			MS_OLE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
-		ExprTree *expr = ms_excel_parse_formula (sheet, data,
+		ExprTree *expr = ms_excel_parse_formula (esheet, data,
 							 array_col_first,
 							 array_row_first,
 							 !is_array, data_len,
@@ -1836,12 +1865,12 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 #endif
 
 		/* Whack in the hash for later */
-		g_hash_table_insert (sheet->shared_formulae, &sf->key, sf);
+		g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
 
 		g_return_val_if_fail (expr != NULL, FALSE);
 
 		if (is_array)
-			cell_set_array_formula (sheet->gnum_sheet,
+			cell_set_array_formula (esheet->gnum_sheet,
 						array_col_first, array_row_first,
 						array_col_last, array_row_last,
 						expr);
@@ -1855,7 +1884,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 
 /* FORMULA */
 static void
-ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 {
 	/*
 	 * NOTE: There must be _no_ path through this function that does
@@ -1873,10 +1902,10 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	Value *val = NULL;
 
 	/* Set format */
-	ms_excel_set_xf (sheet, col, row, xf_index);
+	ms_excel_set_xf (esheet, col, row, xf_index);
 
 	/* Then fetch Cell */
-	cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+	cell = sheet_cell_fetch (esheet->gnum_sheet, col, row);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)
@@ -1945,7 +1974,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			if (ms_excel_read_debug > 0) {
 				printf ("%s:%s: has type 3 contents.  "
 					"Is it an empty cell?\n",
-					sheet->gnum_sheet->name_unquoted,
+					esheet->gnum_sheet->name_unquoted,
 					cell_name (cell));
 				if (ms_excel_read_debug > 5)
 					ms_ole_dump (q->data + 6, 8);
@@ -1960,14 +1989,14 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		};
 	}
 
-	expr = ms_excel_parse_formula (sheet, (q->data + 22),
+	expr = ms_excel_parse_formula (esheet, (q->data + 22),
 				       col, row,
 				       FALSE, MS_OLE_GET_GUINT16 (q->data + 20),
 				       &array_elem);
 
 	/* Error was flaged by parse_formula */
 	if (expr == NULL && !array_elem)
-		expr = ms_excel_formula_shared (q, sheet, cell);
+		expr = ms_excel_formula_shared (q, esheet, cell);
 
 	if (is_string) {
 		guint16 code;
@@ -2052,14 +2081,14 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 }
 
 BiffSharedFormula *
-ms_excel_sheet_shared_formula (ExcelSheet const *sheet,
+ms_excel_sheet_shared_formula (ExcelSheet const *esheet,
 			       CellPos const    *key)
 {
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 5)
 		printf ("FIND SHARED: %s\n", cell_pos_name (key));
 #endif
-	return g_hash_table_lookup (sheet->shared_formulae, key);
+	return g_hash_table_lookup (esheet->shared_formulae, key);
 }
 
 /**
@@ -2138,7 +2167,7 @@ ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 {
 	float offsets[4];
 	Range range;
-	ExcelSheet *sheet;
+	ExcelSheet *esheet;
 
 	if (obj == NULL)
 		return TRUE;
@@ -2149,9 +2178,9 @@ ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 		return TRUE;
 	}
 
-	sheet = (ExcelSheet *)container;
+	esheet = (ExcelSheet *)container;
 
-	if (ms_sheet_obj_anchor_to_pos (sheet->gnum_sheet, container->ver,
+	if (ms_sheet_obj_anchor_to_pos (esheet->gnum_sheet, container->ver,
 					obj->raw_anchor, &range, offsets))
 		return TRUE;
 
@@ -2163,7 +2192,7 @@ ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 			SO_ANCHOR_PTS_FROM_COLROW_START
 		};
 		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
-					sheet->gnum_sheet);
+					esheet->gnum_sheet);
 		sheet_object_range_set (SHEET_OBJECT (obj->gnum_obj), &range,
 					offsets, anchor_types);
 	}
@@ -2227,7 +2256,7 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 }
 
 static ExprTree *
-ms_sheet_parse_expr_internal (ExcelSheet *e_sheet, guint8 const *data, int length)
+ms_sheet_parse_expr_internal (ExcelSheet *esheet, guint8 const *data, int length)
 {
 	ParsePos pp;
 	Workbook *wb;
@@ -2237,9 +2266,9 @@ ms_sheet_parse_expr_internal (ExcelSheet *e_sheet, guint8 const *data, int lengt
 
 	g_return_val_if_fail (length > 0, NULL);
 
-	sheet = e_sheet->gnum_sheet;
-	wb = (sheet == NULL) ? e_sheet->wb->gnum_wb : NULL;
-	expr = ms_excel_parse_formula (e_sheet, data,
+	sheet = esheet->gnum_sheet;
+	wb = (sheet == NULL) ? esheet->wb->gnum_wb : NULL;
+	expr = ms_excel_parse_formula (esheet, data,
 				       0, 0, FALSE, length, NULL);
 	tmp = expr_tree_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
 	puts (tmp);
@@ -2257,7 +2286,7 @@ ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
 
 /*
  * ms_excel_init_margins
- * @sheet ExcelSheet
+ * @esheet ExcelSheet
  *
  * Excel only saves margins when any of the margins differs from the
  * default. So we must initialize the margins to Excel's defaults, which
@@ -2267,15 +2296,15 @@ ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
  * Header, footer: 1/2 in - 36 pt
  */
 static void
-ms_excel_init_margins (ExcelSheet *sheet)
+ms_excel_init_margins (ExcelSheet *esheet)
 {
 	PrintInformation *pi;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (sheet->gnum_sheet != NULL);
-	g_return_if_fail (sheet->gnum_sheet->print_info != NULL);
+	g_return_if_fail (esheet != NULL);
+	g_return_if_fail (esheet->gnum_sheet != NULL);
+	g_return_if_fail (esheet->gnum_sheet->print_info != NULL);
 
-	pi = sheet->gnum_sheet->print_info;
+	pi = esheet->gnum_sheet->print_info;
 	margin_read (&pi->margins.top, 1.0);
 	margin_read (&pi->margins.bottom, 1.0);
 	margin_read (&pi->margins.left, 0.75);
@@ -2293,61 +2322,66 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 		&ms_sheet_parse_expr
 	};
 
-	ExcelSheet *res = g_new (ExcelSheet, 1);
+	ExcelSheet *esheet = g_new (ExcelSheet, 1);
 	Sheet *sheet = workbook_sheet_by_name (wb->gnum_wb, sheet_name);
 
 	if (sheet == NULL)
 		sheet = sheet_new (wb->gnum_wb, sheet_name);
 
-	res->wb         = wb;
-	res->gnum_sheet = sheet;
-	res->base_char_width         = -1;
-	res->base_char_width_default = -1;
-	res->freeze_panes	     = FALSE;
-	res->shared_formulae         =
+	esheet->wb         = wb;
+	esheet->gnum_sheet = sheet;
+	esheet->base_char_width         = -1;
+	esheet->base_char_width_default = -1;
+	esheet->freeze_panes	        = FALSE;
+	esheet->shared_formulae         =
 		g_hash_table_new ((GHashFunc)&cellpos_hash,
 				  (GCompareFunc)&cellpos_cmp);
 
-	ms_excel_init_margins (res);
-	ms_container_init (&res->container, &vtbl, &wb->container);
+	ms_excel_init_margins (esheet);
+	ms_container_init (&esheet->container, &vtbl, &wb->container);
 
-	return res;
+	/* in case nothing forces a spanning, do it here so that any new content
+	 * will get spanned.
+	 */
+	sheet_flag_recompute_spans (sheet);
+
+	return esheet;
 }
 
 static void
-ms_excel_sheet_insert_val (ExcelSheet *sheet, int xfidx,
+ms_excel_sheet_insert_val (ExcelSheet *esheet, int xfidx,
 			   int col, int row, Value *v)
 {
 	Cell *cell;
-	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
+	BiffXFData const *xf = ms_excel_get_xf (esheet, xfidx);
 
 	g_return_if_fail (v);
-	g_return_if_fail (sheet);
+	g_return_if_fail (esheet);
 	g_return_if_fail (xf);
 
-	ms_excel_set_xf (sheet, col, row, xfidx);
-	cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+	ms_excel_set_xf (esheet, col, row, xfidx);
+	cell = sheet_cell_fetch (esheet->gnum_sheet, col, row);
 	cell_set_value (cell, v, xf->style_format);
 }
 
 static void
-ms_excel_sheet_insert_blank (ExcelSheet *sheet, int xfidx,
+ms_excel_sheet_insert_blank (ExcelSheet *esheet, int xfidx,
 			     int col, int row)
 {
-	g_return_if_fail (sheet);
+	g_return_if_fail (esheet);
 
-	ms_excel_set_xf (sheet, col, row, xfidx);
+	ms_excel_set_xf (esheet, col, row, xfidx);
 }
 
 static void
-ms_excel_read_comment (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_comment (BiffQuery *q, ExcelSheet *esheet)
 {
 	CellPos	pos;
 
 	pos.row = EX_GETROW (q);
 	pos.col = EX_GETCOL (q);
 
-	if (sheet->container.ver >= MS_BIFF_V8) {
+	if (esheet->container.ver >= MS_BIFF_V8) {
 		guint16  options = MS_OLE_GET_GUINT16 (q->data + 4);
 		gboolean hidden = (options & 0x2)==0;
 		guint16  obj_id  = MS_OLE_GET_GUINT16 (q->data + 6);
@@ -2394,29 +2428,29 @@ ms_excel_read_comment (BiffQuery *q, ExcelSheet *sheet)
 				col_name (pos.col), pos.row + 1, comment->str);
 #endif
 
-		cell_set_comment (sheet->gnum_sheet, &pos, NULL, comment->str);
+		cell_set_comment (esheet->gnum_sheet, &pos, NULL, comment->str);
 		g_string_free (comment, FALSE);
 	}
 }
 
 static void
-ms_excel_sheet_destroy (ExcelSheet *sheet)
+ms_excel_sheet_destroy (ExcelSheet *esheet)
 {
-	if (sheet->shared_formulae != NULL) {
-		g_hash_table_foreach_remove (sheet->shared_formulae,
+	if (esheet->shared_formulae != NULL) {
+		g_hash_table_foreach_remove (esheet->shared_formulae,
 					     (GHRFunc)biff_shared_formula_destroy,
-					     sheet);
-		g_hash_table_destroy (sheet->shared_formulae);
-		sheet->shared_formulae = NULL;
+					     esheet);
+		g_hash_table_destroy (esheet->shared_formulae);
+		esheet->shared_formulae = NULL;
 	}
 
-	if (sheet->gnum_sheet) {
-		sheet_destroy (sheet->gnum_sheet);
-		sheet->gnum_sheet = NULL;
+	if (esheet->gnum_sheet) {
+		sheet_destroy (esheet->gnum_sheet);
+		esheet->gnum_sheet = NULL;
 	}
-	ms_container_finalize (&sheet->container);
+	ms_container_finalize (&esheet->container);
 
-	g_free (sheet);
+	g_free (esheet);
 }
 
 static ExprTree *
@@ -2466,37 +2500,6 @@ ms_excel_workbook_new (MsBiffVersion ver)
 	ans->read_drawing_group = 0;
 
 	return ans;
-}
-
-static void
-ms_excel_workbook_attach (ExcelWorkbook *wb, ExcelSheet *ans)
-{
-	g_return_if_fail (wb);
-	g_return_if_fail (ans);
-
-	workbook_sheet_attach (wb->gnum_wb, ans->gnum_sheet, NULL);
-	g_ptr_array_add (wb->excel_sheets, ans);
-}
-
-static gboolean
-ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
-{
-	unsigned idx = 0;
-
-	if (ans->gnum_sheet) {
-		if (!workbook_sheet_detach (wb->gnum_wb, ans->gnum_sheet))
-			return FALSE;
-		/* Detaching the sheet deletes it */
-		ans->gnum_sheet = NULL;
-	}
-	for (idx = 0; idx < wb->excel_sheets->len; idx++)
-		if (g_ptr_array_index (wb->excel_sheets, idx) == ans) {
-			g_ptr_array_index (wb->excel_sheets, idx) = NULL;
-			return TRUE;
-		}
-
-	printf ("Sheet not in list of sheets !\n");
-	return FALSE;
 }
 
 ExcelSheet *
@@ -2607,7 +2610,7 @@ biff_get_rk (const guint8 *ptr)
  * read a Name.  The workbook must be present, the sheet is optional.
  */
 static void
-ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
+ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
 {
 #if defined(excel95)
 Opcode 0x 18 :            NAME, length 0x24 (=36)
@@ -2740,7 +2743,7 @@ Opcode 0x 18 :            NAME, length 0x1a (=26)
 
 /* S59D7E.HTM */
 static void
-ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
+ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
 {
 	char const *name;
 	guint8 *defn;
@@ -2782,17 +2785,17 @@ ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 
 /**
  * base_char_width_for_read:
- * @sheet	the Excel sheet
+ * @esheet	the Excel sheet
  *
  * Measures base character width for column sizing.
  */
 static double
-base_char_width_for_read (ExcelSheet *sheet,
+base_char_width_for_read (ExcelSheet *esheet,
 			  int xf_index, gboolean is_default)
 {
-	BiffXFData const *xf = ms_excel_get_xf (sheet, xf_index);
+	BiffXFData const *xf = ms_excel_get_xf (esheet, xf_index);
 	BiffFontData const *fd = (xf != NULL)
-		? ms_excel_get_font (sheet, xf->font_idx)
+		? ms_excel_get_font (esheet, xf->font_idx)
 		: NULL;
 	/* default to Arial 10 */
 	char const * name = (fd != NULL) ? fd->fontname : "Arial";
@@ -2824,12 +2827,12 @@ get_row_height_units (guint16 height)
 /**
  * ms_excel_read_row:
  * @q 		A BIFF query
- * @sheet	The Excel sheet
+ * @esheet	The Excel sheet
  *
  * Processes a BIFF row info (BIFF_ROW) record. See: S59DDB.HTM
  */
 static void
-ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_row (BiffQuery *q, ExcelSheet *esheet)
 {
 	const guint16 row = MS_OLE_GET_GUINT16 (q->data);
 #if 0
@@ -2867,15 +2870,15 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	 */
 	if (!is_std_height) {
 		double hu = get_row_height_units (height);
-		sheet_row_set_size_pts (sheet->gnum_sheet, row, hu, TRUE);
+		sheet_row_set_size_pts (esheet->gnum_sheet, row, hu, TRUE);
 	}
 
 	if (flags & 0x20)
-		colrow_set_visibility (sheet->gnum_sheet, FALSE, FALSE, row, row);
+		colrow_set_visibility (esheet->gnum_sheet, FALSE, FALSE, row, row);
 
 	if (flags & 0x80) {
 		if (xf != 0)
-			ms_excel_set_xf_segment (sheet, 0, SHEET_MAX_COLS - 1,
+			ms_excel_set_xf_segment (esheet, 0, SHEET_MAX_COLS - 1,
 						 row, row, xf);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
@@ -2886,7 +2889,7 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	}
 
 	if ((unsigned)(flags & 0x7) > 0) {
-		ColRowInfo *cri = sheet_row_fetch (sheet->gnum_sheet, row);
+		ColRowInfo *cri = sheet_row_fetch (esheet->gnum_sheet, row);
 		colrow_set_outline (cri, FALSE, (unsigned)(flags & 0x7), FALSE, flags & 0x10);
 	}
 }
@@ -2894,12 +2897,12 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 /**
  * ms_excel_read_colinfo:
  * @q 		A BIFF query
- * @sheet	The Excel sheet
+ * @esheet	The Excel sheet
  *
  * Processes a BIFF column info (BIFF_COLINFO) record. See: S59D67.HTM
  */
 static void
-ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *esheet)
 {
 	int lp;
 	float col_width;
@@ -2921,13 +2924,13 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	 * shown to the user
 	 */
 	if (width >= 4) {
-		col_width = base_char_width_for_read (sheet, xf, FALSE) *
+		col_width = base_char_width_for_read (esheet, xf, FALSE) *
 			width / 256.;
 	} else {
 		if (width > 0)
 			hidden = TRUE;
 		/* Columns are of default width */
-		col_width = sheet->gnum_sheet->cols.default_style.size_pts;
+		col_width = esheet->gnum_sheet->cols.default_style.size_pts;
 	}
 
 #ifndef NO_DEBUG_EXCEL
@@ -2943,19 +2946,19 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS - 1;
 	for (lp = firstcol; lp <= lastcol; ++lp) {
-		sheet_col_set_size_pts (sheet->gnum_sheet, lp, col_width, TRUE);
+		sheet_col_set_size_pts (esheet->gnum_sheet, lp, col_width, TRUE);
 		if (outline_level > 0) {
-			ColRowInfo *cri = sheet_col_fetch (sheet->gnum_sheet, lp);
+			ColRowInfo *cri = sheet_col_fetch (esheet->gnum_sheet, lp);
 			colrow_set_outline (cri, TRUE, outline_level, FALSE, collapsed);
 		}
 	}
 
 	if (xf != 0)
-		ms_excel_set_xf_segment (sheet, firstcol, lastcol,
+		ms_excel_set_xf_segment (esheet, firstcol, lastcol,
 					 0, SHEET_MAX_ROWS - 1, xf);
 
 	if (hidden)
-		colrow_set_visibility (sheet->gnum_sheet, TRUE, FALSE,
+		colrow_set_visibility (esheet->gnum_sheet, TRUE, FALSE,
 					firstcol, lastcol);
 }
 
@@ -2998,7 +3001,7 @@ ms_excel_read_imdata (BiffQuery *q)
  * NB. Microsoft Docs give offsets from start of biff record, subtract 4 their docs.
  **/
 static void
-ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_cell (BiffQuery *q, ExcelSheet *esheet)
 {
 	if (0x1 == q->ms_op) {
 		switch (q->opcode) {
@@ -3028,7 +3031,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		if (ms_excel_read_debug > 0)
 		    printf ("Blank in %s%d xf = 0x%x;\n", col_name (col), row + 1, xf);
 #endif
-		ms_excel_sheet_insert_blank (sheet, xf, col, row);
+		ms_excel_sheet_insert_blank (esheet, xf, col, row);
 		break;
 	}
 
@@ -3040,14 +3043,14 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 				gnumeric_get_le_double (q->data + 6));
 		}
 #endif
-		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
+		ms_excel_sheet_insert_val (esheet, EX_GETXF (q), EX_GETCOL (q),
 					   EX_GETROW (q), v);
 		break;
 	}
 
 	case BIFF_LABEL: { /* See: S59D9D.HTM */
 		char *label;
-		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
+		ms_excel_sheet_insert (esheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 				       (label = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
 		g_free (label);
 		break;
@@ -3062,14 +3065,14 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 					     biff_get_error_text (val));
 		} else
 			v = value_new_bool (val);
-		ms_excel_sheet_insert_val (sheet,
+		ms_excel_sheet_insert_val (esheet,
 					   EX_GETXF (q), EX_GETCOL (q),
 					   EX_GETROW (q), v);
 		break;
 	}
 
 	case BIFF_FORMULA: /* See: S59D8F.HTM */
- 		ms_excel_read_formula (q, sheet);
+ 		ms_excel_read_formula (q, esheet);
 		break;
 
 	case BIFF_MULBLANK:
@@ -3109,13 +3112,13 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 #endif
 			if (prev_xf != xf_index) {
 				if (prev_xf >= 0)
-					ms_excel_set_xf_segment (sheet, i + 1, range_end,
+					ms_excel_set_xf_segment (esheet, i + 1, range_end,
 								 row, row, prev_xf);
 				prev_xf = xf_index;
 				range_end = i;
 			}
 		} while (--i >= firstcol);
-		ms_excel_set_xf_segment (sheet, firstcol, range_end,
+		ms_excel_set_xf_segment (esheet, firstcol, range_end,
 					 row, row, prev_xf);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 2) {
@@ -3135,7 +3138,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		if (ms_excel_read_debug > 0)
 		    printf ("Rstring in %s%d xf = 0x%x;\n", col_name (col), row + 1, xf);
 #endif
-		ms_excel_sheet_insert (sheet, xf, col, row, txt);
+		ms_excel_sheet_insert (esheet, xf, col, row, txt);
 		g_free (txt);
 		break;
 	}
@@ -3146,11 +3149,11 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		break;
 
 	case BIFF_ROW:
-		ms_excel_read_row (q, sheet);
+		ms_excel_read_row (q, esheet);
 		break;
 
 	case BIFF_COLINFO:
-		ms_excel_read_colinfo (q, sheet);
+		ms_excel_read_colinfo (q, esheet);
 		break;
 
 	/* See: S59DDA.HTM */
@@ -3163,7 +3166,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			ms_ole_dump (q->data, q->length);
 		}
 #endif
-		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
+		ms_excel_sheet_insert_val (esheet, EX_GETXF (q), EX_GETCOL (q),
 					   EX_GETROW (q), v);
 		break;
 	}
@@ -3187,7 +3190,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		while (col<=lastcol) {
 			/* 2byte XF, 4 byte RK */
 			v = biff_get_rk (ptr + 2);
-			ms_excel_sheet_insert_val (sheet, MS_OLE_GET_GUINT16 (ptr),
+			ms_excel_sheet_insert_val (esheet, MS_OLE_GET_GUINT16 (ptr),
 						   col, row, v);
 			col++;
 			ptr += 6;
@@ -3199,17 +3202,17 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	{
 		guint32 const idx = MS_OLE_GET_GUINT32 (q->data + 6);
 
-		if (sheet->wb->global_strings && idx < sheet->wb->global_string_max) {
-			char const *str = sheet->wb->global_strings[idx];
+		if (esheet->wb->global_strings && idx < esheet->wb->global_string_max) {
+			char const *str = esheet->wb->global_strings[idx];
 
 			/* FIXME FIXME FIXME: Why would there be a NULL?  */
 			if (str == NULL)
 				str = "";
-			ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
+			ms_excel_sheet_insert_val (esheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 						   value_new_string (str));
 		} else
 			printf ("string index 0x%u >= 0x%x\n",
-				idx, sheet->wb->global_string_max);
+				idx, esheet->wb->global_string_max);
                 break;
 	}
 
@@ -3239,7 +3242,7 @@ margin_read (PrintUnit *pu, double val)
 
 /* S59DE2.HTM */
 static void
-ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
+ms_excel_read_selection (BiffQuery *q, ExcelSheet *esheet)
 {
 	/* int const pane_number	= MS_OLE_GET_GUINT8 (q->data); */
 	int const act_row	= MS_OLE_GET_GUINT16 (q->data + 1);
@@ -3258,7 +3261,7 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 	 * because frozen panes are bound together this does not matter.
 	 */
 
-	sheet_selection_reset (sheet->gnum_sheet);
+	sheet_selection_reset (esheet->gnum_sheet);
 	for (refs = q->data + 9; num_refs > 0; refs += 6, num_refs--) {
 		int const start_row = MS_OLE_GET_GUINT16 (refs + 0);
 		int const start_col = MS_OLE_GET_GUINT8 (refs + 4);
@@ -3271,7 +3274,7 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 #endif
 
 		/* FIXME: This should not trigger a recalc */
-		sheet_selection_add_range (sheet->gnum_sheet,
+		sheet_selection_add_range (esheet->gnum_sheet,
 					   start_col, start_row,
 					   start_col, start_row,
 					   end_col, end_row);
@@ -3281,7 +3284,7 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 	 *         current selection range too.  This can do odd things
 	 *         if the last range is NOT the currently selected range.
 	 */
-	sheet_cursor_move (sheet->gnum_sheet, act_col, act_row, FALSE, FALSE);
+	sheet_cursor_move (esheet->gnum_sheet, act_col, act_row, FALSE, FALSE);
 #endif
 
 #ifndef NO_DEBUG_EXCEL
@@ -3294,13 +3297,13 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 /**
  * ms_excel_read_default_row_height:
  * @q 		A BIFF query
- * @sheet	The Excel sheet
+ * @esheet	The Excel sheet
  *
  * Processes a BIFF default row height (BIFF_DEFAULTROWHEIGHT) record.
  * See: S59D72.HTM
  */
 static void
-ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *esheet)
 {
 	const guint16 flags = MS_OLE_GET_GUINT16 (q->data);
 	const guint16 height = MS_OLE_GET_GUINT16 (q->data + 2);
@@ -3316,27 +3319,27 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
 	}
 #endif
 	height_units = get_row_height_units (height);
-	sheet_row_set_default_size_pts (sheet->gnum_sheet, height_units);
+	sheet_row_set_default_size_pts (esheet->gnum_sheet, height_units);
 }
 
 /**
  * ms_excel_read_default_col_width:
  * @q 		A BIFF query
- * @sheet	The Excel sheet
+ * @esheet	The Excel sheet
  *
  * Processes a BIFF default column width (BIFF_DEFCOLWIDTH) record.
  * See: S59D73.HTM
  */
 static void
-ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *esheet)
 {
 	const guint16 width = MS_OLE_GET_GUINT16 (q->data);
 	double col_width;
 
 	/* Use the 'Normal' Style which is by definition the 0th */
-	if (sheet->base_char_width_default <= 0)
-		sheet->base_char_width_default =
-			base_char_width_for_read (sheet, 0, TRUE);
+	if (esheet->base_char_width_default <= 0)
+		esheet->base_char_width_default =
+			base_char_width_for_read (esheet, 0, TRUE);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)
@@ -3351,27 +3354,27 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 	 * According to saved data a column with the same size a the default has
 	 *   9.00? char widths.
 	 */
-	col_width = width * sheet->base_char_width_default;
+	col_width = width * esheet->base_char_width_default;
 
-	sheet_col_set_default_size_pts (sheet->gnum_sheet, col_width);
+	sheet_col_set_default_size_pts (esheet->gnum_sheet, col_width);
 }
 
 static void
-ms_excel_read_guts (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_guts (BiffQuery *q, ExcelSheet *esheet)
 {
 	g_return_if_fail (q->length == 8);
 
 	/* ignore the specification of how wide/tall the gutters are */
-	sheet_col_row_gutter (sheet->gnum_sheet,
+	sheet_col_row_gutter (esheet->gnum_sheet,
 			      MS_OLE_GET_GUINT16 (q->data + 6),
 			      MS_OLE_GET_GUINT16 (q->data + 4));
 }
 
 /* See: S59DE3.HTM */
 static void
-ms_excel_read_setup (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_setup (BiffQuery *q, ExcelSheet *esheet)
 {
-	PrintInformation *pi = sheet->gnum_sheet->print_info;
+	PrintInformation *pi = esheet->gnum_sheet->print_info;
 	guint16  grbit;
 
 	g_return_if_fail (q->length == 34);
@@ -3441,7 +3444,7 @@ ms_excel_read_setup (BiffQuery *q, ExcelSheet *sheet)
  * sense given the other record formats.
  */
 static void
-ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *esheet)
 {
 	const guint16 num_merged = MS_OLE_GET_GUINT16 (q->data);
 	const guint8 *ptr = q->data + 2;
@@ -3458,7 +3461,7 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 		r.end.row = MS_OLE_GET_GUINT16 (ptr + 2);
 		r.start.col = MS_OLE_GET_GUINT16 (ptr + 4);
 		r.end.col = MS_OLE_GET_GUINT16 (ptr + 6);
-		sheet_merge_add (NULL, sheet->gnum_sheet, &r, FALSE);
+		sheet_merge_add (NULL, esheet->gnum_sheet, &r, FALSE);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
 			range_dump (&r, "\n");
@@ -3500,10 +3503,10 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 }
 
 static MSContainer *
-sheet_container (ExcelSheet *sheet)
+sheet_container (ExcelSheet *esheet)
 {
-	ms_container_set_blips (&sheet->container, sheet->wb->container.blips);
-	return &sheet->container;
+	ms_container_set_blips (&esheet->container, esheet->wb->container.blips);
+	return &esheet->container;
 }
 
 static gboolean
@@ -3526,7 +3529,7 @@ ms_excel_read_PROTECT (BiffQuery *q, char const *obj_type)
 }
 
 static void
-ms_excel_read_wsbool (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_wsbool (BiffQuery *q, ExcelSheet *esheet)
 {
 	guint16 options;
 
@@ -3536,10 +3539,10 @@ ms_excel_read_wsbool (BiffQuery *q, ExcelSheet *sheet)
 	/* 0x0001 automatic page breaks are visible */
 	/* 0x0010 the sheet is a dialog sheet */
 	/* 0x0020 automatic styles are not applied to an outline */
-	sheet->gnum_sheet->outline_symbols_below = 0 != (options & 0x040);
-	sheet->gnum_sheet->outline_symbols_right = 0 != (options & 0x080);
+	esheet->gnum_sheet->outline_symbols_below = 0 != (options & 0x040);
+	esheet->gnum_sheet->outline_symbols_right = 0 != (options & 0x080);
 	/* 0x0100 the Fit option is on (Page Setup dialog box, Page tab) */
-	sheet->gnum_sheet->display_outlines      = 0 != (options & 0x600);
+	esheet->gnum_sheet->display_outlines      = 0 != (options & 0x600);
 }
 
 static void
@@ -3580,27 +3583,27 @@ ms_excel_read_iteration (BiffQuery *q, ExcelWorkbook *wb)
 }
 
 static void
-ms_excel_read_pane (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
+ms_excel_read_pane (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 {
-	if (sheet->freeze_panes) {
+	if (esheet->freeze_panes) {
 		guint16 x = MS_OLE_GET_GUINT16 (q->data + 0);
 		guint16 y = MS_OLE_GET_GUINT16 (q->data + 2);
 		guint16 rwTop = MS_OLE_GET_GUINT16 (q->data + 4);
 		guint16 colLeft = MS_OLE_GET_GUINT16 (q->data + 6);
-		Sheet *gsheet = sheet->gnum_sheet;
+		Sheet *sheet = esheet->gnum_sheet;
 		CellPos frozen, unfrozen;
 
-		frozen = unfrozen = gsheet->initial_top_left;
+		frozen = unfrozen = sheet->initial_top_left;
 		unfrozen.col += x; unfrozen.row += y;
-		sheet_freeze_panes (gsheet, &frozen, &unfrozen);
-		sheet_set_initial_top_left (gsheet, colLeft, rwTop);
+		sheet_freeze_panes (sheet, &frozen, &unfrozen);
+		sheet_set_initial_top_left (sheet, colLeft, rwTop);
 	} else {
 		g_warning ("EXCEL : no support for split panes yet");
 	}
 }
 
 static void
-ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
+ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 {
 	if (q->length >= 10) {
 		const guint16 options    = MS_OLE_GET_GUINT16 (q->data + 0);
@@ -3608,17 +3611,17 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 		guint16 top_row    = MS_OLE_GET_GUINT16 (q->data + 2);
 		guint16 left_col   = MS_OLE_GET_GUINT16 (q->data + 4);
 
-		sheet->gnum_sheet->display_formulas	= (options & 0x0001) != 0;
-		sheet->gnum_sheet->hide_grid 		= (options & 0x0002) == 0;
-		sheet->gnum_sheet->hide_col_header =
-		sheet->gnum_sheet->hide_row_header	= (options & 0x0004) == 0;
-		sheet->freeze_panes 			= (options & 0x0008) != 0;
-		sheet->gnum_sheet->hide_zero		= (options & 0x0010) == 0;
+		esheet->gnum_sheet->display_formulas	= (options & 0x0001) != 0;
+		esheet->gnum_sheet->hide_grid 		= (options & 0x0002) == 0;
+		esheet->gnum_sheet->hide_col_header =
+		esheet->gnum_sheet->hide_row_header	= (options & 0x0004) == 0;
+		esheet->freeze_panes 			= (options & 0x0008) != 0;
+		esheet->gnum_sheet->hide_zero		= (options & 0x0010) == 0;
 
 		/* NOTE : This is top left of screen even if frozen, modify when
 		 *        we read PANE
 		 */
-		sheet_set_initial_top_left (sheet->gnum_sheet, left_col, top_row);
+		sheet_set_initial_top_left (esheet->gnum_sheet, left_col, top_row);
 
 #if 0
 		if (!(options & 0x0020)) {
@@ -3642,7 +3645,7 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 #endif
 		if (options & 0x0400)
 			wb_view_sheet_focus (wb_view,
-					     sheet->gnum_sheet);
+					     esheet->gnum_sheet);
 	}
 
 #ifndef NO_DEBUG_EXCEL
@@ -3657,22 +3660,23 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 }
 
 static gboolean
-ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
-                     WorkbookView *wb_view, ExcelSheet *sheet)
+ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
+                     WorkbookView *wb_view, ExcelSheet *esheet,
+		     IOContext *io_context)
 {
 	PrintInformation *pi;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
-	g_return_val_if_fail (sheet != NULL, FALSE);
-	g_return_val_if_fail (sheet->gnum_sheet != NULL, FALSE);
-	g_return_val_if_fail (sheet->gnum_sheet->print_info != NULL, FALSE);
+	g_return_val_if_fail (esheet != NULL, FALSE);
+	g_return_val_if_fail (esheet->gnum_sheet != NULL, FALSE);
+	g_return_val_if_fail (esheet->gnum_sheet->print_info != NULL, FALSE);
 
-	pi = sheet->gnum_sheet->print_info;
+	pi = esheet->gnum_sheet->print_info;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("----------------- '%s' -------------\n",
-			sheet->gnum_sheet->name_unquoted);
+			esheet->gnum_sheet->name_unquoted);
 	}
 #endif
 
@@ -3692,7 +3696,7 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 			 * at the NEXT record.
 			 */
 			if (q->opcode == BIFF_CHART_units)
-				ms_excel_chart (q, sheet_container (sheet), sheet->container.ver);
+				ms_excel_chart (q, sheet_container (esheet), esheet->container.ver);
 			else
 				puts ("EXCEL: How are we seeing chart records in a sheet ?");
 			continue;
@@ -3707,21 +3711,21 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 			return TRUE;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_read_OBJ (q, sheet_container (sheet));
+			ms_read_OBJ (q, sheet_container (esheet));
 			break;
 
 		case BIFF_SELECTION:
-		    ms_excel_read_selection (sheet, q);
-		    break;
+			ms_excel_read_selection (q, esheet);
+			break;
 
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_parse (q, sheet_container (sheet));
+			ms_escher_parse (q, sheet_container (esheet));
 			break;
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
-			ms_excel_read_comment (q, sheet);
+			ms_excel_read_comment (q, esheet);
 			break;
 
 		case BIFF_PRINTGRIDLINES:
@@ -3748,18 +3752,18 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 			break;
 
 		case BIFF_WSBOOL:
-			ms_excel_read_wsbool (q, sheet);
+			ms_excel_read_wsbool (q, esheet);
 			break;
 
 		case BIFF_DEFAULTROWHEIGHT:
-			ms_excel_read_default_row_height (q, sheet);
+			ms_excel_read_default_row_height (q, esheet);
 			break;
 		case BIFF_DEFCOLWIDTH:
-			ms_excel_read_default_col_width (q, sheet);
+			ms_excel_read_default_col_width (q, esheet);
 			break;
 
 		case BIFF_GUTS:
-			ms_excel_read_guts (q, sheet);
+			ms_excel_read_guts (q, esheet);
 			break;
 
 		case BIFF_HEADER: /* FIXME: S59D94 */
@@ -3840,7 +3844,7 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 			break;
 
 		case BIFF_SETUP:
-			ms_excel_read_setup (q, sheet);
+			ms_excel_read_setup (q, esheet);
 			break;
 
 		case BIFF_SCL:
@@ -3849,7 +3853,7 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 				double const zoom = (double)MS_OLE_GET_GUINT16 (q->data) /
 					MS_OLE_GET_GUINT16 (q->data + 2);
 
-				sheet_set_zoom_factor (sheet->gnum_sheet, zoom, FALSE, FALSE);
+				sheet_set_zoom_factor (esheet->gnum_sheet, zoom, FALSE, FALSE);
 			} else
 				g_warning ("Duff BIFF_SCL record");
 			break;
@@ -3859,22 +3863,22 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 			break;
 
 		case BIFF_MERGECELLS:
-			ms_excel_read_mergecells (q, sheet);
+			ms_excel_read_mergecells (q, esheet);
 			break;
 
 		case BIFF_EXTERNNAME:
-			ms_excel_externname (q, sheet->wb, sheet);
+			ms_excel_externname (q, esheet->wb, esheet);
 			break;
 		case BIFF_NAME:
-			ms_excel_read_name (q, sheet->wb, sheet);
+			ms_excel_read_name (q, esheet->wb, esheet);
 			break;
 
 		case BIFF_PANE:
-			ms_excel_read_pane (q, sheet, wb_view);
+			ms_excel_read_pane (q, esheet, wb_view);
 			break;
 
 		case BIFF_WINDOW2:
-			ms_excel_read_window2 (q, sheet, wb_view);
+			ms_excel_read_window2 (q, esheet, wb_view);
 			break;
 
 		default:
@@ -3883,7 +3887,7 @@ ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
 				break;
 
 			default:
-				ms_excel_read_cell (q, sheet);
+				ms_excel_read_cell (q, esheet);
 				break;
 			}
 		}
@@ -3920,7 +3924,7 @@ biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first)
  * see S59DEC.HTM
  */
 static void
-ms_excel_read_supporting_wb (MsBiffBofData *ver, BiffQuery *q)
+ms_excel_read_supporting_wb (BiffQuery *q, MsBiffBofData *ver)
 {
 	guint16	numTabs = MS_OLE_GET_GUINT16 (q->data);
 	guint8 encodeType = MS_OLE_GET_GUINT8 (q->data + 2);
@@ -4045,6 +4049,101 @@ ms_excel_externsheet (BiffQuery const *q, ExcelWorkbook *wb, MsBiffBofData *ver)
 		printf ("ExternSheet: only BIFF8 supported so far...\n");
 }
 
+static ExcelWorkbook *
+ms_excel_read_bof (BiffQuery *q,
+		   ExcelWorkbook *wb,
+		   WorkbookView *wb_view,
+		   IOContext *context,
+		   MsBiffBofData **version, int current_sheet)
+{
+	/* The first BOF seems to be OK, the rest lie ? */
+	MsBiffVersion vv = MS_BIFF_V_UNKNOWN;
+	MsBiffBofData *ver = *version;
+	if (ver) {
+		vv = ver->version;
+		ms_biff_bof_data_destroy (ver);
+	}
+	*version = ver = ms_biff_bof_data_new (q);
+	if (vv != MS_BIFF_V_UNKNOWN)
+		ver->version = vv;
+
+	if (ver->type == MS_BIFF_TYPE_Workbook) {
+		wb = ms_excel_workbook_new (ver->version);
+		wb->gnum_wb = wb_view_workbook (wb_view);
+		if (ver->version >= MS_BIFF_V8) {
+			guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
+			if (ver == 0x4107cd18)
+				printf ("Excel 2000 ?\n");
+			else
+				printf ("Excel 97 +\n");
+		} else if (ver->version >= MS_BIFF_V7)
+			printf ("Excel 95\n");
+		else if (ver->version >= MS_BIFF_V5)
+			printf ("Excel 5.x\n");
+		else if (ver->version >= MS_BIFF_V4)
+			printf ("Excel 4.x\n");
+		else if (ver->version >= MS_BIFF_V3)
+			printf ("Excel 3.x\n");
+		else if (ver->version >= MS_BIFF_V2)
+			printf ("Excel 2.x\n");
+	} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
+		BiffBoundsheetData *bsh =
+			g_hash_table_lookup (wb->boundsheet_data_by_stream,
+					     &q->streamPos);
+		if (bsh) {
+			ExcelSheet *esheet = ms_excel_workbook_get_sheet (wb, current_sheet);
+			gboolean    kill  = FALSE;
+
+			ms_excel_sheet_set_version (esheet, ver->version);
+			if (ms_excel_read_sheet (q, wb, wb_view, esheet, context)) {
+				ms_container_realize_objs (sheet_container (esheet));
+
+#if 0
+				/* DO NOT DO THIS.
+				 * this looks good in principle but is a nightmare for
+				 * performance.  It causes the entire book to be recalculated
+				 * for everysheet that is removed.
+				 */
+				if (sheet_is_pristine (esheet->gnum_sheet) &&
+				    current_sheet > 0)
+					kill = TRUE;
+#endif
+			} else
+				kill = TRUE;
+
+			if (kill) {
+#ifndef NO_DEBUG_EXCEL
+				if (ms_excel_read_debug > 1)
+					printf ("Blank or broken sheet %d\n", current_sheet);
+#endif
+				if (ms_excel_workbook_detach (esheet->wb, esheet))
+					ms_excel_sheet_destroy (esheet);
+			}
+
+			current_sheet++;
+		} else
+			printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
+	} else if (ver->type == MS_BIFF_TYPE_Chart)
+		ms_excel_chart (q, &wb->container, ver->version);
+	else if (ver->type == MS_BIFF_TYPE_VBModule ||
+		 ver->type == MS_BIFF_TYPE_Macrosheet) {
+		/* Skip contents of Module, or MacroSheet */
+		if (ver->type != MS_BIFF_TYPE_Macrosheet)
+			printf ("VB Module.\n");
+		else
+			printf ("XLM Macrosheet.\n");
+
+		while (ms_biff_query_next (q) &&
+		       q->opcode != BIFF_EOF)
+		    ;
+		if (q->opcode != BIFF_EOF)
+			g_warning ("EXCEL: file format error.  Missing BIFF_EOF");
+	} else
+		printf ("Unknown BOF (%x)\n", ver->type);
+
+	return wb;
+}
+
 void
 ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
                         MsOle *file)
@@ -4118,7 +4217,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 				break;
 
 			case BIFF_SUPBOOK:
-				ms_excel_read_supporting_wb (ver, q);
+				ms_excel_read_supporting_wb (q, ver);
 				break;
 
 			default:
@@ -4128,93 +4227,9 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		}
 
 		switch (q->ls_op) {
-		case BIFF_BOF: {
-			/* The first BOF seems to be OK, the rest lie ? */
-			MsBiffVersion vv = MS_BIFF_V_UNKNOWN;
-			if (ver) {
-				vv = ver->version;
-				ms_biff_bof_data_destroy (ver);
-			}
-			ver = ms_biff_bof_data_new (q);
-			if (vv != MS_BIFF_V_UNKNOWN)
-				ver->version = vv;
-
-			if (ver->type == MS_BIFF_TYPE_Workbook) {
-				wb = ms_excel_workbook_new (ver->version);
-				wb->gnum_wb = wb_view_workbook (wb_view);
-				if (ver->version >= MS_BIFF_V8) {
-					guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
-					if (ver == 0x4107cd18)
-						printf ("Excel 2000 ?\n");
-					else
-						printf ("Excel 97 +\n");
-				} else if (ver->version >= MS_BIFF_V7)
-					printf ("Excel 95\n");
-				else if (ver->version >= MS_BIFF_V5)
-					printf ("Excel 5.x\n");
-				else if (ver->version >= MS_BIFF_V4)
-					printf ("Excel 4.x\n");
-				else if (ver->version >= MS_BIFF_V3)
-					printf ("Excel 3.x\n");
-				else if (ver->version >= MS_BIFF_V2)
-					printf ("Excel 2.x\n");
-			} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
-				BiffBoundsheetData *bsh =
-					g_hash_table_lookup (wb->boundsheet_data_by_stream,
-							     &q->streamPos);
-				if (!bsh)
-					printf ("Sheet offset in stream of %x not found in list\n", q->streamPos);
-				else {
-					ExcelSheet *sheet = ms_excel_workbook_get_sheet (wb, current_sheet);
-					gboolean    kill  = FALSE;
-
-					ms_excel_sheet_set_version (sheet, ver->version);
-					if (ms_excel_read_sheet (context, q, wb, wb_view, sheet)) {
-						ms_container_realize_objs (sheet_container (sheet));
-
-#if 0
-						/* DO NOT DO THIS.
-						 * this looks good in principle but is a nightmare for
-						 * performance.  It causes the entire book to be recalculated
-						 * for everysheet that is removed.
-						 */
-						if (sheet_is_pristine (sheet->gnum_sheet) &&
-						    current_sheet > 0)
-							kill = TRUE;
-#endif
-					} else
-						kill = TRUE;
-
-					if (kill) {
-#ifndef NO_DEBUG_EXCEL
-						if (ms_excel_read_debug > 1)
-							printf ("Blank or broken sheet %d\n", current_sheet);
-#endif
-						if (ms_excel_workbook_detach (sheet->wb, sheet))
-							ms_excel_sheet_destroy (sheet);
-					}
-
-					current_sheet++;
-				}
-			} else if (ver->type == MS_BIFF_TYPE_Chart)
-				ms_excel_chart (q, &wb->container, ver->version);
-			else if (ver->type == MS_BIFF_TYPE_VBModule ||
-				 ver->type == MS_BIFF_TYPE_Macrosheet) {
-				/* Skip contents of Module, or MacroSheet */
-				if (ver->type != MS_BIFF_TYPE_Macrosheet)
-					printf ("VB Module.\n");
-				else
-					printf ("XLM Macrosheet.\n");
-
-				while (ms_biff_query_next (q) &&
-				       q->opcode != BIFF_EOF)
-				    ;
-				if (q->opcode != BIFF_EOF)
-					g_warning ("EXCEL: file format error.  Missing BIFF_EOF");
-			} else
-				printf ("Unknown BOF (%x)\n", ver->type);
-		}
-		break;
+		case BIFF_BOF:
+			wb = ms_excel_read_bof (q, wb, wb_view, context, &ver, current_sheet);
+			break;
 
 		case BIFF_EOF: /* FIXME: Perhaps we should finish here ? */
 #ifndef NO_DEBUG_EXCEL
@@ -4224,7 +4239,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_BOUNDSHEET:
-			biff_boundsheet_data_new (wb, q, ver->version);
+			biff_boundsheet_data_new (q, wb, ver->version);
 			break;
 
 		case BIFF_PALETTE:
@@ -4232,7 +4247,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_FONT: /* see S59D8C.HTM */
-			biff_font_data_new (wb, q);
+			biff_font_data_new (q, wb);
 			break;
 
 		case BIFF_PRECISION:
@@ -4248,11 +4263,11 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		case BIFF_XF_OLD: /* see S59E1E.HTM */
 		case BIFF_XF:
-			biff_xf_data_new (wb, q, ver->version);
+			biff_xf_data_new (q, wb, ver->version);
 			break;
 
 		case BIFF_SST: /* see S59DE7.HTM */
-			read_sst (wb, q, ver->version);
+			read_sst (q, wb, ver->version);
 			break;
 
 		case BIFF_EXTSST: /* See: S59D84 */
