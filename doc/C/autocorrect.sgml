@@ -1,23 +1,19 @@
 <sect1 id="autocorrect">
   <title>AutoCorrect Tool</title>
 
-  <para>The AutoCorrect tool can fix various kinds of spelling errors
-  as you type text into the cells.  To use this tool, go to the
-  ``Tools'' menu and select the ``Auto Correct'' menu option.  It
-  gives you a dialog to choose autocorrection rules to be
-  activated.</para>
+  <para>
+  The auto-correction tool recognizes and attempts to automaticly repair
+  several common typing errors.  The corrections are configured and activated
+  using AutoCorrect Dialog, available via ``Auto Correct'' in the ``Tools''
+  menu.
+  </para>
 
   <figure id="autocorrect-figure">
-    <title>The Auto Correct Tool dialog.</title>
+    <title>The Auto Correct dialog.</title>
     <screenshot>
       <graphic fileref="figures/auto-correct.png"></graphic>
     </screenshot>
   </figure>
-
-  <para>If this tool is activated and it detects an error in the text
-  you typed, it replaces the text with correct one.  The replacements
-  are done accoring to the following rules.  Each rule can be
-  activated or disactivated separately in the dialog.</para>
 
   <sect2 id="correct-initial-capitals">
      <title>Correct TWo INitial CApitals</title>
@@ -55,7 +51,7 @@
 
      <para>It is possible to specify exceptions to this tool.  For
      example, you do not want the tool to capitalize letters after
-     accronym `i.g.'.  To specify exceptions, press the
+     acronym `i.g.'.  To specify exceptions, press the
      ``Exceptions...''  button in the dialog.  This should pop up the
      ``Auto correct exceptions'' dialog.  In this dialog, select the
      ``First letter'' page.  In this page, type `i.g.' into the ``Do
@@ -73,17 +69,6 @@
      <para>If this correction rule is activated, the first letter of a
      name of a day is capitalized automatically.  For example, if you
      type `monday', it is automatically replaced by `Monday'.</para>
-
-  </sect2>
-
-  <sect2 id="correct-caps-lock">
-     <title>Correct accidental use of cAPS LOCK key</title>
-
-     <para>Another common typing mistake to have the caps lock on when
-     it should have been off.  This leads easily to texts where all
-     the letters except the first letter are in uppercase.  If this
-     correction rule is activated, the texts having this mistake are
-     repleced by the same text but case reverted.</para>
 
   </sect2>
 

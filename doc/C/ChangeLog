@@ -1,3 +1,8 @@
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* autocorrect.sgml  : proof read and remove mention of an rule that
+	  has been deleted.
+
 2001-12-23 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* introduction.sgml : split into introduction.sgml and
