@@ -143,9 +143,6 @@ char       *expr_decode_tree     (ExprTree *tree, int col, int row);
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
-/* Do not use this routine, it is intended to be used internally */
-void        eval_expr_release    (ExprTree *tree);
-				 
 Value      *eval_expr            (void *asheet, ExprTree *tree,
 				  int  col, int row,
 				  char **error_string);

@@ -91,6 +91,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| CONSTANT      { $$ = $1 }
 	| exp '+' exp	{
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_ADD;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -98,6 +99,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 
 	| exp '-' exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_SUB;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -105,6 +107,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 
 	| exp '*' exp { 
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_MULT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -112,6 +115,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 
 	| exp '/' exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_DIV;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -119,18 +123,21 @@ exp:	  NUMBER 	{ $$ = $1 }
 
 	| exp '=' exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_EQUAL;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
 	| exp '<' exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_LT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
 	| exp '>' exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_GT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -138,6 +145,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 
         | exp GTE exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_GTE;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -145,6 +153,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 
         | exp NE exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_NOT_EQUAL;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -152,6 +161,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 
         | exp LTE exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_LTE;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -159,16 +169,19 @@ exp:	  NUMBER 	{ $$ = $1 }
 
 	| '(' exp ')'  {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$ = $2;
 	}
 
         | '-' exp %prec NEG {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_NEG;
 		$$->u.value = $2;
 	}
 	| exp '&' exp {
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_CONCAT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -182,6 +195,7 @@ exp:	  NUMBER 	{ $$ = $1 }
 		b = $3->u.constant->v.cell;
 
 		$$ = p_new (ExprTree);
+		$$->ref_count = 1;
 		$$->oper = OP_CONSTANT;
 		$$->u.constant = v_new ();
 		$$->u.constant->type = VALUE_CELLRANGE;
@@ -253,6 +267,7 @@ return_cellref (char *p)
 
 	/*  Ok, parsed successfully, create the return value */
 	e = p_new (ExprTree);
+	e->ref_count = 1;
 	v = v_new ();
 
 	e->oper = OP_VAR;
@@ -286,7 +301,8 @@ return_symbol (char *string)
 	ExprTree *e = p_new (ExprTree);
 	Symbol *sym;
 	int type;
-	
+
+	e->ref_count = 1;
 	sym = symbol_lookup (string);
 	type = STRING;
 	
@@ -360,7 +376,8 @@ int yylex (void)
 	case '6': case '7': case '8': case '9': case '.': {
 		ExprTree *e = p_new (ExprTree);
 		Value *v = v_new ();
-		
+
+		e->ref_count = 1;
 		is_float = c == '.';
 		p = parser_expr-1;
 		tmp = parser_expr;
@@ -597,7 +614,7 @@ static void
 forget_tree (ExprTree *tree)
 {
 	forget (ALLOC_BUFFER, tree);
-	eval_expr_release (tree);
+	expr_tree_unref (tree); 
 }
 
 /*

@@ -427,44 +427,53 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			gnome_canvas_item_ungrab (item, event->button.time);
 			return 1;
 		}
+		break;
 		
 	case GDK_MOTION_NOTIFY:
-		scroll_x = scroll_y = 0;
-		if (event->motion.x < 0){
-			event->motion.x = 0;
-			scroll_x = 1;
-		} if (event->motion.y < 0){
-			event->motion.y = 0;
-			scroll_y = 1;
-		}
-		convert (canvas, event->motion.x, event->motion.y, &x, &y);
-		if (!item_grid->selecting)
+		if (event->button == 1){
+			scroll_x = scroll_y = 0;
+			if (event->motion.x < 0){
+				event->motion.x = 0;
+				scroll_x = 1;
+			} if (event->motion.y < 0){
+				event->motion.y = 0;
+				scroll_y = 1;
+			}
+			convert (canvas, event->motion.x, event->motion.y, &x, &y);
+			if (!item_grid->selecting)
+				return 1;
+			
+			col = find_col (item_grid, event->motion.x, NULL);
+			row = find_row (item_grid, event->motion.y, NULL);
+			sheet_selection_extend_to (sheet, col, row);
 			return 1;
-		
-		col = find_col (item_grid, event->motion.x, NULL);
-		row = find_row (item_grid, event->motion.y, NULL);
-		sheet_selection_extend_to (sheet, col, row);
-		return 1;
+		}
+		break;
 		
 	case GDK_BUTTON_PRESS:
-		convert (canvas, event->button.x, event->button.y, &x, &y);
-		col = find_col (item_grid, event->button.x, NULL);
-		row = find_row (item_grid, event->button.y, NULL);
+		switch (event->button){
+		case 1:
+			convert (canvas, event->button.x, event->button.y, &x, &y);
+			col = find_col (item_grid, event->button.x, NULL);
+			row = find_row (item_grid, event->button.y, NULL);
+			
+			gnumeric_sheet_accept_pending_output (gsheet);
+			gnumeric_sheet_cursor_set (gsheet, col, row);
+			if (!(event->button.state & GDK_SHIFT_MASK))
+				sheet_selection_clear_only (sheet);
+			
+			item_grid->selecting = 1;
+			sheet_selection_append (sheet, col, row);
+			gnome_canvas_item_grab (item,
+						GDK_POINTER_MOTION_MASK |
+						GDK_BUTTON_RELEASE_MASK,
+						NULL,
+						event->button.time);
+			return 1;
 
-		gnumeric_sheet_accept_pending_output (gsheet);
-		gnumeric_sheet_cursor_set (gsheet, col, row);
-		if (!(event->button.state & GDK_SHIFT_MASK))
-			sheet_selection_clear_only (sheet);
-
-		item_grid->selecting = 1;
-		sheet_selection_append (sheet, col, row);
-		gnome_canvas_item_grab (item,
-					GDK_POINTER_MOTION_MASK |
-					GDK_BUTTON_RELEASE_MASK,
-					NULL,
-					event->button.time);
-		return 1;
-		
+		case 3:
+			
+		}
 	default:
 		return 0;	
 	}

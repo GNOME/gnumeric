@@ -1,3 +1,8 @@
+1998-08-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/clipboard.c (clipboard_paste_region): After pasting, trigger
+	a recalculation. 
+
 1998-08-14  Jaka Mocnik  <jaka.mocnik@kiss.uni-lj.si>
 
 	* src/clipboard.h: changed PASTE_ALL to PASTE_ALL_TYPES.

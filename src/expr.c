@@ -37,28 +37,17 @@ expr_parse_string (char *expr, int col, int row, char **error_msg)
 	return NULL;
 }
 
-/*
- * eval_expr_release:
- * @ExprTree:  The tree to be released
- *
- * This releases all of the resources used by a tree.  
- * It is only used internally by eval_expr_unref
- */
-void
-eval_expr_release (ExprTree *tree)
+static void
+do_expr_tree_ref (ExprTree *tree)
 {
 	g_return_if_fail (tree != NULL);
-	
+	g_return_if_fail (tree->ref_count > 0);
+
+	tree->ref_count++;
 	switch (tree->oper){
 	case OP_VAR:
-		break;
-		
 	case OP_CONSTANT:
-		value_release (tree->u.constant);
-		break;
-		
 	case OP_FUNCALL:
-		symbol_unref (tree->u.function.symbol);
 		break;
 
 	case OP_EQUAL:
@@ -73,24 +62,70 @@ eval_expr_release (ExprTree *tree)
 	case OP_DIV:
 	case OP_EXP:
 	case OP_CONCAT:
-		eval_expr_release (tree->u.binary.value_a);
-		eval_expr_release (tree->u.binary.value_b);
+		do_expr_tree_ref (tree->u.binary.value_a);
+		do_expr_tree_ref (tree->u.binary.value_b);
 		break;
 
 	case OP_NEG:
-		eval_expr_release (tree->u.value);
+		do_expr_tree_ref (tree->u.value);
 		break;
 	}
-	g_free (tree);
 }
 
+/*
+ * expr_tree_ref:
+ * Increments the ref_count for part of a tree
+ */
 void
 expr_tree_ref (ExprTree *tree)
 {
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (tree->ref_count > 0);
 
-	tree->ref_count++;
+	do_expr_tree_ref (tree);
+}
+
+static void
+do_expr_tree_unref (ExprTree *tree)
+{
+	tree->ref_count--;
+	switch (tree->oper){
+	case OP_VAR:
+		break;
+		
+	case OP_CONSTANT:
+		if (tree->ref_count == 0)
+			value_release (tree->u.constant);
+		break;
+		
+	case OP_FUNCALL:
+		if (tree->ref_count == 0)
+			symbol_unref (tree->u.function.symbol);
+		break;
+
+	case OP_EQUAL:
+	case OP_GT:
+	case OP_LT:
+	case OP_GTE:
+	case OP_LTE:
+	case OP_NOT_EQUAL:
+	case OP_ADD:
+	case OP_SUB:
+	case OP_MULT:
+	case OP_DIV:
+	case OP_EXP:
+	case OP_CONCAT:
+		do_expr_tree_unref (tree->u.binary.value_a);
+		do_expr_tree_unref (tree->u.binary.value_b);
+		break;
+
+	case OP_NEG:
+		do_expr_tree_unref (tree->u.value);
+		break;
+	}
+	
+	if (tree->ref_count == 0)
+		g_free (tree);
 }
 
 void
@@ -99,9 +134,7 @@ expr_tree_unref (ExprTree *tree)
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (tree->ref_count > 0);
 
-	tree->ref_count--;
-	if (tree->ref_count == 0)
-		eval_expr_release (tree);
+	do_expr_tree_unref (tree);
 }
 
 void

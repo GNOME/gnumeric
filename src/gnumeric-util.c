@@ -36,12 +36,10 @@ gtk_radio_group_get_selected (GSList *radio_group)
 	c = g_slist_length (radio_group);
 		
 	for (i = 0, l = radio_group; l; l = l->next, i++){
-	for (i = 0; radio_group; radio_group = radio_group->next, i++){
-		GtkRadioButton *button = radio_group->data;
+		GtkRadioButton *button = l->data;
 
-		if (GTK_TOGGLE_BUTTON (button)->active){
+		if (GTK_TOGGLE_BUTTON (button)->active)
 			return c - i - 1;
-		}
 	}
 
 	return 0;

@@ -64,12 +64,61 @@ clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_c
 	return c.r;
 }
 
+static int
+paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, int paste_flags)
+{
+	sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
+
+	if (!(paste_flags & PASTE_FORMULAS)){
+		if (new_cell->parsed_node){
+			expr_tree_unref (new_cell->parsed_node);
+			new_cell->parsed_node = NULL;
+		}
+	}
+	
+	if (new_cell->parsed_node){
+		char *new_text, *formula;
+		
+		if (paste_flags & PASTE_FORMULAS){
+			string_unref (new_cell->entered_text);
+			
+			new_text = expr_decode_tree (
+				new_cell->parsed_node,
+				target_col, target_row);
+			
+			formula = g_copy_strings ("=", new_text, NULL);
+			new_cell->entered_text = string_get (formula);
+			g_free (formula);
+			g_free (new_text);
+			
+			cell_formula_changed (new_cell);
+		} else {
+			expr_tree_unref (new_cell->parsed_node);
+			new_cell->parsed_node = NULL;
+		}
+	}
+	
+	if (!(paste_flags & PASTE_FORMULAS)){
+		char *rendered;
+		
+		rendered = value_string (new_cell->value);
+		string_unref (new_cell->entered_text);
+		new_cell->entered_text = string_get (rendered);
+		g_free (rendered);
+	}
+	
+	sheet_redraw_cell_region (dest_sheet,
+				  target_col, target_row,
+				  target_col, target_row);
+
+	return new_cell->parsed_node != 0;
+}
+
 void
 clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int dest_row, int paste_flags)
 {
 	CellCopyList *l;
-	int paste_formulas = paste_flags & PASTE_FORMULAS;
-	int paste_formats = paste_formulas & PASTE_FORMATS;
+	int formulas = 0;
 	
 	g_return_if_fail (region != NULL);
 	g_return_if_fail (dest_sheet != NULL);
@@ -81,10 +130,12 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int
 			    dest_col + region->cols - 1,
 			    dest_row + region->rows - 1);
 
-	sheet_redraw_cell_region (dest_sheet,
-				  dest_col, dest_row,
-				  dest_col + region->cols - 1,
-				  dest_row + region->rows - 1);
+	/* If no operations are defined, we clear the area */
+	if (!(paste_flags & PASTE_OP_MASK))
+		sheet_redraw_cell_region (dest_sheet,
+					  dest_col, dest_row,
+					  dest_col + region->cols - 1,
+					  dest_row + region->rows - 1);
 	
 	/* Paste each element */
 	for (l = region->list; l; l = l->next){
@@ -96,44 +147,13 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int
 		target_row = dest_row + c_copy->row_offset;
 		
 		new_cell = cell_copy (c_copy->cell);
-		
-		sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
 
-		if (new_cell->parsed_node){
-			char *new_text, *formula;
-
-			if (paste_formulas){
-				string_unref (new_cell->entered_text);
-				
-				new_text = expr_decode_tree (
-					new_cell->parsed_node,
-					target_col, target_row);
-				
-				formula = g_copy_strings ("=", new_text, NULL);
-				new_cell->entered_text = string_get (formula);
-				g_free (formula);
-				g_free (new_text);
-				
-				cell_formula_changed (new_cell);
-			} else {
-				expr_tree_unref (new_cell->parsed_node);
-				new_cell->parsed_node = NULL;
-			}
-		}
-
-		if (!paste_formulas){
-			char *rendered;
-
-			rendered = value_string (new_cell->value);
-			string_unref (new_cell->entered_text);
-			new_cell->entered_text = string_get (rendered);
-			g_free (rendered);
-		}
-
-		sheet_redraw_cell_region (dest_sheet,
-					  target_col, target_row,
-					  target_col, target_row);
+		formulas |= paste_cell (dest_sheet, new_cell, target_col, target_row, paste_flags);
 	}
+
+	/* Trigger a recompute */
+	if (formulas)
+		workbook_recalc (dest_sheet->workbook);
 }
 
 void
@@ -192,8 +212,8 @@ dialog_paste_special (void)
 {
 	GtkWidget *dialog, *hbox;
 	GtkWidget *f1, *f1v, *f2, *f2v;
-	GSList *group_type, *group_ops, *l;
-	int i, result;
+	GSList *group_type, *group_ops;
+	int result, i;
 	
 	dialog = gnome_dialog_new (_("Paste special"),
 				   GNOME_STOCK_BUTTON_OK,
