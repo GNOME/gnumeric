@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-28 14:25+0900\n"
-"PO-Revision-Date: 2004-11-15 13:31+0900\n"
+"POT-Creation-Date: 2004-11-28 21:47+0900\n"
+"PO-Revision-Date: 2004-11-28 21:50+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6106,9 +6106,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=OFFTRAF\n"
 "@SYNTAX=OFFTRAF(trafik;kopplingar)\n"
-"@DESCRIPTION=OFFTRAF anger den uppskaddade mängden erbjuden trafik från "
-"ett antal avverkad @trafik (taget från mätningar) på ett antal "
-"@kopplingar.\n"
+"@DESCRIPTION=OFFTRAF anger den uppskaddade mängden erbjuden trafik från ett "
+"antal avverkad @trafik (taget från mätningar) på ett antal @kopplingar.\n"
 "\n"
 "* @trafik kan inte vara större än  @kopplingar\n"
 "\n"
@@ -6131,8 +6130,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DIMCIRC\n"
 "@SYNTAX=DIMCIRC(trafik;sk)\n"
-"@DESCRIPTION=DIMCIRC anger ett antal kopplingar som behövs av "
-"@trafik belastning med servicekvalitet @sk.\n"
+"@DESCRIPTION=DIMCIRC anger ett antal kopplingar som behövs av @trafik "
+"belastning med servicekvalitet @sk.\n"
 "\n"
 "@EXAMPLES=\n"
 "DIMCIRC(24;1%) returnerar 35.\n"
@@ -6153,8 +6152,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=OFFCAP\n"
 "@SYNTAX=OFFCAP(kopplingar;sk)\n"
-"@DESCRIPTION=OFFCAP anger trafikkapaciteten given av antalet "
-"@kopplingar med servicekvalitet @sk.\n"
+"@DESCRIPTION=OFFCAP anger trafikkapaciteten given av antalet @kopplingar med "
+"servicekvalitet @sk.\n"
 "\n"
 "@EXAMPLES=\n"
 "OFFCAP(30;1%) returns 20,337.\n"
@@ -15660,11 +15659,10 @@ msgstr ""
 "VARA är även känd som N-1-varians.\n"
 "Med rimliga betingelser är detta maximum-likelihood uppskattningen av den "
 "riktiga variansen.\n"
-"Tal, text och "
-"logiska värden inkluderas även de i beräkningen. Om cellen innehåller text "
-"eller om argumenten evalueras till FALSKT, räknas de som noll (0). Om ett "
-"argument evalueras till SANT, räknas det som 1. Observera att tomma celler "
-"inte räknas.\n"
+"Tal, text och logiska värden inkluderas även de i beräkningen. Om cellen "
+"innehåller text eller om argumenten evalueras till FALSKT, räknas de som "
+"noll (0). Om ett argument evalueras till SANT, räknas det som 1. Observera "
+"att tomma celler inte räknas.\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -15699,8 +15697,7 @@ msgstr ""
 "@SYNTAX=VARPA(tal1;tal2;...)\n"
 "@DESCRIPTION=VARPA returnerar variansen baserat på hela populationen.\n"
 "VARPA är även känd som N-variansen.\n"
-"Tal, "
-"text och logiska värden inkluderas även de i beräkningen. Om cellen "
+"Tal, text och logiska värden inkluderas även de i beräkningen. Om cellen "
 "innehåller text eller om argumenten evalueras till FALSKT, räknas de som "
 "noll (0). Om ett argument evalueras till SANT, räknas det som 1. Observera "
 "att tomma celler inte räknas.\n"
@@ -15747,8 +15744,7 @@ msgstr ""
 "STDEVA är även känd som N-1-standardavvikelsen.\n"
 "Med rimliga betingelser är detta maximum-likelihood uppskattningen av den "
 "riktiga standardavvikelsen.\n"
-"Tal, "
-"text och logiska värden inkluderas även de i beräkningen. Om cellen "
+"Tal, text och logiska värden inkluderas även de i beräkningen. Om cellen "
 "innehåller text eller om argumenten evalueras till FALSKT, räknas de som "
 "noll (0). Om ett argument evalueras till SANT, räknas det som 1. Observera "
 "att tomma celler inte räknas.\n"
@@ -15788,10 +15784,10 @@ msgstr ""
 "@DESCRIPTION=STDEVPA returnerar standardavvikelsen baserat på hela "
 "populationen.\n"
 "Detta är även känt som N-standardavvikelsen.\n"
-"Tal, text och logiska värden inkluderas även de i beräkningen. "
-"Om cellen innehåller text eller om argumenten evalueras till FALSKT, räknas "
-"de som noll (0). Om ett argument evalueras till SANT, räknas det som 1. "
-"Observera att tomma celler inte räknas.\n"
+"Tal, text och logiska värden inkluderas även de i beräkningen. Om cellen "
+"innehåller text eller om argumenten evalueras till FALSKT, räknas de som "
+"noll (0). Om ett argument evalueras till SANT, räknas det som 1. Observera "
+"att tomma celler inte räknas.\n"
 "\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -19325,6 +19321,12 @@ msgid ""
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milleseconds."
 msgstr ""
+"Om \"lag\" är 0 räknar gnumeric om alla automatiska uttryck direkt efter "
+"varje förändring. är \"lag\" inte noll väntar gnumeric på fler ändringar "
+"innan uttrycken räknas om. om \"lag\" är större än noll så väntar gnumeric i "
+"\"lag\" millisekunder och räknar sedan om; om fler ändringar har skett under "
+"den tidsperioden så bearbetas dom också nu. Om \"lag\" är mindre än noll så "
+"sker omräkning endast då inga ändringar har hänt i \"lag\" millisekunder."
 
 #: schemas/gnumeric-general.schemas.in.h:14
 #: src/dialogs/dialog-preferences.c:612
@@ -24140,7 +24142,6 @@ msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr "Objekten på denna sida anpassar beteendet på ångra-/gör om-systemet."
 
 #: src/dialogs/dialog-preferences.c:470
-#, fuzzy
 msgid "Length of Undo Descriptors"
 msgstr "Längden på ångrabeskrivningarna"
 
@@ -24153,7 +24154,6 @@ msgstr ""
 "sorteringsdialogen och beteendet på verktygsradsknapparna."
 
 #: src/dialogs/dialog-preferences.c:523
-#, fuzzy
 msgid "Sorting is Case-Sensitive"
 msgstr "Sortering gör skillnad på gemener/VERSALER"
 
@@ -24167,37 +24167,36 @@ msgstr ""
 "Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
 
 #: src/dialogs/dialog-preferences.c:646
-#, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
-"Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
+"Objekten på denna sida är relaterade till skärmens uppläggning och "
+"upplösning."
 
 #: src/dialogs/dialog-preferences.c:682
-#, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
 msgstr ""
-"Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
+"Objekten på denna sida och dess undersidor är relaterade till diverse "
+"gnumeric-verktyg."
 
 #: src/dialogs/dialog-preferences.c:724
-#, fuzzy
 msgid "The items on this page are related to copy. cut and paste."
 msgstr ""
-"Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
+"Objekten på denna sida är relaterade till at klippa ut, kopiera och klistra "
+"in."
 
 #: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
-msgstr ""
+msgstr "Klippa ut och klistra in"
 
 #: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Filer"
 
 #: src/dialogs/dialog-preferences.c:766
-#, fuzzy
 msgid "Tools"
-msgstr "Verk_tyg"
+msgstr "Verktyg"
 
 #: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
@@ -24212,9 +24211,8 @@ msgid "Header/Footer"
 msgstr "Sidhuvud/sidfot"
 
 #: src/dialogs/dialog-preferences.c:771
-#, fuzzy
 msgid "Screen"
-msgstr "Skärm %d"
+msgstr "Skärm"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -24769,7 +24767,7 @@ msgstr "_Slutför"
 
 #: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
-msgstr ""
+msgstr "Den här arbetsboken innehåller ingenting som kan exporteras."
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
@@ -24796,18 +24794,16 @@ msgid "Character _encoding:"
 msgstr "Tecken_kodning:"
 
 #: src/dialogs/dialog-stf-export.glade.h:10
-#, fuzzy
 msgid "Choose export formatting:"
-msgstr "Välj exportformatering"
+msgstr "Välj exportformatering:"
 
 #: src/dialogs/dialog-stf-export.glade.h:11
 msgid "Choose sheets to export and determine export ordering of the sheets:"
-msgstr ""
+msgstr "Välj blad att exportera och bestäm ordningen de ska exporteras i:"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
 msgid "Deselect all sheets for export."
-msgstr "Välj blad att exportera"
+msgstr "Välj bort alla blad för export."
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Export as Text"
@@ -24818,18 +24814,24 @@ msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
 msgstr ""
+"Flytta ner det valda bladet i listan över blad att exportera, så det "
+"exporteras senare."
 
 #: src/dialogs/dialog-stf-export.glade.h:15
 msgid ""
 "Move the selected sheet to the end of the list of to be exported exported "
 "sheets to be exported last."
 msgstr ""
+"Flytta det valda bladet till slutet av listan över blad att exportera, så "
+"det exporteras sist."
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
 msgstr ""
+"Flytta det valda bladet till början av listan över blad att exportera, så "
+"det exporteras först."
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Qu_oting:"
@@ -24844,6 +24846,8 @@ msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
 msgstr ""
+"Flytta upp det valda bladet i listan över blad att exportera, så det "
+"exporteras tidigare."
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
@@ -24855,9 +24859,8 @@ msgid "Select _All"
 msgstr "Markera _allt"
 
 #: src/dialogs/dialog-stf-export.glade.h:22
-#, fuzzy
 msgid "Select all non-empty sheets for export."
-msgstr "Du måste välja minst ett blad att exportera."
+msgstr "Välja alla blad som inte är tomma för export."
 
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
@@ -24923,39 +24926,34 @@ msgstr ""
 "Automatisk upptäckt hittade inte några kolumner i texten. Försök manuellt"
 
 #: src/dialogs/dialog-stf-fixed-page.c:69
-#, fuzzy
 msgid "Merge with column on _left"
-msgstr "Ignorera alla kolumner till vänster"
+msgstr "Slå ihop med kolumnen till _vänster"
 
 #: src/dialogs/dialog-stf-fixed-page.c:71
-#, fuzzy
 msgid "Merge with column on _right"
-msgstr "Ignorera alla kolumner till höger"
+msgstr "Slå ihop med kolumnen till _höger"
 
 #: src/dialogs/dialog-stf-fixed-page.c:74
-#, fuzzy
 msgid "_Split this column"
-msgstr "Ställ in slutet på denna kolumn"
+msgstr "_Dela kolumnen"
 
 #: src/dialogs/dialog-stf-fixed-page.c:77
-#, fuzzy
 msgid "_Widen this column"
-msgstr "Dölj kolumner"
+msgstr "_Bredda kolumnen"
 
 #: src/dialogs/dialog-stf-fixed-page.c:79
-#, fuzzy
 msgid "_Narrow this column"
-msgstr "Töm listan med kolumner"
+msgstr "_Gör kolumnen smalare"
 
 #: src/dialogs/dialog-stf-format-page.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "Importing %i columns and ignoring none."
-msgstr "Importera alla kolumner till höger"
+msgstr "Importerar %i kolumner och ignorerar inte någon."
 
 #: src/dialogs/dialog-stf-format-page.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "Importing %i columns and ignoring %i."
-msgstr "Importera alla kolumner till höger"
+msgstr "Importerar %i kolumner och ignorerar %i."
 
 #: src/dialogs/dialog-stf-format-page.c:155
 #: src/dialogs/dialog-stf-format-page.c:413
@@ -25019,15 +25017,14 @@ msgid "Ban_g (!)"
 msgstr "_Utropstecken (!)"
 
 #: src/dialogs/dialog-stf.glade.h:7
-#, fuzzy
 msgid ""
 "Both sides\n"
 "Neither side\n"
 "On left side only\n"
 "On right side only"
 msgstr ""
-"Alltid (båda sidorna)\n"
-"Aldrig\n"
+"Båda sidorna\n"
+"Ingendera sidorna\n"
 "Endast på vänster sida\n"
 "Endast på höger sida"
 
@@ -25057,9 +25054,8 @@ msgid "Co_mma (,)"
 msgstr "Ko_mma (,)"
 
 #: src/dialogs/dialog-stf.glade.h:16
-#, fuzzy
 msgid "Column selection"
-msgstr "Klipp ut markeringen"
+msgstr "Kolumnval"
 
 #: src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
@@ -27941,19 +27937,16 @@ msgid "Line/Arrow Properties"
 msgstr "Linje/Pil-egenskaper"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:1
-#, fuzzy
 msgid "FormatToolbar"
-msgstr "_Verktygsrader"
+msgstr "Format-verktygsrad"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:2
-#, fuzzy
 msgid "ObjectToolbar"
-msgstr "GObjectinläsare"
+msgstr "Objekt-verktygsrad"
 
 #: src/GNOME_Gnumeric-gtk.xml.in.h:3
-#, fuzzy
 msgid "StandardToolbar"
-msgstr "_Standardfel"
+msgstr "Standardverktygsrad"
 
 #: src/gnumeric-pane.c:130
 #, c-format
@@ -28546,11 +28539,11 @@ msgstr "Fel vid initiering av insticksmodulsystem."
 
 #: src/plugin-loader.c:172
 msgid "Loader has no set_attributes method.\n"
-msgstr ""
+msgstr "Inläsare har ingen metod set_attributes.\n"
 
 #: src/plugin-loader.c:199
 msgid "Loader has no load_base method.\n"
-msgstr ""
+msgstr "Inläsare har ingen metod load_base.\n"
 
 #: src/plugin-loader.c:258 src/plugin-loader.c:296
 #, c-format
@@ -28665,7 +28658,7 @@ msgstr "Funktionsgruppen är tom."
 
 #: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
-msgstr ""
+msgstr "Ingen metod func_desc_load.\n"
 
 #: src/plugin-service.c:1104
 #, c-format
@@ -28908,14 +28901,12 @@ msgstr "Klistra in _special"
 #. * strings, and the logic that knows the count is elsewhere
 #.
 #: src/sheet-control-gui.c:1520
-#, fuzzy
 msgid "_Insert Cells..."
-msgstr "Infoga celler"
+msgstr "_Infoga celler..."
 
 #: src/sheet-control-gui.c:1522
-#, fuzzy
 msgid "_Delete Cells..."
-msgstr "Ta bort celler"
+msgstr "_Ta bort celler..."
 
 #: src/sheet-control-gui.c:1524
 msgid "_Insert Column(s)"
@@ -29226,6 +29217,8 @@ msgid ""
 "Some columns of data were dropped since they exceeded the available sheet "
 "size."
 msgstr ""
+"En del data kolumner slängdes bort eftersom de var större än den "
+"tillgängliga bladstorleken."
 
 #: src/stf.c:393
 msgid "Parse error while trying to parse data into sheet"
@@ -30207,27 +30200,31 @@ msgstr ""
 
 #: src/tools/solver/solver.c:465
 msgid "EqualTo models are not supported yet.  Please use Min or Max"
-msgstr ""
+msgstr "Likamed-modeller stöds inte ännu. Använd Min eller Max"
 
 #: src/tools/solver/solver.c:478
 msgid ""
 "Failure setting automatic scaling with this solver, try a different "
 "algorithm."
 msgstr ""
+"Kunde inte använda automatisk skalning med den här lösaren, försök med en "
+"annan algoritm."
 
 #: src/tools/solver/solver.c:484
-#, fuzzy
 msgid ""
 "Failure setting the maximum number of iterations with this solver, try a "
 "different algorithm."
 msgstr ""
-"Det här värdet avgör det största antalet enheter i ångra/gör om-listan."
+"Kunde inte sätta maximalt antal iterationer med den här lösaren, försök med "
+"en annan algoritm."
 
 #: src/tools/solver/solver.c:490
 msgid ""
 "Failure setting setting the maximum solving time with this solver, try a "
 "different algorithm."
 msgstr ""
+"Kunde inte sätta maximal tidsåtgång med den här lösaren, försök med en annan "
+"algoritm."
 
 #: src/tools/solver/solver.c:536
 msgid ""
@@ -33286,7 +33283,7 @@ msgstr "Gnumeric XML (*.gnumeric) ursprunglig, långsam, exportör"
 
 #: templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "A button like template"
-msgstr ""
+msgstr "En knapplik mall"
 
 #: templates/autoformat/autoformat.3D.button.xml.in.h:3
 #: templates/autoformat/autoformat.3D.list.xml.in.h:2
@@ -33311,172 +33308,155 @@ msgstr ""
 #: templates/autoformat/autoformat.List.green.xml.in.h:2
 #: templates/autoformat/autoformat.List.lila.xml.in.h:1
 #: templates/autoformat/autoformat.List.simple.xml.in.h:2
-#, fuzzy
 msgid "Gnumeric Team"
-msgstr "Gnumeric "
+msgstr "Gnumeric-utvecklarna"
 
 #: templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "A 3D list template"
-msgstr ""
+msgstr "En mall för 3d-lista"
 
 #: templates/autoformat/autoformat.Classical.cool.xml.in.h:1
-#, fuzzy
 msgid "Cool"
-msgstr "Booleskt"
+msgstr "Cool"
 
 #: templates/autoformat/autoformat.Classical.cool.xml.in.h:3
 msgid "Template with a 'cool' look"
-msgstr ""
+msgstr "Mall med ett \"coolt\" utseende"
 
 #: templates/autoformat/autoformat.Classical.simple.xml.in.h:1
 msgid "A simple template with classical look and feel"
-msgstr ""
+msgstr "En enkel mall med klassiskt utseende"
 
 #: templates/autoformat/autoformat.Classical.simple.xml.in.h:3
 #: templates/autoformat/autoformat.Financial.basic.xml.in.h:2
 #: templates/autoformat/autoformat.List.simple.xml.in.h:3
-#, fuzzy
 msgid "Simple"
-msgstr "Exempel"
+msgstr "Enkel"
 
 #: templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "A classical yet colorful template"
-msgstr ""
+msgstr "Klassisk men ändå färggrann mall"
 
 #: templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
-#, fuzzy
 msgid "Trendy"
-msgstr "röd"
+msgstr "Trendig"
 
 #: templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "A banana coloured template"
-msgstr ""
+msgstr "Bananfärgad mall"
 
 #: templates/autoformat/autoformat.Colourful.banana.xml.in.h:2
 msgid "Banana"
-msgstr ""
+msgstr "Banan"
 
 #: templates/autoformat/autoformat.Colourful.black.xml.in.h:3
 msgid "Template with a black background"
-msgstr ""
+msgstr "Mall med svart bakgrund"
 
 #: templates/autoformat/autoformat.Colourful.blue.xml.in.h:1
 msgid "A colourful template with mainly blue and teal colours"
-msgstr ""
+msgstr "Färggrann mall i blå och blågröna toner"
 
 #: templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
-#, fuzzy
 msgid "Orange"
-msgstr "område"
+msgstr "Brandgult"
 
 #: templates/autoformat/autoformat.Colourful.orange.xml.in.h:3
-#, fuzzy
 msgid "Orange template"
-msgstr "Mallens namn"
+msgstr "Brandgul mall"
 
 #: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
 msgid "Template with vanilla colour"
-msgstr ""
+msgstr "Vaniljtonad mall"
 
 #: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:3
-#, fuzzy
 msgid "Vanilla"
-msgstr "alla"
+msgstr "Vanilj"
 
 #: templates/autoformat/autoformat.Financial.basic.xml.in.h:3
-#, fuzzy
 msgid "Simple financial template"
-msgstr "Mallens namn"
+msgstr "Enkel finansiell mall"
 
 #: templates/autoformat/autoformat.Financial.desert.xml.in.h:1
-#, fuzzy
 msgid "Desert"
-msgstr "Infoga"
+msgstr "Öken"
 
 #: templates/autoformat/autoformat.Financial.desert.xml.in.h:2
 msgid "Desert colored financial template"
-msgstr ""
+msgstr "Mall i ökenfärger"
 
 #: templates/autoformat/autoformat.Financial.ice.xml.in.h:1
 msgid "Financial style with cold border color"
-msgstr ""
+msgstr "Finansiell stil med kall kantfärg"
 
 #: templates/autoformat/autoformat.Financial.ice.xml.in.h:3
 msgid "Ice"
-msgstr ""
+msgstr "Is"
 
 #: templates/autoformat/autoformat.Financial.modern.xml.in.h:2
-#, fuzzy
 msgid "Modern"
-msgstr "Läge"
+msgstr "Modern"
 
 #: templates/autoformat/autoformat.Financial.modern.xml.in.h:3
 msgid "Modern style with financial formatting"
-msgstr ""
+msgstr "Moern stil med finansiell formatering"
 
 #: templates/autoformat/autoformat.Financial.purple.xml.in.h:1
 msgid "Financial template with purple borders"
-msgstr ""
+msgstr "Finansiell mall med purpurfärgade kanter"
 
 #: templates/autoformat/autoformat.Financial.purple.xml.in.h:3
-#, fuzzy
 msgid "Purple"
-msgstr "lila"
+msgstr "Purpur"
 
 #: templates/autoformat/autoformat.General.advanced.xml.in.h:2
 msgid "An advanced colorless template"
-msgstr ""
+msgstr "Avancerad, färglös mall"
 
 #: templates/autoformat/autoformat.General.basic.xml.in.h:1
 msgid "A basic formal style"
-msgstr ""
+msgstr "En grundläggande formell stil"
 
 #: templates/autoformat/autoformat.General.basic.xml.in.h:2
 #: templates/autoformat/autoformat.List.basic.xml.in.h:2
-#, fuzzy
 msgid "Basic"
-msgstr "Baltiska"
+msgstr "Grundläggande"
 
 #: templates/autoformat/autoformat.General.empty.xml.in.h:1
 msgid "A fully empty template"
-msgstr ""
+msgstr "En helt tom mall"
 
 #: templates/autoformat/autoformat.General.empty.xml.in.h:2
 msgid "Empty"
-msgstr ""
+msgstr "Tom"
 
 #: templates/autoformat/autoformat.General.table.xml.in.h:2
-#, fuzzy
 msgid "Table"
-msgstr "Tabb"
+msgstr "Tabell"
 
 #: templates/autoformat/autoformat.General.table.xml.in.h:3
 msgid "Very simple table template with the same border everywhere "
-msgstr ""
+msgstr "Mycket enkel tabellmall med samma kanter överallt "
 
 #: templates/autoformat/autoformat.List.basic.xml.in.h:1
-#, fuzzy
 msgid "A basic list"
-msgstr "I en lista"
+msgstr "EN enkel lista"
 
 #: templates/autoformat/autoformat.List.green.xml.in.h:1
 msgid "A green list template"
-msgstr ""
+msgstr "En mall för grön lista"
 
 #: templates/autoformat/autoformat.List.lila.xml.in.h:2
-#, fuzzy
 msgid "Lila"
-msgstr "Linjär"
+msgstr "Lila"
 
 #: templates/autoformat/autoformat.List.lila.xml.in.h:3
-#, fuzzy
 msgid "Lila list template"
-msgstr "Mallens namn"
+msgstr "Lila listmall"
 
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
-#, fuzzy
 msgid "A simple list template"
-msgstr "Mallens namn"
+msgstr "Enkel listmall"
 
 #~ msgid ""
 #~ "\n"
