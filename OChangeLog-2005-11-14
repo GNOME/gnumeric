@@ -1,3 +1,9 @@
+2005-01-16  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=162631
+	* src/gnumeric-pane.c (set_acetate_coords) : handle the race condition
+	  for the rubber band directly case.
+
 2005-01-15  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=162631

@@ -976,7 +976,7 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, FooCanvasItem **ctrl_pts,
 		double coords[4];
 		SheetObjectView *sov = sheet_object_get_view (so, (SheetObjectViewContainer *)pane);
 		if (NULL == sov)
-			return;
+			sov = sheet_object_new_view (so, (SheetObjectViewContainer *)pane);
 
 		coords [0] = l; coords [2] = r; coords [1] = t; coords [3] = b;
 		sheet_object_view_set_bounds (sov, coords, TRUE);
