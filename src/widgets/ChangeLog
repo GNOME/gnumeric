@@ -1,3 +1,11 @@
+2002-06-15 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=85383
+	* widget-editable-label.c (cb_el_parent_set) : new
+	(el_init) : add signal connection
+	(editable_label_set_color) : update flags and always store new
+	  colors
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

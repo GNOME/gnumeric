@@ -36,6 +36,7 @@ struct _EditableLabel {
 	GtkEntry  entry;
 
 	GdkColor  base, text;
+	gboolean  base_set, text_set;
 	char	 *unedited_text;
 };
 
@@ -224,9 +225,23 @@ cb_el_changed (GtkWidget *w, gpointer ignored)
 }
 
 static void
+cb_el_parent_set (GtkWidget *w, gpointer ignored, gpointer ignored_2)
+{
+	EditableLabel *el = EDITABLE_LABEL (w);
+	GtkStyle *s = gtk_widget_get_style (w);
+	if (!el->base_set)
+		el->base = s->bg [GTK_STATE_NORMAL];
+	if (!el->text_set)
+		el->text = s->fg [GTK_STATE_NORMAL];
+	editable_label_set_color (el, NULL, NULL);
+}
+
+
+static void
 el_init (GObject *obj)
 {
 	g_signal_connect (obj, "changed", G_CALLBACK (cb_el_changed), NULL);
+	g_signal_connect (obj, "parent_set", G_CALLBACK (cb_el_parent_set), NULL);
 }
 
 E_MAKE_TYPE (editable_label, "EditableLabel", EditableLabel,
@@ -260,12 +275,16 @@ editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *tex
 {
 	g_return_if_fail (IS_EDITABLE_LABEL (el));
 
-	if (el->unedited_text != NULL) {
-		if (base_color != NULL)
-			el->base = *base_color;
-		if (text_color != NULL)
-			el->text  = *text_color;
-	} else if (base_color != NULL || text_color != NULL) {
+	if (base_color != NULL) {
+		el->base_set = TRUE; 
+		el->base = *base_color;
+	}
+	if (text_color != NULL) {
+		el->text_set = TRUE; 
+		el->text  = *text_color;
+	}
+
+	if (el->unedited_text == NULL) {
 		GdkColor base, text;
 
 		if (base_color == NULL)
@@ -289,7 +308,7 @@ editable_label_new (char const *text, GdkColor *base_color,
 		"has_frame",		FALSE,
 		"editable",		FALSE,
 		NULL);
-
+	
 	GtkStyle *s = gtk_widget_get_default_style ();
 	el->base = s->bg [GTK_STATE_NORMAL];
 	el->text = s->fg [GTK_STATE_NORMAL];
