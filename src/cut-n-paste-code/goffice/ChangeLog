@@ -1,3 +1,31 @@
+2004-03-20    <clahey@ximian.com>
+
+	* drawing/god-anchor.c (god_anchor_finalize),
+	ms-compat/god-drawing-ms-client-handler.c
+	(god_drawing_ms_client_handler_finalize): Chain the finalize
+	function.
+
+	* libpresent/Makefile.am (libgoffice_libpresent_la_SOURCES): Added
+	present-presentation.c, present-presentation.h, present-slide.c,
+	present-slide.h, present-text.c, present-text.h.
+
+	* libpresent/god-drawing-ms-client-handler-ppt.c,
+	libpresent/god-drawing-ms-client-handler-ppt.h: Add a PresentSlide
+	so that we can parse OutlineTextRefAtom and link it up to the
+	outline.
+
+	* libpresent/load-ppt.c, libpresent/load-ppt.h: Changed it to use
+	PresentPresentation.  Pass a PresentSlide into the client_handler
+	if the PPDrawing is a child of a Slide.
+
+	* libpresent/present-presentation.c,
+	libpresent/present-presentation.h, libpresent/present-slide.c,
+	libpresent/present-slide.h, libpresent/present-text.c,
+	libpresent/present-text.h: New classes.  A presentation, a slide,
+	and a piece of text on a slide.
+
+	* test/test-ppt.c: Changed this to use PresentPresentation.
+
 2004-03-19  Christopher James Lahey  <clahey@ximian.com>
 
 	* libpresent/god-drawing-ms-client-handler-ppt.c

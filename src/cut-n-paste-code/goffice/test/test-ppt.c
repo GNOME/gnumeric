@@ -32,23 +32,29 @@
 int
 main (int argc, char *argv[])
 {
-	int i;
-	GList *slidel, *textl;
+	int k;
 
 	gsf_init ();
-	for (i = 1 ; i < argc ; i++) {
+	for (k = 1 ; k < argc ; k++) {
 		PresentPresentation *presentation;
-		g_print( "%s\n",argv[i]);
-		presentation = load_ppt (argv[i]);
+		int i, slide_count;
+		g_print( "%s\n",argv[k]);
+		presentation = load_ppt (argv[k]);
 
-		for (slidel = presentation->slides; slidel; slidel = slidel->next) {
-			PresentSlide *slide = slidel->data;
-			printf ("Slide:\n");
-			for (textl = slide->texts; textl; textl = textl->next) {
-				PresentText *text = textl->data;
-				printf ("\tText %d of type %d:\n", text->id, text->type);
-				if (text->text) {
-					char **texts = g_strsplit (text->text, "\xd", 0);
+		slide_count = present_presentation_get_slide_count (presentation);
+
+		for (i = 0; i < slide_count; i++) {
+			PresentSlide *slide = present_presentation_get_slide (presentation, i);
+			int i, text_count;
+			text_count = present_slide_get_text_count (slide);
+
+			for (i = 0; i < text_count; i++) {
+				PresentText *text = present_slide_get_text (slide, i);
+				char *text_data;
+				printf ("\tText %d of type %d:\n", present_text_get_text_id(text), present_text_get_text_type(text));
+				text_data = god_text_model_get_text (GOD_TEXT_MODEL (text));
+				if (text_data) {
+					char **texts = g_strsplit (text_data, "\xd", 0);
 					int j;
 
 					for (j = 0; texts[j]; j++) {

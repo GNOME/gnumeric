@@ -85,6 +85,8 @@ god_anchor_finalize (GObject *object)
 
 	g_free (anchor->priv);
 	anchor->priv = NULL;
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void

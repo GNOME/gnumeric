@@ -110,6 +110,8 @@ god_drawing_ms_client_handler_finalize (GObject *object)
 
 	g_free (handler->priv);
 	handler->priv = NULL;
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void

@@ -16,6 +16,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <ms-compat/god-drawing-ms-client-handler.h>
+#include <libpresent/present-slide.h>
 
 G_BEGIN_DECLS
 
@@ -38,7 +39,7 @@ typedef struct {
 } GodDrawingMsClientHandlerPptClass;
 
 GType                      god_drawing_ms_client_handler_ppt_get_type  (void);
-GodDrawingMsClientHandler *god_drawing_ms_client_handler_ppt_new       (void);
+GodDrawingMsClientHandler *god_drawing_ms_client_handler_ppt_new       (PresentSlide *slide);
 
 
 

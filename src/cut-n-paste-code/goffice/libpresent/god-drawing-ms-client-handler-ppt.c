@@ -61,20 +61,23 @@ static gint code;
 static GObjectClass *parent_class;
 
 struct GodDrawingMsClientHandlerPptPrivate_ {
-	int dummy;
+	PresentSlide *slide;
 };
 
 static const GOMSParserRecordType types[] =
 {
 	{	TextCharsAtom,			"TextCharsAtom",		FALSE,	TRUE,	-1,	-1	},
+	{	OutlineTextRefAtom,		"OutlineTextRefAtom",		FALSE,	TRUE,	-1,	-1	},
 };
 
 GodDrawingMsClientHandler *
-god_drawing_ms_client_handler_ppt_new (void)
+god_drawing_ms_client_handler_ppt_new (PresentSlide *slide)
 {
 	GodDrawingMsClientHandler *handler;
 
 	handler = g_object_new (GOD_DRAWING_MS_CLIENT_HANDLER_PPT_TYPE, NULL);
+
+	GOD_DRAWING_MS_CLIENT_HANDLER_PPT(handler)->priv->slide = slide;
 
 	return handler;
 }
@@ -93,10 +96,13 @@ god_drawing_ms_client_handler_ppt_finalize (GObject *object)
 
 	g_free (handler->priv);
 	handler->priv = NULL;
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 typedef struct {
 	char *text;
+	int outline_text_ref;
 } TextParseState;
 
 static void
@@ -107,9 +113,17 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 	case TextCharsAtom:
 		{
 			ERROR (stack == NULL, "TextCharsAtom is root only inside ClientTextbox.");
-			ERROR (parse_state->text == NULL, "Only one text per ClientTextbox.");
+			ERROR (parse_state->text == NULL && parse_state->outline_text_ref == -1, "Only one text per ClientTextbox.");
 			
 			parse_state->text = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
+		}
+		break;
+	case OutlineTextRefAtom:
+		{
+			ERROR (stack == NULL, "OutlineTextRefAtom is root only inside ClientTextbox.");
+			ERROR (parse_state->text == NULL && parse_state->outline_text_ref == -1, "Only one text per ClientTextbox.");
+			
+			parse_state->outline_text_ref = GSF_LE_GET_GUINT32 (data);
 		}
 		break;
 	}
@@ -129,6 +143,7 @@ god_drawing_ms_client_handler_ppt_handle_client_text    (GodDrawingMsClientHandl
 	TextParseState parse_state;
 
 	parse_state.text = NULL;
+	parse_state.outline_text_ref = -1;
 	go_ms_parser_read (input,
 			   length,
 			   types,
@@ -140,8 +155,33 @@ god_drawing_ms_client_handler_ppt_handle_client_text    (GodDrawingMsClientHandl
 	if (parse_state.text) {
 		GodTextModel *text_model = god_text_model_new ();
 		god_text_model_set_text (text_model, parse_state.text);
+
 		g_free (parse_state.text);
 		return text_model;
+	} else if (parse_state.outline_text_ref != -1) {
+		PresentSlide *slide = GOD_DRAWING_MS_CLIENT_HANDLER_PPT (handler)->priv->slide;
+		PresentText *text = NULL;
+		int i, text_count;
+
+		if (slide) {
+			text_count = present_slide_get_text_count (slide);
+			for (i = 0; i < text_count; i++) {
+				if (text)
+					g_object_unref (text);
+				text = present_slide_get_text (slide, i);
+				if (present_text_get_text_id (text) == parse_state.outline_text_ref)
+					break;
+			}
+
+			if (i == text_count) {
+				if (text)
+					g_object_unref (text);
+				return NULL;
+			}
+			return GOD_TEXT_MODEL (text);
+		} else {
+			return NULL;
+		}
 	}
 	return NULL;
 }

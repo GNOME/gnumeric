@@ -36,7 +36,6 @@
 #include <ms-compat/go-ms-parser.h>
 
 #define ERROR(conditional, message) if (!(conditional)) { g_warning ((message)); }
-#define WARNING(conditional, message) if (!(conditional)) { g_warning ((message)); }
 
 static const GOMSParserRecordType types[] =
 {
@@ -163,15 +162,24 @@ typedef struct {
 	PresentText  *current_text;
 } SlideListWithTextParseState;
 
+typedef struct {
+	PresentSlide *slide;
+} SlideParseState;
+
+typedef struct {
+	PresentPresentation *presentation;
+	int slides_read;
+} ParseUserData;
+
 static void
 slide_list_with_text_parse_state_finish_text (PresentPresentation *presentation, SlideListWithTextParseState *parse_state)
 {
 	if (parse_state->current_text) {
 		ERROR (parse_state->current_slide, "Parse Error 1");
-		parse_state->current_slide->texts = g_list_prepend(parse_state->current_slide->texts,
-								   parse_state->current_text);
+		present_slide_append_text (parse_state->current_slide, parse_state->current_text);
+		g_object_unref (parse_state->current_text);
 		parse_state->current_text = NULL;
-		WARNING (parse_state->current_slide_text_count > 0, "Parse Error 2");
+		ERROR (parse_state->current_slide_text_count > 0, "Parse Error 2");
 		parse_state->current_slide_text_count --;
 	}
 }
@@ -181,17 +189,14 @@ slide_list_with_text_parse_state_finish_slide (PresentPresentation *presentation
 {
 	slide_list_with_text_parse_state_finish_text (presentation, parse_state);
 	if (parse_state->current_slide) {
-		parse_state->current_slide->texts = g_list_reverse (parse_state->current_slide->texts);
-		presentation->slides = g_list_prepend(presentation->slides,
-						      parse_state->current_slide);
+		present_presentation_append_slide (presentation, parse_state->current_slide);
+		g_object_unref (parse_state->current_slide);
 		parse_state->current_slide = NULL;
 	}
 }
 
 #undef ERROR
-#undef WARNING
 #define ERROR(conditional, message) if (!(conditional)) { g_warning ("Error: %s", (message)); }
-#define WARNING(conditional, message) if (!(conditional)) { g_warning ("Warning: %s", (message)); }
 
 #define STACK_TOP GO_MS_PARSER_STACK_TOP(stack)
 #define STACK_SECOND GO_MS_PARSER_STACK_SECOND(stack)
@@ -248,55 +253,56 @@ dump_drawing (GodDrawing *drawing)
 static void
 handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInput *input, GError **err, gpointer user_data)
 {
-	PresentPresentation *presentation = user_data;
+	ParseUserData *parse_user_data = user_data;
 	switch (record->opcode) {
 	case SlidePersistAtom:
 		{
 			SlideListWithTextParseState *parse_state;
-			WARNING (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
+			ERROR (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
 
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
-				slide_list_with_text_parse_state_finish_slide (presentation, parse_state);
-				parse_state->current_slide = g_new0 (PresentSlide, 1);
-				parse_state->current_slide_text_count = GSF_LE_GET_GUINT32(data + 8);
+				slide_list_with_text_parse_state_finish_slide (parse_user_data->presentation, parse_state);
+				parse_state->current_slide = present_slide_new();
+				parse_state->current_slide_text_count = GSF_LE_GET_GUINT32 (data + 8);
 			}
 		}
 		break;
 	case TextHeaderAtom:
 		{
 			SlideListWithTextParseState *parse_state;
-			WARNING (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
+			ERROR (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
 
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
-				slide_list_with_text_parse_state_finish_text (presentation, parse_state);
-				parse_state->current_text = g_new0 (PresentText, 1);
-				parse_state->current_text->id = record->inst;
-				parse_state->current_text->type = GSF_LE_GET_GUINT32(data);
+				slide_list_with_text_parse_state_finish_text (parse_user_data->presentation, parse_state);
+				parse_state->current_text = PRESENT_TEXT (present_text_new (record->inst, GSF_LE_GET_GUINT32(data)));
 			}
 		}
 		break;
 	case TextCharsAtom:
 		{
 			SlideListWithTextParseState *parse_state;
-			WARNING (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
+			ERROR (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
 
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
-				parse_state->current_text->text = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
+				char *text = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
+				god_text_model_set_text (GOD_TEXT_MODEL (parse_state->current_text), text);
+				g_free (text);
 			}
 		}
 		break;
 	case TextBytesAtom:
 		{
 			SlideListWithTextParseState *parse_state;
-			WARNING (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
+			ERROR (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
 
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
-				parse_state->current_text->text = g_strndup (data, record->length);
-				/*					parse_state->current_text->text = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);*/
+				char *text = g_strndup (data, record->length);
+				god_text_model_set_text (GOD_TEXT_MODEL (parse_state->current_text), text);
+				g_free (text);
 			}
 		}
 		break;
@@ -309,7 +315,18 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 #endif
 	case PPDrawing:
 		{
-			GodDrawingMsClientHandler *handler = god_drawing_ms_client_handler_ppt_new ();
+			GodDrawingMsClientHandler *handler;
+			ERROR (stack && (STACK_TOP->opcode == Slide ||
+					 STACK_TOP->opcode == MainMaster ||
+					 STACK_TOP->opcode == Notes), "Placement Error");
+
+			if (STACK_TOP->opcode == Slide) {
+				SlideParseState *parse_state = STACK_TOP->parse_state;
+
+				handler = god_drawing_ms_client_handler_ppt_new (parse_state->slide);
+			} else {
+				handler = god_drawing_ms_client_handler_ppt_new (NULL);
+			}
 			GodDrawing *drawing = god_drawing_read_ms (input, record->length, handler, NULL);
 			g_print ("Drawing read %p\n", drawing);
 			dump_drawing (drawing);
@@ -324,10 +341,19 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 static void
 start_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 {
+	ParseUserData *parse_user_data = user_data;
 	switch (STACK_TOP->opcode) {
 	case SlideListWithText:
 		if (STACK_TOP->inst == 0) {
 			SlideListWithTextParseState *parse_state = g_new0 (SlideListWithTextParseState, 1);
+			STACK_TOP->parse_state = parse_state;
+		}
+		break;
+	case Slide:
+		{
+			SlideParseState *parse_state = g_new0 (SlideParseState, 1);
+			parse_state->slide = present_presentation_get_slide (parse_user_data->presentation,
+									     parse_user_data->slides_read ++);
 			STACK_TOP->parse_state = parse_state;
 		}
 		break;
@@ -338,16 +364,15 @@ start_container (GSList *stack, GsfInput *input, GError **err, gpointer user_dat
 static void
 end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 {
-	PresentPresentation *presentation = user_data;
+	ParseUserData *parse_user_data = user_data;
 	switch (STACK_TOP->opcode) {
 	case SlideListWithText:
 		{
 			SlideListWithTextParseState *parse_state;
 			parse_state = STACK_TOP->parse_state;
 			if (parse_state) {
-				slide_list_with_text_parse_state_finish_slide (presentation, parse_state);
+				slide_list_with_text_parse_state_finish_slide (parse_user_data->presentation, parse_state);
 				g_free (parse_state);
-				presentation->slides = g_list_reverse (presentation->slides);
 			}
 		}
 		break;
@@ -365,19 +390,20 @@ static GOMSParserCallbacks callbacks = { handle_atom,
 static PresentPresentation *
 parse_stream (GsfInput *input, guint length)
 {
-	PresentPresentation *presentation;
+	ParseUserData user_data;
 
-	presentation = g_new0 (PresentPresentation, 1);
+	user_data.presentation = present_presentation_new ();
+	user_data.slides_read = 0;
 
 	go_ms_parser_read (input,
 			   length,
 			   types,
 			   (sizeof (types) / sizeof (types[0])),
 			   &callbacks,
-			   presentation,
+			   &user_data,
 			   NULL);
 
-	return presentation;
+	return user_data.presentation;
 }
 
 PresentPresentation *
