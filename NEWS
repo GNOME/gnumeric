@@ -42,6 +42,7 @@ Morten:
 	* Fix crash when adding a xy plot over a pie plot
 	* Work on using pango layouts for printing.
 	* Fix endless recursion.  [#153544.]
+	* Plug leaks.
 
 Uwe Steinmann:
 	* Validate the field names for paradox databases

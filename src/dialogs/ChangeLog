@@ -1,3 +1,9 @@
+2004-09-24  Morten Welinder  <terra@gnome.org>
+
+	* dialog-autosave.c (autosave_set_sensitivity): Fix type
+	confusion.  entry_to_int returns a gboolean.
+	(cb_autosave_ok): Ditto.
+
 2004-09-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.90

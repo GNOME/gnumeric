@@ -54,14 +54,13 @@ autosave_set_sensitivity (G_GNUC_UNUSED GtkWidget *widget,
 {
         gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off));
 	gint minutes;
-	gint minutes_valid = entry_to_int (GTK_ENTRY (state->minutes_entry), &minutes, FALSE);
+	gboolean minutes_err = entry_to_int (GTK_ENTRY (state->minutes_entry), &minutes, FALSE);
 
 	gtk_widget_set_sensitive (state->minutes_entry, active);
 	gtk_widget_set_sensitive (state->prompt_cb, active);
 
-	gtk_widget_set_sensitive (state->ok_button, !active ||
-				  ((minutes_valid == 0) && (minutes > 0)));
-
+	gtk_widget_set_sensitive (state->ok_button,
+				  !active || (!minutes_err && minutes > 0));
 }
 
 gboolean
@@ -135,19 +134,19 @@ cb_autosave_cancel (G_GNUC_UNUSED GtkWidget *button,
 static void
 cb_autosave_ok (G_GNUC_UNUSED GtkWidget *button, autosave_t *state)
 {
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off))) {
-			int minutes;
-			int minutes_valid = entry_to_int (GTK_ENTRY (state->minutes_entry),
-							  &minutes, TRUE);
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off))) {
+		int minutes;
+		gboolean minutes_err = entry_to_int (GTK_ENTRY (state->minutes_entry),
+						     &minutes, TRUE);
 
-			g_return_if_fail (minutes_valid == 0); /* Why is ok active? */
+		g_return_if_fail (!minutes_err); /* Why is ok active? */
 
-		        wbcg_autosave_set (state->wbcg, minutes,
-					   gtk_toggle_button_get_active (
-						   GTK_TOGGLE_BUTTON (state->prompt_cb)));
-		} else
-			wbcg_autosave_set (state->wbcg, 0, FALSE);
-		gtk_widget_destroy (state->dialog);
+		wbcg_autosave_set (state->wbcg, minutes,
+				   gtk_toggle_button_get_active (
+					   GTK_TOGGLE_BUTTON (state->prompt_cb)));
+	} else
+		wbcg_autosave_set (state->wbcg, 0, FALSE);
+	gtk_widget_destroy (state->dialog);
 }
 
 void
@@ -222,4 +221,3 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	gtk_widget_show (state->dialog);
 
 }
-

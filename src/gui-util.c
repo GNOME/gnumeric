@@ -886,10 +886,15 @@ entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean upda
 {
 	GnmValue *value = format_match_number (gtk_entry_get_text (entry), format, NULL);
 
-	if ((value == NULL) || !VALUE_IS_NUMBER (value)) {
-		*the_float = 0.0;
+	*the_float = 0.0;
+	if (!value)
+		return TRUE;
+
+	if (!VALUE_IS_NUMBER (value)) {
+		value_release (value);
 		return TRUE;
 	}
+
 	*the_float = value_get_as_float (value);
 	if (update) {
 		char *tmp = format_value (format, value, NULL, 16, NULL);
@@ -915,10 +920,15 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 {
 	GnmValue *value = format_match_number (gtk_entry_get_text (entry), NULL, NULL);
 
-	if ((value == NULL) || !(value->type == VALUE_INTEGER)) {
-		*the_int = 0;
+	*the_int = 0;
+	if (!value)
+		return TRUE;
+
+	if (value->type != VALUE_INTEGER) {
+		value_release (value);
 		return TRUE;
 	}
+
 	*the_int = value_get_as_int (value);
 	if (update) {
 		char *tmp = format_value (NULL, value, NULL, 16, NULL);
@@ -939,14 +949,13 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 void
 float_to_entry (GtkEntry *entry, gnm_float the_float)
 {
-	GnmValue *val  = value_new_float (the_float);
-	char  *text = format_value (NULL, val, NULL, 16, NULL);
+	GnmValue *val = value_new_float (the_float);
+	char *text = format_value (NULL, val, NULL, 16, NULL);
+	value_release(val);
 	if (text != NULL) {
 		gtk_entry_set_text (entry, text);
 		g_free (text);
 	}
-	if (val != NULL)
-		value_release(val);
 }
 
 /**
@@ -960,13 +969,12 @@ void
 int_to_entry (GtkEntry *entry, gint the_int)
 {
 	GnmValue *val  = value_new_int (the_int);
-	char  *text = format_value (NULL, val, NULL, 16, NULL);
+	char *text = format_value (NULL, val, NULL, 16, NULL);
+	value_release(val);
 	if (text != NULL) {
 		gtk_entry_set_text (entry, text);
 		g_free (text);
 	}
-	if (val != NULL)
-		value_release(val);
 }
 
 char *
