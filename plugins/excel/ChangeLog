@@ -1,3 +1,8 @@
+1999-08-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-formula-read.c (formula_func_data): Fixed the number of
+ 	arguments in ISPMT to four.
+
 1999-08-20  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula-write.c (get_formula_index): Added a comment about 
