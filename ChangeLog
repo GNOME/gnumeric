@@ -1,3 +1,8 @@
+2000-11-16  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/selection.c, src/dialogs/dialog-cell-sort.c: Marked strings
+	for translation.
+
 2000-11-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control.c (workbook_control_set_view) : Follow

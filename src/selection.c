@@ -57,7 +57,7 @@ sheet_get_selection_name (Sheet const *sheet)
 
 	if (range_is_singleton (&ss->user))
 		return cell_pos_name (&ss->user.start);
-	snprintf (buffer, sizeof (buffer), "%dLx%dC",
+	snprintf (buffer, sizeof (buffer), _("%dLx%dC"),
 		  ss->user.end.row - ss->user.start.row + 1,
 		  ss->user.end.col - ss->user.start.col + 1);
 	return buffer;

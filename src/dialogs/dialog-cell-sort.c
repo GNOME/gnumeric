@@ -378,10 +378,10 @@ dialog_cell_sort_add_clause(SortFlow *sf, WorkbookControlGUI *wbcg)
 				 _("Maximum number of clauses has been reached."));
 	else {
 		if (sf->header)
-			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, "then by",
+			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, _("then by"),
 								      sf->colnames_header, TRUE, wbcg);
 		else
-			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, "then by",
+			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, _("then by"),
 								      sf->colnames_plain, TRUE, wbcg);
 
 		gtk_widget_show_all (sf->dialog);
