@@ -216,6 +216,14 @@ main (int argc, char *argv [])
 
 	global_gnome_font_init ();
 
+#if 0
+	/* 2/Feb/2002 JEG
+	 * disable the code below and pray for a solution to 50300
+	 * With it enabled treeview (and probably other widgets) get
+	 * confused and register duplicate bindings for the shifted and non
+	 * shifted versions.  When we disable shift, things go to hell
+	 * and happen twice.
+	 */
 	/* Ignore Shift for accelerators to avoid problems with different
 	 * keyboard layouts that change the shift state of various keys.
 	 *
@@ -223,8 +231,8 @@ main (int argc, char *argv [])
 	 */
 	gtk_accelerator_set_default_mod_mask (
 		gtk_accelerator_get_default_mod_mask() & ~GDK_SHIFT_MASK);
+#endif
 
-	/* Glade */
 	glade_gnome_init ();
 
 	if (dump_file_name) {

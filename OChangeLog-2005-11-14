@@ -1,3 +1,11 @@
+2002-02-02  Jody Goldberg <jody@gnome.org>
+
+	* src/main.c (main) : disable the removal of Shift as an accelerator
+	  fixes the double movement in treeviews strangeness.
+
+	* src/workbook-control-gui.c : reorganize the insert menu.
+	* src/GNOME_Gnumeric.xml : ditto.
+
 2002-02-01  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io-autoft.c : port to libxml2 and begin merging into

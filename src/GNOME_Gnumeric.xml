@@ -314,23 +314,22 @@
 
 	<submenu name="Insert" _label="_Insert">
 
-	    <menuitem name="InsertSheet" verb=""
-		_label="_Sheet"
-		_tip="Insert a new spreadsheet"/>
-
-	    <menuitem name="InsertRows" verb=""
-		pixtype="stock" pixname="Gnumeric_RowAdd"
-		_label="_Rows"
-		_tip="Insert new rows"/>
-
+	    <menuitem name="InsertCells" verb=""
+		_label="C_ells..."
+		_tip="Insert new cells"/>
 	    <menuitem name="InsertColumns" verb=""
 		pixtype="stock" pixname="Gnumeric_ColumnAdd"
 		_label="_Columns"
 		_tip="Insert new columns"/>
+	    <menuitem name="InsertRows" verb=""
+		pixtype="stock" pixname="Gnumeric_RowAdd"
+		_label="_Rows"
+		_tip="Insert new rows"/>
+	    <menuitem name="InsertSheet" verb=""
+		_label="_Sheet"
+		_tip="Insert a new spreadsheet"/>
 
-	    <menuitem name="InsertCells" verb=""
-		_label="C_ells..."
-		_tip="Insert new cells"/>
+      	    <separator/>
 
 	    <menuitem name="InsertGraph" verb="GraphGuru"
 		pixtype="stock" pixname="Gnumeric_GraphGuru"

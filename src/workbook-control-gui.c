@@ -2798,18 +2798,18 @@ static GnomeUIInfo workbook_menu_names [] = {
 };
 
 static GnomeUIInfo workbook_menu_insert [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("_Sheet"),
-		N_("Insert a new spreadsheet"),
-		cb_insert_sheet),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Rows"),
-		N_("Insert new rows"),
-		cb_insert_rows, "Gnumeric_RowAdd"),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Columns"),
-		N_("Insert new columns"),
-		cb_insert_cols, "Gnumeric_ColumnAdd"),
 	GNOMEUIINFO_ITEM_NONE (N_("C_ells..."),
 		N_("Insert new cells"),
 		cb_insert_cells),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Columns"),
+		N_("Insert new columns"),
+		cb_insert_cols, "Gnumeric_ColumnAdd"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Rows"),
+		N_("Insert new rows"),
+		cb_insert_rows, "Gnumeric_RowAdd"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Sheet"),
+		N_("Insert a new spreadsheet"),
+		cb_insert_sheet),
 
 	GNOMEUIINFO_SEPARATOR,
 
