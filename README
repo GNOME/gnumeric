@@ -35,7 +35,7 @@ Optionally:
 	bonobo		>= 1.0.9
 	NOTE : With bonobo you will need gnome-libs  >= 1.2.7
 	gb		== 0.0.17  (Gnome Basic for macros)
-	gda		>= 0.2.11  (GDA plugin, for accessing databases)
+	gda		>= 0.2.92  (GDA plugin, for accessing databases)
 	guile		>= 1.5     ("Soon" to be releated Guile version)
 	guppi		>= 0.40.0  (corresponds to 0.72)
 	evolution	>= beta3

@@ -656,11 +656,11 @@ if $try_gda; then
         AC_MSG_WARN(GDA plugin will not be built)
         have_gda=false
     else
-	AC_MSG_CHECKING(for libgda >= 0.2.11						)
+	AC_MSG_CHECKING(for libgda >= 0.2.92						)
         verstxt=`$GDA_CONFIG --version`
         vers=`echo "$verstxt" | sed -e "s/libgda //" | \
 	    awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-        if test "$vers" -ge 2011; then
+        if test "$vers" -ge 2092; then
 	    AC_MSG_RESULT($marker_ok found $verstxt)
 	    GDA_CFLAGS=`$GDA_CONFIG --cflags client`
             GDA_LIBS=`$GDA_CONFIG --libs client`
