@@ -177,8 +177,10 @@ style_border_none_set_color (StyleColor *color)
 	StyleBorder *none = style_border_none ();
  	StyleColor *nc;
 
-	if (color == none->color)
+	if (color == none->color) {
+#warning "FIXME: ref count error here, MW thinks."
 		return;
+	}
 
 	nc = none->color;
 	none->color = color;
