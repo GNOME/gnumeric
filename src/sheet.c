@@ -1031,7 +1031,6 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 void
 sheet_update_controls (Sheet *sheet)
 {
-	/* FIXME: hack for now, should be 'cursor cell' of selection */
 	MStyle *mstyle;
 
 	g_return_if_fail (sheet != NULL);

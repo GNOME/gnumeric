@@ -39,6 +39,10 @@ static const char *money_format   = "Default Money Format:$#,##0.00_);($#,##0.00
 static const char *percent_format = "Default Percent Format:0.00%";
 
 static void
+workbook_format_halign_feedback_set (Workbook *wb,
+				     StyleHAlignFlags h_align);
+
+static void
 set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 {
 	MStyle *mstyle;
@@ -49,6 +53,7 @@ set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 
 	mstyle = mstyle_new ();
 	mstyle_set_align_h (mstyle, align);
+	workbook_format_halign_feedback_set (wb, align);
 	
 	cmd_format (workbook_command_context_gui (wb),
 		    sheet, mstyle, NULL);
@@ -273,15 +278,12 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Left align"), N_("Left justifies the cell contents"),
-		left_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_LEFT),
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Center"), N_("Centers the cell contents"),
-		center_cmd, GNOME_STOCK_PIXMAP_ALIGN_CENTER),
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Right align"), N_("Right justifies the cell contents"),
-		right_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_RIGHT),
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Left align"), N_("Left justifies the cell contents"),
+	  &left_align_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_LEFT },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Center"), N_("Centers the cell contents"),
+	  &center_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_CENTER },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Right align"), N_("Right justifies the cell contents"),
+	  &right_align_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_RIGHT },
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -600,13 +602,49 @@ workbook_create_format_toolbar (Workbook *wb)
 	return toolbar;
 }
 
+static void
+workbook_format_toolbutton_update (Workbook * wb,
+				   GnumericToolbar *toolbar,
+				   int const button_index,
+				   GtkSignalFunc func,
+				   gboolean const flag)
+{
+	GtkToggleButton *t = GTK_TOGGLE_BUTTON (
+		gnumeric_toolbar_get_widget (
+			toolbar,
+			button_index));
+	
+	gtk_signal_handler_block_by_func (GTK_OBJECT (t), func, wb);
+	gtk_toggle_button_set_active (t, flag);
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (t), func, wb);
+}
+
+static void
+workbook_format_halign_feedback_set (Workbook *workbook,
+				     StyleHAlignFlags h_align)
+{
+	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (workbook->priv->format_toolbar);
+
+	workbook_format_toolbutton_update (workbook, toolbar,
+					   TOOLBAR_ALIGN_LEFT_BUTTON_INDEX,
+					   (GtkSignalFunc)&left_align_cmd,
+					   h_align == HALIGN_LEFT);
+	workbook_format_toolbutton_update (workbook, toolbar,
+					   TOOLBAR_ALIGN_CENTER_BUTTON_INDEX,
+					   (GtkSignalFunc)&center_cmd,
+					   h_align == HALIGN_CENTER);
+	workbook_format_toolbutton_update (workbook, toolbar,
+					   TOOLBAR_ALIGN_RIGHT_BUTTON_INDEX,
+					   (GtkSignalFunc)&right_align_cmd,
+					   h_align == HALIGN_RIGHT);
+}
+
 /*
  * Updates the edit control state: bold, italic, font name and font size
  */
 void
 workbook_feedback_set (Workbook *workbook, MStyle *style)
 {
-	GtkToggleButton *t;
 	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (workbook->priv->format_toolbar);
 	gboolean         font_set;
 	char             size_str [40];
@@ -615,33 +653,23 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 	g_return_if_fail (workbook != NULL);
 	g_return_if_fail (IS_WORKBOOK (workbook));
 
+	/* Handle font boldness */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD));
-	t = GTK_TOGGLE_BUTTON (
-		gnumeric_toolbar_get_widget (
-			toolbar,
-			TOOLBAR_BOLD_BUTTON_INDEX));
-	
-	gtk_signal_handler_block_by_func (GTK_OBJECT (t),
-					  (GtkSignalFunc)&bold_cmd,
-					  workbook);
-	gtk_toggle_button_set_active (t, mstyle_get_font_bold (style));
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
-					    (GtkSignalFunc)&bold_cmd,
-					    workbook);
+	workbook_format_toolbutton_update (workbook, toolbar,
+					   TOOLBAR_BOLD_BUTTON_INDEX,
+					   (GtkSignalFunc)&bold_cmd,
+					   mstyle_get_font_bold (style));
 
+	/* Handle font italics */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC));
-	t = GTK_TOGGLE_BUTTON (
-		gnumeric_toolbar_get_widget (
-			toolbar,
-			TOOLBAR_ITALIC_BUTTON_INDEX));
-	
-	gtk_signal_handler_block_by_func (GTK_OBJECT (t),
-					  (GtkSignalFunc)&italic_cmd,
-					  workbook);
-	gtk_toggle_button_set_active (t, mstyle_get_font_italic (style));
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
-					    (GtkSignalFunc)&italic_cmd,
-					    workbook);
+	workbook_format_toolbutton_update (workbook, toolbar,
+					   TOOLBAR_ITALIC_BUTTON_INDEX,
+					   (GtkSignalFunc)&italic_cmd,
+					   mstyle_get_font_italic (style));
+
+	/* horizontal alignment */
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H));
+	workbook_format_halign_feedback_set (workbook, mstyle_get_align_h (style));
 
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE));
 	sprintf (size_str, "%g", mstyle_get_font_size (style));

@@ -28,7 +28,8 @@ Description                                             Difficulty  Integration
 
 - Add another selection type.  Which would be used	High	    High
   to send formated cell contents between different
-  instances of gnumeric.
+  instances of gnumeric.  modularize the xml format
+  to enable it to act as the transfer format.
 
 Difficulty: an estimate of how hard the task would be for the average hacker.
   (This is not an estimate of project size; a project can be very big, but

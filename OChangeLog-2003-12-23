@@ -1,3 +1,11 @@
+2000-02-22  Jody Goldberg <jgoldberg@home.com>
+
+      * src/workbook-format-toolbar.c
+      (workbook_format_toolbutton_update) : new.
+      (workbook_format_halign_feedback_set) : new
+      (workbook_feedback_set) : Use the new functions.
+      (set_selection_halign) : ditto.
+
 2000-02-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/mathfunc.[ch]: Implemented Branch-And-Bound algorithm for
