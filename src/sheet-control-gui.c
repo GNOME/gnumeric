@@ -926,19 +926,19 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 		sheet_dialog_set_column_width (NULL, wbcg);
 		break;
 	case CONTEXT_COL_HIDE :
-		cmd_hide_selection_colrow (wbc, sheet, TRUE, FALSE);
+		cmd_colrow_hide_selection (wbc, sheet, TRUE, FALSE);
 		break;
 	case CONTEXT_COL_UNHIDE :
-		cmd_hide_selection_colrow (wbc, sheet, TRUE, TRUE);
+		cmd_colrow_hide_selection (wbc, sheet, TRUE, TRUE);
 		break;
 	case CONTEXT_ROW_HEIGHT :
 		sheet_dialog_set_row_height (NULL, wbcg);
 		break;
 	case CONTEXT_ROW_HIDE :
-		cmd_hide_selection_colrow (wbc, sheet, FALSE, FALSE);
+		cmd_colrow_hide_selection (wbc, sheet, FALSE, FALSE);
 		break;
 	case CONTEXT_ROW_UNHIDE :
-		cmd_hide_selection_colrow (wbc, sheet, FALSE, TRUE);
+		cmd_colrow_hide_selection (wbc, sheet, FALSE, TRUE);
 		break;
 	default :
 		break;

@@ -503,7 +503,7 @@ static BonoboUIVerb verbs [] = {
 #endif
 
 static void
-fore_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
+cb_fore_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
@@ -519,7 +519,7 @@ fore_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
 }
 
 static void
-back_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
+cb_back_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
@@ -802,10 +802,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	 * Create the background colour combo box.
 	 */
 	back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
-						/* Draw an outline for the default */
-						NULL, "back_color_group");
+				      /* Draw an outline for the default */
+				      NULL, "back_color_group");
 	gtk_signal_connect (GTK_OBJECT (back_combo), "changed",
-			    GTK_SIGNAL_FUNC (back_color_changed), wbcg);
+			    GTK_SIGNAL_FUNC (cb_back_color_changed), wbcg);
 	disable_focus (back_combo, NULL);
 
 	gtk_combo_box_set_title (GTK_COMBO_BOX (back_combo),
@@ -815,11 +815,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	 * Create the font colour combo box.
 	 */
 	fore_combo = color_combo_new (font_xpm, _("Automatic"),
-						/* Draw black for the default */
-						&gs_black,
-						"for_colorgroup");
+				      /* Draw black for the default */
+				      &gs_black, "for_colorgroup");
 	gtk_signal_connect (GTK_OBJECT (fore_combo), "changed",
-			    GTK_SIGNAL_FUNC (fore_color_changed), wbcg);
+			    GTK_SIGNAL_FUNC (cb_fore_color_changed), wbcg);
 	disable_focus (fore_combo, NULL);
 
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fore_combo),

@@ -1,3 +1,9 @@
+2001-04-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-define-names.c (cb_name_guru_add) : Handle people
+	  putting '=' at the start of an expression.
+	  s/value/expr_text/
+
 2001-03-23  Almer S. Tigelaar  <almer@gnome.org>
 
 	* names.glade: Set visibility to NO, this solves the ugly

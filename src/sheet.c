@@ -873,6 +873,9 @@ sheet_col_row_set_outline_level (Sheet *sheet, int index, gboolean is_cols,
 		: sheet_row_fetch (sheet, index);
 	cri->outline_level = outline_level;
 	cri->is_collapsed = (is_collapsed != 0);
+#if 0
+	printf ("%d = %d %d\n", index+1, outline_level, is_collapsed);
+#endif
 }
 
 /**

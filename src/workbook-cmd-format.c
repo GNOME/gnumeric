@@ -174,14 +174,14 @@ loop :
 void
 workbook_cmd_format_column_hide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
+	cmd_colrow_hide_selection (wbc, wb_control_cur_sheet (wbc),
 				   TRUE, FALSE);
 }
 
 void
 workbook_cmd_format_column_unhide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
+	cmd_colrow_hide_selection (wbc, wb_control_cur_sheet (wbc),
 				   TRUE, TRUE);
 }
 
@@ -242,13 +242,13 @@ workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
 void
 workbook_cmd_format_row_hide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
+	cmd_colrow_hide_selection (wbc, wb_control_cur_sheet (wbc),
 				   FALSE, FALSE);
 }
 
 void
 workbook_cmd_format_row_unhide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
+	cmd_colrow_hide_selection (wbc, wb_control_cur_sheet (wbc),
 				   FALSE, TRUE);
 }

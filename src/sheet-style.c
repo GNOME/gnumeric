@@ -276,9 +276,9 @@ cell_tile_ptr_matrix_new (CellTile *t)
 	*((CellTileType *)&(res->type)) = TILE_PTR_MATRIX;
 
 	/* TODO :
-	 * If we wanted to get fancy we could you self similarity to decrease the
-	 * number of subtiles.  However, this would increase the cost of applying changes
-	 * later so I'm not sure it is worth the effort.
+	 * If we wanted to get fancy we could use self similarity to decrease
+	 * the number of subtiles.  However, this would increase the cost of
+	 * applying changes later so I'm not sure it is worth the effort.
 	 */
 	switch (t->type) {
 	case TILE_SIMPLE : {
