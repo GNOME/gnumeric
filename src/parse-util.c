@@ -741,7 +741,7 @@ sheet_parse (char const *start, Sheet **sheet, Workbook const *wb,
 	name = g_alloca (1 + end - start);
 	if (num_escapes < 0) {
 		strncpy (name, start, end-start);
-		name [end-start-1] = '\0';
+		name [end-start] = '\0';
 	} else
 		unquote (name, start+1, end-start-2);
 
