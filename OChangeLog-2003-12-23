@@ -1,3 +1,7 @@
+2001-10-13  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (search_match_string): Fix last change.
+
 2001-10-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : don't move past

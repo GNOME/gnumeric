@@ -324,7 +324,7 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 gboolean
 search_match_string (SearchReplace *sr, const char *src)
 {
-	int flags = REG_NOSUB;
+	int flags = 0;
 
 	g_return_val_if_fail (sr && sr->comp_search, FALSE);
 
@@ -340,7 +340,10 @@ search_match_string (SearchReplace *sr, const char *src)
 			if (match_is_word (sr, src, &match, (flags & REG_NOTBOL) != 0))
 				return TRUE;
 
-			/* We had a match, but it's not a word.  */
+			/*
+			 * We had a match, but it's not a word.  Pretend we saw
+			 * a one-character match and continue after that.
+			 */
 			flags |= REG_NOTBOL;
 			src += match.rm_so + 1;
 			break;
@@ -349,7 +352,7 @@ search_match_string (SearchReplace *sr, const char *src)
 			return FALSE;
 
 		default:
-			g_error ("Unexpect error code from regexec: %d.", ret);
+			g_error ("Unexpected error code from regexec: %d.", ret);
 			return FALSE;
 		}
 	}
