@@ -1,5 +1,7 @@
 2002-02-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/mstyle.c (link_border_colors): Return from the right place.
+
 	* src/style-color.c (style_color_new_uninterned): Create with
 	refcount 1.
 	(style_color_new): Only increment refcount if using cached color.

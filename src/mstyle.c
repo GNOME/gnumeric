@@ -753,9 +753,9 @@ link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
 				}
 				mstyle_set_border (style, i, new_border);
 			}
-			return style;
 		}
 	}
+	return style;
 }
 
 /**
