@@ -1715,26 +1715,38 @@ xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 static GArray *
 txomarkup_new (ExcelWriteState *ewb, PangoAttrList *markup, GnmStyle *style)
 {
-	ExcelFont *efont;
-	gint tmp[2];
 	PangoAttrIterator *iter = pango_attr_list_get_iterator (markup);
 	GArray *txo = g_array_sized_new (FALSE, FALSE, sizeof (int), 8);
-	GSList *attrs;
+	gboolean noattrs = TRUE;
 
 	do {
-		/* trim start */
+		gint start, end;
+		GSList *attrs;
+
+		pango_attr_iterator_range (iter, &start, &end);
+		if (start >= end) {
+			/* Pango bug #166700.  */
+			/* Carry previous noattrs over.  */
+			break;
+		}
+
 		attrs = pango_attr_iterator_get_attrs (iter);
-		if (txo->len == 0 && attrs == NULL)
-			continue;
-		
-		efont = excel_font_new (style);
-		excel_font_overlay_pango (efont, attrs);
-		pango_attr_iterator_range (iter, tmp, NULL);
-		tmp[1] = put_efont (efont, ewb);
-		g_array_append_vals (txo, (gpointer)tmp, 2);
+		noattrs = (attrs == NULL);
+
+		if (txo->len == 0 && noattrs) {
+			/* trim start */
+		} else {
+			ExcelFont *efont = excel_font_new (style);
+			gint tmp[2];
+
+			excel_font_overlay_pango (efont, attrs);
+			tmp[0] = start;
+			tmp[1] = put_efont (efont, ewb);
+			g_array_append_vals (txo, (gpointer)tmp, 2);
+		}
 	} while (pango_attr_iterator_next (iter));
 	/* trim end */
-	if (txo->len > 2 && attrs == NULL)
+	if (txo->len > 2 && noattrs)
 		g_array_set_size (txo, txo->len - 2);
 	pango_attr_iterator_destroy (iter);
 
