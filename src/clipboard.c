@@ -286,6 +286,11 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 	c->cols = r->end.col - r->start.col + 1;
 	c->rows = r->end.row - r->start.row + 1;
 
+	/*
+	 * We assume that the cells are traversed somehow starting at
+	 * the upper left corner.  We don't depend on whether it is
+	 * row-major or col-major.
+	 */
 	sheet_cell_foreach_range ( sheet, TRUE,
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,

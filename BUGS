@@ -57,6 +57,10 @@ Long term breakage
   eg  value_error_new("1+3") will print the string 1+3 as the error.
       Something more comprehensive is necessary.
 
+- Functions like SUMPRODUCT need to have better support for sparse ranges.
+  We should probably create synchroneously_walk_ranges.  (XL goes kaboom on
+  large ranges also, but we ought to be smarter.)
+
 Dialogs
 -------
 - Use color combos in format dialog.

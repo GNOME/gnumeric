@@ -1762,6 +1762,16 @@ sheet_row_fetch (Sheet *sheet, int pos)
  * Return value:
  *    non-NULL on error, or value_terminate() if some invoked routine requested
  *    to stop (by returning non-NULL).
+ *
+ * NOTE: between 0.56 and 0.57, the traversal order changed.  The order is now
+ *
+ *        1    2    3
+ *        4    5    6
+ *        7    8    9
+ *
+ * (This appears to be the order in which XL looks at the values of ranges.)
+ * If your code depends on any particular ordering, please add a very visible
+ * comment near the call.
  */
 Value *
 sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
@@ -1790,21 +1800,21 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 			end_row = sheet->rows.max_used;
 	}
 
-	for (i = start_col; i <= end_col ; ++i) {
-		ColRowInfo *ci = sheet_col_get (sheet, i);
+	for (i = start_row; i <= end_row; ++i) {
+		ColRowInfo *ci = sheet_row_get (sheet, i);
 
 		if (ci == NULL) {
 			if (only_existing) {
 				/* skip segments with no cells */
 				if (i == COLROW_SEGMENT_START (i)) {
 					ColRowInfo const * const * const segment =
-						COLROW_GET_SEGMENT(&(sheet->cols), i);
+						COLROW_GET_SEGMENT(&(sheet->rows), i);
 					if (segment == NULL)
 						i = COLROW_SEGMENT_END(i);
 				}
 			} else {
-				for (j = start_row; j <= end_row ; ++j) {
-					cont = (*callback)(sheet, i, j, NULL, closure);
+				for (j = start_col; j <= end_col; ++j) {
+					cont = (*callback)(sheet, j, i, NULL, closure);
 					if (cont != NULL)
 						return cont;
 				}
@@ -1813,25 +1823,25 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 			continue;
 		}
 
-		for (j = start_row; j <= end_row ; ++j) {
-			ColRowInfo *ri = sheet_row_get (sheet, j);
+		for (j = start_col; j <= end_col; ++j) {
+			ColRowInfo *ri = sheet_col_get (sheet, j);
 			Cell *cell = NULL;
 
 			if (ri != NULL)
-				cell = sheet_cell_get (sheet, i, j);
+				cell = sheet_cell_get (sheet, j, i);
 
 			if (cell == NULL && only_existing) {
 				/* skip segments with no cells */
 				if (j == COLROW_SEGMENT_START (j)) {
 					ColRowInfo const * const * const segment =
-						COLROW_GET_SEGMENT(&(sheet->rows), j);
+						COLROW_GET_SEGMENT(&(sheet->cols), j);
 					if (segment == NULL)
 						j = COLROW_SEGMENT_END(j);
 				}
 				continue;
 			}
 
-			cont = (*callback)(sheet, i, j, cell, closure);
+			cont = (*callback)(sheet, j, i, cell, closure);
 			if (cont != NULL)
 				return cont;
 		}

@@ -649,9 +649,10 @@ function_iterate_do_value (EvalPos      const *ep,
 	case VALUE_ARRAY:
 	{
 		int x, y;
-		
-		for (x = 0; x < value->v_array.x; x++) {
-			for (y = 0; y < value->v_array.y; y++) {
+
+		/* Note the order here.  */
+		for (y = 0; y < value->v_array.y; y++) {
+			  for (x = 0; x < value->v_array.x; x++) {
 				res = function_iterate_do_value (
 					ep, callback, closure,
 					value->v_array.vals [x][y],

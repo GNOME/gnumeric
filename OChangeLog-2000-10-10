@@ -1,3 +1,11 @@
+2000-07-08  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_cell_foreach_range): Change traversal order
+ 	for ranges.
+
+	* src/func.c (function_iterate_do_value): Fix traversal order for
+ 	arrays.
+
 2000-07-07  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-math.c (gnumeric_sumproduct): Rewrite with lots

@@ -23,6 +23,8 @@ Morten:
 	* Cleanup analysis tool code.
 	* Eliminate many fixed limits in the code.  (Still some to go.)
 	* Rewrote SUMPRODUCT.
+	* Fix array and range traversal order, thus fixing all strict
+	  range functions.  (SUM, MIN, ...)
 
 Translations:
 	* Updated: de (Karl), no (Kjartan), maybe more.
