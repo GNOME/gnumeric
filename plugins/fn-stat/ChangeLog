@@ -1,5 +1,9 @@
 2003-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+        * functions.c : small corrections in function descriptions
+
+2003-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* functions.c : make second argumanet to SSMEDIAN optional
 	  and fix a bunch of documentation errors
 

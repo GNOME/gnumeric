@@ -4547,7 +4547,7 @@ numbers */
 
 static char const *help_trend = {
 	N_("@FUNCTION=TREND\n"
-	   "@SYNTAX=TREND(known_y's[,known_x's,new_x's])\n"
+	   "@SYNTAX=TREND(known_y's[,known_x's[,new_x's]])\n"
 
 	   "@DESCRIPTION="
 	   "TREND function estimates future values of a given data set "
@@ -5798,7 +5798,7 @@ const GnmFuncDescriptor stat_functions[] = {
 	{ "loginv",       "fff",  N_("p,mean,stddev"),
 	  &help_loginv, gnumeric_loginv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "lognormdist",  "fff",  N_("x,meean,stddev"),
+	{ "lognormdist",  "fff",  N_("x,mean,stddev"),
 	  &help_lognormdist, gnumeric_lognormdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "logreg",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
