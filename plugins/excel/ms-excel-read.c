@@ -4675,7 +4675,8 @@ static void
 excel_read_BG_PIC (BiffQuery *q,
 		   ExcelReadSheet *esheet)
 {
-	/* Looks like a bmp.  OpenCalc has a basic parser for 24 bit files */
+	/* undocumented, looks similar to IMDATA */
+	excel_read_IMDATA (q);
 }
 
 static GnmValue *

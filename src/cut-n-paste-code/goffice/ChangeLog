@@ -1,5 +1,9 @@
 2004-05-31  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-view.c (gog_view_find_child_view) : new
+
+2004-05-31  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-series.c (gog_series_get_plot) : new.
 
 	* graph/gog-axis.c (gog_axis_get_entry) : rename from axis_get_entry

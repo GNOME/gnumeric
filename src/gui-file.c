@@ -350,6 +350,54 @@ update_preview_cb (GtkFileChooser *chooser)
 	}
 }
 
+/*
+ * Check if it makes sense to try saving.
+ * If it's an existing file and writable for us, ask if we want to overwrite.
+ * We check for other problems, but if we miss any, the saver will report.
+ * So it doesn't have to be bulletproof.
+ *
+ * FIXME: The message boxes should really be children of the file selector,
+ * not the workbook.
+ *
+ * Note: filename is filesys, not UTF-8 encoded.
+ */
+static gboolean
+go_file_is_writable (char const *name, WorkbookControlGUI *wbcg)
+{
+	gboolean result = TRUE;
+	gchar *msg;
+	char *filename_utf8 = name
+		? g_filename_to_utf8 (name, -1, NULL, NULL, NULL)
+		: NULL;
+
+	if (name == NULL || name[0] == '\0' || filename_utf8 == NULL)
+		result = FALSE;
+	else if (name [strlen (name) - 1] == G_DIR_SEPARATOR_S ||
+		 g_file_test (name, G_FILE_TEST_IS_DIR)) {
+		msg = g_strdup_printf (_("%s\nis a directory name"), filename_utf8);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
+		g_free (msg);
+		result = FALSE;
+	} else if (access (name, W_OK) != 0 && errno != ENOENT) {
+		msg = g_strdup_printf (
+		      _("You do not have permission to save to\n%s"),
+		      filename_utf8);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
+		g_free (msg);
+		result = FALSE;
+	} else if (g_file_test (name, G_FILE_TEST_EXISTS)) {
+		msg = g_strdup_printf (
+		      _("%s already exists.\n"
+		      "Do you want to save over it?"), filename_utf8);
+		result = gnumeric_dialog_question_yes_no (
+			wbcg, msg, gnm_app_prefs->file_overwrite_default_answer);
+		g_free (msg);
+	}
+
+	g_free (filename_utf8);
+	return result;
+}
+
 static gboolean
 filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
 {
@@ -421,63 +469,17 @@ gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
 	}
 
 	/* Show file selector */
+loop :
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
 		goto out;
-
 	result = gtk_file_chooser_get_filename (fsel);
+	if (is_save && !go_file_is_writable (result, wbcg)) {
+		g_free (result);
+		goto loop;
+	}
 
  out:
 	gtk_widget_destroy (GTK_WIDGET (fsel));
-	return result;
-}
-
-/*
- * Check if it makes sense to try saving.
- * If it's an existing file and writable for us, ask if we want to overwrite.
- * We check for other problems, but if we miss any, the saver will report.
- * So it doesn't have to be bulletproof.
- *
- * FIXME: The message boxes should really be children of the file selector,
- * not the workbook.
- *
- * Note: filename is filesys, not UTF-8 encoded.
- */
-static gboolean
-can_try_save_to (WorkbookControlGUI *wbcg, char const *name)
-{
-	gboolean result = TRUE;
-	gchar *msg;
-	char *filename_utf8 = name
-		? g_filename_to_utf8 (name, -1, NULL, NULL, NULL)
-		: NULL;
-
-	if (name == NULL || name[0] == '\0') {
-		result = FALSE;
-	} else if (filename_utf8 == NULL) {
-		result = FALSE;
-	} else if (name [strlen (name) - 1] == '/' ||
-	    g_file_test (name, G_FILE_TEST_IS_DIR)) {
-		msg = g_strdup_printf (_("%s\nis a directory name"), filename_utf8);
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
-		result = FALSE;
-	} else if (access (name, W_OK) != 0 && errno != ENOENT) {
-		msg = g_strdup_printf (
-		      _("You do not have permission to save to\n%s"),
-		      filename_utf8);
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
-		result = FALSE;
-	} else if (g_file_test (name, G_FILE_TEST_EXISTS)) {
-		msg = g_strdup_printf (
-		      _("Workbook %s already exists.\n"
-		      "Do you want to save over it?"), filename_utf8);
-		result = gnumeric_dialog_question_yes_no (
-			wbcg, msg, gnm_app_prefs->file_overwrite_default_answer);
-		g_free (msg);
-	}
-
-	g_free (filename_utf8);
 	return result;
 }
 
@@ -516,22 +518,16 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	char *filename = NULL;
 	gboolean success = FALSE;
 
-	if (*name == 0 || name[strlen (name) - 1] == '/') {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Please enter a file name,\nnot a directory"));
-		return FALSE;
-	}
-
 	if (!gnm_file_saver_fix_file_name (fs, name, &filename) &&
 		!gnumeric_dialog_question_yes_no (wbcg,
                       _("The given file extension does not match the"
 			" chosen file type. Do you want to use this name"
-			" anyways?"),
-                       TRUE)) {
+			" anyways?"), TRUE)) {
 		g_free (filename);
                 return FALSE;
 	}
-	if (!can_try_save_to (wbcg, filename)) {
+
+	if (!go_file_is_writable (filename, wbcg)) {
 		g_free (filename);
 		return FALSE;
 	}
@@ -671,12 +667,10 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 			success = do_save_as (wbcg, wb_view, fs, filename);
 			g_free (filename);
 
-			if (success) {
+			if (success)
 				wbcg->current_saver = fs;
-			}
-		} else {
+		} else
 			success = FALSE;
-		}
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (fsel));
