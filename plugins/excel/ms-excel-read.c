@@ -1781,7 +1781,7 @@ ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
 	return FALSE;
 }
 
-static ExcelSheet *
+ExcelSheet *
 ms_excel_workbook_get_sheet (ExcelWorkbook *wb, guint idx)
 {
 	if (idx < wb->excel_sheets->len)
@@ -2424,7 +2424,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_obj_read_obj (q, wb);
+			ms_read_OBJ (q, wb);
 			break;
 
 		case BIFF_SELECTION:
@@ -2434,7 +2434,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_hack_get_drawing (q, wb, sheet);
+			ms_escher_parse (q, wb, sheet);
 			break;
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
@@ -3204,7 +3204,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_obj_read_obj (q, wb);
+			ms_read_OBJ (q, wb);
 			break;
 
 		case BIFF_SCL :
@@ -3213,7 +3213,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_hack_get_drawing (q, wb, NULL);
+			ms_escher_parse (q, wb, NULL);
 			break;
 
 		case BIFF_ADDMENU :

@@ -70,7 +70,7 @@ object_type_names[] =
 };
 
 void
-ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
+ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 {
 	static char const * const orientations[] = {
 	    "Left to right",
@@ -102,6 +102,7 @@ ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 	g_return_if_fail (1 <= halign && halign <= 4);
 	g_return_if_fail (1 <= valign && valign <= 4);
 
+#if 0
 	/* TODO : figure this out.  There seem to be strings with 0 formats too.
 	 * do they indicate empty strings ? */
 	if (num_formats < 2) {
@@ -109,6 +110,7 @@ ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 			   "This record has %d", num_formats);
 		return;
 	}
+#endif
 
 	/* MS-Documentation error.  The offset for the reserved 4 x 0 is 18 */
 	if (unicode_flag)
@@ -142,13 +144,6 @@ ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 			orientations[orient], haligns[halign], valigns[valign]);
 		printf ("}; /* TextObject */\n");
 	}
-}
-void
-ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id)
-{
-	/* next record must be a DRAWING, it will load the TXO records */
-	g_return_if_fail (ms_biff_query_next (q));
-	ms_escher_hack_get_drawing (q, wb, NULL);
 }
 
 static void
@@ -362,28 +357,15 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 	g_return_if_fail (data_len_left == 0);
 
 	/* If this was a Chart then there should be a BOF next */
-	switch (obj_type)
-	{
-	case 0x05 :
+	if (obj_type == 0x05)
 		ms_excel_read_chart (q, wb, obj_id);
-		break;
-
-	case 0x02 : /* Text Box */
-	case 0x06 : /* Text Box */
-	case 0x07 : /* Button */
-		ms_obj_read_text (q, wb, obj_id);
-		break;
-
-	default:
-		    break;
-	}
 
 	if (ms_excel_read_debug > 0)
 	    printf ("\n\n");
 }
 
 void
-ms_obj_read_obj (BiffQuery *q, ExcelWorkbook * wb)
+ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb)
 {
 	if (wb->ver >= eBiffV8)
 		ms_obj_read_biff8_obj (q, wb);

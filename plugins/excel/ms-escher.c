@@ -34,6 +34,12 @@ typedef struct
 	BiffQuery      *q;
 
 	int	        depth;
+
+	guint32	segment_len;	/* number of bytes in current segment */
+
+	/* Offsets from the logical 1st byte in the stream */
+	guint32 start_offset;	/* 1st byte in current segment */
+	guint32 end_offset;	/* 1st byte past end of current segment */
 } MSEscherState;
 
 typedef struct
@@ -44,12 +50,8 @@ typedef struct
 	guint16	fbt;
 	guint32	len; /* Including the common header */
 
-	/* Initialized via ms_escher_header_init */
-	gint32 data_len;
-	guint8 const *	data;
-	gboolean	needs_deletion;
-	int		SpContainer_count;
-} MSEscherCommonHeader;
+	guint32	offset;
+} MSEscherHeader;
 #define common_header_len 8
 
 #ifdef ENABLE_BONOBO
@@ -105,39 +107,119 @@ escher_record_destroy (EscherRecord *er)
 }
 #endif
 
+/*
+ * Get the requested number of bytes from the data stream data pointer, merge
+ * and increment biff records if we need too.
+ *
+ * It seems evident that the stated internal size of the drawing records can be
+ * larger than the containing biff record.  However,  if we add the biff
+ * records following the initial record things usually don't add up.  The
+ * drawing record size seems to only count the draw records.  When we only add
+ * those the sizes match perfectly.
+ */
+static guint8 const *
+ms_escher_get_data (MSEscherState * state,
+		    gint offset,	/* bytes from logical start of the stream */
+		    guint num_bytes,	/* how many bytes we want, incl prefix */
+		    guint prefix,	/* number of bytes of header to skip */
+		    gboolean * needs_free)
+{
+	guint8 * res;
+	BiffQuery *q = state->q;
+
+	g_return_val_if_fail (num_bytes >= prefix, NULL);
+	offset += prefix;
+	num_bytes -= prefix;
+
+	g_return_val_if_fail (offset >= state->start_offset, NULL);
+
+	/* find the 1st containing record */
+	while (offset >= state->end_offset) {
+		int len;
+		char const * action;
+		if (!ms_biff_query_next (q)) {
+			printf ("EXCEL : unexpected end of stream;\n");
+			return NULL;
+		}
+
+		/* for some reason only these types seem to be counted */
+		if (q->opcode == BIFF_MS_O_DRAWING ||
+		    q->opcode == BIFF_MS_O_DRAWING_GROUP ||
+		    q->opcode == BIFF_MS_O_DRAWING_SELECTION) {
+			action = "Adding";
+			len = q->length;
+		} else {
+			action = "Skipping";
+			len = 0;
+		}
+
+		state->start_offset = state->end_offset;
+		state->end_offset += len;
+		state->segment_len = len;
+
+		printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x, %s a 0x%x of length 0x%x;\n",
+			num_bytes, offset,
+			state->start_offset,
+			state->end_offset,
+			action, q->opcode, q->length);
+	}
+
+	res = q->data + offset - state->start_offset;
+	if ((*needs_free = ((offset+num_bytes) > state->end_offset))) {
+		guint8 * buffer = g_malloc (num_bytes);
+		guint8 * tmp = buffer;
+
+		/* Setup front stub */
+		int len = q->length - (res - q->data);
+		int counter = 0;
+
+		printf ("MERGE needed (%d+%d) >= %d;\n",
+			offset, num_bytes, state->end_offset);
+
+		do {
+			printf ("record %d) add %d bytes;\n", ++counter, len);
+			/* copy necessary portion of current record */
+			memcpy (tmp, res, len);
+			tmp += len;
+
+			/* Get next record */
+			if (!ms_biff_query_next (q)) {
+				printf ("EXCEL : unexpected end of stream;\n");
+				return NULL;
+			}
+
+			/* We should only see DRAW records now */
+			g_return_val_if_fail (q->opcode == BIFF_MS_O_DRAWING ||
+					      q->opcode == BIFF_MS_O_DRAWING_GROUP ||
+					      q->opcode == BIFF_MS_O_DRAWING_SELECTION,
+					      NULL);
+
+			state->start_offset = state->end_offset;
+			state->end_offset += q->length;
+			state->segment_len = q->length;
+
+			res = q->data;
+			len = q->length;
+		} while ((num_bytes - (tmp - buffer)) > len);
+
+		/* Copy back stub */
+		memcpy (tmp, res, num_bytes - (tmp-buffer));
+		printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer));
+
+		return buffer;
+	}
+
+	return res;
+}
+
 static gboolean
-ms_escher_next_record (MSEscherState * state,
-		       MSEscherCommonHeader *h);
-
-static void
-ms_escher_header_init (MSEscherCommonHeader * h, 
-		       MSEscherCommonHeader const * container, 
-		       gint offset)
-{
-	h->data_len = container->len - offset;
-	h->data = container->data + offset;
-	h->len = 0;
-	h->needs_deletion = FALSE;
-	h->SpContainer_count = 0;
-}
-
-static void
-ms_escher_read_container (MSEscherState * state,
-			  MSEscherCommonHeader *containing_header,
-			  gint offset)
-{
-	MSEscherCommonHeader h;
-	ms_escher_header_init (&h, containing_header,
-			       common_header_len + offset);
-	while (ms_escher_next_record (state, &h))
-		;
-}
+ms_escher_read_container (MSEscherState * state, MSEscherHeader const * container,
+			  gint offset);
 
 /****************************************************************************/
 
-static void
-ms_escher_read_CLSID (MSEscherState * state,
-		      MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader const * h)
 {
 	/* Holds a 'Class ID Record' ID record which is only included in the
 	 * 'clipboard format'.  It contains an OLE CLSID record from the source
@@ -145,11 +227,11 @@ ms_escher_read_CLSID (MSEscherState * state,
 	 *
 	 * We ignore these.  What is an 'OLE CLSID' ?  Would we ever need this ?
 	 */
+	return FALSE;
 }
 
-static void
-ms_escher_read_ColorMRU (MSEscherState * state,
-			 MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader const * h)
 {
 	guint const num_colours = h->instance;
 
@@ -158,30 +240,36 @@ ms_escher_read_ColorMRU (MSEscherState * state,
 
 	/* Colors in order from left to right.  */
 	/* TODO : When we know how to parse a colour record read these */
+	return FALSE;
 }
-static void
-ms_escher_read_SplitMenuColors (MSEscherState * state,
-				MSEscherCommonHeader * h)
+
+static gboolean
+ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader const * h)
 {
-	g_return_if_fail (h->instance == 4);
-	g_return_if_fail (h->len == 24); /* header + 4*4 */
-	{
-		guint8 const * data = h->data + common_header_len;
+	gboolean needs_free;
+	guint8 const * data;
+
+	g_return_val_if_fail (h->instance == 4, TRUE);
+	g_return_val_if_fail (h->len == 24, TRUE); /* header + 4*4 */
+	
+	if ((data = ms_escher_get_data (state, h->offset, 24,
+					common_header_len, &needs_free))) {
 		guint32 const top_level_fill = MS_OLE_GET_GUINT32(data + 0);
 		guint32 const line	= MS_OLE_GET_GUINT32(data + 4);
 		guint32 const shadow	= MS_OLE_GET_GUINT32(data + 8);
 		guint32 const threeD	= MS_OLE_GET_GUINT32(data + 12);
 
-		printf ("top_level_fill = 0x%x, line = 0x%x, shadow = 0x%x, threeD = 0x%x;\n",
+		printf ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
 			top_level_fill, line, shadow, threeD);
-	}
+	} else
+		return TRUE;
+	return FALSE;
 }
 
-static void
-ms_escher_read_BStoreContainer (MSEscherState * state,
-				MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_BStoreContainer (MSEscherState * state, MSEscherHeader const * h)
 {
-	ms_escher_read_container (state, h, 0);
+	return ms_escher_read_container (state, h, 0);
 }
 
 static gchar const *
@@ -221,11 +309,14 @@ write_file (gchar const * const name, guint8 const * data,
 	g_string_free (file_name, 1);
 }
 
-static void
-ms_escher_read_BSE (MSEscherState * state,
-		    MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_BSE (MSEscherState * state, MSEscherHeader const * h)
 {
-	guint8 const *data = h->data + common_header_len;
+	/* read the header */
+	gboolean needs_free;
+	guint8 const * data =
+		ms_escher_get_data (state, h->offset, 34,
+				    common_header_len, &needs_free);
 	guint8 const win_type	= MS_OLE_GET_GUINT8 (data + 0);
 	guint8 const mac_type	= MS_OLE_GET_GUINT8 (data + 1);
 	guint32 const size	= MS_OLE_GET_GUINT32(data + 20);
@@ -261,12 +352,11 @@ ms_escher_read_BSE (MSEscherState * state,
 		printf ("%02x", checksum[i]);
 	printf (";\n");
 
-	ms_escher_read_container (state, h, 36);
+	return ms_escher_read_container (state, h, 36);
 }
 
-static void
-ms_escher_read_Blip (MSEscherState * state,
-		     MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_Blip (MSEscherState * state, MSEscherHeader const * h)
 {
 	int primary_uid_size = 0;
 	guint32 blip_instance = h->instance;
@@ -305,10 +395,15 @@ ms_escher_read_Blip (MSEscherState * state,
 #ifdef ENABLE_BONOBO
 	{
 		int const header = 17 + primary_uid_size + common_header_len;
-		EscherRecord *er = escher_record_new_blip (h->data + header,
+		gboolean needs_free;
+		guint8 const * data =
+			ms_escher_get_data (state, h->offset, h->len,
+					    header, &needs_free);
+		EscherRecord *er = escher_record_new_blip (data,
 							   h->len - header,
 							   "bonobo-object:image-x-png");
 		state->wb->eschers = g_list_append (state->wb->eschers, er);
+		write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
 		break;
 	}
 #endif
@@ -316,34 +411,41 @@ ms_escher_read_Blip (MSEscherState * state,
 	case 0x7a8 : /* DIB  data, with 1 byte header */
 	{
 		int const header = 17 + primary_uid_size + common_header_len;
-		write_file ("unknown", h->data + header, h->len - header, h->fbt - Blip_START);
+		gboolean needs_free;
+		guint8 const * data =
+			ms_escher_get_data (state, h->offset, h->len,
+					    header, &needs_free);
+		write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
 		break;
 	}
 
 	default:
 		g_warning ("Don't know what to do with this image %x\n", h->instance);
+		return TRUE;
 	};
+	return FALSE;
 }
 
-static void
-ms_escher_read_RegroupItems (MSEscherState * state,
-			     MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_RegroupItems (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_ColorScheme (MSEscherState * state,
-			    MSEscherCommonHeader * containing_header)
+
+static gboolean
+ms_escher_read_ColorScheme (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_SpContainer (MSEscherState * state,
-			    MSEscherCommonHeader * containing_header)
+
+static gboolean
+ms_escher_read_SpContainer (MSEscherState * state, MSEscherHeader const * h)
 {
-	ms_escher_read_container (state, containing_header, 0);
+	return ms_escher_read_container (state, h, 0);
 }
-static void
-ms_escher_read_Spgr (MSEscherState * state,
-		     MSEscherCommonHeader * h)
+
+static gboolean
+ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader const * h)
 {
 	char const * name;
 	switch (h->instance) {
@@ -554,13 +656,16 @@ ms_escher_read_Spgr (MSEscherState * state,
 		  name = "UNKNOWN";
 	};
 	printf ("%s (0x%x);\n", name, h->instance);
+	return FALSE;
 }
 
-static void
-ms_escher_read_Sp (MSEscherState * state,
-		   MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_Sp (MSEscherState * state, MSEscherHeader const * h)
 {
-	guint8 const *data = h->data + common_header_len;
+	gboolean needs_free;
+	guint8 const *data =
+		ms_escher_get_data (state, h->offset, 8,
+				    common_header_len, &needs_free);
 	guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
 	guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
 	printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n", spid, h->instance,
@@ -571,52 +676,74 @@ ms_escher_read_Sp (MSEscherState * state,
 		(flags&0x100) ? " Connector":"",(flags&0x200) ? " HasAnchor": "",
 		(flags&0x400) ? " TypeProp": ""
 	       );
+	return FALSE;
 }
 
-static void
-ms_escher_read_Textbox (MSEscherState * state,
-			MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_Textbox (MSEscherState * state, MSEscherHeader const * h)
 {
-}
-static void
-ms_escher_read_Anchor (MSEscherState * state,
-		       MSEscherCommonHeader * containing_header)
-{
-}
-static void
-ms_escher_read_ChildAnchor (MSEscherState * state,
-			    MSEscherCommonHeader * containing_header)
-{
+	return FALSE;
 }
 
-/* TODO : This is a guess that explains the sheets we have. Find some
- * documentation. */
-static void
-ms_escher_read_ClientAnchor (MSEscherState * state,
-			     MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_Anchor (MSEscherState * state, MSEscherHeader const * h)
 {
-	Sheet const * sheet = state->sheet->gnum_sheet;
-	guint8 const * data = h->data + common_header_len;
-	double const zoom = sheet->last_zoom_factor_used;
+	return FALSE;
+}
 
-	/* Warning this is host specific and only works for Excel */
+static gboolean
+ms_escher_read_ChildAnchor (MSEscherState * state, MSEscherHeader const * h)
+{
+	return FALSE;
+}
 
-	/* the word at offset 0 always seems to be 2 ?? */
+/* TODO : This is a guess that explains the workbooks we have. Find some
+ * confirmation. */
+static gboolean
+ms_escher_read_ClientAnchor (MSEscherState * state, MSEscherHeader const * h)
+{
+	Sheet const * sheet;
+	double zoom;
+	gboolean needs_free;
+	guint8 const *data =
+		ms_escher_get_data (state, h->offset, 18,
+				    common_header_len, &needs_free);
+
+	/* FIXME : What is the the word at offset 0 ?? Maybe a sheet index ? */
+
+	/* WARNING : this is host specific and only works for Excel */
 
 	int i;
 	/* Words 2, 6, 10, 14 : The row/col of the corners */
-	/* Words 4, 8, 12, 16 : distance from cell edge measured in 1/1440 of an inch */
+	/* Words 4, 8, 12, 16 : distance from cell edge measured in 1/1024 of an inch */
 	float	margin[4], tmp;
 	int	pos[4];
+
+	if (!data)
+		return TRUE;
+
+	if  (state->sheet == NULL) {
+		printf ("Missing sheet;\n");
+		return FALSE;
+	}
+	sheet = state->sheet->gnum_sheet;
+	zoom = sheet->last_zoom_factor_used;
+
 	for (i = 0; i < 4; ++i) {
 		pos[i] = MS_OLE_GET_GUINT16(data + 4*i + 2);
-		margin[i] = (MS_OLE_GET_GUINT16(data + 4*i + 4) / 20.);
+		margin[i] = (MS_OLE_GET_GUINT16(data + 4*i + 4) / (1024./72.));
+
+		/* FIXME : we are slightly off.  What about margins ? */
 		tmp = (i&1) /* odds are rows */
 		    ? sheet_row_get_unit_distance (sheet, 0, pos[i])
 		    : sheet_col_get_unit_distance (sheet, 0, pos[i]);
 		margin[i] += tmp;
 		margin[i] *= zoom;
 	}
+	dump (data, 18);
+
+	printf ("In pixels left = %d, top = %d, right = %d, bottom =d %d;\n",
+		(int)margin[0], (int)margin[1], (int)margin[2], (int)margin[3]);
 
 #ifdef ENABLE_BONOBO
 	{ /* In the anals of ugly hacks, this is well up there :-) */
@@ -624,12 +751,16 @@ ms_escher_read_ClientAnchor (MSEscherState * state,
 		EscherRecord *er;
 		SheetObject  *so;
 
-		g_return_if_fail (l != NULL);
+		/* ignore this for now */
+		g_return_val_if_fail (l != NULL, FALSE);
+
+		/* FIXME : GACK!  Find the blip identifier. dont just pick the 1st object. */
 		er = l->data;
-		g_return_if_fail (er != NULL);
-		g_return_if_fail (state->sheet != NULL);
-		g_return_if_fail (er->type == ESCHER_BLIP);
-		g_return_if_fail (er->v.blip.stream != NULL);
+		if (er == NULL)
+			return FALSE;
+		g_return_val_if_fail (state->sheet != NULL, TRUE);
+		g_return_val_if_fail (er->type == ESCHER_BLIP, TRUE);
+		g_return_val_if_fail (er->v.blip.stream != NULL, TRUE);
 
 		/* And lo, objects appeared always in the TLC */
 		so = sheet_object_container_new (state->sheet->gnum_sheet,
@@ -644,61 +775,56 @@ ms_escher_read_ClientAnchor (MSEscherState * state,
 		state->wb->eschers = g_list_remove (state->wb->eschers, l->data);
 	}
 #endif
+	return FALSE;
 }
 
-static void
-ms_escher_read_ClientData (MSEscherState * state,
-			   MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_OleObject (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_OleObject (MSEscherState * state,
-			  MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_DeletedPspl (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_DeletedPspl (MSEscherState * state,
-			    MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_SolverContainer (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_SolverContainer (MSEscherState * state,
-				MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_ConnectorRule (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_ConnectorRule (MSEscherState * state,
-			      MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_AlignRule (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_AlignRule (MSEscherState * state,
-			  MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_ArcRule (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_ArcRule (MSEscherState * state,
-			MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_ClientRule (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_ClientRule (MSEscherState * state,
-			   MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_CalloutRule (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_CalloutRule (MSEscherState * state,
-			    MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_Selection (MSEscherState * state, MSEscherHeader const * h)
 {
+	return FALSE;
 }
-static void
-ms_escher_read_Selection (MSEscherState * state,
-			  MSEscherCommonHeader * containing_header)
-{
-}
-static void
-ms_escher_read_Dg (MSEscherState * state,
-		   MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_Dg (MSEscherState * state, MSEscherHeader const * h)
 {
 #if 0
 	guint8 const * data = h->data + common_header_len;
@@ -710,12 +836,13 @@ ms_escher_read_Dg (MSEscherState * state,
 	/* This drawing has these num_shapes shapes, with a pointer to the last
 	 * SPID given to it */
 #endif
+	return FALSE;
 }
 
-static void
-ms_escher_read_Dgg (MSEscherState * state,
-		    MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_Dgg (MSEscherState * state, MSEscherHeader const * h)
 {
+#if 0
 	typedef struct {
 		guint32 max_spid;
 		guint32 num_id_clust;
@@ -742,27 +869,32 @@ ms_escher_read_Dgg (MSEscherState * state,
 		fd.num_drawings_saved);
 
 	data+=16;
-	for (lp=0;lp<fd.num_id_clust;lp++) {
+	for (lp = 0; lp < fd.num_id_clust; lp++) {
 		ID_CLUST cl;
 		cl.DG_owning_spids   = MS_OLE_GET_GUINT32(data+0);
 		cl.spids_used_so_far = MS_OLE_GET_GUINT32(data+4);
 		g_array_append_val (fd.id_clusts, cl);
 	}
+#endif
+	return FALSE;
 }
 
-static void
-ms_escher_read_OPT (MSEscherState * state,
-		    MSEscherCommonHeader * h)
+static gboolean
+ms_escher_read_OPT (MSEscherState * state, MSEscherHeader const * h)
 {
 	int const num_properties = h->instance;
-	guint8 const *fopte = h->data + common_header_len;
+	gboolean needs_free;
+	guint8 const * const data =
+		ms_escher_get_data (state, h->offset, h->len,
+				    common_header_len, &needs_free);
+	guint8 const *fopte = data;
 	guint8 const *extra = fopte + 6*num_properties;
 	guint prev_pid = 0; /* A debug tool */
 	char const * name;
 	int i;
 
 	/* lets be really careful */
-	g_return_if_fail (6*num_properties + common_header_len <= h->len);
+	g_return_val_if_fail (6*num_properties + common_header_len <= h->len, TRUE);
 
 	for (i = 0; i < num_properties; ++i, fopte += 6) {
 		guint16 const tmp = MS_OLE_GET_GUINT32(fopte);
@@ -772,90 +904,89 @@ ms_escher_read_OPT (MSEscherState * state,
 		guint32 const val = MS_OLE_GET_GUINT32(fopte+2);
 
 		/* container is sorted by pid. Use this as sanity test */
-		g_return_if_fail (prev_pid < pid);
+		if (prev_pid >= pid) {
+			printf ("Pids not monotonic %d >= %d;\n", prev_pid, pid);
+			return TRUE;
+		}
 		prev_pid = pid;
 
 		switch (pid) {
-		/* LONG 0 fixed point: 16.16 degrees */
-		case 4 : name = "rotation"; break;
+		/* 0 : fixed point: 16.16 degrees */
+		case 4 : name = "long rotation"; break;
 
-		/* FALSE Size shape to fit text size */
-		case 190 : name = "fFitShapeToText BOOL"; break;
+		/* FALSE : Size shape to fit text size */
+		case 190 : name = "BOOL fFitShapeToText"; break;
 
-		/* FALSE Size text to fit shape size */
-		case 191 : name = "fFitTextToShape BOOL"; break;
+		/* FALSE : Size text to fit shape size */
+		case 191 : name = "BOOL fFitTextToShape"; break;
 
-		/* 16.16 fraction times total image width or height, as appropriate. */
-		case 256 : name = "cropFromTop LONG"; break;
+		/* 0 : 16.16 fraction times total image width or height, as appropriate. */
+		case 256 : name = "fixed16_16 cropFromTop"; break;
+		case 257 : name = "fixed16_16 cropFromBottom"; break;
+		case 258 : name = "fixed16_16 cropFromLeft"; break;
+		case 259 : name = "fixed16_16 cropFromRight"; break;
 
-		/* 0 */
-		case 257 : name = "cropFromBottom LONG"; break;
+		/* NULL : Blip to display */
+		case 260 : name = "Blip * pib"; break;
 
-		/* 0 */
-		case 258 : name = "cropFromLeft LONG"; break;
+		/* NULL : Blip file name */
+		case 261 : name = "wchar * pibName"; break;
 
-		/* 0 */
-		case 259 : name = "cropFromRight LONG"; break;
+		/* What are MSOBLIPFLAGS ? */
+		/* Comment Blip flags */
+		case 262 : name = "BLIPFLAGS pibFlags"; break;
 
-		/* IMsoBlip* NULL Blip to display */
-		case 260 : name = "pib"; break;
+		/* ~0 : transparent color (none if ~0UL)  */
+		case 263 : name = "long pictureTransparent"; break;
 
-		/* WCHAR* NULL Blip file name */
-		case 261 : name = "pibName"; break;
+		/* 1<<16 : contrast setting */
+		case 264 : name = "long pictureContrast"; break;
 
-		/* MSOBLIPFLAGS Comment Blip flags */
-		case 262 : name = "pibFlags"; break;
+		/* 0 : brightness setting */
+		case 265 : name = "long pictureBrightness"; break;
 
-		/* LONG ~0 transparent color (none if ~0UL)  */
-		case 263 : name = "pictureTransparent"; break;
+		/* 0 : 16.16 gamma */
+		case 266 : name = "fixed16_16 pictureGamma"; break;
 
-		/* LONG 1<<16 contrast setting */
-		case 264 : name = "pictureContrast"; break;
+		/* 0 : Host-defined ID for OLE objects (usually a pointer) */
+		case 267 : name = "Long pictureId"; break;
 
-		/* LONG 0 brightness setting */
-		case 265 : name = "pictureBrightness"; break;
+		/* undefined : Double shadow colour */
+		case 268 : name = "Colour pictureDblCrMod"; break;
 
-		/* LONG 0 16.16 gamma */
-		case 266 : name = "pictureGamma"; break;
+		/* undefined : */
+		case 269 : name = "Colour pictureFillCrMod"; break;
 
-		/* LONG 0 Host-defined ID for OLE objects (usually a pointer) */
-		case 267 : name = "pictureId"; break;
+		/* undefined : */
+		case 270 : name = "Colour pictureLineCrMod"; break;
 
-		/* MSOCLR This Modification used if shape has double shadow */
-		case 268 : name = "pictureDblCrMod"; break;
+		/* NULL : Blip to display when printing */
+		case 271 : name = "Blip * pibPrint"; break;
 
-		/* MSOCLR undefined */
-		case 269 : name = "pictureFillCrMod"; break;
+		/* NULL : Blip file name */
+		case 272 : name = "wchar * pibPrintName"; break;
 
-		/* MSOCLR undefined */
-		case 270 : name = "pictureLineCrMod"; break;
+		/* What are MSOBLIPFLAGS ? */
+		/* Comment Blip flags */
+		case 273 : name = "BLIPFLAGS pibPrintFlags"; break;
 
-		/* IMsoBlip* NULL Blip to display when printing */
-		case 271 : name = "pibPrint"; break;
+		/* FALSE : Do not hit test the picture */
+		case 316 : name = "bool fNoHitTestPicture"; break;
 
-		/* WCHAR* NULL Blip file name */
-		case 272 : name = "pibPrintName"; break;
+		/* FALSE : grayscale display */
+		case 317 : name = "bool pictureGray"; break;
 
-		/* MSOBLIPFLAGS Comment Blip flags */
-		case 273 : name = "pibPrintFlags"; break;
+		/* FALSE : bi-level display */
+		case 318 : name = "bool pictureBiLevel"; break;
 
-		/* BOOL FALSE Do not hit test the picture */
-		case 316 : name = "fNoHitTestPicture"; break;
+		/* FALSE : Server is active (OLE objects only) */
+		case 319 : name = "bool pictureActive"; break;
 
-		/* BOOL FALSE grayscale display */
-		case 317 : name = "pictureGray"; break;
+		/* white : Foreground color */
+		case 385 : name = "Colour fillColor"; break;
 
-		/* BOOL FALSE bi-level display */
-		case 318 : name = "pictureBiLevel"; break;
-
-		/* BOOL FALSE Server is active (OLE objects only) */
-		case 319 : name = "pictureActive"; break;
-
-		/* MSOCLR white Foreground color */
-		case 385 : name = "fillColor"; break;
-
-		/* MSOCLR black Color of line */
-		case 448 : name = "lineColor"; break;
+		/* black : Color of line */
+		case 448 : name = "Colour lineColor"; break;
 
 		default : name = "";
 		};
@@ -867,266 +998,202 @@ ms_escher_read_OPT (MSEscherState * state,
 			extra += val;
 
 			/* check for over run */
-			g_return_if_fail (extra - h->data <= h->len);
+			g_return_val_if_fail (extra - data + common_header_len <= h->len, TRUE);
 		}
 	}
+	return FALSE;
 }
 
-static void
-ms_escher_read_SpgrContainer (MSEscherState * state,
-			     MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_SpgrContainer (MSEscherState * state, MSEscherHeader const * h)
 {
-	ms_escher_read_container (state, containing_header, 0);
+	return ms_escher_read_container (state, h, 0);
 }
-static void
-ms_escher_read_DgContainer (MSEscherState * state,
-			    MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_DgContainer (MSEscherState * state, MSEscherHeader const * h)
 {
-	ms_escher_read_container (state, containing_header, 0);
+	return ms_escher_read_container (state, h, 0);
 }
-static void
-ms_escher_read_DggContainer (MSEscherState * state,
-			     MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_DggContainer (MSEscherState * state, MSEscherHeader const * h)
 {
-	ms_escher_read_container (state, containing_header, 0);
+	return ms_escher_read_container (state, h, 0);
 }
-static void
-ms_escher_read_ClientTextbox (MSEscherState * state,
-			      MSEscherCommonHeader * containing_header)
+static gboolean
+ms_escher_read_ClientTextbox (MSEscherState * state, MSEscherHeader const * h)
 {
-	g_return_if_fail (state->depth == 1);
+	guint16 opcode;
 
-	if (containing_header->data_len == containing_header->len) {
-		guint16 opcode;
+	g_return_val_if_fail (h->len == common_header_len, TRUE);
+	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
 
-		/* Read the TXO, be VERY careful until we are sure of the state */
-		g_return_if_fail (ms_biff_query_peek_next (state->q, &opcode));
-		g_return_if_fail (opcode == BIFF_TXO);
-		g_return_if_fail (ms_biff_query_next (state->q));
-		ms_obj_read_text_impl (state->q, state->wb);
-	} else {
-		g_warning ("EXCEL : expected ClientTextBox to be last element (%d != %d)",
-			   containing_header->data_len, containing_header->len);
-	}
+	/* Read the TXO, be VERY careful until we are sure of the state */
+	g_return_val_if_fail (ms_biff_query_peek_next (state->q, &opcode), TRUE);
+	g_return_val_if_fail (opcode == BIFF_TXO, TRUE);
+	g_return_val_if_fail (ms_biff_query_next (state->q), TRUE);
+
+	ms_read_TXO (state->q, state->wb);
+	return FALSE;
 }
+
+static gboolean
+ms_escher_read_ClientData (MSEscherState * state, MSEscherHeader const * h)
+{
+	guint16 opcode;
+
+	g_return_val_if_fail (h->len == common_header_len, TRUE);
+	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
+
+	/* Read the OBJ, be VERY careful until we are sure of the state */
+	g_return_val_if_fail (ms_biff_query_peek_next (state->q, &opcode), TRUE);
+	g_return_val_if_fail (opcode == BIFF_OBJ, TRUE);
+	g_return_val_if_fail (ms_biff_query_next (state->q), TRUE);
+
+	ms_read_OBJ (state->q, state->wb);
+	return FALSE;
+}
+
 
 /****************************************************************************/
 
-/*
- * Increment the state by the size of the record refered to by
- * the header, then read the next header
- */
 static gboolean
-ms_escher_next_record (MSEscherState * state,
-		       MSEscherCommonHeader *h)
+ms_escher_read_container (MSEscherState * state, MSEscherHeader const * container,
+			  gint const prefix)
 {
-	guint16 tmp;
-	char const * fbt_name = NULL;
-	void (*handler)(MSEscherState * state,
-			MSEscherCommonHeader * containing_header) = NULL;
+	int SpContainer_count = 0;
+	MSEscherHeader	h;
+	h.ver = h.instance = h.fbt = h.len = 0;
 
-	/* Lets be really really anal */
-	g_return_val_if_fail (h->data_len >= h->len, FALSE);
+	/* Skip the common header */
+	h.offset = container->offset + prefix + common_header_len;
 
-	/* Increment to the next header */
-	h->data_len -= h->len;
-	h->data += h->len;
+	do {
+		guint16 tmp;
+		char const * fbt_name = NULL;
+		gboolean (*handler)(MSEscherState * state, MSEscherHeader const * h) = NULL;
+		gboolean needs_free;
+
+		guint8 const * data =
+			ms_escher_get_data (state, h.offset, common_header_len,
+					    0, &needs_free);
+
+		if (data == NULL)
+			return TRUE;
+
+		tmp	= MS_OLE_GET_GUINT16(data+0);
+		h.fbt	= MS_OLE_GET_GUINT16(data+2);
+		h.len	= MS_OLE_GET_GUINT32(data+4);
+		h.ver      = tmp & 0x0f;
+		h.instance = (tmp>>4) & 0xfff;
+
+		/*
+		 * If this is a container (ver == 0xf) the length already includes the header
+		 * However, the docs are incomplete and these 3 fbt types also need adjustment
+		 * FIXME FIXME FIXME : It seems like only the 1st SpContainer at depth > 1
+		 * includes the common header in its length.  Is this cruft really necessary ?
+		 */
+		if (h.ver != 0xf ||
+		    h.fbt == DggContainer ||
+		    h.fbt == BStoreContainer ||
+		    (h.fbt == SpContainer && ++SpContainer_count == 1 && state->depth > 1))
+			h.len += common_header_len;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 1)
-		printf ("h->data_len == %d;\n", h->data_len);
+		if (ms_excel_read_debug > 0) {
+			printf ("length 0x%x(=%d), ver 0x%x, instance 0x%x, offset = 0x%x;\n",
+				h.len, h.len, h.ver, h.instance, h.offset);
+		}
 #endif
-	if (h->data_len == 0)
-		return FALSE;
-
-	g_return_val_if_fail (h->data_len >= common_header_len, FALSE);
-
-	tmp	= MS_OLE_GET_GUINT16(h->data+0);
-	h->fbt	= MS_OLE_GET_GUINT16(h->data+2);
-	h->len	= MS_OLE_GET_GUINT32(h->data+4);
-	h->ver      = tmp & 0x0f;
-	h->instance = (tmp>>4) & 0xfff;
-
-	/*
-	 * If this is a container (ver == 0xf) the length already includes the header
-	 * However, the docs are incomplete and these 3 fbt types also need adjustment
-	 * FIXME FIXME FIXME : It seems like only the 1st SpContainer at depth > 1
-	 * includes the common header in its length.  Is this cruft really necessary ?
-	 */
-	if (h->ver != 0xf ||
-	    h->fbt == DggContainer ||
-	    h->fbt == BStoreContainer ||
-	    (h->fbt == SpContainer && ++(h->SpContainer_count) == 1 && state->depth > 1))
-		h->len += common_header_len;
-
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
-		printf ("length 0x%x(=%d), ver 0x%x, instance 0x%x, Block size = 0x%x(=%d);\n",
-			h->len, h->len, h->ver, h->instance, h->data_len, h->data_len);
-	}
-#endif
-	/*
-	 * Lets double check that the data we just read makes sense.
-	 * If problems arise in the next tests it probably indicates that
-	 * the PRECEDING record length was invalid.  Check that it included the header */
-	if ((h->fbt & (~0x1ff)) != 0xf000) {
-		printf ("WARNING EXCEL : Invalid fbt = %x\n", h->fbt);
-		return FALSE;
-	}
+		/*
+		 * Lets double check that the data we just read makes sense.
+		 * If problems arise in the next tests it probably indicates that
+		 * the PRECEDING record length was invalid.  Check that it included the header */
+		if ((h.fbt & (~0x1ff)) != 0xf000) {
+			printf ("WARNING EXCEL : Invalid fbt = %x\n", h.fbt);
+			return TRUE;
+		}
 
 #define EshRecord(x) \
-	x : fbt_name = #x; \
-	    handler = &ms_escher_read_ ## x; \
-	break
+		x : fbt_name = #x; \
+		    handler = &ms_escher_read_ ## x; \
+		break
 
-	switch (h->fbt) {
-	case EshRecord(DggContainer);	case EshRecord(Dgg);
-	case EshRecord(DgContainer);	case EshRecord(Dg);
-	case EshRecord(SpgrContainer);	case EshRecord(Spgr);
-	case EshRecord(SpContainer);	case EshRecord(Sp);
-	case EshRecord(BStoreContainer);case EshRecord(BSE);
-	case EshRecord(Textbox);	case EshRecord(ClientTextbox);
-	case EshRecord(Anchor);	case EshRecord(ChildAnchor); case EshRecord(ClientAnchor);
-	case EshRecord(ClientData);
-	case EshRecord(CLSID);
-	case EshRecord(OPT);
-	case EshRecord(ColorMRU);
-	case EshRecord(SplitMenuColors);
-	case EshRecord(RegroupItems);
-	case EshRecord(ColorScheme);
-	case EshRecord(OleObject);
-	case EshRecord(DeletedPspl);
-	case EshRecord(SolverContainer);
-	case EshRecord(ConnectorRule);
-	case EshRecord(AlignRule);
-	case EshRecord(ArcRule);
-	case EshRecord(ClientRule);
-	case EshRecord(CalloutRule);
-	case EshRecord(Selection);
-	default : fbt_name = NULL;
-	};
+		switch (h.fbt) {
+		case EshRecord(DggContainer);	case EshRecord(Dgg);
+		case EshRecord(DgContainer);	case EshRecord(Dg);
+		case EshRecord(SpgrContainer);	case EshRecord(Spgr);
+		case EshRecord(SpContainer);	case EshRecord(Sp);
+		case EshRecord(BStoreContainer);case EshRecord(BSE);
+		case EshRecord(Textbox);	case EshRecord(ClientTextbox);
+		case EshRecord(Anchor); case EshRecord(ChildAnchor); case EshRecord(ClientAnchor);
+		case EshRecord(ClientData);
+		case EshRecord(CLSID);
+		case EshRecord(OPT);
+		case EshRecord(ColorMRU);
+		case EshRecord(SplitMenuColors);
+		case EshRecord(RegroupItems);
+		case EshRecord(ColorScheme);
+		case EshRecord(OleObject);
+		case EshRecord(DeletedPspl);
+		case EshRecord(SolverContainer);
+		case EshRecord(ConnectorRule);
+		case EshRecord(AlignRule);
+		case EshRecord(ArcRule);
+		case EshRecord(ClientRule);
+		case EshRecord(CalloutRule);
+		case EshRecord(Selection);
+		default : fbt_name = NULL;
+		};
 #undef EshRecord
 
-	/* Handle continuation records here */
+		if (Blip_START <= h.fbt && h.fbt <= Blip_END) {
+			ms_escher_read_Blip (state, &h);
+		} else if (fbt_name != NULL) {
+			gboolean res;
 
-	/* Even more error checking */
-	if (h->len > h->data_len) {
-		BiffQuery *nq = ms_biff_query_copy (state->q);
-		int cnt = 0, len = h->data_len;
-		do {
-			/* FIXME : what is the logic here ?
-			 * It seems evident that the stated internal size of the
-			 * drawing records can be larger than the containing biff
-			 * record.  However,  if we add the biff records following
-			 * the initial record things usually don't add up.  The
-			 * drawing record size seems to only count the draw or
-			 * continue records.  When we only add those the sizes match
-			 * perfectly.
-			 *
-			 * BUT
-			 *
-			 * That makes no sense at all.  There are frequently embedded
-			 * TXO records.  Those records are documented to always have 2
-			 * CONTINUE records.  The stategy that works adds the sizes of
-			 * the CONTINUE records associated with the TXO as if they were
-			 * part of the drawing, but the TXO was not ????
-			 *
-			 * TODO : when we figure the above question out we can get rid
-			 * of the biff_to_flat routine and do a more on demand style of
-			 * merging.
-			 */
-			ms_biff_query_next(nq);
-			if (nq->opcode == BIFF_MS_O_DRAWING ||
-			    nq->opcode == BIFF_MS_O_DRAWING_GROUP ||
-			    nq->opcode == BIFF_MS_O_DRAWING_SELECTION) {
-				printf ("Adding a 0x%x of length %d;\n",
-					nq->opcode, nq->length);
-				len += nq->length;
-				++cnt;
-			} else
-				printf ("Skipping a 0x%x of length %d;\n",
-					nq->opcode, nq->length);
-		} while (h->len > len);
+			/* Not really needed */
+			g_return_val_if_fail (handler != NULL, TRUE);
 
-		printf ("WARNING EXCEL : remaining bytes = %d < claimed length = %d (fbt = %s %x);\n",
-			len, h->len, ((fbt_name != NULL) ? fbt_name : ""), h->fbt);
-		printf ("WARNING EXCEL : truncating;\n");
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 0)
+				printf ("{ /* %s */\n", fbt_name);
+#endif
+			++(state->depth);
+			res = (*handler)(state, &h);
+			--(state->depth);
 
-		h->len = h->data_len;
-	}
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 0)
+				printf ("}; /* %s */\n", fbt_name);
+#endif
+			if (res) {
+				printf ("ERROR;\n");
+				return TRUE;
+			}
 
-	if (Blip_START <= h->fbt && h->fbt <= Blip_END) {
-		ms_escher_read_Blip (state, h);
-	} else if (fbt_name != NULL) {
-		/* Not really needed */
-		g_return_val_if_fail (handler != NULL, FALSE);
+		} else
+			printf ("WARNING EXCEL : Invalid fbt = %x\n", h.fbt);
 
-		printf ("{ /* %s */\n", fbt_name);
-		++(state->depth);
-		(*handler)(state, h);
-		--(state->depth);
-		printf ("}; /* %s */\n", fbt_name);
-	} else
-		printf ("WARNING EXCEL : Invalid fbt = %x\n", h->fbt);
-
-	return TRUE;
+		h.offset += h.len;
+	} while ((h.offset - container->offset) < container->len);
+	return FALSE;
 }
 
-/**
- *  Builds a flat record by merging CONTINUE records,
- *  Have to do until we move this into ms_ole.c
- *  pass pointers to your length & data variables.
- *  This is dead sluggish.
- **/
-static guint8 *
-biff_to_flat_data (BiffQuery *q, guint32 *length, gboolean * needs_to_be_free)
-{
-	BiffQuery *nq = ms_biff_query_copy (q);
-	guint8 *ptr, *data;
-	int cnt=0;
-
-	*length=0;
-	do {
-		*length+=nq->length;
-		ms_biff_query_next(nq);
-		cnt++;
-	} while (nq->opcode == BIFF_MS_O_DRAWING ||
-		 nq->opcode == BIFF_MS_O_DRAWING_GROUP ||
-		 nq->opcode == BIFF_MS_O_DRAWING_SELECTION ||
-		 nq->opcode == BIFF_CONTINUE);
-
-	if (!(*needs_to_be_free = (cnt > 1)))
-		return q->data;
-
-	ptr = data = g_malloc (*length);
-	do {
-		memcpy (ptr, q->data, q->length);
-		ptr += q->length;
-		ms_biff_query_next(q);
-	} while (q->opcode == BIFF_MS_O_DRAWING ||
-		 q->opcode == BIFF_MS_O_DRAWING_GROUP ||
-		 q->opcode == BIFF_CONTINUE);
-
-	return data;
-}
-
-/**
- * ms_escher_hack_get_drawing:
+/*
+ * ms_escher_parse:
  * @q:     Biff context.
  * @wb:    required workbook argument
  * @sheet: optional sheet argument
  * 
  *   This function parses an escher stream, and stores relevant data in the
  * workbook. 
- *
- **/
+ */
 void
-ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
+ms_escher_parse (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
 	MSEscherState state;
-	MSEscherCommonHeader h, fake_container;
+	MSEscherHeader fake_header;
 	char const *drawing_record_name = "Unknown";
-	gboolean needs_to_be_free;
 
 	g_return_if_fail (q != NULL);
 	g_return_if_fail (wb != NULL);
@@ -1136,26 +1203,36 @@ ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 		drawing_record_name = "Drawing Group";
 	else if (q->opcode != BIFF_MS_O_DRAWING_SELECTION)
 		drawing_record_name = "Drawing Selection";
-	else
+	else {
 		g_warning ("EXCEL : unexpected biff type %x\n", q->opcode);
+		return;
+	}
 
 	/* Only support during debugging for now */
-	if (ms_excel_read_debug <= 0)
+	if (ms_excel_read_debug < 1)
 		return;
 
 	state.wb    = wb;
 	state.sheet = sheet;
 	state.q     = q;
 	state.depth = 0;
+	state.segment_len  = q->length;
+	state.start_offset = 0;
+	state.end_offset   = q->length;
 
-	fake_container.data = biff_to_flat_data (q, &fake_container.len, &needs_to_be_free);
-	ms_escher_header_init (&h, &fake_container, 0);
+	fake_header.offset = 0;
+	fake_header.len = 0;
 
-	printf ("{  /* Escher '%s'*/\n", drawing_record_name);
-	while (ms_escher_next_record (&state, &h))
-		;
-	printf ("}; /* Escher '%s'*/\n", drawing_record_name);
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
+		printf ("{  /* Escher '%s'*/\n", drawing_record_name);
+#endif
 
-	if (needs_to_be_free)
-		g_free ((guint8 *)fake_container.data);
+	ms_escher_read_container (&state, &fake_header,
+				  -common_header_len);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
+		printf ("}; /* Escher '%s'*/\n", drawing_record_name);
+#endif
 }
