@@ -1,0 +1,146 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+use strict;
+
+$| = 1;
+
+my $myself = $0;
+$myself =~ s|^.*/||;
+
+die "$0: must run from top-level gnumeric directory.\n"
+    unless -r "gnumeric-config.h";
+my $dst = "src/cut-n-paste-code/foocanvas";
+
+my $foodir = $ARGV[0];
+$foodir = "../foocanvas" unless defined $foodir;
+die "$0: must specify foocanvas directory on command line.\n"
+    unless -d $foodir;
+
+-d $dst or mkdir $dst or
+    die "$0: cannot mkdir $dst: $!\n";
+
+&copy_subsystem ("libfoocanvas");
+
+# -----------------------------------------------------------------------------
+
+sub copy_subsystem {
+    my ($sys) = @_;
+
+    my $srcdir = "$foodir/$sys";
+    my $dstdir = "$dst/$sys";
+
+    -d $dstdir or mkdir "$dstdir" or
+	die "$0: cannot mkdir $dstdir: $!\n";
+
+    my @sources;
+
+    local (*SRC,*DST);
+    open (SRC, "<$srcdir/Makefile.am") or
+	die "$0: Cannot read $srcdir/Makefile.am: $!\n";
+    open (DST, ">$dstdir/Makefile.am.new") or
+	die "$0: Cannot write $dstdir/Makefile.am.new: $!\n";
+    print STDERR "Creating $dstdir/Makefile.am...";
+    while (<SRC>) {
+	next if /^test_/ ... !/\\\s*$/;
+	next if /^noinst_PROGRAMS/;
+
+	s|\$\(LIBFOOCANVAS_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src|;
+	s/\s*\$\(LIBFOOCANVAS_LIBS\)/ /;
+
+	if (/^[a-zA-Z0-9_]+_(HEADERS|la_SOURCES)\s*=/ ... !/\\\s*$/) {
+	    my $line = $_;
+	    $line =~ s/^.*=//;
+	    $line =~ s/\s*\\//;
+	    $line =~ s/^\s+//;
+	    $line =~ s/\s+$//;
+	    $line =~ s/\$\(libfoocanvasinclude_HEADERS\)//;
+	    push @sources, split (' ', $line) if $line ne '';
+	}
+
+	s/LTLIBRARIES/LIBRARIES/;
+	s/_la_/_a_/;
+	s/\.la/\.a/;
+
+	print DST;
+    }
+    close (*SRC);
+    close (*DST);
+    &update_file ("$dstdir/Makefile.am");
+
+    open (DST, ">$dstdir/.cvsignore.new") or
+	die "$0: Cannot write $dstdir/.cvsignore.new: $!\n";
+    print STDERR "Creating $dstdir/.cvsignore...";
+    print DST "Makefile.in\n";
+    print DST "Makefile\n";
+    print DST ".deps\n";
+    print DST ".libs\n";
+    close (*DST);
+    &update_file ("$dstdir/.cvsignore");
+
+    foreach my $file (@sources) {
+	local (*SRC,*DST);
+	open (SRC, "<$srcdir/$file") or
+	    die "$0: Cannot read $srcdir/$file: $!\n";
+	open (DST, ">$dstdir/$file.new") or
+	    die "$0: Cannot write $dstdir/$file.new: $!\n";
+
+	print STDERR "Creating $dstdir/$file...";
+
+	print DST "/* File import from foocanvas to gnumeric by $myself.  Do not edit.  */\n\n";
+
+	if ($file =~ /\.c$/) {
+	    print DST "#include <gnumeric-config.h>\n";
+	    print DST "#include <gnumeric-i18n.h>\n";
+	    print DST "#include <gnumeric.h>\n\n";
+	}
+
+      LINE:
+	while (<SRC>) {
+	    chomp;
+	    if (m{^\s*\#\s*include\s*[<\"]libfoocanvas/(.*)[>\"]}) {
+		print DST "#include \"cut-n-paste-code/foocanvas/libfoocanvas/$1\"\n";
+		next LINE;
+	    }
+
+	    s/\s+$//;
+
+	    # Turn C++ comments into C comments.
+	    if (m|^\s*//|) {
+		s|//|/*|;
+		s|$|*/|;
+	    }
+
+	    print DST "$_\n";
+	}
+	close (*SRC);
+	close (*DST);
+
+	&update_file ("$dstdir/$file");
+    }
+}
+
+# -----------------------------------------------------------------------------
+
+sub update_file {
+    my ($old) = @_;
+    my ($new) = "$old.new";
+
+    if (!-r $old) {
+	rename $new, $old or
+	    die "$0: Cannot rename $new to $old: $!\n";
+	print STDERR " -- done.\n";
+    } else {
+	system ("cmp '$old' '$new' >/dev/null");
+	if ($? == 0) {
+	    print STDERR " -- unchanged.\n";
+	    unlink $new;
+	} else {
+	    rename $new, $old or
+		die "$0: Cannot rename $new to $old: $!\n";
+	    print STDERR " -- done.\n";
+	}
+    }
+}
+
+# -----------------------------------------------------------------------------

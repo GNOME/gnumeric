@@ -1,1 +1,1 @@
-SUBDIRS = egg
+SUBDIRS = egg foocanvas
