@@ -53,35 +53,48 @@ extern int ms_excel_read_debug;
  * preceding.
   */
 static void
-object_anchor_to_position (double points[4], MSObj*obj, Sheet const * sheet,
+object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			   eBiff_version const ver)
 {
 	float const row_denominator = (ver >= eBiffV8) ? 256. : 1024.;
 
 	int	i;
 
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
+		printf ("%s\n", sheet->name);
+#endif
 	for (i = 0; i < 4; i++) {
 		int const pos   = obj->anchor[i].pos;
 		int const nths  = obj->anchor[i].nths;
 
 		if (i & 1) { /* odds are rows */
 			ColRowInfo const *ri = sheet_row_get_info (sheet, pos);
-			points[i] = ri->size_pixels;
-			points[i] *= nths / row_denominator;
-			points[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
+			pixels[i] = ri->size_pixels;
+			pixels[i] *= nths / row_denominator;
+			pixels[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
+
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 0)
+				printf ("%d + %d\n", pos+1, nths);
+#endif
 		} else {
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
-			points[i] = ci->size_pixels;
-			points[i] *= nths / 1024.;
-			points[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
+			pixels[i] = ci->size_pixels;
+			pixels[i] *= nths / 1024.;
+			pixels[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
+
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 0)
+				printf ("%s + %d\n", col_name(pos), nths);
+#endif
 		}
 	}
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0)
-		printf ("Anchor position in points"
+		printf ("Anchor position in pixels"
 			" left = %g, top = %g, right = %g, bottom = %g;\n",
-			points[0], points[1], points[2], points[3]);
+			pixels[0], pixels[1], pixels[2], pixels[3]);
 #endif
 }
 

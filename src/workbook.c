@@ -19,7 +19,6 @@
 #include "main.h"
 #include "file.h"
 #include "xml-io.h"
-#include "plugin.h"
 #include "pixmaps.h"
 #include "clipboard.h"
 #include "utils.h"
@@ -27,6 +26,7 @@
 #include "ranges.h"
 #include "selection.h"
 #include "print.h"
+#include "value.h"
 #include "widgets/gnumeric-toolbar.h"
 #include "workbook-cmd-format.h"
 #include "workbook-format-toolbar.h"
@@ -169,8 +169,7 @@ advanced_filter_cmd (GtkWidget *widget, Workbook *wb)
 static void
 plugins_cmd (GtkWidget *widget, Workbook *wb)
 {
-	GtkWidget *pm = plugin_manager_new (wb);
-	gtk_widget_show (pm);
+	dialog_plugin_manager (wb);
 }
 
 #ifndef ENABLE_BONOBO
@@ -1243,7 +1242,7 @@ static GnomeUIInfo workbook_menu_format [] = {
 
 /* Tools menu */
 static GnomeUIInfo workbook_menu_tools [] = {
-	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), N_("Gnumeric plugins"),
+	{ GNOME_APP_UI_ITEM, N_("_Plug-ins..."), N_("Gnumeric plugins"),
 	  plugins_cmd },
 
 	GNOMEUIINFO_SEPARATOR,

@@ -18,7 +18,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "eval.h"
-#include "format.h"
+#include "cell.h"
 
 static guint
 col_hash (gconstpointer key)

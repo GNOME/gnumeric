@@ -1,5 +1,7 @@
 2000-02-15  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-obj.c (object_anchor_to_position) : Improve debug output.
+
 	* ms-excel-read.c (ms_excel_sheet_new) : Add new member base_char_width_default.
 	(print_font_mapping_debug_info) : Delete.
 	(lookup_base_char_width_for_read) : Rename init_base_char_width_for_read,

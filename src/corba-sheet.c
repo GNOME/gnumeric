@@ -20,6 +20,7 @@
 #include "command-context-corba.h"
 #include "cell.h"
 #include "colrow.h"
+#include "value.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }

@@ -10,6 +10,7 @@
 #include <config.h>
 #include "colrow.h"
 #include "selection.h"
+#include "sheet.h"
 
 struct row_col_visiblity
 {

@@ -13,6 +13,7 @@
 #include "expr.h"
 #include "func.h"
 #include "cell.h"
+#include "value.h"
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)

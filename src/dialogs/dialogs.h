@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_DIALOGS_H
 #define GNUMERIC_DIALOGS_H
 
-#include "sheet.h"
+#include "gnumeric.h"
 #include "cell.h"
 #include "summary.h"
 
@@ -90,6 +90,7 @@ typedef struct {
 } data_analysis_output_t;
 
 
+void     dialog_plugin_manager  (Workbook *wb);
 void   	 dialog_goto_cell       (Workbook *wb);
 void   	 dialog_cell_format     (Workbook *wb, Sheet *sheet);
 int    	 dialog_paste_special   (Workbook *wb);

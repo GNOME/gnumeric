@@ -12,8 +12,10 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "eval.h"
+#include "value.h"
 #include "workbook.h"
 #include "expr-name.h"
+#include "expr.h"
 
 /* We don't expect that many global names ! */
 static GList *global_names = NULL;

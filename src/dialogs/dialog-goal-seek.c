@@ -16,6 +16,7 @@
 #include "cell.h"
 #include "expr.h"
 #include "eval.h"
+#include "value.h"
 #include "utils.h"
 #include "workbook.h"
 #include "utils-dialog.h"

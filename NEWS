@@ -23,6 +23,7 @@ Jody:
 	* Redraw improvements.
 	* More work on undo.
 	* Parse interbook references.
+	* Mostly correct sizing of MS Excel cols/rows and objects.
 
 Jon:
 	* Cursor fixes and speedups.
@@ -32,6 +33,9 @@ ERDI Gergo :
 
 Michael:
 	* Style undo/redo
+
+Dom Lachowicz :
+	* libgladify the plugin manager.
 
 --------------------------------------------------------------------------
 

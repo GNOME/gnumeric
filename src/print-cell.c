@@ -12,6 +12,7 @@
 #include "format.h"
 #include "color.h"
 #include "utils.h"
+#include "cell.h"
 #include <libgnomeprint/gnome-print.h>
 #include "print-cell.h"
 

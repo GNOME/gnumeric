@@ -16,11 +16,11 @@
 #include <gnome.h>
 #include "numbers.h"
 #include "symbol.h"
-#include "str.h"
 #include "expr.h"
 #include "utils.h"
 #include "gnumeric.h"
 #include "ranges.h"
+#include "value.h"
 
 Range *
 range_init (Range *r, int start_col, int start_row,

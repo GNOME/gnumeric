@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "ranges.h"
 #include "eval.h"
+#include "value.h"
 #include "main.h"
 #include "workbook.h"
 

@@ -5,7 +5,6 @@
 #include "gnumeric.h"
 
 #include "style.h"
-#include "sheet.h"
 #include "str.h"
 #include "expr.h"
 

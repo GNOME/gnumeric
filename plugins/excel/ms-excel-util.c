@@ -15,6 +15,8 @@
 
 #include <stdio.h>
 
+extern int ms_excel_read_debug;
+
 /*
  * TwoWayTable
  *
@@ -340,7 +342,10 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 		/* Round to pixels */
 		width = (int)(width +.5);
 
-		printf ("%s %g = %g\n", name, size_pts, width);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+			printf ("%s %g = %g\n", name, size_pts, width);
+#endif
 
 		/* Convert to pts using the hard coded 96dpi that the
 		 * measurements assume.

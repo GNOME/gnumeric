@@ -11,6 +11,7 @@
 #include "utils.h"
 #include "symbol.h"
 #include "eval.h"
+#include "cell.h"
 
 #include <stdio.h>
 

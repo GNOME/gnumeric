@@ -31,6 +31,7 @@ src/dialogs/dialog-printer.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-zoom.c
+src/dialogs/dialog-plugin-manager.c
 src/dialogs/advanced-filter.glade.h
 src/dialogs/analysis-tools.glade.h
 src/dialogs/autocorrect.glade.h
@@ -55,6 +56,7 @@ src/dialogs/summary.glade.h
 src/dialogs/cell-format.glade.h
 src/dialogs/cell-sort.glade.h
 src/dialogs/dialog-zoom.glade.h
+src/dialogs/plugin-manager.glade.h
 src/embeddable-grid.c
 src/eval.c
 src/expr-name.c
@@ -80,7 +82,6 @@ src/item-cursor.c
 src/item-grid.c
 src/main.c
 src/number-match.c
-src/plugin-manager.c
 src/plugin.c
 src/print-info.c
 src/print-preview.c

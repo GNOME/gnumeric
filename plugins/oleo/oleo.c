@@ -26,6 +26,7 @@
 #include "gnumeric-util.h"
 #include "main.h"
 #include "sheet.h"
+#include "value.h"
 #include "file.h"
 #include "utils.h"
 #include "command-context.h"

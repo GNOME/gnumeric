@@ -14,6 +14,8 @@
 #include "color.h"
 #include "utils.h"
 #include "pattern.h"
+#include "cell.h"
+#include "cell-draw.h"
 
 static void
 draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,

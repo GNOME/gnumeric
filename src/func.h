@@ -2,8 +2,9 @@
 #define GNUMERIC_FUNC_H
 
 #include <gnome.h>
+#include "gnumeric.h"
+#include "value.h"
 #include "expr.h"
-#include "sheet.h"
 
 extern void math_functions_init        (void);
 extern void sheet_functions_init       (void);

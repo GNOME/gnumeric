@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_SELECTION_H
 #define GNUMERIC_SELECTION_H
 
-#include "sheet.h"
+#include "gnumeric.h"
 
 /* Selection management */
 void        sheet_select_all             (Sheet *sheet);

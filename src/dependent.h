@@ -1,8 +1,7 @@
 #ifndef GNUMERIC_EVAL_H
 #define GNUMERIC_EVAL_H
 
-#include "sheet.h"
-#include "cell.h"
+#include "gnumeric.h"
 
 DependencyData *dependency_data_new     (void);
 void            dependency_data_destroy (Sheet *sheet);

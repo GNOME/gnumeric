@@ -2,8 +2,6 @@
 #define GNUMERIC_EXPR_H
 
 #include "gnumeric.h"
-#include "value.h"
-#include "sheet.h"
 #include "symbol.h"
 #include "numbers.h"
 #include "str.h"

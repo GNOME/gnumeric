@@ -56,4 +56,21 @@ typedef struct _StyleFormatEntry	StyleFormatEntry;
 typedef struct _StyleFont		StyleFont;
 typedef struct _StyleColor		StyleColor;
 
+/* Used to locate cells in a sheet */
+struct _CellPos {
+	int col, row;
+};
+
+struct _Range {
+	CellPos start, end;
+};
+
+struct _CellRef {
+	Sheet *sheet;
+	int   col, row;
+
+	unsigned char col_relative;
+	unsigned char row_relative;
+};
+
 #endif /* GNUMERIC_H */

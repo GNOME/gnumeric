@@ -12,11 +12,13 @@
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "eval.h"
+#include "value.h"
 #include "format.h"
 #include "color.h"
 #include "border.h"
 #include "cursors.h"
 #include "utils.h"
+#include "cell.h"
 #include "gnumeric-util.h"
 
 static int         redraws_frozen           = 0;

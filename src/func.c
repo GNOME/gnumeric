@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "func.h"
 #include "eval.h"
+#include "cell.h"
 #include "workbook.h"
 
 /* The list of categories */

@@ -2881,6 +2881,7 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 	double col_width;
 
 #ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
 		printf ("Default column width %hu characters\n", width);
 #endif
 	/*

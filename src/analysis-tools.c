@@ -16,6 +16,7 @@
 #include "dialogs.h"
 #include "utils.h"
 #include "tools.h"
+#include "value.h"
 #include "regression.h"
 #include "workbook.h"
 

@@ -18,6 +18,7 @@
 #include "command-context.h"
 #include "workbook.h"
 #include "cell.h"
+#include "value.h"
 
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 

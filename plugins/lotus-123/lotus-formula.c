@@ -21,6 +21,7 @@
 #include "main.h"
 #include "sheet.h"
 #include "expr.h"
+#include "value.h"
 
 #include "lotus.h"
 #include "lotus-types.h"

@@ -17,6 +17,7 @@
 #include "utils-dialog.h"
 #include "func.h"
 #include "tools.h"
+#include "value.h"
 #include "workbook.h"
 #include "utils.h"
 #include "utils-dialog.h"

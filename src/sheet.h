@@ -9,15 +9,6 @@
 #include "colrow.h"
 #include "solver.h"
 
-/* Used to locate cells in a sheet */
-struct _CellPos {
-	int col, row;
-};
-
-struct _Range {
-	CellPos start, end;
-};
-
 struct _StyleRegion {
 	Range    range; /* must be 1st */
 	guint32  stamp;
@@ -31,14 +22,6 @@ struct _SheetSelection {
 
 	/* This range may overlap other regions in the selection list */
         Range user;
-};
-
-struct _CellRef {
-	Sheet *sheet;
-	int   col, row;
-
-	unsigned char col_relative;
-	unsigned char row_relative;
 };
 
 struct _EvalPosition {

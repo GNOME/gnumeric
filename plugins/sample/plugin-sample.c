@@ -10,6 +10,7 @@
 #include "../../src/gnumeric.h"
 #include "../../src/func.h"
 #include "../../src/plugin.h"
+#include "../../src/value.h"
 
 static Value *
 func_plusone (FunctionEvalInfo *ei, Value *argv [])

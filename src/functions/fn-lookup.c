@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "func.h"
 #include "eval.h"
+#include "cell.h"
 
 /***************************************************************************/
 

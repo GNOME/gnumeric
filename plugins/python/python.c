@@ -5,11 +5,12 @@
 #include <config.h>
 #include <gnome.h>
 #include <string.h>
-#include "../../src/gnumeric.h"
-#include "../../src/func.h"
-#include "../../src/symbol.h"
-#include "../../src/plugin.h"
-#include "../../src/command-context.h"
+#include "gnumeric.h"
+#include "func.h"
+#include "symbol.h"
+#include "plugin.h"
+#include "value.h"
+#include "command-context.h"
 
 #include "Python.h"
 

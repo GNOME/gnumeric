@@ -19,6 +19,7 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "cell.h"
+#include "value.h"
 #include "workbook.h"
 #include "file.h"
 #include "command-context.h"

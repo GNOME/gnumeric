@@ -6,12 +6,14 @@
  *
  * (C) 2000 JP Rosevear
  */
+#include <config.h>
 #include "gnumeric-type-util.h"
 #include "commands.h"
 #include "cell.h"
 #include "workbook-view.h"
 #include "utils.h"
 #include "sort.h"
+#include "value.h"
 
 #include <stdlib.h>
 

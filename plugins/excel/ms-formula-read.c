@@ -15,6 +15,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "func.h"
+#include "value.h"
 
 #include "utils.h"
 
