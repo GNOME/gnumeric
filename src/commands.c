@@ -3262,7 +3262,7 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 	me->parent.size = 1;  /* Changed in initial redo.  */
 	me->parent.cmd_descriptor = is_cols
 		? g_strdup_printf (_("Setting default width of columns to %.2f"), new_default)
-		: g_strdup_printf (_("Setting height of rows to %.2f"), new_default);
+		: g_strdup_printf (_("Setting default height of rows to %.2f"), new_default);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

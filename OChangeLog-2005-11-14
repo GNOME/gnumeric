@@ -1,5 +1,10 @@
 2001-02-27  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/commands.c
+	(cmd_colrow_std_size) : Set undo descriptor for row height correctly.
+
+2001-02-27  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/workbook-cmd-format.c
 	(workbook_cmd_format_column_std_width) : Implement.
 	(workbook_cmd_format_row_std_height) : Idem.
