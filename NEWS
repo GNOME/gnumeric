@@ -61,6 +61,7 @@ Morten:
 	* Plug leaks.
 	* Fix space trimming for stf import.
 	* Clean up FREQUENCY.
+	* Clean up DOLLAR.
 
 Thomas Miesbauer:
 	* Redo screenshots

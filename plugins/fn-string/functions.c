@@ -991,63 +991,40 @@ static char const *help_dollar = {
 static Value *
 gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 {
-	gboolean precedes, space_sep;
-	char const *curr = format_get_currency (&precedes, &space_sep);
-	char *format, *s;
+	FormatCharacteristics info;
 	StyleFormat *sf;
-	char const *base_format =
-		"%s#,##0%s%s;(%s#,##0%s)%s;_(%s\"-\"??%s_);_(@_)";
-        gnm_float number = value_get_as_float (argv[0]);
-        int decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
 	gnm_float p10;
 	Value *v;
-	char dotdecimals[1000];
+	char *s, *end;
+        gnm_float number = value_get_as_float (argv[0]);
+        int decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
 
-	if (decimals > 0) {
-		/* ".0000" */
-		decimals = MIN (decimals, (int)sizeof (dotdecimals) - 2); /* FIXME? */
-		dotdecimals[0] = '.';
-		memset (&dotdecimals[1], '0', decimals);
-		dotdecimals[decimals + 1] = 0;
-	} else {
-		dotdecimals[0] = 0;
-	}
-
-	if (precedes) {
-		char *pre = g_strconcat ("\"", curr, "\"",
-					 (space_sep ? " " : ""),
-					 NULL);
-
-		format = g_strdup_printf (base_format,
-					  pre, dotdecimals, "",
-					  pre, dotdecimals, "",
-					  pre, "");
-		g_free (pre);
-	} else {
-		char *post = g_strconcat ((space_sep ? " " : ""),
-					  "\"", curr, "\"",
-					  NULL);
-
-		format = g_strdup_printf (base_format,
-					  "", dotdecimals, post,
-					  "", dotdecimals, post,
-					  "", post);
-		g_free (post);
-	}
-	sf = style_format_new_XL (format, FALSE);
-	g_free (format);
-	g_return_val_if_fail (sf != NULL,
-			      value_new_error_NA (ei->pos));
+	/* This is what Excel appears to do.  */
+	if (decimals >= 128)
+		return value_new_error_VALUE (ei->pos);
 
 	/* Since decimals can be negative, round the number.  */
 	p10 = gpow10 (decimals);
-	number = gnumeric_fake_round (number * p10) / p10;
+	if (p10 == 0)
+		number = 0; /* Underflow.  */
+	else
+		number = gnumeric_fake_round (number * p10) / p10;
+
+	info = style_format_default_money ()->family_info;
+	info.num_decimals = MAX (decimals, 0);
+	info.negative_fmt = 2;
+
+	sf = style_format_build (FMT_CURRENCY, &info);
 	v = value_new_float (number);
 	s = format_value (sf, v, NULL, -1,
 		workbook_date_conv (ei->pos->sheet->workbook));
 	value_release (v);
-
 	style_format_unref (sf);
+
+	/* Trim terminal space.  */
+	end = s + strlen (s);
+	if (end != s && end[-1] == ' ')
+		end[-1] = 0;
 
 	return value_new_string_nocopy (s);
 }

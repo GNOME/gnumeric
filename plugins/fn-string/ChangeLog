@@ -1,3 +1,7 @@
+2003-10-02  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_dollar): Spring cleaning.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0
