@@ -167,12 +167,12 @@ ExprTree   *expr_tree_new        (void);
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
-ExprTree   *expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
-					     int src_col, int src_row, int col, int row,
+ExprTree   *expr_tree_invalidate_references (ExprTree *src, Sheet *src_sheet,
+					     int src_col, int src_row, Sheet *sheet, int col, int row,
 					     int colcount, int rowcount);
 
-ExprTree   *expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
-					int src_col, int src_row, int col, int row,
+ExprTree   *expr_tree_fixup_references (ExprTree *src, Sheet *src_sheet,
+					int src_col, int src_row, Sheet *sheet, int col, int row,
 					int coldelta, int rowdelta);
 
 Value      *eval_expr            (Sheet *sheet, ExprTree *tree,

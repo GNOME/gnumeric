@@ -2086,6 +2086,7 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
 /**
  * workbook_fixup_references:
  * @wb: the workbook to modify
+ * @sheet: the sheet containing the column/row that was moved
  * @col: starting column that was moved.
  * @row: starting row that was moved.
  * @coldelta: signed column distance that cells were moved.
@@ -2095,7 +2096,7 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
  */
 
 void
-workbook_fixup_references (Workbook *wb, int col, int row,
+workbook_fixup_references (Workbook *wb, Sheet *sheet, int col, int row,
 			   int coldelta, int rowdelta)
 {
 	GList *cells, *l;
@@ -2116,7 +2117,7 @@ workbook_fixup_references (Workbook *wb, int col, int row,
 		thisrow = cell->row->pos;
 
 		newtree = expr_tree_fixup_references (cell->parsed_node, cell->sheet,
-						      thiscol, thisrow,
+						      thiscol, thisrow, sheet,
 						      col, row, coldelta, rowdelta);
 		if (newtree) {
 			char *exprtxt, *eqexprtxt;
@@ -2137,6 +2138,7 @@ workbook_fixup_references (Workbook *wb, int col, int row,
 /**
  * workbook_invalidate_references:
  * @wb: the workbook to modify
+ * @sheet:  the sheet containing column and row to be invalidated
  * @col: starting column to be invalidated.
  * @row: starting row to be invalidated.
  * @colcount: number of columns to be invalidated.
@@ -2146,7 +2148,7 @@ workbook_fixup_references (Workbook *wb, int col, int row,
  */
 
 void
-workbook_invalidate_references (Workbook *wb, int col, int row,
+workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
 				int colcount, int rowcount)
 {
 	GList *cells, *l;
@@ -2169,7 +2171,7 @@ workbook_invalidate_references (Workbook *wb, int col, int row,
 		thisrow = cell->row->pos;
 
 		newtree = expr_tree_invalidate_references (cell->parsed_node, cell->sheet,
-							   thiscol, thisrow,
+							   thiscol, thisrow, sheet,
 							   col, row, colcount, rowcount);
 		if (newtree) {
 			char *exprtxt, *eqexprtxt;

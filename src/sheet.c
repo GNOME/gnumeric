@@ -2671,7 +2671,7 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 		cur_col = cur_col->prev;
 	} while (cur_col);
 
-	workbook_fixup_references (sheet->workbook, col, 0, count, 0);
+	workbook_fixup_references (sheet->workbook, sheet, col, 0, count, 0);
 
 	/* 2. Recompute dependencies */
 	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -2703,7 +2703,7 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 		return;
 
 	/* Invalidate all references to cells being deleted.  */
-	workbook_invalidate_references (sheet->workbook, col, 0, count, 0);
+	workbook_invalidate_references (sheet->workbook, sheet, col, 0, count, 0);
 
 	/* Assemble the list of columns to destroy */
 	destroy_list = NULL;
@@ -2736,7 +2736,7 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 		sheet_move_column (sheet, ci, ci->pos-count);
 	}
 
-	workbook_fixup_references (sheet->workbook, col, 0, -count, 0);
+	workbook_fixup_references (sheet->workbook, sheet, col, 0, -count, 0);
 
 	/* Recompute dependencies */
 	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -2961,7 +2961,7 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 	g_list_free (cell_store);
 
-	workbook_fixup_references (sheet->workbook, 0, row, 0, count);
+	workbook_fixup_references (sheet->workbook, sheet, 0, row, 0, count);
 
 	/* 4. Recompute any changes required */
 	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -2988,7 +2988,7 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 	g_return_if_fail (count != 0);
 
 	/* Invalidate all references to cells being deleted.  */
-	workbook_invalidate_references (sheet->workbook, 0, row, 0, count);
+	workbook_invalidate_references (sheet->workbook, sheet, 0, row, 0, count);
 
 	/* 1. Remove cells from hash tables and grab all dangling rows */
 	cell_store = NULL;
@@ -3058,7 +3058,7 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 	}
 	g_list_free (cell_store);
 
-	workbook_fixup_references (sheet->workbook, 0, row, 0, -count);
+	workbook_fixup_references (sheet->workbook, sheet, 0, row, 0, -count);
 
 	/* 4. Recompute dependencies */
 	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);

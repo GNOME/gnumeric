@@ -1,3 +1,9 @@
+1999-05-07  Heath Martin  <martinh@pegasus.cc.ucf.edu>
+
+	* src/expr.c (expr_tree_invalidate_references): Add extra argument
+ 	for the sheet we are changing.  All callers changed.
+	(expr_tree_fixup_references): Ditto.
+
 1999-05-06  Morten Welinder  <terra@diku.dk>
 
 	* src/eval.c (cell_queue_recalc): Don't re-queue cell.

@@ -1467,7 +1467,7 @@ build_error_string (const char *txt)
 
 
 struct expr_tree_frob_references {
-	Sheet *sheet;
+	Sheet *src_sheet;
 	int src_col, src_row;
 
 	gboolean invalidating_columns;
@@ -1480,6 +1480,9 @@ struct expr_tree_frob_references {
 
 	/* Relative move (fixup only).  */
 	int coldelta, rowdelta;
+
+                /* In this sheet */
+	Sheet *sheet;
 
 	/* Are we deleting?  (fixup only).  */
 	gboolean deleting;
@@ -1630,8 +1633,9 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
  * this is not intended for use when just the cell contents is delete.
  */
 ExprTree *
-expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
+expr_tree_invalidate_references (ExprTree *src, Sheet *src_sheet,
 				 int src_col, int src_row,
+				 Sheet *sheet,
 				 int col, int row,
 				 int colcount, int rowcount)
 {
@@ -1639,13 +1643,16 @@ expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
 	ExprTree *dst;
 
 	g_return_val_if_fail (src != NULL, NULL);
+	g_return_val_if_fail (src_sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (src_sheet), NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	info.sheet = sheet;
+	info.src_sheet = src_sheet;
 	info.src_col = src_col;
 	info.src_row = src_row;
 	info.invalidating_columns = (colcount > 0);
+	info.sheet = sheet;
 	info.col = col;
 	info.colcount = colcount;
 	info.row = row;
@@ -1653,7 +1660,7 @@ expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
 
 	{
 		char *str;
-		str = expr_decode_tree (src, sheet, src_col, src_row);
+		str = expr_decode_tree (src, src_sheet, src_col, src_row);
 		printf ("Invalidate: %s: [%s]\n", cell_name (src_col, src_row), str);
 		g_free (str);
 	}
@@ -1662,7 +1669,7 @@ expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
 
 	{
 		char *str;
-		str = dst ? expr_decode_tree (dst, sheet, src_col, src_row) : g_strdup ("*");
+		str = dst ? expr_decode_tree (dst, src_sheet, src_col, src_row) : g_strdup ("*");
 		printf ("Invalidate: %s: [%s]\n\n", cell_name (src_col, src_row), str);
 		g_free (str);
 	}
@@ -1750,7 +1757,7 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 	case OPER_VAR: {
 		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
 
-		/* If the sheet is wrong, do nothing.  */
+                                /* If the sheet is wrong, do nothing.  */
 		if (cr.sheet != info->sheet)
 			return NULL;
 
@@ -1859,20 +1866,23 @@ do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_refere
 
 
 ExprTree *
-expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
-			    int src_col, int src_row, int col, int row,
+expr_tree_fixup_references (ExprTree *src, Sheet *src_sheet,
+			    int src_col, int src_row, Sheet *sheet, int col, int row,
 			    int coldelta, int rowdelta)
 {
 	struct expr_tree_frob_references info;
 	ExprTree *dst;
 
 	g_return_val_if_fail (src != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	info.sheet = sheet;
+	g_return_val_if_fail (src_sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (src_sheet), NULL);
+	g_return_val_if_fail(sheet != NULL, NULL);
+	g_return_val_if_fail(IS_SHEET(sheet), NULL);
+        
+	info.src_sheet = src_sheet;
 	info.src_col = src_col;
 	info.src_row = src_row;
+	info.sheet = sheet;
 	info.col = col;
 	info.row = row;
 	info.coldelta = coldelta;
@@ -1883,7 +1893,7 @@ expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
 
 	{
 		char *str;
-		str = expr_decode_tree (src, sheet, src_col, src_row);
+		str = expr_decode_tree (src, src_sheet, src_col, src_row);
 		printf ("Fixup: %s: [%s]\n", cell_name (src_col, src_row), str);
 		g_free (str);
 	}
@@ -1892,7 +1902,7 @@ expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
 
 	{
 		char *str;
-		str = dst ? expr_decode_tree (dst, sheet, src_col, src_row) : g_strdup ("*");
+		str = dst ? expr_decode_tree (dst, src_sheet, src_col, src_row) : g_strdup ("*");
 		printf ("Fixup: %s: [%s]\n\n", cell_name (src_col, src_row), str);
 		g_free (str);
 	}
