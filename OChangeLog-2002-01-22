@@ -1,4 +1,14 @@
+2000-05-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_calc_span) : Size the content if
+	  it has not yet been sized.
+
+	* src/commands.c (cmd_area_set_text_redo) : Do not queue the
+	  resize, rerender, and respan until after the recalc.
+
 2000-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/main.c (gnumeric_main) : Re-disable the style tests.
 
 	* src/cell.c (cell_set_expr_unsafe) : Split from cell_set_expr.
 

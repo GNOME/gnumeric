@@ -364,16 +364,24 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags)
 	CellSpanInfo const * span;
 	int left, right;
 	int other_left, other_right;
-	gboolean full;
+	gboolean render = (flags & SPANCALC_RE_RENDER);
+	gboolean resize = (flags & SPANCALC_RESIZE);
 
 	g_return_if_fail (cell != NULL);
 
-	full = (flags & SPANCALC_RENDER) && cell->rendered_value == NULL;
+	if (flags & SPANCALC_RENDER) {
+		RenderedValue const *rv = cell->rendered_value;
+		if (rv == NULL) {
+			render = TRUE;
+			resize = TRUE;
+		} else if (rv->width_pixel == 0 && rv->width_pixel == 0)
+			resize = TRUE;
+	}
 
-	if (full || (flags & SPANCALC_RE_RENDER))
+	if (render)
 		cell_render_value ((Cell *)cell);
 
-	if (full || (flags & SPANCALC_RESIZE))
+	if (resize)
 		rendered_value_calc_size (cell);
 
 	/* Calculate the span of the cell */
@@ -1091,11 +1099,16 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 /**
  * sheet_range_set_text :
  *
+ * @pos : The position from which to parse an expression.
+ * @r  :  The range to fill
+ * @str : The text to be parsed and assigned.
+ *
  * Does NOT check for array division.
+ * Does NOT redraw
+ * Does NOT generate spans.
  */
 void
-sheet_range_set_text  (EvalPos const * const pos,
-		       Range const *r, char const *str)
+sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 {
 	closure_set_cell_value	closure;
 

@@ -521,6 +521,19 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 
 	sheet_set_dirty (me->pos.sheet, TRUE);
 	workbook_recalc (me->pos.sheet->workbook);
+
+	/*
+	 * Now that things have been filled in and recalculated we can generate
+	 * the spans.  Non expression cells need to be rendered.
+	 * TODO : We could be smarter here.  Only the left and
+	 * right columns can span,
+	 * so there is no need to check the middles.
+	 */
+	for (l = me->selection ; l != NULL ; l = l->next) {
+		Range const * const r = l->data;
+		sheet_range_calc_spans (me->pos.sheet, *r, SPANCALC_RENDER);
+	}
+
 	sheet_update (me->pos.sheet);
 
 	return FALSE;
