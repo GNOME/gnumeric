@@ -145,7 +145,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->ref_count = 2;
 
 		font->pango.context = gdk_pango_context_get ();
-		pango_context_set_language (font->pango.context, gtk_get_default_language ();
+		pango_context_set_language (font->pango.context, gtk_get_default_language ());
 
 		desc = pango_context_get_font_description (font->pango.context);
 		pango_font_description_set_family (desc, font_name);
