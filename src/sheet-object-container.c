@@ -260,7 +260,7 @@ sheet_object_container_new (Sheet *sheet,
 {
 	SheetObjectContainer *c;
 	SheetObject *so;
-	GnomeObject *object_server;
+	GnomeObjectClient *object_server;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);

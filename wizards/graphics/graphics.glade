@@ -7,6 +7,7 @@
   <source_directory></source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
   <language>C</language>
+  <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
   <use_widget_names>False</use_widget_names>
   <main_source_file>gladesrc.c</main_source_file>
@@ -18,6 +19,7 @@
 <widget>
   <class>GtkDialog</class>
   <name>graphics-wizard-dialog</name>
+  <visible>False</visible>
   <title>dialog3</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>

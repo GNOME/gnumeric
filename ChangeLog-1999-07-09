@@ -1,3 +1,10 @@
+1999-05-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c, src/corba-sheet.c: New files implementing
+	most of the new Gnumeric.idl interface.
+
+	* src/Gnumeric.idl: Make it useful.
+
 1999-04-30  Morten Welinder  <terra@diku.dk>
 
 	* src/*.h: Properly forward-declare structures.  Include

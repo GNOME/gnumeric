@@ -43,14 +43,21 @@ fill_graphic_types (GladeXML *gui, GraphicContext *gc)
 {
 	GtkCList *clist = GTK_CLIST (glade_xml_get_widget (gui, "graphic-type-clist"));
 	int i;
-	
+
+	gtk_clist_set_column_justification (clist, 1, GTK_JUSTIFY_LEFT);
 	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
 			    GTK_SIGNAL_FUNC (graphic_type_selected), gc);
 	
 	for (i = 0; graphic_types [i].text; i++){
-		printf ("Setting text\n");
-		gtk_clist_set_text (clist, i, 2, _(graphic_types [i].text));
+		char *clist_text [2];
+
+		clist_text [0] = "";
+		clist_text [1] = _(graphic_types [i].text);
+		gtk_clist_append (clist, clist_text);
 	}
 	gtk_clist_select_row (clist, 1, 0);
+	gtk_clist_thaw (clist);
 }
+
+
 

@@ -330,7 +330,7 @@ void        sheet_redraw_all              (Sheet *sheet);
 void        sheet_update_auto_expr        (Sheet *sheet);
 
 void        sheet_mark_clean              (Sheet *sheet);
-
+void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 /* Sheet information manipulation */
 void        sheet_insert_col              (Sheet *sheet,  int col, int count);
 void        sheet_delete_col              (Sheet *sheet,  int col, int count);
@@ -413,6 +413,7 @@ void        workbook_set_region_status   (Workbook *wb, const char *str);
 int         workbook_parse_and_jump      (Workbook *wb, const char *text);
 Sheet      *workbook_sheet_lookup        (Workbook *wb, const char *sheet_name);
 void        workbook_mark_clean          (Workbook *wb);
+void        workbook_set_dirty           (Workbook *wb, gboolean is_dirty);
 gboolean    workbook_rename_sheet        (Workbook *wb,
 					  const char *old_name,
 					  const char *new_name);

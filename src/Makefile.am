@@ -163,14 +163,16 @@ gnumeric_SOURCES =			\
 gnumeric_corba_SOURCES = 		\
 	main.c				\
 	corba-args.c			\
-	Gnumeric-impl.c			\
+	corba-sheet.c			\
+	corba-workbook.c		\
 	$(GNUMERIC_CORBA_GENERATED)	\
 	$(GNUMERIC_BASE_SOURCES)
 
 gnumeric_bonobo_SOURCES =		\
 	main.c				\
 	corba-args.c			\
-	Gnumeric-impl.c			\
+	corba-sheet.c			\
+	corba-workbook.c		\
 	$(GNUMERIC_CORBA_GENERATED)	\
 	$(GNUMERIC_BASE_SOURCES)	\
 	$(GNUMERIC_BONOBO_SOURCES)

@@ -347,7 +347,7 @@ cell_unrealize (Cell *cell)
 }
 
 void
-cell_set_comment (Cell *cell, char *str)
+cell_set_comment (Cell *cell, const char *str)
 {
 	int had_comments = FALSE;
 	

@@ -3415,6 +3415,15 @@ sheet_mark_clean (Sheet *sheet)
 	sheet->modified = FALSE;
 }
 
+void
+sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet->modified = is_dirty;
+}
+
 /**
  * sheet_lookup_by_name:
  * @sheet: Local sheet.

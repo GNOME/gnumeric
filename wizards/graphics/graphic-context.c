@@ -40,7 +40,7 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	 */
 	container = GNOME_CONTAINER (gnome_container_new ());
 	client_site = gnome_client_site_new (container);
-	gnome_container_add (container, client_site);
+	gnome_container_add (container, GNOME_OBJECT (client_site));
 	
 	/*
 	 * Launch server

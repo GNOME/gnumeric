@@ -10,11 +10,30 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include <glade/glade.h>
+#include "gnumeric-util.h"
 #include "wizard.h"
 
 #define LAST_PAGE 2
 
 extern void (*graphic_wizard_hook)(Workbook *wb);
+
+static void
+remove_placeholder_callback (GtkWidget *widget, gpointer data)
+{
+	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
+}
+
+/*
+ * This routine removes a placeholder inserted
+ * by libglade from a container
+ */
+static void
+remove_placeholders (GtkContainer *container)
+{
+	g_return_if_fail (GTK_IS_CONTAINER (container));
+
+	gtk_container_foreach (container, remove_placeholder_callback, NULL);
+}
 
 static void
 customize (GladeXML *gui, GraphicContext *gc)
@@ -29,16 +48,26 @@ customize (GladeXML *gui, GraphicContext *gc)
 	fill_graphic_types (gui, gc);
 
 	for (i = 0; i < 6; i++){
-		GtkWidget *view, *container;
+		GtkContainer *container;
+		GtkWidget *view;
 		char *name;
 
 		name = g_strdup_printf ("plot-view-%d", i+1);
-		container = glade_xml_get_widget (gui, name);
+		container = GTK_CONTAINER (glade_xml_get_widget (gui, name));
 		g_free (name);
 		
 		view = gnome_component_new_view (gc->guppi);
-		gtk_container_add (GTK_CONTAINER (container), view);
+
+		/*
+		 * Add the widget to the container.  Remove any
+		 * placeholders that might have been left by libglade
+		 */
+		remove_placeholders (container);
+		gtk_container_add (container, view);
 	}
+
+	/* Finally, show the widget */
+	gtk_widget_show (gc->dialog_toplevel);
 }
 
 static void

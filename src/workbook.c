@@ -318,11 +318,20 @@ workbook_widget_destroy (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-cb_sheet_mark_clean (gpointer key, gpointer value, gpointer user_data)
+cb_sheet_mark_dirty (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
+	int dirty = GPOINTER_TO_INT (user_data);
 
-	sheet_mark_clean (sheet);
+	sheet_set_dirty (sheet, dirty);
+}
+
+void
+workbook_set_dirty (Workbook *wb, gboolean is_dirty)
+{
+	g_return_if_fail (wb != NULL);
+
+	g_hash_table_foreach (wb->sheets, cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
 }
 
 void
@@ -330,7 +339,7 @@ workbook_mark_clean (Workbook *wb)
 {
 	g_return_if_fail (wb != NULL);
 
-	g_hash_table_foreach (wb->sheets, cb_sheet_mark_clean, NULL);
+	g_hash_table_foreach (wb->sheets, cb_sheet_mark_dirty, GINT_TO_POINTER (0));
 }
 
 typedef enum {
