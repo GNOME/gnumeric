@@ -54,7 +54,8 @@ Morten:
 	* Make general format use "E", not "e", as appropriate.
 	* Simplify SUM.  [#131588]
 	* Fix INT(-1) problem.  [#163019]
-	* Fix rich teext re-edit problem.  [#163415].
+	* Fix rich text re-edit problem.  [#163415].
+	* Fix rich-text insertion problem.  [#163413].
 
 Uwe Steinmann:
 	* Extend paradox importer to support additional types.

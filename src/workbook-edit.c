@@ -330,6 +330,69 @@ cb_set_attr_list_len (PangoAttribute *a, gpointer len_bytes)
 	return FALSE;
 }
 
+struct cb_splice {
+	guint pos, len;
+	PangoAttrList *result;
+};
+
+static gboolean
+cb_splice (PangoAttribute *attr, gpointer _data)
+{
+	struct cb_splice *data = _data;
+
+	if (attr->start_index >= data->pos) {
+		PangoAttribute *new_attr = pango_attribute_copy (attr);
+		new_attr->start_index += data->len;
+		new_attr->end_index += data->len;
+		pango_attr_list_insert (data->result, new_attr);
+	} else if (attr->end_index <= data->pos) {
+		PangoAttribute *new_attr = pango_attribute_copy (attr);
+		pango_attr_list_insert (data->result, new_attr);
+	} else {
+		PangoAttribute *new_attr = pango_attribute_copy (attr);
+		new_attr->end_index = data->pos;
+		pango_attr_list_insert (data->result, new_attr);
+
+		new_attr = pango_attribute_copy (attr);
+		new_attr->start_index = data->pos + data->len;
+		new_attr->end_index += data->len;
+		pango_attr_list_insert (data->result, new_attr);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+cb_splice_true (G_GNUC_UNUSED PangoAttribute *attr, G_GNUC_UNUSED gpointer data)
+{
+	return TRUE;
+}
+
+static void
+gnm_pango_attr_list_splice (PangoAttrList *tape,
+			    PangoAttrList *piece,
+			    guint pos, guint len)
+{
+	struct cb_splice data;
+	PangoAttrList *tape2;
+
+	data.result = tape;
+	data.pos = pos;
+	data.len = len;
+
+	/* Clean out the tape.  */
+	tape2 = pango_attr_list_filter (tape, cb_splice_true, NULL);
+
+	if (tape2) {
+		(void)pango_attr_list_filter (tape2, cb_splice, &data);
+		pango_attr_list_unref (tape2);
+	}
+
+	/* Apply the new attributes.  */
+	pango_attr_list_splice (data.result, piece, pos, 0);
+}
+
+
 static void
 cb_entry_insert_text (GtkEditable *editable,
 		      gchar const *text,
@@ -340,12 +403,14 @@ cb_entry_insert_text (GtkEditable *editable,
 	char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
 	int pos_in_bytes = g_utf8_offset_to_pointer (str, *pos_in_chars) - str;
 
-	pango_attr_list_filter (wbcg->edit_line.cur_fmt,
-		(PangoAttrFilterFunc) cb_set_attr_list_len,
+	(void)pango_attr_list_filter (wbcg->edit_line.cur_fmt,
+		cb_set_attr_list_len,
 		GINT_TO_POINTER (len_bytes));
-	pango_attr_list_splice (wbcg->edit_line.full_content,
+
+	gnm_pango_attr_list_splice (wbcg->edit_line.full_content,
 		wbcg->edit_line.cur_fmt, pos_in_bytes, len_bytes);
-	pango_attr_list_splice (wbcg->edit_line.markup,
+
+	gnm_pango_attr_list_splice (wbcg->edit_line.markup,
 		wbcg->edit_line.cur_fmt, pos_in_bytes, len_bytes);
 }
 
