@@ -10,11 +10,6 @@ gdouble  gnumeric_time_counter_pop (void);
 
 typedef gpointer (*GnmMapFunc) (gpointer value);
 
-gunichar const *g_unichar_strchr  	(gunichar const *str, gunichar c);
-gunichar const *g_unichar_strstr_utf8	(gunichar const *haystack, gchar const *needle);
-size_t	g_unichar_strlen  (gunichar const *str);
-int	g_unichar_strncmp (gunichar const *a, gunichar const *b, size_t n);
-
 void	  g_ptr_array_insert (GPtrArray *array, gpointer value, int index);
 int	  g_str_compare	     (void const *x, void const *y);
 GList    *g_create_list	     (gpointer item1, ...);

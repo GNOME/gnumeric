@@ -1,5 +1,8 @@
 2003-05-01  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (g_unichar_strstr_utf8, g_unichar_strchr,
+	g_unichar_strncmp, g_unichar_strlen): Delete.
+	
 	* src/sheet.c (cb_sheet_get_extent): Per Jody, let's respan here
 	when needed.
 
