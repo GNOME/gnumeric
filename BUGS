@@ -121,7 +121,6 @@ Names :
 
 Dialogs
 -------
-- Use color combos in format dialog.
 - Function selector
     : 'Most recently used'
     : typing in the function list should jump to an entry that starts with the
