@@ -80,6 +80,8 @@ sheet_merge_add (WorkbookControl *wbc,
 	}
 
 	if (clear) {
+		int i;
+
 		sheet_redraw_cell_region (sheet,
 					  r->start.col, r->start.row,
 					  r->end.col, r->end.row);
@@ -99,9 +101,11 @@ sheet_merge_add (WorkbookControl *wbc,
 					    CLEAR_NOCHECKARRAY);
 
 		/* Apply the corner style to the entire region */
-		style = sheet_style_get (sheet, r->start.col, r->start.row);
-		mstyle_ref (style);
-		sheet_style_set_range (sheet, r, style);
+		style = mstyle_copy (sheet_style_get (sheet, r->start.col,
+						      r->start.row));
+		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++)
+			mstyle_unset_element (style, i);
+		sheet_style_apply_range (sheet, r, style);
 	}
 
 	r_copy = range_copy (r);

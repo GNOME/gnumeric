@@ -1,5 +1,8 @@
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-merge.c (sheet_merge_add) : don't apply the borders from
+	  the corner cell to the whole region.  Just the content.
+
 	* src/sheet-control-gui.c (scg_comment_display) : We only need to be
 	  sure that scg::selected is a comment if we are using it and no other
 	  comment is visible.
