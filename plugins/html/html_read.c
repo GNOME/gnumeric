@@ -250,7 +250,8 @@ html_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		WorkbookView *wb_view, GsfInput *input)
 {
 	guint8 const *buf;
-	int size, len;
+	gsf_off_t size;
+	int len;
 	htmlParserCtxtPtr ctxt;
 	htmlDocPtr doc = NULL;
 
