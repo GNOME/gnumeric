@@ -57,6 +57,7 @@ solver_param_new (void)
 	res->options.model_type          = SolverLPModel;
 	res->options.assume_non_negative = TRUE;
 	res->options.algorithm           = GLPKSimplex;
+	res->options.scenario_name       = g_strdup ("Optimal");
 	res->input_entry_str             = g_strdup ("");
 	res->problem_type                = SolverMaximize;
 	res->constraints                 = NULL;
@@ -71,6 +72,7 @@ void
 solver_param_destroy (SolverParameters *sp)
 {
 	g_free (sp->input_entry_str);
+	g_free (sp->options.scenario_name);
 	g_free (sp);
 }
 

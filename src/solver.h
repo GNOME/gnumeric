@@ -137,6 +137,8 @@ struct _SolverOptions {
         gboolean            performance_report;
         gboolean            program_report;
         gboolean            dual_program_report;
+	gboolean            add_scenario;
+	gchar               *scenario_name;
         SolverAlgorithmType algorithm;
 };
 

@@ -1,3 +1,8 @@
+2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver_param_new, solver_param_destroy): Added
+	scenario name field.
+
 2003-02-24  Morten Welinder  <terra@diku.dk>
 
 	* solver.c (write_constraint_str): Use g_string_new (NULL).
