@@ -308,6 +308,7 @@ workbook_import (Workbook *parent, const char *filename)
 #else
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
+			wb = NULL;
 		} else
 			workbook_mark_clean (wb);
 	}

@@ -230,4 +230,4 @@ sheet_object_container_new (Sheet *sheet,
 
 	return SHEET_OBJECT (c);
 }
-			  
+

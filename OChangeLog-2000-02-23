@@ -1,3 +1,10 @@
+1999-11-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/file.c (workbook_import) : NULL the returned workbook
+	  on failure.  Things don't quite work yet, the workbook destroy
+	  gets pissed when destroying an unrealized workbook, but it is
+	  happier.
+
 1999-11-17  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet-style.c (sheet_unique_cb): update border_check call.

@@ -88,13 +88,26 @@ csv_parse_sheet (struct FileSource *src)
 	char *field;
 
 	for (row = 0 ; *src->cur ; ++row, ++src->line, ++(src->cur)) {
-		for (col = 0 ; *src->cur && *src->cur != '\n' && *src->cur != '\r' ; ++col)
+		if (row >= SHEET_MAX_ROWS) {
+			g_warning ("CSV : Invalid CSV file has more than the maximum number of rows %d",
+				   SHEET_MAX_ROWS);
+			return NULL;
+		}
+
+		for (col = 0 ; *src->cur && *src->cur != '\n' && *src->cur != '\r' ; ++col) {
+			if (col >= SHEET_MAX_COLS) {
+				g_warning ("CSV : Invalid CSV file has more than the maximum number of columns %d",
+					   SHEET_MAX_COLS);
+				return NULL;
+			}
+
 			if (NULL != (field = csv_parse_field (src))) {
 				Cell *cell = sheet_cell_new (src->sheet, col, row);
 				cell_set_text_simple (cell, field);
 				g_free (field);
 			} else
 				return FALSE;
+		}
 	}
 	return TRUE;
 }
@@ -133,6 +146,9 @@ csv_read_workbook (Workbook *book, char const *filename)
 		g_free (name);
 
 		result = csv_parse_sheet (&src);
+
+		if (!result)
+			workbook_detach_sheet (book, src.sheet, TRUE);
 
 		munmap((char *)data, len);
 	}
