@@ -1,5 +1,12 @@
 2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* analysis-tools.c (cb_inputexpr_free): new
+	(analysis_tool_table): new
+	(analysis_tool_correlation_engine_run): use analysis_tool_table
+	(analysis_tool_covariance_engine_run): use analysis_tool_table	
+
+2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dao.h (dao_cell_is_visible): new
 	* dao.c (dao_cell_is_visible): new
 	(dao_set_cell_expr): fix leak

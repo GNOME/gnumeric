@@ -803,67 +803,92 @@ analysis_tool_calc_length (analysis_tools_data_generic_t *info)
  *
  **/
 
+static void
+cb_inputexpr_free (gpointer expr, G_GNUC_UNUSED gpointer user_data)
+{
+	gnm_expr_unref ((GnmExpr *) expr);
+}
+
+static gboolean
+analysis_tool_table (data_analysis_output_t *dao, 
+		     analysis_tools_data_generic_t *info,
+		     gchar const *title, gchar const *functionname)
+{
+	GSList *inputdata, *inputexpr = NULL;
+	GnmFunc *fd = NULL;
+
+	guint col, row;
+
+	dao_set_cell_printf (dao, 0, 0, title);
+	dao_set_italic (dao, 0, 0, 0, 0);
+
+	fd = gnm_func_lookup (functionname, NULL);
+	gnm_func_ref (fd);
+	
+	for (col = 1, inputdata = info->input; inputdata != NULL; 
+	     inputdata = inputdata->next, col++) {
+		GnmValue *val = NULL;
+
+		val = value_dup(inputdata->data);
+		
+		/* Label */
+		analysis_tools_write_label (val, dao, info, 
+					    col, 0, col);
+		
+		inputexpr = g_slist_prepend (inputexpr,
+					     (gpointer) gnm_expr_new_constant (val));
+	}
+	inputexpr = g_slist_reverse (inputexpr);
+	dao_set_italic (dao, 0, 0, col, 0);
+	
+	for (row = 1, inputdata = info->input; inputdata != NULL; 
+	     inputdata = inputdata->next, row++) {
+		GnmValue *val = NULL;
+		GSList *colexprlist;
+		GnmExpr const *rowexpr;
+
+		val = value_dup(inputdata->data);
+		
+		/* Label */
+		analysis_tools_write_label (val, dao, info, 
+					    0, row, row);
+
+		rowexpr = gnm_expr_new_constant (val);
+
+		for (col = 1, colexprlist = inputexpr; colexprlist != NULL; 
+		     colexprlist = colexprlist->next, col++) {
+			GnmExpr const *colexpr = colexprlist->data;
+			GnmExprList *args = NULL;
+
+			if (col < row)
+				continue;
+			
+			gnm_expr_ref(rowexpr);
+			args = gnm_expr_list_append (args, rowexpr);
+			gnm_expr_ref(colexpr);
+			args = gnm_expr_list_append (args, colexpr);
+			dao_set_cell_expr (dao, row, col, 
+					   gnm_expr_new_funcall (fd, args));
+			
+		}
+		gnm_expr_unref(rowexpr);
+	}
+	dao_set_italic (dao, 0, 0, 0, row);
+
+
+	g_slist_foreach (inputexpr, cb_inputexpr_free, NULL);
+	g_slist_free (inputexpr);
+	if (fd) gnm_func_unref (fd);
+
+	dao_redraw_respan (dao);
+	return FALSE;
+}
+
 static gboolean
 analysis_tool_correlation_engine_run (data_analysis_output_t *dao, 
 				      analysis_tools_data_generic_t *info)
 {
-	GPtrArray *data = NULL;
-	guint col, row;
-	int error;
-	gnm_float x;
-	data_set_t *col_data, *row_data;
-	GArray *clean_col_data, *clean_row_data;
-	GSList *missing;
-
-	data = new_data_set_list (info->input, info->group_by,
-				  FALSE, info->labels, dao->sheet);
-
-	dao_set_cell_printf (dao, 0, 0,  _("Correlations"));
-	dao_set_italic (dao, 0, 0, 0, 0);
-
-	for (row = 0; row < data->len; row++) {
-		row_data = g_ptr_array_index (data, row);
-		dao_set_cell_printf (dao, 0, row+1, row_data->label);
-		dao_set_italic (dao, 0, row+1, 0,  row+1);
-		dao_set_cell_printf (dao, row+1, 0, row_data->label);
-		dao_set_italic (dao, row+1, 0,  row+1, 0);
-		for (col = 0; col < data->len; col++) {
-		        if (row == col) {
-			        dao_set_cell_int (dao, col + 1, row + 1, 1);
-				break;
-			} else {
-				if (row < col) {
-					dao_set_cell (dao, col + 1, row + 1, NULL);
-				} else {
-					col_data = g_ptr_array_index (data, col);
-					missing = union_of_int_sets (col_data->missing,
-								     row_data->missing);
-					clean_col_data = strip_missing (col_data->data,
-									missing);
-					clean_row_data = strip_missing (row_data->data,
-									missing);
-					g_slist_free (missing);
-					error =  range_correl_pop
-						((gnm_float *)(clean_col_data->data),
-						 (gnm_float *)(clean_row_data->data),
-						 clean_col_data->len, &x);
-					if (clean_col_data != col_data->data)
-						g_array_free (clean_col_data, TRUE);
-					if (clean_row_data != row_data->data)
-						g_array_free (clean_row_data, TRUE);
-					if (error)
-						dao_set_cell_na (dao, col + 1, row + 1);
-					else
-						dao_set_cell_float (dao, col + 1, row + 1, x);
-				}
-
-			}
-		}
-	}
-
-	destroy_data_set_list (data);
-
-	return 0;
+	return analysis_tool_table (dao, info, _("Correlations"), "CORREL");
 }
 
 gboolean 
@@ -917,57 +942,7 @@ static gboolean
 analysis_tool_covariance_engine_run (data_analysis_output_t *dao, 
 				      analysis_tools_data_generic_t *info)
 {
-	GPtrArray *data = NULL;
-	guint col, row;
-	int error;
-	gnm_float x;
-	data_set_t *col_data, *row_data;
-	GArray *clean_col_data, *clean_row_data;
-	GSList *missing;
-
-	data = new_data_set_list (info->input, info->group_by,
-				  FALSE, info->labels, dao->sheet);
-
-	dao_set_cell_printf (dao, 0, 0,  _("Covariances"));
-	dao_set_italic (dao, 0, 0, 0, 0);
-
-	for (row = 0; row < data->len; row++) {
-		row_data = g_ptr_array_index (data, row);
-		dao_set_cell_printf (dao, 0, row+1, row_data->label);
-		dao_set_italic (dao, 0, row+1, 0,  row+1);
-		dao_set_cell_printf (dao, row+1, 0, row_data->label);
-		dao_set_italic (dao, row+1, 0,  row+1, 0);
-		for (col = 0; col < data->len; col++) {
-			if (row < col) {
-				dao_set_cell (dao, col + 1, row + 1, NULL);
-			} else {
-				col_data = g_ptr_array_index (data, col);
-				missing = union_of_int_sets (col_data->missing,
-							     row_data->missing);
-				clean_col_data = strip_missing (col_data->data,
-								missing);
-				clean_row_data = strip_missing (row_data->data,
-								missing);
-				g_slist_free (missing);
-				error =  range_covar
-					((gnm_float *)(clean_col_data->data),
-					 (gnm_float *)(clean_row_data->data),
-					 clean_col_data->len, &x);
-				if (clean_col_data != col_data->data)
-					g_array_free (clean_col_data, TRUE);
-				if (clean_row_data != row_data->data)
-					g_array_free (clean_row_data, TRUE);
-				if (error)
-					dao_set_cell_na (dao, col + 1, row + 1);
-				else
-					dao_set_cell_float (dao, col + 1, row + 1, x);
-			}
-		}
-	}
-
-	destroy_data_set_list (data);
-
-	return 0;
+	return analysis_tool_table (dao, info, _("Covariances"), "COVAR");
 }
 
 gboolean 

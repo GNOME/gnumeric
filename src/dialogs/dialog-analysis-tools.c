@@ -621,7 +621,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
@@ -740,7 +740,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 

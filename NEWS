@@ -12,6 +12,8 @@ Andreas:
 	* Make sure zoom-box shows current zoom factor
 	* Improve `Descriptive Statistics' tool
 	* Improve `One-Factor ANOVA' tool
+	* Improve `Correlations' tool
+	* Improve `Covariances' tool
 
 Christian Neumair:
 	* Put delete actions from edit main menu into their own submenu.

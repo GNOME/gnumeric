@@ -1,5 +1,11 @@
 2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c (dialog_correlation_tool):
+	  Enable the `put' menu in the dao widget.
+	(dialog_covariance_tool): ditto
+
+2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-analysis-tools.c (dialog_anova_single_factor_tool):
 	  Enable the `put' menu in the dao widget.
 
