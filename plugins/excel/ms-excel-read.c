@@ -2468,7 +2468,7 @@ get_units_net_of_margins (double units, const ColRowInfo * cri)
 
 	units -= (cri->margin_a_pt + cri->margin_b_pt);
 	if (units < 0)
-		units = 0;
+		units = 1.;
 	return units;
 }
 
@@ -2497,8 +2497,16 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 		/* Subtract margins */
 		hu = get_units_net_of_margins
 			(hu, sheet_row_get_info (sheet->gnum_sheet, row));
+
 		sheet_row_set_height_units (sheet->gnum_sheet, row, hu, TRUE);
 	}
+
+	/* FIXME : We should associate a style region with the row segment */
+
+	/* FIXME : I am not clear on the difference between collapsed, and dyn 0
+	 * Use both for now */
+	if (flags & 0x30)
+		sheet_row_col_visible (sheet->gnum_sheet, FALSE, FALSE, row, 1);
 
 	if (flags & 0x80) {
 #ifndef NO_DEBUG_EXCEL
@@ -2522,7 +2530,6 @@ static void
 ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 {
 	int lp;
-	double char_width = EXCEL_DEFAULT_CHAR_WIDTH;
 	double col_width;
 	guint16 const firstcol = MS_OLE_GET_GUINT16(q->data);
 	guint16       lastcol  = MS_OLE_GET_GUINT16(q->data+2);
@@ -2547,21 +2554,16 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 #endif
 	g_return_if_fail (firstcol < SHEET_MAX_COLS);
 
-	char_width = get_base_char_width (sheet);
-
-	if (width >> 8 == 0) {
-		if (hidden)
-			printf ("FIXME: Hidden column unimplemented\n");
-		else
-			printf ("FIXME: 0 sized column ???\n");
-
-		/* FIXME : Is this still necessary ? */
-		col_width = 62;
-	} else
+	if (width != 0) {
+		double const char_width = get_base_char_width (sheet);
 		col_width = (width * char_width) / 256.;
-	/* Subtract margins */
-	col_width = get_units_net_of_margins
-		(col_width, sheet_col_get_info (sheet->gnum_sheet, firstcol));
+
+		/* Subtract margins */
+		col_width = get_units_net_of_margins
+		    (col_width, sheet_col_get_info (sheet->gnum_sheet, firstcol));
+	} else
+		/* Columns are of default width */
+		col_width = sheet->gnum_sheet->cols.default_style.units;
 
 	/* NOTE : seems like this is inclusive firstcol, inclusive lastcol */
 	if (lastcol >= SHEET_MAX_COLS)
@@ -2569,6 +2571,11 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	for (lp = firstcol; lp <= lastcol; ++lp)
 		sheet_col_set_width_units (sheet->gnum_sheet,
 					   lp, col_width, TRUE);
+
+	/* TODO : We should associate a style region with the columns */
+	if (hidden)
+		sheet_row_col_visible (sheet->gnum_sheet, TRUE, FALSE,
+				       firstcol, lastcol-firstcol+1);
 }
 
 /**
@@ -2701,7 +2708,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	}
 
 	case BIFF_ROW:
-		ms_excel_read_row(q, sheet);
+		ms_excel_read_row (q, sheet);
 		break;
 
 	case BIFF_COLINFO:
