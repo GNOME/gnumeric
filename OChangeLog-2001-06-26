@@ -1,3 +1,9 @@
+2000-04-29  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf-preview.c :
+	(stf_preview_merge_with-hash) : Remove warning
+	message, because empty lines also render to NULL
+
 2000-04-29  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-style.c (sheet_mstyle_compute_from_list): kill inline.

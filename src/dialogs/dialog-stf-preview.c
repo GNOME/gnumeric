@@ -533,13 +533,9 @@ stf_preview_merge_with_hash (RenderData_t *renderdata, GSList *list, int colcoun
 			data = g_hash_table_lookup (renderdata->hashtable, &row);
 
 			/*
-			 * This should _never_ happen, there's something seriously
-			 * wrong if it does
+			 * If the data is NULL we simply assume
+			 * this means the line is empty
 			 */
-			if (data == NULL) { 
-				g_warning ("Error in STF, hashtable is probably corrupted or the cache list and hashtable are out of sync");
-			}
-			
 		} else {
 			int *key;
 			GSList *orig_data;
