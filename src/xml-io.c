@@ -46,20 +46,26 @@ static void nameFree                (gpointer key, gpointer value,
  * Get a value for a node either carried as an attibute or as
  * the content of a child.
  */
-static const char *
+static char *
 xmlGetValue (xmlNodePtr node, const char *name)
 {
-	const char *ret;
+	char *ret;
 	xmlNodePtr child;
 
-	ret = xmlGetProp (node, name);
+	ret = (char *) xmlGetProp (node, name);
 	if (ret != NULL)
-		return ret;
+		return strdup (ret);
 	child = node->childs;
 
 	while (child != NULL) {
-		if ((!strcmp (child->name, name)) && (child->content != NULL))
-			return child->content;
+		if (!strcmp (child->name, name)) {
+		        /*
+			 * !!! Inefficient, but ...
+			 */
+			ret = xmlNodeGetContent(child);
+			if (ret != NULL)
+			    return (ret);
+		}
 		child = child->next;
 	}
 
@@ -73,25 +79,14 @@ xmlGetValue (xmlNodePtr node, const char *name)
 String *
 xmlGetStringValue (xmlNodePtr node, const char *name)
 {
-	const char *val;
+	char *val;
 	String *ret;
-	xmlNodePtr child;
 
-	val = xmlGetProp (node, name);
-	
-	if (val != NULL){
-		ret = string_get ((char *) val);
-		return ret;
-	}
-	child = node->childs;
-	while (child != NULL){
-		if ((!strcmp (child->name, name)) && (child->content != NULL)) {
-			ret = string_get ((char *) child->content);
-			return ret;
-		}
-		child = child->next;
-	}
-	return NULL;
+	val = xmlGetValue(node, name);
+	if (val == NULL) return(NULL);
+        ret = string_get(val);
+	free(val);
+	return(ret);
 }
 
 /*
@@ -101,23 +96,18 @@ xmlGetStringValue (xmlNodePtr node, const char *name)
 static int
 xmlGetIntValue (xmlNodePtr node, const char *name, int *val)
 {
-	const char *ret;
-	xmlNodePtr child;
+	char *ret;
 	int i;
+	int res;
 
-	ret = xmlGetProp (node, name);
-	if ((ret != NULL) && (sscanf (ret, "%d", &i) == 1)){
-		*val = i;
+	ret = xmlGetValue (node, name);
+	if (ret == NULL) return(0);
+	res = sscanf (ret, "%d", &i);
+	free(ret);
+	
+	if (res == 1) {
+	        *val = i;
 		return 1;
-	}
-	child = node->childs;
-	while (child != NULL){
-		if (((!strcmp (child->name, name)) && (child->content != NULL) &&
-		     (sscanf (child->content, "%d", &i) == 1))){
-			*val = i;
-			return 1;
-		}
-		child = child->next;
 	}
 	return 0;
 }
@@ -129,23 +119,19 @@ xmlGetIntValue (xmlNodePtr node, const char *name, int *val)
 int
 xmlGetFloatValue (xmlNodePtr node, const char *name, float *val)
 {
-	const char *ret;
+	int res;
+	char *ret;
 	xmlNodePtr child;
 	float f;
 
-	ret = xmlGetProp (node, name);
-	if ((ret != NULL) && (sscanf (ret, "%f", &f) == 1)){
-		*val = f;
+	ret = xmlGetValue (node, name);
+	if (ret == NULL) return(0);
+	res = sscanf (ret, "%f", &f);
+	free(ret);
+	
+	if (res == 1) {
+	        *val = f;
 		return 1;
-	}
-	child = node->childs;
-	while (child != NULL){
-		if (((!strcmp (child->name, name)) && (child->content != NULL) &&
-		     (sscanf (child->content, "%f", &f) == 1))){
-			*val = f;
-			return 1;
-		}
-		child = child->next;
 	}
 	return 0;
 }
@@ -157,23 +143,19 @@ xmlGetFloatValue (xmlNodePtr node, const char *name, float *val)
 static int
 xmlGetDoubleValue (xmlNodePtr node, const char *name, double *val)
 {
-	const char *ret;
+	int res;
+	char *ret;
 	xmlNodePtr child;
 	float f;
 
-	ret = xmlGetProp (node, name);
-	if ((ret != NULL) && (sscanf (ret, "%f", &f) == 1)){
-		*val = f;
+	ret = xmlGetValue (node, name);
+	if (ret == NULL) return(0);
+	res = sscanf (ret, "%f", &f);
+	free(ret);
+	
+	if (res == 1) {
+	        *val = f;
 		return 1;
-	}
-	child = node->childs;
-	while (child != NULL){
-		if (((!strcmp (child->name, name)) && (child->content != NULL) &&
-		     (sscanf (child->content, "%f", &f) == 1))){
-			*val = f;
-			return 1;
-		}
-		child = child->next;
 	}
 	return 0;
 }
@@ -186,20 +168,20 @@ int
 xmlGetCoordinate (xmlNodePtr node, const char *name,
 		  double *x, double *y)
 {
+	int res;
+	char *ret;
 	xmlNodePtr child;
 	float X, Y;
 
-	child = node->childs;
-	while (child != NULL){
-		if ((!strcmp (child->name, name)) && (child->content != NULL)){
-			if (sscanf (child->content, "(%f %f)", &X, &Y) == 2){
-				*x = X;
-				*y = Y;
-				return 1;
-			}
-			return 0;
-		}
-		child = child->next;
+	ret = xmlGetValue (node, name);
+	if (ret == NULL) return(0);
+	res = sscanf (ret, "(%f %f)", &X, &Y);
+	free(ret);
+	
+	if (res == 2) {
+		*x = X;
+		*y = Y;
+		return 1;
 	}
 	return 0;
 }
@@ -212,23 +194,22 @@ static int
 xmlGetCoordinates (xmlNodePtr node, const char *name,
 		   double *x1, double *y1, double *x2, double *y2)
 {
+	int res;
+	char *ret;
 	xmlNodePtr child;
 	float X1, Y1, X2, Y2;
 
-	child = node->childs;
-	while (child != NULL){
-		if ((!strcmp (child->name, name)) && (child->content != NULL)){
-			if (sscanf (child->content, "(%f %f)(%f %f)",
-				    &X1, &Y1, &X2, &Y2) == 4){
-				*x1 = X1;
-				*y1 = Y1;
-				*x2 = X2;
-				*y2 = Y2;
-				return 1;
-			}
-			return 0;
-		}
-		child = child->next;
+	ret = xmlGetValue (node, name);
+	if (ret == NULL) return(0);
+	res = sscanf (ret, "(%f %f)(%f %f)", &X1, &Y1, &X2, &Y2);
+	free(ret);
+	
+	if (res == 2) {
+		*x1 = X1;
+		*y1 = Y1;
+		*x2 = X2;
+		*y2 = Y2;
+		return 1;
 	}
 	return 0;
 }
@@ -240,6 +221,7 @@ xmlGetCoordinates (xmlNodePtr node, const char *name,
 GnomeCanvasPoints *
 xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 {
+	char *val;
 	GnomeCanvasPoints *ret = NULL;
 	int res;
 	const char *ptr;
@@ -247,31 +229,28 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 	int index = 0, i;
 	float coord[20];	/* TODO: must be dynamic !!!! */
 
-	child = node->childs;
-	while (child != NULL){
-		if ((!strcmp (child->name, name)) && (child->content != NULL)){
-			ptr = child->content;
-			do {
-				while ((*ptr) && (*ptr != '('))
-					ptr++;
-				if (*ptr == 0)
-					break;
-				res = sscanf (ptr, "(%f %f)", &coord[index], &coord[index + 1]);
-				if (res != 2)
-					break;
-				index += 2;
-				ptr++;
-			} while (res > 0);
-			if (index >= 2)
-				ret = gnome_canvas_points_new (index / 2);
-			if (ret == NULL)
-				return NULL;
-			for (i = 0; i < index; i++)
-				ret->coords[i] = coord[i];
+	val = xmlGetValue (node, name);
+	if (ret == NULL) return(NULL);
+	ptr = val;
+	do {
+		while ((*ptr) && (*ptr != '('))
+			ptr++;
+		if (*ptr == 0)
 			break;
-		}
-		child = child->next;
-	}
+		res = sscanf (ptr, "(%f %f)", &coord[index], &coord[index + 1]);
+		if (res != 2)
+			break;
+		index += 2;
+		ptr++;
+	} while (res > 0);
+	free(val);
+
+	if (index >= 2)
+		ret = gnome_canvas_points_new (index / 2);
+	if (ret == NULL)
+		return NULL;
+	for (i = 0; i < index; i++)
+		ret->coords[i] = coord[i];
 	return ret;
 }
 
@@ -481,24 +460,16 @@ static int
 xmlGetColorValue (xmlNodePtr node, const char *name,
 			     StyleColor **color)
 {
-	const char *ret;
+	char *ret;
 	xmlNodePtr child;
 	int red, green, blue;
 
-	ret = xmlGetProp (node, name);
-	if ((ret != NULL) &&
-	    (sscanf (ret, "%X:%X:%X", &red, &green, &blue) == 3)){
+	ret = xmlGetValue (node, name);
+	if (ret == NULL) return(0);
+	if (sscanf (ret, "%X:%X:%X", &red, &green, &blue) == 3){
 		*color = style_color_new (red, green, blue);
+		free(ret);
 		return 1;
-	}
-	child = node->childs;
-	while (child != NULL){
-		if ((!strcmp (child->name, name)) && (child->content != NULL) &&
-		  (sscanf (ret, "%X:%X:%X", &red, &green, &blue) == 3)){
-			*color = style_color_new (red, green, blue);
-			return 1;
-		}
-		child = child->next;
 	}
 	return 0;
 }
@@ -674,7 +645,7 @@ Workbook *gnumericReadXmlWorkbook (const char *filename)
 	ctxt.nameTable = g_hash_table_new (g_str_hash, g_str_equal);
 	ctxt.fontIdx = 1;
 	wb = readXmlWorkbook (&ctxt, res->root);
-	workbook_set_filename (wb, filename);
+	workbook_set_filename (wb, (char *) filename);
 	workbook_recalc_all (wb);
 	g_hash_table_foreach (ctxt.nameTable, nameFree, NULL);
 	g_hash_table_destroy (ctxt.nameTable);
@@ -978,9 +949,14 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 			v = xmlGetValue (child, "NAME");
 			if (v){
 				int units = 14;
+				char *font;
 
 				xmlGetIntValue (child, "Unit", &units);
-				ret->font = style_font_new (child->content, units);
+				font = xmlNodeGetContent(child);
+				if (font != NULL) {
+					ret->font = style_font_new (font, units);
+					free(font);
+				}
 				if (ret->font){
 					g_hash_table_insert (ctxt->nameTable, g_strdup (v), ret->font);
 					ret->valid_flags |= STYLE_FONT;
@@ -1278,22 +1254,12 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 				ret->style = style;
 			}
 		}
-	        if (!strcmp (childs->name, "Content")) {
-		        if (childs->content != NULL)
-				content = strdup (childs->content);
-			else
-				content = xmlNodeListGetString(ctxt->doc,
-						       childs->childs, 1);
-		}
+	        if (!strcmp (childs->name, "Content"))
+		        content = xmlNodeGetContent(childs);
 		childs = childs->next;
 	}
-	if (content == NULL) {
-		if (tree->content != NULL)
-			content = strdup (tree->content);
-		else
-			content = xmlNodeListGetString(ctxt->doc,
-			                               tree->childs, 1);
-	}
+	if (content == NULL)
+		content = xmlNodeGetContent(tree);
 	if (content != NULL) {
 		char *p = content + strlen (content);
 

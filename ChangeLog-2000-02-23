@@ -1,3 +1,8 @@
+1998-10-28  Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* src/xml-io.c: now the basic I/O functions should be clean
+	  removed all direct references to node->content.
+
 1998-10-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Added
