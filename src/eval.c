@@ -723,7 +723,7 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 
 	case OPER_SET: {
 		ExprList *l;
-		DependentFlag res = DEPENDENT_NO_FLAG;
+		DependentFlags res = DEPENDENT_NO_FLAG;
 
 		for (l = tree->set.set; l; l = l->next)
 			res |= link_expr_dep (dep, pos, l->data);

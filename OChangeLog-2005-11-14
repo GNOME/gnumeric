@@ -1,5 +1,9 @@
 2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/eval.c (link_expr_dep) : fix typo
+
+2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/commands.c (delete_pristine_sheets) : new
 	(cmd_reorganize_sheets_undo) : delete new sheets, change calling
 	  sequence of workbook_sheet_reorganize
