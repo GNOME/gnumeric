@@ -76,7 +76,7 @@ callback_function_and (const EvalPos *ep, Value *value, void *closure)
 }
 
 static Value *
-gnumeric_and (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_and (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	int result = -1;
 
@@ -160,7 +160,7 @@ callback_function_or (const EvalPos *ep, Value *value, void *closure)
 }
 
 static Value *
-gnumeric_or (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_or (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	int result = -1;
 
@@ -200,21 +200,21 @@ static const char *help_if = {
 };
 
 static Value *
-gnumeric_if (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_if (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	ExprTree *expr;
+	GnmExpr *expr;
 	Value *value;
 	int ret, args;
 	gboolean err;
 
 	/* Type checking */
-	args = expr_list_length (expr_node_list);
+	args = gnm_expr_list_length (expr_node_list);
 	if (args < 1 || args > 3)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
 	/* Compute the if part */
-	value = expr_eval (expr_node_list->data, ei->pos, EVAL_STRICT);
+	value = gnm_expr_eval (expr_node_list->data, ei->pos, GNM_EXPR_EVAL_STRICT);
 	if (VALUE_IS_EMPTY_OR_ERROR(value))
 		return value;
 
@@ -227,19 +227,19 @@ gnumeric_if (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 	if (ret){
 		if (expr_node_list->next)
-			expr = (ExprTree *) expr_node_list->next->data;
+			expr = (GnmExpr *) expr_node_list->next->data;
 		else
 			return value_new_bool (TRUE);
 	} else {
 		if (expr_node_list->next &&
 		    expr_node_list->next->next)
-			expr = (ExprTree *) expr_node_list->next->next->data;
+			expr = (GnmExpr *) expr_node_list->next->next->data;
 		else
 			return value_new_bool (FALSE);
 	}
 
 	/* Return the result */
-	return expr_eval (expr, ei->pos, EVAL_PERMIT_NON_SCALAR);
+	return gnm_expr_eval (expr, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 }
 
 /***************************************************************************/

@@ -67,14 +67,15 @@ append_zeros (char *s, int n)
 
 
 static CellRef *
-cellref_new(int row, gboolean row_abs,int col, gboolean col_abs)
+cellref_init (CellRef *res,
+	      int row, gboolean row_abs,
+	      int col, gboolean col_abs)
 {
-	CellRef *res = g_new (CellRef,1);
 	res->sheet = NULL;
 	res->row = row;
 	res->col = col;
-	res->row_relative = row_abs?0:1;
-	res->col_relative = col_abs?0:1;
+	res->row_relative = row_abs ? 0 : 1;
+	res->col_relative = col_abs ? 0 : 1;
 	return res;
 }
 
@@ -244,14 +245,14 @@ value_new_from_psi_cell(const psiconv_sheet_cell psi_cell)
 	return NULL;
 }
 
-static ExprTree *
+static GnmExpr *
 parse_subexpr(const psiconv_formula psi_formula)
 {
 	int nrargs=0; /* -1 for variable */
 	int kind=-1; /* 0 for dat, 1 for operator, 2 for formula, 3 for special,
 	               -1 for unknown */
 	psiconv_formula psi_form1,psi_form2;
-	ExprTree *expr1=NULL,*expr2=NULL;
+	GnmExpr *expr1=NULL,*expr2=NULL;
 	CellRef *cr1=NULL,*cr2=NULL;
 
 	switch(psi_formula->type) {
@@ -320,26 +321,28 @@ parse_subexpr(const psiconv_formula psi_formula)
 		case psiconv_formula_dat_string:
 			v = value_new_string(psi_formula->data.dat_string);
 			break;
-		case psiconv_formula_dat_cellblock:
-			cr1 = cellref_new
-			(psi_formula->data.dat_cellblock.first.row.offset,
-			 psi_formula->data.dat_cellblock.first.row.absolute,
-			 psi_formula->data.dat_cellblock.first.column.offset,
-			 psi_formula->data.dat_cellblock.first.column.absolute);
-			cr2 = cellref_new
-			(psi_formula->data.dat_cellblock.last.row.offset,
-			 psi_formula->data.dat_cellblock.last.row.absolute,
-			 psi_formula->data.dat_cellblock.last.column.offset,
-			 psi_formula->data.dat_cellblock.last.column.absolute);
-			if (!cr1 || !cr2)
-				break;
-			v = value_new_cellrange(cr1,cr2,1,1);
+		case psiconv_formula_dat_cellblock: {
+			CellRef cr1, cr2;
+
+			cellref_init (&cr1,
+				psi_formula->data.dat_cellblock.first.row.offset,
+				psi_formula->data.dat_cellblock.first.row.absolute,
+				psi_formula->data.dat_cellblock.first.column.offset,
+				psi_formula->data.dat_cellblock.first.column.absolute);
+			cellref_init (&cr2,
+				psi_formula->data.dat_cellblock.last.row.offset,
+				psi_formula->data.dat_cellblock.last.row.absolute,
+				psi_formula->data.dat_cellblock.last.column.offset,
+				psi_formula->data.dat_cellblock.last.column.absolute);
+
+			v = value_new_cellrange (&cr1, &cr2, 1, 1);
 			break;
+		}
 		default:
 		}
 		if (!v)
 			return NULL;
-		return expr_tree_new_constant(v);
+		return gnm_expr_new_constant(v);
 	} else if (kind == 1) {
 		/* Handling the operators */
 		if (nrargs >= 1) {
@@ -352,55 +355,55 @@ parse_subexpr(const psiconv_formula psi_formula)
 		if (nrargs >= 2) {
 			if (!(psi_form2 = psiconv_list_get
 			                  (psi_formula->data.fun_operands,1))) {
-				expr_tree_unref(expr1);
+				gnm_expr_unref(expr1);
 				return NULL;
 			}
 			if (!(expr2 = parse_subexpr(psi_form2))) {
-				expr_tree_unref(expr1);
+				gnm_expr_unref(expr1);
 				return NULL;
 			}
 		}
 		switch(psi_formula->type) {
 		case psiconv_formula_op_lt:
-			return expr_tree_new_binary(expr1,OPER_LT,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_LT,expr2);
 		case psiconv_formula_op_le:
-			return expr_tree_new_binary(expr1,OPER_LTE,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_LTE,expr2);
 		case psiconv_formula_op_gt:
-			return expr_tree_new_binary(expr1,OPER_GT,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_GT,expr2);
 		case psiconv_formula_op_ge:
-			return expr_tree_new_binary(expr1,OPER_GTE,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_GTE,expr2);
 		case psiconv_formula_op_ne:
-			return expr_tree_new_binary(expr1,OPER_NOT_EQUAL,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_NOT_EQUAL,expr2);
 		case psiconv_formula_op_eq:
-			return expr_tree_new_binary(expr1,OPER_EQUAL,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_EQUAL,expr2);
 		case psiconv_formula_op_add:
-			return expr_tree_new_binary(expr1,OPER_ADD,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_ADD,expr2);
 		case psiconv_formula_op_sub:
-			return expr_tree_new_binary(expr1,OPER_SUB,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_SUB,expr2);
 		case psiconv_formula_op_mul:
-			return expr_tree_new_binary(expr1,OPER_MULT,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_MULT,expr2);
 		case psiconv_formula_op_div:
-			return expr_tree_new_binary(expr1,OPER_DIV,expr2);
+			return gnm_expr_new_binary (expr1,GNM_EXPR_OP_DIV,expr2);
 		case psiconv_formula_op_pos:
-			return expr_tree_new_unary(OPER_UNARY_PLUS,expr1);
+			return gnm_expr_new_unary (GNM_EXPR_OP_UNARY_PLUS,expr1);
 		case psiconv_formula_op_neg:
-			return expr_tree_new_unary(OPER_UNARY_NEG,expr1);
+			return gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG,expr1);
 		default:
-			expr_tree_unref(expr1);
-			expr_tree_unref(expr2);
+			gnm_expr_unref(expr1);
+			gnm_expr_unref(expr2);
 			return NULL;
 		}
 	} else if (kind == 3) {
 		switch(psi_formula->type) {
-		case psiconv_formula_dat_cellref:
-			cr1 = cellref_new
-			       (psi_formula->data.dat_cellref.row.offset,
+		case psiconv_formula_dat_cellref: {
+			CellRef cr;
+			return gnm_expr_new_cellref (cellref_init (&cr,
+				psi_formula->data.dat_cellref.row.offset,
 			        psi_formula->data.dat_cellref.row.absolute,
 			        psi_formula->data.dat_cellref.column.offset,
-			        psi_formula->data.dat_cellref.column.absolute);
-			if (!cr1)
-				return NULL;
-			return expr_tree_new_var(cr1);
+			        psi_formula->data.dat_cellref.column.absolute));
+		}
+
 		case psiconv_formula_op_bra:
 			if (!(psi_form1 = psiconv_list_get
 			                  (psi_formula->data.fun_operands,0)))
@@ -413,7 +416,7 @@ parse_subexpr(const psiconv_formula psi_formula)
 	return NULL;
 }
 
-static ExprTree *
+static GnmExpr *
 expr_new_from_formula (const psiconv_sheet_cell psi_cell,
 		       const psiconv_formula_list psi_formulas)
 {
@@ -430,7 +433,7 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 {
 	Cell *cell;
 	Value *val;
-	ExprTree *expr;
+	GnmExpr *expr;
 	psiconv_formula psi_formula;
 
 	cell = sheet_cell_fetch (sheet, psi_cell->column, psi_cell->row);

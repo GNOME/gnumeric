@@ -483,7 +483,7 @@ parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int 
  * @pos : If the string looks like an expression parse it at this location.
  * @text: The text to be parsed.
  * @val : Returns a Value * if the text was a value, otherwise NULL.
- * @expr: Returns an ExprTree * if the text was an expression, otherwise NULL.
+ * @expr: Returns an GnmExpr * if the text was an expression, otherwise NULL.
  * @current_format : Optional, current number format.
  *
  * If there is a parse failure for an expression an error Value with the syntax
@@ -491,7 +491,7 @@ parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int 
  */
 void
 parse_text_value_or_expr (ParsePos const *pos, char const *text,
-			  Value **val, ExprTree **expr,
+			  Value **val, GnmExpr const **expr,
 			  StyleFormat *current_format /* can be NULL */)
 {
 	char const *expr_start;
@@ -506,8 +506,8 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 	/* If it does not match known formats, see if it is an expression */
 	expr_start = gnumeric_char_start_expr_p (text);
 	if (NULL != expr_start && *expr_start) {
-		*expr = expr_parse_str (expr_start, pos,
-			GNM_PARSER_DEFAULT, NULL);
+		*expr = gnm_expr_parse_str (expr_start, pos,
+			GNM_EXPR_PARSE_DEFAULT, NULL);
 		if (*expr != NULL)
 			return;
 	}

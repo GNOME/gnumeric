@@ -38,7 +38,7 @@ main ()
 			continue;
 		}
 		/* This is wrong, make a parsepos */
-		v = expr_eval (node, NULL, &error);
+		v = gnm_expr_eval (node, NULL, &error);
 		if (v == NULL){
 			printf ("eval error: %s\n", error);
 			continue;

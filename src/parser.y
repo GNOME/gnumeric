@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "number-match.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "expr-name.h"
 #include "workbook.h"
 #include "sheet.h"
@@ -63,7 +64,7 @@ free_expr_list_list (GSList *list)
 {
 	GSList *l;
 	for (l = list; l; l = l->next)
-		expr_list_unref (l->data);
+		gnm_expr_list_unref (l->data);
 	g_slist_free (list);
 }
 
@@ -109,7 +110,7 @@ deallocate_assert_empty (void)
 }
 
 static void *
-register_allocation (void *data, ParseDeallocator freer)
+register_allocation (gpointer data, ParseDeallocator freer)
 {
 	/* It's handy to be able to register and unregister NULLs.  */
 	if (data) {
@@ -131,10 +132,10 @@ register_allocation (void *data, ParseDeallocator freer)
 }
 
 #define register_expr_allocation(expr) \
-  register_allocation ((expr), (ParseDeallocator)&expr_tree_unref)
+  register_allocation ((gpointer)(expr), (ParseDeallocator)&gnm_expr_unref)
 
 #define register_expr_list_allocation(list) \
-  register_allocation ((list), (ParseDeallocator)&expr_list_unref)
+  register_allocation ((list), (ParseDeallocator)&gnm_expr_list_unref)
 
 #define register_expr_list_list_allocation(list) \
   register_allocation ((list), (ParseDeallocator)&free_expr_list_list)
@@ -211,7 +212,7 @@ typedef struct {
 	gboolean force_explicit_sheet_references;
 
 	/* The suggested format to use for this expression */
-	ExprList *result;
+	GnmExprList *result;
 
 	ParseError *error;
 } ParserState;
@@ -219,22 +220,22 @@ typedef struct {
 /* The error returned from the */
 static ParserState *state;
 
-static ExprTree *
-build_unary_op (Operation op, ExprTree *expr)
+static GnmExpr *
+build_unary_op (GnmExprOp op, GnmExpr *expr)
 {
 	unregister_allocation (expr);
-	return register_expr_allocation (expr_tree_new_unary (op, expr));
+	return register_expr_allocation (gnm_expr_new_unary (op, expr));
 }
 
-static ExprTree *
-build_binop (ExprTree *l, Operation op, ExprTree *r)
+static GnmExpr *
+build_binop (GnmExpr *l, GnmExprOp op, GnmExpr *r)
 {
 	unregister_allocation (r);
 	unregister_allocation (l);
-	return register_expr_allocation (expr_tree_new_binary (l, op, r));
+	return register_expr_allocation (gnm_expr_new_binary (l, op, r));
 }
-static ExprTree *
-build_logical (ExprTree *l, gboolean is_and, ExprTree *r)
+static GnmExpr *
+build_logical (GnmExpr *l, gboolean is_and, GnmExpr *r)
 {
 	static FunctionDefinition *and_func = NULL, *or_func = NULL;
 
@@ -245,21 +246,21 @@ build_logical (ExprTree *l, gboolean is_and, ExprTree *r)
 
 	unregister_allocation (r);
 	unregister_allocation (l);
-	return register_expr_allocation (expr_tree_new_funcall (is_and ? and_func : or_func,
+	return register_expr_allocation (gnm_expr_new_funcall (is_and ? and_func : or_func,
 		    g_slist_prepend (g_slist_prepend (NULL, l), r)));
 }
-static ExprTree *
-build_not (ExprTree *expr)
+static GnmExpr *
+build_not (GnmExpr *expr)
 {
 	static FunctionDefinition *not_func = NULL;
 	if (not_func == NULL)
 		not_func = func_lookup_by_name ("NOT", NULL);
 	unregister_allocation (expr);
-	return register_expr_allocation (expr_tree_new_funcall (not_func,
+	return register_expr_allocation (gnm_expr_new_funcall (not_func,
 		    g_slist_prepend (NULL, expr)));
 }
 
-static ExprTree *
+static GnmExpr *
 build_array (GSList *cols)
 {
 	Value *array;
@@ -285,10 +286,10 @@ build_array (GSList *cols)
 		row = cols->data;
 		x = 0;
 		while (row && x < mx) {
-			ExprTree *expr = row->data;
-			Value    *v = expr->constant.value;
+			GnmExpr    *expr = row->data;
+			Value const *v = expr->constant.value;
 
-			g_assert (expr->any.oper == OPER_CONSTANT);
+			g_assert (expr->any.oper == GNM_EXPR_OP_CONSTANT);
 
 			value_array_set (array, x, y, value_duplicate (v));
 
@@ -304,24 +305,25 @@ build_array (GSList *cols)
 		cols = cols->next;
 	}
 
-	return register_expr_allocation (expr_tree_new_constant (array));
+	return register_expr_allocation (gnm_expr_new_constant (array));
 }
 
-static ExprTree *
-parse_string_as_value (ExprTree *str)
+/**
+ * parse_string_as_value :
+ *
+ * Try to parse the entered text as a basic value (empty, bool, int,
+ * float, err) if this succeeds, we store this as a Value otherwise, we
+ * return a string.
+ */
+static GnmExpr *
+parse_string_as_value (GnmExpr *str)
 {
-	/*
-	 * Try to parse the entered text as a basic value (empty, bool, int,
-	 * float, err) if this succeeds, we store this as a Value otherwise, we
-	 * return a string.
-	 */
-	char const *txt = value_peek_string (str->constant.value);
-	Value *v = format_match_simple (txt);
+	Value *v = format_match_simple (value_peek_string (str->constant.value));
 
 	if (v != NULL) {
 		unregister_allocation (str);
-		expr_tree_unref (str);
-		return register_expr_allocation (expr_tree_new_constant (v));
+		gnm_expr_unref (str);
+		return register_expr_allocation (gnm_expr_new_constant (v));
 	}
 	return str;
 }
@@ -333,16 +335,16 @@ parse_string_as_value (ExprTree *str)
  * Check to see if a string is a name
  * if it is not check to see if it can be parsed as a value
  */
-static ExprTree *
-parse_string_as_value_or_name (ExprTree *str)
+static GnmExpr *
+parse_string_as_value_or_name (GnmExpr *str)
 {
-	NamedExpression *expr_name;
+	GnmNamedExpr *expr_name;
 
 	expr_name = expr_name_lookup (state->pos, str->constant.value->v_str.val->str);
 	if (expr_name != NULL) {
 		unregister_allocation (str);
-		expr_tree_unref (str);
-		return register_expr_allocation (expr_tree_new_name (expr_name, NULL, NULL));
+		gnm_expr_unref (str);
+		return register_expr_allocation (gnm_expr_new_name (expr_name, NULL, NULL));
 	}
 
 	return parse_string_as_value (str);
@@ -381,9 +383,9 @@ int yyparse (void);
 %}
 
 %union {
-	ExprTree *tree;
+	GnmExpr *tree;
 	CellRef  *cell;
-	ExprList *list;
+	GnmExprList *list;
 	Sheet	 *sheet;
 }
 %type  <list>     opt_exp arg_list array_row, array_cols
@@ -406,12 +408,12 @@ int yyparse (void);
 %%
 line:	opt_exp exp {
 		unregister_allocation ($2);
-		state->result = expr_list_prepend ($1, $2);
+		state->result = gnm_expr_list_prepend ($1, $2);
 	}
 
 	| error 	{
 		if (state->result != NULL) {
-			expr_list_unref (state->result);
+			gnm_expr_list_unref (state->result);
 			state->result = NULL;
 		}
 	}
@@ -419,7 +421,7 @@ line:	opt_exp exp {
 
 opt_exp : opt_exp exp  SEPARATOR {
 	       unregister_allocation ($2);
-	       $$ = expr_list_prepend ($1, $2);
+	       $$ = gnm_expr_list_prepend ($1, $2);
 	}
 	| { $$ = NULL; }
 	;
@@ -428,26 +430,26 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| QUOTED_STRING { $$ = $1; }
 	| STRING        { $$ = parse_string_as_value_or_name ($1); }
         | cellref       { $$ = $1; }
-	| exp '+' exp	{ $$ = build_binop ($1, OPER_ADD,	$3); }
-	| exp '-' exp	{ $$ = build_binop ($1, OPER_SUB,	$3); }
-	| exp '*' exp	{ $$ = build_binop ($1, OPER_MULT,	$3); }
-	| exp '/' exp	{ $$ = build_binop ($1, OPER_DIV,	$3); }
-	| exp '^' exp	{ $$ = build_binop ($1, OPER_EXP,	$3); }
-	| exp '&' exp	{ $$ = build_binop ($1, OPER_CONCAT,	$3); }
-	| exp '=' exp	{ $$ = build_binop ($1, OPER_EQUAL,	$3); }
-	| exp '<' exp	{ $$ = build_binop ($1, OPER_LT,	$3); }
-	| exp '>' exp	{ $$ = build_binop ($1, OPER_GT,	$3); }
-	| exp GTE exp	{ $$ = build_binop ($1, OPER_GTE,	$3); }
-	| exp NE  exp	{ $$ = build_binop ($1, OPER_NOT_EQUAL,	$3); }
-	| exp LTE exp	{ $$ = build_binop ($1, OPER_LTE,	$3); }
+	| exp '+' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_ADD,	$3); }
+	| exp '-' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_SUB,	$3); }
+	| exp '*' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_MULT,	$3); }
+	| exp '/' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_DIV,	$3); }
+	| exp '^' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EXP,	$3); }
+	| exp '&' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_CAT,	$3); }
+	| exp '=' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EQUAL,	$3); }
+	| exp '<' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LT,	$3); }
+	| exp '>' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_GT,	$3); }
+	| exp GTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_GTE,	$3); }
+	| exp NE  exp	{ $$ = build_binop ($1, GNM_EXPR_OP_NOT_EQUAL,	$3); }
+	| exp LTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LTE,	$3); }
 	| exp AND exp	{ $$ = build_logical ($1, TRUE,		$3); }
 	| exp OR  exp	{ $$ = build_logical ($1, FALSE,	$3); }
 	| '(' exp ')'   { $$ = $2; }
 
-        | '-' exp %prec NEG { $$ = build_unary_op (OPER_UNARY_NEG, $2); }
-        | '+' exp %prec PLUS { $$ = build_unary_op (OPER_UNARY_PLUS, $2); }
+        | '-' exp %prec NEG { $$ = build_unary_op (GNM_EXPR_OP_UNARY_NEG, $2); }
+        | '+' exp %prec PLUS { $$ = build_unary_op (GNM_EXPR_OP_UNARY_PLUS, $2); }
         | NOT exp { $$ = build_not ($2); }
-        | exp '%' { $$ = build_unary_op (OPER_PERCENT, $1); }
+        | exp '%' { $$ = build_unary_op (GNM_EXPR_OP_PERCENTAGE, $1); }
 
         | '{' array_cols '}' {
 		unregister_allocation ($2);
@@ -465,17 +467,17 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			f = function_add_placeholder (name, "");
 
 		unregister_allocation ($3);
-		unregister_allocation ($1); expr_tree_unref ($1);
+		unregister_allocation ($1); gnm_expr_unref ($1);
 
 		if (f == NULL) {
-			expr_list_unref ($3);
+			gnm_expr_list_unref ($3);
 			YYERROR;
 		} else {
-			$$ = register_expr_allocation (expr_tree_new_funcall (f, $3));
+			$$ = register_expr_allocation (gnm_expr_new_funcall (f, $3));
 		}
 	}
 	| sheetref string_opt_quote {
-		NamedExpression *expr_name;
+		GnmNamedExpr *expr_name;
 		char *name = $2->constant.value->v_str.val->str;
 		ParsePos pos = *state->pos;
 
@@ -488,14 +490,14 @@ exp:	  CONSTANT 	{ $$ = $1; }
 						name, $1->name_quoted),
 				state->expr_text - state->expr_backup + 1, strlen (name));
 
-			unregister_allocation ($2); expr_tree_unref ($2);
+			unregister_allocation ($2); gnm_expr_unref ($2);
 			return retval;
 		} else
-			unregister_allocation ($2); expr_tree_unref ($2);
-	        $$ = register_expr_allocation (expr_tree_new_name (expr_name, $1, NULL));
+			unregister_allocation ($2); gnm_expr_unref ($2);
+	        $$ = register_expr_allocation (gnm_expr_new_name (expr_name, $1, NULL));
 	}
 	| '[' string_opt_quote ']' string_opt_quote {
-		NamedExpression *expr_name;
+		GnmNamedExpr *expr_name;
 		char *name = $4->constant.value->v_str.val->str;
 		char *wb_name = $2->constant.value->v_str.val->str;
 		ParsePos pos = *state->pos;
@@ -509,8 +511,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 				g_strdup_printf (_("Unknown workbook '%s'"), wb_name), 
 				state->expr_text - state->expr_backup + 1, strlen (name));
 
-			unregister_allocation ($4); expr_tree_unref ($4);
-			unregister_allocation ($2); expr_tree_unref ($2);
+			unregister_allocation ($4); gnm_expr_unref ($4);
+			unregister_allocation ($2); gnm_expr_unref ($2);
 			return retval;
 		}
 
@@ -522,14 +524,14 @@ exp:	  CONSTANT 	{ $$ = $1; }
 						name, wb_name),
 				state->expr_text - state->expr_backup + 1, strlen (name));
 
-			unregister_allocation ($4); expr_tree_unref ($4);
-			unregister_allocation ($2); expr_tree_unref ($2);
+			unregister_allocation ($4); gnm_expr_unref ($4);
+			unregister_allocation ($2); gnm_expr_unref ($2);
 			return retval;
 		} else {
-			unregister_allocation ($4); expr_tree_unref ($4);
-			unregister_allocation ($2); expr_tree_unref ($2);
+			unregister_allocation ($4); gnm_expr_unref ($4);
+			unregister_allocation ($2); gnm_expr_unref ($2);
 		}
-	        $$ = register_expr_allocation (expr_tree_new_name (expr_name, NULL, pos.wb));
+	        $$ = register_expr_allocation (gnm_expr_new_name (expr_name, NULL, pos.wb));
 	}
 	;
 
@@ -546,10 +548,10 @@ sheetref: string_opt_quote SHEET_SEP {
 				g_strdup_printf (_("Unknown sheet '%s'"), name),
 				state->expr_text - state->expr_backup, strlen (name));
 
-			unregister_allocation ($1); expr_tree_unref ($1);
+			unregister_allocation ($1); gnm_expr_unref ($1);
 			return retval;
 		} else
-			unregister_allocation ($1); expr_tree_unref ($1);
+			unregister_allocation ($1); gnm_expr_unref ($1);
 	        $$ = sheet;
 	}
 
@@ -562,17 +564,17 @@ sheetref: string_opt_quote SHEET_SEP {
 		if (wb != NULL)
 			sheet = workbook_sheet_by_name (wb, sheetname);
 
-		unregister_allocation ($2); expr_tree_unref ($2);
+		unregister_allocation ($2); gnm_expr_unref ($2);
 		if (sheet == NULL) {
 			int retval = gnumeric_parse_error (
 				state, PERR_UNKNOWN_SHEET,
 				g_strdup_printf (_("Unknown sheet '%s'"), sheetname),
 				state->expr_text - state->expr_backup, strlen (sheetname));
 
-			unregister_allocation ($4); expr_tree_unref ($4);
+			unregister_allocation ($4); gnm_expr_unref ($4);
 			return retval;
 		} else
-			unregister_allocation ($4); expr_tree_unref ($4);
+			unregister_allocation ($4); gnm_expr_unref ($4);
 
 	        $$ = sheet;
         }
@@ -584,16 +586,16 @@ opt_sheetref: sheetref
 
 cellref:  CELLREF {
 		if (state->force_explicit_sheet_references &&
-		    force_explicit_sheet_references (state, &$1->var.ref)) {
+		    force_explicit_sheet_references (state, &$1->cellref.ref)) {
 			unregister_allocation ($1);
-			expr_tree_unref ($1);
+			gnm_expr_unref ($1);
 			return ERROR;
 		}
 	        $$ = $1;
 	}
 
 	| sheetref CELLREF {
-		$2->var.ref.sheet = $1;
+		$2->cellref.ref.sheet = $1;
 	        $$ = $2;
 	}
 
@@ -602,33 +604,33 @@ cellref:  CELLREF {
 		unregister_allocation ($1);
 
 		if (state->force_explicit_sheet_references &&
-		    (force_explicit_sheet_references (state, &$1->var.ref) ||
-		     force_explicit_sheet_references (state, &$3->var.ref))) {
-			expr_tree_unref ($3);
-			expr_tree_unref ($1);
+		    (force_explicit_sheet_references (state, &$1->cellref.ref) ||
+		     force_explicit_sheet_references (state, &$3->cellref.ref))) {
+			gnm_expr_unref ($3);
+			gnm_expr_unref ($1);
 			return ERROR;
 		}
 
 		$$ = register_expr_allocation
-			(expr_tree_new_constant
-			 (value_new_cellrange (&($1->var.ref), &($3->var.ref),
+			(gnm_expr_new_constant
+			 (value_new_cellrange (&($1->cellref.ref), &($3->cellref.ref),
 					       state->pos->eval.col, state->pos->eval.row)));
-		expr_tree_unref ($3);
-		expr_tree_unref ($1);
+		gnm_expr_unref ($3);
+		gnm_expr_unref ($1);
 	}
 
 	| sheetref CELLREF RANGE_SEP opt_sheetref CELLREF {
 		unregister_allocation ($5);
 		unregister_allocation ($2);
-		$2->var.ref.sheet = $1;
-		$5->var.ref.sheet = $4 ? $4 : $1;
+		$2->cellref.ref.sheet = $1;
+		$5->cellref.ref.sheet = $4 ? $4 : $1;
 		$$ = register_expr_allocation
-			(expr_tree_new_constant
-			 (value_new_cellrange (&($2->var.ref), &($5->var.ref),
+			(gnm_expr_new_constant
+			 (value_new_cellrange (&($2->cellref.ref), &($5->cellref.ref),
 					       state->pos->eval.col, state->pos->eval.row)));
 
-		expr_tree_unref ($5);
-		expr_tree_unref ($2);
+		gnm_expr_unref ($5);
+		gnm_expr_unref ($2);
 	}
 	;
 
@@ -648,9 +650,9 @@ arg_list: exp {
 		unregister_allocation ($2);
 
 		if (tmp == NULL)
-			tmp = g_slist_prepend (NULL, expr_tree_new_constant (value_new_empty ()));
+			tmp = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_empty ()));
 
-		$$ = g_slist_prepend (tmp, expr_tree_new_constant (value_new_empty ()));
+		$$ = gnm_expr_list_prepend (tmp, gnm_expr_new_constant (value_new_empty ()));
 		register_expr_list_allocation ($$);
 	}
         | { $$ = NULL; }
@@ -740,12 +742,12 @@ parse_ref_or_string (char const *string)
 			ref.row += state->pos->eval.row;
 			ref.row_relative = FALSE;
 		}
-		yylval.tree = register_expr_allocation (expr_tree_new_var (&ref));
+		yylval.tree = register_expr_allocation (gnm_expr_new_cellref (&ref));
 		return CELLREF;
 	}
 
 	v = value_new_string (string);
-	yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
+	yylval.tree = register_expr_allocation (gnm_expr_new_constant (v));
 	return STRING;
 }
 
@@ -917,7 +919,7 @@ yylex (void)
 		if (v == NULL)
 			return c;
 
-		yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
+		yylval.tree = register_expr_allocation (gnm_expr_new_constant (v));
 		return CONSTANT;
 	}
 
@@ -951,7 +953,7 @@ yylex (void)
 		state->expr_text++;
 
 		v = value_new_string (string);
-		yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
+		yylval.tree = register_expr_allocation (gnm_expr_new_constant (v));
 		return QUOTED_STRING;
 	}
 	}
@@ -1009,7 +1011,7 @@ yyerror (const char *s)
 }
 
 /**
- * expr_parse_str:
+ * gnm_expr_parse_str:
  *
  * @expr_text   : The string to parse.
  * @flags       : See parse-utils for descriptions
@@ -1020,12 +1022,12 @@ yyerror (const char *s)
  * take responsibility for freeing that struct and it's contents.
  * with parse_error_free.
  **/
-ExprTree *
-expr_parse_str (char const *expr_text, ParsePos const *pos,
-		GnmExprParserFlags flags,
-	        ParseError *error)
+GnmExpr const *
+gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
+		    GnmExprParseFlags flags,
+		    ParseError *error)
 {
-	ExprTree *expr;
+	GnmExpr const *expr;
 	ParserState pstate;
 
 	g_return_val_if_fail (expr_text != NULL, NULL);
@@ -1038,11 +1040,11 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 	pstate.separator 	   = format_get_arg_sep ();
 	pstate.array_col_separator = format_get_col_sep ();
 
-	pstate.use_excel_reference_conventions	   	= !(flags & GNM_PARSER_USE_APPLIX_REFERENCE_CONVENTIONS);
-	pstate.create_placeholder_for_unknown_func	= flags & GNM_PARSER_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC;
-	pstate.force_absolute_col_references		= flags & GNM_PARSER_FORCE_ABSOLUTE_COL_REFERENCES;
-	pstate.force_absolute_row_references		= flags & GNM_PARSER_FORCE_ABSOLUTE_ROW_REFERENCES;
-	pstate.force_explicit_sheet_references		= flags & GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES;
+	pstate.use_excel_reference_conventions	   	= !(flags & GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS);
+	pstate.create_placeholder_for_unknown_func	= flags & GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC;
+	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
+	pstate.force_absolute_row_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
+	pstate.force_explicit_sheet_references		= flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	pstate.result = NULL;
 	pstate.error = error;
@@ -1064,7 +1066,7 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 #if 0
 		/* If this happens, something is very wrong */
 		if (pstate.error != NULL && pstate.error->message != NULL) {
-			g_warning ("An error occurred and the ExprTree is non-null! This should not happen");
+			g_warning ("An error occurred and the GnmExpr is non-null! This should not happen");
 			g_warning ("Error message is %s (%d, %d)", pstate.error->message, pstate.error->begin_char,
 					pstate.error->end_char);
 		}
@@ -1072,10 +1074,10 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 
 		/* Do we have multiple expressions */
 		if (pstate.result->next != NULL) {
-			if (flags & GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS)
-				expr = expr_tree_new_set (g_slist_reverse (pstate.result));
+			if (flags & GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS)
+				expr = gnm_expr_new_set (g_slist_reverse (pstate.result));
 			else {
-				expr_list_unref (pstate.result);
+				gnm_expr_list_unref (pstate.result);
 				gnumeric_parse_error (&pstate, PERR_MULTIPLE_EXPRESSIONS,
 					g_strdup (_("Multiple expressions are not supported in this context")),
 					(pstate.expr_text - pstate.expr_backup) + 1,
@@ -1085,7 +1087,7 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 		} else {
 			/* Free the list, do not unref the content */
 			expr = pstate.result->data;
-			expr_list_free (pstate.result);
+			gnm_expr_list_free (pstate.result);
 		}
 	} else {
 		/* If there is no error message, attempt to be more detailed */

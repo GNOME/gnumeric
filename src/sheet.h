@@ -266,7 +266,7 @@ Range       sheet_get_extent		  (Sheet const *sheet,
 
 /* Sheet information manipulation */
 void        sheet_move_range              (WorkbookControl *context,
-					   ExprRelocateInfo const * rinfo,
+					   GnmExprRelocateInfo const * rinfo,
 					   GSList **reloc_storage);
 
 char       *sheet_name_quote              (char const *unquoted_name);
@@ -276,7 +276,7 @@ char       *sheet_name_quote              (char const *unquoted_name);
  * redraws and rendering as required.  Does NOT check for
  * division of arrays.
  */
-void  sheet_cell_set_expr  (Cell *cell, ExprTree *expr);
+void  sheet_cell_set_expr  (Cell *cell, GnmExpr const *expr);
 void  sheet_cell_set_value (Cell *cell, Value *v);
 void  sheet_cell_set_text  (Cell *cell, char const *str);
 Value const *sheet_cell_get_value (Sheet *sheet, int const col, int const row);

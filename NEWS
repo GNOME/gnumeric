@@ -19,6 +19,7 @@ Jody:
 	* Improve event handling during sheet-object editing.
 	* Add dependency support for 3d references.  needs work on delete.
 	* More polish to dependency engine.
+	* Big ExprTree -> GnmExpr rename in prep for libgnumeric.
 
 Jukka:
 	* More solver improvements.

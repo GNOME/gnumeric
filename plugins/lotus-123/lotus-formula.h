@@ -13,7 +13,7 @@
 #define LOTUS_FORMULA_UNARY_PLUS  0x17
 
 
-extern ExprTree *lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
-				      guint8 *data, guint32 len);
+extern GnmExpr const *lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
+					   guint8 *data, guint32 len);
 
 #endif

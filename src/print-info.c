@@ -21,24 +21,12 @@
 #include <libgnome/gnome-config.h>
 #include <string.h>
 
-static const PrintHF predefined_formats [] = {
-	{ "",                 "",                             "" },
-	{ "",                 N_("Page &[PAGE]"),             "" },
-	{ "",                 N_("Page &[PAGE] of &[PAGES]"), "" },
-	{ "",                 N_("&[TAB]"),                   "" },
-	{ N_("Page &[PAGE]"), N_("&[TAB]"),                   "" },
-	{ N_("Page &[PAGE]"), N_("&[TAB]"),                   N_("&[DATE]") },
-	{ "",                 N_("&[DATE]"),                  "" },
-	{ N_("&[TAB]"),       N_("Page &[PAGE] of &[PAGES]"), N_("&[DATE]") },
-	{ NULL, }
-};
-
 GList *hf_formats = NULL;
 
 PrintHF *
-print_hf_new (const char *left_side_format,
-	      const char *middle_format,
-	      const char *right_side_format)
+print_hf_new (char const *left_side_format,
+	      char const *middle_format,
+	      char const *right_side_format)
 {
 	PrintHF *format;
 
@@ -57,7 +45,7 @@ print_hf_new (const char *left_side_format,
 }
 
 gboolean
-print_hf_same (const PrintHF *a, const PrintHF *b)
+print_hf_same (PrintHF const *a, PrintHF const *b)
 {
 	if (strcmp (b->left_format, a->left_format))
 		return FALSE;
@@ -91,7 +79,7 @@ print_hf_register (PrintHF *hf)
 
 
 PrintHF *
-print_hf_copy (const PrintHF *source)
+print_hf_copy (PrintHF const *source)
 {
 	PrintHF *res;
 
@@ -139,7 +127,7 @@ print_unit_new (UnitName unit, double value)
 #endif
 
 static void
-load_margin (const char *str, PrintUnit *p, char *def)
+load_margin (char const *str, PrintUnit *p, char *def)
 {
 	char *pts_units = g_strconcat (str, "_units=centimeter", NULL);
 	char *pts = g_strconcat (str, "=", def, NULL);
@@ -154,7 +142,7 @@ load_margin (const char *str, PrintUnit *p, char *def)
 }
 
 static PrintHF *
-load_hf (const char *type, const char *a, const char *b, const char *c)
+load_hf (char const *type, char const *a, char const *b, char const *c)
 {
 	PrintHF *format;
 	char *code_a = g_strconcat (type, "_left=", a, NULL);
@@ -189,6 +177,22 @@ load_range (char const *name, Range *r)
 static void
 load_formats (void)
 {
+	static struct {
+		char const *left_format;
+		char const *middle_format;
+		char const *right_format;
+	} const predefined_formats [] = {
+		{ "",                 "",                             "" },
+		{ "",                 N_("Page &[PAGE]"),             "" },
+		{ "",                 N_("Page &[PAGE] of &[PAGES]"), "" },
+		{ "",                 N_("&[TAB]"),                   "" },
+		{ N_("Page &[PAGE]"), N_("&[TAB]"),                   "" },
+		{ N_("Page &[PAGE]"), N_("&[TAB]"),                   N_("&[DATE]") },
+		{ "",                 N_("&[DATE]"),                  "" },
+		{ N_("&[TAB]"),       N_("Page &[PAGE] of &[PAGES]"), N_("&[DATE]") },
+		{ NULL, }
+	};
+
 	int format_count;
 
 	/* Fetch header/footer formats */
@@ -310,7 +314,7 @@ print_info_new (void)
 }
 
 static void
-save_margin (const char *prefix, PrintUnit *p)
+save_margin (char const *prefix, PrintUnit *p)
 {
 	char *x = g_strconcat (prefix, "_units", NULL);
 
@@ -320,14 +324,14 @@ save_margin (const char *prefix, PrintUnit *p)
 }
 
 static void
-save_range (const char *section, PrintRepeatRange *repeat)
+save_range (char const *section, PrintRepeatRange *repeat)
 {
 	char const *s = (repeat->use) ? range_name (&repeat->range) : "";
 	gnome_config_set_string (section, s);
 }
 
 static void
-save_hf (const char *type, const char *a, const char *b, const char *c)
+save_hf (char const *type, char const *a, char const *b, char const *c)
 {
 	char *code_a = g_strconcat (type, "_left=", a, NULL);
 	char *code_b = g_strconcat (type, "_middle=", b, NULL);
@@ -419,8 +423,8 @@ print_info_save (PrintInformation *pi)
 }
 
 static struct {
-	const char *short_name;
-	const char *full_name;
+	char const *short_name;
+	char const *full_name;
 	double factor;
 } units [UNIT_LAST + 1] = {
 	{ N_("pts"), N_("points"),     1.0 },
@@ -437,7 +441,7 @@ static struct {
  *
  * Returns the optionally translated short name of the @unit.
  */
-const char *
+char const *
 unit_name_get_short_name (UnitName name, gboolean translated)
 {
 	g_assert (name >= UNIT_POINTS && name < UNIT_LAST);
@@ -454,7 +458,7 @@ unit_name_get_short_name (UnitName name, gboolean translated)
  *
  * Returns the optionally translated standard name of the @unit.
  */
-const char *
+char const *
 unit_name_get_name (UnitName name, gboolean translated)
 {
 	g_assert (name >= UNIT_POINTS && name < UNIT_LAST);
@@ -472,7 +476,7 @@ unit_name_get_name (UnitName name, gboolean translated)
  * Returns the unit associated with the possiblely translated @str.
  */
 UnitName
-unit_name_to_unit (const char *s, gboolean translated)
+unit_name_to_unit (char const *s, gboolean translated)
 {
 	int i;
 
@@ -511,7 +515,7 @@ unit_convert (double value, UnitName source, UnitName target)
 }
 
 static void
-render_tab (GString *target, HFRenderInfo *info, const char *args)
+render_tab (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet)
 		g_string_append (target, info->sheet->name_unquoted);
@@ -520,19 +524,19 @@ render_tab (GString *target, HFRenderInfo *info, const char *args)
 }
 
 static void
-render_page (GString *target, HFRenderInfo *info, const char *args)
+render_page (GString *target, HFRenderInfo *info, char const *args)
 {
 	g_string_sprintfa (target, "%d", info->page);
 }
 
 static void
-render_pages (GString *target, HFRenderInfo *info, const char *args)
+render_pages (GString *target, HFRenderInfo *info, char const *args)
 {
 	g_string_sprintfa (target, "%d", info->pages);
 }
 
 static void
-render_value_with_format (GString *target, const char *number_format, HFRenderInfo *info)
+render_value_with_format (GString *target, char const *number_format, HFRenderInfo *info)
 {
 	StyleFormat *format;
 	char *text;
@@ -551,9 +555,9 @@ render_value_with_format (GString *target, const char *number_format, HFRenderIn
 }
 
 static void
-render_date (GString *target, HFRenderInfo *info, const char *args)
+render_date (GString *target, HFRenderInfo *info, char const *args)
 {
-	const char *date_format;
+	char const *date_format;
 
 	if (args)
 		date_format = args;
@@ -564,9 +568,9 @@ render_date (GString *target, HFRenderInfo *info, const char *args)
 }
 
 static void
-render_time (GString *target, HFRenderInfo *info, const char *args)
+render_time (GString *target, HFRenderInfo *info, char const *args)
 {
-	const char *time_format;
+	char const *time_format;
 
 	if (args)
 		time_format = args;
@@ -575,10 +579,10 @@ render_time (GString *target, HFRenderInfo *info, const char *args)
 	render_value_with_format (target, time_format, info);
 }
 
-static const struct {
-	const char *name;
-	void (*render)(GString *target, HFRenderInfo *info, const char *args);
-} render_ops [] = {
+static struct {
+	char const *name;
+	void (*render)(GString *target, HFRenderInfo *info, char const *args);
+} const render_ops [] = {
 	{ N_("tab"),   render_tab   },
 	{ N_("page"),  render_page  },
 	{ N_("pages"), render_pages },
@@ -592,7 +596,7 @@ static const struct {
  * to the opcode and then a number format code
  */
 static void
-render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRenderType render_type)
+render_opcode (GString *target, char const *opcode, HFRenderInfo *info, HFRenderType render_type)
 {
 	char *args;
 	int i;
@@ -630,10 +634,10 @@ render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRender
 }
 
 char *
-hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_type)
+hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_type)
 {
 	GString *result;
-	const char *p;
+	char const *p;
 	char *str;
 
 	g_return_val_if_fail (format != NULL, NULL);
@@ -641,7 +645,7 @@ hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_ty
 	result = g_string_new ("");
 	for (p = format; *p; p++){
 		if (*p == '&' && *(p+1) == '['){
-			const char *start;
+			char const *start;
 
 			p += 2;
 			start = p;

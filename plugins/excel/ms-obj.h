@@ -60,7 +60,7 @@ typedef struct {
 		guint32	  v_uint;
 		guint32	  v_int;
 		gpointer  v_ptr;
-		ExprTree *v_expr;
+		GnmExpr const *v_expr;
 	} v;
 } MSObjAttr;
 
@@ -68,12 +68,12 @@ MSObjAttr    *ms_object_attr_new_flag    (MSObjAttrID id);
 MSObjAttr    *ms_object_attr_new_uint    (MSObjAttrID id, guint32 val);
 MSObjAttr    *ms_object_attr_new_int     (MSObjAttrID id, gint32 val);
 MSObjAttr    *ms_object_attr_new_ptr     (MSObjAttrID id, gpointer val);
-MSObjAttr    *ms_object_attr_new_expr    (MSObjAttrID id, ExprTree *expr);
+MSObjAttr    *ms_object_attr_new_expr    (MSObjAttrID id, GnmExpr const *expr);
 
 guint32   ms_object_attr_get_uint (MSObj *obj, MSObjAttrID id, guint32 default_value);
 gint32    ms_object_attr_get_int  (MSObj *obj, MSObjAttrID id, gint32 default_value);
 gpointer  ms_object_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value);
-ExprTree *ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, ExprTree *default_value);
+GnmExpr const *ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value);
 
 typedef GHashTable MSObjAttrBag;
 MSObjAttrBag *ms_object_attr_bag_new     (void);

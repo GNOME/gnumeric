@@ -46,13 +46,13 @@ style_condition_expr_dep_eval (Dependent *dep)
 
 	if (dep->expression != NULL) {
 		EvalPos ep;
-		sce->val = expr_eval (dep->expression,
-			eval_pos_init_dep (&ep, dep), EVAL_STRICT);
+		sce->val = gnm_expr_eval (dep->expression,
+			eval_pos_init_dep (&ep, dep), GNM_EXPR_EVAL_STRICT);
 	}
 }
 
 static void
-style_condition_expr_dep_set_expr (Dependent *dep, ExprTree *new_expr)
+style_condition_expr_dep_set_expr (Dependent *dep, GnmExpr *new_expr)
 {
 	StyleConditionExpr *sce = DEP_TO_STYLE_CONDITION_EXPR (dep);
 
@@ -85,7 +85,7 @@ static DEPENDENT_MAKE_TYPE (style_condition_expr_dep, &style_condition_expr_dep_
  * Absorbs the reference to the expression.
  */
 StyleCondition *
-style_condition_new_expr (StyleConditionOperator op, ExprTree *expr)
+style_condition_new_expr (StyleConditionOperator op, GnmExpr *expr)
 {
 	StyleCondition *sc;
 
@@ -347,7 +347,7 @@ style_condition_dump (StyleCondition *sc)
 				Sheet    *sheet = sci->u.expr.dep.sheet;
 
 				parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
-				t = expr_tree_as_string (sci->u.expr.dep.expression, &pp);
+				t = gnm_expr_as_string (sci->u.expr.dep.expression, &pp);
 				fprintf (stdout, "\t\tExpression : %s\n", t);
 				g_free (t);
 				t = NULL;

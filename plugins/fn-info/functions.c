@@ -36,6 +36,7 @@
 #include <style.h>
 #include <value.h>
 #include <expr.h>
+#include <expr-impl.h>
 #include <sheet-style.h>
 #include <number-match.h>
 
@@ -57,13 +58,13 @@ enum Value_Class {
 
 
 static enum Value_Class
-get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
+get_value_class (FunctionEvalInfo *ei, GnmExpr *expr)
 {
 	Value *value;
 	enum Value_Class res;
 
-	value = expr_eval (expr, ei->pos,
-			   EVAL_PERMIT_NON_SCALAR|EVAL_PERMIT_EMPTY);
+	value = gnm_expr_eval (expr, ei->pos,
+			   GNM_EXPR_EVAL_PERMIT_NON_SCALAR|GNM_EXPR_EVAL_PERMIT_EMPTY);
 	if (value) {
 		switch (value->type) {
 		case VALUE_INTEGER:
@@ -321,7 +322,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 		if (cell && cell_has_expr (cell)) {
 			ParsePos pos;
 			char * expr_string =
-			    expr_tree_as_string (cell->base.expression,
+			    gnm_expr_as_string (cell->base.expression,
 				parse_pos_init_cell (&pos, cell));
 			Value * res = value_new_string (expr_string);
 			g_free (expr_string);
@@ -483,17 +484,17 @@ static const char *help_iserror = {
  * directly
  */
 static Value *
-gnumeric_check_for_err (FunctionEvalInfo *ei, ExprList *expr_node_list,
+gnumeric_check_for_err (FunctionEvalInfo *ei, GnmExprList *expr_node_list,
 			Value ** err)
 {
 	Value * tmp;
 
-	if (expr_list_length (expr_node_list) != 1) {
+	if (gnm_expr_list_length (expr_node_list) != 1) {
 		*err = value_new_error(ei->pos,
 				       _("Argument mismatch"));
 		return NULL;
 	}
-	tmp = expr_eval (expr_node_list->data, ei->pos, EVAL_STRICT);
+	tmp = gnm_expr_eval (expr_node_list->data, ei->pos, GNM_EXPR_EVAL_STRICT);
 
 	if (tmp != NULL) {
 		if (tmp->type == VALUE_ERROR)
@@ -504,7 +505,7 @@ gnumeric_check_for_err (FunctionEvalInfo *ei, ExprList *expr_node_list,
 }
 
 static Value *
-gnumeric_iserror (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_iserror (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	Value * res, *err = NULL;
 	res = gnumeric_check_for_err (ei, expr_node_list, &err);
@@ -539,7 +540,7 @@ static const char *help_isna = {
  * the error handling mechanism
  */
 static Value *
-gnumeric_isna (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_isna (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	Value * res, *err = NULL;
 	gboolean b;
@@ -570,7 +571,7 @@ static const char *help_iserr = {
 };
 
 static Value *
-gnumeric_iserr (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_iserr (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	Value * res, *err = NULL;
 	gboolean b;
@@ -608,7 +609,7 @@ static const char *help_error_type = {
 };
 
 static Value *
-gnumeric_error_type (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_error_type (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	int retval = -1;
 	char const * mesg;
@@ -703,11 +704,11 @@ static const char *help_isblank = {
 };
 
 static Value *
-gnumeric_isblank (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	gboolean result = FALSE;
-	ExprTree *expr;
-	if (expr_list_length (expr_node_list) != 1)
+	GnmExpr const *expr;
+	if (gnm_expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -718,14 +719,14 @@ gnumeric_isblank (FunctionEvalInfo *ei, ExprList *expr_node_list)
 		return value_new_bool (FALSE);
 
 	/* Handle pointless arrays */
-	if (expr->any.oper == OPER_ARRAY) {
+	if (expr->any.oper == GNM_EXPR_OP_ARRAY) {
 		if (expr->array.rows != 1 || expr->array.cols != 1)
 			return value_new_bool (FALSE);
 		expr = expr->array.corner.expr;
 	}
 
-	if (expr->any.oper == OPER_VAR) {
-		CellRef const *ref = &expr->var.ref;
+	if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
+		CellRef const *ref = &expr->cellref.ref;
 		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 		CellPos pos;
 
@@ -774,11 +775,11 @@ static const char *help_islogical = {
 };
 
 static Value *
-gnumeric_islogical (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_islogical (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	enum Value_Class cl;
 
-	if (expr_list_length (expr_node_list) != 1)
+	if (gnm_expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -804,9 +805,9 @@ static const char *help_isnontext = {
 };
 
 static Value *
-gnumeric_isnontext (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_isnontext (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	if (expr_list_length (expr_node_list) != 1)
+	if (gnm_expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -831,9 +832,9 @@ static const char *help_isnumber = {
 };
 
 static Value *
-gnumeric_isnumber (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_isnumber (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	if (expr_list_length (expr_node_list) != 1)
+	if (gnm_expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -880,11 +881,11 @@ static const char *help_isref = {
 };
 
 static Value *
-gnumeric_isref (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_isref (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	ExprTree *t;
+	GnmExpr *t;
 
-	if (expr_list_length (expr_node_list) != 1)
+	if (gnm_expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -892,7 +893,7 @@ gnumeric_isref (FunctionEvalInfo *ei, ExprList *expr_node_list)
 	if (!t)
 		return NULL;
 
-	return value_new_bool (t->any.oper == OPER_VAR);
+	return value_new_bool (t->any.oper == GNM_EXPR_OP_CELLREF);
 }
 
 /***************************************************************************/
@@ -912,9 +913,9 @@ static const char *help_istext = {
 };
 
 static Value *
-gnumeric_istext (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_istext (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	if (expr_list_length (expr_node_list) != 1)
+	if (gnm_expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -979,9 +980,9 @@ static const char *help_type = {
 };
 
 static Value *
-gnumeric_type (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_type (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-	if (expr_list_length (expr_node_list) != 1)
+	if (gnm_expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 

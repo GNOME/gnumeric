@@ -13,13 +13,14 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "rendered-value.h"
 #include "value.h"
 #include "style.h"
 #include "format.h"
 #include "sheet-object-cell-comment.h"
-#include "eval.h"
 #include "sheet-style.h"
+#include "parse-util.h"
 
 /**
  * cell_dirty : Mark the sheet containing the cell as being dirty.
@@ -63,7 +64,7 @@ cell_cleanout (Cell *cell)
 		/* Clipboard cells, e.g., are not attached to a sheet.  */
 		if (cell_expr_is_linked (cell))
 			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
-		expr_tree_unref (cell->base.expression);
+		gnm_expr_unref (cell->base.expression);
 		cell->base.expression = NULL;
 		cell->base.flags &= ~(CELL_HAS_EXPRESSION);
 	}
@@ -76,8 +77,6 @@ cell_cleanout (Cell *cell)
 		rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
 	}
-
-	cell_dirty (cell);
 }
 
 /**
@@ -106,7 +105,7 @@ cell_copy (Cell const *cell)
 
 	/* now copy properly the rest */
 	if (cell_has_expr (new_cell))
-		expr_tree_ref (new_cell->base.expression);
+		gnm_expr_ref (new_cell->base.expression);
 
 	new_cell->rendered_value = NULL;
 
@@ -142,7 +141,7 @@ cell_destroy (Cell *cell)
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_relocate (Cell *cell, ExprRewriteInfo const *rwinfo)
+cell_relocate (Cell *cell, GnmExprRewriteInfo const *rwinfo)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (rwinfo != NULL);
@@ -150,9 +149,9 @@ cell_relocate (Cell *cell, ExprRewriteInfo const *rwinfo)
 	/* 1. Tag the cell as dirty */
 	cell_dirty (cell);
 
-	/* 2. If the cell contains a formula, relocate the formula */
+	/* 2. If the cell contains a expr, relocate it */
 	if (cell_has_expr (cell)) {
-		ExprTree *expr = expr_rewrite (cell->base.expression, rwinfo);
+		GnmExpr const *expr = gnm_expr_rewrite (cell->base.expression, rwinfo);
 
 #warning make this a precondition
 		if (cell_expr_is_linked (cell))
@@ -160,7 +159,7 @@ cell_relocate (Cell *cell, ExprRewriteInfo const *rwinfo)
 
 		/* bounds check, and adjust local references from the cell */
 		if (expr != NULL) {
-			expr_tree_unref (cell->base.expression);
+			gnm_expr_unref (cell->base.expression);
 			cell->base.expression = expr;
 		}
 
@@ -187,7 +186,7 @@ cell_relocate (Cell *cell, ExprRewriteInfo const *rwinfo)
 void
 cell_set_text (Cell *cell, char const *text)
 {
-	ExprTree    *expr;
+	GnmExpr const *expr;
 	Value	    *val;
 	ParsePos     pos;
 
@@ -202,9 +201,10 @@ cell_set_text (Cell *cell, char const *text)
 		cell_cleanout (cell);
 		cell->value = val;
 		cell_render_value (cell, TRUE);
+		cell_dirty (cell);
 	} else {		/* String was an expression */
 		cell_set_expr (cell, expr);
-		expr_tree_unref (expr);
+		gnm_expr_unref (expr);
 	}
 }
 
@@ -255,6 +255,7 @@ cell_set_value (Cell *cell, Value *v)
 
 	cell_cleanout (cell);
 	cell->value = v;
+	cell_dirty (cell);
 }
 
 /*
@@ -270,7 +271,7 @@ cell_set_value (Cell *cell, Value *v)
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
+cell_set_expr_and_value (Cell *cell, GnmExpr const *expr, Value *v,
 			 gboolean link_expr)
 {
 	g_return_if_fail (cell != NULL);
@@ -278,8 +279,9 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
 	g_return_if_fail (!cell_is_partial_array (cell));
 
 	/* Repeat after me.  Ref before unref. */
-	expr_tree_ref (expr);
+	gnm_expr_ref (expr);
 	cell_cleanout (cell);
+	cell_dirty (cell);
 
 	cell->base.expression = expr;
 	cell->base.flags |= CELL_HAS_EXPRESSION;
@@ -290,8 +292,8 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
 
 /**
  * cell_set_expr_internal:
- * @cell: the cell to set the formula to
- * @expr: an expression tree with the formula
+ * @cell: the cell to set the expr for
+ * @expr: an expression
  *
  * A private internal utility to store an expression.
  * Does NOT
@@ -301,9 +303,9 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
  * 	- link the expression into the master list.
  */
 static void
-cell_set_expr_internal (Cell *cell, ExprTree *expr)
+cell_set_expr_internal (Cell *cell, GnmExpr const *expr)
 {
-	expr_tree_ref (expr);
+	gnm_expr_ref (expr);
 
 	cell_cleanout (cell);
 
@@ -312,6 +314,7 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr)
 
 	/* Until the value is recomputed, we put in this value.  */
 	cell->value = value_new_empty ();
+	cell_dirty (cell);
 }
 
 /*
@@ -326,7 +329,7 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr)
  *           using this.
  */
 void
-cell_set_expr_unsafe (Cell *cell, ExprTree *expr)
+cell_set_expr_unsafe (Cell *cell, GnmExpr const *expr)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
@@ -345,7 +348,7 @@ cell_set_expr_unsafe (Cell *cell, ExprTree *expr)
  *           Be very careful using this.
  */
 void
-cell_set_expr (Cell *cell, ExprTree *expr)
+cell_set_expr (Cell *cell, GnmExpr const *expr)
 {
 	g_return_if_fail (!cell_is_partial_array (cell));
 	g_return_if_fail (cell != NULL);
@@ -357,16 +360,14 @@ cell_set_expr (Cell *cell, ExprTree *expr)
 
 /**
  * cell_set_array_formula:
- * @sheet:   The sheet to set the formula to.
+ * @sheet:   The sheet to set the expr in.
  * @row_a:   The top row in the destination region.
  * @col_a:   The left column in the destination region.
  * @row_b:   The bottom row in the destination region.
  * @col_b:   The right column in the destination region.
- * @formula: an expression tree with the formula
- * @queue_recalc : A flag that if true indicates that the cells should be
- *                 queued for recalc.
+ * @expr:    an expression
  *
- * Uses cell_set_expr_internal to store the formula as an
+ * Uses cell_set_expr_internal to store the expr as an
  * 'array-formula'.  The supplied expression is wrapped in an array
  * operator for each cell in the range and scheduled for recalc.  The
  * upper left corner is handled as a special case and care is taken to
@@ -382,26 +383,26 @@ cell_set_expr (Cell *cell, ExprTree *expr)
 void
 cell_set_array_formula (Sheet *sheet,
 			int col_a, int row_a, int col_b, int row_b,
-			ExprTree *formula)
+			GnmExpr const *expr)
 {
 	int const num_rows = 1 + row_b - row_a;
 	int const num_cols = 1 + col_b - col_a;
 	int x, y;
 	Cell * const corner = sheet_cell_fetch (sheet, col_a, row_a);
-	ExprTree *wrapper;
+	GnmExpr const *wrapper;
 
 	g_return_if_fail (num_cols > 0);
 	g_return_if_fail (num_rows > 0);
-	g_return_if_fail (formula != NULL);
+	g_return_if_fail (expr != NULL);
 	g_return_if_fail (corner != NULL);
 	g_return_if_fail (col_a <= col_b);
 	g_return_if_fail (row_a <= row_b);
 
-	wrapper = expr_tree_new_array (0, 0, num_cols, num_rows);
+	wrapper = gnm_expr_new_array (0, 0, num_cols, num_rows);
 	wrapper->array.corner.value = NULL;
-	wrapper->array.corner.expr = formula;
+	wrapper->array.corner.expr = expr;
 	cell_set_expr_internal (corner, wrapper);
-	expr_tree_unref (wrapper);
+	gnm_expr_unref (wrapper);
 
 	for (x = 0; x < num_cols; ++x)
 		for (y = 0; y < num_rows; ++y) {
@@ -411,10 +412,10 @@ cell_set_array_formula (Sheet *sheet,
 				continue;
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
-			wrapper = expr_tree_new_array (x, y, num_cols, num_rows);
+			wrapper = gnm_expr_new_array (x, y, num_cols, num_rows);
 			cell_set_expr_internal (cell, wrapper);
 			dependent_link (CELL_TO_DEP (cell), &cell->pos);
-			expr_tree_unref (wrapper);
+			gnm_expr_unref (wrapper);
 		}
 
 	dependent_link (CELL_TO_DEP (corner), &corner->pos);
@@ -467,11 +468,11 @@ cell_is_zero (Cell const *cell)
 	}
 }
 
-ExprArray const *
+GnmExprArray const *
 cell_is_array (Cell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell) &&
-	    cell->base.expression->any.oper == OPER_ARRAY)
+	    cell->base.expression->any.oper == GNM_EXPR_OP_ARRAY)
 		return &cell->base.expression->array;
 	return NULL;
 }
@@ -479,7 +480,7 @@ cell_is_array (Cell const *cell)
 gboolean
 cell_is_partial_array (Cell const *cell)
 {
-	ExprArray const *ref = cell_is_array (cell);
+	GnmExprArray const *ref = cell_is_array (cell);
 	return ref != NULL && (ref->cols > 1 || ref->rows > 1);
 }
 
@@ -595,7 +596,7 @@ cell_convert_expr_to_value (Cell *cell)
 	if (cell_expr_is_linked (cell))
 		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
-	expr_tree_unref (cell->base.expression);
+	gnm_expr_unref (cell->base.expression);
 	cell->base.expression = NULL;
 	cell->base.flags &= ~CELL_HAS_EXPRESSION;
 

@@ -127,10 +127,10 @@ ms_excel_wb_get_fmt (ExcelWorkbook *wb, guint16 idx)
 		return NULL;
 }
 
-static ExprTree *
+static GnmExpr const *
 ms_sheet_parse_expr_internal (ExcelSheet *esheet, guint8 const *data, int length)
 {
-	ExprTree *expr;
+	GnmExpr const *expr;
 
 	g_return_val_if_fail (length > 0, NULL);
 
@@ -143,7 +143,7 @@ ms_sheet_parse_expr_internal (ExcelSheet *esheet, guint8 const *data, int length
 		Sheet *sheet = esheet->gnum_sheet;
 		Workbook *wb = (sheet == NULL) ? esheet->wb->gnum_wb : NULL;
 
-		tmp = expr_tree_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
+		tmp = gnm_expr_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
 		puts (tmp);
 		g_free (tmp);
 	}
@@ -152,7 +152,7 @@ ms_sheet_parse_expr_internal (ExcelSheet *esheet, guint8 const *data, int length
 	return expr;
 }
 
-static ExprTree *
+static GnmExpr const *
 ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
 {
 	return ms_sheet_parse_expr_internal ((ExcelSheet *)container,
@@ -1177,15 +1177,15 @@ biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 }
 
 static void
-ms_excel_add_name (ExcelWorkbook *ewb, NamedExpression *nexpr)
+ms_excel_add_name (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 {
 	g_ptr_array_add (ewb->names, nexpr);
 }
 
-ExprTree *
+GnmExpr const *
 ms_excel_workbook_get_name (ExcelWorkbook const *ewb, int idx)
 {
-	NamedExpression *nexpr = NULL;
+	GnmNamedExpr *nexpr = NULL;
 	GPtrArray    *a;
 
 	g_return_val_if_fail (ewb, NULL);
@@ -1195,10 +1195,10 @@ ms_excel_workbook_get_name (ExcelWorkbook const *ewb, int idx)
 	if (a == NULL || idx < 0 || (int)a->len <= idx ||
 	    (nexpr = g_ptr_array_index (a, idx)) == NULL) {
 		g_warning ("EXCEL: %x (of %x) UNKNOWN name\n", idx, a->len);
-		return expr_tree_new_constant (value_new_string ("Unknown name"));
+		return gnm_expr_new_constant (value_new_string ("Unknown name"));
 	}
 
-	return expr_tree_new_name (nexpr, NULL, NULL);
+	return gnm_expr_new_name (nexpr, NULL, NULL);
 }
 
 EXCEL_PALETTE_ENTRY const excel_default_palette[EXCEL_DEF_PAL_LEN] = {
@@ -1568,7 +1568,8 @@ ms_excel_set_xf (ExcelSheet *esheet, int col, int row, guint16 xfidx)
 	d (2, printf ("%s!%s%d = xf(%d)\n", esheet->gnum_sheet->name_unquoted,
 		      col_name (col), row + 1, xfidx););
 
-	if (xfidx > 0) {
+	/* no need to reapply the default */
+	if (xfidx != 15) {
 		MStyle *const mstyle = ms_excel_get_style_from_xf (esheet, xfidx);
 		if (mstyle == NULL)
 			return;
@@ -1582,22 +1583,25 @@ ms_excel_set_xf_segment (ExcelSheet *esheet,
 			 int start_col, int end_col,
 			 int start_row, int end_row, guint16 xfidx)
 {
-	Range   range;
-	MStyle * const mstyle  = ms_excel_get_style_from_xf (esheet, xfidx);
+	/* no need to reapply the default */
+	if (xfidx != 15) {
+		Range   range;
+		MStyle * const mstyle  = ms_excel_get_style_from_xf (esheet, xfidx);
 
-	if (mstyle == NULL)
-		return;
+		if (mstyle == NULL)
+			return;
 
-	range.start.col = start_col;
-	range.start.row = start_row;
-	range.end.col   = end_col;
-	range.end.row   = end_row;
-	sheet_style_set_range (esheet->gnum_sheet, &range, mstyle);
+		range.start.col = start_col;
+		range.start.row = start_row;
+		range.end.col   = end_col;
+		range.end.row   = end_row;
+		sheet_style_set_range (esheet->gnum_sheet, &range, mstyle);
 
-	d (2, {
-		range_dump (&range, "");
-		fprintf (stderr, " = xf(%d)\n", xfidx);
-	});
+		d (2, {
+			range_dump (&range, "");
+			fprintf (stderr, " = xf(%d)\n", xfidx);
+		});
+	}
 }
 
 static StyleBorderType
@@ -1957,7 +1961,7 @@ biff_shared_formula_destroy (gpointer key, BiffSharedFormula *sf,
 	return TRUE;
 }
 
-static ExprTree *
+static GnmExpr const *
 ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 {
 	int has_next_record = ms_biff_query_next (q);
@@ -1973,7 +1977,7 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 		guint8 *data = q->data + (is_array ? 14 : 10);
 		guint16 const data_len =
 			MS_OLE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
-		ExprTree *expr = ms_excel_parse_formula (
+		GnmExpr const *expr = ms_excel_parse_formula (
 			esheet->wb, esheet, array_col_first, array_row_first,
 			data, data_len, !is_array, NULL);
 		BiffSharedFormula *sf = g_new (BiffSharedFormula, 1);
@@ -2034,7 +2038,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 	guint16 const col      = EX_GETCOL (q);
 	guint16 const row      = EX_GETROW (q);
 	guint16 const options  = MS_OLE_GET_GUINT16 (q->data + 14);
-	ExprTree *expr;
+	GnmExpr const *expr;
 	Cell	 *cell;
 	Value	 *val = NULL;
 
@@ -2191,7 +2195,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		/* Just in case things screwed up, at least save the value */
 		if (expr != NULL) {
 			cell_set_expr_and_value (cell, expr, val, TRUE);
-			expr_tree_unref (expr);
+			gnm_expr_unref (expr);
 		} else
 			cell_assign_value (cell, val);
 	} else {
@@ -2320,7 +2324,7 @@ ms_excel_sheet_destroy (ExcelSheet *esheet, gboolean destroy_gnumeric_sheet)
 	g_free (esheet);
 }
 
-static ExprTree *
+static GnmExpr const *
 ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 {
 	ExcelSheet dummy_sheet;
@@ -2532,20 +2536,20 @@ typedef struct {
 	int name_index;
 } MSDelayedNameParse;
 
-static NamedExpression *
+static GnmNamedExpr *
 ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index,
 		     char *name, guint8 const *expr_data, unsigned expr_len)
 {
 	ParsePos pp;
-	ExprTree *expr;
-	NamedExpression *nexpr;
+	GnmExpr const *expr;
+	GnmNamedExpr *nexpr;
 	char const *err = NULL;
 
 	/* I think it is ok to pass sheet = NULL */
 	expr = ms_excel_parse_formula (ewb, NULL, 0, 0,
 				       expr_data, expr_len, FALSE, NULL);
 	if (expr == NULL)
-		expr = expr_tree_new_constant ( value_new_error (NULL, gnumeric_err_REF));
+		expr = gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
 
 	parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0);
 	if (sheet_index > 0)
@@ -2588,7 +2592,7 @@ static void
 ms_excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	MSDelayedNameParse *delay = NULL;
-	NamedExpression *nexpr = NULL;
+	GnmNamedExpr *nexpr = NULL;
 	guint16 flags		= MS_OLE_GET_GUINT16 (q->data);
 	/*guint8  kb_shortcut	= MS_OLE_GET_GUINT8  (q->data + 2); */
 	guint8  name_len	= MS_OLE_GET_GUINT8  (q->data + 3);
@@ -2689,7 +2693,7 @@ ms_excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 static void
 ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
 {
-	NamedExpression *nexpr = NULL;
+	GnmNamedExpr *nexpr = NULL;
 	char *name = NULL;
 
 	/* NOTE : The name is associated with the last EXTERNSHEET records seen */
@@ -2701,7 +2705,7 @@ ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
 		case 0x00: { /* external name */
 			name = biff_get_text (q->data + 7, namelen, &namelen);
 #if 0
-			ExprTree *expr;
+			GnmExpr const *expr;
 
 			/* TODO : understand what an external name is */
 			expr = ms_sheet_parse_expr_internal (esheet,
@@ -3396,7 +3400,7 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 	guint16 const expr2_len	= MS_OLE_GET_GUINT8 (q->data + 4);
 	guint8 const fmt_type	= MS_OLE_GET_GUINT8 (q->data + 9);
 	unsigned offset;
-	ExprTree *expr1 = NULL, *expr2 = NULL;
+	GnmExpr const *expr1 = NULL, *expr2 = NULL;
 
 	d(-1, printf ("cond type = %d, op type = %d\n", (int)type, (int)op););
 #if 0
@@ -3566,8 +3570,8 @@ ms_excel_read_condfmt (BiffQuery *q, ExcelSheet *esheet)
 static void
 ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 {
-	ExprTree *expr1 = NULL, *expr2 = NULL;
-	int       expr1_len,     expr2_len;
+	GnmExpr const   *expr1 = NULL, *expr2 = NULL;
+	int      	 expr1_len,     expr2_len;
 	char *input_msg, *error_msg, *input_title, *error_title;
 	guint32	options, len;
 	guint8 const *data, *expr1_dat, *expr2_dat;
@@ -3748,7 +3752,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 		      esheet->gnum_sheet->name_unquoted););
 
 	/* Apply the default style */
-	mstyle = ms_excel_get_style_from_xf (esheet, 0);
+	mstyle = ms_excel_get_style_from_xf (esheet, 15);
 	if (mstyle != NULL) {
 		Range r;
 		sheet_style_set_range (esheet->gnum_sheet,

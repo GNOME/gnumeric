@@ -16,6 +16,7 @@
 #include "gutils.h"
 #include "formats.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "cell.h"
 #include "sheet.h"
 #include "workbook.h"
@@ -99,7 +100,7 @@ auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res)
 
 /* ------------------------------------------------------------------------- */
 
-static AutoFormatTypes do_af_suggest_list (ExprList *list,
+static AutoFormatTypes do_af_suggest_list (GnmExprList *list,
 					   EvalPos const *epos,
 					   StyleFormat **explicit);
 
@@ -119,20 +120,20 @@ cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
 }
 
 static AutoFormatTypes
-do_af_suggest (ExprTree const *expr, const EvalPos *epos, StyleFormat **explicit)
+do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 {
 	switch (expr->any.oper) {
-	case OPER_EQUAL:
-	case OPER_GT:
-	case OPER_LT:
-	case OPER_GTE:
-	case OPER_LTE:
-	case OPER_NOT_EQUAL:
+	case GNM_EXPR_OP_EQUAL:
+	case GNM_EXPR_OP_GT:
+	case GNM_EXPR_OP_LT:
+	case GNM_EXPR_OP_GTE:
+	case GNM_EXPR_OP_LTE:
+	case GNM_EXPR_OP_NOT_EQUAL:
 		return AF_UNITLESS;  /* Close enough.  */
 
-	case OPER_MULT:
+	case GNM_EXPR_OP_MULT:
 		/* Fall through.  This isn't quite right, but good enough.  */
-	case OPER_ADD: {
+	case GNM_EXPR_OP_ADD: {
 		/* Return the first interesting type we see.  */
 		AutoFormatTypes typ;
 
@@ -143,7 +144,7 @@ do_af_suggest (ExprTree const *expr, const EvalPos *epos, StyleFormat **explicit
 		return do_af_suggest (expr->binary.value_b, epos, explicit);
 	}
 
-	case OPER_SUB: {
+	case GNM_EXPR_OP_SUB: {
 		AutoFormatTypes typ1, typ2;
 		StyleFormat *explicit1 = NULL, *explicit2 = NULL;
 
@@ -161,11 +162,11 @@ do_af_suggest (ExprTree const *expr, const EvalPos *epos, StyleFormat **explicit
 		}
 	}
 
-	case OPER_DIV:
+	case GNM_EXPR_OP_DIV:
 		/* Check the left-hand side only.  */
 		return do_af_suggest (expr->binary.value_a, epos, explicit);
 
-	case OPER_FUNCALL: {
+	case GNM_EXPR_OP_FUNCALL: {
 		AutoFormatTypes typ;
 		const char *name;
 
@@ -180,7 +181,7 @@ do_af_suggest (ExprTree const *expr, const EvalPos *epos, StyleFormat **explicit
 						   epos, explicit);
 
 		case AF_FIRST_ARG_FORMAT2: {
-			ExprList *l;
+			GnmExprList *l;
 			l = expr->func.arg_list;
 			if (l) l = l->next;
 			return do_af_suggest_list (l, epos, explicit);
@@ -191,7 +192,7 @@ do_af_suggest (ExprTree const *expr, const EvalPos *epos, StyleFormat **explicit
 		}
 	}
 
-	case OPER_CONSTANT: {
+	case GNM_EXPR_OP_CONSTANT: {
 		const Value *v = expr->constant.value;
 
 		switch (v->type) {
@@ -220,13 +221,13 @@ do_af_suggest (ExprTree const *expr, const EvalPos *epos, StyleFormat **explicit
 		}
 	}
 
-	case OPER_VAR: {
+	case GNM_EXPR_OP_CELLREF: {
 		Sheet const *sheet;
 		CellRef const *ref;
 		Cell const *cell;
 		CellPos pos;
 
-		ref = &expr->var.ref;
+		ref = &expr->cellref.ref;
 		sheet = eval_sheet (ref->sheet, epos->sheet);
 		/* If we don't have a sheet, we cannot look up vars.  */
 		if (sheet == NULL)
@@ -241,24 +242,24 @@ do_af_suggest (ExprTree const *expr, const EvalPos *epos, StyleFormat **explicit
 		return *explicit ? AF_EXPLICIT : AF_UNKNOWN;
 	}
 
-	case OPER_UNARY_NEG:
-	case OPER_UNARY_PLUS:
+	case GNM_EXPR_OP_UNARY_NEG:
+	case GNM_EXPR_OP_UNARY_PLUS:
 		return do_af_suggest (expr->unary.value, epos, explicit);
 
-	case OPER_PERCENT:
+	case GNM_EXPR_OP_PERCENTAGE:
 		return AF_PERCENT;
 
-	case OPER_EXP:
-	case OPER_CONCAT:
-	case OPER_NAME:
-	case OPER_ARRAY:
+	case GNM_EXPR_OP_EXP:
+	case GNM_EXPR_OP_CAT:
+	case GNM_EXPR_OP_NAME:
+	case GNM_EXPR_OP_ARRAY:
 	default:
 		return AF_UNKNOWN;
 	}
 }
 
 static AutoFormatTypes
-do_af_suggest_list (ExprList *list, const EvalPos *epos, StyleFormat **explicit)
+do_af_suggest_list (GnmExprList *list, const EvalPos *epos, StyleFormat **explicit)
 {
 	AutoFormatTypes typ = AF_UNKNOWN;
 	while (list && (typ == AF_UNKNOWN || typ == AF_UNITLESS)) {
@@ -271,7 +272,7 @@ do_af_suggest_list (ExprList *list, const EvalPos *epos, StyleFormat **explicit)
 /* ------------------------------------------------------------------------- */
 
 StyleFormat *
-auto_style_format_suggest (ExprTree const *expr, EvalPos const *epos)
+auto_style_format_suggest (GnmExpr const *expr, EvalPos const *epos)
 {
 	StyleFormat *explicit = NULL;
 

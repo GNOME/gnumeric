@@ -68,7 +68,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 
 	if (cell_has_expr (cell) && sheet != NULL && sheet->display_formulas) {
 		ParsePos pp;
-		char *tmpstr = expr_tree_as_string (cell->base.expression,
+		char *tmpstr = gnm_expr_as_string (cell->base.expression,
 						    parse_pos_init_cell (&pp, cell));
 		str = g_strconcat ("=", tmpstr, NULL);
 		g_free (tmpstr);
@@ -337,7 +337,7 @@ cell_get_entered_text (Cell const *cell)
 		char *func, *ret;
 		ParsePos pp;
 
-		func = expr_tree_as_string (cell->base.expression,
+		func = gnm_expr_as_string (cell->base.expression,
 			parse_pos_init_cell (&pp, cell));
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);

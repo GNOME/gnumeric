@@ -1,8 +1,20 @@
+2002-03-21  Jody Goldberg <jody@gnome.org>
+
+	* Massive rename
+	ExprTree -> GnmExpr
+
+	* src/print-info.c (load_formats) : suppress some warnings.
+
+	* src/func.c (function_def_call_with_values) : use g_alloca.
+
 2002-03-21  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* AUTHORS: Added the authors of the LP Solve algorithm.
 
 2002-03-20  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-style.c (cell_tile_apply_pos) : a simple optimization.
+	  Don't split a tile to apply the existing style.
 
 	* src/cellspan.c (cell_calc_span) : Fix span calc when spanning
 	  through hidden columns with content there was a typo, and a logic

@@ -884,6 +884,11 @@ tail_recursion :
 		int const r = row / h;
 
 		if (type != TILE_PTR_MATRIX) {
+			/* applying the same style to part of a simple-tile is a nop */
+			if (type == TILE_SIMPLE &&
+			    (*tile)->style_simple.style [0] == rs->new_style)
+				return;
+
 			tmp = cell_tile_ptr_matrix_new (tmp);
 			cell_tile_dtor (*tile);
 			*tile = tmp;
@@ -1537,7 +1542,7 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
  * Slide the styles from the origin region to the new position.
  */
 void
-sheet_style_relocate (ExprRelocateInfo const *rinfo)
+sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 {
 	CellPos corner;
 	StyleList *styles;
@@ -1564,7 +1569,7 @@ sheet_style_relocate (ExprRelocateInfo const *rinfo)
  * to the new region.
  */
 void
-sheet_style_insert_colrow (ExprRelocateInfo const *rinfo)
+sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 {
 	CellPos corner;
 	StyleList *ptr, *styles = NULL;

@@ -8,7 +8,7 @@ struct _Dependent
 {
 	guint	  flags;
 	Sheet	 *sheet;
-	ExprTree *expression;
+	GnmExpr const *expression;
 
 	/* Double-linked list.  */
 	struct _Dependent *next_dep, *prev_dep;
@@ -16,7 +16,7 @@ struct _Dependent
 
 typedef struct {
 	void (*eval) (Dependent *dep);
-	void (*set_expr) (Dependent *dep, ExprTree *new_expr);
+	void (*set_expr) (Dependent *dep, GnmExpr const *new_expr);
 	void (*debug_name) (Dependent const *dep, FILE *out);
 } DependentClass;
 
@@ -72,14 +72,14 @@ guint32	 dependent_type_register    (DependentClass const *klass);
 void	 dependent_types_init	    (void);
 void	 dependent_types_shutdown   (void);
 
-void	 dependent_set_expr	    (Dependent *dependent, ExprTree *new_expr);
+void	 dependent_set_expr	    (Dependent *dependent, GnmExpr const *new_expr);
 void	 dependent_set_sheet	    (Dependent *dependent, Sheet *sheet);
 void	 dependent_link		    (Dependent *dep, CellPos const *pos);
 void	 dependent_unlink	    (Dependent *dep, CellPos const *pos);
 gboolean dependent_eval		    (Dependent *dep);
 void	 cb_dependent_queue_recalc  (Dependent *dep, gpointer ignore);
 
-GSList  *dependents_relocate	    (ExprRelocateInfo const *info);
+GSList  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void     dependents_unrelocate      (GSList *info);
 void     dependents_unrelocate_free (GSList *info);
 

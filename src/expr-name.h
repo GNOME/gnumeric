@@ -6,7 +6,7 @@
 #include "func.h"
 #include "parse-util.h"
 
-struct _NamedExpression {
+struct _GnmNamedExpr {
 	int	    ref_count;
 	String     *name;
 	ParsePos    pos;
@@ -14,28 +14,28 @@ struct _NamedExpression {
 	gboolean    active  : 1;
 	gboolean    builtin : 1;
 	union {
-		ExprTree     *expr_tree;
-		FunctionArgs  expr_func;
+		GnmExpr const *expr_tree;
+		FunctionArgs   expr_func;
 	} t;
 };
 
-NamedExpression *expr_name_new	  (char const *name, gboolean builtin);
-NamedExpression *expr_name_lookup (ParsePos const *pos, char const *name);
-NamedExpression *expr_name_add    (ParsePos const *pp, char const *name,
-				   ExprTree *expr, char const **error_msg);
-NamedExpression *expr_name_create (ParsePos const *pp, char const *name,
+GnmNamedExpr *expr_name_new	  (char const *name, gboolean builtin);
+GnmNamedExpr *expr_name_lookup (ParsePos const *pos, char const *name);
+GnmNamedExpr *expr_name_add    (ParsePos const *pp, char const *name,
+				   GnmExpr const *expr, char const **error_msg);
+GnmNamedExpr *expr_name_create (ParsePos const *pp, char const *name,
 				   char const *expr_str, ParseError *error);
 
-void	 expr_name_ref	      (NamedExpression *exprn);
-void	 expr_name_unref      (NamedExpression *exprn);
-void     expr_name_remove     (NamedExpression *exprn);
-Value   *expr_name_eval       (NamedExpression const *ne,
-			       EvalPos const* pos, ExprEvalFlags flags);
-char    *expr_name_as_string  (NamedExpression const *ne, ParsePos const *pp);
-gboolean expr_name_set_scope  (NamedExpression *ne, Sheet *sheet);
-void	 expr_name_set_expr   (NamedExpression *ne, ExprTree *new_expr);
-void	 expr_name_add_dep    (NamedExpression *ne, Dependent *dep);
-void	 expr_name_remove_dep (NamedExpression *ne, Dependent *dep);
+void	 expr_name_ref	      (GnmNamedExpr *exprn);
+void	 expr_name_unref      (GnmNamedExpr *exprn);
+void     expr_name_remove     (GnmNamedExpr *exprn);
+Value   *expr_name_eval       (GnmNamedExpr const *ne, EvalPos const *ep,
+			       GnmExprEvalFlags flags);
+char    *expr_name_as_string  (GnmNamedExpr const *ne, ParsePos const *pp);
+gboolean expr_name_set_scope  (GnmNamedExpr *ne, Sheet *sheet);
+void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExpr const *new_expr);
+void	 expr_name_add_dep    (GnmNamedExpr *ne, Dependent *dep);
+void	 expr_name_remove_dep (GnmNamedExpr *ne, Dependent *dep);
 
 GList	 *expr_name_list_destroy	  (GList *names);
 

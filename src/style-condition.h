@@ -66,7 +66,7 @@ struct _StyleCondition {
 };
 
 StyleCondition *style_condition_new_expr       (StyleConditionOperator op,
-						ExprTree *expr);
+						GnmExpr *expr);
 StyleCondition *style_condition_new_constraint (StyleConditionConstraint constraint);
 StyleCondition *style_condition_new_flags      (StyleConditionFlags flags);
 

@@ -90,7 +90,7 @@ get_bounding_box (GSList const *granges, Range *box)
  * it to a value.
  **/
 static void
-set_cell_expr (Sheet *sheet, int const col, int const row, ExprTree *expr)
+set_cell_expr (Sheet *sheet, int col, int row, GnmExpr const *expr)
 {
 	cell_set_expr (sheet_cell_fetch (sheet, col, row), expr);
 }
@@ -105,7 +105,7 @@ set_cell_expr (Sheet *sheet, int const col, int const row, ExprTree *expr)
  * Set the value of a cell.
  **/
 static void
-set_cell_value (Sheet *sheet, int const col, int const row, Value const *value)
+set_cell_value (Sheet *sheet, int col, int row, Value const *value)
 {
 	/* There are cases in which value can be NULL */
 	if (value != NULL)
@@ -579,7 +579,7 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 
 	for (y = box.start.row; y <= box.end.row; y++) {
 		for (x = box.start.col; x <= box.end.col; x++) {
-			ExprList *args = NULL;
+			GnmExprList *args = NULL;
 
 			for (l = src; l != NULL; l = l->next) {
 				GlobalRange const *gr = l->data;
@@ -624,19 +624,17 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 				prev_r = &val->v_range.cell;
 				prev_sheet = gr->sheet;
 
-				args = expr_list_append (args, expr_tree_new_constant (val));
+				args = gnm_expr_list_append (args, gnm_expr_new_constant (val));
 			}
 
 			/* There is no need to free 'args', it will be absorbed
-			 * into the ExprTree
+			 * into the GnmExpr
 			 */
 			if (args) {
-				ExprTree *expr;
-
-				expr = expr_tree_new_funcall (fd, args);
+				GnmExpr const *expr = gnm_expr_new_funcall (fd, args);
 				set_cell_expr (dst->sheet, dst->range.start.col + x,
 					       dst->range.start.row + y, expr);
-				expr_tree_unref (expr);
+				gnm_expr_unref (expr);
 			}
 		}
 	}
@@ -790,11 +788,11 @@ col_consolidate (Consolidate *cs)
 	tree_free (tree);
 }
 
-static ExprList *
+static GnmExprList *
 colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList *granges)
 {
 	GSList const *l;
-	ExprList *args = NULL;
+	GnmExprList *args = NULL;
 
 	for (l = granges; l != NULL; l = l->next) {
 		GlobalRange *gr = l->data;
@@ -824,7 +822,7 @@ colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList 
 				ref.row = ry;
 				ref.col_relative = ref.row_relative = FALSE;
 
-				args = expr_list_append (args, expr_tree_new_var (&ref));
+				args = gnm_expr_list_append (args, gnm_expr_new_cellref (&ref));
 			}
 
 		}
@@ -867,7 +865,7 @@ colrow_consolidate (Consolidate *cs)
 
 		for (m = cols; m != NULL && cs->dst->range.start.col + x < SHEET_MAX_COLS; m = m->next, x++) {
 			Value const *col_name = m->data;
-			ExprList *args;
+			GnmExprList *args;
 
 			if (cs->mode & CONSOLIDATE_COPY_LABELS) {
 				set_cell_value (cs->dst->sheet,
@@ -879,11 +877,10 @@ colrow_consolidate (Consolidate *cs)
 			args = colrow_formula_args_build (row_name, col_name, cs->src);
 
 			if (args) {
-				ExprTree *expr = expr_tree_new_funcall (cs->fd, args);
-
+				GnmExpr const *expr = gnm_expr_new_funcall (cs->fd, args);
 				set_cell_expr (cs->dst->sheet, cs->dst->range.start.col + x,
 					       cs->dst->range.start.row + y, expr);
-				expr_tree_unref (expr);
+				gnm_expr_unref (expr);
 			}
 		}
 	}

@@ -34,6 +34,7 @@
 #include "str.h"
 #include "format.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "value.h"
 #include "ranges.h"
 #include "mstyle.h"
@@ -256,7 +257,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 	if (sheet != NULL) {
 		Cell     *cell;
 		char     *text;
-		ExprArray const* ar;
+		GnmExprArray const* ar;
 
 		cell = sheet_cell_get (sheet,
 				       sheet->edit_pos.col,
@@ -297,7 +298,7 @@ void
 wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *expression)
 {
 	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
-	ExprTree *new_auto_expr;
+	GnmExpr const *new_auto_expr;
 	ParsePos pp;
 
 	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
@@ -309,7 +310,7 @@ wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *expression)
 	textdomain ("C");
 
 	parse_pos_init (&pp, wb_view_workbook (wbv), NULL, 0, 0);
-	new_auto_expr = expr_parse_str_simple (expression, &pp);
+	new_auto_expr = gnm_expr_parse_str_simple (expression, &pp);
 
 	g_return_if_fail (new_auto_expr != NULL);
 
@@ -323,7 +324,7 @@ wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *expression)
 	if (wbv->auto_expr_desc)
 		g_free (wbv->auto_expr_desc);
 	if (wbv->auto_expr)
-		expr_tree_unref (wbv->auto_expr);
+		gnm_expr_unref (wbv->auto_expr);
 
 	wbv->auto_expr_desc = g_strdup (descr);
 	wbv->auto_expr = new_auto_expr;
@@ -348,9 +349,9 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wbv->auto_expr != NULL);
 
-	v = expr_eval (wbv->auto_expr,
+	v = gnm_expr_eval (wbv->auto_expr,
 		       eval_pos_init_sheet (&ep, wbv->current_sheet),
-		       EVAL_STRICT);
+		       GNM_EXPR_EVAL_STRICT);
 
 	if (wbv->auto_expr_value_as_string)
 		g_free (wbv->auto_expr_value_as_string);
@@ -405,7 +406,7 @@ wb_view_finalize (GObject *object)
 	WorkbookView *wbv = WORKBOOK_VIEW (object);
 
 	if (wbv->auto_expr) {
-		expr_tree_unref (wbv->auto_expr);
+		gnm_expr_unref (wbv->auto_expr);
 		wbv->auto_expr = NULL;
 	}
 	if (wbv->auto_expr_desc) {

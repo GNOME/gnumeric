@@ -112,7 +112,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 		 * this can be relaxed.  We do not need to require
 		 * non emptiness, or scalarness.
 		 */
-		Value *v = expr_eval (l->data, ei->pos, EVAL_STRICT);
+		Value *v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_STRICT);
 
 		args = g_slist_prepend (args, value_to_gb (v));
 

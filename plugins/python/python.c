@@ -691,11 +691,11 @@ marshal_func_args (FunctionEvalInfo *ei, Value *argv [])
  * Marshal a variable number of arguments and hand them to call_function.
  */
 static Value *
-marshal_func_nodes (FunctionEvalInfo *ei, ExprList *nodes)
+marshal_func_nodes (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	PyObject *args;
 	Value *v = NULL, *ev;
-	ExprList *l;
+	GnmExprList *l;
 	int i, argc;
 
 	g_return_val_if_fail (ei != NULL, NULL);
@@ -703,7 +703,7 @@ marshal_func_nodes (FunctionEvalInfo *ei, ExprList *nodes)
 	g_return_val_if_fail (ei->func_call->func != NULL, NULL);
 
 	/* Count actual arguments */
-	argc = expr_list_length (nodes);
+	argc = gnm_expr_list_length (nodes);
 
 	/* Build the argument list which is a Python tuple. */
 	args = PyTuple_New (argc + 1);
@@ -713,7 +713,7 @@ marshal_func_nodes (FunctionEvalInfo *ei, ExprList *nodes)
 
 	/* Now, the actual arguments */
 	for (i = 0, l = nodes; i < argc && l; i++, l = l->next) {
-		ev = expr_eval (l->data, ei->pos, EVAL_PERMIT_NON_SCALAR);
+		ev = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		/* ref is stolen from us */
 		PyTuple_SetItem (args, i + 1, value_to_python (ev));
 		value_release (ev);

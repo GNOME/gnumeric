@@ -24,7 +24,7 @@ struct _WorkbookView {
 	int preferred_width, preferred_height;
 
 	/* The auto-expression */
-	ExprTree  *auto_expr;
+	GnmExpr const *auto_expr;
 	char	  *auto_expr_desc;
 	char	  *auto_expr_value_as_string;
 

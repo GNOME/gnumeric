@@ -208,7 +208,7 @@ gnm_graph_vector_eval (Dependent *dep)
 	CORBA_Environment ev;
 	GnmGraphVector *vector;
 	EvalPos ep;
-	ExprEvalFlags flags = EVAL_PERMIT_NON_SCALAR;
+	GnmExprEvalFlags flags = GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
 
 	vector = DEP_TO_GRAPH_VECTOR (dep);
 
@@ -217,8 +217,8 @@ gnm_graph_vector_eval (Dependent *dep)
 	if (vector->value != NULL)
 		value_release (vector->value);
 	if (vector->type == GNM_VECTOR_STRING)
-		flags |= EVAL_PERMIT_EMPTY;
-	vector->value = expr_eval (vector->dep.expression,
+		flags |= GNM_EXPR_EVAL_PERMIT_EMPTY;
+	vector->value = gnm_expr_eval (vector->dep.expression,
 		eval_pos_init_dep (&ep, &vector->dep), flags);
 
 	CORBA_exception_init (&ev);
@@ -466,7 +466,7 @@ gnm_graph_vector_destroy (GtkObject *obj)
 
 	dependent_unlink (&vector->dep, NULL);
 	if (vector->dep.expression != NULL) {
-		expr_tree_unref (vector->dep.expression);
+		gnm_expr_unref (vector->dep.expression);
 		vector->dep.expression = NULL;
 	}
 
@@ -621,14 +621,14 @@ gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
  * Returns the ID of the vector
  */
 int
-gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
+gnm_graph_add_vector (GnmGraph *graph, GnmExpr *expr,
 		      GnmGraphVectorType type, Sheet *sheet)
 {
 	static CellPos const dummy = {0,0};
 	GnmGraphVector *vector;
 	EvalPos ep;
 	int i;
-	ExprEvalFlags flags = EVAL_PERMIT_NON_SCALAR;
+	GnmExprEvalFlags flags = GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
 
 	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), -1);
 
@@ -639,11 +639,11 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	for (i = graph->vectors->len ; i-- > 0 ; ) {
 		vector = g_ptr_array_index (graph->vectors, i);
 		if ((type == GNM_VECTOR_AUTO || type == vector->type) &&
-		    expr_tree_equal (expr, vector->dep.expression)) {
+		    gnm_expr_equal (expr, vector->dep.expression)) {
 			d({
 				ParsePos ep;
 				char *expr_str;
-				expr_str = expr_tree_as_string (expr,
+				expr_str = gnm_expr_as_string (expr,
 					parse_pos_init_sheet (&ep, sheet));
 				printf ("vector::ref (%d) @ %p = %s\n",
 					vector->type, vector, expr_str);
@@ -662,8 +662,8 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	dependent_link (&vector->dep, &dummy);
 
 	if (type == GNM_VECTOR_STRING || type == GNM_VECTOR_AUTO)
-		flags |= EVAL_PERMIT_EMPTY;
-	vector->value = expr_eval (vector->dep.expression,
+		flags |= GNM_EXPR_EVAL_PERMIT_EMPTY;
+	vector->value = gnm_expr_eval (vector->dep.expression,
 		eval_pos_init_dep (&ep, &vector->dep), flags);
 
 	if (type == GNM_VECTOR_AUTO) {
@@ -699,7 +699,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 			ParsePos pos;
 			char *expr_str;
 			parse_pos_init (&pos, NULL, sheet, 0, 0);
-			expr_str = expr_tree_as_string (expr, &pos);
+			expr_str = gnm_expr_as_string (expr, &pos);
 			printf ("vector::new (%d) @ %p = %s\n", type, vector, expr_str);
 			g_free (expr_str);
 		});
@@ -858,14 +858,14 @@ gnm_graph_range_to_vectors (GnmGraph *graph,
 
 	for (i = 0 ; i <= count ; i++) {
 		int data_id = gnm_graph_add_vector (graph,
-			expr_tree_new_constant (
+			gnm_expr_new_constant (
 				value_new_cellrange_r (sheet, &vector)),
 			GNM_VECTOR_AUTO, sheet);
 
 		if (has_header) {
 			GnmGraphVector *h_vec, *d_vec;
 			int header_id = gnm_graph_add_vector (graph,
-				expr_tree_new_var (&header),
+				gnm_expr_new_cellref (&header),
 				GNM_VECTOR_STRING, sheet);
 			h_vec = g_ptr_array_index (graph->vectors, header_id);
 			h_vec->is_header = TRUE;
@@ -1071,14 +1071,14 @@ gnm_graph_read_xml (SheetObject *so,
 	for (tmp = tmp->xmlChildrenNode; tmp; tmp = tmp->next) {
 		int id, new_id, type;
 		ParsePos pos;
-		ExprTree *expr;
+		GnmExpr *expr;
 		xmlChar *content;
 
 		if (strcmp (tmp->name, "Vector"))
 			continue;
 
 		content = xmlNodeGetContent (tmp);
-		expr = expr_parse_str_simple ((gchar *)content,
+		expr = gnm_expr_parse_str_simple ((gchar *)content,
 			parse_pos_init (&pos, NULL, ctxt->sheet, 0, 0));
 		xmlFree (content);
 
@@ -1119,7 +1119,7 @@ gnm_graph_write_xml (SheetObject const *so,
 
 		if (vector == NULL)
 			continue;
-		expr_str = expr_tree_as_string (vector->dep.expression,
+		expr_str = gnm_expr_as_string (vector->dep.expression,
 			parse_pos_init_dep (&pp, &vector->dep));
 		encoded_expr_str = xmlEncodeEntitiesReentrant (ctxt->doc,
 			(xmlChar *)expr_str);

@@ -30,6 +30,7 @@
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "eval.h"
 #include "selection.h"
 #include "parse-util.h"
@@ -90,7 +91,7 @@ cmd_select_cur_col (Sheet *sheet)
 void
 cmd_select_cur_array (Sheet *sheet)
 {
-	ExprArray const *array;
+	GnmExprArray const *array;
 	int col, row;
 
 	g_return_if_fail (IS_SHEET (sheet));
@@ -282,7 +283,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 
 	if (content == NULL && src_range != NULL) {
 		/* Pasting a Cut */
-		ExprRelocateInfo rinfo;
+		GnmExprRelocateInfo rinfo;
 		Sheet *src_sheet = application_clipboard_sheet_get ();
 
 		/* Validate the size & shape of the target here. */
@@ -371,7 +372,7 @@ void
 cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 		int col, int start_row, int end_row, int count)
 {
-	ExprRelocateInfo rinfo;
+	GnmExprRelocateInfo rinfo;
 	char *desc;
 
 	rinfo.col_offset = count;
@@ -409,7 +410,7 @@ void
 cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 		int start_col, int end_col, int row, int count)
 {
-	ExprRelocateInfo rinfo;
+	GnmExprRelocateInfo rinfo;
 	char *desc;
 
 	rinfo.col_offset = 0;

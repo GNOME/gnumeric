@@ -31,6 +31,7 @@
 #include "workbook-view.h"
 #include "workbook-private.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "expr-name.h"
 #include "cell.h"
 #include "func.h"
@@ -125,7 +126,7 @@ dependent_changed (Dependent *dep)
  */
 #warning fix the semantics of this
 void
-dependent_set_expr (Dependent *dep, ExprTree *new_expr)
+dependent_set_expr (Dependent *dep, GnmExpr const *new_expr)
 {
 	int const t = dependent_type (dep);
 
@@ -137,18 +138,18 @@ dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 	parse_pos_init_dep (&pos, dep);
 	dependent_debug_name (dep, stdout);
 
-	str = expr_tree_as_string (new_expr, &pos);
+	str = gnm_expr_as_string (new_expr, &pos);
 	printf(" new = %s\n", str);
 	g_free (str);
 
-	str = expr_tree_as_string (dep->expression, &pos);
+	str = gnm_expr_as_string (dep->expression, &pos);
 	printf("\told = %s\n", str);
 	g_free (str);
 }
 #endif
 
 	if (new_expr != NULL)
-		expr_tree_ref (new_expr);
+		gnm_expr_ref (new_expr);
 	if (dependent_is_linked (dep))
 		dependent_unlink (dep, NULL);
 
@@ -166,7 +167,7 @@ dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 			(*klass->set_expr) (dep, new_expr);
 
 		if (dep->expression != NULL)
-			expr_tree_unref (dep->expression);
+			gnm_expr_unref (dep->expression);
 		dep->expression = new_expr;
 		if (new_expr != NULL)
 			dependent_changed (dep);
@@ -708,16 +709,16 @@ unlink_cellrange_dep (Dependent *dep, CellPos const *pos,
 }
 
 static DependentFlags
-link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
+link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 {
 	switch (tree->any.oper) {
-	case OPER_ANY_BINARY:
+	case GNM_EXPR_OP_ANY_BINARY:
 		return  link_expr_dep (dep, pos, tree->binary.value_a) |
 			link_expr_dep (dep, pos, tree->binary.value_b);
-	case OPER_ANY_UNARY : return link_expr_dep (dep, pos, tree->unary.value);
-	case OPER_VAR	    : return link_single_dep (dep, pos, &tree->var.ref);
+	case GNM_EXPR_OP_ANY_UNARY : return link_expr_dep (dep, pos, tree->unary.value);
+	case GNM_EXPR_OP_CELLREF	    : return link_single_dep (dep, pos, &tree->cellref.ref);
 
-	case OPER_CONSTANT:
+	case GNM_EXPR_OP_CONSTANT:
 		/* TODO: use implicit intersection */
 		if (VALUE_CELLRANGE == tree->constant.value->type)
 			return link_cellrange_dep (dep, pos,
@@ -726,8 +727,8 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 		return DEPENDENT_NO_FLAG;
 
 	/* TODO : Can we use argument types to be smarter here ? */
-	case OPER_FUNCALL: {
-		ExprList *l;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l;
 		DependentFlags flag = DEPENDENT_NO_FLAG;
 		if (tree->func.func->fn_type == FUNCTION_NAMEONLY)
 			func_def_load (tree->func.func);
@@ -735,7 +736,7 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 			EvalPos		 ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
-			fei.func_call = (ExprFunction const *)tree;
+			fei.func_call = (GnmExprFunction const *)tree;
 			flag = tree->func.func->link (&fei);
 		}
 		for (l = tree->func.arg_list; l; l = l->next)
@@ -743,13 +744,13 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 		return flag;
 	}
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		expr_name_add_dep (tree->name.name, dep);
 		if (!tree->name.name->builtin && tree->name.name->active)
 			return link_expr_dep (dep, pos, tree->name.name->t.expr_tree);
 		return DEPENDENT_NO_FLAG;
 
-	case OPER_ARRAY:
+	case GNM_EXPR_OP_ARRAY:
 		if (tree->array.x != 0 || tree->array.y != 0) {
 			/* Non-corner cells depend on the corner */
 			CellRef a;
@@ -769,8 +770,8 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 			/* Corner cell depends on the contents of the expr */
 			return link_expr_dep (dep, pos, tree->array.corner.expr);
 
-	case OPER_SET: {
-		ExprList *l;
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l;
 		DependentFlags res = DEPENDENT_NO_FLAG;
 
 		for (l = tree->set.set; l; l = l->next)
@@ -785,20 +786,20 @@ link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 }
 
 static void
-unlink_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
+unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 {
 	switch (tree->any.oper) {
-	case OPER_ANY_BINARY:
+	case GNM_EXPR_OP_ANY_BINARY:
 		unlink_expr_dep (dep, pos, tree->binary.value_a);
 		unlink_expr_dep (dep, pos, tree->binary.value_b);
 		return;
 
-	case OPER_ANY_UNARY : unlink_expr_dep (dep, pos, tree->unary.value);
+	case GNM_EXPR_OP_ANY_UNARY : unlink_expr_dep (dep, pos, tree->unary.value);
 		return;
-	case OPER_VAR	    : unlink_single_dep (dep, pos, &tree->var.ref);
+	case GNM_EXPR_OP_CELLREF	    : unlink_single_dep (dep, pos, &tree->cellref.ref);
 		return;
 
-	case OPER_CONSTANT:
+	case GNM_EXPR_OP_CONSTANT:
 		if (VALUE_CELLRANGE == tree->constant.value->type)
 			unlink_cellrange_dep (dep, pos,
 				&tree->constant.value->v_range.cell.a,
@@ -809,13 +810,13 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 	 * FIXME: needs to be taught implicit intersection +
 	 * more cunning handling of argument type matching.
 	 */
-	case OPER_FUNCALL: {
-		ExprList *l;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l;
 		if (tree->func.func->unlink) {
 			EvalPos		 ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
-			fei.func_call = (ExprFunction const *)tree;
+			fei.func_call = (GnmExprFunction const *)tree;
 			tree->func.func->unlink (&fei);
 		}
 		for (l = tree->func.arg_list; l; l = l->next)
@@ -823,13 +824,13 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 		return;
 	}
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		expr_name_remove_dep (tree->name.name, dep);
 		if (!tree->name.name->builtin && tree->name.name->active)
 			unlink_expr_dep (dep, pos, tree->name.name->t.expr_tree);
 		return;
 
-	case OPER_ARRAY:
+	case GNM_EXPR_OP_ARRAY:
 		if (tree->array.x != 0 || tree->array.y != 0) {
 			/* Non-corner cells depend on the corner */
 			CellRef a;
@@ -850,8 +851,8 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 			unlink_expr_dep (dep, pos, tree->array.corner.expr);
 		return;
 
-	case OPER_SET: {
-		ExprList *l;
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l;
 
 		for (l = tree->set.set; l; l = l->next)
 			unlink_expr_dep (dep, pos, l->data);
@@ -972,7 +973,7 @@ cell_eval_content (Cell *cell)
 #ifdef DEBUG_EVALUATION
 	{
 		ParsePos pp;
-		char *str = expr_tree_as_string (cell->base.expression,
+		char *str = gnm_expr_as_string (cell->base.expression,
 			parse_pos_init_cell (&pp, cell));
 		printf ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
 		g_free (str);
@@ -1021,7 +1022,7 @@ cell_eval_content (Cell *cell)
 	max_iteration = cell->base.sheet->workbook->iteration.max_number;
 
 iterate :
-	v = expr_eval (cell->base.expression, &pos, EVAL_STRICT);
+	v = gnm_expr_eval (cell->base.expression, &pos, GNM_EXPR_EVAL_STRICT);
 	if (v == NULL)
 		v = value_new_error (&pos, "Internal error");
 
@@ -1321,7 +1322,7 @@ typedef struct
 		EvalPos    pos;
 		Dependent *dep;
 	} u;
-	ExprTree *oldtree;
+	GnmExpr const *oldtree;
 } ExprRelocateStorage;
 
 /**
@@ -1336,7 +1337,7 @@ dependents_unrelocate_free (GSList *info)
 	GSList *ptr = info;
 	for (; ptr != NULL ; ptr = ptr->next) {
 		ExprRelocateStorage *tmp = (ExprRelocateStorage *)(ptr->data);
-		expr_tree_unref (tmp->oldtree);
+		gnm_expr_unref (tmp->oldtree);
 		g_free (tmp);
 	}
 	g_slist_free (info);
@@ -1371,7 +1372,7 @@ dependents_unrelocate (GSList *info)
 			dependent_flag_recalc (tmp->u.dep);
 			dependent_link (tmp->u.dep, NULL);
 		}
-		expr_tree_unref (tmp->oldtree);
+		gnm_expr_unref (tmp->oldtree);
 		g_free (tmp);
 	}
 	g_slist_free (info);
@@ -1420,14 +1421,14 @@ cb_single_contained_collect (DependencySingle const *depsingle, gpointer ignored
  * for recalc
  */
 GSList *
-dependents_relocate (ExprRelocateInfo const *info)
+dependents_relocate (GnmExprRelocateInfo const *info)
 {
-	ExprRewriteInfo rwinfo;
+	GnmExprRewriteInfo rwinfo;
 	Dependent *dep;
-	ExprTree  *newtree;
 	GSList    *l, *dependents = NULL, *undo_info = NULL;
 	Sheet	  *sheet;
-	Range const *r;
+	Range const   *r;
+	GnmExpr const *newtree;
 	int i;
 	CollectClosure collect;
 
@@ -1470,8 +1471,8 @@ dependents_relocate (ExprRelocateInfo const *info)
 	}
 	dependents = collect.list;
 
-	rwinfo.type = EXPR_REWRITE_RELOCATE;
-	memcpy (&rwinfo.u.relocate, info, sizeof (ExprRelocateInfo));
+	rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
+	memcpy (&rwinfo.u.relocate, info, sizeof (GnmExprRelocateInfo));
 
 	for (l = dependents; l; l = l->next) {
 		dep = l->data;
@@ -1483,7 +1484,7 @@ dependents_relocate (ExprRelocateInfo const *info)
 		/* its possible nothing changed for contained deps
 		 * using absolute references
 		 */
-		newtree = expr_rewrite (dep->expression, &rwinfo);
+		newtree = gnm_expr_rewrite (dep->expression, &rwinfo);
 		if (newtree != NULL) {
 			int const t = dependent_type (dep);
 			ExprRelocateStorage *tmp =
@@ -1495,11 +1496,11 @@ dependents_relocate (ExprRelocateInfo const *info)
 			else
 				tmp->u.pos = rwinfo.u.relocate.pos;
 			tmp->oldtree = dep->expression;
-			expr_tree_ref (tmp->oldtree);
+			gnm_expr_ref (tmp->oldtree);
 			undo_info = g_slist_prepend (undo_info, tmp);
 
 			dependent_set_expr (dep, newtree); /* unlinks */
-			expr_tree_unref (newtree);
+			gnm_expr_unref (newtree);
 
 			/* queue the things that depend on the changed dep
 			 * even if it is going to move.
@@ -1532,9 +1533,9 @@ dependents_relocate (ExprRelocateInfo const *info)
 /*******************************************************************/
 
 inline static void
-invalidate_refs (Dependent *dep, ExprRewriteInfo const *rwinfo)
+invalidate_refs (Dependent *dep, GnmExprRewriteInfo const *rwinfo)
 {
-	ExprTree *newtree = expr_rewrite (dep->expression, rwinfo);
+	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
 
 	/* We are told this dependent depends on this region, hence if newtree
 	 * is null then either
@@ -1553,7 +1554,7 @@ invalidate_refs (Dependent *dep, ExprRewriteInfo const *rwinfo)
 static void
 cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 {
-	ExprRewriteInfo const *rwinfo = closure;
+	GnmExprRewriteInfo const *rwinfo = closure;
 	DependencyAny *depany = value;
 #ifndef ENABLE_MICRO_HASH
 	GSList *deps = depany->deps;
@@ -1561,14 +1562,14 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 	Dependent *dependent;
 
 	depany->deps = NULL;	/* poison it */
-	if (rwinfo->type == EXPR_REWRITE_SHEET) {
+	if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
 		Sheet const *target = rwinfo->u.sheet;
 		for (; ptr != NULL; ptr = ptr->next) {
 			dependent = ptr->data;
 			if (dependent->sheet != target)
 				invalidate_refs (dependent, rwinfo);
 		}
-	} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+	} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 		Workbook const *target = rwinfo->u.workbook;
 		for (; ptr != NULL; ptr = ptr->next) {
 			dependent = ptr->data;
@@ -1581,12 +1582,12 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 
 	g_slist_free (deps);
 #else
-	if (rwinfo->type == EXPR_REWRITE_SHEET) {
+	if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
 		Sheet const *target = rwinfo->u.sheet;
 		dep_collection_foreach_dep (depany->deps, dep,
 			if (dep->sheet != target)
 				invalidate_refs (dep, rwinfo););
-	} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+	} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 		Workbook const *target = rwinfo->u.workbook;
 		dep_collection_foreach_dep(depany->deps, dep,
 			if (dep->sheet->workbook != target)
@@ -1603,8 +1604,8 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 static void
 cb_name_invalidate_sheet (gpointer key, gpointer value, gpointer rwinfo)
 {
-	NamedExpression *nexpr = key;
-	ExprTree *new_expr = expr_rewrite (nexpr->t.expr_tree, rwinfo);
+	GnmNamedExpr *nexpr = key;
+	GnmExpr const *new_expr = gnm_expr_rewrite (nexpr->t.expr_tree, rwinfo);
 	g_return_if_fail (new_expr != NULL);
 	expr_name_set_expr (nexpr, new_expr);
 }
@@ -1615,7 +1616,7 @@ cb_name_invalidate_sheet (gpointer key, gpointer value, gpointer rwinfo)
  * @rwinfo.
  */
 static void
-do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
+do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 {
 	static CellPos const dummy = { 0, 0 };
 	DependentFlags filter = DEPENDENT_LINK_FLAGS; /* unlink everything */
@@ -1666,7 +1667,7 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 	/* TODO : Add an 'application quit flag' to ignore interbook too */
 	if (sheet->deps == NULL) {
 		filter = DEPENDENT_GOES_INTERBOOK;
-		if (rwinfo->type == EXPR_REWRITE_SHEET)
+		if (rwinfo->type == GNM_EXPR_REWRITE_SHEET)
 			    filter |= DEPENDENT_GOES_INTERSHEET;
 	}
 
@@ -1688,11 +1689,11 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 void
 sheet_deps_destroy (Sheet *sheet)
 {
-	ExprRewriteInfo rwinfo;
+	GnmExprRewriteInfo rwinfo;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	rwinfo.type = EXPR_REWRITE_SHEET;
+	rwinfo.type = GNM_EXPR_REWRITE_SHEET;
 	rwinfo.u.sheet = sheet;
 
 	do_deps_destroy (sheet, &rwinfo);
@@ -1701,12 +1702,12 @@ sheet_deps_destroy (Sheet *sheet)
 void
 workbook_deps_destroy (Workbook *wb)
 {
-	ExprRewriteInfo rwinfo;
+	GnmExprRewriteInfo rwinfo;
 
 	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (wb->sheets != NULL);
 
-	rwinfo.type = EXPR_REWRITE_WORKBOOK;
+	rwinfo.type = GNM_EXPR_REWRITE_WORKBOOK;
 	rwinfo.u.workbook = wb;
 
 	WORKBOOK_FOREACH_SHEET (wb, sheet, do_deps_destroy (sheet, &rwinfo););

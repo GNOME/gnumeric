@@ -124,7 +124,7 @@ ms_container_realize_objs (MSContainer *container)
  *
  * Attempts to parse the encoded expression in the context of the container.
  */
-ExprTree *
+GnmExpr const *
 ms_container_parse_expr (MSContainer *c, guint8 const *data, int length)
 {
 	g_return_val_if_fail (c != NULL, NULL);

@@ -32,7 +32,10 @@
 #include <str.h>
 #include <sheet.h>
 #include <value.h>
+#include <expr.h>
+#include <expr-impl.h>
 #include <expr-name.h>
+#include <parse-util.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -457,18 +460,18 @@ static const char *help_choose = {
 };
 
 static Value *
-gnumeric_choose (FunctionEvalInfo *ei, ExprList *l)
+gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 {
 	int     index;
 	int     argc;
 	Value  *v;
 
-	argc =  expr_list_length (l);
+	argc =  gnm_expr_list_length (l);
 
 	if (argc < 1 || !l->data)
 		return value_new_error (ei->pos, _("#ARG!"));
 
-	v = expr_eval (l->data, ei->pos, EVAL_STRICT);
+	v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_STRICT);
 	if (!v)
 		return NULL;
 
@@ -482,7 +485,7 @@ gnumeric_choose (FunctionEvalInfo *ei, ExprList *l)
 	for (l = l->next; l != NULL ; l = l->next) {
 		index--;
 		if (!index)
-			return expr_eval (l->data, ei->pos, EVAL_PERMIT_NON_SCALAR);
+			return gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 	}
 	return value_new_error (ei->pos, gnumeric_err_VALUE);
 }
@@ -760,30 +763,30 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 #endif
 	ParsePos  pp;
 	char const *text = value_peek_string (args[0]);
-	ExprTree   *expr = expr_parse_str_simple (text,
+	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
 		parse_pos_init_evalpos (&pp, ei->pos));
 
 	/* We need to parse from the current cell then normalize just in case
 	 * the expression is in R[-1]C[-1] format.
 	 */
 	if (expr != NULL) {
-		if (expr->any.oper == OPER_NAME &&
+		if (expr->any.oper == GNM_EXPR_OP_NAME &&
 		    !expr->name.name->builtin) {
-			ExprTree *tmp = expr->name.name->t.expr_tree;
-			expr_tree_ref (tmp);
-			expr_tree_unref (expr);
+			GnmExpr const *tmp = expr->name.name->t.expr_tree;
+			gnm_expr_ref (tmp);
+			gnm_expr_unref (expr);
 			expr = tmp;
 		}
-		if (expr->any.oper == OPER_VAR) {
-			Value *res = expr_eval (expr, ei->pos, EVAL_STRICT);
-			expr_tree_unref (expr);
+		if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
+			Value *res = gnm_expr_eval (expr, ei->pos, GNM_EXPR_EVAL_STRICT);
+			gnm_expr_unref (expr);
 			return res;
-		} else if (expr->any.oper == OPER_CONSTANT) {
+		} else if (expr->any.oper == GNM_EXPR_OP_CONSTANT) {
 			Value *res = value_duplicate (expr->constant.value);
-			expr_tree_unref (expr);
+			gnm_expr_unref (expr);
 			return res;
 		}
-		expr_tree_unref (expr);
+		gnm_expr_unref (expr);
 	}
 	return value_new_error (ei->pos, gnumeric_err_REF);
 }
@@ -860,19 +863,19 @@ static const char *help_column = {
 };
 
 static Value *
-gnumeric_column (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_column (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
-	ExprTree *expr;
+	GnmExpr *expr;
 
 	if (!nodes || !nodes->data)
 		return value_new_int (ei->pos->eval.col+1);
 
-	expr = (ExprTree *)nodes->data;
+	expr = (GnmExpr *)nodes->data;
 
-	if (expr->any.oper == OPER_VAR)
-		return value_new_int (cellref_get_abs_col (&expr->var.ref,
+	if (expr->any.oper == GNM_EXPR_OP_CELLREF)
+		return value_new_int (cellref_get_abs_col (&expr->cellref.ref,
 							   ei->pos) + 1);
-	if (expr->any.oper == OPER_CONSTANT &&
+	if (expr->any.oper == GNM_EXPR_OP_CONSTANT &&
 	    expr->constant.value->type == VALUE_CELLRANGE) {
 		int i, j, col;
 		Value const * range = expr->constant.value;
@@ -1002,19 +1005,19 @@ static const char *help_row = {
 };
 
 static Value *
-gnumeric_row (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_row (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
-	ExprTree *expr;
+	GnmExpr *expr;
 
 	if (!nodes || !nodes->data)
 		return value_new_int (ei->pos->eval.row+1);
 
-	expr = (ExprTree *)nodes->data;
+	expr = (GnmExpr *)nodes->data;
 
-	if (expr->any.oper == OPER_VAR)
-		return value_new_int (cellref_get_abs_row (&expr->var.ref,
+	if (expr->any.oper == GNM_EXPR_OP_CELLREF)
+		return value_new_int (cellref_get_abs_row (&expr->cellref.ref,
 							    ei->pos) + 1);
-	if (expr->any.oper == OPER_CONSTANT &&
+	if (expr->any.oper == GNM_EXPR_OP_CONSTANT &&
 	    expr->constant.value->type == VALUE_CELLRANGE) {
 		int i, j, row;
 		Value const * range = expr->constant.value;

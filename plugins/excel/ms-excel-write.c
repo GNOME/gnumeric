@@ -44,6 +44,7 @@
 #include <workbook.h>
 #include <io-context.h>
 #include <expr.h>
+#include <expr-impl.h>
 #include <expr-name.h>
 #include <gutils.h>
 #include <str.h>
@@ -560,7 +561,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		guint16 len, name_len;
 
 		char *text;
-		NamedExpression const *expr_name = names->data;
+		GnmNamedExpr const *expr_name = names->data;
 
 		g_return_if_fail (expr_name != NULL);
 
@@ -2559,7 +2560,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
 	gboolean string_result = FALSE;
 	gint     col, row;
 	Value   *v;
-	ExprTree*expr;
+	GnmExpr const *expr;
 
 	g_return_if_fail (bp);
 	g_return_if_fail (cell);
@@ -2624,7 +2625,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
 
 	ms_biff_put_commit (bp);
 
-	if (expr->any.oper == OPER_ARRAY &&
+	if (expr->any.oper == GNM_EXPR_OP_ARRAY &&
 	    expr->array.x == 0 && expr->array.y == 0) {
 		ms_biff_put_var_next (bp, BIFF_ARRAY);
 		MS_OLE_SET_GUINT16 (data+0, cell->pos.row);
@@ -2743,7 +2744,7 @@ write_cell (BiffPut *bp, ExcelSheet *esheet, const ExcelCell *cell)
 		printf ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (gnum_cell),
 			(cell_has_expr (gnum_cell) ?
-			 expr_tree_as_string (gnum_cell->base.expression,
+			 gnm_expr_as_string (gnum_cell->base.expression,
 					      parse_pos_init_cell (&tmp, gnum_cell)) :
 			 "none"),
 			(gnum_cell->value ?

@@ -765,7 +765,7 @@ static gboolean
 cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
-	ExprTree *expr = NULL;
+	GnmExpr const *expr = NULL;
 	GSList *l;
 	char const *start;
 
@@ -785,7 +785,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	l = me->selection;
 	start = gnumeric_char_start_expr_p (me->text);
 	if (start != NULL && me->as_array && l != NULL && l->next == NULL) {
-		expr = expr_parse_str_simple (start, &me->pos);
+		expr = gnm_expr_parse_str_simple (start, &me->pos);
 		if (expr == NULL)
 			return TRUE;
 	}
@@ -2063,7 +2063,7 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	ExprRelocateInfo info;
+	GnmExprRelocateInfo info;
 	GSList		*paste_content;
 	GSList		*reloc_storage;
 	gboolean	 move_selection;
@@ -2085,7 +2085,7 @@ typedef struct
  * workbooks.
  */
 static void
-cmd_paste_cut_update_origin (ExprRelocateInfo const  *info, WorkbookControl *wbc)
+cmd_paste_cut_update_origin (GnmExprRelocateInfo const  *info, WorkbookControl *wbc)
 {
 	/* Dirty and update both sheets */
 	if (info->origin_sheet != info->target_sheet) {
@@ -2102,7 +2102,7 @@ static gboolean
 cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
-	ExprRelocateInfo reverse;
+	GnmExprRelocateInfo reverse;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_content != NULL, TRUE);
@@ -2236,7 +2236,7 @@ cmd_paste_cut_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
+cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	       gboolean move_selection, char *descriptor)
 {
 	GObject *obj;
@@ -3225,7 +3225,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 	SearchReplaceCommentResult comment_res;
 
 	if (search_replace_cell (sr, ep, TRUE, &cell_res)) {
-		ExprTree *expr;
+		GnmExpr const *expr;
 		Value *val;
 		gboolean err;
 		ParsePos pp;
@@ -3241,7 +3241,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		err = val && gnumeric_char_start_expr_p (cell_res.new_text);
 
 		if (val) value_release (val);
-		if (expr) expr_tree_unref (expr);
+		if (expr) gnm_expr_unref (expr);
 
 		if (err) {
 			if (test_run) {

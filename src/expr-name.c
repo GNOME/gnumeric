@@ -16,6 +16,7 @@
 #include "value.h"
 #include "workbook.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "str.h"
 #include "sheet.h"
 #include "sheet-style.h"
@@ -34,7 +35,7 @@ cb_collect_name_deps (gpointer key, gpointer value, gpointer user_data)
 }
 
 static GSList *
-expr_name_unlink_deps (NamedExpression *nexpr)
+expr_name_unlink_deps (GnmNamedExpr *nexpr)
 {
 	GSList *ptr, *deps = NULL;
 
@@ -81,14 +82,14 @@ expr_name_link_deps (GSList *deps)
  *    sheet we will not notice.
  */
 static void
-expr_name_handle_references (NamedExpression *nexpr, gboolean add)
+expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 {
 	GSList *sheets, *ptr;
 
-	sheets = expr_tree_referenced_sheets (nexpr->t.expr_tree);
+	sheets = gnm_expr_referenced_sheets (nexpr->t.expr_tree);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
-		NamedExpression *found;
+		GnmNamedExpr *found;
 
 		/* No need to do anything during destruction */
 		if (sheet->deps == NULL)
@@ -113,11 +114,11 @@ expr_name_handle_references (NamedExpression *nexpr, gboolean add)
 }
 
 
-static NamedExpression *
+static GnmNamedExpr *
 expr_name_lookup_list (GList *p, char const *name)
 {
 	for (; p ; p = p->next) {
-		NamedExpression *nexpr = p->data;
+		GnmNamedExpr *nexpr = p->data;
 		g_return_val_if_fail (nexpr != NULL, 0);
 		if (g_strcasecmp (nexpr->name->str, name) == 0)
 			return nexpr;
@@ -126,10 +127,10 @@ expr_name_lookup_list (GList *p, char const *name)
 }
 
 /* FIXME : Why not use hash tables ? */
-NamedExpression *
+GnmNamedExpr *
 expr_name_lookup (ParsePos const *pos, char const *name)
 {
-	NamedExpression *res = NULL;
+	GnmNamedExpr *res = NULL;
 	Sheet const *sheet = NULL;
 	Workbook const *wb = NULL;
 
@@ -154,14 +155,14 @@ expr_name_lookup (ParsePos const *pos, char const *name)
  * 
  * Creates a new name without linking it into any container.
  */
-NamedExpression *
+GnmNamedExpr *
 expr_name_new (char const *name, gboolean builtin)
 {
-	NamedExpression *nexpr;
+	GnmNamedExpr *nexpr;
 
 	g_return_val_if_fail (name != NULL, NULL);
 
-	nexpr = g_new0 (NamedExpression,1);
+	nexpr = g_new0 (GnmNamedExpr,1);
 
 	nexpr->ref_count = 1;
 	nexpr->builtin = builtin;
@@ -180,18 +181,18 @@ expr_name_new (char const *name, gboolean builtin)
  * to this one we are checking we will come to serious grief.
  */
 static gboolean
-name_refer_circular (char const *name, ExprTree *expr)
+name_refer_circular (char const *name, GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, TRUE);
 
 	switch (expr->any.oper) {
-	case OPER_ANY_BINARY:
+	case GNM_EXPR_OP_ANY_BINARY:
 		return (name_refer_circular (name, expr->binary.value_a) ||
 			name_refer_circular (name, expr->binary.value_b));
-	case OPER_ANY_UNARY:
+	case GNM_EXPR_OP_ANY_UNARY:
 		return name_refer_circular (name, expr->unary.value);
-	case OPER_NAME: {
-		NamedExpression const *nexpr = expr->name.name;
+	case GNM_EXPR_OP_NAME: {
+		GnmNamedExpr const *nexpr = expr->name.name;
 		if (nexpr->builtin)
 			return FALSE;
 
@@ -201,19 +202,19 @@ name_refer_circular (char const *name, ExprTree *expr)
 		/* And look inside this name tree too */
 		return name_refer_circular (name, nexpr->t.expr_tree);
 	}
-	case OPER_FUNCALL: {
-		ExprList *l = expr->func.arg_list;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l = expr->func.arg_list;
 		for (; l ; l = l->next)
 			if (name_refer_circular (name, l->data))
 				return TRUE;
 		break;
 	}
-	case OPER_CONSTANT:
-	case OPER_VAR:
-	case OPER_ARRAY:
+	case GNM_EXPR_OP_CONSTANT:
+	case GNM_EXPR_OP_CELLREF:
+	case GNM_EXPR_OP_ARRAY:
 		break;
-	case OPER_SET: {
-		ExprList *l = expr->set.set;
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l = expr->set.set;
 		for (; l ; l = l->next)
 			if (name_refer_circular (name, l->data))
 				return TRUE;
@@ -232,11 +233,11 @@ name_refer_circular (char const *name, ExprTree *expr)
  *
  * Absorbs the reference to @expr.
  **/
-NamedExpression *
+GnmNamedExpr *
 expr_name_add (ParsePos const *pp, char const *name,
-	       ExprTree *expr, char const **error_msg)
+	       GnmExpr const *expr, char const **error_msg)
 {
-	NamedExpression *nexpr;
+	GnmNamedExpr *nexpr;
 	GList **scope = NULL;
 
 	g_return_val_if_fail (pp != NULL, NULL);
@@ -288,32 +289,32 @@ expr_name_add (ParsePos const *pp, char const *name,
  * either as a workbook name if @sheet == NULL or a sheet
  * name if @wb == NULL.
  *
- * Return value: The created NamedExpression.
+ * Return value: The created GnmNamedExpr.
  **/
-NamedExpression *
+GnmNamedExpr *
 expr_name_create (ParsePos const *pp, char const *name,
 		  char const *value, ParseError *error)
 {
-	NamedExpression *res;
+	GnmNamedExpr *res;
 	char const *err = NULL;
-	ExprTree *tree;
+	GnmExpr const *expr = gnm_expr_parse_str (value, pp,
+		GNM_EXPR_PARSE_DEFAULT, error);
 
-	tree = expr_parse_str (value, pp, GNM_PARSER_DEFAULT, error);
-	if (!tree)
+	if (!expr)
 		return NULL;
 
 	/* We know there has been no parse error, but set the
 	 * use the message part of the struct to pass a name
 	 * creation error back to the calling routine
 	 */
-	res = expr_name_add (pp, name, tree, &err);
+	res = expr_name_add (pp, name, expr, &err);
 	if (err != NULL)
 		error->message = g_strdup (err);
 	return res;
 }
 
 void
-expr_name_ref (NamedExpression *nexpr)
+expr_name_ref (GnmNamedExpr *nexpr)
 {
 	g_return_if_fail (nexpr != NULL);
 
@@ -321,7 +322,7 @@ expr_name_ref (NamedExpression *nexpr)
 }
 
 void
-expr_name_unref (NamedExpression *nexpr)
+expr_name_unref (GnmNamedExpr *nexpr)
 {
 	g_return_if_fail (nexpr != NULL);
 
@@ -354,7 +355,7 @@ expr_name_unref (NamedExpression *nexpr)
  * ref count and be unlinked.
  */
 static void
-expr_name_unlink (NamedExpression *nexpr)
+expr_name_unlink (GnmNamedExpr *nexpr)
 {
 	g_return_if_fail (nexpr->active);
 
@@ -375,7 +376,7 @@ expr_name_unlink (NamedExpression *nexpr)
 }
 
 void
-expr_name_remove (NamedExpression *nexpr)
+expr_name_remove (GnmNamedExpr *nexpr)
 {
 	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (nexpr->active);
@@ -405,7 +406,7 @@ expr_name_list_destroy (GList *names)
 
 	/* Empty the name list */
 	for (p = names ; p != NULL ; p = g_list_next (p)) {
-		NamedExpression *nexpr = p->data;
+		GnmNamedExpr *nexpr = p->data;
 		nexpr->active = FALSE;
 		expr_name_unref (nexpr);
 	}
@@ -421,19 +422,19 @@ expr_name_list_destroy (GList *names)
  * returns a string that the caller needs to free.
  */
 char *
-expr_name_as_string (NamedExpression const *nexpr, ParsePos const *pp)
+expr_name_as_string (GnmNamedExpr const *nexpr, ParsePos const *pp)
 {
 	if (nexpr->builtin)
 		return g_strdup (_("Builtin"));
 
 	if (pp == NULL)
 		pp = &nexpr->pos;
-	return expr_tree_as_string (nexpr->t.expr_tree, pp);
+	return gnm_expr_as_string (nexpr->t.expr_tree, pp);
 }
 
 Value *
-expr_name_eval (NamedExpression const *nexpr,
-		EvalPos const *pos, ExprEvalFlags flags)
+expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
+		GnmExprEvalFlags flags)
 {
 	g_return_val_if_fail (pos, NULL);
 
@@ -448,7 +449,7 @@ expr_name_eval (NamedExpression const *nexpr,
 		return (*nexpr->t.expr_func) (&ei, NULL);
 	}
 
-	return expr_eval (nexpr->t.expr_tree, pos, flags);
+	return gnm_expr_eval (nexpr->t.expr_tree, pos, flags);
 }
 
 /*******************************************************************
@@ -462,7 +463,7 @@ expr_name_eval (NamedExpression const *nexpr,
  * Return Value: FALSE or error, TRUE otherwise
  **/
 gboolean
-expr_name_set_scope (NamedExpression *nexpr, Sheet *sheet)
+expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 {
 	Workbook *wb;
 
@@ -483,7 +484,7 @@ expr_name_set_scope (NamedExpression *nexpr, Sheet *sheet)
 }
 
 void
-expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
+expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 {
 	GSList *deps = NULL;
 
@@ -491,11 +492,11 @@ expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
 	g_return_if_fail (!nexpr->builtin);
 
 	if (new_expr != NULL)
-		expr_tree_ref (new_expr);
+		gnm_expr_ref (new_expr);
 	if (nexpr->t.expr_tree != NULL) {
 		deps = expr_name_unlink_deps (nexpr);
 		expr_name_handle_references (nexpr, FALSE);
-		expr_tree_unref (nexpr->t.expr_tree);
+		gnm_expr_unref (nexpr->t.expr_tree);
 	}
 	nexpr->t.expr_tree = new_expr;
 	expr_name_link_deps (deps);
@@ -505,7 +506,7 @@ expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
 }
 
 void
-expr_name_add_dep (NamedExpression *nexpr, Dependent *dep)
+expr_name_add_dep (GnmNamedExpr *nexpr, Dependent *dep)
 {
 	if (nexpr->dependents == NULL)
 		nexpr->dependents = g_hash_table_new (g_direct_hash,
@@ -515,7 +516,7 @@ expr_name_add_dep (NamedExpression *nexpr, Dependent *dep)
 }
 
 void
-expr_name_remove_dep (NamedExpression *nexpr, Dependent *dep)
+expr_name_remove_dep (GnmNamedExpr *nexpr, Dependent *dep)
 {
 	g_return_if_fail (nexpr->dependents != NULL);
 
@@ -574,7 +575,7 @@ expr_name_init (void)
 
 	/* Not in global function table though ! */
 	for (; builtins[lp].name ; lp++) {
-		NamedExpression *nexpr;
+		GnmNamedExpr *nexpr;
 		nexpr = expr_name_new (builtins[lp].name, TRUE);
 		nexpr->t.expr_func = builtins[lp].fn;
 		global_names = g_list_append (global_names, nexpr);

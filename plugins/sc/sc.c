@@ -243,7 +243,7 @@ static gboolean
 sc_parse_let_expr (sc_file_state_t *src, const char *cmd, const char *str, int col, int row)
 {
 	char *error = NULL;
-	ExprTree *tree;
+	GnmExpr *tree;
 	Cell *cell;
 
 	g_return_val_if_fail (src, FALSE);
@@ -271,7 +271,7 @@ sc_parse_let_expr (sc_file_state_t *src, const char *cmd, const char *str, int c
 	/* fall through */
 
 out:
-	if (tree) expr_tree_unref (tree); /* XXX correct? */
+	if (tree) gnm_expr_unref (tree); /* XXX correct? */
 	return TRUE;
 }
 #endif

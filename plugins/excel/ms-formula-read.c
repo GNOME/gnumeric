@@ -17,6 +17,7 @@
 #include <gutils.h>
 #include <func.h>
 #include <value.h>
+#include <expr-impl.h>
 #include <expr-name.h>
 #include <str.h>
 #include <parse-util.h>
@@ -420,10 +421,10 @@ const FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 367 */	{ "VARA", -1 }
 };
 
-static ExprTree *
+static GnmExpr const *
 expr_tree_string (char const *str)
 {
-	return expr_tree_new_constant (value_new_string (str));
+	return gnm_expr_new_constant (value_new_string (str));
 }
 
 /**
@@ -514,7 +515,7 @@ getRefV8 (CellRef *cr,
 }
 
 static void
-parse_list_push (ExprList **list, ExprTree *pd)
+parse_list_push (GnmExprList **list, GnmExpr const *pd)
 {
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 5) {
@@ -523,22 +524,22 @@ parse_list_push (ExprList **list, ExprTree *pd)
 #endif
 	if (!pd)
 		printf ("FIXME: Pushing nothing onto excel function stack\n");
-	*list = expr_list_prepend (*list, pd);
+	*list = gnm_expr_list_prepend (*list, pd);
 }
 static void
-parse_list_push_raw (ExprList **list, Value *v)
+parse_list_push_raw (GnmExprList **list, Value *v)
 {
-	parse_list_push (list, expr_tree_new_constant (v));
+	parse_list_push (list, gnm_expr_new_constant (v));
 }
 
-static ExprTree *
-parse_list_pop (ExprList **list)
+static GnmExpr const *
+parse_list_pop (GnmExprList **list)
 {
 	/* Get the head */
-	ExprList *tmp = g_slist_nth (*list, 0);
+	GnmExprList *tmp = g_slist_nth (*list, 0);
 	if (tmp != NULL)
 	{
-		ExprTree *ans = tmp->data;
+		GnmExpr const *ans = tmp->data;
 		*list = g_slist_remove (*list, ans);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_formula_debug > 5) {
@@ -555,25 +556,25 @@ parse_list_pop (ExprList **list)
 /**
  * Returns a new list composed of the last n items pop'd off the list.
  **/
-static ExprList *
-parse_list_last_n (ExprList **list, gint n)
+static GnmExprList *
+parse_list_last_n (GnmExprList **list, gint n)
 {
-	ExprList *l = NULL;
+	GnmExprList *l = NULL;
 	while (n-->0)
-		l = g_slist_prepend (l, parse_list_pop(list));
+		l = gnm_expr_list_prepend (l, parse_list_pop(list));
 	return l;
 }
 
 
 static void
-parse_list_free (ExprList **list)
+parse_list_free (GnmExprList **list)
 {
 	while (*list)
-		expr_tree_unref (parse_list_pop(list));
+		gnm_expr_unref (parse_list_pop(list));
 }
 
 static gboolean
-make_function (ExprList **stack, int fn_idx, int numargs)
+make_function (GnmExprList **stack, int fn_idx, int numargs)
 {
 	FunctionDefinition *name = NULL;
 
@@ -584,21 +585,21 @@ make_function (ExprList **stack, int fn_idx, int numargs)
 		 * name should be on top of the stack.
 		 */
 		/* FIXME FIXME FIXME : How to handle missing trailing args ?? */
-		ExprList *args = parse_list_last_n (stack, numargs-1);
-		ExprTree *tmp = parse_list_pop (stack);
+		GnmExprList *args = parse_list_last_n (stack, numargs-1);
+		GnmExpr const *tmp = parse_list_pop (stack);
 		char const *f_name = NULL;
 
 		if (tmp != NULL) {
-			if (tmp->any.oper == OPER_CONSTANT &&
+			if (tmp->any.oper == GNM_EXPR_OP_CONSTANT &&
 			    tmp->constant.value->type == VALUE_STRING)
 				f_name = tmp->constant.value->v_str.val->str;
-			else if (tmp->any.oper == OPER_NAME)
+			else if (tmp->any.oper == GNM_EXPR_OP_NAME)
 				f_name = tmp->name.name->name->str;
 		}
 
 		if (f_name == NULL) {
 			if (tmp)
-				expr_tree_unref (tmp);
+				gnm_expr_unref (tmp);
 			parse_list_free (&args);
 			parse_list_push_raw (stack,
 				value_new_error (NULL, _("Broken function")));
@@ -611,12 +612,12 @@ make_function (ExprList **stack, int fn_idx, int numargs)
 		if (name == NULL)
 			name = function_add_placeholder (f_name, "");
 
-		expr_tree_unref (tmp);
-		parse_list_push (stack, expr_tree_new_funcall (name, args));
+		gnm_expr_unref (tmp);
+		parse_list_push (stack, gnm_expr_new_funcall (name, args));
 		return TRUE;
 	} else if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN) {
 		const FormulaFuncData *fd = &formula_func_data[fn_idx];
-		ExprList *args;
+		GnmExprList *args;
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_formula_debug > 0) {
@@ -658,7 +659,7 @@ make_function (ExprList **stack, int fn_idx, int numargs)
 			parse_list_free (&args);
 			return FALSE;
 		}
-		parse_list_push (stack, expr_tree_new_funcall (name, args));
+		parse_list_push (stack, gnm_expr_new_funcall (name, args));
 		return TRUE;
 	} else
 		printf ("FIXME, unimplemented fn 0x%x, with %d args\n",
@@ -681,37 +682,37 @@ ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelSheet const *esheet,
 }
 
 /* Binary operator tokens */
-static Operation const binary_ops [] = {
-	OPER_ADD,	/* 0x03, ptgAdd */
-	OPER_SUB,	/* 0x04, ptgSub */
-	OPER_MULT,	/* 0x05, ptgMul */
-	OPER_DIV,	/* 0x06, ptgDiv */
-	OPER_EXP,	/* 0x07, ptgPower */
-	OPER_CONCAT,	/* 0x08, ptgConcat */
-	OPER_LT,	/* 0x09, ptgLT */
-	OPER_LTE,	/* 0x0a, ptgLTE */
-	OPER_EQUAL,	/* 0x0b, ptgEQ */
-	OPER_GTE,	/* 0x0c, ptgGTE */
-	OPER_GT,	/* 0x0d, ptgGT */
-	OPER_NOT_EQUAL,	/* 0x0e, ptgNE */
+static GnmExprOp const binary_ops [] = {
+	GNM_EXPR_OP_ADD,	/* 0x03, ptgAdd */
+	GNM_EXPR_OP_SUB,	/* 0x04, ptgSub */
+	GNM_EXPR_OP_MULT,	/* 0x05, ptgMul */
+	GNM_EXPR_OP_DIV,	/* 0x06, ptgDiv */
+	GNM_EXPR_OP_EXP,	/* 0x07, ptgPower */
+	GNM_EXPR_OP_CAT,	/* 0x08, ptgConcat */
+	GNM_EXPR_OP_LT,	/* 0x09, ptgLT */
+	GNM_EXPR_OP_LTE,	/* 0x0a, ptgLTE */
+	GNM_EXPR_OP_EQUAL,	/* 0x0b, ptgEQ */
+	GNM_EXPR_OP_GTE,	/* 0x0c, ptgGTE */
+	GNM_EXPR_OP_GT,	/* 0x0d, ptgGT */
+	GNM_EXPR_OP_NOT_EQUAL,	/* 0x0e, ptgNE */
 
 /* FIXME: These need implementing ... */
-	OPER_ADD,	/* 0x0f, ptgIsect : Intersection */
-	OPER_ADD,	/* 0x10, ptgUnion : Union */
-	OPER_ADD,	/* 0x11, ptgRange : Range */
+	GNM_EXPR_OP_ADD,	/* 0x0f, ptgIsect : Intersection */
+	GNM_EXPR_OP_ADD,	/* 0x10, ptgUnion : Union */
+	GNM_EXPR_OP_ADD,	/* 0x11, ptgRange : Range */
 };
 
-static Operation const unary_ops [] = {
-	OPER_UNARY_PLUS,/* 0x12, ptgU_PLUS  */
-	OPER_UNARY_NEG,	/* 0x13, ptgU_MINUS */
-	OPER_PERCENT,	/* 0x14, ptgPERCENT */
+static GnmExprOp const unary_ops [] = {
+	GNM_EXPR_OP_UNARY_PLUS,/* 0x12, ptgU_PLUS  */
+	GNM_EXPR_OP_UNARY_NEG,	/* 0x13, ptgU_MINUS */
+	GNM_EXPR_OP_PERCENTAGE,	/* 0x14, ptgPERCENT */
 };
 
 /**
  * Parse that RP Excel formula, see S59E2B.HTM
- * Return a dynamicly allocated ExprTree containing the formula, or NULL
+ * Return a dynamicly allocated GnmExpr containing the formula, or NULL
  **/
-ExprTree *
+GnmExpr const *
 ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			ExcelSheet const *esheet,
 			int fn_col, int fn_row,
@@ -728,7 +729,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 	guint8 const *array_data = mem + length;
 
 	int len_left = length;
-	ExprList *stack = NULL;
+	GnmExprList *stack = NULL;
 	gboolean error = FALSE;
 
 	if (array_element != NULL)
@@ -760,7 +761,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 		switch (ptgbase) {
 		case FORMULA_PTG_EXPR: {
-			ExprTree *expr;
+			GnmExpr const *expr;
 			BiffSharedFormula *sf;
 			CellPos top_left;
 
@@ -812,9 +813,9 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		case FORMULA_PTG_NOT_EQUAL :
 		case FORMULA_PTG_INTERSECT : case FORMULA_PTG_UNION :
 		case FORMULA_PTG_RANGE : {
-			ExprTree *r = parse_list_pop (&stack);
-			ExprTree *l = parse_list_pop (&stack);
-			parse_list_push (&stack, expr_tree_new_binary (
+			GnmExpr const *r = parse_list_pop (&stack);
+			GnmExpr const *l = parse_list_pop (&stack);
+			parse_list_push (&stack, gnm_expr_new_binary (
 				l,
 				binary_ops [ptgbase - FORMULA_PTG_ADD],
 				r));
@@ -824,7 +825,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		case FORMULA_PTG_U_PLUS :
 		case FORMULA_PTG_U_MINUS :
 		case FORMULA_PTG_PERCENT :
-			parse_list_push (&stack, expr_tree_new_unary (
+			parse_list_push (&stack, gnm_expr_new_unary (
 				unary_ops [ptgbase - FORMULA_PTG_U_PLUS],
 				parse_list_pop (&stack)));
 			break;
@@ -869,7 +870,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 #endif
 			} else if (grbit & 0x02) { /* AttrIf: 'optimised' IF function */
 				/* Who cares if the TRUE expr has a goto at the end */
-				ExprTree *tr;
+				GnmExpr const *tr;
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 2) {
 					printf ("Optimised IF 0x%x 0x%x\n", grbit, w);
@@ -885,7 +886,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				guint16 len, lp;
 				guint32 offset=0;
 				guint8 const *data=cur+3;
-				ExprTree *tr;
+				GnmExpr const *tr;
 
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 1) {
@@ -1092,7 +1093,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 						ref.col = fn_col;
 				}
 
-				parse_list_push (&stack, expr_tree_new_var (&ref));
+				parse_list_push (&stack, gnm_expr_new_cellref (&ref));
 			} else {
 				printf ("-------------------\n");
 				printf ("XL : Extended ptg %x\n", eptg_type);
@@ -1251,7 +1252,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					  fn_col, fn_row, shared);
 				ptg_length = 3;
 			}
-			parse_list_push (&stack, expr_tree_new_var (&ref));
+			parse_list_push (&stack, gnm_expr_new_cellref (&ref));
 			break;
 		}
 
@@ -1284,7 +1285,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		}
 
 		case FORMULA_PTG_NAME_X : { /* FIXME: Not using sheet_idx at all ... */
-			ExprTree *tree;
+			GnmExpr const *tree;
 			guint16 extn_name_idx; /* 1 based */
 			guint16 extn_sheet_idx;
 
@@ -1349,7 +1350,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			if (first.sheet != last.sheet)
 				parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			else
-				parse_list_push (&stack, expr_tree_new_var (&first));
+				parse_list_push (&stack, gnm_expr_new_cellref (&first));
 			break;
 		}
 
@@ -1439,7 +1440,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 	if (!stack)
 		return expr_tree_string ("Stack too short - unusual");
-	if (expr_list_length (stack) > 1) {
+	if (gnm_expr_list_length (stack) > 1) {
 		parse_list_free (&stack);
 		return expr_tree_string ("Too much data on stack - probable cause: "
 					 "fixed args function is var-arg, put '-1' in the table above");

@@ -38,7 +38,7 @@ typedef struct {
 	GtkToggleButton *sheet_scope;
 	GtkToggleButton *wb_scope;
 	GList     *expr_names;
-	NamedExpression *cur_name;
+	GnmNamedExpr *cur_name;
 
 	GtkWidget *ok_button;
 	GtkWidget *add_button;
@@ -87,7 +87,7 @@ cb_scope_changed (GtkToggleButton *button, NameGuruState *state)
 static void
 name_guru_display_scope (NameGuruState *state)
 {
-	NamedExpression const *nexpr = state->cur_name;
+	GnmNamedExpr const *nexpr = state->cur_name;
 
 	state->updating = TRUE;
 	if (nexpr == NULL || nexpr->pos.sheet == NULL)
@@ -104,10 +104,10 @@ static void cb_name_guru_select_name (GtkWidget *list, NameGuruState *state);
  * @state:
  * @expr_name: Expression to set in the entries, NULL to clear entries
  *
- * Set the entries in the dialog from an NamedExpression
+ * Set the entries in the dialog from an GnmNamedExpr
  **/
 static void
-name_guru_set_expr (NameGuruState *state, NamedExpression *expr_name)
+name_guru_set_expr (NameGuruState *state, GnmNamedExpr *expr_name)
 {
 	state->updating = TRUE;
 	if (expr_name) {
@@ -152,14 +152,14 @@ name_guru_clear_selection (NameGuruState *state)
 static gboolean
 name_guru_in_list (const gchar *name, NameGuruState *state)
 {
-	NamedExpression *expression;
+	GnmNamedExpr *expression;
 	GList *list;
 
 	g_return_val_if_fail (name != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
 	for (list = state->expr_names; list; list = list->next) {
-		expression = (NamedExpression *) list->data;
+		expression = (GnmNamedExpr *) list->data;
 		g_return_val_if_fail (expression != NULL, FALSE);
 		g_return_val_if_fail (expression->name != NULL, FALSE);
 		g_return_val_if_fail (expression->name->str != NULL, FALSE);
@@ -240,7 +240,7 @@ cb_name_guru_update_sensitivity (GtkWidget *dummy, NameGuruState *state)
 static void
 cb_name_guru_select_name (GtkWidget *list, NameGuruState *state)
 {
-	NamedExpression *expr_name;
+	GnmNamedExpr *expr_name;
 	GList *sel = GTK_LIST (list)->selection;
 
 	if (sel == NULL || state->updating)
@@ -279,7 +279,7 @@ name_guru_populate_list (NameGuruState *state)
 
 	list = GTK_CONTAINER (state->list);
 	for (names = state->expr_names ; names != NULL ; names = g_list_next (names)) {
-		NamedExpression *expr_name = names->data;
+		GnmNamedExpr *expr_name = names->data;
 		GtkWidget *li;
 		if (expr_name->pos.sheet != NULL) {
 			char *name = g_strdup_printf ("%s!%s",
@@ -323,15 +323,15 @@ name_guru_remove (GtkWidget *ignored, NameGuruState *state)
  * name_guru_add:
  * @state:
  *
- * Update or add a NamedExpression from the values in the gtkentries.
+ * Update or add a GnmNamedExpr from the values in the gtkentries.
  *
  * Return Value: FALSE if the expression was invalid, TRUE otherwise
  **/
 static gboolean
 name_guru_add (NameGuruState *state)
 {
-	NamedExpression *expr_name;
-	ExprTree	*expr;
+	GnmNamedExpr *expr_name;
+	GnmExpr	const *expr;
 	ParseError	 perr;
 	char const *name;
 	gboolean dirty = FALSE;

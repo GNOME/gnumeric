@@ -55,7 +55,7 @@ typedef struct {
 } WatchedValue;
 
 typedef struct {
-	ExprFunction const *node;  /* Expression node that calls us */
+	GnmExprFunction const *node;  /* Expression node that calls us */
 	Dependent *dep;		   /* Dependent containing that node */
 
 	WatchedValue	*value;

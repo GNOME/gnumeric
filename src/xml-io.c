@@ -23,6 +23,7 @@
 #include "print-info.h"
 #include "file.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "expr-name.h"
 #include "cell.h"
 #include "value.h"
@@ -594,12 +595,12 @@ xml_write_style (XmlParseContext *ctxt,
 
 		parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
 		if (v->expr[0] != NULL &&
-		    (tmp = expr_tree_as_string (v->expr[0], &pp)) != NULL) {
+		    (tmp = gnm_expr_as_string (v->expr[0], &pp)) != NULL) {
 			xmlNewChild (child, child->ns, (xmlChar const *)"Expression0", tmp);
 			g_free (tmp);
 		}
 		if (v->expr[1] != NULL &&
-		    (tmp = expr_tree_as_string (v->expr[1], &pp)) != NULL) {
+		    (tmp = gnm_expr_as_string (v->expr[1], &pp)) != NULL) {
 			xmlNewChild (child, child->ns, (xmlChar const *)"Expression1", tmp);
 			g_free (tmp);
 		}
@@ -618,7 +619,7 @@ xml_write_names (XmlParseContext *ctxt, GList *names)
 	xmlChar *txt;
 	char *expr_str;
 	xmlNodePtr  namesContainer, nameNode;
-	NamedExpression const *nexpr;
+	GnmNamedExpr const *nexpr;
 
 	namesContainer = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Names", NULL);
 
@@ -1324,7 +1325,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			xmlNode *e_node;
 			xmlChar *title, *msg;
 			gboolean allow_blank, use_dropdown;
-			ExprTree *expr0 = NULL, *expr1 = NULL;
+			GnmExpr const *expr0 = NULL, *expr1 = NULL;
 
 			xml_node_get_int (child, "Style", &dummy);
 			style = dummy;
@@ -1346,7 +1347,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			if (e_node != NULL) {
 				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
-					expr0 = expr_parse_str_simple (content, &pp);
+					expr0 = gnm_expr_parse_str_simple (content, &pp);
 					xmlFree (content);
 				}
 			}
@@ -1354,7 +1355,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			if (e_node != NULL) {
 				char *content = (char *)xml_node_get_cstr (e_node, NULL);
 				if (content != NULL) {
-					expr1 = expr_parse_str_simple (content, &pp);
+					expr1 = gnm_expr_parse_str_simple (content, &pp);
 					xmlFree (content);
 				}
 			}
@@ -1504,10 +1505,10 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 {
 	xmlNodePtr cellNode;
 	xmlChar *text, *tstr;
-	ExprArray const *ar;
+	GnmExprArray const *ar;
 	gboolean write_contents = TRUE;
 	gboolean const is_shared_expr =
-	    (cell_has_expr (cell) && expr_tree_is_shared (cell->base.expression));
+	    (cell_has_expr (cell) && gnm_expr_is_shared (cell->base.expression));
 
 	cellNode = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Cell", NULL);
 	xml_node_set_int (cellNode, "Col", pp->eval.col);
@@ -1519,12 +1520,12 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 
 	/* As of version 0.53 we save the ID of shared expressions */
 	if (is_shared_expr) {
-		gpointer const expr = cell->base.expression;
+		gconstpointer const expr = cell->base.expression;
 		gpointer id = g_hash_table_lookup (ctxt->expr_map, expr);
 
 		if (id == NULL) {
 			id = GINT_TO_POINTER (g_hash_table_size (ctxt->expr_map) + 1);
-			g_hash_table_insert (ctxt->expr_map, expr, id);
+			g_hash_table_insert (ctxt->expr_map, (gpointer)expr, id);
 		} else if (ar == NULL)
 			write_contents = FALSE;
 
@@ -1535,7 +1536,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 		if (cell_has_expr (cell)) {
 			char *tmp;
 
-			tmp = expr_tree_as_string (cell->base.expression, pp);
+			tmp = gnm_expr_as_string (cell->base.expression, pp);
 			text = (xmlChar *)g_strconcat ("=", tmp, NULL);
 			g_free (tmp);
 		} else
@@ -1597,9 +1598,8 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 			 int const rows, int const cols)
 {
 	ParsePos pp;
-	ExprTree *expr;
-
-	expr = expr_parse_str_simple (text, parse_pos_init_cell (&pp, cell));
+	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
+		parse_pos_init_cell (&pp, cell));
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
@@ -1808,15 +1808,15 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				 * until after ValueType was added.
 				 */
 				ParsePos pos;
-				ExprTree *expr = NULL;
+				GnmExpr const *expr = NULL;
 				char const *expr_start = gnumeric_char_start_expr_p (content);
 				if (NULL != expr_start && *expr_start)
-					expr = expr_parse_str (expr_start,
+					expr = gnm_expr_parse_str (expr_start,
 						parse_pos_init_cell (&pos, cell),
-						GNM_PARSER_DEFAULT, NULL);
+						GNM_EXPR_PARSE_DEFAULT, NULL);
 				if (expr != NULL) {
 					cell_set_expr (cell, expr);
-					expr_tree_unref (expr);
+					gnm_expr_unref (expr);
 				} else
 					cell_set_text (cell, content);
 			}
@@ -1827,10 +1827,10 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (!cell_has_expr (cell)) {
 					g_warning ("XML-IO: Shared expression with no expession?");
 					cell_set_expr (cell,
-						expr_tree_new_constant (value_duplicate (cell->value)));
+						gnm_expr_new_constant (value_duplicate (cell->value)));
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
-						 cell->base.expression);
+						 (gpointer) cell->base.expression);
 			} else {
 				g_warning ("XML-IO: Duplicate or invalid shared expression: %d",
 					   shared_expr_index);
@@ -1839,7 +1839,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		xmlFree (content);
 	} else if (shared_expr_index > 0) {
 		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
-			ExprTree *expr = g_ptr_array_index (ctxt->shared_exprs,
+			GnmExpr *expr = g_ptr_array_index (ctxt->shared_exprs,
 							    shared_expr_index - 1);
 			cell_set_expr (cell, expr);
 		} else {
@@ -2586,11 +2586,11 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	content = xml_node_get_cstr ((child != NULL) ? child : tree, NULL);
 	if (content != NULL) {
 		if (is_post_52_array) {
-			ExprTree *expr;
+			GnmExpr const *expr;
 
 			g_return_if_fail (content[0] == '=');
 
-			expr = expr_parse_str_simple ((const char *)content, &pp);
+			expr = gnm_expr_parse_str_simple ((const char *)content, &pp);
 
 			g_return_if_fail (expr != NULL);
 #warning TODO : arrays
@@ -2598,7 +2598,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 			cell->value = value_new_from_string (value_type, (const char *)content, value_fmt);
 		else {
 			Value *val;
-			ExprTree *expr;
+			GnmExpr const *expr;
 
 			parse_text_value_or_expr (&pp,
 						  (const char *)content,
@@ -2622,7 +2622,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 					 * linkages.  Force the content into
 					 * being an expression.
 					 */
-					cell->base.expression = expr_tree_new_constant (
+					cell->base.expression = gnm_expr_new_constant (
 						value_new_string (
 							  gnumeric_char_start_expr_p ((const char *)content)));
 					cell->base.flags |= CELL_HAS_EXPRESSION;
@@ -2630,7 +2630,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 					cell->value = value_new_empty ();
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
-						 cell->base.expression);
+						 (gpointer) cell->base.expression);
 			} else {
 				g_warning ("XML-IO: Duplicate or invalid shared expression: %d",
 					   shared_expr_index);
@@ -2639,9 +2639,9 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 		xmlFree (content);
 	} else if (shared_expr_index > 0) {
 		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
-			ExprTree *expr = g_ptr_array_index (ctxt->shared_exprs,
+			GnmExpr *expr = g_ptr_array_index (ctxt->shared_exprs,
 							    shared_expr_index - 1);
-			expr_tree_ref (expr);
+			gnm_expr_ref (expr);
 			cell->base.expression = expr;
 			cell->base.flags |= CELL_HAS_EXPRESSION;
 		} else {

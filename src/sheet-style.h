@@ -29,8 +29,8 @@ void	 sheet_style_set_range		(Sheet  *sheet, Range const *range,
 void	 sheet_style_set_pos		(Sheet  *sheet, int col, int row,
 					 MStyle *mstyle);
 
-void	 sheet_style_insert_colrow	(ExprRelocateInfo const *rinfo);
-void	 sheet_style_relocate		(ExprRelocateInfo const *rinfo);
+void	 sheet_style_insert_colrow	(GnmExprRelocateInfo const *rinfo);
+void	 sheet_style_relocate		(GnmExprRelocateInfo const *rinfo);
 void	 sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 					 MStyle **style, StyleBorder **borders);
 void	 sheet_style_get_extent		(Sheet const *sheet, Range *r);

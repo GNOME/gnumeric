@@ -162,7 +162,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 			expr_txt = gnumeric_char_start_expr_p (txt);
 
 		if (expr_txt != NULL) {
-			ExprTree *expr = NULL;
+			GnmExpr const *expr = NULL;
 			ParsePos    pp;
 			ParseError  perr;
 
@@ -170,15 +170,15 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 					sheet->edit_pos.col, sheet->edit_pos.row);
 
 			parse_error_init (&perr);
-			expr = expr_parse_str (expr_txt,
-				&pp, GNM_PARSER_DEFAULT, &perr);
+			expr = gnm_expr_parse_str (expr_txt,
+				&pp, GNM_EXPR_PARSE_DEFAULT, &perr);
 			/* Try adding a single extra closing paren to see if it helps */
 			if (expr == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
 				ParseError tmp_err;
 				char *tmp = g_strconcat (txt, ")", NULL);
 				parse_error_init (&tmp_err);
-				expr = expr_parse_str (gnumeric_char_start_expr_p (tmp),
-					&pp, GNM_PARSER_DEFAULT, &tmp_err);
+				expr = gnm_expr_parse_str (gnumeric_char_start_expr_p (tmp),
+					&pp, GNM_EXPR_PARSE_DEFAULT, &tmp_err);
 				parse_error_free (&tmp_err);
 
 				if (expr != NULL)
@@ -202,7 +202,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 				return FALSE;
 			}
 			if (expr != NULL)
-				expr_tree_unref (expr);
+				gnm_expr_unref (expr);
 		}
 
 		/* NOTE we assign the value BEFORE validating in case

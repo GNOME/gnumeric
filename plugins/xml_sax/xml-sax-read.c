@@ -440,7 +440,7 @@ typedef struct _XMLSaxParseState
 	struct {
 		char            *title;
 		char            *msg;
-		ExprTree	*expr [2];
+		GnmExpr	const	*expr [2];
 		ValidationStyle  style;
 		ValidationType	 type;
 		ValidationOp	 op;
@@ -1158,12 +1158,12 @@ static void
 xml_sax_validation_expr_end (XMLSaxParseState *state)
 {
 	int const i = (state->state == STATE_STYLE_VALIDATION_EXPR0) ? 0 : 1;
-	ExprTree *expr;
+	GnmExpr const *expr;
 	ParsePos pos;
 
 	g_return_if_fail (state->validation.expr [i] == NULL);
 
-	expr = expr_parse_str_simple (state->content->str,
+	expr = gnm_expr_parse_str_simple (state->content->str,
 		parse_pos_init (&pos, state->wb, state->sheet, 0, 0));
 
 	g_return_if_fail (expr != NULL);
@@ -1259,9 +1259,8 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 			 int const cols, int const rows)
 {
 	ParsePos pp;
-	ExprTree *expr;
-
-	expr = expr_parse_str_simple (text, parse_pos_init_cell (&pp, cell));
+	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
+		parse_pos_init_cell (&pp, cell));
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
@@ -1379,7 +1378,7 @@ xml_sax_cell_content (XMLSaxParseState *state)
 			if (expr == NULL) {
 				if (cell_has_expr (cell))
 					g_hash_table_insert (state->expr_map, id,
-							     cell->base.expression);
+							     (gpointer)cell->base.expression);
 				else
 					g_warning ("XML-IO : Shared expression with no expession ??");
 			} else if (!is_post_52_array)

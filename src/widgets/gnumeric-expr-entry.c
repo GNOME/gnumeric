@@ -877,7 +877,7 @@ gnm_expr_entry_load_from_dep (GnumericExprEntry *gee, Dependent const *dep)
 
 	if (dep->expression != NULL) {
 		ParsePos pp;
-		char *text = expr_tree_as_string (dep->expression,
+		char *text = gnm_expr_as_string (dep->expression,
 			parse_pos_init_dep (&pp, dep));
 
 		gee_rangesel_reset (gee);
@@ -899,14 +899,14 @@ gnm_expr_entry_load_from_dep (GnumericExprEntry *gee, Dependent const *dep)
  **/
 void
 gnm_expr_entry_load_from_expr (GnumericExprEntry *gee,
-			       ExprTree const *expr, ParsePos const *pp)
+			       GnmExpr const *expr, ParsePos const *pp)
 {
 	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
 	if (expr != NULL) {
-		char *text = expr_tree_as_string (expr, pp);
+		char *text = gnm_expr_as_string (expr, pp);
 		gee_rangesel_reset (gee);
 		gtk_entry_set_text (gee->entry, text);
 		gee->rangesel.text_end = strlen (text);
@@ -1054,14 +1054,14 @@ gnm_expr_entry_can_rangesel (GnumericExprEntry *gee)
  * Attempts to parse the content of the entry line honouring
  * the flags.
  */
-ExprTree *
+GnmExpr const *
 gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 		      ParseError *perr, gboolean start_sel)
 {
 	char const *text;
 	char *str;
-	ExprTree *expr;
 	int flags;
+	GnmExpr const *expr;
 
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), NULL);
 
@@ -1070,29 +1070,29 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 	if (text == NULL || text[0] == '\0')
 		return NULL;
 
-	flags = GNM_PARSER_DEFAULT;
+	flags = GNM_EXPR_PARSE_DEFAULT;
 	if (gee->flags & GNUM_EE_ABS_COL)
-		flags |= GNM_PARSER_FORCE_ABSOLUTE_COL_REFERENCES;
+		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
 	if (gee->flags & GNUM_EE_ABS_ROW)
-		flags |= GNM_PARSER_FORCE_ABSOLUTE_ROW_REFERENCES;
+		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
 	if (!(gee->flags & GNUM_EE_SHEET_OPTIONAL))
-		flags |= GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES;
+		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	expr = expr_parse_str (text, pp, flags, NULL);
+	expr = gnm_expr_parse_str (text, pp, flags, NULL);
 	if (expr == NULL)
 		return NULL;
 
 	if (gee->flags & GNUM_EE_SINGLE_RANGE) {
-		Value *range = expr_tree_get_range (expr) ;
+		Value *range = gnm_expr_get_range (expr) ;
 		if (range == NULL) {
-			expr_tree_unref (expr);
+			gnm_expr_unref (expr);
 			return NULL;
 		}
 		value_release (range);
 	}
 
 	/* Reset the entry in case something changed */
-	str = expr_tree_as_string (expr, pp);
+	str = gnm_expr_as_string (expr, pp);
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		if (start_sel && sc_sheet (SHEET_CONTROL (scg)) == gee->rangesel.sheet) {

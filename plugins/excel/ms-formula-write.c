@@ -15,12 +15,14 @@
 #include "ms-biff.h"
 #include "formula-types.h"
 #include "boot.h"
-#include "gutils.h"
-#include "func.h"
-#include "value.h"
-#include "expr-name.h"
-#include "str.h"
-#include "parse-util.h"
+#include <gutils.h>
+#include <func.h>
+#include <value.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <expr-name.h>
+#include <str.h>
+#include <parse-util.h>
 
 #include <fcntl.h>
 #include <assert.h>
@@ -37,7 +39,7 @@
 typedef struct _PolishData PolishData;
 typedef struct _FormulaCacheEntry FormulaCacheEntry;
 
-static void write_node (PolishData *pd, ExprTree *tree, int paren_level);
+static void write_node (PolishData *pd, GnmExpr const *tree, int paren_level);
 
 /* FIXME: Leaks like a leaky bucket */
 
@@ -152,25 +154,25 @@ get_formula_index (ExcelSheet *sheet, const gchar *name)
  * and builds a database of things to write out later.
  **/
 void
-ms_formula_build_pre_data (ExcelSheet *sheet, ExprTree const *tree)
+ms_formula_build_pre_data (ExcelSheet *sheet, GnmExpr const *tree)
 {
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (sheet != NULL);
 
 	switch (tree->any.oper) {
 
-	case OPER_ANY_BINARY:
+	case GNM_EXPR_OP_ANY_BINARY:
 		ms_formula_build_pre_data (sheet, tree->binary.value_a);
 		ms_formula_build_pre_data (sheet, tree->binary.value_b);
 		break;
 
-	case OPER_ANY_UNARY:
+	case GNM_EXPR_OP_ANY_UNARY:
 		ms_formula_build_pre_data (sheet, tree->unary.value);
 		break;
 
-	case OPER_FUNCALL:
+	case GNM_EXPR_OP_FUNCALL:
 	{
-		ExprList *l;
+		GnmExprList *l;
 		FormulaCacheEntry *fce;
 		const gchar *name = function_def_get_name (tree->func.func);
 
@@ -456,9 +458,9 @@ write_ref (PolishData *pd, const CellRef *ref)
 }
 
 static void
-write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
+write_funcall (PolishData *pd, FormulaCacheEntry *fce, GnmExpr const *tree)
 {
-	ExprList *args     = tree->func.arg_list;
+	GnmExprList *args     = tree->func.arg_list;
 	gint     num_args = 0;
 	gboolean prompt   = 0;
 	gboolean cmdequiv = 0;
@@ -510,7 +512,7 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
  * Recursion is just so fun.
  **/
 static void
-write_node (PolishData *pd, ExprTree *tree, int paren_level)
+write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 {
 	static const struct {
 		guint8 xl_op;
@@ -545,7 +547,7 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 
 	op = tree->any.oper;
 	switch (op) {
-	case OPER_ANY_BINARY: {
+	case GNM_EXPR_OP_ANY_BINARY : {
 		int const prec = operations[op].prec;
 
 		write_node  (pd, tree->binary.value_a,
@@ -558,8 +560,7 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		break;
 	}
 
-	case OPER_FUNCALL:
-	{
+	case GNM_EXPR_OP_FUNCALL : {
 		FormulaCacheEntry *fce;
 
 		fce = get_formula_index (pd->sheet,
@@ -577,13 +578,11 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		}
 		break;
 	}
-        case OPER_CONSTANT:
-	{
-		Value *v = tree->constant.value;
+        case GNM_EXPR_OP_CONSTANT : {
+		Value const *v = tree->constant.value;
 		switch (v->type) {
 
-		case VALUE_INTEGER:
-		{
+		case VALUE_INTEGER : {
 			guint8 data[10];
 			int i = value_get_as_int (v);
 			if (i >= 0 && i < 1<<16) {
@@ -597,16 +596,14 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 			}
 			break;
 		}
-		case VALUE_FLOAT:
-		{
+		case VALUE_FLOAT : {
 			guint8 data[10];
 			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_NUM);
 			gnumeric_set_le_double (data+1, value_get_as_float (v));
 			ms_biff_put_var_write (pd->bp, data, 9);
 			break;
 		}
-		case VALUE_BOOLEAN:
-		{
+		case VALUE_BOOLEAN : {
 			guint8 data[2];
 			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_BOOL);
 			MS_OLE_SET_GUINT8 (data+1, v->v_bool.val ? 1 : 0);
@@ -614,8 +611,7 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 			break;
 		}
 
-		case VALUE_ERROR:
-		{
+		case VALUE_ERROR : {
 			guint8 data[2];
 			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_ERR);
 			MS_OLE_SET_GUINT8 (data+1, ms_excel_write_map_errcode (v));
@@ -623,8 +619,7 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 			break;
 		}
 
-		case VALUE_EMPTY:
-		{
+		case VALUE_EMPTY : {
 			guint8 data = FORMULA_PTG_MISSARG;
 			ms_biff_put_var_write (pd->bp, &data, 1);
 			break;
@@ -634,22 +629,17 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 			write_string (pd, v->v_str.val->str);
 			break;
 
-		case VALUE_CELLRANGE:
-		{
-			/* FIXME: Could be 3D ! */
-			/* FIXME: Could be inverted ! */
+		case VALUE_CELLRANGE: {
 			write_area (pd, &v->v_range.cell.a,
 				    &v->v_range.cell.b);
 			break;
 		}
 
                 /* See S59E2B.HTM for some really duff docs */
-		case VALUE_ARRAY: /* Guestimation */
-		{
+		case VALUE_ARRAY : { /* Guestimation */
 			guint8 data[8];
 
-			if (v->v_array.x > 256 ||
-			    v->v_array.y > 65536)
+			if (v->v_array.x > 256 || v->v_array.y > 65536)
 				g_warning ("Array far too big");
 
 			MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_ARRAY);
@@ -659,12 +649,11 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 			MS_OLE_SET_GUINT16 (data + 6, 0x0); /* ? */
 			ms_biff_put_var_write (pd->bp, data, 8);
 
-			pd->arrays = g_list_append (pd->arrays, v);
+			pd->arrays = g_list_append (pd->arrays, (gpointer)v);
 			break;
 		}
 
-		default:
-		{
+		default : {
 			gchar *err = g_strdup_printf ("Uknown type %d\n", v->type);
 			write_string (pd, err);
 			g_free (err);
@@ -676,7 +665,7 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		}
 		break;
 	}
-	case OPER_ANY_UNARY: {
+	case GNM_EXPR_OP_ANY_UNARY : {
 		int const prec = operations[op].prec;
 
 		write_node (pd, tree->unary.value, operations[op].prec);
@@ -686,11 +675,11 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		break;
 	}
 
-	case OPER_VAR:
-		write_ref (pd, &tree->var.ref);
+	case GNM_EXPR_OP_CELLREF :
+		write_ref (pd, &tree->cellref.ref);
 		break;
 
-	case OPER_NAME: {
+	case GNM_EXPR_OP_NAME : {
 		guint8 data[14];
 		guint16 idx;
 		for (idx = 0; idx <14; idx++) data[idx] = 0;
@@ -707,8 +696,8 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		break;
 	}
 
-	case OPER_ARRAY: {
-		ExprArray const *array = &tree->array;
+	case GNM_EXPR_OP_ARRAY : {
+		GnmExprArray const *array = &tree->array;
 		guint8 data[5];
 		MS_OLE_SET_GUINT8 (data, FORMULA_PTG_EXPR);
 		MS_OLE_SET_GUINT16 (data+1, pd->row - array->y);
@@ -720,15 +709,12 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		break;
 	}
 
-	default:
-	{
+	default : {
 		gchar *err = g_strdup_printf ("Unknown Operator %d",
 					      tree->any.oper);
 		write_string (pd, err);
 		g_free (err);
-		printf ("Unhandled node type %d\n", tree->any.oper);
-#if FORMULA_DEBUG > 0
-#endif
+		g_warning ("Unhandled node type %d\n", tree->any.oper);
 		break;
 	}
 	}
@@ -771,7 +757,7 @@ write_arrays (PolishData *pd)
 }
 
 guint32
-ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
+ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, GnmExpr const *expr,
 			int fn_col, int fn_row, int paren_level)
 {
 	PolishData pd;

@@ -294,7 +294,7 @@ sheet_merge_is_corner (Sheet const *sheet, CellPos const *pos)
  * Shifts merged regions that need to move.
  */
 void
-sheet_merge_relocate (ExprRelocateInfo const *ri)
+sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 {
 	GSList   *ptr, *copy, *to_move = NULL;
 	Range	 dest;

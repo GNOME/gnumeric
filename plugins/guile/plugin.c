@@ -67,7 +67,7 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		return value_new_error (ei->pos, _("Invalid number of arguments"));
 
 	/* Retrieve the function name,  This can be empty, but not a non scalar */
-	value = expr_eval (expr_node_list->data, ei->pos, EVAL_PERMIT_EMPTY);
+	value = gnm_expr_eval (expr_node_list->data, ei->pos, GNM_EXPR_EVAL_PERMIT_EMPTY);
 	if (value == NULL)
 		return value_new_error (ei->pos, _("First argument to SCM must be a Guile expression"));
 
@@ -93,9 +93,9 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		eval_cell.sheet = NULL;
 
 		/* Evaluate each argument, non scalar is ok, but empty is not */
-		value = expr_eval (g_list_nth(expr_node_list, i)->data,
+		value = gnm_expr_eval (g_list_nth(expr_node_list, i)->data,
 				   ei->pos,
-				   EVAL_PERMIT_NON_SCALAR);
+				   GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		if (value == NULL)
 			return value_new_error (ei->pos, _("Could not evaluate argument"));
 

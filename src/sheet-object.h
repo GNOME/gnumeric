@@ -82,7 +82,7 @@ void sheet_object_position_pixels_set	   (SheetObject const *so,
 					    SheetControl const *sc, double const *pos);
 
 /* Object Management */
-void    sheet_objects_relocate (ExprRelocateInfo const *rinfo, gboolean update);
+void    sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update);
 void	sheet_objects_clear    (Sheet const *sheet, Range const *r, GType t);
 GSList *sheet_objects_get      (Sheet const *sheet, Range const *r, GType t);
 

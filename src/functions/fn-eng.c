@@ -1159,7 +1159,7 @@ callback_function_imoper (const EvalPos *ep, Value *value, void *closure)
 }
 
 static Value *
-gnumeric_improduct (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_improduct (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	Value *v;
         eng_imoper_t p;
@@ -1193,7 +1193,7 @@ static const char *help_imsum = {
 };
 
 static Value *
-gnumeric_imsum (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_imsum (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	Value *v;
         eng_imoper_t p;

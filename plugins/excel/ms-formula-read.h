@@ -14,7 +14,7 @@
 #include "ms-excel-read.h"
 #include "ms-biff.h"
 
-ExprTree *
+GnmExpr const *
 ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			ExcelSheet const *esheet,
 			int fn_col, int fn_row,

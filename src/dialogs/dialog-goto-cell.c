@@ -143,7 +143,7 @@ cb_dialog_goto_update_sensitivity (GtkWidget *dummy, GotoState *state)
 }
 
 static void
-dialog_goto_load_this_name (NamedExpression *name, GtkTreeIter* iter, GotoState *state)
+dialog_goto_load_this_name (GnmNamedExpr *name, GtkTreeIter* iter, GotoState *state)
 {
 	char *expr_name = NULL;
 
@@ -213,7 +213,7 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
 	Sheet        *sheet;
-	NamedExpression *name;
+	GnmNamedExpr *name;
 	ParsePos pp;
 
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {

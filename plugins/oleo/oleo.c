@@ -194,12 +194,12 @@ oleo_get_gnumeric_expr (char *g_expr, char const *o_expr,
 }
 
 
-static ExprTree *
+static GnmExpr const *
 oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 {
 	ParsePos pos;
 	ParseError error;
-	ExprTree *expr;
+	GnmExpr const *expr;
 	char gnumeric_text[2048];
 
 	Cell const *cell = sheet_cell_fetch (sheet,
@@ -207,9 +207,9 @@ oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 
 	parse_pos_init_cell (&pos, cell);
 
-	expr = expr_parse_str (oleo_get_gnumeric_expr (gnumeric_text,
+	expr = gnm_expr_parse_str (oleo_get_gnumeric_expr (gnumeric_text,
 						       text, &pos),
-			       &pos, GNM_PARSER_DEFAULT,
+			       &pos, GNM_EXPR_PARSE_DEFAULT,
 			       parse_error_init (&error));
 
 	if (error.id!=PERR_NONE) {
@@ -226,7 +226,7 @@ static void
 oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *crow)
 {
 	Cell *cell;
-	ExprTree *expr = NULL;
+	GnmExpr const *expr = NULL;
 	char *ptr = str + 1, *cval = NULL, *formula = NULL;
 
 	while (*ptr) {
@@ -303,7 +303,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 			cell_set_expr (cell, expr);
 	}
 	if (expr)
-		expr_tree_unref (expr);
+		gnm_expr_unref (expr);
 }
 
 

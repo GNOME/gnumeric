@@ -35,6 +35,7 @@
 #include <collect.h>
 #include <value.h>
 #include <expr.h>
+#include <expr-impl.h>
 #include <auto-format.h>
 
 #include <math.h>
@@ -70,19 +71,18 @@ setup_stat_closure (stat_closure_t *cl)
 static Value *
 stat_helper (stat_closure_t *cl, EvalPos const *ep, Value *val)
 {
-	ExprTree *tree;
-	ExprList *expr_node_list;
+	GnmExprConstant expr;
+	GnmExprList *expr_node_list;
 	Value *err;
 
 	setup_stat_closure (cl);
 
-	tree = expr_tree_new_constant (val);
-	expr_node_list = expr_list_append (NULL, tree);
+	gnm_expr_constant_init (&expr, val);
+	expr_node_list = gnm_expr_list_append (NULL, &expr);
 	err = function_iterate_argument_values (ep,
 		&callback_function_stat, cl, expr_node_list,
 		TRUE, FALSE);
-	expr_list_free (expr_node_list);
-	g_free (tree); /* ICK!  this is necessary to avoid freeing the value */
+	gnm_expr_list_free (expr_node_list);
 
 	if (err != NULL)
 		return err;
@@ -154,20 +154,19 @@ callback_function_make_list (EvalPos const *ep, Value *value,
 static Value *
 make_list (make_list_t *p, EvalPos const *ep, Value *val)
 {
-	ExprTree *tree;
-	ExprList *expr_node_list;
+	GnmExprConstant expr;
+	GnmExprList *expr_node_list;
 	Value *err;
 
         p->n = 0;
 	p->entries = NULL;
 
-	tree = expr_tree_new_constant (val);
-	expr_node_list = expr_list_append (NULL, tree);
+	gnm_expr_constant_init (&expr, val);
+	expr_node_list = gnm_expr_list_append (NULL, &expr);
 	err = function_iterate_argument_values (ep,
 		&callback_function_make_list, p, expr_node_list,
 		TRUE, FALSE);
-	expr_list_free (expr_node_list);
-	g_free (tree); /* ICK!  this is necessary to avoid freeing the value */
+	gnm_expr_list_free (expr_node_list);
 	return err;
 }
 
@@ -193,7 +192,7 @@ static const char *help_varp = {
 };
 
 Value *
-gnumeric_varp (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_varp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_var_pop,
@@ -227,7 +226,7 @@ static const char *help_var = {
 };
 
 Value *
-gnumeric_var (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_var (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_var_est,
@@ -257,7 +256,7 @@ static const char *help_stdev = {
 };
 
 Value *
-gnumeric_stdev (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_stdev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_stddev_est,
@@ -287,7 +286,7 @@ static const char *help_stdevp = {
 };
 
 Value *
-gnumeric_stdevp (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_stdevp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_stddev_pop,
@@ -441,7 +440,7 @@ range_trimmean (const gnum_float *xs, int n, gnum_float *res)
 }
 
 static Value *
-gnumeric_trimmean (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_trimmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_trimmean,
@@ -744,7 +743,7 @@ static const char *help_mode = {
 };
 
 static Value *
-gnumeric_mode (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_mode (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -776,7 +775,7 @@ static const char *help_harmean = {
 };
 
 static Value *
-gnumeric_harmean (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_harmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -807,7 +806,7 @@ static const char *help_geomean = {
 };
 
 static Value *
-gnumeric_geomean (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_geomean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -848,7 +847,7 @@ callback_function_count (EvalPos const *ep, Value *value, void *closure)
 }
 
 Value *
-gnumeric_count (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_count (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	Value *result = value_new_int (0);
 
@@ -890,7 +889,7 @@ callback_function_counta (EvalPos const *ep, Value *value, void *closure)
 }
 
 Value *
-gnumeric_counta (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_counta (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
         Value *result = value_new_int (0);
 
@@ -923,7 +922,7 @@ static const char *help_average = {
 };
 
 Value *
-gnumeric_average (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_average (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -965,7 +964,7 @@ range_min0 (const gnum_float *xs, int n, gnum_float *res)
 }
 
 Value *
-gnumeric_min (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_min (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -1007,7 +1006,7 @@ range_max0 (const gnum_float *xs, int n, gnum_float *res)
 }
 
 Value *
-gnumeric_max (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_max (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -1045,7 +1044,7 @@ static const char *help_skew = {
 };
 
 static Value *
-gnumeric_skew (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_skew (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -1078,7 +1077,7 @@ static const char *help_skewp = {
 };
 
 static Value *
-gnumeric_skewp (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_skewp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2076,7 +2075,7 @@ static const char *help_kurt = {
 };
 
 static Value *
-gnumeric_kurt (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_kurt (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2110,7 +2109,7 @@ static const char *help_kurtp = {
 };
 
 static Value *
-gnumeric_kurtp (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_kurtp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2141,7 +2140,7 @@ static const char *help_avedev = {
 };
 
 static Value *
-gnumeric_avedev (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_avedev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2174,7 +2173,7 @@ static const char *help_devsq = {
 };
 
 static Value *
-gnumeric_devsq (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_devsq (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2341,7 +2340,7 @@ static const char *help_median = {
 };
 
 static Value *
-gnumeric_median (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_median (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2388,7 +2387,7 @@ range_large (gnum_float *xs, int n, gnum_float *res)
 }
 
 static Value *
-gnumeric_large (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_large (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2435,7 +2434,7 @@ range_small (gnum_float *xs, int n, gnum_float *res)
 }
 
 static Value *
-gnumeric_small (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_small (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2768,7 +2767,7 @@ callback_function_ztest (EvalPos const *ep, Value *value, void *closure)
 }
 
 static Value *
-gnumeric_ztest (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_ztest (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	stat_ztest_t p;
 	Value       *status;
@@ -2822,7 +2821,7 @@ static const char *help_averagea = {
 };
 
 static Value *
-gnumeric_averagea (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_averagea (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2857,7 +2856,7 @@ static const char *help_maxa = {
 };
 
 static Value *
-gnumeric_maxa (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_maxa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2892,7 +2891,7 @@ static const char *help_mina = {
 };
 
 static Value *
-gnumeric_mina (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_mina (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2927,7 +2926,7 @@ static const char *help_vara = {
 };
 
 static Value *
-gnumeric_vara (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_vara (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2962,7 +2961,7 @@ static const char *help_varpa = {
 };
 
 static Value *
-gnumeric_varpa (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_varpa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -2997,7 +2996,7 @@ static const char *help_stdeva = {
 };
 
 static Value *
-gnumeric_stdeva (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_stdeva (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -3032,7 +3031,7 @@ static const char *help_stdevpa = {
 };
 
 static Value *
-gnumeric_stdevpa (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_stdevpa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
@@ -3382,8 +3381,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 {
 	stat_closure_t cl;
 	stat_ttest_t   t_cl;
-	ExprTree      *tree;
-	ExprList      *expr_node_list;
+	GnmExprList   *expr_node_list;
         int            tails, type;
 	gnum_float     mean1, mean2, x;
 	gnum_float     s, var1, var2, dof;
@@ -3399,31 +3397,30 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 	if (type == 1) {
 	        GSList  *current;
+		GnmExprConstant expr;
 	        gnum_float sum, dx, dm, M, Q, N;
 
 	        t_cl.first = TRUE;
 		t_cl.entries = NULL;
 
-		tree = expr_tree_new_constant (argv[0]);
-		expr_node_list = expr_list_append (NULL, tree);
+		gnm_expr_constant_init (&expr, argv[0]);
+		expr_node_list = gnm_expr_list_append (NULL, &expr);
 		err = function_iterate_argument_values (ei->pos,
 			 &callback_function_ttest, &t_cl, expr_node_list,
 			 TRUE, FALSE);
-		expr_list_free (expr_node_list);
-		g_free (tree);
+		gnm_expr_list_free (expr_node_list);
 		if (err != NULL)
 		        return err;
 
 	        t_cl.first = FALSE;
 		t_cl.current = t_cl.entries;
 
-		tree = expr_tree_new_constant (argv[1]);
-		expr_node_list = expr_list_append (NULL, tree);
+		gnm_expr_constant_init (&expr, argv[1]);
+		expr_node_list = gnm_expr_list_append (NULL, &expr);
 		err = function_iterate_argument_values (ei->pos,
 			 &callback_function_ttest, &t_cl, expr_node_list,
 			 TRUE, FALSE);
-		expr_list_free (expr_node_list);
-		g_free (tree);
+		gnm_expr_list_free (expr_node_list);
 		if (err != NULL)
 		        return err;
 

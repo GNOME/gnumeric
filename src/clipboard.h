@@ -84,6 +84,6 @@ PasteTarget*paste_target_init      (PasteTarget *pt,
 
 CellRegion *cellregion_new	 (Sheet *origin_sheet);
 void        cellregion_free      (CellRegion *content);
-char	   *cellregion_to_string (CellRegion *content);
+char	   *cellregion_to_string (CellRegion const *content);
 
 #endif /* GNUMERIC_CLIPBOARD_H */

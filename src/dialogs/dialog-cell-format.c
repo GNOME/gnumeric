@@ -2056,7 +2056,7 @@ fmt_dialog_init_protection_page (FormatState *state)
 
 /*****************************************************************************/
 
-static ExprTree *
+static GnmExpr const *
 validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
 {
 	ParsePos pp;

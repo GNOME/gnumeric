@@ -114,7 +114,7 @@ typedef struct _ExcelWorkbook
 char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
 char const *biff_get_error_text (guint8 err);
 
-ExprTree	 	*ms_excel_workbook_get_name  (ExcelWorkbook const *ewb, int idx);
+GnmExpr const	 	*ms_excel_workbook_get_name  (ExcelWorkbook const *ewb, int idx);
 ExcelSheet		*ms_excel_workbook_get_sheet (ExcelWorkbook const *wb, guint idx);
 XLExternSheetV8 const	*ms_excel_workbook_get_externsheet_v8 (ExcelWorkbook const *wb,
 							       guint idx);

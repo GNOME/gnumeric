@@ -51,7 +51,7 @@ gboolean  gnm_expr_entry_is_cell_ref	(GnumericExprEntry *e,
 char const *gnm_expr_entry_get_text	(GnumericExprEntry const *ee);
 Value	 *gnm_expr_entry_parse_as_value	(GnumericExprEntry *ee, Sheet *sheet);
 GSList	 *gnm_expr_entry_parse_as_list	(GnumericExprEntry *ee, Sheet *sheet);
-ExprTree *gnm_expr_entry_parse		(GnumericExprEntry *e,
+GnmExpr const  *gnm_expr_entry_parse	(GnumericExprEntry *e,
 					 ParsePos const *pp,
 					 ParseError *perr, gboolean start_sel);
 char     *gnm_expr_entry_global_range_name (GnumericExprEntry *e, Sheet *sheet);
@@ -59,10 +59,10 @@ void	  gnm_expr_entry_load_from_text	(GnumericExprEntry *e, char const *str);
 void	  gnm_expr_entry_load_from_dep	(GnumericExprEntry *e,
 					 Dependent const *dep);
 void	  gnm_expr_entry_load_from_expr	(GnumericExprEntry *e,
-					 ExprTree const *expr,
+					 GnmExpr const *expr,
 					 ParsePos const *pp);
 gboolean  gnm_expr_entry_load_from_range (GnumericExprEntry *e,
-					 Sheet *sheet, Range const *r);
+					  Sheet *sheet, Range const *r);
 
 void gnumeric_expr_entry_set_update_policy (GnumericExprEntry *e,
 					    GtkUpdateType  policy);

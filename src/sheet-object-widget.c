@@ -30,6 +30,7 @@
 #include "sheet-control-gui.h"
 #include "sheet-object-impl.h"
 #include "expr.h"
+#include "parse-util.h"
 #include "value.h"
 #include "ranges.h"
 #include "selection.h"
@@ -484,8 +485,8 @@ scrollbar_eval (Dependent *dep)
 	Value *v;
 	EvalPos pos;
 
-	v = expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
 	sheet_widget_scrollbar_set_value (DEP_TO_SCROLLBAR(dep),
 		value_get_as_float (v));
 	value_release (v);
@@ -509,7 +510,7 @@ sheet_widget_scrollbar_get_ref (SheetWidgetScrollbar const *swb,
 	if (swb->dep.expression == NULL)
 		return NULL;
 
-	target = expr_tree_get_range (swb->dep.expression);
+	target = gnm_expr_get_range (swb->dep.expression);
 	if (target == NULL)
 		return NULL;
 
@@ -557,7 +558,7 @@ sheet_widget_scrollbar_init_full (SheetWidgetScrollbar *swb, CellRef const *ref)
 	swb->being_updated = FALSE;
 	swb->dep.sheet = NULL;
 	swb->dep.flags = scrollbar_get_dep_type ();
-	swb->dep.expression = (ref != NULL) ? expr_tree_new_var (ref) : NULL;
+	swb->dep.expression = (ref != NULL) ? gnm_expr_new_cellref (ref) : NULL;
 	g_signal_connect (G_OBJECT (swb->adjustment),
 		"value_changed",
 		G_CALLBACK (cb_scrollbar_value_changed), swb);
@@ -656,12 +657,12 @@ cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	if (state->old_focus != NULL && 
 	    IS_GNUMERIC_EXPR_ENTRY (state->old_focus->parent)) {
 		ParsePos  pp;
-		ExprTree *expr = gnm_expr_entry_parse (
+		GnmExpr const *expr = gnm_expr_entry_parse (
 			GNUMERIC_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
 			NULL, FALSE);
 		if (expr != NULL)
-			expr_tree_unref (expr);
+			gnm_expr_unref (expr);
 	}
 	state->old_focus = focus_widget;
 }
@@ -692,7 +693,7 @@ cb_scrollbar_config_clicked (GnomeDialog *dialog, gint button_number,
 	if (button_number == 0) {
 		SheetObject *so = SHEET_OBJECT (state->swb);
 		ParsePos  pp;
-		ExprTree *expr = gnm_expr_entry_parse (state->expression,
+		GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
 			parse_pos_init (&pp, NULL, so->sheet, 0, 0),
 			NULL, FALSE);
 		if (expr != NULL)
@@ -818,7 +819,7 @@ sheet_widget_scrollbar_write_xml (SheetObject const *so,
 	xml_node_set_double  (tree, "Value", swb->adjustment->value, 2);
 	if (swb->dep.expression != NULL) {
 		ParsePos pos;
-		char *val = expr_tree_as_string (swb->dep.expression,
+		char *val = gnm_expr_as_string (swb->dep.expression,
 			parse_pos_init (&pos, NULL, so->sheet, 0, 0));
 		xml_node_set_cstr (tree, "Input", val);
 	}
@@ -842,9 +843,7 @@ sheet_widget_scrollbar_read_xml (SheetObject *so,
 	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
 	if (input_txt != NULL && *input_txt != '\0') {
 		ParsePos pos;
-		ExprTree *expr;
-
-		expr = expr_parse_str_simple (input_txt,
+		GnmExpr const *expr = gnm_expr_parse_str_simple (input_txt,
 			parse_pos_init (&pos, NULL, context->sheet, 0, 0));
 
 		if (expr == NULL) {
@@ -874,7 +873,7 @@ sheet_widget_scrollbar_read_xml (SheetObject *so,
 }
 
 void
-sheet_widget_scrollbar_set_details (SheetObject *so, ExprTree *link,
+sheet_widget_scrollbar_set_details (SheetObject *so, GnmExpr const *link,
 				    int value, int min, int max, int inc, int page)
 {
 	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
@@ -939,8 +938,8 @@ checkbox_eval (Dependent *dep)
 	EvalPos pos;
 	gboolean err, result;
 
-	v = expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
 	result = value_get_as_bool (v, &err);
 	value_release (v);
 	if (!err) {
@@ -972,7 +971,7 @@ sheet_widget_checkbox_init_full (SheetWidgetCheckbox *swc,
 	swc->value = FALSE;
 	swc->dep.sheet = NULL;
 	swc->dep.flags = checkbox_get_dep_type ();
-	swc->dep.expression = (ref != NULL) ? expr_tree_new_var (ref) : NULL;
+	swc->dep.expression = (ref != NULL) ? gnm_expr_new_cellref (ref) : NULL;
 }
 
 static void
@@ -1008,7 +1007,7 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc,
 	if (swc->dep.expression == NULL)
 		return NULL;
 
-	target = expr_tree_get_range (swc->dep.expression);
+	target = gnm_expr_get_range (swc->dep.expression);
 	if (target == NULL)
 		return NULL;
 
@@ -1101,12 +1100,12 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	if (state->old_focus != NULL && 
 	    IS_GNUMERIC_EXPR_ENTRY (state->old_focus->parent)) {
 		ParsePos  pp;
-		ExprTree *expr = gnm_expr_entry_parse (
+		GnmExpr const *expr = gnm_expr_entry_parse (
 			GNUMERIC_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
 			NULL, FALSE);
 		if (expr != NULL)
-			expr_tree_unref (expr);
+			gnm_expr_unref (expr);
 	}
 	state->old_focus = focus_widget;
 }
@@ -1137,7 +1136,7 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 	if (button_number == 0) {
 		SheetObject *so = SHEET_OBJECT (state->swc);
 		ParsePos  pp;
-		ExprTree *expr = gnm_expr_entry_parse (state->expression,
+		GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
 			parse_pos_init (&pp, NULL, so->sheet, 0, 0),
 			NULL, FALSE);
 		if (expr != NULL)
@@ -1273,7 +1272,7 @@ sheet_widget_checkbox_write_xml (SheetObject const *so,
 	xml_node_set_int  (tree, "Value", swc->value);
 	if (swc->dep.expression != NULL) {
 		ParsePos pos;
-		char *val = expr_tree_as_string (swc->dep.expression,
+		char *val = gnm_expr_as_string (swc->dep.expression,
 			parse_pos_init (&pos, NULL, so->sheet, 0, 0));
 		xml_node_set_cstr (tree, "Input", val);
 	}
@@ -1304,9 +1303,7 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
 	if (input_txt != NULL && *input_txt != '\0') {
 		ParsePos pos;
-		ExprTree *expr;
-
-		expr = expr_parse_str_simple (input_txt,
+		GnmExpr const *expr = gnm_expr_parse_str_simple (input_txt,
 			parse_pos_init (&pos, NULL, context->sheet, 0, 0));
 
 		if (expr == NULL) {
@@ -1326,7 +1323,7 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 }
 
 void
-sheet_widget_checkbox_set_link (SheetObject *so, ExprTree *expr)
+sheet_widget_checkbox_set_link (SheetObject *so, GnmExpr const *expr)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	g_return_if_fail (swc != NULL);
@@ -1364,8 +1361,8 @@ radio_button_eval (Dependent *dep)
 	gboolean err;
 	int result;
 
-	v = expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
@@ -1412,20 +1409,6 @@ sheet_widget_radio_button_toggled (GtkToggleButton *button,
 	swrb->value = gtk_toggle_button_get_active (button);
 	sheet_widget_checkbox_set_active (swrb);
 #endif
-
-	if (swrb->dep.expression && swrb->dep.expression->any.oper == OPER_VAR) {
-		CellRef	const *ref = &swrb->dep.expression->var.ref;
-		Cell *cell = sheet_cell_fetch (ref->sheet, ref->col, ref->row);
-
-		int const new_val = 0;
-#if 0
-#endif
-
-		sheet_cell_set_value (cell, value_new_int (new_val));
-		sheet_set_dirty (ref->sheet, TRUE);
-		workbook_recalc (ref->sheet->workbook);
-		sheet_update (ref->sheet);
-	}
 }
 
 static GtkWidget *
@@ -1492,8 +1475,8 @@ list_eval (Dependent *dep)
 	gboolean err;
 	int result;
 
-	v = expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
@@ -1591,8 +1574,8 @@ combo_input_eval (Dependent *dep)
 	gboolean err;
 	int result;
 
-	v = expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
@@ -1617,8 +1600,8 @@ combo_output_eval (Dependent *dep)
 	gboolean err;
 	int result;
 
-	v = expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression,
+		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {

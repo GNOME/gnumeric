@@ -1699,7 +1699,7 @@ callback_function_npv (const EvalPos *ep, Value *value, void *closure)
 }
 
 static Value *
-gnumeric_npv (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_npv (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	Value *v;
         financial_npv_t p;

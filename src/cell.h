@@ -35,7 +35,7 @@ struct _Cell {
  */
 Cell	 *cell_copy	    (Cell const *cell);
 void	  cell_destroy      (Cell *cell);
-void	  cell_relocate     (Cell *cell, ExprRewriteInfo const *rwinfo);
+void	  cell_relocate     (Cell *cell, GnmExprRewriteInfo const *rwinfo);
 
 /**
  * Cell state checking
@@ -52,7 +52,7 @@ Value *		 cell_is_error		(Cell const *cell);
 gboolean	 cell_is_number		(Cell const *cell);
 gboolean	 cell_is_zero		(Cell const *cell);
 gboolean	 cell_is_partial_array	(Cell const *cell);
-ExprArray const *cell_is_array		(Cell const *cell);
+GnmExprArray const *cell_is_array		(Cell const *cell);
 
 /**
  * Utilities to assign the contents of a cell
@@ -60,13 +60,13 @@ ExprArray const *cell_is_array		(Cell const *cell);
 void cell_set_text		(Cell *c, char const *text);
 void cell_assign_value		(Cell *c, Value *v);
 void cell_set_value		(Cell *c, Value *v);
-void cell_set_expr_and_value	(Cell *c, ExprTree *expr, Value *v,
+void cell_set_expr_and_value	(Cell *c, GnmExpr const *expr, Value *v,
 				 gboolean link_expr);
-void cell_set_expr		(Cell *c, ExprTree *expr);
-void cell_set_expr_unsafe 	(Cell *cell, ExprTree *expr);
+void cell_set_expr		(Cell *c, GnmExpr const *expr);
+void cell_set_expr_unsafe 	(Cell *cell, GnmExpr const *expr);
 void cell_set_array_formula	(Sheet *sheet,
 				 int cola, int rowa, int colb, int rowb,
-				 ExprTree *expr);
+				 GnmExpr const *expr);
 void cell_convert_expr_to_value	(Cell *cell);
 
 /**

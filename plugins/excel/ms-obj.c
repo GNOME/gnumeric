@@ -92,7 +92,7 @@ ms_object_attr_new_ptr (MSObjAttrID id, gpointer val)
 }
 
 MSObjAttr *
-ms_object_attr_new_expr (MSObjAttrID id, ExprTree *expr)
+ms_object_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
@@ -146,8 +146,8 @@ ms_object_attr_get_ptr  (MSObj *obj, MSObjAttrID id, gpointer default_value)
 	return attr->v.v_ptr;
 }
 
-ExprTree *
-ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, ExprTree *default_value)
+GnmExpr const *
+ms_object_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value)
 {
 	MSObjAttr *attr;
 
@@ -169,7 +169,7 @@ ms_object_attr_destroy (MSObjAttr *attr)
 			g_free (attr->v.v_ptr);
 		} else if ((attr->id & MS_OBJ_ATTR_IS_EXPR_MASK) &&
 		    attr->v.v_expr != NULL) {
-			expr_tree_unref (attr->v.v_expr);
+			gnm_expr_unref (attr->v.v_expr);
 		}
 		g_free (attr);
 	}
@@ -478,7 +478,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 		case GR_SCROLLBAR_FORMULA : {
 			guint16 const expr_len = MS_OLE_GET_GUINT16 (data+4);
-			ExprTree *ref = ms_container_parse_expr (container, data+10, expr_len);
+			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
 				ms_object_attr_bag_insert (obj->attrs,
 					ms_object_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
@@ -516,7 +516,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 		case GR_CHECKBOX_FORMULA : {
 			guint16 const expr_len = MS_OLE_GET_GUINT16 (data+4);
-			ExprTree *ref = ms_container_parse_expr (container, data+10, expr_len);
+			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
 				ms_object_attr_bag_insert (obj->attrs,
 					ms_object_attr_new_expr (MS_OBJ_ATTR_CHECKBOX_LINK, ref));

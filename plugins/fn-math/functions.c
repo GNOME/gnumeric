@@ -172,7 +172,7 @@ range_gcd (const gnum_float *xs, int n, gnum_float *res)
 }
 
 static Value *
-gnumeric_gcd (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_gcd (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_gcd,
@@ -228,7 +228,7 @@ range_lcm (const gnum_float *xs, int n, gnum_float *res)
 }
 
 static Value *
-gnumeric_lcm (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_lcm (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_lcm,
@@ -1478,7 +1478,7 @@ static const char *help_sum = {
 };
 
 static Value *
-gnumeric_sum (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_sum (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_sum,
@@ -1510,7 +1510,7 @@ static const char *help_suma = {
 };
 
 static Value *
-gnumeric_suma (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_suma (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_sum,
@@ -1541,7 +1541,7 @@ static const char *help_sumsq = {
 
 
 static Value *
-gnumeric_sumsq (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_sumsq (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_sumsq,
@@ -1570,7 +1570,7 @@ static const char *help_multinomial = {
 
 
 static Value *
-gnumeric_multinomial (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_multinomial (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_multinomial,
@@ -1609,7 +1609,7 @@ range_bogusproduct (const gnum_float *xs, int n, gnum_float *res)
 }
 
 static Value *
-gnumeric_product (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_product (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_bogusproduct,
@@ -1636,7 +1636,7 @@ static const char *help_g_product = {
 };
 
 static Value *
-gnumeric_g_product (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_g_product (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_product,
@@ -2816,20 +2816,20 @@ static const char *help_subtotal = {
 };
 
 static Value *
-gnumeric_subtotal (FunctionEvalInfo *ei, ExprList *expr_node_list)
+gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-        ExprTree *tree;
+        GnmExpr *tree;
 	Value    *val;
 	int      fun_nbr;
 
 	if (expr_node_list == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	tree = (ExprTree *) expr_node_list->data;
+	tree = (GnmExpr *) expr_node_list->data;
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = expr_eval (tree, ei->pos, EVAL_STRICT);
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2909,10 +2909,10 @@ callback_function_seriessum (const EvalPos *ep, Value *value,
 }
 
 static Value *
-gnumeric_seriessum (FunctionEvalInfo *ei, ExprList *nodes)
+gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
         math_seriessum_t p;
-        ExprTree         *tree;
+        GnmExpr         *tree;
 	Value            *val;
 	gnum_float       x, n, m;
 
@@ -2920,11 +2920,11 @@ gnumeric_seriessum (FunctionEvalInfo *ei, ExprList *nodes)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	/* Get x */
-	tree = (ExprTree *) nodes->data;
+	tree = (GnmExpr *) nodes->data;
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = expr_eval (tree, ei->pos, EVAL_STRICT);
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2936,11 +2936,11 @@ gnumeric_seriessum (FunctionEvalInfo *ei, ExprList *nodes)
 	nodes = nodes->next;
 
 	/* Get n */
-	tree = (ExprTree *) nodes->data;
+	tree = (GnmExpr *) nodes->data;
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = expr_eval (tree, ei->pos, EVAL_STRICT);
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2955,11 +2955,11 @@ gnumeric_seriessum (FunctionEvalInfo *ei, ExprList *nodes)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	/* Get m */
-	tree = (ExprTree *) nodes->data;
+	tree = (GnmExpr *) nodes->data;
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = expr_eval (tree, ei->pos, EVAL_STRICT);
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -3270,27 +3270,27 @@ static const char *help_sumproduct = {
 };
 
 static Value *
-gnumeric_sumproduct (FunctionEvalInfo *ei, ExprList *args)
+gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 {
 	gnum_float **data;
 	Value *result;
 	int i, argc;
-	ExprList *l;
+	GnmExprList *l;
 	gboolean size_error = FALSE;
 	int sizex = -1, sizey = -1;
 
 	if (args == NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	argc = expr_list_length (args);
+	argc = gnm_expr_list_length (args);
 	data = g_new0 (gnum_float *, argc);
 
 	for (l = args, i = 0; l; l = l->next, i++) {
 		int thissizex, thissizey, x, y;
-		ExprTree const *expr = l->data;
-		Value    *val = expr_eval (expr, ei->pos,
-					   EVAL_PERMIT_NON_SCALAR |
-					   EVAL_PERMIT_EMPTY);
+		GnmExpr const *expr = l->data;
+		Value    *val = gnm_expr_eval (expr, ei->pos,
+					   GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+					   GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		thissizex = value_area_get_width (ei->pos, val);
 		thissizey = value_area_get_height (ei->pos, val);

@@ -36,6 +36,7 @@
 #include "sheet-merge.h"
 #include "sheet-private.h"
 #include "expr-name.h"
+#include "expr-impl.h"
 #include "rendered-value.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
@@ -1356,23 +1357,23 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
  * to a range.
  */
 typedef struct {
-	Value      *val;
-	ExprTree   *expr;
-	Range	    expr_bound;
+	Value         *val;
+	GnmExpr const *expr;
+	Range	       expr_bound;
 } closure_set_cell_value;
 
 static Value *
 cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 		     closure_set_cell_value *info)
 {
-	ExprTree *expr = info->expr;
+	GnmExpr const *expr = info->expr;
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
 	if (expr != NULL) {
 		if (!range_contains (&info->expr_bound, col, row)) {
-			ExprRewriteInfo rwinfo;
+			GnmExprRewriteInfo rwinfo;
 
-			rwinfo.type = EXPR_REWRITE_RELOCATE;
+			rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
 			rwinfo.u.relocate.pos.eval.col =
 			rwinfo.u.relocate.origin.start.col =
 			rwinfo.u.relocate.origin.end.col = col;
@@ -1384,7 +1385,7 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 			rwinfo.u.relocate.target_sheet = sheet;
 			rwinfo.u.relocate.col_offset =
 			rwinfo.u.relocate.row_offset = 0;
-			expr = expr_rewrite (expr, &rwinfo);
+			expr = gnm_expr_rewrite (expr, &rwinfo);
 		}
 		cell_set_expr (cell, expr);
 	} else
@@ -1427,7 +1428,7 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 		NULL /* TODO : Use edit_pos format ?? */);
 
 	if (NULL != closure.expr)
-		expr_tree_boundingbox (closure.expr,
+		gnm_expr_get_boundingbox (closure.expr,
 			range_init_full_sheet (&closure.expr_bound));
 
 	/* Store the parsed result creating any cells necessary */
@@ -1453,7 +1454,7 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 	if (closure.val)
 		value_release (closure.val);
 	else
-		expr_tree_unref (closure.expr);
+		gnm_expr_unref (closure.expr);
 
 	sheet_flag_status_update_range (pos->sheet, r);
 }
@@ -1490,9 +1491,9 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 void
 sheet_cell_set_text (Cell *cell, char const *text)
 {
-	ExprTree    *expr;
-	Value	    *val;
-	ParsePos     pp;
+	GnmExpr const *expr;
+	Value	      *val;
+	ParsePos       pp;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
@@ -1506,7 +1507,7 @@ sheet_cell_set_text (Cell *cell, char const *text)
 
 	if (expr != NULL) {
 		cell_set_expr (cell, expr);
-		expr_tree_unref (expr);
+		gnm_expr_unref (expr);
 
 		/* clear spans from _other_ cells */
 		sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
@@ -1528,7 +1529,7 @@ sheet_cell_set_text (Cell *cell, char const *text)
  * Queues recalcs
  */
 void
-sheet_cell_set_expr (Cell *cell, ExprTree *expr)
+sheet_cell_set_expr (Cell *cell, GnmExpr const *expr)
 {
 	cell_set_expr (cell, expr);
 
@@ -1907,7 +1908,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 	return new_row;
 }
 
-static ExprArray const *
+static GnmExprArray const *
 sheet_is_cell_array (Sheet const *sheet, int const col, int const row)
 {
 	return cell_is_array (sheet_cell_get (sheet, col, row));
@@ -1932,7 +1933,7 @@ static gboolean
 cb_check_array_horizontal (ColRowInfo *col, void *user)
 {
 	ArrayCheckData *data = user;
-	ExprArray const *a = NULL;
+	GnmExprArray const *a = NULL;
 	int e;
 
 	if (data->flags & CHECK_AND_LOAD_START) {
@@ -1971,7 +1972,7 @@ static gboolean
 cb_check_array_vertical (ColRowInfo *row, void *user)
 {
 	ArrayCheckData *data = user;
-	ExprArray const *a = NULL;
+	GnmExprArray const *a = NULL;
 	int e;
 
 	if (data->flags & CHECK_AND_LOAD_START) {
@@ -3368,7 +3369,7 @@ colrow_move (Sheet *sheet,
 }
 
 static void
-sheet_colrow_insdel_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
+sheet_colrow_insdel_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int state_start, ColRowStateList *states)
 {
 	Sheet *sheet = rinfo->origin_sheet;
@@ -3407,7 +3408,7 @@ sheet_colrow_set_collapse (Sheet *sheet, gboolean is_cols, int pos)
 }
 
 static void
-sheet_colrow_insert_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
+sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, ColRowStateList *states)
 {
 	sheet_style_insert_colrow (rinfo);
@@ -3419,7 +3420,7 @@ sheet_colrow_insert_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
 }
 
 static void
-sheet_colrow_delete_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
+sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, ColRowStateList *states)
 {
 	int end = colrow_max (is_cols) - count;
@@ -3440,7 +3441,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
 		   GSList **reloc_storage)
 {
-	ExprRelocateInfo reloc_info;
+	GnmExprRelocateInfo reloc_info;
 	Range region;
 	int   i;
 
@@ -3491,7 +3492,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
 		   GSList **reloc_storage)
 {
-	ExprRelocateInfo reloc_info;
+	GnmExprRelocateInfo reloc_info;
 	int i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
@@ -3550,7 +3551,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
 		   GSList **reloc_storage)
 {
-	ExprRelocateInfo reloc_info;
+	GnmExprRelocateInfo reloc_info;
 	Range region;
 	int   i;
 
@@ -3601,7 +3602,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
 		   GSList **reloc_storage)
 {
-	ExprRelocateInfo reloc_info;
+	GnmExprRelocateInfo reloc_info;
 	int i;
 
 	g_return_val_if_fail (reloc_storage != NULL, TRUE);
@@ -3662,7 +3663,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
  **/
 void
 sheet_move_range (WorkbookControl *wbc,
-		  ExprRelocateInfo const *rinfo,
+		  GnmExprRelocateInfo const *rinfo,
 		  GSList **reloc_storage)
 {
 	GList *cells = NULL;
@@ -3690,7 +3691,7 @@ sheet_move_range (WorkbookControl *wbc,
 		*reloc_storage = NULL;
 		if (!out_of_range) {
 			GSList *invalid;
-			ExprRelocateInfo reloc_info;
+			GnmExprRelocateInfo reloc_info;
 
 			/* We need to be careful about invalidating references
 			 * to the old content of the destination region.  We
@@ -4290,7 +4291,7 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 	names = g_list_copy (src->names);
 #if 0	/* Feature not implemented, not cloning it yet. */
 	for (; names; names = names->next) {
-		NamedExpression *expresion = names->data;
+		GnmNamedExpr *expresion = names->data;
 		ParseError perr;
 		gchar *text;
 		g_return_if_fail (expresion != NULL);
@@ -4318,12 +4319,12 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 
 	is_expr = cell_has_expr (cell);
 	if (is_expr) {
-		ExprArray const* array = cell_is_array (cell);
+		GnmExprArray const* array = cell_is_array (cell);
 		if (array != NULL) {
 			if (array->x == 0 && array->y == 0) {
 				int i, j;
-				ExprTree *expr = array->corner.expr;
-				expr_tree_ref (expr);
+				GnmExpr const *expr = array->corner.expr;
+				gnm_expr_ref (expr);
 				cell_set_array_formula (dst,
 					cell->pos.col, cell->pos.row,
 					cell->pos.col + array->cols-1,

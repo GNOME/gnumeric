@@ -336,8 +336,8 @@ BC_R(ai)(ExcelChartHandler const *handle,
 
 	/* (2) == linked to container */
 	if (ref_type == 2) {
-		ExprTree *expr = ms_container_parse_expr (s->parent,
-							  q->data+8, length);
+		GnmExpr const *expr = ms_container_parse_expr (s->parent,
+			q->data+8, length);
 		if (expr) {
 			Sheet *sheet = ms_container_sheet (s->parent);
 
@@ -1832,7 +1832,7 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 
 		s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].remote_ID =
 			gnm_graph_add_vector (s->graph,
-				expr_tree_new_constant (value_new_string (str)),
+				gnm_expr_new_constant (value_new_string (str)),
 				GNM_VECTOR_STRING,
 				ms_container_sheet (s->parent));
 #endif
@@ -2364,7 +2364,7 @@ chart_create_obj  (MSContainer *container, MSObj *obj)
 	return NULL;
 }
 
-static ExprTree  *
+static GnmExpr const *
 chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
 {
 	return NULL;

@@ -12,6 +12,7 @@
 
 #include "numbers.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "expr-name.h"
 #include "sheet.h"
 #include "sheet-style.h"
@@ -1018,19 +1019,19 @@ Value *
 global_range_parse (Sheet *sheet, char const *str)
 {
 	ParsePos  pp;
-	ExprTree *expr;
+	GnmExpr const *expr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	expr = expr_parse_str (str,
+	expr = gnm_expr_parse_str (str,
 		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0),
-		GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES,
+		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
 		NULL);
 
 	if (expr != NULL)  {
-		Value * value = expr_tree_get_range (expr);
-		expr_tree_unref (expr);
+		Value * value = gnm_expr_get_range (expr);
+		gnm_expr_unref (expr);
 		return value;
 	}
 
@@ -1051,23 +1052,23 @@ GSList *
 global_range_list_parse (Sheet *sheet, char const *str)
 {
 	ParsePos  pp;
-	ExprTree *expr;
+	GnmExpr const *expr;
 	GSList   *ranges = NULL;
 	Value	 *v;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	expr = expr_parse_str (str,
+	expr = gnm_expr_parse_str (str,
 		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0),
-		GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES |
-		GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS, NULL);
+		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
+		GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS, NULL);
 
 	if (expr != NULL)  {
-		if (expr->any.oper == OPER_SET) {
-			ExprList *l;
+		if (expr->any.oper == GNM_EXPR_OP_SET) {
+			GnmExprList *l;
 			for (l = expr->set.set; l != NULL; l = l->next) {
-				v = expr_tree_get_range (l->data);
+				v = gnm_expr_get_range (l->data);
 				if (v == NULL) {
 					range_list_destroy (ranges);
 					ranges = NULL;
@@ -1076,11 +1077,11 @@ global_range_list_parse (Sheet *sheet, char const *str)
 					ranges = g_slist_prepend (ranges, v);
 			}
 		} else {
-			v = expr_tree_get_range (expr);
+			v = gnm_expr_get_range (expr);
 			if (v != NULL)
 				ranges = g_slist_prepend (ranges, v);
 		}
-		expr_tree_unref (expr);
+		gnm_expr_unref (expr);
 	}
 
 	return g_slist_reverse (ranges);

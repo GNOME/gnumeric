@@ -208,7 +208,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 	/* not an address, is it a name ? */
 	if (target == NULL) {
 		ParsePos pp;
-		NamedExpression *nexpr = expr_name_lookup (
+		GnmNamedExpr *nexpr = expr_name_lookup (
 			parse_pos_init (&pp, NULL, sheet, 0, 0), text);
 
 		/* Not a name, create one */
@@ -226,7 +226,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 				a.col_relative = a.row_relative = b.col_relative = b.row_relative = FALSE;
 				pp.sheet = NULL; /* make it a global name */
 				nexpr = expr_name_add (&pp, text,
-					expr_tree_new_constant (
+					gnm_expr_new_constant (
 						value_new_cellrange_unsafe (&a, &b)), &err);
 				if (nexpr != NULL)
 					return TRUE;
@@ -235,7 +235,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 			return FALSE;
 		} else {
 			if (!nexpr->builtin)
-				target = expr_tree_get_range (nexpr->t.expr_tree);
+				target = gnm_expr_get_range (nexpr->t.expr_tree);
 			if (target == NULL) {
 				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Address"), text);
 				return FALSE;

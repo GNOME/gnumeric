@@ -967,7 +967,7 @@ applix_read_cells (ApplixReadState *state)
 		case ';' : /* First of a shared formula */
 		case '.' : { /* instance of a shared formula */
 			ParsePos	 pos;
-			ExprTree	*expr;
+			GnmExpr	const	*expr;
 			Value		*val = NULL;
 			Range		 r;
 			char *expr_string;
@@ -1025,10 +1025,10 @@ applix_read_cells (ApplixReadState *state)
 					continue;
 				}
 
-				expr = expr_parse_str (expr_string+1,
+				expr = gnm_expr_parse_str (expr_string+1,
 					parse_pos_init_cell (&pos, cell),
-					GNM_PARSER_USE_APPLIX_REFERENCE_CONVENTIONS |
-					GNM_PARSER_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
+					GNM_EXPR_PARSE_USE_APPLIX_REFERENCE_CONVENTIONS |
+					GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
 					NULL);
 				if (expr == NULL) {
 					(void) applix_parse_error (state, "Invalid expression");
@@ -1036,7 +1036,7 @@ applix_read_cells (ApplixReadState *state)
 				}
 
 				if (is_array) {
-					expr_tree_ref (expr);
+					gnm_expr_ref (expr);
 					cell_set_array_formula (sheet,
 								r.start.col, r.start.row,
 								r.end.col, r.end.row,
@@ -1056,7 +1056,8 @@ applix_read_cells (ApplixReadState *state)
 				*tmp = '\0';
 
 				/* Store the newly parsed expresion along with its descriptor */
-				g_hash_table_insert (state->exprs, g_strdup (ptr), expr);
+				g_hash_table_insert (state->exprs, g_strdup (ptr),
+						     (gpointer)expr);
 			} else {
 #if 0
 				printf ("shared '%s'\n", expr_string);
@@ -1290,7 +1291,7 @@ static gboolean
 cb_remove_expr (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
-	expr_tree_unref (value);
+	gnm_expr_unref (value);
 	return TRUE;
 }
 static gboolean

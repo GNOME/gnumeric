@@ -9,6 +9,7 @@
 #include "gnumeric.h"
 #include "expr.h"
 
+#include "expr-impl.h"
 #include "expr-name.h"
 #include "eval.h"
 #include "format.h"
@@ -30,167 +31,164 @@
 
 /***************************************************************************/
 
-ExprTree *
-expr_tree_new_constant (Value *v)
+GnmExpr const *
+gnm_expr_new_constant (Value *v)
 {
-	ExprConstant *ans;
+	GnmExprConstant *ans;
 
-	ans = g_new (ExprConstant, 1);
+	ans = g_new (GnmExprConstant, 1);
 	if (!ans)
 		return NULL;
+	gnm_expr_constant_init (ans, v);
 
-	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_CONSTANT;
-	ans->value = v;
-
-	return (ExprTree *)ans;
+	return (GnmExpr *)ans;
 }
 
-ExprTree *
-expr_tree_new_error (char const *txt)
+GnmExpr const *
+gnm_expr_new_error (char const *txt)
 {
 	FunctionDefinition *func;
-	ExprList *args = NULL;
+	GnmExprList *args = NULL;
 
 	if (strcmp (txt, gnumeric_err_NA) != 0) {
 		func = func_lookup_by_name ("ERROR", NULL);
-		args = g_slist_prepend (NULL,
-			expr_tree_new_constant (value_new_string (txt)));
+		args = gnm_expr_list_prepend (NULL,
+			gnm_expr_new_constant (value_new_string (txt)));
 	} else
 		func = func_lookup_by_name ("NA", NULL);
 
 	func_ref (func);
-	return expr_tree_new_funcall (func, args);
+	return gnm_expr_new_funcall (func, args);
 }
 
-ExprTree *
-expr_tree_new_funcall (FunctionDefinition *func, ExprList *args)
+GnmExpr const *
+gnm_expr_new_funcall (FunctionDefinition *func, GnmExprList *args)
 {
-	ExprFunction *ans;
+	GnmExprFunction *ans;
 	g_return_val_if_fail (func, NULL);
 
-	ans = g_new (ExprFunction, 1);
+	ans = g_new (GnmExprFunction, 1);
 	if (!ans)
 		return NULL;
 
 	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_FUNCALL;
+	ans->oper = GNM_EXPR_OP_FUNCALL;
 	func_ref (func);
 	ans->func = func;;
 	ans->arg_list = args;
 
-	return (ExprTree *)ans;
+	return (GnmExpr *)ans;
 }
 
-ExprTree *
-expr_tree_new_unary  (Operation op, ExprTree *e)
+GnmExpr const *
+gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 {
-	ExprUnary *ans;
+	GnmExprUnary *ans;
 
-	ans = g_new (ExprUnary, 1);
+	ans = g_new (GnmExprUnary, 1);
 	if (!ans)
 		return NULL;
 
 	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = op;
+	ans->oper = op;
 	ans->value = e;
 
-	return (ExprTree *)ans;
+	return (GnmExpr *)ans;
 }
 
 
-ExprTree *
-expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
+GnmExpr const *
+gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 {
-	ExprBinary *ans;
+	GnmExprBinary *ans;
 
-	ans = g_new (ExprBinary, 1);
+	ans = g_new (GnmExprBinary, 1);
 	if (!ans)
 		return NULL;
 
 	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = op;
+	ans->oper = op;
 	ans->value_a = l;
 	ans->value_b = r;
 
-	return (ExprTree *)ans;
+	return (GnmExpr *)ans;
 }
 
-ExprTree *
-expr_tree_new_name (NamedExpression *name,
+GnmExpr const *
+gnm_expr_new_name (GnmNamedExpr *name,
 		    Sheet *optional_scope, Workbook *optional_wb_scope)
 {
-	ExprName *ans;
+	GnmExprName *ans;
 
-	ans = g_new (ExprName, 1);
+	ans = g_new (GnmExprName, 1);
 	if (!ans)
 		return NULL;
 
 	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_NAME;
+	ans->oper = GNM_EXPR_OP_NAME;
 	ans->name = name;
 	expr_name_ref (name);
 
 	ans->optional_scope = optional_scope;
 	ans->optional_wb_scope = optional_wb_scope;
 
-	return (ExprTree *)ans;
+	return (GnmExpr *)ans;
 }
 
-ExprTree *
-expr_tree_new_var (CellRef const *cr)
+GnmExpr const *
+gnm_expr_new_cellref (CellRef const *cr)
 {
-	ExprVar *ans;
+	GnmExprCellRef *ans;
 
-	ans = g_new (ExprVar, 1);
+	ans = g_new (GnmExprCellRef, 1);
 	if (!ans)
 		return NULL;
 
 	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_VAR;
+	ans->oper = GNM_EXPR_OP_CELLREF;
 	ans->ref = *cr;
 
-	return (ExprTree *)ans;
+	return (GnmExpr *)ans;
 }
 
-ExprTree *
-expr_tree_new_array (int x, int y, int cols, int rows)
+GnmExpr const *
+gnm_expr_new_array (int x, int y, int cols, int rows)
 {
-	ExprArray *ans;
+	GnmExprArray *ans;
 
-	ans = g_new (ExprArray, 1);
+	ans = g_new (GnmExprArray, 1);
 	if (ans == NULL)
 		return NULL;
 
 	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_ARRAY;
+	ans->oper = GNM_EXPR_OP_ARRAY;
 	ans->x = x;
 	ans->y = y;
 	ans->rows = rows;
 	ans->cols = cols;
 	ans->corner.value = NULL;
 	ans->corner.expr = NULL;
-	return (ExprTree *)ans;
+	return (GnmExpr *)ans;
 }
 
-ExprTree *
-expr_tree_new_set (ExprList *set)
+GnmExpr const *
+gnm_expr_new_set (GnmExprList *set)
 {
-	ExprSet *ans;
+	GnmExprSet *ans;
 
-	ans = g_new (ExprSet, 1);
+	ans = g_new (GnmExprSet, 1);
 	if (!ans)
 		return NULL;
 
 	ans->ref_count = 1;
-	*((Operation *)&(ans->oper)) = OPER_SET;
+	ans->oper = GNM_EXPR_OP_SET;
 	ans->set = set;
 
-	return (ExprTree *)ans;
+	return (GnmExpr *)ans;
 }
 
 static Cell *
-expr_tree_array_corner (ExprTree const *expr,
+expr_array_corner (GnmExpr const *expr,
 			Sheet const *sheet, CellPos const *pos)
 {
 	Cell *corner = sheet_cell_get (sheet,
@@ -200,100 +198,100 @@ expr_tree_array_corner (ExprTree const *expr,
 	g_return_val_if_fail (corner != NULL, NULL);
 	g_return_val_if_fail (cell_has_expr (corner), NULL);
 	g_return_val_if_fail (corner->base.expression != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (corner->base.expression->any.oper == OPER_ARRAY, NULL);
+	g_return_val_if_fail (corner->base.expression->any.oper == GNM_EXPR_OP_ARRAY, NULL);
 	g_return_val_if_fail (corner->base.expression->array.x == 0, NULL);
 	g_return_val_if_fail (corner->base.expression->array.y == 0, NULL);
 
 	return corner;
 }
 
-/*
- * expr_tree_ref:
- * Increments the ref_count for part of a tree
+/**
+ * gnm_expr_ref:
+ * Increments the ref_count for an expression node.
  */
 void
-expr_tree_ref (ExprTree *expr)
+gnm_expr_ref (GnmExpr const *expr)
 {
 	g_return_if_fail (expr != NULL);
 	g_return_if_fail (expr->any.ref_count > 0);
 
-	expr->any.ref_count++;
+	((GnmExpr *)expr)->any.ref_count++;
 }
 
 static void
-do_expr_tree_unref (ExprTree *expr)
+do_gnm_expr_unref (GnmExpr const *expr)
 {
-	if (--expr->any.ref_count > 0)
+	if (--((GnmExpr *)expr)->any.ref_count > 0)
 		return;
 
-	switch (expr->any.oper){
-	case OPER_VAR:
+	switch (expr->any.oper) {
+	case GNM_EXPR_OP_CELLREF:
 		break;
 
-	case OPER_CONSTANT:
-		value_release (expr->constant.value);
+	case GNM_EXPR_OP_CONSTANT:
+		value_release ((Value *)expr->constant.value);
 		break;
 
-	case OPER_FUNCALL:
-		expr_list_unref (expr->func.arg_list);
+	case GNM_EXPR_OP_FUNCALL:
+		gnm_expr_list_unref (expr->func.arg_list);
 		func_unref (expr->func.func);
 		break;
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		expr_name_unref (expr->name.name);
 		break;
 
-	case OPER_ANY_BINARY:
-		do_expr_tree_unref (expr->binary.value_a);
-		do_expr_tree_unref (expr->binary.value_b);
+	case GNM_EXPR_OP_ANY_BINARY:
+		do_gnm_expr_unref (expr->binary.value_a);
+		do_gnm_expr_unref (expr->binary.value_b);
 		break;
 
-	case OPER_ANY_UNARY:
-		do_expr_tree_unref (expr->unary.value);
+	case GNM_EXPR_OP_ANY_UNARY:
+		do_gnm_expr_unref (expr->unary.value);
 		break;
-	case OPER_ARRAY:
+	case GNM_EXPR_OP_ARRAY:
 		if (expr->array.x == 0 && expr->array.y == 0) {
 			if (expr->array.corner.value)
 				value_release (expr->array.corner.value);
-			do_expr_tree_unref (expr->array.corner.expr);
+			do_gnm_expr_unref (expr->array.corner.expr);
 		}
 		break;
-	case OPER_SET:
-		expr_list_unref (expr->set.set);
+	case GNM_EXPR_OP_SET:
+		gnm_expr_list_unref (expr->set.set);
 		break;
 
 	default:
-		g_warning ("do_expr_tree_unref error\n");
+		g_warning ("do_gnm_expr_unref error\n");
 		break;
 	}
 
-	g_free (expr);
+	g_free ((gpointer)expr);
 }
 
 /*
- * expr_tree_unref:
- * Decrements the ref_count for part of a tree.  (All trees are expected
+ * gnm_expr_unref:
+ * Decrements the ref_count for part of a expression.  (All trees are expected
  * to have been created with a ref-count of one, so when we hit zero, we
  * go down over the tree and unref the tree and its leaves stuff.)
  */
 void
-expr_tree_unref (ExprTree *expr)
+gnm_expr_unref (GnmExpr const *expr)
 {
 	g_return_if_fail (expr != NULL);
 	g_return_if_fail (expr->any.ref_count > 0);
 
 	if (expr->any.ref_count == 1)
-		do_expr_tree_unref (expr);
+		do_gnm_expr_unref (expr);
 	else
-		expr->any.ref_count--;
+		((GnmExpr *)expr)->any.ref_count--;
 }
 
 /**
- * expr_tree_is_shared : Returns TRUE if the reference count
+ * gnm_expr_is_shared : Returns TRUE if the reference count
  *   for the supplied expression is > 1
  */
 gboolean
-expr_tree_is_shared (ExprTree const *expr)
+gnm_expr_is_shared (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, FALSE);
 
@@ -301,13 +299,13 @@ expr_tree_is_shared (ExprTree const *expr)
 }
 
 /**
- * expr_tree_equal : Returns TRUE if the supplied expressions are exactly the
+ * gnm_expr_equal : Returns TRUE if the supplied expressions are exactly the
  *   same.  No eval position is used to see if they are effectively the same.
  *   Named expressions must refer the the same name, having equivalent names is
  *   insufficeient.
  */
 gboolean
-expr_tree_equal (ExprTree const *a, ExprTree const *b)
+gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 {
 	if (a == b)
 		return TRUE;
@@ -319,24 +317,24 @@ expr_tree_equal (ExprTree const *a, ExprTree const *b)
 		return FALSE;
 
 	switch (a->any.oper) {
-	case OPER_ANY_BINARY:
-		return	expr_tree_equal (a->binary.value_a, b->binary.value_a) &&
-			expr_tree_equal (a->binary.value_b, b->binary.value_b);
+	case GNM_EXPR_OP_ANY_BINARY:
+		return	gnm_expr_equal (a->binary.value_a, b->binary.value_a) &&
+			gnm_expr_equal (a->binary.value_b, b->binary.value_b);
 
-	case OPER_ANY_UNARY:
-		return expr_tree_equal (a->unary.value, b->unary.value);
+	case GNM_EXPR_OP_ANY_UNARY:
+		return gnm_expr_equal (a->unary.value, b->unary.value);
 
-	case OPER_FUNCALL:
+	case GNM_EXPR_OP_FUNCALL:
 		return (a->func.func == b->func.func) &&
-			expr_list_equal (a->func.arg_list, b->func.arg_list);
+			gnm_expr_list_equal (a->func.arg_list, b->func.arg_list);
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		return a->name.name == b->name.name;
 
-	case OPER_VAR:
-		return cellref_equal (&a->var.ref, &b->var.ref);
+	case GNM_EXPR_OP_CELLREF:
+		return cellref_equal (&a->cellref.ref, &b->cellref.ref);
 
-	case OPER_CONSTANT: {
+	case GNM_EXPR_OP_CONSTANT: {
 		Value const *va = a->constant.value;
 		Value const *vb = b->constant.value;
 
@@ -350,19 +348,19 @@ expr_tree_equal (ExprTree const *a, ExprTree const *b)
 		return value_compare (va, vb, TRUE) == IS_EQUAL;
 	}
 
-	case OPER_ARRAY: {
-		ExprArray const *aa = &a->array;
-		ExprArray const *ab = &b->array;
+	case GNM_EXPR_OP_ARRAY: {
+		GnmExprArray const *aa = &a->array;
+		GnmExprArray const *ab = &b->array;
 
 		return	aa->cols == ab->cols &&
 			aa->rows == ab->rows &&
 			aa->x == ab->x &&
 			aa->y == ab->y &&
-			expr_tree_equal (aa->corner.expr, ab->corner.expr);
+			gnm_expr_equal (aa->corner.expr, ab->corner.expr);
 	}
 
-	case OPER_SET:
-		return expr_list_equal (a->set.set, b->set.set);
+	case GNM_EXPR_OP_SET:
+		return gnm_expr_list_equal (a->set.set, b->set.set);
 
 	default :
 		g_assert_not_reached ();
@@ -372,7 +370,7 @@ expr_tree_equal (ExprTree const *a, ExprTree const *b)
 }
 
 /**
- * expr_implicit_intersection :
+ * gnm_expr_implicit_intersection :
  * @ei: EvalInfo containing valid fd!
  * @v: a VALUE_CELLRANGE
  *
@@ -389,7 +387,7 @@ expr_tree_equal (ExprTree const *a, ExprTree const *b)
  *     at the intersection point.  This value needs to be freed.
  **/
 Value *
-expr_implicit_intersection (EvalPos const *pos, Value *v)
+gnm_expr_implicit_intersection (EvalPos const *pos, Value *v)
 {
 	Value *res = NULL;
 	Range rng;
@@ -424,7 +422,7 @@ expr_implicit_intersection (EvalPos const *pos, Value *v)
 }
 
 /**
- * expr_array_intersection :
+ * gnm_expr_array_intersection :
  * @v: a VALUE_ARRAY
  *
  * Returns the upper left corner of an array.
@@ -438,7 +436,7 @@ expr_implicit_intersection (EvalPos const *pos, Value *v)
  *     duplicate of the value in the upper left of the array
  **/
 Value *
-expr_array_intersection (Value *a)
+gnm_expr_array_intersection (Value *a)
 {
 	Value *tmp = value_duplicate (a->v_array.vals [0][0]);
 	value_release (a);
@@ -453,8 +451,8 @@ cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
 }
 
 static Value *
-expr_eval_real (ExprTree const *expr, EvalPos const *pos,
-		ExprEvalFlags flags)
+expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
+		GnmExprEvalFlags flags)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
 
@@ -462,22 +460,22 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 	g_return_val_if_fail (pos != NULL, NULL);
 
 	switch (expr->any.oper){
-	case OPER_EQUAL:
-	case OPER_NOT_EQUAL:
-	case OPER_GT:
-	case OPER_GTE:
-	case OPER_LT:
-	case OPER_LTE: {
+	case GNM_EXPR_OP_EQUAL:
+	case GNM_EXPR_OP_NOT_EQUAL:
+	case GNM_EXPR_OP_GT:
+	case GNM_EXPR_OP_GTE:
+	case GNM_EXPR_OP_LT:
+	case GNM_EXPR_OP_LTE: {
 		ValueCompare comp;
 
 		a = expr_eval_real (expr->binary.value_a, pos, flags);
 		if (a != NULL) {
 			if (a->type == VALUE_CELLRANGE) {
-				a = expr_implicit_intersection (pos, a);
+				a = gnm_expr_implicit_intersection (pos, a);
 				if (a == NULL)
 					return value_new_error (pos, gnumeric_err_VALUE);
 			} else if (a->type == VALUE_ARRAY) {
-				a = expr_array_intersection (a);
+				a = gnm_expr_array_intersection (a);
 				if (a == NULL)
 					return value_new_error (pos, gnumeric_err_VALUE);
 			} else if (a->type == VALUE_ERROR)
@@ -488,11 +486,11 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		if (b != NULL) {
 			Value *res = NULL;
 			if (b->type == VALUE_CELLRANGE) {
-				b = expr_implicit_intersection (pos, b);
+				b = gnm_expr_implicit_intersection (pos, b);
 				if (b == NULL)
 					res = value_new_error (pos, gnumeric_err_VALUE);
 			} else if (b->type == VALUE_ARRAY) {
-				b = expr_array_intersection (b);
+				b = gnm_expr_array_intersection (b);
 				if (b == NULL)
 					return value_new_error (pos, gnumeric_err_VALUE);
 			} else if (b->type == VALUE_ERROR)
@@ -517,36 +515,36 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			 *    regarding what is comparing to what
 			 */
 			/* For equality comparisons even errors are ok */
-			if (expr->any.oper == OPER_EQUAL)
+			if (expr->any.oper == GNM_EXPR_OP_EQUAL)
 				return value_new_bool (FALSE);
-			if (expr->any.oper == OPER_NOT_EQUAL)
+			if (expr->any.oper == GNM_EXPR_OP_NOT_EQUAL)
 				return value_new_bool (TRUE);
 
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 		switch (expr->any.oper) {
-		case OPER_EQUAL:
+		case GNM_EXPR_OP_EQUAL:
 			res = value_new_bool (comp == IS_EQUAL);
 			break;
 
-		case OPER_GT:
+		case GNM_EXPR_OP_GT:
 			res = value_new_bool (comp == IS_GREATER);
 			break;
 
-		case OPER_LT:
+		case GNM_EXPR_OP_LT:
 			res = value_new_bool (comp == IS_LESS);
 			break;
 
-		case OPER_NOT_EQUAL:
+		case GNM_EXPR_OP_NOT_EQUAL:
 			res = value_new_bool (comp != IS_EQUAL);
 			break;
 
-		case OPER_LTE:
+		case GNM_EXPR_OP_LTE:
 			res = value_new_bool (comp != IS_GREATER);
 			break;
 
-		case OPER_GTE:
+		case GNM_EXPR_OP_GTE:
 			res = value_new_bool (comp != IS_LESS);
 			break;
 
@@ -558,11 +556,11 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		return res;
 	}
 
-	case OPER_ADD:
-	case OPER_SUB:
-	case OPER_MULT:
-	case OPER_DIV:
-	case OPER_EXP:
+	case GNM_EXPR_OP_ADD:
+	case GNM_EXPR_OP_SUB:
+	case GNM_EXPR_OP_MULT:
+	case GNM_EXPR_OP_DIV:
+	case GNM_EXPR_OP_EXP:
 		/*
 		 * Priority
 		 * 1) Error from A
@@ -573,16 +571,16 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		 */
 
 	        /* Guarantees a != NULL */
-		a = expr_eval (expr->binary.value_a, pos,
-			       flags & (~EVAL_PERMIT_EMPTY));
+		a = gnm_expr_eval (expr->binary.value_a, pos,
+			       flags & (~GNM_EXPR_EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
-			a = expr_implicit_intersection (pos, a);
+			a = gnm_expr_implicit_intersection (pos, a);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		} else if (a->type == VALUE_ARRAY) {
-			a = expr_array_intersection (a);
+			a = gnm_expr_array_intersection (a);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		}
@@ -605,16 +603,16 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		}
 
 	        /* Guarantees that b != NULL */
-		b = expr_eval (expr->binary.value_b, pos,
-			       flags & (~EVAL_PERMIT_EMPTY));
+		b = gnm_expr_eval (expr->binary.value_b, pos,
+			       flags & (~GNM_EXPR_EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (b->type == VALUE_CELLRANGE) {
-			b = expr_implicit_intersection (pos, a);
+			b = gnm_expr_implicit_intersection (pos, a);
 			if (b == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		} else if (b->type == VALUE_ARRAY) {
-			b = expr_array_intersection (b);
+			b = gnm_expr_array_intersection (b);
 			if (b == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		}
@@ -653,7 +651,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			/* FIXME: we could use simple (cheap) heuristics to
 			   catch most cases where overflow will not happen.  */
 			switch (expr->any.oper){
-			case OPER_ADD:
+			case GNM_EXPR_OP_ADD:
 				dres = (gnum_float)ia + (gnum_float)ib;
 				ires = (int)dres;
 				if (dres == ires)
@@ -661,7 +659,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 				else
 					return value_new_float ((gnum_float) dres);
 
-			case OPER_SUB:
+			case GNM_EXPR_OP_SUB:
 				dres = (gnum_float)ia - (gnum_float)ib;
 				ires = (int)dres;
 				if (dres == ires)
@@ -669,7 +667,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 				else
 					return value_new_float ((gnum_float) dres);
 
-			case OPER_MULT:
+			case GNM_EXPR_OP_MULT:
 				dres = (gnum_float)ia * (gnum_float)ib;
 				ires = (int)dres;
 				if (dres == ires)
@@ -677,7 +675,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 				else
 					return value_new_float ((gnum_float) dres);
 
-			case OPER_DIV:
+			case GNM_EXPR_OP_DIV:
 				if (ib == 0)
 					return value_new_error (pos, gnumeric_err_DIV0);
 				dres = (gnum_float)ia / (gnum_float)ib;
@@ -687,7 +685,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 				else
 					return value_new_float ((gnum_float) dres);
 
-			case OPER_EXP:
+			case GNM_EXPR_OP_EXP:
 				if (ia == 0 && ib <= 0)
 					return value_new_error (pos, gnumeric_err_NUM);
 				dres = powgnum ((gnum_float)ia, (gnum_float)ib);
@@ -707,22 +705,22 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			value_release (b);
 
 			switch (expr->any.oper){
-			case OPER_ADD:
+			case GNM_EXPR_OP_ADD:
 				return value_new_float (va + vb);
 
-			case OPER_SUB:
+			case GNM_EXPR_OP_SUB:
 				return value_new_float (va - vb);
 
-			case OPER_MULT:
+			case GNM_EXPR_OP_MULT:
 				return value_new_float (va * vb);
 
-			case OPER_DIV:
+			case GNM_EXPR_OP_DIV:
 				return (vb == 0.0)
 				    ? value_new_error (pos,
 						       gnumeric_err_DIV0)
 				    : value_new_float (va / vb);
 
-			case OPER_EXP:
+			case GNM_EXPR_OP_EXP:
 				if ((va == 0 && vb <= 0) ||
 				    (va < 0 && vb != (int)vb))
 					return value_new_error (pos, gnumeric_err_NUM);
@@ -734,20 +732,20 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		}
 		return value_new_error (pos, _("Unknown operator"));
 
-	case OPER_PERCENT:
-	case OPER_UNARY_NEG:
-	case OPER_UNARY_PLUS:
+	case GNM_EXPR_OP_PERCENTAGE:
+	case GNM_EXPR_OP_UNARY_NEG:
+	case GNM_EXPR_OP_UNARY_PLUS:
 	        /* Garantees that a != NULL */
-		a = expr_eval (expr->unary.value, pos,
-			flags & (~EVAL_PERMIT_EMPTY));
+		a = gnm_expr_eval (expr->unary.value, pos,
+			flags & (~GNM_EXPR_EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
-			a = expr_implicit_intersection (pos, a);
+			a = gnm_expr_implicit_intersection (pos, a);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		} else if (a->type == VALUE_ARRAY) {
-			a = expr_array_intersection (a);
+			a = gnm_expr_array_intersection (a);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		}
@@ -755,14 +753,14 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		if (a->type == VALUE_ERROR)
 			return a;
 
-		if (expr->any.oper == OPER_UNARY_PLUS)
+		if (expr->any.oper == GNM_EXPR_OP_UNARY_PLUS)
 			return a;
 
 		if (!VALUE_IS_NUMBER (a)){
 			value_release (a);
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
-		if (expr->any.oper == OPER_UNARY_NEG) {
+		if (expr->any.oper == GNM_EXPR_OP_UNARY_NEG) {
 			if (a->type == VALUE_INTEGER)
 				res = value_new_int (-a->v_int.val);
 			else if (a->type == VALUE_FLOAT)
@@ -781,7 +779,7 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		value_release (a);
 		return res;
 
-	case OPER_CONCAT:
+	case GNM_EXPR_OP_CAT:
 		a = expr_eval_real (expr->binary.value_a, pos, flags);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
@@ -812,22 +810,22 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 
 		return res;
 
-	case OPER_FUNCALL: {
+	case GNM_EXPR_OP_FUNCALL: {
 		FunctionEvalInfo ei;
 		ei.pos = pos;
-		ei.func_call = (ExprFunction const *)expr;
+		ei.func_call = (GnmExprFunction const *)expr;
 
-		/*if (flags & EVAL_PERMIT_NON_SCALAR)*/
+		/*if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)*/
 		return function_call_with_list (&ei, expr->func.arg_list);
 	}
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		if (expr->name.name->active)
 			return expr_name_eval (expr->name.name, pos, flags);
 		return value_new_error (pos, gnumeric_err_REF);
 
-	case OPER_VAR: {
-		CellRef const * const ref = &expr->var.ref;
+	case GNM_EXPR_OP_CELLREF: {
+		CellRef const * const ref = &expr->cellref.ref;
 		Cell *cell;
 		CellPos dest;
 
@@ -843,11 +841,11 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		return value_duplicate (cell->value);
 	}
 
-	case OPER_CONSTANT:
-		res = expr->constant.value;
+	case GNM_EXPR_OP_CONSTANT: {
+		Value const *res = expr->constant.value;
 		if (res->type != VALUE_CELLRANGE)
 			return value_duplicate (res);
-		if (flags & EVAL_PERMIT_NON_SCALAR) {
+		if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) {
 			workbook_foreach_cell_in_range (pos, res, TRUE,
 							cb_range_eval, NULL);
 			return value_duplicate (res);
@@ -893,9 +891,9 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			}
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
+	}
 
-	case OPER_ARRAY:
-	{
+	case GNM_EXPR_OP_ARRAY: {
 		/* The upper left corner manages the recalc of the expr */
 		int x = expr->array.x;
 		int y = expr->array.y;
@@ -925,12 +923,12 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			 * needs validation.
 			 */
 			a = expr_eval_real (expr->array.corner.expr, pos,
-					    EVAL_PERMIT_NON_SCALAR);
+					    GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
 			/* Store real result (cast away const)*/
 			*((Value **)&(expr->array.corner.value)) = a;
 		} else {
-			Cell *corner = expr_tree_array_corner (expr,
+			Cell *corner = expr_array_corner (expr,
 				pos->sheet, &pos->eval);
 			if (corner != NULL) {
 				cell_eval (corner);
@@ -964,26 +962,35 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			return NULL;
 		return value_duplicate (a);
 	}
-	case OPER_SET:
+	case GNM_EXPR_OP_SET:
 		g_warning ("Not implemented until 1.1");
 	}
 
 	return value_new_error (pos, _("Unknown evaluation error"));
 }
 
+/**
+ * gnm_expr_eval :
+ * @expr :
+ * @ep   :
+ * @flags:
+ *
+ * Returns int(0) if the expression uses a non-existant cell for anything
+ * other than an equality test and GNM_EXPR_EVAL_PERMIT_EMPTY is not set.
+ */
 Value *
-expr_eval (ExprTree const *expr, EvalPos const *pos,
-	   ExprEvalFlags flags)
+gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
+	       GnmExprEvalFlags flags)
 {
 	Value * res = expr_eval_real (expr, pos, flags);
 
 	if (res == NULL)
-		return (flags & EVAL_PERMIT_EMPTY)
+		return (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 		    ? NULL : value_new_int (0);
 
 	if (res->type == VALUE_EMPTY) {
 		value_release (res);
-		if (flags & EVAL_PERMIT_EMPTY)
+		if (flags & GNM_EXPR_EVAL_PERMIT_EMPTY)
 			return NULL;
 		return value_new_int (0);
 	}
@@ -994,12 +1001,12 @@ expr_eval (ExprTree const *expr, EvalPos const *pos,
  * Converts a parsed tree into its string representation
  * assuming that we are evaluating at col, row
  *
- * This routine is pretty simple: it walks the ExprTree and
+ * This routine is pretty simple: it walks the GnmExpr and
  * creates a string representation.
  */
 static char *
-do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
-			int paren_level)
+do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
+		   int paren_level)
 {
 	static const struct {
 		char const *name;
@@ -1031,15 +1038,15 @@ do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
 	int const op = expr->any.oper;
 
 	switch (op) {
-	case OPER_ANY_BINARY: {
+	case GNM_EXPR_OP_ANY_BINARY: {
 		char *a, *b, *res;
 		char const *opname;
 		int const prec = operations[op].prec;
 
-		a = do_expr_tree_as_string (expr->binary.value_a, pp,
-					    prec - operations[op].assoc_left);
-		b = do_expr_tree_as_string (expr->binary.value_b, pp,
-					    prec - operations[op].assoc_right);
+		a = do_expr_as_string (expr->binary.value_a, pp,
+				       prec - operations[op].assoc_left);
+		b = do_expr_as_string (expr->binary.value_b, pp,
+				       prec - operations[op].assoc_right);
 		opname = operations[op].name;
 
 		if (prec <= paren_level)
@@ -1052,16 +1059,16 @@ do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
 		return res;
 	}
 
-	case OPER_ANY_UNARY: {
+	case GNM_EXPR_OP_ANY_UNARY: {
 		char *res, *a;
 		char const *opname;
 		int const prec = operations[op].prec;
 
-		a = do_expr_tree_as_string (expr->unary.value, pp,
-					    operations[op].prec);
+		a = do_expr_as_string (expr->unary.value, pp,
+				       operations[op].prec);
 		opname = operations[op].name;
 
-		if (expr->any.oper != OPER_PERCENT) {
+		if (expr->any.oper != GNM_EXPR_OP_PERCENTAGE) {
 			if (prec <= paren_level)
 				res = g_strconcat ("(", opname, a, ")", NULL);
 			else
@@ -1076,11 +1083,11 @@ do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
 		return res;
 	}
 
-	case OPER_FUNCALL: {
-		ExprList const * const arg_list = expr->func.arg_list;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList const * const arg_list = expr->func.arg_list;
 
 		if (arg_list != NULL) {
-			char *sum = expr_list_as_string (arg_list, pp);
+			char *sum = gnm_expr_list_as_string (arg_list, pp);
 			char *res = g_strconcat (function_def_get_name (expr->func.func),
 				"(", sum, ")", NULL);
 			g_free (sum);
@@ -1090,7 +1097,7 @@ do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
 					    "()", NULL);
 	}
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		if (!expr->name.name->active)
 			return g_strdup (gnumeric_err_REF);
 		if (expr->name.optional_scope != NULL) {
@@ -1104,10 +1111,10 @@ do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
 
 		return g_strdup (expr->name.name->name->str);
 
-	case OPER_VAR:
-		return cellref_name (&expr->var.ref, pp, FALSE);
+	case GNM_EXPR_OP_CELLREF:
+		return cellref_name (&expr->cellref.ref, pp, FALSE);
 
-	case OPER_CONSTANT: {
+	case GNM_EXPR_OP_CONSTANT: {
 		char *res;
 		Value const *v = expr->constant.value;
 		if (v->type == VALUE_STRING)
@@ -1131,7 +1138,7 @@ do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
 			 */
 			if ((v->type == VALUE_INTEGER || v->type == VALUE_FLOAT) &&
 			    (res [0] == '-' || res [0] == '+') &&
-			    operations [OPER_UNARY_NEG].prec <= paren_level) {
+			    operations [GNM_EXPR_OP_UNARY_NEG].prec <= paren_level) {
 				char *new_res = g_strconcat ("(", res, ")", NULL);
 				g_free (res);
 				return new_res;
@@ -1140,42 +1147,42 @@ do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
 		return res;
 	}
 
-	case OPER_ARRAY: {
+	case GNM_EXPR_OP_ARRAY: {
 		int const x = expr->array.x;
 		int const y = expr->array.y;
 		if (x != 0 || y != 0) {
-			Cell *corner = expr_tree_array_corner (expr,
+			Cell *corner = expr_array_corner (expr,
 				pp->sheet, &pp->eval);
 			if (corner) {
 				ParsePos tmp_pos;
 				tmp_pos.wb  = pp->wb;
 				tmp_pos.eval.col = pp->eval.col - x;
 				tmp_pos.eval.row = pp->eval.row - y;
-				return do_expr_tree_as_string (
+				return do_expr_as_string (
 					corner->base.expression->array.corner.expr,
 					&tmp_pos, 0);
 			} else
 				return g_strdup ("<ERROR>");
 		} else
-			return do_expr_tree_as_string (
-			    expr->array.corner.expr, pp, 0);
+			return do_expr_as_string (
+				expr->array.corner.expr, pp, 0);
         }
 
-	case OPER_SET:
-		return expr_list_as_string (expr->set.set, pp);
+	case GNM_EXPR_OP_SET:
+		return gnm_expr_list_as_string (expr->set.set, pp);
 	}
 
-	g_warning ("ExprTree: This should not happen\n");
+	g_warning ("GnmExpr: This should not happen\n");
 	return g_strdup ("0");
 }
 
 char *
-expr_tree_as_string (ExprTree const *expr, ParsePos const *pp)
+gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
-	return do_expr_tree_as_string (expr, pp, 0);
+	return do_expr_as_string (expr, pp, 0);
 }
 
 typedef enum {
@@ -1193,7 +1200,7 @@ typedef enum {
  * range changes when it should not.
  */
 static CellRefRelocate
-cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo)
+cellref_relocate (CellRef *ref, GnmExprRelocateInfo const *rinfo)
 {
 	/* For row or column refs
 	 * Ref	From	To
@@ -1300,7 +1307,7 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo)
  * into the target range then we want to adjust the range.
  */
 static gboolean
-cellref_shift (CellRef const *ref, ExprRelocateInfo const *rinfo)
+cellref_shift (CellRef const *ref, GnmExprRelocateInfo const *rinfo)
 {
 	if (rinfo->col_offset == 0) {
 		int col = ref->col;
@@ -1318,8 +1325,8 @@ cellref_shift (CellRef const *ref, ExprRelocateInfo const *rinfo)
 	return TRUE;
 }
 
-static ExprTree *
-cellrange_relocate (Value const *v, ExprRelocateInfo const *rinfo)
+static GnmExpr const *
+cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 {
 	/*
 	 * If either end is an error then the whole range is an error.
@@ -1338,14 +1345,14 @@ cellrange_relocate (Value const *v, ExprRelocateInfo const *rinfo)
 	case CELLREF_NO_RELOCATE :	break;
 	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
 	case CELLREF_RELOCATE_FROM_OUT : needs = 0x1;	break;
-	case CELLREF_RELOCATE_ERR : return expr_tree_new_constant (
+	case CELLREF_RELOCATE_ERR : return gnm_expr_new_constant (
 		value_new_error (NULL, gnumeric_err_REF));
 	}
 	switch (cellref_relocate (&ref_b, rinfo)) {
 	case CELLREF_NO_RELOCATE :	break;
 	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
 	case CELLREF_RELOCATE_FROM_OUT : needs |= 0x2;	break;
-	case CELLREF_RELOCATE_ERR : return expr_tree_new_constant (
+	case CELLREF_RELOCATE_ERR : return gnm_expr_new_constant (
 		value_new_error (NULL, gnumeric_err_REF));
 	}
 
@@ -1370,33 +1377,33 @@ cellrange_relocate (Value const *v, ExprRelocateInfo const *rinfo)
 		} else
 			res = value_new_error (NULL, gnumeric_err_REF);
 
-		return expr_tree_new_constant (res);
+		return gnm_expr_new_constant (res);
 	}
 
 	return NULL;
 }
 
 /*
- * expr_rewrite :
+ * gnm_expr_rewrite :
  * @expr   : Expression to fixup
  * @pos    : Location of the cell containing @expr.
  * @rwinfo : State information required to rewrite the reference.
  *
  * Either:
  *
- * EXPR_REWRITE_SHEET:
+ * GNM_EXPR_REWRITE_SHEET:
  *
  *	Find any references to rwinfo->u.sheet and re-write them to #REF!
  *
  * or
  *
- * EXPR_REWRITE_WORKBOOK:
+ * GNM_EXPR_REWRITE_WORKBOOK:
  *
  *	Find any references to rwinfo->u.workbook re-write them to #REF!
  *
  * or
  *
- * EXPR_REWRITE_RELOCATE:
+ * GNM_EXPR_REWRITE_RELOCATE:
  *
  *	Find any references to the specified area and adjust them by the
  * supplied deltas.  Check for out of bounds conditions.  Return NULL if
@@ -1406,63 +1413,63 @@ cellrange_relocate (Value const *v, ExprRelocateInfo const *rinfo)
  * references to cells outside the range are adjusted to reference the
  * same cell after the move.
  */
-ExprTree *
-expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
+GnmExpr const *
+gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
 	switch (expr->any.oper) {
-	case OPER_ANY_BINARY: {
-		ExprTree *a = expr_rewrite (expr->binary.value_a, rwinfo);
-		ExprTree *b = expr_rewrite (expr->binary.value_b, rwinfo);
+	case GNM_EXPR_OP_ANY_BINARY: {
+		GnmExpr const *a = gnm_expr_rewrite (expr->binary.value_a, rwinfo);
+		GnmExpr const *b = gnm_expr_rewrite (expr->binary.value_b, rwinfo);
 
 		if (a == NULL && b == NULL)
 			return NULL;
 
 		if (a == NULL)
-			expr_tree_ref ((a = expr->binary.value_a));
+			gnm_expr_ref ((a = expr->binary.value_a));
 		else if (b == NULL)
-			expr_tree_ref ((b = expr->binary.value_b));
+			gnm_expr_ref ((b = expr->binary.value_b));
 
-		return expr_tree_new_binary (a, expr->any.oper, b);
+		return gnm_expr_new_binary (a, expr->any.oper, b);
 	}
 
-	case OPER_ANY_UNARY: {
-		ExprTree *a = expr_rewrite (expr->unary.value, rwinfo);
+	case GNM_EXPR_OP_ANY_UNARY: {
+		GnmExpr const *a = gnm_expr_rewrite (expr->unary.value, rwinfo);
 		if (a == NULL)
 			return NULL;
-		return expr_tree_new_unary (expr->any.oper, a);
+		return gnm_expr_new_unary (expr->any.oper, a);
 	}
 
-	case OPER_FUNCALL: {
+	case GNM_EXPR_OP_FUNCALL: {
 		gboolean rewrite = FALSE;
-		ExprList *new_args = NULL;
-		ExprList *l;
+		GnmExprList *new_args = NULL;
+		GnmExprList *l;
 
 		for (l = expr->func.arg_list; l; l = l->next) {
-			ExprTree *arg = expr_rewrite (l->data, rwinfo);
-			new_args = expr_list_append (new_args, arg);
+			GnmExpr const *arg = gnm_expr_rewrite (l->data, rwinfo);
+			new_args = gnm_expr_list_append (new_args, arg);
 			if (arg != NULL)
 				rewrite = TRUE;
 		}
 
 		if (rewrite) {
-			ExprList *m;
+			GnmExprList *m;
 
 			for (l = expr->func.arg_list, m = new_args; l; l = l->next, m = m->next) {
 				if (m->data == NULL)
-					expr_tree_ref ((m->data = l->data));
+					gnm_expr_ref ((m->data = l->data));
 			}
 
-			return expr_tree_new_funcall (expr->func.func, new_args);
+			return gnm_expr_new_funcall (expr->func.func, new_args);
 		}
 		g_slist_free (new_args);
 		return NULL;
 	}
 
-	case OPER_NAME: {
-		NamedExpression *nexpr = expr->name.name;
-		ExprTree *tmp;
+	case GNM_EXPR_OP_NAME: {
+		GnmNamedExpr *nexpr = expr->name.name;
+		GnmExpr const *tmp;
 
 		if (nexpr->builtin)
 			return NULL;
@@ -1472,11 +1479,11 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		 * flag the name as inactive and remove the reference here.
 		 */
 		if (!nexpr->active ||
-		    (rwinfo->type == EXPR_REWRITE_SHEET && rwinfo->u.sheet == nexpr->pos.sheet) ||
-		    (rwinfo->type == EXPR_REWRITE_WORKBOOK && rwinfo->u.workbook == nexpr->pos.wb))
-			return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+		    (rwinfo->type == GNM_EXPR_REWRITE_SHEET && rwinfo->u.sheet == nexpr->pos.sheet) ||
+		    (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK && rwinfo->u.workbook == nexpr->pos.wb))
+			return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
 
-		if (rwinfo->type != EXPR_REWRITE_RELOCATE)
+		if (rwinfo->type != GNM_EXPR_REWRITE_RELOCATE)
 			return NULL;
 
 		/* If the nme is not officially scope check that it is
@@ -1484,7 +1491,7 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		 */
 		if (expr->name.optional_scope == NULL &&
 		    rwinfo->u.relocate.target_sheet != rwinfo->u.relocate.origin_sheet) {
-			NamedExpression *new_nexpr;
+			GnmNamedExpr *new_nexpr;
 			ParsePos pos;
 			parse_pos_init (&pos,  NULL,
 				rwinfo->u.relocate.target_sheet, 0, 0);
@@ -1493,80 +1500,80 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 			new_nexpr = expr_name_lookup (&pos, nexpr->name->str);
 			if (new_nexpr == NULL) {
 				if (nexpr->pos.sheet != NULL)
-					return expr_tree_new_name (nexpr, nexpr->pos.sheet, NULL);
-				return expr_tree_new_name (nexpr, NULL, nexpr->pos.wb);
+					return gnm_expr_new_name (nexpr, nexpr->pos.sheet, NULL);
+				return gnm_expr_new_name (nexpr, NULL, nexpr->pos.wb);
 			}
 
 			/* replace it with the new name using qualified as
 			 * local to the target sheet
 			 */
-			return expr_tree_new_name (new_nexpr, pos.sheet, NULL);
+			return gnm_expr_new_name (new_nexpr, pos.sheet, NULL);
 		}
 
 		/* Do NOT rewrite the name.  Just invalidate the use of the name */
-		tmp = expr_rewrite (expr->name.name->t.expr_tree, rwinfo);
+		tmp = gnm_expr_rewrite (expr->name.name->t.expr_tree, rwinfo);
 		if (tmp != NULL) {
-			expr_tree_unref (tmp);
-			return expr_tree_new_constant (
+			gnm_expr_unref (tmp);
+			return gnm_expr_new_constant (
 				value_new_error (NULL, gnumeric_err_REF));
 		}
 
 		return NULL;
 	}
 
-	case OPER_VAR:
+	case GNM_EXPR_OP_CELLREF:
 		switch (rwinfo->type) {
-		case EXPR_REWRITE_SHEET :
-			if (expr->var.ref.sheet == rwinfo->u.sheet)
-				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+		case GNM_EXPR_REWRITE_SHEET :
+			if (expr->cellref.ref.sheet == rwinfo->u.sheet)
+				return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
 			return NULL;
 
-		case EXPR_REWRITE_WORKBOOK :
-			if (expr->var.ref.sheet != NULL &&
-			    expr->var.ref.sheet->workbook == rwinfo->u.workbook)
-				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+		case GNM_EXPR_REWRITE_WORKBOOK :
+			if (expr->cellref.ref.sheet != NULL &&
+			    expr->cellref.ref.sheet->workbook == rwinfo->u.workbook)
+				return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
 			return NULL;
 
-		case EXPR_REWRITE_RELOCATE : {
-			CellRef res = expr->var.ref; /* Copy */
+		case GNM_EXPR_REWRITE_RELOCATE : {
+			CellRef res = expr->cellref.ref; /* Copy */
 
 			switch (cellref_relocate (&res, &rwinfo->u.relocate)) {
 			case CELLREF_NO_RELOCATE :
 				return NULL;
 			case CELLREF_RELOCATE_FROM_IN :
 			case CELLREF_RELOCATE_FROM_OUT :
-				return expr_tree_new_var (&res);
+				return gnm_expr_new_cellref (&res);
 			case CELLREF_RELOCATE_ERR :
-				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+				return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
 			}
 		}
 		}
 		return NULL;
 
-	case OPER_CONSTANT: {
+	case GNM_EXPR_OP_CONSTANT: {
 		Value const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
 			CellRef ref_a = v->v_range.cell.a;
 			CellRef ref_b = v->v_range.cell.b;
 
-			if (rwinfo->type == EXPR_REWRITE_SHEET) {
+			if (rwinfo->type == GNM_EXPR_REWRITE_SHEET) {
 
 				if (ref_a.sheet == rwinfo->u.sheet ||
 				    ref_b.sheet == rwinfo->u.sheet)
-					return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+					return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
 				else
 					return NULL;
 
-			} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+			} else if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
 
 				if      (ref_a.sheet &&
 					 ref_a.sheet->workbook == rwinfo->u.workbook)
-					return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+					return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
 
 				else if (ref_b.sheet &&
 					 ref_b.sheet->workbook == rwinfo->u.workbook)
-					return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+					return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
 
 				else
 					return NULL;
@@ -1578,22 +1585,22 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		return NULL;
 	}
 
-	case OPER_ARRAY: {
-		ExprArray const *a = &expr->array;
+	case GNM_EXPR_OP_ARRAY: {
+		GnmExprArray const *a = &expr->array;
 		if (a->x == 0 && a->y == 0) {
-			ExprTree *func = expr_rewrite (a->corner.expr, rwinfo);
+			GnmExpr const *func = gnm_expr_rewrite (a->corner.expr, rwinfo);
 
 			if (func != NULL) {
-				ExprTree *res =
-					expr_tree_new_array (0, 0, a->cols, a->rows);
-				res->array.corner.value = NULL;
-				res->array.corner.expr = func;
+				GnmExpr const *res =
+					gnm_expr_new_array (0, 0, a->cols, a->rows);
+				((GnmExpr *)res)->array.corner.value = NULL;
+				((GnmExpr *)res)->array.corner.expr = func;
 				return res;
 			}
 		}
 		return NULL;
 	}
-	case OPER_SET:
+	case GNM_EXPR_OP_SET:
 		return NULL;
 	}
 
@@ -1602,47 +1609,47 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 }
 
 FunctionDefinition *
-expr_tree_get_func_def (ExprTree const *expr)
+gnm_expr_get_func_def (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
-	g_return_val_if_fail (expr->any.oper == OPER_FUNCALL, NULL);
+	g_return_val_if_fail (expr->any.oper == GNM_EXPR_OP_FUNCALL, NULL);
 
 	return expr->func.func;
 }
 
 /**
- * expr_tree_first_func :
+ * gnm_expr_first_func :
  * @expr :
  *
  */
-ExprTree const *
-expr_tree_first_func (ExprTree const *expr)
+GnmExpr const *
+gnm_expr_first_func (GnmExpr const *expr)
 {
-	ExprTree const *tmp;
+	GnmExpr const *tmp;
 
 	g_return_val_if_fail (expr != NULL, NULL);
 
 	switch (expr->any.oper) {
 	default :
-	case OPER_NAME:
-	case OPER_VAR:
-	case OPER_CONSTANT:
+	case GNM_EXPR_OP_NAME:
+	case GNM_EXPR_OP_CELLREF:
+	case GNM_EXPR_OP_CONSTANT:
 		return NULL;
 
-	case OPER_FUNCALL:
+	case GNM_EXPR_OP_FUNCALL:
 		return expr;
 
-	case OPER_ANY_BINARY:
-		tmp = expr_tree_first_func (expr->binary.value_a);
+	case GNM_EXPR_OP_ANY_BINARY:
+		tmp = gnm_expr_first_func (expr->binary.value_a);
 		if (tmp != NULL)
 			return tmp;
-		return expr_tree_first_func (expr->binary.value_b);
+		return gnm_expr_first_func (expr->binary.value_b);
 
-	case OPER_ANY_UNARY:
-		return expr_tree_first_func (expr->unary.value);
+	case GNM_EXPR_OP_ANY_UNARY:
+		return gnm_expr_first_func (expr->unary.value);
 
-	case OPER_ARRAY:
-		return expr_tree_first_func (expr->array.corner.expr);
+	case GNM_EXPR_OP_ARRAY:
+		return gnm_expr_first_func (expr->array.corner.expr);
 	}
 
 	g_assert_not_reached ();
@@ -1685,33 +1692,33 @@ g_slist_insert_unique (GSList *list, gpointer data)
 }
 
 static GSList *
-do_referenced_sheets (ExprTree const *expr, GSList *sheets)
+do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 {
 	switch (expr->any.oper) {
-	case OPER_ANY_BINARY:
+	case GNM_EXPR_OP_ANY_BINARY:
 		return do_referenced_sheets (
 			expr->binary.value_b,
 			do_referenced_sheets (
 				expr->binary.value_b,
 				sheets));
 
-	case OPER_ANY_UNARY:
+	case GNM_EXPR_OP_ANY_UNARY:
 		return do_referenced_sheets (expr->unary.value, sheets);
 
-	case OPER_FUNCALL: {
-		ExprList *l;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l;
 		for (l = expr->func.arg_list; l; l = l->next)
 			sheets = do_referenced_sheets (l->data, sheets);
 		return sheets;
 	}
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		return sheets;
 
-	case OPER_VAR:
-		return g_slist_insert_unique (sheets, expr->var.ref.sheet);
+	case GNM_EXPR_OP_CELLREF:
+		return g_slist_insert_unique (sheets, expr->cellref.ref.sheet);
 
-	case OPER_CONSTANT: {
+	case GNM_EXPR_OP_CONSTANT: {
 		Value const *v = expr->constant.value;
 		if (v->type != VALUE_CELLRANGE)
 			return sheets;
@@ -1721,7 +1728,7 @@ do_referenced_sheets (ExprTree const *expr, GSList *sheets)
 				v->v_range.cell.b.sheet);
 	}
 
-	case OPER_ARRAY:
+	case GNM_EXPR_OP_ARRAY:
 		g_warning ("An array in a NAME ?");
 		break;
 
@@ -1732,7 +1739,7 @@ do_referenced_sheets (ExprTree const *expr, GSList *sheets)
 }
 
 /**
- * expr_tree_referenced_sheets :
+ * gnm_expr_referenced_sheets :
  * @expr :
  * @sheets : usually NULL.
  *
@@ -1740,50 +1747,50 @@ do_referenced_sheets (ExprTree const *expr, GSList *sheets)
  * Caller must free the list.
  */
 GSList *
-expr_tree_referenced_sheets (ExprTree const *expr)
+gnm_expr_referenced_sheets (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 	return do_referenced_sheets (expr, NULL);
 }
 
 /**
- * expr_tree_boundingbox :
+ * gnm_expr_get_boundingbox :
  *
  * Returns the range of cells in which the expression can be used without going
  * out of bounds.
  */
 void
-expr_tree_boundingbox (ExprTree const *expr, Range *bound)
+gnm_expr_get_boundingbox (GnmExpr const *expr, Range *bound)
 {
 	g_return_if_fail (expr != NULL);
 
 	switch (expr->any.oper) {
-	case OPER_ANY_BINARY:
-		expr_tree_boundingbox (expr->binary.value_a, bound);
-		expr_tree_boundingbox (expr->binary.value_b, bound);
+	case GNM_EXPR_OP_ANY_BINARY:
+		gnm_expr_get_boundingbox (expr->binary.value_a, bound);
+		gnm_expr_get_boundingbox (expr->binary.value_b, bound);
 		break;
 
-	case OPER_ANY_UNARY:
-		expr_tree_boundingbox (expr->unary.value, bound);
+	case GNM_EXPR_OP_ANY_UNARY:
+		gnm_expr_get_boundingbox (expr->unary.value, bound);
 		break;
 
-	case OPER_FUNCALL: {
-		ExprList *l;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l;
 		for (l = expr->func.arg_list; l; l = l->next)
-			expr_tree_boundingbox (l->data, bound);
+			gnm_expr_get_boundingbox (l->data, bound);
 		break;
 	}
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		/* Do NOT validate the name. */
 		/* TODO : is that correct ? */
 		break;
 
-	case OPER_VAR:
-		cellref_boundingbox (&expr->var.ref, bound);
+	case GNM_EXPR_OP_CELLREF:
+		cellref_boundingbox (&expr->cellref.ref, bound);
 		break;
 
-	case OPER_CONSTANT: {
+	case GNM_EXPR_OP_CONSTANT: {
 		Value const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
@@ -1793,10 +1800,10 @@ expr_tree_boundingbox (ExprTree const *expr, Range *bound)
 		break;
 	}
 
-	case OPER_ARRAY: {
-		ExprArray const *a = &expr->array;
+	case GNM_EXPR_OP_ARRAY: {
+		GnmExprArray const *a = &expr->array;
 		if (a->x == 0 && a->y == 0)
-			expr_tree_boundingbox (a->corner.expr, bound);
+			gnm_expr_get_boundingbox (a->corner.expr, bound);
 		break;
 	}
 
@@ -1806,30 +1813,30 @@ expr_tree_boundingbox (ExprTree const *expr, Range *bound)
 }
 
 /**
- * expr_tree_get_range:
+ * gnm_expr_get_range:
  * @expr :
  *
  * If this expression contains a single range return it.
  */
 Value *
-expr_tree_get_range (ExprTree const *expr)
+gnm_expr_get_range (GnmExpr const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
 	switch (expr->any.oper) {
-	case OPER_VAR :
+	case GNM_EXPR_OP_CELLREF :
 		return value_new_cellrange_unsafe (
-			&expr->var.ref, &expr->var.ref);
+			&expr->cellref.ref, &expr->cellref.ref);
 
-	case OPER_CONSTANT:
+	case GNM_EXPR_OP_CONSTANT:
 		if (expr->constant.value->type == VALUE_CELLRANGE)
 			return value_duplicate (expr->constant.value);
 		return NULL;
 
-	case OPER_NAME:
+	case GNM_EXPR_OP_NAME:
 		if (!expr->name.name->active || expr->name.name->builtin)
 			return NULL;
-		return expr_tree_get_range (expr->name.name->t.expr_tree);
+		return gnm_expr_get_range (expr->name.name->t.expr_tree);
 
 	default:
 		return NULL;
@@ -1837,26 +1844,26 @@ expr_tree_get_range (ExprTree const *expr)
 }
 
 void
-expr_list_unref (ExprList *list)
+gnm_expr_list_unref (GnmExprList *list)
 {
-	ExprList *l;
+	GnmExprList *l;
 	for (l = list; l; l = l->next)
-		do_expr_tree_unref (l->data);
-	expr_list_free (list);
+		do_gnm_expr_unref (l->data);
+	gnm_expr_list_free (list);
 }
 
 gboolean
-expr_list_equal (ExprList const *la, ExprList const *lb)
+gnm_expr_list_equal (GnmExprList const *la, GnmExprList const *lb)
 {
 	for (; la != NULL && lb != NULL; la = la->next, lb = lb->next)
-		if (!expr_tree_equal (la->data, lb->data))
+		if (!gnm_expr_equal (la->data, lb->data))
 			return FALSE;
 	return (la == NULL) && (lb == NULL);
 }
 
 /* Same as above, but uses pointer equality.  */
 static gboolean
-expr_list_eq (ExprList const *la, ExprList const *lb)
+gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
 {
 	for (; la != NULL && lb != NULL; la = la->next, lb = lb->next)
 		if (la->data != lb->data)
@@ -1865,22 +1872,22 @@ expr_list_eq (ExprList const *la, ExprList const *lb)
 }
 
 char *
-expr_list_as_string (ExprList const *list, ParsePos const *pp)
+gnm_expr_list_as_string (GnmExprList const *list, ParsePos const *pp)
 {
 	int i, len = 0;
-	int argc = expr_list_length ((ExprList *)list);
+	int argc = gnm_expr_list_length ((GnmExprList *)list);
 	char sep [2] = { '\0', '\0' };
 	char *sum, **args;
-	ExprList const *l;
+	GnmExprList const *l;
 
 	sep [0] = format_get_arg_sep ();
 
 	i = 0;
 	args = g_malloc (sizeof (char *) * argc);
 	for (l = list; l; l = l->next, i++) {
-		ExprTree *t = l->data;
+		GnmExpr *t = l->data;
 
-		args [i] = do_expr_tree_as_string (t, pp, 0);
+		args [i] = do_expr_as_string (t, pp, 0);
 		len += strlen (args [i]) + 1;
 	}
 	len++;
@@ -1910,36 +1917,36 @@ expr_list_as_string (ExprList const *list, ParsePos const *pp)
 static guint
 ets_hash (gconstpointer key)
 {
-	const ExprTree *expr = (const ExprTree *)key;
+	const GnmExpr *expr = (const GnmExpr *)key;
 	guint h = (guint)(expr->any.oper);
 
 	switch (expr->any.oper){
-	case OPER_ANY_BINARY:
+	case GNM_EXPR_OP_ANY_BINARY:
 		return ((GPOINTER_TO_INT (expr->binary.value_a) * 7) ^
 			(GPOINTER_TO_INT (expr->binary.value_b) * 3) ^
 			h);
 
-	case OPER_ANY_UNARY:
+	case GNM_EXPR_OP_ANY_UNARY:
 		return ((GPOINTER_TO_INT (expr->unary.value) * 7) ^
 			h);
 
-	case OPER_FUNCALL: {
-		ExprList *l;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l;
 
 		for (l = expr->func.arg_list; l; l = l->next)
 			h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
 		return h;
 	}
 
-	case OPER_SET: {
-		ExprList *l;
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l;
 
 		for (l = expr->set.set; l; l = l->next)
 			h = (h * 3) ^ (GPOINTER_TO_INT (l->data));
 		return h;
 	}
 
-	case OPER_CONSTANT:
+	case GNM_EXPR_OP_CONSTANT:
 		return value_hash (expr->constant.value);
 
 #ifndef DEBUG_SWITCH_ENUM
@@ -1948,9 +1955,9 @@ ets_hash (gconstpointer key)
 		return h;
 #endif
 
-	case OPER_VAR:
-	case OPER_NAME:
-	case OPER_ARRAY:
+	case GNM_EXPR_OP_CELLREF:
+	case GNM_EXPR_OP_NAME:
+	case GNM_EXPR_OP_ARRAY:
 		return h;  /* FIXME */
 	}
 }
@@ -1962,27 +1969,27 @@ ets_hash (gconstpointer key)
 static gboolean
 ets_equal (gconstpointer _a, gconstpointer _b)
 {
-	const ExprTree *ea = _a;
-	const ExprTree *eb = _b;
+	const GnmExpr *ea = _a;
+	const GnmExpr *eb = _b;
 
 	if (ea->any.oper != eb->any.oper)
 		return FALSE;
 
 	switch (ea->any.oper){
-	case OPER_ANY_BINARY:
+	case GNM_EXPR_OP_ANY_BINARY:
 		return (ea->binary.value_a == eb->binary.value_a &&
 			ea->binary.value_b == eb->binary.value_b);
-	case OPER_ANY_UNARY:
+	case GNM_EXPR_OP_ANY_UNARY:
 		return (ea->unary.value == eb->unary.value);
-	case OPER_FUNCALL:
+	case GNM_EXPR_OP_FUNCALL:
 		return (ea->func.func == eb->func.func &&
-			expr_list_eq (ea->func.arg_list, eb->func.arg_list));
-	case OPER_SET:
-		return expr_list_eq (ea->set.set, eb->set.set);
+			gnm_expr_list_eq (ea->func.arg_list, eb->func.arg_list));
+	case GNM_EXPR_OP_SET:
+		return gnm_expr_list_eq (ea->set.set, eb->set.set);
 
 	default:
 		/* No sub-expressions.  */
-		return expr_tree_equal (ea, eb);
+		return gnm_expr_equal (ea, eb);
 	}
 }
 
@@ -2000,8 +2007,8 @@ expr_tree_sharer_new (void)
 static void
 cb_ets_unref_key (gpointer key, gpointer value, gpointer user_data)
 {
-	ExprTree *e = key;
-	expr_tree_unref (e);
+	GnmExpr *e = key;
+	gnm_expr_unref (e);
 }
 
 
@@ -2015,10 +2022,10 @@ expr_tree_sharer_destroy (ExprTreeSharer *es)
 	g_free (es);
 }
 
-ExprTree *
-expr_tree_sharer_share (ExprTreeSharer *es, ExprTree *e)
+GnmExpr const *
+expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 {
-	ExprTree *e2;
+	GnmExpr const *e2;
 	gboolean wasshared;
 
 	g_return_val_if_fail (es != NULL, NULL);
@@ -2027,9 +2034,9 @@ expr_tree_sharer_share (ExprTreeSharer *es, ExprTree *e)
 	wasshared = (e->any.ref_count > 1);
 	if (wasshared) {
 		e2 = g_hash_table_lookup (es->ptrs, e);
-		if (e2) {
-			expr_tree_ref (e2);
-			expr_tree_unref (e);
+		if (e2 != NULL) {
+			gnm_expr_ref (e2);
+			gnm_expr_unref (e);
 			return e2;
 		}
 	}
@@ -2038,35 +2045,35 @@ expr_tree_sharer_share (ExprTreeSharer *es, ExprTree *e)
 
 	/* First share all sub-expressions.  */
 	switch (e->any.oper) {
-	case OPER_ANY_BINARY:
-		e->binary.value_a =
+	case GNM_EXPR_OP_ANY_BINARY:
+		((GnmExpr*)e)->binary.value_a =
 			expr_tree_sharer_share (es, e->binary.value_a);
-		e->binary.value_b =
+		((GnmExpr*)e)->binary.value_b =
 			expr_tree_sharer_share (es, e->binary.value_b);
 		break;
 
-	case OPER_ANY_UNARY:
-		e->unary.value =
+	case GNM_EXPR_OP_ANY_UNARY:
+		((GnmExpr*)e)->unary.value =
 			expr_tree_sharer_share (es, e->unary.value);
 		break;
 
-	case OPER_FUNCALL: {
-		ExprList *l;
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l;
 
 		for (l = e->func.arg_list; l; l = l->next)
-			l->data = expr_tree_sharer_share (es, l->data);
+			l->data = (gpointer)expr_tree_sharer_share (es, l->data);
 		break;
 	}
 
-	case OPER_SET: {
-		ExprList *l;
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l;
 
 		for (l = e->set.set; l; l = l->next)
-			l->data = expr_tree_sharer_share (es, l->data);
+			l->data = (gpointer)expr_tree_sharer_share (es, l->data);
 		break;
 	}
 
-	case OPER_ARRAY:
+	case GNM_EXPR_OP_ARRAY:
 		/*
 		 * I don't want to deal with the complications of arrays
 		 * right here.  Non-corners must point to the corner.
@@ -2081,14 +2088,14 @@ expr_tree_sharer_share (ExprTreeSharer *es, ExprTree *e)
 	e2 = g_hash_table_lookup (es->exprs, e);
 	if (e2 == NULL) {
 		/* Not there -- insert it.  */
-		expr_tree_ref (e);
+		gnm_expr_ref (e);
 		es->nodes_stored++;
-		g_hash_table_insert (es->exprs, e, e);
+		g_hash_table_insert (es->exprs, (gpointer)e, (gpointer)e);
 		e2 = e;
 	} else {
 		/* Found -- share the stored value.  */
-		expr_tree_ref (e2);
-		expr_tree_unref (e);
+		gnm_expr_ref (e2);
+		gnm_expr_unref (e);
 	}
 
 	/*
@@ -2096,8 +2103,8 @@ expr_tree_sharer_share (ExprTreeSharer *es, ExprTree *e)
 	 * might now exist anymore.
 	 */	   
 	if (wasshared) {
-		expr_tree_ref (e);
-		g_hash_table_insert (es->ptrs, e, e2);
+		gnm_expr_ref (e);
+		g_hash_table_insert (es->ptrs, (gpointer)e, (gpointer)e2);
 	}
 
 	return e2;

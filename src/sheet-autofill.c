@@ -24,6 +24,7 @@
 #include "sheet-style.h"
 #include "dates.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "formats.h"
 #include "datetime.h"
 #include "mstyle.h"
@@ -108,7 +109,7 @@ typedef struct _FillItem {
 	CellPos	     merged_size;
 
 	union {
-		ExprTree *expr;
+		GnmExpr const *expr;
 		Value    *value;
 		String   *str;
 		struct {
@@ -682,29 +683,29 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 	}
 
 	case FILL_EXPR: {
-		ExprRewriteInfo   rwinfo;
-		ExprRelocateInfo *rinfo;
-		ExprTree	 *func;
+		GnmExprRewriteInfo   rwinfo;
+		GnmExprRelocateInfo *rinfo;
+		GnmExpr const *func;
 
 		rinfo = &rwinfo.u.relocate;
 
 		/* FIXME : Find out how to handle this */
-		rwinfo.type = EXPR_REWRITE_RELOCATE;
+		rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
 		rinfo->target_sheet = rinfo->origin_sheet = NULL;
 		rinfo->col_offset = rinfo->row_offset = 0;
 		rinfo->origin.start = rinfo->origin.end = cell->pos;
 		eval_pos_init_cell (&rinfo->pos, cell);
 
-		func = expr_rewrite (fi->v.expr, &rwinfo);
+		func = gnm_expr_rewrite (fi->v.expr, &rwinfo);
 
 		/* clip arrays that are only partially copied */
-		if (fi->v.expr->any.oper == OPER_ARRAY) {
-			ExprArray const *array = &fi->v.expr->array;
+		if (fi->v.expr->any.oper == GNM_EXPR_OP_ARRAY) {
+			GnmExprArray const *array = &fi->v.expr->array;
 			if (array->cols > limit_x) {
 				if (func != NULL)
 					func->array.cols = limit_x;
 				else
-					func = expr_tree_new_array (
+					func = gnm_expr_new_array (
 						array->x, array->y,
 						limit_x, array->rows);
 			}
@@ -712,7 +713,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 				if (func != NULL)
 					func->array.rows = limit_y;
 				else
-					func = expr_tree_new_array (
+					func = gnm_expr_new_array (
 						array->x, array->y,
 						array->cols, limit_y);
 			}
@@ -720,7 +721,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 			if (func != NULL &&
 			    func->array.x == 0 && func->array.y == 0 &&
 			    func->array.corner.expr == NULL)
-				expr_tree_ref (func->array.corner.expr = array->corner.expr);
+				gnm_expr_ref (func->array.corner.expr = array->corner.expr);
 		}
 		cell_set_expr (cell, (func == NULL) ? fi->v.expr : func);
 		return;
@@ -787,8 +788,8 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 			 * corner.  autofill_cell handles the dimension clipping.
 			 */
 			if (fi->type == FILL_EXPR &&
-			    fi->v.expr->any.oper == OPER_ARRAY) {
-				ExprArray const *array = &fi->v.expr->array;
+			    fi->v.expr->any.oper == GNM_EXPR_OP_ARRAY) {
+				GnmExprArray const *array = &fi->v.expr->array;
 				int n = 0, remain = count_max - count - 1;
 				if (col_inc < 0)
 					n = array->x - remain;

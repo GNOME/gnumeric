@@ -15,13 +15,14 @@
 
 #include "parse-util.h"
 #include "eval.h"
+#include "expr.h"
+#include "expr-impl.h"
 #include "cell.h"
 #include "str.h"
 #include "symbol.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "value.h"
-#include "expr.h"
 #include "number-match.h"
 #include "format.h"
 
@@ -251,7 +252,7 @@ extract_arg_types (FunctionDefinition *def)
 
 
 static Value *
-error_function_no_full_info (FunctionEvalInfo *ei, ExprList *expr_node_list)
+error_function_no_full_info (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return value_new_error (ei->pos, _("Function implementation not available."));
 }
@@ -459,7 +460,7 @@ function_add_name_only (FunctionCategory *category,
 
 /* Handle unknown functions on import without losing their names */
 static Value *
-unknownFunctionHandler (FunctionEvalInfo *ei, ExprList *expr_node_list)
+unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return value_new_error (ei->pos, gnumeric_err_NAME);
 }
@@ -691,7 +692,7 @@ function_def_get_arg_name (FunctionDefinition const *fn_def,
 
 static inline Value *
 function_marshal_arg (FunctionEvalInfo *ei,
-		      ExprTree         *t,
+		      GnmExpr         *t,
 		      char              arg_type,
 		      Value            **type_mismatch)
 {
@@ -703,29 +704,29 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	 *  This is so we don't dereference 'A1' by accident
 	 * when we want a range instead.
 	 */
-	if (t->any.oper == OPER_VAR &&
+	if (t->any.oper == GNM_EXPR_OP_CELLREF &&
 	    (arg_type == 'A' ||
 	     arg_type == 'r'))
-		v = value_new_cellrange (&t->var.ref, &t->var.ref,
+		v = value_new_cellrange (&t->cellref.ref, &t->cellref.ref,
 					 ei->pos->eval.col,
 					 ei->pos->eval.row);
 	else
 		/* force scalars whenever we are certain */
-		v = expr_eval (t, ei->pos,
+		v = gnm_expr_eval (t, ei->pos,
 			       (arg_type == 'r' || arg_type == 'a' ||
 				arg_type == 'A' || arg_type == '?')
-			       ? EVAL_PERMIT_NON_SCALAR : EVAL_STRICT);
+			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR : GNM_EXPR_EVAL_STRICT);
 
 	switch (arg_type) {
 
 	case 'f':
 	case 'b':
 		if (v->type == VALUE_CELLRANGE) {
-			v = expr_implicit_intersection (ei->pos, v);
+			v = gnm_expr_implicit_intersection (ei->pos, v);
 			if (v == NULL)
 				break;
 		} else if (v->type == VALUE_ARRAY) {
-			v = expr_array_intersection (v);
+			v = gnm_expr_array_intersection (v);
 			if (v == NULL)
 				break;
 		}
@@ -753,11 +754,11 @@ function_marshal_arg (FunctionEvalInfo *ei,
 
 	case 's':
 		if (v->type == VALUE_CELLRANGE) {
-			v = expr_implicit_intersection (ei->pos, v);
+			v = gnm_expr_implicit_intersection (ei->pos, v);
 			if (v == NULL)
 				break;
 		} else if (v->type == VALUE_ARRAY) {
-			v = expr_array_intersection (v);
+			v = gnm_expr_array_intersection (v);
 			if (v == NULL)
 				break;
 		}
@@ -811,11 +812,11 @@ function_marshal_arg (FunctionEvalInfo *ei,
 
 	case 'S':
 		if (v->type == VALUE_CELLRANGE) {
-			v = expr_implicit_intersection (ei->pos, v);
+			v = gnm_expr_implicit_intersection (ei->pos, v);
 			if (v == NULL)
 				break;
 		} else if (v->type == VALUE_ARRAY) {
-			v = expr_array_intersection (v);
+			v = gnm_expr_array_intersection (v);
 			if (v == NULL)
 				break;
 		}
@@ -842,14 +843,14 @@ free_values (Value **values, int top)
 /**
  * function_call_with_list:
  * @ei: EvalInfo containing valid fn_def!
- * @args: ExprList of ExprTree args.
+ * @args: GnmExprList of GnmExpr args.
  *
  * Do the guts of calling a function.
  *
  * Return value:
  **/
 Value *
-function_call_with_list (FunctionEvalInfo *ei, ExprList *l)
+function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l)
 {
 	FunctionDefinition const *fn_def;
 	int argc, arg;
@@ -868,7 +869,7 @@ function_call_with_list (FunctionEvalInfo *ei, ExprList *l)
 		return fn_def->fn.fn_nodes (ei, l);
 
 	/* Functions that take pre-computed Values */
-	argc = expr_list_length (l);
+	argc = gnm_expr_list_length (l);
 	if (argc > fn_def->fn.args.max_args ||
 	    argc < fn_def->fn.args.min_args) {
 		return value_new_error (ei->pos,
@@ -930,7 +931,7 @@ function_def_call_with_values (EvalPos const *ep,
                                Value  *values [])
 {
 	Value *retval;
-	ExprFunction	ef;
+	GnmExprFunction	ef;
 	FunctionEvalInfo fs;
 
 	fs.pos = ep;
@@ -945,30 +946,25 @@ function_def_call_with_values (EvalPos const *ep,
 		 * If function deals with ExprNodes, create some
 		 * temporary ExprNodes with constants.
 		 */
-		ExprConstant *tree = NULL;
-		ExprList *l = NULL;
+		GnmExprConstant *tree = NULL;
+		GnmExprList *l = NULL;
 		int i;
 
 		if (argc) {
-			tree = g_new (ExprConstant, argc);
-
+			tree = g_alloca (argc * sizeof (GnmExprConstant));
 			for (i = 0; i < argc; i++) {
-				/* FIXME : this looks like a leak */
-				*((Operation *)&(tree [i].oper)) = OPER_CONSTANT;
-				tree [i].ref_count = 1;
+				tree [i].oper = GNM_EXPR_OP_CONSTANT;
 				tree [i].value = values [i];
+				tree [i].ref_count = 1;
 
-				l = expr_list_append (l, &(tree [i]));
+				l = gnm_expr_list_append (l, tree + i);
 			}
 		}
 
 		retval = fn_def->fn.fn_nodes (&fs, l);
 
-		if (tree) {
-			g_free (tree);
-			expr_list_free (l);
-		}
-
+		if (l != NULL)
+			gnm_expr_list_free (l);
 	} else
 		retval = fn_def->fn.args.func (&fs, values);
 
@@ -1085,7 +1081,7 @@ function_iterate_do_value (EvalPos const *ep,
  * @fp:               The position in a workbook at which to evaluate
  * @callback:         The routine to be invoked for every value computed
  * @callback_closure: Closure for the callback.
- * @expr_node_list:   a ExprList of ExprTrees (what a Gnumeric function would get).
+ * @expr_node_list:   a GnmExprList of ExprTrees (what a Gnumeric function would get).
  * @strict:           If TRUE, the function is considered "strict".  This means
  *                   that if an error value occurs as an argument, the iteration
  *                   will stop and that error will be returned.  If FALSE, an
@@ -1107,7 +1103,7 @@ Value *
 function_iterate_argument_values (EvalPos const		*ep,
 				  FunctionIterateCB	 callback,
 				  void			*callback_closure,
-				  ExprList		*expr_node_list,
+				  GnmExprList		*expr_node_list,
 				  gboolean		 strict,
 				  gboolean		 ignore_blank)
 {
@@ -1115,12 +1111,12 @@ function_iterate_argument_values (EvalPos const		*ep,
 
 	for (; result == NULL && expr_node_list;
 	     expr_node_list = expr_node_list->next) {
-		ExprTree const * tree = expr_node_list->data;
+		GnmExpr const * tree = expr_node_list->data;
 		Value *val;
 
 		/* Permit empties and non scalars. We don't know what form the
 		 * function wants its arguments */
-		val = expr_eval (tree, ep, EVAL_PERMIT_NON_SCALAR|EVAL_PERMIT_EMPTY);
+		val = gnm_expr_eval (tree, ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR|GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		if (val == NULL)
 			continue;

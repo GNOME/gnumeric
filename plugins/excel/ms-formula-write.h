@@ -16,11 +16,11 @@
 #include "formula-types.h"
 
 guint32 ms_excel_write_formula    (BiffPut *bp, ExcelSheet *sheet,
-				   ExprTree *expr,
+				   GnmExpr const *expr,
 				   int fn_col, int fn_row, int paren_level);
 
 typedef enum { EXCEL_NAME, EXCEL_EXTERNNAME } formula_write_t;
-void    ms_formula_build_pre_data (ExcelSheet *sheet, ExprTree const *tree);
+void    ms_formula_build_pre_data (ExcelSheet *sheet, GnmExpr const *tree);
 void    ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 				   formula_write_t which,
 				   MsBiffVersion ver);

@@ -27,22 +27,22 @@ typedef struct {
 } func_struct_t;
 
 const func_struct_t functions[] = {
-	{ 1, 0x08, "-", UNARY, OPER_UNARY_NEG },
-	{ 2, 0x09, "+", BINOP, OPER_ADD },
-	{ 2, 0x0A, "-", BINOP, OPER_SUB },
-	{ 2, 0x0B, "*", BINOP, OPER_MULT },
-	{ 2, 0x0C, "/", BINOP, OPER_DIV },
-	{ 2, 0x0D, "pow", BINOP, OPER_EXP },
-	{ 2, 0x0E, "EQ", BINOP, OPER_EQUAL },
-	{ 2, 0x0F, "NE", BINOP, OPER_NOT_EQUAL },
-	{ 2, 0x10, "LE", BINOP, OPER_LTE },
-	{ 2, 0x11, "GE", BINOP, OPER_GTE },
-	{ 2, 0x12, "LT", BINOP, OPER_LT },
-	{ 2, 0x13, "GT", BINOP, OPER_GT },
+	{ 1, 0x08, "-", UNARY, GNM_EXPR_OP_UNARY_NEG },
+	{ 2, 0x09, "+", BINOP, GNM_EXPR_OP_ADD },
+	{ 2, 0x0A, "-", BINOP, GNM_EXPR_OP_SUB },
+	{ 2, 0x0B, "*", BINOP, GNM_EXPR_OP_MULT },
+	{ 2, 0x0C, "/", BINOP, GNM_EXPR_OP_DIV },
+	{ 2, 0x0D, "pow", BINOP, GNM_EXPR_OP_EXP },
+	{ 2, 0x0E, "EQ", BINOP, GNM_EXPR_OP_EQUAL },
+	{ 2, 0x0F, "NE", BINOP, GNM_EXPR_OP_NOT_EQUAL },
+	{ 2, 0x10, "LE", BINOP, GNM_EXPR_OP_LTE },
+	{ 2, 0x11, "GE", BINOP, GNM_EXPR_OP_GTE },
+	{ 2, 0x12, "LT", BINOP, GNM_EXPR_OP_LT },
+	{ 2, 0x13, "GT", BINOP, GNM_EXPR_OP_GT },
 /*	{ 2, 0x14, "bit-and", BINOP, OPER_AND },
 	{ 2, 0x15, "bit-or", BINOP, OPER_OR }, FIXME */
 	{ 1, 0x16, "NOT", NORMAL, 0 },
-	{ 1, 0x17, "+", UNARY, OPER_UNARY_PLUS },
+	{ 1, 0x17, "+", UNARY, GNM_EXPR_OP_UNARY_PLUS },
 	{ 1, 0x1F, "NA", NORMAL, 0 },
 	{ 1, 0x20, "ERR", NORMAL, 0 },
 	{ 1, 0x21, "abs", NORMAL, 0 },
@@ -138,50 +138,50 @@ const func_struct_t functions[] = {
 };
 
 static void
-parse_list_push_expr (ExprList **list, ExprTree *pd)
+parse_list_push_expr (GnmExprList **list, GnmExpr const *pd)
 {
 	if (!pd)
 		printf ("FIXME: Pushing nothing onto lotus function stack\n");
-	*list = expr_list_prepend (*list, pd) ;
+	*list = gnm_expr_list_prepend (*list, pd) ;
 }
 static void
-parse_list_push_value (ExprList **list, Value *v)
+parse_list_push_value (GnmExprList **list, Value *v)
 {
-	parse_list_push_expr (list, expr_tree_new_constant (v));
+	parse_list_push_expr (list, gnm_expr_new_constant (v));
 }
 
-static ExprTree *
-parse_list_pop (ExprList **list)
+static GnmExpr const *
+parse_list_pop (GnmExprList **list)
 {
 	/* Get the head */
-	ExprList *tmp = g_slist_nth (*list, 0);
+	GnmExprList *tmp = g_slist_nth (*list, 0);
 	if (tmp != NULL) {
-		ExprTree *ans = tmp->data ;
+		GnmExpr const *ans = tmp->data ;
 		*list = g_slist_remove (*list, ans) ;
 		return ans ;
 	}
 
 	puts ("Incorrect number of parsed formula arguments");
-	return expr_tree_new_constant (value_new_error (NULL, "WrongArgs"));
+	return gnm_expr_new_constant (value_new_error (NULL, "WrongArgs"));
 }
 
 /**
  * Returns a new list composed of the last n items pop'd off the list.
  **/
-static ExprList *
-parse_list_last_n (ExprList **list, gint n)
+static GnmExprList *
+parse_list_last_n (GnmExprList **list, gint n)
 {
-	ExprList *l = NULL;
+	GnmExprList *l = NULL;
 	while (n-- > 0)
-		l = expr_list_prepend (l, parse_list_pop (list));
+		l = gnm_expr_list_prepend (l, parse_list_pop (list));
 	return l;
 }
 
 static void
-parse_list_free (ExprList **list)
+parse_list_free (GnmExprList **list)
 {
 	while (*list)
-		expr_tree_unref (parse_list_pop (list));
+		gnm_expr_unref (parse_list_pop (list));
 }
 
 static gint16
@@ -236,7 +236,7 @@ find_function (guint16 idx)
 }
 
 static gint32
-make_function (ExprList **stack, guint16 idx, guint8 *data)
+make_function (GnmExprList **stack, guint16 idx, guint8 *data)
 {
 	gint32 ans, numargs;
 	const func_struct_t *f = &functions[idx];
@@ -251,7 +251,7 @@ make_function (ExprList **stack, guint16 idx, guint8 *data)
 
 	if (f->special == NORMAL) {
 		FunctionDefinition *func;
-		ExprList  *args = parse_list_last_n (stack, numargs);
+		GnmExprList  *args = parse_list_last_n (stack, numargs);
 
 		/* FIXME : Do we need to support workbook local functions ? */
 		func = func_lookup_by_name (f->name, NULL);
@@ -260,23 +260,23 @@ make_function (ExprList **stack, guint16 idx, guint8 *data)
 			txt = g_strdup_printf ("[Function '%s']",
 					       f->name ? f->name : "?");
 			printf ("Unknown %s\n", txt);
-			parse_list_push_expr (stack, expr_tree_new_error (txt));
+			parse_list_push_expr (stack, gnm_expr_new_error (txt));
 			g_free (txt);
 
 			parse_list_free (&args);
 			return ans;
 		} else
 			parse_list_push_expr (stack,
-					 expr_tree_new_funcall (func, args));
+				gnm_expr_new_funcall (func, args));
 	} else if (f->special == BINOP) {
-		ExprTree *l, *r;
+		GnmExpr const *l, *r;
 		r = parse_list_pop (stack);
 		l = parse_list_pop (stack);
-		parse_list_push_expr (stack, expr_tree_new_binary (l, f->data, r));
+		parse_list_push_expr (stack, gnm_expr_new_binary (l, f->data, r));
 	} else if (f->special == UNARY) {
-		ExprTree *r;
+		GnmExpr const *r;
 		r = parse_list_pop (stack);
-		parse_list_push_expr (stack, expr_tree_new_unary (f->data, r));
+		parse_list_push_expr (stack, gnm_expr_new_unary (f->data, r));
 	} else
 		g_warning ("Unknown formula type");
 
@@ -284,11 +284,11 @@ make_function (ExprList **stack, guint16 idx, guint8 *data)
 }
 
 
-ExprTree *
+GnmExpr const *
 lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 		     guint8 *data, guint32 len)
 {
-	ExprList *stack = NULL;
+	GnmExprList *stack = NULL;
 	guint     i;
 	CellRef   a, b;
 	Value    *v;
@@ -304,7 +304,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 			break;
 		case LOTUS_FORMULA_VARIABLE:
 			get_cellref (&a, data + i + 1, data + i + 3, col, row);
-			parse_list_push_expr (&stack, expr_tree_new_var (&a));
+			parse_list_push_expr (&stack, gnm_expr_new_cellref (&a));
 			i += 5;
 			break;
 		case LOTUS_FORMULA_RANGE:

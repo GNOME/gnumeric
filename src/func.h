@@ -77,11 +77,11 @@ typedef enum {
 typedef enum { FUNCTION_ARGS, FUNCTION_NODES, FUNCTION_NAMEONLY } FuncType;
 
 typedef Value *(*FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
-typedef Value *(*FunctionNodes) (FunctionEvalInfo *ei, ExprList *nodes);
+typedef Value *(*FunctionNodes) (FunctionEvalInfo *ei, GnmExprList *nodes);
 
 struct _FunctionEvalInfo {
 	EvalPos const *pos;
-	ExprFunction const *func_call;
+	GnmExprFunction const *func_call;
 };
 
 typedef DependentFlags	(*FuncLinkHandle) 	(FunctionEvalInfo *ei);
@@ -162,7 +162,7 @@ void function_set_link_handlers (FunctionDefinition *fn_def,
 				 FuncLinkHandle   link,
 				 FuncUnlinkHandle unlink);
 
-Value *function_call_with_list	     (FunctionEvalInfo *ei, ExprList *args);
+Value *function_call_with_list	     (FunctionEvalInfo *ei, GnmExprList *args);
 Value *function_call_with_values     (EvalPos const *ep, gchar const *name,
                                       gint argc, Value *values []);
 Value *function_def_call_with_values (EvalPos const *ep, FunctionDefinition const *fn,
@@ -174,7 +174,7 @@ typedef Value * (*FunctionIterateCB) (EvalPos const *ep,
 Value *function_iterate_argument_values	(EvalPos const	   *ep,
                                          FunctionIterateCB  cb,
                                          gpointer           user_data,
-                                         ExprList          *expr_node_list,
+                                         GnmExprList          *expr_node_list,
                                          gboolean           strict,
                                          gboolean           ignore_blank);
 Value *function_iterate_do_value	(EvalPos const      *ep,

@@ -277,11 +277,11 @@ read_workbook (Workbook *wb, FILE *f)
 			fmt = *(guint8 *)(r->data);
 			cell = insert_value (sheet, i, j, v);
 			if (cell) {
-				ExprTree *f = lotus_parse_formula (sheet, i, j,
+				GnmExpr const *f = lotus_parse_formula (sheet, i, j,
 					r->data + 15, /* FIXME: unsafe */
 					gnumeric_get_le_int16 (r->data + 13));
 				cell_set_expr (cell, f);
-				expr_tree_unref (f);
+				gnm_expr_unref (f);
 				cell_set_format_from_lotus_format (cell, fmt);
 			}
 			break;

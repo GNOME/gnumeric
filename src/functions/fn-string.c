@@ -332,7 +332,7 @@ static const char *help_concatenate = {
 };
 
 static Value *
-gnumeric_concatenate (FunctionEvalInfo *ei, ExprList *l)
+gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *l)
 {
 	Value *v;
 	GString *s;
@@ -342,8 +342,8 @@ gnumeric_concatenate (FunctionEvalInfo *ei, ExprList *l)
 					_("Invalid number of arguments"));
 
 	s = g_string_new ("");
-	while (l != NULL
-	       && (v = expr_eval (l->data, ei->pos, EVAL_STRICT)) != NULL) {
+	while (l != NULL &&
+	       (v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_STRICT)) != NULL) {
 		if (VALUE_IS_EMPTY_OR_ERROR (v))
 			goto error;
 		g_string_append (s, value_peek_string (v));

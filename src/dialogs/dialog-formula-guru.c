@@ -35,6 +35,7 @@
 #include <workbook-control.h>
 #include <cell.h>
 #include <expr.h>
+#include <expr-impl.h>
 #include <func.h>
 #include <format.h>
 #include <widgets/gnumeric-expr-entry.h>
@@ -314,7 +315,7 @@ dialog_formula_guru_load_string (GtkTreePath * path,
 
 static void
 dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num, 
-			       ExprTree const *expr, FormulaGuruState *state)
+			       GnmExpr const *expr, FormulaGuruState *state)
 {
 	GtkTreePath *path;
 	char *text;
@@ -330,17 +331,17 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 	}
 
 	switch (expr->any.oper) {
-	case OPER_FUNCALL:
+	case GNM_EXPR_OP_FUNCALL:
 		dialog_formula_guru_load_fd (path, expr->func.func, state);		
 		for (args = expr->func.arg_list, i = 0; args; args = args->next, i++)
 			dialog_formula_guru_load_expr (path, i, 
-						       (ExprTree const *) args->data, 
+						       (GnmExpr const *) args->data, 
 						       state);
 		break;
-	case OPER_ANY_BINARY:
-	case OPER_UNARY_NEG:
+	case GNM_EXPR_OP_ANY_BINARY:
+	case GNM_EXPR_OP_UNARY_NEG:
 	default:
-		text = expr_tree_as_string (expr, state->pos);
+		text = gnm_expr_as_string (expr, state->pos);
 		dialog_formula_guru_load_string (path, text, state);
 		g_free (text);
 		break;
@@ -680,7 +681,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
 	Cell	  *cell;
 	GtkWidget *dialog;
 	FormulaGuruState *state;
-	ExprTree const *expr = NULL;
+	GnmExpr const *expr = NULL;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -721,9 +722,9 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
 	cell = sheet_cell_get (sheet,
 			       sheet->edit_pos.col,
 			       sheet->edit_pos.row);
-	if (cell != NULL && cell_has_expr (cell)) {
-		expr = expr_tree_first_func (cell->base.expression);
-	}
+	if (cell != NULL && cell_has_expr (cell))
+		expr = gnm_expr_first_func (cell->base.expression);
+
 	if (expr == NULL) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);
 		state->prefix = g_strdup ("= ");
@@ -734,11 +735,11 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
 		char *func_str;
 		
 		state->pos = g_new (ParsePos, 1);
-		func_str = expr_tree_as_string (expr,
+		func_str = gnm_expr_as_string (expr,
 			parse_pos_init_cell (state->pos, cell));
 
 		wbcg_edit_start (wbcg, FALSE, TRUE);
-		fd = expr_tree_get_func_def (expr);
+		fd = gnm_expr_get_func_def (expr);
 
 		sub_str = strstr (full_str, func_str);
 

@@ -260,7 +260,7 @@ graph_guru_series_delete (GraphGuruState *state, int series_id)
 #endif
 
 static void
-vector_state_series_set_dimension (VectorState *vs, ExprTree *expr)
+vector_state_series_set_dimension (VectorState *vs, GnmExpr *expr)
 {
 	CORBA_Environment  ev;
 	int vector_id = -1;
@@ -337,7 +337,7 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 static void
 vector_state_apply_changes (VectorState *vs)
 {
-	ExprTree *expr = NULL;
+	GnmExpr *expr = NULL;
 	gboolean changed;
 
 	if (vs == NULL || !vs->changed)

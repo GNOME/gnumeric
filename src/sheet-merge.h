@@ -11,7 +11,7 @@ gboolean     sheet_merge_remove		(WorkbookControl *cc,
 GSList      *sheet_merge_get_overlap	(Sheet const *sheet, Range const *r);
 Range const *sheet_merge_contains_pos	(Sheet const *sheet, CellPos const *pos);
 Range const *sheet_merge_is_corner	(Sheet const *sheet, CellPos const *pos);
-void	     sheet_merge_relocate	(ExprRelocateInfo const *ri);
+void	     sheet_merge_relocate	(GnmExprRelocateInfo const *ri);
 void	     sheet_merge_find_container	(Sheet const *sheet, Range *r);
 void	     sheet_merge_get_adjacent	(Sheet const *sheet, CellPos const *pos,
 					 Range const **left, Range const **right);

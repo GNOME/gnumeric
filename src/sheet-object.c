@@ -704,7 +704,7 @@ sheet_object_position_pts_get (SheetObject const *so, double *coords)
  * to relocate objects when the grid moves (eg ins/del col/row).
  */
 void
-sheet_objects_relocate (ExprRelocateInfo const *rinfo, gboolean update)
+sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 {
 	GList   *ptr, *next;
 	Range	 dest;

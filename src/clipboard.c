@@ -21,6 +21,7 @@
 #include "workbook.h"
 #include "ranges.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "commands.h"
 #include "value.h"
 #include "dialog-stf.h"
@@ -39,39 +40,39 @@ cell_has_expr_or_number_or_blank (Cell const * cell)
 		(cell != NULL && cell_has_expr (cell)));
 }
 
-static ExprTree *
-cell_get_contents_as_expr_tree (Cell const * cell)
+static GnmExpr const *
+cell_get_contents_as_expr (Cell const * cell)
 {
-	ExprTree *expr = NULL;
+	GnmExpr const *expr = NULL;
 
 	g_return_val_if_fail (cell_has_expr_or_number_or_blank (cell), NULL);
 
 	if (cell_is_blank (cell))
-		expr = expr_tree_new_constant (value_new_float (0.0));
+		expr = gnm_expr_new_constant (value_new_float (0.0));
 	else if (cell_has_expr (cell)) {
 		expr = cell->base.expression;
-		expr_tree_ref (expr);
+		gnm_expr_ref (expr);
 	} else if (cell_is_number (cell))
-		expr = expr_tree_new_constant (value_duplicate (cell->value));
+		expr = gnm_expr_new_constant (value_duplicate (cell->value));
 	else
 		g_assert_not_reached ();
 
 	return expr;
 }
 
-static Operation
-paste_oper_to_expr_oper (int paste_flags)
+static GnmExprOp
+paste_op_to_expr_op (int paste_flags)
 {
 	g_return_val_if_fail (paste_flags & PASTE_OPER_MASK, 0);
 
 	if (paste_flags & PASTE_OPER_ADD)
-		return OPER_ADD;
+		return GNM_EXPR_OP_ADD;
 	else if (paste_flags & PASTE_OPER_SUB)
-		return OPER_SUB;
+		return GNM_EXPR_OP_SUB;
 	else if (paste_flags & PASTE_OPER_MULT)
-		return OPER_MULT;
+		return GNM_EXPR_OP_MULT;
 	else if (paste_flags & PASTE_OPER_DIV)
-		return OPER_DIV;
+		return GNM_EXPR_OP_DIV;
 	else
 		g_assert_not_reached ();
 
@@ -84,40 +85,25 @@ apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
 			    Cell const *new_cell, int paste_flags)
 {
 	EvalPos pos;
-	ExprTree expr, arg_a, arg_b;
-	Operation op;
+	GnmExpr expr, arg_a, arg_b;
+	GnmExprOp op = paste_op_to_expr_op (paste_flags);
 
-	g_return_val_if_fail (paste_flags & PASTE_OPER_MASK, NULL);
-
-	if (paste_flags & PASTE_OPER_ADD)
-		op = OPER_ADD;
-	else if (paste_flags & PASTE_OPER_SUB)
-		op = OPER_SUB;
-	else if (paste_flags & PASTE_OPER_MULT)
-		op = OPER_MULT;
-	else if (paste_flags & PASTE_OPER_DIV)
-		op = OPER_DIV;
-	else {
-		op = OPER_ADD;
-		g_assert_not_reached ();
-	}
-
-	*((Operation *)&(arg_a.constant.oper)) = OPER_CONSTANT;
+	arg_a.constant.oper = GNM_EXPR_OP_CONSTANT;
 	arg_a.constant.value = old_cell->value;
-	*((Operation *)&(arg_b.constant.oper)) = OPER_CONSTANT;
+	arg_b.constant.oper = GNM_EXPR_OP_CONSTANT;
 	arg_b.constant.value = copied_cell->value;
 
-	*((Operation *)&(expr.binary.oper)) = op;
+	expr.binary.oper = op;
 	expr.binary.value_a = &arg_a;
 	expr.binary.value_b = &arg_b;
 
-	return expr_eval (&expr, eval_pos_init_cell (&pos, new_cell), EVAL_STRICT);
+	return gnm_expr_eval (&expr, eval_pos_init_cell (&pos, new_cell), GNM_EXPR_EVAL_STRICT);
 }
 
 static void
 paste_cell_with_operation (Sheet *dest_sheet,
 			   int target_col, int target_row,
-			   ExprRewriteInfo const *rwinfo,
+			   GnmExprRewriteInfo const *rwinfo,
 			   CellCopy *c_copy, int paste_flags)
 {
 	Cell *new_cell;
@@ -137,10 +123,10 @@ paste_cell_with_operation (Sheet *dest_sheet,
 	if ((paste_flags & PASTE_CONTENT) &&
 	    ((c_copy->u.cell != NULL && cell_has_expr (c_copy->u.cell)) ||
 	           (new_cell != NULL && cell_has_expr (new_cell)))) {
-		ExprTree *old_expr    = cell_get_contents_as_expr_tree (new_cell);
-		ExprTree *copied_expr = cell_get_contents_as_expr_tree (c_copy->u.cell);
-		Operation oper	      = paste_oper_to_expr_oper (paste_flags);
-		ExprTree *new_expr    = expr_tree_new_binary (old_expr, oper, copied_expr);
+		GnmExpr const *old_expr    = cell_get_contents_as_expr (new_cell);
+		GnmExpr const *copied_expr = cell_get_contents_as_expr (c_copy->u.cell);
+		GnmExprOp op	           = paste_op_to_expr_op (paste_flags);
+		GnmExpr const *new_expr    = gnm_expr_new_binary (old_expr, op, copied_expr);
 		cell_set_expr (new_cell, new_expr);
 		cell_relocate (new_cell, rwinfo);
 	} else {
@@ -160,7 +146,7 @@ paste_link (PasteTarget const *pt, int top, int left,
 {
 	Cell *cell;
 	CellPos pos;
-	ExprTree *expr;
+	GnmExpr const *expr;
 	CellRef source_cell_ref;
 	int x, y;
 
@@ -186,7 +172,7 @@ paste_link (PasteTarget const *pt, int top, int left,
 			    sheet_merge_contains_pos (pt->sheet, &pos))
 					continue;
 			source_cell_ref.row = content->base.row + y;
-			expr = expr_tree_new_var (&source_cell_ref);
+			expr = gnm_expr_new_cellref (&source_cell_ref);
 			cell_set_expr (cell, expr);
 		}
 	}
@@ -204,7 +190,7 @@ paste_link (PasteTarget const *pt, int top, int left,
 static void
 paste_cell (Sheet *dest_sheet,
 	    int target_col, int target_row,
-	    ExprRewriteInfo const *rwinfo,
+	    GnmExprRewriteInfo const *rwinfo,
 	    CellCopy *c_copy, int paste_flags)
 {
 	if ((paste_flags & PASTE_COMMENTS) && c_copy->comment) {
@@ -384,10 +370,10 @@ clipboard_paste_region (WorkbookControl *wbc,
 			int const left = repeat_horizontal * src_cols + pt->range.start.col;
 			int const top = repeat_vertical * src_rows + pt->range.start.row;
 			CellCopyList *l;
-			ExprRewriteInfo   rwinfo;
-			ExprRelocateInfo *rinfo;
+			GnmExprRewriteInfo   rwinfo;
+			GnmExprRelocateInfo *rinfo;
 
-			rwinfo.type = EXPR_REWRITE_RELOCATE;
+			rwinfo.type = GNM_EXPR_REWRITE_RELOCATE;
 			rinfo = &rwinfo.u.relocate;
 			rinfo->origin_sheet = rinfo->target_sheet = pt->sheet;
 
@@ -484,7 +470,7 @@ static Value *
 clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	CellRegion *cr = user_data;
-	ExprArray const *a;
+	GnmExprArray const *a;
 	CellCopy *copy;
 	CellComment   *comment;
 	
@@ -653,7 +639,7 @@ cellregion_free (CellRegion *cr)
  * Renders a CellRegion as a sequence of strings.
  */
 char *
-cellregion_to_string (CellRegion *cr)
+cellregion_to_string (CellRegion const *cr)
 {
 	GString *all, *line;
 	GList *l;

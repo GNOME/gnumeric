@@ -42,7 +42,7 @@ struct _Validation {
 
 	String          *title;
 	String          *msg;
-	ExprTree	*expr [2];
+	GnmExpr	const *expr [2];
 	ValidationStyle  style;
 	ValidationType	 type;
 	ValidationOp	 op;
@@ -54,7 +54,7 @@ Validation *validation_new   (ValidationStyle style,
 			      ValidationType  type,
 			      ValidationOp    op,
 			      char const *title, char const *msg,
-			      ExprTree *expr0, ExprTree *expr1,
+			      GnmExpr const *expr0, GnmExpr const *expr1,
 			      gboolean allow_blank, gboolean use_dropdown);
 
 void        validation_ref    (Validation *v);

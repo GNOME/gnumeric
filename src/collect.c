@@ -13,6 +13,7 @@
 #include "func.h"
 #include "value.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "datetime.h"
 
 /* ------------------------------------------------------------------------- */
@@ -25,7 +26,7 @@ typedef struct {
 } collect_floats_t;
 
 static Value *
-callback_function_collect (const EvalPos *ep, Value *value, void *closure)
+callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 {
 	gnum_float x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
@@ -119,7 +120,7 @@ callback_function_collect (const EvalPos *ep, Value *value, void *closure)
  * gnum_float.
  */
 static gnum_float *
-collect_floats (ExprList *exprlist, const EvalPos *ep, CollectFlags flags,
+collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 		int *n, Value **error)
 {
 	Value * err;
@@ -150,20 +151,17 @@ collect_floats (ExprList *exprlist, const EvalPos *ep, CollectFlags flags,
    Presumably most useful when the value is an array.  */
 
 gnum_float *
-collect_floats_value (const Value *val, const EvalPos *ep,
+collect_floats_value (Value const *val, EvalPos const *ep,
 		      CollectFlags flags, int *n, Value **error)
 {
-	ExprList *exprlist;
-	ExprTree *expr_val;
+	GnmExprList *exprlist;
+	GnmExprConstant expr_val;
 	gnum_float *res;
 
-	expr_val = expr_tree_new_constant (value_duplicate (val));
-	exprlist = expr_list_prepend (NULL, expr_val);
-
+	gnm_expr_constant_init (&expr_val, val);
+	exprlist = gnm_expr_list_prepend (NULL, &expr_val);
 	res = collect_floats (exprlist, ep, flags, n, error);
-
-	expr_tree_unref (expr_val);
-	expr_list_free (exprlist);
+	gnm_expr_list_free (exprlist);
 
 	return res;
 }
@@ -172,7 +170,7 @@ collect_floats_value (const Value *val, const EvalPos *ep,
 /* ------------------------------------------------------------------------- */
 
 Value *
-float_range_function (ExprList *exprlist, FunctionEvalInfo *ei,
+float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
 		      char const *func_error)
