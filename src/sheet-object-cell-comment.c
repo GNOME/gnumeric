@@ -158,7 +158,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 		break;
 
 	case GDK_ENTER_NOTIFY:
-		gnm_cursor_set_widget (GTK_WIDGET (view->canvas), GNM_CURSOR_ARROW);
+		gnm_widget_set_cursor (GTK_WIDGET (view->canvas), GDK_ARROW);
 		scg_comment_select (scg, cc);
 		break;
 

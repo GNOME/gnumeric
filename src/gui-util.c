@@ -1402,13 +1402,7 @@ cursors [] = {
 	{ NULL, 17, 17, cursor_cross_xpm },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_CROSSHAIR,         NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_ARROW,             NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_FLEUR,             NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SB_H_DOUBLE_ARROW, NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SB_V_DOUBLE_ARROW, NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SIZING,            NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_SIZING,            NULL },
 	{ NULL, GDK_INTERNAL_CURSOR,   GDK_HAND2,             NULL },
-	{ NULL, GDK_INTERNAL_CURSOR,   GDK_XTERM,             NULL },
 	{ NULL, 0,    0,  NULL }
 };
 
@@ -1496,6 +1490,15 @@ gnm_cursor_set_widget (GtkWidget *w, GnmCursorType c)
 		gdk_window_set_cursor (w->window, cursor);
 		gdk_cursor_unref (cursor);
 	}
+}
+
+void
+gnm_widget_set_cursor (GtkWidget *w, GdkCursorType ct)
+{
+	GdkDisplay *display = gdk_drawable_get_display (w->window);
+	GdkCursor *cursor = gdk_cursor_new_for_display (display, ct);
+	gdk_window_set_cursor (w->window, cursor);
+	gdk_cursor_unref (cursor);
 }
 
 /* ------------------------------------------------------------------------- */

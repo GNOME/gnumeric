@@ -137,16 +137,11 @@ typedef enum {
 	GNM_CURSOR_FAT_CROSS,
 	GNM_CURSOR_THIN_CROSS,
 	GNM_CURSOR_ARROW,
-	GNM_CURSOR_MOVE,
-	GNM_CURSOR_SIZE_X,
-	GNM_CURSOR_SIZE_Y,
-	GNM_CURSOR_SIZE_TL,
-	GNM_CURSOR_SIZE_TR,
 	GNM_CURSOR_PRESS,
-	GNM_CURSOR_XTERM,
 	GNM_CURSOR_NUM_CURSORS
 } GnmCursorType;
 void gnm_cursor_set_widget (GtkWidget *w, GnmCursorType c);
+void gnm_widget_set_cursor (GtkWidget *w, GdkCursorType ct);
 
 GtkWidget * gnumeric_button_new_with_stock_image (const gchar* text, const gchar* stock_id);
 GtkWidget * gnumeric_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* stock_id,

@@ -593,14 +593,14 @@ item_cursor_in_drag_handle (ItemCursor *ic, int x, int y)
 static void
 item_cursor_set_cursor (FooCanvas *canvas, ItemCursor *ic, int x, int y)
 {
-	int cursor;
+	GdkCursorType cursor;
 
 	if (item_cursor_in_drag_handle (ic, x, y))
-		cursor = GNM_CURSOR_THIN_CROSS;
+		cursor = GDK_CROSSHAIR;
 	else
-		cursor = GNM_CURSOR_ARROW;
+		cursor = GDK_ARROW;
 
-	gnm_cursor_set_widget (GTK_WIDGET (canvas), cursor);
+	gnm_widget_set_cursor (GTK_WIDGET (canvas), cursor);
 }
 
 static Value *

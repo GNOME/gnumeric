@@ -1,5 +1,24 @@
 2003-06-23  Morten Welinder  <terra@gnome.org>
 
+	* src/item-edit.c (item_edit_event): Use gnm_widget_set_cursor.
+
+	* src/item-cursor.c (item_cursor_set_cursor): Use
+	gnm_widget_set_cursor.
+
+	* src/sheet-object-cell-comment.c (cell_comment_event): Use
+	gnm_widget_set_cursor.
+
+	* src/gui-util.c (gnm_widget_set_cursor): New function.
+
+	* src/gui-util.h (GnmCursorType): Eliminate unused _SIZE cursors.
+
+	* src/gnumeric-pane.c (cb_control_point_event): Change "cursor"
+	data to a GdkCursorType.
+	(set_acetate_coords): Ditto.
+	(new_control_point): Ditto.  Arg type changed.  All callers
+	changed.
+	(set_item_x_y): Ditto.
+
 	* src/gui-util.h (GnmCursorType): Eliminate unused zoom and hand
 	cursors.
 
