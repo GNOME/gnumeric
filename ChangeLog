@@ -1,3 +1,13 @@
+2000-08-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (format_create_regexp) : If we see seconds
+	  immediately after 'm' that was parsed as months replace it with
+	  minutes.  XL is vile.
+	(compute_value) : make seconds into a float.  Add some debug
+	  assistance.  Use a putrid hack to handle the various cases that can
+	  generate MATCH_NUMBER.  When handling decimals make a another putrid
+	  hack to handle the case of second fragments.
+
 2000-08-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (colrow_move) : Reset the cell positions.

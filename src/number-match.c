@@ -29,6 +29,8 @@
 #include "style.h"
 #include "format.h"
 
+#undef DEBUG_NUMBER_MATCH
+
 /*
  * Takes a list of strings (optionally include an * at the beginning
  * that gets stripped, for i18n purposes). and returns a regexp that
@@ -269,6 +271,16 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 
 		case 's':
 		case 'S':
+			/* ICK!
+			 * ICK!
+			 * 'm' is ambiguous.  It can be months or minutes.
+			 */
+			{
+				int l = match_types->len;
+				if (l > 0 && match_types->data [l-1] == MATCH_MONTH_NUMBER)
+					match_types->data [l-1] = MATCH_MINUTE;
+			}
+
 			if (tolower (*(format+1) == 's'))
 				format++;
 			g_string_append (regexp, "([0-9][0-9]?)");
@@ -667,13 +679,15 @@ compute_value (const char *s, const regmatch_t *mp,
 	gboolean is_pm      = FALSE;
 	int idx = 1, i;
 	int month, day, year, year_short;
-	int hours, minutes, seconds;
+	int hours, minutes;
+	float_t seconds;
 
 	char const thousands_sep = format_get_thousand ();
 	char const decimal = format_get_decimal ();
 
 	month = day = year = year_short = -1;
-	hours = minutes = seconds = -1;
+	hours = minutes = -1;
+	seconds = -1.;
 
 	for (i = 0; i < len; i++){
 		MatchType type = *(data++);
@@ -681,6 +695,10 @@ compute_value (const char *s, const regmatch_t *mp,
 
 		str = extract_text (s, &mp [idx]);
 
+
+#ifdef DEBUG_NUMBER_MATCH
+		printf ("Item %d is a %d\n", idx, type);
+#endif
 		switch (type){
 		case MATCH_MONTH_FULL:
 			month = table_lookup (str, month_long);
@@ -714,25 +732,32 @@ compute_value (const char *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_NUMBER:
-		{
-			char *ptr = str;
-			number = 0;
-			do
-			{
-				number *= 1000.;
-				number += strtod (ptr, &ptr);
-			} while (*(ptr++) == thousands_sep);
+			if (*str != '\0') {
+				char *ptr = str;
 
-			idx += 2;
-			is_number = TRUE;
+				number = 0.;
+				do {
+				    number *= 1000.;
+				    number += strtod (ptr, &ptr);
+				} while (*(ptr++) == thousands_sep);
+				is_number = TRUE;
+			}
+
+			/* HACK : if we've seen seconds this is a different regexp */
+			if (seconds < 0)
+				idx += 2;
+			else
+				idx++;
 			break;
-		}
 
 		case MATCH_NUMBER_DECIMALS:
 			if (*str == decimal) {
 				char *end;
-				number += strtod (str, &end);
-				is_number = TRUE;
+				if (seconds < 0) {
+					number += strtod (str, &end);
+					is_number = TRUE;
+				} else
+					seconds += strtod (str, &end);
 			}
 			break;
 
@@ -787,120 +812,118 @@ compute_value (const char *s, const regmatch_t *mp,
 		return TRUE;
 	}
 
-	{
+	if (!(year == -1 && month == -1 && day == -1)) {
 		time_t t = time (NULL);
-		struct tm *tm = localtime (&t);
 		GDate *date;
+		struct tm *tm = localtime (&t);
+		if (year == -1){
+			if (year_short != -1){
+				/* Window of -75 thru +24 years. */
+				/* (TODO: See what current
+				 * version of MS Excel uses.) */
+				/* Earliest allowable interpretation
+				 * is 75 years ago. */
+				int earliest_ccyy
+					= tm->tm_year + 1900 - 75;
+				int earliest_cc = earliest_ccyy / 100;
 
-		if (!(year == -1 && month == -1 && day == -1)){
-			if (year == -1){
-				if (year_short != -1){
-					/* Window of -75 thru +24 years. */
-					/* (TODO: See what current
-					 * version of MS Excel uses.) */
-					/* Earliest allowable interpretation
-					 * is 75 years ago. */
-					int earliest_ccyy
-						= tm->tm_year + 1900 - 75;
-					int earliest_cc = earliest_ccyy / 100;
-
-					g_return_val_if_fail(year_short >= 0 &&
-							     year_short <= 99,
-							     FALSE);
-					year = earliest_cc * 100 + year_short;
-					/*
-					 * Our first guess at year has the same
-					 * cc part as EARLIEST_CCYY, so is
-					 * guaranteed to be in [earliest_ccyy -
-					 * 99, earliest_ccyy + 99].  The yy
-					 * part is of course year_short.
-					 */
-					if (year < earliest_ccyy)
-						year += 100;
-					/*
-					 * year is now guaranteed to be in
-					 * [earliest_ccyy, earliest_ccyy + 99],
-					 * i.e. -75 thru +24 years from current
-					 * year; and year % 100 == short_year.
-					 */
-				} else if (month != -1) {
-					/* Window of -6 thru +5 months. */
-					/* (TODO: See what current
-                                         * version of MS Excel uses.) */
-					int earliest_yyymm
-						= (tm->tm_year * 12 +
-						   tm->tm_mon - 6);
-					year = earliest_yyymm / 12;
-					/* First estimate of yyy (i.e. years
-					 * since 1900) is the yyy part of
-					 * earliest_yyymm.  year*12+month-1 is
-					 * guaranteed to be in [earliest_yyymm
-					 * - 11, earliest_yyymm + 11].
-					 */
-					year += (year * 12 + month <=
-						 earliest_yyymm);
-					/* year*12+month-1 is now guaranteed
-					 * to be in [earliest_yyymm,
-					 * earliest_yyymm + 11], i.e.
-					 * representing -6 thru +5 months
-					 * from now.
-					 */
-					year += 1900;
-					/* Finally convert from years since
-                                         * 1900 (yyy) to a proper 4-digit
-                                         * year.
-					 */
-				} else
-					year = 1900 + tm->tm_year;
-			}
-			if (month == -1)
-				month = tm->tm_mon + 1;
-			if (day == -1)
-				day = tm->tm_mday;
-
-			if (day < 1 || day > 31)
-				return FALSE;
-
-			if (month < 1 || month > 12)
-				return FALSE;
-
-			date = g_date_new_dmy (day, month, year);
-
-			number = datetime_g_to_serial (date);
-
-			g_date_free (date);
+				g_return_val_if_fail(year_short >= 0 &&
+						     year_short <= 99,
+						     FALSE);
+				year = earliest_cc * 100 + year_short;
+				/*
+				 * Our first guess at year has the same
+				 * cc part as EARLIEST_CCYY, so is
+				 * guaranteed to be in [earliest_ccyy -
+				 * 99, earliest_ccyy + 99].  The yy
+				 * part is of course year_short.
+				 */
+				if (year < earliest_ccyy)
+					year += 100;
+				/*
+				 * year is now guaranteed to be in
+				 * [earliest_ccyy, earliest_ccyy + 99],
+				 * i.e. -75 thru +24 years from current
+				 * year; and year % 100 == short_year.
+				 */
+			} else if (month != -1) {
+				/* Window of -6 thru +5 months. */
+				/* (TODO: See what current
+				 * version of MS Excel uses.) */
+				int earliest_yyymm
+					= (tm->tm_year * 12 +
+					   tm->tm_mon - 6);
+				year = earliest_yyymm / 12;
+				/* First estimate of yyy (i.e. years
+				 * since 1900) is the yyy part of
+				 * earliest_yyymm.  year*12+month-1 is
+				 * guaranteed to be in [earliest_yyymm
+				 * - 11, earliest_yyymm + 11].
+				 */
+				year += (year * 12 + month <=
+					 earliest_yyymm);
+				/* year*12+month-1 is now guaranteed
+				 * to be in [earliest_yyymm,
+				 * earliest_yyymm + 11], i.e.
+				 * representing -6 thru +5 months
+				 * from now.
+				 */
+				year += 1900;
+				/* Finally convert from years since
+				 * 1900 (yyy) to a proper 4-digit
+				 * year.
+				 */
+			} else
+				year = 1900 + tm->tm_year;
 		}
+		if (month == -1)
+			month = tm->tm_mon + 1;
+		if (day == -1)
+			day = tm->tm_mday;
 
-		*v = number;
-
-		if (seconds == -1 && minutes == -1 && hours == -1)
-			return TRUE;
-
-		if (seconds == -1)
-			seconds = 0;
-
-		if (minutes == -1)
-			minutes = 0;
-
-		if (hours == -1)
-			hours = 0;
-
-		if (is_pm && hours < 12)
-			hours += 12;
-
-		if (hours < 0 || hours > 23)
+		if (day < 1 || day > 31)
 			return FALSE;
 
-		if (minutes < 0 || minutes > 59)
+		if (month < 1 || month > 12)
 			return FALSE;
 
-		if (seconds < 0 || minutes > 60)
-			return FALSE;
+		date = g_date_new_dmy (day, month, year);
 
-		number += (hours * 3600 + minutes * 60 + seconds) / (3600*24.0);
+		number = datetime_g_to_serial (date);
 
-		*v = number;
+		g_date_free (date);
 	}
+
+	*v = number;
+
+	if (seconds == -1 && minutes == -1 && hours == -1)
+		return TRUE;
+
+	if (seconds == -1)
+		seconds = 0;
+
+	if (minutes == -1)
+		minutes = 0;
+
+	if (hours == -1)
+		hours = 0;
+
+	if (is_pm && hours < 12)
+		hours += 12;
+
+	if (hours < 0 || hours > 23)
+		return FALSE;
+
+	if (minutes < 0 || minutes > 59)
+		return FALSE;
+
+	if (seconds < 0 || minutes > 60)
+		return FALSE;
+
+	number += (hours * 3600 + minutes * 60 + seconds) / (3600*24.0);
+
+	*v = number;
+
 	return TRUE;
 }
 
@@ -970,14 +993,13 @@ format_match (const char *text, StyleFormat **format)
 		float_t result;
 		gboolean b;
 		format_parse_t *fp = l->data;
-
-#if 0
+#ifdef DEBUG_NUMBER_MATCH
 		printf ("test: %s \'%s\'\n", fp->format_str, fp->regexp_str);
 #endif
 		if (regexec (&fp->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;
 
-#if 0
+#ifdef DEBUG_NUMBER_MATCH
 		{
 			int i;
 			printf ("matches expression: %s %s\n", fp->format_str, fp->regexp_str);
@@ -994,6 +1016,13 @@ format_match (const char *text, StyleFormat **format)
 #endif
 
 		b = compute_value (text, mp, fp->match_tags, &result);
+
+#ifdef DEBUG_NUMBER_MATCH
+		if (b)
+			printf ("value = %f\n", result);
+		else
+			printf ("unable to compute value\n");
+#endif
 		if (b) {
 			if (format)
 				style_format_ref ((*format = fp->format));
