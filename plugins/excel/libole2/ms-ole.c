@@ -415,8 +415,9 @@ write_bb (MS_OLE *f)
 	g_return_val_if_fail (f->mem, 0);
 	g_return_val_if_fail (f->bb,  0);
 
-	numbbd  = (f->bb->len + (BB_BLOCK_SIZE*BB_BLOCK_SIZE/4) - 1) /
-		((BB_BLOCK_SIZE*BB_BLOCK_SIZE/4) - 1); /* Think carefully ! */
+	numbbd  = f->bb->len/(BB_BLOCK_SIZE/4);
+	if (f->bb->len%(BB_BLOCK_SIZE/4))
+		numbbd++;
 	SET_NUM_BBD_BLOCKS (f, numbbd);
 
 	for (lp=0;lp<numbbd;lp++) {
@@ -433,7 +434,9 @@ write_bb (MS_OLE *f)
 		lpblk++;
 	}
 	while (lpblk%(BB_BLOCK_SIZE/4) != 0) { /* Undescribed blocks */
-		guint8 *mem = BBPTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
+		guint8 *mem;
+		g_assert (lpblk/(BB_BLOCK_SIZE/4) < numbbd);
+		mem = BBPTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
 		SET_GUINT32 (mem + (lpblk%(BB_BLOCK_SIZE/4))*4,
 			     UNUSED_BLOCK);
 		lpblk++;
@@ -524,6 +527,11 @@ pps_decode_tree (MS_OLE *f, PPS_IDX p, PPS *parent)
 
 	pps           = g_new (PPS, 1);
 	mem           = get_pps_ptr (f, p);
+	if (!mem) {
+		printf ("Serious directory error %d\n", p);
+		f->pps = NULL;
+		return;
+	}
 	pps->name     = pps_get_text  (mem, PPS_GET_NAME_LEN(mem));
 	pps->type     = PPS_GET_TYPE  (mem);
 	pps->size     = PPS_GET_SIZE  (mem);
@@ -580,7 +588,7 @@ read_pps (MS_OLE *f)
 	f->num_pps = 0;
 	pps_decode_tree (f, PPS_ROOT_INDEX, NULL);
 
-	if (g_list_length (f->pps) < 1 ||
+	if (!f->pps || g_list_length (f->pps) < 1 ||
 	    g_list_length (f->pps) > 1) {
 		printf ("Invalid root chain\n");
 		return 0;

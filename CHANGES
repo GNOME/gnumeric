@@ -21,7 +21,8 @@ Miguel
 Michael
 	* Re-wrote the OLE block layer again...
 	* Tentative alpha Excel sheet writing
-	 - Only Excel 95 tested
+	 - StarOffice is only tested importer
+	 - Only Excel 95 likely to work
 	 - only basic numbers and text are stored.
 	* Fix writing code to preserve sheet order.
 

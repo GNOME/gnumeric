@@ -764,6 +764,69 @@ write_sheet_bools (BIFF_PUT *bp, eBiff_version ver)
 	BIFF_SET_GUINT32 (data,   0x0);
 	BIFF_SET_GUINT32 (data+4, 0x0);
 	ms_biff_put_commit (bp);
+
+	/* See: S59D72.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_DEFAULTROWHEIGHT, 4);
+	BIFF_SET_GUINT32 (data, 0x00ff0000);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D6B.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_COUNTRY, 4);
+	BIFF_SET_GUINT32 (data, 0x00010001); /* Made in the USA */
+	ms_biff_put_commit (bp);
+
+	/* See: S59E1C.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_WSBOOL, 2);
+	BIFF_SET_GUINT16 (data, 0x04c1);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D94.HTM */
+	ms_biff_put_var_next (bp, BIFF_HEADER);
+	biff_put_text (bp, "&A", eBiffV7, TRUE);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D8D.HTM */
+	ms_biff_put_var_next (bp, BIFF_FOOTER);
+	biff_put_text (bp, "&P", eBiffV7, TRUE);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D93.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_HCENTER, 2);
+	BIFF_SET_GUINT16 (data, 0x0000);
+	ms_biff_put_commit (bp);
+
+	/* See: S59E15.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_VCENTER, 2);
+	BIFF_SET_GUINT16 (data, 0x0000);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DE3.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
+	BIFF_SET_GUINT32 (data +  0, 0x00310000);
+	BIFF_SET_GUINT32 (data +  4, 0x00010001);
+	BIFF_SET_GUINT32 (data +  8, 0x00440001);
+	BIFF_SET_GUINT32 (data + 12, 0x676e7572);
+	BIFF_SET_GUINT32 (data + 16, 0x82b08dc1);
+	BIFF_SET_GUINT32 (data + 20, 0x3fe060c1);
+	BIFF_SET_GUINT32 (data + 24, 0x82b08dc1);
+	BIFF_SET_GUINT32 (data + 28, 0x3fe060c1);
+	BIFF_SET_GUINT16 (data + 32, 0x00f0);
+	ms_biff_put_commit (bp);
+
+	/* To Do */
+	/*
+	  DEFCOLWIDTH
+	  COLINFO
+	  DIMENSIONS
+	  ROW
+
+	  Then the cells
+
+	  WINDOW2
+	  SELECTION
+
+	 */
+
 }
 
 static void

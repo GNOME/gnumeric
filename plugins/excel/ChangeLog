@@ -1,5 +1,8 @@
 1999-06-01  Michael Meeks  <michael@edenproject.org>
 
+	* ms-excel-write.c (write_sheet_bools): Added yet more
+	magic numbers.
+
 	* boot.c (excel_init): Put Excel 95 on by default.
 
 	* ms-excel-write.c (write_bits): Added WINDOW1 bit.
