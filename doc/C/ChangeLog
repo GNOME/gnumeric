@@ -1,3 +1,7 @@
+2002-01-23  Kevin Breit  <mrproper@ximian.com>
+
+	* new/analysis-tools.xml: Made build.  Finally.  This was an ongoing issue
+
 2002-01-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.3
