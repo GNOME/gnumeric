@@ -301,7 +301,7 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		return;
 	}
 
-#if 0
+#if 1
 	for (j = 0; j < atom_count && table_atom == GDK_NONE; j++)
 		puts (gdk_atom_name (targets[j]));
 #endif

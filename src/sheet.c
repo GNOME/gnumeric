@@ -110,6 +110,9 @@ sheet_rename (Sheet *sheet, char const *new_name)
 		g_hash_table_insert (wb->sheet_hash_private,
 				     sheet->name_case_insensitive,
 				     sheet);
+
+	SHEET_FOREACH_VIEW (sheet, sv,
+		sv->edit_pos_changed.content = TRUE;);
 }
 
 void

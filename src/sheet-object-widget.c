@@ -635,9 +635,6 @@ sheet_widget_adjustment_get_ref (SheetWidgetAdjustment const *swa,
 	*res = target->v_range.cell.a;
 	value_release (target);
 
-	g_return_val_if_fail (!res->col_relative, NULL);
-	g_return_val_if_fail (!res->row_relative, NULL);
-
 	if (force_sheet && res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swa));
 	return res;
