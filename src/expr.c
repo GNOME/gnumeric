@@ -1445,7 +1445,7 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 		 * not absolutely correct.
 		 */
 		if (rinfo->row_offset == 0 &&
-		    rinfo->origin.start.col == 0 && rinfo->origin.end.col >= SHEET_MAX_COLS-1)
+		    rinfo->origin.start.row == 0 && rinfo->origin.end.row >= SHEET_MAX_ROWS-1)
 			return from_inside ? CELLREF_RELOCATE_FORCE_FROM_IN
 					   : CELLREF_RELOCATE_FORCE_TO_IN;
 		return CELLREF_RELOCATE;
@@ -1453,7 +1453,7 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 		ref->row = row;
 		/* FIXME : As above */
 		if (rinfo->col_offset == 0 &&
-		    rinfo->origin.start.row == 0 && rinfo->origin.end.row >= SHEET_MAX_ROWS-1)
+		    rinfo->origin.start.col == 0 && rinfo->origin.end.col >= SHEET_MAX_COLS-1)
 			return from_inside ? CELLREF_RELOCATE_FORCE_FROM_IN
 					   : CELLREF_RELOCATE_FORCE_TO_IN;
 		return CELLREF_RELOCATE;
@@ -1505,6 +1505,10 @@ cellrange_relocate (const Value *v,
 		if (sheet_b == NULL)
 			sheet_b = rinfo->pos.sheet;
 
+#if 0
+		/* Force only happens when inserting row/col
+		 * we want to deform the region
+		 */
 		switch (needs_reloc) {
 		case 2 : break;
 		case 0x10  : cellref_relocate (&ref_b, rinfo, TRUE, FALSE); break;
@@ -1513,6 +1517,7 @@ cellrange_relocate (const Value *v,
 		case 0x200 : cellref_relocate (&ref_a, rinfo, FALSE, TRUE); break;
 		default : g_warning ("Unexpected relocation type 0x%x", needs_reloc);
 		};
+#endif
 
 		/* Dont allow creation of 3D references */
 		if (sheet_a == sheet_b)

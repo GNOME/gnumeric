@@ -1,5 +1,10 @@
 2000-12-07  Jody Goldberg <jgoldberg@home.com>
 
+	* src/expr.c (cellrange_relocate) : disable the relocating the partner
+	  for forced partial relocation.
+
+2000-12-07  Jody Goldberg <jgoldberg@home.com>
+
 	* src/application.c (application_init) : Add some new icons
 
 	* src/gnumeric.xml : Use the new icons
