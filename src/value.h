@@ -155,6 +155,9 @@ Value *value_area_foreach  (EvalPos const *ep,  Value const *v,
 extern const ValueErr value_terminate_err;
 #define VALUE_TERMINATE ((Value *)&value_terminate_err)
 
+/* A zero integer, not to be freed or changed.  */
+extern const Value *value_zero;
+
 void value_array_set       (Value *array, int col, int row, Value *v);
 void value_array_resize    (Value *v, int width, int height);
 

@@ -1,3 +1,8 @@
+2002-10-07  Morten Welinder  <terra@diku.dk>
+
+	* src/value.c (value_zero): New variable.
+	* src/value-sheet.c (value_area_fetch_x_y): Use global value_zero.
+
 2002-10-06  Jody Goldberg <jody@gnome.org>
 
 	Patch from peninguy.nicolas@wanadoo.fr (Nicolas Peninguy)

@@ -136,12 +136,9 @@ Value const *
 value_area_fetch_x_y (EvalPos const *ep, Value const *v, int x, int y)
 {
 	Value const * const res = value_area_get_x_y (ep, v, x, y);
-	static Value *value_zero = NULL;
 	if (res && res->type != VALUE_EMPTY)
 		return res;
 
-	if (value_zero == NULL)
-		value_zero = value_new_int (0);
 	return value_zero;
 }
 

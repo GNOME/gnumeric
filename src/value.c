@@ -1524,6 +1524,8 @@ filter_row:
 /****************************************************************************/
 
 const ValueErr value_terminate_err = { VALUE_ERROR, NULL, NULL };
+static const ValueInt the_value_zero = { VALUE_INTEGER, NULL, 0 };
+const Value *value_zero = (const Value *)&the_value_zero;
 
 void
 value_init (void)
