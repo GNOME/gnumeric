@@ -417,27 +417,27 @@
 
 	<dockitem name="ObjectToolbar" homogeneous="0" look="icons" relief="none">
 		<toolitem type="std" name="Label" pixtype="stock" pixname="Gnumeric_Label"
-		 _label="Label" _descr="Create a label" verb="testme"/>
+		 _label="Label" _descr="Create a label" verb="CreateLabel"/>
 		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Frame"
-		 _label="Frame" _descr="Create a frame" verb="testme"/>
+		 _label="Frame" _descr="Create a frame" verb="CreateFrame"/>
 		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Button"
-		 _label="Button" _descr="Create a button" verb="testme"/>
+		 _label="Button" _descr="Create a button" verb="CreateButton"/>
 		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Checkbutton"
-		 _label="Checkbox" _descr="Create a checkbox" verb="testme"/>
+		 _label="Checkbox" _descr="Create a checkbox" verb="CreateCheckbox"/>
 		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Radiobutton"
-		 _label="Radio Button" _descr="Create a radio button" verb="testme"/>
+		 _label="Radio Button" _descr="Create a radio button" verb="CreateRadiobutton"/>
 		<toolitem type="std" name="List" pixtype="stock" pixname="Gnumeric_List"
-		 _label="List" _descr="Create a list" verb="testme"/>
+		 _label="List" _descr="Create a list" verb="CreateList"/>
 		<toolitem type="std" name="Combo" pixtype="stock" pixname="Gnumeric_Combo"
-		 _label="Combo Box" _descr="Create a combo box" verb="testme"/>
+		 _label="Combo Box" _descr="Create a combo box" verb="CreateCombobox"/>
 
 		<toolitem type="std" name="Line" pixtype="stock" pixname="Gnumeric_Line"
-		 _label="Line" _descr="Create a line" verb="testme"/>
+		 _label="Line" _descr="Create a line" verb="CreateLine"/>
 		<toolitem type="std" name="Arrow" pixtype="stock" pixname="Gnumeric_Arrow"
-		 _label="Arrow" _descr="Create a frame" verb="testme"/>
+		 _label="Arrow" _descr="Create a frame" verb="CreateArrow"/>
 		<toolitem type="std" name="Rectangle" pixtype="stock" pixname="Gnumeric_Rectangle"
-		 _label="Rectangle" _descr="Draw a rectangle" verb="testme"/>
+		 _label="Rectangle" _descr="Draw a rectangle" verb="CreateRectangle"/>
 		<toolitem type="std" name="Oval" pixtype="stock" pixname="Gnumeric_Oval"
-		 _label="Oval" _descr="Draw an oval" verb="testme"/>
+		 _label="Oval" _descr="Draw an oval" verb="CreateEllipse"/>
 	</dockitem>
 </Root>

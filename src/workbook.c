@@ -1132,7 +1132,7 @@ sort_descend_cmd (GtkWidget *widget, Workbook *wb)
 
 #ifdef ENABLE_BONOBO
 
-BonoboUIVerb verbs [] = {
+static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_VERB ("FileNew", new_cmd),
 	BONOBO_UI_VERB ("FileOpen", file_open_cmd),
@@ -2766,6 +2766,8 @@ workbook_new (void)
 	wb->priv->menu_item_undo	  = workbook_menu_edit[0].widget;
 	wb->priv->menu_item_redo	  = workbook_menu_edit[1].widget;
 	wb->priv->menu_item_paste_special = workbook_menu_edit[6].widget;
+
+ 	workbook_create_toolbars (wb);
 #else
 	wb->priv->main_vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (wb->priv->main_vbox);
@@ -2777,6 +2779,9 @@ workbook_new (void)
 
 	wb->priv->uih = bonobo_ui_handler_new ();
 	bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_WIN (wb->toplevel));
+
+	/* Create before registering verbs so that we can merge some extra. */
+ 	workbook_create_toolbars (wb);
 	{
 		char *fname;
 		xmlNode *ui;
@@ -2812,8 +2817,6 @@ workbook_new (void)
 	 * something is cut.
 	 */
 	workbook_view_set_paste_special_state (wb, TRUE);
-
- 	workbook_create_toolbars (wb);
 
 	/* Minimized pixmap */
 	workbook_configure_minimized_pixmap (wb);

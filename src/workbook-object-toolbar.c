@@ -162,6 +162,24 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
+#ifdef ENABLE_BONOBO
+
+static BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("CreateLabel", cmd_create_label),
+	BONOBO_UI_VERB ("CreateFrame", cmd_create_frame),
+	BONOBO_UI_VERB ("CreateButton", cmd_create_button),
+	BONOBO_UI_VERB ("CreateCheckbox", cmd_create_checkbox),
+	BONOBO_UI_VERB ("CreateRadiobutton", cmd_create_radiobutton),
+	BONOBO_UI_VERB ("CreateList", cmd_create_list),
+	BONOBO_UI_VERB ("CreateCombobox", cmd_create_combobox),
+	BONOBO_UI_VERB ("CreateLine", cmd_create_line),
+	BONOBO_UI_VERB ("CreateArrow", cmd_create_arrow),
+	BONOBO_UI_VERB ("CreateRectangle", cmd_create_rectangle),
+	BONOBO_UI_VERB ("CreateEllipse", cmd_create_ellipse),
+	BONOBO_UI_VERB_END
+};
+#endif
+
 GtkWidget *
 workbook_create_object_toolbar (Workbook *wb)
 {
@@ -189,6 +207,12 @@ workbook_create_object_toolbar (Workbook *wb)
 		name,
 		behavior,
 		GNOME_DOCK_TOP, 3, 0, 0);
+#else
+	BonoboUIComponent *component =
+		bonobo_ui_compat_get_component (wb->priv->uih);
+
+	bonobo_ui_component_add_verb_list_with_data (
+		component, verbs, wb);
 #endif
 
 	return toolbar;
