@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-15 04:31-0400\n"
-"PO-Revision-Date: 2003-07-29 01:01+0900\n"
+"POT-Creation-Date: 2003-07-29 00:57+0900\n"
+"PO-Revision-Date: 2003-08-12 22:15+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
 "MIME-Version: 1.0\n"
@@ -852,7 +852,7 @@ msgstr ""
 
 #: plugins/excel/ms-excel-read.c:5301
 msgid "Invalid password"
-msgstr "암호가 틀렸습니다"
+msgstr "열쇠글이 틀렸습니다"
 
 #: plugins/excel/ms-excel-read.c:5402
 msgid "Unable to locate valid MS Excel workbook"
@@ -12343,7 +12343,7 @@ msgstr "타원 그리기"
 
 #: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1477
 msgid "Cu_t"
-msgstr "자르기(_T)"
+msgstr "잘라내기(_T)"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
 #: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3509
@@ -12358,11 +12358,11 @@ msgstr "현재 시간(_T)"
 #: src/GNOME_Gnumeric.xml.h:75 src/sheet-view.c:338 src/sheet-view.c:341
 #: src/workbook-control-gui.c:3958
 msgid "Cut"
-msgstr "자르기"
+msgstr "잘라내기"
 
 #: src/GNOME_Gnumeric.xml.h:76
 msgid "Cut the selection"
-msgstr "선택한 것을 자릅니다"
+msgstr "선택한 것을 잘라냅니다"
 
 #: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3958
 msgid "Cut the selection to the clipboard"
@@ -17300,7 +17300,7 @@ msgstr ""
 
 #: src/dialogs/dialog-password.c:68
 msgid "Password :"
-msgstr "암호 :"
+msgstr "열쇠글 :"
 
 #: src/dialogs/dialog-paste-special.c:40
 msgid "All"
@@ -20886,7 +20886,7 @@ msgstr "영국, 파운드"
 
 #: src/formats.c:437
 msgid "Georgia, Lari"
-msgstr "크로지야, 라리"
+msgstr "그루지아, 라리"
 
 #: src/formats.c:438
 msgid "Guernsey, Pounds"
