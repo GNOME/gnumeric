@@ -111,6 +111,11 @@ excel_chart_series_new (void)
 static void
 excel_chart_series_delete (XLChartSeries *series)
 {
+	int i;
+
+	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; )
+		if (series->data [i].data != NULL)
+			g_object_unref (series->data[i].data);
 	g_free (series);
 }
 
@@ -1668,9 +1673,11 @@ BC_R(end)(XLChartHandler const *handle,
 				continue;
 			series = gog_plot_new_series (s->plot);
 			for (j = 0 ; j < GOG_MS_DIM_TYPES; j++ )
-				if (eseries->data [j].data != NULL)
+				if (eseries->data [j].data != NULL) {
 					XL_gog_series_set_dim (series, j,
 						eseries->data [j].data);
+					eseries->data [j].data = NULL;
+				}
 		}
 
 		gog_object_add_by_name (GOG_OBJECT (s->chart),

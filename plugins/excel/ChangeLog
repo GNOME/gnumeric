@@ -1,3 +1,9 @@
+2003-05-30  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (excel_chart_series_delete) : unref the data if nothing
+	  has used it.
+	(BC_R(end)) : if we use the series clear the pointer.
+
 2003-05-25  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c : remove xml, jump to goffice and disable anything that
