@@ -1,3 +1,7 @@
+2003-07006  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* graph/plugins/plot_pie/gog-pie-prefs.glade: colour -> color
+
 2003-07-03  Jon K Hellan  <hellan@acm.org>
 
 	* graph/gog-style.c (init_solid_page, init_gradient_page) 
