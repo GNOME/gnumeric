@@ -831,7 +831,7 @@ sheet_update_controls (Sheet *sheet)
 		SheetSelection *ss = sheet->selections->data;
 		Style *style;
 		
-		style = sheet_style_compute (sheet, ss->start_col, ss->start_row);
+		style = sheet_style_compute (sheet, ss->start_col, ss->start_row, NULL);
 		bold_first = style->font->hint_is_bold;
 		italic_first = style->font->hint_is_italic;
 		style_destroy (style);
@@ -1868,9 +1868,14 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell->col   = sheet_col_get (sheet, col);
 	cell->row   = sheet_row_get (sheet, row);
 
-	if (!cell->style)
-		cell->style = sheet_style_compute (sheet, col, row);
+	if (!cell->style){
+		int flags;
+		
+		cell->style = sheet_style_compute (sheet, col, row, &flags);
 
+		if (flags & STYLE_FORMAT)
+			cell->flags |= CELL_FORMAT_SET;
+	}
 	cell_calc_dimensions (cell);
 
 	sheet_cell_add_to_hash (sheet, cell);
@@ -2884,8 +2889,17 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
 	sheet->style_list = g_list_prepend (sheet->style_list, sr);
 }
 
+/*
+ * sheet_style_compute
+ * @sheet:   	 Which sheet we are looking up
+ * @col:     	 column
+ * @row:     	 row
+ * @non_default: A pointer where we store the attributes
+ *               the cell has which are not part of the
+ *               default style.
+ */
 Style *
-sheet_style_compute (Sheet *sheet, int col, int row)
+sheet_style_compute (Sheet *sheet, int col, int row, int *non_default)
 {
 	GList *l;
 	Style *style;
@@ -2898,11 +2912,22 @@ sheet_style_compute (Sheet *sheet, int col, int row)
 	/* Look in the styles applied to the sheet */
 	for (l = sheet->style_list; l; l = l->next){
 		StyleRegion *sr = l->data;
+		int is_default_style = l->next == NULL;
+		int flags;
+		
+		flags = style->valid_flags;
 
 		if (range_contains (&sr->range, col, row)){
 			style_merge_to (style, sr->style);
-			if (style->valid_flags == STYLE_ALL)
+			if (style->valid_flags == STYLE_ALL){
+				if (non_default){
+					if (!is_default_style)
+						*non_default = STYLE_ALL;
+					else
+						*non_default = flags;
+				}
 				return style;
+			}
 		}
 	}
 

@@ -257,7 +257,9 @@ void        sheet_col_set_selection       (Sheet *sheet,
 void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
 				       
-Style      *sheet_style_compute           (Sheet *sheet, int col, int row);
+Style      *sheet_style_compute           (Sheet *sheet,
+					   int col, int row,
+					   int *non_default_style_flags);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet *sheet);

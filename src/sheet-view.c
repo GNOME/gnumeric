@@ -242,17 +242,34 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *s
 {
 	Sheet *sheet = sheet_view->sheet;
 	GList *l;
+	gboolean size_change_selected = FALSE;
 
 	if (sheet_is_all_selected (sheet))
 		sheet_col_info_set_width (sheet, &sheet->default_col_style, width);
+	else {
+		for (l = sheet->cols_info; l; l = l->next){
+			ColRowInfo *ci = l->data;
+			
+			if (ci->selected) {
+				if (ci->pos == col) {
+					size_change_selected = TRUE;
+					break;
+				}
+			}
+		}
 		
-	for (l = sheet->cols_info; l; l = l->next){
-		ColRowInfo *ci = l->data;
-
-		if (ci->selected)
-			sheet_col_set_width (sheet, ci->pos, width);
+		if (size_change_selected) {
+			for (l = sheet->cols_info; l; l = l->next){
+				ColRowInfo *ci = l->data;
+				
+				if (ci->selected)
+					sheet_col_set_width (sheet, ci->pos, width);
+			}
+		} else {
+			sheet_col_set_width (sheet, col, width);
+		}
 	}
-	sheet_col_set_width (sheet, col, width);
+	
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }
 
@@ -280,17 +297,32 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 {
 	Sheet *sheet = sheet_view->sheet;
 	GList *l;
+	gboolean size_change_selected = FALSE;
 	
 	if (sheet_is_all_selected (sheet))
 		sheet_row_info_set_height (sheet, &sheet->default_row_style, height, TRUE);
-		
-	for (l = sheet->rows_info; l; l = l->next){
-		ColRowInfo *ri = l->data;
-
-		if (ri->selected)
-			sheet_row_set_height (sheet, ri->pos, height, TRUE);
+	else {
+		for (l = sheet->rows_info; l; l = l->next){
+			ColRowInfo *ri = l->data;
+			
+			if (ri->selected) {
+				if (ri->pos == row) {
+					size_change_selected = TRUE;
+					break;
+				}
+			}
+		}
+		if (size_change_selected) {
+			for (l = sheet->rows_info; l; l = l->next){
+				ColRowInfo *ri = l->data;
+				
+				if (ri->selected)
+					sheet_row_set_height (sheet, ri->pos, height, TRUE);
+			}
+		} else {
+			sheet_row_set_height (sheet, row, height, TRUE);
+		}
 	}
-	sheet_row_set_height (sheet, row, height, TRUE);
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }
 

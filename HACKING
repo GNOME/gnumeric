@@ -16,7 +16,7 @@ modify the sources directly on the CVS repository, please keep those
 things in mind.  Specifically, this means:
 
 	- Make sure your code does not generate warnings at all.
-	- Please follow the code style in Gnumeric.
+	- Please follow the coding style used Gnumeric.
 
 The Gnumeric coding style.
 --------------------------
@@ -62,7 +62,10 @@ modular chunks (as detailed by Linus).
 	- Do not submit code that is just a temporary workaround for a
 	  full fledged feature.  Ie, dont submit a quick hack at
 	  "search text" which is not designed to be expanded upon.  I
-	  do not want to maintain half done features. 
+	  do not want to maintain limited features.
+
+	  Better submit an implementation has been designed to be
+	  expanded, enhanced, even if it is not completely finished.
 
 	- It is more important to be correct than to be fast.  
 
@@ -73,7 +76,7 @@ modular chunks (as detailed by Linus).
 	- It is more important to keep the code maintainable and
 	  readable than to be fast.  If you have a great idea about
 	  optimizing the code, make sure it is implemented cleanly,
-	  that there is a clean and maintainable way to do it: 
+	  that there is a clean and maintainable way to do it:  
 
         - Fast code that is difficult to maintain has no place in
 	  Gnumeric and will be dropped.

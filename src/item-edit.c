@@ -133,11 +133,13 @@ item_edit_reconfigure (GnomeCanvasItem *item)
 	item->x2 = x + w;
 	item->y2 = y + h;
 
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+	gnome_canvas_group_child_bounds (
+		GNOME_CANVAS_GROUP (item->parent), item);
 
 	if (item_edit->style)
 		style_destroy (item_edit->style);
-	item_edit->style = sheet_style_compute (item_edit->sheet, item_edit->col, item_edit->row);
+	item_edit->style = sheet_style_compute (
+		item_edit->sheet, item_edit->col, item_edit->row, NULL);
 }
 
 /*

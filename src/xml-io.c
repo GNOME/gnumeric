@@ -582,6 +582,8 @@ Sheet *gnumericReadXmlSheet (const char *filename)
 	g_hash_table_destroy (ctxt.nameTable);
 
 	xmlFreeDoc (res);
+
+	sheet->modified = FALSE;
 	return sheet;
 }
 
@@ -625,6 +627,7 @@ gnumericWriteXmlSheet (Sheet * sheet, const char *filename)
 	xmlSetDocCompressMode (xml, 9);
 	ret = xmlSaveFile (filename, xml);
 	xmlFreeDoc (xml);
+	sheet->modified = FALSE;
 	if (ret < 0)
 		return -1;
 	return 0;
@@ -1380,6 +1383,7 @@ writeXmlSheet (parseXmlContextPtr ctxt, Sheet *sheet)
 	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
 	ctxt->parent = cells;
 	g_hash_table_foreach (sheet->cell_hash, writeXmlCellTo, ctxt);
+	sheet->modified = 0;
 	return cur;
 }
 

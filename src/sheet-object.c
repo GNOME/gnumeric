@@ -33,8 +33,12 @@ window_to_world (GnomeCanvas *canvas, gdouble *x, gdouble *y)
 #define DISPLAY_X1(canvas) (GNOME_CANVAS (canvas)->layout.xoffset)
 #define DISPLAY_Y1(canvas) (GNOME_CANVAS (canvas)->layout.yoffset)
 
-	*x = canvas->scroll_x1 + (*x + DISPLAY_X1 (canvas) - canvas->zoom_xofs) / canvas->pixels_per_unit;
-	*y = canvas->scroll_y1 + (*y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs) / canvas->pixels_per_unit;
+	*x = canvas->scroll_x1 +
+		(*x + DISPLAY_X1 (canvas) - canvas->zoom_xofs) /
+		canvas->pixels_per_unit;
+	*y = canvas->scroll_y1 +
+		(*y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs) /
+		canvas->pixels_per_unit;
 }
 
 static void
@@ -129,7 +133,10 @@ sheet_object_create_filled (Sheet *sheet, int type,
  * Creates a line object
  */
 SheetObject *
-sheet_object_create_line (Sheet *sheet, int is_arrow, double x1, double y1, double x2, double y2, char *color, int w)
+sheet_object_create_line (Sheet *sheet, int is_arrow,
+			  double x1, double y1,
+			  double x2, double y2,
+			  char *color, int w)
 {
 	SheetObject *so;
 		
@@ -477,6 +484,8 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 	sheet_set_mode_type (sheet, SHEET_MODE_OBJECT_SELECTED);
 
 	sheet_release_coords (sheet);
+
+	sheet->modified = TRUE;
 	
 	/* Disconnect the signal handlers for object creation */
 	for (l = sheet->sheet_views; l; l = l->next){
@@ -631,6 +640,8 @@ sheet_object_destroy (SheetObject *object)
 
 	sheet->objects = g_list_remove (sheet->objects, object);
 
+	sheet->modified = TRUE;
+	
 	g_free (object);
 }
 

@@ -28,6 +28,8 @@
 Workbook *current_workbook;
 static int workbook_count;
 
+static GList *workbook_list = NULL;
+
 static void
 new_cmd (void)
 {
@@ -142,8 +144,6 @@ change_selection_font (Workbook *wb, int idx, char *new[])
 		}
 	}
 
-	/* FIXME: Should attach the bold style here to the cell range */
-	
 	g_list_free (cells);
 }
 
@@ -210,15 +210,137 @@ create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-quit_cmd (void)
+workbook_do_destroy (Workbook *wb)
 {
-	gtk_main_quit ();
+	if (wb->filename)
+	       g_free (wb->filename);
+
+	g_list_free (wb->eval_queue);
+
+	if (wb->auto_expr){
+		expr_tree_unref (wb->auto_expr);
+		string_unref (wb->auto_expr_desc);
+	}
+
+	workbook_list = g_list_remove (workbook_list, wb);
+	workbook_count--;
+
+	if (workbook_count == 0)
+		gtk_main_quit ();
+}
+
+void
+workbook_destroy (Workbook *wb)
+{
+	gtk_widget_destroy (wb->toplevel);
+}
+
+static void
+workbook_widget_destroy (GtkWidget *widget, Workbook *wb)
+{
+	workbook_do_destroy (wb);
+}
+
+typedef enum {
+	CLOSE_DENY,
+	CLOSE_ALLOW,
+	CLOSE_RECHECK
+} CloseAction;
+
+static void
+sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
+{
+	Sheet *sheet = value;
+	GtkWidget *d, *l;
+	int *allow_close = user_data;
+	int button;
+	char *f, *s;
+	
+	if (!sheet->modified)
+		return;
+
+	if (*allow_close != CLOSE_ALLOW)
+		return;
+	
+	d = gnome_dialog_new (
+		_("Warning"),
+		GNOME_STOCK_BUTTON_YES,
+		GNOME_STOCK_BUTTON_NO,
+		GNOME_STOCK_BUTTON_CANCEL,
+		NULL);
+
+	if (sheet->workbook->filename)
+		f = g_basename (sheet->workbook->filename);
+	else
+		f = "";
+	
+	s = g_copy_strings (_("Workbook "), f,
+			    _(" has unsaved changes, save them?"),
+			    NULL);
+	l = gtk_label_new (s);
+	gtk_widget_show (l);
+	g_free (s);
+	
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(d)->vbox), l, TRUE, TRUE, 0);
+
+	gtk_window_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
+	button = gnome_dialog_run (GNOME_DIALOG (d));
+
+	if (button == -1 || button == 2){
+		*allow_close = CLOSE_DENY;
+	} else if (button == 0){
+		workbook_save (sheet->workbook);
+		*allow_close = CLOSE_RECHECK;
+	} 
+
+	gtk_widget_destroy (d);
+}
+
+static int
+workbook_can_close (Workbook *wb)
+{
+	CloseAction allow_close;
+
+	do {
+		allow_close = CLOSE_ALLOW;
+		g_hash_table_foreach (wb->sheets, sheet_check_dirty,
+				      &allow_close);
+	} while (allow_close == CLOSE_RECHECK);
+
+	g_assert (allow_close == CLOSE_ALLOW || allow_close == CLOSE_DENY);
+	return allow_close == CLOSE_ALLOW;
 }
 
 static void
 close_cmd (GtkWidget *widget, Workbook *wb)
 {
-	workbook_destroy (wb);
+	if (workbook_can_close (wb))
+		workbook_destroy (wb);
+		
+		
+}
+
+static void
+quit_cmd (void)
+{
+	GList *l, *n = NULL;
+
+	/*
+	 * Duplicate the list as the workbook_list is modified during
+	 * workbook destruction
+	 */
+	
+	for (l = workbook_list; l; l = l->next)
+		n = g_list_prepend (n, l->data);
+	
+	for (l = n; l; l = l->next){
+		Workbook *wb = l->data;
+
+		if (workbook_can_close (wb))
+			workbook_destroy (wb);
+	}
+
+	g_list_free (n);
 }
 
 static void
@@ -926,29 +1048,6 @@ workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
 		workbook_focus_current_sheet (wb);
 }
 
-void
-workbook_destroy (Workbook *wb)
-{
-	if (wb->filename)
-	       g_free (wb->filename);
-	g_list_free (wb->eval_queue);
-
-	gtk_widget_destroy (wb->toplevel);
-
-	if (wb->auto_expr){
-		expr_tree_unref (wb->auto_expr);
-		string_unref (wb->auto_expr_desc);
-	}
-}
-
-static void
-workbook_close (void)
-{
-	workbook_count--;
-	if (workbook_count == 0)
-		gtk_main_quit ();
-}
-
 /*
  * Sets up the workbook.
  * Right now it is adding some decorations to the window,
@@ -985,15 +1084,22 @@ workbook_new (void)
 
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "destroy",
-		GTK_SIGNAL_FUNC (workbook_close), wb);
+		GTK_SIGNAL_FUNC (workbook_widget_destroy), wb);
 
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wb);
+	
+	/* delete_event */
+	gtk_signal_connect (
+		GTK_OBJECT (wb->toplevel), "delete_event",
+		GTK_SIGNAL_FUNC (workbook_can_close), wb);
 	
 	/* Set the default operation to be performed over selections */
 	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
 
 	workbook_count++;
+
+	workbook_list = g_list_prepend (workbook_list, wb);
 	
 	gtk_widget_show_all (wb->table);
 	return wb;

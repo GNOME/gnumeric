@@ -1,3 +1,23 @@
+1998-10-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_modified): Cells from the clipboard do not have
+	a Sheet parameter attached. 
+
+	* src/sheet.c (sheet_cell_add): Check the computed style:  if the
+	computed style includes a format, then turn on the cell flag for
+	format is set to avoid the auto guess of cell content.
+	(sheet_style_compute): Now can return the flags of the style that
+	were not part of the default style.
+
+	* src/file.c (dialog_query_load_file, workbook_save_as): Put the
+	window close to the mouse.
+
+	* src/workbook.c (sheet_check_dirty, workbook_close): Do not
+	cancel without warning the user if the workbook has changed.
+	(workbook_new, workbook_can_close, workbook_window_destroy,
+	quit_cmd, close_cmd): Reorganized the code to suit the new code to
+	prevent inadvertent quits.
+
 1998-10-06 Adrian Likins <adrian@gimp.or>
 
 	* doc/images/*.gif: gifs for documenting the button bar   

@@ -691,6 +691,9 @@ split_time (gdouble number)
 
 	calc_new_date (&tm.tm_year, &tm.tm_mon, &tm.tm_mday, number-1.0);
 	tm.tm_wday = day_of_week (tm.tm_year, tm.tm_mon, tm.tm_mday);
+	if (tm.tm_wday == 7)
+		tm.tm_wday = 0;
+	
 /*	printf ("Year: %d Month: %d, Day: %d\n", tm.tm_year, tm.tm_mon, tm.tm_mday); */
 	tm.tm_mon--;
 

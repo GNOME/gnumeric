@@ -34,6 +34,7 @@ workbook_save_as (Workbook *wb)
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
+	gtk_window_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 	
 	/* Run the dialog */
 	gtk_widget_show (GTK_WIDGET (fsel));
@@ -79,6 +80,7 @@ dialog_query_load_file (void)
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
+	gtk_window_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 
 	/* Run the dialog */
 	gtk_widget_show (GTK_WIDGET (fsel));

@@ -1022,6 +1022,9 @@ callback_function_sum (Sheet *sheet, Value *value, char **error_string, void *cl
 			result->v.v_float = v + value->v.v_float;
 		}
 		break;
+
+	case VALUE_STRING:
+		break;
 		
 	default:
 		g_warning ("Unknown VALUE type in callback_function_sum");

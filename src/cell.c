@@ -29,8 +29,10 @@ static inline void
 cell_modified (Cell *cell)
 {
 	Sheet *sheet = cell->sheet;
-	
-	sheet->modified = TRUE;
+
+	/* Cells from the clipboard do not have a sheet attached */
+	if (sheet)
+		sheet->modified = TRUE;
 }
 
 void
