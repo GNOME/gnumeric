@@ -16,7 +16,10 @@
 #include "sheet-object-container.h"
 #include <bonobo/gnome-container.h>
 #include <bonobo/gnome-component.h>
+
+#if 0
 #include "PlotComponent.h"
+#endif
 
 static SheetObject *sheet_object_container_parent_class;
 
@@ -273,6 +276,7 @@ sheet_object_container_new (Sheet *sheet,
 	if (!object_server)
 		return NULL;
 
+#if 0
 	{
 		CORBA_Environment ev;
 		GNOME_Plot_VectorFactory vf;
@@ -338,7 +342,8 @@ sheet_object_container_new (Sheet *sheet,
 		CORBA_exception_free (&ev);
 		printf ("leaving\n");
 	}
-
+#endif
+	
 	c = gtk_type_new (sheet_object_container_get_type ());
 	so = SHEET_OBJECT (c);
 	
