@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-12-20 07:55+0100\n"
-"PO-Revision-Date: 2001-12-20 08:25+0100\n"
+"POT-Creation-Date: 2001-12-21 03:38+0100\n"
+"PO-Revision-Date: 2001-12-21 03:38+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5131,7 +5131,7 @@ msgstr "Annat värde"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: src/dialogs/dialog-search-replace.c:131 src/dialogs/dialog-search.c:368
+#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:369
 msgid "You must select some cell types to search."
 msgstr "Du måste välja några celltyper att söka i."
 
@@ -10377,7 +10377,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: src/functions/fn-financial.c:1068
+#: src/functions/fn-financial.c:1082
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -10427,7 +10427,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINT"
 
-#: src/functions/fn-financial.c:1120
+#: src/functions/fn-financial.c:1134
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -10484,7 +10484,7 @@ msgstr ""
 "7,68%\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: src/functions/fn-financial.c:1181
+#: src/functions/fn-financial.c:1195
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -10531,7 +10531,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTRATE"
 
-#: src/functions/fn-financial.c:1236
+#: src/functions/fn-financial.c:1250
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -10580,7 +10580,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEMAT"
 
-#: src/functions/fn-financial.c:1288
+#: src/functions/fn-financial.c:1302
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -10629,7 +10629,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: src/functions/fn-financial.c:1347
+#: src/functions/fn-financial.c:1361
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -10675,15 +10675,16 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:1398
+#: src/functions/fn-financial.c:1412
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
 "@DESCRIPTION=EFFECT calculates the effective interest rate from a given "
 "nominal rate.\n"
-"Effective interest rate is calculated using this formulae:\n"
+"Effective interest rate is calculated using this formula:\n"
 "\n"
-"         @r( 1 + ------ ) ^ @nper - 1       @nper\n"
+"    (1 + @r / @nper) ^ @nper - 1\n"
+"\n"
 "where:\n"
 "\n"
 "@r = nominal interest rate (stated in yearly terms)\n"
@@ -10701,10 +10702,10 @@ msgstr ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r;antper)\n"
 "@DESCRIPTION=EFFECT beräknar den effektiva räntan från en given nominell "
-"sats.\n"
-"Effektiv ränta beröknas med följande formel:\n"
+"räntesats.\n"
+"Effektiv ränta beräknas med följande formel:\n"
 "\n"
-"         @r( 1 + ------ ) ^ @antper - 1       @antper\n"
+"    (1 + @r / @antper) ^ @antper - 1\n"
 "där:\n"
 "\n"
 "@r = nominell räntesats (angiven i årliga villkor)\n"
@@ -10718,11 +10719,11 @@ msgstr ""
 "effektiva räntan som du kommer att betala på ditt lån.\n"
 "@SEEALSO=NOMINAL"
 
-#: src/functions/fn-financial.c:1439
+#: src/functions/fn-financial.c:1451
 msgid "effect - domain error"
 msgstr "effect - domänfel"
 
-#: src/functions/fn-financial.c:1447
+#: src/functions/fn-financial.c:1459
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -10754,11 +10755,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: src/functions/fn-financial.c:1477
+#: src/functions/fn-financial.c:1489
 msgid "nominal - domain error"
 msgstr "nominal - domänfel"
 
-#: src/functions/fn-financial.c:1486
+#: src/functions/fn-financial.c:1498
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -10776,7 +10777,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:1520
+#: src/functions/fn-financial.c:1532
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -10802,7 +10803,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:1576
+#: src/functions/fn-financial.c:1588
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -10830,7 +10831,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: src/functions/fn-financial.c:1624
+#: src/functions/fn-financial.c:1636
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -10874,11 +10875,11 @@ msgstr ""
 "Detta kommer att returnera det årliga värdeminskningsvärdet 9300 kr.\n"
 "@SEEALSO=SYD"
 
-#: src/functions/fn-financial.c:1668
+#: src/functions/fn-financial.c:1680
 msgid "sln - domain error"
 msgstr "sln - domänfel"
 
-#: src/functions/fn-financial.c:1676
+#: src/functions/fn-financial.c:1688
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -10925,11 +10926,11 @@ msgstr ""
 "=SYD(50000; 2000; 3; 2), vilket resulterar i 16000.\n"
 "@SEEALSO=SLN"
 
-#: src/functions/fn-financial.c:1722
+#: src/functions/fn-financial.c:1734
 msgid "syd - domain error"
 msgstr "syd - domänfel"
 
-#: src/functions/fn-financial.c:1732
+#: src/functions/fn-financial.c:1744
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -10954,7 +10955,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/functions/fn-financial.c:1776
+#: src/functions/fn-financial.c:1788
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -10976,7 +10977,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/functions/fn-financial.c:1818
+#: src/functions/fn-financial.c:1830
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -10994,7 +10995,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1878
+#: src/functions/fn-financial.c:1890
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -11020,7 +11021,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1923
+#: src/functions/fn-financial.c:1935
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -11048,7 +11049,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1964
+#: src/functions/fn-financial.c:1976
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -11075,7 +11076,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:2005
+#: src/functions/fn-financial.c:2017
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -11091,7 +11092,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2113
+#: src/functions/fn-financial.c:2125
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -11127,7 +11128,7 @@ msgstr ""
 "IRR(A1:A8) lika med 0,04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:2236
+#: src/functions/fn-financial.c:2248
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -11151,7 +11152,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:2283
+#: src/functions/fn-financial.c:2295
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -11175,7 +11176,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:2337
+#: src/functions/fn-financial.c:2349
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -11201,7 +11202,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:2397
+#: src/functions/fn-financial.c:2409
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -11244,7 +11245,7 @@ msgstr ""
 "XIRR(A1:A5;B1:B5) lika med 0,224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:2501
+#: src/functions/fn-financial.c:2513
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -11269,7 +11270,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:2540
+#: src/functions/fn-financial.c:2552
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -11298,7 +11299,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2578
+#: src/functions/fn-financial.c:2590
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -11326,7 +11327,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2625
+#: src/functions/fn-financial.c:2637
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -11354,7 +11355,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2674
+#: src/functions/fn-financial.c:2686
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -11387,7 +11388,7 @@ msgstr ""
 "motsvarar alltså att pengarna har fördubblats precis för det 12:e året.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2723
+#: src/functions/fn-financial.c:2735
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -11409,7 +11410,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2760
+#: src/functions/fn-financial.c:2772
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -11436,7 +11437,7 @@ msgstr ""
 "FVSCHEDULE(3000;A1:A5) lika med 4942,7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2804
+#: src/functions/fn-financial.c:2816
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -11482,7 +11483,7 @@ msgstr ""
 "EURO(\"DEM\") returnerar 1,95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2886
+#: src/functions/fn-financial.c:2898
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -11526,7 +11527,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2961
+#: src/functions/fn-financial.c:2987
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -11569,7 +11570,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3037
+#: src/functions/fn-financial.c:3076
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -11613,7 +11614,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3073
+#: src/functions/fn-financial.c:3112
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -11659,7 +11660,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3110
+#: src/functions/fn-financial.c:3149
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -11690,9 +11691,9 @@ msgstr ""
 "@DESCRIPTION=ODDFPRICE returnerar priset per $100 värde av en säkerhet. "
 "Säkerheten måste ha en udda kort eller lång första period. @avräkning är "
 "avräkningsdatumet för säkerheten. @mognad är mognadsdatumet för säkerheten. "
-"@start är startdatumet för säkerheten. @frekvens är antalet betalningar "
-"per år. Tillåtna frekvenser är 1 = årligen, 2 = halvårsvis, "
-"4 = kvartalsvis. @bas är den typ av dagsräkningssystem som du vill använda:\n"
+"@start är startdatumet för säkerheten. @frekvens är antalet betalningar per "
+"år. Tillåtna frekvenser är 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. "
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
@@ -11707,7 +11708,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3198
+#: src/functions/fn-financial.c:3251
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -11732,13 +11733,13 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(avräkning;mognad;start;första_bet;räntesats;pr;"
-"reducering;frekvens[;bas])\n"
-"@DESCRIPTION=ODDFYIELD beräknar avkastningen på en säkerhet som har en "
-"udda första period. @avräkning är avräkningsdatumet för säkerheten. @mognad "
-"är mognadsdatumet för säkerheten. @frekvens är antalet betalningar per år. "
-"Tillåtna frekvenser är 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas "
-"är den typ av dagsräkningssystem som du vill använda:\n"
+"@SYNTAX=ODDFYIELD(avräkning;mognad;start;första_bet;räntesats;pr;reducering;"
+"frekvens[;bas])\n"
+"@DESCRIPTION=ODDFYIELD beräknar avkastningen på en säkerhet som har en udda "
+"första period. @avräkning är avräkningsdatumet för säkerheten. @mognad är "
+"mognadsdatumet för säkerheten. @frekvens är antalet betalningar per år. "
+"Tillåtna frekvenser är 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas är "
+"den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
@@ -11753,7 +11754,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3235
+#: src/functions/fn-financial.c:3288
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -11781,11 +11782,11 @@ msgstr ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(avräkning;mognad;senaste_ränta;räntesats;avkastning;"
 "reducering;frekvens[;bas])\n"
-"@DESCRIPTION=ODDLPRICE beräknar priset per $100 värde av en säkerhet som "
-"har en udda sista betalningsperiod. @avräkning är avräkningsdatumet för "
+"@DESCRIPTION=ODDLPRICE beräknar priset per $100 värde av en säkerhet som har "
+"en udda sista betalningsperiod. @avräkning är avräkningsdatumet för "
 "säkerheten. @mognad är mognadsdatumet för säkerheten. @frekvens är antalet "
-"betalningar per år. Tillåtna frekvenser är 1 = årligen, 2 = halvårsvis, "
-"4 = kvartalsvis. @bas är den typ av dagsräkningssystem som du vill använda:\n"
+"betalningar per år. Tillåtna frekvenser är 1 = årligen, 2 = halvårsvis, 4 = "
+"kvartalsvis. @bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
@@ -11800,7 +11801,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3272
+#: src/functions/fn-financial.c:3325
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -11830,8 +11831,8 @@ msgstr ""
 "@DESCRIPTION=ODDLYIELD beräknar avkastningen på en säkerhet som har en udda "
 "sista period. @avräkning är avräkningsdatumet för säkerheten. @mognad är "
 "mognadsdatumet för säkerheten. @frekvens är antalet betalningar per år. "
-"Tillåtna frekvenser är 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas "
-"är den typ av dagsräkningssystem som du vill använda:\n"
+"Tillåtna frekvenser är 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas är "
+"den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
@@ -11846,7 +11847,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3309
+#: src/functions/fn-financial.c:3362
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11871,10 +11872,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(kostnad;köpedatum;första_period;rest;räntesats[;bas])\n"
-"@DESCRIPTION=AMORDEGRC returnerar reduceringen för varje "
-"redovisningsperiod. @avräkning är avräkningsdatumet för säkerheten. @mognad "
-"är mognadsdatumet för säkerheten. @bas är den typ av dagsräkningssystem som "
-"du vill använda:\n"
+"@DESCRIPTION=AMORDEGRC returnerar reduceringen för varje redovisningsperiod. "
+"@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
+"för säkerheten. @bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
@@ -11889,7 +11889,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3343
+#: src/functions/fn-financial.c:3396
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11913,12 +11913,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=AMORLINC\n"
-"@SYNTAX=AMORLINC(kostnad;köpedatum;första_period;rest;period;räntesats"
-"[;bas])\n"
-"@DESCRIPTION=AMORLINC returnerar reduceringen för varje "
-"redovisningsperiod. @avräkning är avräkningsdatumet för säkerheten. @mognad "
-"är mognadsdatumet för säkerheten. @bas är den typ av dagsräkningssystem som "
-"du vill använda:\n"
+"@SYNTAX=AMORLINC(kostnad;köpedatum;första_period;rest;period;räntesats[;"
+"bas])\n"
+"@DESCRIPTION=AMORLINC returnerar reduceringen för varje redovisningsperiod. "
+"@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
+"för säkerheten. @bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
@@ -11933,7 +11932,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3377
+#: src/functions/fn-financial.c:3430
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11957,8 +11956,29 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COUPDAYBS\n"
+"@SYNTAX=COUPDAYBS(avräkning;mognad;frekvens[;bas])\n"
+"@DESCRIPTION=COUPDAYBS returnerar antalet dagar från början på "
+"betalningsperioden till avräkningsdatumet. @avräkning är avräkningsdatumet "
+"för säkerheten. @mognad är mognadsdatumet för säkerheten. @frekvens är "
+"antalet betalningar per år. Tillåtna frekvenser är: 1 = årligen, 2 = "
+"halvårsvis, 4 = kvartalsvis. @bas är den typ av dagsräkningssystem som du "
+"vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPDAYBS felvärdet "
+"#NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är "
+"mellan 1 och 4 returnerar COUPDAYBS felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
-#: src/functions/fn-financial.c:3435
+#: src/functions/fn-financial.c:3499
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -11981,8 +12001,28 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COUPDAYS\n"
+"@SYNTAX=COUPDAYS(avräkning;mognad;frekvens[;bas])\n"
+"@DESCRIPTION=COUPDAYS returnerar antalet dagar i betalningsperioden till "
+"avräkningsdatumet. @avräkning är avräkningsdatumet för säkerheten. @mognad "
+"är mognadsdatumet för säkerheten. @frekvens är antalet betalningar per år. "
+"Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas "
+"är den typ av dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPDAYS felvärdet "
+"#NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är "
+"mellan 1 och 4 returnerar COUPDAYS felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
-#: src/functions/fn-financial.c:3493
+#: src/functions/fn-financial.c:3570
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -12005,8 +12045,28 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COUPDAYSNC\n"
+"@SYNTAX=COUPDAYSNC(avräkning;mognad;frekvens[;bas])\n"
+"@DESCRIPTION=COUPDAYSNC returnerar antalet dagar från avräkningsdatumet till "
+"nästa betalningsdatum. @avräkning är avräkningsdatumet för säkerheten. "
+"@mognad är mognadsdatumet för säkerheten. @frekvens är antalet betalningar "
+"per år. Tillåtna frekvenser är: 1 = årligen, 2 = halvårsvis, 4 = "
+"kvartalsvis. @bas är den typ av dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPDAYSNC felvärdet "
+"#NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är "
+"mellan 1 och 4 returnerar COUPDAYSNC felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
-#: src/functions/fn-financial.c:3551
+#: src/functions/fn-financial.c:3639
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -12029,8 +12089,28 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COUPNCD\n"
+"@SYNTAX=COUPNCD(avräkning;mognad;frekvens[;bas])\n"
+"@DESCRIPTION=COUPNCD returnerar betalningsdatumet som följer avräkningen. "
+"@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
+"för säkerheten. @frekvens är antalet betalningar per år. Tillåtna frekvenser "
+"är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas är den typ av "
+"dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPNCD felvärdet #NUM!. "
+"Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är mellan "
+"1 och 4 returnerar COUPNCD felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
-#: src/functions/fn-financial.c:3608
+#: src/functions/fn-financial.c:3704
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -12053,8 +12133,28 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COUPPCD\n"
+"@SYNTAX=COUPPCD(avräkning;mognad;frekvens[;bas])\n"
+"@DESCRIPTION=COUPPCD returnerar betalningsdatumet som föregår avräkningen. "
+"@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
+"för säkerheten. @frekvens är antalet betalningar per år. Tillåtna frekvenser "
+"är: 1 = årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas är den typ av "
+"dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPPCD felvärdet #NUM!. "
+"Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är mellan "
+"1 och 4 returnerar COUPPCD felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
-#: src/functions/fn-financial.c:3643
+#: src/functions/fn-financial.c:3739
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -12078,8 +12178,29 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COUPNUM\n"
+"@SYNTAX=COUPNUM(avräkning;mognad;frekvens[;bas])\n"
+"@DESCRIPTION=COUPNUM returnerar antalet betalningar som ska betalas mellan "
+"avräkning och mognadsdatumet, avrundade uppåt. @avräkning är "
+"avräkningsdatumet för säkerheten. @mognad är mognadsdatumet för säkerheten. "
+"@frekvens är antalet betalningar per år. Tillåtna frekvenser är: 1 = "
+"årligen, 2 = halvårsvis, 4 = kvartalsvis. @bas är den typ av "
+"dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om @frekvens är en annan än 1, 2 eller 4 returnerar COUPNUM felvärdet #NUM!. "
+"Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är mellan "
+"1 och 4 returnerar COUPNUM felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
-#: src/functions/fn-financial.c:3698
+#: src/functions/fn-financial.c:3805
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -12097,7 +12218,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3718
+#: src/functions/fn-financial.c:3825
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -12115,7 +12236,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3738
+#: src/functions/fn-financial.c:3845
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -12133,7 +12254,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3759
+#: src/functions/fn-financial.c:3866
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -12152,7 +12273,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: src/functions/fn-financial.c:3785
+#: src/functions/fn-financial.c:3892
 msgid "Financial"
 msgstr "Finansiella"
 
@@ -12178,6 +12299,25 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CELL\n"
+"@SYNTAX=CELL(typ;ref)\n"
+"@DESCRIPTION=CELL returnerar information om formateringen i, platsen för "
+"eller innehållet i en cell.\n"
+"@typ anger typen av informationen du vill erhålla:\n"
+"      address       Returnerar den givna cellreferensen som text.\n"
+"     col           Returnerar kolumnnumret för kolumnen i @ref.\n"
+"     contents      Returnerar innehållet i cellen i @ref.\n"
+"     format        Returnerar koden för formatet på cellen.\n"
+"     parentheses   Returnerar 1 om @ref innehåller ett negativt värde och\n"
+"                   dess format visar det med parenteser.\n"
+"     row           Returnerar radnumret för raden i @ref.\n"
+"     width         Returnerar kolumnbredden.\n"
+"\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"CELL(\"format\";A1) returnerar koden för formatet på cellen A1.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:271 src/functions/fn-information.c:446
 msgid "Unknown info_type"
@@ -12195,6 +12335,15 @@ msgid ""
 "\n"
 "@SEEALSO=TEXT"
 msgstr ""
+"@FUNCTION=EXPRESSION\n"
+"@SYNTAX=EXPRESSION(cell)\n"
+"@DESCRIPTION=EXPRESSION returnerar uttrycket i @cell som en sträng, eller "
+"tom om cellen inte är ett uttryck.\n"
+"@EXAMPLES=\n"
+"i A1 är EXPRESSION(A2) lika med \"EXPRESSION(A3)\".\n"
+"i A2 är EXPRESSION(A3) lika med tom.\n"
+"\n"
+"@SEEALSO=TEXT"
 
 #: src/functions/fn-information.c:322
 msgid ""
@@ -12239,6 +12388,25 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=INFO\n"
+"@SYNTAX=INFO(typ)\n"
+"@DESCRIPTION=INFO returnerar information om den aktuella operativmiljön.\n"
+"@typ är den typ av information som du vill erhålla:\n"
+"    memavail        Returnerar mängden tillgängligt minne (byte).\n"
+"    memused         Returnerar mängden använt minne (byte).\n"
+"    numfile         Returnerar antalet aktiva arbetsblad.\n"
+"    osversion       Returnerar operativsystemsversionen.\n"
+"    recalc          Returnerar omkalkyleringsläget (automatiskt).\n"
+"    release         Returnerar Gnumerics versionsnummer som text.\n"
+"    system          Returnerar namnet på miljön.\n"
+"    totmem          Returnerar totala mängden tillgängligt minne.\n"
+"\n"
+"Denna funktion är kompatibel med Excel, förutom att typkataloger och "
+"ursprung inte är implementerade.\n"
+"@EXAMPLES=\n"
+"INFO(\"system\") returnerar \"Linux\" på ett Linuxsystem.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:416
 msgid "Unknown version"
@@ -12337,6 +12505,21 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
+"@FUNCTION=ERROR.TYPE\n"
+"@SYNTAX=ERROR(värde)\n"
+"@DESCRIPTION=ERROR.TYPE returnerar ett felnummer som motsvarar det angivna "
+"felvärdet. Felnumren för felvärden är\n"
+"#DIV/0!    2\n"
+"#VÄRDE!    3\n"
+"#REF!      4\n"
+"#NAMN!     5\n"
+"#NUM!      6\n"
+"#-!        7\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"ERROR.TYPE(NA()) är lika med 7.\n"
+"\n"
+"@SEEALSO=ISERROR"
 
 #: src/functions/fn-information.c:632
 msgid ""
