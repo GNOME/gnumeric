@@ -377,7 +377,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	}
 
 	r = &target->v_range.cell;
-	state->change_cell = sheet_cell_get (r->a.sheet, r->a.col, r->a.row);
+	state->change_cell = sheet_cell_fetch (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
 	if (cell_has_expr (state->change_cell)) {
 		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,

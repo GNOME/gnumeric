@@ -1,3 +1,8 @@
+2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-goal-seek.c (cb_dialog_apply_clicked) : make sure
+	  cells exist (http://bugzilla.gnome.org/show_bug.cgi?id=69832)
+
 2002-01-24  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-formula-guru.c (cb_formula_guru_entry_focus_in): Align
