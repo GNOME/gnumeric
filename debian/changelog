@@ -1,3 +1,53 @@
+gnumeric (1.2.4-4) unstable; urgency=medium
+
+  * [src/dialogs/dialog-printer-setup.c, src/dialogs/dialog-stf-format-page.c]
+    #include <gtk/gtkmenuitem.h> to get a proper declaration of
+    gtk_menu_item_new_with_label and thereby fix crashes on 64-bit platforms.
+    (Closes: #226382)
+  * [debian/control] Versioned the intltool build dependency. (Closes: #226194)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  6 Jan 2004 19:03:39 +0100
+
+gnumeric (1.2.4-3) unstable; urgency=medium
+
+  * [debian/rules] Fixed gnome-logo-icon.png link.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  2 Jan 2004 23:29:52 +0100
+
+gnumeric (1.2.4-2) unstable; urgency=medium
+
+  * [debian/control] Added build dependency on yelp for yelp-pregenerate.
+  * [debian/rules] Simplify things by using dh_link.
+  * [debian/rules] Speed up documentation access with yelp by including 
+    prerendered HTML in gnumeric-doc. (Closes: #225706)
+  * [debian/gnumeric-doc.doc-base] Back; updated.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  1 Jan 2004 21:59:03 +0100
+
+gnumeric (1.2.4-1) unstable; urgency=medium
+
+  * New upstream release.
+  * [debian/control] Added build dependency on intltool.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 29 Dec 2003 14:33:13 +0100
+
+gnumeric (1.2.3-2) unstable; urgency=medium
+
+  * At upstream's request, applied patch from CVS to fix some problems with
+    xls export.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 26 Dec 2003 22:38:12 +0100
+
+gnumeric (1.2.3-1) unstable; urgency=medium
+
+  * New upstream stable release. Changes include:
+    * Fixed encoding of the author field in the summary, the lack of which
+      cause problems reopening gnumeric files for users with non-ASCII
+      characters in their GECOS field. (Closes: #224482)
+    * Fixed crashes and leaks with chart values and labels. (Closees: #223402)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 24 Dec 2003 08:48:10 +0100
+
 gnumeric (1.2.2-1) unstable; urgency=medium
 
   * New stable upstream release. Changes include:
