@@ -1,6 +1,6 @@
 2000-07-04  Almer. S. Tigelaar.  <almer1@dds.nl>
 
-	* autogen.sh :
+	* autogen.sh:
 	Downgrade libtool requirment from 1.3.4 to 1.3.3.
 	because compiling Gnumeric works fine with 1.3.3.
 
@@ -13,23 +13,27 @@
 
 2000-07-04  Almer. S. Tigelaar.  <almer1@dds.nl>
 
-	* src/dialogs/dialog-stf.c, src/dialogs/dialog-stf-fixed-page.c :
+	* src/dialogs/dialog-stf.c, src/dialogs/dialog-stf-fixed-page.c:
 	Fix column mangling in fixed width import.
 
-	* src/dialogs/dialog-stf-format-page.c :
-	Fix USB (==Ugly Selection Bug).
+	* src/dialogs/dialog-stf-format-page.c:
+	(format_page_format_changed): Use new sublist_select member
+	to avoid 'jumping' of the GtkClist when selecting from
+	the sublist.
+	(format_page_sublist_select_row): idem.
+	(stf_dialog_format_page_init): Initialize sublist_select.
 
-	* src/stf-parse.c, src/stf-parse.h :
-	(stf_parse_options_fixed_autodiscover) : New!
+	* src/stf-parse.c, src/stf-parse.h:
+	(stf_parse_options_fixed_autodiscover): New!
 	Column autodiscovery for fixed width.
 
-	* src/dialogs/dialog-stf.glade :
+	* src/dialogs/dialog-stf.glade:
 	Add clear and autodiscovery buttons
 	
-	* src/dialogs/dialog-stf-fixed-page.c : 
-	(fixed_page_autodiscover) : Autodiscovery routine.
-	(fixed_page_clear_clicked) : Clear click handler
-	(fixed_page_auto_clicked) : Autodiscovery click handler
+	* src/dialogs/dialog-stf-fixed-page.c: 
+	(fixed_page_autodiscover): Autodiscovery routine.
+	(fixed_page_clear_clicked): Clear click handler
+	(fixed_page_auto_clicked): Autodiscovery click handler
 	
 2000-07-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
