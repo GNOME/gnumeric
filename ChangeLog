@@ -1,3 +1,7 @@
+2004-08-20  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (yylex): Take extra care not to run off the edge.
+
 2004-08-17  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (mathfunc_init): Greatly simplify using goffice

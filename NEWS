@@ -55,6 +55,7 @@ Morten:
 	* Fix crash with format toolbar in menu mode.
 	* Fix crash on exit.  [backported]
 	* Fix ssconvert output.
+	* Fix potential lexer crash.
 
 Yukihiro Nakai:
 	* Export links when saving as html.

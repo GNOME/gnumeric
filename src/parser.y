@@ -922,6 +922,8 @@ yylex (void)
 
 	start = state->ptr;
 	c = g_utf8_get_char (start);
+	if (c == 0)
+		return 0;
 	state->ptr = g_utf8_next_char (state->ptr);
 
 	if (c == '&' && state->convs->decode_ampersands) {
