@@ -31,7 +31,7 @@ $(GNUMERIC_GRAPHS_CORBA_GENERATED): $(srcdir)/gnumeric-graphs.idl
 	orbit-idl -I$(srcdir) $(IDL_FLAGS) $(srcdir)/gnumeric-graphs.idl 
 	touch my_gnumeric_graphs_idl
 
-idldir   = $(gnumeric_datadir)idl
+idldir   = $(gnumeric_datadir)/idl
 idl_DATA = gnumeric-graphs.idl Gnumeric.idl 
 
 EXTRA_DIST = $(idl_DATA)

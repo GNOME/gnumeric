@@ -1,4 +1,4 @@
-templatesdir=$(gnumeric_datadir)templates
+templatesdir=$(gnumeric_datadir)/templates
 templates_DATA = \
 	invoice.gnumeric 	\
 	loan.gnumeric 		\

@@ -313,7 +313,9 @@ gboolean
 sheet_object_read_xml (CommandContext *cc, SheetObject *so, xmlNodePtr tree)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
-	return SO_CLASS (so)->read_xml (cc, so, tree);
+	if (SO_CLASS (so)->read_xml)
+		return SO_CLASS (so)->read_xml (cc, so, tree);
+	return FALSE;
 }
 
 xmlNodePtr
@@ -321,8 +323,11 @@ sheet_object_write_xml (SheetObject const *so, xmlDocPtr doc, xmlNsPtr ns,
 			XmlSheetObjectWriteFn write_fn)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
-	return SO_CLASS (so)->write_xml (so, doc, ns, write_fn);
+	if (SO_CLASS (so)->write_xml)
+		return SO_CLASS (so)->write_xml (so, doc, ns, write_fn);
+	return FALSE;
 }
+
 Range const *
 sheet_object_range_get (SheetObject const *so)
 {

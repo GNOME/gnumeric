@@ -1,3 +1,15 @@
+2000-12-08  Jody Goldberg <jgoldberg@home.com>
+
+	From :Ade Lovett <ade@FreeBSD.org>
+	* templates/english/Makefile.am : typo.
+	* idl/Makefile.am : Ditto.
+
+2000-12-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_write_xml) : protect from missing
+	  virtual.
+	(sheet_object_read_xml) : Ditto.
+
 2000-12-07  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Bump the version number
