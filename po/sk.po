@@ -1,12 +1,12 @@
 # Gnumeric Slovak translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
 # 1999 Bobo Rajec
-# 2000,2001,2002 Stanislav Visnovsky
+# 2000,2001,2002 Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
 "POT-Creation-Date: 2002-03-06 15:05+0100\n"
-"PO-Revision-Date: 2002-03-06 17:15+0100\n"
+"PO-Revision-Date: 2002-03-07 16:07+0100\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -5885,27 +5885,28 @@ msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
 msgstr ""
+"Na tomto riadku začne skutočné spracovanie, predchádzajúce riadky "
+"budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
-#, fuzzy
 msgid "Add a new column"
-msgstr "Vloží nové stĺpce"
+msgstr "Pridá nový stĺpec"
 
 #: src/dialogs/dialog-stf.glade.h:5
 msgid "Always (Both sides)"
-msgstr ""
+msgstr "Vždy (obidve strany)"
 
 #: src/dialogs/dialog-stf.glade.h:6
 msgid "Attempt to recognize columns in the text automatically."
-msgstr ""
+msgstr "Pokúsiť sa o rozpoznanie stĺpcov textu automaticky."
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Auto Column _Discovery"
-msgstr ""
+msgstr "Automatické _nájdenie stĺpcov"
 
 #: src/dialogs/dialog-stf.glade.h:8
 msgid "Ban_g (!)"
-msgstr ""
+msgstr "Výkričník (_!)"
 
 #: src/dialogs/dialog-stf.glade.h:9
 msgid "C_ustom"
@@ -5916,25 +5917,24 @@ msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored."
 msgstr ""
+"Znak interpretovaný ako úvodzovky. Ak sa oddeľovač nájde "
+"v úvodzovkách, ignoruje sa."
 
 #: src/dialogs/dialog-stf.glade.h:11
-#, fuzzy
 msgid "Clear list of columns"
-msgstr "Zabalenie stĺpcov"
+msgstr "Vyčistí zoznam stĺpcov"
 
 #: src/dialogs/dialog-stf.glade.h:12
-#, fuzzy
 msgid "Click to select a column"
-msgstr "Skryje vybrané stĺpce"
+msgstr "Kliknutím vyberte stĺpec"
 
 #: src/dialogs/dialog-stf.glade.h:13
-#, fuzzy
 msgid "Co_lumn end: "
-msgstr "Stĺpec %d"
+msgstr "_Koniec stĺpca:"
 
 #: src/dialogs/dialog-stf.glade.h:14
 msgid "Co_mma (,)"
-msgstr ""
+msgstr "Čiarka (_,)"
 
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Column"
@@ -5950,30 +5950,31 @@ msgstr "Stĺpce"
 
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Custom separator, this can be any character"
-msgstr ""
+msgstr "Vlastný oddeľovač môže byť ľubovoľný znak"
 
 #: src/dialogs/dialog-stf.glade.h:19
 msgid ""
 "Customize the columns using the buttons or the mouse (hover mouse above "
 "example for instructions)"
 msgstr ""
+"Upravte stĺpce pomocou myši alebo tlačidiel (inštrukcie sa zobrazia po "
+"ukázaní kurzorom myši na príklad)"
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Data type and number of lines"
-msgstr ""
+msgstr "Typ dát a počet riadkov"
 
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Define the width of each column manually."
-msgstr ""
+msgstr "Definujte šírku každého stĺpca ručne."
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr ""
+msgstr "Každý stĺpec textu je oddelený 'oddeľovacím' znakom, napríklad bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
-#, fuzzy
 msgid "End"
 msgstr "Koniec"
 
@@ -5982,22 +5983,20 @@ msgid "Example"
 msgstr "Príklad"
 
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
 msgid "Fixed wi_dth"
-msgstr "Šírka čiary"
+msgstr "_Pevná šírka"
 
 #: src/dialogs/dialog-stf.glade.h:26
 msgid "Fixed width customization"
-msgstr ""
+msgstr "Úprava pevnej šírky"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Format"
 msgstr "Formát"
 
 #: src/dialogs/dialog-stf.glade.h:28
-#, fuzzy
 msgid "Formatting for the selected column"
-msgstr "Zmení šírku vybraných stĺpcov"
+msgstr "Formátovanie pre vybraný stĺpec"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "Formatting options"
@@ -6005,15 +6004,15 @@ msgstr "Možnosti formátu"
 
 #: src/dialogs/dialog-stf.glade.h:30
 msgid "Fr_om line:"
-msgstr ""
+msgstr "_Od riadku:"
 
 #: src/dialogs/dialog-stf.glade.h:31
 msgid "H_yphen (-)"
-msgstr ""
+msgstr "Pomlčka (_-)"
 
 #: src/dialogs/dialog-stf.glade.h:32
 msgid "Importing structured text"
-msgstr ""
+msgstr "Import štruktúrovaného textu"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid ""
@@ -6021,6 +6020,9 @@ msgid ""
 "an existing column or hold the left mouse button on a column border and drag "
 "to resize a column."
 msgstr ""
+"Kliknutím ľavým tlačidlom vytvoríte nový stĺpec, pravým kliknutím na okraj stĺpca "
+"odstránite už existujúci stĺpec alebo držaním ľavého tlačidla myši na okraji "
+"stĺpca a jeho ťahaním mu môžete zmeniť veľkosť."
 
 #: src/dialogs/dialog-stf.glade.h:34
 msgid "Lines to import"
@@ -6031,57 +6033,52 @@ msgid "Misc"
 msgstr "Rôzne"
 
 #: src/dialogs/dialog-stf.glade.h:37
-#, fuzzy
 msgid "Number of lines to import"
-msgstr "%d riadkov pre import"
+msgstr "Počet riadkov pre import"
 
 #: src/dialogs/dialog-stf.glade.h:38
 msgid "On left side only"
-msgstr ""
+msgstr "Iba na ľavej strane"
 
 #: src/dialogs/dialog-stf.glade.h:39
 msgid "On right side only"
-msgstr ""
+msgstr "Iba na pravej strane"
 
 #: src/dialogs/dialog-stf.glade.h:40
-#, fuzzy
 msgid "Original data type:"
-msgstr "Pôvodná hodnota"
+msgstr "Pôvodný typ dát:"
 
 #: src/dialogs/dialog-stf.glade.h:41
 msgid "P_ipe (|)"
-msgstr ""
+msgstr "Rúra (_|)"
 
 #: src/dialogs/dialog-stf.glade.h:42
-#, fuzzy
 msgid "Per column formatting"
-msgstr "Pearsonova korelácia"
+msgstr "Formátovanie pre stĺpec"
 
 #: src/dialogs/dialog-stf.glade.h:43
 msgid "Processing ends at this line, any subsequent lines will be ignored."
-msgstr ""
+msgstr "Spracovanie skončí na tomto riadku, ostatné riadky budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:44
-#, fuzzy
 msgid "Remove selected column"
-msgstr "Skryje vybrané stĺpce"
+msgstr "Odstrániť vybraný stĺpec"
 
 #: src/dialogs/dialog-stf.glade.h:45
 msgid "S_ee two separators as one"
-msgstr ""
+msgstr "_Chápať dva oddeľovače ako jeden"
 
 #: src/dialogs/dialog-stf.glade.h:46
-#, fuzzy
 msgid "S_pace"
-msgstr "_Zrušiť"
+msgstr "_Medzera"
 
 #: src/dialogs/dialog-stf.glade.h:47
 msgid "See two successive separators as one."
-msgstr ""
+msgstr "Chápať dva za sebou idúce oddeľovače ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr ""
+msgstr "Chápať dva za sebou idúce indikátory textu ako jeden, ktorý neukončuje bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -6089,63 +6086,69 @@ msgid ""
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
+"Vyberte formát pre každý stĺpec. Kliknutím na zoznam stĺpcov vľavo "
+"alebo na príklad vyberte stĺpec. Môžete potom zadať vlastný formát "
+"alebo si vybrať zo zoznamu vpravo."
 
 #: src/dialogs/dialog-stf.glade.h:50
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
 msgstr ""
+"Vyberte oddeľovače použité v texte (môžete ich vybrať viac a "
+"zadať aj vlastný)"
 
 #: src/dialogs/dialog-stf.glade.h:51
 msgid "Select the structure of the text that most closely matches the data."
-msgstr ""
+msgstr "Vyberte štruktúru textu, ktorá najviac odpovedá vašim dátam."
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Semicolo_n (;)"
-msgstr ""
+msgstr "Bodkočiarka (_;)"
 
 #: src/dialogs/dialog-stf.glade.h:53
 msgid "Separation customization"
-msgstr ""
+msgstr "Prispôsobenie oddeľovania"
 
 #: src/dialogs/dialog-stf.glade.h:54
 msgid "Separators"
-msgstr ""
+msgstr "Oddeľovače"
 
 #: src/dialogs/dialog-stf.glade.h:55
-#, fuzzy
 msgid "Set the end of this column"
-msgstr "Vyberie celý stĺpec"
+msgstr "Nastavte koniec tohto stĺpca"
 
 #: src/dialogs/dialog-stf.glade.h:56
 msgid "Slas_h (/)"
-msgstr ""
+msgstr "Lomítko (_/)"
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid "Ta_b"
-msgstr ""
+msgstr "Ta_bulátor"
 
 #: src/dialogs/dialog-stf.glade.h:58
 msgid "Te_xt indicator: "
-msgstr ""
+msgstr "_Indikátor textu:"
 
 #: src/dialogs/dialog-stf.glade.h:59
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
 msgstr ""
+"Orezať začiatočné a koncové medzery v každom stĺpci. Ak si nie ste istý, "
+"použite štandardné nastavenie."
 
 #: src/dialogs/dialog-stf.glade.h:60
 msgid "Trim:"
-msgstr ""
+msgstr "Orezať:"
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
-msgstr ""
+msgstr "Indikátory textu ve_dľa seba sú escapované"
 
 #: src/dialogs/dialog-stf.glade.h:64
 msgid "_Colon (:)"
-msgstr ""
+msgstr "Dvojbodka (_:)"
 
 #: src/dialogs/dialog-stf.glade.h:65
 msgid "_Format:"
@@ -6153,11 +6156,11 @@ msgstr "_Formát:"
 
 #: src/dialogs/dialog-stf.glade.h:67
 msgid "_Separated"
-msgstr ""
+msgstr "_Oddelené"
 
 #: src/dialogs/dialog-stf.glade.h:68
 msgid "_To line: "
-msgstr ""
+msgstr "_Do riadku:"
 
 #: src/dialogs/dialog-tabulate.c:143
 msgid "Tabulation"
@@ -6250,9 +6253,9 @@ msgid "_Custom"
 msgstr "V_lastné"
 
 #: src/dialogs/dialog-zoom.glade.h:18
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "_Fit Selection %"
-msgstr "_Automaticky upraviť rozmery"
+msgstr "_Prispôsobiť výber %"
 
 #: src/dialogs/font-sel.glade.h:1
 msgid "Font style:"
@@ -6275,9 +6278,8 @@ msgid "Formula Guru"
 msgstr "Guru pre vzorce"
 
 #: src/dialogs/fourier-analysis.glade.h:4
-#, fuzzy
 msgid "I_nverse"
-msgstr "Zvýšenie"
+msgstr "_Inverzne"
 
 #: src/dialogs/function-select.glade.h:1
 msgid "Function Selector"
@@ -6365,82 +6367,71 @@ msgstr "Zadajte formátovací reťazec pre každú časť:"
 
 #: src/dialogs/hf-config.glade.h:2
 msgid "Header/Footer Config"
-msgstr ""
+msgstr "Nastaveni hlavičky/pätičky"
 
 #: src/dialogs/hf-config.glade.h:3
-#, fuzzy
 msgid "_Left section:"
-msgstr "_Automaticky upraviť rozmery"
+msgstr "Ľa_vá časť:"
 
 #: src/dialogs/hf-config.glade.h:4
 msgid "_Middle section:"
-msgstr ""
+msgstr "_Stredná časť:"
 
 #: src/dialogs/hf-config.glade.h:5
-#, fuzzy
 msgid "_Right section:"
-msgstr "_Automaticky upraviť rozmery"
+msgstr "_Pravá časť:"
 
 #: src/dialogs/histogram.glade.h:2
-#, fuzzy
 msgid "Bin _Labels"
-msgstr "Rozsah _tried:"
+msgstr "Popisy _tried"
 
 #: src/dialogs/histogram.glade.h:4
-#, fuzzy
 msgid "C_umulative Percentages"
-msgstr "Formát ako percentá"
+msgstr "_Kumulatívne percentá"
 
 #: src/dialogs/histogram.glade.h:5
 msgid "Chart Output"
-msgstr ""
+msgstr "Grafový výstup"
 
 #: src/dialogs/histogram.glade.h:8
-#, fuzzy
 msgid "Input _Labels"
-msgstr "Vs_tupný rozsah:"
+msgstr "Popisky _vstupu"
 
 #: src/dialogs/histogram.glade.h:9
-#, fuzzy
 msgid "Input _Range:"
 msgstr "Vs_tupný rozsah:"
 
 #: src/dialogs/histogram.glade.h:10
-#, fuzzy
 msgid "M_in:"
-msgstr "Min :"
+msgstr "M_in:"
 
 #: src/dialogs/histogram.glade.h:11
-#, fuzzy
 msgid "Ma_x:"
-msgstr "Max :"
+msgstr "Ma_x:"
 
 #: src/dialogs/histogram.glade.h:14
 msgid "Pareto (_Sorted)"
-msgstr ""
+msgstr "Pareto (_Triedená)"
 
 #: src/dialogs/histogram.glade.h:15
-#, fuzzy
 msgid "Per_centages"
-msgstr "Percento"
+msgstr "Per_centá"
 
 #: src/dialogs/histogram.glade.h:16
 msgid "Pre_determined Bins"
-msgstr ""
+msgstr "_Dopredu určené triedy"
 
 #: src/dialogs/histogram.glade.h:17
-#, fuzzy
 msgid "Ro_ws"
 msgstr "_Riadky"
 
 #: src/dialogs/histogram.glade.h:19
-#, fuzzy
 msgid "_Bins"
-msgstr "Trieda"
+msgstr "_Triedy"
 
 #: src/dialogs/histogram.glade.h:20
 msgid "_Calculated Bins"
-msgstr ""
+msgstr "_Vypočítané triedy"
 
 #: src/dialogs/histogram.glade.h:23
 msgid "_N:"
@@ -6472,16 +6463,15 @@ msgstr "_Posunúť bunky doprava"
 
 #: src/dialogs/mean-tests.glade.h:4
 msgid "E_qual"
-msgstr ""
+msgstr "_Rovnaké"
 
 #: src/dialogs/mean-tests.glade.h:5
 msgid "H_ypothesized Mean Difference:"
-msgstr ""
+msgstr "H_ypotetický rozdiel priemerov:"
 
 #: src/dialogs/mean-tests.glade.h:9
-#, fuzzy
 msgid "Population Variances are:"
-msgstr "Porovnanie odchýliek dvoch populácií"
+msgstr "Odchýlky populácií sú:"
 
 #: src/dialogs/mean-tests.glade.h:10 src/dialogs/variance-tests.glade.h:6
 msgid "Test"
@@ -6489,35 +6479,31 @@ msgstr "Test"
 
 #: src/dialogs/mean-tests.glade.h:11
 msgid "Testing the Difference of 2 Means"
-msgstr ""
+msgstr "Test rozdielu dvoch priemerov"
 
 #: src/dialogs/mean-tests.glade.h:12
-#, fuzzy
 msgid "Unkno_wn"
-msgstr "Neznáme meno"
+msgstr "_Neznámy"
 
 #: src/dialogs/mean-tests.glade.h:13
-#, fuzzy
 msgid "Unknown Pop. Var. are:"
-msgstr "Neznámy operátor"
+msgstr "Neznáme odchýlky populácií sú:"
 
 #: src/dialogs/mean-tests.glade.h:14
 msgid "Unpai_red"
 msgstr "Nepá_rové"
 
 #: src/dialogs/mean-tests.glade.h:15
-#, fuzzy
 msgid "Variable 1 Pop. Variance:"
-msgstr "Rozsah premennej _1:"
+msgstr "Odchýlka populácie premennej 1:"
 
 #: src/dialogs/mean-tests.glade.h:16
 msgid "Variable 1 Range:"
 msgstr "Rozsah premennej _1:"
 
 #: src/dialogs/mean-tests.glade.h:17
-#, fuzzy
 msgid "Variable 2 Pop. Variance:"
-msgstr "Rozsah premennej _2:"
+msgstr "Odchýlka populácie premennej 2:"
 
 #: src/dialogs/mean-tests.glade.h:18
 msgid "Variable 2 Range:"
@@ -6823,9 +6809,8 @@ msgid "_Distribution:"
 msgstr "_Distribúcia:"
 
 #: src/dialogs/rank.glade.h:2
-#, fuzzy
 msgid "Average _Rank"
-msgstr "Priemer"
+msgstr "Priemerná _trieda"
 
 #: src/dialogs/rank.glade.h:7
 msgid "Rank and Percentile"
@@ -6833,11 +6818,11 @@ msgstr "Rozloženie a percentily"
 
 #: src/dialogs/rank.glade.h:8
 msgid "Ties:"
-msgstr ""
+msgstr "Rovnaké:"
 
 #: src/dialogs/rank.glade.h:16
 msgid "_Top Rank"
-msgstr ""
+msgstr "_Najvyššia trieda"
 
 #: src/dialogs/regression.glade.h:1
 msgid "0.95"
@@ -6845,11 +6830,11 @@ msgstr "0.95"
 
 #: src/dialogs/regression.glade.h:3
 msgid "Confidence Level:"
-msgstr ""
+msgstr "Úroveň spoľahlivosti:"
 
 #: src/dialogs/regression.glade.h:11
 msgid "_Force Intercept To Be Zero"
-msgstr ""
+msgstr "_Vynútiť priechod nulou"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row height"
@@ -6909,126 +6894,119 @@ msgstr "Vytvoriť =ERROR(\"...\")"
 
 #: src/dialogs/search-replace.glade.h:5 src/dialogs/search.glade.h:3
 msgid "Do not consider matches in the middle of words"
-msgstr ""
+msgstr "Neuvažovať nájdené texty v strede slov"
 
 #: src/dialogs/search-replace.glade.h:6
 msgid "Do not perform this replacement"
-msgstr ""
+msgstr "Nevykonať nahradenie"
 
 #: src/dialogs/search-replace.glade.h:7
 msgid "Error behavior"
-msgstr ""
+msgstr "Chovanie pri chybe"
 
 #: src/dialogs/search-replace.glade.h:8
 msgid "Fail without any changes actually being done to any cell"
-msgstr ""
+msgstr "Zlyhať bez zmien buniek"
 
 #: src/dialogs/search-replace.glade.h:9
 msgid "Ma_ke string value"
-msgstr ""
+msgstr "_Previesť na textovú hodnotu"
 
 #: src/dialogs/search-replace.glade.h:10
 msgid "Ma_tch whole words only"
-msgstr ""
+msgstr "_Len celé slová"
 
 #: src/dialogs/search-replace.glade.h:11 src/dialogs/search.glade.h:9
 msgid "Miscellaneous"
 msgstr "Rôzne"
 
 #: src/dialogs/search-replace.glade.h:12
-#, fuzzy
 msgid "Perform changes within cell comments"
-msgstr "Zarovná obsah buniek na stred"
+msgstr "Zmeny v rámci komentárov buniek"
 
 #: src/dialogs/search-replace.glade.h:13
 msgid "Perform changes within expressions"
-msgstr ""
+msgstr "Zmeny v rámci výrazov"
 
 #: src/dialogs/search-replace.glade.h:14
 msgid "Perform changes within non-string values"
-msgstr ""
+msgstr "Zmeny v rámci hodnôt, ktoré nie sú textové"
 
 #: src/dialogs/search-replace.glade.h:15
 msgid "Perform changes within string values"
-msgstr ""
+msgstr "Zmeny v rámci textových hodnôt"
 
 #: src/dialogs/search-replace.glade.h:16
 msgid "Perform no more replacements"
-msgstr ""
+msgstr "Už nerobiť ďalšie náhrady"
 
 #: src/dialogs/search-replace.glade.h:17
 msgid "Perform this replacement"
-msgstr ""
+msgstr "Vykonať túto náhradu"
 
 #: src/dialogs/search-replace.glade.h:18
 msgid "Query for replacement"
-msgstr ""
+msgstr "Pýtať sa pred náhradou"
 
 #: src/dialogs/search-replace.glade.h:19
-#, fuzzy
 msgid "Ra_nge"
-msgstr "Rozsah"
+msgstr "_Rozsah"
 
 #: src/dialogs/search-replace.glade.h:20
-#, fuzzy
 msgid "Re_gular expression"
-msgstr "Regresia"
+msgstr "Re_gulárny výraz"
 
 #: src/dialogs/search-replace.glade.h:21
 msgid "Scope"
-msgstr ""
+msgstr "Rozsah"
 
 #: src/dialogs/search-replace.glade.h:22
-#, fuzzy
 msgid "Search"
 msgstr "Hľadať"
 
 #: src/dialogs/search-replace.glade.h:24
-#, fuzzy
 msgid "Search and Replace Query"
-msgstr "Nájsť a nahradiť"
+msgstr "Otázka nájsť a nahradiť"
 
 #: src/dialogs/search-replace.glade.h:25
 msgid "Search and replace in all cells in the workbook"
-msgstr ""
+msgstr "Nájsť a nahradiť vo všetkých bunkách zošita"
 
 #: src/dialogs/search-replace.glade.h:26
 msgid "Search and replace in current sheet only"
-msgstr ""
+msgstr "Nájsť a nahradiť iba v aktuálnom liste"
 
 #: src/dialogs/search-replace.glade.h:27
 msgid "Search and replace in specified range only"
-msgstr ""
+msgstr "Nájsť a nahradiť iba v zadanom rozsahu buniek"
 
 #: src/dialogs/search-replace.glade.h:28 src/dialogs/search.glade.h:13
 msgid "Search column by column"
-msgstr ""
+msgstr "Hľadať stĺpec po stĺpci"
 
 #: src/dialogs/search-replace.glade.h:29 src/dialogs/search.glade.h:17
 msgid "Search line by line"
-msgstr ""
+msgstr "Hľadať riadok za riadkom"
 
 #: src/dialogs/search-replace.glade.h:30
 msgid "Skip cells that that would result in errors"
-msgstr ""
+msgstr "Preskočiť bunky, kde by bola výsledkom chyba"
 
 #: src/dialogs/search-replace.glade.h:31 src/dialogs/search.glade.h:21
-#, fuzzy
 msgid "The search text is a regular expression"
-msgstr "Cieľová bunky by mala obsahovať výraz"
+msgstr "Hľadaný text je regulárny výraz"
 
 #: src/dialogs/search-replace.glade.h:32 src/dialogs/search.glade.h:22
-#, fuzzy
 msgid "The search text is taken literal"
-msgstr "Neplatný rozsah hľadania."
+msgstr "Hľadaný text sa chápe tak, ako je"
 
 #: src/dialogs/search-replace.glade.h:33
 msgid "Turn unparsable entries into string values"
-msgstr ""
+msgstr "Previesť nespracovateľné položky na text"
 
 #: src/dialogs/search-replace.glade.h:34 src/dialogs/search.glade.h:23
 msgid "When set, do not distinguish between upper and lower case letters"
-msgstr ""
+msgstr "Ak je voľba zapnutí, nerozlišovať medzi veľkými a malými písmenami"
 
 #: src/dialogs/search-replace.glade.h:35 src/dialogs/search.glade.h:24
 msgid "_Advanced"
@@ -7036,7 +7014,7 @@ msgstr "_Pokročilé"
 
 #: src/dialogs/search-replace.glade.h:36
 msgid "_By"
-msgstr ""
+msgstr "Čí_m"
 
 #: src/dialogs/search-replace.glade.h:37
 msgid "_Column major"
@@ -7075,9 +7053,8 @@ msgid "_Location"
 msgstr "_Umiestnenie"
 
 #: src/dialogs/search-replace.glade.h:46
-#, fuzzy
 msgid "_Make error expression"
-msgstr "Neplatný výraz"
+msgstr "_Vytvoriť chybový výraz"
 
 #: src/dialogs/search-replace.glade.h:47 src/dialogs/search.glade.h:31
 msgid "_Normal"
@@ -7093,19 +7070,19 @@ msgstr "_Normálny text"
 
 #: src/dialogs/search-replace.glade.h:50
 msgid "_Preserve case"
-msgstr ""
+msgstr "_Zachovať veľkosť písmen"
 
 #: src/dialogs/search-replace.glade.h:51
 msgid "_Query"
-msgstr ""
+msgstr "_Otázka"
 
 #: src/dialogs/search-replace.glade.h:52
 msgid "_Replace by"
-msgstr ""
+msgstr "Na_hradiť čím"
 
 #: src/dialogs/search-replace.glade.h:53
 msgid "_Replacing"
-msgstr ""
+msgstr "Nahradzuje"
 
 #: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:36
 msgid "_Row major"
@@ -7205,23 +7182,23 @@ msgstr "Premenovať list"
 
 #: src/dialogs/solver.glade.h:1
 msgid "&gt;="
-msgstr ""
+msgstr "&gt;= "
 
 #: src/dialogs/solver.glade.h:2
 msgid "&lt;="
-msgstr ""
+msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
-msgstr ""
+msgstr "Predpokladať _lineárny model"
 
 #: src/dialogs/solver.glade.h:5
 msgid "Assume _Non-Negative"
-msgstr ""
+msgstr "Predpokladať _nezáporné"
 
 #: src/dialogs/solver.glade.h:6
 msgid "B_y Changing Cells: "
-msgstr ""
+msgstr "_Zmenou buniek:"
 
 #: src/dialogs/solver.glade.h:7 src/solver-lp.c:996 src/solver-lp.c:1130
 msgid "Constraints"
@@ -7229,72 +7206,63 @@ msgstr "Obmedzenia"
 
 #: src/dialogs/solver.glade.h:8
 msgid "Equal To:"
-msgstr ""
+msgstr "Rovnaké ako:"
 
 #: src/dialogs/solver.glade.h:10
-#, fuzzy
 msgid "M_in"
-msgstr "Min"
+msgstr "M_in"
 
 #: src/dialogs/solver.glade.h:11
 msgid "Parameters"
-msgstr ""
+msgstr "Parametre"
 
 #: src/dialogs/solver.glade.h:12
-#, fuzzy
 msgid "Reports"
-msgstr "body"
+msgstr "Reporty"
 
 #: src/dialogs/solver.glade.h:13
-#, fuzzy
 msgid "Solve"
-msgstr "_Riešiteľ..."
+msgstr "Riešiť"
 
 #: src/dialogs/solver.glade.h:14
-#, fuzzy
 msgid "Solver"
-msgstr "_Riešiteľ..."
+msgstr "Riešiteľ"
 
 #: src/dialogs/solver.glade.h:15
-#, fuzzy
 msgid "Subject to the Constraints:"
-msgstr "Obmedzenia:"
+msgstr "Obmedzenia použiť pre:"
 
 #: src/dialogs/solver.glade.h:17
-#, fuzzy
 msgid "_Answer"
-msgstr "_Pridať"
+msgstr "_Odpoveď"
 
 #: src/dialogs/solver.glade.h:18
-#, fuzzy
 msgid "_Change"
-msgstr "Rozsah"
+msgstr "_Zmena"
 
 #: src/dialogs/solver.glade.h:20
 msgid "_Left Hand Side:"
-msgstr ""
+msgstr "Ľa_vá strana:"
 
 #: src/dialogs/solver.glade.h:21
 msgid "_Limits"
-msgstr ""
+msgstr "_Limity"
 
 #: src/dialogs/solver.glade.h:22
-#, fuzzy
 msgid "_Max"
-msgstr "Max"
+msgstr "_Max"
 
 #: src/dialogs/solver.glade.h:23
 msgid "_Right Hand Side:"
-msgstr ""
+msgstr "_Pravá strana:"
 
 #: src/dialogs/solver.glade.h:24
-#, fuzzy
 msgid "_Sensitivity"
-msgstr "Správa o citlivosti"
+msgstr "_Citlivosť"
 
 #: src/dialogs/solver.glade.h:25
 msgid "_Set Target Cell:       "
-msgstr ""
+msgstr "_Nastaviť cieľovú bunku:"
 
 #: src/dialogs/solver.glade.h:26
 msgid "_Type:"
