@@ -18,6 +18,7 @@ Andreas:
 	* Port filter dialog to gnome2 using the expr-entry
 	  widget and improve filter mechanism
 	* Port the plugin manager dialog to gnome2
+	* Improve numerical precision in single factor ANOVA
 
 Jody:
 	* Initial port to gnome2.

@@ -1,5 +1,10 @@
 2002-02-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/analysis-tools.c (anova_single_factor_tool) : be more
+	  careful with precision.
+	
+2002-02-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/rangefuncs.c (range_sum) : improve precision through 2 pass
 	  algorithm
 	(range_sumsq) : ditto
