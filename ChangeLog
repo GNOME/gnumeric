@@ -1,3 +1,13 @@
+2003-12-24  Morten Welinder  <terra@gnome.org>
+
+	* src/io-context-gtk.c (cb_realize): Remove workaround for old
+	gtk.
+	* src/stf-parse.c (stf_parse_lines): Ditto.
+	* src/workbook-control-gui.c (wbcg_get_gtk_settings): Ditto.
+	(show_gui): Ditto.
+
+	* src/gui-util.c (gdk_cursor_new_from_pixbuf): Remove.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post BRANCH bump

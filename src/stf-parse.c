@@ -613,11 +613,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		}
 	}
 
-#ifdef HAVE_G_STRING_CHUNK_INSERT_LEN
 	res = g_string_chunk_insert_len (src->chunk, text->str, text->len);
-#else
-	res = g_string_chunk_insert (src->chunk, text->str);
-#endif
 	g_string_free (text, TRUE);
 
 	return res;
@@ -709,18 +705,9 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	        cur = g_utf8_next_char (cur);
 	}
 
-#ifdef HAVE_G_STRING_CHUNK_INSERT_LEN
 	res = g_string_chunk_insert_len (src->chunk,
 					 src->position,
 					 cur - src->position);
-#else
-	{
-		char save = *cur;
-		*(char *)cur = 0;  /* Ugh! */
-		res = g_string_chunk_insert (src->chunk, src->position);
-		*(char *)cur = save;
-	}
-#endif
 
 	src->position = cur;
 
@@ -850,19 +837,10 @@ stf_parse_lines (StfParseOptions_t *parseoptions,
 		while (1) {
 			int termlen = compare_terminator (data, parseoptions);
 			if (termlen > 0 || *data == 0) {
-#ifdef HAVE_G_STRING_CHUNK_INSERT_LEN
 				g_ptr_array_add (line,
 						 g_string_chunk_insert_len (lines_chunk,
 									    data0,
 									    data - data0));
-#else
-				char save = *data;
-				*(char *)data = 0;  /* Ugh! */
-				g_ptr_array_add (line,
-						 g_string_chunk_insert (lines_chunk,
-									data0));
-				*(char *)data = save;
-#endif
 				data += termlen;
 				break;
 			} else

@@ -4795,12 +4795,8 @@ cb_desktop_font_changed (GtkSettings *settings, GParamSpec  *pspec,
 static GtkSettings *
 wbcg_get_gtk_settings (WorkbookControlGUI *wbcg)
 {
-#ifdef HAVE_GTK_SETTINGS_GET_FOR_SCREEN
 	GdkScreen *screen = gtk_widget_get_screen (wbcg->table);
 	return gtk_settings_get_for_screen (screen);
-#else
-	return gtk_settings_get_default ();
-#endif
 }
 
 PangoFontDescription *
@@ -4962,19 +4958,13 @@ show_gui (WorkbookControlGUI *wbcg)
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	int sx, sy;
 	gdouble fx, fy;
-#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
 	GdkRectangle rect;
 
 	/* In a Xinerama setup, we want the geometry of the actual display
-	 * unit, if available. See bug 59902. This call was added for
-	 * gtk2.2*/
+	 * unit, if available. See bug 59902.  */
 	gdk_screen_get_monitor_geometry (wbcg->toplevel->screen, 0, &rect);
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
-#else
-	sx = MAX (gdk_screen_width  (), 600);
-	sy = MAX (gdk_screen_height (), 200);
-#endif
 
 	fx = gnm_app_prefs->horizontal_window_fraction;
 	fy = gnm_app_prefs->vertical_window_fraction;

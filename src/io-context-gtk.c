@@ -89,19 +89,13 @@ cb_realize (GtkWindow *window, void *dummy)
 	GdkWindowHints hints;
 	GtkAllocation *allocation;
 	GdkGeometry geom;
-#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
 	GdkRectangle rect;
 
 	/* In a Xinerama setup, we want the geometry of the actual display
-	 * unit, if available. See bug 59902. This call was added for
-	 * gtk2.2 */
+	 * unit, if available. See bug 59902.  */
 	gdk_screen_get_monitor_geometry (window->screen, 0, &rect);
 	sx = rect.width;
 	sy = rect.height;
-#else
-	sx = gdk_screen_width  ();
-	sy = gdk_screen_height ();
-#endif
 	allocation = &GTK_WIDGET (window)->allocation;
 	
 	geom.base_width = allocation->width;
