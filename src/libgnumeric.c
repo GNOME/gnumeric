@@ -237,7 +237,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 			    buf.st_mtime != -1 &&
 			    now - buf.st_mtime > days * 24 * 60 * 60) {
 				gnumeric_error_system (COMMAND_CONTEXT (wbc),
-						       _("Thank you for using Gnumeric\n"
+						       _("Thank you for using Gnumeric!\n"
 							 "\n"
 							 "The version of Gnumeric you are using is quite old\n"
 							 "by now.  It is likely that many bugs have been fixed\n"
