@@ -105,7 +105,18 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 	DialogState *dd = (DialogState *)_dd;
 	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (gtk_tree_view_get_model (dd->matches_table));
 	SearchFilterResult *item = g_ptr_array_index (dd->matches, row);
-	GnmCell *cell = item->cell;
+	GnmCell *cell;
+	GnmComment *comment;
+
+	if (item->locus == SRL_commment) {
+		cell = NULL;
+		comment = cell_has_comment_pos (item->ep.sheet, &item->ep.eval);
+	} else {
+		cell = sheet_cell_get (item->ep.sheet,
+				       item->ep.eval.col,
+				       item->ep.eval.row);
+		comment = NULL;
+	}
 
 	g_value_init (value, ll->column_headers[column]);
 
@@ -129,13 +140,15 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 			g_value_set_static_string (value, _("Result"));
 			return;
 		case SRL_contents: {
-			GnmValue *v = cell->value;
+			GnmValue *v = cell ? cell->value : NULL;
 			char const *type;
 
-			gboolean is_expr = cell_has_expr (cell);
+			gboolean is_expr = cell && cell_has_expr (cell);
 			gboolean is_value = !is_expr && !cell_is_empty (cell) && v;
 
-			if (is_expr)
+			if (!cell)
+				type = _("Deleted");
+			else if (is_expr)
 				type = _("Expression");
 			else if (is_value && v->type == VALUE_STRING)
 				type = _("String");
@@ -159,15 +172,22 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 	case COL_CONTENTS:
 		switch (item->locus) {
 		case SRL_commment:
-			g_value_set_string (value, cell_comment_text_get (item->comment));
+			if (comment)
+				g_value_set_string (value, cell_comment_text_get (comment));
+			else
+				g_value_set_static_string (value, _("Deleted"));
 			return;
 		case SRL_value:
-			g_value_take_string (value,
-				value_get_as_string (cell->value));
+			if (cell && cell->value)
+				g_value_take_string (value, value_get_as_string (cell->value));
+			else
+				g_value_set_static_string (value, _("Deleted"));
 			return;
 		case SRL_contents:
-			g_value_take_string (value,
-				cell_get_entered_text (cell));
+			if (cell)
+				g_value_take_string (value, cell_get_entered_text (cell));
+			else
+				g_value_set_static_string (value, _("Deleted"));
 			return;
 #ifndef DEBUG_SWITCH_ENUM
 	default:

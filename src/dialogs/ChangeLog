@@ -1,5 +1,10 @@
 2005-03-15  Morten Welinder  <terra@gnome.org>
 
+	* dialog-search.c (search_get_value): Reload cell and comment on
+	demand.
+
+2005-03-15  Morten Welinder  <terra@gnome.org>
+
 	* dialog-search.c (dialog_search): Don't install as guru.  Attach
 	signal to close dialog if workbook has sheets removed.  Allow more
 	than one search open at a time.

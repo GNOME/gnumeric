@@ -587,26 +587,20 @@ search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 		if (found) {
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
 			item->ep = *ep;
-			item->cell = cell_res.cell;
 			item->locus = SRL_contents;
-			item->comment = NULL;
 			g_ptr_array_add (result, item);
 		}
 
 		if (search_replace_value (sr, ep, &value_res)) {
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
 			item->ep = *ep;
-			item->cell = value_res.cell;
 			item->locus = SRL_value;
-			item->comment = NULL;
 			g_ptr_array_add (result, item);
 		}
 
 		if (search_replace_comment (sr, ep, FALSE, &comment_res)) {
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
 			item->ep = *ep;
-			item->cell = NULL;
-			item->comment = comment_res.comment;
 			item->locus = SRL_commment;
 			g_ptr_array_add (result, item);
 		}

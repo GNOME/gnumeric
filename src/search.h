@@ -87,8 +87,6 @@ void search_collect_cells_free (GPtrArray *cells);
 
 typedef struct {
 	GnmEvalPos ep;
-	GnmCell *cell;
-	GnmComment *comment;
 	SearchReplaceLocus locus;
 } SearchFilterResult;
 GPtrArray *search_filter_matching (GnmSearchReplace *sr, GPtrArray const *cells);
