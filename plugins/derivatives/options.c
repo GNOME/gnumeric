@@ -1607,7 +1607,7 @@ static char const *help_opt_on_options = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=OPT_ON_OPTIONS\n"
 
-	   "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike1,time1,time2,"
+	   "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,"
 	   "rate,cost_of_carry,volatility)\n"
 	   "@DESCRIPTION="
 	   "OPT_ON_OPTIONS models the theoretical price of options on options"
