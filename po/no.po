@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.54\n"
-"POT-Creation-Date: 2000-09-21 16:47+0200\n"
-"PO-Revision-Date: 2000-09-21 16:57+02:00\n"
+"POT-Creation-Date: 2000-09-21 20:25+0200\n"
+"PO-Revision-Date: 2000-09-21 21:05+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -260,6 +260,17 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 msgstr ""
+"@FUNCTION=NT_MU\n"
+"@SYNTAX=NT_MU(n)\n"
+"@DESCRIPTION=NT_MU-funksjonen (Mˆbius mu funksjonen) returnerer\n"
+"0 hvis @n er dividerbar med roten av et primtall.\n"
+"Ellers returnerer den:\n"
+"-1 hvis @n har et odde antall forskjellige primtallsfaktorer.\n"
+"1 hvis @n har et likt antall forskjellige primtallsfaktorer.\n"
+"Hvis @n=1 returnerer den 1\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:267
 msgid ""
@@ -571,11 +582,11 @@ msgstr "Importerer XBase filer"
 
 #: plugins/xml2/xml2.c:1448
 msgid "EXPERIMENTAL XML"
-msgstr ""
+msgstr "EKSPERIMENTELL XML"
 
 #: plugins/xml2/xml2.c:1449
 msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
+msgstr "Neste generasjon sax-basert xml IO-subsystem"
 
 #: plugins/xml2/xml2.c:1453
 msgid "EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"
@@ -679,7 +690,7 @@ msgstr "Morten Welinder, Gnumeric hacker."
 
 #: src/about.c:62
 msgid "Kenneth Christiansen, i18n, misc stuff."
-msgstr ""
+msgstr "Kenneth Christiansen, i18n, forskjellig."
 
 #: src/about.c:82 src/functions/fn-sheet.c:138
 msgid "Gnumeric"
@@ -2238,7 +2249,7 @@ msgstr "Innvendig"
 msgid "Inside Horizontal"
 msgstr "Innvendig horisontal"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:76 src/workbook-object-toolbar.c:169
 msgid "Line"
 msgstr "Linje"
 
@@ -2872,7 +2883,7 @@ msgstr "Manglende fil %s"
 
 #: src/dialogs/dialog-autoformat.c:1067
 msgid "An error occured while reading the category list"
-msgstr ""
+msgstr "En feil oppstod under lesing av kategori-listen"
 
 #: src/dialogs/dialog-autosave.c:136
 msgid "You should introduce a proper number of minutes in the entry."
@@ -14035,9 +14046,13 @@ msgstr "kopiÅÈr"
 msgid "cut"
 msgstr "klipp ut"
 
+#: src/sheet-object-widget.c:318 src/workbook-object-toolbar.c:153
+msgid "Button"
+msgstr "Knapp"
+
 #: src/sheet-object.c:752
 msgid "Configure"
-msgstr ""
+msgstr "KonfigurÈr"
 
 #: src/sheet-view.c:458
 #, c-format
@@ -14431,6 +14446,86 @@ msgstr "TÅ¯m bakgrunn"
 msgid "Foreground"
 msgstr "Forgrunn"
 
+#: src/workbook-object-toolbar.c:146
+msgid "Label"
+msgstr "Etikett"
+
+#: src/workbook-object-toolbar.c:146
+msgid "Creates a label"
+msgstr "Lager en etikett"
+
+#: src/workbook-object-toolbar.c:149
+msgid "Frame"
+msgstr "Ramme"
+
+#: src/workbook-object-toolbar.c:149
+msgid "Creates a frame"
+msgstr "Oppretter en ramme"
+
+#: src/workbook-object-toolbar.c:153
+msgid "Creates a button"
+msgstr "Lager en knapp"
+
+#: src/workbook-object-toolbar.c:156
+msgid "Checkbox"
+msgstr "Avkrysningsboks"
+
+#: src/workbook-object-toolbar.c:156
+msgid "Creates a checkbox"
+msgstr "Lager en avkrysningsboks"
+
+#: src/workbook-object-toolbar.c:159
+msgid "RadioButton"
+msgstr "Radioknapp"
+
+#: src/workbook-object-toolbar.c:159
+msgid "Creates a radio button"
+msgstr "Lager en radioknapp"
+
+#: src/workbook-object-toolbar.c:162
+msgid "List"
+msgstr "Liste"
+
+#: src/workbook-object-toolbar.c:162
+msgid "Creates a list"
+msgstr "Lager en liste"
+
+#: src/workbook-object-toolbar.c:165
+msgid "Combo"
+msgstr "Kombo"
+
+#: src/workbook-object-toolbar.c:165
+msgid "Creates a combobox"
+msgstr "Lager en komboboks"
+
+#: src/workbook-object-toolbar.c:169
+msgid "Creates a line object"
+msgstr "Lager et linjeobjekt"
+
+#: src/workbook-object-toolbar.c:172
+msgid "Arrow"
+msgstr "Pil"
+
+#: src/workbook-object-toolbar.c:172
+msgid "Creates an arrow object"
+msgstr "Lager et pilobjekt"
+
+#: src/workbook-object-toolbar.c:175
+msgid "Rectangle"
+msgstr "Rektangel"
+
+#: src/workbook-object-toolbar.c:175
+msgid "Creates a rectangle object"
+msgstr "Lager et rektangelobjekt"
+
+#: src/workbook-object-toolbar.c:178
+msgid "Ellipse"
+msgstr "Elipse"
+
+#: src/workbook-object-toolbar.c:178
+msgid "Creates an ellipse object"
+msgstr "Lager et elipseobjekt"
+
 #: src/workbook-view.c:71
 msgid "Nothing"
 msgstr "Ingenting"
@@ -14564,7 +14659,7 @@ msgstr "Velg mat_rise"
 
 #: src/workbook.c:1312
 msgid "Select an array of cells"
-msgstr ""
+msgstr "Velg en tabell med celler"
 
 #: src/workbook.c:1316
 msgid "Select _Depends"
@@ -14781,7 +14876,7 @@ msgstr "_Autoformat..."
 
 #: src/workbook.c:1527
 msgid "Format a region of cells according to a pre-defined template"
-msgstr ""
+msgstr "Formater et celleomrÂde i trÂd med en forhÂndsdefinert mal"
 
 #: src/workbook.c:1530
 msgid "_Workbook..."
@@ -14804,16 +14899,14 @@ msgid "Auto _Correct..."
 msgstr "Auto_korrigÈr..."
 
 #: src/workbook.c:1545
-#, fuzzy
 msgid "Automatically perform simple spell checking"
-msgstr "Automatisk utfÅ¯ring av  enkel stavekontroll"
+msgstr "Utf¯r enkel stavekontroll automatisk"
 
 #: src/workbook.c:1547
 msgid "_Auto Save..."
 msgstr "_Autolagre..."
 
 #: src/workbook.c:1548
-#, fuzzy
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatisk lagring av aktivt dokument med jevne mellomrom"
 
@@ -14854,9 +14947,8 @@ msgid "_Filter..."
 msgstr "_FiltrÈr..."
 
 #: src/workbook.c:1575
-#, fuzzy
 msgid "Filter data with given criteria"
-msgstr "FiltrÈr dato etter gitte kriterier"
+msgstr "FiltrÈr data etter gitte kriterier"
 
 #: src/workbook.c:1591
 msgid "_Insert"
@@ -15039,7 +15131,7 @@ msgstr "OmplassÈr ark"
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ugyldig xml data fra utklippstavlen. Treet er tomt ?"
 
-#: src/xml-io.c:3378
+#: src/xml-io-autoft.c:456 src/xml-io.c:3378
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Treet er tomt ?"
 
@@ -15050,6 +15142,10 @@ msgstr "Er ikke en Gnumeric arbeidsbok"
 #: src/xml-io.c:3445
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#: src/xml-io-autoft.c:467
+msgid "Is not an autoformat template file"
+msgstr "Er ikke en autoformat mal"
 
 #: src/gnumeric.xml:337
 msgid "~About this application"
@@ -15063,7 +15159,7 @@ msgstr "Auto_korrigÈr..."
 #: src/gnumeric.xml:301
 #, fuzzy
 msgid "~Automatically perform simple spell checking"
-msgstr "Automatisk utfÅ¯ring av  enkel stavekontroll"
+msgstr "Automatisk utf¯ring av  enkel stavekontroll"
 
 #: src/gnumeric.xml:305
 #, fuzzy
@@ -15768,378 +15864,3 @@ msgstr "_Arbeidsbok..."
 #, fuzzy
 msgid "~_Zoom..."
 msgstr "_Zoom..."
-
-#~ msgid ""
-#~ "None\n"
-#~ "Single\n"
-#~ "Double\n"
-#~ msgstr ""
-#~ "Ingen\n"
-#~ "Enkel\n"
-#~ "Dobbel\n"
-
-#~ msgid "0.0########"
-#~ msgstr "0.0########"
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "0.00"
-#~ msgstr "0.00"
-
-#~ msgid "#,##0"
-#~ msgstr "#,##0"
-
-#~ msgid "#,##0.00"
-#~ msgstr "#,##0.00"
-
-#~ msgid "#,##0_);(#,##0)"
-#~ msgstr "#,##0_);(#,##0)"
-
-#~ msgid "#,##0_);[Red](#,##0)"
-#~ msgstr "#,##0_);[Red](#,##0)"
-
-#~ msgid "#,##0.00_);(#,##0.00)"
-#~ msgstr "#,##0.00_);(#,##0.00)"
-
-#~ msgid "#,##0.00_);[Red](#,##0.00)"
-#~ msgstr "#,##0.00_);[Red](#,##0.00)"
-
-#~ msgid "0.0"
-#~ msgstr "0.0"
-
-#~ msgid "$#,##0"
-#~ msgstr "$#,##0"
-
-#~ msgid "$#,##0_);($#,##0)"
-#~ msgstr "$#,##0_);($#,##0)"
-
-#~ msgid "$#,##0_);[Red]($#,##0)"
-#~ msgstr "$#,##0_);[Red]($#,##0)"
-
-#~ msgid "$#,##0.00"
-#~ msgstr "$#,##0.00"
-
-#~ msgid "$#,##0.00_);($#,##0.00)"
-#~ msgstr "$#,##0.00_);($#,##0.00)"
-
-#~ msgid "$#,##0.00_);[Red]($#,##0.00)"
-#~ msgstr "$#,##0.00_);[Red]($#,##0.00)"
-
-#~ msgid "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"
-#~ msgstr "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"
-
-#~ msgid "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
-#~ msgstr "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
-
-#~ msgid "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
-#~ msgstr "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
-
-#~ msgid "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
-#~ msgstr "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
-
-#~ msgid "m/d/yy"
-#~ msgstr "m/d/yy"
-
-#~ msgid "m/d/yyyy"
-#~ msgstr "m/d/yyyy"
-
-#~ msgid "d-mmm-yy"
-#~ msgstr "d-mmm-yy"
-
-#~ msgid "d-mmm-yyyy"
-#~ msgstr "d-mmm-yyyy"
-
-#~ msgid "d-mmm"
-#~ msgstr "d-mmm"
-
-#~ msgid "d-mm"
-#~ msgstr "d-mm"
-
-#~ msgid "mmm/d"
-#~ msgstr "mmm/d"
-
-#~ msgid "mm/d"
-#~ msgstr "mm/d"
-
-#~ msgid "mm/dd/yy"
-#~ msgstr "mm/dd/yy"
-
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "mm/dd/yyyy"
-
-#~ msgid "mmm/dd/yy"
-#~ msgstr "mmm/dd/yy"
-
-#~ msgid "mmm/dd/yyyy"
-#~ msgstr "mmm/dd/yyyy"
-
-#~ msgid "mmm/ddd/yy"
-#~ msgstr "mmm/ddd/yy"
-
-#~ msgid "mmm/ddd/yyyy"
-#~ msgstr "mmm/ddd/yyyy"
-
-#~ msgid "mm/ddd/yy"
-#~ msgstr "mm/ddd/yy"
-
-#~ msgid "mm/ddd/yyyy"
-#~ msgstr "mm/ddd/yyyy"
-
-#~ msgid "mmm-yy"
-#~ msgstr "mmm-yy"
-
-#~ msgid "mmm-yyyy"
-#~ msgstr "mmm-yyyy"
-
-#~ msgid "mmmm-yy"
-#~ msgstr "mmmm-yy"
-
-#~ msgid "mmmm-yyyy"
-#~ msgstr "mmmm-yyyy"
-
-#~ msgid "m/d/yy h:mm"
-#~ msgstr "m/d/yy h:mm"
-
-#~ msgid "m/d/yyyy h:mm"
-#~ msgstr "m/d/yyyy h:mm"
-
-#~ msgid "yyyy/mm/d"
-#~ msgstr "yyyy/mm/d"
-
-#~ msgid "yyyy/mmm/d"
-#~ msgstr "yyyy/mmm/d"
-
-#~ msgid "yyyy/mm/dd"
-#~ msgstr "yyyy/mm/dd"
-
-#~ msgid "yyyy/mmm/dd"
-#~ msgstr "yyyy/mmm/dd"
-
-#~ msgid "yyyy-mm-d"
-#~ msgstr "yyyy-mm-d"
-
-#~ msgid "yyyy-mmm-d"
-#~ msgstr "yyyy-mmm-d"
-
-#~ msgid "yyyy-mm-dd"
-#~ msgstr "yyyy-mm-dd"
-
-#~ msgid "yyyy-mmm-dd"
-#~ msgstr "yyyy-mmm-dd"
-
-#~ msgid "yy"
-#~ msgstr "yy"
-
-#~ msgid "yyyy"
-#~ msgstr "yyyy"
-
-#~ msgid "h:mm AM/PM"
-#~ msgstr "h:mm AM/PM"
-
-#~ msgid "h:mm:ss AM/PM"
-#~ msgstr "h:mm:ss AM/PM"
-
-#~ msgid "h:mm"
-#~ msgstr "h:mm"
-
-#~ msgid "h:mm:ss"
-#~ msgstr "h:mm:ss"
-
-#~ msgid "mm:ss"
-#~ msgstr "mm:ss"
-
-#~ msgid "mm:ss.0"
-#~ msgstr "mm:ss.0"
-
-#~ msgid "[h]:mm:ss"
-#~ msgstr "[h]:mm:ss"
-
-#~ msgid "[h]:mm"
-#~ msgstr "[h]:mm"
-
-#~ msgid "[mm]:ss"
-#~ msgstr "[mm]:ss"
-
-#~ msgid "[ss]"
-#~ msgstr "[ss]"
-
-#~ msgid "0%"
-#~ msgstr "0%"
-
-#~ msgid "0.00%"
-#~ msgstr "0.00%"
-
-#~ msgid "# ?/?"
-#~ msgstr "# ?/?"
-
-#~ msgid "# ??/??"
-#~ msgstr "# ??/??"
-
-#~ msgid "0.00E+00"
-#~ msgstr "0.00E+00"
-
-#~ msgid "##0.0E+0"
-#~ msgstr "##0.0E+0"
-
-#~ msgid "/File/"
-#~ msgstr "/Fil/"
-
-#~ msgid "Button"
-#~ msgstr "Knapp"
-
-#~ msgid "I was not able to activate object %s"
-#~ msgstr "Kunne ikke aktivere objekt %s"
-
-#~ msgid "I was unable to the bind object"
-#~ msgstr "Kunne ikke binde objektet"
-
-#~ msgid "custom"
-#~ msgstr "egendefinert"
-
-#~ msgid "Custom Color:"
-#~ msgstr "Egendefinert farge:"
-
-#~ msgid "Choose Custom Color"
-#~ msgstr "Velg egendefinert farge"
-
-#~ msgid "light brown"
-#~ msgstr "lys brun"
-
-#~ msgid "brown gold"
-#~ msgstr "gyllen brun"
-
-#~ msgid "dark green #2"
-#~ msgstr "mÅ¯rk grÅ¯nn #2"
-
-#~ msgid "navy"
-#~ msgstr "marine"
-
-#~ msgid "dark blue"
-#~ msgstr "mÅ¯rk blÅÂ"
-
-#~ msgid "purple #2"
-#~ msgstr "lilla #2"
-
-#~ msgid "very dark gray"
-#~ msgstr "meget mÅ¯rk grÅÂ"
-
-#~ msgid "dark red"
-#~ msgstr "mÅ¯rk rÅ¯d"
-
-#~ msgid "red-orange"
-#~ msgstr "rÅ¯d-oransje"
-
-#~ msgid "gold"
-#~ msgstr "gyllen"
-
-#~ msgid "dark green"
-#~ msgstr "mÅ¯rk grÅ¯nn"
-
-#~ msgid "dull blue"
-#~ msgstr "slÅ¯v blÅÂ"
-
-#~ msgid "dull purple"
-#~ msgstr "slÅ¯v lilla"
-
-#~ msgid "dark grey"
-#~ msgstr "mÅ¯rk grÅÂ"
-
-#~ msgid "orange"
-#~ msgstr "oransje"
-
-#~ msgid "lime"
-#~ msgstr "lime"
-
-#~ msgid "dull green"
-#~ msgstr "slÅ¯v grÅ¯nn"
-
-#~ msgid "dull blue #2"
-#~ msgstr "slÅ¯v blÅÂ #2"
-
-#~ msgid "sky blue #2"
-#~ msgstr "himmelblÅÂ #2"
-
-#~ msgid "purple"
-#~ msgstr "lilla"
-
-#~ msgid "gray"
-#~ msgstr "grÅÂ"
-
-#~ msgid "bright orange"
-#~ msgstr "lys oransje"
-
-#~ msgid "bright blue"
-#~ msgstr "lys blÅÂ"
-
-#~ msgid "red purple"
-#~ msgstr "rÅ¯d-lilla"
-
-#~ msgid "light grey"
-#~ msgstr "lys grÅÂ"
-
-#~ msgid "pink"
-#~ msgstr "rosa"
-
-#~ msgid "light orange"
-#~ msgstr "lys oransje"
-
-#~ msgid "light yellow"
-#~ msgstr "lys gul"
-
-#~ msgid "light green"
-#~ msgstr "lys grÅ¯nn"
-
-#~ msgid "light cyan"
-#~ msgstr "lys cyan"
-
-#~ msgid "light blue"
-#~ msgstr "lys blÅÂ"
-
-#~ msgid "light purple"
-#~ msgstr "lys lilla"
-
-#~ msgid "purplish blue"
-#~ msgstr "purpur-blÅÂ"
-
-#~ msgid "dark purple"
-#~ msgstr "mÅ¯rk purpur"
-
-#~ msgid "sky blue"
-#~ msgstr "himmelblÅÂ"
-
-#~ msgid "_($* #,##0.00_);($* #,##0.00)"
-#~ msgstr "_($* #,##0.00_);($* #,##0.00)"
-
-#~ msgid "_Height"
-#~ msgstr "_H¯yde"
-
-#~ msgid "Creates a button"
-#~ msgstr "Lager en knapp"
-
-#~ msgid "Checkbox"
-#~ msgstr "Avkrysningsboks"
-
-#~ msgid "Creates a checkbox"
-#~ msgstr "Lager en avkrysningsboks"
-
-#~ msgid "Creates a line object"
-#~ msgstr "Lager et linjeobjekt"
-
-#~ msgid "Arrow"
-#~ msgstr "Pil"
-
-#~ msgid "Creates an arrow object"
-#~ msgstr "Lager et pilobjekt"
-
-#~ msgid "Rectangle"
-#~ msgstr "Rektangel"
-
-#~ msgid "Creates a rectangle object"
-#~ msgstr "Lager et rektangelobjekt"
-
-#~ msgid "Ellipse"
-#~ msgstr "Elipse"
-
-#~ msgid "Creates an ellipse object"
-#~ msgstr "Lager et elipseobjekt"

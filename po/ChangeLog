@@ -1,7 +1,10 @@
 2000-09-21  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.
-	
+	* POTFILES.in: Added some missing files.
+	* README.tools: Proofread.
+	* README.analysis: Same
+		
 2000-09-20  Kai Lahmann <kl@linuxfaqs.de>
 
 	* de.po: Updated German translation

@@ -1,11 +1,11 @@
-The po/ directory includes two perlscripts, which is done to help 
-making the translations fully uptodate.
+The po/ directory includes two perl scripts, which are here to help 
+make the translations fully up-to-date.
 
 The first script is called update.pl and is supposed to be run like this:
 
 	./update.pl [OPTIONS] ...LANGCODE
 
-This will updates the pot file (the po template, generated from the source code) 
+This will update the pot file (the po template, generated from the source code) 
 and merge them with the translations po files.
 
 For instance to do this for Danish, type the following
@@ -24,10 +24,11 @@ Especially the --maintain option is very handy for package maintainer, to check
 if you included all the files that have marked strings in the POTFILES.in, so
 they will be in the generated po template, the socalled pot file.
 
-There is though one thing to take notice of with this option, please check the 
-configure.in file to make sure that the files you add to POTFILES.in are being
-build, otherwise this can leed to "make dist" throuble.
-
+There is one thing to take notice of with this option though, please check the 
+Makefiles (Makefile.am) file to make sure that the files you add to POTFILES.in 
+are in the build, otherwise this can lead to "make dist" trouble. If the source-
+files aren't in the tarball after running 'make dist' the resulting tarball
+won't build.
 
 The other utility is the desk.pl script, which will check the cvs module for
 missing translation in files like *.desktop, *.directory, *.soundlist and so on.

@@ -127,6 +127,7 @@ src/print.c
 src/selection.c
 src/sheet-autofill.c
 src/sheet-object-container.c
+src/sheet-object-widget.c
 src/sheet-object.c
 src/sheet-view.c
 src/sheet.c
@@ -140,7 +141,9 @@ src/value.c
 src/widgets/widget-font-selector.c
 src/workbook-cmd-format.c
 src/workbook-format-toolbar.c
+src/workbook-object-toolbar.c
 src/workbook-view.c
 src/workbook-private.c
 src/workbook.c
 src/xml-io.c
+src/xml-io-autoft.c
