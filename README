@@ -34,8 +34,8 @@ You need:
 	libgnomeui	>= 2.0.0
 	libbonobo	>= 2.0.0
 	libbonoboui	>= 2.0.0
-	libgnomeprint	>= 2.0.0
-	libgnomeprintui	>= 2.0.0
+	libgnomeprint	>= 2.2.0
+	libgnomeprintui	>= 2.2.0
 	libgsf		>= 1.7.1
 	libglade	>= 2.0.0
 	intltools	>= 0.9
@@ -50,7 +50,6 @@ Currently Disabled
 	gb		== 0.0.17
 	guile		>= 1.5
 	guppi		>= 0.40.3
-	evolution	>= beta3
 
 Mailing lists
 -------------

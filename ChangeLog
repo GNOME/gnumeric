@@ -1,3 +1,11 @@
+2003-01-23  Jody Goldberg <jody@gnome.org>
+
+	For Murray Cumming  <murrayc@usa.net>
+	* configure.in: Now uses libgnomeprint*-2.2 instead of 2.0, for GNOME
+ 	2.2. It is an API-incompatible, parallel-installable separate library.
+ 	* src/print.c, src/dialogs/dialog-printer-setup.c:
+ 	Made code changes (search/replace) as per Chema's instructions.
+ 
 2003-01-23  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (table_cellregion_read): Initalize wb and

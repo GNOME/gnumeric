@@ -36,9 +36,10 @@
 #include <style.h>
 #include <gnumeric-gconf.h>
 
-#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-unit.h>
 #include <libgnomeprintui/gnome-print-paper-selector.h>
+#include <libgnomeprintui/gnome-print-unit-selector.h>
 
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
@@ -203,7 +204,7 @@ get_paper_pswidth (PrinterSetupState *state)
 {
 	double height;
 	double width;
-	if (gnome_print_master_get_page_size_from_config (state->pi->print_config, 
+	if (gnome_print_job_get_page_size_from_config (state->pi->print_config, 
 							  &width, &height))
 		return width;
 	else
@@ -221,7 +222,7 @@ get_paper_psheight (PrinterSetupState *state)
 {
 	double height;
 	double width;
-	if (gnome_print_master_get_page_size_from_config (state->pi->print_config, 
+	if (gnome_print_job_get_page_size_from_config (state->pi->print_config, 
 							  &width, &height))
 		return height;
 	else
@@ -1656,7 +1657,7 @@ do_fetch_page (PrinterSetupState *state)
 	double height;
 	double width;
 
-	if (gnome_print_master_get_page_size_from_config (state->pi->print_config, 
+	if (gnome_print_job_get_page_size_from_config (state->pi->print_config, 
 							  &width, &height) &&
 	    height > width) {
 		state->pi->orientation = PRINT_ORIENT_VERTICAL;

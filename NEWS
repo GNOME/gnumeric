@@ -31,6 +31,9 @@ Nicolas Peninguy :
 	http://bugzilla.gnome.org/show_bug.cgi?id=102236
 	* Decrease depenence on glibc regexp extensions.
 
+Murray Cumming :
+	* Port to the gnome-print-2.2 api.
+
 Theppitak Karoonboonyanan:
 	* Improve XIM support.
 

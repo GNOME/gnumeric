@@ -31,9 +31,9 @@
 #include "ranges.h"
 #include "style.h"
 
-#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-config.h>
-#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 
 /*
@@ -1191,7 +1191,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->current_output_sheet = 0;
 
 	/* Precompute information */
-	gnome_print_master_get_page_size_from_config (pj->pi->print_config,
+	gnome_print_job_get_page_size_from_config (pj->pi->print_config,
 						      &width, &height);
 	pj->width = width;
 	pj->height = height;
@@ -1232,7 +1232,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 {
 	PrintJobInfo *pj = NULL;
 	GtkWidget *gnome_print_dialog;
-	GnomePrintMaster *gpm = NULL;
+	GnomePrintJob *gpm = NULL;
 	int copies = 1;
 	int collate = FALSE;
  	int first = 1;
@@ -1313,8 +1313,8 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	print_job_info_save_one_time_defaults (pj);
 
-	gpm = gnome_print_master_new_from_config (print_config);
-	pj->print_context = gnome_print_master_get_context (gpm);
+	gpm = gnome_print_job_new (print_config);
+	pj->print_context = gnome_print_job_get_context (gpm);
 	pj->range = default_range;
 
 	/* perform actual printing */
@@ -1339,12 +1339,12 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		break;
   	}
 
-	gnome_print_master_close (gpm);
+	gnome_print_job_close (gpm);
 
 	if (preview)
-		gtk_widget_show ( gnome_print_master_preview_new (gpm, _("Print preview")));
+		gtk_widget_show ( gnome_print_job_preview_new (gpm, _("Print preview")));
 	else {
-		int result = gnome_print_master_print (gpm);
+		int result = gnome_print_job_print (gpm);
 		if (result == -1) {
 			/*
 			 * FIXME: not a great message, but at this point we don't

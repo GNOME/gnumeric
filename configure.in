@@ -48,8 +48,8 @@ libgnomecanvas-2.0 >= 1.113.0
 gal-2.0		>= 0.0.6
 libgnome-2.0	>= 1.105.0
 libgnomeui-2.0	>= 1.106.0
-libgnomeprint-2.0 >= 1.116.0
-libgnomeprintui-2.0 >= 1.116.0
+libgnomeprint-2.2 >= 1.116.0
+libgnomeprintui-2.2 >= 1.116.0
 "
 try_graphs=auto
 graph_msg="disabled by default"
