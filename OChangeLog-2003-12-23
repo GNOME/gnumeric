@@ -1,5 +1,13 @@
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/sheet-control-gui-priv.h : added label field
+	* src/workbook-control-gui.c (cb_sheet_name) : call
+	  editable_label_start_editing rather than dialog_sheet_name
+	(sheet_action_rename_sheet) : ditto
+	(wbcg_sheet_add) : store editable label ref for future ref
+	
+2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/commands.c : support tab color changes in cmd_reorganize_sheets
 	* src/commands.h (cmd_reorganize_sheets) : add arguments
 	* src/sheet.c (sheet_set_tab_color) : add third argument

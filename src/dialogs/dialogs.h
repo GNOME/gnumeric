@@ -48,7 +48,6 @@ void   	 dialog_autosave        (WorkbookControlGUI *wbcg);
 gboolean dialog_autosave_prompt (WorkbookControlGUI *wbcg);
 void     dialog_autoformat      (WorkbookControlGUI *wbcg);
 void     dialog_consolidate     (WorkbookControlGUI *wbcg, Sheet *sheet);
-void     dialog_sheet_name      (WorkbookControlGUI *wbcg);
 void     dialog_sheet_order     (WorkbookControlGUI *wbcg);
 gboolean dialog_get_number      (WorkbookControlGUI *wbcg,
 				 const char *glade_file,

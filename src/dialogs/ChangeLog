@@ -1,5 +1,13 @@
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-sheet-name.c : removed
+	* sheet-rename.glade : removed
+	* dialogs.h : removed ref to dialog_sheet_name
+	* Makefile.am : removed dialog-sheet-name.c and 
+	  sheet-rename.glade
+
+2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-sheet-order.c : support changes to tab colors.
 	* sheet-order.glade : rearrange to allow for color pickers
 

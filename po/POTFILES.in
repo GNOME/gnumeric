@@ -99,7 +99,6 @@ src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
-src/dialogs/dialog-sheet-name.c
 src/dialogs/dialog-sheet-order.c
 src/dialogs/dialog-simple-input.c
 src/dialogs/dialog-solver.c
@@ -142,7 +141,6 @@ src/dialogs/sampling.glade
 src/dialogs/search-replace.glade
 src/dialogs/search.glade
 src/dialogs/sheet-order.glade
-src/dialogs/sheet-rename.glade
 src/dialogs/solver.glade
 src/dialogs/summary.glade
 src/dialogs/tabulate.glade

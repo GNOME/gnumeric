@@ -47,7 +47,6 @@ base_files =					\
 	dialog-printer-setup.c			\
 	dialog-search.c				\
 	dialog-search-replace.c			\
-	dialog-sheet-name.c			\
 	dialog-sheet-order.c			\
 	dialog-simple-input.c			\
 	dialog-solver.c				\
@@ -117,7 +116,6 @@ glade_DATA = 				\
 	search.glade			\
 	search-replace.glade		\
 	sheet-order.glade		\
-	sheet-rename.glade		\
 	solver.glade			\
 	summary.glade			\
 	tabulate.glade			\

@@ -419,7 +419,7 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 static void
 sheet_action_rename_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
-	dialog_sheet_name (scg->wbcg);
+	editable_label_start_editing (EDITABLE_LABEL(scg->label));
 }
 
 static void
@@ -540,7 +540,6 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetControlGUI *scg;
 	SheetControl *sc;
-	GtkWidget *sheet_label;
 	GList     *ptr;
 
 	g_return_if_fail (wbcg != NULL);
@@ -557,24 +556,24 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	 * NB. this is so we can use editable_label_set_text since
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
 	 */
-	sheet_label = editable_label_new (sheet->name_unquoted,
+	scg->label = editable_label_new (sheet->name_unquoted,
 			sheet->tab_color ? &sheet->tab_color->color : NULL, 
 			sheet->tab_text_color ? &sheet->tab_text_color->color : NULL);
-	g_signal_connect_after (GTK_OBJECT (sheet_label),
+	g_signal_connect_after (GTK_OBJECT (scg->label),
 		"edit_finished",
 		G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
 
 	/* do not preempt the editable label handler */
-	g_signal_connect_after (G_OBJECT (sheet_label),
+	g_signal_connect_after (G_OBJECT (scg->label),
 		"button_press_event",
 		G_CALLBACK (cb_sheet_label_button_press), scg->table);
 
-	gtk_widget_show (sheet_label);
+	gtk_widget_show (scg->label);
 	gtk_widget_show_all (GTK_WIDGET (scg->table));
 
 	if (wbcg_ui_update_begin (wbcg)) {
 		gtk_notebook_insert_page (wbcg->notebook,
-			GTK_WIDGET (scg->table), sheet_label,
+			GTK_WIDGET (scg->table), scg->label,
 			sheet->index_in_wb);
 		wbcg_ui_update_end (wbcg);
 	}
@@ -2010,7 +2009,8 @@ cb_insert_comment (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_sheet_name (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_sheet_name (wbcg);
+	SheetControlGUI *scg = wbcg_cur_scg(wbcg);
+	editable_label_start_editing (EDITABLE_LABEL(scg->label));
 }
 
 static void

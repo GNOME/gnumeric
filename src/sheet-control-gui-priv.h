@@ -17,6 +17,7 @@ struct _SheetControlGUI {
 	GtkTable	*inner_table;
 	GtkTable	*corner;
 	GtkWidget	*select_all_btn;
+	GtkWidget       *label;
 	struct {
 		GPtrArray	*buttons;
 		GtkWidget	*button_box;
