@@ -2,7 +2,7 @@
 INCLUDES = -I$(top_srcdir)/src/cut-n-paste-code/goffice		\
 	   $(GNUMERIC_CFLAGS)
 
-check_PROGRAMS = test-ppt
+check_PROGRAMS = test-ppt dump-ppt-records
 
 ldadd =	$(top_builddir)/src/cut-n-paste-code/goffice/libpresent/libgoffice-libpresent.la	\
 	$(top_builddir)/src/cut-n-paste-code/goffice/ms-compat/libgoffice-ms-compat.la		\
@@ -13,5 +13,10 @@ test_ppt_LDADD			= $(ldadd)
 
 test_ppt_SOURCES =	\
 	test-ppt.c
+
+dump_ppt_records_LDADD			= $(ldadd)
+
+dump_ppt_records_SOURCES =	\
+	dump-ppt-records.c
 
 

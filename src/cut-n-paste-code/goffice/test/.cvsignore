@@ -5,3 +5,4 @@ Makefile
 *.lo
 *.loT
 test-ppt
+dump-ppt-records

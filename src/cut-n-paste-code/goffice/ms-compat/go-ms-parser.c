@@ -64,7 +64,7 @@ go_ms_parser_read (GsfInput   *input,
 	gsf_off_t position;
 
 	while (length > 0) {
-		GOMSParserRecordType type;
+		const GOMSParserRecordType *type;
 		GOMSParserRecord record;
 		guint i;
 
@@ -83,22 +83,24 @@ go_ms_parser_read (GsfInput   *input,
 		data = NULL;
 
 		/* Find type */
-		type = unknown_type;
+		type = &unknown_type;
 
 		for (i = 0; i < type_count; i++) {
 			if (types[i].typecode == record.opcode) {
-				type = types[i];
+				type = &types[i];
 				break;
 			}
 		}
 
+		record.type = type;
+
 		ERROR (record.length + 8 <= (stack ? ((GOMSParserRecord *) (stack->data))->length_remaining : length), "Length Error");
-		ERROR (type.min_record_size == -1 || ((guint32)type.min_record_size) <= record.length, "Length Error");
-		ERROR (type.max_record_size == -1 || ((guint32)type.max_record_size) >= record.length, "Length Error");
+		ERROR (type->min_record_size == -1 || ((guint32)type->min_record_size) <= record.length, "Length Error");
+		ERROR (type->max_record_size == -1 || ((guint32)type->max_record_size) >= record.length, "Length Error");
 
 		position = gsf_input_tell (input);
 
-		if (type.is_container) {
+		if (type->is_container) {
 			GOMSParserRecord *stack_item;
 			stack_item = g_new (GOMSParserRecord, 1);
 			*stack_item = record;
@@ -110,9 +112,9 @@ go_ms_parser_read (GsfInput   *input,
 
 			gsf_input_seek (input, position, G_SEEK_SET);
 		} else {
-			if (type.do_read) {
+			if (type->do_read) {
 				data = gsf_input_read (input, record.length, NULL);
-				ERROR (data, "Length Error");
+				ERROR (record.length == 0 || data, "Length Error");
 			}
 
 			if (callbacks && callbacks->handle_atom) {

@@ -35,6 +35,7 @@ typedef struct {
 	guint32 length;
 	guint32 length_remaining;
 	gpointer parse_state;
+	const GOMSParserRecordType *type;
 } GOMSParserRecord;
 
 /* stack is of type GOMSParserRecord */

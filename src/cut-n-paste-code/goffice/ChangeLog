@@ -1,5 +1,16 @@
 2004-03-18  Christopher James Lahey  <clahey@ximian.com>
 
+	* ms-compat/go-ms-parser.c, ms-compat/go-ms-parser.h
+	(go_ms_parser_read): Included the record type as a field in the
+	record structure.
+
+	* test/.cvsignore, test/Makefile.am: Added dump-ppt-records.
+
+	* test/dump-ppt-records.c: New test app to list all the records in
+	a ppt file.
+
+2004-03-18  Christopher James Lahey  <clahey@ximian.com>
+
 	* drawing/god-shape.c, drawing/god-shape.h: Each shape has an
 	anchor.  Added functions to get the children of a shape.
 
