@@ -2441,7 +2441,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 			current = current->next;
 		}
 	}
-	df_b = cols-1;
+	df_b = vars - 1;
 	df_w = n_total - vars;
 	df_t = n_total - 1;
 	ms_b = ssb / df_b;

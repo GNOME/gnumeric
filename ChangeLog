@@ -1,3 +1,8 @@
+2000-11-27  Morten Welinder  <terra@diku.dk>
+
+	* src/analysis-tools.c (anova_single_factor_tool): Apply the rest
+ 	of Christensens' patch.
+
 2000-11-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (workbook_view_init) : Init the format feedback.
@@ -49,11 +54,11 @@
 	Replaced ctime() with strftime() to display translated form of
 	plugin modification date.
 
-	* src/item-bar.c: (colrow_tip_setlabel): Translated (Polish) version
-	of string doesn't fit within "buffer". Dropped static array and used
-	dynamic memory allocation (g_strdup_printf).
-	(vertical_scroll_change, horizontal_scroll_change): It fits with Polish
-	translation but code is similar to the above.
+	* src/item-bar.c (colrow_tip_setlabel): Translated (Polish)
+ 	version of string doesn't fit within "buffer". Dropped static
+ 	array and used dynamic memory allocation (g_strdup_printf).
+	(vertical_scroll_change, horizontal_scroll_change): It fits with
+ 	Polish translation but code is similar to the above.
 
 2000-11-22  Zbigniew Chyla  <cyba@gnome.pl>
 
