@@ -26,6 +26,9 @@
 #define GO_COLOR_H
 
 #include <glib.h>
+#include <gtk/gtkwidget.h>
+#include <libart_lgpl/art_render.h>
+#include <libart_lgpl/art_svp.h>
 
 G_BEGIN_DECLS
 
@@ -98,6 +101,16 @@ UINT_TO_RGB((i), ((guchar*)p), ((guchar*)p)+1, ((guchar*)p)+2)
 #define PIXEL_WHITE(p) PIXEL_RGB(p,0xff,0xff,0xff)
 #define PIXEL_GREY(p,g) PIXEL_RGB(p,g,g,g)
 #define PIXEL_GREYA(p,g,a) PIXEL_RGBA(p,g,g,g,a)
+
+typedef guint32	GOColor;
+
+void go_color_to_artpix  (ArtPixMaxDepth *res, GOColor rgba);
+void go_color_render_svp (GOColor color, ArtSVP const *svp,
+			  int x0, int y0, int x1, int y1,
+			  art_u8 *buf, int rowstride);
+
+GOColor color_combo_get_gocolor (GtkWidget *cc); /* , GOColor default_val); */
+void    color_combo_set_gocolor (GtkWidget *cc, GOColor c);
 
 G_END_DECLS
 

@@ -127,7 +127,7 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 	/* no theme entry for this type */
 	g_return_if_fail (elem != NULL);
 
-	gog_style_copy (style, elem->style);
+	gog_style_assign (style, elem->style);
 	if (ind >= 0 && elem->map)
 		(elem->map) (style, ind);
 }
@@ -194,7 +194,7 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 	};
 	if (ind >= G_N_ELEMENTS (palette))
 		ind %= G_N_ELEMENTS (palette);
-	style->fill.u.solid.color = palette [ind];
+	style->fill.u.pattern.pat.back = palette [ind];
 
 	ind += 8;
 	if (ind >= G_N_ELEMENTS (palette))
@@ -217,7 +217,7 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 	};
 	if (ind >= G_N_ELEMENTS (palette))
 		ind %= G_N_ELEMENTS (palette);
-	style->fill.u.solid.color = palette [ind];
+	style->fill.u.pattern.pat.back = palette [ind];
 	style->line.color = palette [ind];
 }
 
@@ -237,9 +237,8 @@ gog_themes_init	(void)
 	/* graph */
 	style = gog_style_new ();
 	style->outline.width = -1;
-	style->fill.type = GOG_FILL_STYLE_SOLID;
-	style->fill.u.solid.is_auto = FALSE;
-	style->fill.u.solid.color = RGBA_WHITE;
+	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);
 
 	/* chart */
@@ -253,18 +252,13 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
-	style->fill.type = GOG_FILL_STYLE_SOLID;
-	style->fill.u.solid.is_auto = FALSE;
-	style->fill.u.solid.color = RGBA_WHITE;
+	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
 
 	/* series */
 	style = gog_style_new ();
-	style->outline.width = 0.; /* hairline */
 	style->outline.color = RGBA_BLACK;
-	style->line.width = 0.; /* hairline */
-	style->fill.type = GOG_FILL_STYLE_SOLID;
-	style->fill.u.solid.is_auto = TRUE;
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
 		map_area_series_solid_default, "GogSeries", NULL);
@@ -277,33 +271,29 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = -1;
 	style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	style->fill.u.gradient.dir   = GOG_GRADIENT_N_TO_S;
 	style->fill.u.gradient.start = RGBA_BLUE;
-	style->fill.u.gradient.end = RGBA_BLACK;
-	style->fill.u.gradient.type = GOG_GRADIENT_N_TO_S;
+	style->fill.u.gradient.end   = RGBA_BLACK;
 	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);
 
 	/* chart */
 	style = gog_style_new ();
-	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
 
 	/* legend */
 	style = gog_style_new ();
-	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
-	style->fill.u.solid.color = RGBA_GREY (0xB0);
+	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0xB0));
 	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
 
 	/* series */
 	style = gog_style_new ();
-	style->outline.width = 0.; /* hairline */
 	style->outline.color = RGBA_BLACK;
-	style->line.width = 0.; /* hairline */
-	style->fill.type = GOG_FILL_STYLE_SOLID;
-	style->fill.u.solid.is_auto = FALSE;
-	style->fill.u.solid.color = RGBA_GREY (0xB0);
+	style->fill.type = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0xB0));
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
 		map_area_series_solid_guppi, "GogSeries", NULL);

@@ -43,7 +43,7 @@
 #include "mathfunc.h"
 #include "hlink.h"
 #include "gnumeric-paths.h"
-#include <goffice/graph/lib.h>
+#include <goffice/goffice.h>
 
 #include <locale.h>
 #ifdef WITH_BONOBO

@@ -235,12 +235,10 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	if ((i * data->step) >= data->view->allocation.h)
 		return;
 
-	if (!gog_style_has_marker (base_style)) {
-		style = gog_style_dup (base_style);
-		style->outline.width = 0; /* hairline */
-		style->outline.color = RGBA_BLACK;
-	} else
-		style = (GogStyle *)base_style;
+#warning FIXME we need to delegate this to the plot to support colour gradients or area vs lines
+	style = gog_style_dup (base_style);
+	style->outline.width = 0; /* hairline */
+	style->outline.color = RGBA_BLACK;
 
 	swatch.y += i * data->step;
 	gog_renderer_push_style (data->view->renderer, style);

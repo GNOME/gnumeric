@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-styled-object.h : 
+ * lib.c
  *
  * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
  *
@@ -18,34 +18,37 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#ifndef GOG_STYLED_OBJECT_H
-#define GOG_STYLED_OBJECT_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-object.h>
+#include <gnumeric-config.h>
+#include <goffice/goffice.h>
+#include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-plot-engine.h>
+#include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-legend.h>
+#include <goffice/graph/gog-label.h>
+#include <goffice/graph/gog-theme.h>
 
-G_BEGIN_DECLS
+int goffice_graph_debug_level = 0;
 
-struct _GogStyledObject {
-	GogObject	base;
+void
+libgoffice_init (void)
+{
+	/* keep trigger happy linkers from leaving things out */
+	gog_plugin_services_init ();
+	(void) GOG_GRAPH_TYPE;
+	(void) GOG_CHART_TYPE;
+	(void) GOG_PLOT_TYPE;
+	(void) GOG_SERIES_TYPE;
+	(void) GOG_LEGEND_TYPE;
+	(void) GOG_AXIS_TYPE;
+	(void) GOG_LABEL_TYPE;
+	gog_themes_init	();
+}
 
-	GogStyle	*style;
-};
-
-typedef struct {
-	GogObjectClass base;
-
-	/* signal */
-	void (*style_changed) (GogStyledObject *obj, GogStyle const *new_style);
-} GogStyledObjectClass;
-
-#define GOG_STYLED_OBJECT_TYPE	(gog_styled_object_get_type ())
-#define GOG_STYLED_OBJECT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_STYLED_OBJECT_TYPE, GogStyledObject))
-#define IS_GOG_STYLED_OBJECT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_STYLED_OBJECT_TYPE))
-
-GType     gog_styled_object_get_type (void);
-GogStyle *gog_styled_object_get_style (GogStyledObject *obj);
-
-G_END_DECLS
-
-#endif /* GOG_STYLED_OBJECT_H */
+void
+libgoffice_shutdown (void)
+{
+}

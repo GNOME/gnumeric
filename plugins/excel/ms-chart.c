@@ -132,7 +132,7 @@ BC_R(color) (guint8 const *data, char const *type)
 {
 	guint32 const rgb = GSF_LE_GET_GUINT32 (data);
 
-	d (0, {
+	d (-1, {
 		guint16 const r = (rgb >>  0) & 0xff;
 		guint16 const g = (rgb >>  8) & 0xff;
 		guint16 const b = (rgb >> 16) & 0xff;
@@ -339,26 +339,30 @@ static gboolean
 BC_R(areaformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
+	guint16 const pattern = GSF_LE_GET_GUINT16 (q->data+8);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+10);
 	gboolean const auto_format = (flags & 0x01) ? TRUE : FALSE;
+	gboolean const invert_if_negative = flags & 0x02;
 
 	d (0, {
-	guint16 const pattern = GSF_LE_GET_GUINT16 (q->data+8);
-	gboolean const swap_color_for_negative = flags & 0x02;
-
-	fprintf (stderr, "pattern = %d;\n", pattern);
-	if (auto_format)
-		fputs ("Use auto format;", stderr);
-	if (swap_color_for_negative)
-		fputs ("Swap fore and back colours when displaying negatives;", stderr);
+		fprintf (stderr, "pattern = %d;\n", pattern);
+		if (auto_format)
+			fputs ("Use auto format;", stderr);
+		if (invert_if_negative)
+			fputs ("Swap fore and back colours when displaying negatives;", stderr);
 	});
 
 	/* These apply to frames also */
-	if (s->style != NULL && !auto_format) {
-		s->style->fill.type = GOG_FILL_STYLE_PATTERN;
-		s->style->fill.u.pattern.fore = BC_R(color) (q->data+0, "ForegroundColour");
-		s->style->fill.u.pattern.back = BC_R(color) (q->data+4, "BackgroundColour");
-	}
+	if (s->style == NULL)
+		return FALSE;
+
+	s->style->fill.type = GOG_FILL_STYLE_PATTERN;
+	s->style->fill.is_auto = auto_format;
+	s->style->fill.invert_if_negative = invert_if_negative;
+	s->style->fill.u.pattern.pat.pattern = pattern;
+	s->style->fill.u.pattern.pat.fore = BC_R(color) (q->data+0, "AreaFore");
+	s->style->fill.u.pattern.pat.back = BC_R(color) (q->data+4, "AreaBack");
+
 	return FALSE;
 }
 
@@ -658,7 +662,7 @@ BC_R(clrtclient)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
 	fputs ("Undocumented BIFF : clrtclient", stderr);
-	dump_biff(q);
+	dump_biff (q);
 	return FALSE;
 }
 /****************************************************************************/
@@ -951,7 +955,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const pattern = GSF_LE_GET_GUINT16 (q->data+4);
-	gint16 const weight = GSF_LE_GET_GUINT16 (q->data+6);
+	gint16  const weight = GSF_LE_GET_GUINT16 (q->data+6);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
 	gboolean	auto_format, draw_ticks;
 	MS_LINE_PATTERN pat;
@@ -964,13 +968,15 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	g_return_val_if_fail (weight < MS_LINE_WGT_MAX, TRUE);
 	g_return_val_if_fail (weight > MS_LINE_WGT_MIN, TRUE);
 	wgt = weight;
-	d (0, fprintf (stderr, "Lines are %s wide.\n", ms_line_wgt[wgt+1]););
 
+	d (0, fprintf (stderr, "Lines are %s wide.\n", ms_line_wgt[wgt+1]););
 	auto_format = (flags & 0x01) ? TRUE : FALSE;
 	draw_ticks = (flags & 0x04) ? TRUE : FALSE;
-
-	if (s->style != NULL)
-		s->style->line.color = BC_R(color) (q->data, "Colour");
+	if (s->currentSeries != NULL) {
+		BC_R(color) (q->data, "LineColour");
+		fprintf (stderr, "flag = %hx\n", flags);
+		dump_biff (q);
+	}
 
 	return FALSE;
 }

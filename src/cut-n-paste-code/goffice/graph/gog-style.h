@@ -22,6 +22,8 @@
 #define GO_GRAPH_STYLE_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/utils/go-color.h>
+#include <goffice/utils/go-pattern.h>
 #include <glib-object.h>
 #include <gtk/gtkwidget.h>
 #include <command-context.h>	/* for CommandContext */
@@ -37,80 +39,91 @@ GType gog_style_get_type (void);
 typedef enum {
 	GOG_STYLE_OUTLINE	= 1 << 0,
 	GOG_STYLE_FILL		= 1 << 1,
-	GOG_STYLE_MARKER	= 1 << 2,
-	GOG_STYLE_FONT		= 1 << 3
+	GOG_STYLE_LINE		= 1 << 2,
+	GOG_STYLE_MARKER	= 1 << 3,
+	GOG_STYLE_FONT		= 1 << 4
 } GogStyleFlag;
 typedef enum {
-	GOG_FILL_STYLE_NONE,
-	GOG_FILL_STYLE_SOLID,
-	GOG_FILL_STYLE_PATTERN,
-	GOG_FILL_STYLE_GRADIENT,
-	GOG_FILL_STYLE_IMAGE
+	GOG_FILL_STYLE_NONE	= 0,
+	GOG_FILL_STYLE_PATTERN	= 1,
+	GOG_FILL_STYLE_GRADIENT	= 2,
+	GOG_FILL_STYLE_IMAGE	= 3
 } GogFillStyle;
+
 typedef enum {
 	GOG_GRADIENT_N_TO_S,
+	GOG_GRADIENT_S_TO_N,
+	GOG_GRADIENT_N_TO_S_MIRRORED,
+	GOG_GRADIENT_S_TO_N_MIRRORED,
 	GOG_GRADIENT_W_TO_E,
+	GOG_GRADIENT_E_TO_W,
+	GOG_GRADIENT_W_TO_E_MIRRORED,
+	GOG_GRADIENT_E_TO_W_MIRRORED,
 	GOG_GRADIENT_NW_TO_SE,
-	GOG_GRADIENT_NE_TO_SW	
-} GogGradientType;
+	GOG_GRADIENT_SE_TO_NW,
+	GOG_GRADIENT_NW_TO_SE_MIRRORED,
+	GOG_GRADIENT_SE_TO_NW_MIRRORED,
+	GOG_GRADIENT_NE_TO_SW,
+	GOG_GRADIENT_SW_TO_NE,
+	GOG_GRADIENT_SW_TO_NE_MIRRORED	,
+	GOG_GRADIENT_NE_TO_SW_MIRRORED	
+} GogGradientDirection;
+
 typedef enum {
 	GOG_IMAGE_STRETCHED,
 	GOG_IMAGE_WALLPAPER,
 } GogImageType;
 
-typedef guint32	GOColor;
-
 struct _GogStyle {
 	GObject	base;
-	guint32	flags;
 
 	struct {
 		/* <0 == no outline,
-		 * =0 == hairline (no scale 1 unit)
+		 * =0 == hairline : unscaled, minimum useful (can be bigger than visible) size.
 		 * >0 in pts */
 		float	 width;
 		GOColor	 color;
-		gboolean is_auto;
+		gboolean auto_color;
 		/* border type from gnumeric */
-	} outline;
+	} outline, line;
 	struct {
-		GogFillStyle type;
+		GogFillStyle	type;
+		gboolean	is_auto;
+		gboolean	invert_if_negative; /* placeholder for XL */
 		union {
 			struct {
-				gboolean is_auto;
-				GOColor color;
-			} solid;
-			struct {
-				gboolean is_auto;
-				GOColor	fore, back;
-				/* pattern from gnumeric */
+				GOPattern pat;
 			} pattern;
 			struct {
-				GOColor	start, end;
-				GogGradientType type;/* direction as enum or vector ? */
+				GogGradientDirection dir;
+				GOColor	start;
+				GOColor end;
+				float   brightness; /* < 0 == 2 color */
 			} gradient;
 			struct {
-				char *image_file;
 				GogImageType type;
-				/* ? */
+				char *image_file; /* should be a pixbuf */
 			} image;
 		} u;
 	} fill;
 	struct {
-		gboolean is_auto;
 		GOColor	fore, back;
+		/* GOMarker mark */
+		float size;
+		struct {
+			gboolean fore, back, mark;
+		} is_auto;
 	} marker;
 	struct {
-		float	 width;
-		GOColor	 color;
-		gboolean is_auto;
-	} line;
+		PangoFontDescription *desc;
+		gboolean auto_scale;
+	} font;
 };
 
 GogStyle  *gog_style_new		(void);
 GogStyle  *gog_style_dup		(GogStyle const *style);
-void	   gog_style_copy		(GogStyle *dst, GogStyle const *src);
-gboolean   gog_style_has_marker		(GogStyle const *style);
+void	   gog_style_assign		(GogStyle *dst, GogStyle const *src);
+void	   gog_style_merge		(GogStyle *dst, GogStyle const *src);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 
 GtkWidget *gog_style_editor		(GogObject *obj, CommandContext *cc,
@@ -126,10 +139,6 @@ GogSeriesElementStyleList *gog_series_element_style_list_copy (GogSeriesElementS
 GogSeriesElementStyleList *gog_series_element_style_list_add  (GogSeriesElementStyleList *list,
 							       unsigned i,
 							       GogStyle *style);
-
-/* Some utils that belong in ColorCombo */
-GOColor color_combo_get_gocolor (GtkWidget *cc);
-void    color_combo_set_gocolor (GtkWidget *cc, GOColor c);
 
 G_END_DECLS
 

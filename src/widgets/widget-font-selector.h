@@ -23,6 +23,7 @@ void font_selector_set_underline   (FontSelector *fs, StyleUnderlineType sut);
 void font_selector_set_strike      (FontSelector *fs, gboolean strikethrough);
 void font_selector_set_color       (FontSelector *fs, StyleColor *color);
 void font_selector_set_points      (FontSelector *fs, double point_size);
+void font_selector_set_from_pango  (FontSelector *fs, PangoFontDescription const *desc);
 void font_selector_editable_enters (FontSelector *fs, GtkWindow *dialog);
 
 #endif /* GNUMERIC_WIDGET_FONT_SELECTOR_H */

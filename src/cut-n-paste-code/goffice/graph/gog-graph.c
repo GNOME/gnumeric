@@ -185,7 +185,7 @@ gog_graph_class_init (GogGraphClass *klass)
 	gog_klass->view_type	= gog_graph_view_get_type ();
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
-	gog_graph_signals [GRAPH_ADD_DATA] = g_signal_new ("add_data",
+	gog_graph_signals [GRAPH_ADD_DATA] = g_signal_new ("add-data",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GogGraphClass, add_data),
@@ -194,7 +194,7 @@ gog_graph_class_init (GogGraphClass *klass)
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
 
-	gog_graph_signals [GRAPH_REMOVE_DATA] = g_signal_new ("remove_data",
+	gog_graph_signals [GRAPH_REMOVE_DATA] = g_signal_new ("remove-data",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GogGraphClass, remove_data),

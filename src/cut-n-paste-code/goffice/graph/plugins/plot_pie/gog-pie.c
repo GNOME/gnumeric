@@ -258,7 +258,7 @@ gog_ring_plot_get_property (GObject *obj, guint param_id,
 static char const *
 gog_ring_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
-	return "PlotRing";
+	return N_("PlotRing");
 }
 
 extern gpointer gog_ring_plot_pref (GogRingPlot *ring, CommandContext *cc);
@@ -292,6 +292,7 @@ gog_ring_plot_class_init (GogPiePlotClass *pie_plot_klass)
 
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
+	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
 }
 
 static void

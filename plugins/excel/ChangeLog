@@ -1,3 +1,7 @@
+2003-08-09  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(areaformat)) : use the new GogStyle extensions.
+
 2003-07-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* ms-excel-read.c (excel_workbook_destroy): remove last argument

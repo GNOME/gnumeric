@@ -33,7 +33,6 @@
 #include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
-static GogObjectClass *line_parent_klass;
 static GType gog_line_view_get_type (void);
 
 static char const *
@@ -91,11 +90,12 @@ static void
 gog_line_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *) gog_plot_1_5d_klass;
-
-	line_parent_klass = g_type_class_peek_parent (gog_plot_1_5d_klass);
+	GogPlotClass *plot_klass = (GogPlotClass *) gog_plot_1_5d_klass;
 
 	gog_klass->type_name	= gog_line_plot_type_name;
 	gog_klass->view_type	= gog_line_view_get_type ();
+
+	plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
 
 	gog_plot_1_5d_klass->update_stacked_and_percentage =
 		gog_line_update_stacked_and_percentage;
@@ -119,6 +119,10 @@ gog_area_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 static void
 gog_area_plot_class_init (GogObjectClass *gog_klass)
 {
+	GogPlotClass *plot_klass = (GogPlotClass *) gog_klass;
+
+	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+
 	gog_klass->type_name	= gog_area_plot_type_name;
 }
 GSF_CLASS (GogAreaPlot, gog_area_plot,

@@ -295,7 +295,7 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 			"Logical height of the drawing area in pts",
 			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
 
-	renderer_signals [RENDERER_SIGNAL_REQUEST_UPDATE] = g_signal_new ("request_update",
+	renderer_signals [RENDERER_SIGNAL_REQUEST_UPDATE] = g_signal_new ("request-update",
 		G_TYPE_FROM_CLASS (renderer_klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GogRendererClass, request_update),

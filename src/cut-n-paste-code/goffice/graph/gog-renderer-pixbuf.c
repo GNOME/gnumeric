@@ -31,7 +31,6 @@
 #include <libart_lgpl/art_render_svp.h>
 #include <libart_lgpl/art_render_mask.h>
 #include <pango/pangoft2.h>
-#include "art_rgba_svp.h"
 #include <gsf/gsf-impl-utils.h>
 
 #include <math.h>
@@ -79,25 +78,10 @@ gog_renderer_pixbuf_draw_path (GogRenderer *renderer, ArtVpath *path)
 	ArtSVP *svp = art_svp_vpath_stroke (path,
 		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
 		width, 4, 0.5);
-	art_rgba_svp_alpha (svp,
+	go_color_render_svp (style->line.color, svp,
 		0, 0, prend->w, prend->h,
-		style->line.color,
-		prend->pixels, prend->rowstride,
-		NULL);
+		prend->pixels, prend->rowstride);
 	art_svp_free (svp);
-}
-
-void
-go_color_to_artpix (ArtPixMaxDepth *res, GOColor rgba)
-{
-	guint8 r = UINT_RGBA_R (rgba);
-	guint8 g = UINT_RGBA_G (rgba);
-	guint8 b = UINT_RGBA_B (rgba);
-	guint8 a = UINT_RGBA_A (rgba);
-	res[0] = ART_PIX_MAX_FROM_8 (r);
-	res[1] = ART_PIX_MAX_FROM_8 (g);
-	res[2] = ART_PIX_MAX_FROM_8 (b);
-	res[3] = ART_PIX_MAX_FROM_8 (a);
 }
 
 static ArtRender *
@@ -142,15 +126,12 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 #endif
 
 		switch (style->fill.type) {
-		case GOG_FILL_STYLE_SOLID:
-			art_rgba_svp_alpha (fill, 0, 0, prend->w, prend->h,
-				style->fill.u.solid.color,
-				prend->pixels, prend->rowstride, NULL);
+		case GOG_FILL_STYLE_PATTERN:
+			go_pattern_render_svp (&style->fill.u.pattern.pat,
+				fill, 0, 0, prend->w, prend->h,
+				prend->pixels, prend->rowstride);
 			break;
 
-		case GOG_FILL_STYLE_PATTERN:
-			g_warning ("unimplemented");
-			break;
 		case GOG_FILL_STYLE_GRADIENT: {
 			double dx, dy;
 
@@ -160,44 +141,73 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 
 			render = gog_art_renderer_new (prend);
 			art_render_svp (render, fill);
-			switch (style->fill.u.gradient.type) {
-			case GOG_GRADIENT_N_TO_S:
+			if (style->fill.u.gradient.dir < 4) {
 				gradient.a = 0.;
 				gradient.b = 1. / (dy ? dy : 1);
 				gradient.c = -(gradient.a * bbox.x0 + gradient.b * bbox.y0);
-				break;
-			case GOG_GRADIENT_W_TO_E:
+			} else if (style->fill.u.gradient.dir < 8) {
 				gradient.a = 1. / (dx ? dx : 1);
 				gradient.b = 0.;
 				gradient.c = -(gradient.a * bbox.x0 + gradient.b * bbox.y0);
-				break;
-			case GOG_GRADIENT_NW_TO_SE: {
+			} else if (style->fill.u.gradient.dir < 12) {
 				double d = dx * dx + dy * dy;
 				if (!d) d = 1;
 				gradient.a = dx / d;
 				gradient.b = dy / d;
 				gradient.c = -(gradient.a * bbox.x0 + gradient.b * bbox.y0);
-				break;
-			}
-			case GOG_GRADIENT_NE_TO_SW: {
+			} else {
 				double d = dx * dx + dy * dy;
 				if (!d) d = 1;
 				gradient.a = -dx / d;
 				gradient.b = dy / d;
 				/* Note: this gradient is anchored at (x1,y0).  */
 				gradient.c = -(gradient.a * bbox.x1 + gradient.b * bbox.y0);
+			}
+
+			switch (style->fill.u.gradient.dir % 4) {
+			case 0:
+				gradient.spread = ART_GRADIENT_REPEAT;
+				gradient.n_stops = G_N_ELEMENTS (stops);
+				gradient.stops = stops;
+				go_color_to_artpix (stops[0].color,
+							style->fill.u.gradient.start);
+				go_color_to_artpix (stops[1].color,
+							style->fill.u.gradient.end);
+				break;
+			case 1:
+				gradient.spread = ART_GRADIENT_REPEAT;
+				gradient.n_stops = G_N_ELEMENTS (stops);
+				gradient.stops = stops;
+				go_color_to_artpix (stops[0].color,
+							style->fill.u.gradient.end);
+				go_color_to_artpix (stops[1].color,
+							style->fill.u.gradient.start);
+				break;
+			case 2:
+				gradient.spread = ART_GRADIENT_REFLECT;
+				gradient.n_stops = G_N_ELEMENTS (stops);
+				gradient.stops = stops;
+				go_color_to_artpix (stops[0].color,
+							style->fill.u.gradient.start);
+				go_color_to_artpix (stops[1].color,
+							style->fill.u.gradient.end);
+				gradient.a *= 2;
+				gradient.b *= 2;
+				gradient.c *= 2;
+				break;
+			case 3:
+				gradient.spread = ART_GRADIENT_REFLECT;
+				gradient.n_stops = G_N_ELEMENTS (stops);
+				gradient.stops = stops;
+				go_color_to_artpix (stops[0].color,
+							style->fill.u.gradient.end);
+				go_color_to_artpix (stops[1].color,
+							style->fill.u.gradient.start);
+				gradient.a *= 2;
+				gradient.b *= 2;
+				gradient.c *= 2;
 				break;
 			}
-			}
-
-			gradient.spread = ART_GRADIENT_REPEAT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-
-			go_color_to_artpix (stops[0].color,
-					    style->fill.u.gradient.start);
-			go_color_to_artpix (stops[1].color,
-					    style->fill.u.gradient.end);
 
 			art_render_gradient_linear (render,
 				&gradient, ART_FILTER_NEAREST);
@@ -205,27 +215,32 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 			break;
 		}
 
-		case GOG_FILL_STYLE_IMAGE:
+		case GOG_FILL_STYLE_IMAGE: {
 			if (!style->fill.u.image.image_file)
 				break;
+			
+			double dx, dy;
+			art_vpath_bbox_drect (path, &bbox);
+			dx = bbox.x1 - bbox.x0;
+			dy = bbox.y1 - bbox.y0;
 			image = gdk_pixbuf_new_from_file (style->fill.u.image.image_file, &err);
 			if (err != NULL)
 				break;
 			switch (style->fill.u.image.type) {
 			case GOG_IMAGE_STRETCHED:
-				gdk_pixbuf_scale(image, prend->buffer,
-					0, 0, prend->w, prend->h, 0, 0,
-					(double)prend->w / gdk_pixbuf_get_width (image),
-					(double)prend->h / gdk_pixbuf_get_height (image),
-					GDK_INTERP_HYPER);
+				gdk_pixbuf_composite (image, prend->buffer,
+					bbox.x0, bbox.y0, dx, dy, bbox.x0, bbox.y0,
+					dx / gdk_pixbuf_get_width (image),
+					dy / gdk_pixbuf_get_height (image),
+					GDK_INTERP_HYPER, 255);
 				break;
 
 			case GOG_IMAGE_WALLPAPER:
-				imax = prend->w / (w = gdk_pixbuf_get_width (image));
-				jmax = prend->h / (h = gdk_pixbuf_get_height (image));
-				x = 0;
+				imax = dx / (w = gdk_pixbuf_get_width (image));
+				jmax = dy / (h = gdk_pixbuf_get_height (image));
+				x = bbox.x0;
 				for (i = 0; i < imax; i++) {
-					y = 0;
+					y = bbox.y0;
 					for (j = 0; j < jmax; j++) {
 						gdk_pixbuf_copy_area (image, 0, 0, w, h,
 								      prend->buffer, x, y);
@@ -235,13 +250,13 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 							      prend->h % h, prend->buffer, x, y);
 					x += w;
 				}
-				y = 0;
+				y = bbox.y0;
 				for (j = 0; j < jmax; j++) {
-					gdk_pixbuf_copy_area (image, 0, 0, prend->w % w, h,
+					gdk_pixbuf_copy_area (image, 0, 0, (int)dx % w, h,
 							      prend->buffer, x, y);
 					y += h;
 				}
-				gdk_pixbuf_copy_area (image, 0, 0, prend->w % w, prend->h % h,
+				gdk_pixbuf_copy_area (image, 0, 0, (int)dx % w, (int)dy % h,
 						      prend->buffer, x, y);
 				break;
 			}
@@ -249,6 +264,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 			g_object_unref (image);
 
 			break;
+		}
 
 		case GOG_FILL_STYLE_NONE:
 			break; /* impossible */
@@ -258,11 +274,9 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 	}
 
 	if (outline != NULL) {
-		art_rgba_svp_alpha (outline,
+		go_color_render_svp (style->outline.color, outline,
 			0, 0, prend->w, prend->h,
-			style->outline.color,
-			prend->pixels, prend->rowstride,
-			NULL);
+			prend->pixels, prend->rowstride);
 		art_svp_free (outline);
 	}
 }

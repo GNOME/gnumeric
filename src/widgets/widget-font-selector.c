@@ -502,6 +502,16 @@ font_selector_set_points (FontSelector *fs,
 }
 
 void
+font_selector_set_from_pango (FontSelector *fs, PangoFontDescription const *desc)
+{
+	font_selector_set_name (fs, pango_font_description_get_family (desc));
+	font_selector_set_style (fs,
+		pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD,
+		pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL);
+	font_selector_set_points (fs, pango_font_description_get_size (desc));
+}
+
+void
 font_selector_editable_enters (FontSelector *fs, GtkWindow *dialog)
 {
 	gnumeric_editable_enters (dialog,

@@ -33,6 +33,11 @@ enum {
 	STYLED_OBJECT_PROP_STYLE
 };
 
+enum {
+	STYLE_CHANGED,
+	LAST_SIGNAL
+};
+static gulong gog_styled_object_signals [LAST_SIGNAL] = { 0, };
 static GObjectClass *parent_klass;
 
 static void
@@ -49,6 +54,8 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 		style = g_value_get_object (value);
 		if (gso->style == style)
 			return;
+		g_signal_emit (G_OBJECT (obj),
+			gog_styled_object_signals [STYLE_CHANGED], 0, style);
 		resize = gog_style_is_different_size (gso->style, style);
 		if (style != NULL)
 			g_object_ref (style);
@@ -111,6 +118,15 @@ static void
 gog_styled_object_class_init (GogObjectClass *gog_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
+
+	gog_styled_object_signals [STYLE_CHANGED] = g_signal_new ("style-changed",
+		G_TYPE_FROM_CLASS (gog_klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GogStyledObjectClass, style_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE,
+		1, G_TYPE_OBJECT);
 
 	parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->set_property = gog_styled_object_set_property;

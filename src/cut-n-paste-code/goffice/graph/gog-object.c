@@ -77,7 +77,7 @@ gog_object_class_init (GObjectClass *klass)
 	klass->finalize = gog_object_finalize;
 	gog_klass->parent_changed = gog_object_parent_changed;
 
-	gog_object_signals [CHILD_ADDED] = g_signal_new ("child_added",
+	gog_object_signals [CHILD_ADDED] = g_signal_new ("child-added",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GogObjectClass, child_added),
@@ -85,7 +85,7 @@ gog_object_class_init (GObjectClass *klass)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
-	gog_object_signals [CHILD_REMOVED] = g_signal_new ("child_removed",
+	gog_object_signals [CHILD_REMOVED] = g_signal_new ("child-removed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GogObjectClass, child_removed),
@@ -102,7 +102,7 @@ gog_object_class_init (GObjectClass *klass)
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
 
-	gog_object_signals [NAME_CHANGED] = g_signal_new ("name_changed",
+	gog_object_signals [NAME_CHANGED] = g_signal_new ("name-changed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GogObjectClass, name_changed),

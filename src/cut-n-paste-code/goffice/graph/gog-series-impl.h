@@ -45,6 +45,7 @@ struct _GogSeriesDimDesc {
 };
 
 struct _GogSeriesDesc {
+	guint32	 style_fields;
 	unsigned num_dim;
 	GogSeriesDimDesc const *dim;
 };

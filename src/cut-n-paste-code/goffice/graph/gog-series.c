@@ -131,7 +131,7 @@ gog_series_editor (GogObject *gobj,
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (w), GTK_WIDGET (table),
 		gtk_label_new (_("Data")));
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (w),
-		gog_style_editor (gobj, cc, GOG_STYLE_OUTLINE | GOG_STYLE_FILL),
+		gog_style_editor (gobj, cc, desc->style_fields),
 		gtk_label_new (_("Style")));
 	return w;
 }

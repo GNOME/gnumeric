@@ -1,18 +1,9 @@
 SUBDIRS = plugins # tests
 
-noinst_LIBRARIES = libgoffice-graph.a
+noinst_LTLIBRARIES = libgoffice-graph.la
 
-# prune this when the code moves
-INCLUDES = -I$(top_srcdir) 					\
-	   -I$(top_srcdir)/src 					\
-	   -I$(top_srcdir)/src/cut-n-paste-code			\
-	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
-	    $(GNUMERIC_CFLAGS)
-
-libgoffice_graph_a_SOURCES = \
+libgoffice_graph_la_SOURCES = \
 	goffice-graph.h			\
-	lib.c				\
-	lib.h				\
 	gog-object.c			\
 	gog-object.h			\
 	gog-object-xml.c		\
@@ -67,10 +58,7 @@ libgoffice_graph_a_SOURCES = \
 	gog-control-foocanvas.c		\
 	gog-control-foocanvas.h		\
 	gog-renderer-gnome-print.c	\
-	gog-renderer-gnome-print.h	\
-	\
-	art_rgba_svp.h			\
-	art_rgba_svp.c
+	gog-renderer-gnome-print.h
 
 
 gnumeric_glade_DATA = \
@@ -78,3 +66,11 @@ gnumeric_glade_DATA = \
 	gog-style-prefs.glade
 
 EXTRA_DIST = $(gnumeric_glade_DATA)
+
+# prune this when the code moves
+INCLUDES = -I$(top_srcdir) 					\
+	   -I$(top_srcdir)/src 					\
+	   -I$(top_srcdir)/src/cut-n-paste-code			\
+	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
+	    $(GNUMERIC_CFLAGS)
+

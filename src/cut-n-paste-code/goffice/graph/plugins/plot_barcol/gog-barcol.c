@@ -39,7 +39,6 @@ enum {
 	BARCOL_PROP_HORIZONTAL
 };
 
-static GogObjectClass *barcol_parent_klass;
 static GType gog_barcol_view_get_type (void);
 
 static void
@@ -151,10 +150,10 @@ gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 static void
 gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 {
-	GObjectClass *gobject_klass = (GObjectClass *) gog_plot_1_5d_klass;
+	GObjectClass   *gobject_klass = (GObjectClass *) gog_plot_1_5d_klass;
 	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_1_5d_klass;
+	GogPlotClass   *plot_klass = (GogPlotClass *) gog_plot_1_5d_klass;
 
-	barcol_parent_klass = g_type_class_peek_parent (gog_plot_1_5d_klass);
 	gobject_klass->set_property = gog_barcol_plot_set_property;
 	gobject_klass->get_property = gog_barcol_plot_get_property;
 
@@ -175,6 +174,9 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gog_object_klass->type_name	= gog_barcol_plot_type_name;
 	gog_object_klass->editor	= gog_barcol_plot_editor;
 	gog_object_klass->view_type	= gog_barcol_view_get_type ();
+
+	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+
 	gog_plot_1_5d_klass->update_stacked_and_percentage =
 		gog_barcol_update_stacked_and_percentage;
 }

@@ -232,7 +232,7 @@ strikethrough_cmd (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 #endif
 
 static gboolean
-change_font_in_selection_cmd (GnmComboText *ct, const char *font_name,
+change_font_in_selection_cmd (GnmComboText *ct, char const *font_name,
 			      WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -261,7 +261,7 @@ change_font_in_selection_cmd (GnmComboText *ct, const char *font_name,
 }
 
 static gboolean
-change_font_size_in_selection_cmd (GnmComboText *ct, const char *sizetext,
+change_font_size_in_selection_cmd (GnmComboText *ct, char const *sizetext,
 				   WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -624,7 +624,7 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 /****************************************************************************/
 /* Border combo box */
 
-static const PixmapComboElement border_combo_info[] =
+static PixmapComboElement const border_combo_info[] =
 {
     { N_("Left"),			gnm_border_left,		11 },
     { N_("Clear Borders"),		gnm_border_none,		12 },
@@ -658,9 +658,7 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 
 	switch (index) {
 	case 11 : /* left */
-		borders[STYLE_BORDER_LEFT] =
-		    style_border_fetch
-			(STYLE_BORDER_THIN,
+		borders[STYLE_BORDER_LEFT] = style_border_fetch (STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
 			 style_border_get_orientation (MSTYLE_BORDER_LEFT));
 		break;
@@ -671,48 +669,38 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 		break;
 
 	case 13 : /* right */
-		borders[STYLE_BORDER_RIGHT] =
-		    style_border_fetch
-			(STYLE_BORDER_THIN,
+		borders[STYLE_BORDER_RIGHT] = style_border_fetch (STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
 			 style_border_get_orientation (MSTYLE_BORDER_RIGHT));
 		break;
 
 	case 21 : /* all */
 		for (i = STYLE_BORDER_HORIZ; i <= STYLE_BORDER_VERT; ++i)
-			borders[i] =
-				style_border_fetch
-				(STYLE_BORDER_THIN,
-				 sheet_style_get_auto_pattern_color (sheet),
-				 style_border_get_orientation (i));
+			borders[i] = style_border_fetch (STYLE_BORDER_THIN,
+				sheet_style_get_auto_pattern_color (sheet),
+				style_border_get_orientation (i));
 		/* fall through */
 
 	case 22 : /* outside */
 		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
-			borders[i] =
-				style_border_fetch
-				(STYLE_BORDER_THIN,
-				 sheet_style_get_auto_pattern_color (sheet),
-				 style_border_get_orientation (i));
+			borders[i] = style_border_fetch (STYLE_BORDER_THIN,
+				sheet_style_get_auto_pattern_color (sheet),
+				style_border_get_orientation (i));
 		break;
 
 	case 23 : /* thick_outside */
 		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
-			borders[i] =
-				style_border_fetch
-				(STYLE_BORDER_THICK,
-				 sheet_style_get_auto_pattern_color (sheet),
-				 style_border_get_orientation (i));
+			borders[i] = style_border_fetch (STYLE_BORDER_THICK,
+				sheet_style_get_auto_pattern_color (sheet),
+				style_border_get_orientation (i));
 		break;
 
 	case 41 : /* top_n_bottom */
 	case 42 : /* top_n_double_bottom */
 	case 43 : /* top_n_thick_bottom */
-		borders[STYLE_BORDER_TOP] =
-			style_border_fetch
-			(STYLE_BORDER_THIN,
-			 sheet_style_get_auto_pattern_color (sheet),
-			 style_border_get_orientation (STYLE_BORDER_TOP));
+		borders[STYLE_BORDER_TOP] = style_border_fetch (STYLE_BORDER_THIN,
+			sheet_style_get_auto_pattern_color (sheet),
+			style_border_get_orientation (STYLE_BORDER_TOP));
 	    /* Fall through */
 
 	case 31 : /* bottom */
@@ -725,10 +713,9 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 		    (tmp == 2) ? STYLE_BORDER_DOUBLE
 		    : STYLE_BORDER_THICK;
 
-		borders[STYLE_BORDER_BOTTOM] =
-			style_border_fetch
-			(t, sheet_style_get_auto_pattern_color (sheet),
-			 style_border_get_orientation (STYLE_BORDER_BOTTOM));
+		borders[STYLE_BORDER_BOTTOM] = style_border_fetch (t,
+			sheet_style_get_auto_pattern_color (sheet),
+			style_border_get_orientation (STYLE_BORDER_BOTTOM));
 		break;
 	}
 
@@ -910,7 +897,7 @@ static void
 workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 				   char const *path, gboolean state)
 {
-	const gchar *new_val = state ? "1" : "0";
+	gchar const *new_val = state ? "1" : "0";
 
 	/* Ick,  This should be in bonobo */
 	gchar *old_val = bonobo_ui_component_get_prop (wbcg->uic, path,
@@ -944,8 +931,8 @@ workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
 static void
 workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 				   GtkToolbar *toolbar,
-				   int const button_index,
-				   gboolean const state)
+				   int button_index,
+				   gboolean state)
 {
 	GtkWidget *w = gnumeric_toolbar_get_widget (toolbar, button_index);
 	GtkToggleButton *tb = GTK_TOGGLE_BUTTON (w);
