@@ -689,7 +689,12 @@ write_node (PolishData *pd, ExprTree *tree)
 		}
 		break;
 	}
-	case OPER_NEG:
+	case OPER_UNARY_PLUS:
+		write_node  (pd, tree->u.value);
+		push_guint8 (pd, FORMULA_PTG_U_PLUS);
+		break;
+
+	case OPER_UNARY_NEG:
 		write_node  (pd, tree->u.value);
 		push_guint8 (pd, FORMULA_PTG_U_MINUS);
 		break;

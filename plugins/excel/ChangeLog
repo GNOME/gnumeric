@@ -1,5 +1,9 @@
 2000-01-18  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-formula-read.c (ms_excel_parse_formula) : Add OPER_UNARY_PLUS.
+
+	* ms-formula-write.c (write_node) : Ditto.
+
 	* ms-excel-read.c (get_units_net_of_margins) : Return 1 when faced
 	  with < 0 sized things.
 	(ms_excel_read_row) : Support hidden rows.

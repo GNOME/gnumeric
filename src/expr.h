@@ -31,7 +31,8 @@ typedef enum {
 
         OPER_CONSTANT,		/* Constant value */
 	OPER_VAR,		/* Cell content lookup (variable) */
-	OPER_NEG,		/* Sign inversion */
+	OPER_UNARY_NEG,		/* Sign inversion */
+	OPER_UNARY_PLUS,	/* Mark as positive */
 	OPER_PERCENT,		/* Percentage (value/100) */
 	OPER_ARRAY		/* Array access */
 } Operation;
@@ -41,7 +42,7 @@ typedef enum {
 	case OPER_LTE: case OPER_NOT_EQUAL: \
 	case OPER_ADD: case OPER_SUB: case OPER_MULT: case OPER_DIV: \
 	case OPER_EXP: case OPER_CONCAT
-#define OPER_ANY_UNARY OPER_NEG: case OPER_PERCENT
+#define OPER_ANY_UNARY OPER_UNARY_NEG: case OPER_UNARY_PLUS : case OPER_PERCENT
 
 struct _ArrayRef {
 	int   x, y;

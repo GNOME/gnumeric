@@ -1120,12 +1120,15 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			break ;
 		}
 
-		case FORMULA_PTG_U_PLUS: /* Discard */
+		case FORMULA_PTG_U_PLUS:
+			parse_list_push (&stack,
+					 expr_tree_new_unary (OPER_UNARY_PLUS,
+							      parse_list_pop (&stack)));
 			break;
 
 		case FORMULA_PTG_U_MINUS:
 			parse_list_push (&stack,
-					 expr_tree_new_unary (OPER_NEG,
+					 expr_tree_new_unary (OPER_UNARY_NEG,
 							      parse_list_pop (&stack)));
 			break;
 

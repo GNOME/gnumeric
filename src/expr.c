@@ -864,7 +864,8 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 		return value_new_error (pos, _("Unknown operator"));
 
 	case OPER_PERCENT:
-	case OPER_NEG:
+	case OPER_UNARY_NEG:
+	case OPER_UNARY_PLUS:
 	        /* Garantees that a != NULL */
 		a = eval_expr (pos, tree->u.value);
 
@@ -878,11 +879,14 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 		if (a->type == VALUE_ERROR)
 			return a;
 
+		if (tree->oper == OPER_UNARY_PLUS)
+			return a;
+
 		if (!VALUE_IS_NUMBER (a)){
 			value_release (a);
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
-		if (tree->oper == OPER_NEG) {
+		if (tree->oper == OPER_UNARY_NEG) {
 			if (a->type == VALUE_INTEGER)
 				res = value_new_int (-a->v.v_int);
 			else if (a->type == VALUE_FLOAT)
@@ -1168,7 +1172,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		{ NULL, 0, 0, 0 }, /* Name     */
 		{ NULL, 0, 0, 0 }, /* Constant */
 		{ NULL, 0, 0, 0 }, /* Var      */
-		{ "-",  5, 0, 0 },
+		{ "-",  5, 0, 0 }, /* Unary - */
+		{ "+",  5, 0, 0 }, /* Unary + */
 		{ "%",  5, 0, 0 },
 		{ NULL, 0, 0, 0 }  /* Array    */
 	};
@@ -1207,7 +1212,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		a = do_expr_decode_tree (tree->u.value, pp, operations[op].prec);
 		opname = operations[op].name;
 
-		if (tree->oper == OPER_NEG) {
+		if (tree->oper != OPER_PERCENT) {
 			if (prec <= paren_level)
 				res = g_strconcat ("(", opname, a, ")", NULL);
 			else
@@ -1316,11 +1321,11 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 			vstr = value_get_as_string (v);
 
 			/* If the number has a sign, pretend that it is the
-			   result of OPER_NEG.  It is not clear how we would
+			   result of OPER_UNARY_{NEG,PLUS}.  It is not clear how we would
 			   currently get negative numbers here, but some
 			   loader might do it.  */
 			if ((vstr[0] == '-' || vstr[0] == '+') &&
-			    operations[OPER_NEG].prec <= paren_level) {
+			    operations[OPER_UNARY_NEG].prec <= paren_level) {
 				res = g_strconcat ("(", vstr, ")", NULL);
 				g_free (vstr);
 			} else
@@ -1693,12 +1698,15 @@ expr_dump_tree (const ExprTree *tree)
 		return;
 		
 	case OPER_PERCENT:
-	case OPER_NEG:
+	case OPER_UNARY_NEG:
+	case OPER_UNARY_PLUS:
 		expr_dump_tree (tree->u.value);
 		if (tree->oper == OPER_PERCENT)
 			printf ("PERCENT\n");
-		else
+		else if (tree->oper == OPER_UNARY_NEG)
 			printf ("NEGATIVE\n");
+		else
+			printf ("POSITIVE\n");
 		return;
 
 	case OPER_ARRAY:

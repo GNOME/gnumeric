@@ -447,6 +447,10 @@ print_cell_range (GnomePrintContext *context,
 	for (row = start_row; row <= end_row; row++){
 		ri = sheet_row_get_info (sheet, row);
 
+		/* Ignore hidden rows */
+		if (ri->pixels < 0)
+			continue;
+
 		x = 0;
 		for (col = start_col; col <= end_col; col++){
 			double x1 = base_x + x;
@@ -455,15 +459,25 @@ print_cell_range (GnomePrintContext *context,
 
 			cell = sheet_cell_get (sheet, col, row);
 			if (cell){
-				double x2 = x1 + CELL_WIDTH (cell);
-				double y2 = y1 - CELL_HEIGHT (cell);
+				double x2;
+				double y2;
 
 				ci = cell->col;
+				/* Ignore hidden columns */
+				if (ci->pixels < 0)
+				    continue;
+
+				x2 = x1 + CELL_WIDTH (cell);
+				y2 = y1 - CELL_HEIGHT (cell);
 				print_cell (context, cell, x1, y1, x2, y2);
 			} else {
 				double x2, y2;
 					
 				ci = sheet_col_get_info (sheet, col);
+				/* Ignore hidden columns */
+				if (ci->pixels < 0)
+				    continue;
+
 				x2 = x1 + DIM (ci);
 				y2 = y1 - DIM (ri);
 

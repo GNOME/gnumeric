@@ -1,3 +1,7 @@
+2000-01-18  Jody Goldberg <jgoldberg@home.com>
+
+	* lotus-formula.c (functions) : Enable OPER_UNARY_PLUS.
+
 1999-12-23  Michael Meeks  <mmeeks@gnu.org>
 
 	* lotus.c (read_workbook): comment out format_prefix.

@@ -203,7 +203,11 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 					 expr_to_scm(expr->u.binary.value_a, cell_ref),
 					 expr_to_scm(expr->u.binary.value_b, cell_ref));
 
-		case OPER_NEG :
+		case OPER_UNARY_PLUS :
+			return SCM_LIST2(scm_symbolfrom0str("+"),
+					 expr_to_scm(expr->u.value, cell_ref));
+
+		case OPER_UNARY_NEG :
 			return SCM_LIST2(scm_symbolfrom0str("neg"),
 					 expr_to_scm(expr->u.value, cell_ref));
 

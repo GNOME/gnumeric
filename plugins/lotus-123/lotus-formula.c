@@ -37,7 +37,7 @@ typedef struct {
 } func_struct_t;
 
 func_struct_t functions[] = {
-	{ 1, 0x08, "-", UNARY, OPER_NEG },
+	{ 1, 0x08, "-", UNARY, OPER_UNARY_NEG },
 	{ 2, 0x09, "+", BINOP, OPER_ADD },
 	{ 2, 0x0A, "-", BINOP, OPER_SUB },
 	{ 2, 0x0B, "*", BINOP, OPER_MULT },
@@ -52,7 +52,7 @@ func_struct_t functions[] = {
 /*	{ 2, 0x14, "bit-and", BINOP, OPER_AND },
 	{ 2, 0x15, "bit-or", BINOP, OPER_OR }, FIXME */
 	{ 1, 0x16, "NOT", NORMAL, 0 },
-/*	{ 1, 0x17, "+", UNARY, 0 }, */
+	{ 1, 0x17, "+", UNARY, OPER_UNARY_PLUS },
 	{ 1, 0x1F, "NA", NORMAL, 0 },
 	{ 1, 0x20, "ERR", NORMAL, 0 },
 	{ 1, 0x21, "abs", NORMAL, 0 },

@@ -7,7 +7,6 @@ plugins/lotus-123/boot.c
 plugins/oleo/boot.c
 plugins/python/python.c
 plugins/sample/plugin-sample.c
-plugins/stat/stat.c
 plugins/sylk/sylk.c
 plugins/text/text-io.c
 plugins/xbase/boot.c

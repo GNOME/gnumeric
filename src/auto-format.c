@@ -240,7 +240,8 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 		return explicit ? AF_EXPLICIT : AF_UNKNOWN;
 	}
 
-	case OPER_NEG:
+	case OPER_UNARY_NEG:
+	case OPER_UNARY_PLUS:
 		return do_af_suggest (expr->u.value, ppos, explicit);
 
 	case OPER_PERCENT:

@@ -1,3 +1,15 @@
+2000-01-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (eval_expr_real) : Add OPER_UNARY_PLUS.
+	(do_expr_decode_tree) : Ditto.
+	(expr_dump_tree) : Ditto.
+
+	* src/auto-format.c (do_af_suggest) : Add OPER_UNARY_PLUS.
+
+	* src/parser.y (exp -> + exp): treat as OPER_UNARY_PLUS.
+
+	* src/print-cell.c (print_cell_range) : Ignore hidden rows/cols.
+
 2000-01-18  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (eval_expr_empty): New function.
