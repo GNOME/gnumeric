@@ -1,3 +1,11 @@
+1999-07-09  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook): Update this with
+	Jody's changes, hope I didn't loose anything.
+
+	* ms-biff.c (ms_biff_query_next_merge): Add test for valid
+	length before reading.
+
 1999-07-08  Jody Goldberg  <jgoldberg@home.com>
 
 	* libole2/ms-ole.[ch] (dump) : constify.
@@ -26,6 +34,10 @@
 1999-07-09  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c: Major warning cleaning offensive.
+	(ms_excel_read_workbook): Hush CodePage, DSF, EOF & clean style.
+	(ms_excel_read_sheet): Hush WINDOW2
+	(ms_excel_read_name): Hush spurious newlines.
+	(ms_excel_read_supporting_wb): Hush now, be a good little function.
 
 	* boot.c (excel_load): ditto.
 

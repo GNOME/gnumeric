@@ -86,7 +86,7 @@ typedef struct _ExcelWorkbook
 	GPtrArray  *XF_cell_records;
 	GPtrArray  *XF_style_records;
 	GHashTable *font_data;
-	GHashTable *format_data;
+	GHashTable *format_data; /* leave as a hash */
 	GPtrArray  *name_data;
 	int read_drawing_group;
 	GPtrArray *excel_sheets;

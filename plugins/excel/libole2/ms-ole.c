@@ -1534,7 +1534,7 @@ ms_ole_read_ptr_bb (MsOleStream *s, guint32 length)
 
 	g_return_val_if_fail (s, 0);
 
-	if (!s->blocks || blockidx>=s->blocks->len) {
+	if (!s->blocks || blockidx >= s->blocks->len) {
 		printf ("Reading from NULL file\n");
 		return 0;
 	}
@@ -1567,7 +1567,7 @@ ms_ole_read_ptr_sb (MsOleStream *s, guint32 length)
 
 	g_return_val_if_fail (s, 0);
 
-	if (!s->blocks || blockidx>=s->blocks->len) {
+	if (!s->blocks || blockidx >= s->blocks->len) {
 		printf ("Reading from NULL file\n");
 		return 0;
 	}
@@ -1619,8 +1619,10 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, guint32 length)
 
 		if (s->position + cpylen > s->size ||
 		    blkidx == s->blocks->len) {
+#if OLE_DEBUG > 0
 			printf ("Trying 2 to read beyond end of stream %d+%d %d\n",
 				s->position, cpylen, s->size);
+#endif
 			return 0;
 		}
 		g_assert (blkidx < s->blocks->len);
@@ -1663,8 +1665,10 @@ ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 			cpylen = length;
 		if (s->position + cpylen > s->size ||
 		    blkidx == s->blocks->len) {
+#if OLE_DEBUG > 0
 			printf ("Trying 3 to read beyond end of stream %d+%d %d\n",
 				s->position, cpylen, s->size);
+#endif
 			return 0;
 		}
 		g_assert (blkidx < s->blocks->len);

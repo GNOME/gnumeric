@@ -1874,6 +1874,8 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	ptr+= help_txt_len;
 	status_txt = biff_get_text (ptr, status_txt_len, NULL);
 
+	fn_grp_idx = (flags&0xfc0)>>6;
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n",
@@ -1883,26 +1885,25 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 			help_txt ? help_txt : "(null)",
 			status_txt ? status_txt : "(null)");
 		dump (name_def_data, name_def_len);
+
+		/* Unpack flags */
+		if ((flags&0x0001) != 0)
+			printf (" Hidden");
+		if ((flags&0x0002) != 0)
+			printf (" Function");
+		if ((flags&0x0004) != 0)
+			printf (" VB-Proc");
+		if ((flags&0x0008) != 0)
+			printf (" Proc");
+		if ((flags&0x0010) != 0)
+			printf (" CalcExp");
+		if ((flags&0x0020) != 0)
+			printf (" BuiltIn");
+		if ((flags&0x1000) != 0)
+			printf (" BinData");
+		printf ("\n");
 	}
 #endif
-
-	/* Unpack flags */
-	fn_grp_idx = (flags&0xfc0)>>6;
-	if ((flags&0x0001) != 0)
-		printf (" Hidden");
-	if ((flags&0x0002) != 0)
-		printf (" Function");
-	if ((flags&0x0004) != 0)
-		printf (" VB-Proc");
-	if ((flags&0x0008) != 0)
-		printf (" Proc");
-	if ((flags&0x0010) != 0)
-		printf (" CalcExp");
-	if ((flags&0x0020) != 0)
-		printf (" BuiltIn");
-	if ((flags&0x1000) != 0)
-		printf (" BinData");
-	printf ("\n");
 
 	biff_name_data_new (sheet->wb, name, name_def_data, name_def_len);
 	if (menu_txt)
@@ -2376,14 +2377,18 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				options      = BIFF_GET_GUINT16(q->data + 0);
 				top_vis_row  = BIFF_GET_GUINT16(q->data + 2);
 				left_vis_col = BIFF_GET_GUINT16(q->data + 4);
-				if (options & 0x0200)
-					printf ("Sheet flag selected\n");
+#ifndef NO_DEBUG_EXCEL
+				if (ms_excel_read_debug > 0) {
+					if (options & 0x0001)
+						printf ("FIXME: Sheet display formulae\n");
+					if (options & 0x0200)
+						printf ("Sheet flag selected\n");
+				}
+#endif
 				if (options & 0x0400) {
 					workbook_focus_sheet (sheet->gnum_sheet);
-					printf ("Sheet top in workbook\n");
+					/* printf ("Sheet top in workbook\n"); */
 				}
-				if (options & 0x0001)
-					printf ("FIXME: Sheet display formulae\n");
 				break;
 			}
 			default:
@@ -2469,30 +2474,34 @@ ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 	{
 		guint8 encodeType = BIFF_GET_GUINT8(data);
 		++data;
-		printf("--> SUPBOOK VirtPath encoding = ");
-		switch (encodeType)
-		{
-		case 0x00 : /* chEmpty */
-			puts("chEmpty");
-			break;
-		case 0x01 : /* chEncode */
-			puts("chEncode");
-#if 0
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0) {
+			printf("--> SUPBOOK VirtPath encoding = ");
+			switch (encodeType)
 			{
-				int i;
-				for (i = 0; i < 50; ++i)
-					printf("%3d (%c)(%x)\n", i, data[i], data[i]);
-			}
+			case 0x00 : /* chEmpty */
+				puts("chEmpty");
+				break;
+			case 0x01 : /* chEncode */
+				puts("chEncode");
+#if 0
+				{
+					int i;
+					for (i = 0; i < 50; ++i)
+						printf("%3d (%c)(%x)\n", i, data[i], data[i]);
+				}
 #endif
-			break;
-		case 0x02 : /* chSelf */
-			puts("chSelf");
-			break;
-		default :
-			printf("Unknown/Unencoded ??(%x '%c') %d\n",
-			       encodeType, encodeType, q->length);
-		};
+				break;
+			case 0x02 : /* chSelf */
+				puts("chSelf");
+				break;
+			default :
+				printf("Unknown/Unencoded ??(%x '%c') %d\n",
+				       encodeType, encodeType, q->length);
+			};
+		}
 	}
+#endif
 
 #if 0
 	for (data = q->data + 2; numTabs-- > 0; ) {
@@ -2521,15 +2530,13 @@ ms_excel_read_workbook (MsOle *file)
 
 	cell_deep_freeze_redraws ();
 
-	/*
-	 * Find that book file
-	 */
+	/* Find that book file */
 	stream = find_workbook (file);
 	q = ms_biff_query_new (stream);
 
 	while (ms_biff_query_next (q)) {
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug>5) {
+		if (ms_excel_read_debug > 5) {
 			printf ("Opcode : 0x%x\n", q->opcode);
 		}
 #endif
@@ -2542,9 +2549,12 @@ ms_excel_read_workbook (MsOle *file)
 			switch (q->opcode)
 			{
 			case BIFF_DSF :
-				printf ("Double Stream File : %s\n",
-					(BIFF_GET_GUINT16(q->data) == 1)
-					? "Yes" : "No");
+#ifndef NO_DEBUG_EXCEL
+				if (ms_excel_read_debug > 0)
+					printf ("Double Stream File : %s\n",
+						(BIFF_GET_GUINT16(q->data) == 1)
+						? "Yes" : "No");
+#endif
 				break;
 
 			case BIFF_REFRESHALL :
@@ -2617,9 +2627,12 @@ ms_excel_read_workbook (MsOle *file)
 				printf ("Unknown BOF (%x)\n",ver->type);
 		}
 		break;
-
-		case BIFF_EOF:
-			printf ("End of worksheet spec.\n");
+		
+		case BIFF_EOF: /* FIXME: Perhaps we should finish here ? */
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 0)
+				printf ("End of worksheet spec.\n");
+#endif
 			break;
 		case BIFF_BOUNDSHEET:
 			biff_boundsheet_data_new (wb, q, ver->version);
@@ -2756,12 +2769,14 @@ ms_excel_read_workbook (MsOle *file)
 			break;
 
 		case BIFF_CODEPAGE : /* DUPLICATE 42 */
-			{
-				/* This seems to appear within a workbook */
-				/* MW: And on Excel seems to drive the display
-				   of currency amounts.  */
-				guint16 codepage = BIFF_GET_GUINT16 (q->data);
-
+		{
+			/* This seems to appear within a workbook */
+			/* MW: And on Excel seems to drive the display
+			   of currency amounts.  */
+			guint16 codepage = BIFF_GET_GUINT16 (q->data);
+			
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 0) {
 				switch(codepage)
 				{
 				case 437 :
@@ -2782,8 +2797,10 @@ ms_excel_read_workbook (MsOle *file)
 					       codepage);
 				};
 			}
+#endif
 			break;
-
+		}
+		
 		case BIFF_PROTECT :
 			break;
 
@@ -2809,8 +2826,8 @@ ms_excel_read_workbook (MsOle *file)
 				ms_excel_externname (q, &sheet);
 			else
 				ms_excel_read_name (q, &sheet);
+			break;
 		}
-		break;
 
 		case BIFF_BACKUP :
 			break;

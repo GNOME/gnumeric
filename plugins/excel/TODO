@@ -14,7 +14,6 @@ Michael
 	* Sort out better versioning scheme & helper macros.
 	* Rationalise Missing Argument stuff ... a new value ?
 	* Remove silly name record in writing ( after debugging is done )
-	* Fix inter-sheet dependencies ... well broken.
 	* Lookup Harvest and see if we can help with doc summary info for
 	searches.
 	* Use the document summary information

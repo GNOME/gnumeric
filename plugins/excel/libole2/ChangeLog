@@ -1,3 +1,8 @@
+1999-07-09  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.c (ms_ole_directory_create): Quieten
+	"Trying N to read beyond EOF..." messages.
+
 1999-07-03  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c (ms_ole_read_copy_sb, ms_ole_read_copy_bb):

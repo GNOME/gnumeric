@@ -245,7 +245,8 @@ ms_biff_query_next_merge (BiffQuery *bq, gboolean do_merge)
 	bq->ms_op  = (bq->opcode>>8);
 	bq->ls_op  = (bq->opcode&0xff);
 
-	if (!(bq->data = bq->pos->read_ptr(bq->pos, bq->length))) {
+	if (bq->length > 0 &&
+	    !(bq->data = bq->pos->read_ptr(bq->pos, bq->length))) {
 		bq->data = g_new0 (guint8, bq->length);
 		if (!bq->pos->read_copy(bq->pos, bq->data, bq->length)) {
 			ans = 0;
