@@ -1071,8 +1071,9 @@ py_MStyle_object_getattr (py_MStyle_object *self, gchar *name)
 static void
 py_MStyle_object_dealloc (py_MStyle_object *self)
 {
-	if (self)
-		mstyle_unref (self->mstyle);
+	g_return_if_fail (self != NULL);
+
+	mstyle_unref (self->mstyle);
 	PyObject_Del (self);
 }
 
@@ -1518,6 +1519,9 @@ py_Sheet_object_getattr (py_Sheet_object *self, gchar *name)
 static void
 py_Sheet_object_dealloc (py_Sheet_object *self)
 {
+	g_return_if_fail (self != NULL);
+
+	g_object_unref (self->sheet);
 	PyObject_Del (self);
 }
 
@@ -1531,6 +1535,7 @@ py_new_Sheet_object (Sheet *sheet)
 		return NULL;
 	}
 	self->sheet = sheet;
+	g_object_ref (self->sheet);
 
 	return (PyObject *) self;
 }
@@ -1632,6 +1637,8 @@ py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 {
 	GList *sheets;
 	Sheet *sheet;
+	WorkbookControl *wbc;
+	PyObject *result;
 
 	if (!PyArg_ParseTuple (args, (char *) ":gui_add"))
 		return NULL;
@@ -1640,10 +1647,10 @@ py_Workbook_gui_add (py_Workbook_object *self, PyObject *args)
 	if (g_list_length (sheets) == 0)
 		sheet = workbook_sheet_add (self->wb, NULL, FALSE);
 		
-	workbook_control_gui_new (NULL, self->wb, NULL);
-
-	Py_INCREF (Py_None);
-	return Py_None;
+	wbc = workbook_control_gui_new (NULL, self->wb, NULL);
+	result = py_new_Gui_object ((WorkbookControlGUI *)wbc);
+	g_object_unref (wbc);    /* py_new_Gui_object added a reference */
+	return result;
 }
 
 static PyObject *
@@ -1664,6 +1671,9 @@ py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 static void
 py_Workbook_object_dealloc (py_Workbook_object *self)
 {
+	g_return_if_fail (self != NULL);
+
+	g_object_unref (self->wb);
 	PyObject_Del (self);
 }
 
@@ -1677,6 +1687,7 @@ py_new_Workbook_object (Workbook *wb)
 		return NULL;
 	}
 	self->wb = wb;
+	g_object_ref (wb);
 
 	return (PyObject *) self;
 }
@@ -1762,6 +1773,9 @@ py_Gui_object_getattr (py_Gui_object *self, gchar *name)
 static void
 py_Gui_object_dealloc (py_Gui_object *self)
 {
+	g_return_if_fail (self != NULL);
+
+	g_object_unref (self->wbcg);
 	PyObject_Del (self);
 }
 
@@ -1775,7 +1789,8 @@ py_new_Gui_object (WorkbookControlGUI *wbcg)
 		return NULL;
 	}
 	self->wbcg = wbcg;
-	
+	g_object_ref (self->wbcg);
+
 	return (PyObject *) self;
 }
 
@@ -1824,10 +1839,10 @@ py_GnumericFunc_call (py_GnumericFunc_object *self, PyObject *args, PyObject *ke
 static void
 py_GnumericFunc_object_dealloc (py_GnumericFunc_object *self)
 {
-	if (self) {
-		gnm_func_unref (self->fn_def);
-		g_free (self->eval_pos);
-	}
+	g_return_if_fail (self != NULL);
+
+	gnm_func_unref (self->fn_def);
+	g_free (self->eval_pos);
 	PyObject_Del (self);
 }
 
@@ -2045,6 +2060,9 @@ py_GnmPlugin_object_getattr (py_GnmPlugin_object *self, gchar *name)
 static void
 py_GnmPlugin_object_dealloc (py_GnmPlugin_object *self)
 {
+	g_return_if_fail (self != NULL);
+
+	g_object_unref (self->pinfo);
 	PyObject_Del (self);
 }
 
@@ -2058,6 +2076,7 @@ py_new_GnmPlugin_object (GnmPlugin *pinfo)
 		return NULL;
 	}
 	self->pinfo = pinfo;
+	g_object_ref (self->pinfo);
 
 	return (PyObject *) self;
 }
@@ -2156,7 +2175,7 @@ py_gnumeric_MStyle_method (PyObject *self, PyObject *args)
 
 	mstyle = mstyle_new_default ();
 	result = py_new_MStyle_object (mstyle);
-/*	mstyle_unref (mstyle); FIXME ?? */
+	mstyle_unref (mstyle); /* py_new_MStyle_object added a reference */
 
 	return result;
 }
@@ -2185,12 +2204,16 @@ static PyObject *
 py_gnumeric_workbook_new (PyObject *self, PyObject *args)
 {
 	Workbook *workbook = NULL;
+	PyObject *result;
 
 	if (!PyArg_ParseTuple (args, (char *) "|O:workbook_new"))
 		return NULL;
 
 	workbook =  workbook_new ();
-	return py_new_Workbook_object (workbook);
+	result = py_new_Workbook_object (workbook);
+	g_object_unref (workbook); /* py_new_Workbook_object
+				      added a reference */
+	return result;
 }
 
 static PyMethodDef GnumericMethods[] = {

@@ -1,5 +1,18 @@
-2004-08-27  Jon K Hellan  <hellan@acm.org>
+2004-08-30  Jon K Hellan  <hellan@acm.org>
 
+	* py-gnumeric.c (py_Sheet_object_dealloc): Unref sheet.
+	(py_new_Sheet_object): Ref sheet.
+	(py_Workbook_gui_add): Return gui.
+	(py_Workbook_object_dealloc): Unref workbook.
+	(py_new_Workbook_object): Ref workbook.
+	(py_Gui_object_dealloc): Unref gui.
+	(py_new_Gui_object): Ref gui.
+	(py_GnmPlugin_object_dealloc): Unref pinfo.
+	(py_new_GnmPlugin_object): Ref pinfo.
+	(py_gnumeric_MStyle_method): Unref mstyle.
+	(py_gnumeric_workbook_new): Unref workbook.
+
+2004-08-27  Jon K Hellan  <hellan@acm.org>
 
 	* gnm-python.c, gnm-py-interpreter.c, py-gnumeric.c,
 	python-loader.c: Move Python.h include just after gnumeric-config,
