@@ -1,5 +1,8 @@
 2001-02-25  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (zoom_changed) : round the zoom factor
+	  before displaying.
+
 	* src/selection.c (sheet_selection_set_internal) : when the selection
 	  shrinks and no longer selects full cols/rows redraw the union.
 

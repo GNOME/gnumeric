@@ -262,7 +262,7 @@ zoom_changed (WorkbookControlGUI *wbcg, Sheet* sheet)
 	g_return_if_fail (wbcg->zoom_entry != NULL);
 
 	snprintf (buffer, sizeof (buffer), "%d%%",
-		  (int) (sheet->last_zoom_factor_used * 100));
+		  (int) (sheet->last_zoom_factor_used * 100 + .5));
 
 	if (wbcg_ui_update_begin (wbcg)) {
 		gtk_combo_text_set_text (GTK_COMBO_TEXT (wbcg->zoom_entry), buffer);
