@@ -1,3 +1,9 @@
+1999-03-31  Morten Wellinder <terra@diku.dk>
+
+	* src/fn-stat.c (phi): new internal function.
+	(gnumeric_normdist): Implemented using phi instead of the built-in
+	table. 
+
 1999-03-31  Michael Meeks  <michael@imaginator.com>
 
 	* src/dialog-cell-sort.c (dialog_cell_sort): Added multiple
