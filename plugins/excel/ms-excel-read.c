@@ -25,6 +25,7 @@
 #include "style.h"
 #include "format.h"
 #include "eval.h"
+#include "gutils.h"
 #include "cell-comment.h"
 #include "application.h"
 #include "workbook.h"
@@ -2066,7 +2067,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	 * record
 	 */
 	if (MS_OLE_GET_GUINT16 (q->data+12) != 0xffff) {
-		double const num = BIFF_GETDOUBLE(q->data+6);
+		double const num = gnumeric_get_le_double(q->data+6);
 		val = value_new_float (num);
 	} else {
 		const guint8 val_type = MS_OLE_GET_GUINT8 (q->data+6);
@@ -2697,7 +2698,7 @@ biff_get_rk (const guint8 *ptr)
 			tmp[lp]=0;
 		}
 
-		answer = BIFF_GETDOUBLE(tmp);
+		answer = gnumeric_get_le_double(tmp);
 		return value_new_float (type == eIEEEx100 ? answer / 100 : answer);
 	}
 	case eInt:
@@ -3179,11 +3180,11 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	/* S59DAC.HTM */
 	case BIFF_NUMBER:
 	{
-		Value *v = value_new_float (BIFF_GETDOUBLE (q->data + 6));
+		Value *v = value_new_float (gnumeric_get_le_double (q->data + 6));
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 2) {
 			printf ("Read number %g\n",
-				BIFF_GETDOUBLE (q->data + 6));
+				gnumeric_get_le_double (q->data + 6));
 		}
 #endif
 		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
@@ -3660,19 +3661,19 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 		break;
 
 		case BIFF_LEFT_MARGIN:
-			margin_read (&pi->margins.left,   BIFF_GETDOUBLE (q->data));
+			margin_read (&pi->margins.left,   gnumeric_get_le_double (q->data));
 			break;
 
 		case BIFF_RIGHT_MARGIN:
-			margin_read (&pi->margins.right,  BIFF_GETDOUBLE (q->data));
+			margin_read (&pi->margins.right,  gnumeric_get_le_double (q->data));
 			break;
 
 		case BIFF_TOP_MARGIN:
-			margin_read (&pi->margins.top,    BIFF_GETDOUBLE (q->data));
+			margin_read (&pi->margins.top,    gnumeric_get_le_double (q->data));
 			break;
 
 		case BIFF_BOTTOM_MARGIN:
-			margin_read (&pi->margins.bottom, BIFF_GETDOUBLE (q->data));
+			margin_read (&pi->margins.bottom, gnumeric_get_le_double (q->data));
 			break;
 
 		case BIFF_OBJPROTECT:
@@ -3755,8 +3756,8 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 					pi->scaling.dim.rows = fh;
 				}
 
-				margin_read (&pi->margins.header, BIFF_GETDOUBLE (q->data + 16));
-				margin_read (&pi->margins.footer, BIFF_GETDOUBLE (q->data + 24));
+				margin_read (&pi->margins.header, gnumeric_get_le_double (q->data + 16));
+				margin_read (&pi->margins.footer, gnumeric_get_le_double (q->data + 24));
 			} else
 				g_warning ("Duff BIFF_SETUP");
 			break;

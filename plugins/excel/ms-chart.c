@@ -19,6 +19,7 @@
 #include "style.h"
 #include "format.h"
 #include "expr.h"
+#include "gutils.h"
 #include "gnumeric-chart.h"
 
 /* #define NO_DEBUG_EXCEL */
@@ -1833,7 +1834,7 @@ conditional_get_double (gboolean flag, guint8 const *data,
 			gchar const *name)
 {
 	if (!flag) {
-		double const val = BIFF_GETDOUBLE (data);
+		double const val = gnumeric_get_le_double (data);
 		printf ("%s = %f\n", name, val);
 		return TRUE;
 	}
@@ -1845,7 +1846,7 @@ static gboolean
 BC_R(valuerange)(ExcelChartHandler const *handle,
 		 ExcelChart *s, BiffQuery *q)
 {
-	guint16 const flags = BIFF_GETDOUBLE (q->data+40);
+	guint16 const flags = gnumeric_get_le_double (q->data+40);
 
 	conditional_get_double (flags&0x01, q->data+ 0, "Min Value");
 	conditional_get_double (flags&0x02, q->data+ 8, "Max Value");
@@ -2098,7 +2099,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffBofData *bof)
 			case BIFF_NUMBER:	/* Should figure out what these are associated with */
 			{
 				if (ms_excel_chart_debug > 0)
-					printf ("%f\n", BIFF_GETDOUBLE (q->data + 6));
+					printf ("%f\n", gnumeric_get_le_double (q->data + 6));
 				break;
 			}
 

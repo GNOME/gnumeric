@@ -44,6 +44,7 @@
 #include "command-context.h"
 #include "workbook.h"
 #include "expr.h"
+#include "gutils.h"
 
 #include <libole2/ms-ole.h>
 #include "ms-biff.h"
@@ -2302,13 +2303,13 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
-			BIFF_SETDOUBLE (data + 6, val);
+			gnumeric_set_le_double (data + 6, val);
 			ms_biff_put_commit (bp);
 		} else { /* Nasty RK thing S59DDA.HTM */
 			guint8 data[16];
 
 			ms_biff_put_var_next   (bp, (0x200 | BIFF_RK));
-			BIFF_SETDOUBLE (data+6-4, val);
+			gnumeric_set_le_double (data+6-4, val);
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
@@ -2380,7 +2381,7 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 	switch (v->type) {
 	case VALUE_INTEGER :
 	case VALUE_FLOAT :
-		BIFF_SETDOUBLE (data + 6, value_get_as_float (v));
+		gnumeric_set_le_double (data + 6, value_get_as_float (v));
 		break;
 
 	case VALUE_STRING :
@@ -2599,7 +2600,7 @@ margin_write (BiffPut *bp, guint16 op, PrintUnit *pu)
 	margin = unit_convert (pu->points, UNIT_POINTS, UNIT_INCH);
 
 	data = ms_biff_put_len_next (bp, op, 8);
-	BIFF_SETDOUBLE (data, margin);
+	gnumeric_set_le_double (data, margin);
 
 	ms_biff_put_commit (bp);
 }

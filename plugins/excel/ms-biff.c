@@ -37,33 +37,6 @@
 /*                             Helper Functions                                */
 /*******************************************************************************/
 
-#if G_BYTE_ORDER == G_BIG_ENDIAN
-double
-biff_getdouble (const guint8 *p)
-{
-    double  d;
-    int     i;
-    guint8 *t  = (guint8 *)&d;
-    int     sd = sizeof (d);
-
-    for (i = 0; i < sd; i++)
-      t[i] = p[sd - 1 - i];
-
-    return d;
-}
-
-void
-biff_setdouble (guint8 *p, double d)
-{
-    int     i;
-    guint8 *t  = (guint8 *)&d;
-    int     sd = sizeof (d);
-
-    for (i = 0; i < sd; i++)
-	    p[sd - 1 - i] = t[i];
-}
-#endif
-
 void
 dump_biff (BiffQuery *bq)
 {

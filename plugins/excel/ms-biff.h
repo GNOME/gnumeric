@@ -11,20 +11,6 @@
 
 #include <libole2/ms-ole.h>
 
-double biff_getdouble (const guint8 *p);
-void   biff_setdouble (guint8 *p, double d);
-
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-/* MW: I have reservations about this.  We are assuming not only little
- * endian, but also arbitrary alignment for doubles as well as a certain
- * layout (IEEE) of doubles.  */
-#     define BIFF_GETDOUBLE(p)   (*((const double*)(p)))
-#     define BIFF_SETDOUBLE(p,q) (*((double*)(p))=(q))
-#else
-#     define BIFF_GETDOUBLE(p)   (biff_getdouble(p))
-#     define BIFF_SETDOUBLE(p,q) (biff_setdouble(p,q))
-#endif
-
 /*******************************************************************************/
 /*                                 Read Side                                   */
 /*******************************************************************************/

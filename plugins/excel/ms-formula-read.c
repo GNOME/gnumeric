@@ -16,6 +16,7 @@
 #include "gnumeric.h"
 #include "func.h"
 #include "value.h"
+#include "gutils.h"
 
 #include "parse-util.h"
 
@@ -946,7 +947,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 					}
 #endif
 					if (opts == 1) {
-						double const v = BIFF_GETDOUBLE(array_data+1);
+						double const v = gnumeric_get_le_double(array_data+1);
 						set_val = value_new_float (v);
 						array_data+=9;
 					} else if (opts == 2) {
@@ -1257,7 +1258,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		}
 		case FORMULA_PTG_NUM:
 		{
-			double tmp = BIFF_GETDOUBLE(cur) ;
+			double tmp = gnumeric_get_le_double (cur) ;
 			parse_list_push_raw (&stack, value_new_float (tmp));
 			ptg_length = 8 ;
 			break ;

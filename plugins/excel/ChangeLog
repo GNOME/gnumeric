@@ -1,3 +1,8 @@
+2000-10-30  Morten Welinder  <terra@diku.dk>
+
+	* ms-biff.c (biff_getdouble, biff_setdouble): Delete.  Replace all
+ 	callers with gnumeric_get_le_double and gnumeric_set_le_double.
+
 2000-10-21  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_row) : Fix bounds.

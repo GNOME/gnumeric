@@ -3311,12 +3311,13 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 					 * outside the arg loop.
 					 */
 					result = value_duplicate (v);
+					value_release (val);
 					goto done;
 				}
 				data[i][y * thissizex + x] = value_get_as_float (v);
 			}
 		}
-
+		value_release (val);					
 	}
 
 	if (size_error) {

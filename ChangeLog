@@ -1,3 +1,7 @@
+2000-10-30  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-math.c (gnumeric_sumproduct): Plug leak.
+
 2000-10-29  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/commands.h, src/commands.c:
