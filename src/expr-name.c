@@ -370,6 +370,17 @@ eval_expr_name (EvalPosition const * const pos, const ExprName *expr_name)
 /* ------------------------------------------------------------- */
 
 static Value *
+name_print_area (FunctionEvalInfo *ei, Value **args)
+{
+	if (!ei || !ei->pos->sheet)
+		return value_new_error (ei->pos, _("Error: no sheet"));
+	else {
+		Range r = sheet_get_extent (ei->pos->sheet);
+		return value_new_cellrange_r (sheet, r);
+	}
+}
+
+static Value *
 name_sheet_title (FunctionEvalInfo *ei, Value **args)
 {
 	if (!ei || !ei->pos->sheet || !ei->pos->sheet->name)
@@ -390,9 +401,9 @@ static struct {
 	   Auto_Close
 	   Extract
 	   Database
-	   Criteria
-	   Print_Area
-	   Print_Titles
+	   Criteria*/
+	{ "Print_Area", name_print_area },
+/*	   Print_Titles
 	   Recorder
 	   Data_Form
 	   Auto_Activate

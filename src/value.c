@@ -92,6 +92,28 @@ value_new_cellrange (const CellRef *a, const CellRef *b)
 }
 
 Value *
+value_new_cellrange_r (Sheet *sheet, const Range *r)
+{
+	Value *v = g_new (Value, 1);
+	CellRef *a, *b;
+
+	v->type = VALUE_CELLRANGE;
+	a = &v->v.cell_range.cell_a;
+	b = &v->v.cell_range.cell_b;
+	
+	a->sheet = sheet;
+	b->sheet = NULL;
+	a->col   = r->start.col;
+	a->row   = r->start.row;
+	b->col   = r->end.col;
+	b->row   = r->end.row;
+	a->col_relative = b->col_relative = FALSE;
+	a->row_relative = b->row_relative = FALSE;
+
+	return v;
+}
+
+Value *
 value_new_array (guint cols, guint rows)
 {
 	int x, y;

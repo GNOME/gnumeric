@@ -62,6 +62,7 @@ Value       *value_new_string      (const char *str);
 Value       *value_new_int         (int i);
 Value       *value_new_float       (float_t f);
 Value       *value_new_cellrange   (const CellRef *a, const CellRef *b);
+Value       *value_new_cellrange_r (Sheet *sheet, const Range *r);
 Value       *value_new_array       (guint cols, guint rows);
 Value       *value_new_array_empty (guint cols, guint rows);
 

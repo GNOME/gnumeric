@@ -1,3 +1,9 @@
+2000-02-21  Michael Meeks  <michael@helixcode.com>
+
+	* src/expr-name.c (name_print_area): implement.
+
+	* src/value.c (value_new_cellrange_r): implement.
+
 2000-02-22  Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/dialog-solver.c (dialog_solver): Set constraint
