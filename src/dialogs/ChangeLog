@@ -1,3 +1,13 @@
+2001-06-08  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-consolidate.c (dialog_consolidate): Initialize
+	source areas list from sheet selections.
+	(cb_add_source_area): New, callback for the functionality
+	described above.
+	(cb_dialog_set_focus): No need for absolute references.
+	(cb_areas_select_row): Enable the delete button when a row
+	is selected.
+
 2001-06-08  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-insert-cells.c (dialog_insert_cells) : fix typo.

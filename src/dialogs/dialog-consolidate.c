@@ -28,6 +28,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "ranges.h"
+#include "selection.h"
 #include "widgets/gnumeric-expr-entry.h"
 #include "workbook-edit.h"
 
@@ -194,7 +195,7 @@ cb_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		wbcg_set_entry (state->wbcg,
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
 				    
-		flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL;
+		flags = GNUM_EE_SHEET_OPTIONAL;
 		gnumeric_expr_entry_set_flags (state->gui.destination, flags, flags);
 		gnumeric_expr_entry_set_flags (state->gui.source, flags, flags);
 	} else
@@ -233,6 +234,7 @@ cb_areas_select_row (GtkCList *clist, int row, int column, GdkEventButton *event
 	g_return_if_fail (state != NULL);
 	
 	state->areas_index = row;
+	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.delete), TRUE);
 }
 
 static void
@@ -407,11 +409,26 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	connect_signal_btn_clicked (state, state->gui.btn_cancel);
 }
 
+static gboolean
+cb_add_source_area (Sheet *sheet, Range const *range, gpointer user_data)
+{
+	ConsolidateState *state = user_data;
+	char const *name = range_name (range);
+	char const *t[2];
+
+	t[0] = name;
+	t[1] = NULL;
+	
+	gtk_clist_append (state->gui.areas, (char **) t);
+	return TRUE;
+}
+
 void
 dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GladeXML *glade_gui;
 	ConsolidateState *state;
+	Range const *r = NULL;
 	
 	g_return_if_fail (wbcg != NULL);
 
@@ -434,7 +451,18 @@ dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	cb_source_changed (GTK_ENTRY (state->gui.source), state);
 	cb_clear_clicked  (state->gui.clear, state);
 	cb_labels_toggled (state->gui.labels_row, state);
-	
+
+	/*
+	 * When there are non-singleton selections add them all to the
+	 * source range list for convenience
+	 */
+	if ((r = selection_first_range (sheet, NULL, NULL)) != NULL && !range_is_singleton (r)) {
+		selection_foreach_range (sheet, TRUE, cb_add_source_area, state);
+		gtk_clist_select_row (state->gui.areas, state->gui.areas->rows - 1, 0);
+		gtk_clist_moveto (state->gui.areas, state->gui.areas->rows - 1, 0, 0.5, 0.5);
+		gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), TRUE);
+	}
+
 	gtk_widget_grab_focus   (GTK_WIDGET (state->gui.function));
 	gtk_widget_grab_default (GTK_WIDGET (state->gui.btn_ok));
 	
