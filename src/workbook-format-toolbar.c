@@ -630,8 +630,8 @@ workbook_create_format_toolbar (Workbook *wb)
 
 	/* Add it to the toolbar */
 	gtk_widget_show (fontsel);
-	gtk_toolbar_insert_widget ( GTK_TOOLBAR (toolbar), fontsel,
-				    _("Font selector"), NULL, 0);
+	gnumeric_toolbar_insert_with_eventbox (
+		GTK_TOOLBAR (toolbar), fontsel, _("Font selector"), NULL, 0);
 
 	/*
 	 * Create the font size control
@@ -655,8 +655,8 @@ workbook_create_format_toolbar (Workbook *wb)
 
 	/* Add it to the toolbar */
 	gtk_widget_show (fontsize);
-	gtk_toolbar_insert_widget (GTK_TOOLBAR (toolbar), fontsize,
-				   _("Font Size"), NULL, 1);
+	gnumeric_toolbar_insert_with_eventbox (
+		GTK_TOOLBAR (toolbar), fontsize, _("Font Size"), NULL, 1);
 
 	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
 	
@@ -673,7 +673,7 @@ workbook_create_format_toolbar (Workbook *wb)
 
 	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->border_combo),
 				 _("Borders"));
-	gtk_toolbar_append_widget (
+	gnumeric_toolbar_append_with_eventbox (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->border_combo, _("Borders"), NULL);
 
@@ -690,7 +690,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	
 	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->back_combo),
 				 _("Background"));
-	gtk_toolbar_append_widget (
+	gnumeric_toolbar_append_with_eventbox (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->back_combo, _("Background"), NULL);
 
@@ -707,7 +707,7 @@ workbook_create_format_toolbar (Workbook *wb)
 
 	gtk_combo_box_set_title (GTK_COMBO_BOX (wb->priv->fore_combo),
 				 _("Foreground"));
-	gtk_toolbar_append_widget (
+	gnumeric_toolbar_append_with_eventbox (
 		GTK_TOOLBAR (toolbar),
 		wb->priv->fore_combo, _("Foreground"), NULL);
 

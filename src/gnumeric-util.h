@@ -17,6 +17,16 @@ void       gnumeric_editable_enters (GtkWindow *window,
 				     GtkEditable *editable);
 void       gnumeric_combo_enters (GtkWindow *window,
 				  GtkCombo *combo);
+
+void
+gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
+				       const char *tooltip_text,
+				       const char *tooltip_private_text,
+				       gint        position);
+void
+gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
+				       const char *tooltip_text,
+				       const char *tooltip_private_text);
 				  
 /* A simple routine for making a popup menu */
 int        run_popup_menu  (GdkEvent *event, int button, char **strings);

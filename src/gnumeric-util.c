@@ -243,6 +243,69 @@ gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo)
 				  GTK_EDITABLE (combo->entry));
 }
 
+/**
+ * gnumeric_toolbar_insert_with_eventbox
+ * @toolbar               toolbar
+ * @widget                widget to insert
+ * @tooltip_text          tooltip text
+ * @tooltip_private_text  longer tooltip text
+ * @position              widget position in toolbar
+ *
+ * Packs widget in an eventbox and adds the eventbox to toolbar.
+ * This lets a windowless widget (e.g. combo box) have tooltips.
+ **/
+void
+gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
+				       const char *tooltip_text,
+				       const char *tooltip_private_text,
+				       gint        position)
+{
+	GtkWidget *eventbox;
+
+	g_return_if_fail (GTK_IS_TOOLBAR (toolbar));
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (position >= 0);
+	g_return_if_fail (position <= toolbar->num_children);
+
+	/* An event box to receive events - this is a requirement for having
+           tooltips */
+	eventbox = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (eventbox), widget);
+	gtk_widget_show (eventbox);
+	gtk_toolbar_insert_widget (GTK_TOOLBAR (toolbar), eventbox,
+				   tooltip_text, tooltip_private_text,
+				   position);
+}
+
+/**
+ * gnumeric_toolbar_append_with_eventbox
+ * @toolbar               toolbar
+ * @widget                widget to insert
+ * @tooltip_text          tooltip text
+ * @tooltip_private_text  longer tooltip text
+ *
+ * Packs widget in an eventbox and adds the eventbox to toolbar.
+ * This lets a windowless widget (e.g. combo box) have tooltips.
+ **/
+void
+gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
+				       const char *tooltip_text,
+				       const char *tooltip_private_text)
+{
+	GtkWidget *eventbox;
+
+	g_return_if_fail (GTK_IS_TOOLBAR (toolbar));
+	g_return_if_fail (widget != NULL);
+
+	/* An event box to receive events - this is a requirement for having
+           tooltips */
+	eventbox = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (eventbox), widget);
+	gtk_widget_show (eventbox);
+	gtk_toolbar_append_widget (GTK_TOOLBAR (toolbar), eventbox,
+				   tooltip_text, tooltip_private_text);
+}
+
 int
 gtk_radio_group_get_selected (GSList *radio_group)
 {

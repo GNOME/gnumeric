@@ -1,5 +1,19 @@
 2000-05-21  Jon K Hellan  <hellan@acm.org>
 
+	* src/gnumeric-util.[ch] (gnumeric_toolbar_insert_with_eventbox):
+	(gnumeric_toolbar_append_with_eventbox): New functions. Pack
+	widget in eventbox and add eventbox to toolbar. This lets a
+	windowless widget (e.g. combo box) have tooltips.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Enable tooltips for combo boxes. We do this by using
+	gnumeric_toolbar_{insert|append}_with_eventbox instead of 
+	gtk_toolbar_{insert|append}_widget.
+
+	* src/workbook.c (workbook_create_standard_toobar): Ditto
+
+2000-05-21  Jon K Hellan  <hellan@acm.org>
+
 	* src/dialogs/dialog-zoom.glade: Remove label from invisible
 	column title.
 

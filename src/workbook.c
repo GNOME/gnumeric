@@ -1,3 +1,4 @@
+#define ENABLE_WIZARD 1
 /*
  * workbook.c:  Workbook management (toplevel windows)
  *
@@ -2470,7 +2471,7 @@ workbook_create_standard_toobar (Workbook *wb)
 
 	/* Add it to the toolbar */
 	gtk_widget_show (zoom);
-	gtk_toolbar_append_widget (GTK_TOOLBAR (toolbar),
+	gnumeric_toolbar_append_with_eventbox (GTK_TOOLBAR (toolbar),
 				   zoom, _("Zoom"), NULL);
 
 	gtk_signal_connect (
