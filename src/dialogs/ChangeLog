@@ -1,3 +1,7 @@
+2001-10-15  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (graph_guru_select_series) : fix leak.
+
 2001-10-14  Almer S. Tigelaar  <almer@gnome.org>
  
  	* validate.glade: Burn.

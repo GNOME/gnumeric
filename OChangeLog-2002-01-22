@@ -1,3 +1,9 @@
+2001-10-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_series_get_dimension) : fix leak.
+	(gnm_graph_import_specification) : fix leak.
+	(gnm_graph_arrange_vectors) : ditto.
+
 2001-10-14  Almer S. Tigelaar  <almer@gnome.org>
  
  	* src/workbook-control-gui.c (cb_data_validate):

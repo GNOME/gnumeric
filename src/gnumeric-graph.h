@@ -20,8 +20,6 @@ typedef enum {
 GtkType gnm_graph_get_type (void);
 
 GnmGraph  *gnm_graph_new		  (Workbook *wb);
-GtkWidget *gnm_graph_get_config_control	  (GnmGraph *g, char const *control);
-GtkWidget *gnm_graph_get_sample_view	  (GnmGraph *g);
 void	   gnm_graph_clear_vectors	  (GnmGraph *g);
 void	   gnm_graph_arrange_vectors	  (GnmGraph *g);
 void	   gnm_graph_range_to_vectors	  (GnmGraph *g, Sheet *sheet,
@@ -44,9 +42,8 @@ Dependent const *gnm_graph_vector_get_dependent (GnmGraphVector const *v);
 /* Series utilities */
 xmlNode *gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *element);
 xmlNode *gnm_graph_series_add_dimension (xmlNode *series, char const *element);
-gboolean gnm_graph_series_delete	(GnmGraph *graph, int series_id);
-gboolean gnm_graph_series_set_dimension (GnmGraph *graph, GnmGraphVector *vec,
-					 int series_id, xmlChar const *element,
-					 ExprTree *expr);
+
+char 	       *gnm_graph_exception	     (CORBA_Environment *ev);
+Bonobo_Control  gnm_graph_get_config_control (GnmGraph *g, char const *which);
 
 #endif /* GNUMERIC_GRAPH_H */

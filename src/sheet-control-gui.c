@@ -1754,6 +1754,7 @@ new_control_point (GtkObject *so_view, int idx, double x, double y,
 		gnome_canvas_rect_get_type (),
 		"outline_color", "black",
 		"fill_color",    "white",
+		"width_pixels",  2,
 		NULL);
 
 	gtk_signal_connect (GTK_OBJECT (item), "event",
@@ -1776,7 +1777,7 @@ static void
 set_item_x_y (SheetControlGUI *scg, GtkObject *so_view, int idx,
 	      double x, double y, ECursorType ct)
 {
-#define CTRL_PT_SIZE 3
+#define CTRL_PT_SIZE 4
 
 	if (scg->control_points [idx] == NULL)
 		scg->control_points [idx] = new_control_point (

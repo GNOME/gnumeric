@@ -49,10 +49,10 @@
 #define d(code)	
 #endif
 
-#define	MANAGER		  GNOME_Gnumeric_Graph_Manager_v4
-#define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_Manager_v4_ ## suffix
-#define	CMANAGER1(suffix) CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v4_ ## suffix
-#define	MANAGER_OAF	 "IDL:GNOME/Gnumeric/Graph/Manager_v4:1.0"
+#define	MANAGER		  GNOME_Gnumeric_Graph_v1_Manager
+#define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_v1_Manager_ ## suffix
+#define	CMANAGER1(suffix) CORBA_sequence_GNOME_v1_Gnumeric_Graph_Manager_ ## suffix
+#define	MANAGER_OAF	 "IDL:GNOME/Gnumeric/Graph_v1/Manager:1.0"
 
 struct _GnmGraph {
 	SheetObjectContainer	parent;
@@ -363,31 +363,28 @@ static POA_GNOME_Gnumeric_Scalar_Vector__vepv	scalar_vector_vepv;
 static POA_GNOME_Gnumeric_Date_Vector__vepv	date_vector_vepv;
 static POA_GNOME_Gnumeric_String_Vector__vepv	string_vector_vepv;
 
-GtkWidget *
+Bonobo_Control
 gnm_graph_get_config_control (GnmGraph *graph, char const *which_control)
 {
-	CORBA_Environment  ev;
-	GtkWidget	  *res = NULL;
-	Bonobo_Control	   control;
+	Bonobo_Control control = CORBA_OBJECT_NIL;
 
 	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
 
 	/* TODO : restart things if it dies */
-	if (graph->manager == CORBA_OBJECT_NIL)
-		return NULL;
+	if (graph->manager != CORBA_OBJECT_NIL) {
+		CORBA_Environment  ev;
+		CORBA_exception_init (&ev);
+		control = MANAGER1 (configure) (graph->manager, which_control, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("'%s' : while attempting to get aconfiguration control",
+				   bonobo_exception_get_text (&ev));
+		} else if (control == CORBA_OBJECT_NIL) {
+			g_warning ("Was this an unknown config control ??");
+		} else
+		CORBA_exception_free (&ev);
+	}
 
-	CORBA_exception_init (&ev);
-	control = MANAGER1 (configure) (graph->manager, which_control, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("'%s' : while attempting to get aconfiguration control",
-			   bonobo_exception_get_text (&ev));
-	} else if (control == CORBA_OBJECT_NIL) {
-		g_warning ("Was this an unknown config control ??");
-	} else
-		res = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
-	CORBA_exception_free (&ev);
-
-	return res;
+	return control;
 }
 
 static void
@@ -911,6 +908,8 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 			   bonobo_exception_get_text (&ev), graph);
 	}
 	CORBA_exception_free (&ev);
+	GNOME_Gnumeric_VectorIDs__free (headers, 0/* what is this */, FALSE);
+	GNOME_Gnumeric_VectorIDs__free (data, 0/* what is this */, FALSE);
 }
 
 void
@@ -1055,6 +1054,7 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 		g_warning ("'%s' : importing the specification for graph %p",
 			   bonobo_exception_get_text (&ev), graph);
 	}
+	MANAGER1(Buffer__free) (partial, 0/* what is this */, FALSE);
 	CORBA_exception_free (&ev);
 }
 
@@ -1267,6 +1267,7 @@ gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *target)
 			xmlFree (element);
 			continue;
 		}
+		xmlFree (element);
 		return dim;
 	}
 	return NULL;
@@ -1285,7 +1286,7 @@ gnm_graph_series_add_dimension (xmlNode *series, char const *element)
 	return res;
 }
 
-static char *
+char *
 gnm_graph_exception (CORBA_Environment *ev)
 {
         if (ev->_major == CORBA_USER_EXCEPTION) {
@@ -1302,72 +1303,4 @@ gnm_graph_exception (CORBA_Environment *ev)
                 }
         } else
                 return CORBA_exception_id (ev);
-}
-
-/**
- * gnm_graph_series_delete :
- *
- * returns TRUE on success
- */
-gboolean
-gnm_graph_series_delete	(GnmGraph *graph, int series_id)
-{
-	gboolean ok;
-	CORBA_Environment  ev;
-
-	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), FALSE);
-	if (graph->manager == CORBA_OBJECT_NIL)
-		return FALSE;
-
-	CORBA_exception_init (&ev);
-	MANAGER1 (seriesDelete) (graph->manager, series_id, &ev);
-	ok = (ev._major == CORBA_NO_EXCEPTION);
-	if (ok) {
-		gnm_graph_clear_xml (graph);
-	} else {
-		g_warning ("'%s' : deleting a series from graph %p",
-			   gnm_graph_exception (&ev), graph);
-	}
-	CORBA_exception_free (&ev);
-	return ok;
-}
-
-/**
- * gnm_graph_series_set_dimension :
- *
- * returns TRUE on success
- */
-gboolean
-gnm_graph_series_set_dimension (GnmGraph *graph, GnmGraphVector *vector,
-				int series_id, xmlChar const *element,
-				ExprTree *expr)
-{
-	gboolean ok;
-	CORBA_Environment  ev;
-	int vector_id;
-
-	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), FALSE);
-	if (graph->manager == CORBA_OBJECT_NIL)
-		return FALSE;
-
-	vector_id = (expr == NULL) ? -1
-		: gnm_graph_add_vector (graph, expr, GNM_VECTOR_AUTO,
-			sheet_object_get_sheet (SHEET_OBJECT (graph)));
-
-	/* Future simplification.  If we are changing an unshared dimension we
-	 * can do the substitution in place.  and just tweak the expression.
-	 */
-	CORBA_exception_init (&ev);
-	MANAGER1 (seriesSetDimension) (graph->manager, series_id, element,
-				       vector_id, &ev);
-	ok = (ev._major == CORBA_NO_EXCEPTION);
-	if (ok) {
-		gnm_graph_clear_xml (graph);
-	} else {
-		g_warning ("'%s' : changing a dimension for graph %p",
-			   gnm_graph_exception (&ev), graph);
-	}
-	CORBA_exception_free (&ev);
-
-	return ok;
 }

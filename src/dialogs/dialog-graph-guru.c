@@ -33,9 +33,15 @@
 #include "dialogs.h"
 #include "widgets/gnumeric-combo-text.h"
 
+#include <bonobo.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-xml-utils.h>
+
+#define CONFIG_GURU		GNOME_Gnumeric_Graph_v1_ConfigGuru
+#define CONFIG_GURU1(suffix)	GNOME_Gnumeric_Graph_v1_ConfigGuru_ ## suffix
+#define DATA_GURU		GNOME_Gnumeric_Graph_v1_DataGuru
+#define DATA_GURU1(suffix)	GNOME_Gnumeric_Graph_v1_DataGuru_ ## suffix
 
 typedef struct _GraphGuruState GraphGuruState;
 typedef struct
@@ -54,7 +60,6 @@ typedef struct
 struct _GraphGuruState
 {
 	GnmGraph	*graph;
-	Bonobo_Control	 control;
 
 	/* GUI accessors */
 	GladeXML    *gui;
@@ -65,7 +70,6 @@ struct _GraphGuruState
 	GtkWidget   *button_finish;
 	GtkNotebook *steps;
 
-	GtkWidget *sample_frame;
 	GtkWidget *plot_selector;
 	GtkWidget *plot_add;
 	GtkWidget *plot_remove;
@@ -74,18 +78,22 @@ struct _GraphGuruState
 	GtkWidget *series_remove;
 	GtkWidget *series_details;
 	GtkWidget *shared_series_details;
-	GtkWidget *sample;
+	GtkWidget *sample_frame;
+
 	GtkWidget *selection_table;
 	GtkWidget *shared_separator;
 
+	CONFIG_GURU type_selector;
+	DATA_GURU   data_guru;
+	GtkWidget *sample;
 	GPtrArray *shared, *unshared;
 
 	/* internal state */
-	int current_page, initial_page;
+	VectorState *current_vector;
 	int current_plot, current_series;
+	int current_page, initial_page;
 	gboolean valid;
 	gboolean updating;
-	VectorState *current_vector;
 
 	gboolean  is_columns;
 
@@ -96,13 +104,55 @@ struct _GraphGuruState
 	Sheet		   *sheet;
 };
 
+#if 0
 static void
-graph_guru_clear_sample (GraphGuruState *state)
+graph_guru_series_delete (GraphGuruState *state, int series_id)
 {
-	if (state->sample != NULL) {
-		gtk_object_destroy (GTK_OBJECT (state->sample));
-		state->sample = NULL;
+	gboolean ok;
+	CORBA_Environment  ev;
+
+	if (state->data_guru == CORBA_OBJECT_NIL)
+		return;
+
+	CORBA_exception_init (&ev);
+	DATA_GURU1 (seriesDelete) (state->data_guru, series_id, &ev);
+	ok = (ev._major == CORBA_NO_EXCEPTION);
+	if (ok) {
+	} else {
+		g_warning ("'%s' : deleting a series from graph data_guru %p",
+			   gnm_graph_exception (&ev), state->data_guru);
 	}
+	CORBA_exception_free (&ev);
+}
+#endif
+
+static void
+vector_state_series_set_dimension (VectorState *vs, ExprTree *expr)
+{
+	gboolean ok;
+	CORBA_Environment  ev;
+	int vector_id = -1;
+
+	if (vs->state == NULL || vs->state->data_guru == CORBA_OBJECT_NIL)
+		return;
+
+	if (expr != NULL)
+		vector_id = gnm_graph_add_vector (vs->state->graph,
+			expr, GNM_VECTOR_AUTO, vs->state->sheet);
+
+	/* Future simplification.  If we are changing an unshared dimension we
+	 * can do the substitution in place.  and just tweak the expression.
+	 */
+	CORBA_exception_init (&ev);
+	DATA_GURU1 (seriesSetDimension) (vs->state->data_guru,
+		vs->series_index, vs->element, vector_id, &ev);
+	ok = (ev._major == CORBA_NO_EXCEPTION);
+	if (ok) {
+	} else {
+		g_warning ("'%s' : changing a dimension from graph data_guru %p",
+			   gnm_graph_exception (&ev), vs->state->data_guru);
+	}
+	CORBA_exception_free (&ev);
 }
 
 static void
@@ -343,6 +393,7 @@ graph_guru_select_series (GraphGuruState *s, xmlNode *series)
 	s->updating = TRUE;
 	gnm_combo_text_set_text (GNM_COMBO_TEXT (s->series_selector),
 		name, GNM_COMBO_TEXT_CURRENT);
+	g_free (name);
 	s->updating = FALSE;
 
 	for (i = s->unshared->len; i--> 0 ; )
@@ -481,9 +532,9 @@ graph_guru_init_data_page (GraphGuruState *s)
 	xmlDocDump (stdout, xml_doc);
 #endif
 
-	graph_guru_clear_sample (s);
-
-	s->sample = gnm_graph_get_config_control (s->graph, "Sample"),
+	s->data_guru = gnm_graph_get_config_control (s->graph, "DataGuru"),
+	s->sample = bonobo_widget_new_control_from_objref (s->data_guru,
+		CORBA_OBJECT_NIL);
 	gtk_container_add (GTK_CONTAINER (s->sample_frame), s->sample);
 	gtk_widget_show_all (s->sample_frame);
 
@@ -513,25 +564,38 @@ graph_guru_init_data_page (GraphGuruState *s)
 static void
 graph_guru_set_page (GraphGuruState *state, int page)
 {
+	CORBA_Environment  ev;
 	char *name;
 	gboolean prev_ok = TRUE, next_ok = TRUE;
 
 	if (state->current_page == page)
 		return;
 
+	// CONFIG_GURU1 (restoreOriginal) (vs->state->data_guru,
+	CORBA_exception_init (&ev);
+	switch (state->current_page) {
+	case 0: CONFIG_GURU1 (applyChanges) (state->type_selector, &ev);
+		break;
+	case 1: CONFIG_GURU1 (applyChanges) (state->data_guru, &ev);
+		break;
+	case 2:
+		break;
+
+	default : /* it is ok to be invalid when intializing */
+		break;
+	}
+	CORBA_exception_free (&ev);
+
 	switch (page) {
 	case 0: name = _("Step 1 of 3: Select graph type");
 		prev_ok = FALSE;
-		graph_guru_clear_sample (state);
 		graph_guru_select_plot (state, NULL);
 		break;
 	case 1:
-		if (state->initial_page == 0) {
+		if (state->initial_page == 0)
 			name = _("Step 2 of 3: Select data ranges");
-		} else {
+		else
 			name = _("Graph Data");
-			next_ok = prev_ok = FALSE;
-		}
 		graph_guru_init_data_page (state);
 		break;
 	case 2: name = _("Step 3 of 3: Customize graph");
@@ -705,9 +769,7 @@ cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
 			changed = (vs->is_optional && vs->vector != NULL);
 
 		if (changed)
-			gnm_graph_series_set_dimension (vs->state->graph,
-				vs->vector, vs->series_index, vs->element,
-				expr);
+			vector_state_series_set_dimension (vs, expr);
 
 		vector_state_fill (vs, 
 			graph_guru_get_series (vs->state, vs->series_index));
@@ -797,15 +859,17 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->valid	= FALSE;
 	state->updating = FALSE;
 	state->gui	= NULL;
-	state->control  = CORBA_OBJECT_NIL;
 	state->sample   = NULL;
-	state->plot_selector = state->series_selector  =  NULL;
 	state->shared   = g_ptr_array_new ();
-	state->unshared = g_ptr_array_new ();
-	state->current_page = -1;
-	state->current_plot   = -1;
-	state->current_series = -1;
-	state->current_vector = NULL;
+	state->unshared	= g_ptr_array_new ();
+	state->plot_selector	= NULL;
+	state->series_selector  = NULL;
+	state->current_vector	= NULL;
+	state->current_page	= -1;
+	state->current_plot	= -1;
+	state->current_series	= -1;
+	state->type_selector	= CORBA_OBJECT_NIL;
+	state->data_guru	= CORBA_OBJECT_NIL;
 
 	if (graph != NULL) {
 		g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
@@ -842,11 +906,18 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 
 	state->initial_page = page;
 	if (page == 0) {
-		GtkWidget *control = gnm_graph_get_config_control (state->graph, "Type");
-		gtk_notebook_prepend_page (state->steps, control, NULL);
+		state->type_selector = gnm_graph_get_config_control (
+			state->graph, "TypeSelector");
+		gtk_notebook_prepend_page (state->steps, 
+			bonobo_widget_new_control_from_objref (
+				state->type_selector, CORBA_OBJECT_NIL), NULL);
 	}
 
 	gtk_widget_show_all (state->dialog);
 
+	if (page > 0) {
+		gtk_widget_hide (state->button_prev);
+		gtk_widget_hide (state->button_next);
+	}
 	graph_guru_set_page (state, page);
 }
