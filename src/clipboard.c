@@ -29,14 +29,6 @@
 #include "dialog-stf.h"
 #include "stf-parse.h"
 
-
-/* The name of our clipboard atom and the 'magic' info number */
-#define GNUMERIC_ATOM_NAME "GNUMERIC_CLIPBOARD_XML"
-#define GNUMERIC_ATOM_INFO 2000
-
-/* The name of the TARGETS atom (don't change unless you know what you are doing!) */
-#define TARGETS_ATOM_NAME "TARGETS"
-
 static gboolean
 cell_has_expr_or_number_or_blank (Cell const * cell)
 {
@@ -126,42 +118,34 @@ paste_cell_with_operation (Sheet *dest_sheet,
 			   CellCopy *c_copy, int paste_flags)
 {
 	Cell *new_cell;
-	Cell *old_cell;
 
 	g_return_if_fail (paste_flags & PASTE_OPER_MASK);
 
 	if (!(c_copy->type == CELL_COPY_TYPE_CELL))
 		return;
 
-	old_cell = sheet_cell_get (dest_sheet, target_col, target_row);
+	new_cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
 
-	if ((!cell_has_expr_or_number_or_blank (old_cell)) ||
+	if ((!cell_has_expr_or_number_or_blank (new_cell)) ||
 	    (!cell_has_expr_or_number_or_blank (c_copy->u.cell)))
 		return;
-
-	new_cell          = cell_copy (c_copy->u.cell);
-	new_cell->base.sheet   = dest_sheet;
-	new_cell->pos.col = target_col;
-	new_cell->pos.row = target_row;
 
 	/* FIXME : This does not handle arrays, linked cells, ranges, etc. */
 	if ((paste_flags & PASTE_CONTENT) &&
 	    ((c_copy->u.cell != NULL && cell_has_expr (c_copy->u.cell)) ||
-	           (old_cell != NULL && cell_has_expr (old_cell)))) {
-		ExprTree *old_expr    = cell_get_contents_as_expr_tree (old_cell);
+	           (new_cell != NULL && cell_has_expr (new_cell)))) {
+		ExprTree *old_expr    = cell_get_contents_as_expr_tree (new_cell);
 		ExprTree *copied_expr = cell_get_contents_as_expr_tree (c_copy->u.cell);
 		Operation oper	      = paste_oper_to_expr_oper (paste_flags);
 		ExprTree *new_expr    = expr_tree_new_binary (old_expr, oper, copied_expr);
 		cell_set_expr (new_cell, new_expr, NULL);
 		cell_relocate (new_cell, rwinfo);
 	} else {
-		Value *new_val = apply_paste_oper_to_values (old_cell, c_copy->u.cell,
+		Value *new_val = apply_paste_oper_to_values (new_cell, c_copy->u.cell,
 							     new_cell, paste_flags);
 
-		cell_set_value (new_cell, new_val, NULL);
+		cell_set_value (new_cell, new_val, c_copy->u.cell->format);
 	}
-
-	sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);
 }
 
 static void
@@ -214,21 +198,25 @@ paste_cell (Sheet *dest_sheet,
 	}
 
 	if (c_copy->type == CELL_COPY_TYPE_CELL) {
-		Cell *new_cell = cell_copy (c_copy->u.cell);
+		Cell *new_cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
+		Cell *src_cell = c_copy->u.cell;
 
-		/* Cell cannot be linked in yet, but it needs an accurate location */
-		new_cell->base.sheet = dest_sheet;
-		new_cell->pos.col    = target_col;
-		new_cell->pos.row    = target_row;
-
-		if (cell_has_expr (new_cell)) {
+		if (!src_cell) {
+			g_warning ("Cell copy type set but no cell found (this is bad!)");
+			return;
+		}
+			
+		if (cell_has_expr (src_cell)) {
+			cell_set_expr_and_value (new_cell, src_cell->base.expression,
+						 value_duplicate (src_cell->value), src_cell->format, FALSE);
+			
 			if (paste_flags & PASTE_CONTENT)
 				cell_relocate (new_cell, rwinfo);
 			else
 				cell_convert_expr_to_value (new_cell);
-		}
+		} else
+				cell_set_value (new_cell, value_duplicate (src_cell->value), src_cell->format);
 
-		sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);
 	} else {
 		Cell *new_cell = sheet_cell_new (dest_sheet,
 						 target_col, target_row);

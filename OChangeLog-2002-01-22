@@ -1,3 +1,16 @@
+2000-12-25  Almer S. Tigelaar  <almer1@dds.nl>
+
+        * src/clipboard.c : Remove superflous remnants of
+	the previously integrated gui-clipboard.c
+
+	* src/gui-clipboard.c (x_selection_handler) :
+	Replace the hardcoded "2000" with the GNUMERIC_ATOM_INFO
+	constant.
+
+	* src/clipboard.c 
+	(paste_cell_with_operation) : Get rid of sheet_cell_insert.
+	(paste_cell) : Idem.
+
 2000-12-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_number) : partial support for formats of the

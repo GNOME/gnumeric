@@ -274,7 +274,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 	 * in fact we only have to check the 'info' variable, however
 	 * to be absolutely sure I check if the atom checks out too
 	 */
-	if (selection_data->target == atom_gnumeric && info == 2000) {
+	if (selection_data->target == atom_gnumeric && info == GNUMERIC_ATOM_INFO) {
 		xmlChar *buffer;
 		int buffer_size;
 
