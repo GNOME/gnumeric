@@ -354,7 +354,6 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotBubble");
 }
 
-static void
 extern gpointer gog_bubble_plot_pref (GogBubblePlot *pie, GnmCmdContext *cc);
 static gpointer
 gog_bubble_plot_editor (GogObject *item,
@@ -493,11 +492,11 @@ gog_bubble_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, d
 static void
 gog_bubble_plot_init (GogBubblePlot *bubble)
 {
-}
 	bubble->size_as_area = TRUE;
 	bubble->in_3d = FALSE;
 	bubble->show_negatives = FALSE;
 	bubble->bubble_scale = 1.0;
+}
 
 GSF_CLASS (GogBubblePlot, gog_bubble_plot,
 	   gog_bubble_plot_class_init, gog_bubble_plot_init,

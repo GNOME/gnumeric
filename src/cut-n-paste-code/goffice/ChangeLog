@@ -1,3 +1,8 @@
+2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* graph/plugins/plot_xy/gog-xy.c: fix 2 syntax errors to make it
+	  compile
+
 2004-01-28  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	reviewed by: <delete if not using a buddy>

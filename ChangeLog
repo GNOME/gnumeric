@@ -1,5 +1,10 @@
 2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* schemas/gnumeric-dialogs.schemas.in: Add schemas correponding to 
+	  the new printing keys.
+
+2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gnumeric-gconf-priv.h: add many more printing related keys
 	* src/gnumeric-gconf.c (gnm_conf_init_essential): initialize 
 	  printing variables from gconf
