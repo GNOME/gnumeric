@@ -2,6 +2,10 @@
 
 	* sv.po: Updated Swedish translation.
 
+2002-03-05  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Updated Swedish translation.
+
 2002-03-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* POTFILES.in : add src/dialogs/cell-comment.glade

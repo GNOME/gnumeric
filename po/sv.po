@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-03-05 15:13+0100\n"
-"PO-Revision-Date: 2002-03-05 15:17+0100\n"
+"POT-Creation-Date: 2002-03-05 15:42+0100\n"
+"PO-Revision-Date: 2002-03-05 15:46+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10635,7 +10635,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 
-#: src/functions/fn-eng.c:912
+#: src/functions/fn-eng.c:911
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -10655,7 +10655,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 
-#: src/functions/fn-eng.c:942
+#: src/functions/fn-eng.c:940
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -10679,7 +10679,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSQRT"
 
-#: src/functions/fn-eng.c:978
+#: src/functions/fn-eng.c:976
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -10699,7 +10699,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 
-#: src/functions/fn-eng.c:1012
+#: src/functions/fn-eng.c:1010
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -10719,7 +10719,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 
-#: src/functions/fn-eng.c:1040
+#: src/functions/fn-eng.c:1038
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -10739,7 +10739,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPOWER"
 
-#: src/functions/fn-eng.c:1068
+#: src/functions/fn-eng.c:1066
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -10759,7 +10759,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUM"
 
-#: src/functions/fn-eng.c:1099
+#: src/functions/fn-eng.c:1097
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -10779,7 +10779,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMDIV"
 
-#: src/functions/fn-eng.c:1169
+#: src/functions/fn-eng.c:1167
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -10799,7 +10799,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUB"
 
-#: src/functions/fn-eng.c:1203
+#: src/functions/fn-eng.c:1201
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -11006,7 +11006,7 @@ msgstr ""
 "CONVERT(7.9,\"cal\",\"J\") är lika med 33,07567.\n"
 "@SEEALSO="
 
-#: src/functions/fn-eng.c:1604
+#: src/functions/fn-eng.c:1602
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -11046,7 +11046,7 @@ msgstr ""
 "medelvärdet.\n"
 "@SEEALSO=ERFC"
 
-#: src/functions/fn-eng.c:1650
+#: src/functions/fn-eng.c:1648
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -11070,7 +11070,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: src/functions/fn-eng.c:1680
+#: src/functions/fn-eng.c:1678
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -11096,11 +11096,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: src/functions/fn-eng.c:1725 src/functions/fn-eng.c:1779
+#: src/functions/fn-eng.c:1723 src/functions/fn-eng.c:1777
 msgid "Impossible"
 msgstr "Omöjligt"
 
-#: src/functions/fn-eng.c:1736
+#: src/functions/fn-eng.c:1734
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -11124,7 +11124,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: src/functions/fn-eng.c:1793
+#: src/functions/fn-eng.c:1791
 msgid "Engineering"
 msgstr "Tekniska"
 
@@ -15409,7 +15409,7 @@ msgid ""
 "This function is Excel compatible, except that it returns pi with a better "
 "precision. \n"
 "@EXAMPLES=\n"
-"PI() equals 3.141593.\n"
+"PI() equals about 3.141593.\n"
 "\n"
 "@SEEALSO=SQRTPI"
 msgstr ""
@@ -20239,14 +20239,10 @@ msgstr "Textexport (konfigurerbar)"
 msgid "Cell %s is not permitted to be blank"
 msgstr "Cell %s får inte vara tom"
 
-#: src/validation.c:153
+#: src/validation.c:154
 #, c-format
-msgid "'%"
-msgstr "\"%"
-
-#: src/validation.c:153
-msgid "' is not an integer"
-msgstr "\" är inte ett heltal"
+msgid "'%s' is not an integer"
+msgstr "\"%s\" är inte ett heltal"
 
 #: src/validation.c:163
 #, c-format
@@ -20862,24 +20858,25 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
-#: src/gutils.c:564
-msgid ""
-"This version of Gnumeric has been compiled with inadequate precision in "
-"modfgnum."
-msgstr ""
-"Denna version av Gnumeric har kompilerats med otillräcklig precision i "
-"modfgnum."
+#~ msgid "'%"
+#~ msgstr "\"%"
 
-#: src/gutils.c:658
-msgid ""
-"This version of Gnumeric has been compiled with inadequate precision in "
-"frexpgnum."
-msgstr ""
-"Denna version av Gnumeric har kompilerats med otillräcklig precision i "
-"frexpgnum."
+#~ msgid "' is not an integer"
+#~ msgstr "\" är inte ett heltal"
 
-#~ msgid "'%d' is not an integer"
-#~ msgstr "\"%d\" är inte ett heltal"
+#~ msgid ""
+#~ "This version of Gnumeric has been compiled with inadequate precision in "
+#~ "modfgnum."
+#~ msgstr ""
+#~ "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
+#~ "modfgnum."
+
+#~ msgid ""
+#~ "This version of Gnumeric has been compiled with inadequate precision in "
+#~ "frexpgnum."
+#~ msgstr ""
+#~ "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
+#~ "frexpgnum."
 
 #~ msgid "Sheet name"
 #~ msgstr "Bladnamn"
