@@ -329,7 +329,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 	        return NULL;
 	}
 
-	print_lp(program);
+	lp_solve_print_lp (program);
 
 	return program;
 }

@@ -122,58 +122,88 @@
  *
  */
 
-lprec *
-lp_solve_init (int n_vars, int n_constraints)
+SolverProgram
+w_lp_solve_init (int n_vars, int n_constraints)
 {
         return lp_solve_make_lp (n_constraints, n_vars);
 }
 
 void
-lp_solve_set_maxim (lprec *lp)
+w_lp_solve_delete_lp (SolverProgram lp)
 {
-        lpkit_set_maxim (lp);
+        lp_solve_delete_lp (lp);
 }
 
 void
-lp_solve_set_minim (lprec *lp)
+w_lp_solve_set_maxim (SolverProgram lp)
 {
-        lpkit_set_minim (lp);
+        lp_solve_set_maxim (lp);
 }
 
 void
-lp_solve_set_obj_fn (lprec *lp, int col, gnum_float value)
+w_lp_solve_set_minim (SolverProgram lp)
 {
-        set_mat (lp, 0, col + 1, value);
+        lp_solve_set_minim (lp);
 }
 
 void
-lp_solve_set_constr_mat (lprec *lp, int col, int row, gnum_float value)
+w_lp_solve_set_obj_fn (SolverProgram lp, int col, gnum_float value)
 {
-        set_mat (lp, row + 1, col + 1, value);
+        lp_solve_set_mat (lp, 0, col + 1, value);
 }
 
 void
-lp_solve_set_constr_rhs (lprec *lp, int row, gnum_float value)
+w_lp_solve_set_constr_mat (SolverProgram lp, int col, int row, gnum_float value)
 {
-        set_rh (lp, row + 1, value);
+        lp_solve_set_mat (lp, row + 1, col + 1, value);
 }
 
 void
-lp_solve_set_constr_type (lprec *lp, int row, SolverConstraintType type)
+w_lp_solve_set_constr_rhs (SolverProgram lp, int row, gnum_float value)
 {
-        set_constr_type (lp, row + 1, type);
+        lp_solve_set_rh (lp, row + 1, value);
+}
+
+void
+w_lp_solve_set_constr_type (SolverProgram lp, int row, SolverConstraintType type)
+{
+        lp_solve_set_constr_type (lp, row + 1, type);
+}
+
+void
+w_lp_solve_set_int (SolverProgram lp, int col, gboolean must_be_int)
+{
+	lp_solve_set_int (lp, col, must_be_int);
+}
+
+int
+w_lp_solve_solve (SolverProgram lp)
+{
+        return lp_solve_solve (lp);
 }
 
 gnum_float
-lp_solve_get_solution (lprec *lp, int column)
+w_lp_solve_get_solution (SolverProgram lp, int column)
 {
-        return lp->best_solution [lp->rows + column];
+        lprec *p = (lprec *) lp;
+
+        return p->best_solution [p->rows + column];
 }
 
 gnum_float
-lp_solve_get_value_of_obj_fn (lprec *lp)
+w_lp_solve_get_value_of_obj_fn (SolverProgram lp)
 {
-        return lp->best_solution [0];
+        lprec *p = (lprec *) lp;
+
+        return p->best_solution [0];
+}
+
+gnum_float
+w_lp_solve_get_dual (SolverProgram lp, int row)
+{
+        lprec *p = (lprec *) lp;
+
+        return p->duals[row + 1];
 }
 
 /* ------------------------------------------------------------------------- */
@@ -188,19 +218,19 @@ lp_solve_get_value_of_obj_fn (lprec *lp)
 SolverLPAlgorithm lp_algorithm [] = {
         {
 	        NULL,
-		(solver_lp_init_fn*)             lp_solve_init,
-		(solver_lp_remove_fn*)           lp_solve_delete_lp,
-		(solver_lp_set_obj_fn*)          lp_solve_set_obj_fn,
-		(solver_lp_set_constr_mat_fn*)   lp_solve_set_constr_mat,
-		(solver_lp_set_constr_type_fn*)  lp_solve_set_constr_type,
-		(solver_lp_set_constr_rhs_fn*)   lp_solve_set_constr_rhs,
-		(solver_lp_set_maxim_fn*)        lp_solve_set_maxim,
-		(solver_lp_set_minim_fn*)        lp_solve_set_minim,
-		(solver_lp_set_int_fn*)          lp_solve_set_int,
-		(solver_lp_solve_fn*)            lp_solve_solve,
-		(solver_lp_get_obj_fn_value_fn*) lp_solve_get_value_of_obj_fn,
-		(solver_lp_get_obj_fn_var_fn*)   lp_solve_get_solution,
-		(solver_lp_get_shadow_prize_fn*) lp_solve_get_dual
+		(solver_lp_init_fn*)             w_lp_solve_init,
+		(solver_lp_remove_fn*)           w_lp_solve_delete_lp,
+		(solver_lp_set_obj_fn*)          w_lp_solve_set_obj_fn,
+		(solver_lp_set_constr_mat_fn*)   w_lp_solve_set_constr_mat,
+		(solver_lp_set_constr_type_fn*)  w_lp_solve_set_constr_type,
+		(solver_lp_set_constr_rhs_fn*)   w_lp_solve_set_constr_rhs,
+		(solver_lp_set_maxim_fn*)        w_lp_solve_set_maxim,
+		(solver_lp_set_minim_fn*)        w_lp_solve_set_minim,
+		(solver_lp_set_int_fn*)          w_lp_solve_set_int,
+		(solver_lp_solve_fn*)            w_lp_solve_solve,
+		(solver_lp_get_obj_fn_value_fn*) w_lp_solve_get_value_of_obj_fn,
+		(solver_lp_get_obj_fn_var_fn*)   w_lp_solve_get_solution,
+		(solver_lp_get_shadow_prize_fn*) w_lp_solve_get_dual
 	},
 	{ NULL }
 };

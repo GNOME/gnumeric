@@ -1,3 +1,7 @@
+2002-03-14  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.c: Fixed the name space bloat from the LP Solve.
+
 2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* api.h, Makefile.am, solver.c: Added api.h.
