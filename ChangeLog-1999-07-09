@@ -1,3 +1,7 @@
+1999-04-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added RSQ function.
+	
 1999-04-15  Michael Meeks  <michael@edenproject.org>
 
 	* src/parser.y (value_dump): Added CellRange support

@@ -1980,6 +1980,72 @@ gnumeric_pearson (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 				 (pr.count*pr.sqrsum2 - pr.sum2*pr.sum2)));
 }
 
+static char *help_rsq = {
+	N_("@FUNCTION=RSQ\n"
+	   "@SYNTAX=RSQ(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "RSQ returns the square of the Pearson correllation coefficient "
+	   "of two data sets. "
+	   "\n"
+	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,"
+	   "STEYX,TREND")
+};
+
+static Value *
+gnumeric_rsq (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_correl_t pr;
+	Sheet *sheet = (Sheet *) tsheet;
+	float_t sum, r;
+	int     count;
+	GSList  *list1, *list2;
+
+	pr.first   = TRUE;
+	count = value_get_as_int(gnumeric_count
+	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	if (count % 2 > 0){
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	pr.count   = count / 2;
+	pr.num     = 0;
+	pr.sum1    = 0.0;
+	pr.sum2    = 0.0;
+	pr.sqrsum1 = 0.0;
+	pr.sqrsum2 = 0.0;
+	pr.array1  = NULL;
+	pr.array2  = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_correl,
+					  &pr, expr_node_list,
+					  eval_col, eval_row, error_string);
+	list1 = pr.array1;
+	list2 = pr.array2;
+	sum = 0.0;
+
+	while (list1 != NULL && list2 != NULL){
+	        gpointer x, y;
+		x = list1->data;
+		y = list2->data;
+	        sum += (*((float_t *) x)) * (*((float_t *) y));
+		g_free(x);
+		g_free(y);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(pr.array1);
+	g_slist_free(pr.array2);
+
+	r = (((pr.count*sum - pr.sum1*pr.sum2)) /
+	     sqrt((pr.count*pr.sqrsum1 - pr.sum1*pr.sum1) *
+		  (pr.count*pr.sqrsum2 - pr.sum2*pr.sum2)));
+	return value_float (r * r);
+}
+
 static char *help_median = {
        N_("@FUNCTION=MEDIAN\n"
           "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -2230,6 +2296,7 @@ FunctionDefinition stat_functions [] = {
 	{ "normsdist",  "f",  "",           &help_normsdist,  NULL, gnumeric_normsdist },
 	{ "pearson",   0,      "",          &help_pearson,   gnumeric_pearson, NULL },
 	{ "rank",      0,      "",          &help_rank,      gnumeric_rank, NULL },
+	{ "rsq",       0,      "",          &help_rsq,      gnumeric_rsq, NULL },
 	{ "skew",      0,      "",          &help_skew,      gnumeric_skew, NULL },
 	{ "small",  0,      "",             &help_small,  gnumeric_small, NULL },
 	{ "standardize", "fff",  "x,mean,stddev", &help_standardize, NULL, gnumeric_standardize },
