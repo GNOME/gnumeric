@@ -7,14 +7,13 @@
 # Pablo Saratxaga <pablo@mandrakesoft.com>, 1999-2000.
 # Germán Poo Caamaño <gpoo@ubiobio.cl>, 2001.
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
-# Francisco Javier Fernández <serrador@arrakis.es>, 2003.
 # Francisco Javier Fernandez <serrador@arrakis.es>, 2003
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "POT-Creation-Date: 2003-05-05 20:50+0200\n"
-"PO-Revision-Date: 2003-05-06 06:21+0200\n"
+"PO-Revision-Date: 2003-05-07 23:39+0200\n"
 "Last-Translator: Francisco Javier Fernandez <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -103,7 +102,6 @@ msgstr ""
 "bivariadanormal con los parámetros a, b & rho"
 
 #: plugins/derivatives/options.c:194
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS\n"
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility,"
@@ -124,10 +122,9 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
 "OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTIONn@volatility es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:259
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_DELTA\n"
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility,"
@@ -149,10 +146,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTION esn@volatility es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:311
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_GAMMA\n"
 "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility,cost_of_carry)\n"
@@ -173,10 +169,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA"
-msgstr "n@SYNTAXn@DESCRIPTION es esn@volatility es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:376
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_THETA\n"
 "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility,"
@@ -199,11 +194,10 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
 "OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTION esn@volatility es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:429
 #, no-c-format
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(call_put_flag,spot,strike,time,rate,volatility,"
@@ -225,11 +219,10 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTION es esn@volatility es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:499
 #, no-c-format
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility,"
@@ -251,11 +244,10 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTION esn@volatility es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:561
 #, no-c-format
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility,"
@@ -277,11 +269,10 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTION esn@volatility es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:627
 #, no-c-format
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domesitc_rate,"
@@ -300,11 +291,10 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTIONn@volatility es es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:693
 #, no-c-format
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility,"
@@ -324,7 +314,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTIONn@volatility es es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:757
 #, no-c-format
@@ -354,7 +344,6 @@ msgstr ""
 
 #: plugins/derivatives/options.c:937
 #, no-c-format
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -364,7 +353,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-msgstr "n@SYNTAXn@DESCRIPTION es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:984
 #, no-c-format
@@ -420,7 +409,6 @@ msgstr ""
 
 #: plugins/derivatives/options.c:1329
 #, no-c-format
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -430,7 +418,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-msgstr "TIMEn@SYNTAX TIMEn@DESCRIPTION TIMEn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/derivatives/options.c:1373
 #, no-c-format
@@ -2103,7 +2091,6 @@ msgid "Functions for complex numbers"
 msgstr "Funciones para números complejos"
 
 #: plugins/fn-database/functions.c:264
-#, fuzzy
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -2152,10 +2139,9 @@ msgid ""
 "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
 "\n"
 "@SEEALSO=DCOUNT"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:337
-#, fuzzy
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -2203,10 +2189,9 @@ msgid ""
 "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
 "\n"
 "@SEEALSO=DAVERAGE"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLES Nombren@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:409
-#, fuzzy
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -2254,7 +2239,7 @@ msgid ""
 "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
 "\n"
 "@SEEALSO=DCOUNT"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLES Nombren@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:479
 msgid ""
@@ -2360,7 +2345,6 @@ msgstr ""
 "@SEEALSO=DCOUNT"
 
 #: plugins/fn-database/functions.c:561
-#, fuzzy
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -2408,10 +2392,9 @@ msgid ""
 "DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
 "\n"
 "@SEEALSO=DMIN"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:635
-#, fuzzy
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -2458,10 +2441,9 @@ msgid ""
 "DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
 "\n"
 "@SEEALSO=DMAX"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:706
-#, fuzzy
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -2507,10 +2489,9 @@ msgid ""
 "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
 "\n"
 "@SEEALSO=DSUM"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:777
-#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -2558,10 +2539,9 @@ msgid ""
 "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
 "\n"
 "@SEEALSO=DSTDEVP"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:849
-#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -2609,10 +2589,9 @@ msgid ""
 "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
 "\n"
 "@SEEALSO=DSTDEV"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:921
-#, fuzzy
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -2659,10 +2638,9 @@ msgid ""
 "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
 "\n"
 "@SEEALSO=DPRODUCT"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:993
-#, fuzzy
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -2710,10 +2688,9 @@ msgid ""
 "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
 "\n"
 "@SEEALSO=DVARP"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:1065
-#, fuzzy
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -2761,7 +2738,7 @@ msgid ""
 "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
 "\n"
 "@SEEALSO=DVAR"
-msgstr "n@SYNTAXn@DESCRIPTIONn@database es contienen@field es es esn@criteria es contiene<9''. Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''. Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria). If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). \n@EXAMPLES=\nLet us assume that the range A1:C7 contain the following values:\nName Age Salary\nJohn 34 54342\nBill 35 22343\nClark 29 34323\nBob 43 47242\nSusan 37 42932\nJill 45 45324\n\nIn addition, the cells A9:B11 contain the following values:\nAge Salary\n<30\n>n@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-database/functions.c:1137
 msgid ""
@@ -4566,7 +4543,6 @@ msgid "Functions for complex numbers, base conversions, and more"
 msgstr "Funciones para números complejos, conversiones de base y más"
 
 #: plugins/fn-financial/functions.c:347
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -4607,18 +4583,8 @@ msgid ""
 "\n"
 "@SEEALSO=ACCRINTM"
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@issue es es es es es es es es\n"
-"\n"
-"\n"
-"n@basis es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:426
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -4648,12 +4614,6 @@ msgid ""
 "\n"
 "@SEEALSO=ACCRINT"
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@issue es es es es es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:481
 #, fuzzy
@@ -4699,7 +4659,6 @@ msgstr ""
 " es es es esn@EXAMPLES esn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:544
-#, fuzzy
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -4729,15 +4688,8 @@ msgid ""
 "\n"
 "@SEEALSO=INTRATE"
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@settlement es es es esn@basis es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:603
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -4767,15 +4719,8 @@ msgid ""
 "\n"
 "@SEEALSO=PRICEMAT"
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@settlement es es es es esn@basis es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:658
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -4804,12 +4749,6 @@ msgid ""
 "\n"
 "@SEEALSO=PRICEDISC"
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@settlement es es es es es es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:719
 #, fuzzy
@@ -5416,7 +5355,6 @@ msgstr ""
 "@SEEALSO=FV,NPV,PV"
 
 #: plugins/fn-financial/functions.c:1635
-#, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -5430,7 +5368,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=FV"
-msgstr "n@SYNTAXn@DESCRIPTION es es es es es es es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-financial/functions.c:1676
 msgid ""
@@ -5570,7 +5508,6 @@ msgstr ""
 "@SEEALSO=PV,PMT,PPMT"
 
 #: plugins/fn-financial/functions.c:1934
-#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -5591,7 +5528,7 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
-msgstr "n@SYNTAXn@DESCRIPTION esn@rate esn@nper esn@pv esn@fv esn@type es es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-financial/functions.c:1971
 msgid ""
@@ -5636,7 +5573,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2021
-#, fuzzy
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -5656,10 +5592,9 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=IPMT,PV,FV"
-msgstr "n@SYNTAXn@DESCRIPTION es es es es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-financial/functions.c:2070
-#, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -5680,10 +5615,9 @@ msgid ""
 "=NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you "
 "can double your money just before the end of the 12th year.\n"
 "@SEEALSO=PPMT,PV,FV"
-msgstr "n@SYNTAXn@DESCRIPTION es es es es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-financial/functions.c:2124
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -5709,12 +5643,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@settlement es es es es es es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:2180
 #, fuzzy
@@ -5862,7 +5790,6 @@ msgstr ""
 "@SEEALSO=EURO"
 
 #: plugins/fn-financial/functions.c:2421
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -5887,15 +5814,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@frequency es Permitido es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:2486
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -5920,15 +5840,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@frequency es Permitido es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:2607
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -5954,15 +5867,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"n@SYNTAXn@DESCRIPTION esn@settlement es es es es es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:2659
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -5989,12 +5895,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"n@SYNTAXn@DESCRIPTION esn@settlement es es es es es es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:2713
 #, fuzzy
@@ -6498,7 +6398,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-financial/functions.c:3435
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -6524,13 +6423,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"n@SYNTAXn@DESCRIPTIONn@basis es\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"\n"
-" es es es es esn@EXAMPLESn@SEEALSO"
 
 #: plugins/fn-financial/functions.c:3493
 msgid ""
@@ -11752,7 +11644,6 @@ msgstr ""
 "@SEEALSO=MIN,ABS"
 
 #: plugins/fn-stat/functions.c:1036
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -11773,7 +11664,7 @@ msgid ""
 "SKEW(A1:A5) equals 0.976798268.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
-msgstr "n@SYNTAXn@DESCRIPTION es es esn@EXAMPLESn@SEEALSO"
+msgstr ""
 
 #: plugins/fn-stat/functions.c:1074
 msgid ""
@@ -16631,12 +16522,11 @@ msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Avisar cuando se exporte en formato de hoja única"
 
 #: schemas/gnumeric-general.schemas.in.h:56
-#, fuzzy
 msgid ""
 "When TRUE, Gnumeric will prefer the modern CLIPBOARD selection over the "
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
-msgstr "más antiguo."
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:57
 msgid ""
@@ -16727,9 +16617,8 @@ msgid "Add _Auto Filter"
 msgstr "Añadir _auto filtro"
 
 #: src/GNOME_Gnumeric.xml.h:3
-#, fuzzy
 msgid "Add a scenario"
-msgstr "Añade un filtro"
+msgstr "Añadir un escenario"
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3762
 msgid "Add an outline group"
@@ -17603,9 +17492,8 @@ msgid "Save the current workbook"
 msgstr "Guarda este libro de trabajo"
 
 #: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:3742
-#, fuzzy
 msgid "Sce_narios"
-msgstr "Separadores"
+msgstr "Esc_narios"
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-object-toolbar.c:143
 msgid "Scrollbar"
@@ -17840,9 +17728,8 @@ msgid "_Add / Modify comment..."
 msgstr "_Añadir/Modificar comentario..."
 
 #: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3615
-#, fuzzy
 msgid "_Add..."
-msgstr "_Añadir"
+msgstr "_Añadir..."
 
 #: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3265
 msgid "_All"
@@ -18118,9 +18005,8 @@ msgid "_Select"
 msgstr "_Seleccionar"
 
 #: src/GNOME_Gnumeric.xml.h:326
-#, fuzzy
 msgid "_Series..."
-msgstr "_Series"
+msgstr "_Series..."
 
 #: src/GNOME_Gnumeric.xml.h:327
 msgid "_Shaped Object"
@@ -18202,9 +18088,8 @@ msgid "_View"
 msgstr "_Vista"
 
 #: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3612
-#, fuzzy
 msgid "_View..."
-msgstr "_Vista"
+msgstr "_Vista..."
 
 #: src/GNOME_Gnumeric.xml.h:347 src/workbook-control-gui.c:3506
 msgid "_Width..."
@@ -18255,77 +18140,64 @@ msgid "_Paste Cells"
 msgstr "_Pegar celdas"
 
 #: src/charset.c:26
-#, fuzzy
 msgid "Arabic"
-msgstr "Area %i"
+msgstr "Árabe"
 
 #: src/charset.c:27
-#, fuzzy
 msgid "Baltic"
-msgstr "Cursivas"
+msgstr "Báltico"
 
 #: src/charset.c:28
-#, fuzzy
 msgid "Central European"
-msgstr "Centrar en la página"
+msgstr "Centroeuropeo"
 
 #: src/charset.c:29
-#, fuzzy
 msgid "Chinese"
-msgstr "Chisq"
+msgstr "Chino"
 
 #: src/charset.c:30
 msgid "Cyrillic"
 msgstr "Cirílico"
 
 #: src/charset.c:31
-#, fuzzy
 msgid "Greek"
-msgstr "Verde"
+msgstr "Griego"
 
 #: src/charset.c:32
 msgid "Hebrew"
 msgstr "Hebreo"
 
 #: src/charset.c:33
-#, fuzzy
 msgid "Indian"
-msgstr "Mediana"
+msgstr "Indio"
 
 #: src/charset.c:34
-#, fuzzy
 msgid "Japanese"
-msgstr "Yen japonés"
+msgstr "Japonés"
 
 #: src/charset.c:35
-#, fuzzy
 msgid "Korean"
-msgstr "Valor de verdad (booleano)"
+msgstr "Coreano"
 
 #: src/charset.c:36
-#, fuzzy
 msgid "Turkish"
-msgstr "Lira turca"
+msgstr "Turco"
 
 #: src/charset.c:37
-#, fuzzy
 msgid "Unicode"
-msgstr "_Mostrar"
+msgstr "Unicode"
 
 #: src/charset.c:38
-#, fuzzy
 msgid "Vietnamese"
-msgstr "Definir nombres"
+msgstr "Vietnamita"
 
 #: src/charset.c:39
-#, fuzzy
 msgid "Western"
 msgstr "Oeste"
 
 #: src/charset.c:40
-#, fuzzy
 msgid "Other"
-msgstr "Octubre"
+msgstr "Otro"
 
 #: src/charset.c:45
 msgid "IBM-864"
@@ -18384,9 +18256,8 @@ msgid "ISO-8859-2"
 msgstr "ISO-8859-2"
 
 #: src/charset.c:59
-#, fuzzy
 msgid "MacCE"
-msgstr "Marzo"
+msgstr "MacCE"
 
 #: src/charset.c:60
 msgid "Windows-1250"
@@ -18449,62 +18320,50 @@ msgid "MacCyrillic"
 msgstr "MacCyrillic"
 
 #: src/charset.c:75
-#, fuzzy
 msgid "Windows-1251"
-msgstr "Ventanas"
+msgstr "Windows-1251"
 
 #: src/charset.c:76
-#, fuzzy
 msgid "Russian (CP-866)"
-msgstr "Ruso"
+msgstr "Ruso (CP-866)"
 
 #: src/charset.c:77
-#, fuzzy
 msgid "Ukrainian (KOI8-U)"
-msgstr "Ucraniano"
+msgstr "Ukrainiano (KOI8-U)"
 
 #: src/charset.c:78
-#, fuzzy
 msgid "Ukrainian (MacUkrainian)"
-msgstr "Ucraniano"
+msgstr "Ukrainiano (MacUkrainian)"
 
 #: src/charset.c:79
-#, fuzzy
 msgid "English (US-ASCII)"
 msgstr "Inglés (US-ASCII)"
 
 #: src/charset.c:80
-#, fuzzy
 msgid "Farsi (MacFarsi)"
 msgstr "Farsi (MacFarsi)"
 
 #: src/charset.c:81
-#, fuzzy
 msgid "Georgian (GEOSTD8)"
 msgstr "Georgiano (GEOSTD8)"
 
 #: src/charset.c:82
-#, fuzzy
 msgid "Greek (ISO-8859-7)"
 msgstr "Griego (ISO-8859-7)"
 
 #: src/charset.c:83
-#, fuzzy
 msgid "Greek (MacGreek)"
 msgstr "Griego (MacGreek)"
 
 #: src/charset.c:84
-#, fuzzy
 msgid "Greek (Windows-1253)"
 msgstr "Griego (Windows-1253)"
 
 #: src/charset.c:85
-#, fuzzy
 msgid "Gujarati (MacGujarati)"
 msgstr "Gujarati (MacGujarati)"
 
 #: src/charset.c:86
-#, fuzzy
 msgid "Gurmukhi (MacGurmukhi)"
 msgstr "Gurmukhi (MacGurmukhi)"
 
@@ -18525,17 +18384,14 @@ msgid "MacHebrew"
 msgstr "MacHebrew"
 
 #: src/charset.c:91
-#, fuzzy
 msgid "Windows-1255"
-msgstr "Ventanas"
+msgstr "Windows-1255"
 
 #: src/charset.c:92
-#, fuzzy
 msgid "Hindi (MacDevanagari)"
 msgstr "Hindi (MacDevanagari)"
 
 #: src/charset.c:93
-#, fuzzy
 msgid "Icelandic (MacIcelandic)"
 msgstr "Islandés (MacIcelandic)"
 
@@ -18568,27 +18424,22 @@ msgid "UHC"
 msgstr "UHC"
 
 #: src/charset.c:101
-#, fuzzy
 msgid "Nordic (ISO-8859-10)"
 msgstr "Nórdico (ISO-8859-10)"
 
 #: src/charset.c:102
-#, fuzzy
 msgid "Romanian (MacRomanian)"
 msgstr "Rumano (MacRomanian)"
 
 #: src/charset.c:103
-#, fuzzy
 msgid "Romanian (ISO-8859-16)"
 msgstr "Rumano (ISO-8859-16)"
 
 #: src/charset.c:104
-#, fuzzy
 msgid "South European (ISO-8859-3)"
 msgstr "Sur de Europa (ISO-8859-3)"
 
 #: src/charset.c:105
-#, fuzzy
 msgid "Thai (TIS-620)"
 msgstr "Thai (TIS-620)"
 
@@ -19190,11 +19041,11 @@ msgstr "Añadir escenario"
 
 #: src/commands.c:5639
 msgid "Scenario Show"
-msgstr ""
+msgstr "Mostrar escenario"
 
 #: src/commands.c:5704
 msgid "Shuffle Data"
-msgstr ""
+msgstr "Datos de muestreo"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:121
 msgid "A unique name for the action."
@@ -19661,7 +19512,7 @@ msgstr "0,05"
 #: src/dialogs/rank.glade.h:1 src/dialogs/sampling.glade.h:3
 #: src/dialogs/variance-tests.glade.h:3
 msgid "<span weight=\"bold\">Input</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Entrada</span>"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/descriptive-stats.glade.h:6 src/dialogs/exp-smoothing.glade.h:4
@@ -19678,7 +19529,7 @@ msgstr "<span weight=\"bold\"> Opciones</span>"
 #: src/dialogs/rank.glade.h:3 src/dialogs/sampling.glade.h:5
 #: src/dialogs/variance-tests.glade.h:5
 msgid "<span weight=\"bold\">Output</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Salida</span>"
 
 #: src/dialogs/anova-one.glade.h:6
 msgid "ANOVA - Single Factor"
@@ -20067,7 +19918,7 @@ msgstr "Gris 75% "
 
 #: src/dialogs/cell-format.glade.h:12
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Criterio</span>"
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "Act_ion:"
@@ -20535,7 +20386,7 @@ msgstr "<span weight=\"bold\">Opciones cortas</span>"
 
 #: src/dialogs/cell-sort.glade.h:2
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Especificación corta</span>"
 
 #: src/dialogs/cell-sort.glade.h:3
 msgid "Direction:"
@@ -20547,7 +20398,7 @@ msgstr "Rango:"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Sort range has a _header"
-msgstr ""
+msgstr "Ordenar rango como _cabecera"
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Sort..."
@@ -20753,7 +20604,7 @@ msgstr "Estadística descriptiva"
 
 #: src/dialogs/descriptive-stats.glade.h:13
 msgid "K:"
-msgstr ""
+msgstr "K:"
 
 #: src/dialogs/descriptive-stats.glade.h:14
 msgid "Kth Largest"
@@ -21996,12 +21847,11 @@ msgstr "Creado en"
 
 #: src/dialogs/dialog-scenarios.c:553
 msgid "Results entry did not contain valid cell names."
-msgstr ""
+msgstr "La entrada de resultados no contiene nombres de celdas válidos"
 
 #: src/dialogs/dialog-scenarios.c:620
-#, fuzzy
 msgid "Could not create the Scenarios dialog."
-msgstr "No se puede crear el diálogo para el Solver."
+msgstr "No se puede crear el diálogo para escenarios"
 
 #: src/dialogs/dialog-scenarios.c:637 src/dialogs/scenario-manager.glade.h:6
 msgid "Results:"
@@ -22073,9 +21923,8 @@ msgid "The input range is invalid."
 msgstr "El rango de entrada no es válido."
 
 #: src/dialogs/dialog-shuffle.c:151
-#, fuzzy
 msgid "Could not create the Data Shuffling dialog."
-msgstr "No se pudo crear el diálogo de simulación."
+msgstr "No se pudo crear el diálogo de muestreo de datos"
 
 #: src/dialogs/dialog-simulation.c:70
 msgid "The input variable range is invalid."
@@ -22103,7 +21952,7 @@ msgstr "# Variables de salida"
 
 #: src/dialogs/dialog-simulation.c:169
 msgid "Runtime"
-msgstr ""
+msgstr "Tiempo de ejecución"
 
 #: src/dialogs/dialog-simulation.c:169
 msgid "Run on"
@@ -22419,7 +22268,7 @@ msgstr "Agregar una columna nueva"
 
 #: src/dialogs/dialog-stf.glade.h:6
 msgid "Always (Both Sides)"
-msgstr ""
+msgstr "Siempre (ambos lados)"
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Attempt to recognize columns in the text automatically."
@@ -22505,7 +22354,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:24
 msgid "End"
-msgstr ""
+msgstr "Fin"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Example"
@@ -22563,11 +22412,11 @@ msgstr "Número de líneas a importar"
 
 #: src/dialogs/dialog-stf.glade.h:38
 msgid "On left side only"
-msgstr ""
+msgstr "Sólo en el lado izquierdo"
 
 #: src/dialogs/dialog-stf.glade.h:39
 msgid "On right side only"
-msgstr ""
+msgstr "Sólo en el lado derecho"
 
 #: src/dialogs/dialog-stf.glade.h:40
 msgid "Original data type:"
@@ -22811,11 +22660,11 @@ msgstr " Valor de paso:"
 
 #: src/dialogs/fill-series.glade.h:4
 msgid "D_ay"
-msgstr ""
+msgstr "D_ía"
 
 #: src/dialogs/fill-series.glade.h:5
 msgid "Date unit"
-msgstr ""
+msgstr "Unidad de tiempo"
 
 #: src/dialogs/fill-series.glade.h:6
 msgid "Fill Series"
@@ -22827,7 +22676,7 @@ msgstr " Series en"
 
 #: src/dialogs/fill-series.glade.h:11
 msgid "_Growth"
-msgstr ""
+msgstr "_Crecimiento"
 
 #: src/dialogs/fill-series.glade.h:12
 msgid "_Linear"
@@ -22883,11 +22732,11 @@ msgstr "(_Mímino):"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Objetivo</span>"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "<span weight=\"bold\">Last Result</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Último resultado</span>"
 
 #: src/dialogs/goalseek.glade.h:6
 msgid "Current Value:"
@@ -23516,7 +23365,7 @@ msgstr "Resumen de resultados:"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Cambiar celdas que contengan</span>"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
@@ -23816,16 +23665,15 @@ msgstr "Gestionar hojas..."
 
 #: src/dialogs/shuffle.glade.h:1
 msgid "Data Shuffling"
-msgstr ""
+msgstr "Muestreo de datos"
 
 #: src/dialogs/shuffle.glade.h:2
 msgid "Input Range: "
 msgstr "Rango de _entrada:"
 
 #: src/dialogs/shuffle.glade.h:3
-#, fuzzy
 msgid "Shuffle Method: "
-msgstr "Método de muestreo:"
+msgstr "Método de muestreo: "
 
 #: src/dialogs/shuffle.glade.h:4
 msgid "_Area"
@@ -23922,12 +23770,11 @@ msgstr "Resumen"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
-msgstr ""
+msgstr "Longitud de la flecha:"
 
 #: src/dialogs/so-arrow.glade.h:2
-#, fuzzy
 msgid "Arrow Tip:"
-msgstr "Flecha"
+msgstr "Indicación de la flecha:"
 
 #: src/dialogs/so-arrow.glade.h:3
 msgid "Arrow Width:"
@@ -25336,7 +25183,7 @@ msgstr "Formato de archivo:"
 
 #: src/gui-file.c:183
 msgid "Character encoding:"
-msgstr ""
+msgstr "Codificación de caracteres:"
 
 #: src/gui-file.c:232
 #, c-format
@@ -26324,6 +26171,10 @@ msgid ""
 "%s.\n"
 "The next two bytes have (hex) values %02X and %02X."
 msgstr ""
+"El archivo no parece usar la codificaión %s.\n"
+"Después de %i de %i bytes ocurrió un error de conversión:\n"
+"%s\n"
+"Los siguientes dos bytes tienen valores (hex) %02X y %02X."
 
 #: src/stf.c:154
 #, c-format
@@ -26332,6 +26183,9 @@ msgid ""
 "After %i of %i bytes a conversion error occurred:\n"
 "%s.\n"
 msgstr ""
+"El archivo no parece usar la codificación %s.\n"
+"Después de %i de %i bytes ha ocurrido un error de conversión:\n"
+"%s.\n"
 
 #: src/stf.c:182
 #, c-format
@@ -27621,11 +27475,11 @@ msgstr "Clasificaciones y _percentiles"
 
 #: src/workbook-control-gui.c:3817
 msgid "Sh_uffle..."
-msgstr ""
+msgstr "Mues_trear"
 
 #: src/workbook-control-gui.c:3818
 msgid "Shuffle cells, rows or columns"
-msgstr ""
+msgstr "Muestrear celdas, filas o columnas"
 
 #: src/workbook-control-gui.c:3836
 msgid "Create a pivot table."
