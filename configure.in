@@ -119,7 +119,7 @@ AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl gnome-xml checking
 dnl ******************************
-AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.12 <= version < 2.0.0  )
+AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.12 <= version < 2.0.0	)
 xml_ok=no
 if xml-config --libs > /dev/null 2>&1; then 
     verstxt=`xml-config --version`
@@ -651,13 +651,9 @@ Configuration:
 "
 if $have_bonobo; then
 	echo "
-	The Bonobo version of gnumeric is not supported,
-this code is changing extremely rapidly. For any given
-release it may not compile or depend on unreleased packages.
-	Please do not file bonobo related bug reports.  And
-please do not distribute prebuilt binaries with bonobo.
-
-"
+Please do not distribute prebuilt binaries with bonobo support.
+However, as of the 0.65 release we consider it stable enough
+to accept bug reports."
 fi
 
 if $have_gb; then

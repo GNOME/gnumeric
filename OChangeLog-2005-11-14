@@ -1,3 +1,12 @@
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : Remove ja, ko, zh* from ALL_LINGUAS until the po
+	  files are fixed.
+
 2001-05-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/sheet-object.c (sheet_object_read_xml): Fixed leaks.

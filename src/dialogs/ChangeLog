@@ -1,5 +1,9 @@
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
+	* Release 0.65
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
 	* dialog-plugin-manager.c (pm_dialog_init) : Correct use of
 	  gnome_config_get_bool_with_default.
 
