@@ -189,8 +189,15 @@ parse_criteria(Value *database, Value *criteria)
 			cell = sheet_cell_get(sheet, i, j);
 			if (cell == NULL || cell->value == NULL)
 			       continue;
-			cell_str = cell_get_text(cell);
 			cond = g_new(condition_t, 1);
+			if (VALUE_IS_NUMBER(cell->value)) {
+			       cond->x = value_get_as_double (cell->value);
+			       cond->fun =
+				 (condition_test_fun_t) test_equal;
+			       conditions = g_slist_append(conditions, cond);
+			       continue;
+			}
+			cell_str = cell_get_text(cell);
 		        if (strncmp(cell_str, "<=", 2) == 0) {
 			       cond->fun =
 				 (condition_test_fun_t) test_less_or_equal;

@@ -1,3 +1,8 @@
+1999-05-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c (parse_criteria): If a condition contains
+	just a number, it is an equality condition.
+	
 1999-05-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* configure.in: Laptop does not have resources.  Make guile
