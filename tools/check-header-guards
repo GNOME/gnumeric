@@ -33,7 +33,9 @@ my %base_exceptions =
      );
 
 my %exceptions =
-    ();
+    ('gnumeric-config.h' => 1,
+     'stamp.h' => 1,
+     );
 
 my %guard_to_file = ();
 
