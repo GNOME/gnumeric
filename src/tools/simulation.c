@@ -198,8 +198,9 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 
 	n_rounds = 1 + sim->last_round - sim->first_round;
 
-	dao_init (dao, NewSheetOutput);
 	dao_prepare_output (wbc, dao, _("Simulation Report"));
+	if (dao->type == NewSheetOutput || dao->type == NewWorkbookOutput)
+		dao->sheet->hide_grid = TRUE;
 
 	/*
 	 * Set this to fool the autofit_column function.  (It will be
@@ -218,10 +219,13 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 		dao_set_cell (dao, 8, 6 + n * rinc, _("Variance"));
 		dao_set_cell (dao, 9, 6 + n * rinc, _("Skewness"));
 		dao_set_cell (dao, 10, 6 + n * rinc, _("Kurtosis"));
+		dao_set_bold (dao, 1, 6 + n * rinc, 10, 6 + n * rinc);
 
 		for (i = 0; i < sim->n_output_vars; i++) {
 			dao_set_cell (dao, 1, i + 7 + n * rinc,
 				      sim->cellnames [i]);
+			dao_set_bold (dao, 1, i + 7 + n * rinc, 1,
+				      i + 7 + n * rinc);
 			dao_set_cell_float (dao, 2, i + 7 + n * rinc,
 					    stats [n].min [i]);
 			dao_set_cell_float (dao, 3, i + 7 + n * rinc,
@@ -262,17 +266,20 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 	 */
 
 	/* Fill in the column A labels into the simultaion report sheet. */
-	for (n = sim->first_round; n <= sim->last_round; n++) {
-	        char  *tmp = g_strdup_printf
-			("%s%d", _("SUMMARY OF SIMULATION ROUND #"), n + 1);
+	if (n_rounds > 1)
+		for (n = sim->first_round; n <= sim->last_round; n++) {
+			char  *tmp = g_strdup_printf
+				("%s%d", _("SUMMARY OF SIMULATION ROUND #"),
+				 n + 1);
 		
-		dao_set_cell (dao, 0, 5 + rinc * n, tmp);
-	}
+			dao_set_cell (dao, 0, 5 + rinc * n, tmp);
+		}
+	else
+		dao_set_cell (dao, 0, 5, _("SUMMARY"));
+
 
 	/* Fill in the header titles. */
-	dao_write_header (dao, _("Risk Simulation"),
-			  _("Report"), sheet);
-
+	dao_write_header (dao, _("Risk Simulation"), _("Report"), sheet);
 }
 
 /*

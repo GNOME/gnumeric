@@ -1,3 +1,11 @@
+2002-08-02  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dao.c (dao_set_bold, dao_set_underlined, dao_set_italic,
+	dao_set_percent): Bug fix: dao relative indexing.
+
+	* simulation.c (create_reports): Reporting look improvements.  Use
+	dao_prepare_output.
+
 2002-07-30  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* simulation.[ch]: Initial version of the Risk Simulation tool.

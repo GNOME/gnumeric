@@ -61,18 +61,18 @@ dao_init (data_analysis_output_t *dao,
 	if (dao == NULL)
 		dao = g_new (data_analysis_output_t, 1);
 
-	dao->type = type;
-	dao->start_col = 0;
-	dao->start_row = 0;
-	dao->offset_col = 0;
-	dao->offset_row = 0;
-	dao->cols = SHEET_MAX_COLS;
-	dao->rows = SHEET_MAX_ROWS;
-	dao->sheet = NULL;
-	dao->autofit_flag = TRUE;
+	dao->type              = type;
+	dao->start_col         = 0;
+	dao->start_row         = 0;
+	dao->offset_col        = 0;
+	dao->offset_row        = 0;
+	dao->cols              = SHEET_MAX_COLS;
+	dao->rows              = SHEET_MAX_ROWS;
+	dao->sheet             = NULL;
+	dao->autofit_flag      = TRUE;
 	dao->clear_outputrange = TRUE;
-	dao->retain_format = FALSE;
-	dao->retain_comments = FALSE;
+	dao->retain_format     = FALSE;
+	dao->retain_comments   = FALSE;
 
 	return dao;
 }
@@ -89,11 +89,12 @@ dao_init (data_analysis_output_t *dao,
 char *
 dao_range_name (data_analysis_output_t *dao)
 {
-			Range range;
-			range_init (&range, dao->start_col, dao->start_row,
-				    dao->start_col + dao->cols - 1, 
-				    dao->start_row + dao->rows - 1);
-			return cmd_range_to_str_utility (dao->sheet, &range);
+	Range range;
+	range_init (&range, dao->start_col, dao->start_row,
+		    dao->start_col + dao->cols - 1, 
+		    dao->start_row + dao->rows - 1);
+
+	return cmd_range_to_str_utility (dao->sheet, &range);
 }
 
 /**
@@ -108,7 +109,8 @@ dao_range_name (data_analysis_output_t *dao)
  **/
 
 char *
-dao_command_descriptor (data_analysis_output_t *dao, char const *format, gpointer result)
+dao_command_descriptor (data_analysis_output_t *dao, char const *format,
+			gpointer result)
 {
 	char *rangename = NULL;
 	char **text;
@@ -168,7 +170,8 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
  **/
 
 void
-dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao, const char *name)
+dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
+		    const char *name)
 {
 	char *unique_name;
 
@@ -177,7 +180,8 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao, const cha
 
 	if (dao->type == NewSheetOutput) {
 		Workbook *wb = wb_control_workbook (dao->wbc);
-		unique_name = workbook_sheet_get_free_name (wb, name, FALSE, FALSE);
+		unique_name = workbook_sheet_get_free_name (wb, name, FALSE,
+							    FALSE);
 	        dao->sheet = sheet_new (wb, unique_name);
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
@@ -210,7 +214,6 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao, const cha
  * 
  *
  **/
-
 gboolean
 dao_format_output (data_analysis_output_t *dao, char const *cmd)
 {
@@ -255,7 +258,6 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
  * 
  *
  **/
-
 void
 dao_set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 {
@@ -298,7 +300,6 @@ dao_set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
  * 
  *
  **/
-
 void
 dao_set_cell (data_analysis_output_t *dao, int col, int row, const char *text)
 {
@@ -322,9 +323,9 @@ dao_set_cell (data_analysis_output_t *dao, int col, int row, const char *text)
  * create format string and set cell.
  *
  **/
-
 void
-dao_set_cell_printf (data_analysis_output_t *dao, int col, int row, const char *fmt, ...)
+dao_set_cell_printf (data_analysis_output_t *dao, int col, int row,
+		     const char *fmt, ...)
 {
 	char *buffer;
 	va_list args;
@@ -349,7 +350,6 @@ dao_set_cell_printf (data_analysis_output_t *dao, int col, int row, const char *
  * 
  *
  **/
-
 void
 dao_set_cell_float (data_analysis_output_t *dao, int col, int row, gnum_float v)
 {
@@ -368,7 +368,6 @@ dao_set_cell_float (data_analysis_output_t *dao, int col, int row, gnum_float v)
  * 
  *
  **/
-
 void
 dao_set_cell_int (data_analysis_output_t *dao, int col, int row, int v)
 {
@@ -386,11 +385,11 @@ dao_set_cell_int (data_analysis_output_t *dao, int col, int row, int v)
  * 
  *
  **/
-
 void
 dao_set_cell_na (data_analysis_output_t *dao, int col, int row)
 {
-	dao_set_cell_value (dao, col, row, value_new_error (NULL, gnumeric_err_NA));
+	dao_set_cell_value (dao, col, row, value_new_error (NULL,
+							    gnumeric_err_NA));
 }
 
 /**
@@ -405,10 +404,9 @@ dao_set_cell_na (data_analysis_output_t *dao, int col, int row)
  * 
  *
  **/
-
 void
-dao_set_cell_float_na (data_analysis_output_t *dao, int col, int row, gnum_float v, 
-		       gboolean is_valid)
+dao_set_cell_float_na (data_analysis_output_t *dao, int col, int row,
+		       gnum_float v, gboolean is_valid)
 {
 	if (is_valid) {
 		dao_set_cell_float (dao, col, row, v);
@@ -427,7 +425,6 @@ dao_set_cell_float_na (data_analysis_output_t *dao, int col, int row, gnum_float
  * set a cell comment
  *
  **/
-
 void
 dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 		      const char *comment)
@@ -463,7 +460,6 @@ dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
  * 
  *
  **/
-
 static void
 dao_autofit_column (data_analysis_output_t *dao, int col)
 {
@@ -489,7 +485,6 @@ dao_autofit_column (data_analysis_output_t *dao, int col)
  * 
  *
  **/
-
 void
 dao_autofit_these_columns (data_analysis_output_t *dao, int from, int to)
 {
@@ -511,7 +506,6 @@ dao_autofit_these_columns (data_analysis_output_t *dao, int from, int to)
  * 
  *
  **/
-
 void
 dao_autofit_columns (data_analysis_output_t *dao)
 {
@@ -531,7 +525,6 @@ dao_autofit_columns (data_analysis_output_t *dao)
  * 
  *
  **/
-
 static void
 dao_set_style (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2, MStyle *mstyle)
@@ -568,8 +561,6 @@ dao_set_style (data_analysis_output_t *dao, int col1, int row1,
  * 
  *
  **/
-
-/* FIXME: We should be dao-relative! */
 void
 dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2)
@@ -577,10 +568,10 @@ dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 	MStyle *mstyle = mstyle_new ();
 	Range  range;
 
-	range.start.col = col1;
-	range.start.row = row1;
-	range.end.col   = col2;
-	range.end.row   = row2;
+	range.start.col = col1 + dao->start_col;
+	range.start.row = row1 + dao->start_row;
+	range.end.col   = col2 + dao->start_col;
+	range.end.row   = row2 + dao->start_row;
 
 	mstyle_set_font_bold (mstyle, TRUE);
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
@@ -598,8 +589,6 @@ dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
  * 
  *
  **/
-
-/* FIXME: We should be dao-relative! */
 void
 dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
 		    int col2, int row2)
@@ -607,10 +596,10 @@ dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
 	MStyle *mstyle = mstyle_new ();
 	Range  range;
 
-	range.start.col = col1;
-	range.start.row = row1;
-	range.end.col   = col2;
-	range.end.row   = row2;
+	range.start.col = col1 + dao->start_col;
+	range.start.row = row1 + dao->start_row;
+	range.end.col   = col2 + dao->start_col;
+	range.end.row   = row2 + dao->start_row;
 
 	mstyle_set_font_uline (mstyle, TRUE);
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
@@ -628,7 +617,6 @@ dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
  * 
  *
  **/
-
 void
 dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
 		int col2, int row2)
@@ -636,7 +624,8 @@ dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
 	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_font_italic (mstyle, TRUE);
-	dao_set_style (dao, col1, row1, col2, row2, mstyle);
+	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
+		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
 }
 
 /**
@@ -651,7 +640,6 @@ dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
  * 
  *
  **/
-
 void
 dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
@@ -659,7 +647,8 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_format_text (mstyle, "0.00%");
-	dao_set_style (dao, col1, row1, col2, row2, mstyle);
+	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
+		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
 }
 
 
@@ -671,7 +660,6 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
  * 
  *
  **/
-
 ColRowStateList *
 dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
 {
@@ -681,11 +669,13 @@ dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
 		return NULL;
 	case RangeOutput:
 		if (is_cols)
-			return colrow_get_states (dao->sheet, is_cols,
-						  dao->start_col, dao->start_col + dao->cols - 1);
+			return colrow_get_states
+				(dao->sheet, is_cols, dao->start_col,
+				 dao->start_col + dao->cols - 1);
 		else
-			return colrow_get_states (dao->sheet, is_cols,
-						  dao->start_row, dao->start_row + dao->rows - 1);
+			return colrow_get_states
+				(dao->sheet, is_cols, dao->start_row,
+				 dao->start_row + dao->rows - 1);
 	default:
 		return NULL;
 	}
@@ -701,7 +691,8 @@ dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
  *
  **/
 void
-dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols, ColRowStateList *list)
+dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols,
+			   ColRowStateList *list)
 {
 	g_return_if_fail (list);
 
@@ -738,8 +729,7 @@ dao_write_header (data_analysis_output_t *dao, gchar *toolname,
 	g_string_free (buf, FALSE);
 
 	buf = g_string_new ("");
-	g_string_sprintfa (buf, "%s [%s]%s",
-			   _("Worksheet:"),
+	g_string_sprintfa (buf, "%s [%s]%s", _("Worksheet:"),
 			   workbook_get_filename (sheet->workbook),
 			   sheet->name_quoted);
 	dao_set_cell (dao, 0, 1, buf->str);
