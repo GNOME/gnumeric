@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_REGUTF8_H
 #define GNUMERIC_REGUTF8_H
 
+#include <glib.h>
 #include <sys/types.h>
 #include "cut-n-paste-code/pcre/pcreposix.h"
 
@@ -27,5 +28,8 @@
 #endif
 
 int gnumeric_regcomp_XL (gnumeric_regex_t *preg, char const *pattern, int cflags);
+
+const char *gnumeric_regexp_quote1 (GString *target, const char *s);
+void gnumeric_regexp_quote (GString *target, const char *s);
 
 #endif

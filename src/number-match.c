@@ -98,44 +98,6 @@ typedef enum {
 	MATCH_CUMMULATIVE_SECONDS= 19
 } MatchType;
 
-static void
-char_to_re (char dst[7], gunichar c)
-{
-	switch (c) {
-	case '^': case '$': case '.': case '[':
-	case '+': case '*': case '?':
-	case '\\':
-		dst[0] = '\\';
-		dst[1] = c;
-		dst[2] = 0;
-		break;
-
-	default: {
-		int len = g_unichar_to_utf8 (c, dst);
-		dst[len] = 0;
-	}
-	}
-}
-
-static void
-str_to_re (GString *target, const char *s)
-{
-	/* This ought to be UTF-8 safe.  */
-	while (*s) {
-		switch (*s) {
-		case '^': case '$': case '.': case '[':
-		case '+': case '*': case '?':
-		case '\\':
-			g_string_append_c (target, '\\');
-			/* Fall through.  */
-		default:
-			g_string_append_c (target, *s);
-		}
-		s++;
-	}
-}
-
-
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
 
 /*
@@ -179,11 +141,9 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			break;
 
 		case '\\': {
-			char buf[7];
 			if (format[1] != '\0')
 				format++;
-			char_to_re (buf, g_utf8_get_char (format));
-			g_string_append (regexp, buf);
+			gnumeric_regexp_quote1 (regexp, format);
 			break;
 		}
 
@@ -244,7 +204,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 				 * as a result $1000 would not be recognized.
 				 */
 				g_string_append (regexp, "([-+]?[0-9]+(");
-				str_to_re (regexp, format_get_thousand ());
+				gnumeric_regexp_quote (regexp, format_get_thousand ());
 				g_string_append (regexp, "[0-9]{3})*)");
 				append_type (MATCH_SKIP);
 			} else
@@ -252,7 +212,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 
 			if (include_decimal) {
 				g_string_append (regexp, "?(");
-				str_to_re (regexp, format_get_decimal ());
+				gnumeric_regexp_quote (regexp, format_get_decimal ());
 				g_string_append (regexp, "[0-9]+([Ee][-+]?[0-9]+)?)");
 				append_type (MATCH_NUMBER_DECIMALS);
 			}
@@ -411,14 +371,9 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			/* Matches a string */
 			format++;
 			while (*format != '"') {
-				char buf[7];
-
 				if (*format == 0)
 					goto error;
-				char_to_re (buf, g_utf8_get_char (format));
-				g_string_append (regexp, buf);
-
-				format = g_utf8_next_char (format);
+				format = gnumeric_regexp_quote1 (regexp, format);
 			}
 			break;
 
@@ -454,11 +409,8 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 		case ')':
 
 #endif
-		default : {
-			char buf[7];
-			char_to_re (buf, c);
-			g_string_append (regexp, buf);
-		}
+		default :
+			gnumeric_regexp_quote1 (regexp, format);
 		}
 	}
 

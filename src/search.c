@@ -17,6 +17,7 @@
 #include "position.h"
 #include "cell.h"
 #include "value.h"
+#include "regutf8.h"
 #include "sheet-object-cell-comment.h"
 
 #include <string.h>
@@ -72,24 +73,9 @@ search_replace_compile (SearchReplace *sr, gboolean repl)
 		 * string.  (Thus hoping the regular expression search
 		 * routines are pretty good.)
 		 */
-
-		const char *src = sr->search_text;
-		const char *nextsrc;
-		char *dst = tmp = g_new (char, strlen (src) * 2 + 1);
-		pattern = tmp;
-
-		for (; *src; src = nextsrc) {
-			nextsrc = g_utf8_next_char (src);
-			switch (*src) {
-			case '.': case '[': case '\\':
-			case '*': case '^': case '$':
-				*dst++ = '\\';
-			}
-
-			memcpy (dst, src, nextsrc - src);
-			dst += (nextsrc - src);
-		}
-		*dst = 0;
+		GString *regexp = g_string_new (NULL);
+		gnumeric_regexp_quote (regexp, sr->search_text);
+		pattern = tmp = g_string_free (regexp, FALSE);
 
 		sr->plain_replace = TRUE;
 	}
