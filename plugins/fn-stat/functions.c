@@ -15,6 +15,9 @@
 #include "utils.h"
 #include "func.h"
 
+#define M_LN_SQRT_2PI   0.918938533204672741780329736406  /* log(sqrt(2*pi)) */
+
+
 /* The cumulative distribution function for the 0-1 normal distribution.  */
 static float_t
 phi (float_t x)
@@ -64,8 +67,15 @@ fmin2 (float_t x, float_t y)
         return (x < y) ? x : y;
 }
 
+static inline float_t
+fmax2 (float_t x, float_t y)
+{
+        return (x > y) ? x : y;
+}
+
 /* This function is originally taken from R package
  * (src/nmath/pgamma.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
  */
 static float_t
 pgamma(double x, double p, double scale)
@@ -162,28 +172,345 @@ pgamma(double x, double p, double scale)
 	return sum;
 }
 
-#if 0
-/* help template */
-static char *help_ = {
-	N_("@FUNCTION=NAME\n"
-	   "@SYNTAX=(b1, b2, ...)\n"
+/* This function is originally taken from R package
+ * (src/nmath/i1match.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+int i1mach(int i)
+{
+    switch(i) {
+    case  1:
+            return 5;
+    case  2:
+            return 6;
+    case  3:
+            return 0;
+    case  4:
+            return 0;
+    case  5:
+            return CHAR_BIT * sizeof(int);
+    case  6:
+            return sizeof(int)/sizeof(char);
+    case  7:
+            return 2;
+    case  8:
+            return CHAR_BIT * sizeof(int) - 1;
+    case  9:
+            return INT_MAX;
+    case 10:
+            return FLT_RADIX;
+    case 11:
+            return FLT_MANT_DIG;
+    case 12:
+            return FLT_MIN_EXP;
+    case 13:
+            return FLT_MAX_EXP;
+    case 14:
+            return DBL_MANT_DIG;
+    case 15:
+            return DBL_MIN_EXP;
+    case 16:
+            return DBL_MAX_EXP;
+    default:
+            return 0;
+    }
+}
 
-	   "@DESCRIPTION"
-	   ""
-	   "\n"
+/* This function is originally taken from R package
+ * (src/nmath/d1match.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+static float_t
+d1mach(int i)
+{
+        switch(i) {
+	case 1:
+	        return DBL_MIN;
+	case 2:
+	        return DBL_MAX;
+	case 3:
+	        return pow((double)i1mach(10), -(double)i1mach(14));
+	case 4:
+	        return pow((double)i1mach(10), 1-(double)i1mach(14));
+	case 5:
+	        return log10(2.0);
+	default:
+	        return 0.0;
+	}
+}
 
-	   ""
-	   ""
-	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
-	   "@SEEALSO=")
-};
+/* This function is originally taken from R package
+ * (src/nmath/chebyshev.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+static int
+chebyshev_init(float_t *dos, int nos, float_t eta)
+{
+        int i, ii;
+	float_t err;
 
-#endif
+	if (nos < 1)
+	        return 0;
+
+	err = 0.0;
+	i = 0;                      /* just to avoid compiler warnings */
+	for (ii=1; ii<=nos; ii++) {
+	        i = nos - ii;
+		err += fabs(dos[i]);
+		if (err > eta) {
+		        return i;
+		}
+	}
+	return i;
+}
+
+/* This function is originally taken from R package
+ * (src/nmath/chebyshev.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+static float_t
+chebyshev_eval(float_t x, float_t *a, int n)
+{
+        float_t b0, b1, b2, twox;
+	int i;
+
+	twox = x * 2;
+	b2 = b1 = 0;
+	b0 = 0;
+	for (i = 1; i <= n; i++) {
+	        b2 = b1;
+		b1 = b0;
+		b0 = twox * b1 - b2 + a[n - i];
+	}
+	return (b0 - b2) * 0.5;
+}
+
+/* This function is originally taken from R package
+ * (src/nmath/lgammacor.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+static float_t
+lgammacor(float_t x)
+{
+        static double algmcs[15] = {
+	        +.1666389480451863247205729650822e+0,
+		-.1384948176067563840732986059135e-4,
+		+.9810825646924729426157171547487e-8,
+		-.1809129475572494194263306266719e-10,
+		+.6221098041892605227126015543416e-13,
+		-.3399615005417721944303330599666e-15,
+		+.2683181998482698748957538846666e-17,
+		-.2868042435334643284144622399999e-19,
+		+.3962837061046434803679306666666e-21,
+		-.6831888753985766870111999999999e-23,
+		+.1429227355942498147573333333333e-24,
+		-.3547598158101070547199999999999e-26,
+		+.1025680058010470912000000000000e-27,
+		-.3401102254316748799999999999999e-29,
+		+.1276642195630062933333333333333e-30
+	};
+	static int     nalgm = 0;
+	static float_t xbig = 0;
+	static float_t xmax = 0;
+	float_t        tmp;
+
+	if (nalgm == 0) {
+	        nalgm = chebyshev_init(algmcs, 15, d1mach(3));
+		xbig = 1 / sqrt(d1mach(3));
+		xmax = exp(fmin2(log(d1mach(2) / 12), -log(12 * d1mach(1))));
+	}
+
+	if (x < xbig) {
+	        tmp = 10 / x;
+		return chebyshev_eval(tmp * tmp * 2 - 1, algmcs, nalgm) / x;
+	}
+	else
+	        return (1 / (x * 12));
+}
+
+/* This function is originally taken from R package
+ * (src/nmath/lbeta.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+static float_t
+lbeta(float_t a, float_t b)
+{
+        static float_t corr, p, q;
+
+	p = q = a;
+	if (b < p)
+	        p = b; /* := min(a,b) */
+	if (b > q)
+                q = b; /* := max(a,b) */
+
+	/* both arguments must be >= 0 */
+
+	if (p >= 10) {
+	        /* p and q are big. */
+	        corr = lgammacor(p) + lgammacor(q) - lgammacor(p + q);
+		return log(q) * -0.5 + M_LN_SQRT_2PI + corr
+		  + (p - 0.5) * log(p / (p + q)) + q * log(1+(-p / (p + q)));
+	}
+	else if (q >= 10) {
+	        /* p is small, but q is big. */
+	        corr = lgammacor(q) - lgammacor(p + q);
+		return lgamma(p) + corr + p - p * log(p + q)
+		  + (q - 0.5) * log(1+(-p / (p + q)));
+	}
+	else
+                /* p and q are small: p <= q > 10. */
+	        return log(exp(lgamma(p)) *
+			   (exp(lgamma(q)) / exp(lgamma(p + q))));
+}
+
+/* This function is originally taken from R package
+ * (src/nmath/pbeta.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+static float_t
+pbeta_raw(float_t x, float_t pin, float_t qin)
+{
+        float_t ans, c, finsum, p, ps, p1, q, term, xb, xi, y;
+	int n, i, ib;
+
+	static float_t eps = 0;
+	static float_t alneps = 0;
+	static float_t sml = 0;
+	static float_t alnsml = 0;
+
+	if (eps == 0) { /* initialize machine constants ONCE */
+	        eps = d1mach(3);
+		alneps = log(eps);
+		sml = d1mach(1);
+		alnsml = log(sml);
+	}
+
+	y = x;
+	p = pin;
+	q = qin;
+
+	/* swap tails if x is greater than the mean */
+
+	if (p / (p + q) < x) {
+	        y = 1 - y;
+		p = qin;
+		q = pin;
+	}
+
+	if ((p + q) * y / (p + 1) < eps) {
+
+	        /* tail approximation */
+
+	        ans = 0;
+		xb = p * log(fmax2(y, sml)) - log(p) - lbeta(p, q);
+		if (xb > alnsml && y != 0)
+		        ans = exp(xb);
+		if (y != x || p != pin)
+		        ans = 1 - ans;
+	}
+	else {
+	        /*___ FIXME ___:  This takes forever (or ends wrongly) 
+		 * when (one or) both p & q  are huge 
+		 */
+
+	        /* evaluate the infinite sum first.  term will equal */
+	        /* y^p / beta(ps, p) * (1 - ps)-sub-i * y^i / fac(i) */
+	        ps = q - floor(q);
+		if (ps == 0)
+		        ps = 1;
+		xb = p * log(y) - lbeta(ps, p) - log(p);
+		ans = 0;
+		if (xb >= alnsml) {
+		        ans = exp(xb);
+			term = ans * p;
+			if (ps != 1) {
+			        n = fmax2(alneps/log(y), 4.0);
+				for(i=1 ; i<= n ; i++) {
+				        xi = i;
+					term = term * (xi - ps) * y / xi;
+					ans = ans + term / (p + xi);
+				}
+			}
+		}
+
+		/* now evaluate the finite sum, maybe. */
+
+		if (q > 1) {
+		        xb = p * log(y) + q * log(1 - y) - lbeta(p, q) - log(q);
+			ib = fmax2(xb / alnsml, 0.0);
+			term = exp(xb - ib * alnsml);
+			c = 1 / (1 - y);
+			p1 = q * c / (p + q - 1);
+
+			finsum = 0;
+			n = q;
+			if (q == n)
+			        n = n - 1;
+			for(i=1 ; i<=n ; i++) {
+			        if (p1 <= 1 && term / eps <= finsum)
+				  break;
+				xi = i;
+				term = (q - xi + 1) * c * term / (p + q - xi);
+				if (term > 1) {
+				        ib = ib - 1;
+					term = term * sml;
+				}
+				if (ib == 0)
+				        finsum = finsum + term;
+			}
+			ans = ans + finsum;
+		}
+		if (y != x || p != pin)
+		        ans = 1 - ans;
+		ans = fmax2(fmin2(ans, 1.0), 0.0);
+	}
+	return ans;
+}
+
+static float_t
+pbeta(float_t x, float_t pin, float_t qin)
+{
+        if (x <= 0)
+	        return 0;
+	if (x >= 1)
+	        return 1;
+	return pbeta_raw(x, pin, qin);
+}
+
+/* This function is originally taken from R package
+ * (src/nmath/pt.c) written and copyrighted (1995, 1996) by Robert Gentleman
+ * and Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+static float_t 
+pt(float_t x, float_t n)
+{
+        /* return  P[ T <= x ]  where  
+	 * T ~ t_{n}  (t distrib. with n degrees of freedom).   
+	 *      --> ./pnt.c for NON-central
+	 */
+        float_t val;
+
+	if (n > 4e5) { /*-- Fixme(?): test should depend on `n' AND `x' ! */
+	               /* Approx. from  Abramowitz & Stegun 26.7.8 (p.949) */
+	        val = 1./(4.*n);
+		return phi(x*(1. - val)/sqrt(1. + x*x*2.*val));
+	}
+	val = 0.5 * pbeta(n / (n + x * x), n / 2.0, 0.5);
+	return val;
+}
+
+/* This function is originally taken from R package
+ * (src/nmath/pf.c) written and copyrighted (1998) by Ross Ihaka.
+ * Modified for Gnumeric by Jukka-Pekka Iivonen
+ */
+static float_t
+pf(float_t x, float_t n1, float_t n2)
+{
+        if (x <= 0.0)
+	        return 0.0;
+	return pbeta(n2 / (n2 + n1 * x), n2 / 2.0, n1 / 2.0);
+}
 
 /* Take a deep breath.
 
@@ -1709,6 +2036,105 @@ gnumeric_chiinv (struct FunctionDefinition *i, Value *argv [],
 	return NULL;
 }
 
+static char *help_betadist = {
+	N_("@FUNCTION=BETADIST\n"
+	   "@SYNTAX=BETADIST(x,alpha,beta)\n"
+
+	   "@DESCRIPTION="
+	   "BETADIST function returns the cumulative beta distribution. "
+	   "\n"
+	   "If @x < 0 or @x > 1 BETADIST returns #NUM! error. "
+	   "If @alpha <= 0 or beta <= 0, BETADIST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=BETAINV")
+};
+
+static Value *
+gnumeric_betadist (struct FunctionDefinition *i, Value *argv [],
+		   char **error_string)
+{
+	float_t x, alpha, beta;
+
+	x = value_get_as_double (argv [0]);
+	alpha = value_get_as_double (argv [1]);
+	beta = value_get_as_double (argv [2]);
+
+	if (x<0 || x>1 || alpha<=0 || beta<=0){
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	return value_float (pbeta(x, alpha, beta));
+}
+
+static char *help_tdist = {
+	N_("@FUNCTION=TDIST\n"
+	   "@SYNTAX=TDIST(x,dof,tails)\n"
+
+	   "@DESCRIPTION="
+	   "TDIST function returns the Student's t-distribution. @dof is "
+	   "the degree of freedom and @tails is 1 or 2 depending on wheater "
+	   "you want one-tailed or two-tailed distribution. "
+	   "\n"
+	   "If @dof < 1 TDIST returns #NUM! error. "
+	   "If @tails is neither 1 or 2 TDIST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=TINV,TTEST")
+};
+
+static Value *
+gnumeric_tdist (struct FunctionDefinition *i, Value *argv [],
+		char **error_string)
+{
+	float_t x;
+	int     dof, tails;
+
+	x = value_get_as_double (argv [0]);
+	dof = value_get_as_int (argv [1]);
+	tails = value_get_as_int (argv [2]);
+
+	if (dof<1 || (tails!=1 && tails!=2)){
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	if (tails == 1)
+	        return value_float (pt(x, dof));
+	else
+	        return value_float (pt(x, dof)*2);
+}
+
+static char *help_fdist = {
+	N_("@FUNCTION=FDIST\n"
+	   "@SYNTAX=FDIST(x,dof1,dof2)\n"
+
+	   "@DESCRIPTION="
+	   "FDIST function returns the F probability distribution. @dof1 "
+	   "is the numerator degrees of freedom and @dof2 is the denominator "
+	   "degrees of freedom. "
+	   "\n"
+	   "If @x < 0 FDIST returns #NUM! error. "
+	   "If @dof1 < 1 or @dof2 < 1, GAMMADIST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=FINV")
+};
+
+static Value *
+gnumeric_fdist (struct FunctionDefinition *i, Value *argv [],
+		char **error_string)
+{
+	float_t x;
+	int     dof1, dof2;
+
+	x = value_get_as_double (argv [0]);
+	dof1 = value_get_as_int (argv [1]);
+	dof2 = value_get_as_int (argv [2]);
+
+	if (x<0 || dof1<1 || dof2<1){
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	return value_float (pf(x, dof1, dof2));
+}
+
 static char *help_binomdist = {
 	N_("@FUNCTION=BINOMDIST\n"
 	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -2875,6 +3301,7 @@ gnumeric_ztest (void *tsheet, GList *expr_node_list,
 
 FunctionDefinition stat_functions [] = {
         { "avedev",    0,      "",          &help_avedev,    gnumeric_avedev, NULL },
+	{ "betadist", "fff", "",            &help_betadist, NULL, gnumeric_betadist },
 	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist, NULL, gnumeric_binomdist },
 	{ "chidist",   "ff",  "",           &help_chidist, NULL, gnumeric_chidist },
 	{ "chiinv",    "ff",  "",           &help_chiinv, NULL, gnumeric_chiinv },
@@ -2886,6 +3313,7 @@ FunctionDefinition stat_functions [] = {
 	{ "permut",    "ff",  "n,k",        &help_permut,    NULL, gnumeric_permut },
 	{ "poisson",   "ffb",  "",          &help_poisson,   NULL, gnumeric_poisson },
 	{ "expondist", "ffb",  "",          &help_expondist, NULL, gnumeric_expondist },
+	{ "fdist",   "fff",  "",            &help_fdist,  NULL, gnumeric_fdist },
         { "fisher",    "f",    "",          &help_fisher,    NULL, gnumeric_fisher },
         { "fisherinv", "f",    "",          &help_fisherinv, NULL, gnumeric_fisherinv },
 	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
@@ -2913,6 +3341,7 @@ FunctionDefinition stat_functions [] = {
 	{ "standardize", "fff",  "x,mean,stddev", &help_standardize, NULL, gnumeric_standardize },
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
+	{ "tdist",   "fff",  "",            &help_tdist,  NULL, gnumeric_tdist },
 	{ "trimmean",  0,      "",          &help_trimmean,  gnumeric_trimmean, NULL },
 	{ "var",       0,      "",          &help_var,       gnumeric_var, NULL },
 	{ "varp",      0,      "",          &help_varp,      gnumeric_varp, NULL },
