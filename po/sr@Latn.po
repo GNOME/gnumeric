@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-11 11:43+0200\n"
-"PO-Revision-Date: 2003-09-11 11:48+0200\n"
+"POT-Creation-Date: 2003-09-13 05:55+0200\n"
+"PO-Revision-Date: 2003-09-13 05:54+0200\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -766,11 +766,11 @@ msgstr "Greška prilikom snimanja DIF datoteke."
 
 #: plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
-msgstr "Format razmene podataka (*.diff)"
+msgstr "Format razmene podataka (*.dif)"
 
 #: plugins/dif/plugin.xml.in.h:2
 msgid "Data Interchange Format (DIF) module"
-msgstr ""
+msgstr "Moduo za format razmene podataka (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
@@ -4896,7 +4896,7 @@ msgstr "%s verzija %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:393
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -10887,10 +10887,6 @@ msgstr "EKSPERIMENTALNI SAX bazirani XML"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Buduća generacija sax baziranog XML U/I podsistema"
 
-#: plugins/xml_sax/plugin.xml.in.h:4
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "NEZAVRŠENI Gnumerik XML (*.gnumeric)"
-
 #: plugins/xml_sax/xml-sax-read.c:301
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
@@ -12023,7 +12019,7 @@ msgid "Jump to a specified cell"
 msgstr "Skoči do određenog polja"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Oznaka"
@@ -12191,7 +12187,7 @@ msgid "Print Preview"
 msgstr "Štampaj prikaz"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "Prikaz pred štampu"
@@ -13507,73 +13503,105 @@ msgid "Data Consolidation"
 msgstr "Učvršćivanje podataka"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+msgid "<b>Major Ticks:</b>"
+msgstr "<b>Glavne crtice:</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+msgid "<b>Minor Ticks:</b>"
+msgstr "<b>Sporedne crtice:</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+msgid "I_nside"
+msgstr "_Unutar"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+msgid "O_utside"
+msgstr "Sp_olja"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 msgid "_Cross"
 msgstr "_Krst"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
 msgid "_High"
 msgstr "_Visoko"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+msgid "_Inside"
+msgstr "_Unutar"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
 msgid "_Invert"
 msgstr "O_brni"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
 msgid "_Low"
 msgstr "_Nisko"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
 msgid "_Map:"
 msgstr "_Mapa:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+msgid "_Outside"
+msgstr "Sp_olja"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+msgid "_Show Labels"
+msgstr "P_rikaži oznake"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:366
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "_Minimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:366
 msgid "M_ax"
 msgstr "M_aksimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:367
 msgid "Ma_jor Ticks"
 msgstr "Gla_vne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:368
 msgid "Mi_nor Ticks"
 msgstr "Sp_oredne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:400
 msgid "Bounds"
 msgstr "Ograničenja"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:404
 msgid "Details"
 msgstr "Detalji"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Naslov"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+msgid "Grid"
+msgstr "Mreža"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr "X osa"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr "Y osa"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr "Z osa"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Plot"
 msgstr "Iscrtaj"
 
@@ -13867,7 +13895,7 @@ msgid "Default"
 msgstr "Podrazumevano"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 msgid "Guppi"
 msgstr "Gupi"
 
@@ -13918,7 +13946,7 @@ msgstr "TrakaKolona"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
 msgid "PlotLine"
 msgstr "CrtanaLinija"
 
@@ -13926,7 +13954,7 @@ msgstr "CrtanaLinija"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
 msgid "PlotArea"
 msgstr "CrtanaPovrš"
 
@@ -14286,11 +14314,11 @@ msgstr "Sistem za iscrtavanje prstena"
 msgid "PlotXY"
 msgstr "CrtežXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:157
 msgid "Y"
 msgstr "Y"
 
@@ -15189,8 +15217,8 @@ msgid "<b>Error alerts</b>"
 msgstr "<b>Upozorenja na grešku</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-msgid "<b>Horizontal alignement</b>"
-msgstr "<b>Vodoravno poravnanje</b>"
+msgid "<b>Horizontal alignment</b>"
+msgstr "<b>Vodoravno poravnavanje</b>"
 
 #: src/dialogs/cell-format.glade.h:18
 msgid "<b>Orientation</b>"
@@ -15209,7 +15237,7 @@ msgid "<b>Style</b>"
 msgstr "<b>Stl</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "<b>Vertical alignement</b>"
+msgid "<b>Vertical alignment</b>"
 msgstr "<b>Uspravno poravnavanje</b>"
 
 #: src/dialogs/cell-format.glade.h:23
@@ -16231,7 +16259,7 @@ msgstr "Razlikuje mala i velika slova"
 msgid "By Value"
 msgstr "Po vrednosti"
 
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Ne mogu da obrazujem prozorče za alatku „Poredak“."
 
@@ -21161,23 +21189,23 @@ msgstr "datoteka"
 msgid "&[PAGE]"
 msgstr "&[STRANA]"
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr "Štampaj oblast"
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "Štampaj tabele"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "Aktivna _tabela"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "_Tabele"
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Neuspelo štampanje"
 
@@ -24195,23 +24223,23 @@ msgstr "Neobjašnjiva greška se dogodila za vreme beleženja %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 msgid "The filename given is not valid in the current encoding."
 msgstr "Ime datoteke koje ste naveli je neispravno u tekućem kodiranju."
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr "Podrazumevani sistem za čuvanje datoteka nije dostupan."
 
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr "Ne mogu da napravim privremenu datoteku radi slanja."
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr "Nepodržani oblik datoteke."
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Došlo je do neobjašnjive greške pri  otvaranju %s"
@@ -24267,6 +24295,9 @@ msgstr "Greška pri snimanju datoteke"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumerik XML format datoteke"
+
+#~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
+#~ msgstr "NEZAVRŠENI Gnumerik XML (*.gnumeric)"
 
 #~ msgid "XYPlot"
 #~ msgstr "XYiscrtavanje"
