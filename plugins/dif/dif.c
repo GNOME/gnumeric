@@ -366,6 +366,8 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		return;
 	}
 
+	r = sheet_get_extent (sheet, FALSE);
+
 	/* Write out the standard headers */
 	fputs ("TABLE\n" "0,1\n" "\"GNUMERIC\"\n", f);
 	fprintf (f, "VECTORS\n" "0,%d\n" "\"\"\n", r.end.row);
@@ -373,7 +375,6 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	fputs ("DATA\n0,0\n" "\"\"\n", f);
 
 	/* Process all cells */
-	r = sheet_get_extent (sheet, FALSE);
 	for (row = r.start.row; row <= r.end.row; row++) {
 		fputs ("-1,0\n" "BOT\n", f);
 		for (col = r.start.col; col <= r.end.col; col++) {
