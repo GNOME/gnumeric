@@ -149,7 +149,7 @@ Pending Patches
     1.17) SheetObject editing
 	1.17.1) Connect SheetObejct::user_config handler	(DONE)
 	1.17.2) Create a gog_object_dup to avoid live updating	(DONE)
-	1.17.3) Add undo/redo of full GogGraph assignment
+	1.17.3) Add undo/redo of full GogGraph assignment       (DONE)
     1.18) Extend sheet object anchor assignment to call object	(DONE)
           specfic handlers so that we can set the logical size
 	  of the graph.
@@ -424,10 +424,9 @@ Misc stuff that should be fixed
 
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
-    - Remove sheet. (Done except that graphs are lost and  references 
-                     are not linked back.)
+    - Remove sheet. (Done except that references are not linked back.)
     - `Add Scenario' Portion of Solver
-    - Sheet object configuration changes.
+    - Sheet object configuration changes. (Done for graphs.)
     - Workbook attr changes
 
 - cols/rows

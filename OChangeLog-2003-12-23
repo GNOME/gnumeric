@@ -1,5 +1,11 @@
 2003-08-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c 
+	(cmd_reorganize_sheets_delete_get_this_sheet_info): do not
+	  exclude graphs
+	
+2003-08-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_so_graph_config*): new
 	* src/commands.h (cmd_so_graph_config): new
 	* src/sheet-object-graph.c (sheet_object_graph_reassign_gog): new

@@ -4303,13 +4303,9 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 	} 
 	data->sheet_objects = NULL;
 	for (l = sheet->sheet_objects; l != NULL; l = l->next) {
-		if (!IS_SHEET_OBJECT_GRAPH (l->data)) {
-			data->sheet_objects 
-				= g_list_prepend (data->sheet_objects,
-						  l->data);
-		}
-		else
-			g_warning ("Dropping a graph object");
+		data->sheet_objects 
+			= g_list_prepend (data->sheet_objects,
+					  l->data);
 	}
 	data->sheet_objects = g_list_reverse (data->sheet_objects);
 	for (l = data->sheet_objects; l != NULL; l = l->next) {
