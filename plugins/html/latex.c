@@ -171,6 +171,41 @@ latex_fputs (char const *p, FILE *fp)
 	}
 }
 
+/**
+ * latex_math_fputs :
+ *
+ * @p : a pointer to a char, start of the string to be processed.
+ * @fp : a file pointer where the processed characters are written.
+ *
+ * This escapes any special LaTeX characters from the LaTeX engine.
+ * 
+ * We assume that htis will be set in Mathematics mode.
+ */
+static void
+latex_math_fputs (char const *p, FILE *fp)
+{
+	for (; *p; p++) {
+		switch (*p) {
+
+			/* These are the classic TeX symbols $ & % # (see Lamport, p.15) */
+			case '$': case '&': case '%': case '#':
+				fprintf (fp, "\\%c", *p);
+				break;
+			/* These are the other special characters ~ (see Lamport, p.15) */
+			case '~':
+				fprintf (fp, "\\%c{ }", *p);
+				break;
+			case '\\':
+				fputs ("\\backslash", fp);
+				break;
+
+			default:
+				fputc (*p, fp);
+				break;
+		}
+	}
+}
+
 
 /**
  * latex2e_write_file_header:
@@ -674,17 +709,22 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 			fprintf (fp, "$");
 		        if (mstyle_get_font_italic(mstyle))
 			    fprintf (fp, "\\gnumericmathit{");
+
+			/* Print the cell contents. */
+			rendered_string = cell_get_rendered_text (cell);
+			latex_math_fputs (rendered_string, fp);
+			g_free (rendered_string);
+
+		        if (mstyle_get_font_italic(mstyle))
+			    fprintf (fp, "}");
+			fprintf (fp, "$");
+		} else {
+			/* Print the cell contents. */
+			rendered_string = cell_get_rendered_text (cell);
+			latex_fputs (rendered_string, fp);
+			g_free (rendered_string);
 		}
-		/* Print the cell contents. */
-		rendered_string = cell_get_rendered_text (cell);
-		latex_fputs (rendered_string, fp);
-		g_free (rendered_string);
-
-		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
-		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
-		    cell_format_family == FMT_SCIENCE)
-			fprintf (fp, "}$");
-
+		
 		/* Close the styles for the cell. */
 		if (mstyle_get_font_italic (mstyle))
 			fprintf (fp, "}");

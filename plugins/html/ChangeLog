@@ -1,3 +1,9 @@
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c (latex2e_write_multicolumn_cell): fix a silly 
+	  mistake (97246)
+	(latex_math_fputs) : latex_fputs for math mode
+
 2002-10-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c: add missing border connector (Thanks Adrian!)
