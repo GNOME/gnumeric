@@ -52,6 +52,9 @@ void       gnumeric_sheet_cursor_set     	 (GnumericSheet *gsheet,
 					 	  int col, int row);
 void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,
 						  int col, int row);
+void       gnumeric_sheet_set_cursor_bounds      (GnumericSheet *gsheet,
+						  int start_col, int start_row,
+						  int end_col,   int end_row);
 void       gnumeric_sheet_load_cell_val          (GnumericSheet *gsheet);
 void       gnumeric_sheet_accept_pending_output  (GnumericSheet *sheet);
 void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);

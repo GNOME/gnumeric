@@ -224,6 +224,21 @@ gnumeric_sheet_move_cursor (GnumericSheet *gsheet, int col, int row)
 	move_cursor (gsheet, col, row, 1);
 }
 
+void
+gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
+				  int start_col, int start_row,
+				  int end_col,   int end_row)
+{
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+
+	gnumeric_sheet_cursor_set (gsheet, start_col, start_row);
+	item_cursor_set_bounds (gsheet->item_cursor,
+				start_col, start_row, end_col, end_row);
+	gnumeric_sheet_load_cell_val (gsheet);
+				
+}
+
 /*
  * move_cursor_horizontal:
  *  @Sheet:  The sheet name

@@ -419,6 +419,13 @@ format_number(gdouble number, StyleFormatEntry *style_format_entry, char **color
   info.decimal = -1;
   info.timeformat = 0;
   info.hasnumbers = FALSE;
+
+  if (strcmp (format, "General") == 0){
+      char buffer [40];
+
+      snprintf (buffer, sizeof (buffer), "%g", number);
+      return g_strdup (buffer);
+  }
   
   for ( i = 0; i < length; i++ )
     {

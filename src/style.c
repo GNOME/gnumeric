@@ -178,7 +178,7 @@ style_new (void)
 
 	style->valid_flags = STYLE_ALL;
 	
-	style->format  = style_format_new ("0");
+	style->format  = style_format_new ("General");
 	style->font    = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
 	style->border  = style_border_new_plain ();
 

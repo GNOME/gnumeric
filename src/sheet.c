@@ -125,7 +125,7 @@ sheet_col_selection_changed (ItemBar *item_bar, int column, int reset, Sheet *sh
 	ci = sheet_col_get (sheet, column);
 	
 	if (reset){
-		sheet_cursor_set (sheet, column, 0);
+		sheet_cursor_set (sheet, column, 0, column, SHEET_MAX_ROWS - 1);
 		sheet_selection_clear (sheet);
 		sheet_selection_append_range (sheet,
 					      column, 0,
@@ -151,7 +151,7 @@ sheet_row_selection_changed (ItemBar *item_bar, int row, int reset, Sheet *sheet
 	ri = sheet_row_get (sheet, row);
 
 	if (reset){
-		sheet_cursor_set (sheet, 0, row);
+		sheet_cursor_set (sheet, 0, row, SHEET_MAX_COLS-1, row);
 		sheet_selection_clear (sheet);
 		sheet_selection_append_range (sheet,
 					      0, row,
@@ -868,7 +868,7 @@ sheet_select_all (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_selection_clear_only (sheet);
-	sheet_cursor_set (sheet, 0, 0);
+	sheet_cursor_set (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	sheet_selection_append_range (sheet, 0, 0, 0, 0,
 		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 
@@ -1700,6 +1700,8 @@ void
 sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags)
 {
 	CellRegion *content;
+	int end_col, end_row;
+	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections);
@@ -1708,9 +1710,16 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	
 	if (!content)
 		return;
-	
+
+	end_col = dest_col + content->cols - 1;
+	end_row = dest_row + content->rows - 1;
+
 	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags);
-	sheet_cursor_set (sheet, dest_col, dest_row);
+	sheet_cursor_set (sheet, dest_col, dest_row, end_col, end_row);
+	
+	sheet_selection_clear_only (sheet);
+	sheet_selection_append (sheet, dest_col, dest_row);
+	sheet_selection_extend_to (sheet, end_col, end_row);
 }
 
 
@@ -1727,10 +1736,22 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
 }
 
 void
-sheet_cursor_set (Sheet *sheet, int col, int row)
+sheet_cursor_set (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), col, row);
+	gnumeric_sheet_set_cursor_bounds (
+		GNUMERIC_SHEET (sheet->sheet_view),
+		start_col, start_row, end_col, end_row);
 }
+
+void
+sheet_cursor_move (Sheet *sheet, int col, int row)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	gnumeric_sheet_move_cursor (GNUMERIC_SHEET (sheet->sheet_view), col, row);
+}
+

@@ -31,6 +31,7 @@ static Cell *first_cell;
 
 /* The various formats */
 static char *cell_format_numbers [] = {
+	"General",
 	"0",
 	"0.00",
 	"#,##0",

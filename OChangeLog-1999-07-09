@@ -1,3 +1,18 @@
+1998-08-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_cursor_bounds): New
+	routine to set the cursor bounds.
+
+	* src/sheet.c (sheet_selection_paste): Set the cursor and the
+	selection to the new spot. 
+
+	* src/dialog-paste-specia.c: Move the dialog code here. 
+
+	* src/format.c (format_number): Do not abort after we have
+	processed the whole format, but rather append the rest of the
+	format string. 
+	(style_entry_free): Kill the warnings
+
 1998-08-20  Chris Lahey  <clahey@umich.edu>
 
 	* src/style.h: Added StyleFormatEntry and changed StyleFormat.
