@@ -808,18 +808,3 @@ value_compare (Value const *a, Value const *b, gboolean case_sensitive)
 		return TYPE_MISMATCH;
 	}
 }
-
-StyleHAlignFlags
-value_get_default_halign (Value const *v, MStyle const *mstyle)
-{
-	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
-	g_return_val_if_fail (v != NULL, HALIGN_RIGHT);
-
-	if (align == HALIGN_GENERAL) {
-		if (v->type == VALUE_FLOAT || v->type == VALUE_INTEGER)
-			return HALIGN_RIGHT;
-		return HALIGN_LEFT;
-	}
-
-	return align;
-}

@@ -52,17 +52,18 @@ void        cell_content_changed         (Cell *cell);
 /**
  * Cell state checking
  */
-gboolean    cell_is_blank		(Cell const * cell);
-Value *     cell_is_error               (Cell const * cell);
-gboolean    cell_is_number  		(Cell const * cell);
-gboolean    cell_is_zero		(Cell const * cell);
-ExprArray const * cell_is_array         (Cell const * cell);
-gboolean    cell_is_partial_array       (Cell const * cell);
 #define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_QUEUED_FOR_RECALC)
 #define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IN_EXPR_LIST)
 #define	    cell_has_expr(cell)		((cell)->base.flags & CELL_HAS_EXPRESSION)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
 #define	    cell_has_comment(cell)	((cell)->comment != NULL)
+gboolean    cell_is_blank		(Cell const * cell);
+Value *     cell_is_error               (Cell const * cell);
+gboolean    cell_is_number  		(Cell const * cell);
+gboolean    cell_is_zero		(Cell const * cell);
+gboolean    cell_is_partial_array       (Cell const * cell);
+ExprArray const * cell_is_array         (Cell const * cell);
+StyleHAlignFlags  cell_default_halign   (Cell const *v, MStyle const *mstyle);
 
 /**
  * Utilities to assign the contents of a cell

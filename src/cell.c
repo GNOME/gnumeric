@@ -12,6 +12,7 @@
 #include "cell-comment.h"
 #include "expr.h"
 #include "eval.h"
+#include "value.h"
 #include "style.h"
 #include "sheet.h"
 #include "value.h"
@@ -630,6 +631,23 @@ cell_is_partial_array (Cell const *cell)
 {
 	ExprArray const *ref = cell_is_array (cell);
 	return ref != NULL && (ref->cols > 1 || ref->rows > 1);
+}
+
+StyleHAlignFlags
+cell_default_halign (Cell const *c, MStyle const *mstyle)
+{
+	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
+
+	if (align == HALIGN_GENERAL) {
+		g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
+
+		if (cell_is_number (c) &&
+		    c->base.sheet && !c->base.sheet->display_formulas)
+			return HALIGN_RIGHT;
+		return HALIGN_LEFT;
+	}
+
+	return align;
 }
 
 /***************************************************************************/

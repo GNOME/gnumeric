@@ -226,7 +226,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		break;
 	}
 	
-	halign = value_get_default_halign (cell->value, mstyle);
+	halign = cell_default_halign (cell, mstyle);
 
 	is_single_line = (halign != HALIGN_JUSTIFY &&
 			  valign != VALIGN_JUSTIFY &&
@@ -296,7 +296,8 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	cell_width_pixel = cell_rendered_width (cell);
 
 	/* if a number overflows, do special drawing */
-	if (width < cell_width_pixel && cell_is_number (cell)) {
+	if (width < cell_width_pixel && cell_is_number (cell) &&
+	    sheet && !sheet->display_formulas) {
 		draw_overflow (drawable, gc, font,
 			       x1 + ci->margin_a + 1,
 			       text_base, width, line_offset, num_lines);

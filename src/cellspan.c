@@ -165,20 +165,20 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
 	g_return_if_fail (cell != NULL);
 
+	sheet = cell->base.sheet;
         /*
 	 * If the cell is a number, or the text fits inside the column, or the
 	 * alignment modes are set to "justify", then we report only one
 	 * column is used.
 	 */
-
-	if (cell_is_number (cell)) {
+	if (cell_is_number (cell) &&
+	    sheet != NULL && !sheet->display_formulas) {
 		*col1 = *col2 = cell->pos.col;
 		return;
 	}
 
-	sheet = cell->base.sheet;
 	mstyle = cell_get_mstyle (cell);
-	align = value_get_default_halign (cell->value, mstyle);
+	align = cell_default_halign (cell, mstyle);
 	row   = cell->pos.row;
 
 	if ((cell_contents_fit_inside_column (cell) &&

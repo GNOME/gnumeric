@@ -373,7 +373,7 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 		break;
 	}
 
-	halign = value_get_default_halign (cell->value, mstyle);
+	halign = cell_default_halign (cell, mstyle);
 
 	is_single_line = (halign != HALIGN_JUSTIFY &&
 			  valign != VALIGN_JUSTIFY &&
@@ -446,7 +446,8 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	cell_width_pts = gnome_font_get_width_string (print_font, text);
 
 	/* if a number overflows, do special drawing */
-	if (width < cell_width_pts && cell_is_number (cell)) {
+	if (width < cell_width_pts && cell_is_number (cell) &&
+	    sheet && !sheet->display_formulas) {
 		print_overflow (context, print_font,
 				x1 + ci->margin_a + 1,
 				text_base, width, line_offset, num_lines);

@@ -305,7 +305,7 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
  * Make the cell at the edit position visible.
  *
  * To be called from the "size_allocate" signal handler when the geometry of a
- * new sheet view has been configured. 
+ * new sheet view has been configured.
  */
 static void
 sheet_view_make_edit_pos_visible (SheetView const *sheet_view)
@@ -934,17 +934,10 @@ sheet_view_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
 	 * display.  72dpi is base size
 	 */
 	double const res  = application_dpi_to_pixels ();
-	double zoom;
 
-	/*
-	 * If sheet is NULL we default to 1
-	 */
-	if (sheet)
-		zoom = sheet->last_zoom_factor_used;
-	else
-		zoom = 1;
-		
-		
+	/* When previewing sheet can == NULL */
+	double const zoom = (sheet) ? sheet->last_zoom_factor_used : 1.;
+
 	return mstyle_get_font (mstyle, zoom * res);
 }
 

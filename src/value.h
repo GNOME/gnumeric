@@ -139,8 +139,6 @@ Value * value_area_foreach (EvalPos const *ep, Value const *v,
 void value_array_set       (Value *array, guint col, guint row, Value *v);
 void value_array_resize    (Value *v, guint width, guint height);
 
-StyleHAlignFlags value_get_default_halign (Value const *v, MStyle const *mstyle);
-
 /* Some utility constants to make sure we all spell correctly */
 extern char const *gnumeric_err_NULL;
 extern char const *gnumeric_err_DIV0;

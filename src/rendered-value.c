@@ -166,8 +166,9 @@ rendered_value_calc_size (Cell const *cell)
 void
 rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 {
+	Sheet *sheet = cell->base.sheet;
 	RenderedValue *rv = cell->rendered_value;
-	StyleFont *style_font = sheet_view_get_style_font (cell->base.sheet, mstyle);
+	StyleFont *style_font = sheet_view_get_style_font (sheet, mstyle);
 	GdkFont *gdk_font = style_font_gdk_font (style_font);
 	int font_height = style_font_get_height (style_font);
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);
@@ -180,7 +181,9 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	text       = rv->rendered_text->str;
 	text_width = gdk_string_measure (gdk_font, text);
 	
-	if (text_width < cell_w || cell_is_number (cell)) {
+	if (text_width < cell_w ||
+	    (cell_is_number (cell) &&
+	     sheet != NULL && !sheet->display_formulas)) {
 		rv->width_pixel  = text_width;
 		rv->height_pixel = font_height;
 	} else if (mstyle_get_align_h (mstyle) == HALIGN_JUSTIFY ||

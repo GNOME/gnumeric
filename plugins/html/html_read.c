@@ -113,7 +113,7 @@ html_write_cell32 (FILE *fp, Cell *cell, MStyle *style)
 	fprintf (fp, "\t<TD");
 
 	if (cell) {
-		switch (value_get_default_halign (cell->value, style)) {
+		switch (cell_default_halign (cell, style)) {
 		case HALIGN_RIGHT :
 			fprintf (fp, " align=right");
 			break;
@@ -158,7 +158,7 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 	fprintf (fp, "\t<TD");
 
 	if (cell) {
-		switch (value_get_default_halign (cell->value, style)) {
+		switch (value_get_default_halign (cell, style)) {
 		case HALIGN_RIGHT :
 			fprintf (fp, " halign=right");
 			break;
