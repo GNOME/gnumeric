@@ -102,10 +102,10 @@ fi
 * Sun Oct 01 2000 Almer S. Tigelaar <almer1@dds.nl>
 - Make some minor adjustments for the autoformatter
 
-* Thu Sept 28 2000 Jody Goldberg <jgoldberg@home.com>
+* Thu Sep 28 2000 Jody Goldberg <jgoldberg@home.com>
 - Updated version requirements for gnome-print
 
-* Wed Sept 20 2000 Jody Goldberg <jgoldberg@home.com>
+* Wed Sep 20 2000 Jody Goldberg <jgoldberg@home.com>
 - Updated version requirements for glade
 - Looks like someone already added gal.
 
