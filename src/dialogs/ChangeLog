@@ -1,3 +1,9 @@
+2003-06-24  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-main-page.c (main_page_import_range_changed): Add a
+	g_return_if_fail to prevent a crash under 115856.  (This doesn't
+	actually fix anything.)
+
 2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	for Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 

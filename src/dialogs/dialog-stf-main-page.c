@@ -112,6 +112,8 @@ main_page_import_range_changed (DruidPageData_t *data)
 	int startrow, stoprow;
 	char *linescaption;
 
+	g_return_if_fail (renderdata->lines != NULL);
+
 	startrow = gtk_spin_button_get_value_as_int (data->main.main_startrow);
 	stoprow  = gtk_spin_button_get_value_as_int (data->main.main_stoprow);
 
