@@ -32,7 +32,7 @@ EXTRA_DIST = \
 	gnumeric.desktop.in README HACKING			\
 	gnumeric.spec.in gnumericConf.sh.in 			\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 		\
-	gnumeric.gnorba $(change_logs)
+	gnumeric.gnorba gnumeric.oafinfo $(change_logs)
 
 appicondir = $(datadir)/pixmaps
 appicon_DATA = gnome-gnumeric.png \
@@ -50,6 +50,9 @@ gnew_DATA = gnumeric.desktop
 
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA = gnumeric.gnorba
+
+oafdir = $(datadir)/oaf
+oaf_DATA = gnumeric.oafinfo
 
 gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@icondir\@^$(appicondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \

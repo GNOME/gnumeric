@@ -1,3 +1,7 @@
+2000-05-10  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am: Install oafinfo.
+
 2000-05-10  Jacob Berkman  <jacob@helixcode.com>
 
 	* configure.in (use_wm_icons): check for using window icons
