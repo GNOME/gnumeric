@@ -14039,7 +14039,7 @@ msgstr "Last fil"
 #.
 #: src/history.c:125 src/history.c:138
 msgid "File/Print Preview"
-msgstr "Fil/Utskrift forhåndsvisning"
+msgstr "Fil/Forhåndsvisning"
 
 #: src/history.c:226
 msgid "File/"
