@@ -1,6 +1,7 @@
 2000-02-11  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet.c (sheet_load_cell_val): fix brokenness.
+	(sheet_load_cell_val): cast to shut it up.
 
 2000-02-11  Michael Meeks  <michael@helixcode.com>
 
