@@ -1,5 +1,4 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * fill-series.c: Fill according to a linear or exponential serie.
  *

@@ -606,8 +606,12 @@ static void
 scenario_summary_res_cells (WorkbookControl *wbc, Value *results,
 			    summary_cb_t *cb)
 {
+	data_analysis_output_t dao;
 	int        i, j, col, tmp_row = 4 + cb->row;
 	Range      r;
+
+	dao_init (&dao, NewSheetOutput);
+	dao.sheet = cb->sheet;
 
 	dao_set_cell (&cb->dao, 0, 3 + cb->row++, _("Result Cells:"));
 
@@ -635,10 +639,12 @@ scenario_summary_res_cells (WorkbookControl *wbc, Value *results,
 			     cur = cur->next) {
 				scenario_t *s = (scenario_t *) cur->data;
 				
-				ov = scenario_show (wbc, s, ov, &cb->dao);
+				ov = scenario_show (wbc, s, ov, &dao);
 				
 				cell = sheet_cell_fetch (cb->sheet, i, j);
 				
+				cell_queue_recalc (cell);
+				cell_eval (cell);
 				dao_set_cell_value (&cb->dao, col++,
 						    3 + cb->row,
 						    value_duplicate
@@ -647,7 +653,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, Value *results,
 			cb->row++;
 			
 			/* Use show to clean up 'ov'. */
-			scenario_show (wbc, NULL, ov, &cb->dao);
+			scenario_show (wbc, NULL, ov, &dao);
 			ov = NULL;
 		}
 	

@@ -1,3 +1,8 @@
+2003-04-20  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.c (scenario_summary_res_cells): Fixed the results
+	reporting in summary report.
+
 2003-04-19  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* data-shuffling.c (run_shuffling_tool): Implement free area search.
