@@ -29,6 +29,7 @@ struct _SheetControlGUI {
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
 	SheetObject	 *current_object;
 	SheetObject	 *drag_object;
+	double		  object_coords [4];
 	void        	 *active_object_frame;	/* FIXME remove this */
 
 	/* Selection group */
@@ -110,7 +111,7 @@ void scg_context_menu		(SheetControlGUI *scg, GdkEventButton *event,
 void scg_object_register	(SheetObject *so, GnomeCanvasItem *view);
 void scg_object_widget_register (SheetObject *so, GtkWidget *widget,
 				 GnomeCanvasItem *view);
-void scg_object_calc_position	(SheetControlGUI *scg, SheetObject *so, double *coords);
+void scg_object_calc_position	(SheetControlGUI *scg, SheetObject *so, double const *coords);
 void scg_object_view_position	(SheetControlGUI *scg, SheetObject *so, double *coords);
 void scg_object_update_bbox	(SheetControlGUI *scg, SheetObject *so,
 				 GnomeCanvasItem *so_view, double const *offset);

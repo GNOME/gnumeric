@@ -1,5 +1,12 @@
 2000-12-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (scg_object_update_bbox) : Use the stored
+	  coordinates for movement.
+	(scg_object_calc_position) : handle inversion and store the coordinates.
+	(cb_control_point_event) : use the stored coordinates.
+
+2000-12-29  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet.c (sheet_redraw_cell_region) : support merged cells.
 
 	* src/style.c (style_font_new_simple) : guestimate width.

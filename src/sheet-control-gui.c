@@ -1389,9 +1389,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 	case GDK_MOTION_NOTIFY: {
 		GnomeCanvas *canvas = GNOME_CANVAS (scg->canvas);
 		GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-		double offset [4] = { 0., 0., 0., 0. };
-		double dx, dy;
-		int col, row, x, y, left, top, width, height;
+		double new_coords [4], dx, dy;
+		int i, col, row, x, y, left, top, width, height;
 
 		if (scg->drag_object != so)
 			return FALSE;
@@ -1437,31 +1436,34 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		last_x = event->button.x;
 		last_y = event->button.y;
 
+		for (i = 4; i-- > 0; )
+			new_coords [i] = scg->object_coords [i];
+
 		switch (idx) {
-		case 0: offset [0] += dx;
-			offset [1] += dy;
+		case 0: new_coords [0] += dx;
+			new_coords [1] += dy;
 			break;
-		case 1: offset [1] += dy;
+		case 1: new_coords [1] += dy;
 			break;
-		case 2: offset [1] += dy;
-			offset [2] += dx;
+		case 2: new_coords [1] += dy;
+			new_coords [2] += dx;
 			break;
-		case 3: offset [0] += dx;
+		case 3: new_coords [0] += dx;
 			break;
-		case 4: offset [2] += dx;
+		case 4: new_coords [2] += dx;
 			break;
-		case 5: offset [0] += dx;
-			offset [3] += dy;
+		case 5: new_coords [0] += dx;
+			new_coords [3] += dy;
 			break;
-		case 6: offset [3] += dy;
+		case 6: new_coords [3] += dy;
 			break;
-		case 7: offset [2] += dx;
-			offset [3] += dy;
+		case 7: new_coords [2] += dx;
+			new_coords [3] += dy;
 			break;
-		case 8: offset [0] += dx;
-			offset [1] += dy;
-			offset [2] += dx;
-			offset [3] += dy;
+		case 8: new_coords [0] += dx;
+			new_coords [1] += dy;
+			new_coords [2] += dx;
+			new_coords [3] += dy;
 			break;
 
 		default:
@@ -1469,7 +1471,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		}
 
 		/* Tell the object to update its co-ordinates */
-		scg_object_update_bbox (scg, so, so_view, offset);
+		scg_object_update_bbox (scg, so, so_view, new_coords);
 		break;
 	}
 
@@ -1591,16 +1593,16 @@ set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
  * @scg : The Sheet control
  * @so : the optional sheet object
  * @so_view: A canvas item representing the view in this control
- * @offset : an optional array of offsets.
+ * @new_coords : optionally jump the object to new coordinates
  *
  * Re-align the control points so that they appear at the correct verticies for
  * this view of the object.  If the object is not specified
  */
 void
 scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
-			GnomeCanvasItem *so_view, double const *offset)
+			GnomeCanvasItem *so_view, double const *new_coords)
 {
-	double coords [4];
+	double l, t, r ,b;
 	GtkObject *so_view_obj;
 	
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -1614,18 +1616,12 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 	so_view_obj = (so_view == NULL)
 		? sheet_object_get_view (so, scg) : GTK_OBJECT (so_view);
 
-	scg_object_view_position (scg, so, coords);
-	if (offset != NULL) {
-		int i = 4;
-		while (i-- > 0 )
-			coords [i] += offset [i];
-		scg_object_calc_position (scg, so, coords);
-	}
-
-#define l coords [0]
-#define t coords [1]
-#define r coords [2]
-#define b coords [3]
+	if (new_coords != NULL)
+		scg_object_calc_position (scg, so, new_coords);
+	l = scg->object_coords [0];
+	t = scg->object_coords [1];
+	r = scg->object_coords [2];
+	b = scg->object_coords [3];
 
 	/* set the acetate 1st so that the other points
 	 * will override it
@@ -1648,10 +1644,6 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 		      E_CURSOR_SIZE_Y);
 	set_item_x_y (scg, so_view_obj, 7, r, b,
 		      E_CURSOR_SIZE_TL);
-#undef l
-#undef t
-#undef r
-#undef b
 }
 
 static int
@@ -1678,18 +1670,37 @@ calc_obj_place (GnumericSheet *gsheet, int pixel, gboolean is_col,
 }
 
 void
-scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double *coords)
+scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *coords)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	int	pixels [4];
+	int	i, pixels [4];
 	float	fraction [4];
+	double	tmp [4];
 	Range	range;
 
+	if (coords [0] > coords [2]) {
+		tmp [0] = coords [2];
+		tmp [2] = coords [0];
+	} else {
+		tmp [0] = coords [0];
+		tmp [2] = coords [2];
+	}
+	if (coords [1] > coords [3]) {
+		tmp [1] = coords [3];
+		tmp [3] = coords [1];
+	} else {
+		tmp [1] = coords [1];
+		tmp [3] = coords [3];
+	}
+
+	for (i = 4; i-- > 0 ;)
+		scg->object_coords [i] = coords [i];
+
 	gnome_canvas_w2c (GNOME_CANVAS (scg->canvas),
-			  coords [0], coords [1],
+			  tmp [0], tmp [1],
 			  pixels +0, pixels + 1);
 	gnome_canvas_w2c (GNOME_CANVAS (scg->canvas),
-			  coords [2], coords [3],
+			  tmp [2], tmp [3],
 			  pixels +2, pixels + 3);
 	range.start.col = calc_obj_place (gsheet, pixels [0], TRUE,
 		so->anchor_type [0], fraction + 0);
