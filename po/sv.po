@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-11-18 21:30+0000\n"
-"PO-Revision-Date: 1999-11-17 20:00+0200\n"
+"Project-Id-Version: gnumeric 0.43\n"
+"POT-Creation-Date: 1999-11-17 20:55+0100\n"
+"PO-Revision-Date: 1999-11-19 13:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 
 #: plugins/excel/boot.c:80
 msgid "Saving over old files disabled for safety"
-msgstr "Överskrivning av gamla filer är inaktiverad pga säkerhetskäl"
+msgstr "Överskrivning av gamla filer är inaktiverad av säkerhetskäl"
 
 #: plugins/excel/boot.c:88
 msgid "Can't open"
@@ -23,17 +23,17 @@ msgstr "Kan inte öppna"
 
 #: plugins/excel/boot.c:126
 msgid "Microsoft(R) Excel file format"
-msgstr "Microsoft(R) Excel filformat"
+msgstr "Microsoft(R) Excel-filformat"
 
 #: plugins/excel/boot.c:127
 msgid "Excel(R) 97 file format"
-msgstr "Excel(R) 97 filformat"
+msgstr "Excel(R) 97-filformat"
 
 #: plugins/excel/boot.c:128
 msgid "Excel(R) 95 file format"
-msgstr "Excel(R) 95 filformat"
+msgstr "Excel(R) 95-filformat"
 
-#: plugins/excel/ms-excel-read.c:264
+#: plugins/excel/ms-excel-read.c:263
 msgid "#UNKNOWN!"
 msgstr "#OKÄND!"
 
@@ -49,21 +49,16 @@ msgstr "Trasig funktion"
 msgid " Unknown formula"
 msgstr "Okänd formel"
 
-#: plugins/ff-csv/csv-io.c:138 plugins/sylk/sylk.c:443
+#: plugins/ff-csv/csv-io.c:125 plugins/sylk/sylk.c:443
 #, c-format
 msgid "Imported %s"
 msgstr "Importerade %s"
 
-#: plugins/ff-csv/csv-io.c:266
+#: plugins/ff-csv/csv-io.c:160
 msgid "Comma Separated Value (CSV) import"
 msgstr "Importera fil med kommaseparerade värden (CSV)"
 
-#: plugins/ff-csv/csv-io.c:269
-#, fuzzy
-msgid "Comma Separated Value format (*.csv)"
-msgstr "Importera fil med kommaseparerade värden (CSV)"
-
-#: plugins/ff-csv/csv-io.c:272
+#: plugins/ff-csv/csv-io.c:163
 msgid "Comma Separated Value (CSV) module"
 msgstr "Modul för kommaseparerade värden (CSV)"
 
@@ -89,7 +84,7 @@ msgstr "LaTeX2e-filformat (*.tex)"
 
 #: plugins/html/boot.c:78
 msgid "PS file format (via groff)"
-msgstr "PostScript-filformat (via groff)"
+msgstr "PS-filformat (via groff)"
 
 #: plugins/html/boot.c:80
 msgid "DVI TeX file format (via groff)"
@@ -125,7 +120,7 @@ msgstr "GNU Oleo-filformat (*.oleo)"
 
 #: plugins/oleo/boot.c:94
 msgid "GNU Oleo import plugin"
-msgstr "GNU Oleo import"
+msgstr "GNU Oleo-import"
 
 #: plugins/python/python.c:101
 msgid "Unable to lookup Python code object."
@@ -158,7 +153,7 @@ msgstr "Python-tillägg"
 
 #: plugins/sample/plugin-sample.c:49
 msgid "Sample Plugin"
-msgstr "Exempel-insticksprogram"
+msgstr "Exempeltillägg"
 
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
@@ -166,11 +161,11 @@ msgstr "GAMMALT Statistiktillägg, krävs inte längre"
 
 #: plugins/sylk/sylk.c:501
 msgid "MultiPlan (SYLK) import"
-msgstr ""
+msgstr "Import av MultiPlan (SYLK)"
 
 #: plugins/sylk/sylk.c:506
 msgid "MultiPlan (SYLK) file import module"
-msgstr ""
+msgstr "MultiPlan (SYLK) importeringsmodul"
 
 #: plugins/text/text-io.c:305
 #, c-format
@@ -300,7 +295,7 @@ msgstr "FEL"
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:131
 msgid "Pending recomputation"
-msgstr ""
+msgstr "Avvaktar omräkning"
 
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:583
@@ -657,7 +652,7 @@ msgstr "Indataområde:"
 #: src/dialogs/dialog-analysis-tools.c:1847
 #: src/dialogs/dialog-analysis-tools.c:1933
 msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Område:'"
+msgstr "Du måste ange ett giltigt cellnamn i \"Område:\""
 
 #: src/dialogs/dialog-analysis-tools.c:483
 #: src/dialogs/dialog-analysis-tools.c:560
@@ -734,7 +729,7 @@ msgstr "Alpha:"
 #: src/dialogs/dialog-analysis-tools.c:1239
 #: src/dialogs/dialog-analysis-tools.c:1574
 msgid "You should introduce a valid cell range in 'Variable 1:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Variabel 1:'"
+msgstr "Du måste ange ett giltigt cellnamn i \"Variabel 1:\""
 
 #: src/dialogs/dialog-analysis-tools.c:828
 #: src/dialogs/dialog-analysis-tools.c:939
@@ -743,7 +738,7 @@ msgstr "Du måste ange ett giltigt cellnamn i 'Variabel 1:'"
 #: src/dialogs/dialog-analysis-tools.c:1250
 #: src/dialogs/dialog-analysis-tools.c:1585
 msgid "You should introduce a valid cell range in 'Variable 2:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Variabel 2:'"
+msgstr "Du måste ange ett giltigt cellnamn i \"Variabel 2:\""
 
 #: src/dialogs/dialog-analysis-tools.c:1347
 msgid "Number of Variables:"
@@ -763,19 +758,19 @@ msgstr "Indataområde, värde och sannolikhet:"
 
 #: src/dialogs/dialog-analysis-tools.c:1379
 msgid "Between:"
-msgstr "mellan:"
+msgstr "Bellan:"
 
 #: src/dialogs/dialog-analysis-tools.c:1382
 msgid "And:"
-msgstr "och:"
+msgstr "Och:"
 
 #: src/dialogs/dialog-analysis-tools.c:1387
 msgid "Mean = "
-msgstr "medelvårde = "
+msgstr "Medelvårde = "
 
 #: src/dialogs/dialog-analysis-tools.c:1389
 msgid "Standard Deviation = "
-msgstr "standardavvikelse = "
+msgstr "Standardavvikelse = "
 
 #: src/dialogs/dialog-analysis-tools.c:1393
 msgid "Lambda"
@@ -789,7 +784,8 @@ msgstr "p-värde"
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Indata, värde och sannolikhet:'"
+msgstr ""
+"Du måste ange ett giltigt cellnamn i \"Indata, värde och sannolikhet:\""
 
 #: src/dialogs/dialog-analysis-tools.c:1536
 msgid "Input Y Range:"
@@ -809,7 +805,7 @@ msgstr "Intervall:"
 
 #: src/dialogs/dialog-analysis-tools.c:1673
 msgid "You should introduce a valid cell range in 'Range Input:'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Indataområde:'"
+msgstr "Du måste ange ett giltigt cellnamn i \"Indataområde:\""
 
 #: src/dialogs/dialog-analysis-tools.c:1976
 msgid "Data Analysis"
@@ -825,7 +821,7 @@ msgstr "Cellkommentar"
 
 #: src/dialogs/dialog-cell-format.c:401
 msgid ";[Red]"
-msgstr ";[Red]"
+msgstr ";[Röd]"
 
 #: src/dialogs/dialog-cell-format.c:403
 msgid "_);("
@@ -851,39 +847,39 @@ msgstr "Stigande"
 msgid "Desc"
 msgstr "Sjunkade"
 
-#: src/dialogs/dialog-cell-sort.c:276
+#: src/dialogs/dialog-cell-sort.c:275
 msgid "more clauses than rows ?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:279
+#: src/dialogs/dialog-cell-sort.c:278
 msgid "too many clauses"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:300
+#: src/dialogs/dialog-cell-sort.c:298
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:335 src/print.c:502 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:333 src/print.c:502 src/workbook.c:1457
 msgid "Selection must be a single range"
 msgstr "Markeringen måste bestå av ett sammanhängande område"
 
-#: src/dialogs/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:345
 msgid "Selection must be a finite range"
 msgstr "Markeringen måste bestå av ett ändligt område"
 
-#: src/dialogs/dialog-cell-sort.c:367
+#: src/dialogs/dialog-cell-sort.c:365
 msgid "then by"
 msgstr "sedan efter"
 
-#: src/dialogs/dialog-cell-sort.c:367
+#: src/dialogs/dialog-cell-sort.c:365
 msgid "Sort by"
 msgstr "Sortera efter"
 
-#: src/dialogs/dialog-cell-sort.c:405
+#: src/dialogs/dialog-cell-sort.c:403
 msgid "Column must be within range"
 msgstr "Kolumnen måste vara inom området"
 
-#: src/dialogs/dialog-cell-sort.c:411
+#: src/dialogs/dialog-cell-sort.c:409
 msgid "First column must be valid"
 msgstr "Den första kolumnen måste vara giltig"
 
@@ -921,7 +917,7 @@ msgstr "Område/Fält"
 
 #: src/dialogs/dialog-function-wizard.c:224
 msgid "Any"
-msgstr ""
+msgstr "Vilken som helst"
 
 #: src/dialogs/dialog-function-wizard.c:227
 msgid "Unknown"
@@ -929,7 +925,7 @@ msgstr "Okänd"
 
 #: src/dialogs/dialog-function-wizard.c:334
 msgid "Formula Wizard"
-msgstr "Formel-hjälpreda"
+msgstr "Formelhjälpreda"
 
 #: src/dialogs/dialog-goal-seek.c:192
 #, c-format
@@ -981,23 +977,23 @@ msgstr "Men inte större än [valfritt]:"
 
 #: src/dialogs/dialog-goal-seek.c:350
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Sätt cell'"
+msgstr "Du måste ange ett giltigt cellnamn i \"Sätt cell\""
 
 #: src/dialogs/dialog-goal-seek.c:358
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr "Cellen i 'Sätt cell' måste innehålla en formel"
+msgstr "Cellen i \"Sätt cell\" måste innehålla en formel"
 
 #: src/dialogs/dialog-goal-seek.c:371
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr "Du måste ange ett giltigt cellnamn i 'Genom att ändra cell'"
+msgstr "Du måste ange ett giltigt cellnamn i \"Genom att ändra cell\""
 
 #: src/dialogs/dialog-goal-seek.c:380
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr "Cellen i 'Genom att ändra cell' får inte innehålla en formel"
+msgstr "Cellen i \"Genom att ändra cell\" får inte innehålla en formel"
 
 #: src/dialogs/dialog-goal-seek.c:427
 msgid "Goal seek did not find a solution!"
-msgstr "Målsökningen fann ingen lösning!"
+msgstr "Målsökningen hittade inte en lösning!"
 
 #: src/dialogs/dialog-goto-cell.c:37
 msgid "Cell"
@@ -1211,11 +1207,11 @@ msgstr "Ta bort"
 
 #: src/dialogs/dialog-solver.c:482
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Du måste ange ett giltigt cellnamn för 'Målcell'"
+msgstr "Du måste ange ett giltigt cellnamn för \"Målcell\""
 
 #: src/dialogs/dialog-solver.c:503
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "Du måste ange ett giltigt cellnamn för 'Genom att ändra celler'"
+msgstr "Du måste ange ett giltigt cellnamn för \"Genom att ändra celler\""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1233,15 +1229,15 @@ msgstr "_Kolumnbredd:"
 #.
 #: src/dialogs/hf-config.glade.h:7
 msgid "Left section:"
-msgstr "Vänster del:"
+msgstr "Vänster:"
 
 #: src/dialogs/hf-config.glade.h:8
 msgid "Center section:"
-msgstr "Mittendel:"
+msgstr "Mitten:"
 
 #: src/dialogs/hf-config.glade.h:9
 msgid "Right section:"
-msgstr "Höger del:"
+msgstr "Höger:"
 
 #: src/dialogs/hf-config.glade.h:10
 msgid "Enter the format strings for each section:"
@@ -1372,7 +1368,7 @@ msgstr "Sida"
 
 #: src/dialogs/print.glade.h:22
 msgid "_Top:"
-msgstr "_Överkant"
+msgstr "_Överkant:"
 
 #: src/dialogs/print.glade.h:23
 msgid "He_ader:"
@@ -1388,7 +1384,7 @@ msgstr "Sid_fot"
 
 #: src/dialogs/print.glade.h:26
 msgid "Center on page"
-msgstr "Centrera"
+msgstr "Centrera på sidan"
 
 #: src/dialogs/print.glade.h:27
 msgid "_Horizontally"
@@ -1519,7 +1515,7 @@ msgstr "_Radhöjd:"
 #.
 #: src/dialogs/sheet-rename.glade.h:7
 msgid "Enter new _sheet name:"
-msgstr "Ange nytt name för _bladet:"
+msgstr "Ange nytt namn för _bladet:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1623,11 +1619,11 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:21
 msgid "_Decimal places:"
-msgstr ""
+msgstr "_Decimaler:"
 
 #: src/dialogs/cell-format.glade.h:22
 msgid "_Use Seperator for 1000's"
-msgstr ""
+msgstr "_Använd tusentalsseparator"
 
 #: src/dialogs/cell-format.glade.h:23
 msgid "_Symbol:"
@@ -1711,7 +1707,7 @@ msgstr "_Radbryt text"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "Unfinished"
-msgstr ""
+msgstr "Inte klar"
 
 #: src/dialogs/cell-format.glade.h:49
 msgid "Alignment"
@@ -1741,7 +1737,7 @@ msgstr "Effekter"
 
 #: src/dialogs/cell-format.glade.h:55
 msgid "_Underline:"
-msgstr "_Understrykt:"
+msgstr "_Understrykning:"
 
 #: src/dialogs/cell-format.glade.h:56
 msgid ""
@@ -1755,15 +1751,15 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:61
 msgid "Sup_erscript"
-msgstr ""
+msgstr "Sup_erscript"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "Su_bscript"
-msgstr ""
+msgstr "Su_bscript"
 
 #: src/dialogs/cell-format.glade.h:63
 msgid "Stri_kethrough"
-msgstr ""
+msgstr "Genomstry_kning"
 
 #: src/dialogs/cell-format.glade.h:64
 msgid "Font"
@@ -1771,7 +1767,7 @@ msgstr "Typsnitt"
 
 #: src/dialogs/cell-format.glade.h:65
 msgid "Reverse Diagonal"
-msgstr "Omvända diagonala"
+msgstr "Omvänd diagonal"
 
 #: src/dialogs/cell-format.glade.h:66
 msgid "Left"
@@ -1787,7 +1783,7 @@ msgstr "Underkant"
 
 #: src/dialogs/cell-format.glade.h:69
 msgid "Diagonal"
-msgstr "Diagonala"
+msgstr "Diagonal"
 
 #: src/dialogs/cell-format.glade.h:70
 msgid "Right"
@@ -1795,12 +1791,11 @@ msgstr "Höger"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Outline"
-msgstr ""
+msgstr "Ram"
 
 #: src/dialogs/cell-format.glade.h:73
-#, fuzzy
 msgid "Inside Vertical"
-msgstr "Lodrätt"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:74
 #, fuzzy
@@ -1818,7 +1813,7 @@ msgstr "Linje"
 
 #: src/dialogs/cell-format.glade.h:77
 msgid "_Style"
-msgstr ""
+msgstr "_Stil"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Pick a border color"
@@ -1935,7 +1930,7 @@ msgstr "Bakgrund"
 
 #: src/dialogs/cell-format.glade.h:111
 msgid "_Locked"
-msgstr "_Låsd"
+msgstr "_Låst"
 
 #: src/dialogs/cell-format.glade.h:112
 msgid "_Hidden"
@@ -1943,11 +1938,11 @@ msgstr "_Gömd"
 
 #: src/dialogs/cell-format.glade.h:113
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr ""
+msgstr "Att låsa celler eller gömma formler påverkar endast skyddade blad."
 
 #: src/dialogs/cell-format.glade.h:114
 msgid "Worksheet protected"
-msgstr ""
+msgstr "Blad skyddat"
 
 #: src/dialogs/cell-format.glade.h:115
 msgid "Protection"
@@ -2089,24 +2084,24 @@ msgstr "Okänt evalueringsfel"
 msgid "Could not read file %s"
 msgstr "Kunde inte läsa filen %s"
 
-#: src/file.c:404
+#: src/file.c:403
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:458
+#: src/file.c:457
 msgid "Save workbook as"
 msgstr "Spara arbetsbok som"
 
-#: src/file.c:502
+#: src/file.c:501
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Det finns inga filsparare, kan inte spara"
 
-#: src/file.c:515 src/file.c:539
+#: src/file.c:514 src/file.c:538
 #, c-format
 msgid "Could not save to file %s"
 msgstr "Kunde inte spara filen %s"
 
-#: src/file.c:550
+#: src/file.c:549
 msgid "Load file"
 msgstr "Öppna fil"
 
@@ -9755,3 +9750,7 @@ msgstr "Gnumeric: "
 #: src/xml-io.c:2338
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#, fuzzy
+#~ msgid "Comma Separated Value format (*.csv)"
+#~ msgstr "Importera fil med kommaseparerade värden (CSV)"
