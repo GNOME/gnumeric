@@ -1,3 +1,9 @@
+2000-06-23  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_sheet_append_comment) : Add a lag variable
+	  to support proper merging of comments.
+	(BIFF_NOTE) : Init the lag variable.
+
 2000-06-21  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (palette_put_defaults): Ensure that black with

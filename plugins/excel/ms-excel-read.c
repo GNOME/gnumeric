@@ -2204,6 +2204,8 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ans->style_optimize.end.row   = 0;
 	ans->base_char_width          = -1;
 	ans->base_char_width_default  = -1;
+	ans->comment_prev_col	      = -1;
+	ans->comment_prev_row	      = -1;
 
 	return ans;
 }
@@ -2244,10 +2246,12 @@ ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, const char *tex
 }
 
 static void
-ms_excel_sheet_append_comment (ExcelSheet *sheet, int col, int row, const char *text)
+ms_excel_sheet_append_comment (ExcelSheet *sheet, const char *text)
 {
 	if (text) {
-		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet,
+					       sheet->comment_prev_col,
+					       sheet->comment_prev_row);
 		if (!cell->value)
 			cell_set_value (cell, value_new_empty(), NULL);
 		if (cell->comment && cell->comment->comment &&
@@ -3296,9 +3300,10 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
 		{
+			/* FIXME : ick, need a somewhat less */
 			guint16 row = EX_GETROW(q);
 			guint16 col = EX_GETCOL(q);
-			if ( sheet->ver >= MS_BIFF_V8 ) {
+			if (sheet->ver >= MS_BIFF_V8) {
 				guint16 options = MS_OLE_GET_GUINT16(q->data+4);
 				guint16 obj_id  = MS_OLE_GET_GUINT16(q->data+6);
 				guint16 author_len = MS_OLE_GET_GUINT16(q->data+8);
@@ -3326,10 +3331,12 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				}
 #endif
 
-				if (row==0xffff && col==0)
-					ms_excel_sheet_append_comment (sheet, col, row, text);
-				else
+				if (row != 0xffff || col != 0) {
 					ms_excel_sheet_set_comment (sheet, col, row, text);
+					sheet->comment_prev_col = col;
+					sheet->comment_prev_row = row;
+				} else
+					ms_excel_sheet_append_comment (sheet, text);
 				g_free (text);
 			}
 			break;
