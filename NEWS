@@ -56,6 +56,7 @@ Morten:
 	  by precision.
 	* Fix covariance tool.
 	* Plug leaks.
+	* Fix space trimming for stf import.
 
 Thomas Miesbauer:
 	* Redo screenshots

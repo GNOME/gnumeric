@@ -61,6 +61,7 @@ format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
 	}
 
 	stf_parse_options_set_trim_spaces (data->parseoptions, trim);
+	format_page_update_preview (data);
 }
 
 static void
@@ -466,7 +467,8 @@ stf_dialog_format_page_prepare (StfDialogData *data)
 {
 	StyleFormat *sf;
 
-	format_page_update_preview (data);
+	/* Set the trim.  */
+	format_page_trim_menu_deactivate (NULL, data);
 
 	/* If necessary add new items (non-visual) */
 	while ((int)data->format.formats->len < data->format.renderdata->colcount) {
