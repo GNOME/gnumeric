@@ -674,48 +674,71 @@ AC_ARG_WITH(long_double,
 dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
-dnl
-dnl Here is the place to choose the default:
-perl_msg="Disabled by default"
-dnl ###### Don't enable Perl by default before bug #171957 is fixed.
-dnl ### perl_msg=yes
+want_perl=auto
+have_perl=no
+perl_reason=""
 AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader],
 	[case $withval in
-	yes) perl_msg=yes;;
-	no) perl_msg="Disabled by request";;
+	yes) want_perl=yes;;
+	no) want_perl=no;;
 	esac])
 AC_ARG_VAR(PERL, [The Perl executable.])
-if test "x$perl_msg" = xyes ; then
+if test "x$want_perl" = xno ; then
+    perl_reason="disabled by request"
+else
     AC_CHECK_PROG(PERL, perl, perl)
     if test "x$PERL" != x; then
 	BIG_CHECKING([for perl ExtUtils::Embed module])
 	if $PERL -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
 	then
 	    AC_MSG_RESULT(yes)
-	    dnl If the third argument were empty, the default code would do
-	    dnl LIBS="-lperl $LIBS"; to avoid that, we use `:'.
-	    dnl This fixes bug #158379.
-	    dnl AC_CHECK_LIB(perl, perl_construct, :, [perl_msg="missing/invalid libperl"])
+
+	    dnl Use ExtUtils::Embed to figure out the other options.
+	    PERL_CCCDLFLAGS=`$PERL -MConfig -e 'print $Config{cccdlflags},"\n";'`
+	    PERL_LDDLFLAGS=`$PERL -MConfig -e 'print $Config{lddlflags},"\n";'`
+	    PERL_CC=`$PERL -MConfig -e 'print $Config{cc},"\n";'`
+	    PERL_LD=`$PERL -MConfig -e 'print $Config{ld},"\n";'`
+	    PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
+	    PERL_LDOPTS=`$PERL -MExtUtils::Embed -e ldopts`
+
+	    AC_MSG_CHECKING([Checking for perl compiler, linker, libraries and headers])
+	    cat > testperl.c <<EOF
+#include "EXTERN.h"
+#include "perl.h"
+#include "XSUB.h"
+int main () { (void)&perl_construct; return 0; }
+EOF
+	    $PERL_CC $PERL_CCOPTS -c testperl.c >testperl.err 2>&1 &&
+	    $PERL_LD -o testperl testperl.o $PERL_LDOPTS >testperl.err 2>&1 &&
+	    test -x testperl &&
+	    have_perl=yes
+	    AC_MSG_RESULT($have_perl)
+
+	    if test "x$have_perl" != xyes; then
+		perl_reason="failed to compile test program"
+		cat testperl.err testperl.c >&5
+	    fi
+
+	    rm -f testperl testperl.o testperl.c testperl.err
+
 	else
 	    AC_MSG_RESULT(no)
-	    perl_msg="Missing ExtUtils::Embed"
+	    perl_reason="missing parts of perl"
 	fi
     else
-	perl_msg="could not find perl"
+	perl_reason="missing perl"
     fi
 fi
 
-AM_CONDITIONAL(WITH_PERL, test "x$perl_msg" = xyes)
-if test "x$perl_msg" = xyes ; then
-    dnl Use ExtUtils::Embed to figure out the other options.
-    PERL_CCCDLFLAGS=`$PERL -MConfig -e 'print $Config{cccdlflags},"\n";'`
-    PERL_LDDLFLAGS=`$PERL -MConfig -e 'print $Config{lddlflags},"\n";'`
-    PERL_CC=`$PERL -MConfig -e 'print $Config{cc},"\n";'`
-    PERL_LD=`$PERL -MConfig -e 'print $Config{ld},"\n";'`
-    PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
-    PERL_LDOPTS=`$PERL -MExtUtils::Embed -e ldopts`
+if test "$want_perl" = xyes -a "x$have_perl" != xyes; then
+    AC_MSG_ERROR([Perl requested, but not available: $perl_reason])
+fi
 
+AM_CONDITIONAL(WITH_PERL, test "x$perl_msg" = xyes)
+if test "x$have_perl" = xyes ; then
     perl_msg="yes (using $PERL)"
+else
+    perl_msg="no ($perl_reason)"
 fi
 AC_SUBST(PERL_CCCDLFLAGS)
 AC_SUBST(PERL_LDDLFLAGS)
