@@ -570,9 +570,8 @@ required_updates_for_style (GnmStyle *style)
 	    (mstyle_is_element_set (style, MSTYLE_FORMAT) ||
 	     mstyle_is_element_set (style, MSTYLE_INDENT));
 
-	return format_change
-	    ? SPANCALC_RE_RENDER|SPANCALC_RESIZE
-	    : size_change ? SPANCALC_RESIZE
+	return (format_change|size_change)
+		? (SPANCALC_RE_RENDER|SPANCALC_RESIZE)
 			  : SPANCALC_SIMPLE;
 }
 

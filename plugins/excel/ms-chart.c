@@ -1973,12 +1973,6 @@ chart_get_sheet (MSContainer const *container)
 	return ms_container_sheet (container->parent);
 }
 
-static GnmFormat *
-chart_get_fmt (MSContainer const *container, guint16 indx)
-{
-	return ms_container_get_fmt (container->parent, indx);
-}
-
 gboolean
 ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		     SheetObject *sog)
@@ -1988,7 +1982,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		chart_create_obj,
 		chart_parse_expr,
 		chart_get_sheet,
-		chart_get_fmt
+		NULL
 	};
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(XLChartHandler *);

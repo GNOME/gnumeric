@@ -530,7 +530,7 @@ cell_is_partial_array (GnmCell const *cell)
 /**
  * cell_render_value :
  * @cell: The cell whose value needs to be rendered
- * @dynamic_width : Allow format to depend on column width.
+ * @allow_variable_width : Allow format to depend on column width.
  *
  * TODO :
  * The reason the rendered values are stored separately from the GnmCell is
@@ -539,7 +539,7 @@ cell_is_partial_array (GnmCell const *cell)
  * display resolutions.
  */
 void
-cell_render_value (GnmCell *cell, gboolean dynamic_width)
+cell_render_value (GnmCell *cell, gboolean allow_variable_width)
 {
 	RenderedValue *rv;
 	GnmStyle *mstyle;
@@ -550,7 +550,7 @@ cell_render_value (GnmCell *cell, gboolean dynamic_width)
 	mstyle = cell_get_mstyle (cell);
 	context = cell->base.sheet->context;
 
-	rv = rendered_value_new (cell, mstyle, dynamic_width, context);
+	rv = rendered_value_new (cell, mstyle, allow_variable_width, context);
 	if (cell->rendered_value)
 		rendered_value_destroy (cell->rendered_value);
 	cell->rendered_value = rv;

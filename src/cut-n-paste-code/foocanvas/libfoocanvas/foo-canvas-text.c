@@ -936,6 +936,8 @@ foo_canvas_text_set_property (GObject            *object,
 
 		text->attr_list = g_value_peek_pointer (value);
 
+		if (text->attr_list)
+			pango_attr_list_ref (text->attr_list);
 		foo_canvas_text_apply_attributes (text);
 		break;
 

@@ -1398,7 +1398,7 @@ typedef struct {
 	SheetObjectFilled parent;
 
 	char *label;
-	GnmColor  *font_color;
+	PangoAttrList  *markup;
 } SheetObjectText;
 typedef struct {
 	SheetObjectFilledClass	parent;
@@ -1439,6 +1439,7 @@ sheet_object_text_init_full (SheetObjectText *sot, char const *text)
 static void
 sheet_object_text_init (SheetObjectText *sot)
 {
+	sot->markup = NULL;
 	sheet_object_text_init_full (sot, _("Label"));
 }
 
@@ -1447,7 +1448,10 @@ sheet_object_text_finalize (GObject *obj)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (obj);
 
-	style_color_unref (sot->font_color);
+	if (NULL != sot->markup) {
+		pango_attr_list_unref (sot->markup);
+		sot->markup = NULL;
+	}
 	g_free (sot->label);
 	sot->label = NULL;
 
@@ -1461,13 +1465,10 @@ sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
 	FooCanvasItem *text = NULL, *back = NULL;
 	FooCanvasGroup *group;
-	GdkColor *font_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
 	g_return_val_if_fail (gcanvas != NULL, NULL);
-
-	font_color = (sot->font_color != NULL) ? &sot->font_color->color : NULL;
 
 	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 	group = FOO_CANVAS_GROUP (foo_canvas_item_new (
@@ -1481,7 +1482,7 @@ sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		"clip",		TRUE,
 		"x",		0.,
 		"y",		0.,
-		"fill_color_gdk", font_color,
+		"attributes",	sot->markup,
 		NULL);
 	back = sheet_object_filled_new_view_internal (so, sc, gcanvas, group);
 	foo_canvas_item_raise_to_top (text);
@@ -1550,19 +1551,19 @@ sheet_object_text_write_xml_dom (SheetObject const *so,
 
 	xml_node_set_cstr (tree, "Label", sot->label);
 
-	if (sot->font_color)
-		xml_node_set_color (tree, "FontColor", sot->font_color);
+#warning TODO how to persist the attribute list
 	return FALSE;
 }
 
 static SheetObject *
-sheet_object_text_clone (SheetObject const *src_sot, Sheet *new_sheet)
+sheet_object_text_clone (SheetObject const *src, Sheet *new_sheet)
 {
+	SheetObjectText const *src_sot = SHEET_OBJECT_TEXT (src);
 	SheetObjectText *sot = g_object_new (SHEET_OBJECT_TEXT_TYPE, NULL);
-	sheet_object_text_init_full (sot,
-		SHEET_OBJECT_TEXT (src_sot)->label);
+	sheet_object_text_init_full (sot, src_sot->label);
 
-	sot->font_color = style_color_ref (sot->font_color);
+	pango_attr_list_ref (src_sot->markup);
+	sot->markup = src_sot->markup;
 	return SHEET_OBJECT (sot);
 }
 
@@ -1603,17 +1604,19 @@ GSF_CLASS (SheetObjectText, sheet_object_text,
 	   SHEET_OBJECT_FILLED_TYPE);
 
 void
-gnm_so_text_set_font_color (SheetObject *so, GnmColor *color)
+gnm_so_text_set_markup (SheetObject *so, PangoAttrList *markup)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
-	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
 	GList *l;
 
 	g_return_if_fail (sot != NULL);
 
-	style_color_unref (sot->font_color);
-	sot->font_color = color;
+	if (markup != NULL)
+		pango_attr_list_ref (markup);
+	if (sot->markup != NULL)
+		pango_attr_list_unref (sot->markup);
+	sot->markup = markup;
 
 	for (l = so->realized_list; l; l = l->next)
-		foo_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
+		foo_canvas_item_set (l->data, "attributes", markup, NULL);
 }

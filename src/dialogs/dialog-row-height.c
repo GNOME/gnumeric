@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * dialog-row-height.c:  Sets the magnification factor
  *
@@ -204,8 +205,7 @@ cb_dialog_row_height_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 			size_pixels = 0;
 
 		workbook_cmd_resize_selected_colrow (WORKBOOK_CONTROL (state->wbcg),
-						     FALSE, state->sheet,
-						     size_pixels);
+			state->sheet, FALSE, size_pixels);
 		dialog_row_height_load_value (state);
 	}
 

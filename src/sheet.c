@@ -1021,8 +1021,9 @@ cb_max_cell_width (Sheet *sheet, int col, int row, GnmCell *cell,
 	int width;
 
 	if (!cell_is_merged (cell)) {
-		/* Dynamic cells must be rerendered */
-		if (cell->rendered_value == NULL || cell->rendered_value->dynamic_width)
+		/* Variable width cell must be re-rendered */
+		if (cell->rendered_value == NULL ||
+		    cell->rendered_value->variable_width)
 			cell_render_value (cell, FALSE);
 
 		width = cell_rendered_width (cell) + cell_rendered_offset (cell);

@@ -6,7 +6,7 @@
  *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2002 Michael Meeks
+ * (C) 1998-2004 Michael Meeks, Jody Goldberg
  **/
 #ifndef GNUMERIC_MS_EXCEL_H
 #define GNUMERIC_MS_EXCEL_H
@@ -15,6 +15,7 @@
 #include "ms-excel-biff.h"
 #include "ms-container.h"
 #include <expr.h>
+#include <pango/pango-attributes.h>
 
 typedef struct {
 	Workbook  *wb;
@@ -79,7 +80,7 @@ typedef struct {
 } ExcelPalette;
 
 typedef struct {
-	guint16 index;
+	unsigned index;
 	int height;         /* in 1/20ths of a point   */
 	int italic;         /* boolean                 */
 	int struck_out;     /* boolean : strikethrough */
@@ -88,10 +89,11 @@ typedef struct {
 	int script;         /* sub = -1, none = 0, super = 1 */
 	MsBiffFontUnderline underline;
 	char *fontname;
+	PangoAttrList *attrs;
 } BiffFontData;
 
 typedef struct {
-	guint16 idx;
+	unsigned idx;
 	char *name;
 } BiffFormatData;
 

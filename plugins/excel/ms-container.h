@@ -3,7 +3,8 @@
 
 #include "excel.h"
 #include "ms-biff.h"
-#include       <glib-object.h>
+#include <glib.h>
+#include <pango/pango-attributes.h>
 
 typedef struct _MSContainer	MSContainer;
 typedef struct _ExcelWorkbook	ExcelWorkbook;
@@ -12,12 +13,13 @@ typedef struct _MSEscherShape	MSEscherShape;
 typedef struct _MSObj		MSObj;
 
 typedef struct {
-	gboolean        (*realize_obj)	(MSContainer *container, MSObj *obj);
-	SheetObject   * (*create_obj)	(MSContainer *container, MSObj *obj);
-	GnmExpr const * (*parse_expr)	(MSContainer *container,
-					 guint8 const *data, int length);
-	Sheet	      * (*sheet)	(MSContainer const *container);
-	GnmFormat   * (*get_fmt)	(MSContainer const *container, guint16 indx);
+	gboolean        (*realize_obj)	(MSContainer *c, MSObj *obj);
+	SheetObject   * (*create_obj)	(MSContainer *c, MSObj *obj);
+	GnmExpr const * (*parse_expr)	(MSContainer *c,
+					 guint8 const *expr, int length);
+	Sheet	      * (*sheet)	(MSContainer const *c);
+	GnmFormat     * (*get_fmt)	(MSContainer const *c, unsigned indx);
+	PangoAttrList * (*get_markup)	(MSContainer const *c, unsigned indx);
 } MSContainerClass;
 
 struct _MSContainer {
@@ -52,7 +54,8 @@ void	       ms_container_realize_objs (MSContainer *c);
 GnmExpr	const *ms_container_parse_expr   (MSContainer *c,
 					  guint8 const *data, int length);
 
-Sheet       *ms_container_sheet	    (MSContainer const *c);
-GnmFormat *ms_container_get_fmt   (MSContainer const *container, guint16 indx);
+Sheet		*ms_container_sheet	 (MSContainer const *c);
+GnmFormat	*ms_container_get_fmt	 (MSContainer const *c, unsigned indx);
+PangoAttrList	*ms_container_get_markup (MSContainer const *c, unsigned indx);
 
 #endif /* MS_OFFICE_CONTAINER_H */
