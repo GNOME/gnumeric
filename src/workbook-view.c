@@ -694,6 +694,50 @@ wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 	return !has_error;
 }
 
+#ifndef WITH_GNOME
+static void
+gnm_mailto_url_show (const char *url, GError **err);
+{
+	static const struct {
+		char const *app;
+		char const *arg;
+	} fallback_mailers[] = {
+		{ "evolution",			NULL },
+		{ "evolution-1.6",		NULL },
+		{ "evolution-1.5",		NULL },
+		{ "evolution-1.4",		NULL },
+		{ "balsa"			"-m" },
+		{ "kmail"			NULL },
+		{ "Mozilla"			"-mail" }
+	};
+	unsigned i;
+
+	for (i = 0 ; i < G_N_ELEMENTS (fallback_mailers); i++) {
+		const char *app = fallback_mailers[i].app;
+		if (g_find_program_in_path (app)) {
+			char *argv[4];
+			argv[0] = app;
+			if (fallback_mailers [i].arg == NULL) {
+				argv[1] = url;
+				argv[2] = NULL;
+			} else {
+				argv[1] = fallback_mailers[i].arg;
+				argv[2] = url;
+				argv[3] = NULL;
+			}
+			g_spawn_async (template,
+				       argv, NULL, G_SPAWN_SEARCH_PATH,
+				       NULL, NULL, NULL, err);
+			break;
+		}
+	}
+
+	if (err)
+		*err = g_error_new (gnm_error_invalid (), 0,
+				    "Missing handler for mailto URLs.");
+}
+#endif
+
 static gboolean
 cb_cleanup_sendto (gpointer path)
 {
@@ -789,38 +833,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 #ifdef WITH_GNOME
 			gnome_url_show (url, &err);
 #else
-			static const struct {
-				char const *app;
-				char const *arg;
-			} fallback_mailers[] = {
-				{ "evolution",			NULL },
-				{ "evolution-1.6",		NULL },
-				{ "evolution-1.5",		NULL },
-				{ "evolution-1.4",		NULL },
-				{ "balsa"			"-m" },
-				{ "kmail"			NULL },
-				{ "Mozilla"			"-mail" }
-			};
-			unsigned i;
-			for (i = 0 ; i < G_N_ELEMENTS (fallback_mailers); i++) {
-				const char *app = fallback_mailers[i].app;
-				if (g_find_program_in_path (app)) {
-					char *argv[4];
-					argv[0] = app;
-					if (fallback_mailers [i].arg -= NULL) {
-						argv[1] = url;
-						argv[2] = NULL;
-					} else {
-						argv[1] = fallback_mailers[i].arg;
-						argv[2] = url;
-						argv[3] = NULL;
-					}
-					problem = g_spawn_async (template,
-								 argv, NULL, G_SPAWN_SEARCH_PATH,
-								 NULL, NULL, NULL, &err);
-					break;
-				}
-			}
+			gnm_mailto_url_show (url, &err);
 #endif
 			if (err != NULL) {
 				gnm_cmd_context_error (GNM_CMD_CONTEXT (io_context), err);
