@@ -28,6 +28,7 @@
 #include "workbook-edit.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-private.h"
 #include "sheet-control-gui.h"
 #include "sheet-object.h"
 #include "rendered-value.h"
@@ -690,21 +691,18 @@ change_menu_sensitivity (
 }
 
 static void
-wbcg_insert_cols_rows_enable (WorkbookControl *wbc, gboolean col, gboolean enable)
+wbcg_insert_cols_rows_enable (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	
 	g_return_if_fail (wbcg != NULL);
 
 #ifndef ENABLE_BONOBO
-	if (col) 
-		change_menu_sensitivity (wbcg->menu_item_insert_cols, enable);
-	else
-		change_menu_sensitivity (wbcg->menu_item_insert_rows, enable);
+	change_menu_sensitivity (wbcg->menu_item_insert_cols, sheet->priv->enable_insert_cols);
+	change_menu_sensitivity (wbcg->menu_item_insert_rows, sheet->priv->enable_insert_rows);
 #else
-	if (col)
-		change_menu_sensitivity (wbcg, "/commands/InsertColumns", "/menu/Insert/Columns", enable);
-	else
-		change_menu_sensitivity (wbcg, "/commands/InsertRows", "/menu/Insert/Rows", enable);
+	change_menu_sensitivity (wbcg, "/commands/InsertColumns", "/menu/Insert/Columns", sheet->priv->enable_insert_cols);
+	change_menu_sensitivity (wbcg, "/commands/InsertRows", "/menu/Insert/Rows", sheet->priv->enable_insert_rows);
 #endif
 }
 
@@ -773,12 +771,12 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 }
 
 static void
-wbcg_paste_special_enable (WorkbookControl *wbc, gboolean enable)
+wbcg_paste_special_enable (WorkbookControl *wbc, Sheet *sheet)
 {
  	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	
 #ifndef ENABLE_BONOBO
-	change_menu_sensitivity (wbcg->menu_item_paste_special, enable);
+	change_menu_sensitivity (wbcg->menu_item_paste_special, sheet->priv->enable_paste_special);
 #else
 	change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial", "/menu/Edit/PasteSpecial", enable);
 #endif

@@ -201,19 +201,12 @@ wb_view_menus_update (WorkbookView *wbv)
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
-	/*
-	 * Update every menu flag here, the flags are kept in "sheet" for now, this
-	 * is an ugly solution, but certifies that when creating new views or flipping
-	 * sheets the menu items states stay 'correct'
-	 */
 	sheet = wbv->current_sheet;
 	if (sheet != NULL) {
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-					       wb_control_insert_cols_rows_enable (control, TRUE, sheet->enable_insert_cols););
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-					       wb_control_insert_cols_rows_enable (control, FALSE, sheet->enable_insert_rows););
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-					       wb_control_paste_special_enable (control, sheet->enable_paste_special););
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
+			wb_control_insert_cols_rows_enable (control, sheet);
+			wb_control_paste_special_enable (control, sheet);
+		});
 	}
 }
 

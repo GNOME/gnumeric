@@ -14,6 +14,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-private.h"
 
 #include "pixmaps/menu-print-preview.xpm"
 #include "pixmaps/print-preview.xpm"
@@ -251,11 +252,12 @@ application_clipboard_clear (gboolean drop_selection)
 		Sheet *sheet = app.clipboard_sheet;
 
 		sheet_selection_unant (sheet);
+		
+		sheet->priv->enable_paste_special = FALSE;
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_paste_special_enable (control, FALSE););
+			wb_control_paste_special_enable (control, sheet););
+			
 		app.clipboard_sheet = NULL;
-
-		sheet->enable_paste_special = FALSE;
 
 		/* Release the selection */
 		if (drop_selection)
@@ -312,10 +314,9 @@ application_clipboard_copy (WorkbookControl *wbc,
 		app.clipboard_copied_contents =
 			clipboard_copy_range (sheet, area);
 
+		sheet->priv->enable_paste_special = TRUE;
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_paste_special_enable (control, TRUE););
-
-		sheet->enable_paste_special = TRUE;
+			wb_control_paste_special_enable (control, sheet););
 
 		sheet_selection_ant (sheet);
 	}
@@ -343,11 +344,10 @@ application_clipboard_cut (WorkbookControl *wbc,
 		app.clipboard_cut_range = *area;
 
 		/* No paste special for copies */
+		sheet->priv->enable_paste_special = FALSE;
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_paste_special_enable (control, FALSE););
+			wb_control_paste_special_enable (control, sheet););
 
-		sheet->enable_paste_special = FALSE;
-		
 		sheet_selection_ant (sheet);
 	}
 }

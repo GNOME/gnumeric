@@ -21,6 +21,7 @@
 #include "value.h"
 #include "cell.h"
 #include "sheet-merge.h"
+#include "sheet-private.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-util.h"
 
@@ -386,7 +387,7 @@ looper :
 	if (just_add_it) {
 		sheet_redraw_range (sheet, &new_sel);
 		sheet_redraw_headers (sheet, TRUE, TRUE, &new_sel);
-		goto end;
+		goto set_menu_flags;
 	}
 
 	if (range_overlap (&old_sel, &new_sel)) {
@@ -473,7 +474,7 @@ looper :
 		}
 	}
 	
-end:	
+set_menu_flags:
 	sheet_flag_selection_change (sheet);
 
 	/*
@@ -485,20 +486,22 @@ end:
 	for (list = sheet->selections; list && (do_cols || do_rows); list = list->next){
 		Range *r = list->data;
 
-		if (do_rows && r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1) {
-			WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-						  wb_control_insert_cols_rows_enable (control, FALSE, FALSE););
+		if (do_rows && r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1)
 			do_rows = FALSE;
-		}
 
-		if (do_cols && r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1) {
-			WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-						  wb_control_insert_cols_rows_enable (control, TRUE, FALSE););
+		if (do_cols && r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1)
 			do_cols = FALSE;
-		}
 	}
-	sheet->enable_insert_cols = do_cols;
-	sheet->enable_insert_rows = do_rows;
+
+	if (do_rows != sheet->priv->enable_insert_rows ||
+	    do_cols != sheet->priv->enable_insert_cols) {
+	    
+		sheet->priv->enable_insert_rows = do_rows;
+		sheet->priv->enable_insert_cols = do_cols;
+		
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+					  wb_control_insert_cols_rows_enable (control, sheet););
+	}
 }
 
 void
@@ -598,14 +601,12 @@ sheet_selection_reset (Sheet *sheet)
 
 	g_list_free (list);
 
+	sheet->priv->enable_insert_cols = TRUE;
+	sheet->priv->enable_insert_rows = TRUE;
+	
 	/* Make sure we re-enable the insert col/rows menu items */
 	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-				  wb_control_insert_cols_rows_enable (control, FALSE, TRUE););
-	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-				  wb_control_insert_cols_rows_enable (control, TRUE, TRUE););
-				  
-	sheet->enable_insert_cols = TRUE;
-	sheet->enable_insert_rows = TRUE;
+				  wb_control_insert_cols_rows_enable (control, sheet););
 }
 
 static void

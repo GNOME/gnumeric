@@ -1,3 +1,38 @@
+2001-01-31  Almer S. Tigelaar  <almer1@dds.nl>
+
+ 	* src/sheet.h :
+ 	Remove all menu item state flags.
+ 
+ 	* src/sheet-private.h:
+ 	Put the menu item state flags here.
+ 	
+ 	* src/workbook-control-gui.c:
+ 	(wbcg_paste_special_enable): Remove the second argument to
+ 	this function. Instead read this directly out of the flags. Add sheet
+	argument.
+ 	(wbcg_insert_cols_rows_enable): Ditto for the 3rd argument and
+ 	also remove the cols arguments so that one call will update both
+ 	row and column menu items. Also add sheet argument.
+ 
+ 	* src/workbook-control.c, src/workbook-control.h, 
+	src/workbook-control-priv.h:
+ 	Adjust arguments to wbcg_paste_special_enable and insert_cols_rows.
+ 
+ 	* src/application.c:
+	(application_clipboard_copy): First set the paste special flag
+ 	and don't pass argument to paste_special_enable.
+ 	(application_clipboard_cut): Ditto.
+ 	(application_clipboard_clear): Ditto.
+ 
+ 	* src/workbook-view.c:
+ 	(wb_view_menus_update): Update to don't pass flags as argument, don't
+ 	do separate calls for cols and rows and optimize to do all calls in one loop.
+ 
+ 	* src/selection.c:
+ 	(sheet_selection_set_internal): Disable or enable insert cols/rows,
+ 	update UI only when neccessary and rename label for clarity.
+ 	(sheet_selection_reset): Enable insert cols/rows flags.
+ 	
 2001-01-31  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_replace_verify): For regexps, validate the
