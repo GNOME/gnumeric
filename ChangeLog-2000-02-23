@@ -1,3 +1,11 @@
+1999-09-21  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-stat.c (gnumeric_logest): Add some meat.
+
+	* src/regression.c (general_linear_regression): Renamed from
+ 	general_regression.
+	(exponential_regression): New function.
+
 1999-09-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/statfuns.xls: Updated the second PERCENTRANK test.

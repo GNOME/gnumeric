@@ -8,6 +8,7 @@
 #include <config.h>
 #include "regression.h"
 #include <glib.h>
+#include <math.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -47,9 +48,9 @@ linear_solve (float_t **A, float_t *b, int n,
 /* ------------------------------------------------------------------------- */
 
 static int
-general_regression (const float_t *const *xss, int xdim,
-		    const float_t *ys, int n,
-		    float_t *res)
+general_linear_regression (const float_t *const *xss, int xdim,
+			   const float_t *ys, int n,
+			   float_t *res)
 {
 	float_t *xTy, **xTx;
 	int i;
@@ -113,12 +114,7 @@ general_regression (const float_t *const *xss, int xdim,
 }
 
 /* ------------------------------------------------------------------------- */
-/* Fit the best possible line (y = ax + b) through a set of data points.
- *
- * If affine is false, force b = 0.
- *
- * "Best" means minimum total squared vertical distance.
- */
+/* Please refer to description in regression.h.  */
 
 int
 linear_regression (const float_t *xs, const float_t *ys, int n,
@@ -131,11 +127,53 @@ linear_regression (const float_t *xs, const float_t *ys, int n,
 		xss[0] = NULL;  /* Substitute for 1-vector.  */
 		xss[1] = xs;
 
-		return general_regression (xss, 2, ys, n, res);
+		return general_linear_regression (xss, 2, ys, n, res);
 	} else {
 		res[0] = 0;
-		return general_regression (&xs, 1, ys, n, res + 1);
+		return general_linear_regression (&xs, 1, ys, n, res + 1);
 	}
+}
+
+/* ------------------------------------------------------------------------- */
+/* Please refer to description in regression.h.  */
+
+int
+exponential_regression (const float_t *xs, const float_t *ys, int n,
+			int affine,
+			float_t *res)
+{
+	float_t *log_ys;
+	int result;
+	int i;
+
+	log_ys = g_new (float_t, n);
+	for (i = 0; i < n; i++)
+		if (ys[i] > 0)
+			log_ys[i] = log (ys[i]);
+		else {
+			result = 1; /* Bad data.  */
+			goto out;
+		}
+
+	if (affine) {
+		const float_t *xss[2];
+
+		xss[0] = NULL;  /* Substitute for 1-vector.  */
+		xss[1] = xs;
+
+		result = general_linear_regression (xss, 2, log_ys, n, res);
+	} else {
+		res[0] = 0;
+		result = general_linear_regression (&xs, 1, log_ys, n, res + 1);
+	}
+
+	if (result == 0)
+		for (i = 0; i < n; i++)
+			res[i] = exp (res[i]);
+
+ out:
+	g_free (log_ys);
+	return result;
 }
 
 /* ------------------------------------------------------------------------- */

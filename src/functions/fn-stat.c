@@ -3985,18 +3985,18 @@ static char *help_logest = {
 	   "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
 
 	   "@DESCRIPTION="
-	   "LOGEST function applies the ``least squares'' method to fit "
+	   "The LOGEST function applies the ``least squares'' method to fit "
 	   "an exponential curve of the form "
-	   "y = b*m{1}^x{1}+m{2}^x{2}... to your data."
+	   "y = b * m{1}^x{1} * m{2}^x{2}... to your data."
 	   "\n"
 	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
-	   "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }. "
+	   "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }."
 	   "\n"
 	   "If @known_y's and @known_x's have unequal number of data points, "
 	   "LOGEST returns #NUM! error."
 	   "\n"
-	   "If @const is FALSE, the line will be forced to go through the "
-	   "origin, i.e., b will be zero.  The default is TRUE."
+	   "If @const is FALSE, the line will be forced to go through (0,1),"
+	   "i.e., b will be one.  The default is TRUE."
 	   "\n"
 	   "If @stat is TRUE, extra statistical information will be returned. "
 	   "The default is FALSE."
@@ -4008,8 +4008,79 @@ static char *help_logest = {
 static Value *
 gnumeric_logest (FunctionEvalInfo *ei, Value *argv [])
 {
-        /* Does nothing yet; look examples in samples/statfuns.xls */
-        return value_new_float (0);
+	float_t *xs = NULL, *ys = NULL;
+	Value *result = NULL;
+	int nx, ny, dim;
+	float_t expres[2];
+	gboolean affine, stat, err;
+
+	ys = collect_floats_value (argv[0], &ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
+				   &ny, &result);
+	if (result)
+		goto out;
+
+	if (argv[1] != NULL) {
+	        xs = collect_floats_value (argv[1], &ei->pos,
+					   COLLECT_IGNORE_STRINGS |
+					   COLLECT_IGNORE_BOOLS,
+					   &nx, &result);
+		if (result)
+			goto out;
+	} else {
+	        xs = g_new(float_t, ny);
+	        for (nx=0; nx<ny; nx++)
+		        xs[nx] = nx+1;
+	}
+
+	if (nx != ny) {
+		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	if (argv[2]) {
+		affine = value_get_as_bool (argv[2], &err);
+		if (err) {
+			result = value_new_error (&ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else
+		affine = TRUE;
+
+	if (argv[3]) {
+		stat = value_get_as_bool (argv[3], &err);
+		if (err) {
+			result = value_new_error (&ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else
+		stat = TRUE;
+
+	if (exponential_regression (xs, ys, nx, affine, expres)) {
+		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	/* FIXME: we should handle multi-dimensional data, but we do not.  */
+	dim = 1;
+	if (stat) {
+		int y, x;
+		result = value_new_array (dim + 1, 5);
+		for (y = 0; y < 5; y++)
+			for (x = 0; x < dim + 1; x++)
+				value_array_set (result, x, y, value_new_error (&ei->pos, gnumeric_err_NA));
+		/* FIXME: lots of stuff goes here.  */
+	} else {
+		result = value_new_array (dim + 1, 1);
+	}
+	value_array_set (result, dim, 0, value_new_float (expres[0]));
+	value_array_set (result, 0, 0, value_new_float (expres[1]));
+
+ out:
+	g_free (xs);
+	g_free (ys);
+	return result;
 }
 
 /***************************************************************************/
@@ -4290,7 +4361,7 @@ stat_functions_init (void)
 			    &help_linest, gnumeric_linest);
 	function_add_args  (cat, "logest",  "A|Abb",
 			    "known_y's[,known_x's,const,stat]",
-			    &help_logest, gnumeric_linest);
+			    &help_logest, gnumeric_logest);
 	function_add_args  (cat, "loginv",  "fff",  "",
 			    &help_loginv, gnumeric_loginv);
 	function_add_args  (cat, "lognormdist",  "fff",  "",
