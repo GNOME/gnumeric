@@ -1,3 +1,13 @@
+2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-format-page.c (locale_changed_cb): new
+	(stf_dialog_format_page_init): add locale selector
+	* dialog-stf.c: add pagedata.locale and pagedata.fixed_locale
+	(stf_dialog): add above to argument list
+	* dialog-stf.glade: add space for locale selector
+	* dialog-stf.h (stf_dialog): add locale and fixed_locale
+	  to argument list
+
 2003-06-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* Makefile.am : add number-format-selector.glade

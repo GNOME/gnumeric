@@ -435,6 +435,8 @@ DialogStfResult_t*
 stf_dialog (WorkbookControlGUI *wbcg,
 	    const char *opt_encoding,
 	    gboolean fixed_encoding,
+	    const char *opt_locale,
+	    gboolean fixed_locale,
 	    const char *source,
 	    const char *data,
 	    int data_len)
@@ -444,6 +446,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	DruidPageData_t pagedata;
 
 	g_return_val_if_fail (opt_encoding != NULL || !fixed_encoding, NULL);
+	g_return_val_if_fail (opt_locale != NULL || !fixed_locale, NULL);
 	g_return_val_if_fail (source != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
@@ -456,6 +459,8 @@ stf_dialog (WorkbookControlGUI *wbcg,
 
 	pagedata.encoding = g_strdup (opt_encoding);
 	pagedata.fixed_encoding = fixed_encoding;
+	pagedata.locale = g_strdup (opt_locale);
+	pagedata.fixed_locale = fixed_locale;
 	pagedata.wbcg = wbcg;
 	pagedata.source = source;
 	pagedata.raw_data = data;
@@ -521,6 +526,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	g_object_unref (pagedata.window);
 	g_object_unref (G_OBJECT (gui));
 	g_free (pagedata.encoding);
+	g_free (pagedata.locale);
 	g_free (pagedata.utf8_data);
 	if (pagedata.parseoptions)
 		stf_parse_options_free (pagedata.parseoptions);

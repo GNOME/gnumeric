@@ -23,6 +23,8 @@ libwidgets_a_SOURCES =				\
 	gtk-combo-stack.h			\
 	widget-charmap-selector.c		\
 	widget-charmap-selector.h		\
+	widget-locale-selector.c		\
+	widget-locale-selector.h		\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\

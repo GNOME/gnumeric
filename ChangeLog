@@ -1,3 +1,8 @@
+2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/gui-clipboard.c: call stf_dialog with new arguments
+	* src/stf.c: call stf_dialog with new arguments
+
 2003-06-18  Jon K Hellan  <hellan@acm.org>
 
 	* src/io-context-gtk.c (struct _IOContextGtk): Add 'latency'

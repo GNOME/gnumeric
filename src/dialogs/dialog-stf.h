@@ -6,6 +6,7 @@
 #include <stf-parse.h>
 #include <libgnomeui/gnome-druid.h>
 #include "widgets/widget-charmap-selector.h"
+#include "widgets/widget-locale-selector.h"
 #include "widgets/widget-format-selector.h"
 
 /* for the main_page */
@@ -63,6 +64,7 @@ typedef struct {
 	NumberFormatSelector *format_selector;
      
 	/* Page members that are created at run-time */
+	LocaleSelector    *locale_selector;
 	RenderData_t      *renderdata;
 	GPtrArray         *formats; /* Contains StyleFormat* */
 	int                index;
@@ -92,6 +94,8 @@ typedef struct {
 
 	char                  *encoding;
 	gboolean               fixed_encoding;
+	char                  *locale;
+	gboolean               fixed_locale;
 	const char            *raw_data;     /* Raw bytes, not UTF-8.  */
 	int                    raw_data_len;
 	char                  *utf8_data;    /* raw_data converted into UTF-8.  */
@@ -122,6 +126,8 @@ typedef struct {
 DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbcg,
 							 const char *opt_encoding,
 							 gboolean fixed_encoding,
+							 const char *opt_locale,
+							 gboolean fixed_locale,
 							 const char *source,
 							 const char *data,
 							 int data_len);

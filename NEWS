@@ -8,6 +8,7 @@ Andreas:
 	* Avoid duplicate regression tool error messages
 	* Added new function SSMEDIAN (social science median, or 
           median for grouped data)
+	* Added a locale selector to text import.
 
 Emmanuel Pacaud:
 	* New format selector for stf.

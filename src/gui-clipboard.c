@@ -109,6 +109,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		g_free (data_converted);
 	} else {
 		dialogresult = stf_dialog (wbcg, opt_encoding, fixed_encoding,
+					   NULL, FALSE,
 					   _("clipboard"), data, data_len);
 
 		if (dialogresult != NULL) {

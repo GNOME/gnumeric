@@ -1,3 +1,7 @@
+2003-06-18  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in: Added src/widgets/widget-locale-selector.c
+
 2003-06-18  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.

@@ -185,7 +185,8 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 	workbook_sheet_attach (book, sheet, NULL);
 
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl),
-				   enc, FALSE, nameutf8, data, data_len);
+				   enc, FALSE, NULL, FALSE, 
+				   nameutf8, data, data_len);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
@@ -279,7 +280,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	data = gsf_output_memory_get_bytes (buf);
 	data_len = (size_t)gsf_output_size (GSF_OUTPUT (buf));
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
-				   NULL, FALSE,
+				   NULL, FALSE, NULL, FALSE,
 				   _("Text to Columns"), data, data_len);
 
 	if (dialogresult == NULL ||

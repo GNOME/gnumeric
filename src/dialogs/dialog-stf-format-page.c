@@ -122,6 +122,16 @@ format_page_update_preview (DruidPageData_t *pagedata)
  * SIGNAL HANDLERS
  *************************************************************************************************/
 
+static void
+locale_changed_cb (LocaleSelector *ls, char const *new_enc,
+		      DruidPageData_t *pagedata)
+{
+	const char *name = locale_selector_get_locale_name (ls, new_enc);
+#warning Fixme: implement locale changes
+	g_warning ("Locale changes (%s) have not been implemented", 
+			   name ? name : new_enc);
+}
+
 
 /**
  * format_page_collist_select_row
@@ -311,6 +321,17 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	format_hbox = glade_xml_get_widget (gui, "format_hbox");
 	gtk_box_pack_end_defaults (GTK_BOX (format_hbox), GTK_WIDGET (pagedata->format.format_selector));
 	gtk_widget_show (GTK_WIDGET (pagedata->format.format_selector));
+
+	pagedata->format.locale_selector = 
+		LOCALE_SELECTOR (locale_selector_new ());
+	gtk_table_attach (
+		GTK_TABLE (glade_xml_get_widget (gui, "locale_table")),
+		GTK_WIDGET (pagedata->format.locale_selector),
+		3, 4, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_show_all (GTK_WIDGET (pagedata->format.locale_selector));
+	gtk_widget_set_sensitive 
+		(GTK_WIDGET (pagedata->format.locale_selector), 
+		 !pagedata->fixed_locale);
 	
 	/* Set properties */
 	pagedata->format.renderdata =
@@ -332,6 +353,9 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->format.format_collist),
 			  "select_row",
 			  G_CALLBACK (format_page_collist_select_row), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format.locale_selector),
+			  "locale_changed",
+			  G_CALLBACK (locale_changed_cb), pagedata);
 
 	menu = (GtkMenu *) gtk_option_menu_get_menu (pagedata->format.format_trim);
         g_signal_connect (G_OBJECT (menu),
