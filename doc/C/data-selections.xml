@@ -14,8 +14,8 @@
       shape. For instance, <application>Gnumeric</application> could
       not correctly reshape a worksheet following the deletion of a
       discontinous group of cells therefore such an operation is not
-      allowed. If users attempt an operation which is cannot be
-      performed, a warning dialog will appear.
+      allowed. If users attempt an operation which cannot be performed,
+      a warning dialog will appear.
     </para>
   </warning>
  
