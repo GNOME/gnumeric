@@ -2,10 +2,9 @@
 
 	* graph/gog-axis.h (GogAxisTickTypes): Fix namespace.
 
-	* graph/gog-axis.c (GogAxisElemType): Name this type and move it
-	from gog-axis.h.
-	(gog_axis_get_entry): Make this static and use GogAxisElemType,
-	not unsigned int, for the index argument.
+	* graph/gog-axis.c (GogAxisElemType): Name this type.
+	(gog_axis_get_entry): Use GogAxisElemType, not unsigned int, for
+	the index argument.
 
 2004-10-12  Morten Welinder  <terra@gnome.org>
 

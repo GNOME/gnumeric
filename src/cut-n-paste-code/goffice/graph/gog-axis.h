@@ -33,6 +33,15 @@ typedef enum {
 } GogAxisPosition;
 
 typedef enum {
+	AXIS_ELEM_MIN = 0,
+	AXIS_ELEM_MAX,
+	AXIS_ELEM_MAJOR_TICK,
+	AXIS_ELEM_MINOR_TICK,
+	AXIS_ELEM_CROSS_POINT,
+	AXIS_ELEM_MAX_ENTRY
+} GogAxisElemType;
+
+typedef enum {
 	GOG_AXIS_TICK_NONE,
 	GOG_AXIS_TICK_MAJOR,
 	GOG_AXIS_TICK_MINOR
@@ -58,6 +67,8 @@ gboolean	gog_axis_get_bounds 	 (GogAxis const *axis,
 unsigned  	gog_axis_get_ticks 	 (GogAxis *axis, GogAxisTick **ticks);
 GOData	       *gog_axis_get_labels	 (GogAxis const *axis,
 					  GogPlot **plot_that_labeled_axis);
+double          gog_axis_get_entry       (GogAxis const *axis, GogAxisElemType i,
+					  gboolean *user_defined);
 
 void 	      gog_axis_add_contributor	  (GogAxis *axis, GogObject *contrib);
 void 	      gog_axis_del_contributor	  (GogAxis *axis, GogObject *contrib);

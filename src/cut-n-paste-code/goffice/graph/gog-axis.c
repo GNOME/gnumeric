@@ -52,15 +52,6 @@
 
 #include <string.h>
 
-typedef enum {
-	AXIS_ELEM_MIN = 0,
-	AXIS_ELEM_MAX,
-	AXIS_ELEM_MAJOR_TICK,
-	AXIS_ELEM_MINOR_TICK,
-	AXIS_ELEM_CROSS_POINT,
-	AXIS_ELEM_MAX_ENTRY
-} GogAxisElemType;
-
 struct _GogAxis {
 	GogStyledObject	 base;
 
@@ -122,8 +113,6 @@ enum {
 #define GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR 	100
 
 static void gog_axis_set_ticks (GogAxis *axis,int tick_nbr, GogAxisTick *ticks);
-static double gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i,
-				  gboolean *user_defined);
 
 static GogAxisTick *
 get_adjusted_tick_array (GogAxisTick *ticks, int allocated_size, int exact_size) 
@@ -1163,7 +1152,7 @@ gog_axis_finalize (GObject *obj)
  * Returns the value of axis element @i and sets @user_defined or
  * 	NaN on error
  **/
-static double
+double
 gog_axis_get_entry (GogAxis const *axis, GogAxisElemType i, gboolean *user_defined)
 {
 	GOData *dat;
