@@ -1,5 +1,9 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-control-gui.c (scg_setup_group_buttons) : honour the
+	  sheet::display_outline flag.  We could probably move these to the
+	  SheetView.
+
 	* src/parser.y (parser_sheet_by_name) : don't leak the arguments when
 	  attempting to parse an expression with an unknown function name.
 

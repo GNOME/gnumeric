@@ -192,8 +192,11 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 {
 	GtkStyle *style;
 	unsigned i;
+	Sheet const *sheet = ((SheetControl *)scg)->sheet;
 
-	if (max_outline > 0)
+	if (!sheet->display_outlines)
+		max_outline = 0;
+	else if (max_outline > 0)
 		max_outline++;
 
 	while (btns->len > max_outline) {
