@@ -242,7 +242,7 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 		if (tree->u.name->builtin) {
 			/* FIXME: insufficiently flexible dependancy code (?) */
 		} else
-			add_tree_deps (cell, tree->u.name->t.exprt);
+			add_tree_deps (cell, tree->u.name->t.expr_tree);
 		return;
 
 	case OPER_ARRAY:

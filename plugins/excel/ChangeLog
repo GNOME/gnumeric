@@ -1,5 +1,20 @@
 1999-07-08  Michael Meeks  <michael@edenproject.org>
 
+	* ms-excel-read.h (_ExcelWorkbook): Removed internal_names and
+	comments.
+
+	* ms-excel-write.c (write_bits): Merged write_constants
+	into this + add 'wb' parameter.
+	(write_bits): Add TABID, DSF records.
+	Add PROT4REV, PROT4REVPASS.
+	(write_fonts): Changed put_text from eBiffV7, AS_PER_VER.
+
+	* ms-excel-read.c (ms_excel_read_workbook): Update DFS -> DSF
+
+	* biff-types.h (BIFF_DSF): Mod. from DFS.
+
+1999-07-08  Michael Meeks  <michael@edenproject.org>
+
 	* ms-formula-read.c (ms_excel_parse_formula): Add magic 0x17
 	for special undocumented 'Addin Name' support.
 

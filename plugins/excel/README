@@ -30,8 +30,4 @@ Or to put / get files to / from an OLE file use:
 or
 	./ole somefile.xls get <stream name> <filename>
 
-1999-04-13 Michael Meeks <michael@imaginator.com>
-
-TODO:
-
-	sort out padding, do we need it ? where is the bug ?
+1999-07-07 Michael Meeks <michael@imaginator.com>

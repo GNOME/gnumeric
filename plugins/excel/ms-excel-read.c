@@ -2561,7 +2561,7 @@ ms_excel_read_workbook (MsOle *file)
 		if (0x1 == q->ms_op) {
 			switch (q->opcode)
 			{
-			case BIFF_DFS :
+			case BIFF_DSF :
 				printf ("Double Stream File : %s\n",
 					(BIFF_GET_GUINT16(q->data) == 1)
 					? "Yes" : "No");

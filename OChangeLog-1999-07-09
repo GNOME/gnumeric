@@ -1,5 +1,7 @@
 1999-07-08  Michael Meeks  <michael@edenproject.org>
 
+	* src/eval.c (add_tree_deps): Change exprt to expr_tree.
+
 	* src/Gnumeric.idl: Removed : GNOME::Unknown from Workbook so
 	people can compile for now.
 

@@ -165,7 +165,7 @@
 #define BIFF_SXDBEX                    0x122	/* ONLY 1 */
 #define BIFF_TABID                     0x13d	/* ONLY 1 */
 #define BIFF_USESELFS                  0x160	/* ONLY 1 */
-#define BIFF_DFS                       0x161	/* ONLY 1 */
+#define BIFF_DSF                       0x161	/* ONLY 1 */
 #define BIFF_XL5MODIFY                 0x162	/* ONLY 1 */
 #define BIFF_FILESHARING2              0x1a5
 #define BIFF_USERDBVIEW                0x1a9	/* ONLY 1 */

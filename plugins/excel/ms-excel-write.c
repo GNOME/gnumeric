@@ -230,36 +230,6 @@ write_magic_interface (BiffPut *bp, eBiff_version ver)
 }
 
 static void
-write_constants (BiffPut *bp, eBiff_version ver)
-{
-	guint8 *data;
-
-	/* See: S59E1A.HTM */
-	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
-/*	biff_put_text (bp, "the free software foundation   ", ver, TRUE); */
-	biff_put_text (bp, "Michael Meeks", ver, TRUE, AS_PER_VER); /* For testing */
-	ms_biff_put_var_write (bp, "                  "
-			       "                "
-			       "                "
-			       "                "
-			       "                "
-			       "                  ", 16*6+2);
-	ms_biff_put_commit (bp);
-
-	/* See: S59D66.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
-	BIFF_SET_GUINT16 (data, 0x04e4); /* ANSI */
-	ms_biff_put_commit (bp);
-
-	/* See: S59D8A.HTM */
-	if (ver >= eBiffV7) {
-		data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);
-		BIFF_SET_GUINT16 (data, 0x0e);
-		ms_biff_put_commit (bp);
-	}
-}
-
-static void
 write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 {
 	guint32 num_sheets = wb->sheets->len;
@@ -317,9 +287,45 @@ write_window1 (BiffPut *bp, eBiff_version ver)
 }
 
 static void
-write_bits (BiffPut *bp, eBiff_version ver)
+write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 {
 	guint8 *data;
+
+	/* See: S59E1A.HTM */
+	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
+/*	biff_put_text (bp, "the free software foundation   ", ver, TRUE); */
+	biff_put_text (bp, "Michael Meeks", ver, TRUE, AS_PER_VER); /* For testing */
+	ms_biff_put_var_write (bp, "                  "
+			       "                "
+			       "                "
+			       "                "
+			       "                "
+			       "                  ", 16*6+2);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D66.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
+	BIFF_SET_GUINT16 (data, 0x04e4); /* ANSI */
+	ms_biff_put_commit (bp);
+
+	if (ver >= eBiffV8) { /* See S59D78.HTM */
+		int lp, len;
+		
+		data = ms_biff_put_len_next (bp, BIFF_DSF, 2);
+		BIFF_SET_GUINT16 (data, 0x0);
+		ms_biff_put_commit (bp);
+
+		/* See: S59E09.HTM */
+		len = wb->sheets->len;
+		data = ms_biff_put_len_next (bp, BIFF_TABID, len);
+		for (lp = 0; lp < len; lp++) /* FIXME: ? */
+			BIFF_SET_GUINT16 (data + lp*2, lp);
+		ms_biff_put_commit (bp);
+	}
+	/* See: S59D8A.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);
+	BIFF_SET_GUINT16 (data, 0x0e);
+	ms_biff_put_commit (bp);
 
 	/* See: S59E19.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_WINDOWPROTECT, 2);
@@ -335,6 +341,18 @@ write_bits (BiffPut *bp, eBiff_version ver)
 	data = ms_biff_put_len_next (bp, BIFF_PASSWORD, 2);
 	BIFF_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
+       
+	if (ver >= eBiffV8) {
+		/* See: S59DD2.HTM */
+		data = ms_biff_put_len_next (bp, BIFF_PROT4REV, 2);
+		BIFF_SET_GUINT16 (data, 0x0);
+		ms_biff_put_commit (bp);
+
+		/* See: S59DD3.HTM */
+		data = ms_biff_put_len_next (bp, BIFF_PROT4REVPASS, 2);
+		BIFF_SET_GUINT16 (data, 0x0);
+		ms_biff_put_commit (bp);
+	}
 
 	write_window1 (bp, ver);
 
@@ -539,7 +557,7 @@ write_fonts (BiffPut *bp, ExcelWorkbook *wb)
 		BIFF_SET_GUINT8 (data +13, 0);
 		ms_biff_put_var_write (bp, data, 14);
 		
-		biff_put_text (bp, "Arial", eBiffV7, TRUE, AS_PER_VER);
+		biff_put_text (bp, "Arial", wb->ver, TRUE, EIGHT_BIT);
 		
 		ms_biff_put_commit (bp);
 	}
@@ -1296,9 +1314,8 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 	wb->streamPos = biff_bof_write (bp, ver, eBiffTWorkbook);
 
 	write_magic_interface (bp, ver);
-	write_constants       (bp, ver);
 /*	write_externsheets    (bp, wb, NULL); */
-	write_bits            (bp, ver);
+	write_bits            (bp, wb, ver);
 
 	wb->fonts   = write_fonts (bp, wb);
 	wb->formats = write_formats (bp, wb);

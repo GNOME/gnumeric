@@ -61,7 +61,12 @@ extern int ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
 					       Sheet *gnum_sheeta,
 					       Sheet *gnum_sheetb);
 
-typedef enum { AS_PER_VER, SIXTEEN_BIT, EIGHT_BIT } PutType;
+typedef enum {
+	AS_PER_VER,  /* Biff7: byte length, UTF8, Biff8: word length, unicode */
+	SIXTEEN_BIT, /* word length, Biff7: UTF8, Biff8: unicode */
+	EIGHT_BIT    /* byte length, Biff7: UTF8, Biff8: unicode */
+} PutType;
+
 extern int
 biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 	       gboolean write_len, PutType how);
