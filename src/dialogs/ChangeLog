@@ -1,3 +1,8 @@
+2004-10-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c (dialog_about): Add timeout at low priority so it
+	will not run before the canvas has been updated.
+
 2004-10-09  Jody Goldberg <jody@gnome.org>
 
 	* dialog-preferences.c (pref_window_page_initializer) : Set max to 64.

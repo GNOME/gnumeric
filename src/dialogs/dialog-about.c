@@ -394,6 +394,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	g_signal_connect (state->about, "response",
 		G_CALLBACK (gtk_widget_destroy), NULL);
 
-	state->timer = g_timeout_add (100,
-		(GSourceFunc) cb_about_animate, state);
+	state->timer = g_timeout_add_full (G_PRIORITY_LOW, 100,
+					   (GSourceFunc) cb_about_animate, state,
+					   NULL);
 }
