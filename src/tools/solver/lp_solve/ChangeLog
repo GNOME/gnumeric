@@ -1,3 +1,9 @@
+2002-03-22  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solve.c (iteration): Add checking of the elapsed time.
+
+	* lpkit.[ch] (lp_solve_set_max_time): Wrote.
+
 2002-03-21  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* doc.txt: Removed.

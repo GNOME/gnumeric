@@ -221,8 +221,10 @@ typedef struct _lprec
 				       * simplex solver (LP) */
         int        total_iter;        /* The total number of iterations (B&B)
 				       * (ILP) */
-        int        max_total_iter;    /* The total number of iterations (B&B)
+        int        max_total_iter;    /* The maximum total number of iterations (B&B)
 				       * (ILP) */
+        int        max_time;          /* The maximum time (sec.) before timeout. */
+        gnum_float start_time;        /* The starting time of the solving. */
         int        max_level;         /* The Deepest B&B level of the last
 				       * solution */
         int	   total_nodes;       /* total number of nodes processed in
@@ -300,6 +302,9 @@ void       lp_solve_delete_lp (lprec *lp);
 
 void lp_solve_set_max_iter (lprec *lp, int max);
 /* Set the maximum number of iterations. */
+
+void lp_solve_set_max_time (lprec *lp, int max, gnum_float st);
+/* Set the maximum time. */
 
 lprec      *copy_lp (lprec *lp);
 /* copy a lp structure */

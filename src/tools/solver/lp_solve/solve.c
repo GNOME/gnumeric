@@ -1,4 +1,5 @@
 #include <glib.h>
+#include <gtk/gtk.h>
 #include <string.h>
 #include "lpkit.h"
 #include "lpglob.h"
@@ -833,23 +834,52 @@ coldual (lprec      *lp,
 } /* coldual */
 
 static gboolean
-iteration (lprec      *lp,
-	   int        row_nr,
-	   int        varin,
-	   gnum_float *theta,
-	   gnum_float up,
-	   gboolean   *minit,
-	   char       *low,
-	   gboolean   primal)
+cb_timeout (gpointer *p)
+{
+        lprec *lp = (lprec *) p;
+
+	lp->iter = lp->max_total_iter;
+	printf("Timeout\n");
+	return TRUE;
+}
+
+static gboolean
+iteration (lprec        *lp,
+	   int          row_nr,
+	   int          varin,
+	   gnum_float   *theta,
+	   gnum_float   up,
+	   gboolean     *minit,
+	   char         *low,
+	   gboolean     primal,
+	   SolverStatus *solver_status)
 {
         int        i, k, varout;
 	gnum_float f;
 	gnum_float pivot;
-  
+	const int  TIME_CHECK_INTERVAL = 10;
+
 	lp->iter++;
 
-	if (lp->iter + lp->total_iter > lp->max_total_iter)
+	/* Check if maximum number of iteration has been exceeded. */
+	if (lp->iter + lp->total_iter > lp->max_total_iter) {
+	        *solver_status = SolverMaxIterExc;
 	        return TRUE;
+	}
+
+	/* Check if maximum time has been exceeded. */
+	if (lp->iter % TIME_CHECK_INTERVAL == 0) {
+	        GTimeVal   t;
+		gnum_float elapsed;
+
+		g_get_current_time (&t);
+		elapsed = t.tv_sec + t.tv_usec / (gnum_float) G_USEC_PER_SEC -
+		  lp->start_time;
+		if (elapsed > lp->max_time) {
+		        *solver_status = SolverMaxTimeExc;
+		        return TRUE;
+		}
+	}
 
 	if (((*minit) = (*theta) > (up + lp->epsb))) {
 	        (*theta) = up;
@@ -1068,8 +1098,8 @@ solvelp (lprec *lp)
 
 		if (Doiter)
 		        if (iteration (lp, row_nr, colnr, &theta, lp->upbo[colnr],
-				       &minit, &lp->lower[colnr], primal))
-			        Status = SolverMaxIterExc;
+				       &minit, &lp->lower[colnr], primal, &Status))
+			        ;
 		
 		if (lp->num_inv >= lp->max_num_inv)
 		        DoInvert = TRUE;
@@ -1597,7 +1627,7 @@ milpsolve (lprec      *lp,
 					lp_solve_debug_print_bounds(lp, upbo,
 								    new_lowbo);
 					lp->eta_valid = FALSE;
-					if (resone != SolverMaxIterExc)
+					if (resone < SolverMaxIterExc)
 					  restwo = milpsolve(lp, upbo, new_lowbo,
 							     new_basis,
 							     new_lower,
@@ -1658,7 +1688,7 @@ milpsolve (lprec      *lp,
 								    new_upbo,
 								    lowbo);
 					lp->eta_valid = FALSE;
-					if (resone != SolverMaxIterExc)
+					if (resone < SolverMaxIterExc)
 					  restwo = milpsolve(lp, new_upbo, lowbo,
 							     new_basis,
 							     new_lower,
@@ -1668,6 +1698,9 @@ milpsolve (lprec      *lp,
 			}
 			if (resone == SolverMaxIterExc || restwo == SolverMaxIterExc)
 			        failure = SolverMaxIterExc;
+			else if (resone == SolverMaxTimeExc ||
+				 restwo == SolverMaxTimeExc)
+			        failure = SolverMaxTimeExc;
 			else if ((resone != SolverOptimal &&
 				  resone != SolverMilpFailure)
 				 || /* both failed and must have been infeasible */
@@ -1733,7 +1766,7 @@ milpsolve (lprec      *lp,
 SolverStatus
 lp_solve_solve (lprec *lp)
 {
-        int result, i;
+        int  result, i;
 
 	lp->total_iter  = 0;
 	lp->max_level   = 1;

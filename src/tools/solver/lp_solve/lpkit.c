@@ -200,7 +200,14 @@ lp_solve_set_max_iter (lprec *lp, int max)
 {
         lp->max_total_iter = max;
 }
- 
+
+void
+lp_solve_set_max_time (lprec *lp, int max, gnum_float st)
+{
+        lp->max_time   = max;
+	lp->start_time = st;
+}
+
 void
 lp_solve_set_mat (lprec *lp, int Row, int Column, gnum_float Value)
 {
