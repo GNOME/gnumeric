@@ -1,3 +1,14 @@
+2001-01-31  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (search_replace_verify): For regexps, validate the
+ 	replacement string.
+	(search_replace_compile): Detect whether replacement text is
+ 	literal (modulo case of letters).
+
+	* src/commands.c (cmd_search_replace): Take a wbcg so we can pop
+ 	up dialogs.
+	(cmd_search_replace_do_cell): Implement "Fail" error mode.
+
 2001-01-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/preview-grid-controller.c (preview_grid_controller_force_redraw)
@@ -161,6 +172,7 @@
 
 	* src/commands.c (cmd_search_replace_update_after_action): Delete
  	unused variable.
+	(enum SearchReplaceItemType): retire SRI_expr.
 
 	* src/parser.y (parse_ref_or_string): Constify.
 	(gnumeric_parse_error): Fix prototype.

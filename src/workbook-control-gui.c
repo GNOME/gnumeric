@@ -1259,7 +1259,7 @@ cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
 
 	if (!sr) return;
 
-	cmd_search_replace (wbc, sheet, sr);
+	cmd_search_replace (wbcg, sheet, sr);
 
 	search_replace_free (sr);
 }

@@ -1,3 +1,8 @@
+2001-01-31  Morten Welinder  <terra@diku.dk>
+
+	* check-header-guards: Certain file names are exceptions no matter
+ 	what directory they are in.
+
 2001-01-03  Morten Welinder <terra@diku.dk>
 
 	* check-header-guards: New tool.

@@ -53,6 +53,9 @@ search_replace_compile (SearchReplace *sr)
 	if (sr->is_regexp) {
 		pattern = sr->search_text;
 		tmp = NULL;
+		sr->plain_replace =
+			(strchr (sr->replace_text, '$') == 0 &&
+			 strchr (sr->replace_text, '\\') == 0);
 	} else {
 		/*
 		 * Create a regular expression equivalent to the search
@@ -76,6 +79,8 @@ search_replace_compile (SearchReplace *sr)
 			}
 		}
 		*dst = 0;
+
+		sr->plain_replace = TRUE;
 	}
 
 	if (sr->ignore_case) flags |= REG_ICASE;
@@ -136,6 +141,35 @@ search_replace_verify (SearchReplace *sr)
 	if (err)
 		return g_strdup (_("Invalid search pattern."));
 
+	if (!sr->plain_replace) {
+		const char *s;
+
+		for (s = sr->replace_text; *s; s++) {
+			switch (*s) {
+			case '$':
+				s++;
+				switch (*s) {
+				case '1': case '2': case '3': case '4': case '5':
+				case '6': case '7': case '8': case '9':
+				{
+					int n = *s - '0';
+					if (n > sr->comp_search->re_nsub)
+						return g_strdup (_("Invalid $-specification in replacement."));
+					break;
+				}
+				default:
+					return g_strdup (_("Invalid $-specification in replacement."));
+				}
+				break;
+			case '\\':
+				if (s[1] == 0)
+					return g_strdup (_("Invalid trailing backslash in replacement."));
+				s++;
+				break;
+			}
+		}
+	}
+
 	return NULL;
 }
 
@@ -172,8 +206,39 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 {
 	char *res;
 
-	/* FIXME?  This does not account for $1 -- need it?  */
-	res = g_strdup (sr->replace_text);
+	if (sr->plain_replace) {
+		res = g_strdup (sr->replace_text);
+	} else {
+		const char *s;
+		GString *gres = g_string_sized_new (strlen (sr->replace_text));
+
+		for (s = sr->replace_text; *s; s++) {
+			switch (*s) {
+			case '$':
+			{
+				int i;
+				int n = s[1] - '0';
+				s++;
+
+				g_assert (n > 0 && n <= sr->comp_search->re_nsub);
+				for (i = pm[n].rm_so; i < pm[n].rm_eo; i++)
+					g_string_append_c (gres, src[i]);
+				break;
+			}
+			case '\\':
+				s++;
+				g_assert (*s != 0);
+				g_string_append_c (gres, *s);
+				break;
+			default:
+				g_string_append_c (gres, *s);
+				break;
+			}
+		}
+
+		res = gres->str;
+		g_string_free (gres, FALSE);
+	}
 
 	/*
 	 * Try to preserve the case during replacement, i.e., do the

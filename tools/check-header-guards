@@ -28,9 +28,12 @@ my $verbose = 0;
 die "$0: must be run from top-level directory.\n"
     unless -r "configure.in" && -r 'ChangeLog';
 
-my %exceptions =
+my %base_exceptions =
     ('acconfig.h' => 1,
      );
+
+my %exceptions =
+    ();
 
 my %guard_to_file = ();
 
@@ -46,6 +49,9 @@ my %guard_to_file = ();
 	next if $exceptions{$filename};
 	next if $filename =~ /\.glade\.h$/;
 	next if $filename =~ /\.xml\.h$/;
+	my $basename = $filename;
+	$basename =~ s|^.*/||;
+	next if $base_exceptions{$basename};
 
 	local (*FIL);
 	if (open (*FIL, "< $filename")) {

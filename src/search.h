@@ -37,6 +37,7 @@ struct _SearchReplace {
 	SearchReplaceError error_behaviour;
 
 	regex_t *comp_search;
+	gboolean plain_replace;
 };
 
 SearchReplace *search_replace_new (void);

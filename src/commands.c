@@ -2700,13 +2700,12 @@ typedef struct
 
 GNUMERIC_MAKE_COMMAND (CmdSearchReplace, cmd_search_replace);
 
-typedef enum { SRI_expr, SRI_text, SRI_comment } SearchReplaceItemType;
+typedef enum { SRI_text, SRI_comment } SearchReplaceItemType;
 
 typedef struct {
 	EvalPos pos;
 	SearchReplaceItemType old_type, new_type;
 	union {
-		ExprTree *expr;
 		char *text;
 		char *comment;
 	} old, new;
@@ -2743,9 +2742,6 @@ cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 					     sri->pos.eval.row);
 
 		switch (sri->old_type) {
-		case SRI_expr:
-			cell_set_expr (cell, sri->old.expr, NULL);
-			break;
 		case SRI_text:
 			sheet_cell_set_text (cell, sri->old.text);
 			break;
@@ -2780,9 +2776,6 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 					     sri->pos.eval.row);
 
 		switch (sri->new_type) {
-		case SRI_expr:
-			cell_set_expr (cell, sri->new.expr, NULL);
-			break;
 		case SRI_text:
 			sheet_cell_set_text (cell, sri->new.text);
 			break;
@@ -2804,7 +2797,7 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
+cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControlGUI *wbcg,
 			    Cell *cell, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
@@ -2861,13 +2854,28 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
 
 			if (err) {
 				if (test_run) {
-					/* FIXME: error dialog.  */
+					char *err;
+
+					err = g_strdup_printf
+						(_("In cell %s, the current contents\n"
+						   "\t%s\n"
+						   "would have been replaced by\n"
+						   "\t%s\n"
+						   "which is invalid.\n\n"
+						   "The replace has been aborted "
+						   "and nothing has been changed."),
+						 cell_pos_name (&cell->pos),
+						 old_text,
+						 new_text);
+					gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+							 err);
+					g_free (err);
 
 					g_free (old_text);
 					g_free (new_text);
 					return TRUE;
 				} else {
-
+					/* FIXME?  */
 				}
 			} else {
 				if (!test_run) {
@@ -2959,12 +2967,13 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 
 
 static gboolean
-cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc,
+cmd_search_replace_do (CmdSearchReplace *me, WorkbookControlGUI *wbcg,
 		       Sheet *sheet, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb = wb_control_workbook (wbc);
-	GPtrArray *cells = g_ptr_array_new ();
+	GPtrArray *cells;
 	gboolean result = FALSE;
 	int i;
 
@@ -2983,6 +2992,7 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc,
 	}
 
 	/* Collect a list of all cells subject to search.  */
+	cells = g_ptr_array_new ();
 	switch (sr->scope) {
 	case SRS_workbook:
 	{
@@ -3042,7 +3052,7 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc,
 			Cell *cell = sheet_cell_get (ep->sheet,
 						     ep->eval.col,
 						     ep->eval.row);
-			result = cmd_search_replace_do_cell (me, wbc, cell, test_run);
+			result = cmd_search_replace_do_cell (me, wbcg, cell, test_run);
 		}
 		g_free (ep);
 	}
@@ -3069,9 +3079,6 @@ cmd_search_replace_destroy (GtkObject *cmd)
 	for (tmp = me->cells; tmp; tmp = tmp->next) {
 		SearchReplaceItem *sri = tmp->data;
 		switch (sri->old_type) {
-		case SRI_expr:
-			expr_tree_unref (sri->old.expr);
-			break;
 		case SRI_text:
 			g_free (sri->old.text);
 			break;
@@ -3080,9 +3087,6 @@ cmd_search_replace_destroy (GtkObject *cmd)
 			break;
 		}
 		switch (sri->new_type) {
-		case SRI_expr:
-			expr_tree_unref (sri->new.expr);
-			break;
 		case SRI_text:
 			g_free (sri->new.text);
 			break;
@@ -3098,10 +3102,11 @@ cmd_search_replace_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
+cmd_search_replace (WorkbookControlGUI *wbcg, Sheet *sheet, SearchReplace *sr)
 {
 	GtkObject *obj;
 	CmdSearchReplace *me;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
 	g_return_val_if_fail (sr != NULL, TRUE);
 
@@ -3115,13 +3120,13 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
 	me->parent.size = 1;  /* Corrected below. */
 	me->parent.cmd_descriptor = g_strdup (_("Search and Replace"));
 
-	if (cmd_search_replace_do (me, wbc, sheet, TRUE)) {
+	if (cmd_search_replace_do (me, wbcg, sheet, TRUE)) {
 		/* There was an error and nothing was done.  */
 		gtk_object_unref (obj);
 		return TRUE;
 	}
 
-	cmd_search_replace_do (me, wbc, sheet, FALSE);
+	cmd_search_replace_do (me, wbcg, sheet, FALSE);
 	me->parent.size += g_list_length (me->cells);
 
 	/* Register the command object */
