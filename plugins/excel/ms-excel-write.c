@@ -83,7 +83,7 @@
 #define d(level, code)
 #endif
 
-/* #define ENABLE_METAFILE */
+#define ENABLE_METAFILE
 
 #define BLIP_ID_LEN         16
 #define BSE_HDR_LEN         44
@@ -3425,13 +3425,15 @@ blipinf_new (SheetObjectImage *soi)
 static void
 blipinf_free (BlipInf *blip)
 {
-	blip->type = NULL;
-	if (blip->needs_free) {
-		g_free (blip->bytes.data);
-		blip->needs_free = FALSE;
+	if (blip) {		/* It is not a bug if blip == NULL */
+		blip->type = NULL;
+		if (blip->needs_free) {
+			g_free (blip->bytes.data);
+			blip->needs_free = FALSE;
+		}
+		blip->bytes.data = NULL;
+		g_free (blip);
 	}
-	blip->bytes.data = NULL;
-	g_free (blip);
 }
 
 static void
@@ -4450,7 +4452,7 @@ excel_write_vector_blip (ExcelWriteState *ewb, BlipInf *blip, BlipType *bt)
 		memcpy (buf, bt->blip_tag, sizeof bt->blip_tag);
 		GSF_LE_SET_GUINT16 (buf + 2, 0xf018 + bt->type);
 		GSF_LE_SET_GUINT32 (buf + 4, 
-				    blip->bytes.len + VECTOR_BLIP_HDR_LEN);
+				    blip->bytes.len + VECTOR_BLIP_HDR_LEN - 8);
 		memcpy(buf + 8, blip->id, sizeof blip->id);
 		/* buf + 24: uncompressed length */
 		GSF_LE_SET_GUINT32 (buf +  24, blip->uncomp_len);

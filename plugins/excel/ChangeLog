@@ -1,3 +1,10 @@
+2004-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c: Enable WMF/EMF export.
+	(blipinf_free): Don't crash if blip is NULL. That's supposed to
+	happen.
+	(excel_write_vector_blip): Fix off by 8 bytes error.
+
 2004-08-12  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-util.c (init_xl_font_widths) : adjust the sizes for 'Sans'
