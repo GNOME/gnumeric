@@ -1,5 +1,11 @@
 2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/print.c (setup_rotation) : deleted
+	(print_page) : remove call to setup_rotation
+	(sheet_print) : no need to hide landscape printing
+
+2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/print.c (sheet_print) : work around some gnome-print bug and hide
 	  landscape printing temporarily.
 

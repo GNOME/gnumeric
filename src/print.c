@@ -423,21 +423,6 @@ print_footers (PrintJobInfo const *pj)
 }
 
 static void
-setup_rotation (PrintJobInfo const *pj)
-{
-	double affine [6];
-
-	if (pj->pi->orientation == PRINT_ORIENT_VERTICAL)
-		return;
-
-	art_affine_rotate (affine, 90.0);
-	gnome_print_concat (pj->print_context, affine);
-
-	art_affine_translate (affine, 0, -pj->height);
-	gnome_print_concat (pj->print_context, affine);
-}
-
-static void
 setup_scale (PrintJobInfo const *pj)
 {
 	double affine [6];
@@ -592,7 +577,6 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 	gnome_print_beginpage (pj->print_context, pagenotxt);
 	g_free (pagenotxt);
 
-	setup_rotation (pj);
 	print_headers (pj);
 	print_footers (pj);
 
@@ -1083,7 +1067,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	int end;
 	int range;
 	GtkWindow *toplevel;
-	gint save_orientation;
 
   	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1104,7 +1087,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			_("Act_ive sheet"), _("S_heets"));
 
 		{
-#warning: FIXME: write our own print_dialog
 			/* FIXME: this shouldn't need to be necessary! */
 			GtkWidget *w = ((GtkBoxChild *)g_list_last
 					(GTK_BOX (GTK_DIALOG (gnome_print_dialog)
@@ -1179,8 +1161,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	gnome_print_config_set(print_config, GNOME_PRINT_KEY_ORIENTATION,
 			       (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL) ?
 			       "R90" : "R0");
-	save_orientation = pj->pi->orientation;
-	pj->pi->orientation = PRINT_ORIENT_VERTICAL;
 
 	gpm = gnome_print_master_new_from_config (print_config);
 	pj->print_context = gnome_print_master_get_context (gpm);
@@ -1222,8 +1202,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 					 _("Printing failed"));
 		}
 	}
-
-	pj->pi->orientation = save_orientation;
 
 	g_object_unref (G_OBJECT (gpm));
   	print_job_info_destroy (pj);
