@@ -40,7 +40,7 @@
     
     
     <para>
-      To use this dialog, select the cell or range of cells you want
+      To launch this dialog, select the cell or range of cells you want
       to format (see <xref linkend="editing-selections"> for details
       on selecting cells) and then use one of the following methods:
     </para>
@@ -124,7 +124,7 @@
 	  to display a value it the 'best' way possible.
 	  The choice of format depends on the size of the cell
 	  and <application>Gnumeric</application>
-	  estimate of what 'type' of value is 
+	  guess of what 'type' of value is 
 	  being displayed (number, date, time ...).
 	</para></listitem>
     </varlistentry>
@@ -149,7 +149,9 @@
 	  <literal>&pound;</literal>, 
 	  <literal>&curren;</literal> 
 	  and the three letter abbreviations of all major
-	  currencies.
+	  currencies. By default, <application>Gnumeric</application>
+	  will use currency symbol  and placement (before or after the
+	  number) appropriate for your locale. 
 	</para></listitem>
     </varlistentry>
  <!-- ************* -->
@@ -166,7 +168,10 @@
     <varlistentry>
       <term><guilabel>Date</guilabel></term>
       <listitem><para>This category contains various formats for
-	  presenting dates. You can choose one of many
+	  presenting dates. By default,
+	  <application>Gnumeric</application> will use date format
+	  appropriate for your locale (country and language setting).  You
+	  can also choose one of many 
 	  possible date formats shown in the list in the right side of
 	  the dialog. The following is an explanation of codes used in
 	  these formats: 
@@ -206,7 +211,8 @@
 	     </para></listitem>
 	  </itemizedlist>
 	  Some date formats also include time using the codes
-	  explained below. 
+	  explained below. Examples of date formatting are shown in <xref
+	    linkend="number-format-date-examples">.  
       </para></listitem>
     </varlistentry>
     <!-- ************* -->
@@ -232,7 +238,9 @@
 	  more that 60 minutes/seconds without the values incrementing
 	  the display unit of the next larger measure (e.g., 25 hours
 	  instead of 1 day + 1 hour).  To achieve this, use codes 
-	  '[h]', '[mm]', and '[ss]'.  </para></listitem>
+	  '[h]', '[mm]', and '[ss]'.  Examples of time formatting are shown in <xref
+	    linkend="number-format-time-examples">.
+	</para></listitem>
     </varlistentry>
  <!-- ************* -->
     <varlistentry>
@@ -294,17 +302,210 @@
 	</para></listitem>
     </varlistentry>
    </variablelist>
-  <para>
-    Some examples of date and time formatting are shown in <xref
-    linkend="number-format-date-time-examples">. 
-  </para>
-   <table id="number-format-date-time-examples">
-    <title>Date and Time Formatting</title>
-    <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+
+<!-- ****************** Table: date examples ******************* -->
+   <table id="number-format-date-examples">
+    <title>Examples of Date Formats</title>
+    <tgroup cols="4" align="left" colsep="1" rowsep="1">
 
 
-      <colspec colname="Format" />
-      <colspec colname="Sample" />
+      <colspec colname="Format1">
+      <colspec colname="Format2">
+      <colspec colname="Sample1">
+      <colspec colname="Sample2">
+      <spanspec spanname="Format" namest="Format1" nameend="Format2">
+      <spanspec spanname="Sample" namest="Sample1" nameend="Sample2">
+	  <thead>
+	    <row>
+	      <entry spanname="Format">Format</entry>
+	      <entry spanname="Sample">Sample</entry>
+	    </row>
+	  </thead>
+	  <tbody>
+
+	    <row>
+	      <entry spanname="Format">General</entry>
+	      <entry spanname="Sample">36068.755</entry>
+	    </row>
+	    
+	    <row>
+	      <entry>m/d/yy</entry>
+              <entry>d/m/yy</entry>
+              <entry>9/30/98</entry>
+	      <entry>30/9/98</entry>
+	  </row>
+	  <row>
+	    <entry>m/d/yyyy</entry>
+	    <entry>d/m/yyyy</entry>
+	    <entry>9/30/1998</entry>
+	    <entry>30/9/1998</entry>
+	  </row>
+	  <row>
+	    <entry>d-mmm-yy</entry>
+	    <entry>mmm-d-yy</entry>
+	    <entry>30-Sep-98</entry>
+	    <entry>Sep-30-98</entry>
+	  </row>
+	  <row>
+	    <entry>d-mmm-yyyy</entry>
+	    <entry>mmm-d-yyyy</entry>
+	    <entry>30-Sep-199</entry>
+	    <entry>Sep-30-9198</entry>
+	  </row>
+	  <row> 
+	    <entry>d-mmm</entry>
+	    <entry>mmm-d</entry>
+	    <entry>30-Sep</entry>
+	    <entry>Sep-30</entry>
+	  </row> 
+	  <row>
+	    <entry>d-mm</entry>
+	    <entry>mm-d</entry>
+	    <entry>30-09</entry>
+	    <entry>09-30</entry>
+	  </row>
+	  <row>
+	    <entry>mmm/d</entry>
+	    <entry>d/mmm</entry>
+	    <entry>Sep/30</entry>
+	    <entry>30/Sep</entry>
+	  </row>
+	  <row> 
+	    <entry>mm/d </entry>
+	    <entry>d/mm</entry>
+	    <entry>09/30</entry>
+	    <entry>30/09</entry>
+	  </row>
+	  <row> 
+	    <entry>mm/dd/yy</entry>
+	    <entry>dd/mm/yy</entry>
+	    <entry>09/30/98</entry>
+	    <entry>30/09/98</entry>
+	  </row>
+	  <row>
+	    <entry>mm/dd/yyyy</entry>
+	    <entry>dd/mm/yyyy</entry>
+	    <entry>09/30/1998</entry>
+	    <entry>30/09/1998</entry>
+	  </row>
+	  <row>
+	    <entry>mmm/dd/yy </entry>
+	    <entry>dd/mmm/yy</entry>
+	    <entry>Sep/30/98</entry>
+	    <entry>30/Sep/98</entry>
+	  </row>
+	  <row> 
+	    <entry>mmm/dd/yyyy</entry>
+	    <entry>dd/mmm/yyyy</entry>
+	    <entry>Sep/30/1998</entry>
+	    <entry>30/Sep/1998</entry>
+	  </row>
+	  <row> 
+	    <entry>mmm/ddd/yy</entry>
+	    <entry>ddd/mmm/yy</entry>
+	    <entry>Sep/Wed/98</entry>
+	    <entry>Wed/Sep/98</entry>
+	  </row>
+	  <row> 
+	    <entry>mmm/ddd/yyyy</entry>
+	    <entry>ddd/mmm/yyyy</entry>
+	    <entry>Sep/Wed/1998</entry>
+	    <entry>Wed/Sep/1998</entry>
+	  </row>
+	  <row>
+	    <entry>mm/ddd/yy</entry>
+	    <entry>ddd/mm/yy</entry>
+	    <entry>09/Wed/98</entry>
+	    <entry>Wed/09/98</entry>
+	  </row>
+	  <row>
+	    <entry>mm/ddd/yyyy</entry>
+	    <entry>ddd/mm/yyyy</entry>
+	    <entry>09/Wed/1998</entry>
+	    <entry>Wed/09/1998</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">mmm-yy</entry>
+	    <entry spanname="Sample">Sep-98</entry>
+	  </row>
+	  <row> 
+	    <entry spanname="Format">mmm-yyyy</entry>
+	    <entry spanname="Sample">Sep-1998</entry>
+	  </row>
+
+	  <row> 
+	    <entry  spanname="Format">mmmm-yy</entry>
+	    <entry spanname="Sample">September-98</entry>
+	  </row>
+	  <row> 
+	    <entry spanname="Format">mmmm-yyyy</entry>
+	    <entry  spanname="Sample">September-1998 </entry>
+	  </row>
+	  <row> 
+	    <entry>d/m/yy h:mm</entry>
+	    <entry>m/d/yy h:mm</entry>
+	    <entry>9/30/98 18:07</entry>
+	    <entry>30/9/98 187:07</entry>
+	  </row>
+	  <row> 
+	    <entry>d/m/yyyy h:mm</entry>
+	    <entry>m/d/yyyy h:mm</entry>
+	    <entry>9/30/1998 18:07</entry>
+	    <entry>30/9/1998 187:07</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">yyyy/mm/d</entry>
+	    <entry spanname="Sample">1998/09/30</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">yyyy/mmm/d</entry>
+	    <entry spanname="Sample">1998/Sep/30</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">yyyy/mm/dd</entry>
+	    <entry spanname="Sample">1998/09/30</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format"> yyyy/mmm/dd</entry>
+	    <entry spanname="Sample">1998/Sep/30</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">yyyy-mm-d</entry>
+	    <entry spanname="Sample">1998-09-30</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">yyyy-mmm-d</entry>
+	    <entry spanname="Sample">1998-Sep-3</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">yyyy-mm-dd</entry>
+	    <entry spanname="Sample">1998-09-30</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">yyyy-mmm-d</entry>
+	    <entry spanname="Sample">1998-Sep-30</entry>
+	  </row>
+	  <row>
+	    <entry spanname="Format">yy</entry>
+	    <entry spanname="Sample">98</entry>
+
+	  </row>
+	  <row>
+	    <entry spanname="Format">yyyy</entry>
+	    <entry spanname="Sample">1998</entry>
+	  </row>
+         </tbody>
+    </tgroup>
+  </table>
+
+ <!-- ****************** Table: date examples ******************* -->
+ <table id="number-format-time-examples">
+    <title>Examples of Time Formats</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+
+
+      <colspec colname="Format1">
+      <colspec colname="Sample1">
 	  <thead>
 	    <row>
 	      <entry>Format</entry>
@@ -313,53 +514,48 @@
 	  </thead>
 	  <tbody>
 	    <row>
-	      <entry>General</entry>
+   	      <entry>General</entry>
 	      <entry>36068.755</entry>
 	    </row>
-	    
-	    <row>
-	      <entry>m/d/yy</entry>
-              <entry>9/30/98</entry>
-	    </row>
-         <row>
-	<entry>d/m/yy</entry>
-	    <entry>30/9/98</entry>
-	  </row>
-	  <row>
-	    <entry>m/d/yyyy</entry>
-	    <entry>9/30/1998</entry>
-	  </row>
-	  <row>
-	    <entry>d-mmm-yy</entry>
-	    <entry>30-Sep-98</entry>
-	  </row>
-	  <row>
-	    <entry>d-mmm</entry>
-	    <entry>30-Sep</entry>
-	  </row>
-	  <row>
-	    <entry>mmmm-yy</entry>
-	    <entry>September-98</entry>
-	  </row>
-	  <row>
-	    <entry>d/m/yyyy h:mm</entry>
-	    <entry>9/30/1998 18:07</entry>
-	  </row>
 	  <row>
 	    <entry>h:mm AM/PM</entry>
 	    <entry>6:07 PM</entry>
-	  </row>
-	  <row>
-	    <entry>h:mm</entry>
-	    <entry>18:07</entry>
 	  </row>
 	  <row>
 	    <entry>h:mm:ss AM/PM</entry>
 	    <entry>6:07:12 PM</entry>
 	  </row>
 	  <row>
+	    <entry>h:mm</entry>
+	    <entry>18:07</entry>
+	  </row>
+	  <row>
+	    <entry> h:mm:ss</entry>
+	    <entry>18:07:12</entry>
+	  </row>
+	  <row>
+	    <entry>m/d/yy h:mm</entry>
+	    <entry>9/30/98 18:07</entry>
+	  </row>
+	  <row>
+	    <entry>d/m/yy h:mm</entry>
+	    <entry>30/9/98 18:07</entry>
+	  </row>
+	  <row>
+	    <entry> mm:ss</entry>
+	    <entry>07:12</entry>
+	  </row>
+	  <row>
 	    <entry>[h]:mm:ss</entry>
 	    <entry>865650:07:12</entry>
+	  </row>
+	  <row>
+	    <entry>[h]:mm</entry>
+	    <entry>865650:07</entry>
+	  </row>
+	  <row>
+	    <entry>[mm]:ss</entry>
+	    <entry>51939007:12</entry>
 	  </row>
 	  <row>
 	    <entry>[ss]</entry>
@@ -502,7 +698,7 @@
     <para>This tab allows you to change the font used for cells
       content. 
       <figure id="number-format-font-dialog">
-	<title>The Font selection dialog</title>
+	<title>The Font Tab</title>
 	<screenshot>
 	  <graphic fileref="figures/number-format-font-dialog.png"
 	  format="png"></graphic>  
@@ -548,7 +744,7 @@
 	  format="png"></graphic> 
       </screenshot>
     </figure>
-      To choose a border for an cell or a selection, select border
+      To choose a border for a cell or a selection, select border
       style and color in the right side of the tab and click on the
       buttons corresponding to the sides of the cells in the left side
       of the tab. In addition to the buttons for left, right, top, and
@@ -570,8 +766,8 @@
       only the cells in the bottom row will be affected. In addition
       for selections you have three more buttons in the bottom row:
       <guibutton>Inside vertical</guibutton>,
-      <guibutton>Inside</guibutton>, and <guilabel>Inside
-      horizontal</guilabel>. <guibutton>Inside vertical</guibutton>
+      <guibutton>Inside</guibutton>, and <guibutton>Inside
+      horizontal</guibutton>. <guibutton>Inside vertical</guibutton>
       puts borders on all inside vertical borders in the selection;
       <guibutton>Inside horizontal</guibutton> puts borders on all
       inside horizontal borders in the selection, and
@@ -579,7 +775,7 @@
       borders in the selection, both vertical and horizontal.
     </para>
     <para>
-      To remove an existing border form one of the sides of a cell or
+      To remove an existing border from one of the sides of a cell or
       selection, click on the corresponding button again. 
     </para>
   </sect2>
@@ -594,7 +790,7 @@
     </para>
   
     <figure id="number-format-color-dialog">
-      <title>The cell color dialog.</title>
+      <title>Background Tab</title>
       <screenshot>
 	<graphic fileref="figures/number-format-color-dialog.png"
 	  format="png"></graphic> 
