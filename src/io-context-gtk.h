@@ -1,9 +1,10 @@
 #ifndef GNUMERIC_IO_CONTEXT_GTK_H
 #define GNUMERIC_IO_CONTEXT_GTK_H
 
-#include "gui-gnumeric.h"
-#include <io-context.h>
 #include <stdarg.h>
+#include "gui-gnumeric.h"
+#include <gtk/gtkwindow.h>
+#include <io-context.h>
 
 typedef struct _IOContextGtk IOContextGtk;
 typedef struct _IOContextGtkClass IOContextGtkClass;
@@ -17,5 +18,6 @@ typedef struct _IOContextGtkClass IOContextGtkClass;
 GType io_context_gtk_get_type (void);
 void  icg_set_files_total (IOContextGtk *icg, guint files_total);
 void  icg_inc_files_done  (IOContextGtk *icg);
+void  icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window);
 
 #endif /* GNUMERIC_IO_CONTEXT_GTK_H */

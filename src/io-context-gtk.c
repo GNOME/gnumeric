@@ -37,6 +37,7 @@ extern int gnumeric_no_splash;
 struct _IOContextGtk {
 	IOContext parent;
 	GtkWindow *window;
+	GtkWindow *parent_window;
 	GtkProgressBar *file_bar;
 	GtkProgressBar *work_bar;
 	GTimer *timer;
@@ -56,6 +57,7 @@ static void
 cb_icg_window_destroyed (GObject *window, IOContextGtk *icg)
 {
 	icg->window   = NULL;
+	icg->parent_window   = NULL;
 	icg->work_bar = NULL;
 	icg->file_bar = NULL;
 	gnm_shutdown ();	/* Pretend to be well behaved */
@@ -145,6 +147,9 @@ icg_show_gui (IOContextGtk *icg)
 	gtk_window_set_geometry_hints (icg->window,
 				       NULL, &geom,
 				       hints);
+	if (icg->parent_window)
+		gtk_window_set_transient_for (icg->window, icg->parent_window);
+
 	gtk_widget_show_all (GTK_WIDGET (icg->window));
 }
 
@@ -292,4 +297,12 @@ icg_inc_files_done (IOContextGtk *icg)
 			 (float) icg->files_done / (float) icg->files_total);
 		gtk_progress_bar_set_fraction (icg->work_bar, 0.0);
 	}
+}
+
+void
+icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)
+{
+	icg->parent_window = parent_window;
+	if (icg->window)
+		gtk_window_set_transient_for (icg->window, parent_window);
 }

@@ -1,3 +1,21 @@
+2003-01-14  Jon K Hellan  <hellan@acm.org>
+
+	* src/io-context-gtk.[ch] (icg_set_transient_for): New
+	function. Set transient_parent attribute, and call
+	gtk_window_set_transient if we already have a window. On most
+	window managers, this will put the splash screen on top of the
+	transient parent.
+
+	* src/io-context-gtk.c (struct _IOContextGtk): Add
+	transient_parent attribute.
+	(cb_icg_window_destroyed): Clear transient_parent attribute.
+	(icg_show_gui): Call gtk_window_set_transient if transient_parent
+	attribute is set.
+
+	* src/main-application.c (main): Call icg_set_transient_for after
+	each workbook is opened - yet another hack to keep the splash
+	screen on top of the workbooks.
+
 2003-01-14  Morten Welinder  <terra@diku.dk>
 
 	* src/rendered-value.h: Delete render_color member.

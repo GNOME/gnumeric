@@ -193,8 +193,13 @@ main (int argc, char *argv [])
 				gnumeric_io_error_clear (ioc);
 			}
 			if (wbv != NULL) {
-				workbook_control_gui_new (wbv, NULL);
+				WorkbookControlGUI *wbcg;
+				
+				wbcg = WORKBOOK_CONTROL_GUI
+					(workbook_control_gui_new (wbv, NULL));
   				opened_workbook = TRUE;
+				icg_set_transient_for (IO_CONTEXT_GTK (ioc),
+						       wbcg_toplevel (wbcg));
 			}
 			/* cheesy attempt to keep the ui from freezing during
 			   load */
