@@ -1868,6 +1868,40 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	return TRUE;
 }
 
+static gboolean
+fail_if_found (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	return FALSE;
+}
+
+/**
+ * sheet_is_region_empty:
+ * @sheet: sheet to check
+ * @start_col: starting column
+ * @start_row: starting row
+ * @end_col:   end column
+ * @end_row:   end row
+ *
+ * Returns TRUE if the specified region of the @sheet does not
+ * contain any cells.
+ *
+ * FIXME: Perhaps this routine should be extended to allow testing for specific
+ * features of a cell rather than just the existance of the cell.
+ */
+gboolean
+sheet_is_region_empty (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+{
+	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (start_col <= end_col, TRUE);
+	g_return_val_if_fail (start_row <= end_row, TRUE);
+
+	return sheet_cell_foreach_range (
+		sheet, TRUE, start_col, start_row, end_col, end_row,
+		fail_if_found, NULL);
+		
+}
+
 static gint
 CRowSort (gconstpointer a, gconstpointer b)
 {
