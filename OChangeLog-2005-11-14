@@ -1,5 +1,8 @@
 2004-03-31  Morten Welinder  <terra@gnome.org>
 
+	* src/value.c (parse_database_criteria): Since we're g_free-ing,
+	allocate with g_new and not g_alloca.
+
 	* src/gui-file.c (gui_file_save_as): Don't create an extra, bogus
 	combo box.
 

@@ -1610,7 +1610,6 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue *database, GnmValue *cri
 {
 	Sheet	*sheet;
 	GnmCell	*cell;
-
         int   i;
 	int   b_col, b_row, e_col, e_row;
 	int   *field_ind;
@@ -1621,8 +1620,9 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue *database, GnmValue *cri
 	e_col = criteria->v_range.cell.b.col;
 	e_row = criteria->v_range.cell.b.row;
 
+	/* FIXME: are we sure that e_col>=b_col?  */
 	/* Find the index numbers for the columns of criterias */
-	field_ind = g_alloca (sizeof (int) * (e_col - b_col + 1));
+	field_ind = g_new (int, e_col - b_col + 1);
 	for (i = b_col; i <= e_col; i++) {
 	        cell = sheet_cell_get (sheet, i, b_row);
 		if (cell == NULL)
@@ -1637,6 +1637,7 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue *database, GnmValue *cri
 			return NULL;
 		}
 	}
+	g_free (field_ind);
 
 	return parse_criteria_range (sheet, b_col, b_row + 1,
 				     e_col, e_row, field_ind);
