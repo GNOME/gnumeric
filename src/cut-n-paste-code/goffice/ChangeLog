@@ -1,3 +1,8 @@
+2004-09-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (map_discrete_auto_bound): Set automatic maximum
+	number of labels to 100.
+
 2004-09-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.90

@@ -119,8 +119,9 @@ enum {
 #define TICK_LABEL_PAD_VERT	0
 #define TICK_LABEL_PAD_HORIZ	1
 
-#define GOG_AXIS_MAX_TICK_NBR		1000
-#define GOG_AXIS_MAX_MAJOR_TICK_NBR 	5
+#define GOG_AXIS_MAX_TICK_NBR				1000
+#define GOG_AXIS_LOG_AUTO_MAX_MAJOR_TICK_NBR 		5
+#define GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR 	100
 
 static void gog_axis_set_ticks (GogAxis *axis,int tick_nbr, GogAxisTick *ticks);
 
@@ -217,8 +218,13 @@ map_discrete_auto_bound (GogAxis *axis,
 			 double maximum, 
 			 double *bound)
 {
-	/* label and tick for every category */
-	bound [AXIS_ELEM_MAJOR_TICK] = 1.;
+	if ((maximum - minimum) > GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR)
+		bound [AXIS_ELEM_MAJOR_TICK] = 
+			ceil ((maximum - minimum + 1.0) / 
+			      (double) GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR); 
+	else
+		bound [AXIS_ELEM_MAJOR_TICK] = 1.;
+
 	bound [AXIS_ELEM_MINOR_TICK] = 1.;
 	bound [AXIS_ELEM_CROSS_POINT] = 1.;
 	bound [AXIS_ELEM_MIN] = minimum;
@@ -536,7 +542,8 @@ map_log_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound
 	maximum = ceil (log10 (maximum));
 	minimum = floor (log10 (minimum));
 	
-	step = ceil ((maximum - minimum + 1.0) / (double) GOG_AXIS_MAX_MAJOR_TICK_NBR); 
+	step = ceil ((maximum - minimum + 1.0) / 
+		     (double) GOG_AXIS_LOG_AUTO_MAX_MAJOR_TICK_NBR); 
 
 	bound [AXIS_ELEM_MIN] = pow ( 10.0, minimum);
 	bound [AXIS_ELEM_MAX] = pow ( 10.0, maximum);
