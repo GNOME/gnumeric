@@ -443,6 +443,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	case 5: /* chart */
 		break;
 	case 6: /* textbox */
+		/* gsf_mem_dump (q->data+34, q->length - 34); */
 		if (GSF_LE_GET_GUINT8 (q->data+36) > 0) {
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_FILLED));

@@ -26,6 +26,7 @@
 #include "gnumeric-gconf.h"
 #include "gnumeric-paths.h"
 #include "session.h"
+#include "sheet.h"
 
 #include <gtk/gtkmain.h>
 
@@ -204,6 +205,7 @@ main (int argc, char *argv [])
 
 				wbcg = WORKBOOK_CONTROL_GUI
 					(workbook_control_gui_new (wbv, NULL, NULL));
+				sheet_update (wb_view_cur_sheet	(wbv));
   				opened_workbook = TRUE;
 				icg_set_transient_for (IO_CONTEXT_GTK (ioc),
 						       wbcg_toplevel (wbcg));

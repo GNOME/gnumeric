@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-12 04:08+0100\n"
+"POT-Creation-Date: 2003-11-26 22:20-0500\n"
 "PO-Revision-Date: 2003-11-12 11:25+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1017,8 +1017,8 @@ msgstr "Finanční deriváty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5275
-#: plugins/mps/mps.c:549 src/xml-io.c:3979
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
+#: plugins/mps/mps.c:549 src/xml-io.c:4004
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -1090,62 +1090,62 @@ msgid ""
 msgstr ""
 "Zapisuje a čte informace uložené ve formátu Data Interchange Format (*.dif)"
 
-#: plugins/excel/boot.c:176
+#: plugins/excel/boot.c:181
 msgid "No Workbook or Book streams found."
 msgstr "Nebyly nalezeny žádné kanály pro sešit nebo knihu."
 
-#: plugins/excel/boot.c:219
+#: plugins/excel/boot.c:230
 msgid "Preparing to save..."
 msgstr "Připravuje se ukládání..."
 
-#: plugins/excel/boot.c:228
+#: plugins/excel/boot.c:242
 msgid "Saving file..."
 msgstr "Soubor se ukládá..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:269
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Neočekávaný atribut %s::%s == '%s'."
 
-#: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:994
-#: plugins/xml_sax/xml-sax-read.c:1592
+#: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:995
+#: plugins/xml_sax/xml-sax-read.c:1621
 msgid "XML document not well formed!"
 msgstr "XML dokument není syntakticky správný!"
 
-#: plugins/excel/ms-excel-read.c:998 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#NEZNÁMÝ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1089 plugins/excel/ms-excel-read.c:1100
+#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: plugins/excel/ms-excel-read.c:1103
+#: plugins/excel/ms-excel-read.c:1108
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1106
+#: plugins/excel/ms-excel-read.c:1111
 #, c-format
 msgid "Chart%d"
 msgstr "Graf%d"
 
-#: plugins/excel/ms-excel-read.c:1109
+#: plugins/excel/ms-excel-read.c:1114
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2801
+#: plugins/excel/ms-excel-read.c:2827
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Chyba při zpracování názvu '%s'"
 
-#: plugins/excel/ms-excel-read.c:2857
+#: plugins/excel/ms-excel-read.c:2883
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1154,7 +1154,7 @@ msgstr ""
 "Odkazy DDE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2863
+#: plugins/excel/ms-excel-read.c:2889
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1163,27 +1163,27 @@ msgstr ""
 "Odkazy OLE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2921
+#: plugins/excel/ms-excel-read.c:2947
 msgid "Failure parsing AutoFilter."
 msgstr "Chyba při zpracování AutoFiltru."
 
-#: plugins/excel/ms-excel-read.c:4687
+#: plugins/excel/ms-excel-read.c:4731
 msgid "external references"
 msgstr "externí odkazy"
 
-#: plugins/excel/ms-excel-read.c:5421
+#: plugins/excel/ms-excel-read.c:5482
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
-#: plugins/excel/ms-excel-read.c:5425
+#: plugins/excel/ms-excel-read.c:5486
 msgid "Invalid password"
 msgstr "Neplatné heslo"
 
-#: plugins/excel/ms-excel-read.c:5526
+#: plugins/excel/ms-excel-read.c:5587
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodařilo se nalézt platný sešit MS Excel"
 
-#: plugins/excel/ms-excel-write.c:151
+#: plugins/excel/ms-excel-write.c:152
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -1193,7 +1193,7 @@ msgstr ""
 "Byla už zapsána délka řetězce, který musí být zkrácen díky problémům s "
 "kódováním."
 
-#: plugins/excel/ms-excel-write.c:3755
+#: plugins/excel/ms-excel-write.c:3759
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1202,7 +1202,7 @@ msgstr ""
 "Při ukládání jako MS Excel (tm) 95 bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků, tento sešit jich má %d"
 
-#: plugins/excel/ms-excel-write.c:3762
+#: plugins/excel/ms-excel-write.c:3766
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1211,11 +1211,11 @@ msgstr ""
 "Při ukládání ve jako MS Excel (tm) bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků a tento sešit jich má %d"
 
-#: plugins/excel/ms-excel-write.c:4209
+#: plugins/excel/ms-excel-write.c:4285
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Book' pro zápis\n"
 
-#: plugins/excel/ms-excel-write.c:4229
+#: plugins/excel/ms-excel-write.c:4305
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Workbook' pro zápis\n"
 
@@ -1223,7 +1223,7 @@ msgstr "Nepodařilo se otevřít kanál 'Workbook' pro zápis\n"
 msgid "Broken function"
 msgstr "Poškozená funkce"
 
-#: plugins/excel/ms-formula-write.c:525
+#: plugins/excel/ms-formula-write.c:536
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -4568,7 +4568,7 @@ msgstr "datum1,datum2,interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:578
+#: src/print-info.c:575
 msgid "date"
 msgstr "datum"
 
@@ -4585,7 +4585,7 @@ msgid "start_date,months"
 msgstr "poč_datum,měsíce"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:579
+#: plugins/fn-date/functions.c:1265 src/print-info.c:576
 msgid "time"
 msgstr "čas"
 
@@ -8251,7 +8251,7 @@ msgstr "%s verze %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:559
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:594
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
@@ -8449,7 +8449,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1506 plugins/fn-info/functions.c:1673
-#: src/func.c:797
+#: src/func.c:789
 msgid "Invalid number of arguments"
 msgstr "Neplatný počet parametrů"
 
@@ -8717,7 +8717,7 @@ msgstr "info_type, buňka"
 #: plugins/fn-info/functions.c:1854 plugins/fn-info/functions.c:1857
 #: plugins/fn-info/functions.c:1860 plugins/fn-info/functions.c:1863
 #: plugins/fn-info/functions.c:1866 plugins/fn-info/functions.c:1872
-#: plugins/fn-string/functions.c:1166
+#: plugins/fn-string/functions.c:1192
 msgid "value"
 msgstr "hodnota"
 
@@ -8730,11 +8730,12 @@ msgstr "info_type"
 msgid "range"
 msgstr "oblast"
 
-#: plugins/fn-info/functions.c:1881 plugins/fn-string/functions.c:1112
-#: plugins/fn-string/functions.c:1115 plugins/fn-string/functions.c:1118
-#: plugins/fn-string/functions.c:1139 plugins/fn-string/functions.c:1142
-#: plugins/fn-string/functions.c:1148 plugins/fn-string/functions.c:1172
-#: plugins/fn-string/functions.c:1175 plugins/fn-string/functions.c:1178
+#: plugins/fn-info/functions.c:1881 plugins/fn-string/functions.c:1135
+#: plugins/fn-string/functions.c:1138 plugins/fn-string/functions.c:1141
+#: plugins/fn-string/functions.c:1162 plugins/fn-string/functions.c:1165
+#: plugins/fn-string/functions.c:1168 plugins/fn-string/functions.c:1174
+#: plugins/fn-string/functions.c:1198 plugins/fn-string/functions.c:1201
+#: plugins/fn-string/functions.c:1204
 msgid "text"
 msgstr "text"
 
@@ -9009,7 +9010,7 @@ msgstr ""
 #: plugins/fn-stat/functions.c:5850 plugins/fn-stat/functions.c:5879
 #: plugins/fn-stat/functions.c:5882 plugins/fn-stat/functions.c:5885
 #: plugins/fn-stat/functions.c:5888 plugins/fn-stat/functions.c:5904
-#: src/func-builtin.c:134 src/func-builtin.c:140
+#: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "číslo,číslo,"
 
@@ -9032,8 +9033,8 @@ msgstr "číslo,číslo,"
 #: plugins/fn-math/functions.c:3236 plugins/fn-math/functions.c:3248
 #: plugins/fn-math/functions.c:3251 plugins/fn-stat/functions.c:5696
 #: plugins/fn-stat/functions.c:5699 plugins/fn-stat/functions.c:5717
-#: plugins/fn-stat/functions.c:5795 plugins/fn-string/functions.c:1106
-#: plugins/fn-string/functions.c:1109
+#: plugins/fn-stat/functions.c:5795 plugins/fn-string/functions.c:1129
+#: plugins/fn-string/functions.c:1132
 msgid "number"
 msgstr "číslo"
 
@@ -11649,8 +11650,7 @@ msgstr "Matematické funkce"
 msgid "Mathematical Functions"
 msgstr "Matematické funkce"
 
-#. *************************************************************************
-#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
+#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:152
 msgid "Mathematics"
 msgstr "Matematické"
 
@@ -16191,7 +16191,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR, CODE"
 
-#: plugins/fn-string/functions.c:252
+#: plugins/fn-string/functions.c:275
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -16217,7 +16217,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: plugins/fn-string/functions.c:288
+#: plugins/fn-string/functions.c:311
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -16241,7 +16241,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: plugins/fn-string/functions.c:310
+#: plugins/fn-string/functions.c:333
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -16267,7 +16267,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: plugins/fn-string/functions.c:355
+#: plugins/fn-string/functions.c:378
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -16295,7 +16295,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: plugins/fn-string/functions.c:399
+#: plugins/fn-string/functions.c:422
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -16319,7 +16319,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: plugins/fn-string/functions.c:421
+#: plugins/fn-string/functions.c:444
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -16344,7 +16344,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: plugins/fn-string/functions.c:446
+#: plugins/fn-string/functions.c:469
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -16368,7 +16368,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONCATENATE"
 
-#: plugins/fn-string/functions.c:492
+#: plugins/fn-string/functions.c:515
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -16392,7 +16392,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-string/functions.c:525
+#: plugins/fn-string/functions.c:548
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -16419,7 +16419,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: plugins/fn-string/functions.c:583
+#: plugins/fn-string/functions.c:606
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -16446,7 +16446,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-string/functions.c:648
+#: plugins/fn-string/functions.c:671
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -16471,7 +16471,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: plugins/fn-string/functions.c:700
+#: plugins/fn-string/functions.c:723
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -16497,11 +16497,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: plugins/fn-string/functions.c:729
+#: plugins/fn-string/functions.c:752
 msgid "Arguments out of range"
 msgstr "Parametry mimo rozsah"
 
-#: plugins/fn-string/functions.c:749
+#: plugins/fn-string/functions.c:772
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -16529,7 +16529,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: plugins/fn-string/functions.c:777
+#: plugins/fn-string/functions.c:800
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -16555,11 +16555,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: plugins/fn-string/functions.c:815
+#: plugins/fn-string/functions.c:838
 msgid "Type mismatch"
 msgstr "Neshodné typy"
 
-#: plugins/fn-string/functions.c:827
+#: plugins/fn-string/functions.c:850
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -16583,7 +16583,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: plugins/fn-string/functions.c:879
+#: plugins/fn-string/functions.c:902
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -16607,7 +16607,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: plugins/fn-string/functions.c:922
+#: plugins/fn-string/functions.c:945
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -16635,7 +16635,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: plugins/fn-string/functions.c:979
+#: plugins/fn-string/functions.c:1002
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -16659,7 +16659,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: plugins/fn-string/functions.c:1035
+#: plugins/fn-string/functions.c:1058
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -16705,51 +16705,51 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: plugins/fn-string/functions.c:1121
+#: plugins/fn-string/functions.c:1144
 msgid "text,text,"
 msgstr "text,text,"
 
-#: plugins/fn-string/functions.c:1124
+#: plugins/fn-string/functions.c:1147
 msgid "num,decimals"
 msgstr "počet,des_místa"
 
-#: plugins/fn-string/functions.c:1127
+#: plugins/fn-string/functions.c:1150
 msgid "text1,text2"
 msgstr "text1,text2"
 
-#: plugins/fn-string/functions.c:1130
+#: plugins/fn-string/functions.c:1153
 msgid "text1,text2,num"
 msgstr "text1,text2,počet"
 
-#: plugins/fn-string/functions.c:1133
+#: plugins/fn-string/functions.c:1156
 msgid "num,decs,no_commas"
 msgstr "počet,des,bez_čárek"
 
-#: plugins/fn-string/functions.c:1136 plugins/fn-string/functions.c:1157
+#: plugins/fn-string/functions.c:1159 plugins/fn-string/functions.c:1183
 msgid "text,num_chars"
 msgstr "text,počet_znaků"
 
-#: plugins/fn-string/functions.c:1145
+#: plugins/fn-string/functions.c:1171
 msgid "text,pos,num"
 msgstr "text,poz,počet"
 
-#: plugins/fn-string/functions.c:1151
+#: plugins/fn-string/functions.c:1177
 msgid "old,start,num,new"
 msgstr "starý,zač,počet,nový"
 
-#: plugins/fn-string/functions.c:1154
+#: plugins/fn-string/functions.c:1180
 msgid "text,num"
 msgstr "text,počet"
 
-#: plugins/fn-string/functions.c:1160
+#: plugins/fn-string/functions.c:1186
 msgid "search_string,text,start_num"
 msgstr "hledaný_řetězec,text,počáteční_číslo"
 
-#: plugins/fn-string/functions.c:1163
+#: plugins/fn-string/functions.c:1189
 msgid "text,old,new,num"
 msgstr "text,starý,nový,počet"
 
-#: plugins/fn-string/functions.c:1169
+#: plugins/fn-string/functions.c:1195
 msgid "value,format_text"
 msgstr "hodnota,formát_textu"
 
@@ -16758,7 +16758,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funkce pro práci s řetězci"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:143
-#: src/func.c:681
+#: src/func.c:673
 msgid "String"
 msgstr "Řetězec"
 
@@ -16936,7 +16936,7 @@ msgstr "Není číslo Guile"
 msgid "Not a Guile string"
 msgstr "Není řetězec Guile"
 
-#: plugins/html/html_read.c:479
+#: plugins/html/html_read.c:478
 msgid "Unable to parse the html."
 msgstr "Nepodařilo se zpracovat html."
 
@@ -17017,12 +17017,12 @@ msgstr "Objektivní funkce:"
 msgid "Constraints:"
 msgstr "Omezení:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5733
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:961
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:106
+#: plugins/mps/mps.c:247 src/commands.c:5736
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
-#: src/dialogs/dialog-function-select.c:449
-#: src/dialogs/dialog-function-select.c:471 src/dialogs/dialog-scenarios.c:362
+#: src/dialogs/dialog-function-select.c:445
+#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
@@ -17740,10 +17740,10 @@ msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Chyba při otevírání souboru Xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4558
+#: plugins/xbase/boot.c:175 src/commands.c:4561
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
-#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
-#: src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
+#: src/xml-io.c:3594
 msgid "Sheet"
 msgstr "List"
 
@@ -17771,12 +17771,12 @@ msgstr "EXPERIMENTÁLNÍ XML založené na SAX"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nová generace V/V XML subsystému založená na sax"
 
-#: plugins/xml_sax/xml-sax-read.c:301
+#: plugins/xml_sax/xml-sax-read.c:302
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Vícenásobná verze specifikací. Předpokládá se %d"
 
-#: plugins/xml_sax/xml-sax-read.c:452
+#: plugins/xml_sax/xml-sax-read.c:473
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Soubor má nekonzistentní element SheetNameIndex."
 
@@ -18768,7 +18768,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtruje data podle zadaných kritérií"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:912
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:913
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1500
 #: src/workbook-format-toolbar.c:412
 msgid "Font"
@@ -18961,8 +18961,8 @@ msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:612
-#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:619
+#: src/sheet-object-graphic.c:1437 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Titulek"
 
@@ -19129,7 +19129,7 @@ msgid "Print Preview"
 msgstr "Náhled před tiskem"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1320 src/workbook-control-gui.c:3342
+#: src/print.c:1322 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Náhled před tiskem"
@@ -19538,7 +19538,7 @@ msgstr "_Konsolidovat..."
 msgid "_Contents"
 msgstr "O_bsah"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1018
+#: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
 #: src/sheet-control-gui.c:1488
 msgid "_Copy"
 msgstr "_Kopírovat"
@@ -19993,454 +19993,454 @@ msgstr "%s je zamknutý. Zrušte ochranu listu pro umožnění změn."
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:888 src/commands.c:987 src/commands.c:992
+#: src/commands.c:892 src/commands.c:991 src/commands.c:996
 msgid "Set Text"
 msgstr "Nastavení textu"
 
-#: src/commands.c:912
+#: src/commands.c:916
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Napsání \"%s%s\" v %s"
 
-#: src/commands.c:1110
+#: src/commands.c:1114
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Napsání \"%s%s\""
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3179
+#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3180
 msgid "Delete Columns"
 msgstr "Odstranit sloupce"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3297
+#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3298
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
-#: src/commands.c:1388
+#: src/commands.c:1392
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Vložení %d sloupců před %s"
 
-#: src/commands.c:1389
+#: src/commands.c:1393
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Vložení %d sloupce před %s"
 
-#: src/commands.c:1404
+#: src/commands.c:1408
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Vložení %d řádků před %s"
 
-#: src/commands.c:1405
+#: src/commands.c:1409
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Vložení %d řádku před %s"
 
-#: src/commands.c:1416
+#: src/commands.c:1420
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Odstranění sloupců %s"
 
-#: src/commands.c:1417
+#: src/commands.c:1421
 #, c-format
 msgid "Deleting column %s"
 msgstr "Odstranění sloupce %s"
 
-#: src/commands.c:1427
+#: src/commands.c:1431
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Odstranění řádků %s"
 
-#: src/commands.c:1428
+#: src/commands.c:1432
 #, c-format
 msgid "Deleting row %s"
 msgstr "Odstranění řádku %s"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2793
+#: src/commands.c:1508 src/commands.c:1512 src/sheet.c:2794
 msgid "Clear"
 msgstr "Smazat"
 
-#: src/commands.c:1580
+#: src/commands.c:1584
 msgid "contents"
 msgstr "obsah"
 
-#: src/commands.c:1582
+#: src/commands.c:1586
 msgid "formats"
 msgstr "formáty"
 
-#: src/commands.c:1584
+#: src/commands.c:1588
 msgid "comments"
 msgstr "komentáře"
 
-#: src/commands.c:1600
+#: src/commands.c:1604
 msgid "all"
 msgstr "vše"
 
-#: src/commands.c:1607
+#: src/commands.c:1611
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Vyčištění %s v %s"
 
-#: src/commands.c:1680
+#: src/commands.c:1684
 msgid "Changing Format"
 msgstr "Změna formátu"
 
-#: src/commands.c:1807
+#: src/commands.c:1811
 #, c-format
 msgid "Changing format of %s"
 msgstr "Změna formátu %s"
 
-#: src/commands.c:1919
+#: src/commands.c:1923
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatická úprava velikosti sloupce %s"
 
-#: src/commands.c:1920
+#: src/commands.c:1924
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatická úprava velikosti řádku %s"
 
-#: src/commands.c:1923
+#: src/commands.c:1927
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Nastavení šířky sloupce %s na %d bodů"
 
-#: src/commands.c:1925
+#: src/commands.c:1929
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Nastavení výšky řádku %s na %d bodů"
 
-#: src/commands.c:1928
+#: src/commands.c:1932
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Nastavení šířky sloupce %s na výchozí"
 
-#: src/commands.c:1931
+#: src/commands.c:1935
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Nastavení výšky řádku %s na výchozí"
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1939 src/commands.c:1940
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatická úprava velikosti sloupců %s"
 
-#: src/commands.c:1939
+#: src/commands.c:1943
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Nastavení šířky sloupců %s na %d bodů"
 
-#: src/commands.c:1941
+#: src/commands.c:1945
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Nastavení výšky řádků %s na %d bodů"
 
-#: src/commands.c:1945
+#: src/commands.c:1949
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Nastavení šířky sloupců %s na výchozí"
 
-#: src/commands.c:1947
+#: src/commands.c:1951
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Nastavení výšky řádků %s na výchozí"
 
-#: src/commands.c:2014 src/dialogs/dialog-preferences.c:1504
+#: src/commands.c:2018 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
 msgstr "Třídění"
 
-#: src/commands.c:2034
+#: src/commands.c:2038
 #, c-format
 msgid "Sorting %s"
 msgstr "Třídění %s"
 
-#: src/commands.c:2166
+#: src/commands.c:2170
 msgid "Unhide columns"
 msgstr "Zobrazení skrytých sloupců"
 
-#: src/commands.c:2166
+#: src/commands.c:2170
 msgid "Hide columns"
 msgstr "Skrytí sloupců"
 
-#: src/commands.c:2167
+#: src/commands.c:2171
 msgid "Unhide rows"
 msgstr "Zobrazení skrytých řádků"
 
-#: src/commands.c:2167
+#: src/commands.c:2171
 msgid "Hide rows"
 msgstr "Skrytí řádků"
 
-#: src/commands.c:2250
+#: src/commands.c:2254
 msgid "Expand columns"
 msgstr "Rozbalení sloupců"
 
-#: src/commands.c:2250
+#: src/commands.c:2254
 msgid "Collapse columns"
 msgstr "Sbalení sloupců"
 
-#: src/commands.c:2251
+#: src/commands.c:2255
 msgid "Expand rows"
 msgstr "Rozbalení řádků"
 
-#: src/commands.c:2251
+#: src/commands.c:2255
 msgid "Collapse rows"
 msgstr "Sbalení řádků"
 
-#: src/commands.c:2278
+#: src/commands.c:2282
 #, c-format
 msgid "Show column outline %d"
 msgstr "Zobrazit přehled sloupců %d"
 
-#: src/commands.c:2278
+#: src/commands.c:2282
 #, c-format
 msgid "Show row outline %d"
 msgstr "Zobrazit přehled řádků %d"
 
-#: src/commands.c:2344
+#: src/commands.c:2347
 msgid "Those columns are already grouped"
 msgstr "Tyto sloupce už jsou seskupeny"
 
-#: src/commands.c:2345
+#: src/commands.c:2348
 msgid "Those rows are already grouped"
 msgstr "Tyto řádky už jsou seskupeny"
 
-#: src/commands.c:2368
+#: src/commands.c:2371
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tyto sloupce nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2369
+#: src/commands.c:2372
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tyto řádky nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2383
+#: src/commands.c:2386
 #, c-format
 msgid "Group columns %s"
 msgstr "Seskupit sloupce %s"
 
-#: src/commands.c:2383
+#: src/commands.c:2386
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozeskupit sloupce %s"
 
-#: src/commands.c:2385
+#: src/commands.c:2388
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Seskupit řádky %d:%d"
 
-#: src/commands.c:2385
+#: src/commands.c:2388
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozeskupit řádky %d:%d"
 
-#: src/commands.c:2619
+#: src/commands.c:2622
 #, c-format
 msgid "Moving %s"
 msgstr "Přesun %s"
 
-#: src/commands.c:2628 src/commands.c:2839
+#: src/commands.c:2631 src/commands.c:2842
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
 #. FIXME?
-#: src/commands.c:2783
+#: src/commands.c:2786
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vložení do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3016 src/commands.c:3017 src/workbook-control-gui.c:2339
+#: src/commands.c:3019 src/commands.c:3020 src/workbook-control-gui.c:2339
 msgid "Autofill"
 msgstr "Automatické vyplňování"
 
 #. Changed in initial redo.
-#: src/commands.c:3040
+#: src/commands.c:3043
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplňování %s"
 
-#: src/commands.c:3190
+#: src/commands.c:3193
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:3300
+#: src/commands.c:3303
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozdělení buněk %s"
 
-#: src/commands.c:3438
+#: src/commands.c:3441
 #, c-format
 msgid "Merging %s"
 msgstr "Spojení %s"
 
 #. Corrected below.
-#: src/commands.c:3820 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3823 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Hledat a nahradit"
 
-#: src/commands.c:3917
+#: src/commands.c:3920
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavení výchozí šířky sloupců na %.2f bodů"
 
-#: src/commands.c:3918
+#: src/commands.c:3921
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavení výchozí výšky řádků na %.2f bodů"
 
-#: src/commands.c:4035
+#: src/commands.c:4038
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zvětšení %s na %.0f%%"
 
-#: src/commands.c:4105
+#: src/commands.c:4108
 msgid "Insert object"
 msgstr "Vložit objekt"
 
-#: src/commands.c:4164
+#: src/commands.c:4167
 msgid "Delete object"
 msgstr "Odstranit objekt"
 
-#: src/commands.c:4245
+#: src/commands.c:4248
 msgid "Resize object"
 msgstr "Změnit velikost objektu"
 
-#: src/commands.c:4245
+#: src/commands.c:4248
 msgid "Move object"
 msgstr "Přesunout objekt"
 
-#: src/commands.c:4802
+#: src/commands.c:4805
 msgid "Reordering Sheets"
 msgstr "Změna pořadí listů"
 
-#: src/commands.c:4805
+#: src/commands.c:4808
 msgid "Renaming Sheets"
 msgstr "Přejmenování listů"
 
-#: src/commands.c:4808
+#: src/commands.c:4811
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Připojuji %i listů"
 
-#: src/commands.c:4812
+#: src/commands.c:4815
 msgid "Changing Tab Colors"
 msgstr "Změna barev záložky"
 
-#: src/commands.c:4815
+#: src/commands.c:4818
 msgid "Changing Sheet Protection"
 msgstr "Změna ochrany listu"
 
-#: src/commands.c:4818
+#: src/commands.c:4821
 msgid "Delete sheets"
 msgstr "Odstranit listy"
 
-#: src/commands.c:4821
+#: src/commands.c:4824
 msgid "Delete a sheet"
 msgstr "Odstranit list"
 
-#: src/commands.c:4824
+#: src/commands.c:4827
 msgid "Reorganizing Sheets"
 msgstr "Reorganizace listů"
 
-#: src/commands.c:4974
+#: src/commands.c:4977
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazání komentáře %s"
 
-#: src/commands.c:4975
+#: src/commands.c:4978
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavení komentáře %s"
 
-#: src/commands.c:5355
+#: src/commands.c:5358
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojení dat do %s"
 
-#: src/commands.c:5457
+#: src/commands.c:5460
 msgid "Changing summary info"
 msgstr "Změna souhrnných informací"
 
-#: src/commands.c:5548
+#: src/commands.c:5551
 msgid "Raise object"
 msgstr "Přesun objektu výše"
 
-#: src/commands.c:5551
+#: src/commands.c:5554
 msgid "Lower object"
 msgstr "Přesun objektu níže"
 
-#: src/commands.c:5554
+#: src/commands.c:5557
 msgid "Raise object to top"
 msgstr "Přesun objektu nahoru"
 
-#: src/commands.c:5557
+#: src/commands.c:5560
 msgid "Lower object to bottom"
 msgstr "Přesun objektu dolů"
 
-#: src/commands.c:5672
+#: src/commands.c:5675
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavení stránky pro %s"
 
-#: src/commands.c:5674
+#: src/commands.c:5677
 msgid "Page Setup For All Sheets"
 msgstr "Nastavení stránky pro všechny listy"
 
-#: src/commands.c:5790
+#: src/commands.c:5793
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: src/commands.c:5813
+#: src/commands.c:5816
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: src/commands.c:5816
+#: src/commands.c:5819
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: src/commands.c:5880
+#: src/commands.c:5883
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: src/commands.c:5955
+#: src/commands.c:5958
 msgid "Scenario Show"
 msgstr "Zobrazení Scénáře"
 
-#: src/commands.c:6019
+#: src/commands.c:6022
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: src/commands.c:6130
+#: src/commands.c:6133
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6277 src/dialogs/solver.glade.h:24
+#: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Řešitel"
 
-#: src/commands.c:6364
+#: src/commands.c:6367
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledání cíle (%s)"
 
-#: src/commands.c:6506
+#: src/commands.c:6509
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplikuji %s"
 
-#: src/commands.c:6586
+#: src/commands.c:6589
 msgid "Tabulating Dependencies"
 msgstr "Tabeluji závislosti"
 
-#: src/commands.c:6662
+#: src/commands.c:6665
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
@@ -20470,7 +20470,7 @@ msgid "O_utside"
 msgstr "_Okolo"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 msgid "_Cross"
 msgstr "_Napříč"
 
@@ -20502,58 +20502,58 @@ msgstr "_Okolo"
 msgid "_Show Labels"
 msgstr "_Zobrazit jmenovky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:494
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:499
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:495
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:500
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:496
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:501
 msgid "Ma_jor Ticks"
 msgstr "H_lavní značky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:497
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:502
 msgid "Mi_nor Ticks"
 msgstr "Ve_dlejší značky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:566
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
 msgid "Bounds"
 msgstr "Hranice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:571
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:577
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:166
 msgid "Title"
 msgstr "Titulek"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:189
 msgid "Grid"
 msgstr "Mřížka"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:177
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:192
 msgid "X-Axis"
 msgstr "Osa X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:181
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:196
 msgid "Y-Axis"
 msgstr "Osa Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:185
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
 msgid "Z-Axis"
 msgstr "Osa Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "Plot"
 msgstr "Graf"
 
@@ -20585,24 +20585,24 @@ msgstr "Graf"
 msgid "Chart"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:987
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1058
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Krok 1 ze 2: Vyberte typ grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:995
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1066
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Krok 2 ze 2: Upravte graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1000
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1071
 msgid "Customize Chart"
 msgstr "Upravit graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1095
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1166
 msgid "_Plot Type"
 msgstr "_Typ grafu"
 
 #. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1185
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1256
 msgid ""
 "Show\n"
 "Sample"
@@ -20610,7 +20610,7 @@ msgstr ""
 "Zobrazit\n"
 "ukázku"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1194
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1265
 #: src/dialogs/dialog-plugin-manager.c:712
 #: src/dialogs/dialog-preferences.c:558 src/dialogs/function-select.glade.h:2
 msgid "Description"
@@ -20653,12 +20653,12 @@ msgstr "_Řád"
 msgid "_Top"
 msgstr "Na_hoře"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:106
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:107
 msgid "_Text:"
 msgstr "_Text:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:112
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:132
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:113
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:133
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
 msgstr "Data"
@@ -20675,7 +20675,7 @@ msgstr "Typ grafu"
 msgid "Chart Theme"
 msgstr "Téma grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:182
 msgid "Series"
 msgstr "Řady"
 
@@ -20827,7 +20827,7 @@ msgstr "%d × %d"
 msgid "Select an image"
 msgstr "Vybrat obrázek"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:984
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:985
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Styl"
@@ -20956,7 +20956,7 @@ msgstr ""
 "Sousedící svislé sloupce seskupené podle hlavních a vedlejších kategorií."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:687
+#: src/func.c:679
 msgid "Area"
 msgstr "Oblast"
 
@@ -21930,7 +21930,7 @@ msgstr "První písmeno"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2150 src/format.c:2279 src/format.c:2285 src/format.c:2361
+#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Všeobecné"
@@ -22799,7 +22799,7 @@ msgstr "Vladimir Vuksan, finanční funkce."
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric hacker."
 
-#: src/dialogs/dialog-about.c:113 src/func-builtin.c:127
+#: src/dialogs/dialog-about.c:113 src/func-builtin.c:156
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -23139,7 +23139,7 @@ msgid "Double"
 msgstr "Dvojité"
 
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:679 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Číslo"
 
@@ -23176,29 +23176,29 @@ msgstr "Validační kritérium je nepoužitelné. Vypnout ověření?"
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
-#: src/dialogs/dialog-cell-sort.c:118 src/dialogs/dialog-cell-sort.c:123
+#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
 #, c-format
 msgid "Column %s"
 msgstr "Sloupec %s"
 
-#: src/dialogs/dialog-cell-sort.c:120 src/dialogs/dialog-cell-sort.c:125
+#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
 #, c-format
 msgid "Row %s"
 msgstr "Řádek %s"
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:718
 msgid "Row/Column"
 msgstr "Řádek/Sloupec"
 
-#: src/dialogs/dialog-cell-sort.c:729
+#: src/dialogs/dialog-cell-sort.c:738
 msgid "Case Sensitive"
 msgstr "Rozlišovat malá a velká písmena"
 
-#: src/dialogs/dialog-cell-sort.c:742
+#: src/dialogs/dialog-cell-sort.c:751
 msgid "By Value"
 msgstr "Podle hodnoty"
 
-#: src/dialogs/dialog-cell-sort.c:866
+#: src/dialogs/dialog-cell-sort.c:883
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Nelze vytvořit dialog pro třídění buněk."
 
@@ -24146,7 +24146,7 @@ msgstr "Nelze vytvořit dialog Nástroje pro řešitele."
 msgid "You need to select at least one sheet to export"
 msgstr "Musíte vybrat alespoň jeden exportovaný list"
 
-#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:180
+#: src/dialogs/dialog-stf-export.c:51 src/dialogs/dialog-stf.c:180
 msgid "Are you sure you want to cancel?"
 msgstr "Opravdu chcete zrušit?"
 
@@ -26462,7 +26462,7 @@ msgstr "'%s' je již v sešitě definováno"
 msgid "Internal type error"
 msgstr "Interní chyba typu"
 
-#: src/expr.c:890
+#: src/expr.c:891
 msgid "Unknown operator"
 msgstr "Neznámý operátor"
 
@@ -26527,40 +26527,40 @@ msgstr "TRUE"
 msgid "FALSE"
 msgstr "FALSE"
 
-#: src/format.c:633
+#: src/format.c:646
 msgid "Black"
 msgstr "Černá"
 
-#: src/format.c:634
+#: src/format.c:647
 msgid "Blue"
 msgstr "Modrá"
 
-#: src/format.c:635
+#: src/format.c:648
 msgid "Cyan"
 msgstr "Modrozelená"
 
-#: src/format.c:636
+#: src/format.c:649
 msgid "Green"
 msgstr "Zelená"
 
-#: src/format.c:637
+#: src/format.c:650
 msgid "Magenta"
 msgstr "Fialová"
 
-#: src/format.c:638
+#: src/format.c:651
 msgid "Red"
 msgstr "Červená"
 
-#: src/format.c:639
+#: src/format.c:652
 msgid "White"
 msgstr "Bílá"
 
-#: src/format.c:640
+#: src/format.c:653
 msgid "Yellow"
 msgstr "Žlutá"
 
 #. Array of arrays ??
-#: src/format.c:2042
+#: src/format.c:2055
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -27332,44 +27332,44 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/func.c:108
+#: src/func.c:100
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nelze vytvořit soubor %s\n"
 
-#: src/func.c:299
+#: src/func.c:277
 msgid "Function implementation not available."
 msgstr "Implementace funkce není k dispozici."
 
-#: src/func.c:509
+#: src/func.c:490
 msgid "Unknown Function"
 msgstr "Neznámá funkce"
 
-#: src/func.c:683
+#: src/func.c:675
 msgid "Boolean"
 msgstr "Logická hodnota"
 
-#: src/func.c:685
+#: src/func.c:677
 msgid "Cell Range"
 msgstr "Oblast buněk"
 
-#: src/func.c:689
+#: src/func.c:681
 msgid "Scalar or Blank"
 msgstr "Skalár nebo nic"
 
-#: src/func.c:691
+#: src/func.c:683
 msgid "Scalar or Error"
 msgstr "Skalár nebo chyba"
 
-#: src/func.c:693
+#: src/func.c:685
 msgid "Scalar"
 msgstr "Skalár"
 
-#: src/func.c:695
+#: src/func.c:687
 msgid "Any"
 msgstr "Cokoli"
 
-#: src/func.c:1007
+#: src/func.c:999
 msgid "Function does not exist"
 msgstr "Funkce neexistuje"
 
@@ -27409,19 +27409,19 @@ msgstr "schránka"
 msgid "Automatically detected"
 msgstr "Automaticky rozpoznán"
 
-#: src/gui-file.c:183
+#: src/gui-file.c:184
 msgid "Load file"
 msgstr "Načíst soubor"
 
-#: src/gui-file.c:194
+#: src/gui-file.c:195
 msgid "Character _encoding:"
 msgstr "_Kódování znaků:"
 
-#: src/gui-file.c:204
+#: src/gui-file.c:205
 msgid "File _type:"
 msgstr "_Typ souboru:"
 
-#: src/gui-file.c:270
+#: src/gui-file.c:271
 #, c-format
 msgid ""
 "%s\n"
@@ -27430,7 +27430,7 @@ msgstr ""
 "%s\n"
 "je název adresáře"
 
-#: src/gui-file.c:276
+#: src/gui-file.c:277
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27439,7 +27439,7 @@ msgstr ""
 "Nemáte práva pro ukládaní do\n"
 "%s"
 
-#: src/gui-file.c:283
+#: src/gui-file.c:284
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -27448,7 +27448,7 @@ msgstr ""
 "Sešit %s již existuje.\n"
 "Chcete jej přepsat?"
 
-#: src/gui-file.c:304
+#: src/gui-file.c:305
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -27460,7 +27460,7 @@ msgstr ""
 "použijte jiný formát souboru.\n"
 "Chcete uložit pouze aktuální list?"
 
-#: src/gui-file.c:331
+#: src/gui-file.c:332
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -27468,7 +27468,7 @@ msgstr ""
 "Prosím, zadejte název souboru,\n"
 "ne adresáře"
 
-#: src/gui-file.c:337
+#: src/gui-file.c:338
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -27477,7 +27477,7 @@ msgstr ""
 "tento název souboru použít?"
 
 #. Pack it into file selector
-#: src/gui-file.c:389
+#: src/gui-file.c:390
 msgid "Save workbook as"
 msgstr "Uložit sešit jako"
 
@@ -27538,7 +27538,7 @@ msgstr "Šířka: %.2f bodů (%d pixelů)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Výška: %.2f bodů (%d pixelů)"
 
-#: src/item-cursor.c:915
+#: src/item-cursor.c:918
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -27547,96 +27547,96 @@ msgstr ""
 "Přesouvané buňky přepíšou obsah existujících buněk\n"
 "v této oblasti. Chcete nahradit obsah buněk v této oblasti?"
 
-#: src/item-cursor.c:1015
+#: src/item-cursor.c:1018
 msgid "_Move"
 msgstr "_Přesunout"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1024
 msgid "Copy _Formats"
 msgstr "Kopírovat _formát"
 
-#: src/item-cursor.c:1023
+#: src/item-cursor.c:1026
 msgid "Copy _Values"
 msgstr "Kopírovat _hodnoty"
 
-#: src/item-cursor.c:1028
+#: src/item-cursor.c:1031
 msgid "Shift _Down and Copy"
 msgstr "Posunout buňky _dolů a kopírovat"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1033
 msgid "Shift _Right and Copy"
 msgstr "Posunout buňky dop_rava a kopírovat"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1035
 msgid "Shift Dow_n and Move"
 msgstr "Posunout buňky do_lů a přesunout"
 
-#: src/item-cursor.c:1034
+#: src/item-cursor.c:1037
 msgid "Shift Righ_t and Move"
 msgstr "Posunout buňky dopra_va a přesunout"
 
-#: src/item-cursor.c:1039
+#: src/item-cursor.c:1042
 msgid "C_ancel"
 msgstr "_Zrušit"
 
-#: src/main-application.c:54
+#: src/main-application.c:55
 msgid "Display Gnumeric's version"
 msgstr "Zobrazit verzi aplikace Gnumeric"
 
-#: src/main-application.c:56
+#: src/main-application.c:57
 msgid "Set the root library directory"
 msgstr "Nastavit kořenový adresář knihoven"
 
-#: src/main-application.c:58
+#: src/main-application.c:59
 msgid "Adjust the root data directory"
 msgstr "Upravit kořenový adresář dat"
 
-#: src/main-application.c:61 src/main-application.c:63
+#: src/main-application.c:62 src/main-application.c:64
 msgid "Dumps the function definitions"
 msgstr "Vypsat definice funkcí"
 
-#: src/main-application.c:61 src/main-application.c:63
+#: src/main-application.c:62 src/main-application.c:64
 msgid "FILE"
 msgstr "SOUBOR"
 
-#: src/main-application.c:66
+#: src/main-application.c:67
 msgid "Enables some debugging functions"
 msgstr "Povolit některé ladící funkce"
 
-#: src/main-application.c:66 src/main-application.c:69
-#: src/main-application.c:71 src/main-application.c:73
+#: src/main-application.c:67 src/main-application.c:70
+#: src/main-application.c:72 src/main-application.c:74
 msgid "LEVEL"
 msgstr "ÚROVEŇ"
 
-#: src/main-application.c:69
+#: src/main-application.c:70
 msgid "Enables some dependency related debugging functions"
 msgstr "Povolit některé ladící funkce týkající se závislostí"
 
-#: src/main-application.c:71
+#: src/main-application.c:72
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Povolit některé ladící funkce pro sdílení výrazů"
 
-#: src/main-application.c:73
+#: src/main-application.c:74
 msgid "Enables some print debugging behavior"
 msgstr "Povolit některé ladící funkce tisku"
 
-#: src/main-application.c:76
+#: src/main-application.c:77
 msgid "Specify the size and location of the initial window"
 msgstr "Určení velikosti a umístění počátečního okna"
 
-#: src/main-application.c:76
+#: src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ŠÍŘKAxVÝŠKA+XPOS+YPOS"
 
-#: src/main-application.c:80
+#: src/main-application.c:81
 msgid "Don't show splash screen"
 msgstr "Nezobrazovat uvítací obrazovku"
 
-#: src/main-application.c:83
+#: src/main-application.c:84
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Skončit hned po načtení vybraných sešitů (vhodné pro testování)."
 
-#: src/main-application.c:113
+#: src/main-application.c:114
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -27661,7 +27661,7 @@ msgstr ""
 "\n"
 "-- Tým aplikace Gnumeric."
 
-#: src/main-application.c:144
+#: src/main-application.c:145
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -28097,7 +28097,7 @@ msgid "Errors while initializing plugin system."
 msgstr "Chyby při inicializaci systému zásuvných modulů."
 
 #: src/print-info.c:177 src/print-info.c:180 src/print-info.c:181
-#: src/print-info.c:297
+#: src/print-info.c:295
 msgid "Page &[PAGE]"
 msgstr "Strana &[PAGE]"
 
@@ -28106,7 +28106,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Strana &[PAGE] z &[PAGES]"
 
 #: src/print-info.c:179 src/print-info.c:180 src/print-info.c:181
-#: src/print-info.c:183 src/print-info.c:290
+#: src/print-info.c:183 src/print-info.c:288
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -28114,31 +28114,31 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:536
+#: src/print-info.c:533
 msgid "File Name"
 msgstr "Název souboru"
 
-#: src/print-info.c:567
+#: src/print-info.c:564
 msgid "Path "
 msgstr "Cesta "
 
-#: src/print-info.c:575
+#: src/print-info.c:572
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:576
+#: src/print-info.c:573
 msgid "page"
 msgstr "strana"
 
-#: src/print-info.c:577
+#: src/print-info.c:574
 msgid "pages"
 msgstr "stran"
 
-#: src/print-info.c:580
+#: src/print-info.c:577
 msgid "file"
 msgstr "soubor"
 
-#: src/print-info.c:581
+#: src/print-info.c:578
 msgid "path"
 msgstr "cesta"
 
@@ -28151,19 +28151,19 @@ msgstr "&[PAGE]"
 msgid "Print Region"
 msgstr "Oblast tisku"
 
-#: src/print.c:1238
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "Tisknuté listy"
 
-#: src/print.c:1246
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "Akt_ivní list"
 
-#: src/print.c:1246
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "_Listy"
 
-#: src/print.c:1332
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Tisk selhal"
 
@@ -28344,7 +28344,7 @@ msgstr "Lituji, gnumeric umí ukládat grafy jen jako obrázky png"
 msgid "_Save as image"
 msgstr "_Uložit jako obrázek"
 
-#: src/sheet-object-graphic.c:938 src/sheet-object-graphic.c:957
+#: src/sheet-object-graphic.c:939 src/sheet-object-graphic.c:958
 msgid "Transparent"
 msgstr "Průhledný"
 
@@ -28375,23 +28375,23 @@ msgstr ""
 "s názvem TRUE může kolidovat s konstantou stejného názvu.\n"
 "Očekávejte podivné chování."
 
-#: src/sheet.c:1956
+#: src/sheet.c:1957
 msgid "Target region contains merged cells"
 msgstr "Cílová oblast obsahuje spojené buňky"
 
-#: src/sheet.c:2018
+#: src/sheet.c:2019
 msgid "cannot operate on merged cells"
 msgstr "nelze vykonat na spojených buňkách"
 
-#: src/sheet.c:2028
+#: src/sheet.c:2029
 msgid "cannot operate on array formulae"
 msgstr "nelze vykonat na poli vzorců"
 
-#: src/sheet.c:3120
+#: src/sheet.c:3121
 msgid "Insert Columns"
 msgstr "Vložit sloupce"
 
-#: src/sheet.c:3238
+#: src/sheet.c:3239
 msgid "Insert Rows"
 msgstr "Vložit řádky"
 
@@ -29678,7 +29678,7 @@ msgstr "tmavě fialová"
 msgid "sky blue"
 msgstr "nebesky modrá"
 
-#: src/widgets/gnumeric-expr-entry.c:1255
+#: src/widgets/gnumeric-expr-entry.c:1256
 msgid "Expecting a single range"
 msgstr "Očekává se jedna oblast"
 
@@ -31217,55 +31217,55 @@ msgstr "Nepodporovaný formát souboru."
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
 
-#: src/workbook.c:401
+#: src/workbook.c:407
 #, c-format
 msgid "Book%d.%s"
 msgstr "Sešit%d.%s"
 
-#: src/workbook.c:1248
+#: src/workbook.c:1260
 msgid "Sheet name is NULL"
 msgstr "Název listu je NULL"
 
-#: src/workbook.c:1259
+#: src/workbook.c:1271
 msgid "Sheet name is not valid utf-8"
 msgstr "Název listu není platné utf-8"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1280
 msgid "Sheet name must have at least 1 letter"
 msgstr "Název listu musí mít alespoň jedno písmeno"
 
-#: src/workbook.c:1292
+#: src/workbook.c:1304
 msgid "There is already a sheet named"
 msgstr "Již existuje list s názvem"
 
-#: src/workbook.c:1306
+#: src/workbook.c:1318
 msgid "You may not use this name twice"
 msgstr "Nemůžete použít jeden název dvakrát"
 
-#: src/xml-io.c:3296
+#: src/xml-io.c:3297
 msgid "Unparsable xml in clipboard"
 msgstr "Obsah schránky v XML není možné zpracovat"
 
-#: src/xml-io.c:3303
+#: src/xml-io.c:3304
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámý formát."
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3717
+#: src/xml-io.c:3725
 msgid "Processing file..."
 msgstr "Zpracovává se soubor..."
 
-#: src/xml-io.c:4027
+#: src/xml-io.c:4052
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Toto není soubor se sešitem Gnumeric"
 
-#: src/xml-io.c:4064
+#: src/xml-io.c:4089
 msgid "Failure saving file"
 msgstr "Chyba při ukládání souboru."
 
-#: src/xml-io.c:4097
+#: src/xml-io.c:4122
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 

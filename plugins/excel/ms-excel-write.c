@@ -3784,7 +3784,6 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 			break;
 		}
 
-#warning dont lose cols/rows with attributes outside the useful region
 	esheet->gnum_sheet = sheet;
 	esheet->streamPos  = 0x0deadbee;
 	esheet->ewb        = ewb;

@@ -1,3 +1,7 @@
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
 2003-11-08  Jody Goldberg <jody@gnome.org>
 
 	* corba-workbook.c (cworkbook_sheet_add) : fix warning that has been

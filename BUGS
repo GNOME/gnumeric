@@ -9,10 +9,10 @@ Release Critical
 ----------------
 
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
-    : warnings in billmrec.xls
-    : box colors and warnings in christ95.xls
-    : text in boxes for text-xls/pivot.xls is white ??
     : X axis label seperation
+    : warnings in billmrec.xls
+    : text in boxes for text-xls/pivot.xls is white 	[xl95 pallette id=9]
+    : box colors and warnings in christ95.xls
     : guia.xls complains of problems importing autofilter
 
 Worries

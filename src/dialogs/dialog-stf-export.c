@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-stf-export.c : implementation of the STF export dialog
  *
@@ -353,9 +354,9 @@ static void
 stf_export_dialog_editables_enter (StfE_DruidData_t *druid_data)
 {
 	gnumeric_editable_enters (druid_data->window,
-				  GTK_WIDGET (druid_data->format_page_data->format_custom));
+		GTK_WIDGET (druid_data->format_page_data->format_custom));
 	gnumeric_combo_enters (druid_data->window,
-			       druid_data->format_page_data->format_quotechar);
+		GTK_WIDGET (druid_data->format_page_data->format_quotechar));
 }
 
 /**

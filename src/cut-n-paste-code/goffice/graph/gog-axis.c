@@ -1029,16 +1029,19 @@ gog_axis_view_size_request (GogView *v, GogViewRequisition *req)
 static void
 gog_axis_size_allocate (GogView *v, GogViewAllocation const *a)
 {
+#if 1
+	aview_parent_klass->size_allocate (v, a);
+#else
 	GogAxis *axis = GOG_AXIS (v->model);
 	GogViewRequisition tmp;
 	char *label;
 	int i, n, step = 1;
-	double total = 0., max = 0., tick_major = 0., tick_minor = 0., pad = 0.;
-
-	aview_parent_klass->size_allocate (v, a);
+	/* double total = 0., max = 0., tick_major = 0., tick_minor = 0., pad = 0.; */
 
 	if (!axis->major_tick_labeled || axis->type != GOG_AXIS_X)
 		return;
+
+	aview_parent_klass->size_allocate (v, a);
 
 	gog_renderer_push_style (v->renderer, axis->base.style);
 	n = gog_axis_num_markers (axis, NULL, NULL);
@@ -1048,6 +1051,7 @@ gog_axis_size_allocate (GogView *v, GogViewAllocation const *a)
 		g_free (label);
 	}
 	gog_renderer_pop_style (v->renderer);
+#endif
 }
 
 static void
@@ -1087,6 +1091,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	case GOG_AXIS_X:
 		gog_chart_view_get_indents (v->parent, &pre, &post);
 		switch (axis->pos) {
+		default :
 		case GOG_AXIS_AT_LOW:
 			anchor = GTK_ANCHOR_N;
 			dir = 1.;
@@ -1098,7 +1103,6 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			dir = -1.;
 			center = area->y + area->h - line_width;
 			break;
-		default : break;
 		}
 		major_step *= (area->w - pre - post);
 		minor_step *= (area->w - pre - post);
@@ -1175,6 +1179,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 	case GOG_AXIS_Y:
 		switch (axis->pos) {
+		default :
 		case GOG_AXIS_AT_LOW:
 			anchor = GTK_ANCHOR_E;
 			dir = -1.;
@@ -1185,7 +1190,6 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			dir = 1.;
 			center = area->x + line_width;
 			break;
-		default : break;
 		}
 		major_step *= area->h;
 		minor_step *= area->h;

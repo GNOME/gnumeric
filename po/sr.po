@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-21 03:44+0100\n"
+"POT-Creation-Date: 2003-11-26 22:20-0500\n"
 "PO-Revision-Date: 2003-11-21 03:47+0100\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
@@ -708,7 +708,7 @@ msgstr "Финансијски изводи"
 msgid "Functions related to financial derivatives"
 msgstr "Функције у вези са финансијским изводима"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5280
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
 #: plugins/mps/mps.c:549 src/xml-io.c:4004
 msgid "Reading file..."
 msgstr "Учитава датотеку..."
@@ -803,40 +803,40 @@ msgstr "Неочекивани атрибут %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "XML документ није добро оформљен!"
 
-#: plugins/excel/ms-excel-read.c:999 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#НЕПОЗНАТ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
+#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Табела%d"
 
-#: plugins/excel/ms-excel-read.c:1104
+#: plugins/excel/ms-excel-read.c:1108
 #, c-format
 msgid "Macro%d"
 msgstr "Макро%d"
 
-#: plugins/excel/ms-excel-read.c:1107
+#: plugins/excel/ms-excel-read.c:1111
 #, c-format
 msgid "Chart%d"
 msgstr "Графикон%d"
 
-#: plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1114
 #, c-format
 msgid "Module%d"
 msgstr "Модул%d"
 
-#: plugins/excel/ms-excel-read.c:2802
+#: plugins/excel/ms-excel-read.c:2827
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Грешка при обради имена '%s'"
 
-#: plugins/excel/ms-excel-read.c:2858
+#: plugins/excel/ms-excel-read.c:2883
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -845,7 +845,7 @@ msgstr ""
 "DDE везе нису подржане.\n"
 "Име „%s“ ће бити изгубљено.\n"
 
-#: plugins/excel/ms-excel-read.c:2864
+#: plugins/excel/ms-excel-read.c:2889
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -854,28 +854,28 @@ msgstr ""
 "OLE везе нису подржане.\n"
 "Име „%s“ ће бити изгубљено.\n"
 
-#: plugins/excel/ms-excel-read.c:2922
+#: plugins/excel/ms-excel-read.c:2947
 msgid "Failure parsing AutoFilter."
 msgstr "Неуспех приликом обраде Аутоматског филтра."
 
-#: plugins/excel/ms-excel-read.c:4692
+#: plugins/excel/ms-excel-read.c:4731
 msgid "external references"
 msgstr "Спољње упућивање."
 
-#: plugins/excel/ms-excel-read.c:5426
+#: plugins/excel/ms-excel-read.c:5482
 msgid "No password supplied"
 msgstr "Лозинка није унета"
 
-#: plugins/excel/ms-excel-read.c:5430
+#: plugins/excel/ms-excel-read.c:5486
 msgid "Invalid password"
 msgstr "Погрешна лозинка"
 
 # Da nije mozda "imeniku" a ne "direktorijumu"?
-#: plugins/excel/ms-excel-read.c:5531
+#: plugins/excel/ms-excel-read.c:5587
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не може да пронађе исправну MS EXcel радну свеску"
 
-#: plugins/excel/ms-excel-write.c:151
+#: plugins/excel/ms-excel-write.c:152
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -886,7 +886,7 @@ msgstr ""
 "запису."
 
 # bug: plural-forms
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3759
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -896,7 +896,7 @@ msgstr ""
 "само %d врста, а ова радна свеска има %d"
 
 # bug: plural-forms
-#: plugins/excel/ms-excel-write.c:3773
+#: plugins/excel/ms-excel-write.c:3766
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -905,11 +905,11 @@ msgstr ""
 "Неки садржај ће бити изгубљен када га чувате у ексел облику. Он подржава "
 "само %d врста, а ова радна свеска има %d"
 
-#: plugins/excel/ms-excel-write.c:4241
+#: plugins/excel/ms-excel-write.c:4285
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Нисам успео да отворим ток 'Book' за уписивање\n"
 
-#: plugins/excel/ms-excel-write.c:4261
+#: plugins/excel/ms-excel-write.c:4305
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Нисам успео да отворим tok 'Workbook' за уписивање\n"
 
@@ -917,7 +917,7 @@ msgstr "Нисам успео да отворим tok 'Workbook' за уписи
 msgid "Broken function"
 msgstr "Неисправна функција"
 
-#: plugins/excel/ms-formula-write.c:525
+#: plugins/excel/ms-formula-write.c:536
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -5021,7 +5021,7 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-info/functions.c:1506 plugins/fn-info/functions.c:1673
-#: src/func.c:797
+#: src/func.c:789
 msgid "Invalid number of arguments"
 msgstr "Погрешан број аргумената"
 
@@ -5182,7 +5182,7 @@ msgstr ""
 #: plugins/fn-info/functions.c:1854 plugins/fn-info/functions.c:1857
 #: plugins/fn-info/functions.c:1860 plugins/fn-info/functions.c:1863
 #: plugins/fn-info/functions.c:1866 plugins/fn-info/functions.c:1872
-#: plugins/fn-string/functions.c:1166
+#: plugins/fn-string/functions.c:1192
 msgid "value"
 msgstr "вредност"
 
@@ -5195,11 +5195,12 @@ msgstr "инфо_врста"
 msgid "range"
 msgstr "опсег"
 
-#: plugins/fn-info/functions.c:1881 plugins/fn-string/functions.c:1112
-#: plugins/fn-string/functions.c:1115 plugins/fn-string/functions.c:1118
-#: plugins/fn-string/functions.c:1139 plugins/fn-string/functions.c:1142
-#: plugins/fn-string/functions.c:1148 plugins/fn-string/functions.c:1172
-#: plugins/fn-string/functions.c:1175 plugins/fn-string/functions.c:1178
+#: plugins/fn-info/functions.c:1881 plugins/fn-string/functions.c:1135
+#: plugins/fn-string/functions.c:1138 plugins/fn-string/functions.c:1141
+#: plugins/fn-string/functions.c:1162 plugins/fn-string/functions.c:1165
+#: plugins/fn-string/functions.c:1168 plugins/fn-string/functions.c:1174
+#: plugins/fn-string/functions.c:1198 plugins/fn-string/functions.c:1201
+#: plugins/fn-string/functions.c:1204
 msgid "text"
 msgstr "текст"
 
@@ -5371,7 +5372,7 @@ msgstr ""
 #: plugins/fn-stat/functions.c:5850 plugins/fn-stat/functions.c:5879
 #: plugins/fn-stat/functions.c:5882 plugins/fn-stat/functions.c:5885
 #: plugins/fn-stat/functions.c:5888 plugins/fn-stat/functions.c:5904
-#: src/func-builtin.c:134 src/func-builtin.c:140
+#: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "број,број,"
 
@@ -5394,8 +5395,8 @@ msgstr "број,број,"
 #: plugins/fn-math/functions.c:3236 plugins/fn-math/functions.c:3248
 #: plugins/fn-math/functions.c:3251 plugins/fn-stat/functions.c:5696
 #: plugins/fn-stat/functions.c:5699 plugins/fn-stat/functions.c:5717
-#: plugins/fn-stat/functions.c:5795 plugins/fn-string/functions.c:1106
-#: plugins/fn-string/functions.c:1109
+#: plugins/fn-stat/functions.c:5795 plugins/fn-string/functions.c:1129
+#: plugins/fn-string/functions.c:1132
 msgid "number"
 msgstr "број"
 
@@ -6956,8 +6957,7 @@ msgstr "Математичке функције"
 msgid "Mathematical Functions"
 msgstr "Математичке функције"
 
-#. *************************************************************************
-#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
+#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:152
 msgid "Mathematics"
 msgstr "Математика"
 
@@ -9647,7 +9647,7 @@ msgid ""
 "@SEEALSO=CHAR, CODE"
 msgstr ""
 
-#: plugins/fn-string/functions.c:252
+#: plugins/fn-string/functions.c:275
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -9662,7 +9662,7 @@ msgid ""
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: plugins/fn-string/functions.c:288
+#: plugins/fn-string/functions.c:311
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -9676,7 +9676,7 @@ msgid ""
 "@SEEALSO=UPPER"
 msgstr ""
 
-#: plugins/fn-string/functions.c:310
+#: plugins/fn-string/functions.c:333
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -9691,7 +9691,7 @@ msgid ""
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 
-#: plugins/fn-string/functions.c:355
+#: plugins/fn-string/functions.c:378
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -9707,7 +9707,7 @@ msgid ""
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: plugins/fn-string/functions.c:399
+#: plugins/fn-string/functions.c:422
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -9721,7 +9721,7 @@ msgid ""
 "@SEEALSO=LOWER"
 msgstr ""
 
-#: plugins/fn-string/functions.c:421
+#: plugins/fn-string/functions.c:444
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -9736,7 +9736,7 @@ msgid ""
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
 
-#: plugins/fn-string/functions.c:446
+#: plugins/fn-string/functions.c:469
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -9750,7 +9750,7 @@ msgid ""
 "@SEEALSO=CONCATENATE"
 msgstr ""
 
-#: plugins/fn-string/functions.c:492
+#: plugins/fn-string/functions.c:515
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -9764,7 +9764,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-string/functions.c:525
+#: plugins/fn-string/functions.c:548
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -9779,7 +9779,7 @@ msgid ""
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
 
-#: plugins/fn-string/functions.c:583
+#: plugins/fn-string/functions.c:606
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -9794,7 +9794,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-string/functions.c:648
+#: plugins/fn-string/functions.c:671
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -9808,7 +9808,7 @@ msgid ""
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
 
-#: plugins/fn-string/functions.c:700
+#: plugins/fn-string/functions.c:723
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -9823,11 +9823,11 @@ msgid ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
 
-#: plugins/fn-string/functions.c:729
+#: plugins/fn-string/functions.c:752
 msgid "Arguments out of range"
 msgstr "Аргументи ван опсега"
 
-#: plugins/fn-string/functions.c:749
+#: plugins/fn-string/functions.c:772
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -9843,7 +9843,7 @@ msgid ""
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
 
-#: plugins/fn-string/functions.c:777
+#: plugins/fn-string/functions.c:800
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -9858,11 +9858,11 @@ msgid ""
 "@SEEALSO=DOLLAR"
 msgstr ""
 
-#: plugins/fn-string/functions.c:815
+#: plugins/fn-string/functions.c:838
 msgid "Type mismatch"
 msgstr "Неслагање типова"
 
-#: plugins/fn-string/functions.c:827
+#: plugins/fn-string/functions.c:850
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -9876,7 +9876,7 @@ msgid ""
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
 
-#: plugins/fn-string/functions.c:879
+#: plugins/fn-string/functions.c:902
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -9890,7 +9890,7 @@ msgid ""
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
 
-#: plugins/fn-string/functions.c:922
+#: plugins/fn-string/functions.c:945
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -9906,7 +9906,7 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: plugins/fn-string/functions.c:979
+#: plugins/fn-string/functions.c:1002
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -9920,7 +9920,7 @@ msgid ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1035
+#: plugins/fn-string/functions.c:1058
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -9946,51 +9946,51 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1121
+#: plugins/fn-string/functions.c:1144
 msgid "text,text,"
 msgstr "текст,текст,"
 
-#: plugins/fn-string/functions.c:1124
+#: plugins/fn-string/functions.c:1147
 msgid "num,decimals"
 msgstr "број,децимале"
 
-#: plugins/fn-string/functions.c:1127
+#: plugins/fn-string/functions.c:1150
 msgid "text1,text2"
 msgstr "текст1,текст2"
 
-#: plugins/fn-string/functions.c:1130
+#: plugins/fn-string/functions.c:1153
 msgid "text1,text2,num"
 msgstr "текст1,текст2,број"
 
-#: plugins/fn-string/functions.c:1133
+#: plugins/fn-string/functions.c:1156
 msgid "num,decs,no_commas"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1136 plugins/fn-string/functions.c:1157
+#: plugins/fn-string/functions.c:1159 plugins/fn-string/functions.c:1183
 msgid "text,num_chars"
 msgstr "текст,број_знакова"
 
-#: plugins/fn-string/functions.c:1145
+#: plugins/fn-string/functions.c:1171
 msgid "text,pos,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1151
+#: plugins/fn-string/functions.c:1177
 msgid "old,start,num,new"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1154
+#: plugins/fn-string/functions.c:1180
 msgid "text,num"
 msgstr "текст,број"
 
-#: plugins/fn-string/functions.c:1160
+#: plugins/fn-string/functions.c:1186
 msgid "search_string,text,start_num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1163
+#: plugins/fn-string/functions.c:1189
 msgid "text,old,new,num"
 msgstr "текст,стари,нови,број"
 
-#: plugins/fn-string/functions.c:1169
+#: plugins/fn-string/functions.c:1195
 msgid "value,format_text"
 msgstr ""
 
@@ -9999,7 +9999,7 @@ msgid "Functions for manipulating strings"
 msgstr "Функције за рад са низовима знакова"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:143
-#: src/func.c:681
+#: src/func.c:673
 msgid "String"
 msgstr "Низ знакова"
 
@@ -10232,12 +10232,12 @@ msgstr "Функција чије параметре оптимизујемо:"
 msgid "Constraints:"
 msgstr "Ограничења:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5737
+#: plugins/mps/mps.c:247 src/commands.c:5736
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
-#: src/dialogs/dialog-function-select.c:449
-#: src/dialogs/dialog-function-select.c:471 src/dialogs/dialog-scenarios.c:362
+#: src/dialogs/dialog-function-select.c:445
+#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
@@ -10862,9 +10862,9 @@ msgstr "Ово је порука из „%s“ додатка."
 msgid "Error while opening xbase file."
 msgstr "Грешка приликом отварања xbase датотеке."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4562
+#: plugins/xbase/boot.c:175 src/commands.c:4561
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
-#: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1041
+#: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
 #: src/xml-io.c:3594
 msgid "Sheet"
 msgstr "Табела"
@@ -12234,7 +12234,7 @@ msgid "Print Preview"
 msgstr "Штампај приказ"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1320 src/workbook-control-gui.c:3342
+#: src/print.c:1322 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Приказ пред штампу"
@@ -13112,11 +13112,11 @@ msgstr "Куцали сте „%s%s“ у пољу %s"
 msgid "Typing \"%s%s\""
 msgstr "Куцали сте „%s%s“"
 
-#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3179
+#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3180
 msgid "Delete Columns"
 msgstr "Уклони колоне"
 
-#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3297
+#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3298
 msgid "Delete Rows"
 msgstr "Уклони врсте"
 
@@ -13161,7 +13161,7 @@ msgid "Deleting row %s"
 msgstr "Брисање врсте %s"
 
 #. Check for locked cells
-#: src/commands.c:1508 src/commands.c:1512 src/sheet.c:2793
+#: src/commands.c:1508 src/commands.c:1512 src/sheet.c:2794
 msgid "Clear"
 msgstr "Очисти"
 
@@ -13301,252 +13301,252 @@ msgstr ""
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2348
+#: src/commands.c:2347
 msgid "Those columns are already grouped"
 msgstr "Те колоне су већ груписане"
 
-#: src/commands.c:2349
+#: src/commands.c:2348
 msgid "Those rows are already grouped"
 msgstr "Те врсте су већ груписане"
 
-#: src/commands.c:2372
+#: src/commands.c:2371
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Те колоне нису груписане, тако да их не можете распустити"
 
-#: src/commands.c:2373
+#: src/commands.c:2372
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Те врсте нису груписане тако да их не можете распустити"
 
-#: src/commands.c:2387
+#: src/commands.c:2386
 #, c-format
 msgid "Group columns %s"
 msgstr "Групиши колоне %s"
 
-#: src/commands.c:2387
+#: src/commands.c:2386
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Распусти колоне %s"
 
-#: src/commands.c:2389
+#: src/commands.c:2388
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Групиши врсте %d:%d"
 
-#: src/commands.c:2389
+#: src/commands.c:2388
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Распусти врсте %d:%d"
 
-#: src/commands.c:2623
+#: src/commands.c:2622
 #, c-format
 msgid "Moving %s"
 msgstr "Премештање %s"
 
-#: src/commands.c:2632 src/commands.c:2843
+#: src/commands.c:2631 src/commands.c:2842
 msgid "is beyond sheet boundaries"
 msgstr "је иза оквира табеле"
 
 #. FIXME?
-#: src/commands.c:2787
+#: src/commands.c:2786
 #, c-format
 msgid "Pasting into %s"
 msgstr "Убацујем у %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3020 src/commands.c:3021 src/workbook-control-gui.c:2339
+#: src/commands.c:3019 src/commands.c:3020 src/workbook-control-gui.c:2339
 msgid "Autofill"
 msgstr "самодопуњавање, самопуњење"
 
 #. Changed in initial redo.
-#: src/commands.c:3044
+#: src/commands.c:3043
 #, c-format
 msgid "Autofilling %s"
 msgstr "Аутоматска допуна за %s"
 
-#: src/commands.c:3194
+#: src/commands.c:3193
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Аутоматско форматирање за %s"
 
-#: src/commands.c:3304
+#: src/commands.c:3303
 #, c-format
 msgid "Unmerging %s"
 msgstr "Раздвајам %s"
 
-#: src/commands.c:3442
+#: src/commands.c:3441
 #, c-format
 msgid "Merging %s"
 msgstr "Стапање %s"
 
 #. Corrected below.
-#: src/commands.c:3824 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3823 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Тражи и Замени"
 
-#: src/commands.c:3921
+#: src/commands.c:3920
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Постави подразумевану ширину колона на %.2fpts"
 
-#: src/commands.c:3922
+#: src/commands.c:3921
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Постави подразумевану висину врста на %.2fpts"
 
-#: src/commands.c:4039
+#: src/commands.c:4038
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Увећање %s на %.0f%%"
 
-#: src/commands.c:4109
+#: src/commands.c:4108
 msgid "Insert object"
 msgstr "Убаци објекат"
 
-#: src/commands.c:4168
+#: src/commands.c:4167
 msgid "Delete object"
 msgstr "Уклони објекат"
 
-#: src/commands.c:4249
+#: src/commands.c:4248
 msgid "Resize object"
 msgstr "Промени величину објекта"
 
-#: src/commands.c:4249
+#: src/commands.c:4248
 msgid "Move object"
 msgstr "Премести објекат"
 
-#: src/commands.c:4806
+#: src/commands.c:4805
 msgid "Reordering Sheets"
 msgstr "Преслагање табела"
 
-#: src/commands.c:4809
+#: src/commands.c:4808
 msgid "Renaming Sheets"
 msgstr "Преименује табеле"
 
 # bug: plural-forms
-#: src/commands.c:4812
+#: src/commands.c:4811
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Допуњава са %i табела"
 
-#: src/commands.c:4816
+#: src/commands.c:4815
 msgid "Changing Tab Colors"
 msgstr "Мењање боје језичка"
 
-#: src/commands.c:4819
+#: src/commands.c:4818
 msgid "Changing Sheet Protection"
 msgstr "Промена заштите табеле"
 
-#: src/commands.c:4822
+#: src/commands.c:4821
 msgid "Delete sheets"
 msgstr "Уклони табеле"
 
-#: src/commands.c:4825
+#: src/commands.c:4824
 msgid "Delete a sheet"
 msgstr "Уклони табелу"
 
-#: src/commands.c:4828
+#: src/commands.c:4827
 msgid "Reorganizing Sheets"
 msgstr "Преуреди табеле"
 
-#: src/commands.c:4978
+#: src/commands.c:4977
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Уклањање напомене за %s"
 
-#: src/commands.c:4979
+#: src/commands.c:4978
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Постављање напомене за %s"
 
-#: src/commands.c:5359
+#: src/commands.c:5358
 #, c-format
 msgid "Merging data into %s"
 msgstr "Стапам податке у %s"
 
-#: src/commands.c:5461
+#: src/commands.c:5460
 msgid "Changing summary info"
 msgstr "Мењам укупни извештај"
 
-#: src/commands.c:5552
+#: src/commands.c:5551
 msgid "Raise object"
 msgstr "Подигни објекат"
 
-#: src/commands.c:5555
+#: src/commands.c:5554
 msgid "Lower object"
 msgstr "Спусти објекат"
 
-#: src/commands.c:5558
+#: src/commands.c:5557
 msgid "Raise object to top"
 msgstr "Подигни објекат на врх"
 
-#: src/commands.c:5561
+#: src/commands.c:5560
 msgid "Lower object to bottom"
 msgstr "Спусти објекат на дно"
 
-#: src/commands.c:5676
+#: src/commands.c:5675
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Подешавање стране за %s"
 
-#: src/commands.c:5678
+#: src/commands.c:5677
 msgid "Page Setup For All Sheets"
 msgstr "Подешавање стране за све табеле"
 
-#: src/commands.c:5794
+#: src/commands.c:5793
 msgid "has a circular reference"
 msgstr "има кружно упућивање"
 
-#: src/commands.c:5817
+#: src/commands.c:5816
 #, c-format
 msgid "Define Name %s"
 msgstr "Дефиниши назив %s"
 
-#: src/commands.c:5820
+#: src/commands.c:5819
 #, c-format
 msgid "Update Name %s"
 msgstr "Освежи назив %s"
 
-#: src/commands.c:5884
+#: src/commands.c:5883
 msgid "Add scenario"
 msgstr "Додај сценарио"
 
-#: src/commands.c:5959
+#: src/commands.c:5958
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6023
+#: src/commands.c:6022
 msgid "Shuffle Data"
 msgstr "Измешај податке"
 
 #. FIXME?
-#: src/commands.c:6134
+#: src/commands.c:6133
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Текст (%s) у колоне (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6281 src/dialogs/solver.glade.h:24
+#: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Систем за решавање"
 
-#: src/commands.c:6368
+#: src/commands.c:6367
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Тражење вредности (%s)"
 
-#: src/commands.c:6510
+#: src/commands.c:6509
 #, c-format
 msgid "Duplicating %s"
 msgstr "Удвостручава %s"
 
-#: src/commands.c:6590
+#: src/commands.c:6589
 msgid "Tabulating Dependencies"
 msgstr "Табеларне зависности"
 
-#: src/commands.c:6666
+#: src/commands.c:6665
 msgid "Reconfigure Graph"
 msgstr "Преподеси график"
 
@@ -14065,7 +14065,7 @@ msgstr ""
 "Суседне усправне колоне груписане према главним и споредним категоријама."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:687
+#: src/func.c:679
 msgid "Area"
 msgstr "Област"
 
@@ -15911,7 +15911,7 @@ msgstr "Vladimir Vuksan, финансијске функције."
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Гнумерик хакер."
 
-#: src/dialogs/dialog-about.c:113 src/func-builtin.c:127
+#: src/dialogs/dialog-about.c:113 src/func-builtin.c:156
 msgid "Gnumeric"
 msgstr "Гнумерик"
 
@@ -16250,7 +16250,7 @@ msgid "Double"
 msgstr "Двоструко"
 
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:679 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Број"
 
@@ -16287,29 +16287,29 @@ msgstr "Мерило исправности је неупотребљиво. И�
 msgid "Clear Background"
 msgstr "Очисти слику у позадини"
 
-#: src/dialogs/dialog-cell-sort.c:118 src/dialogs/dialog-cell-sort.c:123
+#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
 #, c-format
 msgid "Column %s"
 msgstr "Колона %s"
 
-#: src/dialogs/dialog-cell-sort.c:120 src/dialogs/dialog-cell-sort.c:125
+#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
 #, c-format
 msgid "Row %s"
 msgstr "Ред %s"
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:718
 msgid "Row/Column"
 msgstr "Ред/колона"
 
-#: src/dialogs/dialog-cell-sort.c:729
+#: src/dialogs/dialog-cell-sort.c:738
 msgid "Case Sensitive"
 msgstr "Разликује мала и велика слова"
 
-#: src/dialogs/dialog-cell-sort.c:742
+#: src/dialogs/dialog-cell-sort.c:751
 msgid "By Value"
 msgstr "По вредности"
 
-#: src/dialogs/dialog-cell-sort.c:866
+#: src/dialogs/dialog-cell-sort.c:883
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Не могу да образујем прозорче за алатку „Поредак“."
 
@@ -17266,7 +17266,7 @@ msgstr "Не могу да направим прозорче за алатку �
 msgid "You need to select at least one sheet to export"
 msgstr "Морате да одаберете барем једну табелу за извоз."
 
-#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:180
+#: src/dialogs/dialog-stf-export.c:51 src/dialogs/dialog-stf.c:180
 msgid "Are you sure you want to cancel?"
 msgstr "Да ли желите да поништите?"
 
@@ -20432,44 +20432,44 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/func.c:108
+#: src/func.c:100
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Не могу направити датотеку %s\n"
 
-#: src/func.c:299
+#: src/func.c:277
 msgid "Function implementation not available."
 msgstr "Функција није подржана."
 
-#: src/func.c:509
+#: src/func.c:490
 msgid "Unknown Function"
 msgstr "Непозната функција"
 
-#: src/func.c:683
+#: src/func.c:675
 msgid "Boolean"
 msgstr "Истинитосна променљива"
 
-#: src/func.c:685
+#: src/func.c:677
 msgid "Cell Range"
 msgstr "Домет поља"
 
-#: src/func.c:689
+#: src/func.c:681
 msgid "Scalar or Blank"
 msgstr "Скалар или празно"
 
-#: src/func.c:691
+#: src/func.c:683
 msgid "Scalar or Error"
 msgstr "Скалар или грешка"
 
-#: src/func.c:693
+#: src/func.c:685
 msgid "Scalar"
 msgstr "скаларна вредност, скалар, обична вредност"
 
-#: src/func.c:695
+#: src/func.c:687
 msgid "Any"
 msgstr "Било који"
 
-#: src/func.c:1007
+#: src/func.c:999
 msgid "Function does not exist"
 msgstr "Функција не постоји"
 
@@ -20681,64 +20681,64 @@ msgstr "Помери десно и _премести"
 msgid "C_ancel"
 msgstr "Пон_ишти"
 
-#: src/main-application.c:54
+#: src/main-application.c:55
 msgid "Display Gnumeric's version"
 msgstr "Прикажи Гнумерик верзију"
 
-#: src/main-application.c:56
+#: src/main-application.c:57
 msgid "Set the root library directory"
 msgstr "Постави корени директоријум библиотека"
 
-#: src/main-application.c:58
+#: src/main-application.c:59
 msgid "Adjust the root data directory"
 msgstr "Прилагоди корени директоријум података"
 
-#: src/main-application.c:61 src/main-application.c:63
+#: src/main-application.c:62 src/main-application.c:64
 msgid "Dumps the function definitions"
 msgstr "Избаци дефиниције функција"
 
-#: src/main-application.c:61 src/main-application.c:63
+#: src/main-application.c:62 src/main-application.c:64
 msgid "FILE"
 msgstr "ДАТОТЕКА"
 
-#: src/main-application.c:66
+#: src/main-application.c:67
 msgid "Enables some debugging functions"
 msgstr "Омогући неке од функција за отклањање грешки"
 
-#: src/main-application.c:66 src/main-application.c:69
-#: src/main-application.c:71 src/main-application.c:73
+#: src/main-application.c:67 src/main-application.c:70
+#: src/main-application.c:72 src/main-application.c:74
 msgid "LEVEL"
 msgstr "НИВО"
 
-#: src/main-application.c:69
+#: src/main-application.c:70
 msgid "Enables some dependency related debugging functions"
 msgstr "Омогући неке од функција у вези са зависностима"
 
-#: src/main-application.c:71
+#: src/main-application.c:72
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Омогући неке од функција за отклањање грешки при дељењу израза"
 
-#: src/main-application.c:73
+#: src/main-application.c:74
 msgid "Enables some print debugging behavior"
 msgstr "Омогући неке од функција за испис понашања за отклањање грешки"
 
-#: src/main-application.c:76
+#: src/main-application.c:77
 msgid "Specify the size and location of the initial window"
 msgstr "Задајте величину и место почетног прозора"
 
-#: src/main-application.c:76
+#: src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ШИРИНАxВИСИНА+ВОДПОЗ+УСППОЗ"
 
-#: src/main-application.c:80
+#: src/main-application.c:81
 msgid "Don't show splash screen"
 msgstr "Не приказуј уводни екран"
 
-#: src/main-application.c:83
+#: src/main-application.c:84
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Изађи одмах након учитавања изабраних табела (корисно за испробавање)."
 
-#: src/main-application.c:113
+#: src/main-application.c:114
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -20762,7 +20762,7 @@ msgstr ""
 "\n"
 "— Гнумерик тим."
 
-#: src/main-application.c:144
+#: src/main-application.c:145
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -21255,19 +21255,19 @@ msgstr "&[СТРАНА]"
 msgid "Print Region"
 msgstr "Штампај област"
 
-#: src/print.c:1238
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "Штампај табеле"
 
-#: src/print.c:1246
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "Активна _табела"
 
-#: src/print.c:1246
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "_Табеле"
 
-#: src/print.c:1332
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Неуспело штампање"
 
@@ -21479,23 +21479,23 @@ msgstr ""
 "са именом „ТАЧНО“ може довести до сукоба са константом истог\n"
 "имена. Очекујте чудне ствари."
 
-#: src/sheet.c:1956
+#: src/sheet.c:1957
 msgid "Target region contains merged cells"
 msgstr "Област за резултат садржи спојена поља"
 
-#: src/sheet.c:2018
+#: src/sheet.c:2019
 msgid "cannot operate on merged cells"
 msgstr "Не могу радити на припојеним пољима"
 
-#: src/sheet.c:2028
+#: src/sheet.c:2029
 msgid "cannot operate on array formulae"
 msgstr "Не могу да радим са низовним формулама"
 
-#: src/sheet.c:3120
+#: src/sheet.c:3121
 msgid "Insert Columns"
 msgstr "Уметни колоне"
 
-#: src/sheet.c:3238
+#: src/sheet.c:3239
 msgid "Insert Rows"
 msgstr "Уметни врсте"
 
@@ -22762,7 +22762,7 @@ msgstr "тамнољубичаста"
 msgid "sky blue"
 msgstr "небоплава"
 
-#: src/widgets/gnumeric-expr-entry.c:1255
+#: src/widgets/gnumeric-expr-entry.c:1256
 msgid "Expecting a single range"
 msgstr "Очекујем један опсег"
 
@@ -24302,28 +24302,28 @@ msgstr "Неподржани облик датотеке."
 msgid "An unexplained error happened while opening %s"
 msgstr "Дошло је до необјашњиве грешке при  отварању %s"
 
-#: src/workbook.c:401
+#: src/workbook.c:407
 #, c-format
 msgid "Book%d.%s"
 msgstr "Свеска%d.%s"
 
-#: src/workbook.c:1248
+#: src/workbook.c:1260
 msgid "Sheet name is NULL"
 msgstr "Име табеле је NULL"
 
-#: src/workbook.c:1259
+#: src/workbook.c:1271
 msgid "Sheet name is not valid utf-8"
 msgstr "Име табеле не представља исправан УТФ-8"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1280
 msgid "Sheet name must have at least 1 letter"
 msgstr "Име табеле мора имати барем једно слово"
 
-#: src/workbook.c:1292
+#: src/workbook.c:1304
 msgid "There is already a sheet named"
 msgstr "Већ постоји табела под називом"
 
-#: src/workbook.c:1306
+#: src/workbook.c:1318
 msgid "You may not use this name twice"
 msgstr "Не можете користити ово име два пута"
 

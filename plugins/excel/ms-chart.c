@@ -893,12 +893,12 @@ BC_R(legend)(XLChartHandler const *handle,
 	case 0: pos = GOG_POSITION_S | GOG_POSITION_ALIGN_CENTER; break;
 	case 1: pos = GOG_POSITION_N | GOG_POSITION_E; break;
 	case 2: pos = GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER; break;
-	case 3: pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
-	case 4: pos = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER; break;
-	case 7: break; /* treat floating legends as being on east */
 	default :
 		g_warning ("Unknown legend position (%d), assuming east.",
 			   XL_pos);
+	case 3: pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
+	case 4: pos = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER; break;
+	case 7: break; /* treat floating legends as being on east */
 	};
 
 	legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
@@ -1062,7 +1062,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const purpose = GSF_LE_GET_GUINT16 (q->data);
-	GogObject *label;
+	GogObject *label = NULL;
 	
 	if (s->text == NULL)
 		return FALSE;
@@ -1080,6 +1080,9 @@ BC_R(objectlink)(XLChartHandler const *handle,
 		case 2: t = GOG_AXIS_Y; break;
 		case 3: t = GOG_AXIS_X; break;
 		case 7: t = GOG_AXIS_Z; break;
+		default :
+			g_warning ("Unknown axis type %d", purpose);
+			return FALSE;
 		}
 		axes = gog_chart_get_axis (s->chart, t);
 

@@ -65,7 +65,6 @@ EXTRA_DIST = \
      analysistools-ztest-ex1.png \
      analysistools-ztest-ex2.png \
      analysistools-ztest.png \
-     auto-save.png \
      autofill-1.png \
      autofill-10.png \
      autofill-2.png \
@@ -238,7 +237,6 @@ EXTRA_DIST = \
      print-preview-zoomin.png \
      print-preview-zoomout.png \
      print-preview.png \
-     print-worksheet.png \
      print.png \
      printing-preview.png \
      printing-setup-header-config.png \

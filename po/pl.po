@@ -9,14 +9,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-11-15 13:15+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-26 22:20-0500\n"
 "PO-Revision-Date: 2003-09-05 11:50+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -709,8 +709,8 @@ msgstr "Pochodne finansowe"
 msgid "Functions related to financial derivatives"
 msgstr "Funkcje związane z pochodnymi finansowymi"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5276
-#: plugins/mps/mps.c:549 src/xml-io.c:3979
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
+#: plugins/mps/mps.c:549 src/xml-io.c:4004
 msgid "Reading file..."
 msgstr "Wczytywanie pliku..."
 
@@ -796,50 +796,50 @@ msgstr "Przygotowywanie do zapisu..."
 msgid "Saving file..."
 msgstr "Zapisywanie pliku..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:269
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Niespodziewany atrybut %s::%s == \"%s\"."
 
-#: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:994
-#: plugins/xml_sax/xml-sax-read.c:1592
+#: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:995
+#: plugins/xml_sax/xml-sax-read.c:1621
 msgid "XML document not well formed!"
 msgstr "Niepoprawna składnia dokumentu XML!"
 
-#: plugins/excel/ms-excel-read.c:999 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#NIEZNANY!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
+#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Arkusz%d"
 
-#: plugins/excel/ms-excel-read.c:1104
+#: plugins/excel/ms-excel-read.c:1108
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1107
+#: plugins/excel/ms-excel-read.c:1111
 #, c-format
 msgid "Chart%d"
 msgstr "Wykres%d"
 
-#: plugins/excel/ms-excel-read.c:1110
+#: plugins/excel/ms-excel-read.c:1114
 #, c-format
 msgid "Module%d"
 msgstr "Moduł%d"
 
-#: plugins/excel/ms-excel-read.c:2802
+#: plugins/excel/ms-excel-read.c:2827
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Niepowodzenie podczas analizowania nazwy \"%s\""
 
-#: plugins/excel/ms-excel-read.c:2858
+#: plugins/excel/ms-excel-read.c:2883
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -848,7 +848,7 @@ msgstr ""
 "Dowiązania DDE nie są obsługiwane.\n"
 "Nazwa \"%s\" zostanie utracona.\n"
 
-#: plugins/excel/ms-excel-read.c:2864
+#: plugins/excel/ms-excel-read.c:2889
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -857,27 +857,27 @@ msgstr ""
 "Dowiązania OLE nie są obsługiwane.\n"
 "Nazwa \"%s\" zostanie utracona.\n"
 
-#: plugins/excel/ms-excel-read.c:2922
+#: plugins/excel/ms-excel-read.c:2947
 msgid "Failure parsing AutoFilter."
 msgstr "Niepowodzenie podczas analizowania automatycznego filtru."
 
-#: plugins/excel/ms-excel-read.c:4688
+#: plugins/excel/ms-excel-read.c:4731
 msgid "external references"
 msgstr "zewnętrzne odwołania"
 
-#: plugins/excel/ms-excel-read.c:5422
+#: plugins/excel/ms-excel-read.c:5482
 msgid "No password supplied"
 msgstr "Nie podano hasła"
 
-#: plugins/excel/ms-excel-read.c:5426
+#: plugins/excel/ms-excel-read.c:5486
 msgid "Invalid password"
 msgstr "Niepoprawne hasło"
 
-#: plugins/excel/ms-excel-read.c:5527
+#: plugins/excel/ms-excel-read.c:5587
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nie można odnaleźć poprawnego zeszytu MS Excela"
 
-#: plugins/excel/ms-excel-write.c:151
+#: plugins/excel/ms-excel-write.c:152
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -887,7 +887,7 @@ msgstr ""
 "Już zapisano długość napisu, który został ucięty na skutek problemów z "
 "kodowaniem."
 
-#: plugins/excel/ms-excel-write.c:3761
+#: plugins/excel/ms-excel-write.c:3759
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -896,7 +896,7 @@ msgstr ""
 "Pewna zawartość zostanie utracona podczas zapisu do formatu MS Excel (tm) "
 "95. Obsługuje on jedynie %d wierszy, zaś ten zeszyt zawiera %d"
 
-#: plugins/excel/ms-excel-write.c:3768
+#: plugins/excel/ms-excel-write.c:3766
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -905,11 +905,11 @@ msgstr ""
 "Pewna zawartość zostanie utracona podczas zapisu do formatu MS Excel (tm). "
 "Obsługuje on jedynie %d wierszy, zaś ten zeszyt zawiera %d"
 
-#: plugins/excel/ms-excel-write.c:4223
+#: plugins/excel/ms-excel-write.c:4285
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nie można otworzyć strumienia \"Książka\" do zapisu\n"
 
-#: plugins/excel/ms-excel-write.c:4243
+#: plugins/excel/ms-excel-write.c:4305
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nie można otworzyć strumienia \"Zeszyt\" do zapisu\n"
 
@@ -917,7 +917,7 @@ msgstr "Nie można otworzyć strumienia \"Zeszyt\" do zapisu\n"
 msgid "Broken function"
 msgstr "Uszkodzona funkcja"
 
-#: plugins/excel/ms-formula-write.c:525
+#: plugins/excel/ms-formula-write.c:536
 #, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
@@ -3534,7 +3534,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:578
+#: src/print-info.c:575
 msgid "date"
 msgstr "data"
 
@@ -3551,7 +3551,7 @@ msgid "start_date,months"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:579
+#: plugins/fn-date/functions.c:1265 src/print-info.c:576
 msgid "time"
 msgstr "czas"
 
@@ -6254,7 +6254,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1506 plugins/fn-info/functions.c:1673
-#: src/func.c:797
+#: src/func.c:789
 msgid "Invalid number of arguments"
 msgstr "Niewłaściwa liczba argumentów"
 
@@ -6500,7 +6500,7 @@ msgstr ""
 #: plugins/fn-info/functions.c:1854 plugins/fn-info/functions.c:1857
 #: plugins/fn-info/functions.c:1860 plugins/fn-info/functions.c:1863
 #: plugins/fn-info/functions.c:1866 plugins/fn-info/functions.c:1872
-#: plugins/fn-string/functions.c:1166
+#: plugins/fn-string/functions.c:1192
 msgid "value"
 msgstr "wartość"
 
@@ -6514,11 +6514,12 @@ msgstr "Nieznany info_type"
 msgid "range"
 msgstr "zakres"
 
-#: plugins/fn-info/functions.c:1881 plugins/fn-string/functions.c:1112
-#: plugins/fn-string/functions.c:1115 plugins/fn-string/functions.c:1118
-#: plugins/fn-string/functions.c:1139 plugins/fn-string/functions.c:1142
-#: plugins/fn-string/functions.c:1148 plugins/fn-string/functions.c:1172
-#: plugins/fn-string/functions.c:1175 plugins/fn-string/functions.c:1178
+#: plugins/fn-info/functions.c:1881 plugins/fn-string/functions.c:1135
+#: plugins/fn-string/functions.c:1138 plugins/fn-string/functions.c:1141
+#: plugins/fn-string/functions.c:1162 plugins/fn-string/functions.c:1165
+#: plugins/fn-string/functions.c:1168 plugins/fn-string/functions.c:1174
+#: plugins/fn-string/functions.c:1198 plugins/fn-string/functions.c:1201
+#: plugins/fn-string/functions.c:1204
 msgid "text"
 msgstr "tekst"
 
@@ -6797,7 +6798,7 @@ msgstr ""
 #: plugins/fn-stat/functions.c:5850 plugins/fn-stat/functions.c:5879
 #: plugins/fn-stat/functions.c:5882 plugins/fn-stat/functions.c:5885
 #: plugins/fn-stat/functions.c:5888 plugins/fn-stat/functions.c:5904
-#: src/func-builtin.c:134 src/func-builtin.c:140
+#: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr ""
 
@@ -6820,8 +6821,8 @@ msgstr ""
 #: plugins/fn-math/functions.c:3236 plugins/fn-math/functions.c:3248
 #: plugins/fn-math/functions.c:3251 plugins/fn-stat/functions.c:5696
 #: plugins/fn-stat/functions.c:5699 plugins/fn-stat/functions.c:5717
-#: plugins/fn-stat/functions.c:5795 plugins/fn-string/functions.c:1106
-#: plugins/fn-string/functions.c:1109
+#: plugins/fn-stat/functions.c:5795 plugins/fn-string/functions.c:1129
+#: plugins/fn-string/functions.c:1132
 msgid "number"
 msgstr "liczba"
 
@@ -9375,8 +9376,7 @@ msgstr "Funkcje matematyczne"
 msgid "Mathematical Functions"
 msgstr "Funkcje matematyczne"
 
-#. *************************************************************************
-#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
+#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:152
 msgid "Mathematics"
 msgstr "Matematyczne"
 
@@ -13709,7 +13709,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR, CODE"
 
-#: plugins/fn-string/functions.c:252
+#: plugins/fn-string/functions.c:275
 #, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
@@ -13734,7 +13734,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: plugins/fn-string/functions.c:288
+#: plugins/fn-string/functions.c:311
 #, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
@@ -13758,7 +13758,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: plugins/fn-string/functions.c:310
+#: plugins/fn-string/functions.c:333
 #, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
@@ -13783,7 +13783,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: plugins/fn-string/functions.c:355
+#: plugins/fn-string/functions.c:378
 #, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
@@ -13811,7 +13811,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: plugins/fn-string/functions.c:399
+#: plugins/fn-string/functions.c:422
 #, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
@@ -13835,7 +13835,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: plugins/fn-string/functions.c:421
+#: plugins/fn-string/functions.c:444
 #, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
@@ -13859,7 +13859,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: plugins/fn-string/functions.c:446
+#: plugins/fn-string/functions.c:469
 #, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
@@ -13882,7 +13882,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONCATENATE"
 
-#: plugins/fn-string/functions.c:492
+#: plugins/fn-string/functions.c:515
 #, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
@@ -13906,7 +13906,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-string/functions.c:525
+#: plugins/fn-string/functions.c:548
 #, fuzzy
 msgid ""
 "@FUNCTION=FIND\n"
@@ -13932,7 +13932,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: plugins/fn-string/functions.c:583
+#: plugins/fn-string/functions.c:606
 #, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
@@ -13958,7 +13958,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-string/functions.c:648
+#: plugins/fn-string/functions.c:671
 #, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
@@ -13982,7 +13982,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: plugins/fn-string/functions.c:700
+#: plugins/fn-string/functions.c:723
 #, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
@@ -14007,12 +14007,12 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: plugins/fn-string/functions.c:729
+#: plugins/fn-string/functions.c:752
 #, fuzzy
 msgid "Arguments out of range"
 msgstr "Liczba jest poza zakresem"
 
-#: plugins/fn-string/functions.c:749
+#: plugins/fn-string/functions.c:772
 #, fuzzy
 msgid ""
 "@FUNCTION=T\n"
@@ -14039,7 +14039,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: plugins/fn-string/functions.c:777
+#: plugins/fn-string/functions.c:800
 #, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
@@ -14065,11 +14065,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: plugins/fn-string/functions.c:815
+#: plugins/fn-string/functions.c:838
 msgid "Type mismatch"
 msgstr "Niezgodność typów"
 
-#: plugins/fn-string/functions.c:827
+#: plugins/fn-string/functions.c:850
 #, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
@@ -14093,7 +14093,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: plugins/fn-string/functions.c:879
+#: plugins/fn-string/functions.c:902
 #, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
@@ -14116,7 +14116,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: plugins/fn-string/functions.c:922
+#: plugins/fn-string/functions.c:945
 #, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
@@ -14144,7 +14144,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: plugins/fn-string/functions.c:979
+#: plugins/fn-string/functions.c:1002
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
@@ -14167,7 +14167,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: plugins/fn-string/functions.c:1035
+#: plugins/fn-string/functions.c:1058
 #, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
@@ -14216,52 +14216,52 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: plugins/fn-string/functions.c:1121
+#: plugins/fn-string/functions.c:1144
 msgid "text,text,"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1124
+#: plugins/fn-string/functions.c:1147
 #, fuzzy
 msgid "num,decimals"
 msgstr "Usuń dziesiętne"
 
-#: plugins/fn-string/functions.c:1127
+#: plugins/fn-string/functions.c:1150
 msgid "text1,text2"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1130
+#: plugins/fn-string/functions.c:1153
 msgid "text1,text2,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1133
+#: plugins/fn-string/functions.c:1156
 msgid "num,decs,no_commas"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1136 plugins/fn-string/functions.c:1157
+#: plugins/fn-string/functions.c:1159 plugins/fn-string/functions.c:1183
 msgid "text,num_chars"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1145
+#: plugins/fn-string/functions.c:1171
 msgid "text,pos,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1151
+#: plugins/fn-string/functions.c:1177
 msgid "old,start,num,new"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1154
+#: plugins/fn-string/functions.c:1180
 msgid "text,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1160
+#: plugins/fn-string/functions.c:1186
 msgid "search_string,text,start_num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1163
+#: plugins/fn-string/functions.c:1189
 msgid "text,old,new,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1169
+#: plugins/fn-string/functions.c:1195
 msgid "value,format_text"
 msgstr ""
 
@@ -14270,7 +14270,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funkcje do wykonywania operacji na napisach"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:143
-#: src/func.c:681
+#: src/func.c:673
 msgid "String"
 msgstr "Łańcuch znakowy"
 
@@ -14513,12 +14513,12 @@ msgstr ""
 msgid "Constraints:"
 msgstr "Ograniczenia:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5733
+#: plugins/mps/mps.c:247 src/commands.c:5736
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
-#: src/dialogs/dialog-function-select.c:449
-#: src/dialogs/dialog-function-select.c:471 src/dialogs/dialog-scenarios.c:362
+#: src/dialogs/dialog-function-select.c:445
+#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:247 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
@@ -14616,7 +14616,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -15240,10 +15240,10 @@ msgstr "To jest komunikat od wtyczki \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Wystąpił błąd przy odczycie pliku xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4558
+#: plugins/xbase/boot.c:175 src/commands.c:4561
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
-#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
-#: src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
+#: src/xml-io.c:3594
 msgid "Sheet"
 msgstr "Arkusz"
 
@@ -15273,12 +15273,12 @@ msgstr "Eksperymentalna obsługa XML-a oparta na interfejsie SAX"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Kolejna generacja podsystemu we/wy XML-a, oparta na interfejsie SAX"
 
-#: plugins/xml_sax/xml-sax-read.c:301
+#: plugins/xml_sax/xml-sax-read.c:302
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:452
+#: plugins/xml_sax/xml-sax-read.c:473
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Plik posiada niespójny element SheetNameIndex."
 
@@ -16601,7 +16601,7 @@ msgid "Print Preview"
 msgstr "Podgląd wydruku"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1320 src/workbook-control-gui.c:3342
+#: src/print.c:1322 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Podgląd wydruku"
@@ -17017,7 +17017,7 @@ msgstr "S_konsoliduj..."
 msgid "_Contents"
 msgstr "_Zawartość"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1018
+#: src/GNOME_Gnumeric.xml.h:278 src/item-cursor.c:1021
 #: src/sheet-control-gui.c:1488
 msgid "_Copy"
 msgstr "S_kopiuj"
@@ -17481,462 +17481,462 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:888 src/commands.c:987 src/commands.c:992
+#: src/commands.c:892 src/commands.c:991 src/commands.c:996
 msgid "Set Text"
 msgstr "Ustawienie tekstu"
 
-#: src/commands.c:912
+#: src/commands.c:916
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Wpisanie \"%s%s\" do %s"
 
-#: src/commands.c:1110
+#: src/commands.c:1114
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Wpisanie \"%s%s\""
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3179
+#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3180
 msgid "Delete Columns"
 msgstr "Usuń kolumny"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3297
+#: src/commands.c:1237 src/commands.c:1242 src/sheet.c:3298
 msgid "Delete Rows"
 msgstr "Usuń wiersze"
 
-#: src/commands.c:1388
+#: src/commands.c:1392
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Wstawienie %d kolumn przed %s"
 
-#: src/commands.c:1389
+#: src/commands.c:1393
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Wstawienie %d kolumny przed %s"
 
-#: src/commands.c:1404
+#: src/commands.c:1408
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Wstawienie %d wierszy przed %s"
 
-#: src/commands.c:1405
+#: src/commands.c:1409
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Wstawienie %d wiersza przed %s"
 
-#: src/commands.c:1416
+#: src/commands.c:1420
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Usunięcie kolumn %s"
 
-#: src/commands.c:1417
+#: src/commands.c:1421
 #, c-format
 msgid "Deleting column %s"
 msgstr "Usunięcie kolumny %s"
 
-#: src/commands.c:1427
+#: src/commands.c:1431
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Usunięcie wierszy %s"
 
-#: src/commands.c:1428
+#: src/commands.c:1432
 #, c-format
 msgid "Deleting row %s"
 msgstr "Usunięcie wiersza %s"
 
 #. Check for locked cells
-#: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2793
+#: src/commands.c:1508 src/commands.c:1512 src/sheet.c:2794
 msgid "Clear"
 msgstr "Wyczyść"
 
-#: src/commands.c:1580
+#: src/commands.c:1584
 msgid "contents"
 msgstr "zawartości"
 
-#: src/commands.c:1582
+#: src/commands.c:1586
 msgid "formats"
 msgstr "formatów"
 
-#: src/commands.c:1584
+#: src/commands.c:1588
 msgid "comments"
 msgstr "komentarzy"
 
-#: src/commands.c:1600
+#: src/commands.c:1604
 msgid "all"
 msgstr "wszystkiego"
 
-#: src/commands.c:1607
+#: src/commands.c:1611
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Wyczyszczenie %s w %s"
 
-#: src/commands.c:1680
+#: src/commands.c:1684
 msgid "Changing Format"
 msgstr "Zmiana formatu"
 
-#: src/commands.c:1807
+#: src/commands.c:1811
 #, c-format
 msgid "Changing format of %s"
 msgstr "Zmiana formatu %s"
 
-#: src/commands.c:1919
+#: src/commands.c:1923
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatyczne dopasowanie kolumny %s"
 
-#: src/commands.c:1920
+#: src/commands.c:1924
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatyczne dopasowanie wiersza %s"
 
-#: src/commands.c:1923
+#: src/commands.c:1927
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Ustawienie szerokości kolumny %s na %d pikseli"
 
-#: src/commands.c:1925
+#: src/commands.c:1929
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Ustawienie wysokości wiersza %s na %d pikseli"
 
-#: src/commands.c:1928
+#: src/commands.c:1932
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Ustawienie szerokości kolumny %s na wartość domyślną"
 
-#: src/commands.c:1931
+#: src/commands.c:1935
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Ustawienie wysokości wiersza %s na wartość domyślną"
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1939 src/commands.c:1940
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatyczne dopasowanie kolumn %s"
 
-#: src/commands.c:1939
+#: src/commands.c:1943
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Ustawienie szerokości kolumn %s na %d pikseli"
 
-#: src/commands.c:1941
+#: src/commands.c:1945
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Ustawienie wysokości wierszy %s na %d pikseli"
 
-#: src/commands.c:1945
+#: src/commands.c:1949
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Ustawianie szerokości kolumn %s na wartości domyślne"
 
-#: src/commands.c:1947
+#: src/commands.c:1951
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Ustawienie wysokości wierszy %s na wartości domyślne"
 
-#: src/commands.c:2014 src/dialogs/dialog-preferences.c:1504
+#: src/commands.c:2018 src/dialogs/dialog-preferences.c:1504
 msgid "Sorting"
 msgstr "Sortowanie"
 
-#: src/commands.c:2034
+#: src/commands.c:2038
 #, c-format
 msgid "Sorting %s"
 msgstr "Posortowanie %s"
 
-#: src/commands.c:2166
+#: src/commands.c:2170
 msgid "Unhide columns"
 msgstr "Odkrycie kolumn"
 
-#: src/commands.c:2166
+#: src/commands.c:2170
 msgid "Hide columns"
 msgstr "Ukrycie kolumn"
 
-#: src/commands.c:2167
+#: src/commands.c:2171
 msgid "Unhide rows"
 msgstr "Odkrycie wierszy"
 
-#: src/commands.c:2167
+#: src/commands.c:2171
 msgid "Hide rows"
 msgstr "Ukrycie wierszy"
 
-#: src/commands.c:2250
+#: src/commands.c:2254
 msgid "Expand columns"
 msgstr "Rozwinięcie kolumn"
 
-#: src/commands.c:2250
+#: src/commands.c:2254
 msgid "Collapse columns"
 msgstr "Zwinięcie kolumn"
 
-#: src/commands.c:2251
+#: src/commands.c:2255
 msgid "Expand rows"
 msgstr "Rozwinięcie wierszy"
 
-#: src/commands.c:2251
+#: src/commands.c:2255
 msgid "Collapse rows"
 msgstr "Zwinięcie wierszy"
 
-#: src/commands.c:2278
+#: src/commands.c:2282
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2278
+#: src/commands.c:2282
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2344
+#: src/commands.c:2347
 msgid "Those columns are already grouped"
 msgstr "Te kolumny zostały już zgrupowane"
 
-#: src/commands.c:2345
+#: src/commands.c:2348
 msgid "Those rows are already grouped"
 msgstr "Te wiersze zostały już zgrupowane"
 
-#: src/commands.c:2368
+#: src/commands.c:2371
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Te kolumny nie są zgrupowane, nie można ich rozgrupować"
 
-#: src/commands.c:2369
+#: src/commands.c:2372
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Te wiersze nie są zgrupowane, nie można ich rozgrupować"
 
-#: src/commands.c:2383
+#: src/commands.c:2386
 #, c-format
 msgid "Group columns %s"
 msgstr "Zgrupowanie kolumn %s"
 
-#: src/commands.c:2383
+#: src/commands.c:2386
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozgrupowanie kolumn %s"
 
-#: src/commands.c:2385
+#: src/commands.c:2388
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Zgrupowanie wierszy %d:%d"
 
-#: src/commands.c:2385
+#: src/commands.c:2388
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozgrupowanie wierszy %d:%d"
 
-#: src/commands.c:2619
+#: src/commands.c:2622
 #, c-format
 msgid "Moving %s"
 msgstr "Przeniesienie %s"
 
-#: src/commands.c:2628 src/commands.c:2839
+#: src/commands.c:2631 src/commands.c:2842
 msgid "is beyond sheet boundaries"
 msgstr "przekracza granice arkusza"
 
 #. FIXME?
-#: src/commands.c:2783
+#: src/commands.c:2786
 #, c-format
 msgid "Pasting into %s"
 msgstr "Wklejenie do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3016 src/commands.c:3017 src/workbook-control-gui.c:2339
+#: src/commands.c:3019 src/commands.c:3020 src/workbook-control-gui.c:2339
 msgid "Autofill"
 msgstr "Automatyczne wypełnienie"
 
 #. Changed in initial redo.
-#: src/commands.c:3040
+#: src/commands.c:3043
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatyczne wypełnienie %s"
 
-#: src/commands.c:3190
+#: src/commands.c:3193
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatyczne sformatowanie %s"
 
-#: src/commands.c:3300
+#: src/commands.c:3303
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozdzielenie %s"
 
-#: src/commands.c:3438
+#: src/commands.c:3441
 #, c-format
 msgid "Merging %s"
 msgstr "Scalenie %s"
 
 #. Corrected below.
-#: src/commands.c:3820 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3823 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Wyszukanie i zmiana"
 
-#: src/commands.c:3917
+#: src/commands.c:3920
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Ustawienie domyślnej szerokości kolumn na %.2f punktów"
 
-#: src/commands.c:3918
+#: src/commands.c:3921
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Ustawienie domyślnej wysokości wierszy na %.2f punktów"
 
-#: src/commands.c:4035
+#: src/commands.c:4038
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Ustawienie powiększenia %s na %.0f%%"
 
-#: src/commands.c:4105
+#: src/commands.c:4108
 msgid "Insert object"
 msgstr "Wstawienie obiektu"
 
-#: src/commands.c:4164
+#: src/commands.c:4167
 msgid "Delete object"
 msgstr "Usunięcie obiektu"
 
-#: src/commands.c:4245
+#: src/commands.c:4248
 msgid "Resize object"
 msgstr "Zmiana rozmiaru obiektu"
 
-#: src/commands.c:4245
+#: src/commands.c:4248
 msgid "Move object"
 msgstr "Przeniesienie obiektu"
 
-#: src/commands.c:4802
+#: src/commands.c:4805
 msgid "Reordering Sheets"
 msgstr "Przeszeregowywanie arkuszy"
 
-#: src/commands.c:4805
+#: src/commands.c:4808
 msgid "Renaming Sheets"
 msgstr "Zmiana nazw arkuszy"
 
-#: src/commands.c:4808
+#: src/commands.c:4811
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Dołączanie %i arkuszy"
 
-#: src/commands.c:4812
+#: src/commands.c:4815
 msgid "Changing Tab Colors"
 msgstr "Zmiana kolorów zakładek"
 
-#: src/commands.c:4815
+#: src/commands.c:4818
 msgid "Changing Sheet Protection"
 msgstr "Zmiana zabezpieczenia arkusza"
 
-#: src/commands.c:4818
+#: src/commands.c:4821
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Usunięcie komórek"
 
-#: src/commands.c:4821
+#: src/commands.c:4824
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Usunięcie obiektu"
 
-#: src/commands.c:4824
+#: src/commands.c:4827
 msgid "Reorganizing Sheets"
 msgstr "Reorganizacja arkuszy"
 
-#: src/commands.c:4974
+#: src/commands.c:4977
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "Zmiana formatu %s"
 
-#: src/commands.c:4975
+#: src/commands.c:4978
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "Ustawienie bieżącego czasu w %s"
 
-#: src/commands.c:5355
+#: src/commands.c:5358
 #, c-format
 msgid "Merging data into %s"
 msgstr "Scalanie danych do %s"
 
-#: src/commands.c:5457
+#: src/commands.c:5460
 msgid "Changing summary info"
 msgstr "Zmiana informacji o zestawieniu"
 
-#: src/commands.c:5548
+#: src/commands.c:5551
 #, fuzzy
 msgid "Raise object"
 msgstr "Zmiana rozmiaru obiektu"
 
-#: src/commands.c:5551
+#: src/commands.c:5554
 #, fuzzy
 msgid "Lower object"
 msgstr "Przeniesienie obiektu"
 
-#: src/commands.c:5554
+#: src/commands.c:5557
 #, fuzzy
 msgid "Raise object to top"
 msgstr "Zmiana rozmiaru obiektu"
 
-#: src/commands.c:5557
+#: src/commands.c:5560
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5672
+#: src/commands.c:5675
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "Ustawienia wydruku"
 
-#: src/commands.c:5674
+#: src/commands.c:5677
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "Drukowanie arkuszy"
 
-#: src/commands.c:5790
+#: src/commands.c:5793
 #, fuzzy
 msgid "has a circular reference"
 msgstr "\"%s\" zawiera zapętlone odwołanie"
 
-#: src/commands.c:5813
+#: src/commands.c:5816
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "Definicja nazwy"
 
-#: src/commands.c:5816
+#: src/commands.c:5819
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:5880
+#: src/commands.c:5883
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5955
+#: src/commands.c:5958
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6019
+#: src/commands.c:6022
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6130
+#: src/commands.c:6133
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Usuń kolumny"
 
 #. Fill in the header titles.
-#: src/commands.c:6277 src/dialogs/solver.glade.h:24
+#: src/commands.c:6280 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Solver"
 
-#: src/commands.c:6364
+#: src/commands.c:6367
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "Poszukiwanie celu"
 
-#: src/commands.c:6506
+#: src/commands.c:6509
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "Zduplikuj"
 
-#: src/commands.c:6586
+#: src/commands.c:6589
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Zależności wtyczki"
 
-#: src/commands.c:6662
+#: src/commands.c:6665
 msgid "Reconfigure Graph"
 msgstr ""
 
@@ -18485,7 +18485,7 @@ msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:687
+#: src/func.c:679
 msgid "Area"
 msgstr "Obszar"
 
@@ -19475,7 +19475,7 @@ msgstr "Pierwsza litera"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2150 src/format.c:2279 src/format.c:2285 src/format.c:2361
+#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Ogólne"
@@ -20278,14 +20278,14 @@ msgstr "John Gotts, pakiety rpm."
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:66
 #, fuzzy
-msgid "Andreas J. Glzow, Gnumeric hacker."
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. GĂźlzow, Gnumeric hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:69
 #, fuzzy
-msgid "Jon Kre Hellan, Gnumeric hacker."
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon KĂĽre Hellan, Gnumeric hacker."
 
 #: src/dialogs/dialog-about.c:70
@@ -20360,7 +20360,7 @@ msgstr "Vladimir Vuksan, funkcje finansowe."
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric hacker."
 
-#: src/dialogs/dialog-about.c:113 src/func-builtin.c:127
+#: src/dialogs/dialog-about.c:113 src/func-builtin.c:156
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -20704,7 +20704,7 @@ msgid "Double"
 msgstr "Podwójne"
 
 #: src/dialogs/dialog-cell-format.c:467 src/dialogs/dialog-search.c:147
-#: src/func.c:679 src/widgets/widget-format-selector.c:76
+#: src/func.c:671 src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Liczba"
 
@@ -20742,30 +20742,30 @@ msgstr ""
 msgid "Clear Background"
 msgstr "Wyczyść tło"
 
-#: src/dialogs/dialog-cell-sort.c:118 src/dialogs/dialog-cell-sort.c:123
+#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
 #, c-format
 msgid "Column %s"
 msgstr "Kolumna %s"
 
-#: src/dialogs/dialog-cell-sort.c:120 src/dialogs/dialog-cell-sort.c:125
+#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
 #, c-format
 msgid "Row %s"
 msgstr "Wiersz %s"
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:718
 msgid "Row/Column"
 msgstr "Wiersz/kolumna"
 
-#: src/dialogs/dialog-cell-sort.c:729
+#: src/dialogs/dialog-cell-sort.c:738
 msgid "Case Sensitive"
 msgstr "Rozróżnianie wielkości liter"
 
-#: src/dialogs/dialog-cell-sort.c:742
+#: src/dialogs/dialog-cell-sort.c:751
 #, fuzzy
 msgid "By Value"
 msgstr "Wartość"
 
-#: src/dialogs/dialog-cell-sort.c:866
+#: src/dialogs/dialog-cell-sort.c:883
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Nie można utworzyć okna dialogowego uporządkowywania komórek."
 
@@ -21723,7 +21723,7 @@ msgstr "Nie można utworzyć okna dialogowego solvera."
 msgid "You need to select at least one sheet to export"
 msgstr "Należy wybrać przynajmniej jeden arkusz do eksportu"
 
-#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:180
+#: src/dialogs/dialog-stf-export.c:51 src/dialogs/dialog-stf.c:180
 msgid "Are you sure you want to cancel?"
 msgstr "Czy na pewno chcesz anulować?"
 
@@ -24076,7 +24076,7 @@ msgstr "Już zdefiniowano \"%s\" w zeszycie"
 msgid "Internal type error"
 msgstr "Wewnętrzny błąd typu"
 
-#: src/expr.c:890
+#: src/expr.c:891
 msgid "Unknown operator"
 msgstr "Nieznany operator"
 
@@ -24148,40 +24148,40 @@ msgstr "PRAWDA"
 msgid "FALSE"
 msgstr "FAŁSZ"
 
-#: src/format.c:633
+#: src/format.c:646
 msgid "Black"
 msgstr "Czarny"
 
-#: src/format.c:634
+#: src/format.c:647
 msgid "Blue"
 msgstr "Niebieski"
 
-#: src/format.c:635
+#: src/format.c:648
 msgid "Cyan"
 msgstr "Niebieskozielony"
 
-#: src/format.c:636
+#: src/format.c:649
 msgid "Green"
 msgstr "Zielony"
 
-#: src/format.c:637
+#: src/format.c:650
 msgid "Magenta"
 msgstr "Purpurowy"
 
-#: src/format.c:638
+#: src/format.c:651
 msgid "Red"
 msgstr "Czerwony"
 
-#: src/format.c:639
+#: src/format.c:652
 msgid "White"
 msgstr "Biały"
 
-#: src/format.c:640
+#: src/format.c:653
 msgid "Yellow"
 msgstr "Żółty"
 
 #. Array of arrays ??
-#: src/format.c:2042
+#: src/format.c:2055
 msgid "ARRAY"
 msgstr "TABLICA"
 
@@ -24952,44 +24952,44 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/func.c:108
+#: src/func.c:100
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nie można utworzyć pliku %s\n"
 
-#: src/func.c:299
+#: src/func.c:277
 msgid "Function implementation not available."
 msgstr "Implementacja funkcji nie jest dostępna."
 
-#: src/func.c:509
+#: src/func.c:490
 msgid "Unknown Function"
 msgstr "Nieznana funkcja"
 
-#: src/func.c:683
+#: src/func.c:675
 msgid "Boolean"
 msgstr "Logiczna"
 
-#: src/func.c:685
+#: src/func.c:677
 msgid "Cell Range"
 msgstr "Zakres komórek"
 
-#: src/func.c:689
+#: src/func.c:681
 msgid "Scalar or Blank"
 msgstr "Skalar lub pusty"
 
-#: src/func.c:691
+#: src/func.c:683
 msgid "Scalar or Error"
 msgstr "Skalar lub błąd"
 
-#: src/func.c:693
+#: src/func.c:685
 msgid "Scalar"
 msgstr "Skalar"
 
-#: src/func.c:695
+#: src/func.c:687
 msgid "Any"
 msgstr "Dowolny"
 
-#: src/func.c:1007
+#: src/func.c:999
 msgid "Function does not exist"
 msgstr "Funkcja nie istnieje"
 
@@ -25029,19 +25029,19 @@ msgstr "schowek"
 msgid "Automatically detected"
 msgstr "Automatycznie wykryte"
 
-#: src/gui-file.c:183
+#: src/gui-file.c:184
 msgid "Load file"
 msgstr "Odczyt pliku"
 
-#: src/gui-file.c:194
+#: src/gui-file.c:195
 msgid "Character _encoding:"
 msgstr "_Kodowanie znaków:"
 
-#: src/gui-file.c:204
+#: src/gui-file.c:205
 msgid "File _type:"
 msgstr "_Typ pliku:"
 
-#: src/gui-file.c:270
+#: src/gui-file.c:271
 #, c-format
 msgid ""
 "%s\n"
@@ -25050,7 +25050,7 @@ msgstr ""
 "%s\n"
 "jest nazwą katalogu"
 
-#: src/gui-file.c:276
+#: src/gui-file.c:277
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -25059,7 +25059,7 @@ msgstr ""
 "Brak uprawnień do zapisu w\n"
 "%s"
 
-#: src/gui-file.c:283
+#: src/gui-file.c:284
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -25068,7 +25068,7 @@ msgstr ""
 "Zeszyt %s już istnieje.\n"
 "Czy chcesz go nadpisać?"
 
-#: src/gui-file.c:304
+#: src/gui-file.c:305
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -25080,7 +25080,7 @@ msgstr ""
 "wykorzystaj inny format pliku.\n"
 "Czy chcesz zapisać tylko bieżący arkusz?"
 
-#: src/gui-file.c:331
+#: src/gui-file.c:332
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -25088,7 +25088,7 @@ msgstr ""
 "Wprowadź nazwę pliku,\n"
 "nie katalogu"
 
-#: src/gui-file.c:337
+#: src/gui-file.c:338
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -25097,7 +25097,7 @@ msgstr ""
 "chcesz użyć tej nazwy?"
 
 #. Pack it into file selector
-#: src/gui-file.c:389
+#: src/gui-file.c:390
 msgid "Save workbook as"
 msgstr "Zapis zeszytu pod podaną nazwą"
 
@@ -25153,7 +25153,7 @@ msgstr "Szerokość: %.2f punktów (%d pikseli)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Wysokość: %.2f punktów (%d pikseli)"
 
-#: src/item-cursor.c:915
+#: src/item-cursor.c:918
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -25163,97 +25163,97 @@ msgstr ""
 "komórek w tym obszarze.\n"
 "Czy chcesz zastąpić zawartości w tym obszarze?"
 
-#: src/item-cursor.c:1015
+#: src/item-cursor.c:1018
 msgid "_Move"
 msgstr "_Przenieś"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1024
 msgid "Copy _Formats"
 msgstr "Skopiuj _formaty"
 
-#: src/item-cursor.c:1023
+#: src/item-cursor.c:1026
 msgid "Copy _Values"
 msgstr "Skopiuj _wartości"
 
-#: src/item-cursor.c:1028
+#: src/item-cursor.c:1031
 msgid "Shift _Down and Copy"
 msgstr "Przesuń komórki w _dół i kopiuj"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1033
 msgid "Shift _Right and Copy"
 msgstr "Przesuń komórki w p_rawo i kopiuj"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1035
 msgid "Shift Dow_n and Move"
 msgstr "P_rzesuń komórki w dół i przenieś"
 
-#: src/item-cursor.c:1034
+#: src/item-cursor.c:1037
 msgid "Shift Righ_t and Move"
 msgstr "Pr_zesuń komórki w prawo i przenieś"
 
-#: src/item-cursor.c:1039
+#: src/item-cursor.c:1042
 msgid "C_ancel"
 msgstr "_Anuluj"
 
-#: src/main-application.c:54
+#: src/main-application.c:55
 msgid "Display Gnumeric's version"
 msgstr "Wypisuje wersję Gnumerica"
 
-#: src/main-application.c:56
+#: src/main-application.c:57
 msgid "Set the root library directory"
 msgstr "Ustawia główny katalog bibliotek"
 
-#: src/main-application.c:58
+#: src/main-application.c:59
 msgid "Adjust the root data directory"
 msgstr "Ustawia główny katalog danych"
 
-#: src/main-application.c:61 src/main-application.c:63
+#: src/main-application.c:62 src/main-application.c:64
 msgid "Dumps the function definitions"
 msgstr "Wypisuje definicje funkcji"
 
-#: src/main-application.c:61 src/main-application.c:63
+#: src/main-application.c:62 src/main-application.c:64
 msgid "FILE"
 msgstr "PLIK"
 
-#: src/main-application.c:66
+#: src/main-application.c:67
 msgid "Enables some debugging functions"
 msgstr "Uaktywnia funkcje śledzenia błędów"
 
-#: src/main-application.c:66 src/main-application.c:69
-#: src/main-application.c:71 src/main-application.c:73
+#: src/main-application.c:67 src/main-application.c:70
+#: src/main-application.c:72 src/main-application.c:74
 msgid "LEVEL"
 msgstr "POZIOM"
 
-#: src/main-application.c:69
+#: src/main-application.c:70
 msgid "Enables some dependency related debugging functions"
 msgstr "Uaktywnia funkcje śledzenia błędów związane z zależnościami"
 
-#: src/main-application.c:71
+#: src/main-application.c:72
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Uaktywnia funkcje śledzenia błędów związane z dzieleniem wyrażeń"
 
-#: src/main-application.c:73
+#: src/main-application.c:74
 msgid "Enables some print debugging behavior"
 msgstr "Uaktywnia funkcje śledzenia błędów związane z drukowaniem"
 
-#: src/main-application.c:76
+#: src/main-application.c:77
 msgid "Specify the size and location of the initial window"
 msgstr "Określa rozmiar i położenie okna pierwszego okna"
 
-#: src/main-application.c:76
+#: src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "SZERxWYSxPOZXxPOZY"
 
-#: src/main-application.c:80
+#: src/main-application.c:81
 msgid "Don't show splash screen"
 msgstr "Bez wyświetlania ekranu powitalnego"
 
-#: src/main-application.c:83
+#: src/main-application.c:84
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Kończy pracę po wczytaniu wybranych zeszytów (przydatne przy testowaniu)."
 
-#: src/main-application.c:113
+#: src/main-application.c:114
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -25278,7 +25278,7 @@ msgstr ""
 "\n"
 "-- Zespół Twórców Gnumerica."
 
-#: src/main-application.c:144
+#: src/main-application.c:145
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -25722,7 +25722,7 @@ msgid "Errors while initializing plugin system."
 msgstr "Błędy podczas inicjowania systemu wtyczek."
 
 #: src/print-info.c:177 src/print-info.c:180 src/print-info.c:181
-#: src/print-info.c:297
+#: src/print-info.c:295
 msgid "Page &[PAGE]"
 msgstr "Strona &[PAGE]"
 
@@ -25731,7 +25731,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Strona &[PAGE] z &[PAGES]"
 
 #: src/print-info.c:179 src/print-info.c:180 src/print-info.c:181
-#: src/print-info.c:183 src/print-info.c:290
+#: src/print-info.c:183 src/print-info.c:288
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -25739,32 +25739,32 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:536
+#: src/print-info.c:533
 msgid "File Name"
 msgstr "Nazwa pliku"
 
-#: src/print-info.c:567
+#: src/print-info.c:564
 #, fuzzy
 msgid "Path "
 msgstr "Wklej"
 
-#: src/print-info.c:575
+#: src/print-info.c:572
 msgid "tab"
 msgstr "zakładka"
 
-#: src/print-info.c:576
+#: src/print-info.c:573
 msgid "page"
 msgstr "strona"
 
-#: src/print-info.c:577
+#: src/print-info.c:574
 msgid "pages"
 msgstr "strony"
 
-#: src/print-info.c:580
+#: src/print-info.c:577
 msgid "file"
 msgstr "plik"
 
-#: src/print-info.c:581
+#: src/print-info.c:578
 msgid "path"
 msgstr "ścieżka"
 
@@ -25777,19 +25777,19 @@ msgstr "&[PAGE]"
 msgid "Print Region"
 msgstr "Obszar wydruku"
 
-#: src/print.c:1238
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "Drukowanie arkuszy"
 
-#: src/print.c:1246
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "_Aktywny arkusz"
 
-#: src/print.c:1246
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "A_rkusze"
 
-#: src/print.c:1332
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Drukowanie nie powiodło się"
 
@@ -26005,23 +26005,23 @@ msgstr ""
 "o nazwie TRUE może kolidować ze stałą o tej samej nazwie.\n"
 "Należy spodziewać się dziwnych rzeczy."
 
-#: src/sheet.c:1956
+#: src/sheet.c:1957
 msgid "Target region contains merged cells"
 msgstr "Obszar docelowy zawiera scalone komórki"
 
-#: src/sheet.c:2018
+#: src/sheet.c:2019
 msgid "cannot operate on merged cells"
 msgstr "nie można operować na scalonych komórkach"
 
-#: src/sheet.c:2028
+#: src/sheet.c:2029
 msgid "cannot operate on array formulae"
 msgstr "nie można operować na wyrażeniach tablicowych"
 
-#: src/sheet.c:3120
+#: src/sheet.c:3121
 msgid "Insert Columns"
 msgstr "Wstaw kolumny"
 
-#: src/sheet.c:3238
+#: src/sheet.c:3239
 msgid "Insert Rows"
 msgstr "Wstaw wiersze"
 
@@ -27290,7 +27290,7 @@ msgstr "ciemnopurpurowy"
 msgid "sky blue"
 msgstr "błękitny"
 
-#: src/widgets/gnumeric-expr-entry.c:1255
+#: src/widgets/gnumeric-expr-entry.c:1256
 msgid "Expecting a single range"
 msgstr "Spodziewany jest pojedynczy zakres"
 
@@ -28836,54 +28836,54 @@ msgstr "Nieobsługiwany format pliku."
 msgid "An unexplained error happened while opening %s"
 msgstr "Podczas otwierania %s wystąpił nierozpoznany błąd"
 
-#: src/workbook.c:401
+#: src/workbook.c:407
 #, c-format
 msgid "Book%d.%s"
 msgstr "Zeszyt%d.%s"
 
-#: src/workbook.c:1248
+#: src/workbook.c:1260
 msgid "Sheet name is NULL"
 msgstr "Nazwa arkusza jest pusta (NULL)"
 
-#: src/workbook.c:1259
+#: src/workbook.c:1271
 msgid "Sheet name is not valid utf-8"
 msgstr "Nazwa arkusza jest zapisana przy użyciu znaków innych niż utf-8"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1280
 msgid "Sheet name must have at least 1 letter"
 msgstr "Nazwa arkusza musi zawierać co najmniej jedną literę"
 
-#: src/workbook.c:1292
+#: src/workbook.c:1304
 msgid "There is already a sheet named"
 msgstr "Istnieje już arkusz o nazwie"
 
-#: src/workbook.c:1306
+#: src/workbook.c:1318
 msgid "You may not use this name twice"
 msgstr "Nie można użyć tej nazwy dwukrotnie"
 
-#: src/xml-io.c:3296
+#: src/xml-io.c:3297
 msgid "Unparsable xml in clipboard"
 msgstr "Schowek zawiera niepoprawne dane w XML-u"
 
-#: src/xml-io.c:3303
+#: src/xml-io.c:3304
 msgid "Clipboard is in unknown format"
 msgstr "Dane w schowku są w nieznanym formacie"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3717
+#: src/xml-io.c:3725
 msgid "Processing file..."
 msgstr "Przetwarzanie pliku..."
 
-#: src/xml-io.c:4027
+#: src/xml-io.c:4052
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Plik nie jest plikiem zeszytu Gnumerica"
 
-#: src/xml-io.c:4064
+#: src/xml-io.c:4089
 msgid "Failure saving file"
 msgstr "Wystąpił błąd przy zapisie pliku"
 
-#: src/xml-io.c:4097
+#: src/xml-io.c:4122
 msgid "Gnumeric XML file format"
 msgstr "Format Gnumeric XML"

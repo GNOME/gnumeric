@@ -23,6 +23,7 @@
 #include "mathfunc.h"
 
 #include <pango/pangoft2.h>
+#include <gtk/gtkmain.h>
 #include <string.h>
 
 #undef DEBUG_REF_COUNT

@@ -63,8 +63,8 @@ static char *lc_currency = NULL; /* in UTF-8 */
 static gboolean date_order_cached = FALSE;
 
 static gboolean boolean_cached = FALSE;
-static char *lc_TRUE = NULL;
-static char *lc_FALSE = NULL;
+static char const *lc_TRUE = NULL;
+static char const *lc_FALSE = NULL;
 
 char const *
 gnm_setlocale (int category, char const *val)

@@ -2062,6 +2062,7 @@ gnm_expr_get_range (GnmExpr const *expr)
 GSList *
 gnm_expr_get_ranges (GnmExpr const *expr)
 {
+#warning implement this
 	/* GHashTable *singles, *ranges; */
 
 	g_return_val_if_fail (expr != NULL, NULL);
@@ -2076,12 +2077,13 @@ gnm_expr_get_ranges (GnmExpr const *expr)
 	case GNM_EXPR_OP_NAME:
 		if (!expr->name.name->active)
 			return NULL;
-		return gnm_expr_get_range (expr->name.name->expr);
+		return NULL;
 
 	default:
 		return NULL;
 	}
 }
+
 /**
  * gnm_expr_get_constant:
  * @expr :

@@ -271,7 +271,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	double const *y_vals, *x_vals = NULL;
 	double x, y, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale;
-	double prev_x, prev_y;
+	double prev_x = 0., prev_y = 0.; /* make compiler happy */
 	ArtVpath	path[3];
 	GogStyle const *style;
 	gboolean valid, prev_valid, show_marks, show_lines;
