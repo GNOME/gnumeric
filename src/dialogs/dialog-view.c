@@ -77,8 +77,9 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			return;  /* Just ignore */
 
 		if (!g_getenv ("GNUMERIC_MULTIHEAD")) {
+			WorkbookControlGUI *wbcg = state->wbcg;
 			gtk_widget_destroy (state->dialog);
-			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+			gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 					 _("Multi-display support in Gnumeric has been turned "
 					   "off due to multiple bugs in GTK+, libgnomeui, "
 					   "libgnomeprintui, libbonoboui, and Gnumeric "
