@@ -36,7 +36,8 @@ Morten:
 	* Fixed parsing of numbers like "-4,885".  (We used to get -3115
 	  == -4 * 1000 + 885...)
 	* Fixed formulae with leading dash, like "-995/5".
-	* Fixed MID, FIND, LEFT, RIGHT, LOWER, UPPER, PROPER, CLEAN.
+	* Fixed MID, FIND, LEFT, RIGHT, LOWER, UPPER, PROPER, CLEAN, LEN,
+	  EXACT, REPT.
 	* Improve signed-vs-unsigned situation.
 
 Vlad Harchev

@@ -9,6 +9,7 @@
 #include <config.h>
 #include <ctype.h>
 #include <math.h>
+#include <limits.h>
 #include "gnumeric.h"
 #include "parse-util.h"
 #include "func.h"
@@ -90,11 +91,16 @@ static char *help_exact = {
 static Value *
 gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 {
-	if (argv[0]->type != VALUE_STRING || argv[1]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
+	char *s0, *s1;
+	Value *res;
 
-	return value_new_bool (strcmp (argv[0]->v_str.val->str,
-				       argv[1]->v_str.val->str) == 0);
+	s0 = value_get_as_string (argv[0]);
+	s1 = value_get_as_string (argv[1]);
+	res = value_new_bool (strcmp (s0, s1) == 0);
+	g_free (s0);
+	g_free (s1);
+
+	return res;
 }
 
 /***************************************************************************/
@@ -115,10 +121,14 @@ static char *help_len = {
 static Value *
 gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 {
-	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
+	char *s;
+	Value *res;
 
-	return value_new_int (strlen (argv[0]->v_str.val->str));
+	s = value_get_as_string (argv[0]);
+	res = value_new_int (strlen (s));
+	g_free (s);
+
+	return res;
 }
 
 /***************************************************************************/
@@ -372,24 +382,44 @@ static Value *
 gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	gchar *s, *p;
-	gint num;
-	guint len;
+	char *s, *p, *source;
+	int num;
+	int len;
 
-	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
-	else if ( (num=value_get_as_int (argv[1])) < 0)
-		return value_new_error (ei->pos, _("Invalid argument"));
+	num = value_get_as_int (argv[1]);
+	if (num < 0)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	source = value_get_as_string (argv[0]);
+	len = strlen (source);
 
-	len = strlen (argv[0]->v_str.val->str);
+	/* Fast special case.  =REPT ("",2^30) should not take long.  */
+	if (len == 0 || num == 0) {
+		g_free (source);
+		return value_new_string ("");
+	}
+
+	/* Check if the length would overflow.  */
+	if (num >= INT_MAX / len) {
+		g_free (source);
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	}
+
 	p = s = g_new (gchar, 1 + len * num);
+	if (!p) {
+		g_free (source);
+		/* FIXME: this and above case should probably have the
+		   same error message.  */
+		return value_new_error (ei->pos, _("Out of memory"));
+	}
+
 	while (num--) {
-		strncpy (p, argv[0]->v_str.val->str, len);
+		memcpy (p, source, len);
 		p += len;
 	}
 	*p = '\0';
 	v = value_new_string (s);
 	g_free (s);
+	g_free (source);
 
 	return v;
 }
@@ -409,7 +439,7 @@ static char *help_clean = {
 };
 
 static Value *
-gnumeric_clean  (FunctionEvalInfo *ei, Value **argv)
+gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *res;
 	unsigned char *s, *p, *q;
@@ -508,7 +538,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 		commas = TRUE;
 
 	if (dec >= 1000) { /* else buffer under-run */
-		return value_new_error (ei->pos, _("Invalid argument"));
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 		/*
 	} else if (lc->thousands_sep[1] != '\0') {
 		fprintf (stderr, "thousands_sep:\"%s\"\n", lc->thousands_sep);
@@ -645,8 +675,6 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 
 	/* Why do we need this ? */
 	if (argv[0]->type != VALUE_STRING ||
-	    argv[1]->type != VALUE_INTEGER ||
-	    argv[2]->type != VALUE_INTEGER ||
 	    argv[3]->type != VALUE_STRING )
 		return value_new_error (ei->pos, _("Type mismatch"));
 
@@ -655,7 +683,7 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 	oldlen = strlen (argv[0]->v_str.val->str);
 
 	if (start <= 0 || num <= 0)
-		return value_new_error (ei->pos, _("Invalid arguments"));
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (--start + num > oldlen)
 		num = oldlen - start;
@@ -822,11 +850,7 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 	gchar *new, *dest, *src;
 	gboolean space = TRUE;
 
-	if (argv[0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
-
-	dest = new = g_new (gchar, strlen (argv[0]->v_str.val->str) + 1);
-	src = argv[0]->v_str.val->str;
+	src = dest = new = value_get_as_string (argv[0]);
 
 	while (*src) {
 		if (*src == ' ') {
@@ -842,7 +866,6 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 	}
 	if (space && dest > new)
 		dest--;
-
 	*dest = '\0';
 
 	v = value_new_string (new);
