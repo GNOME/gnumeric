@@ -1,5 +1,9 @@
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
+	* Release 0.72
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
 	* src/xml-io.c (xml_node_get_int) : use strtol
 	(xml_node_get_double) : strtod.
 

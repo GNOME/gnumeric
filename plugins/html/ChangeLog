@@ -1,3 +1,7 @@
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
 2001-10-15  Adrian Custer <acuster@nature.berkeley.edu>
 
 	* latex.c : add documentation to functions, trivial changes to 2.09

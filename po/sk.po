@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.72\n"
-"POT-Creation-Date: 2001-10-14 15:23+0200\n"
+"POT-Creation-Date: 2001-10-18 22:45-0400\n"
 "PO-Revision-Date: 2001-10-14 16:00CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -45,7 +45,7 @@ msgstr "Finančné produkty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkcie pre finančné produkty"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4256 src/xml-io.c:3197
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4256 src/xml-io.c:3204
 msgid "Reading file..."
 msgstr "Čítam súbor..."
 
@@ -113,7 +113,8 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:144
@@ -151,11 +152,12 @@ msgstr "Zošity chránené heslom zatiaľ nie sú podporované."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájsť platný zošit MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3702
-msgid "Too many rows for this format"
+#: plugins/excel/ms-excel-write.c:3544
+#, fuzzy, c-format
+msgid "Too many rows for this format (%d > %d)"
 msgstr "Príliš veľa riadkov pre tento formát"
 
-#: plugins/excel/ms-excel-write.c:3786
+#: plugins/excel/ms-excel-write.c:3772
 msgid "Can't open stream for writing\n"
 msgstr "Nepodarilo sa otvoriť kanál pre zápis\n"
 
@@ -261,11 +263,11 @@ msgstr "Formát súborov Gnome Glossary PO"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pre ukladanie Gnome Glossary do súborov .po."
 
-#: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:653
-#: src/functions/fn-information.c:722 src/functions/fn-information.c:749
-#: src/functions/fn-information.c:775 src/functions/fn-information.c:824
-#: src/functions/fn-information.c:853 src/functions/fn-information.c:916
-#: src/functions/fn-logical.c:194 src/functions/fn-string.c:312
+#: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:654
+#: src/functions/fn-information.c:723 src/functions/fn-information.c:750
+#: src/functions/fn-information.c:776 src/functions/fn-information.c:825
+#: src/functions/fn-information.c:854 src/functions/fn-information.c:918
+#: src/functions/fn-logical.c:194 src/functions/fn-string.c:313
 msgid "Invalid number of arguments"
 msgstr "Neplatný počet argumentov"
 
@@ -315,8 +317,9 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "Import a export súborov HTML, TeX, DVI, roff"
 
 #: plugins/html/plugin.xml.in.h:7
-msgid "LaTeX (*.tex)"
-msgstr "LaTeX (*.tex)"
+#, fuzzy
+msgid "LaTeX 2.09 (*.tex)"
+msgstr "LaTeX2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "LaTeX2e (*.tex)"
@@ -365,6 +368,7 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -901,7 +905,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Automaticky ukladá aktuálny dokument v pravidelných intervaloch"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2421 src/workbook-format-toolbar.c:842
+#: src/dialogs/dialog-cell-format.c:2435 src/workbook-format-toolbar.c:842
 #: src/workbook-format-toolbar.c:898
 msgid "Background"
 msgstr "Pozadie"
@@ -1191,7 +1195,7 @@ msgstr "Veľkosť písma"
 msgid "Font selector"
 msgstr "Výber písma"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/dialogs/dialog-cell-format.c:2416
+#: src/GNOME_Gnumeric.xml.h:80 src/dialogs/dialog-cell-format.c:2430
 #: src/workbook-format-toolbar.c:867 src/workbook-format-toolbar.c:901
 msgid "Foreground"
 msgstr "Popredie"
@@ -1336,7 +1340,8 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2831
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr ""
+"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2622
 msgid "Jump to a specified cell"
@@ -1362,7 +1367,7 @@ msgid "Line"
 msgstr "Čiara"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:57
-#: src/dialogs/validate.glade.h:15 src/workbook-object-toolbar.c:162
+#: src/workbook-object-toolbar.c:162
 msgid "List"
 msgstr "Zoznam"
 
@@ -1476,8 +1481,8 @@ msgstr "Vloží obsah schránky alebo vystrihovacej pamäti"
 msgid "Paste with optional filters and transformations"
 msgstr "Vloží s voliteľnými filtrami a úpravami"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/analysis-tools.c:2346
-#: src/analysis-tools.c:2372 src/workbook-format-toolbar.c:466
+#: src/GNOME_Gnumeric.xml.h:149 src/analysis-tools.c:2347
+#: src/analysis-tools.c:2373 src/workbook-format-toolbar.c:466
 msgid "Percent"
 msgstr "Percento"
 
@@ -1556,7 +1561,7 @@ msgstr "Odstráni vybrané bunky, ostatné posunie na ich miesto"
 msgid "Rename the current sheet"
 msgstr "Premenuje aktuálny list"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/dialogs/cell-format.glade.h:69
+#: src/GNOME_Gnumeric.xml.h:168 src/dialogs/cell-format.glade.h:70
 #: src/workbook-format-toolbar.c:634
 msgid "Right"
 msgstr "Vpravo"
@@ -1694,7 +1699,7 @@ msgstr "Štatistické metódy"
 msgid "Su_mmary..."
 msgstr "_Informácie o dokumente..."
 
-#: src/GNOME_Gnumeric.xml.h:201 src/analysis-tools.c:2917
+#: src/GNOME_Gnumeric.xml.h:201 src/analysis-tools.c:2918
 #: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2971
 #: src/workbook-control-gui.c:3579 src/workbook-view.c:510
 msgid "Sum"
@@ -1752,49 +1757,53 @@ msgstr "Podčiarkne text"
 msgid "Undo the last action"
 msgstr "Vráti poslednú akciu"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2638
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2890
+msgid "Validate input with preset criteria"
+msgstr "Overí vstup podľa prednastavených kritérií"
+
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2638
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zmení zväčšenie/zmenšenie pohľadu"
 
-#: src/GNOME_Gnumeric.xml.h:216
+#: src/GNOME_Gnumeric.xml.h:217
 msgid "_About..."
 msgstr "_O programe..."
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2700
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:2700
 msgid "_Add / Modify comment..."
 msgstr "_Pridať / upraviť komentár..."
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:2486
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2486
 msgid "_All"
 msgstr "_Všetko"
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2821
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2821
 msgid "_Auto Save..."
 msgstr "Automatické _ukladanie..."
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2710
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2710
 #: src/workbook-control-gui.c:2732
 msgid "_Auto fit selection"
 msgstr "_Automaticky upraviť rozmery"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2800
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2800
 msgid "_Autoformat..."
 msgstr "_Automatický formát..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2792
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2792
 msgid "_Cells..."
 msgstr "_Bunky..."
 
-#: src/GNOME_Gnumeric.xml.h:223
+#: src/GNOME_Gnumeric.xml.h:224
 msgid "_Change Name..."
 msgstr "_Zmeniť meno..."
 
-#: src/GNOME_Gnumeric.xml.h:224
+#: src/GNOME_Gnumeric.xml.h:225
 msgid "_Close"
 msgstr "_Zavrieť"
 
-#: src/GNOME_Gnumeric.xml.h:225 src/dialogs/analysis-tools.glade.h:30
+#: src/GNOME_Gnumeric.xml.h:226 src/dialogs/analysis-tools.glade.h:30
 #: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:6
 #: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:7
@@ -1803,152 +1812,152 @@ msgstr "_Zavrieť"
 msgid "_Columns"
 msgstr "_Stĺpce"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2893
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2893
 msgid "_Consolidate..."
 msgstr "_Konzolidovať..."
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2495
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2495
 msgid "_Content"
 msgstr "_Obsah"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/item-cursor.c:1027
+#: src/GNOME_Gnumeric.xml.h:229 src/item-cursor.c:1027
 #: src/sheet-control-gui.c:1301 src/workbook-control-gui.c:2581
 msgid "_Copy"
 msgstr "_Kopírovať"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2917
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2917
 msgid "_Data"
 msgstr "_Dáta"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2836
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2836
 msgid "_Data Analysis..."
 msgstr "_Analýza dát..."
 
-#: src/GNOME_Gnumeric.xml.h:231
+#: src/GNOME_Gnumeric.xml.h:232
 msgid "_Define"
 msgstr "_Definovať"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/sheet-control-gui.c:1319
+#: src/GNOME_Gnumeric.xml.h:233 src/sheet-control-gui.c:1319
 #: src/workbook-control-gui.c:2598
 msgid "_Delete..."
 msgstr "_Zmazať..."
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2541
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:2541
 msgid "_Duplicate"
 msgstr "_Duplikovať"
 
-#: src/GNOME_Gnumeric.xml.h:234
+#: src/GNOME_Gnumeric.xml.h:235
 msgid "_Edit"
 msgstr "_Upraviť"
 
-#: src/GNOME_Gnumeric.xml.h:235
+#: src/GNOME_Gnumeric.xml.h:236
 msgid "_File"
 msgstr "_Súbor"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/dialogs/cell-format.glade.h:108
+#: src/GNOME_Gnumeric.xml.h:237 src/dialogs/cell-format.glade.h:109
 #: src/workbook-control-gui.c:2607
 msgid "_Fill"
 msgstr "Vy_plniť"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:2885
+#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:2885
 msgid "_Filter..."
 msgstr "_Filtrovať..."
 
-#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:2489
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2489
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:958
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:958
 msgid "_Freeze Panes"
 msgstr "_Zmraziť rozdelenie okna"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2827
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:2827
 msgid "_Goal Seek..."
 msgstr "_Hľadanie cieľa..."
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:2621
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2621
 msgid "_Goto cell..."
 msgstr "_Prejsť na bunku..."
 
-#: src/GNOME_Gnumeric.xml.h:242
+#: src/GNOME_Gnumeric.xml.h:243
 msgid "_Group"
 msgstr "_Zoskupiť"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2899
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2899
 msgid "_Group and Outline"
 msgstr "_Skupiny a prehľady"
 
-#: src/GNOME_Gnumeric.xml.h:244
+#: src/GNOME_Gnumeric.xml.h:245
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/sheet-control-gui.c:1342
+#: src/GNOME_Gnumeric.xml.h:246 src/sheet-control-gui.c:1342
 #: src/sheet-control-gui.c:1350 src/workbook-control-gui.c:2716
 #: src/workbook-control-gui.c:2735
 msgid "_Hide"
 msgstr "_Skryť"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2844
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:2844
 msgid "_Hide Detail"
 msgstr "_Skryť detaily"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:2453
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2453
 msgid "_Import..."
 msgstr "_Import..."
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2545
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2545
 #: src/workbook-control-gui.c:2914
 msgid "_Insert"
 msgstr "_Pridať"
 
-#: src/GNOME_Gnumeric.xml.h:249
+#: src/GNOME_Gnumeric.xml.h:250
 msgid "_Insert new"
 msgstr "_Pridať nový"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2698
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2698
 msgid "_Name"
 msgstr "_Meno"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2449
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2449
 msgid "_New"
 msgstr "_Nový"
 
-#: src/GNOME_Gnumeric.xml.h:252
+#: src/GNOME_Gnumeric.xml.h:253
 msgid "_Object"
 msgstr "_Objekt"
 
-#: src/GNOME_Gnumeric.xml.h:253
+#: src/GNOME_Gnumeric.xml.h:254
 msgid "_Open"
 msgstr "_Otvoriť"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/sheet-control-gui.c:1303
+#: src/GNOME_Gnumeric.xml.h:255 src/sheet-control-gui.c:1303
 #: src/workbook-control-gui.c:2585
 msgid "_Paste"
 msgstr "V_ložiť"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:2812
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:2812
 msgid "_Plug-ins..."
 msgstr "_Moduly..."
 
-#: src/GNOME_Gnumeric.xml.h:256
+#: src/GNOME_Gnumeric.xml.h:257
 msgid "_Print"
 msgstr "_Tlačiť"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:1027
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:1027
 #: src/workbook-control-gui.c:2570
 msgid "_Redo"
 msgstr "_Opakovať vrátené"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/dialogs/autocorrect-exceptions.glade.h:7
+#: src/GNOME_Gnumeric.xml.h:259 src/dialogs/autocorrect-exceptions.glade.h:7
 #: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2557
 msgid "_Remove"
 msgstr "_Odstrániť"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:2797
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2797
 msgid "_Row"
 msgstr "_Riadok"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/dialogs/analysis-tools.glade.h:41
+#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/analysis-tools.glade.h:41
 #: src/dialogs/anova-one.glade.h:13 src/dialogs/correlation.glade.h:11
 #: src/dialogs/covariance.glade.h:11 src/dialogs/descriptive-stats.glade.h:19
 #: src/dialogs/fourier-analysis.glade.h:12
@@ -1957,87 +1966,91 @@ msgstr "_Riadok"
 msgid "_Rows"
 msgstr "_Riadky"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2455
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2455
 msgid "_Save"
 msgstr "_Uložiť"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2605
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2605
 msgid "_Select"
 msgstr "_Vybrať"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2683
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2683
 #: src/workbook-control-gui.c:2798
 msgid "_Sheet"
 msgstr "_Zošit"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2847
 msgid "_Show Detail"
 msgstr "_Zobraziť detaily"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2830
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2830
 msgid "_Solver..."
 msgstr "_Riešiteľ..."
 
-#: src/GNOME_Gnumeric.xml.h:266
+#: src/GNOME_Gnumeric.xml.h:267
 msgid "_Sort..."
 msgstr "_Utriediť..."
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2741
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2741
 msgid "_Standard Height"
 msgstr "_Štandardná výška"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2722
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2722
 msgid "_Standard Width"
 msgstr "_Štandardná šírka"
 
-#: src/GNOME_Gnumeric.xml.h:269
+#: src/GNOME_Gnumeric.xml.h:270
 msgid "_Toolbars..."
 msgstr "Panely _nástrojov..."
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2916
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2916
 msgid "_Tools"
 msgstr "_Nástroje"
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:1025
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:1025
 #: src/workbook-control-gui.c:2566
 msgid "_Undo"
 msgstr "_Vrátiť"
 
-#: src/GNOME_Gnumeric.xml.h:272
+#: src/GNOME_Gnumeric.xml.h:273
 msgid "_Ungroup"
 msgstr "Z_rušiť zoskupenie"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/sheet-control-gui.c:1344
+#: src/GNOME_Gnumeric.xml.h:274 src/sheet-control-gui.c:1344
 #: src/sheet-control-gui.c:1352 src/workbook-control-gui.c:2719
 #: src/workbook-control-gui.c:2738
 msgid "_Unhide"
 msgstr "_Zobraziť skryté"
 
-#: src/GNOME_Gnumeric.xml.h:274
+#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:2889
+msgid "_Validate..."
+msgstr "_Overiť..."
+
+#: src/GNOME_Gnumeric.xml.h:276
 msgid "_View"
 msgstr "_Zobraziť"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:2713
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2713
 msgid "_Width..."
 msgstr "_Šírka..."
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2804
+#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2804
 msgid "_Workbook..."
 msgstr "_Zošit..."
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2637
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2637
 msgid "_Zoom..."
 msgstr "_Lupa..."
 
-#: src/analysis-tools.c:605 src/analysis-tools.c:2343
-#: src/analysis-tools.c:2485 src/analysis-tools.c:2651
+#: src/analysis-tools.c:605 src/analysis-tools.c:2344
+#: src/analysis-tools.c:2486 src/analysis-tools.c:2652
 #: src/dialogs/dialog-stf-preview.h:19
 #, c-format
 msgid "Column %d"
 msgstr "Stĺpec %d"
 
-#: src/analysis-tools.c:617 src/analysis-tools.c:2369
-#: src/analysis-tools.c:2507 src/analysis-tools.c:2668
+#: src/analysis-tools.c:617 src/analysis-tools.c:2370
+#: src/analysis-tools.c:2508 src/analysis-tools.c:2669
 #, c-format
 msgid "Row %d"
 msgstr "Riadok %d"
@@ -2096,28 +2109,28 @@ msgstr "k-ty najmenší"
 msgid "Smallest (%d)"
 msgstr "Najmenší (%d)"
 
-#: src/analysis-tools.c:1138 src/analysis-tools.c:2961
-#: src/dialogs/cell-format.glade.h:71
+#: src/analysis-tools.c:1138 src/analysis-tools.c:2962
+#: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "Výber"
 
-#: src/analysis-tools.c:1196
+#: src/analysis-tools.c:1197
 msgid "z-Test"
 msgstr "z-Test"
-
-#: src/analysis-tools.c:1219 src/analysis-tools.c:1333
-#: src/analysis-tools.c:1471 src/analysis-tools.c:1588
-#: src/analysis-tools.c:1704
-msgid "Variable 1"
-msgstr "Premenná 1"
 
 #: src/analysis-tools.c:1220 src/analysis-tools.c:1334
 #: src/analysis-tools.c:1472 src/analysis-tools.c:1589
 #: src/analysis-tools.c:1705
+msgid "Variable 1"
+msgstr "Premenná 1"
+
+#: src/analysis-tools.c:1221 src/analysis-tools.c:1335
+#: src/analysis-tools.c:1473 src/analysis-tools.c:1590
+#: src/analysis-tools.c:1706
 msgid "Variable 2"
 msgstr "Premenná 2"
 
-#: src/analysis-tools.c:1223
+#: src/analysis-tools.c:1224
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
 "one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
@@ -2127,12 +2140,12 @@ msgstr ""
 "(Z<=z) pre obojstrannú alternatívu/kritická hodnota z pre obojstrannú "
 "alternatívu"
 
-#: src/analysis-tools.c:1313 src/analysis-tools.c:1448
-#: src/analysis-tools.c:1565
+#: src/analysis-tools.c:1314 src/analysis-tools.c:1449
+#: src/analysis-tools.c:1566
 msgid "t-Test"
 msgstr "t-Test"
 
-#: src/analysis-tools.c:1337
+#: src/analysis-tools.c:1338
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2143,7 +2156,7 @@ msgstr ""
 "jednostrannú alternatívu/P (T<=t) pre obojstrannú alternatívu/kritická "
 "hodnota t pre obojstrannú alternatívu"
 
-#: src/analysis-tools.c:1475
+#: src/analysis-tools.c:1476
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/df/"
 "t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2154,7 +2167,7 @@ msgstr ""
 "jednostrannú alternatívu/P (T<=t) pre obojstrannú alternatívu/kritická "
 "hodnota t pre obojstrannú alternatívu"
 
-#: src/analysis-tools.c:1592
+#: src/analysis-tools.c:1593
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/df/t Stat/P (T<=t) "
 "one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
@@ -2164,30 +2177,30 @@ msgstr ""
 "alternatívu/P (T<=t) pre obojstrannú alternatívu/kritická hodnota t pre "
 "obojstrannú alternatívu"
 
-#: src/analysis-tools.c:1684
+#: src/analysis-tools.c:1685
 msgid "F-Test"
 msgstr "F-Test"
 
-#: src/analysis-tools.c:1711
+#: src/analysis-tools.c:1712
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
 msgstr ""
 "/Priemer/Rozptyl/Pozorovania/df/F/P (F<=f) pre jednostrannú alternatívu/"
 "kritická hodnota F pre jednostrannú alternatívu"
 
-#: src/analysis-tools.c:1792
+#: src/analysis-tools.c:1793
 msgid "Random"
 msgstr "Náhodné"
 
-#: src/analysis-tools.c:1930
+#: src/analysis-tools.c:1931
 msgid "Not implemented yet.\n"
 msgstr "Zatiaľ neimplementované.\n"
 
-#: src/analysis-tools.c:2027 src/dialogs/dialog-analysis-tools.c:3694
+#: src/analysis-tools.c:2028 src/dialogs/dialog-analysis-tools.c:3694
 #: src/dialogs/regression.glade.h:7
 msgid "Regression"
 msgstr "Regresia"
 
-#: src/analysis-tools.c:2029
+#: src/analysis-tools.c:2030
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2195,156 +2208,157 @@ msgstr ""
 "/VÝSTUP SÚHRNU/Štatistika regresie/Viacnásobné R/R^2/Modifikovaný R^2/"
 "Smerodajná chyba/Pozorovania//ANOVA/Regresia/Reziduálny/Celkom///Priesečník"
 
-#: src/analysis-tools.c:2048
+#: src/analysis-tools.c:2049
 #, c-format
 msgid "X Variable %d"
 msgstr "Premenná X %d"
 
-#: src/analysis-tools.c:2050
+#: src/analysis-tools.c:2051
 msgid "/df/SS/MS/F/Significance F"
 msgstr "/df/SS/MS/F/Významnosť F"
 
-#: src/analysis-tools.c:2056
+#: src/analysis-tools.c:2057
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
-msgstr "/Koeficienty/Smerodajná chyba/t štatistika/P-hodnota/Dolných 95%/Horných 95%"
+msgstr ""
+"/Koeficienty/Smerodajná chyba/t štatistika/P-hodnota/Dolných 95%/Horných 95%"
 
-#: src/analysis-tools.c:2254
+#: src/analysis-tools.c:2255
 msgid "Moving Averages"
 msgstr "Kĺzavé priemery"
 
-#: src/analysis-tools.c:2327
+#: src/analysis-tools.c:2328
 msgid "Ranks"
 msgstr "Rozloženie"
 
-#: src/analysis-tools.c:2335 src/analysis-tools.c:2360
+#: src/analysis-tools.c:2336 src/analysis-tools.c:2361
 msgid "Point"
 msgstr "Hodnota"
 
-#: src/analysis-tools.c:2345 src/analysis-tools.c:2371
+#: src/analysis-tools.c:2346 src/analysis-tools.c:2372
 msgid "Rank"
 msgstr "Rozloženie"
 
-#: src/analysis-tools.c:2462 src/analysis-tools.c:2633
-#: src/analysis-tools.c:2824
+#: src/analysis-tools.c:2463 src/analysis-tools.c:2634
+#: src/analysis-tools.c:2825
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2467 src/dialogs/analysis-tools.glade.h:2
+#: src/analysis-tools.c:2468 src/dialogs/analysis-tools.glade.h:2
 #: src/dialogs/dialog-analysis-tools.c:3672
 msgid "Anova: Single Factor"
 msgstr "Anova: Jednoduché triedenie"
 
-#: src/analysis-tools.c:2468 src/analysis-tools.c:2827
+#: src/analysis-tools.c:2469 src/analysis-tools.c:2828
 msgid "SUMMARY"
 msgstr "SÚHRN"
 
-#: src/analysis-tools.c:2469
+#: src/analysis-tools.c:2470
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Skupiny/Počet/Súčet/Priemer/Rozptyl"
 
-#: src/analysis-tools.c:2540
+#: src/analysis-tools.c:2541
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Zdroj variability/Medzi skupinami/V rámci skupín/Celkom"
 
-#: src/analysis-tools.c:2545 src/analysis-tools.c:2741
+#: src/analysis-tools.c:2546 src/analysis-tools.c:2742
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-hodnota/kritická hodnota F"
 
-#: src/analysis-tools.c:2638 src/dialogs/analysis-tools.glade.h:4
+#: src/analysis-tools.c:2639 src/dialogs/analysis-tools.glade.h:4
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Dvojité triedenie bez opakovania"
 
-#: src/analysis-tools.c:2639
+#: src/analysis-tools.c:2640
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SÚHRN/Počet/Súčet/Priemer/Rozptyl"
 
-#: src/analysis-tools.c:2735
+#: src/analysis-tools.c:2736
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Zdroj variability/Riadky/Stĺpce/Chyba/Celkom"
 
-#: src/analysis-tools.c:2826 src/dialogs/analysis-tools.glade.h:3
+#: src/analysis-tools.c:2827 src/dialogs/analysis-tools.glade.h:3
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Dvojité triedenie s opakovaním"
 
-#: src/analysis-tools.c:2843 src/analysis-tools.c:2914
-#: src/analysis-tools.c:2965 src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:2844 src/analysis-tools.c:2915
+#: src/analysis-tools.c:2966 src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
 msgid "Total"
 msgstr "Celkom"
 
-#: src/analysis-tools.c:2916 src/dialogs/consolidate.glade.h:5
+#: src/analysis-tools.c:2917 src/dialogs/consolidate.glade.h:5
 #: src/workbook-control-gui.c:3583
 msgid "Count"
 msgstr "Počet"
 
-#: src/analysis-tools.c:2918 src/dialogs/consolidate.glade.h:2
+#: src/analysis-tools.c:2919 src/dialogs/consolidate.glade.h:2
 #: src/workbook-control-gui.c:3582
 msgid "Average"
 msgstr "Priemer"
 
-#: src/analysis-tools.c:2919
+#: src/analysis-tools.c:2920
 msgid "Variance"
 msgstr "Odchýlka"
 
-#: src/analysis-tools.c:2959
+#: src/analysis-tools.c:2960
 msgid "ANOVA"
 msgstr "ANOVA"
 
-#: src/analysis-tools.c:2960
+#: src/analysis-tools.c:2961
 msgid "Source of Variation"
 msgstr "Zdroj variability"
 
-#: src/analysis-tools.c:2962 src/dialogs/dialog-stf.glade.h:17
+#: src/analysis-tools.c:2963 src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "Stĺpce"
 
-#: src/analysis-tools.c:2963
+#: src/analysis-tools.c:2964
 msgid "Interaction"
 msgstr "Interakcia"
 
-#: src/analysis-tools.c:2964
+#: src/analysis-tools.c:2965
 msgid "Within"
 msgstr "V rámci"
 
-#: src/analysis-tools.c:2967
+#: src/analysis-tools.c:2968
 msgid "SS"
 msgstr "SS"
 
-#: src/analysis-tools.c:2974
+#: src/analysis-tools.c:2975
 msgid "df"
 msgstr "df"
 
 #. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same
-#: src/analysis-tools.c:2983
+#: src/analysis-tools.c:2984
 msgid "MS"
 msgstr "MS"
 
-#: src/analysis-tools.c:2990
+#: src/analysis-tools.c:2991
 msgid "F"
 msgstr "F"
 
-#: src/analysis-tools.c:2996
+#: src/analysis-tools.c:2997
 msgid "P-value"
 msgstr "P-Hodnota"
 
-#: src/analysis-tools.c:3001
+#: src/analysis-tools.c:3002
 msgid "F crit"
 msgstr "Kritická hodnota F"
 
-#: src/analysis-tools.c:3054 src/dialogs/analysis-tools.glade.h:12
+#: src/analysis-tools.c:3055 src/dialogs/analysis-tools.glade.h:12
 #: src/dialogs/dialog-analysis-tools.c:3686 src/dialogs/histogram.glade.h:4
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3057
+#: src/analysis-tools.c:3058
 msgid "Bin"
 msgstr "Trieda"
 
-#: src/analysis-tools.c:3058
+#: src/analysis-tools.c:3059
 msgid "Frequency"
 msgstr "Frekvencia"
 
-#: src/analysis-tools.c:3061
+#: src/analysis-tools.c:3062
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulatívne %"
@@ -2354,7 +2368,7 @@ msgstr "Kumulatívne %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Chyba '%s' pri otváraní kanálu zošitu"
 
-#: src/bonobo-io.c:468 src/xml-io-autoft.c:425 src/xml-io.c:3220
+#: src/bonobo-io.c:468 src/xml-io-autoft.c:425 src/xml-io.c:3227
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Neplatný XML súbor. Strom je prázdny?"
 
@@ -3403,14 +3417,15 @@ msgid "Allow :"
 msgstr "Povoliť:"
 
 #: src/dialogs/cell-format.glade.h:15
-msgid "Any Value (no validation)"
+#, fuzzy
+msgid "Any Value                     (no validation)"
 msgstr "Ľubovoľná hodnota (bez overenia)"
 
 #: src/dialogs/cell-format.glade.h:17
 msgid "Background Color"
 msgstr "Farba pozadia"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2411
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2425
 msgid "Border"
 msgstr "Okraje"
 
@@ -3456,11 +3471,11 @@ msgstr "V_lastné"
 
 #: src/dialogs/cell-format.glade.h:29 src/dialogs/dialog-stf-export.glade.h:15
 #: src/dialogs/dialog-stf-format-page.c:167
-#: src/dialogs/dialog-stf-format-page.c:373 src/dialogs/validate.glade.h:6
+#: src/dialogs/dialog-stf-format-page.c:373
 msgid "Custom"
 msgstr "Vlastný"
 
-#: src/dialogs/cell-format.glade.h:30 src/dialogs/validate.glade.h:7
+#: src/dialogs/cell-format.glade.h:30
 msgid "Date"
 msgstr "Dátum"
 
@@ -3472,7 +3487,7 @@ msgstr "_Zmazať formát"
 msgid "Deci_mal places:"
 msgstr "Desati_nné miesta:"
 
-#: src/dialogs/cell-format.glade.h:33 src/dialogs/validate.glade.h:8
+#: src/dialogs/cell-format.glade.h:33
 msgid "Decimal"
 msgstr "Desatinné"
 
@@ -3534,7 +3549,8 @@ msgid "In-cell dropdown"
 msgstr "Zoznam v bunke"
 
 #: src/dialogs/cell-format.glade.h:48
-msgid "Information (allow invalid input)"
+#, fuzzy
+msgid "Information  (allows invalid input)"
 msgstr "Informácia (povoliť neplatný vstup)"
 
 #: src/dialogs/cell-format.glade.h:49
@@ -3578,286 +3594,292 @@ msgstr "_Záporné číslo:"
 msgid "None"
 msgstr "Žiadne"
 
-#: src/dialogs/cell-format.glade.h:62 src/dialogs/dialog-formula-guru.c:415
+#: src/dialogs/cell-format.glade.h:62
+msgid "None          (silently accept invalid input)"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:415
 #: src/dialogs/dialog-search.c:135
 msgid "Number"
 msgstr "Čísla"
 
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/print.glade.h:15
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/print.glade.h:15
 msgid "Orientation"
 msgstr "Orientácia"
 
-#: src/dialogs/cell-format.glade.h:64
+#: src/dialogs/cell-format.glade.h:65
 msgid "Outline"
 msgstr "Vonkajšie"
 
-#: src/dialogs/cell-format.glade.h:65 src/dialogs/dialog-cell-format.c:2426
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2440
 msgid "Pattern"
 msgstr "Vzorka"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:67
 msgid "Protection"
 msgstr "Ochrana"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:68
 msgid "Reverse Diagonal"
 msgstr "Opačné diagonály"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:69
 msgid "Reverse Diagonal Stripe"
 msgstr "Opačné diagonálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:71
 msgid "S_ymbol:"
 msgstr "S_ymbol:"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:73
 msgid "Semi Circles"
 msgstr "Polkruhy"
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:74
 msgid "Show input message when cell is selected"
 msgstr "Zobraziť vstupnú správu pri vybraní bunky"
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:75
 msgid "Shrin_k to fit"
 msgstr "Pri_spôsobiť bunke"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:75 src/dialogs/dialog-cell-format.c:1270
+#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1270
 #: src/dialogs/dialog-cell-format.c:1331
 msgid "Single"
 msgstr "Jednoduché"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:77
 msgid "Small Circles"
 msgstr "Malé kruhy"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:78
 msgid "Solid"
 msgstr "Plné"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:79
 msgid "Sp_ecial"
 msgstr "_Iné"
 
-#: src/dialogs/cell-format.glade.h:79
-msgid "Stop (never allow invalid input)"
+#: src/dialogs/cell-format.glade.h:80
+#, fuzzy
+msgid "Stop           (never allow invalid input)"
 msgstr "Zastavenie (nikdy nepovoliť neplatný vstup)"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:81
 msgid "Stri_kethrough"
 msgstr "P_reškrtnuté"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:82
 msgid "Su_bscript"
 msgstr "_Dolný index"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:83
 msgid "Sup_erscript"
 msgstr "_Horný index"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:84
 msgid "Te_xt"
 msgstr "Te_xt"
 
-#: src/dialogs/cell-format.glade.h:84 src/dialogs/validate.glade.h:20
+#: src/dialogs/cell-format.glade.h:85
 msgid "Text length"
 msgstr "Dĺžka textu"
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:86
 msgid "Thatch"
 msgstr "Škridle"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:87
 msgid "Thick Diagonal Crosshatch"
 msgstr "Tučné diagonálne mreže"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:88
 msgid "Thin Diagonal Crosshatch"
 msgstr "Tenké diagonálne mreže"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:89
 msgid "Thin Diagonal Stripe"
 msgstr "Tenké diagonálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:90
 msgid "Thin Horizontal Crosshatch"
 msgstr "Tenké horizontálne mreže"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:91
 msgid "Thin Horizontal Stripe"
 msgstr "Tenké horizontálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:92
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tenké opačné diagonálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:93
 msgid "Thin Vertical Stripe"
 msgstr "Tenké vertikálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:93 src/dialogs/validate.glade.h:21
+#: src/dialogs/cell-format.glade.h:94
 msgid "Time"
 msgstr "Čas"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:95
 msgid "Title :"
 msgstr "Titulok :"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:96
 msgid "Top"
 msgstr "Hore"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:97
 msgid "Unfinished"
 msgstr "Nedokončené"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:98
 msgid "Validation"
 msgstr "Overenie vstupu"
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:99
 msgid "Vertical Alignment"
 msgstr "Zvislo"
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:100
 msgid "Vertical Stripe"
 msgstr "Vertikálne pruhy"
 
-#: src/dialogs/cell-format.glade.h:100
-msgid "Warning (choose to accept or discard invalid input)"
+#: src/dialogs/cell-format.glade.h:101
+#, fuzzy
+msgid "Warning      (accept/discard invalid input)"
 msgstr "Varovanie (výber, či akceptovať alebo zahodiť neplatný vstup)"
 
-#: src/dialogs/cell-format.glade.h:101 src/dialogs/validate.glade.h:25
+#: src/dialogs/cell-format.glade.h:102
 msgid "Whole numbers"
 msgstr "Celé čísla"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:103
 msgid "Worksheet _protected"
 msgstr "_Chránené zošitom"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:104
 msgid "_Accounting"
 msgstr "Účt_ovnícke"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Bottom"
 msgstr "_Dolu"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:106
 msgid "_Center"
 msgstr "Na _stred"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:107
 msgid "_Currency"
 msgstr "_Mena"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:108
 msgid "_Date"
 msgstr "_Dátum"
 
-#: src/dialogs/cell-format.glade.h:109
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Fraction"
 msgstr "_Zlomok"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:111
 msgid "_General"
 msgstr "_Všeobecné"
 
-#: src/dialogs/cell-format.glade.h:111
+#: src/dialogs/cell-format.glade.h:112
 msgid "_Hidden"
 msgstr "_Skryté"
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:113
 msgid "_Indent"
 msgstr "_Odsadiť"
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:114
 msgid "_Justify"
 msgstr "Do _bloku"
 
-#: src/dialogs/cell-format.glade.h:114
+#: src/dialogs/cell-format.glade.h:115
 msgid "_Left"
 msgstr "_Doľava"
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:116
 msgid "_Locked"
 msgstr "_Zamknuté"
 
-#: src/dialogs/cell-format.glade.h:116
+#: src/dialogs/cell-format.glade.h:117
 msgid "_Number"
 msgstr "Čís_lo"
 
-#: src/dialogs/cell-format.glade.h:117
+#: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
 msgstr "_Percentá"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:119
 msgid "_Right"
 msgstr "_Doprava"
 
-#: src/dialogs/cell-format.glade.h:119
+#: src/dialogs/cell-format.glade.h:120
 msgid "_Scientific"
 msgstr "V_edecké"
 
-#: src/dialogs/cell-format.glade.h:120
+#: src/dialogs/cell-format.glade.h:121
 msgid "_Style"
 msgstr "Š_týl"
 
-#: src/dialogs/cell-format.glade.h:121
+#: src/dialogs/cell-format.glade.h:122
 msgid "_Time"
 msgstr "Ča_s"
 
-#: src/dialogs/cell-format.glade.h:122
+#: src/dialogs/cell-format.glade.h:123
 msgid "_Top"
 msgstr "_Hore"
 
-#: src/dialogs/cell-format.glade.h:123
+#: src/dialogs/cell-format.glade.h:124
 msgid "_Type"
 msgstr "_Typ"
 
-#: src/dialogs/cell-format.glade.h:124
+#: src/dialogs/cell-format.glade.h:125
 msgid "_Underline:"
 msgstr "_Podčiarknutie:"
 
-#: src/dialogs/cell-format.glade.h:125
+#: src/dialogs/cell-format.glade.h:126
 msgid "_Use Separator for 1000's"
 msgstr "Po_užiť oddeľovač tisícov"
 
-#: src/dialogs/cell-format.glade.h:126
+#: src/dialogs/cell-format.glade.h:127
 msgid "_Wrap text"
 msgstr "_Zalamovať text"
 
-#: src/dialogs/cell-format.glade.h:127 src/dialogs/validate.glade.h:32
+#: src/dialogs/cell-format.glade.h:128
 msgid "min <= val <= max         (between)"
 msgstr "min <= hod <= max         (medzi)"
 
-#: src/dialogs/cell-format.glade.h:128 src/dialogs/validate.glade.h:33
+#: src/dialogs/cell-format.glade.h:129
 msgid "val != bound                  (not equal to)"
 msgstr "hod != limit                 (nerovná sa)"
 
-#: src/dialogs/cell-format.glade.h:129 src/dialogs/validate.glade.h:34
+#: src/dialogs/cell-format.glade.h:130
 msgid "val >  bound                  (greater than)"
 msgstr "hod >  limit                 (je väčšia)"
 
-#: src/dialogs/cell-format.glade.h:130 src/dialogs/validate.glade.h:35
+#: src/dialogs/cell-format.glade.h:131
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "hod >=limit                 (je väčšia alebo rovná)"
 
-#: src/dialogs/cell-format.glade.h:131 src/dialogs/validate.glade.h:36
+#: src/dialogs/cell-format.glade.h:132
 msgid "val <  bound                  (less than)"
 msgstr "hod <  limit                 (je menšia)"
 
-#: src/dialogs/cell-format.glade.h:132 src/dialogs/validate.glade.h:37
+#: src/dialogs/cell-format.glade.h:133
 msgid "val <= min || max <= val (not between)"
 msgstr "hod <= min || max <= hod (nie je medzi)"
 
-#: src/dialogs/cell-format.glade.h:133 src/dialogs/validate.glade.h:38
+#: src/dialogs/cell-format.glade.h:134
 msgid "val <=bound                  (less than or equal to)"
 msgstr "hod <=limit                 (je menšia alebo rovná)"
 
-#: src/dialogs/cell-format.glade.h:134 src/dialogs/validate.glade.h:39
+#: src/dialogs/cell-format.glade.h:135
 msgid "val == bound                 (equal to)"
 msgstr "hod == limit                (je rovná)"
 
@@ -4426,7 +4448,8 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:2754
-msgid "There must be an equal number of entries for each variable in the regression."
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
 #: src/dialogs/dialog-analysis-tools.c:2865
@@ -4472,7 +4495,8 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:3434
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr ""
+"Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:3510
 msgid "Each sample must contain the same number of rows."
@@ -4650,32 +4674,30 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#: src/dialogs/dialog-cell-format.c:2019 src/dialogs/dialog-cell-format.c:2028
-#: src/dialogs/dialog-validate.c:136 src/dialogs/dialog-validate.c:145
+#: src/dialogs/dialog-cell-format.c:2026 src/dialogs/dialog-cell-format.c:2035
 msgid "Minimum :"
 msgstr "Minimum:"
 
-#: src/dialogs/dialog-cell-format.c:2020 src/dialogs/dialog-cell-format.c:2032
-#: src/dialogs/dialog-validate.c:137 src/dialogs/dialog-validate.c:149
+#: src/dialogs/dialog-cell-format.c:2027 src/dialogs/dialog-cell-format.c:2039
 msgid "Maximum :"
 msgstr "Maximum:"
 
-#: src/dialogs/dialog-cell-format.c:2024 src/dialogs/dialog-validate.c:141
+#: src/dialogs/dialog-cell-format.c:2031
 msgid "Value :"
 msgstr "Hodnota:"
 
-#: src/dialogs/dialog-cell-format.c:2345
+#: src/dialogs/dialog-cell-format.c:2359
 msgid "Format Cells"
 msgstr "Formát buniek"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2411 src/dialogs/dialog-cell-format.c:2416
-#: src/dialogs/dialog-cell-format.c:2426 src/functions/fn-information.c:391
+#: src/dialogs/dialog-cell-format.c:2425 src/dialogs/dialog-cell-format.c:2430
+#: src/dialogs/dialog-cell-format.c:2440 src/functions/fn-information.c:392
 #: src/workbook-format-toolbar.c:860
 msgid "Automatic"
 msgstr "Automatické"
 
-#: src/dialogs/dialog-cell-format.c:2421 src/workbook-format-toolbar.c:835
+#: src/dialogs/dialog-cell-format.c:2435 src/workbook-format-toolbar.c:835
 msgid "Clear Background"
 msgstr "Vymazať pozadie"
 
@@ -4771,7 +4793,7 @@ msgid "Value%d"
 msgstr "Hodnota%d"
 
 #: src/dialogs/dialog-formula-guru.c:414 src/dialogs/dialog-search.c:131
-#: src/functions/fn-string.c:1226
+#: src/functions/fn-string.c:1227
 msgid "String"
 msgstr "Textové"
 
@@ -4799,73 +4821,39 @@ msgstr "Skalár"
 msgid "Any"
 msgstr "Čokoľvek"
 
-#: src/dialogs/dialog-goal-seek.c:207
-#, c-format
-msgid "Goal seeking with cell %s found a solution"
-msgstr "Hľadanie cieľa s bunkou %s našlo riešenie"
-
-#: src/dialogs/dialog-goal-seek.c:210
-#, c-format
-msgid "Target value:   %12.2f"
-msgstr "Cieľová hodnota:   %12.2f"
-
-#: src/dialogs/dialog-goal-seek.c:213
-#, c-format
-msgid "Current value:  %12.2f"
-msgstr "Aktuálna hodnota:  %12.2f"
-
-#: src/dialogs/dialog-goal-seek.c:216
-#, c-format
-msgid "Solution:       %12.2f"
-msgstr "Riešenie:       %12.2f"
-
-#: src/dialogs/dialog-goal-seek.c:219
-msgid "Goal Seek Report"
-msgstr "Správa o hľadaní cieľa"
-
-#: src/dialogs/dialog-goal-seek.c:283
-msgid "Goal Seek..."
-msgstr "Hľadanie cieľa..."
-
-#: src/dialogs/dialog-goal-seek.c:301
-msgid "Set cell:"
-msgstr "Vyplniť bunku:"
-
-#: src/dialogs/dialog-goal-seek.c:302
-msgid "To value:"
-msgstr "Hodnotou:"
-
-#: src/dialogs/dialog-goal-seek.c:303
-msgid "By changing cell:"
-msgstr "Zmenou bunky:"
-
-#: src/dialogs/dialog-goal-seek.c:304
-msgid "To a value of at least [optional]:"
-msgstr "Na hodnotu najmenej [nepovinné]:"
-
-#: src/dialogs/dialog-goal-seek.c:305
-msgid "But no bigger than [optional]:"
-msgstr "Ale nie vyššiu ako [nepovinné]:"
-
-#: src/dialogs/dialog-goal-seek.c:364
-msgid "You should introduce a valid cell name in 'Set cell'"
+#: src/dialogs/dialog-goal-seek.c:347
+#, fuzzy
+msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Mali by ste zadať platné meno bunky v 'Vyplniť bunku'"
 
-#: src/dialogs/dialog-goal-seek.c:372
-msgid "The cell named in 'Set cell' must contain a formula"
+#: src/dialogs/dialog-goal-seek.c:355
+#, fuzzy
+msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Bunka 'Vyplniť bunku' musí obsahovať vzorec"
 
-#: src/dialogs/dialog-goal-seek.c:385
-msgid "You should introduce a valid cell name in 'By changing cell'"
+#: src/dialogs/dialog-goal-seek.c:363
+#, fuzzy
+msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Mali by ste zadať platné meno bunky v 'Zmenou bunky'"
 
-#: src/dialogs/dialog-goal-seek.c:394
+#: src/dialogs/dialog-goal-seek.c:372
 msgid "The cell named in 'By changing cell' must not contain a formula"
 msgstr "Bunka v 'Zmenou bunky' nesmie obsahovať vzorec"
 
-#: src/dialogs/dialog-goal-seek.c:438
-msgid "Goal seek did not find a solution!"
-msgstr "Hľadanie cieľa nenašlo riešenie!"
+#: src/dialogs/dialog-goal-seek.c:441
+#, fuzzy, c-format
+msgid "Goal seeking with cell %s found a solution."
+msgstr "Hľadanie cieľa s bunkou %s našlo riešenie"
+
+#: src/dialogs/dialog-goal-seek.c:455
+#, fuzzy, c-format
+msgid "Goal seeking with cell %s did not find a solution."
+msgstr "Hľadanie cieľa s bunkou %s našlo riešenie"
+
+#: src/dialogs/dialog-goal-seek.c:622
+#, fuzzy
+msgid "Could not create the Goal-Seek dialog."
+msgstr "Nepodarilo sa vytvoriť dialóg nástroja F-test."
 
 #: src/dialogs/dialog-goto-cell.c:48 src/solver-lp.c:896 src/solver-lp.c:920
 #: src/solver-lp.c:953 src/solver-lp.c:1047 src/solver-lp.c:1094
@@ -4876,27 +4864,32 @@ msgstr "Bunka"
 msgid "Go to..."
 msgstr "Prejsť na..."
 
-#: src/dialogs/dialog-graph-guru.c:523
+#: src/dialogs/dialog-graph-guru.c:743
 msgid "Step 1 of 3: Select graph type"
 msgstr "Krok 1 z 3: Výber typu grafu"
 
-#: src/dialogs/dialog-graph-guru.c:530
+#: src/dialogs/dialog-graph-guru.c:749
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Krok 2 z 3: Výber intervalov hodnôt"
 
-#: src/dialogs/dialog-graph-guru.c:532
+#: src/dialogs/dialog-graph-guru.c:751
 msgid "Graph Data"
 msgstr "Dáta pre graf"
 
-#: src/dialogs/dialog-graph-guru.c:537
+#: src/dialogs/dialog-graph-guru.c:756
 msgid "Step 3 of 3: Customize graph"
 msgstr "Krok 3 z 3: Úprava grafu"
 
-#: src/dialogs/dialog-graph-guru.c:755
+#: src/dialogs/dialog-graph-guru.c:758
+#, fuzzy
+msgid "Format Graph"
+msgstr "Guru vzorcov"
+
+#: src/dialogs/dialog-graph-guru.c:933
 msgid "Plot name"
 msgstr "Meno kresby"
 
-#: src/dialogs/dialog-graph-guru.c:758
+#: src/dialogs/dialog-graph-guru.c:936
 msgid "Series name"
 msgstr "Meno série"
 
@@ -5292,7 +5285,8 @@ msgstr "fixed"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
+msgstr ""
+"Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -5374,7 +5368,8 @@ msgstr "Definovať šírku každého stĺpca ručne."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
+msgstr ""
+"Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -5479,8 +5474,10 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeľovače chápať ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr "Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
+msgstr ""
+"Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -5667,6 +5664,60 @@ msgstr "_Kresba"
 #: src/dialogs/graph-guru.glade.h:6
 msgid "_Series"
 msgstr "_Série"
+
+#: src/dialogs/goalseek.glade.h:1
+#, fuzzy
+msgid "(Maximum):"
+msgstr "Maximum:"
+
+#: src/dialogs/goalseek.glade.h:2
+#, fuzzy
+msgid "(Minimum):"
+msgstr "Minimum:"
+
+#: src/dialogs/goalseek.glade.h:3
+#, fuzzy
+msgid "By Changing Cell:"
+msgstr "_Zmenou buniek:"
+
+#: src/dialogs/goalseek.glade.h:4
+#, fuzzy
+msgid "Current Value:"
+msgstr "Aktuálny dátu_m"
+
+#: src/dialogs/goalseek.glade.h:5
+#, fuzzy
+msgid "Goal:"
+msgstr "Celkom"
+
+#: src/dialogs/goalseek.glade.h:6
+#, fuzzy
+msgid "GoalSeek"
+msgstr "Hľadanie cieľa..."
+
+#: src/dialogs/goalseek.glade.h:7
+msgid "Last Result:"
+msgstr ""
+
+#: src/dialogs/goalseek.glade.h:8
+#, fuzzy
+msgid "Set Cell:"
+msgstr "Vyplniť bunku:"
+
+#: src/dialogs/goalseek.glade.h:9
+#, fuzzy
+msgid "Solution:"
+msgstr "Nastavenie Riešiteľa"
+
+#: src/dialogs/goalseek.glade.h:10
+#, fuzzy
+msgid "Target Value:"
+msgstr "Cieľová hodnota:   %12.2f"
+
+#: src/dialogs/goalseek.glade.h:11
+#, fuzzy
+msgid "To Value:"
+msgstr "Hodnotou:"
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Center section:"
@@ -5956,7 +6007,7 @@ msgid "Scale"
 msgstr "Veľkosť"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:136
-#: src/workbook.c:1060 src/xml-io.c:2831
+#: src/workbook.c:1060 src/xml-io.c:2837
 msgid "Sheet"
 msgstr "List"
 
@@ -6117,131 +6168,153 @@ msgstr "_Náhodné"
 msgid "C_olumn major"
 msgstr "_Hlavný stĺpec"
 
-#: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:2
+#: src/dialogs/search.glade.h:2
+msgid "Dismiss search center"
+msgstr ""
+
+#: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:3
 msgid "Do not consider matches in the middle of words"
 msgstr "Nepovažovať za odpovedajúce v rámci slova"
 
-#: src/dialogs/search.glade.h:3
+#: src/dialogs/search.glade.h:4
 msgid "Find text within cell comments"
 msgstr "Hľadať text v komentároch buniek"
 
-#: src/dialogs/search.glade.h:4
+#: src/dialogs/search.glade.h:5
 msgid "Find text within expressions"
 msgstr "Hľadať text vo výrazoch"
 
-#: src/dialogs/search.glade.h:5
+#: src/dialogs/search.glade.h:6
 msgid "Find text within non-string values"
 msgstr "Hľadať text v netextových hodnotách"
 
-#: src/dialogs/search.glade.h:6
+#: src/dialogs/search.glade.h:7
 msgid "Find text within string values"
 msgstr "Hľadať text v reťazcoch"
 
-#: src/dialogs/search.glade.h:7
+#: src/dialogs/search.glade.h:8
 msgid "Match _whole words only"
 msgstr "_Len celé slová"
 
-#: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:8
+#: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
 msgid "Miscellanea"
 msgstr "Rôzne"
 
-#: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:9
+#: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:10
 msgid "Search"
 msgstr "Nájsť"
 
-#: src/dialogs/search.glade.h:10
+#: src/dialogs/search.glade.h:11
+#, fuzzy
+msgid "Search Center"
+msgstr "Hľadať"
+
+#: src/dialogs/search.glade.h:12
 msgid "Search cells containing"
 msgstr "Hľadať bunky obsahujúce"
 
-#: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:11
+#: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:13
 msgid "Search column by column"
 msgstr "Hľadať po stĺpcoch"
 
-#: src/dialogs/search.glade.h:12
+#: src/dialogs/search.glade.h:14
 msgid "Search in all cells in the workbook"
 msgstr "Hľadať vo všetkých bunkách zošita"
 
-#: src/dialogs/search.glade.h:13
+#: src/dialogs/search.glade.h:15
 msgid "Search in current sheet only"
 msgstr "Hľadať len v aktuálnom liste"
 
-#: src/dialogs/search.glade.h:14
+#: src/dialogs/search.glade.h:16
 msgid "Search in specified range only"
 msgstr "Hľadať len v uvedenom rozsahu"
 
-#: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:15
+#: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:17
 msgid "Search line by line"
 msgstr "Hľadať po riadkoch"
 
-#: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:16
+#: src/dialogs/search.glade.h:18
+msgid "Show next match"
+msgstr ""
+
+#: src/dialogs/search.glade.h:19
+msgid "Show previous match"
+msgstr ""
+
+#: src/dialogs/search.glade.h:20
+#, fuzzy
+msgid "Start search"
+msgstr "Nájsť"
+
+#: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
 msgid "The search text is a regular expression"
 msgstr "Hľadaný text je regulárny výraz"
 
-#: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:17
+#: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:22
 msgid "The search text is taken literal"
 msgstr "Hľadaný text je priamo text"
 
-#: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:18
+#: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23
 msgid "When set, do not distinguish between upper and lower case letters"
 msgstr "Ak nastavené, nerozlišuje medzi veľkými a malými písmenami"
 
-#: src/dialogs/search.glade.h:19
+#: src/dialogs/search.glade.h:24
 msgid "_Advanced"
 msgstr "_Pokročilé"
 
-#: src/dialogs/search.glade.h:20
+#: src/dialogs/search.glade.h:25
 msgid "_Comments"
 msgstr "_Komentáre"
 
-#: src/dialogs/search.glade.h:21
+#: src/dialogs/search.glade.h:26
 msgid "_Current sheet"
 msgstr "_Aktuálny list"
 
-#: src/dialogs/search.glade.h:22
+#: src/dialogs/search.glade.h:27
 msgid "_Entire workbook"
 msgstr "_Celý zošit"
 
-#: src/dialogs/search.glade.h:23
+#: src/dialogs/search.glade.h:28
 msgid "_Expressions"
 msgstr "_Výrazy"
 
-#: src/dialogs/search.glade.h:24
+#: src/dialogs/search.glade.h:29
 msgid "_Ignore case"
 msgstr "_Ignorovať veľkosť písmen"
 
-#: src/dialogs/search.glade.h:25
+#: src/dialogs/search.glade.h:30
 msgid "_Matches"
 msgstr "_Odpovedá"
 
-#: src/dialogs/search.glade.h:26
+#: src/dialogs/search.glade.h:31
 msgid "_Normal"
 msgstr "_Normálne"
 
-#: src/dialogs/search.glade.h:27
+#: src/dialogs/search.glade.h:32
 msgid "_Other values"
 msgstr "_Iné hodnoty"
 
-#: src/dialogs/search.glade.h:28
+#: src/dialogs/search.glade.h:33
 msgid "_Plain text"
 msgstr "Čistý _text"
 
-#: src/dialogs/search.glade.h:29
+#: src/dialogs/search.glade.h:34
 msgid "_Range"
 msgstr "_Rozsah"
 
-#: src/dialogs/search.glade.h:30
+#: src/dialogs/search.glade.h:35
 msgid "_Regular expression"
 msgstr "Re_gulárny výraz"
 
-#: src/dialogs/search.glade.h:31
+#: src/dialogs/search.glade.h:36
 msgid "_Row major"
 msgstr "Hlavný _riadok"
 
-#: src/dialogs/search.glade.h:32
+#: src/dialogs/search.glade.h:37
 msgid "_Search for"
 msgstr "_Hľadať"
 
-#: src/dialogs/search.glade.h:33
+#: src/dialogs/search.glade.h:38
 msgid "_Strings"
 msgstr "_Reťazce"
 
@@ -6597,102 +6670,6 @@ msgstr "Súhrn"
 msgid "Title"
 msgstr "Titulok"
 
-#: src/dialogs/validate.glade.h:1
-msgid "A blank cell will be seen as valid"
-msgstr "Prázdna bunka bude považovaná za platnú"
-
-#: src/dialogs/validate.glade.h:2
-msgid "Ac_tion :"
-msgstr "A_kcia: "
-
-#: src/dialogs/validate.glade.h:3
-msgid "Any Value"
-msgstr "Ľubovoľná hodnota"
-
-#: src/dialogs/validate.glade.h:4
-msgid "Apply these changes to _other cells with the same settings"
-msgstr "Použiť tieto _zmeny na ostatné bunky s rovnakým nastavením"
-
-#: src/dialogs/validate.glade.h:5
-msgid "Clear All"
-msgstr "Vyčistiť všetko"
-
-#: src/dialogs/validate.glade.h:9
-msgid "Give the cell a dropdown combo with all possible valid values"
-msgstr "Pridá bunke rozbaľovací zoznam so všetkými platnými hodnotami."
-
-#: src/dialogs/validate.glade.h:10
-msgid "Ignore _blank"
-msgstr "Ignorovať _prázdne znaky"
-
-#: src/dialogs/validate.glade.h:11
-msgid "In-cell _dropdown"
-msgstr "Zoznam _v bunke"
-
-#: src/dialogs/validate.glade.h:12 src/functions/fn-information.c:928
-msgid "Information"
-msgstr "Informácie"
-
-#: src/dialogs/validate.glade.h:13
-msgid "Input Validation"
-msgstr "Overenie vstupu"
-
-#: src/dialogs/validate.glade.h:14
-msgid "Input _Message :"
-msgstr "Vstupná _správa:"
-
-#: src/dialogs/validate.glade.h:16
-msgid "Messa_ge :"
-msgstr "_Správa:"
-
-#: src/dialogs/validate.glade.h:17
-msgid "S_how error alert after invalid data is entered"
-msgstr "_Zobraziť informácie o chybe po zadaní neplatných dát"
-
-#: src/dialogs/validate.glade.h:18
-msgid "Show input _message when cell is selected"
-msgstr "_Zobraziť vstupnú správu pri vybraní bunky"
-
-#: src/dialogs/validate.glade.h:19
-msgid "Stop"
-msgstr "Stop"
-
-#: src/dialogs/validate.glade.h:22
-msgid "Tit_le :"
-msgstr "_Titulok:"
-
-#: src/dialogs/validate.glade.h:23
-msgid "Validation criteria"
-msgstr "Kritériá validácie"
-
-#: src/dialogs/validate.glade.h:24
-msgid "Warning"
-msgstr "Varovanie"
-
-#: src/dialogs/validate.glade.h:26
-msgid "_Allow :"
-msgstr "_Povoliť:"
-
-#: src/dialogs/validate.glade.h:27
-msgid "_Condition :"
-msgstr "_Podmienka:"
-
-#: src/dialogs/validate.glade.h:28
-msgid "_Error Alert"
-msgstr "Upozornenie na _chyby"
-
-#: src/dialogs/validate.glade.h:29
-msgid "_Input Message"
-msgstr "_Vstupná správa"
-
-#: src/dialogs/validate.glade.h:30
-msgid "_Settings"
-msgstr "_Nastavenie"
-
-#: src/dialogs/validate.glade.h:31
-msgid "_Title :"
-msgstr "_Titulok:"
-
 #: src/dialogs/variance-tests.glade.h:7
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "Test rovnosti dvoch odchýlok (F-test)"
@@ -6787,15 +6764,18 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
 #: src/file.c:495
-msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
 
 #: src/format-template.c:883
 #, c-format
-msgid "The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid ""
+"The target region is too small.  It should be at least %d rows by %d columns"
+msgstr ""
+"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
 #: src/format-template.c:886
 #, c-format
@@ -8979,7 +8959,7 @@ msgstr ""
 
 #. Path of the current directory or folder.
 #: src/functions/fn-date.c:832 src/functions/fn-eng.c:125
-#: src/functions/fn-information.c:357 src/functions/fn-information.c:373
+#: src/functions/fn-information.c:358 src/functions/fn-information.c:374
 msgid "Unimplemented"
 msgstr "Neimplementované"
 
@@ -10131,7 +10111,7 @@ msgstr ""
 msgid "Engineering"
 msgstr "Inžinierske"
 
-#: src/functions/fn-financial.c:577
+#: src/functions/fn-financial.c:567
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -10178,7 +10158,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: src/functions/fn-financial.c:632
+#: src/functions/fn-financial.c:622
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -10225,7 +10205,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINT"
 
-#: src/functions/fn-financial.c:682
+#: src/functions/fn-financial.c:672
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -10278,7 +10258,7 @@ msgstr ""
 "=INTRATE(36631, 36799, 100000, 103525, 1) čo sa rovná .0648 alebo 6.48%\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: src/functions/fn-financial.c:742
+#: src/functions/fn-financial.c:732
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -10320,7 +10300,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTRATE"
 
-#: src/functions/fn-financial.c:794
+#: src/functions/fn-financial.c:784
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -10367,7 +10347,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEMAT"
 
-#: src/functions/fn-financial.c:844
+#: src/functions/fn-financial.c:834
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -10410,7 +10390,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: src/functions/fn-financial.c:899
+#: src/functions/fn-financial.c:889
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -10450,7 +10430,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:945
+#: src/functions/fn-financial.c:935
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -10493,11 +10473,11 @@ msgstr ""
 "ktorú zaplatíte.\n"
 "@SEEALSO=NOMINAL"
 
-#: src/functions/fn-financial.c:986
+#: src/functions/fn-financial.c:976
 msgid "effect - domain error"
 msgstr "effect - chyba definičného oboru"
 
-#: src/functions/fn-financial.c:994
+#: src/functions/fn-financial.c:984
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -10529,11 +10509,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: src/functions/fn-financial.c:1024
+#: src/functions/fn-financial.c:1014
 msgid "nominal - domain error"
 msgstr "nominal - chyba definičného oboru"
 
-#: src/functions/fn-financial.c:1033
+#: src/functions/fn-financial.c:1023
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -10551,7 +10531,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:1067
+#: src/functions/fn-financial.c:1057
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -10576,7 +10556,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:1122
+#: src/functions/fn-financial.c:1112
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -10603,7 +10583,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: src/functions/fn-financial.c:1170
+#: src/functions/fn-financial.c:1160
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -10643,11 +10623,11 @@ msgstr ""
 "To znamená, že ročný odpis bude $930.\n"
 "@SEEALSO=SYD"
 
-#: src/functions/fn-financial.c:1214
+#: src/functions/fn-financial.c:1204
 msgid "sln - domain error"
 msgstr "sln - chyba definičného oboru"
 
-#: src/functions/fn-financial.c:1222
+#: src/functions/fn-financial.c:1212
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -10693,11 +10673,11 @@ msgstr ""
 "=SYD(5000, 200, 5, 2) čo vráti 1,280.00.\n"
 "@SEEALSO=SLN"
 
-#: src/functions/fn-financial.c:1268
+#: src/functions/fn-financial.c:1258
 msgid "syd - domain error"
 msgstr "syd - chyba definičného oboru"
 
-#: src/functions/fn-financial.c:1278
+#: src/functions/fn-financial.c:1268
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -10719,7 +10699,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/functions/fn-financial.c:1320
+#: src/functions/fn-financial.c:1310
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -10741,7 +10721,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/functions/fn-financial.c:1362
+#: src/functions/fn-financial.c:1352
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -10759,7 +10739,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1422
+#: src/functions/fn-financial.c:1412
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -10785,7 +10765,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1467
+#: src/functions/fn-financial.c:1457
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -10812,7 +10792,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1508
+#: src/functions/fn-financial.c:1498
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -10837,7 +10817,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
-#: src/functions/fn-financial.c:1549
+#: src/functions/fn-financial.c:1539
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -10853,7 +10833,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:1653
+#: src/functions/fn-financial.c:1643
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -10888,7 +10868,7 @@ msgstr ""
 "IRR(A1:A8) sa rovná 0.04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:1775
+#: src/functions/fn-financial.c:1765
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -10911,7 +10891,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:1821
+#: src/functions/fn-financial.c:1811
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -10934,7 +10914,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:1875
+#: src/functions/fn-financial.c:1865
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -10959,7 +10939,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:1934
+#: src/functions/fn-financial.c:1924
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -11000,7 +10980,7 @@ msgstr ""
 "XIRR(A1:A5,B1:B5) sa rovná 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:2038
+#: src/functions/fn-financial.c:2028
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -11026,7 +11006,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:2077
+#: src/functions/fn-financial.c:2067
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -11044,7 +11024,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2106
+#: src/functions/fn-financial.c:2096
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -11072,7 +11052,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2153
+#: src/functions/fn-financial.c:2143
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -11100,7 +11080,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2202
+#: src/functions/fn-financial.c:2192
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -11133,7 +11113,7 @@ msgstr ""
 "pred koncom 12. roku sa vám suma zdvojnásobí.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2251
+#: src/functions/fn-financial.c:2241
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -11154,7 +11134,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2288
+#: src/functions/fn-financial.c:2278
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -11180,7 +11160,7 @@ msgstr ""
 "FVSCHEDULE(3000,A1:A5) sa rovná 4942.7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2332
+#: src/functions/fn-financial.c:2322
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -11225,7 +11205,7 @@ msgstr ""
 "EURO(\"DEM\") vracia 1.95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2414
+#: src/functions/fn-financial.c:2404
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
@@ -11242,7 +11222,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2438
+#: src/functions/fn-financial.c:2428
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
@@ -11259,7 +11239,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2456
+#: src/functions/fn-financial.c:2446
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
@@ -11275,7 +11255,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2474
+#: src/functions/fn-financial.c:2464
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
@@ -11291,7 +11271,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2492
+#: src/functions/fn-financial.c:2482
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -11309,7 +11289,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2510
+#: src/functions/fn-financial.c:2500
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -11327,7 +11307,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2528
+#: src/functions/fn-financial.c:2518
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -11345,7 +11325,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2546
+#: src/functions/fn-financial.c:2536
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -11363,7 +11343,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2564
+#: src/functions/fn-financial.c:2554
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,"
@@ -11382,7 +11362,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2583
+#: src/functions/fn-financial.c:2573
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
@@ -11400,7 +11380,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2602
+#: src/functions/fn-financial.c:2592
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11418,7 +11398,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2644
+#: src/functions/fn-financial.c:2634
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -11435,7 +11415,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2686
+#: src/functions/fn-financial.c:2676
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -11453,7 +11433,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2706
+#: src/functions/fn-financial.c:2696
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -11470,7 +11450,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2747
+#: src/functions/fn-financial.c:2737
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -11487,7 +11467,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2766
+#: src/functions/fn-financial.c:2756
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -11505,7 +11485,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2804
+#: src/functions/fn-financial.c:2794
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -11524,7 +11504,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2824
+#: src/functions/fn-financial.c:2814
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -11543,7 +11523,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2844
+#: src/functions/fn-financial.c:2834
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -11562,7 +11542,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2863
+#: src/functions/fn-financial.c:2853
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -11581,11 +11561,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: src/functions/fn-financial.c:2887
+#: src/functions/fn-financial.c:2877
 msgid "Financial"
 msgstr "Finančné"
 
-#: src/functions/fn-information.c:80
+#: src/functions/fn-information.c:81
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(ref)\n"
@@ -11603,11 +11583,11 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:248 src/functions/fn-information.c:410
+#: src/functions/fn-information.c:249 src/functions/fn-information.c:411
 msgid "Unknown info_type"
 msgstr "Neznámy typ informácií"
 
-#: src/functions/fn-information.c:254
+#: src/functions/fn-information.c:255
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -11629,7 +11609,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TEXT"
 
-#: src/functions/fn-information.c:299
+#: src/functions/fn-information.c:300
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -11647,7 +11627,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: src/functions/fn-information.c:338
+#: src/functions/fn-information.c:339
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
@@ -11665,20 +11645,20 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:380
+#: src/functions/fn-information.c:381
 msgid "Unknown version"
 msgstr "Neznáma verzia"
 
-#: src/functions/fn-information.c:382
+#: src/functions/fn-information.c:383
 #, c-format
 msgid "%s version %s"
 msgstr "%s verzia %s"
 
-#: src/functions/fn-information.c:400
+#: src/functions/fn-information.c:401
 msgid "Unknown system"
 msgstr "Neznámy systém"
 
-#: src/functions/fn-information.c:416
+#: src/functions/fn-information.c:417
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -11696,11 +11676,11 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: src/functions/fn-information.c:439
+#: src/functions/fn-information.c:440
 msgid "Argument mismatch"
 msgstr "Chyba argumentu"
 
-#: src/functions/fn-information.c:470
+#: src/functions/fn-information.c:471
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -11718,7 +11698,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:504
+#: src/functions/fn-information.c:505
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -11736,7 +11716,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:534
+#: src/functions/fn-information.c:535
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -11770,7 +11750,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: src/functions/fn-information.c:593
+#: src/functions/fn-information.c:594
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -11788,7 +11768,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:614
+#: src/functions/fn-information.c:615
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -11806,7 +11786,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: src/functions/fn-information.c:634
+#: src/functions/fn-information.c:635
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -11824,7 +11804,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:682
+#: src/functions/fn-information.c:683
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -11842,7 +11822,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: src/functions/fn-information.c:703
+#: src/functions/fn-information.c:704
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -11860,7 +11840,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:732
+#: src/functions/fn-information.c:733
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -11878,7 +11858,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: src/functions/fn-information.c:758
+#: src/functions/fn-information.c:759
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -11896,7 +11876,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:784
+#: src/functions/fn-information.c:785
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -11914,7 +11894,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISEVEN"
 
-#: src/functions/fn-information.c:805
+#: src/functions/fn-information.c:806
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -11932,7 +11912,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:836
+#: src/functions/fn-information.c:837
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -11950,7 +11930,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: src/functions/fn-information.c:862
+#: src/functions/fn-information.c:863
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -11968,7 +11948,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:899
+#: src/functions/fn-information.c:901
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -11985,6 +11965,10 @@ msgstr ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
+
+#: src/functions/fn-information.c:930
+msgid "Information"
+msgstr "Informácie"
 
 #: src/functions/fn-logical.c:18
 msgid ""
@@ -12049,7 +12033,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:101 src/functions/fn-string.c:487
+#: src/functions/fn-logical.c:101 src/functions/fn-string.c:488
 msgid "Type Mismatch"
 msgstr "Chyba typu"
 
@@ -16597,7 +16581,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "Štatistické"
 
-#: src/functions/fn-string.c:26
+#: src/functions/fn-string.c:27
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -16615,7 +16599,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CODE"
 
-#: src/functions/fn-string.c:52
+#: src/functions/fn-string.c:53
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -16633,7 +16617,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR"
 
-#: src/functions/fn-string.c:73
+#: src/functions/fn-string.c:74
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -16655,7 +16639,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEN, SEARCH"
 
-#: src/functions/fn-string.c:97
+#: src/functions/fn-string.c:98
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -16673,7 +16657,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR, CODE"
 
-#: src/functions/fn-string.c:118
+#: src/functions/fn-string.c:119
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -16693,7 +16677,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/functions/fn-string.c:153
+#: src/functions/fn-string.c:154
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -16711,7 +16695,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: src/functions/fn-string.c:182
+#: src/functions/fn-string.c:183
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -16731,11 +16715,11 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/functions/fn-string.c:207
+#: src/functions/fn-string.c:208
 msgid "Invalid arguments"
 msgstr "Neplatné argumenty"
 
-#: src/functions/fn-string.c:226
+#: src/functions/fn-string.c:227
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -16757,7 +16741,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/functions/fn-string.c:264
+#: src/functions/fn-string.c:265
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -16775,7 +16759,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: src/functions/fn-string.c:293
+#: src/functions/fn-string.c:294
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -16793,7 +16777,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: src/functions/fn-string.c:333
+#: src/functions/fn-string.c:334
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -16813,11 +16797,11 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:371
+#: src/functions/fn-string.c:372
 msgid "Out of memory"
 msgstr "Nedostatok pamäti"
 
-#: src/functions/fn-string.c:387
+#: src/functions/fn-string.c:388
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -16835,7 +16819,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:418
+#: src/functions/fn-string.c:419
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -16856,7 +16840,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: src/functions/fn-string.c:459
+#: src/functions/fn-string.c:460
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -16877,7 +16861,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:563
+#: src/functions/fn-string.c:564
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -16896,7 +16880,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: src/functions/fn-string.c:608
+#: src/functions/fn-string.c:609
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -16916,7 +16900,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: src/functions/fn-string.c:657
+#: src/functions/fn-string.c:658
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -16938,7 +16922,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: src/functions/fn-string.c:681
+#: src/functions/fn-string.c:682
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -16958,11 +16942,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: src/functions/fn-string.c:716
+#: src/functions/fn-string.c:717
 msgid "Type mismatch"
 msgstr "Chyba typu"
 
-#: src/functions/fn-string.c:728
+#: src/functions/fn-string.c:729
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -16980,7 +16964,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/functions/fn-string.c:773
+#: src/functions/fn-string.c:774
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -16998,7 +16982,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/functions/fn-string.c:815
+#: src/functions/fn-string.c:816
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -17019,7 +17003,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: src/functions/fn-string.c:930
+#: src/functions/fn-string.c:931
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -17037,7 +17021,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:998
+#: src/functions/fn-string.c:999
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -17212,7 +17196,7 @@ msgstr "Detailná chybová správa"
 msgid "Show details"
 msgstr "Zobraziť detaily"
 
-#: src/gui-util.c:949
+#: src/gui-util.c:950
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Súbor '%s' sa nedá otvoriť"
@@ -17231,12 +17215,12 @@ msgstr "Súbor/Ukážka pred tlačou"
 msgid "File/"
 msgstr "Súbor/"
 
-#: src/item-bar.c:611
+#: src/item-bar.c:614
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Šírka: %.2f bodov (%d pixelov)"
 
-#: src/item-bar.c:614
+#: src/item-bar.c:617
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Výška: %.2f bodov (%d pixelov)"
@@ -17603,7 +17587,7 @@ msgstr "Chyba pri otváraní súboru \"%s\" pre čítanie."
 msgid "Unable to mmap the file."
 msgstr "Nepodarilo sa namapovať súbor."
 
-#: src/plugin-util.c:311 src/xml-io.c:3186
+#: src/plugin-util.c:311 src/xml-io.c:3193
 msgid "Cannot get file size."
 msgstr "Nemôžem získať veľkosť súboru."
 
@@ -18277,11 +18261,13 @@ msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú výšku riadku. Musí byť väčšia ako 0"
 
 #: src/workbook-cmd-format.c:236
-msgid "You entered an invalid default column width value.  It must be bigger than 0"
+msgid ""
+"You entered an invalid default column width value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú štandardnú šírku stĺpca. Musí byť väčšia ako 0"
 
 #: src/workbook-cmd-format.c:264
-msgid "You entered an invalid default row height value.  It must be bigger than 0"
+msgid ""
+"You entered an invalid default row height value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú štandardnú výšku riadku. Musí byť väčšia ako 0"
 
 #: src/workbook-control-gui.c:287
@@ -18480,14 +18466,6 @@ msgstr "_Utriediť"
 #: src/workbook-control-gui.c:2883
 msgid "Sorts the selected region."
 msgstr "Utriedi vybrané bunky."
-
-#: src/workbook-control-gui.c:2889
-msgid "_Validate..."
-msgstr "_Overiť..."
-
-#: src/workbook-control-gui.c:2890
-msgid "Validate input with preset criteria"
-msgstr "Overí vstup podľa prednastavených kritérií"
 
 #: src/workbook-control-gui.c:2924
 msgid "Creates a new workbook"
@@ -18830,23 +18808,23 @@ msgstr "Chyba pri vytváraní stromu z šablóny autoformátu"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:2959
+#: src/xml-io.c:2965
 msgid "Processing file..."
 msgstr "Spracovávam súbor..."
 
-#: src/xml-io.c:3134
+#: src/xml-io.c:3141
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Neplatné XML dáta v schránke. Strom je prázdny ?"
 
-#: src/xml-io.c:3194
+#: src/xml-io.c:3201
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Nedostatok pamäti pre vytvorenie zlib rozbaleného stavu."
 
-#: src/xml-io.c:3229
+#: src/xml-io.c:3236
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
-#: src/xml-io.c:3285
+#: src/xml-io.c:3292
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
@@ -18854,3 +18832,95 @@ msgstr "Súborový formát Gnumeric XML"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME tabuľka"
 
+#~ msgid "LaTeX (*.tex)"
+#~ msgstr "LaTeX (*.tex)"
+
+#~ msgid "Current value:  %12.2f"
+#~ msgstr "Aktuálna hodnota:  %12.2f"
+
+#~ msgid "Solution:       %12.2f"
+#~ msgstr "Riešenie:       %12.2f"
+
+#~ msgid "Goal Seek Report"
+#~ msgstr "Správa o hľadaní cieľa"
+
+#~ msgid "By changing cell:"
+#~ msgstr "Zmenou bunky:"
+
+#~ msgid "To a value of at least [optional]:"
+#~ msgstr "Na hodnotu najmenej [nepovinné]:"
+
+#~ msgid "But no bigger than [optional]:"
+#~ msgstr "Ale nie vyššiu ako [nepovinné]:"
+
+#~ msgid "Goal seek did not find a solution!"
+#~ msgstr "Hľadanie cieľa nenašlo riešenie!"
+
+#~ msgid "A blank cell will be seen as valid"
+#~ msgstr "Prázdna bunka bude považovaná za platnú"
+
+#~ msgid "Ac_tion :"
+#~ msgstr "A_kcia: "
+
+#~ msgid "Any Value"
+#~ msgstr "Ľubovoľná hodnota"
+
+#~ msgid "Apply these changes to _other cells with the same settings"
+#~ msgstr "Použiť tieto _zmeny na ostatné bunky s rovnakým nastavením"
+
+#~ msgid "Clear All"
+#~ msgstr "Vyčistiť všetko"
+
+#~ msgid "Give the cell a dropdown combo with all possible valid values"
+#~ msgstr "Pridá bunke rozbaľovací zoznam so všetkými platnými hodnotami."
+
+#~ msgid "Ignore _blank"
+#~ msgstr "Ignorovať _prázdne znaky"
+
+#~ msgid "In-cell _dropdown"
+#~ msgstr "Zoznam _v bunke"
+
+#~ msgid "Input Validation"
+#~ msgstr "Overenie vstupu"
+
+#~ msgid "Input _Message :"
+#~ msgstr "Vstupná _správa:"
+
+#~ msgid "Messa_ge :"
+#~ msgstr "_Správa:"
+
+#~ msgid "S_how error alert after invalid data is entered"
+#~ msgstr "_Zobraziť informácie o chybe po zadaní neplatných dát"
+
+#~ msgid "Show input _message when cell is selected"
+#~ msgstr "_Zobraziť vstupnú správu pri vybraní bunky"
+
+#~ msgid "Stop"
+#~ msgstr "Stop"
+
+#~ msgid "Tit_le :"
+#~ msgstr "_Titulok:"
+
+#~ msgid "Validation criteria"
+#~ msgstr "Kritériá validácie"
+
+#~ msgid "Warning"
+#~ msgstr "Varovanie"
+
+#~ msgid "_Allow :"
+#~ msgstr "_Povoliť:"
+
+#~ msgid "_Condition :"
+#~ msgstr "_Podmienka:"
+
+#~ msgid "_Error Alert"
+#~ msgstr "Upozornenie na _chyby"
+
+#~ msgid "_Input Message"
+#~ msgstr "_Vstupná správa"
+
+#~ msgid "_Settings"
+#~ msgstr "_Nastavenie"
+
+#~ msgid "_Title :"
+#~ msgstr "_Titulok:"

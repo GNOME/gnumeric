@@ -327,7 +327,7 @@ If @index < 1 or @index > number of values: returns #VAL!.
 
 @FUNCTION=CLEAN
 @SYNTAX=CLEAN(string)
-@DESCRIPTION=CLEAN cleans the string from any non-printable characters.
+@DESCRIPTION=CLEAN removes any non-printable characters from @string.
 @EXAMPLES=
 CLEAN("one"\&char(7)) equals "one".
 

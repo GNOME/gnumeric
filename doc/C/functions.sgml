@@ -1388,7 +1388,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>CLEAN cleans the string from any non-printable characters.</para>
+        <para>CLEAN removes any non-printable characters from @string.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>

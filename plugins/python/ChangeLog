@@ -1,3 +1,7 @@
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
 2001-10-15  Morten Welinder  <terra@diku.dk>
 
 	* python.c (plugin_init_general): Plug file leak.

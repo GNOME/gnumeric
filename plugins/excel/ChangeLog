@@ -1,5 +1,9 @@
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
+	* Release 0.72
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-chart.c (BC_R(bar)) : typo.
 
 2001-10-18  Jody Goldberg <jgoldberg@home.com>

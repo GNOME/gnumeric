@@ -1,5 +1,9 @@
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
+	* Release 0.72
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
 	* fn-string.c (gnumeric_value) : number_match can match non-numbers too.
 	* fn-information.c (gnumeric_n) : ditto.
 
