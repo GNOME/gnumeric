@@ -1,3 +1,11 @@
+2002-04-27  Jody Goldberg <jody@gnome.org>
+
+	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream) : similar to
+	  wb_view_open we need to recalc as necessary and do a sheet_update.
+
+	* src/workbook-control-gui.c (cb_insert_image) : no need to recalc or
+	  update.
+
 2002-04-27  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Check for bonobo libraries when --with-bonobo is

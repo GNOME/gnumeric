@@ -2528,7 +2528,6 @@ static void
 cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
 	GtkFileSelection *fsel;
 
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
@@ -2545,8 +2544,6 @@ cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
 				(guint8 *)data, file_size, TRUE);
 			gnumeric_mmap_close (ioc, data, fd, file_size);
 			scg_mode_create_object (scg, so);
-			workbook_recalc (sheet->workbook);
-			sheet_update (sheet);
 		} else
 			gnumeric_io_error_display (ioc);
 
