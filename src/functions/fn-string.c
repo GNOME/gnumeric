@@ -15,6 +15,7 @@
 #include "str.h"
 #include "sheet.h"
 #include "number-match.h"
+#include "mathfunc.h"
 
 #include <ctype.h>
 #include <math.h>
@@ -487,89 +488,52 @@ static char *help_fixed = {
 static Value *
 gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	gchar *s, *p, *f;
-	gint dec, commas, tmp;
-	gnum_float num;
+	int	  decimals;
+	gdouble   num;
+	gboolean  commas = TRUE;
+	format_info_t fmt;
+	GString  *str;
+	Value    *res;
 
 	num = value_get_as_float (argv[0]);
-	dec = argv[1] ? value_get_as_int (argv[1]) : 2;
-
-	if (argv[2]) {
+	decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
+	if (argv[2] != NULL) {
 		gboolean err;
 		commas = !value_get_as_bool (argv[2], &err);
 		if (err)
 			return value_new_error (ei->pos, _("Type Mismatch"));
-	} else
-		commas = TRUE;
+	}
 
-	if (dec >= 1000) { /* else buffer under-run */
+	if (decimals >= 127) /* else buffer overflow */
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-		/*
-	} else if (lc->thousands_sep[1] != '\0') {
-		fprintf (stderr, "thousands_sep:\"%s\"\n", lc->thousands_sep);
-		return value_new_error (ei->pos,
-		_("Invalid thousands separator"));
-		*/
-	} else if (dec <= 0) { /* no decimal point : just round and pad 0's */
-		dec *= -1;
-		num /= pow (10, dec);
-		if (num < 1 && num > -1) {
-			s = g_strdup ("0");
-			commas = 0;
-		} else {
-			f = g_strdup ("%00?s%.0f%.00?u"); /* commas, no point, 0's */
-			tmp = dec;
-			dec += log10 (fabs (num));
-			if (commas)
-				commas = dec / 3;
-			p = &f[13]; /* last 0 in trailing 0's count */
-			do
-				*p-- = '0' + (tmp % 10);
-			while (tmp /= 10);
-			tmp = commas;
-			p = &f[3]; /* last 0 in leading blank spaces for commas */
-			do
-				*p-- = '0' + (tmp % 10);
-			while (tmp /= 10);
-			s = g_strdup_printf (f, "", num, 0);
-			g_free (f);
-		}
-	} else { /* decimal point format */
-		f = g_strdup ("%00?s%.00?f");
-		tmp = dec;
-		dec = log10 (fabs (num));
-		if (commas)
-			commas = dec / 3;
-		p = &f[9];
-		do
-			*p-- = '0' + (tmp % 10);
-		while (tmp /= 10);
-		tmp = commas;
-		p = &f[3];
-		do
-			*p-- = '0' + (tmp % 10);
-		while (tmp /= 10);
-		s = g_strdup_printf (f, "", num);
-		g_free (f);
-	}
-	if (commas) {
-		p = s;
-		f = &s[commas];
-		if (*f == '-')
-			*p++ = *f++;
-		dec -= 2;
-		while (dec-- > 0) {
-			*p++ = *f++;
-			if (dec%3 == 0)
-				/* FIXME: should use lc->thousands_sep[0] */
-				*p++ = ',';
-		}
-	}
 
-	v = value_new_string (s);
-	g_free (s);
-	return v;
+	if (decimals <= 0) {
+		/* no decimal point : just round and pad 0's */
+		double mult = gpow10 (decimals);
+		num = (gnumeric_fake_round (num * mult) / mult);
+		fmt.right_req = fmt.right_allowed = 0;
+	} else /* decimal point format */
+		fmt.right_req = fmt.right_allowed = decimals;
+
+	fmt.right_optional	   = 0;
+	fmt.right_spaces	   = 0;
+	fmt.left_spaces		   = 0;
+	fmt.left_req		   = 0;
+	fmt.decimal_separator_seen = (decimals > 0);
+	fmt.supress_minus	   = FALSE;
+	fmt.group_thousands	   = commas;
+	fmt.has_fraction	   = FALSE;
+	fmt.negative		   = num < 0.;
+	if (fmt.negative)
+		num = -num;
+
+	str = g_string_new ("");
+	render_number (str, num, &fmt);
+	if (str->len == 0)
+		g_string_append_c (str, '0');
+	res = value_new_string_str (string_get_nocopy (str->str));
+	g_string_free (str, FALSE);
+	return res;
 }
 
 /***************************************************************************/

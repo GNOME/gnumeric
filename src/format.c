@@ -662,39 +662,22 @@ lookup_color (const char *str, const char *end)
 	return NULL;
 }
 
-typedef struct {
-	int  right_optional, right_spaces, right_req, right_allowed;
-	int  left_spaces, left_req;
-	int  scientific;
-	int  scientific_exp;
-	gboolean scientific_shows_plus;
-	gboolean rendered;
-	gboolean negative;
-	gboolean decimal_separator_seen;
-	gboolean supress_minus;
-	gboolean comma_separator_seen;
-	gboolean has_fraction;
-} format_info_t;
-
 static double beyond_precision;
-static void
+void
 render_number (GString *result,
 	       gdouble number,
-	       int left_req,
-	       int right_req,
-	       int left_spaces,
-	       int right_spaces,
-	       int right_allowed,
-	       char const *show_decimal,
 	       format_info_t const *info)
 {
-	char thousands_sep;
+	char thousands_sep = format_get_thousand ();
 	unsigned char num_buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	unsigned char *num = num_buf + sizeof (num_buf) - 1;
 	double frac_part, int_part;
 	int group, zero_count, digit_count = 0;
-
-	thousands_sep = format_get_thousand ();
+	int left_req = info->left_req;
+	int right_req = info->right_req;
+	int left_spaces = info->left_spaces;
+	int right_spaces = info->right_spaces;
+	int right_allowed = info->right_allowed + info->right_optional;
 
 	if (right_allowed >= 0 && !info->has_fraction) {
 		/* Change "rounding" into "truncating".   */
@@ -705,7 +688,7 @@ render_number (GString *result,
 	frac_part = modf (gnumeric_add_epsilon (number), &int_part);
 
 	*num = '\0';
-	group = (info->comma_separator_seen) ? 3 : -1;
+	group = (info->group_thousands) ? 3 : -1;
 	for (; int_part > beyond_precision ; int_part /= 10., digit_count++) {
 		if (group-- == 0) {
 			group = 2;
@@ -737,10 +720,16 @@ render_number (GString *result,
 
 	g_string_append (result, num);
 
-	if (info->decimal_separator_seen)
+	/* If the format contains only "#"s to the left of the decimal
+	 * point, number in the [0.0,1.0] range are prefixed with a
+	 * decimal point
+	 */
+	if (info->decimal_separator_seen ||
+	    (number > 0.0 &&
+	     number < 1.0 &&
+	     info->right_allowed == 0 &&
+	     info->right_optional > 0))
 		g_string_append_c (result, format_get_decimal ());
-	else
-		g_string_append (result, show_decimal);
 
 	/* TODO : clip this a DBL_DIG */
 	/* TODO : What if is a fraction ? */
@@ -780,20 +769,7 @@ render_number (GString *result,
 static void
 do_render_number (gdouble number, format_info_t *info, GString *result)
 {
-	char decimal_point[2];
-
 	info->rendered = TRUE;
-
-	/*
-	 * If the format contains only "#"s to the left of the decimal
-	 * point, number in the [0.0,1.0] range are prefixed with a
-	 * decimal point
-	 */
-	if (number > 0.0 && number < 1.0 && info->right_allowed == 0 && info->right_optional > 0){
-		decimal_point[0] = format_get_decimal ();
-		decimal_point[1] = 0;
-	} else
-		decimal_point[0] = 0;
 
 #if 0
 	printf ("Rendering: %g with:\n", number);
@@ -817,15 +793,7 @@ do_render_number (gdouble number, format_info_t *info, GString *result)
 		decimal_point);
 #endif
 
-	render_number (result,
-		number,
-		info->left_req,
-		info->right_req,
-		info->left_spaces,
-		info->right_spaces,
-		info->right_allowed + info->right_optional,
-		decimal_point,
-		info);
+	render_number (result, number, info);
 }
 
 /*
@@ -1114,42 +1082,36 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 				char const sep = format_get_thousand ();
 				g_string_append_c (result, sep);
 			} else
-				info.comma_separator_seen = TRUE;
+				info.group_thousands = TRUE;
 			break;
 		}
 
-		case 'E': case 'e':
+		/* FIXME: this is a gross hack */
+		case 'E': case 'e': {
+			gboolean const is_lower = (*format == 'e');
+			gboolean shows_plus = FALSE;
+			int prec = info.right_optional + info.right_req;
+			char *buffer = g_alloca (40 + prec + 2);
+
 			can_render_number = TRUE;
-			info.scientific = *format;
-			for (format++; *format;){
-				if (*format == '+'){
-					info.scientific_shows_plus = TRUE;
-					format++;
-				} else if (*format == '-')
-					format++;
-				else if (*format == '0'){
-					info.scientific_exp++;
-					format++;
-				} else
+			while (*(++format))
+				if (*format == '+')
+					shows_plus = TRUE;
+				else if (*format == '-' || *format == '0')
+					;
+				else
 					break;
-			}
-			/* FIXME: this is a gross hack */
-			{
-				int prec = info.right_optional + info.right_req;
-				char *buffer = g_alloca (40 + prec + 2);
 
-				sprintf (buffer, (info.scientific == 'e')
-					 ? "%s%.*e"
-					 : "%s%.*E",
-					 info.negative
-					 ? "-" :
-					 info.scientific_shows_plus
-					 ? "+" : "",
-					 prec, number);
+			sprintf (buffer, is_lower ? "%s%.*e" : "%s%.*E",
+				 info.negative
+				 ? "-" :
+				 shows_plus
+				 ? "+" : "",
+				 prec, number);
 
-				g_string_append (result, buffer);
-				goto finish;
-			}
+			g_string_append (result, buffer);
+			goto finish;
+		}
 
 		case '\\':
 			if (format[1] != '\0') {
@@ -1418,8 +1380,8 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 	}
 
  finish:
-	res = g_strdup (result->str);
-	g_string_free (result, TRUE);
+	res = result->str;
+	g_string_free (result, FALSE);
 	return res;
 }
 

@@ -101,12 +101,13 @@ value_new_string (char const *str)
 	return (Value *)v;
 }
 
+/* NOTE : absorbs the reference */
 Value *
 value_new_string_str (String *str)
 {
 	ValueStr *v = g_new (ValueStr, 1);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
-	v->val = string_ref (str);
+	v->val = str;
 	return (Value *)v;
 }
 
@@ -383,6 +384,7 @@ value_duplicate (Value const *src)
 					    src->v_err.mesg);
 
 	case VALUE_STRING:
+		string_ref (src->v_str.val);
 		return value_new_string_str (src->v_str.val);
 
 	case VALUE_CELLRANGE:

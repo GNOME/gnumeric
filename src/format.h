@@ -37,6 +37,18 @@ void   format_color_shutdown (void);
 char  *format_add_decimal      (StyleFormat const *fmt);
 char  *format_remove_decimal   (StyleFormat const *fmt);
 
+typedef struct {
+	int  right_optional, right_spaces, right_req, right_allowed;
+	int  left_spaces, left_req;
+	gboolean rendered;
+	gboolean negative;
+	gboolean decimal_separator_seen;
+	gboolean supress_minus;
+	gboolean group_thousands;
+	gboolean has_fraction;
+} format_info_t;
+void render_number (GString *result, gdouble number, format_info_t const *info);
+
 /* Locale support routines */
 char const *gnumeric_setlocale      (int category, char const *val);
 char const *format_get_currency     (gboolean *precedes, gboolean *space_sep);

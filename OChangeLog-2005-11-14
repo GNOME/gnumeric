@@ -1,3 +1,12 @@
+2001-12-10  Jody Goldberg <jody@gnome.org>
+
+	* src/value.c (value_new_string_str) : absorb the ref.
+	(value_duplicate) : manually add a ref here.
+
+	* src/format.c (render_number) : make public.
+	(do_render_number) : remove pointless args.
+	(format_number) : localize more of the scientific handling.
+
 2001-12-09  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=66442

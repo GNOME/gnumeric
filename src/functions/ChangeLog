@@ -1,3 +1,8 @@
+2001-12-10  Jody Goldberg <jody@gnome.org>
+
+	* fn-string.c (gnumeric_fixed) : burn ancient kruft and use the newly
+	  exposed format engine.
+
 2001-12-06  Jody Goldberg <jody@gnome.org>
 
 	* fn-information.c (gnumeric_cell) : const.
