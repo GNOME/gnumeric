@@ -9,25 +9,11 @@ INCLUDES = 						\
 noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES =				\
-	gtk-combo-box.c				\
-	gtk-combo-box.h				\
 	gnumeric-toolbar.c			\
 	gnumeric-toolbar.h			\
-	widget-color-combo.c			\
-	widget-color-combo.h			\
-	widget-pixmap-combo.c			\
-	widget-pixmap-combo.h			\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\
 	widget-font-selector.h			\
 	gnumeric-dashed-canvas-line.c		\
-	gnumeric-dashed-canvas-line.h		\
-	gtk-combo-text.c			\
-	gtk-combo-text.h			\
-	gtk-combo-stack.c			\
-	gtk-combo-stack.h			\
-	color-group.c				\
-	color-group.h				\
-	color-palette.c				\
-	color-palette.h
+	gnumeric-dashed-canvas-line.h

@@ -15,7 +15,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "sheet-object.h"
-#include "cursors.h"
+#include <gal/widgets/e-cursors.h>
 
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
@@ -588,7 +588,7 @@ sheet_object_stop_editing (SheetObject *so)
  */
 static GnomeCanvasItem *
 new_control_point (GnomeCanvasGroup *group, SheetObject *so,
-		   int idx, double x, double y, CursorType ct)
+		   int idx, double x, double y, ECursorType ct)
 {
 	GnomeCanvasItem *item;
 
@@ -621,7 +621,7 @@ new_control_point (GnomeCanvasGroup *group, SheetObject *so,
  */
 static void
 set_item_x_y (SheetObject *so, SheetView *sheet_view, int idx,
-	      double x, double y, CursorType ct)
+	      double x, double y, ECursorType ct)
 {
 	if (sheet_view->control_points [idx] == NULL)
 		sheet_view->control_points [idx] = new_control_point (
@@ -661,7 +661,7 @@ set_acetate_coords (SheetObject *so, SheetView *sheet_view,
 				    so);
 		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (8));
 		gtk_object_set_data (GTK_OBJECT (item), "cursor",
-				     GINT_TO_POINTER (GNUMERIC_CURSOR_MOVE));
+				     GINT_TO_POINTER (E_CURSOR_MOVE));
 
 		sheet_view->control_points [8] = item;
 	} else
@@ -701,22 +701,74 @@ update_bbox (SheetObject *so)
 		set_acetate_coords (so, sheet_view, l, t, r, b);
 
 		set_item_x_y (so, sheet_view, 0, l, t,
-			      GNUMERIC_CURSOR_SIZE_TL);
+			      E_CURSOR_SIZE_TL);
 		set_item_x_y (so, sheet_view, 1, (l + r) / 2, t,
-			      GNUMERIC_CURSOR_SIZE_Y);
+			      E_CURSOR_SIZE_Y);
 		set_item_x_y (so, sheet_view, 2, r, t,
-			      GNUMERIC_CURSOR_SIZE_TR);
+			      E_CURSOR_SIZE_TR);
 		set_item_x_y (so, sheet_view, 3, l, (t + b) / 2,
-			      GNUMERIC_CURSOR_SIZE_X);
+			      E_CURSOR_SIZE_X);
 		set_item_x_y (so, sheet_view, 4, r, (t + b) / 2,
-			      GNUMERIC_CURSOR_SIZE_X);
+			      E_CURSOR_SIZE_X);
 		set_item_x_y (so, sheet_view, 5, l, b,
-			      GNUMERIC_CURSOR_SIZE_TR);
+			      E_CURSOR_SIZE_TR);
 		set_item_x_y (so, sheet_view, 6, (l + r) / 2, b,
-			      GNUMERIC_CURSOR_SIZE_Y);
+			      E_CURSOR_SIZE_Y);
 		set_item_x_y (so, sheet_view, 7, r, b,
-			      GNUMERIC_CURSOR_SIZE_TL);
+			      E_CURSOR_SIZE_TL);
 	}
+}
+
+static void
+sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
+{
+	gtk_object_unref (GTK_OBJECT (so));
+}
+
+static void
+cb_sheet_object_configure (GtkWidget *widget, SheetObject *so)
+{
+}
+
+/**
+ * sheet_object_populate_menu:
+ * @so:  the sheet object
+ * @menu: the menu to insert into
+ *
+ * Add standard items to the object's popup menu.
+ **/
+static void
+sheet_object_populate_menu (SheetObject *so, GtkMenu *menu)
+{
+	GtkWidget *item = gtk_menu_item_new_with_label (_("Remove"));
+
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    GTK_SIGNAL_FUNC (sheet_object_remove_cb), so);
+
+	if (SO_CLASS(so)->user_config != NULL) {
+		item = gtk_menu_item_new_with_label (_("Configure"));
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), so);
+		gtk_menu_append (menu, item);
+	}
+	gtk_menu_append (menu, item);
+}
+
+static void
+menu_unrealize_cb (GtkMenu *menu, SheetObject *so)
+{
+}
+
+static GtkMenu *
+create_popup_menu (SheetObject *so)
+{
+	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
+
+	SO_CLASS (so)->populate_menu (so, menu);
+	gtk_signal_connect (GTK_OBJECT (menu), "unrealize",
+			    GTK_SIGNAL_FUNC (menu_unrealize_cb), so);
+
+	return menu;
 }
 
 /*
@@ -736,7 +788,7 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event,
 	case GDK_ENTER_NOTIFY:
 	{
 		gpointer p = gtk_object_get_data (GTK_OBJECT (item), "cursor");
-		cursor_set_widget (item->canvas, GPOINTER_TO_UINT (p));
+		e_cursor_set_widget (item->canvas, GPOINTER_TO_UINT (p));
 		break;
 	}
 
@@ -844,58 +896,6 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event,
 	return TRUE;
 }
 
-static void
-sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
-{
-	gtk_object_unref (GTK_OBJECT (so));
-}
-
-static void
-cb_sheet_object_configure (GtkWidget *widget, SheetObject *so)
-{
-}
-
-/**
- * sheet_object_populate_menu:
- * @so:  the sheet object
- * @menu: the menu to insert into
- *
- * Add standard items to the object's popup menu.
- **/
-static void
-sheet_object_populate_menu (SheetObject *so, GtkMenu *menu)
-{
-	GtkWidget *item = gtk_menu_item_new_with_label (_("Remove"));
-
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (sheet_object_remove_cb), so);
-
-	if (SO_CLASS(so)->user_config != NULL) {
-		item = gtk_menu_item_new_with_label (_("Configure"));
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (cb_sheet_object_configure), so);
-		gtk_menu_append (menu, item);
-	}
-	gtk_menu_append (menu, item);
-}
-
-static void
-menu_unrealize_cb (GtkMenu *menu, SheetObject *so)
-{
-}
-
-static GtkMenu *
-create_popup_menu (SheetObject *so)
-{
-	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
-
-	SO_CLASS (so)->populate_menu (so, menu);
-	gtk_signal_connect (GTK_OBJECT (menu), "unrealize",
-			    GTK_SIGNAL_FUNC (menu_unrealize_cb), so);
-
-	return menu;
-}
-
 void
 sheet_object_print (SheetObject *so, SheetObjectPrintInfo *pi)
 
@@ -921,9 +921,9 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
 		if (so->type == SHEET_OBJECT_ACTION_STATIC)
-			cursor_set_widget (item->canvas, GNUMERIC_CURSOR_ARROW);
+			e_cursor_set_widget (item->canvas, E_CURSOR_ARROW);
 		else
-			cursor_set_widget (item->canvas, GNUMERIC_CURSOR_PRESS);
+			e_cursor_set_widget (item->canvas, E_CURSOR_PRESS);
 		break;
 
 	case GDK_BUTTON_PRESS:

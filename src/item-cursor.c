@@ -12,7 +12,7 @@
 #include "gnumeric-sheet.h"
 #include "color.h"
 #include "clipboard.h"
-#include "cursors.h"
+#include "gal/widgets/e-cursors.h"
 #include "selection.h"
 #include "workbook.h"
 #include "workbook-edit.h"
@@ -535,11 +535,11 @@ item_cursor_set_cursor (GnomeCanvas *canvas, GnomeCanvasItem *item, int x, int y
 	int cursor;
 
 	if (IS_LITTLE_SQUARE (item_cursor, x, y))
-		cursor = GNUMERIC_CURSOR_THIN_CROSS;
+		cursor = E_CURSOR_THIN_CROSS;
 	else
-		cursor = GNUMERIC_CURSOR_ARROW;
+		cursor = E_CURSOR_ARROW;
 
-	cursor_set_widget (canvas, cursor);
+	e_cursor_set_widget (canvas, cursor);
 }
 
 static gint

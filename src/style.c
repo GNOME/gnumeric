@@ -14,6 +14,7 @@
 #include "color.h"
 #include "application.h"
 #include "gnumeric-util.h"
+#include <gal/widgets/e-colors.h>
 
 #undef DEBUG_REF_COUNT
 #undef DEBUG_FONTS
@@ -216,7 +217,7 @@ style_color_new (gushort red, gushort green, gushort blue)
 		sc->green = green;
 		sc->blue = blue;
 		sc->name = NULL;
-		sc->color.pixel = color_alloc (red, green, blue);
+		sc->color.pixel = e_color_alloc (red, green, blue);
 
 		/* Make a contrasting selection color with an alpha of .5 */
 		red   += (gs_lavender.red   - red)/2;
@@ -225,7 +226,7 @@ style_color_new (gushort red, gushort green, gushort blue)
 		sc->selected_color.red = red;
 		sc->selected_color.green = green;
 		sc->selected_color.blue = blue;
-		sc->selected_color.pixel = color_alloc (red, green, blue);
+		sc->selected_color.pixel = e_color_alloc (red, green, blue);
 
 		g_hash_table_insert (style_color_hash, sc, sc);
 		sc->ref_count = 0;

@@ -81,8 +81,6 @@ GNUMERIC_BASE_SOURCES =				\
 	complex.h				\
 	complex.c				\
 	corba.h					\
-	cursors.c				\
-	cursors.h				\
 	dates.c					\
 	dates.h					\
 	datetime.c				\

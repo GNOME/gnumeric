@@ -1,3 +1,8 @@
+2000-09-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : Moved lots of widgets into the Gnome Application
+	  Library for more general use.
+
 2000-09-11  Morten Welinder  <terra@diku.dk>
 
 	* color-group.c (color_group_new_named): Constify.  Plug leak.

@@ -38,12 +38,13 @@
 #include "workbook-view.h"
 #include "command-context-gui.h"
 #include "commands.h"
-#include "widgets/gtk-combo-text.h"
-#include "widgets/gtk-combo-stack.h"
 #include "gutils.h"
 #include "rendered-value.h"
 #include "cmd-edit.h"
 #include "format.h"
+
+#include <gal/widgets/gtk-combo-text.h>
+#include <gal/widgets/gtk-combo-stack.h>
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>

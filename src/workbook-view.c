@@ -17,7 +17,7 @@
 #include "gnumeric-util.h"
 #include "application.h"
 #include "sheet.h"
-#include "widgets/gtk-combo-stack.h"
+#include <gal/widgets/gtk-combo-stack.h>
 
 void
 workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)

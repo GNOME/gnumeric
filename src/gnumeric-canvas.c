@@ -15,7 +15,7 @@
 #include "gnumeric-util.h"
 #include "sheet-object-container.h"
 #include "color.h"
-#include "cursors.h"
+#include "gal/widgets/e-cursors.h"
 #include "selection.h"
 #include "parse-util.h"
 #include "ranges.h"
@@ -1006,7 +1006,7 @@ gnumeric_sheet_realize (GtkWidget *widget)
 	window = widget->window;
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 
-	cursor_set (window, GNUMERIC_CURSOR_FAT_CROSS);
+	e_cursor_set (window, E_CURSOR_FAT_CROSS);
 
 	gsheet = GNUMERIC_SHEET (widget);
 	if (gdk_im_ready () && (gsheet->ic_attr = gdk_ic_attr_new ()) != NULL) {

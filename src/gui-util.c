@@ -14,7 +14,7 @@
 #include "parse-util.h"
 #include "command-context-gui.h"
 #include "style.h"
-#include "color.h"
+#include "gal/widgets/e-colors.h"
 #include "workbook.h"
 #ifdef ENABLE_BONOBO
 #	include <bonobo.h>
@@ -627,7 +627,7 @@ gnumeric_create_tooltip (void)
 
 		for (i = 5; --i >= 0 ; ) {
 			rc_style->color_flags[i] = GTK_RC_BG;
-			color_alloc_name ("LightYellow",  &rc_style->bg[i]);
+			e_color_alloc_name ("LightYellow",  &rc_style->bg[i]);
 		}
 	}
 

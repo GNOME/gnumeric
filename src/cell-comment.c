@@ -8,7 +8,7 @@
 #include "gnumeric.h"
 #include "cell.h"
 #include "cell-comment.h"
-#include "cursors.h"
+#include "gal/widgets/e-cursors.h"
 #include "sheet-view.h"
 #include "gnumeric-sheet.h"
 
@@ -92,7 +92,7 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 
 	case GDK_ENTER_NOTIFY:
 		cell->comment->timer_tag = gtk_timeout_add (1000, &cell_popup_comment, cell);
-		cursor_set_widget (canvas, GNUMERIC_CURSOR_ARROW);
+		e_cursor_set_widget (canvas, E_CURSOR_ARROW);
 		break;
 
 	case GDK_LEAVE_NOTIFY:

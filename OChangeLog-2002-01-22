@@ -1,5 +1,31 @@
 2000-09-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-format-toolbar.c : Use the new Gnome App Libs (GAL)
+	  routines.
+	* src/workbook-view.c : Ditto.
+	* src/workbook.c : Ditto.
+
+	* src/main.c (gnumeric_main) : call e_color_init and e_color_shutdown.
+
+	* src/gnumeric-util.c (gnumeric_create_tooltip) :
+	  Rename from color -> e_color.
+	* src/style.c (style_color_new) : Ditto.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_realize) :
+	  Rename from cursor -> e_cursor.
+	* src/item-cursor.c (item_cursor_set_cursor) : Ditto.
+	* src/cell-comment.c (cell_comment_clicked) : Ditto.
+	* src/item-grid.c (item_grid_event) : Ditto.
+	* src/sheet-object.c : Ditto.
+
+	* src/color.c : Split the utilities into the gal library.
+
+	* src/Makefile.am : Remove cursors.[ch]
+
+	* configure.in : Handle the new Gnome App Lib (GAL)
+
+2000-09-17  Jody Goldberg <jgoldberg@home.com>
+
 	* src/dialogs/dialog-graph-guru.c (cb_create_series_from_range) :
 	  GraphSeries is responsible for registering.
 

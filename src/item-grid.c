@@ -13,7 +13,7 @@
 #include "item-debug.h"
 #include "color.h"
 #include "dialogs.h"
-#include "cursors.h"
+#include "gal/widgets/e-cursors.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -763,13 +763,13 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		int cursor;
 
 		if (sheet->new_object != NULL)
-			cursor = GNUMERIC_CURSOR_THIN_CROSS;
+			cursor = E_CURSOR_THIN_CROSS;
 		else if (sheet->current_object != NULL)
-			cursor = GNUMERIC_CURSOR_ARROW;
+			cursor = E_CURSOR_ARROW;
 		else
-			cursor = GNUMERIC_CURSOR_FAT_CROSS;
+			cursor = E_CURSOR_FAT_CROSS;
 
-		cursor_set_widget (canvas, cursor);
+		e_cursor_set_widget (canvas, cursor);
 		return TRUE;
 	}
 

@@ -21,7 +21,7 @@
 #include "plugin.h"
 #include "format.h"
 #include "workbook.h"
-#include "cursors.h"
+#include "gal/widgets/e-cursors.h"
 #include "number-match.h"
 #include "main.h"
 #include "expr-name.h"
@@ -30,6 +30,7 @@
 #include "print-info.h"
 #include "global-gnome-font.h"
 #include "auto-format.h"
+#include "color.h"
 
 #include "../plugins/excel/boot.h"
 #include <glade/glade.h>
@@ -165,7 +166,8 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	style_init ();
 	format_match_init ();
 	format_color_init ();
-	cursors_init ();
+	gnumeric_color_init ();
+	e_cursors_init ();
 	auto_format_init ();
 	functions_init ();
 	expr_name_init ();
@@ -238,7 +240,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	excel_shutdown ();
 	print_shutdown ();
 	auto_format_shutdown ();
-	cursors_shutdown ();
+	e_cursors_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();
 	style_shutdown ();

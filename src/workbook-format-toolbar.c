@@ -14,9 +14,6 @@
 #include "selection.h"
 #include "workbook-format-toolbar.h"
 #include "global-gnome-font.h"
-#include "widgets/widget-color-combo.h"
-#include "widgets/gnumeric-toolbar.h"
-#include "widgets/widget-pixmap-combo.h"
 #include "workbook-private.h"
 #include "workbook.h"
 #include "application.h"
@@ -25,8 +22,11 @@
 #include "color.h"
 #include "border.h"
 #include "ranges.h"
-#include "widgets/gtk-combo-text.h"
+#include "widgets/gnumeric-toolbar.h"
 
+#include <gal/widgets/gtk-combo-text.h>
+#include <gal/widgets/widget-color-combo.h>
+#include <gal/widgets/widget-pixmap-combo.h>
 /*
  * Pixmaps
  */
