@@ -1,3 +1,8 @@
+2003-06-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print.c (print_job_info_get): don't overwrite page layout
+	  info with default.
+
 2003-06-19  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print-info.c (print_info_new): protect all parts of the

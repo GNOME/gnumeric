@@ -1163,7 +1163,8 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->sheet = sheet;
 	pj->pi    = print_info_dup (sheet->print_info);
 
-	print_job_info_set_one_time_defaults (pj);
+	if (pj->pi == NULL)
+		print_job_info_set_one_time_defaults (pj);
 
 	/*
 	 * Values that should be entered in a dialog box

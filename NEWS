@@ -10,6 +10,7 @@ Andreas:
           median for grouped data)
 	* Added a locale selector to text import.
 	* Fix 115542 (cs_CZ bug)
+	* Fix landscape printing
 
 Emmanuel Pacaud:
 	* New format selector for stf.
