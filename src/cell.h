@@ -89,7 +89,11 @@ void        cell_draw                 (Cell *cell, void *sheet_view,
 void        calc_text_dimensions      (int is_number, Style *style, char *text,
 				       int cell_w, int cell_h, int *h, int *w);
 
-/* Routines used to lookup which cells displays on a given column */
+/*
+ * Routines used to lookup which cells displays on a given column
+ *
+ * These are defined in cellspan.c
+ */
 Cell *      row_cell_get_displayed_at (ColRowInfo *ri, int col);
 void        cell_register_span        (Cell *cell, int left, int right);
 void        cell_unregister_span      (Cell *cell);

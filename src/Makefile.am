@@ -15,6 +15,7 @@ GNOME_XML_LIB = -lxml
 GNUMERIC_BASE_SOURCES =		\
 	cell.h			\
 	cell.c			\
+	cellspan.c		\
 	clipboard.c		\
 	clipboard.h		\
 	dialog-cell-format.c	\
