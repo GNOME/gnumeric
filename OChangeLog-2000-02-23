@@ -1,3 +1,8 @@
+1999-08-05  Michael Meeks  <michael@imaginator.com>
+
+	* src/file.c (workbook_import): Fix control flow to have 1 return.
+	fix leak.
+
 1999-08-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/func.c (function_get_category) : Lookup/store in sorted list.

@@ -196,7 +196,7 @@ workbook_import (Workbook *parent, const char *filename)
 {
 	Workbook *w = NULL;
 	GladeXML *gui;
-	GtkWidget *dialog, *contents;
+	GtkWidget *dialog, *contents, *hack_dialog;
 	GtkCList *clist;
 	int ret, row;
 	GList *l;
@@ -209,14 +209,14 @@ workbook_import (Workbook *parent, const char *filename)
 
 	/* Hack to get round libglade's bad handling of gnome-dialogs */
 	contents = glade_xml_get_widget (gui, "contents");
-	dialog = glade_xml_get_widget (gui, "import-dialog");
+	hack_dialog = glade_xml_get_widget (gui, "import-dialog");
 
-	gtk_widget_hide (GTK_WIDGET (dialog));
+	gtk_widget_hide (GTK_WIDGET (hack_dialog));
 
 	dialog = gnome_dialog_new ("Import File", GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL, NULL);
 
-	gtk_widget_reparent (contents, GTK_CONTAINER (GNOME_DIALOG(dialog)->vbox));
+	gtk_widget_reparent (contents, GTK_WIDGET (GNOME_DIALOG(dialog)->vbox));
 	gtk_widget_show (contents);
 	/* End of hack */
 
@@ -261,14 +261,15 @@ workbook_import (Workbook *parent, const char *filename)
 			
 			setlocale (LC_NUMERIC, oldlocale);
 			g_free (oldlocale);
-
-			return w;
 		}
 	}
-	if (ret != -1) {
+
+	if (ret != -1)
 	  gnome_dialog_close (GNOME_DIALOG (dialog));
-	}
+
+	gtk_widget_destroy (GTK_WIDGET (hack_dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
+
 	return w;
 }
 
