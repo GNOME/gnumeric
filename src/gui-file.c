@@ -298,6 +298,28 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view, const char *name)
 
 	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
 				GTK_WIDGET (wbcg->notebook)->allocation.height);
+
+	if (gnum_file_saver_get_save_scope (wbcg->current_saver) == FILE_SAVE_SHEET &&
+	    gnome_config_get_bool_with_default ("Gnumeric/File/AskBeforeSavingOneSheet=true", NULL)) {
+		gboolean accepted = TRUE;
+		GList *sheets;
+		gchar *msg = _("Selected file format doesn't support "
+		               "saving multiple sheets in one file.\n"
+		               "If you want to save all sheets, save them "
+		               "in separate files or select different file format.\n"
+		               "Do you want to save only current sheet?");
+
+		sheets = workbook_sheets (wb_view_workbook (wb_view));
+		if (g_list_length (sheets) > 1) {
+			accepted = gnumeric_dialog_question_yes_no (wbcg, msg, TRUE);
+		}
+		g_list_free (sheets);
+		if (!accepted) {
+			g_free (filename);
+			return FALSE;
+		}
+	}
+
 	success = wb_view_save_as (wb_view, WORKBOOK_CONTROL (wbcg),
 	                           wbcg->current_saver, filename);
 	g_free (filename);
@@ -348,9 +370,11 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	gtk_grab_add (GTK_WIDGET (fsel));
 	gtk_main ();
 
-	if (accepted)
+	if (accepted) {
 		success = do_save_as (wbcg, wb_view,
-				      gtk_file_selection_get_filename (fsel));
+		                      gtk_file_selection_get_filename (fsel));
+	}
+
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 
 	return success;

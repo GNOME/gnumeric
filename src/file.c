@@ -206,6 +206,7 @@ gnum_file_saver_init (GnumFileSaver *fs)
 	fs->extension = NULL;
 	fs->description = NULL;
 	fs->format_level = FILE_FL_NEW;
+	fs->save_scope = FILE_SAVE_WORKBOOK;
 	fs->save_func = NULL;
 }
 
@@ -304,6 +305,23 @@ gnum_file_saver_new (const gchar *id,
 	gnum_file_saver_setup (fs, id, extension, description, level, save_func);
 
 	return fs;
+}
+
+void
+gnum_file_saver_set_save_scope (GnumFileSaver *fs, FileSaveScope scope)
+{
+	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
+	g_return_if_fail (scope < FILE_SAVE_LAST);
+
+	fs->save_scope = scope;
+}
+
+FileSaveScope
+gnum_file_saver_get_save_scope (GnumFileSaver *fs)
+{
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FILE_SAVE_WORKBOOK);
+
+	return fs->save_scope;
 }
 
 const gchar *

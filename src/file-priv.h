@@ -63,6 +63,7 @@ struct _GnumFileSaver {
 	gchar                *extension;
 	gchar                *description;
 	FileFormatLevel       format_level;
+	FileSaveScope         save_scope;
 	GnumFileSaverSaveFunc save_func;
 };
 

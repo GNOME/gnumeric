@@ -53,6 +53,7 @@ struct _PluginServiceFileSaver {
 	FileFormatLevel format_level;
 	gchar *description;
 	gint   default_saver_priority;
+	FileSaveScope save_scope;
 
 	GnumFileSaver *saver;
 	/* fields available after loading */

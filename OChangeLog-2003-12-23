@@ -1,5 +1,28 @@
 2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
 
+	Displaying a question dialog if the user wants to export workbook
+	with many sheets to file format supporting only one.
+
+	* src/file-priv.h (struct _GnumFileSaver): Added save_scope.
+
+	* src/file.h (gnum_file_saver_set_save_scope,
+	gnum_file_saver_get_save_scope, enum FileSaveScope): New.
+
+	* src/file.c
+	(gnum_file_saver_init): Initialize save_scope with FILE_SAVE_WORKBOOK.
+	(gnum_file_saver_set_save_scope, gnum_file_saver_get_save_scope): New.
+
+	* src/gui-file.c (do_save_as): Optionally display a question dialog if
+	we have many sheets and the saver can save only one.
+
+	* src/plugin-service.h
+	(struct _PluginServiceFileSaver): Added save_scope.
+
+	* src/plugin-service.c (plugin_service_file_saver_read,
+	gnum_plugin_file_saver_new): Support save_scope attribute.
+
+2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/xml-io.c:
 	Reverted my last patch to save users' swap-space :-)
 

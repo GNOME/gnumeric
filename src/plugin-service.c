@@ -620,6 +620,8 @@ gnum_plugin_file_saver_new (PluginService *service)
 	                       service_file_saver->description,
 	                       service_file_saver->format_level,
 	                       NULL);
+	gnum_file_saver_set_save_scope (GNUM_FILE_SAVER (fs),
+	                                service_file_saver->save_scope);
 	fs->service = service;
 	g_free (saver_id);
 
@@ -634,7 +636,7 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 	gchar *file_extension;
 	xmlNode *information_node;
 	gchar *description;
-	gchar *format_level_str;
+	gchar *format_level_str, *save_scope_str;
 
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (ret_error != NULL, NULL);
@@ -643,6 +645,7 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 	id_str = e_xml_get_string_prop_by_name (tree, "id");
 	file_extension = e_xml_get_string_prop_by_name (tree, "file_extension");
 	format_level_str = e_xml_get_string_prop_by_name (tree, "format_level");
+	save_scope_str = e_xml_get_string_prop_by_name (tree, "save_scope");
 	information_node = e_xml_get_child_by_name_by_lang_list (tree, "information", NULL);
 	if (information_node != NULL) {
 		description = e_xml_get_string_prop_by_name (information_node, "description");
@@ -662,9 +665,10 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 		                                                           FILE_FL_WRITE_ONLY);
 		service_file_saver->default_saver_priority = e_xml_get_integer_prop_by_name_with_default (
 		                                             tree, "default_saver_priority", -1);
+		service_file_saver->save_scope = (save_scope_str != NULL &&
+		                                 g_strcasecmp (save_scope_str, "sheet") == 0) ?
+		                                 FILE_SAVE_SHEET : FILE_SAVE_WORKBOOK;
 		service_file_saver->plugin_func_file_save = NULL;
-
-		g_free (format_level_str);
 	} else {
 		if (id_str == NULL) {
 			*ret_error = error_info_new_str (_("File saver has no id"));
@@ -675,9 +679,10 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 		}
 		g_free (id_str);
 		g_free (file_extension);
-		g_free (format_level_str);
 		g_free (description);
 	}
+	g_free (format_level_str);
+	g_free (save_scope_str);
 
 	return service;	
 }

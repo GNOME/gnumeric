@@ -37,6 +37,17 @@ typedef enum {
 } FileProbeLevel;
 
 /*
+ * FileSaveScope specifies what information file saver can save in a file.
+ * Many savers can save the whole workbook (with all sheets), but others
+ * save only current sheet, usually because of file format limitations.
+ */
+typedef enum {
+	FILE_SAVE_WORKBOOK,
+	FILE_SAVE_SHEET,
+	FILE_SAVE_LAST
+} FileSaveScope;
+
+/*
  * GnumFileOpener
  */
 
@@ -92,6 +103,9 @@ GnumFileSaver *gnum_file_saver_new (const gchar *id,
                                     const gchar *description,
                                     FileFormatLevel level,
                                     GnumFileSaverSaveFunc save_func);
+
+void          gnum_file_saver_set_save_scope (GnumFileSaver *fs, FileSaveScope scope);
+FileSaveScope gnum_file_saver_get_save_scope (GnumFileSaver *fs);
 
 void         gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
                                    WorkbookView *wbv, const gchar *file_name);
