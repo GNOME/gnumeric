@@ -1,5 +1,10 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	* src/validation.c (validation_eval) : fix typo that passed the type
+	  as the style. Unique to 1.1.x
+
+2003-05-31  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook-edit.c (wbcg_edit_finish) : add an optional flag to
 	  indicate if a dialog was displayed.  This is necessary for only 1
 	  caller.

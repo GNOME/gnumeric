@@ -304,7 +304,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 
 	if (showed_dialog != NULL)
 		*showed_dialog = TRUE;
-	result = wb_control_validation_msg (wbc, v->type,
+	result = wb_control_validation_msg (wbc, v->style,
 		(v->title != NULL && v->title->str[0] != '\0')
 			? v->title->str
 			: _("Gnumeric: Validation"),
