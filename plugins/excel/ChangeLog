@@ -1,3 +1,9 @@
+2001-08-07  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_setup) : print scaling is stored as a
+	  percentage in XL and in Gnumeric.  Improve the warning as long as
+	  we're in here.
+
 2001-08-03  Jody Goldberg <jgoldberg@home.com>
 
 	Consistently refer to /ExcelSheet/ instances as esheet.
