@@ -1,0 +1,143 @@
+/*
+ * Gnumeric, the GNOME spreadsheet.
+ *
+ * Graphics Wizard bootstap file
+ *
+ * Author:
+ *   Miguel de Icaza (miguel@gnu.org)
+ */
+#include <config.h>
+#include <gnome.h>
+#include "gnumeric.h"
+#include <glade/glade.h>
+#include "graphic-context.h"
+
+#define LAST_PAGE 2
+
+extern void (*graphic_wizard_hook)(Workbook *wb);
+
+static void
+customize (GladeXML *gui, GraphicContext *gc)
+{
+	GtkNotebook *n;
+	
+	/* Now, customize the GUI */
+	gc->steps_notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "main-notebook"));
+	gtk_notebook_set_show_tabs (gc->steps_notebook, FALSE);
+}
+
+static void
+set_page (GraphicContext *gc, int page)
+{
+	char *name;
+	
+	gc->current_page = page;
+	gtk_notebook_set_page (gc->steps_notebook, page);
+
+	gtk_widget_set_sensitive (
+		glade_xml_get_widget (gc->gui, "button-back"),
+		gc->current_page != 0);
+
+	gtk_widget_set_sensitive (
+		glade_xml_get_widget (gc->gui, "button-next"),
+		gc->current_page != LAST_PAGE);
+
+	switch (gc->current_page){
+	case 0:
+		name = _("Step 1 of 3: Select graphic type");
+		break;
+	case 1:
+		name = _("Step 2 of 3: Select data ranges");
+		break;
+
+	case 2:
+		name = _("Step 3 of 3: Customize graphic");
+		break;
+		
+	default:
+		name = "not_reached";
+		g_assert_not_reached ();
+	}
+	gtk_window_set_title (GTK_WINDOW (gc->dialog_toplevel), name);
+}
+
+static void
+button_back (GtkWidget *widget, GraphicContext *gc)
+{
+	if (gc->current_page == 0)
+		return;
+	set_page (gc, gc->current_page - 1);
+}
+
+static void
+button_next (GtkWidget *widget, GraphicContext *gc)
+{
+	if (gc->current_page == LAST_PAGE)
+		return;
+	set_page (gc, gc->current_page + 1);
+}
+
+static void
+button_cancel (GtkWidget *widget, GraphicContext *gc)
+{
+	graphic_context_destroy (gc);
+}
+
+static void
+button_finish (GtkWidget *widget, GraphicContext *gc)
+{
+}
+
+static void
+_connect (GladeXML *gui, const char *widget_name,
+	 const char *signal_name,
+	 GtkSignalFunc callback, gpointer closure)
+{
+	gtk_signal_connect (
+		GTK_OBJECT (glade_xml_get_widget (gui, widget_name)),
+		signal_name,
+		callback, closure);
+}
+
+#define connect(a,b,c,d,e) _connect(a,b,c, GTK_SIGNAL_FUNC(d),e)
+
+static void
+my_wizard (Workbook *wb)
+{
+	GladeXML *gui;
+	GtkWidget *n;
+	GraphicContext *gc;
+	
+	gui = glade_xml_new ("graphics.glade", NULL);
+	if (!gui){
+		g_error ("Failed to load the interface");
+	}
+
+	gc = graphic_context_new (wb, gui);
+	
+	/*
+	 * Do touchups that are not available from Glade
+	 */
+	customize (gui, gc);
+
+	/*
+	 * Connect signals.
+	 */
+	connect (gui, "button-back", "clicked", button_back, gc);
+	connect (gui, "button-next", "clicked", button_next, gc);
+	connect (gui, "button-cancel", "clicked", button_cancel, gc);
+	connect (gui, "button-finish", "clicked", button_finish, gc);
+
+	set_page (gc, 0);
+}
+
+void
+gtk_module_init (void)
+{
+	printf ("In gtk_module_init");
+
+	graphic_wizard_hook = my_wizard;
+}
+
+
+	
