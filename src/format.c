@@ -456,6 +456,19 @@ format_entry_dtor (gpointer data, gpointer user_data)
 	g_free (entry);
 }
 
+static void
+format_entry_set_fmt (StyleFormatEntry *entry,
+		      unsigned char const *begin,
+		      unsigned char const *end)
+{
+	/* empty formats are General if there is a color, or a condition */
+	entry->format = (begin != NULL && end != begin)
+		? g_strndup (begin, end - begin)
+		: strdup ((entry->color != NULL ||
+			   entry->restriction_type != '*')
+			  ? "General" : "");
+}
+
 static StyleColor * lookup_color (const char *str, const char *end);
 
 /*
@@ -476,42 +489,14 @@ format_compile (StyleFormat *format)
 			real_start = fmt;
 
 		switch (*fmt) {
-		case ';': {
-			format->entries = g_list_append (format->entries, entry);
-			entry->format = g_strndup (real_start, fmt - real_start);
-			num_entries++;
-
-			entry = format_entry_ctor ();
-			real_start = NULL;
-			break;
-		}
-
 		case '[': {
 			unsigned char const *begin = fmt + 1;
 			unsigned char const *end = begin;
 
-			/* find end checking for escapes and quotes */
-			for (; *end && *end != ']' ; ++end) {
-				switch (*end) {
-				case '\\' :
-					if (end [1])
-						end++; /* skip escaped characters */
-					break;
-
-				case '\'' :
-				case '\"' : {
-					/* skip quoted strings */
-					char const match = *fmt;
-					for (; fmt < end && *fmt != match; fmt++)
-						if (fmt < end && *fmt == '\\')
-							fmt++;
-					break;
-				}
-
-				default :
-					break;
-				}
-			}
+			/* find end checking for escapes but not quotes ?? */
+			for (; end[0] != ']' && end[1] != '\0' ; ++end)
+				if (*end == '\\')
+					end++;
 
 			/* Check for conditional */
 			if (*begin == '<') {
@@ -551,7 +536,12 @@ format_compile (StyleFormat *format)
 				continue;
 			}
 			fmt = end;
-#warning Get the value
+
+			/* fall back on 0 for errors */
+			errno = 0;
+			entry->restriction_value = strtod (begin, (char **)&end);
+			if (errno == ERANGE || begin == end)
+				entry->restriction_value = 0.;
 			break;
 		}
 
@@ -564,8 +554,8 @@ format_compile (StyleFormat *format)
 		case '\"' : {
 			/* skip quoted strings */
 			char const match = *fmt;
-			for (; *fmt && *fmt != match; fmt++)
-				if (*fmt == '\\' && fmt[1] != '\0')
+			for (; fmt[0] != match && fmt[1] != '\0'; fmt++)
+				if (*fmt == '\\')
 					fmt++;
 			break;
 		}
@@ -585,16 +575,24 @@ format_compile (StyleFormat *format)
 			}
 			break;
 
+		case ';':
+			format_entry_set_fmt (entry, real_start, fmt);
+			format->entries = g_list_append (format->entries, entry);
+			num_entries++;
+
+			entry = format_entry_ctor ();
+			real_start = NULL;
+			break;
+
 		default :
 			break;
 		}
 	}
 
+	format_entry_set_fmt (entry, real_start, fmt);
 	format->entries = g_list_append (format->entries, entry);
-	entry->format = g_strndup (real_start, fmt-real_start);
 
 	/* num_entries; */
-#warning apply the default conditions
 }
 
 /*
@@ -1647,8 +1645,8 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 			list = format->entries;
 		entry = (StyleFormatEntry const *)(list->data);
 
-		if (color)
-			*color = entry->color;
+		if (color && entry->color != NULL)
+			*color = style_color_ref (entry->color);
 
 		/* Empty formats should be ignored */
 		if (entry->format [0] == '\0')

@@ -1,3 +1,9 @@
+2001-06-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (format_value) : ref the colour.
+	(format_entry_set_fmt) : new function.
+	(format_compile) : parse the conditional values.
+
 2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/sheet.c (sheet_col_row_group_ungroup): Use
