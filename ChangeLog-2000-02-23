@@ -1,3 +1,9 @@
+1999-09-23  Morten Welinder  <terra@diku.dk>
+
+	* src/widgets/widget-color-combo.c (color_clicked): Plug leak.
+	(color_combo_select_color): Plug leak.
+	(emit_change): Plug leak.
+
 1999-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/widgets/widget-color-combo.c (color_combo_new): Install the

@@ -95,6 +95,7 @@ color_clicked (GtkWidget *button, ColorCombo *combo)
 		NULL);
 
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (combo));
+	g_free (gdk_color);
 }
 
 static GtkWidget *
@@ -177,6 +178,9 @@ emit_change (GtkWidget *button, ColorCombo *cc)
 
 	gtk_signal_emit (
 		GTK_OBJECT (cc), color_combo_signals [CHANGED], color, cc->last_index);
+
+	if (color)
+		g_free (color);
 }
 
 static void
@@ -356,4 +360,5 @@ color_combo_select_color (ColorCombo *cc, int idx)
 		cc->preview_color_item,
 		"fill_color_gdk", color,
 		NULL);
+	g_free (color);
 }
