@@ -338,7 +338,7 @@ dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
 	
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 				 GTK_WINDOW (wb->toplevel));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 
 	state.dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox);
 

@@ -1,3 +1,8 @@
+1999-11-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/{cell-format,font-sel}.glade.h : Regenerate from
+	  current .glade files.
+
 1999-11-19  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/dialog-cell-sort.c: Allow selection of the columns
