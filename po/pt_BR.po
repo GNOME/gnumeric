@@ -9,13 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-16 21:15-0500\n"
-"PO-Revision-Date: 2004-03-09 10:30-0300\n"
+"POT-Creation-Date: 2004-03-18 04:05+0100\n"
+"PO-Revision-Date: 2004-03-18 09:32-0300\n"
 "Last-Translator: Raphael Higino <raphaelh@uai.com.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -17531,8 +17531,7 @@ msgstr "Seção BOUNDS inválida no arquivo."
 
 #: plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
-msgstr ""
-"Formato de arquivo de problemas de programação linear e inteira (*.mps)"
+msgstr "Formato de arquivo de problemas de programação linear e inteira (*.mps)"
 
 #: plugins/mps/plugin.xml.in.h:2
 msgid "Linear and integer program expression format (MPS) module"
@@ -17579,7 +17578,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=A função NT_MU (função mu de Möbius) retorna \n"
+"@DESCRIPTION=A função NT_MU (função mu de Mobius) retorna \n"
 "0 se @n é divisível pelo quadrado de um primo.\n"
 "Caso contrário, ela retorna:\n"
 "\n"
@@ -18440,7 +18439,7 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"Esse valor determina se, por padrão, o diálogo de configuração de impressão "
+"Este valor determina se, por padrão, o diálogo de configuração de impressão "
 "é aplicado a todas as pastas simultâneamente."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:44
@@ -18448,14 +18447,14 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
 msgstr ""
-"Esse valor determina se a fonte padrão para cabeçalhos e rodapés é negrito."
+"Este valor determina se a fonte padrão para cabeçalhos e rodapés é negrito."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:45
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
 msgstr ""
-"Esse valor determina se a fonte padrão para cabeçalhos e rodapés é itálico."
+"Este valor determina se a fonte padrão para cabeçalhos e rodapés é itálico."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:46
 msgid ""
@@ -18480,7 +18479,7 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"Antes de um arquivo existente ser sobrescrito, gnumeric irá apresentar um "
+"Antes de um arquivo existente ser sobrescrito, o gnumeric irá apresentar um "
 "diálogo de aviso. Ativando esta opção, irá tornar o botão de sobrescrever "
 "nesse diálogo o botão padrão."
 
@@ -18502,7 +18501,7 @@ msgstr "Número Padrão de Pastas"
 
 #: schemas/gnumeric-general.schemas.in.h:8
 msgid "Default To Overwriting Files"
-msgstr "Padrão para Sobrescrever Arquivos."
+msgstr "Sobrescrever Arquivos Como o Padrão ao Salvar"
 
 #: schemas/gnumeric-general.schemas.in.h:9
 msgid "Default Vertical Window Size"
@@ -18527,7 +18526,7 @@ msgid ""
 "with the magnitude many milleseconds after the last change where 'last' is "
 "defined as the end of a period of that size after a change with no changes."
 msgstr ""
-"Se esse valor é positivo, auto-expressões são recalculadas dentro daqueles "
+"Se este valor é positivo, auto-expressões são recalculadas dentro daqueles "
 "muitos milesegundos após uma mudança. Se é negativo eles são recalculados "
 "dentro dos muitos milesegundo após a última mudança onde 'última' é definido "
 "como o fim de um período desse tamanho após uma mudança sem mudanças."
@@ -18706,26 +18705,26 @@ msgstr ""
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
-"Esse valor determina o número máximo de itens na lista de desfazer/refazer."
+"Este valor determina o número máximo de itens na lista de desfazer/refazer."
 
 #: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
 msgstr ""
-"Esse valor determina se a fonte padrão para um novo WorkBook é negrito."
+"Este valor determina se a fonte padrão para um novo WorkBook é negrito."
 
 #: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines whether the default font for a new workbook is italic."
 msgstr ""
-"Esse valor determina se a fonte padrão para um novo WorkBook é itálico."
+"Este valor determina se a fonte padrão para um novo WorkBook é itálico."
 
 #: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
-"Esse valor determina se devem ser mostrados os nomes das pastas nas listas "
+"Este valor determina se devem ser mostrados os nomes das pastas nas listas "
 "de desfazer e refazer."
 
 #: schemas/gnumeric-general.schemas.in.h:49
@@ -18733,7 +18732,7 @@ msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
 msgstr ""
-"Esse valor indica o tamanho máximo das descriçõoes de comando nas listas de "
+"Este valor indica o tamanho máximo das descriçõoes de comando nas listas de "
 "desfazer e refazer."
 
 #: schemas/gnumeric-general.schemas.in.h:50
@@ -18772,7 +18771,7 @@ msgstr "DPI Vertical"
 
 #: schemas/gnumeric-general.schemas.in.h:57
 msgid "Warn When Exporting Into Single Sheet Format"
-msgstr "Avisar Quando Exportar em Formato de Pastas Simples"
+msgstr "Avisar Quando for Exportar em Formato de Pastas Simples"
 
 #: schemas/gnumeric-general.schemas.in.h:58
 msgid ""
@@ -18806,7 +18805,7 @@ msgstr ""
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
 msgid "Use UTF-8 in LaTeX Export"
-msgstr "Use UTF-8 na exportação LaTeX"
+msgstr "Utilizar UTF-8 na exportação LaTeX"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
@@ -19058,7 +19057,7 @@ msgstr "Cria uma caixa de verificação"
 
 #: src/GNOME_Gnumeric.xml.h:57 src/workbook-object-toolbar.c:171
 msgid "Create a combo box"
-msgstr "Criar um combo box"
+msgstr "Cria um combo box"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/workbook-object-toolbar.c:150
 msgid "Create a frame"
@@ -19908,7 +19907,7 @@ msgstr "Reagrupa um grupo de contorno"
 
 #: src/GNOME_Gnumeric.xml.h:256 src/workbook-format-toolbar.c:429
 msgid "Underline"
-msgstr "Sublinhar"
+msgstr "Sublinhado"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:4281
 msgid "Undo the last action"
@@ -20843,7 +20842,7 @@ msgstr "Recuar o objeto"
 
 #: src/commands.c:5557
 msgid "Raise object to top"
-msgstr "Trazer o objeto para o topo"
+msgstr "Trazer o objeto para a frente"
 
 #: src/commands.c:5560
 msgid "Lower object to bottom"
@@ -21758,40 +21757,37 @@ msgid "Ring plotting engine"
 msgstr "Mecanismo de plotar Anéis"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of default size"
-msgstr "% do tamanho _normal"
+msgstr "% do tamanho normal"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
 msgid "3_d"
-msgstr ""
+msgstr "3_d"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
-#, fuzzy
 msgid "Dia_meter"
-msgstr "Parâmetros"
+msgstr "Diâ_metro"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
 msgid "Show _negative values"
-msgstr ""
+msgstr "Mostras valores _negativos"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
-#, fuzzy
 msgid "Sur_face"
-msgstr "Fonte"
+msgstr "Super_fície"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
 msgid "_Bubbles scaled to"
-msgstr ""
+msgstr "_Bolhas escalonadas para"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
 msgid "_Size reprented by:"
-msgstr ""
+msgstr "_Tamanho representado por:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
-#, fuzzy
 msgid "_Vary colors by bubble"
-msgstr "Altera as _cores por fatia"
+msgstr "Altera as _cores por bolha"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -24519,7 +24515,7 @@ msgstr "Novo Nome"
 
 #: src/dialogs/dialog-sheet-order.c:661
 msgid "You may not delete all sheets in a workbook!"
-msgstr "Você não pode apagar todas as pastas do WorkBook!"
+msgstr "Você não pode excluir todas as pastas do WorkBook!"
 
 #: src/dialogs/dialog-sheet-order.c:666
 msgid ""
@@ -26666,11 +26662,11 @@ msgstr "Configurar Objeto Preenchido"
 
 #: src/dialogs/so-fill.glade.h:3
 msgid "F_ill Color:"
-msgstr "Cor de Preench_imento:"
+msgstr "Cor de _Preenchimento:"
 
 #: src/dialogs/so-fill.glade.h:4
 msgid "O_utline Color:"
-msgstr "Cor do con_torno"
+msgstr "Cor do _Contorno"
 
 #: src/dialogs/so-frame.glade.h:2
 msgid "Frame Properties"
@@ -26760,7 +26756,7 @@ msgstr "Modelo"
 
 #: src/dialogs/solver.glade.h:19
 msgid "P_rogram"
-msgstr "P_rograma"
+msgstr "_Modelo"
 
 #: src/dialogs/solver.glade.h:20
 msgid "Parameters"
@@ -26792,7 +26788,7 @@ msgstr "_Mudar"
 
 #: src/dialogs/solver.glade.h:29
 msgid "_Create a scenario if the optimal solution is found"
-msgstr "_Criar um Cenário caso a solução ótima seja encontrada"
+msgstr "_Criar um cenário caso a solução ótima seja encontrada"
 
 #: src/dialogs/solver.glade.h:31
 msgid "_Do not create scenarios"
@@ -29937,7 +29933,7 @@ msgstr "Informações do Sistema"
 
 #: src/tools/solver/reports-write.c:770 src/tools/solver/reports-write.c:910
 msgid "Program Report"
-msgstr "Relatório do Programa"
+msgstr "Relatório do Modelo"
 
 #: src/tools/solver/reports-write.c:899
 msgid "Assume that all variables take only positive values."
@@ -29958,7 +29954,7 @@ msgstr "Igual a"
 #. Print `Subject to' title.
 #: src/tools/solver/reports-write.c:927
 msgid "Subject to"
-msgstr "Sujeito a"
+msgstr "Sujeito a:"
 
 #: src/tools/solver/reports-write.c:948 src/tools/solver/reports-write.c:961
 msgid "Dual Program Report"
@@ -29969,8 +29965,8 @@ msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
 msgstr ""
-"O modelo é muito grande para a geração do relatório do programa. O relatório "
-"do programa não foi criado."
+"O modelo é muito grande para a geração do relatório do modelo. O relatório "
+"do modelo não foi criado."
 
 #: src/tools/solver/solver.c:395
 msgid ""
@@ -30011,27 +30007,27 @@ msgstr "'%s' é um erro"
 #: src/validation.c:171
 #, c-format
 msgid "'%s' is not a valid date"
-msgstr "%s' não é uma data válida"
+msgstr "'%s' não é uma data válida"
 
 #: src/validation.c:173
 #, c-format
 msgid "'%s' is not a valid time"
-msgstr "'%s não é uma hora válida"
+msgstr "'%s' não é uma hora válida"
 
 #: src/validation.c:175
 #, c-format
 msgid "'%s' is not a number"
-msgstr "'%s não é um número"
+msgstr "'%s' não é um número"
 
 #: src/validation.c:188
 #, c-format
 msgid "'%s' is not an integer"
-msgstr "'%s não é um inteiro"
+msgstr "'%s' não é um inteiro"
 
 #: src/validation.c:284
 #, c-format
 msgid "%s is not true."
-msgstr "'%s não é verdade"
+msgstr "%s não é verdade."
 
 #: src/validation.c:298
 msgid ""
