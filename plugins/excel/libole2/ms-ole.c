@@ -420,7 +420,6 @@ pps_get_text (guint8 *ptr, int length)
 	
 	ans = (char *) g_malloc (sizeof (char) * length + 1);
 	
-	c = MS_OLE_GET_GUINT16 (ptr);
 	inb = ptr;
 	for (lp = 0; lp < length; lp++) {
 		c = MS_OLE_GET_GUINT16 (inb);

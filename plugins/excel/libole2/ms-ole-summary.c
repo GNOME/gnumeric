@@ -3,7 +3,7 @@
  *
  * Authors:
  *    Michael Meeks (mmeeks@gnu.org)
- *    Frank Chiulli (fchiulli@home.com)
+ *    Frank Chiulli (fc-linux@home.com)
  * From work by:
  *    Caolan McNamara (Caolan.McNamara@ul.ie)
  * Built on work by:
@@ -187,12 +187,13 @@ write_items (MsOleSummary *si)
 
 /**
  * ms_ole_summary_open_stream:
- * @s: FIXME
- * @psid: FIXME
+ * @s: stream object
+ * @psid: Property Set ID, indicates which property set to open
  * 
- * Opens @s as SummaryInformation, returns NULL on failure.
+ * Opens @s as a summary stream, returns NULL on failure.
  * 
- * Return value: FIXME
+ * Return value: %NULL if unable to open summary stream or a pointer to the 
+ * Summary Stream.
  **/
 MsOleSummary *
 ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
@@ -302,11 +303,12 @@ ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 
 /**
  * ms_ole_summary_open:
- * @f: FIXME
+ * @f: filesystem object.
  * 
  * Opens the SummaryInformation stream, returns NULL on failure.
  * 
- * Return value: FIXME
+ * Return value: %NULL if unable to open summary stream or a pointer to the 
+ * SummaryInformation Stream.
  **/
 MsOleSummary *
 ms_ole_summary_open (MsOle *f)
@@ -326,11 +328,12 @@ ms_ole_summary_open (MsOle *f)
 
 /**
  * ms_ole_docsummary_open:
- * @f: FIXME
+ * @f: filesystem object.
  * 
  * Opens the DocumentSummaryInformation stream, returns NULL on failure.
  * 
- * Return value: FIXME
+ * Return value: %NULL if unable to open summary stream or a pointer to the 
+ * DocumentSummaryInformation Stream.
  **/
 MsOleSummary *
 ms_ole_docsummary_open (MsOle *f)
@@ -340,7 +343,7 @@ ms_ole_docsummary_open (MsOle *f)
 	g_return_val_if_fail (f != NULL, NULL);
 
 	result = ms_ole_stream_open (&s, f, "/",
-	                             "DocumentSummaryInformation", 'r');
+	                             "\05DocumentSummaryInformation", 'r');
 	if (result != MS_OLE_ERR_OK || !s)
 		return NULL;
 
@@ -353,12 +356,14 @@ ms_ole_docsummary_open (MsOle *f)
  */
 /**
  * ms_ole_summary_create_stream:
- * @s: FIXME
- * @psid: FIXME
+ * @s: stream object
+ * @psid: Property Set ID, indicates which property set to open
  * 
- * Creates @s as SummaryInformation stream, returns NULL on failure.
+ * Creates @s as a summary stream (@psid determines which one), returns NULL on
+ * failure.
  * 
- * Return value: FIXME
+ * Return value: %NULL if unable to create stream, otherwise a pointer to a new
+ * summary stream.
  **/
 MsOleSummary *
 ms_ole_summary_create_stream (MsOleStream *s, const MsOlePropertySetID psid)
@@ -420,11 +425,12 @@ ms_ole_summary_create_stream (MsOleStream *s, const MsOlePropertySetID psid)
 
 /**
  * ms_ole_summary_create:
- * @f: FIXME
+ * @f: filesystem object.
  * 
  * Create a SummaryInformation stream, returns NULL on failure.
  * 
- * Return value: FIXME
+ * Return value: %NULL if unable to create the stream, otherwise a pointer to a
+ * new SummaryInformation stream.
  **/
 MsOleSummary *
 ms_ole_summary_create (MsOle *f)
@@ -447,11 +453,12 @@ ms_ole_summary_create (MsOle *f)
 
 /**
  * ms_ole_docsummary_create:
- * @f: FIXME
+ * @f: filesystem object.
  * 
  * Create a DocumentSummaryInformation stream, returns NULL on failure.
  * 
- * Return value: FIXME
+ * Return value: %NULL if unable to create the stream, otherwise a pointer to a
+ * new DocumentSummaryInformation stream.
  **/
 MsOleSummary *
 ms_ole_docsummary_create (MsOle *f)
@@ -462,7 +469,7 @@ ms_ole_docsummary_create (MsOle *f)
 	g_return_val_if_fail (f != NULL, NULL);
 
 	result = ms_ole_stream_open (&s, f, "/",
-				     "\005DocumentSummaryInformation", 'w');
+				     "\05DocumentSummaryInformation", 'w');
 	if (result != MS_OLE_ERR_OK || !s) {
 		printf ("ms_ole_docsummary_create: Can't open stream for writing\n");
 		return NULL;
@@ -475,11 +482,13 @@ ms_ole_docsummary_create (MsOle *f)
 /* FIXME: without the helpful type */
 /**
  * ms_ole_summary_get_properties:
- * @si: FIXME
+ * @si: summary stream
  * 
  * Returns an array of MsOleSummaryPID.
  * 
- * Return value: FIXME
+ * Return value: an array of property ids in the current summary stream or 
+ * %NULL if either the summary stream is non-existent or the summary stream
+ * contains no properties.
  **/
 GArray *
 ms_ole_summary_get_properties (MsOleSummary *si)

@@ -308,7 +308,6 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	/*
 	 *  Write out DocumentSummaryInformation.
 	 */
-	/*
 	si = ms_ole_docsummary_create (f);
 	if (si == NULL) {
 		g_warning ("ms_summary_write: doc summary NOT created.\n");
@@ -323,5 +322,4 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);
 
 	ms_ole_summary_close (si);
-	*/
 }
