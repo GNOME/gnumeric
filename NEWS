@@ -22,6 +22,7 @@ Jody:
 	* Fix displayed cursor when leaving a sheet object.
 	* Improve goto box to support names, and inter-sheet jumps.
 	* Support inter-sheet references in the goal seek.
+	* Handle totally hidden merges at freeze bound.
 
 Jon Kåre:
 	* Added WEEKNUM and ISOWEEKNUM

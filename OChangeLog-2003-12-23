@@ -1,3 +1,10 @@
+2002-01-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=68661
+	* src/item-grid.c (item_grid_draw) : handle fully hidden merged regions
+	  that may trail off the endi of the visible region.
+	* src/print-cell.c (print_cell_range) : ditto.
+
 2002-01-13  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control.c (wb_control_parse_and_jump) : typo.

@@ -890,8 +890,25 @@ print_cell_range (GnomePrintContext *context,
 			CellSpanInfo const *span;
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 
-			if (!ci->visible)
+			if (!ci->visible) {
+				if (merged_active != NULL) {
+					Range const *r = merged_active->data;
+					if (r->end.col == col) {
+						ptr = merged_active;
+						merged_active = merged_active->next;
+						if (r->end.row <= row) {
+							ptr->next = merged_used;
+							merged_used = ptr;
+							MERGE_DEBUG (r, " : active2 -> used\n");
+						} else {
+							ptr->next = merged_active_seen;
+							merged_active_seen = ptr;
+							MERGE_DEBUG (r, " : active2 -> seen\n");
+						}
+					}
+				}
 				continue;
+			}
 
 			/* Skip any merged regions */
 			if (merged_active) {
@@ -1007,6 +1024,21 @@ print_cell_range (GnomePrintContext *context,
 					 context, base_x, y, y-ri->size_pts,
 					 sheet, TRUE);
 
+		/* In case there were hidden merges that trailed off the end */
+		while (merged_active != NULL) {
+			Range const *r = merged_active->data;
+			ptr = merged_active;
+			merged_active = merged_active->next;
+			if (r->end.row <= row) {
+				ptr->next = merged_used;
+				merged_used = ptr;
+				MERGE_DEBUG (r, " : active3 -> used\n");
+			} else {
+				ptr->next = merged_active_seen;
+				merged_active_seen = ptr;
+				MERGE_DEBUG (r, " : active3 -> seen\n");
+			}
+		}
 		/* roll the pointers */
 		borders = prev_vert; prev_vert = sr.vertical;
 		sr.vertical = next_sr.vertical; next_sr.vertical = borders;
