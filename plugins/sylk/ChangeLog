@@ -1,3 +1,7 @@
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
 2001-05-13  Almer S. Tigelaar  <almer@gnome.org>
 
 	* sylk.c (sylk_parse_line): Fix signedness.

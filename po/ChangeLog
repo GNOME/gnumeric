@@ -1,3 +1,7 @@
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
 2001-05-19  Christian Meyer  <chrisime@gnome.org>
 
 	* de.po: Update and fix for release.
@@ -10,21 +14,9 @@
 
 	* pl.po: Updated Polish translation.
 
-2001-05-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.37.
-
-2001-05-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.37.
-
 2001-05-18  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Small update.
-
-2001-05-18  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.36.
 
 2001-05-17  Almer S. Tigelaar  <almer@gnome.org>
 
@@ -34,7 +26,6 @@
 	someone is working hard on revamping this
 	translation.
 
->>>>>>> 1.370
 2001-05-15  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.66\n"
-"POT-Creation-Date: 2001-05-19 17:36+0400\n"
+"POT-Creation-Date: 2001-05-20 11:44-0400\n"
 "PO-Revision-Date: 2001-05-19 17:53+04:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -4643,42 +4643,34 @@ msgid "_Title :"
 msgstr "Заглавие:"
 
 #: src/dialogs/validate.glade.h:32
-msgid "label11"
-msgstr "Метка"
-
-#: src/dialogs/validate.glade.h:33
-msgid "label12"
-msgstr "Метка"
-
-#: src/dialogs/validate.glade.h:34
 msgid "min <= val <= max         (between)"
 msgstr "мин. <= значение <= макс.  (между)"
 
-#: src/dialogs/validate.glade.h:35
+#: src/dialogs/validate.glade.h:33
 msgid "val != bound                 (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
-#: src/dialogs/validate.glade.h:36
+#: src/dialogs/validate.glade.h:34
 msgid "val >  bound                 (greater than)"
 msgstr "значение > bound  (больше чем)"
 
-#: src/dialogs/validate.glade.h:37
+#: src/dialogs/validate.glade.h:35
 msgid "val >=bound                 (greater than or equal to)"
 msgstr "значение >= bound  (больше чем или равно)"
 
-#: src/dialogs/validate.glade.h:38
+#: src/dialogs/validate.glade.h:36
 msgid "val <  bound                 (less than)"
 msgstr "значение < bound  (меньше чем)                         "
 
-#: src/dialogs/validate.glade.h:39
+#: src/dialogs/validate.glade.h:37
 msgid "val <= min || max <= val (not between)"
 msgstr "значение <= мин. || макс. <= значение (не между)"
 
-#: src/dialogs/validate.glade.h:40
+#: src/dialogs/validate.glade.h:38
 msgid "val <=bound                 (less than or equal to)"
 msgstr "значение <= bound  (меньше чем или равно)"
 
-#: src/dialogs/validate.glade.h:41
+#: src/dialogs/validate.glade.h:39
 msgid "val == bound                (equal to)"
 msgstr "значение == bound  (равно)                         "
 
@@ -15034,142 +15026,142 @@ msgstr "Невозможно выполнить mmap для файла."
 msgid "Cannot get file size."
 msgstr "Невозможно получить размер файла."
 
-#: src/plugin.c:241
+#: src/plugin.c:239
 #, c-format
 msgid "File contain plugin info with invalid id (%s), expected %s."
 msgstr ""
 "Файл содержит информацию о дополнении с недопустимым идентификатором (%s), "
 "ожидалось %s."
 
-#: src/plugin.c:245
+#: src/plugin.c:243
 msgid "Couldn't read plugin info from file."
 msgstr "Невозможно прочесть файл информации о дополнении."
 
-#: src/plugin.c:295 src/plugin.c:372
+#: src/plugin.c:293 src/plugin.c:370
 msgid "Unknown name"
 msgstr "Неизвестное название"
 
-#: src/plugin.c:523
+#: src/plugin.c:521
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr "Ошибка при подготовке загрузчика \"%s\"."
 
-#: src/plugin.c:533
+#: src/plugin.c:531
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "Неподдерживаемый тип загрузчика \"%s\"."
 
-#: src/plugin.c:631
+#: src/plugin.c:629
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Ошибка при чтении информации сервиса #%d."
 
-#: src/plugin.c:683
+#: src/plugin.c:681
 msgid "Unspecified loader type."
 msgstr "Неуказанный тип загрузчика."
 
-#: src/plugin.c:732
+#: src/plugin.c:730
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "Невозможно прочесть файл информации о дополнении (\"%s\")."
 
-#: src/plugin.c:736
+#: src/plugin.c:734
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "Файл \"%s\" не является допустимым файлом информации о дополнении."
 
-#: src/plugin.c:800
+#: src/plugin.c:798
 msgid "Plugin has no id."
 msgstr "Дополнение не имеет идентификатора."
 
-#: src/plugin.c:809
+#: src/plugin.c:807
 msgid "Unknown plugin name."
 msgstr "Неизвестное название дополнения."
 
-#: src/plugin.c:814
+#: src/plugin.c:812
 #, c-format
 msgid "Errors while reading loader info for plugin with id=\"%s\"."
 msgstr ""
 "Ошибка при чтении информации о загрузчике для дополнения с идентификатором "
 "\"%s\"."
 
-#: src/plugin.c:819
+#: src/plugin.c:817
 #, c-format
 msgid "No loader defined for plugin with id=\"%s\"."
 msgstr "Не определен загрузчик для дополнения с идентификатором \"%s\"."
 
-#: src/plugin.c:827
+#: src/plugin.c:825
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr "Ошибка при чтении сервисов для дополнения с идентификатором \"%s\"."
 
-#: src/plugin.c:832
+#: src/plugin.c:830
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
 msgstr "Не определены сервисы для дополнения с идентификатором \"%s\"."
 
-#: src/plugin.c:982
+#: src/plugin.c:980
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Ошибки при инициализации загрузчика дополнений (\"%s\")."
 
-#: src/plugin.c:1023
+#: src/plugin.c:1021
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
 msgstr ""
 "Зависит от дополнения с идентификатором \"%s\", который не может быть "
 "активирован."
 
-#: src/plugin.c:1030 src/plugin.c:1218
+#: src/plugin.c:1028 src/plugin.c:1216
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which is not available."
 msgstr "Зависит от дополнения c идентификатором \"%s\", который не доступен."
 
-#: src/plugin.c:1043
+#: src/plugin.c:1041
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Ошибки при включении сервиса дополнения #%d."
 
-#: src/plugin.c:1083
+#: src/plugin.c:1081
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Ошибки при отключении сервиса дополнения #%d."
 
-#: src/plugin.c:1154 src/plugin.c:1204
+#: src/plugin.c:1152 src/plugin.c:1202
 msgid "Cannot load plugin loader."
 msgstr "Невозможно загрузить загрузчик дополения."
 
-#: src/plugin.c:1211
+#: src/plugin.c:1209
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
 msgstr ""
 "Зависит от дополнения с идентификатором \"%s\", который не может быть "
 "загружен."
 
-#: src/plugin.c:1294
+#: src/plugin.c:1292
 #, c-format
 msgid "Errors occured while reading plugin informations from file \"%s\"."
 msgstr "При чтении информации о дополнении из файла \"%s\" возникла ошибка."
 
-#: src/plugin.c:1457
+#: src/plugin.c:1455
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "Не удалось включить дополнение \"%s\" (идент. %s)."
 
-#: src/plugin.c:1497
+#: src/plugin.c:1495
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Не удалось отключить дополнение \"%s\" (идент. %s)."
 
-#: src/plugin.c:1722
+#: src/plugin.c:1707
 msgid "Errors while reading info about available plugins."
 msgstr "Ошибки при считывании информации о доступных дополнениях."
 
-#: src/plugin.c:1728
+#: src/plugin.c:1713
 msgid "Errors while activating plugins."
 msgstr "Ошибки при включении дополнений."
 
-#: src/plugin.c:1734
+#: src/plugin.c:1719
 msgid "Errors while initializing plugin system."
 msgstr "Ошибки при инициализации системы дополнений."
 
@@ -17280,3 +17272,9 @@ msgstr "Разгруппировать"
 #: src/GNOME_Gnumeric.xml.h:266
 msgid "_View"
 msgstr "Вид"
+
+#~ msgid "label11"
+#~ msgstr "Метка"
+
+#~ msgid "label12"
+#~ msgstr "Метка"
