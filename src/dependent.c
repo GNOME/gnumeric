@@ -983,10 +983,6 @@ sheet_region_get_deps (Sheet *sheet, int start_col, int start_row,
 	if (end_row > sheet->rows.max_used)
 		end_row = sheet->rows.max_used;
 
-	/*
-	 * FIXME : Only an existing cell can depend on things.
-	 * we should clip this.
-	 */
 	for (ix = start_col; ix <= end_col; ix++) {
 		for (iy = start_row; iy <= end_row; iy++) {
 			GList *l = get_single_dependencies (sheet, ix, iy);
