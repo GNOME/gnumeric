@@ -24,8 +24,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-07-08 22:33+0200\n"
-"PO-Revision-Date: 2001-07-08 22:36+0200\n"
+"POT-Creation-Date: 2001-07-09 23:07+0200\n"
+"PO-Revision-Date: 2001-07-09 23:19+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -964,7 +964,7 @@ msgstr "Kumulativ %"
 msgid "Error '%s' opening workbook stream"
 msgstr "\"%s\"-fel vid öppning av arbetsboksflöde"
 
-#: src/bonobo-io.c:466 src/xml-io-autoft.c:426 src/xml-io.c:3389
+#: src/bonobo-io.c:466 src/xml-io-autoft.c:426 src/xml-io.c:3384
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ogiltig xml-fil, trädet är tomt?"
 
@@ -2368,28 +2368,24 @@ msgid "Add the entered area to the list of source areas"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:3
-#, fuzzy
 msgid "C_opy labels"
-msgstr "Kopiera _värden"
+msgstr "K_opiera rubriker"
 
 #: src/dialogs/consolidate.glade.h:4
-#, fuzzy
 msgid "Clear the list of source areas"
-msgstr "Töm listan med kolumner"
+msgstr "Töm listan med källområden"
 
 #: src/dialogs/consolidate.glade.h:6
-#, fuzzy
 msgid "D_elete"
-msgstr "Ta bort"
+msgstr "Ta _bort"
 
 #: src/dialogs/consolidate.glade.h:7
 msgid "Data consolidation"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:8
-#, fuzzy
 msgid "Delete the currently selected source area"
-msgstr "Ta bort det aktuella markerade bladet"
+msgstr "Ta bort det markerade källområdet"
 
 #: src/dialogs/consolidate.glade.h:9
 msgid "Formulas"
@@ -2406,9 +2402,8 @@ msgid "In _top row"
 msgstr "Infoga rader"
 
 #: src/dialogs/consolidate.glade.h:12
-#, fuzzy
 msgid "Labels"
-msgstr "_Rubriker"
+msgstr "Rubriker"
 
 #: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3368
 msgid "Max"
@@ -2419,14 +2414,12 @@ msgid "Min"
 msgstr "Min"
 
 #: src/dialogs/consolidate.glade.h:15
-#, fuzzy
 msgid "Product"
-msgstr "Periodisk"
+msgstr "Produkt"
 
 #: src/dialogs/consolidate.glade.h:16
-#, fuzzy
 msgid "Source areas"
-msgstr "Källa till variation"
+msgstr "Källområden"
 
 #: src/dialogs/consolidate.glade.h:17
 msgid "Stdev (sample)"
@@ -4361,7 +4354,7 @@ msgid "Scale"
 msgstr "Skala"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:136
-#: src/workbook.c:1057 src/xml-io.c:3007
+#: src/workbook.c:1057 src/xml-io.c:3002
 msgid "Sheet"
 msgstr "Blad"
 
@@ -14247,7 +14240,7 @@ msgstr "Skapa en ram"
 
 #: src/GNOME_Gnumeric.xml.h:45
 msgid "Create a label"
-msgstr "Skapa en etikett"
+msgstr "Skapa en rubrik"
 
 #: src/GNOME_Gnumeric.xml.h:46
 msgid "Create a line"
@@ -14281,7 +14274,7 @@ msgstr "Skapa en radioknapp"
 msgid "Create an arrow"
 msgstr "Skapa en pil"
 
-#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1494
+#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1396
 msgid "Cu_t"
 msgstr "Klipp _ut"
 
@@ -14541,7 +14534,7 @@ msgstr "Gå till specifierad cell"
 #: src/GNOME_Gnumeric.xml.h:117 src/sheet-object-widget.c:212
 #: src/workbook-object-toolbar.c:139
 msgid "Label"
-msgstr "Etikett"
+msgstr "Rubrik"
 
 #: src/GNOME_Gnumeric.xml.h:119
 msgid "Left justifies the contents of each cell"
@@ -14953,7 +14946,7 @@ msgid "_Content"
 msgstr "_Innehåll"
 
 #: src/GNOME_Gnumeric.xml.h:226 src/item-cursor.c:943
-#: src/sheet-control-gui.c:1496
+#: src/sheet-control-gui.c:1398
 msgid "_Copy"
 msgstr "_Kopiera"
 
@@ -14969,7 +14962,7 @@ msgstr "_Dataanalys..."
 msgid "_Define"
 msgstr "_Definera"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/sheet-control-gui.c:1514
+#: src/GNOME_Gnumeric.xml.h:230 src/sheet-control-gui.c:1416
 #: src/workbook-control-gui.c:2264
 msgid "_Delete..."
 msgstr "_Ta bort..."
@@ -15021,8 +15014,8 @@ msgstr "R_utnät"
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/sheet-control-gui.c:1537
-#: src/sheet-control-gui.c:1545 src/workbook-control-gui.c:2375
+#: src/GNOME_Gnumeric.xml.h:242 src/sheet-control-gui.c:1439
+#: src/sheet-control-gui.c:1447 src/workbook-control-gui.c:2375
 #: src/workbook-control-gui.c:2394
 msgid "_Hide"
 msgstr "_Göm"
@@ -15061,7 +15054,7 @@ msgstr "_Objekt"
 msgid "_Open"
 msgstr "_Öppna"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/sheet-control-gui.c:1498
+#: src/GNOME_Gnumeric.xml.h:251 src/sheet-control-gui.c:1400
 msgid "_Paste"
 msgstr "Klistra i_n"
 
@@ -15128,8 +15121,8 @@ msgstr "_Ångra"
 msgid "_Ungroup"
 msgstr "_Ångra"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/sheet-control-gui.c:1539
-#: src/sheet-control-gui.c:1547 src/workbook-control-gui.c:2378
+#: src/GNOME_Gnumeric.xml.h:269 src/sheet-control-gui.c:1441
+#: src/sheet-control-gui.c:1449 src/workbook-control-gui.c:2378
 #: src/workbook-control-gui.c:2397
 msgid "_Unhide"
 msgstr "_Visa"
@@ -15305,18 +15298,18 @@ msgstr "Öppna fil"
 #.
 #: src/history.c:127 src/history.c:140
 msgid "File/Print Preview"
-msgstr "Arkiv/Förhandsgranskning"
+msgstr "Arkiv/Förhandsgranska"
 
 #: src/history.c:229
 msgid "File/"
 msgstr "Arkiv/"
 
-#: src/item-bar.c:678
+#: src/item-bar.c:620
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Bredd: %.2f pt (%d bildpunkter)"
 
-#: src/item-bar.c:681
+#: src/item-bar.c:623
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Höjd: %.2f punkter (%d pixlar)"
@@ -15945,49 +15938,49 @@ msgstr "Ogiltigt eftersläpande omvänt snedstreck i ersättning."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan inte utföras med flera markerade områden"
 
-#: src/sheet.c:2152
+#: src/sheet.c:2160
 msgid "Target region contains merged cells"
 msgstr "Målregionen innehåller sammanslagna celler"
 
-#: src/sheet.c:2214
+#: src/sheet.c:2222
 msgid "can not operate on merged cells"
 msgstr "kan inte operera på sammanslagna celler"
 
-#: src/sheet.c:2225
+#: src/sheet.c:2233
 msgid "can not operate on array formulae"
 msgstr "kan inte operera på vektorformler"
 
-#: src/sheet.c:3026
+#: src/sheet.c:3034
 msgid "Clear"
 msgstr "Töm"
 
-#: src/sheet.c:3404
+#: src/sheet.c:3412
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:3472
+#: src/sheet.c:3480
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/sheet.c:3536
+#: src/sheet.c:3544
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
-#: src/sheet.c:3604
+#: src/sheet.c:3612
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
-#: src/sheet-control-gui.c:539
+#: src/sheet-control-gui.c:513
 #, fuzzy, c-format
 msgid "Row: %s"
 msgstr "Rad: %d"
 
-#: src/sheet-control-gui.c:553
+#: src/sheet-control-gui.c:527
 #, c-format
 msgid "Column: %s"
 msgstr "Kolumn: %s"
 
-#: src/sheet-control-gui.c:1500
+#: src/sheet-control-gui.c:1402
 msgid "Paste _Special"
 msgstr "Klistra in _special"
 
@@ -15998,41 +15991,41 @@ msgstr "Klistra in _special"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1512
+#: src/sheet-control-gui.c:1414
 msgid "_Insert..."
 msgstr "_Infoga..."
 
-#: src/sheet-control-gui.c:1516
+#: src/sheet-control-gui.c:1418
 msgid "_Insert Column(s)"
 msgstr "_Infoga kolumn(er)"
 
-#: src/sheet-control-gui.c:1518
+#: src/sheet-control-gui.c:1420
 msgid "_Delete Column(s)"
 msgstr "Ta _bort kolumn(er)"
 
-#: src/sheet-control-gui.c:1520
+#: src/sheet-control-gui.c:1422
 msgid "_Insert Row(s)"
 msgstr "_Infoga rad(er)"
 
-#: src/sheet-control-gui.c:1522
+#: src/sheet-control-gui.c:1424
 msgid "_Delete Row(s)"
 msgstr "Ta _bort rad(er)"
 
-#: src/sheet-control-gui.c:1525
+#: src/sheet-control-gui.c:1427
 msgid "Clear Co_ntents"
 msgstr "Ta bort i_nnehåll"
 
-#: src/sheet-control-gui.c:1531
+#: src/sheet-control-gui.c:1433
 msgid "_Format Cells..."
 msgstr "_Formatera celler..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1535
+#: src/sheet-control-gui.c:1437
 msgid "Column _Width..."
 msgstr "_Kolumnbredd..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1543
+#: src/sheet-control-gui.c:1445
 msgid "_Row Height..."
 msgstr "_Radhöjd..."
 
@@ -16055,14 +16048,12 @@ msgid "Checkbox Configure"
 msgstr "Kryssrutekonfiguration"
 
 #: src/sheet-object-widget.c:834
-#, fuzzy
 msgid "Cell :"
-msgstr "Cell"
+msgstr "Cell:"
 
 #: src/sheet-object-widget.c:837
-#, fuzzy
 msgid "Label :"
-msgstr "Etikett"
+msgstr "Rubrik:"
 
 #: src/solver-lp.c:888
 msgid "Answer Report"
@@ -16742,7 +16733,7 @@ msgstr "Storlek"
 
 #: src/workbook-object-toolbar.c:139
 msgid "Creates a label"
-msgstr "Skapar em etikett"
+msgstr "Skapar en rubrik"
 
 #: src/workbook-object-toolbar.c:142
 msgid "Creates a frame"
@@ -16832,28 +16823,28 @@ msgstr "Fel uppstod när träd skulle byggas från autoformatmallfil"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3137
+#: src/xml-io.c:3132
 msgid "Processing XML tree..."
 msgstr "Bearbeterar XML-träd..."
 
-#: src/xml-io.c:3300
+#: src/xml-io.c:3295
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ogiltig xmldata i klippboken. Är trädet tomt?"
 
-#: src/xml-io.c:3352 src/xml-io.c:3363
+#: src/xml-io.c:3347 src/xml-io.c:3358
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 "Inte tillräckligt med minne för att skapa zlib-dekomprimeringstillstånd."
 
-#: src/xml-io.c:3366
+#: src/xml-io.c:3361
 msgid "Parsing XML file..."
 msgstr "Tolkar XML-fil..."
 
-#: src/xml-io.c:3398
+#: src/xml-io.c:3393
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Är inte en Gnumeric-arbetsboksfil"
 
-#: src/xml-io.c:3456
+#: src/xml-io.c:3451
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
@@ -16953,14 +16944,6 @@ msgstr "GNOME-kalkylprogrammet"
 
 #~ msgid "Gnumeric: Autoformat"
 #~ msgstr "Gnumeric: Autoformat"
-
-#, fuzzy
-#~ msgid "St_yle :"
-#~ msgstr "_Stil:"
-
-#, fuzzy
-#~ msgid "_Error message :"
-#~ msgstr "_Felmeddelande:"
 
 #~ msgid "label11"
 #~ msgstr "label11"
