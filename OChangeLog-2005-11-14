@@ -1,3 +1,8 @@
+2005-03-04  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/sheet-control-gui.c (apply_move): don't get rtl flag from 
+	gcanvas, since it can be not fully initialized.
+	
 2005-03-03  Jon K Hellan  <hellan@acm.org>
 
 	* src/session.c (interaction_function): Deiconify toplevel before

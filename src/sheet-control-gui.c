@@ -1853,23 +1853,24 @@ typedef struct {
 } ObjDragInfo;
  
 static gboolean
-snap_pos_to_grid (GnmCanvas *gcanvas, gboolean is_col, int *pos, gboolean to_min, gboolean is_mouse_move) 
+snap_pos_to_grid (ObjDragInfo *info, gboolean is_col, int *pos, gboolean to_min) 
 {
-	Sheet *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
+	GnmCanvas *gcanvas = info->gcanvas;
+	Sheet *sheet = SHEET_CONTROL (info->scg)->sheet;
 	int cell = is_col ? gcanvas->first.col : gcanvas->first.row;
 	int pixel = is_col ? gcanvas->first_offset.col : gcanvas->first_offset.row;
 	gboolean snap = FALSE;
 	int length = 0;
-	ColRowInfo const *info;
+	ColRowInfo const *cr_info;
 	int sheet_max = is_col ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
 
 	if (*pos < pixel) {
 		while (cell > 0 && *pos < pixel) {
-			info = is_col ? 
+			cr_info = is_col ? 
 				sheet_col_get_info (sheet, --cell):
 				sheet_row_get_info (sheet, --cell);
-			if (info->visible) {
-				length = info->size_pixels;
+			if (cr_info->visible) {
+				length = cr_info->size_pixels;
 				pixel -= length;
 			}
 		}
@@ -1877,11 +1878,11 @@ snap_pos_to_grid (GnmCanvas *gcanvas, gboolean is_col, int *pos, gboolean to_min
 			*pos = pixel;
 	} else {
 		do {
-			info = is_col ? 
+			cr_info = is_col ? 
 				sheet_col_get_info (sheet, cell):
 				sheet_row_get_info (sheet, cell);
-			if (info->visible) {
-				length = info->size_pixels;
+			if (cr_info->visible) {
+				length = cr_info->size_pixels;
 				if (pixel <= *pos && *pos <= pixel + length) {
 					snap = TRUE;
 				}
@@ -1892,7 +1893,7 @@ snap_pos_to_grid (GnmCanvas *gcanvas, gboolean is_col, int *pos, gboolean to_min
 	}
 
 	if (snap) {
-		if (is_mouse_move) 
+		if (info->is_mouse_move) 
 			*pos = (abs (*pos - pixel) < abs (*pos - pixel - length)) ? pixel : pixel + length;
 		else
 			*pos = (pixel == *pos) ? pixel : (to_min ? pixel : pixel + length);
@@ -1902,43 +1903,39 @@ snap_pos_to_grid (GnmCanvas *gcanvas, gboolean is_col, int *pos, gboolean to_min
 }
 
 static void
-snap_to_grid (GnmCanvas *gcanvas, 
+snap_to_grid (ObjDragInfo *info,
 	      gboolean snap_x, gboolean snap_y,
 	      double *x, double *y,
-	      gboolean to_left, gboolean to_top,
-	      gboolean is_mouse_move,
-	      gboolean rtl)
+	      gboolean to_left, gboolean to_top)
 {
 	int x_int, y_int;
 
-	if (gcanvas == NULL)
-		return;
+	g_return_if_fail (info->gcanvas != NULL);
 
-	foo_canvas_w2c (FOO_CANVAS (gcanvas), *x, *y, &x_int, &y_int);
-	if (rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
+	foo_canvas_w2c (FOO_CANVAS (info->gcanvas), *x, *y, &x_int, &y_int);
+	if (info->scg->rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
 
-	if (snap_x) snap_pos_to_grid (gcanvas, TRUE, &x_int, to_left, is_mouse_move);
-	if (snap_y) snap_pos_to_grid (gcanvas, FALSE, &y_int, to_top, is_mouse_move);
+	if (snap_x) snap_pos_to_grid (info, TRUE, &x_int, to_left);
+	if (snap_y) snap_pos_to_grid (info, FALSE, &y_int, to_top);
 	
-	if (rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
-	foo_canvas_c2w (FOO_CANVAS (gcanvas), x_int, y_int, x, y);
+	if (info->scg->rtl) x_int = GNUMERIC_CANVAS_FACTOR_X - x_int;
+	foo_canvas_c2w (FOO_CANVAS (info->gcanvas), x_int, y_int, x, y);
 }
 
 static void
-apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *info, gboolean snap) {
-
+apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *info, gboolean snap) 
+{
 	gboolean move_x = (x_idx >= 0);
 	gboolean move_y = (y_idx >= 0);
 	double x, y;
-	gboolean rtl = info->gcanvas->simple.scg->rtl;
 
 	x = move_x ? coords[x_idx] + info->dx : 0;
 	y = move_y ? coords[y_idx] + info->dy : 0;
 
 	if (snap) {
-		snap_to_grid (info->gcanvas, move_x, move_y, &x, &y, 
-			      rtl ? info->dx > 0. : info->dx < 0.,
-			      info->dy < 0., info->is_mouse_move, rtl);
+		snap_to_grid (info, move_x, move_y, &x, &y, 
+			      info->scg->rtl ? info->dx > 0. : info->dx < 0.,
+			      info->dy < 0.);
 		if (info->primary_object == so || NULL == info->primary_object) {
 			if (move_x) info->dx = x - coords[x_idx];
 			if (move_y) info->dy = y - coords[y_idx];
@@ -1984,7 +1981,8 @@ drag_object (SheetObject *so,
 
 static void
 cb_drag_selected_objects (SheetObject *so,
-			  double *coords, ObjDragInfo *info) {
+			  double *coords, ObjDragInfo *info)
+{
 	if (so != info->primary_object)
 		drag_object (so, coords, info);
 }
