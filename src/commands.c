@@ -782,6 +782,7 @@ typedef struct
 	gboolean	 is_cols;
 	int		 index;
 	int		 count;
+	Range           *cut;
 
 	double		*sizes;
 	CellRegion 	*contents;
@@ -841,10 +842,25 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	workbook_expr_unrelocate (me->sheet->workbook, me->reloc_storage);
 	me->reloc_storage = NULL;
 
-	/* Ins/Del Row/Col unants things, and clears the cut selection */
-	application_clipboard_unant ();
-	if (NULL == application_clipboard_contents_get ())
-		application_clipboard_clear (TRUE);
+	/* Ins/Del Row/Col re-ants things completely to account
+	 * for the shift of col/rows. 
+	 */
+	if (me->cut) {
+		GList *orig = me->sheet->selections;
+		GList *temp = NULL;
+		Range s = *me->cut;
+
+		/* Temporarily swap the real selection, this
+		 * will make the right region show up anted
+		 */
+		temp = g_list_append (temp, &s);
+		me->sheet->selections = temp;
+		
+		application_clipboard_cut (wbc, me->sheet, &s);
+		
+		me->sheet->selections = orig;
+		g_list_free (temp);
+	}
 
 	return trouble;
 }
@@ -888,10 +904,34 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 						     me->count, &me->reloc_storage);
 	}
 
-	/* Ins/Del Row/Col unants things, and clears the cut selection */
-	application_clipboard_unant ();
-	if (NULL == application_clipboard_contents_get ())
-		application_clipboard_clear (TRUE);
+	/* Ins/Del Row/Col re-ants things completely to account
+	 * for the shift of col/rows.
+	 */
+	if (me->cut) {
+		GList *orig = me->sheet->selections;
+		GList *temp = NULL;
+		Range s = *me->cut;
+		int key = me->is_insert ? me->count : -me->count;
+
+		if (me->is_cols) {
+			s.start.col += key;
+			s.end.col   += key;
+		} else {
+			s.start.row += key;
+			s.end.row   += key;
+		}
+
+		/* Temporarily swap the real selection, this
+		 * will make the right region show up anted
+		 */
+		temp = g_list_append (temp, &s);
+		me->sheet->selections = temp;
+		
+		application_clipboard_cut (wbc, me->sheet, &s);
+		
+		me->sheet->selections = orig;
+		g_list_free (temp);
+	}
 
 	return trouble;
 }
@@ -909,6 +949,8 @@ cmd_ins_del_colrow_destroy (GtkObject *cmd)
 		clipboard_release (me->contents);
 		me->contents = NULL;
 	}
+	if (me->cut)
+		g_free (me->cut);		
 	if (me->reloc_storage) {
 		workbook_expr_unrelocate_free (me->reloc_storage);
 		me->reloc_storage = NULL;
@@ -938,6 +980,11 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me->count = count;
 	me->sizes = NULL;
 	me->contents = NULL;
+	
+	if (application_clipboard_area_get ())
+		me->cut = range_copy (application_clipboard_area_get ());
+	else
+		me->cut = NULL;
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* FIXME?  */

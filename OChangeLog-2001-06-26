@@ -1,3 +1,12 @@
+2001-03-25  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/commands.c
+	(cmd_ins_del_colrow_undo): Re-ant the original cut selection.
+	(cmd_ins_del_colrow_redo): Re-ant accounting for the shift in
+	columns/rows.
+	(cmd_ins_del_colrow_destroy): Free stored cut range.
+	(cmd_ins_del_colrow): Store the cut range if any.
+
 2001-03-23  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/about.c : Make some small changes and add Zbigniew.
