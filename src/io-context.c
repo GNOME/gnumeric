@@ -51,6 +51,7 @@ io_context_destroy (GtkObject *obj)
 	error_info_free (io_context->error_info);
 	gnumeric_progress_set (COMMAND_CONTEXT (io_context->impl), 0.0);
 	gnumeric_progress_message_set (COMMAND_CONTEXT (io_context->impl), NULL);
+	gtk_object_unref (GTK_OBJECT (io_context->impl));
 
 	GTK_OBJECT_CLASS (gtk_type_class (GTK_TYPE_OBJECT))->destroy (obj);
 }
@@ -74,6 +75,7 @@ gnumeric_io_context_new (WorkbookControl *wbc)
 
 	io_context = IO_CONTEXT (gtk_type_new (TYPE_IO_CONTEXT));
 	io_context->impl = wbc;
+	gtk_object_ref (GTK_OBJECT (wbc));
 
 	return io_context;
 }

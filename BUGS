@@ -19,6 +19,8 @@ Pending Patches
 Long term breakage
 ------------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=64712 (crash if quit during load)
+
 - Data->Filter dialog
     : use expr entry widget.
 

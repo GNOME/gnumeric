@@ -1208,7 +1208,7 @@ static char const * const preset_zoom [] = {
  * 3) save any future dirty
  * 4) do not save any future dirty
  */
-static gboolean
+static int
 workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 				WorkbookView *wb_view, gboolean close_clean)
 {
@@ -1292,11 +1292,16 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wb_view), TRUE);
 	g_return_val_if_fail (wb_view->wb_controls != NULL, TRUE);
 
-	/*
-	 * If we were editing when the quit request came make sure we don't
+	/* If we were editing when the quit request came make sure we don't
 	 * lose any entered text
 	 */
 	if (!wbcg_edit_finish (wbcg, TRUE))
+		return TRUE;
+
+	/* If something is still using the control
+	 * eg progress meter for a new book
+	 */
+	if (GTK_OBJECT (wbcg)->ref_count > 1)
 		return TRUE;
 
 	/* This is the last control */
@@ -1308,7 +1313,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 
 		/* This is the last view */
 		if (wb->wb_views->len <= 1)
-			return workbook_close_if_user_permits (wbcg, wb_view, TRUE) != 0;
+			return workbook_close_if_user_permits (wbcg, wb_view, TRUE) == 0;
 
 		gtk_object_unref (GTK_OBJECT (wb_view));
 	} else
@@ -2453,7 +2458,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 	GNOMEUIINFO_MENU_OPEN_ITEM (cb_file_open, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Import..."), N_("Imports a file"),
 				cb_file_import, GNOME_STOCK_MENU_OPEN),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Save"), N_("Save"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Save..."), N_("Save"),
 				cb_file_save,
 				"Menu_Gnumeric_Save"),
 	GNOMEUIINFO_ITEM_STOCK (N_("Save _As..."), N_("Save with a new name or format"),
@@ -2464,7 +2469,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM (cb_file_print_setup, NULL),
 	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
-	GNOMEUIINFO_ITEM_STOCK (N_("Print Pre_view"), N_("Print Preview"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Print Pre_view..."), N_("Print Preview"),
 				cb_file_print_preview,
 				"Menu_Gnumeric_PrintPreview"),
 
@@ -3357,7 +3362,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 static int
 wbcg_delete_event (GtkWidget *widget, GdkEvent *event, WorkbookControlGUI *wbcg)
 {
-	return !wbcg_close_control (wbcg);
+	return wbcg_close_control (wbcg);
 }
 
 /*

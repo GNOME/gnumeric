@@ -1,3 +1,21 @@
+2001-11-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (workbook_close_if_user_permits) : fix
+	  the return type.
+	(wbcg_close_control) : don't close if we are being reerence by another
+	  operation. Fix sense of comparision.
+	(wbcg_delete_event) : now that wbcg_close_control is fixed revert this
+	  to the correct meaning.
+
+	* src/io-context.c (io_context_destroy) : unref the control
+	(gnumeric_io_context_new) : ref the control so that it is not
+	  destroyed out from under us.
+
+2001-11-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/GNOME_Gnumeric.xml : Add some missing ellipsis.
+	* src/workbook-control-gui.c : ditto.
+
 2001-11-16  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in (ALL_LINGUAS) : delete unmaintained translations

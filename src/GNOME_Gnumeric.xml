@@ -5,7 +5,7 @@
 	    _tip="Create a new spreadsheet"
 	    pixtype="stock" pixname="New"/>
 	<cmd name="FileOpen"
-	    _label="_Open"
+	    _label="_Open..."
 	    _tip="Open a spreadsheet"
 	    pixtype="stock" pixname="Open"
 	    accel="F3"/>
@@ -24,15 +24,15 @@
 	    pixtype="stock" pixname="Gnumeric_SaveAs"/>
 
 	<cmd name="FilePrintSetup"
-	    _label="Print S_etup"
+	    _label="Print S_etup..."
 	    _tip="Setup the page settings for your current printer"
 	    pixtype="stock" pixname="Print"/>
 	<cmd name="FilePrint"
-	    _label="_Print"
+	    _label="_Print..."
 	    _tip="Print the current file"
 	    pixtype="stock" pixname="Print"/>
 	<cmd name="FilePrintPreview"
-	    _label="Print Pre_view"
+	    _label="Print Pre_view..."
 	    _tip="Print preview"
 	    pixtype="stock" pixname="Gnumeric_PrintPreview"/>
 
