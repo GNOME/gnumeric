@@ -25,7 +25,7 @@ static GnumericApplication app;
  * Initialize the application specific data structures.
  */
 void
-application_init ()
+application_init (void)
 {
 	app.clipboard_copied_contents = NULL;
 	app.clipboard_sheet = NULL;
@@ -38,7 +38,7 @@ application_init ()
  * not empty.
  */
 void
-application_clipboard_clear ()
+application_clipboard_clear (void)
 {
 	if (app.clipboard_copied_contents) {
 		clipboard_release (app.clipboard_copied_contents);
@@ -89,25 +89,25 @@ application_clipboard_cut (Sheet * sheet, Range const * area)
 }
 
 gboolean
-application_clipboard_is_empty ()
+application_clipboard_is_empty (void)
 {
 	return app.clipboard_sheet == NULL;
 }
 
 Sheet *
-application_clipboard_sheet_get ()
+application_clipboard_sheet_get (void)
 {
 	return app.clipboard_sheet;
 }
 
 CellRegion *
-application_clipboard_contents_get ()
+application_clipboard_contents_get (void)
 {
 	return app.clipboard_copied_contents;
 }
 
 Range const *
-application_clipboard_area_get ()
+application_clipboard_area_get (void)
 {
 	/*
 	 * Only return the range if the sheet has been set.

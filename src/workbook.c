@@ -1996,7 +1996,7 @@ workbook_new (void)
 	sx = MAX (gdk_screen_width  () - 64, 400);
 	sy = MAX (gdk_screen_height () - 64, 200);
 	sx = (sx * 3) / 4;
-	sy = (sx * 3) / 4;
+	sy = (sy * 3) / 4;
 	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), sx, sy);
 
 	workbook_set_title (wb, _("Untitled.gnumeric"));

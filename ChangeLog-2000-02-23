@@ -1,3 +1,9 @@
+1999-10-26  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (format_compile): Plug leak.
+
+	* src/workbook.c (workbook_new): Typo.
+
 1999-10-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_style_changed) : Fix.

@@ -335,8 +335,7 @@ format_compile (StyleFormat *format)
 	StyleFormatEntry standard_entries[4];
 	StyleFormatEntry *temp;
 
-	g_list_free (format->format_list);
-	format->format_list = 0;
+	format_destroy (format);
 
 	/* g_string_maybe_expand (string, length); */
 
