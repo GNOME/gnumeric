@@ -3944,12 +3944,13 @@ gnumeric_linest (FunctionEvalInfo *ei, GnmValue *argv[])
 					   COLLECT_IGNORE_BOOLS,
 					   &ny, &result);
 	else if (argv[0]->type == VALUE_ARRAY){
-	  /*
-	   * Get ys from array argument argv[0]
-	   */
+		ny = 0;
+		/*
+		 * Get ys from array argument argv[0]
+		 */
 	}
 
-	if (result)
+	if (result || ny < 1)
 		goto out;
 
 	/* TODO Better error-checking in next statement */
@@ -4214,18 +4215,19 @@ gnumeric_logreg (FunctionEvalInfo *ei, GnmValue *argv[])
 		ytype = SINGLE_ROW;
 	else ytype = OTHER;
 
-	if (argv[0]->type == VALUE_CELLRANGE)
+	if (argv[0]->type == VALUE_CELLRANGE) {
 		ys = collect_floats_value (argv[0], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &ny, &result);
-	else if (argv[0]->type == VALUE_ARRAY){
-	  /*
-	   * Get ys from array argument argv[0]
-	   */
+	} else if (argv[0]->type == VALUE_ARRAY) {
+		ny = 0;
+		/*
+		 * Get ys from array argument argv[0]
+		 */
 	}
 
-	if (result)
+	if (result || ny < 1)
 		goto out;
 
 	/* TODO Better error-checking in next statement */
@@ -4239,8 +4241,8 @@ gnumeric_logreg (FunctionEvalInfo *ei, GnmValue *argv[])
 		        xss[0][nx] = nx + 1;
 	}
 	else if (ytype == ARRAY){
-			xarg = 1;
-			/* Get xss from array argument argv[1] */
+		xarg = 1;
+		/* Get xss from array argument argv[1] */
 	}
 	else if (ytype == SINGLE_COL){
 		int firstcol, lastcol;
@@ -4589,7 +4591,7 @@ gnumeric_trend (FunctionEvalInfo *ei, GnmValue *argv[])
 		}
 	}
 
-	if (result)
+	if (result || ny < 1)
 		goto out;
 
 	if (nx != ny) {
@@ -4684,18 +4686,19 @@ gnumeric_logest (FunctionEvalInfo *ei, GnmValue *argv[])
 		ytype = SINGLE_ROW;
 	else ytype = OTHER;
 
-	if (argv[0]->type == VALUE_CELLRANGE)
+	if (argv[0]->type == VALUE_CELLRANGE) {
 		ys = collect_floats_value (argv[0], ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &ny, &result);
-	else if (argv[0]->type == VALUE_ARRAY){
+	} else if (argv[0]->type == VALUE_ARRAY) {
+		ny = 0;
 		/*
 		 * Get ys from array argument argv[0]
 		 */
 	}
 
-	if (result)
+	if (result || ny < 1)
 		goto out;
 
 	/* TODO Better error-checking in next statement */
@@ -4911,7 +4914,7 @@ gnumeric_growth (FunctionEvalInfo *ei, GnmValue *argv[])
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS,
 				   &ny, &result);
-	if (result)
+	if (result || ny < 1)
 		goto out;
 
 	if (argv[2] != NULL) {

@@ -60,6 +60,7 @@ Morten:
 	* Fix rich-text insertion problem.  [#163413].
 	* Fixed font/size/zoom selection problem.  [#163412].
 	* Implement OOo's BASE and DECIMAL.
+	* Fix some error cases of LINEST/LOGEST not to crash.
 
 Uwe Steinmann:
 	* Extend paradox importer to support additional types.

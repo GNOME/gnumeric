@@ -1,3 +1,9 @@
+2005-01-13  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_logreg, gnumeric_logest): Handle empty
+	case.  Prevent crash in unimplemented array case.
+	(gnumeric_growth, gnumeric_trend): Handle empty case.
+
 2005-01-09  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_trend) : fix the example in the help text
