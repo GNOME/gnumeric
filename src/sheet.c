@@ -262,6 +262,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
 	sheet->initial_top_left.col = sheet->initial_top_left.row = 0;
 	sheet->tab_color = NULL;
+	sheet->tab_text_color = NULL;
 
 	/* Init menu states */
 	sheet->priv->enable_insert_rows = TRUE;
@@ -2910,6 +2911,8 @@ sheet_destroy (Sheet *sheet)
 
 	if (sheet->tab_color != NULL)
 		style_color_unref (sheet->tab_color);
+	if (sheet->tab_text_color != NULL)
+		style_color_unref (sheet->tab_text_color);
 	sheet->signature = 0;
 
 	(void) g_idle_remove_by_data (sheet);
@@ -4502,18 +4505,22 @@ sheet_is_frozen	(Sheet const *sheet)
 /**
  * sheet_set_tab_color :
  * @sheet :
- * @color :
+ * @tab_color :
+ * @text_color :
  *
  * absorb the reference to the style color
  */
 void
-sheet_set_tab_color (Sheet *sheet, StyleColor *color)
+sheet_set_tab_color (Sheet *sheet, StyleColor *tab_color, StyleColor *text_color)
 {
 	g_return_if_fail (IS_SHEET (sheet));
-
+	
 	if (sheet->tab_color != NULL)
 		style_color_unref (sheet->tab_color);
-	sheet->tab_color = color;
+	if (sheet->tab_text_color != NULL)
+		style_color_unref (sheet->tab_text_color);
+	sheet->tab_color = tab_color;
+	sheet->tab_text_color = text_color;
 
 	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 		wb_control_sheet_rename	(control, sheet););

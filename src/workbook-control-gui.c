@@ -558,7 +558,8 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
 	 */
 	sheet_label = editable_label_new (sheet->name_unquoted,
-		&sheet->tab_color->color);
+			sheet->tab_color ? &sheet->tab_color->color : NULL, 
+			sheet->tab_text_color ? &sheet->tab_text_color->color : NULL);
 	g_signal_connect_after (GTK_OBJECT (sheet_label),
 		"edit_finished",
 		G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
@@ -621,7 +622,7 @@ wbcg_sheet_rename (WorkbookControl *wbc, Sheet *sheet)
 	label = gtk_notebook_get_tab_label (wbcg->notebook, GTK_WIDGET (scg->table));
 	editable_label_set_text (EDITABLE_LABEL (label), sheet->name_unquoted);
 	editable_label_set_color (EDITABLE_LABEL (label),
-		&sheet->tab_color->color);
+		&sheet->tab_color->color, &sheet->tab_text_color->color);
 }
 
 static void
@@ -1949,7 +1950,8 @@ cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL, 
 			       g_slist_prepend (NULL, NULL), 
-			       g_slist_prepend (NULL, NULL), NULL);
+			       g_slist_prepend (NULL, NULL), 
+			       NULL, NULL, NULL, NULL);
 }
 
 static void

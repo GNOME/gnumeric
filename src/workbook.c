@@ -33,6 +33,7 @@
 #include "io-context.h"
 #include "gutils.h"
 #include "gnm-marshalers.h"
+#include "style-color.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -1178,13 +1179,16 @@ gboolean
 workbook_sheet_reorganize (WorkbookControl *wbc, 
 			   GSList *changed_names, GSList *new_order,  
 			   GSList *new_names,  GSList *old_names,
-			   GSList **new_sheets)
+			   GSList **new_sheets, GSList *color_changed,
+			   GSList *colors_fore, GSList *colors_back)
 {
 	GSList *this_sheet;
 	GSList *new_sheet = NULL;
 	gint old_pos, new_pos = 0;
 	GSList *the_names;
 	GSList *the_sheets;
+	GSList *the_fore;
+	GSList *the_back;
 	Workbook *wb = wb_control_workbook (wbc);
 
 /* We need to verify validity of the new names */
@@ -1236,7 +1240,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 		the_sheets = the_sheets->next;
 	}
 /* Names are indeed valid */
-/* Changing Names */
+/* Changing Names (except for new sheets)*/
 	the_names = old_names;
 	the_sheets = changed_names;
 	while (the_names) {
@@ -1264,7 +1268,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 		the_names = the_names->next;
 		the_sheets = the_sheets->next;
 	}
-	
+
 /* Names have been changed */
 /* Create new sheets */
 
@@ -1293,13 +1297,41 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 		new_sheet = *new_sheets = g_slist_reverse (*new_sheets);
 	}
 
+/* Changing Colors */
+	the_fore = colors_fore;
+	the_back = colors_back;
+	the_sheets = color_changed;
+	while (the_sheets) {
+		Sheet *sheet = the_sheets->data;
+		if (new_sheet && sheet == NULL) {
+			sheet = new_sheet->data;
+			new_sheet = new_sheet->next;
+		}
+		
+		if (sheet != NULL) {
+			GdkColor *back = (GdkColor *) the_back->data;
+			GdkColor *fore = (GdkColor *) the_fore->data;
+			StyleColor *tab_color = back ? 
+				style_color_new (back->red, back->green, 
+						 back->blue) : NULL;
+			StyleColor *text_color = fore ?
+				style_color_new (fore->red, fore->green, 
+						 fore->blue) : NULL;
+			sheet_set_tab_color (sheet, tab_color, text_color);
+		}
+		the_fore = the_fore->next;
+		the_back = the_back->next;
+		the_sheets = the_sheets->next;
+	}
+	
 /* reordering */
+	new_sheet = new_sheets ? *new_sheets : NULL;
 	this_sheet = new_order;
 	while (this_sheet) {
 		gboolean an_old_sheet = TRUE;
 		Sheet *sheet = this_sheet->data;
 
-		if (new_sheets && sheet == NULL) {
+		if (new_sheet && sheet == NULL) {
 			sheet = new_sheet->data;
 			new_sheet = new_sheet->next;
 			an_old_sheet = FALSE;

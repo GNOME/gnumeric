@@ -37,9 +37,11 @@
 #include <style-color.h>
 #include <commands.h>
 #include <widgets/gnumeric-cell-renderer-text.h>
+#include "pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <gal/widgets/widget-color-combo.h>
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;
@@ -56,6 +58,8 @@ typedef struct {
 	GtkWidget *ok_btn;
 	GtkWidget *cancel_btn;
 	GdkPixbuf *sheet_image;
+	GtkWidget *ccombo_back;
+	GtkWidget *ccombo_fore;
 
 	GSList *old_order;
 } SheetManager;
@@ -96,7 +100,6 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 	GtkTreeIter this_iter;
 	gint n = 0;
 	
-
 	gtk_tree_model_get (GTK_TREE_MODEL (model), iter, SHEET_POINTER, &sheet, -1);
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (model),
@@ -112,6 +115,34 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 	return -1;
 }
 
+static void 
+cb_color_changed_fore (ColorCombo *color_combo, GdkColor *color, gboolean custom, 
+		  gboolean by_user, gboolean is_default, SheetManager *state)
+{
+	GtkTreeIter sel_iter;
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
+
+	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
+		gtk_list_store_set (state->model, &sel_iter,
+				    FOREGROUND_COLOUR_POINTER, color,
+				    -1);
+	}
+}
+
+static void 
+cb_color_changed_back (ColorCombo *color_combo, GdkColor *color, gboolean custom, 
+		  gboolean by_user, gboolean is_default, SheetManager *state)
+{
+	GtkTreeIter sel_iter;
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
+
+	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
+		gtk_list_store_set (state->model, &sel_iter,
+				    BACKGROUND_COLOUR_POINTER, color,
+				    -1);
+	}
+}
+
 /**
  * Refreshes the buttons on a row (un)selection and selects the chosen sheet
  * for this view.
@@ -124,6 +155,7 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 	gint row;
 	Sheet *sheet;
 	gboolean is_deleted;
+	GdkColor *fore, *back;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 	
 	gtk_widget_set_sensitive (state->add_btn, TRUE);
@@ -133,13 +165,25 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 		gtk_widget_set_sensitive (state->up_btn, FALSE);
 		gtk_widget_set_sensitive (state->down_btn, FALSE);
 		gtk_widget_set_sensitive (state->delete_btn, FALSE);
+		gtk_widget_set_sensitive (state->ccombo_back, FALSE);
+		gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
 		return;
 	}
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 			    IS_DELETED, &is_deleted,
 			    SHEET_POINTER, &sheet,
+			    BACKGROUND_COLOUR_POINTER, &back,
+			    FOREGROUND_COLOUR_POINTER, &fore,
 			    -1);
+	color_combo_set_color  (COLOR_COMBO (state->ccombo_back), back);
+	if (back)
+		gdk_color_free (back);
+	color_combo_set_color  (COLOR_COMBO (state->ccombo_fore), fore);
+	if (fore)
+		gdk_color_free (fore);
+	gtk_widget_set_sensitive (state->ccombo_back, TRUE);
+	gtk_widget_set_sensitive (state->ccombo_fore, TRUE);
 	gtk_widget_set_sensitive (state->delete_btn, TRUE);
 	gtk_button_set_label (GTK_BUTTON (state->delete_btn),
                               is_deleted ? GTK_STOCK_UNDELETE : GTK_STOCK_DELETE);
@@ -187,14 +231,13 @@ populate_sheet_list (SheetManager *state)
 	for (i = 0 ; i < n ; i++) {
 		Sheet *sheet = workbook_sheet_by_index (
 			wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)), i);
-		GdkColor *color = &sheet->tab_color->color;
-		int contrast;
-		GdkColor text_color;
-
-		if (color == NULL)
-			color = &gs_white;
-		contrast = color->red + color->green + color->blue;
-		text_color = (contrast >= 0x18000) ? gs_black : gs_white;
+		GdkColor *color = NULL;
+		GdkColor *text_color = NULL;
+		
+		if (sheet->tab_color)
+			color = &sheet->tab_color->color;
+		if (sheet->tab_text_color)
+			text_color = &sheet->tab_text_color->color;
 
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
@@ -205,7 +248,7 @@ populate_sheet_list (SheetManager *state)
 				    IS_EDITABLE_COLUMN,	TRUE,   
 				    IS_DELETED,	FALSE,   
 				    BACKGROUND_COLOUR_POINTER, color,
-				    FOREGROUND_COLOUR_POINTER, &text_color,
+				    FOREGROUND_COLOUR_POINTER, text_color,
 				    -1);
 		if (sheet == cur_sheet)
 			gtk_tree_selection_select_iter (selection, &iter);
@@ -262,7 +305,7 @@ cb_item_move (SheetManager *state, gint direction)
 	gint row;
 	gboolean is_deleted;
 	gboolean is_editable;
-	GdkColor *back, *front;
+	GdkColor *back, *fore;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
@@ -275,7 +318,7 @@ cb_item_move (SheetManager *state, gint direction)
 			    SHEET_POINTER, &sheet,
 			    IS_DELETED,	&is_deleted,   
 			    BACKGROUND_COLOUR_POINTER, &back,
-			    FOREGROUND_COLOUR_POINTER, &front,
+			    FOREGROUND_COLOUR_POINTER, &fore,
 			    -1);
 	row = location_of_iter (&iter, state->model);
 	if (row + direction < 0)
@@ -290,8 +333,12 @@ cb_item_move (SheetManager *state, gint direction)
 			    SHEET_POINTER, sheet,
 			    IS_DELETED,	is_deleted,   
 			    BACKGROUND_COLOUR_POINTER, back,
-			    FOREGROUND_COLOUR_POINTER, front,
+			    FOREGROUND_COLOUR_POINTER, fore,
 			    -1);
+	if (back)
+		gdk_color_free (back);
+	if (fore)
+		gdk_color_free (fore);	
 	g_free (name);
 	g_free (new_name);
 	gtk_tree_selection_select_iter (selection, &iter);
@@ -348,8 +395,8 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 			    SHEET_POINTER, NULL,
 			    IS_EDITABLE_COLUMN,	TRUE,   
 			    IS_DELETED,	FALSE,   
-			    BACKGROUND_COLOUR_POINTER, &gs_white,
-			    FOREGROUND_COLOUR_POINTER, &gs_black,
+			    BACKGROUND_COLOUR_POINTER, NULL,
+			    FOREGROUND_COLOUR_POINTER, NULL,
 			    -1);
 	gtk_tree_selection_select_iter (selection, &iter);
 	g_free (name);
@@ -408,6 +455,15 @@ cb_delete_sheets (gpointer data, gpointer dummy)
 	workbook_sheet_delete (sheet);
 }
 
+static gboolean
+sheet_order_gdk_color_equal (GdkColor *color_a, GdkColor *color_b)
+{
+	if (color_a == NULL && color_b == NULL)
+		return TRUE;
+	if (color_a != NULL && color_b != NULL)
+		return gdk_color_equal (color_a, color_b);
+	return FALSE;
+}
 
 static void
 cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
@@ -415,7 +471,10 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 	GSList *new_order = NULL;
 	GSList *changed_names = NULL;
 	GSList *new_names = NULL;
-	GSList * deleted_sheets = NULL;
+	GSList *deleted_sheets = NULL;
+	GSList *color_changed = NULL;
+	GSList *new_colors_back = NULL;
+	GSList *new_colors_fore  = NULL;
 	GSList * old_order;
 	Sheet *this_sheet;
 	char *old_name, *new_name;
@@ -424,6 +483,8 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 	GSList *this_new, *this_old;
 	gboolean order_has_changed = FALSE;
 	gboolean is_deleted;
+	GdkColor *back, *fore;
+	gboolean fore_changed, back_changed;
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, n)) {
@@ -432,6 +493,8 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 				    SHEET_NAME, &old_name,
 				    SHEET_NEW_NAME, &new_name,
 				    IS_DELETED, &is_deleted,
+				    BACKGROUND_COLOUR_POINTER, &back,
+				    FOREGROUND_COLOUR_POINTER, &fore,
 				    -1);
 		if (!is_deleted) {
 			new_order = g_slist_prepend (new_order, this_sheet);
@@ -446,11 +509,36 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 				g_free (new_name);
 			}
 			g_free (old_name);
+
+			back_changed = (this_sheet == NULL) || 
+				!sheet_order_gdk_color_equal (back, 
+					      this_sheet->tab_color ? 
+					      &this_sheet->tab_color->color : NULL);
+			fore_changed = (this_sheet == NULL) || 
+				!sheet_order_gdk_color_equal (fore, 
+					      this_sheet->tab_text_color ? 
+					      &this_sheet->tab_text_color->color : NULL);
+
+			if (fore_changed || back_changed) {
+				color_changed = g_slist_prepend (color_changed, this_sheet);
+				new_colors_back = g_slist_prepend (new_colors_back, back);
+				new_colors_fore = g_slist_prepend (new_colors_fore, fore);
+			} else {
+				if (back)
+					gdk_color_free (back);
+				if (fore)
+					gdk_color_free (fore);
+			}
+			    
+
 		} else
 			deleted_sheets = g_slist_prepend (deleted_sheets, this_sheet);	
 		n++;
 	}
 
+	color_changed= g_slist_reverse (color_changed);
+	new_colors_back= g_slist_reverse (new_colors_back);
+	new_colors_fore= g_slist_reverse (new_colors_fore);
 	new_order = g_slist_reverse (new_order);
 	new_names = g_slist_reverse (new_names);
 	changed_names = g_slist_reverse (changed_names);
@@ -492,10 +580,12 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 		old_order = NULL;
 	}
 
-	if ((new_order == NULL && changed_names == NULL)
+	if ((new_order == NULL && changed_names == NULL && color_changed == NULL)
 	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg), 
-				    old_order, new_order,
-				    changed_names, new_names, NULL)) {
+				       old_order, new_order,
+				       changed_names, new_names, NULL,
+				       color_changed, new_colors_back,
+				       new_colors_fore)) {
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
 	} 
 	if (deleted_sheets) {
@@ -525,6 +615,8 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 {
 	SheetManager *state;
 	GladeXML *gui;
+	GtkTable *table;
+	ColorGroup *cg;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -556,6 +648,28 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->add_btn), 0., .5, 0., 0.);
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_btn), 0., .5, 0., 0.);
 
+	table = GTK_TABLE (glade_xml_get_widget (gui, "sheet_order_buttons_table"));
+	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	state->ccombo_back = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_bucket, 
+									   FALSE, NULL),
+					       _("Default"), NULL, cg);
+	gtk_table_attach (table, state->ccombo_back,
+			  0, 1, 1, 2,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
+
+	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	state->ccombo_fore = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_font, 
+									   FALSE, NULL),
+					       _("Default"), NULL, cg);
+	gtk_table_attach (table, state->ccombo_fore,
+			  0, 1, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
+	
+
 	populate_sheet_list (state);
 
 	g_signal_connect (G_OBJECT (state->up_btn),
@@ -579,6 +693,12 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->cancel_btn),
 		"clicked",
 		G_CALLBACK (cb_cancel_clicked), state);
+	g_signal_connect (G_OBJECT (state->ccombo_back),
+		"color_changed",
+		G_CALLBACK (cb_color_changed_back), state);
+	g_signal_connect (G_OBJECT (state->ccombo_fore),
+		"color_changed",
+		G_CALLBACK (cb_color_changed_fore), state);
 
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (

@@ -1,3 +1,8 @@
+2002-03-15  Andreas J. Guelzow <aguelzow@taiesin.ca>
+
+	* ms-excel-read.c : calculate desired tab_text_color upon reading of
+	  tab_color
+
 2002-03-14  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_read_pre_biff8_obj) : doh! Fix sense of result so

@@ -111,23 +111,6 @@ el_entry_activate (GtkEntry *entry, gpointer ignored)
 }
 
 static void
-el_start_editing (EditableLabel *el)
-{
-	if (el->unedited_text != NULL)
-		return;
-
-	el->unedited_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (el)));
-	g_signal_connect (G_OBJECT (el),
-		"activate",
-		G_CALLBACK (el_entry_activate), NULL);
-	gtk_editable_select_region (GTK_EDITABLE (el), 0, -1);
-	gtk_editable_set_editable (GTK_EDITABLE (el), TRUE);
-	el_set_color_gdk (el, &el->base, &el->text);
-	gtk_widget_grab_focus (GTK_WIDGET (el));
-	gtk_grab_add (GTK_WIDGET (el));
-}
-
-static void
 el_destroy (GtkObject *object)
 {
 	EditableLabel *el = EDITABLE_LABEL (object);
@@ -154,7 +137,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 	}
 
 	if (button->type == GDK_2BUTTON_PRESS) {
-		el_start_editing (el);
+		editable_label_start_editing (el);
 		return FALSE;
 	}
 
@@ -267,23 +250,33 @@ editable_label_get_text  (EditableLabel const *el)
 }
 
 void
-editable_label_set_color (EditableLabel *el, GdkColor *color)
+editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *text_color)
 {
-	if (color != NULL) {
-		int contrast = color->red + color->green + color->blue;
-		GdkColor base = *color;
-		GdkColor text = (contrast >= 0x18000) ? gs_black : gs_white;
+	GdkColor base, text;
 
-		g_return_if_fail (IS_EDITABLE_LABEL (el));
-		g_return_if_fail (el->unedited_text == NULL);
+	g_return_if_fail (IS_EDITABLE_LABEL (el));
+	g_return_if_fail (el->unedited_text == NULL);
 
-		/* ignore the current colors */
-		el_set_color_gdk (el, &base, &text);
-	}
+	if (base_color == NULL && text_color == NULL)
+		return;
+
+	if (base_color == NULL)
+		base_color = &el->base;
+	if (text_color == NULL)
+		text_color = &el->text;
+
+	base = *base_color;
+	text = *text_color;
+
+	g_return_if_fail (IS_EDITABLE_LABEL (el));
+
+	/* ignore the current colors */
+	el_set_color_gdk (el, &base, &text);
 }
 
 GtkWidget *
-editable_label_new (char const *text, GdkColor *color)
+editable_label_new (char const *text, GdkColor *base_color, 
+				      GdkColor *text_color)
 {
 	EditableLabel *el = g_object_new (EDITABLE_LABEL_TYPE,
 		"has_frame",		FALSE,
@@ -297,10 +290,28 @@ editable_label_new (char const *text, GdkColor *color)
 	/* assign the fg/bg and store base/text */
 	el_set_color_gdk (el, &el->base, &el->text);
 
-	if (color != NULL)
-		editable_label_set_color (el, color);
-	if (text != NULL)
-		editable_label_set_text (el, text);
+	editable_label_set_color (el, base_color, text_color);
+
+        if (text != NULL)
+                editable_label_set_text (el, text);
 
 	return GTK_WIDGET (el);
 }
+
+void
+editable_label_start_editing (EditableLabel *el)
+{
+	if (el->unedited_text != NULL)
+		return;
+
+	el->unedited_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (el)));
+	g_signal_connect (G_OBJECT (el),
+		"activate",
+		G_CALLBACK (el_entry_activate), NULL);
+	gtk_editable_select_region (GTK_EDITABLE (el), 0, -1);
+	gtk_editable_set_editable (GTK_EDITABLE (el), TRUE);
+	el_set_color_gdk (el, &el->base, &el->text);
+	gtk_widget_grab_focus (GTK_WIDGET (el));
+	gtk_grab_add (GTK_WIDGET (el));
+}
+

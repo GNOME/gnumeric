@@ -1,3 +1,10 @@
+2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-editable-label.[ch] (el_start_editing) : renamed to 
+	  editable_label_start_editing and made non-static
+	(editable_label_set_color) : added third argument
+	(editable_label_new) : ditto
+
 2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-cell-renderer-text.[ch] : new renderer to make

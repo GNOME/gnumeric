@@ -4,6 +4,7 @@ Andreas:
 	* Make Single-Factor ANOVA undoable.
 	* Port search dialog.
 	* Add merge tool.
+	* Implement setting and changing of tab colors.
 
 Jody:
 	* Fix XL import of external function names.

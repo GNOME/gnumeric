@@ -1,3 +1,8 @@
+2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-sheet-order.c : support changes to tab colors.
+	* sheet-order.glade : rearrange to allow for color pickers
+
 2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-solver.c (cb_dialog_solve_clicked): Changes related to

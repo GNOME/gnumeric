@@ -2832,6 +2832,8 @@ ms_excel_read_tab_color (BiffQuery *q, ExcelSheet *esheet)
 #endif
 	guint8 color_index;
 	StyleColor *color;
+	StyleColor *text_color;
+	int contrast;
 
 	g_return_if_fail (q->length == 20);
 
@@ -2840,8 +2842,12 @@ ms_excel_read_tab_color (BiffQuery *q, ExcelSheet *esheet)
 	 */
 	color_index = MS_OLE_GET_GUINT8 (q->data + 16);
 	color = ms_excel_palette_get (esheet->wb->palette, color_index);
-	sheet_set_tab_color (esheet->gnum_sheet, color);
-
+	contrast = color->color.red + color->color.green + color->color.blue;
+	if (contrast >= 0x18000)
+		text_color = style_color_black ();
+	else
+		text_color = style_color_white ();
+	sheet_set_tab_color (esheet->gnum_sheet, color, text_color);
 	if (color != NULL) {
 		d (1, printf ("%s tab colour = %04hx:%04hx:%04hx\n",
 			      esheet->gnum_sheet->name_unquoted,

@@ -1,3 +1,20 @@
+2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c : support tab color changes in cmd_reorganize_sheets
+	* src/commands.h (cmd_reorganize_sheets) : add arguments
+	* src/sheet.c (sheet_set_tab_color) : add third argument
+	(sheet_new) : initialize tab_text_color
+	(sheet_destroy) : free tab_text_color
+	* src/sheet.h : add tab_text_color to _Sheet
+	(sheet_set_tab_color) : add third argument
+	* src/workbook-control-gui.c (wbcg_sheet_add) : also set tab_text_color
+	(wbcg_sheet_rename) : add arguments to call of cmd_reorganize_sheets
+	(cb_insert_sheet) : ditto
+	* src/workbook.c (workbook_sheet_reorganize) : support changing of tab
+	  colors
+	* src/workbook.h (workbook_sheet_reorganize) : add arguments
+	* src/xml-io.c : read and write TabTextColor
+
 2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_merge_data_redo) : don't create unnecessary cells

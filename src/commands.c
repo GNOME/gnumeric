@@ -58,6 +58,7 @@
 #include "sheet-object-widget.h"
 #include "sheet-object.h"
 #include "sheet-control.h"
+#include "style-color.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
@@ -3971,6 +3972,11 @@ typedef struct
 	GSList      *new_names;
 	GSList      *old_names;
 	GSList      *new_sheets;
+	GSList      *color_changed;
+	GSList      *new_colors_fore;
+	GSList      *new_colors_back;
+	GSList      *old_colors_fore;
+	GSList      *old_colors_back;
 } CmdReorganizeSheets;
 
 GNUMERIC_MAKE_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
@@ -3995,7 +4001,9 @@ cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->new_sheets = NULL;
 
 	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->old_order,  
-					  me->old_names, me->new_names, NULL);
+					  me->old_names, me->new_names, NULL, 
+					  me->color_changed, 
+					  me->old_colors_fore, me->old_colors_back);
 }
 
 static gboolean
@@ -4007,8 +4015,18 @@ cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->new_order, 
 					  me->new_names, me->old_names,
-					  &me->new_sheets);
+					  &me->new_sheets, me->color_changed, 
+					  me->new_colors_fore, me->new_colors_back);
 }
+
+
+static void
+cb_slist_gdk_color_free (gpointer data, gpointer user_data)
+{
+	if (data)
+		gdk_color_free (data);
+}
+
 
 static void
 cmd_reorganize_sheets_finalize (GObject *cmd)
@@ -4033,17 +4051,38 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 	e_free_string_slist (me->new_names);
 	me->new_names = NULL;
 
+	g_slist_free (me->color_changed);
+	me->color_changed = NULL;
+
+	g_slist_foreach (me->new_colors_fore, cb_slist_gdk_color_free, NULL);
+	g_slist_free (me->new_colors_fore);
+	me->new_colors_fore = NULL;
+
+	g_slist_foreach (me->new_colors_back, cb_slist_gdk_color_free, NULL);
+	g_slist_free (me->new_colors_back);
+	me->new_colors_back = NULL;
+
+	g_slist_foreach (me->old_colors_fore, cb_slist_gdk_color_free, NULL);
+	g_slist_free (me->old_colors_fore);
+	me->old_colors_fore = NULL;
+
+	g_slist_foreach (me->old_colors_back, cb_slist_gdk_color_free, NULL);
+	g_slist_free (me->old_colors_back);
+	me->old_colors_back = NULL;
+
 	gnumeric_command_finalize (cmd);
 }
 
 gboolean
 cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
-		       GSList *changed_names, GSList *new_names, GSList *deleted_sheets)
+		       GSList *changed_names, GSList *new_names, GSList *deleted_sheets,
+		       GSList *color_changed, GSList *new_colors_back,
+		       GSList *new_colors_fore)
 {
 	GObject *obj;
 	CmdReorganizeSheets *me;
 	Workbook *wb = wb_control_workbook (wbc);
-	GSList *the_names;
+	GSList *the_sheets;
 	int selector = 0;
 	
 	if (deleted_sheets) {
@@ -4065,39 +4104,67 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	me->new_names = new_names;
 	me->new_sheets = NULL;
 	me->old_names = NULL;
-	the_names = changed_names;
-	while (the_names) {
-		Sheet *sheet = the_names->data;
+	me->color_changed = color_changed;
+	me->new_colors_fore = new_colors_fore;
+	me->new_colors_back = new_colors_back;
+	me->old_colors_fore = NULL;
+	me->old_colors_back = NULL;
+	the_sheets = changed_names;
+	while (the_sheets) {
+		Sheet *sheet = the_sheets->data;
 		if (sheet  == NULL)
 			me->old_names = g_slist_prepend (me->old_names, NULL);
 		else
 			me->old_names = g_slist_prepend 
 				(me->old_names, g_strdup (sheet->name_unquoted));
-		the_names = the_names->next;
+		the_sheets = the_sheets->next;
 	}
+	the_sheets = color_changed;
+	while (the_sheets) {
+		Sheet *sheet = the_sheets->data;
+		if (sheet  == NULL) {
+			me->old_colors_fore = g_slist_prepend (me->old_colors_fore, NULL);
+			me->old_colors_back = g_slist_prepend (me->old_colors_back, NULL);
+		} else {
+			me->old_colors_fore = g_slist_prepend (me->old_colors_fore, 
+				   sheet->tab_text_color ? 
+				   gdk_color_copy (&sheet->tab_text_color->color) : NULL);
+			me->old_colors_back = g_slist_prepend (me->old_colors_back,
+				   sheet->tab_color ? 
+				   gdk_color_copy (&sheet->tab_color->color) : NULL);
+		}
+		the_sheets = the_sheets->next;
+	}
+
+	me->old_colors_fore = g_slist_reverse (me->old_colors_fore);
+	me->old_colors_back = g_slist_reverse (me->old_colors_back);
 	me->old_names = g_slist_reverse (me->old_names);
 
 	me->parent.sheet = NULL;
-	me->parent.size = 1;
+	me->parent.size = 1 + g_slist_length (color_changed) + g_slist_length (changed_names);
 
-	if (new_order == NULL) 
+	if (new_order != NULL) 
 		selector += (1 << 0);
-	if (new_names == NULL) 
+	if (new_names != NULL) { 
 		selector += (1 << 1);
-	else if (new_names->next == NULL)
-		selector += (1 << 2);
+		if (new_names->next == NULL)
+			selector += (1 << 2);
+	}
+	if (color_changed != NULL) 
+		selector += (1 << 3);
+	
 
 	switch (selector) {
-	case 1:
-		me->parent.cmd_descriptor = g_strdup (_("Renaming Sheets"));
-		break;
-	case 2:
-		me->parent.cmd_descriptor = g_strdup (_("Reordering Sheets"));
-		break;
-	case 3:
+	case 0:
 		me->parent.cmd_descriptor = g_strdup ("Nothing to do?");
 		break;
-	case 5:
+	case (1 << 1):
+		me->parent.cmd_descriptor = g_strdup (_("Renaming Sheets"));
+		break;
+	case (1 << 0):
+		me->parent.cmd_descriptor = g_strdup (_("Reordering Sheets"));
+		break;
+	case ((1 << 1) + (1 << 2)):
 		if (changed_names->data == NULL) {
 			if (new_names->data == NULL)
 				me->parent.cmd_descriptor = g_strdup (_("Adding a sheet"));
@@ -4110,6 +4177,9 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 				= g_strdup_printf (_("Rename sheet '%s' '%s'"), 
 						   ((Sheet *)changed_names->data)->name_unquoted,
 						   (const char *)new_names->data);
+		break;
+	case (1 << 3):
+		me->parent.cmd_descriptor = g_strdup (_("Changing Tab Colors"));
 		break;
 	default:
 		me->parent.cmd_descriptor = g_strdup (_("Reorganizing Sheets"));
@@ -4143,7 +4213,8 @@ cmd_rename_sheet (WorkbookControl *wbc, Sheet *sheet, char const *old_name, char
 	changed_names = g_slist_prepend (changed_names, sheet);
 	new_names = g_slist_prepend (new_names, g_strdup (new_name));
 
-	return cmd_reorganize_sheets (wbc, NULL, NULL, changed_names, new_names, NULL);
+	return cmd_reorganize_sheets (wbc, NULL, NULL, changed_names, new_names, 
+				      NULL, NULL, NULL, NULL);
 }
 
 /******************************************************************/
