@@ -21,7 +21,8 @@ adopted. This document breaks roughly into two parts. First the 'user'
 
 	In future named styles will be possible, also to get the default style
 	use mstyle_new_default (). NB. the name 'mstyle' is standard for this
-	structure's instances.
+	structure's instances. NB. do _not_ set any of the fields on the default
+	style.
 
 	b) Set elements:
 

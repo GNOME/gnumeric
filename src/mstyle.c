@@ -486,6 +486,15 @@ mstyle_new_name (const gchar *name)
 
 static MStyle *default_mstyle = NULL;
 
+/**
+ * mstyle_new_default:
+ * 
+ * Return the default style,
+ * this should _never_ _ever_ have any of its elements
+ * set.
+ * 
+ * Return value: the default style.
+ **/
 MStyle *
 mstyle_new_default (void)
 {
