@@ -235,7 +235,7 @@ gnumeric_SOURCES =					\
 corba-sheet.c corba-workbook-factory.c corba-workbook.c Gnumeric-impl.c \
 embeddable-grid.c: Gnumeric.h
 
-sheet-vector.h: Vector.h
+sheet-vector.h: Gnumeric.h
 
 gnumeric_bonobo_SOURCES =				\
 	main.c						\
