@@ -73,11 +73,13 @@ Pending Patches
 	5.8.11) Use GOColor in action				(DONE)
 	5.8.12) Use GOColor in combo
 	5.8.13) Cleanup
+	5.8.14) why is first custom colour not displayed
     5.9) Move the hard coded accelerators out of
 	canvas into actions
     5.10) Add indent/unindent icons to gtk			(DONE)
 	5.10.1) Patch written					(DONE)
 	5.10.2) Patch accepted into gtk				(DONE)
+    5.11) File History
 
 6) Jump to zip file
     6.1) move existing code into plugin (easy)

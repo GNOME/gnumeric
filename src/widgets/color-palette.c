@@ -50,6 +50,50 @@
 
 #include <string.h>
 
+struct _ColorPalette {
+	GtkVBox          vbox;
+	GtkTooltips      *tool_tip;
+	GtkWidget	 *picker;
+	/*
+	 * Array of colors
+	 */
+	GtkWidget **swatches;
+	/* The (potentially NULL) default color */
+        GdkColor const *default_color;
+
+	/* The current color */
+	GdkColor *current_color;
+	gboolean  current_is_default;
+
+        /*
+	 * Position of the last possible position
+	 * for custom colors in **items
+	 * (i.e. custom colors go from items[custom_color_pos]
+	 *  to items[total - 1])
+	 *
+	 * If custom_color_pos == -1, there is no room for custom colors
+	 */
+        int custom_color_pos;
+        /*
+	 * Number of default colors in **items
+	 */
+	int total;
+
+	/* The table with our default color names */
+	ColorNamePair *default_set;
+
+	/* The color group to which we belong */
+	ColorGroup *color_group;
+};
+
+typedef struct {
+	GtkVBoxClass parent_class;
+
+	/* Signals emited by this widget */
+	void (* color_changed) (ColorPalette *color_palette, GdkColor *color,
+				gboolean custom, gboolean by_user, gboolean is_default);
+} ColorPaletteClass;
+
 #define COLOR_PREVIEW_WIDTH 10
 #define COLOR_PREVIEW_HEIGHT 10
 
@@ -471,7 +515,11 @@ color_palette_get_color_picker (ColorPalette *P)
 
 	return P->picker;
 }
-
+void
+color_palette_set_allow_alpha (ColorPalette *P, gboolean allow_alpha)
+{
+	gnome_color_picker_set_use_alpha (GNOME_COLOR_PICKER (P->picker), allow_alpha);
+}
 
 /*
  * More verbose constructor. Allows for specifying the rows, columns, and
@@ -734,7 +782,7 @@ color_palette_make_menu (char const *no_color_label,
 custom_colors :
 	if (col > 0)
 		row++;
-	for (col = 0; col < ncols && col < cg->history->len; col++) {
+	for (col = 0; col < ncols && col < (int)cg->history->len; col++) {
 		button = make_colored_menu_item (" ",
 			g_ptr_array_index (cg->history, col));
 		gtk_menu_attach (GTK_MENU (submenu), button,

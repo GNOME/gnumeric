@@ -24,9 +24,11 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtktable.h>
 #include <gtk/gtkspinbutton.h>
 #include <gsf/gsf-impl-utils.h>
 #include <widgets/widget-color-combo.h>
+#include <widgets/gnm-combo-box.h>
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
@@ -497,11 +499,8 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 		glade_xml_get_widget (state->gui, "label_color"), w);
 	color_combo_set_color (COLOR_COMBO (w),
 		sog->fill_color ? &sog->fill_color->color : NULL);
-	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
-	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (w));
 	g_signal_connect (G_OBJECT (w),
 		"color_changed",
@@ -948,11 +947,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 		glade_xml_get_widget (state->gui, "border_label"), w);
 	color_combo_set_color (COLOR_COMBO (w),
 		sof->outline_color ? &sof->outline_color->color : NULL);
-	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	state->outline_color = style_color_ref (sof->outline_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
-	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (w));
 	g_signal_connect (G_OBJECT (w),
 		"color_changed",
@@ -966,11 +962,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 		glade_xml_get_widget (state->gui, "fill_label"), w);
 	color_combo_set_color (COLOR_COMBO (w),
 		sog->fill_color ? &sog->fill_color->color : NULL);
-	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 1, 2);
-	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (w));
 	g_signal_connect (G_OBJECT (w),
 		"color_changed",

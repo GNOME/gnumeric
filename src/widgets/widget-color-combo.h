@@ -33,54 +33,34 @@
 #ifndef GNUMERIC_WIDGET_COLOR_COMBO_H
 #define GNUMERIC_WIDGET_COLOR_COMBO_H
 
-#include <widgets/gnm-combo-box.h>
-#include <libfoocanvas/foo-canvas.h>
-#include <widgets/color-palette.h>
+#include <glib-object.h>
+#include <widgets/color-group.h>
+#include <goffice/utils/go-color.h>
+#include <gtk/gtkbutton.h>
 
 G_BEGIN_DECLS
-
-typedef struct _ColorCombo {
-	GnmComboBox     combo_box;
-
-	/*
-	 * GtkImage where we display
-	 */
-	GtkWidget       *preview_button;
-	GtkWidget	*preview_image;
-	gboolean	preview_is_icon;
-
-	ColorPalette    *palette;
-
-	GdkColor  default_color_save;
-        GdkColor *default_color;
-	gboolean  instant_apply;
-} ColorCombo;
-
-typedef struct {
-	GnmComboBoxClass parent_class;
-
-	/* Signals emited by this widget */
-	void (* color_changed) (ColorCombo *color_combo, GdkColor *color,
-				gboolean custom, gboolean by_user, gboolean is_default);
-} ColorComboClass;
 
 #define COLOR_COMBO_TYPE     (color_combo_get_type ())
 #define COLOR_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), COLOR_COMBO_TYPE, ColorCombo))
 #define COLOR_COMBO_CLASS(k) (G_TYPE_CHECK_CLASS_CAST(k), COLOR_COMBO_TYPE)
 #define IS_COLOR_COMBO(obj)  (G_TYPE_CHECK_INSTANCE_TYPE((obj), COLOR_COMBO_TYPE))
 
+typedef struct _ColorCombo ColorCombo;
+
 GtkType    color_combo_get_type   (void);
 GtkWidget *color_combo_new        (GdkPixbuf   *icon,
 				   char const *no_color_label,
 				   GdkColor const *default_color,
 				   ColorGroup  *color_group);
-void       color_combo_set_color  (ColorCombo  *cc,
-				   GdkColor    *color);
-void       color_combo_set_color_to_default (ColorCombo *cc);
-GdkColor  *color_combo_get_color  (ColorCombo  *cc, gboolean *is_default);
+void      color_combo_set_color_to_default (ColorCombo *cc);
+void      color_combo_set_color   (ColorCombo  *cc, GdkColor *color);
+GdkColor *color_combo_get_color   (ColorCombo  *cc, gboolean *is_default);
+void      color_combo_set_gocolor (ColorCombo  *cc, GOColor   color);
+GOColor   color_combo_get_gocolor (ColorCombo  *cc, gboolean is_custom);
+				/* , gboolean *is_default); */
 
-void       color_combo_box_set_preview_relief (ColorCombo *cc, GtkReliefStyle relief);
-void       color_combo_set_instant_apply (ColorCombo *cc, gboolean active);
+void color_combo_set_allow_alpha    (ColorCombo *cc, gboolean allow_alpha);
+void color_combo_set_instant_apply  (ColorCombo *cc, gboolean active);
 
 G_END_DECLS
 

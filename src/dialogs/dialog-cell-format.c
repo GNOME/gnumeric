@@ -77,6 +77,8 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktextview.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkbox.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
@@ -392,13 +394,10 @@ setup_color_pickers (ColorPicker *picker,
 	g_signal_connect (G_OBJECT (combo),
 		"color_changed",
 		G_CALLBACK (preview_update), state);
-	color_combo_set_instant_apply (COLOR_COMBO (combo), FALSE);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (combo), FALSE);
 	/* FIXME: Should we disable the focus? Line 793 workbook-format-toolbar.c */
 	gnm_combo_box_set_title (GNM_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
-
 	picker->combo          = combo;
 	picker->preview_update = preview_update;
 

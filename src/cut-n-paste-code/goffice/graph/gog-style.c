@@ -123,11 +123,10 @@ create_color_combo (StylePrefState *state,
 	w = color_combo_new (NULL, _("Automatic"),
 		&gdk_default, color_group_fetch (group, NULL));
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
-	gnome_color_picker_set_use_alpha (GNOME_COLOR_PICKER (COLOR_COMBO (w)->palette->picker), TRUE);
+	color_combo_set_allow_alpha (COLOR_COMBO (w), TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, label_name)), w);
-	color_combo_set_gocolor (w, initial_val);
+	color_combo_set_gocolor (COLOR_COMBO (w), initial_val);
 	g_signal_connect (G_OBJECT (w),
 		"color_changed",
 		G_CALLBACK (func), state);
@@ -198,7 +197,7 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 }
 
 static void
-cb_outline_color_changed (GtkWidget *cc,
+cb_outline_color_changed (ColorCombo *cc,
 			  G_GNUC_UNUSED GdkColor *color,	gboolean  is_custom,
 			  G_GNUC_UNUSED gboolean  by_user,	gboolean  is_default,
 			  StylePrefState *state)
@@ -254,7 +253,7 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 }
 
 static void
-cb_line_color_changed (GtkWidget *cc,
+cb_line_color_changed (ColorCombo *cc,
 		       G_GNUC_UNUSED GdkColor *color,	gboolean  is_custom,
 		       G_GNUC_UNUSED gboolean  by_user,	gboolean  is_default,
 		       StylePrefState *state)
@@ -342,7 +341,7 @@ populate_pattern_combo (StylePrefState *state)
 }
 
 static void
-cb_fg_color_changed (GtkWidget *cc,
+cb_fg_color_changed (ColorCombo *cc,
 		     G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
 		     G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
 		     StylePrefState *state)
@@ -361,7 +360,7 @@ cb_fg_color_changed (GtkWidget *cc,
 }
 
 static void
-cb_bg_color_changed (GtkWidget *cc,
+cb_bg_color_changed (ColorCombo *cc,
 		     G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
 		     G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
 		     StylePrefState *state)
@@ -443,7 +442,7 @@ populate_gradient_combo (StylePrefState *state)
 }
 
 static void
-cb_fill_gradient_start_color (GtkWidget *cc,
+cb_fill_gradient_start_color (ColorCombo *cc,
 			      G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
 			      G_GNUC_UNUSED gboolean by_user,	gboolean is_default,
 			      StylePrefState *state)
@@ -466,7 +465,7 @@ cb_delayed_gradient_combo_update (StylePrefState *state)
 }
 
 static void
-cb_fill_gradient_end_color (GtkWidget *cc,
+cb_fill_gradient_end_color (ColorCombo *cc,
 			    G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
 			    gboolean by_user,			gboolean is_default,
 			    StylePrefState *state)
@@ -496,7 +495,7 @@ cb_gradient_brightness_value_changed (GtkWidget *w, StylePrefState *state)
 
 	gog_style_set_fill_brightness (style,
 		gtk_range_get_value (GTK_RANGE (w)));
-	color_combo_set_gocolor (state->fill.gradient.end,
+	color_combo_set_gocolor (COLOR_COMBO (state->fill.gradient.end),
 		style->fill.u.gradient.end);
 	set_style (state);
 }
@@ -520,7 +519,7 @@ cb_gradient_style_changed (GtkWidget *w, StylePrefState *state)
 		gtk_widget_show (box);
 		gog_style_set_fill_brightness (style,
 			gtk_range_get_value (GTK_RANGE (val)));
-		color_combo_set_gocolor (state->fill.gradient.end,
+		color_combo_set_gocolor (COLOR_COMBO (state->fill.gradient.end),
 			style->fill.u.gradient.end);
 	}
 	gtk_widget_set_sensitive (state->fill.gradient.end, two_color);
@@ -690,19 +689,19 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 	case GOG_FILL_STYLE_NONE:
 		break;
 	case GOG_FILL_STYLE_PATTERN:
-		style->fill.u.pattern.pat.fore =
-			color_combo_get_gocolor (state->fill.pattern.fore, FALSE);
-		style->fill.u.pattern.pat.back =
-			color_combo_get_gocolor (state->fill.pattern.back, FALSE);
+		style->fill.u.pattern.pat.fore = color_combo_get_gocolor (
+			COLOR_COMBO (state->fill.pattern.fore), FALSE);
+		style->fill.u.pattern.pat.back = color_combo_get_gocolor (
+			COLOR_COMBO (state->fill.pattern.back), FALSE);
 		style->fill.u.pattern.pat.pattern = go_combo_pixmaps_get_selected (
 			(GOComboPixmaps*)state->fill.pattern.combo, NULL);
 		break;
 
 	case GOG_FILL_STYLE_GRADIENT:
-		style->fill.u.gradient.start =
-			color_combo_get_gocolor (state->fill.gradient.start, FALSE);
-		style->fill.u.gradient.end =
-			color_combo_get_gocolor (state->fill.gradient.end, FALSE);
+		style->fill.u.gradient.start = color_combo_get_gocolor (
+			COLOR_COMBO (state->fill.gradient.start), FALSE);
+		style->fill.u.gradient.end = color_combo_get_gocolor (
+			COLOR_COMBO (state->fill.gradient.end), FALSE);
 		style->fill.u.gradient.dir = go_combo_pixmaps_get_selected (
 			(GOComboPixmaps*)state->fill.gradient.combo, NULL);
 		w = glade_xml_get_widget (state->gui, "fill_gradient_type");
@@ -800,7 +799,7 @@ populate_marker_combo (StylePrefState *state)
 }
 
 static void
-cb_marker_outline_color_changed (GtkWidget *cc,
+cb_marker_outline_color_changed (ColorCombo *cc,
 				 G_GNUC_UNUSED GdkColor *color,		gboolean is_custom,
 				 G_GNUC_UNUSED gboolean by_user,	gboolean is_auto,
 				 StylePrefState *state)
@@ -818,7 +817,7 @@ cb_marker_outline_color_changed (GtkWidget *cc,
 }
 
 static void
-cb_marker_fill_color_changed (GtkWidget *cc,
+cb_marker_fill_color_changed (ColorCombo *cc,
 			      G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
 			      G_GNUC_UNUSED gboolean by_user,	gboolean is_auto,
 			      StylePrefState *state)

@@ -101,7 +101,6 @@ go_gradient_selector (GOColor start, GOColor end)
 	ArtGradientStop	  stops[2];
 
 	w = go_combo_pixmaps_new (4);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
 		render = art_render_new (0, 0, W, H,

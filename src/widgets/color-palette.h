@@ -38,50 +38,7 @@
 G_BEGIN_DECLS
 
 typedef struct _ColorNamePair ColorNamePair;
-
-typedef struct _ColorPalette {
-	GtkVBox          vbox;
-	GtkTooltips      *tool_tip;
-	GtkWidget	 *picker;
-	/*
-	 * Array of colors
-	 */
-	GtkWidget **swatches;
-	/* The (potentially NULL) default color */
-        GdkColor const *default_color;
-
-	/* The current color */
-	GdkColor *current_color;
-	gboolean  current_is_default;
-
-        /*
-	 * Position of the last possible position
-	 * for custom colors in **items
-	 * (i.e. custom colors go from items[custom_color_pos]
-	 *  to items[total - 1])
-	 *
-	 * If custom_color_pos == -1, there is no room for custom colors
-	 */
-        int custom_color_pos;
-        /*
-	 * Number of default colors in **items
-	 */
-	int total;
-
-	/* The table with our default color names */
-	ColorNamePair *default_set;
-
-	/* The color group to which we belong */
-	ColorGroup *color_group;
-} ColorPalette;
-
-typedef struct {
-	GtkVBoxClass parent_class;
-
-	/* Signals emited by this widget */
-	void (* color_changed) (ColorPalette *color_palette, GdkColor *color,
-				gboolean custom, gboolean by_user, gboolean is_default);
-} ColorPaletteClass;
+typedef struct _ColorPalette  ColorPalette;
 
 #define COLOR_PALETTE_TYPE     (color_palette_get_type ())
 #define COLOR_PALETTE(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), COLOR_PALETTE_TYPE, ColorPalette))
@@ -102,6 +59,7 @@ void       color_palette_set_current_color    (ColorPalette *P, GdkColor *color)
 void       color_palette_set_color_to_default (ColorPalette *P);
 GdkColor  *color_palette_get_current_color    (ColorPalette *P, gboolean *is_default);
 GtkWidget *color_palette_get_color_picker     (ColorPalette *P);
+void	   color_palette_set_allow_alpha      (ColorPalette *P, gboolean allow_alpha);
 
 G_END_DECLS
 

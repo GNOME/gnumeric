@@ -335,52 +335,13 @@ go_color_render_svp (GOColor color, ArtSVP const *svp,
 	}
 }
 
-/***************************************************************************/
-
 GOColor
-color_combo_get_gocolor (GtkWidget *cc, gboolean is_custom) /* , GOColor default_val) */
-{
-	/* cheap hack to pull alpha direct from picker if it is custom.  The
-	 * stock combo interface loses the alpha by storing a GdkColor */
-	if (is_custom) {
-		guint8 r, g, b, a;
-		gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (COLOR_COMBO (cc)->palette->picker),
-			&r, &g, &b, &a);
-		return RGBA_TO_UINT (r, g, b, a);
-	} else {
-		GdkColor *gdk = color_combo_get_color (COLOR_COMBO (cc), NULL);
-		if (gdk != NULL) {
-			GOColor res = GDK_TO_UINT (*gdk);
-			gdk_color_free (gdk);
-			return res;
-		}
-	}
-	return 0; /* GOColor res = default_val; */
-}
-
-void
-color_combo_set_gocolor (GtkWidget *cc, GOColor c)
-{
-	if (UINT_RGBA_A (c) != 0) {
-		GdkColor gdk;
-		go_color_to_gdk	(c, &gdk);
-		/* should not be necessary.  The CC should do it for itself */
-		gdk_rgb_find_color (gtk_widget_get_colormap (cc), &gdk);
-		color_combo_set_color (COLOR_COMBO (cc), &gdk);
-		gnome_color_picker_set_i8 (GNOME_COLOR_PICKER (COLOR_COMBO (cc)->palette->picker),
-			UINT_RGBA_R (c), UINT_RGBA_G (c),
-			UINT_RGBA_B (c), UINT_RGBA_A (c));
-	} else
-		color_combo_set_color (COLOR_COMBO (cc), NULL);
-}
-
-GOColor
-go_color_from_str (const gchar *string)
+go_color_from_str (gchar const *string)
 {
 	unsigned r, g, b, a;
 	GOColor color = 0;
 
-	if (sscanf ((const char *) string, "%X:%X:%X:%X", &r, &g, &b, &a) == 4)
+	if (sscanf ((char const *) string, "%X:%X:%X:%X", &r, &g, &b, &a) == 4)
 		color = RGBA_TO_UINT (r, g, b, a);
 	return color;
 }

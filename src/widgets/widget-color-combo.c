@@ -30,6 +30,8 @@
  * 02111-1307, USA.
  */
 
+#undef GNOME_DISABLE_DEPRECATED
+#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeColorPicker"
 #include <gnumeric-config.h>
 
 #include "widget-color-combo.h"
@@ -37,10 +39,36 @@
 #include <gui-util.h>
 #include <style-color.h>
 
-#include <goffice/utils/go-color.h>
+#include <widgets/gnm-combo-box.h>
+#include <widgets/color-palette.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkimage.h>
+#include <gdk/gdkcolor.h>
+#include <libgnomeui/gnome-color-picker.h>
+
+struct _ColorCombo {
+	GnmComboBox     combo_box;
+
+	/*
+	 * GtkImage where we display
+	 */
+	GtkWidget       *preview_button;
+	GtkWidget	*preview_image;
+	gboolean	preview_is_icon;
+
+	ColorPalette    *palette;
+
+	GdkColor  default_color_save;
+        GdkColor *default_color;
+	gboolean  instant_apply;
+};
+
+typedef struct {
+	GnmComboBoxClass base;
+	void (* color_changed) (ColorCombo *color_combo, GdkColor *color,
+				gboolean custom, gboolean by_user, gboolean is_default);
+} ColorComboClass;
 
 enum {
 	CHANGED,
@@ -101,6 +129,7 @@ color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
 			      pixbuf, 1, color_y + 1);
 
 	g_object_unref (color_pixbuf);
+	gtk_widget_queue_draw (cc->preview_image);
 }
 
 static void
@@ -151,10 +180,9 @@ cb_preview_clicked (GtkWidget *button, ColorCombo *cc)
 static void
 color_combo_init (ColorCombo *cc)
 {
-	cc->instant_apply = TRUE;
+	cc->instant_apply = FALSE;
 	cc->preview_is_icon = FALSE;
 	cc->preview_button = gtk_toggle_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
 
 	g_signal_connect (G_OBJECT (cc),
 		"screen-changed",
@@ -209,35 +237,18 @@ color_table_setup (ColorCombo *cc,
 	g_return_if_fail (cc != NULL);
 
 	/* Tell the palette that we will be changing it's custom colors */
-	cc->palette =
-		COLOR_PALETTE (color_palette_new (no_color_label,
-						  cc->default_color,
-						  color_group));
-
-	{
-		GtkWidget *picker = color_palette_get_color_picker (cc->palette);
-		g_signal_connect (picker, "clicked",
-				  G_CALLBACK (cb_cust_color_clicked), cc);
-	}
-
-	g_signal_connect (cc->palette, "color_changed",
-			  G_CALLBACK (cb_palette_color_changed), cc);
+	cc->palette = COLOR_PALETTE (
+		color_palette_new (no_color_label,
+				   cc->default_color,
+				   color_group));
+	g_signal_connect (color_palette_get_color_picker (cc->palette),
+		"clicked",
+		G_CALLBACK (cb_cust_color_clicked), cc);
+	g_signal_connect (cc->palette,
+		"color_changed",
+		G_CALLBACK (cb_palette_color_changed), cc);
 
 	gtk_widget_show_all (GTK_WIDGET (cc->palette));
-
-	return;
-}
-
-void
-color_combo_box_set_preview_relief (ColorCombo *cc, GtkReliefStyle relief)
-{
-	GtkWidget *w;
-
-	g_return_if_fail (IS_COLOR_COMBO (cc));
-
-	w = gnm_combo_box_get_arrow (GNM_COMBO_BOX (cc));
-	gtk_button_set_relief (GTK_BUTTON (w), relief);
-	gtk_button_set_relief (GTK_BUTTON (cc->preview_button), relief);
 }
 
 /* color_combo_get_color:
@@ -278,6 +289,44 @@ color_combo_set_color (ColorCombo *cc, GdkColor *color)
 	color_palette_set_current_color (cc->palette, color);
 }
 
+GOColor
+color_combo_get_gocolor (ColorCombo *cc,
+			 gboolean is_custom) /* , gboolean *is_default) */
+{
+	/* cheap hack to pull alpha direct from picker if it is custom.  The
+	 * stock combo interface loses the alpha by storing a GdkColor */
+	if (is_custom) {
+		guint8 r, g, b, a;
+		gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (color_palette_get_color_picker (cc->palette)),
+			&r, &g, &b, &a);
+		return RGBA_TO_UINT (r, g, b, a);
+	} else {
+		GdkColor *gdk = color_combo_get_color (COLOR_COMBO (cc), NULL);
+		if (gdk != NULL) {
+			GOColor res = GDK_TO_UINT (*gdk);
+			gdk_color_free (gdk);
+			return res;
+		}
+	}
+	return 0; /* GOColor res = default_val; */
+}
+
+void
+color_combo_set_gocolor (ColorCombo *cc, GOColor c)
+{
+	if (UINT_RGBA_A (c) != 0) {
+		GdkColor gdk;
+		go_color_to_gdk	(c, &gdk);
+		/* should not be necessary.  The CC should do it for itself */
+		gdk_rgb_find_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), &gdk);
+		color_combo_set_color (COLOR_COMBO (cc), &gdk);
+		gnome_color_picker_set_i8 (GNOME_COLOR_PICKER (color_palette_get_color_picker (cc->palette)),
+			UINT_RGBA_R (c), UINT_RGBA_G (c),
+			UINT_RGBA_B (c), UINT_RGBA_A (c));
+	} else
+		color_combo_set_color (COLOR_COMBO (cc), NULL);
+}
+
 /**
  * color_combo_set_instant_apply
  * @cc     The combo
@@ -293,6 +342,19 @@ color_combo_set_instant_apply (ColorCombo *cc, gboolean active)
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 
 	cc->instant_apply = active;
+}
+
+/**
+ * color_combo_set_allow_alpha :
+ * @cc : #ColorCombo
+ * @allow_alpha : 
+ *
+ * Should the custom colour selector allow the use of opacity.
+ **/
+void
+color_combo_set_allow_alpha (ColorCombo *cc, gboolean allow_alpha)
+{
+	color_palette_set_allow_alpha (cc->palette, allow_alpha);
 }
 
 /**

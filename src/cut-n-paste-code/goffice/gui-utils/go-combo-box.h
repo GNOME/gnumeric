@@ -25,6 +25,7 @@
 #define _GNM_COMBO_BOX_H_
 
 #include <gtk/gtkhbox.h>
+#include <gtk/gtktooltips.h>
 
 G_BEGIN_DECLS
 
@@ -66,23 +67,20 @@ void       gnm_combo_box_construct   (GnmComboBox *combo_box,
 				      GtkWidget *display_widget,
 				      GtkWidget *popdown_container,
 				      GtkWidget	*popdown_focus);
-void       gnm_combo_box_set_title   (GnmComboBox *combo,
-				      const gchar *title);
-void       gnm_combo_box_set_tearable        (GnmComboBox *combo,
-					      gboolean tearable);
-GtkWidget *gnm_combo_box_get_arrow	     (GnmComboBox *combo);
+void	   gnm_combo_box_set_tooltip  (GnmComboBox *combo, GtkTooltips *tips,
+				       char const *text, char const *priv_text);
+void	   gnm_combo_box_set_relief   (GnmComboBox *combo, GtkReliefStyle relief);
+void       gnm_combo_box_set_title    (GnmComboBox *combo, char const *title);
+void       gnm_combo_box_set_tearable (GnmComboBox *combo, gboolean tearable);
 
 /* protected */
-void       gnm_combo_box_get_pos     (GnmComboBox *combo_box, int *x, int *y);
-
-void       gnm_combo_box_popup_hide  (GnmComboBox *combo_box);
-
-void       gnm_combo_box_popup_display (GnmComboBox *combo_box);
-
-void       gnm_combo_box_set_display (GnmComboBox *combo_box,
+void     gnm_combo_box_get_pos     (GnmComboBox *combo_box, int *x, int *y);
+void     gnm_combo_box_popup_hide  (GnmComboBox *combo_box);
+void     gnm_combo_box_popup_display (GnmComboBox *combo_box);
+void     gnm_combo_box_set_display (GnmComboBox *combo_box,
 				      GtkWidget *display_widget);
 
-gboolean   _gnm_combo_is_updating (GnmComboBox const *combo_box);
+gboolean _gnm_combo_is_updating (GnmComboBox const *combo_box);
 
 G_END_DECLS
 

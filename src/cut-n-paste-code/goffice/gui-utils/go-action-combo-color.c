@@ -22,6 +22,8 @@
 #include <gnumeric-config.h>
 #include "go-action-combo-color.h"
 #include <src/widgets/widget-color-combo.h>
+#include <src/widgets/gnm-combo-box.h>
+#include <src/widgets/color-palette.h>
 #include <src/gui-util.h>
 #include <application.h>
 
@@ -49,11 +51,8 @@ go_tool_combo_color_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
 				 char const *tip_private)
 {
 	GOToolComboColor *self = (GOToolComboColor *)tool_item;
-#warning this is ugly the tip moves as we jump from preview to arrow
-	gtk_tooltips_set_tip (tooltips, self->combo->preview_button,
-			      tip_text, tip_private);
-	gtk_tooltips_set_tip (tooltips, gnm_combo_box_get_arrow	(GNM_COMBO_BOX (self->combo)),
-			      tip_text, tip_private);
+	gnm_combo_box_set_tooltip (GNM_COMBO_BOX (self->combo), tooltips,
+				   tip_text, tip_private);
 	return TRUE;
 }
 static void
@@ -116,6 +115,9 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 		go_color_to_gdk	(caction->default_val, &gdk_default),
 		caction->color_group);
 
+	color_combo_set_instant_apply (COLOR_COMBO (tool->combo), TRUE);
+	gnm_combo_box_set_relief (GNM_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
+	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));

@@ -48,10 +48,8 @@ go_tool_combo_pixmaps_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips
 				   char const *tip_private)
 {
 	GOToolComboPixmaps *self = (GOToolComboPixmaps *)tool_item;
-	gtk_tooltips_set_tip (tooltips, go_combo_pixmaps_get_preview (self->combo),
-			      tip_text, tip_private);
-	gtk_tooltips_set_tip (tooltips, gnm_combo_box_get_arrow	(GNM_COMBO_BOX (self->combo)),
-			      tip_text, tip_private);
+	gnm_combo_box_set_tooltip (GNM_COMBO_BOX (self->combo), tooltips,
+				   tip_text, tip_private);
 	return TRUE;
 }
 static void
@@ -125,6 +123,8 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 			el->id, _(el->untranslated_tooltip));
 	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 
+	gnm_combo_box_set_relief (GNM_COMBO_BOX (tool->combo), GTK_RELIEF_NONE);
+	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));

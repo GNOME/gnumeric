@@ -1,3 +1,8 @@
+2004-01-23  Jody Goldberg <jody@gnome.org>
+
+	* widget-color-combo.c (color_combo_set_color_internal) : redraw the
+	  preview when things change.
+
 2004-01-22  Jody Goldberg <jody@gnome.org>
 
 	* widget-pixmap-combo.c : Lots of rewriting to enable keynav, and make

@@ -568,7 +568,6 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 	go_marker_set_size (marker, 15);
 
 	w = go_combo_pixmaps_new (4);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
 		shape = elements[i];
 		is_auto = (shape == GO_MARKER_MAX);

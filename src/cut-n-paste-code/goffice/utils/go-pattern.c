@@ -226,7 +226,6 @@ go_pattern_selector (GOColor fore, GOColor back,
 	svp = art_svp_from_vpath (path);
 
 	w = go_combo_pixmaps_new (4);
-	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, W, H);
 		is_auto = elements[i] == GO_PATTERN_MAX;

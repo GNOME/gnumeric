@@ -178,7 +178,6 @@ go_combo_stack_init (GOComboStack *stack)
 	stack->button = gtk_toggle_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (stack->button), GTK_RELIEF_NONE);
 	GTK_WIDGET_UNSET_FLAGS (stack->button, GTK_CAN_FOCUS);
-	gnm_widget_disable_focus (GTK_WIDGET (stack));
 
 	stack->list = (GtkTreeView *)gtk_tree_view_new ();
 	selection = gtk_tree_view_get_selection (stack->list);
@@ -251,10 +250,7 @@ go_tool_combo_stack_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
 				 char const *tip_private)
 {
 	GOToolComboStack *self = (GOToolComboStack *)tool_item;
-#warning this is ugly the tip moves as we jump from preview to arrow
-	gtk_tooltips_set_tip (tooltips, self->combo->button,
-		tip_text, tip_private);
-	gtk_tooltips_set_tip (tooltips, gnm_combo_box_get_arrow	(GNM_COMBO_BOX (self->combo)),
+	gnm_combo_box_set_tooltip (GNM_COMBO_BOX (self->combo), tooltips,
 		tip_text, tip_private);
 	return TRUE;
 }
@@ -324,15 +320,18 @@ go_action_combo_stack_create_tool_item (GtkAction *a)
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (tool->combo->button), image);
 
+	gtk_widget_set_sensitive (GTK_WIDGET (tool), is_sensitive);
+
+	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
+	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool));
 
-	gtk_widget_set_sensitive (GTK_WIDGET (tool), is_sensitive);
-
 	g_signal_connect (G_OBJECT (tool->combo),
 		"pop",
 		G_CALLBACK (cb_tool_popped), saction);
+
 	return GTK_WIDGET (tool);
 }
 

@@ -31,6 +31,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkvbox.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -205,7 +206,6 @@ go_combo_pixmaps_add_element (GOComboPixmaps *combo,
 {
 	GtkWidget *button, *box;
 	Element tmp;
-	Element *el;
 	int col, row;
 
 	g_return_if_fail (IS_GO_COMBO_PIXMAPS (combo));

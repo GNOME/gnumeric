@@ -24,6 +24,7 @@
 #include "wbc-gtk.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
+#include "workbook.h"
 #include "gui-util.h"
 #include "gui-file.h"
 #include "sheet.h"

@@ -480,9 +480,6 @@ gnm_combo_box_init (GnmComboBox *combo_box)
 	combo_box->priv = g_new0 (GnmComboBoxPrivate, 1);
 	combo_box->priv->updating_buttons = FALSE;
 
-	/*
-	 * Create the arrow
-	 */
 	combo_box->priv->arrow_button = gtk_toggle_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (combo_box->priv->arrow_button), GTK_RELIEF_NONE);
 	GTK_WIDGET_UNSET_FLAGS (combo_box->priv->arrow_button, GTK_CAN_FOCUS);
@@ -715,7 +712,7 @@ cb_tearable_button_release (GtkWidget *w, GdkEventButton *event,
 }
 
 void
-gnm_combo_box_construct (GnmComboBox *combo_box,
+gnm_combo_box_construct (GnmComboBox *combo,
 			 GtkWidget *display_widget,
 			 GtkWidget *popdown_container,
 			 GtkWidget *popdown_focus)
@@ -723,14 +720,14 @@ gnm_combo_box_construct (GnmComboBox *combo_box,
 	GtkWidget *tearable;
 	GtkWidget *vbox;
 
-	g_return_if_fail (IS_GNM_COMBO_BOX (combo_box));
+	g_return_if_fail (IS_GNM_COMBO_BOX (combo));
 	g_return_if_fail (GTK_IS_WIDGET (display_widget));
 
-	GTK_BOX (combo_box)->spacing = 0;
-	GTK_BOX (combo_box)->homogeneous = FALSE;
+	GTK_BOX (combo)->spacing = 0;
+	GTK_BOX (combo)->homogeneous = FALSE;
 
-	combo_box->priv->popdown_container = popdown_container;
-	combo_box->priv->display_widget = NULL;
+	combo->priv->popdown_container = popdown_container;
+	combo->priv->display_widget = NULL;
 
 	vbox = gtk_vbox_new (FALSE, 5);
 	tearable = gtk_tearoff_menu_item_new ();
@@ -742,26 +739,16 @@ gnm_combo_box_construct (GnmComboBox *combo_box,
 			  GINT_TO_POINTER (FALSE));
 	g_signal_connect (tearable, "button-release-event",
 			  G_CALLBACK (cb_tearable_button_release),
-			  (gpointer) combo_box);
+			  (gpointer) combo);
 	gtk_box_pack_start (GTK_BOX (vbox), tearable, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), popdown_container, TRUE, TRUE, 0);
-	combo_box->priv->tearable = tearable;
+	combo->priv->tearable = tearable;
+	gnm_combo_box_set_tearable (combo, FALSE);
+	gnm_combo_box_set_relief (combo, GTK_RELIEF_NORMAL);
 
-	/*
-	 * Finish setup
-	 */
-	gnm_combo_box_set_display (combo_box, display_widget);
-
-	gtk_container_add (GTK_CONTAINER (combo_box->priv->frame), vbox);
-	gtk_widget_show_all (combo_box->priv->frame);
-}
-
-GtkWidget *
-gnm_combo_box_get_arrow (GnmComboBox *cc)
-{
-	g_return_val_if_fail (IS_GNM_COMBO_BOX (cc), NULL);
-
-	return cc->priv->arrow_button;
+	gnm_combo_box_set_display (combo, display_widget);
+	gtk_container_add (GTK_CONTAINER (combo->priv->frame), vbox);
+	gtk_widget_show_all (combo->priv->frame);
 }
 
 /**
@@ -782,7 +769,6 @@ void
 gnm_combo_box_set_title (GnmComboBox *combo,
 			 const gchar *title)
 {
-	g_return_if_fail (combo != NULL);
 	g_return_if_fail (IS_GNM_COMBO_BOX (combo));
 
 	g_object_set_data_full (G_OBJECT (combo), "gnm-combo-title",
@@ -799,7 +785,6 @@ gnm_combo_box_set_title (GnmComboBox *combo,
 void
 gnm_combo_box_set_tearable (GnmComboBox *combo, gboolean tearable)
 {
-	g_return_if_fail (combo != NULL);
 	g_return_if_fail (IS_GNM_COMBO_BOX (combo));
 
 	if (tearable){
@@ -808,4 +793,23 @@ gnm_combo_box_set_tearable (GnmComboBox *combo, gboolean tearable)
 		gnm_combo_set_tearoff_state (combo, FALSE);
 		gtk_widget_hide (combo->priv->tearable);
 	}
+}
+
+void
+gnm_combo_box_set_relief (GnmComboBox *combo, GtkReliefStyle relief)
+{
+	g_return_if_fail (IS_GNM_COMBO_BOX (combo));
+
+	gtk_button_set_relief (GTK_BUTTON (combo->priv->arrow_button), relief);
+	if (GTK_IS_BUTTON (combo->priv->display_widget))
+		gtk_button_set_relief (GTK_BUTTON (combo->priv->display_widget), relief);
+}
+
+void
+gnm_combo_box_set_tooltip (GnmComboBox *c, GtkTooltips *tips,
+			   char const *text, char const *priv_text)
+{
+#warning this is ugly the tip moves as we jump from preview to arrow
+	gtk_tooltips_set_tip (tips, c->priv->display_widget, text, priv_text);
+	gtk_tooltips_set_tip (tips, c->priv->arrow_button, text, priv_text);
 }

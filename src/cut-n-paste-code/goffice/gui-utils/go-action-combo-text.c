@@ -127,6 +127,7 @@ go_action_combo_create_tool_item (GtkAction *act)
 		gnm_combo_text_get_entry (tool->combo), w, -1);
 	g_object_set (G_OBJECT (tool), "visible_vertical", FALSE, NULL);
 
+	gnm_combo_box_set_tearable (GNM_COMBO_BOX (tool->combo), TRUE);
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));
