@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.18\n"
-"POT-Creation-Date: 1999-03-30 18:29-0600\n"
+"POT-Creation-Date: 1999-03-31 21:14-0600\n"
 "PO-Revision-Date: 1998-03-28 00:50+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -70,42 +70,9 @@ msgstr "Gnumeric/Python modul initialisert\n"
 msgid "Python Plugin"
 msgstr "Python tillegg"
 
-#: plugins/stat/stat.c:12
-msgid ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-"deviation of all the values and cells referenced in the argument list. This "
-"is equivalent to the square root of the variance.\n"
-"@SEEALSO=VARIANCE"
+#: plugins/stat/stat.c:20
+msgid "OLD Statistics Plugin, not required anymore"
 msgstr ""
-
-#: plugins/stat/stat.c:23
-msgid ""
-"@FUNCTION=VARIANCE\n"
-"@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells referenced in the argument list. This "
-"is\tequivalent to the sum of (value - average)^2, divided by the number of "
-"values minus 1. If you want it divided by N instead of N - 1, use "
-"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-msgstr ""
-
-#: plugins/stat/stat.c:34
-msgid ""
-"@FUNCTION=NVARIANCE\n"
-"@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-"of all the values and cells references in the argument list. This is "
-"equivalent to the sum of (value - average)^2, divided by the number of "
-"values. If you want it divided by N - 1 instead of N, use "
-"VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
-msgstr ""
-
-#: plugins/stat/stat.c:69
-msgid "Statistics Plugin"
-msgstr "Statistikk-tillegg"
-
-#: plugins/stat/stat.c:102
-msgid "variance - division by 0"
-msgstr "varians - divisjon med 0"
 
 #: src/about.c:23
 msgid "Miguel de Icaza, main programmer."
@@ -167,11 +134,11 @@ msgstr "Takashi Matsuda, enkel tekst tillegg"
 msgid "Jukka-Pekka Iivonen, numerous functions"
 msgstr "Jukka-Pekka Iivonen, mange funksjoner"
 
-#: src/about.c:52
+#: src/about.c:51
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:55
+#: src/about.c:54
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -2298,3 +2265,9 @@ msgstr "UtenNavn"
 #: src/xml-io.c:1599
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#~ msgid "Statistics Plugin"
+#~ msgstr "Statistikk-tillegg"
+
+#~ msgid "variance - division by 0"
+#~ msgstr "varians - divisjon med 0"
