@@ -1084,19 +1084,21 @@ workbook_sheet_delete (Sheet *sheet)
 
 	wb = sheet->workbook;
 
-	/*
-	 * FIXME : Deleting a sheet plays havoc with our data structures.
-	 * Be safe for now and empty the undo/redo queues
-	 */
-	command_list_release (wb->undo_commands);
-	command_list_release (wb->redo_commands);
-	wb->undo_commands = NULL;
-	wb->redo_commands = NULL;
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_undo_redo_clear (control, TRUE);
-		wb_control_undo_redo_clear (control, FALSE);
-		wb_control_undo_redo_labels (control, NULL, NULL);
-	);
+	if (!sheet_is_pristine (sheet)) {
+		/*
+		 * FIXME : Deleting a sheet plays havoc with our data structures.
+		 * Be safe for now and empty the undo/redo queues
+		 */
+		command_list_release (wb->undo_commands);
+		command_list_release (wb->redo_commands);
+		wb->undo_commands = NULL;
+		wb->redo_commands = NULL;
+		WORKBOOK_FOREACH_CONTROL (wb, view, control,
+			wb_control_undo_redo_clear (control, TRUE);
+			wb_control_undo_redo_clear (control, FALSE);
+			wb_control_undo_redo_labels (control, NULL, NULL);
+		);
+	}
 
 	/* Important to do these BEFORE detaching the sheet */
 	sheet_deps_destroy (sheet);

@@ -14,6 +14,9 @@ Jody:
 	* Undo for pasting a cut was saving too much.
 	* Parser was not honouring requests to ensure absoluteness.
 	* Transparent makes no sense for lines & arrows.
+	* Improve help tokenizer.
+	* Don't prompt for sheet delete if it is pristine.
+	* autofill includes autoformats for expressions.
 
 --------------------------------------------------------------------------
 Gnumeric 0.99.0

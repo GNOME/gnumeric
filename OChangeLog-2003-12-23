@@ -1,5 +1,16 @@
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=67202
+	* src/sheet-autofill.c (fill_item_new) : take the autofmt into
+	  account.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=67179
+	* src/workbook-control-gui.c (delete_sheet_if_possible) :
+	  don't prompt for sheet delete if it is pristine.
+
+	* src/workbook.c (workbook_sheet_delete) : no need to wipe things if
+	  the sheet is pristine.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=67208
 	* src/func.c (tokenized_help_new) : be more picky about parsing
 	  the help tokens.

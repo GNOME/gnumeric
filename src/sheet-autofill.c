@@ -84,9 +84,9 @@ typedef enum {
 	/* FILL_END_OF_MONTH FIXME This seems useful.  Could we do it ? */
 
 	/*
-	 * FILL_FORMULA: This is a formula
+	 * FILL_EXPR: This is a expression
 	 */
-	FILL_FORMULA,
+	FILL_EXPR,
 
 	/*
 	 * FILL_BOOLEAN_CONSTANT: Just duplicate this constant
@@ -108,7 +108,7 @@ typedef struct _FillItem {
 	CellPos	     merged_size;
 
 	union {
-		ExprTree *formula;
+		ExprTree *expr;
 		Value    *value;
 		String   *str;
 		struct {
@@ -298,9 +298,10 @@ fill_item_new (Sheet *sheet, int col, int row)
 	if (!cell)
 		return fi;
 
+	fi->fmt = cell->format;
 	if (cell_has_expr (cell)) {
-		fi->type = FILL_FORMULA;
-		fi->v.formula = cell->base.expression;
+		fi->type = FILL_EXPR;
+		fi->v.expr = cell->base.expression;
 
 		return fi;
 	}
@@ -333,7 +334,6 @@ fill_item_new (Sheet *sheet, int col, int row)
 		}
 		fi->type    = fill;
 		fi->v.value = value;
-		fi->fmt = cell->format;
 
 		return fi;
 	}
@@ -478,7 +478,7 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 	case FILL_EMPTY:
 	case FILL_STRING_CONSTANT:
 	case FILL_BOOLEAN_CONSTANT:
-	case FILL_FORMULA:
+	case FILL_EXPR:
 	case FILL_INVALID:
 		return;
 	}
@@ -707,8 +707,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		return;
 	}
 
-	case FILL_FORMULA:
-	{
+	case FILL_EXPR: {
 		ExprTree * func;
 		ExprRewriteInfo   rwinfo;
 		ExprRelocateInfo *rinfo;
@@ -725,8 +724,9 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		/* FIXME : I presume this is needed to invalidate
 		 * relative references that will fall off the
 		 * edge ?? */
-		func = expr_rewrite (fi->v.formula, &rwinfo);
-		cell_set_expr (cell, (func == NULL) ? fi->v.formula : func, NULL);
+		func = expr_rewrite (fi->v.expr, &rwinfo);
+		cell_set_expr (cell, (func == NULL) ? fi->v.expr : func,
+			       fi->fmt);
 		return;
 	}
 

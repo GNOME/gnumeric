@@ -406,6 +406,11 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 	if (workbook_sheet_count (wb) == 1)
 		return;
 
+	if (sc->sheet->pristine) {
+		workbook_sheet_delete (sc->sheet);
+		return;
+	}
+
 	message = g_strdup_printf (
 		_("Are you sure you want to remove the sheet called `%s'?"),
 		sc->sheet->name_unquoted);
