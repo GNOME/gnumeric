@@ -141,7 +141,7 @@ static void
 render_formated_version (char *format)
 {
 	if (!first_cell)
-		gtk_label_set (GTK_LABEL (number_sample), "");
+		gtk_label_set_text (GTK_LABEL (number_sample), "");
 	else {
 		StyleFormat *style_format;
 		Value *v = first_cell->value;
@@ -150,7 +150,7 @@ render_formated_version (char *format)
 		style_format = style_format_new (format);
 		str = format_value (style_format, v, NULL);
 
-		gtk_label_set (GTK_LABEL (number_sample), str);
+		gtk_label_set_text (GTK_LABEL (number_sample), str);
 		g_free (str);
 		style_format_unref (style_format);
 	}
@@ -469,7 +469,7 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 				}
 
 			if (autor)
-				gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (auto_return), 1);
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (auto_return), 1);
 		}
 	}
 
@@ -625,7 +625,7 @@ create_background_radio (GtkWidget *prop_win)
 	frame = gtk_frame_new (_("Background configuration"));
         table = gtk_table_new (2, 2, 0);
 	gtk_container_add (GTK_CONTAINER (frame), table);
-	gtk_container_border_width (GTK_CONTAINER (frame), 5);
+	gtk_container_set_border_width (GTK_CONTAINER (frame), 5);
 
 	/* The radio buttons */
 	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
@@ -776,7 +776,7 @@ cell_properties_close (void)
 	GnomePropertyBox *pbox = GNOME_PROPERTY_BOX (cell_format_prop_win);
 	
 	gtk_main_quit ();
-	cell_format_last_page_used = gtk_notebook_current_page (
+	cell_format_last_page_used = gtk_notebook_get_current_page (
 		GTK_NOTEBOOK (pbox->notebook));
 	gtk_widget_destroy (cell_format_prop_win);
 	cell_format_prop_win = 0;

@@ -53,7 +53,7 @@ gtk_radio_button_select (GSList *group, int n)
 	int len = g_slist_length (group);
 	
 	l = g_slist_nth (group, len - n - 1);
-	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (l->data), 1);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), 1);
 }
 
 static void

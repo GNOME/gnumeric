@@ -298,7 +298,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(d)->vbox), l, TRUE, TRUE, 0);
 
-	gtk_window_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
+	gtk_window_set_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
 	button = gnome_dialog_run (GNOME_DIALOG (d));
 
 	switch (button){
@@ -1531,7 +1531,7 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 			workbook_toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
 		set = data != NULL;
 
-		gtk_toggle_button_set_state (t, set);
+		gtk_toggle_button_set_active (t, set);
 		break;
 		
 	case WORKBOOK_FEEDBACK_ITALIC:
@@ -1539,7 +1539,7 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 			workbook_toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
 		set = data != NULL;
 
-		gtk_toggle_button_set_state (t, set);
+		gtk_toggle_button_set_active (t, set);
 	}
 }
 

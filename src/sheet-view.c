@@ -326,7 +326,7 @@ set_tip_label (SheetView *sheet_view, char *format, GtkAdjustment *adj, int hori
 	else
 		snprintf (buffer, sizeof (buffer), format, (int) adj->value + 1);
 
-	gtk_label_set (GTK_LABEL (sheet_view->tip), buffer);
+	gtk_label_set_text (GTK_LABEL (sheet_view->tip), buffer);
 }
 
 static void
