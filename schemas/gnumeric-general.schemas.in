@@ -106,7 +106,7 @@
         <applyto>/apps/gnumeric/core/workbook/n-sheet</applyto>
         <owner>Gnumeric</owner>
         <type>int</type>
-	<default>1</default>
+	<default>3</default>
         <locale name="C">
         <short>Default Number of Sheets</short>
         <long>The number of sheets initially created in a new workbook.</long>
