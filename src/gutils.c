@@ -717,7 +717,7 @@ yngnum (int n, gnum_float x)
 
 /* ------------------------------------------------------------------------- */
 
-#define DEBUG_CHUNK_ALLOCATOR
+#undef DEBUG_CHUNK_ALLOCATOR
 
 typedef struct _gnm_mem_chunk_freeblock gnm_mem_chunk_freeblock;
 typedef struct _gnm_mem_chunk_block gnm_mem_chunk_block;

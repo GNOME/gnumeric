@@ -23,6 +23,7 @@ Morten:
 	* More and better chunk allocation.
 	* Fixed memory corruption in LINEST and LOGEST.
 	* Plug gigantic leak in parser.
+	* Improve gnumeric-expr-entry's utf8 support and speed.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.2

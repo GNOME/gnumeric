@@ -1,3 +1,13 @@
+2002-04-04  Morten Welinder  <terra@diku.dk>
+
+	* src/main.c (main): Initialize and shutdown expr class.
+
+	* src/expr.c (gnm_expr_new_constant, gnm_expr_new_funcall) 
+	(gnm_expr_new_unary, gnm_expr_new_binary, gnm_expr_new_name) 
+	(gnm_expr_new_cellref, gnm_expr_new_array, gnm_expr_new_set) 
+	(do_gnm_expr_unref): Conditionally use expression pool.
+	(expr_init, expr_shutdown): Setup new expression pool.
+
 2002-04-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/item-edit.h (point_is_inside_range) : don't call 

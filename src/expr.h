@@ -127,4 +127,7 @@ ExprTreeSharer *expr_tree_sharer_new     (void);
 void            expr_tree_sharer_destroy (ExprTreeSharer *);
 GnmExpr const  *expr_tree_sharer_share   (ExprTreeSharer *, GnmExpr const *expr);
 
+void expr_init (void);
+void expr_shutdown (void);
+
 #endif /* GNUMERIC_EXPR_H */

@@ -37,6 +37,7 @@
 #include "xml-io.h"
 #include "cell.h"
 #include "value.h"
+#include "expr.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -203,6 +204,7 @@ main (int argc, char *argv [])
 
 	application_init ();
 	value_init ();
+	expr_init ();
 	cell_init ();
 	dependent_types_init ();
 	string_init ();
@@ -316,6 +318,7 @@ main (int argc, char *argv [])
 	style_shutdown ();
 	dependent_types_shutdown ();
 	cell_shutdown ();
+	expr_shutdown ();
 	value_shutdown ();
 
 	global_gnome_font_shutdown ();
