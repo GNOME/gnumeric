@@ -1068,10 +1068,11 @@ networkdays_holiday_callback(EvalPos const *ep,
 static Value *
 gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 {
-	int start_serial = datetime_value_to_serial (argv[0]);
-	int end_serial = datetime_value_to_serial (argv[1]);
+	int start_serial;
+	int end_serial;
 	int start_offset, end_offset, res;
 	networkdays_holiday_closure close;
+	GDate * start_date;
 
 	if (argv[0]->type == VALUE_ERROR)
 		return value_duplicate (argv[0]);
@@ -1088,6 +1089,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 		end_serial = tmp;
 	}
 
+	start_date = datetime_serial_to_g (start_serial);
 	close.start_serial = start_serial;
 	close.end_serial = end_serial;
 	close.res = 0;
@@ -1107,7 +1109,13 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 				    &close);
 	}
 
-	return value_new_int (res - start_offset + end_offset + 1 - close.res);
+	res = res - start_offset + end_offset - close.res;
+
+	if (g_date_weekday (start_date) < G_DATE_SATURDAY)
+		res++;
+	datetime_g_free (start_date);
+
+	return value_new_int (res);
 }
 
 /***************************************************************************/
