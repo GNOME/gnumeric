@@ -96,6 +96,7 @@ src/GNOME_Gnumeric.xml
 src/GNOME_Gnumeric_Component.xml
 src/bonobo-io.c
 src/cell.c
+src/charset.c
 src/clipboard.c
 src/cmd-edit.c
 src/command-context-stderr.c

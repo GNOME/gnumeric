@@ -578,8 +578,9 @@ gnm_plugin_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
 }
 
 static void
-gnm_plugin_file_opener_open (GnmFileOpener const *fo, IOContext *io_context,
-                              WorkbookView *wbv, GsfInput *input)
+gnm_plugin_file_opener_open (GnmFileOpener const *fo, gchar const *unused_enc,
+			     IOContext *io_context,
+			     WorkbookView *wbv, GsfInput *input)
 
 {
 	GnmPluginFileOpener *pfo = GNM_PLUGIN_FILE_OPENER (fo);
@@ -625,7 +626,7 @@ gnm_plugin_file_opener_new (PluginService *service)
 	fo = GNM_PLUGIN_FILE_OPENER (g_object_new (TYPE_GNM_PLUGIN_FILE_OPENER, NULL));
 	gnm_file_opener_setup (GNM_FILE_OPENER (fo), opener_id,
 	                        service_file_opener->description,
-	                        NULL, NULL);
+	                        FALSE, NULL, NULL);
 	fo->service = service;
 	g_free (opener_id);
 

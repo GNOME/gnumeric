@@ -185,7 +185,7 @@ main (int argc, char *argv [])
 		     startup_files [i] && !initial_workbook_open_complete;
 		     i++) {
 			wbv = wb_view_new_from_file (startup_files[i],
-						     NULL, ioc);
+						     NULL, ioc, NULL);
 			icg_inc_files_done (IO_CONTEXT_GTK (ioc));
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {

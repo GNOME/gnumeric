@@ -18,6 +18,7 @@ struct _GnmFileOpenerClass {
 	                    GsfInput *input,
 	                    FileProbeLevel pl);
 	void      (*open)  (GnmFileOpener const *fo,
+			    gchar const *opt_enc,
 	                    IOContext *io_context,
 	                    WorkbookView *wbv,
 	                    GsfInput *input);
@@ -28,14 +29,16 @@ struct _GnmFileOpener {
 
 	gchar                  *id;
 	gchar                  *description;
+	gboolean               encoding_dependent;
 	GnmFileOpenerProbeFunc probe_func;
 	GnmFileOpenerOpenFunc  open_func;
 };
 
 void gnm_file_opener_setup (GnmFileOpener *fo, const gchar *id,
-                             const gchar *description,
-                             GnmFileOpenerProbeFunc probe_func,
-                             GnmFileOpenerOpenFunc open_func);
+			    const gchar *description,
+			    gboolean encoding_dependent,
+			    GnmFileOpenerProbeFunc probe_func,
+			    GnmFileOpenerOpenFunc open_func);
 
 /*
  * GnmFileSaver

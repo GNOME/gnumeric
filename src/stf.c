@@ -66,18 +66,17 @@
  * returns : a buffer containing the file contents
  **/
 static char *
-stf_open_and_read (GsfInput *input)
+stf_open_and_read (GsfInput *input, size_t *readsize)
 {
 	gpointer result;
 	gulong    allocsize;
-	size_t    readsize;
 	gsf_off_t size = gsf_input_size (input);
 
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return NULL;
 
-	readsize = (size_t) size;
-	if ((gsf_off_t) readsize != size) /* Check for overflow */
+	*readsize = (size_t) size;
+	if ((gsf_off_t) *readsize != size) /* Check for overflow */
 		return NULL;
 	size++;
 	allocsize = (gulong) size;
@@ -87,23 +86,25 @@ stf_open_and_read (GsfInput *input)
 	if (result == NULL)
 		return NULL;
 
-	if (gsf_input_read (input, readsize, result) == NULL) {
+	if (gsf_input_read (input, *readsize, result) == NULL) {
 		g_free (result);
 		result = NULL;
 	}
 
-	*((char *)result + readsize) = '\0';
+	*((char *)result + *readsize) = '\0';
 
 	return result;
 }
 
 static char *
-stf_preparse (CommandContext *context, GsfInput *input)
+stf_preparse (CommandContext *context, GsfInput *input, gchar const *enc)
 {
-	char *data = stf_open_and_read (input);
-	unsigned char const *c;
-	int len;
-
+	char *data;
+/*	unsigned char const *c;*/
+	size_t len;
+	
+	data = stf_open_and_read (input, &len);
+	
 	if (!data) {
 		if (context)
 			gnumeric_error_read (context,
@@ -111,6 +112,8 @@ stf_preparse (CommandContext *context, GsfInput *input)
 		return NULL;
 	}
 
+#if 0
+	/* This would only make sense for some encodings */
 	len = stf_parse_convert_to_unix (data);
 	if (len < 0) {
 		g_free (data);
@@ -119,6 +122,52 @@ stf_preparse (CommandContext *context, GsfInput *input)
 				_("Error while trying to pre-convert file"));
 		return NULL;
 	}
+
+#endif
+
+        /* Now that the data is read we have to translate it into the   */
+	/* utf8 encoding. I tis impossible to do anything with the file */
+        /* unless we know the encoding it is in.                        */
+
+        if (enc == NULL)
+		        g_get_charset (&enc);
+	
+	{
+		char *result;
+		gsize bytes_read = -1;
+		gsize bytes_written = -1;
+		GError *error = NULL;
+
+		/* FIXME: check for overflow in buf_len conversion */
+		result = g_convert_with_fallback (data, len, "UTF-8", enc, NULL,
+						  &bytes_read, &bytes_written, &error);
+		if (error) {
+			char *msg = NULL;
+			if (bytes_read < len) {
+				msg = g_strdup_printf (_("The file does not appear to use the %s encoding.\n"
+                                                         "After %i of %i bytes a conversion error occurred:\n%s.\n"
+							 "The next two bytes have (hex) values %02X and %02X."),
+						       enc, bytes_read, len, error->message, 
+						       (unsigned int)*((unsigned char *)(data + bytes_read)),
+						       (unsigned int)*((unsigned char *)(data + bytes_read + 1)));
+			} else {
+				msg = g_strdup_printf (_("The file does not appear to use the %s encoding.\n"
+							 "After %i of %i bytes a conversion error occurred:\n%s.\n"), 
+						       enc, bytes_read, len, error->message);
+			}
+			if (context)
+				gnumeric_error_read (context, msg);
+			g_warning (msg);
+			g_error_free (error);
+			g_free (msg);
+		}
+		
+		g_free (data);
+		data = result;
+	}
+	
+
+#if 0
 
 	if ((c = stf_parse_is_valid_data (data, len)) != NULL) {
 		if (context) {
@@ -146,6 +195,7 @@ stf_preparse (CommandContext *context, GsfInput *input)
 		g_free (data);
 		return NULL;
 	}
+#endif
 
 	return data;
 }
@@ -203,7 +253,7 @@ stf_read_workbook (GnmFileOpener const *fo, IOContext *context, WorkbookView *wb
 	Sheet *sheet;
 	Workbook *book;
 
-	data = stf_preparse (COMMAND_CONTEXT (context), input);
+	data = stf_preparse (COMMAND_CONTEXT (context), input, NULL);
 	if (!data)
 		return;
 
@@ -326,6 +376,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 /**
  * stf_read_workbook_auto_csvtab
  * @fo       : file opener
+ * @enc      : optional encoding 
  * @context  : command context
  * @book     : workbook
  * @input    : file to read from+convert
@@ -333,7 +384,8 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
  * Attempt to auto-detect CSV or tab-delimited file
  **/
 static void
-stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, IOContext *context,
+stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc, 
+			       IOContext *context,
 			       WorkbookView *wbv, GsfInput *input)
 {
 	Sheet *sheet;
@@ -346,7 +398,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, IOContext *context,
 	int i;
 
 	book = wb_view_workbook (wbv);
-	data = stf_preparse (COMMAND_CONTEXT (context), input);
+	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
 	if (!data)
 		return;
 
@@ -463,12 +515,12 @@ stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 void
 stf_init (void)
 {
-	gnm_file_opener_register (gnm_file_opener_new (
+	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_csvtab",
-		_("Comma or tab separated files (CSV/TSV))"),
+		_("Comma or tab separated files (CSV/TSV)"),
 		stf_read_default_probe, stf_read_workbook_auto_csvtab), 0);
 	gnm_file_opener_register (gnm_file_opener_new (
-		"Gnumeric_stf:stf_druid",
+		"Gnumeric_stf:stf_druid", 
 		_("Text import (configurable)"),
 		NULL, stf_read_workbook), 0);
 	gnm_file_saver_register (gnm_file_saver_new (

@@ -674,7 +674,8 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 WorkbookView *
 wb_view_new_from_input  (GsfInput *input,
 			 GnmFileOpener const *optional_fmt,
-			 IOContext *io_context)
+			 IOContext *io_context,
+			 gchar const *optional_enc)
 {
 	WorkbookView *new_wbv = NULL;
 
@@ -733,7 +734,7 @@ wb_view_new_from_input  (GsfInput *input,
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);
-		gnm_file_opener_open (optional_fmt, io_context, new_wbv, input);
+		gnm_file_opener_open (optional_fmt, optional_enc, io_context, new_wbv, input);
 		workbook_enable_recursive_dirty (new_wb, old);
 
 		if (gnumeric_io_error_occurred (io_context)) {
@@ -755,6 +756,7 @@ wb_view_new_from_input  (GsfInput *input,
  * @file_name    : File name
  * @optional_fmt : Optional GnmFileOpener
  * @io_context   : Optional context to display errors.
+ * @optional_enc : Optional encoding for GnmFileOpener that understand it
  *
  * Reads @file_name file using given file opener @optional_fmt, or probes for a valid
  * possibility if @optional_fmt is NULL.  Reports problems to @io_context.
@@ -764,7 +766,8 @@ wb_view_new_from_input  (GsfInput *input,
 WorkbookView *
 wb_view_new_from_file (char const *file_name,
 		       GnmFileOpener const *optional_fmt,
-		       IOContext *io_context)
+		       IOContext *io_context,
+		       gchar const *optional_enc)
 {
 	char *msg = NULL;
 
@@ -786,7 +789,8 @@ wb_view_new_from_file (char const *file_name,
 		puts (file_name);
 		if (input != NULL) {
 			WorkbookView *res = wb_view_new_from_input (input,
-								    optional_fmt, io_context);
+								    optional_fmt, io_context,
+								    optional_enc);
 			g_object_unref (G_OBJECT (input));
 			return res;
 		}

@@ -5,6 +5,7 @@
  * Authors:
  *    Jon K Hellan (hellan@acm.org)
  *    Zbigniew Chyla (cyba@gnome.pl)
+ *    Andreas J. Guelzow (aguelzow@taliesin.ca)
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -21,6 +22,7 @@
 #include "workbook-view.h"
 #include "workbook-priv.h"
 #include "gnumeric-gconf.h"
+#include "charset.h"
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
@@ -28,6 +30,14 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
+
+typedef struct 
+{
+	CharmapChooser *charmap_data;
+	GList *openers;
+} file_format_changed_cb_data;
+
+ 
 
 static gint
 file_opener_description_cmp (gconstpointer a, gconstpointer b)
@@ -51,11 +61,9 @@ static GtkWidget *
 make_format_chooser (GList *list, GtkOptionMenu *omenu)
 {
 	GList *l;
-	GtkBox *box;
 	GtkMenu *menu;
 
 	/* Make format chooser */
-	box = GTK_BOX (gtk_hbox_new (0, 8));
 	menu = GTK_MENU (gtk_menu_new ());
 	for (l = list; l != NULL; l = l->next) {
 		GtkWidget *item;
@@ -74,23 +82,21 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 		gtk_menu_append (menu, item);
 	}
 	gtk_option_menu_set_menu (omenu, GTK_WIDGET (menu));
-	gtk_box_pack_start (box, gtk_label_new (_("File format:")),
-			    FALSE, FALSE, 8);
-	gtk_box_pack_start (box, GTK_WIDGET (omenu), FALSE, TRUE, 8);
 
-	return (GTK_WIDGET (box));
+	return (GTK_WIDGET (omenu));
 }
 
 gboolean
 gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
-	       GnmFileOpener const *optional_format)
+	       GnmFileOpener const *optional_format, gchar const *optional_encoding)
 {
 	IOContext *io_context;
 	WorkbookView *wbv;
 
 	cmd_context_set_sensitive (COMMAND_CONTEXT (wbcg), FALSE);
 	io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
-	wbv = wb_view_new_from_file  (file_name, optional_format, io_context);
+	wbv = wb_view_new_from_file  (file_name, optional_format, io_context, 
+				      optional_encoding);
 
 	if (gnumeric_io_error_occurred (io_context) ||
 	    gnumeric_io_warning_occurred (io_context))
@@ -114,6 +120,18 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 	return FALSE;
 }
 
+static void
+file_format_changed_cb (GtkOptionMenu *omenu_format,
+			file_format_changed_cb_data *data)
+{
+	GnmFileOpener *fo = g_list_nth_data (data->openers,
+					     gtk_option_menu_get_history (omenu_format));
+	charmap_chooser_set_sensitive (data->charmap_data, 
+				       fo != NULL && 
+				       gnm_file_opener_is_encoding_dependent (fo));
+}
+
+
 /*
  * Suggests automatic file type recognition, but lets the user choose an
  * import filter for selected file.
@@ -125,8 +143,12 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	GtkFileSelection *fsel;
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
+	GtkWidget *charmap_chooser;
+	GtkWidget *box;
 	GnmFileOpener *fo = NULL;
 	gchar const *file_name;
+	gchar const *encoding;
+	file_format_changed_cb_data data;
 
 	openers = get_file_openers ();
 
@@ -139,17 +161,39 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
 	format_chooser = make_format_chooser (openers, omenu);
 
+	/* Make charmap chooser */
+	data.charmap_data = g_new0 (CharmapChooser,1);
+	charmap_chooser = make_charmap_chooser (data.charmap_data);
+
 	/* Pack it into file selector */
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
 	gtk_file_selection_hide_fileop_buttons (fsel);
-	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_chooser,
-	                    FALSE, TRUE, 0);
+	
+	box = gtk_table_new (2, 2, FALSE);
+	gtk_table_attach (GTK_TABLE (box),
+			  format_chooser,
+			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
+	gtk_table_attach (GTK_TABLE (box),
+                          gtk_label_new (_("File format:")),
+			  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
+        gtk_table_attach (GTK_TABLE (box),
+                          charmap_chooser,
+			  1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
+	gtk_table_attach (GTK_TABLE (box),
+                          gtk_label_new (_("Character encoding:")),
+			  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
+	gtk_box_pack_start (GTK_BOX (fsel->action_area), box, FALSE, TRUE, 0);
 
+	data.openers = openers;
+	g_signal_connect (G_OBJECT (omenu), "changed",
+                          G_CALLBACK (file_format_changed_cb), &data);
 	gtk_option_menu_set_history (omenu, 0);
+	file_format_changed_cb (omenu, &data);
 
 	/* Show file selector */
 	if (!gnumeric_dialog_file_selection (wbcg, fsel)) {
 		g_list_free (openers);
+		g_free (data.charmap_data);
 		gtk_object_destroy (GTK_OBJECT (fsel));
 		return;
 	}
@@ -158,10 +202,12 @@ gui_file_open (WorkbookControlGUI *wbcg)
 			      gtk_option_menu_get_history (omenu));
 
 	file_name = gtk_file_selection_get_filename (fsel);
-	gui_file_read (wbcg, file_name, fo);
+	encoding = charmap_chooser_get_selected_encoding (data.charmap_data);
+	gui_file_read (wbcg, file_name, fo, encoding);
 
 	gtk_object_destroy (GTK_OBJECT (fsel));
 	g_list_free (openers);
+	g_free(data.charmap_data);
 }
 
 /*

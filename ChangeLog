@@ -1,3 +1,66 @@
+2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	* src/bonobo-io.c (gnm_persist_stream_load): add argument
+	  to call of wb_view_new_from_input
+	
+	* src/charset.c: new file
+	* src/charset.h: new file
+	* src/file-priv.h: (_GnmFileOpenerClass): add argument to
+	  declaration of open method
+	(_GnmFileOpener): add encoding_dependent field
+	(gnm_file_opener_setup): add argument
+	
+	* src/file.c (gnm_file_opener_open_real): new argument to pass 
+	  to open call
+	(gnm_file_opener_setup): new argument to be used for 
+	  initialization of added field
+	(gnm_file_opener_new): add argument to call of 
+	  gnm_file_opener_setup
+	(gnm_file_opener_new_with_enc): new function
+	(gnm_file_opener_is_encoding_dependent): new function
+	(gnm_file_opener_open): new argument
+	
+	* src/file.h (GnmFileOpenerOpenFuncWithEnc): new type
+	(gnm_file_opener_new_with_enc): new function
+	(gnm_file_opener_open): new argument
+	(gnm_file_opener_is_encoding_dependent): new function
+	
+	* src/gui-clipboard.c (table_cellregion_read): add argument
+	  to call of wb_view_new_from_input
+	
+	* src/gui-file.c (file_format_changed_cb_data): new type
+	(make_format_chooser): only make option menu
+	(gui_file_read): new argument to be passed to call of 
+	  wb_view_new_from_file
+	(file_format_changed_cb): new callback
+	(gui_file_open): add encoding selector to load file dialog
+	
+	* src/gui-file.h (gui_file_read): new argument
+	* src/history.c (file_history_cmd): add argument to call of 
+	  gui_file_read
+	
+	* src/main-application.c (main): add argument to call of 
+	  wb_view_new_from_file
+	
+	* src/plugin-service.c (gnm_plugin_file_opener_open): new 
+	  argument
+	(gnm_plugin_file_opener_new): add argument to call of
+	  gnm_file_opener_setup
+	
+	* src/stf.c (stf_open_and_read): new argument
+	(stf_preparse): handle encoding conversion
+	(stf_read_workbook_auto_csvtab): new argument to be passed to
+	  the call of stf_parse
+	(stf_init): setup encoding
+	
+	* src/workbook-view.c (wb_view_new_from_input): new argument to be 
+	  passed to the call of gnm_file_opener_open
+	(wb_view_new_from_file): new argument to be passed to the call of 
+	  wb_view_new_from_input
+	
+	* src/workbook-view.h (wb_view_new_from_input): new argument
+	(wb_view_new_from_file): new argument
+
 2003-05-02  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-canvas.h (GNUMERIC_CANVAS_FACTOR_Y): Up size to

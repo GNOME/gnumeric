@@ -1,3 +1,8 @@
+2003-05-05  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	* corba-application.c (capp_workbook_open): add argument
+	  to call of wb_view_new_from_file
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16

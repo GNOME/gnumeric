@@ -64,6 +64,11 @@ typedef void     (*GnmFileOpenerOpenFunc) (GnmFileOpener const *fo,
                                             IOContext *io_context,
                                             WorkbookView *wbv,
                                             GsfInput *input);
+typedef void     (*GnmFileOpenerOpenFuncWithEnc) (GnmFileOpener const *fo,
+						  gchar const *enc,
+						  IOContext *io_context,
+						  WorkbookView *wbv,
+						  GsfInput *input);
 
 GType gnm_file_opener_get_type (void);
 
@@ -71,13 +76,20 @@ GnmFileOpener *gnm_file_opener_new (const gchar *id,
                                       const gchar *description,
                                       GnmFileOpenerProbeFunc probe_func,
                                       GnmFileOpenerOpenFunc open_func);
+GnmFileOpener *gnm_file_opener_new_with_enc (const gchar *id,
+				    const gchar *description,
+				    GnmFileOpenerProbeFunc probe_func,
+				    GnmFileOpenerOpenFuncWithEnc open_func);
+
 
 gboolean     gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
                                      FileProbeLevel pl);
-void         gnm_file_opener_open (GnmFileOpener const *fo, IOContext *io_context,
-                                    WorkbookView *wbv, GsfInput *input);
+void         gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
+				   IOContext *io_context,
+				   WorkbookView *wbv, GsfInput *input);
 const gchar *gnm_file_opener_get_id (GnmFileOpener const *fo);
 const gchar *gnm_file_opener_get_description (GnmFileOpener const *fo);
+gboolean gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo);
 
 /*
  * GnmFileSaver

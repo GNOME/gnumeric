@@ -158,7 +158,7 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 
 	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
 	input = gsf_input_memory_new (buffer, length, FALSE);
-	wb_view = wb_view_new_from_input  (GSF_INPUT (input), reader, ioc);
+	wb_view = wb_view_new_from_input  (GSF_INPUT (input), reader, ioc, NULL);
 	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
 		gnumeric_io_error_display (ioc);
 		goto out;

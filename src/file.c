@@ -64,11 +64,16 @@ gnm_file_opener_probe_real (GnmFileOpener const *fo, GsfInput *input,
 }
 
 static void
-gnm_file_opener_open_real (GnmFileOpener const *fo, IOContext *io_context,
-                            WorkbookView *wbv, GsfInput *input)
+gnm_file_opener_open_real (GnmFileOpener const *fo, gchar const *opt_enc, 
+			   IOContext *io_context,
+			   WorkbookView *wbv, GsfInput *input)
 {
 	if (fo->open_func != NULL)
-		fo->open_func (fo, io_context, wbv, input);
+		if (fo->encoding_dependent)
+			((GnmFileOpenerOpenFuncWithEnc)fo->open_func) 
+				(fo, opt_enc, io_context, wbv, input);
+		else
+			fo->open_func (fo, io_context, wbv, input);
 	else
 		gnumeric_io_error_unknown (io_context);
 }
@@ -91,6 +96,7 @@ GSF_CLASS (GnmFileOpener, gnm_file_opener,
  * @fo          : Newly created GnmFileOpener object
  * @id          : Optional ID of the opener (or NULL)
  * @description : Description of supported file format
+ * @encoding_dependent: whether the opener depends on an encoding sel.
  * @probe_func  : Optional pointer to "probe" function (or NULL)
  * @open_func   : Pointer to "open" function
  *
@@ -101,6 +107,7 @@ GSF_CLASS (GnmFileOpener, gnm_file_opener,
 void
 gnm_file_opener_setup (GnmFileOpener *fo, gchar const *id,
                         gchar const *description,
+		        gboolean encoding_dependent,
                         GnmFileOpenerProbeFunc probe_func,
                         GnmFileOpenerOpenFunc open_func)
 {
@@ -108,6 +115,7 @@ gnm_file_opener_setup (GnmFileOpener *fo, gchar const *id,
 
 	fo->id = g_strdup (id);
 	fo->description = g_strdup (description);
+	fo->encoding_dependent = encoding_dependent;
 	fo->probe_func = probe_func;
 	fo->open_func = open_func;
 }
@@ -133,10 +141,41 @@ gnm_file_opener_new (gchar const *id,
 	GnmFileOpener *fo;
 
 	fo = GNM_FILE_OPENER (g_object_new (TYPE_GNM_FILE_OPENER, NULL));
-	gnm_file_opener_setup (fo, id, description, probe_func, open_func);
+	gnm_file_opener_setup (fo, id, description, FALSE,
+			       probe_func, open_func);
 
 	return fo;
 }
+
+/**
+ * gnm_file_opener_new_with_enc:
+ * @id          : Optional ID of the opener (or NULL)
+ * @description : Description of supported file format 
+ * @probe_func  : Optional pointer to "probe" function (or NULL)
+ * @open_func   : Pointer to "open" function    
+ *   
+ * Creates new GnmFileOpener object. Optional @id will be used
+ * after registering it with gnm_file_opener_register function.
+ *      
+ * Return value: newly created GnmFileOpener object.
+ */
+
+GnmFileOpener *
+gnm_file_opener_new_with_enc (gchar const *id,
+		     gchar const *description,
+		     GnmFileOpenerProbeFunc probe_func,
+		     GnmFileOpenerOpenFuncWithEnc open_func)
+{
+        GnmFileOpener *fo;
+
+        fo = GNM_FILE_OPENER (g_object_new (TYPE_GNM_FILE_OPENER, NULL));
+        gnm_file_opener_setup (fo, id, description, TRUE,
+                               probe_func, (GnmFileOpenerOpenFunc)open_func);
+        return fo;
+}
+
+
+
 
 gchar const *
 gnm_file_opener_get_id (GnmFileOpener const *fo)
@@ -153,6 +192,17 @@ gnm_file_opener_get_description (GnmFileOpener const *fo)
 
 	return fo->description;
 }
+
+gboolean 
+gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo)
+{
+        g_return_val_if_fail (IS_GNM_FILE_OPENER (fo), FALSE);
+	
+	return fo->encoding_dependent;
+}
+
+
+
 
 /**
  * gnm_file_opener_probe:
@@ -176,6 +226,7 @@ gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel 
 /**
  * gnm_file_opener_open:
  * @fo          : GnmFileOpener object
+ * @opt_enc     : Optional encoding
  * @io_context  : Context for i/o operation
  * @wbv         : Workbook View
  * @file_name   : File name
@@ -187,8 +238,9 @@ gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel 
  * should destroy them in that case.
  */
 void
-gnm_file_opener_open (GnmFileOpener const *fo, IOContext *io_context,
-                       WorkbookView *wbv, GsfInput *input)
+gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
+		      IOContext *io_context,
+		      WorkbookView *wbv, GsfInput *input)
 {
 	g_return_if_fail (IS_GNM_FILE_OPENER (fo));
 	g_return_if_fail (GSF_IS_INPUT (input));
@@ -196,7 +248,7 @@ gnm_file_opener_open (GnmFileOpener const *fo, IOContext *io_context,
 	if (NULL != gsf_input_name (input))
 		workbook_set_filename (wb_view_workbook (wbv),
 				       gsf_input_name (input));
-	GNM_FILE_OPENER_METHOD (fo, open) (fo, io_context, wbv, input);
+	GNM_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context, wbv, input);
 }
 
 /*
