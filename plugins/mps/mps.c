@@ -8,10 +8,12 @@
  *      MPS importer module.  MPS format is a de facto standard ASCII format
  *      among most of the commercial LP solvers.
  *
- *      This implementation does not yet support ranges and bounds but is
- *      already quite suitable for testing the solving algorithms.
- *      See, for example, the Netlib collection of LP problems in MPS format
- *      (ftp://netlib2.cs.utk.edu/lp/data).
+ *      This implementation does not yet support ranges and all types
+ *      of bounds but is already quite suitable for testing the
+ *      solving algorithms.  See, for example, the Netlib collection
+ *      of LP problems in MPS format (ftp://netlib2.cs.utk.edu/lp/data).
+ *
+ *      Supported bound types are: UP and LO.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

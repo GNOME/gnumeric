@@ -476,6 +476,23 @@ mps_add_bound (MpsInputContext *ctxt, MpsBoundType type, gchar *bound_name,
 }
 
 /*
+ * RANGES section parsing.  Ranges are currently not supported.
+ *
+ * Returns FALSE on error.
+ */
+static gboolean
+mps_parse_ranges (MpsInputContext *ctxt)
+{
+	gchar        type[3], n1[10], n2[10], v1[20], n3[10], v2[20];
+
+	if (strncmp (ctxt->line, "ENDATA", 6) == 0)
+	        return TRUE;
+
+	if (strncmp (ctxt->line, "RANGES", 6) != 0 || ctxt->line[6] != '\0')
+	        return TRUE;
+}
+
+/*
  * BOUNDS section parsing.  Saves the bounds into `ctxt->bounds' GSList.
  * Each list element is MpsBound, and their `name', `col_index', and `value'
  * fields are stored.
@@ -485,7 +502,8 @@ mps_add_bound (MpsInputContext *ctxt, MpsBoundType type, gchar *bound_name,
 static gboolean
 mps_parse_bounds (MpsInputContext *ctxt)
 {
-	gchar type[3], n1[10], n2[10], v1[20], n3[10], v2[20];
+	gchar        type[3], n1[10], n2[10], v1[20], n3[10], v2[20];
+	MpsBoundType t;
 
 	if (strncmp (ctxt->line, "ENDATA", 6) == 0)
 	        return TRUE;
@@ -504,11 +522,15 @@ mps_parse_bounds (MpsInputContext *ctxt)
 			        return FALSE;
 		}
 
-		if (strncmp (type, "UP", 2) == 0) {
-			if (!mps_add_bound (ctxt, UpperBound, n1, n2, v1))
-			        return FALSE;
-		} else
-		        return FALSE; /* Only upper bounds are implemented */
+		if (strncmp (type, "UP", 2) == 0)
+			t = UpperBound;
+		else if (strncmp (type, "LO", 2) == 0)
+			t = LowerBound;
+		else
+		        return FALSE; /* Not all bound types are implemented */
+
+		if (!mps_add_bound (ctxt, t, n1, n2, v1))
+			return FALSE;
 	}
 }
 
@@ -538,6 +560,11 @@ mps_parse_file (MpsInputContext *ctxt)
 			(ctxt->io_context,
 			 error_info_new_printf (_("Invalid RHS section in the "
 						  "file.")));
+	} else if (!mps_parse_ranges (ctxt)) {
+	        gnumeric_io_error_info_set
+			(ctxt->io_context,
+			 error_info_new_printf (_("Invalid RANGES section in "
+						  "the file.")));
 	} else if (!mps_parse_bounds (ctxt)) {
 	        gnumeric_io_error_info_set
 			(ctxt->io_context,

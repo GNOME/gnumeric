@@ -1,5 +1,12 @@
 2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* parser.c (mps_parse_ranges): Wrote. Currently gives only a valid
+	error msg.
+	(mps_parse_bounds): Added support for lower bounds.
+	(mps_parse_file): Added ranges section parsing.
+
+2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* parser.c (mps_add_bound): Bug fix: Add type field setting.
 
 	* mps.c (mps_prepare): Bug fix: Write the RHS of a bound into the
