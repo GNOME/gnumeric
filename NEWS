@@ -59,6 +59,7 @@ Morten:
 	* Initiate switch to file chooser.
 	* Eliminate use of GnomeEntry.
 	* Fit scale-fit problem.
+	* Fix FLOOR and CEILING error case.
 
 --------------------------------------------------------------------------
 

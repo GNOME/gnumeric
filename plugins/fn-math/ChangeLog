@@ -1,3 +1,8 @@
+2004-02-18  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_ceiling, gnumeric_floor): Fix error code
+	for zero significance.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3

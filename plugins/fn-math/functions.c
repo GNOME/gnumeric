@@ -756,7 +756,10 @@ gnumeric_ceiling (FunctionEvalInfo *ei, GnmValue **argv)
 	        s = value_get_as_float (argv[1]);
 	}
 
-	if (s == 0 || number / s < 0)
+	if (s == 0)
+		return value_new_error_DIV0 (ei->pos);
+
+	if (number / s < 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnumeric_fake_ceil (number / s) * s);
@@ -1018,7 +1021,10 @@ gnumeric_floor (FunctionEvalInfo *ei, GnmValue **argv)
 	else
 	        s = value_get_as_float (argv[1]);
 
-	if (s == 0 || (number / s) < 0)
+	if (s == 0)
+		return value_new_error_DIV0 (ei->pos);
+
+	if (number / s < 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnumeric_fake_floor (number / s) * s);
