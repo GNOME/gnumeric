@@ -20,8 +20,10 @@ void        range_list_foreach      (GSList *ranges,
 				     void *data);
 void        range_set_style         (GSList *ranges, Style *style);
 
-gboolean    range_contains  (Range const *range, int col, int row);
-void        range_dump      (Range const * src);
-Range*      range_duplicate (Range const * src);
+gboolean    range_is_singleton (Range const *r);
+gboolean    range_equal        (Range const *a, Range const *b);
+gboolean    range_contains     (Range const *range, int col, int row);
+void        range_dump         (Range const *src);
+Range*      range_duplicate    (Range const *src);
 
 #endif /* GNUMERIC_RANGES_H */

@@ -69,7 +69,7 @@ object_type_names[] =
         "MS Drawing"	/* 0x1E */
 };
 
-static void
+void
 ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 {
 	static char const * const orientations[] = {
@@ -101,7 +101,14 @@ ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 	g_return_if_fail (orient <= 3);
 	g_return_if_fail (1 <= halign && halign <= 4);
 	g_return_if_fail (1 <= valign && valign <= 4);
-	g_return_if_fail (num_formats >= 2);
+
+	/* TODO : figure this out.  There seem to be strings with 0 formats too.
+	 * do they indicate empty strings ? */
+	if (num_formats < 2) {
+		g_warning ("EXCEL : docs state that there should be >= 2 formats.  "
+			   "This record has %d", num_formats);
+		return;
+	}
 
 	/* MS-Documentation error.  The offset for the reserved 4 x 0 is 18 */
 	if (unicode_flag)
@@ -139,28 +146,9 @@ ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 void
 ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id)
 {
-	/* next record must be a DRAWING */
+	/* next record must be a DRAWING, it will load the TXO records */
 	g_return_if_fail (ms_biff_query_next (q));
-	g_return_if_fail (q->opcode == BIFF_MS_O_DRAWING);
 	ms_escher_hack_get_drawing (q, wb);
-
-	if (ms_excel_read_debug > 1)
-		dump (q->data, q->length);
-
-	/* then a TXO, CONTINUE, CONTINUE */
-	g_return_if_fail (ms_biff_query_next (q));
-	g_return_if_fail (q->opcode == BIFF_TXO);
-	ms_obj_read_text_impl (q, wb);
-
-#if 0
-	/* FIXME : Most but not all have a trailing Drawing */
-	/* finally another DRAWING */
-	g_return_if_fail (ms_biff_query_next (q));
-	if (q->opcode != BIFF_MS_O_DRAWING)
-		printf ("Expected MS_O_DRAWING found 0x%x\n", q->opcode);
-	else
-		ms_escher_hack_get_drawing (q);
-#endif
 }
 
 static void
@@ -380,6 +368,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 		ms_excel_read_chart (q, wb, obj_id);
 		break;
 
+	case 0x02 : /* Text Box */
 	case 0x06 : /* Text Box */
 	case 0x07 : /* Button */
 		ms_obj_read_text (q, wb, obj_id);

@@ -18,9 +18,6 @@ void        sheet_selection_append_range (Sheet *sheet,
 					  int base_col,  int base_row,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
-int         sheet_selection_first_range  (Sheet *sheet,
-					  int *start_col, int *start_row,
-					  int *end_col,   int *end_row);
 void        sheet_selection_free         (Sheet *sheet);
 CellList   *sheet_selection_to_list      (Sheet *sheet);
 char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
@@ -44,9 +41,7 @@ int         sheet_selection_walk_step         (Sheet *sheet,
 void        sheet_selection_extend_horizontal (Sheet *sheet, int count, gboolean jump_to_boundaries);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count, gboolean jump_to_boundaries);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
-gboolean    sheet_verify_selection_simple     (Sheet *sheet, const char *command_name);
 
-/* new style foreach function */
 typedef void (*SelectionApplyFunc) (Sheet *sheet, 
 				    int start_col, int start_row,
 				    int end_col,   int end_row,
@@ -55,5 +50,8 @@ typedef void (*SelectionApplyFunc) (Sheet *sheet,
 void selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		      gboolean allow_intersection,
 		      void *closure);
+
+gboolean      selection_is_simple   (Sheet const *sheet, char const *command_name);
+Range const * selection_first_range (Sheet const *sheet);
 
 #endif /* GNUMERIC_SELECTION_H */

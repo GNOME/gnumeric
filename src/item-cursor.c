@@ -134,11 +134,11 @@ item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, i
 	ItemGrid *item_grid = item_cursor->item_grid;
 	Sheet *sheet = item_cursor->sheet;
 
-	*x = sheet_col_get_distance (sheet, item_grid->left_col, item_cursor->start_col);
-	*y = sheet_row_get_distance (sheet, item_grid->top_row, item_cursor->start_row);
+	*x = sheet_col_get_distance (sheet, item_grid->left_col, item_cursor->pos.start.col);
+	*y = sheet_row_get_distance (sheet, item_grid->top_row, item_cursor->pos.start.row);
 
-	*w = sheet_col_get_distance (sheet, item_cursor->start_col, item_cursor->end_col+1);
-	*h = sheet_row_get_distance (sheet, item_cursor->start_row, item_cursor->end_row+1);
+	*w = sheet_col_get_distance (sheet, item_cursor->pos.start.col, item_cursor->pos.end.col+1);
+	*h = sheet_row_get_distance (sheet, item_cursor->pos.start.row, item_cursor->pos.end.row+1);
 }
 
 static void
@@ -338,10 +338,10 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 	item = GNOME_CANVAS_ITEM (item_cursor);
 	item_cursor_request_redraw (item_cursor);
 
-	item_cursor->start_col = start_col;
-	item_cursor->end_col   = end_col;
-	item_cursor->start_row = start_row;
-	item_cursor->end_row   = end_row;
+	item_cursor->pos.start.col = start_col;
+	item_cursor->pos.end.col   = end_col;
+	item_cursor->pos.start.row = start_row;
+	item_cursor->pos.end.row   = end_row;
 
 	item_cursor_request_redraw (item_cursor);
 
@@ -384,15 +384,15 @@ item_cursor_translate (GnomeCanvasItem *item, double dx, double dy)
 
 
 static void
-item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor *parent, int x, int y)
+item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor const *parent, int x, int y)
 {
 	item_cursor->base_x = x;
 	item_cursor->base_y = y;
 	
-	item_cursor->base_cols = parent->end_col - parent->start_col;
-	item_cursor->base_rows = parent->end_row - parent->start_row;
-	item_cursor->base_col = parent->start_col;
-	item_cursor->base_row = parent->start_row;
+	item_cursor->base_cols = parent->pos.end.col - parent->pos.start.col;
+	item_cursor->base_rows = parent->pos.end.row - parent->pos.start.row;
+	item_cursor->base_col = parent->pos.start.col;
+	item_cursor->base_row = parent->pos.start.row;
 }
 
 static void
@@ -463,8 +463,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		
 		item_cursor_set_bounds (
 			ITEM_CURSOR (new_item),
-			item_cursor->start_col, item_cursor->start_row,
-			item_cursor->end_col,   item_cursor->end_row);
+			item_cursor->pos.start.col, item_cursor->pos.start.row,
+			item_cursor->pos.end.col,   item_cursor->pos.end.row);
 		
 		gnome_canvas_update_now (canvas);
 		gnome_canvas_item_grab (
@@ -491,8 +491,8 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 
 	v = sheet_is_region_empty_or_selected (
 		item_cursor->sheet,
-		item_cursor->start_col, item_cursor->start_row,
-		item_cursor->end_col, item_cursor->end_row);
+		item_cursor->pos.start.col, item_cursor->pos.start.row,
+		item_cursor->pos.end.col, item_cursor->pos.end.row);
 
 	if (v)
 		return TRUE;
@@ -530,8 +530,8 @@ static void
 item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 {
 	Sheet *sheet = item_cursor->sheet;
-	int   col = item_cursor->start_col;
-	int   row = item_cursor->start_row;
+	int   col = item_cursor->pos.start.col;
+	int   row = item_cursor->pos.start.row;
 	
 	switch (action){
 	case ACTION_NONE:
@@ -621,12 +621,12 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 	item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row);
 
 	/* Now, make the range visible as well as we can guess */
-	if (start_col < item_cursor->start_col)
+	if (start_col < item_cursor->pos.start.col)
 		watch_col = start_col;
 	else 
 		watch_col = end_col;
 	
-	if (start_row < item_cursor->start_row)
+	if (start_row < item_cursor->pos.start.row)
 		watch_row = start_row;
 	else 
 		watch_row = end_row;
@@ -678,8 +678,8 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
 		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
 
-		w   = (item_cursor->end_col - item_cursor->start_col);
-		h   = (item_cursor->end_row - item_cursor->start_row);
+		w   = (item_cursor->pos.end.col - item_cursor->pos.start.col);
+		h   = (item_cursor->pos.end.row - item_cursor->pos.start.row);
 
 		if (col + w > SHEET_MAX_COLS-1)
 			return TRUE;
@@ -708,28 +708,28 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 
 #if DEBUG_AUTOFILL
-		g_warning ("Temporary flush after ungrap here\n");
+		g_warning ("Temporary flush after ungrab here\n");
 
 		gnome_canvas_update_now (canvas);
 		gdk_flush ();
 #endif
 		
-		if (!((item_cursor->end_col == item_cursor->base_col + item_cursor->base_cols) &&
-		      (item_cursor->end_row == item_cursor->base_row + item_cursor->base_rows))){
+		if (!((item_cursor->pos.end.col == item_cursor->base_col + item_cursor->base_cols) &&
+		      (item_cursor->pos.end.row == item_cursor->base_row + item_cursor->base_rows))){
 
 			sheet_accept_pending_input (sheet);
 			sheet_autofill (sheet, 
 					item_cursor->base_col,    item_cursor->base_row,
 					item_cursor->base_cols+1, item_cursor->base_rows+1,
-					item_cursor->end_col,     item_cursor->end_row);
+					item_cursor->pos.end.col,     item_cursor->pos.end.row);
 		}
 		sheet_cursor_set (sheet,
 				  item_cursor->base_col, item_cursor->base_row,
 				  item_cursor->base_col, item_cursor->base_row,
-				  item_cursor->end_col,  item_cursor->end_row);
+				  item_cursor->pos.end.col,  item_cursor->pos.end.row);
 		sheet_selection_reset_only (sheet);
 		sheet_selection_append (sheet, item_cursor->base_col, item_cursor->base_row);
-		sheet_selection_extend_to (sheet, item_cursor->end_col, item_cursor->end_row);
+		sheet_selection_extend_to (sheet, item_cursor->pos.end.col, item_cursor->pos.end.row);
 		
 		gtk_object_destroy (GTK_OBJECT (item));
 		
@@ -806,10 +806,10 @@ item_cursor_init (ItemCursor *item_cursor)
 	item->x2 = 1;
 	item->y2 = 1;
 
-	item_cursor->start_col = 0;
-	item_cursor->end_col   = 0;
-	item_cursor->start_row = 0;
-	item_cursor->end_row   = 0;
+	item_cursor->pos.start.col = 0;
+	item_cursor->pos.end.col   = 0;
+	item_cursor->pos.start.row = 0;
+	item_cursor->pos.end.row   = 0;
 	item_cursor->style = ITEM_CURSOR_SELECTION;
 	item_cursor->tag = -1;
 	item_cursor->visible = 1;

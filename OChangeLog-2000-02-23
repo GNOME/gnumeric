@@ -41,6 +41,28 @@
 	other version numbers are to be increased, too.  Fix typos; small
 	prettifications.
 
+1999-09-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/ranges.c (range_dump) : Improve format.
+
+	* src/workbook.c (deps_output) : The selection can be a region.
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sor) :
+	  sheet_selection_first_range returns a range.
+
+	* src/print.c (sheet_print_selection) : Ditto.
+
+	* src/selection.c (sheet_selection_first_range) : Simplify and move
+	  closer to to sheet_verify_selection_simple.
+
+	* src/workbook.c (insert_cols_cmd, insert_cols_cmd) : Handle
+	  sheet_verify_selection_simple rename to selection_is_simple.
+
+	* src/sheet.c (sheet_update_controls) : Use selection_apply
+	  rather than sheet_selection_to_list which is expensive.
+	(sheet_col_selection_type, sheet_row_selection_type) :
+	  Constification.
+
 1999-09-13  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/parser.y (forget_array): Created. exp: added array_row, array_exp,

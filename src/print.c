@@ -475,9 +475,8 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 static void
 sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
 {
-	int tlx, tly, brx, bry;
-
-	if (!sheet_selection_first_range (sheet, &tlx, &tly, &brx, &bry)) {
+	Range const * sel;
+	if ((sel = selection_first_range (sheet)) == NULL) {
 		gnumeric_notice (
 			sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
 			_("Selection must be a single range"));
@@ -485,8 +484,9 @@ sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
 	}
 
 	print_job_info_init_sheet (sheet, pj);
-	print_sheet_range (sheet, tlx, tly,
-			   brx + 1, bry + 1, pj);
+	print_sheet_range (sheet,
+			   sel->start.col, sel->start.row,
+			   sel->end.col + 1, sel->end.row + 1, pj);
 }
 
 static void

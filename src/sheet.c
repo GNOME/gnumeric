@@ -1065,6 +1065,51 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 	}
 }
 
+/****************************************************************************/
+
+typedef struct
+{
+	gboolean bold, bold_common;
+	gboolean italic, italic_common;
+
+	gboolean first;
+} range_homogeneous_style_p;
+
+static Value *
+cell_is_homogeneous(Sheet *sheet, int col, int row,
+		    Cell *cell, void *user_data)
+{
+	range_homogeneous_style_p *accum = user_data;
+
+	if (accum->first) {
+		accum->bold = cell->style->font->is_bold;
+		accum->italic = cell->style->font->is_italic;
+		accum->first = FALSE;
+	} else {
+		if (accum->italic != cell->style->font->is_italic)
+			accum->italic_common = FALSE;
+		if (accum->bold != cell->style->font->is_bold)
+			accum->bold_common = FALSE;
+		if (accum->bold_common == FALSE && accum->italic_common == FALSE)
+			return value_terminate();
+	}
+}
+
+static void
+range_is_homogeneous(Sheet *sheet, 
+		     int start_col, int start_row,
+		     int end_col,   int end_row,
+		     void *closure)
+{
+	/* FIXME : Only check existing cells for now.  In when styles are
+	 * redone this will need rethinking.*/
+	Value * res = sheet_cell_foreach_range (sheet, TRUE,
+						start_col, start_row, end_col, end_row,
+						&cell_is_homogeneous, closure);
+	if (res)
+		value_release (res);
+}
+
 /**
  * sheet_update_controls:
  *
@@ -1074,70 +1119,44 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 void
 sheet_update_controls (Sheet *sheet)
 {
-	GList *cells, *l;
-	int   bold_first, italic_first;
-	int   bold_common, italic_common;
+	range_homogeneous_style_p closure;
+	closure.first = TRUE;
+	closure.bold_common = closure.italic_common = TRUE;
 
-	cells = sheet_selection_to_list (sheet);
+	/* Double counting is ok, don't bother breaking up the regions */
+	selection_apply (sheet, &range_is_homogeneous,
+			 TRUE, &closure);
 
-	if (cells) {
-		Cell *cell = cells->data;
-
-		bold_first = cell->style->font->is_bold;
-		italic_first = cell->style->font->is_italic;
-		
-		l = cells->next;
-	} else {
+	if (closure.first) {
 		/*
 		 * If no cells are on the selection, use the first cell
 		 * in the range to compute the values
 		 */
-		SheetSelection *ss = sheet->selections->data;
-		Style *style;
-
-		style = sheet_style_compute (sheet, ss->user.start.col, ss->user.start.row, NULL);
-		bold_first = style->font->is_bold;
-		italic_first = style->font->is_italic;
+		SheetSelection const * const ss = sheet->selections->data;
+		Style *style = sheet_style_compute (sheet, ss->user.start.col,
+						    ss->user.start.row, NULL);
+		closure.bold = style->font->is_bold;
+		closure.italic = style->font->is_italic;
 		style_destroy (style);
-
-		/* Initialize the pointer that is going to be used next */
-		l = cells;
 	}
-
-	bold_common = italic_common = TRUE;
-
-	/* Check every cell on the range */
-	for (; l; l = l->next){
-		Cell *cell = l->data;
-
-		if (italic_first != cell->style->font->is_italic)
-			italic_common = FALSE;
-
-		if (bold_first != cell->style->font->is_bold)
-			bold_common = FALSE;
-
-		if (bold_common == FALSE && italic_common == FALSE)
-			break;
-	}
-	g_list_free (cells);
 
 	/* Update the toolbar */
-	if (bold_common)
+	if (closure.bold_common)
 		workbook_feedback_set (
 			sheet->workbook,
 			WORKBOOK_FEEDBACK_BOLD,
-			GINT_TO_POINTER(bold_first));
+			GINT_TO_POINTER(closure.bold));
 
-	if (italic_common)
+	if (closure.italic_common)
 		workbook_feedback_set (
 			sheet->workbook,
 			WORKBOOK_FEEDBACK_ITALIC,
-			GINT_TO_POINTER(italic_first));
+			GINT_TO_POINTER(closure.italic));
 }
 
 
 int
-sheet_col_selection_type (Sheet *sheet, int col)
+sheet_col_selection_type (Sheet const *sheet, int col)
 {
 	SheetSelection *ss;
 	GList *l;
@@ -1170,7 +1189,7 @@ sheet_col_selection_type (Sheet *sheet, int col)
 }
 
 int
-sheet_row_selection_type (Sheet *sheet, int row)
+sheet_row_selection_type (Sheet const *sheet, int row)
 {
 	SheetSelection *ss;
 	GList *l;
@@ -3088,7 +3107,7 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
  *               default style.
  */
 Style *
-sheet_style_compute (Sheet *sheet, int col, int row, int *non_default)
+sheet_style_compute (Sheet const *sheet, int col, int row, int *non_default)
 {
 	GList *l;
 	Style *style;

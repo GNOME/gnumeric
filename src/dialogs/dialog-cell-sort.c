@@ -298,23 +298,29 @@ static void del_clause(GtkWidget * widget, SORT_FLOW * sf)
 /*
  * Main entry point for the Cell Sort dialog box
  */
-void dialog_cell_sort(Workbook * inwb, Sheet * sheet)
+void
+dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 {
 	int lp;
 	int start_col, start_row, end_col, end_row;
+	Range const * sel;
 	SORT_FLOW sort_flow;
 
 	g_return_if_fail(inwb);
 	g_return_if_fail(sheet);
 	g_return_if_fail(IS_SHEET(sheet));
 
-	if (!sheet_selection_first_range (sheet,
-					  &start_col, &start_row,
-					  &end_col, &end_row)){
+	if ((sel = selection_first_range (sheet)) == NULL) {
 		gnumeric_notice(inwb, GNOME_MESSAGE_BOX_ERROR,
 				_("Selection must be a single range"));
 		return;
 	}
+
+	start_row = sel->start.row;
+	start_col = sel->start.col;
+	end_row = sel->end.row;
+	end_col = sel->end.col;
+
 	if (end_row >= SHEET_MAX_ROWS - 2 ||
 	    end_col >= SHEET_MAX_COLS - 2){
 		gnumeric_notice(inwb, GNOME_MESSAGE_BOX_ERROR,

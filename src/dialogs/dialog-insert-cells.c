@@ -24,7 +24,7 @@ dialog_insert_cells (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!sheet_verify_selection_simple (sheet, _("insert cells")))
+	if (!selection_is_simple (sheet, _("insert cells")))
 		return;
 
 	ss = sheet->selections->data;

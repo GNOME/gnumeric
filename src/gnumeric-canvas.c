@@ -17,6 +17,7 @@
 #include "cursors.h"
 #include "selection.h"
 #include "utils.h"
+#include "ranges.h"
 
 #undef DEBUG_POSITIONS
 
@@ -412,10 +413,10 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 	int pos;
 
 	/* Get the new selection string */
-	strcpy (buffer, cell_name (sel->start_col, sel->start_row));
-	if (!(sel->start_col == sel->end_col && sel->start_row == sel->end_row)){
+	strcpy (buffer, cell_name (sel->pos.start.col, sel->pos.start.row));
+	if (!range_is_singleton (&sel->pos)) {
 		strcat (buffer, ":");
-		strcat (buffer, cell_name (sel->end_col, sel->end_row));
+		strcat (buffer, cell_name (sel->pos.end.col, sel->pos.end.row));
 	}
 	gsheet->sel_text_len = strlen (buffer);
 
@@ -539,23 +540,23 @@ selection_expand_horizontal (GnumericSheet *gsheet, int n, gboolean jump_to_boun
 	}
 
 	ic = gsheet->selection;
-	start_col = ic->start_col;
-	end_col = ic->end_col;
+	start_col = ic->pos.start.col;
+	end_col = ic->pos.end.col;
 
 	if (ic->base_col < end_col)
 		end_col =
 		    sheet_find_boundary_horizontal (gsheet->sheet_view->sheet,
-						    end_col, ic->end_row,
+						    end_col, ic->pos.end.row,
 						    n, jump_to_boundaries);
 	else if (ic->base_col > start_col || n < 0)
 		start_col =
 		    sheet_find_boundary_horizontal (gsheet->sheet_view->sheet,
-						    start_col, ic->start_row,
+						    start_col, ic->pos.start.row,
 						    n, jump_to_boundaries);
 	else
 		end_col =
 		    sheet_find_boundary_horizontal (gsheet->sheet_view->sheet,
-						    end_col,  ic->end_row,
+						    end_col,  ic->pos.end.row,
 						    n, jump_to_boundaries);
 
 	if (end_col < start_col) {
@@ -567,9 +568,9 @@ selection_expand_horizontal (GnumericSheet *gsheet, int n, gboolean jump_to_boun
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 				start_col,
-				ic->start_row,
+				ic->pos.start.row,
 				end_col,
-				ic->end_row);
+				ic->pos.end.row);
 	selection_insert_selection_string (gsheet);
 }
 
@@ -587,23 +588,23 @@ selection_expand_vertical (GnumericSheet *gsheet, int n, gboolean jump_to_bounda
 	}
 
 	ic = gsheet->selection;
-	start_row = ic->start_row;
-	end_row = ic->end_row;
+	start_row = ic->pos.start.row;
+	end_row = ic->pos.end.row;
 
 	if (ic->base_row < end_row)
 		end_row =
 		    sheet_find_boundary_vertical (gsheet->sheet_view->sheet,
-						  ic->end_col, end_row,
+						  ic->pos.end.col, end_row,
 						  n, jump_to_boundaries);
 	else if (ic->base_row > start_row || n < 0)
 		start_row =
 		    sheet_find_boundary_vertical (gsheet->sheet_view->sheet,
-						  ic->start_col, start_row,
+						  ic->pos.start.col, start_row,
 						  n, jump_to_boundaries);
 	else
 		end_row =
 		    sheet_find_boundary_vertical (gsheet->sheet_view->sheet,
-						  ic->end_col,  end_row,
+						  ic->pos.end.col,  end_row,
 						  n, jump_to_boundaries);
 
 	if (end_row < start_row) {
@@ -614,9 +615,9 @@ selection_expand_vertical (GnumericSheet *gsheet, int n, gboolean jump_to_bounda
 
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
-				ic->start_col,
+				ic->pos.start.col,
 				start_row,
-				ic->end_col,
+				ic->pos.end.col,
 				end_row);
 	selection_insert_selection_string (gsheet);
 }

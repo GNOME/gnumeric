@@ -12,5 +12,6 @@
 
 void ms_obj_read_obj (BiffQuery *q, ExcelWorkbook * wb);
 void ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id);
+void ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb);
 
 #endif /* GNUMERIC_MS_OBJ_H */

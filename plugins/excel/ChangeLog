@@ -1,3 +1,10 @@
+1999-09-15  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-escher.c : Massive re-org.
+	* ms-obj.c (ms_obj_read_text_impl) : Export, and improve warning
+	  message for TXO.
+	(ms_obj_read_text_impl) : The drawing will read the TXO.
+
 1999-09-12  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-excel-write.c (write_sheet_bools): write grid-lines & margins &
@@ -5,7 +12,6 @@
 
 	* ms-excel-read.c (ms_excel_read_sheet): Add preconditions & load
 	print info for grid-lines, & scads of other stuff. (margin_read): Create.
-	
 
 1999-09-11  Michael Meeks  <michael@nuclecu.unam.mx>
 

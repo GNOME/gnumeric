@@ -224,6 +224,7 @@ create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 }
 #endif
 
+#ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 static void
 create_button_cmd (GtkWidget *widget, Workbook *wb)
 {
@@ -232,6 +233,16 @@ create_button_cmd (GtkWidget *widget, Workbook *wb)
 	sheet = workbook_get_current_sheet (wb);
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_BUTTON);
 }
+
+static void
+create_checkbox_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_CHECKBOX);
+}
+#endif
 
 static void
 create_line_cmd (GtkWidget *widget, Workbook *wb)
@@ -695,7 +706,7 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 	/* FIXME : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply) */
 	sheet = workbook_get_current_sheet (wb);
-	if (!sheet_verify_selection_simple (sheet, _("Insert cols")))
+	if (!selection_is_simple (sheet, _("Insert cols")))
 		return;
 
 	ss = sheet->selections->data;
@@ -715,7 +726,7 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 	/* FIXME : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply) */
 	sheet = workbook_get_current_sheet (wb);
-	if (!sheet_verify_selection_simple (sheet, _("Insert rows")))
+	if (!selection_is_simple (sheet, _("Insert rows")))
 		return;
 
 	ss = sheet->selections->data;
@@ -1220,9 +1231,14 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
 		create_graphic_cmd, NULL, graphic_xpm),
 #endif
+#ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Button"), N_("Creates a button object"),
-		create_button_cmd, NULL, button_xpm),
+		N_("Button"), N_("Creates a button"),
+		&create_button_cmd, NULL, button_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Checkbox"), N_("Creates a checkbox"),
+		&create_checkbox_cmd, NULL, checkbox_xpm),
+#endif
 	GNOMEUIINFO_END
 };
 
@@ -1595,27 +1611,23 @@ static void
 deps_output (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
-	int col, row, dummy;
-	Cell *cell;
+	Range const * selection;
 	GList *list;
 
 	summary_info_dump (wb->summary_info);
 
-	if (!sheet_selection_first_range (
-		sheet, &col, &row, &dummy, &dummy)){
+	if ((selection = selection_first_range (sheet)) == NULL) {
 		gnumeric_notice (
 			wb, GNOME_MESSAGE_BOX_ERROR,
 			_("Selection must be a single range"));
 		return;
 	}
-	printf ("The cells that depend on %s\n", cell_name (col, row));
+	printf ("The cells that depend on ");
+	range_dump (selection);
 
-	if (!(cell = sheet_cell_get (sheet, col, row))){
-		printf ("must contain some data\n");
-		return;
-	}
-
-	list = cell_get_dependencies (sheet, col, row);
+	list = region_get_dependencies (sheet,
+					selection->start.col, selection->start.row,
+					selection->end.col, selection->end.row);
 	if (!list)
 		printf ("No dependencies\n");
 

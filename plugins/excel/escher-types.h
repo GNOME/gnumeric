@@ -28,7 +28,6 @@
 #define SpContainer            0xf004
 #define Spgr                   0xf009
 #define Sp                     0xf00a
-#define OPT                    0xf00b
 #define Textbox                0xf00c
 #define ClientTextbox          0xf00d
 #define Anchor                 0xf00e

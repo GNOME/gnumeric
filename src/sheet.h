@@ -80,6 +80,7 @@ typedef enum {
 	SHEET_MODE_CREATE_GRAPHIC,
 
 	SHEET_MODE_CREATE_BUTTON,
+	SHEET_MODE_CREATE_CHECKBOX,
 	
 	/* Object is selected */
 	SHEET_MODE_OBJECT_SELECTED,
@@ -265,7 +266,7 @@ void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 				       
-Style      *sheet_style_compute           (Sheet *sheet,
+Style      *sheet_style_compute           (Sheet const *sheet,
 					   int col, int row,
 					   int *non_default_style_flags);
 
@@ -321,8 +322,8 @@ void        sheet_accept_pending_input    (Sheet *sheet);
 void        sheet_cancel_pending_input    (Sheet *sheet);
 void        sheet_load_cell_val           (Sheet *sheet);
 
-int         sheet_col_selection_type      (Sheet *sheet, int col);
-int         sheet_row_selection_type      (Sheet *sheet, int row);
+int         sheet_col_selection_type      (Sheet const *sheet, int col);
+int         sheet_row_selection_type      (Sheet const *sheet, int row);
 
 /*
  * Event state manipulation (for mode operation)

@@ -35,35 +35,18 @@ segments_intersect (int const s_a, int const e_a,
 	return (e_a <= e_b) ? 2 : 1;
 }
 
-static int
-sheet_selection_equal (SheetSelection const *a, SheetSelection const *b)
-{
-	if (a->user.start.col != b->user.start.col)
-		return 0;
-	if (a->user.start.row != b->user.start.row)
-		return 0;
-
-	if (a->user.end.col != b->user.end.col)
-		return 0;
-	if (a->user.end.row != b->user.end.row)
-		return 0;
-	return 1;
-}
- 
 static const char *
 sheet_get_selection_name (Sheet const *sheet)
 {
 	SheetSelection const *ss = sheet->selections->data;
 	static char buffer [10 + 2 * 4 * sizeof (int)];
 
-	if (ss->user.start.col == ss->user.end.col && ss->user.start.row == ss->user.end.row){
+	if (range_is_singleton (&ss->user))
 		return cell_name (ss->user.start.col, ss->user.start.row);
-	} else {
-		snprintf (buffer, sizeof (buffer), "%dLx%dC",
-			  ss->user.end.row - ss->user.start.row + 1,
-			  ss->user.end.col - ss->user.start.col + 1);
-		return buffer;
-	}
+	snprintf (buffer, sizeof (buffer), "%dLx%dC",
+		  ss->user.end.row - ss->user.start.row + 1,
+		  ss->user.end.col - ss->user.start.col + 1);
+	return buffer;
 }
  
 static void
@@ -113,10 +96,8 @@ sheet_selection_append_range (Sheet *sheet,
  * If returns true selection is just one range.
  * If returns false, range data: indeterminate
  **/
-int
-sheet_selection_first_range (Sheet *sheet,
-			      int *start_col, int *start_row,
-			      int *end_col,   int *end_row)
+Range const *
+selection_first_range (Sheet const *sheet)
 {
 	SheetSelection *ss;
 	GList *l;
@@ -124,22 +105,42 @@ sheet_selection_first_range (Sheet *sheet,
 	g_return_val_if_fail (sheet != NULL, 0);
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
 
-	if (!sheet->selections)
-		return 0;
-
 	l = g_list_first (sheet->selections);
 	if (!l || !l->data)
-		return 0;
-
+		return NULL;
 	ss = l->data;
-	*start_col = ss->user.start.col;
-	*start_row = ss->user.start.row;
-	*end_col = ss->user.end.col;
-	*end_row = ss->user.end.row;
-
 	if ((l = g_list_next (l)))
-		return 0;
-	return 1;
+		return NULL;
+
+	return &ss->user;
+}
+
+/*
+ * selection_is_simple
+ * @sheet : The sheet whose selection we are testing.
+ * @command_name : A string naming the operation requiring a single range.
+ *
+ * This function tests to see if multiple ranges are selected.  If so it
+ * produces a dialog box warning.
+ *
+ * TODO : Merge this with the proposed exception mechanism.
+ */
+gboolean
+selection_is_simple (Sheet const *sheet, char const *command_name)
+{
+	char *msg;
+
+	if (g_list_length (sheet->selections) == 1)
+		return TRUE;
+
+	msg = g_strconcat (
+		_("The command `"),
+		command_name,
+		_("' cannot be performed with multiple selections"), NULL);
+	gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
+	g_free (msg);
+
+	return FALSE;
 }
 
 void
@@ -159,7 +160,7 @@ sheet_selection_append (Sheet *sheet, int col, int row)
 void
 sheet_selection_extend_to (Sheet *sheet, int col, int row)
 {
-	SheetSelection *ss, old_selection;
+	SheetSelection *ss, old;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -168,7 +169,7 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 
 	ss = (SheetSelection *) sheet->selections->data;
 
-	old_selection = *ss;
+	old = *ss;
 
 	if (col < ss->base.col){
 		ss->user.start.col = col;
@@ -186,25 +187,7 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 		ss->user.start.row = ss->base.row;
 	}
 
-	sheet_set_selection (sheet, ss);
-	sheet_selection_changed_hook (sheet);
-
-	sheet_redraw_selection (sheet, &old_selection);
-	sheet_redraw_selection (sheet, ss);
-
-	if (ss->user.start.col != old_selection.user.start.col ||
-	    ss->user.end.col != old_selection.user.end.col ||
-	    ((ss->user.start.row == 0 && ss->user.end.row == SHEET_MAX_ROWS-1) ^
-	     (old_selection.user.start.row == 0 &&
-	      old_selection.user.end.row == SHEET_MAX_ROWS-1)))
-		sheet_redraw_cols (sheet);
-
-	if (ss->user.start.row != old_selection.user.start.row ||
-	    ss->user.end.row != old_selection.user.end.row ||
-	    ((ss->user.start.col == 0 && ss->user.end.col == SHEET_MAX_COLS-1) ^
-	     (old_selection.user.start.col == 0 &&
-	      old_selection.user.end.col == SHEET_MAX_COLS-1)))
-		sheet_redraw_rows (sheet);
+	sheet_selection_change (sheet, &old, ss);
 }
 
 /**
@@ -254,15 +237,16 @@ sheet_is_all_selected (Sheet *sheet)
 static void
 sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 {
-	if (sheet_selection_equal (old, new))
+	if (range_equal (&old->user, &new->user))
 		return;
 
 	sheet_accept_pending_input (sheet);
-	sheet_redraw_selection (sheet, old);
-	sheet_redraw_selection (sheet, new);
-	sheet_selection_changed_hook (sheet);
 
 	sheet_set_selection (sheet, new);
+	sheet_selection_changed_hook (sheet);
+
+	sheet_redraw_selection (sheet, old);
+	sheet_redraw_selection (sheet, new);
 
 	if (new->user.start.col != old->user.start.col ||
 	    new->user.end.col != old->user.end.col ||
@@ -555,24 +539,6 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 }
 
 gboolean
-sheet_verify_selection_simple (Sheet *sheet, const char *command_name)
-{
-	char *msg;
-
-	if (g_list_length (sheet->selections) == 1)
-		return TRUE;
-
-	msg = g_strconcat (
-		_("The command `"),
-		command_name,
-		_("' cannot be performed with multiple selections"), NULL);
-	gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
-	g_free (msg);
-
-	return FALSE;
-}
-
-gboolean
 sheet_selection_copy (Sheet *sheet)
 {
 	SheetSelection *ss;
@@ -580,7 +546,7 @@ sheet_selection_copy (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
-	if (!sheet_verify_selection_simple (sheet, _("copy")))
+	if (!selection_is_simple (sheet, _("copy")))
 		return FALSE;
 
 	ss = sheet->selections->data;
@@ -605,7 +571,7 @@ sheet_selection_cut (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
-	if (!sheet_verify_selection_simple (sheet, _("cut")))
+	if (!selection_is_simple (sheet, _("cut")))
 		return FALSE;
 
 	ss = sheet->selections->data;
@@ -662,7 +628,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	content = find_workbook_with_clipboard (sheet);
 
 	if (content)
-		if (!sheet_verify_selection_simple (sheet, _("paste")))
+		if (!selection_is_simple (sheet, _("paste")))
 			return;
 
 	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags, time);

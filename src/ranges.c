@@ -241,12 +241,15 @@ range_dump (Range const * src)
 {
 	/* keep these as 2 print statements, because
 	 * col_name uses a static buffer */
-	fprintf (stderr, "%s%d",
+	printf ("%s%d",
 		col_name(src->start.col),
 		src->start.row + 1);
-	fprintf (stderr, ":%s%d\n",
-		col_name(src->end.col),
-		src->end.row + 1);
+
+	if (src->start.col != src->end.col ||
+	    src->start.row == src->end.row)
+		fprintf (":%s%d\n",
+			 col_name(src->end.col),
+			 src->end.row + 1);
 }
 
 Range*
@@ -255,4 +258,24 @@ range_duplicate (Range const * src)
 	Range * res = g_new (Range, 1);
 	*res = *src;
 	return res;
+}
+
+gboolean
+range_equal (Range const *a, Range const *b)
+{
+	if (a->start.col != b->start.col)
+		return FALSE;
+	if (a->start.row != b->start.row)
+		return FALSE;
+	if (a->end.col != b->end.col)
+		return FALSE;
+	if (a->end.row != b->end.row)
+		return FALSE;
+	return TRUE;
+}
+ 
+gboolean
+range_is_singleton (Range const *r)
+{
+	return r->start.col == r->end.col && r->start.row == r->end.row;
 }
