@@ -1,7 +1,7 @@
 2001-10-30  Morten Welinder  <terra@diku.dk>
 
-	* ms-chart.c (BC_R): Plug leak.
-	(BC_R): Ditto.
+	* ms-chart.c (BC_R-ai): Plug leak.
+	(BC_R-ifmt): Ditto.
 
 2001-10-27  Jody Goldberg <jgoldberg@home.com>
 
