@@ -5,6 +5,8 @@
 2003-05-14  Morten Welinder  <terra@gnome.org>
 
 	* widget-charmap-selector.c: Mark a few charsets as major.
+	(charset_order, lgroups_order): New functions.
+	(cs_build_menu): Sort arrays so menus become sorted.
 
 2003-05-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

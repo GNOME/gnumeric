@@ -28,6 +28,7 @@
 #include "widget-charmap-selector.h"
 #include "gnumeric-optionmenu.h"
 #include <gsf/gsf-impl-utils.h>
+#include <stdlib.h>
 
 #define CS(x) CHARMAP_SELECTOR(x)
 
@@ -74,7 +75,7 @@ typedef struct
 LGroupInfo;
 
 
-static LGroupInfo const lgroups[] = {
+static LGroupInfo lgroups[] = {
 	{N_("Arabic"), LG_ARABIC},
 	{N_("Baltic"), LG_BALTIC},
 	{N_("Central European"), LG_CENTRAL_EUROPEAN},
@@ -93,7 +94,16 @@ static LGroupInfo const lgroups[] = {
 	{NULL, LG_LAST}
 };
 
-static CharsetInfo const charset_trans_array[] = { 
+static int
+lgroups_order (const void *_a, const void *_b)
+{
+	const LGroupInfo *a = (const LGroupInfo *)_a;
+	const LGroupInfo *b = (const LGroupInfo *)_b;
+
+	return g_utf8_collate (_(a->group_name), _(b->group_name));
+}
+
+static CharsetInfo charset_trans_array[] = { 
 	{N_("Arabic (IBM-864)"),                  "IBM864",                LG_ARABIC, CI_MINOR},
 	{N_("Arabic (IBM-864-I)"),                "IBM864i",               LG_ARABIC, CI_MINOR},
 	{N_("Arabic (ISO-8859-6)"),               "ISO-8859-6",            LG_ARABIC, CI_MINOR},
@@ -185,6 +195,21 @@ static CharsetInfo const charset_trans_array[] = {
 	{"x-u-escaped",                           "x-u-escaped",           LG_OTHER, CI_MINOR},
 	{NULL,                                    NULL,                    LG_LAST, 0}
 };
+
+static int
+charset_order (const void *_a, const void *_b)
+{
+	const CharsetInfo *a = (const CharsetInfo *)_a;
+	const CharsetInfo *b = (const CharsetInfo *)_b;
+
+	if (a->lgroup != b->lgroup)
+		return b->lgroup - a->lgroup;
+
+	if (a->imp != b->imp)
+		return b->imp - a->imp;
+
+	return g_utf8_collate (_(a->charset_title), _(b->charset_title));
+}
 
 struct _CharmapSelector {
 	GtkHBox box;
@@ -307,7 +332,12 @@ cs_build_menu (CharmapSelector *cs)
 	GtkMenu *menu;
 	LGroupInfo const *lgroup = lgroups;
 	gint lg_cnt = 0;
-	
+
+	qsort (lgroups, G_N_ELEMENTS (lgroups) - 2, sizeof (lgroups[0]),
+	       lgroups_order);
+	qsort (charset_trans_array, G_N_ELEMENTS (charset_trans_array) - 1,
+	       sizeof (charset_trans_array[0]), charset_order);
+
         menu = GTK_MENU (gtk_menu_new ());
 
 	while (lgroup->group_name) {
