@@ -37,9 +37,6 @@ debian 272697
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=143135
-    : We should list csv/tsv files
-
     http://bugzilla.gnome.org/show_bug.cgi?id=143188
     : We should remember the last directory the user opened a file
 
