@@ -12,11 +12,11 @@
 			<information>
 				<_description>MS Excel (tm) (*.xls)</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.xls"/>
-				<file_pattern type="shell_pattern" value="*.xlw"/>
-				<file_pattern type="shell_pattern" value="*.xlt"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>xls</suffix>
+				<suffix>xlw</suffix>
+				<suffix>xlt</suffix>
+			</suffixes>
 		</service>
 		<service type="file_opener" id="excel_xml" priority="1" probe="FALSE">
 			<information>

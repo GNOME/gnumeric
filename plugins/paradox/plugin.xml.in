@@ -12,10 +12,10 @@
 			<information>
 				<_description>Paradox database or primary index file</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.db"/>
-				<file_pattern type="shell_pattern" value="*.px"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>db</suffix>
+				<suffix>px</suffix>
+			</suffixes>
 		</service>
 	</services>
 </plugin>

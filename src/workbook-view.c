@@ -822,11 +822,6 @@ wb_view_new_from_input  (GsfInput *input,
 			for (l = get_file_openers (); l != NULL; l = l->next) {
 				GnmFileOpener const *tmp_fo = GNM_FILE_OPENER (l->data);
 				int new_input_refs;
-#if 0
-				printf ("Trying format %s at level %d...\n",
-					gnm_file_opener_get_id (tmp_fo),
-					(int)pl);
-#endif
 				/* A name match needs to be a content match too */
 				if (gnm_file_opener_probe (tmp_fo, input, pl) &&
 				    (pl == FILE_PROBE_CONTENT ||

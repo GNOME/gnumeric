@@ -12,9 +12,9 @@
 			<information>
 				<_description>Applix (*.as)</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.as"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>as</suffix>
+			</suffixes>
 		</service>
 	</services>
 </plugin>

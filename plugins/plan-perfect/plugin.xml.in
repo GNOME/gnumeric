@@ -12,9 +12,9 @@
 			<information>
 				<_description>Plan Perfect Format (PLN) import</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.pln"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>pln</suffix>
+			</suffixes>
 		</service>
 	</services>
 </plugin>

@@ -12,9 +12,9 @@
 			<information>
 				<_description>Psion (*.psisheet)</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.psisheet"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>psisheet</suffix>
+			</suffixes>
 		</service>
 	</services>
 </plugin>

@@ -7,7 +7,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "plugin-service-impl.h"
 
@@ -25,11 +24,12 @@
 #include "plugin.h"
 #include "xml-io.h"
 
-#include <fnmatch.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-utils.h>
+#include <glib/gi18n.h>
 
 #include <string.h>
 
@@ -297,14 +297,6 @@ static GSF_CLASS (PluginServiceClipboard, plugin_service_clipboard,
 typedef struct _GnmPluginFileOpener GnmPluginFileOpener;
 static GnmPluginFileOpener *gnm_plugin_file_opener_new (GnmPluginService *service);
 
-typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_LAST} InputFilePatternType;
-
-typedef struct {
-	InputFilePatternType pattern_type;
-	gboolean case_sensitive;
-	gchar *value;
-} InputFilePattern;
-
 struct _InputFileSaveInfo {
 	gchar *saver_id_str;
 	FileFormatLevel format_level;
@@ -323,7 +315,7 @@ struct _PluginServiceFileOpener {
 	gint priority;
 	gboolean has_probe;
 	gchar *description;
-	GSList *file_patterns;      /* list of InputFilePattern */
+	GSList *suffixes;      /* list of char * */
 
 	GnmFileOpener *opener;
 	PluginServiceFileOpenerCallbacks cbs;
@@ -337,19 +329,10 @@ plugin_service_file_opener_init (GObject *obj)
 
 	GNM_PLUGIN_SERVICE (obj)->cbs_ptr = &service_file_opener->cbs;
 	service_file_opener->description = NULL;
-	service_file_opener->file_patterns = NULL;
+	service_file_opener->suffixes = NULL;
 	service_file_opener->opener = NULL;
 	service_file_opener->cbs.plugin_func_file_probe = NULL;
 	service_file_opener->cbs.plugin_func_file_open = NULL;
-}
-
-static void
-input_file_pattern_free (gpointer data)
-{
-	InputFilePattern *pattern = data;
-
-	g_free (pattern->value);
-	g_free (pattern);
 }
 
 static void
@@ -360,8 +343,8 @@ plugin_service_file_opener_finalize (GObject *obj)
 
 	g_free (service_file_opener->description);
 	service_file_opener->description = NULL;
-	g_slist_free_custom (service_file_opener->file_patterns, input_file_pattern_free);
-	service_file_opener->file_patterns = NULL;
+	g_slist_free_custom (service_file_opener->suffixes, g_free);
+	service_file_opener->suffixes = NULL;
 	if (service_file_opener->opener != NULL) {
 		g_object_unref (service_file_opener->opener);
 		service_file_opener->opener = NULL;
@@ -406,42 +389,24 @@ plugin_service_file_opener_read_xml (GnmPluginService *service, xmlNode *tree, E
 		description = NULL;
 	}
 	if (description != NULL) {
-		GSList *file_patterns = NULL;
+		GSList *suffixes = NULL;
 		xmlNode *file_patterns_node, *node;
 		PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 
-		file_patterns_node = e_xml_get_child_by_name (tree, (xmlChar *)"file_patterns");
+		file_patterns_node = e_xml_get_child_by_name (tree, (xmlChar *)"suffixes");
 		if (file_patterns_node != NULL) {
-			for (node = file_patterns_node->xmlChildrenNode; node != NULL; node = node->next) {
-				InputFilePattern *file_pattern;
-				gchar *value, *type_str;
-
-				if (strcmp (node->name, "file_pattern") != 0 ||
-				    (value = xmlGetProp (node, (xmlChar *)"value")) == NULL) {
-					continue;
-				}
-				type_str = xmlGetProp (node, (xmlChar *)"type");
-				file_pattern = g_new (InputFilePattern, 1);
-				file_pattern->value = value;
-				if (type_str == NULL) {
-					file_pattern->pattern_type = FILE_PATTERN_SHELL;
-				} else if (g_ascii_strcasecmp (type_str, "shell_pattern") == 0) {
-					file_pattern->pattern_type = FILE_PATTERN_SHELL;
-					if (!xml_node_get_bool (node, "case_sensitive", &(file_pattern->case_sensitive)))
-						file_pattern->case_sensitive = FALSE;
-				} else {
-					file_pattern->pattern_type = FILE_PATTERN_SHELL;
-				}
-				g_free (type_str);
-				GNM_SLIST_PREPEND (file_patterns, file_pattern);
-			}
+			char *suffix;
+			for (node = file_patterns_node->xmlChildrenNode; node != NULL; node = node->next)
+				if (strcmp (node->name, "suffix") == 0 &&
+				    (suffix = xmlNodeGetContent (node)) != NULL)
+					GNM_SLIST_PREPEND (suffixes, suffix);
 		}
-		GNM_SLIST_REVERSE (file_patterns);
+		GNM_SLIST_REVERSE (suffixes);
 
 		service_file_opener->priority = priority;
 		service_file_opener->has_probe = has_probe;
 		service_file_opener->description = description;
-		service_file_opener->file_patterns = file_patterns;
+		service_file_opener->suffixes = suffixes;
 	} else {
 		*ret_error = error_info_new_str (_("File opener has no description"));
 	}
@@ -526,7 +491,7 @@ gnm_plugin_file_opener_can_probe (GnmFileOpener const *fo, FileProbeLevel pl)
 	GnmPluginFileOpener *pfo = GNM_PLUGIN_FILE_OPENER (fo);
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
 	if (pl == FILE_PROBE_FILE_NAME)
-		return service_file_opener->file_patterns != NULL;
+		return service_file_opener->suffixes != NULL;
 	return service_file_opener->has_probe;
 }
 
@@ -539,35 +504,23 @@ gnm_plugin_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
 
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
-	if (pl == FILE_PROBE_FILE_NAME && service_file_opener->file_patterns != NULL) {
-		gboolean match = FALSE;
-		GSList *l;
-		gchar *base_file_name = (gchar *)gsf_input_name (input);
+	if (pl == FILE_PROBE_FILE_NAME && service_file_opener->suffixes != NULL) {
+		GSList *ptr;
+		gchar const *extension;
+		gchar *lowercase_extension;
 
-		if (base_file_name == NULL)
+		if (gsf_input_name (input) == NULL)
 			return FALSE;
-		base_file_name = g_path_get_basename (base_file_name);
+		extension = gsf_extension_pointer (gsf_input_name (input));
+		if (extension == NULL)
+			return FALSE;
 
-		for (l = service_file_opener->file_patterns; l != NULL && !match; l = l->next) {
-			InputFilePattern *pattern = l->data;
-
-			if (pattern->pattern_type == FILE_PATTERN_SHELL) {
-				if (pattern->case_sensitive) {
-					match = fnmatch (pattern->value, base_file_name, FNM_PATHNAME) == 0;
-				} else {
-					char *pattern_str = g_utf8_strdown (pattern->value, -1);
-					char *name_str = g_utf8_strdown (base_file_name, -1);
-					match = fnmatch (pattern_str, name_str, FNM_PATHNAME) == 0;
-					g_free (pattern_str);
-					g_free (name_str);
-				}
-			} else {
-				g_assert_not_reached ();
-			}
-		}
-
-		g_free (base_file_name);
-		return match;
+		lowercase_extension = g_utf8_strdown (extension, -1);
+		for (ptr = service_file_opener->suffixes; ptr != NULL ; ptr = ptr->next)
+			if (0 == strcmp (lowercase_extension, ptr->data))
+				break;
+		g_free (lowercase_extension);
+		return ptr != NULL;
 	}
 
 	if (service_file_opener->has_probe) {

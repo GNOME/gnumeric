@@ -10,11 +10,13 @@
 	<services>
 		<service type="file_opener" id="qpro" priority="100" probe="TRUE">
 			<information>
-				<_description>Quatro Pro</_description>
+				<_description>Quatro Pro (*.wb1, *.wb2, *.wb3)</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.wb[123]"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>wb1</suffix>
+				<suffix>wb2</suffix>
+				<suffix>wb3</suffix>
+			</suffixes>
 		</service>
 	</services>
 </plugin>

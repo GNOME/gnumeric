@@ -10,12 +10,12 @@
 	<services>
 		<service type="file_opener" id="lotus" priority="50" probe="TRUE">
 			<information>
-				<_description>Lotus 123 (*.wk1)</_description>
+				<_description>Lotus 123 (*.wk1, *.wks)</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.wk1"/>
-				<file_pattern type="shell_pattern" value="*.wks"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>wk1</suffix>
+				<suffix>wks</suffix>
+			</suffixes>
 		</service>
 	</services>
 </plugin>

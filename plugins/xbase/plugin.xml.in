@@ -12,9 +12,9 @@
 			<information>
 				<_description>Xbase (*.dbf) file format</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.dbf"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>dbf</suffix>
+			</suffixes>
 		</service>
 	</services>
 </plugin>

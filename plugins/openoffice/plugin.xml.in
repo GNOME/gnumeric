@@ -12,9 +12,9 @@
 			<information>
 				<_description>Open/Star Calc (*.sxc)</_description>
 			</information>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.sxc"/>
-			</file_patterns>
+			<suffixes>
+				<suffix>sxc</suffix>
+			</suffixes>
 		</service>
 		<service type="file_saver" id="openoffice" file_extension="swc"
 		         format_level="auto" overwrite_files="TRUE">

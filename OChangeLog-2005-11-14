@@ -1,5 +1,13 @@
 2004-08-27  Jody Goldberg <jody@gnome.org>
 
+	* src/plugin-service.c (plugin_service_file_opener_read_xml) :
+	  simplify parsing of 'file_pattern' for importer filename probing.
+	  All we every really needed was suffix matching.  None of the power
+	  of fnmatch or optional case sensitivity was every used.
+	(gnm_plugin_file_opener_probe) : use a nice simple suffix match.
+
+2004-08-27  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-object-graphic.c :  convert markup to a property for
 	  SheetObjectText
 

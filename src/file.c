@@ -238,6 +238,11 @@ gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel 
 	g_return_val_if_fail (IS_GNM_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
+#if 0
+	g_print ("Trying format %s at level %d...\n",
+		 gnm_file_opener_get_id (fo),
+		 (int)pl);
+#endif
 	return GNM_FILE_OPENER_METHOD (fo, probe) (fo, input, pl);
 }
 
