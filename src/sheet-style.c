@@ -757,18 +757,56 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 	sheet_style_cache_flush (sheet);
 }
 
-void
-sheet_style_insert_colrow (Sheet *sheet, int pos, int count,
-			   gboolean is_col)
+static void
+stylish_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
+{
+ 	GList *l, *next;
+	gint start, end;
+ 
+ 	/* Don't touch the last 'global' range */
+ 	for (l = STYLE_LIST (sheet); l && l->next; l = next) {
+ 		StyleRegion *sr = (StyleRegion *)l->data;
+ 
+ 		next = g_list_next (l);
+ 
+		if (is_col) {
+			start = sr->range.start.col;
+			end = sr->range.end.col;
+		} else {
+			start = sr->range.start.row;
+			end = sr->range.end.row;
+		}
+ 
+		/*  We can ignore anything at least 2 cells left or above of insert */
+		if (pos >= (end + 2))
+ 			continue;
+
+		/* End will move for everything else. */
+		end += count;
+
+		/* Check if start should move too. */
+		if (pos <= start)
+			start += count;
+
+		if (is_col) {
+ 			sr->range.start.col = MIN (start, SHEET_MAX_COLS - 1);
+ 			sr->range.end.col = MIN (end, SHEET_MAX_COLS - 1);
+		} else {
+ 			sr->range.start.row = MIN (start, SHEET_MAX_ROWS - 1);
+ 			sr->range.end.row = MIN (end, SHEET_MAX_ROWS - 1);
+ 		}
+			
+	}
+
+ 	sheet_style_cache_flush (sheet);
+}
+
+static void
+styleless_insert_colrow (Sheet *sheet, int pos, int count, gboolean is_col)
 {
 	Range  move_range, ignore_range;
 	GList *l, *next;
-
-	g_return_if_fail (pos >= 0);
-	g_return_if_fail (count > 0);
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
+ 
 	move_range   = sheet_get_full_range ();
 	ignore_range = sheet_get_full_range ();
 	if (is_col) {
@@ -837,6 +875,34 @@ sheet_style_insert_colrow (Sheet *sheet, int pos, int count,
 	}
 
 	sheet_style_cache_flush (sheet);
+}
+
+void
+sheet_style_insert_colrow (Sheet *sheet, int pos, int count,
+			   gboolean is_col)
+{
+	gboolean stylish, was_default;
+
+	g_return_if_fail (pos >= 0);
+	g_return_if_fail (count > 0);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	/* Check if style preserving insert option is specified. */
+	gnome_config_push_prefix ("Gnumeric/Options/"); 
+	stylish = gnome_config_get_bool_with_default ("StylishInsert=true", 
+							&was_default);
+
+	if (was_default) {
+		gnome_config_set_bool ("StylishInsert", stylish);
+		gnome_config_sync ();
+	}
+	gnome_config_pop_prefix ();
+
+	if (stylish)
+		stylish_insert_colrow (sheet, pos, count, is_col);
+	else
+		styleless_insert_colrow (sheet, pos, count, is_col);
 }
 
 void

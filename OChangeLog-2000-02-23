@@ -1,3 +1,12 @@
+2000-01-28    Mike Kestner    <mkestner@ameritech.net>
+
+	* src/sheet-style.c (sheet_style_insert_colrow): Now does option checking
+	and calls either the new style preserving insert function or the existing
+	functionality in its new function. (stylish_insert_colrow): New.
+	Preserves style information by extending ranges that contain the
+	insertion point. (styleless_insert_colrow): Renamed.  Existing algorithm
+	that fragments style ranges to insert an unformatted col/row.
+
 2000-01-28  Michael Meeks  <mmeeks@gnu.org>
 
 	* configure.in (have_gb): update.
