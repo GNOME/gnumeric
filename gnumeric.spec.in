@@ -111,7 +111,7 @@ fi
 %{prefix}/share/mime-info/gnumeric.keys
 %{prefix}/share/mime-info/gnumeric.mime
 %{prefix}/share/mc/templates/gnumeric.desktop
-%{prefix}/share/oaf/gnumeric.oafinfo
+%{prefix}/share/oaf/GNOME_Gnumeric.oafinfo
 
 %files devel
 %defattr (-, bin, bin)
