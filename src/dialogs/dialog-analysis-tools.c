@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-analysis-tools.c:
  *
@@ -468,8 +469,9 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 		} else
 			gnm_expr_entry_load_from_range (state->input_entry,
 				state->sheet, first);
-		gnm_expr_entry_load_from_range (state->output_entry,
-				state->sheet, first);
+		if (state->output_entry != NULL)
+		        gnm_expr_entry_load_from_range (state->output_entry,
+							state->sheet, first);
 	}
 
 	gtk_widget_show (state->dialog);
