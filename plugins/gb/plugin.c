@@ -49,20 +49,20 @@ value_to_gb (FunctionEvalInfo *ei, Value *val)
 		return gb_value_new_empty ();
  
 	case VALUE_BOOLEAN:
-		return gb_value_new_boolean (val->v.v_bool);	
+		return gb_value_new_boolean (val->v_bool.val);	
 			
 	case VALUE_ERROR:
 		/* FIXME ?? what belongs here */
-		return gb_value_new_string_chars (val->v.error.mesg->str);
+		return gb_value_new_string_chars (val->v_err.mesg->str);
 			
 	case VALUE_STRING:
-		return gb_value_new_string_chars (val->v.str->str);
+		return gb_value_new_string_chars (val->v_str.val->str);
 
 	case VALUE_INTEGER:
-		return gb_value_new_long (val->v.v_int);
+		return gb_value_new_long (val->v_int.val);
 
 	case VALUE_FLOAT:
-		return gb_value_new_double (val->v.v_float);
+		return gb_value_new_double (val->v_float.val);
 
 	default:
 		g_warning ("Unimplemented %d -> GB translation", val->type);
@@ -246,9 +246,6 @@ cb_register_functions (gpointer key, gpointer value, gpointer user_data)
 	function_def_set_user_data (fndef, fd);
 }
 
-#define GB_TITLE _("Gnome Basic Plugin")
-#define GB_DESCR _("This plugin enables Gnome Basic support in Gnumeric")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -278,7 +275,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 	plugin_data_set_user_data (pd, c.rc);
 
 	if (plugin_data_init (pd, dont_unload, cleanup,
-			      GB_TITLE, GB_DESCR))
+			      _("Gnome Basic"),
+			      _("Enables Gnome Basic support")))
 		return PLUGIN_OK;
 	else
 		return PLUGIN_ERROR;
