@@ -14,7 +14,7 @@
 #include "func.h"
 
 /* The list of categories */
-static GPtrArray *categories = NULL ;
+static GPtrArray *categories = NULL;
 
 typedef struct {
 	FunctionIterateCallback  callback;
@@ -74,13 +74,14 @@ function_iterate_do_value (Sheet                   *sheet,
 			
 	case VALUE_ARRAY:
 	{
-		int lpx, lpy;
-		for (lpx=0;lpx<value->v.array.x;lpx++) {
-			for (lpy=0;lpy<value->v.array.y;lpy++) {
+		int x, y;
+
+		for (x = 0; x < value->v.array.x; x++){
+			for (y = 0; y < value->v.array.y; y++){
 				ret = function_iterate_do_value (
 					sheet, callback, closure,
 					eval_col, eval_row,
-					&value->v.array.vals[lpx][lpy], error_string);
+					&value->v.array.vals [x][y], error_string);
 				if (ret == FALSE)
 					return FALSE;
 			}
@@ -191,7 +192,7 @@ tokenized_help_new (FunctionDefinition *fd)
 		tok->sections = NULL;
 	}
 	
-	return tok ;
+	return tok;
 }
 
 /**

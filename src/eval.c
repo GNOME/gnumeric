@@ -157,11 +157,12 @@ add_value_deps (Cell *cell, const Value *value)
 		/* Check every element of the array */
 	case VALUE_ARRAY:
 	{
-		int lpx, lpy ;
-		for (lpx=0;lpx<value->v.array.x;lpx++)
-			for (lpy=0;lpy<value->v.array.y;lpy++)
+		int x, y;
+		
+		for (x = 0; x < value->v.array.x; x++)
+			for (y = 0; y < value->v.array.y; y++)
 				add_value_deps (cell,
-						&value->v.array.vals[lpx][lpy]);
+						&value->v.array.vals [x][y]);
 		break;
 	}
 	case VALUE_CELLRANGE:

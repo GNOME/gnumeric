@@ -4,6 +4,7 @@
  * Author:
  *  Michael Meeks <michael@imaginator.com>
  */
+
 #include <config.h>
 #include <gnome.h>
 #include "math.h"
@@ -33,118 +34,128 @@ static char *help_vlookup = {
 static int
 lookup_similar (const Value *data, const Value *templ, const Value *next_largest, int approx)
 {
-	int ans ;
+	int ans;
 
-	g_return_val_if_fail (data != NULL, 0) ;
-	g_return_val_if_fail (templ != NULL, 0) ;
+	g_return_val_if_fail (data != NULL, 0);
+	g_return_val_if_fail (templ != NULL, 0);
 
-	switch (templ->type)
-	{
+	switch (templ->type){
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 		{
-			float_t a,b ;
-			a = value_get_as_double (data) ;
-			b = value_get_as_double (templ) ;
+			float_t a, b;
+			a = value_get_as_double (data);
+			b = value_get_as_double (templ);
+			
 /*			printf ("Num: %f %f %f\n", a, b, next_largest?value_get_as_double(next_largest):9999.0) ; */
 			if (a == b)
-				return 1 ;
-			else if (approx && a < b) {
+				return 1;
+			
+			else if (approx && a < b){
 				if (!next_largest)
-					return -1 ;
-				else if (value_get_as_double(next_largest) <= a)
-					return -1 ;
+					return -1;
+				else if (value_get_as_double (next_largest) <= a)
+					return -1;
 			}
-			return 0 ;
-			break ;
+			return 0;
+			break;
 		}
 	case VALUE_STRING:
 	default:
 		{
-			char *a, *b ;
-			a = value_string (data) ;
-			b = value_string (templ) ;
-			if (approx)
-			{
-				ans = strcasecmp (a,b) ;
-				if (approx && ans < 0) {
-					if (next_largest) {
-						char *c = value_string (next_largest) ;
-						int cmp = strcasecmp(a,c) ;
-						g_free (c) ;
+			char *a, *b;
+			a = value_string (data);
+			b = value_string (templ);
+			if (approx){
+				ans = strcasecmp (a,b);
+				if (approx && ans < 0){
+					if (next_largest){
+						char *c = value_string (next_largest);
+						int cmp = strcasecmp (a,c);
+						g_free (c);
 						if (cmp >= 0)
-							return -1 ;
+							return -1;
 					}
 					else
-						return -1 ;
+						return -1;
 				}
 			}
 			else
-				ans = strcmp (a,b) ;
-			g_free (a) ;
-			g_free (b) ;
-			return (ans==0) ;
-			break ;
+				ans = strcmp (a, b);
+			g_free (a);
+			g_free (b);
+			return (ans == 0);
+			break;
 		}
 	}
-	return 0 ;
+	return 0;
 }
 
 static Value *
 gnumeric_vlookup (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	const Value *next_largest = NULL ;
-	int height, lp, approx, col_idx, next_largest_row=0 ;
+	const Value *next_largest = NULL;
+	int height, lp, approx, col_idx, next_largest_row = 0;
 	
-	height = value_area_get_height (argv[1]) ;
-	col_idx = value_get_as_int (argv[2]) ;
-	if (col_idx<=0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	height = value_area_get_height (argv[1]);
+	col_idx = value_get_as_int (argv[2]);
+
+	if (col_idx <= 0){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
-	if (col_idx>value_area_get_width(argv[1])) {
-		*error_string = _("#REF!") ;
-		return NULL ;
+	if (col_idx >value_area_get_width (argv [1])){
+		*error_string = _("#REF!");
+		return NULL;
 	}
 
-	if (argv[3]) {
-		int err ;
-		approx = value_get_bool (argv[3], &err) ;
-		if (err) {
-			*error_string = _("#VALUE!") ;
-			return NULL ;
+	if (argv [3]){
+		int err;
+
+		approx = value_get_bool (argv [3], &err);
+
+		if (err){
+			*error_string = _("#VALUE!");
+			return NULL;
 		}
-	}
-	else
-		approx = 1 ;
+	} else
+		approx = 1;
 
-	for (lp=0;lp<height;lp++) {
+	for (lp = 0; lp < height; lp++){
 		int compare;
-		const Value *v = value_area_get_at_x_y(argv[1], 0, lp);
+		const Value *v;
 
-		g_return_val_if_fail (v != NULL, NULL) ;
+		v = value_area_get_at_x_y (argv[1], 0, lp);
 
-		compare = lookup_similar (v, argv[0], next_largest, approx) ;
-/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_string(cell->value), value_string(argv[0]), compare, approx) ; */
-		if (compare == 1) {
-			const Value *v = value_area_get_at_x_y(argv[1],col_idx-1, lp);
+		g_return_val_if_fail (v != NULL, NULL);
+
+		compare = lookup_similar (v, argv[0], next_largest, approx);
+/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_string(cell->value), value_string(argv[0]), compare, approx); */
+
+		if (compare == 1){
+			const Value *v;
+
+			v = value_area_get_at_x_y (argv [1], col_idx-1, lp);
 			g_return_val_if_fail (v != NULL, NULL);
+
 			return value_duplicate (v);
 		}
-		if (compare < 0) {
-			next_largest = v ;
-			next_largest_row = lp ;
+		if (compare < 0){
+			next_largest = v;
+			next_largest_row = lp;
 		}
 	}
-	if (approx && next_largest) {
-	        const Value *v= value_area_get_at_x_y(argv[1],col_idx-1, next_largest_row);
-		g_return_val_if_fail (v != NULL, NULL) ;
-		return value_duplicate (v) ;
+	if (approx && next_largest){
+	        const Value *v;
+
+		v = value_area_get_at_x_y (argv [1], col_idx-1, next_largest_row);
+		g_return_val_if_fail (v != NULL, NULL);
+		return value_duplicate (v);
 	}
 	else
-		*error_string = _("#N/A") ;
+		*error_string = _("#N/A");
 
-	return NULL ;
+	return NULL;
 }
 
 static char *help_hlookup = {
@@ -167,58 +178,69 @@ static char *help_hlookup = {
 static Value *
 gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	const Value *next_largest = NULL ;
-	int height, lp, approx, row_idx, next_largest_col=0 ;
+	const Value *next_largest = NULL;
+	int height, lp, approx, row_idx, next_largest_col = 0;
 	
-	row_idx = value_get_as_int (argv[2]) ;
-	height  = value_area_get_width (argv[1]);
-	if (row_idx<=0) {
-		*error_string = _("#NUM!") ;
-		return NULL ;
+	row_idx = value_get_as_int (argv [2]);
+	height  = value_area_get_width (argv [1]);
+
+	if (row_idx <= 0){
+		*error_string = _("#NUM!");
+		return NULL;
 	}
-	if (row_idx>value_area_get_height(argv[1])) {
-		*error_string = _("#REF!") ;
-		return NULL ;
+	if (row_idx > value_area_get_height (argv [1])){
+		*error_string = _("#REF!");
+		return NULL;
 	}
 
-	if (argv[3]) {
-		int err ;
-		approx = value_get_bool (argv[3], &err) ;
-		if (err) {
-			*error_string = _("#VALUE!") ;
-			return NULL ;
+	if (argv [3]){
+		int err;
+		approx = value_get_bool (argv [3], &err);
+
+		if (err){
+			*error_string = _("#VALUE!");
+			return NULL;
 		}
-	}
-	else
-		approx = 1 ;
+	} else
+		approx = 1;
 
-	for (lp=0;lp<height;lp++) {
+	for (lp = 0; lp < height; lp++){
 		int compare;
-		const Value *v = value_area_get_at_x_y (argv[1],lp, 0);
+		const Value *v;
 
-		g_return_val_if_fail (v != NULL, NULL) ;
+		v = value_area_get_at_x_y (argv[1],lp, 0);
 
-		compare = lookup_similar (v, argv[0], next_largest, approx) ;
-/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_string(cell->value), value_string(argv[0]), compare, approx) ; */
-		if (compare == 1) {
-			const Value *v = value_area_get_at_x_y (argv[1],lp, row_idx-1) ;
-			g_return_val_if_fail (v != NULL, NULL) ;
-			return value_duplicate (v) ;
+		g_return_val_if_fail (v != NULL, NULL);
+
+		compare = lookup_similar (v, argv[0], next_largest, approx);
+/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_string(cell->value), value_string(argv[0]), compare, approx); */
+
+		if (compare == 1){
+			const Value *v;
+
+			v = value_area_get_at_x_y (argv [1], lp, row_idx-1);
+			g_return_val_if_fail (v != NULL, NULL);
+
+			return value_duplicate (v);
 		}
-		if (compare < 0) {
-			next_largest = v ;
-			next_largest_col = lp ;
+
+		if (compare < 0){
+			next_largest = v;
+			next_largest_col = lp;
 		}
 	}
-	if (approx && next_largest) {
-		const Value *v = value_area_get_at_x_y (argv[1], next_largest_col, row_idx-1);
-		g_return_val_if_fail (v != NULL, NULL) ;
-		return value_duplicate (v) ;
+	if (approx && next_largest){
+		const Value *v;
+
+		v = value_area_get_at_x_y (argv [1], next_largest_col, row_idx-1);
+		g_return_val_if_fail (v != NULL, NULL);
+
+		return value_duplicate (v);
 	}
 	else
-		*error_string = _("#N/A") ;
+		*error_string = _("#N/A");
 
-	return NULL ;
+	return NULL;
 }
 
 static char *help_column = {
@@ -238,24 +260,25 @@ static char *help_column = {
 static Value *
 gnumeric_column (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
-	Value *v ;
+	Value *v;
 
 	if (!expr_node_list || !expr_node_list->data)
-		return value_int(eval_col+1) ;
+		return value_int (eval_col+1);
 
-	v = eval_expr (tsheet, expr_node_list->data, eval_col, eval_row, error_string) ;
+	v = eval_expr (tsheet, expr_node_list->data, eval_col, eval_row, error_string);
 	if (!v)
-		return NULL ;
-	switch (v->type) {
+		return NULL;
+
+	switch (v->type){
 	case VALUE_CELLRANGE:
-		*error_string = "Arrays not yet supported" ;
-		return NULL ;
+		*error_string = "Arrays not yet supported";
+		return NULL;
 	case VALUE_ARRAY:
-		*error_string = _("Unimplemented\n") ;
-		return NULL ;
+		*error_string = _("Unimplemented\n");
+		return NULL;
 	default:
-		*error_string = _("#VALUE!") ;
-		return NULL ;
+		*error_string = _("#VALUE!");
+		return NULL;
 	}
 }
 
@@ -275,7 +298,7 @@ static char *help_columns = {
 static Value *
 gnumeric_columns (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return value_int(value_area_get_width (argv[0])) ;
+	return value_int (value_area_get_width (argv [0]));
 }
 
 static char *help_row = {
@@ -295,24 +318,25 @@ static char *help_row = {
 static Value *
 gnumeric_row (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
-	Value *v ;
+	Value *v;
 
 	if (!expr_node_list || !expr_node_list->data)
-		return value_int(eval_row+1) ;
+		return value_int (eval_row+1);
 
-	v = eval_expr (tsheet, expr_node_list->data, eval_col, eval_row, error_string) ;
+	v = eval_expr (tsheet, expr_node_list->data, eval_col, eval_row, error_string);
 	if (!v)
-		return NULL ;
-	switch (v->type) {
+		return NULL;
+
+	switch (v->type){
 	case VALUE_CELLRANGE:
-		*error_string = "Arrays not yet supported" ;
-		return NULL ;
+		*error_string = "Arrays not yet supported";
+		return NULL;
 	case VALUE_ARRAY:
-		*error_string = _("Unimplemented\n") ;
-		return NULL ;
+		*error_string = _("Unimplemented\n");
+		return NULL;
 	default:
-		*error_string = _("#VALUE!") ;
-		return NULL ;
+		*error_string = _("#VALUE!");
+		return NULL;
 	}
 }
 
@@ -332,7 +356,7 @@ static char *help_rows = {
 static Value *
 gnumeric_rows (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return value_int(value_area_get_height (argv[0])) ;
+	return value_int (value_area_get_height (argv [0]));
 }
 
 
@@ -344,7 +368,7 @@ FunctionDefinition lookup_functions [] = {
 	{ "rows",      "A",    "ref",                      &help_rows,     NULL, gnumeric_rows },
 	{ "vlookup",   "?rf|b","val,range,col_idx,approx", &help_vlookup,  NULL, gnumeric_vlookup },
 	{ NULL, NULL }
-} ;
+};
 
 
 

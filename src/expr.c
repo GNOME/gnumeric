@@ -214,11 +214,13 @@ value_release (Value *value)
 		mpf_clear (value->v.v_float);
 		break;
 
-	case VALUE_ARRAY: {
-		guint lp ;
-		for (lp=0;lp<value->v.array.x;lp++)
-			g_free (value->v.array.vals[lp]) ;
-		g_free (value->v.array.vals) ;
+	case VALUE_ARRAY:{
+		guint i;
+		
+		for (i = 0; i < value->v.array.x; i++)
+			g_free (value->v.array.vals [i]);
+		
+		g_free (value->v.array.vals);
 	}
 
 	case VALUE_CELLRANGE:
@@ -254,7 +256,7 @@ value_copy_to (Value *dest, const Value *source)
 		break;
 
 	case VALUE_ARRAY: {
-		value_array_copy_to (dest, source) ;
+		value_array_copy_to (dest, source);
 		break;
 	}
 	case VALUE_CELLRANGE:
@@ -405,18 +407,20 @@ value_get_as_int (const Value *v)
 Value *
 value_array_new (guint width, guint height)
 {
-	int lpx, lpy;
+	int x, y;
 
 	Value *v = g_new (Value, 1);
 	v->type = VALUE_ARRAY;
 	v->v.array.x = width;
 	v->v.array.y = height;
 	v->v.array.vals = g_new (Value *, width);
-	for (lpx=0;lpx<width;lpx++) {
-		v->v.array.vals[lpx] = g_new (Value,height);
-		for (lpy=0;lpy<height;lpy++) {
-			v->v.array.vals[lpx][lpy].type = VALUE_INTEGER;
-			v->v.array.vals[lpx][lpy].v.v_int = 0;
+
+	for (x = 0; x < width; x++){
+		v->v.array.vals [x] = g_new (Value, height);
+
+		for (y = 0; y < height; y++){
+			v->v.array.vals[x][y].type = VALUE_INTEGER;
+			v->v.array.vals[x][y].v.v_int = 0;
 		}
 	}
 	return v;
@@ -425,7 +429,7 @@ value_array_new (guint width, guint height)
 void
 value_array_resize (Value *v, guint width, guint height)
 {
-	int lpx, lpy, xcpy, ycpy;
+	int x, xcpy, ycpy;
 	Value *newval;
 
 	g_return_if_fail (v);
@@ -443,31 +447,34 @@ value_array_resize (Value *v, guint width, guint height)
 	else
 		ycpy = height;
 
-	for (lpx=0;lpx<xcpy;lpx++) {
-		memcpy (newval->v.array.vals[lpx],
-			v->v.array.vals[lpx],
-			sizeof(Value)*ycpy);
+	for (x = 0; x < xcpy; x++){
+		memcpy (newval->v.array.vals [x],
+			v->v.array.vals [x],
+			sizeof (Value) * ycpy);
 	}
 	v->v.array.vals = newval->v.array.vals;
 	v->v.array.x = width;
 	v->v.array.y = height;
-	value_release (newval) ;
+	value_release (newval);
 }
 
 void
 value_array_copy_to (Value *v, const Value *src)
 {
-	int lpx, lpy;
+	int x;
 
 	g_return_if_fail (src->type == VALUE_ARRAY);
 	v->type = VALUE_ARRAY;
 	v->v.array.x = src->v.array.x;
 	v->v.array.y = src->v.array.y;
 	v->v.array.vals = g_new (Value *, v->v.array.x);
-	for (lpx=0;lpx<v->v.array.x;lpx++) {
-		v->v.array.vals[lpx] = g_new (Value,v->v.array.y);
-		memcpy (v->v.array.vals[lpx], src->v.array.vals[lpx],
-			sizeof(Value)*v->v.array.y) ;
+
+	for (x = 0; x < v->v.array.x; x++){
+		v->v.array.vals [x] = g_new (Value,v->v.array.y);
+		
+		memcpy (v->v.array.vals   [x],
+			src->v.array.vals [x],
+			sizeof(Value)*v->v.array.y);
 	}
 }
 
@@ -477,6 +484,7 @@ value_area_get_width (Value *v)
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
 			      v->type == VALUE_CELLRANGE, 1);
+
 	if (v->type == VALUE_ARRAY)
 		return v->v.array.x;
 	else
@@ -490,6 +498,7 @@ value_area_get_height (Value *v)
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
 			      v->type == VALUE_CELLRANGE, 1);
+
 	if (v->type == VALUE_ARRAY)
 		return v->v.array.y;
 	else
@@ -503,36 +512,40 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
 			      v->type == VALUE_CELLRANGE,
-			      value_int(0));
-	if (v->type == VALUE_ARRAY) {
-		g_return_val_if_fail (v->v.array.x<x ||
-				      v->v.array.y<y,
-				      value_int(0));
-		return &v->v.array.vals[x][y];
+			      value_int (0));
+
+	if (v->type == VALUE_ARRAY){
+		g_return_val_if_fail (v->v.array.x < x ||
+				      v->v.array.y < y,
+				      value_int (0));
+		return &v->v.array.vals [x][y];
 	} else {
 		CellRef *a, *b;
 		Cell *cell;
+
 		a = &v->v.cell_range.cell_a;
 		b = &v->v.cell_range.cell_b;
 		g_return_val_if_fail (!a->col_relative,
-				      value_int(0)) ;
+				      value_int (0));
 		g_return_val_if_fail (!b->col_relative,
-				      value_int(0)) ;
+				      value_int (0));
 		g_return_val_if_fail (!a->row_relative,
-				      value_int(0)) ;
+				      value_int (0));
 		g_return_val_if_fail (!b->row_relative,
-				      value_int(0)) ;
+				      value_int (0));
 		g_return_val_if_fail (a->col<=b->col,
-				      value_int(0)) ;
+				      value_int (0));
 		g_return_val_if_fail (a->row<=b->row,
-				      value_int(0)) ;
+				      value_int (0));
+		
 		cell = sheet_cell_get (a->sheet, a->col+x, a->row+y);
+
 		if (cell && cell->value)
 			return cell->value;
 		else
-			return value_int(0) ;
+			return value_int (0);
 	}
-	return value_int(0) ;
+	return value_int (0);
 }
 
 static void
@@ -545,6 +558,7 @@ cell_ref_make_absolute (CellRef *cell_ref, int eval_col, int eval_row)
 
 	if (cell_ref->row_relative)
 		cell_ref->row = eval_row + cell_ref->row;
+
 	cell_ref->row_relative = 0;
 	cell_ref->col_relative = 0;
 }
@@ -638,7 +652,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 
 		values = g_new (Value *, fn_argc_max);
 		
-		for (arg = 0; l; l = l->next, arg++, arg_type++) {
+		for (arg = 0; l; l = l->next, arg++, arg_type++){
 			ExprTree *t = (ExprTree *) l->data;
 			int type_mismatch = 0;
 			
@@ -677,7 +691,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 					type_mismatch = 1;
 				break;
 			}
-			if (type_mismatch) {
+			if (type_mismatch){
 				free_values (values, arg);
 				*error_string = _("Type mismatch");
 				return NULL;
@@ -689,7 +703,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 		v = fd->fn (fd, values, error_string);
 
 	free_list:
-		for (i = 0; i < arg; i++) {
+		for (i = 0; i < arg; i++){
 			if (values [i] != NULL)
 				value_release (values [i]);
 		}

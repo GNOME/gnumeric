@@ -35,8 +35,8 @@ gnumeric_if (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, ch
 	int err, ret, args;
 		
 	/* Type checking */
-	args = g_list_length (expr_node_list) ;
-	if (args < 1 || args > 3) {
+	args = g_list_length (expr_node_list);
+	if (args < 1 || args > 3){
 		*error_string = _("Invalid number of arguments");
 		return NULL;
 	}
@@ -52,17 +52,17 @@ gnumeric_if (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, ch
 	if (err)
 		return NULL;
 	
-	if (ret) {
+	if (ret){
 		if (expr_node_list->next)
 			expr = (ExprTree *) expr_node_list->next->data;
 		else
-			return value_int (1) ;
+			return value_int (1);
 	} else {
 		if (expr_node_list->next && 
 		    expr_node_list->next->next)
 			expr = (ExprTree *) expr_node_list->next->next->data;
 		else
-			return value_int (0) ;
+			return value_int (0);
 	}
 
 	/* Return the result */
@@ -95,15 +95,15 @@ gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_
 	}
 
 	numrange=g_list_length (sheet->selections);
-	value = value_array_new (numrange,1) ;
+	value = value_array_new (numrange, 1);
 	
-	lp=0;
+	lp = 0;
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = (SheetSelection *) l->data;
 		Value *single_value;
 		CellRef *cell_ref;
 
-		single_value = &value->v.array.vals[lp++][0];
+		single_value = &value->v.array.vals [lp++][0];
 		single_value->type = VALUE_CELLRANGE;
 
 		/* Fill it in */

@@ -643,11 +643,12 @@ value_dump (Value *value)
 		break;
 
 	case VALUE_ARRAY: {
-		int lpx, lpy;
+		int x, y;
+		
 		printf ("Array: { ");
-		for (lpx=0;lpx<value->v.array.x;lpx++)
-			for (lpy=0;lpy<value->v.array.y;lpy++)
-				value_dump (&value->v.array.vals[lpx][lpy]);
+		for (x = 0; x < value->v.array.x; x++)
+			for (y = 0; y < value->v.array.y; y++)
+				value_dump (&value->v.array.vals [x][y]);
 		printf ("}\n");
 	}
 	default:

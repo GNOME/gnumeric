@@ -736,7 +736,7 @@ sheet_set_text (Sheet *sheet, int col, int row, char *str)
 		/* Compare it */
 		if (strcasecmp (new_text, text) == 0){
 			cell_set_format_simple (cell, format);
-			sprintf (buffer, "%g", v);
+			sprintf (buffer, "%f", v);
 			cell_set_text (cell, buffer);
 			text_set = TRUE;
 		}
