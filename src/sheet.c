@@ -188,6 +188,11 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->name_unquoted = g_strdup (name);
 	sheet->name_quoted = sheet_name_quote (name);
 	sheet_create_styles (sheet);
+
+	/*
+	 * FIXME : Why choose -1. ?  This causes fonts scaled by -1 to be used
+	 * during initialization.  Looks like a bug.
+	 */
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->cols.max_used = -1;
 	sheet->rows.max_used = -1;
