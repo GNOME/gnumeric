@@ -273,51 +273,66 @@ set_cursor (ItemBar *item_bar, int pos)
 		gdk_window_set_cursor(canvas->window, item_bar->normal_cursor);
 }
 
+/*
+ * Returns the GnomeCanvasPoints for a line at position in the
+ * correct orientation
+ */
+static GnomeCanvasPoints *
+item_bar_get_line_points (ItemBar *item_bar, gdouble position)
+{
+	GnomeCanvasPoints *points;
+	GnomeCanvas *canvas = GNOME_CANVAS (item_bar->sheet_view->sheet_view);
+	
+	points = gnome_canvas_points_new (2);
+
+	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+		points->coords [0] = 0.0;
+		points->coords [1] = position;
+		points->coords [2] = canvas->width;
+		points->coords [3] = position;
+	} else {
+		points->coords [0] = position;
+		points->coords [1] = 0.0;
+		points->coords [2] = position;
+		points->coords [3] = canvas->height;
+	}
+
+	return points;
+}
+
 static void
 item_bar_start_resize (ItemBar *item_bar, int pos, int pixels)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_bar)->canvas;
-	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
-	GnomeCanvasItem *item;
 	GnomeCanvasPoints *points;
+	GnomeCanvasGroup *group;
+	GnomeCanvasItem *item;
 	GnumericSheet *gsheet;
 	Sheet *sheet;
-	double x1, x2, y1, y2;
 	int division_pos;
-	
-	gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
+
 	sheet = item_bar->sheet_view->sheet;
-	
+	gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
+	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gsheet)->root);
+
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
-		division_pos = sheet_col_get_distance (
-			sheet, gsheet->top_row, pos);
-		x1 = 0.0;
-		x2 = canvas->width;
-		y1 = division_pos;
-		y2 = division_pos;
-	} else {
 		division_pos = sheet_row_get_distance (
-			sheet, gsheet->top_col, pos);
-		x1 = division_pos;
-		x2 = division_pos;
-		y1 = 0.0;
-		y2 = canvas->height;
+			sheet, gsheet->top_row, pos+1);
+	} else {
+		division_pos = sheet_col_get_distance (
+			sheet, gsheet->top_col, pos+1);
 	}
 
+	points = item_bar_get_line_points (item_bar, division_pos);
+	
 	item_bar->resize_guide_offset = division_pos - pixels;
 		
-	/* Add a guideline to the sheet canvas */
-	points = gnome_canvas_points_new (2);
-	points->coords[0] = x1;
-	points->coords[1] = y1;
-	points->coords[2] = x2;
-	points->coords[3] = y2;
-	item = gnome_canvas_item_new (group,
-				      gnome_canvas_line_get_type (),
-				      "points", points,
-				      "fill_color", "black",
-				      "width_pixels", 1,
-				      NULL);
+	item = gnome_canvas_item_new (
+		group,
+		gnome_canvas_line_get_type (),
+		"points", points,
+		"fill_color", "black",
+		"width_pixels", 1,
+		NULL);
 	gnome_canvas_points_free (points);
 
 	item_bar->resize_guide = GTK_OBJECT (item);
@@ -370,30 +385,43 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
 			pos = y;
-		} else {
+		else
 			pos = x;
-		}
 
 		/* Do column resizing or incremental marking */
 		if (resizing){
+			GnomeCanvasPoints *points;
+			GnomeCanvasItem *resize_guide;
 			int npos;
 
 			npos = pos - item_bar->resize_start_pos;
 			if (npos <= 0)
 				break;
+
 			item_bar->resize_width = npos;
-			gnome_canvas_request_redraw (GNOME_CANVAS_ITEM(item_bar)->canvas, 0, 0, INT_MAX, INT_MAX);
-			gnome_canvas_item_move (GNOME_CANVAS_ITEM (item_bar->resize_guide), 0, pos);
-		} else if (ITEM_BAR_IS_SELECTING (item_bar)){
+
+			resize_guide = GNOME_CANVAS_ITEM (item_bar->resize_guide);
+			points = item_bar_get_line_points (item_bar, pos);
+			gnome_canvas_item_set (resize_guide, "points",  points, NULL);
+			gnome_canvas_points_free (points);
+
+			/* Redraw the ItemBar to show nice incremental progress */
+			gnome_canvas_request_redraw (
+				canvas, 0, 0, INT_MAX, INT_MAX);
+			
+		}
+		else if (ITEM_BAR_IS_SELECTING (item_bar))
+		{
 			element = get_col_from_pos (item_bar, pos);
 
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SELECTION_CHANGED],
 					 element, FALSE);
 			set_cursor (item_bar, pos);
-		} else
+		}
+		else
 			set_cursor (item_bar, pos);
 		break;
 

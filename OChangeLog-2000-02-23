@@ -1,3 +1,10 @@
+1998-08-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-bar.c (item_bar_get_line_points): New helper routine,
+	used to create the position of the tracking line for the bar resizing.
+	(item_bar_event, item_bar_start_resize): Fix the incremental
+	tracking. 
+
 1998-08-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet.c (sheet_row_set_internal_height): New routine used to
