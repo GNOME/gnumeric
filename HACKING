@@ -9,12 +9,12 @@ Working in Gnumeric
 	and a distant
 	4) Fast
 
-    When you submit code to me for inclusion in Gnumeric, or when you
-modify the sources directly on the CVS repository, please keep those things in
-mind.  While performance is important please note that we do not want to hand
-tune code to shave milliseconds at this point.  Well designed algorithms and
-data strucutures are fertile areas for development, obfuscated code it make a
-loop 3% faster is not.  Specifically, this means:
+    When you submit code to me for inclusion in Gnumeric, or when you modify
+the sources directly on the CVS repository, please keep those things in mind.
+While performance is important please note that we do not want to hand tune
+code to shave milliseconds at this point.  Well designed algorithms and data
+strucutures are fertile areas for development, obfuscated code to make a loop
+3% faster is not.  Specifically, this means:
 
 	- Clarity of design and function are paramount
 	- Make sure your code does not generate warnings at all.
@@ -37,8 +37,6 @@ modular chunks (as detailed by Linus).
    Emacs users can get the default indentation style with this:
   (set-c-style "K&R")
   (setq c-basic-offset 8)
-
-   Do not put a space between a closing parent and an opening bracket.
 
    On top of that, you will have to:
 
@@ -110,9 +108,8 @@ contributions, and they might become a burden to the program maintainers.
 various other projects in the GNOME desktop (the document model and
 CORBA service provision).
 
-   Cleaning code in Gnumeric is more important than trying not to
-break existing code.  By all means, code clean ups are always
-welcome. 
+   Cleaning code in Gnumeric is more important than trying not to break
+existing code.  By all means, code clean ups are always welcome. 
 
 Extra Spreadsheet functions
 ---------------------------
