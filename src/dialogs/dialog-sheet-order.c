@@ -120,7 +120,8 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 			    -1);
 	gtk_widget_set_sensitive (state->delete_btn, TRUE);
 	gtk_button_set_label (GTK_BUTTON (state->delete_btn),
-                              is_deleted ? _("Restore") : _("Remove"));
+                              is_deleted ? GTK_STOCK_UNDELETE : GTK_STOCK_DELETE);
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_btn), 0., .5, 0., 0.);
 
 	gtk_widget_set_sensitive (state->up_btn,
 				  location_of_iter (&iter, state->model) > 0);
@@ -489,6 +490,8 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->add_btn   = glade_xml_get_widget (gui, "add_button");
 	state->duplicate_btn   = glade_xml_get_widget (gui, "duplicate_button");
 	state->delete_btn   = glade_xml_get_widget (gui, "delete_button");
+	gtk_widget_set_size_request (state->delete_btn, 100,-1);
+
 	state->ok_btn  = glade_xml_get_widget (gui, "ok_button");
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
 	state->old_order  = NULL;

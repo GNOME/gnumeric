@@ -1,5 +1,10 @@
 2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* sheet-order.glade : use stock buttons and set title
+	* dialog-sheet-order.c : use stock buttons
+
+2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-sheet-order.c : various minor modifications to make 
 	  Jody happy.
 
