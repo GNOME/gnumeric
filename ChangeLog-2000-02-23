@@ -1,3 +1,13 @@
+1998-08-31  Tristan Tarrant  <ttarrant@etnoteam.it>
+
+	* TODO: some ideas for key shortcuts (from Excel :-)
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key): Implemented page up,
+	page down and home keys. They don't work for selections at the moment.
+	Implemented clear. It currently does a clear_all, but ideally it
+	should pop-up a dialog asking the user what kind of clear he/she wants,
+	as in Excel. Also clearing cells doesn't update the display.
+
 1998-08-31  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_do_calc_dimensions): New routine that computes

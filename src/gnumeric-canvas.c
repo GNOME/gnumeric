@@ -188,7 +188,7 @@ move_cursor_horizontal (GnumericSheet *gsheet, int count)
 	new_left = sheet->cursor_col + count;
 
 	if (new_left < 0)
-		return;
+		new_left = 0;
 	
 	move_cursor (gsheet, new_left, sheet->cursor_row, TRUE);
 }
@@ -209,7 +209,7 @@ move_cursor_vertical (GnumericSheet *gsheet, int count)
 	new_top = CURSOR_ROW (gsheet) + count;
 
 	if (new_top < 0)
-		return;
+		new_top = 0;
 
 	move_cursor (gsheet, sheet->cursor_col, new_top, TRUE);
 }
@@ -565,6 +565,23 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 
 	case GDK_Down:
 		(*movefn_vertical)(gsheet, 1);
+		break;
+
+	case GDK_Page_Up:
+	        (*movefn_vertical)(gsheet, -(gsheet->last_visible_row-gsheet->top_row));
+		break;
+
+	case GDK_Page_Down:
+	        (*movefn_vertical)(gsheet, gsheet->last_visible_row-gsheet->top_row);
+		break;
+
+	case GDK_Home:
+	        (*movefn_horizontal)(gsheet, -CURSOR_COL(gsheet));
+		break;
+
+	case GDK_KP_Delete:
+	case GDK_Delete: 
+		sheet_selection_clear (gsheet->sheet_view->sheet);
 		break;
 
 	case GDK_Tab:
