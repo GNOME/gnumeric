@@ -86,7 +86,9 @@ typedef struct {
  *  @data: pointer to a data_set_t
  */
 static Value *
-cb_store_data (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+cb_store_data (__attribute__((unused)) Sheet *sheet,
+	       __attribute__((unused)) int col,
+	       __attribute__((unused)) int row, Cell *cell, void *user_data)
 {
 	data_set_t *data_set = (data_set_t *)user_data;
 	gnum_float the_data;
@@ -620,7 +622,8 @@ WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
 }
 
 static void
-write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data)
+write_data (__attribute__((unused)) WorkbookControl *wbc,
+	    data_analysis_output_t *dao, GArray *data)
 {
 	gint st_row = dao->start_row + dao->offset_row;
 	gint end_row = dao->start_row + dao->rows - 1;
@@ -635,8 +638,9 @@ write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data)
 		(CellIterFunc)&WriteData_ForeachCellCB, data);
 }
 
-static gboolean 
-analysis_tool_generic_clean (data_analysis_output_t *dao, gpointer specs)
+static gboolean
+analysis_tool_generic_clean (__attribute__((unused)) data_analysis_output_t *dao,
+			     gpointer specs)
 {
 	analysis_tools_data_generic_t *info = specs;
 
@@ -645,8 +649,9 @@ analysis_tool_generic_clean (data_analysis_output_t *dao, gpointer specs)
 	return FALSE;
 }
 
-static gboolean 
-analysis_tool_ftest_clean (data_analysis_output_t *dao, gpointer specs)
+static gboolean
+analysis_tool_ftest_clean (__attribute__((unused)) data_analysis_output_t *dao,
+			   gpointer specs)
 {
 	analysis_tools_data_ftest_t *info = specs;
 
@@ -2108,8 +2113,8 @@ analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
  **/
 
 static gboolean
-analysis_tool_regression_engine_last_check (data_analysis_output_t *dao, 
-					    analysis_tools_data_regression_t *info)
+analysis_tool_regression_engine_last_check (__attribute__((unused)) data_analysis_output_t *dao,
+					    __attribute__((unused)) analysis_tools_data_regression_t *info)
 {
 	/* FIXME: code from ...engine_run that may lead to error               */
 	/* messages and no dao output should be moved here.                    */
@@ -3637,10 +3642,9 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	return return_value;
 }
 
-
-
-static gboolean 
-analysis_tool_anova_two_factor_engine_clean (data_analysis_output_t *dao, gpointer specs)
+static gboolean
+analysis_tool_anova_two_factor_engine_clean (__attribute__((unused)) data_analysis_output_t *dao,
+					     gpointer specs)
 {
 	analysis_tools_data_anova_two_factor_t *info = specs;
 
@@ -3756,14 +3760,14 @@ bin_pareto (const bin_t *set_a, const bin_t *set_b)
 }
 
 static void
-destroy_items (gpointer data, gpointer user_data) {
+destroy_items (gpointer data, __attribute__((unused)) gpointer user_data) {
 	if (((bin_t*)data)->label != NULL && ((bin_t*)data)->destroy_label)
 		g_free (((bin_t*)data)->label);
 	g_free (data);
 }
 
 static gboolean
-analysis_tool_histogram_engine_run (data_analysis_output_t *dao, 
+analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 				  analysis_tools_data_histogram_t *info, GPtrArray **bin_data)
 {
 

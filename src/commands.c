@@ -1569,7 +1569,8 @@ typedef struct {
 GNUMERIC_MAKE_COMMAND (CmdFormat, cmd_format);
 
 static gboolean
-cmd_format_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_format_undo (GnumericCommand *cmd,
+		 __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdFormat *me = CMD_FORMAT (cmd);
 
@@ -1762,7 +1763,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdResizeColRow, cmd_resize_colrow);
 
 static gboolean
-cmd_resize_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_resize_colrow_undo (GnumericCommand *cmd,
+			__attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
 
@@ -1778,7 +1780,8 @@ cmd_resize_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_resize_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_resize_colrow_redo (GnumericCommand *cmd,
+			__attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
 
@@ -2193,7 +2196,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdGroup, cmd_group);
 
 static gboolean
-cmd_group_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_group_undo (GnumericCommand *cmd,
+		__attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdGroup const *me = CMD_GROUP (cmd);
 	sheet_colrow_group_ungroup (me->cmd.sheet,
@@ -2202,7 +2206,8 @@ cmd_group_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_group_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_group_redo (GnumericCommand *cmd,
+		__attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdGroup const *me = CMD_GROUP (cmd);
 	sheet_colrow_group_ungroup (me->cmd.sheet,
@@ -2288,11 +2293,12 @@ typedef struct
 /**
  * cmd_paste_cut_update_origin :
  *
- * Utility routine to update things whne we are transfering between sheets and
+ * Utility routine to update things when we are transfering between sheets and
  * workbooks.
  */
 static void
-cmd_paste_cut_update_origin (GnmExprRelocateInfo const  *info, WorkbookControl *wbc)
+cmd_paste_cut_update_origin (GnmExprRelocateInfo const  *info,
+			     __attribute__((unused)) WorkbookControl *wbc)
 {
 	/* Dirty and update both sheets */
 	if (info->origin_sheet != info->target_sheet) {
@@ -2912,7 +2918,8 @@ typedef struct {
 GNUMERIC_MAKE_COMMAND (CmdAutoFormat, cmd_autoformat);
 
 static gboolean
-cmd_autoformat_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_autoformat_undo (GnumericCommand *cmd,
+		     __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdAutoFormat *me = CMD_AUTOFORMAT (cmd);
 
@@ -2941,7 +2948,8 @@ cmd_autoformat_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_autoformat_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_autoformat_redo (GnumericCommand *cmd,
+		     __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdAutoFormat *me = CMD_AUTOFORMAT (cmd);
 
@@ -3353,7 +3361,8 @@ cmd_search_replace_update_after_action (CmdSearchReplace *me)
 
 
 static gboolean
-cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_search_replace_undo (GnumericCommand *cmd,
+			 __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
@@ -3390,7 +3399,8 @@ cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_search_replace_redo (GnumericCommand *cmd,
+			 __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
@@ -3562,8 +3572,9 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 
 
 static gboolean
-cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
-		       Sheet *sheet, gboolean test_run)
+cmd_search_replace_do (CmdSearchReplace *me,
+		       __attribute__((unused)) Workbook *wb, Sheet *sheet,
+		       gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
 	GPtrArray *cells;
@@ -3691,7 +3702,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdColRowStdSize, cmd_colrow_std_size);
 
 static gboolean
-cmd_colrow_std_size_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_colrow_std_size_undo (GnumericCommand *cmd,
+			  __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdColRowStdSize *me = CMD_COLROW_STD_SIZE (cmd);
 
@@ -3709,7 +3721,8 @@ cmd_colrow_std_size_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_colrow_std_size_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_colrow_std_size_redo (GnumericCommand *cmd,
+			  __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdColRowStdSize *me = CMD_COLROW_STD_SIZE (cmd);
 
@@ -3864,7 +3877,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdZoom, cmd_zoom);
 
 static gboolean
-cmd_zoom_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_zoom_undo (GnumericCommand *cmd,
+	       __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdZoom *me = CMD_ZOOM (cmd);
 	GSList *l;
@@ -3884,7 +3898,8 @@ cmd_zoom_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_zoom_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_zoom_redo (GnumericCommand *cmd,
+	       __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdZoom *me = CMD_ZOOM (cmd);
 	GSList *l;
@@ -3989,7 +4004,8 @@ cmd_object_insert_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_object_insert_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_object_insert_undo (GnumericCommand *cmd,
+			__attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdObjectInsert *me = CMD_OBJECT_INSERT (cmd);
 
@@ -4045,7 +4061,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdObjectDelete, cmd_object_delete);
 
 static gboolean
-cmd_object_delete_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_object_delete_redo (GnumericCommand *cmd,
+			__attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdObjectDelete *me = CMD_OBJECT_DELETE (cmd);
 	sheet_object_clear_sheet (me->so);
@@ -4053,7 +4070,8 @@ cmd_object_delete_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_object_delete_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_object_delete_undo (GnumericCommand *cmd,
+			__attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdObjectDelete *me = CMD_OBJECT_DELETE (cmd);
 	sheet_object_set_sheet (me->so, me->cmd.sheet);
@@ -4107,7 +4125,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdObjectMove, cmd_object_move);
 
 static gboolean
-cmd_object_move_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_object_move_redo (GnumericCommand *cmd,
+		      __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdObjectMove *me = CMD_OBJECT_MOVE (cmd);
 
@@ -4199,7 +4218,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
 
 static void
-cmd_reorganize_sheets_delete_sheets (gpointer data, gpointer dummy)
+cmd_reorganize_sheets_delete_sheets (gpointer data,
+				     __attribute__((unused)) gpointer dummy)
 {
 	Sheet *sheet = data;
 
@@ -4242,7 +4262,8 @@ cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 
 static void
-cb_slist_gdk_color_free (gpointer data, gpointer user_data)
+cb_slist_gdk_color_free (gpointer data,
+			 __attribute__((unused)) gpointer user_data)
 {
 	if (data)
 		gdk_color_free (data);
@@ -4506,7 +4527,8 @@ cmd_set_comment_apply (Sheet *sheet, CellPos *pos, char const *text)
 }
 
 static gboolean
-cmd_set_comment_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_set_comment_undo (GnumericCommand *cmd,
+		      __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
 
@@ -4514,7 +4536,8 @@ cmd_set_comment_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_set_comment_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_set_comment_redo (GnumericCommand *cmd,
+		      __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
 
@@ -4727,9 +4750,9 @@ cmd_analysis_tool_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_analysis_tool (WorkbookControl *wbc, Sheet *sheet,
-				data_analysis_output_t *dao, gpointer specs,
-				analysis_tool_engine engine)
+cmd_analysis_tool (WorkbookControl *wbc, __attribute__((unused)) Sheet *sheet,
+		   data_analysis_output_t *dao, gpointer specs,
+		   analysis_tool_engine engine)
 {
 	GObject *obj;
 	CmdAnalysis_Tool *me;
@@ -4791,7 +4814,8 @@ cmd_merge_data_delete_sheets (gpointer data, gpointer success)
 }
 
 static gboolean
-cmd_merge_data_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_merge_data_undo (GnumericCommand *cmd,
+		     __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
 	gboolean success = TRUE;
@@ -4986,7 +5010,8 @@ cmd_change_summary_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cb_change_summary_clear_sit (SummaryItem *sit, gpointer ignore)
+cb_change_summary_clear_sit (SummaryItem *sit,
+			     __attribute__((unused)) gpointer ignore)
 {
 	summary_item_free (sit);
 }
@@ -5059,7 +5084,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdObjectRaise, cmd_object_raise);
 
 static gboolean
-cmd_object_raise_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_object_raise_redo (GnumericCommand *cmd,
+		       __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
 	switch (me->dir) {
@@ -5080,7 +5106,8 @@ cmd_object_raise_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_object_raise_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_object_raise_undo (GnumericCommand *cmd,
+		       __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
 	if (me->changed_positions != 0)
@@ -5268,7 +5295,8 @@ typedef struct
 GNUMERIC_MAKE_COMMAND (CmdDefineName, cmd_define_name);
 
 static gboolean
-cmd_define_name_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_define_name_undo (GnumericCommand *cmd,
+		      __attribute__((unused)) WorkbookControl *wbc)
 {
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
 	GnmExpr const *expr;

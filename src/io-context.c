@@ -6,7 +6,7 @@
  *   as well as storing non-fatal warnings.
  *
  * Authors:
- * 	Jody Goldberg <jody@gnome.org>
+ *	Jody Goldberg <jody@gnome.org>
  *	Zbigniew Chyla <cyba@gnome.pl>
  *
  * (C) 2000-2002 Jody Goldberg
@@ -80,7 +80,8 @@ ioc_error_error (CommandContext *cc, GError *err)
 }
 
 static void
-ioc_error_error_info (CommandContext *ctxt, ErrorInfo *error)
+ioc_error_error_info (__attribute__((unused)) CommandContext *ctxt,
+		      ErrorInfo *error)
 {
 	/* TODO what goes here */
 	error_info_print (error);
@@ -385,7 +386,8 @@ io_progress_unset (IOContext *io_context)
 
 #warning Good Project implement these
 void
-gnm_io_warning (IOContext *context, char const *fmt, ...)
+gnm_io_warning (__attribute__((unused)) IOContext *context,
+		char const *fmt, ...)
 {
 	char *msg;
 	va_list args;
@@ -400,13 +402,15 @@ gnm_io_warning (IOContext *context, char const *fmt, ...)
 }
 
 void
-gnm_io_warning_unknown_font (IOContext *context, char const *font_name)
+gnm_io_warning_unknown_font (IOContext *context,
+			     __attribute__((unused)) char const *font_name)
 {
 	g_return_if_fail (IS_IO_CONTEXT (context));
 }
 
 void
-gnm_io_warning_unknown_function	(IOContext *context, char const *funct_name)
+gnm_io_warning_unknown_function	(IOContext *context,
+				 __attribute__((unused)) char const *funct_name)
 {
 	g_return_if_fail (IS_IO_CONTEXT (context));
 }

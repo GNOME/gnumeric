@@ -99,7 +99,7 @@ complete_start (Complete *complete, char const *text)
 }
 
 static gboolean
-default_search_iteration (Complete *complete)
+default_search_iteration (__attribute__((unused)) Complete *complete)
 {
 	return FALSE;
 }

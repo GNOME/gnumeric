@@ -77,7 +77,7 @@ tool_random_engine_run_discrete_clear_continuity (discrete_random_tool_local_t *
 }
 
 static gboolean
-tool_random_engine_run_discrete_last_check (data_analysis_output_t *dao, 
+tool_random_engine_run_discrete_last_check (__attribute__((unused)) data_analysis_output_t *dao,
 					    tools_data_random_t *info,
 					    discrete_random_tool_t *param,
 					    discrete_random_tool_local_t **continuity)
@@ -147,14 +147,14 @@ tool_random_engine_run_discrete_last_check (data_analysis_output_t *dao,
 			 _("The probabilities may not all be 0!"));
 
  random_tool_discrete_out:
-	tool_random_engine_run_discrete_clear_continuity (continuity);	
+	tool_random_engine_run_discrete_clear_continuity (continuity);
 	return TRUE;
 }
 
 static gboolean
-tool_random_engine_run_discrete (data_analysis_output_t *dao, 
+tool_random_engine_run_discrete (data_analysis_output_t *dao,
 				 tools_data_random_t *info,
-				 discrete_random_tool_t *param,
+				 __attribute__((unused)) discrete_random_tool_t *param,
 				 discrete_random_tool_local_t **continuity)
 {
 	gint i;

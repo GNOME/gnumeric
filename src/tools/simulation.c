@@ -65,7 +65,7 @@ init_stats (simstats_t *stats, simulation_t *sim)
 }
 
 static void
-free_stats (simstats_t *stats, simulation_t *sim)
+free_stats (simstats_t *stats, __attribute__((unused)) simulation_t *sim)
 {
 	g_free (stats->min);
 	g_free (stats->max);
@@ -84,7 +84,8 @@ free_stats (simstats_t *stats, simulation_t *sim)
 }
 
 static const gchar *
-eval_inputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
+eval_inputs_list (simulation_t *sim, gnum_float **outputs, int iter,
+		  __attribute__((unused)) int round)
 {
 	GSList *cur;
 	int    i = sim->n_output_vars;
@@ -111,7 +112,7 @@ eval_inputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
 
 static const gchar *
 eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter,
-		   int round)
+		   __attribute__((unused)) int round)
 {
 	GSList *cur;
 	int    i = 0;

@@ -106,8 +106,10 @@ autocorrect_init (void)
 }
 
 static void
-cb_autocorrect_update (GConfClient *gconf, guint cnxn_id, GConfEntry *entry,
-		       gpointer ignore)
+cb_autocorrect_update (__attribute__((unused)) GConfClient *gconf,
+		       __attribute__((unused)) guint cnxn_id,
+		       __attribute__((unused)) GConfEntry *entry,
+		       __attribute__((unused)) gpointer ignore)
 {
 	autocorrect_clear ();
 	autocorrect_load ();
@@ -314,7 +316,7 @@ autocorrect_initial_caps (const char *src)
 
 
 static char *
-autocorrect_first_letter (const char *src)
+autocorrect_first_letter (__attribute__((unused)) const char *src)
 {
 	/* Sorry, not implemented.  I got tired.  */
 #if 0
@@ -327,17 +329,17 @@ autocorrect_first_letter (const char *src)
 			;
 		if (*p == '\0')
 			break;
-		
+
 		while (g_unichar_isspace(*s))
 			++s;
 		if (g_unichar_islower (*s) && (s == ucommand || g_unichar_isspace (s[-1]))) {
 			GSList const *cur = autocorrect.exceptions.first_letter;
-			
+
 			for ( ; cur != NULL; cur = cur->next) {
 				gunichar *t, *c = cur->data;
 				gint l = g_unichar_strlen (c);
 				gint spaces = 0;
-				
+
 				for (t = s - 1; t >= ucommand; t--)
 					if (g_unichar_isspace (*t))
 						++spaces;

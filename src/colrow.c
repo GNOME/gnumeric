@@ -298,7 +298,7 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 }
 
 ColRowStateList	*
-colrow_make_state (Sheet *sheet, int count,
+colrow_make_state (__attribute__((unused)) Sheet *sheet, int count,
 		   float size_pts, gboolean hard_size,
 		   int outline_level)
 {
@@ -634,7 +634,8 @@ colrow_index_cmp (ColRowIndex const *a, ColRowIndex const *b)
 
 static void
 colrow_visibility (Sheet const *sheet, colrow_visiblity * const dat,
-		   int first, int last, gboolean honour_collapse)
+		   int first, int last,
+		   __attribute__((unused)) gboolean honour_collapse)
 {
 	int i;
 	gboolean const visible = dat->visible;
@@ -811,7 +812,8 @@ colrow_set_outline (ColRowInfo *cri, int outline_level, gboolean is_collapsed)
  * @pre_or_post :
  */
 void
-colrow_adjust_outline_dir (ColRowCollection *colrows, gboolean pre_or_post)
+colrow_adjust_outline_dir (__attribute__((unused)) ColRowCollection *colrows,
+			   __attribute__((unused)) gboolean pre_or_post)
 {
 	/* excel pisses me off */
 	g_warning ("TODO : write me");

@@ -668,7 +668,7 @@ cell_init (void)
 
 #if USE_CELL_POOL
 static void
-cb_cell_pool_leak (gpointer data, gpointer user)
+cb_cell_pool_leak (gpointer data, __attribute__((unused)) gpointer user)
 {
 	Cell const *cell = data;
 	fprintf (stderr, "Leaking cell %p at %s\n", cell, cellpos_as_string (&cell->pos));
