@@ -125,7 +125,7 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ColRowInfo *info, char 
 	int len, texth, shadow;
 
 	len = gdk_string_width (font, str);
-	texth = gdk_string_height (font, str);
+	texth = font->ascent + font->descent;
 
 	if (info->selected){
 		shadow = GTK_SHADOW_IN;
@@ -139,7 +139,7 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ColRowInfo *info, char 
 	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow, 
 			 x1, y1, x2-x1, y2-y1);
 	gdk_draw_string (drawable, font, item_bar->gc, x1 + ((x2 - x1)-len)/2,
-			 y2 - font->descent,
+			 y2 - (y2 - y1)/2 + texth/2 - 1,
 			 str);
 			 
 }
