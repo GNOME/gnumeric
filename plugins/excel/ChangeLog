@@ -1,3 +1,8 @@
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_WINDOW2) : document rtl
+	* ms-excel-write.c (excel_write_WINDOW2) : ditto
+
 2004-11-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* ms-chart.c (BC_R(radararea)): type of area radar is

@@ -352,6 +352,7 @@ src/sheet-object-widget.c
 src/sheet-style.c
 src/sheet-view.c
 src/ssconvert.c
+src/ssindex.c
 src/stf.c
 src/stf-export.c
 src/stf-parse.c

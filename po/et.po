@@ -6,17 +6,15 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: openoffice\n"
+"Project-Id-Version: gnumeric 1.1.20CVS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-22 16:47-0500\n"
-"PO-Revision-Date: 2004-11-27 00:29+0200\n"
-"Last-Translator: Ain Vagula <ain@riiska.ee>\n"
+"PO-Revision-Date: 2004-11-27 09:18+0200\n"
+"Last-Translator: Ain Vagula <avagula@gmail.com>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Estonian\n"
-"X-Poedit-Country: ESTONIA\n"
 "X-Generator: KBabel 1.9.1\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
@@ -93,7 +91,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Pakub CORBA skriptimiskeskkonna"
 
 #: plugins/derivatives/options.c:159
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -106,7 +104,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,roo)\n"
-"@DESCRIPTION=CUM_BIV_NORM_DIST arvutab kogu/ühis- (??bivariatenormal??) jaotuse parameetritest a, b ja roo"
+"@DESCRIPTION=CUM_BIV_NORM_DIST arvutab parameetrite a, b ja roo alusel kumulatiivse kahemõõtmelise normaaljaotuse."
+"Tagastuv väärtus on tõenäosus, et kaks juhumuutujat korrelatsiooniga @rho on vastavalt väiksemad kui @a ja @b.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NORMDIST,NORMSDIST,NORMSINV"
 
 #: plugins/derivatives/options.c:218
 msgid ""
@@ -1133,6 +1136,18 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMINV\n"
+"@SYNTAX=IMINV(inumber)\n"
+"@DESCRIPTION=IMINV tagastab kompleksarvu z (@inumber) pöördarvu, kus\n"
+"\n"
+"\t1/z = (x - i y)/(x^2 + y^2).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMINV #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMINV(\"1-j\") võrdub0.5+0.5j.\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-complex/functions.c:277
 msgid ""
@@ -1149,6 +1164,18 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=IMNEG\n"
+"@SYNTAX=IMNEG(inumber)\n"
+"@DESCRIPTION=IMNEG tagastab kompleksarvu z (@inumber) vastandarvu, kus\n"
+"\n"
+"\t-z = (-x) + i(-y).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMNEG #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMNEG(\"1-j\") võrdub -1+j.\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-complex/functions.c:308
 msgid ""
@@ -1217,6 +1244,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSC,IMCOT"
 msgstr ""
+"@FUNCTION=IMSEC\n"
+"@SYNTAX=IMSEC(inumber)\n"
+"@DESCRIPTION=IMSEC tagastab kompleksarvu z (@inumber) kompleksarvulise seekansi, kus\n"
+"\n"
+"\tsec(z) = 1/cos(z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMSEC #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSEC(\"2-j\") võrdub -0.413149-0.687527j.\n"
+"\n"
+"@SEEALSO=IMCSC,IMCOT"
 
 #: plugins/fn-complex/functions.c:403
 msgid ""
@@ -1233,6 +1272,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCOT"
 msgstr ""
+"@FUNCTION=IMCSC\n"
+"@SYNTAX=IMCSC(inumber)\n"
+"@DESCRIPTION=IMCSC tagastab kompleksarvu z (@inumber) kompleksarvulise koosekansi, kus\n"
+"\n"
+"\tcsc(z) = 1/sin(z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMCSC #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCSC(\"2-j\") võrdub 0.635494-0.221501j.\n"
+"\n"
+"@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:436
 msgid ""
@@ -1249,6 +1300,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCSC"
 msgstr ""
+"@FUNCTION=IMCOT\n"
+"@SYNTAX=IMCOT(inumber)\n"
+"@DESCRIPTION=IMCOT tagastab kompleksarvu z (@inumber) kompleksarvulise kootangensi, kus\n"
+"\n"
+"\tcot(z) = 1/tan(z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMCOT #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOT(\"2-j\") võrdub -0.171384+0.821330j.\n"
+"\n"
+"@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:469
 msgid ""
@@ -1277,7 +1340,6 @@ msgstr ""
 "@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:500
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -1293,7 +1355,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
-"@DESCRIPTION=IMARGUMENT tagastab kompleksarvu teeta-argumendi.\n"
+"@DESCRIPTION=IMARGUMENT tagastab kompleksarvu teeta-argumendi, st. reaaltelje ja kompleksarvu polaarkoordinaadistikus antud esituse vahelise nurga radiaanides.\n"
 "\n"
 "* Kui @inumber ei ole kompleksarv, siis IMARGUMENT tagastab #VALUE! vea.\n"
 "* See funktsioon on Exceliga ühilduv.\n"
@@ -1463,7 +1525,6 @@ msgstr ""
 "@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:738
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1478,17 +1539,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOSH,IMTANH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN tagastab kompleksarvu siinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") võrdub 1.29846+0.63496j.\n"
+"@FUNCTION=IMSINH\n"
+"@SYNTAX=IMSINH(inumber)\n"
+"@DESCRIPTION=IMSIN tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse siinuse, kus\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"\tsinh(z) = (exp(z) - exp(-z))/2.\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMSINH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSINH(\"1+j\") võrdub 0.63496+1.29846j.\n"
+"\n"
+"@SEEALSO=IMCOSH,IMTANH"
 
 #: plugins/fn-complex/functions.c:770
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1503,17 +1567,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMTANH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMCOSH\n"
+"@SYNTAX=IMCOSH(inumber)\n"
+"@DESCRIPTION=IMCOSH tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse koosinuse, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcosh(z) = (exp(z) + exp(-z))/2.\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMCOSH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOSH(\"1+j\") võrdub 0.83373+0.988898j.\n"
+"\n"
+"@SEEALSO=IMSINH,IMTANH"
 
 #: plugins/fn-complex/functions.c:801
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -1528,17 +1595,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMCOSH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN tagastab kompleksarvu siinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") võrdub 1.29846+0.63496j.\n"
+"@FUNCTION=IMTANH\n"
+"@SYNTAX=IMTANH(inumber)\n"
+"@DESCRIPTION=IMTANH tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse tangensi, kus\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"\ttanh(z) = sinh(z)/cosh(z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMTANH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMTANH(\"1+j\") võrdub 1.083923+0.2717526j.\n"
+"\n"
+"@SEEALSO=IMSINH,IMCOSH"
 
 #: plugins/fn-complex/functions.c:832
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -1553,17 +1623,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSCH,IMCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMSECH\n"
+"@SYNTAX=IMSECH(inumber)\n"
+"@DESCRIPTION=IMSECH tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse seekansi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tsech(z) = 1/cosh(z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMSECH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMSECH(\"1+j\") võrdub 0.498337-0.5910838j.\n"
+"\n"
+"@SEEALSO=IMCSCH,IMCOTH"
 
 #: plugins/fn-complex/functions.c:863
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -1578,17 +1651,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMCSCH\n"
+"@SYNTAX=IMCSCH(inumber)\n"
+"@DESCRIPTION=IMCSCH tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse koosekansi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcsch(z) = 1/sinh(z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMCSCH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCSCH(\"1+j\") võrdub 0.303931-0.621518j.\n"
+"\n"
+"@SEEALSO=IMSECH,IMCOTH"
 
 #: plugins/fn-complex/functions.c:894
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(inumber)\n"
@@ -1603,17 +1679,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCSCH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMCOTH\n"
+"@SYNTAX=IMCOTH(inumber)\n"
+"@DESCRIPTION=IMCOTH tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse kootangensi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tcoth(z) = 1/tanh(z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMCOTH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMCOTH(\"1+j\") võrdub 0.868014-0.217622j.\n"
+"\n"
+"@SEEALSO=IMSECH,IMCSCH"
 
 #: plugins/fn-complex/functions.c:925
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -1626,17 +1705,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCOS,IMARCTAN"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN tagastab kompleksarvu siinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") võrdub 1.29846+0.63496j.\n"
+"@FUNCTION=IMARCSIN\n"
+"@SYNTAX=IMARCSIN(inumber)\n"
+"@DESCRIPTION=IMARCSIN tagastab kompleksarvu @inumber kompleksarvulise arkussiinuse. Katkevusjooned on reaaltelje alas, mis on väiksem kui -1 ja suurem kui 1.\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCSIN #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCSIN(\"1+j\") võrdub 0.6662394+1.061275j.\n"
+"\n"
+"@SEEALSO=IMARCCOS,IMARCTAN"
 
 #: plugins/fn-complex/functions.c:957
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -1649,17 +1729,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCTAN"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCCOS\n"
+"@SYNTAX=IMARCCOS(inumber)\n"
+"@DESCRIPTION=IMARCCOS tagastab kompleksarvu @inumber kompleksarvulise arkuskoosinuse. Katkevusjooned on reaaltelje alas, mis on väiksem kui -1 ja suurem kui 1.\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCCOS #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCOS(\"1+j\") võrdub 0.9045569-1.061275j.\n"
+"\n"
+"@SEEALSO=IMARCSIN,IMARCTAN"
 
 #: plugins/fn-complex/functions.c:989
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(inumber)\n"
@@ -1672,17 +1753,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCCOS"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN tagastab kompleksarvu siinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") võrdub 1.29846+0.63496j.\n"
+"@FUNCTION=IMARCTAN\n"
+"@SYNTAX=IMARCTAN(inumber)\n"
+"@DESCRIPTION=IMARCTAN tagastab kompleksarvu @inumber kompleksarvulise arkustangensi. Katkevusjooned on imaginaarteljel allpool kui -i ja ülevalpool kui i.\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"* Kui @inumber  ei ole kompleksarv, tagastab IMARCTAN #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCTAN(\"1+j\") võrdub 1.0172220+0.4023595j.\n"
+"\n"
+"@SEEALSO=IMARCSIN,IMARCCOS"
 
 #: plugins/fn-complex/functions.c:1021
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(inumber)\n"
@@ -1697,17 +1779,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCSC,IMARCCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCSEC\n"
+"@SYNTAX=IMARCSEC(inumber)\n"
+"@DESCRIPTION=IMARCSEC tagastab kompleksarvu z (@inumber) kompleksarvulise arkusseekansi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tarcsec(z) = arccos(1/z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCSEC #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCSEC(\"1+j\") võrdub 1.1185179+0.5306375j.\n"
+"\n"
+"@SEEALSO=IMARCCSC,IMARCCOT"
 
 #: plugins/fn-complex/functions.c:1052
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(inumber)\n"
@@ -1722,17 +1807,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCCSC\n"
+"@SYNTAX=IMARCCSC(inumber)\n"
+"@DESCRIPTION=IMARCCSC tagastab kompleksarvu z (@inumber) kompleksarvulise arkuskoosekansi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tarccsc(z) = arcsin(1/z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCCSC #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCSC(\"1+j\") võrdub 0.45227845-0.5306375j.\n"
+"\n"
+"@SEEALSO=IMARCSEC,IMARCCOT"
 
 #: plugins/fn-complex/functions.c:1083
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(inumber)\n"
@@ -1747,17 +1835,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCCSC"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCCOT\n"
+"@SYNTAX=IMARCCOT(inumber)\n"
+"@DESCRIPTION=IMARCCOT tagastab kompleksarvu z (@inumber) kompleksarvulise arkuskootangensi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tarccot(z) = arctan(1/z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCCOT #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCOT(\"1+j\") võrdub 0.553574+0.4023595j.\n"
+"\n"
+"@SEEALSO=IMARCSEC,IMARCCSC"
 
 #: plugins/fn-complex/functions.c:1114
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -1770,17 +1861,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCOSH,IMARCTANH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN tagastab kompleksarvu siinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") võrdub 1.29846+0.63496j.\n"
+"@FUNCTION=IMARCSINH\n"
+"@SYNTAX=IMARCSINH(inumber)\n"
+"@DESCRIPTION=IMARCSINH tagastab kompleksarvu @inumber kompleksarvulise hüperboolse arkussiinuse. Katkevusjooned on imaginaarteljel allpool kui -i ja ülevalpool kui i.\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCSINH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCSINH(\"1+j\") võrdub 1.061275+0.6662394j.\n"
+"\n"
+"@SEEALSO=IMARCCOSH,IMARCTANH"
 
 #: plugins/fn-complex/functions.c:1146
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -1793,17 +1885,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCTANH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCCOSH\n"
+"@SYNTAX=IMARCCOSH(inumber)\n"
+"@DESCRIPTION=IMARCCOSH tagastab kompleksarvu @inumber kompleksarvulise hüperboolse arkuskoosinuse. Katkevusjoon on reaaltelje alas, mis on väiksem kui 1.\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCCOSH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCOSH(\"1+j\") võrdub 1.06127506+0.904557j.\n"
+"\n"
+"@SEEALSO=IMARCSINH,IMARCTANH"
 
 #: plugins/fn-complex/functions.c:1178
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(inumber)\n"
@@ -1816,17 +1909,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCCOSH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCTANH\n"
+"@SYNTAX=IMARCTANH(inumber)\n"
+"@DESCRIPTION=IMARCTANH tagastab kompleksarvu @inumber kompleksarvulise hüperboolse arkustangensi. Katkevusjoone on reaaltelje alas, mis on väiksem -1 ja suurem kui 1.\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCTANH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCTANH(\"1+j\") võrdub 0.4023595+1.0172220j.\n"
+"\n"
+"@SEEALSO=IMARCSINH,IMARCCOSH"
 
 #: plugins/fn-complex/functions.c:1210
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
@@ -1841,17 +1935,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCSCH,IMARCCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCSECH\n"
+"@SYNTAX=IMARCSECH(inumber)\n"
+"@DESCRIPTION=IMARCSECH tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse arkusseekansi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tarcsech(z) = arccosh(1/z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCSECH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCSECH(\"1+j\") võrdub 0.5306375-1.118518j.\n"
+"\n"
+"@SEEALSO=IMARCCSCH,IMARCCOTH"
 
 #: plugins/fn-complex/functions.c:1242
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
@@ -1866,17 +1963,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCCSCH\n"
+"@SYNTAX=IMARCCSCH(inumber)\n"
+"@DESCRIPTION=IMARCCSCH tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse arkuskoosekansi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tarccsch(z) = arcsinh(1/z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCCSCH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCSCH(\"1+j\") võrdub 0.5306375-0.452278j.\n"
+"\n"
+"@SEEALSO=IMARCSECH,IMARCCOTH"
 
 #: plugins/fn-complex/functions.c:1273
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(inumber)\n"
@@ -1891,17 +1991,20 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCCSCH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
+"@FUNCTION=IMARCCOTH\n"
+"@SYNTAX=IMARCCOTH(inumber)\n"
+"@DESCRIPTION=IMARCCOTH tagastab kompleksarvu z (@inumber) kompleksarvulise hüperboolse arkuskootangensi, kus\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"\tarccoth(z) = arctanh(1/z).\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMARCCOTH #VALUE! vea.\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCCOTH(\"1+j\") võrdub 0.40235948-0.5535744j.\n"
+"\n"
+"@SEEALSO=IMARCSECH,IMARCCSCH"
 
 #: plugins/fn-complex/functions.c:1305
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -1918,14 +2021,15 @@ msgstr ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
 "@DESCRIPTION=IMSQRT tagastab kompleksarvu ruutjuure.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, tagastab IMSQRT #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "IMSQRT(\"1+j\") võrdub 1.09868+0.4550899j.\n"
 "\n"
 "@SEEALSO=IMPOWER"
 
 #: plugins/fn-complex/functions.c:1336
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber1,inumber2)\n"
@@ -1940,16 +2044,17 @@ msgid ""
 "@SEEALSO=IMSUM"
 msgstr ""
 "@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(inumber;inumber)\n"
+"@SYNTAX=IMSUB(inumber1;inumber2)\n"
 "@DESCRIPTION=IMSUB tagastab kahe kompleksarvu vahe.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber1 või @inumber2 ei ole kompleksarvud, tagastab IMSUB #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "IMSUB(\"3-j\",\"2+j\") võrdub 1-2j.\n"
 "\n"
 "@SEEALSO=IMSUM"
 
 #: plugins/fn-complex/functions.c:1370
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -1966,14 +2071,15 @@ msgstr ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[;inumber2;...])\n"
 "@DESCRIPTION=IMPRODUCT tagastab antud kompleksarvude korrutise.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui mõni arvudest @inumber ei ole kompleksarv, tagastab IMPRODUCT #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "IMPRODUCT(\"2-j\",\"4-2j\") võrdub 6-8j.\n"
 "\n"
 "@SEEALSO=IMDIV"
 
 #: plugins/fn-complex/functions.c:1442
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber1,inumber2)\n"
@@ -1988,9 +2094,11 @@ msgid ""
 "@SEEALSO=IMSUB"
 msgstr ""
 "@FUNCTION=IMSUM\n"
-"@SYNTAX=IMSUM(inumber;inumber)\n"
+"@SYNTAX=IMSUM(inumber1;inumber2)\n"
 "@DESCRIPTION=IMSUM tagastab kahe kompleksarvu summa.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber1 või @inumber2 ei ole kompleksarvud, tagastab IMSUM #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "IMSUM(\"2-4j\",\"9-j\") võrdub 11-5j.\n"
 "\n"
@@ -1998,7 +2106,7 @@ msgstr ""
 
 #: plugins/fn-complex/functions.c:1478
 msgid "real,im,suffix"
-msgstr ""
+msgstr "reaal,im,sufiks"
 
 #: plugins/fn-complex/functions.c:1481
 #: plugins/fn-complex/functions.c:1484
@@ -2487,7 +2595,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-database/functions.c:1154
-#, fuzzy
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -2500,9 +2607,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=GETPIVOTDATA\n"
-"@SYNTAX=GETPIVOTDATA(risttabel;väljanimi)\n"
-"@DESCRIPTION=Funktsioon GETPIVOTDATA hangib informatsiooni risttabelist. @risttabel on lahtrite piirkond, mis sisaldab risttabelit. @väljanimi on välja nimi, mille kohta soovitakse informatsiooni. \n"
-"Juhul kui info pole saadaval, GETPIVOTDATA tagastab #REF! vea. \n"
+"@SYNTAX=GETPIVOTDATA(rist_tabel;välja_nimi)\n"
+"@DESCRIPTION=Funktsioon GETPIVOTDATA hangib informatsiooni risttabelist. @rist_tabel on lahtrite piirkond, mis sisaldab risttabelit. @välja_nimi on välja nimi, mille kohta soovitakse informatsiooni. \n"
+"\n"
+"* Juhul kui info pole saadaval, tagastab GETPIVOTDATA #REF! vea. \n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -2541,7 +2650,6 @@ msgid "Functions looking up values in databases"
 msgstr "Funktsioonid andmete otsimiseks andmebaasidest"
 
 #: plugins/fn-date/functions.c:62
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -2561,19 +2669,17 @@ msgstr ""
 "@SYNTAX=DATE (aasta;kuu;päev)\n"
 "@DESCRIPTION=DATE arvutab päevade arvu alates 1. jaanuarist 1900 (kuupäeva seerianumber) vastavalt antud aastale, kuule ja päevale.\n"
 "\n"
-"Kui @kuu < 1 või @kuu > 12, siis parandatakse aastat.  Samasugune parandus tehakse päevade puhul.\n"
+"* Kui @kuu < 1 või @kuu > 12, siis parandatakse aastat.  Samasugune parandus tehakse päevade puhul.\n"
+"* @aasta peab olema vähemalt 1900.  Kui @aasta <= 1900, siis oletatakse, et see on 1900 + @aasta.\n"
+"* Kui sisestatud kuupäev on vigane, tagastab DATE #NUM! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
 "\n"
-"@aasta peab olema vähemalt 1900.  Kui @aasta <= 1900, siis oletatakse, et see on 1900 + @aasta.\n"
-"\n"
-"Kui sisestatud kuupäev on vigane, tagastab DATE #NUM! vea.\n"
-"See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "DATE(2001, 3, 30) tagastab 'Mar 30, 2001'.\n"
 "\n"
 "@SEEALSO=TODAY, NOW"
 
 #: plugins/fn-date/functions.c:132
-#, fuzzy
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
@@ -2586,17 +2692,16 @@ msgid ""
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 msgstr ""
 "@FUNCTION=UNIX2DATE\n"
-"@SYNTAX=UNIX2DATE(unixtime)\n"
+"@SYNTAX=UNIX2DATE(unixiaeg)\n"
 "@DESCRIPTION=UNIX2DATE teisendab unix'i aja tabelarvutuse kuupäevaks ja kellaajaks.\n"
 "\n"
-"Unix'i aeg on sekundite arv alates 1. jaanuarist 1970\n"
+"Unix'i aeg on sekundite arv alates 1. jaanuari 1970 keskööst.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 
 #: plugins/fn-date/functions.c:163
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -2609,18 +2714,18 @@ msgid ""
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 msgstr ""
-"@FUNCTION=UNIX2DATE\n"
-"@SYNTAX=UNIX2DATE(unixtime)\n"
-"@DESCRIPTION=UNIX2DATE teisendab tabelarvutuse kuupäeva ja kellaaja unix'i ajaks.\n"
+"@FUNCTION=DATE2UNIX\n"
+"@SYNTAX=DATE2UNIX(seeria)\n"
+"@DESCRIPTION=DATE2UNIX kuupäeva ja kellaaja tabelarvutuse seerianumbri unix'i ajaks.\n"
 "\n"
-"Unix'i aeg on sekundite arv alates 1. jaanuarist 1970\n"
+"Unix'i aeg on sekundite arv alates 1. jaanuari 1970 keskööst.\n"
 "\n"
 "@EXAMPLES=\n"
+"DATE2UNIX(\"01/01/2000\") võrdub 946656000.\n"
 "\n"
-"@SEEALSO=NOW, DATE, DATE2UNIX"
+"@SEEALSO=NOW, DATE, UNIX2DATE"
 
 #: plugins/fn-date/functions.c:197
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -2634,14 +2739,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
-"@DESCRIPTION=DATEVALUE tagastab kuupäeva seerianumbri.  @date_str on kuupäeva sisaldav string.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"@DESCRIPTION=DATEVALUE tagastab kuupäeva seerianumbri.  @date_str on kuupäeva sisaldav string. Väärtus sõltub kuupäeva alusest. MS Excel loeb kuupäevi alusel 1900, seega alates 01.01.1900, alus 1904 kasutab 01.01.1904.\n"
+"\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
-"DATEVALUE(\"1/1/1999\") võrdub 36161. \n"
+"DATEVALUE(\"1/1/1999\") võrdub 36161 (alusel 1900).\n"
 "@SEEALSO=DATE"
 
 #: plugins/fn-date/functions.c:222
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -2664,11 +2770,15 @@ msgstr ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(kuupäev1;kuupäev2;intervall)\n"
 "@DESCRIPTION=Funktsioon DATEDIF tagastab erinevuse kahe kuupäeva vahel.  @intervall on üks kuuest võimalikust väärtusest:  \"y\", \"m\", \"d\", \"ym\", \"md\", and \"yd\".\n"
+"\n"
 "Esimesed kolm määrangut tagastavad vastavalt kas täisaastate, kuude või päevade arvu kahe antud kuupäeva vahel.\n"
-"\"ym\" tagastab täiskuude arvu kahe kuupäeva vahel, ilma aastaid eristamata.\n"
-"\"md\" tagastab täispäevade arvu kahe kuupäeva vahel, ilma kuid eristamata.\n"
-"\"yd\" tagastab täispäevade arvu kahe kuupäeva vahel, ilma aastaid eristamata.\n"
-"See funktsioon on Exceliga ühilduv\n"
+"\n"
+"  \"ym\" tagastab täiskuude arvu kahe kuupäeva vahel, ilma aastaid eristamata.\n"
+"  \"md\" tagastab täispäevade arvu kahe kuupäeva vahel, ilma kuid eristamata.\n"
+"  \"yd\" tagastab täispäevade arvu kahe kuupäeva vahel, ilma aastaid eristamata.\n"
+"\n"
+"* See funktsioon on Exceliga ühilduv\n"
+"\n"
 "@EXAMPLES=\n"
 "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"d\") võrdub 1191.\n"
 "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"y\") võrdub 3.\n"
@@ -3270,7 +3380,6 @@ msgstr ""
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: plugins/fn-eng/functions.c:139
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -3287,15 +3396,16 @@ msgstr ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(arv[;kohti])\n"
 "@DESCRIPTION=Funktsioon BIN2OCT teisendab kahendarvu kaheksandarvuks. @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga. \n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "BIN2OCT(110111) võrdub 67.\n"
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
 #: plugins/fn-eng/functions.c:165
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -3312,15 +3422,16 @@ msgstr ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(arv[;kohti])\n"
 "@DESCRIPTION=Funktsioon BIN2HEX teisendab kahendarvu kuueteistkümnendarvuks.  @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga. \n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "BIN2HEX(100111) võrdub 27.\n"
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
 #: plugins/fn-eng/functions.c:191
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -3337,15 +3448,16 @@ msgstr ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(arv[;kohti])\n"
 "@DESCRIPTION=Funktsioon DEC2BIN teisendab kümnendarvu kahendarvuks. @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga. \n"
-"See funktsioon  on Exceliga ühilduv. \n"
+"\n"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "DEC2BIN(42) võrdub 101010.\n"
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
 #: plugins/fn-eng/functions.c:217
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -3362,15 +3474,16 @@ msgstr ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(arv[;kohti])\n"
 "@DESCRIPTION=Funktsioon DEC2OCT teisendab kümnendarvu kaheksandarvuks. @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga. \n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "DEC2OCT(42) võrdub 52.\n"
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
 #: plugins/fn-eng/functions.c:243
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -3387,15 +3500,16 @@ msgstr ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(arv[;kohti])\n"
 "@DESCRIPTION=Funktsioon DEC2HEX teisendab kümnendarvu kuueteistkümnendarvuks. @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga. \n"
-"See funktsioon  on Exceliga ühilduv. \n"
+"\n"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "DEC2HEX(42) võrdub 2A.\n"
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
 #: plugins/fn-eng/functions.c:269
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -3411,14 +3525,15 @@ msgstr ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
 "@DESCRIPTION=Funktsioon OCT2DEC teisendab kaheksandarvu stringiks või arvuks vastavalt tema kümnendarvulisele ekvivalendile. \n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "OCT2DEC(\"124\") võrdub 84.\n"
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
 #: plugins/fn-eng/functions.c:292
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -3432,18 +3547,19 @@ msgid ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 msgstr ""
-"@FUNCTION=DEC2BIN\n"
-"@SYNTAX=DEC2BIN(arv[;kohti])\n"
-"@DESCRIPTION=Funktsioon DEC2BIN teisendab kümnendarvu kahendarvuks. @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga. \n"
-"See funktsioon  on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"DEC2BIN(42) võrdub 101010.\n"
+"@FUNCTION=OCT2BIN\n"
+"@SYNTAX=OCT2BIN(number[,places])\n"
+"@DESCRIPTION=Funktsioon OCT2BIN teisendab kaheksandarvu kahendarvuks. @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
 "\n"
-"@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"@EXAMPLES=\n"
+"OCT2BIN(\"213\") võrdub 10001011.\n"
+"\n"
+"@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 
 #: plugins/fn-eng/functions.c:318
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -3457,18 +3573,19 @@ msgid ""
 "\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 msgstr ""
-"@FUNCTION=DEC2HEX\n"
-"@SYNTAX=DEC2HEX(arv[;kohti])\n"
-"@DESCRIPTION=Funktsioon DEC2HEX teisendab kümnendarvu kuueteistkümnendarvuks. @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga. \n"
-"See funktsioon  on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"DEC2HEX(42) võrdub 2A.\n"
+"@FUNCTION=OCT2HEX\n"
+"@SYNTAX=OCT2HEX(arv[;kohti])\n"
+"@DESCRIPTION=Funktsioon OCT2HEX teisendab kaheksandarvu kuueteistkümnendarvuks. @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
 "\n"
-"@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"@EXAMPLES=\n"
+"OCT2HEX(132) võrdub 5A.\n"
+"\n"
+"@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 
 #: plugins/fn-eng/functions.c:344
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -3485,15 +3602,16 @@ msgstr ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(arv[;kohti])\n"
 "@DESCRIPTION=Funktsioon HEX2BIN teisendab kuueteistkümnendarvu kahendarvuks.  @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "HEX2BIN(\"2A\") võrdub 101010.\n"
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
 #: plugins/fn-eng/functions.c:370
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -3510,15 +3628,16 @@ msgstr ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(arv[;kohti])\n"
 "@DESCRIPTION=Funktsioon HEX2OCT teisendab kuueteistkümnendarvu kaheksandarvuks.  @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
-"Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
-"See funktsioon  on Exceliga ühilduv. \n"
+"\n"
+"* Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "HEX2OCT(\"2A\") võrdub 52.\n"
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
 #: plugins/fn-eng/functions.c:396
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -3534,14 +3653,15 @@ msgstr ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
 "@DESCRIPTION=Funktsioon HEX2DEC teisendab kuueteistkümnendarvu tema kümnendarvuliseks ekvivalendiks.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "HEX2DEC(\"2A\") võrdub 42.\n"
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
 #: plugins/fn-eng/functions.c:419
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -3560,16 +3680,20 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x;y)\n"
-"@DESCRIPTION=Funktsioon BESSELI tagastab Neumanni, Weberi või Besseli funktsiooni. @x on funktsiooni rakendamise koht. @y on besseli funktsiooni järjekord, mittetäisarvulist väärtust ei arvestata.\n"
-"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis tagastub  #NUM! viga.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"@DESCRIPTION=Funktsioon BESSELI tagastab Neumanni, Weberi või Besseli funktsiooni.\n"
+"\n"
+"@x on funktsiooni rakendamise koht. @y on besseli funktsiooni järjekord, mittetäisarvulist väärtust ei arvestata.\n"
+"\n"
+"* Kui @x või @y ei ole arvud, tagastub #VALUE! viga.\n"
+"* Kui @y < 0, siis tagastub  #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "BESSELI(0.7,3) võrdub 0.007367374.\n"
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:457
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -3587,15 +3711,17 @@ msgstr ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x;y)\n"
 "@DESCRIPTION=Funktsioon BESSELK tagastab Neumanni, Weberi või Besseli funktsiooni. @x on funktsiooni rakendamise koht. @y on besseli funktsiooni järjekord, mittetäisarvulist väärtust ei arvestata.\n"
-"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis tagastub  #NUM! viga.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @x või @y ei ole arvud, tagastub #VALUE! viga.\n"
+"* Kui @y < 0, siis tagastub  #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "BESSELK(3,9) võrdub 397.95880.\n"
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
 #: plugins/fn-eng/functions.c:494
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -3613,15 +3739,17 @@ msgstr ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x;y)\n"
 "@DESCRIPTION=Funktsioon BESSELJ tagastab Besseli funktsiooni. @x on funktsiooni rakendamise koht. @y on besseli funktsiooni järjekord, mittetäisarvulist väärtust ei arvestata.\n"
-"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis tagastub  #NUM! viga.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @x või @y ei ole arvud, tagastub #VALUE! viga.\n"
+"* Kui @y < 0, siis tagastub  #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "BESSELJ(0.89,3) võrdub 0.013974004.\n"
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:530
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -3640,9 +3768,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x;y)\n"
-"@DESCRIPTION=Funktsioon BESSELY tagastab Besseli funktsiooni. @x on funktsiooni rakendamise koht. @y on besseli funktsiooni järjekord, mittetäisarvulist väärtust ei arvestata.\n"
-"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis tagastub  #NUM! viga.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"@DESCRIPTION=Funktsioon BESSELY tagastab neumanni, Weberi või Besseli funktsiooni.\n"
+"\n"
+"@x on funktsiooni rakendamise koht. @y on besseli funktsiooni järjekord, mittetäisarvulist väärtust ei arvestata.\n"
+"\n"
+"* Kui @x või @y ei ole arvud, tagastub #VALUE! viga.\n"
+"* Kui @y < 0, siis tagastub  #NUM! viga.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "BESSELY(4,2) võrdub 0.215903595.\n"
 "\n"
@@ -3857,7 +3990,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-eng/functions.c:988
-#, fuzzy
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -3879,9 +4011,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([alaraja;]ülaraja)\n"
-"@DESCRIPTION=Ühe argumendiga ERF tagastab veafunktsiooni; määratud kui erf(x) = 2/sqrt(pi)* integraal 0 kuni x-ni exp(-t*t) dt-st. Kui kaks argumenti on antud, siis need on integraali rajad.\n"
-"Kui kas @alaraja või @ülaraja ei ole arvud, tagastatakse #VALUE! viga.\n"
-"See funktsioon on edasiulatuvalt Exceliga ühilduv. (Kui on kaks argumenti antud, Excel ei luba kummalegi negatiivset väärtust.) \n"
+"@DESCRIPTION=ERF tagastab veafunktsiooni. Ühe argumendiga ERF tagastab veafunktsiooni; määratud kui\n"
+"\n"
+"\terf(x) = 2/sqrt(pi)* integraal 0 kuni x-ni exp(-t*t) dt-st.\n"
+"\n"
+"Kui kaks argumenti on antud, siis need on integraali rajad.\n"
+"\n"
+"* Kui kas @alaraja või @ülaraja ei ole arvud, tagastatakse #VALUE! viga.\n"
+"* See funktsioon on edasiulatuvalt Exceliga ühilduv. (Kui on kaks argumenti antud, Excel ei luba kummalegi negatiivset väärtust.) \n"
+"\n"
 "@EXAMPLES=\n"
 "ERF(0.4) võrdub 0.428392355.\n"
 "ERF(1.6448536269515/SQRT(2)) võrdub 0.90.\n"
@@ -14013,17 +14151,17 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "Avaldis '%s' ei alga äratuntava tähemärgiga"
 
 #: plugins/openoffice/openoffice-read.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Ei suuda töödelda '%s' kuna '%s'"
 
 #: plugins/openoffice/openoffice-read.c:625
 msgid "Invalid array expression does not specify number of columns."
-msgstr ""
+msgstr "Vigane massiivi avaldis ei määra veergude arvu."
 
 #: plugins/openoffice/openoffice-read.c:628
 msgid "Invalid array expression does not specify number of rows."
-msgstr ""
+msgstr "Vigane massiivi avaldis ei määra ridade arvu."
 
 #: plugins/openoffice/openoffice-read.c:1148
 #, c-format
@@ -14044,14 +14182,14 @@ msgid "No stream named styles.xml found."
 msgstr ""
 
 #: plugins/openoffice/openoffice-write.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "Some content will be lost when saving as OpenOffice .sxc. It only supports %d rows, and sheet '%s' has %d"
-msgstr "Osa andmeid läheb kaotsi, kui salvestate MS Excel (tm) 95 formaadis. See formaat toetab ainult %d rida, aga selles tööraamatus on %d rida"
+msgstr "Osa andmeid läheb kaotsi, kui salvestate OpenOffice .sxc formaadis. See formaat toetab ainult %d rida, aga lehel '%s' on %d rida"
 
 #: plugins/openoffice/openoffice-write.c:129
-#, fuzzy, c-format
+#, c-format
 msgid "Some content will be lost when saving as OpenOffice .sxc. It only supports %d columns, and sheet '%s' has %d"
-msgstr "Osa andmeid läheb kaotsi, kui salvestate MS Excel (tm) 95 formaadis. See formaat toetab ainult %d rida, aga selles tööraamatus on %d rida"
+msgstr "Osa andmeid läheb kaotsi, kui salvestate OpenOffice .sxc formaadis. See formaat toetab ainult %d veergu, aga lehel '%s' on %d veergu"
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
@@ -14206,7 +14344,7 @@ msgstr "Pythoni näidisplugin mõningate (kasutute) funktsioonidega."
 
 #: plugins/python-loader/gnm-py-interpreter.c:258
 msgid "Default interpreter"
-msgstr ""
+msgstr "Vaikimisi interpretaator"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
@@ -14247,9 +14385,8 @@ msgid "Gnumeric Python console"
 msgstr "Gnumericu Pythoni konsool"
 
 #: plugins/python-loader/py-console.c:169
-#, fuzzy
 msgid "E_xecute in:"
-msgstr "Tegevus :"
+msgstr "_Käivita asukohas:"
 
 #: plugins/python-loader/py-console.c:214
 msgid "C_ommand:"
@@ -14337,7 +14474,7 @@ msgstr "Tundmatu tegevus: %s"
 #: plugins/python-loader/python-loader.c:739
 #, c-format
 msgid "Not a valid function for action: %s"
-msgstr ""
+msgstr "Sobimatu funktsioon tegevuseks: %s"
 
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quatro Pro (tm) files"
@@ -14375,9 +14512,8 @@ msgid "A proof of concept external data source"
 msgstr ""
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample DataSource"
-msgstr "Andmed..."
+msgstr "Andmeallika näidis"
 
 #: plugins/sample_datasource/sample_datasource.c:272
 #, no-c-format
@@ -14477,9 +14613,8 @@ msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) failiformaat"
 
 #: plugins/xbase/xbase.c:142
-#, fuzzy
 msgid "Failed to read DBF header."
-msgstr "Ei suuda määrata faili"
+msgstr "Ei suuda lugeda DBF päist."
 
 #: plugins/xml_sax/plugin.xml.in.h:1
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
@@ -14509,9 +14644,9 @@ msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:1318
 #: src/xml-io.c:2770
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported object type '%s'"
-msgstr "Toetamata laadija tüüp \"%s\"."
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ">This value determines the default setting in the Print Setup dialog whether print grid lines. Please use the Print Setup dialog to edit this value."
@@ -14556,32 +14691,28 @@ msgid "Default Black and White Printing"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
-#, fuzzy
 msgid "Default Bottom Margin"
-msgstr "Vaikimisi fondi nimi"
+msgstr "Vaikimisi alumine veeris"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:12
 msgid "Default Grid Line Printing"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
-#, fuzzy
 msgid "Default Header/Footer Font Size"
-msgstr "Vaikimisi fondi suurus"
+msgstr "Vaikimisi päise/jaluse fondi suurus"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
-#, fuzzy
 msgid "Default Horizontal Centering"
-msgstr "Vaikimisi akna horisontaalsuurus"
+msgstr "Vaikimisi horisontaalne tsentreerimine"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "Default Print Cells with Only Styles"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
-#, fuzzy
 msgid "Default Print Direction"
-msgstr "Vaikimisi fondi suurus"
+msgstr "Vaikimisi printimise suund"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Default Repeated Left Region"
@@ -14616,19 +14747,16 @@ msgid "Default Title Printing"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
-#, fuzzy
 msgid "Default Top Margin"
-msgstr "Vaikimisi fondi nimi"
+msgstr "Vaikimisi ülemine veeris"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:25
-#, fuzzy
 msgid "Default Vertical Centering"
-msgstr "Vaikimisi akna vertikaalsuurus"
+msgstr "Vaikimisi vertikaalne tsentreerimine"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
-#, fuzzy
 msgid "Default header/footer font name"
-msgstr "Vaikimisi fondi nimi"
+msgstr "Vaikimisi päise/jaluse fondi nimi"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid "Header/Footer Format (Left Portion)"
@@ -14725,19 +14853,16 @@ msgid "The default font name for headers and footers."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:50
-#, fuzzy
 msgid "The default font size for headers and footers."
-msgstr "Vaikimisi font on rasvane."
+msgstr "Vaikimisi fondisuurus päiste ja jaluste jaoks."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:51
-#, fuzzy
 msgid "The default header/footer font is bold."
-msgstr "Vaikimisi font on rasvane."
+msgstr "Päiste/jaluste vaikimisi font on rasvane."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:52
-#, fuzzy
 msgid "The default header/footer font is italic."
-msgstr "Vaikimisi font on kursiivis."
+msgstr "Päiste/jaluste vaikimisi font on kursiivis."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:53
 msgid "The default page footer for new documents that can be modified using the page setup dialog."
@@ -14875,19 +15000,16 @@ msgid "Default Compression Level For Gnumeric Files"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:5
-#, fuzzy
 msgid "Default Font Size"
 msgstr "Vaikimisi fondi suurus"
 
 #: schemas/gnumeric-general.schemas.in.h:6
 #: src/dialogs/dialog-preferences.c:564
-#, fuzzy
 msgid "Default Horizontal Window Size"
 msgstr "Vaikimisi akna horisontaalsuurus"
 
 #: schemas/gnumeric-general.schemas.in.h:7
 #: src/dialogs/dialog-preferences.c:572
-#, fuzzy
 msgid "Default Number of Sheets"
 msgstr "Vaikimisi lehtede arv"
 
@@ -14907,13 +15029,11 @@ msgid "Default Zoom Factor"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:11
-#, fuzzy
 msgid "Default font name"
 msgstr "Vaikimisi fondi nimi"
 
 #: schemas/gnumeric-general.schemas.in.h:12
 #: src/dialogs/dialog-preferences.c:662
-#, fuzzy
 msgid "Horizontal DPI"
 msgstr "Horisontaalne DPI"
 
@@ -14991,23 +15111,19 @@ msgid "Sort Ascending"
 msgstr "Sorteeri kasvavalt"
 
 #: schemas/gnumeric-general.schemas.in.h:30
-#, fuzzy
 msgid "Sort is Case-Sensitive"
-msgstr "Suurtähti eristav"
+msgstr "Sortimisel eristatakse suurtähti"
 
 #: schemas/gnumeric-general.schemas.in.h:31
 #: src/dialogs/dialog-preferences.c:519
-#, fuzzy
 msgid "Sorting Preserves Formats"
-msgstr "Säilita tähesuurused"
+msgstr "Sortimine säilitab vormingud"
 
 #: schemas/gnumeric-general.schemas.in.h:32
-#, fuzzy
 msgid "The default font is bold."
 msgstr "Vaikimisi font on rasvane."
 
 #: schemas/gnumeric-general.schemas.in.h:33
-#, fuzzy
 msgid "The default font is italic."
 msgstr "Vaikimisi font on kursiivis."
 
@@ -15089,7 +15205,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Toolbar Style"
-msgstr "Tööriba stiil"
+msgstr "Tööriistariba stiil"
 
 #: schemas/gnumeric-general.schemas.in.h:54
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
@@ -15125,12 +15241,11 @@ msgstr ""
 #: schemas/gnumeric-plugins.schemas.in.h:2
 #: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
-msgstr ""
+msgstr "Kasuta LaTeX'i ekspordil UTF-8't"
 
 #: src/application.c:306
-#, fuzzy
 msgid "Cut Object"
-msgstr "Objektiivne"
+msgstr "Lõika objekt"
 
 #: src/clipboard.c:314
 #: src/clipboard.c:326
@@ -15214,9 +15329,8 @@ msgid "Would split array %s"
 msgstr "Jaotab massiivi %s"
 
 #: src/command-context.c:92
-#, fuzzy
 msgid "Would split an array"
-msgstr "Poolitab massiivi %s"
+msgstr "Jaotab massiivi"
 
 #: src/commands.c:252
 #, c-format
@@ -15249,9 +15363,8 @@ msgid "Typing \"%s%s\""
 msgstr "Kirjutan \"%s%s\""
 
 #: src/commands.c:1193
-#, fuzzy
 msgid "Ins/Del Column/Row"
-msgstr "Lisa veerud"
+msgstr "Lisa/kustuta veerg/rida"
 
 #: src/commands.c:1300
 #: src/commands.c:1305
@@ -15378,9 +15491,9 @@ msgid "Autofitting columns %s"
 msgstr "Veergude %s automaatsobitamine"
 
 #: src/commands.c:2012
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting rows %s"
-msgstr "Rea %s automaatsobitamine"
+msgstr "Ridade %s automaatsobitamine"
 
 #: src/commands.c:2015
 #, c-format
@@ -15410,7 +15523,7 @@ msgstr "Sortimine"
 #: src/commands.c:2109
 #, c-format
 msgid "Sorting %s"
-msgstr "Sorteerimine %s"
+msgstr "Sortimine %s"
 
 #: src/commands.c:2252
 msgid "Unhide columns"
@@ -15535,9 +15648,9 @@ msgid "Unmerging %s"
 msgstr "Lahutatakse %s"
 
 #: src/commands.c:3762
-#, fuzzy, c-format
+#, c-format
 msgid "Merge and Center %s"
-msgstr "Ühendatakse %s"
+msgstr "Ühendata ja tsentreeri %s"
 
 #: src/commands.c:3762
 #, c-format
@@ -15570,19 +15683,16 @@ msgid "Delete Object"
 msgstr "Kustuta objekt"
 
 #: src/commands.c:4613
-#, fuzzy
 msgid "Format Object"
-msgstr "Liiguta objekti"
+msgstr "Vorminda objekt"
 
 #: src/commands.c:5212
-#, fuzzy
 msgid "Reordering Sheets"
 msgstr "Järjesta lehed uuesti"
 
 #: src/commands.c:5215
-#, fuzzy
 msgid "Renaming Sheets"
-msgstr "Nimeta leht ümber"
+msgstr "Nimeta lehed ümber"
 
 #: src/commands.c:5218
 #, fuzzy, c-format
@@ -15665,14 +15775,13 @@ msgid "Page Setup For All Sheets"
 msgstr "Trükitavad lehed"
 
 #: src/commands.c:6201
-#, fuzzy
 msgid "has a circular reference"
-msgstr "'%s' on ringseoses"
+msgstr "on ringseoses"
 
 #: src/commands.c:6224
-#, fuzzy, c-format
+#, c-format
 msgid "Define Name %s"
-msgstr "Määra nimed"
+msgstr "Määra nimi %s"
 
 #: src/commands.c:6227
 #, c-format
@@ -15693,9 +15802,9 @@ msgstr "Sega andmed"
 
 #. FIXME?
 #: src/commands.c:6540
-#, fuzzy, c-format
+#, c-format
 msgid "Text (%s) to Columns (%s)"
-msgstr "Kustuta veerud"
+msgstr "Tekst (%s) veergudesse (%s)"
 
 #. Fill in the header titles.
 #: src/commands.c:6684
@@ -15730,13 +15839,12 @@ msgid "Reconfigure Graph"
 msgstr "Seadista tööriistaribasid"
 
 #: src/consolidate.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "Consolidating to (%s)"
-msgstr "Konsolideeritakse %s!%s"
+msgstr "Konsolideeritakse (%s)"
 
 #: src/consolidate.c:810
 #: src/consolidate.c:813
-#, fuzzy
 msgid "Data Consolidation"
 msgstr "Andmete konsolideerimine"
 
@@ -15747,9 +15855,8 @@ msgid "Discrete"
 msgstr "Diskreetne"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:612
-#, fuzzy
 msgid "Discrete mapping"
-msgstr "Diskreetne"
+msgstr "Diskreetne mäppimine"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:621
 msgid "Linear"
@@ -15757,7 +15864,7 @@ msgstr "Lineaarne"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:621
 msgid "Linear mapping"
-msgstr ""
+msgstr "Lineaarne mäppimine"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:627
 msgid "Log"
@@ -15765,7 +15872,7 @@ msgstr "Log"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:627
 msgid "Logarithm mapping"
-msgstr ""
+msgstr "Logaritmiline mäppimine"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1415
 msgid "Details"
@@ -15786,9 +15893,8 @@ msgstr "_Kategooria"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1491
-#, fuzzy
 msgid "Bounds"
-msgstr "Taust"
+msgstr "Sidemed"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
 #: src/dialogs/solver.glade.h:7
@@ -15842,9 +15948,8 @@ msgid "<b>Major ticks</b>"
 msgstr "Muster"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
 msgid "<b>Mapping</b>"
-msgstr "Eelvaade"
+msgstr "<b>Mäppimine</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
 #, fuzzy
@@ -15852,9 +15957,8 @@ msgid "<b>Minor ticks</b>"
 msgstr "Muster"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "<b>Position</b>"
-msgstr "Eelvaade"
+msgstr "<b>Paigutus</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 #, fuzzy
@@ -15867,9 +15971,8 @@ msgid "O_utside"
 msgstr "Esiletoodud"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
-#, fuzzy
 msgid "_High"
-msgstr "_Kõrgus..."
+msgstr "_Kõrge"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
 #, fuzzy
@@ -15882,9 +15985,8 @@ msgid "_Invert axis"
 msgstr "_Lisa"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
-#, fuzzy
 msgid "_Low"
-msgstr "_Rida"
+msgstr "_Madal"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
 #, fuzzy
@@ -15985,20 +16087,17 @@ msgid "(-)"
 msgstr "(-)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Error category</b>"
-msgstr "Veateade"
+msgstr "<b>Vea kategooria</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:21
-#, fuzzy
 msgid "<b>Style</b>"
-msgstr "Eelvaade"
+msgstr "<b>Stiil</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Values</b>"
-msgstr "Valim"
+msgstr "<b>Väärtused</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
 msgid "Colo_r:"
@@ -16027,9 +16126,8 @@ msgstr "_Laius:"
 #. default
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:115
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:212
-#, fuzzy
 msgid "Graph"
-msgstr "_Diagramm"
+msgstr "Diagramm"
 
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:154
 msgid "Chart"
@@ -16046,9 +16144,8 @@ msgid "Step 2 of 2: Customize Chart"
 msgstr "Samm 3 3-st: Kohanda diagrammi"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1102
-#, fuzzy
 msgid "Customize Chart"
-msgstr "Kohanda päist"
+msgstr "Kohanda diagrammi"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
 #: src/dialogs/function-select.glade.h:6
@@ -16155,20 +16252,17 @@ msgid ""
 msgstr "erkoranž"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Fill</b>"
-msgstr "Eelvaade"
+msgstr "<b>Täidis</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:17
-#, fuzzy
 msgid "<b>Line</b>"
-msgstr "Eelvaade"
+msgstr "<b>Joon</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Marker</b>"
-msgstr "Muster"
+msgstr "<b>Marker</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
 #, fuzzy
@@ -16193,9 +16287,8 @@ msgid "O_utline color:"
 msgstr "Äärejoone värv"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-#, fuzzy
 msgid "Sha_pe:"
-msgstr "Skoop :"
+msgstr "Ku_ju:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 msgid "Si_ze:"
@@ -16223,18 +16316,16 @@ msgid "_End:"
 msgstr "_Lõpp:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "_Fill color:"
-msgstr "Täitmise värv"
+msgstr "_Täitmise värv"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "_Fit:"
 msgstr "_Mahuta:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_Foreground:"
-msgstr "Esiplaan"
+msgstr "_Esiplaan"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 msgid "_Pattern:"
@@ -19560,7 +19651,7 @@ msgstr "Ei suudetud luua lahendaja dialoogi."
 #: src/dialogs/dialog-formula-guru.c:301
 #, c-format
 msgid "[%s]"
-msgstr ""
+msgstr "[%s]"
 
 #: src/dialogs/dialog-formula-guru.c:812
 #, fuzzy
@@ -20086,11 +20177,11 @@ msgstr "_Katsete arv:"
 
 #: src/dialogs/dialog-random-generator.c:130
 msgid "Cauchy"
-msgstr ""
+msgstr "Cauchy"
 
 #: src/dialogs/dialog-random-generator.c:132
 msgid "Chisq"
-msgstr ""
+msgstr "Chisq"
 
 #: src/dialogs/dialog-random-generator.c:132
 #, fuzzy
@@ -20236,7 +20327,7 @@ msgstr "_b väärtus:"
 
 #: src/dialogs/dialog-random-generator.c:175
 msgid "Weibull"
-msgstr ""
+msgstr "Weibull"
 
 #: src/dialogs/dialog-random-generator.c:849
 msgid "Could not create the Random Tool dialog."
@@ -20554,6 +20645,9 @@ msgid ""
 "'\n"
 "`\n"
 msgstr ""
+"\"\n"
+"'\n"
+"`\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
@@ -20782,7 +20876,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "C_ustom"
@@ -22661,7 +22755,7 @@ msgstr "Lahenda"
 
 #: src/dialogs/solver.glade.h:19
 msgid "_Algorithm:"
-msgstr ""
+msgstr "_Algoritm:"
 
 #: src/dialogs/solver.glade.h:20
 msgid "_Answer"
@@ -24266,7 +24360,7 @@ msgstr "Massiivis peab olema vähemalt 1 element"
 
 #: src/parser.y:330
 msgid "Arrays must be rectangular"
-msgstr ""
+msgstr "Massiivid peavad olema ristkülikukujulised"
 
 #: src/parser.y:349
 msgid "Constructed ranges use simple references"
@@ -24585,7 +24679,7 @@ msgstr "Pluginasisene puhastusfunktsioon andis veateate."
 
 #: src/plugin-service.c:270
 msgid "Clipboard"
-msgstr ""
+msgstr "Lõikepuhver"
 
 #: src/plugin-service.c:422
 #, fuzzy
@@ -24942,7 +25036,7 @@ msgstr "_Rea kõrgus..."
 
 #: src/sheet-control-gui.c:1560
 msgid "_Hyperlink"
-msgstr ""
+msgstr "_Hüperlink"
 
 #: src/sheet-control-gui.c:1563
 #, fuzzy
@@ -24982,7 +25076,7 @@ msgstr "Kõik"
 
 #: src/sheet-filter.c:327
 msgid "(Top 10...)"
-msgstr ""
+msgstr "(Tipp 10...)"
 
 #: src/sheet-filter.c:334
 #, fuzzy
@@ -25191,7 +25285,7 @@ msgstr ""
 
 #: src/stf.c:302
 msgid "There is no data to convert"
-msgstr ""
+msgstr "Pole andmeid, mida teisendada"
 
 #: src/stf.c:322
 #, fuzzy
@@ -25596,7 +25690,7 @@ msgstr "<%s"
 
 #: src/tools/analysis-tools.c:5229
 msgid "Too Small"
-msgstr ""
+msgstr "Liiga väike"
 
 #: src/tools/analysis-tools.c:5246
 msgid "More"
@@ -25669,7 +25763,7 @@ msgstr "Gnumeric"
 
 #: src/tools/dao.c:923
 msgid "Worksheet:"
-msgstr ""
+msgstr "Arvutustabel:"
 
 #: src/tools/dao.c:930
 msgid "Report Created: "
@@ -25927,7 +26021,7 @@ msgstr "R.H. pool"
 #: src/tools/solver/reports-write.c:321
 #: src/tools/solver/reports-write.c:329
 msgid "Infinity"
-msgstr ""
+msgstr "Lõpmatus"
 
 #: src/tools/solver/reports-write.c:375
 #: src/tools/solver/reports-write.c:484
@@ -26577,11 +26671,11 @@ msgstr ""
 
 #: src/wbcg-actions.c:1480
 msgid "Report a _Problem"
-msgstr ""
+msgstr "Teata _probleemist"
 
 #: src/wbcg-actions.c:1481
 msgid "Report problem "
-msgstr ""
+msgstr "Teata probleemist"
 
 #: src/wbcg-actions.c:1483
 msgid "_About"
@@ -26650,7 +26744,7 @@ msgstr "_Eelistused..."
 
 #: src/wbcg-actions.c:1524
 msgid "Change Gnumeric Preferences"
-msgstr ""
+msgstr "Muuda Gnumericu eelistusi"
 
 #: src/wbcg-actions.c:1527
 msgid "Close the current file"
@@ -26925,7 +27019,7 @@ msgstr "Lisa uued read"
 
 #: src/wbcg-actions.c:1671
 msgid "C_hart..."
-msgstr ""
+msgstr "_Diagramm..."
 
 #: src/wbcg-actions.c:1672
 msgid "Insert a Chart"
@@ -27018,7 +27112,7 @@ msgstr "Gnumeric"
 
 #: src/wbcg-actions.c:1712
 msgid "Edit the Gnumeric Preferences"
-msgstr ""
+msgstr "Gnumericu eelistuste redigeerimine"
 
 #: src/wbcg-actions.c:1714
 msgid "_Autoformat..."
@@ -27309,7 +27403,7 @@ msgstr "Valik"
 
 #: src/wbcg-actions.c:1837
 msgid "Periodic and random samples"
-msgstr ""
+msgstr "Perioodilised ja juhuslikud valimid"
 
 #: src/wbcg-actions.c:1839
 msgid "_Two Variances: FTest..."
@@ -27426,7 +27520,7 @@ msgstr "_Näita üksikasju"
 
 #: src/wbcg-actions.c:1885
 msgid "Show all filtered and hidden rows"
-msgstr ""
+msgstr "Näitab kõiki filtreeritud ja peidetud ridu"
 
 #: src/wbcg-actions.c:1887
 msgid "Advanced _Filter..."
@@ -27709,11 +27803,11 @@ msgstr "Vähendab näidatavate kümnendkohtade arvu"
 
 #: src/wbcg-actions.c:2000
 msgid "Decrease the indent, and align the contents to the left"
-msgstr ""
+msgstr "Suurendab taanet ja joondab sisu vasakule"
 
 #: src/wbcg-actions.c:2003
 msgid "Increase the indent, and align the contents to the left"
-msgstr ""
+msgstr "Vähendab taanet ja joondab sisu vasakule"
 
 #. const 142334
 #: src/wbcg-actions.c:2041
@@ -27831,11 +27925,11 @@ msgstr "_Püstsuunas"
 
 #: src/wbcg-actions.c:2081
 msgid "Merge the selection into 1 cell, and center horizontaly."
-msgstr ""
+msgstr "Ühendab valiku üheks lahtriks ja tsentreerib horisontaalselt."
 
 #: src/wbcg-actions.c:2088
 msgid "Align _Top"
-msgstr ""
+msgstr "Joonda üle_s"
 
 #: src/wbcg-actions.c:2089
 #: src/wbc-gtk.c:336
@@ -27866,7 +27960,7 @@ msgstr "Joonda alla"
 
 #: src/wbcg-actions.c:2098
 msgid "View _Statusbar"
-msgstr ""
+msgstr "Näita _olekuriba"
 
 #: src/wbcg-actions.c:2099
 msgid "Toggle visibility of statusbar"
@@ -28458,7 +28552,7 @@ msgstr "Vietnami (Windows-1258)"
 
 #: src/widgets/widget-charmap-selector.c:196
 msgid "Visual Hebrew (ISO-8859-8)"
-msgstr ""
+msgstr "Visuaalne heebrea (ISO-8859-8)"
 
 #: src/widgets/widget-charmap-selector.c:197
 msgid "Western (IBM-850)"
@@ -28486,7 +28580,7 @@ msgstr "Lokaat: "
 
 #: src/widgets/widget-charmap-selector.c:458
 msgid "Conversion Direction"
-msgstr ""
+msgstr "Teisendamise suund"
 
 #: src/widgets/widget-charmap-selector.c:459
 msgid "This value determines which iconv test to perform."
@@ -29352,7 +29446,7 @@ msgstr ""
 
 #: templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "A button like template"
-msgstr ""
+msgstr "Nupusarnane mall"
 
 #: templates/autoformat/autoformat.3D.button.xml.in.h:3
 #: templates/autoformat/autoformat.3D.list.xml.in.h:2
@@ -29390,11 +29484,11 @@ msgstr "Lahe"
 
 #: templates/autoformat/autoformat.Classical.cool.xml.in.h:3
 msgid "Template with a 'cool' look"
-msgstr ""
+msgstr "Laheda väljanägemisega mall"
 
 #: templates/autoformat/autoformat.Classical.simple.xml.in.h:1
 msgid "A simple template with classical look and feel"
-msgstr ""
+msgstr "Klassikalise välimusega lihtne mall"
 
 #: templates/autoformat/autoformat.Classical.simple.xml.in.h:3
 #: templates/autoformat/autoformat.Financial.basic.xml.in.h:2
@@ -29404,7 +29498,7 @@ msgstr "Lihtne"
 
 #: templates/autoformat/autoformat.Classical.trendy.xml.in.h:1
 msgid "A classical yet colorful template"
-msgstr ""
+msgstr "Klassikaline kuid värvikas mall"
 
 #: templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
 msgid "Trendy"
@@ -29412,7 +29506,7 @@ msgstr "Trendikas"
 
 #: templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "A banana coloured template"
-msgstr ""
+msgstr "Banaanivärvi mall"
 
 #: templates/autoformat/autoformat.Colourful.banana.xml.in.h:2
 msgid "Banana"
@@ -29420,7 +29514,7 @@ msgstr "Banaan"
 
 #: templates/autoformat/autoformat.Colourful.black.xml.in.h:3
 msgid "Template with a black background"
-msgstr ""
+msgstr "Musta taustaga mall"
 
 #: templates/autoformat/autoformat.Colourful.blue.xml.in.h:1
 msgid "A colourful template with mainly blue and teal colours"
