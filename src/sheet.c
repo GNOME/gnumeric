@@ -6,6 +6,7 @@
  *
  */
 #include <config.h>
+#include <ctype.h>
 #include <gnome.h>
 #include <string.h>
 #include "gnumeric.h"
@@ -4009,6 +4010,156 @@ cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 		return s;
 	}
 }
+
+gboolean
+cellref_a1_get (CellRef *out, const char *in, int parse_col, int parse_row)
+{
+	int col = 0;
+	int row = 0;
+
+	g_return_val_if_fail (in != NULL, FALSE);
+	g_return_val_if_fail (out != NULL, FALSE);
+
+	/* Try to parse a column */
+	if (*in == '$'){
+		out->col_relative = FALSE;
+		in++;
+	} else
+		out->col_relative = TRUE;
+
+	if (!(toupper (*in) >= 'A' && toupper (*in) <= 'Z'))
+		return FALSE;
+
+	col = toupper (*in++) - 'A';
+	
+	if (toupper (*in) >= 'A' && toupper (*in) <= 'Z')
+		col = (col+1) * ('Z'-'A'+1) + toupper (*in++) - 'A';
+
+	/* Try to parse a row */
+	if (*in == '$'){
+		out->row_relative = FALSE;
+		in++;
+	} else
+		out->row_relative = TRUE;
+	
+	if (!(*in >= '1' && *in <= '9'))
+		return FALSE;
+
+	while (isdigit ((unsigned char)*in)){
+		row = row * 10 + *in - '0';
+		in++;
+	}
+	row--;
+
+	if (*in) /* We havn't hit the end yet */
+		return FALSE;
+
+	/* Setup the cell reference information */
+	if (out->row_relative)
+		out->row = row - parse_row;
+	else
+		out->row = row;
+
+	if (out->col_relative)
+		out->col = col - parse_col;
+	else
+		out->col = col;
+
+	out->sheet = NULL;
+
+	return TRUE;
+}
+
+static gboolean
+r1c1_get_item (int *num, unsigned char *rel, const char * *const in)
+{
+	gboolean neg = FALSE;
+
+	if (**in == '[') {
+		(*in)++;
+		*rel = TRUE;
+		if (!**in)
+			return FALSE;
+
+		if (**in == '+')
+			(*in)++;
+		else if (**in == '-') {
+			neg = TRUE;
+			(*in)++;
+		}
+	}
+	*num = 0;
+
+	while (**in && isdigit (**in)) {
+		*num = *num * 10 + **in - '0';
+		(*in)++;
+	}
+
+	if (neg)
+		*num = -*num;
+
+	if (**in == ']')
+		(*in)++;
+
+	return TRUE;
+}
+
+gboolean
+cellref_r1c1_get (CellRef *out, const char *in, int parse_col, int parse_row)
+{
+	g_return_val_if_fail (in != NULL, FALSE);
+	g_return_val_if_fail (out != NULL, FALSE);
+
+	out->row_relative = FALSE;
+	out->col_relative = FALSE;
+	out->col = parse_col;
+	out->row = parse_row;
+	out->sheet = NULL;
+
+	if (!*in)
+		return FALSE;
+
+	while (*in) {
+		if (*in == 'R') {
+			in++;
+			if (!r1c1_get_item (&out->row, &out->row_relative, &in))
+				return FALSE;
+		} else if (*in == 'C') {
+			in++;
+			if (!r1c1_get_item (&out->col, &out->col_relative, &in))
+				return FALSE;
+		} else
+			return FALSE;
+	}
+
+	out->col--;
+	out->row--;
+	return TRUE;
+}
+
+/**
+ * cellref_get:
+ * @out: destination CellRef
+ * @in: reference description text, no leading or trailing
+ *      whitespace allowed.
+ * 
+ * Converts the char * representation of a Cell reference into
+ * an internal representation.
+ * 
+ * Return value: TRUE if no format errors found.
+ **/
+gboolean
+cellref_get (CellRef *out, const char *in, int parse_col, int parse_row)
+{
+	g_return_val_if_fail (in != NULL, FALSE);
+	g_return_val_if_fail (out != NULL, FALSE);
+
+	if (cellref_a1_get (out, in, parse_col, parse_row))
+		return TRUE;
+	else
+		return cellref_r1c1_get (out, in, parse_col, parse_row);
+}
+
 
 void
 sheet_mark_clean (Sheet *sheet)

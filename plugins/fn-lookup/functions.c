@@ -514,11 +514,10 @@ static char *help_indirect = {
 static Value *
 gnumeric_indirect (FunctionEvalInfo *ei, Value **args) 
 {
-	const char*    text;
+	char*          text;
 	gboolean       a1_style;
-	ExprTree      *tree;
-	ParsePosition  pp;
 	Cell          *cell;
+	CellRef        ref;
 	int            col, row;
 	gboolean       error = FALSE;
 
@@ -528,19 +527,18 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	else
 		a1_style = TRUE;
 
-	if (error) {/* || !a1_style) { This will be flagged by gnumeric_expr_parser.
-		       g_warning ("R1C1 style unimplemented");*/
-		return value_new_error (&ei->pos, gnumeric_err_REF);
-	}
-
-	pp.col = ei->pos.eval_col;
-	pp.row = ei->pos.eval_row;
-	pp.wb  = ei->pos.sheet->workbook;
-	if ((gnumeric_expr_parser (text, &pp, NULL, &tree) != PARSE_OK) ||
-	    !tree || (tree->oper != OPER_VAR))
+	if (error)
 		return value_new_error (&ei->pos, gnumeric_err_REF);
 
-	cell_get_abs_col_row (&tree->u.ref, ei->pos.eval_col, ei->pos.eval_row,
+	if (a1_style)
+		error = !cellref_a1_get (&ref, text, ei->pos.eval_col, ei->pos.eval_row);
+	else
+		error = !cellref_r1c1_get (&ref, text, ei->pos.eval_col, ei->pos.eval_row);
+
+	if (error)
+		return value_new_error (&ei->pos, gnumeric_err_REF);
+
+	cell_get_abs_col_row (&ref, ei->pos.eval_col, ei->pos.eval_row,
 			      &col, &row);
 	cell = sheet_cell_get (ei->pos.sheet, col, row);
 
@@ -548,6 +546,8 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 		return value_new_int (0);
 	else
 		return value_duplicate (cell->value);
+
+	g_free (text);
 }
 
 static char *help_column = {

@@ -368,6 +368,12 @@ void        sheet_hide_cursor             (Sheet *sheet);
 char        *cellref_name                 (CellRef *cell_ref,
 					   int eval_col,
 					   int eval_row);
+gboolean     cellref_get                  (CellRef *out, const char *in,
+					   int parse_col, int parse_row);
+gboolean     cellref_a1_get               (CellRef *out, const char *in,
+					   int parse_col, int parse_row);
+gboolean     cellref_r1c1_get             (CellRef *out, const char *in,
+					   int parse_col, int parse_row);
 
 /*
  * Sheet, Bobobo objects

@@ -166,6 +166,10 @@ exp:	  NUMBER 	{ $$ = $1 }
         | '-' exp %prec NEG { $$ = build_unary_op (OPER_NEG, $2); }
         | '+' exp %prec PLUS { $$ = $2; }
 
+        | '+' exp %prec PLUS {
+		$$ = $2;
+	}
+
         | cellref ':' cellref {
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
@@ -212,63 +216,18 @@ arg_list: exp {
 static int
 return_cellref (char *p)
 {
-	int col_relative = TRUE;
-	int row_relative = TRUE;
-	int col = 0;
-	int row = 0;
+	CellRef   ref;
 	ExprTree *e;
-	CellRef  *ref;
 
-	/* Try to parse a column */
-	if (*p == '$'){
-		col_relative = FALSE;
-		p++;
-	}
-	if (!(toupper (*p) >= 'A' && toupper (*p) <= 'Z'))
+	if (!cellref_get (&ref, p, parser_col, parser_row))
 		return 0;
-
-	col = toupper (*p++) - 'A';
-	
-	if (toupper (*p) >= 'A' && toupper (*p) <= 'Z')
-		col = (col+1) * ('Z'-'A'+1) + toupper (*p++) - 'A';
-
-	/* Try to parse a row */
-	if (*p == '$'){
-		row_relative = FALSE;
-		p++;
-	}
-	
-	if (!(*p >= '1' && *p <= '9'))
-		return 0;
-
-	while (isdigit ((unsigned char)*p)){
-		row = row * 10 + *p - '0';
-		p++;
-	}
-	row--;
 
 	/*  Ok, parsed successfully, create the return value */
 	e = p_new (ExprTree);
 	e->ref_count = 1;
 
-	e->oper = OPER_VAR;
-
-	ref = &e->u.ref;
-
-	/* Setup the cell reference information */
-	if (row_relative)
-		ref->row = row - parser_row;
-	else
-		ref->row = row;
-
-	if (col_relative)
-		ref->col = col - parser_col;
-	else
-		ref->col = col;
-	
-	ref->col_relative = col_relative;
-	ref->row_relative = row_relative;
-	ref->sheet        = NULL;
+	e->oper  = OPER_VAR;
+	e->u.ref = ref;
 
 	yylval.tree = e;
 
