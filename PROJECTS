@@ -1,9 +1,5 @@
 Description						Difficulty Integration
 ------------------------------------------------------  ---------- -----------
-- A zoom combo box in the toolbar.
-  It should only be visible when the bar		Easy		Medium
-  is horizontal.
-
 - Dialog to change the order of sheets.			Easy		Low
 
 - Ability to Create a new sheet that is a copy		Medium		Medium
