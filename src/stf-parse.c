@@ -617,7 +617,7 @@ stf_parse_csv_is_separator (const char *character, StfParseType_t parsetype, cha
 	 * wouldn't do this, it had to go over the case statement below for
 	 * each character, which clearly slows parsing down
 	 */
-	if (isalnum (*character)) {
+	if (isalnum ((unsigned char)*character)) {
 
 		return FALSE;
 	}
@@ -1312,7 +1312,10 @@ stf_parse_is_valid_data (const char *data)
 	valid = TRUE;
 	while (*iterator) {
 	
-		if (!isprint (*iterator) && *iterator != '\n' && *iterator != '\r' && *iterator != '\t') {
+		if (!isprint ((unsigned char)*iterator) &&
+		    *iterator != '\n' &&
+		    *iterator != '\r' &&
+		    *iterator != '\t') {
 		
 			valid = FALSE;
 			break;

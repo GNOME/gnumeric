@@ -223,7 +223,7 @@ scan_at (const char *text, int *scan)
 		const char *p = &text [(*scan)-1];
 		char c = *p;
 
-		if (!(c == ':' || c == '$' || isalnum (*p)))
+		if (!(c == ':' || c == '$' || isalnum ((unsigned char)*p)))
 			break;
 		
 		(*scan)--;

@@ -1,3 +1,16 @@
+2000-04-23  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (general_linear_regression): Don't do
+ 	extra_stat in case of error.
+	(general_linear_regression): Zero extra_stat.
+
+	* src/history.c (history_menu_remove_items): Warning killer.
+
+	* src/item-edit.c (scan_at): Fix usual signed/unsigned problem.
+
+	* src/stf-parse.c (stf_parse_csv_is_separator): Ditto.
+	(stf_parse_is_valid_data): Ditto.
+
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/main.h : include popt-gnome.h rather than popt.h.  We may

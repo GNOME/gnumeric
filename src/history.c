@@ -187,7 +187,9 @@ static void
 history_menu_remove_items (Workbook *wb, GList *name_list)
 {
 	gint  accel_number = 1;
+#ifdef ENABLE_BONOBO
 	GList *l;
+#endif
 	gchar *label, *path;
 
 #ifndef ENABLE_BONOBO

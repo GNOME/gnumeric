@@ -16,6 +16,7 @@
 #include "value.h"
 #include "cell.h"
 #include "ranges.h"
+#include <stdio.h>
 
 /* The entry point vectors for the server we provide */
 static POA_GNOME_Gnumeric_Vector__epv  vector_epv;

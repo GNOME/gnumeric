@@ -157,6 +157,8 @@ general_linear_regression (float_t **xss, int xdim,
 	int i,j;
 	int err;
 
+	memset (extra_stat, 0, sizeof (regression_stat_t));
+
 	if (xdim > n || n < 1)
 		return 1;  /* Too few points.  */
 
@@ -203,7 +205,7 @@ general_linear_regression (float_t **xss, int xdim,
 
 	err = linear_solve (xTx, xTy, xdim, res);
 
-	if (extra_stat) {
+	if (extra_stat && err == 0) {
 		int err2;
 		float_t *residuals = g_new (float_t, n);
 		float_t **LU;
