@@ -1861,21 +1861,21 @@ static char const *help_rounddown = {
 	   "@SYNTAX=ROUNDDOWN(number[,digits])\n"
 
 	   "@DESCRIPTION="
-	   "ROUNDDOWN function rounds a given @number down. "
-	   "@number is the number you want rounded down and @digits is the "
+	   "ROUNDDOWN function rounds a given @number towards 0.\n\n"
+	   "@number is the number you want rounded toward 0 and @digits is the "
 	   "number of digits to which you want to round that number.\n"
 	   "\n"
-	   "* If @digits is greater than zero, @number is rounded down to the "
-	   "given number of digits.\n"
-	   "* If @digits is zero or omitted, @number is rounded down to the "
-	   "nearest integer.\n"
-	   "* If @digits is less than zero, @number is rounded down to the "
+	   "* If @digits is greater than zero, @number is rounded toward 0 to "
+	   "the given number of digits.\n"
+	   "* If @digits is zero or omitted, @number is rounded toward 0 to "
+	   "the next integer.\n"
+	   "* If @digits is less than zero, @number is rounded toward 0 to the "
 	   "left of the decimal point.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ROUNDDOWN(5.5) equals 5.\n"
-	   "ROUNDDOWN(-3.3) equals -4.\n"
+	   "ROUNDDOWN(-3.3) equals -3.\n"
 	   "ROUNDDOWN(1501.15,1) equals 1501.1.\n"
 	   "ROUNDDOWN(1501.15,-2) equals 1500.0.\n"
 	   "\n"
@@ -1895,7 +1895,9 @@ gnumeric_rounddown (FunctionEvalInfo *ei, GnmValue **argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gnm_pow10 (digits);
-	return value_new_float (gnm_fake_floor (number * p10) / p10);
+	return value_new_float 
+		((number < 0.) ? gnm_fake_ceil (number * p10) / p10 
+		               : gnm_fake_floor (number * p10) / p10);
 }
 
 /***************************************************************************/
@@ -1946,21 +1948,22 @@ static char const *help_roundup = {
 	   "@SYNTAX=ROUNDUP(number[,digits])\n"
 
 	   "@DESCRIPTION="
-	   "ROUNDUP function rounds a given number up.\n\n"
-	   "@number is the number you want rounded up and @digits is the "
+	   "ROUNDUP function rounds a given number away from 0.\n\n"
+	   "@number is the number you want rounded away from 0 and "
+	   "@digits is the "
 	   "number of digits to which you want to round that number.\n"
 	   "\n"
-	   "* If @digits is greater than zero, @number is rounded up to the "
-	   "given number of digits.\n"
-	   "* If @digits is zero or omitted, @number is rounded up to the "
-	   "nearest integer.\n"
-	   "* If @digits is less than zero, @number is rounded up to the left "
-	   "of the decimal point.\n"
+	   "* If @digits is greater than zero, @number is rounded away from "
+	   "0 to the given number of digits.\n"
+	   "* If @digits is zero or omitted, @number is rounded away from 0 "
+	   "to the next integer.\n"
+	   "* If @digits is less than zero, @number is rounded away from 0 "
+	   "to the left of the decimal point.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ROUNDUP(5.5) equals 6.\n"
-	   "ROUNDUP(-3.3) equals -3.\n"
+	   "ROUNDUP(-3.3) equals -4.\n"
 	   "ROUNDUP(1501.15,1) equals 1501.2.\n"
 	   "ROUNDUP(1501.15,-2) equals 1600.0.\n"
 	   "\n"
@@ -1980,7 +1983,9 @@ gnumeric_roundup (FunctionEvalInfo *ei, GnmValue **argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gnm_pow10 (digits);
-	return value_new_float (gnm_fake_ceil (number * p10) / p10);
+	return value_new_float 
+		((number < 0.) ? gnm_fake_floor (number * p10) / p10
+		 	       : gnm_fake_ceil (number * p10) / p10);
 }
 
 /***************************************************************************/

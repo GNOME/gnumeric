@@ -1,5 +1,11 @@
 Gnumeric 1.5.1
 
+Andreas:
+	* Make ROUNDDOWN and ROUNDUP MSExcel compatible including the
+	  strange handling for negative numbers. [#162682]
+	  This breaks backwards compatibility to earlier Gnumeric versions
+	  for these functions.
+
 David J Craigon:
 	* Allow ssimport to specify importer. [#160069]
 
