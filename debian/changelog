@@ -1,3 +1,16 @@
+gnumeric (1.2.12-2) unstable; urgency=medium
+
+  * [debian/rules] With GNOME 2.6's yelp, don't try to build HTML docs.
+  * [debian/control] Removed duplicate build dependency. Tightened all the
+    build dependencies needed to produce the core `gnumeric' package to GNOME
+    2.6 versions that are in sid. In particular, tightened the libgnomeprint
+    build dependency to ensure that a running gnumeric process won't crash due
+    to being loaded against both gnutls10 (which GNOME 2.6 uses) and gnutls7
+    (which older versions of libgnomeprint2.2-0 used via cupsys). 
+    (Closes: #251213).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 31 May 2004 17:13:36 +0200
+
 gnumeric (1.2.12-1) unstable; urgency=medium
 
   * New upstream bugfix release. Changes include:

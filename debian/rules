@@ -24,6 +24,11 @@ export INSTALL=/usr/bin/install -p
 # Are we building a release version, or are we doing development?
 CVS_BUILD=$(shell test ! -d CVS; echo $$?)
 
+# yelp in GNOME 2.4 is way too slow to be usable as a browser for DocBook
+# XML docs; we need to pregenerate HTML for the docs to be usable. In GNOME
+# 2.6 yelp is fast enough and yelp-pregenerate has been dropped.
+GENERATE_HTML_DOCS=$(shell if test -x /usr/bin/yelp-pregenerate; then echo "1"; else echo "0"; fi)
+
 upstreamversion=$(shell dpkg-parsechangelog | grep Version | head -1 | sed -e 's/Version: //g' -e 's/-[A-Za-z0-9\.]*$$//g')
 
 # Features configuration
@@ -99,11 +104,13 @@ build-stamp:
 	dh_testdir
 
 	cd build && $(MAKE)
+ifeq ($(GENERATE_HTML_DOCS),1)
 	cd doc/C && yelp-pregenerate gnumeric.xml
 	# Touch up the pregenerated HTML so that yelp will know how to
 	# follow references and how to find images.
 	cd doc/C && perl -spi -e 's|"ghelp:gnumeric.xml|"ghelp:gnumeric|g;' \
 			-e 's|<img src="file://./|<img src="|g' gnumeric.html
+endif
 
 	touch build-stamp
 
@@ -157,10 +164,12 @@ install: build
 		localstatedir=`pwd`/../debian/tmp/var/lib \
 		libexecdir=`pwd`/../debian/tmp/usr/bin
 
+ifeq ($(GENERATE_HTML_DOCS),1)
 	# Copy the prerendered manual
 	cp doc/C/gnumeric.html `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/
 	# Ensure that the prerendered manual won't be considered out of date
 	sleep 1 && touch `pwd`/debian/tmp/usr/share/gnome/help/gnumeric/C/gnumeric.html
+endif
 
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
@@ -218,8 +227,12 @@ binary-indep: build install
 	dh_testdir -i
 	dh_testroot -i
 #	dh_installdebconf -i
+ifeq ($(GENERATE_HTML_DOCS),1)
 	dh_installdocs -i
-
+else
+	dh_installdocs -i --noscripts
+	rm -rf `pwd`/debian/gnumeric-doc/usr/share/doc-base
+endif
 	dh_installexamples -i
 	dh_installmenu -i
 #	dh_installlogrotate -i
@@ -247,7 +260,12 @@ binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
 #	dh_installdebconf -a
+ifeq ($(GENERATE_HTML_DOCS),1)
 	dh_installdocs -a
+else
+	dh_installdocs -a --noscripts
+	rm -rf `pwd`/debian/gnumeric-doc/usr/share/doc-base
+endif
 	dh_installexamples -a
 	dh_installmenu -a
 #	dh_installlogrotate -a
