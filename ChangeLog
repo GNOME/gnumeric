@@ -1,3 +1,79 @@
+2002-11-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/stf.c (stf_init):
+	s/register_file_opener_as_importer_as_default/
+	register_file_opener_as_importer/
+
+	* src/file.c (default_file_importer_list): Remove.
+	(unregister_file_opener_as_importer): Don't use
+	default_file_importer_list.
+
+	* src/plugin-service.c (plugin_service_file_opener_activate):
+	Don't call register_file_opener_as_importer_as_default.
+
+	* src/file.[ch] (get_default_file_importer): Remove.
+	(register_file_opener_as_importer_as_default): Remove.
+	
+2002-11-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/main-application.c (warn_about_ancient_gnumerics): Take an
+	IOContext instead of a WorkbookControl.
+	(main): Create an initial IOContextGtk if started with GUI, a
+	CommandContextStderr otherwise. Call plugins_init earlier, but
+	don't create wbcg before reading initial files. Read initial files
+	with wb_view_new_from_file, and wrap them in a wbcg if successful.
+
+	* src/io-context.[ch] (gnumeric_io_warning_occurred): Add.
+
+	* src/io-context.c (io_context_init): Initialize warning_occurred,
+	error_info renamed to info.
+	(ioc_finalize, gnumeric_io_error_unknown): impl is now optional.
+	(gnumeric_io_error_info_set, gnumeric_io_error_push): error_info
+	renamed to info.
+	(gnumeric_io_error_display, io_progress_update,
+	io_progress_message): Display it ourselves if no impl.
+	(gnumeric_io_error_clear): Clear warning_occurred, error_info
+	renamed to info.
+	(gnm_io_warning): Implement.
+	
+	* src/io-context-priv.h (struct _IOContext): Rename error_info to
+	info, add warning_occurred field.
+
+	* src/gui-util.[ch] (gnumeric_error_info_dialog_new): New
+	function. Contains the meat of gnumeric_error_info_dialog_show,
+	but doesn't show it or set the parent. Display an error or warning
+	dialog depending on the severity of the error_info.
+
+	* src/gui-util.c (gnumeric_error_info_dialog_show): Factor out
+	gnumeric_error_info_dialog_new.
+
+	* src/gui-file.c (gui_file_read): Display both errors and warnings.
+
+	* src/error-info.c (error_info_new_str, error_info_new_printf):
+	Set severity to GNM_ERROR.
+	(error_info_new_from_error_list): Return NULL for empty list.
+	(error_info_print_with_offset): Prefix with 'E' or 'W' for errors
+	and warnings.
+
+	* src/error-info.h (enum GnmSeverity): Add with values for
+	warnings and errors.
+
+	* src/error-info.[ch] (error_info_new_vprintf): Add severity
+	argument.
+	(error_info_peek_severity): Add.
+
+	* src/error-info.c (struct _ErrorInfo): Add severity field.
+
+2002-10-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (wbcg_menu_state_sensitivity): Toggle
+	accel group sensitivity so that commands which are supposed to be
+	inaccessible can't be activated via accelerators.
+	(workbook_control_gui_init): Initialize accel_group.
+	
+	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI): 
+	Add accel_group, accel_group_is_sensitive.
+
 2002-11-14  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.c (gnum_file_opener_probe_real): Seek back

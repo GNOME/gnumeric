@@ -53,9 +53,13 @@ static gboolean
 gnum_file_opener_probe_real (GnumFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl)
 {
-	if (fo->probe_func != NULL)
-		return fo->probe_func (fo, input, pl);
-	return FALSE;
+	gboolean ret = FALSE;
+	
+	if (fo->probe_func != NULL) {
+		ret =  fo->probe_func (fo, input, pl);
+		gsf_input_seek (input, 0, G_SEEK_SET);
+	}
+	return ret;
 }
 
 static void
