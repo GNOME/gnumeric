@@ -1,0 +1,287 @@
+/*
+ * dialog-function-wizard.c:  Implements the function wizard
+ *
+ * Author:
+ *  Michael Meeks <michael@imaginator.com>
+ *
+ */
+#include <config.h>
+#include <gnome.h>
+#include "gnumeric.h"
+#include "gnumeric-util.h"
+#include "gnumeric-sheet.h"
+#include "dialogs.h"
+#include "cell.h"
+#include "expr.h"
+#include "func.h"
+
+typedef struct {
+	GtkBox *dialog_box ;
+	GtkWidget *widget ;
+	Workbook *wb ;
+	FunctionDefinition *fd ;
+	GPtrArray *args ;
+	TOKENISED_HELP *tok ;
+} STATE ;
+
+static GtkWidget *
+create_description (FunctionDefinition *fd)
+{
+	GtkBox  *vbox ;
+	TOKENISED_HELP *tok ;
+	#define TEXT_WIDTH 80
+
+	tok = tokenised_help_new (fd) ;
+
+	vbox = GTK_BOX (gtk_vbox_new (0, 0)) ;
+	{ /* Syntax label */
+		GtkLabel *label =
+			GTK_LABEL(gtk_label_new (tokenised_help_find (tok, "SYNTAX"))) ;
+		gtk_box_pack_start (vbox, GTK_WIDGET(label),
+				    TRUE, TRUE, 0) ;
+	}
+
+	{ /* Description */
+		GtkText *text ;
+		char *txt = tokenised_help_find (tok, "DESCRIPTION") ;
+		text = GTK_TEXT (gtk_text_new (NULL, NULL)) ;
+		gtk_text_set_editable (text, FALSE) ;
+		gtk_text_insert (text, NULL, NULL, NULL,
+				 txt, strlen(txt)) ;
+		gtk_box_pack_start (vbox, GTK_WIDGET(text),
+				    TRUE, TRUE, 0) ;
+	}
+
+	tokenised_help_destroy (tok) ;
+	return GTK_WIDGET (vbox) ;
+}
+
+typedef struct {
+	gchar   *arg_name ;
+	gboolean optional ;
+	gchar    type ;
+	GtkEntry *entry ;
+} ARG_DATA ;
+
+/**
+ * Build descriptions of arguments
+ * If fd->args == 0, do something different.
+ **/
+static void
+arg_data_list_new (STATE *state)
+{
+	gchar *copy_args ;
+	gchar *ptr, *start = NULL ;
+	gchar *type ;
+	int optional = 0 ;
+
+	if (!state || !state->fd ||
+	    !state->tok)
+		return ;
+	
+	type = state->fd->args ;
+	g_return_if_fail (type) ;
+
+	state->args = g_ptr_array_new () ;
+
+	copy_args = tokenised_help_find (state->tok, "SYNTAX") ;
+	if (!copy_args) {
+		state->args = NULL ;
+		g_ptr_array_free (state->args, FALSE) ;
+	}
+	copy_args = g_strdup (copy_args) ;
+
+	ptr = copy_args ;
+	while (*ptr) {
+		if (*ptr=='(' && !start)
+			start = ptr+1 ;
+		if (*ptr=='[' || *ptr==']') {
+			*ptr = '\0' ;
+			if (start == ptr) start++ ;
+			ptr++ ;
+			continue ;
+		}
+		if (*ptr==',' || *ptr==')') {
+			ARG_DATA *ad ;
+			ad = g_new (ARG_DATA, 1) ;
+			ad->arg_name = g_strndup (start, (int)(ptr-start)) ;
+
+			if (*type=='|') {
+				type++ ;
+				optional = 1 ;
+			}
+			ad->type = *type ;
+			ad->optional = optional ;
+			type++ ;
+
+			ad->entry = NULL ;
+			g_ptr_array_add (state->args, ad) ;
+			start = ptr+1 ;
+		}
+		ptr++ ;
+	}
+
+	g_free (copy_args) ;
+}
+
+static void
+arg_data_list_destroy (STATE *state)
+{
+	int lp ;
+	GPtrArray *pa ;
+
+	if (!state) return ;
+	pa = state->args ;
+	if (!pa) return ;
+	for (lp=0;lp<pa->len;lp++) {
+		ARG_DATA *ad ;
+		ad = g_ptr_array_index (pa, 0) ;
+		g_free (ad->arg_name) ;
+		g_free (ad) ;
+	}
+	g_ptr_array_free (state->args, FALSE) ;
+}
+
+static GtkWidget *
+function_type_input (ARG_DATA *ad)
+{
+	GtkBox   *box ;
+	GtkEntry *entry ;
+	gchar *txt = NULL, *label ;
+
+	g_return_val_if_fail (ad, NULL) ;
+
+	box  = GTK_BOX (gtk_hbox_new (0, 0)) ;
+
+	switch (ad->type) {
+	case 's':
+		txt = _("String") ;
+		break ;
+	case 'f':
+		txt = _("Number") ;
+		break ;
+	case 'b':
+		txt = _("Boolean") ;
+		break ;
+	case 'r':
+		txt = _("Range") ;
+		break ;
+	case '?':
+		txt = _("Any") ;
+		break ;
+	default:
+		txt = _("Unknown") ;
+		break ;
+	}
+	gtk_box_pack_start (box, gtk_label_new (ad->arg_name),
+			    TRUE, TRUE, 0) ;
+
+	ad->entry = GTK_ENTRY (gtk_entry_new ()) ;
+	gtk_box_pack_start (box, GTK_WIDGET(ad->entry),
+			    FALSE, FALSE, 0) ;
+
+	if (ad->optional) 
+		label = g_strconcat ("(", txt, ")", NULL) ;
+	else
+		label = g_strconcat ("=", txt, NULL) ;
+	gtk_box_pack_start (box, gtk_label_new (label),
+			    TRUE, TRUE, 0) ;
+	g_free (label) ;
+
+	return GTK_WIDGET(box) ;
+}
+
+static void
+function_wizard_create (STATE *state)
+{
+	GtkWidget *vbox, *description ;
+	int lp ;
+
+	g_return_if_fail (state->args) ;
+	vbox = gtk_vbox_new (0, 2) ;
+
+	for (lp=0;lp<state->args->len;lp++) {
+		GtkWidget *widg ;
+		widg = function_type_input (g_ptr_array_index (state->args, lp)) ;
+		gtk_box_pack_start (state->dialog_box, widg,
+				    FALSE, FALSE, 0) ;
+	}
+
+	description = create_description (state->fd) ;
+	gtk_box_pack_start (GTK_BOX(vbox), description,
+			    TRUE, TRUE, 0) ;
+	
+	state->widget = vbox ;
+	gtk_box_pack_start (state->dialog_box, vbox,
+			    FALSE, FALSE, 0) ;
+	gtk_widget_show_all (GTK_WIDGET(state->dialog_box)) ;
+}
+
+static char*
+get_text_value (STATE *state)
+{
+	gchar *txt, *txt2 ;
+	int lp ;
+
+	g_return_val_if_fail (state, NULL) ;
+	g_return_val_if_fail (state->fd, NULL) ;
+	g_return_val_if_fail (state->args, NULL) ;
+
+	txt = g_strconcat (state->fd->name, "(", NULL) ;
+	for (lp=0;lp<state->args->len;lp++) {
+		int comma ;
+		ARG_DATA *ad = g_ptr_array_index (state->args, lp) ;
+		gchar *val = gtk_entry_get_text (ad->entry) ;
+		if (!ad->optional || strlen(val)) {
+			txt2 = txt ;
+			txt = g_strconcat (txt2, lp?",":"", val, NULL) ;
+			g_free (txt2) ;
+		}
+	}
+	txt2 = g_strconcat (txt, ")", NULL) ;
+	g_free (txt) ;
+	return txt2 ;
+}
+
+/**
+ * Main entry point for the Cell Sort dialog box
+ **/
+char *
+dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
+{
+	GtkWidget *dialog ;
+	STATE state ;
+	char *ans = NULL ;
+
+	g_return_val_if_fail (wb, NULL) ;
+
+	state.wb   = wb ;
+	state.fd   = fd ;
+	state.tok  = tokenised_help_new (fd) ;
+	state.args = NULL ;
+	arg_data_list_new (&state) ;
+
+	dialog = gnome_dialog_new (_("Formula Wizard"),
+				   GNOME_STOCK_BUTTON_OK,
+				   GNOME_STOCK_BUTTON_CANCEL,
+				   NULL);
+	
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+				 GTK_WINDOW (wb->toplevel)) ;
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE) ;
+
+	state.dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox) ;
+
+	function_wizard_create (&state) ;
+
+	if (gnome_dialog_run (GNOME_DIALOG(dialog)) == 0)
+		ans = get_text_value (&state) ;
+	
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	tokenised_help_destroy (state.tok) ;
+	return ans ;
+}
+
+
+
+
