@@ -1,3 +1,8 @@
+1999-10-18  Morten Welinder  <terra@diku.dk>
+
+	* ms-formula-read.c (ms_excel_parse_formula): Fix for non-shared
+ 	references to cells below row 256.
+
 1999-10-08  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c : More minor tweaking of adjustment ratios.
