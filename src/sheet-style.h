@@ -34,6 +34,7 @@ void	 sheet_style_relocate		(ExprRelocateInfo const *rinfo);
 void	 sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 					 MStyle **style, StyleBorder **borders);
 void	 sheet_style_get_extent		(Sheet const *sheet, Range *r);
+gboolean sheet_style_has_visible_content(Sheet const *sheet, Range *src);
 
 void sheet_style_init     (Sheet *sheet);
 void sheet_style_shutdown (Sheet *sheet);

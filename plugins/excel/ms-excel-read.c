@@ -3287,7 +3287,6 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 {
 	const guint16 width = MS_OLE_GET_GUINT16(q->data);
 	double col_width;
-	double char_width;
 
 	/* Use the 'Normal' Style which is by definition the 0th */
 	if (sheet->base_char_width_default <= 0)
@@ -3307,7 +3306,7 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 	 * According to saved data a column with the same size a the default has
 	 *   9.00?? char widths.
 	 */
-	col_width = width * char_width;
+	col_width = width * sheet->base_char_width_default;
 
 	sheet_col_set_default_size_pts (sheet->gnum_sheet, col_width);
 }

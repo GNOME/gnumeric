@@ -1,5 +1,21 @@
 2001-02-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print.c (print_page) : Print areas with visible styles too.
+
+	* src/sheet-style.c (sheet_style_has_visible_content) : new function
+
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-border.c (style_borders_row_print) : Use print_hline
+	  print_vline to simplify things later.
+
+	* src/print.c (print_page) : typo.
+
+	* src/sheet.c (sheet_col_set_default_size_pts) : Add some safety.
+	(sheet_row_set_default_size_pts) : Add some safety.
+
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
 	* src/print.c (print_page) : Add a simple filter to avoid printing
 	  pages with no content.  Currently uses only cells.  No tests for
 	  visible styles on blank cells.

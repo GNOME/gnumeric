@@ -312,7 +312,8 @@ style_border_set_pc_dash (StyleBorderType const i,
 }
 
 static inline gboolean
-style_border_set_pc (StyleBorder const * const border, GnomePrintContext *context)
+style_border_set_pc (StyleBorder const * const border,
+		     GnomePrintContext *context)
 {
 	if (border == NULL)
 		return FALSE;
@@ -610,11 +611,20 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 }
 
 static inline void
-print_line (GnomePrintContext *context,
-	    float x1, float y1, float x2, float y2)
+print_hline (GnomePrintContext *context,
+	     float x1, float x2, float y)
 {
-	gnome_print_moveto (context, x1, y1);
-	gnome_print_lineto (context, x2, y2);
+	gnome_print_moveto (context, x1, y);
+	gnome_print_lineto (context, x2, y);
+	gnome_print_stroke (context);
+}
+
+static inline void
+print_vline (GnomePrintContext *context,
+	     float x, float y1, float y2)
+{
+	gnome_print_moveto (context, x, y1);
+	gnome_print_lineto (context, x, y2);
 	gnome_print_stroke (context);
 }
 
@@ -641,13 +651,12 @@ style_borders_row_print (StyleBorder const * const * prev_vert,
 		if (style_border_set_pc (sr->top [col], context)) {
 			float y = y1;
 			if (style_border_hmargins (prev_vert, sr, col, o)) {
-				print_line (context, x + o[1][0], y1+1.,
+				print_hline (context, x + o[1][0],
 					    next_x + o[1][1], y1+1.);
 				--y;
 			}
 
-			print_line (context, x + o[0][0], y,
-				    next_x + o[0][1], y);
+			print_hline (context, x + o[0][0], next_x + o[0][1], y);
 			gnome_print_grestore (context);
 		}
 
@@ -656,12 +665,11 @@ style_borders_row_print (StyleBorder const * const * prev_vert,
 		if (style_border_set_pc (sr->vertical [col], context)) {
 			float x1 = x;
 			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
-				print_line (context, x-1., y1 - o[1][0],
-					    x-1., y2 - o[1][1]);
+				print_vline (context, x-1., y1 - o[1][0],
+					     y2 - o[1][1]);
 				++x1;
 			}
-			print_line (context, x1, y1 - o[0][0],
-				    x1, y2 - o[0][1]);
+			print_vline (context, x1, y1 - o[0][0], y2 - o[0][1]);
 			gnome_print_grestore (context);
 		}
 	}
@@ -669,13 +677,12 @@ style_borders_row_print (StyleBorder const * const * prev_vert,
 		if (style_border_set_pc (sr->vertical [col], context)) {
 			float x1 = x;
 			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
-				print_line (context, x-1., y1 - o[1][0],
-					    x-1., y2 - o[1][1]);
+				print_vline (context, x-1., y1 - o[1][0],
+					    y2 - o[1][1]);
 				++x1;
 			}
 			/* See note in style_border_set_gc_dash about +1 */
-			print_line (context, x, y1 - o[0][0],
-				    x1, y2 - o[0][1]);
+			print_vline (context, x, y1 - o[0][0], y2 - o[0][1]);
 			gnome_print_grestore (context);
 		}
 	}

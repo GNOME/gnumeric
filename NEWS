@@ -11,6 +11,7 @@ Jody:
 	* Fix sheet objects.
 	* Fix stupid memory corruption problem in the applix importer.
 	* Some mis-translations for spanish.
+	* Improve pixel matching of XL import.
 
 Jon Kåre:
 	* Improve file save dialog.

@@ -1437,6 +1437,33 @@ cb_style_extent (MStyle *style,
 	}
 }
 
+static void
+cb_visible_content (MStyle *style,
+		    int corner_col, int corner_row, int width, int height,
+		    Range const *apply_to, gpointer res)
+{
+	*((gboolean *)res) |= mstyle_visible_in_blank (style);
+}
+
+/**
+ * sheet_style_has_visible_content :
+ *
+ * @sheet :
+ * @r     :
+ *
+ * Are any of the styles in the target region visible in a blank cell.  The
+ * implementation is simplistic.  We should really ignore borders at the
+ * edges IF they have been seen before.
+ */
+gboolean
+sheet_style_has_visible_content (Sheet const *sheet, Range *src)
+{ 
+	gboolean res = FALSE;
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, src,
+		      cb_visible_content, &res);
+}
+
 /**
  * sheet_style_get_extent :
  *

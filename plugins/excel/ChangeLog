@@ -1,5 +1,9 @@
 2001-02-06  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-read.c (ms_excel_read_default_col_width) : typo.
+
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-excel-read.c (ms_excel_read_default_col_width) : Init and cache
 	  the default column width here directly.
 	(ms_excel_read_colinfo) : Use the font associated with the specified

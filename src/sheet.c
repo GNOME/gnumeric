@@ -3226,6 +3226,8 @@ sheet_col_row_default_init (Sheet *sheet, double units, int margin_a, int margin
 	    ? &sheet->cols.default_style
 	    : &sheet->rows.default_style;
 
+	g_return_if_fail (units > 0.);
+
 	cri->pos = -1;
 	cri->margin_a = margin_a;
 	cri->margin_b = margin_b;
@@ -3366,6 +3368,8 @@ sheet_col_get_default_size_pixels (Sheet const *sheet)
 void
 sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
+	g_return_if_fail (IS_SHEET (sheet));
+
 	sheet_col_row_default_init (sheet, width_pts, 2, 2, TRUE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
@@ -3374,6 +3378,8 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 void
 sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 {
+	g_return_if_fail (IS_SHEET (sheet));
+
 	sheet_col_row_default_init (sheet, width_pixels, 2, 2, TRUE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;

@@ -433,7 +433,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		repeat_cols_used_x = 0;
 
 	/* If there are no cells in the area check for spans */
-	printed = (NULL == sheet_foreach_cell_in_range (sheet, TRUE,
+	printed = (NULL != sheet_foreach_cell_in_range (sheet, TRUE,
 							start_col, start_row,
 							end_col, end_row,
 							cb_range_empty, NULL));
@@ -448,6 +448,12 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 				break;
 			}
 		}
+	}
+	if (!printed) {
+		Range r;
+		printed = sheet_style_has_visible_content (sheet,
+			range_init (&r, start_col, start_row,
+				    end_col, end_row));
 	}
 
 	if (!output)
