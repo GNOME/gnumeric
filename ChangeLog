@@ -1,3 +1,9 @@
+2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print-info.c (print_info_new): preserve the locale across
+	  the call to gnome_print_config_default. 
+	  (A workaround for a library bug.)
+
 2003-06-17  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (update_lc): New function to extract all lc info
