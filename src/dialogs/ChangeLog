@@ -1,4 +1,11 @@
-
+2001-11-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	* dialog-analysis-tools.c : replace all atof and atoi with calls to
+	  entry_to_float and entry_to_int, wrappers around format_match_number.
+	  Extract common code into gnumeric_expr_entry_parse_to_value and
+	  gnumeric_expr_entry_parse_to_list. Fix code formatting.
+	(ttest_tool_ok_clicked_cb) : validate known variance entries
+	(ttest_update_sensitivity_cb) : new callback, validate mean_diff and alpha
+	
 2001-11-18  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (cb_fmt_dialog_dialog_apply) : rebuild

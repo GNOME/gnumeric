@@ -1,3 +1,8 @@
+2001-11-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	* src/analysis-tools.c (descriptive_stat_tool) : fix stupid error allowing more 
+	  than one of summary, confidnec intervals, kth-largest, and kth-smallest
+	  to be redirected to a new sheet or workbook. Fix code formatting.
+
 2001-11-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_set_date_time_redo) : Use the stock formats.

@@ -88,7 +88,7 @@ cb_store_data (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 	if (cell == NULL || !VALUE_IS_NUMBER (cell->value)) {
 		if (data_set->complete) {
 			data_set->missing = g_slist_prepend (data_set->missing,
-						       GUINT_TO_POINTER (data_set->data->len));
+						 GUINT_TO_POINTER (data_set->data->len));
 			the_data = 0;
 			g_array_append_val (data_set->data, the_data);
 		}
@@ -129,7 +129,7 @@ new_data_set (Value *range, gboolean ignore_non_num, gboolean read_label,
 	if (result != NULL) value_release (result);
 	the_set->missing = g_slist_reverse (the_set->missing);
 	if (the_set->label == NULL)
-		the_set->label = g_strdup_printf (format,i);
+		the_set->label = g_strdup_printf (format, i);
 	return the_set;
 }
 
@@ -222,7 +222,7 @@ destroy_data_set_list (GPtrArray * the_list)
 	gpointer data;
 
 	for (i = 0; i < the_list->len; i++) {
-		data = g_ptr_array_index (the_list,i);
+		data = g_ptr_array_index (the_list, i);
 		destroy_data_set ((data_set_t *) data);
 	}
 	g_ptr_array_free (the_list, FALSE);
@@ -523,7 +523,8 @@ range_sort (const gnum_float *xs, int n)
 	else {
 		gnum_float *ys = g_new (gnum_float, n);
 		memcpy (ys, xs, n * sizeof (gnum_float));
-		qsort (ys, n, sizeof (ys[0]), (int (*) (const void *, const void *))&float_compare);
+		qsort (ys, n, sizeof (ys[0]), 
+		       (int (*) (const void *, const void *))&float_compare);
 		return ys;
 	}
 }
@@ -533,7 +534,7 @@ set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 {
         Cell *cell;
 
-	/* Check that the output is in the given range,but allow singletons
+	/* Check that the output is in the given range, but allow singletons
 	 * to expand
 	 */
 	if (dao->type == RangeOutput &&
@@ -1142,7 +1143,7 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 
 	prepare_output (wbc, dao, _("Confidence Interval for the Mean"));
 	buffer = g_strdup_printf (_("/%g%% CI for the Mean from"
-					"/to"), c_level * 100);
+				    "/to"), c_level * 100);
 	set_cell_text_col (dao, 0, 1, buffer);
         g_free (buffer);
 
@@ -1156,7 +1157,8 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 		if ((c_level < 1) && (c_level >= 0)) {
 			info = g_array_index (basic_stats, desc_stats_t, col);
 			if (info.error_mean == 0 && info.error_var == 0) {
-				x = -qt ((1 - c_level) / 2,info.len - 1) * sqrt (info.var / info.len);
+				x = -qt ((1 - c_level) / 2, info.len - 1) * 
+					sqrt (info.var / info.len);
 				set_cell_float (dao, col + 1, 1, info.mean - x);
 				set_cell_float (dao, col + 1, 2, info.mean + x);
 				continue;
@@ -1253,28 +1255,28 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
 		if (dao->type == RangeOutput) {
 		        dao->start_row += 16;
 			dao->rows -= 16;
+			if (dao->rows < 1)
+				return 0;
 		}
 	}
-	if (dao->rows < 1)
-		return 0;
         if (ds->confidence_level) {
                 confidence_level (wbc, data, ds->c_level,  dao, basic_stats);
 		if (dao->type == RangeOutput) {
 		        dao->start_row += 4;
 			dao->rows -= 4;
+			if (dao->rows < 1)
+				return 0;
 		}
 	}
-	if (dao->rows < 1)
-		return 0;
         if (ds->kth_largest) {
                 kth_largest (wbc, data, ds->k_largest, dao);
 		if (dao->type == RangeOutput) {
 		        dao->start_row += 4;
 			dao->rows -= 4;
+			if (dao->rows < 1)
+				return 0;
 		}
 	}
-	if (dao->rows < 1)
-		return 0;
         if (ds->kth_smallest)
                 kth_smallest (wbc, data, ds->k_smallest, dao);
 
@@ -1496,8 +1498,8 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
 
-	destroy_data_set(variable_1);
-	destroy_data_set(variable_2);
+	destroy_data_set (variable_1);
+	destroy_data_set (variable_2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -1544,14 +1546,14 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 				   _("Variable %i"), 2, sheet);
 
 	if (variable_1->data->len != variable_2->data->len) {
-		destroy_data_set(variable_1);
-		destroy_data_set(variable_2);
+		destroy_data_set (variable_1);
+		destroy_data_set (variable_2);
 	        return 1;
 	}
 
-	missing = union_of_int_sets(variable_1->missing, variable_2->missing);
-	cleaned_variable_1 = strip_missing(variable_1->data, missing);
-	cleaned_variable_2 = strip_missing(variable_2->data, missing);
+	missing = union_of_int_sets (variable_1->missing, variable_2->missing);
+	cleaned_variable_1 = strip_missing (variable_1->data, missing);
+	cleaned_variable_2 = strip_missing (variable_2->data, missing);
 	
 	prepare_output (wbc, dao, _("t-Test"));
 
@@ -1576,7 +1578,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 		diff = *current_1  - *current_2;
 		current_1++;
 		current_2++;
-		g_array_append_val(difference, diff);
+		g_array_append_val (difference, diff);
 	}
 
 	mean_error_1 = range_average ((const gnum_float *) cleaned_variable_1->data, 
@@ -1604,7 +1606,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	df = cleaned_variable_1->len - 1;
 
 	if (var_diff_error == 0) {
-		t = (mean_diff - mean_diff_hypo)/sqrt(var_diff/difference->len);
+		t = (mean_diff - mean_diff_hypo)/sqrt (var_diff/difference->len);
 		p = 1.0 - pt (fabs (t), df);
 	}
 
@@ -1666,10 +1668,10 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	if (cleaned_variable_2 != variable_2->data)
 		g_array_free (cleaned_variable_2, TRUE);
 
-	g_array_free (difference,TRUE);
+	g_array_free (difference, TRUE);
 
-	destroy_data_set(variable_1);
-	destroy_data_set(variable_2);
+	destroy_data_set (variable_1);
+	destroy_data_set (variable_2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -1740,7 +1742,7 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 		if (var != 0) {
 			t = (mean_1 - mean_2 - mean_diff) /
 				sqrt (var / variable_1->data->len + var / variable_2->data->len);
-			p = 1.0 - pt (fabs(t), df);
+			p = 1.0 - pt (fabs (t), df);
 		}
 	}
 
@@ -1795,8 +1797,8 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
 
-	destroy_data_set(variable_1);
-	destroy_data_set(variable_2);
+	destroy_data_set (variable_1);
+	destroy_data_set (variable_2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -1862,11 +1864,12 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	if (no_error) {
 		c = (var_1 / variable_1->data->len) / 
 			(var_1 / variable_1->data->len + var_2 / variable_2->data->len);
-		df = 1.0 / ((c * c) / (variable_1->data->len - 1.0) + ((1 - c)* (1 - c)) / (variable_2->data->len - 1.0));
+		df = 1.0 / ((c * c) / (variable_1->data->len - 1.0) +
+			    ((1 - c)* (1 - c)) / (variable_2->data->len - 1.0));
 		
 		t =  (mean_1 - mean_2 - mean_diff) /
 			sqrt (var_1 / variable_1->data->len + var_2 / variable_2->data->len);
-		p = 1.0 - pt (fabs(t), df);
+		p = 1.0 - pt (fabs (t), df);
 	}
 
 	/* Labels */
@@ -1917,8 +1920,8 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
 
-	destroy_data_set(variable_1);
-	destroy_data_set(variable_2);
+	destroy_data_set (variable_1);
+	destroy_data_set (variable_2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -2069,10 +2072,10 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 		sheet_update (sheet);
 	}
 	
-	value_release(input_range_1);
-	value_release(input_range_2);
-	destroy_data_set(variable_1);
-	destroy_data_set(variable_2);
+	value_release (input_range_1);
+	value_release (input_range_2);
+	destroy_data_set (variable_1);
+	destroy_data_set (variable_2);
 	
 	return result;
 }
@@ -2336,8 +2339,8 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	y_data = new_data_set (y_input, FALSE, dao->labels_flag,
 			       _("Y Variable"), 0, sheet);
 
-	if (y_data->data->len != ((data_set_t *)g_ptr_array_index(x_data,0))->data->len) {
-		destroy_data_set(y_data);
+	if (y_data->data->len != ((data_set_t *)g_ptr_array_index (x_data, 0))->data->len) {
+		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
 		range_list_destroy (x_input_range);
 		value_release (y_input);
@@ -2350,7 +2353,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		GSList *this_missing;
 		GSList *the_union;
 		
-		this_missing = ((data_set_t *)g_ptr_array_index(x_data,i))->missing;
+		this_missing = ((data_set_t *)g_ptr_array_index (x_data, i))->missing;
 		the_union = union_of_int_sets (missing, this_missing);
 		g_slist_free (missing);
 		missing = the_union;
@@ -2362,11 +2365,11 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		y_data->data = cleaned;
 		for (i = 0; i < xdim; i++) {
 			cleaned = strip_missing (((data_set_t *)
-						  g_ptr_array_index(x_data,i))->data, 
+						  g_ptr_array_index (x_data, i))->data, 
 						 missing);
 			g_array_free (((data_set_t *)
-				       g_ptr_array_index(x_data,i))->data, TRUE);
-			((data_set_t *) g_ptr_array_index(x_data,i))->data = cleaned;
+				       g_ptr_array_index (x_data, i))->data, TRUE);
+			((data_set_t *) g_ptr_array_index (x_data, i))->data = cleaned;
 		}
 	}
 
@@ -2376,19 +2379,20 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	res = g_new (gnum_float, xdim + 1);
 
 	for (i = 0; i < xdim; i++) {
-		xss[i] = (gnum_float *)(((data_set_t *)g_ptr_array_index(x_data,i))->data->data);
+		xss[i] = (gnum_float *)(((data_set_t *)g_ptr_array_index 
+					 (x_data, i))->data->data);
 	}
 
-	err = linear_regression (xss, xdim, (gnum_float *)(y_data->data->data), y_data->data->len,
-				 intercept, res, &extra_stat);
+	err = linear_regression (xss, xdim, (gnum_float *)(y_data->data->data), 
+				 y_data->data->len, intercept, res, &extra_stat);
 
 	if (err) {
-		destroy_data_set(y_data);
+		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
 		range_list_destroy (x_input_range);
 		value_release (y_input);
-		g_free(xss);
-		g_free(res);
+		g_free (xss);
+		g_free (res);
 		return err;
 	}
 
@@ -2412,7 +2416,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 					"/"
 					"/Intercept"));
 	for (i = 0; i < xdim; i++)
-		set_cell (dao, 0, 17 + i, ((data_set_t *)g_ptr_array_index(x_data,i))->label);
+		set_cell (dao, 0, 17 + i, ((data_set_t *)g_ptr_array_index (x_data, i))->label);
 	set_italic (dao, 0, 0, 0, 16 + xdim);
 
         set_cell_text_row (dao, 1, 10, _("/df"
@@ -2431,7 +2435,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 				((1.0 - alpha) * 100),((1.0 - alpha) * 100));
         set_cell_text_row (dao, 1, 15, text);
 	set_italic (dao, 1, 15, 6, 15);
-	g_free(text);
+	g_free (text);
 
 	av_err = range_average ((gnum_float *)(y_data->data->data), y_data->data->len, &mean_y);
 	sumsq_err = range_sumsq ((gnum_float *)(y_data->data->data), y_data->data->len, &ss_yy);
@@ -2549,12 +2553,12 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 				res[i + 1] + t * extra_stat.se[intercept + i]);
 	}
 
-	destroy_data_set(y_data);
+	destroy_data_set (y_data);
 	destroy_data_set_list (x_data);
 	range_list_destroy (x_input_range);
 	value_release (y_input);
-	g_free(xss);
-	g_free(res);
+	g_free (xss);
+	g_free (res);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (dao->sheet);
@@ -2758,7 +2762,8 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 					(sheet, input_range->start.col + col,
 					 input_range->start.row);
 				if (cell != NULL && cell->value != NULL)
-				        set_cell_value (dao, col * 4 + 1, 0, value_duplicate (cell->value));
+				        set_cell_value (dao, col * 4 + 1, 0, 
+							value_duplicate (cell->value));
 			} else {
 				set_cell_printf (dao, col * 4 + 1, 0, _("Column %d"), col + 1);
 			}
@@ -2784,7 +2789,8 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 					(sheet, input_range->start.col,
 					 input_range->start.row + col);
 				if (cell != NULL && cell->value != NULL)
-				        set_cell_value (dao, col * 4 + 1, 0, value_duplicate (cell->value));
+				        set_cell_value (dao, col * 4 + 1, 0, 
+							value_duplicate (cell->value));
 			} else {
 				set_cell_printf (dao, col * 4 + 1, 0, _("Row %d"), col + 1);
 			}
@@ -2912,7 +2918,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 		data_set_t *current_data;
 		gnum_float *the_data;
 		
-		current_data = g_ptr_array_index(data, index);
+		current_data = g_ptr_array_index (data, index);
 		the_data = (gnum_float *)current_data->data->data;
 		
 		/* Label */
@@ -3383,7 +3389,8 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	set_cell_int   (dao, 2, n * 6 + 15, df_within);
 	set_cell_int   (dao, 2, n * 6 + 17, tot_count-1);
 
-	/* Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same*/
+	/* Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within */
+	/* should all be the same */
 
 	set_cell (dao, 3, n * 6 + 11, _("MS"));
 	set_cell_float (dao, 3, n * 6 + 12, ms_gr);
@@ -3438,7 +3445,7 @@ typedef struct {
 static gint
 bin_compare (const bin_t *set_a, const bin_t *set_b)
 {
-	gnum_float a,b;
+	gnum_float a, b;
 
 	a = set_a->limit;
 	b = set_b->limit;
@@ -3454,7 +3461,7 @@ bin_compare (const bin_t *set_a, const bin_t *set_b)
 static gint
 bin_pareto_at_i (const bin_t *set_a, const bin_t *set_b, guint index)
 {
-	gnum_float a,b;
+	gnum_float a, b;
 
 	if (set_a->counts->len <= index)
 		return 0;
@@ -3478,7 +3485,7 @@ bin_pareto (const bin_t *set_a, const bin_t *set_b)
 
 static void 
 destroy_items (gpointer data, gpointer user_data) {
-	g_free(data);
+	g_free (data);
 }
 
 int
@@ -3503,7 +3510,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 	bin_data = new_data_set_list (bin_range, GROUPED_BY_BIN,
 				  TRUE, bin_labels, sheet);
 	for (i = 0; i < bin_data->len; i++) {
-		if (((data_set_t *)g_ptr_array_index (bin_data,i))->data->len != 1) {
+		if (((data_set_t *)g_ptr_array_index (bin_data, i))->data->len != 1) {
 			range_list_destroy (input);
 			destroy_data_set_list (bin_data);
 			range_list_destroy (bin_range);
@@ -3520,21 +3527,21 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 
 /* set up counter structure */
 	for (i=0; i < bin_data->len; i++) {
-		a_bin = g_new(bin_t,1);
+		a_bin = g_new (bin_t, 1);
 		a_bin->limit = g_array_index (
-			((data_set_t *)g_ptr_array_index (bin_data,i))->data, 
+			((data_set_t *)g_ptr_array_index (bin_data, i))->data, 
 			gnum_float, 0);
-		a_bin->counts = g_array_new (FALSE, TRUE, sizeof(gnum_float));
+		a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 		a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-		a_bin->label = ((data_set_t *)g_ptr_array_index (bin_data,i))->label;
+		a_bin->label = ((data_set_t *)g_ptr_array_index (bin_data, i))->label;
 		a_bin->last = FALSE;
 		bin_list = g_slist_prepend (bin_list, a_bin);
 	}
 	bin_list = g_slist_sort (bin_list,
 				  (GCompareFunc) bin_compare);
-	a_bin = g_new(bin_t,1);
+	a_bin = g_new (bin_t, 1);
 	a_bin->limit = 0.0;
-	a_bin->counts = g_array_new (FALSE, TRUE, sizeof(gnum_float));
+	a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 	a_bin->counts = g_array_set_size (a_bin->counts, data->len);
 	a_bin->label = _("More");
 	a_bin->last = TRUE;
@@ -3545,7 +3552,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		GArray * the_data;
 		gnum_float *the_sorted_data;
 
-		the_data = ((data_set_t *)(g_ptr_array_index (data,i)))->data;
+		the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
 		the_sorted_data =  range_sort ((gnum_float *)(the_data->data), the_data->len);
 		
 		this = bin_list;
@@ -3554,14 +3561,15 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		for (j = 0; j < the_data->len;) {
 			if ((*this_value <= ((bin_t *)this->data)->limit) ||
 			    (this->next == NULL)){
-				(g_array_index(((bin_t *)this->data)->counts, gnum_float, i))++;
+				(g_array_index (((bin_t *)this->data)->counts, 
+						gnum_float, i))++;
 				j++;
 				this_value++;
 			} else {
 				this = this->next;
 			}
 		}
-		g_free(the_sorted_data);
+		g_free (the_sorted_data);
 	}
 
 /* sort if pareto */
@@ -3593,7 +3601,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		row = 0;
 		if (dao->labels_flag) {
 			set_cell (dao, col, row, 
-				  ((data_set_t *)g_ptr_array_index (data,i))->label);
+				  ((data_set_t *)g_ptr_array_index (data, i))->label);
 			row++;
 		}
 		set_cell (dao, col, row, _("Frequency"));
@@ -3608,7 +3616,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			x = g_array_index (((bin_t *)this->data)->counts, gnum_float, i);
 			row ++;
 			set_cell_float (dao, col, row,  x);
-			x = x/(((data_set_t *)(g_ptr_array_index (data,i)))->data->len);
+			x = x/(((data_set_t *)(g_ptr_array_index (data, i)))->data->len);
 			if (cumulative)
 				set_cell_float (dao, col + 1, row, x);
 			this = this->next;
@@ -3625,7 +3633,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 	destroy_data_set_list (bin_data);
 	range_list_destroy (bin_range);
 	g_slist_foreach (bin_list, destroy_items, NULL);
-	g_slist_free(bin_list);
+	g_slist_free (bin_list);
 	
 
 	sheet_set_dirty (dao->sheet, TRUE);
