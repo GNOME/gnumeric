@@ -1,3 +1,8 @@
+2003-10-29  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.desktop.in : Add a new String 'Spreadsheet' to conform to
+	  freedesktop standards with a 'GenericName' entry.
+
 2003-10-27  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-gconf.c (gnm_gconf_get_float): Avoid double->float

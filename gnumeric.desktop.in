@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 _Name=Gnumeric Spreadsheet
+_GenericName=Spreadsheet
 _Comment=The GNOME Spreadsheet
 Exec=gnumeric %F
 Icon=gnome-gnumeric.png
