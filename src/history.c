@@ -11,9 +11,15 @@
 #include "application.h"
 #include "history.h"
 #include "workbook.h"
+#include "workbook-private.h"
+
+#ifdef ENABLE_BONOBO
+#include <bonobo.h>
+#endif
 
 /* Command callback called on activation of a file history menu item. */
 #ifndef ENABLE_BONOBO
+#include <bonobo.h>
 
 #define UGLY_GNOME_UI_KEY "HistoryFilename"
 
@@ -102,7 +108,7 @@ history_menu_item_create (Workbook *wb, gchar *name, gint accel_number,
 		gchar *path;
 
 		path = g_strconcat (_("/File/"), info[0].label, NULL);
-		bonobo_ui_handler_menu_new_item (wb->uih, path, info[0].label, name, 
+		bonobo_ui_handler_menu_new_item (wb->priv->uih, path, info[0].label, name, 
 						pos, BONOBO_UI_HANDLER_PIXMAP_NONE, 
 						NULL, 0, GDK_SHIFT_MASK, 
 						(BonoboUIHandlerCallback)file_history_cmd, 
@@ -137,7 +143,7 @@ history_menu_locate_separator (Workbook *wb)
 					    menu_name, &ret.pos);
 #else
 	ret.menu = NULL;
-	ret.pos = bonobo_ui_handler_menu_get_pos (wb->uih,
+	ret.pos = bonobo_ui_handler_menu_get_pos (wb->priv->uih,
 						   "/File/Print preview");
 	ret.pos++; /* see NOTE above */
 #endif
@@ -168,7 +174,7 @@ history_menu_insert_separator (Workbook *wb)
 			   menu_name);
 #else
 	ret = history_menu_locate_separator (wb);
-	bonobo_ui_handler_menu_new_separator (wb->uih, "/File/histsep",
+	bonobo_ui_handler_menu_new_separator (wb->priv->uih, "/File/histsep",
 					      ret.pos);
 #endif
 	return ret;
@@ -218,7 +224,7 @@ history_menu_remove_items (Workbook *wb, GList *name_list)
 	for (l = name_list; l; l = l->next) {
 		label = history_item_label ((gchar *)l->data, accel_number++);
 		path = g_strconcat ("/File/", label, NULL);
-		bonobo_ui_handler_menu_remove (wb->uih, path);
+		bonobo_ui_handler_menu_remove (wb->priv->uih, path);
 		g_free (label);
 		g_free (path);
 	}
