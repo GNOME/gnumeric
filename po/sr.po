@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-28 04:51+0100\n"
-"PO-Revision-Date: 2003-10-28 04:56+0100\n"
+"POT-Creation-Date: 2003-10-30 04:13+0100\n"
+"PO-Revision-Date: 2003-10-30 04:16+0100\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,10 @@ msgid "Gnumeric Spreadsheet"
 msgstr "Гнумерик табеларни прорачун"
 
 #: gnumeric.desktop.in.h:2
+msgid "Spreadsheet"
+msgstr "Табеларни прорачун"
+
+#: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
 msgstr "ГНОМ програм за табеларне прорачуне"
 
@@ -630,7 +634,7 @@ msgstr ""
 
 #: plugins/derivatives/options.c:1796
 msgid "a, b, rho"
-msgstr ""
+msgstr "a, b, rho"
 
 #: plugins/derivatives/options.c:1801
 msgid ""
@@ -777,15 +781,15 @@ msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Чита и пише информације сачуване у *.diff формату"
 
-#: plugins/excel/boot.c:167
+#: plugins/excel/boot.c:176
 msgid "No Workbook or Book streams found."
 msgstr "Није пронађен ток за радну свеску или табелу."
 
-#: plugins/excel/boot.c:210
+#: plugins/excel/boot.c:219
 msgid "Preparing to save..."
 msgstr "Припрема за снимање..."
 
-#: plugins/excel/boot.c:219
+#: plugins/excel/boot.c:228
 msgid "Saving file..."
 msgstr "Чува датотеку..."
 
@@ -794,7 +798,7 @@ msgstr "Чува датотеку..."
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Неочекивани атрибут %s::%s == '%s'."
 
-#: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:979
+#: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:994
 #: plugins/xml_sax/xml-sax-read.c:1592
 msgid "XML document not well formed!"
 msgstr "XML документ није добро оформљен!"
@@ -10467,41 +10471,41 @@ msgstr "ГНУ Олео (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Увози ГНУ Олео документе"
 
-#: plugins/openoffice/openoffice-read.c:421
+#: plugins/openoffice/openoffice-read.c:422
 msgid "Missing expression"
 msgstr "Недостаје израз"
 
-#: plugins/openoffice/openoffice-read.c:426
+#: plugins/openoffice/openoffice-read.c:427
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Израз „%s“ не почиње са препознатим знаком"
 
-#: plugins/openoffice/openoffice-read.c:439
+#: plugins/openoffice/openoffice-read.c:440
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Не могу да рашчланим '%s' због '%s'"
 
-#: plugins/openoffice/openoffice-read.c:496
+#: plugins/openoffice/openoffice-read.c:497
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Нетачан израз за низ не наводи број колона."
 
-#: plugins/openoffice/openoffice-read.c:499
+#: plugins/openoffice/openoffice-read.c:500
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Нетачан израз за низ не наводи број врста."
 
-#: plugins/openoffice/openoffice-read.c:749
+#: plugins/openoffice/openoffice-read.c:750
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Не могу да рашчланим позицију за израз '%s' @ '%s' због '%s'"
 
-#: plugins/openoffice/openoffice-read.c:762
+#: plugins/openoffice/openoffice-read.c:763
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 "Не могу да рашчланим позицију за израз '%s' са вредношћу '%s' због '%s'"
 
-#: plugins/openoffice/openoffice-read.c:939
+#: plugins/openoffice/openoffice-read.c:949
 msgid "No stream named content.xml found."
 msgstr "Није пронађен ток под називом „content.xml“."
 
@@ -12061,7 +12065,7 @@ msgid "Jump to a specified cell"
 msgstr "Скочи до одређеног поља"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:573
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:578
 #: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Ознака"
@@ -13097,11 +13101,11 @@ msgstr "Куцали сте „%s%s“ у пољу %s"
 msgid "Typing \"%s%s\""
 msgstr "Куцали сте „%s%s“"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3176
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3179
 msgid "Delete Columns"
 msgstr "Уклони колоне"
 
-#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3294
+#: src/commands.c:1233 src/commands.c:1238 src/sheet.c:3297
 msgid "Delete Rows"
 msgstr "Уклони врсте"
 
@@ -21485,11 +21489,11 @@ msgstr "Не могу радити на припојеним пољима"
 msgid "cannot operate on array formulae"
 msgstr "Не могу да радим са низовним формулама"
 
-#: src/sheet.c:3117
+#: src/sheet.c:3120
 msgid "Insert Columns"
 msgstr "Уметни колоне"
 
-#: src/sheet.c:3235
+#: src/sheet.c:3238
 msgid "Insert Rows"
 msgstr "Уметни врсте"
 
@@ -22099,7 +22103,7 @@ msgstr "Горње ограничење (95%)"
 
 #: src/tools/simulation.c:335
 msgid "SUMMARY OF SIMULATION ROUND #"
-msgstr ""
+msgstr "ИЗВЕШТАЈ КРУГА ОПОНАШАЊА #"
 
 #: src/tools/simulation.c:349
 msgid "Report"
@@ -22333,7 +22337,7 @@ msgstr "Ненулти елементи у"
 
 #: src/tools/solver/reports-write.c:605
 msgid "Obj. fn"
-msgstr ""
+msgstr "Обј. фн."
 
 # #-#-#-#-#  gtk+.po (gtk+ 2.2.0)  #-#-#-#-#
 # Razmer?
