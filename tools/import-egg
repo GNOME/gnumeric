@@ -22,6 +22,7 @@ die "$0: must specify libegg directory on command line.\n"
 
 &copy_subsystem ("menu");
 &copy_subsystem ("toolbar");
+# &copy_subsystem ("recent-files");
 
 # -----------------------------------------------------------------------------
 
