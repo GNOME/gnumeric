@@ -29,6 +29,8 @@
 #define d(code)
 #endif
 
+#define CC2XML(s) ((const xmlChar *)(s))
+
 struct _SheetObjectImage {
 	SheetObject  sheet_object;
 
@@ -308,9 +310,26 @@ sheet_object_image_read_xml_dom (SheetObject *so, char const *typename,
 				 XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectImage *soi;
+	xmlNodePtr child;
+	xmlChar    *type, *content;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (so), TRUE);
 	soi = SHEET_OBJECT_IMAGE (so);
+
+	child = e_xml_get_child_by_name (tree, "Content");
+	type  = xmlGetProp (child, CC2XML ("image-type"));
+	if (type == NULL)
+		return FALSE;
+	content = xmlNodeGetContent (child);
+	if (content == NULL) {
+		xmlFree (type);
+		return FALSE;
+	}
+	soi->type       = g_strdup (type);
+	soi->bytes.len  = gsf_base64_decode_simple (content, strlen (content));
+	soi->bytes.data = g_memdup (content, soi->bytes.len);
+	xmlFree (type);
+	xmlFree (content);
 
 	return FALSE;
 }

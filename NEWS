@@ -34,6 +34,7 @@ Jody:
 
 Jon Kåre:
 	* Export images to Excel
+	* Read images from native Gnumeric format
 
 Morten:
 	* Add Ctrl-5 for strike-through.

@@ -1,3 +1,8 @@
+2004-08-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-image.c (sheet_object_image_read_xml_dom): Read
+	image.
+
 2004-08-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-image.c (sheet_object_image_new): Simplify
