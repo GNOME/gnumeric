@@ -1,3 +1,9 @@
+2003-05-02  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-canvas.h (GNUMERIC_CANVAS_FACTOR_Y): Up size to
+	6000000 which seems to be enough for acuster.  It's a kludge,
+	though.
+
 2003-05-01  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (fmin2, fmax2, imin2, imax2): Make these inline

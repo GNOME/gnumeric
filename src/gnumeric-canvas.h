@@ -9,7 +9,7 @@
 #define GNM_IS_CANVAS(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), GNM_CANVAS_TYPE))
 
 #define GNUMERIC_CANVAS_FACTOR_X 1000000
-#define GNUMERIC_CANVAS_FACTOR_Y 4000000
+#define GNUMERIC_CANVAS_FACTOR_Y 6000000
 
 typedef gboolean (*GnmCanvasSlideHandler) (GnmCanvas *gcanvas,
 						int col, int row,
