@@ -12,6 +12,9 @@ typedef int    gnum_int;
 
 typedef long double gnum_float;
 #ifdef HAVE_STRTOLD
+#ifdef MUST_PROTOTYPE_STRTOLD
+long double strtold (const char *, char **);
+#endif
 #define strtognum strtold
 #else
 #define NEED_FAKE_STRTOGNUM
@@ -52,6 +55,7 @@ gnum_float frexpgnum (gnum_float x, int *exp);
 #define expgnum expl
 #define loggnum logl
 #define log10gnum log10l
+#define log1pgnum log1pl
 #define singnum sinl
 #define cosgnum cosl
 #define tangnum tanl
@@ -98,6 +102,7 @@ typedef double gnum_float;
 #define expgnum exp
 #define loggnum log
 #define log10gnum log10
+#define log1pgnum log1p
 #define singnum sin
 #define cosgnum cos
 #define tangnum tan

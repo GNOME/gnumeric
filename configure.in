@@ -74,7 +74,7 @@ AC_ARG_WITH(long_double,
 		fi
 
 		need_sunmath=no
-		for ldfunc in fabsl sqrtl expl logl log10l ceill floorl powl hypotl \
+		for ldfunc in fabsl sqrtl expl logl log10l log1pl ceill floorl powl hypotl \
 				sinl cosl tanl asinl acosl atanl atan2l \
 				sinhl coshl tanhl asinhl acoshl atanhl \
 				erfl erfcl ynl isnanl finitel; do
@@ -103,6 +103,21 @@ AC_ARG_WITH(long_double,
 		AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
 
 		if test "$ac_cv_func_strtold" = "yes"; then
+			AC_MSG_CHECKING([if we must prototype strtold ourselves])
+			AC_TRY_RUN([
+				#include <stdlib.h>
+				int main ()
+				{
+					const char *s = "+3.1415e+0";
+					char *theend;
+					long double res = strtold (s, &theend);
+					return (*theend == 0 && finitel (res) &&
+						res >= 3.14 && res <= 3.15);
+				}],
+				AC_MSG_RESULT(no),
+				[AC_MSG_RESULT(yes)
+				 AC_DEFINE(MUST_PROTOTYPE_STRTOLD)],
+				AC_MSG_RESULT(assuming not));
 			true
 		elif test "$ac_cv_func_string_to_decimal" = "yes" -a \
 			  "$ac_cv_func_decimal_to_quadruple" = "yes" -a \
