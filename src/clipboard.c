@@ -39,13 +39,13 @@ typedef struct {
  *
  * Pastes a cell in the spreadsheet
  */
-static int
+static void
 paste_cell (Sheet *dest_sheet, Cell *new_cell,
 	    int target_col, int target_row,
 	    int paste_flags)
 {
-	g_return_val_if_fail (target_col < SHEET_MAX_COLS, 0);
-	g_return_val_if_fail (target_row < SHEET_MAX_ROWS, 0);
+	g_return_if_fail (target_col < SHEET_MAX_COLS);
+	g_return_if_fail (target_row < SHEET_MAX_ROWS);
 
 	sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
 
@@ -70,11 +70,9 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell,
 	sheet_redraw_cell_region (dest_sheet,
 				  target_col, target_row,
 				  target_col, target_row);
-
-	return new_cell->parsed_node != 0;
 }
 
-static int
+static void
 paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 		  CellCopy *c_copy, int paste_flags)
 {
@@ -107,17 +105,14 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 						    c_copy->u.cell.mstyle);
 			}
 
-			return paste_cell (
-				dest_sheet, new_cell,
-				target_col, target_row, paste_flags);
+			paste_cell (dest_sheet, new_cell,
+				    target_col, target_row, paste_flags);
 		} else {
 			new_cell = sheet_cell_new (dest_sheet,
 						   target_col, target_row);
 			cell_set_text (new_cell, c_copy->u.text);
 		}
 	}
-
-	return 0;
 }
 
 /**
@@ -139,7 +134,6 @@ do_clipboard_paste_cell_region (CommandContext *context,
 {
 	CellCopyList *l;
 	GList        *deps;
-	int formulas = 0;
 	int col, row, col_inc, row_inc;
 
 	/* clear the region where we will paste */
@@ -186,9 +180,8 @@ do_clipboard_paste_cell_region (CommandContext *context,
 				if (target_row > dest_row + paste_height - 1)
 					continue;
 
-				formulas |= paste_cell_flags (
-					dest_sheet, target_col, target_row,
-					c_copy, paste_flags);
+				paste_cell_flags (dest_sheet, target_col, target_row,
+						  c_copy, paste_flags);
 			}
 		}
 	}
@@ -198,14 +191,8 @@ do_clipboard_paste_cell_region (CommandContext *context,
 				      dest_col + paste_width - 1,
 				      dest_row + paste_height - 1);
 
-	if (deps) {
+	if (deps)
 		cell_queue_recalc_list (deps, TRUE);
-		formulas = 1;
-	}
-
-	/* Trigger a recompute if required */
-	if (formulas)
-		workbook_recalc (dest_sheet->workbook);
 }
 
 static GList *
@@ -262,7 +249,7 @@ x_selection_to_cell_region (char *data, int len)
 				if (p [1])
 					rows++;
 				cur_col = 0;
-			} 
+			}
 
 			data = p+1;
 		}
@@ -291,7 +278,8 @@ x_selection_to_cell_region (char *data, int len)
  */
 static void
 sheet_paste_selection (CommandContext *context, Sheet *sheet,
-		       CellRegion *content, SheetSelection *ss, clipboard_paste_closure_t *pc)
+		       CellRegion *content, SheetSelection *ss,
+		       clipboard_paste_closure_t *pc)
 {
 	int        paste_height, paste_width;
 	int        end_col, end_row;
@@ -351,7 +339,6 @@ sheet_paste_selection (CommandContext *context, Sheet *sheet,
 	sheet_selection_reset_only (pc->dest_sheet);
 	sheet_selection_append (pc->dest_sheet, pc->dest_col, pc->dest_row);
 	sheet_selection_extend_to (pc->dest_sheet, end_col, end_row);
-
 }
 
 /**
@@ -390,6 +377,8 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 		g_free (wb->clipboard_paste_callback_data);
 		wb->clipboard_paste_callback_data = NULL;
 	}
+
+	workbook_recalc (wb);
 }
 
 /**
@@ -556,25 +545,11 @@ clipboard_paste_region (CommandContext *context,
 			int paste_flags,    guint32 time)
 {
 	clipboard_paste_closure_t *data;
-	Sheet *sheet_holding_selection;
 
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
 
-	if (dest_sheet->workbook->clipboard_paste_callback_data != NULL) {
-		g_free (dest_sheet->workbook->clipboard_paste_callback_data);
-		dest_sheet->workbook->clipboard_paste_callback_data = NULL;
-	}
-
-	/*
-	 * OK, we dont have the X selection, so we try to get it:
-	 * we setup all of the parameters for the callback in
-	 * case the X selection fails and we have to fallback to
-	 * using our internal selection
-	 */
 	data = g_new (clipboard_paste_closure_t, 1);
-	dest_sheet->workbook->clipboard_paste_callback_data = data;
-
 	data->region       = region;
 	data->dest_sheet   = dest_sheet;
 	data->dest_col     = dest_col;
@@ -589,29 +564,23 @@ clipboard_paste_region (CommandContext *context,
 	 * to paste from in this case (instead of the simplistic text
 	 * we get from X
 	 */
-
-	sheet_holding_selection = application_clipboard_sheet_get ();
-	if (sheet_holding_selection && region) {
-		CellRegion *content;
-
-		content = region;
-
+	if (region) {
 		sheet_paste_selection (context, dest_sheet,
-				       content, dest_sheet->selections->data, data);
-
-		/* Check that this has not already been freed */
-		if (sheet_holding_selection->workbook->clipboard_paste_callback_data != NULL) {
-			sheet_holding_selection->workbook->clipboard_paste_callback_data = NULL;
-			g_free (data);
-		}
+				       region, dest_sheet->selections->data, data);
+		g_free (data);
 		return;
 	}
 
 	/*
+	 * OK, we dont have the X selection, so we try to get it:
+	 *
 	 * Now, trigger a grab of the X selection.
 	 *
 	 * This will callback x_selection_received
 	 */
+	if (dest_sheet->workbook->clipboard_paste_callback_data != NULL)
+		g_free (dest_sheet->workbook->clipboard_paste_callback_data);
+	dest_sheet->workbook->clipboard_paste_callback_data = data;
 	gtk_selection_convert (
 		dest_sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
 		GDK_TARGET_STRING, time);
