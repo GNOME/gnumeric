@@ -137,6 +137,13 @@ style_font_new_simple (const char *font_name, double size, double scale, int bol
 			return NULL;
 		}
 
+		/*
+		 * Worst case scenario
+		 */
+		if (font->dfont->gdk_font == NULL){
+			font->dfont->gdk_font = gdk_font_load ("fixed");
+		}
+		
 		font->font = gnome_font_new_closest (
 			font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,

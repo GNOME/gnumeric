@@ -1,3 +1,9 @@
+1999-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/style.c (style_font_new_simple): Be defensive at
+	font-loading time.  Basically, gnome-fonts might be allocated with
+	a NULL gdk_font.  Maybe we need to revise this strategy
+
 1999-09-23  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (gnome-print): only require 0.7 -- that's the
