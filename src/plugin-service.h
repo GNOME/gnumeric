@@ -120,7 +120,9 @@ void           plugin_service_set_plugin (PluginService *service, PluginInfo *pl
 void           plugin_service_set_loader_data (PluginService *service, gpointer loader_data);
 void           plugin_service_clear_loader_data (PluginService *service);
 gpointer       plugin_service_get_loader_data (PluginService *service);
-void           plugin_service_activate (PluginService *service, ErrorInfo **ret_error);
+void           plugin_service_activate (PluginService *service,
+					gboolean force_load,
+					ErrorInfo **ret_error);
 gboolean       plugin_service_can_deactivate (PluginService *service);
 void           plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error);
 

@@ -1,3 +1,31 @@
+2002-03-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/command-context-stderr.[ch]: Add.
+
+	* src/Makefile.am: Add command-context-stderr.[ch]
+
+	* src/main.c (main): Force load plugins before dumping function
+	definitions.
+
+	* src/plugin.[ch] (activate_plugin, plugin_db_activate_plugin_list,
+	plugin_db_activate_saved_active_plugins, plugins_init): Add
+	force_load parameter.
+	(plugins_init): Use virtual function gnumeric_error_error_info to
+	report error.
+
+	* src/plugin-service.[ch]
+	(plugin_service_function_group_initialize): Add force_load
+	parameter. Get function info if force loaded.
+	(plugin_service_activate): Propagate force_load parameter.
+	
+	* src/gnumeric.h: Declare CommandContextStderr.
+
+	* src/func.[ch] (function_def_get_full_info_if_needed): Make
+	public so that it's available when force-loading plugins.
+
+	* src/error-info.c (error_info_print_with_offset): Print to stderr
+	instead of stdout.
+
 2002-03-08  Morten Welinder  <terra@diku.dk>
 
 	* src/validation.c (validation_eval): Minor cleanup.

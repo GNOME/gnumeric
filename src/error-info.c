@@ -170,7 +170,7 @@ error_info_print_with_offset (ErrorInfo *error, gint offset)
 	GList *l;
 
 	if (error->msg != NULL) {
-		printf ("%*s%s\n", offset, "", error->msg);
+		fprintf (stderr, "%*s%s\n", offset, "", error->msg);
 		offset += 2;
 	}
 	for (l = error->details; l != NULL; l = l->next) {

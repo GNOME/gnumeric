@@ -1,3 +1,10 @@
+2002-03-08  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-plugin-manager.c (cb_pm_button_activate_plugin_clicked):
+	Add parameter force_load = FALSE to activate_plugin call.
+	(cb_pm_button_activate_all_clicked): Add parameter force_load =
+	FALSE to plugin_db_activate_plugin_list call.
+
 2002-03-08  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-solver.c (cb_dialog_solve_clicked): Make the reports only

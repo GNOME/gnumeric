@@ -1001,7 +1001,7 @@ plugin_get_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error)
 }
 
 void
-activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
+activate_plugin (PluginInfo *pinfo, gboolean force_load, ErrorInfo **ret_error)
 {
 	GList *error_list = NULL;
 	PluginDependency **dep_ptr;
@@ -1027,7 +1027,7 @@ activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 		if (dep_pinfo != NULL) {
 			ErrorInfo *dep_error;
 
-			activate_plugin (dep_pinfo, &dep_error);
+			activate_plugin (dep_pinfo, force_load, &dep_error);
 			if (dep_error != NULL) {
 				ErrorInfo *new_error;
 
@@ -1047,7 +1047,8 @@ activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 		for (i = 0; pinfo->services_v[i] != NULL; i++) {
 			ErrorInfo *service_error;
 
-			plugin_service_activate (pinfo->services_v[i], &service_error);
+			plugin_service_activate (pinfo->services_v[i],
+						 force_load, &service_error);
 			if (service_error != NULL) {
 				ErrorInfo *error;
 
@@ -1446,7 +1447,8 @@ plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
  * (plugin_loader_is_available_by_id() returns FALSE).
  */
 void
-plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error)
+plugin_db_activate_plugin_list (GList *plugins, gboolean force_load,
+				ErrorInfo **ret_error)
 {
 	GList *l;
 	GList *error_list = NULL;
@@ -1460,7 +1462,7 @@ plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error)
 		if (!pinfo->is_active) {
 			ErrorInfo *error;
 
-			activate_plugin (pinfo, &error);
+			activate_plugin (pinfo, force_load, &error);
 			if (error != NULL) {
 				ErrorInfo *new_error;
 
@@ -1675,7 +1677,8 @@ plugin_db_shutdown (ErrorInfo **ret_error)
 }
 
 static void
-plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error)
+plugin_db_activate_saved_active_plugins (gboolean force_load,
+					 ErrorInfo **ret_error)
 {
 	GList *plugin_list = NULL, *l;
 	ErrorInfo *error;
@@ -1692,7 +1695,7 @@ plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error)
 		}
 	}
 	plugin_list = g_list_reverse (plugin_list);
-	plugin_db_activate_plugin_list (plugin_list, &error);
+	plugin_db_activate_plugin_list (plugin_list, force_load, &error);
 	*ret_error = error;
 	g_list_free (plugin_list);
 
@@ -1702,7 +1705,7 @@ plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error)
 }
 
 void
-plugins_init (CommandContext *context)
+plugins_init (CommandContext *context, gboolean force_load)
 {
 	GList *error_list = NULL;
 	ErrorInfo *error;
@@ -1718,7 +1721,7 @@ plugins_init (CommandContext *context)
 		                             _("Errors while reading info about available plugins."),
 		                             error));
 	}
-	plugin_db_activate_saved_active_plugins (&error);
+	plugin_db_activate_saved_active_plugins (force_load, &error);
 	if (error != NULL) {
 		error_list = g_list_prepend (error_list, error_info_new_str_with_details (
 		                             _("Errors while activating plugins."),
@@ -1730,8 +1733,7 @@ plugins_init (CommandContext *context)
 		        _("Errors while initializing plugin system."),
 		        error_list);
 
-		/* FIXME : abastract this in workbook control, or command context */
-		gnumeric_error_info_dialog_show (WORKBOOK_CONTROL_GUI (context), error);
+		gnumeric_error_error_info (context, error);
 		error_info_free (error);
 	}
 #ifdef PLUGIN_DEBUG

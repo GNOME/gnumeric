@@ -7,6 +7,8 @@
 #define SHEET_MAX_COLS		256		/* 0 - 255 inclusive */
 
 typedef struct _CommandContext		CommandContext;
+typedef struct _CommandContextStderr	CommandContextStderr;
+
 typedef struct _IOContext		IOContext; /*for future use */
 
 typedef struct _Workbook		Workbook;
