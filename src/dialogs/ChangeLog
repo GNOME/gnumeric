@@ -1,3 +1,11 @@
+2003-10-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c: add Default Header/Footer Font Selector
+	(pref_font_hf_initializer): new
+	(cb_pref_font_hf_has_changed): new
+	(cb_pref_font_hf_set_fonts): new
+	(pref_font_hf_page_open): new
+
 2003-10-21  Jody Goldberg <jody@gnome.org>
 
 	* function-select.glade (</) : editable ??

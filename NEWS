@@ -3,6 +3,7 @@ Gnumeric 1.2.2
 Andreas:
 	* Updated some docs.
 	* Also use fallback-fonts for the page decorations when printing.
+	* Add default header/footer font selector to preference dialog.
 
 Jody:
 	* More renaming

@@ -709,6 +709,99 @@ pref_font_initializer (PrefState *state,
 }
 
 /*******************************************************************************************/
+/*                     Default Header/Footer Font Selector                                 */
+/*******************************************************************************************/
+
+static void
+pref_font_hf_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
+		     G_GNUC_UNUSED GtkNotebook *notebook,
+		     G_GNUC_UNUSED gint page_num)
+{
+	dialog_pref_load_description_from_schema (state, "/schemas" PRINTSETUP_GCONF_HF_FONT_NAME);
+}
+
+static void
+cb_pref_font_hf_set_fonts (GConfClient *gconf,
+		        G_GNUC_UNUSED guint cnxn_id,
+			GConfEntry *entry,
+		        GtkWidget *page)
+{
+	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
+					  PRINTSETUP_GCONF_HF_FONT_NAME)) {
+		char      *font_name = gconf_client_get_string (gconf,
+					  PRINTSETUP_GCONF_HF_FONT_NAME, NULL);
+		font_selector_set_name      (FONT_SELECTOR (page), font_name);
+		g_free (font_name);
+	}
+	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
+					  PRINTSETUP_GCONF_HF_FONT_SIZE)) {
+		double    size = gconf_client_get_float (gconf,
+					  PRINTSETUP_GCONF_HF_FONT_SIZE, NULL);
+		font_selector_set_points    (FONT_SELECTOR (page), size);
+	}
+	if (entry == NULL || 0 == strcmp (gconf_entry_get_key (entry),
+					  PRINTSETUP_GCONF_HF_FONT_BOLD)
+	    || 0 == strcmp (gconf_entry_get_key (entry),
+			    PRINTSETUP_GCONF_HF_FONT_ITALIC)) {
+		gboolean  is_bold = gconf_client_get_bool (gconf,
+			    PRINTSETUP_GCONF_HF_FONT_BOLD, NULL);
+		gboolean  is_italic = gconf_client_get_bool (gconf,
+			    PRINTSETUP_GCONF_HF_FONT_ITALIC, NULL);
+		font_selector_set_style     (FONT_SELECTOR (page), is_bold, is_italic);
+	}
+}
+
+static gboolean
+cb_pref_font_hf_has_changed (G_GNUC_UNUSED FontSelector *fs,
+			  MStyle *mstyle, PrefState *state)
+{
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
+		gconf_client_set_float (state->gconf,
+					PRINTSETUP_GCONF_HF_FONT_SIZE,
+					mstyle_get_font_size (mstyle), NULL);
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
+		gconf_client_set_string (state->gconf,
+					 PRINTSETUP_GCONF_HF_FONT_NAME,
+					 mstyle_get_font_name (mstyle), NULL);
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
+		gconf_client_set_bool (state->gconf,
+				       PRINTSETUP_GCONF_HF_FONT_BOLD,
+				       mstyle_get_font_bold (mstyle), NULL);
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
+		gconf_client_set_bool (state->gconf,
+				       PRINTSETUP_GCONF_HF_FONT_ITALIC,
+				       mstyle_get_font_italic (mstyle), NULL);
+	return TRUE;
+}
+
+static GtkWidget *
+pref_font_hf_initializer (PrefState *state,
+		       G_GNUC_UNUSED gpointer data,
+		       G_GNUC_UNUSED GtkNotebook *notebook,
+		       G_GNUC_UNUSED gint page_num)
+{
+	GtkWidget *page = font_selector_new ();
+	guint notification;
+
+	cb_pref_font_hf_set_fonts (state->gconf, 0, NULL, page);
+
+	notification = gconf_client_notify_add (state->gconf, PRINTSETUP_GCONF_DIRECTORY,
+						(GConfClientNotifyFunc) cb_pref_font_hf_set_fonts,
+						page, NULL, NULL);
+
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
+	g_signal_connect (G_OBJECT (page),
+		"font_changed",
+		G_CALLBACK (cb_pref_font_hf_has_changed), state);
+
+	gtk_widget_show_all (page);
+
+	return page;
+}
+
+/*******************************************************************************************/
 /*                     Undo Preferences Page                                              */
 /*******************************************************************************************/
 
@@ -1411,6 +1504,7 @@ static page_info_t page_info[] = {
 	{N_("Sorting"),    GTK_STOCK_SORT_ASCENDING,     NULL, pref_sort_page_initializer, pref_sort_page_open, NULL},
 	{N_("Various"),    GTK_STOCK_PREFERENCES,        NULL, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
 	{N_("Internal"),   GTK_STOCK_DIALOG_ERROR,       "5",  pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},
+	{N_("Header/Footer"), GTK_STOCK_ITALIC,	         "0",  pref_font_hf_initializer, pref_font_hf_page_open, NULL},
 	{NULL, NULL, NULL, NULL, NULL, NULL},
 };
 
