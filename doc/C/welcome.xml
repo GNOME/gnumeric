@@ -23,10 +23,12 @@
       </para>
       <para>
         <application>Gnumeric</application> has undergone significant
-        amounts of testing with a diverse group of users. There is
-        also a large set of test workbooks to validate the quality of
-        the importers. This release can be considered safe for use in
-        a production environment.
+        amounts of testing. A diverse group of users evaluates
+        <application>gnumeric</application> in a wide variety of
+        environments. Testing workbooks are used to assess the
+        mathematical correctness of the calculations and to validate
+        the quality of the file importers. This release can be
+        considered safe for use in a production environment.
       </para>
     </listitem>
 
@@ -89,7 +91,7 @@
       </para>
       <para>
 	<application>Gnumeric</application> has been translated into
-	29 languages, and is being used by people around the globe
+	40 languages, and is being used by people around the globe
 	with the symbols appropriate for their local setting.
       </para>
     </listitem>
@@ -104,10 +106,10 @@
         software</ulink> released under the <ulink type="http"
         url="http://www.gnu.org/copyleft/gpl.html">GNU GPL</ulink>.
         The core architecture is designed to ensure that it can
-        comfortably scale to moderately large loads (1M cells) while
-        remaining usable on older hardware. The availability of clean,
-        reasonably documented, source code makes it simple to modify
-        the spreadsheet, write custom routines or extend
+        comfortably scale to moderately large loads (1 million cells)
+        while remaining usable on older hardware. The availability of
+        clean, reasonably documented, source code makes it simple to
+        modify the spreadsheet, write custom routines or extend
         <application>Gnumeric</application> for special needs.
       </para>
     </listitem>
@@ -132,8 +134,8 @@
         </imageobject>
         <textobject>
           <phrase>An image of <application>Gnumeric</application>
-          showing the use of complex formatting, a grahical plot and
-          another GNOME application embedded within a workbook.</phrase>
+          showing the use of complex formatting and several grahical
+          plots.</phrase>
         </textobject>
       </mediaobject>
     </screenshot>
@@ -141,11 +143,11 @@
 
   <application>Gnumeric</application> currently supports a full
   complement of calculation functions, formattting options, graph
-  types and drawing options.  <application>Gnumeric</application>
-  allows the direct integration of other GNOME programs.
+  types and drawing options.
   </para>
 
 <para>
+      
 </para>
 
 <para>
@@ -234,6 +236,10 @@
   <application>Gnumeric</application>, refer to the file named NEWS in
   the source code distribution.
 
+</para>
+
+<para>
+      
 </para>
 
 <para>
