@@ -1,3 +1,8 @@
+2004-02-27  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (rangeref_as_string): Before dropping the
+	second half of the range, make sure the $-designations agree also.
+
 2004-02-26  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (fsel_key_event, fsel_delete_event,
