@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 20:33+0200\n"
-"PO-Revision-Date: 2003-09-09 23:05+0200\n"
+"POT-Creation-Date: 2003-09-14 12:14+0200\n"
+"PO-Revision-Date: 2003-09-14 21:12+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1000,6 +1000,7 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
 msgid "Finance"
 msgstr "Finance"
 
@@ -4562,7 +4563,7 @@ msgstr "datum1,datum2,interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:578
 msgid "date"
 msgstr "datum"
 
@@ -4579,7 +4580,7 @@ msgid "start_date,months"
 msgstr "poč_datum,měsíce"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 msgid "time"
 msgstr "čas"
 
@@ -8245,7 +8246,7 @@ msgstr "%s verze %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -16873,6 +16874,14 @@ msgstr "Databázové funkce pro získávání dat z databází."
 msgid "Could not run GNOME database configuration tool"
 msgstr "Nemohu spsutit nástroj GNOME pro nastavení databáze"
 
+#: plugins/gnome-db/plugin.xml.in.h:1
+msgid "Database UI services plugin"
+msgstr "Zásuvný modul služeb UI databáze"
+
+#: plugins/gnome-db/plugin.xml.in.h:2
+msgid "GNOME-DB"
+msgstr "GNOME-DB"
+
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
 msgstr "Zdroje dat..."
@@ -17448,6 +17457,27 @@ msgstr "Ukázkový zásuvný modul Python poskytující některé (zbytečné) f
 msgid "Default interpreter"
 msgstr "Výchozí interpretr"
 
+#: plugins/python-loader/gnm-python.c:130
+#: plugins/python-loader/gnm-python.c:152
+#, c-format
+msgid "Could not import %s."
+msgstr "Nemohu importovat %s."
+
+#: plugins/python-loader/gnm-python.c:137
+#, c-format
+msgid "Could not find %s."
+msgstr "Nemohu nalézt %s."
+
+#: plugins/python-loader/gnm-python.c:145
+#, c-format
+msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+msgstr "Nemohu inicializovat vazby Pythonu pro Gtk+ atd.: %s"
+
+#: plugins/python-loader/gnm-python.c:159
+#, c-format
+msgid "Could not find %s"
+msgstr "Nemohu nalézt %s"
+
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Načítač zásuvného modulu Python"
@@ -17597,6 +17627,14 @@ msgid ""
 msgstr ""
 "Nelze nalézt kanál PerfectOffice_MAIN. Je to opravdu soubor Quattro Pro?"
 
+#: plugins/sample_datasource/plugin.xml.in.h:1
+msgid "A proof of concept external data source"
+msgstr "Ukázkový externí zdroj dat"
+
+#: plugins/sample_datasource/plugin.xml.in.h:3
+msgid "Sample DataSource"
+msgstr "Ukázkový zdroj dat"
+
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
 msgid ""
@@ -17678,6 +17716,14 @@ msgstr "Chyba při čtení listu."
 msgid "Hello World"
 msgstr "Nazdar světe"
 
+#: plugins/uihello/plugin.xml.in.h:1
+msgid "Hello World plugin using ui service"
+msgstr "Zásuvný modul Ahoj světe používající službu ui"
+
+#: plugins/uihello/plugin.xml.in.h:2
+msgid "UI Hello"
+msgstr "UI Anoj"
+
 #: plugins/uihello/uihello.c:24
 #, c-format
 msgid "This is message from the \"%s\" plugin."
@@ -17689,7 +17735,8 @@ msgstr "Chyba při otevírání souboru Xbase."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr "List"
 
@@ -17716,10 +17763,6 @@ msgstr "EXPERIMENTÁLNÍ XML založené na SAX"
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nová generace V/V XML subsystému založená na sax"
-
-#: plugins/xml_sax/plugin.xml.in.h:4
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "NEDOKONČENÉ XML Gnumeric (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:301
 #, c-format
@@ -18678,7 +18721,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtruje data podle zadaných kritérií"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -18871,8 +18914,8 @@ msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:243
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:518
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Titulek"
 
@@ -19039,7 +19082,7 @@ msgid "Print Preview"
 msgstr "Náhled před tiskem"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "Náhled před tiskem"
@@ -20346,54 +20389,119 @@ msgstr "Tabeluji závislosti"
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/consolidate.c:773
+#, c-format
+msgid "Consolidating to (%s)"
+msgstr "Konsoliduji do (%s)"
+
+#: src/consolidate.c:812 src/consolidate.c:815
+msgid "Data Consolidation"
+msgstr "Konsolidace dat"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "<b>Major Ticks:</b>"
+msgstr "<b>Označení</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "<b>Minor Ticks:</b>"
+msgstr "<b>Označení</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+msgid "I_nside"
+msgstr "_Uvnitř"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+msgid "O_utside"
+msgstr "_Okolo"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+msgid "_Cross"
+msgstr "_"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
+#, fuzzy
+msgid "_High"
+msgstr "Výška"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+msgid "_Inside"
+msgstr "_Uvnitř"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
+msgid "_Invert"
+msgstr "_Invertovat"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
+#, fuzzy
+msgid "_Low"
+msgstr "Řá_dek"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
+msgid "_Map:"
+msgstr "_Mapa:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+msgid "_Outside"
+msgstr "_Okolo"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+msgid "_Show Labels"
+msgstr "_Zobrazit jmenovky"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:420
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:421
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:422
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:423
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:481
 msgid "Bounds"
 msgstr "Hranice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:485
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Titulek"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+msgid "Grid"
+msgstr "Mřížka"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr "Osa X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr "Osa Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr "Osa Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Plot"
 msgstr "Graf"
 
@@ -20497,11 +20605,11 @@ msgstr "_Řád"
 msgid "_Top"
 msgstr "Na_hoře"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 msgid "_Text:"
 msgstr "_Text:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
@@ -20519,7 +20627,7 @@ msgstr "Typ grafu"
 msgid "Chart Theme"
 msgstr "Téma grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 msgid "Series"
 msgstr "Řady"
 
@@ -20666,12 +20774,12 @@ msgstr "tapeta"
 msgid "%d x %d"
 msgstr "%d × %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Vybrat obrázek"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Styl"
@@ -20684,9 +20792,21 @@ msgid "Default"
 msgstr "Výchozí"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 msgid "Guppi"
 msgstr "Guppi"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "Titulky"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "Hodnoty"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -20715,10 +20835,25 @@ msgstr "_Překrytí:"
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr "SloupecSloucovéhoGrafu"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
+msgid "PlotLine"
+msgstr "ČárovýGraf"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
+msgid "PlotArea"
+msgstr "PlošnýGraf"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -20970,16 +21105,6 @@ msgstr "stupňů"
 msgid "PlotPie"
 msgstr "KoláčovýGraf"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "Titulky"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "Hodnoty"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 msgid "PlotRing"
 msgstr "PlotRing"
@@ -21082,15 +21207,18 @@ msgstr "Engine kreslení koláčů"
 msgid "Ring plotting engine"
 msgstr "Engine kreslení prstenců"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:55
-msgid "XYPlot"
-msgstr "XYGraf"
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
+msgid "PlotXY"
+msgstr "GrafXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr "Y"
 
@@ -21116,7 +21244,8 @@ msgstr "Interpolované body"
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
-msgstr "Lineárně interpolovat mezi vícerozměrnými body s označeními v každém bodě."
+msgstr ""
+"Lineárně interpolovat mezi vícerozměrnými body s označeními v každém bodě."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Linearly interpolate between multi-dimensional points."
@@ -21300,15 +21429,19 @@ msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tenké opačné diagonální pruhy"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Tenké diagonální křížové šrafování"
+#: src/dialogs/cell-format.glade.h:82
+msgid "Thin Diagonal Stripe"
+msgstr "Tenké diagonální pruhy"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
 msgstr "Tenké horizontální křížové šrafování"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Tenké diagonální křížové šrafování"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
 #: src/dialogs/cell-format.glade.h:44
@@ -21680,7 +21813,7 @@ msgstr "V_stup"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -21754,7 +21887,7 @@ msgstr "První písmeno"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Všeobecné"
@@ -21989,7 +22122,7 @@ msgid "<b>Error alerts</b>"
 msgstr "<b>Upozornění na chybu<b>"
 
 #: src/dialogs/cell-format.glade.h:16
-msgid "<b>Horizontal alignement</b>"
+msgid "<b>Horizontal alignment</b>"
 msgstr "<b>Horizontální zarovnání</b>"
 
 #: src/dialogs/cell-format.glade.h:18
@@ -22009,7 +22142,7 @@ msgid "<b>Style</b>"
 msgstr "<b>Styl</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "<b>Vertical alignement</b>"
+msgid "<b>Vertical alignment</b>"
 msgstr "<b>Vertikální zarovnání</b>"
 
 #: src/dialogs/cell-format.glade.h:23
@@ -22180,10 +22313,6 @@ msgstr "Na_hoře"
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
 msgstr "Délka textu"
-
-#: src/dialogs/cell-format.glade.h:82
-msgid "Thin Diagonal Stripe"
-msgstr "Tenké diagonální pruhy"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -22665,10 +22794,10 @@ msgid "No matching records were found."
 msgstr "Nenalezeny žádné odpovídající záznamy."
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Nastala neočekávaná chyba: %d."
@@ -22681,42 +22810,42 @@ msgstr "Ob_last seznamu:"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Nepodařilo se vytvořit Dialog pro pokročilé filtrování."
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "Vybrané vstupní řádky musí mít stejnou velikost!"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "Vybrané vstupní sloupce musí mít stejnou velikost!"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "Vybrané vstupní oblasti musí mít stejnou velikost!"
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro korelaci."
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro kovarianci."
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro rozložení a percentily."
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro Fourierovu analýzu."
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro popisnou statistiku."
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -22724,7 +22853,7 @@ msgstr ""
 "Prosím, zadejte platný\n"
 "rozptyl populace pro proměnnou 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -22732,73 +22861,73 @@ msgstr ""
 "Prosím, zadejte platný\n"
 "rozptyl populace pro proměnnou 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr "Rozsah proměnné _1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr "Rozsah proměnné _2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro testy průměru."
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "Rozsah proměnné _1"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "Rozsah proměnné _2"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje F-test."
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro vzorky."
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Pro každou proměnnou regrese musí být stejný počet položek."
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "Proměnné _X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Proměnná _Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro regresi."
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro exponenciální vyhlazení."
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro klouzavý průměr."
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Oblast _tříd:"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2584
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro histogram."
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro ANOVA (jeden faktor)."
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -22806,40 +22935,40 @@ msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce a dva řádky dat "
 "a titulků."
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2844
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce a dva řádky dat."
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce dat a titulků."
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The given input range should contain at least two columns of data."
 msgstr "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce dat."
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2859
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva řádky dat a titulků."
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2862
 msgid "The given input range should contain at least two rows of data."
 msgstr "Zadaná vstupní oblast by měla obsahovat alespoň dva řádky dat."
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Počet řádků dat musí být násobkem počtu replikací."
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2966
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro ANOVA (dva faktory)."
 
@@ -23022,7 +23151,7 @@ msgstr "Rozlišovat malá a velká písmena"
 msgid "By Value"
 msgstr "Podle hodnoty"
 
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Nelze vytvořit dialog pro třídění buněk."
 
@@ -23379,13 +23508,13 @@ msgid "Directory"
 msgstr "Adresář"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -26391,7 +26520,7 @@ msgid "Yellow"
 msgstr "Žlutá"
 
 #. Array of arrays ??
-#: src/format.c:2011
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -27941,48 +28070,56 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr "List 1"
+#: src/print-info.c:536
+msgid "File Name"
+msgstr "Název souboru"
 
-#: src/print-info.c:542
+#: src/print-info.c:567
+msgid "Path "
+msgstr "Cesta "
+
+#: src/print-info.c:575
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:543
+#: src/print-info.c:576
 msgid "page"
 msgstr "strana"
 
-#: src/print-info.c:544
+#: src/print-info.c:577
 msgid "pages"
 msgstr "stran"
 
-#: src/print-info.c:547
+#: src/print-info.c:580
 msgid "file"
 msgstr "soubor"
+
+#: src/print-info.c:581
+msgid "path"
+msgstr "cesta"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr "Oblast tisku"
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "Tisknuté listy"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "Akt_ivní list"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "_Listy"
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Tisk selhal"
 
@@ -28151,16 +28288,28 @@ msgstr "nelze vytvořit objekt pro '%s'"
 msgid "Could not load file: %s"
 msgstr "Nelze načíst soubor: %s"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graph.c:158
+msgid "Save graph as image"
+msgstr "Uložit graf jako obrázek"
+
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr "Lituji, gnumeric umí ukládat grafy jen jako obrázky png"
+
+#: src/sheet-object-graph.c:214
+msgid "_Save as image"
+msgstr "_Uložit jako obrázek"
+
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr "Průhledný"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr "Zaškrtávací okénko %d"
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Rádiový přepínač"
 
@@ -29489,7 +29638,7 @@ msgstr "tmavě fialová"
 msgid "sky blue"
 msgstr "nebesky modrá"
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr "Očekává se jedna oblast"
 
@@ -31007,23 +31156,23 @@ msgstr "Nastala nevysvětlená chyba při ukládání %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 msgid "The filename given is not valid in the current encoding."
 msgstr "Zadaný název souboru není v aktuálním kódování platný."
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr "Výchozí ukládání souboru není k dispozici."
 
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr "Nemohu vytvořit dočasný soubor pro odeslání."
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát souboru."
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
@@ -31080,14 +31229,20 @@ msgstr "Chyba při ukládání souboru."
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 
+#~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
+#~ msgstr "NEDOKONČENÉ XML Gnumeric (*.gnumeric)"
+
+#~ msgid "XYPlot"
+#~ msgstr "XYGraf"
+
+#~ msgid "Sheet 1"
+#~ msgstr "List 1"
+
 #~ msgid "S_ize:"
 #~ msgstr "_Velikost:"
 
 #~ msgid "_Style:"
 #~ msgstr "_Styl:"
-
-#~ msgid "Consolidating to %s!%s"
-#~ msgstr "Konsoliduje se do %s!%s"
 
 #~ msgid "Fill _Color:"
 #~ msgstr "_Barva vyplnění:"
