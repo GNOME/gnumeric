@@ -6,7 +6,7 @@
  *
  */
 
-#undef DEBUG_GOAL_SEEK
+#define DEBUG_GOAL_SEEK
 #ifdef STANDALONE
 #define DEBUG_GOAL_SEEK
 #endif
@@ -222,11 +222,13 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
  * interval in which a root lies.
  *
  * It alternates between mid-point-bisection (semi-slow, but guaranteed
- * progress) and secant-bisection (usually quite fast, but sometimes gets
- * nowhere).
+ * progress), secant-bisection (usually quite fast, but sometimes gets
+ * nowhere), and Ridder's Method (usually fast, harder to fool than
+ * the secant method).
  */
 
-#define SECANT_P(i) ((i) % 3 != 0)
+#define SECANT_P(i) ((i) % 8 == 6)
+#define RIDDER_P(i) ((i) % 8 < 6)
 
 GoalSeekStatus
 goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
@@ -245,6 +247,23 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			xmid = data->xpos - data->ypos *
 				((data->xneg - data->xpos) /
 				 (data->yneg - data->ypos));
+		} else if (RIDDER_P (iterations)) {
+			float_t det;
+
+			xmid = (data->xpos + data->xneg) / 2;
+			status = f (xmid, &ymid, user_data);
+			if (status != GOAL_SEEK_OK)
+				return status;
+			if (ymid == 0) {
+				update_data (xmid, ymid, data);
+				return GOAL_SEEK_OK;
+			}
+
+			det = sqrt (ymid * ymid - data->ypos * data->yneg);
+			if (det == 0)
+				return GOAL_SEEK_ERROR;
+
+			xmid += (xmid - data->xpos) * ymid / det;
 		} else {
 			/* Use plain midpoint.  */
 			xmid = (data->xpos + data->xneg) / 2;
@@ -262,7 +281,9 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 
 #ifdef DEBUG_GOAL_SEEK
 		printf ("xmid = %.20g (%s)\n", xmid,
-			SECANT_P (iterations) ? "secant" : "mid-point");
+			SECANT_P (iterations) ? "secant" :
+			(RIDDER_P (iterations) ? "Ridder" :
+			 "mid-point"));
 		printf ("                                        ymid = %.20g\n", ymid);
 		printf ("                                          ss = %.20g\n", stepsize);
 #endif
@@ -276,6 +297,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 }
 
 #undef SECANT_P
+#undef RIDDER_P
 
 GoalSeekStatus
 goal_seek_trawl_uniformly (GoalSeekFunction f,
@@ -334,6 +356,9 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 			break;
 
 		x = mu + sigma * random_normal ();
+		if (x < data->xmin || x > data->xmax)
+			continue;
+
 		status = f (x, &y, user_data);
 		if (status != GOAL_SEEK_OK)
 			/* We are not depending on the result, so go on.  */
