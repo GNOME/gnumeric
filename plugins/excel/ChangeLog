@@ -1,3 +1,8 @@
+2004-06-26  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (excel_read_metadata) : Failure is a warning, not
+	  catastrophic
+
 2004-06-22  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.13

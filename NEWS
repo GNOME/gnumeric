@@ -1,3 +1,9 @@
+Gnumeric 1.2.14
+
+Jody:
+	* Invalid metadata in xls is a warning not an error
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.13
 
 Andreas:
