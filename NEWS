@@ -1,5 +1,11 @@
 Gnumeric 0.69
 
+Almer:
+	* Add extra cut/copy/paste shortcut keys.
+	* Improve the function selector.
+	* Simplify background/pattern preview in cell-format dialog.
+	* Make sure entered text never gets lost.
+
 Andreas:
 	* Rewrite descriptive statistics analysis improving error checks
 	  and labels for data sets and removing duplicate calculation

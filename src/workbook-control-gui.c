@@ -3314,10 +3314,16 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	 * then prompt the user and don't switch the notebook page.
 	 */
 	if (wbcg->editing) {
-		int prev = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (notebook), "previous_page"));
+		guint prev = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (notebook), "previous_page"));
 
-		if (prev != gtk_notebook_get_current_page (notebook) && !wbcg_edit_finish (wbcg, TRUE))
+		if (prev == page_num)
+			return;
+
+		if (!wbcg_edit_finish (wbcg, TRUE))
 			gtk_notebook_set_page (notebook, prev);
+		else
+			/* Looks silly, but is really neccesarry */
+			gtk_notebook_set_page (notebook, page_num);
 		return;
 	}
 

@@ -1,3 +1,8 @@
+2001-07-26  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-control-gui.c (cb_notebook_switch_page):
+	Accept input and flip page in one step (don't require two clicks).
+
 2001-07-25  Morten Welinder  <terra@diku.dk>
 
 	* src/analysis-tools.c (summary_statistics): Cleanup a bit.  Fix
