@@ -120,7 +120,11 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 			return value_new_error (ei->pos, _("Error: could not initialize connection pool"));
 		}
 	}
-	cnc = gda_client_open_connection (connection_pool, dsn_name, user_name, password);
+	cnc = gda_client_open_connection (connection_pool, 
+					  dsn_name, 
+					  user_name, 
+					  password, 
+					  GDA_CONNECTION_OPTIONS_READ_ONLY);
 	if (!GDA_IS_CONNECTION (cnc)) {
 		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
 	}
