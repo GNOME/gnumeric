@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.36\n"
-"POT-Creation-Date: 1999-10-20 19:33-0400\n"
-"PO-Revision-Date: 1999-10-20 19:59-04:00\n"
+"POT-Creation-Date: 1999-10-22 19:42-0400\n"
+"PO-Revision-Date: 1999-10-22 20:20-04:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -311,7 +311,12 @@ msgid "ERROR"
 msgstr "FEIL"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:752
+#: src/cell.c:125
+msgid "Pending recomputation"
+msgstr "Utestående omberegning"
+
+#. Until the value is recomputed, we put in this value.
+#: src/cell.c:752
 msgid "Circular reference"
 msgstr "Sirkulær referanse"
 
@@ -715,7 +720,7 @@ msgstr "Område for variabel 2:"
 #: src/dialogs/dialog-analysis-tools.c:998
 #: src/dialogs/dialog-analysis-tools.c:1104
 msgid "Hypothesized Mean Difference:"
-msgstr ""
+msgstr "Hypotetisk differanse mellom middelverdi:"
 
 #: src/dialogs/dialog-analysis-tools.c:779
 msgid "Variable 1 Variance (known):"
@@ -4620,6 +4625,13 @@ msgid ""
 "\n"
 "@SEEALSO=IF"
 msgstr ""
+"@FUNCTION=CHOOSE\n"
+"@SYNTAX=CHOOSE(indeks[,verdi1][,verdi2]...)\n"
+"@DESCRIPTION=CHOOSE returnerer verdien av indeksen @indeks. @indeks rundes av til et heltall hvis den ikke er det.\n"
+"Hvis @indeks < 1 eller @indeks > antall verdier returneres #VAL!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IF"
 
 #: src/functions/fn-lookup.c:159
 msgid "#ARG!"
@@ -5340,7 +5352,9 @@ msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=COMBIN beregner antall kombinasjoner.\n"
-"Bruk av denne funksjonen på et ikke-heltall eller et negativt tall returnerer en feil. I tillegg returneres en feil hvis @n er mindre enn @k. Denne funksjonen er Excel kompatibel. \n"
+"Bruk av denne funksjonen på et ikke-heltall eller et negativt tall "
+"returnerer en feil. I tillegg returneres en feil hvis @n er mindre enn @k. "
+"Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "COMBIN(8,6) er lik 28.\n"
 "COMBIN(6.2) er lik 15.\n"
@@ -6007,8 +6021,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(tall[,siffer])\n"
-"@DESCRIPTION=ROUNDDOWN-funksjonen runder et gitt @tall ned mot null. @tall er tallet du vil skal rundes ned og @siffer er antallet siffer du vil runde tallet til. \n"
-"Hvis @siffer er større enn null, rundes @tall ned til det gitte antall siffer. Hvis @siffer er null eller utelatt, rundes @tall ned til nærmeste heltall. Hvis @siffer er mindre enn null, rundes @tall ned til venstre for komma. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=ROUNDDOWN-funksjonen runder et gitt @tall ned mot null. @tall "
+"er tallet du vil skal rundes ned og @siffer er antallet siffer du vil runde "
+"tallet til. \n"
+"Hvis @siffer er større enn null, rundes @tall ned til det gitte antall "
+"siffer. Hvis @siffer er null eller utelatt, rundes @tall ned til nærmeste "
+"heltall. Hvis @siffer er mindre enn null, rundes @tall ned til venstre for "
+"komma. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ROUNDDOWN(5.5) er lik 5.\n"
 "ROUNDDOWN(-3.3) er lik -4.\n"
@@ -6038,8 +6057,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(tall[,siffer])\n"
-"@DESCRIPTION=ROUND-funksjonen runder av et gitt tall. @tall er tallet du vil runde av og @siffer er antallet siffer du vil runde tallet av til. \n"
-"Hvus @siffer er større enn null rundes @tall av til oppgitt antall siffer. Hvis @siffer er null eller utelatt, rundes @tall av til nærmeste heltall. Hvis @siffer er mindre enn null, rundes @tall av til venstre for komma. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=ROUND-funksjonen runder av et gitt tall. @tall er tallet du vil "
+"runde av og @siffer er antallet siffer du vil runde tallet av til. \n"
+"Hvus @siffer er større enn null rundes @tall av til oppgitt antall siffer. "
+"Hvis @siffer er null eller utelatt, rundes @tall av til nærmeste heltall. "
+"Hvis @siffer er mindre enn null, rundes @tall av til venstre for komma. "
+"Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ROUND(5.5) er lik 6.\n"
 "ROUND(-3.3) er lik -3.\n"
@@ -6069,8 +6092,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(tall[,siffer])\n"
-"@DESCRIPTION=ROUNDUP-funksjonen runder opp et gitt tall, bort fra null. @tall er tallet du vil ha rundet opp og @siffer er antallet siffer du vil runde det av til. \n"
-"Hvis @siffer er større enn null, rundes @tall opp til gitt antall siffer. Hvis @siffer er null eller utelatt, rundes @tall opp til nærmeste heltall Hvis @siffer er mindre enn null, rundes @tall opp til venstre for komma. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=ROUNDUP-funksjonen runder opp et gitt tall, bort fra null. "
+"@tall er tallet du vil ha rundet opp og @siffer er antallet siffer du vil "
+"runde det av til. \n"
+"Hvis @siffer er større enn null, rundes @tall opp til gitt antall siffer. "
+"Hvis @siffer er null eller utelatt, rundes @tall opp til nærmeste heltall "
+"Hvis @siffer er mindre enn null, rundes @tall opp til venstre for komma. "
+"Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ROUNDUP(5.5) er lik 6.\n"
 "ROUNDUP(-3.3) er lik -3.\n"
@@ -6096,7 +6124,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(tall,multippel)\n"
-"@DESCRIPTION=MROUND-funksjonen runder av et gitt tall til ønsket multippel. @tall er tallet du vil runde av og @multiple er multippelen du vil runde tallet av til. Hvis @tall og @multippel har forskjellig fortegn, returnerer MROUND en #NUM! feil. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=MROUND-funksjonen runder av et gitt tall til ønsket multippel. "
+"@tall er tallet du vil runde av og @multiple er multippelen du vil runde "
+"tallet av til. Hvis @tall og @multippel har forskjellig fortegn, returnerer "
+"MROUND en #NUM! feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "MROUND(1.7,0.2) er lik 1.8.\n"
 "MROUND(321.123,0.12) er lik 321.12.\n"
@@ -6126,9 +6157,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(tall[,type])\n"
-"@DESCRIPTION=ROMAN-funksjonen returnerer et arabisk tall i den romanske nummerstilen, som tekst. @tall er tallet du vil konvertere og @type er typen romansk numeral du ønsker. \n"
-"Hvis @type er 0 eller utelatt, returnerer ROMAN klassiske romanske tall. Type 1 er mer konsis enn klassisk type, type 2 er mer konsis enn type 1, og type 3 er mer konsis enn type 2. Type 4 er forenklet type. \n"
-"Hvis @tall er negativt eller større enn 3999, returnerer ROMAN en #VALUE! feil. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=ROMAN-funksjonen returnerer et arabisk tall i den romanske "
+"nummerstilen, som tekst. @tall er tallet du vil konvertere og @type er typen "
+"romansk numeral du ønsker. \n"
+"Hvis @type er 0 eller utelatt, returnerer ROMAN klassiske romanske tall. "
+"Type 1 er mer konsis enn klassisk type, type 2 er mer konsis enn type 1, og "
+"type 3 er mer konsis enn type 2. Type 4 er forenklet type. \n"
+"Hvis @tall er negativt eller større enn 3999, returnerer ROMAN en #VALUE! "
+"feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ROMAN(999) er lik CMXCIX.\n"
 "ROMAN(999,1) er lik LMVLIV.\n"
@@ -6159,11 +6195,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(tabell1,tabell2)\n"
-"@DESCRIPTION=SUMX2MY2-funksjonen returnerer summen av differansen av kvadratene av korresponderende verdier i to tabeller. @tabell1 er den første tabellen eller datasettet, og @tabell2 er den andre tabellen eller datasettet. Ligningen SUMX2MY2 er SUM (x^2-y^2). \n"
+"@DESCRIPTION=SUMX2MY2-funksjonen returnerer summen av differansen av "
+"kvadratene av korresponderende verdier i to tabeller. @tabell1 er den første "
+"tabellen eller datasettet, og @tabell2 er den andre tabellen eller "
+"datasettet. Ligningen SUMX2MY2 er SUM (x^2-y^2). \n"
 "Strenger og tomme celler ignoreres.\n"
-"Hvis @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer SUMX2MY2 en #N/A! feil. Denne funksjonen er Excel kompatibel. \n"
+"Hvis @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer "
+"SUMX2MY2 en #N/A! feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
 "Da får vi\n"
 "SUMX2MY2(A1:A5,B1:B5) er lik -1299.\n"
 "\n"
@@ -6197,11 +6238,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(tabell1,tabell2)\n"
-"@DESCRIPTION=SUMX2PY2-funksjonen returnere summen av summen av kvadratene av de korresponderende verdiene i  to tabeller. @tabell1 er den første tabellene eller området med datapunkter og tabell2 er den andre tabellen eller området med datapunkter. Likningen til SUMX2PY2 er SUM (x^2+y^2). \n"
+"@DESCRIPTION=SUMX2PY2-funksjonen returnere summen av summen av kvadratene av "
+"de korresponderende verdiene i  to tabeller. @tabell1 er den første "
+"tabellene eller området med datapunkter og tabell2 er den andre tabellen "
+"eller området med datapunkter. Likningen til SUMX2PY2 er SUM (x^2+y^2). \n"
 "Strenger og tomme celler ignoreres.\n"
-"Hvis  @tabell1 og @tanell2 har forskjellig antall datapunkter, returnerer SUMX2PY2 en #N/A!-feil. Denne funksjonen er Excel kompatibel. \n"
+"Hvis  @tabell1 og @tanell2 har forskjellig antall datapunkter, returnerer "
+"SUMX2PY2 en #N/A!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
 "Da får vi\n"
 "SUMX2PY2(A1:A5,B1:B5) er lik 7149.\n"
 "@SEEALSO=SUMSQ"
@@ -7570,7 +7616,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:2065
-#, fuzzy
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -7585,16 +7630,18 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
-"@FUNCTION=DEVSQ\n"
-"@SYNTAX=DEVSQ(n1, n2, ...)\n"
-"@DESCRIPTION=DEVSQ returnerer summen av kvadratene av avviket fra den "
-"oppgitte\n"
-"middelverdien i et datasett.\n"
+"@FUNCTION=KURTP\n"
+"@SYNTAX=KURTP(n1, n2, ...)\n"
+"@DESCRIPTION=KURTP returnerer populasjonen kurtois av et datasett.\n"
 "Strenger og tomme celler ignoreres.\n"
-"@SEEALSO=STDEV"
+"Hvis færre enn to tall oppgis, eller hvis alle er lik KURTP, returneres en #DIV/0-feil.\n"
+"@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, 25.9, og 40.1. Vi får da\n"
+"KURTP(A1:A5) er lik -0.691363424.\n"
+"\n"
+"@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
 #: src/functions/fn-stat.c:2098
-#, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -7609,16 +7656,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
-"@DESCRIPTION=AVEDEV returnerer gjennomsnittet av absolutt avvik fra "
-"middelverdi\n"
-"i et datasett.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
+"@DESCRIPTION=AVEDEV returnerer gjennomsnittet av absolutt avvik fra middelverdi\n"
+"i et datasett. Denne funksjonen er Excel kompatibel.  \n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"AVEDEV(A1:A5) er lik 7.84.\n"
 "\n"
 "@SEEALSO=STDEV"
 
 #: src/functions/fn-stat.c:2128
-#, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -7635,16 +7681,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
-"@DESCRIPTION=DEVSQ returnerer summen av kvadratene av avviket fra den "
-"oppgitte\n"
+"@DESCRIPTION=DEVSQ returnerer summen av kvadratene av avviket fra den oppgitte\n"
 "middelverdien i et datasett.\n"
-"Strenger og tomme celler ignoreres.\n"
+"Strenger og tomme celler ignoreres. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"AVEDEV(A1:A5) er lik 470.56.\n"
 "\n"
 "@SEEALSO=STDEV"
 
 #: src/functions/fn-stat.c:2160
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -7660,11 +7706,13 @@ msgstr ""
 "@SYNTAX=FISHER(x)\n"
 "@DESCRIPTION=FISHER-funksjonen returnerer Fisher-transformasjonen av @x.\n"
 "Hvis @x ikke er et tall returnerer FISHER en #VALUE!-feil. Hvis @x <= -1\n"
-"eller @x >= 1 returnerer FISHER en #NUM!-feil\n"
+"eller @x >= 1 returnerer FISHER en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
+"@EXAMPLES=\n"
+"FISHER(0.332) er lik 0.345074339.\n"
+"\n"
 "@SEEALSO=SKEW"
 
 #: src/functions/fn-stat.c:2195
-#, fuzzy
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -7679,19 +7727,14 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
-"@FUNCTION=BINOMDIST\n"
-"@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
-"@DESCRIPTION=BINOMDIST-funksjonen returnerer den binominale distribusjonen. "
-"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
-"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
-"av binominalfunksjonen skal returneres fra 0 til @n.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle returnerer en "
-"feil.\n"
-"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
-"@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk returnerer "
-"BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer BINOMDIST en "
-"#NUM!-feil.\n"
-"@SEEALSO=POISSON"
+"@FUNCTION=POISSON\n"
+"@SYNTAX=POISSON(x,middelverdi,kumulativ)\n"
+"@DESCRIPTION=POISSON-funksjonen returnerer Poisson-distribusjonen. @x er antall hendelser, @mean er den forventede numeriske verdien, @kumulativ beskriver om summen av poisson funksjonen skal returneres fra 0 til @x.\n"
+"Hvis @x ikke er et heltall, blir de avkortet. Hvis xn <= 0 returnerer POISSON en #NUM!-feil. Hvis @middelverdi <= 0 returnerer POISSON en #NUM!-feil. Denne funksjonen er Excel kompatibel.\n"
+"@EXAMPLES=\n"
+"POISSON(3,6,0) er lik 0.089235078.\n"
+"\n"
+"@SEEALSO=NORMDIST, WEIBULL"
 
 #: src/functions/fn-stat.c:2238
 #, fuzzy
@@ -7836,7 +7879,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:2838
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -7853,18 +7895,15 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 "@FUNCTION=AVERAGEA\n"
-"@SYNTAX=AVERAGEA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=AVERAGEA returnerer gjennomsnittet av de gitte argumentene. "
-"Tall tekst og logiske verdier tas med i beregningen også. Hvis cellen "
-"inneholder tekst eller argumentene evalueres til FALSK, regnes de som "
-"verdien null (0). Hvis argumentet evalueres til SANN regnes det som en (1). "
-"Merk at tomme celler ikke telles med.\n"
+"@SYNTAX=AVERAGEA(tall1, tall2, ...)\n"
+"@DESCRIPTION=AVERAGEA returnerer gjennomsnittet av de gitte argumentene. Tall tekst og logiske verdier tas med i beregningen også. Hvis cellen inneholder tekst eller argumentene evalueres til FALSK, regnes de som verdien null (0). Hvis argumentet evalueres til SANN regnes det som en (1). Merk at tomme celler ikke telles med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"AVERAGEA(A1:A5) er lik 18.94.\n"
 "\n"
 "@SEEALSO=AVERAGE"
 
 #: src/functions/fn-stat.c:2872
-#, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -7883,17 +7922,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(tall1, tall2, ...)\n"
-"@DESCRIPTION=MAXA returnerer den største verdien av de gitte argumentene.  "
-"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
-"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
-"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
-"tomme celler ikke tas med.\n"
+"@DESCRIPTION=MAXA returnerer den største verdien av de gitte argumentene.  Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"MAXA(A1:A5) er lik 0.\n"
 "\n"
 "@SEEALSO=MAX,MINA"
 
 #: src/functions/fn-stat.c:2906
-#, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -7912,17 +7948,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=MINA returnerer den minste verdien av de gitte argumentene.  "
-"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
-"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
-"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
-"tomme celler ikke tas med.\n"
+"@DESCRIPTION=MINA returnerer den minste verdien av de gitte argumentene.  Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"MINA(A1:A5) er lik 40.1.\n"
 "\n"
 "@SEEALSO=MIN,MAXA"
 
 #: src/functions/fn-stat.c:2940
-#, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -7940,17 +7973,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=VARA returnerer variansen basert på en prøve. Tall, tekst og "
-"logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst "
-"eller argumentet evalueres til USANN, telles verdien som null (0). Hvis "
-"argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler "
-"ikke tas med.\n"
+"@DESCRIPTION=VARA returnerer variansen basert på en prøve. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"VARA(A1:A5) er lik 228.613.\n"
 "\n"
 "@SEEALSO=VAR,VARPA"
 
 #: src/functions/fn-stat.c:2974
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -7969,17 +7999,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=VARPA returnerer variansen basert på hele populasjonen. Tall, "
-"tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
-"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
-"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
-"tomme celler ikke tas med.\n"
+"@DESCRIPTION=VARPA returnerer variansen basert på hele populasjonen. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"VARPA(A1:A5) er lik 182.8904.\n"
 "\n"
 "@SEEALSO=VARP,VARP"
 
 #: src/functions/fn-stat.c:3008
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -7998,12 +8025,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=STDEVA returnerer standardavviket basert på en prøve. Tall, "
-"tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
-"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
-"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
-"tomme celler ikke tas med.\n"
+"@DESCRIPTION=STDEVA returnerer standardavviket basert på en prøve. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \\\"missing\\\", 25.9, og 40.1. Da får vi\n"
+"STDEVA(A1:A5) er lik 15.119953704.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
@@ -9033,80 +9058,80 @@ msgstr "Funksjonen eksisterer ikke"
 msgid "Calling non-function"
 msgstr "Kaller ikke-funksjon"
 
-#: src/gnumeric-sheet.c:1014
+#: src/gnumeric-sheet.c:1030
 msgid "Solid"
 msgstr "Helfylt"
 
-#: src/gnumeric-sheet.c:1018
+#: src/gnumeric-sheet.c:1034
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:1022
+#: src/gnumeric-sheet.c:1038
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:1026
+#: src/gnumeric-sheet.c:1042
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1030
+#: src/gnumeric-sheet.c:1046
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1034
+#: src/gnumeric-sheet.c:1050
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1037
+#: src/gnumeric-sheet.c:1053
 msgid "Horizontal Stripe"
 msgstr "Horisontal stripe "
 
-#: src/gnumeric-sheet.c:1040
+#: src/gnumeric-sheet.c:1056
 msgid "Vertical Stripe"
 msgstr "Vertikal stripe"
 
-#: src/gnumeric-sheet.c:1043
+#: src/gnumeric-sheet.c:1059
 msgid "Reverse Diagonal Stripe"
 msgstr "Omvendt diagonal stripe"
 
-#: src/gnumeric-sheet.c:1046
+#: src/gnumeric-sheet.c:1062
 msgid "Diagonal Stripe"
 msgstr "Diagonal stripe"
 
-#: src/gnumeric-sheet.c:1049
+#: src/gnumeric-sheet.c:1065
 msgid "Diagonal Crosshatch"
 msgstr "Diagonal krysslinje"
 
-#: src/gnumeric-sheet.c:1052
+#: src/gnumeric-sheet.c:1068
 msgid "Thick Diagonal Crosshatch"
 msgstr "Tykk diagonal krysslinje"
 
-#: src/gnumeric-sheet.c:1055
+#: src/gnumeric-sheet.c:1071
 msgid "Thin Horizontal Stripe"
 msgstr "Tynn horisontal stripe"
 
-#: src/gnumeric-sheet.c:1058
+#: src/gnumeric-sheet.c:1074
 msgid "Thin Vertical Stripe"
 msgstr "Tynn vertikal stripe"
 
-#: src/gnumeric-sheet.c:1061
+#: src/gnumeric-sheet.c:1077
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tynn omvendt diagonal stripe"
 
-#: src/gnumeric-sheet.c:1064
+#: src/gnumeric-sheet.c:1080
 msgid "Thin Diagonal Stripe"
 msgstr "Tynn diagonal stripe"
 
-#: src/gnumeric-sheet.c:1067
+#: src/gnumeric-sheet.c:1083
 msgid "Thin Crosshatch"
 msgstr "Tynn krysslinje"
 
-#: src/gnumeric-sheet.c:1070
+#: src/gnumeric-sheet.c:1086
 msgid "Thin Diagonal Crosshatch"
 msgstr "Tynn diagonal krysslinje"
 
@@ -9448,12 +9473,12 @@ msgstr "Kolonne: %s"
 msgid "Internal ERROR"
 msgstr "Intern FEIL"
 
-#: src/sheet.c:3166
+#: src/sheet.c:3172
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunne ikke aktivere objekt %s"
 
-#: src/sheet.c:3178
+#: src/sheet.c:3184
 msgid "I was unable to the bind object"
 msgstr "Kunne ikke binde objektet"
 
