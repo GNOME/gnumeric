@@ -1,0 +1,11 @@
+2000-05-29  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-analysis-tools.c (add_check_buttons) : Translate the parm
+	  label.
+	(add_output_frame) : Translate the frame label.
+	(dialog_descriptive_stat_tool) : Translate the buttons.
+	(distribution_parbox_config) : Ditto.
+	(combo_get_distribution) : Handle translation.
+	(dialog_random_tool) : Translate elements.
+	(dialog_data_analysis) : Ditto.
+

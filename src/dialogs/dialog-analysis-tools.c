@@ -44,12 +44,7 @@ static int                     label_row_flag, intercept_flag;
 typedef int (*tool_fun_ptr_t)(Workbook *wb, Sheet *sheet);
 
 typedef struct {
-        char *col1;
-        char *col2;
-} tool_name_t;
-
-typedef struct {
-        tool_name_t     name;
+        char const *    name;
         tool_fun_ptr_t  fun;
 } tool_list_t;
 
@@ -57,7 +52,7 @@ typedef struct {
         const char    *name;
        	GtkSignalFunc fun;
         gboolean      entry_flag;
-        const char    *default_entry;
+        const char    *default_value;
 } check_button_t;
 
 typedef struct {
@@ -78,37 +73,37 @@ typedef struct {
 } DistributionStrs;
 
 static tool_list_t tools[] = {
-        { { N_("Anova: Single Factor"), NULL },
+        { N_("Anova: Single Factor"),
 	  dialog_anova_single_factor_tool },
-        { { N_("Anova: Two-Factor Without Replication"), NULL },
+        { N_("Anova: Two-Factor Without Replication"),
 	  dialog_anova_two_factor_without_r_tool },
-        { { N_("Correlation"), NULL },
+        { N_("Correlation"),
 	  dialog_correlation_tool },
-        { { N_("Covariance"), NULL },
+        { N_("Covariance"),
 	  dialog_covariance_tool },
-        { { N_("Descriptive Statistics"), NULL },
+        { N_("Descriptive Statistics"),
 	  dialog_descriptive_stat_tool },
-        { { N_("F-Test: Two-Sample for Variances"), NULL }, 
+        { N_("F-Test: Two-Sample for Variances"),
 	  dialog_ftest_tool },
-        { { N_("Moving Average"), NULL },
+        { N_("Moving Average"),
 	  dialog_average_tool },
-        { { N_("Random Number Generation"), NULL },
+        { N_("Random Number Generation"),
 	  dialog_random_tool },
-        { { N_("Rank and Percentile"), NULL },
+        { N_("Rank and Percentile"),
 	  dialog_ranking_tool },
-        { { N_("Regression"), NULL },
+        { N_("Regression"),
 	  dialog_regression_tool },
-        { { N_("Sampling"), NULL },
+        { N_("Sampling"),
 	  dialog_sampling_tool },
-        { { N_("t-Test: Paired Two Sample for Means"), NULL }, 
+        { N_("t-Test: Paired Two Sample for Means"),
 	  dialog_ttest_paired_tool },
-        { { N_("t-Test: Two-Sample Assuming Equal Variances"), NULL }, 
+        { N_("t-Test: Two-Sample Assuming Equal Variances"),
 	  dialog_ttest_eq_tool },
-        { { N_("t-Test: Two-Sample Assuming Unequal Variances"), NULL }, 
+        { N_("t-Test: Two-Sample Assuming Unequal Variances"),
 	  dialog_ttest_neq_tool },
-        { { N_("z-Test: Two Sample for Means"), NULL },
+        { N_("z-Test: Two Sample for Means"),
 	  dialog_ztest_tool },
-	{ { NULL, NULL }, NULL }
+	{ NULL, NULL }
 };
 
 /* Distribution strings for Random Number Generator */
@@ -457,12 +452,12 @@ add_check_buttons (GtkWidget *box, check_button_t *cbs)
 	        GtkWidget *hbox, *entry;
 
 		hbox = gtk_hbox_new (FALSE, 0);
-	        button = gtk_check_button_new_with_label (cbs[i].name);
+	        button = gtk_check_button_new_with_label (_(cbs[i].name));
 		gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
 		if (cbs[i].entry_flag) {
 		        entry = gnumeric_dialog_entry_new_with_max_length (dialog, 20);
 			gtk_entry_set_text (GTK_ENTRY (entry),
-					    cbs[i].default_entry);
+					    cbs[i].default_value);
 			gtk_box_pack_start (GTK_BOX (hbox), entry, 
 					    TRUE, TRUE, 0);
 			ds.entry[i] = entry;
@@ -518,7 +513,7 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 {
         GtkWidget *r, *hbox, *output_range_entry;
 
-        box = new_frame("Output options:", box);
+        box = new_frame(_("Output options:"), box);
 	*output_ops = NULL;
 	r = gtk_radio_button_new_with_label(*output_ops, _("New Sheet"));
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
@@ -1671,14 +1666,14 @@ distribution_parbox_config (random_tool_callback_t *p,
 	p->distribution_accel = gtk_accel_group_new ();
 
 	par1_key = gtk_label_parse_uline (GTK_LABEL (p->par1_label),
-					  ds->label1);
+					  _(ds->label1));
 	if (par1_key != GDK_VoidSymbol)
 		gtk_widget_add_accelerator (p->par1_entry, "grab_focus",
 					    p->distribution_accel, par1_key,
 					    GDK_MOD1_MASK, 0);
 	if (ds->label2) {
 		par2_key = gtk_label_parse_uline (GTK_LABEL (p->par2_label),
-						  ds->label2);
+						  _(ds->label2));
 		if (par2_key != GDK_VoidSymbol)
 			gtk_widget_add_accelerator
 				(p->par2_entry, "grab_focus",
@@ -1709,7 +1704,7 @@ combo_get_distribution (GtkWidget *combo)
         text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(combo)->entry));
 
 	for (i = 0; distribution_strs[i].name != NULL; i++)
-		if (strcmp(text, distribution_strs[i].name) == 0)
+		if (strcmp(text, _(distribution_strs[i].name)) == 0)
 			ret = distribution_strs[i].dist;
 	
 	return ret;
@@ -1827,17 +1822,17 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 	for (i = 0, dist_str_no = 0; distribution_strs[i].name != NULL; i++) {
 		distribution_type_strs
 			= g_list_append (distribution_type_strs,
-					 (gpointer) distribution_strs[i].name);
+					 (gpointer) _(distribution_strs[i].name));
 		if (distribution_strs[i].dist == distribution)
 			dist_str_no = i;
 	}
 	gtk_combo_set_popdown_strings (GTK_COMBO (distribution_combo),
 				       distribution_type_strs);
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (distribution_combo)->entry),
-			   distribution_strs[dist_str_no].name);
+			   _(distribution_strs[dist_str_no].name));
 
 	ds = distribution_strs_find (DiscreteDistribution);
-	(void) gtk_label_parse_uline (GTK_LABEL (par1_label), ds->label1);
+	(void) gtk_label_parse_uline (GTK_LABEL (par1_label), _(ds->label1));
 
 	callback_data.dialog = dialog;
 	callback_data.distribution_table = distribution_table;
@@ -2569,9 +2564,12 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 	gtk_signal_connect (GTK_OBJECT(tool_list), "select_row",
 			    GTK_SIGNAL_FUNC(selection_made), NULL);
 
-	for (i=0; tools[i].fun; i++)
-	        gtk_clist_append (GTK_CLIST (tool_list),
-				  (char **) &tools[i].name);
+	for (i=0; tools[i].fun; i++) {
+		char *tmp [2];
+		tmp[0] = _(tools[i].name);
+		tmp[1] = NULL;
+	        gtk_clist_append (GTK_CLIST (tool_list), tmp);
+	}
 	gtk_clist_select_row (GTK_CLIST (tool_list), selected_row, 0);
 	gnumeric_clist_moveto (GTK_CLIST (tool_list), selected_row);
 
