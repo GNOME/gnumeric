@@ -300,10 +300,15 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 			char *text = NULL;
 
 			/*
-			 * We need an upper limit or else we'll crash X
+			 * XFREE86 Overflow protection
+			 *
+			 * There is a bug in XFree86 (at least up until 4.0.3)
+			 * which takes down the whole server if very large strings
+			 * are drawn on a local display. We therefore simply truncate
+			 * the string if it is 'too large' to display.
 			 */
-			if (strlen (iterator->data) > INT_MAX)
-				text = g_strndup (iterator->data, INT_MAX);
+			if (strlen (iterator->data) > X_OVERFLOW_PROTECT - 1)
+				text = g_strndup (iterator->data, X_OVERFLOW_PROTECT - 1);
 			
 			/* In case the active color differs from the inactive color
 			 * this code can be activated
@@ -315,7 +320,7 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 			 */
 			
 			textwidth = stf_preview_draw_text (renderdata->group,
-							   iterator->data,
+							   text ? text : iterator->data,
 							   renderdata->font,
 							   TEXT_COLOR,
 							   xpos + (CELL_HPAD / 2),

@@ -1,5 +1,13 @@
 2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
- 
+
+	* dialog-stf.h: Define X overflow limit.
+	
+	* dialog-stf-preview.c (stf_preview_render_row): Really
+	truncate strings if they are too long.
+
+	* dialog-stf-main-page.c (stf_dialog_main_page_init): Protect
+	against overly large text.
+
  	* dialog-cell-sort.c (col_row_name):
  	Use row_name.
 

@@ -175,7 +175,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	MainInfo_t *info = pagedata->main_info;
 	char *label;
+	const char *s;
 	GtkMenu *menu;
+	int l, lg;
 
 	/* Create/get object and fill information struct */
 
@@ -188,16 +190,31 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->main_frame     = GTK_FRAME        (glade_xml_get_widget (gui, "main_frame"));
 	info->main_canvas    = GNOME_CANVAS     (glade_xml_get_widget (gui, "main_canvas"));
 
+	/*
+	 * XFREE86 Overflow protection
+	 *
+	 * There is a bug in XFree86 (at least up until 4.0.3)
+	 * which takes down the whole server if very large strings
+	 * are drawn on a local display. We therefore simply _not_ display
+	 * anything if the string is too large.
+	 */
+	for (lg = 0, l = 1, s = pagedata->data; s && *s != '\0'; s++, l++) {
+		if (*s == '\n' || *s == '\r' || s[1] == '\0') {
+			if (l > lg)
+				lg = l;
+			l = 0;
+		}
+	}
 	info->main_run_text = GNOME_CANVAS_TEXT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
 									GNOME_TYPE_CANVAS_TEXT,
-									"text", pagedata->data,
+									"text", lg < X_OVERFLOW_PROTECT ? pagedata->data : _("LINES TO LONG!"),
 									"font", "fixed",
 									"x", 0.0,
 									"y", 0.0,
 									"x_offset", TEXT_OFFSET,
 									"anchor", GTK_ANCHOR_NW,
 									NULL));
-
+	
 	/* Warning : The rectangle is vital to prevent auto-centering, DON'T REMOVE IT! */
     	info->main_run_rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
 									gnome_canvas_rect_get_type (),
@@ -208,7 +225,6 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 									NULL));
 
 	/* Set properties */
-
 	main_page_set_spin_button_adjustment (info->main_startrow, 1, pagedata->lines);
 	main_page_set_spin_button_adjustment (info->main_stoprow, 1, pagedata->lines);
 	gtk_spin_button_set_value (info->main_stoprow, (float) pagedata->lines);

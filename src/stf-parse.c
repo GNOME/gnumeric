@@ -864,7 +864,8 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, const char *da
 	iterator = data;
 	while (*iterator) {
 
-		if (*iterator == parseoptions->terminator) {
+		if (*iterator == parseoptions->terminator
+		    || iterator[1] == '\0') {
 
 			if (len > longest)
 				longest = len;
