@@ -198,7 +198,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			if (a_buf->use > 0) {
 				char *name;
 				
-				name = g_strndup ((gchar *)a_buf->content, a_buf->use);
+				name = g_strndup (CXML2C (a_buf->content), a_buf->use);
 				cell_set_comment (tc->sheet, &pos, NULL, name);
 				g_free (name);
 			}
@@ -259,7 +259,7 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 			}
 			if (buf->use > 0) {
 				char *name;
-				name = g_strndup ((gchar *)buf->content, buf->use);
+				name = g_strndup (CXML2C (buf->content), buf->use);
 				tc->sheet = html_get_sheet (name, wb);
 				g_free (name);
 			}
@@ -308,7 +308,7 @@ is_elt_type (htmlNodePtr ptr, const char** types)
 	gboolean ret = FALSE;
 
 	for (p = types; *p; p++)
-		if (xmlStrEqual (ptr->name, (xmlChar *)(*p))) {
+		if (xmlStrEqual (ptr->name, CC2XML ((*p)))) {
 			ret = TRUE;
 			break;
 		}
@@ -449,8 +449,9 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 			bomlen = 0;
 		}
 		ctxt = htmlCreatePushParserCtxt (NULL, NULL,
-			(char *)(buf + bomlen), 4 - bomlen,
-				 gsf_input_name (input), enc);
+						 (const char *)(buf + bomlen),
+						 4 - bomlen,
+						 gsf_input_name (input), enc);
 
 		for (; size > 0 ; size -= len) {
 			len = 4096;
@@ -459,10 +460,10 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		       buf = gsf_input_read (input, len, NULL);
 		       if (buf == NULL)
 			       break;
-		       htmlParseChunk (ctxt, (char *)buf, len, 0);
+		       htmlParseChunk (ctxt, (const char *)buf, len, 0);
 		}
 
-		htmlParseChunk (ctxt, (char *)buf, 0, 1);
+		htmlParseChunk (ctxt, (const char *)buf, 0, 1);
 		doc = ctxt->myDoc;
 		htmlFreeParserCtxt (ctxt);
 	}
