@@ -1,3 +1,11 @@
+2000-09-11  Jody Goldberg <jgoldberg@home.com>
+
+	* widget-color-combo.c (color_table_setup) : We need to ungrab from
+	  the combo when the custom colour dialog is brought up.
+	(cb_cust_color_clicked) : restore.
+
+	* color-palette.c (color_palette_get_color_picker) : New function.
+
 2000-09-06  Jody Goldberg <jgoldberg@home.com>
 
 	* color-group.c (color_group_new_named) : strdup the name if it is

@@ -20,6 +20,7 @@ GtkWidget       *color_palette_new (char const * const no_color_label,
 				    gchar *group_name);
 
 GdkColor        *color_palette_get_current_color (ColorPalette *P);
+GtkWidget       *color_palette_get_color_picker (ColorPalette *P);
 
 END_GNOME_DECLS
 

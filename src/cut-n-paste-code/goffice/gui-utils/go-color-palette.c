@@ -181,8 +181,8 @@ color_palette_change_custom_color ( ColorPalette *P, GdkColor *new)
 	GnomeCanvasItem *next_item;
 
 	g_return_if_fail (P != NULL);
-	g_return_if_fail(new != NULL);
-	g_assert (P->picker);
+	g_return_if_fail (new != NULL);
+	g_return_if_fail (P->picker);
 
 	/* make sure there is room */
 	if (P->custom_color_pos == -1)
@@ -344,8 +344,8 @@ custom_color_history_setup(ColorPalette *P)
 {
 	GdkColor *color;
 	
-	g_assert (P != NULL);
-	g_assert (P->color_group != NULL);
+	g_return_if_fail (P != NULL);
+	g_return_if_fail (P->color_group != NULL);
 	
 	for ( color = color_group_oldest_color (P->color_group);
 	      color != NULL ;
@@ -457,10 +457,18 @@ color_palette_setup (ColorPalette *P,
 GdkColor *
 color_palette_get_current_color(ColorPalette *P)
 {
-	g_return_val_if_fail(P != NULL, NULL);
-	g_assert (P->color_group != NULL);
-	g_assert (IS_COLOR_GROUP (P->color_group));
+	g_return_val_if_fail (P != NULL, NULL);
+	g_return_val_if_fail (IS_COLOR_GROUP (P->color_group), NULL);
+
 	return color_group_get_current_color(P->color_group);
+}
+
+GtkWidget *
+color_palette_get_color_picker (ColorPalette *P)
+{
+	g_return_val_if_fail (IS_COLOR_PALETTE (P), NULL);
+
+	return GTK_WIDGET (P->picker);
 }
 
 

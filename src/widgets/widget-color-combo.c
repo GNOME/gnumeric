@@ -141,6 +141,12 @@ preview_clicked (GtkWidget *button, ColorCombo *cc)
 	emit_change (cc);
 }
 
+static void
+cb_cust_color_clicked (GtkWidget *widget, ColorCombo *cc)
+{
+	gtk_combo_box_popup_hide (GTK_COMBO_BOX (cc));
+}
+
 /*
  * Creates the color table
  */
@@ -155,6 +161,12 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, gchar *gro
 						  cc->default_color,
 						  group_name));
 
+	{
+		GtkWidget *picker = color_palette_get_color_picker (cc->palette);
+		gtk_signal_connect (GTK_OBJECT (picker), "clicked",
+				    GTK_SIGNAL_FUNC (cb_cust_color_clicked), cc);
+	}
+	
 	gtk_signal_connect (GTK_OBJECT (cc->palette), "changed",
 			    GTK_SIGNAL_FUNC (cb_color_change), cc);
 
@@ -219,8 +231,6 @@ color_combo_construct (ColorCombo *cc, char **icon,
 	gtk_signal_connect (GTK_OBJECT (cc->preview_button), "clicked",
 			    GTK_SIGNAL_FUNC (preview_clicked), cc);
 
-	
-	
 	/*
 	 * Our table selector
 	 */
@@ -259,7 +269,3 @@ color_combo_new (char **icon, char const * const no_color_label,
 
 	return GTK_WIDGET (cc);
 }
-
-
-
-
