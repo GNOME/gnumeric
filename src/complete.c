@@ -62,18 +62,15 @@ complete_idle (gpointer data)
 	Complete *complete = data;
 
 	if (complete->idle_tag == 0){
-		printf ("Idle tag=%d\n", complete->idle_tag);
 		abort ();
 	}
 		
 	if (ACC(complete)->search_iteration (complete)){
-		printf ("Requesting more\n");
 		return TRUE;
 	}
 
 	complete->idle_tag = 0;
 
-	printf ("No more\n");
 	return FALSE;
 }
 

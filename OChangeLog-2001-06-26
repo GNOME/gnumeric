@@ -1,5 +1,7 @@
 2000-04-28  Miguel de Icaza  <miguel@helixcode.com>
 
+	* src/complete.c (complete_idle): Removed debugging messages
+
 	* src/item-edit.c (entry_changed): Update here.
 
 	* src/application.c (application_init): Load auto-complete state
