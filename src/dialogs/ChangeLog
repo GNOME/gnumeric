@@ -1,3 +1,8 @@
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : added so-checkbox.glade
+	* so-checkbox.glade : new
+
 2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/dialogs/dialog-search-replace.c (dialog_search_replace) :

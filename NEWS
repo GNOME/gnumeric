@@ -16,6 +16,7 @@ Andreas:
 	* Support borders in HTML4.0 exports.
 	* Fix Sheet-Object-Scrollbar configuration dialog.
 	* Fix Sheet Object leak.
+	* Fix Sheet-Object-Checkbox configuration dialog.
 
 Jody:
 	* Add password dialog to support encrypted input.

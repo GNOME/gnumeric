@@ -1,3 +1,9 @@
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* sheet-object-widget.c (cb_checkbox_config_cancel_clicked) : new
+	(cb_checkbox_config_ok_clicked) replaces cb_scrollbar_config_clicked
+	(sheet_widget_checkbox_user_config) : don't use GnomeDialog
+
 2002-04-09  Morten Welinder  <terra@diku.dk>
 
 	* src/rendered-value.c (rendered_value_new,

@@ -163,19 +163,6 @@ static E_MAKE_TYPE (sheet_object_widget, "SheetObjectWidget", SheetObjectWidget,
 		    sheet_object_widget_init,
 		    SHEET_OBJECT_TYPE);
 
-static void
-gnumeric_table_attach_with_label (GtkWidget *dialog, GtkWidget *table,
-				  char const *text, GtkWidget *entry, int line)
-{
- 	gtk_table_attach_defaults (GTK_TABLE(table),
-		gtk_label_new (_(text)),
-		0, 1, line, line+1);
- 	gtk_table_attach_defaults (GTK_TABLE(table),
-		entry,
-		1, 2, line, line+1);
- 	gnumeric_editable_enters (GTK_WINDOW (dialog), entry);
-}
-
 /****************************************************************************/
 #define SHEET_WIDGET_LABEL_TYPE     (sheet_widget_label_get_type ())
 #define SHEET_WIDGET_LABEL(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_LABEL_TYPE, SheetWidgetLabel))
@@ -772,7 +759,7 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 			       SHEET_OBJECT_CONFIG_KEY);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	/* Note:  have of the set-focus action is handle by the default */
+	/* Note:  half of the set-focus action is handle by the default */
 	/*        callback installed by wbcg_edit_attach_guru           */
 	g_signal_connect (G_OBJECT (state->dialog),
 		"set-focus",
@@ -1076,6 +1063,7 @@ sheet_widget_checkbox_clone (SheetObject const *src_so, Sheet *new_sheet)
 }
 
 typedef struct {
+	GladeXML           *gui;
 	GtkWidget *dialog;
 	GnumericExprEntry *expression;
 	GtkWidget *label;
@@ -1118,31 +1106,35 @@ cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
 
 	wbcg_edit_detach_guru (state->wbcg);
 
-	/* Handle window manger closing the dialog.
-	 * This will be ignored if we are being destroyed differently.
-	 */
-	wbcg_edit_finish (state->wbcg, FALSE);
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
 
 	state->dialog = NULL;
-
 	g_free (state);
+
 	return FALSE;
 }
 
 static void
-cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
-			    CheckboxConfigState *state)
+cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 {
-	if (button_number == 0) {
-		SheetObject *so = SHEET_OBJECT (state->swc);
-		ParsePos  pp;
-		GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
-			parse_pos_init (&pp, NULL, so->sheet, 0, 0),
-			NULL, FALSE);
-		if (expr != NULL)
-			dependent_set_expr (&state->swc->dep, expr);
-	}
-	wbcg_edit_finish (state->wbcg, FALSE);
+	SheetObject *so = SHEET_OBJECT (state->swc);
+	ParsePos  pp;
+	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
+						    parse_pos_init (&pp, NULL, so->sheet, 0, 0),
+						    NULL, FALSE);
+	if (expr != NULL)
+		dependent_set_expr (&state->swc->dep, expr);
+
+	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_checkbox_config_cancel_clicked (GtkWidget *button, CheckboxConfigState *state)
+{
+	gtk_widget_destroy (state->dialog);
 }
 
 static void
@@ -1188,13 +1180,10 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
 	state->old_focus = NULL;
-	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
-					  GNOME_STOCK_BUTTON_OK,
-					  GNOME_STOCK_BUTTON_CANCEL,
-					  NULL);
- 	table = gtk_table_new (0, 0, FALSE);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
-		table, TRUE, TRUE, 5);
+	state->gui = gnumeric_glade_xml_new (wbcg, "so-checkbox.glade");
+	state->dialog = glade_xml_get_widget (state->gui, "SO-Checkbox");
+
+ 	table = glade_xml_get_widget (state->gui, "table");
 
 	state->expression = gnumeric_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
@@ -1202,41 +1191,44 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 		GNUM_EE_MASK);
 	gnm_expr_entry_set_scg (state->expression, scg);
 	gnm_expr_entry_load_from_dep (state->expression, &swc->dep);
-	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Link to:"), GTK_WIDGET (state->expression), 0);
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
+			  1, 2, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_show (GTK_WIDGET (state->expression));
 
- 	state->label = gtk_entry_new ();
-	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Label:"), GTK_WIDGET (state->label), 1);
 
+ 	state->label = glade_xml_get_widget (state->gui, "label_entry");
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
-
-	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
 
  	g_signal_connect (G_OBJECT (state->label),
 		"changed",
 		G_CALLBACK (cb_checkbox_label_changed), state);
 	g_signal_connect (G_OBJECT (state->dialog),
-		"clicked",
-		G_CALLBACK (cb_checkbox_config_clicked), state);
-
-	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (cb_checkbox_config_destroy), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
+		"clicked",
+		G_CALLBACK (cb_checkbox_config_ok_clicked), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
+		"clicked",
+		G_CALLBACK (cb_checkbox_config_cancel_clicked), state);
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"so-checkbox.html");
+
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	/* Note:  have of the set-focus action is handle by the default */
+	/* Note:  half of the set-focus action is handle by the default */
 	/*        callback installed by wbcg_edit_attach_guru           */
 	g_signal_connect (G_OBJECT (state->dialog),
 		"set-focus",
 		G_CALLBACK (cb_checkbox_set_focus), state);
 
-	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
-	gtk_window_set_focus (GTK_WINDOW (state->dialog),
-			      GTK_WIDGET (state->expression));
-	gtk_widget_show_all (state->dialog);
+	gtk_widget_show (state->dialog);
+	gtk_widget_grab_focus (GTK_WIDGET (state->expression));
 }
 
 static gboolean
