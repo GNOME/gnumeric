@@ -394,7 +394,7 @@ gtkactiondir=$(gnumeric_datadir)
 gtkaction_DATA = GNOME_Gnumeric-gtk.xml
 
 GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
-	sed -e 's/ _name *=/ name=/' <GNOME_Gnumeric-gtk.xml.in >GNOME_Gnumeric-gtk.xml
+	sed -e 's/ _name *=/ name=/' <$<  >$@
 
 # Bonobo requires things to be in a subdir of this form
 #bonobo_component_uidir=$(gnumeric_datadir)/gnome-2.0/ui
