@@ -53,6 +53,7 @@
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
+#include <gsf/gsf-msole-utils.h>
 #include <locale.h>
 
 #undef G_LOG_DOMAIN
@@ -4882,7 +4883,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			   of currency amounts.  */
 			guint16 const codepage = GSF_LE_GET_GUINT16 (q->data);
 			gsf_iconv_close (current_workbook_iconv);
-			current_workbook_iconv = excel_iconv_open_for_import (codepage);
+			current_workbook_iconv = gsf_msole_iconv_open_for_import (codepage);
 			d (0, {
 				switch (codepage) {
 				case 437:

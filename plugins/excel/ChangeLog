@@ -1,5 +1,10 @@
 2002-08-28  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-read.c (ms_excel_read_workbook) :
+	  excel_iconv_open_for_import moved to libgsf.
+
+2002-08-28  Jody Goldberg <jody@gnome.org>
+
 	* ms-excel-read.c (ms_excel_read_workbook) : gnm_iconv_close moved to
 	  libgsf.
 	* ms-excel-write.c (write_workbook) : ditto.

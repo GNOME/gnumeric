@@ -6,7 +6,6 @@
  *    Jon K Hellan (hellan@acm.org)
  *
  * (C) 1999, 2000 Jon K Hellan
- * excel_iconv* family of functions (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  **/
 
 #include <gnumeric-config.h>

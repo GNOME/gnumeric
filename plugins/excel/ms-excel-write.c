@@ -302,7 +302,7 @@ write_magic_interface (BiffPut *bp, MsBiffVersion ver)
 	if (ver >= MS_BIFF_V7) {
 		if (ver >= MS_BIFF_V8) {
 			data = ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 2);
-			GSF_LE_SET_GUINT16 (data, excel_iconv_win_codepage());
+			GSF_LE_SET_GUINT16 (data, gsf_msole_iconv_win_codepage());
 		} else {
 			ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
 		}
@@ -664,7 +664,7 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 
 	/* See: S59D66.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
-	GSF_LE_SET_GUINT16 (data, excel_iconv_win_codepage());
+	GSF_LE_SET_GUINT16 (data, gsf_msole_iconv_win_codepage());
 	ms_biff_put_commit (bp);
 
 	if (ver >= MS_BIFF_V8) { /* See S59D78.HTM */
@@ -3473,7 +3473,7 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 	ExcelSheet *s  = 0;
 	guint        lp;
 
-	current_workbook_iconv = excel_iconv_open_for_export();
+	current_workbook_iconv = gsf_msole_iconv_open_for_export();
 	/* Workbook */
 	wb->streamPos = biff_bof_write (bp, ver, MS_BIFF_TYPE_Workbook);
 

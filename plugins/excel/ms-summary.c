@@ -232,7 +232,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 	 *  Get all the information from the SummaryInformation stream.
 	 */
 	MsOleSummary *si = ms_ole_summary_open (f);
-	current_summary_iconv = excel_iconv_open_for_import (excel_iconv_win_codepage ());
+	current_summary_iconv = gsf_msole_iconv_open_for_import (gsf_msole_iconv_win_codepage ());
 	if (si) {
 		read_summary_items (sin, si, MS_OLE_PS_SUMMARY_INFO);
 		ms_ole_summary_close (si);
@@ -327,7 +327,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 {
 	GList		*si_list;
 	MsOleSummary	*si;
-	current_summary_iconv = excel_iconv_open_for_export();
+	current_summary_iconv = gsf_msole_iconv_open_for_export();
 
 	if (f == NULL) {
 		g_warning ("ms_summary_write: no file to write to.");
@@ -353,7 +353,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 		g_warning ("ms_summary_write: No summary list.");
 	}
 
-	current_summary_iconv = excel_iconv_open_for_export();
+	current_summary_iconv = gsf_msole_iconv_open_for_export();
 
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);
 	g_list_free (si_list);
