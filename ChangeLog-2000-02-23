@@ -1,4 +1,13 @@
+1999-04-30  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_delete_row): Remove from workbook hash also.
+
 1999-04-29  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (expr_tree_fixup_references): Implement.
+
+	* src/sheet.c (sheet_delete_row, sheet_delete_col): Fixup
+ 	references.
 
 	* src/expr.c (do_expr_tree_relocate): Remove strange and incorrect
  	refcount fiddling.

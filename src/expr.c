@@ -30,7 +30,7 @@ expr_parse_string (const char *expr, Sheet *sheet, int col, int row,
 	case PARSE_ERR_SYNTAX:
 		*error_msg = _("Syntax error");
 		break;
-			
+
 	case PARSE_ERR_NO_QUOTE:
 		*error_msg = _("Missing quote");
 		break;
@@ -86,12 +86,12 @@ do_expr_tree_unref (ExprTree *tree)
 	switch (tree->oper){
 	case OPER_VAR:
 		break;
-		
+
 	case OPER_CONSTANT:
 		if (tree->ref_count == 0)
 			value_release (tree->u.constant);
 		break;
-		
+
 	case OPER_FUNCALL:
 		if (tree->ref_count == 0)
 			symbol_unref (tree->u.function.symbol);
@@ -106,7 +106,7 @@ do_expr_tree_unref (ExprTree *tree)
 		do_expr_tree_unref (tree->u.value);
 		break;
 	}
-	
+
 	if (tree->ref_count == 0)
 		g_free (tree);
 }
@@ -138,7 +138,7 @@ value_string (const Value *value)
 
 	case VALUE_ARRAY:
 		return g_strdup ("ARRAY");
-		
+
 	case VALUE_CELLRANGE:
 		break;
 	}
@@ -150,7 +150,7 @@ void
 value_release (Value *value)
 {
 	g_return_if_fail (value != NULL);
-	
+
 	switch (value->type){
 	case VALUE_STRING:
 		string_unref (value->v.str);
@@ -159,17 +159,17 @@ value_release (Value *value)
 	case VALUE_INTEGER:
 		mpz_clear (value->v.v_int);
 		break;
-		
+
 	case VALUE_FLOAT:
 		mpf_clear (value->v.v_float);
 		break;
 
 	case VALUE_ARRAY:{
 		guint i;
-		
+
 		for (i = 0; i < value->v.array.x; i++)
 			g_free (value->v.array.vals [i]);
-		
+
 		g_free (value->v.array.vals);
 	}
 
@@ -190,7 +190,7 @@ value_copy_to (Value *dest, const Value *source)
 	g_return_if_fail (source != NULL);
 
 	dest->type = source->type;
-	
+
 	switch (source->type){
 	case VALUE_STRING:
 		dest->v.str = source->v.str;
@@ -226,7 +226,7 @@ value_duplicate (const Value *value)
 	g_return_val_if_fail (value != NULL, NULL);
 	new_value = g_new (Value, 1);
 	value_copy_to (new_value, value);
-	
+
 	return new_value;
 }
 
@@ -281,7 +281,7 @@ Value *
 value_cast_to_float (Value *v)
 {
 	Value *newv;
-	
+
 	g_return_val_if_fail (VALUE_IS_NUMBER (v), NULL);
 
 	if (v->type == VALUE_FLOAT)
@@ -291,7 +291,7 @@ value_cast_to_float (Value *v)
 	newv->type = VALUE_FLOAT;
 	mpf_set_z (newv->v.v_float, v->v.v_int);
 	value_release (v);
-	
+
 	return newv;
 }
 
@@ -316,7 +316,7 @@ value_get_bool (const Value *v, int *err)
 
 	if (v->type == VALUE_ARRAY)
 		return 0;
-	
+
 	g_warning ("Unhandled value in value_get_boolean");
 
 	return 0;
@@ -339,7 +339,7 @@ value_get_as_double (const Value *v)
 
 	if (v->type == VALUE_ARRAY)
 		return 0.0;
-	
+
 	return (float_t) v->v.v_float;
 }
 
@@ -360,7 +360,7 @@ value_get_as_int (const Value *v)
 
 	if (v->type == VALUE_ARRAY)
 		return 0.0;
-	
+
 	return (int) v->v.v_float;
 }
 
@@ -431,7 +431,7 @@ value_array_copy_to (Value *v, const Value *src)
 
 	for (x = 0; x < v->v.array.x; x++){
 		v->v.array.vals [x] = g_new (Value,v->v.array.y);
-		
+
 		memcpy (v->v.array.vals   [x],
 			src->v.array.vals [x],
 			sizeof(Value)*v->v.array.y);
@@ -497,7 +497,7 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 				      value_int (0));
 		g_return_val_if_fail (a->row<=b->row,
 				      value_int (0));
-		
+
 		cell = sheet_cell_get (a->sheet, a->col+x, a->row+y);
 
 		if (cell && cell->value)
@@ -523,6 +523,20 @@ cell_ref_make_absolute (CellRef *cell_ref, int eval_col, int eval_row)
 	cell_ref->col_relative = 0;
 }
 
+static void
+cell_ref_restore_absolute (CellRef *cell_ref, const CellRef *orig, int eval_col, int eval_row)
+{
+	if (orig->col_relative) {
+		cell_ref->col -= eval_col;
+		cell_ref->col_relative = 1;
+	}
+
+	if (orig->row_relative) {
+		cell_ref->row -= eval_row;
+		cell_ref->row_relative = 1;
+	}
+}
+
 static Value *
 eval_cell_value (Sheet *sheet, Value *value)
 {
@@ -530,17 +544,17 @@ eval_cell_value (Sheet *sheet, Value *value)
 
 	res = g_new (Value, 1);
 	res->type = value->type;
-	
+
 	switch (res->type){
 	case VALUE_STRING:
 		res->v.str = value->v.str;
 		string_ref (res->v.str);
 		break;
-		
+
 	case VALUE_INTEGER:
 		res->v.v_int = value->v.v_int;
 		break;
-		
+
 	case VALUE_FLOAT:
 		res->v.v_float = value->v.v_float;
 		break;
@@ -550,7 +564,7 @@ eval_cell_value (Sheet *sheet, Value *value)
 		res->type = VALUE_INTEGER;
 		res->v.v_int = 0;
 		break;
-			
+
 	case VALUE_CELLRANGE:
 		res->v.cell_range = value->v.cell_range;
 		break;
@@ -562,7 +576,7 @@ static void
 free_values (Value **values, int top)
 {
 	int i;
-	
+
 	for (i = 0; i < top; i++)
 		value_release (values [i]);
 	g_free (values);
@@ -575,9 +589,9 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 	GList *l;
 	int argc, arg, i;
 	Value *v;
-	
+
 	fd = (FunctionDefinition *) tree->u.function.symbol->data;
-	
+
 	l = tree->u.function.arg_list;
 	argc = g_list_length (l);
 
@@ -593,7 +607,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 		int fn_argc_min = 0, fn_argc_max = 0, var_len = 0;
 		char *arg_type = fd->args;
 		char *argptr = fd->args;
-	       
+
 		/* Get variable limits */
 		while (*argptr){
 			if (*argptr++ == '|'){
@@ -611,11 +625,11 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 		}
 
 		values = g_new (Value *, fn_argc_max);
-		
+
 		for (arg = 0; l; l = l->next, arg++, arg_type++){
 			ExprTree *t = (ExprTree *) l->data;
 			int type_mismatch = 0;
-			
+
 			if (*arg_type=='|')
 				arg_type++;
 
@@ -634,10 +648,10 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 				if (!v->v.cell_range.cell_b.sheet)
 					v->v.cell_range.cell_b.sheet = sheet;
 			}
-			
+
 			switch (*arg_type){
 			case 'f':
-			
+
 				if (v->type != VALUE_INTEGER &&
 				    v->type != VALUE_FLOAT)
 					type_mismatch = 1;
@@ -696,7 +710,7 @@ function_def_call_with_values (Sheet *sheet, FunctionDefinition *fd, int argc,
 			       Value *values [], char **error_string)
 {
 	Value *retval;
-	
+
 	if (fd->expr_fn){
 		/*
 		 * If function deals with ExprNodes, create some
@@ -708,16 +722,16 @@ function_def_call_with_values (Sheet *sheet, FunctionDefinition *fd, int argc,
 
 		if (argc){
 			tree = g_new (ExprTree, argc);
-		
+
 			for (i = 0; i < argc; i++){
 				tree [i].oper = OPER_CONSTANT;
 				tree [i].ref_count = 1;
 				tree [i].u.constant = values [i];
-				
+
 				l = g_list_append (l, &(tree[i]));
 			}
 		}
-		
+
 		retval = fd->expr_fn (sheet, l, 0, 0, error_string);
 
 		if (tree){
@@ -725,7 +739,7 @@ function_def_call_with_values (Sheet *sheet, FunctionDefinition *fd, int argc,
 			g_list_free (l);
 		}
 
-	} else 
+	} else
 		retval = fd->fn (fd, values, error_string);
 
 	return retval;
@@ -755,7 +769,7 @@ function_call_with_values (Sheet *sheet, const char *name, int argc, Value *valu
 		*error_string = _("Calling non-function");
 		return NULL;
 	}
-	
+
 	fd = sym->data;
 
 	symbol_ref (sym);
@@ -803,7 +817,7 @@ compare (Value *a, Value *b)
 {
 	if (a->type == VALUE_INTEGER){
 		int f;
-		
+
 		switch (b->type){
 		case VALUE_INTEGER:
 			return compare_int_int (a->v.v_int, b->v.v_int);
@@ -819,7 +833,7 @@ compare (Value *a, Value *b)
 			return TYPE_ERROR;
 		}
 	}
-	
+
 	if (a->type == VALUE_FLOAT){
 		float_t f;
 
@@ -863,7 +877,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (error_string != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	
+
 	switch (tree->oper){
 	case OPER_EQUAL:
 	case OPER_NOT_EQUAL:
@@ -872,7 +886,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 	case OPER_LT:
 	case OPER_LTE: {
 		int comp;
-		
+
 		a = eval_expr (sheet, tree->u.binary.value_a,
 			       eval_col, eval_row, error_string);
 		b = eval_expr (sheet, tree->u.binary.value_b,
@@ -895,7 +909,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			*error_string = _("Type error");
 			return NULL;
 		}
-		
+
 		switch (tree->oper){
 		case OPER_EQUAL:
 			res->v.v_int = comp == IS_EQUAL;
@@ -920,7 +934,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		case OPER_NOT_EQUAL:
 			res->v.v_int = comp != IS_EQUAL;
 			break;
-			
+
 		default:
 			g_warning ("This should never be reached: comparission ops\n");
 		}
@@ -928,7 +942,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		value_release (b);
 		return res;
 	}
-	
+
 	case OPER_ADD:
 	case OPER_SUB:
 	case OPER_MULT:
@@ -939,7 +953,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 
 		if (!a)
 			return NULL;
-		
+
 		b = eval_expr (sheet, tree->u.binary.value_b,
 			       eval_col, eval_row, error_string);
 
@@ -954,14 +968,14 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			*error_string = _("Type mismatch");
 			return NULL;
 		}
-		
+
 		res = g_new (Value, 1);
 		if (a->type == VALUE_INTEGER && b->type == VALUE_INTEGER){
 			int ia = a->v.v_int;
 			int ib = b->v.v_int;
-			
+
 			res->type = VALUE_INTEGER;
-			
+
 			switch (tree->oper){
 			case OPER_SUB:
 			case OPER_ADD: {
@@ -972,9 +986,9 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				}
 
 				sum = ia + ib;
-				
+
 				if ((ia > 0) && (ib > 0)){
-					
+
 					if (sum < ia){
 						res->type = VALUE_FLOAT;
 						res->v.v_float = ((double)ia) + ib;
@@ -988,10 +1002,10 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 						res->v.v_int = sum;
 				} else
 					res->v.v_int = sum;
-				
+
 				break;
 			}
-				
+
 			case OPER_MULT:
 				res->v.v_int = a->v.v_int * b->v.v_int;
 				break;
@@ -1007,8 +1021,8 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				res->type = VALUE_FLOAT;
 				res->v.v_float =  a->v.v_int / (float_t)b->v.v_int;
 				break;
-				
-			case OPER_EXP: 
+
+			case OPER_EXP:
 				res->v.v_int = pow (a->v.v_int, b->v.v_int);
 				break;
 			default:
@@ -1019,20 +1033,20 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			res->v.v_float = 0.0;
 			a = value_cast_to_float (a);
 			b = value_cast_to_float (b);
-			
+
 			switch (tree->oper){
 			case OPER_ADD:
 				res->v.v_float = a->v.v_float + b->v.v_float;
 				break;
-				
+
 			case OPER_SUB:
 				res->v.v_float = a->v.v_float - b->v.v_float;
 				break;
-				
+
 			case OPER_MULT:
 				res->v.v_float = a->v.v_float * b->v.v_float;
 				break;
-				
+
 			case OPER_DIV:
 				if (b->v.v_float == 0.0){
 					value_release (a);
@@ -1044,7 +1058,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 
 				res->v.v_float = a->v.v_float / b->v.v_float;
 				break;
-				
+
 			case OPER_EXP:
 				res->v.v_float = pow (a->v.v_float, b->v.v_float);
 				break;
@@ -1055,7 +1069,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		value_release (a);
 		value_release (b);
 		return res;
-		
+
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
@@ -1074,7 +1088,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		res->type = VALUE_STRING;
 		sa = value_string (a);
 		sb = value_string (b);
-		
+
 		tmp = g_strconcat (sa, sb, NULL);
 		res->v.str = string_get (tmp);
 		g_free (sa);
@@ -1094,14 +1108,14 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		CellRef *ref;
 		Cell *cell;
 		int col, row;
-		
+
 		if (sheet == NULL){
 			/* Only the test program requests this */
 			res = g_new (Value, 1);
 
 			res->type = VALUE_FLOAT;
 			res->v.v_float = 3.14;
-			
+
 			return res;
 		}
 
@@ -1109,7 +1123,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		cell_get_abs_col_row (ref, eval_col, eval_row, &col, &row);
 
 		cell_sheet = ref->sheet ? ref->sheet : sheet;
-		
+
 		cell = sheet_cell_get (cell_sheet, col, row);
 
 		if (cell){
@@ -1131,12 +1145,12 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			}
 		}
 		res = g_new (Value, 1);
-			
+
 		res->type = VALUE_INTEGER;
 		res->v.v_int = 0;
 		return res;
 	}
-	
+
 	case OPER_CONSTANT:
 		return eval_cell_value (sheet, tree->u.constant);
 
@@ -1160,7 +1174,7 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		value_release (a);
 		return res;
 	}
-	
+
 	*error_string = _("Unknown evaluation error");
 	return NULL;
 }
@@ -1226,7 +1240,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 	case OPER_ANY_BINARY: {
 		char *a, *b, *res;
 		char const *op;
-		
+
 		a = do_expr_decode_tree (tree->u.binary.value_a, sheet, col, row, tree->oper);
 		b = do_expr_decode_tree (tree->u.binary.value_b, sheet, col, row, tree->oper);
 		op = operation_names [tree->oper];
@@ -1235,12 +1249,12 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 			res = g_strconcat ("(", a, op, b, ")", NULL);
 		else
 			res = g_strconcat (a, op, b, NULL);
-		
+
 		g_free (a);
 		g_free (b);
 		return res;
 	}
-	
+
 	case OPER_ANY_UNARY: {
 		char *res, *a;
 
@@ -1249,7 +1263,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 		g_free (a);
 		return res;
 	}
-	
+
 	case OPER_FUNCALL: {
 		FunctionDefinition *fd;
 		GList *arg_list, *l;
@@ -1268,13 +1282,13 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 			i = 0;
 			for (l = arg_list; l; l = l->next, i++){
 				ExprTree *t = l->data;
-				
+
 				args [i] = do_expr_decode_tree (t, sheet, col, row, OPER_CONSTANT);
 				len += strlen (args [i]) + 1;
 			}
 			len++;
 			sum = g_malloc (len + 2);
-			
+
 			i = 0;
 			sum [0] = 0;
 			for (l = arg_list; l; l = l->next, i++){
@@ -1295,10 +1309,10 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 		} else
 			return g_strconcat (fd->name, "()", NULL);
 	}
-	
+
 	case OPER_VAR: {
 		CellRef *cell_ref;
-		
+
 		cell_ref = &tree->u.ref;
 		return cellref_name (cell_ref, sheet, col, row);
 	}
@@ -1316,7 +1330,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 
 			g_free (a);
 			g_free (b);
-			
+
 			return res;
 		} else {
 			if (v->type == VALUE_STRING){
@@ -1337,7 +1351,7 @@ expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row)
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	
+
 	return do_expr_decode_tree (tree, sheet, col, row, OPER_CONSTANT);
 }
 
@@ -1348,9 +1362,9 @@ do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 
 	new_tree = g_new (ExprTree, 1);
 	*new_tree = *tree;
-	
+
 	new_tree->ref_count = 1;
-	
+
 	switch (tree->oper){
 	case OPER_ANY_BINARY:
 		new_tree->u.binary.value_a =
@@ -1381,23 +1395,23 @@ do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 
 	case OPER_VAR: {
 		CellRef *ref;
-		
+
 		ref = &new_tree->u.ref;
 		ref->col -= coldiff;
 		ref->row -= rowdiff;
 		break;
 	}
-	
+
 	case OPER_CONSTANT:
 		new_tree->u.constant = value_duplicate (tree->u.constant);
 
 		if (new_tree->u.constant->type == VALUE_CELLRANGE){
 			CellRef *ref;
-		
+
 			ref = &new_tree->u.constant->v.cell_range.cell_a;
 			ref->col -= coldiff;
 			ref->row -= rowdiff;
-			
+
 			ref = &new_tree->u.constant->v.cell_range.cell_b;
 			ref->col -= coldiff;
 			ref->row -= rowdiff;
@@ -1405,7 +1419,7 @@ do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 		}
 		break;
 	}
-	
+
 	return new_tree;
 }
 
@@ -1445,7 +1459,7 @@ build_error_string (const char *txt)
 }
 
 
-struct expr_tree_invalidate_references {
+struct expr_tree_frob_references {
 	Sheet *sheet;
 	int src_col, src_row;
 
@@ -1456,11 +1470,25 @@ struct expr_tree_invalidate_references {
 
 	/* Rows being invalidated.  */
 	int row, rowcount;
+
+	/* Relative move (fixup only).  */
+	int coldelta, rowdelta;
+
+	/* Are we deleting?  (fixup only).  */
+	gboolean deleting;
 };
 
 
+static gboolean
+cell_in_range (const CellRef *cr, const struct expr_tree_frob_references *info)
+{
+	return info->invalidating_columns
+		? (cr->col >= info->col && cr->col < info->col + info->colcount)
+		: (cr->row >= info->row && cr->row < info->row + info->rowcount);
+}
+
 static ExprTree *
-do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_invalidate_references *info)
+do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_references *info)
 {
 	switch (src->oper) {
 	case OPER_ANY_BINARY: {
@@ -1538,13 +1566,16 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_invali
 
 	case OPER_VAR: {
 		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
+
+		/* If the sheet is wrong, do nothing.  */
+		if (cr.sheet != info->sheet)
+			return NULL;
+
 		cell_ref_make_absolute (&cr, info->src_col, info->src_row);
 
-		if (info->invalidating_columns
-		    ? (cr.col >= info->col && cr.col < info->col + info->colcount)
-		    : (cr.row >= info->row && cr.row < info->row + info->rowcount)) {
+		if (cell_in_range (&cr, info))
 			return build_error_string ("#Reference to deleted cell!");
-		} else
+		else
 			return NULL;
 	}
 
@@ -1556,7 +1587,22 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_invali
 		case VALUE_INTEGER:
 		case VALUE_FLOAT:
 			return NULL;
-		case VALUE_CELLRANGE:
+		case VALUE_CELLRANGE: {
+			CellRef ca = v->v.cell_range.cell_a; /* Copy a structure, not a pointer.  */
+			CellRef cb = v->v.cell_range.cell_b; /* Copy a structure, not a pointer.  */
+
+			/* If the sheet is wrong, do nothing.  */
+			if (ca.sheet != info->sheet)
+				return NULL;
+
+			cell_ref_make_absolute (&ca, info->src_col, info->src_row);
+			cell_ref_make_absolute (&cb, info->src_col, info->src_row);
+
+			if (cell_in_range (&ca, info) && cell_in_range (&cb, info))
+				return build_error_string ("#Reference to deleted range!");
+			else
+				return NULL;
+		}
 		case VALUE_ARRAY:
 			fprintf (stderr, "Reminder: FIXME in do_expr_tree_invalidate_references\n");
 			/* ??? */
@@ -1571,16 +1617,19 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_invali
 	return NULL;
 }
 
-
+/*
+ * Invalidate (== turn into error expressions) cell and range references that
+ * will disappear completely during a deletions of columns or rows.  Note that
+ * this is not intended for use when just the cell contents is delete.
+ */
 ExprTree *
 expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
 				 int src_col, int src_row,
 				 int col, int row,
 				 int colcount, int rowcount)
 {
-	struct expr_tree_invalidate_references info;
+	struct expr_tree_frob_references info;
 	ExprTree *dst;
-	char *str;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -1595,35 +1644,209 @@ expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
 	info.row = row;
 	info.rowcount = rowcount;
 
-	str = expr_decode_tree (src, sheet, src_col, src_row);
-	printf ("%s: [%s]\n", cell_name (src_col, src_row), str);
-	g_free (str);
+	{
+		char *str;
+		str = expr_decode_tree (src, sheet, src_col, src_row);
+		printf ("Invalidate: %s: [%s]\n", cell_name (src_col, src_row), str);
+		g_free (str);
+	}
 
 	dst = do_expr_tree_invalidate_references (src, &info);
 
-	str = dst ? expr_decode_tree (dst, sheet, src_col, src_row) : g_strdup ("*");
-	printf ("%s: [%s]\n\n", cell_name (src_col, src_row), str);
-	g_free (str);
+	{
+		char *str;
+		str = dst ? expr_decode_tree (dst, sheet, src_col, src_row) : g_strdup ("*");
+		printf ("Invalidate: %s: [%s]\n\n", cell_name (src_col, src_row), str);
+		g_free (str);
+	}
 
 	return dst;
 }
 
-
-struct expr_tree_fixup_references {
-	Sheet *sheet;
-	int src_col, src_row;
-
-	/* Starting point of fixup.  */
-	int col, row;
-
-	/* Relative move.  */
-	int coldelta, rowdelta;
-};
-
 static ExprTree *
-do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_fixup_references *info)
+do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_frob_references *info)
 {
-	/* FIXME  */
+	switch (src->oper) {
+	case OPER_ANY_BINARY: {
+		ExprTree *a =
+			do_expr_tree_fixup_references (src->u.binary.value_a, info);
+		ExprTree *b =
+			do_expr_tree_fixup_references (src->u.binary.value_b, info);
+		if (a == NULL && b == NULL)
+			return NULL;
+		else {
+			ExprTree *dst;
+
+			if (a == NULL)
+				expr_tree_ref ((a = src->u.binary.value_a));
+			if (b == NULL)
+				expr_tree_ref ((b = src->u.binary.value_b));
+
+			dst = g_new (ExprTree, 1);
+			dst->oper = src->oper;
+			dst->ref_count = 1;
+			dst->u.binary.value_a = a;
+			dst->u.binary.value_b = b;
+			return dst;
+		}
+	}
+
+	case OPER_ANY_UNARY: {
+		ExprTree *a =
+			do_expr_tree_fixup_references (src->u.value, info);
+		if (a == NULL)
+			return NULL;
+		else {
+			ExprTree *dst;
+
+			dst = g_new (ExprTree, 1);
+			dst->oper = src->oper;
+			dst->ref_count = 1;
+			dst->u.value = a;
+			return dst;
+		}
+	}
+
+	case OPER_FUNCALL: {
+		gboolean any = FALSE;
+		GList *new_args = NULL;
+		GList *l;
+
+		for (l = src->u.function.arg_list; l; l = l->next) {
+			ExprTree *arg = do_expr_tree_fixup_references (l->data, info);
+			new_args = g_list_append (new_args, arg);
+			if (arg) any = TRUE;
+		}
+
+		if (any) {
+			ExprTree *dst;
+			GList *m;
+
+			for (l = src->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
+				if (m->data == NULL)
+					expr_tree_ref ((m->data = l->data));
+			}
+
+			dst = g_new (ExprTree, 1);
+			dst->oper = OPER_FUNCALL;
+			dst->ref_count = 1;
+			symbol_ref ((dst->u.function.symbol = src->u.function.symbol));
+			dst->u.function.arg_list = new_args;
+
+			return dst;
+		} else {
+			g_list_free (new_args);
+			return NULL;
+		}
+	}
+
+	case OPER_VAR: {
+		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
+
+		/* If the sheet is wrong, do nothing.  */
+		if (cr.sheet != info->sheet)
+			return NULL;
+
+		cell_ref_make_absolute (&cr, info->src_col, info->src_row);
+
+		if (cr.col >= info->col && cr.row >= info->row) {
+			ExprTree *dst;
+
+			cr.col += info->coldelta;
+			cr.row += info->rowdelta;
+
+			cell_ref_restore_absolute (&cr, &src->u.ref, info->src_col, info->src_row);
+
+			dst = g_new (ExprTree, 1);
+			dst->oper = src->oper;
+			dst->ref_count = 1;
+			dst->u.ref = cr;
+
+			return dst;
+		} else
+			return NULL;
+	}
+
+	case OPER_CONSTANT: {
+		Value *v = src->u.constant;
+
+		switch (v->type) {
+		case VALUE_STRING:
+		case VALUE_INTEGER:
+		case VALUE_FLOAT:
+			return NULL;
+
+		case VALUE_CELLRANGE: {
+			gboolean any = FALSE;
+
+			CellRef ca = v->v.cell_range.cell_a; /* Copy a structure, not a pointer.  */
+			CellRef cb = v->v.cell_range.cell_b; /* Copy a structure, not a pointer.  */
+
+			/* If the sheet is wrong, do nothing.  */
+			if (ca.sheet != info->sheet)
+				return NULL;
+
+			cell_ref_make_absolute (&ca, info->src_col, info->src_row);
+			cell_ref_make_absolute (&cb, info->src_col, info->src_row);
+
+			if (ca.col >= info->col && ca.row >= info->row) {
+				any = TRUE;
+				if (info->deleting && cell_in_range (&ca, info)) {
+					if (info->colcount)
+						ca.col = info->col;
+					else
+						ca.row = info->row;
+				} else {
+					ca.col += info->coldelta;
+					ca.row += info->rowdelta;
+				}
+			}
+
+			if (cb.col >= info->col && cb.row >= info->row) {
+				any = TRUE;
+				if (info->deleting && cell_in_range (&cb, info)) {
+					if (info->colcount)
+						cb.col = info->col - 1;
+					else
+						cb.row = info->row - 1;
+				} else {
+					cb.col += info->coldelta;
+					cb.row += info->rowdelta;
+				}
+			}
+
+			if (any) {
+				ExprTree *dst;
+				Value *nv;
+
+				cell_ref_restore_absolute (&ca, &v->v.cell_range.cell_a, info->src_col, info->src_row);
+				cell_ref_restore_absolute (&cb, &v->v.cell_range.cell_b, info->src_col, info->src_row);
+
+				nv = g_new (Value, 1);
+				nv->type = v->type;
+				nv->v.cell_range.cell_a = ca;
+				nv->v.cell_range.cell_b = cb;
+
+				dst = g_new (ExprTree, 1);
+				dst->oper = src->oper;
+				dst->ref_count = 1;
+				dst->u.constant = nv;
+
+				return dst;
+			} else
+				return NULL;
+		}
+		case VALUE_ARRAY:
+			fprintf (stderr, "Reminder: FIXME in do_expr_tree_fixup_references\n");
+			/* ??? */
+			return NULL;
+		}
+		g_assert_not_reached ();
+		return NULL;
+	}
+	}
+
+	g_assert_not_reached ();
 	return NULL;
 }
 
@@ -1633,7 +1856,8 @@ expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
 			    int src_col, int src_row, int col, int row,
 			    int coldelta, int rowdelta)
 {
-	struct expr_tree_fixup_references info;
+	struct expr_tree_frob_references info;
+	ExprTree *dst;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -1646,6 +1870,25 @@ expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
 	info.row = row;
 	info.coldelta = coldelta;
 	info.rowdelta = rowdelta;
+	info.deleting = (coldelta < 0 || rowdelta < 0);
+	info.colcount = (coldelta < 0) ? -coldelta : coldelta;
+	info.rowcount = (rowdelta < 0) ? -rowdelta : rowdelta;
 
-	return do_expr_tree_fixup_references (src, &info);
+	{
+		char *str;
+		str = expr_decode_tree (src, sheet, src_col, src_row);
+		printf ("Fixup: %s: [%s]\n", cell_name (src_col, src_row), str);
+		g_free (str);
+	}
+
+	dst = do_expr_tree_fixup_references (src, &info);
+
+	{
+		char *str;
+		str = dst ? expr_decode_tree (dst, sheet, src_col, src_row) : g_strdup ("*");
+		printf ("Fixup: %s: [%s]\n\n", cell_name (src_col, src_row), str);
+		g_free (str);
+	}
+
+	return dst;
 }
