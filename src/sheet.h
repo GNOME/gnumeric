@@ -352,10 +352,12 @@ void        workbook_save                (Workbook *);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
+char       *workbook_sheet_get_free_name (Workbook *wb);
 void        workbook_auto_expr_label_set (Workbook *wb, char *text);
 void        workbook_next_generation     (Workbook *wb);
 void        workbook_set_region_status   (Workbook *wb, char *str);
 int         workbook_parse_and_jump      (Workbook *wb, char *text);
+Sheet      *workbook_sheet_lookup        (Workbook *wb, char *sheet_name);
 
 /*
  * Does any pending recalculations

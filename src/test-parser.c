@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "numbers.h"
 #include "symbol.h"
+#include "str.h"
 #include "expr.h"
 
 char *exp [] = {
@@ -23,18 +24,18 @@ int
 main ()
 {
 	Value *v;
-	EvalNode *node;
+	EvalTree *node;
 	int i;
 	char *error;
 	
 	for (i = 0; exp [i]; i++){
 		printf ("Expression: %s;  ", exp [i]);
-		node = expr_parse_string (exp [i], 0, 0, &error);
+		node = expr_parse_string (exp [i], 0, 0, NULL, &error);
 		if (node == NULL){
 			printf ("parse error: %s\n", error);
 			continue;
 		}
-		v = eval_expr (NULL, node, &error);
+		v = eval_expr (NULL, node, 0, 0, &error);
 		if (v == NULL){
 			printf ("eval error: %s\n", error);
 			continue;

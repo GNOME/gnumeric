@@ -1,7 +1,14 @@
+/*
+ * utils.c:  Various utility routines that do not depend on the GUI of Gnumeric
+ *
+ * Author:
+ *    Miguel de Icaza (miguel@gnu.org)
+ */
 #include <config.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <glib.h>
+#include <string.h>
 #include <string.h>
 #include <ctype.h>
 #include "numbers.h"
@@ -175,3 +182,29 @@ parse_cell_name (char *cell_str, int *col, int *row)
 	
 	return TRUE;
 }
+
+gint
+gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)
+{
+	return strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
+}
+
+/* a char* hash function from ASU */
+guint
+gnumeric_strcase_hash (gconstpointer v)
+{
+	const char *s = (char*)v;
+	const char *p;
+	guint h=0, g;
+	
+	for(p = s; *p != '\0'; p += 1) {
+		h = ( h << 4 ) + tolower (*p);
+		if ( ( g = h & 0xf0000000 ) ) {
+			h = h ^ (g >> 24);
+			h = h ^ g;
+		}
+	}
+	
+	return h /* % M */;
+}
+

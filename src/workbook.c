@@ -442,6 +442,19 @@ define_cell_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+insert_sheet_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+	char *name;
+
+	name = workbook_sheet_get_free_name (wb);
+	sheet = sheet_new (wb, name);
+	g_free (name);
+	
+	workbook_attach_sheet (wb, sheet);
+}
+
+static void
 insert_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -689,9 +702,10 @@ static GnomeUIInfo workbook_menu_insert_special [] = {
 };
 
 static GnomeUIInfo workbook_menu_insert [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Sheet"),    NULL, insert_sheet_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Cells..."), NULL, insert_cells_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Rows"),     NULL, insert_rows_cmd },
-	{ GNOME_APP_UI_ITEM, N_("C_olumns"),  NULL, insert_cols_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Rows"),     NULL, insert_rows_cmd  },
+	{ GNOME_APP_UI_ITEM, N_("C_olumns"),  NULL, insert_cols_cmd  },
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1147,7 +1161,7 @@ workbook_new (void)
 
 	wb = g_new0 (Workbook, 1);
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
-	wb->sheets    = g_hash_table_new (g_str_hash, g_str_equal);
+	wb->sheets    = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->table     = gtk_table_new (0, 0, 0);
 
 	wb->symbol_names = symbol_table_new ();
@@ -1253,6 +1267,36 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
 	gtk_notebook_append_page (GTK_NOTEBOOK (wb->notebook),
 				  t, gtk_label_new (sheet->name));
+}
+
+Sheet *
+workbook_sheet_lookup (Workbook *wb, char *sheet_name)
+{
+	Sheet *sheet;
+	
+	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (sheet_name != NULL, NULL);
+
+	sheet = g_hash_table_lookup (wb->sheets, sheet_name);
+
+	return sheet;
+}
+
+char *
+workbook_sheet_get_free_name (Workbook *wb)
+{
+	char name [80];
+	int  i;
+	
+	g_return_val_if_fail (wb != NULL, NULL);
+
+	for (i = 0; ; i++){
+		g_snprintf (name, sizeof (name), _("Sheet %d"), i);
+		if (workbook_sheet_lookup (wb, name) == NULL)
+			return g_strdup (name);
+	}
+	g_assert_not_reached ();
+	return NULL;
 }
 
 Workbook *

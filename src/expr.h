@@ -20,7 +20,7 @@ typedef enum {
 
         OPER_CONSTANT,
 	OPER_VAR,
-	OPER_NEG
+	OPER_NEG,
 } Operation;
 
 typedef enum {
@@ -31,10 +31,6 @@ typedef enum {
 	VALUE_ARRAY,
 } ValueType;
 
-/*
- * We use the GNU Multi-precission library for storing our 
- * numbers
- */
 typedef struct {
 	int col;
 	int row;
@@ -85,6 +81,11 @@ struct ExprTree {
 		} binary;
 
 		struct ExprTree *value;
+
+		struct {
+			void    *sheet;
+			CellRef cell;
+		} extref;
 	} u;
 };
 

@@ -54,8 +54,19 @@ static void dump_tree (ExprTree *tree);
 static int  yylex (void);
 static int  yyerror (char *s);
 
-#define p_new(type) \
-	((type *) alloc_buffer ((unsigned) sizeof (type)))
+#define p_new(type) ((type *) alloc_buffer ((unsigned) sizeof (type)))
+
+static ExprTree *
+build_binop (ExprTree *l, Operation op, ExprTree *r)
+{
+  ExprTree *res = p_new (ExprTree);
+  res->ref_count = 1;
+  res->u.binary.value_a = l;
+  res->oper = op;
+  res->u.binary.value_b = r;
+  return res;
+}
+
 		
 %}
 
@@ -90,95 +101,19 @@ exp:	  NUMBER 	{ $$ = $1 }
 	| STRING        { $$ = $1 }
         | CELLREF       { $$ = $1 }
 	| CONSTANT      { $$ = $1 }
-	| exp '+' exp	{
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_ADD;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-	| exp '-' exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_SUB;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-	| exp '*' exp { 
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_MULT;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-	| exp '/' exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_DIV;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-	| exp '=' exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_EQUAL;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-	| exp '<' exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_LT;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-	| exp '>' exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_GT;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-        | exp GTE exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_GTE;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-        | exp NE exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_NOT_EQUAL;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-        | exp LTE exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_LTE;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-	| exp '^' exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_EXP;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-
-	| '(' exp ')'  {
-		$$ = $2;
-	}
+	| exp '+' exp	{ $$ = build_binop ($1, OPER_ADD,       $3); }
+	| exp '-' exp	{ $$ = build_binop ($1, OPER_SUB,       $3); }
+	| exp '*' exp	{ $$ = build_binop ($1, OPER_MULT,      $3); }
+	| exp '/' exp	{ $$ = build_binop ($1, OPER_DIV,       $3); }
+	| exp '^' exp	{ $$ = build_binop ($1, OPER_EXP,       $3); }
+	| exp '&' exp	{ $$ = build_binop ($1, OPER_CONCAT,    $3); }
+	| exp '=' exp	{ $$ = build_binop ($1, OPER_EQUAL,     $3); }
+	| exp '<' exp	{ $$ = build_binop ($1, OPER_LT,        $3); }
+	| exp '>' exp	{ $$ = build_binop ($1, OPER_GT,        $3); }
+	| exp GTE exp	{ $$ = build_binop ($1, OPER_GTE,       $3); }
+	| exp NE  exp	{ $$ = build_binop ($1, OPER_NOT_EQUAL, $3); }
+	| exp LTE exp	{ $$ = build_binop ($1, OPER_LTE,       $3); }
+	| '(' exp ')'   { $$ = $2; }
 
         | '-' exp %prec NEG {
 		$$ = p_new (ExprTree);
@@ -190,15 +125,6 @@ exp:	  NUMBER 	{ $$ = $1 }
         | '+' exp %prec PLUS {
 		$$ = $2;
 	}
-
-	| exp '&' exp {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_CONCAT;
-		$$->u.binary.value_a = $1;
-		$$->u.binary.value_b = $3;
-	}
-	;
 
         | CELLREF ':' CELLREF {
 		CellRef a, b;

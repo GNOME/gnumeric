@@ -1,8 +1,8 @@
 /* -*- mode: c; c-basic-offset: 8 -*- */
+#include <glib.h>
 #include <assert.h>
 #include <stdio.h>
 #include <libguile.h>
-#include <glib.h>
 #include <gnome.h>
 
 #include "../../src/gnumeric.h"

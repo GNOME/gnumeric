@@ -1,3 +1,23 @@
+1998-11-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/parser.y: 
+
+	* src/workbook.c (workbook_new): Use case-insenstive routines when
+	creating the hash table.
+	(workbook_sheet_get_free_name): Find an unused name for a sheet. 
+	(workbook_sheet_lookup): Looks up a sheet by name in a Workbook.
+	(insert_sheet_cmd): New command to insert a sheet into a workbook.
+
+	* src/utils.c (gnumeric_strcase_hash, gnumeric_strcase_equal):
+	Routines used for strings hash tables that are not case
+	sensitive. 
+
+1998-11-12  Morten Wellinder <terra@diku.dk>
+
+	* test-parser.c: Fix to compile with the new API
+
+	* parser.y: Make the code more maintainable.
+
 1998-11-12  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-ole.c, plugins/excel/ms-ole.h: Massive changes

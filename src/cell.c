@@ -701,8 +701,10 @@ cell_destroy (Cell *cell)
 		style_color_unref (cell->render_color);
 
 	cell_comment_destroy (cell);
-	
-	string_unref  (cell->text);
+
+	if (cell->text)
+		string_unref  (cell->text);
+
 	style_destroy (cell->style);
 	value_release (cell->value);
 
@@ -1325,7 +1327,11 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	else
 		do_multi_line = FALSE;
 
-	text = cell->text->str;
+	if (cell->text)
+		text = cell->text->str;
+	else
+		text = "";
+	
 	if (do_multi_line){
 		GList *lines, *l;
 		int cell_pixel_height = ROW_INTERNAL_HEIGHT (cell->row);
