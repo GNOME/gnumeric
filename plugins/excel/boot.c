@@ -56,7 +56,7 @@ excel_load (const char *filename)
 		return NULL;
 
 	wb = ms_excelReadWorkbook (f);
-	free (f);
+	ms_ole_destroy (f);
 
 	return wb;
 }

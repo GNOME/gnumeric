@@ -444,30 +444,39 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	  break ;
 	case FORMULA_PTG_PAREN:
 /*	  printf ("Ignoring redundant parenthesis ptg\n") ; */
-	  ptg_length = 0 ;
-	  break ;
+		ptg_length = 0 ;
+		break ;
 	case FORMULA_PTG_FUNC:
-	  {
-	    int iftab   = BIFF_GETWORD(cur) ;
-	    printf ("FIXME, unimplemented function table pointer %d\n", iftab), error=1 ;
-	    ptg_length = 2 ;
-	  }
-	  break ;
+	{
+		int iftab   = BIFF_GETWORD(cur) ;
+		printf ("FIXME, unimplemented function table pointer %d\n", iftab), error=1 ;
+		ptg_length = 2 ;
+		break ;
+	}
 	case FORMULA_PTG_INT:
-	  {
-	    char buf[8]; /* max. "65535" */
-	    guint16 num = BIFF_GETWORD(cur) ;
-	    sprintf(buf,"%u",num);
-	    parse_list_push_raw (stack, strdup(buf), NO_PRECEDENCE) ;
-	    ptg_length = 2 ;
-	  }
-	  break;
+	{
+		char buf[8]; /* max. "65535" */
+		guint16 num = BIFF_GETWORD(cur) ;
+		sprintf(buf,"%u",num);
+		parse_list_push_raw (stack, strdup(buf), NO_PRECEDENCE) ;
+		ptg_length = 2 ;
+		break;
+	}
 	case FORMULA_PTG_BOOL:
-	  {
-	    parse_list_push_raw (stack, strdup(BIFF_GETBYTE(cur) ? "TRUE" : "FALSE" ), NO_PRECEDENCE) ;
-	    ptg_length = 1 ;
-	  }
-	  break ;
+	{
+		parse_list_push_raw (stack, strdup(BIFF_GETBYTE(cur) ? "TRUE" : "FALSE" ), NO_PRECEDENCE) ;
+		ptg_length = 1 ;
+		break ;
+	}
+	case FORMULA_PTG_NUM:
+	{
+		double tmp = BIFF_GETDOUBLE(cur) ;
+		char buf[65] ; /* should be long enough? */
+		snprintf (buf, 64, "%f", tmp) ;
+		parse_list_push_raw (stack, strdup(buf), NO_PRECEDENCE) ;
+		ptg_length = 8 ;
+		break ;
+	}
 	case FORMULA_PTG_STR:
 	{ /* FIXME: Len should only be a byte but seems to be a word ! */
 		guint32 len = BIFF_GETWORD(cur) ;
@@ -546,6 +555,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
       for (xlp=array_col_first;xlp<=array_col_last;xlp++)
 	  for (ylp=array_row_first;ylp<=array_row_last;ylp++)
 	    ms_excel_sheet_insert (sheet, fn_xf, xlp, ylp, "Unknown formula") ;
+      parse_list_free (stack) ;
       return ;
     }
   
@@ -561,7 +571,8 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		 set_text_simple with the current value */
 	      cell_set_text (cell, ans) ;
 	      ms_excel_set_cell_xf (sheet, cell, EX_GETXF(q)) ;
-	    }
+   	    }
+      g_free (ans) ;
     }
   parse_list_free (stack) ;
 }

@@ -492,12 +492,15 @@ ms_ole_new (const char *name)
 	if (file == -1 || fstat(file, &st))
 	{
 		printf ("No such file '%s'\n", name);
+		g_free (f) ;
 		return 0;
 	}
 	f->length = st.st_size;
 	if (f->length<=0x4c)  /* Bad show */
 	{
 		printf ("File '%s' too short\n", name);
+		close (file) ;
+		g_free (f) ;
 		return 0;
 	}
 	if (f->length%BB_BLOCK_SIZE)

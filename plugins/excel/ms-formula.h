@@ -17,6 +17,10 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 
 void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet) ;
 
+/**
+ * See S59E2B.HTM
+ **/
+
 #define FORMULA_PTG_MAX                0x7f
 
 #define FORMULA_PTG_EXP                0x01
@@ -24,13 +28,13 @@ void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet) ;
 #define FORMULA_PTG_STR                0x17
 #define FORMULA_PTG_BOOL               0x1d
 #define FORMULA_PTG_INT                0x1e
+#define FORMULA_PTG_NUM                0x1f /* 8 byte IEEE floating point number */
 
 #define FORMULA_PTG_FUNC               0x21
 #define FORMULA_PTG_FUNC_VAR           0x22
 #define FORMULA_PTG_REF                0x24
 #define FORMULA_PTG_AREA               0x25
 #define FORMULA_PTG_MEM_AREA           0x26
-
 #define FORMULA_PTG_REF_3D             0x3a
 
 typedef struct _FORMULA_ARRAY_DATA

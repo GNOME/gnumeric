@@ -429,6 +429,7 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 				 */
 	int i;
 	BIFF_FONT_DATA *fd = g_hash_table_lookup (sheet->wb->font_data, &xf->font_idx) ;
+	char *fname ;
 
 	if (!fd)
 	{
@@ -447,15 +448,18 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 	for (i = 0; fd->fontname[i] != '\0' && fd->fontname[i] != ' '; ++i)
 		fd->fontname[i] = tolower (fd->fontname[i]);
 	fd->fontname[i] = '\x0';
-	cell_set_font (cell, font_change_component (cell->style->font->font_name, 1, fd->fontname));
+	cell_set_font (cell, (fname = font_change_component (cell->style->font->font_name, 1, fd->fontname)));
+	if (fname) g_free (fname) ;
 /*			printf ("FoNt [-]: %s\n", cell->style->font->font_name); */
 	if (fd->italic){
-   		cell_set_font (cell, font_get_italic_name (cell->style->font->font_name));
+   		cell_set_font (cell, (fname = font_get_italic_name (cell->style->font->font_name)));
+		if (fname) g_free (fname) ;
 /*				printf ("FoNt [i]: %s\n", cell->style->font->font_name); */
 		cell->style->font->hint_is_italic = 1;
 	}
 	if (fd->boldness >= 0x2bc){
-		cell_set_font (cell, font_get_bold_name (cell->style->font->font_name));
+		cell_set_font (cell, (fname = font_get_bold_name (cell->style->font->font_name))); 
+		if (fname) g_free (fname) ;
 /*				printf ("FoNt [b]: %s\n", cell->style->font->font_name); */
 		cell->style->font->hint_is_bold = 1;
 	}
@@ -463,7 +467,8 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 	 * What about underlining?  
 	 */
 	g_assert (snprintf (font_size, 16, "%d", fd->height / 2) != -1);
-	cell_set_font (cell, font_change_component (cell->style->font->font_name, 7, font_size));
+	cell_set_font (cell, (fname = font_change_component (cell->style->font->font_name, 7, font_size)));
+	if (fname) g_free (fname) ;
 }
 
 
@@ -812,6 +817,7 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char
 {
 	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 
+	/* NB. cell_set_text _certainly_ strdups *text */
 	cell_set_text (cell, text);
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
@@ -963,14 +969,18 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			dump (q->data+1, BIFF_GETBYTE(q->data+0));
  		break;
 	case BIFF_RSTRING:
+	{
+		char *txt ;
 		/*
 		  printf ("Cell [%d, %d] = ", EX_GETCOL(q), EX_GETROW(q));
 		  dump (q->data, q->length);
 		  STRNPRINTF(q->data + 8, EX_GETSTRLEN(q)); 
 		*/
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-		  biff_get_text (q->data + 8, EX_GETSTRLEN (q)));
+				       (txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q))));
+		g_free (txt) ;
 		break;
+	}
 	case BIFF_NUMBER:
 		{
 			char buf[65];
@@ -979,7 +989,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 									 */
 			printf ("A number : %f\n", num);
 			dump (q->data, q->length);
-			sprintf (buf, "%f", num);
+			snprintf (buf, 64, "%f", num);
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 			break;
 		}
@@ -1028,9 +1038,13 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		}
 		break;
 	case BIFF_LABEL:
+	{
+		char *label ;
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-				       biff_get_text (q->data + 8, EX_GETSTRLEN (q)));
+				       (label = biff_get_text (q->data + 8, EX_GETSTRLEN (q))));
+		g_free (label) ;
 		break;
+	}
 	case BIFF_ROW:		/*
 				 * FIXME 
 				 */
@@ -1063,9 +1077,13 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		switch (q->opcode)
 		{
 		case BIFF_STRING: /* FIXME: S59DE9.HTM */
-			printf ("This cell evaluated to '%s': so what ? data:\n", biff_get_text (q->data + 2, BIFF_GETWORD(q->data))) ;
+		{
+			char *txt ;
+			printf ("This cell evaluated to '%s': so what ? data:\n", (txt = biff_get_text (q->data + 2, BIFF_GETWORD(q->data)))) ;
+			if (txt) g_free (txt) ;
 			dump (q->data, q->length);
 			break ;
+		}
 		case BIFF_BOOLERR: /* S59D5F.HTM */
 		{
 			printf ("Boolerr\n") ;
@@ -1143,10 +1161,6 @@ find_workbook (MS_OLE * ptr)
 				 * Find the right Stream ... John 4:13-14 
 				 */
 	MS_OLE_DIRECTORY *d = ms_ole_directory_new (ptr);
-
-	/*
-	 * We do not release the resources associated with d */
-	g_warning ("Leaking memory here");
 	
 	/*
 	 * The thing to seek; first the kingdom of God, then this: 
@@ -1162,13 +1176,17 @@ find_workbook (MS_OLE * ptr)
 		 */
 		hit |= (strncasecmp (d->name, "book", 4) == 0);
 		hit |= (strncasecmp (d->name, "workbook", 8) == 0);
-		if (hit){
-		  printf ("Found Excel Stream : %s\n", d->name);
-		  return ms_ole_stream_open (d, 'r');
+		if (hit) {
+			MS_OLE_STREAM *stream ;
+			printf ("Found Excel Stream : %s\n", d->name);
+			stream = ms_ole_stream_open (d, 'r') ;
+			ms_ole_directory_destroy (d) ;
+			return stream ;
 		}
 	      }
 	  }
 	printf ("No Excel file found\n");
+	ms_ole_directory_destroy (d) ;
 	return 0;
 }
 

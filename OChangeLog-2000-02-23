@@ -1,3 +1,12 @@
+1999-02-07  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c: Fixed memory leaks
+	* plugins/excel/ms-excel.c: Fixed several memory leaks
+
+1999-02-07  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-formula.ch: added FORMULA_PTG_NUM
+
 1999-02-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_set_text_simple): Allow a single "=" to
