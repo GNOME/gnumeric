@@ -1,5 +1,9 @@
 1999-11-30  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/workbook.c (cb_sheet_check_dirty): Fixup.
+
+1999-11-30  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/mstyle.c (mstyle_hash): updated.
 
 1999-11-30  Jon K Hellan  <hellan@acm.org>

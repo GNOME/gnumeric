@@ -405,11 +405,19 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	int button;
 	char *s;
 
+	if (*allow_close != CLOSE_ALLOW)
+		return;
+
 	if (!sheet->modified) {
-		GtkEntry   *entry = GTK_ENTRY (sheet->workbook->ea_input);
-		const char *txt   = gtk_entry_get_text (entry);
+		GtkEntry   *entry;
+		const char *txt;
 		Cell       *cell;
 
+		if (sheet != workbook_get_current_sheet (sheet->workbook))
+			return;
+
+		entry = GTK_ENTRY (sheet->workbook->ea_input);
+		txt   = gtk_entry_get_text (entry);
 		cell = sheet_cell_get (sheet, sheet->cursor_col,
 				       sheet->cursor_row);
 		if (!cell) {
@@ -423,9 +431,6 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 				return;
 		}
 	}
-
-	if (*allow_close != CLOSE_ALLOW)
-		return;
 
 	d = gnome_dialog_new (
 		_("Warning"),
