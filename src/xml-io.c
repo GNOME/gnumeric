@@ -424,7 +424,7 @@ xml_set_print_unit (xmlNodePtr node, const char *name,
 		    const PrintUnit * const pu)
 {
 	xmlNodePtr  child;
-	char       *txt;
+	char       *txt = "points";
 
 	if (pu == NULL || name == NULL)
 		return;
