@@ -1,3 +1,7 @@
+1999-05-24  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (write_sb): Fixed up sbf chain.
+
 1999-05-23  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (ms_ole_directory_create): Setup 'dir' properly

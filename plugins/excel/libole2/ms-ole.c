@@ -18,7 +18,7 @@
 
 /* Implementational detail - not for global header */
 
-#define OLE_DEBUG 2
+#define OLE_DEBUG 0
 
 /* These take a _guint8_ pointer */
 #define GET_GUINT8(p)  (*((const guint8 *)(p)+0))
@@ -619,11 +619,28 @@ write_sb (MS_OLE *f)
 	guint32 lp, lastused;
 	PPS *root;
 	BLP sbd_start  = END_OF_CHAIN;
+	BLP sbf_start  = END_OF_CHAIN;
 
 	g_return_val_if_fail (f, 0);
 	g_return_val_if_fail (f->pps, 0);
 
 	root        = g_ptr_array_index (f->pps, PPS_ROOT_BLOCK);
+
+	if (f->sbf->len * BB_BLOCK_SIZE < f->sb->len*SB_BLOCK_SIZE) {
+		printf ("Not enough descriptor / blocks being written %d %d\n",
+			f->sbf->len, f->sb->len);
+	}
+	if (f->sbf->len>0)
+		sbf_start = g_array_index (f->sbf, BLP, 0);
+	/* Chain up the sbf blocks */
+	for (lp=0;lp<f->sbf->len-1;lp++) {
+		BLP blk, next ;
+		blk  = g_array_index (f->sbf, BLP, lp);
+		next = g_array_index (f->sbf, BLP, lp+1);
+		/* this assert is not really important, its just how we left it */
+		g_assert (g_array_index (f->bb, BLP, blk) == END_OF_CHAIN);
+		g_array_index (f->bb, BLP, blk) = next;
+	}
 
 	lastused = END_OF_CHAIN;
 	for (lp=0;lp<f->sb->len;lp++) {
@@ -662,9 +679,10 @@ write_sb (MS_OLE *f)
 #if OLE_DEBUG > 0
 		printf ("Blank SB allocation\n");
 #endif
-		root->start = END_OF_CHAIN;
+		sbf_start = END_OF_CHAIN;
 	}
 
+	root->start = sbf_start;
 	SET_SBD_STARTBLOCK (f, sbd_start);
 	g_array_free (f->sb,  TRUE);
 	g_array_free (f->sbf, TRUE);
