@@ -84,6 +84,7 @@ font_selected (GtkCList *font_list, int col, int row, GdkEvent *event, FontSelec
 	 change = mstyle_new ();
 	 mstyle_set_font_name (change, text);
 	 reload_preview (fs, change);
+	 mstyle_unref (change);
 }
 
 static void
@@ -144,6 +145,7 @@ style_selected (GtkCList *style_list, int col, int row, GdkEvent *event, FontSel
 
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles [row]));
 	 reload_preview (fs, change);
+	 mstyle_unref (change);
 }
 
 static void
@@ -189,6 +191,7 @@ size_changed (GtkEntry *entry, FontSelector *fs)
 		 MStyle *change = mstyle_new ();
 		 mstyle_set_font_size (change, size);
 		 reload_preview (fs, change);
+		 mstyle_unref (change);
 	 }
 }
 
@@ -250,7 +253,7 @@ canvas_size_changed (GtkWidget *widget, GtkAllocation *allocation, FontSelector 
 {
 	fs->width  = allocation->width - 1;
 	fs->height = allocation->height - 1;
-	
+
 	gnome_canvas_set_scroll_region (fs->font_preview_canvas, 0, 0,
 					fs->width, fs->height);
 	reload_preview (fs, NULL);
@@ -281,7 +284,7 @@ fs_init (FontSelector *fs)
 	fs->font_name_list  = glade_xml_get_widget (fs->gui, "font-name-list");
 	fs->font_style_list = glade_xml_get_widget (fs->gui, "font-style-list");
 	fs->font_size_list  = glade_xml_get_widget (fs->gui, "font-size-list");
-	
+
 	fs->font_preview_canvas = GNOME_CANVAS (glade_xml_get_widget (fs->gui, "font-preview-canvas"));
 	fs->font_preview_grid = PREVIEW_GRID (gnome_canvas_item_new (
 		gnome_canvas_root (fs->font_preview_canvas),
@@ -301,7 +304,7 @@ fs_init (FontSelector *fs)
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_preview_grid), "get_cell_value",
 		GTK_SIGNAL_FUNC (cb_get_cell_value), fs);
-		
+
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_preview_canvas), "size-allocate",
 		GTK_SIGNAL_FUNC (canvas_size_changed), fs);
@@ -322,9 +325,16 @@ fs_destroy (GtkObject *object)
 {
 	FontSelector *fs = FONT_SELECTOR (object);
 
-	if (fs->mstyle)
+	if (fs->value) {
+		value_release (fs->value);
+		fs->value = NULL;
+	}
+
+	if (fs->mstyle) {
 		mstyle_unref (fs->mstyle);
-		
+		fs->mstyle = NULL;
+	}
+
 	((GtkObjectClass *)fs_parent_class)->destroy (object);
 }
 
@@ -343,7 +353,7 @@ fs_class_init (GtkObjectClass *Class)
 			GTK_SIGNAL_OFFSET (FontSelectorClass, font_changed),
 			gtk_marshal_NONE__POINTER,
 			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
-			
+
 	gtk_object_class_add_signals (Class, fs_signals, LAST_SIGNAL);
 }
 
@@ -392,7 +402,7 @@ font_selector_set_value (FontSelector *fs, const Value *v)
 {
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
-	
+
 	value_release (fs->value);
 	if (v)
 		fs->value = value_duplicate (v);
@@ -451,6 +461,7 @@ font_selector_set_style (FontSelector *fs,
 	mstyle_set_font_bold   (change, is_bold);
 	mstyle_set_font_italic (change, is_italic);
 	reload_preview (fs, change);
+	mstyle_unref (change);
 }
 
 void
@@ -463,6 +474,7 @@ font_selector_set_strike (FontSelector *fs, gboolean strikethrough)
 	change = mstyle_new ();
 	mstyle_set_font_strike (change, strikethrough);
 	reload_preview (fs, change);
+	mstyle_unref (change);
 }
 
 void
@@ -475,6 +487,7 @@ font_selector_set_underline (FontSelector *fs, StyleUnderlineType underline)
 	change = mstyle_new ();
 	mstyle_set_font_uline (change, underline);
 	reload_preview (fs, change);
+	mstyle_unref (change);
 }
 
 void
@@ -487,6 +500,7 @@ font_selector_set_color (FontSelector *fs, StyleColor *color)
 	change = mstyle_new ();
 	mstyle_set_color (change, MSTYLE_COLOR_FORE, color);
 	reload_preview (fs, change);
+	mstyle_unref (change);
 }
 
 void
