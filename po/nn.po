@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.69\n"
-"POT-Creation-Date: 2001-12-14 18:21-0500\n"
-"PO-Revision-Date: 2001-11-03 03:51+0100\n"
+"POT-Creation-Date: 2001-12-15 07:59+0100\n"
+"PO-Revision-Date: 2001-12-14 14:29+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: nynorsk <nn@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "Syntaksfeil ved linje %d. Ignorerer."
 #: plugins/dif/dif.c:283
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "Ukjent data verdi \"%s\" på linje %d. Ser vekk frå dette"
+msgstr "Ukjent data verdi «%s» på linje %d. Ser vekk frå dette"
 
 #: plugins/dif/dif.c:290
 #, c-format
@@ -221,12 +221,12 @@ msgstr "Ukjend GB-feil"
 #: plugins/gb/plugin.c:373
 #, c-format
 msgid "Error initializing gb '%s'"
-msgstr "Feil ved initiering av gb '%s'"
+msgstr "Feil ved initialisering av gb «%s»"
 
 #: plugins/gb/plugin.c:388
 #, c-format
 msgid "Error in project '%s'"
-msgstr "Feil i prosjekt '%s'"
+msgstr "Feil i prosjekt «%s»"
 
 #: plugins/gb/plugin.xml.in.h:1
 msgid "Enables Gnome Basic support"
@@ -342,9 +342,8 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "Import/eksport av HTML, TeX, DVI, roff"
 
 #: plugins/html/plugin.xml.in.h:7
-#, fuzzy
 msgid "LaTeX 2e (*.tex)"
-msgstr "LaTeX2e (*.tex)"
+msgstr "LaTeX 2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "TROFF (*.me)"
@@ -755,12 +754,12 @@ msgstr "Python modul-namn ikkje gitt."
 #: plugins/python-loader/python-loader.c:171
 #, c-format
 msgid "Module \"%s\" doesn't exist."
-msgstr "Modul \"%s\" finst ikkje."
+msgstr "Modul «%s» finst ikkje."
 
 #: plugins/python-loader/python-loader.c:196
 #, c-format
 msgid "Execution of module \"%s\" failed."
-msgstr "Køyring av modul \"%s\" feila."
+msgstr "Køyring av modul «%s» feila."
 
 #: plugins/python-loader/python-loader.c:228 src/plugin-loader-module.c:192
 msgid "Loader"
@@ -779,7 +778,7 @@ msgstr "Eit namn"
 #: plugins/python-loader/python-loader.c:677
 #, c-format
 msgid "Python file \"%s\" has invalid format."
-msgstr "Python-fil \"%s\" har eit ugyldig format."
+msgstr "Python-fil «%s» har eit ugyldig format."
 
 #: plugins/python-loader/python-loader.c:398
 #: plugins/python-loader/python-loader.c:404
@@ -787,17 +786,17 @@ msgstr "Python-fil \"%s\" har eit ugyldig format."
 #: src/plugin-loader-module.c:445 src/plugin-loader-module.c:510
 #, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Fila inneheld ikkje \"%s\" funksjon."
+msgstr "Fila inneheld ikkje «%s» funksjon."
 
 #: plugins/python-loader/python-loader.c:682
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Fila inneheld ikkje \"%s\" ordbok."
+msgstr "Fila inneheld ikkje «%s» ordbok."
 
 #: plugins/python-loader/python-loader.c:687
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr "Objektet \"%s\" er inga ordbok."
+msgstr "Objektet «%s» er inga ordbok."
 
 #: plugins/python/plugin.xml.in.h:1
 msgid "Python Plugin"
@@ -957,7 +956,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Automatisk lagre gjeldande dokument med jamne mellomrom"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "Bakgrunn"
@@ -1247,7 +1246,7 @@ msgstr "Skriftstorleik"
 msgid "Font selector"
 msgstr "Skrifttypevelgar"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2668
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "Framgrunn"
@@ -2492,12 +2491,12 @@ msgstr "Sett tekst"
 #: src/commands.c:662
 #, c-format
 msgid "Typing \"%s%s\" in %s"
-msgstr "Tastar \"%s%s\" i %s"
+msgstr "Tastar «%s%s» i %s"
 
 #: src/commands.c:832
 #, c-format
 msgid "Typing \"%s%s\""
-msgstr "Tastar inn \"%s%s\""
+msgstr "Tastar inn «%s%s»"
 
 #: src/commands.c:1081
 #, c-format
@@ -3310,7 +3309,7 @@ msgstr "Alle verdiar                 (ingen validering)"
 msgid "Background Color"
 msgstr "Bakgrunnsfarge"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2663
 msgid "Border"
 msgstr "Kant"
 
@@ -3392,8 +3391,8 @@ msgstr "Diagonal stripe"
 msgid "Display the value exactly as it was entered"
 msgstr "Vis verdien eksakt som den vart skriven inn"
 
-#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1306
-#: src/dialogs/dialog-cell-format.c:1366
+#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1280
+#: src/dialogs/dialog-cell-format.c:1340
 msgid "Double"
 msgstr "Dobbel"
 
@@ -3475,8 +3474,8 @@ msgstr "Melding :"
 msgid "Negat_ive number:"
 msgstr "Negat_ivt tal:"
 
-#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1308
-#: src/dialogs/dialog-cell-format.c:1364 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1282
+#: src/dialogs/dialog-cell-format.c:1338 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "Ingen"
 
@@ -3497,7 +3496,7 @@ msgstr "Retning"
 msgid "Outline"
 msgstr "Oversikt"
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2678
 msgid "Pattern"
 msgstr "Mønster"
 
@@ -3530,8 +3529,8 @@ msgid "Shrin_k to fit"
 msgstr "Formins_k så den passar"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1304
-#: src/dialogs/dialog-cell-format.c:1365
+#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1278
+#: src/dialogs/dialog-cell-format.c:1339
 msgid "Single"
 msgstr "Enkel"
 
@@ -4631,30 +4630,30 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Raud]("
 
-#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
+#: src/dialogs/dialog-cell-format.c:2127 src/dialogs/dialog-cell-format.c:2136
 msgid "Minimum :"
 msgstr "Minimum :"
 
-#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
+#: src/dialogs/dialog-cell-format.c:2128 src/dialogs/dialog-cell-format.c:2140
 msgid "Maximum :"
 msgstr "Maksimum :"
 
-#: src/dialogs/dialog-cell-format.c:2158
+#: src/dialogs/dialog-cell-format.c:2132
 msgid "Value :"
 msgstr "Verdi:"
 
-#: src/dialogs/dialog-cell-format.c:2623
+#: src/dialogs/dialog-cell-format.c:2597
 msgid "Format Cells"
 msgstr "Format:Celler"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
-#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2663 src/dialogs/dialog-cell-format.c:2668
+#: src/dialogs/dialog-cell-format.c:2678 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "Klar bakgrunn"
 
@@ -4923,7 +4922,7 @@ msgstr "Feil ved innkopling av tilleggsmodul lastar"
 #: src/dialogs/dialog-plugin-manager.c:233
 #, c-format
 msgid "Loader for selected plugin (type: \"%s\") is not available."
-msgstr "Lastar for vald tilleggsmodul (type \"%s\") er ikkje tilgjengeleg."
+msgstr "Lastar for vald tilleggsmodul (type «%s») er ikkje tilgjengeleg."
 
 #: src/dialogs/dialog-plugin-manager.c:246
 msgid "Error while activating plugin"
@@ -8394,7 +8393,6 @@ msgid "Invalid day"
 msgstr "Ugyldig dag"
 
 #: src/functions/fn-date.c:86
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -8405,17 +8403,6 @@ msgid ""
 "DATEVALUE(\"1/1/1999\") equals 36160. \n"
 "@SEEALSO=DATE"
 msgstr ""
-"@FUNCTION=INT\n"
-"@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT returnerar det største heiltalet som ikkje er høgare talet "
-"gitt som argument. Denne funksjonen er Excel kompatibel. \n"
-"@EXAMPLES=\n"
-"\n"
-"INT(7,2) er lik 7.\n"
-"\n"
-"INT(-5,5) er lik -6.\n"
-"\n"
-"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-date.c:111
 msgid ""
@@ -15093,7 +15080,7 @@ msgstr "Formater som alternativt nummer"
 #: src/gnumeric-canvas.c:497
 #, c-format
 msgid "File \"%s\" has unknown format."
-msgstr "Fila \"%s\" har ukjent format"
+msgstr "Fila «%s» har ukjent format"
 
 #: src/gnumeric-graph.c:1024
 msgid "Data..."
@@ -15206,41 +15193,41 @@ msgstr "Kan ikkje opne fila '%s'"
 
 #: src/gui-validation.c:43
 msgid "The value you enter :\n"
-msgstr ""
+msgstr "Verdien du tasta inn:\n"
 
 #: src/gui-validation.c:75
 #, c-format
 msgid "Must be equal to %s\n"
-msgstr ""
+msgstr "Må vere lik %s\n"
 
 #: src/gui-validation.c:76
 #, c-format
 msgid "Must not be equal to %s\n"
-msgstr ""
+msgstr "Kan ikkje vere lik %s\n"
 
 #: src/gui-validation.c:77
 #, c-format
 msgid "Must be greater than %s\n"
-msgstr ""
+msgstr "Må vere større enn %s\n"
 
 #: src/gui-validation.c:78
 #, c-format
 msgid "Must be less than %s\n"
-msgstr ""
+msgstr "Må vere mindre enn %s\n"
 
 #: src/gui-validation.c:79
 #, c-format
 msgid "Must be greater than or equal to %s\n"
-msgstr ""
+msgstr "Må vere større enn eller lik %s\n"
 
 #: src/gui-validation.c:80
 #, c-format
 msgid "Must be less than or equal to %s\n"
-msgstr ""
+msgstr "Må vere mindre eller lik %s\n"
 
 #: src/gui-validation.c:81
 msgid "The expression must be true."
-msgstr ""
+msgstr "Uttrykket må vere sant"
 
 #: src/gui-validation.c:83
 #, c-format
@@ -15253,19 +15240,19 @@ msgstr "Må vere eit heilt tal\n"
 
 #: src/gui-validation.c:100
 msgid "Must be a decimal\n"
-msgstr ""
+msgstr "Må vere in desimal\n"
 
 #: src/gui-validation.c:101
 msgid "Must be in list\n"
-msgstr ""
+msgstr "Må vere i lista\n"
 
 #: src/gui-validation.c:102
 msgid "Must be a date\n"
-msgstr ""
+msgstr "Må vere ein dato\n"
 
 #: src/gui-validation.c:103
 msgid "Must be a time\n"
-msgstr ""
+msgstr "Må vere tid\n"
 
 #: src/gui-validation.c:104
 msgid "Must have textlength\n"
@@ -15273,7 +15260,7 @@ msgstr "Må ha tekstlengde\n"
 
 #: src/gui-validation.c:105
 msgid "Must equal the formula\n"
-msgstr ""
+msgstr "Må vere lik formelen\n"
 
 #: src/gui-validation.c:107
 msgid "<unknown>"
@@ -15525,7 +15512,7 @@ msgstr "Kunne ikkje finne avsluttande sittatteikn"
 
 #: src/parser.y:1063
 msgid "Multiple expressions are not supported in this context"
-msgstr ""
+msgstr "Fleire uttrykk er ikkje støtta i denne samanhengen"
 
 #: src/parser.y:1085
 msgid "Could not find matching opening parenthesis"
@@ -15551,18 +15538,18 @@ msgstr "Modulfilnamn ikkje gitt."
 #: src/plugin-loader-module.c:124
 #, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "Ikkje i stand til å opne modul fila \"%s\"."
+msgstr "Ikkje i stand til å opne modul fila «%s»."
 
 #: src/plugin-loader-module.c:129 src/plugin-loader-module.c:333
 #: src/plugin-loader-module.c:434 src/plugin-loader-module.c:505
 #: src/plugin-loader-module.c:594
 #, c-format
 msgid "Module file \"%s\" has invalid format."
-msgstr "Modulfila \"%s\" har ugyldig format."
+msgstr "Modulfila «%s» har ugyldig format."
 
 #: src/plugin-loader-module.c:134
 msgid "File doesn't contain (\"plugin_file_struct\" symbol)."
-msgstr "Fila inneheld ikkje (\"plugin_file_struct\" symbolet)."
+msgstr "Fila inneheld ikkje («plugin_file_struct» symbolet)."
 
 #: src/plugin-loader-module.c:138
 msgid "File has a bad magic number."
@@ -15571,7 +15558,7 @@ msgstr "Fila har feil magisk nummer."
 #: src/plugin-loader-module.c:142
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr "Tilleggsmodul versjon \"%s\" er forskjellig frå programmet \"%s\"."
+msgstr "Tilleggsmodul versjon «%s» er forskjellig frå programmet «%s»."
 
 #: src/plugin-loader-module.c:151
 msgid "Dynamic module loading is not supported in this system."
@@ -15580,7 +15567,7 @@ msgstr "Dynamisk modullasting er ikkje støtta på dette systemet."
 #: src/plugin-loader-module.c:170
 #, c-format
 msgid "Unable to close module file \"%s\"."
-msgstr "Ikkje i stand til å lukke modulfil \"%s\"."
+msgstr "Ikkje i stand til å lukke modulfil «%s»."
 
 #: src/plugin-loader-module.c:195
 msgid "Module file name"
@@ -15588,25 +15575,25 @@ msgstr "Modul filnamn"
 
 #: src/plugin-loader-module.c:338
 msgid "File doesn't contain \"plugin_init_general\" function."
-msgstr "Fila inneheld ikkje \"plugin_init_general\" funksjonen."
+msgstr "Fila inneheld ikkje «plugin_init_general» funksjonen."
 
 #: src/plugin-loader-module.c:343
 msgid "File doesn't contain \"plugin_cleanup_general\" function."
-msgstr "Fila inneheld ikkje \"plugin_cleanup_general\" funksjonen."
+msgstr "Fila inneheld ikkje «plugin_cleanup_general» funksjonen."
 
 #: src/plugin-loader-module.c:348
 msgid "File doesn't contain \"plugin_can_deactivate_general\" function."
-msgstr "Fila inneheld ikkje \"plugin_can_deactivate_general\" funksjonen."
+msgstr "Fila inneheld ikkje «plugin_can_deactivate_general» funksjonen."
 
 #: src/plugin-loader-module.c:599
 #, c-format
 msgid "File doesn't contain \"%s\" array."
-msgstr "Fila inneheld ikkje \"%s\" tabellen."
+msgstr "Fila inneheld ikkje «%s» tabellen."
 
 #: src/plugin-loader-module.c:686
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
-msgstr "Modulen inneheld ikkje \"%s\" funksjonen."
+msgstr "Modulen inneheld ikkje «%s» funksjonen."
 
 #: src/plugin-loader.c:214
 msgid "Error while loading plugin dependencies."
@@ -15644,7 +15631,7 @@ msgstr "Filopnar har ikkje nokon id"
 #: src/plugin-service.c:481
 #, c-format
 msgid "File opener with id=\"%s\" has no description"
-msgstr "Filopnar med id=\"%s\" har ikkje nokon skildring"
+msgstr "Filopnar med id=«%s» har ikkje nokon skildring"
 
 #: src/plugin-service.c:611
 msgid "Error while saving file."
@@ -15657,7 +15644,7 @@ msgstr "Fillagrar har ikkje nokon id"
 #: src/plugin-service.c:713
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
-msgstr "Fillagrar med id=\"%s\" has ikkje nokon skildring."
+msgstr "Fillagrar med id=«%s» has ikkje nokon skildring."
 
 #: src/plugin-service.c:865
 msgid "Missing function group id."
@@ -15674,7 +15661,7 @@ msgstr "Manglar lastar id."
 #: src/plugin-service.c:1197
 #, c-format
 msgid "Error while reading service of type \"%s\"."
-msgstr "Feil ved lesing av teneste av type \"%s\"."
+msgstr "Feil ved lesing av teneste av type «%s»."
 
 #: src/plugin-util.c:121
 #, c-format
@@ -15694,12 +15681,12 @@ msgstr "Kunne ikkje kjøre mmap på fila, feil : %s"
 #: src/plugin-util.c:224 src/plugin-util.c:262
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
-msgstr "Feil ved opning av fil \"%s\" for skriving."
+msgstr "Feil ved opning av fil «%s» for skriving."
 
 #: src/plugin-util.c:228 src/plugin-util.c:266
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
-msgstr "Feil ved opning av fil \"%s\" for lesing."
+msgstr "Feil ved opning av fil «%s» for lesing."
 
 #: src/plugin-util.c:296
 msgid "Unable to mmap the file."
@@ -15726,12 +15713,12 @@ msgstr "Ukjend namn"
 #: src/plugin.c:519
 #, c-format
 msgid "Error while preparing loader \"%s\"."
-msgstr "Feil ved klargjering av lastar \"%s\"."
+msgstr "Feil ved klargjering av lastar «%s»."
 
 #: src/plugin.c:529
 #, c-format
 msgid "Unsupported loader type \"%s\"."
-msgstr "Ustøtta laster-type \"%s\"."
+msgstr "Ustøtta laster-type «%s»."
 
 #: src/plugin.c:626
 #, c-format
@@ -15745,12 +15732,12 @@ msgstr "Udefinert lastar-type."
 #: src/plugin.c:727
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
-msgstr "Kan ikkje lese tilleggsmodulinfo frå (\"%s\")."
+msgstr "Kan ikkje lese tilleggsmodulinfo frå («%s»)."
 
 #: src/plugin.c:731
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "Fila \"%s\" er ikkje ei gyldig tilleggsmodul-fil."
+msgstr "Fila «%s» er ikkje ei gyldig tilleggsmodul-fil."
 
 #: src/plugin.c:814
 msgid "Plugin has no id."
@@ -15763,27 +15750,27 @@ msgstr "Ukjent tilleggsmodulnamn."
 #: src/plugin.c:828
 #, c-format
 msgid "Errors while reading loader info for plugin with id=\"%s\"."
-msgstr "Feil ved lesing av laster info for tilleggsmodul med id=\"%s\"."
+msgstr "Feil ved lesing av laster info for tilleggsmodul med id=«%s»."
 
 #: src/plugin.c:833
 #, c-format
 msgid "No loader defined for plugin with id=\"%s\"."
-msgstr "Ingen lastar defingert for tilleggsmodul med id=\"%s\"."
+msgstr "Ingen lastar defingert for tilleggsmodul med id=«%s»."
 
 #: src/plugin.c:841
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
-msgstr "Feil ved lesing av tenester for tilleggsmodul med id=\"%s\"."
+msgstr "Feil ved lesing av tenester for tilleggsmodul med id=«%s»."
 
 #: src/plugin.c:846
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
-msgstr "Ingen tenester definer for tilleggsmodul med id=\"%s\"."
+msgstr "Ingen tenester definer for tilleggsmodul med id=«%s»."
 
 #: src/plugin.c:996
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
-msgstr "Feil ved initialisering av tilleggsmodullastar (\"%s\")."
+msgstr "Feil ved initialisering av tilleggsmodullastar («%s»)."
 
 #: src/plugin.c:1037
 #, c-format
@@ -15826,12 +15813,12 @@ msgstr ""
 #: src/plugin.c:1470
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
-msgstr "Kunne ikkje kople inn tilleggsmodul \"%s\" (ID: %s)."
+msgstr "Kunne ikkje kople inn tilleggsmodul «%s» (ID: %s)."
 
 #: src/plugin.c:1509
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
-msgstr "Kunne ikkje kople ut tilleggsmodul \"%s\" (ID: %s)."
+msgstr "Kunne ikkje kople ut tilleggsmodul «%s» (ID: %s)."
 
 #: src/plugin.c:1720
 msgid "Errors while reading info about available plugins."
@@ -15983,7 +15970,7 @@ msgstr "Lim inn spesiell"
 #.
 #: src/sheet-control-gui.c:1408
 msgid "_Insert..."
-msgstr "Set inn ..."
+msgstr "Set _inn ..."
 
 #: src/sheet-control-gui.c:1412
 msgid "_Insert Column(s)"
@@ -17109,9 +17096,6 @@ msgstr "GNOME reknearket "
 
 #~ msgid "Solver Options"
 #~ msgstr "Val for problemløysar"
-
-#~ msgid "                         "
-#~ msgstr "                         "
 
 #~ msgid "Add  "
 #~ msgstr "Legg til "
