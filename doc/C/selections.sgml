@@ -138,10 +138,17 @@
 	  : Define selection with cursor keys.
        </para>
      </listitem>
+
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>Arrow</keycap></keycombo>
+	  : Jump to the end of the current region.
+        </para>
+      </listitem>
       
       <listitem>
 	<para>
-	  <keycombo><keycap>Shift</keycap><keycap>Space</keycap></keycombo>
+	  <keycombo><keycap>Alt</keycap><keycap>Space</keycap></keycombo>
 	  : Select current row. 
        </para> 
      </listitem>
@@ -160,6 +167,13 @@
         </para>
       </listitem>
       
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>/</keycap></keycombo>
+	  : Select the array formula arround the current edit position.
+        </para>
+      </listitem>
+
     </itemizedlist>
   </sect2>
   
