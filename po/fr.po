@@ -7,8 +7,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.0.7\n"
-"POT-Creation-Date: 2002-07-18 14:05-0400\n"
+"Project-Id-Version: gnumeric 1.0.9\n"
+"POT-Creation-Date: 2002-07-19 02:13+0200\n"
 "PO-Revision-Date: 2002-05-13 12:10+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <christophe@merlet.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -17,9 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: gnumeric.desktop.in.h:1
-#, fuzzy
 msgid "Gnumeric Spreadsheet"
-msgstr "Page du support de Gnumeric"
+msgstr "Tableur Gnumeric"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
@@ -679,22 +678,20 @@ msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Ce greffon active le support Guile(scheme) dans Gnumeric"
 
 #: plugins/guile/smob-value.c:102
-#, fuzzy
 msgid "Unable to convert value from Guile"
-msgstr "Ne peut fermer le fichier module « %s »."
+msgstr "Impossible de convertir une valeur Guile"
 
 #: plugins/guile/smob-value.c:163
 msgid "Not a Guile boolean"
-msgstr ""
+msgstr "Valeur incorrecte pour un booléen Guile"
 
 #: plugins/guile/smob-value.c:181
-#, fuzzy
 msgid "Not a Guile number"
-msgstr "Nombre négatif :"
+msgstr "Valeur incorrecte pour un nombre Guile"
 
 #: plugins/guile/smob-value.c:199
 msgid "Not a Guile string"
-msgstr ""
+msgstr "Valeur incorrecte pour une chaîne Guile"
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
@@ -706,7 +703,7 @@ msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:3
 msgid "HTML (*.html) fragment"
-msgstr "fragment de HTML 4.0 (*.html)"
+msgstr "fragment de HTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
@@ -4412,42 +4409,36 @@ msgid "_Wrap text"
 msgstr "_Retour à la ligne"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
 msgid "min <= val <= max         (between)"
-msgstr "min &lt;= val &lt;= max         (entre)"
+msgstr "min <= val <= max         (entre)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "val != limite              (différent de)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val <  bound                  (less than)"
-msgstr "val &lt; limite              (inférieur à)"
+msgstr "val < limite              (inférieur à)"
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
 msgid "val <= min || max <= val (not between)"
-msgstr "val &lt;= min || max &lt;= val         (pas compris entre)"
+msgstr "val <= min || max <= val         (pas compris entre)"
 
 #: src/dialogs/cell-format.glade.h:133
-#, fuzzy
 msgid "val <=bound                  (less than or equal to)"
-msgstr "val &lt;= limite              (inférieur ou égal à)"
+msgstr "val <= limite              (inférieur ou égal à)"
 
 #: src/dialogs/cell-format.glade.h:134
 msgid "val == bound                 (equal to)"
 msgstr "val == limite                 (égal à)"
 
 #: src/dialogs/cell-format.glade.h:135
-#, fuzzy
 msgid "val >  bound                  (greater than)"
-msgstr "val &gt; limite              (supérieur à)"
+msgstr "val > limite              (supérieur à)"
 
 #: src/dialogs/cell-format.glade.h:136
-#, fuzzy
 msgid "val >=bound                  (greater than or equal to)"
-msgstr "val &gt;= limite              (supérieur ou égal à)"
+msgstr "val >= limite              (supérieur ou égal à)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5769,24 +5760,20 @@ msgid "'"
 msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
 msgid "<- Remove"
-msgstr "Enlever"
+msgstr "<- Enlever"
 
 #: src/dialogs/dialog-stf-export.glade.h:4
-#, fuzzy
 msgid "<- Remove all"
-msgstr "&lt;- Enlever tout"
+msgstr "<- Enlever tout"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
-#, fuzzy
 msgid "Add ->"
-msgstr "Ajouter"
+msgstr "Ajouter ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
 msgid "Add all ->"
-msgstr "Ajouter tout -&gt;"
+msgstr "Ajouter tout ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -12227,7 +12214,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: src/functions/fn-financial.c:2170
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -12256,17 +12242,17 @@ msgstr ""
 "@SYNTAX=EURO(devise)\n"
 "@DESCRIPTION=EURO convertit un Euro en une devise nationale de l'Union "
 "Européenne.  @devise doit avoir l'une de ces valeurs :\n"
-"    ATS     (Autriche)\n"
-"    BEF     (Belgique)\n"
-"    DEM     (Allemagne)\n"
-"    ESP     (Espagne)\n"
-"    FIM     (Finlande)\n"
-"    FRF     (France)\n"
-"    IEP     (Irlande)\n"
-"    ITL     (Italie)\n"
-"    LUF     (Luxembourg)\n"
-"    NLG     (Pays-Bas)\n"
-"    PTE     (Portugal)\n"
+"    ATS     (Schilling Autrichien)\n"
+"    BEF     (Franc Belge)\n"
+"    DEM     (Mark Allemand)\n"
+"    ESP     (Peseta Espagnole)\n"
+"    FIM     (Mark Finlandais)\n"
+"    FRF     (Franc Français)\n"
+"    IEP     (Livre Irlandaise)\n"
+"    ITL     (Lire Italienne)\n"
+"    LUF     (Franc Luxembourgeois)\n"
+"    NLG     (Florin Néerlandais)\n"
+"    PTE     (Escudo Portugais)\n"
 "\n"
 "Toute autre valeur de @devise renvoie une erreur #NUM!.\n"
 "@EXAMPLES=\n"
@@ -20071,7 +20057,7 @@ msgstr "Erreur lors de l'écriture du fichier csv"
 
 #: src/stf.c:458
 msgid "Text import (auto-detect CSV or tab-delimited)"
-msgstr ""
+msgstr "Importation de texte (détection automatique de CSV ou texte tabulé)"
 
 #: src/stf.c:462
 msgid "Text import (configurable)"
