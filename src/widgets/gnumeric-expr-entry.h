@@ -49,12 +49,16 @@ void gnumeric_expr_entry_set_scg (GnumericExprEntry *expr_entry,
 void gnumeric_expr_entry_set_rangesel_from_text (GnumericExprEntry *expr_entry,
 						 char *text);
 
-void
+gboolean
 gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
 					     Range *r, Sheet *sheet, int pos);
 
+void gnumeric_expr_entry_get_rangesel (GnumericExprEntry *expr_entry,
+				       Range *r, Sheet **sheet);
+
 void gnumeric_expr_entry_rangesel_stopped (GnumericExprEntry *expr_entry,
 					   gboolean clear_string);
+
 
 /* Convenience functions */
 void gnumeric_expr_entry_set_absolute (GnumericExprEntry *expr_entry);

@@ -206,25 +206,19 @@ gnumeric_expr_entry_set_rangesel_from_text (GnumericExprEntry *expr_entry,
 	expr_entry->rangesel.text_end = strlen (text);
 }
 
-/* Check if new cells are included/excluded. */
-static gboolean
-range_really_changed (Rangesel *rangesel, Range *r, Sheet *sheet)
+static void
+make_display_range (Range *dst, Range *src,
+		    gboolean full_col, gboolean full_row)
 {
-	Range nullrange;
-
-	if (!r) {
-		r = &nullrange;
-		memset (r, 0, sizeof (Range));
-	}
-	
-	if (rangesel->range.start.col != r->start.col ||
-	    rangesel->range.start.row != r->start.row ||
-	    rangesel->range.end.col != r->end.col ||
-	    rangesel->range.end.row != r->end.row ||
-	    rangesel->sheet != sheet)
-		return TRUE;
-	else
-		return FALSE;
+	*dst = *src;
+	if (full_col) {
+		dst->start.row = 0;
+		dst->end.row   = SHEET_MAX_ROWS - 1;
+	} 
+	if (full_row) {
+		dst->start.col = 0;
+		dst->end.col   = SHEET_MAX_COLS - 1;
+	} 
 }
 
 static char *
@@ -232,25 +226,28 @@ make_rangesel_text (GnumericExprEntry *expr_entry, Range *r)
 {
 	char *buffer;
 	gboolean inter_sheet;
+	Range display_range;
 
 	if (!r)
 		return NULL;
 
 	inter_sheet = (expr_entry->rangesel.sheet != expr_entry->target_sheet);
-	
+	make_display_range (&display_range, r,
+			    expr_entry->flags & GNUM_EE_FULL_COL,
+			    expr_entry->flags & GNUM_EE_FULL_ROW);
 	buffer = g_strdup_printf (
 		"%s%s%s%d",
 		(expr_entry->flags & GNUM_EE_ABS_COL) ? "$" : "",
-		col_name (r->start.col),
+		col_name (display_range.start.col),
 		(expr_entry->flags & GNUM_EE_ABS_ROW) ? "$" : "",
-		r->start.row+1);
+		display_range.start.row+1);
 	if (!range_is_singleton (r)) {
 		char *tmp = g_strdup_printf (
 			"%s:%s%s%s%d",buffer,
 			(expr_entry->flags & GNUM_EE_ABS_COL) ? "$": "",
-			col_name (r->end.col),
+			col_name (display_range.end.col),
 			(expr_entry->flags & GNUM_EE_ABS_ROW) ? "$": "",
-			r->end.row+1);
+			display_range.end.row+1);
 		g_free (buffer);
 		buffer = tmp;
 	}
@@ -300,39 +297,38 @@ update_rangesel_text (GnumericExprEntry *expr_entry, char *text, int pos)
  * @r:          a #Range
  * @sheet:      a #sheet
  * @pos:        position
- * 
+ *
+ * Returns: true if displayed range is different from input range. false
+ * otherwise.
+ *
  * Sets the range selection and displays it in the entry text. If the widget
  * already contains a range selection, the new text replaces the
  * old. Otherwise, it is inserted at @pos.
  **/
-void
+gboolean
 gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
 					     Range *r, Sheet *sheet, int pos)
 {
 	char *rangesel_text;
 	Rangesel *rs;
+	gboolean needs_change = FALSE;
 	
-	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (pos >= 0);
+	g_return_val_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry), FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (pos >= 0, FALSE);
 
-	if (r) {
-		if (expr_entry->flags & GNUM_EE_FULL_COL) {
-			r->start.row = 0;
-			r->end.row = SHEET_MAX_ROWS - 1;
-		}
-		if (expr_entry->flags & GNUM_EE_FULL_ROW) {
-			r->start.col = 0;
-			r->end.col = SHEET_MAX_COLS - 1;
-		}
-	}
+	if (r)
+		needs_change =  (expr_entry->flags & GNUM_EE_FULL_COL &&
+ 				 !range_is_full (r, TRUE)) ||
+ 				(expr_entry->flags & GNUM_EE_FULL_ROW &&
+ 				 !range_is_full (r, FALSE));
 
 	rs = &expr_entry->rangesel;
-	if (!range_really_changed (rs, r, sheet))
-		return;
+	if (range_equal (r, &rs->range) && rs->sheet == sheet)
+		return needs_change; /* FIXME ??? */
 
 	if (r) 
-		memcpy (&rs->range, r, sizeof (Range));
+		rs->range = *r;
 	else
 		memset (&rs->range, 0, sizeof (Range));
 	
@@ -343,6 +339,33 @@ gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
 	update_rangesel_text (expr_entry, rangesel_text, pos);
 	
 	g_free (rangesel_text);
+
+	return needs_change;
+}
+
+/**
+ * gnumeric_expr_entry_get_rangesel
+ * @expr_entry: a #GnumericExprEntry
+ * @r:          address to receive #Range
+ * @sheet:      address to receive #sheet
+ *
+ * Get the range selection. Range is copied, Sheet is not. If sheet
+ * argument is NULL, the corresponding value is not returned.
+ **/
+void
+gnumeric_expr_entry_get_rangesel (GnumericExprEntry *expr_entry,
+				  Range *r, Sheet **sheet)
+{
+	g_return_if_fail (GNUMERIC_IS_EXPR_ENTRY (expr_entry));
+	g_return_if_fail (r != NULL);
+
+	if (r)
+		make_display_range (r, &expr_entry->rangesel.range,
+				    expr_entry->flags & GNUM_EE_FULL_COL,
+				    expr_entry->flags & GNUM_EE_FULL_ROW);
+
+	if (sheet)
+		*sheet = expr_entry->rangesel.sheet;
 }
 
 /**

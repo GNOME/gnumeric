@@ -1,5 +1,10 @@
 2001-05-06  Jon K Hellan  <hellan@acm.org>
 
+	* src/sheet-control-gui.c (scg_range_selection_changed): Change
+	item cursor if expr entry changed the range.
+
+2001-05-06  Jon K Hellan  <hellan@acm.org>
+
 	* src/item-bar.h:  We don't need guru_cursor.
 
 	* src/item-bar.c (item_bar_realize, item_bar_unrealize,

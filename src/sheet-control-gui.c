@@ -2017,11 +2017,25 @@ scg_stop_editing (SheetControlGUI *scg)
 void
 scg_range_selection_changed  (SheetControlGUI *scg, Range *r)
 {
+	GnumericExprEntry *expr_entry;
+	gboolean ic_changed;
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	
-	gnumeric_expr_entry_set_rangesel_from_range (
-		GNUMERIC_EXPR_ENTRY (workbook_get_entry_logical (scg->wbcg)),
-		r, scg->sheet, scg_get_sel_cursor_pos (scg));
+	expr_entry = workbook_get_entry_logical (scg->wbcg);
+	ic_changed = gnumeric_expr_entry_set_rangesel_from_range (
+		expr_entry, r, scg->sheet, scg_get_sel_cursor_pos (scg));
+	if (ic_changed) {
+		Range newrange;
+		GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
+
+		gnumeric_expr_entry_get_rangesel (expr_entry, &newrange, NULL);
+		item_cursor_set_bounds (gsheet->sel_cursor,
+					newrange.start.col,
+					newrange.start.row,
+					newrange.end.col,
+					newrange.end.row);
+	}
 }
 
 void
