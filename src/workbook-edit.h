@@ -6,7 +6,6 @@
 #include "widgets/gnumeric-expr-entry.h"
 
 void	 wbcg_edit_ctor	  (WorkbookControlGUI *wbcg);
-void	 wbcg_edit_dtor	  (WorkbookControlGUI *wbcg);
 gboolean wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 			   gboolean *showed_dialog);
 gboolean wbcg_edit_start  (WorkbookControlGUI *wbcg,

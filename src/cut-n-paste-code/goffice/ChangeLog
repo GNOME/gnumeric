@@ -1,3 +1,12 @@
+2004-02-01  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-color-palette.c (handle_color_sel) : destroy before we
+	  emit in case the custom dialog handler played with the wrapper
+	  actions (eg desensitized them)
+
+	* gui-utils/go-combo-color.c (cb_proxy_custom_dialog) : pop the combo
+	  down when the custom dialog goes up.
+
 2004-01-29  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-style.c (cb_gradient_type_changed) : store the last

@@ -199,9 +199,12 @@ handle_color_sel (GtkColorSelectionDialog *dialog,
 		c = GDK_TO_UINT (gdk);
 		alpha >>= 8;
 		c = UINT_RGBA_CHANGE_A (c, alpha);
+
+		/* destroy _before_ we emit */
+		gtk_object_destroy (GTK_OBJECT (dialog));
 		g_signal_emit (src, signal_id, 0, c, TRUE, TRUE, FALSE);
-	}
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	} else
+		gtk_object_destroy (GTK_OBJECT (dialog));
 }
 
 static void

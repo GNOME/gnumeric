@@ -100,7 +100,7 @@
 #define BIFF_TAB_COLOR			0x62	/* 8 Undocumented, OO calls it SHEETLAYOUT */
 #define BIFF_OBJPROTECT			0x63	/* 0, NOT 10 */
 #define BIFF_COLINFO			0x7d	/* 0 */
-#define BIFF_RK				0x7e	/* 0 */
+#define BIFF_RK				0x7e	/* 2 */
 #define BIFF_IMDATA			0x7f	/* 0 */
 #define BIFF_GUTS			0x80	/* 0 */
 #define BIFF_WSBOOL			0x81	/* 0 */

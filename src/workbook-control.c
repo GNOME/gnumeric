@@ -79,8 +79,8 @@ WBC_VIRTUAL (selection_descr_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
 WBC_VIRTUAL (edit_set_sensitive,
 	(WorkbookControl *wbc,
-	 gboolean ok_cancel_flag, gboolean func_guru_flag),
-	(wbc, ok_cancel_flag, func_guru_flag))
+	 gboolean enable_edit_ok_cancel, gboolean enable_actions),
+	(wbc, enable_edit_ok_cancel, enable_actions))
 WBC_VIRTUAL (auto_expr_value, (WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL_FULL (sheet_remove, sheet.remove,

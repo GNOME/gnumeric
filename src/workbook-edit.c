@@ -627,11 +627,4 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 	wbcg->edit_line.temp_entry = NULL;
 	wbcg->edit_line.guru = NULL;
 	wbcg->edit_line.signal_changed = -1;
-	wbcg->toolbar_sensitivity_timer = 0;
-}
-
-void
-wbcg_edit_dtor (WorkbookControlGUI *wbcg)
-{
-	wbcg_toolbar_timer_clear (wbcg);
 }

@@ -214,6 +214,7 @@ cb_palette_color_changed (GOColorPalette *P, GOColor color,
 static void
 cb_proxy_custom_dialog (GOColorPalette *pal, GtkWidget *dialog, GOComboColor *cc)
 {
+	go_combo_box_popup_hide (GO_COMBO_BOX (cc));
 	g_signal_emit (cc, go_combo_color_signals [DISPLAY_CUSTOM_DIALOG], 0,
 		       dialog);
 }

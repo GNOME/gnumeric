@@ -384,29 +384,6 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 	gtk_entry_set_text (GTK_ENTRY (wbcg->selection_descriptor), text);
 }
 
-void
-wbcg_toolbar_timer_clear (WorkbookControlGUI *wbcg)
-{
-	/* Remove previous ui timer */
-	if (wbcg->toolbar_sensitivity_timer != 0) {
-		g_source_remove (wbcg->toolbar_sensitivity_timer);
-		wbcg->toolbar_sensitivity_timer = 0;
-	}
-}
-
-static gboolean
-cb_thaw_ui_toolbar (gpointer *data)
-{
-        WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
-
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
-
-	wbcg_actions_sensitive (wbcg, TRUE);
-	wbcg_toolbar_timer_clear (wbcg);
-
-	return TRUE;
-}
-
 static void
 wbcg_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 {
@@ -418,24 +395,16 @@ wbcg_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 
 static void
 wbcg_edit_set_sensitive (WorkbookControl *wbc,
-			 gboolean ok_cancel_flag, gboolean func_guru_flag)
+			 gboolean enable_edit_ok_cancel,
+			 gboolean enable_actions)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
 
 	/* These are only sensitive while editing */
-	gtk_widget_set_sensitive (wbcg->ok_button, ok_cancel_flag);
-	gtk_widget_set_sensitive (wbcg->cancel_button, ok_cancel_flag);
-
-	gtk_widget_set_sensitive (wbcg->func_button, func_guru_flag);
-	wbcg_toolbar_timer_clear (wbcg);
-
-	/* Toolbars are insensitive while editing */
-	if (func_guru_flag) {
-		/* We put the re-enabling of the ui on a timer */
-		wbcg->toolbar_sensitivity_timer = g_timeout_add (300,
-			(GSourceFunc) cb_thaw_ui_toolbar, wbcg);
-	} else
-		wbcg_actions_sensitive (wbcg, func_guru_flag);
+	gtk_widget_set_sensitive (wbcg->ok_button, enable_edit_ok_cancel);
+	gtk_widget_set_sensitive (wbcg->cancel_button, enable_edit_ok_cancel);
+	gtk_widget_set_sensitive (wbcg->func_button, enable_actions);
+	wbcg_actions_sensitive (wbcg, enable_actions);
 }
 
 static gboolean
@@ -1555,7 +1524,6 @@ wbcg_finalize (GObject *obj)
 		G_CALLBACK (cb_set_focus), wbcg);
 
 	wbcg_auto_complete_destroy (wbcg);
-	wbcg_edit_dtor (wbcg);
 
 	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
 

@@ -952,7 +952,7 @@ wbc_gtk_init (GObject *obj)
 		"signal::add_widget",	 G_CALLBACK (cb_add_menus_toolbars), gtk,
 		"signal::connect_proxy",    G_CALLBACK (cb_connect_proxy), gtk,
 		"signal::disconnect_proxy", G_CALLBACK (cb_disconnect_proxy), gtk,
-		"swapped_signal::post_activate", G_CALLBACK (wbcg_focus_cur_scg), gtk,
+		"swapped_object_signal::post_activate", G_CALLBACK (wbcg_focus_cur_scg), gtk,
 		NULL);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
 

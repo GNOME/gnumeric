@@ -1,3 +1,14 @@
+2004-02-01  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_toolbar_timer_clear) : people
+	  didn't like it so remove it to allow custom color selection to work.
+	  With it in place the action was still insensitive when the
+	  color_changed fired so the activation was ignored.
+
+	* src/wbc-gtk.c (wbc_gtk_init) : connect the post_activate signal
+	  as a swapped_object to avoid calling it after we use an accelerator
+	  to quit.
+
 2004-02-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gu_delete_handler): new
