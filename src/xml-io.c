@@ -1186,8 +1186,10 @@ static void
 xml_free_arg_list (GList *list)
 {
 	while (list) {
-		if (list->data) {
-			g_free (list->data);
+		GtkArg *arg = list->data;
+		if (arg) {
+			g_free (arg->name);
+			gtk_arg_free (arg, FALSE);
 		}
 		list = list->next;
 	}

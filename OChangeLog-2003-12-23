@@ -1,7 +1,6 @@
-2000-04-15  Michael Meeks  <michael@helixcode.com>
+2000-04-15  Morten Welinder  <terra@diku.dk>
 
-	* src/Makefile.am (GNUMERIC_BASE_SOURCES): kill print-preview.[ch], it
-	has gone into gnome-print.
+	* src/xml-io.c (xml_free_arg_list): Plug leak.
 
 2000-04-15  Karl EICHWALDER  <ke@suse.de>
 
