@@ -26,10 +26,11 @@ typedef struct {
 
 	StyleFont	*normal_font, *bold_font;
 
-	int             resize_pos;
-	int 	        resize_width;
-	int             resize_start_pos;
-	GtkObject       *resize_guide;
+	int		   resize_pos;
+	int		   resize_width;
+	int		   resize_start_pos;
+	GtkObject         *resize_guide;
+	GnomeCanvasPoints *resize_points;
 
 	int             dragging : 1;
 
