@@ -1,0 +1,44 @@
+Changes between version 0.25 and 0.26
+
+Jukka has added the following functions:
+
+	* COUNTA(), FINV(), TINV(), SUMX2MY2(), SUMX2PY2(), SUMXMY2()
+	* ROUNDDOWN(), ROUNDUP(), PROB(), DAVERAGE(), DCOUNT(), DGET(),
+	* DMAX(), DMIN(), DPRODUCT(), DSTDEV(), DSTDEVP(), DSUM(),
+	* DVAR(), DVARP(), DCOUNTA(), STEYX(), ROUND(), DATEVALUE()
+	* EDATE(), COMPLEX(), IMABS(), IMAGINARY(), IMREAL(), CONVERT()
+	* LN(), MROUND(), started ROMAN(), COUNTIF(), SUMIF(), IMLOG10()
+	* IMLOG2(), GCD(), LCM(), IMARGUMENT(), IMCONJUGATE(),
+        * IMCOS(), IMDIV(), IMEXP(), IMLN(), IMPOWER(), IMPRODUCT(),
+        * IMSIN(), IMSQRT(), IMSUB(), IMSUM(), COUNTBLACK()
+
+And fixed these:
+	* CONFIDENCE(), VAR(), VARP(), LOG()
+
+Morten:
+	* Finished implementation of insert/delete column/row support
+	* Plugged innumerable memory leaks, and nailed seg-faults.
+	* Fixed the evaluation queue.
+
+Miguel
+	* Expanded the CORBA interface massively.
+	* Hacked onwards with bonobo support.
+	* Updated printing branch.
+
+Michael
+	* Re-engineered the Excel function backend.
+	* Implemented more legacy Excel tokens.
+	* Excel precision and speed improved.
+	* Split OLE code to a library.
+	* Excel Array support,
+	* Backend gnumeric array support revised.
+	* Implemented 'current sheet' loading from Excel.
+	* Re-wrote BIFF backend to deal with broken 'padded' continue records
+	* Improved colour support - still very odd.
+	* Implemented LOOKUP()
+	* Optimised Area functions to clip to used cells.
+	* Fixed varions Excel function imports
+
+Several translations updated: thanks to our translators
+
+And lots of bugs fixed.
