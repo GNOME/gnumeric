@@ -102,7 +102,7 @@ sheet_object_container_land (SheetObject *so)
 	/*
 	 * 3. Bind it to our object
 	 */
-	if (!gnome_client_site_bind_bonobo_object (soc->client_site, soc->object_server))
+	if (!gnome_client_site_bind_embeddable (soc->client_site, soc->object_server))
 		return;
 	
 	/*

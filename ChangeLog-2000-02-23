@@ -1,3 +1,9 @@
+1999-08-01  Manish Vachharajani  <mvachhar@vger.rutgers.edu>
+
+	* src/sheet-object-container.c: fix reference to
+	gnome_client_site_bind_bonobo_object to read
+	gnome_client_site_bind_embeddable
+
 1999-08-01    <jrb@redhat.com>
 
 	* src/workbook.c: move the about-entry lower to make it more
