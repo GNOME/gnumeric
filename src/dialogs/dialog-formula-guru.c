@@ -154,7 +154,7 @@ cb_formula_guru_entry_event (GtkWidget *w, GdkEvent *ev, ArgumentState *as)
 
 	/* FIXME : this is lazy.  Have a special routine */
 	formula_guru_set_expr (as->state, as->index, FALSE);
-	return TRUE;
+	return FALSE;
 }
 
 static gboolean

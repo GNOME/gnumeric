@@ -1,5 +1,11 @@
 2000-06-28  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-function-wizard.c (cb_formula_guru_entry_event) : Return FALSE.
+	  We are not actually handling the event, just ensuring the display is
+	  up to date.
+
+2000-06-28  Jody Goldberg <jgoldberg@home.com>
+
 	* dialog-define-names.c : Begin to rework in order to support
 	  different scopes.
 
