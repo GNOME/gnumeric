@@ -519,44 +519,42 @@ gnm_file_saver_set_overwrite_files (GnmFileSaver *fs, gboolean overwrite)
 }
 
 /**
- * gnm_file_saver_fix_file_name:
- * @fs          : GnmFileSaver object
- * @file_name   : File name
- * @new_file_name : New file name
+ * gnm_vrfy_uri_ext
+ * @std_ext : Standard extension for the content type
+ * @uri     : Uri
+ * @new_uri : New uri
  *
- * Modifies given @file_name by adding default extension for file type
- * supported by @fs saver. If @fs has no default extension or @file_name
- * already has some extension, it just copies @file_name.
+ * Modifies given @uri by adding the extension @std_ext if needed.
+ * If no @std_ext is given or @uri already has some extension,
+ * it just copies @uri.
  *
+ * Value in new_uri:  newly allocated string which you should free after 
+ *                    use, containing (optionally) modified uri.
  *
- * Value in new_file_name:  newly allocated string which you should
- *                          free after use,
- *                          containing (optionally) modified file name.
- * Return Value:  FALSE if the filename has an extension not matching the
- *		  file type.
+ * Return Value:  FALSE if the uri has an extension not matching @std_ext
  */
 gboolean
-gnm_file_saver_fix_file_name (GnmFileSaver const *fs,
-				gchar const *file_name,
-				gchar **new_file_name)
+gnm_vrfy_uri_ext (gchar const *std_ext,
+		  gchar const *uri,
+		  gchar **new_uri)
 {
 	gchar *base;
-	gchar *extension;
+	gchar *user_ext;
 	gboolean res;
 
-	g_return_val_if_fail (IS_GNM_FILE_SAVER (fs), FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
+	g_return_val_if_fail (uri != NULL, FALSE);
+	g_return_val_if_fail (new_uri != NULL, FALSE);
 
-	res = TRUE;
-	base = g_path_get_basename (file_name);
-	extension = strrchr (base, '.');
-	if (fs->extension != NULL && extension == NULL)
-		*new_file_name = g_strconcat (file_name, ".", fs->extension, NULL);
+	res      = TRUE;
+	base     = g_path_get_basename (uri);
+	user_ext = strrchr (base, '.');
+	if (std_ext != NULL && strlen (std_ext) > 0 && user_ext == NULL)
+		*new_uri = g_strconcat (uri, ".", std_ext, NULL);
 	else {
-		if (extension != NULL && fs->extension != NULL)
-			res = !gnumeric_utf8_collate_casefold (extension + 1,
-							fs->extension);
-		*new_file_name = g_strdup (file_name);
+		if (user_ext != NULL && std_ext != NULL)
+			res = !gnumeric_utf8_collate_casefold (user_ext + 1,
+							       std_ext);
+		*new_uri = g_strdup (uri);
 	}
 	g_free (base);
 

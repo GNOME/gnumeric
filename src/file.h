@@ -125,9 +125,9 @@ void         gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
 				  WorkbookView const *wbv, GsfOutput *output);
 void         gnm_file_saver_set_overwrite_files	(GnmFileSaver *fs,
 						 gboolean overwrite);
-gboolean     gnm_file_saver_fix_file_name	(GnmFileSaver const *fs,
-						 char const *file_name,
-						 char **new_file_name);
+gboolean     gnm_vrfy_uri_ext (gchar const *std_ext,
+			       gchar const *uri,
+			       gchar **new_uri);
 char const *gnm_file_saver_get_id	  	(GnmFileSaver const *fs);
 char const *gnm_file_saver_get_extension	(GnmFileSaver const *fs);
 char const *gnm_file_saver_get_mime_type	(GnmFileSaver const *fs);

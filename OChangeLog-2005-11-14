@@ -1,3 +1,34 @@
+2004-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* src/wbcg-actions.c (cb_insert_image): is_save parameter to
+	gui_image_file_select no longer needed.
+
+	* src/sheet-object-image.c (soi_gdk_pixbuf_save): New. Callback
+	which writes via gsf.
+	(soi_get_image_fmt): New. Get a format descriptor for the original
+	data in a SheetObjectImage.
+	(soi_free_image_fmt): New. Free a format descriptor.
+	(soi_cb_save_as): New. Choose file name and format and save
+	image.
+	(sheet_object_image_populate_menu): New. Put a "save as" entry in
+	the object's context menu.
+
+	* src/sheet-object-graph.c (soi_cb_save_as): Choose image format
+	from a list.
+
+	* src/gui-file.h (GnmImageFormat): Struct which describes an
+	(image) file format.
+
+	* src/gui-file.c (gui_image_file_select): Split the parts common
+	to save and open into new function gui_image_chooser_new. Drop
+	is_save parameter to _select.
+	(gui_get_image_save_info): The parts of _select which have to do
+	with saving go here. Add a format chooser.
+
+	* src/file.[ch] (gnm_file_saver_fix_file_name): Rename to
+	gnm_vrfy_uri_ext. Take an extension instead of a GnmFileSaver as
+	1st parameter.
+
 2004-08-16  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Plug leak.

@@ -407,30 +407,23 @@ filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
 		strncmp (filter_info->mime_type, "image/", 6) == 0;
 }
 
-char *
-gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
-		       gboolean is_save)
+static GtkFileChooser *
+gui_image_chooser_new (WorkbookControlGUI *wbcg, gboolean is_save)
 {
 	GtkFileChooser *fsel;
-	char *result = NULL;
 
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", is_save ? GTK_FILE_CHOOSER_ACTION_SAVE : GTK_FILE_CHOOSER_ACTION_OPEN,
-			       "title", _("Select an Image"),
 			       "local-only", FALSE,
 			       "use-preview-label", FALSE,
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				is_save ? GTK_STOCK_SAVE : GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+				is_save ? GTK_STOCK_SAVE : GTK_STOCK_OPEN, 
+				GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
-
-	if (initial) {
-		gtk_file_chooser_set_uri (fsel, initial);
-	}
-
 	/* Filters */
 	{	
 		GtkFileFilter *filter;
@@ -467,20 +460,103 @@ gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
 				  G_CALLBACK (update_preview_cb), NULL);
 		update_preview_cb (fsel);
 	}
+	return fsel;
+}
+
+char *
+gui_get_image_save_info (WorkbookControlGUI *wbcg,
+			 GSList *formats, 
+			 GnmImageFormat **ret_format)
+{
+	GtkFileChooser *fsel;
+	GnmImageFormat *sel_format = NULL;
+	GtkComboBox *format_combo = NULL;
+	char *uri = NULL;
+
+	fsel = gui_image_chooser_new (wbcg, TRUE);
+	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
+	
+	/* Make format chooser */
+	if (formats && ret_format) {
+		GtkWidget *label;
+		GtkWidget *box = gtk_hbox_new (FALSE, 5);
+		GSList *l;
+		int i;
+
+		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+		if (*ret_format)
+			sel_format = *ret_format;
+		for (l = formats, i = 0; l != NULL; l = l->next, i++) {
+			gtk_combo_box_append_text 
+				(format_combo, 
+				 ((GnmImageFormat *) (l->data))->desc);
+			if (l->data == (void *)sel_format)
+				gtk_combo_box_set_active (format_combo, i);
+		}
+		if (gtk_combo_box_get_active (format_combo) < 0)
+			gtk_combo_box_set_active (format_combo, 0);
+		
+		label = gtk_label_new_with_mnemonic (_("File _type:"));
+		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (box),  GTK_WIDGET (format_combo),
+				    TRUE, TRUE, 0);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), 
+					       GTK_WIDGET (format_combo));
+		gtk_file_chooser_set_extra_widget (fsel, box);
+	}
 
 	/* Show file selector */
 loop :
 	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
 		goto out;
-	result = gtk_file_chooser_get_uri (fsel);
-	if (is_save && !go_file_is_writable (result, wbcg)) {
-		g_free (result);
+	uri = gtk_file_chooser_get_uri (fsel);
+	if (!go_file_is_writable (uri, wbcg)) {
+		g_free (uri);
 		goto loop;
 	}
+	if (format_combo) {
+		char *new_uri = NULL;
 
+		sel_format = g_slist_nth_data (
+			formats, gtk_combo_box_get_active (format_combo));
+		if (!gnm_vrfy_uri_ext (sel_format->ext,
+				       uri, &new_uri) &&
+		    !gnumeric_dialog_question_yes_no 
+		    (wbcg,
+		     _("The given file extension does not match the"
+		       " chosen file type. Do you want to use this name"
+		       " anyway?"), TRUE)) {
+			g_free (new_uri);
+			g_free (uri);
+			uri = NULL;
+			goto out;
+		} else {
+			g_free (uri);
+			uri = new_uri;
+		}
+		*ret_format = sel_format;
+	}
  out:
 	gtk_widget_destroy (GTK_WIDGET (fsel));
-	return result;
+	return uri;
+}
+
+char *
+gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial)
+{
+	GtkFileChooser *fsel;
+	char *uri = NULL;
+
+	fsel = gui_image_chooser_new (wbcg, FALSE);
+	if (initial)
+		gtk_file_chooser_set_uri (fsel, initial);
+	g_object_set (G_OBJECT (fsel), "title", _("Select an Image"), NULL);
+	
+	/* Show file selector */
+	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
+		uri = gtk_file_chooser_get_uri (fsel);
+	gtk_widget_destroy (GTK_WIDGET (fsel));
+	return uri;
 }
 
 static gboolean
@@ -518,11 +594,12 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	char *uri2 = NULL;
 	gboolean success = FALSE;
 
-	if (!gnm_file_saver_fix_file_name (fs, uri1, &uri2) &&
+	if (!gnm_vrfy_uri_ext (gnm_file_saver_get_extension (fs), 
+			       uri1, &uri2) &&
 		!gnumeric_dialog_question_yes_no (wbcg,
                       _("The given file extension does not match the"
 			" chosen file type. Do you want to use this name"
-			" anyways?"), TRUE))
+			" anyway?"), TRUE))
 		goto out;
 
 	success = go_file_is_writable (uri2, wbcg);

@@ -816,7 +816,7 @@ static GNM_ACTION_DEF (cb_autosum)
 
 static GNM_ACTION_DEF (cb_insert_image)
 {
-	char *uri = gui_image_file_select (wbcg, NULL, FALSE);
+	char *uri = gui_image_file_select (wbcg, NULL);
 
 	if (uri) {
 		GError *err = NULL;

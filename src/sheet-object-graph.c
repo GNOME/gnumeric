@@ -136,10 +136,10 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 
 
 static gboolean
-gsf_gdk_pixbuf_save (const gchar *buf,
-		     gsize count,
-		     GError **error,
-		     gpointer data)
+sog_gsf_gdk_pixbuf_save (const gchar *buf,
+			 gsize count,
+			 GError **error,
+			 gpointer data)
 {
 	GsfOutput *output = GSF_OUTPUT (data);
 	gboolean ok = gsf_output_write (output, count, buf);
@@ -150,7 +150,6 @@ gsf_gdk_pixbuf_save (const gchar *buf,
 	return ok;
 }
 
- 
 /* 
  * The following are useful formats to save in:
  *  png
@@ -162,95 +161,69 @@ gsf_gdk_pixbuf_save (const gchar *buf,
  * the saved image, if that's wanted.
  */
 static void
-cb_save_as (GtkWidget *widget, GObject *obj_view)
+soi_cb_save_as (GtkWidget *widget, GObject *obj_view)
 {
 	SheetObjectGraph *sog;
 	SheetControl *sc;
 	WorkbookControlGUI *wbcg;
-	char *uri, *base;
-	const char *extension;
+	char *uri;
 	GError *err = NULL;
-	gboolean ret;
-	const char *plain_type = NULL;
+	gboolean ret = FALSE;
+	GsfOutput *output;
+	GSList *l = NULL;
+	GnmImageFormat fmts[] = {
+		{(char *) "svg",  (char *) N_("SVG (vector graphics)"), (char *) "svg", FALSE},
+		{(char *) "png",  (char *) N_("PNG (raster graphics)"), (char *) "png", TRUE},
+		{(char *) "jpeg", (char *) N_("JPEG (photograph)"),     (char *) "jpg", TRUE}
+	};
+	GnmImageFormat *sel_fmt = &fmts[0];
+	guint i;
 
 	sog = SHEET_OBJECT_GRAPH (sheet_object_view_obj (obj_view));
 
 	g_return_if_fail (sog != NULL);
 
+	for (i = 0; i < sizeof fmts / sizeof fmts[0]; i++)
+		l = g_slist_prepend (l, &fmts[i]);
+	l = g_slist_reverse (l);
+
 	sc  = sheet_object_view_control (obj_view);
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
-	uri = gui_image_file_select (wbcg, NULL, TRUE);
+	uri = gui_get_image_save_info (wbcg, l, &sel_fmt);
 	if (!uri)
-		return;
-
-	base = go_basename_from_uri (uri);
-	extension = gsf_extension_pointer (base);
-
-	if (extension == NULL || *extension == 0) {
-		char *new_uri;
-
-		extension = "png";
-		new_uri = g_strconcat (uri, ".", extension, NULL);
-		g_free (uri);
-		uri = new_uri;
-	}
-
-	if (g_ascii_strcasecmp (extension, "png") == 0) {
-		plain_type = "png";
-	} else if (g_ascii_strcasecmp (extension, "jpg") == 0 ||
-		   g_ascii_strcasecmp (extension, "jpeg") == 0) {
-		plain_type = "jpg";
-	}
-
-	if (plain_type) {
-		GsfOutput *output = go_file_create (uri, &err);
-		if (output) {
-			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
-				GOG_RENDERER_PIXBUF (sog->renderer));
-			ret = gdk_pixbuf_save_to_callback (pixbuf,
-							   gsf_gdk_pixbuf_save, output,
-							   plain_type,
-							   &err, NULL);
-			gsf_output_close (output);
-			g_object_unref (output);
-
-			if (!ret && err == NULL)
-				err = g_error_new (gsf_output_error_id (), 0,
-						   _("Unknown failure while saving image"));
-		} else
-			ret = FALSE;
-	} else if (g_ascii_strcasecmp (extension, "svg") == 0) {
-		GsfOutput *output = go_file_create (uri, &err);
-
-		if (output != NULL) {
-			double coords [4];
-			sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
-			ret = gog_graph_export_to_svg (sog->graph, output,
-						       fabs (coords[2] - coords[0]),
-						       fabs (coords[3] - coords[1]),
-						       1.);
-
-			gsf_output_close (output);
-			g_object_unref (output);
-
-			if (!ret && err == NULL)
-				err = g_error_new (gsf_output_error_id (), 0,
-						   _("Unknown failure generating SVG for Chart"));
-		} else
-			ret = FALSE;
+		goto out;
+	output = go_file_create (uri, &err);
+	if (!output)
+		goto out;
+	if (strcmp (sel_fmt->name, "svg") == 0) {
+		double coords [4];
+		sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
+		ret = gog_graph_export_to_svg (sog->graph, output,
+					       fabs (coords[2] - coords[0]),
+					       fabs (coords[3] - coords[1]),
+					       1.);
 	} else {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Sorry, gnumeric can only save graphs as png, jpg, or svg images"));
-		/* Use TRUE since we displayed the error already.  */
-		ret = TRUE;
-	}
+		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
+			GOG_RENDERER_PIXBUF (sog->renderer));
 
+		ret = gdk_pixbuf_save_to_callback (pixbuf,
+						   sog_gsf_gdk_pixbuf_save,
+						   output, sel_fmt->name,
+						   &err, NULL);
+	}
+	gsf_output_close (output);
+	g_object_unref (output);
+		
+	if (!ret && err == NULL)
+		err = g_error_new (gsf_output_error_id (), 0,
+				   _("Unknown failure while saving image"));
 	if (!ret)
 		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 
-	g_free (base);
+out:
 	g_free (uri);
+	g_slist_free (l);
 }
 
 static void
@@ -266,7 +239,7 @@ sheet_object_graph_populate_menu (SheetObject *so,
 	gtk_widget_show (image);
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
 	g_signal_connect (G_OBJECT (item), "activate",
-			  G_CALLBACK (cb_save_as), obj_view);
+			  G_CALLBACK (soi_cb_save_as), obj_view);
 	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, obj_view, menu);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (menu),  item, 1);
 }

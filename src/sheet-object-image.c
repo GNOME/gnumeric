@@ -7,12 +7,14 @@
  * 	Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "sheet-object-image.h"
 #include "sheet-object-impl.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
 #include "gnumeric-pane.h"
+#include "gui-file.h"
 #include "application.h"
 #include "xml-io.h"
 
@@ -21,6 +23,10 @@
 #include <gsf/gsf-utils.h>
 #include <libfoocanvas/foo-canvas-pixbuf.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/utils/go-file.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkstock.h>
 
 #include <math.h>
 #include <string.h>
@@ -265,6 +271,187 @@ sheet_object_image_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	return G_OBJECT (item);
 }
 
+static gboolean
+soi_gdk_pixbuf_save (const gchar *buf,
+		     gsize count,
+		     GError **error,
+		     gpointer data)
+{
+	GsfOutput *output = GSF_OUTPUT (data);
+	gboolean ok = gsf_output_write (output, count, buf);
+
+	if (!ok && error)
+		*error = g_error_copy (gsf_output_error (output));
+
+	return ok;
+}
+
+static GnmImageFormat std_fmts[] = {
+	{(char *) "png",  (char *) N_("PNG (raster graphics)"),   
+	 (char *) "png", TRUE},
+	{(char *) "jpeg", (char *) N_("JPEG (photograph)"),      
+	 (char *) "jpg", TRUE},
+	{(char *) "svg",  (char *) N_("SVG (vector graphics)"),  
+	 (char *) "svg", FALSE},
+	{(char *) "emf",  (char *) N_("EMF (extended metafile)"),
+	 (char *) "emf", FALSE},
+	{(char *) "wmf",  (char *) N_("WMF (windows metafile)"), 
+	 (char *) "wmf", FALSE}
+};
+
+static GnmImageFormat *
+soi_get_image_fmt (SheetObjectImage *soi)
+{
+	GnmImageFormat *ret = g_new0 (GnmImageFormat, 1);
+	GSList *l, *pixbuf_fmts;
+	guint i;
+	
+	ret->name = g_strdup (soi->type);
+	for (i = 0; i < sizeof std_fmts/sizeof std_fmts[0]; i++) {
+		GnmImageFormat *fmt = &std_fmts[i];
+		
+		if (strcmp (soi->type, fmt->name) == 0) {
+			ret->desc = g_strdup (fmt->desc);
+			ret->ext  = g_strdup (fmt->ext);
+			ret->has_pixbuf_saver = fmt->has_pixbuf_saver;
+			return ret;
+		}
+	}
+
+	ret->desc = g_ascii_strup (ret->name, -1);
+	ret->has_pixbuf_saver = FALSE;
+
+	/* Not found in standard formats - look in gdk-pixbuf */
+	pixbuf_fmts = gdk_pixbuf_get_formats ();
+	for (l = pixbuf_fmts; l != NULL; l = l->next) {
+		GdkPixbufFormat *fmt = (GdkPixbufFormat *)l->data;
+		gchar *name = gdk_pixbuf_format_get_name (fmt);
+		int cmp = strcmp (soi->type, name);
+		
+		g_free (name);
+		if (cmp == 0) {
+			gchar **exts;
+			
+			exts = gdk_pixbuf_format_get_extensions (fmt);
+			ret->ext = g_strdup (exts[0]);
+			g_strfreev (exts);
+			break;
+		}
+	}
+
+	if (ret->ext == NULL)
+		ret->ext = g_strdup (ret->name);
+	
+	g_free (pixbuf_fmts);
+
+	return ret;
+}
+
+static void
+soi_free_image_fmt (gpointer data)
+{
+	GnmImageFormat *fmt = (GnmImageFormat *) data;
+
+	g_free (fmt->name);
+	g_free (fmt->desc);
+	g_free (fmt->ext);
+	g_free (fmt);
+}
+
+static void
+soi_cb_save_as (GtkWidget *widget, GObject *obj_view)
+{
+	SheetObjectImage *soi;
+	SheetControl *sc;
+	WorkbookControlGUI *wbcg;
+	char *uri;
+	GsfOutput *output;
+	GSList *l = NULL;
+	GnmImageFormat *orig_fmt, *sel_fmt, *fmt;
+	GdkPixbuf *pixbuf = NULL;
+	guint i;
+	GError *err = NULL;
+	gboolean res;
+
+	soi = SHEET_OBJECT_IMAGE (sheet_object_view_obj (obj_view));
+
+	g_return_if_fail (soi != NULL);
+
+
+	/* Put original format of image first in menu. */
+	orig_fmt = soi_get_image_fmt (soi);
+	sel_fmt  = orig_fmt;
+	l = g_slist_prepend (l, orig_fmt);
+
+	/* Put jpeg and png in menu if we were able to render */
+	if ((pixbuf = soi_get_pixbuf (soi, 1.0)) != NULL) {
+		for (i = 0; i < sizeof std_fmts/sizeof std_fmts[0]; i++) {
+			if (strcmp (soi->type, std_fmts[i].name) != 0 &&
+			    std_fmts[i].has_pixbuf_saver) {
+				fmt = g_new0 (GnmImageFormat, 1);
+				fmt->name = g_strdup (std_fmts[i].name); 
+				fmt->desc = g_strdup (std_fmts[i].desc);
+				fmt->ext  = g_strdup (std_fmts[i].ext);
+				fmt->has_pixbuf_saver = TRUE; 
+				l = g_slist_prepend (l, fmt);
+			}
+		}
+		l = g_slist_reverse (l);
+	}		
+
+	sc  = sheet_object_view_control (obj_view);
+	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+
+	uri = gui_get_image_save_info (wbcg, l, &sel_fmt);
+	if (!uri)
+		goto out;
+
+	output = go_file_create (uri, &err);
+	if (!output)
+		goto out;
+	if (sel_fmt == orig_fmt)
+		res = gsf_output_write (output, 
+					soi->bytes.len, soi->bytes.data);
+	else
+		res = gdk_pixbuf_save_to_callback (pixbuf,
+						   soi_gdk_pixbuf_save, output,
+						   sel_fmt->name,
+						   &err, NULL);
+
+	gsf_output_close (output);
+	g_object_unref (output);
+
+	if (!res && err == NULL)
+		err = g_error_new (gsf_output_error_id (), 0,
+				   _("Unknown failure while saving image"));
+	if (!res)
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
+
+out:
+	if (pixbuf)
+		g_object_unref (pixbuf);
+	g_free (uri);
+	g_slist_free_custom (l, soi_free_image_fmt);
+}
+
+static void
+sheet_object_image_populate_menu (SheetObject *so,
+				  GObject *obj_view,
+				  GtkMenu *menu)
+{
+	GtkWidget *item, *image;
+
+	item = gtk_image_menu_item_new_with_mnemonic (_("_Save as"));
+	image = gtk_image_new_from_stock (GTK_STOCK_SAVE_AS, 
+					  GTK_ICON_SIZE_MENU);
+	gtk_widget_show (image);
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (soi_cb_save_as), obj_view);
+	sheet_object_image_parent_class->populate_menu (so, obj_view, menu);
+	gtk_menu_shell_insert (GTK_MENU_SHELL (menu),  item, 0);
+}
+
 static void
 sheet_object_image_update_bounds (SheetObject *so, GObject *view_obj)
 {
@@ -457,6 +644,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	/* SheetObject class method overrides */
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  	= sheet_object_image_new_view;
+	sheet_object_class->populate_menu	= sheet_object_image_populate_menu;
 	sheet_object_class->update_view_bounds	= sheet_object_image_update_bounds;
 	sheet_object_class->read_xml_dom	= sheet_object_image_read_xml_dom;
 	sheet_object_class->write_xml_dom	= sheet_object_image_write_xml_dom;
