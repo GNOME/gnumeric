@@ -921,5 +921,6 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 	for (i = 4; i-- > 0 ; )
 		anchor->type [i] = types [i];
 
+	anchor->direction = direction;
 	/* TODO : add sanity checking to handle offsets past edges of col/row */
 }

@@ -1,3 +1,11 @@
+2001-09-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_anchor_init) : Actually store the
+	  the direction.
+
+	* src/gnumeric-graph.c (gnm_graph_add_vector) : improve handling of
+	  failures.
+
 2001-09-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/value-sheet.c (value_area_get_width) : fix old silliness.
