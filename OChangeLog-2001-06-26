@@ -1,3 +1,8 @@
+2000-11-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/dialogs/summary.glade: Centered "Document Summary
+	Information" label.
+	
 2000-11-21  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (sheet_new_sheet_view): Remove spurious ref.

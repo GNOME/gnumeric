@@ -125,6 +125,7 @@ src/print-info.c
 src/print.c
 src/selection.c
 src/sheet-autofill.c
+src/sheet-control-gui.c
 src/sheet-object-container.c
 src/sheet-object-widget.c
 src/sheet-object.c

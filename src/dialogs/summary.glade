@@ -350,7 +350,7 @@
 	<xpad>0</xpad>
 	<ypad>0</ypad>
 	<child>
-	  <left_attach>1</left_attach>
+	  <left_attach>0</left_attach>
 	  <right_attach>2</right_attach>
 	  <top_attach>0</top_attach>
 	  <bottom_attach>1</bottom_attach>
