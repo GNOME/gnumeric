@@ -1069,6 +1069,9 @@ gnumeric_floor (FunctionEvalInfo *ei, GnmValue **argv)
 	else
 	        s = value_get_as_float (argv[1]);
 
+	if (number == 0)
+		return value_new_int (0);
+
 	if (s == 0)
 		return value_new_error_DIV0 (ei->pos);
 
