@@ -48,6 +48,7 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 
+/* FIXME: do not hardcode pixel counts.  */
 #define PREVIEW_X 170
 #define PREVIEW_Y 170
 #define PREVIEW_MARGIN_X 20
@@ -599,6 +600,7 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 {
 	GtkSpinButton *spin;
 	UnitInfo_cbdata *cbdata;
+	int len;
 
 	spin = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, spin_name));
 
@@ -610,9 +612,14 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 		0.0, 100000.0, 0.5, 1.0, 0));
 	target->spin = spin;
 	gtk_spin_button_configure (spin, target->adj, 1, 1);
+	gtk_widget_ensure_style (GTK_WIDGET (spin));
+	len = gnm_measure_string (
+		gtk_widget_get_pango_context (GTK_WIDGET (spin)),
+		GTK_WIDGET (spin)->style->font_desc,
+		"123.45XXX");
+	gtk_widget_set_size_request (GTK_WIDGET (spin), len, -1);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				      GTK_WIDGET (spin));
-	gtk_widget_set_usize (GTK_WIDGET (target->spin), 60, 0);
+				  GTK_WIDGET (spin));
 
 	cbdata = g_new (UnitInfo_cbdata, 1);
 	cbdata->state = state;
@@ -681,7 +688,7 @@ do_setup_margin (PrinterSetupState *state)
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (state->preview.canvas),
 		0.0, 0.0, PREVIEW_X, PREVIEW_Y);
-	gtk_widget_set_usize (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
+	gtk_widget_set_size_request (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_show (state->preview.canvas);
 
 	table = glade_xml_get_widget (state->gui, "margin-table");
