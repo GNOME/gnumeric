@@ -205,7 +205,7 @@ gnm_about_state_free (GnmAboutState *state)
 	g_free (state);
 }
 
-#define FADE_STATES	15
+#define FADE_STATES	5
 #define MAX_FADE_STATE	(FADE_STATES*2)
 
 static gboolean
