@@ -12417,7 +12417,7 @@ msgstr "കുറിപ്പ്"
 
 #: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3685
 msgid "_Add..."
-msgstr ""
+msgstr "ചേര്ക്കുക"
 
 #: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3330
 msgid "_All"
@@ -15101,7 +15101,7 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:3
 msgid "Direction:"
-msgstr ""
+msgstr "ദിശ:"
 
 #: src/dialogs/cell-sort.glade.h:4
 msgid "Range:"
@@ -18721,7 +18721,7 @@ msgstr ""
 
 #: src/dialogs/so-checkbox.glade.h:3 src/dialogs/so-frame.glade.h:3
 msgid "Label:"
-msgstr ""
+msgstr "ലിഖിതം:"
 
 #: src/dialogs/so-checkbox.glade.h:4 src/dialogs/so-scrollbar.glade.h:2
 msgid "Link to:"
@@ -18918,7 +18918,7 @@ msgstr "സഹവാസം:"
 
 #: src/dialogs/summary.glade.h:5
 msgid "File:"
-msgstr ""
+msgstr "രചന:"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Summary"
