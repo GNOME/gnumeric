@@ -1,5 +1,16 @@
 2003-06-18  Jon K Hellan  <hellan@acm.org>
 
+	* src/io-context-gtk.c (struct _IOContextGtk): Add 'latency'
+	member to help in startup time prediction.
+	(icg_user_is_impatient): Try to predict startup time after
+	ICG_POPUP_DELAY/3, and pop up splash if we predict startup to take
+	> ICG_POPUP_DELAY.
+	(icg_progress_set): Update progress before checking if it is time
+	to show splash.
+	(icg_init): Initialize latency.
+
+2003-06-18  Jon K Hellan  <hellan@acm.org>
+
 	* src/print-info.c: Include locale.h
 
 2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>

@@ -27,6 +27,7 @@ Jody:
 Jon Kåre:
 	* Improve color combo.
 	* Fix keynav for various kinds of combos.
+	* Make splash screen display code clairvoyant.
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.

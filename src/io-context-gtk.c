@@ -46,6 +46,7 @@ struct _IOContextGtk {
 
 	gfloat progress;
 	char *progress_msg;
+	gdouble latency;
 };
 
 struct _IOContextGtkClass {
@@ -156,7 +157,29 @@ icg_show_gui (IOContextGtk *icg)
 static gboolean
 icg_user_is_impatient (IOContextGtk *icg)
 {
-	return g_timer_elapsed (icg->timer, NULL) > ICG_POPUP_DELAY;
+	gdouble t = g_timer_elapsed (icg->timer, NULL);
+	gfloat progress = icg->progress;
+	gfloat forecast_delay = ICG_POPUP_DELAY / 3.0;
+	gboolean ret = FALSE;
+
+	if (icg->progress == 0. && icg->files_done == 0)
+		icg->latency = t;
+
+	if (t >= forecast_delay) {
+		if (icg->files_total > 1) {
+			progress += icg->files_done;
+			progress /= icg->files_total;
+		}
+		if (progress == 0.0)
+			ret = TRUE;
+		else {
+			gfloat forecast = icg->latency;
+			forecast += (t - icg->latency) / progress;
+			ret = forecast > ICG_POPUP_DELAY;
+		}
+	}
+
+	return ret;
 }
 
 static char *
@@ -175,10 +198,9 @@ icg_progress_set (CommandContext *cc, gfloat val)
 		return;
 
 	if (icg->window == NULL) {
-		if (!icg_user_is_impatient (icg)) {
-			icg->progress = val;
+		icg->progress = val;
+		if (!icg_user_is_impatient (icg))
 			return;
-		}
 		icg_show_gui (icg);
 	}
 	gtk_progress_bar_set_fraction (icg->work_bar, val);
@@ -265,6 +287,7 @@ icg_init (IOContextGtk *icg)
 	icg->progress	 = 0.;
 	icg->progress_msg = NULL;
 	icg->timer  = g_timer_new ();
+	icg->latency = 0.;
 	g_timer_start (icg->timer);
 }
 
