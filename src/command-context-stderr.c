@@ -30,7 +30,7 @@ typedef struct {
  CommandContextStderrClass))
 
 CommandContextStderr *
-command_context_stderr_new ()
+command_context_stderr_new (void)
 {
 	return g_object_new (command_context_stderr_get_type (), NULL);
 }
@@ -57,7 +57,7 @@ static void
 ccs_system (CommandContext *ctxt, char const *msg)
 {
 	CommandContextStderr *ccs = COMMAND_CONTEXT_STDERR (ctxt);
-	
+
 	fprintf (stderr, "Error: %s\n", msg);
 	ccs->status = -1;
 }
@@ -66,7 +66,7 @@ static void
 ccs_plugin (CommandContext *ctxt, char const *msg)
 {
 	CommandContextStderr *ccs = COMMAND_CONTEXT_STDERR (ctxt);
-	
+
 	fprintf (stderr, "Error: %s\n", msg);
 	ccs->status = -1;
 }
@@ -75,7 +75,7 @@ static void
 ccs_read (CommandContext *ctxt, char const *msg)
 {
 	CommandContextStderr *ccs = COMMAND_CONTEXT_STDERR (ctxt);
-	
+
 	fprintf (stderr, "Error: %s\n", msg);
 	ccs->status = -1;
 }
@@ -84,7 +84,7 @@ static void
 ccs_save (CommandContext *ctxt, char const *msg)
 {
 	CommandContextStderr *ccs = COMMAND_CONTEXT_STDERR (ctxt);
-	
+
 	fprintf (stderr, "Error: %s\n", msg);
 	ccs->status = -1;
 }
@@ -109,7 +109,7 @@ static void
 ccs_invalid (CommandContext *ctxt, char const *msg, char const *val)
 {
 	CommandContextStderr *ccs = COMMAND_CONTEXT_STDERR (ctxt);
-	
+
 	fprintf (stderr, "Error: %s : %s\n", msg, val);
 	ccs->status = -1;
 }
@@ -118,7 +118,7 @@ static void
 ccs_error_info (CommandContext *ctxt, ErrorInfo *error)
 {
 	CommandContextStderr *ccs = COMMAND_CONTEXT_STDERR (ctxt);
-	
+
 	error_info_print (error);
 	ccs->status = -1;
 }
