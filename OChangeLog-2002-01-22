@@ -1,3 +1,21 @@
+2001-07-10  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* src/workbook-control-gui.c: Add a menu item "Send" to the file menu.
+	If this one is clicked, pop up an Evolution-Composer with current
+	workbook attached.
+	* src/file-priv.h: New virtual function for GnumFileSaver:
+	save_to_stream.
+	Introduce GnumFileSaverSaveToStreamFunc. Keep a mime type.
+	* src/file.[c,h]: Implement save_to_stream and mime_type detection.
+	* src/gui-file.[c,h]: Reduce copy & paste by introducing
+	(make_format_chooser) and (check_multiple_sheet_support_if_needed).
+	New function: (gui_file_save_to_stream) which asks for the desired
+	mime type.
+	* src/bonobo-io.c: This file saver doesn't support save_to_stream.
+	* src/stf.c: This one either.
+	* src/xml-io.[c,h]: Implement save_to_stream.
+	* src/plugin-service.c: Pass NULL for save_to_stream.
+
 2001-07-09  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* acconfig.h: #undef ENABLE_EVOLUTION

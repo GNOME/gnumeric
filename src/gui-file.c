@@ -40,6 +40,38 @@ file_saver_description_cmp (gconstpointer a, gconstpointer b)
 	                gnum_file_saver_get_description (fs_b));
 }
 
+static GtkWidget *
+make_format_chooser (GList *list, GtkOptionMenu *omenu)
+{
+	GList *l;
+	GtkBox *box;
+	GtkMenu *menu;
+
+	/* Make format chooser */
+	box = GTK_BOX (gtk_hbox_new (0, GNOME_PAD));
+	menu = GTK_MENU (gtk_menu_new ());
+	for (l = list; l != NULL; l = l->next) {
+		GtkWidget *item;
+		const gchar *descr;
+
+		if IS_GNUM_FILE_OPENER (l->data)
+			descr = gnum_file_opener_get_description (
+						GNUM_FILE_OPENER (l->data));
+		else
+			descr = gnum_file_saver_get_description (
+						GNUM_FILE_SAVER (l->data));
+		item = gtk_menu_item_new_with_label (descr);
+		gtk_widget_show (item);
+		gtk_menu_append (menu, item);
+	}
+	gtk_option_menu_set_menu (omenu, GTK_WIDGET (menu));
+	gtk_box_pack_start (box, gtk_label_new (_("File format:")),
+			    FALSE, FALSE, GNOME_PAD);
+	gtk_box_pack_start (box, GTK_WIDGET (omenu), FALSE, TRUE, GNOME_PAD);
+
+	return (GTK_WIDGET (box));
+}
+
 /*
  * Lets the user choose an import filter for selected file, and
  * uses that to load the file.
@@ -47,11 +79,10 @@ file_saver_description_cmp (gconstpointer a, gconstpointer b)
 void
 gui_file_import (WorkbookControlGUI *wbcg)
 {
-	GList *importers, *l;
+	GList *importers;
 	GtkFileSelection *fsel;
-	GtkBox *box;
 	GtkOptionMenu *omenu;
-	GtkMenu *menu;
+	GtkWidget *format_chooser;
 	GnumFileOpener *fo = NULL;
 	gchar *file_name;
 
@@ -65,26 +96,13 @@ gui_file_import (WorkbookControlGUI *wbcg)
 	importers = g_list_sort (importers, file_opener_description_cmp);
 
 	/* Make format chooser */
-	box = GTK_BOX (gtk_hbox_new (0, GNOME_PAD));
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
-	menu = GTK_MENU (gtk_menu_new ());
-	for (l = importers; l != NULL; l = l->next) {
-		GnumFileOpener *fo = l->data;
-		GtkWidget *item;
-
-		item = gtk_menu_item_new_with_label (gnum_file_opener_get_description (fo));
-		gtk_widget_show (item);
-		gtk_menu_append (menu, item);
-	}
-	gtk_option_menu_set_menu (omenu, GTK_WIDGET (menu));
-	gtk_box_pack_start (box, gtk_label_new (_("File format:")),
-	                    FALSE, FALSE, GNOME_PAD);
-	gtk_box_pack_start (box, GTK_WIDGET (omenu), FALSE, TRUE, GNOME_PAD);
+	format_chooser = make_format_chooser (importers, omenu);
 
 	/* Pack it into file selector */
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Import file")));
 	gtk_file_selection_hide_fileop_buttons (fsel);
-	gtk_box_pack_start (GTK_BOX (fsel->action_area), GTK_WIDGET (box),
+	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_chooser,
 	                    FALSE, TRUE, 0);
 
 	/* Show file selector */
@@ -148,6 +166,31 @@ can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
 }
 
 static gboolean
+check_multiple_sheet_support_if_needed (GnumFileSaver *fs,
+					WorkbookControlGUI *wbcg, 
+					WorkbookView *wb_view)
+{
+	gboolean ret_val = TRUE;
+
+	if (gnum_file_saver_get_save_scope (fs) == FILE_SAVE_SHEET &&
+	    gnome_config_get_bool_with_default ("Gnumeric/File/AskBeforeSavingOneSheet=true", NULL)) {
+		GList *sheets;
+		gchar *msg = _("Selected file format doesn't support "
+			       "saving multiple sheets in one file.\n"
+			       "If you want to save all sheets, save them "
+			       "in separate files or select different file format.\n"
+			       "Do you want to save only current sheet?"); 
+		
+		sheets = workbook_sheets (wb_view_workbook (wb_view));
+		if (g_list_length (sheets) > 1) {
+			ret_val = gnumeric_dialog_question_yes_no (wbcg, msg, TRUE);
+		}
+		g_list_free (sheets);
+	}
+	return (ret_val);
+}
+
+static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
             GnumFileSaver *fs, const char *name)
 {
@@ -169,25 +212,10 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	wb_view_preferred_size (wb_view, GTK_WIDGET (wbcg->notebook)->allocation.width,
 				GTK_WIDGET (wbcg->notebook)->allocation.height);
 
-	if (gnum_file_saver_get_save_scope (fs) == FILE_SAVE_SHEET &&
-	    gnome_config_get_bool_with_default ("Gnumeric/File/AskBeforeSavingOneSheet=true", NULL)) {
-		gboolean accepted = TRUE;
-		GList *sheets;
-		gchar *msg = _("Selected file format doesn't support "
-		               "saving multiple sheets in one file.\n"
-		               "If you want to save all sheets, save them "
-		               "in separate files or select different file format.\n"
-		               "Do you want to save only current sheet?");
-
-		sheets = workbook_sheets (wb_view_workbook (wb_view));
-		if (g_list_length (sheets) > 1) {
-			accepted = gnumeric_dialog_question_yes_no (wbcg, msg, TRUE);
-		}
-		g_list_free (sheets);
-		if (!accepted) {
-			g_free (filename);
-			return FALSE;
-		}
+	success = check_multiple_sheet_support_if_needed (fs, wbcg, wb_view);
+	if (!success) {
+		g_free (filename);
+		return (FALSE);
 	}
 
 	success = wb_view_save_as (wb_view, WORKBOOK_CONTROL (wbcg), fs, filename);
@@ -198,11 +226,10 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 gboolean
 gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
-	GList *savers, *l;
+	GList *savers;
 	GtkFileSelection *fsel;
-	GtkBox *box;
 	GtkOptionMenu *omenu;
-	GtkMenu *menu;
+	GtkWidget *format_chooser;
 	GnumFileSaver *fs;
 	gboolean success  = FALSE;
 	const gchar *wb_file_name;
@@ -213,25 +240,12 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	savers = g_list_sort (savers, file_saver_description_cmp);
 
 	/* Make format chooser */
-	box = GTK_BOX (gtk_hbox_new (0, GNOME_PAD));
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
-	menu = GTK_MENU (gtk_menu_new ());
-	for (l = savers; l != NULL; l = l->next) {
-		GnumFileSaver *fs = l->data;
-		GtkWidget *item;
-
-		item = gtk_menu_item_new_with_label (gnum_file_saver_get_description (fs));
-		gtk_widget_show (item);
-		gtk_menu_append (menu, item);
-	}
-	gtk_option_menu_set_menu (omenu, GTK_WIDGET (menu));
-	gtk_box_pack_start (box, gtk_label_new (_("File format:")),
-	                    FALSE, FALSE, GNOME_PAD);
-	gtk_box_pack_start (box, GTK_WIDGET (omenu), FALSE, TRUE, GNOME_PAD);
+	format_chooser = make_format_chooser (savers, omenu);
 
 	/* Pack it into file selector */
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save workbook as")));
-	gtk_box_pack_start (GTK_BOX (fsel->action_area), GTK_WIDGET (box),
+	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_chooser,
 	                    FALSE, TRUE, 0);
 
 	/* Set default file saver */
@@ -324,3 +338,99 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		return wb_view_save (wb_view, WORKBOOK_CONTROL (wbcg));
 	}
 }
+
+#ifdef ENABLE_BONOBO
+static GnumFileSaver *
+ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
+{
+	GtkWidget *dialog;
+	GtkWidget *format_chooser;
+	GtkOptionMenu *omenu;
+	GList *savers, *l;
+	GnumFileSaver *fs;
+	const gchar *buttons[] = {GNOME_STOCK_BUTTON_OK,
+		                  GNOME_STOCK_BUTTON_CANCEL, NULL}; 
+
+	dialog = gnome_message_box_newv (_("Which file format would you like?"),
+					 GNOME_MESSAGE_BOX_QUESTION, buttons); 
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
+	
+	/* Add the format chooser */
+	
+	savers = NULL;
+	for (l = get_file_savers (); l != NULL; l = l->next) {
+		if (gnum_file_saver_supports_save_to_stream (l->data)) {
+			savers = g_list_append (savers, l->data);
+		}
+	}
+	savers = g_list_sort (savers, file_saver_description_cmp);
+	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
+	format_chooser = make_format_chooser (savers, omenu);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+			    format_chooser, FALSE, FALSE, 0);
+	
+	/* Set default file saver */
+
+	fs = wbcg->current_saver;
+	if (fs == NULL) {
+		fs = (GnumFileSaver *) workbook_get_file_saver (
+						wb_view_workbook (wb_view));
+	}
+	if (fs == NULL || g_list_find (savers, fs) == NULL) {
+		fs = get_default_file_saver ();
+	}
+	gtk_option_menu_set_history (omenu, g_list_index (savers, fs));
+	gtk_widget_show_all (dialog);
+	
+	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
+	case 0: /* Ok */
+		fs = g_list_nth_data (savers,
+			gnumeric_option_menu_get_selected_index (omenu)); 
+		break;
+	default: /* Cancel */
+		fs = NULL;
+		break;
+	}
+	gnome_dialog_close (GNOME_DIALOG (dialog));
+	g_list_free (savers);
+	
+	return (fs);
+}
+
+void gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
+		              WorkbookView *wb_view, const gchar *mime_type,
+			      CORBA_Environment *ev)
+{
+	GnumFileSaver *fs = NULL;
+	IOContext *io_context;
+
+	/* If no mime type is given, we need to ask. */
+	if (!mime_type) {
+		fs = ask_for_file_saver (wbcg, wb_view);
+		if (!fs) {
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_Bonobo_IOError, NULL);
+			return;
+		}
+	} else {
+		fs = get_file_saver_for_mime_type (mime_type);
+		if (!fs) {
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_Bonobo_Stream_NotSupported,
+					     NULL);
+			return;
+		}
+	}
+
+	if (!check_multiple_sheet_support_if_needed (fs, wbcg, wb_view)) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_IOError, NULL);
+		return;
+	}
+
+	io_context = gnumeric_io_context_new (WORKBOOK_CONTROL (wbcg));
+	gnum_file_saver_save_to_stream (fs, io_context, wb_view, stream, ev);
+	gtk_object_destroy (GTK_OBJECT (io_context));
+}
+#endif
+

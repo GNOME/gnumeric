@@ -9,6 +9,9 @@
 #include <string.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-util.h>
+#ifdef ENABLE_BONOBO
+#include <bonobo/bonobo-exception.h>
+#endif
 #include "file.h"
 #include "io-context.h"
 #include "command-context.h"
@@ -204,6 +207,7 @@ gnum_file_saver_init (GnumFileSaver *fs)
 {
 	fs->id = NULL;
 	fs->extension = NULL;
+	fs->mime_type = NULL;
 	fs->description = NULL;
 	fs->format_level = FILE_FL_NEW;
 	fs->save_scope = FILE_SAVE_WORKBOOK;
@@ -237,12 +241,40 @@ gnum_file_saver_save_real (GnumFileSaver const *fs, IOContext *io_context,
 	fs->save_func (fs, io_context, wbv, file_name);
 }
 
+#ifdef ENABLE_BONOBO
+static void
+gnum_file_saver_save_to_stream_real (GnumFileSaver const *fs,
+				     IOContext *io_context, 
+				     WorkbookView *wbv, 
+				     BonoboStream *stream, 
+				     CORBA_Environment *ev)
+{
+	if (fs->save_to_stream_func == NULL) {
+		gnumeric_io_error_unknown (io_context);
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_Stream_NotSupported, NULL);
+		return;
+	}
+
+	fs->save_to_stream_func (fs, io_context, wbv, stream, ev);
+}
+
+gboolean
+gnum_file_saver_supports_save_to_stream (GnumFileSaver const *fs)
+{
+	return (fs->save_to_stream_func != NULL);
+}
+#endif
+
 static void
 gnum_file_saver_class_init (GnumFileSaverClass *klass)
 {
 	GTK_OBJECT_CLASS (klass)->destroy = gnum_file_saver_destroy;
 
 	klass->save = gnum_file_saver_save_real;
+#ifdef ENABLE_BONOBO
+	klass->save_to_stream = gnum_file_saver_save_to_stream_real;
+#endif
 }
 
 E_MAKE_TYPE (gnum_file_saver, "GnumFileSaver", GnumFileSaver, \
@@ -257,6 +289,9 @@ E_MAKE_TYPE (gnum_file_saver, "GnumFileSaver", GnumFileSaver, \
  * @description : Description of supported file format
  * @level       : File format level
  * @save_func   : Pointer to "save" function
+#ifdef ENABLE_BONOBO
+ * @save_to_stream_func: Pointer to "save to stream" function
+#endif
  *
  * Sets up GnumFileSaver object, newly created with gtk_type_new function.
  * This is intended to be used only by GnumFileSaver derivates.
@@ -267,15 +302,29 @@ gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
                        const gchar *extension,
                        const gchar *description,
                        FileFormatLevel level,
+#ifdef ENABLE_BONOBO
+		       GnumFileSaverSaveFunc save_func,
+		       GnumFileSaverSaveToStreamFunc save_to_stream_func)
+#else
                        GnumFileSaverSaveFunc save_func)
+#endif
 {
+	gchar *tmp;
+
 	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
 
 	fs->id = g_strdup (id);
+	tmp = g_strdup_printf ("SomeFile.%s", extension);
+	fs->mime_type = gnome_mime_type_or_default (tmp,
+					"application/application/x-gnumeric");
+	g_free (tmp);
 	fs->extension = g_strdup (extension);
 	fs->description = g_strdup (description);
 	fs->format_level = level;
 	fs->save_func = save_func;
+#ifdef ENABLE_BONOBO
+	fs->save_to_stream_func = save_to_stream_func;
+#endif
 }
 
 /**
@@ -285,6 +334,9 @@ gnum_file_saver_setup (GnumFileSaver *fs, const gchar *id,
  * @description : Description of supported file format
  * @level       : File format level
  * @save_func   : Pointer to "save" function
+#ifdef ENABLE_BONOBO
+ * @save_to_stream_func: Pointer to "save to stream" function
+#endif
  *
  * Creates new GnumFileSaver object. Optional @id will be used
  * after registering it with register_file_saver or
@@ -297,12 +349,21 @@ gnum_file_saver_new (const gchar *id,
                      const gchar *extension,
                      const gchar *description,
                      FileFormatLevel level,
+#ifdef ENABLE_BONOBO
+		     GnumFileSaverSaveFunc save_func,
+		     GnumFileSaverSaveToStreamFunc save_to_stream_func)
+#else
                      GnumFileSaverSaveFunc save_func)
+#endif
 {
 	GnumFileSaver *fs;
 
 	fs = GNUM_FILE_SAVER (gtk_type_new (TYPE_GNUM_FILE_SAVER));
+#ifdef ENABLE_BONOBO
+	gnum_file_saver_setup (fs, id, extension, description, level, save_func, save_to_stream_func);
+#else
 	gnum_file_saver_setup (fs, id, extension, description, level, save_func);
+#endif
 
 	return fs;
 }
@@ -330,6 +391,14 @@ gnum_file_saver_get_id (GnumFileSaver const *fs)
 	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
 
 	return fs->id;
+}
+
+const gchar *
+gnum_file_saver_get_mime_type (GnumFileSaver const *fs)
+{
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+
+	return fs->mime_type;
 }
 
 const gchar *
@@ -378,6 +447,31 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	GNUM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, file_name);
 }
+
+#ifdef ENABLE_BONOBO
+/**
+ * gnum_file_saver_save_to_stream:
+ * @fs		: GnumFileSaver object
+ * @io_context	: Context for i/o operation
+ * @wbv		: Workbook View
+ * @stream	: Bonobo Stream
+ * @ev		: CORBA Environment
+ *
+ * Saves @wbv and workbook it's attached to into the stream. Results are
+ * reported through the environment variable, the i/o context is used only
+ * for updating the progress bar.
+ */
+void
+gnum_file_saver_save_to_stream (GnumFileSaver const *fs, IOContext *io_context,
+		                WorkbookView *wbv, BonoboStream *stream,
+				CORBA_Environment *ev)
+{
+	bonobo_return_if_fail (IS_GNUM_FILE_SAVER (fs), ev);
+	
+	GNUM_FILE_SAVER_METHOD (fs, save_to_stream) (fs, io_context, wbv,
+						     stream, ev);
+}
+#endif
 
 /**
  * gnum_file_saver_fix_file_name:
@@ -712,6 +806,28 @@ get_default_file_saver (void)
 	}
 
 	return ((DefaultFileSaver *) default_file_saver_list->data)->saver;
+}
+
+/**
+ * get_file_saver_for_mime_type:
+ * @mime_type: A mime type
+ *
+ * Returns a file saver that claims to save files with given mime type.
+ *
+ * Return value: GnumFileSaver object or NULL if no suitable file saver could
+ *               be found.
+ */
+GnumFileSaver *
+get_file_saver_for_mime_type (const gchar *mime_type)
+{
+	GList *l;
+
+	for (l = file_saver_list; l != NULL; l = l->next) {
+		if (!strcmp (gnum_file_saver_get_mime_type (l->data), mime_type)) {
+			return (l->data);
+		}
+	}
+	return (NULL);
 }
 
 /**

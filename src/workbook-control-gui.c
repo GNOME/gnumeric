@@ -56,6 +56,10 @@
 
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
+#ifdef ENABLE_EVOLUTION
+#include "idl/Evolution-Composer.h"
+#include <bonobo/bonobo-stream-memory.h>
+#endif
 #endif
 
 #include "gnumeric-util.h"
@@ -1269,6 +1273,95 @@ cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
+
+#ifdef ENABLE_BONOBO
+#ifdef ENABLE_EVOLUTION
+static void
+cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	CORBA_Object composer;
+	CORBA_Environment ev;
+	BonoboStream *stream;
+#if 0
+	Bonobo_StorageInfo *info;
+#else
+	const gchar *filename;
+#endif
+	GNOME_Evolution_Composer_AttachmentData *attachment_data;
+
+	CORBA_exception_init (&ev);
+	composer = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Composer",
+					 0, NULL, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Unable to start composer: %s",
+			   bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
+	gui_file_save_to_stream (stream, wbcg,
+				 wb_control_view (WORKBOOK_CONTROL (wbcg)),
+				 NULL, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Unable to save workbook to stream: %s",
+			   bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
+		bonobo_object_release_unref (composer, NULL);
+		return;
+	}
+
+	attachment_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
+	attachment_data->_buffer = BONOBO_STREAM_MEM (stream)->buffer;
+	attachment_data->_length = BONOBO_STREAM_MEM (stream)->size;
+	BONOBO_STREAM_MEM (stream)->buffer = NULL;
+	bonobo_object_unref (BONOBO_OBJECT (stream));
+#if 0
+	/*
+	 * FIXME: Enable this code when BonoboStreamMemory has [get,set]Info
+	 * capabilities.
+	 */
+	info = Bonobo_Stream_getInfo (BONOBO_OBJREF (stream), 0, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Could not get information about stream: %s",
+			   bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
+		bonobo_object_release_unref (composer, NULL);
+		return;
+	}
+	GNOME_Evolution_Composer_attachData (composer, info->content_type,
+					     info->name, info->name, FALSE,
+					     attachment_data, &ev);
+	CORBA_free (info);
+#else
+	filename = workbook_get_filename (wb_view_workbook (wb_control_view (
+						WORKBOOK_CONTROL (wbcg))));
+	GNOME_Evolution_Composer_attachData (composer, "application/x-gnumeric",
+					     filename, filename, FALSE,
+					     attachment_data, &ev);
+#endif
+	CORBA_free (attachment_data);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Unable to attach image: %s", 
+			   bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
+		bonobo_object_release_unref (composer, NULL);
+		return;
+	}
+
+	GNOME_Evolution_Composer_show (composer, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Unable to show composer: %s", 
+			   bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
+		bonobo_object_release_unref (composer, NULL);
+		return;
+	}
+
+	CORBA_exception_free (&ev); 
+}
+#endif
+#endif
 
 static void
 cb_file_print_setup (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -2650,6 +2743,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FileImport", cb_file_import),
 	BONOBO_UI_UNSAFE_VERB ("FileSave", cb_file_save),
 	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", cb_file_save_as),
+#ifdef ENABLE_EVOLUTION
+	BONOBO_UI_UNSAFE_VERB ("FileSend", cb_file_send),
+#endif
 	BONOBO_UI_UNSAFE_VERB ("FilePrintSetup", cb_file_print_setup),
 	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
 	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
@@ -3502,6 +3598,12 @@ show_gui (WorkbookControlGUI *wbcg)
 	return FALSE;
 }
 
+#define SEND_MENU_ITEM 							\
+"<placeholder name=\"FileOperations\">"					\
+"  <menuitem name=\"FileSend\" _label=\"Send\""				\
+"            pixtype=\"stock\" pixname=\"New Mail\" verb=\"\"/>"	\
+"</placeholder>"
+
 void
 workbook_control_gui_init (WorkbookControlGUI *wbcg,
 			   WorkbookView *optional_view, Workbook *optional_wb)
@@ -3607,6 +3709,10 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		bonobo_ui_util_set_ui (wbcg->uic,  dir,
 				       "GNOME_Gnumeric.xml", "gnumeric");
 	}
+#ifdef ENABLE_EVOLUTION
+	bonobo_ui_component_set_translate (wbcg->uic, "/menu/File",
+					   SEND_MENU_ITEM, NULL);
+#endif
 
 	TOGGLE_REGISTER (display_formulas, SheetDisplayFormulas);
 	TOGGLE_REGISTER (hide_zero, SheetHideZeros);

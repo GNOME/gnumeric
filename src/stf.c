@@ -332,5 +332,10 @@ stf_init (void)
 	register_file_saver (gnum_file_saver_new (
 	                     "Gnumeric_stf:stf", "csv",
 	                     _("Text File Export (*.csv)"),
-	                     FILE_FL_MANUAL, stf_write_workbook));
+	                     FILE_FL_MANUAL,
+#ifdef ENABLE_BONOBO
+			     stf_write_workbook, NULL));
+#else
+			     stf_write_workbook));
+#endif
 }

@@ -9,6 +9,9 @@
 #ifndef GNUMERIC_XML_IO_H
 #define GNUMERIC_XML_IO_H
 
+#ifdef ENABLE_BONOBO
+#include <bonobo/bonobo-stream.h>
+#endif
 #include "gnumeric.h"
 #include "file.h"
 #include "gnome-xml/tree.h"
@@ -64,6 +67,13 @@ void gnumeric_xml_read_workbook (GnumFileOpener const *fo, IOContext *context,
                                  WorkbookView *wbv, const gchar *filename);
 void gnumeric_xml_write_workbook (GnumFileSaver const *fs, IOContext *context,
                                   WorkbookView *wbv, const gchar *filename);
+#ifdef ENABLE_BONOBO
+void gnumeric_xml_write_workbook_to_stream (GnumFileSaver const *fs, 
+		                            IOContext *context,
+					    WorkbookView *wbv,
+					    BonoboStream *stream, 
+					    CORBA_Environment *ev);
+#endif
 
 XmlParseContext *xml_parse_ctx_new      (xmlDocPtr             doc,
 					 xmlNsPtr              ns);
