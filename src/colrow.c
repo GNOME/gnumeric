@@ -254,7 +254,7 @@ colrow_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
 	ColRowRLESizeList *list = NULL;
 	SavedSize         *ss;
 	double             size, run_size = 0.;
-	int                run_length;
+	int                run_length = 0;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (first <= last, NULL);
@@ -438,8 +438,6 @@ colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
 			}
 		}
 		offset += ss->length;
-		
-		g_free (ss);
 	}
 
 	colrow_rle_size_list_destroy (sizes);
