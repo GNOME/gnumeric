@@ -5,6 +5,8 @@
 	* graphics-plots.xml: "procedure"s don't go in "para"s.
 	* files-formats.xml: Added empty "title" tags in "table"s. "ulink" tags
 	take "url" attributes, not "linkend"s.
+	* files-opening.xml, files-textopen.xml: Wrapped "caption" contents in
+	"para"s.
 
 2004-10-01  Adrian Custer <acuster@gnome.org>
 
