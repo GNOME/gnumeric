@@ -1,5 +1,10 @@
 2001-04-23  Morten Welinder  <terra@diku.dk>
 
+	* src/number-match.c (compute_value): Handle negative numbers(!).
+  	Handle overflow better.
+
+2001-04-23  Morten Welinder  <terra@diku.dk>
+
 	* src/gui-clipboard.c (x_selection_to_cell_region): Plug leak.
 
 2001-04-23  Almer S. Tigelaar  <almer@gnome.org>
