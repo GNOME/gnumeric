@@ -475,7 +475,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		v = format_match_number (vec->val->v_str.val->str, NULL,
 			workbook_date_conv (vec->dep.sheet->workbook));
 		if (v != NULL) {
-			vals[0] = value_get_as_float (v);
+			minimum = maximum = vals[0] = value_get_as_float (v);
 			value_release (v);
 			break;
 		}

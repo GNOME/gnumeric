@@ -1,5 +1,8 @@
 2003-07-01  Morten Welinder  <terra@gnome.org>
 
+	* src/graph.c (gnm_go_data_vector_load_values): Always set minimum
+	and maximum.
+
 	* src/stf-parse.c (stf_parse_csv_cell): Don't use O(n^2) UTF-8
 	validation.
 
