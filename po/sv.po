@@ -98,11 +98,11 @@ msgstr "Guile-tillägg"
 
 #: plugins/html/boot.c:65
 msgid "HTML 3.2 file format (*.html)"
-msgstr "HTML 3.2 filformat (*.html)"
+msgstr "HTML 3.2-filformat (*.html)"
 
 #: plugins/html/boot.c:67
 msgid "HTML 4.0 file format (*.html)"
-msgstr "HTML 4.0 filformat (*.html)"
+msgstr "HTML 4.0-filformat (*.html)"
 
 #: plugins/html/boot.c:69
 msgid "HTML file made by gnumeric"
@@ -110,19 +110,19 @@ msgstr "HTML-fil gjord med gnumeric"
 
 #: plugins/html/boot.c:73
 msgid "LaTeX file format (*.tex)"
-msgstr "LaTeX filformat (*.tex)"
+msgstr "LaTeX-filformat (*.tex)"
 
 #: plugins/html/boot.c:75
 msgid "LaTeX2e file format (*.tex)"
-msgstr "LaTeX2e filformat (*.tex)"
+msgstr "LaTeX2e-filformat (*.tex)"
 
 #: plugins/html/boot.c:78
 msgid "PS file format (via groff)"
-msgstr "PS filformat (via groff)"
+msgstr "PostScript-filformat (via groff)"
 
 #: plugins/html/boot.c:80
 msgid "DVI TeX file format (via groff)"
-msgstr "DVI TeX filformat (via groff)"
+msgstr "DVI TeX-filformat (via groff)"
 
 #: plugins/html/boot.c:82
 msgid "TROFF file format (*.me)"
@@ -130,11 +130,11 @@ msgstr "TROFF-filformat (*.me)"
 
 #: plugins/html/boot.c:84
 msgid "PDF file format (via groff/gs)"
-msgstr "PDF filformat (via groff/ps)"
+msgstr "PDF-filformat (via groff/ps)"
 
 #: plugins/html/boot.c:87
 msgid "EPS file format (*.eps)"
-msgstr "EPS filformat (*.eps)"
+msgstr "EPS-filformat (*.eps)"
 
 #: plugins/html/boot.c:100
 msgid "HTML (simple html export/import plugin)"
@@ -142,7 +142,7 @@ msgstr "HTML (enkel export/import av html)"
 
 #: plugins/lotus-123/boot.c:88
 msgid "Lotus (*.wk1) file format"
-msgstr "Lotus filformat (*.wk1)"
+msgstr "Lotus-filformat (*.wk1)"
 
 #: plugins/lotus-123/boot.c:94
 msgid "Lotus 123 file import/export plugin"
@@ -191,7 +191,7 @@ msgid ""
 "While opening %s\n"
 "%s"
 msgstr ""
-"Medan öppnande av %s\n"
+"Vid öppnandet av %s\n"
 "%s"
 
 #: plugins/text/text-io.c:337
@@ -232,7 +232,7 @@ msgstr "Jody Goldberg, Excel-hacker."
 
 #: src/about.c:28
 msgid "Ross Ihaka, special functions."
-msgstr "Ross Ihaka, special functions."
+msgstr "Ross Ihaka, specialfunktioner."
 
 #: src/about.c:29
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
@@ -700,7 +700,7 @@ msgstr "Antal stickprov:"
 #: src/dialogs/dialog-analysis-tools.c:1112
 #: src/dialogs/dialog-analysis-tools.c:1214
 msgid "Variable 1 Range:"
-msgstr "Område för variabel 1:"
+msgstr "Intervall för variabel 1:"
 
 #: src/dialogs/dialog-analysis-tools.c:787
 #: src/dialogs/dialog-analysis-tools.c:904
@@ -708,14 +708,14 @@ msgstr "Område för variabel 1:"
 #: src/dialogs/dialog-analysis-tools.c:1115
 #: src/dialogs/dialog-analysis-tools.c:1217
 msgid "Variable 2 Range:"
-msgstr "Område för variabel 2:"
+msgstr "Intervall för variabel 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:790
 #: src/dialogs/dialog-analysis-tools.c:907
 #: src/dialogs/dialog-analysis-tools.c:1012
 #: src/dialogs/dialog-analysis-tools.c:1118
 msgid "Hypothesized Mean Difference:"
-msgstr ""
+msgstr "Trolig standard-differens:"
 
 #: src/dialogs/dialog-analysis-tools.c:793
 msgid "Variable 1 Variance (known):"
@@ -1101,7 +1101,7 @@ msgstr "Formel-hjälpreda"
 #: src/dialogs/dialog-goal-seek.c:191
 #, c-format
 msgid "Goal seeking with cell %s found a solution"
-msgstr ""
+msgstr "Målsökning med cell %s hittade en lösning"
 
 #: src/dialogs/dialog-goal-seek.c:195
 #, c-format
@@ -1116,7 +1116,7 @@ msgstr "Nuvarande värde: %12.2f"
 #: src/dialogs/dialog-goal-seek.c:201
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr "Lösning:        %12.2f"
+msgstr "Lösning:         %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:204
 msgid "Goal Seek Report"
@@ -1293,7 +1293,7 @@ msgstr "Kvadratisk"
 
 #: src/dialogs/dialog-solver.c:57
 msgid "Forward"
-msgstr ""
+msgstr "Framåt"
 
 #: src/dialogs/dialog-solver.c:58
 msgid "Central"
@@ -1707,7 +1707,7 @@ msgstr "redan definierad"
 
 #: src/expr-name.c:178
 msgid "no scope"
-msgstr ""
+msgstr "ingen omgivning"
 
 #: src/expr-name.c:183
 msgid "circular reference"
@@ -1798,6 +1798,23 @@ msgid ""
 "\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
+"@FUNCTION=DAVERAGE\n"
+"@SYNTAX=DAVERAGE(databas,fält,villkor)\n"
+"@DESCRIPTION=DAVERAGE returnerar medelvärdet av värdena i en lista eller "
+"databas som matchar villkoret.\n"
+"@databas är det område av celler där rader av relaterad information är "
+"poster och kolumner är fält. Den första raden i en databas innehåller "
+"rubriker för varje kolumn. \n"
+"@fält specifierar vilken kolumn som skall användas i funktionen. Om @fält "
+"är ett heltal, t.ex. 2, så används den andra kolumnen. Fält kan också vara "
+"rubriken på en kolumn. \n"
+"@villkor är ett område av celler som innehåller villkor för urvalet. Den "
+"första readen av @villkor skall innehålla rubriker för de fält som villkoret "
+"gäller. Celler under rubriken specificerar villkoret, till exempel ''>3'' "
+"eller ''<9''. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=DCOUNT"
 
 #: src/functions/fn-database.c:412
 msgid ""
@@ -3338,11 +3355,7 @@ msgid ""
 "\n"
 "@SEEALSO=ERF"
 msgstr ""
-"@FUNCTION=SQRT\n"
-"@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x.\n"
-"Om @x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
-"@SEEALSO=POW"
+"@FUNCTION="
 
 #: src/functions/fn-eng.c:1730
 msgid ""
@@ -8236,20 +8249,20 @@ msgstr "0.0########"
 
 #: src/format.c:1252 src/value.c:204 src/value.c:387
 msgid "TRUE"
-msgstr ""
+msgstr "SANN"
 
 #: src/format.c:1252 src/value.c:204 src/value.c:387
 msgid "FALSE"
-msgstr ""
+msgstr "FALSK"
 
 #: src/format.c:1261
 msgid "CELLRANGE"
-msgstr ""
+msgstr "CELLOMRÅDE"
 
 #. Array of arrays ??
 #: src/format.c:1265
 msgid "ARRAY"
-msgstr ""
+msgstr "ARRAY"
 
 #: src/formats.c:17
 msgid "0"
@@ -8487,11 +8500,11 @@ msgstr "$#,##0.00_);[Röd]($#,##0.00)"
 
 #: src/func.c:424
 msgid "Function does not exist"
-msgstr ""
+msgstr "Funktionen existerar inte"
 
 #: src/func.c:426
 msgid "Calling non-function"
-msgstr ""
+msgstr "Anropar icke-existerande funktion"
 
 #: src/gnumeric-sheet.c:1013
 msgid "Solid"
@@ -8893,6 +8906,12 @@ msgid ""
 "\n"
 "We apologize for the inconvenience"
 msgstr ""
+"Förhandsgranskning är under utveckling.\n"
+"Resultatet av förhandsgranskning är för närvarande inte korrekt,\n"
+"det kan innehålla felaktig rendering (till exempel svarta fyrkanter\n"
+"och felaktig textplacering).\n"
+"\n"
+"Vi ber om ursäkt för alla olägenheter"
 
 #: src/sheet-view.c:357 src/sheet-view.c:429
 #, c-format
@@ -8919,31 +8938,31 @@ msgstr "Kunde inte binda objektet"
 
 #: src/value.c:603
 msgid "Terminate"
-msgstr ""
+msgstr "Terminera"
 
 #: src/value.c:894
 msgid "#NULL!"
-msgstr ""
+msgstr "#TOM!"
 
 #: src/value.c:896
 msgid "#VALUE!"
-msgstr ""
+msgstr "#VÄRDE!"
 
 #: src/value.c:897
 msgid "#REF!"
-msgstr ""
+msgstr "#REF!"
 
 #: src/value.c:898
 msgid "#NAME?"
-msgstr ""
+msgstr "#NAMN?"
 
 #: src/value.c:899
 msgid "#NUM!"
-msgstr ""
+msgstr "#NUM!"
 
 #: src/value.c:900
 msgid "#N/A"
-msgstr ""
+msgstr "#N/A"
 
 #. Placeholder: font selector
 #. Placeholder: size selector
@@ -8953,7 +8972,7 @@ msgstr "Fetstil"
 
 #: src/widgets/widget-font-selector.c:112
 msgid "Bold italic"
-msgstr ""
+msgstr "Fet kursiv"
 
 #: src/widgets/widget-font-selector.c:113 src/workbook-format-toolbar.c:404
 msgid "Italic"
@@ -9226,7 +9245,7 @@ msgstr "_Problemlösare..."
 
 #: src/workbook.c:1023
 msgid "_Data Analysis..."
-msgstr ""
+msgstr "_Dataanalys..."
 
 #: src/workbook.c:1037
 msgid "_Insert"
@@ -9290,7 +9309,7 @@ msgstr "Skapar ett diagram på kalkylbladet"
 
 #: src/workbook.c:1087
 msgid "Bobobo Item"
-msgstr ""
+msgstr "Bonobo-object"
 
 #: src/workbook.c:1087
 msgid "Creates a Bonobo shaped item"
