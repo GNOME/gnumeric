@@ -26,14 +26,21 @@ typedef struct {
  * Bonobo::View Bonobo containers.
  */
 GtkType      sheet_object_container_get_type (void);
-SheetObject *sheet_object_container_new      (Sheet *sheet,
-					      double x1, double y1,
-					      double x2, double y2,
-					      const char *object_name);
 
 SheetObject *sheet_object_graphic_new        (Sheet *sheet,
 					      double x1, double y1,
 					      double x2, double y2);
+
+SheetObject *sheet_object_container_new_from_goadid
+                                             (Sheet *sheet,
+					      double x1, double y1,
+					      double x2, double y2,
+					      const char *goad_id);
+SheetObject *
+sheet_object_container_new_bonobo (Sheet *sheet,
+				   double x1, double y1,
+				   double x2, double y2,
+				   BonoboClientSite *client_site);
 
 #endif /* GNUMERIC_SHEET_OBJECT_CONTAINER_H */
 

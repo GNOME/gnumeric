@@ -48,9 +48,11 @@
 #include "workbook-private.h"
 
 /* Persistent attribute ids */
-#define ARG_VIEW_HSCROLLBAR 1
-#define ARG_VIEW_VSCROLLBAR 2
-#define ARG_VIEW_TABS       3
+enum {
+	ARG_VIEW_HSCROLLBAR = 1,
+	ARG_VIEW_VSCROLLBAR,
+	ARG_VIEW_TABS
+};
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -925,6 +927,21 @@ cb_sheet_pref_hide_row_header (GtkWidget *widget, Workbook *wb)
 }
 
 /***********************************************************************/
+/* Workbook level preferences */
+
+static void
+cb_wb_pref_hide_hscroll (GtkWidget *widget, Workbook *wb)
+{
+	wb->show_horizontal_scrollbar = ! wb->show_horizontal_scrollbar;
+	workbook_view_pref_visibility (wb);
+}
+
+static void
+cb_wb_pref_hide_vscroll (GtkWidget *widget, Workbook *wb)
+{
+	wb->show_vertical_scrollbar = ! wb->show_vertical_scrollbar;
+	workbook_view_pref_visibility (wb);
+}
 
 static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
@@ -2475,7 +2492,6 @@ workbook_set_arg (GtkObject  *object,
 	wb = WORKBOOK (object);
 
 	switch (arg_id) {
-	  
 	case ARG_VIEW_HSCROLLBAR:
 		wb->show_horizontal_scrollbar = GTK_VALUE_BOOL (*arg);
 		workbook_view_pref_visibility (wb);
@@ -2500,29 +2516,31 @@ workbook_get_arg (GtkObject  *object,
 
 	wb = WORKBOOK (object);
 
-	  switch (arg_id) {
-	  
-	  case ARG_VIEW_HSCROLLBAR:
-		  GTK_VALUE_BOOL (*arg) = wb->show_horizontal_scrollbar;
-		  break;
-	  case ARG_VIEW_VSCROLLBAR:
-		  GTK_VALUE_BOOL (*arg) = wb->show_vertical_scrollbar;
-		  break;
-	  case ARG_VIEW_TABS:
-		  GTK_VALUE_BOOL (*arg) = wb->show_notebook_tabs;
-		  break;
-	  }
+	switch (arg_id) {
+	case ARG_VIEW_HSCROLLBAR:
+		GTK_VALUE_BOOL (*arg) = wb->show_horizontal_scrollbar;
+		break;
+		
+	case ARG_VIEW_VSCROLLBAR:
+		GTK_VALUE_BOOL (*arg) = wb->show_vertical_scrollbar;
+		break;
+		
+	case ARG_VIEW_TABS:
+		GTK_VALUE_BOOL (*arg) = wb->show_notebook_tabs;
+		break;
+	}
 }
 
 void
 workbook_set_attributev (Workbook *wb, GList *list)
 {
-	GtkArg *arg;
 	gint length, i;
 	
 	length = g_list_length(list);
-	for (i=0; i<length; i++) {
-		arg = (GtkArg *) (g_list_nth_data (list, i));
+
+	for (i = 0; i < length; i++){
+		GtkArg *arg = g_list_nth_data (list, i);
+
 		gtk_object_arg_set (GTK_OBJECT(wb), arg, NULL);
 	}
 }

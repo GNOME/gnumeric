@@ -164,10 +164,10 @@ sheet_object_drop_file (Sheet *sheet, gdouble x, gdouble y, const char *fname)
 		SheetObject   *so;
 		ObjectCoords   pos;
 
-		so = sheet_object_container_new_from_goadid (
+		so = SHEET_OBJECT (sheet_object_container_new_from_goadid (
 			sheet, pos.x, pos.y,
 			pos.x + 100.0, pos.y + 100.0,
-			mime_goad_id);
+			mime_goad_id));
 		if (!so) {
 			msg = g_strdup_printf ("can't create object for '%s'", mime_goad_id);
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
@@ -454,27 +454,6 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 		break;
 	}
 
-	case SHEET_MODE_CREATE_GRAPHIC:
-#ifdef ENABLE_BONOBO
-		g_warning ("Ugly API name follows, fix it");
-		o = sheet_object_container_new_bonobo (
-			sheet, x1, y1, x2, y2, sheet->mode_data);
-		g_warning ("Possible leak");
-		/*
-		 * Ie, who "owns" mode_data when it is a BonoboObjectClient?
-		 */
-		sheet->mode_data = NULL;
-		break;
-#endif
-			
-	case SHEET_MODE_CREATE_COMPONENT:
-#ifdef ENABLE_BONOBO
-		o = sheet_object_container_new_from_goadid (
-			sheet, x1, y1, x2, y2, sheet->mode_data);
-		g_free (sheet->mode_data);
-		sheet->mode_data = NULL;
-		break;
-#endif
 
 	case SHEET_MODE_CREATE_CANVAS_ITEM:
 #ifdef ENABLE_BONOBO
@@ -482,6 +461,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 			sheet, x1, y1, x2, y2, sheet->mode_data);
 		g_free (sheet->mode_data);
 		sheet->mode_data = NULL;
+		sheet_object_set_bounds (o, x1, y1, x2, y2);
 #endif
 		break;
 		
@@ -496,6 +476,29 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 	case SHEET_MODE_SHEET:
 	case SHEET_MODE_OBJECT_SELECTED:
 		g_assert_not_reached ();
+
+	case SHEET_MODE_CREATE_GRAPHIC:
+#ifdef ENABLE_BONOBO
+		g_warning ("Ugly API name follows, fix it");
+		o = sheet_object_container_new_bonobo (
+			sheet, x1, y1, x2, y2, sheet->mode_data);
+
+		g_warning ("Possible leak");
+		/*
+		 * Ie, who "owns" mode_data when it is a BonoboObjectClient?
+		 */
+		sheet->mode_data = NULL;
+		break;
+#endif
+			
+	case SHEET_MODE_CREATE_COMPONENT:
+#ifdef ENABLE_BONOBO
+		o = sheet_object_container_new_from_goadid (
+			sheet, x1, y1, x2, y1, sheet->mode_data);
+		g_free (sheet->mode_data);
+		sheet->mode_data = NULL;
+		break;
+#endif
 	}
 
 	sheet_object_realize (o);
@@ -526,14 +529,15 @@ sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "motion_notify_event");
 
 	so = SHEET_OBJECT (sheet->current_object);
-
 	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
 				      event->button.x, event->button.y,
 				      &brx, &bry);
 	
 	tl = (ObjectCoords *)sheet->coords->data;
 
+	sheet->current_object = so;
 	sheet_object_set_bounds (so, tl->x, tl->y, brx, bry);
+	
 
 	SO_CLASS(so)->update_bounds (so);
 	

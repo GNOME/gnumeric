@@ -107,7 +107,8 @@ dialog_stf_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPage
 	no_button = g_list_last (GNOME_DIALOG (dialog)->buttons)->data;
 	gtk_widget_grab_focus (no_button);
 	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
-					
+
+	gtk_main_quit ();
 	return (ret==1);
 }
 

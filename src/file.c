@@ -358,7 +358,7 @@ workbook_import (CommandContext *context, Workbook *parent,
 	if (ret != -1)
 		gnome_dialog_close (GNOME_DIALOG (dialog));
 
-	gtk_widget_destroy (GTK_WIDGET (hack_dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
 
 	return wb;

@@ -213,8 +213,6 @@ sheet_object_container_new_bonobo (Sheet *sheet,
 {
 	SheetObjectContainer *c;
 
-#warning More losage
-	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 

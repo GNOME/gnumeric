@@ -306,7 +306,63 @@ graph_view_line_draw_nth_clustered (ViewDrawCtx *ctx, int item, int draw_flags)
 }
 
 static void
-graph_view_line_draw_nth_stacked (ViewDrawCtx *ctx, int first, int last, int draw_flags)
+graph_view_line_draw_nth_stacked (ViewDrawCtx *ctx, int item, int draw_flags)
+{
+	const int n_series = ctx->graph->layout->n_series;
+	const int col_width = (ctx->units_per_slot - (ctx->margin * 2)) / n_series;
+	double *series_values = g_new (double, n_series);
+	int i;
+	double a, b;
+	double last_a_pos = 0, last_a_neg = 0;
+	double last_b_pos = 0, last_b_neg = 0;
+	double a1, b1, a2, b2;
+
+	for (i = ctx->graph->first; i < n_series; i++){
+		GraphVector *vector = ctx->graph->layout->vectors [i];
+		Symbol sym;
+		
+		setup_gc (ctx, i, item);
+
+		sym = symbol_setup (ctx, i);
+		
+		/*
+		 * Toda la rutina está mal.  Creo que lo que debe de hacer
+		 * es ver plotear con positivos negativos como las barras,
+		 * de otra manera se vuelve muy estúpido el modo stacked
+		 */
+		a = graph_vector_get_double (vector, item);
+		b = graph_vector_get_double (vector, item);
+
+		if (a > 0){
+			a1 = last_a_pos;
+			a2 = last_a_pos + a;
+			last_a_pos = a2;
+		} else {
+			a1 = last_a_neg;
+			a2 = last_a_neg + a;
+			last_a_neg = a2;
+		}
+
+		if (b > 0){
+			b1 = last_b_pos;
+			b2 = last_b_pos + b;
+			last_b_pos = b2;
+		} else {
+			b1 = last_b_neg;
+			b2 = last_b_neg + b;
+			last_b_neg = b2;
+		}
+		la_draw (
+			ctx, item, draw_flags, sym,
+			item * ctx->units_per_slot,
+			(item+1) * ctx->units_per_slot,
+			a1, b1, 
+			a2, b2);
+	}
+}
+
+static void
+graph_view_line_draw_nth_stacked_full (ViewDrawCtx *ctx, int item, int draw_flags)
 {
 	const int n_series = ctx->graph->layout->n_series;
 	const int col_width = (ctx->units_per_slot - (ctx->margin * 2)) / n_series;
@@ -327,30 +383,30 @@ graph_view_draw_area (ViewDrawCtx *ctx, int first, int last, int draw_flags)
 {
 	int item;
 	
-	switch (ctx->graph->chart_type){
-	case GNOME_Graph_CHART_TYPE_CLUSTERED:
-		/*
-		 * Notice that we only go from first..last-1 as the
-		 * lines/areas plotting modes use 2 data points to plot.
-		 */
-		for (item = first; item < last; item++){
-			if ((item + 1) == last)
-				draw_flags |= LAD_IS_LAST;
-			
+	/*
+	 * Notice that we only go from first..last-1 as the
+	 * lines/areas plotting modes use 2 data points to plot.
+	 */
+	for (item = first; item < last; item++){
+		if ((item + 1) == last)
+			draw_flags |= LAD_IS_LAST;
+		
+		switch (ctx->graph->chart_type){
+		case GNOME_Graph_CHART_TYPE_CLUSTERED:
 			graph_view_line_draw_nth_clustered (ctx, item, draw_flags);
+			break;
+		
+		case GNOME_Graph_CHART_TYPE_STACKED:
+			graph_view_line_draw_nth_stacked (ctx, item, draw_flags);
+			break;
+			
+		case GNOME_Graph_CHART_TYPE_STACKED_FULL:
+			graph_view_line_draw_nth_stacked_full (ctx, item, draw_flags);
+			break;
+			
+		default:
+			g_error ("This mode does not support Column/Bar plotting");
 		}
-		break;
-
-	case GNOME_Graph_CHART_TYPE_STACKED:
-		graph_view_line_draw_nth_stacked (ctx, first, last, draw_flags);
-		break;
-
-	case GNOME_Graph_CHART_TYPE_STACKED_FULL:
-/*		graph_view_line_draw_nth_stacked_full (ctx, item, draw_flags); */
-		break;
-
-	default:
-		g_error ("This mode does not support Column/Bar plotting");
 	}
 }
 
