@@ -1,3 +1,23 @@
+2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* anova-one.glade : added underline property
+	* anova-two.glade : added underline property
+	* correlation.glade : added underline property
+	* covariance.glade : added underline property
+	* descriptive-stats.glade : added underline property
+	* dialog-analysis-tools.c : added underline property
+	* exp-smoothing.glade : added underline property
+	* fourier-analysis.glade : added underline property
+	* histogram.glade : added underline property
+	* mean-tests.glade : added underline property
+	* moving-averages.glade : added underline property
+	* random-generation.glade : added underline property
+	* rank.glade : added underline property
+	* regression.glade : added underline property
+	* sampling.glade : added underline property
+	* variance-tests.glade : added underline property
+
+
 2002-01-23  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : Add use_underline to the radio buttons.

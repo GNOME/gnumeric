@@ -188,6 +188,7 @@
                         <property name="active">yes</property>
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -204,6 +205,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
                         <property name="group">grouped_by_col</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -220,6 +222,7 @@
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
                         <property name="group">grouped_by_col</property>
+                        <property name="use_underline">yes</property>
                       </widget>
                       <packing>
                         <property name="padding">0</property>
@@ -337,6 +340,7 @@
                     <property name="active">yes</property>
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
+                    <property name="use_underline">yes</property>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>
@@ -358,6 +362,7 @@
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
                     <property name="group">newsheet-button</property>
+                    <property name="use_underline">yes</property>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>
@@ -379,6 +384,7 @@
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
                     <property name="group">newsheet-button</property>
+                    <property name="use_underline">yes</property>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>

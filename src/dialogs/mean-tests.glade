@@ -198,6 +198,7 @@
                 <property name="active">no</property>
                 <property name="draw_indicator">yes</property>
                 <property name="visible">yes</property>
+                <property name="use_underline">yes</property>
               </widget>
               <packing>
                 <property name="left_attach">1</property>
@@ -219,6 +220,7 @@
                 <property name="draw_indicator">yes</property>
                 <property name="visible">yes</property>
                 <property name="group">paired-button</property>
+                <property name="use_underline">yes</property>
               </widget>
               <packing>
                 <property name="left_attach">2</property>
@@ -262,6 +264,7 @@
                 <property name="active">no</property>
                 <property name="draw_indicator">yes</property>
                 <property name="visible">yes</property>
+                <property name="use_underline">yes</property>
               </widget>
               <packing>
                 <property name="left_attach">1</property>
@@ -283,6 +286,7 @@
                 <property name="draw_indicator">yes</property>
                 <property name="visible">yes</property>
                 <property name="group">known-button</property>
+                <property name="use_underline">yes</property>
               </widget>
               <packing>
                 <property name="left_attach">2</property>
@@ -303,6 +307,7 @@
                 <property name="active">no</property>
                 <property name="draw_indicator">yes</property>
                 <property name="visible">yes</property>
+                <property name="use_underline">yes</property>
               </widget>
               <packing>
                 <property name="left_attach">1</property>
@@ -324,6 +329,7 @@
                 <property name="draw_indicator">yes</property>
                 <property name="visible">yes</property>
                 <property name="group">equal-button</property>
+                <property name="use_underline">yes</property>
               </widget>
               <packing>
                 <property name="left_attach">2</property>
@@ -609,6 +615,7 @@
                     <property name="active">yes</property>
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
+                    <property name="use_underline">yes</property>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>
@@ -630,6 +637,7 @@
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
                     <property name="group">newsheet-button</property>
+                    <property name="use_underline">yes</property>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>
@@ -651,6 +659,7 @@
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
                     <property name="group">newsheet-button</property>
+                    <property name="use_underline">yes</property>
                   </widget>
                   <packing>
                     <property name="left_attach">0</property>

@@ -979,28 +979,23 @@ static void
 tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 {
 	char *text;
-	char const *rangename;
-	char const *sheetname;
+	char *name;
 	Range const *first;
 
 	first = selection_first_range (state->sheet, NULL, NULL);
 	
 	if (first != NULL) {
-		sheetname = state->sheet->name_quoted;
-		rangename =  range_name (first);
-		gtk_entry_set_text (GTK_ENTRY (state->output_entry), sheetname);
-		gtk_entry_append_text (GTK_ENTRY (state->output_entry), "!");
-		gtk_entry_append_text (GTK_ENTRY (state->output_entry), rangename);
+		name =  global_range_name (state->sheet, first);
+		gtk_entry_set_text (GTK_ENTRY (state->output_entry), name);
 
 		if (allow_multiple) {
 			text = selection_to_string (state->sheet, TRUE);
 			gtk_entry_set_text (GTK_ENTRY (state->input_entry), text);
 			g_free (text);
 		} else {
-			gtk_entry_set_text (GTK_ENTRY (state->input_entry), sheetname);
-			gtk_entry_append_text (GTK_ENTRY (state->output_entry), "!");
-			gtk_entry_append_text (GTK_ENTRY (state->output_entry), rangename);
+			gtk_entry_set_text (GTK_ENTRY (state->input_entry), name);
 		}
+		g_free (name);
 	}
 
 	gtk_widget_show (state->dialog);
