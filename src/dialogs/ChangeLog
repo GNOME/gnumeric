@@ -1,3 +1,10 @@
+2001-12-18  Morten Welinder  <terra@diku.dk>
+
+	* dialog-function-select.c (function_list_fill): Set the right
+	clist data.  (Row numbers for gtk_clist are zero based.)
+	(function_select_row): Use row data, not index in function list.
+	(dialog_function_select_impl): Ditto.
+
 2001-12-18  Jody Goldberg <jody@gnome.org>
 
 	* dialog-consolidate.c (construct_consolidate) : parse_range change.

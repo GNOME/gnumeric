@@ -87,7 +87,7 @@ function_list_fill (FunctionSelectState *state)
 		cols[0] = (gchar *)function_def_get_name (func); /* Const cast */
 		gtk_clist_append (list, cols);
 
-		gtk_clist_set_row_data (list, ++i, (gpointer)func);
+		gtk_clist_set_row_data (list, i++, (gpointer)func);
 	}
 	g_list_free (funcs);
 
@@ -139,7 +139,12 @@ function_select_row (GtkCList *clist, gint row, gint col,
 		gtk_signal_emit_by_name (GTK_OBJECT (state->dialog),
 					 "clicked", 0);
 	state->selected_func = row;
-	state->func = g_list_nth_data (state->cat->functions, row);
+	state->func = gtk_clist_get_row_data (state->functions, row);
+
+	/* This seems to happen before we fill in things.  */
+	if (state->func == NULL)
+		return;
+
 	if (state->func_help != NULL)
 		tokenized_help_destroy (state->func_help);
 	state->func_help = tokenized_help_new (state->func);
@@ -165,6 +170,7 @@ static FunctionDefinition *
 dialog_function_select_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 {
 	int res;
+	FunctionDefinition *func = NULL;
 	FunctionSelectState state;
 
 	g_return_val_if_fail (wbcg, NULL);
@@ -211,17 +217,16 @@ dialog_function_select_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 	if (state.func_help != NULL)
 		tokenized_help_destroy (state.func_help);
 
+	if (res == GNOME_OK)
+		func = gtk_clist_get_row_data (state.functions,
+					       state.selected_func);
+
 	/* If the user closed the dialog with prejudice,
 	   its already destroyed */
 	if (res >= 0)
 		gnome_dialog_close (GNOME_DIALOG (state.dialog));
 
-	if (res == GNOME_OK) {
-		FunctionCategory const * const cat = state.cat;
-		return g_list_nth_data (cat->functions, state.selected_func);
-	}
-
-	return NULL;
+	return func;
 }
 
 /* Wrapper to ensure the libglade object gets removed on error */
