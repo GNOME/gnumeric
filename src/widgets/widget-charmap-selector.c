@@ -163,7 +163,7 @@ CharsetInfo const charset_trans_array[] = {
 	{N_("Vietnamese (VISCII)"),               "VISCII",                LG_VIETNAMESE},
 	{N_("Vietnamese (VPS)"),                  "x-viet-vps",            LG_VIETNAMESE},
 	{N_("Vietnamese (Windows-1258)"),         "windows-1258",          LG_VIETNAMESE},
-	{N_("Visual Hebrew(ISO-8859-8)"),         "ISO-8859-8",            LG_HEBREW},
+	{N_("Visual Hebrew (ISO-8859-8)"),        "ISO-8859-8",            LG_HEBREW},
 	{N_("Western (IBM-850)"),                 "IBM850",                LG_WESTERN},
 	{N_("Western (ISO-8859-1)"),              "ISO-8859-1",            LG_WESTERN},
 	{N_("Western (ISO-8859-15)"),             "ISO-8859-15",           LG_WESTERN},
