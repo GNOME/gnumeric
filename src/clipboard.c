@@ -207,6 +207,7 @@ clipboard_paste_region (CommandContext *context,
 						     pt->range.end.row);
 		if (deps)
 			eval_queue_list (deps, TRUE);
+		sheet_range_calc_spans (pt->sheet, pt->range, SPANCALC_RENDER);
 	}
 }
 

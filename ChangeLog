@@ -2,6 +2,7 @@
 
 	* src/clipboard.c (x_selection_received) : Do not try to paste if the
 	  conversion was canceled.
+	(clipboard_paste_region) : Respan/rerender as necessary after pasting.
 
 2000-05-27  Jody Goldberg <jgoldberg@home.com>
 
