@@ -2,8 +2,9 @@ Changes between version 0.26 and 0.27
 
 
 Jukka has added the following functions:
-	* SERIESSUM(), SUBTOTAL(), SUMA(), SLOPE(), AVERAGEA(),
-	* MAXA(), MINA(), STDEVA(), STDEVPA(), VARA(), VARPA()
+	* PERCENTRANK(), SERIESSUM(), SUBTOTAL(), SUMA(), SLOPE(),
+	* AVERAGEA(), MAXA(), MINA(), STDEVA(), STDEVPA(), VARA(),
+	* VARPA()
 
 And fixed these:
 	* 
