@@ -21,6 +21,7 @@
 #include "style-condition.h"
 #include "cell.h"
 #include "expr.h"
+#include "gui-validation.h"
 #include "number-match.h"
 #include "parse-util.h"
 #include "value.h"
@@ -135,13 +136,13 @@ wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
 {
 	StyleCondition *sc;
 	Sheet *sheet;
-
+	gboolean result = TRUE;
+	
 	sc = mstyle_get_validation (mstyle);
 	sheet = wbcg->editing_sheet;
 
 	if (sc) {
 		Value *v;
-		gboolean result;
 		Cell *cell = sheet_cell_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
 		
 		if (!val) {
@@ -157,22 +158,12 @@ wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
 		result = style_condition_eval (sc, v, cell ? cell->format : NULL);
 		if (!val)
 			value_release (v);
-			
-		/*
-		 * FIXME: Do something gui-ish here, pop-up
-		 * a dialog, use the validation_msg and
-		 * validation_style elements of mstyle
-		 */
-		if (result) {
-			g_message ("condition met!");
-			return TRUE;
-		} else {
-			g_message ("condition not met!");
-			return FALSE;
-		}
+
+		if (!result)
+			result = validation_get_accept (wbcg->toplevel, mstyle);
 	}
 	
-	return TRUE;
+	return result;
 }
 
 gboolean

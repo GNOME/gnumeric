@@ -1,3 +1,28 @@
+2001-10-23  Almer S. Tigelaar  <almer@gnome.org>
+
+	* cell-format.glade: Re-order validation action list.
+
+	* dialog-cell-format.c (fmt_dialog_init_validation_page):
+	Don't delete validation page.
+	(fmt_dialog_init_input_msg_page): Adjust deletion index.
+	(validation_entry_to_expr): New, turn entered text into
+	expression.
+	(validation_style_condition_chain_rebuild): Rebuild the
+	validation chain from the input given.
+	(cb_validation_error_action_deactivate): Cope for re-ordering
+	of the action list. Set the action on the resulting mstyle.
+	(cb_validation_operator_deactivate): Rebuild chain.
+	(cb_validation_constraint_type_deactivate): Idem.
+	(cb_validation_flags_changed): Idem.
+	(cb_validation_bounds_changed): New, force rebuild when bounds
+	change.
+	(cb_validation_error_title_msg): New, reset validation title
+	and message on mstyle when changed.
+	(fmt_dialog_init_from_style_condition): New, initialize the
+	Criteria part of the dialog from an existing mstyle.
+	(fmt_dialog_init_validation_page): Connect new signal callbacks
+	and initialize the Error Alert part of the dialog.
+	
 2001-10-22  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-define-names.c (cb_name_guru_add) : actually display the

@@ -1,3 +1,15 @@
+2001-10-23  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/mstyle.c (mstyle_get_validation_msg): Fix this for
+	cases where the msg is NULL.
+
+	* src/workbook-edit.c (wbcg_edit_validate): Call upon
+	validation_get_accept in gui-validation.c to pop-up
+	a dialog if needed.
+
+	* src/gui-validation.[ch]: New, gui parts of validation.
+	Used by wbcg_edit_validate and also in dialog-cell-format.c
+	
 2001-10-22  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/style-condition.h :

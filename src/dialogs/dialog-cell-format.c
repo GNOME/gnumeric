@@ -23,12 +23,15 @@
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-dashed-canvas-line.h"
 #include "gui-util.h"
+#include "gui-validation.h"
 #include "selection.h"
 #include "ranges.h"
 #include "cell.h"
+#include "expr.h"
 #include "format.h"
 #include "formats.h"
 #include "pattern.h"
+#include "position.h"
 #include "mstyle.h"
 #include "application.h"
 #include "workbook.h"
@@ -1972,11 +1975,87 @@ fmt_dialog_init_protection_page (FormatState *state)
 
 /*****************************************************************************/
 
+static ExprTree *
+validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
+{
+	ParsePos pp;
+
+	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
+	return expr_parse_string (gtk_entry_get_text (GTK_ENTRY (gee)), &pp, NULL, NULL);
+}
+
+static void
+validation_style_condition_chain_rebuild (FormatState *state)
+{
+	StyleCondition *sc = NULL;
+	int constraint     = gnumeric_option_menu_get_selected_index (state->validation.constraint_type);
+
+	if (!state->enable_edit)
+		return;
+	
+	if (constraint != 0) {
+		StyleCondition *scl = NULL;
+		int operator        = gnumeric_option_menu_get_selected_index (state->validation.operator);
+		
+		if (operator > 1) {
+			ExprTree *bound;
+
+			bound = validation_entry_to_expr (state->sheet, state->validation.bound1.entry);
+			if (bound) {
+				sc = scl = style_condition_new_expr (state->sheet, (StyleConditionOperator) operator - 2, bound);
+				expr_tree_unref (bound);
+			}
+		} else {
+			ExprTree *bound1, *bound2;
+			
+			bound1 = validation_entry_to_expr (state->sheet, state->validation.bound1.entry);
+			bound2 = validation_entry_to_expr (state->sheet, state->validation.bound2.entry);
+
+			if (bound1 && bound2) {
+				sc  = style_condition_new_expr (state->sheet, operator == 0 ? SCO_GREATER : SCO_LESS, bound1);
+				scl = style_condition_new_expr (state->sheet, operator == 0 ? SCO_LESS : SCO_GREATER, bound2);
+
+				if (operator == 0)
+					style_condition_chain (sc, SCB_AND_PAIR, scl);
+				else
+					style_condition_chain (sc, SCB_OR_PAIR, scl);
+
+				expr_tree_unref (bound2);
+				expr_tree_unref (bound1);
+			}
+		}
+
+		if (sc) {
+			StyleCondition *scc = style_condition_new_constraint (constraint - 1);
+			style_condition_chain (scl, SCB_AND_PAIR, scc);
+			scl = scc;
+
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->validation.ignore_blank))
+			    || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->validation.in_dropdown))) {
+				StyleCondition      *scf;
+				StyleConditionFlags  flags = 0;
+
+				if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->validation.ignore_blank)))
+					flags |= SCF_ALLOW_BLANK;
+				if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->validation.in_dropdown)))
+					flags |= SCF_IN_CELL_DROPDOWN;
+				
+				scf = style_condition_new_flags (flags);
+				style_condition_chain (scl, SCB_OR, scf);
+				scl = scf;
+			}
+		}
+	}
+
+	mstyle_set_validation (state->result, sc);
+	fmt_dialog_changed (state);
+}
+
 static void
 cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
 {
 	int      index = gnumeric_option_menu_get_selected_index (state->validation.error.action);
-	gboolean flag  = (index != 3) && (gnumeric_option_menu_get_selected_index (state->validation.constraint_type) != 0);
+	gboolean flag  = (index != 0) && (gnumeric_option_menu_get_selected_index (state->validation.constraint_type) != 0);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg_label), flag);
@@ -1987,13 +2066,13 @@ cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
 		char *s = NULL;
 		
 		switch (index) {
-		case 0 :
+		case 1 :
 			s = gnome_pixmap_file ("gnome-error.png");
 			break;
-		case 1 :
+		case 2 :
 			s = gnome_pixmap_file ("gnome-warning.png");
 			break;
-		case 2 :
+		case 3 :
 			s = gnome_pixmap_file ("gnome-info.png");
 			break;
 		}
@@ -2005,6 +2084,11 @@ cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
 	} else
 		gtk_widget_hide (GTK_WIDGET (state->validation.error.image));
+
+	if (state->enable_edit) {
+		mstyle_set_validation_style (state->result, (ValidationStyle) index);
+		fmt_dialog_changed (state);
+	}
 }
 
 static void
@@ -2041,6 +2125,8 @@ cb_validation_operator_deactivate (GtkMenuShell *shell, FormatState *state)
 	default :
 		g_warning ("Unknown operator index");
 	}
+
+	validation_style_condition_chain_rebuild (state);
 }
 
 static void
@@ -2061,22 +2147,129 @@ cb_validation_constraint_type_deactivate (GtkMenuShell *shell, FormatState *stat
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action), flag);
 	
-	cb_validation_error_action_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.error.action)), state);	
+	cb_validation_error_action_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.error.action)), state);
+	validation_style_condition_chain_rebuild (state);
+}
+
+static void
+cb_validation_bounds_changed (GtkEntry *entry, FormatState *state)
+{
+	validation_style_condition_chain_rebuild (state);
+}
+
+static void
+cb_validation_flags_changed (GtkToggleButton *button, FormatState *state)
+{
+	validation_style_condition_chain_rebuild (state);
+}
+
+static void
+cb_validation_error_title_msg (GtkWidget *widget, FormatState *state)
+{
+	if (state->enable_edit) {
+		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
+		char *msg   = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.msg), 0, -1);
+
+		validation_mstyle_set_title_msg (state->result, title, msg);
+		fmt_dialog_changed (state);
+	
+		g_free (msg);
+		g_free (title);
+	}
+}
+
+static void
+fmt_dialog_init_from_style_condition (FormatState *state)
+{
+	StyleCondition         *sci, *sc       = mstyle_get_validation (state->style);
+	gboolean                got_bound1     = FALSE;
+	gboolean                got_bound2     = FALSE;
+	gboolean                got_constraint = FALSE;
+	gboolean                got_flags      = FALSE;
+	StyleConditionOperator  bound1_op      = -1;
+	ParsePos                pp;
+
+	parse_pos_init (&pp, state->sheet->workbook, state->sheet, 0, 0);
+
+	for (sci = sc; sci != NULL; sci = sci->next) {
+		char *text = NULL;
+		
+		switch (sci->type) {
+		case SCT_EXPR :
+			if (!got_bound1) {
+				/*
+				 * This maps directly onto the operator list
+				 * items 2 through 7
+				 */
+				gtk_option_menu_set_history (state->validation.operator, sci->u.expr.op + 2);
+				text = expr_tree_as_string (sci->u.expr.dep.expression, &pp);
+				gtk_entry_set_text (GTK_ENTRY (state->validation.bound1.entry), text);
+				g_free (text);
+				
+				bound1_op = sci->u.expr.op;
+				got_bound1 = TRUE;
+			} else if (!got_bound2) {
+				/*
+				 * Once we get here, the first bound has been
+				 * set, the only valid setting for a second bound
+				 * is either the GREATER or LESS operator in
+				 * combination with one of those as the first
+				 * bound operator.
+				 */
+				if (bound1_op == SCO_GREATER
+				    && sci->u.expr.op == SCO_LESS)
+					gtk_option_menu_set_history (state->validation.operator, 0);
+				else if (bound1_op == SCO_LESS
+					 && sci->u.expr.op == SCO_GREATER)
+					gtk_option_menu_set_history (state->validation.operator, 1);
+				else
+					g_warning ("Invalid operator combination in style condition chain");
+
+				text = expr_tree_as_string (sci->u.expr.dep.expression, &pp);
+				gtk_entry_set_text (GTK_ENTRY (state->validation.bound2.entry), text);
+				g_free (text);
+				
+				got_bound2 = TRUE;
+			} else {
+				/*
+				 * This would mean there would be more then two normal operators in the chain
+				 * (excluding a type operator) something which is impossible.
+				 */
+				g_warning ("Invalid or corrupted style condition chain");
+			}
+			break;
+		case SCT_CONSTRAINT :
+			if (!got_constraint) {
+				/*
+				 * Maps onto the type restriction list
+				 */
+				gtk_option_menu_set_history (state->validation.constraint_type, sci->u.constraint + 1);
+				got_constraint = TRUE;
+			} else
+				g_warning ("Invalid constraint in style condition chain");
+			break;
+		case SCT_FLAGS :
+			if (!got_flags) {
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->validation.ignore_blank), sci->u.flags & SCF_ALLOW_BLANK);
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->validation.in_dropdown), sci->u.flags & SCF_IN_CELL_DROPDOWN);
+				got_flags = TRUE;
+			}
+			break;
+		default :
+			g_warning ("Unknown style condition type");
+		}
+	}
+
+	if (!got_flags) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->validation.ignore_blank), FALSE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->validation.in_dropdown), FALSE);
+	}
 }
 
 static void
 fmt_dialog_init_validation_page (FormatState *state)
 {
 	g_return_if_fail (state != NULL);
-
-	/*
-	 * NOTE: This should be removed when the feature
-	 * is implemented.
-	 */
-#if 1
-	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 6);
-	return;
-#endif
 
 	/* Setup widgets */
 	state->validation.criteria_table  = GTK_TABLE           (glade_xml_get_widget (state->gui, "validation_criteria_table"));
@@ -2120,7 +2313,46 @@ fmt_dialog_init_validation_page (FormatState *state)
 	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)), "deactivate",
 			    GTK_SIGNAL_FUNC (cb_validation_error_action_deactivate), state);
 
+	gtk_signal_connect (GTK_OBJECT (state->validation.bound1.entry), "changed",
+			    GTK_SIGNAL_FUNC (cb_validation_bounds_changed), state);
+	gtk_signal_connect (GTK_OBJECT (state->validation.bound2.entry), "changed",
+			    GTK_SIGNAL_FUNC (cb_validation_bounds_changed), state);
+	gtk_signal_connect (GTK_OBJECT (state->validation.ignore_blank), "toggled",
+			    GTK_SIGNAL_FUNC (cb_validation_flags_changed), state);
+	gtk_signal_connect (GTK_OBJECT (state->validation.in_dropdown), "toggled",
+			    GTK_SIGNAL_FUNC (cb_validation_flags_changed), state);
+	gtk_signal_connect (GTK_OBJECT (state->validation.error.title), "changed",
+			    GTK_SIGNAL_FUNC (cb_validation_error_title_msg), state);
+	gtk_signal_connect (GTK_OBJECT (state->validation.error.msg), "changed",
+			    GTK_SIGNAL_FUNC (cb_validation_error_title_msg), state);
+
 	/* Initialize */
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION))
+		fmt_dialog_init_from_style_condition (state);
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION_STYLE)) {
+		/*
+		 * Maps directly onto the error style option menu
+		 */
+		gtk_option_menu_set_history (state->validation.error.action,
+					     mstyle_get_validation_style (state->style));
+	}
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION_MSG)) {
+		char *title = validation_mstyle_get_title (state->style);
+		char *msg   = validation_mstyle_get_msg (state->style);
+		int   dummy  = 0;
+
+		if (title) {
+			gtk_entry_set_text (GTK_ENTRY (state->validation.error.title), title);
+			g_free (title);
+		}
+		
+		if (msg) {
+			gtk_editable_insert_text (GTK_EDITABLE (state->validation.error.msg),
+						  msg, strlen (msg), &dummy);
+			g_free (msg);
+		}
+	}
+	
 	cb_validation_constraint_type_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.constraint_type)), state);
 	cb_validation_operator_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.operator)), state);
 }
@@ -2146,11 +2378,9 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	/*
 	 * NOTE: This should be removed when the feature
 	 * is implemented.
-	 * NOTE2: Change the number from 6 to 7 when validation
-	 * is enabled, but not input messages.
 	 */
 #if 1
-	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 6);
+	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 7);
 	return;
 #endif
 	

@@ -100,6 +100,8 @@ GNUMERIC_BASE =					\
 	gui-util.c				\
 	gui-util.h				\
 	gui-gnumeric.h				\
+	gui-validation.c			\
+	gui-validation.h			\
 	gutils.c				\
 	gutils.h				\
 	history.c				\

@@ -3683,10 +3683,10 @@ val &lt;=bound                  (less than or equal to)
 	    <class>GtkOptionMenu</class>
 	    <name>validation_error_action</name>
 	    <can_focus>True</can_focus>
-	    <items>Stop           (never allow invalid input)
+	    <items>None          (silently accept invalid input)
+Stop           (never allow invalid input)
 Warning      (accept/discard invalid input)
 Information  (allows invalid input)
-None          (silently accept invalid input)
 </items>
 	    <initial_choice>0</initial_choice>
 	    <child>

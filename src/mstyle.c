@@ -1270,7 +1270,10 @@ mstyle_get_validation_msg (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION_MSG), NULL);
 
-	return style->elements[MSTYLE_VALIDATION_MSG].u.validation_msg->str;
+	if (style->elements[MSTYLE_VALIDATION_MSG].u.validation_msg)
+		return style->elements[MSTYLE_VALIDATION_MSG].u.validation_msg->str;
+	else
+		return NULL;
 }
 
 gboolean
