@@ -1,5 +1,10 @@
 2001-02-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell.c (cell_default_halign) : add support for arrays
+	  and center booleans.
+
+2001-02-20  Jody Goldberg <jgoldberg@home.com>
+
 	* src/xml-io.c (xml_write_style) : store indent.
 	(xml_read_style) : restore indent.
 
