@@ -12042,7 +12042,7 @@ msgstr "Oscail"
 
 #: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3996
 msgid "Open a file"
-msgstr "Oscáil comhad"
+msgstr "Oscail comhad"
 
 #: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3904
 msgid "Outlines _Below"
@@ -24040,561 +24040,561 @@ msgstr ""
 msgid "Gnumeric XML file format"
 msgstr ""
 
-#~ msgid "Invalid password"
-#~ msgstr "Pasfhocal míchumasach"
+msgid "Invalid password"
+msgstr "Pasfhocal míchumasach"
 
-#~ msgid "Output: "
-#~ msgstr "Aschur: "
+msgid "Output: "
+msgstr "Aschur: "
 
-#~ msgid "Variables: "
-#~ msgstr "Athrógaí: "
+msgid "Variables: "
+msgstr "Athrógaí: "
 
-#~ msgid "_Output Range: "
-#~ msgstr "Raon _Aschur: "
+msgid "_Output Range: "
+msgstr "Raon _Aschur: "
 
-#~ msgid "S_ize:"
-#~ msgstr "_Méid:"
+msgid "S_ize:"
+msgstr "_Méid:"
 
-#~ msgid "_Style:"
-#~ msgstr "_Stíl:"
+msgid "_Style:"
+msgstr "_Stíl:"
 
-#~ msgid "_Alpha:"
-#~ msgstr "_Alpha:"
+msgid "_Alpha:"
+msgstr "_Alpha:"
 
-#~ msgid "Options:"
-#~ msgstr "Roghanna:"
+msgid "Options:"
+msgstr "Roghanna:"
 
-#~ msgid "C_enter"
-#~ msgstr "Sa _Lár"
+msgid "C_enter"
+msgstr "Sa _Lár"
 
-#~ msgid "Co_lor:"
-#~ msgstr "_Dath:"
+msgid "Co_lor:"
+msgstr "_Dath:"
 
-#~ msgid "Message:"
-#~ msgstr "Scéal:"
+msgid "Message:"
+msgstr "Scéal:"
 
-#~ msgid "_Center"
-#~ msgstr "Sa _Lár"
+msgid "_Center"
+msgstr "Sa _Lár"
 
-#~ msgid "_Color:"
-#~ msgstr "_Dath:"
+msgid "_Color:"
+msgstr "_Dath:"
 
-#~ msgid "_Style"
-#~ msgstr "_Stíl"
+msgid "_Style"
+msgstr "_Stíl"
 
-#~ msgid "D_elete"
-#~ msgstr "_Dealaigh"
+msgid "D_elete"
+msgstr "_Dealaigh"
 
-#~ msgid "Remove this sheet"
-#~ msgstr "Scríos leathanach seo"
+msgid "Remove this sheet"
+msgstr "Scríos leathanach seo"
 
-#~ msgid "Create a pivot table."
-#~ msgstr "Cruthaigh líosta"
+msgid "Create a pivot table."
+msgstr "Cruthaigh líosta"
 
-#~ msgid "Tooltip"
-#~ msgstr "Leathfhocal uirlís"
+msgid "Tooltip"
+msgstr "Leathfhocal uirlís"
 
-#~ msgid "Cust_om"
-#~ msgstr "_Féindheanamh"
+msgid "Cust_om"
+msgstr "_Féindheanamh"
 
-#~ msgid "Sp_ecial"
-#~ msgstr "_Speisialta"
+msgid "Sp_ecial"
+msgstr "_Speisialta"
 
-#~ msgid "Te_xt"
-#~ msgstr "_Teacs"
+msgid "Te_xt"
+msgstr "_Teacs"
 
-#~ msgid "_Number"
-#~ msgstr "_Uimhir"
+msgid "_Number"
+msgstr "_Uimhir"
 
-#~ msgid "_Time"
-#~ msgstr "_Am"
+msgid "_Time"
+msgstr "_Am"
 
-#~ msgid "(1 - alpha):"
-#~ msgstr "(1 - alpha):"
+msgid "(1 - alpha):"
+msgstr "(1 - alpha):"
 
-#~ msgid "Add "
-#~ msgstr "Suimigh"
+msgid "Add "
+msgstr "Suimigh"
 
-#~ msgid "Misc"
-#~ msgstr "Teibi."
+msgid "Misc"
+msgstr "Teibi."
 
-#~ msgid "Unkno_wn"
-#~ msgstr "Gan _Aithne"
+msgid "Unkno_wn"
+msgstr "Gan _Aithne"
 
-#~ msgid "Variable 1 Range:"
-#~ msgstr "Raon _Athróg 1:"
+msgid "Variable 1 Range:"
+msgstr "Raon _Athróg 1:"
 
-#~ msgid "Variable 2 Range:"
-#~ msgstr "Raon _Athróg 2:"
+msgid "Variable 2 Range:"
+msgstr "Raon _Athróg 2:"
 
-#~ msgid ";[Red]"
-#~ msgstr ";[Red]"
+msgid ";[Red]"
+msgstr ";[Red]"
 
-#~ msgid "_);("
-#~ msgstr "_);("
+msgid "_);("
+msgstr "_);("
 
-#~ msgid "_);[Red]("
-#~ msgstr "_);[Red]("
+msgid "_);[Red]("
+msgstr "_);[Red]("
 
-#~ msgid "Example"
-#~ msgstr "Sampla"
+msgid "Example"
+msgstr "Sampla"
 
-#~ msgid "Formatting options"
-#~ msgstr "_Roghanna formóidáil"
+msgid "Formatting options"
+msgstr "_Roghanna formóidáil"
 
-#~ msgid "Size"
-#~ msgstr "Méid"
+msgid "Size"
+msgstr "Méid"
 
-#~ msgid "PLN : Not a PlanPerfect File"
-#~ msgstr "PLN: Níl comhad PlanPerfect ann"
+msgid "PLN : Not a PlanPerfect File"
+msgstr "PLN: Níl comhad PlanPerfect ann"
 
-#~ msgid "Horizontal"
-#~ msgstr "Cot_hrománach"
+msgid "Horizontal"
+msgstr "Cot_hrománach"
 
-#~ msgid "Printer"
-#~ msgstr "Clódóir"
+msgid "Printer"
+msgstr "Clódóir"
 
-#~ msgid "lpr Printer"
-#~ msgstr "Clódóir lpr"
+msgid "lpr Printer"
+msgstr "Clódóir lpr"
 
-#~ msgid "output.ps"
-#~ msgstr "output.ps"
+msgid "output.ps"
+msgstr "output.ps"
 
-#~ msgid "Out_put"
-#~ msgstr "_Aschur"
+msgid "Out_put"
+msgstr "_Aschur"
 
-#~ msgid "_Normal"
-#~ msgstr "_Gnáth"
+msgid "_Normal"
+msgstr "_Gnáth"
 
-#~ msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
-#~ msgstr "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
+msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
+msgstr "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 
-#~ msgid "DVI TeX (via groff)"
-#~ msgstr "DVI TeX (via groff)"
+msgid "DVI TeX (via groff)"
+msgstr "DVI TeX (via groff)"
 
-#~ msgid "E_xit"
-#~ msgstr "_Ealu"
+msgid "E_xit"
+msgstr "_Ealu"
 
-#~ msgid "Italicize"
-#~ msgstr "Iodálach"
+msgid "Italicize"
+msgstr "Iodálach"
 
-#~ msgid "P_roperties"
-#~ msgstr "_Roghnachais"
+msgid "P_roperties"
+msgstr "_Roghnachais"
 
-#~ msgid "_Preview"
-#~ msgstr "_Réamhthaispeántas"
+msgid "_Preview"
+msgstr "_Réamhthaispeántas"
 
-#~ msgid "mm"
-#~ msgstr "mm"
+msgid "mm"
+msgstr "mm"
 
-#~ msgid "millimeter"
-#~ msgstr "millimetre"
+msgid "millimeter"
+msgstr "millimetre"
 
-#~ msgid "cm"
-#~ msgstr "cm"
+msgid "cm"
+msgstr "cm"
 
-#~ msgid "centimeter"
-#~ msgstr "centimetre"
+msgid "centimeter"
+msgstr "centimetre"
 
-#~ msgid "In"
-#~ msgstr "In"
+msgid "In"
+msgstr "In"
 
-#~ msgid "_Edit..."
-#~ msgstr "_Eagar..."
+msgid "_Edit..."
+msgstr "_Eagar..."
 
-#~ msgid "MS Excel (tm) 95 file format"
-#~ msgstr "formóid chomad MS Excel (tm) 5.0/95"
+msgid "MS Excel (tm) 95 file format"
+msgstr "formóid chomad MS Excel (tm) 5.0/95"
 
-#~ msgid "Python Plugin"
-#~ msgstr "Plógála Python"
+msgid "Python Plugin"
+msgstr "Plógála Python"
 
-#~ msgid "Python exception"
-#~ msgstr "Eisceacht Python"
+msgid "Python exception"
+msgstr "Eisceacht Python"
 
-#~ msgid "_Type"
-#~ msgstr "_Saghas"
+msgid "_Type"
+msgstr "_Saghas"
 
-#~ msgid "0.75"
-#~ msgstr "0.75"
+msgid "0.75"
+msgstr "0.75"
 
-#~ msgid "100"
-#~ msgstr "100"
+msgid "100"
+msgstr "100"
 
-#~ msgid "15"
-#~ msgstr "15"
+msgid "15"
+msgstr "15"
 
-#~ msgid "200"
-#~ msgstr "200"
+msgid "200"
+msgstr "200"
 
-#~ msgid "Plugins"
-#~ msgstr "Plogálaí"
+msgid "Plugins"
+msgstr "Plogálaí"
 
-#~ msgid "Por_trait"
-#~ msgstr "_Portráid"
+msgid "Por_trait"
+msgstr "_Portráid"
 
-#~ msgid "_Bottom:"
-#~ msgstr "_Bun:"
+msgid "_Bottom:"
+msgstr "_Bun:"
 
-#~ msgid "_Left:"
-#~ msgstr "_Clé:"
+msgid "_Left:"
+msgstr "_Clé:"
 
-#~ msgid "_Right:"
-#~ msgstr "_Deis:"
+msgid "_Right:"
+msgstr "_Deis:"
 
-#~ msgid "&lt;- Remove"
-#~ msgstr "&lt;- Scríos"
+msgid "&lt;- Remove"
+msgstr "&lt;- Scríos"
 
-#~ msgid "Add -&gt;"
-#~ msgstr "Suim -&gt;"
+msgid "Add -&gt;"
+msgstr "Suim -&gt;"
 
-#~ msgid "Value%d"
-#~ msgstr "Luach%d"
+msgid "Value%d"
+msgstr "Luach%d"
 
-#~ msgid "Searc_h"
-#~ msgstr "_Cuardaigh"
+msgid "Searc_h"
+msgstr "_Cuardaigh"
 
-#~ msgid "_Author"
-#~ msgstr "_Údar:"
+msgid "_Author"
+msgstr "_Údar:"
 
-#~ msgid "Rem"
-#~ msgstr "Scríos"
+msgid "Rem"
+msgstr "Scríos"
 
-#~ msgid "$"
-#~ msgstr "$"
+msgid "$"
+msgstr "$"
 
-#~ msgid "_Sheet Name"
-#~ msgstr "Ainm _Leathanach"
+msgid "_Sheet Name"
+msgstr "Ainm _Leathanach"
 
-#~ msgid "Row: %s"
-#~ msgstr "Rónn: %s"
+msgid "Row: %s"
+msgstr "Rónn: %s"
 
-#~ msgid "Y Variable:"
-#~ msgstr "Athróg _Y:"
+msgid "Y Variable:"
+msgstr "Athróg _Y:"
 
-#~ msgid "Cell :"
-#~ msgstr "Cill :"
+msgid "Cell :"
+msgstr "Cill :"
 
-#~ msgid "<unknown>"
-#~ msgstr "<gan aithne>"
+msgid "<unknown>"
+msgstr "<gan aithne>"
 
-#~ msgid "Microsoft(R) Excel"
-#~ msgstr "Microsoft(R) Excel"
+msgid "Microsoft(R) Excel"
+msgstr "Microsoft(R) Excel"
 
-#~ msgid "LaTeX 2.09 (*.tex)"
-#~ msgstr "LaTeX 2.09 (*.tex)"
+msgid "LaTeX 2.09 (*.tex)"
+msgstr "LaTeX 2.09 (*.tex)"
 
-#~ msgid "SS"
-#~ msgstr "SS"
+msgid "SS"
+msgstr "SS"
 
-#~ msgid "df"
-#~ msgstr "df"
+msgid "df"
+msgstr "df"
 
-#~ msgid "MS"
-#~ msgstr "MS"
+msgid "MS"
+msgstr "MS"
 
-#~ msgid "_Open"
-#~ msgstr "_Oscail"
+msgid "_Open"
+msgstr "_Oscail"
 
-#~ msgid "Variable 1"
-#~ msgstr "Athróg 1"
+msgid "Variable 1"
+msgstr "Athróg 1"
 
-#~ msgid "X Variable %d"
-#~ msgstr "X Athróg %d"
+msgid "X Variable %d"
+msgstr "X Athróg %d"
 
-#~ msgid ">mm/dd/yyyy"
-#~ msgstr ">mm/ll/bbbb"
+msgid ">mm/dd/yyyy"
+msgstr ">mm/ll/bbbb"
 
-#~ msgid ">hh:mm"
-#~ msgstr ">uu:nn"
+msgid ">hh:mm"
+msgstr ">uu:nn"
 
-#~ msgid "1 - _Alpha:"
-#~ msgstr "1 - _Alpha:"
+msgid "1 - _Alpha:"
+msgstr "1 - _Alpha:"
 
-#~ msgid "N_ew sheet"
-#~ msgstr "Leathanach _Nua"
+msgid "N_ew sheet"
+msgstr "Leathanach _Nua"
 
-#~ msgid "New _workbook"
-#~ msgstr "_Obairleabhar Nua"
+msgid "New _workbook"
+msgstr "_Obairleabhar Nua"
 
-#~ msgid "Add  "
-#~ msgstr "Suimigh"
+msgid "Add  "
+msgstr "Suimigh"
 
-#~ msgid "Options..."
-#~ msgstr "Roghanna..."
+msgid "Options..."
+msgstr "Roghanna..."
 
-#~ msgid "LaTeX (*.tex)"
-#~ msgstr "LaTeX (*.tex)"
+msgid "LaTeX (*.tex)"
+msgstr "LaTeX (*.tex)"
 
-#~ msgid "Input Y Range:"
-#~ msgstr "Raon Inchur Y:"
+msgid "Input Y Range:"
+msgstr "Raon Inchur Y:"
 
-#~ msgid "Input X Range:"
-#~ msgstr "Raon Inchur X:"
+msgid "Input X Range:"
+msgstr "Raon Inchur X:"
 
-#~ msgid "Warning"
-#~ msgstr "Rabhadh"
+msgid "Warning"
+msgstr "Rabhadh"
 
-#~ msgid " Location "
-#~ msgstr " Áit "
+msgid " Location "
+msgstr " Áit "
 
-#~ msgid "_Plot title:"
-#~ msgstr ":"
+msgid "_Plot title:"
+msgstr ":"
 
-#~ msgid "AaBbCcDdEe12345"
-#~ msgstr "AÁaáBbCcDdEÉeé12345"
+msgid "AaBbCcDdEe12345"
+msgstr "AÁaáBbCcDdEÉeé12345"
 
-#~ msgid "Message"
-#~ msgstr "Scéal"
+msgid "Message"
+msgstr "Scéal"
 
-#~ msgid "Book%d.gnumeric"
-#~ msgstr "Leabhar%d.Gnumeric"
+msgid "Book%d.gnumeric"
+msgstr "Leabhar%d.Gnumeric"
 
-#~ msgid "C_olor"
-#~ msgstr "_Dath"
+msgid "C_olor"
+msgstr "_Dath"
 
-#~ msgid "Pick a Background color"
-#~ msgstr "Roghnaigh dath dúlra"
+msgid "Pick a Background color"
+msgstr "Roghnaigh dath dúlra"
 
-#~ msgid "_No Color"
-#~ msgstr "_Gan Dath"
+msgid "_No Color"
+msgstr "_Gan Dath"
 
-#~ msgid "ERROR"
-#~ msgstr "EARRÁID"
+msgid "ERROR"
+msgstr "EARRÁID"
 
-#~ msgid "PDF file format (via groff/gs)"
-#~ msgstr "formóid comhaid PDF (via groff/gs)"
+msgid "PDF file format (via groff/gs)"
+msgstr "formóid comhaid PDF (via groff/gs)"
 
-#~ msgid "EPS file format (*.eps)"
-#~ msgstr "formóid comhaid EPS (*.eps)"
+msgid "EPS file format (*.eps)"
+msgstr "formóid comhaid EPS (*.eps)"
 
-#~ msgid "Standard Deviation"
-#~ msgstr "Diallas _Caighdeánach:"
+msgid "Standard Deviation"
+msgstr "Diallas _Caighdeánach:"
 
-#~ msgid "z"
-#~ msgstr "z"
+msgid "z"
+msgstr "z"
 
-#~ msgid "%c"
-#~ msgstr "%c"
+msgid "%c"
+msgstr "%c"
 
-#~ msgid "cut"
-#~ msgstr "gearr"
+msgid "cut"
+msgstr "gearr"
 
-#~ msgid "Paste _Special..."
-#~ msgstr "G_reamaigh speisialta..."
+msgid "Paste _Special..."
+msgstr "G_reamaigh speisialta..."
 
-#~ msgid "None\n"
-#~ msgstr "Tada\n"
+msgid "None\n"
+msgstr "Tada\n"
 
-#~ msgid "mm\n"
-#~ msgstr "mm\n"
+msgid "mm\n"
+msgstr "mm\n"
 
-#~ msgid "cm\n"
-#~ msgstr "cm\n"
+msgid "cm\n"
+msgstr "cm\n"
 
-#~ msgid "_New Sheet     "
-#~ msgstr "Leathanach _Nua"
+msgid "_New Sheet     "
+msgstr "Leathanach _Nua"
 
-#~ msgid ""
-#~ "Invalid CSV file - \n"
-#~ "unexpected end of line at line %d"
-#~ msgstr ""
-#~ "droch comhad CSV  - \n"
-#~ "unexpected end of line at line %d"
+msgid ""
+"Invalid CSV file - \n"
+"unexpected end of line at line %d"
+msgstr ""
+"droch comhad CSV  - \n"
+"unexpected end of line at line %d"
 
-#~ msgid "PlusOne"
-#~ msgstr "PlusOne"
+msgid "PlusOne"
+msgstr "PlusOne"
 
-#~ msgid "File is too large"
-#~ msgstr "Tá comhad ró-mhór"
+msgid "File is too large"
+msgstr "Tá comhad ró-mhór"
 
-#~ msgid "Simple Text"
-#~ msgstr "Teacs Simplí"
+msgid "Simple Text"
+msgstr "Teacs Simplí"
 
-#~ msgid "0.00"
-#~ msgstr "0.00"
+msgid "0.00"
+msgstr "0.00"
 
-#~ msgid "#,##0"
-#~ msgstr "#,##0"
+msgid "#,##0"
+msgstr "#,##0"
 
-#~ msgid "#,##0.00"
-#~ msgstr "#,##0.00"
+msgid "#,##0.00"
+msgstr "#,##0.00"
 
-#~ msgid "#,##0_);(#,##0)"
-#~ msgstr "#,##0_);(#,##0)"
+msgid "#,##0_);(#,##0)"
+msgstr "#,##0_);(#,##0)"
 
-#~ msgid "#,##0_);[Red](#,##0)"
-#~ msgstr "#,##0_);[Red](#,##0)"
+msgid "#,##0_);[Red](#,##0)"
+msgstr "#,##0_);[Red](#,##0)"
 
-#~ msgid "#,##0.00_);(#,##0.00)"
-#~ msgstr "#,##0.00_);(#,##0.00)"
+msgid "#,##0.00_);(#,##0.00)"
+msgstr "#,##0.00_);(#,##0.00)"
 
-#~ msgid "#,##0.00_);[Red](#,##0.00)"
-#~ msgstr "#,##0.00_);[red](#,##0.00)"
+msgid "#,##0.00_);[Red](#,##0.00)"
+msgstr "#,##0.00_);[red](#,##0.00)"
 
-#~ msgid "$#,##0_);($#,##0)"
-#~ msgstr "$#,##0_);($#,##0)"
+msgid "$#,##0_);($#,##0)"
+msgstr "$#,##0_);($#,##0)"
 
-#~ msgid "$#,##0_);[Red]($#,##0)"
-#~ msgstr "£#,##0_);[red](£#,##0)"
+msgid "$#,##0_);[Red]($#,##0)"
+msgstr "£#,##0_);[red](£#,##0)"
 
-#~ msgid "$#,##0.00_);($#,##0.00)"
-#~ msgstr "$#,##0.00_);($#,##0.00)"
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr "$#,##0.00_);($#,##0.00)"
 
-#~ msgid "$#,##0.00_);[Red]($#,##0.00)"
-#~ msgstr "£#,##0.00_);[red](£#,##0.00)"
+msgid "$#,##0.00_);[Red]($#,##0.00)"
+msgstr "£#,##0.00_);[red](£#,##0.00)"
 
-#~ msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
-#~ msgstr "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgstr "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
 
-#~ msgid "_(*#,##0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-#~ msgstr "_(£*#,##0_);_(£*(#,##0);_(£*\"-\"_);_(@_)"
+msgid "_(*#,##0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr "_(£*#,##0_);_(£*(#,##0);_(£*\"-\"_);_(@_)"
 
-#~ msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
-#~ msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
 
-#~ msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
-#~ msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
 
-#~ msgid "m/d/yy"
-#~ msgstr "m/l/bb"
+msgid "m/d/yy"
+msgstr "m/l/bb"
 
-#~ msgid "m/d/yyyy"
-#~ msgstr "m/l/bbbb"
+msgid "m/d/yyyy"
+msgstr "m/l/bbbb"
 
-#~ msgid "d-mmm-yy"
-#~ msgstr "l-mmm-bb"
+msgid "d-mmm-yy"
+msgstr "l-mmm-bb"
 
-#~ msgid "d-mmm-yyyy"
-#~ msgstr "l-mmm-bbbb"
+msgid "d-mmm-yyyy"
+msgstr "l-mmm-bbbb"
 
-#~ msgid "d-mmm"
-#~ msgstr "l-mmm"
+msgid "d-mmm"
+msgstr "l-mmm"
 
-#~ msgid "d-mm"
-#~ msgstr "l-mm"
+msgid "d-mm"
+msgstr "l-mm"
 
-#~ msgid "mmm/d"
-#~ msgstr "mmm/l"
+msgid "mmm/d"
+msgstr "mmm/l"
 
-#~ msgid "mm/d"
-#~ msgstr "mm/l"
+msgid "mm/d"
+msgstr "mm/l"
 
-#~ msgid "mm/dd/yy"
-#~ msgstr "mm/ll/bb"
+msgid "mm/dd/yy"
+msgstr "mm/ll/bb"
 
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "mm/ll/bbbb"
+msgid "mm/dd/yyyy"
+msgstr "mm/ll/bbbb"
 
-#~ msgid "mmm/dd/yy"
-#~ msgstr "mmm/ll/bb"
+msgid "mmm/dd/yy"
+msgstr "mmm/ll/bb"
 
-#~ msgid "mmm/dd/yyyy"
-#~ msgstr "mmm/ll/bbbb"
+msgid "mmm/dd/yyyy"
+msgstr "mmm/ll/bbbb"
 
-#~ msgid "mmm/ddd/yy"
-#~ msgstr "mmm/lll/bb"
+msgid "mmm/ddd/yy"
+msgstr "mmm/lll/bb"
 
-#~ msgid "mmm/ddd/yyyy"
-#~ msgstr "mmm/lll/bbbb"
+msgid "mmm/ddd/yyyy"
+msgstr "mmm/lll/bbbb"
 
-#~ msgid "mm/ddd/yy"
-#~ msgstr "mm/lll/bb"
+msgid "mm/ddd/yy"
+msgstr "mm/lll/bb"
 
-#~ msgid "mm/ddd/yyyy"
-#~ msgstr "mm/lll/bbbb"
+msgid "mm/ddd/yyyy"
+msgstr "mm/lll/bbbb"
 
-#~ msgid "mmm-yy"
-#~ msgstr "mmm-bb"
+msgid "mmm-yy"
+msgstr "mmm-bb"
 
-#~ msgid "mmm-yyyy"
-#~ msgstr "mmm-bbbb"
+msgid "mmm-yyyy"
+msgstr "mmm-bbbb"
 
-#~ msgid "mmmm-yy"
-#~ msgstr "mmmm-bb"
+msgid "mmmm-yy"
+msgstr "mmmm-bb"
 
-#~ msgid "mmmm-yyyy"
-#~ msgstr "mmmm-bbbb"
+msgid "mmmm-yyyy"
+msgstr "mmmm-bbbb"
 
-#~ msgid "m/d/yy h:mm"
-#~ msgstr "m/l/bb u:nn"
+msgid "m/d/yy h:mm"
+msgstr "m/l/bb u:nn"
 
-#~ msgid "m/d/yyyy h:mm"
-#~ msgstr "m/l/bbbb u:nn"
+msgid "m/d/yyyy h:mm"
+msgstr "m/l/bbbb u:nn"
 
-#~ msgid "yyyy/mm/d"
-#~ msgstr "bbbb/mm/l"
+msgid "yyyy/mm/d"
+msgstr "bbbb/mm/l"
 
-#~ msgid "yyyy/mmm/d"
-#~ msgstr "bbbb/mmm/l"
+msgid "yyyy/mmm/d"
+msgstr "bbbb/mmm/l"
 
-#~ msgid "yyyy/mm/dd"
-#~ msgstr "bbbb/mm/ll"
+msgid "yyyy/mm/dd"
+msgstr "bbbb/mm/ll"
 
-#~ msgid "yyyy/mmm/dd"
-#~ msgstr "d/mmm"
+msgid "yyyy/mmm/dd"
+msgstr "d/mmm"
 
-#~ msgid "yyyy-mm-d"
-#~ msgstr "bbbb-mm-l"
+msgid "yyyy-mm-d"
+msgstr "bbbb-mm-l"
 
-#~ msgid "yyyy-mmm-d"
-#~ msgstr "bbbb-mmm-l"
+msgid "yyyy-mmm-d"
+msgstr "bbbb-mmm-l"
 
-#~ msgid "yyyy-mm-dd"
-#~ msgstr "bbbb-mm-l"
+msgid "yyyy-mm-dd"
+msgstr "bbbb-mm-l"
 
-#~ msgid "yyyy-mmm-dd"
-#~ msgstr "bbbb-mmm-ll"
+msgid "yyyy-mmm-dd"
+msgstr "bbbb-mmm-ll"
 
-#~ msgid "yyyy"
-#~ msgstr "bbbb"
+msgid "yyyy"
+msgstr "bbbb"
 
-#~ msgid "h:mm AM/PM"
-#~ msgstr "u:nn RN/IN"
+msgid "h:mm AM/PM"
+msgstr "u:nn RN/IN"
 
-#~ msgid "h:mm:ss AM/PM"
-#~ msgstr "u:nn:sss RN/IN"
+msgid "h:mm:ss AM/PM"
+msgstr "u:nn:sss RN/IN"
 
-#~ msgid "h:mm"
-#~ msgstr "u:nn"
+msgid "h:mm"
+msgstr "u:nn"
 
-#~ msgid "h:mm:ss"
-#~ msgstr "u:nn:ss"
+msgid "h:mm:ss"
+msgstr "u:nn:ss"
 
-#~ msgid "mm:ss"
-#~ msgstr "nn:ss"
+msgid "mm:ss"
+msgstr "nn:ss"
 
-#~ msgid "mm:ss.0"
-#~ msgstr "nn:ss.0"
+msgid "mm:ss.0"
+msgstr "nn:ss.0"
 
-#~ msgid "[h]:mm:ss"
-#~ msgstr "[u]:nn:ss"
+msgid "[h]:mm:ss"
+msgstr "[u]:nn:ss"
 
-#~ msgid "[h]:mm"
-#~ msgstr "[u]:mm"
+msgid "[h]:mm"
+msgstr "[u]:mm"
 
-#~ msgid "[mm]:ss"
-#~ msgstr "[mm]:ss"
+msgid "[mm]:ss"
+msgstr "[mm]:ss"
 
-#~ msgid "0%"
-#~ msgstr "0%"
+msgid "0%"
+msgstr "0%"
 
-#~ msgid "0.00%"
-#~ msgstr "0.00%"
+msgid "0.00%"
+msgstr "0.00%"
 
-#~ msgid "# ?/?"
-#~ msgstr "# ?/?"
+msgid "# ?/?"
+msgstr "# ?/?"
 
-#~ msgid "# ??/??"
-#~ msgstr "# ??/??"
+msgid "# ??/??"
+msgstr "# ??/??"
 
-#~ msgid "0.00E+00"
-#~ msgstr "0.00E+00"
+msgid "0.00E+00"
+msgstr "0.00E+00"
 
-#~ msgid "##0.0E+0"
-#~ msgstr "##0.0E+0"
+msgid "##0.0E+0"
+msgstr "##0.0E+0"
 
-#~ msgid "_($ #,##0.00_);($ #,##0.00)"
-#~ msgstr "_($ #,##0.00_);($ #,##0.00)"
+msgid "_($ #,##0.00_);($ #,##0.00)"
+msgstr "_($ #,##0.00_);($ #,##0.00)"
 
-#~ msgid "Graphic subtype:"
-#~ msgstr "fósaghas Graphaice:"
+msgid "Graphic subtype:"
+msgstr "fósaghas Graphaice:"
