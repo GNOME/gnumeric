@@ -1,3 +1,7 @@
+2001-06-21  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_view) : patch some gcc3 warnings.
+
 2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* boot.c (applix_file_probe): Added FileProbeLevel argument.

@@ -1,3 +1,8 @@
+2001-06-21  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c (xml_not_used_old_array_spec) : patch some gcc3
+	  warnings.
+
 2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* xml-sax-read.c (xml_sax_file_probe): Added FileProbeLevel argument.
