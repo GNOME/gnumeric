@@ -15,6 +15,7 @@ Release Critical
 - range sel for expressions that start with +
 - 'discard' for invalid expressions enters text as string
 - Reinstate auto-format (=FV(1,2,3,4,5) should yield a monetary format).
+- Fix workbook_sheet_by_name with respect to letter case and utf-8.
 
 1.2 Targets
 -----------
