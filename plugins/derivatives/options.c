@@ -199,7 +199,7 @@ opt_bs (FunctionEvalInfo *ei, Value *argv[])
 }
 
 static const char *help_opt_bs = {
-	N_("@FUNCTION=opt_bs\n"
+	N_("@FUNCTION=OPT_BS\n"
 	   "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility,"
 	   "cost_of_carry)\n"
 	   "@DESCRIPTION="

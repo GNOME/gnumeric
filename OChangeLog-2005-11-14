@@ -1,3 +1,8 @@
+2002-12-07  Christian Neumair  <chris@gnome-de.org>
+
+	* src/dialogs/sheet-order.glade: Made "_Duplicate" translatable.
+	* plugins/derivatives/options.c: Capitalized "@FUNCTION=opt_bs".
+
 2002-12-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-filter.c (cb_filter_button_release): Use
