@@ -74,8 +74,13 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 		}
 	}
 	
+	/* Scale and round to 2 decimal places */
+	value *= COLUMN_WIDTH_SCALE * 100.;
+	value = (int)(value + .5);
+	value /= 100.;
 	if (!dialog_get_number (wb, "col-width.glade", &value))
 		return;
+	value /= COLUMN_WIDTH_SCALE;
 
 	if (value <= 0.0){
 		gnumeric_notice (
@@ -153,8 +158,13 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 		}
 	}
 	
+	/* Scale and round to 2 decimal places */
+	value *= ROW_HEIGHT_SCALE * 100.;
+	value = (int)(value + .5);
+	value /= 100.;
 	if (!dialog_get_number (wb, "row-height.glade", &value))
 		return;
+	value /= ROW_HEIGHT_SCALE;
 
 	if (value <= 0.0){
 		gnumeric_notice (

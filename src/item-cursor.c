@@ -54,7 +54,7 @@ static void
 item_cursor_start_animation (ItemCursor *item_cursor)
 {
 	item_cursor->tag = gtk_timeout_add (
-		300, (GtkFunction)(item_cursor_animation_callback),
+		150, (GtkFunction)(item_cursor_animation_callback),
 		item_cursor);
 }
 

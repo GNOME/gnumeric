@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "clipboard.h"
 #include "ranges.h"
+#include "application.h"
 #include "gnumeric-util.h"
 
 static void sheet_selection_change (Sheet *sheet,
@@ -597,13 +598,7 @@ sheet_selection_copy (Sheet *sheet)
 	
 	ss = sheet->selections->data;
 
-	if (sheet->workbook->clipboard_contents)
-		clipboard_release (sheet->workbook->clipboard_contents);
-
-	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
-		sheet,
-		ss->user.start.col, ss->user.start.row,
-		ss->user.end.col, ss->user.end.row);
+	application_clipboard_copy (sheet, &ss->user);
 
 	return TRUE;
 }
@@ -613,14 +608,16 @@ sheet_selection_cut (Sheet *sheet)
 {
 	SheetSelection *ss;
 
-	/* FIXME FIXME FIXME
-	 * This code should be replaced completely.
+	/* 
 	 * 'cut' is a poor description of what we're
 	 * doing here.  'move' would be a better
 	 * approximation.  The key portion of this process is that
 	 * the range being moved has all
 	 * 	- references to it adjusted to the new site.
 	 * 	- relative references from it adjusted.
+	 *
+	 * NOTE : This command DOES NOT MOVE ANYTHING !
+	 *        We only store the src, paste does the move.
 	 */
 
 	g_return_val_if_fail (sheet != NULL, FALSE);
@@ -634,44 +631,8 @@ sheet_selection_cut (Sheet *sheet)
 	
 	ss = sheet->selections->data;
 
-	if (sheet->workbook->clipboard_contents)
-		clipboard_release (sheet->workbook->clipboard_contents);
-
-	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
-		sheet,
-		ss->user.start.col, ss->user.start.row,
-		ss->user.end.col, ss->user.end.row);
-
-	sheet_clear_region (sheet, ss->user.start.col, ss->user.start.row,
-			    ss->user.end.col, ss->user.end.row, NULL);
-
+	application_clipboard_cut (sheet, &ss->user);
 	return TRUE;
-}
-
-static gboolean
-find_a_clipboard (Workbook *wb, gpointer data)
-{
-	CellRegion **cr = data;
-
-	if (wb->clipboard_contents){
-		*cr = wb->clipboard_contents;
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-static CellRegion *
-find_workbook_with_clipboard (Sheet *sheet)
-{
-	CellRegion *cr = NULL;
-
-	if (sheet->workbook->clipboard_contents)
-		return sheet->workbook->clipboard_contents;
-
-	workbook_foreach (find_a_clipboard, &cr);
-
-	return cr;
 }
 
 void
@@ -679,19 +640,40 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		       int paste_flags, guint32 time)
 {
 	CellRegion *content;
+	Range const *area;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections);
 
-	content = find_workbook_with_clipboard (sheet);
+	area = application_clipboard_area_get ();
+	content = application_clipboard_contents_get ();
 
-	if (content)
+	/* If contents are null this was a cut */
+	if (content == NULL) {
+		Sheet * src_sheet = application_clipboard_sheet_get ();
+		struct expr_relocate_info rinfo;
+
+		g_return_if_fail (area != NULL);
+
+		/* TODO TODO TODO :
+		 * Make sure that the target area is a singleton or the same
+		 * shape as the cut region */
+		rinfo.origin = *area;
+		rinfo.col_offset = dest_col - rinfo.origin.start.col;
+		rinfo.row_offset = dest_row - rinfo.origin.start.row;
+		rinfo.origin_sheet = src_sheet;
+		rinfo.target_sheet = sheet;
+
+		sheet_move_range (&rinfo);
+		sheet_selection_unant (src_sheet);
+	} else {
 		if (!selection_is_simple (sheet, _("paste")))
 			return;
 
-	clipboard_paste_region (content, sheet, dest_col, dest_row,
-				paste_flags, time);
+		clipboard_paste_region (content, sheet, dest_col, dest_row,
+					paste_flags, time);
+	}
 }
 
 /* TODO TODO TODO : Remove these and just call the functions directly */

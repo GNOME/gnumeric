@@ -50,6 +50,8 @@ endif
 GNUMERIC_BASE_SOURCES =				\
 	about.c					\
 	analysis-tools.c			\
+	application.c				\
+	application.h				\
 	border.c				\
 	border.h				\
 	cell.h					\

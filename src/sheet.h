@@ -331,6 +331,8 @@ void        sheet_resume_auto_expr        (Workbook *wb,
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 /* Sheet information manipulation */
+struct expr_relocate_info;
+void        sheet_move_range              (struct expr_relocate_info const * rinfo);
 void        sheet_insert_col              (Sheet *sheet,  int col, int count);
 void        sheet_delete_col              (Sheet *sheet,  int col, int count);
 void        sheet_insert_row              (Sheet *sheet,  int row, int count);

@@ -1950,6 +1950,11 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	Cell *cell_on_spot;
 	int left, right;
 
+	g_return_if_fail (cell->col != NULL);
+	g_return_if_fail (cell->col->pos < SHEET_MAX_COLS);
+	g_return_if_fail (cell->row != NULL);
+	g_return_if_fail (cell->row->pos < SHEET_MAX_ROWS);
+
 	/* See if another cell was displaying in our spot */
 	cell_on_spot = row_cell_get_displayed_at (cell->row, cell->col->pos);
 	if (cell_on_spot)
@@ -2975,6 +2980,8 @@ sheet_set_selection (Sheet *sheet, SheetSelection const *ss)
 	}
 }
 
+/****************************************************************************/
+
 /*
  * FIXME FIXME FIXME : 1999/Sept/29 when the style changes are done we need
  *  to figure out how row/col/cell movement will apply to that.
@@ -3346,14 +3353,10 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 }
 
 /*
- * This is currently only used by the shift routines.
- * However, it is intended to become the heart of the 'cut'
- * operation.
- *
  * Excel does not support paste special from a 'cut' will we want to
  * do that ?
  */
-static void
+void
 sheet_move_range (struct expr_relocate_info const * rinfo)
 {
 	GList *deps, *cells = NULL;
@@ -3386,6 +3389,16 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 	/* Insert the cells back */
 	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
 		cell = cells->data;
+
+		/* check for out of bounds and delete if necessary */
+		if ((cell->col->pos + rinfo->col_offset) >= SHEET_MAX_COLS ||
+		    (cell->row->pos + rinfo->row_offset) >= SHEET_MAX_ROWS) {
+			if (cell->parsed_node)
+				sheet_cell_formula_unlink (cell);
+			cell_unrealize (cell);
+			cell_destroy (cell);
+			continue;
+		}
 
 		/* Update the location */
 		cell->col = sheet_col_fetch (rinfo->target_sheet,

@@ -1,13 +1,17 @@
 Gnumeric 0.42
 
 Michael:
-
 	* Totaly re-wrote style engine.
 
 Jukka:
 	* Fixed the handling of the database function criterias
 	* Fixed the non-numeric return values of DGET
 	* Documentation of the db functions improved
+
+Jody:
+	* Complete transition of cut/paste to cell movement code.
+	* 1st pass at borders.
+	* Improve edit popup.
 
 --------------------------------------------------------------------------
 

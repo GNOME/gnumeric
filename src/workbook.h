@@ -6,6 +6,7 @@
 #else
 #   include <gtk/gtkobject.h>
 #endif
+#include <gtk/gtkwidget.h>
 
 #define GNUMERIC_WORKBOOK_GOAD_ID         "IDL:GNOME:Gnumeric:Workbook:1.0"
 #define GNUMERIC_WORKBOOK_FACTORY_GOAD_ID "IDL:GNOME:Gnumeric:WorkbookFactory:1.0"
@@ -30,6 +31,9 @@ typedef struct _PrintInformation PrintInformation;
 
 struct _WorkbookPrivate;
 typedef struct _WorkbookPrivate WorkbookPrivate;
+
+/* This must be included after the fwd declarations */
+#include "expr.h"
 
 struct _Workbook {
 #ifdef ENABLE_BONOBO
@@ -83,11 +87,6 @@ struct _Workbook {
 
 	int        generation;
 
-	/* The clipboard for this workbook */
-	CellRegion *clipboard_contents;
-
-	gboolean   have_x_selection;
-
 	/* The Symbol table used for naming cell ranges in the workbook */
 	SymbolTable *symbol_names;
 
@@ -99,6 +98,7 @@ struct _Workbook {
 	 * to the asyncronous paste callback
 	 */
 	void       *clipboard_paste_callback_data;
+	gboolean    have_x_selection;
 
 	void       *corba_server;
 
@@ -178,8 +178,6 @@ typedef enum {
 } WorkbookFeedbackType;
 
 void     workbook_feedback_set        (Workbook *, MStyle *style);
-
-extern   Workbook *current_workbook;
 
 /*
  * Hooks for CORBA bootstrap: they create the 

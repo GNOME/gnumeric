@@ -21,6 +21,7 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 	GnomeDialog *dialog;
 	GtkWidget *entry;
 	char *f;
+	gboolean res = FALSE;
 
 	f = g_concat_dir_and_file (GNUMERIC_GLADEDIR, glade_file);
 	gui = glade_xml_new (f, NULL);
@@ -47,18 +48,20 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 	gnome_dialog_set_parent (dialog, GTK_WINDOW (wb->toplevel));
 	switch (gnome_dialog_run (dialog)){
 	case 1:			/* cancel */
+		res = FALSE;
 		break;
 	case -1:		/* window manager close */
 		return FALSE;
 
 	default:
+		res = TRUE;
 		*init_and_return = atof (gtk_entry_get_text (GTK_ENTRY (entry)));
 	}
 	
 	gnome_dialog_close (dialog);
 	gtk_object_destroy (GTK_OBJECT (gui));
 
-	return TRUE;
+	return res;
 }
 
 char *

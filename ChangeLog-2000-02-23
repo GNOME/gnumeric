@@ -1,3 +1,45 @@
+1999-10-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/main.c (gnumeric_main) : Remove current_workbook notion.
+
+	* src/dialogs/dialog-simple-input.c (dialog_get_number) : Return
+	  FALSE on cancel too.
+
+	* src/workbook-cmd-format.[ch] : Add std row/column size scale factors.
+	(workbook_cmd_format_row_height) : Use them.
+
+	* src/item-bar.c (colrow_tip_setlabel) : Use the scale factors.
+
+	* src/application.[ch] : New files to hold data common to all
+	  workbooks.
+
+	* src/item-grid.c (create_popup_menu) : Use gboolean and split
+	  paste and paste special. Add pixmaps.
+	(item_grid_popup_menu) : Use application_clipboard_is_empty.
+	(item_grid_invert_gc) : Add extended_right flag to disable right
+	  border for extended cells.
+
+	* src/item-cursor.c (item_cursor_start_animation) : Decrease the
+	  timeout.
+
+	* src/main.c : Use application_init.
+	* src/selection.c : Use application_clipboard_copy,
+	  application_clipboard_cut.
+	(find_a_clipboard, find_workbook_with_clipboard) : Delete.
+	(sheet_selection_paste) : Use sheet_move_range for cut.
+
+	* src/sheet.[ch] : Export sheet_move_range.
+	(sheet_move_range) : Plug leak when a cell is moved out of bounds.
+
+	* src/clipboard.c (x_selection_handler) : Use
+	  application_clipboard_contents_get and respect the difference
+	  between cut & copy.
+
+	* src/workbook.[ch] :  Move clipboard stuff into application.h.
+	(paste_cmd, paste_special_cmd) : Catch attempt to paste nothing.
+
+	* src/Makefile.am : Add application.[ch].
+
 1999-10-25  Michael Meeks  <mmeeks@gnu.org>
 
 	* TODO: Prune scads of completed work out, + add some guff about

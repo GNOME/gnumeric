@@ -19,6 +19,8 @@
 #include "selection.h"
 #include "main.h"
 #include "border.h"
+#include "application.h"
+#include "workbook-cmd-format.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -212,9 +214,15 @@ item_grid_invert_gc (ItemGrid *item_grid)
 	}
 }
 
+/*
+ * TODO TODO TODO
+ * Correctly support extended cells. Multi-line, or extending to the left
+ * are incorrect currently.
+ */
 static void
 item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
-		       int x, int y, int w, int h)
+		       int x, int y, int w, int h,
+		       gboolean const extended_right)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_TOP))
 		border_draw (drawable,
@@ -228,19 +236,20 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 		border_draw (drawable, 
 			     mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM),
 			     x, y + h, x + w, y + h);
-	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_RIGHT))
+	if (!extended_right &&
+	    mstyle_is_element_set (mstyle, MSTYLE_BORDER_RIGHT))
 		border_draw (drawable, 
 			     mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT),
 			     x + w, y, x + w, y + h);
-#if 0
-	/* These would look ugly and should be ignored for now */
-	if (style->valid_flags & STYLE_BORDER_DIAGONAL)
-		border_draw (drawable, style->border_diagonal,
+
+	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_DIAGONAL))
+		border_draw (drawable,
+			     mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL),
 			     x, y, x+w, y+h);
-	if (style->valid_flags & STYLE_BORDER_REV_DIAGONAL)
-		border_draw (drawable, style->border_rev_diagonal,
+	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_REV_DIAGONAL))
+		border_draw (drawable,
+			     mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL),
 			     x+w, y+h, x, y);
-#endif
 }
 
 /*
@@ -298,7 +307,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
-	item_grid_draw_border (drawable, mstyle, x1, y1, w, h);
+	item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1);
 
 	mstyle_unref (mstyle);
 
@@ -329,7 +338,7 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			ri->pixels - ri->margin_b);
 	}
 
-	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels);
+	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels, FALSE);
 
 	mstyle_unref (mstyle);
 }
@@ -604,32 +613,83 @@ context_cell_format_cmd (GtkWidget *widget, Sheet *sheet)
 	context_destroy_menu (widget);
 }
 
+static void
+context_column_width (GtkWidget *widget, Sheet *sheet)
+{
+	workbook_cmd_format_column_width (widget, sheet->workbook);
+	context_destroy_menu (widget);
+}
+
+static void
+context_row_height (GtkWidget *widget, Sheet *sheet)
+{
+	workbook_cmd_format_row_height (widget, sheet->workbook);
+	context_destroy_menu (widget);
+}
+
 typedef enum {
 	IG_ALWAYS,
-	IG_HAVE_SELECTION,
 	IG_SEPARATOR,
+	IG_PASTE,
+	IG_PASTE_SPECIAL,
+	IG_ROW	   = 0x8,
+	IG_COLUMN  = 0x10,
+	IG_DISABLE = 0x20
 } popup_types;
 
 static struct {
-	char         *name;
+	char const * const name;
+	char const * const pixmap;
 	void         (*fn)(GtkWidget *widget, Sheet *item_grid);
-	popup_types  type;
+	popup_types  const type;
 } item_grid_context_menu [] = {
-	{ N_("Cut"),           context_cut_cmd,           IG_ALWAYS         },
-	{ N_("Copy"),          context_copy_cmd,          IG_ALWAYS         },
-	{ N_("Paste"),         context_paste_cmd,         IG_HAVE_SELECTION },
-	{ N_("Paste special"), context_paste_special_cmd, IG_HAVE_SELECTION },
-	{ "",                  NULL,                      IG_SEPARATOR      },
-	{ N_("Insert"),        context_insert_cmd,        IG_ALWAYS  	    },
-	{ N_("Delete"),        context_delete_cmd,        IG_ALWAYS  	    },
-	{ N_("Erase content"), context_clear_cmd,         IG_ALWAYS         },
-	{ "",                  NULL,                      IG_SEPARATOR      },
-	{ N_("Cell format"),   context_cell_format_cmd,   IG_ALWAYS         },
-	{ NULL,                NULL,                      0 }
+	{ N_("Cu_t"),           GNOME_STOCK_PIXMAP_CUT,
+	    &context_cut_cmd,           IG_ALWAYS },
+	{ N_("_Copy"),          GNOME_STOCK_PIXMAP_COPY,
+	    &context_copy_cmd,          IG_ALWAYS },
+	{ N_("_Paste"),         GNOME_STOCK_PIXMAP_PASTE,
+	    &context_paste_cmd,         IG_PASTE },
+	{ N_("Paste _Special"),	NULL,
+	    &context_paste_special_cmd, IG_PASTE_SPECIAL },
+
+	{ "", NULL, NULL, IG_SEPARATOR },
+
+	{ N_("_Insert..."),	NULL,
+	    &context_insert_cmd,        IG_ALWAYS },
+	{ N_("_Delete..."),	NULL,
+	    &context_delete_cmd,        IG_ALWAYS },
+	{ N_("Clear Co_ntents"),NULL,
+	    &context_clear_cmd,         IG_ALWAYS },
+
+	{ "", NULL, NULL, IG_SEPARATOR      },
+
+	{ N_("_Format Cells..."),GNOME_STOCK_PIXMAP_PREFERENCES,
+	    &context_cell_format_cmd,   IG_ALWAYS },
+
+	/* Column specific functions */
+	{ N_("Column _Width..."),NULL,
+	    &context_column_width, IG_COLUMN },
+	{ N_("_Hide"),		 NULL,
+	    NULL,   IG_COLUMN },
+	{ N_("_Unhide"),	 NULL,
+	    NULL,   IG_COLUMN },
+
+	/* Row specific functions (Note some of the labels are duplicated */
+	{ N_("_Row Height..."),	 NULL,
+	    &context_row_height,   IG_ROW },
+	{ N_("_Hide"),		 NULL,
+	    NULL,   IG_ROW },
+	{ N_("_Unhide"),	 NULL,
+	    NULL,   IG_ROW },
+	{ NULL, NULL, NULL, 0 }
 };
 
 static GtkWidget *
-create_popup_menu (Sheet *sheet, int include_paste)
+create_popup_menu (Sheet *sheet,
+		   gboolean const include_paste,
+		   gboolean const include_paste_special,
+		   gboolean const is_col,
+		   gboolean const is_row)
 {
 	GtkWidget *menu, *item;
 	int i;
@@ -637,29 +697,74 @@ create_popup_menu (Sheet *sheet, int include_paste)
 	menu = gtk_menu_new ();
 	item = NULL;
 
-	for (i = 0; item_grid_context_menu [i].name; i++){
-		switch (item_grid_context_menu [i].type){
+	for (i = 0; item_grid_context_menu [i].name; ++i) {
+		popup_types const type = item_grid_context_menu [i].type;
+		char const * const pix_name = item_grid_context_menu [i].pixmap;
+
+		if (type == IG_ROW && !is_row)
+		    continue;
+		if (type == IG_COLUMN && !is_col)
+		    continue;
+
+		switch (item_grid_context_menu [i].type) {
 		case IG_SEPARATOR:
 			item = gtk_menu_item_new ();
 			break;
 
-		case IG_HAVE_SELECTION:
-			if (!include_paste)
-				continue;
-			/* fall down */
-
+		/* Desesitize later */
+		case IG_PASTE : case IG_PASTE_SPECIAL :
+		case IG_ROW :	case IG_COLUMN :
 		case IG_ALWAYS:
-			item = gtk_menu_item_new_with_label (
-				_(item_grid_context_menu [i].name));
+		{
+			/* ICK ! There should be a utility routine for this in gnome or gtk */
+			GtkWidget *label;
+			guint label_accel;
+			label = gtk_accel_label_new ("");
+			label_accel = gtk_label_parse_uline (
+				GTK_LABEL (label),
+				item_grid_context_menu [i].name);
+
+			gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+			gtk_widget_show (label);
+
+			item = gtk_pixmap_menu_item_new	();
+			gtk_container_add (GTK_CONTAINER (item), label);
+
+			if (label_accel != GDK_VoidSymbol) {
+			    if (GTK_IS_MENU (menu))
+				    gtk_widget_add_accelerator (item,
+					    "activate_item",
+					    gtk_menu_ensure_uline_accel_group (GTK_MENU (menu)),
+					    label_accel, 0,
+					    GTK_ACCEL_LOCKED);
+			}
 			break;
+		}
+
 		default:
 			g_warning ("Never reached");
 		}
 
-		gtk_signal_connect (
-			GTK_OBJECT (item), "activate",
-			GTK_SIGNAL_FUNC (item_grid_context_menu [i].fn),
-			sheet);
+		if ((type == IG_PASTE && !include_paste) ||
+		    (type == IG_PASTE_SPECIAL && !include_paste_special) ||
+		    item_grid_context_menu [i].fn == NULL)
+			gtk_widget_set_sensitive(GTK_WIDGET (item), FALSE);
+
+		if (pix_name != NULL) {
+			GtkWidget *pixmap =
+				gnome_stock_pixmap_widget (GTK_WIDGET (item),
+							   pix_name);
+			gtk_widget_show (pixmap);
+			gtk_pixmap_menu_item_set_pixmap(
+				GTK_PIXMAP_MENU_ITEM (item),
+				pixmap);
+		}
+
+		if (item_grid_context_menu [i].fn)
+			gtk_signal_connect (
+				GTK_OBJECT (item), "activate",
+				GTK_SIGNAL_FUNC (item_grid_context_menu [i].fn),
+				sheet);
 
 		gtk_widget_show (item);
 		gtk_menu_append (GTK_MENU (menu), item);
@@ -669,14 +774,20 @@ create_popup_menu (Sheet *sheet, int include_paste)
 }
 
 void
-item_grid_popup_menu (Sheet *sheet, GdkEvent *event, int col, int row)
+item_grid_popup_menu (Sheet *sheet, GdkEvent *event, int col, int row,
+		       gboolean const is_col,
+		       gboolean const is_row)
 {
 	GtkWidget *menu;
-	int show_paste;
 
-	show_paste = sheet->workbook->clipboard_contents != NULL;
+	/* We can paste if there is something in the clipboard */
+	gboolean const show_paste = !application_clipboard_is_empty ();
+	/* Paste special only applies to copied cells not cut */
+	gboolean const show_paste_special = show_paste &&
+	    (application_clipboard_contents_get() != NULL);
 
-	menu = create_popup_menu (sheet, show_paste);
+	menu = create_popup_menu (sheet, show_paste, show_paste_special,
+				  is_col, is_row);
 
 	gnumeric_popup_menu (GTK_MENU (menu), (GdkEventButton *) event);
 }
@@ -1020,7 +1131,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			
 		case 3:
 			item_grid_popup_menu (item_grid->sheet,
-					      event, col, row);
+					      event, col, row,
+					      FALSE, FALSE);
 			return 1;
 		}
 

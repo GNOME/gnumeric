@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
+#include "application.h"
 #include "eval.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
@@ -47,7 +48,6 @@
 
 #define WB_COLS      1
 
-Workbook *current_workbook;
 static int workbook_count;
 
 static GList *workbook_list = NULL;
@@ -239,6 +239,14 @@ workbook_do_destroy (Workbook *wb)
 	summary_info_free (wb->summary_info);
 	wb->summary_info = NULL;
 
+	/* Release the clipboard if it is associated with this workbook */
+	{
+		Sheet * tmp_sheet;
+		if ((tmp_sheet = application_clipboard_sheet_get ()) != NULL &&
+		    tmp_sheet->workbook == wb)
+			application_clipboard_clear ();
+	}
+
 	/* Erase all cells.  This does NOT remove links between sheets
 	 * but we don't care beacuse the other sheets are going to be
 	 * deleted too.
@@ -303,11 +311,6 @@ workbook_do_destroy (Workbook *wb)
 			gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
 		}
 		g_list_free (sheets);
-	}
-
-	if (wb->clipboard_contents) {
-		clipboard_release (wb->clipboard_contents);
-		wb->clipboard_contents = NULL;
 	}
 
 	/* Remove ourselves from the list of workbooks.  */
@@ -516,16 +519,6 @@ quit_cmd (void)
 }
 
 static void
-paste_cmd (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet;
-
-	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
-			       PASTE_DEFAULT, GDK_CURRENT_TIME);
-}
-
-static void
 copy_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -553,10 +546,26 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+paste_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	/* These menu items should be insensitive when there is nothing to paste */
+	g_return_if_fail (!application_clipboard_is_empty ());
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
+			       PASTE_DEFAULT, GDK_CURRENT_TIME);
+}
+
+static void
 paste_special_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
 	int flags;
+
+	/* These menu items should be insensitive when there is nothing to paste */
+	g_return_if_fail (!application_clipboard_is_empty ());
 
 	sheet = workbook_get_current_sheet (wb);
 	flags = dialog_paste_special (wb);
@@ -1887,7 +1896,6 @@ workbook_init (GtkObject *object)
 	/* Set the default operation to be performed over selections */
 	wb->auto_expr      = NULL;
 	wb->auto_expr_desc = NULL;
-	wb->clipboard_contents = NULL;
 	workbook_set_auto_expr (wb,
 		_(quick_compute_routines [0].displayed_name),
 		quick_compute_routines [0].function);
@@ -1983,7 +1991,6 @@ workbook_new (void)
 	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
-	wb->clipboard_contents = NULL;
 
 	gtk_window_set_policy (GTK_WINDOW(wb->toplevel), 1, 1, 0);
 	sx = MAX (gdk_screen_width  () - 64, 400);
@@ -2229,19 +2236,6 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	if (r != 0)
 		return;
 
-	if (!workbook_can_detach_sheet (wb, current_sheet)){
-		gnumeric_notice (
-			wb, GNOME_MESSAGE_BOX_ERROR,
-			_("Other sheets depend on the values on this sheet; "
-			  "I cannot remove it."));
-		return;
-	}
-
-	/*
-	 * All is fine, remove the sheet
-	 */
-	workbook_detach_sheet (wb, current_sheet, FALSE);
-
 	/*
 	 * Invalidate references to the deleted sheet from other sheets in the
 	 * workbook by pretending to move the contents of the deleted sheet
@@ -2259,6 +2253,12 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 
 		workbook_expr_relocate (wb, &rinfo);
 	}
+
+	/*
+	 * All is fine, remove the sheet
+	 */
+	workbook_detach_sheet (wb, current_sheet, FALSE);
+
 	workbook_recalc_all (wb);
 }
 

@@ -3,10 +3,6 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *
- * FIXME:
- *    I would like to have a global selection instead of the per-sheet/workbook
- *    clipboard, it would clean up a few code spots.
  */
 #include <config.h>
 #include <gnome.h>
@@ -17,6 +13,7 @@
 #include "clipboard.h"
 #include "eval.h"
 #include "selection.h"
+#include "application.h"
 #include "render-ascii.h"
 
 /*
@@ -401,17 +398,31 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 static void
 x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint info, guint time, gpointer data)
 {
-	Workbook *wb = (Workbook *) data;
+	gboolean content_needs_free = FALSE;
+	CellRegion *clipboard = application_clipboard_contents_get ();
 	char *rendered_selection;
 	
-	g_assert (wb->clipboard_contents);
+	if (clipboard == NULL) {
+		Sheet *sheet = application_clipboard_sheet_get ();
+		Range const *a = application_clipboard_area_get ();
+		content_needs_free = TRUE;
+		clipboard =
+		    clipboard_copy_cell_range (sheet,
+					       a->start.col, a->start.row,
+					       a->end.col,   a->end.row);
+	}
 
-	rendered_selection = cell_region_render_ascii (wb->clipboard_contents);
+	g_return_if_fail (clipboard != NULL);
+
+	rendered_selection = cell_region_render_ascii (clipboard);
 	
 	gtk_selection_data_set (
 		selection_data, GDK_SELECTION_TYPE_STRING, 8,
 		rendered_selection, strlen (rendered_selection));
 	g_free (rendered_selection);
+
+	if (content_needs_free)
+		clipboard_release (clipboard);
 }
 
 /**
@@ -449,7 +460,7 @@ x_clipboard_bind_workbook (Workbook *wb)
 
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "selection_get",
-		GTK_SIGNAL_FUNC(x_selection_handler), wb);
+		GTK_SIGNAL_FUNC(x_selection_handler), NULL);
 
 	gtk_selection_add_target (
 		wb->toplevel,

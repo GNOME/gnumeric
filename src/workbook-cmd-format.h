@@ -7,4 +7,7 @@ void workbook_cmd_format_row_auto_fit      (GtkWidget *widget, Workbook *wb);
 void workbook_cmd_format_row_height        (GtkWidget *widget, Workbook *wb);
 void workbook_cmd_format_sheet_change_name (GtkWidget *widget, Workbook *wb);
 
+#define COLUMN_WIDTH_SCALE	.13819	/* XL default width : 8.43  / 61 */
+#define ROW_HEIGHT_SCALE	.91071	/* XL default height: 12.75 / 14 */
+
 #endif /* GNUMERIC_WORKBOOK_CMD_FORMAT_H */

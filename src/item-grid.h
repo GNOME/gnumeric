@@ -50,7 +50,10 @@ typedef struct {
 GtkType item_grid_get_type (void);
 int     item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin);
 int     item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin);
-void    item_grid_popup_menu (Sheet *sheet, GdkEvent *event, int col, int row);
+void    item_grid_popup_menu (Sheet *sheet, GdkEvent *event,
+			      int col, int row,
+			      gboolean const is_col,
+			      gboolean const is_row);
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;

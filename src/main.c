@@ -16,6 +16,7 @@
 #include "number-match.h"
 #include "dump.h"
 #include "main.h"
+#include "application.h"
 #include "global-gnome-font.h"
 
 #include "../plugins/excel/boot.h"
@@ -75,6 +76,7 @@ const struct poptOption gnumeric_popt_options [] = {
 static void
 gnumeric_main (void *closure, int argc, char *argv [])
 {
+	gboolean opened_workbook = FALSE;
 	int i;
 	
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
@@ -82,6 +84,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	gnumeric_arg_parse (argc, argv);
 
+	application_init ();
 	string_init ();
 	format_match_init ();
 	style_init ();
@@ -112,19 +115,21 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	startup_files = poptGetArgs (ctx);
 	if (startup_files)
 		for (i = 0; startup_files [i]; i++) {
-			current_workbook = workbook_read (startup_files [i]);
+			Workbook *new_book = workbook_read (startup_files [i]);
 			
-			if (current_workbook)
-				gtk_widget_show (current_workbook->toplevel);
+			if (new_book) {
+				opened_workbook = TRUE;
+				gtk_widget_show (new_book->toplevel);
+			}
 
 			while (gtk_events_pending ()) /* Show something coherent */
 				gtk_main_iteration ();
 		}
 	poptFreeContext (ctx);
 	
-	if (current_workbook == NULL){
-		current_workbook = workbook_new_with_sheets (1);
-		gtk_widget_show (current_workbook->toplevel);
+	if (!opened_workbook) {
+		Workbook *new_book = workbook_new_with_sheets (1);
+		gtk_widget_show (new_book->toplevel);
 	}
 
 #ifdef ENABLE_BONOBO

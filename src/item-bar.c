@@ -15,6 +15,7 @@
 #include "utils.h"
 #include "gnumeric-util.h"
 #include "selection.h"
+#include "workbook-cmd-format.h"
 
 /* Marshal forward declarations */
 static void   item_bar_marshal      (GtkObject *,
@@ -397,14 +398,22 @@ get_col_from_pos (ItemBar *item_bar, int pos)
 }
 
 static void
-colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int const size)
+colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int size)
 {
+	/*
+	 * FIXME : This measurement is off.
+	 * We need to take margins into account
+	 */
+	size -= 3;
+
 	if (item_bar->tip) {
 		char buffer [20 + sizeof (long) * 4];
 		if (is_vertical)
-			snprintf (buffer, sizeof (buffer), _("Height: %.2f"), size *.75);
+			snprintf (buffer, sizeof (buffer), _("Height: %.2f"),
+				  size * ROW_HEIGHT_SCALE);
 		else
-			snprintf (buffer, sizeof (buffer), _("Width: %.2f"), size / 7.5);
+			snprintf (buffer, sizeof (buffer), _("Width: %.2f"),
+				  size * COLUMN_WIDTH_SCALE);
 		gtk_label_set_text (GTK_LABEL (item_bar->tip), buffer);
 	}
 }
@@ -537,9 +546,9 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						 element, e->button.state | GDK_BUTTON1_MASK);
 
 			if (is_vertical)
-				item_grid_popup_menu (sheet, e, 0, element);
+				item_grid_popup_menu (sheet, e, 0, element, FALSE, TRUE);
 			else
-				item_grid_popup_menu (sheet, e, element, 0);
+				item_grid_popup_menu (sheet, e, element, 0, TRUE, FALSE);
 		} else if (cri){
 			/*
 			 * Record the important bits.
