@@ -1,3 +1,7 @@
+2004-08-12  Morten Welinder  <terra@gnome.org>
+
+	* news-to-html (add_to_item): Fix link per Jon Kaare.
+
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.1
