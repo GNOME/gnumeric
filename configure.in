@@ -76,18 +76,21 @@ AC_ARG_WITH(long_double,
 		need_sunmath=no
 		for ldfunc in fabsl sqrtl expl logl log10l ceill floorl powl sinl cosl tanl asinl acosl atanl; do
 			AC_CHECK_FUNC($ldfunc,
-				      ,
-				      AC_CHECK_LIB(sunmath,
-						   $ldfunc,
-						   [ if test "$need_sunmath" = "no"; then
-							# FIXME: better idea?
-							LDFLAGS="$LDFLAGS -L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath"
-							sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | tail -1`
-							CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
-						     fi
-						     need_sunmath=yes ],
-						   AC_MSG_ERROR([Long doubles require the $ldfunc function.]),
-						   -L/opt/SUNWspro/lib $GNUMERIC_LIBS))
+			      ,
+			      AC_CHECK_LIB(m,
+				  $ldfunc,
+				  ,
+				  AC_CHECK_LIB(sunmath,
+				      $ldfunc,
+				      [ if test "$need_sunmath" = "no"; then
+					    # FIXME: better idea?
+					    LDFLAGS="$LDFLAGS -L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath"
+					    sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | tail -1`
+					    CPPFLAGS="$CPPFLAGS -I$sunmathinclude"
+				        fi
+					need_sunmath=yes ],
+				      AC_MSG_ERROR([Long doubles require the $ldfunc function.]),
+				      -L/opt/SUNWspro/lib $GNUMERIC_LIBS)))
 		done
 		if test "$need_sunmath" = "yes"; then
 			AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
