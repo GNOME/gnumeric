@@ -1,3 +1,9 @@
+2002-04-15  Jon K Hellan  <hellan@acm.org>
+
+	* src/main.[ch]: Remove from CVS.
+
+	* src/libgnumeric.c: Really don't include main.h
+
 2002-04-15  Jody Goldberg <jody@gnome.org>
 
 	* src/libgnumeric.c : delete some stale code that is no longer needed
@@ -5,7 +11,15 @@
 
 2002-04-15  Jon K Hellan  <hellan@acm.org>
 
-	* src/libgnumeric.c: Renamed from src/main.c. Don't include main.h
+	* src/libgnumeric.h: Rename header guards after file rename.
+
+	* src/main.[ch]: Add notes that the files are obsolete
+
+2002-04-15  Jon K Hellan  <hellan@acm.org>
+
+	* src/libgnumeric.c: Copied from src/main.c. Don't include main.h
+
+	* src/libgnumeric.h: Copied from src/main.h
 
 	* src/corba-args.c: s/main.h/libgnumeric.h/
 
