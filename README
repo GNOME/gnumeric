@@ -38,6 +38,7 @@ Optionally:
 	gb == 0.0.19            (Gnome Basic for macros)
 	guppi == CVS module guppi3
 	gda >= 0.2.11		(GDA plugin, for accessing databases)
+	evolution CVS
 
 Notes regarding plugins
 -----------------------
@@ -50,7 +51,7 @@ GPL.
 
    In the future, an alternative method based on CORBA will be
 provided and then it will be possible to create Gnumeric plugins with
-other license, until then, the only setup available requires plugins
+other licenses, until then, the only setup available requires plugins
 to fall under the GNU GPL license.
 
 The perl, gda, and plan-perfect plugins are not meant to be installed.
@@ -109,6 +110,8 @@ documentation for these:
 
 		- Format colors: you can specify a color to format
 		  with in the format.
+
+		- Conditional colours and format strings.
 
 	- Column/Row resizing
 		- Drag the column/row division to adjust the column
@@ -173,6 +176,9 @@ documentation for these:
 	- Alt-Pg{Up,Down}: Page left and right.
 	- Mouse-Wheel : scroll up/down
 	- Alt-Mouse-Wheel : scroll left-right
+	- Arrow+ScrollLock
+
+     o Frozen Panes.
 
      o Auto-convert-on-input features: When you enter text in Gnumeric
        it is now matched against the known formats of Gnumeric and if
