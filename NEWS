@@ -1,5 +1,12 @@
 Gnumeric 1.2.1
 
+Adrian Custer:
+	* More documentation.
+
+
+J.H.M. Dassen (Ray):
+	* Update debian control files.
+
 Jody:
 	* Fix infinite loop on empty axis under solaris.
 	* Fix leak loading charts.
