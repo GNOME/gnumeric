@@ -155,11 +155,12 @@ __register_function (PyObject *m, PyObject *py_args)
 	fndef->named_arguments = g_strdup (named_args);
 	fndef->help            = g_new (char *, 1);
 	*fndef->help           = g_strdup (help1);
-	
+#if 0
+#warning Michael, can you fix this?
 	fndef->fn              = marshal_func;
 	
 	symbol_install (global_symbol_table, fndef->name, SYMBOL_FUNCTION, fndef);
-	
+#endif
 	Py_INCREF (Py_None);
 	return Py_None;
 }
