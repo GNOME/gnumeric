@@ -211,11 +211,6 @@ tool_destroy (GtkObject *w, GenericToolState  *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	if (state->accel != NULL) {
-		g_object_unref (G_OBJECT (state->accel));
-		state->accel = NULL;
-	}
-
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
@@ -353,9 +348,7 @@ dialog_tool_init (GenericToolState *state,
 	widget = glade_xml_get_widget (state->gui, "var1-label");
 	if (widget == NULL) {
 		state->input_entry = NULL;
-		state->accel = NULL;
 	} else {
-		state->accel = gtk_accel_group_new ();
 		table = GTK_TABLE (glade_xml_get_widget (state->gui,
 							 "input-table"));
 		state->input_entry = gnm_expr_entry_new (state->wbcg, TRUE);
@@ -370,12 +363,8 @@ dialog_tool_init (GenericToolState *state,
 					G_CALLBACK (sensitivity_cb), state);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 					  GTK_WIDGET (state->input_entry));
-		key_stroke = gtk_label_parse_uline (GTK_LABEL (widget),
-						    state->input_var1_str);
-		if (key_stroke != GDK_VoidSymbol)
-			gtk_widget_add_accelerator
-			  (GTK_WIDGET (state->input_entry), "grab_focus",
-			   state->accel, key_stroke, GDK_MOD1_MASK, 0);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), 
+					       GTK_WIDGET (state->input_entry));
 		gtk_widget_show (GTK_WIDGET (state->input_entry));
 	}
 
@@ -403,20 +392,13 @@ dialog_tool_init (GenericToolState *state,
 			  2, 3, tchild->top_attach, tchild->bottom_attach,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-					  GTK_WIDGET (state->input_entry_2));
 		g_signal_connect_after (G_OBJECT (state->input_entry_2),
 					"changed",
 					G_CALLBACK (sensitivity_cb), state);
-		if (state->input_var2_str != NULL) {
-			key_stroke = gtk_label_parse_uline
-			  (GTK_LABEL (widget), state->input_var2_str);
-			if (key_stroke != GDK_VoidSymbol)
-				gtk_widget_add_accelerator
-				  (GTK_WIDGET (state->input_entry_2),
-				   "grab_focus", state->accel, key_stroke,
-				   GDK_MOD1_MASK, 0);
-		}
+		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+					  GTK_WIDGET (state->input_entry_2));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), 
+					       GTK_WIDGET (state->input_entry_2));
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 	}
 
@@ -426,10 +408,6 @@ dialog_tool_init (GenericToolState *state,
 			  G_CALLBACK (tool_destroy), state);
 
 	dialog_tool_init_outputs (state, sensitivity_cb);
-
-	if (state->accel)
-		gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
-					    state->accel);
 
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), key);
 

@@ -47,7 +47,6 @@ typedef struct {
 	SheetView *sv;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
 	GtkWidget *warning_dialog;
 	GtkWidget *warning;
 

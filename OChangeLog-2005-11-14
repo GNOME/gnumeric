@@ -5,6 +5,10 @@
 
 2003-06-09  Jody Goldberg <jody@gnome.org>
 
+	* src/application.c (gnumeric_application_finalize) : patch a leak.
+
+2003-06-09  Jody Goldberg <jody@gnome.org>
+
 	* src/preview-grid.c : Major reorg.
 	  Convert the signals into virtuals.
 	  Add default value, and style methods

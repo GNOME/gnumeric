@@ -1,5 +1,11 @@
 2003-06-09  Jody Goldberg <jody@gnome.org>
 
+	* dialog-analysis-tools.c (tool_destroy) : no more accel member.
+	(dialog_tool_init) : no need to parse labels for accelerators anymore
+	  just set the label's mnemonic widget.
+
+2003-06-09  Jody Goldberg <jody@gnome.org>
+
 	* dialog-cell-format.c : Simplify interaction with preview grid now
 	  that its interface is more convenient.
 

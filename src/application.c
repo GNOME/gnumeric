@@ -581,10 +581,15 @@ gnumeric_application_setup_icons (void)
 }
 
 static void
-gnumeric_application_finalize (GObject *object)
+gnumeric_application_finalize (GObject *obj)
 {
+	GnumericApplication *application = GNUMERIC_APPLICATION (obj);
+
+	g_slist_foreach (application->history_list, (GFunc)g_free, NULL);
+	g_slist_free (application->history_list);
+	application->history_list = NULL;
 	app = NULL;
-	G_OBJECT_CLASS (parent_klass)->finalize (object);
+	G_OBJECT_CLASS (parent_klass)->finalize (obj);
 }
 
 static void

@@ -67,10 +67,10 @@ Pending Patches
     1.8) XLS import
 	1.8.1) check overlap percentage for bars		(DONE)
 	1.8.2) Add gog_object_set_position
-	1.8.3) Handle 'use_one_style' for pies
+	1.8.3) Handle 'use_one_style'
 	1.8.4) override auto series indexing for xls
 	1.8.5) styles
-	1.8.6) Avoid leaking GODatas when faced with an unknown
+	1.8.6) Avoid leaking GODatas when faced with an unknown	(DONE)
 	       plot type.
     1.9) data sources
 	1.9.1) vector and scalar data sources from gnumeric	(DONE)
@@ -119,7 +119,7 @@ Pending Patches
 	    1.20.1.2) solid					(DONE)
 	    1.20.1.3) basic gradients				(DONE)
 	    1.20.1.4) advanced gradients 		{Jean Befort}
-	    1.20.1.5) pixmaps fills			{Jean Befort}
+	    1.20.1.5) pixmaps fills				(DONE)
 	    1.20.1.6) patterns
 	1.20.2) outline style
     1.21) themes
@@ -135,18 +135,20 @@ Pending Patches
 	1.23.2) For compass placement use the alignment flags	(DONE)
 	1.23.3) support NW, NE, SW, SE				(DONE)
 	1.23.4) Add some notion of padding
+	1.23.5) remove request_valid, pass in available space
     1.24) Sizing units
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)
+    1.25) Printing
+    1.26) Move 'use_one_style' from pie -> plot with 1 series
+    1.27) Add a flag to gobject to go with its role indicating whether the
+    	  instance was autocreated or assigned.
 
-    Pinch Guppi's property bag code for GogObject ?
+    questions
+	- xml persistence : sax or dom ?
+			  : flag props for persisting ?
+	- how to select a single point for formating ?
 
-    - theme
-    - series style
-    - attributes for
-	: type			: GObject::parms
-	: instance		: GObject::parms with a flag
-	: data point		:
     Wishlist
 	drag destination for background images in style editor
 
@@ -307,8 +309,8 @@ Functions
     WORKDAY	Add holiday support
     YEARFRAC	Implement
 
-Possibly Post 1.2 Targets
--------------------------
+1.2 Targets
+-----------
 - insert cut
 - pivot tables
 - validation from list (generalize filter combos)
@@ -317,8 +319,6 @@ Possibly Post 1.2 Targets
 - load/save of external references
 - all the merged cell singleton bugs
 
-Probably Post 1.2 Targets
--------------------------
 - eggmenu (would be nice to slide in to support merging from non-bonobo build)
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
@@ -357,8 +357,11 @@ Misc stuff that should be fixed
     - Fill->series
     - Data->Text to columns
 
-- drag based col/row resize should support negative sizes to correspond to
-  hiding.
+- cols/rows
+    : Make unhide smarter to find hidden regions on either side of
+      selected ranges.
+    : drag based col/row resize should support negative sizes to
+      correspond to hiding.
 
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
@@ -366,6 +369,11 @@ Misc stuff that should be fixed
 - Remove duplication of code between analysis-tools.c and collect.c
 
 - Make deletion work for multiple ranges.
+
+- autoformat
+    - leaking styles when an edge is disabled
+    - consider either using the users data as a sample, or at least making the
+      sample adaptive based on which edges are disabled.
 
 - The autocalc label should use a more readable format and should not get
   clipped.
@@ -377,13 +385,10 @@ Misc stuff that should be fixed
 	* We should start with the expr entry set to either the current cell,
 	  or by selecting the first named expression in scope that contains the
 	  current cell.
-    : Check scoping changes.
+    : Check scoping changes.						(DONE)
     : Is there such a thing as an array formula in a name ?
     : Handle pasting an expression with an un-qualified sheet local name into
       another sheet
-
-- hidden rows/cols
-    : Make unhide smarter to find hidden regions on either side of selected ranges.
 
 - clean up the range_list codes to differentiate a list of ranges from a list
   of cellranges.
