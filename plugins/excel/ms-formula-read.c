@@ -65,9 +65,9 @@ FORMULA_OP_DATA formula_op_data[] = {
 /**
  * Populate from xlcall.h
  * Functions in order, zero based, with number of arguments or
- *		'-1' for vararg.
+ *		'-1' for vararg or with optional arguments.
  *		'-2' for unknown numbers or arguments.
- *
+ * NB. all argument counts are those for Excel.
  * Many of the unknowns are xlm macro commands.
  *     macrofun.hlp has info on them but supporting Excel4 macro sheets is not
  *     top priority.
@@ -87,8 +87,8 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 10 */	{ "NA", 0 },
 /* 11 */	{ "NPV", -1 },
 /* 12 */	{ "STDEV", -1 },
-/* 13 */	{ "DOLLAR", -1 },
-/* 14 */	{ "FIXED", -1 },
+/* 13 */	{ "DOLLAR", 2 },
+/* 14 */	{ "FIXED", 3 },
 /* 15 */	{ "SIN", 1 },
 /* 16 */	{ "COS", 1 },
 /* 17 */	{ "TAN", 1 },
@@ -101,8 +101,8 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 24 */	{ "ABS", 1 },
 /* 25 */	{ "INT", 1 },
 /* 26 */	{ "SIGN", 1 },
-/* 27 */	{ "ROUND", -1 }, /* num_digits seems optional */
-/* 28 */	{ "LOOKUP", -1 },
+/* 27 */	{ "ROUND", 2 }, /* num_digits optional */
+/* 28 */	{ "LOOKUP", 3 },
 /* 29 */	{ "INDEX", },
 /* 30 */	{ "REPT", -1 },
 /* 31 */	{ "MID", 3 },
@@ -156,7 +156,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 79 */	{ "ABSREF", 2 },	/* XLM */
 /* 80 */	{ "RELREF", -2 },
 /* 81 */	{ "ARGUMENT", -2 },
-/* 82 */	{ "SEARCH", -1 },/* Start_num is optional */
+/* 82 */	{ "SEARCH", 3 },/* Start_num is optional */
 /* 83 */	{ "TRANSPOSE", 1 },
 /* 84 */	{ "ERROR", -2 },
 /* 85 */	{ "STEP", -2 },
@@ -175,30 +175,30 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 98 */	{ "ASIN", 1 },
 /* 99 */	{ "ACOS", 1 },
 /* 100 */	{ "CHOOSE", -1 },
-/* 101 */	{ "HLOOKUP", -1 }, /* range_lookup is optional */
-/* 102 */	{ "VLOOKUP", -1 }, /* range_lookup is optional */
+/* 101 */	{ "HLOOKUP", 4 }, /* range_lookup is optional */
+/* 102 */	{ "VLOOKUP", 4 }, /* range_lookup is optional */
 /* 103 */	{ "LINKS", -2 },
 /* 104 */	{ "INPUT", -2 },
 /* 105 */	{ "ISREF", -2 },
 /* 106 */	{ "GETFORMULA", -2 },
 /* 107 */	{ "GETNAME", -2 },
 /* 108 */	{ "SETVALUE", -2 },
-/* 109 */	{ "LOG", -1 }, /* Base is optional */
+/* 109 */	{ "LOG", 2 }, /* Base is optional */
 /* 110 */	{ "EXEC", -2 },
 /* 111 */	{ "CHAR", 1 },
 /* 112 */	{ "LOWER", 1 },
 /* 113 */	{ "UPPER", 1 },
 /* 114 */	{ "PROPER", 1 },
-/* 115 */	{ "LEFT", -1 }, /* Num_chars is optional */
-/* 116 */	{ "RIGHT", -1 }, /* Num_chars is optional */
+/* 115 */	{ "LEFT", 2 }, /* Num_chars is optional */
+/* 116 */	{ "RIGHT", 2 }, /* Num_chars is optional */
 /* 117 */	{ "EXACT", 2 },
 /* 118 */	{ "TRIM", 1 },
 /* 119 */	{ "REPLACE", 4 },
-/* 120 */	{ "SUBSTITUTE", -1 }, /* Instance num is optional */
+/* 120 */	{ "SUBSTITUTE", 4 }, /* Instance num is optional */
 /* 121 */	{ "CODE", 1 },
 /* 122 */	{ "NAMES", -2 },
 /* 123 */	{ "DIRECTORY", -2 },
-/* 124 */	{ "FIND", -1 }, /* start_num is optional */
+/* 124 */	{ "FIND", 3 }, /* start_num is optional */
 /* 125 */	{ "CELL", 2 },
 /* 126 */	{ "ISERR", 1 },
 /* 127 */	{ "ISTEXT", 1 },
@@ -271,7 +271,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 194 */	{ "VARP", -1 },
 /* 195 */	{ "DSTDEVP", 3 },
 /* 196 */	{ "DVARP", 3 },
-/* 197 */	{ "TRUNC", -1 }, /* num_digits is optional */
+/* 197 */	{ "TRUNC", 2 }, /* num_digits is optional */
 /* 198 */	{ "ISLOGICAL", 1 },
 /* 199 */	{ "DCOUNTA", 3 },
 /* 200 */	{ "DELETEBAR", -2 },
@@ -286,15 +286,15 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 209 */	{ "RIGHTB", -2 },
 /* 210 */	{ "MIDB", -2 },
 /* 211 */	{ "LENB", -2 },
-/* 212 */	{ "ROUNDUP", -1 },	/* num_digits is optional */
-/* 213 */	{ "ROUNDDOWN", -1 },	/* num_digits is optional */
+/* 212 */	{ "ROUNDUP", 2 },	/* num_digits is optional */
+/* 213 */	{ "ROUNDDOWN", 2 },	/* num_digits is optional */
 /* 214 */	{ "ASC", -2 },
 /* 215 */	{ "DBCS", -2 },
 /* 216 */	{ "RANK", -1 },	/* order is optional */
 /* 217 Unknown*/{ "UnknownFunction217", -2 },
 /* 218 Unknown*/{ "UnknownFunction218", -2 },
-/* 219 */	{ "ADDRESS", -1 },	/* abs_num is optional */
-/* 220 */	{ "DAYS360", -1 },	/* method is optional */
+/* 219 */	{ "ADDRESS", 5 },	/* abs_num is optional */
+/* 220 */	{ "DAYS360", 3 },	/* method is optional */
 /* 221 */	{ "TODAY", 0 },
 /* 222 Unknown*/{ "UnknownFunction222", -2 },
 /* 223 Unknown*/{ "UnknownFunction223", -2 },
@@ -344,7 +344,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 267 */	{ "REGISTERID", },
 /* 268 */	{ "GETWORKBOOK", -2 },
 /* 269 */	{ "AVEDEV", -1 },
-/* 270 */	{ "BETADIST", -1 },
+/* 270 */	{ "BETADIST", 5 },
 /* 271 */	{ "GAMMALN", 1 },
 /* 272 */	{ "BETAINV", -1 },
 /* 273 */	{ "BINOMDIST", 4 },
@@ -391,7 +391,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 314 */	{ "STEYX", 2 },
 /* 315 */	{ "SLOPE", 2 },
 /* 316 */	{ "TTEST", 4 },
-/* 317 */	{ "PROB", -1 },	/* upper_limit is optional */
+/* 317 */	{ "PROB", 4 },	/* upper_limit is optional */
 /* 318 */	{ "DEVSQ", -1 },
 /* 319 */	{ "GEOMEAN", -1 },
 /* 320 */	{ "HARMEAN", -1 },
@@ -403,7 +403,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 326 */	{ "SMALL", 2 },
 /* 327 */	{ "QUARTILE", 2 },
 /* 328 */	{ "PERCENTILE", 2 },
-/* 329 */	{ "PERCENTRANK", -1 },/* Significance is optional */
+/* 329 */	{ "PERCENTRANK", 3 },/* Significance is optional */
 /* 330 */	{ "MODE", -1 },
 /* 331 */	{ "TRIMMEAN", 2 },
 /* 332 */	{ "TINV", 2 },
@@ -428,7 +428,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 351 */	{ "DATEDIF", -2 },
 /* 352 */	{ "DATESTRING", -2 },
 /* 353 */	{ "NUMBERSTRING", -2 },
-/* 354 */	{ "ROMAN", -1 },
+/* 354 */	{ "ROMAN", 2 },
 /* 355 */	{ "OPENDIALOG", -2 },
 /* 356 */	{ "SAVEDIALOG", -2 },
 /* 357 */	{ "VIEWGET", -2 },
@@ -699,6 +699,10 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 		{
 			const FORMULA_FUNC_DATA *fd = &formula_func_data[fn_idx] ;
 			
+#if FORMULA_DEBUG > 0
+			printf ("Function '%s', args %d, templ: %d\n", fd->prefix,
+				numargs, fd->num_args);
+#endif
 			/* Right args for multi-arg funcs. */
 			if (fd->num_args >= 0)
 				numargs = fd->num_args ;
