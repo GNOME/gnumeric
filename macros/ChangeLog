@@ -1,3 +1,7 @@
+2002-12-10  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnome-guile-checks.m4: Fixed shell variable assignments.
+
 2002-11-10  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gnome-gettext.m4 (ENABLE_NLS, HAVE_CATGETS, HAVE_GETTEXT),
@@ -12,6 +16,7 @@
 2002-02-08  Chema Celorio  <chema@celorio.com>
 
 	* configure.in: 0.12.0 here we go
+
 2001-12-11  Israel Escalante <israel@ximian.com>
 
 	* Release 0.10.0.

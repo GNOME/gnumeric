@@ -7,9 +7,9 @@ dnl
 AC_DEFUN([GNOME_CHECK_GUILE],
 [
 dnl	AC_MSG_WARN([Withval is: $withval])
-	guile_msg = 'Huh?'
+	guile_msg='Huh?'
 if test x$withval = xno ; then
-	guile_msg = 'disabled'
+	guile_msg= 'disabled'
 	GUILE_LIBS=
 	GUILE_INCS=
 	AC_SUBST(GUILE_LIBS)
