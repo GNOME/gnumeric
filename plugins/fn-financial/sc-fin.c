@@ -548,14 +548,14 @@ get_vdb (gnum_float cost, gnum_float salvage, gnum_float life,
 	 gnum_float start_period, gnum_float end_period, gnum_float factor,
 	 gboolean flag)
 {
-	gnum_float fVdb, fIntStart, fIntEnd;
+	gnum_float fVdb;
+	gnum_float fIntStart = floorgnum (start_period);
+	gnum_float fIntEnd   = ceilgnum (end_period);
 	int        i;
 	int        nLoopStart = (int) fIntStart;
 	int        nLoopEnd   = (int) fIntEnd;
 
 	fVdb      = 0.0;
-	fIntStart = floorgnum (fIntStart);
-	fIntEnd   = ceilgnum (fIntEnd);
 
 	if ( flag ) {
 		for (i = nLoopStart + 1; i <= nLoopEnd; i++) {
