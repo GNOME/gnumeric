@@ -1,5 +1,7 @@
 2003-05-23  Morten Welinder  <terra@gnome.org>
 
+	* src/style-border.c (style_border_get_gc): Fix ref count error.
+
 	* src/gnumeric-pane.c (set_acetate_coords): Create bitmap on the
 	right display.
 

@@ -1590,11 +1590,12 @@ gnm_cursor_init1 (GdkDrawable *drawable, int i)
 }
 
 static GdkCursor *
-gnm_cursor_create (GdkDisplay *display, GdkDrawable *drawable, GnmCursorType c)
+gnm_cursor_create (GdkDrawable *drawable, GnmCursorType c)
 {
 	g_return_val_if_fail (c >= 0 && c < GNM_CURSOR_NUM_CURSORS, NULL);
 
 	if (cursors[c].hot_x == GDK_INTERNAL_CURSOR) {
+		GdkDisplay *display = gdk_drawable_get_display (drawable);
 		GdkCursorType typ = cursors[c].hot_y;
 		return gdk_cursor_new_for_display (display, typ);
 	} else {
@@ -1620,10 +1621,7 @@ void
 gnm_cursor_set_widget (GtkWidget *w, GnmCursorType c)
 {
 	if (w->window) {
-		GdkScreen *screen = gtk_widget_get_screen (w);
-		GdkDisplay *display = gdk_screen_get_display (screen);
-		GdkDrawable *drawable = gdk_screen_get_root_window (screen);
-		GdkCursor *cursor = gnm_cursor_create (display, drawable, c);
+		GdkCursor *cursor = gnm_cursor_create (w->window, c);
 		gdk_window_set_cursor (w->window, cursor);
 		gdk_cursor_unref (cursor);
 	}

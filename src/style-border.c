@@ -334,7 +334,9 @@ style_border_get_gc (StyleBorder const *border, GdkDrawable *drawable)
 	if (border->gc_screen != this_screen) {
 		if (border->gc)
 			g_object_unref (G_OBJECT (border->gc));
-		((StyleBorder *)border)->gc = gdk_gc_new (GDK_WINDOW (drawable));
+		if (border->gc_screen)
+			g_object_unref (G_OBJECT (border->gc_screen));
+		((StyleBorder *)border)->gc = gdk_gc_new (drawable);
 		((StyleBorder *)border)->gc_screen = this_screen;
 		g_object_ref (this_screen);
 		style_border_set_gc_dash (border->gc, border->line_type);
