@@ -46,6 +46,13 @@
 
 /***************************************************************************/
 
+static StyleFormat *default_percentage_fmt;
+static StyleFormat *default_money_fmt;
+static StyleFormat *default_date_fmt;
+static StyleFormat *default_time_fmt;
+static StyleFormat *default_general_fmt;
+
+
 /* Points to the locale information for number display */
 static struct lconv *lc = NULL;
 static char *locale_currency = NULL; /* in UTF-8 */
@@ -1751,6 +1758,31 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 void
 number_format_shutdown (void)
 {
+	if (default_percentage_fmt) {
+		style_format_unref (default_percentage_fmt);
+		default_percentage_fmt = NULL;
+	}
+
+	if (default_money_fmt) {
+		style_format_unref (default_money_fmt);
+		default_money_fmt = NULL;
+	}
+
+	if (default_date_fmt) {
+		style_format_unref (default_date_fmt);
+		default_date_fmt = NULL;
+	}
+
+	if (default_time_fmt) {
+		style_format_unref (default_time_fmt);
+		default_time_fmt = NULL;
+	}
+
+	if (default_general_fmt) {
+		style_format_unref (default_general_fmt);
+		default_general_fmt = NULL;
+	}
+
 	g_hash_table_foreach (style_format_hash, cb_format_leak, NULL);
 	g_hash_table_destroy (style_format_hash);
 	style_format_hash = NULL;
@@ -2027,43 +2059,49 @@ style_format_is_text (StyleFormat const *sf)
 StyleFormat *
 style_format_general (void)
 {
-	static StyleFormat *fmt = NULL;
-	if (fmt == NULL)
-		fmt = style_format_new_XL (cell_formats[FMT_GENERAL][0], FALSE);
-	return fmt;
+	if (!default_general_fmt)
+		default_general_fmt =
+			style_format_new_XL (cell_formats[FMT_GENERAL][0], FALSE);
+
+	return default_general_fmt;
 }
+
 StyleFormat *
 style_format_default_date (void)
 {
-	static StyleFormat *fmt = NULL;
-	if (fmt == NULL)
-		fmt = style_format_new_XL (cell_formats[FMT_DATE][0], FALSE);
-	return fmt;
+	if (!default_date_fmt)
+		default_date_fmt =
+			style_format_new_XL (cell_formats[FMT_DATE][0], FALSE);
+
+	return default_date_fmt;
 }
 
 StyleFormat *
 style_format_default_time (void)
 {
-	static StyleFormat *fmt = NULL;
-	if (fmt == NULL)
-		fmt = style_format_new_XL (cell_formats[FMT_TIME][0], FALSE);
-	return fmt;
+	if (!default_time_fmt)
+		default_time_fmt =
+			style_format_new_XL (cell_formats[FMT_TIME][0], FALSE);
+
+	return default_time_fmt;
 }
 
 StyleFormat *
 style_format_default_percentage	(void)
 {
-	static StyleFormat *fmt = NULL;
-	if (fmt == NULL)
-		fmt = style_format_new_XL (cell_formats[FMT_PERCENT][1], FALSE);
-	return fmt;
+	if (!default_percentage_fmt)
+		default_percentage_fmt =
+			style_format_new_XL (cell_formats[FMT_PERCENT][1], FALSE);
+
+	return default_percentage_fmt;
 }
 
 StyleFormat *
 style_format_default_money (void)
 {
-	static StyleFormat *fmt = NULL;
-	if (fmt == NULL)
-		fmt = style_format_new_XL (cell_formats[FMT_CURRENCY][2], FALSE);
-	return fmt;
+	if (!default_money_fmt)
+		default_money_fmt =
+			style_format_new_XL (cell_formats[FMT_CURRENCY][2], FALSE);
+
+	return default_money_fmt;
 }

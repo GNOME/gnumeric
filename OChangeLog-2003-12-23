@@ -1,6 +1,7 @@
 2003-06-06  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (number_format_shutdown): Print leaks.
+	(number_format_shutdown): Unref default formats.
 
 2003-06-06  Jody Goldberg <jody@gnome.org>
 
