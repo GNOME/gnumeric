@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-09-02 21:13+0200\n"
-"PO-Revision-Date: 2003-08-31 21:15+0200\n"
+"POT-Creation-Date: 2003-09-06 20:24+0200\n"
+"PO-Revision-Date: 2003-09-06 20:28+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1165,7 +1165,7 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5150
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5151
 #: plugins/mps/mps.c:549 src/xml-io.c:3927
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -1289,12 +1289,12 @@ msgstr "Diagram%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2695
+#: plugins/excel/ms-excel-read.c:2696
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fel vid tolkning av namn \"%s\""
 
-#: plugins/excel/ms-excel-read.c:2751
+#: plugins/excel/ms-excel-read.c:2752
 #, c-format
 msgid ""
 "DDE links are no supported.\n"
@@ -1303,7 +1303,7 @@ msgstr ""
 "DDE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:2757
+#: plugins/excel/ms-excel-read.c:2758
 #, c-format
 msgid ""
 "OLE links are no supported.\n"
@@ -1312,23 +1312,23 @@ msgstr ""
 "OLE-länkar stöds inte.\n"
 "Namn \"%s\" kommer förloras.\n"
 
-#: plugins/excel/ms-excel-read.c:2809
+#: plugins/excel/ms-excel-read.c:2810
 msgid "Failure parsing AutoFilter."
 msgstr "Fel vid tolkning av AutoFilter."
 
-#: plugins/excel/ms-excel-read.c:4568
+#: plugins/excel/ms-excel-read.c:4569
 msgid "external references"
 msgstr "externa referenser"
 
-#: plugins/excel/ms-excel-read.c:5296
+#: plugins/excel/ms-excel-read.c:5297
 msgid "No password supplied"
 msgstr "Inget lösenord givet"
 
-#: plugins/excel/ms-excel-read.c:5300
+#: plugins/excel/ms-excel-read.c:5301
 msgid "Invalid password"
 msgstr "Ogiltigt lösenord"
 
-#: plugins/excel/ms-excel-read.c:5401
+#: plugins/excel/ms-excel-read.c:5402
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -8414,8 +8414,9 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:207
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:103
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:104
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -18892,7 +18893,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtrera data efter givna kriterier"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:668
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:739
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -19085,7 +19086,7 @@ msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:236
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:237
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Rubrik"
@@ -20567,29 +20568,29 @@ msgstr "Tabulerar beroenden"
 msgid "Reconfigure Graph"
 msgstr "Konfigurera om graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 msgid "M_ax"
 msgstr "M_ax"
 
 # ZZZ
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
 msgid "Ma_jor Ticks"
 msgstr "S_tora skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
 msgid "Mi_nor Ticks"
 msgstr "S_må skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:214
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
 msgid "Bounds"
 msgstr "Gränser"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:218
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
 msgid "Details"
 msgstr "Detaljer"
 
@@ -20599,7 +20600,7 @@ msgstr "Förklaring"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:165
 msgid "Title"
 msgstr "Titel"
 
@@ -20767,138 +20768,203 @@ msgid "<b>Outline</b>"
 msgstr "<b>Kontur</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
+msgid "Asterisk"
+msgstr "Stjärna"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Brightness"
 msgstr "Ljusstyrka"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
+msgid "Butterfly"
+msgstr "Fjäril"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "C_olor:"
 msgstr "F_ärg:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
+msgid "Circle"
+msgstr "Cirkel"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
+msgid "Cross"
+msgstr "Kors"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
+msgid "Diamond"
+msgstr "Romb"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 msgid "Fill from start color to end color"
 msgstr "Fyll från startfärg till slutfärg"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 msgid "Fill from start colour to a darker/lighter version of that color"
 msgstr "Fyll från startfärg till mörkare/ljusare version av den färgen."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 msgid "Gradient"
 msgstr "Gradient"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
+msgid "Half bar"
+msgstr "Halvstolpe"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
+msgid "Hourglass"
+msgstr "Timglas"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "Image"
 msgstr "Bild"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 #: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:72
 #: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Ingen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 #: src/dialogs/dialog-cell-format.c:2280
 msgid "Pattern"
 msgstr "Mönster"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-msgid "S_ize:"
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+msgid "Si_ze:"
 msgstr "S_torlek:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
+msgid "Square"
+msgstr "Kvadrat"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 msgid "T_ype:"
 msgstr "T_yp:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
+msgid "Triangle down"
+msgstr "Triangel nedåt"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
+msgid "Triangle left"
+msgstr "Triangel vänster"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
+msgid "Triangle right"
+msgstr "Triangel höger"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
+msgid "Triangle up"
+msgstr "Triangel uppåt"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:128
+msgid "X"
+msgstr "X"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 msgid "_Background:"
 msgstr "_Bakgrund:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "_Direction:"
 msgstr "_Riktning:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "_End:"
 msgstr "_Slut:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
+msgid "_Fill color:"
+msgstr "F_yllningsfärg:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:34
 msgid "_Fit:"
 msgstr "_Anpassa till:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:35
 msgid "_Foreground:"
 msgstr "_Förgrund:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:36
+msgid "_Outline color:"
+msgstr "K_onturfärg:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:37
 msgid "_Pattern:"
 msgstr "_Mönster:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:38
 msgid "_Select..."
 msgstr "_Markera..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:39
+msgid "_Shape:"
+msgstr "_Form:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:40
 msgid "_Size:"
 msgstr "_Storlek:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:41
 msgid "_Start:"
 msgstr "_Tillstånd:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-msgid "_Style:"
-msgstr "_Stil:"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:42
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "T_yp:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:43
 msgid "_brighter"
 msgstr "_ljusare"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:44
 msgid "_darker"
 msgstr "_mörkare"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:45
+msgid "bar"
+msgstr "Stolpe"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:46
 msgid "pts"
 msgstr "pkter"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:47
 msgid "stretched"
 msgstr "utsträckt"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:48
 msgid "wallpaper"
 msgstr "bakgrundsbild"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:163
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:164
 #: src/widgets/preview-file-selection.c:167
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:451
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:452
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Välj en bild"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:716
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:787
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stil"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:338
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
 #: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
 msgid "Default"
 msgstr "Standard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:385
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -21182,17 +21248,17 @@ msgstr "Grader"
 msgid "PlotPie"
 msgstr "GrafCirkel"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:189
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Rubriker"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:191
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
 msgstr "Värden"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:262
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 msgid "PlotRing"
 msgstr "GrafRing"
 
@@ -21298,10 +21364,6 @@ msgstr "Cirkeldiagramsritmotor"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:53
 msgid "PlotXY"
 msgstr "PlotXY"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:128
-msgid "X"
-msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
 msgid "Y"
@@ -21791,7 +21853,7 @@ msgstr "Första bokstaven"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2113 src/format.c:2242 src/format.c:2248 src/format.c:2324
+#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Allmän"
@@ -23525,14 +23587,14 @@ msgid "Directory"
 msgstr "Katalog"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1964
-#: src/number-match.c:1089 src/value-sheet.c:33 src/value.c:404
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "SANT"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1964
-#: src/number-match.c:1091 src/value-sheet.c:33 src/value.c:405
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
 msgstr "FALSKT"
@@ -26550,7 +26612,7 @@ msgid "Yellow"
 msgstr "Gul"
 
 #. Array of arrays ??
-#: src/format.c:2007
+#: src/format.c:2011
 msgid "ARRAY"
 msgstr "VEKTOR"
 
@@ -31239,6 +31301,12 @@ msgstr "Fel vid sparande av fil"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
+#~ msgid "S_ize:"
+#~ msgstr "S_torlek:"
+
+#~ msgid "_Style:"
+#~ msgstr "_Stil:"
+
 #~ msgid "Sans"
 #~ msgstr "Sans"
 
@@ -32589,9 +32657,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Create a graph"
 #~ msgstr "Skapa en graf"
-
-#~ msgid "3 series"
-#~ msgstr "3 serier"
 
 #~ msgid "4 series"
 #~ msgstr "4 serier"
@@ -36193,9 +36258,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "SUMMARY OUTPUT"
 #~ msgstr "UTDATASAMMANFATTNING"
-
-#~ msgid "R Square"
-#~ msgstr "R i kvadrat"
 
 #~ msgid "Adjusted R Square"
 #~ msgstr "Justerad R i kvadrat"
