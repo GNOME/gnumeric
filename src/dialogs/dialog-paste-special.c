@@ -29,6 +29,7 @@
 #include <gui-util.h>
 #include <clipboard.h>
 #include <dependent.h>
+#include <cmd-edit.h>
 
 #define BUTTON_PASTE_LINK 0
 
@@ -102,7 +103,7 @@ checkbutton_toggled (GtkWidget *widget, gboolean *flag)
         *flag = GTK_TOGGLE_BUTTON (widget)->active;
 }
 
-int
+void
 dialog_paste_special (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *hbox, *vbox;
@@ -187,20 +188,16 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	gtk_widget_show_all (hbox);
 	gtk_widget_grab_focus (first_button);
 
-	/* Run the dialog */
-	gtk_window_set_modal (GTK_WINDOW (state.dialog), TRUE);
 	v = gnumeric_dialog_run (wbcg, state.dialog);
 
 	/* If closed with the window manager, cancel */
 	if (v == -1)
-		return 0;
+		return;
 
 	result = 0;
 
 	/* Fetch the results */
 	if (v == GTK_RESPONSE_OK) {
-		result = 0;
-
 		switch (state.type) {
 		case 0: result = PASTE_ALL_TYPES;	break;
 		case 1: result = PASTE_CONTENT;		break;
@@ -223,5 +220,10 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 			result |= PASTE_SKIP_BLANKS;
 	} else if (v == BUTTON_PASTE_LINK)
 		result = PASTE_LINK;
-	return result;
+
+	if (result != 0) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		SheetView *sv = wb_control_cur_sheet_view (wbc);
+		cmd_paste_to_selection (wbc, sv, result);
+	}
 }

@@ -25,7 +25,7 @@ void	 dialog_goto_cell	(WorkbookControlGUI *wbcg);
 void	 dialog_cell_format	(WorkbookControlGUI *wbcg,
 				 FormatDialogPosition_t pageno);
 void	 dialog_conditional_fmt	(WorkbookControlGUI *wbcg);
-int	 dialog_paste_special	(WorkbookControlGUI *wbcg);
+void	 dialog_paste_special	(WorkbookControlGUI *wbcg);
 void	 dialog_insert_cells	(WorkbookControlGUI *wbcg);
 void	 dialog_delete_cells	(WorkbookControlGUI *wbcg);
 void	 dialog_zoom		(WorkbookControlGUI *wbcg, Sheet *sheet);

@@ -1,3 +1,8 @@
+2003-06-05  Jody Goldberg <jody@gnome.org>
+
+	* api.c (w_glpk_get_iterations) : remove unused variable to silence
+	  warning.
+
 2003-05-11  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.17

@@ -76,7 +76,7 @@ static void
 dialog_function_load_recent_funcs (FunctionSelectState *state)
 {
 	GnmFunc *fd;
-	GSList *recent_funcs, *this_funcs;
+	GSList const *recent_funcs, *this_funcs;
 
 	recent_funcs = gnm_app_prefs->recent_funcs;
 

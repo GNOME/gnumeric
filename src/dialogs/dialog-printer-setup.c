@@ -279,7 +279,6 @@ preview_page_destroy (PrinterSetupState *state)
 {
 	if (state->preview.group) {
 		gtk_object_destroy (GTK_OBJECT (state->preview.group));
-
 		state->preview.group = NULL;
 	}
 }
@@ -765,9 +764,9 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 }
 
 static void
-header_changed (GtkObject *object, PrinterSetupState *state)
+header_changed (GObject *object, PrinterSetupState *state)
 {
-	PrintHF *format = gtk_object_get_user_data (object);
+	PrintHF *format = g_object_get_data (object, "format");
 
 	print_hf_free (state->header);
 	state->header = print_hf_copy (format);
@@ -776,9 +775,9 @@ header_changed (GtkObject *object, PrinterSetupState *state)
 }
 
 static void
-footer_changed (GtkObject *object, PrinterSetupState *state)
+footer_changed (GObject *object, PrinterSetupState *state)
 {
-	PrintHF *format = gtk_object_get_user_data (object);
+	PrintHF *format = g_object_get_data (object, "format");
 
 	print_hf_free (state->footer);
 	state->footer = print_hf_copy (format);
@@ -841,7 +840,7 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GCallback callback, gboole
 		li = gtk_menu_item_new_with_label (res);
 		gtk_widget_show (li);
 		gtk_container_add (GTK_CONTAINER (menu), li);
-		gtk_object_set_user_data (GTK_OBJECT (li), format);
+		g_object_set_data (G_OBJECT (li), "format", format);
 		g_signal_connect (G_OBJECT (li), "activate", callback, state);
 
 		g_free (res);
@@ -1042,12 +1041,15 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_object_set_data (G_OBJECT (dialog), "state", state);
 
 	/* Setup bindings to mark when the entries are modified. */
-	g_signal_connect (GTK_OBJECT (left), "changed",
-			G_CALLBACK (hf_changed), gui);
-	g_signal_connect (GTK_OBJECT (middle), "changed",
-			G_CALLBACK (hf_changed), gui);
-	g_signal_connect (GTK_OBJECT (right), "changed",
-			G_CALLBACK (hf_changed), gui);
+	g_signal_connect (G_OBJECT (left),
+		"changed",
+		G_CALLBACK (hf_changed), gui);
+	g_signal_connect (G_OBJECT (middle),
+		"changed",
+		G_CALLBACK (hf_changed), gui);
+	g_signal_connect (G_OBJECT (right),
+		"changed",
+		G_CALLBACK (hf_changed), gui);
 
 
 /* FIXME: Add correct helpfile address */
@@ -1585,16 +1587,16 @@ do_setup_main_dialog (PrinterSetupState *state)
 		"clicked",
 		G_CALLBACK (cb_do_print), state);
 	w = glade_xml_get_widget (state->gui, "preview");
-	g_signal_connect (GTK_OBJECT (w),
+	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_preview), state);
 	w = glade_xml_get_widget (state->gui, "cancel");
-	g_signal_connect (GTK_OBJECT (w),
+	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_do_print_cancel), state);
 
 	w = glade_xml_get_widget (state->gui, "print-setup-notebook");
-	state->notebook_signal_connection = g_signal_connect (GTK_OBJECT (w),
+	state->notebook_signal_connection = g_signal_connect (G_OBJECT (w),
 		"switch-page",
 		G_CALLBACK (notebook_flipped), state);
 

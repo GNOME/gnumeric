@@ -659,8 +659,6 @@ w_glpk_set_option (SolverProgram program, SolverOptionType option,
 		   const gboolean *b_value,
 		   const gnm_float *f_value, const int *i_value)
 {
-        glpk_simplex_t *lp = (glpk_simplex_t *) program;
-
         switch (option) {
 	case SolverOptAutomaticScaling:
 	        return FALSE;
