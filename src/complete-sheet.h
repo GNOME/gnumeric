@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_COMPLETE_SHEET_H
 #define GNUMERIC_COMPLETE_SHEET_H
 
+#include "gnumeric.h"
 #include "complete.h"
 
 #define COMPLETE_SHEET_TYPE        (complete_sheet_get_type ())
@@ -12,10 +13,15 @@
 typedef struct {
 	Complete parent;
 
-	char  *current;
+	/* Cell being entered into.  */
 	Sheet *sheet;
-	int    col, row;
-	int    inf, sup;
+	GnmCellPos entry;
+
+	/* Where we are searching.  */
+	GnmCellPos current;
+	GnmCell *cell;
+
+	char  *current_text;
 } CompleteSheet;
 
 typedef struct {

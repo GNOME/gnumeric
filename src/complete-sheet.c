@@ -18,6 +18,7 @@
 #include "cell.h"
 #include "str.h"
 #include "value.h"
+#include "parse-util.h"
 
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
@@ -26,39 +27,38 @@
 
 #define PARENT_TYPE 	COMPLETE_TYPE
 
+static GObjectClass *parent_class;
+
+
+static void
+search_strategy_reset_search (CompleteSheet *cs)
+{
+	cs->current.col = cs->entry.col;
+	cs->current.row = cs->entry.row;
+	cs->cell = NULL;
+}
+
+/*
+ * Very simple search strategy: up until blank.
+ */
+static gboolean
+search_strategy_next (CompleteSheet *cs)
+{
+	cs->current.row--;
+	if (cs->current.row < 0)
+		return FALSE;
+
+	cs->cell = sheet_cell_get (cs->sheet, cs->current.col, cs->current.row);
+	return cs->cell != NULL;
+}
+
+
 static void
 complete_sheet_finalize (GObject *object)
 {
-	GObjectClass *parent_class;
 	CompleteSheet *cs = COMPLETE_SHEET (object);
-	if (cs->current != NULL) {
-		g_free (cs->current);
-		cs->current = NULL;
-	}
-	parent_class = g_type_class_peek (PARENT_TYPE);
+	g_free (cs->current_text);
 	parent_class->finalize (object);
-}
-
-#define MAX_SCAN_SPACE 1024
-
-static gboolean
-search_space_complete (CompleteSheet *cs)
-{
-	/*
-	 * We could do a better job by looking at the ColRow segments.
-	 * but for now this would do it
-	 */
-	if ((cs->sup - cs->inf) > MAX_SCAN_SPACE)
-		return TRUE;
-
-	return FALSE;
-}
-
-static void
-reset_search (CompleteSheet *cs)
-{
-	cs->inf = MAX (cs->row - 1, 0);
-	cs->sup = MIN (cs->row + 1, SHEET_MAX_ROWS);
 }
 
 static gboolean
@@ -66,13 +66,12 @@ text_matches (CompleteSheet const *cs)
 {
 	char const *text;
 	Complete const *complete = &cs->parent;
-	GnmCell *cell = sheet_cell_get (cs->sheet, cs->col, cs->inf);
 
-	if (cell == NULL || cell->value == NULL ||
-	    cell->value->type != VALUE_STRING || cell_has_expr (cell))
+	if (cs->cell->value == NULL ||
+	    cs->cell->value->type != VALUE_STRING || cell_has_expr (cs->cell))
 		return FALSE;
 
-	text = cell->value->v_str.val->str;
+	text = value_peek_string (cs->cell->value);
 	if (strncmp (text, complete->text, strlen (complete->text)) != 0)
 		return FALSE;
 
@@ -84,7 +83,6 @@ static gboolean
 complete_sheet_search_iteration (Complete *complete)
 {
 	CompleteSheet *cs = COMPLETE_SHEET (complete);
-	ColRowInfo const *ci;
 	int i;
 
 	/* http://bugzilla.gnome.org/show_bug.cgi?id=55026
@@ -92,27 +90,20 @@ complete_sheet_search_iteration (Complete *complete)
 	if (strlen (complete->text) < 3)
 		return FALSE;
 
-	if (strncmp (cs->current, complete->text, strlen (cs->current)) != 0)
-		reset_search (cs);
+	if (strncmp (cs->current_text, complete->text, strlen (cs->current_text)) != 0)
+		search_strategy_reset_search (cs);
 
-	/*
-	 * Optimization:
-	 * Load the column, if empty, then return, we wont auto-complete here.
-	 */
-	ci = sheet_col_get_info (cs->sheet, cs->col);
-	if (ci == &cs->sheet->cols.default_style)
-		return FALSE;
-
-	for (i = 0; (i < SEARCH_STEPS) && (cs->inf >= 0); i++, cs->inf--)
-		if (text_matches (cs))
+	for (i = 0; i < SEARCH_STEPS; i++) {
+		if (!search_strategy_next (cs))
 			return FALSE;
 
-	for (i = 0; (i < SEARCH_STEPS) && (cs->sup < SHEET_MAX_ROWS); i++, cs->sup++)
+#if 0
+		g_print ("Checking %s...\n", cell_coord_name (cs->current.col, cs->current.row));
+#endif
+
 		if (text_matches (cs))
 			return FALSE;
-
-	if (search_space_complete (cs))
-		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -122,6 +113,7 @@ complete_sheet_class_init (GObjectClass *object_class)
 {
 	CompleteClass *auto_complete_class = (CompleteClass *) object_class;
 
+	parent_class = g_type_class_peek (PARENT_TYPE);
 	object_class->finalize = complete_sheet_finalize;
 	auto_complete_class->search_iteration = complete_sheet_search_iteration;
 }
@@ -138,10 +130,10 @@ complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify
 	complete_construct (COMPLETE (cs), notify, notify_closure);
 
 	cs->sheet = sheet;
-	cs->col = col;
-	cs->row = row;
-	cs->current = g_strdup ("");
-	reset_search (cs);
+	cs->entry.col = col;
+	cs->entry.row = row;
+	cs->current_text = g_strdup ("");
+	search_strategy_reset_search (cs);
 
 	return COMPLETE (cs);
 }
