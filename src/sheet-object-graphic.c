@@ -41,7 +41,7 @@ sheet_object_graphic_realize (SheetObject *so, SheetView *sheet_view)
 			gnome_canvas_line_get_type (),
 			"points",        so->bbox_points,
 			"fill_color",    sog->color->str,
-			"width",         (double) sog->width,
+			"width_units",   (double) sog->width,
 			NULL);
 		break;
 
@@ -51,7 +51,7 @@ sheet_object_graphic_realize (SheetObject *so, SheetView *sheet_view)
 			gnome_canvas_line_get_type (),
 			"points",        so->bbox_points,
 			"fill_color",    sog->color->str,
-			"width",         (double) sog->width,
+			"width_units",   (double) sog->width,
 			"arrow_shape_a", 8.0,
 			"arrow_shape_b", 10.0,
 			"arrow_shape_c", 3.0,
@@ -181,7 +181,7 @@ sheet_object_filled_realize (SheetObject *so, SheetView *sheet_view)
 		"y2",            y2,
 		"fill_color",    sof->fill_color ? sof->fill_color->str : NULL,
 		"outline_color", sog->color->str,
-		"width",         (double) sog->width,
+		"width_units",   (double) sog->width,
 		NULL);
 
 	return item;

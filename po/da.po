@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
-"POT-Creation-Date: 1999-09-22 17:36-0500\n"
+"POT-Creation-Date: 1999-09-22 18:27-0500\n"
 "PO-Revision-Date: 1999-09-16 22:08+02:00\n"
 "Last-Translator: Birger langkjer <birger.langkjer@image.dk>\n"
 "Language-Team: Danish <sslug-locale@sslug.dk>\n"
