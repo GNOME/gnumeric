@@ -2182,7 +2182,7 @@ cmd_selection_outline_change (WorkbookControl *wbc,
 				visible = (depth == d && cri->is_collapsed);
 				first = index + 1;
 				last = colrow_find_outline_bound (sheet, is_cols,
-					first, d-1, TRUE);
+					first, d+1, TRUE);
 			}
 		}
 	}

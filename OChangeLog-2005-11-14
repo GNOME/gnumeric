@@ -1,5 +1,9 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=114151.
+	* src/commands.c (cmd_selection_outline_change) : minor thinko when
+	  implementing inverted placement.
+
 	* src/sheet-control-gui.c (scg_setup_group_buttons) : honour the
 	  sheet::display_outline flag.  We could probably move these to the
 	  SheetView.
