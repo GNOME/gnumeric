@@ -299,7 +299,7 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	EvalPosition	 pos;
+	EvalPos	 pos;
 	gchar		*text;
 } CmdSetText;
 
@@ -423,7 +423,7 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	EvalPosition	 pos;
+	EvalPos	 pos;
 	char 	*text; 
 	gboolean as_array;
 	GSList	*old_content;
@@ -490,10 +490,10 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 	start = gnumeric_char_start_expr_p (me->text);
 	if (start != NULL && me->as_array && l != NULL && l->next == NULL) {
 		char *error_string = NULL;
-		ParsePosition pp;
+		ParsePos pp;
 		expr = expr_parse_string (start,
-					  parse_pos_evalpos (&pp, &me->pos),
-					  NULL, &error_string);
+		    parse_pos_init_evalpos (&pp, &me->pos),
+		    NULL, &error_string);
 
 		if (expr == NULL)
 			return TRUE;
@@ -549,7 +549,7 @@ cmd_area_set_text_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_area_set_text (CommandContext *context, EvalPosition const *pos,
+cmd_area_set_text (CommandContext *context, EvalPos const *pos,
 		   char const * const new_text, gboolean const as_array)
 {
 	static int const max_descriptor_width = 15;
@@ -1210,7 +1210,7 @@ typedef struct
 	GnumericCommand parent;
 
 	gboolean	 is_date;
-	EvalPosition	 pos;
+	EvalPos	 pos;
 	gchar		*contents;
 } CmdSetDateTime;
 

@@ -44,7 +44,7 @@ typedef struct {
 
 /*
  *  A DependencySingle stores a list of cells that depend
- * on the cell at @pos in @cell_list. NB. the EvalPosition
+ * on the cell at @pos in @cell_list. NB. the EvalPos
  * is quite vital since there may not be a cell there yet.
  */
 typedef struct {
@@ -65,7 +65,7 @@ struct _DependencyData {
 	 */
 	GHashTable *range_hash;
 	/*
-	 *   Single ranges, this maps an EvalPosition * to a GList of its
+	 *   Single ranges, this maps an EvalPos * to a GList of its
 	 * dependencies.
 	 */
 	GHashTable *single_hash;
@@ -156,7 +156,7 @@ invalidate_refs (DependencyRange *deprange, Sheet *invalid_sheet)
 	info.row_offset = SHEET_MAX_ROWS;
 
 	while (cell_list != NULL) {
-		EvalPosition pos;
+		EvalPos pos;
 		Cell *cell = cell_list->data;
 		ExprTree *newtree;
 
@@ -164,7 +164,7 @@ invalidate_refs (DependencyRange *deprange, Sheet *invalid_sheet)
 		g_return_if_fail (cell_has_expr (cell));
 
 		newtree = expr_relocate (cell->u.expression,
-					 eval_pos_cell (&pos, cell),
+					 eval_pos_init_cell (&pos, cell),
 					 &info);
 
 		/*
@@ -243,23 +243,23 @@ void
 cell_eval_content (Cell *cell)
 {
 	Value           *v;
-	EvalPosition	 pos;
+	EvalPos	 pos;
 
 	if (!cell_has_expr (cell))
 		return;
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
-		ParsePosition pp;
+		ParsePos pp;
 
 		char *exprtxt = expr_decode_tree
-			(cell->u.expression, parse_pos_cell (&pp, cell));
+			(cell->u.expression, parse_pos_init_cell (&pp, cell));
 		printf ("Evaluating %s: %s ->\n", cell_name (cell), exprtxt);
 		g_free (exprtxt);
 	}
 #endif
 
-	v = eval_expr (eval_pos_cell (&pos, cell),
+	v = eval_expr (eval_pos_init_cell (&pos, cell),
 		       cell->u.expression, EVAL_STRICT);
 
 #ifdef DEBUG_EVALUATION
@@ -275,8 +275,6 @@ cell_eval_content (Cell *cell)
 	if (v == NULL)
 		v = value_new_error (&pos, "Internal error");
 
-	if (cell->value)
-		value_release (cell->value);
 	cell_assign_value (cell, v, NULL);
 	rendered_value_calc_size (cell);
 	sheet_redraw_cell (cell);
@@ -384,9 +382,13 @@ dependency_range_ctor (DependencyRange *range, const Cell *cell,
 	pos.col = cell->col_info->pos;
 	pos.row = cell->row_info->pos;
 
-	/* Convert to absolute cordinates */
-	cell_get_abs_col_row (a, &pos, &range->range.start.col, &range->range.start.row);
-	cell_get_abs_col_row (b, &pos, &range->range.end.col,   &range->range.end.row);
+	cell_get_abs_col_row (a, &pos,
+			      &range->range.start.col,
+			      &range->range.start.row);
+	cell_get_abs_col_row (b, &pos,
+			      &range->range.end.col,
+			      &range->range.end.row);
+	range_normalize (&range->range);
 
 	range->cell_list = NULL;
 	if (b->sheet && a->sheet != b->sheet)
@@ -509,8 +511,8 @@ handle_value_deps (Cell *cell, const Value *value, DepOperation operation)
 	case VALUE_CELLRANGE:
 		handle_cell_range_deps (
 			cell,
-			&value->v_range.cell_a,
-			&value->v_range.cell_b,
+			&value->v_range.cell.a,
+			&value->v_range.cell.b,
 			operation);
 		break;
 	default:

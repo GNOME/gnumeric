@@ -769,7 +769,7 @@ yyerror (char *s)
 }
 
 ParseErr
-gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
+gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 		      gboolean use_excel_range_conventions,
 		      char **desired_format, ExprTree **result)
 {
@@ -782,8 +782,8 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 	parser_error = PARSE_OK;
 	parser_expr = expr;
 	parser_wb    = pp->wb;
-	parser_col   = pp->col;
-	parser_row   = pp->row;
+	parser_col   = pp->eval.col;
+	parser_row   = pp->eval.row;
 	parser_desired_format = desired_format;
 	parser_result = result;
 
@@ -816,11 +816,10 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 		deallocate_assert_empty ();
 		if (desired_format) {
 			char *format;
-			EvalPosition pos;
+			EvalPos pos;
 
 			pos.sheet = pp->sheet;
-			pos.eval.col = pp->col;
-			pos.eval.row = pp->row;
+			pos.eval = pp->eval;
 			format = auto_format_suggest (*parser_result, &pos);
 			if (format) {
 				/*

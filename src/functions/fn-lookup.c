@@ -815,14 +815,14 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 	    expr->constant.value->type == VALUE_CELLRANGE) {
 		int i, j, col;
 		Value const * range = expr->constant.value;
-		CellRef const * a = &range->v_range.cell_a;
-		CellRef const * b = &range->v_range.cell_b;
-		Value * res = value_new_array (b->col - a->col + 1,
-					       b->row - a->row + 1);
+		CellRef const * a = &range->v_range.cell.a;
+		CellRef const * b = &range->v_range.cell.b;
+		Value * res = value_new_array (abs (b->col - a->col) + 1,
+					       abs (b->row - a->row) + 1);
 
 		col = cell_ref_get_abs_col (a, ei->pos) + 1;
-		for (i = b->col - a->col ; i >= 0 ; --i)
-			for (j = b->row - a->row ; j >= 0 ; --j)
+		for (i = abs (b->col - a->col) ; i >= 0 ; --i)
+			for (j = abs (b->row - a->row) ; j >= 0 ; --j)
 				value_array_set(res, i, j,
 						value_new_int(col+i));
 
@@ -880,15 +880,12 @@ static char *help_offset = {
 static Value *
 gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 {
-	CellRef a;
-	CellRef b;
 	int width, height;
 	int row_offset, col_offset;
 
-	g_return_val_if_fail (args [0]->type == VALUE_CELLRANGE, NULL);
-
-	cell_ref_make_abs (&a, &args[0]->v_range.cell_a, ei->pos);
-	cell_ref_make_abs (&b, &args[0]->v_range.cell_b, ei->pos);
+	/* Copy the references so we can change them */
+	CellRef a = args[0]->v_range.cell.a;
+	CellRef b = args[0]->v_range.cell.b;
 
 	row_offset = value_get_as_int (args[1]);
 	col_offset = value_get_as_int (args[2]);
@@ -958,14 +955,14 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 	    expr->constant.value->type == VALUE_CELLRANGE) {
 		int i, j, row;
 		Value const * range = expr->constant.value;
-		CellRef const * a = &range->v_range.cell_a;
-		CellRef const * b = &range->v_range.cell_b;
-		Value * res = value_new_array (b->col - a->col + 1,
-					       b->row - a->row + 1);
+		CellRef const * a = &range->v_range.cell.a;
+		CellRef const * b = &range->v_range.cell.b;
+		Value * res = value_new_array (abs (b->col - a->col) + 1,
+					       abs (b->row - a->row) + 1);
 
 		row = cell_ref_get_abs_row (a, ei->pos) + 1;
-		for (i = b->col - a->col ; i >= 0 ; --i)
-			for (j = b->row - a->row ; j >= 0 ; --j)
+		for (i = abs (b->col - a->col) ; i >= 0 ; --i)
+			for (j = abs (b->row - a->row) ; j >= 0 ; --j)
 				value_array_set(res, i, j,
 						value_new_int(row+j));
 
@@ -1044,7 +1041,7 @@ static char *help_transpose = {
 static Value *
 gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 {
-	EvalPosition const * const ep = ei->pos;
+	EvalPos const * const ep = ei->pos;
         Value const * const matrix = argv[0];
 	int	r, c;
         Value *res;

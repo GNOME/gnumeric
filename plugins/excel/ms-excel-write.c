@@ -32,6 +32,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "format.h"
+#include "position.h"
 #include "color.h"
 #include "cell.h"
 #include "sheet-object.h"
@@ -2425,15 +2426,12 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 2) {
-		ParsePosition tmp;
+		ParsePos tmp;
 		printf ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (gnum_cell),
 			(cell_has_expr (gnum_cell) ?
 			 expr_decode_tree (gnum_cell->u.expression,
-					   parse_pos_init (&tmp,
-							   NULL,
-							   sheet->gnum_sheet,
-							   col, row)) :
+					   parse_pos_init_cell (&tmp, gnum_cell)) :
 			 "none"),
 			(gnum_cell->value ?
 			 value_get_as_string (gnum_cell->value) : "empty"),

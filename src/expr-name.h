@@ -38,7 +38,7 @@ void      expr_name_clean_sheet     (Sheet    *sheet);
 GList    *expr_name_list       (Workbook *wb, Sheet *sheet, gboolean builtins_too);
 
 /* Evaluate the name's expression */
-Value    *eval_expr_name       (EvalPosition const * const pos, const NamedExpression *exprn,
+Value    *eval_expr_name       (EvalPos const * const pos, const NamedExpression *exprn,
 				ExprEvalFlags const flags);
 
 char     *expr_name_value      (const NamedExpression *expr_name);

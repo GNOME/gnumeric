@@ -6,6 +6,7 @@
 #include "sheet.h"
 #include "numbers.h"
 #include "str.h"
+#include "position.h"
 
 typedef enum {
 	/* Use magic values to act as a signature */
@@ -35,7 +36,7 @@ struct _ValueErr {
 	ValueType const type;
 	String       *mesg;
 	/* Currently unused.  Intended to support audit functions */
-	EvalPosition  src;
+	EvalPos  src;
 };
 struct _ValueStr {
 	ValueType const type;
@@ -43,7 +44,7 @@ struct _ValueStr {
 };
 struct _ValueRange {
 	ValueType const type;
-	CellRef cell_a, cell_b;
+	RangeRef cell;
 };
 struct _ValueArray {
 	ValueType const type;
@@ -73,8 +74,8 @@ Value       *value_new_empty            (void);
 Value       *value_new_bool             (gboolean b);
 Value       *value_new_int              (int i);
 Value       *value_new_float            (float_t f);
-Value       *value_new_error            (EvalPosition const *pos, char const *mesg);
-Value       *value_new_error_str        (EvalPosition const *pos, String *mesg);
+Value       *value_new_error            (EvalPos const *pos, char const *mesg);
+Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
 Value       *value_new_string           (const char *str);
 Value       *value_new_string_str       (String *str);
 Value       *value_new_cellrange_unsafe (const CellRef *a, const CellRef *b);
@@ -104,23 +105,23 @@ gboolean     value_is_empty_cell (Value const *v);
 Value       *value_terminate (void);
 
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
-/* The EvalPosition provides a Sheet context; this allows
+/* The EvalPos provides a Sheet context; this allows
    calculation of relative references. 'x','y' give the position */
-guint        value_area_get_width  (const EvalPosition *ep, Value const *v);
-guint        value_area_get_height (const EvalPosition *ep, Value const *v);
+guint        value_area_get_width  (const EvalPos *ep, Value const *v);
+guint        value_area_get_height (const EvalPos *ep, Value const *v);
 
 /* Return Value(int 0) if non-existant */
-const Value *value_area_fetch_x_y  (const EvalPosition *ep, Value const * v,
+const Value *value_area_fetch_x_y  (const EvalPos *ep, Value const * v,
 				    guint x, guint y);
 
 /* Return NULL if non-existant */
-const Value * value_area_get_x_y (const EvalPosition *ep, Value const * v,
+const Value * value_area_get_x_y (const EvalPos *ep, Value const * v,
 				  guint x, guint y);
 
-typedef  Value * (*value_area_foreach_callback)(EvalPosition const *ep,
+typedef  Value * (*value_area_foreach_callback)(EvalPos const *ep,
 						Value const *v, void *user_data);
 
-Value * value_area_foreach (EvalPosition const *ep, Value const *v,
+Value * value_area_foreach (EvalPos const *ep, Value const *v,
 			    value_area_foreach_callback callback,
 			    void *closure);
 

@@ -28,7 +28,7 @@
 #define CELL_RANGE_CLASS "CellRange"
 
 static PyObject *value_to_python (Value *v);
-static Value *value_from_python (PyObject *o, EvalPosition const * const pos);
+static Value *value_from_python (PyObject *o, EvalPos const *pos);
 
 /* This is standard idiom for defining exceptions in extension modules. */
 static PyObject *GnumericError;
@@ -150,10 +150,11 @@ range_to_python (Value *v)
 	if ((klass  = PyObject_GetAttrString (mod, CELL_RANGE_CLASS)) == NULL)
 		return NULL;
 
+	/* FIXME : Support inverted ranges */
 	ret = PyObject_CallFunction
 		(klass, "O&O&",
-		 cell_ref_to_python, &v->v_range.cell_a,
-		 cell_ref_to_python, &v->v_range.cell_b);
+		 cell_ref_to_python, &v->v_range.cell.a,
+		 cell_ref_to_python, &v->v_range.cell.b);
 
 	Py_DECREF (klass);
 	return ret;
@@ -424,7 +425,7 @@ cleanup:
  * NULL on failure.
  */
 static Value *
-range_from_python (PyObject *o, EvalPosition const * const pos)
+range_from_python (PyObject *o, EvalPos const *pos)
 {
 	PyObject *range = NULL;
 	CellRef a, b;
@@ -480,7 +481,7 @@ array_check (PyObject *o)
  * Row n, col m is [n][m].  */
 static int
 row_from_python (PyObject *o, int rowno, Value *array,
-		 EvalPosition const * const pos)
+		 EvalPos const *pos)
 {
 	PyObject *item;
 	int i;
@@ -505,7 +506,7 @@ row_from_python (PyObject *o, int rowno, Value *array,
  * Row n, col m is [n][m].
  */
 static Value *
-array_from_python (PyObject *o, EvalPosition const *pos)
+array_from_python (PyObject *o, EvalPos const *pos)
 {
 	Value *v = NULL, *array = NULL;
 	PyObject *row = NULL;
@@ -547,7 +548,7 @@ cleanup:
  * NULL on failure.
  */
 static Value *
-value_from_python (PyObject *o, EvalPosition const * const pos)
+value_from_python (PyObject *o, EvalPos const *pos)
 {
 	Value *v = NULL;
 

@@ -31,7 +31,7 @@
  * until someone who actually uses this thing takes
  * over maintaing it.
  */
-static EvalPosition const *eval_pos = NULL;
+static EvalPos const *eval_pos = NULL;
 
 static SCM
 scm_symbolfrom0str (char *name)
@@ -107,9 +107,10 @@ value_to_scm (Value const *val, CellRef cell_ref)
 			return gh_double2scm(val->v_float.val);
 
 		case VALUE_CELLRANGE :
+			/* FIXME : Support inverted ranges */
 			return scm_cons(scm_symbolfrom0str("cell-range"),
-					scm_cons(cell_ref_to_scm(val->v_range.cell_a, cell_ref),
-						 cell_ref_to_scm(val->v_range.cell_b, cell_ref)));
+					scm_cons(cell_ref_to_scm(val->v_range.cell.a, cell_ref),
+						 cell_ref_to_scm(val->v_range.cell.b, cell_ref)));
 
 		case VALUE_ARRAY :
 			{
@@ -405,7 +406,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	FunctionDefinition const *fndef = ei->func_def;
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
-	EvalPosition const *old_eval_pos;
+	EvalPos const *old_eval_pos;
 	int i, min, max;
 
 	function_def_count_args (fndef, &min, &max);

@@ -19,85 +19,6 @@
 #include "ranges.h"
 #include "workbook.h"
 
-inline EvalPosition *
-eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, CellPos const *pos)
-{
-	g_return_val_if_fail (eval_pos != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	eval_pos->sheet = sheet;
-	eval_pos->eval  = *pos;
-
-	return eval_pos;
-}
-
-EvalPosition *
-eval_pos_cell (EvalPosition *eval_pos, Cell const *cell)
-{
-	CellPos pos;
-	g_return_val_if_fail (cell != NULL, NULL);
-
-	pos.col = cell->col_info->pos;
-	pos.row = cell->row_info->pos;
-	return eval_pos_init (eval_pos, cell->sheet, &pos);
-}
-
-EvalPosition *
-eval_pos_cellref (EvalPosition *dest, EvalPosition const *src, 
-		  CellRef const *ref)
-{
-	/* FIXME : This is a place to catch all of the strange
-	 * usages.  Please figure out what they were trying to do.
-	 */
-	*dest = *src;
-	return dest;
-}
-
-/*
- * Supply either a sheet (preferred) or a workbook.
- */
-
-ParsePosition *
-parse_pos_init (ParsePosition *pp, Workbook *wb, Sheet *sheet, int col, int row)
-{
-	g_return_val_if_fail (wb || sheet, NULL);
-	g_return_val_if_fail (pp != NULL, NULL);
-
-	pp->sheet = sheet;
-	pp->wb = sheet ? sheet->workbook : wb;
-	pp->col = col;
-	pp->row = row;
-
-	return pp;
-}
-
-ParsePosition *
-parse_pos_cell (ParsePosition *pp, Cell const *cell)
-{
-	g_return_val_if_fail (pp != NULL, NULL);
-	g_return_val_if_fail (cell != NULL, NULL);
-	g_return_val_if_fail (cell->sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (cell->sheet), NULL);
-	g_return_val_if_fail (cell->sheet->workbook != NULL, NULL);
-
-	return parse_pos_init (
-		pp,
-		NULL,
-		cell->sheet,
-		cell->col_info->pos,
-		cell->row_info->pos);
-}
-
-ParsePosition *
-parse_pos_evalpos (ParsePosition *pp, EvalPosition const *ep)
-{
-	g_return_val_if_fail (pp != NULL, NULL);
-	g_return_val_if_fail (ep != NULL, NULL);
-
-	return parse_pos_init (pp, NULL, ep->sheet, ep->eval.col, ep->eval.row);
-}
-
 /***************************************************************************/
 
 ExprTree *
@@ -111,7 +32,7 @@ expr_tree_new_constant (Value *v)
 	
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_CONSTANT;
-	ans->value= v;
+	ans->value = v;
 
 	return (ExprTree *)ans;
 }
@@ -262,7 +183,7 @@ expr_tree_get_const_str (ExprTree const *expr)
 }
 
 ExprTree *
-expr_parse_string (char const *expr, ParsePosition const *pp,
+expr_parse_string (char const *expr, ParsePos const *pp,
 		   char **desired_format, char **error_msg)
 {
 	ExprTree *tree;
@@ -290,7 +211,7 @@ expr_parse_string (char const *expr, ParsePosition const *pp,
 
 
 static ExprTree *
-expr_tree_array_formula_corner (ExprTree const *expr, EvalPosition const *pos)
+expr_tree_array_formula_corner (ExprTree const *expr, EvalPos const *pos)
 {
 	Cell * corner = expr->array.corner.cell;
 
@@ -408,7 +329,7 @@ expr_tree_shared (ExprTree const *tree)
 }
 
 static Value *
-eval_funcall (EvalPosition const *pos, ExprTree const *tree)
+eval_funcall (EvalPos const *pos, ExprTree const *tree)
 {
 	FunctionEvalInfo ei;
 	Symbol const *sym;
@@ -436,8 +357,11 @@ eval_funcall (EvalPosition const *pos, ExprTree const *tree)
  * @ei: EvalInfo containing valid fd!
  * @v: a VALUE_CELLRANGE
  * 
- * Attempt to find the intersection between the calling cell and
- * some element of the 1 one unit wide or tall range.
+ * Handle the implicit union of a single row or column with the eval position.
+ *
+ * NOTE : We do not need to know if this is expression is being evaluated as an
+ * array or not because we can differentiate based on the required type for the
+ * argument.
  *
  * Always release the value passed in.
  *
@@ -446,34 +370,32 @@ eval_funcall (EvalPosition const *pos, ExprTree const *tree)
  *     at the intersection point.  This value needs to be freed.
  **/
 Value *
-expr_implicit_intersection (EvalPosition const *pos,
+expr_implicit_intersection (EvalPos const *pos,
 			    Value *v)
 {
-	/*
-	 * Handle the implicit union of a single row or
-	 * column with the eval position.
-	 * NOTE : We do not need to know if this is expression is
-	 * being evaluated as an array or not because we can differentiate
-	 * based on the required type for the argument.
-	 */
 	Value *res = NULL;
-	CellRef const * const a = & v->v_range.cell_a;
-	CellRef const * const b = & v->v_range.cell_b;
+	Range rng;
+	Sheet *start_sheet, *end_sheet;
 
-	if (a->sheet == b->sheet) {
-		int a_col, a_row, b_col, b_row;
-		cell_get_abs_col_row (a, &pos->eval, &a_col, &a_row);
-		cell_get_abs_col_row (b, &pos->eval, &b_col, &b_row);
-		if (a_row == b_row) {
+	/* handle inverted ranges */
+	range_ref_normalize  (&rng, &start_sheet, &end_sheet, v, pos);
+
+	if (start_sheet == end_sheet) {
+		if (rng.start.row == rng.end.row) {
 			int const c = pos->eval.col;
-			if (a_col <= c && c <= b_col)
-				res = value_duplicate (value_area_get_x_y (pos, v, c - a_col, 0));
+			if (rng.start.col <= c && c <= rng.end.col)
+				res = value_duplicate (
+					value_area_get_x_y (pos, v,
+							    c - rng.start.col,
+							    0));
 		}
 
-		if (a_col == b_col) {
+		if (rng.start.col == rng.end.col) {
 			int const r = pos->eval.row;
-			if (a_row <= r && r <= b_row)
-				res = value_duplicate (value_area_get_x_y (pos, v, 0, r - a_row));
+			if (rng.start.row <= r && r <= rng.end.row)
+				res = value_duplicate (
+					value_area_get_x_y (pos, v, 0,
+							    r - rng.start.row));
 		}
 	}
 	value_release (v);
@@ -610,11 +532,11 @@ compare (Value const *a, Value const *b)
  * necessary.
  */
 static void
-eval_range (EvalPosition const *pos, Value *v)
+eval_range (EvalPos const *pos, Value *v)
 {
 	int start_col, start_row, end_col, end_row;
-	CellRef * a = &v->v_range.cell_a;
-	CellRef * b = &v->v_range.cell_b;
+	CellRef * a = &v->v_range.cell.a;
+	CellRef * b = &v->v_range.cell.b;
 	Sheet * sheet = a->sheet ? a->sheet : pos->sheet;
 	Cell * cell;
 	int r, c;
@@ -639,7 +561,7 @@ eval_range (EvalPosition const *pos, Value *v)
 }
 
 static Value *
-eval_expr_real (EvalPosition const *pos, ExprTree const *tree,
+eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		ExprEvalFlags flags)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
@@ -998,8 +920,8 @@ eval_expr_real (EvalPosition const *pos, ExprTree const *tree,
 			 * being evaluated as an array or not because we can differentiate
 			 * based on the required type for the argument.
 			 */
-			CellRef const * const a = & res->v_range.cell_a;
-			CellRef const * const b = & res->v_range.cell_b;
+			CellRef const * const a = & res->v_range.cell.a;
+			CellRef const * const b = & res->v_range.cell.b;
 			gboolean found = FALSE;
 
 			if (a->sheet == b->sheet) {
@@ -1079,7 +1001,7 @@ eval_expr_real (EvalPosition const *pos, ExprTree const *tree,
 			int const num_y = value_area_get_height (pos, a);
 
 			/* Evaluate relative to the upper left corner */
-			EvalPosition tmp_ep = *pos;
+			EvalPos tmp_ep = *pos;
 			tmp_ep.eval.col -= x;
 			tmp_ep.eval.row -= y;
 
@@ -1104,7 +1026,7 @@ eval_expr_real (EvalPosition const *pos, ExprTree const *tree,
 }
 
 Value *
-eval_expr (EvalPosition const *pos, ExprTree const *tree,
+eval_expr (EvalPos const *pos, ExprTree const *tree,
 	   ExprEvalFlags flags)
 {
 	Value * res = eval_expr_real (pos, tree, flags);
@@ -1125,7 +1047,7 @@ eval_expr (EvalPosition const *pos, ExprTree const *tree,
 void
 cell_ref_make_abs (CellRef *dest,
 		   CellRef const *src,
-		   EvalPosition const *ep)
+		   EvalPos const *ep)
 {
 	g_return_if_fail (dest != NULL);
 	g_return_if_fail (src != NULL);
@@ -1142,7 +1064,7 @@ cell_ref_make_abs (CellRef *dest,
 }
 
 int
-cell_ref_get_abs_col (CellRef const *ref, EvalPosition const *pos)
+cell_ref_get_abs_col (CellRef const *ref, EvalPos const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
@@ -1153,7 +1075,7 @@ cell_ref_get_abs_col (CellRef const *ref, EvalPosition const *pos)
 
 }
 int
-cell_ref_get_abs_row (CellRef const *ref, EvalPosition const *pos)
+cell_ref_get_abs_row (CellRef const *ref, EvalPos const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
@@ -1228,7 +1150,7 @@ strescape (char *string)
  * creates a string representation.
  */
 static char *
-do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
+do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 		     int paren_level)
 {
 	static struct {
@@ -1369,8 +1291,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		case VALUE_CELLRANGE: {
 			char *a, *b, *res;
 
-			a = cellref_name (&v->v_range.cell_a, pp);
-			b = cellref_name (&v->v_range.cell_b, pp);
+			a = cellref_name (&v->v_range.cell.a, pp);
+			b = cellref_name (&v->v_range.cell.b, pp);
 
 			res = g_strconcat (a, ":", b, NULL);
 
@@ -1430,10 +1352,10 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 			ExprTree *array =
 			    expr_tree_array_formula_corner (tree, NULL);
 			if (array) {
-				ParsePosition tmp_pos;
+				ParsePos tmp_pos;
 				tmp_pos.wb  = pp->wb;
-				tmp_pos.col = pp->col - x;
-				tmp_pos.row = pp->row - y;
+				tmp_pos.eval.col = pp->eval.col - x;
+				tmp_pos.eval.row = pp->eval.row - y;
 				res = do_expr_decode_tree (
 					array->array.corner.func.expr,
 					&tmp_pos, 0);
@@ -1453,7 +1375,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 }
 
 char *
-expr_decode_tree (ExprTree *tree, ParsePosition const *pp)
+expr_decode_tree (ExprTree *tree, ParsePos const *pp)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
 
@@ -1468,7 +1390,7 @@ enum CellRefRelocate {
 
 static enum CellRefRelocate
 cellref_relocate (CellRef *ref,
-		  EvalPosition const *pos,
+		  EvalPos const *pos,
 		  ExprRelocateInfo const *rinfo)
 {
 	/* For row or column refs
@@ -1571,7 +1493,7 @@ cellref_relocate (CellRef *ref,
  */
 ExprTree *
 expr_relocate (ExprTree const *expr,
-	       EvalPosition const *pos,
+	       EvalPos const *pos,
 	       ExprRelocateInfo const *rinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
@@ -1648,8 +1570,8 @@ expr_relocate (ExprTree const *expr,
 		Value const * const v = expr->constant.value;
 		if  (v->type == VALUE_CELLRANGE) {
 			/* TODO : Figure out the logic of 1 ref error 1 ok */
-			CellRef ref_a = v->v_range.cell_a;
-			CellRef ref_b = v->v_range.cell_b;
+			CellRef ref_a = v->v_range.cell.a;
+			CellRef ref_b = v->v_range.cell.b;
 			gboolean needs_reloc = FALSE;
 
 			switch (cellref_relocate (&ref_a, pos, rinfo)) {

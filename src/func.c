@@ -39,7 +39,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
 			    Cell *cell, void *user_data)
 {
 	IterateCallbackClosure *data = user_data;
-	EvalPosition ep;
+	EvalPos ep;
 	Value *res;
 
 	if (cell->generation != sheet->workbook->generation)
@@ -50,7 +50,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
 		return res;
 
 	/* All other cases -- including error -- just call the handler.  */
-	return (*data->callback)(eval_pos_cell (&ep, cell),
+	return (*data->callback)(eval_pos_init_cell (&ep, cell),
 				 cell->value, data->closure);
 }
 
@@ -60,7 +60,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
  * Helper routine for function_iterate_argument_values.
  */
 Value *
-function_iterate_do_value (EvalPosition      const *ep,
+function_iterate_do_value (EvalPos      const *ep,
 			   FunctionIterateCallback  callback,
 			   void                    *closure,
 			   Value                   *value,
@@ -102,33 +102,21 @@ function_iterate_do_value (EvalPosition      const *ep,
 	}
 	case VALUE_CELLRANGE: {
 		IterateCallbackClosure data;
-		Sheet *sheet;
-		int start_col, start_row, end_col, end_row;
 
 		data.callback = callback;
 		data.closure  = closure;
 		data.strict   = strict;
 
-		cell_get_abs_col_row (&value->v_range.cell_a, &ep->eval,
-				      &start_col, &start_row);
-
-		cell_get_abs_col_row (&value->v_range.cell_b, &ep->eval,
-				      &end_col, &end_row);
-
-		sheet = eval_sheet (value->v_range.cell_a.sheet, ep->sheet);
-		res = sheet_cell_foreach_range (
-			sheet, TRUE,
-			start_col, start_row,
-			end_col, end_row,
-			iterate_cellrange_callback,
-			&data);
+		res = workbook_foreach_cell_in_range (ep, value, TRUE,
+						      iterate_cellrange_callback,
+						      &data);
 	}
 	}
 	return res;
 }
 
 Value *
-function_iterate_argument_values (const EvalPosition      *ep,
+function_iterate_argument_values (const EvalPos      *ep,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
@@ -312,7 +300,7 @@ free_values (Value **values, int top)
 
 static void
 cell_ref_make_absolute (CellRef *cell_ref,
-			const EvalPosition *ep)
+			const EvalPos *ep)
 {
 	g_return_if_fail (cell_ref != NULL);
 
@@ -384,8 +372,8 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		if (v->type != VALUE_CELLRANGE)
 			*type_mismatch = TRUE;
 		else {
-			cell_ref_make_absolute (&v->v_range.cell_a, ei->pos);
-			cell_ref_make_absolute (&v->v_range.cell_b, ei->pos);
+			cell_ref_make_absolute (&v->v_range.cell.a, ei->pos);
+			cell_ref_make_absolute (&v->v_range.cell.b, ei->pos);
 		}
 		break;
 
@@ -400,8 +388,8 @@ function_marshal_arg (FunctionEvalInfo *ei,
 			*type_mismatch = TRUE;
 			
 		if (v->type == VALUE_CELLRANGE) {
-			cell_ref_make_absolute (&v->v_range.cell_a, ei->pos);
-			cell_ref_make_absolute (&v->v_range.cell_b, ei->pos);
+			cell_ref_make_absolute (&v->v_range.cell.a, ei->pos);
+			cell_ref_make_absolute (&v->v_range.cell.b, ei->pos);
 		}
 		break;
 	}
@@ -676,7 +664,7 @@ function_add_args (FunctionCategory *parent,
 }
 
 Value *
-function_def_call_with_values (const EvalPosition *ep,
+function_def_call_with_values (const EvalPos *ep,
 			       FunctionDefinition *fndef,
 			       int                 argc,
 			       Value              *values [])
@@ -727,7 +715,7 @@ function_def_call_with_values (const EvalPosition *ep,
  * you have to compute/expand all of the values to use this
  */
 Value *
-function_call_with_values (const EvalPosition *ep, const char *name,
+function_call_with_values (const EvalPos *ep, const char *name,
 			   int argc, Value *values [])
 {
 	FunctionDefinition *fndef;

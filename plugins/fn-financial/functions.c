@@ -1431,7 +1431,7 @@ typedef struct {
 } financial_npv_t;
 
 static Value *
-callback_function_npv (const EvalPosition *ep, Value *value, void *closure)
+callback_function_npv (const EvalPos *ep, Value *value, void *closure)
 {
         financial_npv_t *mm = closure;
 

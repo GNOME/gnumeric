@@ -1,3 +1,64 @@
+2000-05-03  Jody Goldberg <jgoldberg@home.com>
+
+	* EvalPosition -> EvalPos
+	  ParsePosition -> ParsePos
+	  new struct RangeRef used in ValueRange
+
+	  eval_pos_init* -> position.[ch]
+	  parse_pos_init*
+	  cell_ref_{get,make}*
+
+	* src/workbook.c : Reorder the toolbar a bit.
+	(workbook_foreach_cell_in_range) : New function.
+	(cb_autofunction) : New routine.
+	(workbook_set_auto_expr) : DO NOT put real code into pre/post
+	  conditions.  It will be removed when debugging is eventually
+	  disabled.
+
+	* src/position.c (range_ref_normalize) : New function.
+
+	* src/ranges.c (range_normalize) : New function.
+
+	* src/expr.c (expr_implicit_intersection) : Use range_ref_normalize.
+
+	* src/eval.c (cell_eval_content) : No need to release the value.
+	  cell_assign_value already does that.
+	(dependency_range_ctor) : Use range_normalize.
+
+	* src/auto-format.c (do_af_suggest) : Use workbook_foreach_cell_in_range.
+
+	* src/cell.c (cell_set_expr_and_value) : link the new expression but
+	  do not queue it for recalc.
+	(cell_assign_value) : Release the old value.
+	(cell_copy) : Init the value to empty.
+
+	* src/func.c (function_iterate_do_value) : Use
+	  workbook_foreach_cell_in_range.
+
+	* src/dialogs/dialog-function-wizard.c (create_description) : Use
+	  a label rather than a text entry widget.  It looks better.
+
+	* src/functions/fn-string.c (gnumeric_expression) : range is already
+	  absolute.
+
+	* src/functions/fn-stat.c (gnumeric_linest) : Handle inverted ranges.
+	(gnumeric_logest) : Ditto.
+
+	* src/functions/fn-information.c (gnumeric_countblank) : Use
+	workbook_foreach_cell_in_range.
+	(gnumeric_{row,column}) : Handle inversions.
+
+	* src/functions/fn-lookup.c (gnumeric_offset) : No need to make
+	  absolute.  The marshaller already did that.
+
+2000-05-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c (dependency_range_ctor) : normalize the range.
+
+	* src/xml-io.c (xml_write_cell_and_position) : Suppress warning.
+
+	* src/pixmaps.h : Add function wizard and equal sign.
+
 2000-05-03  Michael Meeks  <michael@helixcode.com>
 
 	* doc/Dependencies.txt: update to reflect changes.

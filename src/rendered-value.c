@@ -52,9 +52,10 @@ rendered_value_new (Cell * cell)
 	g_return_val_if_fail (cell->value != NULL, NULL);
 
 	if (cell_has_expr (cell) && cell->sheet->display_formulas) {
-		ParsePosition pp;
-		char *tmpstr = expr_decode_tree (cell->u.expression,
-						 parse_pos_cell (&pp, cell));
+		ParsePos pp;
+		char *tmpstr =
+			expr_decode_tree (cell->u.expression,
+					  parse_pos_init_cell (&pp, cell));
 		str = g_strconcat ("=", tmpstr, NULL);
 		g_free (tmpstr);
 		color = NULL;
@@ -248,10 +249,10 @@ cell_get_entered_text (Cell const *cell)
 
 	if (cell_has_expr (cell)) {
 		char *func, *ret;
-		ParsePosition pp;
+		ParsePos pp;
 
 		func = expr_decode_tree (cell->u.expression,
-					 parse_pos_cell (&pp, cell));
+					 parse_pos_init_cell (&pp, cell));
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
 

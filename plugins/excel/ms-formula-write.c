@@ -651,9 +651,11 @@ write_node (PolishData *pd, ExprTree *tree)
 			break;
 
 		case VALUE_CELLRANGE:
-		{ /* FIXME: Could be 3D ! */
-			write_area (pd, &v->v_range.cell_a,
-				    &v->v_range.cell_b);
+		{
+			/* FIXME: Could be 3D ! */
+			/* FIXME: Could be inverted ! */
+			write_area (pd, &v->v_range.cell.a,
+				    &v->v_range.cell.b);
 			break;
 		}
 

@@ -696,7 +696,7 @@ typedef struct
 } networkdays_holiday_closure;
 
 static Value *
-networkdays_holiday_callback(EvalPosition const *ep,
+networkdays_holiday_callback(EvalPos const *ep,
 			     Value const *v, void *user_data)
 {
 	Value *res = NULL;

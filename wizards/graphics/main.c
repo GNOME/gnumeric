@@ -160,7 +160,7 @@ graphics_wizard (Workbook *wb)
 	boot_wizard (wb);
 	
 	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"graphics.glade");
+				      "graphics.glade");
         if (gui == NULL)
                 return;
 

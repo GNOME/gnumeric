@@ -190,6 +190,14 @@ void        workbook_delete_sheet        (Sheet *sheet);
 
 GtkWidget  *workbook_get_entry           (Workbook const *wb);
 
+/* See also sheet_cell_foreach_range */
+Value *
+workbook_foreach_cell_in_range (EvalPos const * pos,
+				Value const	*cell_range,
+				gboolean	 only_existing,
+				ForeachCellCB	 handler,
+				void		*closure);
+
 /*
  * Does any pending recalculations
  */

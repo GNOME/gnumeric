@@ -47,7 +47,7 @@ gboolean cmd_clear_selection (CommandContext *context, Sheet *sheet, int const c
 gboolean cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
 				       gboolean const is_cols, gboolean const visible);
 
-gboolean cmd_area_set_text (CommandContext *context, EvalPosition const *pos,
+gboolean cmd_area_set_text (CommandContext *context, EvalPos const *pos,
 			    char const * const text, gboolean const as_array);
 
 #endif /* GNUMERIC_COMMAND_H */

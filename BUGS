@@ -5,13 +5,23 @@ and longer term bugs.
 Release Critical
 ----------------
 
+- gnumeric_countif
+  gnumeric_sumif : Comment and code do not agree, who is right.
+
+- gnumeric_sumx2my2
+  gnumeric_sumx2py2
+  gnumeric_sumxmy2 : These do not handle blank cells.
+
+- gnumeric_ftest : Needs auditing.  All calls to eval_pos_init_cellref
+  are questionable.
+
 Long term breakage
 ------------------
 - The max row/col scroll size is still hard coded.
 
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire
-  selection.  Not individually adjusting each non-blank cells precision.
+  selection.  Not individually adjusting each non-blank cell's precision.
 
 - Auto resize needs to handle empty cells.
 - Clearing a cell that stopped a span does not regenerate the span.

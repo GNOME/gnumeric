@@ -13,6 +13,7 @@
 #include "eval.h"
 #include "expr.h"
 #include "cell.h"
+#include "workbook.h"
 
 #include <stdio.h>
 
@@ -56,7 +57,11 @@ value_dump (const Value *value)
 		break;
 	}
 	case VALUE_CELLRANGE: {
-		CellRef const *c = &value->v_range.cell_a;
+		/*
+		 * Do NOT normalize the ranges.
+		 * Lets see them in their inverted glory if need be.
+		 */
+		CellRef const *c = &value->v_range.cell.a;
 		Sheet const *sheet = c->sheet;
 
 		printf ("CellRange\n");
@@ -67,7 +72,7 @@ value_dump (const Value *value)
 		printf ("%s%s%s%d\n",
 			(c->col_relative ? "":"$"), col_name(c->col),
 			(c->row_relative ? "":"$"), c->row+1);
-		c = &value->v_range.cell_b;
+		c = &value->v_range.cell.b;
 		if (sheet && sheet->name_quoted)
 			printf ("%s:", sheet->name_unquoted);
 		else
@@ -118,12 +123,13 @@ value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
 	g_return_val_if_fail (value != NULL, NULL);
 	g_return_val_if_fail (value->type == VALUE_CELLRANGE, NULL);
 
-	a = &value->v_range.cell_a;
-	b = &value->v_range.cell_b;
+	a = &value->v_range.cell.a;
+	b = &value->v_range.cell.b;
 
 	str = g_string_new ("");
 	encode_cellref (str, a, use_relative_syntax);
 
+	/* FIXME : should we normalize ? */
 	if ((a->col != b->col) || (a->row != b->row) ||
 	    (a->col_relative != b->col_relative) || (a->sheet != b->sheet)){
 		g_string_append_c (str, ':');
@@ -136,7 +142,7 @@ value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
 }
 
 guint
-value_area_get_width (const EvalPosition *ep, Value const *v)
+value_area_get_width (const EvalPos *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
@@ -144,10 +150,15 @@ value_area_get_width (const EvalPosition *ep, Value const *v)
 
 	if (v->type == VALUE_CELLRANGE) {
 		/* FIXME: 3D references, may not clip correctly */
-		Sheet *sheeta = v->v_range.cell_a.sheet ?
-			v->v_range.cell_a.sheet:ep->sheet;
-		guint ans = v->v_range.cell_b.col -
-			    v->v_range.cell_a.col + 1;
+		/*
+		 * FIXME : should we normalize ?
+		 *         should we handle relative references ?
+		 *         inversions ??
+		 */
+		Sheet *sheeta = v->v_range.cell.a.sheet ?
+			v->v_range.cell.a.sheet:ep->sheet;
+		guint ans = v->v_range.cell.b.col -
+			    v->v_range.cell.a.col + 1;
 		if (sheeta && sheeta->cols.max_used < ans) /* Clip */
 			ans = sheeta->cols.max_used+1;
 		return ans;
@@ -156,7 +167,7 @@ value_area_get_width (const EvalPosition *ep, Value const *v)
 }
 
 guint
-value_area_get_height (const EvalPosition *ep, Value const *v)
+value_area_get_height (const EvalPos *ep, Value const *v)
 {
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
@@ -164,9 +175,14 @@ value_area_get_height (const EvalPosition *ep, Value const *v)
 
 	if (v->type == VALUE_CELLRANGE) {
 		/* FIXME: 3D references, may not clip correctly */
-		Sheet *sheeta = eval_sheet (v->v_range.cell_a.sheet, ep->sheet);
-		guint ans = v->v_range.cell_b.row -
-		            v->v_range.cell_a.row + 1;
+		/*
+		 * FIXME : should we normalize ?
+		 *         should we handle relative references ?
+		 *         inversions ??
+		 */
+		Sheet *sheeta = eval_sheet (v->v_range.cell.a.sheet, ep->sheet);
+		guint ans = v->v_range.cell.b.row -
+		            v->v_range.cell.a.row + 1;
 		if (sheeta && sheeta->rows.max_used < ans) /* Clip */
 			ans = sheeta->rows.max_used + 1;
 		return ans;
@@ -175,7 +191,7 @@ value_area_get_height (const EvalPosition *ep, Value const *v)
 }
 
 Value const *
-value_area_fetch_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
+value_area_fetch_x_y (EvalPos const *ep, Value const *v, guint x, guint y)
 {
 	Value const * const res = value_area_get_x_y (ep, v, x, y);
 	static Value *value_zero = NULL;
@@ -192,7 +208,7 @@ value_area_fetch_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
  * problems occur a NULL is returned.
  */
 const Value *
-value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
+value_area_get_x_y (EvalPos const *ep, Value const *v, guint x, guint y)
 {
 	g_return_val_if_fail (v, NULL);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
@@ -205,8 +221,8 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 				      NULL);
 		return v->v_array.vals [x][y];
 	} else {
-		CellRef const * const a = &v->v_range.cell_a;
-		CellRef const * const b = &v->v_range.cell_b;
+		CellRef const * const a = &v->v_range.cell.a;
+		CellRef const * const b = &v->v_range.cell.b;
 		int a_col = a->col;
 		int a_row = a->row;
 		int b_col = b->col;
@@ -267,7 +283,7 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 typedef struct
 {
 	value_area_foreach_callback	 callback;
-	EvalPosition const		*ep;
+	EvalPos const		*ep;
 	void				*real_data;
 } WrapperClosure;
 
@@ -295,7 +311,7 @@ wrapper_foreach_cell_in_area_callback (Sheet *sheet, int col, int row,
  *    to stop (by returning non-NULL).
  */
 Value *
-value_area_foreach (EvalPosition const *ep, Value const *v,
+value_area_foreach (EvalPos const *ep, Value const *v,
 		    value_area_foreach_callback callback,
 		    void *closure)
 {
@@ -309,13 +325,8 @@ value_area_foreach (EvalPosition const *ep, Value const *v,
 		wrap.callback = callback;
 		wrap.ep = ep;
 		wrap.real_data = closure;
-		return sheet_cell_foreach_range (
-			eval_sheet (v->v_range.cell_a.sheet, ep->sheet),
-			TRUE,
-			v->v_range.cell_a.col,
-			v->v_range.cell_a.row,
-			v->v_range.cell_b.col,
-			v->v_range.cell_b.row,
+		return workbook_foreach_cell_in_range (
+			ep, v, TRUE,
 			&wrapper_foreach_cell_in_area_callback,
 			(void *)&wrap);
 	}

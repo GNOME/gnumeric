@@ -11,6 +11,7 @@
 #include "formats.h"
 #include "expr.h"
 #include "cell.h"
+#include "workbook.h"
 
 /* ------------------------------------------------------------------------- */
 /*
@@ -89,7 +90,9 @@ auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res)
 
 /* ------------------------------------------------------------------------- */
 
-static AutoFormatTypes do_af_suggest_list (GList *list, EvalPosition *ppos, char **explicit);
+static AutoFormatTypes do_af_suggest_list (GList *list,
+					   EvalPos const *epos,
+					   char **explicit);
 
 struct cb_af_suggest { AutoFormatTypes typ; char **explicit; };
 
@@ -107,7 +110,7 @@ cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
 }
 
 static AutoFormatTypes
-do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
+do_af_suggest (const ExprTree *expr, EvalPos const *epos, char **explicit)
 {
 	switch (expr->any.oper) {
 	case OPER_EQUAL:
@@ -124,19 +127,19 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 		/* Return the first interesting type we see.  */
 		AutoFormatTypes typ;
 
-		typ = do_af_suggest (expr->binary.value_a, ppos, explicit);
+		typ = do_af_suggest (expr->binary.value_a, epos, explicit);
 		if (typ != AF_UNKNOWN && typ != AF_UNITLESS)
 			return typ;
 
-		return do_af_suggest (expr->binary.value_b, ppos, explicit);
+		return do_af_suggest (expr->binary.value_b, epos, explicit);
 	}
 
 	case OPER_SUB: {
 		AutoFormatTypes typ1, typ2;
 		char *explicit1 = NULL, *explicit2 = NULL;
 
-		typ1 = do_af_suggest (expr->binary.value_a, ppos, &explicit1);
-		typ2 = do_af_suggest (expr->binary.value_b, ppos, &explicit2);
+		typ1 = do_af_suggest (expr->binary.value_a, epos, &explicit1);
+		typ2 = do_af_suggest (expr->binary.value_b, epos, &explicit2);
 
 		if (typ1 == AF_DATE && typ2 == AF_DATE)
 			return AF_UNITLESS;
@@ -153,7 +156,7 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 
 	case OPER_DIV:
 		/* Check the left-hand side only.  */
-		return do_af_suggest (expr->binary.value_a, ppos, explicit);
+		return do_af_suggest (expr->binary.value_a, epos, explicit);
 
 	case OPER_FUNCALL: {
 		AutoFormatTypes typ;
@@ -167,13 +170,13 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 		switch (typ) {
 		case AF_FIRST_ARG_FORMAT:
 			return do_af_suggest_list (expr->func.arg_list,
-						   ppos, explicit);
+						   epos, explicit);
 
 		case AF_FIRST_ARG_FORMAT2: {
 			GList *l;
 			l = expr->func.arg_list;
 			if (l) l = l->next;
-			return do_af_suggest_list (l, ppos, explicit);
+			return do_af_suggest_list (l, epos, explicit);
 		}
 
 		default:
@@ -191,27 +194,17 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 			return AF_UNKNOWN;
 
 		case VALUE_CELLRANGE: {
-			Sheet *sheet;
-			const CellRef *ref_a, *ref_b;
-			int col_a, col_b, row_a, row_b;
 			struct cb_af_suggest closure;
 
-			ref_a = &v->v_range.cell_a;
-			ref_b = &v->v_range.cell_b;
-			sheet = eval_sheet (ref_a->sheet, ppos->sheet);
 			/* If we don't have a sheet, we cannot look up vars. */
-			if (sheet == NULL)
+			if (epos->sheet == NULL)
 				return AF_UNKNOWN;
 
-			cell_get_abs_col_row (ref_a, &ppos->eval, &col_a, &row_a);
-			cell_get_abs_col_row (ref_b, &ppos->eval, &col_b, &row_b);
 			closure.typ = AF_UNKNOWN;
 			closure.explicit = explicit;
-			sheet_cell_foreach_range (sheet, TRUE,
-						  col_a, row_a,
-						  col_b, row_b,
-						  &cb_af_suggest,
-						  &closure);
+			workbook_foreach_cell_in_range (epos, v, TRUE,
+							&cb_af_suggest,
+							&closure);
 			return closure.typ;
 		}
 
@@ -227,12 +220,12 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 		const Cell *cell;
 
 		ref = &expr->var.ref;
-		sheet = eval_sheet (ref->sheet, ppos->sheet);
+		sheet = eval_sheet (ref->sheet, epos->sheet);
 		/* If we don't have a sheet, we cannot look up vars.  */
 		if (sheet == NULL)
 			return AF_UNKNOWN;
 
-		cell_get_abs_col_row (ref, &ppos->eval, &col, &row);
+		cell_get_abs_col_row (ref, &epos->eval, &col, &row);
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell == NULL)
 			return AF_UNKNOWN;
@@ -243,7 +236,7 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 
 	case OPER_UNARY_NEG:
 	case OPER_UNARY_PLUS:
-		return do_af_suggest (expr->unary.value, ppos, explicit);
+		return do_af_suggest (expr->unary.value, epos, explicit);
 
 	case OPER_PERCENT:
 		return AF_PERCENT;
@@ -258,11 +251,11 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 }
 
 static AutoFormatTypes
-do_af_suggest_list (GList *list, EvalPosition *ppos, char **explicit)
+do_af_suggest_list (GList *list, EvalPos const *epos, char **explicit)
 {
 	AutoFormatTypes typ = AF_UNKNOWN;
 	while (list && (typ == AF_UNKNOWN || typ == AF_UNITLESS)) {
-		typ = do_af_suggest (list->data, ppos, explicit);
+		typ = do_af_suggest (list->data, epos, explicit);
 		list = list->next;
 	}
 	return typ;
@@ -271,14 +264,14 @@ do_af_suggest_list (GList *list, EvalPosition *ppos, char **explicit)
 /* ------------------------------------------------------------------------- */
 
 char *
-auto_format_suggest (const ExprTree *expr, EvalPosition *ppos)
+auto_format_suggest (const ExprTree *expr, EvalPos *epos)
 {
 	char *explicit = NULL;
 
 	g_return_val_if_fail (expr != NULL, NULL);
-	g_return_val_if_fail (ppos != NULL, NULL);
+	g_return_val_if_fail (epos != NULL, NULL);
 
-	switch (do_af_suggest (expr, ppos, &explicit)) {
+	switch (do_af_suggest (expr, epos, &explicit)) {
 	case AF_EXPLICIT:
 		break;
 

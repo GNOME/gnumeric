@@ -20,7 +20,7 @@ typedef enum {
 typedef int (*float_range_function_t) (const float_t *, int, float_t *);
 typedef int (*float_range_function2_t) (const float_t *, const float_t *, int, float_t *);
 
-float_t *collect_floats_value (const Value *val, const EvalPosition *ep,
+float_t *collect_floats_value (const Value *val, const EvalPos *ep,
 			       CollectFlags flags,
 			       int *n, Value **error);
 

@@ -127,8 +127,9 @@ cell_copy (Cell const *cell)
 
 	new_cell->rendered_value = NULL;
 
-	if (new_cell->value)
-		new_cell->value = value_duplicate (new_cell->value);
+	new_cell->value = (new_cell->value)
+	    ? value_duplicate (new_cell->value)
+	    : value_new_empty ();
 
 	if (cell->comment) {
 		new_cell->comment = NULL;
@@ -214,13 +215,14 @@ cell_relocate (Cell *cell, gboolean check_bounds)
 							cell->row_info->pos - y);
 		}
 
-		/* We do not actually need to change any references
+		/*
+		 * We do not actually need to change any references
 		 * the move is from its current location to its current
 		 * location.  All the move is doing is a bounds check.
 		 */
 		if (check_bounds) {
 			ExprRelocateInfo	rinfo;
-			EvalPosition 		pos;
+			EvalPos 		pos;
 			ExprTree    	*expr = cell->u.expression;
 
 			rinfo.origin.start.col =
@@ -230,15 +232,16 @@ cell_relocate (Cell *cell, gboolean check_bounds)
 			rinfo.origin_sheet = rinfo.target_sheet = cell->sheet;
 			rinfo.col_offset = 0;
 			rinfo.row_offset = 0;
-			expr = expr_relocate (expr, eval_pos_cell (&pos, cell), &rinfo);
+			expr = expr_relocate (expr, eval_pos_init_cell (&pos, cell), &rinfo);
 
 			if (expr != NULL) {
+				/* expression was unlinked above */
 				expr_tree_unref (cell->u.expression);
 				cell->u.expression = expr;
 			}
 		}
 
-		/* The following call also relinks the cell.  */
+		/* Relink the expression.  */
 		cell_formula_changed (cell, TRUE);
 	}
 
@@ -246,7 +249,6 @@ cell_relocate (Cell *cell, gboolean check_bounds)
 	if (cell->comment)
 		cell_comment_reposition (cell);
 
-	/* 4. Tag the contents as having changed */
 	cell_content_changed (cell);
 }
 
@@ -272,13 +274,13 @@ cell_set_text (Cell *cell, char const *text)
 	char const *format;
 	Value *val;
 	ExprTree *expr;
-	EvalPosition pos;
+	EvalPos pos;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	format = parse_text_value_or_expr (eval_pos_cell (&pos, cell),
+	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell),
 					   text, &val, &expr);
 
 	if (val != NULL) {	/* String was a value */
@@ -360,6 +362,9 @@ cell_assign_value (Cell *cell, Value *v, char const * optional_format)
 
 	if (optional_format)
 		cell->format = style_format_new (optional_format);
+
+	if (cell->value != NULL)
+		value_release (cell->value);
 	cell->value = v;
 	cell_render_value (cell);
 }
@@ -403,9 +408,9 @@ cell_set_value (Cell *cell, Value *v, char const * optional_format)
 
 /*
  * cell_set_expr_and_value : Stores (WITHOUT COPYING) the supplied value, and
- *        references the supplied expression.  It marks the sheet as dirty. It
- *        is intended for use by import routines or operations that do bulk
- *        assignment.
+ *        references the supplied expression and links it into the expression
+ *        list.  It marks the sheet as dirty. It is intended for use by import
+ *        routines or operations that do bulk assignment.
  *
  * If an optional format is supplied it is stored for later use.
  *
@@ -432,6 +437,7 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
 
 	cell->u.expression = expr;
 	cell->cell_flags |= CELL_HAS_EXPRESSION;
+	sheet_cell_formula_link (cell);
 #if 0
 	/* TODO : Should we add this for consistancy ? */
 	cell->format = fmt;
@@ -450,6 +456,7 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
  * 	- check for array subdivision
  * 	- queue recalcs.
  * 	- render value, calc dimension, compute spans
+ * 	- link the expression into the master list.
  */
 static void
 cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)

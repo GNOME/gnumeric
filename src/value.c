@@ -52,7 +52,7 @@ value_new_float (float_t f)
 }
 
 Value *
-value_new_error (EvalPosition const *ep, char const *mesg)
+value_new_error (EvalPos const *ep, char const *mesg)
 {
 	ValueErr *v = g_new (ValueErr, 1);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
@@ -61,7 +61,7 @@ value_new_error (EvalPosition const *ep, char const *mesg)
 }
 
 Value *
-value_new_error_str (EvalPosition const *ep, String *mesg)
+value_new_error_str (EvalPos const *ep, String *mesg)
 {
 	ValueErr *v = g_new (ValueErr, 1);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
@@ -92,11 +92,20 @@ value_new_cellrange_unsafe (const CellRef *a, const CellRef *b)
 {
 	ValueRange *v = g_new (ValueRange, 1);
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
-	v->cell_a = *a;
-	v->cell_b = *b;
+	v->cell.a = *a;
+	v->cell.b = *b;
 	return (Value *)v;
 }
 
+/**
+ * value_new_cellrange : Create a new range reference.
+ *
+ * Attempt to do a sanity check for inverted ranges.
+ * NOTE : This is no longer necessary and will be removed.
+ * mixed mode references create the possibility of inversion.
+ * users of these values need to use the utility routines to
+ * evaluate the ranges in their context and normalize then.
+ */
 Value *
 value_new_cellrange (const CellRef *a, const CellRef *b,
 		     int const eval_col, int const eval_row)
@@ -105,8 +114,8 @@ value_new_cellrange (const CellRef *a, const CellRef *b,
 	int tmp;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
-	v->cell_a = *a;
-	v->cell_b = *b;
+	v->cell.a = *a;
+	v->cell.b = *b;
 
 	/* Sanity checking to avoid inverted ranges */
 	tmp = a->col;
@@ -118,10 +127,10 @@ value_new_cellrange (const CellRef *a, const CellRef *b,
 			tmp -= eval_col;
 	}
 	if (tmp > b->col) {
-		v->cell_a.col = b->col;
-		v->cell_a.col_relative = b->col_relative;
-		v->cell_b.col = a->col;
-		v->cell_b.col_relative = a->col_relative;
+		v->cell.a.col = b->col;
+		v->cell.a.col_relative = b->col_relative;
+		v->cell.b.col = a->col;
+		v->cell.b.col_relative = a->col_relative;
 	}
 
 	tmp = a->row;
@@ -133,10 +142,10 @@ value_new_cellrange (const CellRef *a, const CellRef *b,
 			tmp -= eval_row;
 	}
 	if (tmp > b->row) {
-		v->cell_a.row = b->row;
-		v->cell_a.row_relative = b->row_relative;
-		v->cell_b.row = a->row;
-		v->cell_b.row_relative = a->row_relative;
+		v->cell.a.row = b->row;
+		v->cell.a.row_relative = b->row_relative;
+		v->cell.b.row = a->row;
+		v->cell.b.row_relative = a->row_relative;
 	}
 
 	return (Value *)v;
@@ -149,8 +158,8 @@ value_new_cellrange_r (Sheet *sheet, const Range *r)
 	CellRef *a, *b;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
-	a = &v->cell_a;
-	b = &v->cell_b;
+	a = &v->cell.a;
+	b = &v->cell.b;
 	
 	a->sheet = sheet;
 	b->sheet = NULL;
@@ -298,8 +307,8 @@ value_duplicate (const Value *src)
 		return value_new_string_str (src->v_str.val);
 
 	case VALUE_CELLRANGE:
-		return value_new_cellrange_unsafe (&src->v_range.cell_a,
-						   &src->v_range.cell_b);
+		return value_new_cellrange_unsafe (&src->v_range.cell.a,
+						   &src->v_range.cell.b);
 
 	case VALUE_ARRAY:
 	{
@@ -636,11 +645,12 @@ value_equal (const Value *a, const Value *b)
 		return a->v_str.val == b->v_str.val;
 
 	case VALUE_CELLRANGE:
-		return (!(memcmp (&a->v_range.cell_a,
-				  &b->v_range.cell_a,
+		/* FIXME : Should A1 == Sheet1!A1 ? */
+		return (!(memcmp (&a->v_range.cell.a,
+				  &b->v_range.cell.a,
 				  sizeof (CellRef))) &&
-			!(memcmp (&a->v_range.cell_b,
-				  &b->v_range.cell_b,
+			!(memcmp (&a->v_range.cell.b,
+				  &b->v_range.cell.b,
 				  sizeof (CellRef))));
 
 	case VALUE_ARRAY:

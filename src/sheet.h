@@ -20,18 +20,6 @@ struct _SheetSelection {
         Range user;
 };
 
-struct _EvalPosition {
-	Sheet   *sheet;
-	CellPos  eval;
-};
-
-struct _ParsePosition {
-	Sheet    *sheet;
-	Workbook *wb;
-	int       col;
-	int       row;
-};
-
 #define SHEET_MAX_ROWS (64 * 1024)
 #define SHEET_MAX_COLS 256	/* 0 - 255 inclusive */
 
@@ -154,17 +142,17 @@ void        sheet_cell_remove             (Sheet *sheet, Cell *cell, gboolean re
 /* Iteration utilities */
 typedef  gboolean (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *info,
 					    void *user_data);
-typedef  Value * (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
-						Cell *cell, void *user_data);
 
 void        sheet_foreach_colrow	 (Sheet *sheet, ColRowCollection *infos,
 					  int start_col, int end_col,
 					  sheet_col_row_callback callback,
 					  void *user_data);
+
+/* See also : workbook_foreach_cell_in_range */
 Value      *sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
 				           int start_col, int start_row,
 				           int end_col, int end_row,
-				           sheet_cell_foreach_callback callback,
+					   ForeachCellCB callback,
 				           void *closure);
 
 void        sheet_cell_comment_link       (Cell *cell);
@@ -347,7 +335,7 @@ void        sheet_destroy_cell_select_cursor (Sheet *sheet);
 void sheet_cell_set_expr   (Cell *cell, ExprTree *expr);
 void sheet_cell_set_value  (Cell *cell, Value *v, char const *optional_format);
 void sheet_cell_set_text   (Cell *cell, char const *str);
-void sheet_range_set_text  (EvalPosition const * const pos,
+void sheet_range_set_text  (EvalPos const * const pos,
 			    Range const *r, char const *string);
 
 typedef enum {

@@ -1181,7 +1181,7 @@ typedef struct {
 } eng_imoper_t;
 
 static Value *
-callback_function_imoper (const EvalPosition *ep, Value *value, void *closure)
+callback_function_imoper (const EvalPos *ep, Value *value, void *closure)
 {
         eng_imoper_t *result = closure;
 	complex_t c;
@@ -1400,7 +1400,7 @@ static Value *
 convert (eng_convert_unit_t units[],
 	 eng_convert_unit_t prefixes[],
 	 char *from_unit, char *to_unit,
-	 float_t n, Value **v, const EvalPosition *ep)
+	 float_t n, Value **v, const EvalPos *ep)
 {
         float_t from_c, from_prefix, to_c, to_prefix;
 

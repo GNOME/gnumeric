@@ -1,3 +1,14 @@
+2000-05-03  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_cell) : Use parse_pos_init_cell.
+
+	* ms-excel-read.c (ms_excel_read_formula) : No need to manually
+	  cleanout the old value.  The various assignment routines take care
+	  of that.
+	  Honour the recalc flags for expressions.  Array expressions are
+	  still unconditionally recalced, but the common case is handled
+	  correctly.
+
 2000-04-24  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c : format police.

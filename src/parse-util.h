@@ -10,7 +10,7 @@ const char *col_name                 (int col);
 int         col_from_name            (const char *cell_str);
 
 char        *cellref_name            (CellRef *cell_ref,
-				      ParsePosition const *pp);
+				      ParsePos const *pp);
 gboolean     cellref_get             (CellRef *out, const char *in,
 				      int parse_col, int parse_row);
 gboolean     cellref_a1_get          (CellRef *out, const char *in,
@@ -31,7 +31,7 @@ gboolean    parse_cell_range         (Sheet *sheet, const char *range, Value **v
 GSList     *parse_cell_name_list     (Sheet *sheet, const char *cell_name_str,
 				      int *error_flag, gboolean strict);
 
-char const *parse_text_value_or_expr (EvalPosition const * pos,
+char const *parse_text_value_or_expr (EvalPos const * pos,
 				      char const * const text,
 				      Value **val, ExprTree **expr);
 
@@ -46,7 +46,7 @@ typedef enum {
 	PARSE_ERR_UNKNOWN
 } ParseErr;
 ParseErr    gnumeric_expr_parser   (const char *expr,
-				    const ParsePosition *pp,
+				    const ParsePos *pp,
 				    gboolean use_excel_range_conventions,
 				    char **desired_format,
 				    ExprTree **result);

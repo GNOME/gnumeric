@@ -18,7 +18,7 @@ extern void logical_functions_init     (void);
 extern void database_functions_init    (void);
 extern void information_functions_init (void);
 
-typedef Value * (*FunctionIterateCallback)(const EvalPosition *ep, Value *value,
+typedef Value * (*FunctionIterateCallback)(const EvalPos *ep, Value *value,
 					   void *);
 
 /*
@@ -45,7 +45,7 @@ typedef Value * (*FunctionIterateCallback)(const EvalPosition *ep, Value *value,
  * Value found on the list (this means that ranges get properly expaned).
  */
 Value *
-function_iterate_argument_values (const EvalPosition      *fp,
+function_iterate_argument_values (const EvalPos      *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
@@ -54,17 +54,17 @@ function_iterate_argument_values (const EvalPosition      *fp,
 /*
  * function_call_with_values
  */
-Value      *function_call_with_values     (const EvalPosition *ep,
+Value      *function_call_with_values     (const EvalPos *ep,
 					   const char         *name,
 					   int                 argc,
 					   Value              *values []);
 
-Value      *function_def_call_with_values (const EvalPosition *ep,
+Value      *function_def_call_with_values (const EvalPos *ep,
 					   FunctionDefinition *fndef,
 					   int                 argc,
 					   Value              *values []);
 
-Value      *function_iterate_do_value     (const EvalPosition      *fp,
+Value      *function_iterate_do_value     (const EvalPos      *fp,
 					   FunctionIterateCallback callback,
 					   void                    *closure,
 					   Value                   *value,
@@ -165,7 +165,7 @@ float_t        combin (int n, int k);
 float_t        fact   (int n);
 
 void setup_stat_closure     (stat_closure_t *cl);
-Value *callback_function_stat (const EvalPosition *ep, Value *value,
+Value *callback_function_stat (const EvalPos *ep, Value *value,
 			       void *closure);
 
 Value *gnumeric_average     (FunctionEvalInfo *s, GList *nodes);

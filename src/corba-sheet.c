@@ -355,7 +355,7 @@ static void
 fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, CORBA_long row)
 {
 	Cell *cell;
-	ParsePosition pp;
+	ParsePos pp;
 
 	g_assert (value != NULL);
 	g_assert (sheet != NULL);
@@ -396,8 +396,8 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 		case VALUE_CELLRANGE: {
 			char *a, *b;
 			
-			a = cellref_name (&cell->value->v_range.cell_a, &pp);
-			b = cellref_name (&cell->value->v_range.cell_b, &pp);
+			a = cellref_name (&cell->value->v_range.cell.a, &pp);
+			b = cellref_name (&cell->value->v_range.cell.b, &pp);
 
 			value->_d = GNOME_Gnumeric_VALUE_CELLRANGE;
 			value->_u.cell_range.cell_a = CORBA_string_dup (a);
@@ -909,7 +909,8 @@ Sheet_shift_cols (PortableServer_Servant servant,
 }
 
 static GNOME_Gnumeric_Sheet_ValueVector *
-Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range, CORBA_Environment *ev)
+Sheet_range_get_values (PortableServer_Servant servant,
+			const CORBA_char *range, CORBA_Environment *ev)
 {
 	GNOME_Gnumeric_Sheet_ValueVector *vector;
 	Sheet *sheet = sheet_from_servant (servant);
@@ -929,8 +930,12 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 		
 		g_assert (value->type == VALUE_CELLRANGE);
 
-		a = value->v_range.cell_a;
-		b = value->v_range.cell_b;
+		/*
+		 * NOTE : These are absolute references 
+		 * by construction
+		 */
+		a = value->v_range.cell.a;
+		b = value->v_range.cell.b;
 
 		cols = abs (b.col - a.col) + 1;
 		rows = abs (b.row - a.row) + 1;
@@ -957,8 +962,8 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 		CellRef a, b;
 		int col, row;
 		
-		a = value->v_range.cell_a;
-		b = value->v_range.cell_b;
+		a = value->v_range.cell.a;
+		b = value->v_range.cell.b;
 
 		for (col = a.col; col <= b.col; col++)
 			for (row = a.row; row < b.row; row++)

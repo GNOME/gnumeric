@@ -1819,7 +1819,7 @@ xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
 static xmlNodePtr
 xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int row)
 {
-	xmlNodePtr cur, child;
+	xmlNodePtr cur, child = NULL;
 	char *text, *tstr;
 	ExprArray const *ar;
 	gboolean write_contents = TRUE;
@@ -1851,7 +1851,7 @@ xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int
 		if (id == NULL) {
 			id = GINT_TO_POINTER (g_hash_table_size (ctxt->expr_map) + 1);
 			g_hash_table_insert (ctxt->expr_map, expr, id);
-		} else
+		} else if (ar == NULL)
 			write_contents = FALSE;
 
 		xml_set_value_int (cur, "ExprID", GPOINTER_TO_INT (id));
@@ -1898,11 +1898,11 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 			 int const rows, int const cols)
 {
 	char *error_string = NULL;
-	ParsePosition pp;
+	ParsePos pp;
 	ExprTree * expr;
 
 	expr = expr_parse_string (text,
-				  parse_pos_cell (&pp, cell),
+				  parse_pos_init_cell (&pp, cell),
 				  NULL, &error_string);
 
 	g_return_if_fail (expr != NULL);

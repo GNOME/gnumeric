@@ -14,6 +14,7 @@
 #include "func.h"
 #include "cell.h"
 #include "format.h"
+#include "position.h"
 #include "number-match.h"
 
 /***************************************************************************/
@@ -800,26 +801,20 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 	Value const * const v = args[0];
 	if (v->type == VALUE_CELLRANGE) {
 		Cell *cell;
-		CellRef a, b;
+		CellRef const * a = &v->v_range.cell.a;
+		CellRef const * b = &v->v_range.cell.b;
 
-		cell_ref_make_abs (&a, &v->v_range.cell_a, ei->pos);
-		cell_ref_make_abs (&b, &v->v_range.cell_b, ei->pos);
-
-		if (a.col != b.col || a.row == b.row || a.sheet != b.sheet)
+		if (a->col != b->col || a->row == b->row || a->sheet !=b->sheet)
 			return value_new_error (ei->pos, gnumeric_err_REF);
 
-		cell = sheet_cell_get (eval_sheet (a.sheet, ei->pos->sheet),
-				       a.col, a.row);
+		cell = sheet_cell_get (eval_sheet (a->sheet, ei->pos->sheet),
+				       a->col, a->row);
 
 		if (cell_has_expr (cell)) {
-			ParsePosition pos;
+			ParsePos pos;
 			char * expr_string =
 			    expr_decode_tree (cell->u.expression,
-					      parse_pos_init (&pos,
-							      NULL,
-							      ei->pos->sheet,
-							      ei->pos->eval.col,
-							      ei->pos->eval.row));
+				parse_pos_init_evalpos (&pos, ei->pos));
 			Value * res = value_new_string (expr_string);
 			g_free (expr_string);
 			return res;

@@ -383,7 +383,7 @@ DataRange *
 data_range_new (Workbook *wb, const char *name_expr)
 {
 	DataRange *data_range;
-	ParsePosition pp;
+	ParsePos pp;
 	ExprTree *tree;
 	char *error;
 	
@@ -414,9 +414,11 @@ data_range_get_name (DataRange *data_range)
 }
 
 DataRange *
-data_range_new_from_expr (Workbook *wb, const char *name_expr, const char *expression)
+data_range_new_from_expr (Workbook *wb,
+			  const char *name_expr,
+			  const char *expression)
 {
-	ParsePosition pp;
+	ParsePos pp;
 	GList *expressions;
 	DataRange *data_range;
 	ExprTree *tree;
@@ -458,8 +460,8 @@ data_range_new_from_expr (Workbook *wb, const char *name_expr, const char *expre
 
 		if (tree->any.oper == OPER_CONSTANT){
 			Value *v = tree->constant.value;
-			CellRef *cell_a = &v->v_range.cell_a;
-			CellRef *cell_b = &v->v_range.cell_b;
+			CellRef *cell_a = &v->v_range.cell.a;
+			CellRef *cell_b = &v->v_range.cell.b;
 			Range r;
 			
 			g_assert (tree->constant.value->type == VALUE_CELLRANGE);

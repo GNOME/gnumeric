@@ -219,7 +219,7 @@ expr_name_create (Workbook *wb, Sheet *sheet, const char *name,
 		  const char *value, char **error_msg)
 {
 	ExprTree     *tree;
-	ParsePosition pp;
+	ParsePos pp;
 
 	tree = expr_parse_string (value,
 				  parse_pos_init (&pp,
@@ -330,8 +330,8 @@ expr_name_list (Workbook *wb, Sheet *sheet, gboolean builtins_too)
 char *
 expr_name_value (const NamedExpression *expr_name)
 {
-	gchar         *val;
-	ParsePosition  pp;
+	gchar    *val;
+	ParsePos  pp;
 
 	if (!expr_name->builtin) {
 		parse_pos_init (&pp,
@@ -353,7 +353,7 @@ expr_name_value (const NamedExpression *expr_name)
 
 
 Value *
-eval_expr_name (EvalPosition const * const pos, const NamedExpression *expr_name,
+eval_expr_name (EvalPos const * const pos, const NamedExpression *expr_name,
 		ExprEvalFlags const flags)
 {
 	g_return_val_if_fail (pos, NULL);

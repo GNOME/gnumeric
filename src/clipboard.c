@@ -67,6 +67,10 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell,
 
 	if (!(paste_flags & PASTE_FORMULAS)) {
 		if (cell_has_expr (new_cell)) {
+			/*
+			 * NOTE : the new_cell must not be linked into the
+			 * sheet at this point
+			 */
 			expr_tree_unref (new_cell->u.expression);
 			new_cell->u.expression = NULL;
 			new_cell->cell_flags &= ~CELL_HAS_EXPRESSION;

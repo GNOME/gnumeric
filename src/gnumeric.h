@@ -41,6 +41,7 @@ typedef struct _ColRowCollection ColRowCollection;
 typedef struct _CellPos		CellPos;
 typedef struct _CellRef		CellRef;
 typedef struct _Range		Range;
+typedef struct _RangeRef	RangeRef;
 
 typedef struct _MStyle		  MStyle;
 typedef enum   _MStyleElementType MStyleElementType;
@@ -50,8 +51,8 @@ typedef struct _SheetStyleData	SheetStyleData;
 typedef struct _StyleRegion	StyleRegion;
 typedef struct _SheetSelection	SheetSelection;
 
-typedef struct _EvalPosition	   EvalPosition;
-typedef struct _ParsePosition	   ParsePosition;
+typedef struct _EvalPos		   EvalPos;
+typedef struct _ParsePos	   ParsePos;
 typedef struct _FunctionEvalInfo   FunctionEvalInfo;
 typedef struct _FunctionDefinition FunctionDefinition;
 
@@ -81,12 +82,7 @@ struct _Range {
 	CellPos start, end;
 };
 
-struct _CellRef {
-	Sheet *sheet;
-	int   col, row;
-
-	unsigned char col_relative;
-	unsigned char row_relative;
-};
+typedef Value * (*ForeachCellCB)(Sheet *sheet, int col, int row,
+				 Cell *cell, void *user_data);
 
 #endif /* GNUMERIC_H */

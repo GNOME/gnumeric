@@ -21,7 +21,7 @@ typedef struct {
 } collect_floats_t;
 
 static Value *
-callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
+callback_function_collect (const EvalPos *ep, Value *value, void *closure)
 {
 	float_t x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
@@ -111,7 +111,7 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
  * float_t.
  */
 static float_t *
-collect_floats (GList *exprlist, const EvalPosition *ep, CollectFlags flags,
+collect_floats (GList *exprlist, const EvalPos *ep, CollectFlags flags,
 		int *n, Value **error)
 {
 	Value * err;
@@ -142,7 +142,7 @@ collect_floats (GList *exprlist, const EvalPosition *ep, CollectFlags flags,
    Presumably most useful when the value is an array.  */
 
 float_t *
-collect_floats_value (const Value *val, const EvalPosition *ep,
+collect_floats_value (const Value *val, const EvalPos *ep,
 		      CollectFlags flags, int *n, Value **error)
 {
 	GList *exprlist;

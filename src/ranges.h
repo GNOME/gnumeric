@@ -89,6 +89,7 @@ Range       range_merge         (const Range *a, const Range *b);
 gboolean    range_intersection  (Range *r,
 				 const Range *a,
 				 const Range *b);
+void        range_normalize     (Range *src);
 Range       range_union         (const Range *a, const Range *b);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, const CellPos *origin);

@@ -37,7 +37,7 @@
 
 /* Can remove sheet since local references have NULL sheet */
 char *
-cellref_name (CellRef *cell_ref, ParsePosition const *pp)
+cellref_name (CellRef *cell_ref, ParsePos const *pp)
 {
 	static char buffer [sizeof (long) * 4 + 4];
 	char *p = buffer;
@@ -45,7 +45,7 @@ cellref_name (CellRef *cell_ref, ParsePosition const *pp)
 	Sheet *sheet = cell_ref->sheet;
 
 	if (cell_ref->col_relative)
-		col = pp->col + cell_ref->col;
+		col = pp->eval.col + cell_ref->col;
 	else {
 		*p++ = '$';
 		col = cell_ref->col;
@@ -61,7 +61,7 @@ cellref_name (CellRef *cell_ref, ParsePosition const *pp)
 		*p++ = b + 'A';
 	}
 	if (cell_ref->row_relative)
-		row = pp->row + cell_ref->row;
+		row = pp->eval.row + cell_ref->row;
 	else {
 		*p++ = '$';
 		row = cell_ref->row;
@@ -495,7 +495,7 @@ parse_cell_name_list (Sheet *sheet,
  * error is returned.
  */
 char const *
-parse_text_value_or_expr (EvalPosition const * pos, char const * const text,
+parse_text_value_or_expr (EvalPos const * pos, char const * const text,
 			  Value **val, ExprTree **expr)
 {
 	char *desired_format = NULL;
@@ -504,13 +504,13 @@ parse_text_value_or_expr (EvalPosition const * pos, char const * const text,
 	if (NULL != expr_start) {
 		if (*expr_start) {
 			char *error_msg = _("ERROR");
-			ParsePosition pp;
+			ParsePos pp;
 
 			/* Parse in the supplied eval context */
 			*expr = expr_parse_string (expr_start,
-						   parse_pos_evalpos (&pp, pos),
-						   &desired_format,
-						   &error_msg);
+				parse_pos_init_evalpos (&pp, pos),
+				&desired_format,
+				&error_msg);
 
 			/* If the parse fails set the value to be the syntax error */
 			if (*expr == NULL)

@@ -72,8 +72,9 @@ range_parse (Sheet *sheet, const char *range, gboolean strict)
 	} else
 		b = a;
 
-	/* We can dummy out the calling cell because we know that both
-	 * refs use the same mode
+	/*
+	 * We can dummy out the calling cell because we know that both
+	 * refs use the same mode.  This will handle inversions.
 	 */
 	v = value_new_cellrange (&a, &b, 0, 0);
 	
@@ -195,8 +196,12 @@ range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data
 		
 		g_assert (value->type == VALUE_CELLRANGE);
 
-		a = value->v_range.cell_a;
-		b = value->v_range.cell_b;
+		/*
+		 * FIXME : Are these ranges normalized ?
+		 *         Are they absolute ?
+		 */
+		a = value->v_range.cell.a;
+		b = value->v_range.cell.b;
 
 		for (col = a.col; col <= b.col; col++)
 			for (row = a.row; row < b.row; row++){
@@ -255,16 +260,20 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
 		
 		g_assert (value->type == VALUE_CELLRANGE);
 
-		range.start.col = value->v_range.cell_a.col;
-		range.start.row = value->v_range.cell_a.row;
-		range.end.col   = value->v_range.cell_b.col;
-		range.end.row   = value->v_range.cell_b.row;
+		/*
+		 * FIXME : Are these ranges normalized ?
+		 *         Are they absolute ?
+		 */
+		range.start.col = value->v_range.cell.a.col;
+		range.start.row = value->v_range.cell.a.row;
+		range.end.col   = value->v_range.cell.b.col;
+		range.end.row   = value->v_range.cell.b.row;
 
 		s = sheet;
-		if (value->v_range.cell_b.sheet)
-			s = value->v_range.cell_b.sheet;
-		if (value->v_range.cell_a.sheet)
-			s = value->v_range.cell_a.sheet;
+		if (value->v_range.cell.b.sheet)
+			s = value->v_range.cell.b.sheet;
+		if (value->v_range.cell.a.sheet)
+			s = value->v_range.cell.a.sheet;
 		callback (s, &range, user_data);
 	}
 }
@@ -839,6 +848,29 @@ range_intersection (Range *r, Range const *a, Range const *b)
 	r->end.row = MIN (a->end.row, b->end.row);
 
 	return TRUE;
+}
+
+/**
+ * range_normalize:
+ * @a: a range
+ * 
+ * Ensures that start <= end for rows and cols.
+ **/
+void
+range_normalize (Range *src)
+{
+	int tmp;
+
+	tmp = src->end.col;
+	if (src->start.col >= tmp) {
+		src->end.col = src->start.col;
+		src->start.col = tmp;
+	}
+	tmp = src->end.row;
+	if (src->start.row >= tmp) {
+		src->end.row = src->start.row;
+		src->start.row = tmp;
+	}
 }
 
 /**

@@ -47,15 +47,15 @@ scan_at (const char *text, int *scan)
 static gboolean
 setup_range_from_value (Range *range, Value *v)
 {
-	if (v->v_range.cell_a.sheet != v->v_range.cell_a.sheet){
+	if (v->v_range.cell.a.sheet != v->v_range.cell.a.sheet){
 		value_release (v);
 		return FALSE;
 	}
 
-	range->start.col = v->v_range.cell_a.col;
-	range->start.row = v->v_range.cell_a.row;
-	range->end.col   = v->v_range.cell_b.col;
-	range->end.row   = v->v_range.cell_b.row;
+	range->start.col = v->v_range.cell.a.col;
+	range->start.row = v->v_range.cell.a.row;
+	range->end.col   = v->v_range.cell.b.col;
+	range->end.row   = v->v_range.cell.b.row;
 	value_release (v);
 	return TRUE;
 }

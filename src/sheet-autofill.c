@@ -521,7 +521,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	case FILL_FORMULA:
 	{
 		ExprTree * func;
-		EvalPosition pos;
+		EvalPos pos;
 		ExprRelocateInfo rinfo;
 
 		/* FIXME : Find out how to handle this */
@@ -534,7 +534,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		 * relative references that will fall off the
 		 * edge ?? */
 		func = expr_relocate (fi->v.formula,
-				      eval_pos_cell (&pos, cell),
+				      eval_pos_init_cell (&pos, cell),
 				      &rinfo);
 		sheet_cell_set_expr (cell, (func == NULL) ? fi->v.formula : func);
 		return;

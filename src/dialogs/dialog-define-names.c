@@ -35,7 +35,7 @@ update_edit (state_t *state)
 	gint          i = state->selected;
 	NamedExpression     *expr_name;
 	Sheet        *sheet;
-	EvalPosition  ep;
+	EvalPos  ep;
 	char         *txt;
 
 	sheet = state->wb->current_sheet;

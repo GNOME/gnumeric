@@ -11,6 +11,7 @@
 #include "parse-util.h"
 #include "func.h"
 #include "cell.h"
+#include "workbook.h"
 #include "number-match.h"
 #include <sys/utsname.h>
 
@@ -144,7 +145,7 @@ static Value *
 gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
 	char * info_type = argv [0]->v_str.val->str;
-	CellRef ref = argv [1]->v_range.cell_a;
+	CellRef ref = argv [1]->v_range.cell.a;
 
 	if (!g_strcasecmp(info_type, "address")) {
 		/* Reference of the first cell in reference, as text. */
@@ -226,26 +227,25 @@ static char *help_countblank = {
 };
 
 static Value *
+cb_countblank (Sheet *sheet, int col, int row,
+	       Cell *cell, void *user_data)
+{
+	if (!cell_is_blank (cell))
+		*((int *)user_data) -= 1;
+	return NULL;
+}
+
+static Value *
 gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 {
-        Sheet *sheet;
-        Value *range;
-	int   col_a, col_b, row_a, row_b;
-	int   i, j;
-	int   count;
+	RangeRef const * const r = &args[0]->v_range.cell;
 
-	range = args[0];
-	sheet = eval_sheet (ei->pos->sheet, ei->pos->sheet);
-	col_a = range->v_range.cell_a.col;
-	col_b = range->v_range.cell_b.col;
-	row_a = range->v_range.cell_a.row;
-	row_b = range->v_range.cell_b.row;
-	count = 0;
+	/* FIXME : This does not handle 3D references */
+	int count = (abs(r->a.col - r->b.col) + 1) *
+		    (abs(r->a.col - r->b.col) + 1);
 
-	for (i=col_a; i<=col_b; i++)
-	        for (j=row_a; j<=row_b; j++)
-			if (cell_is_blank(sheet_cell_get(sheet, i, j)))
-				++count;
+	workbook_foreach_cell_in_range (ei->pos, args[0], TRUE,
+					&cb_countblank, &count);
 
 	return value_new_int (count);
 }

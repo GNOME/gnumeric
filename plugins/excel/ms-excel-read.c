@@ -703,7 +703,7 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 					bnd->name);
 #ifndef NO_DEBUG_EXCEL
 			else if (ms_excel_read_debug > 1) {
-				ParsePosition ep;
+				ParsePos ep;
 				parse_pos_init (&ep, NULL, sheet->gnum_sheet, 0, 0);
 				printf ("Parsed name : '%s' = '%s'\n",
 					bnd->name, tree
@@ -1821,8 +1821,9 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	/* Pre-retrieve incase this is a string */
 	gboolean array_elem, is_string = FALSE;
 	guint16 const xf_index = EX_GETXF (q);
-	guint16 const col = EX_GETCOL (q);
-	guint16 const row = EX_GETROW (q);
+	guint16 const col      = EX_GETCOL (q);
+	guint16 const row      = EX_GETROW (q);
+	guint16 const options  = MS_OLE_GET_GUINT16 (q->data+14);
 	Cell *cell;
 	ExprTree *expr;
 	Value *val = NULL;
@@ -1881,7 +1882,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 
 		case 2 : /* Error */
 		{
-			EvalPosition ep;
+			EvalPos ep;
 			guint8 const v = MS_OLE_GET_GUINT8 (q->data+8);
 			char const *const err_str =
 			    biff_get_error_text (v);
@@ -1915,9 +1916,6 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		};
 	}
 
-	/* Now try to parse the formula
-	 * Flag any errors that arise
-	 */
 	expr = ms_excel_parse_formula (sheet->wb, sheet, (q->data + 22),
 				       col, row,
 				       FALSE, MS_OLE_GET_GUINT16 (q->data+20),
@@ -1944,14 +1942,18 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 				if (len > 0)
 					v = biff_get_text (q->data + 2, len, NULL);
 				else
-					v = g_strdup(""); /* Pre-Biff8 seems to use len=0 */
+					/*
+					 * Pre-Biff8 seems to use len=0
+					 * Should that be a string or an EMPTY?
+					 */
+					v = g_strdup("");
 			}
 			if (v) {
 				val = value_new_string (v);
 				g_free (v);
 			} else {
-				EvalPosition pos;
-				val = value_new_error (eval_pos_cell (&pos, cell), "INVALID STRING");
+				EvalPos pos;
+				val = value_new_error (eval_pos_init_cell (&pos, cell), "INVALID STRING");
 				g_warning ("EXCEL : invalid STRING record");
 			}
 		} else {
@@ -1959,22 +1961,16 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			 * Docs say that there should be a STRING
 			 * record here
 			 */
-			EvalPosition pos;
-			val = value_new_error (eval_pos_cell (&pos, cell), "MISSING STRING");
+			EvalPos pos;
+			val = value_new_error (eval_pos_init_cell (&pos, cell), "MISSING STRING");
 			g_warning ("EXCEL : missing STRING record");
 		}
 	}
 
-	/* Some cells (array formulas) will have a value */
-	if (cell->value != NULL) {
-		value_release (cell->value);
-		cell->value = NULL;
-	}
-
 	/* We MUST have a value */
 	if (val == NULL) {
-		EvalPosition pos;
-		val = value_new_error (eval_pos_cell (&pos, cell), "MISSING Value");
+		EvalPos pos;
+		val = value_new_error (eval_pos_init_cell (&pos, cell), "MISSING Value");
 		g_warning ("EXCEL : Invalid state.  Missing Value?");
 	}
 
@@ -1986,11 +1982,12 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		 */
 		if (expr == NULL && !array_elem) {
 			g_warning ("EXCEL : How does cell %s%d have an array expression ?",
-				   col_name(cell->col_info->pos), cell->row_info->pos);
+				   col_name (cell->col_info->pos),
+				   cell->row_info->pos);
 			cell_set_value (cell, val, NULL);
 		} else
 			cell_assign_value (cell, val, NULL);
-	} else if (!cell_has_expr(cell)) {
+	} else if (!cell_has_expr (cell)) {
 		cell_set_expr_and_value (cell, expr, val);
 		expr_tree_unref (expr);
 	} else {
@@ -2001,6 +1998,13 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		g_warning ("EXCEL : Shared formula problems");
 		cell_set_value (cell, val, NULL);
 	}
+
+	/*
+	 * 0x1 = AlwaysCalc
+	 * 0x2 = CalcOnLoad
+	 */
+	if (options & 0x3)
+		cell_queue_recalc (cell);
 }
 
 BiffSharedFormula *

@@ -141,6 +141,8 @@ GNUMERIC_BASE_SOURCES =				\
 	plugin-util.c				\
 	plugin-util.h				\
 	portability.h				\
+	position.c				\
+	position.h				\
 	print.c					\
 	print.h					\
 	print-cell.c				\

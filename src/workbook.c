@@ -1015,6 +1015,26 @@ sort_cmd (Workbook *wb, int asc)
 }
 
 static void
+cb_autofunction (GtkWidget *widget, Workbook *wb)
+{
+	GtkEntry *entry = GTK_ENTRY (wb->priv->edit_line);
+	gchar *txt = gtk_entry_get_text (entry);
+
+	if (strncmp (txt, "=", 1)) {
+		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
+		gtk_entry_set_text (entry, "=");
+		gtk_entry_set_position (entry, 1);
+	} else {
+		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
+
+		/* FIXME : This is crap!
+		 * When the function wizard is more complete use that.
+		 */
+		gtk_entry_set_position (entry, entry->text_length-1);
+	}
+}
+
+static void
 autosum_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkEntry *entry = GTK_ENTRY (wb->priv->edit_line);
@@ -1033,6 +1053,14 @@ autosum_cmd (GtkWidget *widget, Workbook *wb)
 		gtk_entry_set_position (entry, entry->text_length-1);
 	}
 }
+
+#ifdef ENABLE_WIZARD
+static void
+wizard_input (GtkWidget *widget, Workbook *wb)
+{
+	dialog_function_wizard (wb);
+}
+#endif /* ENABLE_WIZARD */
 
 static void
 sort_ascend_cmd (GtkWidget *widget, Workbook *wb)
@@ -1432,6 +1460,24 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		N_("Redo"), N_("Redo the operation"),
 		undo_cmd, GNOME_STOCK_PIXMAP_REDO),
 
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Sum"), N_("Sum into the current cell."),
+		autosum_cmd, NULL, auto_sum_xpm),
+#if ENABLE_WIZARD
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Function"), N_("Edit a function in the current cell."),
+		&wizard_input, NULL, function_selector_xpm),
+#endif
+
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
+		sort_ascend_cmd, NULL, sort_ascending_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Sort Descending"), N_("Sorts the selected region in descending order based on the first column selected."),
+		sort_descend_cmd, NULL, sort_descending_xpm),
+
 #ifdef ENABLE_BONOBO
 	GNOMEUIINFO_SEPARATOR,
 	
@@ -1453,9 +1499,6 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		N_("Checkbox"), N_("Creates a checkbox"),
 		&create_checkbox_cmd, NULL, checkbox_xpm),
 #endif
-
-	GNOMEUIINFO_SEPARATOR,
-
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Line"), N_("Creates a line object"),
 		create_line_cmd, NULL, line_xpm),
@@ -1471,16 +1514,6 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR, 
 
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Sum"), N_("Sum into the current cell."),
-		autosum_cmd, NULL, auto_sum_xpm),
-
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
-		sort_ascend_cmd, NULL, sort_ascending_xpm),
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Sort Descending"), N_("Sorts the selected region in descending order based on the first column selected."),
-		sort_descend_cmd, NULL, sort_descending_xpm),
 
 	GNOMEUIINFO_END
 };
@@ -1725,7 +1758,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 				char * const text =
 					gtk_entry_get_text (GTK_ENTRY (wb->priv->edit_line));
 				Sheet * sheet = wb->editing_sheet;
-				EvalPosition pos;
+				EvalPos pos;
 				/* Be careful to use the editing sheet */
 				gboolean const trouble =
 					cmd_area_set_text (workbook_command_context_gui (wb),
@@ -1787,12 +1820,6 @@ workbook_set_region_status (Workbook *wb, const char *str)
 }
 
 static void
-wizard_input (GtkWidget *widget, Workbook *wb)
-{
-	dialog_function_wizard (wb);
-}
-
-static void
 misc_output (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
@@ -1823,7 +1850,7 @@ misc_output (GtkWidget *widget, Workbook *wb)
 static void
 workbook_setup_edit_area (Workbook *wb)
 {
-	GtkWidget *wizard_button;
+	GtkWidget *function_button;
 	GtkWidget *pix, *deps_button, *box, *box2;
 
 	wb->priv->selection_descriptor     = gtk_entry_new ();
@@ -1835,14 +1862,6 @@ workbook_setup_edit_area (Workbook *wb)
 
 	gtk_widget_set_usize (wb->priv->selection_descriptor, 100, 0);
 
-	/* Ok */
-	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_OK);
-	gtk_container_add (GTK_CONTAINER (wb->priv->ok_button), pix);
-	gtk_widget_set_sensitive (wb->priv->ok_button, FALSE);
-	GTK_WIDGET_UNSET_FLAGS (wb->priv->ok_button, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (accept_input), wb);
-
 	/* Cancel */
 	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_CANCEL);
 	gtk_container_add (GTK_CONTAINER (wb->priv->cancel_button), pix);
@@ -1851,20 +1870,26 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (wb->priv->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (cancel_input), wb);
 
-	gtk_box_pack_start (GTK_BOX (box2), wb->priv->selection_descriptor, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), wb->priv->ok_button, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), wb->priv->cancel_button, 0, 0, 0);
+	/* Ok */
+	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_OK);
+	gtk_container_add (GTK_CONTAINER (wb->priv->ok_button), pix);
+	gtk_widget_set_sensitive (wb->priv->ok_button, FALSE);
+	GTK_WIDGET_UNSET_FLAGS (wb->priv->ok_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (wb->priv->ok_button), "clicked",
+			    GTK_SIGNAL_FUNC (accept_input), wb);
 
-	/* Function Wizard */
-	if (gnumeric_debugging > 0) {
-		wizard_button = gtk_button_new ();
-		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_INDEX);
-		gtk_container_add (GTK_CONTAINER (wizard_button), pix);
-		GTK_WIDGET_UNSET_FLAGS (wizard_button, GTK_CAN_FOCUS);
-		gtk_signal_connect (GTK_OBJECT (wizard_button), "clicked",
-				    GTK_SIGNAL_FUNC (wizard_input), wb);
-		gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
-	}
+	/* Auto function */
+	function_button = gtk_button_new ();
+	pix = gnome_pixmap_new_from_xpm_d (equal_sign_xpm);
+	gtk_container_add (GTK_CONTAINER (function_button), pix);
+	GTK_WIDGET_UNSET_FLAGS (function_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (function_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_autofunction), wb);
+
+	gtk_box_pack_start (GTK_BOX (box2), wb->priv->selection_descriptor, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), wb->priv->cancel_button, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), wb->priv->ok_button, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), function_button, 0, 0, 0);
 
 	/* Dependency + Style debugger */
 	if (gnumeric_debugging > 9 ||
@@ -1923,13 +1948,17 @@ static void
 workbook_set_auto_expr (Workbook *wb,
 			const char *description, const char *expression)
 {
-	ParsePosition pp;
+	ParsePos pp;
+	ParseErr res;
 
 	if (wb->auto_expr)
 		expr_tree_unref (wb->auto_expr);
 
-	g_assert (gnumeric_expr_parser (expression, parse_pos_init (&pp, wb, NULL, 0, 0),
-					TRUE, NULL, &wb->auto_expr) == PARSE_OK);
+	res = gnumeric_expr_parser (expression,
+				    parse_pos_init (&pp, wb, NULL, 0, 0),
+				    TRUE, NULL, &wb->auto_expr);
+
+	g_assert (res == PARSE_OK);
 
 	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
@@ -2102,10 +2131,11 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 	if (p) {
 		*p++ = 0;
 
+		/* this handles inversions, and relative ranges */
 		range = range_parse (sheet, p, TRUE);
 		if (range){
-			CellRef *a = &range->v_range.cell_a;
-			CellRef *b = &range->v_range.cell_b;
+			CellRef *a = &range->v_range.cell.a;
+			CellRef *b = &range->v_range.cell.b;
 			
 			if ((a->col < 0 || a->row < 0) ||
 			    (b->col < 0 || b->row < 0) ||
@@ -2125,8 +2155,8 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 	 * Do we have further configuration information?
 	 */
 	if (range) {
-		CellRef *a = &range->v_range.cell_a;
-		CellRef *b = &range->v_range.cell_b;
+		CellRef *a = &range->v_range.cell.a;
+		CellRef *b = &range->v_range.cell.b;
 
 		embeddable_grid_set_range (eg, a->col, a->row, b->col, b->row);
 	}
@@ -3190,7 +3220,7 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
 
 struct expr_relocate_storage
 {
-	EvalPosition pos;
+	EvalPos pos;
 	ExprTree *oldtree;
 };
 
@@ -3262,9 +3292,9 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 
 	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
-		EvalPosition pos;
+		EvalPos pos;
 		ExprTree *newtree = expr_relocate (cell->u.expression,
-						   eval_pos_cell (&pos, cell),
+						   eval_pos_init_cell (&pos, cell),
 						   info);
 
 		if (newtree) {
@@ -3683,4 +3713,53 @@ workbook_unref (Workbook *wb)
 #else
 	gtk_object_unref (GTK_OBJECT (wb));
 #endif
+}
+
+/**
+ * workbook_foreach_cell_in_range :
+ *
+ * @pos : The position the range is relative to.
+ * @cell_range : A value containing a range;
+ * @only_existing : if TRUE only existing cells are sent to the handler.
+ * @handler : The operator to apply to each cell.
+ * @closure : User data.
+ *
+ * The supplied value must be a cellrange.
+ * The range bounds are calculated relative to the eval position
+ * and normalized.
+ * For each existing cell in the range specified, invoke the
+ * callback routine.  If the only_existing flag is TRUE, then
+ * callbacks are only invoked for existing cells.
+ *
+ * NOTE : Does not yet handle 3D references.
+ *
+ * Return value:
+ *    non-NULL on error, or value_terminate() if some invoked routine requested
+ *    to stop (by returning non-NULL).
+ */
+Value *
+workbook_foreach_cell_in_range (EvalPos const *pos,
+				Value const	*cell_range,
+				gboolean	 only_existing,
+				ForeachCellCB	 handler,
+				void		*closure)
+{
+	Range  r;
+	Sheet *start_sheet, *end_sheet;
+
+	g_return_val_if_fail (pos != NULL, NULL);
+	g_return_val_if_fail (cell_range != NULL, NULL);
+
+	g_return_val_if_fail (cell_range->type == VALUE_CELLRANGE, NULL);
+
+	range_ref_normalize  (&r, &start_sheet, &end_sheet, cell_range, pos);
+
+	/* We can not support this until the Sheet management is tidied up.  */
+	if (start_sheet != end_sheet)
+		g_warning ("3D references are not supported yet, using 1st sheet");
+
+	return sheet_cell_foreach_range (start_sheet, only_existing,
+					 r.start.col, r.start.row,
+					 r.end.col, r.end.row,
+					 handler, closure);
 }

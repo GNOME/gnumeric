@@ -913,7 +913,7 @@ sheet_col_size_fit_pixels (Sheet *sheet, int col)
 	sheet_cell_foreach_range (sheet, TRUE,
 				  col, 0,
 				  col, SHEET_MAX_ROWS-1,
-				  (sheet_cell_foreach_callback)&cb_max_cell_width, &max);
+				  (ForeachCellCB)&cb_max_cell_width, &max);
 
 	/* Reset to the default width if the column was empty */
 	if (max < 0)
@@ -972,7 +972,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 	sheet_cell_foreach_range (sheet, TRUE,
 				  0, row,
 				  SHEET_MAX_COLS-1, row,
-				  (sheet_cell_foreach_callback)&cb_max_cell_height, &max);
+				  (ForeachCellCB)&cb_max_cell_height, &max);
 
 	/* Reset to the default width if the column was empty */
 	if (max < 0)
@@ -1043,7 +1043,7 @@ sheet_update_auto_expr (Sheet const *sheet)
 
 	if (wb->auto_expr) {
 		static CellPos const cp = {0,0};
-		EvalPosition ep;
+		EvalPos ep;
 		v = eval_expr (eval_pos_init (&ep, (Sheet *)sheet, &cp),
 			       wb->auto_expr, EVAL_STRICT);
 		if (v) {
@@ -1092,7 +1092,7 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
  * Does NOT check for array division.
  */
 void
-sheet_range_set_text  (EvalPosition const * const pos,
+sheet_range_set_text  (EvalPos const * const pos,
 		       Range const *r, char const *str)
 {
 	closure_set_cell_value	closure;
@@ -1111,7 +1111,7 @@ sheet_range_set_text  (EvalPosition const * const pos,
 	sheet_cell_foreach_range (pos->sheet, FALSE,
 				  r->start.col, r->start.row,
 				  r->end.col, r->end.row,
-				  (sheet_cell_foreach_callback)&cb_set_cell_content,
+				  (ForeachCellCB)&cb_set_cell_content,
 				  &closure);
 
 	if (closure.val) {
@@ -1129,13 +1129,13 @@ sheet_cell_set_text (Cell *cell, char const *str)
 	char const * format;
 	Value *val;
 	ExprTree *expr;
-	EvalPosition pos;
+	EvalPos pos;
 
 	g_return_if_fail (str != NULL);
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	format = parse_text_value_or_expr (eval_pos_cell (&pos, cell), str, &val, &expr);
+	format = parse_text_value_or_expr (eval_pos_init_cell (&pos, cell), str, &val, &expr);
 	if (expr != NULL) {
 		cell_set_expr (cell, expr, format);
 		expr_tree_unref (expr);
@@ -1732,7 +1732,7 @@ Value *
 sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
-			  sheet_cell_foreach_callback callback,
+			  ForeachCellCB callback,
 			  void *closure)
 {
 	int i, j;

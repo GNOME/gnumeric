@@ -45,7 +45,7 @@ static char *help_and = {
 };
 
 static Value *
-callback_function_and (const EvalPosition *ep, Value *value, void *closure)
+callback_function_and (const EvalPos *ep, Value *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -128,7 +128,7 @@ static char *help_or = {
 };
 
 static Value *
-callback_function_or (const EvalPosition *ep, Value *value, void *closure)
+callback_function_or (const EvalPos *ep, Value *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;

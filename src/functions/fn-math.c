@@ -189,7 +189,7 @@ static char *help_lcm = {
 };
 
 static Value *
-callback_function_lcm (const EvalPosition *ep, Value *value, void *closure)
+callback_function_lcm (const EvalPos *ep, Value *value, void *closure)
 {
 	Value *result = closure;
 
@@ -523,13 +523,16 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 		tmpval = items.test_value;
 	}
 
-	sheet = eval_sheet (range->v_range.cell_a.sheet, ei->pos->sheet);
+	sheet = eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet);
+	/* FIXME : The comment is wrong.  TRUE would ignore empties.
+	 * is the code wrong ?
+	 */
 	ret = sheet_cell_foreach_range ( sheet,
 		FALSE, /* Ignore empty cells */
-		range->v_range.cell_a.col,
-		range->v_range.cell_a.row,
-		range->v_range.cell_b.col,
-		range->v_range.cell_b.row,
+		range->v_range.cell.a.col,
+		range->v_range.cell.a.row,
+		range->v_range.cell.b.col,
+		range->v_range.cell.b.row,
 		callback_function_criteria,
 		&items);
 
@@ -658,15 +661,18 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	else
 	        items.actual_range = FALSE;
 
+	/* FIXME : The comment is wrong.  TRUE would ignore empties.
+	 * is the code wrong ?
+	 */
 	ret = sheet_cell_foreach_range (
-		eval_sheet (range->v_range.cell_a.sheet, ei->pos->sheet),
+		eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet),
 		/* Do not ignore empty cells if there is an actual range */
 		actual_range == NULL,
 
-		range->v_range.cell_a.col,
-		range->v_range.cell_a.row,
-		range->v_range.cell_b.col,
-		range->v_range.cell_b.row,
+		range->v_range.cell.a.col,
+		range->v_range.cell.a.row,
+		range->v_range.cell.b.col,
+		range->v_range.cell.b.row,
 		callback_function_criteria,
 		&items);
 
@@ -691,15 +697,18 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	} else {
 	      items.current = items.list;
 	      items.sum = items.total_num = 0;
+		/* FIXME : The comment is wrong.  TRUE would ignore empties.
+		 * is the code wrong ?
+		 */
  	      ret = sheet_cell_foreach_range (
-			eval_sheet (actual_range->v_range.cell_a.sheet, ei->pos->sheet),
+			eval_sheet (actual_range->v_range.cell.a.sheet, ei->pos->sheet),
 			/* Empty cells too.  Criteria and results must align */
 			FALSE,
 
-			actual_range->v_range.cell_a.col,
-			actual_range->v_range.cell_a.row,
-			actual_range->v_range.cell_b.col,
-			actual_range->v_range.cell_b.row,
+			actual_range->v_range.cell.a.col,
+			actual_range->v_range.cell.a.row,
+			actual_range->v_range.cell.b.col,
+			actual_range->v_range.cell.b.row,
 			callback_function_sumif,
 			&items);
 	      sum = items.sum;
@@ -1585,7 +1594,7 @@ typedef struct {
 } math_multinomial_t;
 
 static Value *
-callback_function_multinomial (const EvalPosition *ep, Value *value,
+callback_function_multinomial (const EvalPos *ep, Value *value,
 			       void *closure)
 {
 	math_multinomial_t *mm = closure;
@@ -2536,14 +2545,17 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 	items_y.num  = 0;
 	items_y.list = NULL;
 
+	/*
+	 * FIXME : if either lists has a blank things get out of line
+	 * This seems a rather poor way of doing this.
+	 */
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (ei->pos->sheet, ei->pos->sheet),
-			TRUE,
-			values_x->v_range.cell_a.col,
-			values_x->v_range.cell_a.row,
-			values_x->v_range.cell_b.col,
-			values_x->v_range.cell_b.row,
+			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
+			values_x->v_range.cell.a.col,
+			values_x->v_range.cell.a.row,
+			values_x->v_range.cell.b.col,
+			values_x->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_x);
 		
@@ -2556,10 +2568,10 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
-			values_y->v_range.cell_a.col,
-			values_y->v_range.cell_a.row,
-			values_y->v_range.cell_b.col,
-			values_y->v_range.cell_b.row,
+			values_y->v_range.cell.a.col,
+			values_y->v_range.cell.a.row,
+			values_y->v_range.cell.b.col,
+			values_y->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL)
@@ -2635,14 +2647,17 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 	items_y.num  = 0;
 	items_y.list = NULL;
 
+	/*
+	 * FIXME : if either lists has a blank things get out of line
+	 * This seems a rather poor way of doing this.
+	 */
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (ei->pos->sheet, ei->pos->sheet),
-			TRUE,
-			values_x->v_range.cell_a.col,
-			values_x->v_range.cell_a.row,
-			values_x->v_range.cell_b.col,
-			values_x->v_range.cell_b.row,
+			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
+			values_x->v_range.cell.a.col,
+			values_x->v_range.cell.a.row,
+			values_x->v_range.cell.b.col,
+			values_x->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_x);
 		if (ret != NULL)
@@ -2654,10 +2669,10 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
-			values_y->v_range.cell_a.col,
-			values_y->v_range.cell_a.row,
-			values_y->v_range.cell_b.col,
-			values_y->v_range.cell_b.row,
+			values_y->v_range.cell.a.col,
+			values_y->v_range.cell.a.row,
+			values_y->v_range.cell.b.col,
+			values_y->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL)
@@ -2731,13 +2746,17 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 	items_y.num  = 0;
 	items_y.list = NULL;
 
+	/*
+	 * FIXME : if either lists has a blank things get out of line
+	 * This seems a rather poor way of doing this.
+	 */
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
-			values_x->v_range.cell_a.col,
-			values_x->v_range.cell_a.row,
-			values_x->v_range.cell_b.col,
-			values_x->v_range.cell_b.row,
+			values_x->v_range.cell.a.col,
+			values_x->v_range.cell.a.row,
+			values_x->v_range.cell.b.col,
+			values_x->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_x);
 		if (ret != NULL)
@@ -2749,10 +2768,10 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
-			values_y->v_range.cell_a.col,
-			values_y->v_range.cell_a.row,
-			values_y->v_range.cell_b.col,
-			values_y->v_range.cell_b.row,
+			values_y->v_range.cell.a.col,
+			values_y->v_range.cell.a.row,
+			values_y->v_range.cell.b.col,
+			values_y->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL)
@@ -2908,7 +2927,7 @@ typedef struct {
 } math_seriessum_t;
 
 static Value *
-callback_function_seriessum (const EvalPosition *ep, Value *value,
+callback_function_seriessum (const EvalPos *ep, Value *value,
 			     void *closure)
 {
 	math_seriessum_t *mm = closure;
@@ -3036,7 +3055,7 @@ callback_function_mmult_validate(Sheet *sheet, int col, int row,
 }
 
 static int
-validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
+validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 			       int *rows, int *cols,
 			       char const **error_string)
 {
@@ -3050,18 +3069,18 @@ validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 	if (matrix->type == VALUE_ARRAY)
 	    return FALSE;
 
-	if (matrix->v_range.cell_a.sheet !=
-	    matrix->v_range.cell_b.sheet) {
+	if (matrix->v_range.cell.a.sheet !=
+	    matrix->v_range.cell.b.sheet) {
 		*error_string = _("#3D MULT?");
 		return TRUE;
 	}
 
 	res = sheet_cell_foreach_range (
-		eval_sheet (matrix->v_range.cell_a.sheet, ep->sheet), TRUE,
-		matrix->v_range.cell_a.col,
-		matrix->v_range.cell_a.row,
-		matrix->v_range.cell_b.col,
-		matrix->v_range.cell_b.row,
+		eval_sheet (matrix->v_range.cell.a.sheet, ep->sheet), TRUE,
+		matrix->v_range.cell.a.col,
+		matrix->v_range.cell.a.row,
+		matrix->v_range.cell.b.col,
+		matrix->v_range.cell.b.row,
 		callback_function_mmult_validate,
 		&cell_count);
 
@@ -3077,7 +3096,7 @@ validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 static Value *
 gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 {
-	EvalPosition const * const ep = ei->pos;
+	EvalPos const * const ep = ei->pos;
 
 	int	r, rows;
 	int	c, cols;
@@ -3149,7 +3168,7 @@ static char *help_mmult = {
 static Value *
 gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 {
-	EvalPosition const * const ep = ei->pos;
+	EvalPos const * const ep = ei->pos;
 	int	r, rows_a, rows_b;
 	int	c, cols_a, cols_b;
         Value *res;
@@ -3229,7 +3248,7 @@ static char *help_mdeterm = {
 static Value *
 gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 {
-	EvalPosition const * const ep = ei->pos;
+	EvalPos const * const ep = ei->pos;
 
 	int	r, rows;
 	int	c, cols;
@@ -3293,7 +3312,7 @@ typedef struct {
 } math_sumproduct_t;
 
 static Value *
-callback_function_sumproduct (const EvalPosition *ep, Value *value,
+callback_function_sumproduct (const EvalPos *ep, Value *value,
 			      void *closure)
 {
 	math_sumproduct_t *mm = closure;

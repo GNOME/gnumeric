@@ -45,14 +45,11 @@ create_description (FunctionDefinition *fd)
 	}
 
 	{ /* Description */
-		GtkText *text;
+		GtkLabel *label;
 		const char *txt = tokenized_help_find (tok, "DESCRIPTION");
-		text = GTK_TEXT (gtk_text_new (NULL, NULL));
-		gtk_text_set_editable (text, FALSE);
-		gtk_text_insert (text, NULL, NULL, NULL,
-				 txt, strlen(txt));
-		gtk_text_set_word_wrap (text, TRUE);
-		gtk_box_pack_start (vbox, GTK_WIDGET(text),
+		label = GTK_LABEL (gtk_label_new (txt));
+		gtk_label_set_line_wrap (label, TRUE);
+		gtk_box_pack_start (vbox, GTK_WIDGET(label),
 				    TRUE, TRUE, 0);
 	}
 
