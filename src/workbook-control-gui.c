@@ -2182,6 +2182,13 @@ cb_tools_goal_seek (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_tools_tabulate (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_tabulate (wbcg);
+}
+
+static void
 cb_tools_solver (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -2856,6 +2863,9 @@ static GnomeUIInfo workbook_menu_tools [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Goal Seek..."),
 		N_("Iteratively recalculate to find a target value"),
 		cb_tools_goal_seek),
+	GNOMEUIINFO_ITEM_NONE (N_("_Tabulate Dependency..."),
+		N_("Make a table of a cell's value as a function of other cells"),
+		cb_tools_tabulate),
 	GNOMEUIINFO_ITEM_NONE (N_("_Solver..."),
 		N_("Iteratively recalculate with constraints to approach a target value"),
 		cb_tools_solver),
@@ -3109,6 +3119,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsAutoCorrect", cb_tools_autocorrect),
 	BONOBO_UI_UNSAFE_VERB ("ToolsAutoSave", cb_tools_auto_save),
 	BONOBO_UI_UNSAFE_VERB ("ToolsGoalSeek", cb_tools_goal_seek),
+	BONOBO_UI_UNSAFE_VERB ("ToolsTabulate", cb_tools_tabulate),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSolver", cb_tools_solver),
 	BONOBO_UI_UNSAFE_VERB ("ToolsDataAnalysis", cb_tools_data_analysis),
 

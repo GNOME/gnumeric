@@ -1,3 +1,8 @@
+2002-01-15  Morten Welinder  <terra@diku.dk>
+
+	* src/GNOME_Gnumeric.xml, src/workbook-control-gui.c: support
+	tabulation tool.
+
 2002-01-15  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump.
