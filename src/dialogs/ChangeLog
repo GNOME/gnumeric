@@ -1,3 +1,7 @@
+2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
+
+	* names.glade: Set window title.
+
 2001-05-03  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-define-names.c (name_guru_init): Use

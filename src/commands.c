@@ -2885,7 +2885,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 	me->parent.size = 1;
 
 	names = range_list_to_string ((GSList *) selection);
-	me->parent.cmd_descriptor = g_strdup_printf (_("Unmerging Regions %s"), names->str);
+	me->parent.cmd_descriptor = g_strdup_printf (_("Unmerging %s"), names->str);
 	g_string_free (names, TRUE);
 	
 	me->unmerged_regions = NULL;
@@ -3013,7 +3013,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 	me->parent.size = 1;
 
 	names = range_list_to_string ((GSList *) (selection));
-	me->parent.cmd_descriptor = g_strdup_printf (_("Merging Regions %s"),
+	me->parent.cmd_descriptor = g_strdup_printf (_("Merging %s"),
 						     names->str);
 	g_string_free (names, TRUE);
 
