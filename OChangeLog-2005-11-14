@@ -1,3 +1,7 @@
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump gal version req.
+
 2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnm-marshalers.list : add NONE:STRING
