@@ -1,3 +1,7 @@
+2001-07-04  Almer S. Tigelaar  <almer@gnome.org>
+
+	* POTFILES.in: s/parser\.c/parser\.y/
+
 2001-07-03  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* POTFILES.in:

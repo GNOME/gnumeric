@@ -128,7 +128,7 @@ src/item-grid.c
 src/main.c
 src/mathfunc.c
 src/number-match.c
-src/parser.c
+src/parser.y
 src/parse-util.c
 src/plugin.c
 src/plugin-loader.c
