@@ -1,14 +1,13 @@
 #ifndef GNUMERIC_ITEM_EDIT_H
 #define GNUMERIC_ITEM_EDIT_H
 
-#include "gnumeric.h"
-#include "item-grid.h"
+#include "gui-gnumeric.h"
 
 #define ITEM_EDIT(obj)          (GTK_CHECK_CAST((obj), item_edit_get_type (), ItemEdit))
 #define ITEM_EDIT_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_edit_get_type (), ItemEditClass))
 #define IS_ITEM_EDIT(o)         (GTK_CHECK_TYPE((o), item_edit_get_type ()))
 
-typedef struct {
+struct _ItemEdit {
 	GnomeCanvasItem canvas_item;
 
 	guint      signal_changed;	/* ::changed signal in the GtkEntry */
@@ -36,7 +35,7 @@ typedef struct {
 	GnomeCanvasItem *feedback_cursor;
 	Range            feedback_region;
 	gboolean         feedback_disabled;
-} ItemEdit;
+};
 
 GtkType item_edit_get_type (void);
 

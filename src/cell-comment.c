@@ -7,6 +7,7 @@
 #include "config.h"
 #include "gnumeric.h"
 #include "cell.h"
+#include "sheet.h"
 #include "cell-comment.h"
 #include "sheet-view.h"
 #include "gnumeric-sheet.h"

@@ -29,6 +29,7 @@
 #include "gnumeric-util.h"
 #include "gnumeric-type-util.h"
 #include "dependent.h"
+#include "sheet-view.h"
 #include "sheet-object-widget.h"
 #include "expr.h"
 #include "value.h"

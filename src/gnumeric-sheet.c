@@ -6,12 +6,12 @@
  */
 #include <config.h>
 
-#include <gnome.h>
-#include <gdk/gdkkeysyms.h>
-#include <gdk/gdkx.h>
-#include <string.h>
-#include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "item-bar.h"
+#include "item-cursor.h"
+#include "item-edit.h"
+#include "item-grid.h"
+#include "sheet-view.h"
 #include "gnumeric-util.h"
 #include "color.h"
 #include "selection.h"

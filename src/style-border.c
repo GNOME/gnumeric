@@ -136,6 +136,12 @@ style_border_none (void)
 	return none;
 }
 
+/**
+ * style_border_fetch :
+ *
+ * Fetches a StyleBorder from the cache, creating one if necessary.
+ * Absorbs the colour reference.
+ */
 MStyleBorder *
 style_border_fetch (StyleBorderType const	 line_type,
 		    StyleColor 			*color,
@@ -147,8 +153,11 @@ style_border_fetch (StyleBorderType const	 line_type,
 	g_return_val_if_fail (line_type >= STYLE_BORDER_NONE, 0);
 	g_return_val_if_fail (line_type < STYLE_BORDER_MAX, 0);
 
-	if (line_type == STYLE_BORDER_NONE)
+	if (line_type == STYLE_BORDER_NONE) {
+		if (color)
+			style_color_unref (color);
 		return style_border_ref (style_border_none ());
+	}
 
 	g_return_val_if_fail (color != NULL, NULL);
 	key.line_type = line_type;
@@ -156,8 +165,11 @@ style_border_fetch (StyleBorderType const	 line_type,
 
 	if (border_hash) {
 		border = g_hash_table_lookup (border_hash, &key);
-		if (border != NULL)
+		if (border != NULL) {
+			if (color)
+				style_color_unref (color);
 			return style_border_ref (border);
+		}
 	} else
 		border_hash = g_hash_table_new (style_border_hash,
 						style_border_equal);
@@ -317,6 +329,11 @@ style_border_unref (MStyleBorder *border)
 	 * but not to free it.
 	 */
 	g_return_if_fail (border != style_border_none ());
+
+	if (border->color) {
+		style_color_unref (border->color);
+		border->color = NULL;
+	}
 
 	if (border->gc) {
 		gdk_gc_unref (border->gc);

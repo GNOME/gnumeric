@@ -1,8 +1,7 @@
 #ifndef GNUMERIC_ITEM_CURSOR_H
 #define GNUMERIC_ITEM_CURSOR_H
 
-#include "gnumeric.h"
-#include "item-grid.h"
+#include "gui-gnumeric.h"
 
 #define ITEM_CURSOR(obj)          (GTK_CHECK_CAST((obj), item_cursor_get_type (), ItemCursor))
 #define ITEM_CURSOR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
@@ -17,7 +16,7 @@ typedef enum {
 	ITEM_CURSOR_BLOCK
 } ItemCursorStyle;
 
-typedef struct {
+struct _ItemCursor {
 	GnomeCanvasItem canvas_item;
 
 	SheetView    *sheet_view;
@@ -33,7 +32,7 @@ typedef struct {
 	ItemCursorStyle style;
 	GdkGC    *gc;
 	int      state;
-	int      tag;
+	int      animation_timer;
 
 	/*
 	 * For the autofill mode:
@@ -56,10 +55,11 @@ typedef struct {
 	int      use_color:1;
 	/* Location of auto fill handle */
 	int      auto_fill_handle_at_top:1;
+	int      prepared_to_drag:1;
 
 	GdkPixmap *stipple;
 	GdkColor  color;
-} ItemCursor;
+};
 
 GtkType item_cursor_get_type (void);
 

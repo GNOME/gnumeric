@@ -6,10 +6,9 @@
  */
 #include <config.h>
 
-#include <gnome.h>
-#include "gnumeric.h"
 #include "item-cursor.h"
 #include "gnumeric-sheet.h"
+#include "sheet-view.h"
 #include "color.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -52,17 +51,17 @@ item_cursor_animation_callback (ItemCursor *item_cursor)
 static void
 item_cursor_stop_animation (ItemCursor *item_cursor)
 {
-	if (item_cursor->tag == -1)
+	if (item_cursor->animation_timer == -1)
 		return;
 
-	gtk_timeout_remove (item_cursor->tag);
-	item_cursor->tag = -1;
+	gtk_timeout_remove (item_cursor->animation_timer);
+	item_cursor->animation_timer = -1;
 }
 
 static void
 item_cursor_start_animation (ItemCursor *item_cursor)
 {
-	item_cursor->tag = gtk_timeout_add (
+	item_cursor->animation_timer = gtk_timeout_add (
 		150, (GtkFunction)(item_cursor_animation_callback),
 		item_cursor);
 }
@@ -218,7 +217,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	int premove = 0;
 	GdkColor *fore = NULL, *back = NULL;
 	GdkRectangle clip_rect;
-	
+
 	int const xd = item_cursor->cached_x;
 	int const yd = item_cursor->cached_y;
 	int const w = item_cursor->cached_w;
@@ -235,7 +234,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	dy0 = yd - y;
 	dx1 = dx0 + w;
 	dy1 = dy0 + h;
-	
+
 	draw_external = 0;
 	draw_internal = 0;
 	draw_handle   = 0;
@@ -260,7 +259,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		draw_external = 1;
 		draw_stippled = 0;
 		break;
-		
+
 	case ITEM_CURSOR_SELECTION:
 		draw_internal = 1;
 		draw_external = 1;
@@ -296,7 +295,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		fore = &item_cursor->color;
 		back = &item_cursor->color;
 	}
-	
+
 	item_cursor->auto_fill_handle_at_top = (draw_handle >= 2);
 
 	clip_rect.x = 0;
@@ -534,12 +533,11 @@ item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor const *parent, 
 }
 
 static void
-item_cursor_set_cursor (GnomeCanvas *canvas, GnomeCanvasItem *item, int x, int y)
+item_cursor_set_cursor (GnomeCanvas *canvas, ItemCursor *ic, int x, int y)
 {
-	ItemCursor *item_cursor = ITEM_CURSOR (item);
 	int cursor;
 
-	if (IS_LITTLE_SQUARE (item_cursor, x, y))
+	if (IS_LITTLE_SQUARE (ic, x, y))
 		cursor = E_CURSOR_THIN_CROSS;
 	else
 		cursor = E_CURSOR_ARROW;
@@ -561,23 +559,21 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_w2c (
 			canvas, event->crossing.x, event->crossing.y, &x, &y);
 
-		item_cursor_set_cursor (canvas, item, x, y);
+		item_cursor_set_cursor (canvas, ic, x, y);
 		return TRUE;
 
-	case GDK_MOTION_NOTIFY:
-		gnome_canvas_w2c (
-			canvas, event->motion.x, event->motion.y, &x, &y);
-
-		item_cursor_set_cursor (canvas, item, x, y);
-		return TRUE;
-
-	case GDK_BUTTON_PRESS: {
-		GnomeCanvasGroup *group;
+	case GDK_MOTION_NOTIFY: {
 		int style;
 
 		gnome_canvas_w2c (
-			canvas, event->button.x, event->button.y, &x, &y);
-		group = GNOME_CANVAS_GROUP (canvas->root);
+			canvas, event->motion.x, event->motion.y, &x, &y);
+
+		if (!ic->prepared_to_drag) {
+			item_cursor_set_cursor (canvas, ic, x, y);
+			return TRUE;
+		}
+		ic->prepared_to_drag = FALSE;
+		gnome_canvas_item_ungrab (item, event->button.time);
 
 		/*
 		 * determine which part of the cursor was clicked:
@@ -589,7 +585,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			style = ITEM_CURSOR_DRAG;
 
 		new_item = gnome_canvas_item_new (
-			group,
+			GNOME_CANVAS_GROUP (canvas->root),
 			item_cursor_get_type (),
 			"ItemCursor::SheetView", ic->sheet_view,
 			"ItemCursor::Grid",  ic->item_grid,
@@ -649,8 +645,91 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			NULL,
 			event->button.time);
 
+		/*
+		 * We flush after the grab to ensure that the new item-cursor
+		 * gets created.  If it is not ready in time double click
+		 * events will be disrupted and it will appear as if we are
+		 * doing an button_press with a missing release.
+		 */
+		gdk_flush ();
 		return TRUE;
 	}
+
+	case GDK_2BUTTON_PRESS: {
+		Sheet *sheet = ic->sheet_view->sheet;
+		int final_row = ic->base_row + ic->base_rows;
+		int final_col = ic->base_col + ic->base_cols;
+
+		g_return_val_if_fail (ic->prepared_to_drag, TRUE);
+
+		ic->prepared_to_drag = FALSE;
+
+		/*
+		 * We flush after the ungrab, to have the ungrab take
+		 * effect immediately (the copy operation might take
+		 * long, and we do not want the mouse to be grabbed
+		 * all this time).
+		 */
+		gnome_canvas_item_ungrab (item, event->button.time);
+		gdk_flush ();
+
+		workbook_finish_editing (ic->sheet_view->wbcg, TRUE);
+
+		if (sheet_is_region_empty (sheet, ic->base_col, ic->base_row,
+					   final_row, final_col))
+			return TRUE;
+
+		/* fill current column to boundary of column to left
+		 * OR current row to boundary of row above
+		 */
+		if (event->button.state & GDK_MOD1_MASK)
+			final_col = sheet_find_boundary_horizontal (sheet,
+				ic->base_col,
+				MAX(0, ic->base_row-1),
+				1, TRUE);
+		else
+			final_row = sheet_find_boundary_vertical (sheet,
+				MAX(0, ic->base_col-1),
+				ic->base_row,
+				1, TRUE);
+
+		/* fill the row/column */
+		cmd_autofill (WORKBOOK_CONTROL (ic->sheet_view->wbcg), sheet,
+			      ic->base_col,    ic->base_row,
+			      ic->base_cols+1, ic->base_rows+1,
+			      final_col, final_row);
+
+		return TRUE;
+	}
+
+	case GDK_BUTTON_PRESS:
+		g_return_val_if_fail (!ic->prepared_to_drag, TRUE);
+		ic->prepared_to_drag = TRUE;
+
+		/* prepare to create fill or drag cursors, but dont until we
+		 * move.  If we did create them here there would be problems
+		 * with race conditions when the new cursors pop into existence
+		 * during a double-click
+		 */
+		gnome_canvas_item_grab (
+			item,
+			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
+			NULL,
+			event->button.time);
+
+		/* Be extra paranoid.  Ensure that the grab is registered */
+		gdk_flush ();
+		return TRUE;
+
+	case GDK_BUTTON_RELEASE:
+		/* Double clicks may have already released the drag prep */
+		if (ic->prepared_to_drag) {
+			ic->prepared_to_drag = FALSE;
+			gnome_canvas_item_ungrab (item, event->button.time);
+			gdk_flush ();
+		}
+		return TRUE;
+
 	default:
 		return FALSE;
 	}
@@ -1083,46 +1162,6 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_MOTION_NOTIFY:
 		item_cursor_handle_motion (item_cursor, event, &cb_autofill_scroll);
 		return TRUE;
-		
-	case GDK_2BUTTON_PRESS: {
-		Sheet *sheet = item_cursor->sheet_view->sheet;
-		int final_row = item_cursor->base_row + item_cursor->base_rows;
-		int final_col = item_cursor->base_col + item_cursor->base_cols;
-		
-		/*
-		 * We flush after the ungrab, to have the ungrab take
-		 * effect inmediately (the copy operation might take
-		 * long, and we do not want the mouse to be grabbed
-		 * all this time).
-		 */
-		gnome_canvas_item_ungrab (item, event->button.time);
-		gdk_flush ();
-
-		workbook_finish_editing (item_cursor->sheet_view->wbcg, TRUE);
-		
-		/* fill current column to boundary of column to left
-		 * OR current row to boundary of row above 
-		 */
-		if (event->button.state & GDK_MOD1_MASK)
-			final_col = sheet_find_boundary_horizontal (sheet, 
-				item_cursor->base_col,
-				MAX(0, item_cursor->base_row-1), 
-				1, TRUE);
-		else
-			final_row = sheet_find_boundary_vertical (sheet, 
-				MAX(0, item_cursor->base_col-1), 
-				item_cursor->base_row,
-				1, TRUE);
-
-		/* fill the row/column */
-		cmd_autofill (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet,
-			      item_cursor->base_col,    item_cursor->base_row,
-			      item_cursor->base_cols+1, item_cursor->base_rows+1,
-			      final_col, final_row);
-
-		gtk_object_destroy (GTK_OBJECT (item));
-		return TRUE;
-	}
 
 	default:
 		return FALSE;
@@ -1134,6 +1173,16 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
 
+#if 0
+	switch (event->type)
+	{
+	case GDK_BUTTON_RELEASE: printf ("release %d\n", item_cursor->style); break;
+	case GDK_BUTTON_PRESS: printf ("press %d\n", item_cursor->style); break;
+	case GDK_2BUTTON_PRESS: printf ("2press %d\n", item_cursor->style); break;
+	default :
+	    break;
+	};
+#endif
 	switch (item_cursor->style){
 	case ITEM_CURSOR_ANTED:
 	case ITEM_CURSOR_SELECTION:
@@ -1170,12 +1219,17 @@ item_cursor_init (ItemCursor *item_cursor)
 
 	item_cursor->col_delta = 0;
 	item_cursor->row_delta = 0;
+
 	item_cursor->tip       = NULL;
 
 	item_cursor->style = ITEM_CURSOR_SELECTION;
-	item_cursor->tag = -1;
+	item_cursor->gc = NULL;
+	item_cursor->state = 0;
+	item_cursor->animation_timer = -1;
+
+	item_cursor->visible = TRUE;
 	item_cursor->auto_fill_handle_at_top = FALSE;
-	item_cursor->visible = 1;
+	item_cursor->prepared_to_drag = FALSE;
 }
 
 static void
@@ -1183,7 +1237,7 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
 	ItemCursor *item_cursor;
-	
+
 	item = GNOME_CANVAS_ITEM (o);
 	item_cursor = ITEM_CURSOR (o);
 
@@ -1201,7 +1255,7 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_COLOR: {
 		GdkColor color;
 		char *color_name;
-		
+
 		color_name = GTK_VALUE_STRING (*arg);
 		if (gnome_canvas_get_color (item->canvas, color_name, &color)){
 			item_cursor->color = color;

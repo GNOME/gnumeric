@@ -7,11 +7,8 @@
  */
 #include <config.h>
 
-#include <gnome.h>
-#include <gdk/gdkkeysyms.h>
-#include <gdk/gdkx.h>
-#include <string.h>
-#include "gnumeric.h"
+#include "sheet-view.h"
+#include "item-bar.h"
 #include "gnumeric-sheet.h"
 #include "workbook.h"
 #include "workbook-view.h"
@@ -28,6 +25,10 @@
 #include "cellspan.h"
 #include "cmd-edit.h"
 #include "commands.h"
+
+#include <gdk/gdkkeysyms.h>
+#include <gdk/gdkx.h>
+#include <string.h>
 
 static GtkTableClass *sheet_view_parent_class;
 

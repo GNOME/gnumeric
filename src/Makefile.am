@@ -120,6 +120,7 @@ GNUMERIC_BASE_SOURCES =				\
 	gnumeric.h				\
 	gui-clipboard.c				\
 	gui-clipboard.h				\
+	gui-gnumeric.h				\
 	gutils.c				\
 	gutils.h				\
 	history.c				\

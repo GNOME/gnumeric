@@ -16,19 +16,20 @@
  */
 #include <config.h>
 
-#include <gnome.h>
-#include <ctype.h>
-#include <string.h>
-#include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "item-edit.h"
+#include "item-cursor.h"
+#include "item-grid.h"
+#include "gnumeric-sheet.h"
+#include "sheet-view.h"
 #include "value.h"
 #include "ranges.h"
 #include "parse-util.h"
-#include "sheet.h"
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "gnumeric-util.h"
+
+#include <ctype.h>
+#include <string.h>
 
 static GnomeCanvasItem *item_edit_parent_class;
 

@@ -7,11 +7,12 @@
  */
 #include <config.h>
 
-#include <gnome.h>
-#include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "item-bar.h"
 #include "item-debug.h"
+#include "item-grid.h"
+#include "gnumeric-sheet.h"
+#include "sheet-view.h"
+#include "sheet.h"
 #include "parse-util.h"
 #include "gnumeric-util.h"
 #include "selection.h"

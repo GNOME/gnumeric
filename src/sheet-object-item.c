@@ -9,6 +9,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "sheet-view.h"
 #include "dialogs.h"
 #include "sheet-object-item.h"
 

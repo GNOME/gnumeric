@@ -7,9 +7,10 @@
  */
 #include <config.h>
 
-#include <gnome.h>
-#include "gnumeric.h"
+#include "item-grid.h"
+#include "item-debug.h"
 #include "gnumeric-sheet.h"
+#include "sheet-view.h"
 #include "item-debug.h"
 #include "color.h"
 #include "dialogs.h"

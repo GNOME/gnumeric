@@ -1,8 +1,7 @@
 #ifndef GNUMERIC_ITEM_GRID_H
 #define GNUMERIC_ITEM_GRID_H
 
-#include "gnumeric.h"
-#include "sheet-view.h"
+#include "gui-gnumeric.h"
 
 #define ITEM_GRID(obj)          (GTK_CHECK_CAST((obj), item_grid_get_type (), ItemGrid))
 #define ITEM_GRID_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_grid_get_type (), ItemGridClass))
@@ -14,7 +13,7 @@ typedef enum {
 	ITEM_GRID_SELECTING_FORMULA_RANGE
 } ItemGridSelectionType;
 
-typedef struct {
+struct _ItemGrid {
 	GnomeCanvasItem canvas_item;
 
 	SheetView *sheet_view;
@@ -31,7 +30,7 @@ typedef struct {
 	GdkColor   default_color;
 
 	int        visual_is_paletted;
-} ItemGrid;
+};
 
 GtkType item_grid_get_type (void);
 void    item_grid_popup_menu (SheetView *sheet_view, GdkEventButton *event,

@@ -1,17 +1,13 @@
 #ifndef GNUMERIC_SHEET_VIEW_H
 #define GNUMERIC_SHEET_VIEW_H
 
-#include "workbook-control-gui.h"
+#include "gui-gnumeric.h"
 #include <gtk/gtktable.h>
-#include <gnome.h>
 
 #define SHEET_VIEW_TYPE        (sheet_view_get_type ())
 #define SHEET_VIEW(obj)        (GTK_CHECK_CAST((obj), SHEET_VIEW_TYPE, SheetView))
 #define SHEET_VIEW_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), SHEET_VIEW_TYPE))
 #define IS_SHEET_VIEW(o)       (GTK_CHECK_TYPE((o), SHEET_VIEW_TYPE))
-
-struct _SheetView;
-typedef struct _SheetView SheetView;
 
 typedef gboolean (*SheetViewSlideHandler) (SheetView *sheet_view, int col, int row,
 					   gpointer user_data);

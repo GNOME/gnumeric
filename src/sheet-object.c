@@ -12,6 +12,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "sheet-view.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "sheet-object.h"
@@ -196,9 +197,7 @@ sheet_object_new_view (SheetObject *so, SheetView *sheet_view)
 {
 	GnomeCanvasItem *item;
 
-	g_return_val_if_fail (sheet_view != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
-	g_return_val_if_fail (so != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 
 	item = SO_CLASS (so)->new_view (so, sheet_view);

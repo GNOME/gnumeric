@@ -1,3 +1,27 @@
+2000-11-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_init) : Initialize fully, add
+	  prepared_to_drag_flag.
+	(item_cursor_selection_event) : Move most of the state change
+	  associated with BUTTON_PRESS into MOTION_NOTIFY.  And use the
+	  prepared_to_drag_flag flag to indicate a requirement to initiate a
+	  drag. Move most of the double click handling here.  The resone for
+	  these changes was that there was a race condition in the old
+	  version.  We were creating a new item cursor when we did a button
+	  press.  It started in exactly the same position as the current
+	  cursor.  2BUTTON_PRESS were sometimes being sent to the new cusor
+	  and sometimes showing up as PRESS events on the old with no RELEASE.
+	  This patch attempts to delay creating the new drag cursor until we
+	  are sure this is not a double click so that the proper event
+	  sequence is sent to the main cursor.
+
+	* src/border.c (style_border_unref) : Unref the colour.
+	(style_border_fetch) : unref the colour when needed.
+
+2000-11-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_is_region_empty) : New function.
+
 2000-11-08  Morten Welinder  <terra@diku.dk>
 
 	* src/complex.c (complex_from_string): Handle overflow.

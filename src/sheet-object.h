@@ -6,8 +6,7 @@
 #endif
 
 #include "sheet.h"
-#include "sheet-view.h"
-#include "gnumeric-sheet.h"
+#include "gui-gnumeric.h"
 
 /*
  * SheetObject
