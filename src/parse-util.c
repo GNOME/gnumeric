@@ -86,7 +86,11 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 
 	/* If it is a non-local reference, add the path to the external sheet */
 	if (sheet != NULL && !no_sheetname) {
-		/* pp->wb==NULL happens for the leak printer.  */
+		if (pp->wb == NULL && pp->sheet == NULL) {
+			/* For the expression leak printer.  */
+			return g_strconcat ("'?'|", buffer, NULL);
+		}
+
 		if (pp->wb == NULL || sheet->workbook == pp->wb)
 			return g_strconcat (sheet->name_quoted, "!", buffer, NULL);
 		return g_strconcat ("[", sheet->workbook->filename, "]",
