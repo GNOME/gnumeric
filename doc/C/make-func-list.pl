@@ -8,12 +8,13 @@ while (<>) {
 	    print "      </refsect1>\n";
 	    print "    </refentry>\n\n";
 	}
+	my $mod_func = &fixup_function_name ($1);
 	my $func = $1;
 	$state = 0;
 	print "\n\n";
-	print "  <refentry>\n";
+	print "  <refentry id=\"gnumeric-$mod_func\">\n";
 	print "    <refmeta>\n";
-	print "      <refentrytitle><anchor id=\"gnumeric-$func\">$func</refentrytitle><refmiscinfo></refmiscinfo>\n";
+	print "      <refentrytitle>$func</refentrytitle>\n";
 	print "    </refmeta>\n";
 	print "    <refnamediv>\n";
 	print "      <refname>$func</refname>\n";
@@ -61,7 +62,8 @@ while (<>) {
 	my @a = ();
 	print   "      <para>";
 	foreach my $link (@links) {
-	    push @a, "        <link linkend=\"gnumeric-$link\">$link</link>";
+	    my $fixed_name = &fixup_function_name ($link);
+	    push @a, "        <link linkend=\"gnumeric-$fixed_name\">$link</link>";
 	}
 	if (@a > 0) {
 	    print join (",\n", @a), ".\n";
@@ -85,5 +87,12 @@ sub quote_stuff {
 
     $str =~ s/</\&lt;/g;
     $str =~ s/>/\&gt;/g;
+    $str =~ s/\&/\&amp;/g;
     return $str;
+}
+
+sub fixup_function_name {
+    my ($name) = @_;
+    $name =~ s/_/x/;
+    return $name;
 }

@@ -8,7 +8,15 @@ while (<>){
 }
 
 foreach $func (sort @f){
-  print "<listitem><para><link linkend=\"gnumeric-$func\">$func</link></para></listitem>\n";
+  my $fixed_name = &fixup_function_name ($func);
+  print "<listitem><para><link linkend=\"gnumeric-$fixed_name\">$func</link></para></listitem>\n";
 }
 
 print "</itemizedlist>\n";
+
+#Subroutine MUST agree with the subroutine in make-docbook.pl
+sub fixup_function_name {
+    my ($name) = @_;
+    $name =~ s/_/x/;
+    return $name;
+}
