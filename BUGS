@@ -4,16 +4,18 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- Changing the size of a selected column by dragging does not redraw properly.
+- Changing the size of a selected column by dragging when there are several selected
+  does not work properly.
 
 Long term breakage
 ------------------
+- changing col/row sizes does not have undo support.
 - The implication of mixed mode references ($B$2:C3)
   is large.  We need to validate references when pasting a
   copy to check for inversion.
 
 - Copy with destination larger than source does not duplicate the styles.
-- Cut/Paste of a cell with bold onto a cell with underline yields a cell with
-  both ??
 
 - border style double_line does handle all of the different intersection cases.
 
@@ -27,12 +29,9 @@ Long term breakage
 - The File->Print Preview icon is too big.  Use the stock version when the next
   release of gnome-libs is made. (tigert is adding to gnome-libs)
 
-- non string values entered directly are not really editable in that we
-  may not be able to parse the formated version.
-  eg value = 90, format = '[$USD] 0.00'
-     We put the FORMATTED result (USD 90.00) into the edit region.
-
 - Names : sheet vs workbook, addresses not changing with row/col ins/del.
+
+- All forms of autoscroll should use the timer mechanism from item-grid.
 
 Function Breakage
 -----------------
@@ -44,5 +43,4 @@ Widget polishing
 - gtk-combo-text
     : a value entered directly in the edit field does not handle selection in
       the list correctly
-    : The mouse over effect is incorrect when the popup is closed and reopened.
-
+    : the list does not auto scroll.
