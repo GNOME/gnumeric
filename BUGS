@@ -67,8 +67,6 @@ Long term breakage
     - config check for xml-i18n-tool version (or should it be
       intltool ?)
 
-- Consistent capitalization of labels.
-
 - Names
     : references in names do not get changed with cut/paste or ins/del row/col.
       How to handle relative references in names ?? here.
