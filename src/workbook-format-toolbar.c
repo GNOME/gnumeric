@@ -309,7 +309,7 @@ do_apply_style_to_selection (Sheet *sheet, const char *format)
 	apply_style_to_selection (sheet, style, set_cell_format_style, NULL);
 }
 
-void
+static void
 workbook_cmd_format_as_money (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
@@ -317,7 +317,7 @@ workbook_cmd_format_as_money (GtkWidget *widget, Workbook *wb)
 	do_apply_style_to_selection (sheet, _(money_format));
 }
 
-void
+static void
 workbook_cmd_format_as_percent (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
@@ -376,19 +376,19 @@ do_modify_format (Workbook *wb, format_modify_fn modify_fn)
 	sheet_set_dirty (sheet, TRUE);
 }
 
-void
+static void
 workbook_cmd_format_add_thousands (GtkWidget *widget, Workbook *wb)
 {
 	do_modify_format (wb, format_add_thousand);
 }
 
-void
+static void
 workbook_cmd_format_add_decimals (GtkWidget *widget, Workbook *wb)
 {
 	do_modify_format (wb, format_add_decimal);
 }
 
-void
+static void
 workbook_cmd_format_remove_decimals (GtkWidget *widget, Workbook *wb)
 {
 	do_modify_format (wb, format_remove_decimal);
@@ -658,7 +658,9 @@ workbook_feedback_set (Workbook *workbook, int feedback_flags,
 			int idx = 0;
 			
 			for (l = gnumeric_font_family_list; l; l = l->next, idx++){
-				if (strcmp (l->data, font_name) == 0){
+				char *f = l->data;
+				
+				if (strcmp (f, font_name) == 0){
 					np = GINT_TO_POINTER (idx);
 					gtk_object_set_data (
 						(GtkObject *) font,
