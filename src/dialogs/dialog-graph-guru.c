@@ -1035,6 +1035,8 @@ graph_guru_init (GraphGuruState *s)
 		"set-focus",
 		GTK_SIGNAL_FUNC (cb_graph_guru_focus), s);
 
+	gnumeric_set_transient (s->wbcg, GTK_WINDOW (s->dialog));
+
 	return FALSE;
 }
 

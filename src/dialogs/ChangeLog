@@ -1,3 +1,7 @@
+2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-graph-guru.c (dialog-graph-guru.c) : make dialog transient
+
 2002-01-19  Jody Goldberg <jody@gnome.org>
 
 	* graph-guru.glade : Make the guru a toplevel rather than dialog to
