@@ -1,3 +1,8 @@
+2000-12-17  Morten Welinder  <terra@diku.dk>
+
+	* src/about.c (dialog_about): Made a little more consistent in
+ 	style.
+
 2000-12-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_new_sheet_view) : no need to normalize.
