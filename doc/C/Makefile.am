@@ -319,6 +319,6 @@ sgml_ents = 					\
 
 EXTRA_DIST = gnumeric.1
 
-include $(srcdir)/../gnumeric-doc.make
-
 dist-hook : app-dist-hook
+
+include $(srcdir)/../gnumeric-doc.make

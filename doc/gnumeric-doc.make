@@ -5,12 +5,7 @@
 #
 # Requires that the calling makefile define 'lang'
 
-docname = gnumeric
 gnumeric_docdir  = $(top_srcdir)/doc
-sgml_ents += functions.sgml
-
-gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/$(lang)
-gnumeric_help_DATA = topic.dat
 
 # include generated files to simplify installation
 EXTRA_DIST +=					\
