@@ -1242,7 +1242,7 @@ ms_excel_sheet_insert_form (MS_EXCEL_SHEET * sheet, int xfidx,
 
 static void
 ms_excel_sheet_insert_val (MS_EXCEL_SHEET * sheet, int xfidx,
-			   int col, int row, const Value *v)
+			   int col, int row, Value *v)
 {
 	Cell *cell;
 	g_return_if_fail (v);

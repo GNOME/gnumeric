@@ -61,10 +61,9 @@ FORMULA_OP_DATA formula_op_data[] = {
 #define FORMULA_OP_DATA_LEN   (sizeof(formula_op_data)/sizeof(FORMULA_OP_DATA))
 #define FORMULA_OP_START      0x03
 
-/* FIXME: the standard function indexes need to be found from xlcall.h */
 /**
- * Various bits of data for functions
- * function index, prefix, middle, suffix, multiple args?, precedence
+ * FIXME: This table needs properly populating, preferably from xlcall.h (?)
+ * Functions in order, zero based, with number of arguments or '-1' for vararg.
  **/
 FORMULA_FUNC_DATA formula_func_data[] =
 {
@@ -556,8 +555,8 @@ typedef GList    PARSE_LIST;
 static void
 parse_list_push (PARSE_LIST **list, ExprTree *pd)
 {
-	if (FORMULA_DEBUG>0)
-		printf ("Pushing ''\n"); /*, expr_decode_tree (pd)) ; */
+	if (FORMULA_DEBUG > 0 && !pd)
+		printf ("FIXME: Pushing nothing onto stack\n");
 	*list = g_list_append (*list, pd) ;
 }
 static void
@@ -598,23 +597,6 @@ parse_list_free (PARSE_LIST **list)
 {
 	while (*list)
 		expr_tree_unref (parse_list_pop(list));
-}
-
-/**
- * Should be in cell.c ?
- **/
-static Cell *
-duplicate_formula (Sheet *sheet, int src_col, int src_row, int dest_col, int dest_row)
-{
-  Cell *ref_cell, *new_cell;
-  
-  ref_cell = sheet_cell_get (sheet, src_col, src_row);
-  if (!ref_cell || !ref_cell->parsed_node)
-      return 0;
-  
-  new_cell = sheet_cell_new (sheet, dest_col, dest_row);
-  cell_set_formula_tree_simple (new_cell, ref_cell->parsed_node);
-  return new_cell ;
 }
 
 static void

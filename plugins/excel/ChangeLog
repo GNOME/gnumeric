@@ -1,5 +1,12 @@
 1999-05-05  Michael Meeks  <michael@imaginator.com>
 
+	* ms-formula.c (parse_list_push_raw): Cleaned debug.
+	(parse_list_push): Added (different) debug.
+	(formula_func_data): Fixed comments.
+	(duplicate_formula): Removed.
+
+1999-05-05  Michael Meeks  <michael@imaginator.com>
+
 	* ms-excel.c (ms_excel_read_cell): Updated debug.
 	(ms_excel_sheet_insert_val): Fixed prototype.
 
