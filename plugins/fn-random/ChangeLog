@@ -1,3 +1,8 @@
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDGAMMA(), RANDLAPLACE(), RANDPARETO(),
+	and RANDWEIBULL().
+
 2002-07-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c: Added RANDNORM(), RANDLOGNORM(), RANDCAUCHY(), and

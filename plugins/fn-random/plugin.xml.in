@@ -17,11 +17,16 @@
 				<function name="randbinom"/>
 				<function name="randcauchy"/>
 				<function name="randexp"/>
+				<function name="randgamma"/>
+				<function name="randlaplace"/>
 				<function name="randlognorm"/>
 				<function name="randnegbinom"/>
 				<function name="randnorm"/>
+				<function name="randpareto"/>
 				<function name="randpoisson"/>
+				<function name="randrayleigh"/>
 				<function name="randuniform"/>
+				<function name="randweibull"/>
 			</functions>
 		</service>
 	</services>

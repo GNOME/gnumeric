@@ -53,7 +53,8 @@ Jukka:
 	  seperate plug-in (fn-random).
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
-	  RANDCAUCHY(), RANDLOGNORM(), RANDNORM() and RANDUNIFORM().
+	  RANDCAUCHY(), RANDGAMMA(), RANDLAPLACE(), RANDLOGNORM(),
+	  RANDNORM(), RANDPARETO(), RANDUNIFORM(), and RANDWEIBULL().
 
 Morten:
 	* Improve the Applix importer.

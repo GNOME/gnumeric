@@ -307,7 +307,7 @@ static const char *help_randcauchy = {
 	   "scale parameter a. The Cauchy distribution is also known as the "
 	   "Lorentz distribution. "
            "\n"
-           "If @a <= 0 RANDCAUCHY returns #NUM! error. "
+           "If @a < 0 RANDCAUCHY returns #NUM! error. "
 	   "\n"
            "@EXAMPLES=\n"
            "RANDCAUCHY(1).\n"
@@ -350,6 +350,131 @@ gnumeric_randlognorm (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (random_lognormal (zeta, sigma));
 }
 
+/***************************************************************************/
+
+static const char *help_randweibull = {
+        N_("@FUNCTION=RANDWEIBULL\n"
+           "@SYNTAX=RANDWEIBULL(a,b)\n"
+
+           "@DESCRIPTION="
+           "RANDWEIBULL returns a Weibull-distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDWEIBULL(1,2).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randweibull (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+
+        return value_new_float (random_weibull (a, b));
+}
+
+/***************************************************************************/
+
+static const char *help_randlaplace = {
+        N_("@FUNCTION=RANDLAPLACE\n"
+           "@SYNTAX=RANDLAPLACE(a)\n"
+
+           "@DESCRIPTION="
+           "RANDLAPLACE returns a Laplace-distributed random number. Laplace "
+	   "distribution is also known as two-sided exponential probability "
+	   "distribution. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDLAPLACE(1).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randlaplace (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+
+        return value_new_float (random_laplace (a));
+}
+
+/***************************************************************************/
+
+static const char *help_randrayleigh = {
+        N_("@FUNCTION=RANDRAYLEIGH\n"
+           "@SYNTAX=RANDRAYLEIGH(sigma)\n"
+
+           "@DESCRIPTION="
+           "RANDRAYLEIGH returns a Rayleigh-distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDRAYLEIGH(1).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randrayleigh (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float sigma = value_get_as_float (argv[0]);
+
+        return value_new_float (random_rayleigh (sigma));
+}
+
+/***************************************************************************/
+
+static const char *help_randgamma = {
+        N_("@FUNCTION=RANDGAMMA\n"
+           "@SYNTAX=RANDGAMMA(a,b)\n"
+
+           "@DESCRIPTION="
+           "RANDGAMMA returns a Gamma-distributed random number. "
+           "\n"
+           "If @a <= 0 RANDGAMMA returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "RANDGAMMA(1,2).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randgamma (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+
+	if (a <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_gamma (a, b));
+}
+
+/***************************************************************************/
+
+static const char *help_randpareto = {
+        N_("@FUNCTION=RANDPARETO\n"
+           "@SYNTAX=RANDPARETO(a,b)\n"
+
+           "@DESCRIPTION="
+           "RANDPARETO returns a Pareto-distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDPARETO(1,2).\n"
+           "\n"
+           "@SEEALSO=RAND")
+};
+
+static Value *
+gnumeric_randpareto (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float a = value_get_as_float (argv[0]);
+	gnum_float b = value_get_as_float (argv[1]);
+
+        return value_new_float (random_pareto (a, b));
+}
+
 
 /***************************************************************************/
 
@@ -366,16 +491,26 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randcauchy, NULL, NULL, NULL },
         { "randexp", "f", N_("b"),         &help_randexp,
 	  gnumeric_randexp, NULL, NULL, NULL },
+        { "randgamma", "ff", N_("a,b"),    &help_randgamma,
+	  gnumeric_randgamma, NULL, NULL, NULL },
+        { "randlaplace", "f", N_("a"), &help_randlaplace,
+	  gnumeric_randlaplace, NULL, NULL, NULL },
         { "randlognorm", "ff", N_("zeta,sigma"), &help_randlognorm,
 	  gnumeric_randlognorm, NULL, NULL, NULL },
         { "randnegbinom", "ff", N_("p,failures"), &help_randnegbinom,
 	  gnumeric_randnegbinom, NULL, NULL, NULL },
         { "randnorm", "ff", N_("mean,stdev"), &help_randnorm,
 	  gnumeric_randnorm, NULL, NULL, NULL },
+        { "randpareto", "ff", N_("a,b"), &help_randpareto,
+	  gnumeric_randpareto, NULL, NULL, NULL },
         { "randpoisson", "f", N_("lambda"), &help_randpoisson,
 	  gnumeric_randpoisson, NULL, NULL, NULL },
+        { "randrayleigh", "f", N_("sigma"), &help_randrayleigh,
+	  gnumeric_randrayleigh, NULL, NULL, NULL },
         { "randuniform", "ff", N_("a,b"), &help_randuniform,
 	  gnumeric_randuniform, NULL, NULL, NULL },
+        { "randweibull", "ff", N_("a,b"), &help_randweibull,
+	  gnumeric_randweibull, NULL, NULL, NULL },
         {NULL}
 };
 
