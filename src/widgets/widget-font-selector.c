@@ -281,8 +281,8 @@ static void
 size_selected (GtkTreeSelection *selection,
 	       FontSelector *fs)
 {
-	 GnmStyle *change = mstyle_new ();
-	 gchar *text;
+	GnmStyle *change = mstyle_new ();
+	gchar *text;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
@@ -290,6 +290,7 @@ size_selected (GtkTreeSelection *selection,
 	gtk_tree_model_get (model, &iter, 0, &text, -1);
 	gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
 	mstyle_set_font_size (change, atof (text));
+	g_free (text);
 	fs_modify_style (fs, change);
 }
 

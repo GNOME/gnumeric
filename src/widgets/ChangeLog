@@ -1,3 +1,7 @@
+2004-06-01  Morten Welinder  <terra@gnome.org>
+
+	* widget-font-selector.c (size_selected): Plug leak.
+
 2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* Makefile.am: removed gnumeric-combo-text.[c,h]
