@@ -1,5 +1,10 @@
 2004-09-26  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-view.c (wb_view_sendto) : encode the right portion of
+	  the url.
+
+2004-09-26  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook-view.c (wb_view_sendto) : cleanup and use the new url
 	  encoding routine.
 

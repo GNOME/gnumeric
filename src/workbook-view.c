@@ -773,10 +773,9 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
  **/
 			/* mutt does not handle urls with no destination
 			 * so pick something to arbitrary */
-			char *url, *tmp = g_strdup_printf ("mailto:someone?attach=%s", full_name);
 			GError *err = NULL;
-
-			url = go_url_encode (tmp);
+			char *url, *tmp = go_url_encode (full_name);
+			url = g_strdup_printf ("mailto:someone?attach=%s", tmp);
 			g_free (tmp);
 #ifdef WITH_GNOME
 			gnome_url_show (url, &err);
