@@ -291,7 +291,7 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
-			g_alloca (n * 8 * sizeof (gpointer)), pg->gridlines);
+			g_alloca (n * 8 * sizeof (gpointer)), !pg->gridlines);
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
