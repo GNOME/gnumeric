@@ -245,7 +245,7 @@ get_selector_control (GraphGuruState *state)
 		return NULL;
 	CORBA_exception_free (&ev);
 
-	corba_uih = bonobo_ui_compat_get_container (state->wb->priv->uih);
+	corba_uih = bonobo_ui_component_get_container (state->wb->priv->uic);
 	res =  bonobo_widget_new_control_from_objref (state->control, corba_uih);
 
 	return res;

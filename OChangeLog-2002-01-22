@@ -1,3 +1,11 @@
+2000-10-11  Martin Baulig  <baulig@suse.de>
+
+	Removed the last bits of the old Bonobo UI Handler code.
+
+	* src/workbook-private.h (WorkbookPrivate): Changed `BonoboUIHandler *uih'
+	to `BonoboUIComponent *uic'.
+	* src/workbook.c (workbook_new): Create the BonoboUIComponent here.
+
 2000-10-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-util.c (run_popup_menu) : Delete.

@@ -637,11 +637,7 @@ workbook_create_format_toolbar (Workbook *wb)
 		behavior,
 		GNOME_DOCK_TOP, 2, 0, 0);
 #else
-	BonoboUIComponent *component =
-		bonobo_ui_compat_get_component (wb->priv->uih);
-
-	bonobo_ui_component_add_verb_list_with_data (
-		component, verbs, wb);
+	bonobo_ui_component_add_verb_list_with_data (wb->priv->uic, verbs, wb);
 #endif
 
 	/*
@@ -770,7 +766,7 @@ workbook_format_toolbutton_update (Workbook const *wb, char const * const path,
 	g_return_if_fail (!wb->priv->updating_toolbar);
 
 	wb->priv->updating_toolbar = TRUE;
-	bonobo_ui_component_set_prop (BONOBO_UI_COMPONENT (wb->priv->uih),
+	bonobo_ui_component_set_prop (wb->priv->uic,
 				      path, "state", state ? "1" : "0", NULL);
 	wb->priv->updating_toolbar = FALSE;
 }

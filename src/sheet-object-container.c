@@ -128,7 +128,7 @@ sheet_object_container_new_view (SheetObject *so, SheetView *sheet_view)
 
 	view_frame = bonobo_client_site_new_view (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		bonobo_ui_compat_get_container (sheet_view->sheet->workbook->priv->uih));
+		bonobo_ui_component_get_container (sheet_view->sheet->workbook->priv->uic));
 
 	if (!view_frame) {
 		g_warning ("Component died");

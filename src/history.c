@@ -190,7 +190,6 @@ history_menu_insert_items (Workbook *wb, GList *name_list, MenuPos *mp)
 static void
 history_menu_insert_items (Workbook *wb, GList *name_list)
 {
-	BonoboUIComponent *uic;
 	CORBA_Environment ev;
 	gint  accel_number;
 	GList *l;
@@ -198,11 +197,10 @@ history_menu_insert_items (Workbook *wb, GList *name_list)
 	g_return_if_fail (name_list != NULL);
 
 	CORBA_exception_init (&ev);
-	uic = BONOBO_UI_COMPONENT (wb->priv->uih);
 	
 	/* Add a new menu item for each item in the history list */
 	accel_number = 1;
-	bonobo_ui_component_freeze (uic, &ev);
+	bonobo_ui_component_freeze (wb->priv->uic, &ev);
 	for (l = name_list; l; l = l->next) {
 		char *id, *str, *label, *filename;
 		
@@ -214,16 +212,16 @@ history_menu_insert_items (Workbook *wb, GList *name_list)
 				       "label=\"%s\" "
 				       "descr=\"%s\"/>\n",
 				       id, id, label, filename);
-		bonobo_ui_component_set (uic,
+		bonobo_ui_component_set (wb->priv->uic,
 					 "/menu/File/FileHistory", str, &ev);
 		bonobo_ui_component_add_verb (
-			uic, id, (BonoboUIVerbFn) file_history_cmd, wb);
+			wb->priv->uic, id, (BonoboUIVerbFn) file_history_cmd, wb);
 		g_free (id);
 		g_free (str);
 		g_free (label);
 		accel_number++;
 	}
-	bonobo_ui_component_thaw (uic, &ev);
+	bonobo_ui_component_thaw (wb->priv->uic, &ev);
 	CORBA_exception_free (&ev);
 }
 #endif
@@ -259,23 +257,21 @@ static void
 history_menu_remove_items (Workbook *wb, GList *name_list)
 {
 	gint  accel_number = 1;
-	BonoboUIComponent *uic;
 	GList *l;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
-	uic = BONOBO_UI_COMPONENT (wb->priv->uih);
-	bonobo_ui_component_freeze (uic, &ev);
+	bonobo_ui_component_freeze (wb->priv->uic, &ev);
 	for (l = name_list; l; l = l->next) {
 		char *path;
 
 		path = g_strdup_printf ("/menu/File/FileHistory/FileHistory%d",
 					accel_number++);
-		bonobo_ui_component_rm (BONOBO_UI_COMPONENT (wb->priv->uih),
+		bonobo_ui_component_rm (wb->priv->uic,
 					path, &ev);
 		g_free (path);
 	}
-	bonobo_ui_component_thaw (uic, &ev);
+	bonobo_ui_component_thaw (wb->priv->uic, &ev);
 	CORBA_exception_free (&ev);
 }
 #endif

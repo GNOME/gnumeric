@@ -2237,7 +2237,7 @@ workbook_setup_auto_calc (Workbook *wb)
 		g_return_if_fail (control != NULL);
 		
 		bonobo_ui_component_object_set (
-			BONOBO_UI_COMPONENT (wb->priv->uih),
+			wb->priv->uic,
 			"/status/AutoExpr",
 			bonobo_object_corba_objref (BONOBO_OBJECT (control)),
 			NULL);
@@ -2273,7 +2273,7 @@ setup_progress_bar (WorkbookPrivate *priv)
 	g_return_if_fail (control != NULL);
 
 	bonobo_ui_component_object_set (
-		BONOBO_UI_COMPONENT (priv->uih),
+		priv->uic,
 		"/status/Progress",
 		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
 		NULL);
@@ -2774,6 +2774,9 @@ cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event, Workbook *wb)
 Workbook *
 workbook_new (void)
 {
+#ifdef ENABLE_BONOBO
+	BonoboUIContainer *ui_container;
+#endif
 	static int count = 0;
 	gboolean is_unique;
 	Workbook  *wb;
@@ -2829,20 +2832,17 @@ workbook_new (void)
 	wb->priv->workbook_views  = NULL;
 	wb->priv->persist_file    = NULL;
 
-	wb->priv->uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_WIN (wb->toplevel));
+	wb->priv->uic = bonobo_ui_component_new_default ();
 
-	{
-		BonoboUIComponent *component =
-			bonobo_ui_compat_get_component (wb->priv->uih);
+	ui_container = bonobo_ui_container_new ();
+	bonobo_ui_container_set_win (ui_container, BONOBO_WIN (wb->toplevel));
+	bonobo_ui_component_set_container (
+		wb->priv->uic, bonobo_object_corba_objref (BONOBO_OBJECT (ui_container)));
 
-		bonobo_ui_component_add_verb_list_with_data (
-			component, verbs, wb);
+	bonobo_ui_component_add_verb_list_with_data (wb->priv->uic, verbs, wb);
 		
-		bonobo_ui_util_set_ui (
-			component, GNOME_DATADIR,
-			"gnumeric.xml", "gnumeric");
-	}
+	bonobo_ui_util_set_ui (wb->priv->uic, GNOME_DATADIR, "gnumeric.xml", "gnumeric");
+
 	/* Do after setting up UI bits in the bonobo case */
 	workbook_setup_status_area (wb);
 #endif

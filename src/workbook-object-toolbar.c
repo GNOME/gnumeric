@@ -209,11 +209,7 @@ workbook_create_object_toolbar (Workbook *wb)
 		behavior,
 		GNOME_DOCK_TOP, 3, 0, 0);
 #else
-	BonoboUIComponent *component =
-		bonobo_ui_compat_get_component (wb->priv->uih);
-
-	bonobo_ui_component_add_verb_list_with_data (
-		component, verbs, wb);
+	bonobo_ui_component_add_verb_list_with_data (wb->priv->uic, verbs, wb);
 #endif
 
 	return toolbar;

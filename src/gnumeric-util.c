@@ -754,7 +754,7 @@ gnumeric_inject_widget_into_bonoboui (Workbook *wb, GtkWidget *widget, char cons
 	gtk_widget_show_all (widget);
 	control = bonobo_control_new (widget);
 	bonobo_ui_component_object_set (
-		BONOBO_UI_COMPONENT (wb->priv->uih), path,
+		wb->priv->uic, path,
 		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
 		NULL);
 }

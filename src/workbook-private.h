@@ -33,7 +33,7 @@ struct _WorkbookPrivate {
 	/* A list of EmbeddableGrids exported to the world */
 	GList      *workbook_views;
 
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uic;
 #endif
 
 	gboolean during_destruction;
