@@ -1,3 +1,19 @@
+1999-02-13  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/dialog-cell-format.c (create_foreground_radio): Added a
+	radio button to let the users 'no change' the text colour, useful
+	when there is a range selected with differently colored cells
+	and it is desired to change the background of them without
+	touching the foreground.
+
+	* src/dialog-cell-format.c (create_coloring_page): When there
+	are different foreground colours in the selected cells, the
+	default selection is 'no change'.
+
+	* src/dialog-cell-format.c (apply_coloring_format): If there
+	is no need to make changes to the foreground color of the
+	cells, avoid doing them.
+
 1999-02-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-cursor.c (item_cursor_target_region_ok): Warn the user
@@ -34,10 +50,10 @@
 	involved with patterns display in the cell, for that code is
 	not ready yet.
 
-	* src/dialog-cell-format (create_coloring_page): Reactivated
+	* src/dialog-cell-format.c (create_coloring_page): Reactivated
 	the background selection panel of the coloring page.
 
-	* src/dialog-cell-format (create_background_radio): Commented out
+	* src/dialog-cell-format.c (create_background_radio): Commented out
 	the addition of the pattern selection for a cell.
 
 1999-02-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
