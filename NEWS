@@ -1,7 +1,13 @@
 Gnumeric 0.61
 
+Alan Cox:
+	* Fix formatting mistakes in documentation.
+
 Jody:
 	* Work on sheet object persistence.
+
+Morten:
+	* Fix scripts generating documentation.
 
 --------------------------------------------------------------------------
 Gnumeric 0.60
