@@ -1,3 +1,8 @@
+2004-06-04  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (arg_list): handle the empty arg in =IF(TRUE,)
+	properly.
+
 2004-05-24  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c : back port the implicit iteration patch

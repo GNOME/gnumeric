@@ -713,9 +713,14 @@ arg_list: exp {
 		register_expr_list_allocation ($$);
         }
 	| exp SEPARATOR arg_list {
+		GSList *tmp = $3;
 		unregister_allocation ($3);
 		unregister_allocation ($1);
-		$$ = g_slist_prepend ($3, $1);
+
+		if (tmp == NULL)
+			tmp = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_empty ()));
+
+		$$ = g_slist_prepend (tmp, $1);
 		register_expr_list_allocation ($$);
 	}
 	| SEPARATOR arg_list {
