@@ -77,8 +77,10 @@ static GNM_ACTION_DEF (cb_file_new)
 {
 	Workbook *wb = workbook_new_with_sheets
 		(gnm_app_prefs->initial_sheet_number);
-
-	(void) workbook_control_gui_new (NULL, wb, NULL);
+	WorkbookControl *new_wbc =
+		workbook_control_gui_new (NULL, wb, NULL);
+	WorkbookControlGUI *new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
+	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);	
 }
 
 static GNM_ACTION_DEF (cb_file_open)

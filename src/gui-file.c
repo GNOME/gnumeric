@@ -116,8 +116,12 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 			workbook_unref (tmp_wb);
 			wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
 			wb_control_init_state (WORKBOOK_CONTROL (wbcg));
-		} else
-			(void) wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg), wbv, NULL, NULL);
+		} else {
+			WorkbookControl *new_wbc =
+				wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg), wbv, NULL, NULL);
+			WorkbookControlGUI *new_wbcg = WORKBOOK_CONTROL_GUI (new_wbc);
+			wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
+		}
 
 		sheet_update (wb_view_cur_sheet	(wbv));
 		return TRUE;

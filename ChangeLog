@@ -1,5 +1,10 @@
 2004-04-07  Morten Welinder  <terra@gnome.org>
 
+	* src/wbcg-actions.c (cb_file_new): Copy toolbar visibility to new
+	window.
+	* src/gui-file.c (gui_file_read): Copy toolbar visibility to new
+	window.
+
 	* src/wbc-gtk.c (wbc_gtk_create_status_area): Show statusbar.
 	(check_underlines): New code to debug underline collisions.
 	(wbc_gtk_init): Show everything here.
