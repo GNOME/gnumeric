@@ -1,3 +1,20 @@
+2000-02-29  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-cell-format.c: The dialog moved when "Apply"
+	was pressed. This was an unavoidable consequence of using
+	gnome_dialog_run. We switch to a purely callback based design -
+	this module was almost there, anyway. And we can make the dialog
+	modeless if we wish.
+	(cb_fmt_dialog_dialog_destroy): New function. Free resources upon
+	"destroy". This gets called whenever "OK" or "WM close" are
+	pressed.
+	(fmt_dialog_impl): Connect "destroy" handler. Replace
+	gnome_dialog_run (recursive main loop) with gnumeric_dialog_show
+	(no such thing). Set modal explicitly.
+	(dialog_cell_format): Remove initial comment which these changes
+	made incorrect. Allocate state record on heap instead of stack.
+	Move resource deallocation to cb_fmt_dialog_destroy.
+
 2000-02-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/value.c (value_new_cellrange) : Normalize ranges

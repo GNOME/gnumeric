@@ -1844,6 +1844,18 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	state->result = mstyle_new ();
 }
 
+/* Handler for destroy */
+static gboolean
+cb_fmt_dialog_dialog_destroy (GtkObject *w, FormatState *state)
+{
+	g_free ((char *)state->format.spec);
+	mstyle_unref (state->style);
+	mstyle_unref (state->result);
+	gtk_object_unref (GTK_OBJECT (state->gui));
+	g_free (state);
+	return FALSE;
+}
+
 /* Set initial focus */
 static void set_initial_focus (FormatState *state)
 {
@@ -1950,7 +1962,7 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	    NULL
 	};
 
-	int i, res, selected;
+	int i, selected;
 	char const *name;
 	gboolean has_back;
 
@@ -2094,19 +2106,36 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
 			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), state);
 
+	/* Handle destroy */
+	gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
+			   GTK_SIGNAL_FUNC(cb_fmt_dialog_dialog_destroy),
+			   state);
+
 	/* Set initial focus */
 	set_initial_focus (state);
 
 	/* Ok, edit events from now on are real */
 	state->enable_edit = TRUE;
 
-	/* Bring up the dialog, and run it until someone hits ok or cancel */
-	while ((res = gnumeric_dialog_run (state->sheet->workbook,
-					   GNOME_DIALOG (dialog))) > 0)
-		;
+	/* We could now make it modeless, and arguably should do so. We must
+	 * then track the selection: styles should be applied to the current
+	 * selection.
+	 * There are some UI issues to discuss before we do this, though. Most
+	 * important: 
+	 * - will users be confused?
+	 * And on a different level:
+	 * - should the preselected style in the dialog change when another
+	 *   cell is selected? May be, but then we can't first make a style,
+	 *   then move around and apply it to different cells.
+	 */
+	
+	/* Make it modal */
+	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
 
-	g_free ((char *)state->format.spec);
-	mstyle_unref (state->result);
+	
+	/* Bring up the dialog */
+	gnumeric_dialog_show (state->sheet->workbook->toplevel,
+			      GNOME_DIALOG (dialog), FALSE, TRUE);
 }
 
 static gboolean
@@ -2122,7 +2151,6 @@ fmt_dialog_selection_type (Sheet *sheet,
 	return TRUE;
 }
 
-/* Wrapper to ensure the libglade object gets removed on error */
 void
 dialog_cell_format (Workbook *wb, Sheet *sheet)
 {
@@ -2132,7 +2160,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	Cell	     *first_upper_left;
 	Range const  *selection;
 	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
-	FormatState   state;
+	FormatState  *state = g_new (FormatState, 1);
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -2152,22 +2180,19 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	mstyle = sheet_selection_get_unique_style (sheet, borders);
 
 	/* Initialize */
-	state.gui		= gui;
-	state.sheet		= sheet;
-	state.value		= sample_val;
-	state.style		= mstyle;
-	state.result		= mstyle_new ();
-	state.selection_mask	= 0;
+	state->gui		= gui;
+	state->sheet		= sheet;
+	state->value		= sample_val;
+	state->style		= mstyle;
+	state->result		= mstyle_new ();
+	state->selection_mask	= 0;
 
 	(void) selection_foreach_range (sheet,
 					&fmt_dialog_selection_type,
-					&state.selection_mask);
-	state.selection_mask	= 1 << state.selection_mask;
+					&state->selection_mask);
+	state->selection_mask	= 1 << state->selection_mask;
 
-	fmt_dialog_impl (&state, borders);
-	
-	gtk_object_unref (GTK_OBJECT (gui));
-	mstyle_unref (mstyle);
+	fmt_dialog_impl (state, borders);
 }
 
 /*
