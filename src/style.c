@@ -171,12 +171,29 @@ style_border_new_plain (void)
 }
 
 StyleColor *
-style_color_new (char *color)
+style_color_new (gushort red, gushort green, gushort blue)
 {
-	g_warning ("Style color not yet implemented\n");
-	g_warning ("Remember to deallocate colors\n");
+	static GdkColormap *colormap;
+	StyleColor *sc;
+	GdkColor key;
+	
+	key.red   = red;
+	key.green = green;
+	key.blue  = blue;
 
-	return NULL;
+	sc = g_hash_table_lookup (style_color_hash, &key);
+	if (!sc){
+		sc = g_new (StyleColor, 1);
+		sc->color = key;
+		if (!colormap)
+			colormap = gtk_widget_get_default_colormap ();
+		gdk_color_alloc (colormap, &sc->color);
+		g_hash_table_insert (style_color_hash, sc, sc);
+		sc->ref_count = 0;
+	}
+	sc->ref_count++;
+	
+	return sc;
 }
 
 void
@@ -214,8 +231,8 @@ style_new (void)
 	style->format      = style_format_new ("General");
 	style->font        = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
 	style->border      = style_border_new_plain ();
-	style->fore_color  = NULL;
-	style->back_color  = NULL;
+	style->fore_color  = style_color_new (0, 0, 0);
+	style->back_color  = style_color_new (0xff, 0xff, 0xff);
 	style->halign      = HALIGN_GENERAL;
 	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
@@ -288,14 +305,12 @@ style_duplicate (Style *original)
 		style->border = NULL;
 
 	if (style->valid_flags & STYLE_FORE_COLOR)
-		if (style->fore_color)
-			style_color_ref (style->fore_color);
+		style_color_ref (style->fore_color);
 	else
 		style->fore_color = NULL;
 
 	if (style->valid_flags & STYLE_BACK_COLOR)
-		if (style->back_color)
-			style_color_ref (style->back_color);
+		style_color_ref (style->back_color);
 	else
 		style->back_color = NULL;
 	
@@ -368,7 +383,9 @@ color_equal (gconstpointer v, gconstpointer v2)
 	StyleColor *k1 = (StyleColor *) v;
 	StyleColor *k2 = (StyleColor *) v2;
 
-	if (k1->color.pixel == k2->color.pixel)
+	if (k1->color.red   == k2->color.red &&
+	    k1->color.green == k2->color.green &&
+	    k1->color.blue  == k2->color.blue)
 		return 1;
 	
 	return 0;
@@ -379,7 +396,7 @@ color_hash (gconstpointer v)
 {
 	StyleColor *k = (StyleColor *)v;
 
-	return k->color.pixel;
+	return (k->color.red << 16) | (k->color.green << 8) | (k->color.blue);
 }
 
 void

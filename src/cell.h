@@ -68,6 +68,7 @@ void        cell_set_formula          (Cell *cell, char *text);
 void        cell_set_format           (Cell *cell, char *format);
 void        cell_set_font             (Cell *cell, char *font_name);
 void        cell_set_font_from_style  (Cell *cell, StyleFont *style_font);
+void        cell_set_foreground       (Cell *cell, gushort red, gushort green, gushort blue);
 void        cell_set_alignment        (Cell *cell, int halign, int valign, int orientation, int auto_return);
 void        cell_set_halign           (Cell *cell, StyleHAlignFlags halign);
 void        cell_set_rendered_text    (Cell *cell, char *rendered_text);

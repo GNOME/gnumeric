@@ -127,6 +127,20 @@ cell_set_font (Cell *cell, char *font_name)
 		cell_set_font_from_style (cell, style_font);
 }
 
+void
+cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
+{
+	g_return_if_fail (cell != NULL);
+	
+	if (cell->style->valid_flags & STYLE_FORE_COLOR)
+		style_color_unref (cell->style->fore_color);
+
+	cell->style->valid_flags |= STYLE_FORE_COLOR;
+	cell->style->fore_color = style_color_new (red, green, blue);
+
+	cell_queue_redraw (cell);
+}
+
 /*
  * cell_set_rendered_text
  * @cell:          the cell we will modify
@@ -771,9 +785,12 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	halign = cell_get_horizontal_align (cell);
 	text = CELL_TEXT_GET (cell);
 
-	if ((cell->style->valid_flags & STYLE_BACK_COLOR) && cell->style->back_color){
+	if (cell->style->valid_flags & STYLE_BACK_COLOR)
 		gdk_gc_set_background (gc, &cell->style->back_color->color);
-	}
+
+	if (cell->style->valid_flags & STYLE_FORE_COLOR)
+		gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
+
 	
 	/* if a number overflows, do special drawing */
 	if (width < cell->width && cell_is_number (cell)){

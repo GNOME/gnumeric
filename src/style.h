@@ -87,7 +87,7 @@ typedef enum {
 #define STYLE_SHADING     8
 #define STYLE_ALIGN      16
 #define STYLE_FORE_COLOR 32
-#define STYLE_BACK_COLOR 32
+#define STYLE_BACK_COLOR 64
 
 /* Define all of the styles we actually know about */
 #define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_ALIGN | \
@@ -124,7 +124,7 @@ StyleFont     *style_font_new         (char *font_name, int units);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 
-StyleColor    *style_color_new        (char *color);
+StyleColor    *style_color_new        (gushort red, gushort green, gushort blue);
 void           style_color_ref        (StyleColor *sc);
 void           style_color_unref      (StyleColor *sc);
 

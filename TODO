@@ -25,10 +25,10 @@ GNOME Spread Sheet task list
 
 ** Keyboard shortcuts
 
-  We need to implement all of the useful key shortcuts. These are:
-    CTRL+SPACEBAR	Select column
-    CTRL+A		Select all
-    SHIFT+SPACEBAR	Select row
+  We need to *Document*:
+     CTRL+SPACEBAR	Select column
+     CTRL+A		Select all
+     SHIFT+SPACEBAR	Select row
     Selection keys+CTRL	Extend selection to boundary of worksheet
     SHIFT+BACKSPACE	Collapse selection to active cell
 
@@ -40,6 +40,12 @@ GNOME Spread Sheet task list
 
     I have the specs for the XS3 format.  SC should be
     trivial to support as well (from the guile sources)
+
+  Add a format registration input point.
+
+* Pluing
+
+  Add support for loading plugins.
 
 * Scrolling
 

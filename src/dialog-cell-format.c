@@ -36,6 +36,8 @@ static GtkWidget *auto_return;
 static GSList *foreground_radio_list;
 static GSList *background_radio_list;
 
+static GnomeColorPicker *foreground_cs;
+
 /* Points to the first cell in the selection */
 static Cell *first_cell;
 
@@ -639,7 +641,7 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 static GtkWidget *
 create_foreground_radio (GtkWidget *prop_win)
 {
-	GtkWidget *frame, *table, *r1, *r2, *cs;
+	GtkWidget *frame, *table, *r1, *r2;
 	int e = GTK_FILL | GTK_EXPAND;
 	
 	frame = gtk_frame_new (_("Text color"));
@@ -651,10 +653,11 @@ create_foreground_radio (GtkWidget *prop_win)
 	r2 = gtk_radio_button_new_with_label (foreground_radio_list,
 					      _("Use this color"));
 
-	cs = gnome_color_picker_new ();
+	foreground_cs = GNOME_COLOR_PICKER (gnome_color_picker_new ());
 	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), cs, 1, 2, 1, 2, 0, 0, 0, 0); 
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (foreground_cs),
+			  1, 2, 1, 2, 0, 0, 0, 0); 
 
 	return frame;
 }
@@ -715,6 +718,15 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 static void
 apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 {
+	double rd, gd, bd, ad;
+	
+	gnome_color_picker_get_d (foreground_cs, &rd, &gd, &bd, &ad);
+
+	for (; cells; cells = cells->next){
+		Cell *cell = cells->data;
+
+		cell_set_foreground (cell, rd * 65535, gd * 65535, bd * 65535);
+	}
 }
 
 static struct {
@@ -767,7 +779,8 @@ cell_properties_close (void)
 	GnomePropertyBox *pbox = GNOME_PROPERTY_BOX (cell_format_prop_win);
 	
 	gtk_main_quit ();
-	cell_format_last_page_used = gtk_notebook_current_page (pbox->notebook);
+	cell_format_last_page_used = gtk_notebook_current_page (
+		GTK_NOTEBOOK (pbox->notebook));
 	gtk_widget_destroy (cell_format_prop_win);
 	cell_format_prop_win = 0;
 }
@@ -812,7 +825,7 @@ dialog_cell_format (Sheet *sheet)
 			    GTK_SIGNAL_FUNC (cell_properties_close), NULL);
 
 	gtk_notebook_set_page (
-		GNOME_PROPERTY_BOX(prop_win)->notebook,
+		GTK_NOTEBOOK (GNOME_PROPERTY_BOX(prop_win)->notebook),
 		cell_format_last_page_used);
 	
 	gtk_widget_show (prop_win);

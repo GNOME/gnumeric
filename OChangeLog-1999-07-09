@@ -1,3 +1,7 @@
+1998-09-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_draw): Fix center alignment code.
+
 1998-09-10  Tom Dyas <tdyas@romulus.rutgers.edu>
 
 	* src/func.c: Made install_symbols public.
@@ -69,7 +73,6 @@
 	an arbitrary cell to the text as if it were typed by the user.
 	(sheet_fill_selection_with): Fill the selection with a string.
 	
->>>>>>> 1.88
 1998-09-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key): Fix the way the
