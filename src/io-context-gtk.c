@@ -47,13 +47,14 @@ struct _IOContextGtk {
 	gfloat progress;
 	char *progress_msg;
 	gdouble latency;
+
+	gboolean interrupted;
 };
 
 struct _IOContextGtkClass {
 	IOContextClass parent_class;
 };
 
-#warning This is wrong once we have shown a workbook.
 static void
 cb_icg_window_destroyed (GObject *window, IOContextGtk *icg)
 {
@@ -61,8 +62,11 @@ cb_icg_window_destroyed (GObject *window, IOContextGtk *icg)
 	icg->parent_window   = NULL;
 	icg->work_bar = NULL;
 	icg->file_bar = NULL;
-	gnm_shutdown ();	/* Pretend to be well behaved */
-	exit (0);		/* Stop pretending */
+	if (icg->files_done == 0) {
+		gnm_shutdown ();	/* Pretend to be well behaved */
+		exit (0);		/* Stop pretending */
+	} else
+		icg->interrupted = TRUE;
 }
 
 static gboolean
@@ -288,6 +292,7 @@ icg_init (IOContextGtk *icg)
 	icg->progress_msg = NULL;
 	icg->timer  = g_timer_new ();
 	icg->latency = 0.;
+	icg->interrupted = FALSE;
 	g_timer_start (icg->timer);
 }
 
@@ -328,4 +333,10 @@ icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)
 	icg->parent_window = parent_window;
 	if (icg->window)
 		gtk_window_set_transient_for (icg->window, parent_window);
+}
+
+gboolean
+icg_get_interrupted (IOContextGtk *icg)
+{
+	return icg->interrupted;
 }

@@ -205,6 +205,8 @@ main (int argc, char *argv [])
 			/* cheesy attempt to keep the ui from freezing during
 			   load */
 			handle_paint_events ();
+			if (icg_get_interrupted (IO_CONTEXT_GTK (ioc)))
+				break; /* Don't load any more workbooks */
 		}
 	}
 	/* FIXME: May be we should quit here if we were asked to open
