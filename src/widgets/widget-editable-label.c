@@ -290,15 +290,15 @@ el_realize(GtkWidget *widget)
 }
 
 static void
-el_class_init (ElClass *class)
+el_class_init (ElClass *Class)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GnomeCanvasClass *canvas_class;
 
-	object_class = (GtkObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-	canvas_class = (GnomeCanvasClass *) class;
+	object_class = (GtkObjectClass *) Class;
+	widget_class = (GtkWidgetClass *) Class;
+	canvas_class = (GnomeCanvasClass *) Class;
 
 	el_parent_class = gtk_type_class (gnome_canvas_get_type ());
 
