@@ -17,10 +17,6 @@ Pending Patches
 Long term breakage
 ------------------
 
-- In workbook_sheet_get_free_name, don't loop to 1000.  Instead, collect
-  numbers from matching names, sort, and pick the first missing.  (The
-  crowd goes "Oooh!".)
-
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
   wrong result if the path is not readable.  The Right Way to do this, is
