@@ -1,7 +1,10 @@
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
+	* src/sheet.c (sheet_name_quote): Make this utf8 safe.
 	* src/parse-util.c (cellref_a1_get): Eliminate use of toupper and
 	isdigit.  Should be utf8 safe now.
+	(cellpos_parse): Ditto.
+	* src/parse-util.c (r1c1_get_item): Ditto for isdigit.
 
 2002-10-18  Morten Welinder  <terra@diku.dk>
 

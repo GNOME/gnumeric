@@ -1,5 +1,8 @@
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
+	* sc.c (sc_rangeref_parse): New function to partially handle sc's
+	row zero.
+
 	* sc.c (sc_parse_let): Handle expressions.  Turn constant
 	expressions into values.
 

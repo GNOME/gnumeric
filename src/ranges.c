@@ -27,7 +27,6 @@
 #include <glib.h>
 #include <string.h>
 #include <string.h>
-#include <ctype.h>
 
 #undef RANGE_DEBUG
 

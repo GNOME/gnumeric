@@ -38,7 +38,6 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <glib.h>
 #include <string.h>
 
@@ -430,8 +429,8 @@ r1c1_get_item (int *num, unsigned char *rel, char const * *in)
 	}
 	*num = 0;
 
-	while (**in && isdigit ((unsigned char)**in)) {
-		*num = *num * 10 + **in - '0';
+	while (**in >= '0' && **in <= '9') {
+		*num = *num * 10 + (**in - '0');
 		(*in)++;
 	}
 
@@ -537,24 +536,23 @@ gboolean
 cellpos_parse (char const *cell_str, CellPos *res, gboolean strict, int *chars_read)
 {
 	char const * const original = cell_str;
-	unsigned char c;
 	gboolean found_digits = FALSE;
 
 	if (*cell_str == '$')
 		cell_str++;
 
 	/* Parse column name: one or two letters.  */
-	c = toupper ((unsigned char) *cell_str);
-	cell_str++;
-	if (c < 'A' || c > 'Z')
+	if (*cell_str >= 'A' && *cell_str <= 'Z')
+		res->col = *cell_str++ - 'A';
+	else if (*cell_str >= 'a' && *cell_str <= 'z')
+		res->col = *cell_str++ - 'a';
+	else
 		return FALSE;
 
-	res->col = c - 'A';
-	c = toupper ((unsigned char)*cell_str);
-	if (c >= 'A' && c <= 'Z') {
-		res->col = ((res->col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
-		cell_str++;
-	}
+	if (*cell_str >= 'A' && *cell_str <= 'Z')
+		res->col = ((res->col + 1) * ('Z' - 'A' + 1)) + (*cell_str++ - 'A');
+	else if (*cell_str >= 'a' && *cell_str <= 'z')
+		res->col = ((res->col + 1) * ('Z' - 'A' + 1)) + (*cell_str++ - 'a');
 	if (res->col >= SHEET_MAX_COLS)
 		return FALSE;
 

@@ -59,7 +59,6 @@
 #include <gnumeric-i18n.h>
 
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
 
 static void sheet_redraw_partial_row (Sheet const *sheet, int row,
@@ -2930,18 +2929,20 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 char *
 sheet_name_quote (char const *name_unquoted)
 {
-	char const *ptr = name_unquoted;
-	int      quotes_embedded = 0;
+	char const *ptr;
+	int quotes_embedded = 0;
 	gboolean needs_quotes;
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
+	g_return_val_if_fail (name_unquoted[0] != 0, NULL);
 
 	/* count number of embedded quotes and see if we need to quote */
-	needs_quotes = isdigit ((unsigned char)*ptr);
-	for ( ; *ptr ; ptr++) {
-		if (!isalnum ((unsigned char)*ptr))
+	needs_quotes = !g_unichar_isalpha (g_utf8_get_char (name_unquoted));
+	for (ptr = name_unquoted; *ptr; ptr = g_utf8_next_char (ptr)) {
+		gunichar c = g_utf8_get_char (ptr);
+		if (!g_unichar_isalnum (c))
 			needs_quotes = TRUE;
-		if (*ptr == '\'' || *ptr == '\\')
+		if (c == '\'' || c == '\\')
 			quotes_embedded++;
 	}
 

@@ -66,13 +66,14 @@ Release Critical
 19) 3D reference fixes on sheet deletion
 20) 'discard' for invalid expressions enters text as string
 
-UTF-8 :
+UTF-8: (grep for ctype.h is a good start)
     - Audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.
     - Recent files in "File" menu.
     - Error messages (notably when files names are present).
     - Window titles.
     - function_category_compare
     - format precompile
+
 
 Pending Patches
 ---------------

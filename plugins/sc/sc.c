@@ -240,6 +240,18 @@ sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
 #endif
 
 
+static char const *
+sc_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
+{
+	/* This is a hack.  We still cannot handle sc's row 0.  */
+	const char *end = rangeref_parse (res, start, pp);
+	if (end != start) {
+		res->a.row++;
+		res->b.row++;
+	}
+	return end;
+}
+
 static gboolean
 sc_parse_let (Sheet *sheet, const char *cmd, const char *str, int col, int row)
 {
@@ -260,7 +272,12 @@ sc_parse_let (Sheet *sheet, const char *cmd, const char *str, int col, int row)
 
 	/* FIXME FIXME FIXME sc/xspread rows start at A0 not A1.  we must
 	 * go through and fixup each row number in each cell reference */
-	tree = gnm_expr_parse_str_simple (str, parse_pos_init_cell (&pos, cell));
+	tree = gnm_expr_parse_str (str,
+				   parse_pos_init_cell (&pos, cell),
+				   GNM_EXPR_PARSE_DEFAULT,
+				   &sc_rangeref_parse,
+				   NULL);
+
 	if (!tree) {
 		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
 			   cmd, str, col, row);
