@@ -1,3 +1,13 @@
+2001-06-03  Morten Welinder  <terra@diku.dk>
+
+	* fn-information.c (information_functions_init): Don't supply arg
+ 	spec for node function.
+	* fn-lookup.c (lookup_functions_init): Ditto.
+	* fn-math.c (math_functions_init): Ditto.
+	* fn-eng.c (eng_functions_init): Ditto.
+
+	* fn-date.c (gnumeric_datedif): Constify.
+
 2001-05-29  Morten Welinder  <terra@diku.dk>
 
 	* fn-information.c (gnumeric_cell, gnumeric_info, gnumeric_error,

@@ -21,6 +21,7 @@ Juan Pablo Mendoza:
 Morten:
 	* Fix PV.
 	* Applied some much-needed TLC to fn-financial.c and fn-eng.c.
+	* Speed-up Gnumeric function calls.
 
 Zbigniew:
 	* More work on plugin system.

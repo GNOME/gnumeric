@@ -39,13 +39,17 @@ struct _FunctionDefinition {
 	FunctionGetFullInfoCallback get_full_info_callback; 
 	FunctionFlags flags;
 	gchar   const *name;
-	gchar   const *args;
 	gchar   const *named_arguments;
 	gchar        **help;
 	FuncType       fn_type;
 	union {
 		FunctionNodes *fn_nodes;
-		FunctionArgs  *fn_args;
+		struct {
+			const char *arg_spec;
+			FunctionArgs  *func;
+			int min_args, max_args;
+			char *arg_types;
+		} args;
 	} fn;
 	gpointer     user_data;
 	gint         ref_count;
@@ -220,13 +224,29 @@ function_category_remove_func (FunctionCategory *category,
 
 /******************************************************************************/
 
+static void
+extract_arg_types (FunctionDefinition *def)
+{
+	int i;
+
+	function_def_count_args (def,
+				 &def->fn.args.min_args,
+				 &def->fn.args.max_args);
+	def->fn.args.arg_types = g_malloc (def->fn.args.max_args + 1);
+	for (i = 0; i < def->fn.args.max_args; i++)
+		def->fn.args.arg_types[i] = function_def_get_arg_type (def, i);
+	def->fn.args.arg_types[i] = 0;
+}
+
+
+
 static Value *
 error_function_no_full_info (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return value_new_error (ei->pos, _("Function implementation not available."));
 }
 
-static inline void
+static void
 function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 {
 	if (fn_def->get_full_info_callback != NULL) {
@@ -239,12 +259,13 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 		                                          &args, &arg_names, &help,
 		                                          &fn_args, &fn_nodes);
 		if (success) {
-			fn_def->args = args;
 			fn_def->named_arguments = arg_names;
 			fn_def->help = help;
 			if (fn_args != NULL) {
 				fn_def->fn_type = FUNCTION_ARGS;
-				fn_def->fn.fn_args = fn_args;
+				fn_def->fn.args.func = fn_args;
+				fn_def->fn.args.arg_spec = args;
+				extract_arg_types (fn_def);
 			} else if (fn_nodes != NULL) {
 				fn_def->fn_type = FUNCTION_NODES;
 				fn_def->fn.fn_nodes = fn_nodes;
@@ -252,7 +273,6 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 				g_assert_not_reached ();
 			}
 		} else {
-			fn_def->args = "";
 			fn_def->named_arguments = "";
 			fn_def->fn_type = FUNCTION_NODES;
 			fn_def->fn.fn_nodes = &error_function_no_full_info;
@@ -313,31 +333,30 @@ function_remove (FunctionCategory *category, gchar const *name)
 	function_category_remove_func (category, fn_def);
 	sym = symbol_lookup (global_symbol_table, name);
 	symbol_unref (sym);
+
+	switch (fn_def->fn_type) {
+	case FUNCTION_ARGS:
+		g_free (fn_def->fn.args.arg_types);
+		break;
+	default:
+		/* Nothing.  */
+		;
+	}
 	g_free (fn_def);
 }
 
 static FunctionDefinition *
 fn_def_new (FunctionCategory *category,
 	    char const *name,
-	    char const *args,
 	    char const *arg_names,
 	    char **help)
 {
-	static char const valid_tokens[] = "fsbraAS?|";
-	char const *ptr;
 	FunctionDefinition *fn_def;
-
-	/* Check those arguements */
-	if (args)
-		for (ptr = args ; *ptr ; ptr++) {
-			g_return_val_if_fail (strchr (valid_tokens, *ptr), NULL);
-		}
 
 	fn_def = g_new (FunctionDefinition, 1);
 	fn_def->get_full_info_callback = NULL;
 	fn_def->flags	 = 0;
 	fn_def->name      = name;
-	fn_def->args      = args;
 	fn_def->help      = help;
 	fn_def->named_arguments = arg_names;
 	fn_def->user_data = NULL;
@@ -358,14 +377,24 @@ function_add_args (FunctionCategory *category,
 		   char **help,
 		   FunctionArgs *fn)
 {
+	static char const valid_tokens[] = "fsbraAS?|";
 	FunctionDefinition *fn_def;
+	char const *ptr;
 
 	g_return_val_if_fail (fn != NULL, NULL);
+	g_return_val_if_fail (args != NULL, NULL);
 
-	fn_def = fn_def_new (category, name, args, arg_names, help);
+	/* Check those arguements */
+	for (ptr = args ; *ptr ; ptr++) {
+		g_return_val_if_fail (strchr (valid_tokens, *ptr), NULL);
+	}
+
+	fn_def = fn_def_new (category, name, arg_names, help);
 	if (fn_def != NULL) {
-		fn_def->fn_type    = FUNCTION_ARGS;
-		fn_def->fn.fn_args = fn;
+		fn_def->fn_type = FUNCTION_ARGS;
+		fn_def->fn.args.func = fn;
+		fn_def->fn.args.arg_spec = args;
+		extract_arg_types (fn_def);
 	}
 	return fn_def;
 }
@@ -381,8 +410,11 @@ function_add_nodes (FunctionCategory *category,
 	FunctionDefinition *fn_def;
 
 	g_return_val_if_fail (fn != NULL, NULL);
+	if (args && *args) {
+		g_warning ("Arg spec for node function -- why?");
+	}
 
-	fn_def = fn_def_new (category, name, args, arg_names, help);
+	fn_def = fn_def_new (category, name, arg_names, help);
 	if (fn_def != NULL) {
 		fn_def->fn_type     = FUNCTION_NODES;
 		fn_def->fn.fn_nodes = fn;
@@ -397,8 +429,9 @@ function_add_name_only (FunctionCategory *category,
 {
 	FunctionDefinition *fn_def;
 
-	fn_def = fn_def_new (category, name, NULL, NULL, NULL);
+	fn_def = fn_def_new (category, name, NULL, NULL);
 	if (fn_def != NULL) {
+		fn_def->fn_type = FUNCTION_NAMEONLY;
 		fn_def->get_full_info_callback = callback;
 	}
 
@@ -437,7 +470,7 @@ function_add_placeholder (char const *name, char const *type)
 	 * plugin to supply missing functions.
 	 */
 	func = function_add_nodes (cat, g_strdup (name),
-				   "", "...", NULL,
+				   0, "...", NULL,
 				   &unknownFunctionHandler);
 
 	/* WISHLIST : it would be nice to have a log if these. */
@@ -498,18 +531,17 @@ function_def_count_args (FunctionDefinition const *fn_def,
 
 	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
 
-	ptr = fn_def->args;
-
 	/*
 	 * FIXME: clearly for 'nodes' functions many of
 	 * the type fields will need to be filled.
 	 */
-	if (fn_def->fn_type == FUNCTION_NODES && ptr == NULL) {
+	if (fn_def->fn_type == FUNCTION_NODES) {
 		*min = 0;
 		*max = G_MAXINT;
 		return;
 	}
 
+	ptr = fn_def->fn.args.arg_spec;
 	for (i = vararg = 0; ptr && *ptr; ptr++) {
 		if (*ptr == '|') {
 			vararg = 1;
@@ -540,7 +572,7 @@ function_def_get_arg_type (FunctionDefinition const *fn_def,
 
 	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
 
-	for (ptr = fn_def->args; ptr && *ptr; ptr++) {
+	for (ptr = fn_def->fn.args.arg_spec; ptr && *ptr; ptr++) {
 		if (*ptr == '|')
 			continue;
 		if (arg_idx-- == 0)
@@ -692,7 +724,6 @@ function_call_with_list (FunctionEvalInfo *ei, GList *l)
 	int argc, arg;
 	Value *v = NULL;
 	Value **values;
-	int fn_argc_min = 0, fn_argc_max = 0;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
@@ -706,20 +737,19 @@ function_call_with_list (FunctionEvalInfo *ei, GList *l)
 
 	/* Functions that take pre-computed Values */
 	argc = g_list_length (l);
-	function_def_count_args (fn_def, &fn_argc_min,
-	                         &fn_argc_max);
-
-	if (argc > fn_argc_max || argc < fn_argc_min)
+	if (argc > fn_def->fn.args.max_args ||
+	    argc < fn_def->fn.args.min_args) {
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
+	}
 
-	values = g_new (Value *, fn_argc_max);
+	values = g_new (Value *, fn_def->fn.args.max_args);
 
 	for (arg = 0; l; l = l->next, ++arg) {
 		char     arg_type;
 		gboolean type_mismatch;
 
-		arg_type = function_def_get_arg_type (fn_def, arg);
+		arg_type = fn_def->fn.args.arg_types[arg];
 
 		values [arg] = function_marshal_arg (ei, l->data, arg_type,
 						     &type_mismatch);
@@ -729,9 +759,9 @@ function_call_with_list (FunctionEvalInfo *ei, GList *l)
 			return value_new_error (ei->pos, gnumeric_err_VALUE);
 		}
 	}
-	while (arg < fn_argc_max)
+	while (arg < fn_def->fn.args.max_args)
 		values [arg++] = NULL;
-	v = fn_def->fn.fn_args (ei, values);
+	v = fn_def->fn.args.func (ei, values);
 
 	free_values (values, arg);
 	return v;
@@ -802,7 +832,7 @@ function_def_call_with_values (EvalPos const *ep,
 		}
 
 	} else
-		retval = fn_def->fn.fn_args (&fs, values);
+		retval = fn_def->fn.args.func (&fs, values);
 
 	return retval;
 }

@@ -1133,7 +1133,7 @@ lookup_functions_init (void)
 			    &help_address,  gnumeric_address);
         function_add_nodes (cat, "choose",     0,     "index,value...",
 			    &help_choose,   gnumeric_choose);
-	function_add_nodes (cat, "column",    "?",    "ref",
+	function_add_nodes (cat, "column",    NULL,    "ref",
 			    &help_column,   gnumeric_column);
 	function_add_args  (cat, "columns",   "A",    "ref",
 			    &help_columns, gnumeric_columns);
@@ -1153,7 +1153,7 @@ lookup_functions_init (void)
 			    &help_match,    gnumeric_match);
 	function_add_args  (cat, "offset",    "rff|ff","ref,row,col,hight,width",
 			    &help_offset,   gnumeric_offset);
-	function_add_nodes (cat, "row",       "?",    "ref",
+	function_add_nodes (cat, "row",       NULL,    "ref",
 			    &help_row,      gnumeric_row);
 	function_add_args  (cat, "rows",      "A",    "ref",
 			    &help_rows,    gnumeric_rows);

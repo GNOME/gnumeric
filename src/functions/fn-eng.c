@@ -1939,7 +1939,7 @@ eng_functions_init (void)
 		cat, "impower",     "??", "inumber,inumber",
 		&help_impower, gnumeric_impower);
 	function_add_nodes (
-		cat, "improduct",   "??", "inumber,inumber",
+		cat, "improduct", NULL, "inumber,inumber",
 		&help_improduct, gnumeric_improduct);
 	function_add_args  (
 		cat, "imreal",      "?",  "inumber",
@@ -1954,7 +1954,7 @@ eng_functions_init (void)
 		cat, "imsub",       "??", "inumber,inumber",
 		&help_imsub, gnumeric_imsub);
 	function_add_nodes (
-		cat, "imsum",       "??", "inumber,inumber",
+		cat, "imsum",       NULL, "inumber,inumber",
 		&help_imsum, gnumeric_imsum);
 	function_add_args  (
 		cat, "oct2bin",     "?|f",  "xnum,ynum",

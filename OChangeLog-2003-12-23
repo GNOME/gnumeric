@@ -1,3 +1,14 @@
+2001-06-03  Morten Welinder  <terra@diku.dk>
+
+	* src/func.c (function_add_args): Do arg type checking here.
+	(fn_def_new): Not here.
+	(function_remove): Free cached arg types.
+	(function_add_args): Pre-calculate arg counts and types.
+	(function_def_get_full_info_if_needed): Ditto.
+	(function_call_with_list): Use pre-calculated arg counts and
+ 	types.
+	(function_add_name_only): Use FUNCTION_NAMEONLY for type.
+
 2001-06-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_compile) : doh!

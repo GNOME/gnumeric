@@ -889,21 +889,21 @@ information_functions_init (void)
 			    &help_countblank, gnumeric_countblank);
 	function_add_args  (cat, "error",   "s",  "text",
 			    &help_error,   gnumeric_error);
-	function_add_nodes (cat, "error.type", "", "",
+	function_add_nodes (cat, "error.type", NULL, "",
 			    &help_error_type, gnumeric_error_type);
 	function_add_args  (cat, "info", "s", "info_type",
 			    &help_info, gnumeric_info);
-	function_add_nodes (cat, "isblank", "?", "value",
+	function_add_nodes (cat, "isblank", NULL, "value",
 			    &help_isblank, gnumeric_isblank);
-	function_add_nodes (cat, "iserr", "",   "",
+	function_add_nodes (cat, "iserr", NULL,   "",
 			    &help_iserr,   gnumeric_iserr);
-	function_add_nodes (cat, "iserror", "",   "",
+	function_add_nodes (cat, "iserror", NULL,   "",
 			    &help_iserror, gnumeric_iserror);
 	function_add_args  (cat, "iseven", "?", "value",
 			    &help_iseven, gnumeric_iseven);
 	function_add_nodes (cat, "islogical", NULL, "value",
 			    &help_islogical, gnumeric_islogical);
-	function_add_nodes (cat, "isna", "",   "",
+	function_add_nodes (cat, "isna", NULL,   "",
 			    &help_isna,    gnumeric_isna);
 	function_add_nodes (cat, "isnontext", NULL, "value",
 			    &help_isnontext, gnumeric_isnontext);
@@ -911,7 +911,7 @@ information_functions_init (void)
 			    &help_isnumber, gnumeric_isnumber);
 	function_add_args  (cat, "isodd", "?", "value",
 			    &help_isodd, gnumeric_isodd);
-	function_add_nodes (cat, "isref", "?", "value",
+	function_add_nodes (cat, "isref", NULL, "value",
 			    &help_isref, gnumeric_isref);
 	function_add_nodes (cat, "istext", NULL, "value",
 			    &help_istext, gnumeric_istext);

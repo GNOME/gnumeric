@@ -207,7 +207,7 @@ static Value *
 gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 {
 	int date1, date2;
-	char *opt;
+	const char *opt;
 
 	GDate *gdate1, *gdate2;
 	Value *result;

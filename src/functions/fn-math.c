@@ -3443,7 +3443,7 @@ math_functions_init (void)
 				  "number",    &help_floor,    gnumeric_floor);
 	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
 
-	function_add_nodes (cat, "gcd",     "ff",
+	function_add_nodes (cat, "gcd", NULL,
 			    "number1,number2",
 			    &help_gcd,         gnumeric_gcd);
 

@@ -116,7 +116,7 @@ union _ExprTree {
 /**
  * Function parameter structures
  */
-enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES };
+enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES, FUNCTION_NAMEONLY };
 typedef enum _FuncType FuncType;
 
 typedef Value *(FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
