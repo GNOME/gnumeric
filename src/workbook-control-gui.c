@@ -459,10 +459,10 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		void (*function) (GtkWidget *widget, SheetControlGUI *scg);
 		int  flags;
 	} const sheet_label_context_actions [] = {
+		{ N_("Manage sheets..."), &sheet_action_reorder_sheet, 0},
 		{ N_("Duplicate this sheet"), &sheet_action_clone_sheet, 0 },
 		{ N_("Insert a new sheet"), &sheet_action_add_sheet, 0 },
 		{ N_("Rename this sheet"), &sheet_action_rename_sheet, 0 },
-		{ N_("Re-order sheets"), &sheet_action_reorder_sheet, SHEET_CONTEXT_TEST_SIZE },
 		{ N_("Remove this sheet"), &delete_sheet_if_possible, SHEET_CONTEXT_TEST_SIZE },
 		{ NULL, NULL }
 	};
@@ -1074,11 +1074,8 @@ wbcg_menu_state_sheet_count (WorkbookControl *wbc)
 
 #ifndef ENABLE_BONOBO
 	change_menu_sensitivity (wbcg->menu_item_sheet_remove, multi_sheet);
-	change_menu_sensitivity (wbcg->menu_item_sheets_edit_reorder, multi_sheet);
-	change_menu_sensitivity (wbcg->menu_item_sheets_format_reorder, multi_sheet);
 #else
 	change_menu_sensitivity (wbcg, "/commands/SheetRemove", multi_sheet);
-	change_menu_sensitivity (wbcg, "/commands/SheetReorder", multi_sheet);
 #endif
 }
 
@@ -1958,7 +1955,7 @@ cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL, 
 			       g_slist_prepend (NULL, NULL), 
-			       g_slist_prepend (NULL, NULL));
+			       g_slist_prepend (NULL, NULL), NULL);
 }
 
 static void
@@ -2677,7 +2674,7 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 		N_("Rename the current sheet"),
 		cb_sheet_name),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
+	GNOMEUIINFO_ITEM_NONE (N_("_Manage Sheets..."),
 		N_("Change the order the sheets are displayed"),
 		cb_sheet_order),
 
@@ -2863,7 +2860,7 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Re_name..."),
 		N_("Rename the current sheet"),
 		cb_sheet_name),
-	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
+	GNOMEUIINFO_ITEM_NONE (N_("_Manage Sheets..."),
 		N_("Change the order the sheets are displayed"),
 		cb_sheet_order),
 

@@ -53,6 +53,7 @@
 #include "mstyle.h"
 #include "search.h"
 #include "gutils.h"
+#include "gui-util.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-object.h"
 #include "sheet-control.h"
@@ -3953,7 +3954,11 @@ delete_pristine_sheets (gpointer data, gpointer dummy)
 {
 	Sheet *sheet = data;
 	g_return_if_fail (sheet->pristine);
-
+/*
+ * Why only pristine? Suppose we undo this (and rebuild the sheet) the sheet pointer will
+ * have changed therefore we would also need to fix all commands that may refer to that 
+ * sheet pointer... 
+ */
 	workbook_sheet_delete (sheet);
 }
 
@@ -4012,7 +4017,7 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 
 gboolean
 cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
-		       GSList *changed_names, GSList *new_names)
+		       GSList *changed_names, GSList *new_names, GSList *deleted_sheets)
 {
 	GObject *obj;
 	CmdReorganizeSheets *me;
@@ -4020,6 +4025,13 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	GSList *the_names;
 	int selector = 0;
 	
+	if (deleted_sheets) {
+		g_warning ("Deletion of existing sheets "
+				 "via this dialog is not yet implemented.");
+		g_slist_free (deleted_sheets);
+		deleted_sheets = NULL;
+	}
+
 	obj = g_object_new (CMD_REORGANIZE_SHEETS_TYPE, NULL);
 	me = CMD_REORGANIZE_SHEETS (obj);
 
@@ -4110,7 +4122,7 @@ cmd_rename_sheet (WorkbookControl *wbc, Sheet *sheet, char const *old_name, char
 	changed_names = g_slist_prepend (changed_names, sheet);
 	new_names = g_slist_prepend (new_names, g_strdup (new_name));
 
-	return cmd_reorganize_sheets (wbc, NULL, NULL, changed_names, new_names);
+	return cmd_reorganize_sheets (wbc, NULL, NULL, changed_names, new_names, NULL);
 }
 
 /******************************************************************/

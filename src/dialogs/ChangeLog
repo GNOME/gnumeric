@@ -1,3 +1,10 @@
+2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* sheet-order.glade : change button order
+	* cell-sort.glade : ditto
+	* dialog-sheet-order.c : various minor modifications and support
+	  deletion of sheets.
+
 2002-03-09  Jody Goldberg <jody@gnome.org>
 
 	* dialog-paste-special.c : fix.

@@ -1,3 +1,11 @@
+2002-03-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* workbook-control-gui.c : change menu items "Re-order sheets"
+	  to "Manage Sheets" and enable these items even for single sheet 
+	  workbooks.
+	* commands.h : add deleted_sheets argument to cmd_reorganize_sheets
+	* commands.c : ditto
+	
 2002-03-08  Jody Goldberg <jody@gnome.org>
 
 	* src/GNOME_Gnumeric.xml : switch Format->Workbook with

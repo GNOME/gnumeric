@@ -22,7 +22,6 @@
 #include <glade/glade.h>
 
 typedef struct {
-	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
 
 	GladeXML  *gui;
@@ -58,18 +57,12 @@ edited (GtkCellRendererText *cell,
   GtkTreeIter iter;
   GtkTreePath *path;
 
-/* FIXME: is this the appropriate test for an utf8 string? */
-  if (strlen (new_text) > 0) {
 	  path = gtk_tree_path_new_from_string (path_string);
 	  
 	  gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
 	  gtk_list_store_set (state->model, &iter, SHEET_NEW_NAME, new_text, -1);
 	  
 	  gtk_tree_path_free (path);
-  } else 
-	  gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-			   _("A sheet name must have at least 1 character."));
-
 }
 
 static gint
@@ -123,7 +116,7 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 			    IS_DELETED, &is_deleted,
 			    SHEET_POINTER, &sheet,
 			    -1);
-	gtk_widget_set_sensitive (state->delete_btn, (sheet == NULL) && !is_deleted);
+	gtk_widget_set_sensitive (state->delete_btn, !is_deleted);
 
 	gtk_widget_set_sensitive (state->up_btn,
 				  location_of_iter (&iter, state->model) > 0);
@@ -154,12 +147,12 @@ cb_toggle_deleted (GtkCellRendererToggle *cell,
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_model_get (model, &iter, SHEET_POINTER, &sheet, IS_DELETED, &value, -1);
 
-	if (sheet == NULL) {
+	if (sheet == NULL)
+		gtk_list_store_remove (state->model, &iter);
+	else {
 		value = !value;
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, IS_DELETED, value, -1);
-	} else 
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("You can only remove new sheets."));
+	}
 	gtk_tree_path_free (path);
 }
 
@@ -172,7 +165,7 @@ populate_sheet_list (SheetManager *state)
 	GtkTreeIter iter;
 	GtkWidget *scrolled = glade_xml_get_widget (state->gui, "scrolled");
 	Sheet *cur_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
-	int i, n = workbook_sheet_count (state->wb);
+	int i, n = workbook_sheet_count (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)));
 	GtkCellRenderer *renderer;
 	GtkWidget *image;
 
@@ -181,13 +174,13 @@ populate_sheet_list (SheetManager *state)
 	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->sheet_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
-
 	for (i = 0 ; i < n ; i++) {
-		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
+		Sheet *sheet = workbook_sheet_by_index (
+			wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)), i);
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
 				    SHEET_NAME, sheet->name_unquoted,
-				    SHEET_NEW_NAME, sheet->name_unquoted,
+				    SHEET_NEW_NAME, "",
 				    SHEET_POINTER, sheet,
 				    IS_EDITABLE_COLUMN,	TRUE,   
 				    IS_DELETED,	FALSE,   
@@ -283,21 +276,48 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 {
 	GtkTreeIter iter;
 	GtkTreeIter sel_iter;
+	GtkTreeIter this_iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
+	int i = 0;
+	char *name, *old_name, *new_name;
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		gtk_list_store_append (state->model, &iter);
 	else
 		gtk_list_store_insert_before (state->model, &iter, &sel_iter);
 
+	/* We can't use workbook_sheet_get_free_name since that would give us the same */
+	/* name for multiple adds */
+
+	name = g_new (char, strlen (_("Sheet%d")) + 12);
+	for ( ; ++i ; ){
+		int n = 0;
+		gboolean match = FALSE;
+		sprintf (name, _("Sheet%d"), i);
+		while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
+						       &this_iter, NULL, n)) {
+			gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter, 
+					    SHEET_NAME, &old_name,
+					    SHEET_NEW_NAME, &new_name,
+					    -1);
+			n++;
+			match = (0 == g_str_compare (name, new_name) ||
+				 0 == g_str_compare (name, old_name));
+			if (match)
+				break;
+		}
+		if (!match)
+			break;
+	}
 	gtk_list_store_set (state->model, &iter,
-			    SHEET_NAME, _("<new>"),
-			    SHEET_NEW_NAME, "",
+			    SHEET_NAME, _(""),
+			    SHEET_NEW_NAME, name,
 			    SHEET_POINTER, NULL,
 			    IS_EDITABLE_COLUMN,	TRUE,   
 			    IS_DELETED,	FALSE,   
 			    -1);
 	gtk_tree_selection_select_iter (selection, &iter);
+	g_free (name);
 }
 
 static void
@@ -318,8 +338,10 @@ cb_delete_clicked (GtkWidget *ignore, SheetManager *state)
 				    SHEET_POINTER, &sheet,
 				    -1);
 		if (sheet == NULL) {
+			gtk_list_store_remove (state->model, &sel_iter);
+		} else {
 			gtk_list_store_set (state->model, &sel_iter,
-				    IS_DELETED,	TRUE,   
+				    IS_DELETED,	TRUE,
 				    -1);
 			gtk_widget_set_sensitive (state->delete_btn, FALSE);
 		}
@@ -333,11 +355,23 @@ cb_cancel_clicked (GtkWidget *ignore, SheetManager *state)
 }
 
 static void
+cb_delete_sheets (gpointer data, gpointer dummy)
+{
+	Sheet *sheet = data;
+
+	sheet->pristine = FALSE;
+	workbook_sheet_delete (sheet);
+}
+
+
+static void
 cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 {
 	GSList *new_order = NULL;
 	GSList *changed_names = NULL;
 	GSList *new_names = NULL;
+	GSList * deleted_sheets = NULL;
+	GSList * old_order;
 	Sheet *this_sheet;
 	char *old_name, *new_name;
 	GtkTreeIter this_iter;
@@ -357,23 +391,46 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 		if (!is_deleted) {
 			new_order = g_slist_prepend (new_order, this_sheet);
 			
-			if (0 != g_str_compare (old_name, new_name)) {
+			if (this_sheet == NULL || 
+			    (strlen(new_name) > 0 && 
+			     0 != g_str_compare (old_name, new_name))) {
 				changed_names = g_slist_prepend (changed_names, this_sheet);
-				new_names = g_slist_prepend (new_names, new_name);
+				new_names = g_slist_prepend (new_names, 
+							     strlen(new_name) > 0 ? new_name : NULL);
 			} else {
 				g_free (new_name);
 			}
 			g_free (old_name);
-		}
+		} else
+			deleted_sheets = g_slist_prepend (deleted_sheets, this_sheet);	
 		n++;
 	}
 
 	new_order = g_slist_reverse (new_order);
 	new_names = g_slist_reverse (new_names);
 	changed_names = g_slist_reverse (changed_names);
+	old_order = g_slist_copy (state->old_order);
+	
+	if (deleted_sheets && 
+	    !gnumeric_dialog_question_yes_no (state->wbcg,
+					      _("Deletion of sheets is not undoable. "
+						"Do you want to proceed?"), FALSE)) {
+		/* clean-up */
+		g_slist_free (deleted_sheets);
+		deleted_sheets = NULL;
+		g_slist_free (new_order);
+		new_order = NULL;
+		g_slist_free (changed_names);
+		changed_names = NULL;
+		g_slist_free (old_order);
+		old_order = NULL;
+		e_free_string_slist (new_names);
+		new_names = NULL;
+		return;
+	}
 
 	this_new = new_order;
-	this_old = state->old_order;
+	this_old = old_order;
 	while (this_new != NULL && this_old != NULL) {
 		if (this_new->data != this_old->data) {
 			order_has_changed = TRUE;
@@ -386,18 +443,21 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 	if (!order_has_changed) {
 		g_slist_free (new_order);
 		new_order = NULL;
+		g_slist_free (old_order);
+		old_order = NULL;
 	}
 
-	if (new_order == NULL && changed_names == NULL) {
-		gtk_widget_destroy (GTK_WIDGET (state->dialog));
-		return;
-	} 
-
-	if (!cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg), 
-				    (new_order == NULL) ? NULL : g_slist_copy (state->old_order),
-				    new_order, changed_names, new_names)) {
+	if ((new_order == NULL && changed_names == NULL)
+	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg), 
+				    old_order, new_order,
+				    changed_names, new_names, NULL)) {
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
 	} 
+	if (deleted_sheets) {
+		g_slist_foreach (deleted_sheets, cb_delete_sheets, NULL);
+		g_slist_free (deleted_sheets);
+		deleted_sheets = NULL;
+	}
 }
 
 static void
@@ -428,7 +488,6 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state = g_new0 (SheetManager, 1);
 	state->gui = gui;
 	state->wbcg = wbcg;
-	state->wb	 = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->dialog     = glade_xml_get_widget (gui, "sheet-order-dialog");
 	state->up_btn     = glade_xml_get_widget (gui, "up_button");
 	state->down_btn   = glade_xml_get_widget (gui, "down_button");
