@@ -8,34 +8,25 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
-#include <gnome.h>
-#include <locale.h>
-#include <gdk/gdkkeysyms.h>
-#include "gnumeric.h"
-#include "application.h"
-#include "eval.h"
+
 #include "workbook.h"
-#include "gnumeric-util.h"
-#include "sheet-object.h"
-#include "main.h"
-#include "history.h"
-#include "file.h"
-#include "xml-io.h"
-#include "clipboard.h"
-#include "parse-util.h"
-#include "ranges.h"
-#include "selection.h"
-#include "print.h"
-#include "expr-name.h"
-#include "value.h"
-#include "workbook-cmd-format.h"
-#include "command-context.h"
 #include "workbook-view.h"
+#include "workbook-control.h"
+#include "workbook-private.h"
+#include "command-context.h"
+#include "application.h"
+#include "sheet.h"
+#include "dependent.h"
+#include "expr.h"
+#include "expr-name.h"
+#include "eval.h"
+#include "value.h"
+#include "ranges.h"
+#include "history.h"
 #include "commands.h"
+#include "xml-io.h"
+#include "main.h"
 #include "gutils.h"
-#include "rendered-value.h"
-#include "cmd-edit.h"
-#include "format.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -46,8 +37,6 @@
 #endif
 
 #include <ctype.h>
-
-#include "workbook-private.h"
 
 static GtkObjectClass *workbook_parent_class;
 
@@ -1062,11 +1051,13 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 		else if ((sheet_index+1) < wb->sheets->len)
 			focus = g_ptr_array_index (wb->sheets, sheet_index+1);
 
-		WORKBOOK_FOREACH_VIEW (wb, view,
-		{
-			if (view->current_sheet == sheet)
-				wb_view_sheet_focus (view, focus);
-		});
+		if (focus != NULL) {
+			WORKBOOK_FOREACH_VIEW (wb, view,
+			{
+				if (view->current_sheet == sheet)
+					wb_view_sheet_focus (view, focus);
+			});
+		}
 	}
 
 	/* Remove all controls */
