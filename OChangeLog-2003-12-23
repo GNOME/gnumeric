@@ -1,5 +1,10 @@
 2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_cell_range_is_locked_effective) : new
+	(cmd_analysis_tool_redo) : check whether output region is locked.
+
+2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/workbook-control-gui.c (workbook_close_if_user_permits) :
 	show "All" buttons only if multiple workbooks are open.
 	

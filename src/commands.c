@@ -176,6 +176,7 @@ static E_MAKE_TYPE (func, #type, type,					\
 
 /******************************************************************/
 
+
 /**
  * returns the range name depending on the preference setting
  *
@@ -190,6 +191,47 @@ undo_global_range_name (Sheet *sheet, Range const * const range)
 {
 	gboolean show_sheet_name = gnm_gconf_get_show_sheet_name ();
 	return global_range_name (show_sheet_name ? sheet : NULL, range); 
+}
+
+/**
+ * checks whetehr the cells are effectively locked
+ *
+ * static gboolean cmd_cell_range_is_locked_effective
+ *
+ *
+ * Do not use this function unless the sheet is part of the 
+ * workbook with the given wbcg (otherwise the results may be strange) 
+ *
+ */
+
+static gboolean 
+cmd_cell_range_is_locked_effective (WorkbookControlGUI *wbcg, Sheet *sheet, 
+				    int start_col, int cols, 
+				    int start_row, int rows)
+{
+	int i, j;
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+
+	if (wbv->is_protected || sheet->is_protected)
+		for (i = start_row + rows; i-- > start_row;)
+			for (j = start_col + cols; j-- > start_col;)
+				if (mstyle_get_content_locked (sheet_style_get (sheet, j, i))) {
+					Range range;
+					char *text;
+					range_init (&range, start_col, start_row, 
+						    start_col + cols - 1,
+						    start_row + rows - 1);
+					text = g_strdup_printf (wbv->is_protected  ? 
+				 _("%s is locked. Unprotect the workbook to enable editing.") : 
+				 _("%s is locked. Unprotect the sheet to enable editing."), 
+								undo_global_range_name (
+									sheet, &range));
+					gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, text);
+					/*show warning*/
+					g_free (text);
+					return TRUE;
+				}
+	return FALSE;
 }
 
 /**
@@ -4496,13 +4538,15 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		me->row_info = colrow_state_list_destroy (me->row_info);
 	me->row_info = dao_get_colrow_state_list (me->dao, FALSE);
 
-	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PREPARE_OUTPUT_RANGE, NULL))
-		return TRUE;
-	if (me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, 
-			&me->parent.cmd_descriptor))
-		return TRUE;
-	
-	if (me->engine (me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, &continuity))
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PREPARE_OUTPUT_RANGE, NULL)
+	    || (me->dao->type != NewWorkbookOutput &&
+		cmd_cell_range_is_locked_effective (WORKBOOK_CONTROL_GUI (wbc), 
+						    me->dao->sheet, 
+						    me->dao->start_col, me->dao->cols, 
+						    me->dao->start_row, me->dao->rows))
+	    || me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, 
+			   &me->parent.cmd_descriptor)
+	    || me->engine (me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, &continuity))
 		return TRUE;
 
 	switch (me->type) {
