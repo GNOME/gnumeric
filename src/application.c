@@ -126,6 +126,7 @@ gnm_app_workbook_list_add (Workbook *wb)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 
+	g_assert (app != NULL);
 	app->workbook_list = g_list_prepend (app->workbook_list, wb);
 	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_ADDED], 0, wb);
 }
@@ -141,6 +142,7 @@ gnm_app_workbook_list_remove (Workbook *wb)
 {
 	g_return_if_fail (wb != NULL);
 
+	g_assert (app != NULL);
 	app->workbook_list = g_list_remove (app->workbook_list, wb);
 	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_REMOVED], 0, wb);
 }
@@ -148,6 +150,7 @@ gnm_app_workbook_list_remove (Workbook *wb)
 GList *
 gnm_app_workbook_list (void)
 {
+	g_assert (app != NULL);
 	return app->workbook_list;
 }
 
@@ -160,6 +163,7 @@ gnm_app_workbook_list (void)
 void
 gnm_app_clipboard_clear (gboolean drop_selection)
 {
+	g_assert (app != NULL);
 	if (app->clipboard_copied_contents) {
 		cellregion_free (app->clipboard_copied_contents);
 		app->clipboard_copied_contents = NULL;
@@ -187,6 +191,7 @@ gnm_app_clipboard_clear (gboolean drop_selection)
 void
 gnm_app_clipboard_unant (void)
 {
+	g_assert (app != NULL);
 	if (app->clipboard_sheet_view != NULL)
 		sv_unant (app->clipboard_sheet_view);
 }
@@ -224,6 +229,7 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 
 	if (wb_control_claim_selection (wbc)) {
 		Sheet *sheet = sv_sheet (sv);
+		g_assert (app != NULL);
 		app->clipboard_cut_range = *area;
 		sv_weak_ref (sv, &(app->clipboard_sheet_view));
 
@@ -246,12 +252,14 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 gboolean
 gnm_app_clipboard_is_empty (void)
 {
+	g_assert (app != NULL);
 	return app->clipboard_sheet_view == NULL;
 }
 
 gboolean
 gnm_app_clipboard_is_cut (void)
 {
+	g_assert (app != NULL);
 	if (app->clipboard_sheet_view != NULL)
 		return app->clipboard_copied_contents ? FALSE : TRUE;
 	return FALSE;
@@ -260,6 +268,7 @@ gnm_app_clipboard_is_cut (void)
 Sheet *
 gnm_app_clipboard_sheet_get (void)
 {
+	g_assert (app != NULL);
 	if (app->clipboard_sheet_view == NULL)
 		return NULL;
 	return sv_sheet (app->clipboard_sheet_view);
@@ -268,18 +277,21 @@ gnm_app_clipboard_sheet_get (void)
 SheetView *
 gnm_app_clipboard_sheet_view_get (void)
 {
+	g_assert (app != NULL);
 	return app->clipboard_sheet_view;
 }
 
 CellRegion *
 gnm_app_clipboard_contents_get (void)
 {
+	g_assert (app != NULL);
 	return app->clipboard_copied_contents;
 }
 
 GnmRange const *
 gnm_app_clipboard_area_get (void)
 {
+	g_assert (app != NULL);
 	/*
 	 * Only return the range if the sheet has been set.
 	 * The range will still contain data even after
@@ -322,6 +334,7 @@ gnm_app_workbook_foreach (GnmWbIterFunc cback, gpointer data)
 {
 	GList *l;
 
+	g_assert (app != NULL);
 	for (l = app->workbook_list; l; l = l->next){
 		Workbook *wb = l->data;
 
@@ -382,6 +395,7 @@ gnm_app_history_get_list (gboolean force_reload)
 	GSList const *ptr;
 	GSList *res = NULL;
 
+	g_assert (app != NULL);
 	if (app->history_list != NULL) {
 		if (force_reload) {
 			GSList *tmp = app->history_list;
@@ -423,6 +437,7 @@ gnm_app_history_add (char const *filename)
 		canonical_name = g_strdup (filename);
 
 	/* force a reload in case max_entries has changed */
+	g_assert (app != NULL);
 	gnm_app_history_get_list (TRUE);
 	exists = g_slist_find_custom (app->history_list,
 				      canonical_name, g_str_compare);
@@ -468,6 +483,7 @@ void     gnm_app_set_transition_keys  (gboolean state)
 GConfClient *
 gnm_app_get_gconf_client (void)
 {
+	g_assert (app != NULL);
 	if (!app->gconf_client) {
 		app->gconf_client = gconf_client_get_default ();
 		gconf_client_add_dir (app->gconf_client, "/apps/gnumeric",
@@ -480,6 +496,7 @@ gnm_app_get_gconf_client (void)
 void
 gnm_app_release_gconf_client (void)
 {
+	g_assert (app != NULL);
 	if (app->gconf_client) {
 		gconf_client_remove_dir (app->gconf_client,
 					 "/apps/gnumeric", NULL);
@@ -494,6 +511,7 @@ gnm_app_release_gconf_client (void)
 GdkPixbuf *
 gnm_app_get_pixbuf (const char *name)
 {
+	g_assert (app != NULL);
 	return g_hash_table_lookup (app->named_pixbufs, name);
 }
 
@@ -501,18 +519,21 @@ gnm_app_get_pixbuf (const char *name)
 gpointer
 gnm_app_get_pref_dialog (void)
 {
+	g_assert (app != NULL);
 	return app->pref_dialog;
 }
 
 void
 gnm_app_set_pref_dialog (gpointer dialog)
 {
+	g_assert (app != NULL);
 	app->pref_dialog = dialog;
 }
 
 void
 gnm_app_release_pref_dialog (void)
 {
+	g_assert (app != NULL);
 	if (app->pref_dialog)
 		gtk_widget_destroy (app->pref_dialog);
 }
@@ -585,6 +606,7 @@ gnumeric_application_setup_pixbufs (GnmApp *app)
 	};
 	unsigned int ui;
 
+	g_assert (app != NULL);
 	for (ui = 0; ui < G_N_ELEMENTS (entry); ui++) {
 		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
 			(-1, entry[ui].scalable_data, FALSE, NULL);

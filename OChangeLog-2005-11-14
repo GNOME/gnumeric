@@ -1,3 +1,9 @@
+2003-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/application.c: Added g_assert()s to ensure app is not NULL prior
+	to being dereferenced, to make crashes like Debian #217368 less
+	spectacular.
+
 2003-10-31  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : disable deprecated is only for development releases.
