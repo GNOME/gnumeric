@@ -1,5 +1,12 @@
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
+        * Release 0.54
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_cell_range) : Don't draw background if we
+	  are just sizing things.
+
 	* configure.in : Bump reqs.  libglade >= .13, gnome-print .20
 
 	* src/workbook-format-toolbar.c (change_selection_font) : Add strikethrough.

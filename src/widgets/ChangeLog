@@ -1,3 +1,7 @@
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
 2000-05-19  Jon K Hellan  <hellan@acm.org>
 
 	* gtk-combo-text.c (cb_enter): To fix bug where mouseover

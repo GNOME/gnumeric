@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.53\n"
-"POT-Creation-Date: 2000-05-20 18:21+0000\n"
+"POT-Creation-Date: 2000-05-20 18:56-0400\n"
 "PO-Revision-Date: 2000-05-21 04:45+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -891,7 +891,7 @@ msgid "Rank"
 msgstr "Ранг"
 
 #: src/analysis-tools.c:2341 src/analysis-tools.c:2371
-#: src/workbook-format-toolbar.c:339
+#: src/workbook-format-toolbar.c:377
 msgid "Percent"
 msgstr "Процент"
 
@@ -1025,11 +1025,11 @@ msgstr "Удаление строки %d"
 msgid "Clear"
 msgstr "Очистить"
 
-#: src/commands.c:1148
+#: src/commands.c:1157
 msgid "Format cells"
 msgstr "Формат ячеек"
 
-#: src/commands.c:1219
+#: src/commands.c:1228
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Переименование таблицы '%s' '%s'"
@@ -1041,58 +1041,58 @@ msgstr "Переименование таблицы '%s' '%s'"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1298
+#: src/commands.c:1307
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1303
+#: src/commands.c:1312
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1364
+#: src/commands.c:1373
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Установить текущую дату в %s"
 
-#: src/commands.c:1365
+#: src/commands.c:1374
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Установить текущее время в %s"
 
-#: src/commands.c:1448
+#: src/commands.c:1457
 #, c-format
 msgid "Setting width of column %s"
 msgstr "Установить ширину столбца %s"
 
-#: src/commands.c:1449
+#: src/commands.c:1458
 #, c-format
 msgid "Setting height of row %d"
 msgstr "Установить высоту строки %d"
 
-#: src/commands.c:1572
+#: src/commands.c:1581
 #, c-format
 msgid "Sorting %s"
 msgstr "Сортировка %s"
 
-#: src/commands.c:1653
+#: src/commands.c:1662
 msgid "Unhide columns"
 msgstr "Показать столбцы"
 
-#: src/commands.c:1653
+#: src/commands.c:1662
 msgid "Hide columns"
 msgstr "Скрыть столбцы"
 
-#: src/commands.c:1654
+#: src/commands.c:1663
 msgid "Unhide rows"
 msgstr "Показать строки"
 
-#: src/commands.c:1654
+#: src/commands.c:1663
 msgid "Hide rows"
 msgstr "Скрыть строки"
 
 #. FIXME : improve on this
-#: src/commands.c:1762
+#: src/commands.c:1771
 msgid "Moving cells"
 msgstr "Перенос ячеек"
 
@@ -1861,7 +1861,7 @@ msgstr "Верхний индекс"
 msgid "Su_bscript"
 msgstr "Нижний индекс"
 
-#: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:576
+#: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:614
 msgid "Font"
 msgstr "Шрифт"
 
@@ -1869,7 +1869,7 @@ msgstr "Шрифт"
 msgid "Reverse Diagonal"
 msgstr "Обратные диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:69 src/workbook-format-toolbar.c:440
+#: src/dialogs/cell-format.glade.h:69 src/workbook-format-toolbar.c:478
 msgid "Left"
 msgstr "Влево"
 
@@ -1877,7 +1877,7 @@ msgstr "Влево"
 msgid "Top"
 msgstr "Вверх"
 
-#: src/dialogs/cell-format.glade.h:71 src/workbook-format-toolbar.c:448
+#: src/dialogs/cell-format.glade.h:71 src/workbook-format-toolbar.c:486
 msgid "Bottom"
 msgstr "Вниз"
 
@@ -1885,7 +1885,7 @@ msgstr "Вниз"
 msgid "Diagonal"
 msgstr "Диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:73 src/workbook-format-toolbar.c:442
+#: src/dialogs/cell-format.glade.h:73 src/workbook-format-toolbar.c:480
 msgid "Right"
 msgstr "Вправо"
 
@@ -2046,8 +2046,8 @@ msgstr "Маленькие круги"
 msgid "Foreground Solid"
 msgstr "Сплошной передний план"
 
-#: src/dialogs/cell-format.glade.h:124 src/workbook-format-toolbar.c:654
-#: src/workbook-format-toolbar.c:657
+#: src/dialogs/cell-format.glade.h:124 src/workbook-format-toolbar.c:692
+#: src/workbook-format-toolbar.c:695
 msgid "Background"
 msgstr "Фон"
 
@@ -5562,6 +5562,17 @@ msgstr ""
 "@DESCRIPTION=Функция DAVERAGE возвращает среднее значений из списка или базы "
 "данных удовлетворяющих указанным условиям. \n"
 
+#: src/functions/fn-database.c:499
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5573,6 +5584,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=Функция DCOUNT подсчитывает ячейки содержащие числа в базе "
 "данных удовлетворяющей указанному условию. \n"
+
+#: src/functions/fn-database.c:568
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5586,6 +5607,16 @@ msgstr ""
 "@DESCRIPTION=Функция DCOUNTA подсчитывает ячейки  содержащие данные в базе "
 "данных удовлетворяющей указанному условию. \n"
 
+#: src/functions/fn-database.c:629
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5597,6 +5628,17 @@ msgstr ""
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=Функция DGET возвращает одно значение из столбца "
 "удовлетворяющего указанному условию. \n"
+
+#: src/functions/fn-database.c:687
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5610,6 +5652,16 @@ msgstr ""
 "@DESCRIPTION=Функция DMAX возвращает наибольшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
+#: src/functions/fn-database.c:755
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5622,6 +5674,15 @@ msgstr ""
 "@DESCRIPTION=Функция DMIN возвращает наименьшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
+#: src/functions/fn-database.c:826
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5633,6 +5694,14 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=Функция DPRODUCT возвращает произведение чисел в столбце "
 "удовлетворяющем указанному условию. \n"
+
+#: src/functions/fn-database.c:896
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5648,6 +5717,15 @@ msgstr ""
 "генеральной совокупности основанное на выборке. Генеральная совокупность "
 "состоит из чисел удовлетворяющих указанному условию. \n"
 
+#: src/functions/fn-database.c:964
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5662,6 +5740,15 @@ msgstr ""
 "совокупности на основе полной совокупности. Генеральная совокупность состоит "
 "из чисел удовлетворяющих указанным условиям. \n"
 
+#: src/functions/fn-database.c:1030
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -5673,6 +5760,15 @@ msgstr ""
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=Функция DSUM возвращает сумму чисел в столбце удовлетворяющем "
 "указанному условию. \n"
+
+#: src/functions/fn-database.c:1097
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -5688,6 +5784,15 @@ msgstr ""
 "совокупности на основе выборки. Генеральная совокупность содержит числа "
 "удовлетворяющие указанному условию. \n"
 
+#: src/functions/fn-database.c:1165
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5701,6 +5806,15 @@ msgstr ""
 "@DESCRIPTION=Функция DVARP возвращает дисперсию генеральной совокупности на "
 "основе полной совокупности. Генеральная совокупность состоит из чисел "
 "удовлетворяющих указанным условиям. \n"
+
+#: src/functions/fn-database.c:1233
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
+msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -8338,7 +8452,7 @@ msgid "%s version %s"
 msgstr "%s версия %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:309 src/workbook-format-toolbar.c:662
+#: src/functions/fn-information.c:309 src/workbook-format-toolbar.c:700
 msgid "Automatic"
 msgstr "Автоматически"
 
@@ -8380,7 +8494,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
-"@DESCRIPTION=Возвращает TRUE(истина), если значение является ошибкой типа #N/A. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает TRUE(истина), если значение является ошибкой типа "
+"#N/A. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8397,7 +8512,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
-"@DESCRIPTION=Возвращает TRUE(истина), если значение является ошибкой любого типа кроме #N/A. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает TRUE(истина), если значение является ошибкой любого "
+"типа кроме #N/A. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8689,9 +8805,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
-"@DESCRIPTION=AND выполняет функцию \"логическое И\": результат ИСТИНА (TRUE) если все аргументы истинны, в противном случае результат ЛОЖЬ (FALSE).\n"
-"@b1...@bN - выражения, которые должны принимать значения логическая ИСТИНА или ЛОЖЬ. Целое или дробное число считается логической ИСТИНОЙ если оно не равно 0.\n"
-"Пустые ячейки и строки игнорируются. Если логическое значение не достижимо, возвращается ошибка #VALUE!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=AND выполняет функцию \"логическое И\": результат ИСТИНА (TRUE) "
+"если все аргументы истинны, в противном случае результат ЛОЖЬ (FALSE).\n"
+"@b1...@bN - выражения, которые должны принимать значения логическая ИСТИНА "
+"или ЛОЖЬ. Целое или дробное число считается логической ИСТИНОЙ если оно не "
+"равно 0.\n"
+"Пустые ячейки и строки игнорируются. Если логическое значение не достижимо, "
+"возвращается ошибка #VALUE!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "AND(TRUE,TRUE) равняется TRUE.\n"
 "AND(TRUE,FALSE) равняется FALSE.\n"
@@ -8829,7 +8949,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
-"@DESCRIPTION=CHOOSE возращает значение номер @index из заданных. Если необходимо, @index округляется.\n"
+"@DESCRIPTION=CHOOSE возращает значение номер @index из заданных. Если "
+"необходимо, @index округляется.\n"
 "Если @index < 1 или @index > числа значений, возвращается ошибка #VAL!.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8924,7 +9045,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text, [format])\n"
-"@DESCRIPTION=Функция INDIRECT возвращает содержимое ячейки указанной строкой @ref_text. Строка определяет ссылку на ячейку в формате A1 или R1C1. Формат устанавливается логическим значением @format и по умолчанию равен ранее использовавшемуся.\n"
+"@DESCRIPTION=Функция INDIRECT возвращает содержимое ячейки указанной строкой "
+"@ref_text. Строка определяет ссылку на ячейку в формате A1 или R1C1. Формат "
+"устанавливается логическим значением @format и по умолчанию равен ранее "
+"использовавшемуся.\n"
 "Если @ref_text не является правильной ссылкой возвращается ошибка #REF!\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8969,8 +9093,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(ссылка)\n"
-"@DESCRIPTION=Функция COLUMNS возвращает число столбцов в области или ссылке на массив.\n"
-"Если @ссылка не является массивом или диапазоном, возвращается ошибка #VALUE!.\n"
+"@DESCRIPTION=Функция COLUMNS возвращает число столбцов в области или ссылке "
+"на массив.\n"
+"Если @ссылка не является массивом или диапазоном, возвращается ошибка "
+"#VALUE!.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
@@ -9016,8 +9142,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(ссылка)\n"
-"@DESCRIPTION=Функция ROWS возвращает число строк в области или ссылке на массив.\n"
-"Если @ссылка не является массивом или диапазоном, возвращается ошибка #VALUE!.\n"
+"@DESCRIPTION=Функция ROWS возвращает число строк в области или ссылке на "
+"массив.\n"
+"Если @ссылка не является массивом или диапазоном, возвращается ошибка "
+"#VALUE!.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
@@ -9125,7 +9253,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Функция ABS(b1) вычисляет абсолютное значение @b1: у результата отбрасывается знак минуса (если он был). Она может быть выполнена для целых чисел и чисел с плавающей точкой. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ABS(b1) вычисляет абсолютное значение @b1: у результата "
+"отбрасывается знак минуса (если он был). Она может быть выполнена для целых "
+"чисел и чисел с плавающей точкой. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ABS(7) равняется 7.\n"
 "ABS(-3.14) равняется 3.14.\n"
@@ -9348,9 +9478,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(диапазон, критерий)\n"
-"@DESCRIPTION=Функция COUNTIF вычисляет число ячеек в заданном @диапазоне удовлетворяющих указанному @критерию. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция COUNTIF вычисляет число ячеек в заданном @диапазоне "
+"удовлетворяющих указанному @критерию. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 23, 27, 28, 33 и 39. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 23, 27, 28, 33 и 39. "
+"Тогда\n"
 "COUNTIF(A1:A5,\"<=28\") равняетя 3.\n"
 "COUNTIF(A1:A5,\"<28\") равняетя 2.\n"
 "COUNTIF(A1:A5,\"28\") равняетя 1.\n"
@@ -9379,12 +9511,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(диапазон, критерий [,действующий_диапазон])\n"
-"@DESCRIPTION=Функция SUMIF складывает значения в заданном @диапазоне удовлетворяющие указанному @критерию. Если задан @действующий_диапазон, складываются значения @действующего_диапазона, соответствующие удовлетворяющим @критерию значения @диапазона. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция SUMIF складывает значения в заданном @диапазоне "
+"удовлетворяющие указанному @критерию. Если задан @действующий_диапазон, "
+"складываются значения @действующего_диапазона, соответствующие "
+"удовлетворяющим @критерию значения @диапазона. Эта функция "
+"Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что в ячейках A1, A2, ... A5 содержатся числа 23, 27, 28, 33 и 39. Тогда:\n"
+"Допустим, что в ячейках A1, A2, ... A5 содержатся числа 23, 27, 28, 33 и 39. "
+"Тогда:\n"
 "SUMIF(A1:A5,\"<=28\") равняется 78.\n"
 "SUMIF(A1:A5,\"<28\") равняется 50.\n"
-"Кроме того, если ячейки B1, B2, ... B5 содержат числа 5, 3, 2, 6, и 7, тогда:\n"
+"Кроме того, если ячейки B1, B2, ... B5 содержат числа 5, 3, 2, 6, и 7, "
+"тогда:\n"
 "SUMIF(A1:A5,\"<=27\",B1:B5) равняется 8.\n"
 "\n"
 "@SEEALSO=COUNTIF, SUM"
@@ -9567,7 +9705,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
-"@DESCRIPTION=Функции FLOOR округляет @x вниз до ближайшего к нулю кратного @significance.  @significance по умолчанию равно 1. Эта функция Excel-совместима. ВНИМАНИЕ! Эта функция не совместима с POSIX! Она эквивалентна POSIX INT.\n"
+"@DESCRIPTION=Функции FLOOR округляет @x вниз до ближайшего к нулю кратного "
+"@significance.  @significance по умолчанию равно 1. Эта функция "
+"Excel-совместима. ВНИМАНИЕ! Эта функция не совместима с POSIX! Она "
+"эквивалентна POSIX INT.\n"
 "@EXAMPLES=\n"
 "FLOOR(0.5) равняется 0.\n"
 "FLOOR(5,2) равняется 4.\n"
@@ -9591,7 +9732,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=Функция INT округляет @a до ближайшего целого, где `ближайшее' означает наиболее близкое к 0. INT эквивалентно FLOOR(a) для @a >= 0, и CEIL(a) для @a < 0. Эта функция Excel-совместима. ВНИМАНИЕ! Эта функция несовместима с POSIX! Она эквивалентна POSIX FLOOR.\n"
+"@DESCRIPTION=Функция INT округляет @a до ближайшего целого, где `ближайшее' "
+"означает наиболее близкое к 0. INT эквивалентно FLOOR(a) для @a >= 0, и "
+"CEIL(a) для @a < 0. Эта функция Excel-совместима. ВНИМАНИЕ! Эта функция "
+"несовместима с POSIX! Она эквивалентна POSIX FLOOR.\n"
 "@EXAMPLES=\n"
 "INT(7.2) равняется 7.\n"
 "INT(-5.5) равняется -6.\n"
@@ -9841,8 +9985,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RandNegBinom\n"
 "@SYNTAX=RandNegBinom(p,failures)\n"
-"@DESCRIPTION=Функция RandNegBinom возвращает отрицательное биномиально распределенное случайное число.\n"
-"Если @p < 0 или @p > 1 RandNegBinom возвращает ошибку #NUM!. Если @failures RandNegBinom возвращает ошибку #NUM!.\n"
+"@DESCRIPTION=Функция RandNegBinom возвращает отрицательное биномиально "
+"распределенное случайное число.\n"
+"Если @p < 0 или @p > 1 RandNegBinom возвращает ошибку #NUM!. Если @failures "
+"RandNegBinom возвращает ошибку #NUM!.\n"
 "@EXAMPLES=\n"
 "RandNegBinom(0.5,2).\n"
 "\n"
@@ -9861,7 +10007,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=Функция RandBernoulli возвращает Бернулли-распределенное случайное число.\n"
+"@DESCRIPTION=Функция RandBernoulli возвращает Бернулли-распределенное "
+"случайное число.\n"
 "Если @p < 0 или @p > 1, RandBernoulli возвращает ошибку #NUM!.\n"
 "@EXAMPLES=\n"
 "RandBernoulli(0.5).\n"
@@ -9975,9 +10122,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
-"@DESCRIPTION=SUMA вычисляет сумму всех значений и ячеек указанных в списке аргументов. В сумму включаются числа, строки и логические значения. Если ячейка содержит текст или аргумент вычисляется как FALSE (ЛОЖЬ), такое значение принимается равным 0. Если аргумени вычисляется как TRUE (ИСТИНА), его значение принимается равным 1.\n"
+"@DESCRIPTION=SUMA вычисляет сумму всех значений и ячеек указанных в списке "
+"аргументов. В сумму включаются числа, строки и логические значения. Если "
+"ячейка содержит текст или аргумент вычисляется как FALSE (ЛОЖЬ), такое "
+"значение принимается равным 0. Если аргумени вычисляется как TRUE (ИСТИНА), "
+"его значение принимается равным 1.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11, 15, 17, 21 и 43. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 11, 15, 17, 21 и 43. "
+"Тогда\n"
 "SUMA(A1:A5) равняется 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
@@ -9997,9 +10149,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
-"@DESCRIPTION=SUMSQ возвращает сумму квадратов всех значений и ячеек указанных в списке аргументов. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=SUMSQ возвращает сумму квадратов всех значений и ячеек "
+"указанных в списке аргументов. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11, 15, 17, 21 и 43. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11, 15, 17, 21 и 43. "
+"Тогда\n"
 "SUMSQ(A1:A5) равняется 2925.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -10017,7 +10171,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
-"@DESCRIPTION=MULTINOMIAL возвращает отношение факториала суммы значений к произведению их факториалов. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=MULTINOMIAL возвращает отношение факториала суммы значений к "
+"произведению их факториалов. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "MULTINOMIAL(1,2,3) равняется 60.\n"
 "\n"
@@ -10167,7 +10322,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=Функция EVEN возвращает @number округленное до ближайшего четного целого. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция EVEN возвращает @number округленное до ближайшего "
+"четного целого. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "EVEN(5.4) равняется 6.\n"
 "\n"
@@ -10254,7 +10410,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(число)\n"
-"@DESCRIPTION=Функция SIGN возвращает 1, если @число положительное, 0 если оно равно 0, -1 если оно отрицательное. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция SIGN возвращает 1, если @число положительное, 0 если "
+"оно равно 0, -1 если оно отрицательное. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "SIGN(3) равняется 1.\n"
 "SIGN(-3) равняется 0.\n"
@@ -10576,9 +10733,12 @@ msgstr ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(матрица)\n"
 "@DESCRIPTION=Функция MDETERM возвращает детерминант заданной матрицы.\n"
-"Если @матрица содержит неравное число строк и столбцов, возвращается ошибка #VALUE!. Эта функция Excel-совместима.\n"
+"Если @матрица содержит неравное число строк и столбцов, возвращается ошибка "
+"#VALUE!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, ... A4 содержат числа 2, 3, 7 и 3, ячейки B1, ... B4 -- числа 4, 2, 4 и 1, ячейки C1, ... C4 -- числа 9, 4, 3 и 2, и ячейки D1, ... D4 -- числа 7, 3, 6 и 5. Тогда\n"
+"Допустим, что ячейки A1, ... A4 содержат числа 2, 3, 7 и 3, ячейки B1, ... "
+"B4 -- числа 4, 2, 4 и 1, ячейки C1, ... C4 -- числа 9, 4, 3 и 2, и ячейки "
+"D1, ... D4 -- числа 7, 3, 6 и 5. Тогда\n"
 "MDETERM(A1:D4) равняется 148.<\n"
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
@@ -11131,7 +11291,8 @@ msgstr ""
 "Строки и пустые ячейки игнорируются.\n"
 "Если задано меньше двух чисел, SKEWP возвращает ошибку #DIV/0!.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2 ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1, A2 ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1. Тогда\n"
 "SKEWP(A1:A5) равняется 0.655256198.\n"
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
@@ -11256,8 +11417,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(действительный_диапазон, теоретический_диапазон)\n"
-"@DESCRIPTION=Функция CHITEST возвращает проверку независимости для распределения Хи-квадрат.\n"
-"@Действительный_диапазон -- это диапазон, который содержит наблюдаемые значения. @Теоретический_диапазон -- это диапазон, который содержит ожидаемые значения. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция CHITEST возвращает проверку независимости для "
+"распределения Хи-квадрат.\n"
+"@Действительный_диапазон -- это диапазон, который содержит наблюдаемые "
+"значения. @Теоретический_диапазон -- это диапазон, который содержит "
+"ожидаемые значения. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
@@ -11311,8 +11475,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
-"@DESCRIPTION=Функция TDIST возвращает t-распределение (распределение Стьюдента). @dof -- степерь свободы, @tails -- 1 или 2 в зависимости от того нужно ли вам одно- или двухстороннее распределение.\n"
-"Если @dof < 1, TDIST возвращает ошибку #NUM!. Если @tails не равно 1 или 2, TDIST возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция TDIST возвращает t-распределение (распределение "
+"Стьюдента). @dof -- степерь свободы, @tails -- 1 или 2 в зависимости от того "
+"нужно ли вам одно- или двухстороннее распределение.\n"
+"Если @dof < 1, TDIST возвращает ошибку #NUM!. Если @tails не равно 1 или 2, "
+"TDIST возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "TDIST(2,5,1) равняется 0.050969739.\n"
 "\n"
@@ -11333,8 +11500,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
-"@DESCRIPTION=Функция TINV возвращает обратное двухстороннее t-распределение (распределение Стьюдента).\n"
-"Если @p < 0 или @p > 1 или @dof < 1, TINV возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция TINV возвращает обратное двухстороннее t-распределение "
+"(распределение Стьюдента).\n"
+"Если @p < 0 или @p > 1 или @dof < 1, TINV возвращает ошибку #NUM!. Эта "
+"функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "TINV(0.4,32) равняется 0.852998454.\n"
 "\n"
@@ -11408,8 +11577,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
-"@DESCRIPTION=Функция BINOMDIST возвращает биномиальное распределение. @n -- число успехов, @trials -- общее число независимых испытаний, @p -- вероятность успеха в испытании, @cumulative описывает будет ли возвращаться сумма биномиальной функции от 0 до @n.\n"
-"Если @n или @trials не целые, дробная часть отбрасывается. Если @n < 0 или @trials < 0, BINOMDIST возвращает ошибку #NUM!. Если @n > @trials BINOMDIST возвращает ошибку #NUM!. Если @p < 0 или @p > 1, BINOMDIST возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция BINOMDIST возвращает биномиальное распределение. @n -- "
+"число успехов, @trials -- общее число независимых испытаний, @p -- "
+"вероятность успеха в испытании, @cumulative описывает будет ли возвращаться "
+"сумма биномиальной функции от 0 до @n.\n"
+"Если @n или @trials не целые, дробная часть отбрасывается. Если @n < 0 или "
+"@trials < 0, BINOMDIST возвращает ошибку #NUM!. Если @n > @trials BINOMDIST "
+"возвращает ошибку #NUM!. Если @p < 0 или @p > 1, BINOMDIST возвращает ошибку "
+"#NUM!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "BINOMDIST(3,5,0.8,0) равняется 0.2048.\n"
 "\n"
@@ -11490,8 +11665,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
-"@DESCRIPTION=Функция CONFIDENCE возвращает доверительный интервал для среднего.@x -- уровень значимости, @stddev -- стандартное отклонение, @size -- размер выборки.\n"
-"Если @size не целое, дробная часть отбрасывается. Если @size < 0, CONFIDENCE возвращает ошибку #NUM!. Если @size = 0, CONFIDENCE возвращает ошибку #DIV/0!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция CONFIDENCE возвращает доверительный интервал для "
+"среднего.@x -- уровень значимости, @stddev -- стандартное отклонение, @size "
+"-- размер выборки.\n"
+"Если @size не целое, дробная часть отбрасывается. Если @size < 0, CONFIDENCE "
+"возвращает ошибку #NUM!. Если @size = 0, CONFIDENCE возвращает ошибку "
+"#DIV/0!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "CONFIDENCE(0.05,1,33) equals 0.341185936.\n"
 "\n"
@@ -11540,8 +11719,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
-"@DESCRIPTION=Функция WEIBULL возвращает распределение Вейбулля. Если логическое значение @cumulative есть TRUE (ИСТИНА), функция возвращает 1 - exp (-(@x/@beta)^@alpha), в противном случае она возвращает (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)).\n"
-"Если @x < 0, WEIBULL возвращает ошибку #NUM!. Если @alpha <= 0 или @beta <= 0, WEIBULL возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция WEIBULL возвращает распределение Вейбулля. Если "
+"логическое значение @cumulative есть TRUE (ИСТИНА), функция возвращает 1 - "
+"exp (-(@x/@beta)^@alpha), в противном случае она возвращает "
+"(@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)).\n"
+"Если @x < 0, WEIBULL возвращает ошибку #NUM!. Если @alpha <= 0 или @beta <= "
+"0, WEIBULL возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "WEIBULL(3,2,4,0) равняется 0.213668559.\n"
 "\n"
@@ -11563,8 +11746,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
-"@DESCRIPTION=Функция NORMDIST возвращает нормальное кумулятивное распределение. @x -- значение, для которого вы хотите получить распределение, @mean -- медиана распределения, @stdev -- стандартное отклонение.\n"
-"Если @stdev = 0, NORMDIST возвращает ошибку #DIV/0!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция NORMDIST возвращает нормальное кумулятивное "
+"распределение. @x -- значение, для которого вы хотите получить "
+"распределение, @mean -- медиана распределения, @stdev -- стандартное "
+"отклонение.\n"
+"Если @stdev = 0, NORMDIST возвращает ошибку #DIV/0!. Эта функция "
+"Excel-совместима.\n"
 "@EXAMPLES=\n"
 "NORMDIST(2,1,2,0) равняется 0.176032663.\n"
 "\n"
@@ -11587,8 +11774,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
-"@DESCRIPTION=Функция NORMINV возвращает обратное нормальное кумулятивное распределение. @p -- заданная вероятность соответствующего нормального распределения, @mean -- арифметическое среднее распределения, @stdev -- стандартное отклонение распределения.\n"
-"Если @p < 0 или @p > 1 или @stdev <= 0, NORMINV возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция NORMINV возвращает обратное нормальное кумулятивное "
+"распределение. @p -- заданная вероятность соответствующего нормального "
+"распределения, @mean -- арифметическое среднее распределения, @stdev -- "
+"стандартное отклонение распределения.\n"
+"Если @p < 0 или @p > 1 или @stdev <= 0, NORMINV возвращает ошибку #NUM!. Эта "
+"функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "NORMINV(0.76,2,3) равняется 4.118907689.\n"
 "\n"
@@ -11616,11 +11807,15 @@ msgstr ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
 "@DESCRIPTION=KURT возвращает несмещенную оценку эксцесса набора данных.\n"
-"Заметьте, что это имеет смысл только для распределений действительно имеющих четвертый момент. Эксцесс -- это смещение на три, поэтому у нормального распределения эксцесс равен 0.\n"
+"Заметьте, что это имеет смысл только для распределений действительно имеющих "
+"четвертый момент. Эксцесс -- это смещение на три, поэтому у нормального "
+"распределения эксцесс равен 0.\n"
 "Строки и пустые ячейки просто игнорируются.\n"
-"Если задано меньше четырех чисел или все они одинаковы, KURT возвращает ошибку #DIV/0!. Эта функция Excel-совместима.\n"
+"Если задано меньше четырех чисел или все они одинаковы, KURT возвращает "
+"ошибку #DIV/0!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1. Тогда\n"
 "KURT(A1:A5) равняется 1.234546305.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
@@ -11656,9 +11851,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
-"@DESCRIPTION=AVEDEV возвращает среднее абсолютное отклонение набора данных от их среднего значения. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=AVEDEV возвращает среднее абсолютное отклонение набора данных "
+"от их среднего значения. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1. Тогда\n"
 "AVEDEV(A1:A5) равняется 7.84.\n"
 "\n"
 "@SEEALSO=STDEV"
@@ -11729,8 +11926,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
-"@DESCRIPTION=Функция POISSON возвращает распределение Пуассона. @x -- число событий, @mean -- ожидаемое числовое значение, @cumulative указывает будет ли возвращаться сумма функции Пуассона от 0 до @x.\n"
-"Если @x не целое, дробная часть отбрасывается, если @x <= 0, POISSON возвращает ошибку #NUM!. Если @mean <= 0, POISSON возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция POISSON возвращает распределение Пуассона. @x -- число "
+"событий, @mean -- ожидаемое числовое значение, @cumulative указывает будет "
+"ли возвращаться сумма функции Пуассона от 0 до @x.\n"
+"Если @x не целое, дробная часть отбрасывается, если @x <= 0, POISSON "
+"возвращает ошибку #NUM!. Если @mean <= 0, POISSON возвращает ошибку #NUM!. "
+"Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "POISSON(3,6,0) равняется 0.089235078.\n"
 "\n"
@@ -11958,9 +12159,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
-"@DESCRIPTION=AVERAGEA возвращает среднее заданных аргументов. В вычисление включаются числа, строки и логические значения. Если ячейка содержит текст или аргумент вычисляется как FALSE (ЛОЖЬ), значение принимается равным 0. Если аргумент вычисляется как TRUE (ИСТИНА), значение принимается равным 1. Пустые ячейки игнорируются. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=AVERAGEA возвращает среднее заданных аргументов. В вычисление "
+"включаются числа, строки и логические значения. Если ячейка содержит текст "
+"или аргумент вычисляется как FALSE (ЛОЖЬ), значение принимается равным 0. "
+"Если аргумент вычисляется как TRUE (ИСТИНА), значение принимается равным 1. "
+"Пустые ячейки игнорируются. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа и строки 11.4, 17.3, \"ошибка\", 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа и строки 11.4, 17.3, "
+"\"ошибка\", 25.9 и 40.1. Тогда\n"
 "AVERAGEA(A1:A5) равняется 18.94.\n"
 "\n"
 "@SEEALSO=AVERAGE"
@@ -12046,9 +12252,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(число1,число2,...)\n"
-"@DESCRIPTION=VARA возвращает дисперсию основанную на выборке.  В вычисление включаются числа, строки и логические значения. Если ячейка содержит текст или аргумент вычисляется как ЛОЖЬ (FALSE), его значение принимается равным нулю (0).  Если аргумент вычисляется как ИСТИНА TRUE, его значение принимается равным единице (1).  Заметьте, что пустые ячейки не считаются. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=VARA возвращает дисперсию основанную на выборке.  В вычисление "
+"включаются числа, строки и логические значения. Если ячейка содержит текст "
+"или аргумент вычисляется как ЛОЖЬ (FALSE), его значение принимается равным "
+"нулю (0).  Если аргумент вычисляется как ИСТИНА TRUE, его значение "
+"принимается равным единице (1).  Заметьте, что пустые ячейки не считаются. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа и строки 11.4, 17.3, \"ошибка\", 25.9, и 40.1.  Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа и строки 11.4, 17.3, "
+"\"ошибка\", 25.9, и 40.1.  Тогда\n"
 "VARA(A1:A5) равняется 228.613.\n"
 "\n"
 "@SEEALSO=VAR,VARPA"
@@ -12072,10 +12284,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
-"@DESCRIPTION=VARPA возвращает дисперсию основанную на полной совокупности. Учитываются числа, строки и логические значения. Если ячейка содержит текст или аргумент вычисляется как ЛОЖЬ (FALSE), его значение принимается равным нулю (0).\n"
-"Если аргумент вычисляется как ИСТИНА TRUE, его значение принимается равным единице (1).  Заметьте, что пустые ячейки не считаются. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=VARPA возвращает дисперсию основанную на полной совокупности. "
+"Учитываются числа, строки и логические значения. Если ячейка содержит текст "
+"или аргумент вычисляется как ЛОЖЬ (FALSE), его значение принимается равным "
+"нулю (0).\n"
+"Если аргумент вычисляется как ИСТИНА TRUE, его значение принимается равным "
+"единице (1).  Заметьте, что пустые ячейки не считаются. Эта функция "
+"Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа и строки 11.4, 17.3, \"ошибка\", 25.9, и 40.1.  Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа и строки 11.4, 17.3, "
+"\"ошибка\", 25.9, и 40.1.  Тогда\n"
 "VARPA(A1:A5) equals 182.8904.\n"
 "\n"
 "@SEEALSO=VARP,VARP"
@@ -12952,55 +13170,55 @@ msgstr "Сдвинуть ячейки вниз и переместить"
 msgid "Shift cells right and move"
 msgstr "Сдвинуть ячейки вправо и переместить"
 
-#: src/item-grid.c:590
+#: src/item-grid.c:593
 msgid "Cu_t"
 msgstr "Вырезать"
 
-#: src/item-grid.c:592
+#: src/item-grid.c:595
 msgid "_Copy"
 msgstr "Скопировать"
 
-#: src/item-grid.c:594
+#: src/item-grid.c:597
 msgid "_Paste"
 msgstr "Вставить"
 
-#: src/item-grid.c:596
+#: src/item-grid.c:599
 msgid "Paste _Special"
 msgstr "Cпециальная вставка"
 
-#: src/item-grid.c:601
+#: src/item-grid.c:604
 msgid "_Insert..."
 msgstr "Вставка..."
 
-#: src/item-grid.c:603 src/workbook.c:1188
+#: src/item-grid.c:606 src/workbook.c:1188
 msgid "_Delete..."
 msgstr "Удаление..."
 
-#: src/item-grid.c:605
+#: src/item-grid.c:608
 msgid "Clear Co_ntents"
 msgstr "Очистить содержимое"
 
-#: src/item-grid.c:610
+#: src/item-grid.c:613
 msgid "_Format Cells..."
 msgstr "Формат ячеек..."
 
 #. Column specific functions
-#: src/item-grid.c:614
+#: src/item-grid.c:617
 msgid "Column _Width..."
 msgstr "Ширина столбца..."
 
-#: src/item-grid.c:616 src/item-grid.c:624 src/workbook.c:1284
+#: src/item-grid.c:619 src/item-grid.c:627 src/workbook.c:1284
 #: src/workbook.c:1303
 msgid "_Hide"
 msgstr "Скрыть"
 
-#: src/item-grid.c:618 src/item-grid.c:626 src/workbook.c:1287
+#: src/item-grid.c:621 src/item-grid.c:629 src/workbook.c:1287
 #: src/workbook.c:1306
 msgid "_Unhide"
 msgstr "Показать"
 
 #. Row specific functions (Note some of the labels are duplicated
-#: src/item-grid.c:622
+#: src/item-grid.c:625
 msgid "_Row Height..."
 msgstr "Высота строки..."
 
@@ -13275,16 +13493,16 @@ msgstr ""
 "\n"
 "Попробуйте выделить одну ячейку или область такой же формы и размера."
 
-#: src/sheet.c:1081
+#: src/sheet.c:1082
 msgid "Internal ERROR"
 msgstr "Внутренняя ОШИБКА"
 
-#: src/sheet.c:2630
+#: src/sheet.c:2653
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Не было возможности активировать объект %s"
 
-#: src/sheet.c:2642
+#: src/sheet.c:2665
 msgid "I was unable to the bind object"
 msgstr "Не было возможности связать объект"
 
@@ -13297,12 +13515,12 @@ msgstr "Кнопка"
 msgid "Select an object to add"
 msgstr "Выбрать объект для добавления"
 
-#: src/sheet-view.c:466
+#: src/sheet-view.c:479
 #, c-format
 msgid "Row: %d"
 msgstr "Строка: %d"
 
-#: src/sheet-view.c:476
+#: src/sheet-view.c:489
 #, c-format
 msgid "Column: %s"
 msgstr "Столбец: %s"
@@ -13667,7 +13885,7 @@ msgstr "темнопурпурный"
 msgid "sky blue"
 msgstr "небесносиний"
 
-#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:301
+#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:339
 msgid "Bold"
 msgstr "Полужирный"
 
@@ -13675,7 +13893,7 @@ msgstr "Полужирный"
 msgid "Bold italic"
 msgstr "Полужирный наклонный"
 
-#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:309
+#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:347
 msgid "Italic"
 msgstr "Наклонный"
 
@@ -14259,142 +14477,142 @@ msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 "Вы ввели неправильное значение для высоты строки. Оно должно быть больше 0."
 
-#: src/workbook-format-toolbar.c:302
+#: src/workbook-format-toolbar.c:340
 msgid "Sets the bold font"
 msgstr "Использовать шрифт полужирного начертания"
 
-#: src/workbook-format-toolbar.c:310
+#: src/workbook-format-toolbar.c:348
 msgid "Makes the font italic"
 msgstr "Использовать шрифт наклонного начертания"
 
-#: src/workbook-format-toolbar.c:317
+#: src/workbook-format-toolbar.c:355
 msgid "Underline"
 msgstr "Подчеркнутый"
 
-#: src/workbook-format-toolbar.c:318
+#: src/workbook-format-toolbar.c:356
 msgid "Underlines the font"
 msgstr "Подчеркнуть шрифт"
 
-#: src/workbook-format-toolbar.c:326
+#: src/workbook-format-toolbar.c:364
 msgid "Left align"
 msgstr "Выровнять влево"
 
-#: src/workbook-format-toolbar.c:326
+#: src/workbook-format-toolbar.c:364
 msgid "Left justifies the cell contents"
 msgstr "Выравнивать содержимое ячеек влево"
 
-#: src/workbook-format-toolbar.c:328
+#: src/workbook-format-toolbar.c:366
 msgid "Center"
 msgstr "По центру"
 
-#: src/workbook-format-toolbar.c:328
+#: src/workbook-format-toolbar.c:366
 msgid "Centers the cell contents"
 msgstr "Центрировать содержимое ячеек"
 
-#: src/workbook-format-toolbar.c:330
+#: src/workbook-format-toolbar.c:368
 msgid "Right align"
 msgstr "Выровнять вправо"
 
-#: src/workbook-format-toolbar.c:330
+#: src/workbook-format-toolbar.c:368
 msgid "Right justifies the cell contents"
 msgstr "Выравнивать содержимое ячеек вправо"
 
-#: src/workbook-format-toolbar.c:336
+#: src/workbook-format-toolbar.c:374
 msgid "Money format"
 msgstr "Денежный формат"
 
-#: src/workbook-format-toolbar.c:336
+#: src/workbook-format-toolbar.c:374
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Изменить формат выделенных ячеек на денежный"
 
-#: src/workbook-format-toolbar.c:339
+#: src/workbook-format-toolbar.c:377
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Изменить формат выделенных ячеек на \"проценты\""
 
-#: src/workbook-format-toolbar.c:342
+#: src/workbook-format-toolbar.c:380
 msgid "Thousand separator"
 msgstr "Разделитель тысяч"
 
-#: src/workbook-format-toolbar.c:342
+#: src/workbook-format-toolbar.c:380
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr "Изменить формат выделенных ячеек включив разделитель тысяч"
 
-#: src/workbook-format-toolbar.c:345
+#: src/workbook-format-toolbar.c:383
 msgid "Add decimals"
 msgstr "Добавить разряды"
 
-#: src/workbook-format-toolbar.c:345
+#: src/workbook-format-toolbar.c:383
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Увеличить число отображаемых десятичных знаков"
 
-#: src/workbook-format-toolbar.c:348
+#: src/workbook-format-toolbar.c:386
 msgid "Remove decimals"
 msgstr "Удалить разряды"
 
-#: src/workbook-format-toolbar.c:348
+#: src/workbook-format-toolbar.c:386
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Уменььшить число отображаемых десятичных знаков"
 
-#: src/workbook-format-toolbar.c:441
+#: src/workbook-format-toolbar.c:479
 msgid "Clear Borders"
 msgstr "Очистить обрамление"
 
-#: src/workbook-format-toolbar.c:444
+#: src/workbook-format-toolbar.c:482
 msgid "All Borders"
 msgstr "Все обрамления"
 
-#: src/workbook-format-toolbar.c:445
+#: src/workbook-format-toolbar.c:483
 msgid "Outside Borders"
 msgstr "Внешнее обрамление"
 
-#: src/workbook-format-toolbar.c:446
+#: src/workbook-format-toolbar.c:484
 msgid "Thick Outside Borders"
 msgstr "Толстое внешнее обрамление"
 
-#: src/workbook-format-toolbar.c:449
+#: src/workbook-format-toolbar.c:487
 msgid "Double Bottom"
 msgstr "Двойное снизу"
 
-#: src/workbook-format-toolbar.c:450
+#: src/workbook-format-toolbar.c:488
 msgid "Thick Bottom"
 msgstr "Толстое снизу"
 
-#: src/workbook-format-toolbar.c:452
+#: src/workbook-format-toolbar.c:490
 msgid "Top and Bottom"
 msgstr "Верх и низ"
 
-#: src/workbook-format-toolbar.c:453
+#: src/workbook-format-toolbar.c:491
 msgid "Top and Double Bottom"
 msgstr "Верх и двойной низ"
 
-#: src/workbook-format-toolbar.c:454
+#: src/workbook-format-toolbar.c:492
 msgid "Top and Thick Bottom"
 msgstr "Верх и толстый низ"
 
-#: src/workbook-format-toolbar.c:596
+#: src/workbook-format-toolbar.c:634
 msgid "Font selector"
 msgstr "Выбор шрифта"
 
-#: src/workbook-format-toolbar.c:607
+#: src/workbook-format-toolbar.c:645
 msgid "Size"
 msgstr "Размер"
 
-#: src/workbook-format-toolbar.c:621
+#: src/workbook-format-toolbar.c:659
 msgid "Font Size"
 msgstr "Размер шрифта"
 
-#: src/workbook-format-toolbar.c:637 src/workbook-format-toolbar.c:640
+#: src/workbook-format-toolbar.c:675 src/workbook-format-toolbar.c:678
 msgid "Borders"
 msgstr "Обрамления"
 
 #.
 #. * Create the background colour combo box.
 #.
-#: src/workbook-format-toolbar.c:645
+#: src/workbook-format-toolbar.c:683
 msgid "Clear Background"
 msgstr "Очистить фон"
 
-#: src/workbook-format-toolbar.c:671 src/workbook-format-toolbar.c:674
+#: src/workbook-format-toolbar.c:709 src/workbook-format-toolbar.c:712
 msgid "Foreground"
 msgstr "Передний план"
 

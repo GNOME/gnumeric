@@ -2339,7 +2339,7 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 				int i = 2;
 				while (i-- > 0) {
 					int left, right;
-					CellSpanInfo const *span;
+					CellSpanInfo const *span = NULL;
 					Cell const *cell;
 
 					if (!test[i])

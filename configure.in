@@ -1,7 +1,7 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.53)
+AM_INIT_AUTOMAKE(gnumeric,0.54)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
@@ -279,14 +279,14 @@ AC_SUBST(GB_LIBS)
 dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.19)
+AC_MSG_CHECKING(for GnomePrint libraries >= 0.20)
 if gnome-config --libs print > /dev/null 2>&1; then 
     vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" -e 's/cvs$//' | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
-    if test "$vers" -ge 19; then
+    if test "$vers" -ge 20; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME print 0.19 for this version of Gnumeric)
+        AC_MSG_ERROR(You need at least GNOME print 0.20 for this version of Gnumeric)
     fi
 else
     AC_MSG_ERROR(Did not find GnomePrint installed)

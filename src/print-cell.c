@@ -605,11 +605,12 @@ print_cell_range (GnomePrintContext *context,
 			 */
 			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))){
 				Cell *cell = sheet_cell_get (sheet, col, row);
-				MStyle *mstyle;
+				MStyle *mstyle = NULL;
 
-				mstyle = print_cell_background (
-					context, sheet, ci, ri,
-					col, row, x, y, FALSE);
+				if (output)
+					mstyle = print_cell_background (
+						context, sheet, ci, ri,
+						col, row, x, y, FALSE);
 
 				if (!cell_is_blank (cell)){
 					if (output)
@@ -617,7 +618,8 @@ print_cell_range (GnomePrintContext *context,
 							    context, x, y);
 					printed = TRUE;
 				}
-				mstyle_unref (mstyle);
+				if (mstyle)
+					mstyle_unref (mstyle);
 
 				/* Increment the column
 				 * DO NOT move this outside the if, spanning
@@ -640,17 +642,18 @@ print_cell_range (GnomePrintContext *context,
 
 					ci = sheet_col_get_info (sheet, col);
 					if (ci->visible) {
-						MStyle *mstyle;
+						MStyle *mstyle = NULL;
 
-						mstyle = print_cell_background (
-							context, sheet, ci, ri,
-							col, row, x, y,
-							col != start_span_col && is_visible);
+						if (output)
+							mstyle = print_cell_background (
+								context, sheet, ci, ri,
+								col, row, x, y,
+								col != start_span_col && is_visible);
 						
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x;
-						} else
+						} else if (mstyle)
 							mstyle_unref (mstyle);
 
 						x += ci->size_pts;

@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.53\n"
-"POT-Creation-Date: 2000-05-19 22:22+0200\n"
+"POT-Creation-Date: 2000-05-20 18:56-0400\n"
 "PO-Revision-Date: 1999-12-01 11:00+0100\n"
 "Last-Translator: Andreas Hyden <a.hyden@cyberpoint.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -913,7 +913,7 @@ msgid "Rank"
 msgstr "Rang"
 
 #: src/analysis-tools.c:2341 src/analysis-tools.c:2371
-#: src/workbook-format-toolbar.c:339
+#: src/workbook-format-toolbar.c:377
 msgid "Percent"
 msgstr "Procent"
 
@@ -1047,11 +1047,11 @@ msgstr "Ta bort raden %d"
 msgid "Clear"
 msgstr "Töm"
 
-#: src/commands.c:1148
+#: src/commands.c:1157
 msgid "Format cells"
 msgstr "Formatera celler"
 
-#: src/commands.c:1219
+#: src/commands.c:1228
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Byt namn på blad \"%s\" \"%s\""
@@ -1063,58 +1063,58 @@ msgstr "Byt namn på blad \"%s\" \"%s\""
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1298
+#: src/commands.c:1307
 msgid ">mm/dd/yyyy"
 msgstr ">yyyy/mm/dd"
 
 #. FIXME : See comment above
-#: src/commands.c:1303
+#: src/commands.c:1312
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1364
+#: src/commands.c:1373
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Sätt nuvarande datum i %s"
 
-#: src/commands.c:1365
+#: src/commands.c:1374
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Sätt nuvarande tid i %s"
 
-#: src/commands.c:1448
+#: src/commands.c:1457
 #, c-format
 msgid "Setting width of column %s"
 msgstr "Sätt bredd på kolumnen %s"
 
-#: src/commands.c:1449
+#: src/commands.c:1458
 #, c-format
 msgid "Setting height of row %d"
 msgstr "Sätt höjd på raden %d"
 
-#: src/commands.c:1572
+#: src/commands.c:1581
 #, c-format
 msgid "Sorting %s"
 msgstr "Sortera %s"
 
-#: src/commands.c:1653
+#: src/commands.c:1662
 msgid "Unhide columns"
 msgstr "Visa kolumner"
 
-#: src/commands.c:1653
+#: src/commands.c:1662
 msgid "Hide columns"
 msgstr "Göm kolumner"
 
-#: src/commands.c:1654
+#: src/commands.c:1663
 msgid "Unhide rows"
 msgstr "Visa rader"
 
-#: src/commands.c:1654
+#: src/commands.c:1663
 msgid "Hide rows"
 msgstr "Göm rader"
 
 #. FIXME : improve on this
-#: src/commands.c:1762
+#: src/commands.c:1771
 msgid "Moving cells"
 msgstr "Flytta celler"
 
@@ -1883,7 +1883,7 @@ msgstr "Sup_erscript"
 msgid "Su_bscript"
 msgstr "Su_bscript"
 
-#: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:576
+#: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:614
 msgid "Font"
 msgstr "Typsnitt"
 
@@ -1891,7 +1891,7 @@ msgstr "Typsnitt"
 msgid "Reverse Diagonal"
 msgstr "Omvänd diagonal"
 
-#: src/dialogs/cell-format.glade.h:69 src/workbook-format-toolbar.c:440
+#: src/dialogs/cell-format.glade.h:69 src/workbook-format-toolbar.c:478
 msgid "Left"
 msgstr "Vänster"
 
@@ -1899,7 +1899,7 @@ msgstr "Vänster"
 msgid "Top"
 msgstr "Överkant"
 
-#: src/dialogs/cell-format.glade.h:71 src/workbook-format-toolbar.c:448
+#: src/dialogs/cell-format.glade.h:71 src/workbook-format-toolbar.c:486
 msgid "Bottom"
 msgstr "Underkant"
 
@@ -1907,7 +1907,7 @@ msgstr "Underkant"
 msgid "Diagonal"
 msgstr "Diagonal"
 
-#: src/dialogs/cell-format.glade.h:73 src/workbook-format-toolbar.c:442
+#: src/dialogs/cell-format.glade.h:73 src/workbook-format-toolbar.c:480
 msgid "Right"
 msgstr "Höger"
 
@@ -2068,8 +2068,8 @@ msgstr "Små cirklar"
 msgid "Foreground Solid"
 msgstr "Förgrund massiv"
 
-#: src/dialogs/cell-format.glade.h:124 src/workbook-format-toolbar.c:654
-#: src/workbook-format-toolbar.c:657
+#: src/dialogs/cell-format.glade.h:124 src/workbook-format-toolbar.c:692
+#: src/workbook-format-toolbar.c:695
 msgid "Background"
 msgstr "Bakgrund"
 
@@ -5547,12 +5547,33 @@ msgid ""
 "or database that match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:499
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a "
 "database that match conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:568
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
 msgstr ""
 
 #: src/functions/fn-database.c:621
@@ -5563,12 +5584,33 @@ msgid ""
 "database that match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:629
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:687
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
 msgstr ""
 
 #: src/functions/fn-database.c:747
@@ -5579,6 +5621,16 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:755
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5587,12 +5639,29 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:826
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=DPRODUCT function returns the product of numbers in a column "
 "that match conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:896
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
 msgstr ""
 
 #: src/functions/fn-database.c:955
@@ -5604,6 +5673,15 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:964
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5613,12 +5691,30 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:1030
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM function returns the sum of numbers in a column that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1097
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
 msgstr ""
 
 #: src/functions/fn-database.c:1156
@@ -5630,6 +5726,15 @@ msgid ""
 "specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:1165
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5637,6 +5742,15 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1233
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1293
@@ -8169,7 +8283,7 @@ msgid "%s version %s"
 msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/functions/fn-information.c:309 src/workbook-format-toolbar.c:662
+#: src/functions/fn-information.c:309 src/workbook-format-toolbar.c:700
 msgid "Automatic"
 msgstr "Automatisk"
 
@@ -12791,55 +12905,55 @@ msgstr "Flytta celler nedåt och flytta"
 msgid "Shift cells right and move"
 msgstr "Flytta celler åt höger och flytta"
 
-#: src/item-grid.c:590
+#: src/item-grid.c:593
 msgid "Cu_t"
 msgstr "K_lipp ut"
 
-#: src/item-grid.c:592
+#: src/item-grid.c:595
 msgid "_Copy"
 msgstr "_Kopiera"
 
-#: src/item-grid.c:594
+#: src/item-grid.c:597
 msgid "_Paste"
 msgstr "Kl_istra in"
 
-#: src/item-grid.c:596
+#: src/item-grid.c:599
 msgid "Paste _Special"
 msgstr "Klistra in _special"
 
-#: src/item-grid.c:601
+#: src/item-grid.c:604
 msgid "_Insert..."
 msgstr "_Infoga..."
 
-#: src/item-grid.c:603 src/workbook.c:1188
+#: src/item-grid.c:606 src/workbook.c:1188
 msgid "_Delete..."
 msgstr "Ta bort..."
 
-#: src/item-grid.c:605
+#: src/item-grid.c:608
 msgid "Clear Co_ntents"
 msgstr "Ta bort i_nnehåll"
 
-#: src/item-grid.c:610
+#: src/item-grid.c:613
 msgid "_Format Cells..."
 msgstr "_Formatera celler..."
 
 #. Column specific functions
-#: src/item-grid.c:614
+#: src/item-grid.c:617
 msgid "Column _Width..."
 msgstr "_Kolumnbredd..."
 
-#: src/item-grid.c:616 src/item-grid.c:624 src/workbook.c:1284
+#: src/item-grid.c:619 src/item-grid.c:627 src/workbook.c:1284
 #: src/workbook.c:1303
 msgid "_Hide"
 msgstr "_Göm"
 
-#: src/item-grid.c:618 src/item-grid.c:626 src/workbook.c:1287
+#: src/item-grid.c:621 src/item-grid.c:629 src/workbook.c:1287
 #: src/workbook.c:1306
 msgid "_Unhide"
 msgstr "_Visa"
 
 #. Row specific functions (Note some of the labels are duplicated
-#: src/item-grid.c:622
+#: src/item-grid.c:625
 msgid "_Row Height..."
 msgstr "_Radhöjd..."
 
@@ -13111,16 +13225,16 @@ msgstr ""
 "\n"
 "Försök att välja en enda cell eller en yta med samma form och storlek."
 
-#: src/sheet.c:1081
+#: src/sheet.c:1082
 msgid "Internal ERROR"
 msgstr "Internt FEL"
 
-#: src/sheet.c:2630
+#: src/sheet.c:2653
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunde inte aktivera objekt %s"
 
-#: src/sheet.c:2642
+#: src/sheet.c:2665
 msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
@@ -13133,12 +13247,12 @@ msgstr "Knapp"
 msgid "Select an object to add"
 msgstr "Välj ett objekt att lägga till"
 
-#: src/sheet-view.c:466
+#: src/sheet-view.c:479
 #, c-format
 msgid "Row: %d"
 msgstr "Rad: %d"
 
-#: src/sheet-view.c:476
+#: src/sheet-view.c:489
 #, c-format
 msgid "Column: %s"
 msgstr "Kolumn: %s"
@@ -13489,7 +13603,7 @@ msgstr "mörklila"
 msgid "sky blue"
 msgstr "himmelsblå"
 
-#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:301
+#: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:339
 msgid "Bold"
 msgstr "Fetstil"
 
@@ -13497,7 +13611,7 @@ msgstr "Fetstil"
 msgid "Bold italic"
 msgstr "Fet kursiv"
 
-#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:309
+#: src/widgets/widget-font-selector.c:132 src/workbook-format-toolbar.c:347
 msgid "Italic"
 msgstr "Kursiv"
 
@@ -14080,143 +14194,143 @@ msgstr "Du angav en ogiltig kolumnbredd.  Den måste vara större än 0"
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Du angav en ogiltig radhöjd.  Den måste vara större än 0"
 
-#: src/workbook-format-toolbar.c:302
+#: src/workbook-format-toolbar.c:340
 msgid "Sets the bold font"
 msgstr "Sätter fetstil på typsnittet"
 
-#: src/workbook-format-toolbar.c:310
+#: src/workbook-format-toolbar.c:348
 msgid "Makes the font italic"
 msgstr "Gör typsnittet kursivt"
 
-#: src/workbook-format-toolbar.c:317
+#: src/workbook-format-toolbar.c:355
 msgid "Underline"
 msgstr "Understrykning"
 
-#: src/workbook-format-toolbar.c:318
+#: src/workbook-format-toolbar.c:356
 msgid "Underlines the font"
 msgstr "Stryker under typsnittet"
 
-#: src/workbook-format-toolbar.c:326
+#: src/workbook-format-toolbar.c:364
 msgid "Left align"
 msgstr "Vänsterjusterat"
 
-#: src/workbook-format-toolbar.c:326
+#: src/workbook-format-toolbar.c:364
 msgid "Left justifies the cell contents"
 msgstr "Vänsterjusterar cellinnehållet"
 
-#: src/workbook-format-toolbar.c:328
+#: src/workbook-format-toolbar.c:366
 msgid "Center"
 msgstr "Centrera"
 
-#: src/workbook-format-toolbar.c:328
+#: src/workbook-format-toolbar.c:366
 msgid "Centers the cell contents"
 msgstr "Centrerar cellinnehållet"
 
-#: src/workbook-format-toolbar.c:330
+#: src/workbook-format-toolbar.c:368
 msgid "Right align"
 msgstr "Högerjustera"
 
-#: src/workbook-format-toolbar.c:330
+#: src/workbook-format-toolbar.c:368
 msgid "Right justifies the cell contents"
 msgstr "Högerjusterar cellinnehållet"
 
-#: src/workbook-format-toolbar.c:336
+#: src/workbook-format-toolbar.c:374
 msgid "Money format"
 msgstr "Valutaformatering"
 
-#: src/workbook-format-toolbar.c:336
+#: src/workbook-format-toolbar.c:374
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Ändra formateringen på markerade celler till valutaformat"
 
-#: src/workbook-format-toolbar.c:339
+#: src/workbook-format-toolbar.c:377
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Ändra formateringen på markerade celler till procentformat"
 
-#: src/workbook-format-toolbar.c:342
+#: src/workbook-format-toolbar.c:380
 msgid "Thousand separator"
 msgstr "Tusentalsseparator"
 
-#: src/workbook-format-toolbar.c:342
+#: src/workbook-format-toolbar.c:380
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 "Ändra formateringen på markerade celler till att använda tusentalsseparator"
 
-#: src/workbook-format-toolbar.c:345
+#: src/workbook-format-toolbar.c:383
 msgid "Add decimals"
 msgstr "Lägg till decimaler"
 
-#: src/workbook-format-toolbar.c:345
+#: src/workbook-format-toolbar.c:383
 msgid "Increases the number of decimal numbers displayed"
 msgstr "Ökar antalet visade decimaler"
 
-#: src/workbook-format-toolbar.c:348
+#: src/workbook-format-toolbar.c:386
 msgid "Remove decimals"
 msgstr "Ta bort decimaler"
 
-#: src/workbook-format-toolbar.c:348
+#: src/workbook-format-toolbar.c:386
 msgid "Decreases the number of decimal numbers displayed"
 msgstr "Minskar antalet visade decimaler"
 
-#: src/workbook-format-toolbar.c:441
+#: src/workbook-format-toolbar.c:479
 msgid "Clear Borders"
 msgstr "Ta bort kanter"
 
-#: src/workbook-format-toolbar.c:444
+#: src/workbook-format-toolbar.c:482
 msgid "All Borders"
 msgstr "Alla kanter"
 
-#: src/workbook-format-toolbar.c:445
+#: src/workbook-format-toolbar.c:483
 msgid "Outside Borders"
 msgstr "Kanter omkring"
 
-#: src/workbook-format-toolbar.c:446
+#: src/workbook-format-toolbar.c:484
 msgid "Thick Outside Borders"
 msgstr "Tjocka kanter omkring"
 
-#: src/workbook-format-toolbar.c:449
+#: src/workbook-format-toolbar.c:487
 msgid "Double Bottom"
 msgstr "Dubbel underkant"
 
-#: src/workbook-format-toolbar.c:450
+#: src/workbook-format-toolbar.c:488
 msgid "Thick Bottom"
 msgstr "Tjock underkant"
 
-#: src/workbook-format-toolbar.c:452
+#: src/workbook-format-toolbar.c:490
 msgid "Top and Bottom"
 msgstr "Över- och underkant"
 
-#: src/workbook-format-toolbar.c:453
+#: src/workbook-format-toolbar.c:491
 msgid "Top and Double Bottom"
 msgstr "Över- och dubbel underkant"
 
-#: src/workbook-format-toolbar.c:454
+#: src/workbook-format-toolbar.c:492
 msgid "Top and Thick Bottom"
 msgstr "Över- och tjock underkant"
 
-#: src/workbook-format-toolbar.c:596
+#: src/workbook-format-toolbar.c:634
 msgid "Font selector"
 msgstr "Typsnittsväljare"
 
-#: src/workbook-format-toolbar.c:607
+#: src/workbook-format-toolbar.c:645
 msgid "Size"
 msgstr "Storlek"
 
-#: src/workbook-format-toolbar.c:621
+#: src/workbook-format-toolbar.c:659
 msgid "Font Size"
 msgstr "Typsnittstorlek"
 
-#: src/workbook-format-toolbar.c:637 src/workbook-format-toolbar.c:640
+#: src/workbook-format-toolbar.c:675 src/workbook-format-toolbar.c:678
 msgid "Borders"
 msgstr "Kanter"
 
 #.
 #. * Create the background colour combo box.
 #.
-#: src/workbook-format-toolbar.c:645
+#: src/workbook-format-toolbar.c:683
 msgid "Clear Background"
 msgstr "Töm bakgrund"
 
-#: src/workbook-format-toolbar.c:671 src/workbook-format-toolbar.c:674
+#: src/workbook-format-toolbar.c:709 src/workbook-format-toolbar.c:712
 msgid "Foreground"
 msgstr "Förgrund"
 
