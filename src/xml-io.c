@@ -420,7 +420,7 @@ xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
 		r >>= 8;
 		g >>= 8;
 		b >>= 8;
-		*res = RGBA_TO_UINT (r,g,b,0xff);
+		*res = GO_COLOR_FROM_RGBA (r,g,b,0xff);
 		xmlFree (color);
 		return TRUE;
 	}

@@ -541,10 +541,10 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	ft_bitmap.palette      = NULL;
 	pango_ft2_render_layout (&ft_bitmap, layout, -rect.x, -rect.y);
 
-	r = UINT_RGBA_R (style->font.color);
-	g = UINT_RGBA_G (style->font.color);
-	b = UINT_RGBA_B (style->font.color);
-	a = UINT_RGBA_A (style->font.color);
+	r = GO_COLOR_R (style->font.color);
+	g = GO_COLOR_G (style->font.color);
+	b = GO_COLOR_B (style->font.color);
+	a = GO_COLOR_A (style->font.color);
 
 	/* do the compositing manually, ArtRender as used in librsvg is dog
 	 * slow, and I do not feel like leaping through 20 different data

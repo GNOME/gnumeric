@@ -234,7 +234,7 @@ cb_about_animate (GnmAboutState *state)
 	/* 1-((x-25)/25)**2 */
 	alpha = (state->fade_state - FADE_STATES) / (double)FADE_STATES;
 	alpha *= alpha;
-	state->contributor_style->font.color = UINT_RGBA_CHANGE_A (
+	state->contributor_style->font.color = GO_COLOR_CHANGE_A (
 		state->contributor_style->font.color, (unsigned)(255 * (1. - alpha)));
 	go_data_scalar_str_set_str (GO_DATA_SCALAR_STR (state->contributor_name),
 		contributors [state->item_index].name, FALSE);
@@ -275,7 +275,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.back = 0xFFFF99FF;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
 	GOG_STYLED_OBJECT (state->graph)->style->outline.width = 0; /* hairline */
-	GOG_STYLED_OBJECT (state->graph)->style->outline.color = RGBA_BLACK;
+	GOG_STYLED_OBJECT (state->graph)->style->outline.color = GO_COLOR_BLACK;
 	gog_style_set_fill_brightness (
 		GOG_STYLED_OBJECT (state->graph)->style, 70.);
 #if 0

@@ -388,7 +388,7 @@ setup_color_pickers (ColorPicker *picker,
 	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = go_combo_color_new (NULL, default_caption, 
-		def_sc ? GDK_TO_UINT (def_sc->color) : RGBA_BLACK, cg);
+		def_sc ? GO_COLOR_FROM_GDK (def_sc->color) : GO_COLOR_BLACK, cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */

@@ -1,3 +1,17 @@
+2004-10-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* utils/go-color.h: Renamed a bunch of macros to start with
+	GO_COLOR.
+
+	* drawing/god-drawing-renderer-gdk.c, graph/gog-error-bar.c,
+	graph/gog-legend.c, graph/gog-renderer-gnome-print.c,
+	graph/gog-renderer-pixbuf.c, graph/gog-style.c, graph/gog-theme.c,
+	graph/plugins/plot_surface/gog-surface.c,
+	graph/plugins/plot_xy/gog-xy.c, gui-utils/go-color-group.c,
+	gui-utils/go-color-palette.c, gui-utils/go-combo-color.c,
+	utils/go-color.c, utils/go-color.h, utils/go-marker.c,
+	utils/go-pattern.c: Used the new GO_COLOR macros.
+
 2004-10-09  Jean Brefort <jean.brefort@normalesup.org>
 
 	* graph/go-data.c: (go_data_matrix_emit_changed),

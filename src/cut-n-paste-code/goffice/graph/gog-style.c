@@ -1095,9 +1095,9 @@ gog_style_init (GogStyle *style)
 	style->outline.width = 0;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	style->fill.gradient.brightness = -1.;
-	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);
+	go_pattern_set_solid (&style->fill.pattern, GO_COLOR_BLACK);
 	style->font.font = go_font_new_by_index (0);
-	style->font.color = RGBA_BLACK;
+	style->font.color = GO_COLOR_BLACK;
 }
 
 static struct {
@@ -1639,7 +1639,7 @@ gboolean
 gog_style_is_line_visible (GogStyle const *style)
 {
 #warning TODO : make this smarter
-	return style->line.width >= 0 && UINT_RGBA_A (style->line.color) > 0;
+	return style->line.width >= 0 && GO_COLOR_A (style->line.color) > 0;
 }
 
 void
@@ -1713,8 +1713,8 @@ gog_style_set_fill_brightness (GogStyle *style, float brightness)
 
 	style->fill.gradient.brightness = brightness;
 	style->fill.pattern.fore = (brightness < 50.)
-		? UINT_INTERPOLATE(style->fill.pattern.back, RGBA_WHITE, 1. - brightness / 50.)
-		: UINT_INTERPOLATE(style->fill.pattern.back, RGBA_BLACK, brightness / 50. - 1.);
+		? GO_COLOR_INTERPOLATE(style->fill.pattern.back, GO_COLOR_WHITE, 1. - brightness / 50.)
+		: GO_COLOR_INTERPOLATE(style->fill.pattern.back, GO_COLOR_BLACK, brightness / 50. - 1.);
 }
 
 /**

@@ -253,7 +253,7 @@ gog_contour_plot_foreach_elem  (GogPlot *plot, gboolean only_visible,
 	/* build the colors table */
 	color = g_new0 (GOColor, (contour->levels > 0)? contour->levels: 1);
 	if (contour->levels < 2)
-		color[0] = RGBA_WHITE;
+		color[0] = GO_COLOR_WHITE;
 	else for (i = 0; i < contour->levels; i++) {
 		gog_theme_fillin_style (theme, style, GOG_OBJECT (plot->series->data), i, FALSE);
 		color[i] = style->fill.pattern.back;
@@ -465,7 +465,7 @@ gog_contour_view_render (GogView *view, GogViewAllocation const *bbox)
 	/* build the colors table */
 	color = g_new0 (GOColor, (plot->levels > 0)? plot->levels: 1);
 	if (plot->levels < 2)
-		color[0] = RGBA_WHITE;
+		color[0] = GO_COLOR_WHITE;
 	else for (i = 0; i < plot->levels; i++) {
 		gog_theme_fillin_style (theme, style, GOG_OBJECT (series), i, FALSE);
 		color[i] = style->fill.pattern.back;

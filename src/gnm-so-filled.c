@@ -136,10 +136,10 @@ sof_default_style ()
 	GogStyle *res = gog_style_new ();
 	res->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
 	res->outline.width = 0; /* hairline */
-	res->outline.color = RGBA_BLACK;
+	res->outline.color = GO_COLOR_BLACK;
 	res->outline.pattern = 1; /* anything but 0 */
 	res->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&res->fill.pattern, RGBA_WHITE);
+	go_pattern_set_solid (&res->fill.pattern, GO_COLOR_WHITE);
 	return res;
 }
 
@@ -319,10 +319,10 @@ make_ellipse (GnomePrintContext *gp_context,
 static void
 set_color (GnomePrintContext *gp_context, GOColor color)
 {
-	double r = ((double) UINT_RGBA_R (color)) / 255.;
-	double g = ((double) UINT_RGBA_G (color)) / 255.;
-	double b = ((double) UINT_RGBA_B (color)) / 255.;
-	double a = ((double) UINT_RGBA_A (color)) / 255.;
+	double r = ((double) GO_COLOR_R (color)) / 255.;
+	double g = ((double) GO_COLOR_G (color)) / 255.;
+	double b = ((double) GO_COLOR_B (color)) / 255.;
+	double a = ((double) GO_COLOR_A (color)) / 255.;
 	gnome_print_setrgbcolor (gp_context, r, g, b);
 	gnome_print_setopacity (gp_context, a);
 }

@@ -123,9 +123,9 @@ static guint
 go_color_to_bgr (GOColor const c)
 {
 	guint32 abgr;
-	abgr  = UINT_RGBA_R(c);
-	abgr |= UINT_RGBA_G(c) << 8;
-	abgr |= UINT_RGBA_B(c) << 16;
+	abgr  = GO_COLOR_R(c);
+	abgr |= GO_COLOR_G(c) << 8;
+	abgr |= GO_COLOR_B(c) << 16;
 	return abgr;
 }
 

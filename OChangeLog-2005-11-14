@@ -1,3 +1,12 @@
+2004-10-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* plugins/excel/ms-chart.c, plugins/excel/ms-excel-read.c,
+	plugins/excel/ms-excel-write.c, src/gnm-so-filled.c,
+	src/gnm-so-line.c, src/gui-util.c, src/style-color.c,
+	src/wbc-gtk.c, src/xml-io.c, src/dialogs/dialog-about.c,
+	src/dialogs/dialog-cell-format.c: Use the new GO_COLOR macros.
+
+
 2004-10-09  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-pane.c (cb_sheet_object_widget_canvas_event) :

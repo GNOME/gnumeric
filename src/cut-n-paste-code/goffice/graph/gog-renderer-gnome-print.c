@@ -144,10 +144,10 @@ get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 static void
 set_color (GogRendererGnomePrint *prend, GOColor color)
 {
-	double r = ((double) UINT_RGBA_R (color)) / 255.;
-	double g = ((double) UINT_RGBA_G (color)) / 255.;
-	double b = ((double) UINT_RGBA_B (color)) / 255.;
-	double a = ((double) UINT_RGBA_A (color)) / 255.;
+	double r = ((double) GO_COLOR_R (color)) / 255.;
+	double g = ((double) GO_COLOR_G (color)) / 255.;
+	double b = ((double) GO_COLOR_B (color)) / 255.;
+	double a = ((double) GO_COLOR_A (color)) / 255.;
 	gnome_print_setrgbcolor (prend->gp_context, r, g, b);
 	gnome_print_setopacity (prend->gp_context, a);
 }

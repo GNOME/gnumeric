@@ -105,7 +105,7 @@ GnmColor *
 style_color_new_go (GOColor c)
 {
 	return style_color_new_i8 (
-		UINT_RGBA_R (c), UINT_RGBA_G (c), UINT_RGBA_B (c));
+		GO_COLOR_R (c), GO_COLOR_G (c), GO_COLOR_B (c));
 }
 
 GnmColor *

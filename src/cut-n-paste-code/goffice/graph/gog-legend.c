@@ -322,7 +322,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	} else {					/* area swatch */
 		style = gog_style_dup (base_style);
 		style->outline.width = 0; /* hairline */
-		style->outline.color = RGBA_BLACK;
+		style->outline.color = GO_COLOR_BLACK;
 
 		gog_renderer_push_style (v->renderer, style);
 		gog_renderer_draw_rectangle (v->renderer, &swatch, NULL);

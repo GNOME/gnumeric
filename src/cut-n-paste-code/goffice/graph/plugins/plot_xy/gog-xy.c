@@ -651,7 +651,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				neg_style = gog_style_dup (GOG_STYLED_OBJECT (series)->style);
 				neg_style->fill.type = GOG_FILL_STYLE_PATTERN;
 				neg_style->fill.pattern.pattern = GO_PATTERN_SOLID;
-				neg_style->fill.pattern.back = RGBA_WHITE;
+				neg_style->fill.pattern.back = GO_COLOR_WHITE;
 			}
 			if (model->base.vary_style_by_element)
 				style = gog_style_dup (style);
