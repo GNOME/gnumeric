@@ -167,6 +167,38 @@ selection in order to
   </sect2>
   
   <sect2>
+  
+    <title>Automagic autofill</title>
+    
+    
+    <para>In the formula example above there were only a few rows to
+    fill with the new formula.  For larger spread sheets dragging out
+    a new formula can be cumbersome.  An alternative is to let
+    gnumeric do the work for you.
+    </para>
+    
+    <procedure>
+    <step performance="required">
+      <para>Enter the formula in the top cell of the new column.</para></step>
+    
+    <step performance="required">
+      <para>Double click on the small rectangle in the bottom right
+            corner of the cell.</para></step>
+    
+    <step performance="required">
+      <para>Gnumeric will look at the column to the left and find the
+      first blank cell in that column.  It will then fill the new
+      column with your formula all the way down to the blank
+      cell.</para></step>
+    
+    </procedure>
+    
+    <para>Double click with the right mouse button will do automagic
+    filling of rows instead of columns.</para>
+    
+  </sect2>
+
+  <sect2>
     <title>Other Notes on autofill</title>
     
 
