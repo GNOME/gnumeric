@@ -7,22 +7,49 @@
  * (C) 1999 Michael Meeks
  */
 #include <stdio.h>
+#include <time.h>
 #include <config.h>
 #include <ctype.h>
 #include <glib.h>
 #include "summary.h"
 
+/*
+ *  NOTE:
+ *  These strings are related to the fields in src/dialogs/summary.glade
+ *  The field names are summary_item_name[i] prefixed with "glade_".
+ *
+ */
 gchar *summary_item_name[] = {
-	"Title",
-	"Subject",
-	"Author",
-	"Keywords",
-	"Comments",
-	"Template",
-	"Last Author",
-	"Manager",
-	"Category",
-	"Application"
+	"codepage",
+	"title",
+	"subject",
+	"author",
+	"keywords",
+	"comments",
+	"template",
+	"last_author",
+	"revision_number",
+	"last_printed",
+	"created",
+	"last_saved",
+	"page_count",
+	"word_count",
+	"character_count",
+	"application",
+	"security",
+	"category",
+	"presentation_format",
+	"number_of_bytes",
+	"number_of_lines",
+	"number_of_paragraphs",
+	"number_of_slides",
+	"number_of_pages_with_notes",
+	"number_of_hidden_slides",
+	"number_of_sound_or_video_clips",
+	"thumbnail_scaling",
+	"manager",
+	"company",
+	"links_uptodate"
 };
 
 static SummaryItem *
@@ -40,6 +67,22 @@ summary_item_new_int (const gchar *name, gint i)
 {
 	SummaryItem *sit = summary_item_new (name, SUMMARY_INT);
 	sit->v.i = i;
+	return sit;
+}
+
+SummaryItem *
+summary_item_new_boolean (const gchar *name, gboolean i)
+{
+	SummaryItem *sit = summary_item_new (name, SUMMARY_BOOLEAN);
+	sit->v.boolean = i;
+	return sit;
+}
+
+SummaryItem *
+summary_item_new_short (const gchar *name, gshort i)
+{
+	SummaryItem *sit = summary_item_new (name, SUMMARY_SHORT);
+	sit->v.short_i = i;
 	return sit;
 }
 
@@ -62,6 +105,9 @@ summary_item_new_string (const gchar *name, const gchar *string)
 char *
 summary_item_as_text (const SummaryItem *sit)
 {
+	char   *ch_time;
+	time_t  time;
+
 	g_return_val_if_fail (sit != NULL, NULL);
 	
 	switch (sit->type) {
@@ -71,8 +117,33 @@ summary_item_as_text (const SummaryItem *sit)
 		else
 			return g_strdup ("Internal Error");
 		break;
+
+	case SUMMARY_BOOLEAN:
+		if      (sit->v.boolean == 0)
+			return "False";
+			
+		else if (sit->v.boolean == 1)
+			return "True";
+			
+		else
+			return "Unrecognized boolean value";
+		break;
+
+	case SUMMARY_SHORT:
+		return g_strdup_printf ("%d", sit->v.short_i);
+		break;
+
 	case SUMMARY_INT:
 		return g_strdup_printf ("%d", sit->v.i);
+		break;
+
+	case SUMMARY_TIME:
+		time = (time_t)sit->v.time.tv_sec;
+		ch_time = ctime(&time);
+		ch_time[strlen(ch_time)-1] = '\0';
+		return g_strdup (ch_time);
+		break;
+
 	default:
 		return g_strdup ("Unhandled type");
 	}
@@ -89,6 +160,9 @@ summary_item_free (SummaryItem *sit)
 		g_free (sit->v.txt);
 		sit->v.txt = NULL;
 		break;
+
+	case SUMMARY_BOOLEAN:
+	case SUMMARY_SHORT:
 	case SUMMARY_INT:
 	case SUMMARY_TIME:
 		break;

@@ -12,3 +12,4 @@ gchar *s = N_("Manager");
 gchar *s = N_("Document Summary Information\n"
               "");
 gchar *s = N_("Comments");
+gchar *s = N_("Company");

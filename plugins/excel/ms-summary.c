@@ -29,20 +29,55 @@ typedef guint32 MsOleSummaryFileTime;
 /* LONG  = 4 bytes */
 /* DWORD = 2 bytes ( signed ? ) */
 
+
+/*
+ *  MsOleSummaryPID	is defined in plugins/excel/libole2/ms-ole-summary.h
+ *  MsOlePropertySetID	is defined in plugins/excel/libole2/ms-ole-summary.h
+ *  SummaryItemBuiltin	is defined in src/summary.h
+ */
 typedef struct {
 	MsOleSummaryPID    excel;
+	MsOlePropertySetID ps_id;
 	SummaryItemBuiltin gnumeric;
 } mapping_t;
 
 mapping_t excel_to_gnum_mapping[] =
 { /* Needs beefing up */
-	{ MS_OLE_SUMMARY_TITLE,    SUMMARY_I_TITLE },
-	{ MS_OLE_SUMMARY_SUBJECT,  SUMMARY_I_SUBJECT },
-	{ MS_OLE_SUMMARY_AUTHOR,   SUMMARY_I_AUTHOR },
-	{ MS_OLE_SUMMARY_KEYWORDS, SUMMARY_I_KEYWORDS },
-	{ MS_OLE_SUMMARY_COMMENTS, SUMMARY_I_COMMENTS },
-	{ MS_OLE_SUMMARY_APPNAME,  SUMMARY_I_APP }
+	{ MS_OLE_SUMMARY_CODEPAGE,     MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_CODEPAGE },
+	{ MS_OLE_SUMMARY_TITLE,        MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_TITLE },
+	{ MS_OLE_SUMMARY_SUBJECT,      MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_SUBJECT },
+	{ MS_OLE_SUMMARY_AUTHOR,       MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_AUTHOR },
+	{ MS_OLE_SUMMARY_KEYWORDS,     MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_KEYWORDS },
+	{ MS_OLE_SUMMARY_COMMENTS,     MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_COMMENTS },
+	{ MS_OLE_SUMMARY_TEMPLATE,     MS_OLE_PS_SUMMARY_INFO,	         SUMMARY_I_TEMPLATE },
+	{ MS_OLE_SUMMARY_LASTAUTHOR,   MS_OLE_PS_SUMMARY_INFO,	         SUMMARY_I_LASTAUTHOR },
+	{ MS_OLE_SUMMARY_REVNUMBER,    MS_OLE_PS_SUMMARY_INFO,	         SUMMARY_I_REVNUMBER },
+	{ MS_OLE_SUMMARY_LASTPRINTED,  MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_LASTPRINTED },
+	{ MS_OLE_SUMMARY_CREATED,      MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_CREATED },
+	{ MS_OLE_SUMMARY_LASTSAVED,    MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_LASTSAVED },
+	{ MS_OLE_SUMMARY_PAGECOUNT,    MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_PAGECOUNT },
+	{ MS_OLE_SUMMARY_WORDCOUNT,    MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_WORDCOUNT },
+	{ MS_OLE_SUMMARY_CHARCOUNT,    MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_CHARCOUNT },
+	{ MS_OLE_SUMMARY_APPNAME,      MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_APP },
+	{ MS_OLE_SUMMARY_SECURITY,     MS_OLE_PS_SUMMARY_INFO,           SUMMARY_I_SECURITY },
+
+	{ MS_OLE_SUMMARY_CATEGORY,     MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_CATEGORY },
+	{ MS_OLE_SUMMARY_PRESFORMAT,   MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_PRESFORMAT },
+	{ MS_OLE_SUMMARY_BYTECOUNT,    MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_BYTECOUNT },
+	{ MS_OLE_SUMMARY_LINECOUNT,    MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_LINECOUNT },
+	{ MS_OLE_SUMMARY_PARCOUNT,     MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_PARCOUNT  },
+	{ MS_OLE_SUMMARY_SLIDECOUNT,   MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_SLIDECOUNT },
+	{ MS_OLE_SUMMARY_NOTECOUNT,    MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_NOTECOUNT },
+	{ MS_OLE_SUMMARY_HIDDENCOUNT,  MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_HIDDENCOUNT },
+	{ MS_OLE_SUMMARY_MMCLIPCOUNT,  MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_MMCLIPCOUNT },
+	{ MS_OLE_SUMMARY_SCALE,        MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_SCALE },
+	{ MS_OLE_SUMMARY_MANAGER,      MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_MANAGER },
+	{ MS_OLE_SUMMARY_COMPANY,      MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_COMPANY },
+	{ MS_OLE_SUMMARY_LINKSDIRTY,   MS_OLE_PS_DOCUMENT_SUMMARY_INFO,  SUMMARY_I_LINKSDIRTY }
 };
+
+
+int sum_name_to_excel (gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID psid);
 
 /*static SummaryItemBuiltin
 excel_to_gnumeric (guint32 type)
@@ -62,11 +97,12 @@ excel_to_gnumeric (guint32 type)
  *  This function takes as input the name from a SummaryItem record and
  *  converts it back to an MsOleSummaryPID.
  *
-**/
-static MsOleSummaryPID
-sum_name_to_excel (gchar *name)
+ **/
+int
+sum_name_to_excel (gchar *name, MsOleSummaryPID *pid, MsOlePropertySetID psid)
 {
 	gint	 i, j;
+
 	/*
 	 *  First find the name in the summary_item_name array.
 	 *  The index corresponds to a SummaryItemBuiltin type defined
@@ -76,68 +112,114 @@ sum_name_to_excel (gchar *name)
 	for (i = 0; i < sizeof (summary_item_name); i++) {
 		if (g_strcasecmp (summary_item_name[i], name) == 0) {
 			for (j = 0; j < sizeof (excel_to_gnum_mapping) / sizeof (mapping_t); j++) {
-				if (excel_to_gnum_mapping[j].gnumeric == i)
-					return excel_to_gnum_mapping[j].excel;
+			        if ((excel_to_gnum_mapping[j].ps_id    == psid) &&
+				    (excel_to_gnum_mapping[j].gnumeric ==    i)    ) {
+					*pid = excel_to_gnum_mapping[j].excel;
+					return 1;
+				}
 			}
 
-			g_warning ("sum_name_to_excel: gnumeric summary type not found - %d\n", i);
-			return (MsOleSummaryPID)-1;
+			return 0;
 		}
 	}
 	
 	g_warning ("sum_name_to_excel: summary name not found - %s\n", name);
-	return (MsOleSummaryPID)-1;
+	return 0;
 }
 
 static void
-read_summary_items (SummaryInfo *sin, MsOleSummary *si)
+read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 {
 	gint         i;
 	SummaryItem *sit;
 	gboolean     ok;
 
 	for (i = 0; i < sizeof (excel_to_gnum_mapping)/sizeof(mapping_t); i++) {
-		MsOleSummaryPID  p = excel_to_gnum_mapping[i].excel;
-		gchar           *name;
+		if (excel_to_gnum_mapping[i].ps_id == psid) {
+			MsOleSummaryPID  p = excel_to_gnum_mapping[i].excel;
+			gchar           *name;
 
-		sit = NULL;
-		name = summary_item_name[excel_to_gnum_mapping[i].gnumeric];
-		switch (MS_OLE_SUMMARY_TYPE (p)) {
+			sit = NULL;
+			name = summary_item_name[excel_to_gnum_mapping[i].gnumeric];
+			switch (MS_OLE_SUMMARY_TYPE (p)) {
 
-		case MS_OLE_SUMMARY_TYPE_STRING:
-		{
-			gchar *val = ms_ole_summary_get_string (si, p, &ok);
-			if (ok) {
-				sit = summary_item_new_string (name, val);
-				g_free (val);
+			case MS_OLE_SUMMARY_TYPE_STRING:
+			{
+				gchar *val = ms_ole_summary_get_string (si, p, &ok);
+				if (ok) {
+					sit = summary_item_new_string (name, val);
+					g_free (val);
+				}
+				break;
 			}
-			break;
-		}
 
-		case MS_OLE_SUMMARY_TYPE_LONG:
-		{
-			guint32 val = ms_ole_summary_get_long (si, p, &ok);
-			if (ok)
-				sit = summary_item_new_int (name, val);
-			break;
-		}
+			case MS_OLE_SUMMARY_TYPE_BOOLEAN:
+			{
+				gboolean val = ms_ole_summary_get_boolean (si, p, &ok);
+				if (ok)
+					sit = summary_item_new_boolean (name, val);
+				break;
+			}
 
-		default:
-			g_warning ("Unsupported summary type");
-			break;
+			case MS_OLE_SUMMARY_TYPE_SHORT:
+			{
+				guint16 val = ms_ole_summary_get_short (si, p, &ok);
+				if (ok)
+					sit = summary_item_new_short (name, val);
+				break;
+			}
+
+			case MS_OLE_SUMMARY_TYPE_LONG:
+			{
+				guint32 val = ms_ole_summary_get_long (si, p, &ok);
+				if (ok)
+					sit = summary_item_new_int (name, val);
+				break;
+			}
+
+			case MS_OLE_SUMMARY_TYPE_TIME:
+			{
+				GTimeVal val = ms_ole_summary_get_time (si, p, &ok);
+				if (ok)
+					sit = summary_item_new_time (name, val);
+				break;
+			}
+
+			default:
+				g_warning ("Unsupported summary type:%#x", p);
+				break;
+			}
+
+			if (sit)
+				summary_info_add (sin, sit);
 		}
-		if (sit)
-			summary_info_add (sin, sit);
 	}
 }
 
 void
 ms_summary_read (MsOle *f, SummaryInfo *sin)
 {
+	/*
+	 *  Get all the information from the SummaryInformation stream.
+	 */
 	MsOleSummary *si = ms_ole_summary_open (f);
 	if (si) {
-		read_summary_items (sin, si);
+		read_summary_items (sin, si, MS_OLE_PS_SUMMARY_INFO);
 		ms_ole_summary_close (si);
+	}
+	
+	/*
+	 *  Get all the information from the DocumentSummaryInformation stream.
+	 */
+	si = ms_ole_docsummary_open (f);
+	if (si)
+	{
+		read_summary_items (sin, si, MS_OLE_PS_DOCUMENT_SUMMARY_INFO);
+		ms_ole_summary_close (si);
+	} else {
+#if SUMMARY_DEBUG > 0		
+		printf ("ms_summary_read: Unable to open DocumentSummaryInformation.\n");
+#endif
 	}
 }
 
@@ -145,28 +227,36 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 static void
 set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 {
-	MsOleSummaryPID	pid;
+	MsOleSummaryPID	    pid;
+
+	if (sum_name_to_excel (s_item->name, &pid, ms_sum->ps_id) != 0) {
 	
-	pid = sum_name_to_excel (s_item->name);
-	g_return_if_fail (pid != -1);
+		switch (s_item->type) {
 	
-	switch (s_item->type) {
+		case SUMMARY_STRING:
+			ms_ole_summary_set_string (ms_sum, pid, s_item->v.txt);
+			break;
 	
-	case SUMMARY_STRING:
-		ms_ole_summary_set_string (ms_sum, pid, s_item->v.txt);
-		break;
+		case SUMMARY_BOOLEAN:
+			ms_ole_summary_set_boolean (ms_sum, pid, s_item->v.boolean);
+			break;
+
+		case SUMMARY_SHORT:
+			ms_ole_summary_set_short (ms_sum, pid, s_item->v.short_i);
+			break;
+
+		case SUMMARY_INT:
+			ms_ole_summary_set_long (ms_sum, pid, s_item->v.i);
+			break;
 	
-	case SUMMARY_INT:
-		ms_ole_summary_set_long (ms_sum, pid, s_item->v.i);
-		break;
+		case SUMMARY_TIME:
+			ms_ole_summary_set_time (ms_sum, pid, s_item->v.time);
+			break;
 	
-	case SUMMARY_TIME:
-		/* ms_ole_summary_set_time (ms_sum, pid, s_item->v.time); */
-		break;
-	
-	default:
-		g_warning ("Unsupported summary type: %d", s_item->type);
-		break;
+		default:
+			g_warning ("set_summary_item: Unsupported summary type - %d", s_item->type);
+			break;
+		}
 	
 	}
 	
@@ -179,8 +269,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	GList		*si_list;
 	MsOleSummary	*si;
 	
-	if (f == NULL)
-	{
+	if (f == NULL) {
 		g_warning ("ms_summary_write: no file to write to.\n");
 		return;
 	}
@@ -190,6 +279,9 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 		return;
 	}
 
+	/*
+	 *  Write out SummaryInformation.
+	 */
 	si = ms_ole_summary_create (f);
 	if (si == NULL) {
 		g_warning ("ms_summary_write: summary NOT created.\n");
@@ -197,8 +289,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	}
 
 	si_list = summary_info_as_list (sin);
-	if (si_list == NULL)
-	{
+	if (si_list == NULL) {
 		g_warning ("ms_summary_write: No summary list.\n");
 	}
 
@@ -206,5 +297,21 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	
 	ms_ole_summary_close (si);
 	
-}
+	/*
+	 *  Write out DocumentSummaryInformation.
+	 */
+	si = ms_ole_docsummary_create (f);
+	if (si == NULL) {
+		g_warning ("ms_summary_write: doc summary NOT created.\n");
+		return;
+	}
 
+	si_list = summary_info_as_list (sin);
+	if (si_list == NULL) {
+		g_warning ("ms_summary_write: No summary list.\n");
+	}
+
+	g_list_foreach (si_list, (GFunc)set_summary_item, si);
+	
+	ms_ole_summary_close (si);
+}

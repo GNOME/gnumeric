@@ -1,3 +1,49 @@
+1999-11-08  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/dialogs/dialog-summary.c (summary_get): fix minor naming
+	bug.
+
+	* src/mstyle.c (mstyle_element_dump): fixup for NULL borders.
+
+1999-11-08  Frank Chiulli <fchiulli@home.com>
+	
+	* src/summary.c : Added new strings to summary_item_name to reflect all
+	  the fields/items in SummaryInformation and DocumentSummaryInformation.
+
+	* src/summary.c (summary_item_new_boolean) : New function.
+	
+	* src/summary.c (summary_item_new_short) : New function.
+	
+	* src/summary.c (summary_item_as_text) : Now processes the new summary 
+	  types (SUMMARY_BOOLEAN, SUMMARY_SHORT, SUMMARY_TIME).
+
+	* src/summary.c (summary_item_free) : Now processes the new summary 
+	  types (SUMMARY_BOOLEAN, SUMMARY_SHORT, SUMMARY_TIME).
+	  
+	* src/summary.h : Added new enums to SummaryItemType (SUMMARY_BOOLEAN,
+	  SUMMARY_SHORT, SUMMARY_TIME).  Added new enums to SummaryItemBuiltin
+	  to summary all the summary items.  Added two new fields (short_i and
+	  boolean) the v union within the _SummaryItem struct.  Added prototypes
+	  for the new public functions.
+	  
+	* src/dialogs/dialog-summary.c (summary_get): Field names are construct-
+	  ed from the name in summary_item_name[] with "glade_" prefixed.
+
+	* src/dialogs/dialog-summary.c (summary_put): Field names are construct-
+	  ed from the name in summary_item_name[] with "glade_" prefixed.
+
+	* src/dialogs/dialog-summary.c (dialog_summary_update) : Added new 
+	  summary field - Company.
+	  
+	* src/dialogs/summary.glade : Added new summary field - Company.
+	  
+	* src/dialogs/summary.glade.h : Added new summary field - Company.
+       
+1999-11-08  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_selection_apply_border_cb): Update
+	to only set 'inner' regions.
+
 1999-11-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_write_style_border) : Handle NULL borders.

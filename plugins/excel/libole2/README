@@ -24,4 +24,7 @@ for homogeneity.
 summary info from OLE 2.0 document files, named CPPSUM available from
 the Somar Software WWW site at http://www.somar.com.
 	
+	The summary information code was extensively updated and re -
+written by Frank Chiulli incorporating both DocumentSummaryInformation
+and SummaryInformation streams, and implementing several new types.	
 

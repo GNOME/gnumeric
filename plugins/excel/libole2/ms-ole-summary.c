@@ -25,12 +25,36 @@ typedef struct {
 } section_t;
 
 typedef struct {
-	guint32 offset;
-	guint32 id;
+	guint32             offset;
+	guint32             id;
+	MsOlePropertySetID  ps_id;
 } item_t;
 
+const guint32	sum_fmtid[4] =  {
+				 0XF29F85E0,
+		           	 0X10684FF9,
+		           	 0X000891AB,
+		           	 0XD9B3272B
+				};
+
+const guint32	doc_fmtid[4] =  {	
+				 0XD5CDD502,
+		           	 0X101B2E9C,
+		           	 0X00089793,
+		           	 0XAEF92C2B
+			        };
+
+
+const guint32	user_fmtid[4] = {			
+				 0XD5CDD505,
+				 0X101B2E9C,
+		           	 0X00089793,
+		           	 0XAEF92C2B
+				};
+
+
 static gboolean
-read_items (MsOleSummary *si)
+read_items (MsOleSummary *si, MsOlePropertySetID psid)
 {
 	gint sect;
 	
@@ -57,6 +81,7 @@ read_items (MsOleSummary *si)
 			item.id     = MS_OLE_GET_GUINT32 (data);
 			item.offset = MS_OLE_GET_GUINT32 (data + 4);
 			item.offset = item.offset + st.offset;
+			item.ps_id  = psid;
 			g_array_append_val (si->items, item);
 		}
 	}
@@ -100,13 +125,13 @@ write_items (MsOleSummary *si)
 		/*
 		 *  The offset is calculated from the start of the 
 		 *  properties header.  The offset must be on a 
-		 * 4-byte boundary.
+		 *  4-byte boundary.
 		 */
 		offset = bytes + num * PROPERTY_DESC_LEN;
 		fill   = 0;
 		if ((offset & 0x3) > 0) {
-			offset += 4 - (offset & 0x3);
 			fill    = 4 - (offset & 0x3);
+			offset += fill;
 		}
 			
 		MS_OLE_SET_GUINT32 (data + 0, w->id & 0xff);
@@ -149,14 +174,14 @@ write_items (MsOleSummary *si)
 }
 
 MsOleSummary *
-ms_ole_summary_open_stream (MsOleStream *s)
+ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 {
-	guint8        data[64];
-	guint16       byte_order;
-	gboolean      panic = FALSE;
-	guint32       os_version;
-	MsOleSummary *si;
-	gint          i, sections;
+	guint8              data[64];
+	guint16             byte_order;
+	gboolean            panic = FALSE;
+	guint32             os_version;
+	MsOleSummary       *si;
+	gint                i, sections;
 
 	g_return_val_if_fail (s != NULL, NULL);
 
@@ -198,13 +223,38 @@ ms_ole_summary_open_stream (MsOleStream *s)
 			ms_ole_summary_close (si);
 			return NULL;
 		}
-		if (MS_OLE_GET_GUINT32 (data +  0) != 0XF29F85E0 ||
-		    MS_OLE_GET_GUINT32 (data +  4) != 0X10684FF9 ||
-		    MS_OLE_GET_GUINT32 (data +  8) != 0X000891AB ||
-		    MS_OLE_GET_GUINT32 (data + 12) != 0XD9B3272B) {
-			ms_ole_summary_close (si);
-			return NULL;
+		
+		if (psid == MS_OLE_PS_SUMMARY_INFO) {
+			if (MS_OLE_GET_GUINT32 (data +  0) == sum_fmtid[0] &&
+			    MS_OLE_GET_GUINT32 (data +  4) == sum_fmtid[1] &&
+			    MS_OLE_GET_GUINT32 (data +  8) == sum_fmtid[2] &&
+			    MS_OLE_GET_GUINT32 (data + 12) == sum_fmtid[3]    ) {
+				si->ps_id = MS_OLE_PS_SUMMARY_INFO;
+			
+			} else {
+				ms_ole_summary_close (si);
+				return NULL;
+			}
+			
+		} else if (psid == MS_OLE_PS_DOCUMENT_SUMMARY_INFO) {
+			if (MS_OLE_GET_GUINT32 (data +  0) == doc_fmtid[0] &&
+		            MS_OLE_GET_GUINT32 (data +  4) == doc_fmtid[1] &&
+		            MS_OLE_GET_GUINT32 (data +  8) == doc_fmtid[2] &&
+		            MS_OLE_GET_GUINT32 (data + 12) == doc_fmtid[3]    ) {
+				si->ps_id = MS_OLE_PS_DOCUMENT_SUMMARY_INFO;
+			
+			} else if (MS_OLE_GET_GUINT32 (data +  0) == user_fmtid[0] &&
+		            	   MS_OLE_GET_GUINT32 (data +  4) == user_fmtid[1] &&
+				   MS_OLE_GET_GUINT32 (data +  8) == user_fmtid[2] &&
+				   MS_OLE_GET_GUINT32 (data + 12) == user_fmtid[3]    ) {
+				si->ps_id = MS_OLE_PS_DOCUMENT_SUMMARY_INFO;
+			
+			} else {
+				ms_ole_summary_close (si);
+				return NULL;
+			}
 		}
+
 		sect.offset = MS_OLE_GET_GUINT32 (data + 16);
 		g_array_append_val (si->sections, sect);
 		/* We want to read the offsets of the items here into si->items */
@@ -212,7 +262,7 @@ ms_ole_summary_open_stream (MsOleStream *s)
 
 	si->items = g_array_new (FALSE, FALSE, sizeof (item_t));
 
-	if (!read_items (si)) {
+	if (!read_items (si, si->ps_id)) {
 		g_warning ("Serious error reading items");
 		ms_ole_summary_close (si);
 		return NULL;
@@ -221,6 +271,10 @@ ms_ole_summary_open_stream (MsOleStream *s)
 	return si;
 }
 
+/*
+ * ms_ole_summary_open:
+ * Opens the SummaryInformation stream.
+ */
 MsOleSummary *
 ms_ole_summary_open (MsOle *f)
 {
@@ -233,16 +287,36 @@ ms_ole_summary_open (MsOle *f)
 	if (result != MS_OLE_ERR_OK || !s)
 		return NULL;
 
-	return ms_ole_summary_open_stream (s);
+	return ms_ole_summary_open_stream (s, MS_OLE_PS_SUMMARY_INFO);
+}
+
+
+/*
+ * ms_ole_docsummary_open:
+ * Opens the DocumentSummaryInformation stream.
+ */
+MsOleSummary *
+ms_ole_docsummary_open (MsOle *f)
+{
+	MsOleStream *s;
+	MsOleErr     result;
+	g_return_val_if_fail (f != NULL, NULL);
+
+	result = ms_ole_stream_open (&s, f, "/",
+	                             "DocumentSummaryInformation", 'r');
+	if (result != MS_OLE_ERR_OK || !s)
+		return NULL;
+
+	return ms_ole_summary_open_stream (s, MS_OLE_PS_DOCUMENT_SUMMARY_INFO);
 }
 
 /*
  * Cheat by hard coding magic numbers and chaining on.
  */
 MsOleSummary *
-ms_ole_summary_create_stream (MsOleStream *s)
+ms_ole_summary_create_stream (MsOleStream *s, const MsOlePropertySetID psid)
 {
-	guint8        data[64];
+	guint8        data[78];
 	MsOleSummary *si;
 	g_return_val_if_fail (s != NULL, NULL);
 
@@ -255,23 +329,42 @@ ms_ole_summary_create_stream (MsOleStream *s)
 	MS_OLE_SET_GUINT32 (data + 12, 0x0000);
 	MS_OLE_SET_GUINT32 (data + 16, 0x0000);
 	MS_OLE_SET_GUINT32 (data + 20, 0x0000);
-       
-	MS_OLE_SET_GUINT32 (data + 24, 0x0001); /* Sections */
 
-	MS_OLE_SET_GUINT32 (data + 28, 0xF29F85E0); /* ID */
-	MS_OLE_SET_GUINT32 (data + 32, 0x10684FF9);
-	MS_OLE_SET_GUINT32 (data + 36, 0x000891AB);
-	MS_OLE_SET_GUINT32 (data + 40, 0xD9B3272B);
+	if (psid == MS_OLE_PS_SUMMARY_INFO) {
+		MS_OLE_SET_GUINT32 (data + 24, 0x0001); /* Sections */
 
-	MS_OLE_SET_GUINT32 (data + 44, 48); /* Section offset */
+		MS_OLE_SET_GUINT32 (data + 28, sum_fmtid[0]); /* ID */
+		MS_OLE_SET_GUINT32 (data + 32, sum_fmtid[1]);
+		MS_OLE_SET_GUINT32 (data + 36, sum_fmtid[2]);
+		MS_OLE_SET_GUINT32 (data + 40, sum_fmtid[3]);
 
-	MS_OLE_SET_GUINT32 (data + 48,  0); /* bytes */
-	MS_OLE_SET_GUINT32 (data + 52,  0); /* properties */
-	s->write (s, data, 56);
+		MS_OLE_SET_GUINT32 (data + 44, 0x30); /* Section offset = 48 */
+
+		MS_OLE_SET_GUINT32 (data + 48,  0); /* bytes */
+		MS_OLE_SET_GUINT32 (data + 52,  0); /* properties */
+
+		s->write (s, data, 56);
+
+	} else if (psid == MS_OLE_PS_DOCUMENT_SUMMARY_INFO) {
+		MS_OLE_SET_GUINT32 (data + 24, 0x0001); /* Sections */
+
+		MS_OLE_SET_GUINT32 (data + 28, doc_fmtid[0]); /* ID */
+		MS_OLE_SET_GUINT32 (data + 32, doc_fmtid[1]);
+		MS_OLE_SET_GUINT32 (data + 36, doc_fmtid[2]);
+		MS_OLE_SET_GUINT32 (data + 40, doc_fmtid[3]);
+
+		MS_OLE_SET_GUINT32 (data + 44, 0x30); /* Section offset = 48 */
+
+		MS_OLE_SET_GUINT32 (data + 48,  0); /* bytes */
+		MS_OLE_SET_GUINT32 (data + 52,  0); /* properties */
+
+		s->write (s, data, 56);
+
+	}
 
 	s->lseek (s, 0, MsOleSeekSet);
 
-	si = ms_ole_summary_open_stream (s);
+	si = ms_ole_summary_open_stream (s, psid);
 	si->read_mode = FALSE;
 
 	return si;
@@ -299,7 +392,32 @@ ms_ole_summary_create (MsOle *f)
 		return NULL;
 	}
 
-	return ms_ole_summary_create_stream (s);
+	return ms_ole_summary_create_stream (s, MS_OLE_PS_SUMMARY_INFO);
+}
+
+
+/**
+ *  ms_ole_docsummary_create
+ *
+ *  Create a MS DocumentSummaryInformation stream.
+ *
+**/
+MsOleSummary *
+ms_ole_docsummary_create (MsOle *f)
+{
+	MsOleStream *s;
+	MsOleErr     result;
+
+	g_return_val_if_fail (f != NULL, NULL);
+
+	result = ms_ole_stream_open (&s, f, "/",
+				     "DocumentSummaryInformation", 'w');
+	if (result != MS_OLE_ERR_OK || !s) {
+		printf ("ms_ole_docsummary_create: Can't open stream for writing\n");
+		return NULL;
+	}
+
+	return ms_ole_summary_create_stream (s, MS_OLE_PS_DOCUMENT_SUMMARY_INFO);
 }
 
 
@@ -347,11 +465,12 @@ void ms_ole_summary_close (MsOleSummary *si)
 /*
  *                        Record handling code
  */
-
-#define TYPE_STRING     0x1e
-#define TYPE_LONG       0x03
-#define TYPE_PREVIEW    0x47
-#define TYPE_TIME       0x1e
+#define TYPE_SHORT	0x02		/*   2, VT_I2,		2-byte signed integer  */
+#define TYPE_LONG       0x03		/*   3, VT_I4,		4-byte signed integer  */
+#define TYPE_BOOLEAN	0x0b		/*  11, VT_BOOL,	Boolean value  */
+#define TYPE_STRING     0x1e		/*  30, VT_LPSTR,	Pointer to null terminated ANSI string */
+#define TYPE_TIME       0x40		/*  64, VT_FILETIME,	64-bit FILETIME structure  */
+#define TYPE_PREVIEW    0x47		/*  71, VT_CF,		Pointer to a CLIPDATA structure  */
 
 /* Seeks to the correct place, and returns a handle or NULL on failure */
 static item_t *
@@ -415,7 +534,79 @@ ms_ole_summary_get_string (MsOleSummary *si, MsOleSummaryPID id,
 	return ans;
 }
 
-guint32 
+guint16
+ms_ole_summary_get_short (MsOleSummary *si, MsOleSummaryPID id,
+			 gboolean *available)
+{
+	guint8   data[8];
+	guint32  type;
+	guint32  value;
+	item_t  *item;
+
+	g_return_val_if_fail (available != NULL, 0);
+	*available = FALSE;
+	g_return_val_if_fail (si != NULL, 0);
+	g_return_val_if_fail (si->read_mode, 0);
+	g_return_val_if_fail (MS_OLE_SUMMARY_TYPE (id) ==
+			      MS_OLE_SUMMARY_TYPE_SHORT, 0);
+
+	if (!(item = seek_to_record (si, id)))
+		return 0;
+
+	if (!si->s->read_copy (si->s, data, 8))
+		return 0;
+
+	type  = MS_OLE_GET_GUINT32 (data);
+	value = MS_OLE_GET_GUINT16 (data + 4);
+
+	if (type != TYPE_SHORT) { /* Very odd */
+		g_warning ("Summary short type mismatch");
+		printf ("Type expected: %#4.4x\n", TYPE_SHORT);
+		printf ("Type found   : %#4.4x\n", type);
+		return 0;
+	}
+
+	*available = TRUE;
+	return value;
+}
+
+gboolean
+ms_ole_summary_get_boolean (MsOleSummary *si, MsOleSummaryPID id,
+			    gboolean *available)
+{
+	guint8    data[8];
+	guint32   type;
+	gboolean  value;
+	item_t   *item;
+
+	g_return_val_if_fail (available != NULL, 0);
+	*available = FALSE;
+	g_return_val_if_fail (si != NULL, 0);
+	g_return_val_if_fail (si->read_mode, 0);
+	g_return_val_if_fail (MS_OLE_SUMMARY_TYPE (id) ==
+			      MS_OLE_SUMMARY_TYPE_BOOLEAN, 0);
+
+	if (!(item = seek_to_record (si, id)))
+		return 0;
+
+	if (!si->s->read_copy (si->s, data, 8))
+		return 0;
+
+	type  = MS_OLE_GET_GUINT32  (data);
+	value = MS_OLE_GET_GUINT16 (data + 4);
+
+	if (type != TYPE_BOOLEAN) { /* Very odd */
+		g_warning ("Summary boolean type mismatch");
+		printf ("Type expected: %#4.4x\n", TYPE_BOOLEAN);
+		printf ("Type found   : %#4.4x\n", type);
+		return 0;
+	}
+
+	*available = TRUE;
+	return value;
+}
+
+guint32
 ms_ole_summary_get_long (MsOleSummary *si, MsOleSummaryPID id,
 			 gboolean *available)
 {
@@ -448,25 +639,178 @@ ms_ole_summary_get_long (MsOleSummary *si, MsOleSummaryPID id,
 	return value;
 }
 
-static void
-demangle_datetime (guint32 low, guint32 high, MsOleSummaryTime *time)
+
+/*
+ *  filetime_to_unixtime
+ *
+ *  Convert a FILETIME format to unixtime
+ *  FILETIME is the number of 100ns units since January 1, 1601.
+ *  unixtime is the number of seconds since January 1, 1970.
+ *
+ *  The difference in 100ns units between the two dates is:
+ *	116,444,736,000,000,000  (TIMEDIF)
+ *  (I'll let you do the math)
+ *  If we divide this into pieces,
+ *    high 32-bits = 27111902 or  TIMEDIF / 16^8
+ *    mid  16-bits =    54590 or (TIMEDIF - (high 32-bits * 16^8)) / 16^4
+ *    low  16-bits =    32768 or (TIMEDIF - (high 32-bits * 16^8) - (mid 16-bits * 16^4)
+ *
+ *  where all math is integer.
+ *
+ *  Adapted from work in 'wv' by:
+ *    Caolan McNamara (Caolan.McNamara@ul.ie)
+ */
+#define HIGH32_DELTA	27111902
+#define MID16_DELTA	   54590
+#define LOW16_DELTA        32768
+
+glong
+filetime_to_unixtime (guint32 low_time, guint32 high_time)
 {
-	/* See 'wv' for details */
-	g_warning ("FIXME: a vile mess...");
+	guint32		 low16;		/* 16 bit, low    bits */
+	guint32		 mid16;		/* 16 bit, medium bits */
+	guint32		 hi32;		/* 32 bit, high   bits */
+	unsigned int	 carry;		/* carry bit for subtraction */
+	int		 negative;	/* whether a represents a negative value */
+
+	/* Copy the time values to hi32/mid16/low16 */
+	hi32  =  high_time;
+	mid16 = low_time >> 16;
+	low16 = low_time &  0xffff;
+
+	/* Subtract the time difference */
+	if (low16 >= LOW16_DELTA           )
+		low16 -=             LOW16_DELTA        , carry = 0;
+	else
+		low16 += (1 << 16) - LOW16_DELTA        , carry = 1;
+
+	if (mid16 >= MID16_DELTA    + carry)
+		mid16 -=             MID16_DELTA + carry, carry = 0;
+	else
+		mid16 += (1 << 16) - MID16_DELTA - carry, carry = 1;
+
+	hi32 -= HIGH32_DELTA + carry;
+
+	/* If a is negative, replace a by (-1-a) */
+	negative = (hi32 >= ((guint32)1) << 31);
+	if (negative) {
+		/* Set a to -a - 1 (a is hi32/mid16/low16) */
+		low16 = 0xffff - low16;
+		mid16 = 0xffff - mid16;
+		hi32 = ~hi32;
+	}
+
+	/*
+	 *  Divide a by 10000000 (a = hi32/mid16/low16), put the rest into r.
+         * Split the divisor into 10000 * 1000 which are both less than 0xffff.
+	 */
+	mid16 += (hi32 % 10000) << 16;
+	hi32  /=       10000;
+	low16 += (mid16 % 10000) << 16;
+	mid16 /=       10000;
+	low16 /=       10000;
+
+	mid16 += (hi32 % 1000) << 16;
+	hi32  /=       1000;
+	low16 += (mid16 % 1000) << 16;
+	mid16 /=       1000;
+	low16 /=       1000;
+
+	/* If a was negative, replace a by (-1-a) and r by (9999999 - r) */
+	if (negative) {
+		/* Set a to -a - 1 (a is hi32/mid16/low16) */
+		low16 = 0xffff - low16;
+		mid16 = 0xffff - mid16;
+		hi32 = ~hi32;
+	}
+
+	/*  Do not replace this by << 32, it gives a compiler warning and 
+	 *  it does not work
+	 */
+	return ((((glong)hi32) << 16) << 16) + (mid16 << 16) + low16;
+
 }
 
-MsOleSummaryTime
+
+void
+unixtime_to_filetime (time_t unix_time, unsigned int *time_high, unsigned int *time_low)
+{
+	unsigned int	 low_16;
+	unsigned int	 mid_16;
+	unsigned int	 high32;
+	unsigned int	 carry;
+	
+	/*
+	 *  First split unix_time up.
+	 */
+	high32 = (unix_time >> 16) >> 16;
+	mid_16 =  unix_time >> 16;
+	low_16 =  unix_time  & 0xffff;
+	
+	/*
+	 *  Convert seconds to 100 ns units by multipling by 10,000,000.
+	 *  Do this in two steps, 10,000 and 1,000.
+	 */
+	low_16 *= 10000;
+	carry   = (low_16) >> 16;
+	low_16  = low_16 & 0xffff;
+	
+	mid_16 *= 10000;
+	mid_16 += carry;
+	carry   = (mid_16 >> 16);
+	mid_16  = mid_16 & 0xffff;
+	
+	high32 *= 10000;
+	high32 += carry;
+	
+	
+	low_16 *= 1000;
+	carry   = (low_16) >> 16;
+	low_16  = low_16 & 0xffff;
+	
+	mid_16 *= 1000;
+	mid_16 += carry;
+	carry   = (mid_16 >> 16);
+	mid_16  = mid_16 & 0xffff;
+	
+	high32 *= 1000;
+	high32 += carry;
+	
+	/*
+	 *  Now add in the time difference.
+	 */
+	low_16 += LOW16_DELTA;
+	mid_16 += (low_16 >> 16);
+	low_16  =  low_16  & 0xffff;
+	
+	mid_16 += MID16_DELTA;
+	high32 += (mid_16 >> 16);
+	mid_16  =  mid_16  & 0xffff;
+	
+	high32 += HIGH32_DELTA;
+	
+	*time_high = high32;
+	*time_low  = (mid_16 << 16) + low_16;
+	
+	return;
+	
+}
+
+
+GTimeVal
 ms_ole_summary_get_time (MsOleSummary *si, MsOleSummaryPID id,
 			 gboolean *available)
 {
-	guint8  data[12];
-	guint32 type, lowdate, highdate;
-	item_t *item;
-	MsOleSummaryTime time;
+	guint8   data[12];
+	guint32  type;
+	guint32  low_time;
+	guint32  high_time;
+	item_t  *item;
+	GTimeVal time;
 
-	time.time.tv_sec  = 0;   /* Magic numbers */
-	time.time.tv_usec = 0;
-	g_date_set_dmy (&time.date, 18, 6, 1977);
+	time.tv_sec  = 0;   /* Magic numbers */
+	time.tv_usec = 0;
+/*	g_date_set_dmy (&time.date, 18, 6, 1977); */
 
 	g_return_val_if_fail (available != NULL, time);
 	*available = FALSE;
@@ -478,20 +822,20 @@ ms_ole_summary_get_time (MsOleSummary *si, MsOleSummaryPID id,
 	if (!(item = seek_to_record (si, id)))
 		return time;
 
-	if (!si->s->read_copy (si->s, data, 8))
+	if (!si->s->read_copy (si->s, data, 12))
 		return time;
 
-	type = MS_OLE_GET_GUINT32 (data);
-	lowdate  = MS_OLE_GET_GUINT32 (data + 4);
-	highdate = MS_OLE_GET_GUINT32 (data + 8);
+	type      = MS_OLE_GET_GUINT32 (data);
+	low_time  = MS_OLE_GET_GUINT32 (data + 4);
+	high_time = MS_OLE_GET_GUINT32 (data + 8);
 
 	if (type != TYPE_TIME) { /* Very odd */
 		g_warning ("Summary string type mismatch");
 		return time;
 	}
 
-	demangle_datetime (highdate, lowdate, &time);
-
+	time.tv_sec = filetime_to_unixtime (low_time, high_time);
+	
 	*available = TRUE;
 	return time;
 }
@@ -571,7 +915,7 @@ ms_ole_summary_set_preview (MsOleSummary *si, MsOleSummaryPID id,
 	write_item_t *w;
 
 	g_return_if_fail (si != NULL);
-	g_return_if_fail (si->read_mode);
+	g_return_if_fail (!si->read_mode);
 	g_return_if_fail (preview != NULL);
 
 	w = write_item_t_new (si, id);
@@ -588,13 +932,14 @@ ms_ole_summary_set_preview (MsOleSummary *si, MsOleSummaryPID id,
 
 void
 ms_ole_summary_set_time (MsOleSummary *si, MsOleSummaryPID id,
-			 const MsOleSummaryTime *time)
+			 GTimeVal time)
 {
-	write_item_t *w;
+	unsigned int	 time_high;
+	unsigned int	 time_low;
+	write_item_t	*w;
 
 	g_return_if_fail (si != NULL);
-	g_return_if_fail (time != NULL);
-	g_return_if_fail (si->read_mode);
+	g_return_if_fail (!si->read_mode);
 
 	w = write_item_t_new (si, id);
 
@@ -602,10 +947,47 @@ ms_ole_summary_set_time (MsOleSummary *si, MsOleSummaryPID id,
 	w->len  = 12;
 
 	MS_OLE_SET_GUINT32 (w->data + 0, TYPE_TIME);
-	MS_OLE_SET_GUINT32 (w->data + 4, 0xdeadcafe);
-	MS_OLE_SET_GUINT32 (w->data + 8, 0xcafedead);
+	
+        unixtime_to_filetime ((time_t)time.tv_sec, &time_high, &time_low);
+	
+	MS_OLE_SET_GUINT32 (w->data + 4, time_low);
+	MS_OLE_SET_GUINT32 (w->data + 8, time_high);
+}
 
-	g_warning ("times not yet implemented");
+void
+ms_ole_summary_set_boolean (MsOleSummary *si, MsOleSummaryPID id,
+			    gboolean bool)
+{
+	write_item_t *w;
+
+	g_return_if_fail (si != NULL);
+	g_return_if_fail (!si->read_mode);
+
+	w = write_item_t_new (si, id);
+
+	w->data = g_new (guint8, 8);
+	w->len  = 8;
+
+	MS_OLE_SET_GUINT32 (w->data + 0, TYPE_BOOLEAN);
+	MS_OLE_SET_GUINT16 (w->data + 4, bool);
+}
+
+void
+ms_ole_summary_set_short (MsOleSummary *si, MsOleSummaryPID id,
+			 guint16 i)
+{
+	write_item_t *w;
+
+	g_return_if_fail (si != NULL);
+	g_return_if_fail (!si->read_mode);
+
+	w = write_item_t_new (si, id);
+
+	w->data = g_new (guint8, 8);
+	w->len  = 8;
+
+	MS_OLE_SET_GUINT32 (w->data + 0, TYPE_SHORT);
+	MS_OLE_SET_GUINT16 (w->data + 4, i);
 }
 
 void
@@ -615,7 +997,7 @@ ms_ole_summary_set_long (MsOleSummary *si, MsOleSummaryPID id,
 	write_item_t *w;
 
 	g_return_if_fail (si != NULL);
-	g_return_if_fail (si->read_mode);
+	g_return_if_fail (!si->read_mode);
 
 	w = write_item_t_new (si, id);
 

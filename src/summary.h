@@ -13,19 +13,46 @@
 typedef struct _SummaryItem SummaryItem;
 typedef struct _SummaryInfo SummaryInfo;
 
-typedef enum { SUMMARY_STRING, SUMMARY_INT, SUMMARY_TIME } SummaryItemType;
+typedef enum { SUMMARY_STRING, 
+               SUMMARY_BOOLEAN, 
+	       SUMMARY_SHORT, 
+	       SUMMARY_INT, 
+	       SUMMARY_TIME 
+	     } SummaryItemType;
 
 /* See dialog-summary.c before fiddling */
-typedef enum { SUMMARY_I_TITLE,
+typedef enum { SUMMARY_I_CODEPAGE,
+               SUMMARY_I_TITLE,
 	       SUMMARY_I_SUBJECT,
 	       SUMMARY_I_AUTHOR,
 	       SUMMARY_I_KEYWORDS,
 	       SUMMARY_I_COMMENTS,
 	       SUMMARY_I_TEMPLATE,
 	       SUMMARY_I_LASTAUTHOR,
-	       SUMMARY_I_MANAGER,
-	       SUMMARY_I_CATEGORY,
+	       SUMMARY_I_REVNUMBER,
+	       SUMMARY_I_LASTPRINTED,
+	       SUMMARY_I_CREATED,
+	       SUMMARY_I_LASTSAVED,
+	       SUMMARY_I_PAGECOUNT,
+	       SUMMARY_I_WORDCOUNT,
+	       SUMMARY_I_CHARCOUNT,
 	       SUMMARY_I_APP,
+	       SUMMARY_I_SECURITY,
+	       
+	       SUMMARY_I_CATEGORY,
+	       SUMMARY_I_PRESFORMAT,
+	       SUMMARY_I_BYTECOUNT,
+	       SUMMARY_I_LINECOUNT,
+	       SUMMARY_I_PARCOUNT ,
+	       SUMMARY_I_SLIDECOUNT,
+	       SUMMARY_I_NOTECOUNT,
+	       SUMMARY_I_HIDDENCOUNT,
+	       SUMMARY_I_MMCLIPCOUNT,
+	       SUMMARY_I_SCALE,
+	       SUMMARY_I_MANAGER,
+	       SUMMARY_I_COMPANY,
+	       SUMMARY_I_LINKSDIRTY,
+
 	       SUMMARY_I_MAX } SummaryItemBuiltin;
 
 /* Builtin names: use summary_item_name[SUMMARY_I_TITLE] */
@@ -42,14 +69,18 @@ struct _SummaryItem {
 		gchar    *txt;
 		GTimeVal  time;
 		gint      i;
+		gshort	  short_i;
+		gboolean  boolean;
 	} v;
 };
 
-SummaryItem *summary_item_new_int    (const gchar *name, gint i);
-SummaryItem *summary_item_new_time   (const gchar *name, GTimeVal t);
-SummaryItem *summary_item_new_string (const gchar *name, const gchar *string);
-char        *summary_item_as_text    (const SummaryItem *sit);
-void         summary_item_free       (SummaryItem *sit);
+SummaryItem *summary_item_new_boolean (const gchar *name, gboolean i);
+SummaryItem *summary_item_new_short   (const gchar *name, gshort i);
+SummaryItem *summary_item_new_int     (const gchar *name, gint i);
+SummaryItem *summary_item_new_time    (const gchar *name, GTimeVal t);
+SummaryItem *summary_item_new_string  (const gchar *name, const gchar *string);
+char        *summary_item_as_text     (const SummaryItem *sit);
+void         summary_item_free        (SummaryItem *sit);
 
 struct _SummaryInfo {
 	GHashTable *names;

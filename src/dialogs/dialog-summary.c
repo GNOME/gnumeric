@@ -22,7 +22,7 @@ summary_get (GladeXML *gui, SummaryInfo *sin)
 
 	for (lp = 0; lp < SUMMARY_I_MAX; lp++) {
 		SummaryItem *sit;
-		gchar *name = summary_item_name[lp];
+		gchar *name = g_strconcat("glade_", summary_item_name[lp], NULL);
 		GtkWidget *w = glade_xml_get_widget (gui, name);
 
 		if (!w)
@@ -40,9 +40,10 @@ summary_get (GladeXML *gui, SummaryInfo *sin)
 			else
 				txt = gtk_entry_get_text (GTK_ENTRY (w));
 
-			sit = summary_item_new_string (name, txt);
+			sit = summary_item_new_string (summary_item_name[lp], txt);
 			summary_info_add (sin, sit);
 		}
+		g_free (name);
 	}
 }
 
@@ -53,18 +54,23 @@ summary_put (GladeXML *gui, SummaryInfo *sin)
 
 	m = l = summary_info_as_list (sin);
 	while (l) {
+		gchar       *name =  NULL;
 		SummaryItem *sit = l->data;
-		GtkWidget *w ;
+		GtkWidget   *w ;
 
-		if (sit && sit->type == SUMMARY_STRING &&
-		    (w = glade_xml_get_widget (gui, sit->name))) {
-			gchar *txt = sit->v.txt;
+		if (sit && (sit->type == SUMMARY_STRING)) {
+			name = g_strconcat ("glade_", sit->name, NULL);
+			w = glade_xml_get_widget (gui, name);
+			if (w) {
+				gchar *txt = sit->v.txt;
 
-			if (g_strcasecmp (sit->name, summary_item_name [SUMMARY_I_COMMENTS]) == 0) {
-				gint p = 0;
-				gtk_editable_insert_text (GTK_EDITABLE (w), txt, strlen (txt), &p);
-			} else
-				gtk_entry_set_text (GTK_ENTRY (w), txt);
+				if (g_strcasecmp (sit->name, summary_item_name [SUMMARY_I_COMMENTS]) == 0) {
+					gint p = 0;
+					gtk_editable_insert_text (GTK_EDITABLE (w), txt, strlen (txt), &p);
+				} else
+					gtk_entry_set_text (GTK_ENTRY (w), txt);
+			}
+			g_free (name);
 		}
 		l = g_list_next (l);
 	}
@@ -78,8 +84,14 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 	GtkWidget *dia;
 	int i;
 	static char *names[] 
-	  = {"glade_title", "glade_author", "glade_category", 
-	     "glade_keywords", "glade_manager"};
+	  = {
+	     "glade_title",
+	     "glade_author",
+	     "glade_category", 
+	     "glade_keywords",
+	     "glade_manager",
+	     "glade_company"
+	    };
 	gint v;
 
 	if (!gui) {

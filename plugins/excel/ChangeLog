@@ -1,3 +1,29 @@
+1999-11-08  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-summary.c (ms_summary_read): quieten.
+
+1999-11-08  Frank Chiulli  <fchiulli@home.com>
+	* ms-summary.c :  Added support for DocumentSummaryInformation stream.
+	  Added new field, ps_id (Property Set ID), to mapping_t structure and
+	  initialized excel_to_gnum_mapping[] appropriately.
+	  
+	* ms-summary.c (sum_name_to_excel) : New function to convert a summary
+	  name to a MsOleSummaryPID.
+
+	* ms-summary.c (read_summary_items) : Added new argument - psid (Property
+	  Set ID).  It also checks to see that the summary item is in current
+	  Summary stream as identified by psid.  Added support for additional 
+	  summary types (boolean, short, time).
+	  
+	* ms-summary.c (ms_summary_read) : Reads DocumentSummaryInformation 
+	  stream and summary items therein.
+
+	* ms-summary.c (set_summary_item) : Processes additional summary types
+	  (boolean, int, short, time).
+
+	* ms-summary.c (ms_summary_write) : Now also writes out the
+	  DocumentSummaryInformation stream.
+	
 1999-11-07  Michael Meeks  <mmeeks@gnu.org>
 
 	* boot.c (excel_save): Invert sense of return value to reflect success.

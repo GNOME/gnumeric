@@ -998,6 +998,7 @@ do_apply_border (Sheet *sheet, const Range *r,
  * Apply borders round the edge of a range.
  * ignore special corner cases; these are made by
  * an implicit StyleRegion overlap at present.
+ *
  */
 static void
 sheet_selection_apply_border_cb (Sheet *sheet,
@@ -1007,67 +1008,31 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	Range   r;
 	apply_border_closure_t *cl = user_data;
 
-	/* 1.1 The top outer */
+	/* 1.1 The top inner */
 	r = *range;
-	r.start.row--;
 	r.end.row = r.start.row;
-	if (r.start.row >= 0)
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_BOTTOM, cl->top);
-	/* 1.2 The top inner */
-	r.start.row++;
-	r.end.row++;
-	if (r.start.row < SHEET_MAX_ROWS)
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_TOP, cl->top);
+	do_apply_border (sheet, &r,
+			 MSTYLE_BORDER_TOP, cl->top);
 
-
-	/* 2.1 The bottom outer */
+	/* 2.1 The bottom inner */
 	r = *range;
-	r.end.row++;
 	r.start.row = r.end.row;
-	if (r.end.row < SHEET_MAX_ROWS)
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_TOP, cl->bottom);
-
-	/* 2.2 The bottom inner */
-	r.start.row--;
-	r.end.row--;
-	if (r.start.row >= 0)
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_BOTTOM, cl->bottom);
+	do_apply_border (sheet, &r,
+			 MSTYLE_BORDER_BOTTOM, cl->bottom);
 
 
-	/* 3.1 The left outer */
+	/* 3.1 The left inner */
 	r = *range;
-	r.start.col--;
 	r.end.col = r.start.col;
-	if (r.start.col >= 0)
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_RIGHT, cl->left);
-
-	/* 3.2 The left inner */
-	r.start.col++;
-	r.end.col++;
-	if (r.start.col < SHEET_MAX_COLS)
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_LEFT, cl->left);
+	do_apply_border (sheet, &r,
+			 MSTYLE_BORDER_LEFT, cl->left);
 
 
-	/* 4.1 The right outer */
+	/* 4.1 The right inner */
 	r = *range;
-	r.end.col++;
 	r.start.col = r.end.col;
-	if (r.start.col < SHEET_MAX_COLS)
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_LEFT, cl->right);
-
-	/* 4.2 The right inner */
-	r.start.col--;
-	r.end.col--;
-	if (r.start.col >= 0)
-		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_RIGHT, cl->right);
+	do_apply_border (sheet, &r,
+			 MSTYLE_BORDER_RIGHT, cl->right);
 
 	sheet_style_optimize (sheet, *range);
 	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,

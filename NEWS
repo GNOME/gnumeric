@@ -27,6 +27,10 @@ Federico:
 Robert:
 	* Primitive oleo import : supports numbers and text.
 
+Frank:
+	* Huge chunk of summary-info re-structuring.
+	* Import and export lots of new summary fields.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.39

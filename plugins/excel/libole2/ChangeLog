@@ -1,3 +1,89 @@
+1999-11-08  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-ole-summary.c (ms_ole_docsummary_open): quieten.
+
+1999-11-xx  Frank Chiulli  <fchiulli@home.com>
+	
+	* ms-ole-summary.c : Added new field (ps_id, Property Set ID) to the
+	  structure item_t.  Define the Summary FMTIDs as constants.  Define
+	  new TYPE_* s to handle additional items.
+
+	* ms-ole-summary.c (read_items) : Add a new argument - psid (Property
+	  Set ID).  Use this to set the new ps_id field in item_t.  
+
+	* ms-ole-summary.c (write_items) : Correct an error when calculating 
+	  the offset of an item.
+
+	* ms-ole-summary.c (ms_ole_summary_open_stream) : Add a new argument - 
+	  psid (Property Set ID).  Change references to FMTIDs from magic 
+	  numbers to references to constants.  Set ps_id in SummaryInfo 
+	  accordingly.  Change call to read_items.
+
+	* ms-ole-summary.c (ms_ole_summary_open) : Add argument in call to
+	  ms_ole_summary_open_stream.
+
+	* ms-ole-summary.c (ms_ole_docsummary_open) : New function - opens the
+	  DocumentSummaryInformation stream.
+
+	* ms-ole-summary.c (ms_ole_summary_create_stream) : Add new argument -
+	  psid (Property Set ID).  Change references to FMTIDs from magic 
+	  numbers to references to constants.  Segregrate the processing for the
+	  different Summary streams.  Although they are identical now they
+	  should change in the future because DocumentSummaryInformation can
+	  contain two streams.  Add new argument in call to 
+	  ms_ole_summary_open_stream.
+
+	* ms-ole-summary.c (ms_ole_summary_create) : Add new argument in call to
+	  ms_ole_summary_create_stream.
+
+	* ms-ole-summary.c (ms_ole_docsummary_create) : New function to create
+	  the DocumentSummaryInformation stream.
+
+	* ms-ole-summary.c (ms_ole_summary_get_short) : New function to read/get
+	  items which are typed as short integers.
+
+	* ms-ole-summary.c (ms_ole_summary_get_boolean) : New function to read/
+	  get items which are typed as booleans.
+
+	* ms-ole-summary.c (filetime_to_unixtime) : New function to convert DOS
+	  filetime to UNIX time.  This function was adapted from a similiar
+	  function in 'wv' by Caolan McNamara (Caolan.McNamara@ul.ie).
+
+	* ms-ole-summary.c (unixtime_to_filetime) : New function to convert UNIX
+	  time to DOS filetime.
+
+	* ms-ole-summary.c (ms_ole_summary_get_time) : Rewritten function to 
+	  get/read items which are typed as time.
+
+	* ms-ole-summary.c (ms_ole_summary_get_boolean) : Corrected a test.
+
+	* ms-ole-summary.c (ms_ole_summary_set_time) : Rewritten function to 
+	  set items which are typed as time.
+
+	* ms-ole-summary.c (ms_ole_summary_set_boolean) : Rewritten function to 
+	  set items which are typed as boolean.
+
+	* ms-ole-summary.c (ms_ole_summary_set_short) : New function to set
+	  items which are typed as short.
+
+	* ms-ole-summary.c (ms_ole_summary_set_long) : Corrected a test.
+
+	* ms-ole-summary.h : Added new enum - MsOlePropertySetID.  Added new 
+	  field (ps_id, Property Set ID) to the MsOleSummary structure.  Added
+	  prototypes for the following new public functions:
+	    ms_ole_docsummary_open
+	    ms_ole_docsummary_create
+	    ms_ole_summary_get_boolean
+	    ms_ole_summary_get_short
+	    ms_ole_summary_set_boolean
+	    ms_ole_summary_set_short
+	    filetime_to_unixtime
+	    unixtime_to_filetime
+	  Modified prototypes where arguments were added.  Added new types to
+	  MsOleSummaryType.  Added new enums to MsOleSummaryPID to reflect new
+	  items in DocumentSummaryInformation and additional ones in 
+	  SummaryInformation.
+
 1999-11-08  Arturo Tena <arturo@directmail.org>
 
 	* ms-ole.c: Fixed some OLE_DEBUG #if's.
