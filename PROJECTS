@@ -34,6 +34,13 @@ Description                                             Difficulty  Integration
 
 - Add dynamic tooltips to the toolbar combo boxes	Medium	    Low
 
+- gtk-combo-box : should handle standard keys		Low	    Low
+  Esc = cancel, Enter = accept.
+
+- gtk-combo-text : list should auto scroll when the	Low	    Low
+  mouse moves outside.  A prettier mouse over for the
+  text entry would be nice.
+
 -------------------------------------------------------------------------------
 Difficulty: an estimate of how hard the task would be for the average hacker.
   (This is not an estimate of project size; a project can be very big, but

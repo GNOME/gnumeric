@@ -4,9 +4,7 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- print-preview is not cleared between pages.
-- gnumeric depends on unreleased gnome-print
-- gnumeric depends on unreleased bonobo
+- Why is stf text import not poping up a dialog ?
 
 Long term breakage
 ------------------
@@ -33,10 +31,6 @@ Function Breakage
 
 Widget polishing
 ----------------
-- gtk-combo-box
-    : Escape does not cancel
-
 - gtk-combo-text
-    : Does not autoscroll when mouse moves outside list (see font list)
     : a value entered directly in the edit field does not handle selection in
       the list correctly
