@@ -47,7 +47,7 @@ struct _FunctionDefinition {
 	FunctionFlags flags;
 	gchar   const *name;
 	gchar   const *named_arguments;
-	gchar        **help;
+	gchar   const **help;
 	FuncType       fn_type;
 	union {
 		FunctionNodes *fn_nodes;
@@ -298,7 +298,8 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 		          &fn_args, &fn_nodes);
 		if (success) {
 			fn_def->named_arguments = arg_names;
-			fn_def->help = help;
+			/* FIXME: kill this cast.  */
+			fn_def->help = (const char **)help;
 			if (fn_args != NULL) {
 				fn_def->fn_type = FUNCTION_ARGS;
 				fn_def->fn.args.func = fn_args;
