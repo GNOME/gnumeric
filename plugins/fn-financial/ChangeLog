@@ -1,3 +1,11 @@
+2004-04-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (calculate_fvifa, calculate_pvif,
+	calculate_interest_part, price, gnumeric_effect, gnumeric_nominal,
+	gnumeric_mirr, irr_npv, irr_npv_df, callback_function_npv,
+	gnumeric_xnpv, xirr_npv): Improve precision for small rates using
+	new pow1p and pow1pm1.
+
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.0

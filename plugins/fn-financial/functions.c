@@ -89,7 +89,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 static gnm_float
 calculate_pvif (gnm_float rate, gnm_float nper)
 {
-	return (powgnum (1 + rate, nper));
+	return pow1p (rate, nper);
 }
 
 static gnm_float
@@ -99,8 +99,7 @@ calculate_fvifa (gnm_float rate, gnm_float nper)
 	if (rate == 0)
 		return nper;
 	else
-		/* FIXME: this sucks for very small rates.  */
-		return (powgnum (1 + rate, nper) - 1) / rate;
+		return pow1pm1 (rate, nper) / rate;
 }
 
 
@@ -108,8 +107,8 @@ static gnm_float
 calculate_interest_part (gnm_float pv, gnm_float pmt,
 			 gnm_float rate, gnm_float per)
 {
-	return -(pv * powgnum (1 + rate, per) * rate +
-		 pmt * (powgnum (1 + rate, per) - 1));
+	return -(pv * pow1p (rate, per) * rate +
+		 pmt * pow1pm1 (rate, per));
 }
 
 static gnm_float
@@ -241,7 +240,7 @@ static gnm_float
 price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
        gnm_float redemption, GnmCouponConvention const *conv)
 {
-	gnm_float a, d, e, sum, den, base, exponent, first_term, last_term;
+	gnm_float a, d, e, sum, den, basem1, exponent, first_term, last_term;
 	gint       k, n;
 
 	a = coupdaybs (settlement, maturity, conv);
@@ -251,12 +250,13 @@ price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
 
 	sum = 0.0;
 	den = 100.0 * rate / conv->freq;
-	base = 1.0 + yield / conv->freq;
+	basem1 = yield / conv->freq;
 	exponent = d / e;
+	/* FIXME: Eliminate loop.  */
 	for (k = 0; k < n; k++)
-	        sum += den / powgnum (base, exponent + k);
+	        sum += den / pow1p (basem1, exponent + k);
 
-	first_term = redemption / powgnum (base, (n - 1.0 + d / e));
+	first_term = redemption / pow1p (basem1, (n - 1.0 + d / e));
 	last_term = a / e * den;
 
 	return (first_term + sum - last_term);
@@ -767,7 +767,7 @@ gnumeric_effect (FunctionEvalInfo *ei, GnmValue **argv)
 	if (rate < 0 || nper <= 0)
                 return value_new_error_NUM (ei->pos);
 
-        return value_new_float (powgnum ((1 + rate / nper), nper) - 1);
+        return value_new_float (pow1pm1 (rate / nper, nper));
 }
 
 /***************************************************************************/
@@ -805,7 +805,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, GnmValue **argv)
 	if (rate < 0 || nper <= 0)
                 return value_new_error_NUM (ei->pos);
 
-        return value_new_float (nper * (powgnum (1 + rate, 1.0 / nper ) - 1));
+        return value_new_float (nper * pow1pm1 (rate, 1.0 / nper));
 }
 
 /***************************************************************************/
@@ -1187,9 +1187,9 @@ gnumeric_mirr (FunctionEvalInfo *ei, GnmValue **argv)
 	for (i = 0, npv_pos = npv_neg = 0; i < n; i++) {
 		gnm_float v = values[i];
 		if (v >= 0)
-			npv_pos += v / powgnum (1 + rrate, i);
+			npv_pos += v / pow1p (rrate, i);
 		else
-			npv_neg += v / powgnum (1 + frate, i);
+			npv_neg += v / pow1p (frate, i);
 	}
 
 	if (npv_neg == 0 || npv_pos == 0 || rrate <= -1) {
@@ -1202,8 +1202,8 @@ gnumeric_mirr (FunctionEvalInfo *ei, GnmValue **argv)
 	 * the one Microsoft claims to use and it produces the results
 	 * that Excel does.  -- MW.
 	 */
-	res = powgnum ((-npv_pos * powgnum (1 + rrate, n))
-		       / (npv_neg * (1 + rrate)), (1.0 / (n - 1))) - 1.0;
+	res = powgnum ((-npv_pos * pow1p (rrate, n)) / (npv_neg * (1 + rrate)),
+		       (1.0 / (n - 1))) - 1.0;
 
 	result = value_new_float (res);
 out:
@@ -1501,7 +1501,7 @@ irr_npv (gnm_float rate, gnm_float *y, void *user_data)
 
 	sum = 0;
 	for (i = 0; i < n; i++)
-	        sum += values[i] * powgnum (1 + rate, n - i);
+	        sum += values[i] * pow1p (rate, n - i);
 
 	/*
 	 * I changed the formula above by multiplying all terms by (1+r)^n.
@@ -1525,7 +1525,7 @@ irr_npv_df (gnm_float rate, gnm_float *y, void *user_data)
 
 	sum = 0;
 	for (i = 0; i < n - 1; i++)
-	        sum += values[i] * (n - i) * powgnum (1 + rate, n - i - 1);
+	        sum += values[i] * (n - i) * pow1p (rate, n - i - 1);
 
 	*y = sum;
 	return GOAL_SEEK_OK;
@@ -1654,8 +1654,7 @@ callback_function_npv (const GnmEvalPos *ep, GnmValue *value, void *closure)
 	if (mm->num == 0) {
 		mm->rate = value_get_as_float (value);
 	} else
-		mm->sum += value_get_as_float (value) /
-		        powgnum (1 + mm->rate, mm->num);
+		mm->sum += value_get_as_float (value) / pow1p (mm->rate, mm->num);
 	mm->num++;
         return NULL;
 }
@@ -1724,8 +1723,8 @@ gnumeric_xnpv (FunctionEvalInfo *ei, GnmValue **argv)
 	}
 
 	for (i = 0; i < p_n; i++)
-	        sum += payments[i] / powgnum (1 + rate, (dates[i] - dates[0]) /
-					      365.0);
+	        sum += payments[i] /
+			pow1p (rate, (dates[i] - dates[0]) / 365.0);
 
 	result = value_new_float (sum);
  out:
@@ -1790,7 +1789,7 @@ xirr_npv (gnm_float rate, gnm_float *y, void *user_data)
 
 		if (d < 0)
 		        return GOAL_SEEK_ERROR;
-	        sum += values[i] / powgnum (1 + rate, d / 365.0);
+	        sum += values[i] / pow1p (rate, d / 365.0);
 	}
 
 	*y = sum;

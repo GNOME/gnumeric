@@ -1,5 +1,9 @@
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (pow1p, pow1pm1): New functions.
+
+2004-04-12  Morten Welinder  <terra@gnome.org>
+
 	* src/mathfunc.c (pf): New implementation.
 
 	* src/history.c (history_item_label): Handle accel_number >= 10

@@ -7011,6 +7011,27 @@ lbeta3 (gnm_float a, gnm_float b, int *sign)
 }
 
 
+/* Calculate (1+x)^r accurately.  */
+gnm_float
+pow1p (gnm_float x, gnm_float y)
+{
+	if (gnumabs (x) > 0.5)
+		return powgnum (1 + x, y);
+	else
+		return expgnum (y * log1pgnum (x));
+}
+
+/* Calculate ((1+x)^r)-1 accurately.  */
+gnm_float
+pow1pm1 (gnm_float x, gnm_float y)
+{
+	if (x <= -1)
+		return powgnum (1 + x, y) - 1;
+	else
+		return expm1gnum (y * log1pgnum (x));
+}
+
+
 /*
  ---------------------------------------------------------------------
   Matrix functions
