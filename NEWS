@@ -29,7 +29,8 @@ Jody:
 	* Off by 1 pixel/pt error when handling right/center alignment.
 	* Improve sheet object menus.
 	* Reworked the Text Combo,
-	* Remove the eval queue
+	* Remove the eval queue.
+	* Improve the Histogram tool slightly.
 	* Improve INDIRECT.
 	* Sort the function names for the index generator.
 	* Fix handling of mixed mode references.

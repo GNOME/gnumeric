@@ -3,6 +3,7 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=61742
 	* analysis-tools.glade : put all the output radio buttons for
 	  histograms in the same group.
+	Disable the 'Chart Output' button until we implement it.
 
 2001-10-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

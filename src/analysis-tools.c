@@ -186,16 +186,18 @@ set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *te
 /* Returns 1 if non-numeric data was found, 0 otherwise.
  */
 static int
-get_data (Sheet *sheet, Range *range, data_set_t *data)
+get_data (Sheet *sheet, Range *range, data_set_t *data, gboolean ignore_blanks)
 {
         gpointer p;
 	Value const   *v;
 	gnum_float  x;
 	int      row, col, status = 0;
 
-	data->sum = 0;
-	data->sum2 = 0;
-	data->sqrsum = 0;
+	data->min = 0.;
+	data->max = 0.;
+	data->sum = 0.;
+	data->sum2 = 0.;
+	data->sqrsum = 0.;
 	data->n = 0;
 	data->array = NULL;
 
@@ -212,7 +214,7 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
 
 				p = g_new (gnum_float, 1);
 				* ((gnum_float *) p) = x;
-				data->array = g_slist_append (data->array, p);
+				data->array = g_slist_prepend (data->array, p);
 				data->sum += x;
 				data->sqrsum += x * x;
 				if (data->n == 0) {
@@ -225,11 +227,12 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
 					        data->max = x;
 				}
 				data->n++;
-			} else
+			} else if (!ignore_blanks)
 			        status = 1;
 		}
 
 	data->sum2 = data->sum * data->sum;
+	data->array = g_slist_reverse (data->array);
 
 	return status;
 }
@@ -237,7 +240,7 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
 static void
 get_data_groupped_by_columns (Sheet *sheet, const Range *range, int col,
 			      data_set_t *data)
-{
+{ 
         gpointer p;
 	Cell     *cell;
 	Value    *v;
@@ -1192,8 +1195,8 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 
 	prepare_output (wbc, dao, _("z-Test"));
 
-	get_data (sheet, input_range1, &set_one);
-	get_data (sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one, FALSE);
+	get_data (sheet, input_range2, &set_two, FALSE);
 
         set_cell (dao, 0, 0, "");
 
@@ -1298,8 +1301,8 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 	gnum_float    mean1, mean2, pearson, var1, var2, t, p, df, sum_xy, sum;
 	gnum_float    dx, dm, M, Q, N, s;
 
-	get_data (sheet, input_range1, &set_one);
-	get_data (sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one, FALSE);
+	get_data (sheet, input_range2, &set_two, FALSE);
 
 	if (set_one.n != set_two.n) {
 	        free_data_set (&set_one);
@@ -1444,8 +1447,8 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 
 	prepare_output (wbc, dao, _("t-Test"));
 
-	get_data (sheet, input_range1, &set_one);
-	get_data (sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one, FALSE);
+	get_data (sheet, input_range2, &set_two, FALSE);
 
         set_cell (dao, 0, 0, "");
 
@@ -1561,8 +1564,8 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 
 	prepare_output (wbc, dao, _("t-Test"));
 
-	get_data (sheet, input_range1, &set_one);
-	get_data (sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one, FALSE);
+	get_data (sheet, input_range2, &set_two, FALSE);
 
         set_cell (dao, 0, 0, "");
 
@@ -1702,8 +1705,8 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 		set_cell (dao, 2, 0, _("Variable 2"));
 	}
 
-	get_data (sheet, input_range1, &set_one);
-	get_data (sheet, input_range2, &set_two);
+	get_data (sheet, input_range1, &set_one, FALSE);
+	get_data (sheet, input_range2, &set_two, FALSE);
 
         set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Variance"
@@ -1978,9 +1981,9 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
 	regression_stat_t   extra_stat;
 
 	setxs = g_new (data_set_t, xdim);
-	get_data (sheet, input_range_y, &set_y);
+	get_data (sheet, input_range_y, &set_y, FALSE);
 	for (i = 0; i < xdim; i++)
-		get_data (sheet, &input_range_xs[i], &setxs[i]);
+		get_data (sheet, &input_range_xs[i], &setxs[i], FALSE);
 
 	for (i = 0; i < xdim; i++) {
 		if (setxs[i].n != set_y.n) {
@@ -2252,7 +2255,7 @@ average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval,
 
 	prev = g_new (gnum_float, interval);
 
-	get_data (sheet, range, &data_set);
+	get_data (sheet, range, &data_set, FALSE);
 	current = data_set.array;
 	count = add_cursor = del_cursor = row = 0;
 	sum = 0;
@@ -3034,12 +3037,12 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin_ran
 	cols = bin_range->end.col - bin_range->start.col + 1;
 	rows = bin_range->end.row - bin_range->start.row + 1;
 
-	if (get_data (sheet, range, &set)) {
+	if (get_data (sheet, range, &set, TRUE)) {
 	        free_data_set (&set);
 	        return 1;
 	}
 
-	if (get_data (sheet, bin_range, &bin_set)) {
+	if (get_data (sheet, bin_range, &bin_set, TRUE)) {
 	        free_data_set (&set);
 	        free_data_set (&bin_set);
 	        return 2;
