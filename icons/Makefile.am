@@ -89,6 +89,9 @@ icons_DATA = \
 	glade_line_pattern_0_3 glade_line_pattern_1_3 \
 	glade_line_pattern_0_4 glade_line_pattern_1_4 \
 	glade_line_pattern_0_5 glade_line_pattern_1_5 \
-	glade_line_pattern_0_6 glade_line_pattern_1_6 
+	glade_line_pattern_0_6 glade_line_pattern_1_6 \
+	bottom_border diag_border left_border \
+	middle_horiz_border middle_vert_border \
+	rev_diag_border right_border top_border 
 
 EXTRA_DIST = $(icons_DATA)
