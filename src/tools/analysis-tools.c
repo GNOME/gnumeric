@@ -645,6 +645,18 @@ analysis_tool_generic_clean (data_analysis_output_t *dao, gpointer specs)
 	return FALSE;
 }
 
+static gboolean 
+analysis_tool_ftest_clean (data_analysis_output_t *dao, gpointer specs)
+{
+	analysis_tools_data_ftest_t *info = specs;
+
+	value_release (info->range_1);
+	info->range_1 = NULL;
+	value_release (info->range_2);
+	info->range_2 = NULL;
+	return FALSE;
+}
+
 
 
 static int
@@ -759,6 +771,8 @@ analysis_tool_correlation_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Correlation"));
 		return FALSE;
@@ -867,6 +881,8 @@ analysis_tool_covariance_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Covariance"));
 		return FALSE;
@@ -1159,6 +1175,8 @@ analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Descriptive Statistics"));
 		return FALSE;
@@ -1280,6 +1298,8 @@ analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Sample"));
 		return FALSE;
@@ -1302,12 +1322,9 @@ analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
  **/
 
 
-int
-ztest_tool (WorkbookControl *wbc, Sheet *sheet,
-	    Value *input_range_1, Value *input_range_2,
-	    gnum_float mean_diff, gnum_float known_var_1,
-	    gnum_float known_var_2, gnum_float alpha,
-	    data_analysis_output_t *dao)
+static gboolean
+analysis_tool_ztest_engine_run (data_analysis_output_t *dao, 
+				analysis_tools_data_ttests_t *info)
 {
 	data_set_t *variable_1;
 	data_set_t *variable_2;
@@ -1315,12 +1332,10 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	gnum_float mean_1 = 0, mean_2 = 0, z = 0, p = 0;
 	gint mean_error_1 = 0, mean_error_2 = 0;
 
-	variable_1 = new_data_set (input_range_1, TRUE, dao->labels_flag,
-				   _("Variable %i"), 1, sheet);
-	variable_2 = new_data_set (input_range_2, TRUE, dao->labels_flag,
-				   _("Variable %i"), 2, sheet);
-
-	dao_prepare_output (wbc, dao, _("z-Test"));
+	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+				   _("Variable %i"), 1, dao->sheet);
+	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+				   _("Variable %i"), 2, dao->sheet);
 
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -1341,8 +1356,8 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	no_error = (mean_error_1 == 0) && (mean_error_2 == 0);
 
 	if (no_error) {
-		z = (mean_1 - mean_2 - mean_diff) /
-			sqrtgnum (known_var_1 / variable_1->data->len  + known_var_2 /
+		z = (mean_1 - mean_2 - info->mean_diff) /
+			sqrtgnum (info->var1 / variable_1->data->len  + info->var2 /
 				  variable_2->data->len);
 		p = pnorm (fabs (z), 0, 1, FALSE, FALSE);
 	}
@@ -1356,15 +1371,15 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	dao_set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
 
 	/* Known Variance */
-	dao_set_cell_float (dao, 1, 2, known_var_1);
-	dao_set_cell_float (dao, 2, 2, known_var_2);
+	dao_set_cell_float (dao, 1, 2, info->var1);
+	dao_set_cell_float (dao, 2, 2, info->var2);
 
 	/* Observations */
 	dao_set_cell_int (dao, 1, 3, variable_1->data->len);
 	dao_set_cell_int (dao, 2, 3, variable_2->data->len);
 
 	/* Hypothesized Mean Difference */
-	dao_set_cell_float (dao, 1, 4, mean_diff);
+	dao_set_cell_float (dao, 1, 4, info->mean_diff);
 
 	/* Observed Mean Difference */
 	dao_set_cell_float_na (dao, 1, 5, mean_1 - mean_2, no_error);
@@ -1376,29 +1391,49 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	dao_set_cell_float_na (dao, 1, 7, p, no_error);
 
 	/* z Critical one-tail */
-	dao_set_cell_float (dao, 1, 8, qnorm (alpha, 0, 1, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 8, qnorm (info->alpha, 0, 1, FALSE, FALSE));
 
 	/* P (Z<=z) two-tail */
 	dao_set_cell_float_na (dao, 1, 9, 2 * p, no_error);
 
 	/* z Critical two-tail */
-	dao_set_cell_float (dao, 1, 10, qnorm (alpha / 2, 0, 1, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 10, qnorm (info->alpha / 2, 0, 1, FALSE, FALSE));
 
 	dao_set_italic (dao, 0, 0, 0, 10);
 	dao_set_italic (dao, 0, 0, 2, 0);
 
-	dao_autofit_columns (dao);
-
-	value_release (input_range_1);
-	value_release (input_range_2);
-
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
+        return FALSE;
+}
 
-        return 0;
+
+gboolean 
+analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs, 
+			       analysis_tool_engine_t selector, gpointer result)
+{
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("z-Test (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		dao_adjust (dao, 3, 11);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_ftest_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("z-Test"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("z-Test"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_ztest_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
 }
 
 
@@ -1415,11 +1450,9 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 
 /* t-Test: Paired Two Sample for Means.
  */
-int
-ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
-		   Value *input_range_1, Value *input_range_2,
-		   gnum_float mean_diff_hypo, gnum_float alpha,
-		   data_analysis_output_t *dao)
+static gboolean
+analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao, 
+				       analysis_tools_data_ttests_t *info)
 {
 	data_set_t *variable_1;
 	data_set_t *variable_2;
@@ -1434,24 +1467,22 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	gnum_float    mean_1 = 0, mean_2 = 0;
 	gnum_float    pearson, var_1, var_2, t = 0, p = 0, df, var_diff = 0, mean_diff = 0;
 
-	variable_1 = new_data_set (input_range_1, FALSE, dao->labels_flag,
-				   _("Variable %i"), 1, sheet);
-	variable_2 = new_data_set (input_range_2, FALSE, dao->labels_flag,
-				   _("Variable %i"), 2, sheet);
+	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+				   _("Variable %i"), 1, dao->sheet);
+	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+				   _("Variable %i"), 2, dao->sheet);
 
 	if (variable_1->data->len != variable_2->data->len) {
-		value_release (input_range_1);
-		value_release (input_range_2);
 		destroy_data_set (variable_1);
 		destroy_data_set (variable_2);
-	        return 1;
+		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+				 _("The 2 input ranges must have the same size."));
+	        return TRUE;
 	}
 
 	missing = union_of_int_sets (variable_1->missing, variable_2->missing);
 	cleaned_variable_1 = strip_missing (variable_1->data, missing);
 	cleaned_variable_2 = strip_missing (variable_2->data, missing);
-
-	dao_prepare_output (wbc, dao, _("t-Test"));
 
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -1482,7 +1513,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	mean_error_2 = range_average ((const gnum_float *) cleaned_variable_2->data,
 				      cleaned_variable_2->len, &mean_2);
 	mean_diff_error = range_average ((const gnum_float *) difference->data,
-					 difference->len, &mean_diff);
+					 difference->len, &info->mean_diff);
 
 	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
@@ -1502,7 +1533,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	df = cleaned_variable_1->len - 1;
 
 	if (var_diff_error == 0) {
-		t = (mean_diff - mean_diff_hypo) / sqrtgnum (var_diff / difference->len);
+		t = (mean_diff - info->mean_diff) / sqrtgnum (var_diff / difference->len);
 		p = pt (fabs (t), df, FALSE, FALSE);
 	}
 
@@ -1532,7 +1563,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	dao_set_cell_float_na (dao, 1, 4, pearson, error == 0);
 
 	/* Hypothesized Mean Difference */
-	dao_set_cell_float (dao, 1, 5, mean_diff_hypo);
+	dao_set_cell_float (dao, 1, 5, info->mean_diff);
 
 	/* df */
 	dao_set_cell_float (dao, 1, 6, df);
@@ -1544,18 +1575,16 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	dao_set_cell_float_na (dao, 1, 8, p, var_diff_error == 0);
 
 	/* t Critical one-tail */
-	dao_set_cell_float (dao, 1, 9, qt (alpha, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 9, qt (info->alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	dao_set_cell_float_na (dao, 1, 10, 2 * p, var_diff_error == 0);
 
 	/* t Critical two-tail */
-	dao_set_cell_float (dao, 1, 11, qt (alpha / 2, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 11, qt (info->alpha / 2, df, FALSE, FALSE));
 
 	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_italic (dao, 0, 0, 2, 0);
-
-	dao_autofit_columns (dao);
 
 	if (cleaned_variable_1 != variable_1->data)
 		g_array_free (cleaned_variable_1, TRUE);
@@ -1564,26 +1593,47 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	g_array_free (difference, TRUE);
 
-	value_release (input_range_1);
-	value_release (input_range_2);
-
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
-
-	return 0;
+	return FALSE;
 }
+
+gboolean 
+analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs, 
+				  analysis_tool_engine_t selector, gpointer result)
+{
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("t-Test, paired (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		dao_adjust (dao, 3, 12);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_ftest_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("t-Test"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("t-Test"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_ttest_paired_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
+
 
 
 /* t-Test: Two-Sample Assuming Equal Variances.
  */
-int
-ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
-		   Value *input_range_1, Value *input_range_2,
-		   gnum_float mean_diff, gnum_float alpha,
-		   data_analysis_output_t *dao)
+static gboolean
+analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao, 
+				analysis_tools_data_ttests_t *info)
 {
 	data_set_t *variable_1;
 	data_set_t *variable_2;
@@ -1593,12 +1643,10 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	gint df;
 	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
 
-	variable_1 = new_data_set (input_range_1, TRUE, dao->labels_flag,
-				   _("Variable %i"), 1, sheet);
-	variable_2 = new_data_set (input_range_2, TRUE, dao->labels_flag,
-				   _("Variable %i"), 2, sheet);
-
-	dao_prepare_output (wbc, dao, _("t-Test"));
+	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+				   _("Variable %i"), 1, dao->sheet);
+	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+				   _("Variable %i"), 2, dao->sheet);
 
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -1637,7 +1685,7 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 		var = (var_1 * (variable_1->data->len - 1) +
 		       var_2 * (variable_2->data->len - 1)) / df;
 		if (var != 0) {
-			t = (mean_1 - mean_2 - mean_diff) /
+			t = (mean_1 - mean_2 - info->mean_diff) /
 				sqrtgnum (var / variable_1->data->len + var / variable_2->data->len);
 			p = pt (fabs (t), df, FALSE, FALSE);
 		}
@@ -1663,7 +1711,7 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	dao_set_cell_float_na (dao, 1, 4, var, no_error);
 
 	/* Hypothesized Mean Difference */
-	dao_set_cell_float (dao, 1, 5, mean_diff);
+	dao_set_cell_float (dao, 1, 5, info->mean_diff);
 
 	/* Observed Mean Difference */
 	dao_set_cell_float_na (dao, 1, 6, mean_1 - mean_2,
@@ -1679,39 +1727,55 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	dao_set_cell_float_na (dao, 1, 9, p, no_error && (var != 0));
 
 	/* t Critical one-tail */
-	dao_set_cell_float (dao, 1, 10, qt (alpha, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 10, qt (info->alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	dao_set_cell_float_na (dao, 1, 11, 2 * p, no_error && (var != 0));
 
 	/* t Critical two-tail */
-	dao_set_cell_float (dao, 1, 12, qt (alpha / 2, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 12, qt (info->alpha / 2, df, FALSE, FALSE));
 
 	dao_set_italic (dao, 0, 0, 0, 12);
 	dao_set_italic (dao, 0, 0, 2, 0);
 
-	dao_autofit_columns (dao);
-
-	value_release (input_range_1);
-	value_release (input_range_2);
-
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
-
-	return 0;
+	return FALSE;
 }
 
+gboolean 
+analysis_tool_ttest_eqvar_engine (data_analysis_output_t *dao, gpointer specs, 
+				  analysis_tool_engine_t selector, gpointer result)
+{
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("t-Test (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		dao_adjust (dao, 3, 13);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_ftest_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("t-Test"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("t-Test"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_ttest_eqvar_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
 
 /* t-Test: Two-Sample Assuming Unequal Variances.
  */
-int
-ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
-		    Value *input_range_1, Value *input_range_2,
-		    gnum_float mean_diff, gnum_float alpha,
-		    data_analysis_output_t *dao)
+static gboolean
+analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao, 
+				analysis_tools_data_ttests_t *info)
 {
 	data_set_t *variable_1;
 	data_set_t *variable_2;
@@ -1721,12 +1785,10 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	gnum_float df = 0;
 	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
 
-	variable_1 = new_data_set (input_range_1, TRUE, dao->labels_flag,
-				   _("Variable %i"), 1, sheet);
-	variable_2 = new_data_set (input_range_2, TRUE, dao->labels_flag,
-				   _("Variable %i"), 2, sheet);
-
-	dao_prepare_output (wbc, dao, _("t-Test"));
+	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+				   _("Variable %i"), 1, dao->sheet);
+	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+				   _("Variable %i"), 2, dao->sheet);
 
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -1765,7 +1827,7 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 		df = 1.0 / ((c * c) / (variable_1->data->len - 1.0) +
 			    ((1 - c)* (1 - c)) / (variable_2->data->len - 1.0));
 
-		t =  (mean_1 - mean_2 - mean_diff) /
+		t =  (mean_1 - mean_2 - info->mean_diff) /
 			sqrtgnum (var_1 / variable_1->data->len + var_2 / variable_2->data->len);
 		p = pt (fabs (t), df, FALSE, FALSE);
 	}
@@ -1787,7 +1849,7 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	dao_set_cell_int (dao, 2, 3, variable_2->data->len);
 
 	/* Hypothesized Mean Difference */
-	dao_set_cell_float (dao, 1, 4, mean_diff);
+	dao_set_cell_float (dao, 1, 4, info->mean_diff);
 
 	/* Observed Mean Difference */
 	dao_set_cell_float_na (dao, 1, 5, mean_1 - mean_2,
@@ -1803,29 +1865,48 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	dao_set_cell_float_na (dao, 1, 8, p, no_error);
 
 	/* t Critical one-tail */
-	dao_set_cell_float (dao, 1, 9, qt (alpha, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 9, qt (info->alpha, df, FALSE, FALSE));
 
 	/* P (T<=t) two-tail */
 	dao_set_cell_float_na (dao, 1, 10, 2 * p, no_error);
 
 	/* t Critical two-tail */
-	dao_set_cell_float (dao, 1, 11, qt (alpha / 2, df, FALSE, FALSE));
+	dao_set_cell_float (dao, 1, 11, qt (info->alpha / 2, df, FALSE, FALSE));
 
 	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_italic (dao, 0, 0, 2, 0);
 
-	dao_autofit_columns (dao);
-
-	value_release (input_range_1);
-	value_release (input_range_2);
-
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
+	return FALSE;
+}
 
-	return 0;
+gboolean 
+analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs, 
+				  analysis_tool_engine_t selector, gpointer result)
+{
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("t-Test (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		dao_adjust (dao, 3, 12);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_ftest_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("t-Test"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("t-Test"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_ttest_neqvar_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
 }
 
 
@@ -1839,11 +1920,9 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 
 /* F-Test: Two-Sample for Variances
  */
-int
-ftest_tool (WorkbookControl *wbc, Sheet *sheet,
-	    Value *input_range_1, Value *input_range_2,
-	    gnum_float alpha,
-	    data_analysis_output_t *dao)
+static gboolean
+analysis_tool_ftest_engine_run (data_analysis_output_t *dao, 
+				       analysis_tools_data_ttests_t *info)
 {
 	data_set_t *variable_1;
 	data_set_t *variable_2;
@@ -1857,125 +1936,147 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 	gint  df_1= 0, df_2 = 0;
 	gint mean_error_1, mean_error_2, var_error_1 = 0, var_error_2 = 0;
 
-	variable_1 = new_data_set (input_range_1, TRUE, dao->labels_flag,
-			      _("Variable %i"), 1, sheet);
-	variable_2 = new_data_set (input_range_2, TRUE, dao->labels_flag,
-			      _("Variable %i"), 2, sheet);
+	variable_1 = new_data_set (info->range_1, TRUE, info->labels,
+				   _("Variable %i"), 1, dao->sheet);
+	variable_2 = new_data_set (info->range_2, TRUE, info->labels,
+				   _("Variable %i"), 2, dao->sheet);
 
 	if ((variable_1->data->len == 0) ||  (variable_2->data->len == 0))
 	{
-		result = ((variable_1->data->len == 0) ?  1 : 2);
-	} else {
+		destroy_data_set (variable_1);
+		destroy_data_set (variable_2);
+		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+				 _("A data set is empty"));
+		return TRUE;
+	} 
 
-		dao_prepare_output (wbc, dao, _("F-Test"));
-
-		dao_set_cell (dao, 0, 0, "");
-		dao_set_cell (dao, 1, 0, variable_1->label);
-		dao_set_cell (dao, 2, 0, variable_2->label);
-
-		set_cell_text_col (dao, 0, 1, _("/Mean"
-						"/Variance"
-						"/Observations"
-						"/df"
-						"/F"
-						"/P (F<=f) right-tail"
-						"/F Critical right-tail"
-						"/P (f<=F) left-tail"
-						"/F Critical left-tail"
-						"/P two-tail"
-						"/F Critical two-tail"));
-
-	        mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
-					      variable_1->data->len, &mean_1);
-	        mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
-					      variable_2->data->len, &mean_2);
-
-		if (mean_error_1 == 0)
-			var_error_1 = range_var_est (
-				(const gnum_float *)variable_1->data->data,
-				variable_1->data->len , &var_1);
-		if (mean_error_2 == 0)
-			var_error_2 = range_var_est (
-				(const gnum_float *) variable_2->data->data,
-				variable_2->data->len , &var_2);
-
-		df_1 = variable_1->data->len - 1;
-		df_2 = variable_2->data->len - 1;
-
-
-
-		calc_error = !((mean_error_1 == 0) && (mean_error_2 == 0) &&
-			(var_error_1 == 0) && (var_error_2 == 0) && (var_2 != 0));
-
-		if (!calc_error) {
-			f = var_1/var_2;
-			p_right_tail = pf (f, df_1, df_2, FALSE, FALSE);
-			q_right_tail = qf (alpha, df_1, df_2, FALSE, FALSE);
-			p_left_tail =  pf (f, df_1, df_2, TRUE, FALSE);
-			q_left_tail =  qf (alpha, df_1, df_2, TRUE, FALSE);
-			if (p_right_tail < 0.5)
-				p_2_tail =  2 * p_right_tail;
-			else
-				p_2_tail =  2 * p_left_tail;
-
-			q_2_tail_left =  qf (alpha / 2.0, df_1, df_2, TRUE, FALSE);
-			q_2_tail_right  =  qf (alpha / 2.0, df_1, df_2, FALSE, FALSE);
-		}
-
-		/* Mean */
-		dao_set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
-		dao_set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
-
-		/* Variance */
-		dao_set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
-		dao_set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
-
-		/* Observations */
-		dao_set_cell_int (dao, 1, 3, variable_1->data->len);
-		dao_set_cell_int (dao, 2, 3, variable_2->data->len);
-
-		/* df */
-		dao_set_cell_int (dao, 1, 4, df_1);
-		dao_set_cell_int (dao, 2, 4, df_2);
-
-		/* F */
-		dao_set_cell_float_na (dao, 1, 5, f, !calc_error);
-
-		/* P (F<=f) right-tail */
-		dao_set_cell_float_na (dao, 1, 6, p_right_tail, !calc_error);
-
-		/* F Critical right-tail */
-		dao_set_cell_float_na (dao, 1, 7, q_right_tail, !calc_error);
-
-		/* P (F<=f) left-tail */
-		dao_set_cell_float_na (dao, 1, 8, p_left_tail, !calc_error);
-
-		/* F Critical left-tail */
-		dao_set_cell_float_na (dao, 1, 9, q_left_tail, !calc_error);
-
-		/* P (F<=f) two-tail */
-		dao_set_cell_float_na (dao, 1, 10, p_2_tail, !calc_error);
-
-		/* F Critical two-tail */
-		dao_set_cell_float_na (dao, 1, 11, q_2_tail_left, !calc_error);
-		dao_set_cell_float_na (dao, 2, 11, q_2_tail_right, !calc_error);
-
-		dao_set_italic (dao, 0, 0, 0, 11);
-		dao_set_italic (dao, 0, 0, 2, 0);
-
-		dao_autofit_columns (dao);
-
-		sheet_set_dirty (dao->sheet, TRUE);
-		sheet_update (sheet);
+	dao_set_cell (dao, 0, 0, "");
+	dao_set_cell (dao, 1, 0, variable_1->label);
+	dao_set_cell (dao, 2, 0, variable_2->label);
+	
+	set_cell_text_col (dao, 0, 1, _("/Mean"
+					"/Variance"
+					"/Observations"
+					"/df"
+					"/F"
+					"/P (F<=f) right-tail"
+					"/F Critical right-tail"
+					"/P (f<=F) left-tail"
+					"/F Critical left-tail"
+					"/P two-tail"
+					"/F Critical two-tail"));
+	
+	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
+				      variable_1->data->len, &mean_1);
+	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
+				      variable_2->data->len, &mean_2);
+	
+	if (mean_error_1 == 0)
+		var_error_1 = range_var_est (
+			(const gnum_float *)variable_1->data->data,
+			variable_1->data->len , &var_1);
+	if (mean_error_2 == 0)
+		var_error_2 = range_var_est (
+			(const gnum_float *) variable_2->data->data,
+			variable_2->data->len , &var_2);
+	
+	df_1 = variable_1->data->len - 1;
+	df_2 = variable_2->data->len - 1;
+	
+	
+	
+	calc_error = !((mean_error_1 == 0) && (mean_error_2 == 0) &&
+		       (var_error_1 == 0) && (var_error_2 == 0) && (var_2 != 0));
+	
+	if (!calc_error) {
+		f = var_1/var_2;
+		p_right_tail = pf (f, df_1, df_2, FALSE, FALSE);
+		q_right_tail = qf (info->alpha, df_1, df_2, FALSE, FALSE);
+		p_left_tail =  pf (f, df_1, df_2, TRUE, FALSE);
+		q_left_tail =  qf (info->alpha, df_1, df_2, TRUE, FALSE);
+		if (p_right_tail < 0.5)
+			p_2_tail =  2 * p_right_tail;
+		else
+			p_2_tail =  2 * p_left_tail;
+		
+		q_2_tail_left =  qf (info->alpha / 2.0, df_1, df_2, TRUE, FALSE);
+		q_2_tail_right  =  qf (info->alpha / 2.0, df_1, df_2, FALSE, FALSE);
 	}
-
-	value_release (input_range_1);
-	value_release (input_range_2);
+	
+	/* Mean */
+	dao_set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
+	dao_set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
+	
+	/* Variance */
+	dao_set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
+	dao_set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
+	
+	/* Observations */
+	dao_set_cell_int (dao, 1, 3, variable_1->data->len);
+	dao_set_cell_int (dao, 2, 3, variable_2->data->len);
+	
+	/* df */
+	dao_set_cell_int (dao, 1, 4, df_1);
+	dao_set_cell_int (dao, 2, 4, df_2);
+	
+	/* F */
+	dao_set_cell_float_na (dao, 1, 5, f, !calc_error);
+	
+	/* P (F<=f) right-tail */
+	dao_set_cell_float_na (dao, 1, 6, p_right_tail, !calc_error);
+	
+	/* F Critical right-tail */
+	dao_set_cell_float_na (dao, 1, 7, q_right_tail, !calc_error);
+	
+	/* P (F<=f) left-tail */
+	dao_set_cell_float_na (dao, 1, 8, p_left_tail, !calc_error);
+	
+	/* F Critical left-tail */
+	dao_set_cell_float_na (dao, 1, 9, q_left_tail, !calc_error);
+	
+	/* P (F<=f) two-tail */
+	dao_set_cell_float_na (dao, 1, 10, p_2_tail, !calc_error);
+	
+	/* F Critical two-tail */
+	dao_set_cell_float_na (dao, 1, 11, q_2_tail_left, !calc_error);
+	dao_set_cell_float_na (dao, 2, 11, q_2_tail_right, !calc_error);
+	
+	dao_set_italic (dao, 0, 0, 0, 11);
+	dao_set_italic (dao, 0, 0, 2, 0);
+	
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
 
 	return result;
 }
+
+gboolean 
+analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs, 
+			    analysis_tool_engine_t selector, gpointer result)
+{
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("F-Test (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		dao_adjust (dao, 3, 12);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_ftest_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("F-Test"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("F-Test"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_ftest_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
 
 
 /************* Random Number Generation Tool ******************************
@@ -2569,6 +2670,8 @@ analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Moving Average"));
 		return FALSE;
@@ -2659,6 +2762,8 @@ analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointe
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Exponential Smoothing"));
 		return FALSE;
@@ -2787,6 +2892,8 @@ analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Ranks"));
 		return FALSE;
@@ -2976,6 +3083,8 @@ analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Anova"));
 		return FALSE;
@@ -3655,6 +3764,8 @@ analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer spe
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_anova_two_factor_engine_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Anova"));
 		return FALSE;
@@ -4170,6 +4281,8 @@ analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Fourier Series"));
 		return FALSE;

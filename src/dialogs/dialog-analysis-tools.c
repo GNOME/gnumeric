@@ -544,7 +544,7 @@ corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
 			       dao, data, analysis_tool_correlation_engine)) {
@@ -672,7 +672,7 @@ cov_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
 			       dao, data, analysis_tool_covariance_engine)) {
@@ -820,7 +820,7 @@ cb_desc_stat_tool_ok_clicked (GtkWidget *button, DescriptiveStatState *state)
 		err = entry_to_int (GTK_ENTRY (state->s_entry), &data->k_smallest, TRUE);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
 			       dao, data, analysis_tool_descriptive_engine)) 
@@ -1024,7 +1024,7 @@ rank_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	w = glade_xml_get_widget (state->gui, "rank_button");
         data->av_ties = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1111,27 +1111,28 @@ static TTestState *ttest_tool_state;
 static void
 ttest_tool_ok_clicked_cb (GtkWidget *button, TTestState *state)
 {
-	data_analysis_output_t  dao;
-	Value *range_1;
-	Value *range_2;
-        char   *text;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_ttests_t  *data;
+
 	GtkWidget *w;
 	int    err = 0;
-	gnum_float alpha, mean_diff, var1, var2;
+
+	data = g_new0 (analysis_tools_data_ttests_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
+
+	data->wbcg = state->wbcg;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
 
-	range_1 = gnm_expr_entry_parse_as_value
+	data->range_1 = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
-	range_2 = gnm_expr_entry_parse_as_value
+	data->range_2 = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
 
-        parse_output ((GenericToolState *)state, &dao);
-
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->paired_button)) == 1) {
 		state->invocation = TTEST_PAIRED;
@@ -1148,65 +1149,51 @@ ttest_tool_ok_clicked_cb (GtkWidget *button, TTestState *state)
 		}
 	}
 
-	err = entry_to_float (GTK_ENTRY (state->mean_diff_entry), &mean_diff, TRUE);
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, TRUE);
+	err = entry_to_float (GTK_ENTRY (state->mean_diff_entry), &data->mean_diff, TRUE);
+	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
 
 	switch (state->invocation) {
 	case TTEST_PAIRED:
-		err = ttest_paired_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			       range_1, range_2,
-					 mean_diff, alpha, &dao);
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+					dao, data, analysis_tool_ttest_paired_engine)) 
+			gtk_widget_destroy (state->dialog);
 		break;
 	case TTEST_UNPAIRED_EQUALVARIANCES:
-		err = ttest_eq_var_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-					 range_1, range_2,
-					 mean_diff, alpha, &dao);
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+					dao, data, analysis_tool_ttest_eqvar_engine)) 
+			gtk_widget_destroy (state->dialog);
 		break;
 	case TTEST_UNPAIRED_UNEQUALVARIANCES:
-		err = ttest_neq_var_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-					  range_1, range_2,
-					  mean_diff, alpha, &dao);
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+					dao, data, analysis_tool_ttest_neqvar_engine)) 
+			gtk_widget_destroy (state->dialog);
 		break;
 	case TTEST_ZTEST:
-		err = entry_to_float (GTK_ENTRY (state->var1_variance), &var1, TRUE);
-		if (err != 0 || var1 <= 0.0) {
+		err = entry_to_float (GTK_ENTRY (state->var1_variance), &data->var1, TRUE);
+		if (err != 0 || data->var1 <= 0.0) {
 			error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->var1_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 1."));
+			g_free (data);
+			g_free (dao);
 			return;
 		}
-		err = entry_to_float (GTK_ENTRY (state->var2_variance), &var2, TRUE);
-		if (err != 0 || var2 <= 0.0) {
+		err = entry_to_float (GTK_ENTRY (state->var2_variance), &data->var2, TRUE);
+		if (err != 0 || data->var2 <= 0.0) {
 			error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->var2_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 2."));
+			g_free (data);
+			g_free (dao);
 			return;
 		}
 
-		err = ztest_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-				  range_1, range_2, mean_diff,
-				  var1, var2, alpha, &dao);
-		break;
-	default:
-		err = 99;
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+					dao, data, analysis_tool_ztest_engine)) 
+			gtk_widget_destroy (state->dialog);
 		break;
 	}
 
-	switch (err) {
-	case 0:
-		gtk_widget_destroy (state->dialog);
-		break;
-	case 1:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("The two input ranges must have the same size."));
-
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
 	return;
 }
 
@@ -1530,50 +1517,35 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 static void
 ftest_tool_ok_clicked_cb (GtkWidget *button, FTestToolState *state)
 {
-	data_analysis_output_t  dao;
-	Value *range_1;
-	Value *range_2;
-        char   *text;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_ftest_t  *data;
+
 	GtkWidget *w;
-	gnum_float alpha;
 	gint err;
+
+	data = g_new0 (analysis_tools_data_ftest_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
+
+	data->wbcg = state->wbcg;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
 
-	range_1 = gnm_expr_entry_parse_as_value
+	data->range_1 = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
-	range_2 =  gnm_expr_entry_parse_as_value
+	data->range_2 =  gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
 
-        parse_output ((GenericToolState *)state, &dao);
-
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, TRUE);
+	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
 
-	err = ftest_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			  range_1, range_2,  alpha, &dao);
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+				dao, data, analysis_tool_ftest_engine)) 
+		gtk_widget_destroy (state->dialog);
 
-	switch (err) {
-	case 0: gtk_widget_destroy (state->dialog);
-		break;
-	case 1:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("Each variable should have at least 2 observations!"));
-		break;
-	case 2:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry_2),
-				_("Each variable should have at least 2 observations!"));
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
 	return;
 }
 
@@ -1785,7 +1757,7 @@ sampling_tool_ok_clicked_cb (GtkWidget *button, SamplingState *state)
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
         data->periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
 
@@ -2849,7 +2821,7 @@ exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &data->damp_fact, TRUE);
 
@@ -3017,7 +2989,7 @@ average_tool_ok_clicked_cb (GtkWidget *button, AverageToolState *state)
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_int (GTK_ENTRY (state->interval_entry), &data->interval, TRUE);
 
@@ -3181,7 +3153,7 @@ fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	w = glade_xml_get_widget (state->gui, "inverse_button");
 	data->inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)) != 0;
@@ -3645,7 +3617,7 @@ anova_single_tool_ok_clicked_cb (GtkWidget *button, AnovaSingleToolState *state)
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, FALSE);
 
@@ -3817,7 +3789,7 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState 
 	data->wbcg = state->wbcg;
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
 	err = entry_to_int (GTK_ENTRY (state->replication_entry), &data->replication, TRUE);

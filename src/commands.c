@@ -4399,6 +4399,9 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			&me->parent.cmd_descriptor))
 		return TRUE;
 	
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, NULL))
+		return TRUE;
+
 	switch (me->type) {
 	case NewSheetOutput:
 		me->old_content = NULL;
@@ -4419,8 +4422,14 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_FORMAT_OUTPUT_RANGE, NULL))
 		return TRUE;
 		
-	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PERFORM_CALC, NULL))
-		return TRUE;
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PERFORM_CALC, NULL)) {
+		if (me->type == RangeOutput) {
+			g_warning ("This is too late for failure! The target region has "
+				   "already been formatted!");
+			return FALSE;
+		} else
+			return TRUE;
+	}
 	
 	dao_autofit_columns (me->dao);
 	sheet_set_dirty (me->dao->sheet, TRUE);

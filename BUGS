@@ -52,7 +52,9 @@ Long term breakage
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
     - Freeze panes.
-    - H-T Analysis tools.
+    - Regression tool.
+    - Histogram tool.
+    - Random Generator Tool.
     - Goal seek.
     - Tabulate.
 

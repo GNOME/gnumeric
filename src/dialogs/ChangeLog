@@ -1,5 +1,12 @@
 2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* tools.h : change F-, z- and t-test tools into 
+	  cmd_analysis_tools engine
+	* dialog-analysis-tools.c : make F-, z- and t-test tools
+	  undoable
+
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* tools.h : change exp_smoothing_tool, averages_tool, ranking_tool
 	  and sampling_tool into cmd_analysis_tools engines
 	* dialog-analysis-tools.c : make fourier analysis, moving averages, 

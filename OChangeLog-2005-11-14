@@ -1,3 +1,8 @@
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_analysis_tool_redo) : TOOL_ENGINE_PERFORM_CALC
+	  should never return TRUE since we already cleared the target.
+
 2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas : new schema file
