@@ -181,33 +181,6 @@ change_selection_font (WorkbookControlGUI *wbcg,
 }
 
 /**
- * toggled_from_toolbar :
- *
- * The callback is called after the state switches.
- * The accelerator is called before.  Use the 'in_button' flag to
- * diffentiate.  If we are called from an accelerator manually toggle
- * the button and add a flag to protect against recursion.
- *
- * FIXME : This is ugly.  There must be a cleaner way to handle this.
- */
-static gboolean
-toggled_from_toolbar (GtkToggleButton *t)
-{
-#ifndef ENABLE_BONOBO
-	static gboolean nested = FALSE;
-	if (t->button.in_button || nested)
-		return TRUE;
-
-	nested = TRUE;
-	gtk_toggle_button_set_active (t, !t->active);
-	nested = FALSE;
-	return FALSE;
-#else
-	return TRUE;
-#endif
-}
-
-/**
  * cb_font_name
  *
  * @wbcg:  workboook
@@ -226,30 +199,26 @@ cb_font_name (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 static void
 cb_font_bold (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 {
-	if (toggled_from_toolbar (t))
-		change_selection_font (wbcg, TRUE, FALSE, FALSE, FALSE);
+	change_selection_font (wbcg, TRUE, FALSE, FALSE, FALSE);
 }
 
 static void
 cb_font_italic (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 {
-	if (toggled_from_toolbar (t))
-		change_selection_font (wbcg, FALSE, TRUE, FALSE, FALSE);
+	change_selection_font (wbcg, FALSE, TRUE, FALSE, FALSE);
 }
 
 static void
 cb_font_underline (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 {
-	if (toggled_from_toolbar (t))
-		change_selection_font (wbcg, FALSE, FALSE, TRUE, FALSE);
+	change_selection_font (wbcg, FALSE, FALSE, TRUE, FALSE);
 }
 
 #if 0
 static void
 strikethrough_cmd (GtkToggleButton *t, WorkbookControlGUI *wbcg)
 {
-	if (toggled_from_toolbar (t))
-		change_selection_font (wbcg, FALSE, FALSE, FALSE, TRUE);
+	change_selection_font (wbcg, FALSE, FALSE, FALSE, TRUE);
 }
 #endif
 
@@ -258,6 +227,13 @@ change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
+
+	/* If the user did not initiate this action ignore it.
+	 * This happens whenever the ui updates and the current cell makes a
+	 * change to the toolbar indicators.
+	 */
+	if (wbcg->updating_ui)
+		return;
 
 	if (sheet != NULL) {
 		const char *font_name = gtk_entry_get_text (GTK_ENTRY(caller));
@@ -281,6 +257,13 @@ change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 	MStyle *mstyle;
 	double size;
 
+	/* If the user did not initiate this action ignore it.
+	 * This happens whenever the ui updates and the current cell makes a
+	 * change to the toolbar indicators.
+	 */
+	if (wbcg->updating_ui)
+		return;
+
 	/* Make 1pt a minimum size for fonts */
 	size = atof (gtk_entry_get_text (entry));
 	if (size < 1.0) {
@@ -299,93 +282,69 @@ change_font_size_in_selection_cmd (GtkEntry *entry, WorkbookControlGUI *wbcg)
 }
 
 static void
-apply_number_format (WorkbookControlGUI *wbcg, const char *translated_format)
+apply_number_format (WorkbookControlGUI *wbcg,
+		     char const *translated_format, char const *descriptor)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_format_text (mstyle, translated_format);
-	cmd_format (wbc, sheet, mstyle, NULL,
-		    _("Set Content Format"));
+	cmd_format (wbc, sheet, mstyle, NULL, descriptor);
 }
 
 static void
 cb_format_as_money (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	apply_number_format (wbcg, cell_formats [FMT_ACCOUNT] [2]);
+	apply_number_format (wbcg, cell_formats [FMT_ACCOUNT] [2],
+			     _("Format as Money"));
 }
 
 static void
 cb_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	apply_number_format (wbcg, "0.00%");
+	apply_number_format (wbcg, "0.00%", _("Format as Percentage"));
 }
 
-/*
- * The routines that modify the format of a cell using the
- * helper routines in format.c.
- */
-typedef char *(*format_modify_fn) (StyleFormat const *format);
-
-static Value *
-modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
+static void
+cb_format_with_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	MStyle *mstyle = sheet_style_get (sheet, col, row);
-	format_modify_fn modify_format = closure;
+	apply_number_format (wbcg, cell_formats [FMT_NUMBER][2],
+			     _("Format with thousands seperator"));
+}
+
+static void
+modify_format (WorkbookControlGUI *wbcg,
+	       char *(*format_modify_fn) (StyleFormat const *format),
+	       char const *descriptor)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	WorkbookView const *wbv;
 	char *new_fmt;
 
-	new_fmt = (*modify_format) (mstyle_get_format (mstyle));
-	if (new_fmt == NULL)
-		return NULL;
+	wbv = wb_control_view (wbc);
+	g_return_if_fail (wbv != NULL);
+	g_return_if_fail (wbv->current_format != NULL);
 
-	cell_set_format (cell, new_fmt);
-	g_free (new_fmt);
-	return NULL;
+	new_fmt = (*format_modify_fn) (mstyle_get_format (wbv->current_format));
+	if (new_fmt != NULL) {
+		MStyle *style = mstyle_new ();
+		mstyle_set_format_text (style, new_fmt);
+		cmd_format (wbc, sheet, style, NULL, descriptor);
+	}
 }
 
 static void
-cb_modify_cell_region (Sheet *sheet, Range const *r, void *closure)
+cb_format_inc_precision (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	sheet_foreach_cell_in_range (
-		sheet, TRUE,
-		r->start.col, r->start.row, r->end.col, r->end.row,
-		modify_cell_format, closure);
-	sheet_range_calc_spans (sheet, *r, SPANCALC_RE_RENDER);
-}
-
-/*
- * This is sort of broken, it just operates on the
- * existing cells, rather than the empty spots.
- * To do: think if it is worth doing.
- *
- * Ie, the user could set and set styles, and work on them
- * with no visible cell.  Does it matter?
- */
-static void
-do_modify_format (WorkbookControlGUI *wbcg, format_modify_fn modify_fn)
-{
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	selection_apply (sheet, &cb_modify_cell_region, FALSE, modify_fn);
-	sheet_set_dirty (sheet, TRUE);
+	modify_format (wbcg, &format_add_decimal, _("Increase precision"));
 }
 
 static void
-cb_format_add_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+cb_format_dec_precision (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	do_modify_format (wbcg, &format_toggle_thousands);
-}
-
-static void
-cb_format_add_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
-{
-	do_modify_format (wbcg, &format_add_decimal);
-}
-
-static void
-cb_format_remove_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg)
-{
-	do_modify_format (wbcg, &format_remove_decimal);
+	modify_format (wbcg, &format_remove_decimal, _("Decrease precision"));
 }
 
 static void
@@ -499,13 +458,13 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 		cb_format_as_percent, "Gnumeric_FormatAsPercent"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Thousand separator"), N_("Sets the format of the selected cells to include a thousands separator"),
-		cb_format_add_thousands, "Gnumeric_FormatThousandSeperator"),
+		cb_format_with_thousands, "Gnumeric_FormatThousandSeperator"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Add decimals"), N_("Increases the number of decimals displayed"),
-		cb_format_add_decimals, "Gnumeric_FormatAddPrecision"),
+		cb_format_inc_precision, "Gnumeric_FormatAddPrecision"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Remove decimals"), N_("Decreases the number of decimals displayed"),
-		cb_format_remove_decimals, "Gnumeric_FormatRemovePrecision"),
+		cb_format_dec_precision, "Gnumeric_FormatRemovePrecision"),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -534,9 +493,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FormatUnmergeCells",	  &cb_unmerge_cells),
 	BONOBO_UI_UNSAFE_VERB ("FormatAsMoney",	          &cb_format_as_money),
 	BONOBO_UI_UNSAFE_VERB ("FormatAsPercent",	  &cb_format_as_percent),
-	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	  &cb_format_add_thousands),
-	BONOBO_UI_UNSAFE_VERB ("FormatIncreasePrecision", &cb_format_add_decimals),
-	BONOBO_UI_UNSAFE_VERB ("FormatDecreasePrecision", &cb_format_remove_decimals),
+	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	  &cb_format_with_thousands),
+	BONOBO_UI_UNSAFE_VERB ("FormatIncreasePrecision", &cb_format_inc_precision),
+	BONOBO_UI_UNSAFE_VERB ("FormatDecreasePrecision", &cb_format_dec_precision),
 	BONOBO_UI_UNSAFE_VERB ("FormatIncreaseIndent",	  &cb_format_inc_indent),
 	BONOBO_UI_UNSAFE_VERB ("FormatDecreaseIndent",	  &cb_format_dec_indent),
 	BONOBO_UI_VERB_END
@@ -917,12 +876,11 @@ workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 	if (same)
 		return;
 
-	g_return_if_fail (!wbcg->updating_ui);
-
-	wbcg->updating_ui = TRUE;
-	bonobo_ui_component_set_prop (wbcg->uic, path, "state", new_val,
-				      NULL);
-	wbcg->updating_ui = FALSE;
+	if (wbcg_ui_update_begin (wbcg)) {
+		bonobo_ui_component_set_prop (wbcg->uic, path, "state", new_val,
+					      NULL);
+		wbcg_ui_update_end (wbcg);
+	}
 }
 
 static void
@@ -935,6 +893,8 @@ workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
 					   h_align == HALIGN_CENTER);
 	workbook_format_toolbutton_update (wbcg, "/commands/AlignRight",
 					   h_align == HALIGN_RIGHT);
+	workbook_format_toolbutton_update (wbcg, "/commands/CenterAcrossSelection",
+					   h_align == HALIGN_CENTER_ACROSS_SELECTION);
 }
 #else
 static void
@@ -946,9 +906,10 @@ workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 	GtkWidget *w = gnumeric_toolbar_get_widget (toolbar, button_index);
 	GtkToggleButton *tb = GTK_TOGGLE_BUTTON (w);
 
-	wbcg->updating_ui = TRUE;
-	gtk_toggle_button_set_active (tb, state);
-	wbcg->updating_ui = FALSE;
+	if (wbcg_ui_update_begin (wbcg)) {
+		gtk_toggle_button_set_active (tb, state);
+		wbcg_ui_update_end (wbcg);
+	}
 }
 
 static void
@@ -981,87 +942,59 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 #ifndef ENABLE_BONOBO
 	GnumericToolbar *toolbar;
 #endif
-	WorkbookView	*wb_view;
 	MStyle 		*style;
 	GtkComboText    *fontsel;
 	GtkComboText    *fontsize;
 	char             size_str [40];
+	WorkbookView	*wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
-
-	wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	g_return_if_fail (wb_view != NULL);
 
 	style = wb_view->current_format;
-	g_return_if_fail (style != NULL);
 
-	fontsel = GTK_COMBO_TEXT (wbcg->font_name_selector);
-	fontsize= GTK_COMBO_TEXT (wbcg->font_size_selector);
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD));
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC));
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE));
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H));
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE));
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
 
 #ifndef ENABLE_BONOBO
 	toolbar = GNUMERIC_TOOLBAR (wbcg->format_toolbar);
 	g_return_if_fail (toolbar);
-#endif
 
-	/* Handle font boldness */
-	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD));
-#ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_BOLD_BUTTON_INDEX,
 					   mstyle_get_font_bold (style));
-#else
-	workbook_format_toolbutton_update (wbcg, "/commands/FontBold",
-					   mstyle_get_font_bold (style));
-#endif
-
-	/* Handle font italics */
-	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC));
-#ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_ITALIC_BUTTON_INDEX,
 					   mstyle_get_font_italic (style));
-#else
-	workbook_format_toolbutton_update (wbcg, "/commands/FontItalic",
-					   mstyle_get_font_italic (style));
-#endif
-
-	/* Handle font underlining */
-	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE));
-#ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_UNDERLINE_BUTTON_INDEX,
 					   mstyle_get_font_uline (style) == UNDERLINE_SINGLE);
 #else
+	workbook_format_toolbutton_update (wbcg, "/commands/FontBold",
+					   mstyle_get_font_bold (style));
+	workbook_format_toolbutton_update (wbcg, "/commands/FontItalic",
+					   mstyle_get_font_italic (style));
 	workbook_format_toolbutton_update (wbcg, "/commands/FontUnderline",
 					   mstyle_get_font_uline (style) == UNDERLINE_SINGLE);
 #endif
 
-	/* horizontal alignment */
-	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H));
 	workbook_format_halign_feedback_set (wbcg, mstyle_get_align_h (style));
 
-	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE));
+	fontsize = GTK_COMBO_TEXT (wbcg->font_size_selector);
 	g_snprintf (size_str, sizeof(size_str), "%d", (int)mstyle_get_font_size (style));
+	if (wbcg_ui_update_begin (wbcg)) {
+		gtk_combo_text_set_text (fontsize, size_str);
+		wbcg_ui_update_end (wbcg);
+	}
 
-	/* Do no update the font when we update the status display */
-	gtk_signal_handler_block_by_func (GTK_OBJECT (fontsize->entry),
-					  &change_font_size_in_selection_cmd, wbcg);
-
-	gtk_combo_text_set_text (fontsize, size_str);
-
-	/* Restore callback */
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (fontsize->entry),
-					    &change_font_size_in_selection_cmd, wbcg);
-
-	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
-
-	/* Do no update the font when we update the status display */
-	gtk_signal_handler_block_by_func (GTK_OBJECT (fontsel->entry),
-					  &change_font_in_selection_cmd, wbcg);
-
-	gtk_combo_text_set_text (fontsel, mstyle_get_font_name (style));
-
-	/* Reenable the status display */
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (fontsel->entry),
-					    &change_font_in_selection_cmd, wbcg);
+	fontsel = GTK_COMBO_TEXT (wbcg->font_name_selector);
+	if (wbcg_ui_update_begin (wbcg)) {
+		gtk_combo_text_set_text (fontsel, mstyle_get_font_name (style));
+		wbcg_ui_update_end (wbcg);
+	}
 }

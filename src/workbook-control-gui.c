@@ -66,6 +66,24 @@
 
 #include "pixmaps/equal-sign.xpm"
 
+gboolean
+wbcg_ui_update_begin (WorkbookControlGUI *wbcg)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
+	g_return_val_if_fail (!wbcg->updating_ui, FALSE);
+
+	return (wbcg->updating_ui = TRUE);
+}
+
+void
+wbcg_ui_update_end (WorkbookControlGUI *wbcg)
+{
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (wbcg->updating_ui);
+
+	wbcg->updating_ui = FALSE;
+}
+
 static int
 sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetControlGUI **res)
 {
@@ -242,14 +260,14 @@ zoom_changed (WorkbookControlGUI *wbcg, Sheet* sheet)
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (wbcg->zoom_entry != NULL);
-	g_return_if_fail (!wbcg->updating_ui);
 
 	snprintf (buffer, sizeof (buffer), "%d%%",
 		  (int) (sheet->last_zoom_factor_used * 100));
 
-	wbcg->updating_ui = TRUE;
-	gtk_combo_text_set_text (GTK_COMBO_TEXT (wbcg->zoom_entry), buffer);
-	wbcg->updating_ui = FALSE;
+	if (wbcg_ui_update_begin (wbcg)) {
+		gtk_combo_text_set_text (GTK_COMBO_TEXT (wbcg->zoom_entry), buffer);
+		wbcg_ui_update_end (wbcg);
+	}
 
 	scg_object_update_bbox (wb_control_gui_cur_sheet (wbcg),
 				NULL, NULL, NULL);
@@ -491,11 +509,12 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	gtk_widget_show (sheet_label);
 	gtk_widget_show_all (GTK_WIDGET (scg));
 
-	wbcg->updating_ui = TRUE;
-	gtk_notebook_insert_page (wbcg->notebook,
-		GTK_WIDGET (scg), sheet_label,
-		workbook_sheet_index_get (wb_control_workbook (wbc), sheet));
-	wbcg->updating_ui = FALSE;
+	if (wbcg_ui_update_begin (wbcg)) {
+		gtk_notebook_insert_page (wbcg->notebook,
+			GTK_WIDGET (scg), sheet_label,
+			workbook_sheet_index_get (wb_control_workbook (wbc), sheet));
+		wbcg_ui_update_end (wbcg);
+	}
 
 	/* Only be scrollable if there are more than 3 tabs */
 	if (g_list_length (wbcg->notebook->children) > 3)
@@ -610,19 +629,19 @@ cb_change_zoom (GtkWidget *caller, WorkbookControlGUI *wbcg)
 static void
 wbcg_auto_expr_value (WorkbookControl *wbc)
 {
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
 	WorkbookView *wbv = wb_control_view (wbc);
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (wbv != NULL);
 	g_return_if_fail (wbv->auto_expr_value_as_string != NULL);
-	g_return_if_fail (!wbcg->updating_ui);
 
-	wbcg->updating_ui = TRUE;
-	gnome_canvas_item_set (wbcg->auto_expr_label,
-			       "text", wbv->auto_expr_value_as_string,
-			       NULL);
-	wbcg->updating_ui = FALSE;
+	if (wbcg_ui_update_begin (wbcg)) {
+		gnome_canvas_item_set (wbcg->auto_expr_label,
+				       "text", wbv->auto_expr_value_as_string,
+				       NULL);
+		wbcg_ui_update_end (wbcg);
+	}
 }
 
 static GtkComboStack *
@@ -808,9 +827,9 @@ wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 {
  	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	
-	g_return_if_fail (!wbcg->updating_ui);
+	if (!wbcg_ui_update_begin (wbcg))
+		return;
 
-	wbcg->updating_ui = TRUE;
 #ifndef ENABLE_BONOBO
 	toggle_menu_item (wbcg->menu_item_sheet_display_formulas,
 		sheet->display_formulas);
@@ -834,8 +853,7 @@ wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 	toggle_menu_item (wbcg,
 		"/commands/SheetHideRowHeader", sheet->hide_row_header);
 #endif
-	wbcg->updating_ui = FALSE;
-
+	wbcg_ui_update_end (wbcg);
 }
 
 static void
@@ -3369,14 +3387,13 @@ workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
 	WorkbookControl    *wbc;
 
 	wbcg = gtk_type_new (workbook_control_gui_get_type ());
+	wbc = WORKBOOK_CONTROL (wbcg);
 	workbook_control_gui_init (wbcg, optional_view, wb);
 
-	wbc = WORKBOOK_CONTROL (wbcg);
-	g_return_val_if_fail (!wbcg->updating_ui, wbc);
-
-	wbcg->updating_ui = TRUE;
-	workbook_control_sheets_init (wbc);
-	wbcg->updating_ui = FALSE;
+	if (wbcg_ui_update_begin (wbcg)) {
+		workbook_control_sheets_init (wbc);
+		wbcg_ui_update_end (wbcg);
+	}
 
 	return wbc;
 }

@@ -137,12 +137,12 @@ selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 
 /**
  * sheet_selection_extend_to:
- * @sheet: the sheet
- * @col:   column that gets covered
- * @row:   row that gets covered
  *
- * This extends the selection to cover col, row
- * and updates the status areas.
+ * @sheet: the sheet
+ * @col:   column that gets covered (negative indicates all cols)
+ * @row:   row that gets covered (negative indicates all rows)
+ *
+ * This extends the selection to cover col, row and updates the status areas.
  */
 void
 sheet_selection_extend_to (Sheet *sheet, int col, int row)
@@ -174,9 +174,9 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 
 	/*
 	 * FIXME : Does this belong here ?
-	 * This is a convenient place to put is so that move movements
-	 * that change the selection also update the status region,
-	 * but this is somewhat lower level that I want to do this.
+	 * This is a convenient place to put it so that changes to the
+	 * selection also update the status region, but this is somewhat lower
+	 * level that I want to do this.
 	 */
 	sheet_update (sheet);
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
@@ -311,7 +311,7 @@ sheet_selection_set_internal (Sheet *sheet,
 {
 	GSList *merged, *ptr;
 	GList *list;
-	gboolean changed, reset_positions = FALSE;
+	gboolean changed;
 	Range *ss;
 	Range old_sel, new_sel;
 	gboolean do_cols, do_rows;
@@ -327,50 +327,30 @@ sheet_selection_set_internal (Sheet *sheet,
 	new_sel.end.row = MAX(base_row, move_row);
 
 	/* expand to include any merged regions */
-looper :
-	changed = FALSE;
-	merged = sheet_merge_get_overlap (sheet, &new_sel);
-	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-		Range const *r = ptr->data;
-		if (new_sel.start.col > r->start.col) {
-			new_sel.start.col = r->start.col;
-			changed = TRUE;
+	do {
+		changed = FALSE;
+		merged = sheet_merge_get_overlap (sheet, &new_sel);
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+			Range const *r = ptr->data;
+			if (new_sel.start.col > r->start.col) {
+				new_sel.start.col = r->start.col;
+				changed = TRUE;
+			}
+			if (new_sel.start.row > r->start.row) {
+				new_sel.start.row = r->start.row;
+				changed = TRUE;
+			}
+			if (new_sel.end.col < r->end.col) {
+				new_sel.end.col = r->end.col;
+				changed = TRUE;
+			}
+			if (new_sel.end.row < r->end.row) {
+				new_sel.end.row = r->end.row;
+				changed = TRUE;
+			}
 		}
-		if (new_sel.start.row > r->start.row) {
-			new_sel.start.row = r->start.row;
-			changed = TRUE;
-		}
-		if (new_sel.end.col < r->end.col) {
-			new_sel.end.col = r->end.col;
-			changed = TRUE;
-		}
-		if (new_sel.end.row < r->end.row) {
-			new_sel.end.row = r->end.row;
-			changed = TRUE;
-		}
-	}
-	g_slist_free (merged);
-	if (changed) {
-		reset_positions = TRUE;
-		goto looper;
-	}
-
-	if (reset_positions) {
-		if (base_col < move_col) {
-			base_col = new_sel.start.col;
-			move_col = new_sel.end.col;
-		} else {
-			base_col = new_sel.end.col;
-			move_col = new_sel.start.col;
-		}
-		if (base_row < move_row) {
-			base_row = new_sel.start.row;
-			move_row = new_sel.end.row;
-		} else {
-			base_row = new_sel.end.row;
-			move_row = new_sel.start.row;
-		}
-	}
+		g_slist_free (merged);
+	} while (changed);
 
 	if (!just_add_it && range_equal (ss, &new_sel))
 		return;
@@ -379,10 +359,10 @@ looper :
 	*ss = new_sel;
 
 	/* Set the cursor boundary */
-	sheet_cursor_set (sheet,
-			  edit_col, edit_row,
-			  base_col, base_row,
-			  move_col, move_row);
+	sheet_cursor_set_full (sheet,
+			       edit_col, edit_row,
+			       base_col, base_row,
+			       move_col, move_row, ss);
 
 	if (just_add_it) {
 		sheet_redraw_range (sheet, &new_sel);

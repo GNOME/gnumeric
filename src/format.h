@@ -23,7 +23,6 @@ char  *format_value   (StyleFormat *format, const Value *value, StyleColor **col
 void   format_color_init     (void);
 void   format_color_shutdown (void);
 
-char  *format_toggle_thousands (StyleFormat const *fmt);
 char  *format_add_decimal      (StyleFormat const *fmt);
 char  *format_remove_decimal   (StyleFormat const *fmt);
 

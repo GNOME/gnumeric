@@ -1,4 +1,51 @@
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
+  
+ 	* src/commands.c (cmd_merge_cells_redo) : reorder to handle unmerging
+ 	  directly.
+ 	(cmd_merge_cells_undo) : ditto.
+ 	(CmdMergeCells) : no need to inherit from CmdUnmergeCells.
+ 	(cmd_unmerge_cells_redo) : merge the 'internal' versions.
+ 	(cmd_unmerge_cells_undo) : merge the 'internal' versions.
+ 
+2001-02-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-border.c (style_border_vmargins) : remove unnecessary
+	  reference to next_sr.  sr.bottom == next_sr.top
+	  For normal borders horizontal always dominates vertical.
+	(style_border_hmargins) : Only cut corners for doubles if the corner
+	  is a double.
+
+	* src/sheet.c (sheet_cursor_set_full) : new function.
+
+	* src/selection.c (sheet_selection_set_internal) : Use it here.
+	  The trick is that when extending a selection to include merged cells
+	  it is possible that the edit cell is neither the base nor the move
+	  col/row.  When you then shrink the selection to the pre-extended
+	  state, without the merged region, you have lost track of the corner
+	  and can easily loose the edit_position.
+
+	* src/workbook-format-toolbar.c (toggled_from_toolbar) : delete this
+	  ugliness.  We don't need it anymore.
+
+2001-02-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (wbcg_ui_update_begin) : new utility
+	(wbcg_ui_update_end) : new utility
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set) : Use them
+	  here.
+	(workbook_format_halign_feedback_set) : update center-across-selection
+	  in the bonobo case.
+	(do_modify_format) : rewrite to use the format from the edit cell and
+	  to support undo.
+
+	* src/format.c (format_toggle_thousands) : delete.
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : post release version bump to 0.64.
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.63
 

@@ -76,13 +76,11 @@ void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
 
 void style_borders_row_draw  (StyleBorder const * const * prev_vert,
 			      StyleRow const *sr,
-			      StyleRow const *next_sr,
 			      GdkDrawable *drawable,
 			      int x, int y1, int y2,
 			      int *colwidths, gboolean draw_vertical);
 void style_borders_row_print (StyleBorder const * const * prev_vert,
 			      StyleRow const *sr,
-			      StyleRow const *next_sr,
 			      GnomePrintContext *context,
 			      float x, float y1, float y2,
 			      Sheet const *sheet, gboolean draw_vertical);

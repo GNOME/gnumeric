@@ -58,8 +58,10 @@ gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet, FormatTempl
 gboolean cmd_hide_selection_colrow (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, gboolean visible);
 
-gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet, GList *selection);
-gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet, GList *selection);
+gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet,
+				 GList const *selection);
+gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet,
+				 GList const *selection);
 
 gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr);
 

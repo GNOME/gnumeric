@@ -562,7 +562,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		 * 5) result of operation, or error specific to the operation
 		 */
 
-	        /* Ensure a != NULL */
+	        /* Guarantees a != NULL */
 		a = eval_expr (pos, tree->binary.value_a,
 			       flags & (~EVAL_PERMIT_EMPTY));
 
@@ -594,7 +594,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
-	        /* Garantees that b != NULL */
+	        /* Guarantees that b != NULL */
 		b = eval_expr (pos, tree->binary.value_b,
 			       flags & (~EVAL_PERMIT_EMPTY));
 

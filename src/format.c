@@ -857,38 +857,6 @@ split_time (gdouble number)
 	return &tm;
 }
 
-/*********************************************************************/
-/*
- * Returns a new format string with the thousand separator
- * or NULL if the format string already contains the thousand
- * separator
- */
-char *
-format_toggle_thousands (StyleFormat const *fmt)
-{
-	/* NOTE : FIXME ??
-	 * This is not compatible with MS excel (tm)'s behavior.
-	 * They assign the 'Comma' Style.  obliterating the current format
-	 * complely.
-	 */
-	char *b;
-
-	if (strcmp (fmt->format, "General") == 0)
-		return g_strdup ("#,##0");
-
-	if (strchr (fmt->format, ',') != NULL)
-		return NULL;
-
-	b = g_malloc (strlen (fmt->format) + 7);
-	if (!b)
-		return NULL;
-
-	strcpy (b, "#,##0");
-	strcpy (&b[5], fmt->format);
-
-	return b;
-}
-
 /*
  * Finds the decimal char in @str doing the proper parsing of a
  * format string

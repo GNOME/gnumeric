@@ -394,34 +394,50 @@ style_border_hmargins (StyleBorder const * const * prev_vert,
 		       int offsets [2][2])
 {
 	StyleBorder const *border = sr->top [col];
+	StyleBorder const *t0 = prev_vert [col];
+	StyleBorder const *t1 = prev_vert [col+1];
+	StyleBorder const *b0 = sr->vertical [col];
+	StyleBorder const *b1 = sr->vertical [col+1];
 
 	if (border->line_type == STYLE_BORDER_DOUBLE) {
 		/* pull inwards or outwards */
-		if (!style_border_is_blank (prev_vert [col]))
-			offsets [1][0] =  prev_vert [col]->end_margin;
-		else if (!style_border_is_blank (sr->vertical [col]))
-			offsets [1][0] = -sr->vertical [col]->begin_margin;
+		if (!style_border_is_blank (t0)) {
+			if (t0->line_type == STYLE_BORDER_DOUBLE)
+				offsets [1][0] =  t0->end_margin;
+			else
+				offsets [1][0] = -t0->begin_margin;
+		} else if (!style_border_is_blank (b0))
+			offsets [1][0] = -b0->begin_margin;
 		else
 			offsets [1][0] = 0;
 
-		if (!style_border_is_blank (prev_vert [col+1]))
-			offsets [1][1] = -prev_vert [col+1]->begin_margin;
-		else if (!style_border_is_blank (sr->vertical [col+1]))
-			offsets [1][1] =  sr->vertical [col+1]->end_margin;
+		if (!style_border_is_blank (t1)) {
+			if (t1->line_type == STYLE_BORDER_DOUBLE)
+				offsets [1][1] = -t1->begin_margin;
+			else
+				offsets [1][1] =  t1->end_margin;
+		} else if (!style_border_is_blank (b1))
+			offsets [1][1] =  b1->end_margin;
 		else
 			offsets [1][1] = 0;
 
-		if (!style_border_is_blank (sr->vertical [col]))
-			offsets [0][0] =  sr->vertical [col]->end_margin;
-		else if (!style_border_is_blank (prev_vert [col]))
-			offsets [0][0]= -prev_vert [col]->begin_margin;
+		if (!style_border_is_blank (b0)) {
+			if (b0->line_type == STYLE_BORDER_DOUBLE)
+				offsets [0][0] =  b0->end_margin;
+			else
+				offsets [0][0]= -b0->begin_margin;
+		} else if (!style_border_is_blank (t0))
+			offsets [0][0]= -t0->begin_margin;
 		else
 			offsets [0][0]= 0;
 
-		if (!style_border_is_blank (sr->vertical [col+1]))
-			offsets [0][1] = -sr->vertical [col+1]->begin_margin;
-		else if (!style_border_is_blank (prev_vert [col+1]))
-			offsets [0][1] =  prev_vert [col+1]->end_margin;
+		if (!style_border_is_blank (b1)) {
+			if (b1->line_type == STYLE_BORDER_DOUBLE)
+				offsets [0][1] = -b1->begin_margin;
+			else
+				offsets [0][1] =  b1->end_margin;
+		} else if (!style_border_is_blank (t1))
+			offsets [0][1] =  t1->end_margin;
 		else
 			offsets [0][1] = 0;
 		return TRUE;
@@ -432,27 +448,27 @@ style_border_hmargins (StyleBorder const * const * prev_vert,
 		/* No need to check for show grid.  That is done when the
 		 * borders are loaded.  Do not over write background patterns
 		 */
-		if (!style_border_is_blank (sr->vertical [col]))
-			offsets [0][0] = 1 + sr->vertical [col]->end_margin;
-		else if (!style_border_is_blank (prev_vert [col]))
-			offsets [0][0] = 1 + prev_vert [col]->end_margin;
+		if (!style_border_is_blank (b0))
+			offsets [0][0] = 1 + b0->end_margin;
+		else if (!style_border_is_blank (t0))
+			offsets [0][0] = 1 + t0->end_margin;
 		else if (sr->top [col-1] == NULL)
 			offsets [0][0] = 1;
 
-		if (!style_border_is_blank (sr->vertical [col+1]))
-			offsets [0][1] = -1 - sr->vertical [col+1]->begin_margin;
-		else if (!style_border_is_blank (prev_vert [col+1]))
-			offsets [0][1] = -1 - prev_vert [col+1]->begin_margin;
+		if (!style_border_is_blank (b1))
+			offsets [0][1] = -1 - b1->begin_margin;
+		else if (!style_border_is_blank (t1))
+			offsets [0][1] = -1 - t1->begin_margin;
 		else if (sr->top [col+1] == NULL)
 			offsets [0][1] = -1;
 	} else {
 		/* pull outwards */
 		if (style_border_is_blank (sr->top [col-1])) {
 			int offset = 0;
-			if (!style_border_is_blank (sr->vertical [col]))
-				offset = sr->vertical [col]->begin_margin;
-			if (!style_border_is_blank (prev_vert [col])) {
-				int tmp = prev_vert [col]->begin_margin;
+			if (!style_border_is_blank (b0))
+				offset = b0->begin_margin;
+			if (!style_border_is_blank (t0)) {
+				int tmp = t0->begin_margin;
 				if (offset < tmp)
 					offset = tmp;
 			}
@@ -461,10 +477,10 @@ style_border_hmargins (StyleBorder const * const * prev_vert,
 
 		if (style_border_is_blank (sr->top [col+1])) {
 			int offset = 0;
-			if (!style_border_is_blank (sr->vertical [col+1]))
-				offset = sr->vertical [col+1]->end_margin;
-			if (!style_border_is_blank (prev_vert [col+1])) {
-				int tmp = prev_vert [col+1]->end_margin;
+			if (!style_border_is_blank (b1))
+				offset = b1->end_margin;
+			if (!style_border_is_blank (t1)) {
+				int tmp = t1->end_margin;
 				if (offset < tmp)
 					offset = tmp;
 			}
@@ -476,38 +492,42 @@ style_border_hmargins (StyleBorder const * const * prev_vert,
 
 static gboolean
 style_border_vmargins (StyleBorder const * const * prev_vert,
-		       StyleRow const *sr, StyleRow const *next_sr, int col, 
+		       StyleRow const *sr, int col, 
 		       int offsets [2][2])
 {
 	StyleBorder const *border = sr->vertical [col];
+	StyleBorder const *l0 = sr->top [col-1];
+	StyleBorder const *r0 = sr->top [col];
+	StyleBorder const *l1 = sr->bottom [col-1];
+	StyleBorder const *r1 = sr->bottom [col];
 
 	if (border->line_type == STYLE_BORDER_DOUBLE) {
 		/* pull inwards or outwards */
-		if (!style_border_is_blank (sr->top [col-1]))
-			offsets [1][0] =  sr->top [col-1]->end_margin;
-		else if (!style_border_is_blank (sr->top [col]))
-			offsets [1][0] = -sr->top [col]->begin_margin;
+		if (!style_border_is_blank (l0))
+			offsets [1][0] =  l0->end_margin;
+		else if (!style_border_is_blank (r0))
+			offsets [1][0] = -r0->begin_margin;
 		else
 			offsets [1][0] = 0;
 
-		if (!style_border_is_blank (sr->bottom [col-1]))
-			offsets [1][1] = -sr->bottom [col-1]->begin_margin;
-		else if (!style_border_is_blank (sr->bottom [col]))
-			offsets [1][1] =  sr->bottom [col]->end_margin;
+		if (!style_border_is_blank (l1))
+			offsets [1][1] = -l1->begin_margin;
+		else if (!style_border_is_blank (r1))
+			offsets [1][1] =  r1->end_margin;
 		else
 			offsets [1][1] = 0;
 
-		if (!style_border_is_blank (sr->top [col]))
-			offsets [0][0] = sr->top [col]->end_margin;
-		else if (!style_border_is_blank (sr->top [col-1]))
-			offsets [0][0] = -sr->top [col-1]->begin_margin;
+		if (!style_border_is_blank (r0))
+			offsets [0][0] = r0->end_margin;
+		else if (!style_border_is_blank (l0))
+			offsets [0][0] = -l0->begin_margin;
 		else
 			offsets [0][0] = 0;
 
-		if (!style_border_is_blank (sr->bottom [col]))
-			offsets [0][1] = -sr->bottom [col]->begin_margin;
-		else if (!style_border_is_blank (sr->bottom [col-1]))
-			offsets [0][1] =  sr->bottom [col-1]->end_margin;
+		if (!style_border_is_blank (r1))
+			offsets [0][1] = -r1->begin_margin;
+		else if (!style_border_is_blank (l1))
+			offsets [0][1] =  l1->end_margin;
 		else
 			offsets [0][1] = 0;
 		return TRUE;
@@ -518,54 +538,55 @@ style_border_vmargins (StyleBorder const * const * prev_vert,
 		/* No need to check for show grid.  That is done when the
 		 * borders are loaded.
 		 */
-		if (!style_border_is_blank (sr->top [col]))
-			offsets [0][0] = 1 + sr->top [col]->end_margin;
-		else if (!style_border_is_blank (sr->top [col-1]))
-			offsets [0][0] = 1 + sr->top [col-1]->end_margin;
+		if (!style_border_is_blank (r0))
+			offsets [0][0] = 1 + r0->end_margin;
+		else if (!style_border_is_blank (l0))
+			offsets [0][0] = 1 + l0->end_margin;
 		/* Do not over write background patterns */
 		else if (prev_vert [col] == NULL)
 			offsets [0][0] = 1;
 
-		if (!style_border_is_blank (sr->bottom [col]))
-			offsets [0][1] = -1 - sr->bottom [col]->begin_margin;
-		else if (!style_border_is_blank (sr->bottom [col-1]))
-			offsets [0][1] = -1 - sr->bottom [col-1]->begin_margin;
+		if (!style_border_is_blank (r1))
+			offsets [0][1] = -1 - r1->begin_margin;
+		else if (!style_border_is_blank (l1))
+			offsets [0][1] = -1 - l1->begin_margin;
 		/* Do not over write background patterns */
 		else if (sr->vertical [col] == NULL)
 			offsets [0][1] = -1;
 	} else {
 		/* pull inwards */
-		if (style_border_is_blank (prev_vert [col])) {
-			int offset = 0;
-			if (!style_border_is_blank (sr->top [col]))
-				offset = sr->top [col]->end_margin;
-			if (!style_border_is_blank (sr->top [col-1])) {
-				int tmp = sr->top [col-1]->end_margin;
-				if (offset < tmp)
-					offset = tmp;
-			}
-			offsets [0][0] = offset;
+		int offset = 0;
+		if (!style_border_is_blank (r0))
+			offset = 1 + r0->end_margin;
+		if (!style_border_is_blank (l0)) {
+			int tmp = 1 + l0->end_margin;
+			if (offset < tmp)
+				offset = tmp;
 		}
+		offsets [0][0] = offset;
 
-		if (style_border_is_blank (sr->vertical [col])) {
-			int offset = 0;
-			if (!style_border_is_blank (next_sr->top [col]))
-				offset = next_sr->top [col]->begin_margin;
-			if (!style_border_is_blank (next_sr->top [col-1])) {
-				int tmp = next_sr->top [col-1]->begin_margin;
-				if (offset < tmp)
-					offset = tmp;
-			}
-			offsets [0][1] = -offset;
+		offset = 0;
+		if (!style_border_is_blank (r1))
+			offset = 1 + r1->begin_margin;
+		if (!style_border_is_blank (l1)) {
+			int tmp = 1 + l1->begin_margin;
+			if (offset < tmp)
+				offset = tmp;
 		}
+		offsets [0][1] = -offset;
 	}
 	return FALSE;
 }
 
+/**
+ * style_borders_row_draw :
+ *
+ * TODO : This is not the final resting place for this.
+ * It will move into the gui layer eventually.
+ */
 void
 style_borders_row_draw (StyleBorder const * const * prev_vert,
 			StyleRow const *sr,
-			StyleRow const *next_sr,
 			GdkDrawable * const drawable,
 			int x, int y1, int y2,
 			int *colwidths, gboolean draw_vertical)
@@ -601,7 +622,7 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 		gc = style_border_get_gc (sr->vertical [col], drawable);
 		if (gc != NULL) {
 			int x1 = x;
-			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				gdk_draw_line (drawable, gc, x-1, y1 + o[1][0],
 					       x-1, y2 + o[1][1] + 1);
 				++x1;
@@ -639,7 +660,7 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 		gc = style_border_get_gc (sr->vertical [col], drawable);
 		if (gc != NULL) {
 			int x1 = x;
-			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				gdk_draw_line (drawable, gc, x-1, y1 + o[1][0],
 					       x-1, y2 + o[1][1] + 1);
 				++x1;
@@ -674,7 +695,6 @@ print_vline (GnomePrintContext *context,
 void
 style_borders_row_print (StyleBorder const * const * prev_vert,
 			 StyleRow const *sr,
-			 StyleRow const *next_sr,
 			 GnomePrintContext *context,
 			 float x, float y1, float y2,
 			 Sheet const *sheet, gboolean draw_vertical)
@@ -707,7 +727,7 @@ style_borders_row_print (StyleBorder const * const * prev_vert,
 			continue;
 		if (style_border_set_pc (sr->vertical [col], context)) {
 			float x1 = x;
-			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline (context, x-1., y1 - o[1][0],
 					     y2 - o[1][1]);
 				++x1;
@@ -719,7 +739,7 @@ style_borders_row_print (StyleBorder const * const * prev_vert,
 	if (draw_vertical) {
 		if (style_border_set_pc (sr->vertical [col], context)) {
 			float x1 = x;
-			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline (context, x-1., y1 - o[1][0],
 					    y2 - o[1][1]);
 				++x1;

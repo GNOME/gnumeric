@@ -2518,19 +2518,6 @@ sheet_cursor_set (Sheet *sheet,
 	fprintf (stderr, "move %s%d\n", col_name (sheet->cursor.move_corner.col), sheet->cursor.move_corner.row+1);
 #endif
 
-#if 0
-	/* Be sure that the edit_pos is contained in the new_sel area */
-	if (sheet->edit_pos.col < ss->start.col)
-		sheet->edit_pos.col = ss->start.col;
-	else if (sheet->edit_pos.col > ss->end.col)
-		sheet->edit_pos.col = ss->end.col;
-
-	if (sheet->edit_pos.row < ss->start.row)
-		sheet->edit_pos.row = ss->start.row;
-	else if (sheet->edit_pos.row > ss->end.row)
-		sheet->edit_pos.row = ss->end.row;
-#endif
-
 	/* Change the edit position */
 	sheet_set_edit_pos (sheet, edit_col, edit_row);
 
@@ -2543,6 +2530,29 @@ sheet_cursor_set (Sheet *sheet,
 		scg_set_cursor_bounds (scg,
 			base_col, base_row,
 			move_col, move_row););
+}
+
+void
+sheet_cursor_set_full (Sheet *sheet,
+		       int edit_col, int edit_row,
+		       int base_col, int base_row,
+		       int move_col, int move_row,
+		       Range const *cursor_bound)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	/* Change the edit position */
+	sheet_set_edit_pos (sheet, edit_col, edit_row);
+
+	sheet->cursor.base_corner.col = base_col;
+	sheet->cursor.base_corner.row = base_row;
+	sheet->cursor.move_corner.col = move_col;
+	sheet->cursor.move_corner.row = move_row;
+
+	SHEET_FOREACH_CONTROL(sheet, scg,
+		scg_set_cursor_bounds (scg,
+			cursor_bound->start.col, cursor_bound->start.row,
+			cursor_bound->end.col, cursor_bound->end.row););
 }
 
 void

@@ -34,9 +34,9 @@
 #define MERGE_DEBUG(range, str)
 #endif
 
-static void
+static inline void
 print_hline (GnomePrintContext *context,
-	     double x1, double x2, double y)
+	     float x1, float x2, float y)
 {
 	gnome_print_moveto (context, x1, y);
 	gnome_print_lineto (context, x2, y);
@@ -905,7 +905,7 @@ print_cell_range (GnomePrintContext *context,
 
 			x += ci->size_pts;
 		}
-		style_borders_row_print (prev_vert, &sr, &next_sr,
+		style_borders_row_print (prev_vert, &sr,
 					 context, base_x, y, y-ri->size_pts,
 					 sheet, TRUE);
 
@@ -918,7 +918,7 @@ print_cell_range (GnomePrintContext *context,
 
 		y -= ri->size_pts;
 	}
-	style_borders_row_print (prev_vert, &sr, &next_sr,
+	style_borders_row_print (prev_vert, &sr,
 				 context, base_x, y, y, sheet, FALSE);
 
 	if (merged_used)	/* ranges whose bottoms are in the view */

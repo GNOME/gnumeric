@@ -25,7 +25,7 @@ char *
 cell_region_render_ascii (CellRegion *cr)
 {
 	GString *all, *line;
-	GList *l, *styles;
+	GList *l;
 	char ***data, *return_val;
 	int col, row;
 
@@ -36,17 +36,12 @@ cell_region_render_ascii (CellRegion *cr)
 	for (row = 0; row < cr->rows; row++)
 		data [row] = g_new0 (char *, cr->cols);
 
-	/* temporarily reverse the style list to be in forwards order
-	 * so that we can look things up
-	 */
-	styles = g_list_reverse (cr->styles);
-
-	for (l = cr->list; l; l = l->next){
+	for (l = cr->list; l; l = l->next) {
 		CellCopy *c_copy = l->data;
 		char *v;
 
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
-			MStyle const *mstyle = style_list_get_style (styles,
+			MStyle const *mstyle = style_list_get_style (cr->styles,
 				&c_copy->u.cell->pos);
 			RenderedValue *rv = rendered_value_new (c_copy->u.cell,
 				mstyle, FALSE);
@@ -58,16 +53,13 @@ cell_region_render_ascii (CellRegion *cr)
 		data [c_copy->row_offset][c_copy->col_offset] = v;
 	}
 
-	/* Restore the style list to reverse order in case some one pastes again */
-	cr->styles = g_list_reverse (styles);
-
 	all = g_string_new (NULL);
 	line = g_string_new (NULL);
-	for (row = 0; row < cr->rows; row++){
+	for (row = 0; row < cr->rows; row++) {
 		g_string_assign (line, "");
 
-		for (col = 0; col < cr->cols; col++){
-			if (data [row][col]){
+		for (col = 0; col < cr->cols; col++) {
+			if (data [row][col]) {
 				g_string_append (line, data [row][col]);
 				g_free (data [row][col]);
 			}
@@ -89,5 +81,3 @@ cell_region_render_ascii (CellRegion *cr)
 
 	return return_val;
 }
-
-

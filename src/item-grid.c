@@ -517,7 +517,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 			x += ci->size_pixels;
 		}
-		style_borders_row_draw (prev_vert, &sr, &next_sr,
+		style_borders_row_draw (prev_vert, &sr,
 					drawable, -diff_x, y, y+ri->size_pixels,
 					colwidths, TRUE);
 
@@ -531,7 +531,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		y += ri->size_pixels;
 	}
 	if (sr.row >= SHEET_MAX_ROWS-1)
-		style_borders_row_draw (prev_vert, &sr, &next_sr,
+		style_borders_row_draw (prev_vert, &sr,
 					drawable, -diff_x, y, y, colwidths, FALSE);
 	
 	if (merged_used)	/* ranges whose bottoms are in the view */

@@ -328,7 +328,7 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
  			x += colwidths [col];
  		}
 
-		style_borders_row_draw (prev_vert, &sr, &next_sr,
+		style_borders_row_draw (prev_vert, &sr,
 					drawable, -diff_x, y, y+row_height,
 					colwidths, TRUE);
 

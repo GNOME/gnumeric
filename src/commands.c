@@ -2497,33 +2497,29 @@ typedef struct {
 
 GNUMERIC_MAKE_COMMAND (CmdUnmergeCells, cmd_unmerge_cells);
 
-/**
- * cmd_unmerge_cells_undo_internal : utility to make respanning optional.
- */
-static void
-cmd_unmerge_cells_undo_internal (GnumericCommand *cmd, WorkbookControl *wbc,
-				 gboolean re_span)
+static gboolean
+cmd_unmerge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
 	int i;
 
-	g_return_if_fail (me != NULL);
-	g_return_if_fail (me->unmerged_regions != NULL);
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->unmerged_regions != NULL, TRUE);
 
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		Range const *tmp = &(g_array_index (me->unmerged_regions, Range, i));
-		sheet_merge_add (wbc, me->sheet, tmp, FALSE);
-		if (re_span)
-			sheet_range_calc_spans (me->sheet, *tmp, SPANCALC_RE_RENDER);
+		sheet_merge_add (wbc, me->parent.sheet, tmp, FALSE);
+		sheet_range_calc_spans (me->parent.sheet, *tmp, SPANCALC_RE_RENDER);
 	}
 
 	g_array_free (me->unmerged_regions, TRUE);
 	me->unmerged_regions = NULL;
+
+	return FALSE;
 }
 
 static gboolean
-cmd_unmerge_cells_redo_internal (GnumericCommand *cmd, WorkbookControl *wbc,
-				 gboolean re_span)
+cmd_unmerge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdUnmergeCells *me = CMD_UNMERGE_CELLS (cmd);
 	int i;
@@ -2533,32 +2529,18 @@ cmd_unmerge_cells_redo_internal (GnumericCommand *cmd, WorkbookControl *wbc,
 
 	me->unmerged_regions = g_array_new (FALSE, FALSE, sizeof (Range));
 	for (i = 0 ; i < me->ranges->len ; ++i) {
-		GSList *ptr, *merged = sheet_merge_get_overlap (me->sheet,
+		GSList *ptr, *merged = sheet_merge_get_overlap (me->parent.sheet,
 			&(g_array_index (me->ranges, Range, i)));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			Range tmp = *(Range *)(ptr->data);
 			g_array_append_val (me->unmerged_regions, tmp);
-			sheet_merge_remove (wbc, me->sheet, &tmp);
-			if (re_span)
-				sheet_range_calc_spans (me->sheet, tmp,
+			sheet_merge_remove (wbc, me->parent.sheet, &tmp);
+			sheet_range_calc_spans (me->parent.sheet, tmp,
 							SPANCALC_RE_RENDER);
 		}
 		g_slist_free (merged);
 	}
 
-	return FALSE;
-}
-static gboolean
-cmd_unmerge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
-{
-	cmd_unmerge_cells_undo_internal (cmd, wbc, TRUE);
-	return FALSE;
-}
-
-static gboolean
-cmd_unmerge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
-{
-	cmd_unmerge_cells_redo_internal (cmd, wbc, TRUE);
 	return FALSE;
 }
 
@@ -2579,22 +2561,6 @@ cmd_unmerge_cells_destroy (GtkObject *cmd)
 	gnumeric_command_destroy (cmd);
 }
 
-static gboolean
-cmd_unmerge_cells_init (CmdUnmergeCells *me, Sheet *sheet, GList *selection)
-{
-	me->sheet = sheet;
-	me->unmerged_regions = NULL;
-	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
-	for ( ; selection != NULL ; selection = selection->next)
-		if (!range_is_singleton (selection->data))
-			g_array_append_val (me->ranges, *(Range *)selection->data);
-	if (me->ranges->len <= 0) {
-		gtk_object_destroy (GTK_OBJECT (me));
-		return TRUE;
-	}
-	return FALSE;
-}
-
 /**
  * cmd_unmerge_cells:
  * @context: the context.
@@ -2602,7 +2568,7 @@ cmd_unmerge_cells_init (CmdUnmergeCells *me, Sheet *sheet, GList *selection)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
+cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 {
 	GtkObject *obj;
 	CmdUnmergeCells *me;
@@ -2615,8 +2581,10 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
 	me->parent.cmd_descriptor = g_strdup (_("Unmerge Cells"));
-	if (cmd_unmerge_cells_init (me, sheet, selection))
-		return TRUE;
+	me->unmerged_regions = NULL;
+	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
+	for ( ; selection != NULL ; selection = selection->next)
+		g_array_append_val (me->ranges, *(Range *)selection->data);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -2628,13 +2596,12 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
 #define CMD_MERGE_CELLS(o)          (GTK_CHECK_CAST ((o), CMD_MERGE_CELLS_TYPE, CmdMergeCells))
 
 typedef struct {
-	CmdUnmergeCells	unmerge;
+	GnumericCommand parent;
+	GArray	*ranges;
 	GSList	*old_content;
 } CmdMergeCells;
 
-GNUMERIC_MAKE_COMMAND_WITH_PARENT (CmdMergeCells, cmd_merge_cells,
-				   GnumericCommandClass,
-				   cmd_unmerge_cells_get_type ())
+GNUMERIC_MAKE_COMMAND (CmdMergeCells, cmd_merge_cells)
 
 static gboolean
 cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
@@ -2644,14 +2611,13 @@ cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	for (i = 0 ; i < me->unmerge.ranges->len ; ++i) {
-		Range const * r = &(g_array_index (me->unmerge.ranges, Range, i));
-		sheet_merge_remove (wbc, me->unmerge.sheet, r);
+	for (i = 0 ; i < me->ranges->len ; ++i) {
+		Range const * r = &(g_array_index (me->ranges, Range, i));
+		sheet_merge_remove (wbc, me->parent.sheet, r);
 	}
-	cmd_unmerge_cells_undo_internal (cmd, wbc, FALSE);
 
-	for (i = 0 ; i < me->unmerge.ranges->len ; ++i) {
-		Range const * r = &(g_array_index (me->unmerge.ranges, Range, i));
+	for (i = 0 ; i < me->ranges->len ; ++i) {
+		Range const * r = &(g_array_index (me->ranges, Range, i));
 		PasteTarget pt;
 		CellRegion * c;
 
@@ -2659,7 +2625,7 @@ cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		c = me->old_content->data;
 		clipboard_paste_region (wbc,
-					paste_target_init (&pt, me->unmerge.sheet, r,
+					paste_target_init (&pt, me->parent.sheet, r,
 							   PASTE_CONTENT | PASTE_FORMATS),
 					c);
 		clipboard_release (c);
@@ -2674,18 +2640,24 @@ static gboolean
 cmd_merge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdMergeCells *me = CMD_MERGE_CELLS (cmd);
+	Sheet *sheet;
 	int i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	cmd_unmerge_cells_redo_internal (cmd, wbc, FALSE);
+	sheet = me->parent.sheet;
+	for (i = 0 ; i < me->ranges->len ; ++i) {
+		Range const *r = &(g_array_index (me->ranges, Range, i));
+		GSList *ptr, *merged = sheet_merge_get_overlap (sheet, r);
 
-	for (i = 0 ; i < me->unmerge.ranges->len ; ++i) {
-		Range const * r = &(g_array_index (me->unmerge.ranges, Range, i));
+		/* save content before removing contained merged regions */
 		me->old_content = g_slist_prepend (me->old_content,
-			clipboard_copy_range (me->unmerge.sheet, r));
+			clipboard_copy_range (sheet, r));
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
+			sheet_merge_remove (wbc, sheet, ptr->data);
+		g_slist_free (merged);
 
-		sheet_merge_add (wbc, me->unmerge.sheet, r, TRUE);
+		sheet_merge_add (wbc, sheet, r, TRUE);
 	}
 
 	me->old_content = g_slist_reverse (me->old_content);
@@ -2704,7 +2676,12 @@ cmd_merge_cells_destroy (GtkObject *cmd)
 		me->old_content = NULL;
 	}
 
-	cmd_unmerge_cells_destroy (cmd);
+	if (me->ranges != NULL) {
+		g_array_free (me->ranges, TRUE);
+		me->ranges = NULL;
+	}
+
+	gnumeric_command_destroy (cmd);
 }
 
 /**
@@ -2714,7 +2691,7 @@ cmd_merge_cells_destroy (GtkObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
+cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 {
 	GtkObject *obj;
 	CmdMergeCells *me;
@@ -2724,11 +2701,18 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
 	obj = gtk_type_new (CMD_MERGE_CELLS_TYPE);
 	me = CMD_MERGE_CELLS (obj);
 
-	me->unmerge.parent.sheet = sheet;
-	me->unmerge.parent.size = 1;
-	me->unmerge.parent.cmd_descriptor = g_strdup (_("Merge Cells"));
-	if (cmd_unmerge_cells_init (CMD_UNMERGE_CELLS (me), sheet, selection))
+	me->parent.sheet = sheet;
+	me->parent.size = 1;
+	me->parent.cmd_descriptor = g_strdup (_("Merge Cells"));
+
+	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
+	for ( ; selection != NULL ; selection = selection->next)
+		if (!range_is_singleton (selection->data))
+			g_array_append_val (me->ranges, *(Range *)selection->data);
+	if (me->ranges->len <= 0) {
+		gtk_object_destroy (GTK_OBJECT (me));
 		return TRUE;
+	}
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
