@@ -1,3 +1,10 @@
+2000-01-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-view.c (horizontal_scroll_event,
+			    vertical_scroll_event) : Mice with middle scroll
+	  wheels frequently send just button release events, dont assume there
+	  was a button_press.
+
 2000-01-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/workbook.c, src/dialogs/dialog-autosave.c: Killed warnings.

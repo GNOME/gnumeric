@@ -395,8 +395,12 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		int col;
 		
-		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
-		sheet_view->tip = NULL;
+		/* A button release can be generated without a press by people
+		 * with mouse wheels */
+		if (sheet_view->tip) {
+			gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
+			sheet_view->tip = NULL;
+		}
 
 		col = GTK_ADJUSTMENT (sheet_view->ha)->value;
 
@@ -421,8 +425,12 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		int row;
 		
-		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
-		sheet_view->tip = NULL;
+		/* A button release can be generated without a press by people
+		 * with mouse wheels */
+		if (sheet_view->tip) {
+			gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
+			sheet_view->tip = NULL;
+		}
 
 		row = GTK_ADJUSTMENT (sheet_view->va)->value;
 		
