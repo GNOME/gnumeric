@@ -59,7 +59,7 @@ struct _WBCgtk {
 
 	GtkWidget	 *status_area;
 	GtkUIManager     *ui;
-	GtkActionGroup   *menus, *actions, *font_actions;
+	GtkActionGroup   *permanent_actions, *actions, *font_actions;
 	struct {
 		GtkActionGroup   *actions;
 		guint		  merge_id;
@@ -663,6 +663,8 @@ wbc_gtk_set_action_sensitivity (WorkbookControlGUI const *wbcg,
 {
 	WBCgtk *gtk = (WBCgtk *)wbcg;
 	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
+	if (a == NULL)
+		a = gtk_action_group_get_action (gtk->permanent_actions, action);
 	g_object_set (G_OBJECT (a), "sensitive", sensitive, NULL);
 }
 
@@ -977,14 +979,14 @@ wbc_gtk_init (GObject *obj)
 		wbcg->table, TRUE, TRUE, 0);
 
 #warning TODO split into smaller chunks
-	gtk->menus = gtk_action_group_new ("Menus");
-	gtk_action_group_set_translation_domain (gtk->menus, NULL);
+	gtk->permanent_actions = gtk_action_group_new ("PermanentActions");
+	gtk_action_group_set_translation_domain (gtk->permanent_actions, NULL);
 	gtk->actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (gtk->actions, NULL);
 	gtk->font_actions = gtk_action_group_new ("FontActions");
 	gtk_action_group_set_translation_domain (gtk->font_actions, NULL);
 
-	wbcg_register_actions (wbcg, gtk->menus, gtk->actions, gtk->font_actions);
+	wbcg_register_actions (wbcg, gtk->permanent_actions, gtk->actions, gtk->font_actions);
 
 	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
 		act = gtk_action_group_get_action (
@@ -1008,7 +1010,7 @@ wbc_gtk_init (GObject *obj)
 		"signal::disconnect_proxy", G_CALLBACK (cb_disconnect_proxy), gtk,
 		"swapped_object_signal::post_activate", G_CALLBACK (cb_post_activate), gtk,
 		NULL);
-	gtk_ui_manager_insert_action_group (gtk->ui, gtk->menus, 0);
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->permanent_actions, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->font_actions, 0);
 

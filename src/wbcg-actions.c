@@ -294,23 +294,32 @@ static GNM_ACTION_DEF (cb_edit_select_inputs)
 
 static GNM_ACTION_DEF (cb_edit_cut)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	sv_selection_cut (sv, wbc);
+	if (!wbcg_is_editing (wbcg)) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		SheetView *sv = wb_control_cur_sheet_view (wbc);
+		sv_selection_cut (sv, wbc);
+	} else
+		gtk_editable_cut_clipboard (GTK_EDITABLE (wbcg_get_entry (wbcg)));
 }
 
 static GNM_ACTION_DEF (cb_edit_copy)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	sv_selection_copy (sv, wbc);
+	if (!wbcg_is_editing (wbcg)) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		SheetView *sv = wb_control_cur_sheet_view (wbc);
+		sv_selection_copy (sv, wbc);
+	} else
+		gtk_editable_copy_clipboard (GTK_EDITABLE (wbcg_get_entry (wbcg)));
 }
 
 static GNM_ACTION_DEF (cb_edit_paste)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	cmd_paste_to_selection (wbc, sv, PASTE_DEFAULT);
+	if (!wbcg_is_editing (wbcg)) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		SheetView *sv = wb_control_cur_sheet_view (wbc);
+		cmd_paste_to_selection (wbc, sv, PASTE_DEFAULT);
+	} else
+		gtk_editable_paste_clipboard (GTK_EDITABLE (wbcg_get_entry (wbcg)));
 }
 
 static GNM_ACTION_DEF (cb_edit_paste_special)
@@ -1504,6 +1513,16 @@ static GtkActionEntry permanent_actions[] = {
 		{ "MenuExternalData",	NULL,	N_("Get _External Data") },
 	{ "MenuHelp",	NULL,	N_("_Help") },
 
+	{ "EditCut", GTK_STOCK_CUT, NULL,
+		NULL, N_("Cut the selection"),
+		G_CALLBACK (cb_edit_cut) },
+	{ "EditCopy", GTK_STOCK_COPY, NULL,
+		NULL, N_("Copy the selection"),
+		G_CALLBACK (cb_edit_copy) },
+	{ "EditPaste", GTK_STOCK_PASTE, NULL,
+		NULL, N_("Paste the clipboard"),
+		G_CALLBACK (cb_edit_paste) },
+
 	{ "HelpDocs", GTK_STOCK_HELP, N_("_Contents"),
 		NULL, N_("Open a viewer for Gnumeric's documentation"),
 		G_CALLBACK (cb_help_docs) },
@@ -1649,15 +1668,6 @@ static GtkActionEntry actions[] = {
 		G_CALLBACK (cb_sheet_name) },
 
 /* Edit */
-	{ "EditCut", GTK_STOCK_CUT, NULL,
-		NULL, N_("Cut the selection"),
-		G_CALLBACK (cb_edit_cut) },
-	{ "EditCopy", GTK_STOCK_COPY, NULL,
-		NULL, N_("Copy the selection"),
-		G_CALLBACK (cb_edit_copy) },
-	{ "EditPaste", GTK_STOCK_PASTE, NULL,
-		NULL, N_("Paste the clipboard"),
-		G_CALLBACK (cb_edit_paste) },
 	{ "EditPasteSpecial", NULL, N_("P_aste special..."),
 		"<shift><control>V", N_("Paste with optional filters and transformations"),
 		G_CALLBACK (cb_edit_paste_special) },
