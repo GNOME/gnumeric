@@ -2,6 +2,9 @@ Gnumeric 1.3.92
 
 Morten:
 	* Implement Edit->Select->Input. [#154735]
+	* Fix sample datasource's recalc.  [#154857]
+	* Make File->Open start in the directory where the current file
+	  was loaded.  [#143188]
 
 --------------------------------------------------------------------------
 

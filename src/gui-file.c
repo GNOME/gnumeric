@@ -190,6 +190,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	char *uri = NULL;
 	const char *encoding = NULL;
 	GnmFileOpener *fo = NULL;
+	Workbook *workbook = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
 	openers = g_list_sort (g_list_copy (get_file_openers ()),
 			       file_opener_description_cmp);
@@ -227,6 +228,10 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
+
+	/* Start in the same directory as the current workbook.  */
+	gtk_file_chooser_select_uri (fsel, workbook_get_uri (workbook));
+	gtk_file_chooser_unselect_all (fsel);
 
 	/* Filters */
 	{	

@@ -1,5 +1,8 @@
 2004-10-08  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-file.c (gui_file_open): Start browsing in the same
+	directory as the workbook from which we initiated the open.
+
 	* src/commands.c (cmd_paste_cut_update_origin,
 	update_after_action): Use workbook_autorecalc.
 
