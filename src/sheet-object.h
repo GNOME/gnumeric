@@ -1,7 +1,11 @@
 #ifndef GNUMERIC_SHEET_OBJECT_H
 #define GNUMERIC_SHEET_OBJECT_H
 
-#include <libgnomeprint/gnome-print.h>
+#define ENABLE_BONOBO_PRINT
+
+#ifdef ENABLE_BONOBO_PRINT
+#       include <bonobo/bonobo-print-client.h>
+#endif
 
 #include "sheet.h"
 #include "sheet-view.h"
@@ -33,19 +37,15 @@ typedef struct {
 } SheetObject;
 
 typedef struct {
-	GnomePrintContext *pc;
-	PrintInformation  *pi;
-	/* Dimensions of the object in canvas co-ordinates */
-	double             x;
-	double             y;
-	double             width;
-	double             height;
-	/* Offset into the page to print at */
-	double             print_x;
-	double             print_y;
-	/* Width & height scaling factors */
-	double             print_x_scale;
-	double             print_y_scale;
+	SheetObject     *so;
+#ifdef ENABLE_BONOBO_PRINT
+	BonoboPrintData *pd;
+#endif
+	double           x_pos_pts;
+	double           y_pos_pts;
+
+	double           scale_x;
+	double           scale_y;
 } SheetObjectPrintInfo;
 
 typedef struct {

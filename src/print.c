@@ -18,7 +18,7 @@
 #include <libgnomeprint/gnome-print-master-preview.h>
 #include <libgnomeprint/gnome-print-dialog.h>
 
-#undef ENABLE_BONOBO_PRINT
+#define ENABLE_BONOBO_PRINT
 
 #ifdef ENABLE_BONOBO_PRINT
 #	include <bonobo/bonobo-print-client.h>
@@ -39,6 +39,7 @@
 #include "print-cell.h"
 #include "print-preview.h"
 #include "dialog-printer.h"
+#include "application.h"
 
 /* If TRUE, we print empty pages */
 int print_empty_pages = FALSE;
@@ -76,7 +77,12 @@ typedef struct {
 	GnomePrintContext *print_context;
 
 	/*
-	 * For headers and footers
+	 * Part 4: Sheet objects as BonoboPrintData.
+	 */
+	GList *sheet_objects;
+
+	/*
+	 * Part 5: Headers and footers
 	 */
 	HFRenderInfo *render_info;
 	GnomeFont    *decoration_font;
@@ -171,45 +177,33 @@ print_page_cells (Sheet *sheet,
 }
 
 #ifdef ENABLE_BONOBO_PRINT
+
 static void
-print_page_object (SheetObject *so,
+print_page_object (Sheet *sheet, SheetObjectPrintInfo *pi,
 		   int start_col, int start_row, int end_col, int end_row,
 		   double base_x, double base_y, double print_width, double print_height,
 		   PrintJobInfo *pj)
 {
-	SheetObjectPrintInfo so_pi;
+	double       x, y;
 
 	g_return_if_fail (pj != NULL);
-	g_return_if_fail (so != NULL);
+	g_return_if_fail (pi != NULL);
+	g_return_if_fail (pi->so != NULL);
 
-	base_y = pj->height - base_y;
+	x = sheet_col_get_distance_pts (sheet, 0, start_col);
+	y = sheet_row_get_distance_pts (sheet, 0, start_row);
 
-	so_pi.pc = pj->print_context;
-	so_pi.pi = pj->pi;
+	/* FIXME: we need to calc meta_x & meta_y for scissoring */
 
-/*	if (tlx - canvas_x < 0 ||
-	    tly - canvas_y < 0) {
-		g_warning ("Object out of range (%g, %g %g, %g) (%g, %g)",
-			   tlx, tly, brx, bry, canvas_x, canvas_y);
-		return;
-		}*/
-
-	/* FIXME: this maths is a quick hack; sorry */
-	so_pi.x       = sheet_col_get_distance_pts (so->sheet, 0, start_col);
-	so_pi.y       = sheet_row_get_distance_pts (so->sheet, 0, start_row);
-	so_pi.width   = sheet_col_get_distance_pts (so->sheet, start_col, end_col + 1);
-	so_pi.height  = sheet_row_get_distance_pts (so->sheet, start_row, end_row + 1);
-	so_pi.print_x = base_x;
-	so_pi.print_y = base_y;
-	/* Canvas -> print */
-	so_pi.print_x_scale = print_width  / so_pi.width;
-	so_pi.print_y_scale = print_height / so_pi.height;
-
-	/*
-	 *   We calculate the bounds of the page in canvas co-ordinates and
-	 * leave the rest to the sheet object.
-	 */
-	sheet_object_print (so, &so_pi);
+	bonobo_print_data_render (pj->print_context,
+				  base_x + pi->x_pos_pts - x,
+				  pj->height - base_y - pi->y_pos_pts + y - pi->pd->height,
+				  pi->pd, 0, 0/*meta_x, meta_y*/);
+/*	printf ("PosX: %g + %g  - %g = %g\n", base_x, pi->x_pos_pts, x,
+		base_x + pi->x_pos_pts - x);
+	printf ("PosY: %g - %g - %g + %g - %g = %g\n", pj->height, base_y,
+		pi->y_pos_pts, y, pi->pd->height,
+		pj->height - base_y - pi->y_pos_pts + y - pi->pd->height);*/
 }
 #endif
 
@@ -441,8 +435,8 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		{
 			GList *l;
 
-			for (l = sheet->objects; l; l = l->next)
-				print_page_object (l->data, start_col, start_row, end_col, end_row,
+			for (l = pj->sheet_objects; l; l = l->next)
+				print_page_object (sheet, l->data, start_col, start_row, end_col, end_row,
 						   x, y, print_width, print_height, pj);
 		}
 #endif
@@ -535,6 +529,37 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 	cols = compute_groups (sheet, r.start.col, r.end.col, usable_x, sheet_col_get_info);
 	rows = compute_groups (sheet, r.start.row, r.end.row, usable_y, sheet_row_get_info);
 
+	/*
+	 * Render Sheet objects.
+	 */
+#ifdef ENABLE_BONOBO_PRINT
+	{
+		pj->sheet_objects = NULL;
+		for (l = sheet->objects; l; l = l->next) {
+			SheetObjectPrintInfo *pi;
+			double tlx, tly, brx, bry;
+
+			pi = g_new0 (SheetObjectPrintInfo, 1);
+
+			pi->so = l->data;
+			pi->scale_x = sheet->last_zoom_factor_used *
+				application_display_dpi_get (TRUE) / 72.0;
+			pi->scale_y = sheet->last_zoom_factor_used *
+				application_display_dpi_get (FALSE) / 72.0;
+
+			sheet_object_get_bounds (pi->so, &tlx, &tly, &brx, &bry);
+			pi->x_pos_pts = tlx / pi->scale_x;
+			pi->y_pos_pts = tly / pi->scale_y;
+
+			pi->pd = bonobo_print_data_new ((brx - tlx) / pi->scale_x,
+							(bry - tly) / pi->scale_y);
+			sheet_object_print (pi->so, pi);
+
+			pj->sheet_objects = g_list_prepend (pj->sheet_objects, pi);
+		}
+	}
+#endif
+
 	if (pj->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT) {
 		int col = r.start.col;
 
@@ -590,6 +615,16 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 			row += row_count;
 		}
 	}
+
+	for (l = pj->sheet_objects; l; l = l->next) {
+		SheetObjectPrintInfo *pi = l->data;
+
+		bonobo_print_data_free (pi->pd);
+		pi->pd = NULL;
+		g_free (pi);
+	}
+	g_list_free (pj->sheet_objects);
+	pj->sheet_objects = NULL;
 
 	g_list_free (cols);
 	g_list_free (rows);
@@ -830,6 +865,8 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->sheet = sheet;
 	pj->render_info->page = 1;
 
+	pj->sheet_objects = NULL;
+
 	pj->decoration_font = gnome_font_new ("Helvetica", 12);
 	
 	return pj;
@@ -840,6 +877,9 @@ print_job_info_destroy (PrintJobInfo *pj)
 {
 	hf_render_info_destroy (pj->render_info);
 	gtk_object_unref (GTK_OBJECT (pj->decoration_font));
+
+	if (pj->sheet_objects)
+		g_warning ("Leaking sheet object print data");
 	
 	g_free (pj);
 }

@@ -30,7 +30,7 @@
 #include <bonobo/bonobo-client-site.h>
 #include <bonobo/bonobo-embeddable.h>
 
-#undef ENABLE_BONOBO_PRINT
+#define ENABLE_BONOBO_PRINT
 
 static SheetObjectClass *sheet_object_bonobo_parent_class;
 
@@ -202,10 +202,8 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 static void
 sheet_object_bonobo_print (SheetObject *so, SheetObjectPrintInfo *pi)
 {
-	SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (so);
-	double tlx, tly, brx, bry;
+	SheetObjectBonobo  *sob = SHEET_OBJECT_BONOBO (so);
 	BonoboPrintClient  *bpc;
-	BonoboPrintContext *pc;
 
 	bpc = bonobo_print_client_get (sob->object_server);
 	if (!bpc) {
@@ -216,17 +214,7 @@ sheet_object_bonobo_print (SheetObject *so, SheetObjectPrintInfo *pi)
 		return;
 	}
 
-	/* Gnome print uses a strange co-ordinate system */
-	sheet_object_get_bounds (so, &tlx, &tly, &brx, &bry);
-	pc = bonobo_print_context_new (
-			    pi->print_x + (tlx - pi->x) * pi->print_x_scale,
-			    pi->print_y - (bry - pi->y) * pi->print_y_scale,
-			    pi->print_x + (brx - pi->x) * pi->print_x_scale,
-			    pi->print_y - (tly - pi->y) * pi->print_y_scale);
-
-	bonobo_print_client_print_to (bpc, pc, pi->pc);
-
-	bonobo_print_context_free (pc);
+	bonobo_print_client_render (bpc, pi->pd);
 }
 #endif
 

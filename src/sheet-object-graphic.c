@@ -28,6 +28,8 @@ sheet_object_graphic_destroy (GtkObject *object)
 static void
 sheet_object_graphic_print (SheetObject *so, SheetObjectPrintInfo *pi)
 {
+#if 0
+	GnomePrintContext *ctx;
 	double x, y;
 
 	if (so->type == SHEET_OBJECT_ARROW) {
@@ -36,24 +38,26 @@ sheet_object_graphic_print (SheetObject *so, SheetObjectPrintInfo *pi)
 		warned = TRUE;
 	}
 
-	/* Gnome print uses a strange co-ordinate system */
-	gnome_print_gsave (pi->pc);
+	ctx = GNOME_PRINT_CONTEXT (bonobo_print_data_get_meta (pi->pd));
+
+	gnome_print_gsave (ctx);
 
 	x = so->bbox_points->coords [0];
 	y = so->bbox_points->coords [1];
-	gnome_print_moveto (pi->pc,
+	gnome_print_moveto (ctx,
 			    pi->print_x + (x - pi->x) * pi->print_x_scale,
 			    pi->print_y - (y - pi->y) * pi->print_y_scale);
 
 	x = so->bbox_points->coords [2];
 	y = so->bbox_points->coords [3];
-	gnome_print_lineto (pi->pc,
+	gnome_print_lineto (ctx,
 			    pi->print_x + (x - pi->x) * pi->print_x_scale,
 			    pi->print_y - (y - pi->y) * pi->print_y_scale);
 
-	gnome_print_stroke (pi->pc);
+	gnome_print_stroke (ctx);
 
-	gnome_print_grestore (pi->pc);
+	gnome_print_grestore (ctx);
+#endif
 }
 
 static GnomeCanvasItem *

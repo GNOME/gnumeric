@@ -243,13 +243,13 @@ gnumeric_LDADD = 					\
 gnumeric_bonobo_LDADD =					\
 	$(gnumeric_libs)				\
 	../wizards/graphics/libwizard_graphics.a	\
+	-lbonobo-print					\
 	../idl/libGnumeric.a				\
 	../idl/libGraph.a				\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\
 	$(INTLLIBS)
-#	-lbonobo-print					\
 
 wc:
 	wc -l $(gnumeric_SOURCES)

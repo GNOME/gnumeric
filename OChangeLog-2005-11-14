@@ -1,3 +1,16 @@
+2000-04-14  Michael Meeks  <michael@helixcode.com>
+
+	* src/print.c (print_job_info_get): setup sheet object list.
+	(print_job_info_destroy): check it. (print_sheet_range): build a list of
+	pre-printed sheet objects. (print_page_object): updated.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_print): simplify muchly
+	to new API.
+
+2000-04-11  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Bump required gb version.
+
 2000-04-13  Karl EICHWALDER  <ke@suse.de>
 
 	* src/about.c (dialog_about): Add missing dot :)

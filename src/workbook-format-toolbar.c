@@ -436,7 +436,7 @@ static PixmapComboElement border_combo_info[] =
 static void
 cb_border_changed (PixmapCombo *pixmap_combo, int index, Workbook *wb)
 {
-	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	MStyleBorder *borders [STYLE_BORDER_EDGE_MAX];
 	int i;
 
 	/* Init the list */
