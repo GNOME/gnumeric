@@ -7,6 +7,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - Cell text does not scale on zoom
+
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
@@ -23,10 +25,12 @@ Pending Patches
     0.1) Missing toolbar borders for colour and stack combos	(DONE)
     0.2) Make the 'apply' behavior of the color combo optional
          so that we can do just selection.
-    0.3) Add mnemonic_activate for colour combos
-    0.4) Add mnemonic_activate for ExprEntry			(DONE)
-    0.5) Queue update for changed/deleted in ExprEntry ?
-    0.6) menu mnemonics for Edit -> Fill -> merge & series
+    0.3) Add keynav for color combo
+    0.4) center color combo swatches in the buttons
+    0.5) Add mnemonic_activate for colour combos		(DONE)
+    0.6) Add mnemonic_activate for ExprEntry			(DONE)
+    0.7) Queue update for changed/deleted in ExprEntry ?
+    0.8) menu mnemonics for Edit -> Fill -> merge & series
 
 1) graphs							{Jody}
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
