@@ -89,7 +89,7 @@ Pending Patches
 	1.21.1) load from xml
 	1.21.2) selector for graphs
 	1.21.3) How to change a graph's theme
-    1.22) enumerate legend elements
+    1.22) enumerate legend elements				(DONE)
     1.23) simple layout
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
 	1.23.1) For compass placement use the alignment flags

@@ -1489,10 +1489,10 @@ cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 			/* If just 1 end is moving do not change the reference */
 			if ((needs == 0x1 && cellref_shift (&ref_b, rinfo)) ||
 			    (needs == 0x2 && cellref_shift (&ref_a, rinfo)))
-				res = value_new_cellrange_unsafe (&v->v_range.cell.a,
-								  &v->v_range.cell.b);
-			else
 				return NULL;
+			res = value_new_cellrange (&ref_a, &ref_b,
+						   rinfo->pos.eval.col,
+						   rinfo->pos.eval.row);
 		} else
 			res = value_new_error_REF (NULL);
 

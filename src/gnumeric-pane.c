@@ -437,7 +437,7 @@ gnm_pane_edit_start (GnumericPane *pane)
 
 		item = foo_canvas_item_new (FOO_CANVAS_GROUP (canvas->root),
 			item_edit_get_type (),
-			"ItemEdit::SheetControlGUI",     gcanvas->simple.scg,
+			"SheetControlGUI", gcanvas->simple.scg,
 			NULL);
 
 		pane->editor = ITEM_EDIT (item);

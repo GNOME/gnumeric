@@ -37,6 +37,8 @@
 #include "item-debug.h"
 #define GNUMERIC_ITEM "EDIT"
 
+#include <gtk/gtkentry.h>
+#include <libfoocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-cursors.h>
 #include <string.h>
@@ -65,6 +67,8 @@ struct _ItemEdit {
 	FooCanvasItem *feedback_cursor;
 	gboolean       feedback_disabled;
 };
+
+typedef FooCanvasItemClass ItemEditClass;
 
 /* The arguments we take */
 enum {
@@ -567,7 +571,7 @@ item_edit_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize	   = item_edit_finalize;
 
 	g_object_class_install_property (gobject_class, ARG_SHEET_CONTROL_GUI,
-		g_param_spec_object ("ItemEdit::SheetControlGUI", "ItemEdit::SheetControlGUI",
+		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
 			"the GogView parent",
 			SHEET_CONTROL_GUI_TYPE, G_PARAM_WRITABLE));
 
@@ -587,9 +591,7 @@ GSF_CLASS (ItemEdit, item_edit,
 void
 item_edit_disable_highlight (ItemEdit *ie)
 {
-	g_return_if_fail (ie != NULL);
-	g_return_if_fail (IS_ITEM_EDIT (ie));
-
+	g_return_if_fail (ITEM_EDIT (ie) != NULL);
 	ie_destroy_feedback_range (ie);
 	ie->feedback_disabled = TRUE;
 }
@@ -597,8 +599,6 @@ item_edit_disable_highlight (ItemEdit *ie)
 void
 item_edit_enable_highlight (ItemEdit *ie)
 {
-	g_return_if_fail (ie != NULL);
-	g_return_if_fail (IS_ITEM_EDIT (ie));
-
+	g_return_if_fail (ITEM_EDIT (ie) != NULL);
 	ie->feedback_disabled = FALSE;
 }

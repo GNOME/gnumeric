@@ -1,3 +1,8 @@
+2003-05-22  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (cellrange_relocate) : fix logic inversion introduced
+	  when I removed the unnecessary heuristic on 2003-05-16.
+
 2003-05-22  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (workbook_menu_view): Combine the two
