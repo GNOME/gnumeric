@@ -36,6 +36,7 @@
 #include <gui-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <gtk/gtk.h>
 
 
 
@@ -44,6 +45,7 @@ typedef struct {
 	GladeXML  *gui;
 	GtkWidget *dialog;
 	GtkWidget *notebook;
+	GtkTextView *description;
 	GSList    *pages;
 	GConfClient *gconf;
 } PrefState;
@@ -52,8 +54,10 @@ typedef struct {
 typedef struct {
 	char const *page_name;
 	char const *icon_name;
-	GtkWidget * (*page_initializer) (PrefState *state, gpointer data);
-	gboolean (*page_check) (GtkWidget *page, PrefState *state, gpointer data);
+	GtkWidget * (*page_initializer) (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num);
+	void (*page_open) (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num);
 	gpointer data;
 } page_info_t;
 
@@ -63,6 +67,33 @@ cb_pref_notification_destroy (GtkWidget *page, guint notification)
 	gconf_client_notify_remove (application_get_gconf_client (), notification);
 	return TRUE;
 }
+
+static void
+dialog_pref_page_open (PrefState *state)
+{
+	GtkTextIter start;
+	GtkTextIter end;
+	GtkTextBuffer *buffer;
+
+	buffer = gtk_text_view_get_buffer (state->description);
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+	gtk_text_buffer_delete (buffer, &start, &end);
+}	
+
+static void
+dialog_pref_load_description_from_schema (PrefState *state, char const *schema_path)
+{
+	GConfSchema *the_schema;
+	GtkTextBuffer *buffer;
+
+	the_schema = gconf_client_get_schema (state->gconf, schema_path, NULL);
+	buffer = gtk_text_view_get_buffer (state->description);
+
+	g_return_if_fail (the_schema != NULL);
+
+	gtk_text_buffer_set_text (buffer, gconf_schema_get_long_desc (the_schema), -1);
+	gconf_schema_free (the_schema);
+}	
 
 /*******************************************************************************************/
 /*                     Tree View of selected configuration variables                       */
@@ -81,6 +112,7 @@ typedef struct {
 	char const *path;
 	char const *parent;
 	char const *schema;
+	GtkTreeView *treeview;
 } pref_tree_data_t;
 
 typedef struct {
@@ -95,6 +127,46 @@ static pref_tree_data_t pref_tree_data[] = {
 	{"/apps/gnumeric/core/undosize", NULL, "/schemas/apps/gnumeric/core/undosize"},
 	{NULL, NULL, NULL}
 };
+
+#define OBJECT_DATA_PATH_MODEL "treeview %i"
+
+static void 
+cb_pref_tree_selection_changed (GtkTreeSelection *selection,
+				PrefState *state)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	char *schema_path;
+
+	g_return_if_fail (selection != NULL);
+
+	if (gtk_tree_selection_get_selected (selection,  &model, &iter)) {
+		gtk_tree_model_get (model, &iter,
+				    PREF_SCHEMA, &schema_path,
+				    -1);
+		if (schema_path) {
+			dialog_pref_load_description_from_schema (state, schema_path);
+			g_free (schema_path);
+			return;
+		}
+	}
+	dialog_pref_page_open (state);	
+	return;
+}
+
+static void 
+pref_tree_page_open (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	char *object_data_path;
+	GtkTreeView *view;
+
+	object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
+	view =  g_object_get_data (G_OBJECT (notebook), object_data_path);
+	g_free (object_data_path);
+	
+	cb_pref_tree_selection_changed (gtk_tree_view_get_selection (view), state);
+}
 
 static gboolean    
 pref_tree_find_iter (GtkTreeModel *model, GtkTreePath *tree_path, 
@@ -216,7 +288,8 @@ cb_value_edited (GtkCellRendererText *cell,
 	gconf_schema_free (the_schema);
 }
 
-static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data)
+static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
 {
 	pref_tree_data_t  *this_pref_tree_data = data;
 	GtkTreeViewColumn *column;
@@ -224,8 +297,9 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data)
 	GtkTreeStore      *model;
 	GtkTreeView       *view;
 	GtkWidget         *page = gtk_scrolled_window_new (NULL, NULL);
-	gint              i;
-	GtkCellRenderer *renderer;
+	gint               i;
+	GtkCellRenderer   *renderer;
+	gchar             *object_data_path;
 
 	gtk_widget_set_size_request (page, 350, 250);
 	gtk_scrolled_window_set_policy  (GTK_SCROLLED_WINDOW (page),
@@ -261,6 +335,9 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data)
 	gtk_tree_view_set_headers_visible (view, TRUE);
 	gtk_container_add (GTK_CONTAINER (page), GTK_WIDGET (view));
 
+	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (view)), "changed",
+			  G_CALLBACK (cb_pref_tree_selection_changed), state);
+
 	for (i = 0; this_pref_tree_data[i].path; i++) {
 		pref_tree_data_t *this_pref = &this_pref_tree_data[i];
 		GtkTreeIter      iter;
@@ -287,14 +364,13 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data)
 		
 	}	
 
+	object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
+	g_object_set_data_full (G_OBJECT (state->notebook), object_data_path, view, NULL);
+	g_free (object_data_path);
+
 	gtk_widget_show_all (page);
 	
 	return page;
-}
-
-static gboolean pref_tree_check (GtkWidget *page, PrefState *state, gpointer data)
-{
-	return TRUE;
 }
 
 /*******************************************************************************************/
@@ -305,6 +381,13 @@ static gboolean pref_tree_check (GtkWidget *page, PrefState *state, gpointer dat
 #define GCONF_FONT_SIZE "/apps/gnumeric/core/defaultfont/size"
 #define GCONF_FONT_BOLD "/apps/gnumeric/core/defaultfont/bold"
 #define GCONF_FONT_ITALIC "/apps/gnumeric/core/defaultfont/italic"
+
+static void 
+pref_font_page_open (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	dialog_pref_load_description_from_schema (state, "/schemas" GCONF_FONT_NAME);
+}
 
 static void
 cb_pref_font_set_fonts (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
@@ -358,7 +441,8 @@ cb_pref_font_has_changed (FontSelector *fs, MStyle *mstyle, PrefState *state)
 }
 
 static 
-GtkWidget *pref_font_initializer (PrefState *state, gpointer data)
+GtkWidget *pref_font_initializer (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
 {
 	GtkWidget *page = font_selector_new ();
 	guint notification;
@@ -386,8 +470,8 @@ GtkWidget *pref_font_initializer (PrefState *state, gpointer data)
 /*******************************************************************************************/
 
 static page_info_t page_info[] = {
-	{NULL, GNOME_STOCK_PIXMAP_TEXT_ITALIC, pref_font_initializer, NULL, NULL},
-	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_check, pref_tree_data},
+	{NULL, GNOME_STOCK_PIXMAP_TEXT_ITALIC, pref_font_initializer, pref_font_page_open, NULL},
+	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
 	{NULL, NULL, NULL, NULL, NULL},
 };
 
@@ -415,6 +499,21 @@ cb_close_clicked (GtkWidget *ignore, PrefState *state)
 	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
+static void        
+cb_dialog_pref_switch_page  (GtkNotebook *notebook, GtkNotebookPage *page,
+			     gint page_num, PrefState *state)
+{
+	if (page_info[page_num].page_open) 
+		page_info[page_num].page_open (state, page_info[page_num].data, 
+					       notebook, page_num);
+	else
+		dialog_pref_page_open (state);	
+}
+
+/* Note: The first page listed below is opened through File/Preferences, */
+/*       and the second through Format/Workbook */
+static gint startup_pages[] = {1, 0};
+
 void
 dialog_preferences (gint page)
 {
@@ -440,10 +539,15 @@ dialog_preferences (gint page)
 	state->notebook   = glade_xml_get_widget (gui, "notebook");
 	state->pages      = NULL;
 	state->gconf      = application_get_gconf_client ();
+	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
 
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",
 		G_CALLBACK (cb_close_clicked), state);
+
+	g_signal_connect (G_OBJECT (state->notebook),
+		"switch-page",
+		G_CALLBACK (cb_dialog_pref_switch_page), state);
 
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
@@ -458,7 +562,8 @@ dialog_preferences (gint page)
 
 	for (i = 0; page_info[i].page_initializer; i++) {
 		page_info_t *this_page =  &page_info[i];
-		GtkWidget *page = this_page->page_initializer (state, this_page->data);
+		GtkWidget *page = this_page->page_initializer (state, this_page->data, 
+							       GTK_NOTEBOOK (state->notebook), i);
 		GtkWidget *label = NULL;
 
 		state->pages = g_slist_append (state->pages, page);
@@ -470,6 +575,8 @@ dialog_preferences (gint page)
 			label = gtk_label_new (this_page->page_name);
 		gtk_notebook_append_page (GTK_NOTEBOOK (state->notebook), page, label);
 	}
+
+	gtk_notebook_set_current_page   (GTK_NOTEBOOK (state->notebook), startup_pages[page]);
 
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }

@@ -1,3 +1,7 @@
+2002-04-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : Fix long description formatting. 
+
 2002-04-02  Jon K Hellan  <hellan@acm.org>
 
 	* src/func.c (function_def_get_arg_name): Don't crash if arguments
