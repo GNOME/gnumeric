@@ -313,7 +313,7 @@ w_lp_solve_set_option (SolverProgram program, SolverOptionType option,
 		        lp_solve_auto_scale (lp->p);
 	        return FALSE;
 	case SolverOptMaxIter:
-printf("FIXME: Max iter=%d\n", *i_value);
+	        lp_solve_set_max_iter (lp->p, *i_value);
 	        return FALSE;
 	case SolverOptMaxTimeSec:
 printf("FIXME: Max time (sec.)=%d\n", *i_value);

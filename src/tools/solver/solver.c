@@ -81,7 +81,7 @@ solver_results_init (const SolverParameters *sp)
 	res->optimal_values    = g_new (gnum_float,  sp->n_variables);
 	res->original_values   = g_new (gnum_float,  sp->n_variables);
 	res->variable_names    = g_new0 (gchar *,    sp->n_variables);
-	res->constraint_names  = g_new0 (gchar *,    sp->n_constraints);
+	res->constraint_names  = g_new0 (gchar *,    sp->n_total_constraints);
 	res->shadow_prizes     = g_new0 (gnum_float, sp->n_total_constraints);
 	res->slack             = g_new0 (gnum_float, sp->n_total_constraints);
 	res->lhs               = g_new0 (gnum_float, sp->n_total_constraints);

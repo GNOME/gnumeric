@@ -19,7 +19,6 @@ Usability fixes:
 Feature enhancements:
   * add options:
     - algorithm selection
-    - max iterations
     - max time
     - rounding of close zeros
     - obj. fn. range

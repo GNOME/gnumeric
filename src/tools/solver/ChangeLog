@@ -1,3 +1,10 @@
+2002-03-20  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver_results_init): Bug fix: Allocate using total #
+	of constructors.
+
+	* api.c (w_lp_solve_set_option): Added max iteration setting.
+
 2002-03-19  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* api.[ch], reports.c, solver.c : Started the implementation of QP
