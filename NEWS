@@ -6,6 +6,11 @@ Andreas:
 Emmanuel Pacaud:
 	http://bugzilla.gnome.org/show_bug.cgi?id=151529
 	* Fix markers in xy and line plots.
+	http://bugzilla.gnome.org/show_bug.cgi?id=151530
+	http://bugzilla.gnome.org/show_bug.cgi?id=151527
+	* Fix axis size allocation
+	http://bugzilla.gnome.org/show_bug.cgi?id=127203
+	* Align axis title with plot area
 
 Jody:
 	* XLS import zooming for full page charts
