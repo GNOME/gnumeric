@@ -260,9 +260,6 @@ Function Breakage
 -----------------
 - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
   algorithm, see Knuth.
-- Functions like SUMPRODUCT need to have better support for sparse ranges.
-  We should probably create synchronously_walk_ranges.  (XL goes kaboom on
-  large ranges also, but we ought to be smarter.)
 
 Printing
 --------
