@@ -260,7 +260,7 @@ editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *tex
 {
 	g_return_if_fail (IS_EDITABLE_LABEL (el));
 
-	if (el->unedited_text == NULL) {
+	if (el->unedited_text != NULL) {
 		if (base_color != NULL)
 			el->base = *base_color;
 		if (text_color != NULL)

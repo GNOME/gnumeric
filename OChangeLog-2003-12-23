@@ -2,6 +2,7 @@
 
 	* src/style.c (style_font_get_height) : add some additional
 	  protection.
+	(style_font_new_simple) : be really really anal.
 
 2002-03-17  Jon K Hellan  <hellan@acm.org>
 

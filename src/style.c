@@ -135,15 +135,16 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		else
 			gdk_font_ref (font->gdk_font);
 
+		g_return_if_fail (font->gdk_font != NULL);
+
 		/* FIXME : how does one get the width of the
 		 * widest character used to display numbers?
 		 * Use 4 as the max width for now.  Count the
 		 * inter character spacing by measuring a
 		 * string with 10 digits
 		 */
-		font->approx_width.pixels = font->gdk_font
-			? gdk_string_width (font->gdk_font, "4444444444") / 10.
-			: 1.;
+		font->approx_width.pixels = 
+			gdk_string_width (font->gdk_font, "4444444444") / 10.;
 #warning FIXME
 		font->approx_width.pts = font->approx_width.pixels;
 #if 0

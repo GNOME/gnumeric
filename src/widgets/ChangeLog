@@ -1,3 +1,8 @@
+2002-03-17  Jody Goldberg <jody@gnome.org>
+
+	* widget-editable-label.c (editable_label_set_color) : fix sense of
+	test.
+
 2002-03-15  Morten Welinder  <terra@diku.dk>
 
 	* gnumeric-cell-renderer-text.c: Repair the sea-sick white space.
