@@ -582,7 +582,7 @@ style_is_default_back (StyleColor *color)
 /*
  * Create an XML subtree of doc equivalent to the given StyleBorder.
  */
-static char *BorderTypes[8] =
+static char *BorderTypes[] =
 {
 	"none",
  	"thin",
@@ -591,7 +591,13 @@ static char *BorderTypes[8] =
  	"dotted",
  	"thick",
  	"double",
-	"hair"
+	"hair",
+	"medium_dash",
+	"dash_dot",
+	"medium_dash_dot",
+	"dash_dot_dot",
+	"medium_dash_dot_dot",
+	"slanted_dash_dot"
 };
 
 static char *StyleSideNames[6] =

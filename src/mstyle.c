@@ -456,12 +456,18 @@ mstyle_new_default (void)
 				style_color_new (0, 0, 0));
 
 	/* To negate borders */
-	mstyle_set_border      (mstyle, MSTYLE_BORDER_TOP, NULL);
-	mstyle_set_border      (mstyle, MSTYLE_BORDER_LEFT, NULL);
-	mstyle_set_border      (mstyle, MSTYLE_BORDER_BOTTOM, NULL);
-	mstyle_set_border      (mstyle, MSTYLE_BORDER_RIGHT, NULL);
-	mstyle_set_border      (mstyle, MSTYLE_BORDER_DIAGONAL, NULL);
-	mstyle_set_border      (mstyle, MSTYLE_BORDER_REV_DIAGONAL, NULL);
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_TOP,
+				style_border_ref (style_border_none ()));
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_LEFT,
+				style_border_ref (style_border_none ()));
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_BOTTOM,
+				style_border_ref (style_border_none ()));
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_RIGHT,
+				style_border_ref (style_border_none ()));
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_DIAGONAL,
+				style_border_ref (style_border_none ()));
+	mstyle_set_border      (mstyle, MSTYLE_BORDER_REV_DIAGONAL,
+				style_border_ref (style_border_none ()));
 
 	/* This negates the back and pattern colors */
 	mstyle_set_pattern     (mstyle, 0);

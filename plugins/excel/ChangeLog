@@ -1,3 +1,7 @@
+1999-11-08  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (biff_xf_data_new) : Reverse sense on diagonals.
+
 1999-11-08  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-summary.c (ms_summary_read): quieten.

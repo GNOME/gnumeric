@@ -90,10 +90,10 @@ typedef struct
 	struct _FormatState *state;
 	GtkToggleButton  *button;
 	StyleBorderType	  pattern_index;
-	gboolean	  is_selected;
+	gboolean	  is_selected;	/* Is it selected */
 	BorderLocations   index;
 	guint		  rgba;
-	gboolean	  is_set;
+	gboolean	  is_set;	/* Has the element been changed */
 } BorderPicker;
 
 typedef struct _FormatState
@@ -500,45 +500,32 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 		{ F_ENTRY, F_LIST_SCROLL, F_LIST, F_DELETE, F_MAX_WIDGET },
 	};
 
-	static char const * const * catalogs[] = {
-		cell_format_general,
-		cell_format_numbers,
-		cell_format_money,
-		cell_format_percent,
-		cell_format_scientific,
-		cell_format_fraction,
-		cell_format_date,
-		cell_format_hour,
-		cell_format_text,
-		cell_format_accounting
-	};
-
-	char const *new_format = NULL;
 	int const old_page = state->format.current_type;
 	int i, count = 0;
 	FormatWidget tmp;
 
+	/* Hide widgets from old page */
 	if (old_page >= 0)
 		for (i = 0; (tmp = contents[old_page][i]) != F_MAX_WIDGET ; ++i)
 			gtk_widget_hide (state->format.widget[tmp]);
 
-	/* Set the default format if appropriat */
-	switch (page)
+	/* Set the default format if appropriate */
+	/* FIXME : Not correct.  This should be set ONLY if things do not match */
+	switch (page) {
+	case 0: case 3: case 6: case 7: case 8: case 9:
 	{
-	case 0: new_format = "General"; break;
-	/* case 1 , 2 Are handled by fillin_negative */
-	case 3: new_format = cell_format_accounting[0]; break;
-	/* case 4 , 5 get filled in with their lists */
-	case 6: new_format = cell_format_percent[0]; break;
-	case 7: new_format = cell_format_fraction[0]; break;
-	case 8: new_format = cell_format_scientific[0]; break;
-	case 9: new_format = cell_format_text[0]; break;
-	default :
-		new_format = NULL;
-	};
-	if (new_format != NULL)
+		char const * const new_format = cell_formats [0][0];
 		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
 				    new_format);
+	}
+	break;
+
+	case 1 : case 2 : /* Are handled by fillin_negative */
+	case 4 : case 5 : /* get filled in with their lists */
+
+	default :
+		break;
+	};
 
 	state->format.current_type = page;
 	for (i = 0; (tmp = contents[page][i]) != F_MAX_WIDGET ; ++i) {
@@ -552,11 +539,8 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			GtkCList *cl = GTK_CLIST (w);
 			int select = -1, start = 0, end = -1;
 			switch (page) {
-			case 4: case 5:
-				start = end = page+2;
-				break;
-			case 7:
-				start = end = 5;
+			case 4: case 5: case 7:
+				start = end = page;
 				break;
 
 			case 11:
@@ -574,7 +558,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 
 			for (; start <= end ; ++start)
 				select = fm_dialog_init_fmt_list (cl,
-						catalogs[start],
+						cell_formats [start],
 						state->format.spec,
 						select, &count);
 
@@ -665,24 +649,25 @@ fmt_dialog_init_format_page (FormatState *state)
 
 	state->format.canvas = NULL;
 	state->format.spec = format->format;
+
+	/* The handlers will set the format family later.  -1 flags that
+	 * all widgets are already hidden. */
 	state->format.current_type = -1;
-	state->format.num_decimals = 2;
-	state->format.negative_format = 0;
-	state->format.use_seperator = FALSE;
 
-	/* TODO : FIXME
-	 * This logic will need to move.
-	 * It should be able to support reclassifying formats selected via 'Custom */
-
-	/* If format is not recognized go to the custom page */
+	/* Attempt to extract general parameters from the current format */
 	if ((page = cell_format_classify (state->format.spec, &info)) >= 0) {
-		if (page == 1) {
-			state->format.num_decimals = info.num_decimals;
-			state->format.use_seperator = info.thousands_sep;
-			state->format.negative_format = info.negative_fmt;
-		}
+		state->format.num_decimals = info.num_decimals;
+		state->format.use_seperator = info.thousands_sep;
+		state->format.negative_format = info.negative_fmt;
 	} else
+	{
+		/* Default to custom */
 		page = 11;
+
+		state->format.num_decimals = 2;
+		state->format.negative_format = 0;
+		state->format.use_seperator = FALSE;
+	}
 
 	state->format.box = GTK_BOX (glade_xml_get_widget (state->gui, "format_box"));
 
@@ -1197,6 +1182,9 @@ border_get_mstyle (FormatState const *state, BorderLocations const loc)
 	/* Don't set borders that have not been changed */
 	if (!edge->is_set)
 		return NULL;
+
+	if (!edge->is_selected)
+		return style_border_ref (style_border_none ());
 
 	return style_border_fetch (state->border.edge[loc].pattern_index, color,
 				   style_border_get_orientation (loc + MSTYLE_BORDER_TOP));
@@ -1784,7 +1772,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
  * TODO 
  *
  * Translation to/from an MStyle.
- * 	- border to
+ * 	- border from
  *
  * Formats 
  * 	- regexps to recognize parameterized formats (ie percent 4 decimals)
@@ -1794,6 +1782,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
  * Borders
  * 	- Double lines for borders
  * 	- Add the 'text' elements in the preview
+ * 	- Handle indeterminant.
  *
  * How to show ambiguities when applying to a range ?
  *

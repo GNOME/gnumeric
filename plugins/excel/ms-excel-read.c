@@ -1161,11 +1161,11 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			? black_or_white_contrast (back_color)
 			: ms_excel_palette_get (sheet->wb->palette,
 						color_index);
-		MStyleBorder *border =
-			style_border_fetch (xf->border_type [i], color,
-					    MSTYLE_BORDER_TOP + i);
-		if (border)
-			mstyle_set_border (mstyle, MSTYLE_BORDER_TOP + i, border);
+		if (xf->border_type [i] != BORDER_NONE) {
+			mstyle_set_border (mstyle, MSTYLE_BORDER_TOP + i,
+					   style_border_fetch (xf->border_type [i], color,
+							       MSTYLE_BORDER_TOP + i));
+		}
 	}
 
 	/* Set the cache (const_cast) */
@@ -1421,9 +1421,9 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 
 		/* Ok.  Now use the flag from above to assign borders */
 		diagonal_style = biff_xf_map_border (((data & 0x01e00000) >> 21) & 0xf);
-		xf->border_type[STYLE_DIAGONAL] = (has_diagonals & 0x1)
+		xf->border_type[STYLE_DIAGONAL] = (has_diagonals & 0x2)
 			?  diagonal_style : BORDER_NONE;
-		xf->border_type[STYLE_REV_DIAGONAL] = (has_diagonals & 0x2)
+		xf->border_type[STYLE_REV_DIAGONAL] = (has_diagonals & 0x1)
 			?  diagonal_style : BORDER_NONE;
 
 		xf->fill_pattern_idx =

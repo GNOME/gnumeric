@@ -429,17 +429,6 @@ format_match_define (const char *format)
 	return TRUE;
 }
 
-static const char * const *formats [] = {
-	cell_format_date,
-	cell_format_hour,
-	cell_format_money,
-	cell_format_percent,
-	cell_format_numbers,
-	cell_format_accounting,
-	cell_format_scientific,
-	NULL
-};
-
 /*
  * Loads the initial formats that we will recognize
  */
@@ -448,10 +437,11 @@ format_match_init (void)
 {
 	int i;
 
-	for (i = 0; formats [i]; i++){
-		const char *const *p = formats [i];
+	for (i = 0; cell_formats [i]; i++){
+		char const * const * p = cell_formats [i];
 
 		for (; *p; p++){
+			/* FIXME : Why do we need to compare both */
 			if (strcmp (*p, "General") == 0)
 				continue;
 			if (strcmp (*p, _("General")) == 0)

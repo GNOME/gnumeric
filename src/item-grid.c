@@ -255,11 +255,11 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_DIAGONAL))
 		style_border_draw (drawable,
 				   mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL),
-				   x, y, x + w, y + h);
+				   x, y + h, x + w, y);
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_REV_DIAGONAL))
 		style_border_draw (drawable,
 				   mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL),
-				   x, y + h, x + w, y);
+				   x, y, x + w, y + h);
 }
 
 /*

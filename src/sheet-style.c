@@ -978,6 +978,8 @@ typedef struct {
 	MStyleBorder *bottom;
 	MStyleBorder *left;
 	MStyleBorder *right;
+	MStyleBorder *horiz;
+	MStyleBorder *vert;
 } apply_border_closure_t;
 
 static void
@@ -987,8 +989,9 @@ do_apply_border (Sheet *sheet, const Range *r,
 	MStyle *mstyle;
 
 	if (border) {
-		mstyle = mstyle_new ();
 		style_border_ref (border);
+
+		mstyle = mstyle_new ();
 		mstyle_set_border (mstyle, t, border);
 		sheet_style_attach (sheet, *r, mstyle);
 	}
@@ -1020,7 +1023,6 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	do_apply_border (sheet, &r,
 			 MSTYLE_BORDER_BOTTOM, cl->bottom);
 
-
 	/* 3.1 The left inner */
 	r = *range;
 	r.end.col = r.start.col;
@@ -1033,6 +1035,37 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	r.start.col = r.end.col;
 	do_apply_border (sheet, &r,
 			 MSTYLE_BORDER_RIGHT, cl->right);
+
+	/* 5.1 The horizontal interior top */
+	r = *range;
+	if (r.start.row != r.end.row) {
+		++r.start.row;
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_TOP, cl->horiz);
+	}
+	/* 5.2 The horizontal interior bottom */
+	r = *range;
+	if (r.start.row != r.end.row) {
+		--r.end.row;
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_BOTTOM, cl->horiz);
+	}
+
+	/* 6.1 The vertical interior left */
+	r = *range;
+	if (r.start.col != r.end.col) {
+		++r.start.col;
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_LEFT, cl->vert);
+	}
+
+	/* 6.2 The vertical interior right */
+	r = *range;
+	if (r.start.col != r.end.col) {
+		--r.end.col;
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_RIGHT, cl->vert);
+	}
 
 	sheet_style_optimize (sheet, *range);
 	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
@@ -1058,28 +1091,16 @@ sheet_selection_set_border (Sheet *sheet,
 
 	mstyle = mstyle_new ();
 
-	/* 1. The middle bits, inefficient but an optimize'll help */
-	if (horiz) {
-		style_border_ref (horiz);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_TOP, horiz);
-		style_border_ref (horiz);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_BOTTOM, horiz);
-	}
-	if (vert) {
-		style_border_ref (vert);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_LEFT, vert);
-		style_border_ref (vert);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_RIGHT, vert);
+	/* 1. Diagonals apply to all ranges */
+	if (diag) {
+		style_border_ref (diag);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_DIAGONAL, diag);
 	}
 	if (rev_diag) {
 		style_border_ref (rev_diag);
 		mstyle_set_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL, rev_diag);
 	}
-	if (diag) {
-		style_border_ref (diag);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_DIAGONAL, diag);
-	}
-	if (horiz || vert)
+	if (diag || rev_diag)
 		sheet_selection_apply_style (sheet, mstyle);
 
 	/* 2. For each range do the edges */
@@ -1087,6 +1108,8 @@ sheet_selection_set_border (Sheet *sheet,
 	cl.bottom   = bottom;
 	cl.left     = left;
 	cl.right    = right;
+	cl.horiz    = horiz;
+	cl.vert     = vert;
 	selection_foreach_range (sheet,
 				 sheet_selection_apply_border_cb,
 				 &cl);

@@ -13,12 +13,12 @@
 #include "format.h"
 
 /* The various formats */
-const char *cell_format_general [] = {
+char const * const cell_format_general [] = {
 	N_("General"),
 	NULL
 };
 
-const char *cell_format_numbers [] = {
+char const * const cell_format_numbers [] = {
 	N_("0"),
 	N_("0.00"),
 	N_("#,##0"),
@@ -31,7 +31,16 @@ const char *cell_format_numbers [] = {
 	NULL
 };
 
-const char *cell_format_accounting [] = {
+char const * const cell_format_currency [] = {
+	N_("$#,##0_);($#,##0)"),
+	N_("$#,##0_);[Red]($#,##0)"),
+	N_("$#,##0.00_);($#,##0.00)"),
+	N_("$#,##0.00_);[Red]($#,##0.00)"),
+	NULL,
+
+};
+
+char const * const cell_format_account [] = {
 	N_("_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"),
 	N_("_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"),
 	N_("_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"),
@@ -39,7 +48,7 @@ const char *cell_format_accounting [] = {
 	NULL
 };
 
-const char *cell_format_date [] = {
+char const * const cell_format_date [] = {
 	N_("m/d/yy"),
 	N_("m/d/yyyy"),
 	N_("d-mmm-yy"),
@@ -71,7 +80,7 @@ const char *cell_format_date [] = {
 	NULL
 };
 
-const char *cell_format_hour [] = {
+char const * const cell_format_time [] = {
 	N_("h:mm AM/PM"),
 	N_("h:mm:ss AM/PM"),
 	N_("h:mm"),
@@ -86,36 +95,41 @@ const char *cell_format_hour [] = {
 	NULL
 };
 
-const char *cell_format_percent [] = {
+char const * const cell_format_percent [] = {
 	N_("0%"),
 	N_("0.00%"),
 	NULL,
 };
 
-const char *cell_format_fraction [] = {
+char const * const cell_format_fraction [] = {
 	N_("# ?/?"),
 	N_("# ??/??"),
 	NULL
 };
 
-const char *cell_format_scientific [] = {
+char const * const cell_format_science [] = {
 	N_("0.00E+00"),
 	N_("##0.0E+0"),
 	NULL
 };
 
-const char *cell_format_text [] = {
+char const *cell_format_text [] = {
 	"@",
 	NULL,
 };
 
-const char *cell_format_money [] = {
-	N_("$#,##0_);($#,##0)"),
-	N_("$#,##0_);[Red]($#,##0)"),
-	N_("$#,##0.00_);($#,##0.00)"),
-	N_("$#,##0.00_);[Red]($#,##0.00)"),
-	NULL,
-
+char const * const * const cell_formats [] = {
+	cell_format_general,
+	cell_format_numbers,
+	cell_format_currency,
+	cell_format_account,
+	cell_format_date,
+	cell_format_time,
+	cell_format_percent,
+	cell_format_fraction,
+	cell_format_science,
+	cell_format_text,
+	NULL
 };
 
 /* Returns a+n if b[0..n-1] is a prefix to a */
@@ -237,10 +251,8 @@ cell_format_classify (char const * const fmt, FormatCharacteristics *info)
 	g_return_val_if_fail (info != NULL, FMT_GENERAL);
 
 	/* Is it General */
-	if (g_strcasecmp (_("General"), fmt) == 0) {
-		info->catalog_element = 0;
+	if (g_strcasecmp (_("General"), fmt) == 0)
 		return FMT_GENERAL;
-	}
 
 	if (cell_format_is_number (fmt, info))
 		return FMT_NUMBER;

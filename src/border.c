@@ -98,9 +98,25 @@ style_border_hash (gconstpointer v)
 #endif
 
 MStyleBorder *
+style_border_none (void)
+{
+	static MStyleBorder * none = NULL;
+	if (none == NULL) {
+		none = g_new0 (MStyleBorder, 1);
+		none->line_type = BORDER_NONE;
+		none->color = style_color_new (0,0,0);
+		none->ref_count = 1;
+	}
+
+	g_return_val_if_fail (none != NULL, NULL);
+
+	return none;
+}
+
+MStyleBorder *
 style_border_fetch (StyleBorderType const	 line_type,
-	      StyleColor 		*color,
-	      StyleBorderOrientation     orientation)
+		    StyleColor 			*color,
+		    StyleBorderOrientation	 orientation)
 {
 	MStyleBorder *border;
 	MStyleBorder key;
@@ -109,7 +125,7 @@ style_border_fetch (StyleBorderType const	 line_type,
 	g_return_val_if_fail (line_type < BORDER_MAX, 0);
 
 	if (line_type == BORDER_NONE)
-		return NULL;
+		return style_border_ref (style_border_none ());
 
 	g_return_val_if_fail (color != NULL, NULL);
 	key.line_type = line_type;
@@ -117,11 +133,8 @@ style_border_fetch (StyleBorderType const	 line_type,
 
 	if (border_hash) {
 		border = g_hash_table_lookup (border_hash, &key);
-
-		if (border != NULL) {
-			++border->ref_count;
-			return border;
-		}
+		if (border != NULL)
+			return style_border_ref (border);
 	} else
 		border_hash = g_hash_table_new (style_border_hash,
 						style_border_equal);
@@ -141,7 +154,6 @@ style_border_get_width (StyleBorderType const line_type)
 	g_return_val_if_fail (line_type >= BORDER_NONE, 0);
 	g_return_val_if_fail (line_type < BORDER_MAX, 0);
 
-	/* The caller should handle NONE */
 	if (line_type == BORDER_NONE)
 		return 0;
 
@@ -158,7 +170,6 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
 	g_return_if_fail (line_type >= BORDER_NONE);
 	g_return_if_fail (line_type < BORDER_MAX);
 
-	/* The caller should handle NONE */
 	if (line_type == BORDER_NONE)
 		return;
 
@@ -203,6 +214,7 @@ style_border_get_gc (MStyleBorder *border, GdkWindow *window)
 MStyleBorder *
 style_border_ref (MStyleBorder *border)
 {
+	/* NULL is ok */
 	if (border != NULL)
 		++border->ref_count;
 	return border;
@@ -220,18 +232,27 @@ style_border_unref (MStyleBorder *border)
 	if (border->ref_count != 0)
 		return;
 
-	if (border->gc)
+	/* Just to be on the safe side.
+	 * We are allowed to deref the border_none,
+	 * but not to free it.
+	 */
+	g_return_if_fail (border != style_border_none ());
+
+	if (border->gc) {
 		gdk_gc_unref (border->gc);
+		border->gc = NULL;
+	}
 
 	g_hash_table_remove (border_hash, border);
+
 	g_free (border);
 }
 
 void
 style_border_draw (GdkDrawable * drawable, const MStyleBorder* border,
-	     int x1, int y1, int x2, int y2)
+		   int x1, int y1, int x2, int y2)
 {
-	if (border != NULL)
+	if (border != NULL && border->line_type != BORDER_NONE)
 		gdk_draw_line (drawable,
 			       style_border_get_gc ((MStyleBorder *)border,
 						    drawable),

@@ -1,3 +1,26 @@
+1999-11-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw_border) : Correct diagonal vs
+	  reverse diagonal.
+
+	* src/border.c (style_border_none) : New function.
+	(style_border_fetch) : Use new function to handle BORDER_NONE.
+	(style_border_unref) : Be extra careful about border_none.
+	(style_border_draw) : Handle BORDER_NONE.
+
+	* src/formats.c : Reorg slightly.
+
+	* src/mstyle.c (mstyle_new_default) : Init to border_none.
+
+	* src/sheet-style.c (sheet_selection_apply_border_cb) :
+	  Rework to apply inside regions, and clear regions when appropriate.
+
+	* src/xml-io.c : Expand set of border style names.
+
+	* src/dialogs/dialog-cell-format.c : Move closer to selecting
+	  formats correctly.
+	  Set & clear borders now.
+
 1999-11-08  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/dialogs/dialog-summary.c (summary_get): fix minor naming

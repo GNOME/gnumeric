@@ -40,9 +40,12 @@ struct _MStyleBorder {
 
 void	      style_border_unref (MStyleBorder *border);
 MStyleBorder *style_border_ref   (MStyleBorder *border);
+
+MStyleBorder *style_border_none  (void);
 MStyleBorder *style_border_fetch (StyleBorderType const	 line_type,
 				  StyleColor 			*color,
 				  StyleBorderOrientation       orientation);
+
 StyleBorderOrientation style_border_get_orientation (MStyleElementType type);
 
 gint   style_border_get_width   (StyleBorderType const line_type);
