@@ -2,14 +2,17 @@
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
     <Family _name="XY"		sample_image_file="scatter.xpm"/>
 
+    <!-- really 3_1 -->
     <Type _name="XY" row="1" col="1"
 	  engine="GogXYPlot" family="XY"
-	  _description="Plot one series per axis."
-	  sample_image_file="chart_scatter_1_1.png">
+	  _description="Linearly interpolate between multi-dimensional points,with markers at each point."
+	  sample_image_file="chart_scatter_3_1.png">
     </Type>
 </Types>
 
+
       <!-- No lines for scatters yet
+	  _description="Plot one series per axis."
       <Minor>
         <_name>Marked interpolated points</_name>
         <_description>Interpolate between multi-dimensional points,with markers at each point.</_description>
