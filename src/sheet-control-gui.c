@@ -392,6 +392,27 @@ scg_colrow_size_set (SheetControlGUI *scg,
 						     sheet, new_size_pixels);
 }
 
+static void
+scg_select_all (SheetControlGUI *scg)
+{
+	Sheet *sheet = scg->sheet;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
+	gboolean const rangesel = gnumeric_sheet_can_select_expr_range (gsheet);
+
+	if (!rangesel) {
+		if (!workbook_edit_has_guru (scg->wbcg)) {
+			workbook_finish_editing (scg->wbcg, FALSE);
+			cmd_select_all (scg->sheet);
+		}
+	} else {
+		if (!gsheet->selecting_cell)
+			gnumeric_sheet_start_range_selection (gsheet, 0, 0);
+		scg_rangesel_cursor_bounds (
+			scg, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+		sheet_update (sheet);
+	}
+}
+
 void
 scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		   int index, int modifiers)
@@ -452,7 +473,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 static void
 button_select_all (GtkWidget *the_button, SheetControlGUI *scg)
 {
-	cmd_select_all (scg->sheet);
+	scg_select_all (scg);
 }
 
 static void

@@ -1,3 +1,9 @@
+2001-05-07  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-control-gui.c (scg_select_all): Handle select button
+	both within and outside guru mode.
+	(button_select_all): Use scg_select_all.
+
 Mon May  7 14:07:45 2001  Morten Welinder  <welinder@rentec.com>
 
 	* src/stf.c (stf_write_workbook): Plug file descriptor leak.
