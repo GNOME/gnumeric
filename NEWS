@@ -10,6 +10,7 @@ Jukka:
 	* Added tons of examples to functions.
 	* Added ``Delete...'' entry to ``Edit'' menu.
 	* Implemented PERCENTILE function.
+	* Fixed PERCENTRANK function.
 
 Miguel:
 	* New toolbar code.

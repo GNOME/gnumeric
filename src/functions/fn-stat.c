@@ -3980,6 +3980,72 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 
 /***************************************************************************/
 
+static char *help_logest = {
+	N_("@FUNCTION=LOGEST\n"
+	   "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
+
+	   "@DESCRIPTION="
+	   "LOGEST function applies the ``least squares'' method to fit "
+	   "an exponential curve of the form "
+	   "y = b*m{1}^x{1}+m{2}^x{2}... to your data."
+	   "\n"
+	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
+	   "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }. "
+	   "\n"
+	   "If @known_y's and @known_x's have unequal number of data points, "
+	   "LOGEST returns #NUM! error."
+	   "\n"
+	   "If @const is FALSE, the line will be forced to go through the "
+	   "origin, i.e., b will be zero.  The default is TRUE."
+	   "\n"
+	   "If @stat is TRUE, extra statistical information will be returned. "
+	   "The default is FALSE."
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=LOGEST,GROWTH,TREND")
+};
+
+static Value *
+gnumeric_logest (FunctionEvalInfo *ei, Value *argv [])
+{
+        /* Does nothing yet; look examples in samples/statfuns.xls */
+        return value_new_float (0);
+}
+
+/***************************************************************************/
+
+static char *help_growth = {
+	N_("@FUNCTION=GROWTH\n"
+	   "@SYNTAX=GROWTH(known_y's[,known_x's],new_x's[,const])\n"
+
+	   "@DESCRIPTION="
+	   "GROWTH function applies the ``least squares'' method to fit an "
+	   "exponential curve to your data and predicts the exponential "
+	   "growth by using this curve. "
+	   "\n"
+	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
+	   "GROWTH returns an array having one column and a row for each "
+	   "data point in @new_x."
+	   "\n"
+	   "If @known_y's and @known_x's have unequal number of data points, "
+	   "GROWTH returns #NUM! error."
+	   "\n"
+	   "If @const is FALSE, the line will be forced to go through the "
+	   "origin, i.e., b will be zero.  The default is TRUE."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=LOGEST,GROWTH,TREND")
+};
+
+static Value *
+gnumeric_growth (FunctionEvalInfo *ei, Value *argv [])
+{
+        return value_new_float (0);
+}
+
+/***************************************************************************/
+
 static char *help_forecast = {
 	N_("@FUNCTION=FORECAST\n"
 	   "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -4204,6 +4270,9 @@ stat_functions_init (void)
 			    &help_gammainv, gnumeric_gammainv);
 	function_add_nodes (cat, "geomean",   0,      "",
 			    &help_geomean, gnumeric_geomean);
+	function_add_args  (cat, "growth",  "AA|Ab",
+			    "known_y's[,known_x's],new_x's[,const]",
+			    &help_growth, gnumeric_growth);
 	function_add_nodes (cat, "harmean",   0,      "",
 			    &help_harmean, gnumeric_harmean);
 	function_add_args  (cat, "hypgeomdist", "ffff", "x,n,M,N",
@@ -4216,8 +4285,12 @@ stat_functions_init (void)
 			    &help_kurtp, gnumeric_kurtp);
 	function_add_nodes (cat, "large",  0,      "",
 			    &help_large, gnumeric_large);
-	function_add_args  (cat, "linest",  "A|Abb",  "known_y's[,known_x's[,const[,stat]]]",
+	function_add_args  (cat, "linest",  "A|Abb",
+			    "known_y's[,known_x's,const,stat]",
 			    &help_linest, gnumeric_linest);
+	function_add_args  (cat, "logest",  "A|Abb",
+			    "known_y's[,known_x's,const,stat]",
+			    &help_logest, gnumeric_linest);
 	function_add_args  (cat, "loginv",  "fff",  "",
 			    &help_loginv, gnumeric_loginv);
 	function_add_args  (cat, "lognormdist",  "fff",  "",

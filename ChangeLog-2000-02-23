@@ -1,3 +1,7 @@
+1999-09-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-stat.c: Added stubs for LOGEST and GROWTH.
+
 1999-09-20  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (do_expr_decode_tree): Plug leak.
