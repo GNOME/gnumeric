@@ -1489,10 +1489,10 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		change_menu_sensitivity (wbcg, "/commands/DataOutlineHideDetail",
 					 sheet->priv->enable_showhide_detail);
 	}
-	if (MS_PRINT_CLIPBOARD & flags) {
-		change_menu_sensitivity (wbcg, "/commands/EditCut", !editing_object);
-		change_menu_sensitivity (wbcg, "/commands/EditCopy", !editing_object);
-		change_menu_sensitivity (wbcg, "/commands/EditPaste", !editing_object);
+	if (MS_CLIPBOARD & flags) {
+		change_menu_sensitivity (wbcg, "/commands/EditCut", !edit_object);
+		change_menu_sensitivity (wbcg, "/commands/EditCopy", !edit_object);
+		change_menu_sensitivity (wbcg, "/commands/EditPaste", !edit_object);
 	}
 	if (MS_PASTE_SPECIAL & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial",
