@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-15 12:06+0200\n"
-"PO-Revision-Date: 2004-09-15 09:03-0300\n"
+"POT-Creation-Date: 2004-09-23 20:01+0200\n"
+"PO-Revision-Date: 2004-09-24 21:00-0300\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.,br>\n"
 "Language-Team: Português/Brasil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -1545,7 +1545,7 @@ msgstr "Derivativos Financeiros"
 msgid "Functions related to financial derivatives"
 msgstr "Funções relativas a derivativos financeiros"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5667
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5713
 #: plugins/mps/mps.c:547 src/xml-io.c:4134
 msgid "Reading file..."
 msgstr "Lendo arquivo..."
@@ -1636,7 +1636,7 @@ msgstr "Atributo inesperado %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1165
-#: plugins/xml_sax/xml-sax-read.c:1621
+#: plugins/xml_sax/xml-sax-read.c:1651
 msgid "XML document not well formed!"
 msgstr "Documento XML mal-formado!"
 
@@ -1646,34 +1646,34 @@ msgstr "#DESCONHECIDO!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1180 plugins/excel/ms-excel-read.c:1192
+#: plugins/excel/ms-excel-read.c:1173 plugins/excel/ms-excel-read.c:1185
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:494 src/dialogs/dialog-sheet-order.c:498
 #, c-format
 msgid "Sheet%d"
 msgstr "Pasta%d"
 
-#: plugins/excel/ms-excel-read.c:1196
+#: plugins/excel/ms-excel-read.c:1189
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1200
+#: plugins/excel/ms-excel-read.c:1193
 #, c-format
 msgid "Chart%d"
 msgstr "Gráfico%d"
 
-#: plugins/excel/ms-excel-read.c:1203
+#: plugins/excel/ms-excel-read.c:1196
 #, c-format
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: plugins/excel/ms-excel-read.c:2990
+#: plugins/excel/ms-excel-read.c:2984
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Falha processando o arquivo '%s'"
 
-#: plugins/excel/ms-excel-read.c:3083
+#: plugins/excel/ms-excel-read.c:3080
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1682,7 +1682,7 @@ msgstr ""
 "Links DDE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: plugins/excel/ms-excel-read.c:3089
+#: plugins/excel/ms-excel-read.c:3086
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1691,15 +1691,15 @@ msgstr ""
 "Links OLE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: plugins/excel/ms-excel-read.c:5016
+#: plugins/excel/ms-excel-read.c:5063
 msgid "external references"
 msgstr "referências externas"
 
-#: plugins/excel/ms-excel-read.c:5039
+#: plugins/excel/ms-excel-read.c:5086
 msgid "No password supplied"
 msgstr "Nenhuma senha fornecida"
 
-#: plugins/excel/ms-excel-read.c:5889
+#: plugins/excel/ms-excel-read.c:5938
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Impossível localizar um WorkBook do MS Excel válido"
 
@@ -1713,7 +1713,7 @@ msgstr ""
 "Nós já escrevemos um trecho para um texto que foi truncado devido a "
 "problemas de codificação."
 
-#: plugins/excel/ms-excel-write.c:4152
+#: plugins/excel/ms-excel-write.c:4170
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1722,7 +1722,7 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar no formato MS-EXCEL (tm) 95. Ele "
 "suporta apenas %d colunas e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:4159
+#: plugins/excel/ms-excel-write.c:4177
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1731,11 +1731,11 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar no formato MS-EXCEL (tm). Ele "
 "suporta apenas %d colunas e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:4920
+#: plugins/excel/ms-excel-write.c:4931
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Não pode abrir o 'Livro' atual para escrita\n"
 
-#: plugins/excel/ms-excel-write.c:4940
+#: plugins/excel/ms-excel-write.c:4951
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Não pode abrir o 'WorkBook' para escrita\n"
 
@@ -8986,7 +8986,7 @@ msgstr "%s versão %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1431
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:220
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
@@ -18354,16 +18354,16 @@ msgstr "OpenCalc/StarCalc"
 msgid "OpenOffice OASIS _UNFINISHED_"
 msgstr "OpenOffice OASIS _UNFINISHED_"
 
-#: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:106
+#: plugins/paradox/paradox.c:73 plugins/paradox/paradox.c:122
 msgid "Error while opening paradox file."
 msgstr "Erro ao abrir arquivo paradox."
 
 # plugins/guile/plugin.c:278
-#: plugins/paradox/paradox.c:104
+#: plugins/paradox/paradox.c:120
 msgid "Could not allocate memory for record."
 msgstr "Impossível alocar memória para o registro."
 
-#: plugins/paradox/paradox.c:180
+#: plugins/paradox/paradox.c:196
 #, c-format
 msgid "Field type %d is not unsupported."
 msgstr "O tipo de arquivo %d não é suportado."
@@ -19697,11 +19697,11 @@ msgstr "Digitando \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Rem Coluna/Linha"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3238
+#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3239
 msgid "Delete Columns"
 msgstr "Excluir colunas"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3356
+#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3357
 msgid "Delete Rows"
 msgstr "Excluir linhas"
 
@@ -19746,7 +19746,7 @@ msgid "Deleting row %s"
 msgstr "Apagando linha %s"
 
 #. Check for locked cells
-#: src/commands.c:1569 src/commands.c:1573 src/sheet.c:2852
+#: src/commands.c:1569 src/commands.c:1573 src/sheet.c:2853
 msgid "Clear"
 msgstr "Limpar"
 
@@ -20191,7 +20191,7 @@ msgid "O_utside"
 msgstr "E_xternos"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
 msgid "_Cross"
 msgstr "_Cruzar"
 
@@ -20225,67 +20225,67 @@ msgstr "_Mostrar Rótulos"
 msgid "_Type:"
 msgstr "_Tipo:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:631
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
 #: src/dialogs/dialog-random-generator.c:118
 #: src/tools/solver/reports-write.c:712
 msgid "Discrete"
 msgstr "Discreta"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:631
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
 msgid "Discrete mapping"
 msgstr "Mapeamento discreto"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:640
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
 msgid "Linear"
 msgstr "Linear"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:640
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
 msgid "Linear mapping"
 msgstr "Mapeamento linear"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:646
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
 msgid "Log"
 msgstr "Log"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:646
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
 msgid "Logarithm mapping"
 msgstr "Mapeamento logarítmico"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1394
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1403
 msgid "Details"
 msgstr "Detalhes"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1438
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
 msgid "Categories between _ticks"
 msgstr "Categorias entre _marcas"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1439
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
 msgid "Categories between _labels"
 msgstr "Categorias entre _rótulos"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1440
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1454
 msgid "_Cross at category #"
 msgstr "_Cruzar na categoria #"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1446
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1460
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1474
 msgid "Bounds"
 msgstr "Limites"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1449
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1464
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1451
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
 msgid "Ma_jor Ticks"
 msgstr "Mar_cadores Principais"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
 msgid "Mi_nor Ticks"
 msgstr "Marca_dores Secundários"
 
@@ -20293,53 +20293,61 @@ msgstr "Marca_dores Secundários"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1475
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1482
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1489
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1496
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Formato"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1511
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1525
 #: src/sheet-object-graphic.c:1443 src/wbcg-actions.c:1881
 msgid "Label"
 msgstr "Rótulo"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:194
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528
+msgid "MinorGrid"
+msgstr "GradeSecundária"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
+msgid "MajorGrid"
+msgstr "GradePrincipal"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:197
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
 msgid "Title"
 msgstr "Título"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
 msgid "Grid"
 msgstr "Grade"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr "Eixo-X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:207
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr "Eixo-Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:211
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr "Eixo-Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Circular-Axis"
 msgstr "Eixo-Circular"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:220
 msgid "Radial-Axis"
 msgstr "Eixo-Radial"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:223
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:224
 msgid "Plot"
 msgstr "Plot"
 
@@ -20695,7 +20703,7 @@ msgid "Default"
 msgstr "Padrão"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:514
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:522
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -21262,12 +21270,12 @@ msgid "PlotXY"
 msgstr "GráficoXY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:490
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
 msgid "X"
 msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:492
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
 msgid "Y"
 msgstr "Y"
 
@@ -21275,16 +21283,16 @@ msgstr "Y"
 msgid "PlotBubble"
 msgstr "Bolha"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:494
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:493
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Bolha"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1020
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
 msgid "Y Error bars"
 msgstr "Barras de Erro Y"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1022
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 msgid "X Error bars"
 msgstr "Barras de Erro X"
 
@@ -23014,7 +23022,7 @@ msgstr "suporte ao CSV original, tradução para o Francês"
 
 #: src/dialogs/dialog-about.c:141
 msgid "Paradox Importer"
-msgstr "Importador Paradox"
+msgstr "Importação Paradox"
 
 #: src/dialogs/dialog-about.c:143
 msgid "Initial work on OLE2 for libgsf"
@@ -23670,7 +23678,7 @@ msgstr "Remover Hyperlink"
 msgid "Could not create the hyperlink dialog."
 msgstr "Impossível criar o diálogo do Hyperlink."
 
-#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:529
+#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:530
 msgid "Insert"
 msgstr "Inserir"
 
@@ -24300,17 +24308,17 @@ msgstr "Processado em"
 msgid "Variable"
 msgstr "Variável"
 
-#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:1826
+#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
+#: src/workbook-control-gui.c:1828
 msgid "Min"
 msgstr "Mín"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1828
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1830
 msgid "Average"
 msgstr "Média"
 
-#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:1827
+#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
+#: src/workbook-control-gui.c:1829
 msgid "Max"
 msgstr "Máx"
 
@@ -25059,8 +25067,8 @@ msgstr "Di_a"
 msgid "Date unit:"
 msgstr "Unidade de Data:"
 
-#: src/dialogs/fill-series.glade.h:4 src/tools/fill-series.c:413
-#: src/tools/fill-series.c:416
+#: src/dialogs/fill-series.glade.h:4 src/tools/fill-series.c:406
+#: src/tools/fill-series.c:409
 msgid "Fill Series"
 msgstr "Séries de Preenchimento"
 
@@ -25907,7 +25915,7 @@ msgstr "<span weight=\"bold\">Cenários</span>"
 msgid "Create _Report"
 msgstr "Criar _Relatório"
 
-#: src/dialogs/scenario-manager.glade.h:10 src/tools/scenarios.c:628
+#: src/dialogs/scenario-manager.glade.h:10 src/tools/scenarios.c:623
 msgid "Result Cells:"
 msgstr "Células de Resultados:"
 
@@ -26305,7 +26313,7 @@ msgid "Prev. Sim."
 msgstr "Sim. Prévia"
 
 #. Fill in the header titles.
-#: src/dialogs/simulation.glade.h:18 src/tools/simulation.c:349
+#: src/dialogs/simulation.glade.h:18 src/tools/simulation.c:342
 msgid "Risk Simulation"
 msgstr "Simulação de Risco"
 
@@ -26584,7 +26592,7 @@ msgstr "Máximo"
 msgid "Minimum"
 msgstr "Mínimo"
 
-#: src/dialogs/tabulate.glade.h:7 src/tools/simulation.c:258
+#: src/dialogs/tabulate.glade.h:7 src/tools/simulation.c:251
 msgid "Mode"
 msgstr "Modo"
 
@@ -28440,31 +28448,31 @@ msgid "path"
 msgstr "caminho"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:577
+#: src/print.c:605
 msgid "&[PAGE]"
 msgstr "&[PÁGINA]"
 
-#: src/print.c:1122
+#: src/print.c:1150
 msgid "Print Region"
 msgstr "Região de Impressão"
 
-#: src/print.c:1255
+#: src/print.c:1283
 msgid "Print Sheets"
 msgstr "Imprimir Pastas"
 
-#: src/print.c:1263
+#: src/print.c:1291
 msgid "Act_ive sheet"
 msgstr "Pasta at_iva"
 
-#: src/print.c:1263
+#: src/print.c:1291
 msgid "S_heets"
 msgstr "_Pastas"
 
-#: src/print.c:1351 src/wbcg-actions.c:1489
+#: src/print.c:1379 src/wbcg-actions.c:1489
 msgid "Print preview"
 msgstr "Visualiza a impressão"
 
-#: src/print.c:1364
+#: src/print.c:1392
 msgid "Printing failed"
 msgstr "Falha de impressão"
 
@@ -28736,23 +28744,23 @@ msgstr "Copiar"
 msgid "Cut"
 msgstr "Recortar"
 
-#: src/sheet.c:2007
+#: src/sheet.c:2008
 msgid "Target region contains merged cells"
 msgstr "A região alvo contém células mescladas"
 
-#: src/sheet.c:2068
+#: src/sheet.c:2069
 msgid "cannot operate on merged cells"
 msgstr "não pode operar em células mescladas"
 
-#: src/sheet.c:2078
+#: src/sheet.c:2079
 msgid "cannot operate on array formulae"
 msgstr "não pode operar em fórmulas de vetor"
 
-#: src/sheet.c:3179
+#: src/sheet.c:3180
 msgid "Insert Columns"
 msgstr "Inserir Colunas"
 
-#: src/sheet.c:3297
+#: src/sheet.c:3298
 msgid "Insert Rows"
 msgstr "Inserir Linhas"
 
@@ -29199,7 +29207,7 @@ msgid "Anova: Single Factor"
 msgstr "ANOVA: Fator Único"
 
 #: src/tools/analysis-tools.c:4029 src/tools/analysis-tools.c:4710
-#: src/tools/simulation.c:343
+#: src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "RESUMO"
 
@@ -29353,7 +29361,7 @@ msgstr "Pasta:"
 msgid "Report Created: "
 msgstr "Relatório Criado: "
 
-#: src/tools/fill-series.c:403
+#: src/tools/fill-series.c:396
 #, c-format
 msgid "Fill Series (%s)"
 msgstr "Séries de Preenchimento (%s)"
@@ -29387,20 +29395,20 @@ msgstr "As probabilidades não podem todas serem iguais a 0!"
 msgid "Random Numbers (%s)"
 msgstr "Números Aleatórios (%s)"
 
-#: src/tools/scenarios.c:695 src/tools/scenarios.c:731
+#: src/tools/scenarios.c:690 src/tools/scenarios.c:726
 msgid "Scenario Summary"
 msgstr "Resumo do Cenário"
 
 #. Titles.
-#: src/tools/scenarios.c:698
+#: src/tools/scenarios.c:693
 msgid "Current Values"
 msgstr "Valores Atuais"
 
-#: src/tools/scenarios.c:699
+#: src/tools/scenarios.c:694
 msgid "Changing Cells:"
 msgstr "Células Variáveis:"
 
-#: src/tools/simulation.c:101
+#: src/tools/simulation.c:94
 msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
@@ -29408,7 +29416,7 @@ msgstr ""
 "A variável de entrada não forneceu um valor numérico. Verifique o modelo "
 "(talvez a sua última iteração # esteja muito alta)."
 
-#: src/tools/simulation.c:126
+#: src/tools/simulation.c:119
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
@@ -29416,67 +29424,67 @@ msgstr ""
 "A variável de saída não fornece um valor numérico. Cheque as variáveis de "
 "saída no seu modelo (talvez a sua última iteração # esteja muito alta)."
 
-#: src/tools/simulation.c:242
+#: src/tools/simulation.c:235
 msgid "Simulation Report"
 msgstr "Relatório de Simulação"
 
-#: src/tools/simulation.c:255
+#: src/tools/simulation.c:248
 msgid "Mean"
 msgstr "Média"
 
-#: src/tools/simulation.c:257
+#: src/tools/simulation.c:250
 msgid "Median"
 msgstr "Mediana"
 
-#: src/tools/simulation.c:259
+#: src/tools/simulation.c:252
 msgid "Std. Dev."
 msgstr "Desv. Pad."
 
-#: src/tools/simulation.c:260
+#: src/tools/simulation.c:253
 msgid "Variance"
 msgstr "Variância"
 
-#: src/tools/simulation.c:261
+#: src/tools/simulation.c:254
 msgid "Skewness"
 msgstr "Skewness (medida de simetria)"
 
-#: src/tools/simulation.c:262
+#: src/tools/simulation.c:255
 msgid "Kurtosis"
 msgstr "Curtose"
 
-#: src/tools/simulation.c:263
+#: src/tools/simulation.c:256
 msgid "Range"
 msgstr "Região"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:1829
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1831
 msgid "Count"
 msgstr "Contar"
 
-#: src/tools/simulation.c:265
+#: src/tools/simulation.c:258
 msgid "Confidence (95 %)"
 msgstr "Confiança (95%)"
 
-#: src/tools/simulation.c:266
+#: src/tools/simulation.c:259
 msgid "Lower Limit (95 %)"
 msgstr "Limite Inferior (95%)"
 
-#: src/tools/simulation.c:267
+#: src/tools/simulation.c:260
 msgid "Upper Limit (95 %)"
 msgstr "Limite Superior (95%)"
 
-#: src/tools/simulation.c:335
+#: src/tools/simulation.c:328
 msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr "SUMÁRIO DA SIMULAÇÃO - ITERAÇÃO #"
 
-#: src/tools/simulation.c:349
+#: src/tools/simulation.c:342
 msgid "Report"
 msgstr "Relatório"
 
-#: src/tools/simulation.c:396
+#: src/tools/simulation.c:389
 msgid "(Input) "
 msgstr "(Entrada) "
 
-#: src/tools/simulation.c:411
+#: src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "O tempo máximo foi excedido. A simulação não foi completada. "
 
@@ -30689,11 +30697,11 @@ msgstr "_Nova Visualização..."
 msgid "Create a new view of the workbook"
 msgstr "Cria uma nova vista do WorkBook"
 
-#: src/wbcg-actions.c:1621 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1621 src/workbook-control-gui.c:1024
 msgid "_Freeze Panes"
 msgstr "Con_gelar Painéis"
 
-#: src/wbcg-actions.c:1622 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1622 src/workbook-control-gui.c:1027
 msgid "Freeze the top left of the sheet"
 msgstr "Congela a extremidade superior esquerda da pasta"
 
@@ -31186,7 +31194,7 @@ msgid "Remove an outline group"
 msgstr "Remove um grupo de contorno"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1851 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1851 src/workbook-control-gui.c:1035
 msgid "Add _Auto Filter"
 msgstr "Adicionar _Auto Filtro"
 
@@ -31220,7 +31228,7 @@ msgid "Import the text from a file"
 msgstr "Importa o texto de um arquivo"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1866 src/workbook-control-gui.c:1825
+#: src/wbcg-actions.c:1866 src/workbook-control-gui.c:1827
 #: src/workbook-view.c:541
 msgid "Sum"
 msgstr "Soma"
@@ -32696,101 +32704,101 @@ msgstr "Taiwan (zh_TW)"
 msgid "Current Locale: "
 msgstr "Valor Local: "
 
-#: src/workbook-control-gui.c:337
+#: src/workbook-control-gui.c:338
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:527
+#: src/workbook-control-gui.c:528
 msgid "Manage sheets..."
 msgstr "Gerenciar pastas..."
 
-#: src/workbook-control-gui.c:530
+#: src/workbook-control-gui.c:531
 msgid "Append"
 msgstr "Adicionar"
 
-#: src/workbook-control-gui.c:531
+#: src/workbook-control-gui.c:532
 msgid "Duplicate"
 msgstr "Duplicar"
 
-#: src/workbook-control-gui.c:532
+#: src/workbook-control-gui.c:533
 msgid "Remove"
 msgstr "Remover"
 
-#: src/workbook-control-gui.c:533
+#: src/workbook-control-gui.c:534
 msgid "Rename"
 msgstr "Renomear"
 
-#: src/workbook-control-gui.c:1022
+#: src/workbook-control-gui.c:1023
 msgid "Un_freeze Panes"
 msgstr "Desco_ngelar Painéis"
 
-#: src/workbook-control-gui.c:1025
+#: src/workbook-control-gui.c:1026
 msgid "Unfreeze the top left of the sheet"
 msgstr "Descongelar a extremidade superior esquerda da pasta"
 
-#: src/workbook-control-gui.c:1033
+#: src/workbook-control-gui.c:1034
 msgid "Remove _Auto Filter"
 msgstr "Remover _Auto Filtro"
 
-#: src/workbook-control-gui.c:1036
+#: src/workbook-control-gui.c:1037
 msgid "Remove a filter"
 msgstr "Remover um filtro"
 
-#: src/workbook-control-gui.c:1037
+#: src/workbook-control-gui.c:1038
 msgid "Add a filter"
 msgstr "Adicione um Filtro"
 
-#: src/workbook-control-gui.c:1048
+#: src/workbook-control-gui.c:1049
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: src/workbook-control-gui.c:1049
+#: src/workbook-control-gui.c:1050
 msgid "_Redo"
 msgstr "_Refazer"
 
-#: src/workbook-control-gui.c:1177
+#: src/workbook-control-gui.c:1178
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Salvar as alterações para o WorkBook '%s' antes de fechar?"
 
-#: src/workbook-control-gui.c:1181
+#: src/workbook-control-gui.c:1182
 msgid "Save changes to workbook before closing?"
 msgstr "Salvar as alterações para o WorkBook antes de fechar?"
 
-#: src/workbook-control-gui.c:1187
+#: src/workbook-control-gui.c:1188
 msgid "If you close without saving, changes will be discarded."
 msgstr "Se você fechar sem salvar, as mudanças serão descartadas."
 
-#: src/workbook-control-gui.c:1194
+#: src/workbook-control-gui.c:1195
 msgid "Discard all"
 msgstr "Descartar tudo"
 
-#: src/workbook-control-gui.c:1196 src/workbook-control-gui.c:1205
-#: src/workbook-control-gui.c:1213
+#: src/workbook-control-gui.c:1197 src/workbook-control-gui.c:1206
+#: src/workbook-control-gui.c:1214
 msgid "Discard"
 msgstr "Descartar"
 
-#: src/workbook-control-gui.c:1198
+#: src/workbook-control-gui.c:1199
 msgid "Save all"
 msgstr "Salvar tudo"
 
-#: src/workbook-control-gui.c:1200 src/workbook-control-gui.c:1207
+#: src/workbook-control-gui.c:1201 src/workbook-control-gui.c:1208
 msgid "Don't quit"
 msgstr "Não feche"
 
-#: src/workbook-control-gui.c:1215
+#: src/workbook-control-gui.c:1216
 msgid "Don't close"
 msgstr "Não fechar"
 
-#: src/workbook-control-gui.c:2222 src/workbook-control-gui.c:2237
+#: src/workbook-control-gui.c:2217 src/workbook-control-gui.c:2232
 msgid "_Re-Edit"
 msgstr "_Re-Editar"
 
-#: src/workbook-control-gui.c:2223 src/workbook-control-gui.c:2228
+#: src/workbook-control-gui.c:2218 src/workbook-control-gui.c:2223
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: src/workbook-control-gui.c:2227 src/workbook-control-gui.c:2238
+#: src/workbook-control-gui.c:2222 src/workbook-control-gui.c:2233
 msgid "_Accept"
 msgstr "_Aceitar"
 
