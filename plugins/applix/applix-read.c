@@ -875,16 +875,16 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 							  TRUE);
 			} while (ptr[0] == ' ' && isdigit ((unsigned char) ptr[1]));
 		} else if (!a_strncmp (buffer, "View Column Widths: ")) {
-			char *ptr = buffer + 19;
-			do {
-				int col, width;
-				char *tmp;
-				unsigned char dummy;
+			char const *ptr = buffer + 19;
+			char const *tmp;
+			int col, width;
+			unsigned char dummy;
 
+			do {
 				ptr = col_parse (tmp = ptr + 1, &col, &dummy);
 				if (tmp == ptr || *ptr != ':')
 					return applix_parse_error (state, "Invalid column");
-				width = strtol (tmp = ptr + 1, &ptr, 10);
+				width = strtol (tmp = ptr + 1, (char **)&ptr, 10);
 				if (tmp == ptr || width <= 0)
 					return applix_parse_error (state, "Invalid column size");
 
