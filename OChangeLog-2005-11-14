@@ -1,3 +1,8 @@
+2001-03-30  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin.h: Commented out PLUGIN_DEBUG and PLUGIN_ALWAYS_LOAD
+	macros.
+
 2001-03-29  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (try_python): Fix redirections and don't use the

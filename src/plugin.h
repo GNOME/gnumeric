@@ -7,7 +7,15 @@
 #include "error-info.h"
 #include "gutils.h"
 
+/*
+ * Use "#define PLUGIN_DEBUG 0" to enable some plugin related debugging
+ * messages.
+ */
 #undef PLUGIN_DEBUG
+/*
+ * Use "#define PLUGIN_ALWAYS_LOAD" to force loading plugin at activation
+ * time.
+ */
 #undef PLUGIN_ALWAYS_LOAD
 
 typedef struct _PluginInfo PluginInfo;
