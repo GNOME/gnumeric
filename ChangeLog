@@ -1,5 +1,9 @@
 2002-04-15  Jon K Hellan  <hellan@acm.org>
 
+	* src/main-component.c (gnumeric_component_factory): And another one.
+
+2002-04-15  Jon K Hellan  <hellan@acm.org>
+
 	* src/main-component.c (gnumeric_component_factory): Silence
 	warning.
 

@@ -95,7 +95,6 @@ gnumeric_component_factory (BonoboGenericFactory *this,
 	BonoboObject *retval;
 #ifdef DUMMY
 	GtkWidget *w;
-	int a;
 
 	g_message ("Trying to produce a '%s'", oaf_iid);
 	w = gtk_label_new ("gnumeric-component "
