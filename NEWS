@@ -2,6 +2,7 @@ Gnumeric 1.1.2
 
 Andreas:
 	* Make Single-Factor ANOVA undoable.
+	* Port search dialog
 
 Jukka:
 	* More solver improvements

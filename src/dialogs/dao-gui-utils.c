@@ -52,7 +52,8 @@ static void
 focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active)
-		gtk_widget_grab_focus (entry);
+		gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry 
+						   (GNUMERIC_EXPR_ENTRY (entry))));
 }
 
 /**
@@ -107,7 +108,8 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 	g_signal_connect (G_OBJECT (state->output_range),
 		"toggled",
 		G_CALLBACK (focus_on_entry), state->output_entry);
-	g_signal_connect (G_OBJECT (state->output_entry),
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry 
+				    (GNUMERIC_EXPR_ENTRY (state->output_entry))),
 		"focus-in-event",
 		G_CALLBACK (tool_set_focus_output_range), state);
 	g_signal_connect_after (G_OBJECT (state->output_entry),

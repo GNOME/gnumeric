@@ -1,5 +1,12 @@
 2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dao-gui-utils.c (focus_on_entry) : The second widget is
+	  an expr-entry widget
+	(dialog_tool_init_outputs) : link to focus-in-event of
+	  entry within the expr-entry widget
+
+2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/dialogs/search.glade : port to gnome2
 	* src/dialogs/dialog-search.c : port to gnome2
 	  (some problems remain to be fixed)
