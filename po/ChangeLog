@@ -1,3 +1,7 @@
+2005-01-10  Duarte Loreto <happyguy_pt@hotmail.com>
+
+	* pt.po: Partial update. Fix menu mnemonic errors.
+
 2005-01-09  Jody Goldberg <jody@gnome.org>
 
 	* *.po  :  fix the example for TREND
