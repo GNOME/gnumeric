@@ -26,6 +26,7 @@ Jody:
 	* Fix crash deleting a shared view [#163452]
 	* Fix sax export of outlines
 	* Fix TYPE to allow non-scalar
+	* Use element 0 of an array returned in a non-scalar context [#162923]
 
 Morten:
 	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,

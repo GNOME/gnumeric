@@ -1,5 +1,13 @@
 2005-01-09  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=162923
+	* src/expr.c (gnm_expr_eval) : minor thinko, array result from a
+	  function in a non-scalar context return the first element, not
+	  #VALUE!.  I broke this when tweaking the implicit iteration by
+	  forgetting that value_intersection handled that for me.
+
+2005-01-09  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=163452
 	* src/sheet-control-gui.c (scg_mode_clear) : handle being called
 	  during destruction
