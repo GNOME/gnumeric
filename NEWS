@@ -5,6 +5,7 @@ Andreas:
 	* Enable auto-correct initial caps exception list. [#158209]
 	* Fix removable of items from auto-correct initial caps 
 	  exception list. [#158207]
+	* Protect ABcD style strings from auto-correction
 
 Harald Ashburner:
 	* Update derivatives.gnumeric

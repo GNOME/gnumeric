@@ -275,6 +275,19 @@ autocorrect_initial_caps (const char *src)
 						break;
 					}
 				}
+
+				if (!exception_found) {
+					const char *q;
+					for (q = g_utf8_next_char (p); 
+					     *q && !g_unichar_isspace (q); 
+					     q = g_utf8_next_char (q)) {
+						if (g_unichar_isupper 
+						    (g_utf8_get_char (q))) {
+							exception_found = TRUE;
+							break;
+						}
+					}
+				}
 				
 				if (!exception_found) {
 					lotext = g_utf8_strdown (target, 1);
