@@ -869,7 +869,7 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 	guint32  new_offset;
 	guint32  total_len;
 	guint32  total_end_len;
-	/* Will be localy scoped when gdb gets its act together */
+	/* Will be locally scoped when gdb gets its act together */
 		gboolean header;
 		gboolean use_utf16;
 		gboolean ext_str = FALSE;
@@ -2030,7 +2030,7 @@ biff_xf_data_destroy (BiffXFData *xf)
 		xf->mstyle = NULL;
 	}
 	g_free (xf);
-	return 1;
+	return TRUE;
 }
 
 static void

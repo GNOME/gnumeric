@@ -1,6 +1,7 @@
 2003-04-28  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (biff_string_get_flags): Fix 0/FALSE confusion.
+	(biff_xf_data_destroy): Ditto.
 
 2003-04-21  Jody Goldberg <jody@gnome.org>
 
