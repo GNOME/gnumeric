@@ -1,3 +1,8 @@
+2002-04-14  Jon K Hellan  <hellan@acm.org>
+
+	* src/main.h (has_gnumeric_been_compiled_with_guile_support):
+	This function disappeared long ago. Remove.
+	
 2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/collect.c (callback_function_collect) : keep missing data info
