@@ -41,6 +41,7 @@
 #include <gnome-xml/xmlmemory.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <zlib.h>
@@ -3376,6 +3377,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 {
 	gint fd;
 	gzFile *f;
+	struct stat sbuf;
 	gint file_size;
 	ErrorInfo *open_error;
 	gchar buffer[XML_INPUT_BUFFER_SIZE];
@@ -3396,14 +3398,12 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 		gnumeric_io_error_info_set (context, open_error);
 		return;
 	}
-	file_size = lseek (fd, 0, SEEK_END);
-	if (file_size < 0 || lseek (fd, 0, SEEK_SET) < 0) {
-		if (errno == 0) {
-			gnumeric_io_error_info_set (context, error_info_new_str (
-			_("Not enough memory to create zlib decompression state.")));
-		} else {
-			gnumeric_io_error_info_set (context, error_info_new_from_errno ());
-		}
+	if (fstat (fd, &sbuf) == 0) {
+		file_size = sbuf.st_size;
+	} else {
+		gnumeric_io_error_info_set (context, error_info_new_from_errno ());
+		gnumeric_io_error_push (context, error_info_new_str (
+		                        _("Cannot get file size.")));
 		close (fd);
 		return;
 	}
@@ -3463,7 +3463,6 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 /*
  * Save a Workbook in an XML file
  * One build an in-memory XML tree and save it to a file.
- * returns 0 in case of success, -1 otherwise.
  */
 void
 gnumeric_xml_write_workbook (GnumFileSaver const *fs,

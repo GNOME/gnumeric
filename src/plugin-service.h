@@ -55,6 +55,7 @@ struct _PluginServiceFileSaver {
 	gchar *description;
 	gint   default_saver_priority;
 	FileSaveScope save_scope;
+	gboolean overwrite_files;
 
 	GnumFileSaver *saver;
 	/* fields available after loading */

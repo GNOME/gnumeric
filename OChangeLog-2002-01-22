@@ -1,3 +1,24 @@
+2001-08-26  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/file-priv.h (struct _GnumFileSaver):
+	Added "overwrite_files" field.
+
+	* src/file.h (gnum_file_saver_set_overwrite_files): New function.
+
+	* src/file.c
+	(gnum_file_saver_init): Initialize overwrite_files (set to TRUE).
+	(gnum_file_saver_save): Report an error and abort saving if file with
+	given name already exists and overwrite_files == FALSE.
+
+	* src/plugin-service.h (struct _PluginServiceFileSaver):
+	Added "overwrite_files" field.
+
+	* src/plugin-service.c (plugin_service_file_saver_read,
+	gnum_plugin_file_saver_new): Handle overwrite_files flag.
+
+	* src/xml-io.c (gnumeric_xml_read_workbook):
+	Use fstat to get file size. Corrected error message.
+
 2001-08-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-graph.c (gnm_graph_add_vector) : merge with

@@ -215,6 +215,7 @@ gnum_file_saver_init (GnumFileSaver *fs)
 	fs->extension = NULL;
 	fs->mime_type = NULL;
 	fs->description = NULL;
+	fs->overwrite_files = TRUE;
 	fs->format_level = FILE_FL_NEW;
 	fs->save_scope = FILE_SAVE_WORKBOOK;
 	fs->save_func = NULL;
@@ -485,6 +486,17 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
 	g_return_if_fail (file_name != NULL);
 
+	if (!fs->overwrite_files && g_file_exists (file_name)) {
+		ErrorInfo *save_error;
+
+		save_error = error_info_new_str_with_details (
+		_("Saving over old files of this type is disabled for safety."),
+		error_info_new_str (
+		_("You can turn this safety feature off by editing appropriate plugin.xml file.")));
+		gnumeric_io_error_info_set (io_context, save_error);
+		return;
+	}
+
 	GNUM_FILE_SAVER_METHOD (fs, save) (fs, io_context, wbv, file_name);
 }
 
@@ -512,6 +524,24 @@ gnum_file_saver_save_to_stream (GnumFileSaver const *fs, IOContext *io_context,
 	                                             stream, ev);
 }
 #endif
+
+/**
+ * gnum_file_saver_set_overwrite_files:
+ * @fs          : GnumFileSaver object
+ * @overwrite   : A boolean value saying whether the saver should overwrite
+ *                existing files.
+ *
+ * Changes behaviour of the saver when saving a file. If @overwrite is set
+ * to TRUE, existing file will be overwritten. Otherwise, the saver will
+ * report an error without saving anything.
+ */
+void
+gnum_file_saver_set_overwrite_files (GnumFileSaver *fs, gboolean overwrite)
+{
+	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
+
+	fs->overwrite_files = overwrite;
+}
 
 /**
  * gnum_file_saver_fix_file_name:

@@ -127,6 +127,8 @@ void         gnum_file_saver_save_to_stream (GnumFileSaver const *fs,
                                              BonoboStream *stream,
                                              CORBA_Environment *ev);
 #endif
+void         gnum_file_saver_set_overwrite_files (GnumFileSaver *fs,
+                                                  gboolean overwrite);
 gchar       *gnum_file_saver_fix_file_name (GnumFileSaver const *fs,
                                             const gchar *file_name);
 const gchar *gnum_file_saver_get_id (GnumFileSaver const *fs);

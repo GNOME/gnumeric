@@ -70,6 +70,7 @@ struct _GnumFileSaver {
 	const gchar          *mime_type;
 	gchar                *extension;
 	gchar                *description;
+	gboolean              overwrite_files;
 	FileFormatLevel               format_level;
 	FileSaveScope                 save_scope;
 	GnumFileSaverSaveFunc         save_func;

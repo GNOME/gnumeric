@@ -643,6 +643,8 @@ gnum_plugin_file_saver_new (PluginService *service)
 	                       NULL);
 	gnum_file_saver_set_save_scope (GNUM_FILE_SAVER (fs),
 	                                service_file_saver->save_scope);
+	gnum_file_saver_set_overwrite_files (GNUM_FILE_SAVER (fs),
+	                                     service_file_saver->overwrite_files);
 	fs->service = service;
 	g_free (saver_id);
 
@@ -700,6 +702,8 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 		service_file_saver->save_scope = (save_scope_str != NULL &&
 		                                 g_strcasecmp (save_scope_str, "sheet") == 0) ?
 		                                 FILE_SAVE_SHEET : FILE_SAVE_WORKBOOK;
+		service_file_saver->overwrite_files = e_xml_get_bool_prop_by_name_with_default (
+		                                      tree, "overwrite_files", TRUE);
 		service_file_saver->plugin_func_file_save = NULL;
 	} else {
 		if (id_str == NULL) {
