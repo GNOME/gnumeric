@@ -11,6 +11,9 @@ gint       gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog);
 void       gnumeric_dialog_show (GtkWidget *parent, GnomeDialog *dialog,
 				 gboolean click_closes,
 				 gboolean close_with_parent);
+void       gnumeric_set_transient (CommandContext *context, GtkWindow *window);
+void       gnumeric_editable_enters (GtkWindow *window,
+				     GtkEditable *editable);
 
 /* A simple routine for making a popup menu */
 int        run_popup_menu  (GdkEvent *event, int button, char **strings);

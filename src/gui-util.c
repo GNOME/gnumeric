@@ -10,6 +10,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "command-context-gui.h"
 #include "style.h"
 #include "color.h"
 #include "workbook.h"
@@ -70,9 +71,6 @@ gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
  * gnumeric_dialog_run
  *
  * Pop up a dialog as child of a workbook.
- *
- * The number_of_dialogs_displayed counter is maintained to make sure
- * that the window manager doesn't close the app underneath us.
  */
 gint
 gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
@@ -145,7 +143,7 @@ connect_to_parent_close (GnomeDialog *dialog, DialogRunInfo *run_info)
  * @parent             parent widget
  * @dialog             dialog
  * @click_closes       close on click
- * @closw_with_parent  close when parent closes
+ * @close_with_parent  close when parent closes
  *
  * Pop up a dialog without a recursive main loop
  *
@@ -175,6 +173,52 @@ gnumeric_dialog_show (GtkWidget *parent, GnomeDialog *dialog,
 
 	if ( ! GTK_WIDGET_VISIBLE(GTK_WIDGET(dialog)) )	/* Pop up the dialog */
 		gtk_widget_show(GTK_WIDGET(dialog));
+}
+
+/**
+ * gnumeric_set_transient
+ * @context            command_context
+ * @window             the transient window
+ *
+ * Make the window a child of the workbook in the command context, if there is
+ * one. */
+void
+gnumeric_set_transient (CommandContext *context, GtkWindow *window)
+{
+	if (IS_COMMAND_CONTEXT_GUI (context)) {
+		CommandContextGui *ccg = COMMAND_CONTEXT_GUI(context);
+		gtk_window_set_transient_for 
+			(window, GTK_WINDOW (ccg->wb->toplevel));
+	}
+}
+
+/**
+ * gnumeric_editable_enters: Make the "activate" signal of an editable click
+ * the default dialog button. 
+ * @window: dialog to affect.
+ * @editable: Editable to affect.
+ *
+ * This is a literal copy of gnome_dialog_editable_enters, but not restricted
+ * to GnomeDialogs.
+ *
+ * Normally if there's an editable widget (such as #GtkEntry) in your
+ * dialog, pressing Enter will activate the editable rather than the
+ * default dialog button. However, in most cases, the user expects to
+ * type something in and then press enter to close the dialog. This 
+ * function enables that behavior.
+ * 
+ **/
+void  gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
+{
+	g_return_if_fail(window != NULL);
+	g_return_if_fail(editable != NULL);
+	g_return_if_fail(GTK_IS_WINDOW(window));
+	g_return_if_fail(GTK_IS_EDITABLE(editable));
+	
+	gtk_signal_connect_object
+		(GTK_OBJECT(editable), "activate",
+		 GTK_SIGNAL_FUNC(gtk_window_activate_default), 
+		 GTK_OBJECT(window));
 }
 
 int

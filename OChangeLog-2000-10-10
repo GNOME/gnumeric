@@ -1,5 +1,17 @@
 2000-02-29  Jon K Hellan  <hellan@acm.org>
 
+	* src/gnumeric-util.[ch] (gnumeric_set_transient): New
+	function. Make the window a child of the workbook in the command
+	context, if there is one. 
+	(gnumeric_editable_enters): New function. Like
+	gnome_dialog_editable_enters, but not just for GnomeDialogs.
+
+	* src/gnumeric-util.c (gnumeric_dialog_run): Remove incorrect
+	comment.
+	(gnumeric_dialog_show): Fix typo.
+
+2000-02-29  Jon K Hellan  <hellan@acm.org>
+
 	* src/dialogs/dialog-cell-format.c: The dialog moved when "Apply"
 	was pressed. This was an unavoidable consequence of using
 	gnome_dialog_run. We switch to a purely callback based design -
