@@ -2,6 +2,9 @@
 
 	* ms-excel-write.c (write_sheet_bools): Added yet more
 	magic numbers.
+	(write_sheet_tail): Implemented WINDOW2, SELECTION as
+	magic.
+	(ms_excel_write_workbook): Fix silly big dimension block.
 
 	* boot.c (excel_init): Put Excel 95 on by default.
 

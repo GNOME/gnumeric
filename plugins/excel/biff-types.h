@@ -112,6 +112,7 @@
 #define BIFF_DV                        0x1be
 #define BIFF_BOOLERR                   0x205
 #define BIFF_STRING                    0x207
+#define BIFF_INDEX                     0x20b
 #define BIFF_NAME                      0x218
 #define BIFF_DEFAULTROWHEIGHT	       0x225
 #define BIFF_WINDOW2                   0x23e
