@@ -1204,7 +1204,7 @@ static xmlNodePtr writeXmlSheet(parseXmlContextPtr ctxt, Sheet *sheet) {
      * Rows informations.
      */
     rows = xmlNewChild(cur, ctxt->ns, "Rows", NULL);
-    l = sheet->cols_info;
+    l = sheet->rows_info;
     while (l) {
         child = writeXmlColRowInfo(ctxt, l->data, 0);
 	if (child) xmlAddChild(rows, child);

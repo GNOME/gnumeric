@@ -1,5 +1,8 @@
 1998-09-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/cellspan.c (row_cell_get_displayed_at): row->data might be NULL.
+	(cell_unregister_span): row->data might be NULL.
+
 	* src/main.c (main): Add support to load more than one file from
 	the command line.  Drop requirement for --file option.
 

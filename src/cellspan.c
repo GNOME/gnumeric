@@ -133,7 +133,9 @@ cell_unregister_span (Cell *cell)
 
 	c.cell = cell;
 	c.list_of_keys = NULL;
-	g_hash_table_foreach (cell->row->data, assemble_unregister_span_list, &c);
+
+	if (cell->row->data)
+		g_hash_table_foreach (cell->row->data, assemble_unregister_span_list, &c);
 
 	for (l = c.list_of_keys; l; l = l->next){
 		int *key = l->data;
@@ -154,11 +156,10 @@ cell_unregister_span (Cell *cell)
 Cell *
 row_cell_get_displayed_at (ColRowInfo *ri, int col)
 {
-	Cell *cell;
-	
 	g_return_val_if_fail (ri != NULL, NULL);
 
-	cell = g_hash_table_lookup (ri->data, &col);
-
-	return cell;
+	if (ri->data)
+		return g_hash_table_lookup (ri->data, &col);
+	else
+		return NULL;
 }
