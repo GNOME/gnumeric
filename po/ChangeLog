@@ -1,3 +1,7 @@
+2004-10-10  Raphael Higino  <raphaelh@cvs.gnome.org>
+
+	* pt_BR.po: Updated Brazilian Portuguese translation.
+
 2004-10-09  Jody Goldberg <jody@gnome.org>
 
 	* POTFILES.in : Add the surface plot types
