@@ -1,3 +1,12 @@
+2001-11-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/search.h : add curr_sheet to _SearchReplace
+	* src/search.c (search_replace_verify) : use global_range_list_parse 
+	  rather than parse_range
+	(search_collect_cells) : ditto
+	(search_collect_cells_cb) : callback for global_range_list_foreach in
+	  search_collect_cells
+
 2001-11-22  Jody Goldberg <jgoldberg@home.com>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=65101

@@ -1,5 +1,8 @@
 Gnumeric 0.77
 
+Andreas:
+	* Fix problem in search & search/replace tool #64989
+
 Jody:
 	* Tricky corner cases for style applications.
 	* Rework sheetname quoting (Good idea Andreas)

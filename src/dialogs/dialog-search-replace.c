@@ -99,6 +99,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
 	sr->range_text = g_strdup (
 		gtk_entry_get_text (GTK_ENTRY (dd->rangetext)));
+	sr->curr_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 
 	sr->query = is_checked (gui, "query");
 	sr->preserve_case = is_checked (gui, "preserve_case");
@@ -222,9 +223,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
 	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
-	gnumeric_expr_entry_set_flags (
-		dd->rangetext,
-		GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
+	gnumeric_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);
 	hbox = GTK_BOX (glade_xml_get_widget (gui, "range_hbox"));
 	gtk_box_pack_start (hbox, GTK_WIDGET (dd->rangetext),
 			    TRUE, TRUE, 0);

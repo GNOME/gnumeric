@@ -28,6 +28,7 @@ struct _SearchReplace {
 
 	SearchReplaceScope scope;
 	char *range_text;
+	Sheet *curr_sheet;
 
 	gboolean is_regexp;	/* Search text is a regular expression.  */
 	gboolean ignore_case;	/* Consider "a" and "A" the same.  */

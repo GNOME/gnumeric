@@ -138,16 +138,15 @@ search_replace_verify (SearchReplace *sr, gboolean repl)
 		return g_strdup (_("Replacement string must be set."));
 
 	if (sr->scope == SRS_range) {
-		int start_col, start_row, end_col, end_row;
+		GSList *range_list;
 
 		if (!sr->range_text || sr->range_text[0] == 0)
 			return g_strdup (_("You must specify a range to search."));
 
-		/* FIXME: what about sheet name?  */
-		if (!parse_range (sr->range_text,
-				  &start_col, &start_row,
-				  &end_col, &end_row))
+		if ((range_list = global_range_list_parse (sr->curr_sheet, sr->range_text)) 
+		    == NULL)
 			return g_strdup (_("The search range is invalid."));
+		range_list_destroy (range_list);
 	}
 
 	err = search_replace_compile (sr, repl);
@@ -476,6 +475,22 @@ cb_order_sheet_col_row (const void *_a, const void *_b)
 	return i;
 }
 
+static Value *
+search_collect_cells_cb (Sheet *sheet, int col, int row,
+				 Cell *cell, GPtrArray *cells)
+{
+	EvalPos *ep = g_new (EvalPos, 1);
+
+	ep->sheet = sheet;
+	ep->eval.col = col;
+	ep->eval.row = row;
+
+	g_ptr_array_add (cells, ep);
+
+	return NULL;
+
+}
+
 /* Collect a list of all cells subject to search.  */
 GPtrArray *
 search_collect_cells (SearchReplace *sr, Sheet *sheet)
@@ -495,16 +510,14 @@ search_collect_cells (SearchReplace *sr, Sheet *sheet)
 
 	case SRS_range:
 	{
-		int start_col, start_row, end_col, end_row;
+		GSList *range_list;
+		EvalPos ep = {{0, 0}, sr->curr_sheet};
 
-		/* FIXME: what about sheet name?  */
-		parse_range (sr->range_text,
-			     &start_col, &start_row,
-			     &end_col, &end_row);
-
-		cells = sheet_cells (sheet,
-				     start_col, start_row, end_col, end_row,
-				     TRUE);
+		cells = g_ptr_array_new ();
+		range_list = global_range_list_parse (sr->curr_sheet, sr->range_text);
+		global_range_list_foreach (range_list, &ep, TRUE,
+			   (ForeachCellCB) search_collect_cells_cb, cells);
+		range_list_destroy (range_list);
 		break;
 	}
 
