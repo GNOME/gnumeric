@@ -340,12 +340,31 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	}
 
 	if ((style->valid_flags & STYLE_BACK_COLOR) && (style->back_color)){
-
+		Sheet *sheet = item_grid->sheet_view->sheet;
+		
+		if (style->back_color == sheet->default_style->back_color){
+			printf ("SAME, ");
+			fflush (stdout);
+			return;
+		}
+		    
+		gdk_gc_set_foreground (item_grid->gc, &style->back_color->color);
+		printf ("Painting %d, %d\n", col, row);
+		item_debug_cross (drawable, item_grid->gc,
+			x + ci->margin_a, y + ri->margin_b,
+			x + ci->margin_a + ci->pixels - ci->margin_b,
+			y + ri->margin_b + ri->pixels - ri->margin_b);
+		return;
+		
 		/*
 		 * FIXME: If the style is the default sheet style, we can
 		 * avoid drawing this
 		 */
-		gdk_gc_set_foreground (item_grid->gc, &style->back_color->color);
+		gdk_gc_set_background (item_grid->gc, &style->back_color->color);
+		printf ("%d %d %d\n",
+			style->back_color->color.red,
+			style->back_color->color.green,
+			style->back_color->color.blue);
 		gdk_draw_rectangle (
 			drawable, item_grid->gc, TRUE,
 			x + ci->margin_a, y + ri->margin_b,
@@ -426,7 +445,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 		for (x_paint = -diff_x; x_paint < end_x; col++){
 			ColRowInfo *ci;
-
+			
 			ci = sheet_col_get_info (sheet, col);
 
 			cell = sheet_cell_get (sheet, col, row);

@@ -1,3 +1,8 @@
+1999-09-22  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/widgets/widget-color-combo.c (color_combo_construct): Fix
+	visuals for working with Imlib properly.
+
 1999-09-22  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/dialog/dialog-zoom.c : rewrite.

@@ -96,7 +96,6 @@ color_table_setup (ColorCombo *cc, gboolean no_color, int ncols, int nrows, char
 
 		gtk_table_attach (GTK_TABLE (table), label, 0, ncols, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	}
-
 	total = 0;
 	for (row = 0; row < nrows; row++){
 		for (col = 0; col < ncols; col++){
@@ -111,7 +110,13 @@ color_table_setup (ColorCombo *cc, gboolean no_color, int ncols, int nrows, char
 
 			button = gtk_button_new ();
 			gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+
+			gtk_widget_push_visual (gdk_imlib_get_visual ());
+			gtk_widget_push_colormap (gdk_imlib_get_colormap ());
 			canvas = gnome_canvas_new ();
+			gtk_widget_pop_colormap ();
+			gtk_widget_pop_visual ();
+
 			gtk_widget_set_usize (canvas, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 			gtk_container_add (GTK_CONTAINER (button), canvas);
 
@@ -170,7 +175,12 @@ color_combo_construct (ColorCombo *cc, char **icon, gboolean no_color,
 	 * Our button with the canvas preview
 	 */
 	cc->preview_button = gtk_button_new ();
+	gtk_widget_push_visual (gdk_imlib_get_visual ());
+	gtk_widget_push_colormap (gdk_imlib_get_colormap ());
 	cc->preview_canvas = GNOME_CANVAS (gnome_canvas_new ());
+	gtk_widget_pop_colormap ();
+	gtk_widget_pop_visual ();
+	
 	image = gdk_imlib_create_image_from_xpm_data (icon);
 	cc->items = g_malloc (sizeof (GnomeCanvasItem *) * ncols * nrows);
 	gnome_canvas_set_scroll_region (cc->preview_canvas, 0, 0, 24, 24);

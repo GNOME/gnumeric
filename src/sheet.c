@@ -23,6 +23,7 @@
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
+#include "sheet-private.h"
 
 #undef DEBUG_CELL_FORMULA_LIST
 
@@ -176,7 +177,6 @@ sheet_new (Workbook *wb, const char *name)
 {
 	GtkWidget *sheet_view;
 	Sheet *sheet;
-	Style *sheet_style;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -192,8 +192,8 @@ sheet_new (Workbook *wb, const char *name)
 
 	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
 
-	sheet_style = style_new ();
-	sheet_style_attach (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1, sheet_style);
+	sheet->default_style = style_new ();
+	sheet_style_attach (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1, sheet->default_style);
 
 	sheet_init_default_styles (sheet);
 
@@ -1120,6 +1120,7 @@ sheet_cancel_pending_input (Sheet *sheet)
 
 	if (sheet->editing_cell) {
 		const char *oldtext = sheet->editing_saved_text->str;
+		
 		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), oldtext);
 		cell_set_text (sheet->editing_cell, oldtext);
 	}

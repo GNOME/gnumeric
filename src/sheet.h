@@ -121,13 +121,6 @@ struct _Sheet {
 	
 	double      last_zoom_factor_used;
 
-	/* Objects */
-	SheetModeType mode;	/* Sheet mode */
-	GList       *objects;	/* List of objects in the spreadsheet */
-	GList       *coords;	/* During creation time: keeps click coordinates */
-	void        *current_object;
-	void        *active_object_frame;
-	
 	/*
 	 * When editing a cell: the cell (may be NULL) and
 	 * the original text of the cell
@@ -135,6 +128,16 @@ struct _Sheet {
 	String      *editing_saved_text;
 	Cell        *editing_cell;
 	int         editing;
+
+	Style       *default_style;
+
+	/* Objects */
+	SheetModeType mode;	/* Sheet mode */
+	GList       *objects;	/* List of objects in the spreadsheet */
+	GList       *coords;	/* During creation time: keeps click coordinates */
+	void        *current_object;
+	void        *active_object_frame;
+	
 	
 	gboolean    modified;
 	
