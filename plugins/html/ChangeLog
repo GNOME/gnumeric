@@ -1,3 +1,10 @@
+2001-12-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* plugins/html/README : remove latex209 exporter
+	* plugins/html/latex.c : ditto
+	* plugins/html/latex.h : ditto
+	* plugins/html/plugin.xml.in : ditto
+	
 2001-12-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	
 	* latex.c : combine border data structures plus some

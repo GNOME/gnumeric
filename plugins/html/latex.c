@@ -27,19 +27,11 @@
 
 
 /*
- * This file contains both the LaTeX2e and the LaTeX 2.09 plugin functions.
+ * This file contains the LaTeX2e plugin functions.
  *
- * The LateX 2.09 function is named:
- * 		latex_file_save()          which calls
- * 			latex_fprintf_cell()   to write each cell. This in turn calls
- * 				latex_fputs()      to escape LaTeX specific characters.
  *
  * The LaTeX2e function is named:
- * 		latex2e_file_save()       			 which calls 3 functions:
- * 			latex2e_write_multicolumn_cell() to write each cell. This calls
- * 				latex_fputs()               	just like above.
- * 			latex_write_file_header()		 to output LaTeX definitions.
- * 			latex_write_table_header()		 to start each table.
+ * 		latex_file_save()
  *
  */
 
@@ -172,132 +164,6 @@ latex_fputs (const char *p, FILE *fp)
 				break;
 		}
 	}
-}
-
-
-/**
- * latex_fprintf_cell :
- *
- * @fp : a file pointer where the cell contents will be written.
- * @cell : the cell whose contents are to be written.
- *
- * This processes each cell. Only used in the LaTeX 2.09 exporter,
- * the functionality was folded into the LaTeX2e exporter.
- */
-static void
-latex_fprintf_cell (FILE *fp, const Cell *cell)
-{
-	char *s;
-
-	if (cell_is_blank (cell))
-		return;
-	s = cell_get_rendered_text (cell);
-	latex_fputs (s, fp);
-	g_free (s);
-}
-
-
-/**
- * latex_file_save : The LateX 2.09 exporter.
- *
- * @FileSaver :        structure for file plugins.
- * @IOcontext :        currently not used but reserved for the future.
- * @WorkbookView :     provides the way to access the sheet being exported.
- * @filename :         file written to.
- *
- * The function writes every sheet of the workbook to a LaTeX 2.09 table.
- */
-void
-latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                 WorkbookView *wb_view, const gchar *file_name)
-{
-	FILE *fp;
-	GList *sheets, *ptr;
-	Cell *cell;
-	int row, col;
-	Workbook *wb = wb_view_workbook (wb_view);
-	ErrorInfo *open_error;
-
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (file_name != NULL);
-
-	fp = gnumeric_fopen_error_info (file_name, "w", &open_error);
-	if (fp == NULL) {
-		gnumeric_io_error_info_set (io_context, open_error);
-		return;
-	}
-
-	fprintf (fp, "\\documentstyle[umlaut,a4]{article}\n");
-	fprintf (fp, "\\oddsidemargin -0.54cm\n\\textwidth 17cm\n");
-	fprintf (fp, "\\parskip 1em\n");
-	fprintf (fp, "\\begin{document}\n\n");
-	sheets = workbook_sheets (wb);
-	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		Sheet *sheet = ptr->data;
-		Range range = sheet_get_extent (sheet, FALSE);
-
-		latex_fputs (sheet->name_unquoted, fp);
-		fprintf (fp, "\n\n");
-		fprintf (fp, "\\begin{tabular}{|");
-		for (col = 0; col <= sheet->cols.max_used; col++) {
-			fprintf (fp, "l|");
-		}
-		fprintf (fp, "}\\hline\n");
-
-		for (row = range.start.row; row <= range.end.row; row++) {
-			for (col = range.start.col; col <= range.end.col; col++) {
-				cell = sheet_cell_get (sheet, col, row);
-				if (cell_is_blank(cell)) {
-					if (col != range.start.col)
-						fprintf (fp, "\t&\n");
-					else
-						fprintf (fp, "\t\n");
-				} else {
-					MStyle *mstyle = cell_get_mstyle (cell);
-
-					if (!mstyle)
-						break;
-					if (col != range.start.col)
-						fprintf (fp, "\t&");
-					else
-						fprintf (fp, "\t ");
-					if (mstyle_get_align_h (mstyle) == HALIGN_RIGHT)
-						fprintf (fp, "\\hfill ");
-					else if (mstyle_get_align_h (mstyle) == HALIGN_CENTER ||
-						 /* FIXME : center across selection is wrong */
-						 mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
-						fprintf (fp, "{\\centering ");	/* doesn't work */
-					if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
-						;
-					if (font_is_monospaced (mstyle))
-						fprintf (fp, "{\\tt ");
-					else if (font_is_sansserif (mstyle))
-						fprintf (fp, "{\\sf ");
-					if (mstyle_get_font_bold (mstyle))
-						fprintf (fp, "{\\bf ");
-					if (mstyle_get_font_italic (mstyle))
-						fprintf (fp, "{\\em ");
-					latex_fprintf_cell (fp, cell);
-					if (mstyle_get_font_italic (mstyle))
-						fprintf (fp, "}");
-					if (mstyle_get_font_bold (mstyle))
-						fprintf (fp, "}");
-					if (font_is_monospaced (mstyle))
-						fprintf (fp, "}");
-					else if (font_is_sansserif (mstyle))
-						fprintf (fp, "}");
-					if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
-						fprintf (fp, "}");
-					fprintf (fp, "\n");
-				}
-			}
-			fprintf (fp, "\\\\\\hline\n");
-		}
-		fprintf (fp, "\\end{tabular}\n\n");
-	}
-	g_list_free (sheets);
-	fprintf (fp, "\\end{document}");
-	fclose (fp);
 }
 
 
@@ -901,7 +767,7 @@ latex2e_print_hhline (FILE *fp, StyleBorderType *clines, int n, StyleBorderType 
 }
 
 /**
- * latex2e_file_save :  The LaTeX2e exporter plugin function.
+ * latex_file_save :  The LaTeX2e exporter plugin function.
  *
  * @FileSaver :        New structure for file plugins. I don't understand.
  * @IOcontext :        currently not used but reserved for the future.
@@ -913,7 +779,7 @@ latex2e_print_hhline (FILE *fp, StyleBorderType *clines, int n, StyleBorderType 
  * to render the format and contents of the cell.
  */
 void
-latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
+latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
                    WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;

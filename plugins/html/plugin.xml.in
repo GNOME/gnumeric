@@ -30,12 +30,7 @@
 		</service>
 		<service type="file_saver" id="latex" file_extension="tex" format_level="write_only">
 			<information>
-				<_description>LaTeX 2.09 (*.tex)</_description>
-			</information>
-		</service>
-		<service type="file_saver" id="latex2e" file_extension="tex" format_level="write_only">
-			<information>
-				<_description>LaTeX2e (*.tex)</_description>
+				<_description>LaTeX (*.tex)</_description>
 			</information>
 		</service>
 		<service type="file_saver" id="roff_dvi" file_extension="dvi" format_level="write_only">
