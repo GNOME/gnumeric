@@ -12,7 +12,7 @@
 
 /*
  * We need to get rid of that so that we will be able
- * to list everybody.  Somethign like guname would be
+ * to list everybody.  Something like guname would be
  * nice
  */
 void
@@ -25,6 +25,7 @@ dialog_about (Workbook *wb)
 		N_("Sean Atkinson, Functions and X-Base importing."),
 		N_("Tom Dyas, Plugin support."),
 		N_("Jody Goldberg, Excel hacker."),
+		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
 		N_("Jakub Jelinek, Gnumeric hacker."),
 		N_("Chris Lahey, Number format engine."),

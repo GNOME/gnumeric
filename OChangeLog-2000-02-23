@@ -1,3 +1,9 @@
+1999-08-29  Morten Welinder  <terra@diku.dk>
+
+	* src/about.c (dialog_about): Add Ross Ihaka.
+
+	* src/dialogs/dialog-paste-special.c: Typo.
+
 1999-08-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented ACCRINTM(), INTRATE(),
