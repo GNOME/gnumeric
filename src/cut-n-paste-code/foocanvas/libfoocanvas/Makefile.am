@@ -22,8 +22,16 @@ libfoocanvas_a_LIBADD = \
 
 libfoocanvasincludedir = $(includedir)/libfoocanvas-1.0/libfoocanvas
 
+marshal_sources =				\
+	foo-canvas-marshal.c			\
+	foo-canvas-marshal.h
+
+BUILT_SOURCES =					\
+	$(marshal_sources)
+
 
 libfoocanvas_a_SOURCES =			\
+	$(BUILT_SOURCES)			\
 	foo-canvas-i18n.h			\
 	foo-canvas-line.c			\
 	foo-canvas-pixbuf.c			\
@@ -35,23 +43,14 @@ libfoocanvas_a_SOURCES =			\
 	foo-canvas.c				\
 	libfoocanvastypes.c
 
-marshal_sources =				\
-	foo-canvas-marshal.c			\
-	foo-canvas-marshal.h
-
-BUILT_SOURCES =					\
-	$(marshal_sources)
-
 foo-canvas-marshal.h: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=foo_canvas_marshal > $@
-foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
+foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL) foo-canvas-marshal.h
 	$(GLIB_GENMARSHAL) $< --body --prefix=foo_canvas_marshal > $@
 
 EXTRA_DIST = \
 	foo-canvas-marshal.list	\
 	libfoocanvas.pc.in
-
-$(srcdir)/foo-canvas.c :: $(marshal_sources)
 
 DONT_DIST_SOURCE = $(marshal_sources)
 
