@@ -1,3 +1,9 @@
+2002-03-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/func.c (copy_hash_table_to_ptr_array): Check if function is
+	FUNCTION_NAMEONLY here.
+	(function_dump_defs): So that we can use the earlier version of this.
+
 2002-03-09  Jon K Hellan  <hellan@acm.org>
 
 	Dump function definitions from plugins, this time the easy way

@@ -69,8 +69,12 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 {
 	Symbol *sym = value;
 	FunctionDefinition *fd = sym->data;
-	if (sym->type == SYMBOL_FUNCTION && fd->name != NULL)
-		g_ptr_array_add (array, fd);
+	if (sym->type == SYMBOL_FUNCTION && fd->name != NULL) {
+		if (fd->fn_type == FUNCTION_NAMEONLY)
+			func_def_load ((FunctionDefinition *) fd);
+		if (fd->help != NULL)
+			g_ptr_array_add (array, fd);
+	}
 }
 
 static int
@@ -108,10 +112,7 @@ function_dump_defs (char const *filename)
 
 	for (i = 0; i < ordered->len; i++) {
 		FunctionDefinition const *fd = g_ptr_array_index (ordered, i);
-		if (fd->fn_type == FUNCTION_NAMEONLY)
-			func_def_load ((FunctionDefinition *) fd);
-		if (fd->help)
-			fprintf (output_file, "%s\n\n", _( *(fd->help) ) );
+		fprintf (output_file, "%s\n\n", _( *(fd->help) ) );
 	}
 
 	g_ptr_array_free (ordered,TRUE);
