@@ -33,6 +33,7 @@
 				<function name="workday"/>
 				<function name="year"/>
 				<function name="isoweeknum"/>
+				<function name="isoyear"/>
 				<function name="weeknum"/>
 			</functions>
 		</service>

@@ -107,7 +107,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 	if (!g_date_valid (&date))
 		goto error;
 
-	if (g_date_year (&date) < 1900 || g_date_year (&date) >= 11900)
+	if (g_date_get_year (&date) < 1900 || g_date_get_year (&date) >= 11900)
 		goto error;
 
 	return value_new_int (datetime_g_to_serial (&date));
@@ -248,10 +248,10 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 	g_assert (g_date_valid (gdate1));
 	g_assert (g_date_valid (gdate2));
 
-	day = g_date_day (gdate1);
+	day = g_date_get_day (gdate1);
 
 	g_date_add_years (gdate1,
-	                       datetime_g_years_between (gdate1, gdate2));
+			  datetime_g_years_between (gdate1, gdate2));
 	/* according to glib.h, feb 29 turns to feb 28 if necessary */
 
 	if (excel_compat) {
@@ -260,9 +260,9 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 		/* treat all years divisible by four as leap years: */
 		/* this is clearly wrong, but it's what Excel does. */
 		/* (I use 2004 here since it is clearly a leap year.) */
-		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
-		new_year2 = new_year1 + (g_date_year (gdate2) -
-					 g_date_year (gdate1));
+		new_year1 = 2004 + (g_date_get_year (gdate1) & 0x3);
+		new_year2 = new_year1 + (g_date_get_year (gdate2) -
+					 g_date_get_year (gdate1));
 		g_date_set_year (gdate1, new_year1);
 		g_date_set_year (gdate2, new_year2);
 
@@ -287,7 +287,7 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, int excel_compat)
 	g_assert (g_date_valid (gdate1));
 	g_assert (g_date_valid (gdate2));
 
-	day = g_date_day (gdate1);
+	day = g_date_get_day (gdate1);
 
 	g_date_add_months (gdate1,
 	                   datetime_g_months_between (gdate1, gdate2));
@@ -299,9 +299,9 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, int excel_compat)
 		/* treat all years divisible by four as leap years: */
 		/* this is clearly wrong, but it's what Excel does. */
 		/* (I use 2004 here since it is clearly a leap year.) */
-		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
-		new_year2 = new_year1 + (g_date_year (gdate2) -
-					 g_date_year (gdate1));
+		new_year1 = 2004 + (g_date_get_year (gdate1) & 0x3);
+		new_year2 = new_year1 + (g_date_get_year (gdate2) -
+					 g_date_get_year (gdate1));
 		g_date_set_year (gdate1, new_year1);
 		g_date_set_year (gdate2, new_year2);
 
@@ -310,7 +310,7 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, int excel_compat)
 		/* ( i feel this is inferior because it reports e.g.:
 		     datedif(1/31/95,3/1/95,"d") == -2 ) */
 		g_date_add_days (gdate1,
-		                 day - g_date_day (gdate1));
+		                 day - g_date_get_day (gdate1));
 	}
 
 	return datetime_g_days_between (gdate1, gdate2);
@@ -656,7 +656,7 @@ gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 
 	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
-		res = g_date_year (date);
+		res = g_date_get_year (date);
 		g_date_free (date);
 	}
 	return value_new_int (res);
@@ -693,7 +693,7 @@ gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 
 	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
-		res = g_date_month (date);
+		res = g_date_get_month (date);
 		g_date_free (date);
 	}
 	return value_new_int (res);
@@ -730,7 +730,7 @@ gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 
 	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
-		res = g_date_day (date);
+		res = g_date_get_day (date);
 		g_date_free (date);
 	}
 	return value_new_int (res);
@@ -778,9 +778,9 @@ gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	switch (method) {
-	case 1: res = (g_date_weekday (date) % 7) + 1; break;
-	case 2: res = (g_date_weekday (date) + 6) % 7 + 1; break;
-	case 3: res = (g_date_weekday (date) + 6) % 7; break;
+	case 1: res = (g_date_get_weekday (date) % 7) + 1; break;
+	case 2: res = (g_date_get_weekday (date) + 6) % 7 + 1; break;
+	case 3: res = (g_date_get_weekday (date) + 6) % 7; break;
 	default: abort ();
 	}
 
@@ -848,12 +848,12 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 
 	date1 = datetime_serial_to_g (serial1);
 	date2 = datetime_serial_to_g (serial2);
-	day1 = g_date_day (date1);
-	day2 = g_date_day (date2);
-	month1 = g_date_month (date1);
-	month2 = g_date_month (date2);
-	year1 = g_date_year (date1);
-	year2 = g_date_year (date2);
+	day1 = g_date_get_day (date1);
+	day2 = g_date_get_day (date2);
+	month1 = g_date_get_month (date1);
+	month2 = g_date_get_month (date2);
+	year1 = g_date_get_year (date1);
+	year2 = g_date_get_year (date2);
 
 	switch (method) {
 	case METHOD_US:
@@ -934,8 +934,8 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 	else if (months < 0)
 		g_date_subtract_months(date, -months);
 
-	g_date_set_day(date, g_date_days_in_month(g_date_month(date),
-						  g_date_year(date)));
+	g_date_set_day(date, g_date_get_days_in_month(g_date_get_month(date),
+						      g_date_get_year(date)));
 
 	res = value_new_int (datetime_g_to_serial (date));
 	g_date_free (date);
@@ -977,7 +977,7 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
-	weekday = g_date_weekday (date);
+	weekday = g_date_get_weekday (date);
 
 	days = value_get_as_int (argv[1]);
 
@@ -1048,7 +1048,7 @@ get_serial_weekday (int serial, int * offset)
 	date = datetime_serial_to_g (serial);
         if (g_date_valid (date)) {
 		/* Jan 1 1900 was a monday so we won't go < 0 */
-		*offset = (int)g_date_weekday (date) - 1;
+		*offset = (int)g_date_get_weekday (date) - 1;
 		serial -= *offset;
 		if (*offset > 4)
 			*offset = 4;
@@ -1085,7 +1085,7 @@ networkdays_holiday_callback(EvalPos const *ep,
 
 	date = datetime_serial_to_g (serial);
         if (g_date_valid (date)) {
-		if (g_date_weekday (date) < G_DATE_SATURDAY)
+		if (g_date_get_weekday (date) < G_DATE_SATURDAY)
 			++close->res;
 	} else
 		res = value_new_error (ep, gnumeric_err_NUM);
@@ -1142,7 +1142,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 
 	res = res - start_offset + end_offset - close.res;
 
-	if (g_date_weekday (start_date) < G_DATE_SATURDAY)
+	if (g_date_get_weekday (start_date) < G_DATE_SATURDAY)
 		res++;
 	datetime_g_free (start_date);
 
@@ -1164,12 +1164,13 @@ static const char *help_isoweeknum = {
 	   "week including days from two different years is assigned to the "
 	   "year which includes the most days. This means that Dec 31 could "
 	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
-	   "or 53 of the previous year."
+	   "or 53 of the previous year. ISOWEEKNUM returns the week number, "
+	   "while ISOYEAR returns the year the week is assigned to."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51"
 	   "\n"
-	   "@SEEALSO=WEEKNUM")
+	   "@SEEALSO=WEEKNUM, ISOYEAR")
 };
 
 static Value *
@@ -1188,6 +1189,61 @@ gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
 
 	isoweeknum = datetime_weeknum (date, WEEKNUM_METHOD_ISO);
 	res = value_new_int (isoweeknum);
+
+	g_date_free (date);
+	return res;
+}
+
+/***************************************************************************/
+
+static const char *help_isoyear = {
+	N_("@FUNCTION=ISOYEAR\n"
+	   "@SYNTAX=ISOYEAR (date)\n"
+
+	   "@DESCRIPTION="
+	   "ISOYEAR returns the year of the ISO 8601 week number of @date."
+	   "\n"
+	   "Returns #NUM! if date is invalid."
+	   "\n"
+	   "An ISO 8601 week starts on Monday. Weeks are numbered from 1. A "
+	   "week including days from two different years is assigned to the "
+	   "year which includes the most days. This means that Dec 31 could "
+	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
+	   "or 53 of the previous year. ISOYEAR returns the year the week is "
+	   "assigned to, while ISOWEEKNUM returns the week number."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "If A1 contains 12/31/2001 then ISOYEAR(A1)=2002"
+	   "\n"
+	   "@SEEALSO=ISOWEEKNUM")
+};
+
+static Value *
+gnumeric_isoyear (FunctionEvalInfo *ei, Value **argv)
+{
+	Value *res;
+	GDate *date;
+	int isoyear;
+	int year;
+	int month;
+	int isoweeknum;
+
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
+	if (date == NULL || !g_date_valid (date))
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	isoweeknum = datetime_weeknum (date, WEEKNUM_METHOD_ISO);
+	year = g_date_get_year (date);
+	month = g_date_get_month (date);
+	if (isoweeknum >= 52 && month == G_DATE_JANUARY)
+		year--;
+	else if (isoweeknum == 1 && month == G_DATE_DECEMBER)
+		year++;
+	
+	res = value_new_int (year);
 
 	g_date_free (date);
 	return res;
@@ -1273,6 +1329,7 @@ const ModulePluginFunctionInfo datetime_functions[] = {
 	{ "workday",     "Sf|?", "date,days,holidays", &help_workday, gnumeric_workday, NULL, NULL, NULL },
 	{ "year",        "S",    "date", &help_year, gnumeric_year, NULL, NULL, NULL },
 	{ "isoweeknum",  "S",    "date", &help_isoweeknum, gnumeric_isoweeknum, NULL, NULL, NULL },
+	{ "isoyear",     "S",    "date", &help_isoyear, gnumeric_isoyear, NULL, NULL, NULL },
 	{ "weeknum",     "S|f",  "date", &help_weeknum, gnumeric_weeknum, NULL, NULL, NULL },
         {NULL}
 };

@@ -1,3 +1,8 @@
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c (annual_year_basis, days_monthly_basis, coupnum):
+	Replaced deprecated g_date_xxx with g_data_get_xxx.
+	
 2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions (gnumeric_cumprinc, gnumeric_cumipmt, gnumeric_mduration):

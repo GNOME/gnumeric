@@ -1,3 +1,17 @@
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Added function ISOYEAR.
+
+	* functions.c (gnumeric_date, datedif_opt_yd, datedif_opt_md,
+	gnumeric_year, gnumeric_month, gnumeric_day, gnumeric_weekday,
+	gnumeric_days360, gnumeric_eomonth, gnumeric_workday,
+	get_serial_weekday, networkdays_holiday_callback,
+	gnumeric_networkdays): Replaced deprecated g_date_xxx with
+	g_data_get_xxx.
+	(gnumeric_isoweeknum): Cross reference ISOYEAR in docs.
+	(gnumeric_isoyear): New function implementing new spreadsheet
+	funtion ISOYEAR: The year an ISO 8601 week number refers to.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

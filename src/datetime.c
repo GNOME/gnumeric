@@ -35,7 +35,7 @@ date_init (void)
 {
 	/* Day 1 means 1st of January of 1900 */
 	GDate* date = g_date_new_dmy (1, 1, 1900);
-	date_origin = g_date_julian (date) - 1;
+	date_origin = g_date_get_julian (date) - 1;
 	g_date_free (date);
 }
 
@@ -49,7 +49,7 @@ datetime_g_to_serial (GDate *date)
 	if (!date_origin)
 		date_init ();
 
-	day = g_date_julian (date) - date_origin;
+	day = g_date_get_julian (date) - date_origin;
 	return day + (day > date_serial_19000228);
 }
 
@@ -205,7 +205,7 @@ datetime_g_days_between (GDate* date1, GDate *date2)
 	g_assert (g_date_valid (date1));
 	g_assert (g_date_valid (date2));
 
-	return (int) (g_date_julian (date2) - g_date_julian (date1));
+	return (int) (g_date_get_julian (date2) - g_date_get_julian (date1));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -218,9 +218,9 @@ datetime_g_months_between (GDate *date1, GDate *date2)
 
 	/* find the difference according to the month and year ordinals,
 	   but discount the last month if there are not enough days. */
-	return 12 * (g_date_year (date2) - g_date_year (date1))
-		+ g_date_month (date2) - g_date_month (date1)
-		- (g_date_day (date2) >= g_date_day (date1) ? 0 : 1);
+	return 12 * (g_date_get_year (date2) - g_date_get_year (date1))
+		+ g_date_get_month (date2) - g_date_get_month (date1)
+		- (g_date_get_day (date2) >= g_date_get_day (date1) ? 0 : 1);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -255,12 +255,12 @@ datetime_isoweeknum (GDate *date)
 
 	g_assert (g_date_valid (date));
 
-	year = g_date_year (date);
-	wday  = g_date_weekday (date);
+	year = g_date_get_year (date);
+	wday  = g_date_get_weekday (date);
 	g_date_set_dmy (&jan1date, 1, 1, year);
-	jan1wday = g_date_weekday (&jan1date);
+	jan1wday = g_date_get_weekday (&jan1date);
 
-	week = g_date_monday_week_of_year (date);
+	week = g_date_get_monday_week_of_year (date);
 
 	/* Does date belong to last week of previous year? */
 	if ((week == 0) && (jan1wday > G_DATE_THURSDAY)) {
@@ -275,7 +275,7 @@ datetime_isoweeknum (GDate *date)
 
 	if (week == 53) {
 		g_date_set_dmy (&nextjan1date, 1, 1, year + 1);
-		nextjan1wday = g_date_weekday (&nextjan1date);
+		nextjan1wday = g_date_get_weekday (&nextjan1date);
 		if (nextjan1wday <= G_DATE_THURSDAY)
 			week = 1;
 	}
@@ -307,9 +307,9 @@ datetime_weeknum (GDate *date, int method)
 
 	switch (method) {
 	case WEEKNUM_METHOD_SUNDAY:
-		res = g_date_sunday_week_of_year (date); break;
+		res = g_date_get_sunday_week_of_year (date); break;
 	case WEEKNUM_METHOD_MONDAY:
-		res = g_date_monday_week_of_year (date); break;
+		res = g_date_get_monday_week_of_year (date); break;
 	case WEEKNUM_METHOD_ISO:
 		res = datetime_isoweeknum (date); break;
 	default: res = -1;
@@ -325,12 +325,12 @@ days_between_BASIS_MSRB_30_360 (GDate *from, GDate *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
-	y1 = g_date_year (from);
-	m1 = g_date_month (from);
-	d1 = g_date_day (from);
-	y2 = g_date_year (to);
-	m2 = g_date_month (to);
-	d2 = g_date_day (to);
+	y1 = g_date_get_year (from);
+	m1 = g_date_get_month (from);
+	d1 = g_date_get_day (from);
+	y2 = g_date_get_year (to);
+	m2 = g_date_get_month (to);
+	d2 = g_date_get_day (to);
 
 	if (d1 >= 30) {
 		d1 = 30;
@@ -346,12 +346,12 @@ days_between_BASIS_30E_360 (GDate *from, GDate *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
-	y1 = g_date_year (from);
-	m1 = g_date_month (from);
-	d1 = g_date_day (from);
-	y2 = g_date_year (to);
-	m2 = g_date_month (to);
-	d2 = g_date_day (to);
+	y1 = g_date_get_year (from);
+	m1 = g_date_get_month (from);
+	d1 = g_date_get_day (from);
+	y2 = g_date_get_year (to);
+	m2 = g_date_get_month (to);
+	d2 = g_date_get_day (to);
 
 	if (d1 == 31)
 		d1 = 30;
@@ -366,12 +366,12 @@ days_between_BASIS_30Ep_360 (GDate *from, GDate *to)
 {
 	int y1, m1, d1, y2, m2, d2;
 
-	y1 = g_date_year (from);
-	m1 = g_date_month (from);
-	d1 = g_date_day (from);
-	y2 = g_date_year (to);
-	m2 = g_date_month (to);
-	d2 = g_date_day (to);
+	y1 = g_date_get_year (from);
+	m1 = g_date_get_month (from);
+	d1 = g_date_get_day (from);
+	y2 = g_date_get_year (to);
+	m2 = g_date_get_month (to);
+	d2 = g_date_get_day (to);
 
 	if (d1 == 31)
 		d1 = 30;
@@ -412,7 +412,7 @@ days_between_basis (GDate *from, GDate *to, int basis)
 	case BASIS_ACT_ACT:
 	case BASIS_ACT_360:
 	case BASIS_ACT_365:
-		return (g_date_julian (to) - g_date_julian (from));
+		return (g_date_get_julian (to) - g_date_get_julian (from));
 		break;
 	case BASIS_30E_360:
 		return days_between_BASIS_30E_360 (from, to);
@@ -454,14 +454,14 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 	is_eom_special = eom && g_date_is_last_of_month (maturity);
 
 	months = 12 / freq;
-	periods = (g_date_year(maturity) - g_date_year (settlement));
+	periods = (g_date_get_year(maturity) - g_date_get_year (settlement));
 	if (periods > 0)
 		periods = (periods - 1) * freq;
 
 	result = g_date_new();
 
 	do {
-		g_date_set_julian (result, g_date_julian (maturity));
+		g_date_set_julian (result, g_date_get_julian (maturity));
 		periods++;
 		g_date_subtract_months (result, periods * months);
 		if (is_eom_special) {
@@ -473,7 +473,7 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 	} while (g_date_compare (settlement, result) < 0 );
 
 	if (next) {
-		g_date_set_julian (result, g_date_julian (maturity));
+		g_date_set_julian (result, g_date_get_julian (maturity));
 		periods--;
 		g_date_subtract_months (result, periods * months);
 		if (is_eom_special) {

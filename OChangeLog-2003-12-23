@@ -1,3 +1,14 @@
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* src/datetime.c (date_init, datetime_g_to_serial,
+	datetime_g_days_between, datetime_g_months_between,
+	datetime_isoweeknum, datetime_weeknum,
+	days_between_BASIS_MSRB_30_360, days_between_BASIS_30E_360,
+	days_between_BASIS_30Ep_360, days_between_basis, coup_cd):
+	Replaced deprecated g_date_xxx with g_data_get_xxx.
+
+	* src/sheet-autofill.c (autofill_compute_delta): Ditto.
+
 2002-07-01  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (fact): Use table and avoid recursion.

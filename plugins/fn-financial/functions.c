@@ -169,7 +169,8 @@ annual_year_basis (Value *value_date, int basis)
 	case 1:
 	        date = datetime_value_to_g (value_date);
 		if (date != NULL) {
-		        leap_year = g_date_is_leap_year (g_date_year (date));
+		        leap_year =
+				g_date_is_leap_year (g_date_get_year (date));
 			g_date_free (date);
 		} else
 		        return -1;
@@ -209,12 +210,12 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 	date_i = datetime_value_to_g (issue_date);
 	date_m = datetime_value_to_g (maturity_date);
 	if (date_i != NULL && date_m != NULL) {
-	        issue_year = g_date_year (date_i);
-	        issue_month = g_date_month (date_i);
-	        issue_day = g_date_day (date_i);
-	        maturity_year = g_date_year (date_m);
-	        maturity_month = g_date_month (date_m);
-	        maturity_day = g_date_day (date_m);
+	        issue_year = g_date_get_year (date_i);
+	        issue_month = g_date_get_month (date_i);
+	        issue_day = g_date_get_day (date_i);
+	        maturity_year = g_date_get_year (date_m);
+	        maturity_month = g_date_get_month (date_m);
+	        maturity_day = g_date_get_day (date_m);
 
 	        years = maturity_year - issue_year;
 	        months = maturity_month - issue_month;
@@ -267,10 +268,11 @@ coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
 	GDate      this_coupondate;
 
 	g_date_clear (&this_coupondate, 1);
-	g_date_set_julian (&this_coupondate, g_date_julian(maturity));
+	g_date_set_julian (&this_coupondate, g_date_get_julian(maturity));
 
-	months = g_date_month (maturity) - g_date_month (settlement) +
-		12 * (g_date_year (maturity) - g_date_year  (settlement));
+	months = g_date_get_month (maturity) - g_date_get_month (settlement) +
+		12 *
+		(g_date_get_year (maturity) - g_date_get_year  (settlement));
 
 	g_date_subtract_months (&this_coupondate, months);
 
@@ -278,7 +280,7 @@ coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
 		while (!g_date_is_last_of_month (&this_coupondate))
 				g_date_add_days (&this_coupondate, 1);
 
-	if (g_date_day (settlement) >= g_date_day (&this_coupondate))
+	if (g_date_get_day (settlement) >= g_date_get_day (&this_coupondate))
 	        months--;
 
 	return (1 + months / (12 / freq));

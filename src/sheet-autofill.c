@@ -375,19 +375,21 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 		prev = datetime_value_to_g (lfi->v.value);
 		cur  = datetime_value_to_g (fi->v.value);
 		if (g_date_valid (prev) && g_date_valid (cur)) {
-			int a = g_date_year (prev);
-			int b = g_date_year (cur);
+			int a = g_date_get_year (prev);
+			int b = g_date_get_year (cur);
 
 			/* look for patterns in the dates */
 			if (fi->type == FILL_DAYS)
-				fi->type = (g_date_day (prev) != g_date_day (cur))
+				fi->type = (g_date_get_day (prev) !=
+					    g_date_get_day (cur))
 					? FILL_NUMBER
-					: ((g_date_month (prev) != g_date_month (cur))
+					: ((g_date_get_month (prev) !=
+					    g_date_get_month (cur))
 					?  FILL_MONTHS : FILL_YEARS);
 
 			if (fi->type == FILL_MONTHS) {
-				a = 12*a + g_date_month (prev);
-				b = 12*b + g_date_month (cur);
+				a = 12*a + g_date_get_month (prev);
+				b = 12*b + g_date_get_month (cur);
 			}
 
 			fi->delta.d_int = b - a;
