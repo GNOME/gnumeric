@@ -1,0 +1,153 @@
+Changes between Gnumeric 0.27 and 0.31:
+
+Gnumeric 0.31
+
+Jukka:
+	* Implemented ``Anova: Single Factor'' data analysis tool
+	* Implemented ``Anova: Two-Factor Without Replication'' data
+	  analysis tool
+
+Jody:
+	* Added TEXT, HYPERLINK stub, fixed OFFSET, VALUE.
+	* Improve handling of empty cells, and null strings.  Still incomplete.
+	* Partial fix formating/parsing.
+	* Bug fixes for Excel import.
+
+Michael:
+	* Implemented Summary Information
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.30
+
+Jukka:
+	* Bernoulli distribution added to Random Number Generation tool
+	* Finished the Rank and Percentile tool
+	* Lots of bug fixes and documentation updates to the data
+	  analysis tools
+
+Jody:
+	* Added TRANSPOSE(), MMULT()
+	* Constification.
+	* SplitArray exception for array formulas support.
+	* Better Excel emulation for insert/delete row/col menus.
+
+Miguel:
+	* New font selector widget for the new gnome-print information.
+
+Rasca:
+	* New EPS exporter.
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.29
+
+Miguel:
+        Added EmbeddableGrid Bonobo support for embedding graphics.
+        Added header/footer printing code.
+        Extended the CORBA interface for sheets
+        Added Grid corba interface
+	Fixed Gnumeric compilation
+	Include all the plugins again
+
+Rasca Gmelch:
+	Troff export
+	Improved HTML export
+	Improved LaTeX export
+
+Jukka:
+        - Implemented Moving Average Tool
+        - Started implementation of Rank and Percentile Tool
+        - Documented Analysis tools
+
+Jody:
+	Display embedded newlines in multi-line-cells
+
+Michael
+        * More improved Excel writing code 
+--------------------------------------------------------------------------
+
+Gnumeric 0.28
+
+Hello guys,
+
+   I have just released version 0.28 of Gnumeric.
+
+   This version main feature is that it adds printing support.
+Starting with this release you need to install the gnome-print
+package.
+
+* Availability
+
+ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* New Features since 0.27
+
+	* Print support (miguel)
+
+	* Improved function wizard (not yet enabled) (Michael)
+
+	* 
+* New Tools
+	
+	* Started the implementation of Data Analysis tools (Jukka)
+    	    - Implemented Correlation and Covariance tools
+    	    - Implemented Descriptive Statistics Tool
+    	    - Implemented Sampling Tool
+    	    - Implemented t-Test Tools (paired, assuming equal variance, and
+    	      assuming unequal variance)
+    	    - Implemented z-Test Tool
+    	    - Implemented F-Test Tool
+    	    - Implemented Random Number Generation Tool with the following
+    	      distributions: Discrete, Normal, and Uniform.
+    
+* New Functions
+
+	* Added the following functions (Jukka)
+	    - FORECAST() and INTERCEPT().
+
+* Excel support
+
+	* Patterns now match the Excel ones (Jody)
+
+	* Improved writing code (Michael)
+	  * Excel can load our formulas now
+	  * Text/number work correct (Michael)
+
+	* Completed Excel color handling (Jody)
+
+	* Improved Excel format support for formulas (Jody).
+
+	* Worked on embryonic Excel chart code (Jody).
+
+* File I/O
+
+	* Working CSV code (miguel, alan)
+
+	* Split between importers and loaders (miguel):
+
+	  Importers basically lack a probing routine, so for
+	  non-deterministic probing, we use importing instead of loading.
+
+	* HTML importer (Rasca Gmelch)
+
+	* HTML exporter (Rasca)
+
+	* Latex exporter (Rasca)
+
+* Random improvements
+
+	* Prettified sort slightly (Michael).
+
+* Major Bug fixes
+
+	* Pattern selector works again (miguel)
+
+	* Memory leak fixes (Morten)
+
+	* SUMIF() and N() fixed (Jukka).
+
+	* Many translations updated, thanks to our translators.
+
+Best wishes,
+Miguel.
