@@ -37,8 +37,12 @@ dialog_about (Workbook *wb)
 
 #ifdef ENABLE_NLS
 	{
- 	    int i=0;
-	    while (authors[i] != NULL) { authors[i]=_(authors[i]); i++; }
+ 	    int i;
+	    
+	    for (i = 0; authors[i] != NULL; i++){
+		    authors [i] = _(authors [i]);
+		    i++;
+	    }
 	}
 #endif
 
