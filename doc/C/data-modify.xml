@@ -53,7 +53,7 @@
       able to shuffle the contents of the whole cell range, or, also
       shuffle data according to rows or columns. The shuffling method
       is selected under the ``Input Range'' entry. For example, if
-      your data is groupped by rows then select ``Shuffle Method''
+      your data is grouped by rows then select ``Shuffle Method''
       ``Rows''.
     </para>
 

@@ -652,7 +652,7 @@
 	  </term>
 	  <listitem>
 	    <para>
-	      Type the combintation
+	      Type the combination
 	      <keycombo><keysym>Ctrl</keysym><keysym>o</keysym></keycombo>,
 	      typing both keys simultaneously.
 	    </para>
@@ -786,7 +786,7 @@
 
 	  <tip>
 	    <para>
-	      The file can be opened and the dialog dissmissed by
+	      The file can be opened and the dialog dismissed by
 	      selecting the file with a double click of the primary
 	      mouse button. The last two steps are optional and, if
 	      configured appropriately, the file can be selected and

@@ -383,7 +383,7 @@
 
 		<para>
 		Whenever Gnumeric opens or saves a file, the file
-		staus indicator appears with a progress bar which
+		status indicator appears with a progress bar which
 		grows as Gnumeric progresses. In <xref
 		linkend="info-area.png" />, Gnumeric was just over
 		halfway done opening a file.

@@ -1758,7 +1758,7 @@ c:\Program Files\Gnome-Office\gnumeric
       time it was saved, a dialog will open to ask what is supposed to
       happen to the contents of the workbook. At this point the
       contents of the workbook can be saved (Save), the request to
-      close gnumeric can be canceled (Don't Quit) or the most recent
+      close gnumeric can be cancelled (Don't Quit) or the most recent
       changes can be discarded (Discard). If the user decides to save
       the content, a second dialog may open requesting a file name,
       location and type for the saved workbook.

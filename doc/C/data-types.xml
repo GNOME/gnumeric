@@ -159,7 +159,7 @@
   <para>
     Text elements consist of an arbitrary sequence of characters or
     numbers entered into a cell. Because
-    <application>Gnumeric</application> automatically recogizes
+    <application>Gnumeric</application> automatically recognizes
     certain sequences as numbers or formulas, certain sequences of
     characters (such as sequences containing only digits or a text
     element which starts with an equals sign) must be treated
@@ -361,7 +361,7 @@
       <application>Gnumeric</application> will display a warning and
       allow either the formula to be corrected or will save the
       formula as text for editing later. If a syntactically correct
-      formula results in a non-sensical calculation (for instance, a
+      formula results in a nonsensical calculation (for instance, a
       division by zero), then an error value will be displayed
       indicating the error.
     </para>

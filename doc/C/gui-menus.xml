@@ -1136,11 +1136,11 @@
 							<para>The <guilabel>Shift cells right</guilabel> will insert a region of new
 							cells of the size of the current selection. Cells which are on the same row as 
 							the selection and within or to the right of the selection will
-							shift over to the right to accomodate the new cells. The 
+							shift over to the right to accommodate the new cells. The 
 							<guilabel>Shift cells down</guilabel> choice will also insert a
 							region of new cells the same size as the current selection. With
 							this choice, cells which are in the selection or below the
-							selection will move down to accomodate the new cells. The two
+							selection will move down to accommodate the new cells. The two
 							other choices will act as if the user had chosen to insert rows
 							or columns. These actions are explained above.
 						</para>
@@ -1694,7 +1694,7 @@
               <phrase>An image of the label number 4.</phrase>
             </textobject>
 	  </inlinemediaobject>
-	    Statistics and other Data Analsyis tools
+	    Statistics and other Data Analysis tools
 	  </guiicon>
 	</term>
 	<listitem>

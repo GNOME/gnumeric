@@ -510,7 +510,7 @@ a user
 
       <para>
         The "CVS" version refers to a version which the user has
-        recently obtained from the Concurrent Versionning System
+        recently obtained from the Concurrent Versions System
         repository provided by the GNOME project.
       </para>
 
@@ -569,7 +569,7 @@ a user
 
 
     <sect2 id="sect-bugs-report-commit">
-      <title>Subitting the report</title>
+      <title>Submitting the report</title>
 
       <para>
         In order to submit the bug report into

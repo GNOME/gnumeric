@@ -941,7 +941,7 @@
   data on your worksheet in the <quote><guilabel>Bin Range:</guilabel></quote> entry. The
   range should consist of a single column or two columns (the first one containing labels). If the 
   first column of the bin range contains labels, select the <quote><guibutton>Bin 
-  Labels</guibutton></quote> option. The values in the last column are used as seperators between adjacent bins.</para> 
+  Labels</guibutton></quote> option. The values in the last column are used as separators between adjacent bins.</para> 
 
   <para>Select the <quote><guilabel>Calculated Bins</guilabel></quote> option to have the 
   bins determined by the tool. Enter the desired number of bins in the 

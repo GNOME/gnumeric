@@ -65,7 +65,8 @@ The <interface>Header &amp; Footer Font Tab</interface> sets the default font na
   </figure>
 
 <para>
-The <interface>Windows Tab</interface> includes various settings related to new workbooks, such as the window size and the number of intial sheets.
+The <interface>Windows Tab</interface> includes various settings related to
+new workbooks, such as the window size and the number of initial sheets.
 </para>
 
   <figure id="configuration-preferences-files">

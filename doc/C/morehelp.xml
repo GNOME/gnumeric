@@ -6,7 +6,7 @@
     <application>Gnumeric</application> and attempts to describe as
     much of the program as possible. However, this manual cannot
     answer all the possible questions readers may have: the manual is
-    not yet finished and there are many situtations which cannot be
+    not yet finished and there are many situations which cannot be
     explained through a manual. Other sources of information which
     might be helpful to <application>Gnumeric</application> users are
     presented below.
@@ -64,7 +64,7 @@
                 Second, look at the
                 <application>Gnumeric</application> web site, look on
                 the world wide web for explanations using other
-                spreasheets or look for a book on how to use another
+                spreadsheets or look for a book on how to use another
                 spreadsheet. <xref linkend="sect-morehelp-web"/>
                 explains how to access and find information on the web
                 site.
@@ -76,7 +76,7 @@
 	        <guilabel>Read other Spreadsheet Tutorials :</guilabel>
             </para>
             <para>
-                Another useful source of help is the litterature
+                Another useful source of help is the literature
                 written for other
                 spreadsheets. <application>Gnumeric</application> is
                 quite similar to a number of other spreadsheets and
@@ -283,7 +283,7 @@ http://www.gnome.org/
     The GNOME and GIMP projects maintain a series of servers to
     provide a world wide network enabling an Internet Relay Chat (IRC)
     system for discussion on issues related to those projects
-    including a discussion channel dediacated to
+    including a discussion channel dedicated to
     <application>Gnumeric</application>. This is a system by which
     people can communicate directly with each other by typing lines
     into an IRC client which are then broadcast to everyone listening
@@ -301,7 +301,7 @@ http://www.gnome.org/
 
   <para>
     The <application>Gnumeric</application> IRC discussion channel is
-    named <literal>#gnumeric</literal> (althought the number symbol,
+    named <literal>#gnumeric</literal> (although the number symbol,
     #, may not be needed) and is hosted on the series of servers
     called <literal>Gimpnet</literal>. The best way to connect to
     gimpnet is using the IRC server

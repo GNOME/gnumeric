@@ -2,7 +2,7 @@
   <title>The Mouse Pointers used by Gnumeric</title>
 
   <para>
-    The shape of the mouse pointer (the pointer which is moveable by
+    The shape of the mouse pointer (the pointer which is movable by
     the mouse) changes in different contexts. This indicates that
     different functionality is available and that mouse clicks will
     have different results. The different mouse pointers and the
@@ -73,7 +73,7 @@
       <listitem>
         <para>
           The text editing pointer is used to indicate the location in
-          the text where new edits will appear. This cusor can be used
+          the text where new edits will appear. This cursor can be used
           to change the scale of the zoom, to change the name and size
           of the font currently used or to edit the cell contents in
           the cell entry area (the white area to the right of the
@@ -105,7 +105,7 @@
           left-hand mouse button and dragging the handle to a new
           position. The cross hair pointer can also be used to insert a
           graphic object, by clicking with the left hand mouse button
-          to place one coner and releasing the button to place another
+          to place one corner and releasing the button to place another
           of the corners.
         </para>
       </listitem>
@@ -249,7 +249,7 @@
       </term>
       <listitem>
         <para>
-          These pointers allow the reising of graphical objects. If the
+          These pointers allow the resizing of graphical objects. If the
           mouse pointer is placed over one of the handle boxes of the
           graphical object, the handle box will turn green and the
           pointer will change to one of these forms. When these pointers

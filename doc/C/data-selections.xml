@@ -13,7 +13,7 @@
       Some operations cannot be done on selections of arbitrary
       shape. For instance, <application>Gnumeric</application> could
       not correctly reshape a worksheet following the deletion of a
-      discontinous group of cells therefore such an operation is not
+      discontinuous group of cells therefore such an operation is not
       allowed. If users attempt an operation which cannot be performed,
       a warning dialog will appear.
     </para>
@@ -105,14 +105,14 @@
     <para>
       To make a continuous selection of cells, move the white cross
       mouse cursor pointer to the cell at one corner of the block of
-      continous cells, click and hold the primary mouse pointer on
+      continuous cells, click and hold the primary mouse pointer on
       that cell, drag the pointer to the opposite corner of the block
       of cells and then release the mouse button. The block of cells
       will now be selected.
     </para>
 
     <para>
-      The arrow keys can also be used to select a continous block of
+      The arrow keys can also be used to select a continuous block of
       cells. To add cells in this manner, first select the cell in one
       corner of the cell block with the primary mouse button, then
       hold the <keycap>Shift</keycap> key and use the arrow keys to expand
@@ -140,16 +140,16 @@
     <title>Discontinuous selections</title>
     
     <para>
-      A discontinous group of cells can also be selected, by selecting
+      A discontinuous group of cells can also be selected, by selecting
       cells or block of cells while holding down the
-      <keycap>Ctrl</keycap> key. To select a discontinous group of
-      cells, first select a cell or a continous group of cells as
+      <keycap>Ctrl</keycap> key. To select a discontinuous group of
+      cells, first select a cell or a continuous group of cells as
       explained above, then click and hold down the
       <keycap>Ctrl</keycap> while selecting more cells. All of the
       cells which are selected while the <keycap>Ctrl</keycap> key is
       held down will be added to the selection. All selected cells
       will be displayed with a light blue colour. Cells can be added
-      individually or as continous blocks. This selection process is
+      individually or as continuous blocks. This selection process is
       additive with each selected cell added only once so selecting
       cells twice or more simply adds those cells once to the selection.
     </para>
@@ -290,7 +290,7 @@
       <listitem>
 	<para>
 	  <keycombo><keycap>Ctrl</keycap><keycap>/</keycap></keycombo>
-	  : Select the array formula arround the current edit position.
+	  : Select the array formula around the current edit position.
         </para>
       </listitem>
 

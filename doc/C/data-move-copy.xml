@@ -280,7 +280,7 @@
       The <guimenuitem>Paste Special...</guimenuitem> command can act
       exactly like the <guimenuitem>Paste</guimenuitem> command or may
       selectively paste the cell contents, the cell formats, the
-      calculated values of the orginal cells rather than their
+      calculated values of the original cells rather than their
       contents.  described in the previous section copies both
       contents and formatting of the original selection. If you need
       more options, use <guimenuitem>Paste Special...</guimenuitem>

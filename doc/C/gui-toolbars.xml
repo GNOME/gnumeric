@@ -4,7 +4,7 @@
   <para>
     The toolbars contain buttons and other elements which can be used
     to perform quickly some the more common operations. Each button
-    has an icon intended to provide a mneumonic reminder of the
+    has an icon intended to provide a mnemonic reminder of the
     operation performed by the button. The toolbar elements are
     intended to provide fast access to the commonly used tools. Almost
     all of these functions are also available through the menu
@@ -26,7 +26,7 @@
   </figure>
   <para> These toolbars will be discussed separately in the subsequent
   sections of this manual. User interaction with each toolbar happens
-  in essentially the same way. Similarly, the toobars can be
+  in essentially the same way. Similarly, the toolbars can be
   configured in the same way. The next section explains the standard
   behavior of <application>Gnumeric</application> toolbars.</para>
   
@@ -52,8 +52,8 @@
     <para>
       Certain toolbar options, such as the zoom box, are combinations
       of a button or text entry area and a downward pointing arrow. If
-      the user clicks on the arrow, a list of avaliable options
-      appears. It is also posible to "tear off" these options into a
+      the user clicks on the arrow, a list of available options
+      appears. It is also possible to "tear off" these options into a
       separate window in the same way as was explained for menus in
       <xref linkend="Menus-General" />.
     </para>
@@ -300,7 +300,7 @@
 	<listitem>
 	  <para>
             This is the reverse of the undo operation, restoring its
-            orginal state.
+            original state.
           </para>
 	</listitem>
       </varlistentry>
@@ -502,7 +502,7 @@
 	</term>
 	<listitem>
 	  <para>
-            The zoom button allows the users to tradeoff the extent of
+            The zoom button allows the users to trade-off the extent of
             the worksheet which is visible against the size of the
             visible text and cells.
 	  </para>
@@ -580,7 +580,7 @@
 	  <para>The user can change the font size of a selection by
 	  typing the number of a different font size or by clicking on
 	  the little arrow to the right of the entry box and selecting
-	  the perferred size.</para>
+	  the preferred size.</para>
 	</listitem>
       </varlistentry>
 
