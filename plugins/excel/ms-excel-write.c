@@ -3626,11 +3626,11 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 {
 	GnmStyle *style;
 	ExcelWriteState *ewb = esheet->ewb;
-	int max_col = esheet->max_col;
-	int col, row, max_row;
+	int col, row, max_row, max_col = esheet->max_col;
 	unsigned  ri_start [2]; /* Row info start */
 	unsigned *rc_start;	/* Row cells start */
 	guint16   xf_list [SHEET_MAX_COLS];
+	GnmRange  r;
 	GnmCell const *cell;
 	Sheet	   *sheet = esheet->gnum_sheet;
 	int	    xf;
@@ -3646,13 +3646,18 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	for (row = begin + 1; row <= max_row; row++)
 		(void) excel_write_ROWINFO (ewb->bp, esheet, row, max_col);
 
+	r.start.col = 0;
+	r.end.col = max_col-1;
+
 	rc_start = g_alloca (sizeof (unsigned) * nrows);
 	for (row = begin; row <= max_row; row++) {
 		guint32 run_size = 0;
 
 		/* Save start pos of 1st cell in row */
+		r.start.row = r.end.row = row;
 		rc_start [row - begin] = ewb->bp->streamPos;
-		if (NULL == sheet_row_get (sheet, row))
+		if (! (NULL != sheet_row_get (sheet, row) ||
+		       sheet_style_has_visible_content (sheet, &r)))
 			continue;
 		has_content = TRUE;
 		for (col = 0; col < max_col; col++) {

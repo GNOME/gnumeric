@@ -571,114 +571,24 @@ autofill_destroy_fill_items (GList *all_items)
 static void
 autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 {
+	FillItem const *delta = fi->group_last;
+	GnmValue *v;
+
+	g_return_if_fail (delta != NULL);
+
 	/* FILL_DAYS is a place holder used to test for day/month/year fills.
 	 * The last item in the minor list is the delta.  It is the only one
 	 * that has had its type analyized.  So the first time we go through
 	 * convert the other elements into the same type.
 	 */
-	if (fi->type == FILL_DAYS) {
-		FillItem const *delta = fi->group_last;
-		g_return_if_fail (delta != NULL);
+	if (fi->type == FILL_DAYS)
 		fi->type = delta->type;
-	}
 
 	switch (fi->type) {
 	case FILL_EMPTY:
 	case FILL_INVALID:
 		g_warning ("This case should not be handled here.");
 		return;
-
-	case FILL_STRING_CONSTANT:
-		cell_set_value (cell, value_new_string (fi->v.str->str));
-		return;
-
-	case FILL_STRING_WITH_NUMBER: {
-		FillItem *delta = fi->group_last;
-		int i = delta->v.numstr.num + idx * delta->delta.d_int;
-		int prefixlen = delta->v.numstr.pos;
-		char const *prefix = delta->v.numstr.str->str;
-		char const *postfix = delta->v.numstr.str->str +
-			delta->v.numstr.endpos;
-
-		char *v = g_strdup_printf ("%-.*s%d%s",
-					   prefixlen, prefix, i, postfix);
-
-		sheet_cell_set_value (cell, value_new_string_nocopy (v));
-		return;
-	}
-
-	case FILL_DAYS : /* this should have been converted above */
-		g_warning ("Please report this warning and detail the autofill"
-			   "\nsetup used to generate it.");
-	case FILL_NUMBER: {
-		FillItem const *delta = fi->group_last;
-		GnmValue *v;
-
-		if (delta->delta_is_float) {
-			gnm_float d = value_get_as_float (delta->v.value);
-			v = value_new_float (d + idx * delta->delta.d_float);
-		} else {
-			int i = value_get_as_int (delta->v.value);
-			v = value_new_int (i + idx * delta->delta.d_int);
-		}
-		value_set_fmt (v, fi->fmt);
-		cell_set_value (cell, v);
-		return;
-	}
-
-	case FILL_MONTHS :
-	case FILL_YEARS : {
-		GnmValue *v;
-		FillItem *delta = fi->group_last;
-		int d = idx * delta->delta.d_int;
-		GDate date;
-		gnm_float res = datetime_value_to_serial_raw (delta->v.value, fi->date_conv);
-
-		datetime_value_to_g (&date, delta->v.value, fi->date_conv);
-		if (fi->type == FILL_MONTHS) {
-			if (d > 0)
-				g_date_add_months (&date, d);
-			else
-				g_date_subtract_months (&date, -d);
-		} else {
-			if (d > 0)
-				g_date_add_years (&date, d);
-			else
-				g_date_subtract_years (&date, -d);
-		}
-		d = datetime_g_to_serial (&date, fi->date_conv);
-
-		res -= gnumeric_fake_floor (res);
-		v = (res < 1e-6) ? value_new_int (d)
-			: value_new_float (((gnm_float)d) + res);
-		value_set_fmt (v, fi->fmt);
-		cell_set_value (cell, v);
-		return;
-	}
-
-	case FILL_STRING_LIST: {
-		FillItem *delta = fi->group_last;
-		char const *text;
-		int n;
-
-		n = delta->v.list.num + idx * delta->delta.d_int;
-
-		n %= delta->v.list.list->count;
-
-		if (n < 0)
-			n += delta->v.list.list->count;
-
-		text = delta->v.list.list->items [n];
-		if (delta->v.list.was_i18n)
-			text = _(text);
-
-		if (*text == '*')
-			text++;
-
-		cell_set_value (cell, value_new_string (text));
-
-		return;
-	}
 
 	case FILL_EXPR: {
 		GnmExprRewriteInfo   rwinfo;
@@ -727,13 +637,92 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 
 		if (func)
 			gnm_expr_unref (func);
+
+		/* NOTE : _RETURN_ do not fall through to the value asignment */
 		return;
 	}
 
 	case FILL_BOOLEAN_CONSTANT:
-		cell_set_value (cell, value_new_bool (fi->v.v_bool));
+		v = value_new_bool (fi->v.v_bool);
+		break;
+	case FILL_STRING_CONSTANT:
+		v = value_new_string (fi->v.str->str);
 		return;
+	case FILL_STRING_WITH_NUMBER: {
+		int i = delta->v.numstr.num + idx * delta->delta.d_int;
+		int prefixlen = delta->v.numstr.pos;
+		char const *prefix = delta->v.numstr.str->str;
+		char const *postfix = delta->v.numstr.str->str +
+			delta->v.numstr.endpos;
+
+		v = value_new_string_nocopy (g_strdup_printf (
+			"%-.*s%d%s", prefixlen, prefix, i, postfix));
+		break;
 	}
+
+	case FILL_DAYS : /* this should have been converted above */
+		g_warning ("Please report this warning and detail the autofill"
+			   "\nsetup used to generate it.");
+	case FILL_NUMBER:
+		if (delta->delta_is_float) {
+			gnm_float d = value_get_as_float (delta->v.value);
+			v = value_new_float (d + idx * delta->delta.d_float);
+		} else {
+			int i = value_get_as_int (delta->v.value);
+			v = value_new_int (i + idx * delta->delta.d_int);
+		}
+		break;
+
+	case FILL_MONTHS :
+	case FILL_YEARS : {
+		int d = idx * delta->delta.d_int;
+		GDate date;
+		gnm_float res = datetime_value_to_serial_raw (delta->v.value, fi->date_conv);
+
+		datetime_value_to_g (&date, delta->v.value, fi->date_conv);
+		if (fi->type == FILL_MONTHS) {
+			if (d > 0)
+				g_date_add_months (&date, d);
+			else
+				g_date_subtract_months (&date, -d);
+		} else {
+			if (d > 0)
+				g_date_add_years (&date, d);
+			else
+				g_date_subtract_years (&date, -d);
+		}
+		d = datetime_g_to_serial (&date, fi->date_conv);
+
+		res -= gnumeric_fake_floor (res);
+		v = (res < 1e-6) ? value_new_int (d)
+			: value_new_float (((gnm_float)d) + res);
+		break;
+	}
+
+	case FILL_STRING_LIST: {
+		char const *text;
+		int n = delta->v.list.num + idx * delta->delta.d_int;
+
+		n %= delta->v.list.list->count;
+
+		if (n < 0)
+			n += delta->v.list.list->count;
+
+		text = delta->v.list.list->items [n];
+		if (delta->v.list.was_i18n)
+			text = _(text);
+
+		if (*text == '*')
+			text++;
+
+		v = value_new_string (text);
+		break;
+	}
+	}
+
+	if (fi->fmt != NULL)
+		value_set_fmt (v, fi->fmt);
+	cell_set_value (cell, v);
 }
 
 static void

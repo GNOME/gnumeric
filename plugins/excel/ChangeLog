@@ -1,3 +1,10 @@
+2004-04-22  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=136086
+	* ms-excel-write.c (excel_sheet_write_DBCELL) : optimization was a bit
+	  optimistic.  Even if there are no values, we still need to export
+	  rows with visible formating (borders, backgrounds, ...)
+
 2004-04-19  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=135949

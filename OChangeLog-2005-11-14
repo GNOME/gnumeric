@@ -1,3 +1,10 @@
+2004-04-22  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-autofill.c (autofill_cell) : Assign the value format in
+	  all cases accept expressions.  Use cell_set_value, not
+	  sheet_cell_set_value so that we can assign the format before we
+	  render, and to avoid doing things piece meal.
+
 2004-04-18  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
