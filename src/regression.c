@@ -124,14 +124,12 @@ linear_solve (float_t **A, float_t *b, int n, float_t *res)
 	/* Special case.  */
 	if (n == 2) {
 		float_t d = A[0][0] * A[1][1] - A[1][0] * A[0][1];
-
 		if (d == 0)
 			return 2;  /* Singular.  */
-
 		res[0] = (A[1][1] * b[0] - A[1][0] * b[1]) / d;
 		res[1] = (A[0][0] * b[1] - A[0][1] * b[0]) / d;
 		return 0;
-	}
+	} 
 
 	/* Otherwise, use LUP-decomposition to find res such that
 		 xTx * res = b */
@@ -209,6 +207,7 @@ general_linear_regression (float_t **xss, int xdim,
 		int err2;
 		float_t *residuals = g_new (float_t, n);
 		float_t **LU;
+		float_t ss_total = 0;
 		int *P;
 		float_t *e, *inv;
 
@@ -251,7 +250,7 @@ general_linear_regression (float_t **xss, int xdim,
 
 		/* FIXME: we want to guard against division by zero.  */
 		extra_stat->sqr_r = 1 - (extra_stat->ss_resid / extra_stat->se_y);
-		extra_stat->adj_sqr_r = 1 - (extra_stat->ss_resid / (n - xdim - affine)) / (extra_stat->se_y / (n - 1));
+		extra_stat->adj_sqr_r = 1 - (extra_stat->ss_resid / (n - xdim)) / (extra_stat->se_y / (n - 1));
 		extra_stat->var = (extra_stat->ss_resid / (n - xdim));
 
 		ALLOC_MATRIX (LU, xdim, xdim);
@@ -285,7 +284,10 @@ general_linear_regression (float_t **xss, int xdim,
 		  		((1 - extra_stat->sqr_r) / (n - xdim));
 
 		extra_stat->df = n-xdim;
-		extra_stat->ss_reg = 0;
+		for (i = 0; i < n; i++)
+			ss_total += (ys[i] - extra_stat->ybar) *
+				    (ys[i] - extra_stat->ybar);
+		extra_stat->ss_reg = ss_total - extra_stat->ss_resid;
 		extra_stat->se_y = sqrt (extra_stat->se_y / n); /* Now it is SE */
 		g_free (residuals);
 	}

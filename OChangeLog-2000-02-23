@@ -1,3 +1,16 @@
+1999-12-17  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-stat.c: White-space mania.
+
+1999-12-16  Andrew Chatham  <andrew.chatham@duke.edu>
+
+	* src/regression.h: Better comments for parts of extra_stat
+	* src/regression.c (linear_solve): Fixed adjusted R^2 bug (hopefully).
+	* src/functions/fn-stat.c (gnumeric_linest, gnumeric_logest) Added
+	beginning support for 3+ dimensional regressions in linest and logest.
+	* src/analysis-tools.c (regression_tool) Documented Excel bugs with 
+	no-intercept regressions that I didn't/can't mimic.
+
 1999-12-16  Morten Welinder  <terra@diku.dk>
 
 	* src/func.c (tokenized_help_destroy): Plug leak.

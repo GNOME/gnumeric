@@ -18,6 +18,9 @@ Frank:
 Cort:
 	* Expanded CORBA API.
 
+Andrew:
+	* Many improvement for multi-dimensional linear regression.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.45

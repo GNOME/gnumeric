@@ -25,14 +25,15 @@ typedef struct {
         float_t *t;  /*t values for each parameter estimator*/
         float_t sqr_r;
 	float_t adj_sqr_r;
-        float_t se_y;
+        float_t se_y; /* The Standard Error of Y */
         float_t F;
         int     df;
         float_t ss_reg;
         float_t ss_resid;
 	float_t ybar;
 	float_t *xbar;
-	float_t var;
+	float_t var; /* The variance of the entire regression: 
+			sum(errors^2)/(n-xdim) */
 } regression_stat_t;
 
 int linear_regression (float_t **xss, int dim,

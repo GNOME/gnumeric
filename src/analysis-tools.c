@@ -1765,6 +1765,28 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
  *
+ * Excel Bug 1: (Andrew) I believe that the following is a bug in Excel: When 
+ * calculating the  F-statistic in the no-intercept case, it will use xdim as 
+ * the numerator df and (n - xdim) as the denominator df, which is as it should
+ * be. However, in the regression it will then calculate the significance of the
+ * F-statistic using (n - #slope parameters - 1) as the denominator df, which 
+ * makes sense when you are calculating an intercept, but in this case you are not
+ * and the df should be just (n - #slope parameters). Excel is inconsistent,
+ * in that it does not use the same df to calculate the significance that it
+ * does to calculate the the F-stat itself. Inference on regressions
+ * without intercepts don't really work anyway (because of the way the 
+ * statistics work, not the code), so this is not a terribly big deal, and
+ * those who would actually use the significance of F  are not likely to be
+ * using interceptless regressions anyway. So while it is easy to mimic Excel
+ * in this respect, currently we do not and chose what at least for now seems
+ * to be more correct. 
+ * 
+ * Excel Bug 2: (Andrew) Also in the no-intercept case: Excel has some weird way of 
+ * calculating the adjusted R^2 value that makes absolutely no sense to me, so
+ * I couldn't mimic it if I tried. Again, what statistical opinion I have found
+ * suggests that if you're running interceptless regressions, you won't know what
+ * to do with an adjusted R^2 anyway.
+ *
  **/
 
 int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range_y, 
