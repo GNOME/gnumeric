@@ -1,3 +1,21 @@
+2000-05-21  Jon K Hellan  <hellan@acm.org>
+
+	* gtk-combo-text.c (gtk_combo_text_destroy): Disconnect
+	list_unselect_cb, otherwise we get warnings during list shutdown.
+	(list_select_cb): Change it to handle list::select_child instead
+	of listitem::select. Change signature accordingly.
+	(list_select_cb): Invalidate cached state if selecting cached
+	widget. 
+	(list_unselect_cb): New callback. Handles unselect by re-selecting
+	if list is visible. This makes it impossible to deselect
+	interactively. 
+	(cb_toggle): New callback. Handle <Ret> which by default toggles
+	the list item, and make it select instead.
+	(gtk_combo_text_add_item): Don't connect list_select_cb, that's
+	now done in gtk_combo_text_construct. Connect cb_toggle.
+	(gtk_combo_text_construct): Connect list_select_cb and
+	list_unselect_cb.
+
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.54
