@@ -1,5 +1,10 @@
 2005-02-09  Stepan Kasal  <kasal@ucw.cz>
 
+	* src/error-info.h: Nuke, we are using <goffice/app/error-info.h>.
+	* src/Makefile.am: Remove it.
+
+2005-02-09  Stepan Kasal  <kasal@ucw.cz>
+
 	* configure.in (TPUT_CMD, marker_ok, marker_fail, marker_no): Nuke.
 	(BIG_CHECKING): New m4 macro, used to emphasize some of the checks.
 

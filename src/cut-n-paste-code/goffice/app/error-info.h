@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_ERROR_INFO_H
-#define GNUMERIC_ERROR_INFO_H
+#ifndef GO_ERROR_INFO_H
+#define GO_ERROR_INFO_H
 
 #include <goffice/app/goffice-app.h>
 #include <glib.h>
@@ -32,4 +32,4 @@ G_STMT_START { \
 	*ret_error = NULL; \
 } G_STMT_END
 
-#endif /* GNUMERIC_ERROR_INFO_H */
+#endif /* GO_ERROR_INFO_H */
