@@ -16,7 +16,7 @@
 #include "str.h"
 #include "value.h"
 #include "complete-sheet.h"
-#include "gnumeric-type-util.h"
+#include <gal/util/e-util.h>
 
 #define SEARCH_STEPS 50
 #define PARENT_TYPE (complete_get_type ())
@@ -147,4 +147,4 @@ complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify
 	return COMPLETE (cs);
 }
 
-GNUMERIC_MAKE_TYPE(complete_sheet, "CompleteSheet", CompleteSheet, complete_sheet_class_init, NULL, PARENT_TYPE);
+E_MAKE_TYPE(complete_sheet, "CompleteSheet", CompleteSheet, complete_sheet_class_init, NULL, PARENT_TYPE);

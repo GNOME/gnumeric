@@ -21,7 +21,7 @@
 #include <config.h>
 #include <gtk/gtkmain.h>
 #include "complete.h"
-#include "gnumeric-type-util.h"
+#include <gal/util/e-util.h>
 
 #include <stdio.h>
 
@@ -105,4 +105,4 @@ complete_class_init (GtkObjectClass *object_class)
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-GNUMERIC_MAKE_TYPE(complete, "Complete", Complete, &complete_class_init, NULL, PARENT_TYPE);
+E_MAKE_TYPE(complete, "Complete", Complete, &complete_class_init, NULL, PARENT_TYPE);
