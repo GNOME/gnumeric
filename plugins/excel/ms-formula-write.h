@@ -21,5 +21,6 @@ guint32 excel_write_formula    (ExcelWriteState *ewb, GnmExpr const *expr,
 				gboolean shared);
 
 void excel_write_prep_expressions (ExcelWriteState *ewb);
+void excel_write_prep_expr  	  (ExcelWriteState *ewb, GnmExpr const *expr);
 
 #endif /* GNUMERIC_MS_FORMULA_W_H */

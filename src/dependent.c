@@ -767,7 +767,7 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_NAME:
 		expr_name_add_dep (tree->name.name, dep);
 		if (tree->name.name->active)
-			return link_expr_dep (dep, pos, tree->name.name->expr_tree) | DEPENDENT_USES_NAME;
+			return link_expr_dep (dep, pos, tree->name.name->expr) | DEPENDENT_USES_NAME;
 		return DEPENDENT_USES_NAME;
 
 	case GNM_EXPR_OP_ARRAY:
@@ -852,7 +852,7 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_NAME:
 		expr_name_remove_dep (tree->name.name, dep);
 		if (tree->name.name->active)
-			unlink_expr_dep (dep, pos, tree->name.name->expr_tree);
+			unlink_expr_dep (dep, pos, tree->name.name->expr);
 		return;
 
 	case GNM_EXPR_OP_ARRAY:
@@ -1778,7 +1778,7 @@ cb_name_invalidate (GnmNamedExpr *nexpr, G_GNUC_UNUSED gpointer value,
 	     rwinfo->u.sheet != nexpr->pos.sheet) ||
 	    (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK &&
 	     rwinfo->u.workbook != nexpr->pos.wb))) {
-		new_expr = gnm_expr_rewrite (nexpr->expr_tree, rwinfo);
+		new_expr = gnm_expr_rewrite (nexpr->expr, rwinfo);
 		g_return_if_fail (new_expr != NULL);
 	}
 

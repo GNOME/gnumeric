@@ -65,7 +65,15 @@ sheet_pair_add_if_unknown (GHashTable *hash, ExcelSheetPair const *pair)
 	}
 }
 
-static void
+/**
+ * excel_write_prep_expr :
+ * @ewb :
+ * @expr :
+ *
+ *  Searches for interesting functions, names, or sheets.
+ * and builds a database of things to write out later.
+ **/
+void
 excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 {
 	switch (expr->any.oper) {
@@ -150,8 +158,7 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
  * excel_write_prep_expressions :
  * @ewb: state
  *
- *  Searches for interesting formula / names
- * and builds a database of things to write out later.
+ * Initialize the data structures for exporting functions
  **/
 void
 excel_write_prep_expressions (ExcelWriteState *ewb)
@@ -161,10 +168,6 @@ excel_write_prep_expressions (ExcelWriteState *ewb)
 	ewb->sheet_pairs = g_hash_table_new_full (
 		(GHashFunc) sheet_pair_hash, (GEqualFunc) sheet_pair_cmp,
 		NULL, g_free);
-	WORKBOOK_FOREACH_DEPENDENT (ewb->gnum_wb, dep, 
-		excel_write_prep_expr (ewb, dep->expression););
-
-#warning Walk all the names too
 }
 
 /****************************************************************************/
@@ -455,6 +458,34 @@ write_funcall (PolishData *pd, GnmExpr const *expr, gboolean shared)
 }
 
 static void
+excel_formula_write_NAME_v8 (PolishData *pd, GnmExpr const *expr)
+{
+	guint8 data [7];
+	gpointer tmp;
+	unsigned name_idx;
+
+	memset (data, 0, sizeof data);
+
+	tmp = g_hash_table_lookup (pd->ewb->names,
+				   (gpointer)expr->name.name);
+	g_return_if_fail (tmp != NULL);
+
+	name_idx = GPOINTER_TO_UINT (tmp);
+	if (expr->name.optional_scope == NULL) {
+		GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
+		GSF_LE_SET_GUINT16 (data + 1, name_idx);
+		ms_biff_put_var_write (pd->ewb->bp, data, 5);
+	} else {
+		guint16 extn_idx = excel_write_get_externsheet_idx (pd->ewb,
+			expr->name.optional_scope, NULL);
+		GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME_X);
+		GSF_LE_SET_GUINT16 (data + 1, extn_idx);
+		GSF_LE_SET_GUINT16 (data + 3, name_idx);
+		ms_biff_put_var_write (pd->ewb->bp, data, 7);
+	}
+}
+
+static void
 excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr)
 {
 	guint8 data [25];
@@ -644,7 +675,10 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level, gboolean share
 		break;
 
 	case GNM_EXPR_OP_NAME :
-		excel_formula_write_NAME_v7 (pd, expr);
+		if (pd->ewb->bp->version >= MS_BIFF_V8)
+			excel_formula_write_NAME_v8 (pd, expr);
+		else
+			excel_formula_write_NAME_v7 (pd, expr);
 		break;
 
 	case GNM_EXPR_OP_ARRAY : {

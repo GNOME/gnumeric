@@ -244,7 +244,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 			}
 			return FALSE;
 		} else {
-			target = gnm_expr_get_range (nexpr->expr_tree);
+			target = gnm_expr_get_range (nexpr->expr);
 			if (target == NULL) {
 				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Address"), text);
 				return FALSE;

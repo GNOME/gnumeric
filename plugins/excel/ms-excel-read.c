@@ -2760,7 +2760,7 @@ static void
 excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 {
 	if (nexpr->pos.sheet != NULL) {
-		Value *v = gnm_expr_get_range (nexpr->expr_tree);
+		Value *v = gnm_expr_get_range (nexpr->expr);
 		if (v != NULL) {
 			GlobalRange r;
 			gboolean valid = value_to_global_range (v, &r);

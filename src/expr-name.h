@@ -11,7 +11,7 @@ struct _GnmNamedExpr {
 	String     *name;
 	ParsePos    pos;
 	GHashTable *dependents;
-	GnmExpr const *expr_tree;
+	GnmExpr const *expr;
 	gboolean    active;
 	gboolean    is_placeholder;
 	gboolean    is_hidden;

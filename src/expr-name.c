@@ -110,7 +110,7 @@ cb_check_name (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr,
 	if (!nexpr->active || nexpr->is_hidden)
 		return;
 
-	v = gnm_expr_get_range (nexpr->expr_tree);
+	v = gnm_expr_get_range (nexpr->expr);
 	if (v != NULL) {
 		if (v->type == VALUE_CELLRANGE) {
 			RangeRef const *ref = &v->v_range.cell;
@@ -187,7 +187,7 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 {
 	GSList *sheets, *ptr;
 
-	sheets = gnm_expr_referenced_sheets (nexpr->expr_tree);
+	sheets = gnm_expr_referenced_sheets (nexpr->expr);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		GnmNamedExpr *found;
@@ -260,7 +260,7 @@ expr_name_new (char const *name, gboolean is_placeholder)
 	nexpr->ref_count	= 1;
 	nexpr->active		= FALSE;
 	nexpr->name		= string_get (name);
-	nexpr->expr_tree	= NULL;
+	nexpr->expr		= NULL;
 	nexpr->dependents	= NULL;
 	nexpr->is_placeholder	= is_placeholder;
 	nexpr->is_hidden	= FALSE;
@@ -293,7 +293,7 @@ name_refer_circular (char const *name, GnmExpr const *expr)
 			return TRUE;
 
 		/* And look inside this name tree too */
-		return name_refer_circular (name, nexpr->expr_tree);
+		return name_refer_circular (name, nexpr->expr);
 	}
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l = expr->func.arg_list;
@@ -429,7 +429,7 @@ expr_name_unref (GnmNamedExpr *nexpr)
 		nexpr->name = NULL;
 	}
 
-	if (nexpr->expr_tree != NULL)
+	if (nexpr->expr != NULL)
 		expr_name_set_expr (nexpr, NULL);
 
 	if (nexpr->dependents != NULL) {
@@ -483,7 +483,7 @@ expr_name_as_string (GnmNamedExpr const *nexpr, ParsePos const *pp,
 {
 	if (pp == NULL)
 		pp = &nexpr->pos;
-	return gnm_expr_as_string (nexpr->expr_tree, pp, fmt);
+	return gnm_expr_as_string (nexpr->expr, pp, fmt);
 }
 
 Value *
@@ -495,7 +495,7 @@ expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
 	if (!nexpr)
 		return value_new_error_NAME (pos);
 
-	return gnm_expr_eval (nexpr->expr_tree, pos, flags);
+	return gnm_expr_eval (nexpr->expr, pos, flags);
 }
 
 /*******************************************************************
@@ -549,14 +549,14 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 
 	g_return_if_fail (nexpr != NULL);
 
-	if (new_expr == nexpr->expr_tree)
+	if (new_expr == nexpr->expr)
 		return;
-	if (nexpr->expr_tree != NULL) {
+	if (nexpr->expr != NULL) {
 		deps = expr_name_unlink_deps (nexpr);
 		expr_name_handle_references (nexpr, FALSE);
-		gnm_expr_unref (nexpr->expr_tree);
+		gnm_expr_unref (nexpr->expr);
 	}
-	nexpr->expr_tree = new_expr;
+	nexpr->expr = new_expr;
 	dependents_link (deps, NULL);
 
 	if (new_expr != NULL)
@@ -591,7 +591,7 @@ gboolean
 expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 {
 	g_return_val_if_fail (nexpr != NULL, FALSE);
-	return gnm_expr_is_err (nexpr->expr_tree, GNM_ERROR_NAME);
+	return gnm_expr_is_err (nexpr->expr, GNM_ERROR_NAME);
 }
 
 int

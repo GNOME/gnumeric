@@ -5387,7 +5387,7 @@ cmd_define_name_undo (GnumericCommand *cmd,
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
 	GnmExpr const *expr;
 
-	expr = me->nexpr->expr_tree;
+	expr = me->nexpr->expr;
 	gnm_expr_ref (expr);
 
 	if (me->create_name) {
@@ -5417,7 +5417,7 @@ cmd_define_name_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		expr_name_ref (me->nexpr);
 		me->expr = NULL;
 	} else {/* assigning a value to a placeholder */
-		GnmExpr const *tmp = me->nexpr->expr_tree;
+		GnmExpr const *tmp = me->nexpr->expr;
 
 		gnm_expr_ref (tmp);
 		expr_name_set_expr (me->nexpr, me->expr);

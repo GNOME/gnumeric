@@ -51,15 +51,16 @@ Pending Patches
     6.3) Check xl import of unicode names			(DONE)
     6.4) Fix export of unicode for 95 & 97			(DONE)
     6.5) Intersection, union and set export
-    6.6) fix name export now that we sorta understand it
-	6.6.1) Excel 97
-	6.6.2) Excel 95
-	6.6.3) Excel crashes on our xl95 export of the names test
+    6.6) fix name export now that we understand it
+	6.6.1) Excel 97						(DONE)
+	6.6.2) Excel 95						(DONE)
+	6.6.3) Excel crashes on our xl95 export of names test
     6.7) non-ole import (Nick Lamb is working on this)		(DONE)
     6.8) Validation export					(DONE)
 	6.8.1) Clip ranges that are outside the sheet area
 	       for that format
     6.9) autofilter export
+    6.10) hlink export
 
 8) Reinstate auto-format
     8.1) Add characterization (units) to StyleFormat

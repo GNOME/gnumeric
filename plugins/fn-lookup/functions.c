@@ -481,7 +481,7 @@ restart :
 
 	case GNM_EXPR_OP_NAME:
 		if (expr->name.name->active) {
-			expr = expr->name.name->expr_tree;
+			expr = expr->name.name->expr;
 			goto restart;
 		}
 		break;

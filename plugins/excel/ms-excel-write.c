@@ -218,8 +218,7 @@ excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 	case MS_BIFF_V7:
 	case MS_BIFF_V8:
 		bp->ms_op = 8;
-		if (bp->version == MS_BIFF_V8 || /* as per the spec. */
-		    (bp->version == MS_BIFF_V7 && type == MS_BIFF_TYPE_Worksheet)) /* Wierd hey */
+		if (bp->version == MS_BIFF_V8)
 			GSF_LE_SET_GUINT16 (data, 0x0600);
 		else
 			GSF_LE_SET_GUINT16 (data, 0x0500);
@@ -347,7 +346,7 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelSheet *container)
 	GnmFunc *func;
 
 	data = ms_biff_put_len_next (ewb->bp, BIFF_EXTERNCOUNT, 2);
-	GSF_LE_SET_GUINT16 (data, num_sheets + 1);
+	GSF_LE_SET_GUINT16 (data, num_sheets + 2);
 	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < num_sheets; i++) {
@@ -376,9 +375,6 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelSheet *container)
 	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
 	ms_biff_put_var_write (ewb->bp, magic_addin, sizeof magic_addin);
 	ms_biff_put_commit (ewb->bp);
-	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
-	ms_biff_put_var_write (ewb->bp, magic_self, sizeof magic_self);
-	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < ewb->externnames->len ; i++) {
 		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNNAME);
@@ -392,6 +388,9 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelSheet *container)
 		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 		ms_biff_put_commit (ewb->bp);
 	}
+	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
+	ms_biff_put_var_write (ewb->bp, magic_self, sizeof magic_self);
+	ms_biff_put_commit (ewb->bp);
 }
 
 static void
@@ -856,9 +855,9 @@ cb_enumerate_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 }
 
 static void
-excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
+excel_write_NAME (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 {
-	guint8 data [15];
+	guint8 data [16];
 	unsigned name_len;
 	char const *name;
 	int builtin_index;
@@ -869,15 +868,24 @@ excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 	memset (data, 0, sizeof data);
 
 	name = nexpr->name->str;
-	if (nexpr->pos.sheet != NULL) /* sheet local */
-		GSF_LE_SET_GUINT16 (data + 6, nexpr->pos.sheet->index_in_wb +1);
+	if (nexpr->pos.sheet != NULL) { /* sheet local */
+		GSF_LE_SET_GUINT16 (data + 8,
+			nexpr->pos.sheet->index_in_wb + 1);
+		GSF_LE_SET_GUINT16 (data + 6,
+			nexpr->pos.sheet->index_in_wb + 1);
+	}
 
 	builtin_index = excel_write_builtin_name (name, ewb->bp->version);
 	if (builtin_index >= 0) {
 		GSF_LE_SET_GUINT16 (data + 0, 0x20); /* flag builtin */
 		GSF_LE_SET_GUINT8  (data + 3, 1);    /* name_len */
-		GSF_LE_SET_GUINT8  (data + 14, builtin_index);    /* name_len */
-		ms_biff_put_var_write (ewb->bp, data, 15);
+		if (ewb->bp->version >= MS_BIFF_V8) {
+			GSF_LE_SET_GUINT8  (data + 15, builtin_index);
+			ms_biff_put_var_write (ewb->bp, data, 16);
+		} else {
+			GSF_LE_SET_GUINT8  (data + 14, builtin_index);
+			ms_biff_put_var_write (ewb->bp, data, 15);
+		}
 	} else {
 		excel_write_string_len (name, &name_len);
 		GSF_LE_SET_GUINT8 (data + 3, name_len); /* name_len */
@@ -886,7 +894,7 @@ excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 	}
 
 	if (!expr_name_is_placeholder (nexpr)) {
-		guint16 expr_len = excel_write_formula (ewb, nexpr->expr_tree,
+		guint16 expr_len = excel_write_formula (ewb, nexpr->expr,
 							nexpr->pos.sheet, 0, 0, TRUE);
 		ms_biff_put_var_seekto (ewb->bp, 4);
 		GSF_LE_SET_GUINT16 (data, expr_len);
@@ -3609,8 +3617,7 @@ write_workbook (ExcelWriteState *ewb)
 		/* assign indicies to the names before we export */
 		ewb->tmp_counter = ewb->externnames->len;
 		excel_foreach_name (ewb, (GHFunc)&cb_enumerate_names);
-
-		excel_foreach_name (ewb, (GHFunc)&excel_write_NAME_v7);
+		excel_foreach_name (ewb, (GHFunc)&excel_write_NAME);
 	}
 
 	/* See: S59E19.HTM */
@@ -3689,6 +3696,10 @@ write_workbook (ExcelWriteState *ewb)
 
 	if (bp->version >= MS_BIFF_V8) {
 		excel_write_externsheets_v8 (ewb);
+
+		ewb->tmp_counter = 0;
+		excel_foreach_name (ewb, (GHFunc)&cb_enumerate_names);
+		excel_foreach_name (ewb, (GHFunc)&excel_write_NAME);
 		excel_write_SST (ewb);
 	}
 
@@ -3776,6 +3787,13 @@ sst_collect_str (gpointer ignored, Cell const *cell, ExcelWriteState *ewb)
 	}
 }
 
+static void
+cb_check_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
+{
+	if (nexpr->active && !nexpr->is_placeholder)
+		excel_write_prep_expr (ewb, nexpr->expr);
+}
+
 ExcelWriteState *
 excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		       gboolean biff7, gboolean biff8)
@@ -3810,6 +3828,9 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 			g_ptr_array_add (ewb->sheets, esheet);
 	}
 	excel_write_prep_expressions (ewb);
+	WORKBOOK_FOREACH_DEPENDENT (ewb->gnum_wb, dep, 
+		excel_write_prep_expr (ewb, dep->expression););
+	excel_foreach_name (ewb, (GHFunc) cb_check_names);
 
 	gather_style_info (ewb);
 

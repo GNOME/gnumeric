@@ -553,7 +553,7 @@ gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr,
 	case GNM_EXPR_OP_NAME:
 		if (!expr->name.name->active)
 			return TRUE;
-		return gnm_expr_extract_ref (res, expr->name.name->expr_tree, pos, flags);
+		return gnm_expr_extract_ref (res, expr->name.name->expr, pos, flags);
 	default :
 		break;
 	}
@@ -1655,7 +1655,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		}
 
 		/* Do NOT rewrite the name.  Just invalidate the use of the name */
-		tmp = gnm_expr_rewrite (expr->name.name->expr_tree, rwinfo);
+		tmp = gnm_expr_rewrite (expr->name.name->expr, rwinfo);
 		if (tmp != NULL) {
 			gnm_expr_unref (tmp);
 			return gnm_expr_new_constant (
@@ -1946,7 +1946,7 @@ gnm_expr_containts_subtotal (GnmExpr const *expr)
 
 	case GNM_EXPR_OP_NAME:
 		if (expr->name.name->active)
-			return gnm_expr_containts_subtotal (expr->name.name->expr_tree);
+			return gnm_expr_containts_subtotal (expr->name.name->expr);
 
 	case GNM_EXPR_OP_CELLREF:
 	case GNM_EXPR_OP_CONSTANT:
@@ -2045,7 +2045,7 @@ gnm_expr_get_range (GnmExpr const *expr)
 	case GNM_EXPR_OP_NAME:
 		if (!expr->name.name->active)
 			return NULL;
-		return gnm_expr_get_range (expr->name.name->expr_tree);
+		return gnm_expr_get_range (expr->name.name->expr);
 
 	default:
 		return NULL;
@@ -2101,7 +2101,7 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 
 	case GNM_EXPR_OP_NAME:
 		if (expr->name.name->active)
-			return gnm_expr_is_rangeref (expr->name.name->expr_tree);
+			return gnm_expr_is_rangeref (expr->name.name->expr);
 		return FALSE;
 
 	case GNM_EXPR_OP_ARRAY: /* I don't think this is possible */

@@ -1,3 +1,20 @@
+2002-12-17  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (excel_write_prep_expr) : make it public.
+	(excel_write_prep_expressions) : just do the initialization not the
+	  dep walking.
+	(excel_formula_write_NAME_v8) : new.
+	(write_node) : handle names for biff8.
+
+	* ms-excel-write.c (excel_write_BOF) : no need to clone XL2k bug that
+	  erroneously calls XL95 XL97.
+	(excel_write_externsheets_v7) : we also export the selfref magic.
+	(excel_write_NAME) : renamed from excel_write_NAME_v7 and extended to
+	  support biff8.
+	(write_workbook) : export names for BIFF8 too.
+	(cb_check_names) : new.
+	(excel_write_state_new) : prep the expressions in names too.
+
 2002-12-16  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-write.c (excel_write_map_errcode): Base on
