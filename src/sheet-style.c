@@ -125,6 +125,16 @@ sheet_style_cache_add (Sheet *sheet, int col, int row,
 	g_hash_table_insert (STYLE_CACHE (sheet), ep, mstyle);
 }
 
+/**
+ * list_check_sorted:
+ * @list: the list of StyleRegions.
+ * @as_per_sheet: which direction the stamp order should be.
+ * 
+ *   This function checks each StyleRegion's range, and its stamp
+ * for correctness.
+ * 
+ * Return value: FALSE if a sort error occurs.
+ **/
 static gboolean
 list_check_sorted (const GList *list, gboolean as_per_sheet)
 {
@@ -135,6 +145,8 @@ list_check_sorted (const GList *list, gboolean as_per_sheet)
 
 		while (l) {
 			StyleRegion *sr = l->data;
+			if (!range_valid (l->data))
+				g_warning ("Invalid styleregion range");
 			if (sr->stamp > stamp)
 				return FALSE;
 			stamp = sr->stamp;
@@ -145,6 +157,8 @@ list_check_sorted (const GList *list, gboolean as_per_sheet)
 
 		while (l) {
 			StyleRegion *sr = l->data;
+			if (!range_valid (l->data))
+				g_warning ("Invalid styleregion range");
 			if (sr->stamp < stamp)
 				return FALSE;
 			stamp = sr->stamp;
@@ -436,8 +450,7 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (mstyle != NULL);
-	g_return_if_fail (range.start.col <= range.end.col);
-	g_return_if_fail (range.start.row <= range.end.row);
+	g_return_if_fail (range_valid (&range));
 	g_return_if_fail (mstyle_verify (mstyle));
 
 	/*

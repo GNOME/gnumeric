@@ -1663,7 +1663,7 @@ xml_write_styles (parse_xml_context_t *ctxt, GList *l)
 		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Styles", NULL);
-	while (l) {
+	while (l && l->next) {
 		StyleRegion *sr = l->data;
 		xmlAddChild (cur, xml_write_style_region (ctxt, sr));
 		l = g_list_next (l);

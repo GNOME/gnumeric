@@ -25,6 +25,9 @@
 				 ((x) >= ((Range *)(r))->start.col) && \
 				 ((x) <= ((Range *)(r))->end.col))
 
+#define range_valid(r)          (((Range *)(r))->start.col <= ((Range *)(r))->end.col && \
+				 ((Range *)(r))->start.row <= ((Range *)(r))->end.row)
+
 gboolean    range_parse             (Sheet *sheet, const char *range, Value **v);
 GSList     *range_list_parse        (Sheet *sheet, const char *cell_name_str);
 void        range_list_destroy      (GSList *ranges);

@@ -1,5 +1,21 @@
 1999-11-14  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/ranges.c (range_fragment_list_clip): Add check + warning +
+	cull for invalid range fragments ( should never happen :-)
+	(range_split_ranges): Add check for overlap to start +
+	large re-write, some really mean bugs nailed, accidentaly
+	accelerate performance.
+
+	* src/ranges.h (range_valid): Add.
+
+	* src/sheet-style.c (sheet_style_attach): Use range_valid.
+	(list_check_sorted): Add valid range check + document.
+
+	* src/xml-io.c (xml_write_styles): Ignore last 'full sheet' style
+	region on save.
+	
+1999-11-14  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/cell.c (cell_set_formula): Fixup for premature array formulae.
 
 	* src/xml-io.c (xml_set_gnome_canvas_points ,xml_write_names),
