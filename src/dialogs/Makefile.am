@@ -69,7 +69,8 @@ glade_msgs = 				\
 	sheet-rename.glade.h		\
 	summary.glade.h			\
 	dialog-zoom.glade.h		\
-	cell-format.glade.h
+	cell-format.glade.h		\
+	cell-sort.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
 
