@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.3\n"
 "POT-Creation-Date: 2002-04-24 01:33+0900\n"
-"PO-Revision-Date: 2002-04-24 01:35+0900\n"
+"PO-Revision-Date: 2002-04-25 00:05+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -19550,7 +19550,7 @@ msgstr "自動で埋める(_F)"
 
 #: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2782
 msgid "Automatically fill the current selection"
-msgstr "選択したオブジェクトを自動的に塗りつぶします"
+msgstr "選択されたオブジェクトを自動的に塗りつぶします"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3166
 msgid "Automatically perform simple spell checking"
@@ -19558,7 +19558,7 @@ msgstr "自動的に簡単なスペルチェックを行います"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3169
 msgid "Automatically save the current document at regular intervals"
-msgstr "一定間隔で現在の文書を自動的に保存します"
+msgstr "編集中の文書を一定間隔で保存します"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:14
 #: src/dialogs/dialog-cell-format.c:2621 src/workbook-format-toolbar.c:824
@@ -19656,7 +19656,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:34
 msgid "Close the current file"
-msgstr "現在のファイルを閉じます"
+msgstr "編集中のファイルを閉じます"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:4
 #: src/workbook-control-gui.c:2741
@@ -19805,7 +19805,7 @@ msgstr "現在の日付(_D)"
 #. Default <Ctrl-:> (control colon) to insert the current time
 #: src/GNOME_Gnumeric.xml.h:66 src/workbook-control-gui.c:2907
 msgid "Current _time"
-msgstr "現在時刻(_T)"
+msgstr "現在の時刻(_T)"
 
 #: src/GNOME_Gnumeric.xml.h:67 src/selection.c:523 src/selection.c:526
 #: src/workbook-control-gui.c:3296
@@ -19819,7 +19819,7 @@ msgstr "選択範囲を切り取ります"
 #: src/GNOME_Gnumeric.xml.h:69 src/workbook-format-toolbar.c:396
 #: src/workbook-format-toolbar.c:476
 msgid "Decrease Indent"
-msgstr "インデントを減らす"
+msgstr "字下げ(-)"
 
 #: src/GNOME_Gnumeric.xml.h:70
 msgid "Decrease Precision"
@@ -19855,11 +19855,11 @@ msgstr "終了(_X)"
 
 #: src/GNOME_Gnumeric.xml.h:78
 msgid "Edit a formula in the current cell"
-msgstr "現在のセルの関数を編集します"
+msgstr "選択されたセルの関数を編集します"
 
 #: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2718
 msgid "Edit descriptive information"
-msgstr "情報の編集"
+msgstr "ワークブック情報を編集します"
 
 #: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2916
 msgid "Edit sheet and workbook names"
@@ -19987,7 +19987,7 @@ msgstr "ファイルを読み込みます"
 #: src/GNOME_Gnumeric.xml.h:109 src/workbook-format-toolbar.c:374
 #: src/workbook-format-toolbar.c:479
 msgid "Increase Indent"
-msgstr "インデントを増やす"
+msgstr "字下げ(+)"
 
 #: src/GNOME_Gnumeric.xml.h:110
 msgid "Increase Precision"
@@ -20049,7 +20049,7 @@ msgstr "選択されたセルに現在の日付を挿入します"
 
 #: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2908
 msgid "Insert the current time into the selected cell(s)"
-msgstr "選択したセルに現在時刻を挿入します"
+msgstr "選択されたセルに現在の時刻を挿入します"
 
 #: src/GNOME_Gnumeric.xml.h:125
 msgid "Inserts a Bonobo object"
@@ -20112,7 +20112,7 @@ msgstr "左上のセルのロック/ロック解除を切り替えます"
 
 #: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2799
 msgid "Make a copy of the current sheet"
-msgstr "現在のシートのコピーを作成します"
+msgstr "編集中のシートに対するコピーを作成します"
 
 #: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:2788
 msgid "Make a table of a cell's value as a function of other cells"
@@ -20242,7 +20242,7 @@ msgstr "ピアソン相関"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/workbook-format-toolbar.c:461
 msgid "Percent"
-msgstr "パーセント"
+msgstr "百分率"
 
 #: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:3146
 msgid "Periodic and random samples"
@@ -20264,7 +20264,7 @@ msgstr "印刷プレビュー(_V)..."
 #: src/GNOME_Gnumeric.xml.h:175 src/workbook-control-gui.c:2712
 #: src/workbook-control-gui.c:3290
 msgid "Print Preview"
-msgstr "印刷プレビューを表示します"
+msgstr "プレビュー"
 
 #: src/GNOME_Gnumeric.xml.h:176
 msgid "Print S_etup..."
@@ -20276,7 +20276,7 @@ msgstr "印刷プレビュー"
 
 #: src/GNOME_Gnumeric.xml.h:178
 msgid "Print the current file"
-msgstr "現在のファイルを印刷します"
+msgstr "編集中のファイルを印刷します"
 
 #: src/GNOME_Gnumeric.xml.h:179
 msgid "Print the workbook"
@@ -20335,7 +20335,7 @@ msgstr ""
 #: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2807
 #: src/workbook-control-gui.c:3002
 msgid "Rename the current sheet"
-msgstr "現在のシート名を変更します"
+msgstr "編集中のシート名を変更します"
 
 #: src/GNOME_Gnumeric.xml.h:193 src/dialogs/cell-format.glade.h:67
 #: src/workbook-format-toolbar.c:630
@@ -20364,15 +20364,15 @@ msgstr "名前を付けて保存(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:199
 msgid "Save the current file"
-msgstr "現在のファイルを保存します"
+msgstr "編集中のファイルを保存します"
 
 #: src/GNOME_Gnumeric.xml.h:200
 msgid "Save the current file with a different name"
-msgstr "現在のファイルを別の名前で保存します"
+msgstr "編集中のファイルを別の名前で保存します"
 
 #: src/GNOME_Gnumeric.xml.h:201
 msgid "Save the current workbook"
-msgstr "ワークブックを保存します"
+msgstr "編集中のワークブックを保存します"
 
 #: src/GNOME_Gnumeric.xml.h:202 src/workbook-object-toolbar.c:142
 msgid "Scrollbar"
@@ -20421,7 +20421,7 @@ msgstr "スプレッドシート中の全てのセルを選択します"
 
 #: src/GNOME_Gnumeric.xml.h:213
 msgid "Select all the cells that depend on the current edit cell"
-msgstr "現在編集中のセルに依存するセルを全て選択します"
+msgstr "編集中のセルに依存する全てのセルを選択します"
 
 #: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:2769
 msgid "Select an array of cells"
@@ -20437,8 +20437,7 @@ msgstr "行全体を選択します"
 
 #: src/GNOME_Gnumeric.xml.h:217 src/workbook-format-toolbar.c:464
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr ""
-"1000ごとのカンマを含むために選択されたセルの書式を設定する"
+msgstr "選択したセルに 1000 単位のカンマを付与します"
 
 #: src/GNOME_Gnumeric.xml.h:218 src/workbook-format-toolbar.c:458
 msgid "Sets the format of the selected cells to monetary"
@@ -20450,15 +20449,16 @@ msgstr "選択されているセルの形式をパーセントにする"
 
 #: src/GNOME_Gnumeric.xml.h:220
 msgid "Setup the page settings for your current printer"
-msgstr "プリンタにあわせてページを設定します"
+msgstr ""
+"利用するプリンタにあわせて編集中のページを設定します"
 
 #: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3329
 msgid "Sort Ascending"
-msgstr "昇順に並べ替え"
+msgstr "昇順"
 
 #: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3332
 msgid "Sort Descending"
-msgstr "降順に並べ替え"
+msgstr "降順"
 
 #: src/GNOME_Gnumeric.xml.h:223
 msgid "Sorts the selected cells"
@@ -20498,11 +20498,11 @@ msgstr "合計"
 
 #: src/GNOME_Gnumeric.xml.h:230
 msgid "Sum into the current cell"
-msgstr "現在のセルに総和を挿入します"
+msgstr "選択されたセルの中に総和を挿入します"
 
 #: src/GNOME_Gnumeric.xml.h:231 src/workbook-format-toolbar.c:464
 msgid "Thousand separator"
-msgstr "1000ごとのカンマ"
+msgstr "カンマ"
 
 #: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3029
 msgid "Toggle whether or not to display column headers"
@@ -22573,7 +22573,7 @@ msgstr "データの合成"
 
 #: src/dialogs/consolidate.glade.h:8
 msgid "Delete the currently selected source area"
-msgstr "現在選択されているソース領域を削除します"
+msgstr "選択されたソース領域を削除します"
 
 #: src/dialogs/consolidate.glade.h:9
 msgid "Formulas"
@@ -24136,7 +24136,7 @@ msgid ""
 "Please select which sheets you want to export from the current workbook. They "
 "will be exported in the same order as in the export list."
 msgstr ""
-"現在のワークブックからエクスポートするシートを選択して下さい。\nシートはエクスポートリストのリスト順にエクスポートされます。"
+"編集中のワークブックからエクスポートするシートを選択して下さい。\nシートはエクスポート一覧の順にエクスポートされます。"
 
 #: src/dialogs/dialog-stf-export.glade.h:24
 msgid "Quote character:"
@@ -24955,7 +24955,7 @@ msgstr "新規プラグインのインストールする(_I)"
 #: src/dialogs/print.glade.h:2
 #, no-c-format
 msgid "% of normal size"
-msgstr "% 標準サイズ"
+msgstr "％ (標準サイズに対する比率)"
 
 #: src/dialogs/print.glade.h:3
 msgid "Center on page"
@@ -24963,7 +24963,7 @@ msgstr "ページの中心"
 
 #: src/dialogs/print.glade.h:5
 msgid "Fi_rst page number:"
-msgstr "最初の頁番号(_R):"
+msgstr "最初のページ番号(_R):"
 
 #: src/dialogs/print.glade.h:6
 msgid "He_ader:"
@@ -25031,7 +25031,7 @@ msgstr "印刷タイトル"
 
 #: src/dialogs/print.glade.h:26
 msgid "_Adjust to:"
-msgstr "調整(_A):"
+msgstr "次のサイズに調節する(_A):"
 
 #: src/dialogs/print.glade.h:27
 msgid "_Black and white"
@@ -25051,7 +25051,7 @@ msgstr "下へ行ってから右へ(_D)"
 
 #: src/dialogs/print.glade.h:31
 msgid "_Fit to:"
-msgstr "フィット(_F):"
+msgstr "次のサイズに合わせる(_F):"
 
 #: src/dialogs/print.glade.h:32
 msgid "_Footer:"
@@ -25091,7 +25091,7 @@ msgstr "上(_T):"
 
 #: src/dialogs/print.glade.h:41
 msgid "_Units:"
-msgstr "ユニット (_U):"
+msgstr "単位 (_U):"
 
 #: src/dialogs/print.glade.h:42
 msgid "_Vertically"
@@ -25108,7 +25108,7 @@ msgstr "mm"
 
 #: src/dialogs/print.glade.h:45
 msgid "page(s) wide by"
-msgstr "ページ幅 + "
+msgstr "ページの幅に"
 
 #: src/dialogs/print.glade.h:46 src/print-info.c:430
 msgid "pts"
@@ -25298,7 +25298,7 @@ msgstr "ワークブックのすべてのセルで探索と置換をする"
 
 #: src/dialogs/search-replace.glade.h:23
 msgid "Search and replace in current sheet only"
-msgstr "現在シートでのみ探索と置換をする"
+msgstr "編集中のシートでのみ検索と置換を行います"
 
 #: src/dialogs/search-replace.glade.h:24
 msgid "Search and replace in specified range only"
@@ -25354,7 +25354,7 @@ msgstr "注釈(_C)"
 
 #: src/dialogs/search-replace.glade.h:37 src/dialogs/search.glade.h:26
 msgid "_Current sheet"
-msgstr "現在のシート(_C)"
+msgstr "編集中のシート(_C)"
 
 #: src/dialogs/search-replace.glade.h:38
 msgid "_Don't change"
@@ -25466,7 +25466,7 @@ msgstr "ワークブックの全てのセルの中から検索します"
 
 #: src/dialogs/search.glade.h:14
 msgid "Search in current sheet only"
-msgstr "現在シートでのみで検索します"
+msgstr "編集中のシートのみ検索対象にします"
 
 #: src/dialogs/search.glade.h:15
 msgid "Search in specified range only"
@@ -25653,7 +25653,7 @@ msgstr "型(_T):"
 
 #: src/dialogs/summary.glade.h:1
 msgid "C_omments:"
-msgstr "注釈(_O):"
+msgstr "注記(_O):"
 
 #: src/dialogs/summary.glade.h:2
 msgid "Com_pany:"
@@ -36141,7 +36141,7 @@ msgstr "内容(_C)"
 
 #: src/workbook-control-gui.c:2774
 msgid "Select all the cells that depend on the current edit cell."
-msgstr "現在編集中のセルに依存するセルをすべて選択"
+msgstr "編集中のセルに依存する全てのセルを選択します"
 
 #: src/workbook-control-gui.c:2785
 msgid ""
@@ -36209,7 +36209,7 @@ msgstr "ワークブックの新規作成"
 
 #: src/workbook-control-gui.c:3278
 msgid "Opens an existing workbook"
-msgstr "既存のワークブックを開く"
+msgstr "既存のワークブックを開きます"
 
 #: src/workbook-control-gui.c:3281
 msgid "Saves the workbook"
@@ -36241,7 +36241,7 @@ msgstr "操作をやり直します"
 
 #: src/workbook-control-gui.c:3322
 msgid "Sum into the current cell."
-msgstr "現在のセルで総和をとる。"
+msgstr "選択されたセルの総和をとる。"
 
 #: src/workbook-control-gui.c:3325
 msgid "Function"
@@ -36249,7 +36249,7 @@ msgstr "関数"
 
 #: src/workbook-control-gui.c:3325
 msgid "Edit a function in the current cell."
-msgstr "現在のセルで関数を編集する。"
+msgstr "選択されたセルにある関数を編集します。"
 
 #: src/workbook-control-gui.c:3329
 msgid ""
@@ -36276,7 +36276,7 @@ msgstr "送信"
 
 #: src/workbook-control-gui.c:4370
 msgid "Send the current file in email"
-msgstr "現在のファイルを E-メールで送信します"
+msgstr "編集中のファイルを E-メールで送信します"
 
 #: src/workbook-control-gui.c:4578
 msgid "Re-Edit"
@@ -36341,7 +36341,7 @@ msgstr "精度の減少"
 
 #: src/workbook-format-toolbar.c:407
 msgid "Select font"
-msgstr "フォントを選択"
+msgstr "フォント"
 
 #: src/workbook-format-toolbar.c:410
 msgid "Sets the bold font"
@@ -36377,19 +36377,19 @@ msgstr "セルの内容を右寄せにする"
 
 #: src/workbook-format-toolbar.c:445
 msgid "Center across selection"
-msgstr "選択した範囲内で中央揃え"
+msgstr "中央揃え"
 
 #: src/workbook-format-toolbar.c:458
 msgid "Money format"
-msgstr "金銭形式"
+msgstr "通貨"
 
 #: src/workbook-format-toolbar.c:467
 msgid "Add decimals"
-msgstr "小数点を追加"
+msgstr "小数点(+)"
 
 #: src/workbook-format-toolbar.c:470
 msgid "Remove decimals"
-msgstr "小数点以下を削除"
+msgstr "小数点(-)"
 
 #: src/workbook-format-toolbar.c:545
 msgid "Set Foreground Color"
