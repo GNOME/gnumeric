@@ -2301,7 +2301,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	}
 
 /* create a list of all missing or incomplete observations */
-	missing = y_data->missing;
+	missing = g_slist_copy (y_data->missing);
 	for (i = 0; i < xdim; i++) {
 		GSList *this_missing;
 		GSList *the_union;
