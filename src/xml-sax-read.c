@@ -400,7 +400,7 @@ typedef struct _XMLSaxParseState
 
 	CellPos cell;
 	int expr_id, array_rows, array_cols;
-	ValueType value_type;
+	int value_type;
 	char const *value_fmt;
 
 	GString *content;
@@ -689,7 +689,7 @@ xml_sax_sheet_name (XMLSaxParseState *state)
 }
 
 static void
-xml_parse_sheet_zoom (XMLSaxParseState *state)
+xml_sax_sheet_zoom (XMLSaxParseState *state)
 {
 	char const * content = state->content->str;
 	double zoom;
@@ -752,7 +752,7 @@ xml_sax_print_margins (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xmlSaxParseSelectionRange (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_selection_range (XMLSaxParseState *state, CHAR const **attrs)
 {
 	Range r;
 	if (xml_sax_range (attrs, &r))
@@ -1016,7 +1016,7 @@ xml_sax_styleregion_font_end (XMLSaxParseState *state)
 }
 
 static void
-xmlSaxParseStyleRegionBorders (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_style_region_borders (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int pattern = -1;
 	StyleColor *colour = NULL;
@@ -1042,7 +1042,7 @@ xmlSaxParseStyleRegionBorders (XMLSaxParseState *state, CHAR const **attrs)
 }
 
 static void
-xmlSaxParseCell (XMLSaxParseState *state, CHAR const **attrs)
+xml_sax_cell (XMLSaxParseState *state, CHAR const **attrs)
 {
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
@@ -1055,6 +1055,7 @@ xmlSaxParseCell (XMLSaxParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->array_rows == -1);
 	g_return_if_fail (state->array_cols == -1);
 	g_return_if_fail (state->expr_id == -1);
+	g_return_if_fail (state->value_type == -1);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml_sax_attr_int (attrs, "Col", &col)) ;
@@ -1175,7 +1176,7 @@ xml_sax_cell_content (XMLSaxParseState *state)
 	int const array_cols = state->array_cols;
 	int const array_rows = state->array_rows;
 	int const expr_id = state->expr_id;
-	ValueType const value_type = state->value_type;
+	int const value_type = state->value_type;
 	char const *value_fmt =state->value_fmt;
 	gpointer const id = GINT_TO_POINTER (expr_id);
 	gpointer expr = NULL;
@@ -1184,7 +1185,7 @@ xml_sax_cell_content (XMLSaxParseState *state)
 	state->cell.row = state->cell.col = -1;
 	state->array_rows = state->array_cols = -1;
 	state->expr_id = -1;
-	state->value_type = 0;
+	state->value_type = -1;
 	state->value_fmt = NULL;
 
 	g_return_if_fail (col >= 0);
@@ -1210,8 +1211,9 @@ xml_sax_cell_content (XMLSaxParseState *state)
 
 			xml_cell_set_array_expr (cell, content+1,
 						 array_cols, array_rows);
-		} else if (xml_not_used_old_array_spec (cell, content)) {
-			if (value_type != 0) {
+		} else if (state->version >= GNUM_XML_V3 ||
+			   xml_not_used_old_array_spec (cell, content)) {
+			if (value_type > 0) {
 				Value *v = value_new_from_string (value_type, content);
 				StyleFormat *sf = (value_fmt != NULL)
 					? style_format_new_XL (value_fmt, FALSE)
@@ -1222,18 +1224,22 @@ xml_sax_cell_content (XMLSaxParseState *state)
 		}
 
 		if (expr_id > 0) {
+			gpointer id = GINT_TO_POINTER (expr_id);
+			gpointer expr =
+				g_hash_table_lookup (state->expr_map, id);
 			if (expr == NULL) {
 				if (cell_has_expr (cell))
 					g_hash_table_insert (state->expr_map, id,
 							     cell->base.expression);
 				else
-					g_warning ("XML-IO2 : Shared expression with no expession ??");
+					g_warning ("XML-IO : Shared expression with no expession ??");
 			} else if (!is_post_52_array)
 				g_warning ("XML-IO : Duplicate shared expression");
 		}
 	} else if (expr_id > 0) {
 		gpointer expr = g_hash_table_lookup (state->expr_map,
 			GINT_TO_POINTER (expr_id));
+
 		if (expr != NULL)
 			cell_set_expr (cell, expr, NULL);
 		else
@@ -1443,7 +1449,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		    xml_sax_switch_state (state, name, STATE_BORDER_RIGHT) ||
 		    xml_sax_switch_state (state, name, STATE_BORDER_DIAG) ||
 		    xml_sax_switch_state (state, name, STATE_BORDER_REV_DIAG))
-			xmlSaxParseStyleRegionBorders (state, attrs);
+			xml_sax_style_region_borders (state, attrs);
 		else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1464,14 +1470,14 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 
 	case STATE_SHEET_SELECTIONS :
 		if (xml_sax_switch_state (state, name, STATE_SELECTION))
-			xmlSaxParseSelectionRange (state, attrs);
+			xml_sax_selection_range (state, attrs);
 		else
 			xml_sax_unknown_state (state, name);
 		break;
 
 	case STATE_SHEET_CELLS :
 		if (xml_sax_switch_state (state, name, STATE_CELL))
-			xmlSaxParseCell (state, attrs);
+			xml_sax_cell (state, attrs);
 		else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1563,7 +1569,7 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 		break;
 
 	case STATE_SHEET_ZOOM :
-		xml_parse_sheet_zoom (state);
+		xml_sax_sheet_zoom (state);
 		g_string_truncate (state->content, 0);
 		break;
 
@@ -1637,13 +1643,13 @@ xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 }
 
 static xmlEntityPtr
-xmlSaxGetEntity (XMLSaxParseState *state, const CHAR *name)
+xml_sax_get_entity (XMLSaxParseState *state, const CHAR *name)
 {
 	return xmlGetPredefinedEntity (name);
 }
 
 static void
-xmlSaxStartDocument (XMLSaxParseState *state)
+xml_sax_start_document (XMLSaxParseState *state)
 {
 	state->state = STATE_START;
 	state->unknown_depth = 0;
@@ -1664,14 +1670,14 @@ xmlSaxStartDocument (XMLSaxParseState *state)
 	state->cell.row = state->cell.col = -1;
 	state->array_rows = state->array_cols = -1;
 	state->expr_id = -1;
-	state->value_type = 0;
+	state->value_type = -1;
 	state->value_fmt = NULL;
 
 	state->expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
 static void
-xmlSaxEndDocument (XMLSaxParseState *state)
+xml_sax_end_document (XMLSaxParseState *state)
 {
 	g_string_free (state->content, TRUE);
 	g_hash_table_destroy (state->expr_map);
@@ -1686,15 +1692,15 @@ static xmlSAXHandler xmlSaxSAXParser = {
 	0, /* hasInternalSubset */
 	0, /* hasExternalSubset */
 	0, /* resolveEntity */
-	(getEntitySAXFunc)xmlSaxGetEntity, /* getEntity */
+	(getEntitySAXFunc)xml_sax_get_entity, /* getEntity */
 	0, /* entityDecl */
 	0, /* notationDecl */
 	0, /* attributeDecl */
 	0, /* elementDecl */
 	0, /* unparsedEntityDecl */
 	0, /* setDocumentLocator */
-	(startDocumentSAXFunc)xmlSaxStartDocument, /* startDocument */
-	(endDocumentSAXFunc)xmlSaxEndDocument, /* endDocument */
+	(startDocumentSAXFunc)xml_sax_start_document, /* startDocument */
+	(endDocumentSAXFunc)xml_sax_end_document, /* endDocument */
 	(startElementSAXFunc)xml_sax_start_element, /* startElement */
 	(endElementSAXFunc)xml_sax_end_element, /* endElement */
 	0, /* reference */

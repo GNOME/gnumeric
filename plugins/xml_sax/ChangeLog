@@ -1,5 +1,10 @@
 2001-05-18  Jody Goldberg <jgoldberg@home.com>
 
+	* xml-sax-read.c (xml_sax_cell) : check value_type too.
+	(xml_sax_cell_content) : correct value_type.
+
+2001-05-18  Jody Goldberg <jgoldberg@home.com>
+
 	* xml-sax-read.c (xml_sax_cell_content) : Use the shared expression map.
 
 2001-05-11  Jody Goldberg <jgoldberg@home.com>
