@@ -7,6 +7,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <ctype.h>
 #include "math.h"
 #include "numbers.h"
 #include "gnumeric.h"
@@ -41,7 +42,8 @@ static char *help_ = {
  * FIXME: In the long term this needs optimising.
  **/
 static Value *
-val_to_base (Value *value, Value *val_places, int src_base, int dest_base, char **error_string)
+val_to_base (Value *value, Value *val_places,
+	     int src_base, int dest_base, char **error_string)
 {
 	int lp, max, bit, neg, places;
 	char *p, *ans;
@@ -155,7 +157,8 @@ static char *help_bin2dec = {
 };
 
 static Value *
-gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_bin2dec (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], NULL, 2, 10, error_string);
 }
@@ -166,7 +169,8 @@ static char *help_bin2oct = {
 
 	   "@DESCRIPTION="
 	   "The BIN2OCT function converts a binary number to an octal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "places is an optional field, specifying to zero pad to that "
+	   "number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -174,7 +178,8 @@ static char *help_bin2oct = {
 };
 
 static Value *
-gnumeric_bin2oct (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_bin2oct (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], argv[1], 2, 8, error_string);
 }
@@ -184,8 +189,9 @@ static char *help_bin2hex = {
 	   "@SYNTAX=BIN2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The BIN2HEX function converts a binary number to a hexadecimal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "The BIN2HEX function converts a binary number to a "
+	   "hexadecimal number.  @places is an optional field, specifying "
+	   "to zero pad to that number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -193,7 +199,8 @@ static char *help_bin2hex = {
 };
 
 static Value *
-gnumeric_bin2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_bin2hex (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], argv[1], 2, 16, error_string);
 }
@@ -204,7 +211,8 @@ static char *help_dec2bin = {
 
 	   "@DESCRIPTION="
 	   "The DEC2BIN function converts a binary number to an octal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "places is an optional field, specifying to zero pad to that "
+	   "number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -212,7 +220,8 @@ static char *help_dec2bin = {
 };
 
 static Value *
-gnumeric_dec2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_dec2bin (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], argv[1], 10, 2, error_string);
 }
@@ -223,7 +232,8 @@ static char *help_dec2oct = {
 
 	   "@DESCRIPTION="
 	   "The DEC2OCT function converts a binary number to an octal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "places is an optional field, specifying to zero pad to that "
+	   "number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -242,7 +252,8 @@ static char *help_dec2hex = {
 
 	   "@DESCRIPTION="
 	   "The DEC2HEX function converts a binary number to an octal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "places is an optional field, specifying to zero pad to that "
+	   "number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -250,7 +261,8 @@ static char *help_dec2hex = {
 };
 
 static Value *
-gnumeric_dec2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_dec2hex (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], argv[1], 10, 16, error_string);
 }
@@ -268,7 +280,8 @@ static char *help_oct2dec = {
 };
 
 static Value *
-gnumeric_oct2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_oct2dec (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], NULL, 8, 10, error_string);
 }
@@ -278,8 +291,9 @@ static char *help_oct2bin = {
 	   "@SYNTAX=OCT2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The OCT2BIN function converts a binary number to a hexadecimal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "The OCT2BIN function converts a binary number to a hexadecimal "
+	   "number.  @places is an optional field, specifying to zero pad "
+	   "to that number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -287,7 +301,8 @@ static char *help_oct2bin = {
 };
 
 static Value *
-gnumeric_oct2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_oct2bin (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], argv[1], 8, 2, error_string);
 }
@@ -297,8 +312,9 @@ static char *help_oct2hex = {
 	   "@SYNTAX=OCT2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The OCT2HEX function converts a binary number to a hexadecimal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "The OCT2HEX function converts a binary number to a hexadecimal "
+	   "number.  @places is an optional field, specifying to zero pad "
+	   "to that number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -306,7 +322,8 @@ static char *help_oct2hex = {
 };
 
 static Value *
-gnumeric_oct2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_oct2hex (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], argv[1], 8, 16, error_string);
 }
@@ -316,8 +333,9 @@ static char *help_hex2bin = {
 	   "@SYNTAX=HEX2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The HEX2BIN function converts a binary number to a hexadecimal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "The HEX2BIN function converts a binary number to a hexadecimal "
+	   "number.  @places is an optional field, specifying to zero pad "
+	   "to that number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -325,7 +343,8 @@ static char *help_hex2bin = {
 };
 
 static Value *
-gnumeric_hex2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_hex2bin (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], argv[1], 16, 2, error_string);
 }
@@ -335,8 +354,9 @@ static char *help_hex2oct = {
 	   "@SYNTAX=HEX2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
-	   "The HEX2OCT function converts a binary number to a hexadecimal number."
-	   "places is an optional field, specifying to zero pad to that number of spaces."
+	   "The HEX2OCT function converts a binary number to a hexadecimal "
+	   "number.  @places is an optional field, specifying to zero pad "
+	   "to that number of spaces."
 	   "\n"
 	   "if places is too small or negative #NUM! error is returned."
 	   "\n"
@@ -344,7 +364,8 @@ static char *help_hex2oct = {
 };
 
 static Value *
-gnumeric_hex2oct (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_hex2oct (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], argv[1], 16, 8, error_string);
 }
@@ -362,7 +383,8 @@ static char *help_hex2dec = {
 };
 
 static Value *
-gnumeric_hex2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_hex2dec (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	return val_to_base (argv[0], NULL, 16, 10, error_string);
 }
@@ -374,7 +396,8 @@ static char *help_besselj = {
 	   "@DESCRIPTION="
 	   "The BESSELJ function returns the bessel function with "
 	   "x is where the function is evaluated. "
-	   "y is the order of the bessel function, if non-integer it is truncated. "
+	   "y is the order of the bessel function, if non-integer it is "
+	   "truncated. "
 	   "\n"
 
 	   "if x or n are not numeric a #VALUE! error is returned."
@@ -384,7 +407,8 @@ static char *help_besselj = {
 };
 
 static Value *
-gnumeric_besselj (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_besselj (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	int y;
 	if (argv[0]->type != VALUE_INTEGER &&
@@ -406,9 +430,11 @@ static char *help_bessely = {
 	   "@SYNTAX=BESSELY(x,y)\n"
 
 	   "@DESCRIPTION="
-	   "The BESSELY function returns the Neumann, Weber or Bessel function. "
-	   "x is where the function is evaluated. "
-	   "y is the order of the bessel function, if non-integer it is truncated. "
+	   "The BESSELY function returns the Neumann, Weber or Bessel "
+	   "function. "
+	   "@x is where the function is evaluated. "
+	   "@y is the order of the bessel function, if non-integer it is "
+	   "truncated. "
 	   "\n"
 
 	   "if x or n are not numeric a #VALUE! error is returned."
@@ -418,7 +444,8 @@ static char *help_bessely = {
 };
 
 static Value *
-gnumeric_bessely (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_bessely (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	int y;
 	if (argv[0]->type != VALUE_INTEGER &&
@@ -433,6 +460,94 @@ gnumeric_bessely (struct FunctionDefinition *i, Value *argv [], char **error_str
 		return NULL;
 	}
 	return value_float (yn (y, value_get_as_double (argv [0])));
+}
+
+/* FIXME: Exponents do not work (for example 2e-10+1e-10i) */
+static int
+get_real_and_imaginary(char *inumber, float_t *real, float_t *im, 
+		       char **suffix)
+{
+        static char *i_suffix = "i";
+	static char *j_suffix = "j";
+        char *p;
+	char buf[256];
+	int  i=0;
+
+	*suffix = NULL;
+	*im = 0;
+	p = inumber;
+
+	if (*p == '+' || *p == '-')
+	        buf[i++] = *p++;
+	for ( ; *p; p++)
+	        if (isdigit(*p) || *p=='.')
+		        buf[i++] = *p;
+		else
+		        break;
+	buf[i] = '\0';
+	*real = atof(buf);
+
+	i = 0;
+	if (*p == '+' || *p == '-')
+	        buf[i++] = *p++;
+	for ( ; *p; p++)
+	        if (isdigit(*p) || *p=='.')
+		        buf[i++] = *p;
+		else
+		        break;
+	buf[i] = '\0';
+
+	if (i > 0 && isdigit(*(p-1)))
+	        *im = atof(buf);
+
+	if (*im != 0) {
+	        if (*p == 'i')
+		        *suffix = i_suffix;
+		else if (*p == 'j')
+		        *suffix = j_suffix;
+		else
+		        return 1;
+	} else if (*p == 'i' || *p == 'j') {
+	        if (*buf == '-')
+		        *im = -1;
+		else
+		        *im = 1;
+		if (*p == 'i')
+		        *suffix = i_suffix;
+		else
+		        *suffix = j_suffix;
+	}
+
+        return 0;
+}
+
+static Value*
+create_inumber (float_t real, float_t im, char *suffix)
+{
+	static char buf[256];
+
+	if (im == 0)
+	        return value_float (real);
+
+	if (suffix == NULL)
+	        suffix = "i";
+
+	if (im == 1)
+	        if (real == 0)
+		        sprintf(buf, "%s", suffix);
+		else
+		        sprintf(buf, "%g+%s", real, suffix);
+	else if (im == -1)
+	        if (real == 0)
+		        sprintf(buf, "-%s", suffix);
+		else
+		        sprintf(buf, "%g-%s", real, suffix);
+	else if (real == 0)
+	        sprintf(buf, "%g%s", im, suffix);
+	else  
+	        sprintf(buf, "%g%+g%s", real, im, suffix);
+
+	return value_str (buf);
 }
 
 static char *help_complex = {
@@ -456,7 +571,6 @@ gnumeric_complex (struct FunctionDefinition *fd,
 {
         float_t     r, i;
 	char        *suffix;
-	static char buf[256];
 
 	r = value_get_as_double (argv[0]);
 	i = value_get_as_double (argv[1]);
@@ -472,27 +586,8 @@ gnumeric_complex (struct FunctionDefinition *fd,
 		return NULL;
 	}
 
-	if (i == 0)
-	        return value_float (r);
-
-	if (i == 1)
-	        if (r == 0)
-		        sprintf(buf, "%s", suffix);
-		else
-		        sprintf(buf, "%g+%s", r, suffix);
-	else if (i == -1)
-	        if (r == 0)
-		        sprintf(buf, "-%s", suffix);
-		else
-		        sprintf(buf, "%g-%s", r, suffix);
-	else if (r == 0)
-	        sprintf(buf, "%g%s", i, suffix);
-	else  
-	        sprintf(buf, "%g%+g%s", r, i, suffix);
-
-	return value_str (buf);
+	return create_inumber (r, i, suffix);
 }
-
 
 static char *help_imaginary = {
 	N_("@FUNCTION=IMAGINARY\n"
@@ -504,39 +599,12 @@ static char *help_imaginary = {
 	   "@SEEALSO=IMREAL")
 };
 
-static int
-get_real_and_imaginary(char *inumber, float_t *real, float_t *im)
-{
-        /* FIXME: exponents */
-        char *p;
-	char buf[256];
-	int  i=0;
-
-	*im = 0;
-	for (p=inumber; *p; p++)
-	        if (isdigit(*p) || *p=='.')
-		        buf[i++] = *p;
-		else
-		        break;
-	buf[i] = '\0';
-	*real = atof(buf);
-	for (i=0; *p; p++)
-	        if (isdigit(*p) || *p=='+' || *p=='-' || *p=='.')
-		        buf[i++] = *p;
-		else
-		        break;
-	buf[i] = '\0';
-	if (i > 0)
-	        *im = atof(buf);
-
-        return 0;
-}
-
 static Value *
 gnumeric_imaginary (struct FunctionDefinition *fd, 
 		    Value *argv [], char **error_string)
 {
         float_t real, im;
+	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0]))
 	        return value_int (0);
@@ -546,7 +614,7 @@ gnumeric_imaginary (struct FunctionDefinition *fd,
 		return NULL;
 	}
 
-	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im)) {
+	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
 		*error_string = _("#NUM!");
 		return NULL;
 	}
@@ -569,6 +637,7 @@ gnumeric_imreal (struct FunctionDefinition *fd,
 		 Value *argv [], char **error_string)
 {
         float_t real, im;
+	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0]))
 	        return value_float (value_get_as_double (argv[0]));
@@ -578,7 +647,7 @@ gnumeric_imreal (struct FunctionDefinition *fd,
 		return NULL;
 	}
 
-	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im)) {
+	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
 		*error_string = _("#NUM!");
 		return NULL;
 	}
@@ -601,6 +670,7 @@ gnumeric_imabs (struct FunctionDefinition *fd,
 		Value *argv [], char **error_string)
 {
         float_t real, im;
+	char    *suffix;
 
 	if (VALUE_IS_NUMBER(argv[0])) {
 	        real = value_get_as_double (argv[0]);
@@ -612,7 +682,7 @@ gnumeric_imabs (struct FunctionDefinition *fd,
 		return NULL;
 	}
 
-	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im)) {
+	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
 		*error_string = _("#NUM!");
 		return NULL;
 	}
@@ -620,16 +690,484 @@ gnumeric_imabs (struct FunctionDefinition *fd,
 	return value_float (sqrt(real*real + im*im));
 }
 
+static char *help_imconjugate = {
+	N_("@FUNCTION=IMCONJUGATE\n"
+	   "@SYNTAX=IMCONJUGATE(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMCONJUGATE returns the complex conjugate of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMAGINARY,IMREAL")
+};
+
+static Value *
+gnumeric_imconjugate (struct FunctionDefinition *fd, 
+		      Value *argv [], char **error_string)
+{
+        float_t real, im;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        return value_float (real);
+	}
+
+	if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	return create_inumber (real, -im, suffix);
+}
+
+static char *help_imcos = {
+	N_("@FUNCTION=IMCOS\n"
+	   "@SYNTAX=IMCOS(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMCOS returns the cosine of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMSIN")
+};
+
+static Value *
+gnumeric_imcos (struct FunctionDefinition *fd, 
+		Value *argv [], char **error_string)
+{
+        float_t real, im;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	return create_inumber (cos(real)*cosh(im),
+			       -sin(real)*sinh(im), suffix);
+}
+
+static char *help_imexp = {
+	N_("@FUNCTION=IMEXP\n"
+	   "@SYNTAX=IMEXP(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMEXP returns the exponential of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMLN")
+};
+
+static Value *
+gnumeric_imexp (struct FunctionDefinition *fd, 
+		Value *argv [], char **error_string)
+{
+        float_t real, im, e;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	e = exp(real);
+
+	return create_inumber (e * cos(im), e * sin(im), suffix);
+}
+
+static char *help_imargument = {
+	N_("@FUNCTION=IMARGUMENT\n"
+	   "@SYNTAX=IMARGUMENT(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMARGUMENT returns the argument theta of a complex number. "
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_imargument (struct FunctionDefinition *fd, 
+		     Value *argv [], char **error_string)
+{
+        float_t real, im, theta;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	theta = atan(im / real);
+
+	return value_float (theta);
+}
+
+static char *help_imln = {
+	N_("@FUNCTION=IMLN\n"
+	   "@SYNTAX=IMLN(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMLN returns the natural logarithm of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMEXP")
+};
+
+static void
+complex_ln(float_t *real, float_t *im)
+{
+        *real = log(sqrt(*real * *real + *im * *im));
+	*im = atan(*im / *real);
+}
+
+static Value *
+gnumeric_imln (struct FunctionDefinition *fd, 
+	       Value *argv [], char **error_string)
+{
+        float_t real, im;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	if (real == 0) {
+		*error_string = _("#DIV/0!");
+		return NULL;
+	}
+	
+	complex_ln(&real, &im);
+
+	return create_inumber (real, im, suffix);
+}
+
+static char *help_impower = {
+	N_("@FUNCTION=IMPOWER\n"
+	   "@SYNTAX=IMPOWER(inumber,number)\n"
+	   "@DESCRIPTION="
+	   "IMPOWER returns a complex number raised to a power.  @inumber is "
+	   "the complex number to be raised to a power and @number is the "
+	   "power to which you want to raise the complex number. "
+	   "\n"
+	   "@SEEALSO=IMEXP,IMLN")
+};
+
+static Value *
+gnumeric_impower (struct FunctionDefinition *fd, 
+		  Value *argv [], char **error_string)
+{
+        float_t real, im, n, r, theta, power;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	n = value_get_as_double(argv[1]);
+	
+	if (real == 0) {
+		*error_string = _("#DIV/0!");
+		return NULL;
+	}
+	
+	r = sqrt(real*real + im*im);
+	theta = atan(im / real);
+	power = pow(r, n);
+
+	return create_inumber (power * cos(n*theta), power * sin(n*theta),
+			       suffix);
+}
+
+static char *help_imdiv = {
+	N_("@FUNCTION=IMDIV\n"
+	   "@SYNTAX=IMDIV(inumber,inumber)\n"
+	   "@DESCRIPTION="
+	   "IMDIV returns the quotient of two complex numbers. "
+	   "\n"
+	   "@SEEALSO=IMPRODUCT")
+};
+
+static Value *
+gnumeric_imdiv (struct FunctionDefinition *fd, 
+		Value *argv [], char **error_string)
+{
+        float_t a, b, c, d, den;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        a = value_get_as_double (argv[0]);
+	        b = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &a, &b, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	if (VALUE_IS_NUMBER(argv[1])) {
+	        c = value_get_as_double (argv[1]);
+	        d = 0;
+	} else if (argv[1]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[1]->v.str->str,
+					  &c, &d, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	den = c*c + d*d;
+
+	if (den == 0) {
+		*error_string = _("#DIV/0!");
+		return NULL;
+	}
+	
+	return create_inumber ((a*c+b*d) / den, (b*c-a*d) / den, suffix);
+}
+
+static char *help_imsin = {
+	N_("@FUNCTION=IMSIN\n"
+	   "@SYNTAX=IMSIN(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMSIN returns the sine of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMCOS")
+};
+
+static Value *
+gnumeric_imsin (struct FunctionDefinition *fd, 
+		Value *argv [], char **error_string)
+{
+        float_t real, im;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	return create_inumber (sin(real)*cosh(im),
+			       -cos(real)*sinh(im), suffix);
+}
+
+static char *help_imsqrt = {
+	N_("@FUNCTION=IMSQRT\n"
+	   "@SYNTAX=IMSQRT(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMSQRT returns the square root of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMEXP")
+};
+
+static Value *
+gnumeric_imsqrt (struct FunctionDefinition *fd, 
+		 Value *argv [], char **error_string)
+{
+        float_t real, im, r, theta;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	r = sqrt(sqrt(real*real + im*im));
+	theta = atan(im / real) / 2;
+
+	return create_inumber (r*cos(theta), r*sin(theta), suffix);
+}
+
+static char *help_imsub = {
+	N_("@FUNCTION=IMSUB\n"
+	   "@SYNTAX=IMSUB(inumber,inumber)\n"
+	   "@DESCRIPTION="
+	   "IMSUB returns the difference of two complex numbers. "
+	   "\n"
+	   "@SEEALSO=IMSUM")
+};
+
+static Value *
+gnumeric_imsub (struct FunctionDefinition *fd, 
+		Value *argv [], char **error_string)
+{
+        float_t a, b, c, d;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        a = value_get_as_double (argv[0]);
+	        b = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &a, &b, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	if (VALUE_IS_NUMBER(argv[1])) {
+	        c = value_get_as_double (argv[1]);
+	        d = 0;
+	} else if (argv[1]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[1]->v.str->str,
+					  &c, &d, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return create_inumber (a-c, b-d, suffix);
+}
+
+static char *help_improduct = {
+	N_("@FUNCTION=IMPRODUCT\n"
+	   "@SYNTAX=IMPRODUCT(inumber,inumber)\n"
+	   "@DESCRIPTION="
+	   "IMPRODUCT returns the product of two complex numbers. "
+	   "\n"
+	   "@SEEALSO=IMDIV")
+};
+
+static Value *
+gnumeric_improduct (struct FunctionDefinition *fd, 
+		    Value *argv [], char **error_string)
+{
+        float_t a, b, c, d;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        a = value_get_as_double (argv[0]);
+	        b = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &a, &b, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	if (VALUE_IS_NUMBER(argv[1])) {
+	        c = value_get_as_double (argv[1]);
+	        d = 0;
+	} else if (argv[1]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[1]->v.str->str,
+					  &c, &d, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return create_inumber (a*c-b*d, a*d+b*c, suffix);
+}
+
+static char *help_imsum = {
+	N_("@FUNCTION=IMSUM\n"
+	   "@SYNTAX=IMSUM(inumber,inumber)\n"
+	   "@DESCRIPTION="
+	   "IMSUM returns the sum of two complex numbers. "
+	   "\n"
+	   "@SEEALSO=IMSUB")
+};
+
+static Value *
+gnumeric_imsum (struct FunctionDefinition *fd, 
+		Value *argv [], char **error_string)
+{
+        float_t a, b, c, d;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        a = value_get_as_double (argv[0]);
+	        b = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &a, &b, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	if (VALUE_IS_NUMBER(argv[1])) {
+	        c = value_get_as_double (argv[1]);
+	        d = 0;
+	} else if (argv[1]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[1]->v.str->str,
+					  &c, &d, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return create_inumber (a+c, b+d, suffix);
+}
+
 static char *help_erf = {
 	N_("@FUNCTION=ERF\n"
 	   "@SYNTAX=ERF(lower limit[,upper_limit])\n"
 
 	   "@DESCRIPTION="
-	   "The ERF function returns the integral of the error function between the limits. "
-	   "If the upper limit ommitted ERF returns the integral between zero and the lower limit"
+	   "The ERF function returns the integral of the error function "
+	   "between the limits.  If the upper limit ommitted ERF returns "
+	   "the integral between zero and the lower limit"
 	   "\n"
-
-	   "if either lower or upper are not numeric a #VALUE! error is returned."
+	   "if either lower or upper are not numeric a #VALUE! error is "
+	   "returned."
 	   "if either lower or upper are < 0 a #NUM! error is returned."
 	   "\n"
 	   "@SEEALSO=ERFC")
@@ -637,7 +1175,8 @@ static char *help_erf = {
 
 
 static Value *
-gnumeric_erf (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_erf (struct FunctionDefinition *i,
+	      Value *argv [], char **error_string)
 {
 	float_t ans, lower, upper=0.0;
 
@@ -662,7 +1201,8 @@ static char *help_erfc = {
 	   "@SYNTAX=ERFC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ERFC function returns the integral of the complimentary error function between the limits 0 and x. "
+	   "The ERFC function returns the integral of the complimentary "
+	   "error function between the limits 0 and x. "
 	   "\n"
 
 	   "if x is not numeric a #VALUE! error is returned."
@@ -672,7 +1212,8 @@ static char *help_erfc = {
 };
 
 static Value *
-gnumeric_erfc (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_erfc (struct FunctionDefinition *i,
+	       Value *argv [], char **error_string)
 {
 	float_t x;
 	if ((x=value_get_as_double(argv[0]))<0){
@@ -687,7 +1228,8 @@ static char *help_delta = {
 	   "@SYNTAX=DELTA(x[,y])\n"
 
 	   "@DESCRIPTION="
-	   "The DELTA function test for numerical eqivilance of two arguments returning 1 in equality "
+	   "The DELTA function test for numerical eqivilance of two "
+	   "arguments returning 1 in equality "
 	   "y is optional, and defaults to 0"
 	   "\n"
 
@@ -698,7 +1240,8 @@ static char *help_delta = {
 
 
 static Value *
-gnumeric_delta (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_delta (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
 {
 	int ans = 0;
 	Value *vx, *vy;
@@ -758,8 +1301,8 @@ static char *help_gestep = {
 	   "@SYNTAX=GESTEP(x[,y])\n"
 
 	   "@DESCRIPTION="
-	   "The GESTEP function test for if x is >= y, returning 1 if it is so, and 0 otherwise "
-	   "y is optional, and defaults to 0"
+	   "The GESTEP function test for if x is >= y, returning 1 if it "
+	   "is so, and 0 otherwise y is optional, and defaults to 0"
 	   "\n"
 
 	   "if either argument is non-numeric returns a #VALUE! error"
@@ -769,7 +1312,8 @@ static char *help_gestep = {
 
 
 static Value *
-gnumeric_gestep (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_gestep (struct FunctionDefinition *i,
+		 Value *argv [], char **error_string)
 {
 	int ans = 0;
 	Value *vx, *vy;
@@ -825,49 +1369,73 @@ gnumeric_gestep (struct FunctionDefinition *i, Value *argv [], char **error_stri
 }
 
 FunctionDefinition eng_functions [] = {
-	{ "bessely",   "ff",   "xnum,ynum",   &help_bessely,
+	{ "bessely",     "ff",   "xnum,ynum",        &help_bessely,
 	  NULL, gnumeric_bessely },
-	{ "besselj",   "ff",   "xnum,ynum",   &help_besselj,
+	{ "besselj",     "ff",   "xnum,ynum",        &help_besselj,
 	  NULL, gnumeric_besselj },
-	{ "bin2dec",   "?",    "number",      &help_bin2dec,
+	{ "bin2dec",     "?",    "number",           &help_bin2dec,
 	  NULL, gnumeric_bin2dec },
-	{ "bin2hex",   "?|f",  "xnum,ynum",   &help_bin2hex,
+	{ "bin2hex",     "?|f",  "xnum,ynum",        &help_bin2hex,
 	  NULL, gnumeric_bin2hex },
-	{ "bin2oct",   "?|f",  "xnum,ynum",   &help_bin2oct,
+	{ "bin2oct",     "?|f",  "xnum,ynum",        &help_bin2oct,
 	  NULL, gnumeric_bin2oct },
-	{ "complex",   "ff|s", "real,im[,suffix]", &help_complex,
+	{ "complex",     "ff|s", "real,im[,suffix]", &help_complex,
 	  NULL, gnumeric_complex },
-	{ "dec2bin",   "?|f",  "xnum,ynum",   &help_dec2bin,
+	{ "dec2bin",     "?|f",  "xnum,ynum",        &help_dec2bin,
 	  NULL, gnumeric_dec2bin },
-	{ "dec2oct",   "?|f",  "xnum,ynum",   &help_dec2oct,
+	{ "dec2oct",     "?|f",  "xnum,ynum",        &help_dec2oct,
 	  NULL, gnumeric_dec2oct },
-	{ "dec2hex",   "?|f",  "xnum,ynum",   &help_dec2hex,
+	{ "dec2hex",     "?|f",  "xnum,ynum",        &help_dec2hex,
 	  NULL, gnumeric_dec2hex },
-	{ "delta",     "f|f",  "xnum,ynum",   &help_delta,
+	{ "delta",       "f|f",  "xnum,ynum",        &help_delta,
 	  NULL, gnumeric_delta },
-	{ "erf",       "f|f",  "lower,upper", &help_erf,
+	{ "erf",         "f|f",  "lower,upper",      &help_erf,
 	  NULL, gnumeric_erf  },
-	{ "erfc",      "f",    "number",      &help_erfc,
+	{ "erfc",        "f",    "number",           &help_erfc,
 	  NULL, gnumeric_erfc },
-	{ "gestep",    "f|f",  "xnum,ynum",   &help_gestep,
+	{ "gestep",      "f|f",  "xnum,ynum",        &help_gestep,
 	  NULL, gnumeric_gestep },
-	{ "hex2bin",   "?|f",  "xnum,ynum",   &help_hex2bin,
+	{ "hex2bin",     "?|f",  "xnum,ynum",        &help_hex2bin,
 	  NULL, gnumeric_hex2bin },
-	{ "hex2dec",   "?",    "number",      &help_hex2dec,
+	{ "hex2dec",     "?",    "number",           &help_hex2dec,
 	  NULL, gnumeric_hex2dec },
-	{ "hex2oct",   "?|f",  "xnum,ynum",   &help_hex2oct,
+	{ "hex2oct",     "?|f",  "xnum,ynum",        &help_hex2oct,
 	  NULL, gnumeric_hex2oct },
-	{ "imabs",     "?",  "inumber",       &help_imabs,
+	{ "imabs",       "?",  "inumber",            &help_imabs,
 	  NULL, gnumeric_imabs },
-	{ "imaginary", "?",  "inumber",       &help_imaginary,
+	{ "imaginary",   "?",  "inumber",            &help_imaginary,
 	  NULL, gnumeric_imaginary },
-	{ "imreal",    "?",  "inumber",       &help_imreal,
+	{ "imargument",  "?",  "inumber",            &help_imargument,
+	  NULL, gnumeric_imargument },
+	{ "imconjugate", "?",  "inumber",            &help_imconjugate,
+	  NULL, gnumeric_imconjugate },
+	{ "imcos",       "?",  "inumber",            &help_imcos,
+	  NULL, gnumeric_imcos },
+	{ "imdiv",       "??", "inumber,inumber",    &help_imdiv,
+	  NULL, gnumeric_imdiv },
+	{ "imexp",       "?",  "inumber",            &help_imexp,
+	  NULL, gnumeric_imexp },
+	{ "imln",        "?",  "inumber",            &help_imln,
+	  NULL, gnumeric_imln },
+	{ "impower",     "?f", "inumber,number",     &help_impower,
+	  NULL, gnumeric_impower },
+	{ "improduct",   "??", "inumber,inumber",    &help_improduct,
+	  NULL, gnumeric_improduct },
+	{ "imreal",      "?",  "inumber",            &help_imreal,
 	  NULL, gnumeric_imreal },
-	{ "oct2bin",   "?|f",  "xnum,ynum",   &help_oct2bin,
+	{ "imsin",       "?",  "inumber",            &help_imsin,
+	  NULL, gnumeric_imsin },
+	{ "imsqrt",      "?",  "inumber",            &help_imsqrt,
+	  NULL, gnumeric_imsqrt },
+	{ "imsub",       "??", "inumber,inumber",    &help_imsub,
+	  NULL, gnumeric_imsub },
+	{ "imsum",       "??", "inumber,inumber",    &help_imsum,
+	  NULL, gnumeric_imsum },
+	{ "oct2bin",     "?|f",  "xnum,ynum",        &help_oct2bin,
 	  NULL, gnumeric_oct2bin },
-	{ "oct2dec",   "?",    "number",      &help_oct2dec,
+	{ "oct2dec",     "?",    "number",           &help_oct2dec,
 	  NULL, gnumeric_oct2dec },
-	{ "oct2hex",   "?|f",  "xnum,ynum",   &help_oct2hex,
+	{ "oct2hex",     "?|f",  "xnum,ynum",        &help_oct2hex,
 	  NULL, gnumeric_oct2hex },
 	/* besseli */
 	/* besselk */
