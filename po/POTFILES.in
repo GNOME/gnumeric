@@ -20,6 +20,7 @@ plugins/python/python.c
 plugins/sc/sc.c
 plugins/sylk/sylk.c
 plugins/xbase/boot.c
+plugins/xml2/xml2.c
 src/about.c
 src/analysis-tools.c
 src/cell.c
