@@ -387,6 +387,5 @@ init_plugin (PluginInfo *pd, ErrorInfo **err)
 	}
 	g_free (proj_name);
 
-	return *err != NULL;
+	return *err == NULL;
 }
-

@@ -1,3 +1,7 @@
+2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.c (init_plugin): Return (*err == NULL), not (*err != NULL).
+
 2001-01-26  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am: Fix correctly.
