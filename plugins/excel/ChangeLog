@@ -1,3 +1,8 @@
+2004-11-01  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_get_data): Fix confusion between
+	ptrdiff_t and int.
+
 2004-10-18  Jon K Hellan  <hellan@acm.org>
 
 	* ms-obj.c (ms_obj_read_pre_biff8_obj): Unref pixbuf returned by
