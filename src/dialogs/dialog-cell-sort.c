@@ -117,7 +117,7 @@ string_pos_in_list (const char *str, GList *list)
 	int i = 0;
 
 	for (l = list; l; l = l->next) {
-		if (!strcmp (str, l->data))
+		if (!strcmp (str, (char *) l->data))
 			return i;
 		i++;
 	}

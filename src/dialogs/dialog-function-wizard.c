@@ -94,7 +94,8 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 {
 	GnumericExprEntry *entry;
 	GString *str;
-	int pos = 0, i;
+	int pos = 0;
+	guint i;
 	char const sep = format_get_arg_sep ();
 
 	g_return_if_fail (state != NULL);
@@ -113,10 +114,10 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 		ArgumentState *as = g_ptr_array_index (state->args, i);
 		gchar *val = gtk_entry_get_text (GTK_ENTRY (as->entry));
 
-		if (!as->is_optional || i <= state->max_arg || i <= index || strlen (val)) {
+		if (!as->is_optional || i <= (guint) state->max_arg || i <= (guint) index || strlen (val)) {
 			if (i > 0)
 				g_string_append_c (str, sep);
-			if (i == index)
+			if (i == (guint) index)
 				pos = str->len +
 					gtk_editable_get_position (GTK_EDITABLE (as->entry));
 
@@ -281,7 +282,7 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 			scrolled = TRUE;
 		}
 	}
-	if (!scrolled && as->index < as->state->args->len-1) {
+	if (!scrolled && as->index < (int) as->state->args->len-1) {
 		ArgumentState *tmp = g_ptr_array_index (state->args, as->index+1);
 		int const cur_top = as->name_label->allocation.y;
 		int const next_bottom =
@@ -616,7 +617,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	/* If there were arguments initialize the fields */
 	if (expr != NULL) {
 		GList *l;
-		int i = 0;
+		guint i = 0;
 		char *str;
 		ParsePos pos;
 		parse_pos_init_cell (&pos, cell);

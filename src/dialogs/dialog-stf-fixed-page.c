@@ -23,7 +23,7 @@ static void
 fixed_page_autodiscover (DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;
-	int i = 0;
+	guint i = 0;
 	char *tset[2];
 
 	stf_parse_options_fixed_autodiscover (info->fixed_run_parseoptions, pagedata->importlines, (char *) pagedata->cur);

@@ -1,3 +1,31 @@
+2001-05-10  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-advanced-filter.c : include dialogs.h
+	to supress warning.
+	
+	* dialog-cell-sort.c (string_pos_in_list): Cast pointer
+	from untyped to char *.
+
+	* dialog-function-wizard.c (formula_guru_set_expr): Fix
+	signedness by changing variable decl and some casts.
+	(cb_formula_guru_entry_focus_in): Fix signedness by casting,
+	we don't want to pollute our data structures with unsigned
+	integers.
+	(formula_guru_init): Fix signedness by changing decl.
+
+	* dialog-stf-fixed-page.c (fixed_page_autodiscover):
+	Fix signedness by changing decl.
+
+	* dialog-stf-preview.c (stf_preview_get_table_pixel_width):
+	Fix signedness by changing decl.
+	(stf_preview_colformats_clear): Idem.
+	(stf_preview_get_column_at_x): Idem.
+	(stf_preview_get_column_border_at_x): Idem.
+	(stf_preview_get_char_at_x): Idem.
+
+	* dialog-summary.c (dialog_summary_update): Fix signedness by
+	cast.
+
 2001-05-10  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-search-replace.c: Fix include file typo.

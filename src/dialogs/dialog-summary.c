@@ -104,7 +104,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 		return;
 	}
 
-	for (i = 0; i < sizeof(names)/sizeof(char *); i++) {
+	for (i = 0; i < (int) (sizeof(names)/sizeof(char *)); i++) {
 		GtkWidget *entry;
 		entry = glade_xml_get_widget (gui, names[i]);
 		gnome_dialog_editable_enters(GNOME_DIALOG(dia),

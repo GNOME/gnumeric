@@ -189,7 +189,8 @@ stf_preview_draw_box (GnomeCanvasGroup *group, char *color, double x1, double y1
 static double
 stf_preview_get_table_pixel_width (RenderData_t *renderdata)
 {
-	int i, tablewidth = 0;
+	int tablewidth = 0;
+	guint i;
 
 	for (i = 0; i < renderdata->colwidths->len; i++) {
 
@@ -879,7 +880,7 @@ stf_preview_colwidths_add (RenderData_t *renderdata, int width)
 void
 stf_preview_colformats_clear (RenderData_t *renderdata)
 {
-	int i;
+	guint i;
 	g_return_if_fail (renderdata != NULL);
 
 	for (i = 0; i < renderdata->colformats->len; i++)
@@ -950,7 +951,8 @@ stf_preview_get_displayed_rowcount (RenderData_t *renderdata)
 int
 stf_preview_get_column_at_x (RenderData_t *renderdata, double x)
 {
-	int i, xpos = 0;
+	int xpos = 0;
+	guint i;
 	GArray *sourcearray;
 
 	g_return_val_if_fail (renderdata != NULL, -1);
@@ -989,7 +991,8 @@ stf_preview_get_column_at_x (RenderData_t *renderdata, double x)
 int
 stf_preview_get_column_border_at_x (RenderData_t *renderdata, double x)
 {
-	int i, xpos = 0;
+	int xpos = 0;
+	guint i;
 	gboolean broken = FALSE;
 
 	g_return_val_if_fail (renderdata != NULL, -1);
@@ -1039,7 +1042,7 @@ stf_preview_get_column_border_at_x (RenderData_t *renderdata, double x)
 int
 stf_preview_get_char_at_x (RenderData_t *renderdata, double x)
 {
-	int i;
+	guint i;
 	double xpos = 0, subxpos = 0, tpos = 0;
 	int charindex = 0;
 

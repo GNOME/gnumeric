@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "sheet.h"
 #include "cell.h"
+#include "dialogs.h"
 #include "ranges.h"
 #include "func-util.h"
 #include "gnumeric-util.h"
