@@ -164,32 +164,52 @@ gnumeric_sub_epsilon (gnm_float x)
 	}
 }
 
+/*
+ *  2.000...0000001   -> 2
+ *  2.000...0000000   -> 2
+ *  1.999...9999999   -> 2
+ * -0.999...9999999   -> -1
+ * -1.000...0000000   -> -1
+ * -1.000...0000001   -> -1
+ */
 gnm_float
 gnumeric_fake_floor (gnm_float x)
 {
-	return floorgnum (gnumeric_add_epsilon (x));
+	return (x >= 0)
+		? floorgnum (gnumeric_add_epsilon (x))
+		: floorgnum (gnumeric_sub_epsilon (x));
 }
 
+/*
+ *  2.000...0000001   -> 2
+ *  2.000...0000000   -> 2
+ *  1.999...9999999   -> 2
+ * -0.999...9999999   -> -1
+ * -1.000...0000000   -> -1
+ * -1.000...0000001   -> -1
+ */
 gnm_float
 gnumeric_fake_ceil (gnm_float x)
 {
-	return ceilgnum (gnumeric_sub_epsilon (x));
+	return (x >= 0)
+		? ceilgnum (gnumeric_sub_epsilon (x))
+		: ceilgnum (gnumeric_add_epsilon (x));
 }
 
 gnm_float
 gnumeric_fake_round (gnm_float x)
 {
 	return (x >= 0)
-		? gnumeric_fake_floor (x + 0.5)
-		: -gnumeric_fake_floor (-x + 0.5);
+		? floorgnum (gnumeric_add_epsilon (x + 0.5))
+		: -floorgnum (gnumeric_add_epsilon (-x + 0.5));
 }
 
 gnm_float
 gnumeric_fake_trunc (gnm_float x)
 {
 	return (x >= 0)
-		? gnumeric_fake_floor (x)
-		: -gnumeric_fake_floor (-x);
+		? floorgnum (gnumeric_add_epsilon (x))
+		: -floorgnum (gnumeric_add_epsilon (-x));
 }
 
 /* ------------------------------------------------------------------------- */

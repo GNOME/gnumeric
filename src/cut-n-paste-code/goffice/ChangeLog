@@ -1,3 +1,8 @@
+2005-01-06  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-math.c (go_fake_floor, go_fake_ceil): Fix negative
+	case.
+
 2005-01-05  Jean Brefort <jean.brefort@normalesup.org>
 
 	* pixmaps/Makefile.am: add chart_contour_1_1.png.

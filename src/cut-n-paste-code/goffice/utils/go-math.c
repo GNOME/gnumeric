@@ -146,19 +146,23 @@ go_sub_epsilon (double x)
 double
 go_fake_floor (double x)
 {
-	return floor (go_add_epsilon (x));
+	return (x >= 0)
+		? floor (go_add_epsilon (x))
+		: floor (go_sub_epsilon (x));
 }
 
 double
 go_fake_ceil (double x)
 {
-	return ceil (go_sub_epsilon (x));
+	return (x >= 0)
+		? ceil (go_sub_epsilon (x))
+		: ceil (go_add_epsilon (x));
 }
 
 double
 go_fake_trunc (double x)
 {
 	return (x >= 0)
-		? go_fake_floor (x)
-		: -go_fake_floor (-x);
+		? floor (go_add_epsilon (x))
+		: -floor (go_add_epsilon (-x));
 }
