@@ -130,7 +130,7 @@ ExcelExternSheetV8 const *excel_externsheet_v8 (ExcelWorkbook const *wb, gint16 
 void		excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container);
 MsBiffBofData *ms_biff_bof_data_new     (BiffQuery * q);
 void	       ms_biff_bof_data_destroy (MsBiffBofData * data);
-char	      *ms_biff_get_chars (char const *ptr, guint length,
+char	      *ms_biff_get_chars (char const *ptr, size_t length,
 				  gboolean use_utf16);
 
 GnmColor  *excel_palette_get (ExcelPalette const *pal, gint idx);

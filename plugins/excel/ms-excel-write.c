@@ -139,10 +139,10 @@ go_color_to_bgr (GOColor const c)
  * bytes in @bytes.
  **/
 unsigned
-excel_write_string_len (guint8 const *str, unsigned *bytes)
+excel_write_string_len (guint8 const *str, size_t *bytes)
 {
 	guint8 const *p = str;
-	unsigned i = 0;
+	size_t i = 0;
 
 	g_return_val_if_fail (str != NULL, 0);
 
@@ -169,7 +169,7 @@ unsigned
 excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		    guint8 const *txt)
 {
-	unsigned byte_len, out_bytes, offset;
+	size_t byte_len, out_bytes, offset;
 	unsigned char_len = excel_write_string_len (txt, &byte_len);
 	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
 	char *tmp;
@@ -923,7 +923,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 {
 	guint8 data [16];
 	guint16 flags = 0;
-	unsigned name_len;
+	size_t name_len;
 	char const *name;
 	int builtin_index;
 
@@ -2674,7 +2674,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 		GnmComment const *cc = l->data;
 		GnmRange const *pos     = sheet_object_get_range (SHEET_OBJECT (cc));
 		char const  *in = cell_comment_text_get (cc);
-		unsigned in_bytes, out_bytes;
+		size_t in_bytes, out_bytes;
 		unsigned len = excel_write_string_len (in, &in_bytes);
 		char *buf;
 
@@ -4289,7 +4289,8 @@ excel_write_SST (ExcelWriteState *ewb)
 	SSTInf		*extsst = NULL;
 	char *ptr, data [8224];
 	char const * const last = data + sizeof (data);
-	unsigned i, tmp, out_bytes, blocks, char_len, byte_len, scale;
+	size_t out_bytes, char_len, byte_len;
+	unsigned i, tmp, blocks, scale;
 	GnmString const *string;
 	char *str;
 
@@ -4343,7 +4344,7 @@ excel_write_SST (ExcelWriteState *ewb)
 			strncpy (ptr + 1, str, char_len);
 			ptr += char_len + 1;
 		} else {
-			unsigned old_out_bytes, count = 0;
+			size_t old_out_bytes, count = 0;
 			unsigned old_byte_len = INT_MAX;
 			guint8  *len = ptr - 2; /* stash just in case of problem */
 

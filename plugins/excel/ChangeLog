@@ -1,5 +1,17 @@
 2004-11-01  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (ms_biff_get_chars): Give g_iconv the right kind
+	of pointer.
+
+	* ms-excel-write.c (excel_write_string): Ditto.
+	(excel_write_string_len): Change second argument to be size_t*.
+
+	* ms-excel-read.h (ms_biff_get_chars): Give g_iconv the right kind
+	of pointer.
+
+	* ms-excel-write.h (excel_write_string_len): Change second 
+	argument to be size_t*.
+
 	* ms-escher.c (ms_escher_get_data): Fix confusion between
 	ptrdiff_t and int.
 

@@ -793,10 +793,10 @@ excel_read_string_header (guint8 const *data,
 }
 
 char *
-ms_biff_get_chars (char const *ptr, guint length, gboolean use_utf16)
+ms_biff_get_chars (char const *ptr, size_t length, gboolean use_utf16)
 {
 	char* ans;
-	unsigned i;
+	size_t i;
 
 	if (use_utf16) {
 		gunichar2 *uni_text = g_alloca (sizeof (gunichar2)*length);
