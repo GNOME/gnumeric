@@ -99,7 +99,6 @@ typedef struct {
 struct _ExcelWorkbook {
 	MSContainer	  container;
 	IOContext	 *context;
-	WorkbookView	 *wbv;
 
 	GPtrArray	 *excel_sheets;
 	GHashTable	 *boundsheet_data_by_stream;
@@ -117,7 +116,8 @@ struct _ExcelWorkbook {
 
 	ExprTreeSharer   *expr_sharer;
 
-	Workbook            *gnum_wb;
+	Workbook         *gnum_wb;
+	GPtrArray	 *wb_views;
 };
 
 char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length,

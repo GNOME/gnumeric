@@ -2329,9 +2329,12 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 
 		case BIFF_WINDOW2_v0 :
 		case BIFF_WINDOW2_v2 :
+#if 0
+#warning FIXME FIXME FIXM How does this work with multi-views ?  the same as sheets ?
 			if (full_page != NULL && container->ver > MS_BIFF_V2)
 				if (GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
 					wb_view_sheet_focus (container->ewb->wbv, full_page);
+#endif
 			break;
 
 		case BIFF_SCL :

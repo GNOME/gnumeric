@@ -4931,7 +4931,7 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (ewb->io_context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Book' for writing\n"));
 }
 
@@ -4951,7 +4951,7 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (ewb->io_context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Workbook' for writing\n"));
 }
 

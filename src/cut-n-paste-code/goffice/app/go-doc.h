@@ -32,6 +32,9 @@ G_BEGIN_DECLS
 
 GType go_doc_get_type (void);
 
+gboolean       go_doc_set_uri	(GODoc *doc, char const *uri);
+char const    *go_doc_get_uri	(GODoc *doc);
+
 #if 0
 GODoc   *go_doc_new_from_input  (GsfInput *input,
 				 GODocImporter const *fmt,

@@ -238,7 +238,7 @@ gnm_component_factory (BonoboGenericFactory *this,
 		static gboolean p_initialized = FALSE;
 
 		if (!p_initialized) {
-			plugins_init (GNM_CMD_CONTEXT (wbc));
+			plugins_init (GO_CMD_CONTEXT (wbc));
 			p_initialized = TRUE;
 		}
 	}

@@ -25,7 +25,6 @@
 #include "func.h"
 #include "application.h"
 #include "print-info.h"
-#include "global-gnome-font.h"
 #include "style.h"
 #include "mstyle.h"
 #include "style-color.h"
@@ -140,7 +139,7 @@ int
 gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 {
 	int retval;
-	GnmCmdContext *cc = cmd_context_stderr_new ();
+	GOCmdContext *cc = cmd_context_stderr_new ();
 
 	plugins_init (cc);
 	if ((retval = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc))) == 0)

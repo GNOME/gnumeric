@@ -151,7 +151,7 @@ show_python_console (WorkbookControlGUI *wbcg)
 
 	sel = gnm_py_interpreter_selector_new (&err);
 	if (err != NULL) {
-		gnm_cmd_context_error_info (GNM_CMD_CONTEXT (wbcg), err);
+		go_cmd_context_error_info (GO_CMD_CONTEXT (wbcg), err);
 		error_info_free (err);
 		return;
 	}

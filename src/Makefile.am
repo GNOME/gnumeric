@@ -100,8 +100,6 @@ GNUMERIC_BASE =					\
 	func-builtin.h				\
 	format.c				\
 	format.h				\
-	global-gnome-font.c			\
-	global-gnome-font.h			\
 	gnumeric-simple-canvas.c		\
 	gnumeric-simple-canvas.h		\
 	gnumeric-canvas.c			\

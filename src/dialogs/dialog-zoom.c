@@ -20,25 +20,26 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
 
-#include <gui-util.h>
 #include <commands.h>
 #include <workbook-control.h>
 #include <workbook.h>
 #include <workbook-edit.h>
 #include <sheet.h>
+#include <gui-util.h>
 
-#include <glade/glade.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkliststore.h>
+#include <glib/gi18n.h>
 
 #define ZOOM_DIALOG_KEY "zoom-dialog"
 #define ZOOM_DIALOG_FACTOR_KEY "zoom-dialog-factor"
@@ -176,8 +177,8 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, ZOOM_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"dialog-zoom.glade", NULL, NULL);
+	gui = go_libglade_new ("dialog-zoom.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

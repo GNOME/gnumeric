@@ -16,7 +16,6 @@ struct _XmlParseContext {
 
 	Sheet	     *sheet;	/* the associated sheet */
 	Workbook     *wb;	/* the associated workbook */
-	WorkbookView *wb_view;
 	IOContext    *io_context;
 
 	GHashTable *style_table;/* old style styles compatibility */
@@ -34,7 +33,7 @@ struct _XmlParseContext {
 
 XmlParseContext *xml_parse_ctx_new     (xmlDoc		*doc,
 				        xmlNs		*ns,
-				        WorkbookView	*wb_view);
+				        Workbook	*wb);
 void		 xml_parse_ctx_destroy (XmlParseContext *ctxt);
 
 

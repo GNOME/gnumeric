@@ -84,7 +84,7 @@ gnm_plugin_loader_module_load_base (GnmPluginLoader *loader, ErrorInfo **ret_err
 		ModulePluginFileStruct *plugin_file_struct = NULL;
 		gpointer plugin_init_func = NULL, plugin_cleanup_func = NULL;
 
-		full_module_file_name = g_build_filename (gnm_plugin_get_dir_name (loader->plugin),
+		full_module_file_name = g_build_filename (go_plugin_get_dir (loader->plugin),
 							  loader_module->module_file_name, NULL);
 		handle = g_module_open (full_module_file_name, 0);
 		if (handle != NULL) {
@@ -291,7 +291,7 @@ typedef struct {
 	gboolean (*module_func_file_probe) (GnmFileOpener const *fo, GsfInput *input,
 	                                    FileProbeLevel pl);
 	void (*module_func_file_open) (GnmFileOpener const *fo, IOContext *io_context,
-	                               WorkbookView *wbv, GsfInput *input);
+	                               GODoc *doc, GsfInput *input);
 } ServiceLoaderDataFileOpener;
 
 static gboolean
@@ -309,8 +309,8 @@ gnm_plugin_loader_module_func_file_probe (GnmFileOpener const *fo, GnmPluginServ
 
 static void
 gnm_plugin_loader_module_func_file_open (GnmFileOpener const *fo, GnmPluginService *service,
-                                              IOContext *io_context, WorkbookView *wbv,
-                                              GsfInput *input)
+					 IOContext *io_context, GODoc *doc,
+					 GsfInput *input)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
@@ -318,7 +318,7 @@ gnm_plugin_loader_module_func_file_open (GnmFileOpener const *fo, GnmPluginServi
 	g_return_if_fail (input != NULL);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	loader_data->module_func_file_open (fo, io_context, wbv, input);
+	loader_data->module_func_file_open (fo, io_context, doc, input);
 }
 
 static void

@@ -153,7 +153,6 @@ typedef enum {
 typedef struct _GnmMemChunk		GnmMemChunk;
 typedef struct _GnmString 	        GnmString;
 
-typedef struct _GnmCmdContext		GnmCmdContext;
 typedef struct _IOContext		IOContext;
 typedef struct _GnmFileSaver 		GnmFileSaver;
 typedef struct _GnmFileOpener		GnmFileOpener;

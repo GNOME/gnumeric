@@ -21,17 +21,17 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-xy.h"
-#include <src/plugin.h>
-#include <src/gui-util.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-app.h>
+#include <goffice/app/go-plugin.h>
 
-#include <glade/glade-xml.h>
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
 
 #include <string.h>
 
-GtkWidget *gog_bubble_plot_pref   (GogBubblePlot *bubble, GnmCmdContext *cc);
+GtkWidget *gog_bubble_plot_pref   (GogBubblePlot *bubble, GOCmdContext *gcc);
 
 static void
 cb_type_changed (GtkToggleButton* button, GObject *bubble)
@@ -69,13 +69,13 @@ cb_scale_changed (GtkAdjustment *adj, GObject *bubble)
 }
 
 GtkWidget *
-gog_bubble_plot_pref (GogBubblePlot *bubble, GnmCmdContext *cc)
+gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *gcc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
-		plugins_get_plugin_by_id ("GOffice_plot_xy"));
+	char const *dir = go_plugin_get_dir (
+		go_app_get_plugin ("GOffice_plot_xy"));
 	char	 *path = g_build_filename (dir, "gog-bubble-prefs.glade", NULL);
-	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_bubble_prefs", NULL);
+	GladeXML *gui = go_libglade_new (path, "gog_bubble_prefs", NULL, gcc);
 
 	g_free (path);
         if (gui == NULL)

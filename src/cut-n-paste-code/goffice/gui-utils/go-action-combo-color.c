@@ -25,7 +25,6 @@
 #include "go-color-palette.h"
 
 #include <src/gui-util.h>
-#include <application.h>
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
@@ -186,10 +185,14 @@ static void
 go_action_combo_color_finalize (GObject *obj)
 {
 	GOActionComboColor *color = (GOActionComboColor *)obj;
-	if (color->icon != NULL)
+	if (color->icon != NULL) {
 		g_object_unref (color->icon);
-	if (color->color_group != NULL)
+		color->icon = NULL;
+	}
+	if (color->color_group != NULL) {
 		g_object_unref (color->color_group);
+		color->color_group = NULL;
+	}
 
 	combo_color_parent->finalize (obj);
 }
@@ -222,16 +225,16 @@ GSF_CLASS (GOActionComboColor, go_action_combo_color,
 
 GOActionComboColor *
 go_action_combo_color_new (char const  *action_name,
-			   char const  *stock_id,
+			   GdkPixbuf   *icon,
 			   char const  *default_color_label,
 			   GOColor	default_color,
 			   gpointer	group_key)
 {
 	GOActionComboColor *res = g_object_new (go_action_combo_color_get_type (),
 					   "name", action_name,
-					   "stock_id", stock_id,
 					   NULL);
-	res->icon = gnm_app_get_pixbuf (stock_id);
+	if (NULL != (res->icon = icon))
+		g_object_ref (G_OBJECT (icon));
 	res->color_group = go_color_group_fetch (action_name, group_key);
 	res->default_val_label = g_strdup (default_color_label);
 	res->current_color = res->default_val = default_color;

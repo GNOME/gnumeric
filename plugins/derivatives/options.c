@@ -1965,7 +1965,8 @@ static char const *help_opt_spread_approx = {
 
 	
 /* Floating strike lookback options */
-static GnmValue * opt_float_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
+static GnmValue *
+opt_float_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
 {
 	OptionSide call_put_flag = option_side(value_peek_string(argv[0]));
 	gnm_float s = value_get_as_float(argv[1]);
@@ -1990,9 +1991,19 @@ static GnmValue * opt_float_strk_lkbk(FunctionEvalInfo *ei, GnmValue *argv[])
 	
 	
 	if(OS_Call == call_put_flag)
-		return value_new_float(s * expgnum((b - r) * t) * cum_norm_dist(a1) - m * expgnum(-r * t) * cum_norm_dist(a2) +expgnum(-r * t) * (v * v) / (2.0 * b) * s * (powgnum((s / m) , (-2.0 * b / (v * v))) * cum_norm_dist(-a1 + 2.0 * b / v * sqrtgnum(t)) - expgnum(b * t) * cum_norm_dist(-a1)));
+		return value_new_float(s * expgnum((b - r) * t) * cum_norm_dist(a1) -
+				       m * expgnum(-r * t) * cum_norm_dist(a2) +
+				       expgnum(-r * t) * (v * v) / (2.0 * b) * s *
+				       (powgnum((s / m), (-2.0 * b / (v * v))) *
+					cum_norm_dist(-a1 + 2.0 * b / v * sqrtgnum(t)) -
+					expgnum(b * t) * cum_norm_dist(-a1)));
 	else if(OS_Put == call_put_flag)
-		return value_new_float(m * expgnum(-r * t) * cum_norm_dist(-a2) - s * expgnum((b - r) * t) * cum_norm_dist(-a1) + expgnum(-r * t) * (v * v) / (2.0 * b) * s * (-powgnum((s / m) , ((-2.0 * b) / (v * v))) * cum_norm_dist(a1 - 2.0 * b / v * sqrtgnum(t)) + expgnum(b * t) * cum_norm_dist(a1)));
+		return value_new_float(m * expgnum(-r * t) * cum_norm_dist(-a2) -
+				       s * expgnum((b - r) * t) * cum_norm_dist(-a1) +
+				       expgnum(-r * t) * (v * v) / (2.0 * b) * s *
+				       (-powgnum((s / m) , ((-2.0 * b) / (v * v))) *
+					cum_norm_dist(a1 - 2.0 * b / v * sqrtgnum(t)) +
+					expgnum(b * t) * cum_norm_dist(a1)));
 
 	return value_new_error_VALUE (ei->pos);
 }
@@ -2101,7 +2112,7 @@ opt_binomial(FunctionEvalInfo *ei, GnmValue *argv[])
 	
 	gnm_float *value_array;
 	gnm_float u, d, p, dt, Df, temp1, temp2, gf_result;
-	gint i, j, z;
+	int i, j, z;
     
 	value_array = (gnm_float *) g_try_malloc ((n + 2)* sizeof(gnm_float));
 	if (value_array == NULL)
@@ -2126,7 +2137,7 @@ opt_binomial(FunctionEvalInfo *ei, GnmValue *argv[])
 	    }
 	    
 	for(j = n - 1; j > -1; --j){
-		for(i = 0; i<=j; ++i){
+		for(i = 0; i <= j; ++i){
 			/*if (0==i)printf("secondloop %d\n",j);*/
 			if (OT_Euro == amer_euro_flag)
 				value_array[i] = (p * value_array[i + 1] + (1.0 - p) * value_array[i]) * Df;

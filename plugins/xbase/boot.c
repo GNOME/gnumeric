@@ -6,11 +6,9 @@
  *    Sean Atkinson <sca20@cam.ac.uk>
  **/
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "xbase.h"
 
-#include <workbook-view.h>
 #include <workbook.h>
 #include <cell.h>
 #include <value.h>
@@ -24,10 +22,13 @@
 #include <sheet-style.h>
 #include <io-context.h>
 
+#include <glib/gi18n.h>
+#include <stdlib.h>
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 void xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                      WorkbookView *wb_view, GsfInput *input);
+                      GODoc *doc, GsfInput *input);
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 
@@ -151,7 +152,7 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 
 void
 xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                 WorkbookView *wb_view, GsfInput *input)
+                 GODoc *doc, GsfInput *input)
 {
 	Workbook  *wb;
 	XBfile	  *file;
@@ -171,7 +172,7 @@ xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 
-	wb = wb_view_workbook (wb_view);
+	wb = WORKBOOK (doc);
 	name = workbook_sheet_get_free_name (wb, _("Sheet"), FALSE, TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);

@@ -33,13 +33,13 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/go-plugin-module-defs.h>
 
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GO_PLUGIN_MODULE_INFO_DECL;
 
 enum {
 	GOG_1_5D_PROP_0,
@@ -436,7 +436,7 @@ static void
 gog_series1_5d_populate_editor (GogSeries *series,
 				GtkNotebook *book,
 				GogDataAllocator *dalloc,
-				GnmCmdContext *cc)
+				GOCmdContext *cc)
 {
 	GtkWidget * error_page;
 	gboolean horizontal;

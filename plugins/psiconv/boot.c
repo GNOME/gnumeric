@@ -30,7 +30,6 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 #include "psiconv-plugin.h"
-#include "workbook-view.h"
 #include "workbook.h"
 
 #include <stdio.h>
@@ -41,7 +40,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 gboolean psiconv_file_probe (GnmFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);
 void     psiconv_file_open (GnmFileOpener const *fo, IOContext *io_context,
-			    WorkbookView *wb_view, GsfInput *input);
+			    GODoc *doc, GsfInput *input);
 
 
 gboolean
@@ -52,7 +51,7 @@ psiconv_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 
 void
 psiconv_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                  WorkbookView *wb_view, GsfInput *input)
+		   GODoc *doc, GsfInput *input)
 {
-	psiconv_read (io_context, wb_view_workbook(wb_view), input);
+	psiconv_read (io_context, WORKBOOK (doc), input);
 }

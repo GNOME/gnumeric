@@ -36,6 +36,8 @@
 #include <workbook-edit.h>
 #include <command-context.h>
 
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <glade/glade.h>
 #include <gtk/gtkradiobutton.h>
 
@@ -133,7 +135,7 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Insert"))))
+	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Insert"))))
 		return;
 	cols = sel->end.col - sel->start.col + 1;
 	rows = sel->end.row - sel->start.row + 1;
@@ -150,8 +152,8 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, INSERT_CELL_DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"insert-cells.glade", NULL, NULL);
+	gui = go_libglade_new ("insert-cells.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

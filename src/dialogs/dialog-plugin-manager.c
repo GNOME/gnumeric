@@ -42,6 +42,8 @@
 #include <gnumeric-gconf.h>
 #include <application.h>
 
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <glade/glade.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktreeview.h>
@@ -183,7 +185,7 @@ cb_pm_button_rescan_directories_clicked (PluginManagerGUI *pm_gui)
 
 	plugins_rescan (&error, &new_plugins);
 	if (error != NULL) {
-		gnm_cmd_context_error_info (GNM_CMD_CONTEXT (pm_gui->wbcg), error);
+		go_cmd_context_error_info (GO_CMD_CONTEXT (pm_gui->wbcg), error);
 		error_info_free (error);
 	}
 	GNM_SLIST_SORT (new_plugins, plugin_compare_name);
@@ -382,7 +384,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 		}
 		gtk_text_buffer_set_text (
 			pm_gui->text_description, plugin_desc, strlen (plugin_desc));
-		gtk_entry_set_text (pm_gui->entry_directory, gnm_plugin_get_dir_name (pinfo));
+		gtk_entry_set_text (pm_gui->entry_directory, go_plugin_get_dir (pinfo));
 
 		gtk_tree_store_clear (pm_gui->model_details);
 		gtk_tree_store_append (pm_gui->model_details, &iter, NULL);
@@ -403,7 +405,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 				GnmPlugin *dep_plugin;
 				const char *name;
 
-				dep_plugin = plugins_get_plugin_by_id (dep_id);
+				dep_plugin = go_app_get_plugin (dep_id);
 				name =  dep_plugin != NULL ? (char *) gnm_plugin_get_name (dep_plugin) : _("Unknown plugin");
 				gtk_tree_store_append (pm_gui->model_details, &iter3, &iter2);
 				gtk_tree_store_set (
@@ -605,7 +607,7 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 			GNM_SLIST_FOREACH (dep_ids, char, plugin_id,
 				GnmPlugin *plugin;
 
-				plugin = plugins_get_plugin_by_id (plugin_id);
+				plugin = go_app_get_plugin (plugin_id);
 				if (plugin == NULL) {
 					g_string_append_printf (s, _("Unknown plugin with id=\"%s\"\n"), plugin_id);
 				} else if (!gnm_plugin_is_active (plugin)) {
@@ -629,28 +631,21 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 		}
 	}
 	if (error != NULL) {
-		ErrorInfo *new_error;
-
-		if (gnm_plugin_is_active (plugin)) {
-			new_error = error_info_new_printf (
-				_("Error while deactivating plugin \"%s\"."),
-				gnm_plugin_get_name (plugin));
-		} else {
-			new_error = error_info_new_printf (
-				_("Error while activating plugin \"%s\"."),
-				gnm_plugin_get_name (plugin));
-		}
+		ErrorInfo *new_error = error_info_new_printf (
+			(gnm_plugin_is_active (plugin)
+			 ? _("Error while deactivating plugin \"%s\".")
+			 : _("Error while activating plugin \"%s\".")),
+			gnm_plugin_get_name (plugin));
 		error_info_add_details (new_error, error);
-		gnm_cmd_context_error_info (GNM_CMD_CONTEXT (pm_gui->wbcg), new_error);
+		go_cmd_context_error_info (GO_CMD_CONTEXT (pm_gui->wbcg),
+			new_error);
 	}
 }
 
 static void
-cb_pm_close_clicked (G_GNUC_UNUSED GtkWidget *button,
-			PluginManagerGUI *pm_gui)
+cb_pm_close_clicked (PluginManagerGUI *pm_gui)
 {
-	gtk_widget_destroy (GTK_WIDGET(pm_gui->dialog_pm));
-	return;
+	gtk_widget_destroy (GTK_WIDGET (pm_gui->dialog_pm));
 }
 
 void
@@ -670,8 +665,8 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"plugin-manager.glade", NULL, NULL);
+	gui = go_libglade_new ("plugin-manager.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 
@@ -787,7 +782,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_PLUGIN_MANAGER);
-	g_signal_connect (glade_xml_get_widget (gui, "button_close_manager"),
+	g_signal_connect_swapped (glade_xml_get_widget (gui, "button_close_manager"),
 		"clicked",
 		G_CALLBACK (cb_pm_close_clicked), pm_gui);
 

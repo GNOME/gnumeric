@@ -30,9 +30,11 @@
 #include "gog-renderer.h"
 #include "go-data-impl.h"
 #include "go-data.h"
+
 #include <goffice/gui-utils/go-color-palette.h>
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkspinbutton.h>
@@ -87,9 +89,9 @@ cb_line_width_changed (GtkAdjustment *adj, GogErrorBarEditor *editor)
 
 static void
 cb_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-		     G_GNUC_UNUSED gboolean is_custom,
-		     G_GNUC_UNUSED gboolean by_user,
-		     G_GNUC_UNUSED gboolean is_default, GogErrorBarEditor *editor)
+		  G_GNUC_UNUSED gboolean is_custom,
+		  G_GNUC_UNUSED gboolean by_user,
+		  G_GNUC_UNUSED gboolean is_default, GogErrorBarEditor *editor)
 {
 	editor->color = color;
 	if (editor->bar) {
@@ -171,7 +173,7 @@ gog_error_bar_prefs (GogSeries *series,
 			char const* property,
 			gboolean horizontal,
 			GogDataAllocator *dalloc,
-			GnmCmdContext *cc)
+			GOCmdContext *gcc)
 {
 	GladeXML *gui;
 	GtkWidget *w, *bar_prefs;
@@ -200,7 +202,7 @@ gog_error_bar_prefs (GogSeries *series,
 	}
 	set = GOG_DATASET (series);
 
-	gui = gnm_glade_xml_new (cc, "gog-error-bar-prefs.glade", "gog_error_bar_prefs", NULL);
+	gui = go_libglade_new ("gog-error-bar-prefs.glade", "gog_error_bar_prefs", NULL, gcc);
 
 	/* Style properties */
 
@@ -235,13 +237,13 @@ gog_error_bar_prefs (GogSeries *series,
 	
 	/* Display style */
 	cpx = go_combo_pixmaps_new (4);
-	pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-none.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-none.png", NULL);
 	go_combo_pixmaps_add_element  (cpx,
 				       pixbuf,
 				       GOG_ERROR_BAR_DISPLAY_NONE,
 				       _("No error bar displayed"));
 	if (horizontal) {
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hplus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-hplus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
@@ -251,23 +253,23 @@ gog_error_bar_prefs (GogSeries *series,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 					       _("Negative error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hboth.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-hboth.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_BOTH,
 					       _("Full error bar displayed"));
 	} else {
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vplus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-vplus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
 					       _("Positive error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vminus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-vminus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 					       _("Negative error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vboth.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-vboth.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_BOTH,
@@ -728,7 +730,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 }
 
 gboolean
-gog_error_bar_is_visible (GogErrorBar *bar)
+gog_error_bar_is_visible (GogErrorBar const *bar)
 {
 	return (bar != NULL) &&
 		(bar->type != GOG_ERROR_BAR_TYPE_NONE) &&

@@ -45,12 +45,12 @@ gboolean    workbook_sheet_recolor       (Workbook *wb,
 gboolean    workbook_sheet_rename        (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
-					  GnmCmdContext *cc);
+					  GOCmdContext *cc);
 gboolean    workbook_sheet_rename_check  (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
 					  GSList *sheet_indices_deleted,
-					  GnmCmdContext *cc);
+					  GOCmdContext *cc);
 gboolean    workbook_sheet_change_protection  (Workbook *wb,
 					       GSList *sheets,
 					       GSList *locks);
@@ -102,7 +102,8 @@ void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
 GnmDateConventions const *workbook_date_conv (Workbook const *wb);
 gboolean workbook_set_1904 (Workbook *wb, gboolean flag);
 
-void workbook_attach_view (Workbook *wb, WorkbookView *wbv);
-void workbook_detach_view (WorkbookView *wbv);
+GPtrArray const *workbook_get_views   (Workbook const *wb);
+void	         workbook_attach_view (Workbook *wb, WorkbookView *wbv);
+void	         workbook_detach_view (WorkbookView *wbv);
 
 #endif /* GNUMERIC_WORKBOOK_H */

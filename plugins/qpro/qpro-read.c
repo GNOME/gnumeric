@@ -50,7 +50,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 gboolean qpro_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			  FileProbeLevel pl);
 void     qpro_file_open (GnmFileOpener const *fo, IOContext *context,
-			 WorkbookView *new_wb_view, GsfInput *input);
+			 GODoc *doc, GsfInput *input);
 
 static gboolean
 qpro_check_signature (GsfInput *input)
@@ -96,7 +96,6 @@ qpro_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 typedef struct {
 	GsfInput	*input;
 	IOContext	*io_context;
-	WorkbookView	*wbv;
 	Workbook	*wb;
 	Sheet		*cur_sheet;
 	GIConv          converter;
@@ -824,15 +823,14 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 
 void
 qpro_file_open (GnmFileOpener const *fo, IOContext *context,
-		WorkbookView *new_wb_view, GsfInput *input)
+		GODoc *doc, GsfInput *input)
 {
 	QProReadState state;
 	GsfInput  *stream = NULL;
 	GsfInfile *ole;
 
 	state.io_context = context;
-	state.wbv = new_wb_view;
-	state.wb = wb_view_workbook (new_wb_view);
+	state.wb = WORKBOOK (doc);
 	state.cur_sheet = NULL;
 	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
 

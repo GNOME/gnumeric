@@ -19,15 +19,18 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
-#include <glade/glade.h>
-#include <gui-util.h>
 #include <workbook-control-gui.h>
+#include <gui-util.h>
+
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtkentry.h>
+#include <glib/gi18n.h>
 
 #define VIEW_DIALOG_KEY "view-dialog"
 
@@ -126,8 +129,8 @@ dialog_new_view (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, VIEW_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-				 "view.glade", NULL, NULL);
+	gui = go_libglade_new ("view.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

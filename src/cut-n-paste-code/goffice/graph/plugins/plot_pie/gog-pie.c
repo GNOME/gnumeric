@@ -28,9 +28,7 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-math.h>
-
-#include <module-plugin-defs.h>
-#include <numbers.h>
+#include <goffice/app/go-plugin-module-defs.h>
 
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
@@ -77,10 +75,10 @@ gog_pie_series_element_get_property (GObject *obj, guint param_id,
 	}
 }
 
-extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GnmCmdContext *cc);
+extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc);
 static gpointer
 gog_pie_series_element_editor (GogObject *gobj,
-			       GnmCmdContext *cc)
+			       GOCmdContext *cc)
 {
 	return gog_pie_series_element_pref (GOG_PIE_SERIES_ELEMENT (gobj), cc);
 }
@@ -120,7 +118,7 @@ enum {
 	PLOT_PROP_IN_3D
 };
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GO_PLUGIN_MODULE_INFO_DECL;
 
 static GObjectClass *pie_parent_klass;
 static GType gog_pie_view_get_type (void);
@@ -180,11 +178,11 @@ gog_pie_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotPie");
 }
 
-extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GnmCmdContext *cc);
+extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc);
 static gpointer
 gog_pie_plot_editor (GogObject *item,
 		    G_GNUC_UNUSED GogDataAllocator *dalloc,
-		    GnmCmdContext *cc)
+		    GOCmdContext *cc)
 {
 	return gog_pie_plot_pref (GOG_PIE_PLOT (item), cc);
 }
@@ -303,11 +301,11 @@ gog_ring_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotRing");
 }
 
-extern gpointer gog_ring_plot_pref (GogRingPlot *ring, GnmCmdContext *cc);
+extern gpointer gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc);
 static gpointer
 gog_ring_plot_editor (GogObject *item,
 		      G_GNUC_UNUSED GogDataAllocator *dalloc,
-		      GnmCmdContext *cc)
+		      GOCmdContext *cc)
 {
 	return gog_ring_plot_pref (GOG_RING_PLOT (item), cc);
 }

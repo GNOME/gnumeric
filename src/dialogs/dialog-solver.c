@@ -42,7 +42,8 @@
 #include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
 
-#include <glade/glade.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcellrenderertext.h>
@@ -1150,8 +1151,8 @@ dialog_init (SolverState *state)
 			}
 	}
 
-	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (state->wbcg),
-		"solver.glade", NULL, NULL);
+	state->gui = go_libglade_new ("solver.glade", NULL, NULL,
+				      GO_CMD_CONTEXT (state->wbcg));
         if (state->gui == NULL)
                 return TRUE;
 

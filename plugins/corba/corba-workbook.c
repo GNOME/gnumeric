@@ -26,13 +26,14 @@
 #include "corba-sheet.h"
 
 #include <workbook.h>
-#include <workbook-control-priv.h>
 #include <sheet-view.h>
 #include <sheet-control-priv.h>
 #include <ranges.h>
 #include <sheet.h>
-#include <command-context-priv.h>
+#include <workbook-control-priv.h>
+#include <command-context.h>
 
+#include <goffice/app/go-cmd-context-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <bonobo.h>
 
@@ -152,31 +153,31 @@ cworkbook_sheets (PortableServer_Servant servant,
 }
 
 static void
-wbcc_error (GnmCmdContext *ctxt, GError *gerr)
+wbcc_error (GOCmdContext *ctxt, GError *gerr)
 {
 	WorkbookControlCORBA *wbcc = WORKBOOK_CONTROL_CORBA (ctxt);
 
-	if (gerr->domain == gnm_error_system ()) {
+	if (gerr->domain == go_error_system ()) {
 		GNOME_Gnumeric_ErrorSystem *err = GNOME_Gnumeric_ErrorSystem__alloc();
 		err->msg = CORBA_string_dup (gerr->message);
 		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
 			ex_GNOME_Gnumeric_ErrorSystem, err);
-	} else if (gerr->domain == gnm_error_import ()) {
+	} else if (gerr->domain == go_error_import ()) {
 		GNOME_Gnumeric_ErrorRead *err = GNOME_Gnumeric_ErrorRead__alloc();
 		err->msg = CORBA_string_dup (gerr->message);
 		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
 			ex_GNOME_Gnumeric_ErrorRead, err);
-	} else if (gerr->domain == gnm_error_export ()) {
+	} else if (gerr->domain == go_error_export ()) {
 		GNOME_Gnumeric_ErrorSave *err = GNOME_Gnumeric_ErrorSave__alloc();
 		err->msg = CORBA_string_dup (gerr->message);
 		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
 			ex_GNOME_Gnumeric_ErrorSave, err);
-	} else if (gerr->domain == gnm_error_array ()) {
+	} else if (gerr->domain == go_error_array ()) {
 		GNOME_Gnumeric_ErrorSplitsArray *err = GNOME_Gnumeric_ErrorSplitsArray__alloc();
 		err->msg = CORBA_string_dup (gerr->message);
 		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
 			ex_GNOME_Gnumeric_ErrorSplitsArray, err);
-	} else if (gerr->domain == gnm_error_invalid ()) {
+	} else if (gerr->domain == go_error_invalid ()) {
 		GNOME_Gnumeric_ErrorInvalid *err = GNOME_Gnumeric_ErrorInvalid__alloc();
 		err->msg = CORBA_string_dup (gerr->message);
 		CORBA_exception_set (wbcc->ev, CORBA_USER_EXCEPTION,
@@ -185,13 +186,13 @@ wbcc_error (GnmCmdContext *ctxt, GError *gerr)
 }
 
 static char *
-wbcc_get_password (GnmCmdContext *cc, char const* msg)
+wbcc_get_password (GOCmdContext *cc, char const* msg)
 {
 	return NULL;
 }
 
 static void
-wbcc_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
+wbcc_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 {
 }
 

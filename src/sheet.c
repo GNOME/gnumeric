@@ -1912,7 +1912,7 @@ cb_check_array_vertical (ColRowInfo *row, void *user)
 gboolean
 sheet_range_splits_array (Sheet const *sheet,
 			  GnmRange const *r, GnmRange const *ignore,
-			  GnmCmdContext *cc, char const *cmd)
+			  GOCmdContext *cc, char const *cmd)
 {
 	ArrayCheckData closure;
 
@@ -1939,7 +1939,7 @@ sheet_range_splits_array (Sheet const *sheet,
 	    colrow_foreach (&sheet->cols, r->start.col, r->end.col,
 			    &cb_check_array_horizontal, &closure)) {
 		if (cc)
-			gnm_cmd_context_error_splits_array (cc,
+			go_cmd_context_error_splits_array (cc,
 				cmd, &closure.error);
 		return TRUE;
 	}
@@ -1961,7 +1961,7 @@ sheet_range_splits_array (Sheet const *sheet,
 	    colrow_foreach (&sheet->rows, r->start.row, r->end.row,
 			    &cb_check_array_vertical, &closure)) {
 		if (cc)
-			gnm_cmd_context_error_splits_array (cc,
+			go_cmd_context_error_splits_array (cc,
 				cmd, &closure.error);
 		return TRUE;
 	}
@@ -1982,7 +1982,7 @@ sheet_range_splits_array (Sheet const *sheet,
 gboolean
 sheet_range_splits_region (Sheet const *sheet,
 			   GnmRange const *r, GnmRange const *ignore,
-			   GnmCmdContext *cc, char const *cmd_name)
+			   GOCmdContext *cc, char const *cmd_name)
 {
 	GSList *merged;
 
@@ -2006,7 +2006,7 @@ sheet_range_splits_region (Sheet const *sheet,
 		g_slist_free (merged);
 
 		if (cc != NULL && ptr != NULL) {
-			gnm_cmd_context_error_invalid (cc, cmd_name,
+			go_cmd_context_error_invalid (cc, cmd_name,
 						_("Target region contains merged cells"));
 			return TRUE;
 		}
@@ -2026,7 +2026,7 @@ sheet_range_splits_region (Sheet const *sheet,
  */
 gboolean
 sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
-			   GnmCmdContext *cc, char const *cmd)
+			   GOCmdContext *cc, char const *cmd)
 {
 	GSList const *l;
 
@@ -2058,7 +2058,7 @@ cb_cell_is_array (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data
  */
 gboolean
 sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
-			     GnmCmdContext *cc, char const *cmd)
+			     GOCmdContext *cc, char const *cmd)
 {
 	GSList *merged;
 
@@ -2067,7 +2067,7 @@ sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 	merged = sheet_merge_get_overlap (sheet, r);
 	if (merged != NULL) {
 		if (cc != NULL)
-			gnm_cmd_context_error_invalid (cc, cmd,
+			go_cmd_context_error_invalid (cc, cmd,
 				_("cannot operate on merged cells"));
 		g_slist_free (merged);
 		return TRUE;
@@ -2077,7 +2077,7 @@ sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
 		r->start.col, r->start.row, r->end.col, r->end.row,
 		cb_cell_is_array, NULL)) {
 		if (cc != NULL)
-			gnm_cmd_context_error_invalid (cc, cmd,
+			go_cmd_context_error_invalid (cc, cmd,
 				_("cannot operate on array formulae"));
 		return TRUE;
 	}
@@ -2841,7 +2841,7 @@ sheet_clear_region (Sheet *sheet,
 		    int start_col, int start_row,
 		    int end_col, int end_row,
 		    int clear_flags,
-		    GnmCmdContext *cc)
+		    GOCmdContext *cc)
 {
 	GnmRange r;
 
@@ -3166,7 +3166,7 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 gboolean
 sheet_insert_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
+		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
@@ -3219,7 +3219,7 @@ sheet_insert_cols (Sheet *sheet,
 gboolean
 sheet_delete_cols (Sheet *sheet,
 		   int col, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
+		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	int i;
@@ -3284,7 +3284,7 @@ sheet_delete_cols (Sheet *sheet,
 gboolean
 sheet_insert_rows (Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
+		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	GnmRange region;
@@ -3337,7 +3337,7 @@ sheet_insert_rows (Sheet *sheet,
 gboolean
 sheet_delete_rows (Sheet *sheet,
 		   int row, int count, ColRowStateList *states,
-		   GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
+		   GnmRelocUndo *reloc_storage, GOCmdContext *cc)
 {
 	GnmExprRelocateInfo reloc_info;
 	int i;
@@ -3406,7 +3406,7 @@ sheet_delete_rows (Sheet *sheet,
  **/
 void
 sheet_move_range (GnmExprRelocateInfo const *rinfo,
-		  GnmRelocUndo *reloc_storage, GnmCmdContext *cc)
+		  GnmRelocUndo *reloc_storage, GOCmdContext *cc)
 {
 	GList *cells = NULL;
 	GnmCell  *cell;

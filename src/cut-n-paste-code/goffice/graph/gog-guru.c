@@ -32,17 +32,16 @@
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
-
-#include <glib/gi18n.h>
-#include <gui-util.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <libxml/parser.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <libfoocanvas/foo-canvas-pixbuf.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
-#include <gdk/gdkkeysyms.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkentry.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreestore.h>
@@ -56,6 +55,8 @@
 #include <gtk/gtkcellrendererpixbuf.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkliststore.h>
+#include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 typedef struct _GraphGuruState		GraphGuruState;
@@ -66,7 +67,7 @@ struct _GraphGuruState {
 	GogChart    *chart;
 	GogPlot	    *plot;
 
-	GnmCmdContext	 *cc;
+	GOCmdContext	 *gcc;
 	GogDataAllocator *dalloc;
 	GClosure         *register_closure;
 
@@ -767,7 +768,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 		gog_object_can_reorder (obj, &inc_ok, &dec_ok);
 
 		/* create a prefs page for the graph obj */
-		editor = gog_object_get_editor (obj, s->dalloc, s->cc);
+		editor = gog_object_get_editor (obj, s->dalloc, s->gcc);
 		if (GTK_IS_NOTEBOOK (editor)) {
 			notebook = editor;
 		} else {
@@ -1276,7 +1277,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
-	s->gui = gnm_glade_xml_new (s->cc, "gog-guru.glade", NULL, NULL);
+	s->gui = go_libglade_new ("gog-guru.glade", NULL, NULL, s->gcc);
         if (s->gui == NULL)
                 return TRUE;
 
@@ -1305,7 +1306,7 @@ graph_guru_init (GraphGuruState *s)
  */
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
-	  GnmCmdContext *cc, GtkWindow *toplevel,
+	  GOCmdContext *gcc, GtkWindow *toplevel,
 	  GClosure *closure)
 {
 	int page = (graph != NULL) ? 1 : 0;
@@ -1316,7 +1317,7 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	state->updating = FALSE;
 	state->fmt_page_initialized = FALSE;
 	state->gui	= NULL;
-	state->cc       = cc;
+	state->gcc      = gcc;
 	state->dalloc   = dalloc;
 	state->current_page	= -1;
 	state->register_closure	= closure;

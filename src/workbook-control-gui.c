@@ -391,7 +391,7 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 }
 
 static void
-wbcg_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
+wbcg_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 {
 	GtkWindow *toplevel = wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc));
 
@@ -1098,7 +1098,7 @@ wbcg_claim_selection (WorkbookControl *wbc)
 }
 
 static char *
-wbcg_get_password (GnmCmdContext *cc, char const* filename)
+wbcg_get_password (GOCmdContext *cc, char const* filename)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 
@@ -1106,14 +1106,14 @@ wbcg_get_password (GnmCmdContext *cc, char const* filename)
 }
 
 static void
-wbcg_error_error (GnmCmdContext *cc, GError *err)
+wbcg_error_error (GOCmdContext *cc, GError *err)
 {
 	gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)),
 		GTK_MESSAGE_ERROR, err->message);
 }
 
 static void
-wbcg_error_error_info (GnmCmdContext *cc, ErrorInfo *error)
+wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
 {
 	gnumeric_error_info_dialog_show (
 		wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)), error);
@@ -2022,24 +2022,26 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	gchar *target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
-		WorkbookView *wbv;
-		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
+		IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
 		char *cdata = g_strndup (selection_data->data, selection_data->length);
-		GSList *l, *uris = go_file_split_uris (cdata);
-
+		GSList *ptr, *uris = go_file_split_uris (cdata);
 		g_free (cdata);
+
+		for (ptr = uris; ptr != NULL; ptr = ptr->next) {
 		for (l = uris; l; l = l-> next) {
 			const char *uri_str = l->data;
 			GError *err = NULL;
 			GsfInput *input = go_file_open (uri_str, &err);
 			if (input != NULL) {
-				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
-				if (wbv != NULL)
-					gui_wb_view_show (wbcg, wbv);
-			} else {
-				gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ioc),
+				GODoc *doc = go_doc_new_from_input (input, NULL, ioc, NULL);
+				if (doc != NULL) {
+					WORKBOOK_FOREACH_VIEW (WORKBOOK (doc), view,
+						gui_wb_view_show (wbcg, wbv););
+				}
+			} else
+				go_cmd_context_error_import (GO_CMD_CONTEXT (ioc),
 					err->message);
-			}
+
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {
 				gnumeric_io_error_display (ioc);
@@ -2269,14 +2271,14 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 }
 
 static void
-wbcg_progress_set (GnmCmdContext *cc, gfloat val)
+wbcg_progress_set (GOCmdContext *cc, gfloat val)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
 }
 
 static void
-wbcg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
+wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
@@ -2445,7 +2447,7 @@ wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
 
 guint wbcg_signals [WBCG_LAST_SIGNAL];
 static void
-wbcg_gnm_cmd_context_init (GnmCmdContextClass *iface)
+wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
 {
 	iface->get_password	    = wbcg_get_password;
 	iface->set_sensitive	    = wbcg_set_sensitive;
@@ -2542,7 +2544,7 @@ GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
 		workbook_control_gui_class_init, workbook_control_gui_init,
 		WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
 		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
-		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
 
 static void
 wbcg_create (WorkbookControlGUI *wbcg,

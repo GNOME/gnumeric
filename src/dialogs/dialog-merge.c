@@ -41,6 +41,8 @@
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
 
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <glade/glade.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkliststore.h>
@@ -329,8 +331,8 @@ dialog_merge (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, MERGE_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"merge.glade", NULL, NULL);
+	gui = go_libglade_new ("merge.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

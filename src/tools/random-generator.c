@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * random-generator.c:
  *
@@ -103,7 +104,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 		if (cell == NULL ||
 		    (v = cell->value) == NULL ||
 		    !VALUE_IS_NUMBER (v)) {
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
+			go_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
 					 _("The probability input range "
 					   "contains a non-numeric value.\n"
 					   "All probabilities must be "
@@ -111,7 +112,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 			goto random_tool_discrete_out;
 		}
 		if ((thisprob = value_get_as_float (v)) < 0) {
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
+			go_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
 					 _("The probability input range "
 					   "contains a negative number.\n"
 					   "All probabilities must be "
@@ -126,7 +127,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 				       range->v_range.cell.a.col, i);
 
 		if (cell == NULL || cell->value == NULL) {
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
+			go_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
 					 _("None of the values in the value "
 					   "range may be empty!"));
 			goto random_tool_discrete_out;
@@ -142,8 +143,8 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 		}
 		return FALSE;
 	}
-	gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
-			 _("The probabilities may not all be 0!"));
+	go_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
+		_("The probabilities may not all be 0!"));
 
  random_tool_discrete_out:
 	tool_random_engine_run_discrete_clear_continuity (continuity);

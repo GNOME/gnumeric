@@ -4,6 +4,7 @@
 #include "gnumeric.h"
 #include <glib-object.h>
 #include <gsf/gsf.h>
+#include <goffice/app/goffice-app.h>
 
 struct _WorkbookView {
 	GObject  base;
@@ -79,18 +80,18 @@ void		 wb_view_auto_expr	  (WorkbookView *wbv,
 
 /* I/O routines */
 gboolean wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs,
-			  char const *file_name, GnmCmdContext *cc);
-gboolean wb_view_save	 (WorkbookView *wbv, GnmCmdContext *cc);
-gboolean wb_view_sendto	 (WorkbookView *wbv, GnmCmdContext *cc);
+			  char const *file_name, GOCmdContext *cc);
+gboolean wb_view_save	 (WorkbookView *wbv, GOCmdContext *cc);
+gboolean wb_view_sendto	 (WorkbookView *wbv, GOCmdContext *cc);
 
-WorkbookView *wb_view_new_from_input  (GsfInput *input,
-				       GnmFileOpener const *optional_format,
-				       IOContext *io_context,
-				       gchar const *optional_encoding);
-WorkbookView *wb_view_new_from_uri  (char const *uri,
-				     GnmFileOpener const *optional_format,
-				     IOContext *io_context, 
-				     gchar const *optional_encoding);
+GODoc *go_doc_new_from_input  (GsfInput *input,
+			       GnmFileOpener const *optional_format,
+			       IOContext *io_context,
+			       gchar const *optional_encoding);
+GODoc *go_doc_new_from_uri  (char const *uri,
+			     GnmFileOpener const *optional_format,
+			     IOContext *io_context, 
+			     gchar const *optional_encoding);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
 do {										\

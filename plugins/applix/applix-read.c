@@ -1512,7 +1512,7 @@ applix_conventions (void)
 }
 
 void
-applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
+applix_read (IOContext *io_context, Workbook *wb, GsfInput *src)
 {
 	int i;
 	int res;
@@ -1522,8 +1522,8 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	/* Init the state variable */
 	state.input	  = (GsfInputTextline *)gsf_input_textline_new (src);
 	state.parse_error = NULL;
-	state.wb_view     = wb_view;
-	state.wb          = wb_view_workbook (wb_view);
+	state.wb          = wb;
+	state.wb_view     = workbook_view_new (wb);
 	state.exprs       = g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.styles      = g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.colors      = g_ptr_array_new ();
@@ -1556,7 +1556,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	renamed_sheets = g_slist_reverse (renamed_sheets);
 	workbook_sheet_rename (state.wb, renamed_sheets,
 			       state.real_names, 
-			       GNM_CMD_CONTEXT (io_context));
+			       GO_CMD_CONTEXT (io_context));
 	g_slist_free (renamed_sheets);
 	g_slist_foreach (state.std_names, (GFunc)g_free, NULL);
 	g_slist_free (state.std_names);

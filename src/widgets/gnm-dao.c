@@ -20,7 +20,6 @@
  **/
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnm-dao.h"
 
 #include "gnumeric-expr-entry.h"
@@ -28,11 +27,13 @@
 #include "value.h"
 #include "workbook-control.h"
 
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtktogglebutton.h>
+#include <glib/gi18n.h>
 
 struct  _GnmDao {
 	GtkHBox 	box;
@@ -75,7 +76,7 @@ gnm_dao_init (GnmDao *gdao)
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
 
-	gdao->gui = gnm_glade_xml_new (NULL, "dao.glade", NULL, NULL);
+	gdao->gui = go_libglade_new (NULL, "dao.glade", NULL, NULL);
 	if (gdao->gui == NULL)
 		return;
 

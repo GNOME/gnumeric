@@ -121,25 +121,38 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
 	       GnmFileOpener const *optional_format, gchar const *optional_encoding)
 {
 	IOContext *io_context;
-	WorkbookView *wbv;
+	Workbook *old_wb, *new_wb;
+	GODoc *doc;
+	gboolean check_pristine = TRUE;
 
-	gnm_cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), FALSE);
-	io_context = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
-	wbv = wb_view_new_from_uri (uri, optional_format, io_context, 
-				    optional_encoding);
+	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), FALSE);
+	io_context = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
+	doc = go_doc_new_from_uri (uri, optional_format, io_context, 
+				   optional_encoding);
 
 	if (gnumeric_io_error_occurred (io_context) ||
 	    gnumeric_io_warning_occurred (io_context))
 		gnumeric_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
-	gnm_cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), TRUE);
+	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), TRUE);
 
-	if (wbv != NULL) {
-		gui_wb_view_show (wbcg, wbv);
-		return TRUE;
+	if (doc == NULL)
+		return FALSE;
+
+	if (!IS_WORKBOOK (doc)) {
+		g_warning ("We imported something that isn't a spreadheet ??");
+		g_object_unref (doc);
+		return FALSE;
 	}
-	return FALSE;
+
+	new_wb = WORKBOOK (doc);
+	if (new_wb->wb_views == NULL || new_wb->wb_views->len == 0)
+		workbook_view_new (new_wb);
+
+	WORKBOOK_FOREACH_VIEW (new_wb, view,
+		gui_wb_view_show (wbcg, view););
+	return TRUE;
 }
 
 static void
@@ -346,7 +359,7 @@ update_preview_cb (GtkFileChooser *chooser)
 		}
 
 		if (buf) {
-			GdkPixbuf *pixbuf = gnm_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
+			GdkPixbuf *pixbuf = go_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
 			gtk_image_set_from_pixbuf (GTK_IMAGE (image), pixbuf);
 			g_object_unref (pixbuf);
 			gtk_widget_show (image);
@@ -629,7 +642,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	success = check_multiple_sheet_support_if_needed (fs, parent, wb_view);
 	if (!success) goto out;
 
-	success = wb_view_save_as (wb_view, fs, uri, GNM_CMD_CONTEXT (wbcg));
+	success = wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg));
 
 out:
 	return success;
@@ -794,5 +807,5 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (wb->file_format_level < FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
 	else
-		return wb_view_save (wb_view, GNM_CMD_CONTEXT (wbcg));
+		return wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
 }

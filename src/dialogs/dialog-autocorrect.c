@@ -31,7 +31,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -41,12 +40,15 @@
 
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gdk/gdkkeysyms.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtktogglebutton.h>
+#include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 #include <string.h>
 #include "help.h"
 
@@ -313,8 +315,8 @@ dialog_autocorrect (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTO_CORRECT_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"autocorrect.glade", NULL, NULL);
+	gui = go_libglade_new ("autocorrect.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

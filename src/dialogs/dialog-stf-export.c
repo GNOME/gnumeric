@@ -26,10 +26,13 @@
 
 #include <command-context.h>
 #include <workbook.h>
+#include <workbook-control.h>
 #include <sheet.h>
 #include <gui-util.h>
 #include <widgets/widget-charmap-selector.h>
 
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkcomboboxentry.h>
@@ -439,8 +442,8 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
-	state.gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"dialog-stf-export.glade", NULL, NULL);
+	state.gui = go_libglade_new ("dialog-stf-export.glade", NULL, NULL,
+				     GO_CMD_CONTEXT (wbcg));
 	if (state.gui == NULL)
 		return NULL;
 

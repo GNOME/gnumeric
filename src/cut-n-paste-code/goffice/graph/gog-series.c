@@ -126,7 +126,7 @@ cb_index_changed (GtkSpinButton *spin_button, GogSeriesElement *element)
 static gpointer
 gog_series_element_editor (GogObject *gobj,
 			   GogDataAllocator *dalloc,
-			   GnmCmdContext *cc)
+			   GOCmdContext *cc)
 {
 	static guint series_element_pref_page = 1;
 	GtkWidget *w, *vbox, *spin_button = NULL;
@@ -343,7 +343,7 @@ cb_show_in_legend (GtkToggleButton *b, GObject *series)
 static gpointer
 gog_series_editor (GogObject *gobj,
 		   GogDataAllocator *dalloc,
-		   GnmCmdContext *cc)
+		   GOCmdContext *cc)
 {
 	static guint series_pref_page = 1;
 	GtkWidget *w;

@@ -4,7 +4,7 @@
 #include "gnumeric.h"
 #include <glib-object.h>
 #include <gsf/gsf.h>
-
+#include <goffice/app/goffice-app.h>
 
 /*
  * File format levels. They are ordered. When we save a file, we
@@ -64,12 +64,12 @@ typedef gboolean (*GnmFileOpenerProbeFunc) (GnmFileOpener const *fo,
 					    FileProbeLevel pl);
 typedef void     (*GnmFileOpenerOpenFunc) (GnmFileOpener const *fo,
 					   IOContext *io_context,
-					   WorkbookView *wbv,
+					   GODoc *doc,
 					   GsfInput *input);
 typedef void     (*GnmFileOpenerOpenFuncWithEnc) (GnmFileOpener const *fo,
 						  gchar const *enc,
 						  IOContext *io_context,
-						  WorkbookView *wbv,
+						  GODoc *doc,
 						  GsfInput *input);
 
 GType gnm_file_opener_get_type (void);
@@ -84,11 +84,11 @@ GnmFileOpener *gnm_file_opener_new_with_enc (char const *id,
 					     GnmFileOpenerOpenFuncWithEnc open_func);
 
 
-gboolean     gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
+gboolean    gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
 				    FileProbeLevel pl);
-void         gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
+void	    gnm_file_opener_open  (GnmFileOpener const *fo, gchar const *opt_enc,
 				   IOContext *io_context,
-				   WorkbookView *wbv, GsfInput *input);
+				   GODoc *doc, GsfInput *input);
 
 char const *gnm_file_opener_get_id		  (GnmFileOpener const *fo);
 char const *gnm_file_opener_get_description	  (GnmFileOpener const *fo);

@@ -97,7 +97,7 @@ gog_label_finalize (GObject *obj)
 }
 
 static gpointer
-gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *cc)
 {
 	static guint label_pref_page = 0;
 	GtkWidget *notebook = gtk_notebook_new ();

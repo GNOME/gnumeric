@@ -2,6 +2,7 @@
 #define GNUMERIC_PLUGIN_H
 
 #include "gnumeric.h"
+#include <goffice/app/goffice-app.h>
 #include <glib-object.h>
 
 /*
@@ -27,7 +28,7 @@ gboolean     gnm_plugin_is_loaded (GnmPlugin *pinfo);
 void         gnm_plugin_use_ref (GnmPlugin *pinfo);
 void         gnm_plugin_use_unref (GnmPlugin *pinfo);
 
-char const  *gnm_plugin_get_dir_name (GnmPlugin *pinfo);
+char const  *go_plugin_get_dir (GnmPlugin *pinfo);
 char const  *gnm_plugin_get_id (GnmPlugin *pinfo);
 char const  *gnm_plugin_get_name (GnmPlugin *pinfo);
 char const  *gnm_plugin_get_description (GnmPlugin *pinfo);
@@ -39,11 +40,11 @@ GSList      *gnm_plugin_get_services (GnmPlugin *pinfo);
  *
  */
 
-void         plugins_init (GnmCmdContext *context);
+void         plugins_init (GOCmdContext *context);
 void         plugins_shutdown (void);
 void         plugins_register_loader (const gchar *id_str, GnmPluginService *service);
 void         plugins_unregister_loader (const gchar *id_str);
-GnmPlugin   *plugins_get_plugin_by_id (const gchar *plugin_id);
+GnmPlugin   *go_app_get_plugin (const gchar *plugin_id);
 GSList      *plugins_get_available_plugins (void);
 void         plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins);
 void         plugin_db_mark_plugin_for_deactivation (GnmPlugin *pinfo, gboolean mark);

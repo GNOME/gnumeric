@@ -255,7 +255,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 
 	if (dao->type == RangeOutput
 	    && sheet_range_splits_region (dao->sheet, &range, NULL,
-					  GNM_CMD_CONTEXT (dao->wbc), cmd))
+					  GO_CMD_CONTEXT (dao->wbc), cmd))
 		return TRUE;
 
 	if (dao->clear_outputrange)
@@ -269,7 +269,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 			    range.start.col, range.start.row,
 			    range.end.col, range.end.row,
 			    clear_flags | CLEAR_NOCHECKARRAY | CLEAR_MERGES,
-			    GNM_CMD_CONTEXT (dao->wbc));
+			    GO_CMD_CONTEXT (dao->wbc));
 	return FALSE;
 }
 

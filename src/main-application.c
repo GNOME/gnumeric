@@ -118,7 +118,7 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 	    now - buf.st_mtime > days * 24 * 60 * 60) {
 		handle_paint_events ();
 
-		gnm_cmd_context_error_system (GNM_CMD_CONTEXT (ioc),
+		go_cmd_context_error_system (GO_CMD_CONTEXT (ioc),
 			_("Thank you for using Gnumeric!\n"
 			  "\n"
 			  "The version of Gnumeric you are using is quite old\n"
@@ -245,7 +245,7 @@ main (int argc, char const *argv [])
 	gboolean opened_workbook = FALSE;
 	gboolean with_gui;
 	IOContext *ioc;
-	WorkbookView *wbv;
+	GODoc *doc;
 
 	poptContext ctx;
 
@@ -273,7 +273,7 @@ main (int argc, char const *argv [])
 		handle_paint_events ();
 	} else {
 		/* TODO: Make this inconsistency go away */
-		GnmCmdContext *cc = cmd_context_stderr_new ();
+		GOCmdContext *cc = cmd_context_stderr_new ();
 		ioc = gnumeric_io_context_new (cc);
 		g_object_unref (cc);
 	}
@@ -285,7 +285,7 @@ main (int argc, char const *argv [])
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));
- 	plugins_init (GNM_CMD_CONTEXT (ioc));
+ 	plugins_init (GO_CMD_CONTEXT (ioc));
 
 	/* Load selected files */
 	if (ctx)
@@ -314,7 +314,7 @@ main (int argc, char const *argv [])
 			}
 
 			gnm_io_context_processing_file (ioc, uri);
-			wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
+			doc = go_doc_new_from_uri (uri, NULL, ioc, NULL);
 			g_free (uri);
 
 			if (gnumeric_io_error_occurred (ioc) ||
@@ -322,7 +322,7 @@ main (int argc, char const *argv [])
 				gnumeric_io_error_display (ioc);
 				gnumeric_io_error_clear (ioc);
 			}
-			if (wbv != NULL) {
+			if (doc != NULL) {
 				WorkbookControlGUI *wbcg;
 
 				wbcg = WORKBOOK_CONTROL_GUI

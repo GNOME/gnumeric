@@ -20,8 +20,6 @@
  */
 
 #include <goffice/goffice-config.h>
-/* <style.h> is only needed for gnm_font_find_closest_from_weight_slant */
-#include <style.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -132,7 +130,7 @@ get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 
 	if (res == NULL) {
 		PangoFontDescription *desc = gf->desc;
-		res = gnm_font_find_closest_from_weight_slant (
+		res = go_font_find_closest_from_weight_slant (
 			pango_font_description_get_family (desc),
 			pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
 			pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL,
@@ -613,4 +611,52 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 	
 	gog_view_render	(prend->base.view, NULL);
 	g_object_unref (prend);
+}
+
+/**
+ * go_font_find_closest_from_weight_slant :
+ *
+ * A wrapper around gnome-print because it is stupid.
+ * At least this will warn us when it is stupid
+ **/
+GnomeFont *
+go_font_find_closest_from_weight_slant (const guchar *family, 
+					GnomeFontWeight weight, 
+					gboolean italic, gdouble size)
+{
+	GnomeFont *font;
+	guchar const *fam;
+	guchar   *name;
+
+	while (1) {
+		font = gnome_font_find_closest_from_weight_slant 
+			(family, weight, italic, size);
+		fam = gnome_font_get_family_name  (font);
+		if (g_ascii_strcasecmp (family, fam) == 0)
+			return font;
+
+		name = gnome_font_get_full_name (font);
+		g_warning ("GnomePrint: Requested %s but using %s (%s)", 
+			   family, fam, name);
+		g_free (name);
+
+		/* put in some fallbacks */
+		if (!g_ascii_strcasecmp (family, "Sans"))
+			family = "Sans Regular";
+		else if (!g_ascii_strcasecmp (family, "Helvetica"))
+			family = "Sans";
+		else if (!g_ascii_strcasecmp (family, "Albany"))
+			family = "Arial";
+		/* one of the arials */
+		else if (!g_ascii_strncasecmp (family, "Arial ", 6))
+			family = "Arial";
+		else if (!g_ascii_strcasecmp (family, "Arial"))
+			family = "Sans";
+		else
+			return font;
+
+		g_warning ("Trying to fallback to '%s'", family);
+	}
+	/* notreached */
+	return font;
 }

@@ -61,7 +61,7 @@ gint ms_excel_write_debug = 0;
 gint ms_excel_object_debug = 0;
 
 gboolean excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
-void excel_file_open (GnmFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
+void excel_file_open (GnmFileOpener const *fo, IOContext *context, GODoc *doc, GsfInput *input);
 void excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_dsf_file_save   (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
@@ -136,23 +136,14 @@ excel_read_metadata (Workbook  *wb, GsfInfile *ole, char const *name,
 	}
 }
 
-/*
- * excel_file_open
- * @fo:         File opener
- * @context:   	IO context
- * @wbv:    	Workbook view
- * @input:  	Input stream
- *
- * Load en excel workbook.
- */
 void
 excel_file_open (GnmFileOpener const *fo, IOContext *context,
-                 WorkbookView *wbv, GsfInput *input)
+                 GODoc *doc, GsfInput *input)
 {
 	GsfInput  *stream = NULL;
 	GError    *err = NULL;
 	GsfInfile *ole = gsf_infile_msole_new (input, &err);
-	Workbook  *wb = wb_view_workbook (wbv);
+	Workbook  *wb = WORKBOOK (doc);
 	gboolean   is_double_stream_file, is_97;
 
 	if (ole == NULL) {
@@ -163,7 +154,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 		data = gsf_input_read (input, 2, NULL);
 		if (data && data[0] == 0x09 && (data[1] & 0xf1) == 0) {
 			gsf_input_seek (input, -2, G_SEEK_CUR);
-			excel_read_workbook (context, wbv, input,
+			excel_read_workbook (context, wb, input,
 					     &is_double_stream_file);
 			/* NOTE : we lack a saver for the early formats */
 			return;
@@ -171,7 +162,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 
 		/* OK, it really isn't an Excel file */
 		g_return_if_fail (err != NULL);
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			err->message);
 		g_error_free (err);
 		return;
@@ -179,13 +170,13 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 
 	stream = find_content_stream (ole, &is_97);
 	if (stream == NULL) {
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			 _("No Workbook or Book streams found."));
 		g_object_unref (G_OBJECT (ole));
 		return;
 	}
 
-	excel_read_workbook (context, wbv, stream, &is_double_stream_file);
+	excel_read_workbook (context, wb, stream, &is_double_stream_file);
 	g_object_unref (G_OBJECT (stream));
 
 	excel_read_metadata (wb, ole, "\05SummaryInformation", context);

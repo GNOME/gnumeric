@@ -32,8 +32,8 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/go-plugin-module-defs.h>
 
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
@@ -49,7 +49,7 @@ typedef Gog2DPlotClass GogXYPlotClass;
 
 typedef Gog2DPlotClass GogBubblePlotClass;
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GO_PLUGIN_MODULE_INFO_DECL;
 
 static GogObjectClass *plot2d_parent_klass;
 static void gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
@@ -379,10 +379,11 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotBubble");
 }
 
-extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GnmCmdContext *cc);
+extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
 static gpointer
-gog_bubble_plot_editor (GogObject *item, G_GNUC_UNUSED GogDataAllocator *dalloc,
-			GnmCmdContext *cc)
+gog_bubble_plot_editor (GogObject *item,
+			G_GNUC_UNUSED GogDataAllocator *dalloc,
+			GOCmdContext *cc)
 {
 	return gog_bubble_plot_pref (GOG_BUBBLE_PLOT (item), cc);
 }
@@ -1012,7 +1013,7 @@ static void
 gog_xy_series_populate_editor (GogSeries *series,
 				GtkNotebook *book,
 				GogDataAllocator *dalloc,
-				GnmCmdContext *cc)
+				GOCmdContext *cc)
 {
 	GtkWidget *error_page;
 	error_page = gog_error_bar_prefs (series, "y-errors", FALSE, dalloc, cc);

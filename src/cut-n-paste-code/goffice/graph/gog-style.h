@@ -23,11 +23,11 @@
 
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/app/goffice-app.h>	/* for GOCmdContext */
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/utils/go-gradient.h>
 #include <goffice/utils/go-pattern.h>
 #include <glib-object.h>
-#include <command-context.h>	/* for GnmCmdContext */
 
 G_BEGIN_DECLS
 
@@ -111,7 +111,8 @@ GogStyle  *gog_style_dup		(GogStyle const *style);
 void	   gog_style_assign		(GogStyle *dst, GogStyle const *src);
 void	   gog_style_apply_theme	(GogStyle *dst, GogStyle const *src);
 void	   gog_style_set_marker		(GogStyle *style, GOMarker *marker);
-void	   gog_style_set_font		(GogStyle *style,
+void	   gog_style_set_font		(GogStyle *style, GOFont const *font);
+void	   gog_style_set_font_desc	(GogStyle *style,
 					 PangoFontDescription *desc);
 void	   gog_style_set_fill_brightness	(GogStyle *style, float brightness);
 void	   gog_style_set_fill_image_filename	(GogStyle *style, char *filename);
@@ -123,11 +124,11 @@ void	   gog_style_force_auto		(GogStyle *style);
 
 gpointer   gog_style_editor		(GogStyle *style,
 					 GogStyle *default_style,
-					 GnmCmdContext *cc,
+					 GOCmdContext *cc,
 					 gpointer optional_notebook,
 					 GObject *object_with_style);
 gpointer   gog_styled_object_editor	(GogStyledObject *gso,
-					 GnmCmdContext *cc,
+					 GOCmdContext *cc,
 					 gpointer optional_notebook);
 
 /* move this to the widget utils dir when we get one */

@@ -30,6 +30,7 @@
 #include <gsf/gsf-utils.h>
 #include <string.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/app/go-doc.h>
 
 static void
 gnm_file_opener_init (GnmFileOpener *fo)
@@ -76,14 +77,14 @@ gnm_file_opener_probe_real (GnmFileOpener const *fo, GsfInput *input,
 static void
 gnm_file_opener_open_real (GnmFileOpener const *fo, gchar const *opt_enc, 
 			   IOContext *io_context,
-			   WorkbookView *wbv, GsfInput *input)
+			   GODoc *doc, GsfInput *input)
 {
 	if (fo->open_func != NULL)
 		if (fo->encoding_dependent)
 			((GnmFileOpenerOpenFuncWithEnc)fo->open_func) 
-				(fo, opt_enc, io_context, wbv, input);
+				(fo, opt_enc, io_context, doc, input);
 		else
-			fo->open_func (fo, io_context, wbv, input);
+			fo->open_func (fo, io_context, doc, input);
 	else
 		gnumeric_io_error_unknown (io_context);
 }
@@ -94,8 +95,8 @@ gnm_file_opener_class_init (GnmFileOpenerClass *klass)
 	G_OBJECT_CLASS (klass)->finalize = gnm_file_opener_finalize;
 
 	klass->can_probe = gnm_file_opener_can_probe_real;
-	klass->probe = gnm_file_opener_probe_real;
-	klass->open = gnm_file_opener_open_real;
+	klass->Probe = gnm_file_opener_probe_real;
+	klass->Open = gnm_file_opener_open_real;
 }
 
 GSF_CLASS (GnmFileOpener, gnm_file_opener,
@@ -243,7 +244,7 @@ gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel 
 		 gnm_file_opener_get_id (fo),
 		 (int)pl);
 #endif
-	return GNM_FILE_OPENER_METHOD (fo, probe) (fo, input, pl);
+	return GNM_FILE_OPENER_METHOD (fo, Probe) (fo, input, pl);
 }
 
 /**
@@ -251,7 +252,7 @@ gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel 
  * @fo          : GnmFileOpener object
  * @opt_enc     : Optional encoding
  * @io_context  : Context for i/o operation
- * @wbv         : Workbook View
+ * @doc         : The document
  * @input       : Gsf input stream
  *
  * Reads content of @file_name file into workbook @wbv is attached to.
@@ -263,7 +264,7 @@ gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel 
 void
 gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
 		      IOContext *io_context,
-		      WorkbookView *wbv, GsfInput *input)
+		      GODoc *doc, GsfInput *input)
 {
 	const char *input_name;
 
@@ -277,10 +278,10 @@ gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
 		 * absolute filename. 
 		 */
 		char *uri = go_shell_arg_to_uri (input_name);
-		workbook_set_uri (wb_view_workbook (wbv), uri);
+		go_doc_set_uri (doc, uri);
 		g_free (uri);
 	}
-	GNM_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context, wbv, input);
+	GNM_FILE_OPENER_METHOD (fo, Open) (fo, opt_enc, io_context, doc, input);
 }
 
 /*

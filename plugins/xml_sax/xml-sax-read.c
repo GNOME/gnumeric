@@ -66,7 +66,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 gboolean xml_sax_file_probe (GnmFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl);
 void     xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
-			    WorkbookView *wb_view, GsfInput *input);
+			    GODoc *doc, GsfInput *input);
 
 /*****************************************************************************/
 
@@ -202,8 +202,8 @@ typedef struct {
 	GsfXMLIn base;
 
 	IOContext 	*context;	/* The IOcontext managing things */
-	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
+	WorkbookView	*cur_view;	/* View for the new workbook */
 	GnumericXMLVersion version;
 
 	Sheet *sheet;
@@ -332,7 +332,7 @@ xml_sax_wb_view (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_int (attrs, "SelectedTab", &sheet_index))
-			wb_view_sheet_focus (state->wb_view,
+			wb_view_sheet_focus (state->cur_view,
 				workbook_sheet_by_index (state->wb, sheet_index));
 		else if (xml_sax_attr_int (attrs, "Width", &width)) ;
 		else if (xml_sax_attr_int (attrs, "Height", &height)) ;
@@ -340,7 +340,7 @@ xml_sax_wb_view (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			unknown_attr (state, attrs, "WorkbookView");
 
 	if (width > 0 && height > 0)
-		wb_view_preferred_size (state->wb_view, width, height);
+		wb_view_preferred_size (state->cur_view, width, height);
 }
 static void
 xml_sax_calculation (GsfXMLIn *gsf_state, xmlChar const **attrs)
@@ -371,7 +371,7 @@ xml_sax_finish_parse_wb_attr (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blo
 	g_return_if_fail (state->attribute.name != NULL);
 	g_return_if_fail (state->attribute.value != NULL);
 
-	wb_view_set_attribute (state->wb_view,
+	wb_view_set_attribute (state->cur_view,
 		state->attribute.name, state->attribute.value);
 
 	g_free (state->attribute.value);	state->attribute.value = NULL;
@@ -608,7 +608,7 @@ xml_sax_selection_range (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	GnmRange r;
 	if (xml_sax_attr_range (attrs, &r))
 		sv_selection_add_range (
-			sheet_get_view (state->sheet, state->wb_view),
+			sheet_get_view (state->sheet, state->cur_view),
 			r.start.col, r.start.row,
 			r.start.col, r.start.row,
 			r.end.col, r.end.row);
@@ -621,7 +621,7 @@ xml_sax_selection (GsfXMLIn *gsf_state, xmlChar const **attrs)
 
 	int col = -1, row = -1;
 
-	sv_selection_reset (sheet_get_view (state->sheet, state->wb_view));
+	sv_selection_reset (sheet_get_view (state->sheet, state->cur_view));
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_int (attrs, "CursorCol", &col)) ;
@@ -644,7 +644,7 @@ xml_sax_selection_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	GnmCellPos const pos = state->cell;
 	state->cell.col = state->cell.row = -1;
-	sv_set_edit_pos (sheet_get_view (state->sheet, state->wb_view), &pos);
+	sv_set_edit_pos (sheet_get_view (state->sheet, state->cur_view), &pos);
 }
 
 static void
@@ -657,7 +657,7 @@ xml_sax_sheet_layout (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_cellpos (attrs, "TopLeft", &tmp))
 			sv_set_initial_top_left (
-				sheet_get_view (state->sheet, state->wb_view),
+				sheet_get_view (state->sheet, state->cur_view),
 				tmp.col, tmp.row);
 		else
 			unknown_attr (state, attrs, "SheetLayout");
@@ -680,7 +680,7 @@ xml_sax_sheet_freezepanes (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			unknown_attr (state, attrs, "SheetLayout");
 
 	if (flags == 3)
-		sv_freeze_panes (sheet_get_view (state->sheet, state->wb_view),
+		sv_freeze_panes (sheet_get_view (state->sheet, state->cur_view),
 			&frozen_tl, &unfrozen_tl);
 }
 
@@ -1265,7 +1265,7 @@ xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (parse_range (state->base.content->str, &r))
 		sheet_merge_add (state->sheet, &r, FALSE,
-			GNM_CMD_CONTEXT (state->context));
+			GO_CMD_CONTEXT (state->context));
 }
 
 static void
@@ -1518,7 +1518,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
   GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", FALSE, &xml_sax_calculation, NULL),
   { NULL }
 };
-static GsfXMLInDoc *doc;
+static GsfXMLInDoc *xml_doc;
 
 static GsfInput *
 maybe_gunzip (GsfInput *input)
@@ -1606,20 +1606,17 @@ maybe_convert (GsfInput *input, gboolean quiet)
 
 void
 xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
-		   WorkbookView *wb_view, GsfInput *input)
+		   GODoc *doc, GsfInput *input)
 {
 	XMLSaxParseState state;
 	char *old_num_locale, *old_monetary_locale;
 
-	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
-	g_return_if_fail (GSF_IS_INPUT (input));
-
 	/* init */
-	state.base.doc = doc;
+	state.base.doc = xml_doc;
 
 	state.context = io_context;
-	state.wb_view = wb_view;
-	state.wb = wb_view_workbook (wb_view);
+	state.wb = WORKBOOK (doc);
+	state.cur_view = NULL;
 	state.sheet = NULL;
 	state.version = GNUM_XML_UNKNOWN;
 	state.attribute.name = state.attribute.value = NULL;
@@ -1667,10 +1664,10 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 void
 plugin_init (void)
 {
-	doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
+	xml_doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
 }
 void
 plugin_cleanup (void)
 {
-	gsf_xml_in_doc_free (doc);
+	gsf_xml_in_doc_free (xml_doc);
 }

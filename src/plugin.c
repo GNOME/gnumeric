@@ -418,14 +418,14 @@ gnm_plugin_is_active (GnmPlugin *plugin)
 }
 
 /**
- * gnm_plugin_get_dir_name:
+ * go_plugin_get_dir:
  * @plugin      : The plugin
  *
  * Returns the name of the directory in which @plugin is located.
  * Returned string is != NULL and stays valid during @plugin's lifetime.
  */
 const gchar *
-gnm_plugin_get_dir_name (GnmPlugin *pinfo)
+go_plugin_get_dir (GnmPlugin *pinfo)
 {
 	g_return_val_if_fail (IS_GNM_PLUGIN (pinfo), NULL);
 
@@ -582,7 +582,7 @@ plugin_dependency_get_plugin (PluginDependency *dep)
 	g_return_val_if_fail (dep != NULL, NULL);
 
 	if (dep->plugin == NULL)
-		dep->plugin = plugins_get_plugin_by_id (dep->plugin_id);
+		dep->plugin = go_app_get_plugin (dep->plugin_id);
 	return dep->plugin;
 }
 
@@ -1511,7 +1511,7 @@ plugins_get_available_plugins (void)
 }
 
 /**
- * plugins_get_plugin_by_id:
+ * go_app_get_plugin:
  * @plugin_id    : String containing plugin ID
  *
  * Returns GnmPlugin object for plugin with ID equal to @plugin_id or NULL
@@ -1520,7 +1520,7 @@ plugins_get_available_plugins (void)
  * be sure that plugin won't disappear.
  */
 GnmPlugin *
-plugins_get_plugin_by_id (const gchar *plugin_id)
+go_app_get_plugin (const gchar *plugin_id)
 {
 	g_return_val_if_fail (plugin_id != NULL, NULL);
 
@@ -1605,8 +1605,8 @@ plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins)
 		found_plugin = g_hash_table_lookup (
 			new_available_plugins_id_hash, gnm_plugin_get_id (plugin));
 		if (found_plugin == NULL ||
-		    strcmp (gnm_plugin_get_dir_name (found_plugin),
-		            gnm_plugin_get_dir_name (plugin)) != 0) {
+		    strcmp (go_plugin_get_dir (found_plugin),
+		            go_plugin_get_dir (plugin)) != 0) {
 			GNM_SLIST_PREPEND (removed_plugins, plugin);
 		}
 	);
@@ -1673,7 +1673,7 @@ ghf_collect_new_plugins (gpointer ignored,
 			 PluginFileState *s, GSList **plugin_list)
 {
 	if (s->age == PLUGIN_NEW) {
-		GnmPlugin *plugin = plugins_get_plugin_by_id (s->plugin_id);
+		GnmPlugin *plugin = go_app_get_plugin (s->plugin_id);
 		if (plugin != NULL && !plugin->require_explicit_enabling)
 			GNM_SLIST_PREPEND (*plugin_list, plugin);
 	}
@@ -1681,13 +1681,13 @@ ghf_collect_new_plugins (gpointer ignored,
 
 /**
  * plugins_init:
- * @context     : #GnmCmdContext used to report errors
+ * @context     : #GOCmdContext used to report errors
  *
  * Initializes the plugin subsystem. Don't call this function more than
  * once.
  */
 void
-plugins_init (GnmCmdContext *context)
+plugins_init (GOCmdContext *context)
 {
 	GSList *error_list = NULL;
 	ErrorInfo *error;
@@ -1724,7 +1724,7 @@ plugins_init (GnmCmdContext *context)
 	/* get descriptors for all previously active plugins */
 	plugin_list = NULL;
 	GNM_SLIST_FOREACH (gnm_app_prefs->active_plugins, char, plugin_id,
-		GnmPlugin *plugin = plugins_get_plugin_by_id (plugin_id);
+		GnmPlugin *plugin = go_app_get_plugin (plugin_id);
 		if (plugin != NULL)
 			GNM_SLIST_PREPEND (plugin_list, plugin);
 	);
@@ -1751,7 +1751,7 @@ plugins_init (GnmCmdContext *context)
 		        _("Errors while initializing plugin system."),
 		        error_list);
 
-		gnm_cmd_context_error_info (context, error);
+		go_cmd_context_error_info (context, error);
 		error_info_free (error);
 	}
 

@@ -36,12 +36,13 @@
 #include "number-match.h"
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-cell-renderer-text.h"
+#include <gui-util.h>
 
 #include "gnumeric-gconf-priv.h"
 #include "gnumeric-gconf.h"
 
-#include <gui-util.h>
-#include <glade/glade.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeselection.h>
@@ -52,6 +53,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtktextview.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
@@ -912,8 +914,8 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		return;
 	}
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"preferences.glade", NULL, NULL);
+	gui = go_libglade_new ("preferences.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

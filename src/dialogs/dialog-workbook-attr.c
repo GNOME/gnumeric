@@ -20,18 +20,21 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
 
-#include <gui-util.h>
-#include <workbook-view.h>
 #include <workbook.h>
+#include <workbook-view.h>
 #include <workbook-edit.h>
 #include <workbook-priv.h>
+#include <gui-util.h>
+
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtknotebook.h>
+#include <glib/gi18n.h>
 
 #define WORKBOOK_ATTRIBUTE_KEY "workbook-attribute-dialog"
 
@@ -331,8 +334,8 @@ dialog_workbook_attr (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, WORKBOOK_ATTRIBUTE_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"workbook-attr.glade", NULL, NULL);
+	gui = go_libglade_new ("workbook-attr.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

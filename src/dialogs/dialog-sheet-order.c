@@ -44,7 +44,8 @@
 #include <goffice/gui-utils/go-combo-box.h>
 #include <goffice/gui-utils/go-combo-color.h>
 
-#include <glade/glade.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkstock.h>
@@ -1000,8 +1001,8 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"sheet-order.glade", NULL, NULL);
+	gui = go_libglade_new ("sheet-order.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

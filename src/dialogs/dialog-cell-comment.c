@@ -19,7 +19,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -31,6 +30,10 @@
 #include <workbook-edit.h>
 #include <ranges.h>
 #include <commands.h>
+
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
+#include <glib/gi18n.h>
 
 #define COMMENT_DIALOG_KEY "cell-comment-dialog"
 
@@ -102,8 +105,8 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, GnmCellPos const *p
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COMMENT_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"cell-comment.glade", NULL, NULL);
+	gui = go_libglade_new ("cell-comment.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

@@ -2,6 +2,7 @@
 #define GNUMERIC_SELECTION_H
 
 #include "gnumeric.h"
+#include <goffice/app/goffice-app.h>
 
 typedef enum {
 	COL_ROW_NO_SELECTION,
@@ -24,7 +25,7 @@ ColRowSelectionType sv_selection_row_type (SheetView const *sv, int row);
 char		*selection_to_string   (SheetView *sv,
 					gboolean include_sheet_name_prefix);
 GnmRange const	*selection_first_range (SheetView const *sv,
-				       GnmCmdContext *cc, char const *cmd_name);
+				       GOCmdContext *cc, char const *cmd_name);
 GSList		*selection_get_ranges  (SheetView const *sv,
 					gboolean allow_intersection);
 

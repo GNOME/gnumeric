@@ -56,7 +56,7 @@ static void gplp_load_service_file_opener (GnmPluginLoader *loader, GnmPluginSer
 static void gplp_load_service_file_saver (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
 static void gplp_load_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
 static void gplp_unload_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-static void gplp_load_service_ui (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
+/* static void gplp_load_service_ui (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error); */
 
 #define PLUGIN_GET_LOADER(plugin) \
 	GNM_PLUGIN_LOADER_PYTHON (g_object_get_data (G_OBJECT (plugin), "python-loader"))
@@ -113,7 +113,7 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 		gchar *file_name = g_strconcat (
 			loader_python->module_name, ".", *file_ext, NULL);
 		gchar *path = g_build_filename (
-			gnm_plugin_get_dir_name (loader->plugin),
+			go_plugin_get_dir (loader->plugin),
 			file_name, NULL);
 		g_free (file_name);
 		if (g_file_test (path, G_FILE_TEST_EXISTS)) {
@@ -280,7 +280,7 @@ static void
 gplp_func_file_open (GnmFileOpener const *fo, 
 		     GnmPluginService *service,
 		     IOContext *io_context, 
-		     WorkbookView *wb_view,
+		     GODoc *doc,
 		     GsfInput *input)
 {
 	ServiceLoaderDataFileOpener *loader_data;
@@ -294,7 +294,7 @@ gplp_func_file_open (GnmFileOpener const *fo,
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
-	sheet = sheet_new (wb_view_workbook (wb_view), _("Some name"));
+	sheet = sheet_new (WORKBOOK (doc), _("Some name"));
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper != NULL) {
 		 /* wrapping adds a reference */
@@ -307,7 +307,7 @@ gplp_func_file_open (GnmFileOpener const *fo,
 	}
 	if (open_result != NULL) {
 		Py_DECREF (open_result);
-		workbook_sheet_attach (wb_view_workbook (wb_view), sheet, NULL);
+		workbook_sheet_attach (WORKBOOK (doc), sheet, NULL);
 	} else {
 		gnumeric_io_error_string (io_context, py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);

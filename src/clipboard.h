@@ -2,6 +2,7 @@
 #define GNUMERIC_CLIPBOARD_H
 
 #include "gnumeric.h"
+#include <goffice/app/goffice-app.h>
 #include <pango/pango-context.h>
 
 enum {
@@ -79,7 +80,7 @@ struct _GnmPasteTarget {
 GnmCellRegion *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
 gboolean       clipboard_paste_region (GnmCellRegion const *content,
 				       GnmPasteTarget const *pt,
-				       GnmCmdContext *cc);
+				       GOCmdContext *cc);
 GnmPasteTarget*paste_target_init      (GnmPasteTarget *pt,
 				       Sheet *sheet, GnmRange const *r, int flags);
 

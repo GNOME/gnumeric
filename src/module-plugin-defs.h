@@ -36,7 +36,7 @@ void      plugin_cleanup (void);
 static GnmPlugin *gnm_get_current_plugin (void)
 {
 	static GnmPlugin *plugin = NULL;
-	if (plugin == NULL) plugin = plugins_get_plugin_by_id (PLUGIN_ID);
+	if (plugin == NULL) plugin = go_app_get_plugin (PLUGIN_ID);
 	return plugin;
 }
 #define PLUGIN (gnm_get_current_plugin ())

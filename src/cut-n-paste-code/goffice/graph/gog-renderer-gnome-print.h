@@ -31,6 +31,11 @@ void gog_graph_print_to_gnome_print (GogGraph *graph,
 				     GnomePrintContext *gp_context,
 				     double width, double height);
 
+/* gnomeprint utility */
+GnomeFont *go_font_find_closest_from_weight_slant (const guchar *family, 
+						   GnomeFontWeight weight, 
+						   gboolean italic, 
+						   gdouble size);
 G_END_DECLS
 
 #endif /* GOG_RENDERER_GNOME_PRINT_H */

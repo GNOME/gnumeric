@@ -21,13 +21,13 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-barcol.h"
-#include <src/plugin.h>
-#include <src/gui-util.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-app.h>
+#include <goffice/app/go-plugin.h>
 
-#include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
 
-GtkWidget *gog_barcol_plot_pref (GogBarColPlot *plot, GnmCmdContext *cc);
+GtkWidget *gog_barcol_plot_pref (GogBarColPlot *plot, GOCmdContext *gcc);
 
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *barcal)
@@ -42,13 +42,13 @@ cb_overlap_changed (GtkAdjustment *adj, GObject *barcol)
 }
 
 GtkWidget *
-gog_barcol_plot_pref (GogBarColPlot *barcol, GnmCmdContext *cc)
+gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *gcc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
-		plugins_get_plugin_by_id ("GOffice_plot_barcol"));
+	char const *dir = go_plugin_get_dir (
+		go_app_get_plugin ("GOffice_plot_barcol"));
 	char	 *path = g_build_filename (dir, "gog-barcol-prefs.glade", NULL);
-	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_barcol_prefs", NULL);
+	GladeXML *gui = go_libglade_new (path, "gog_barcol_prefs", NULL, gcc);
 
 	g_free (path);
         if (gui == NULL)

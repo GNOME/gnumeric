@@ -64,7 +64,7 @@ int
 main (int argc, char *argv [])
 {
 	GnomeProgram	*program;
-	GnmCmdContext	*cc;
+	GOCmdContext	*cc;
 	ErrorInfo	*plugin_errs;
 	int		 res = 0;
 	poptContext ctx;
@@ -187,7 +187,7 @@ main (int argc, char *argv [])
 			if (fs != NULL) {
 				IOContext *io_context = gnumeric_io_context_new (cc);
 				char *uri = go_shell_arg_to_uri (args[0]);
-				WorkbookView *wbv = wb_view_new_from_uri (uri, NULL,
+				GODoc *doc = go_doc_new_from_uri (uri, NULL,
 					io_context, ssconvert_import_encoding);
 				g_free (uri);
 				if (gnm_file_saver_get_save_scope (fs) !=
@@ -199,7 +199,7 @@ main (int argc, char *argv [])
 								   "Only the current sheet will be saved."),
 							 gnm_file_saver_get_id (fs));
 				}
-				res = !wb_view_save_as (wbv, fs, outfile, cc);
+				res = !wb_view_save_as (doc, fs, outfile, cc);
 				g_object_unref (wb_view_workbook (wbv));
 				g_object_unref (io_context);
 			}

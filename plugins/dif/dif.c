@@ -31,7 +31,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 
 void dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                    WorkbookView *wbv, GsfInput *input);
+                    GODoc *doc, GsfInput *input);
 void dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
                     WorkbookView const *wbv, GsfOutput *output);
 
@@ -252,9 +252,9 @@ dif_parse_sheet (DifInputContext *ctxt)
 
 void
 dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
-               WorkbookView *wbv, GsfInput *input)
+               GODoc *doc, GsfInput *input)
 {
-	Workbook *wb = wb_view_workbook (wbv);
+	Workbook *wb = WORKBOOK (doc);
 	DifInputContext *ctxt = dif_input_context_new (io_context, wb, input);
 
 	workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,

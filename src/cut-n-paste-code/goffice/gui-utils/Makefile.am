@@ -27,6 +27,10 @@ libgoffice_gui_utils_la_SOURCES =	\
 	go-action-combo-stack.h 	\
 	go-action-combo-text.c 		\
 	go-action-combo-text.h		\
+	\
+	go-font-sel.c			\
+	go-font-sel.h			\
+	\
 	go-dock-band.c			\
 	go-dock-band.h			\
 	go-dock-item-grip.c		\
@@ -47,6 +51,8 @@ go-marshalers.c : go-marshalers.list $(GLIB_GENMARSHAL)
 	cat $@.tmp >>$@
 	rm -f $@.tmp
 
-EXTRA_DIST = go-marshalers.list
+goffice_glade_DATA = go-font-sel.glade
+
+EXTRA_DIST = go-marshalers.list ${goffice_glade_DATA}
 
 include $(srcdir)/../goffice.mk

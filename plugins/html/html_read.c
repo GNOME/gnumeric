@@ -34,7 +34,6 @@
 #include "html.h"
 
 #include <sheet-object-cell-comment.h>
-#include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
 #include <sheet-merge.h>
@@ -95,7 +94,7 @@ html_append_text (GString *buf, const xmlChar *text)
 
 static void
 html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
-		   xmlBufferPtr a_buf, gboolean first, htmlDocPtr doc)
+		   xmlBufferPtr a_buf, gboolean first, htmlDocPtr html_doc)
 {
 	htmlNodePtr ptr;
 
@@ -116,7 +115,7 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 				props = ptr->properties;
 				while (props) {
 					if (xmlStrEqual (props->name, CC2XML ("href")) && props->children) {
-						htmlNodeDump (a_buf, doc, props->children);
+						htmlNodeDump (a_buf, html_doc, props->children);
 						xmlBufferAdd (a_buf, CC2XML ("\n"), -1);
 					}
 					props = props->next;
@@ -127,20 +126,20 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 				props = ptr->properties;
 				while (props) {
 					if (xmlStrEqual (props->name, CC2XML ("src")) && props->children) {
-						htmlNodeDump (a_buf, doc, props->children);
+						htmlNodeDump (a_buf, html_doc, props->children);
 						xmlBufferAdd (a_buf, CC2XML ("\n"), -1);
 					}
 					props = props->next;
 				}
 			}
-			html_read_content (ptr, buf, mstyle, a_buf, first, doc);
+			html_read_content (ptr, buf, mstyle, a_buf, first, html_doc);
 		}
 		first = FALSE;
 	}
 }
 
 static void
-html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
+html_read_row (htmlNodePtr cur, htmlDocPtr html_doc, GnmHtmlTableCtxt *tc)
 {
 	htmlNodePtr ptr;
 	int col = -1;
@@ -186,7 +185,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			if (xmlStrEqual (ptr->name, CC2XML ("th")))
 				mstyle_set_font_bold (mstyle, TRUE);
 
-			html_read_content (ptr, buf, mstyle, a_buf, TRUE, doc);
+			html_read_content (ptr, buf, mstyle, a_buf, TRUE, html_doc);
 
 			if (buf->len > 0) {
 				GnmCell *cell = sheet_cell_fetch (tc->sheet, col + 1, tc->row);
@@ -220,7 +219,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 }
 
 static void
-html_read_rows (htmlNodePtr cur, htmlDocPtr doc, Workbook *wb,
+html_read_rows (htmlNodePtr cur, htmlDocPtr html_doc, Workbook *wb,
 		GnmHtmlTableCtxt *tc)
 {
 	htmlNodePtr ptr;
@@ -232,22 +231,20 @@ html_read_rows (htmlNodePtr cur, htmlDocPtr doc, Workbook *wb,
 			tc->row++;
 			if (tc->sheet == NULL)
 				tc->sheet = html_get_sheet (NULL, wb);
-			html_read_row (ptr, doc, tc);
+			html_read_row (ptr, html_doc, tc);
 		}
 	}
 }
 
 static void
-html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view, 
+html_read_table (htmlNodePtr cur, htmlDocPtr html_doc, Workbook *wb, 
 		 GnmHtmlTableCtxt *tc)
 {
-	Workbook *wb;
 	htmlNodePtr ptr, ptr2;
 
 	g_return_if_fail (cur != NULL);
-	g_return_if_fail (wb_view != NULL);
+	g_return_if_fail (wb != NULL);
 
-	wb = wb_view_workbook (wb_view);
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type != XML_ELEMENT_NODE)
 			continue;
@@ -255,7 +252,7 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 			xmlBufferPtr buf;
 			buf = xmlBufferCreate ();
 			for (ptr2 = ptr->children; ptr2 != NULL ; ptr2 = ptr2->next) {
-				htmlNodeDump (buf, doc, ptr2);
+				htmlNodeDump (buf, html_doc, ptr2);
 			}
 			if (buf->use > 0) {
 				char *name;
@@ -267,9 +264,9 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 		} else if (xmlStrEqual (ptr->name, CC2XML ("thead")) ||
 			   xmlStrEqual (ptr->name, CC2XML ("tfoot")) ||
 			   xmlStrEqual (ptr->name, CC2XML ("tbody"))) {
-			html_read_rows (ptr, doc, wb, tc);
+			html_read_rows (ptr, html_doc, wb, tc);
 		} else if (xmlStrEqual (ptr->name, CC2XML ("tr"))) {
-			html_read_rows (cur, doc, wb, tc);
+			html_read_rows (cur, html_doc, wb, tc);
 			break;
 		}
 	}
@@ -351,8 +348,8 @@ ends_inferred_row (htmlNodePtr ptr)
  * e.g. a <td> without <tr> and <table> in front of it.  
  */
 static void
-html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
-			WorkbookView *wb_view, GnmHtmlTableCtxt *tc)
+html_search_for_tables (htmlNodePtr cur, htmlDocPtr html_doc,
+			Workbook *wb, GnmHtmlTableCtxt *tc)
 {
 	htmlNodePtr ptr;
 
@@ -366,7 +363,7 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 		return;
 	
 	if (xmlStrEqual (cur->name, CC2XML ("table"))) {
-		html_read_table (cur, doc, wb_view, tc);
+		html_read_table (cur, html_doc, wb, tc);
 	} else if (starts_inferred_table (cur) || starts_inferred_row (cur)) {
 		htmlNodePtr tnode = xmlNewNode (NULL, "table");
 	
@@ -394,10 +391,10 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 			xmlUnlinkNode (ptr);
 			xmlAddChild (tnode, ptr);
 		}
-		html_read_table (tnode, doc, wb_view, tc);
+		html_read_table (tnode, html_doc, wb, tc);
 	} else {
 		for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
-			html_search_for_tables (ptr, doc, wb_view, tc);
+			html_search_for_tables (ptr, html_doc, wb, tc);
 			/* ptr may now have been pushed down in the tree, 
 			 * if so, ptr->next is not the right pointer to 
 			 * follow */
@@ -409,13 +406,13 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 
 void
 html_file_open (GnmFileOpener const *fo, IOContext *io_context,
-		WorkbookView *wb_view, GsfInput *input)
+		GODoc *doc, GsfInput *input)
 {
 	guint8 const *buf;
 	gsf_off_t size;
 	int len, bomlen;
 	htmlParserCtxtPtr ctxt;
-	htmlDocPtr doc = NULL;
+	htmlDocPtr html_doc = NULL;
 	xmlCharEncoding enc;
 	GnmHtmlTableCtxt tc;
 
@@ -462,17 +459,17 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		}
 
 		htmlParseChunk (ctxt, (const char *)buf, 0, 1);
-		doc = ctxt->myDoc;
+		html_doc = ctxt->myDoc;
 		htmlFreeParserCtxt (ctxt);
 	}
 
-	if (doc != NULL) {
+	if (html_doc != NULL) {
 		xmlNodePtr ptr;
 		tc.sheet = NULL;
 		tc.row   = -1;
-		for (ptr = doc->children; ptr != NULL ; ptr = ptr->next)
-			html_search_for_tables (ptr, doc, wb_view, &tc);
-		xmlFreeDoc (doc);
+		for (ptr = html_doc->children; ptr != NULL ; ptr = ptr->next)
+			html_search_for_tables (ptr, html_doc, WORKBOOK (doc), &tc);
+		xmlFreeDoc (html_doc);
 	} else
 		gnumeric_io_error_info_set (io_context,
 			error_info_new_str (_("Unable to parse the html.")));

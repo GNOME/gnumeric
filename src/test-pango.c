@@ -71,7 +71,7 @@ cb_exercise_pango (gpointer data)
 int
 main (int argc, char *argv [])
 {
-	GnmCmdContext *cc;
+	GOCmdContext *cc;
 	WorkbookControl *wbc;
 	IOContext *ioc;
 	poptContext ctx;
@@ -87,7 +87,7 @@ main (int argc, char *argv [])
 	/* TODO: Use the ioc. */
 	gnm_common_init (FALSE);
 
- 	plugins_init (GNM_CMD_CONTEXT (ioc));
+ 	plugins_init (GO_CMD_CONTEXT (ioc));
 	g_object_unref (ioc);
 
 	initial_workbook_open_complete = TRUE; /* make the last unref exit */

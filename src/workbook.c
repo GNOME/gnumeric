@@ -759,6 +759,15 @@ workbook_iteration_tolerance (Workbook *wb, double tolerance)
 	wb->iteration.tolerance = tolerance;
 }
 
+/*************************************************************************/
+
+GPtrArray const *
+workbook_get_views (Workbook const *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	return wb->wb_views;
+}
+
 void
 workbook_attach_view (Workbook *wb, WorkbookView *wbv)
 {
@@ -1259,7 +1268,7 @@ workbook_sheet_rename_check (Workbook *wb,
 			     GSList *sheet_indices,
 			     GSList *new_names,
 			     GSList *sheet_indices_deleted,
-			     GnmCmdContext *cc)
+			     GOCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;
@@ -1285,8 +1294,7 @@ workbook_sheet_rename_check (Workbook *wb,
 
 			if (the_new_name == NULL && 
 			    GPOINTER_TO_INT (sheet_index->data) != -1) {
-				gnm_cmd_context_error_invalid 
-					(cc, 
+				go_cmd_context_error_invalid (cc, 
 					 _("Sheet name is NULL"),
 					 the_new_name);
 				return FALSE;
@@ -1296,8 +1304,7 @@ workbook_sheet_rename_check (Workbook *wb,
 				
 				/* Is the sheet name valid utf-8 ?*/
 				if (!g_utf8_validate (the_new_name, -1, NULL)) {
-					gnm_cmd_context_error_invalid 
-						(cc, 
+					go_cmd_context_error_invalid (cc, 
 						 _("Sheet name is not valid utf-8"),
 						 the_new_name);
 					return FALSE;
@@ -1305,10 +1312,8 @@ workbook_sheet_rename_check (Workbook *wb,
 				
 				/* Is the sheet name to short ?*/
 				if (1 > g_utf8_strlen (the_new_name, -1)) {
-					gnm_cmd_context_error_invalid 
-						(cc,
-						 _("Sheet name must have at "
-						   "least 1 letter"),
+					go_cmd_context_error_invalid (cc,
+						 _("Sheet name must have at least 1 letter"),
 						 the_new_name);
 					return FALSE;
 				}
@@ -1329,10 +1334,8 @@ workbook_sheet_rename_check (Workbook *wb,
 					}
 
 					if (NULL == tmp_sheets) {
-						gnm_cmd_context_error_invalid 
-							(cc,
-							 _("There is already a "
-							   "sheet named"),
+						go_cmd_context_error_invalid (cc,
+							 _("There is already a sheet named"),
 							 the_new_name);
 						return FALSE;
 					}
@@ -1343,8 +1346,7 @@ workbook_sheet_rename_check (Workbook *wb,
 				    g_slist_find_custom (new_name->next, 
 							 the_new_name, 
 							 gnm_str_compare) != NULL) {
-					gnm_cmd_context_error_invalid 
-						(cc,
+					go_cmd_context_error_invalid (cc,
 						 _("You may not use this name twice"),
 						 the_new_name);
 					return FALSE;
@@ -1373,7 +1375,7 @@ gboolean
 workbook_sheet_rename (Workbook *wb,
 		       GSList *sheet_indices,
 		       GSList *new_names,
-		       GnmCmdContext *cc)
+		       GOCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;

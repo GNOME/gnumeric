@@ -20,20 +20,20 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
 
-#include <gui-util.h>
 #include <workbook-priv.h> /* for Workbook::summary_info */
 #include <workbook-edit.h>
 #include <commands.h>
+#include <gui-util.h>
 
-#include <glade/glade.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
-#define GLADE_FILE "summary.glade"
 #define SUMMARY_DIALOG_KEY "summary-dialog"
 #define SUMMARY_DIALOG_KEY_DIALOG "summary-dialog-SummaryState"
 
@@ -218,7 +218,8 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	if (!open_dialog)
 		return;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg), GLADE_FILE, NULL, NULL);
+	gui = go_libglade_new ("summary.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
 	if (gui == NULL)
 		return;
 

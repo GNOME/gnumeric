@@ -248,7 +248,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 		err = g_error_new (gsf_output_error_id (), 0,
 				   _("Unknown failure while saving image"));
 	if (!ret)
-		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
+		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
 
 out:
 	g_free (uri);
@@ -519,7 +519,7 @@ sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 			 GClosure *closure)
 {
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
-		       GNM_CMD_CONTEXT (wbcg), wbcg_toplevel (wbcg),
+		       GO_CMD_CONTEXT (wbcg), wbcg_toplevel (wbcg),
 		       closure);
 	wbcg_edit_attach_guru (wbcg, dialog);
 	g_object_set_data_full (G_OBJECT (dialog),

@@ -32,7 +32,8 @@
 #include <workbook-edit.h>
 #include <selection.h>
 
-#include <glade/glade.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkstock.h>
@@ -224,8 +225,8 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"search-replace.glade", NULL, NULL);
+	gui = go_libglade_new ("search-replace.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 
@@ -306,8 +307,8 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 
 	g_return_val_if_fail (wbcg != NULL, 0);
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"search-replace.glade", NULL, NULL);
+	gui = go_libglade_new ("search-replace.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return 0;
 

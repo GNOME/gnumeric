@@ -108,7 +108,7 @@ xml_io_conventions (void)
 XmlParseContext *
 xml_parse_ctx_new (xmlDocPtr     doc,
 		   xmlNsPtr      ns,
-		   WorkbookView *wb_view)
+		   Workbook	*wb)
 {
 	XmlParseContext *ctxt = g_new0 (XmlParseContext, 1);
 
@@ -124,8 +124,7 @@ xml_parse_ctx_new (xmlDocPtr     doc,
 	ctxt->ns           = ns;
 	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ctxt->shared_exprs = g_ptr_array_new ();
-	ctxt->wb_view      = wb_view;
-	ctxt->wb	   = (wb_view != NULL) ? wb_view_workbook (wb_view) : NULL;
+	ctxt->wb	   = wb;
 	ctxt->exprconv     = xml_io_conventions ();
 
 	return ctxt;
@@ -3473,14 +3472,14 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 
 	doc = xmlParseDoc (buffer);
 	if (doc == NULL) {
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbc),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
 			_("Unparsable xml in clipboard"));
 		return NULL;
 	}
 	clipboard = doc->xmlRootNode;
 	if (clipboard == NULL || strcmp (clipboard->name, "ClipboardRange")) {
 		xmlFreeDoc (doc);
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbc),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
 			_("Clipboard is in unknown format"));
 		return NULL;
 	}
@@ -4183,7 +4182,7 @@ unref_input:
 static void
 gnumeric_xml_read_workbook (GnmFileOpener const *fo,
                             IOContext *context,
-                            WorkbookView *wb_view,
+                            GODoc *doc,
                             GsfInput *input)
 {
 	xmlParserCtxtPtr pctxt;
@@ -4247,16 +4246,16 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	if (gmr == NULL) {
 		if (res != NULL)
 			xmlFreeDoc (res);
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("The file is not a Gnumeric Workbook file"));
 		return;
 	}
 
 	/* Parse the file */
-	ctxt = xml_parse_ctx_new (res, gmr, wb_view);
+	ctxt = xml_parse_ctx_new (res, gmr, WORKBOOK (doc));
 	ctxt->version = version;
 	xml_workbook_read (context, ctxt, res->xmlRootNode);
-	workbook_set_saveinfo (wb_view_workbook (ctxt->wb_view),
+	workbook_set_saveinfo (ctxt->wb,
 		FILE_FL_AUTO, gnm_file_saver_for_id ("Gnumeric_xml_sax:xml_sax"));
 
 	xml_parse_ctx_destroy (ctxt);
@@ -4284,13 +4283,13 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 
 	xml = xmlNewDoc (CC2XML ("1.0"));
 	if (xml == NULL) {
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (context),
 			_("Failure saving file"));
 		return;
 	}
 
 	/* we share context with import const_cast is safe */
-	ctxt = xml_parse_ctx_new (xml, NULL, (WorkbookView *)wb_view);
+	ctxt = xml_parse_ctx_new (xml, NULL, wb_view_workbook (wb_view));
 	ctxt->io_context = context;
 	xml->xmlRootNode = xml_workbook_write (ctxt);
 	xml_parse_ctx_destroy (ctxt);
@@ -4306,8 +4305,8 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	}
 	xmlIndentTreeOutput = TRUE;
 	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context),
-				     "Error saving XML");
+		go_cmd_context_error_export (GO_CMD_CONTEXT (context),
+			"Error saving XML");
 	if (gzout) {
 		gsf_output_close (gzout);
 		g_object_unref (gzout);

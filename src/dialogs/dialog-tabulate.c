@@ -23,16 +23,15 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
 
-#include <gui-util.h>
-#include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <tools/tabulate.h>
 #include <workbook-edit.h>
+#include <workbook-control.h>
+#include <gui-util.h>
 #include "ranges.h"
 #include "value.h"
 #include "sheet.h"
@@ -48,9 +47,12 @@
 #include "sheet-style.h"
 #include "style-color.h"
 
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkradiobutton.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 #define TABULATE_KEY "tabulate-dialog"
@@ -330,8 +332,8 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, TABULATE_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"tabulate.glade", NULL, NULL);
+	gui = go_libglade_new ("tabulate.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

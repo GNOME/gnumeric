@@ -42,6 +42,8 @@
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomeprintui/gnome-print-unit-selector.h>
 
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <libfoocanvas/foo-canvas-util.h>
 #include <libfoocanvas/foo-canvas-line.h>
@@ -216,8 +218,7 @@ get_paper_pswidth (PrinterSetupState *state)
 {
 	double height;
 	double width;
-	if (gnome_print_job_get_page_size_from_config (state->pi->print_config,
-							  &width, &height))
+	if (gnome_print_config_get_page_size (state->pi->print_config, &width, &height))
 		return width;
 	else
 		return 1.0;
@@ -234,11 +235,10 @@ get_paper_psheight (PrinterSetupState *state)
 {
 	double height;
 	double width;
-	if (gnome_print_job_get_page_size_from_config (state->pi->print_config,
-							  &width, &height))
+	if (gnome_print_config_get_page_size (state->pi->print_config, &width, &height))
 		return height;
 	else
-		return 0.0;
+		return 1.0;
 }
 
 /**
@@ -1007,8 +1007,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		return;
 	}
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (state->wbcg),
-		"hf-config.glade", NULL, NULL);
+	gui = go_libglade_new ("hf-config.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (state->wbcg));
         if (gui == NULL)
                 return;
 
@@ -1650,8 +1650,8 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 	GladeXML *gui;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"print.glade", NULL, NULL);
+	gui = go_libglade_new ("print.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return NULL;
 

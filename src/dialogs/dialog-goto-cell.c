@@ -36,8 +36,10 @@
 #include <expr-name.h>
 #include <sheet.h>
 #include <workbook-view.h>
-
 #include <workbook-edit.h>
+
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
@@ -341,8 +343,8 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, GOTO_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"goto.glade", NULL, NULL);
+	gui = go_libglade_new ("goto.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

@@ -36,12 +36,10 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
-#include <src/gui-util.h>
-#include <src/format.h>
-#include <src/widgets/widget-format-selector.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtknotebook.h>
@@ -358,10 +356,10 @@ map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bo
 		step *= 2.;	/* 2 4 6 */
 
 	/* we want the bounds to be loose so jump up a step if we get too close */
-	mant = frexpgnum (minimum / step, &expon);
-	bound [AXIS_ELEM_MIN] = step * floor (ldexpgnum (mant - GNUM_EPSILON, expon));
-	mant = frexpgnum (maximum / step, &expon);
-	bound [AXIS_ELEM_MAX] = step * ceil (ldexpgnum (mant + GNUM_EPSILON, expon));
+	mant = frexp (minimum / step, &expon);
+	bound [AXIS_ELEM_MIN] = step * floor (ldexp (mant - DBL_EPSILON, expon));
+	mant = frexp (maximum / step, &expon);
+	bound [AXIS_ELEM_MAX] = step * ceil (ldexp (mant + DBL_EPSILON, expon));
 	bound [AXIS_ELEM_MAJOR_TICK] = step;
 	bound [AXIS_ELEM_MINOR_TICK] = step / 5.;
 
@@ -419,7 +417,7 @@ map_linear_calc_ticks (GogAxis *axis,
 			ticks[i].type = TICK_MAJOR;
 			if (draw_labels) {
 				if (axis->assigned_format == NULL || 
-				    style_format_is_general (axis->assigned_format))
+				    go_format_is_general (axis->assigned_format))
 					ticks[i].label = go_format_value (axis->format, ticks[i].position);
 				else
 					ticks[i].label = go_format_value (axis->assigned_format, ticks[i].position);
@@ -570,7 +568,7 @@ map_log_calc_ticks (GogAxis *axis,
 			if ((i) % major_label == 0 && draw_labels) {
 				ticks[count].type = TICK_MAJOR;
 				if (axis->assigned_format == NULL || 
-				    style_format_is_general (axis->assigned_format))
+				    go_format_is_general (axis->assigned_format))
 					ticks[count].label = go_format_value (axis->format, ticks[count].position);
 				else
 					ticks[count].label = go_format_value (axis->assigned_format, ticks[count].position);
@@ -1370,7 +1368,7 @@ cb_axis_fmt_assignment_toggled (GtkToggleButton *toggle_button, GtkNotebook *not
 #endif
 
 static gpointer
-gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *gcc)
 {
 	static guint axis_pref_page = 0;
 	static char const *toggle_props[] = {
@@ -1392,8 +1390,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	/* No preferences for circular axis */
 	if (axis->type == GOG_AXIS_CIRCULAR)
 		return NULL;
-
-	gui = gnm_glade_xml_new (cc, "gog-axis-prefs.glade", "axis_pref_box", NULL);
+	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_pref_box", NULL, gcc);
 	if (gui == NULL)
 		return NULL;
 	notebook = gtk_notebook_new ();
@@ -1401,7 +1398,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_box"),
 		gtk_label_new (_("Details")));
-	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
+	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), gcc, notebook);
 
 	if (!axis->is_discrete) {
 		w = glade_xml_get_widget (gui, "map_type_combo");
@@ -1477,7 +1474,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 			gtk_label_new (_("Bounds")));
 
 		w = number_format_selector_new ();
-		if (axis->assigned_format != NULL && !style_format_is_general (axis->assigned_format))
+		if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))
 			number_format_selector_set_style_format (NUMBER_FORMAT_SELECTOR (w),
 				axis->assigned_format);
 		else if (axis->format != NULL)

@@ -14,6 +14,7 @@
 #include <file.h>
 #include <workbook-view.h>
 #include <plugin.h>
+#include <workbook.h>
 #include <plugin-util.h>
 #include <module-plugin-defs.h>
 #include <error-info.h>
@@ -28,7 +29,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 gboolean lotus_file_probe (GnmFileOpener const *fo, GsfInput *input,
                            FileProbeLevel pl);
 void     lotus_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                          WorkbookView *wb_view, GsfInput *input);
+                          GODoc *doc, GsfInput *input);
 
 
 gboolean
@@ -46,14 +47,13 @@ lotus_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 
 void
 lotus_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                 WorkbookView *wb_view, GsfInput *input)
+                 GODoc *doc, GsfInput *input)
 {
 	LotusWk1Read state;
 
 	state.input	 = input;
 	state.io_context = io_context;
-	state.wbv	 = wb_view;
-	state.wb	 = wb_view_workbook (wb_view);
+	state.wb	 = WORKBOOK (doc);
 	state.sheet	 = NULL;
 	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
 

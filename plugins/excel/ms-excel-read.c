@@ -2722,7 +2722,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 }
 
 static ExcelWorkbook *
-excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
+excel_workbook_new (MsBiffVersion ver, IOContext *context, Workbook *wb)
 {
 	static MSContainerClass const vtbl = {
 		NULL, NULL,
@@ -2739,7 +2739,7 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 	ms_container_init (&ewb->container, &vtbl, NULL, ewb, ver);
 
 	ewb->context = context;
-	ewb->wbv = wbv;
+	ewb->gnum_wb = wb;
 
 	ewb->v8.supbook     = g_array_new (FALSE, FALSE, sizeof (ExcelSupBook));
 	ewb->v8.externsheet = NULL;
@@ -2753,6 +2753,7 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 		g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify)biff_font_data_destroy);
 	ewb->excel_sheets     = g_ptr_array_new ();
+	ewb->wb_views	      = g_ptr_array_new ();
 	ewb->XF_cell_records  = g_ptr_array_new ();
 	ewb->format_table      = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
@@ -2763,8 +2764,16 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 	return ewb;
 }
 
+static WorkbookView *
+excel_wb_get_view (ExcelWorkbook *ewb, int view_idx)
+{
+	if (0 <= view_idx && view_idx < (int)ewb->wb_views->len)
+		return g_ptr_array_index (ewb->wb_views, view_idx);
+	return NULL;
+}
+
 static ExcelReadSheet *
-excel_workbook_get_sheet (ExcelWorkbook const *ewb, guint idx)
+excel_wb_get_sheet (ExcelWorkbook const *ewb, guint idx)
 {
 	if (idx < ewb->excel_sheets->len)
 		return g_ptr_array_index (ewb->excel_sheets, idx);
@@ -2816,6 +2825,9 @@ excel_workbook_destroy (ExcelWorkbook *ewb)
 	ewb->boundsheet_data_by_stream = NULL;
 	g_ptr_array_free (ewb->boundsheet_sheet_by_index, TRUE);
 	ewb->boundsheet_sheet_by_index = NULL;
+
+	g_ptr_array_free (ewb->wb_views, TRUE);
+	ewb->wb_views = NULL;
 
 	for (i = 0; i < ewb->excel_sheets->len; i++)
 		excel_sheet_destroy (g_ptr_array_index (ewb->excel_sheets, i));
@@ -3637,14 +3649,16 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 }
 
 static void
-excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
+excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet, int cur_view)
 {
+	WorkbookView *wbv = excel_wb_get_view (esheet->container.ewb, cur_view);
+	SheetView *sv = sheet_get_view (esheet->sheet, wbv);
+
 	GnmCellPos edit_pos, tmp;
 	unsigned const pane_number = GSF_LE_GET_GUINT8 (q->data);
 	int i, j = GSF_LE_GET_GUINT16 (q->data + 5);
 	int num_refs = GSF_LE_GET_GUINT16 (q->data + 7);
 	guint8 *refs;
-	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
 	GnmRange r;
 
 	if (pane_number != esheet->active_pane)
@@ -3969,7 +3983,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 	while (num_merged-- > 0) {
 		data = excel_read_range (&r, data);
 		sheet_merge_add (esheet->sheet, &r, FALSE,
-			GNM_CMD_CONTEXT (esheet->container.ewb->context));
+			GO_CMD_CONTEXT (esheet->container.ewb->context));
 	}
 }
 
@@ -4084,14 +4098,16 @@ excel_read_ITERATION (BiffQuery *q, ExcelWorkbook *ewb)
 }
 
 static void
-excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
+excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, int cur_view)
 {
+	WorkbookView *wbv = excel_wb_get_view (esheet->container.ewb, cur_view);
+	SheetView *sv = sheet_get_view (esheet->sheet, wbv);
+
 	if (esheet->freeze_panes) {
 		guint16 x = GSF_LE_GET_GUINT16 (q->data + 0);
 		guint16 y = GSF_LE_GET_GUINT16 (q->data + 2);
 		guint16 rwTop = GSF_LE_GET_GUINT16 (q->data + 4);
 		guint16 colLeft = GSF_LE_GET_GUINT16 (q->data + 6);
-		SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
 		GnmCellPos frozen, unfrozen;
 
 		esheet->active_pane = GSF_LE_GET_GUINT16 (q->data + 8);
@@ -4117,11 +4133,12 @@ excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 }
 
 static void
-excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
+excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, int cur_view)
 {
-	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
-	guint16 top_row    = 0;
-	guint16 left_col   = 0;
+	WorkbookView *wbv = excel_wb_get_view (esheet->container.ewb, cur_view);
+	SheetView    *sv  = sheet_get_view (esheet->sheet, wbv);
+	guint16 top_row   = 0;
+	guint16 left_col  = 0;
 	guint32 biff_pat_col;
 	gboolean set_grid_color;
 
@@ -4144,7 +4161,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 
 		d (0, if (options & 0x0200) fprintf (stderr,"Sheet flag selected\n"););
 		if (options & 0x0400)
-			wb_view_sheet_focus (wb_view, esheet->sheet);
+			wb_view_sheet_focus (wbv, esheet->sheet);
 
 		if (esheet->container.ver >= MS_BIFF_V8 && q->length >= 14) {
 			d (2, {
@@ -5050,7 +5067,7 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 		return NULL;
 
 	while (TRUE) {
-		char *passwd = gnm_cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context),
+		char *passwd = go_cmd_context_get_password (GO_CMD_CONTEXT (ewb->context),
 							     workbook_get_uri (ewb->gnum_wb));
 		if (passwd == NULL)
 			return _("No password supplied");
@@ -5117,13 +5134,13 @@ excel_read_REFMODE (BiffQuery *q, ExcelReadSheet *esheet)
 }
 
 static gboolean
-excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
-		  WorkbookView *wb_view, ExcelReadSheet *esheet)
+excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 {
 	MsBiffVersion const ver = esheet->container.ver;
 	PrintInformation *pi;
 	GnmValue *v;
 	unsigned i;
+	int cur_view = -1;
 
 	g_return_val_if_fail (ewb != NULL, FALSE);
 	g_return_val_if_fail (esheet != NULL, FALSE);
@@ -5250,7 +5267,6 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_HORIZONTALPAGEBREAKS:	break;
 
 		case BIFF_NOTE:		excel_read_NOTE (q, esheet);	  	break;
-		case BIFF_SELECTION:	excel_read_SELECTION (q, esheet);	break;
 		case BIFF_EXTERNNAME_v0:
 		case BIFF_EXTERNNAME_v2:
 			excel_read_EXTERNNAME (q, &esheet->container);
@@ -5284,13 +5300,18 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			pi->print_grid_lines = (GSF_LE_GET_GUINT16 (q->data) == 1);
 			break;
 
-		case BIFF_WINDOW1:	break; /* what does this do for a sheet ? */
+		/* This is probably just an artifact of early gnumeric exporters
+		 * and can be ignored */
+		case BIFF_WINDOW1:	break;
+
+		/* These are a group we assume that WINDOW2 always comes first */
 		case BIFF_WINDOW2_v0:
-		case BIFF_WINDOW2_v2:
-			excel_read_WINDOW2 (q, esheet, wb_view);
-			break;
+		case BIFF_WINDOW2_v2:	excel_read_WINDOW2   (q, esheet, ++cur_view); break;
+		case BIFF_PANE:		excel_read_PANE	     (q, esheet, cur_view); break;
+		case BIFF_SELECTION:	excel_read_SELECTION (q, esheet, cur_view); break;
+		case BIFF_SCL:		excel_read_SCL (q, esheet->sheet);	break;
+
 		case BIFF_BACKUP:	break;
-		case BIFF_PANE:		excel_read_PANE (q, esheet, wb_view);	 break;
 
 		case BIFF_PLS:
 			if (GSF_LE_GET_GUINT16 (q->data) == 0x00) {
@@ -5337,7 +5358,6 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_FILTERMODE:		break;
 		case BIFF_AUTOFILTERINFO:	break;
 		case BIFF_AUTOFILTER:	excel_read_AUTOFILTER (q, esheet);	break;
-		case BIFF_SCL:		excel_read_SCL (q, esheet->sheet);	break;
 		case BIFF_SETUP:	excel_read_SETUP (q, esheet);		break;
 		case BIFF_GCW:			break;
 		case BIFF_SCENMAN:		break;
@@ -5394,7 +5414,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_FILEPASS: {
 			char *problem = excel_read_FILEPASS (q, ewb);
 			if (problem != NULL) {
-				gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ewb->context), problem);
+				go_cmd_context_error_import (GO_CMD_CONTEXT (ewb->context), problem);
 				return FALSE;
 			}
 			break;
@@ -5524,7 +5544,7 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 }
 
 static void
-excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
+excel_read_WINDOW1 (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	if (q->length >= 16) {
 #if 0
@@ -5545,6 +5565,8 @@ excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 		/* (width of tab)/(width of horizontal scroll bar) / 1000 */
 		guint16 const ratio   = GSF_LE_GET_GUINT16 (q->data + 16);
 #endif
+		WorkbookView *wb_view = workbook_view_new (ewb->gnum_wb);
+		g_ptr_array_add (ewb->wb_views, wb_view);
 
 		/*
 		 * We are sizing the window including the toolbars,
@@ -5554,8 +5576,8 @@ excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 		 * the containing excel window.
 		 */
 		wb_view_preferred_size (wb_view,
-					.5 + width * gnm_app_display_dpi_get (TRUE) / (72. * 20.),
-					.5 + height * gnm_app_display_dpi_get (FALSE) / (72. * 20.));
+			.5 + width * gnm_app_display_dpi_get (TRUE) / (72. * 20.),
+			.5 + height * gnm_app_display_dpi_get (FALSE) / (72. * 20.));
 
 		if (options & 0x0001)
 			fprintf (stderr,"Unsupported: Hidden workbook\n");
@@ -5570,7 +5592,7 @@ excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 static ExcelWorkbook *
 excel_read_BOF (BiffQuery	 *q,
 		ExcelWorkbook	 *ewb,
-		WorkbookView	 *wb_view,
+		Workbook	 *wb,
 		IOContext	 *context,
 		MsBiffBofData	**version, int *current_sheet)
 {
@@ -5586,8 +5608,7 @@ excel_read_BOF (BiffQuery	 *q,
 		ver->version = vv;
 
 	if (ver->type == MS_BIFF_TYPE_Workbook) {
-		ewb = excel_workbook_new (ver->version, context, wb_view);
-		ewb->gnum_wb = wb_view_workbook (wb_view);
+		ewb = excel_workbook_new (ver->version, context, wb);
 		if (ver->version >= MS_BIFF_V8) {
 			guint32 ver = GSF_LE_GET_GUINT32 (q->data + 4);
 			if (ver == 0x4107cd18)
@@ -5607,8 +5628,7 @@ excel_read_BOF (BiffQuery	 *q,
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet && ewb == NULL) {
 		/* Top level worksheets existed up to & including 4.x */
 		ExcelReadSheet *esheet;
-		ewb = excel_workbook_new (ver->version, context, wb_view);
-		ewb->gnum_wb = wb_view_workbook (wb_view);
+		ewb = excel_workbook_new (ver->version, context, wb);
 		if (ver->version >= MS_BIFF_V5)
 			fprintf (stderr, "Excel 5+ - shouldn't happen\n");
 		else if (ver->version >= MS_BIFF_V4)
@@ -5619,7 +5639,7 @@ excel_read_BOF (BiffQuery	 *q,
 			fprintf (stderr, "Excel 2.x single worksheet\n");
 
 		esheet = excel_sheet_new (ewb, "Worksheet", GNM_SHEET_DATA);
-		excel_read_sheet (q, ewb, wb_view, esheet);
+		excel_read_sheet (q, ewb, esheet);
 
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet ||
 		   ver->type == MS_BIFF_TYPE_Chart) {
@@ -5629,14 +5649,14 @@ excel_read_BOF (BiffQuery	 *q,
 		if (bs == NULL) {
 			if (ver->version != MS_BIFF_V4) /* be anal */
 				fprintf (stderr,"Sheet offset in stream of 0x%x not found in list\n", q->streamPos);
-			esheet = excel_workbook_get_sheet (ewb, *current_sheet);
+			esheet = excel_wb_get_sheet (ewb, *current_sheet);
 		} else
 			esheet = bs->esheet;
 		(*current_sheet)++;
 		esheet->container.ver = ver->version;
 
 		if (ver->type == MS_BIFF_TYPE_Worksheet) {
-			excel_read_sheet (q, ewb, wb_view, esheet);
+			excel_read_sheet (q, ewb, esheet);
 			ms_container_realize_objs (sheet_container (esheet));
 		} else
 			ms_excel_chart_read (q, sheet_container (esheet),
@@ -5660,8 +5680,11 @@ excel_read_BOF (BiffQuery	 *q,
 	} else if (ver->type == MS_BIFF_TYPE_Workspace) {
 		/* Multiple sheets, XLW format from Excel 4.0 */
 		fprintf (stderr,"Excel 4.x workbook\n");
-		ewb = excel_workbook_new (ver->version, context, wb_view);
+#if 0
+#warning looks broken
+		ewb = excel_workbook_new (ver->version, context, wb);
 		ewb->gnum_wb = wb_view_workbook (wb_view);
+#endif
 	} else
 		fprintf (stderr,"Unknown BOF (%x)\n", ver->type);
 
@@ -5669,7 +5692,7 @@ excel_read_BOF (BiffQuery	 *q,
 }
 
 void
-excel_read_workbook (IOContext *context, WorkbookView *wb_view,
+excel_read_workbook (IOContext *context, Workbook *wb,
 		     GsfInput *input, gboolean *is_double_stream_file)
 {
 	ExcelWorkbook *ewb = NULL;
@@ -5700,7 +5723,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_BOF_v2:
 		case BIFF_BOF_v4:
 		case BIFF_BOF_v8:
-			ewb = excel_read_BOF (q, ewb, wb_view, context, &ver, &current_sheet);
+			ewb = excel_read_BOF (q, ewb, wb, context, &ver, &current_sheet);
 			break;
 
 		case BIFF_EOF:
@@ -5710,7 +5733,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		case BIFF_FONT_v0:
 		case BIFF_FONT_v2:	excel_read_FONT (q, ewb);			break;
-		case BIFF_WINDOW1:	excel_read_WINDOW1 (q, wb_view);		break;
+		case BIFF_WINDOW1:	excel_read_WINDOW1 (q, ewb);			break;
 		case BIFF_BOUNDSHEET:	excel_read_BOUNDSHEET (q, ewb, ver->version);	break;
 		case BIFF_PALETTE:	excel_read_PALETTE (q, ewb);			break;
 
@@ -5901,11 +5924,11 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		/* If we were forced to stop then the load failed */
 		if (problem_loading != NULL)
-			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), problem_loading);
+			go_cmd_context_error_import (GO_CMD_CONTEXT (context), problem_loading);
 		return;
 	}
 
-	gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
+	go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 		_("Unable to locate valid MS Excel workbook"));
 }
 

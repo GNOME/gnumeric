@@ -16,13 +16,13 @@ struct _GnmFileOpenerClass {
 
 	gboolean  (*can_probe) (GnmFileOpener const *fo,
 				FileProbeLevel pl);
-	gboolean  (*probe) (GnmFileOpener const *fo,
+	gboolean  (*Probe) (GnmFileOpener const *fo,
 	                    GsfInput *input,
 	                    FileProbeLevel pl);
-	void      (*open)  (GnmFileOpener const *fo,
+	void      (*Open)  (GnmFileOpener const *fo,
 			    gchar const *opt_enc,
 	                    IOContext *io_context,
-	                    WorkbookView *wbv,
+	                    GODoc *doc,
 	                    GsfInput *input);
 };
 

@@ -19,7 +19,6 @@
 #include <expr.h>
 #include <cell.h>
 #include <workbook.h>
-#include <workbook-view.h>
 #include <parse-util.h>
 #include <sheet-style.h>
 #include <style.h>
@@ -36,7 +35,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 gboolean pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			 FileProbeLevel pl);
 void     pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
-			WorkbookView *wb_view, GsfInput *input);
+			GODoc *doc, GsfInput *input);
 
 static char const *formula1[] = {
 	NULL,			/* 0 */
@@ -655,7 +654,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 
 void
 pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
-               WorkbookView *wb_view, GsfInput *input)
+               GODoc *doc, GsfInput *input)
 {
 	Workbook *wb;
 	char  *name;
@@ -663,7 +662,7 @@ pln_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	ErrorInfo *error;
 	PlanPerfectImport state;
 
-	wb    = wb_view_workbook (wb_view);
+	wb    = WORKBOOK (doc);
 	name  = workbook_sheet_get_free_name (wb, "PlanPerfect", FALSE, TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);

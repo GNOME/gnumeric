@@ -63,6 +63,9 @@
 #include <libart_lgpl/art_alphagamma.h>
 #include <libart_lgpl/art_pixbuf.h>
 #include <libart_lgpl/art_rgb_pixbuf_affine.h>
+
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-cmd-context.h>
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
@@ -2526,8 +2529,8 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
-		"cell-format.glade", NULL, NULL);
+	gui = go_libglade_new ("cell-format.glade", NULL, NULL,
+			       GO_CMD_CONTEXT (wbcg));
         if (gui == NULL)
                 return;
 

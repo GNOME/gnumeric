@@ -546,7 +546,7 @@ gnm_plugin_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
 static void
 gnm_plugin_file_opener_open (GnmFileOpener const *fo, gchar const *unused_enc,
 			     IOContext *io_context,
-			     WorkbookView *wbv, GsfInput *input)
+			     GODoc *doc, GsfInput *input)
 
 {
 	GnmPluginFileOpener *pfo = GNM_PLUGIN_FILE_OPENER (fo);
@@ -564,7 +564,7 @@ gnm_plugin_file_opener_open (GnmFileOpener const *fo, gchar const *unused_enc,
 	}
 	g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
 
-	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, wbv, input);
+	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, doc, input);
 }
 
 static void
@@ -573,8 +573,8 @@ gnm_plugin_file_opener_class_init (GnmPluginFileOpenerClass *klass)
 	GnmFileOpenerClass *gnm_file_opener_klass = GNM_FILE_OPENER_CLASS (klass);
 
 	gnm_file_opener_klass->can_probe = gnm_plugin_file_opener_can_probe;
-	gnm_file_opener_klass->probe = gnm_plugin_file_opener_probe;
-	gnm_file_opener_klass->open = gnm_plugin_file_opener_open;
+	gnm_file_opener_klass->Probe = gnm_plugin_file_opener_probe;
+	gnm_file_opener_klass->Open = gnm_plugin_file_opener_open;
 }
 
 GSF_CLASS (GnmPluginFileOpener, gnm_plugin_file_opener,
@@ -1308,7 +1308,7 @@ plugin_service_ui_activate (GnmPluginService *service, ErrorInfo **ret_error)
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	full_file_name = g_build_filename (
-		gnm_plugin_get_dir_name (service->plugin),
+		go_plugin_get_dir (service->plugin),
 		service_ui->file_name, NULL);
 	uinode = bonobo_ui_node_from_file (full_file_name);
 	if (uinode == NULL) {

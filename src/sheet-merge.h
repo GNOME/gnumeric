@@ -2,11 +2,12 @@
 #define GNUMERIC_SHEET_MERGED_H
 
 #include "gnumeric.h"
+#include <goffice/app/goffice-app.h>
 
 gboolean     sheet_merge_add		(Sheet *sheet, GnmRange const *r,
-					 gboolean clear, GnmCmdContext *cc);
+					 gboolean clear, GOCmdContext *cc);
 gboolean     sheet_merge_remove		(Sheet *sheet, GnmRange const *r,
-					 GnmCmdContext *cc);
+					 GOCmdContext *cc);
 GSList      *sheet_merge_get_overlap	(Sheet const *sheet, GnmRange const *r);
 GnmRange const *sheet_merge_contains_pos	(Sheet const *sheet, GnmCellPos const *pos);
 GnmRange const *sheet_merge_is_corner	(Sheet const *sheet, GnmCellPos const *pos);
