@@ -24,8 +24,9 @@ typedef struct {
 	GladeXML *gui;
 	GnomeDialog *dialog;
 	GnumericExprEntry *rangetext;
-	SearchReplaceDialogCallback cb;
-	gboolean search_and_replace;
+	SearchReplaceDialogCallback cb_replace;
+	SearchDialogCallback cb_search;
+	gboolean repl;
 } DialogState;
 
 static const char *error_group[] = {
@@ -83,7 +84,9 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	GladeXML *gui = dd->gui;
 	GnomeDialog *dialog = dd->dialog;
 	WorkbookControlGUI *wbcg = dd->wbcg;
-	SearchReplaceDialogCallback cb = dd->cb;
+	SearchReplaceDialogCallback cb_replace = dd->cb_replace;
+	SearchDialogCallback cb_search = dd->cb_search;
+	gboolean repl = dd->repl;
 	SearchReplace *sr;
 	char *err;
 	int i;
@@ -91,7 +94,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr = search_replace_new ();
 
 	sr->search_text = get_text (gui, "searchtext");
-	if (dd->search_and_replace)
+	if (dd->repl)
 		sr->replace_text = get_text (gui, "replacetext");
 	else
 		sr->replace_text = NULL;
@@ -104,7 +107,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr->range_text = g_strdup (
 		gtk_entry_get_text (GTK_ENTRY (dd->rangetext)));
 
-	if (dd->search_and_replace) {
+	if (dd->repl) {
 		sr->query = is_checked (gui, "query");
 		sr->preserve_case = is_checked (gui, "preserve_case");
 	}
@@ -116,15 +119,15 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr->search_expressions = is_checked (gui, "search_expr");
 	sr->search_comments = is_checked (gui, "search_comments");
 
-	if (dd->search_and_replace) {
+	if (dd->repl) {
 		i = gnumeric_glade_group_value (gui, error_group);
 		sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
 	}
 
 	i = gnumeric_glade_group_value (gui, direction_group);
-	sr->by_row = (i == -1) ? TRUE : (gboolean)i;
+	sr->by_row = (i == 0);
 
-	err = search_replace_verify (sr, dd->search_and_replace);
+	err = search_replace_verify (sr, dd->repl);
 	if (err) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err);
 		g_free (err);
@@ -143,7 +146,10 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	dd = NULL;  /* Destroyed */
 
-	cb (wbcg, sr);
+	if (repl)
+		cb_replace (wbcg, sr);
+	else
+		cb_search (wbcg, sr);
 	search_replace_free (sr);
 }
 
@@ -222,9 +228,10 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	dd = g_new (DialogState, 1);
 	dd->wbcg = wbcg;
 	dd->gui = gui;
-	dd->cb = cb;
+	dd->cb_search = NULL;
+	dd->cb_replace = cb;
 	dd->dialog = dialog;
-	dd->search_and_replace = TRUE;
+	dd->repl = TRUE;
 
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
@@ -261,6 +268,75 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 
 	non_model_dialog (wbcg, dialog);
 }
+
+void
+dialog_search (WorkbookControlGUI *wbcg,
+	       SearchDialogCallback cb)
+{
+	GladeXML *gui;
+	GnomeDialog *dialog;
+	GtkBox *hbox;
+	DialogState *dd;
+
+	g_return_if_fail (wbcg != NULL);
+
+	/* Only one guru per workbook. */
+	if (wbcg_edit_has_guru (wbcg))
+		return;
+
+	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
+		return;
+
+	gui = gnumeric_glade_xml_new (wbcg, "search.glade");
+        if (gui == NULL)
+                return;
+
+	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "search_dialog"));
+
+	dd = g_new (DialogState, 1);
+	dd->wbcg = wbcg;
+	dd->gui = gui;
+	dd->cb_search = cb;
+	dd->cb_replace = NULL;
+	dd->dialog = dialog;
+	dd->repl = FALSE;
+
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+
+	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
+	gnumeric_expr_entry_set_flags (
+		GNUMERIC_EXPR_ENTRY (dd->rangetext),
+		GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
+	hbox = GTK_BOX (glade_xml_get_widget (gui, "range-hbox"));
+	gtk_box_pack_start (hbox, GTK_WIDGET (dd->rangetext),
+			    TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET (dd->rangetext));
+	
+	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "ok_button")),
+			    "clicked",
+			    GTK_SIGNAL_FUNC (ok_clicked),
+			    dd);
+	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
+			    "clicked",
+			    GTK_SIGNAL_FUNC (cancel_clicked),
+			    dd);
+	gtk_signal_connect (GTK_OBJECT (dialog),
+			    "destroy",
+			    GTK_SIGNAL_FUNC (dialog_destroy),
+			    dd);
+	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (set_focus), dd);
+	gtk_signal_connect (GTK_OBJECT (dd->rangetext), "focus-in-event",
+			    GTK_SIGNAL_FUNC (range_focused), dd);
+
+	gtk_widget_show_all (dialog->vbox);
+	gnumeric_expr_entry_set_scg (dd->rangetext,
+				     wb_control_gui_cur_sheet (wbcg));
+	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
+
+	non_model_dialog (wbcg, dialog);
+}
+
 
 
 int
