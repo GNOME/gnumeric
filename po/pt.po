@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-05-10 02:34+0100\n"
-"PO-Revision-Date: 2002-05-10 02:35+0000\n"
+"POT-Creation-Date: 2002-05-26 03:02+0100\n"
+"PO-Revision-Date: 2002-05-26 03:05+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -421,7 +421,7 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4534
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "A ler ficheiro..."
@@ -545,16 +545,16 @@ msgstr "Gráfico%d"
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: plugins/excel/ms-excel-read.c:4526
+#: plugins/excel/ms-excel-read.c:4529
 msgid "No book or workbook streams found."
 msgstr "Nenhum fluxo de livro ou livro de trabalho encontrado."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4690
+#: plugins/excel/ms-excel-read.c:4693
 msgid "Password protected workbooks are not supported yet."
 msgstr "Livros de trabalho protegidos por senha ainda não são suportados."
 
-#: plugins/excel/ms-excel-read.c:4803
+#: plugins/excel/ms-excel-read.c:4806
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Incapaz de localizar livro de trabalho MS Excel válido"
 
@@ -4420,36 +4420,36 @@ msgid "_Wrap text"
 msgstr "Envolver te_xto"
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min &lt;= val &lt;= max         (between)"
-msgstr "mín &lt;= val &lt;= máx           (entre)"
+msgid "min <= val <= max         (between)"
+msgstr "mín <= val <= máx           (entre)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "val != limite                 (diferente de)"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val &gt;  bound                  (greater than)"
-msgstr "val &gt;  limite                 (maior do que)"
+msgid "val <  bound                  (less than)"
+msgstr "val <  limite              (menor do que)"
 
 #: src/dialogs/cell-format.glade.h:132
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "val &gt;=limite                         (maior ou igual a)"
+msgid "val <= min || max <= val (not between)"
+msgstr "val <= mín || máx <= val   (não entre)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &lt;  bound                  (less than)"
-msgstr "val &lt;  limite              (menor do que)"
+msgid "val <=bound                  (less than or equal to)"
+msgstr "val <=limite                      (menor ou igual a)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "val &lt;= mín || máx &lt;= val   (não entre)"
-
-#: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "val &lt;=limite                      (menor ou igual a)"
-
-#: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "val == limite                 (igual a)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >  bound                  (greater than)"
+msgstr "val >  limite                 (maior do que)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "val >=limite                         (maior ou igual a)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5704,15 +5704,15 @@ msgstr "Comentário"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Tem a certeza que deseja remover s folha seleccionada chamada `%s'?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5759,25 +5759,25 @@ msgstr "Tem a certeza que deseja cancelar?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr "&lt;- Remover"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "&lt;- Remove all"
-msgstr "&lt;- Remover todos"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Remover"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Remover todos"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
-msgstr "Adicionar -&gt;"
+msgid "Add ->"
+msgstr "Adicionar ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all -&gt;"
-msgstr "Adicionar todos -&gt;"
+msgid "Add all ->"
+msgstr "Adicionar todos ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7269,14 +7269,6 @@ msgstr "Introdu_za novo nome de folha:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Renomear folha"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr "&gt;="
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -21008,6 +21000,18 @@ msgstr "Não é um ficheiro Livro de Trabalho Gnumeric"
 #: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Formato de ficheiro XML Gnumeric"
+
+#~ msgid "&lt;- Remove"
+#~ msgstr "&lt;- Remover"
+
+#~ msgid "Add -&gt;"
+#~ msgstr "Adicionar -&gt;"
+
+#~ msgid "&gt;="
+#~ msgstr "&gt;="
+
+#~ msgid "&lt;="
+#~ msgstr "&lt;="
 
 #~ msgid "First argument to SCM must be a Guile expression"
 #~ msgstr "O primeiro argumento para SCM tem de ser uma expressão Guile"
