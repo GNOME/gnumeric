@@ -496,8 +496,7 @@ check_program_definition_failures (Sheet            *sheet,
 	       + param->n_int_bool_constraints; i++)
 	        (*res)->constr_coeff[i] = g_new0 (gnum_float,
 						  param->n_variables);
-	if (param->options.limits_report)
-	        (*res)->limits = g_new0 (SolverLimits, param->n_variables);
+	(*res)->limits = g_new (SolverLimits, param->n_variables);
 
 	return FALSE;  /* Everything Ok. */
 }

@@ -16,7 +16,12 @@ Usability fixes:
 Feature enhancements:
   * fix assume non-negative being off
   * implement bool constraints
-  * sensitivity report: fix reduced gradient
+  * sensitivity report:
+    - fix reduced cost
+    - fix adjustable cells: allowable increase
+    - fix adjustable cells: allowable decrease
+    - fix constraints: allowable increase
+    - fix constraints: allowable decrease
   * sensitivity report: fix lagrange multipliers
   * performance report: fix CPU info
   * get_lp_coeff: test that it's really LP

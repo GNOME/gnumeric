@@ -308,11 +308,18 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 	set_cell (&dao, 3, 6, _("Final"));
 	set_cell (&dao, 4, 6, _("Reduced"));
+	set_cell (&dao, 5, 6, _("Objective"));
+	set_cell (&dao, 6, 6, _("Allowable"));
+	set_cell (&dao, 7, 6, _("Allowable"));
+
 	set_cell (&dao, 1, 7, _("Cell"));
 	set_cell (&dao, 2, 7, _("Name"));
 	set_cell (&dao, 3, 7, _("Value"));
-	set_cell (&dao, 4, 7, _("Gradient"));
-	set_bold (dao.sheet, 0, 6, 4, 7);
+	set_cell (&dao, 4, 7, _("Cost"));
+	set_cell (&dao, 5, 7, _("Coefficient"));
+	set_cell (&dao, 6, 7, _("Increase"));
+	set_cell (&dao, 7, 7, _("Decrease"));
+	set_bold (dao.sheet, 0, 6, 7, 7);
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
@@ -327,7 +334,18 @@ solver_sensitivity_report (WorkbookControl *wbc,
 		set_cell_value (&dao, 3, 8 + i,
 				value_duplicate (cell->value));
 
-		/* Set `Reduced Gradient' column */
+		/* Set `Reduced Cost' column */
+		/* FIXME: Set this also?? */
+
+		/* Set `Objective Coefficient' column */
+		set_cell_float (&dao, 5, 8 + i, res->obj_coeff[i]);
+
+		/* FIXME: Set this also?? */
+
+		/* Set `Allowable Increase' column */
+		/* FIXME: Set this also?? */
+
+		/* Set `Allowable Decrease' column */
 		/* FIXME: Set this also?? */
 	}
 
@@ -336,12 +354,19 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	 * Fill in the labels of `Constraints' section.
 	 */
 	set_cell (&dao, 3, 10 + vars, _("Final"));
-	set_cell (&dao, 4, 10 + vars, _("Lagrange"));
+	set_cell (&dao, 4, 10 + vars, _("Shadow"));
+	set_cell (&dao, 5, 10 + vars, _("Constraint"));
+	set_cell (&dao, 6, 10 + vars, _("Allowable"));
+	set_cell (&dao, 7, 10 + vars, _("Allowable"));
+
 	set_cell (&dao, 1, 11 + vars, _("Cell"));
 	set_cell (&dao, 2, 11 + vars, _("Name"));
 	set_cell (&dao, 3, 11 + vars, _("Value"));
-	set_cell (&dao, 4, 11 + vars, _("Multiplier"));
-	set_bold (dao.sheet, 0, 10 + vars, 4, 11 + vars);
+	set_cell (&dao, 4, 11 + vars, _("Price"));
+	set_cell (&dao, 5, 11 + vars, _("R.H. Side"));
+	set_cell (&dao, 6, 11 + vars, _("Increase"));
+	set_cell (&dao, 7, 11 + vars, _("Decrease"));
+	set_bold (dao.sheet, 0, 10 + vars, 7, 11 + vars);
 
 	for (i = 0; i < res->param->n_constraints +
 	       res->param->n_int_bool_constraints; i++) {
@@ -360,9 +385,15 @@ solver_sensitivity_report (WorkbookControl *wbc,
 		set_cell_value (&dao, 3, 12 + vars + i,
 				value_duplicate (cell->value));
 
-		/* Set `Lagrange Multiplier' */
+		/* Set `Shadow Price' */
 		set_cell_value (&dao, 4, 12 + vars + i,
 				value_new_float (res->shadow_prizes[i]));
+
+		/* Set `Constraint R.H. Side' column */
+		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		set_cell_value (&dao, 5, 12 + vars + i,
+				value_duplicate (cell->value));
+
 	}
 
 

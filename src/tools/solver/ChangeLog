@@ -1,8 +1,11 @@
 2002-03-10  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* reports.c (solver_sensitivity_report): Some improvements.
+
 	* solver.c (is_still_feasible): Wrote.
 	(calculate_limits): Wrote.
 	(solver): Finished the limits reporting.
+	(check_program_definition_failures): Fixed allocation bug.
 
 	* reports.c (solver_program_report): Implemented the program
 	report generation.  Gives the LP program in math form.
