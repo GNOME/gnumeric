@@ -9,14 +9,14 @@
 #define SHEET_CONTROL_GUI_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), SHEET_CONTROL_GUI_TYPE))
 #define IS_SHEET_CONTROL_GUI(o)       (GTK_CHECK_TYPE((o), SHEET_CONTROL_GUI_TYPE))
 
-typedef gboolean (*SheetControlGUISlideHandler) (SheetControlGUI *sheet_view, int col, int row,
-					   gpointer user_data);
+typedef gboolean (*SheetControlGUISlideHandler) (SheetControlGUI *scg, int col, int row,
+						 gpointer user_data);
 
 struct _SheetControlGUI {
 	GtkTable  table;
 
 	Sheet            *sheet;
-	WorkbookControlGUI     *wbcg;	/* FIXME : How does sheet-view relate to workbook-control */
+	WorkbookControlGUI     *wbcg;
 	GtkWidget        *canvas;
 	GtkWidget	 *select_all_btn;
 	GnomeCanvas      *col_canvas, *row_canvas;
@@ -28,9 +28,7 @@ struct _SheetControlGUI {
 	/* Selection group */
 	GnomeCanvasGroup *selection_group;
 
-	/*
-	 * Control points for the current item
-	 */
+	/* Control points for the current item */
 	GnomeCanvasItem  *control_points [9];
 
 	/* Scrolling information */
@@ -54,46 +52,48 @@ struct _SheetControlGUI {
 GtkType          sheet_view_get_type              (void);
 GtkWidget       *sheet_view_new                   (Sheet *sheet);
 
-void             sheet_view_set_zoom_factor       (SheetControlGUI *sheet_view,
+void             sheet_view_set_zoom_factor       (SheetControlGUI *scg,
 						   double factor);
 
-void             sheet_view_redraw_all            (SheetControlGUI *sheet_view);
-void             sheet_view_redraw_cell_region    (SheetControlGUI *sheet_view,
+void             sheet_view_redraw_all            (SheetControlGUI *scg);
+void             sheet_view_redraw_cell_region    (SheetControlGUI *scg,
 						   int start_col, int start_row,
 						   int end_col, int end_row);
-void             sheet_view_redraw_headers        (SheetControlGUI *sheet_view,
+void             sheet_view_redraw_headers        (SheetControlGUI *scg,
 						   gboolean const col, gboolean const row,
 						   Range const * r /* optional == NULL */);
 
-void             sheet_view_hide_cursor           (SheetControlGUI *sheet_view);
-void             sheet_view_show_cursor           (SheetControlGUI *sheet_view);
+void             sheet_view_hide_cursor           (SheetControlGUI *scg);
+void             sheet_view_show_cursor           (SheetControlGUI *scg);
 
-GnomeCanvasItem *sheet_view_comment_create_marker (SheetControlGUI *sheet_view,
+GnomeCanvasItem *sheet_view_comment_create_marker (SheetControlGUI *scg,
 						   int col, int row);
-void             sheet_view_comment_relocate      (SheetControlGUI *sheet_view,
+void             sheet_view_comment_relocate      (SheetControlGUI *scg,
 						   int col, int row,
 						   GnomeCanvasItem *o);
-void             sheet_view_set_header_visibility (SheetControlGUI *sheet_view,
+void             sheet_view_set_header_visibility (SheetControlGUI *scg,
 						   gboolean col_headers_visible,
 						   gboolean row_headers_visible);
 
-void             sheet_view_scrollbar_config      (SheetControlGUI const *sheet_view);
+void             sheet_view_scrollbar_config      (SheetControlGUI const *scg);
 
-void             sheet_view_selection_ant         (SheetControlGUI *sheet_view);
-void             sheet_view_selection_unant       (SheetControlGUI *sheet_view);
+void             sheet_view_selection_ant         (SheetControlGUI *scg);
+void             sheet_view_selection_unant       (SheetControlGUI *scg);
 
-void             sheet_view_adjust_preferences    (SheetControlGUI *sheet_view);
+void             sheet_view_adjust_preferences    (SheetControlGUI *scg);
 
-void             sheet_view_update_cursor_pos	  (SheetControlGUI *sheet_view);
+void             sheet_view_update_cursor_pos	  (SheetControlGUI *scg);
 
 StyleFont *      sheet_view_get_style_font        (Sheet const *sheet,
-						   MStyle const * const mstyle);
+						   MStyle const *mstyle);
 
-gboolean sheet_view_start_sliding (SheetControlGUI *sheet_view,
+gboolean sheet_view_start_sliding (SheetControlGUI *scg,
 				   SheetControlGUISlideHandler slide_handler,
 				   gpointer user_data,
 				   int col, int row, int dx, int dy);
-void sheet_view_stop_sliding (SheetControlGUI *sheet_view);
+void sheet_view_stop_sliding (SheetControlGUI *scg);
+
+void scg_visible_spans_regen (SheetControlGUI *scg);
 
 typedef struct {
 	GtkTableClass parent_class;
@@ -104,6 +104,6 @@ typedef struct {
  * forces me to put them here
  */
 SheetControlGUI *sheet_new_sheet_view    (Sheet *sheet);
-void       sheet_detach_sheet_view (SheetControlGUI *sheet_view);
+void       sheet_detach_sheet_view (SheetControlGUI *scg);
 
 #endif /* GNUMERIC_SHEET_CONTROL_GUI_H */

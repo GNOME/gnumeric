@@ -781,7 +781,10 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		return gtk_widget_event (GTK_WIDGET (workbook_get_entry_logical (wbcg)),
 					 (GdkEvent *) event);
 	}
-	if (!wbcg->editing)
+
+	if (wbcg->editing)
+		sheet_update_only_grid (sheet);
+	else
 		sheet_update (sheet);
 
 	return TRUE;

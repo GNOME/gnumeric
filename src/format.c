@@ -27,10 +27,12 @@
 #include <time.h>
 #include <math.h>
 #include <float.h>
-#include <langinfo.h>
 #include <limits.h>
 #include <ctype.h>
 #include <locale.h>
+#ifdef HAVE_LANGINFO_H
+#    include <langinfo.h>
+#endif
 #ifdef HAVE_IEEEFP_H
 #    include <ieeefp.h>
 #endif
@@ -105,6 +107,7 @@ format_get_currency (void)
 gboolean
 format_month_before_day (void)
 {
+#ifdef HAVE_LANGINFO_H
 	static gboolean month_first = TRUE;
 
 	if (!date_order_cached) {
@@ -124,6 +127,14 @@ format_month_before_day (void)
 	}
 
 	return month_first;
+#else
+	static gboolean warning = TRUE;
+	if (warning) {
+		g_warning ("Incomplete locale library, dates will be month day year");
+		warning = FALSE;
+	}
+	return TRUE;
+#endif
 }
 
 /* Use comma as the arg seperator unless the decimal point is a

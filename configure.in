@@ -71,6 +71,9 @@ AC_CHECK_HEADERS(ieeefp.h)
 dnl Check for some functions
 AC_CHECK_FUNCS(random drand48)
 
+dnl check for complete locale implementation
+AC_CHECK_HEADERS(langinfo.h)
+
 dnl **************************************************
 dnl * ORBit support
 dnl **************************************************
@@ -196,8 +199,8 @@ bonobo_suffix=
 have_bonobo=false
 AC_ARG_WITH(bonobo,
 	[--{with,without}-bonobo   Compile with Bonobo support or without it],
-	if test x$withval = xno; then
-		try_bonobo=false
+	if test x$withval = xyes; then
+		try_bonobo=true
 	fi
 )
 

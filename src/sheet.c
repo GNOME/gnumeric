@@ -711,12 +711,14 @@ sheet_flag_selection_change (Sheet const *sheet)
 	sheet->priv->selection_content_changed = TRUE;
 }
 
-/*
- * sheet_update : Should be called after a logical command has finished processing
- *    to request redraws for any pending events
+/**
+ * sheet_update_only_grid :
+ *
+ * Should be called after a logical command has finished processing
+ * to request redraws for any pending events
  */
 void
-sheet_update (Sheet const *sheet)
+sheet_update_only_grid (Sheet const *sheet)
 {
 	SheetPrivate *p;
 
@@ -773,14 +775,27 @@ sheet_update (Sheet const *sheet)
 		}
 		p->resize_scrollbar = FALSE;
 	}
+}
 
-#warning disable during editing
-#if 0
-	if (sheet->workbook->editing)
-	    return;
-#endif
-	if (sheet->priv->edit_pos.content_changed) {
-		sheet->priv->edit_pos.content_changed = FALSE;
+/**
+ * sheet_update:
+ *
+ * Should be called after a logical command has finished processing to request
+ * redraws for any pending events, and to update the various status regions
+ */
+void
+sheet_update (Sheet const *sheet)
+{
+	SheetPrivate *p;
+
+	g_return_if_fail (sheet != NULL);
+
+	sheet_update_only_grid (sheet);
+
+	p = sheet->priv;
+
+	if (p->edit_pos.content_changed) {
+		p->edit_pos.content_changed = FALSE;
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
 			if (wb_view_cur_sheet (view) == sheet) {
@@ -790,8 +805,8 @@ sheet_update (Sheet const *sheet)
 		});
 	}
 
-	if (sheet->priv->edit_pos.format_changed) {
-		sheet->priv->edit_pos.format_changed = FALSE;
+	if (p->edit_pos.format_changed) {
+		p->edit_pos.format_changed = FALSE;
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
 			if (wb_view_cur_sheet (view) == sheet)
@@ -799,10 +814,10 @@ sheet_update (Sheet const *sheet)
 		});
 	}
 
-	if (sheet->priv->edit_pos.location_changed) {
+	if (p->edit_pos.location_changed) {
 		char const *new_pos = cell_pos_name (&sheet->cursor.edit_pos);
 
-		sheet->priv->edit_pos.location_changed = FALSE;
+		p->edit_pos.location_changed = FALSE;
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
 			if (wb_view_cur_sheet (view) == sheet) {
@@ -812,8 +827,8 @@ sheet_update (Sheet const *sheet)
 		});
 	}
 
-	if (sheet->priv->selection_content_changed) {
-		sheet->priv->selection_content_changed = FALSE;
+	if (p->selection_content_changed) {
+		p->selection_content_changed = FALSE;
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
 			if (wb_view_cur_sheet (view) == sheet)
