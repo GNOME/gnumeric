@@ -445,6 +445,47 @@ expr_tree_string (const char *str)
 {
 	return expr_tree_new_constant (value_new_string (str));
 }
+#if 0
+{
+const UINT16 ExcelToSc::nRowMask = 0x3FFF;
+	if( bName )
+	{
+		if( nRow & 0x4000 ) {
+			rSRD.SetColRel( TRUE );
+			rSRD.nRelCol = *( ( sal_Char * ) &nCol );
+		} else
+		{
+			rSRD.SetColRel( FALSE );
+			rSRD.nCol = nCol;
+		}
+
+		if( nRow & 0x8000 )
+		{
+			rSRD.SetRowRel( TRUE );
+			if( nRow & 0x2000 )	// Bit 13 gesetzt?
+				rSRD.nRelRow = *( ( INT16 * ) &nRow ) | 0xC000;
+			else
+				rSRD.nRelRow = nRow & nRowMask;
+		} else
+		{
+			rSRD.SetRowRel( FALSE );
+			rSRD.nRow = nRow & nRowMask;
+		}
+	} else
+	{
+		rSRD.SetColRel( ( nRow & 0x4000 ) > 0 );
+		rSRD.nCol = nCol;
+
+		rSRD.SetRowRel( ( nRow & 0x8000 ) > 0 );
+		rSRD.nRow = nRow & nRowMask;
+
+		if ( rSRD.IsColRel() )
+			rSRD.nRelCol = rSRD.nCol - aEingPos.Col();
+		if ( rSRD.IsRowRel() )
+			rSRD.nRelRow = rSRD.nRow - aEingPos.Row();
+	}
+}
+#endif
 
 /**
  *  A useful routine for extracting data from a common
@@ -454,38 +495,45 @@ static CellRef *
 getRefV7 (guint8 col, guint16 gbitrw, int curcol, int currow,
 	  gboolean const shared)
 {
-	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef));
-	cr->col          = col;
-	cr->row          = (gbitrw & 0x3fff);
-	cr->row_relative = (gbitrw & 0x8000) == 0x8000;
-	cr->col_relative = (gbitrw & 0x4000) == 0x4000;
-	cr->sheet        = NULL; /* Current Sheet */
+	CellRef *cr = (CellRef *) g_malloc (sizeof (CellRef));
+	guint16 const row = (guint16)(gbitrw & 0x3fff);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 2) {
 		printf ("7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
-			cell_coord_name (curcol, currow), (shared?" (shared)":"")) ;
+			cell_coord_name (curcol, currow), (shared?" (shared)":""));
 	}
 #endif
-	if (shared && cr->row_relative) {
-		gint8 t = (cr->row & 0x00ff);
-		cr->row = currow+t;
-	}
-	if (shared && cr->col_relative) {
-		gint8 t = (cr->col & 0x00ff);
-		cr->col = curcol+t;
-	}
-	if (cr->row_relative)
-		cr->row-= currow;
-	if (cr->col_relative)
-		cr->col-= curcol;
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 2) {
-		printf ("Returns : %s%s%s%d\n",
-			(cr->col_relative ? "":"$"), col_name (cr->col + curcol),
-			(cr->row_relative ? "":"$"), cr->row + currow + 1);
-	}
-#endif
+
+	cr->sheet = NULL;
+
+	cr->row_relative = (gbitrw & 0x8000) != 0;
+	if (cr->row_relative) {
+		if (shared) {
+			/* ICK ! XL is storing signed numbers without storing
+			 * the sign bit.  we need to assume that if the 13th
+			 * bit is set it is meant to be negative.  then we
+			 * reinstate the sign bit and allow compiler to handle
+			 * sign extension.
+			 */
+			if (row & 0x2000)
+				cr->row = (gint16)(row | 0xc000);
+			else
+				cr->row = row;
+		} else
+			cr->row = row - currow;
+	} else
+		cr->row = row;
+
+	cr->col_relative = (gbitrw & 0x4000) != 0;
+	if (cr->col_relative) {
+		if (shared)
+			cr->col = (gint8)col;
+		else
+			cr->col = col - curcol;
+	} else
+		cr->col = col;
+
 	return cr;
 }
 /**
@@ -496,7 +544,9 @@ static CellRef *
 getRefV8 (guint16 row, guint16 gbitcl, int curcol, int currow,
 	  gboolean const shared)
 {
-	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef));
+	CellRef *cr = (CellRef *) g_malloc (sizeof (CellRef));
+	guint8 const col = (guint8)(gbitcl & 0xff);
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 2) {
 		printf ("8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
@@ -504,32 +554,27 @@ getRefV8 (guint16 row, guint16 gbitcl, int curcol, int currow,
 	}
 #endif
 
-	cr->row          = row;
-	cr->col          = (gbitcl & 0x3fff);
-	cr->row_relative = (gbitcl & 0x8000) == 0x8000;
-	cr->col_relative = (gbitcl & 0x4000) == 0x4000;
-	cr->sheet        = NULL;
+	cr->sheet = NULL;
 
-	if (shared && cr->row_relative) {  /* Should be correct now -- NJL */
-		gint8 t = (cr->row & 0x00ff);
-		cr->row = currow + t;
-	}
-	if (shared && cr->col_relative) {  /* Should be correct now -- NJL */
-		gint8 t = (cr->col & 0x00ff);
-		cr->col = curcol + t;
-	}
-	if (cr->row_relative)
-		cr->row-= currow;
-	if (cr->col_relative)
-		cr->col-= curcol;
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 2) {
-		printf ("Returns : %s%s%s%d\n",
-			(cr->col_relative ? "":"$"), col_name (cr->col + curcol),
-			(cr->row_relative ? "":"$"), cr->row + currow + 1);
-	}
-#endif
-	return cr ;
+	cr->row_relative = (gbitcl & 0x8000) != 0;
+	if (cr->row_relative) {
+		if (shared)
+			cr->row = (gint16)row;
+		else
+			cr->row = row - currow;
+	} else
+		cr->row = row;
+
+	cr->col_relative = (gbitcl & 0x4000) != 0;
+	if (cr->col_relative) {
+		if (shared)
+			cr->col = (gint8)col;
+		else
+			cr->col = col - curcol;
+	} else
+		cr->col = col;
+
+	return cr;
 }
 
 typedef GList    ParseList;

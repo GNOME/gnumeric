@@ -1,3 +1,14 @@
+2001-03-02  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-read.c (getRefV8) : rewrite to handled sign extension
+	  correctly (I Hope) for the various shared/unshared states.
+	(getRefV7) : ditto.
+
+2001-02-24  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_colinfo) : work around some strange
+	  widths from a test sheet.
+
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.63

@@ -2911,9 +2911,9 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	const guint16 firstcol = MS_OLE_GET_GUINT16 (q->data);
 	guint16       lastcol  = MS_OLE_GET_GUINT16 (q->data+2);
 	guint16       width    = MS_OLE_GET_GUINT16 (q->data+4);
-	const guint16 xf       = MS_OLE_GET_GUINT16 (q->data+6);
-	const guint16 options  = MS_OLE_GET_GUINT16 (q->data+8);
-	gboolean const hidden = (options & 0x0001) ? TRUE : FALSE;
+	guint16 const xf       = MS_OLE_GET_GUINT16 (q->data+6);
+	guint16 const options  = MS_OLE_GET_GUINT16 (q->data+8);
+	gboolean hidden = (options & 0x0001) ? TRUE : FALSE;
 #if 0
 	gboolean const collapsed = (options & 0x1000) ? TRUE : FALSE;
 	int const outline_level = (options >> 8) & 0x7;
@@ -2921,22 +2921,27 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 
 	g_return_if_fail (firstcol < SHEET_MAX_COLS);
 
-	if (width != 0) {
-		/* Widths are quoted including margins
-		 * NOTE : These measurements do NOT correspond to what is
-		 * shown to the user
-		 */
+	/* Widths are quoted including margins
+	 * If the width is less than the minimum margins something is lying
+	 * hide it and give it default width.
+	 * NOTE : These measurements do NOT correspond to what is
+	 * shown to the user
+	 */
+	if (width >= 4) {
 		col_width = base_char_width_for_read (sheet, xf, FALSE) *
-			width / 256;
-	} else
+			width / 256.;
+	} else {
+		if (width > 0) 
+			hidden = TRUE;
 		/* Columns are of default width */
 		col_width = sheet->gnum_sheet->cols.default_style.size_pts;
+	}
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("Column Formatting from col %d to %d of width "
-			"%f characters (%f pts)\n", firstcol, lastcol,
-			width/256.0, col_width);
+			"%hu/256 characters (%f pts)\n", firstcol, lastcol,
+			width, col_width);
 		printf ("Options %hd, default style %hd from col %d to %d\n",
 			options, xf, firstcol, lastcol);
 	}
