@@ -118,7 +118,7 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 			rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
 			while (iterator) {
 				StyleRegion *content = g_new (StyleRegion, 1);
-				MStyle *style = mstyle_new ();
+				MStyle *style = mstyle_new_default ();
 				Range range;
 
 				mstyle_set_format (style, iterator->data);

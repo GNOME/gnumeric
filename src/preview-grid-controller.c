@@ -404,7 +404,7 @@ preview_grid_controller_new (GnomeCanvas *canvas,
 	controller->default_row_height = default_row_height;
 	controller->default_col_width  = default_col_width;
 
-	controller->default_style      = mstyle_copy (mstyle_new_default ());
+	controller->default_style      = mstyle_new_default ();
 
 	controller->get_row_height_cb   = get_row_height_cb;
 	controller->get_col_width_cb    = get_col_width_cb;

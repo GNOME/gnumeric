@@ -1,3 +1,14 @@
+2001-02-06  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/gui-clipboard.c (x_selection_to_cell_region):
+	Use mstyle_new_default instead of mstyle_new.
+
+	* src/preview-grid-controller.c (preview_grid_controller_new):
+	No need to make a copy of the default mstyle.
+
+	* src/format-template.c (format_template_set_style): 
+	Make sure the passed mstyle gets all it's elements set.
+	
 2001-02-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style-border.c (style_borders_row_draw) : init x.

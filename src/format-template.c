@@ -466,13 +466,22 @@ format_template_member_set_edge (TemplateMember *member, int edge)
 void
 format_template_member_set_style (TemplateMember *member, MStyle *mstyle)
 {
+	MStyle *mstyle_default;
+	
 	g_return_if_fail (mstyle != NULL);
 
 	if (member->mstyle)
 		mstyle_unref (member->mstyle);
 
-	member->mstyle = mstyle;
-	mstyle_ref (mstyle);
+	/*
+	 * We need to do some magic here. The problem is that the new
+	 * mstyle might not have _all_ elements set and we _do_ need it
+	 * to have all elements set. We therefore merge with the default
+	 * mstyle.
+	 */
+	mstyle_default = mstyle_new_default ();
+	member->mstyle = mstyle_copy_merge (mstyle_default, mstyle);
+	mstyle_unref (mstyle_default);
 }
 
 /******************************************************************************
