@@ -3,6 +3,7 @@
 	* src/global-gnome-font.c : Use string chunk.
 
 	* src/sheet-object-cell-comment.c :  This is a GObject now.
+	(comment_get_points) : fix x offset.
 
 2002-03-01  Morten Welinder  <terra@diku.dk>
 
