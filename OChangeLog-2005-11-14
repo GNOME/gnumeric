@@ -1,3 +1,41 @@
+2002-04-15  Jon K Hellan  <hellan@acm.org>
+
+	* src/main.[ch]: Restructure.
+
+	* src/gui-gnumeric.h: Declare WorkbookControlComponent and
+	WorkbookControlStandalone.
+
+	* GNOME_Gnumeric.server.in.in: Add gnumeric-component /
+	OAFIID:GNOME_Gnumeric_Factory
+
+	* src/Makefile.am: Add gnumeric-component to build, and new files.
+
+	* src/workbook-control-gui.h (WORKBOOK_CONTROL_GUI_CLASS): Fix typo.
+
+	* src/workbook-control-standalone.h: New file. wbcg class for
+	standalone app - public header file. Dummy for now.
+
+	* src/workbook-control-standalone.c: New file. wbcg class for
+	standalone app - source file. Dummy for now.
+
+	* src/workbook-control-standalone-priv.h: New file. wbcg class for
+	standalone app - private header file. Dummy for now.
+
+	* src/workbook-control-component.h: New file. Bonobo component
+	class - public header file. Dummy for now.
+
+	* src/workbook-control-component.c: New file. Bonobo component
+	class - source file. Dummy for now.
+
+	* src/workbook-control-component-priv.h: New file. Bonobo
+	component class - private header file. Dummy for now.
+
+	* src/main-component.c: New file. Main entry point for Bonobo
+	component.
+
+	* src/main-application.c: New file: Main entry point for
+	standalone application.
+
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-dialogs.schemas : add more preferences

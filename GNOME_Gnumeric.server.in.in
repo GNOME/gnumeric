@@ -1,4 +1,32 @@
 <oaf_info>
+<oaf_server iid="OAFIID:GNOME_Gnumeric_Factory" 
+	    type="exe" 
+	    location="@prefix@/bin/gnumeric-component">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:Bonobo/GenericFactory:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string" _value="Gnumeric Workbook viewer factory"/>
+  <oaf_attribute name="description" type="string" _value="Gnumeric Workbook viewer factory"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Gnumeric_Control" type="factory"
+ location="OAFIID:GNOME_Gnumeric_Factory">
+  <oaf_attribute name="repo_ids" type="stringv">
+    <item value="IDL:Bonobo/Unknown:1.0"/>
+    <item value="IDL:Bonobo/Control:1.0"/>
+    <item value="IDL:Bonobo/PersistStream:1.0"/>
+    <item value="IDL:Bonobo/PersistFile:1.0"/>
+  </oaf_attribute>
+  <oaf_attribute name="name" type="string" _value="Gnumeric Workbook Viewer"/>
+  <oaf_attribute name="description" type="string" _value="Gnumeric Workbook Viewer"/>
+  <oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+  <oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+    <item value="application/x-gnumeric"/>
+    <item value="application/vnd.ms-excel"/>
+  </oaf_attribute>
+  <oaf_attribute name="nautilus:view_as_name" type="string" _value="Gnumeric Workbook"/>
+</oaf_server>
+
     <oaf_server iid="OAFIID:GNOME_Gnumeric_Application"
 		type="exe"
 		location="@prefix@/bin/gnumeric">

@@ -11,6 +11,8 @@ typedef struct _ItemEdit		ItemEdit;
 typedef struct _GnumericCanvas		GnumericCanvas;
 typedef struct _GnumericPane		GnumericPane;
 typedef struct _SheetControlGUI		SheetControlGUI;
-typedef struct _WorkbookControlGUI	WorkbookControlGUI;
+typedef struct _WorkbookControlComponent  WorkbookControlComponent;
+typedef struct _WorkbookControlGUI	  WorkbookControlGUI;
+typedef struct _WorkbookControlStandalone WorkbookControlStandalone;
 
 #endif /* GUI_GNUMERIC_H */

@@ -9,6 +9,7 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "libgnumeric.h"
 #include "main.h"
 
 #include "stf.h"
@@ -76,44 +77,28 @@ int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
 
-static	int gnumeric_show_version = FALSE;
-static	char *dump_file_name = NULL;
-static	char const **startup_files = NULL;
-	char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-	char const *gnumeric_data_dir = GNUMERIC_DATADIR;
-	char *x_geometry;
+char *x_geometry;
 
-const struct poptOption
-gnumeric_popt_options[] = {
-	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,
-	  N_("Display Gnumeric's version"), NULL  },
-	{ "lib-dir", 'L', POPT_ARG_STRING, &gnumeric_lib_dir, 0,
-	  N_("Set the root library directory"), NULL  },
-	{ "data-dir", 'D', POPT_ARG_STRING, &gnumeric_data_dir, 0,
-	  N_("Adjust the root data directory"), NULL  },
 
-	{ "dump-func-defs", '\0', POPT_ARG_STRING, &dump_file_name, 0,
-	  N_("Dumps the function definitions"),   N_("FILE") },
+/* Actions common to application and component init
+   - to do before arg parsing */
+void
+init_init (char const* gnumeric_binary)
+{
+	g_set_prgname (gnumeric_binary);
 
-	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
-	  N_("Enables some debugging functions"), N_("LEVEL") },
+	/* Make stdout line buffered - we only use it for debug info */
+	setvbuf (stdout, NULL, _IOLBF, 0);
 
-	{ "debug_deps", '\0', POPT_ARG_INT, &dependency_debugging, 0,
-	  N_("Enables some dependency related debugging functions"), N_("LEVEL") },
-	{ "debug_share", '\0', POPT_ARG_INT, &expression_sharing_debugging, 0,
-	  N_("Enables some debugging functions for expression sharing"), N_("LEVEL") },
-	{ "debug_print", '\0', POPT_ARG_INT, &print_debugging, 0,
-	  N_("Enables some print debugging behavior"), N_("LEVEL") },
+	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
+        bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
 
-	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,
-	  N_("Specify the size and location of the initial window"), N_("WIDTHxHEIGHT+XOFF+YOFF")
-	},
-
-	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
-	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
-
-	{ NULL, '\0', 0, NULL, 0 }
-};
+	/* Force all of the locale segments to update from the environment.
+	 * Unless we do this they will default to C
+	 */
+	setlocale (LC_ALL, "");
+}
 
 static void
 handle_paint_events (void)
@@ -172,35 +157,9 @@ gnumeric_check_for_components (void)
  * FIXME: We hardcode the GUI command context. Change once we are able
  * to tell whether we are in GUI or not.
  */
-int
-main (int argc, char *argv [])
-{
-	poptContext ctx;
-	gboolean opened_workbook = FALSE;
-	WorkbookControl *wbc;
-	char const *gnumeric_binary = argv[0];
-
-	g_set_prgname (gnumeric_binary);
-
-	/* Make stdout line buffered - we only use it for debug info */
-	setvbuf (stdout, NULL, _IOLBF, 0);
-
-	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
-        bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
-
-	/* Force all of the locale segments to update from the environment.
-	 * Unless we do this they will default to C
-	 */
-	setlocale (LC_ALL, "");
-
-	ctx = gnumeric_arg_parse (argc, argv);
-
-	if (gnumeric_show_version) {
-		printf (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
-		return 0;
-	}
+void
+gnm_common_init ()
+{	
 #ifdef USE_WM_ICONS
 	gnome_window_icon_set_default_from_file (GNOME_ICONDIR"/gnome-gnumeric.png");
 #endif
@@ -254,32 +213,18 @@ main (int argc, char *argv [])
 #endif
 
 	glade_gnome_init ();
+}
 
-	if (dump_file_name) {
-		int retval;
-		CommandContextStderr *ccs = command_context_stderr_new ();
-
-		plugins_init (COMMAND_CONTEXT (ccs));
-		if ((retval = command_context_stderr_get_status (ccs)) == 0)
-			function_dump_defs (dump_file_name);
-
-		return retval;
-	}
-
-#ifdef WITH_BONOBO
-#if 0
-	/* Activate object factories and init connections to POA */
-	if (!WorkbookFactory_init ())
-		g_warning (_("Could not initialize Workbook factory"));
-
-	if (!EmbeddableGridFactory_init ())
-		g_warning (_("Could not initialize EmbeddableGrid factory"));
-#endif
-#endif
+void
+gnm_application_init (poptContext *ctx)
+{
+	char const **startup_files;
+	gboolean opened_workbook = FALSE;
+	WorkbookControl *wbc;
 
 	/* Load selected files */
 	if (ctx)
-		startup_files = poptGetArgs (ctx);
+		startup_files = poptGetArgs (*ctx);
 	else
 		startup_files = NULL;
 
@@ -320,11 +265,28 @@ main (int argc, char *argv [])
 			handle_paint_events ();
 		}
 
-		warn_about_ancient_gnumerics (gnumeric_binary, wbc);
+		warn_about_ancient_gnumerics (g_get_prgname(), wbc);
 
 		gtk_main ();
 	}
+}
 
+int
+gnm_dump_func_defs (char const* filename)
+{
+	int retval;
+	CommandContextStderr *ccs = command_context_stderr_new ();
+	
+	plugins_init (COMMAND_CONTEXT (ccs));
+	if ((retval = command_context_stderr_get_status (ccs)) == 0)
+		function_dump_defs (filename);
+	
+	return retval;
+}
+
+void
+gnm_shutdown ()
+{
 	application_release_pref_dialog ();
 
 	autocorrect_shutdown ();
@@ -347,6 +309,4 @@ main (int argc, char *argv [])
 
 	gnome_config_drop_all ();
 	application_release_gconf_client ();
-
-	return 0;
 }

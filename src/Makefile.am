@@ -5,6 +5,9 @@
 SUBDIRS = pixmaps dialogs functions widgets tools
 
 bin_PROGRAMS = gnumeric
+if WITH_BONOBO
+noinst_PROGRAMS = gnumeric-component
+endif
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 								\
@@ -245,6 +248,9 @@ GNUMERIC_BASE =					\
 	workbook-control-gui.c 			\
 	workbook-control-gui.h 			\
 	workbook-control-gui-priv.h 		\
+	workbook-control-standalone.c		\
+	workbook-control-standalone.h 		\
+	workbook-control-standalone-priv.h	\
 	xml-io.c				\
 	xml-io.h				\
 	xml-io-version.h			\
@@ -266,7 +272,10 @@ GNUMERIC_BONOBO = 				\
 	sheet-object-container.c		\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
-	sheet-object-item.h
+	sheet-object-item.h                     \
+	workbook-control-component.c		\
+	workbook-control-component.h 		\
+	workbook-control-component-priv.h
 #	 $(GNUMERIC_CORBA)
 #	 embeddable-grid.c			
 #	 embeddable-grid.h			
@@ -275,6 +284,7 @@ if WITH_BONOBO
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
 	$(GNUMERIC_BONOBO)			\
+	main-application.c			\
 	normal-args.c
 #	 corba-args.c (use normal for now)
 
@@ -286,6 +296,7 @@ gnumeric_LDADD =				\
 else
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
+	main-application.c			\
 	normal-args.c
 
 gnumeric_LDADD = 				\
@@ -304,6 +315,20 @@ gnumeric_app_libs =				\
 	tools/solver/libsolver.a		\
 	tools/solver/lp_solve/liblp_solve.a
 
+
+if WITH_BONOBO
+gnumeric_component_SOURCES =			\
+	$(GNUMERIC_BASE)			\
+	$(GNUMERIC_BONOBO)			\
+	main-component.c
+#	 corba-args.c (use normal for now)
+
+gnumeric_component_LDADD = $(gnumeric_LDADD)
+
+gnumeric_component_LDFLAGS = $(gnumeric_LDFLAGS)
+
+gnumeric_component_app_libs = $(gnumeric_app_libs)
+endif
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@
