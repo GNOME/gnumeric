@@ -1,9 +1,124 @@
 
 <sect1 id="sect-graphics-drawings">
-  <title>Adding Drawing Elements to a Worksheet</title>
+  <title>Adding Drawing and Graphical Interface Elements to a Worksheet</title>
 
   <para>
-    <application>Gnumeric</application>
+    A <application>Gnumeric</application> worksheet can contain
+    graphical elements above the sheet grid layer both to allow simple
+    drawings and to allow the inclusion of a limited number of user
+    interface elements. 
   </para>
+
+  <para>
+    All of these elements are added using the toolbar which contains
+    icons for the elements. This toolbar may not be visible in which
+    case it will have to be made visible using the
+    <guimenu>View</guimenu> menu and selecting the
+    <guimenuitem>Toolbars</guimenuitem> menu item (see <xref
+    linkend="sect-configuration-toolbars"> for a detailed
+    explanation. The basic process to add any of these elements is to
+    click with the left hand mouse button on the toolbar icon
+    representing the element to be added and then to click on the
+    sheet grid. The element will then appear on the worksheet and can
+    be moved and resized like all of the graphical elements in
+    <application>Gnumeric</application>. The next sections explain in
+    turn how to use each these elements.
+  </para>
+
+  <sect2 id="sect-graphics-drawings-line">
+    <title>Drawing Lines.</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-arrow">
+    <title>Drawing Arrows.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+
+  <sect2 id="sect-graphics-drawings-filled">
+    <title>Drawing Filled Rectangles or Ovals.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-label">
+    <title>Adding Labels.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-frame">
+    <title>Adding Frames.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-checkbox">
+    <title>Adding Checkboxes.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-scrollbar">
+    <title>Adding Scrollbars.</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-spinbutton">
+    <title>Adding Spinbuttons.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+
+  <sect2 id="sect-graphics-drawings-slider">
+    <title>Adding Sliders.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+
+  <sect2 id="sect-graphics-drawings-list">
+    <title>Drawing Lines.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+
+  <sect2 id="sect-graphics-drawings-combobox">
+    <title>Adding Combination Boxes.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+
 </sect1>
 
