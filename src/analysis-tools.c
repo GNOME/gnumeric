@@ -2269,8 +2269,8 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	regression_stat_t   *regression_stat = NULL;
 	gnum_float   r;
 	gnum_float   *res,  **xss;
-	guint        i;
-	guint        xdim           = 0;
+	int          i;
+	int          xdim;
 	RegressionResult regerr;
 	int          cor_err        = 0;
 
