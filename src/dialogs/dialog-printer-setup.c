@@ -1791,7 +1791,6 @@ dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (!state)
 		return;
 
-/* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
