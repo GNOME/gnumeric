@@ -148,7 +148,8 @@ biff_bof_write (BIFF_PUT *bp, eBiff_version ver,
 	case eBiffV7:
 	case eBiffV8:
 		bp->ms_op = 8;
-		if (ver == eBiffV8)
+		if (ver == eBiffV8 || /* as per the spec. */
+		    (ver == eBiffV7 && type == eBiffTWorksheet)) /* Wierd hey */
 			BIFF_SET_GUINT16 (data, 0x0600);
 		else
 			BIFF_SET_GUINT16 (data, 0x0500);
@@ -268,10 +269,14 @@ write_externsheets (BIFF_PUT *bp, WORKBOOK *wb, SHEET *ignore)
 		return;
 	}
 
+	if (num_sheets == 1) /* Not enough sheets for extern records */
+		return;
+
 	if (ignore) /* Strangely needed */
 		num_sheets--;
 
 	g_assert (num_sheets < 0xffff);
+
 	data = ms_biff_put_len_next (bp, BIFF_EXTERNCOUNT, 2);
 	BIFF_SET_GUINT16(data, num_sheets);
 	ms_biff_put_commit (bp);
@@ -314,10 +319,10 @@ write_bits (BIFF_PUT *bp, eBiff_version ver)
 
 	/* See: S59E17.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
-	BIFF_SET_GUINT16 (data+  0, 0x01e0);
-	BIFF_SET_GUINT16 (data+  2, 0x005a);
-	BIFF_SET_GUINT16 (data+  4, 0x3fcf);
-	BIFF_SET_GUINT16 (data+  6, 0x2a4e);
+	BIFF_SET_GUINT16 (data+  0, 0x00f0);
+	BIFF_SET_GUINT16 (data+  2, 0x0078);
+	BIFF_SET_GUINT16 (data+  4, 0x378c);
+	BIFF_SET_GUINT16 (data+  6, 0x2238);
 	BIFF_SET_GUINT16 (data+  8, 0x0038); /* various flags */
 	BIFF_SET_GUINT16 (data+ 10, 0x0000); /* selected tab */
 	BIFF_SET_GUINT16 (data+ 12, 0x0000); /* displayed tab */
@@ -325,8 +330,15 @@ write_bits (BIFF_PUT *bp, eBiff_version ver)
 	BIFF_SET_GUINT16 (data+ 16, 0x0258);
 	ms_biff_put_commit (bp);
 
-	/* See: S59DCA.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_PANE, 2);
+	if (ver >= eBiffV8) {
+		/* See: S59DCA.HTM */
+		data = ms_biff_put_len_next (bp, BIFF_PANE, 2);
+		BIFF_SET_GUINT16 (data, 0x0);
+		ms_biff_put_commit (bp);
+	}
+
+	/* See: S59D5B.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_BACKUP, 2);
 	BIFF_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
@@ -343,6 +355,11 @@ write_bits (BIFF_PUT *bp, eBiff_version ver)
 	/* See: S59DCE.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PRECISION, 2);
 	BIFF_SET_GUINT16 (data, 0x0001);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DD8.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_REFRESHALL, 2);
+	BIFF_SET_GUINT16 (data, 0x0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D5E.HTM */
@@ -432,11 +449,11 @@ write_palette (BIFF_PUT *bp, WORKBOOK *wb)
 	BIFF_SET_GUINT16 (data, 2); /* Entries */
 
 	r = g = b = 0xff;
-	num = (r<<16) + (g<<8) + (b<<0);
+	num = (b<<16) + (g<<8) + (r<<0);
 	BIFF_SET_GUINT32 (data+2+PALETTE_WHITE*4, num);
 	
 	r = g = b = 0x00;
-	num = (r<<16) + (g<<8) + (b<<0);
+	num = (b<<16) + (g<<8) + (r<<0);
 	BIFF_SET_GUINT32 (data+2+PALETTE_BLACK*4, num);	
 
 	ms_biff_put_var_write  (bp, data, 10);
@@ -477,7 +494,7 @@ write_fonts (BIFF_PUT *bp, WORKBOOK *wb)
 	guint8 data[64];
 	int lp;
 	
-	for (lp=0;lp<5;lp++) { /* FIXME: Magic minimum fonts */
+	for (lp=0;lp<4;lp++) { /* FIXME: Magic minimum fonts */
 		fonts->StyleFont_to_idx = g_hash_table_new (g_direct_hash,
 							    g_direct_equal);
 		/* Kludge for now ... */
@@ -488,15 +505,15 @@ write_fonts (BIFF_PUT *bp, WORKBOOK *wb)
 /*		BIFF_SET_GUINT16(data + 4, PALETTE_BLACK); */
 		BIFF_SET_GUINT16(data + 4, 0x7fff); /* Magic ! */
 
-		if (lp%1)
+		if (1)
 			BIFF_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
 		else
-			BIFF_SET_GUINT16(data + 6, 0x2bc); /* Magic boldness  */
+			BIFF_SET_GUINT16(data + 6, 0x2bc); /* Bold */
 
 		BIFF_SET_GUINT16(data + 8, 0); /* 0: Normal, 1; Super, 2: Sub script*/
 		BIFF_SET_GUINT16(data +10, 0); /* No underline */
-		BIFF_SET_GUINT16(data +12, 0); /* ? */
-		BIFF_SET_GUINT8 (data +13, 0xa5); /* Magic from StarOffice should be 0 ! */
+		BIFF_SET_GUINT16(data +12, 0); /* seems OK. */
+		BIFF_SET_GUINT8 (data +13, 0);
 		ms_biff_put_var_write (bp, data, 14);
 		
 		biff_put_text (bp, "Arial", eBiffV7, TRUE);
@@ -536,13 +553,15 @@ write_formats (BIFF_PUT *bp, WORKBOOK *wb)
 	guint8 data[64];
 	int lp;
 	
-	for (lp=0;lp<5;lp++) { /* FIXME: Magic minimum fonts */
+	for (lp=0;lp<8;lp++) { /* FIXME: Magic minimum formats */
 		formats->StyleFormat_to_idx = g_hash_table_new (g_direct_hash,
 								g_direct_equal);
 		/* Kludge for now ... */
 		ms_biff_put_var_next (bp, BIFF_FORMAT);
 		
 		BIFF_SET_GUINT16 (data, 0);
+		ms_biff_put_var_write (bp, data, 2);
+
 		biff_put_text (bp, "0", eBiffV7, TRUE);
 		
 		ms_biff_put_commit (bp);
@@ -566,7 +585,7 @@ formats_free (FORMATS *formats)
 	}
 }
 
-#define XF_MAGIC 0
+#define XF_MAGIC 15
 
 /* See S59E1E.HTM */
 static void
@@ -586,14 +605,14 @@ write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver)
 	if (ver >= eBiffV8) {
 		BIFF_SET_GUINT16(data+0, fonts_get_index (0, 0));
 		BIFF_SET_GUINT16(data+2, formats_get_index (0, 0));
-		BIFF_SET_GUINT16(data+18, (PALETTE_WHITE<<7) + PALETTE_WHITE);
+		BIFF_SET_GUINT16(data+18, 0xc020); /* Color ! */
 		ms_biff_put_var_write (bp, data, 24);
 	} else {
 		BIFF_SET_GUINT16(data+0, fonts_get_index (0, 0));
 		BIFF_SET_GUINT16(data+2, formats_get_index (0, 0));
 		BIFF_SET_GUINT16(data+4, 0xfff5); /* FIXME: Magic */
 		BIFF_SET_GUINT16(data+6, 0xf420);
-		BIFF_SET_GUINT16(data+8,  (PALETTE_WHITE<<7) + PALETTE_WHITE);
+		BIFF_SET_GUINT16(data+8, 0xc020); /* Color ! */
 		ms_biff_put_var_write (bp, data, 16);
 	}
 	ms_biff_put_commit (bp);
@@ -607,15 +626,15 @@ static XF *
 write_xf (BIFF_PUT *bp, WORKBOOK *wb)
 {
 	int lp;
-	guint32 style_magic[6] = { 0xff038010, 0xff068011, 0xff058012, 0xff048013,
-				   0xff008000, 0xff078014 };
+	guint32 style_magic[6] = { 0xff038010, 0xff068011, 0xff048012, 0xff078013,
+				   0xff008000, 0xff058014 };
 
 	/* FIXME: Scan through all the Styles... */
 	XF *xf = g_new (XF, 1);
 	xf->Style_to_idx = g_hash_table_new (g_direct_hash,
 					    g_direct_equal);
 	/* Need at least 16 apparently */
-	for (lp=0;lp<16;lp++)
+	for (lp=0;lp<21;lp++)
 		write_xf_record (bp, NULL, wb->ver);
 
 	/* See: S59DEA.HTM */
@@ -675,7 +694,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 	}
 	case VALUE_FLOAT:
 	{
-		if (ver >= eBiffV8) { /* See: S59DAC.HTM */
+		if (ver >= eBiffV7) { /* See: S59DAC.HTM */
 			guint8 *data =ms_biff_put_len_next (bp, BIFF_NUMBER, 14);
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
@@ -704,7 +723,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 		if (ver >= eBiffV8); /* Use SST stuff in fulness of time */
 
 		/* See: S59DDC.HTM */
-		ms_biff_put_var_next   (bp, BIFF_RSTRING);
+		ms_biff_put_var_next   (bp, BIFF_LABEL);
 		EX_SETXF (data, xf);
 		EX_SETCOL(data, col);
 		EX_SETROW(data, row);
@@ -788,12 +807,12 @@ write_sheet_bools (BIFF_PUT *bp, SHEET *sheet)
 
 	/* See: S59DCF.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PRINTGRIDLINES, 2);
-	BIFF_SET_GUINT16 (data, 0x0001);
+	BIFF_SET_GUINT16 (data, 0x0000);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D91.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_GRIDSET, 2);
-	BIFF_SET_GUINT16 (data, 0x0000);
+	BIFF_SET_GUINT16 (data, 0x0001);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D92.HTM ( Gutters ) */
@@ -809,7 +828,7 @@ write_sheet_bools (BIFF_PUT *bp, SHEET *sheet)
 
 	/* See: S59D6B.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_COUNTRY, 4);
-	BIFF_SET_GUINT32 (data, 0x002f0001); /* Made in the USA */
+	BIFF_SET_GUINT32 (data, 0x002c0001); /* Made in the UK */
 	ms_biff_put_commit (bp);
 
 	/* See: S59E1C.HTM */
@@ -854,49 +873,52 @@ write_sheet_bools (BIFF_PUT *bp, SHEET *sheet)
 
 	/* See: S59D73.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_DEFCOLWIDTH, 2);
-	BIFF_SET_GUINT16 (data, 0x0080);
+	BIFF_SET_GUINT16 (data, 0x0008);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D76.HTM */
 	if (sheet->wb->ver >= eBiffV8) {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 14);
 		BIFF_SET_GUINT32 (data +  0, 0);
-		BIFF_SET_GUINT32 (data +  4, sheet->gnum_sheet->max_row_used+1);
+		BIFF_SET_GUINT32 (data +  4, sheet->gnum_sheet->max_row_used);
 		BIFF_SET_GUINT16 (data +  8, 0);
 		BIFF_SET_GUINT16 (data + 10, sheet->gnum_sheet->max_col_used+1);
 		BIFF_SET_GUINT16 (data + 12, 0x0000);
 	} else {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 10);
 		BIFF_SET_GUINT16 (data +  0, 0);
-		BIFF_SET_GUINT16 (data +  2, sheet->gnum_sheet->max_row_used+1);
+		BIFF_SET_GUINT16 (data +  2, sheet->gnum_sheet->max_row_used);
 		BIFF_SET_GUINT16 (data +  4, 0);
 		BIFF_SET_GUINT16 (data +  6, sheet->gnum_sheet->max_col_used+1);
 		BIFF_SET_GUINT16 (data +  8, 0x0000);
 	}
 	ms_biff_put_commit (bp);
 
-	/* See: S59D67.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_COLINFO, 11);
-	BIFF_SET_GUINT16 (data+ 0, 0x00); /* 1st  col formatted */
-	BIFF_SET_GUINT16 (data+ 2, 0x00); /* last col formatted */
-	BIFF_SET_GUINT16 (data+ 4, 0x0b9b); /* width */
-	BIFF_SET_GUINT16 (data+ 6, 0x0f); /* XF index */
-	BIFF_SET_GUINT16 (data+ 8, 0x00); /* options */
-	BIFF_SET_GUINT8  (data+10, 0x00); /* zero */
-	ms_biff_put_commit (bp);
+	if (0) {
+		/* See: S59D67.HTM */
+		data = ms_biff_put_len_next (bp, BIFF_COLINFO, 11);
+		BIFF_SET_GUINT16 (data+ 0, 0x00); /* 1st  col formatted */
+		BIFF_SET_GUINT16 (data+ 2, 0x00); /* last col formatted */
+		BIFF_SET_GUINT16 (data+ 4, 0x0b9b); /* width */
+		BIFF_SET_GUINT16 (data+ 6, 0x0f); /* XF index */
+		BIFF_SET_GUINT16 (data+ 8, 0x00); /* options */
+		BIFF_SET_GUINT8  (data+10, 0x00); /* zero */
+		ms_biff_put_commit (bp);
+	}
 
-
-	/* See: S59DDB.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_ROW, 16);
-	BIFF_SET_GUINT16 (data +  0, 0); /* Row number */
-	BIFF_SET_GUINT16 (data +  2, 0); /* first def. col */
-	BIFF_SET_GUINT16 (data +  4, 0+1); /* last  def. col */
-	BIFF_SET_GUINT16 (data +  6, 0xff); /* height */
-	BIFF_SET_GUINT16 (data +  8, 0x00); /* undocumented */
-	BIFF_SET_GUINT16 (data + 10, 0x00); /* reserved */
-	BIFF_SET_GUINT16 (data + 12, 0x0100); /* options */
-	BIFF_SET_GUINT16 (data + 14, 0x00f0); /* magic so far */
-	ms_biff_put_commit (bp);
+	if (0) {
+		/* See: S59DDB.HTM */
+		data = ms_biff_put_len_next (bp, BIFF_ROW, 16);
+		BIFF_SET_GUINT16 (data +  0, 0); /* Row number */
+		BIFF_SET_GUINT16 (data +  2, 0); /* first def. col */
+		BIFF_SET_GUINT16 (data +  4, 0+1); /* last  def. col */
+		BIFF_SET_GUINT16 (data +  6, 0xff); /* height */
+		BIFF_SET_GUINT16 (data +  8, 0x00); /* undocumented */
+		BIFF_SET_GUINT16 (data + 10, 0x00); /* reserved */
+		BIFF_SET_GUINT16 (data + 12, 0x0100); /* options */
+		BIFF_SET_GUINT16 (data + 14, 0x00f0); /* magic so far */
+		ms_biff_put_commit (bp);
+	}
 }
 
 static void

@@ -30,6 +30,7 @@
 #include "ms-excel-read.h"
 #include "ms-excel-biff.h"
 #include "ms-obj.h"
+#include "ms-chart.h"
 
 /* Confusingly this micro-biff will use the offsets
    as specified in the docs */
@@ -92,17 +93,12 @@ object_type_names[] =
         "MS Drawing"	/* 0x1E */
 };
 
-/* HACK HACK HACK
- * Use this temporarily to get a handle on nesting behaviour.
- * Replace it with a thread safe state structure when we fill in the guts.
- */
-static int ms_chart_chart_depth = 0;
-
 void
-ms_obj_read_obj (BIFF_QUERY *q)
+ms_obj_read_obj (BIFF_QUERY *q, MS_EXCEL_WORKBOOK * wb)
 {
 	guint8 *data;
 	gint32 data_len_left;
+	int obj_type = -1; /* Set to undefined */
 	int hit_end;
 
 	g_return_if_fail (q);
@@ -161,12 +157,16 @@ ms_obj_read_obj (BIFF_QUERY *q)
 		case GR_COMMON_OBJ_DATA:
 		{
 			guint16 len=BIFF_GETWORD(data+2);
-			guint16 obj_type=BIFF_GETWORD(data+4);
 			guint16 obj_id  =BIFF_GETWORD(data+6);
 			guint16 options =BIFF_GETWORD(data+8);
 			char *type = NULL;
 			enum { Locked=0x1, Printable=0x2,
 			       AutoFill=0x4, AutoLine=0x8 } flags;
+
+		        /* Multiple objects in 1 record ?? */
+		        g_return_if_fail (obj_type == -1);
+			obj_type = BIFF_GETWORD(data+4);
+
 			printf ("Common object data len 0x%x "
 				"Type 0x%x id 0x%x options 0x%x\n",
 				len, obj_type, obj_id, options);
@@ -186,17 +186,7 @@ ms_obj_read_obj (BIFF_QUERY *q)
 			if (type)
 			{
 				printf ("Object '%s'\n", type);
-				if (0x5 == obj_type) /* Chart */
-				{
-					/* There appear to be 2 ends generated
-					 * For each OBJ record ???
-					 */
-					ms_chart_chart_depth += 2;
-					puts("---------------");
-					puts("1 : Chart Begin");
-					puts("2 : Chart Begin");
 				}
-			}
 			else
 				printf ("Unknown object type\n");
 			break;
@@ -211,96 +201,7 @@ ms_obj_read_obj (BIFF_QUERY *q)
 		data         +=GR_BIFF_LENGTH(data)+4;
 		data_len_left-=GR_BIFF_LENGTH(data)+4;
 	}
-}
 
-struct ms_excel_chart_state
-{
-	int chart_depth;
-};
-
-gboolean
-ms_chart_biff_read (MS_EXCEL_WORKBOOK * wb,
-		    BIFF_QUERY * q)
-{
-	switch (q->opcode)
-	{
-	case BIFF_CHART_UNITS :
-	case BIFF_CHART_CHART :
-	case BIFF_CHART_SERIES :
-	case BIFF_CHART_DATAFORMAT :
-	case BIFF_CHART_LINEFORMAT :
-	case BIFF_CHART_MARKERFORMAT :
-	case BIFF_CHART_AREAFORMAT :
-	case BIFF_CHART_PIEFORMAT :
-	case BIFF_CHART_ATTACHEDLABEL :
-	case BIFF_CHART_SERIESTEXT :
-	case BIFF_CHART_CHARTFORMAT :
-	case BIFF_CHART_LEGEND :
-	case BIFF_CHART_SERIESLIST :
-	case BIFF_CHART_BAR :
-	case BIFF_CHART_LINE :
-	case BIFF_CHART_PIE :
-	case BIFF_CHART_AREA :
-	case BIFF_CHART_SCATTER :
-	case BIFF_CHART_CHARTLINE :
-	case BIFF_CHART_AXIS :
-	case BIFF_CHART_TICK :
-	case BIFF_CHART_VALUERANGE :
-	case BIFF_CHART_CATSERRANGE :
-	case BIFF_CHART_AXISLINEFORMAT :
-	case BIFF_CHART_CHARTFORMATLINK :
-	case BIFF_CHART_DEFAULTTEXT :
-	case BIFF_CHART_TEXT :
-	case BIFF_CHART_FONTX :
-	case BIFF_CHART_OBJECTLINK :
-	case BIFF_CHART_FRAME :
-	    break;
-
-	case BIFF_CHART_BEGIN :
-	    ++ms_chart_chart_depth;
-	    printf("%d : Chart Begin\n", ms_chart_chart_depth);
-	    break;
-
-	case BIFF_CHART_END :
-	    printf("%d : Chart End\n", ms_chart_chart_depth);
-	    if (0 == --ms_chart_chart_depth)
-		    puts("---------------");
-	    break;
-
-	case BIFF_CHART_PLOTAREA :
-	case BIFF_CHART_3D :
-	case BIFF_CHART_PICF :
-	case BIFF_CHART_DROPBAR :
-	case BIFF_CHART_RADAR :
-	case BIFF_CHART_SURF :
-	case BIFF_CHART_RADARAREA :
-	case BIFF_CHART_AXISPARENT :
-	case BIFF_CHART_LEGENDXN :
-	case BIFF_CHART_SHTPROPS :
-	case BIFF_CHART_SERTOCRT :
-	case BIFF_CHART_AXESUSED :
-	case BIFF_CHART_SBASEREF :
-	case BIFF_CHART_SERPARENT :
-	case BIFF_CHART_SERAUXTREND :
-	case BIFF_CHART_IFMT :
-	case BIFF_CHART_POS :
-	case BIFF_CHART_ALRUNS :
-	case BIFF_CHART_AI :
-	case BIFF_CHART_SERAUXERRBAR :
-	case BIFF_CHART_SERFMT :
-	case BIFF_CHART_FBI :
-	case BIFF_CHART_BOPPOP :
-	case BIFF_CHART_AXCEXT :
-	case BIFF_CHART_DAT :
-	case BIFF_CHART_PLOTGROWTH :
-	case BIFF_CHART_SIINDEX :
-	case BIFF_CHART_GELFRAME :
-	case BIFF_CHART_BOPPOPCUSTOM :
-	    break;
-
-	default :
-		/* "Unknown Chart BIFF record */
-		return FALSE;
-	}
-	return TRUE;
+	if (obj_type == 0x05)
+	    ms_excel_read_chart (wb, q);
 }

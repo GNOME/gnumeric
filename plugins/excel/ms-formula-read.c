@@ -703,7 +703,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 
 /**
  * Parse that RP Excel formula, see S59E2B.HTM
- * Return a dynamicaly allocated string containing the formula, never NULL
+ * Return a dynamicly allocated ExprTree containing the formula, or NULL
  **/
 ExprTree *
 ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
@@ -960,7 +960,15 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			tr = ms_excel_sheet_shared_formula (sheet, top_left_col,
 							    top_left_row,
 							    fn_col, fn_row) ;
-			if (!tr) tr = expr_tree_string ("");
+			if (!tr)
+				return NULL;
+#if 0
+			{
+				printf("Missing shared formula from [%d,%d] in [%d,%d]\n",
+				       top_left_col, top_left_row, fn_col, fn_row) ;
+				tr = expr_tree_string ("");
+			}
+#endif
 			parse_list_push (&stack, tr);
 			ptg_length = length; /* Force it to be the only token 4 ; */
 			break ;

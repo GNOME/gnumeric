@@ -106,4 +106,7 @@ extern Sheet* biff_get_externsheet_name (MS_EXCEL_WORKBOOK *wb, guint16 idx, gbo
 extern char* biff_get_text (BYTE *ptr, guint32 length, guint32 *byte_length);
 extern const char* biff_get_error_text (const guint8 err);
 extern char* biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx);
+extern BIFF_BOF_DATA * ms_biff_bof_data_new (BIFF_QUERY * q);
+extern void ms_biff_bof_data_destroy (BIFF_BOF_DATA * data);
+
 #endif

@@ -33,6 +33,7 @@
 #define BIFF_FOOTER                     0x15	/* 0, NOT 10 */
 #define BIFF_EXTERNCOUNT                0x16	/* 0, NOT 10 */
 #define BIFF_EXTERNSHEET                0x17	/* 0, NOT 10 */
+#define BIFF_NAME                       0x18	/* 2, NOT 10 */
 #define BIFF_WINDOWPROTECT              0x19	/* 0, NOT 10 */
 #define BIFF_VERTICALPAGEBREAKS         0x1a	/* 0, NOT 10 */
 #define BIFF_HORIZONTALPAGEBREAKS       0x1b	/* 0, NOT 10 */
@@ -180,74 +181,79 @@
 #define BIFF_PROT4REVPASS              0x1bc	/* ONLY 1 */
 #define BIFF_DV                        0x1be	/* ONLY 1 */
 
+
 #define BIFF_BOOLERR                   0x205	/* Why not as 05 */
 #define BIFF_STRING                    0x207	/* Why not as 07, NOT 10 */
 #define BIFF_INDEX                     0x20b	/* Why not as 0b */
-#define BIFF_NAME                      0x218	/* Why not as 18, NOT 10 */
 #define BIFF_DEFAULTROWHEIGHT	       0x225	/* Why not as 25, NOT 10 */
 #define BIFF_TABLE                     0x236	/* Why not as 36 */
 #define BIFF_WINDOW2                   0x23e	/* Why not as 3e, NOT 10 */
 #define BIFF_STYLE                     0x293	/* Why not as 93 */
 
 /* Chart Specific */
-#define BIFF_CHART_UNITS                0x1001
-#define BIFF_CHART_CHART                0x1002
-#define BIFF_CHART_SERIES               0x1003
-#define BIFF_CHART_DATAFORMAT           0x1006
-#define BIFF_CHART_LINEFORMAT           0x1007
-#define BIFF_CHART_MARKERFORMAT         0x1009
-#define BIFF_CHART_AREAFORMAT           0x100a
-#define BIFF_CHART_PIEFORMAT            0x100b
-#define BIFF_CHART_ATTACHEDLABEL        0x100c
-#define BIFF_CHART_SERIESTEXT           0x100d
-#define BIFF_CHART_CHARTFORMAT          0x1014
-#define BIFF_CHART_LEGEND               0x1015
-#define BIFF_CHART_SERIESLIST           0x1016
-#define BIFF_CHART_BAR                  0x1017
-#define BIFF_CHART_LINE                 0x1018
-#define BIFF_CHART_PIE                  0x1019
-#define BIFF_CHART_AREA                 0x101a
-#define BIFF_CHART_SCATTER              0x101b
-#define BIFF_CHART_CHARTLINE            0x101c
-#define BIFF_CHART_AXIS                 0x101d
-#define BIFF_CHART_TICK                 0x101e
-#define BIFF_CHART_VALUERANGE           0x101f
-#define BIFF_CHART_CATSERRANGE          0x1020
-#define BIFF_CHART_AXISLINEFORMAT       0x1021
-#define BIFF_CHART_CHARTFORMATLINK      0x1022
-#define BIFF_CHART_DEFAULTTEXT          0x1024
-#define BIFF_CHART_TEXT                 0x1025
-#define BIFF_CHART_FONTX                0x1026
-#define BIFF_CHART_OBJECTLINK           0x1027
-#define BIFF_CHART_FRAME                0x1032
-#define BIFF_CHART_BEGIN                0x1033
-#define BIFF_CHART_END                  0x1034
-#define BIFF_CHART_PLOTAREA             0x1035
-#define BIFF_CHART_3D                   0x103a
-#define BIFF_CHART_PICF                 0x103c
-#define BIFF_CHART_DROPBAR              0x103d
-#define BIFF_CHART_RADAR                0x103e
-#define BIFF_CHART_SURF                 0x103f
-#define BIFF_CHART_RADARAREA            0x1040
-#define BIFF_CHART_AXISPARENT           0x1041
-#define BIFF_CHART_LEGENDXN             0x1043
-#define BIFF_CHART_SHTPROPS             0x1044
-#define BIFF_CHART_SERTOCRT             0x1045
-#define BIFF_CHART_AXESUSED             0x1046
-#define BIFF_CHART_SBASEREF             0x1048
-#define BIFF_CHART_SERPARENT            0x104a
-#define BIFF_CHART_SERAUXTREND          0x104b
-#define BIFF_CHART_IFMT                 0x104e
-#define BIFF_CHART_POS                  0x104f
-#define BIFF_CHART_ALRUNS               0x1050
-#define BIFF_CHART_AI                   0x1051
-#define BIFF_CHART_SERAUXERRBAR         0x105b
-#define BIFF_CHART_SERFMT               0x105d
-#define BIFF_CHART_FBI                  0x1060
-#define BIFF_CHART_BOPPOP               0x1061
-#define BIFF_CHART_AXCEXT               0x1062
-#define BIFF_CHART_DAT                  0x1063
-#define BIFF_CHART_PLOTGROWTH           0x1064
-#define BIFF_CHART_SIINDEX              0x1065
-#define BIFF_CHART_GELFRAME             0x1066
-#define BIFF_CHART_BOPPOPCUSTOM         0x1067
+/* These must be here for the ole program to work, and the suffixes must be
+ * lower case for the macros in ms-chart.c to work
+ */
+#define BIFF_CHART_units                0x1001
+#define BIFF_CHART_chart                0x1002
+#define BIFF_CHART_series               0x1003
+#define BIFF_CHART_dataformat           0x1006
+#define BIFF_CHART_lineformat           0x1007
+#define BIFF_CHART_markerformat         0x1009
+#define BIFF_CHART_areaformat           0x100a
+#define BIFF_CHART_pieformat            0x100b
+#define BIFF_CHART_attachedlabel        0x100c
+#define BIFF_CHART_seriestext           0x100d
+#define BIFF_CHART_chartformat          0x1014
+#define BIFF_CHART_legend               0x1015
+#define BIFF_CHART_serieslist           0x1016
+#define BIFF_CHART_bar                  0x1017
+#define BIFF_CHART_line                 0x1018
+#define BIFF_CHART_pie                  0x1019
+#define BIFF_CHART_area                 0x101a
+#define BIFF_CHART_scatter              0x101b
+#define BIFF_CHART_chartline            0x101c
+#define BIFF_CHART_axis                 0x101d
+#define BIFF_CHART_tick                 0x101e
+#define BIFF_CHART_valuerange           0x101f
+#define BIFF_CHART_catserrange          0x1020
+#define BIFF_CHART_axislineformat       0x1021
+#define BIFF_CHART_chartformatlink      0x1022
+#define BIFF_CHART_defaulttext          0x1024
+#define BIFF_CHART_text                 0x1025
+#define BIFF_CHART_fontx                0x1026
+#define BIFF_CHART_objectlink           0x1027
+#define BIFF_CHART_frame                0x1032
+#define BIFF_CHART_begin                0x1033
+#define BIFF_CHART_end                  0x1034
+#define BIFF_CHART_plotarea             0x1035
+#define BIFF_CHART_3d                   0x103a
+#define BIFF_CHART_picf                 0x103c
+#define BIFF_CHART_dropbar              0x103d
+#define BIFF_CHART_radar                0x103e
+#define BIFF_CHART_surf                 0x103f
+#define BIFF_CHART_radararea            0x1040
+#define BIFF_CHART_axisparent           0x1041
+#define BIFF_CHART_legendxn             0x1043
+#define BIFF_CHART_shtprops             0x1044
+#define BIFF_CHART_sertocrt             0x1045
+#define BIFF_CHART_axesused             0x1046
+#define BIFF_CHART_sbaseref             0x1048
+#define BIFF_CHART_serparent            0x104a
+#define BIFF_CHART_serauxtrend          0x104b
+#define BIFF_CHART_ifmt                 0x104e
+#define BIFF_CHART_pos                  0x104f
+#define BIFF_CHART_alruns               0x1050
+#define BIFF_CHART_ai                   0x1051
+#define BIFF_CHART_serauxerrbar         0x105b
+#define BIFF_CHART_unknown105c          0x105c
+#define BIFF_CHART_serfmt               0x105d
+#define BIFF_CHART_unknown105f          0x105f
+#define BIFF_CHART_fbi                  0x1060
+#define BIFF_CHART_boppop               0x1061
+#define BIFF_CHART_axcext               0x1062
+#define BIFF_CHART_dat                  0x1063
+#define BIFF_CHART_plotgrowth           0x1064
+#define BIFF_CHART_siindex              0x1065
+#define BIFF_CHART_gelframe             0x1066
+#define BIFF_CHART_boppopcustom         0x1067

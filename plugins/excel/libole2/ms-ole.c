@@ -1550,8 +1550,8 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 		len-=blklen;
 		blklen = BB_BLOCK_SIZE;
 		if (blockidx >= (s->blocks->len - 1) ||
-		    (ms_array_index (s->blocks, BLP, blockidx)+1
-		     != ms_array_index (s->blocks, BLP, blockidx+1)))
+		    (ms_array_index (s->blocks, BLP, blockidx) !=
+		     blockidx + 1))
 			return 0;
 		blockidx++;
 	}
@@ -1583,8 +1583,8 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 		len-=blklen;
 		blklen = SB_BLOCK_SIZE;
 		if (blockidx >= (s->blocks->len - 1) ||
-		    (ms_array_index (s->blocks, BLP, blockidx)+1
-		     != ms_array_index (s->blocks, BLP, blockidx+1)))
+		    (ms_array_index (s->blocks, BLP, blockidx) !=
+		     blockidx + 1))
 			return 0;
 		blockidx++;
 	}

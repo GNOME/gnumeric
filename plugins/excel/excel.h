@@ -8,6 +8,7 @@
 #define GNUMERIC_EXCEL_H
 
 #include "ms-ole.h"
+#include "sheet.h"
 
 typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
 			      eBiffV4=4,

@@ -1,3 +1,38 @@
+1999-06-21  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_cell): Remove Jody's
+	check against NULL pointers, insert_form handles them.
+
+	* ms-chart.c (BC_R): make call to dump_tree conditional
+
+	* ms-excel-write.c (write_sheet_bools): Various fixes.
+	(write_value): Change RSTRING -> LABEL
+
+	* README (TODO): Updated.
+
+	* ms-excel-write.c (write_externsheets): Fix for single sheet
+	workbooks.
+	(write_formats): Write the format index code!
+	(write_sheet_bools): Divide default col width by 16
+
+	* ms-excel-write.h (ms_excel_write_workbook): Cleaned and fixed
+	header.
+
+1999-06-21  Jody Goldberg  <jgoldberg@home.com>
+ 
+ 	* biff-types.h : Move NAME from 218 -> 18, rename Chart biff types to
+ 	lower case to facilitate decls.
+ 	* ms-biff.[ch] (dump_biff) : export.
+ 	* ms-excel-read.[ch] : (ms_biff_bof_data_new, ms_biff_bof_data_destroy)
+ 	export.
+ 	* ms-formula-read.c : Improve handling of array formulas.
+ 	* ms-obj.c : Adjust signatures, and split chart handling into its own
+ 	file.
+ 	* ole.c : Count BACKWARDS to allow BIFF types with high bytes to
+ 	override those with only low bytes specified.
+ 	* Makefile.am : Add ms-chart.
+ 	* ms-chart.[ch] : New files.  No real functionality.  60% complete.
+ 
 1999-06-17  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (formula_func_data): Fixed up, should work

@@ -76,7 +76,8 @@ get_biff_opcode_name (guint16 opcode)
 	int lp;
 	if (!biff_types)
 		read_types (BIFF_TYPES_FILE, &biff_types, eBiff);
-	for (lp=0;lp<biff_types->len;lp++) {
+	/* Count backwars to give preference to non-filtered record types */
+	for (lp=biff_types->len; --lp >= 0 ;) {
 		GENERIC_TYPE *bt = g_ptr_array_index (biff_types, lp);
 		if (bt->opcode>0xff) {
 			if (bt->opcode == opcode)

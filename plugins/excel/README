@@ -34,5 +34,4 @@ or
 
 TODO:
 
-	padding in BIFF records, implement properly.
-	biff_put etc. needs to be written.
+	sort out padding, do we need it ? where is the bug ?

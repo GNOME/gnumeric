@@ -244,7 +244,7 @@ biff_shared_formula_equal (const BIFF_SHARED_FORMULA_KEY *a,
 /**
  * See S59D5D.HTM
  **/
-static BIFF_BOF_DATA *
+BIFF_BOF_DATA *
 ms_biff_bof_data_new (BIFF_QUERY * q)
 {
 	BIFF_BOF_DATA *ans = g_new (BIFF_BOF_DATA, 1);
@@ -333,7 +333,7 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 	return ans;
 }
 
-static void
+void
 ms_biff_bof_data_destroy (BIFF_BOF_DATA * data)
 {
 	g_free (data);
@@ -1413,12 +1413,10 @@ ms_excel_sheet_insert_form (MS_EXCEL_SHEET * sheet, int xfidx,
 			    int col, int row, ExprTree *tr)
 {
 	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-	if (tr)
-	{
+	if (tr) {
 		sheet->blank = 0 ;
 		cell_set_formula_tree_simple (cell, tr);
-	}
-	else
+	} else
 		cell_set_text_simple (cell, "") ;
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
@@ -2019,8 +2017,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		tr = ms_excel_parse_formula (sheet, (q->data + 22),
 					     EX_GETCOL (q), EX_GETROW (q),
 					     0, BIFF_GETWORD(q->data+20));
-		ms_excel_sheet_insert_form (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q), tr) ;
-		expr_tree_unref (tr);
+		ms_excel_sheet_insert_form (sheet, EX_GETXF(q), EX_GETCOL(q),
+					    EX_GETROW(q), tr) ;
+		if (tr)
+			expr_tree_unref (tr);
 		break;
 	}
 	case BIFF_LABELSST:
@@ -2110,7 +2110,7 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_obj_read_obj (q);
+			ms_obj_read_obj (q, wb);
 			break;
 
 		case BIFF_SELECTION: /* S59DE2.HTM */
@@ -2392,11 +2392,6 @@ ms_excel_read_workbook (MS_OLE * file)
 		{
 			if (EXCEL_DEBUG>5)
 				printf ("Opcode : 0x%x\n", q->opcode) ;
-
-			/* Catch Chart specific codes before primary */
-			if (0x10 == q->ms_op)
-			    if (ms_chart_biff_read (wb, q))
-				continue;
 
 			/* Catch Oddballs
 			 * The heuristic seems to be that 'version 1' BIFF types
@@ -2704,7 +2699,7 @@ ms_excel_read_workbook (MS_OLE * file)
 				break;
 
 			case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-				ms_obj_read_obj (q);
+				ms_obj_read_obj (q, wb);
 				break;
 
 			case BIFF_SCL :
@@ -2720,7 +2715,7 @@ ms_excel_read_workbook (MS_OLE * file)
 				break;
 			}
 			/* NO Code here unless you modify the handling
-			 * of Chart and Odd Balls Above the switch
+			 * of Odd Balls Above the switch
 			 */
 		}
 		ms_biff_query_destroy (q);

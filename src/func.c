@@ -46,7 +46,10 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 
 	/* If we encounter an error for the strict case, short-circuit here.  */
 	if (data->strict && !cell->value) {
-		*data->error_string = cell->text->str;
+		if (cell->text)
+			*data->error_string = cell->text->str;
+		else
+			*data->error_string = _("Unknown error");
 		return FALSE;
 	}
 

@@ -26,7 +26,8 @@ libexcel_a_SOURCES =		\
 	ms-formula-read.c	\
 	ms-formula-read.h	\
 	ms-obj.c		\
-	ms-obj.h
+	ms-obj.h		\
+	ms-chart.c
 
 noinst_PROGRAMS =		\
 	ole

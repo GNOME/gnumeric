@@ -107,4 +107,5 @@ extern void           ms_biff_put_var_write  (BIFF_PUT *, guint8 *, guint32 len)
 /* Must commit after each record */
 extern void           ms_biff_put_commit     (BIFF_PUT *);
 
+void dump_biff (BIFF_QUERY *bq);
 #endif
