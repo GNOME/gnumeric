@@ -8,8 +8,6 @@
 
 FILE *gnumeric_fopen_error_info (char const *file_name, char const *mode,
 				 ErrorInfo **ret_error);
-FILE *gnumeric_fopen		(IOContext *wbc, char const *path,
-				 char const *mode);
 
 gint gnumeric_open	      (IOContext *wbc, char const *filename, gint flag);
 

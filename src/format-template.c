@@ -33,7 +33,6 @@
 #include "ranges.h"
 #include "xml-io.h"
 #include "io-context.h"
-#include "plugin-util.h"	/* for gnumeric_fopen */
 #include <string.h>
 #include <libxml/parser.h>
 
@@ -569,48 +568,6 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate const *
 			xml_write_format_template_member (ctxt, member->data));
 
 	return root;
-}
-
-/**
- * format_template_save_to_file:
- * @ft: a FormatTemplate
- * @cc : where to report errors
- *
- * Saves template @ft to a filename set with format_template_set_filename
- *
- * Return value: return TRUE on error.
- **/
-gboolean
-format_template_save (FormatTemplate const *ft, GnmCmdContext *cc)
-{
-	FILE *file;
-	IOContext *io_context;
-	gboolean success = FALSE;
-
-	g_return_val_if_fail (ft != NULL, TRUE);
-
-	io_context = gnumeric_io_context_new (cc);
-	file = gnumeric_fopen (io_context, ft->filename, "w");
-	if (file != NULL) {
-		xmlDoc *doc = xmlNewDoc (CC2XML ("1.0"));
-		if (doc != NULL) {
-			XmlParseContext *ctxt = xml_parse_ctx_new (doc, NULL, NULL);
-			doc->xmlRootNode = xml_write_format_template_members (ctxt, ft);
-			xml_parse_ctx_destroy (ctxt);
-			xmlSetDocCompressMode (doc, 0);
-			xmlDocDump (file, doc);
-			xmlFreeDoc (doc);
-
-			success = TRUE;
-		} else
-			gnm_cmd_context_error_export (cc, "");
-
-		fclose (file);
-	}
-
-	g_object_unref (G_OBJECT (io_context));
-
-	return success;
 }
 
 /**

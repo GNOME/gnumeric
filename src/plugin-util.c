@@ -35,38 +35,6 @@
 #endif
 
 /**
- * gnumeric_fopen:
- * @context: a gnumeric command context
- * @path: the file to open
- * @mode: the file mode
- *
- * a wrapper around fopen (). It will handle
- * error reporting for you.
- * for more info on the parameters see 'man 3 fopen'
- *
- * Return value: a pointer to a FILE struct if successful or NULL if not
- **/
-FILE *
-gnumeric_fopen (IOContext *context, const char *path, const char *mode)
-{
-	FILE *f;
-
-	g_return_val_if_fail (context != NULL, NULL);
-	g_return_val_if_fail (path != NULL, NULL);
-	g_return_val_if_fail (mode != NULL, NULL);
-
-	f = fopen (path, mode);
-	if (f != NULL)
-		return f;
-
-	if (mode != NULL && (*mode == 'r' || *mode == 'R'))
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), g_strerror (errno));
-	else
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context), g_strerror (errno));
-	return NULL;
-}
-
-/**
  * gnumeric_open:
  * @context: a gnumeric command context
  * @pathname: the path to the file

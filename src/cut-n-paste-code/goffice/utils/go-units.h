@@ -28,6 +28,8 @@ G_BEGIN_DECLS
 /* Conversion factors */
 /* The following number is the least common multiplier of 254 (1/10mm), 72(pt), 100000, and 576 */
 /* This way inch, pt, and mm are all integer multipliers (in fact, a nanometer is.) */
+/* (Of course that is only true because we use the lobotomized pt size so that
+   1inch is exactly 72pt.)  */
 #define UN_PER_IN 228600000
 #define PT_PER_IN 72
 #define CM_PER_IN 254

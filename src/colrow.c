@@ -60,7 +60,7 @@ colrow_compute_pts_from_pixels (ColRowInfo *cri,
 	cri->size_pts = cri->size_pixels / scale;
 #if 0
 	/* Disable this until we decide how to deal with scaling */
-	 g_return_if_fail (cri->size_pts >= cri->margin_a + cri->margin_b);
+	g_return_if_fail (cri->size_pts >= cri->margin_a + cri->margin_b);
 #endif
 }
 

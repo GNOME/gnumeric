@@ -16,6 +16,7 @@
 #include "application.h"
 
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-output-stdio.h>
 #include <libfoocanvas/foo-canvas-pixbuf.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 
@@ -180,10 +181,14 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 			char *filename = g_strdup_printf ("unknown%d.%s",
 							  count++, soi->type);
 #if 0
-			FILE *file = fopen (filename, "w");
-			if (file != NULL) {
-				fwrite (soi->data, soi->data_len, 1, file);
-				fclose (file);
+			/* Not tested:  */
+			GsfOutputStdio *file = gsf_output_stdio_new (filename, NULL);
+			if (file) {
+				gsf_output_write (GSF_OUTPUT (file),
+						  soi->data_len,
+						  soi->data);
+				gsf_output_close (GSF_OUTPUT (file));
+				g_object_unref (file);
 			}
 #endif
 			g_free (filename);
