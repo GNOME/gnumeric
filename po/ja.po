@@ -6271,7 +6271,7 @@ msgstr "ファイル %s を作成できません\n"
 
 #: src/func.c:245
 msgid "Function implementation not available."
-msgstr ""
+msgstr "関数の実装はできません。"
 
 #: src/func.c:461
 msgid "Unknown Function"
@@ -14244,63 +14244,54 @@ msgid "Error while opening file \"%s\" for writing."
 msgstr "ファイル\"%s\"の書き込みに開く際にエラー。"
 
 #: src/plugin-util.c:229 src/plugin-util.c:267
-#, fuzzy, c-format
 msgid "Error while opening file \"%s\" for reading."
-msgstr "ファイルを閉じる際にエラー。エラー: %s"
+msgstr "ファイル\"%s\"の読み込みに開く際にエラー。"
 
 #: src/plugin-util.c:298
-#, fuzzy
 msgid "Unable to mmap the file."
-msgstr "ファイルを mmap できません"
+msgstr "ファイルをmmapできません。"
 
 #: src/plugin-util.c:313
-#, fuzzy
 msgid "Cannot get file size."
-msgstr "ファイル %s を作成できません\n"
+msgstr "ファイルサイズを取得できません。"
 
 #: src/plugin.c:238
 #, c-format
 msgid "File contain plugin info with invalid id (%s), expected %s."
-msgstr ""
+msgstr "ファイルは不正なID(%s)のプラグイン情報を含んでいます。%sのはずです。"
 
 #: src/plugin.c:242
-#, fuzzy
 msgid "Couldn't read plugin info from file."
-msgstr "プラグイングループ情報ファイル (\"%s\") が読み込めません。"
+msgstr "プラグイン情報をファイルから読み込めませんでした。"
 
 #: src/plugin.c:292 src/plugin.c:369
-#, fuzzy
 msgid "Unknown name"
-msgstr "不明なプラグイン名です。"
+msgstr "不明な名前"
 
 #: src/plugin.c:520
-#, fuzzy, c-format
 msgid "Error while preparing loader \"%s\"."
-msgstr "タイプ\"%s\"のプラグイン情報の読み込み中にエラーが発生しました。"
+msgstr "ローダ\"%s\"の準備でエラー。"
 
 #: src/plugin.c:530
 #, c-format
 msgid "Unsupported loader type \"%s\"."
-msgstr ""
+msgstr "\"%s\"はサポートされていないローダタイプです。"
 
 #: src/plugin.c:628
-#, fuzzy, c-format
 msgid "Error while reading service #%d info."
-msgstr "csv ファイルの書き出しに失敗しました"
+msgstr "サービス番号%dの情報読み込み中にエラー。"
 
 #: src/plugin.c:680
 msgid "Unspecified loader type."
-msgstr ""
+msgstr "ローダのタイプが指定されていません。"
 
 #: src/plugin.c:729
-#, fuzzy, c-format
 msgid "Can't read plugin info file (\"%s\")."
-msgstr "プラグイングループ情報ファイル (\"%s\") が読み込めません。"
+msgstr "プラグイン情報ファイル (\"%s\") が読み込めません。"
 
 #: src/plugin.c:733
-#, fuzzy, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "ファイル\"%s\"は適切なプラグイングループ情報ファイルではありません。"
+msgstr "ファイル\"%s\"は適切なプラグイン情報ファイルではありません。"
 
 #: src/plugin.c:797
 msgid "Plugin has no id."
@@ -14311,29 +14302,26 @@ msgid "Unknown plugin name."
 msgstr "不明なプラグイン名です。"
 
 #: src/plugin.c:811
-#, fuzzy, c-format
 msgid "Errors while reading loader info for plugin with id=\"%s\"."
-msgstr "タイプ\"%s\"のプラグイン情報の読み込み中にエラーが発生しました。"
+msgstr "ID=\"%s\"のプラグインのローダ情報の読み込み中にエラーが発生しました。"
 
 #: src/plugin.c:816
 #, c-format
 msgid "No loader defined for plugin with id=\"%s\"."
-msgstr ""
+msgstr "ID=\"%s\"のプラグインのローダは定義されていません。"
 
 #: src/plugin.c:824
-#, fuzzy, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
-msgstr "タイプ\"%s\"のプラグイン情報の読み込み中にエラーが発生しました。"
+msgstr "ID=\"%s\"のプラグインのサービスの読み込み中にエラーが発生しました。"
 
 #: src/plugin.c:829
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
-msgstr ""
+msgstr "ID=\"%s\"のプラグインのサービスは定義されていません。"
 
 #: src/plugin.c:979
-#, fuzzy, c-format
 msgid "Error initializing plugin loader (\"%s\")."
-msgstr "プラグインシステムの初期化中にエラーが発生しました。"
+msgstr "プラグインローダ(\"%s\")の初期化中にエラーが発生しました。"
 
 #: src/plugin.c:1020
 #, c-format
