@@ -1,3 +1,25 @@
+2004-10-09  Jean Brefort <jean.brefort@normalesup.org>
+
+	* graph/go-data.c: (go_data_matrix_emit_changed),
+	(go_data_matrix_class_init), (go_data_matrix_get_size),
+	(go_data_matrix_get_values), (go_data_matrix_get_value),
+	(go_data_matrix_get_str), (go_data_matrix_get_minmax): new GOMatix class.
+	* graph/go-data.h: ditto.
+	* graph/go-data-impl.h: ditto.
+	* graph/goffice-graph.h: ditto. Added GODataType enumerated type.
+	* graph/gog-data-allocator.c: (gog_data_allocator_editor): Replaced
+	"gboolean prefers_scalar" by "GODataType data_type". 
+	* graph/gog-data-allocator.h: ditto.
+	* graph/gog-error-bar.c: (cb_type_changed), (gog_error_bar_prefs): 
+	* graph/gog-series.c: (gog_series_editor): ditto.
+	* graph/plugins/plot_surface/Makefile.am: new contour plots.
+	* graph/plugins/plot_surface/gog-contour-prefs.c: ditto.
+	* graph/plugins/plot_surface/gog-contour-prefs.glade: ditto.
+	* graph/plugins/plot_surface/gog-surface.c: ditto.
+	* graph/plugins/plot_surface/gog-surface.h: ditto.
+	* graph/plugins/plot_surface/plot-types.xml.in: ditto.
+	* graph/plugins/plot_surface/plugin.xml.in: ditto.
+
 2004-10-08  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-object.c (gog_object_dup) : copy the position.

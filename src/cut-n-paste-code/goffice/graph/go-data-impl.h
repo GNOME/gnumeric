@@ -30,7 +30,8 @@ G_BEGIN_DECLS
 typedef enum {
 	GO_DATA_CACHE_IS_VALID =	1 << 0,
 	GO_DATA_IS_EDITABLE =		1 << 1,
-	GO_DATA_VECTOR_LEN_CACHED =	1 << 2
+	GO_DATA_VECTOR_LEN_CACHED =	1 << 2,
+	GO_DATA_MATRIX_SIZE_CACHED = GO_DATA_VECTOR_LEN_CACHED
 } GODataFlags;
 
 struct _GOData {
@@ -78,6 +79,24 @@ typedef struct {
 	char	*(*get_str)	(GODataVector *vec, unsigned i);
 /*	PangoLayout *(get_fmt_str)  (GODataVector *vec, unsigned i); */
 } GODataVectorClass;
+
+struct _GODataMatrix {
+	GOData base;
+
+	GOMatrixSize size;	/* negative if dirty, includes missing values */
+	double *values;	/* NULL = uninitialized/unsupported, nan = missing */
+	double minimum, maximum;
+};
+
+typedef struct {
+	GODataClass base;
+
+	void	 (*load_size)    (GODataMatrix *vec);
+	void	 (*load_values) (GODataMatrix *vec);
+	double	 (*get_value)   (GODataMatrix *mat, unsigned i, unsigned j);
+	char	*(*get_str)	(GODataMatrix *mat, unsigned i, unsigned j);
+/*	PangoLayout *(get_fmt_str)  (GODataMatrix *mat, unsigned i, unsigned j); */
+} GODataMatrixClass;
 
 G_END_DECLS
 

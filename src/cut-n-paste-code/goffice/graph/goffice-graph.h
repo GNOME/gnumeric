@@ -60,6 +60,11 @@ typedef struct _GogDataset	 GogDataset;
 typedef struct _GOData		 GOData;
 typedef struct _GODataScalar	 GODataScalar;
 typedef struct _GODataVector	 GODataVector;
+typedef struct {
+	int rows;	/* negative if dirty, includes missing values */
+	int columns;	/* negative if dirty, includes missing values */
+} GOMatrixSize;
+typedef struct _GODataMatrix	 GODataMatrix;
 
 typedef struct _GogRenderer	 GogRenderer;
 
@@ -105,8 +110,15 @@ typedef enum {
 	GOG_DIM_LABEL = 0,
 	GOG_DIM_INDEX,
 	GOG_DIM_VALUE,
+	GOG_DIM_MATRIX,
 	GOG_DIM_TYPES
 } GogDimType;
+
+typedef enum {
+	GOG_DATA_SCALAR,
+	GOG_DATA_VECTOR,
+	GOG_DATA_MATRIX
+}	GogDataType;
 
 /* A helper enum to simplify import/export from MS Excel (tm) which uses the
  * same logical dim names for all plot types.  Do _NOT_ reorder, or change the

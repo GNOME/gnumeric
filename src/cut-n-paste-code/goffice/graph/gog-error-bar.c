@@ -150,13 +150,13 @@ cb_type_changed (GtkWidget *w, GogErrorBarEditor *editor)
 		set = GOG_DATASET (editor->bar->series);
 		data = g_object_get_data (G_OBJECT (w), "plus");
 		if (!data) {
-			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i, FALSE));
+			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i, GOG_DATA_VECTOR));
 			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			g_object_set_data (G_OBJECT (w), "plus", al);
 		}
 		data = g_object_get_data (G_OBJECT (w), "minus");
 		if (!data) {
-			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, FALSE));
+			GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, GOG_DATA_VECTOR));
 			gtk_table_attach (GTK_TABLE (table), al, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			g_object_set_data (G_OBJECT (w), "minus", al);
 		}
@@ -291,11 +291,11 @@ gog_error_bar_prefs (GogSeries *series,
 
 	values_table = GTK_TABLE (glade_xml_get_widget (gui, "values_table"));
 	if (editor->bar) {
-		GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i, FALSE));
+		GtkWidget* al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i, GOG_DATA_VECTOR));
 		gtk_widget_show (al);
 		gtk_table_attach (values_table, al, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		g_object_set_data (G_OBJECT (w), "plus", al);
-		al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, FALSE));
+		al = GTK_WIDGET (gog_data_allocator_editor (dalloc, set, editor->bar->error_i + 1, GOG_DATA_VECTOR));
 		gtk_widget_show (al);
 		gtk_table_attach (values_table, al, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		g_object_set_data (G_OBJECT (w), "minus", al);

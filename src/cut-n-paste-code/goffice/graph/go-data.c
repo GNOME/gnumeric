@@ -329,3 +329,104 @@ go_data_vector_get_minmax (GODataVector *vec, double *min, double *max)
 	if (max != NULL)
 		*max = vec->maximum;
 }
+
+/*************************************************************************/
+
+#define GO_DATA_MATRIX_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_MATRIX_TYPE, GODataMatrixClass))
+#define IS_GO_DATA_MATRIX_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_MATRIX_TYPE))
+#define GO_DATA_MATRIX_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_MATRIX_TYPE, GODataMatrixClass))
+
+static void
+go_data_matrix_emit_changed (GOData *data)
+{
+	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_MATRIX_SIZE_CACHED);
+}
+
+static void
+go_data_matrix_class_init (GODataClass *klass)
+{
+	klass->emit_changed = go_data_matrix_emit_changed;
+}
+
+GSF_CLASS_ABSTRACT (GODataMatrix, go_data_matrix,
+		    go_data_matrix_class_init, NULL,
+		    GO_DATA_TYPE)
+
+GOMatrixSize
+go_data_matrix_get_size (GODataMatrix *mat)
+{
+	if (! (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED)) {
+		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+		static GOMatrixSize null_size = {0, 0};
+
+		g_return_val_if_fail (klass != NULL, null_size);
+
+		(*klass->load_size) (mat);
+
+		g_return_val_if_fail (mat->base.flags & GO_DATA_MATRIX_SIZE_CACHED, null_size);
+	}
+
+	return mat->size;
+}
+
+double *
+go_data_matrix_get_values (GODataMatrix *mat)
+{
+	if (! (mat->base.flags & GO_DATA_CACHE_IS_VALID)) {
+		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+
+		g_return_val_if_fail (klass != NULL, NULL);
+
+		(*klass->load_values) (mat);
+
+		g_return_val_if_fail (mat->base.flags & GO_DATA_CACHE_IS_VALID, NULL);
+	}
+
+	return mat->values;
+}
+
+double
+go_data_matrix_get_value (GODataMatrix *mat, unsigned i, unsigned j)
+{
+	if (! (mat->base.flags & GO_DATA_CACHE_IS_VALID)) {
+		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+		g_return_val_if_fail (klass != NULL, go_nan);
+		return (*klass->get_value) (mat, i, j);
+	}
+
+	g_return_val_if_fail (((int)i < mat->size.rows) && ((int)j < mat->size.columns), go_nan);
+	return mat->values[i * mat->size.columns + j];
+}
+
+char *
+go_data_matrix_get_str (GODataMatrix *mat, unsigned i, unsigned j)
+{
+	GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+	char *res;
+
+	g_return_val_if_fail (klass != NULL, NULL);
+
+	res = (*klass->get_str) (mat, i, j);
+	if (res == NULL)
+		return g_strdup ("");
+	return res;
+}
+
+void
+go_data_matrix_get_minmax (GODataMatrix *mat, double *min, double *max)
+{
+	if (! (mat->base.flags & GO_DATA_CACHE_IS_VALID)) {
+		GODataMatrixClass const *klass = GO_DATA_MATRIX_GET_CLASS (mat);
+
+		g_return_if_fail (klass != NULL);
+
+		(*klass->load_values) (mat);
+
+		g_return_if_fail (mat->base.flags & GO_DATA_CACHE_IS_VALID);
+	}
+
+	if (min != NULL)
+		*min = mat->minimum;
+	if (max != NULL)
+		*max = mat->maximum;
+}

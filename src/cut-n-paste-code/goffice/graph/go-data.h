@@ -65,6 +65,20 @@ double	 go_data_vector_get_value  (GODataVector *vec, unsigned i);
 char	*go_data_vector_get_str    (GODataVector *vec, unsigned i);
 void	 go_data_vector_get_minmax (GODataVector *vec, double *min, double *max);
 
+/*************************************************************************/
+
+#define GO_DATA_MATRIX_TYPE	(go_data_matrix_get_type ())
+#define GO_DATA_MATRIX(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_DATA_MATRIX_TYPE, GODataMatrix))
+#define IS_GO_DATA_MATRIX(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_MATRIX_TYPE))
+
+GType go_data_matrix_get_type (void);
+
+GOMatrixSize	 go_data_matrix_get_size    (GODataMatrix *mat);
+double	*go_data_matrix_get_values (GODataMatrix *mat);
+double	 go_data_matrix_get_value  (GODataMatrix *mat, unsigned i, unsigned j);
+char	*go_data_matrix_get_str    (GODataMatrix *mat, unsigned i, unsigned j);
+void	 go_data_matrix_get_minmax (GODataMatrix *mat, double *min, double *max);
+
 G_END_DECLS
 
 #endif /* GO_DATA_H */

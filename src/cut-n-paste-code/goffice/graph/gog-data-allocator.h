@@ -32,7 +32,7 @@ typedef struct {
 
 	void	 (*allocate) (GogDataAllocator *a, GogPlot *plot);
 	gpointer (*editor)   (GogDataAllocator *a, GogDataset *set,
-			      int dim_i, gboolean prefers_scalar);
+			      int dim_i, GogDataType data_type);
 } GogDataAllocatorClass;
 
 #define GOG_DATA_ALLOCATOR_TYPE		(gog_data_allocator_get_type ())
@@ -46,7 +46,7 @@ GType gog_data_allocator_get_type (void);
 
 void	 gog_data_allocator_allocate (GogDataAllocator *a, GogPlot *plot);
 gpointer gog_data_allocator_editor   (GogDataAllocator *dalloc, GogDataset *set,
-				      int dim_i, gboolean prefers_scalar);
+				      int dim_i, GogDataType data_type);
 
 G_END_DECLS
 

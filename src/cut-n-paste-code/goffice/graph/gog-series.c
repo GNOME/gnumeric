@@ -354,6 +354,7 @@ gog_series_editor (GogObject *gobj,
 	GogDataset *set = GOG_DATASET (gobj);
 	GogSeriesDesc const *desc;
 	GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (gobj);
+	GogDataType data_type;
 
 	g_return_val_if_fail (series->plot != NULL, NULL);
 
@@ -376,11 +377,14 @@ gog_series_editor (GogObject *gobj,
 		N_("Name"), TRUE, FALSE);
 
 	/* first the unshared entries */
-	for (i = 0; i < desc->num_dim; i++)
+	for (i = 0; i < desc->num_dim; i++) {
+		data_type = (desc->dim[i].val_type == GOG_DIM_MATRIX)?
+				GOG_DATA_MATRIX: GOG_DATA_VECTOR;
 		if (!desc->dim[i].is_shared && (desc->dim[i].priority != GOG_SERIES_ERRORS))
 			row = make_dim_editor (table, row,
-				gog_data_allocator_editor (dalloc, set, i, FALSE),
+				gog_data_allocator_editor (dalloc, set, i, data_type),
 				desc->dim[i].name, desc->dim[i].priority, FALSE);
+	}
 
 	if (has_shared) {
 		gtk_table_attach (table, gtk_hseparator_new (),
@@ -389,11 +393,14 @@ gog_series_editor (GogObject *gobj,
 	}
 
 	/* then the shared entries */
-	for (i = 0; i < desc->num_dim; i++)
+	for (i = 0; i < desc->num_dim; i++) {
+		data_type = (desc->dim[i].val_type == GOG_DIM_MATRIX)?
+				GOG_DATA_MATRIX: GOG_DATA_VECTOR;
 		if (desc->dim[i].is_shared)
 			row = make_dim_editor (table, row,
-				gog_data_allocator_editor (dalloc, set, i, FALSE),
+				gog_data_allocator_editor (dalloc, set, i, data_type),
 				desc->dim[i].name, desc->dim[i].priority, TRUE);
+	}
 
 	gtk_table_attach (table, gtk_hseparator_new (),
 		0, 2, row, row+1, GTK_FILL, 0, 0, 0);

@@ -53,9 +53,9 @@ gog_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 
 gpointer
 gog_data_allocator_editor (GogDataAllocator *dalloc, GogDataset *set,
-			   int dim_i, gboolean prefers_scalar)
+			   int dim_i, GogDataType data_type)
 {
 	g_return_val_if_fail (IS_GOG_DATA_ALLOCATOR (dalloc), NULL);
 	return GOG_DATA_ALLOCATOR_GET_CLASS (dalloc)->editor (dalloc, set,
-							      dim_i, prefers_scalar);
+							      dim_i, data_type);
 }
