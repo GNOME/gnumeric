@@ -24,9 +24,11 @@ history_item_label (gchar const *uri, int accel_number)
 	int len;
 
 	basename = go_basename_from_uri (uri);
+	if (basename == NULL)
+		basename = g_strdup ("(invalid file name)");
 
 	/* Remove .gnumeric, if present.  */
-	len = basename ? strlen (basename) : 0;
+	len = strlen (basename);
 	if (len > 9 && strcmp (basename + len - 9, ".gnumeric") == 0)
 		basename[len - 9] = 0;
 

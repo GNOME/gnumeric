@@ -1,3 +1,7 @@
+2004-11-08  Morten Welinder  <terra@gnome.org>
+
+	* src/history.c: Survive NULL basename (#157682).
+
 2004-11-08  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Fix psiconv test.
