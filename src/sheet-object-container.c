@@ -103,30 +103,14 @@ view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject 
 	return FALSE;
 }
 
-/*
- * Invoked when a view has been destroyed
- */
-static void
-view_destroyed (GnomeCanvasItem *item, BonoboViewFrame *view_frame)
-{
-	if (view_frame)
-		bonobo_object_unref (BONOBO_OBJECT (view_frame));
-}
-
 static void
 sheet_object_container_destroy (GtkObject *object)
 {
 	SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (object);
 
-	if (sob != NULL && sob->object_server != NULL) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		bonobo_object_release_unref (
-			bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
-			&ev);
-		CORBA_exception_free (&ev);
-
+	if (sob != NULL && sob->client_site != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (sob->client_site));
+		sob->client_site = NULL;
 		sob->object_server = NULL;
 	}
 
@@ -137,7 +121,6 @@ static GnomeCanvasItem *
 sheet_object_container_new_view (SheetObject *so, SheetView *sheet_view)
 {
 	SheetObjectContainer *soc;
-	GnomeCanvasItem *i;
 	BonoboViewFrame *view_frame;
 	GtkWidget *view_widget;
 
@@ -156,21 +139,9 @@ sheet_object_container_new_view (SheetObject *so, SheetView *sheet_view)
 			    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
 	gtk_signal_connect (GTK_OBJECT (view_frame), "activated",
 			    GTK_SIGNAL_FUNC (view_activated_cb), so);
-	/*
-	 * We need somehow to grab events from the wrapper in order to be able to
-	 * move the component around easily.
-	 *
-	 * gtk_signal_connect (GTK_OBJECT (bonobo_view_frame_get_wrapper (view_frame)),
-	 *                    "event",
-	 *                    GTK_SIGNAL_FUNC (sheet_object_event), so);
-	 */
 
 	view_widget = bonobo_view_frame_get_wrapper (view_frame);
-	i = make_container_item (so, sheet_view, view_widget);
-
-	gtk_signal_connect (GTK_OBJECT (i), "destroy",
-			    GTK_SIGNAL_FUNC (view_destroyed), view_frame);
-	return i;
+	return make_container_item (so, sheet_view, view_widget);
 }
 
 /*

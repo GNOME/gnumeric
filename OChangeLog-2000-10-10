@@ -1,5 +1,17 @@
 2000-09-28  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-graph-guru.c (cb_graph_guru_clicked) : Do not
+	  duplicate the container_add it is already done in the
+	  client_site_new.
+
+	* src/sheet-object-container.c (view_destroyed) : delete.
+	(sheet_object_container_destroy) : Use bonobo_object_unref.
+	(sheet_object_container_new_view) : No need for the magic view
+	  destruction handler.  That is handled when the sheet object unrefs
+	  the ClientSite.
+
+	* idl/Makefile.am (idl_DATA) : Install in a version specific location.
+
 	* src/dialogs/dialog-graph-guru.c (graph_guru_state_destroy) : Use
 	  bonobo_object_unref rather than bonobo_object_client_unref.
 	(cb_graph_guru_clicked) : On success clear the State's pointer to the
