@@ -69,7 +69,7 @@ float_compare_desc (const float_t *a, const float_t *b)
                 return -1;
 }
 
-static Cell *
+Cell *
 set_cell (data_analysis_output_t *dao, int col, int row, char *text)
 {
         Cell *cell;
@@ -230,7 +230,7 @@ free_data_set (data_set_t *data)
 	g_slist_free (data->array);
 }
 
-static void
+void
 prepare_output (Workbook *wb, data_analysis_output_t *dao, char *name)
 {
 	if (dao->type == NewSheetOutput) {
@@ -1733,9 +1733,8 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	case BernoulliDistribution:
 	        for (i=0; i<vars; i++) {
 		        for (n=0; n<count; n++) {
-			        sprintf (buf, "%d", 
-					 (random_01 () <= param->bernoulli.p) ?
-					1 : 0);
+			        tmp = random_bernoulli (param->bernoulli.p);
+			        sprintf (buf, "%d", (int) tmp);
 				set_cell (dao, i, n, buf);
 			}
 		}
@@ -1753,10 +1752,38 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	case PoissonDistribution:
 	        for (i=0; i<vars; i++) {
 		        for (n=0; n<count; n++) {
-			        tmp = random_01();
-			        sprintf (buf, "%f", 
-					 floor (exp (param->poisson.lambda *
-						     exp(tmp-1)) + 0.5));
+			        tmp = random_poisson (param->poisson.lambda);
+			        sprintf (buf, "%f", tmp);
+				set_cell (dao, i, n, buf);
+			}
+		}
+	        break;
+	case ExponentialDistribution:
+	        for (i=0; i<vars; i++) {
+		        for (n=0; n<count; n++) {
+			        tmp = random_exponential 
+				        (param->exponential.b);
+			        sprintf (buf, "%f", tmp);
+				set_cell (dao, i, n, buf);
+			}
+		}
+	        break;
+	case BinomialDistribution:
+	        for (i=0; i<vars; i++) {
+		        for (n=0; n<count; n++) {
+			        tmp = random_binomial (param->binomial.p,
+						       param->binomial.trials);
+			        sprintf (buf, "%f", tmp);
+				set_cell (dao, i, n, buf);
+			}
+		}
+	        break;
+	case NegativeBinomialDistribution:
+	        for (i=0; i<vars; i++) {
+		        for (n=0; n<count; n++) {
+			        tmp = random_negbinom (param->negbinom.p,
+						       param->negbinom.f);
+			        sprintf (buf, "%f", tmp);
 				set_cell (dao, i, n, buf);
 			}
 		}

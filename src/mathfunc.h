@@ -106,10 +106,17 @@ double dbinom (double x, double n, double p);
 double pbinom (double x, double n, double p);
 double qbinom (double x, double n, double p);
 
+/* Random number generation. */
+double random_01          (void);
+double random_poisson     (double lambda);
+double random_binomial    (double p, int trials);
+double random_negbinom    (double p, int f);
+double random_exponential (double b);
+double random_bernoulli   (double p);
+double random_normal      (void);
+
 /* ------------------------------------------------------------------------- */
 
-double      random_01              (void);
-double      random_normal          (void);
 float_t     gpow10                 (int n);
 
 #endif

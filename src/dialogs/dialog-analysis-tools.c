@@ -65,7 +65,8 @@ typedef struct {
         GtkWidget *dialog;
         GtkWidget *frame;
         GtkWidget *discrete_box, *uniform_box, *normal_box, *poisson_box;
-        GtkWidget *bernoulli_box;
+        GtkWidget *bernoulli_box, *binomial_box, *negbinom_box;
+        GtkWidget *exponential_box;
         GtkWidget *combo;
 } random_tool_callback_t;
 
@@ -109,7 +110,10 @@ static tool_list_t tools[] = {
 static const char *distribution_strs[] = {
         N_("Discrete"),
         N_("Normal"),
-     /*	N_("Poisson"), */
+     	N_("Poisson"),
+	N_("Exponential"),
+	N_("Binomial"),
+	N_("Negative Binomial"),
         N_("Bernoulli"),
         N_("Uniform"),
         NULL
@@ -1355,6 +1359,15 @@ distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
 	case PoissonDistribution:
 	        gtk_widget_hide (p->poisson_box);
 		break;
+	case ExponentialDistribution:
+	        gtk_widget_hide (p->exponential_box);
+		break;
+	case BinomialDistribution:
+	        gtk_widget_hide (p->binomial_box);
+		break;
+	case NegativeBinomialDistribution:
+	        gtk_widget_hide (p->negbinom_box);
+		break;
 	default:
 	        break;
 	}
@@ -1373,6 +1386,15 @@ distribution_callback (GtkWidget *widget, random_tool_callback_t *p)
 	} else if (strcmp(text, _("Discrete")) == 0) {
 	        distribution = DiscreteDistribution;
 		gtk_widget_show (p->discrete_box);
+	} else if (strcmp(text, _("Exponential")) == 0) {
+	        distribution = ExponentialDistribution;
+		gtk_widget_show (p->exponential_box);
+	} else if (strcmp(text, _("Binomial")) == 0) {
+	        distribution = BinomialDistribution;
+		gtk_widget_show (p->binomial_box);
+	} else if (strcmp(text, _("Negative Binomial")) == 0) {
+	        distribution = NegativeBinomialDistribution;
+		gtk_widget_show (p->negbinom_box);
 	} else if (strcmp(text, _("Poisson")) == 0) {
 	        distribution = PoissonDistribution;
 		gtk_widget_show (p->poisson_box);
@@ -1388,13 +1410,16 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 	static GtkWidget *uniform_upper_entry, *uniform_lower_entry;
 	static GtkWidget *normal_mean_entry, *normal_stdev_entry;
 	static GtkWidget *poisson_lambda_entry;
+	static GtkWidget *binomial_p_entry, *binomial_trials_entry;
+	static GtkWidget *negbinom_p_entry, *negbinom_f_entry;
+	static GtkWidget *exponential_b_entry;
 	static GtkWidget *bernoulli_p_entry;
 
 	static GSList    *output_ops;
 	static GList     *distribution_type_strs;
 
-	int    vars, count;
-	random_tool_t    param;
+	int                     vars, count;
+	random_tool_t           param;
 	data_analysis_output_t  dao;
 
 	static random_tool_callback_t callback_data;
@@ -1463,6 +1488,23 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 		poisson_lambda_entry = hbox_pack_label_and_entry
 		  (_("Lambda"), "0", 20, callback_data.poisson_box);
 
+		callback_data.exponential_box = gtk_vbox_new (FALSE, 0);
+		exponential_b_entry = hbox_pack_label_and_entry
+		  (_("b Value"), "0", 20, callback_data.exponential_box);
+
+		callback_data.binomial_box = gtk_vbox_new (FALSE, 0);
+		binomial_p_entry = hbox_pack_label_and_entry
+		  (_("p Value"), "0", 20, callback_data.binomial_box);
+		binomial_trials_entry = hbox_pack_label_and_entry
+		  (_("Number of Trials"), "0", 20, callback_data.binomial_box);
+
+		callback_data.negbinom_box = gtk_vbox_new (FALSE, 0);
+		negbinom_p_entry = hbox_pack_label_and_entry
+		  (_("p Value"), "0", 20, callback_data.negbinom_box);
+		negbinom_f_entry = hbox_pack_label_and_entry
+		  (_("Number of Failures"), "0", 20,
+		   callback_data.negbinom_box);
+
 		callback_data.bernoulli_box = gtk_vbox_new (FALSE, 0);
 		bernoulli_p_entry = hbox_pack_label_and_entry
 		  (_("p Value"), "0", 20, callback_data.bernoulli_box);
@@ -1483,11 +1525,23 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 				  callback_data.poisson_box);
 
 		gtk_container_add(GTK_CONTAINER(param_box),
+				  callback_data.exponential_box);
+
+		gtk_container_add(GTK_CONTAINER(param_box),
+				  callback_data.binomial_box);
+
+		gtk_container_add(GTK_CONTAINER(param_box),
+				  callback_data.negbinom_box);
+
+		gtk_container_add(GTK_CONTAINER(param_box),
 				  callback_data.uniform_box);
 		gtk_container_add(GTK_CONTAINER(param_box),
 				  callback_data.normal_box);
 
 		gtk_widget_show_all (dialog);
+		gtk_widget_hide (callback_data.exponential_box);
+		gtk_widget_hide (callback_data.negbinom_box);
+		gtk_widget_hide (callback_data.binomial_box);
 		gtk_widget_hide (callback_data.poisson_box);
 		gtk_widget_hide (callback_data.uniform_box);
 		gtk_widget_hide (callback_data.normal_box);
@@ -1500,30 +1554,72 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 			gtk_widget_hide (callback_data.normal_box);
 			gtk_widget_hide (callback_data.bernoulli_box);
 			gtk_widget_hide (callback_data.poisson_box);
+			gtk_widget_hide (callback_data.binomial_box);
+			gtk_widget_hide (callback_data.negbinom_box);
+			gtk_widget_hide (callback_data.exponential_box);
 			break;
 		case NormalDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.uniform_box);
 			gtk_widget_hide (callback_data.bernoulli_box);
 			gtk_widget_hide (callback_data.poisson_box);
+			gtk_widget_hide (callback_data.binomial_box);
+			gtk_widget_hide (callback_data.negbinom_box);
+			gtk_widget_hide (callback_data.exponential_box);
 			break;
 		case BernoulliDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.uniform_box);
 			gtk_widget_hide (callback_data.normal_box);
 			gtk_widget_hide (callback_data.poisson_box);
+			gtk_widget_hide (callback_data.binomial_box);
+			gtk_widget_hide (callback_data.negbinom_box);
+			gtk_widget_hide (callback_data.exponential_box);
 			break;
 		case UniformDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.normal_box);
 			gtk_widget_hide (callback_data.bernoulli_box);
 			gtk_widget_hide (callback_data.poisson_box);
+			gtk_widget_hide (callback_data.binomial_box);
+			gtk_widget_hide (callback_data.negbinom_box);
+			gtk_widget_hide (callback_data.exponential_box);
 			break;
 		case PoissonDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.normal_box);
 			gtk_widget_hide (callback_data.bernoulli_box);
 			gtk_widget_hide (callback_data.uniform_box);
+			gtk_widget_hide (callback_data.binomial_box);
+			gtk_widget_hide (callback_data.negbinom_box);
+			gtk_widget_hide (callback_data.exponential_box);
+			break;
+		case BinomialDistribution:
+		        gtk_widget_hide (callback_data.discrete_box);
+			gtk_widget_hide (callback_data.normal_box);
+			gtk_widget_hide (callback_data.bernoulli_box);
+			gtk_widget_hide (callback_data.uniform_box);
+			gtk_widget_hide (callback_data.poisson_box);
+			gtk_widget_hide (callback_data.negbinom_box);
+			gtk_widget_hide (callback_data.exponential_box);
+			break;
+		case NegativeBinomialDistribution:
+		        gtk_widget_hide (callback_data.discrete_box);
+			gtk_widget_hide (callback_data.normal_box);
+			gtk_widget_hide (callback_data.bernoulli_box);
+			gtk_widget_hide (callback_data.uniform_box);
+			gtk_widget_hide (callback_data.poisson_box);
+			gtk_widget_hide (callback_data.binomial_box);
+			gtk_widget_hide (callback_data.exponential_box);
+			break;
+		case ExponentialDistribution:
+		        gtk_widget_hide (callback_data.discrete_box);
+			gtk_widget_hide (callback_data.normal_box);
+			gtk_widget_hide (callback_data.bernoulli_box);
+			gtk_widget_hide (callback_data.uniform_box);
+			gtk_widget_hide (callback_data.poisson_box);
+			gtk_widget_hide (callback_data.binomial_box);
+			gtk_widget_hide (callback_data.negbinom_box);
 			break;
 		default:
 		        break;
@@ -1570,6 +1666,22 @@ random_dialog_loop:
 	        distribution = PoissonDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (poisson_lambda_entry));
 		param.poisson.lambda = atof(text);
+	} else if (strcmp(text, _("Exponential")) == 0) {
+	        distribution = ExponentialDistribution;
+		text = gtk_entry_get_text (GTK_ENTRY (exponential_b_entry));
+		param.exponential.b = atof(text);
+	} else if (strcmp(text, _("Binomial")) == 0) {
+	        distribution = BinomialDistribution;
+		text = gtk_entry_get_text (GTK_ENTRY (binomial_p_entry));
+		param.binomial.p = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (binomial_trials_entry));
+		param.binomial.trials = atoi(text);
+	} else if (strcmp(text, _("Negative Binomial")) == 0) {
+	        distribution = NegativeBinomialDistribution;
+		text = gtk_entry_get_text (GTK_ENTRY (negbinom_p_entry));
+		param.negbinom.p = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (negbinom_f_entry));
+		param.negbinom.f = atoi(text);
 	} else if (strcmp(text, _("Discrete")) == 0) {
 	        distribution = DiscreteDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (discrete_range_entry));

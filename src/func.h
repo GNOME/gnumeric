@@ -200,6 +200,13 @@ int  criteria_test_less_or_equal    (Value *x, Value *y);
 void parse_criteria                 (const char *criteria,
 				     criteria_test_fun_t *fun,
 				     Value **test_value);
+GSList *parse_criteria_range        (Sheet *sheet, int b_col, int b_row,
+				     int e_col, int e_row,
+				     int   *field_ind);
+void free_criterias                 (GSList *criterias);
+GSList *find_rows_that_match        (Sheet *sheet, int first_col,
+				     int first_row, int last_col, int last_row,
+				     GSList *criterias, gboolean unique_only);
 
 int  solver_simplex                 (Workbook *wb, Sheet *sheet);
 

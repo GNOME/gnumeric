@@ -1,3 +1,16 @@
+2000-01-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-advanced-filter.c, src/func.h, src/workbook.c:
+	Implemented `Advanced Filter'.
+	
+	* src/mathfuns.[ch], src/analysis-tools.c, src/dialogs/dialogs.h,
+ 	src/dialogs/dialog-analysis-tools.c: Added the following
+ 	distributions for the random number generation tool:
+	- poisson
+	- binomial
+	- negative binomial
+	- exponential
+
 2000-01-27  Nick Lamb <njl195@zepler.org.uk>
 
 	* doc/C/images/*.png: New screenshots for documentation, part 2/3

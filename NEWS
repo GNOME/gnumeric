@@ -1,9 +1,16 @@
 Gnumeric 0.49
 
 Jukka:
-	* `>=' and `=' constraint support for the Solver tool.  Solver 
-          should be quite usable now for LP problems that are assumed to
-          be non-negative.
+	* Added `>=' and `=' constraint support for the Solver tool.
+	  Solver should be quite usable now for LP problems that are
+	  assumed to be non-negative.
+	* Added `Advanced Filter' tool.
+	* Added the following distributions for the random number
+	  generation tool:
+	  - Poisson
+	  - Binomial
+	  - Negative binomial
+	  - Exponential
 	* Minor improvements for the AutoSave tool.
 	* GUI improvements for the Data Analysis tool.
 

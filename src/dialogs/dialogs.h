@@ -17,7 +17,7 @@ typedef struct {
 typedef enum {
   DiscreteDistribution, UniformDistribution, NormalDistribution, 
   BernoulliDistribution, BinomialDistribution, PoissonDistribution,
-  PatternedDistribution
+  PatternedDistribution, NegativeBinomialDistribution, ExponentialDistribution
 } random_distribution_t;
 
 typedef struct {
@@ -45,8 +45,17 @@ typedef struct {
 } binomial_random_tool_t;
 
 typedef struct {
+        float_t p;
+        int     f;
+} negbinom_random_tool_t;
+
+typedef struct {
         float_t lambda;
 } poisson_random_tool_t;
+
+typedef struct {
+        float_t b;
+} exponential_random_tool_t;
 
 typedef struct {
         float_t from, to;
@@ -56,13 +65,15 @@ typedef struct {
 } patterned_random_tool_t;
 
 typedef union {
-        discrete_random_tool_t  discrete;
-        uniform_random_tool_t   uniform;
-        normal_random_tool_t    normal;
-        bernoulli_random_tool_t bernoulli;
-        binomial_random_tool_t  binomial;
-        poisson_random_tool_t   poisson;
-        patterned_random_tool_t patterned;
+        discrete_random_tool_t    discrete;
+        uniform_random_tool_t     uniform;
+        normal_random_tool_t      normal;
+        bernoulli_random_tool_t   bernoulli;
+        binomial_random_tool_t    binomial;
+        negbinom_random_tool_t    negbinom;
+        poisson_random_tool_t     poisson;
+        exponential_random_tool_t exponential;
+        patterned_random_tool_t   patterned;
 } random_tool_t;
 
 typedef enum {
@@ -103,6 +114,9 @@ char   	*dialog_get_sheet_name  (Workbook *wb, const char *name);
 gboolean dialog_get_number      (Workbook *wb,
 				 const char *glade_file,
 				 double *init_and_return_value);
+Cell *set_cell (data_analysis_output_t *dao, int col, int row, char *text);
+void prepare_output (Workbook *wb, data_analysis_output_t *dao, char *name);
+
 
 FunctionDefinition *dialog_function_select (Workbook *wb);
 

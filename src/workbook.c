@@ -1269,10 +1269,8 @@ static GnomeUIInfo workbook_menu_tools [] = {
 static GnomeUIInfo workbook_menu_data [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Sort..."),
 	  N_("Sort the selected cells"), sort_cells_cmd },
-#if 0
 	{ GNOME_APP_UI_ITEM, N_("_Filter..."),
 	  N_("Filter date with given criterias"), advanced_filter_cmd },
-#endif
 	GNOMEUIINFO_END
 };
 

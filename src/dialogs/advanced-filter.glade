@@ -81,11 +81,12 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton1</name>
+	    <name>radiobutton2</name>
 	    <can_focus>True</can_focus>
-	    <label>Filter the list (in-place)</label>
-	    <active>False</active>
+	    <label>Filter in-place</label>
+	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
+	    <group>output</group>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -95,11 +96,42 @@
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radiobutton2</name>
+	    <name>radiobutton3</name>
 	    <can_focus>True</can_focus>
-	    <label>Copy to another location</label>
+	    <label>Copy to a new location</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
+	    <group>output</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radiobutton4</name>
+	    <can_focus>True</can_focus>
+	    <label>Copy to a new sheet</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>output</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radiobutton5</name>
+	    <can_focus>True</can_focus>
+	    <label>Copy to a new workbook</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>output</group>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
