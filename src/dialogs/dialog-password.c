@@ -16,6 +16,9 @@ cb_accept_password (GtkWidget *IGNORED, GtkDialog *d)
 	gtk_dialog_response (d, GTK_RESPONSE_ACCEPT);
 }
 
+/*
+ * Note: filename is fs encoded, not UTF-8.
+ */
 char *
 dialog_get_password (GtkWindow *parent, const char *filename)
 {
@@ -25,8 +28,9 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 	char *primary;
 	char *secondary;
 	GtkWidget *d, *hb, *vb, *pwb, *image, *label, *entry;
+	char *filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
 
-	basename  = g_path_get_basename (filename);
+	basename  = g_path_get_basename (filename_utf8);
 	primary   = g_strdup_printf (_("%s is encrypted"), basename);
 	g_free (basename);
 	secondary = _("Encrypted files require a password\nbefore they can be opened.");

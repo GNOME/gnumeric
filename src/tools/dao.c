@@ -789,7 +789,8 @@ void
 dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 		  const gchar *title, Sheet *sheet)
 {
-	GString   *buf;
+	GString *buf;
+	char *filename_utf8;
 
 	buf = g_string_new (NULL);
 	g_string_append_printf (buf, "%s %s %s %s", 
@@ -798,11 +799,13 @@ dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 	g_string_free (buf, FALSE);
 
 	buf = g_string_new (NULL);
+	filename_utf8 = workbook_get_filename_utf8 (sheet->workbook, FALSE);
 	g_string_append_printf (buf, "%s [%s]%s", _("Worksheet:"),
-		workbook_get_filename (sheet->workbook),
+		filename_utf8,
 		sheet->name_quoted);
 	dao_set_cell (dao, 0, 1, buf->str);
 	g_string_free (buf, FALSE);
+	g_free (filename_utf8);
 
 	buf = g_string_new (NULL);
 	g_string_append (buf, _("Report Created: "));

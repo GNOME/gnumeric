@@ -66,20 +66,23 @@ autosave_set_sensitivity (G_GNUC_UNUSED GtkWidget *widget,
 gboolean
 dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 {
-	gint      result;
+	gint result;
 	GtkWidget *dialog;
+	char *filename_utf8;
 
+	filename_utf8 = workbook_get_filename_utf8 (wb_control_workbook
+						    (WORKBOOK_CONTROL (wbcg)), FALSE);
 	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO,
 					 _("Do you want to save the workbook %s ?"),
-					 workbook_get_filename (wb_control_workbook
-								(WORKBOOK_CONTROL (wbcg))));
+					 filename_utf8);
+	g_free (filename_utf8);
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
-	return  result == GTK_RESPONSE_YES;
+	return result == GTK_RESPONSE_YES;
 }
 
 
