@@ -6,7 +6,7 @@
  * I have no docs or specs for this format that are useful.
  * This is a guess based on some sample sheets.
  *
- * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 2000-2001 Jody Goldberg (jgoldberg@home.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

@@ -1,12 +1,10 @@
-/* vim: set sw=8:
- * $Id$
- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * boot.c : Installation and bootstraping routines to
  *          register the applix plugin.
  *
- * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 2000-2001 Jody Goldberg (jgoldberg@home.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
