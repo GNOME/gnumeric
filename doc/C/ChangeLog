@@ -1,5 +1,10 @@
 2003-11-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* analysis-statistical.xml: remove random generator description
+	* data-entry-advanced.xml: add random generator description
+
+2003-11-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* analysistools-statistical.xml: incorporate new screen shot
 	* figures/Makefile.am: add new file
 
