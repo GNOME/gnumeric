@@ -531,8 +531,10 @@ print_cell_range (GnomePrintContext *context,
 		for (col = start_col; col <= end_col; ){
 			CellSpanInfo const * span;
 			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
-			if (!ci->visible)
+			if (!ci->visible) {
+				++col;
 				continue;
+			}
 
 			/* Is this the start of a span?
 			 * 1) There are cells allocated in the row

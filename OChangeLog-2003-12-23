@@ -1,3 +1,9 @@
+2000-03-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_cell_range) : Don't forget to increment
+	  when dealing with hidden cols/rows.
+	* src/item-grid.c (item_grid_draw) : Ditto.
+
 2000-03-01  Dom Lachowicz <dominicl@seas.upenn.edu>
 
 	* src/dialogs/dialog-plugin-manager.c (add_to_clist, populate_clist),

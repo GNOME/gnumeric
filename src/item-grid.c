@@ -399,8 +399,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ) {
 			CellSpanInfo const * span;
 			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
-			if (!ci->visible)
+			if (!ci->visible) {
+				++col;
 				continue;
+			}
 
 			/* Is this the start of a span?
 			 * 1) There are cells allocated in the row
