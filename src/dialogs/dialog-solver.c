@@ -36,6 +36,8 @@ typedef struct {
 	GtkWidget           *dialog;
 	GnumericExprEntry   *target_entry;
 	GnumericExprEntry   *change_cell_entry;
+	GtkWidget           *max_iter_entry;
+	GtkWidget           *max_time_entry;
 	GtkWidget           *solve_button;
 	GtkWidget           *cancel_button;
 	GtkWidget           *close_button;
@@ -717,6 +719,39 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	state->sheet->solver_parameters->options.assume_non_negative =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 			glade_xml_get_widget (state->gui, "non_neg_button")));
+	state->sheet->solver_parameters->options.automatic_scaling =
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
+			glade_xml_get_widget (state->gui, "autoscale_button")));
+	state->sheet->solver_parameters->options.show_iter_results =
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
+			glade_xml_get_widget (state->gui, "show_iter_button")));
+
+	if (entry_to_int
+	    (GTK_ENTRY(state->max_iter_entry), 
+	     &state->sheet->solver_parameters->options.max_iter, TRUE)) {
+		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_ERROR,
+					  _("The value given in 'Max Iterations' "
+					    "is not valid."));
+		focus_on_entry (GTK_ENTRY(state->max_iter_entry));
+		return;
+	}
+
+	if (entry_to_int
+	    (GTK_ENTRY(state->max_time_entry), 
+	     &state->sheet->solver_parameters->options.max_time_sec, TRUE)) {
+		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+					  &(state->warning_dialog),
+					  GTK_MESSAGE_ERROR,
+					  _("The value given in 'Max Time (sec.)' "
+					    "is not valid."));
+		focus_on_entry (GTK_ENTRY(state->max_time_entry));
+		return;
+	}
+
+	state->sheet->solver_parameters->options.max_time_sec =
+
 	answer = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 	        glade_xml_get_widget (state->gui, "answer")));
 	state->sheet->solver_parameters->options.answer_report = answer;
@@ -955,6 +990,17 @@ dialog_init (SolverState *state)
 	g_signal_connect_after (G_OBJECT (state->change_cell_entry),
 		"changed",
 		G_CALLBACK (dialog_set_main_button_sensitivity), state);
+
+	/* Options */
+	state->max_iter_entry = glade_xml_get_widget (state->gui, "max_iter_entry");
+	if (state->max_iter_entry == NULL)
+		return TRUE;
+	gtk_entry_set_text (GTK_ENTRY (state->max_iter_entry), "1000");
+
+	state->max_time_entry = glade_xml_get_widget (state->gui, "max_time_entry");
+	if (state->max_time_entry == NULL)
+		return TRUE;
+	gtk_entry_set_text (GTK_ENTRY (state->max_time_entry), "3600");
 
 /* lhs_entry */
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));

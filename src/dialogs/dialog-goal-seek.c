@@ -71,7 +71,7 @@ typedef struct {
 	gnum_float ytarget;
 } GoalEvalData;
 
-static void
+void
 focus_on_entry (GtkEntry *entry)
 {
 	gtk_widget_grab_focus (GTK_WIDGET(entry));

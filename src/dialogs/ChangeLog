@@ -1,5 +1,11 @@
 2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* dialog-solver.c (cb_dialog_solve_clicked): Store the status of
+	the new buttons and entries.
+	(dialog_init): Initialize the new entries.
+
+	* dialog-goal-seek.c (focus_on_entry): Made public.
+
 	* solver.glade: Added `automatic scaling' and `show iteration
 	results' buttons.  Added `max iterations' and `max time' buttons.
 
