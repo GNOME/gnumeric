@@ -1,3 +1,7 @@
+1999-08-08  Jacob Berkman  <jberkman@andrew.cmu.edu>
+
+	* src/workbook.c: use smaller menu stock icon instead of large one
+
 1999-08-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/xml-io.c (xml_write_summary): I think this is the correct
