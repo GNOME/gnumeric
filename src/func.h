@@ -14,6 +14,7 @@ extern FunctionDefinition finance_functions [];
 extern FunctionDefinition eng_functions [];
 extern FunctionDefinition lookup_functions [];
 extern FunctionDefinition logical_functions [];
+extern FunctionDefinition database_functions [];
 
 typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_string, void *);
 
@@ -81,12 +82,20 @@ typedef struct {
 	FunctionDefinition *fd ;
 } TokenizedHelp;
 
+typedef struct {
+	int N;
+	float_t M, Q;
+} stat_closure_t;
+
 TokenizedHelp *tokenized_help_new     (FunctionDefinition *fd) ;
 char          *tokenized_help_find    (TokenizedHelp *tok, char *token) ;
 void           tokenized_help_destroy (TokenizedHelp *tok) ;
 
 float_t combin (int n, int k);
 float_t fact   (int n);
+void setup_stat_closure (stat_closure_t *cl);
+int callback_function_stat (Sheet *sheet, Value *value, char **error_string,
+			    void *closure);
 
 Value *gnumeric_average     (Sheet *sheet, GList *expr_node_list,
 			     int eval_col, int eval_row,

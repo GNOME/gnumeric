@@ -591,12 +591,7 @@ pf(float_t x, float_t n1, float_t n2)
 
 
 
-typedef struct {
-	int N;
-	float_t M, Q;
-} stat_closure_t;
-
-static void
+void
 setup_stat_closure (stat_closure_t *cl)
 {
 	cl->N = 0;
@@ -604,7 +599,7 @@ setup_stat_closure (stat_closure_t *cl)
 	cl->Q = 0.0;
 }
 
-static int
+int
 callback_function_stat (Sheet *sheet, Value *value, char **error_string,
 			void *closure)
 {
