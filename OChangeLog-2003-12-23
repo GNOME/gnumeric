@@ -1,3 +1,7 @@
+2002-08-31  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_add_custom_ui) : copy the domain.
+
 2002-08-30  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-graph.c : fix some warnings.

@@ -895,7 +895,6 @@ gnumeric_create_popup_menu_list (GSList *elements,
 
 		if (name != NULL && *name != '\0') {
 			trans = _(name);
-			printf ("'%s' = '%s'\n", name, trans);
 			item = gtk_image_menu_item_new_with_mnemonic (trans);
 			if (element->sensitive_filter != 0 &&
 			    (element->sensitive_filter & sensitive_filter))

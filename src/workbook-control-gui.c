@@ -4524,10 +4524,11 @@ wbcg_add_custom_ui (WorkbookControlGUI *wbcg, CustomXmlUI *ui)
 	if (ui->textdomain != NULL) {
 		char *old_textdomain;
 
-		old_textdomain = textdomain (NULL);
+		old_textdomain = g_strdup (textdomain (NULL));
 		textdomain (ui->textdomain);
 		bonobo_ui_component_set_translate (uic, "/", ui->xml_ui, NULL);
 		textdomain (old_textdomain);
+		g_free (old_textdomain);
 	} else {
 		bonobo_ui_component_set_translate (uic, "/", ui->xml_ui, NULL);
 	}
