@@ -253,7 +253,12 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 			    guint8 const *raw_anchor,
 			    Range *range, float offset[4])
 {
-	float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
+	/* float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
+	 * damn damn damn
+	 * chap03-1.xls suggests that XL95 uses 256 too
+	 * Do we have any tests that confirm the 1024 ?
+	 */
+	float const row_denominator = 256.;
 	int	i;
 
 	d (0, printf ("%s\n", sheet->name_unquoted););
@@ -344,10 +349,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 					esheet->gnum_sheet);
 
 		/* can not be done until we have set the sheet */
-		if (obj->excel_type == 0x09) {
-			sheet_object_polygon_set_points (SHEET_OBJECT (obj->gnum_obj),
-				ms_object_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
-		} else if (obj->excel_type == 0x0B) {
+		if (obj->excel_type == 0x0B) {
 			sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
 				ms_object_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
 		} else if (obj->excel_type == 0x11) {
@@ -381,19 +383,31 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	switch (obj->excel_type) {
 	case 0x01: { /* Line */
+		StyleColor *color;
 		MSObjAttr *is_arrow = ms_object_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_ARROW_END);
 		so = sheet_object_line_new (is_arrow != NULL); break;
+
+		color = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_FILL_COLOR);
+		if (color != NULL)
+			sheet_object_graphic_fill_color_set (so, color);
 		break;
 	}
 	case 0x02:
 	case 0x03: { /* Box or Oval */
 		StyleColor *fill_color = NULL;
+		StyleColor *outline_color;
+
 		so = sheet_object_box_new (obj->excel_type == 3);
 		if (ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
 			fill_color = ms_sheet_map_color (esheet, obj,
 				MS_OBJ_ATTR_FILL_COLOR);
+		outline_color = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_OUTLINE_COLOR);
 		sheet_object_graphic_fill_color_set (so, fill_color);
+		if (outline_color)
+			sheet_object_filled_outline_color_set (so, outline_color);
 		break;
 	}
 
@@ -436,7 +450,14 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 	}
 	case 0x09: so = g_object_new (sheet_object_polygon_get_type (), NULL);
+		   sheet_object_polygon_set_points (SHEET_OBJECT (so),
+			ms_object_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
+		   sheet_object_polygon_fill_color_set (so, 
+			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
+		   sheet_object_polygon_outline_color_set (so, 
+			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
 		   break;
+
 	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
 		   break;
 	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);

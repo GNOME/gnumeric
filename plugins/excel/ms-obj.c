@@ -399,8 +399,17 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	obj->excel_type = GSF_LE_GET_GUINT16(q->data + 4);
 	obj->id         = GSF_LE_GET_GUINT32(q->data + 6);
 
-	if (obj->excel_type == 9 && /* polygon */
-	    ms_biff_query_peek_next (q, &peek_op) &&
+	switch (obj->excel_type) {
+	case 9:  /* polygon */
+
+		ms_object_attr_bag_insert (obj->attrs,
+			ms_object_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
+				0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
+		ms_object_attr_bag_insert (obj->attrs,
+			ms_object_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
+				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
+
+	if (ms_biff_query_peek_next (q, &peek_op) &&
 	    peek_op == BIFF_COORDLIST) {
 		unsigned i, n;
 		guint tmp;
@@ -419,6 +428,11 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		g_array_index (array, double, i+1) = g_array_index (array, double, 1);
 		ms_object_attr_bag_insert (obj->attrs,
 			ms_object_attr_new_array (MS_OBJ_ATTR_POLYGON_COORDS, array));
+	}
+	break;
+
+	default :
+		;
 	}
 
 	return FALSE;
