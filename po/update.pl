@@ -33,11 +33,27 @@ use File::Basename;
 #-------------------------
 my $VERSION = "1.5beta5";
 my $LANG    = $ARGV[0];
-my $PACKAGE = "gnumeric";
 
 # Always print as the first thing
 #--------------------------------
 $| = 1;
+
+# Figure out what package that is in use
+#---------------------------------------
+open FILE, "../configure.in";
+    while (<FILE>) {
+	next if /^dnl/; #ignore comments
+        if ($_=~/AM_INIT_AUTOMAKE\((.*),(.*)\)/o){
+            $PACKAGE=$1;
+	    last; #stop when found
+            }
+	if ($_=~/PACKAGE\((.*)\)/o){
+            $PACKAGE=$1;
+            last; #stop when found
+            }
+        }   
+close FILE;
+
 
 # Give error if script is run without an argument
 #------------------------------------------------
