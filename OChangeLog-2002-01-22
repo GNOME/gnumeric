@@ -4,7 +4,7 @@
 	  set the sheet here.  That happens latter.  Handle no input smoothly.
 	(sheet_widget_checkbox_write_xml) : handle no input smoothly.
 
-	* src/format.c (append_second_elapsed) : use unsigned long.
+	* src/format.c (append_second_elapsed) : use doubles.
 	(append_minute_elapsed) : use unsigned long.
 	(append_hour_elapsed) : use unsigned long.
 
