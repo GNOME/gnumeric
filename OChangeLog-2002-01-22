@@ -1,3 +1,25 @@
+2001-07-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+        * src/sheet-control-gui.[c,h]: Clean up the handling of bonobo objects
+        by introducing
+	(scg_activate_view_frame) and
+        (scg_deactivate_view_frame).
+	* src/sheet-object-bonobo.[c,h]: Check for existence of interfaces
+	before querying it. Fix ref-counting. Make functions
+	(sheet_object_bonobo_load_persist_file), 
+	(sheet_object_bonobo_load_persist_stream), and 
+	(sheet_object_bonobo_load_stream) consistent.
+	* src/sheet-object-container.c: Parent class is and has ever been 
+	SheetObjectBonobo. This file should be called
+	sheet-object-bonobo-container... Fix ref-counting.
+	(cb_user_activation_request): Activate the view frame and set edit mode
+	(cb_view_activated): Removed
+	(sheet_object_container_new_view): Let the canvas item remember the
+	view frame (through gtk_object_set_data)
+	* src/sheet-object-container.h: Rename IS_SHEET_CONTAINER_OBJECT to
+	IS_SHEET_OBJECT_CONTAINER to be consistent. Remove view_frame
+	variable - this object can produce many view frames.
+	
 2001-07-13  Morten Welinder  <terra@diku.dk>
 
 	* src/analysis-tools.c (ttest_eq_var_tool): Fixed for pooled

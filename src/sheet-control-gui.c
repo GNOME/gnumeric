@@ -1426,13 +1426,7 @@ scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 			if (SO_CLASS (so)->set_active != NULL)
 				SO_CLASS (so)->set_active (so, FALSE);
 #ifdef ENABLE_BONOBO
-	/* FIXME FIXME FIXME : JEG 11/Sep/2000 */
-	if (scg->active_object_frame) {
-		bonobo_view_frame_view_deactivate (scg->active_object_frame);
-		if (scg->active_object_frame != NULL)
-			bonobo_view_frame_set_covered (scg->active_object_frame, TRUE);
-		scg->active_object_frame = NULL;
-	}
+			scg_deactivate_view_frame (scg);
 #endif
 		}
 	}
@@ -2629,6 +2623,34 @@ scg_colrow_resize_move (SheetControlGUI *scg,
 	for (i = scg->active_panes; i-- > 0 ; )
 		gnumeric_pane_colrow_resize_move (scg->pane + i, is_cols, pos);
 }
+
+#ifdef ENABLE_BONOBO
+void
+scg_activate_view_frame (SheetControlGUI *scg, BonoboViewFrame *view_frame)
+{
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	/* Deactivate activated frame (if any) */
+	scg_deactivate_view_frame (scg); 
+
+	/* Activate given frame */
+	bonobo_view_frame_view_activate (view_frame);
+	bonobo_view_frame_set_covered (view_frame, FALSE);
+	scg->active_object_frame = view_frame;
+}
+
+void
+scg_deactivate_view_frame (SheetControlGUI *scg)
+{
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	
+	if (scg->active_object_frame) {
+		bonobo_view_frame_view_deactivate (scg->active_object_frame);
+		bonobo_view_frame_set_covered (scg->active_object_frame, TRUE);
+		scg->active_object_frame = NULL;
+	}
+}
+#endif
 
 static void
 scg_class_init (GtkObjectClass *object_class)

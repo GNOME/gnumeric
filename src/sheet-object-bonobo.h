@@ -29,6 +29,8 @@ typedef struct {
 
 	/* the object server that implements this SheetObjectBonobo */
 	BonoboObjectClient *object_server;
+	gboolean has_persist_file;
+	gboolean has_persist_stream;
 } SheetObjectBonobo;
 
 typedef struct {
@@ -44,10 +46,15 @@ gboolean    sheet_object_bonobo_set_object_iid	(SheetObjectBonobo	 *sob,
 						 char const	   	 *object_id);
 gboolean    sheet_object_bonobo_set_server	(SheetObjectBonobo	 *sob,
 						 BonoboObjectClient	 *object_server);
-gboolean    sheet_object_bonobo_load_file	(SheetObjectBonobo *sob,
-						 char const *fname);
-gboolean    sheet_object_bonobo_load_stream	(SheetObjectBonobo *sob,
-						 BonoboStream *stream);
+void        sheet_object_bonobo_load_file           (SheetObjectBonobo *sob,
+						     char const        *fname, 
+						     CORBA_Environment *ev);
+void        sheet_object_bonobo_load_persist_file   (SheetObjectBonobo *sob,
+						     char const        *fname,
+						     CORBA_Environment *ev);
+void        sheet_object_bonobo_load_persist_stream (SheetObjectBonobo *sob,
+						     BonoboStream      *stream,
+						     CORBA_Environment *ev);
 void        sheet_object_bonobo_query_size     (SheetObjectBonobo *sob);
 
 #endif /* GNUMERIC_SHEET_OBJECT_ITEM_H */

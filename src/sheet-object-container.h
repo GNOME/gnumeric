@@ -12,15 +12,14 @@
 #define SHEET_OBJECT_CONTAINER_TYPE     (sheet_object_container_get_type ())
 #define SHEET_OBJECT_CONTAINER(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_CONTAINER_TYPE, SheetObjectContainer))
 #define SHEET_OBJECT_CONTAINER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_CONTAINER_TYPE, SheetObjectContainerClass))
-#define IS_SHEET_CONTAINER_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_CONTAINER_TYPE))
+#define IS_SHEET_OBJECT_CONTAINER(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_CONTAINER_TYPE))
 
 typedef struct {
-	SheetObjectBonobo     parent_object;
-	BonoboViewFrame *view_frame;
+	SheetObjectBonobo  parent_object;
 } SheetObjectContainer;
 
 typedef struct {
-	SheetObjectClass parent_class;
+	SheetObjectBonoboClass parent_class;
 } SheetObjectContainerClass;
 
 /*

@@ -3,6 +3,9 @@
 
 #include "gui-gnumeric.h"
 #include "sheet-control.h"
+#ifdef ENABLE_BONOBO
+#include <bonobo/bonobo-view-frame.h>
+#endif
 
 #define SHEET_CONTROL_GUI_TYPE        (sheet_control_gui_get_type ())
 #define SHEET_CONTROL_GUI(obj)        (GTK_CHECK_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
@@ -69,6 +72,11 @@ void scg_colrow_resize_start	(SheetControlGUI *scg,
 				 gboolean is_cols, int resize_first);
 void scg_colrow_resize_move	(SheetControlGUI *scg,
 				 gboolean is_cols, int resize_last);
+#ifdef ENABLE_BONOBO
+void scg_activate_view_frame	(SheetControlGUI *scg,
+				 BonoboViewFrame *view_frame);
+void scg_deactivate_view_frame  (SheetControlGUI *scg);
+#endif
 
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
 GnumericSheet      *scg_pane		(SheetControlGUI *scg, int pane);

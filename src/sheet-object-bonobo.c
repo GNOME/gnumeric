@@ -47,12 +47,10 @@ sheet_object_bonobo_destroy (GtkObject *object)
 		sob->client_site = NULL;
 	}
 
-#if 0
 	if (sob->object_server != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (sob->object_server));
 		sob->object_server = NULL;
 	}
-#endif
 
 	if (sob->object_id != NULL) {
 		g_free (sob->object_id);
@@ -96,128 +94,43 @@ get_file_name (void)
 	return filename;
 }
 
-/**
- * sheet_object_bonobo_load_file:
- * @sob: A SheetBonoboObject
- * @fname: File from which the state is loaded for @sob
- *
- * Loads the state for the Bonobo component from @fname
- *
- * Returns TRUE on success, FALSE on failure.
- */
-gboolean
-sheet_object_bonobo_load_file (SheetObjectBonobo *sob, const char *fname)
+void
+sheet_object_bonobo_load_persist_file (SheetObjectBonobo *sob,
+				       const char *fname, 
+				       CORBA_Environment *ev)
 {
-	CORBA_Environment ev;
 	Bonobo_PersistFile pf;
-	Bonobo_PersistStream ps;
 
-	CORBA_exception_init (&ev);
+	g_return_if_fail (IS_SHEET_OBJECT_BONOBO (sob));
+	g_return_if_fail (sob->has_persist_file);
 
-	pf = Bonobo_Unknown_queryInterface (
-		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
-		"IDL:Bonobo/PersistFile:1.0", &ev);
-
-	if (ev._major == CORBA_NO_EXCEPTION && pf != CORBA_OBJECT_NIL){
-		char *file;
-
-		if (!fname)
-			file = get_file_name ();
-		else
-			file = g_strdup (fname);
-		if (file) {
-			Bonobo_PersistFile_load (pf, file, &ev);
-			if (BONOBO_EX (&ev))
-				g_warning ("Error '%s'", bonobo_exception_get_text (&ev));
-		}
-
-		bonobo_object_release_unref (pf, &ev);
-		g_free (file);
-
-		goto finish;
+	pf = Bonobo_Unknown_queryInterface (BONOBO_OBJREF (sob->object_server),
+					    "IDL:Bonobo/PersistFile:1.0", ev);
+	if (!BONOBO_EX (ev)) {
+		Bonobo_PersistFile_load (pf, fname, ev);
+		bonobo_object_release_unref (pf, NULL);
 	}
-
-	ps = Bonobo_Unknown_queryInterface (
-		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
-		"IDL:Bonobo/PersistStream:1.0", &ev);
-
-	if (ev._major == CORBA_NO_EXCEPTION && ps != CORBA_OBJECT_NIL){
-		char *file;
-
-		if (!fname)
-			file = get_file_name ();
-		else
-			file = g_strdup (fname);
-
-		if (file) {
-			BonoboStream *stream;
-
-			stream = bonobo_stream_open ("fs", file, Bonobo_Storage_READ, 0);
-			if (stream) {
-				Bonobo_PersistStream_load (
-					ps,
-					(Bonobo_Stream) bonobo_object_corba_objref (
-						BONOBO_OBJECT (stream)), "", &ev);
-				if (BONOBO_EX (&ev))
-					g_warning ("Error '%s'", bonobo_exception_get_text (&ev));
-			} else
-				g_warning ("Failed to open '%s'", file);
-		}
-
-		bonobo_object_release_unref (pf, &ev);
-		g_free (file);
-
-		goto finish;
-	}
-	CORBA_exception_free (&ev);
-	return FALSE;
-
- finish:
-	CORBA_exception_free (&ev);
-	return TRUE;
 }
 
-/**
- * sheet_object_bonobo_load_stream:
- * @sob: SheetObject Bonobo component
- * @stream: Stream used to load the state of the @sob component
- */
-gboolean
-sheet_object_bonobo_load_stream (SheetObjectBonobo *sob,
-				 BonoboStream      *stream)
+void
+sheet_object_bonobo_load_persist_stream (SheetObjectBonobo *sob,
+				         BonoboStream      *stream,
+					 CORBA_Environment *ev)
 {
-	CORBA_Environment   ev;
-	Bonobo_PersistStream ret;
+	Bonobo_PersistStream ps;
 
-	if (!stream)
-		return TRUE;
+	bonobo_return_if_fail (IS_SHEET_OBJECT_BONOBO (sob), ev);
+	g_return_if_fail (sob->client_site != NULL);
+	g_return_if_fail (sob->has_persist_stream);
 
-	g_return_val_if_fail (sob != NULL, FALSE);
-	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
-	g_return_val_if_fail (sob->client_site != NULL, FALSE);
-
-	CORBA_exception_init (&ev);
-
-	ret = Bonobo_Unknown_queryInterface (
-		bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
-		"IDL:Bonobo/PersistStream:1.0", &ev);
-	if (ev._major == CORBA_NO_EXCEPTION && ret != CORBA_OBJECT_NIL) {
-		if (stream) {
-			Bonobo_PersistStream_load (
-				ret,
-				(Bonobo_Stream) bonobo_object_corba_objref (
-					BONOBO_OBJECT (stream)), "", &ev);
-			Bonobo_Unknown_unref ((Bonobo_Unknown) ret, &ev);
-			CORBA_Object_release (ret, &ev);
-		}
-	} else {
-		g_warning ("Component has data to load but no PersistStream interface");
-		CORBA_exception_free (&ev);
-		return FALSE;
+	ps = Bonobo_Unknown_queryInterface (BONOBO_OBJREF (sob->object_server),
+					    "IDL:Bonobo/PersistStream:1.0",
+					    ev);
+	if (!BONOBO_EX (ev)) {
+		Bonobo_PersistStream_load (ps,
+			(Bonobo_Stream) BONOBO_OBJREF (stream), "", ev);
+		bonobo_object_release_unref (ps, NULL);
 	}
-	CORBA_exception_free (&ev);
-
-	return TRUE;
 }
 
 static void
@@ -227,7 +140,7 @@ sheet_object_bonobo_print (SheetObject const *so,
 	SheetObjectBonobo const *sob;
 	BonoboPrintClient *bpc;
 
-	g_return_if_fail (IS_SHEET_OBJECT_BONOBO (so));
+	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	sob = SHEET_OBJECT_BONOBO (so);
 
@@ -243,27 +156,66 @@ sheet_object_bonobo_print (SheetObject const *so,
 	bonobo_print_client_render (bpc, pi->pd);
 }
 
-static void
-open_cb (GtkMenuItem *item, SheetObjectBonobo *sheet_object)
+void
+sheet_object_bonobo_load_file (SheetObjectBonobo *sob, const gchar *fname, 
+		               CORBA_Environment *ev)
 {
-	sheet_object_bonobo_load_file (sheet_object, NULL);
+	BonoboStream *stream;
+
+	bonobo_return_if_fail (IS_SHEET_OBJECT_BONOBO (sob), ev);
+	g_return_if_fail (sob->has_persist_file || sob->has_persist_stream);
+
+	if (sob->has_persist_file)
+		sheet_object_bonobo_load_persist_file (sob, fname, ev);
+	else {
+		stream = bonobo_stream_open ("fs", fname,
+					     Bonobo_Storage_READ, 0);
+		sheet_object_bonobo_load_persist_stream (sob, stream, ev);
+		bonobo_object_unref (BONOBO_OBJECT (stream));
+	}
 }
 
 static void
-sheet_object_bonobo_populate_menu (SheetObject *sheet_object,
-				   GtkObject   *obj_view,
-				   GtkMenu     *menu)
+open_cb (GtkMenuItem *item, SheetObjectBonobo *sob)
 {
-	GtkWidget *item = gtk_menu_item_new_with_label (_("Open"));
+	gchar *filename;
+	CORBA_Environment ev;
 
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    (GtkSignalFunc) open_cb, sheet_object);
+	g_return_if_fail (sob->has_persist_file || sob->has_persist_stream);
 
-	gtk_menu_append (menu, item);
+	CORBA_exception_init (&ev);
+
+	filename = get_file_name ();
+	sheet_object_bonobo_load_file (sob, filename, &ev);
+	g_free (filename);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Could not open: %s",
+			   bonobo_exception_get_text (&ev));
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+static void
+sheet_object_bonobo_populate_menu (SheetObject *so,
+			           GtkObject   *obj_view,
+			           GtkMenu     *menu)
+{
+	SheetObjectBonobo *sob;
+	GtkWidget *item;
+
+	g_return_if_fail (IS_SHEET_OBJECT_BONOBO (so));
+
+	sob = SHEET_OBJECT_BONOBO (so);
+	if (sob->has_persist_file || sob->has_persist_stream) {
+		item = gtk_menu_item_new_with_label (_("Open"));
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (open_cb), so);
+		gtk_menu_append (menu, item);
+	}
 
 	if (sheet_object_bonobo_parent_class->populate_menu)
-		sheet_object_bonobo_parent_class->
-			populate_menu (sheet_object, obj_view, menu);
+		sheet_object_bonobo_parent_class->populate_menu (so, obj_view, menu);
 }
 
 static gboolean
@@ -294,14 +246,16 @@ sheet_object_bonobo_write_xml (SheetObject const *so,
 static void
 sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 {
-	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	SheetObjectClass *sheet_object_class;
 
 	sheet_object_bonobo_parent_class = gtk_type_class (sheet_object_get_type ());
 
-	/* Object class method overrides */
+	/* GtkObject class method overrides */
 	object_class->destroy = sheet_object_bonobo_destroy;
 
-	sheet_object_class->print = sheet_object_bonobo_print;
+	/* SheetObject class method overrides */
+	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	sheet_object_class->print         = sheet_object_bonobo_print;
 	sheet_object_class->populate_menu = sheet_object_bonobo_populate_menu;
 	sheet_object_class->read_xml	  = sheet_object_bonobo_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_bonobo_write_xml;
@@ -322,8 +276,10 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob,
 	sob->object_server = NULL;
 	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
 	if (object_id != NULL &&
-	    !sheet_object_bonobo_set_object_iid (sob, object_id))
+	    !sheet_object_bonobo_set_object_iid (sob, object_id)) {
+		bonobo_object_unref (BONOBO_OBJECT (sob->client_site));
 		return NULL;
+	}
 
 	return sob;
 }
@@ -349,19 +305,24 @@ sheet_object_bonobo_set_object_iid (SheetObjectBonobo *sob,
 				    char const *object_id)
 {
 	BonoboObjectClient *server;
+	gboolean result;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
 	g_return_val_if_fail (sob->object_id == NULL, FALSE);
 	g_return_val_if_fail (object_id != NULL, FALSE);
 
 	server = bonobo_object_activate (object_id, 0);
-	if (!server) {
-		gtk_object_destroy (GTK_OBJECT (sob));
+	if (!server)
 		return FALSE;
-	}
-	sob->object_id = g_strdup (object_id);
 
-	return sheet_object_bonobo_set_server (sob, server);
+	result = sheet_object_bonobo_set_server (sob, server);
+	bonobo_object_unref (BONOBO_OBJECT (server));
+	if (result == TRUE) {
+		sob->object_id = g_strdup (object_id);
+		return (TRUE);
+	}
+
+	return (FALSE);
 }
 
 gboolean
@@ -372,12 +333,16 @@ sheet_object_bonobo_set_server (SheetObjectBonobo *sob,
 	g_return_val_if_fail (sob->object_server == NULL, FALSE);
 	g_return_val_if_fail (BONOBO_IS_OBJECT_CLIENT (server), FALSE);
 
-	if (!bonobo_client_site_bind_embeddable (sob->client_site, server)) {
-		gtk_object_destroy (GTK_OBJECT (sob));
+	if (!bonobo_client_site_bind_embeddable (sob->client_site, server))
 		return FALSE;
-	}
+
 	bonobo_object_ref (BONOBO_OBJECT (server));
 	sob->object_server = server;
+
+	sob->has_persist_file = bonobo_object_client_has_interface (server,
+					"IDL:Bonobo/PersistFile:1.0", NULL);
+	sob->has_persist_stream = bonobo_object_client_has_interface (server,
+					"IDL:Bonobo/PersistStream:1.0", NULL);
 
 	return TRUE;
 }
