@@ -948,7 +948,7 @@ ms_ole_summary_get_time (MsOleSummary *si, MsOleSummaryPID id,
 	high_time = MS_OLE_GET_GUINT32 (data + 8);
 
 	if (type != TYPE_TIME) { /* Very odd */
-		g_warning ("Summary string type mismatch");
+		g_warning ("Summary time type mismatch");
 		return time;
 	}
 
