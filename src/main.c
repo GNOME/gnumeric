@@ -5,6 +5,7 @@
 #include "plugin.h"
 #include "format.h"
 #include "color.h"
+#include "cursors.h"
 
 /* If set, the file to load at startup time */
 static char *startup_file;

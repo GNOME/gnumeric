@@ -15,6 +15,7 @@
 #include "item-debug.h"
 #include "color.h"
 #include "dialogs.h"
+#include "cursors.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -559,6 +560,12 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	int scroll_x, scroll_y;
 
 	switch (event->type){
+	case GDK_ENTER_NOTIFY:
+		gdk_window_set_cursor (
+			GTK_WIDGET (canvas)->window,
+			gnumeric_cursors [GNUMERIC_CURSOR_FAT_CROSS].cursor);
+		return TRUE;
+		
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button == 1){
 			item_grid->selecting = 0;

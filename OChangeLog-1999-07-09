@@ -1,3 +1,18 @@
+1998-09-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cursors.c: Define the Gnumeric cursors here.
+	(create_bitmap_and_mask_from_xpm): New simplistic function to
+	create cursors from an XPM inlined file.  It assumes 3 colors are
+	used: none (transparency), black and white. 
+	(cursors_init): Create various cursors for use in Gnumeric.
+
+	* src/item-grid.c (item_grid_event): Set the fat cross cursor on
+	enter-notify 
+
+	* src/item-cursor.c (item_cursor_selection_event): Handle
+	GDK_ENTER_NOTIFY and GDK_MOTION_NOTIFY to set the X window pointer
+	shape properly according to the position of the mouse pointer.
+
 1998-09-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_realize): Fix: initilaize

@@ -16,10 +16,13 @@
 #include "gnumeric-sheet.h"
 #include "gnumeric-util.h"
 #include "color.h"
+#include "cursors.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
 static void item_cursor_request_redraw (ItemCursor *item_cursor);
+
+#define IS_LITTLE_SQUARE(item,x,y) ((x) > (item)->x2 - 6) && ((y) > (item)->y2 - 6)
 
 /* The argument we take */
 enum {
@@ -337,11 +340,11 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 {
 	*actual_item = NULL;
 
-	if (cx < item->x1)
+	if (cx < item->x1-1)
 		return INT_MAX;
 	if (cx > item->x2)
 		return INT_MAX;
-	if (cy < item->y1)
+	if (cy < item->y1-1)
 		return INT_MAX;
 	if (cy > item->y2)
 		return INT_MAX;
@@ -378,6 +381,19 @@ item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor *parent, int x,
 	item_cursor->base_row = parent->start_row;
 }
 
+static void
+item_cursor_set_cursor (GdkWindow *window, GnomeCanvasItem *item, int x, int y)
+{
+	int cursor;
+	
+	if (IS_LITTLE_SQUARE (item, x, y))
+		cursor = GNUMERIC_CURSOR_THIN_CROSS;
+	else
+		cursor = GNUMERIC_CURSOR_ARROW;
+	
+	gdk_window_set_cursor (window, gnumeric_cursors [cursor].cursor);
+}
+
 static gint
 item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -387,6 +403,20 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	int x, y;
 
 	switch (event->type){
+	case GDK_ENTER_NOTIFY:
+		gnome_canvas_w2c (
+			canvas, event->crossing.x, event->crossing.y, &x, &y);
+
+		item_cursor_set_cursor (GTK_WIDGET (canvas)->window, item, x, y);
+		return TRUE;
+		
+	case GDK_MOTION_NOTIFY:
+		gnome_canvas_w2c (
+			canvas, event->motion.x, event->motion.y, &x, &y);
+
+		item_cursor_set_cursor (GTK_WIDGET (canvas)->window, item, x, y);
+		return TRUE;
+		
 	case GDK_BUTTON_PRESS: {
 		GnomeCanvasGroup *group;
 		int style;
@@ -399,7 +429,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		/* determine which part of the cursor was clicked:
 		 * the border or the handlebox
 		 */
-		if ((x > item->x2 - 6) && (y > item->y2 - 6))
+		if (IS_LITTLE_SQUARE (item, x, y))
 			style = ITEM_CURSOR_AUTOFILL;
 		else
 			style = ITEM_CURSOR_DRAG;
@@ -618,10 +648,12 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		Sheet *sheet = item_cursor->sheet;
 		
 		gnome_canvas_item_ungrab (item, event->button.time);
-		sheet_autofill (sheet, 
-				item_cursor->base_col,  item_cursor->base_row,
-				item_cursor->base_cols, item_cursor->base_rows,
-				item_cursor->end_col,   item_cursor->end_row);
+		if (!((item_cursor->end_col == item_cursor->base_col + item_cursor->base_cols) &&
+		      (item_cursor->end_row == item_cursor->base_row + item_cursor->base_rows)))
+			sheet_autofill (sheet, 
+					item_cursor->base_col,    item_cursor->base_row,
+					item_cursor->base_cols+1, item_cursor->base_rows+1,
+					item_cursor->end_col,     item_cursor->end_row);
 				
 		gtk_object_destroy (GTK_OBJECT (item));
 		

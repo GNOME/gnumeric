@@ -2,36 +2,87 @@
 #include <gnome.h>
 #include "color.h"
 #include "cursors.h"
-#include "pixmaps.h"
+#include "pixmaps/cursor_cross.xpm"
 
-#define GNUMERIC_CURSORS 10
+#define GDK_INTERNAL_CURSOR -1
 
-GdkCursor *gnumeric_cursors [GNUMERIC_CURSORS] = { NULL, };
+GnumericCursorDef gnumeric_cursors [] = {
+	{ NULL, 17, 17, cursor_cross_xpm },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_CROSSHAIR, NULL },
+	{ NULL, GDK_INTERNAL_CURSOR,   GDK_ARROW,     NULL },
+	{ NULL, 0,    0,  NULL }
+};
 
+
+static void
+create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **xpm)
+{
+	int height, width, colors;
+	char pixmap_buffer [(32 * 32)/8];
+	char mask_buffer [(32 * 32)/8];
+	int x, y, pix;
+	int transparent_color, black_color;
+	
+	sscanf (xpm [0], "%d %d %d %d", &height, &width, &colors, &pix);
+
+	g_assert (height == 32);
+	g_assert (width  == 32);
+	g_assert (colors == 3);
+
+	transparent_color = ' ';
+	black_color = '.';
+	
+	for (y = 0; y < 32; y++){
+		for (x = 0; x < 32;){
+			char value = 0, maskv = 0;
+			
+			for (pix = 0; pix < 8; pix++, x++){
+				if (xpm [4+y][x] != transparent_color){
+					maskv |= 1 << pix;
+
+					if (xpm [4+y][x] != black_color){
+						value |= 1 << pix;
+					}
+				}
+			}
+			pixmap_buffer [(y * 4 + x/8)-1] = value;
+			mask_buffer [(y * 4 + x/8)-1] = maskv;
+		}
+	}
+	*bitmap = gdk_bitmap_create_from_data (NULL, pixmap_buffer, 32, 32);
+	*mask   = gdk_bitmap_create_from_data (NULL, mask_buffer, 32, 32);
+}
 
 void
 cursors_init (void)
 {
-	GdkImlibImage *image;
-	GdkPixmap *pixmap;
-	GdkBitmap *bitmap;
-	
-	image = gdk_imlib_create_image_from_xpm_data (arrow_xpm);
-	if (!image){
-		g_warning ("Could not create image\n");
-		return;
+	int i;
+
+	for (i = 0; gnumeric_cursors [i].hot_x; i++){
+		GdkBitmap *bitmap, *mask;
+
+
+		if (gnumeric_cursors [i].hot_x < 0)
+			gnumeric_cursors [i].cursor = gdk_cursor_new (
+				gnumeric_cursors [i].hot_y);
+		else {
+			create_bitmap_and_mask_from_xpm (
+				&bitmap, &mask, gnumeric_cursors [i].xpm);
+			gnumeric_cursors [i].cursor =
+				gdk_cursor_new_from_pixmap (
+					bitmap, mask,
+					&gs_white, &gs_black,
+					gnumeric_cursors [i].hot_x,
+					gnumeric_cursors [i].hot_y);
+		}
 	}
-
-	gdk_imlib_render (image, image->rgb_width, image->rgb_height);
-	pixmap = gdk_imlib_move_image (image);
-	bitmap = gdk_imlib_move_mask  (image);
-
-	gnumeric_cursors [0] = gdk_cursor_new_from_pixmap (bitmap, bitmap, &gs_white, &gs_black, 1, 1);
-	gdk_imlib_destroy_image (image);
 }
 
 void
 cursors_shutdown (void)
 {
-	gdk_cursor_destroy (gnumeric_cursors [0]);
+	int i;
+	
+	for (i = 0; gnumeric_cursors [i].hot_x; i++)
+		gdk_cursor_destroy (gnumeric_cursors [0].cursor);
 }
