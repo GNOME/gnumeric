@@ -112,12 +112,6 @@ close_wrap (int fd)
 	return close (fd);
 }
 
-static int
-fstat_wrap (int filedes, struct stat *buf)
-{
-	return fstat (filedes, buf);
-}
-
 static ssize_t
 write_wrap (int fd, const void *buf, size_t count)
 {

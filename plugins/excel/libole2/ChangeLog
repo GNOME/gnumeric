@@ -2,6 +2,7 @@
 
 	* ms-ole.c (extend_file): kill struct stat st.
 	(ms_ole_open_vfs, ms_ole_create_vfs): ditto.
+	(fstat_wrap): kill.
 
 1999-10-30  Arturo Tena <arturo@directmail.org>
 
