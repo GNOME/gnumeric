@@ -307,7 +307,7 @@ return_symbol (char *string)
 	int type;
 
 	e->ref_count = 1;
-	sym = symbol_lookup (string);
+	sym = symbol_lookup (global_symbol_table, string);
 	type = STRING;
 	
 	if (!sym)
@@ -681,7 +681,7 @@ dump_tree (ExprTree *tree)
 		return;
 
 	case OPER_FUNCALL:
-		s = symbol_lookup (tree->u.function.symbol->str);
+		s = symbol_lookup (global_symbol_table, tree->u.function.symbol->str);
 		printf ("Function call: %s\n", s->str);
 		break;
 
