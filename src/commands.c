@@ -3349,10 +3349,12 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		Value *val;
 		gboolean err;
 		ParsePos pp;
+		StyleFormat *fmt;
 
 		parse_pos_init_evalpos (&pp, ep);
-		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
+		fmt = parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
 			mstyle_get_format (cell_get_mstyle (cell_res.cell)));
+		style_format_unref (fmt);
 
 		/*
 		 * FIXME: this is a hack, but parse_text_value_or_expr

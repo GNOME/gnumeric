@@ -2060,8 +2060,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		 */
 		cell_set_value (ret, value_new_empty (), NULL);
 
-	if (value_fmt != NULL)
-		style_format_unref (value_fmt);
+	style_format_unref (value_fmt);
 	return ret;
 }
 
@@ -2784,22 +2783,23 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 #warning TODO : arrays
 		} else if (is_value) {
 			cell->value = value_new_from_string (value_type, content);
-			cell->format = value_fmt;
+			cell->format = value_fmt; /* absorb existing ref */
 		} else {
 			Value *val;
 			ExprTree *expr;
+			StyleFormat *parse_fmt;
 
-			value_fmt = parse_text_value_or_expr (&pp,
-				content, &val, &expr, NULL);
+			parse_fmt = parse_text_value_or_expr (&pp,
+				content, &val, &expr, value_fmt);
 
 			if (val != NULL) {	/* String was a value */
 				value_release (cell->value);
 				cell->value = val;
-				cell->format = value_fmt;
 			} else {		/* String was an expression */
 				cell->base.expression = expr;
 				cell->base.flags |= CELL_HAS_EXPRESSION;
 			}
+			cell->format = parse_fmt;	/* absorb ref */
 		}
 
 		if (shared_expr_index > 0) {
@@ -2837,6 +2837,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 			g_warning ("XML-IO: Missing shared expression");
 		}
 	}
+	style_format_unref (value_fmt);
 
 	cr->content = g_list_prepend (cr->content, cc);
 }

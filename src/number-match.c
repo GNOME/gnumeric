@@ -1122,7 +1122,7 @@ format_match_simple (char const *text)
  * Attempts to parse the supplied string to see if it matches a known value format.
  * If @format is supplied it will get a copy of the matching format with no
  * additional references.   The caller is responsible for releasing the
- * resulting value.
+ * resulting value.  @matching_format does NOT have a reference added.
  */
 Value *
 format_match (char const *text, StyleFormat *cur_fmt,

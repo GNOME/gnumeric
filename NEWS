@@ -26,6 +26,7 @@ Jody:
 	* Improve autofill handling of merges.
 	* Support pasting transposed merges.
 	* Ensure that cell sizes never violate absolute minima.
+	* Fix format leak (thanks Morten)
 
 Morten:
 	* Fix DATE.

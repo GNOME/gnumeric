@@ -1454,6 +1454,7 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 		value_release (closure.val);
 	else
 		expr_tree_unref (closure.expr);
+	style_format_unref (closure.format);
 
 	sheet_flag_status_update_range (pos->sheet, r);
 }
@@ -1515,6 +1516,8 @@ sheet_cell_set_text (Cell *cell, char const *text)
 		cell_set_value (cell, val, format);
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 	}
+
+	style_format_unref (format);
 
 	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);

@@ -1,3 +1,17 @@
+2001-12-21  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (parse_text_value_or_expr) : you do need to unref
+	  the resulting style.  I forgot that autoformat generates formats.
+
+	* src/format.c (style_format_unref) : unrefing NULL is ok.
+
+	* src/cell.c (cell_set_text) : adjust to ref semantic change in
+	  parse_text_value_or_expr.
+	* src/commands.c (cmd_search_replace_do_cell) : ditto.
+	* src/sheet.c (sheet_range_set_text) : ditto.
+	(sheet_cell_set_text) : ditto.
+	* src/xml-io.c (xml_read_cell_copy) : ditto.
+
 2001-12-21  Morten Welinder  <terra@diku.dk>
 
 	* src/value.c (value_new_float): Return a gnumeric_err_NUM if the

@@ -483,7 +483,7 @@ parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int 
  * @expr: Returns an ExprTree * if the text was an expression, otherwise NULL.
  * @current_format : Optional, current number format.
  *
- * Returns : The optimal format (with no additional reference) to display the
+ * Returns : The optimal format (which the caller must unref) to display the
  *   value or expression result, possibly NULL if there is no preferred format.
  *
  * If there is a parse failure for an expression an error Value with the syntax
@@ -501,8 +501,11 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 
 	/* Does it match any formats?  */
 	*val = format_match (text, current_format, &desired_fmt);
-	if (*val != NULL)
+	if (*val != NULL) {
+		if (desired_fmt != NULL)
+			style_format_ref (desired_fmt);
 		return desired_fmt;
+	}
 
 	/* If it does not match known formats, see if it is an expression */
 	expr_start = gnumeric_char_start_expr_p (text);

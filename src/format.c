@@ -1862,6 +1862,9 @@ style_format_ref (StyleFormat *sf)
 void
 style_format_unref (StyleFormat *sf)
 {
+	if (sf == NULL)
+		return;
+
 	g_return_if_fail (sf->ref_count > 0);
 
 	sf->ref_count--;

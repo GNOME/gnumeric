@@ -346,8 +346,6 @@ cell_set_text (Cell *cell, char const *text)
 		text, &val, &expr, mstyle_get_format (cell_get_mstyle (cell)));
 
 	if (val != NULL) {	/* String was a value */
-		if (format)
-			style_format_ref (format);
 		cell_cleanout (cell);
 		cell->value = val;
 		/* parse_text already refed the format */
@@ -356,6 +354,7 @@ cell_set_text (Cell *cell, char const *text)
 	} else {		/* String was an expression */
 		cell_set_expr (cell, expr, format);
 		expr_tree_unref (expr);
+		style_format_unref (format);
 	}
 }
 
