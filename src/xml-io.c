@@ -1623,7 +1623,7 @@ xml_probe (const char *filename)
 		return FALSE;
 
 	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
-	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)){
+	if (res->root->name == NULL || strcmp (res->root->name, "Workbook") || (gmr == NULL)){
 		xmlFreeDoc (res);
 		return FALSE;
 	}

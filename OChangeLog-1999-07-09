@@ -1,3 +1,8 @@
+1999-04-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/xml-io.c (xml_probe): Do not crash if the file is a broken
+	XML file.
+
 1999-04-13  Zbigniew Chyla <cyba@t19.ds.pwr.wroc.pl>
 
 	* src/workbook.c: using 'gnome_dialog_run_and_close' instead of
