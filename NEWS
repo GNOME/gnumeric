@@ -4,6 +4,7 @@ Almer:
 	* Fix backspace key.
 	* Fix autosave dialog.
 	* Shine-up string functions.
+	* Fix STF for CRLF terminated files.
 
 Jody:
 	* Even more missing files.

@@ -461,7 +461,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
  * 1) The calling routine is responsible for freeing the string in the GList
  * 2) The calling routine is responsible for freeing the list itself.
  *
- * returns : a list with char*'s (contains the cells reversed)
+ * returns : a list with char*'s
  **/
 static GList *
 stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)

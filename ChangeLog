@@ -2,6 +2,7 @@
 
 	* stf-parse.c (stf_parse_convert_to_unix): Make this work as it
 	is supposed to.
+	(stf_parse_csv_line): Remove deprecated comment.
 
 2001-07-09  Jody Goldberg <jgoldberg@home.com>
 
