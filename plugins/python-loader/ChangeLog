@@ -1,3 +1,8 @@
+2001-05-17  Jody Goldberg <jgoldberg@home.com>
+
+	* py-gnumeric.c (py_Cell_render_value_method) : delete.  This should
+	  not be wrapped.
+
 2001-04-19  Jody Goldberg <jgoldberg@home.com>
 
 	* py-gnumeric.c (py_Workbook_get_sheets_method) : free the list of

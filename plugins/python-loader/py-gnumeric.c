@@ -66,7 +66,6 @@ Cell:
 	- set_text
 	- get_mstyle
 	- get_value
-	- render_value
 	- get_rendered_text
 	- get_entered_text
 
@@ -1146,8 +1145,6 @@ py_Cell_get_value_method (py_Cell_object *self, PyObject *args);
 static PyObject *
 py_Cell_get_value_as_string_method (py_Cell_object *self, PyObject *args);
 static PyObject *
-py_Cell_render_value_method (py_Cell_object *self, PyObject *args);
-static PyObject *
 py_Cell_get_rendered_text_method (py_Cell_object *self, PyObject *args);
 static PyObject *
 py_Cell_get_entered_text_method (py_Cell_object *self, PyObject *args);
@@ -1157,7 +1154,6 @@ static struct PyMethodDef py_Cell_object_methods[] = {
 	{"get_mstyle",          (PyCFunction) py_Cell_get_mstyle_method,          METH_VARARGS},
 	{"get_value",           (PyCFunction) py_Cell_get_value_method,           METH_VARARGS},
 	{"get_value_as_string", (PyCFunction) py_Cell_get_value_as_string_method, METH_VARARGS},
-	{"render_value",        (PyCFunction) py_Cell_render_value_method,        METH_VARARGS},
 	{"get_rendered_text",   (PyCFunction) py_Cell_get_rendered_text_method,   METH_VARARGS},
 	{"get_entered_text",    (PyCFunction) py_Cell_get_entered_text_method,    METH_VARARGS},
 	{NULL, NULL}
@@ -1226,21 +1222,6 @@ py_Cell_get_value_as_string_method (py_Cell_object *self, PyObject *args)
 	g_free (str);
 
 	return py_ret_val;
-}
-
-static PyObject *
-py_Cell_render_value_method (py_Cell_object *self, PyObject *args)
-{
-	gint dynamic_width = 1;
-
-	if (!PyArg_ParseTuple (args, "|i:render_value", &dynamic_width)) {
-		return NULL;
-	}
-
-	cell_render_value (self->cell, dynamic_width);
-
-	Py_INCREF (Py_None);
-	return Py_None;
 }
 
 static PyObject *
