@@ -21,6 +21,7 @@
 
 #include <gnumeric-config.h>
 #include <goffice/utils/go-gradient.h>
+#include <goffice/utils/go-color.h>
 
 #include <src/gnumeric-i18n.h>
 #include <widgets/widget-pixmap-combo.h>

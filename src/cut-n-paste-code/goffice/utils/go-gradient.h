@@ -22,7 +22,7 @@
 #define GO_GRADIENT_H
 
 #include <glib.h>
-#include <goffice/utils/go-color.h>
+#include <goffice/utils/goffice-utils.h>
 #include <gtk/gtkwidget.h>
 #include <libart_lgpl/libart.h>
 #include <libart_lgpl/art_render_gradient.h>

@@ -22,14 +22,16 @@
 #define GO_PATTERN_H
 
 #include <glib.h>
-#include <goffice/utils/go-color.h>
+#include <goffice/utils/goffice-utils.h>
+#include <libart_lgpl/art_render.h>
+#include <libart_lgpl/art_svp.h>
 
 G_BEGIN_DECLS
 
-typedef struct {
+struct _GOPattern {
 	GOColor	 fore, back;
 	unsigned pattern;
-} GOPattern;
+};
 
 /* Useful for themes to explicitly name the pattern */
 typedef enum {

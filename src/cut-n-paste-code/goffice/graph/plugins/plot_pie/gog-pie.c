@@ -389,6 +389,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 				separated_cx += default_sep * cos (theta + len/2.);
 				separated_cy += default_sep * sin (theta + len/2.);
 			}
+			theta += len;
 
 			n = MAX_ARC_SEGMENTS * len / (2 * M_PI);
 			if (n < 6)
@@ -396,7 +397,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			else if (n > MAX_ARC_SEGMENTS)
 				n = MAX_ARC_SEGMENTS;
 
-			dt = (double)len / (double)n;
+			dt = (double)-len / (double)n;
 			path[0].code = ART_MOVETO;
 			path[0].x = separated_cx;
 			path[0].y = separated_cy;
@@ -427,8 +428,6 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 					model->base.index_num + k);
 			gog_renderer_draw_polygon (view->renderer, path,
 				r * len < 5 /* drop outline for thin segments */);
-
-			theta += len;
 		}
 
 		gog_renderer_pop_style (view->renderer);

@@ -22,8 +22,7 @@
 #define GO_GRAPH_STYLE_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-font.h>
+#include <goffice/utils/goffice-utils.h>
 #include <goffice/utils/go-gradient.h>
 #include <goffice/utils/go-pattern.h>
 #include <glib-object.h>
@@ -99,7 +98,7 @@ struct _GogStyle {
 		} is_auto;
 	} marker;
 	struct {
-		GOFont *font;
+		GOFont const *font;
 		gboolean auto_scale;
 	} font;
 };

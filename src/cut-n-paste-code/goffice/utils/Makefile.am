@@ -1,6 +1,7 @@
 noinst_LTLIBRARIES = libgoffice-utils.la
 
 libgoffice_utils_la_SOURCES =	\
+	goffice-utils.h		\
 	go-color.c		\
 	go-color.h		\
 	go-font.c		\

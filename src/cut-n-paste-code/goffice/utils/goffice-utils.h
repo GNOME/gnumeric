@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * go-font.h : 
+ * goffice-utils.h: 
  *
  * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
  *
@@ -18,36 +18,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#ifndef GO_FONT_H
-#define GO_FONT_H
+
+#ifndef GOFFICE_UTILS_H
+#define GOFFICE_UTILS_H
 
 #include <glib.h>
-#include <goffice/utils/goffice-utils.h>
-#include <pango/pango-font.h>
 
 G_BEGIN_DECLS
 
-struct _GOFont {
-	PangoFontDescription *desc;
-	int	 ref_count;
-	int	 font_index; /* each renderer keeps an array for lookup */
-};
-
-GOFont const *go_font_new_by_desc  (PangoFontDescription *desc);
-GOFont const *go_font_new_by_name  (char const *str);
-GOFont const *go_font_new_by_index (unsigned i);
-char   	     *go_font_as_str       (GOFont const *font);
-GOFont const *go_font_ref	   (GOFont const *font);
-void	      go_font_unref	   (GOFont const *font);
-
-/* cache notification */
-void go_font_cache_register   (GClosure *callback);
-void go_font_cache_unregister (GClosure *callback);
-
-/* private */
-void go_font_init     (void);
-void go_font_shutdown (void);
+typedef guint32			GOColor;
+typedef struct _GOFont		GOFont;
+typedef struct _GOPattern	GOPattern;
 
 G_END_DECLS
 
-#endif /* GO_FONT_H */
+#endif /* GOFFICE_UTILS_H */

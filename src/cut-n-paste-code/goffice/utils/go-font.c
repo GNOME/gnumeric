@@ -118,8 +118,6 @@ go_font_unref (GOFont const *font)
 			g_value_init (&instance_and_params[1], G_TYPE_POINTER);
 			g_value_set_pointer (&instance_and_params[1], data);
 
-			g_closure_set_marshal (watcher,
-				g_cclosure_marshal_VOID__POINTER);
 			g_closure_invoke (watcher, NULL, 2,
 				instance_and_params, NULL);
 		}
@@ -134,6 +132,8 @@ go_font_cache_register (GClosure *watcher)
 	g_return_if_fail (watcher != NULL);
 
 	font_watchers = g_slist_prepend (font_watchers, watcher);
+	g_closure_set_marshal (watcher,
+		g_cclosure_marshal_VOID__POINTER);
 }
 
 void

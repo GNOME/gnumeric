@@ -21,6 +21,7 @@
 
 #include <gnumeric-config.h>
 #include <goffice/utils/go-pattern.h>
+#include <goffice/utils/go-color.h>
 
 #include <libart_lgpl/libart.h>
 #include <src/gnumeric-i18n.h>

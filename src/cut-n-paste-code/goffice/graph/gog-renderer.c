@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-font.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
@@ -63,6 +64,12 @@ gog_renderer_finalize (GObject *obj)
 	if (rend->view != NULL) {
 		g_object_unref (rend->view);
 		rend->view = NULL;
+	}
+
+	if (rend->font_watcher != NULL) {
+		go_font_cache_unregister (rend->font_watcher);
+		g_closure_unref (rend->font_watcher);
+		rend->font_watcher = NULL;
 	}
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
@@ -269,6 +276,18 @@ gog_renderer_measure_text (GogRenderer *rend,
 }
 
 static void
+cb_font_removed (GogRenderer *rend, GOFont const *font)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+
+	g_warning ("notify a '%s' that %p is invalid",  G_OBJECT_TYPE_NAME (rend), font);
+	if (klass->font_removed)
+		(klass->font_removed) (rend, font);
+}
+
+static void
 gog_renderer_class_init (GogRendererClass *renderer_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *)renderer_klass;
@@ -313,6 +332,9 @@ gog_renderer_init (GogRenderer *rend)
 	rend->scale = rend->scale_x = rend->scale_y = 1.;
 	rend->logical_width_pts    = GO_CM_TO_PT (12);
 	rend->logical_height_pts   = GO_CM_TO_PT (8);
+	rend->font_watcher = g_cclosure_new_swap (G_CALLBACK (cb_font_removed),
+		rend, NULL);
+	go_font_cache_register (rend->font_watcher);
 }
 
 GSF_CLASS (GogRenderer, gog_renderer,

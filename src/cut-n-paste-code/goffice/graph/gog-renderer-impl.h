@@ -23,6 +23,7 @@
 #define GOG_RENDERER_IMPL_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/utils/goffice-utils.h>
 #include <goffice/graph/gog-renderer.h>
 
 G_BEGIN_DECLS
@@ -37,6 +38,7 @@ struct _GogRenderer {
 	float	  scale, scale_x, scale_y;
 	float	  zoom;
 
+	GClosure *font_watcher;
 	gboolean  needs_update;
 
 	GogStyle *cur_style;
@@ -47,6 +49,7 @@ typedef struct {
 	GObjectClass base;
 
 	/* Virtuals */
+	void (*font_removed)   (GogRenderer *renderer, GOFont const *font);
 	void (*push_style)     (GogRenderer *renderer, GogStyle *style);
 	void (*pop_style)      (GogRenderer *renderer);
 
@@ -61,8 +64,8 @@ typedef struct {
 	void (*request_update) (GogRenderer *renderer);
 } GogRendererClass;
 
-#define GOG_RENDERER_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_RENDERER_TYPE, GogGraphClass))
-#define IS_GOG_RENDERER_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_RENDERER_TYPE))
+#define GOG_RENDERER_CLASS(k)	 (G_TYPE_CHECK_CLASS_CAST ((k), GOG_RENDERER_TYPE, GogRendererClass))
+#define IS_GOG_RENDERER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GOG_RENDERER_TYPE))
 
 /* protected */
 void gog_renderer_invalidate_size_requests (GogRenderer *rend);

@@ -23,6 +23,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-font.h>
 
 #include <src/gui-util.h>
 #include <glade/glade-xml.h>

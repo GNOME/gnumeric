@@ -1,3 +1,12 @@
+2003-08-29  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_render) : go
+	  clockwise to avoid having ArtRender think the figure is inside out.
+
+2003-08-28  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer-impl.h : Add font_removed.
+
 2003-08-28  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_pie/gog-pie.c (gog_pie_plot_class_init) : pie
