@@ -32,6 +32,7 @@
 #include <libgnomeprint/gnome-print-config.h>
 #include <libgnomeprintui/gnome-print-master-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
+#include <libgnomeprintui/gnome-printer-dialog.h>
 
 #ifdef ENABLE_BONOBO
 #	include <bonobo/bonobo-print-client.h>
@@ -1077,58 +1078,69 @@ void
 sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	     gboolean preview, PrintRange default_range)
 {
-#if 0
-	GnomePrinter *printer = NULL;
-	PrintJobInfo *pj;
-	GnomePrintDialog *gpd;
-	GnomePrintMaster *gpm;
-	GnomePrintMasterPreview *pmp;
-	GnomePrintConfig *print_config;
+	PrintJobInfo *pj = NULL;
+	GtkWidget *gnome_print_dialog;
+	GnomePrintMaster *gpm = NULL;
+	GnomePrintConfig *print_config = NULL;
 	int copies = 1;
 	int collate = FALSE;
  	int first = 1;
 	int end;
 	int range;
+	GtkWindow *toplevel;
 
   	g_return_if_fail (IS_SHEET (sheet));
 
 	end  = workbook_sheet_count (sheet->workbook);
 
   	if (!preview) {
-		gpd = (GnomePrintDialog *)gnome_print_dialog_new (
+		gnome_print_dialog = gnome_print_dialog_new (
 			_("Print Sheets"),
 			GNOME_PRINT_DIALOG_RANGE|GNOME_PRINT_DIALOG_COPIES);
 
-		g_return_if_fail (gpd != NULL);
+		g_return_if_fail (gnome_print_dialog != NULL);
 
 		gnome_print_dialog_construct_range_page (
-			gpd,
+			GNOME_PRINT_DIALOG (gnome_print_dialog),
 			GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|
 			GNOME_PRINT_RANGE_SELECTION|GNOME_PRINT_RANGE_RANGE,
 			1, workbook_sheet_count(sheet->workbook),
 			_("Act_ive sheet"), _("S_heets"));
-#warning FIXME
-#if 0
-		gnome_dialog_set_default (GNOME_DIALOG (gpd),
-					  GNOME_PRINT_PRINT);
-		switch (gnumeric_dialog_run (wbcg, GNOME_DIALOG(gpd))) {
-		case GNOME_PRINT_PRINT:
+
+		{
+#warning: FIXME: write our own print_dialog
+			/* FIXME: this shouldn't need to be necessary! */
+			GtkWidget *w = ((GtkBoxChild *)g_list_last
+					(GTK_BOX (GTK_DIALOG (gnome_print_dialog)
+						     ->vbox)->children)->data)->widget;
+			if (GTK_IS_NOTEBOOK (w))
+				gtk_widget_hide (gtk_notebook_get_nth_page (GTK_NOTEBOOK (w), 2));
+			else
+				g_warning ("Gnome_print_dialog internals have changed!");
+		}
+
+		print_config = gnome_print_dialog_get_config 
+			(GNOME_PRINT_DIALOG (gnome_print_dialog));
+		toplevel = wbcg_toplevel (wbcg);
+		if (GTK_WINDOW (gnome_print_dialog)->transient_parent != toplevel)
+			gtk_window_set_transient_for (GTK_WINDOW (gnome_print_dialog), toplevel);
+		
+		switch (gtk_dialog_run (GTK_DIALOG(gnome_print_dialog))) {
+		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 			break;
-		case GNOME_PRINT_PREVIEW:
+		case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 			preview = TRUE;
 			break;
 		case -1:
   			return;
 		default:
-			gnome_dialog_close (GNOME_DIALOG (gpd));
+			gtk_widget_destroy (gnome_print_dialog);
 			return;
 		}
-#endif
-		gnome_print_dialog_get_copies (gpd, &copies, &collate);
-		print_config = gnome_print_config_default ();
-		printer = gnome_print_dialog_get_printer (gpd);
-		range = gnome_print_dialog_get_range_page (gpd, &first, &end);
-		gnome_dialog_close (GNOME_DIALOG (gpd));
+		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gnome_print_dialog), 
+					       &copies, &collate);
+		range = gnome_print_dialog_get_range_page (
+			GNOME_PRINT_DIALOG (gnome_print_dialog), &first, &end);
 
 		switch (range) {
 		case GNOME_PRINT_RANGE_CURRENT:
@@ -1144,7 +1156,11 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			default_range = PRINT_SHEET_RANGE;
   			break;
   		}
+		gtk_widget_destroy (gnome_print_dialog);
   	}
+	if (!print_config)
+		print_config = gnome_print_config_default ();
+
 	pj = print_job_info_get (sheet, default_range, preview);
 	pj->sorted_print = FALSE;
 	if (default_range == PRINT_SHEET_RANGE) {
@@ -1152,12 +1168,14 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		pj->end_page = end-1;
 	}
 
-	gnome_print_master_set_paper (gpm, pj->pi->paper);
-	if (printer)
-		gnome_print_master_set_printer (gpm, printer);
-	gnome_print_config_set_int (print_config, GNOME_PRINT_KEY_NUM_COPIES, copies);
-	gnome_print_config_set_boolean (print_config, GNOME_PRINT_KEY_COLLATE, collate);
-
+	gnome_print_config_set(print_config, GNOME_PRINT_KEY_PAPER_SIZE, pj->pi->paper->name);
+	gnome_print_config_set_length (print_config, GNOME_PRINT_KEY_PAPER_WIDTH
+				       , pj->pi->paper->width, GNOME_PRINT_PS_UNIT);
+	gnome_print_config_set_length (print_config, GNOME_PRINT_KEY_PAPER_HEIGHT
+				       , pj->pi->paper->height, GNOME_PRINT_PS_UNIT);
+	gnome_print_config_set(print_config, GNOME_PRINT_KEY_ORIENTATION,
+			       (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL) ?
+			       "R90" : "R0");
 	gpm = gnome_print_master_new_from_config (print_config);
 	pj->print_context = gnome_print_master_get_context (gpm);
 
@@ -1185,12 +1203,9 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	gnome_print_master_close (gpm);
 
-	if (preview) {
-		gboolean landscape = pj->pi->orientation == PRINT_ORIENT_HORIZONTAL;
-		pmp = gnome_print_master_preview_new_with_orientation
-			(gpm, _("Print preview"), landscape);
-		gtk_widget_show (GTK_WIDGET (pmp));
-	} else {
+	if (preview)
+		gtk_widget_show ( gnome_print_master_preview_new (gpm, _("Print preview")));
+	else {
 		int result = gnome_print_master_print (gpm);
 		if (result == -1) {
 			/*
@@ -1203,5 +1218,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	}
 	gtk_object_unref (GTK_OBJECT (gpm));
   	print_job_info_destroy (pj);
-#endif
+	gnome_print_config_unref (print_config);
+
 }

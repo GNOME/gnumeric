@@ -1,5 +1,9 @@
 2002-03-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/print.c : port to gnome2
+
+2002-03-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gui-util.c (gnumeric_destroy_dialog) : replaced by call to
 	  gtk_widget_destroyed
 
