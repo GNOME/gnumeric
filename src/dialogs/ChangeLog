@@ -1,3 +1,7 @@
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* random-generation.glade: use notebook
+
 2003-06-11  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-view.c (cb_view_ok_clicked): Make copy of state->wbcg
