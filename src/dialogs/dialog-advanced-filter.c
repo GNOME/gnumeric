@@ -30,7 +30,6 @@
 #include <sheet.h>
 #include <cell.h>
 #include <ranges.h>
-#include <func-util.h>
 #include <gui-util.h>
 #include <tool-dialogs.h>
 #include <dao-gui-utils.h>
