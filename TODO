@@ -24,9 +24,6 @@ to features that already work.
 
 * Cell editing
 
-   + Support for entering multi-line cells, and <Alt-Enter> adding an
-     embedded newline.
-
    + Colouring a parsed formula for editing.
 
 * Functions
@@ -56,12 +53,9 @@ to features that already work.
    + Print setup: 
      - Options buttons
      - Improve layout 
-     - Provide preview of the headers/footers
-     - Make sure scaling works.
    + Add the missing options to the Print Dialog
    + Display printing status (pages to go).
    + Add column/row title printing
-   + Patterns.
 
 * Font dialog
 

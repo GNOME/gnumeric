@@ -32,7 +32,7 @@ Long term breakage
     : support horizontal or vertical only
 - outline mode
     : finish implementing optionally putting markers above/left
-    : Figure out the ungroup bug (almer)
+    : Make ungroup smarter about handling extra items of lower level at the edges
 
 - It is possible to navigate to hidden cols/rows at the start/end of the sheet.
 
