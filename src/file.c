@@ -171,13 +171,13 @@ file_format_unregister_save (FileSaverId file_saver_id)
 }
 
 GList *
-file_format_get_savers ()
+file_format_get_savers (void)
 {
 	return gnumeric_file_savers;
 }
 
 GList *
-file_format_get_openers ()
+file_format_get_openers (void)
 {
 	return gnumeric_file_openers;
 }

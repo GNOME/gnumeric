@@ -4,6 +4,8 @@
  * Author:
  *   Zbigniew Chyla (cyba@gnome.pl)
  */
+
+#include <config.h>
 #include <glib.h>
 #include <stdio.h>
 #include "error-info.h"
@@ -51,7 +53,7 @@ error_info_new_str_with_details (const gchar *msg, ErrorInfo *details)
 
 	error = error_info_new_str (msg);
 	error_info_add_details (error, details);
-	
+
 	return error;
 }
 
@@ -147,7 +149,7 @@ error_info_free (ErrorInfo *error)
 	g_free(error);
 }
 
-static void 
+static void
 error_info_print_with_offset (ErrorInfo *error, gint offset)
 {
 	GList *l;

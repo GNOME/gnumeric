@@ -410,7 +410,7 @@ graph_vector_debug_name (Dependent const *dep, FILE *out)
 }
 
 static guint
-graph_vector_get_dep_type ()
+graph_vector_get_dep_type (void)
 {
 	static guint32 type = 0;
 	if (type == 0) {

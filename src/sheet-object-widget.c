@@ -330,7 +330,7 @@ checkbox_debug_name (Dependent const *dep, FILE *out)
 }
 
 static guint
-checkbox_get_dep_type ()
+checkbox_get_dep_type (void)
 {
 	static guint32 type = 0;
 	if (type == 0) {
