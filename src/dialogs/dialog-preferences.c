@@ -263,7 +263,8 @@ double_pref_conf_to_widget (char const *key, GtkSpinButton *button)
 {
 	double val_in_button = gtk_spin_button_get_value (button);
 	double val_in_conf = go_conf_get_double (key);
-	if (abs (val_in_conf - val_in_button) > 1e-10) /* dead simple */
+
+	if (fabs (val_in_conf - val_in_button) > 1e-10) /* dead simple */
 		gtk_spin_button_set_value (button, val_in_conf);
 }
 static void
