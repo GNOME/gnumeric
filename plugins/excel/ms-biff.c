@@ -183,12 +183,16 @@ ms_biff_put_destroy (BiffPut *bp)
 }
 
 guint8 *
-ms_biff_put_len_next   (BiffPut *bp, guint16 opcode, guint32 len)
+ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 {
 	g_return_val_if_fail (bp, 0);
 	g_return_val_if_fail (bp->pos, 0);
 	g_return_val_if_fail (bp->data == NULL, 0);
 	g_return_val_if_fail (len < MAX_LIKED_BIFF_LEN, 0);
+
+#if BIFF_DEBUG > 0
+	printf ("Biff put len 0x%x\n", opcode);
+#endif
 
 	bp->len_fixed  = 1;
 	bp->ms_op      = (opcode >>   8);
@@ -203,11 +207,15 @@ ms_biff_put_len_next   (BiffPut *bp, guint16 opcode, guint32 len)
 	return bp->data;
 }
 void
-ms_biff_put_var_next   (BiffPut *bp, guint16 opcode)
+ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 {
 	guint8 data[4];
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->pos != NULL);
+
+#if BIFF_DEBUG > 0
+	printf ("Biff put var 0x%x\n", opcode);
+#endif
 
 	bp->len_fixed  = 0;
 	bp->ms_op      = (opcode >>   8);
@@ -221,6 +229,7 @@ ms_biff_put_var_next   (BiffPut *bp, guint16 opcode)
 	MS_OLE_SET_GUINT16 (data + 2,0xfaff); /* To be corrected later */
 	bp->pos->write (bp->pos, data, 4);
 }
+
 void
 ms_biff_put_var_write  (BiffPut *bp, guint8 *data, guint32 len)
 {
@@ -239,6 +248,7 @@ ms_biff_put_var_write  (BiffPut *bp, guint8 *data, guint32 len)
 	if (bp->curpos > bp->length)
 		bp->length = bp->curpos;
 }
+
 void
 ms_biff_put_var_seekto (BiffPut *bp, MsOlePos pos)
 {
@@ -300,7 +310,9 @@ ms_biff_put_len_commit (BiffPut *bp)
 	bp->streamPos = bp->pos->tell (bp->pos);
 	bp->curpos    = 0;
 }
-void ms_biff_put_commit (BiffPut *bp)
+
+void
+ms_biff_put_commit (BiffPut *bp)
 {
 	if (bp->len_fixed)
 		ms_biff_put_len_commit (bp);

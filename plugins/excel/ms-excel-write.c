@@ -2389,6 +2389,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 	    EX_SETROW(data, row);
 	    EX_SETCOL(data, col);
 	    EX_SETXF (data, xf);
+	    ms_biff_put_commit (bp);
 	    break;
 	}
 	case VALUE_BOOLEAN:
