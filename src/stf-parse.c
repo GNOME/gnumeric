@@ -157,7 +157,7 @@ stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int const
 	g_return_if_fail (parseoptions != NULL);
 
 	if (lines != -1)
-		parseoptions->parselines = lines - 1; /* Convert to index */
+		parseoptions->parselines = lines;
 	else
 		parseoptions->parselines = -1;
 }

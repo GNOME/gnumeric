@@ -539,7 +539,7 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 			GTK_RANGE (info->fixed_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
 			stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, LINE_DISPLAY_LIMIT);
 		} else {
-			GTK_RANGE (info->fixed_scroll)->adjustment->upper = rowcount;
+			GTK_RANGE (info->fixed_scroll)->adjustment->upper = pagedata->importlines;
 			stf_parse_options_set_lines_to_parse (info->fixed_run_parseoptions, pagedata->importlines);
 		}
 	}

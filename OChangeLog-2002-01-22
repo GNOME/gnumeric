@@ -1,3 +1,12 @@
+2001-07-15  Almer S. Tigelaar  <almer@gnome.org>
+
+	* stf.c (stf_read_workbook): Honor lines to parse.
+
+	* gui-clipboard.c (x_selection_to_cell_region): Idem.
+
+	* stf-parse.c (stf_parse_options_set_lines_to_parse): Don't
+	convert to index it's not an index.
+
 2001-07-15  Andreas J. Guelzo  <aguelzow@math.concordia.ab.ca>
 
 	* src/analysis-tools.c (anova_two_factor_with_r_tool): Finish

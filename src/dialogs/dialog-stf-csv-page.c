@@ -177,7 +177,7 @@ stf_dialog_csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageD
 			GTK_RANGE (info->csv_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
 			stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, LINE_DISPLAY_LIMIT);
 		} else {
-			GTK_RANGE (info->csv_scroll)->adjustment->upper = rowcount;
+			GTK_RANGE (info->csv_scroll)->adjustment->upper = pagedata->importlines;
 			stf_parse_options_set_lines_to_parse (info->csv_run_parseoptions, pagedata->importlines);
 		}
 	}

@@ -138,7 +138,8 @@ typedef struct {
 } DruidPageData_t;
 
 typedef struct {
-	const char        *newstart;      /* New start position */
+	char const        *newstart;      /* New start position */
+	int                lines;         /* Nr of lines to parse */
 	StfParseOptions_t *parseoptions;  /* parse options */
 	GSList            *formats;       /* A list of char*'s corresponding to each columns format */
 } DialogStfResult_t;

@@ -569,13 +569,11 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 		dialogresult = g_new (DialogStfResult_t, 1);
 
 		dialogresult->newstart = pagedata.cur;
-
+		dialogresult->lines = pagedata.importlines;
 		if (pagedata.parsetype == PARSE_TYPE_CSV) {
-
 			dialogresult->parseoptions = csv_info.csv_run_parseoptions;
 			csv_info.csv_run_parseoptions = NULL;
 		} else {
-
 			dialogresult->parseoptions = fixed_info.fixed_run_parseoptions;
 			fixed_info.fixed_run_parseoptions= NULL;
 		}
