@@ -1,3 +1,28 @@
+2000-10-04  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-printer-setup.c (struct dialog_print_info_t): Added
+	members 'orientation' and 'current_orientation' to enable us to
+	update orientation of preview page.
+	(get_paper_pswidth): New wrapper function. Return paper width in
+	points, taking page orientation into account.
+	(get_paper_psheight): s/width/height/.
+	(get_printable_width): Use get_paper_pswidth.
+	(get_printable_height): Use get_paper_psheight.
+	(preview_page_create): Use both of them. This gives us a landscape
+	format preview when landscape is selected.
+	(canvas_update): Redraw preview page also if orientation has
+	changed.
+	(orientation_changed): New callback function. Switches the
+	orientation of the preview page.
+	(do_setup_page): Save a copy of dpi->pi->orientation in
+	dpi->orientation. Rationale: dpi->orientation will reflect the
+	state of the orientation radio buttons. Changes to
+	dpi->pi->orientation would persist in the sheet, even if user
+	cancelled, so we need a separate data member.
+	Connect orientation_changed callback to landscape radio_button.
+	(dialog_print_info_new): Initialize dpi->current_paper and
+	dpi->current_orientation.
+
 2000-09-28  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-printer-setup.c (add_unit) : Adjsutto api change in

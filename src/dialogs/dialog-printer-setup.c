@@ -79,6 +79,8 @@ typedef struct {
 
 	const GnomePaper *paper;
 	const GnomePaper *current_paper;
+	PrintOrientation orientation;
+	PrintOrientation current_orientation;
 
 	PreviewInfo preview;
 
@@ -149,6 +151,36 @@ spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
 }
 
 /*
+ * get_paper_width
+ * @dpi  print info
+ *
+ * Return paper width in points, taking page orientation into account. 
+ */
+static double
+get_paper_pswidth (dialog_print_info_t *dpi)
+{
+	if (dpi->orientation == PRINT_ORIENT_VERTICAL)
+		return gnome_paper_pswidth (dpi->paper);
+	else
+		return gnome_paper_psheight (dpi->paper);
+}
+
+/*
+ * get_paper_psheight
+ * @dpi  print info
+ *
+ * Return paper height in points, taking page orientation into account. 
+ */
+static double
+get_paper_psheight (dialog_print_info_t *dpi)
+{
+	if (dpi->orientation == PRINT_ORIENT_VERTICAL)
+		return gnome_paper_psheight (dpi->paper);
+	else
+		return gnome_paper_pswidth (dpi->paper);
+}
+
+/*
  * get_printable_width
  * @dpi  print info
  * @unit unit
@@ -158,8 +190,7 @@ spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
 static double
 get_printable_width (dialog_print_info_t *dpi, UnitName unit)
 {
-	return unit_convert (gnome_paper_pswidth (dpi->paper),
-			     UNIT_POINTS, unit)
+	return unit_convert (get_paper_pswidth (dpi), UNIT_POINTS, unit)
 		- unit_convert (dpi->margins.left.value,
 				dpi->margins.left.unit, unit)
 		- unit_convert (dpi->margins.right.value,
@@ -176,8 +207,7 @@ get_printable_width (dialog_print_info_t *dpi, UnitName unit)
 static double
 get_printable_height (dialog_print_info_t *dpi, UnitName unit)
 {
-	return unit_convert (gnome_paper_psheight (dpi->paper),
-			     UNIT_POINTS, unit)
+	return unit_convert (get_paper_psheight (dpi), UNIT_POINTS, unit)
 		- unit_convert (dpi->margins.top.value,
 				dpi->margins.top.unit, unit)
 		- unit_convert (dpi->margins.bottom.value,
@@ -429,8 +459,8 @@ preview_page_create (dialog_print_info_t *dpi)
 	double width, height;
 	PreviewInfo *pi = &dpi->preview;
 
-	width  = gnome_paper_pswidth  (dpi->paper);
-	height = gnome_paper_psheight (dpi->paper);
+	width  = get_paper_pswidth  (dpi);
+	height = get_paper_psheight (dpi);
 
 	if (width < height)
 		pi->scale = PAGE_Y / height;
@@ -482,9 +512,11 @@ preview_page_create (dialog_print_info_t *dpi)
 static void
 canvas_update (dialog_print_info_t *dpi)
 {
-	if (dpi->current_paper != dpi->paper){
+	if (dpi->current_paper != dpi->paper ||
+	    dpi->current_orientation != dpi->orientation) { 
 		preview_page_destroy (dpi);
 		dpi->current_paper = dpi->paper;
+		dpi->current_orientation = dpi->orientation;
 		preview_page_create (dpi);
 		/* FIXME: Introduce dpi->displayed_unit? */
 		set_horizontal_bounds (dpi, MARGIN_NONE,
@@ -1063,6 +1095,20 @@ do_setup_page_info (dialog_print_info_t *dpi)
 	}
 }
 
+/*
+ * This callback switches the orientation of the preview page.
+ */
+static void
+orientation_changed (GtkToggleButton *landscape_bt, dialog_print_info_t *dpi)
+{
+	if (gtk_toggle_button_get_active (landscape_bt))
+		dpi->orientation = PRINT_ORIENT_HORIZONTAL;
+	else
+		dpi->orientation = PRINT_ORIENT_VERTICAL;
+			
+	canvas_update (dpi);
+}
+
 static void
 paper_size_changed (GtkEntry *entry, dialog_print_info_t *dpi)
 {
@@ -1098,6 +1144,7 @@ do_setup_page (dialog_print_info_t *dpi)
 	/*
 	 * Select the proper radio for orientation
 	 */
+	dpi->orientation = dpi->pi->orientation;
 	if (pi->orientation == PRINT_ORIENT_VERTICAL)
 		toggle = "vertical-radio";
 	else
@@ -1105,6 +1152,9 @@ do_setup_page (dialog_print_info_t *dpi)
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, toggle)), 1);
+	gtk_signal_connect (
+		GTK_OBJECT (glade_xml_get_widget (gui, "horizontal-radio")),
+		"toggled", GTK_SIGNAL_FUNC (orientation_changed), dpi);
 
 	/*
 	 * Set the scale
@@ -1263,6 +1313,8 @@ dialog_print_info_new (Sheet *sheet)
 	dpi->sheet = sheet;
 	dpi->gui   = gui;
 	dpi->pi    = sheet->print_info;
+	dpi->current_paper = NULL;
+	dpi->current_orientation = -1;
 
 	do_setup_main_dialog (dpi);
 	do_setup_margin (dpi);
