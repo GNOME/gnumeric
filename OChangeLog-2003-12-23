@@ -1,3 +1,8 @@
+2001-11-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : Move the styles
+	  before the merged regions.
+
 2001-11-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (style_row) : Fix Frob's magic mystery borders.

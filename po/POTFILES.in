@@ -19,6 +19,8 @@ plugins/html/plugin.xml.in
 plugins/html/roff.c
 plugins/lotus-123/lotus.c
 plugins/lotus-123/plugin.xml.in
+plugins/mps/mps.c
+plugins/mps/plugin.xml.in
 plugins/numtheory/numtheory.c
 plugins/numtheory/plugin.xml.in
 plugins/oleo/oleo.c
@@ -26,6 +28,7 @@ plugins/oleo/plugin.xml.in
 plugins/perl/plugin.xml.in
 plugins/plan-perfect/pln.c
 plugins/plan-perfect/plugin.xml.in
+plugins/psiconv/psiconv-read.in
 plugins/psiconv/plugin.xml.in
 plugins/py-func/plugin.xml.in
 plugins/python-loader/plugin.xml.in
@@ -69,6 +72,7 @@ src/dialogs/descriptive-stats.glade
 src/dialogs/dialog-about.c
 src/dialogs/dialog-advanced-filter.c
 src/dialogs/dialog-analysis-tools.c
+src/dialogs/dialog-autocorrect.c
 src/dialogs/dialog-autoformat.c
 src/dialogs/dialog-autosave.c
 src/dialogs/dialog-cell-comment.c
@@ -154,10 +158,12 @@ src/functions/fn-sheet.c
 src/functions/fn-stat.c
 src/functions/fn-string.c
 src/gnumeric-canvas.c
+src/gnumeric-graph.c
 src/gnumeric-pane.c
 src/gui-clipboard.c
 src/gui-file.c
 src/gui-util.c
+src/gui-validation.c
 src/history.c
 src/item-bar.c
 src/item-cursor.c
@@ -196,6 +202,7 @@ src/widgets/widget-font-selector.c
 src/workbook-cmd-format.c
 src/workbook-control-gui.c
 src/workbook-control.c
+src/workbook-edit.c
 src/workbook-format-toolbar.c
 src/workbook-object-toolbar.c
 src/workbook-view.c

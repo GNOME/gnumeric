@@ -1983,9 +1983,8 @@ static ExprTree *
 validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
 {
 	ParsePos pp;
-
-	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
-	return expr_parse_string (gtk_entry_get_text (GTK_ENTRY (gee)), &pp, NULL, NULL);
+	return gnumeric_expr_entry_parse (gee, 
+		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0));
 }
 
 static void

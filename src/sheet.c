@@ -3424,9 +3424,9 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 			     &sheet->cols, i, i + count);
 
 	/* 4. Slide the StyleRegions and Merged regions to the right */
+	sheet_style_insert_colrow (&reloc_info);
 	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info, FALSE);
-	sheet_style_insert_colrow (&reloc_info);
 
 	/* 5. Queue entire sheet for recalc */
 	sheet_region_queue_recalc (sheet, NULL);
@@ -3495,9 +3495,9 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 			     &sheet->cols, i, i-count);
 
 	/* 5. Slide the StyleRegions and Merge regions left */
+	sheet_style_relocate (&reloc_info);
 	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info, FALSE);
-	sheet_style_relocate (&reloc_info);
 
 	/* 6. Queue entire sheet for recalc */
 	sheet_region_queue_recalc (sheet, NULL);
@@ -3558,9 +3558,9 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 			     &sheet->rows, i, i+count);
 
 	/* 4. Slide the StyleRegions and Merge regions down */
+	sheet_style_insert_colrow (&reloc_info);
 	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info, FALSE);
-	sheet_style_insert_colrow (&reloc_info);
 
 	/* 5. Queue entire sheet for recalc */
 	sheet_region_queue_recalc (sheet, NULL);
@@ -3629,9 +3629,9 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 			     &sheet->rows, i, i-count);
 
 	/* 5. Slide the StyleRegions and Merge regions up */
+	sheet_style_relocate (&reloc_info);
 	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info, FALSE);
-	sheet_style_relocate (&reloc_info);
 
 	/* 6. Queue entire sheet for recalc */
 	sheet_region_queue_recalc (sheet, NULL);

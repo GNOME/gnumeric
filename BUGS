@@ -14,7 +14,6 @@ Pending Patches
     http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
     http://bugzilla.gnome.org/show_bug.cgi?id=63160	inverse autofill
     libole2 + vfs support.
-    exp smoothing improvements
 
 Long term breakage
 ------------------

@@ -1,3 +1,8 @@
+2001-11-13  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (validation_entry_to_expr) : Use
+	  gnumeric_expr_entry_parse.
+
 2001-11-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (exp_smoothing_*) : enable group-by and labels 
