@@ -47,9 +47,6 @@ void gnm_canvas_redraw_region		(GnumericCanvas *gsheet,
 					 int start_col, int start_row,
 					 int end_col, int end_row);
 
-void gnm_canvas_create_editor  (GnumericCanvas *gsheet);
-void gnm_canvas_stop_editing   (GnumericCanvas *gsheet);
-
 typedef enum {
 	GNM_SLIDE_X = 1,
 	GNM_SLIDE_Y = 2,

@@ -69,7 +69,7 @@ gboolean scg_special_cursor_bound_set (SheetControlGUI *scg, Range const *r);
 void scg_set_left_col		(SheetControlGUI *scg, int new_first_col);
 void scg_set_top_row		(SheetControlGUI *scg, int new_first_row);
 
-void scg_colrow_resize_end	(SheetControlGUI *scg);
+void scg_colrow_resize_stop	(SheetControlGUI *scg);
 void scg_colrow_resize_start	(SheetControlGUI *scg,
 				 gboolean is_cols, int resize_first);
 void scg_colrow_resize_move	(SheetControlGUI *scg,

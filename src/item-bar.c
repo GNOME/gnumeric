@@ -618,7 +618,7 @@ colrow_tip_setlabel (ItemBar *ib, gboolean const is_cols, int size_pixels)
 }
 
 static void
-item_bar_end_resize (ItemBar *ib, int new_size)
+item_bar_resize_stop (ItemBar *ib, int new_size)
 {
 	if (new_size != 0 && ib->colrow_being_resized >= 0)
 		scg_colrow_size_set (ib->gcanvas->scg,
@@ -626,7 +626,7 @@ item_bar_end_resize (ItemBar *ib, int new_size)
 				     ib->colrow_being_resized, new_size);
 	ib->colrow_being_resized = -1;
 	ib->has_resize_guides = FALSE;
-	scg_colrow_resize_end (ib->gcanvas->scg);
+	scg_colrow_resize_stop (ib->gcanvas->scg);
 
 	if (ib->tip != NULL) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (ib->tip));
@@ -833,7 +833,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			return FALSE;
 
 		if (e->button.button != 3)
-			item_bar_end_resize (ib, -1);
+			item_bar_resize_stop (ib, -1);
 		break;
 	}
 
@@ -854,13 +854,13 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (ib->colrow_being_resized >= 0) {
 			if (ib->has_resize_guides) {
 				needs_ungrab = TRUE;
-				item_bar_end_resize (ib, ib->colrow_resize_size);
+				item_bar_resize_stop (ib, ib->colrow_resize_size);
 			} else
 				/*
 				 * No need to resize, nothing changed.
 				 * This will handle the case of a double click.
 				 */
-				item_bar_end_resize (ib, 0);
+				item_bar_resize_stop (ib, 0);
 		}
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);

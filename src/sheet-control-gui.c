@@ -2643,14 +2643,14 @@ scg_take_focus (SheetControlGUI *scg)
 }
 
 void
-scg_colrow_resize_end (SheetControlGUI *scg)
+scg_colrow_resize_stop (SheetControlGUI *scg)
 {
 	int i;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	for (i = scg->active_panes; i-- > 0 ; )
-		gnm_pane_colrow_resize_end (scg->pane + i);
+		gnm_pane_colrow_resize_stop (scg->pane + i);
 }
 
 void
