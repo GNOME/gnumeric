@@ -8,6 +8,10 @@ Jon:
 	* Lots of Excel style export work:
 	format, font, colors
 
+JP:
+	* Added sorting of infinite ranges
+	* Got rid of blank sheets when printing
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.45
