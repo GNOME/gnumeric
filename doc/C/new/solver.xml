@@ -85,7 +85,7 @@
     B3:D3.  They are currently all zeros.  The cell E4 contains the
     objective function definition.  The easiest way to define it is to
     use SUMPRODUCT build-in function.  Thus in our model, we have the
-    formula `=SUMPRODUCT(B3:D3,B4:D4)' in E4.</para>
+    formula `=SUMPRODUCT(B3:D3,B4:D4)' in E3 .</para>
 
     <para>The constraints are defined in rows seven to ten.  Since the
     coefficients of these functions are in columns B, C and D we will
@@ -106,7 +106,7 @@
       </screenshot>
     </figure>
 
-    <para>Since we have the objective function in E4 type this into
+    <para>Since we have the objective function in E3 type this into
     the `Set Target Cell:' entry.  We are about to maximize this
     function, thus the radiobutton `Max' should be pressed on.  By
     default, the problem is assumed to be maximization problem.  The

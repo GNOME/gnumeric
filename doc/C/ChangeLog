@@ -1,3 +1,11 @@
+2002-02-18  Kevin Breit  <mrproper@ximian.com>
+
+	* new/solver.xml: Made changes by C. Scott Ananian
+
+	* number-format.sgml: Made changes by C. Scott Ananian
+
+	* new/editing.xml: Made changes by C. Scott Ananian
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0

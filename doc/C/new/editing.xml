@@ -11,8 +11,9 @@
            <para>
               A string is any set of letters, or of letters and
               numbers. The only limitations are that strings cannot
-              contain newlines, and they may not begin with the equals
-              or at symbols (= and @). See <xref
+              contain newlines.  Put a single quote before strings
+              beginning with a single quote and and an @ sign, +, -,
+              or =. See <xref
               linkend="stringnumber" /> for an example of entering a
               string.
             </para>
