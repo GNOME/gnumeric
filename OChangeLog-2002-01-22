@@ -1,3 +1,7 @@
+2001-02-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-merge.c (sheet_merge_add) : redraw the entire region.
+
 2001-02-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style-border.c (style_border_draw) : delete.
