@@ -1,5 +1,14 @@
 Mon Jun 14 18:24:40 1999  Morten Welinder  <welinder@rentec.com>
 
+	* src/style.c (style_font_new_simple): Add negative caching.
+	(DEFAULT_FONT): Don't have a complete wildcard here -- that might
+ 	be a very weird font.
+
+	* src/cell.c (cell_set_font_from_style): Mark font valid.  Ref
+ 	before unref.
+	(cell_set_format_from_style): Mark format valid.  Ref before
+ 	unref.
+
 	* src/gnumeric-util.c (font_get_italic_name): Plug leak.
 	(font_change_component): Constify.  Handle fontsets.
 

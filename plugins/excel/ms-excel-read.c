@@ -427,7 +427,7 @@ biff_boundsheet_data_destroy (gpointer key, BIFF_BOUNDSHEET_DATA *d, gpointer us
 static char *
 biff_nasty_font_check_function (char *name1, char *name2)
 {
-	if (gdk_font_load(name1))
+	if (gdk_fontset_load(name1))
 	{
 		if (name2)
 			g_free(name2) ;
@@ -490,7 +490,12 @@ biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 	/* What about underlining? */
 
 	g_snprintf (font_size, 16, "%d", fd->height / 2);
-	fname2 = font_change_component (fname1, 7, font_size) ;
+	{
+		char *tmp;
+		tmp = font_change_component (fname1, 7, font_size);
+		fname2 = font_change_component (tmp, 6, "*");
+		g_free (tmp);
+	}
 	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
 	
 	ans = style_font_new (fname1, 1) ;

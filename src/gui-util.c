@@ -128,7 +128,7 @@ font_change_component_1 (const char *fontname, int idx,
 	char *res, *dst;
 	int hyphens = 0;
 
-	dst = res = (char *)g_malloc (strlen (fontname) + strlen (newvalue) + 1);
+	dst = res = (char *)g_malloc (strlen (fontname) + strlen (newvalue) + idx + 5);
 	while (*fontname && *fontname != ',') {
 		if (hyphens != idx)
 			*dst++ = *fontname;
@@ -142,6 +142,12 @@ font_change_component_1 (const char *fontname, int idx,
 		}
 	}
 	*end = fontname;
+	if (hyphens < idx) {
+		while (hyphens++ < idx)
+			*dst++ = '-';
+		strcpy (dst, newvalue);
+		dst += strlen (newvalue);
+	}
 	*dst = 0;
 	return res;
 }

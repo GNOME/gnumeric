@@ -13,19 +13,20 @@
 #include "color.h"
 
 #define DEFAULT_FONT \
-	"-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*," \
-	"-*-*-medium-r-normal--12-*-*-*-*-*-*-*," \
-	"-*-*-regular-r-normal--12-*-*-*-*-*-*-*,*"
+	"-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-iso8859-*," \
+	"-*-*-medium-r-normal--12-*-*-*-*-*-iso8859-*," \
+	"-*-*-regular-r-normal--12-*-*-*-*-*-iso8859-*"
 #define DEFAULT_BOLD_FONT \
-	"-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*," \
-	"-*-*-bold-r-normal--12-*-*-*-*-*-*-*,*"
+	"-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-*," \
+	"-*-*-bold-r-normal--12-*-*-*-*-*-iso8859-*"
 #define DEFAULT_ITALIC_FONT \
-	"-adobe-helvetica-medium-o-normal--*-120-*-*-*-*-*-*," \
-	"-*-*-medium-o-normal--12-*-*-*-*-*-*-*,*"
+	"-adobe-helvetica-medium-o-normal--*-120-*-*-*-*-iso8859-*," \
+	"-*-*-medium-o-normal--12-*-*-*-*-*-iso8859-*"
 #define DEFAULT_SIZE 12
 
 static GHashTable *style_format_hash;
 static GHashTable *style_font_hash;
+static GHashTable *style_font_negative_hash;
 static GHashTable *style_border_hash;
 static GHashTable *style_color_hash;
 
@@ -121,11 +122,16 @@ style_font_new_simple (const char *font_name, int units)
 		GdkFont *gdk_font;
 		char *font_name_copy;
 
+		if (g_hash_table_lookup (style_font_negative_hash, &key))
+			return NULL;
+
 		font_name_copy = g_strdup (font_name);
 		gdk_font = gdk_fontset_load (font_name_copy);
 
 		if (!gdk_font) {
-			g_free (font_name_copy);
+			key.font_name = font_name_copy;
+			g_hash_table_insert (style_font_negative_hash,
+					     &key, &key);
 			return NULL;
 		}
 
@@ -138,8 +144,8 @@ style_font_new_simple (const char *font_name, int units)
 
 		g_hash_table_insert (style_font_hash, font, font);
 	}
-	font->ref_count++;
 
+	font->ref_count++;
 	return font;
 }
 
@@ -552,6 +558,8 @@ style_init (void)
 	style_font_hash   = g_hash_table_new (font_hash, font_equal);
 	style_border_hash = g_hash_table_new (border_hash, border_equal);
 	style_color_hash  = g_hash_table_new (color_hash, color_equal);
+
+	style_font_negative_hash = g_hash_table_new (font_hash, font_equal);
 
 	font_init ();
 }

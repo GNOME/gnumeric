@@ -140,10 +140,11 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 
 	cell_queue_redraw (cell);
 
-	style_font_unref (cell->style->font);
 	style_font_ref (style_font);
+	style_font_unref (cell->style->font);
 
 	cell->style->font = style_font;
+	cell->style->valid_flags |= STYLE_FONT;
 
 	cell_calc_dimensions (cell);
 
@@ -966,10 +967,11 @@ cell_set_format_from_style (Cell *cell, StyleFormat *style_format)
 	cell_queue_redraw (cell);
 
 	/* Change the format */
-	style_format_unref (cell->style->format);
 	style_format_ref (style_format);
+	style_format_unref (cell->style->format);
 
 	cell->style->format = style_format;
+	cell->style->valid_flags |= STYLE_FORMAT;
 	cell->flags |= CELL_FORMAT_SET;
 
 	/* re-render the cell text */
