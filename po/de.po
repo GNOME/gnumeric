@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
 "POT-Creation-Date: 2001-02-13 06:39+0100\n"
-"PO-Revision-Date: 2001-02-13 07:16+01:00\n"
+"PO-Revision-Date: 2001-02-13 07:42+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -851,11 +851,12 @@ msgstr ""
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
+# There isn't enough space for "Gesamt"
 #: src/analysis-tools.c:2752 src/analysis-tools.c:2807
 #: src/analysis-tools.c:2829 src/dialogs/dialog-autoformat.c:70
 #: src/dialogs/dialog-autoformat.c:74
 msgid "Total"
-msgstr "Gesamt"
+msgstr "Total"
 
 #: src/analysis-tools.c:2809 src/workbook-control-gui.c:2938
 msgid "Count"
@@ -1589,7 +1590,7 @@ msgstr "Automatisch korrigieren"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Capitalize _first letter of sentence"
-msgstr "_Ersten Buchstaben im Satz groß schreiben"
+msgstr "_Den ersten buchstaben im satz groß schreiben"
 
 #: src/dialogs/autocorrect.glade.h:3
 msgid "Capitalize _names of days"
@@ -1621,7 +1622,7 @@ msgstr "_Mit:"
 
 #: src/dialogs/autoformat.glade.h:1
 msgid "A short description of the template"
-msgstr "Eine kurze Beschreibung der Vorlage"
+msgstr "Kurze Beschreibung der Vorlage"
 
 #: src/dialogs/autoformat.glade.h:2
 msgid "Apply _Alignment"
@@ -1665,11 +1666,11 @@ msgstr "Name :"
 
 #: src/dialogs/autoformat.glade.h:12
 msgid "Name of template"
-msgstr "Name der Vorlage"
+msgstr "Der Name der Vorlage"
 
 #: src/dialogs/autoformat.glade.h:13
 msgid "The category this template belongs to"
-msgstr "Die Kategorie, zu der diese Vorlage gehört"
+msgstr "Kategorie, zu der diese Vorlage gehört."
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "The current category"
@@ -1677,7 +1678,7 @@ msgstr "Die aktuelle Kategorie"
 
 #: src/dialogs/autoformat.glade.h:15
 msgid "The group/individual that made the template"
-msgstr "Die Gruppe oder Person, die diese Vorlage erstellt hat"
+msgstr "Gruppe oder Person, die diese Vorlage erstellt hat."
 
 #: src/dialogs/autoformat.glade.h:16
 msgid "_Category"
@@ -2892,13 +2893,16 @@ msgstr "Zielsuche-Bericht"
 msgid "Goal Seek..."
 msgstr "Zielsuche..."
 
+# Checkit
+# I guess shortcuts are missing here
+# 2001-02-13 07:41:33 CET -ke-
 #: src/dialogs/dialog-goal-seek.c:299
 msgid "Set cell:"
-msgstr "Setze Zelle:"
+msgstr "Setzen der Zelle:"
 
 #: src/dialogs/dialog-goal-seek.c:300
 msgid "To value:"
-msgstr "Auf Wert:"
+msgstr "Auf den Wert:"
 
 #: src/dialogs/dialog-goal-seek.c:301
 msgid "By changing cell:"
@@ -2914,11 +2918,11 @@ msgstr "Aber nicht höher als [optional]:"
 
 #: src/dialogs/dialog-goal-seek.c:362
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr "Einen gültigen Zellennamen in 'Setze Zelle' eintragen"
+msgstr "Sie müssen einen gültigen Zellennamen in 'Setzen der Zelle' eintragen."
 
 #: src/dialogs/dialog-goal-seek.c:370
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr "Die in 'Setze Zelle' angegebene Zelle muss eine Formel enthalten"
+msgstr "Die in 'Setzen der Zelle' angegebene Zelle muss eine Formel enthalten."
 
 #: src/dialogs/dialog-goal-seek.c:383
 msgid "You should introduce a valid cell name in 'By changing cell'"
@@ -2926,8 +2930,7 @@ msgstr "Einen gültigen Zellennamen in 'Durch Ändern von Zelle' eintragen"
 
 #: src/dialogs/dialog-goal-seek.c:392
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr ""
-"Die in 'Durch Ändern von Zelle' angegebene Zelle darf keine Formel enthalten"
+msgstr "Die in 'Durch Ändern von Zelle' angegebene Zelle darf keine Formel enthalten."
 
 #: src/dialogs/dialog-goal-seek.c:436
 msgid "Goal seek did not find a solution!"
@@ -4199,9 +4202,11 @@ msgstr "Das aktuell gewählte Blatt eine Stelle nach vorn verschieben"
 msgid "Order Sheets"
 msgstr "Blätter ordnen"
 
+# Plural sounds better
+# 2001-02-13 07:35:39 CET -ke-
 #: src/dialogs/sheet-order.glade.h:7
 msgid "Sheet Name"
-msgstr "Blattname"
+msgstr "Der Name der Blätter"
 
 #: src/dialogs/sheet-rename.glade.h:1
 msgid "Enter new _sheet name:"
@@ -13242,10 +13247,12 @@ msgstr "_Zielsuche..."
 msgid "Iteratively recalculate to find a target value"
 msgstr "Wiederholt neu berechnen, um einen Zielwert zu finden"
 
-# What does this mean? -ke-
+# _A is gone.
+# What does this really mean?
+# 2001-02-13 07:38:35 CET -ke-
 #: src/gnumeric.xml.h:240 src/workbook-control-gui.c:2107
 msgid "_Solver..."
-msgstr "_Analysis..."
+msgstr "Anal_ysis..."
 
 #: src/gnumeric.xml.h:106 src/workbook-control-gui.c:2108
 msgid "Iteratively recalculate with constraints to approach a target value"
