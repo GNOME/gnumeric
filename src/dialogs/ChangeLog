@@ -1,3 +1,18 @@
+2002-08-03  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dialog-plugin-manager.c
+	(PluginManagerGUI): Added frame_mark_for_deactivation,
+	checkbutton_mark_for_deactivation.
+	(dialog_plugin_manager): Initialize them here
+	(cb_pm_selection_changed): Handle "marking plugin for deactivation"
+	feature: optionally display new frame with descriptive text and check
+	button, connect/disconnect "toggled" signal handler. 
+	(cb_checkbutton_mark_for_deactivation_toggled): New signal handler.
+
+	* plugin-manager.glade:
+	Set the default height to 560, added extra frame to "Plugin details"
+	page (to support marking plugins for deactivation).
+
 2002-07-27  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/dialogs/dialog-plugin-manager.c

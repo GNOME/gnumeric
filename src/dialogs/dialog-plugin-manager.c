@@ -55,6 +55,8 @@ typedef struct {
 	GtkButton *button_rescan_directories;
 	GtkButton *button_directory_add, *button_directory_delete;
 	GtkCheckButton *checkbutton_install_new;
+	GtkWidget *frame_mark_for_deactivation;
+	GtkWidget *checkbutton_mark_for_deactivation;
 	GtkEntry *entry_name, *entry_directory, *entry_id;
 	GtkTextBuffer *text_description;
 	GtkListStore  *model_extra_info;
@@ -264,6 +266,13 @@ cb_pm_button_directory_delete_clicked (GtkButton *button, PluginManagerGUI *pm_g
 }
 
 static void
+cb_checkbutton_mark_for_deactivation_toggled (GtkCheckButton *cbtn, GnmPlugin *plugin)
+{
+	plugin_db_mark_plugin_for_deactivation (
+		plugin, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbtn)));
+}
+
+static void
 cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 {
 	GnmPlugin *pinfo;
@@ -274,12 +283,18 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 
 	g_return_if_fail (pm_gui != NULL);
 
+	g_signal_handlers_disconnect_matched (
+		pm_gui->checkbutton_mark_for_deactivation,
+		G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		cb_checkbutton_mark_for_deactivation_toggled, NULL);
+
 	gtk_list_store_clear (pm_gui->model_extra_info);
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_entry_set_text (pm_gui->entry_name, "");
 		gtk_entry_set_text (pm_gui->entry_directory, "");
 		gtk_entry_set_text (pm_gui->entry_id, "");
 		gtk_text_buffer_set_text (pm_gui->text_description, "", 0);
+		gtk_widget_hide (pm_gui->frame_mark_for_deactivation);
 	} else {
 		gtk_tree_model_get (GTK_TREE_MODEL (pm_gui->model_plugins),
 		                    &iter, PLUGIN_POINTER, &pinfo, -1);
@@ -307,6 +322,19 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 			}
 			e_free_string_slist (extra_info_keys);
 			e_free_string_slist (extra_info_values);
+		}
+
+		if (gnm_plugin_is_active (pinfo) && !gnm_plugin_can_deactivate (pinfo)) {
+			gtk_toggle_button_set_active (
+				GTK_TOGGLE_BUTTON (pm_gui->checkbutton_mark_for_deactivation),
+				plugin_db_is_plugin_marked_for_deactivation (pinfo));
+			g_signal_connect (
+				pm_gui->checkbutton_mark_for_deactivation, "toggled",
+				G_CALLBACK (cb_checkbutton_mark_for_deactivation_toggled),
+				pinfo);
+			gtk_widget_show (pm_gui->frame_mark_for_deactivation);
+		} else {
+			gtk_widget_hide (pm_gui->frame_mark_for_deactivation);
 		}
 	}
 }
@@ -577,6 +605,10 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui->entry_id = GTK_ENTRY (glade_xml_get_widget (gui, "entry_id"));
 
 	scrolled_extra = glade_xml_get_widget (gui, "scrolled_extra_info");
+	pm_gui->frame_mark_for_deactivation =
+		glade_xml_get_widget (gui, "frame_mark_for_deactivation");
+	pm_gui->checkbutton_mark_for_deactivation = 
+		glade_xml_get_widget (gui, "checkbutton_mark_for_deactivation");
 
 	pm_gui->model_extra_info = gtk_list_store_new (EXTRA_NUM_COLMNS, G_TYPE_STRING,
 						       G_TYPE_STRING);
