@@ -289,6 +289,12 @@ correlation_tool (Workbook *wb, Sheet *current_sheet,
 	        dao->sheet = sheet_new(wb, "Correlations");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	cols = input_range->end_col - input_range->start_col + 1;
@@ -413,6 +419,12 @@ covariance_tool (Workbook *wb, Sheet *current_sheet,
 	        dao->sheet = sheet_new(wb, "Covariances");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	cols = input_range->end_col - input_range->start_col + 1;
@@ -562,6 +574,12 @@ summary_statistics(Workbook *wb, data_set_t *data_set, int vars,
 	        dao->sheet = sheet_new(wb, "Summary Statistics");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
         set_cell (dao, 0, 0, "");
@@ -679,6 +697,12 @@ confidence_level(Workbook *wb, data_set_t *data_set, int vars, float_t c_level,
 	        dao->sheet = sheet_new(wb, "Confidence Level");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	for (col=0; col<vars; col++) {
@@ -709,6 +733,12 @@ kth_largest(Workbook *wb, data_set_t *data_set, int vars, int k,
 	        dao->sheet = sheet_new(wb, "kth Largest");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	for (col=0; col<vars; col++) {
@@ -739,6 +769,12 @@ kth_smallest(Workbook *wb, data_set_t *data_set, int vars, int k,
 	        dao->sheet = sheet_new(wb, "kth Smallest");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	for (col=0; col<vars; col++) {
@@ -832,6 +868,12 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	        dao->sheet = sheet_new(wb, "Sample");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	get_data(sheet, input_range, &data_set);
@@ -947,6 +989,12 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        dao->sheet = sheet_new(wb, "z-Test");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	get_data(sheet, input_range1, &set_one);
@@ -1062,6 +1110,12 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        dao->sheet = sheet_new(wb, "t-Test");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
         set_cell (dao, 0, 0, "");
@@ -1188,6 +1242,12 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        dao->sheet = sheet_new(wb, "t-Test");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	get_data(sheet, input_range1, &set_one);
@@ -1296,6 +1356,12 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        dao->sheet = sheet_new(wb, "t-Test");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	get_data(sheet, input_range1, &set_one);
@@ -1405,6 +1471,12 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        dao->sheet = sheet_new(wb, "F-Test");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	get_data(sheet, input_range1, &set_one);
@@ -1501,6 +1573,12 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	        dao->sheet = sheet_new(wb, "Random Numbers");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 
 	switch (distribution) {
@@ -1638,6 +1716,12 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        dao->sheet = sheet_new(wb, "Regression");
 		dao->start_col = dao->start_row = 0;
 		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
 	}
 	  
         set_cell (dao, 0, 0, "SUMMARY OUTPUT");
@@ -1720,3 +1804,172 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	return 0;
 }
 
+
+/************* Moving Average Tool *****************************************
+ *
+ * The moving average tool calculates moving averages of given data
+ * set.  The results are given in a table which can be printed out in
+ * a new sheet, in a new workbook, or simply into an existing sheet.
+ *
+ **/
+
+
+int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval, 
+		  int std_error_flag, data_analysis_output_t *dao)
+{
+        data_set_t data_set;
+	GSList     *current;
+	char       buf[256];
+	Cell       *cell;
+	float_t    *prev, sum;
+	int        cols, rows, row, i, add_cursor, del_cursor, count;
+	int        error;
+
+	/* TODO: Standard error output */
+	cols = range->end_col - range->start_col + 1;
+	rows = range->end_row - range->start_row + 1;
+
+	if ((cols != 1 && rows != 1) || interval < 1)
+	        return 1;
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Moving Averages");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
+	}
+
+	prev = g_new(float_t, interval);
+
+	get_data(sheet, range, &data_set);
+	current = data_set.array;
+	count = add_cursor = del_cursor = row = 0;
+	sum = 0;
+
+	while (current != NULL) {
+	        prev[add_cursor] = *((float_t *) current->data);
+		if (count == interval-1) {
+			sum += prev[add_cursor];
+			sprintf(buf, "%f", sum / interval);
+			set_cell(dao, 0, row, buf);
+			++row;
+		        sum -= prev[del_cursor];
+			if (++add_cursor == interval)
+			        add_cursor = 0;
+			if (++del_cursor == interval)
+			        del_cursor = 0;
+		} else {
+		        ++count;
+		        sum += prev[add_cursor];
+			++add_cursor;
+			sprintf(buf, "#N/A");
+			set_cell(dao, 0, row++, buf);
+		}
+		current = current->next;
+	}
+
+	g_free(prev);
+
+	free_data_set(&data_set);
+
+	return 0;
+}
+
+
+/************* Rank and Percentile Tool ************************************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ **/
+
+
+int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
+		  int columns_flag, data_analysis_output_t *dao)
+{
+        data_set_t *data_sets;
+	GSList     *current;
+	char       buf[256];
+	Cell       *cell;
+	int        vars, cols, rows, col, row, i, n;
+	int        error;
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "Ranks and Percentiles");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	} else if (dao->type == NewWorkbookOutput) {
+		wb = workbook_new ();
+		dao->sheet = sheet_new(wb, "Correlations");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+		gtk_widget_show (wb->toplevel);
+	}
+
+	cols = input_range->end_col - input_range->start_col + 1;
+	rows = input_range->end_row - input_range->start_row + 1;
+
+	if (columns_flag) {
+	        vars = cols;
+		for (col=0; col<vars; col++) {
+		        set_cell (dao, col*4, 0, "Point");
+		        sprintf(buf, "Column %d", col+1);
+			set_cell (dao, col*4+1, 0, buf);
+			set_cell (dao, col*4+2, 0, "Rank");
+			set_cell (dao, col*4+3, 0, "Percent");
+		}
+		data_sets = g_new(data_set_t, vars);
+
+		for (i=0; i<vars; i++)
+		        get_data_groupped_by_columns(sheet,
+						     input_range, i, 
+						     &data_sets[i]);
+	} else {
+	        vars = rows;
+		for (col=0; col<vars; col++) {
+		        set_cell (dao, col*4, 0, "Point");
+		        sprintf(buf, "Row %d", col+1);
+			set_cell (dao, col*4+1, 0, buf);
+			set_cell (dao, col*4+2, 0, "Rank");
+			set_cell (dao, col*4+3, 0, "Percent");
+		}
+		data_sets = g_new(data_set_t, vars);
+
+		for (i=0; i<vars; i++)
+		        get_data_groupped_by_rows(sheet,
+						  input_range, i, 
+						  &data_sets[i]);
+	}
+
+	for (i=0; i<vars; i++)
+	        data_sets[i].array = g_slist_sort(data_sets[i].array, 
+			     (GCompareFunc) float_compare_desc);
+	       
+	for (i=0; i<vars; i++) {
+	        n = 0;
+	        current = data_sets[i].array;
+		while (current != NULL) {
+		        float_t x = *((float_t *) current->data);
+
+			sprintf(buf, "%f", x);
+			set_cell (dao, i*4+1, n+1, buf);
+			sprintf(buf, "%d", n+1);
+			set_cell (dao, i*4+2, n+1, buf);
+			sprintf(buf, "%.2f%%", 
+				100.0-(100.0 * n / (data_sets[i].n-1)));
+			set_cell (dao, i*4+3, n+1, buf);
+			++n;
+			current = current->next;
+		}
+	}
+
+	for (i=0; i<vars; i++)
+	        free_data_set(&data_sets[i]);
+
+	return 0;
+}

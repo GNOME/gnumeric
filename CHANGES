@@ -22,6 +22,8 @@ Jukka:
 	- Implemented Random Number Generation Tool with the following
 	  distributions: Discrete, Normal, and Uniform.
 	- Started implementation of Regression Tool
+	- Implemented Moving Average Tool
+	- Started implementation of Rank and Percentile Tool
 	- Added some documentation about these tools
 	* Added the following functions:
 	- FORECAST() and INTERCEPT().

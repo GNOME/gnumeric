@@ -131,6 +131,10 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *range_input1,
 int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 		 random_distribution_t distribution,
 		 random_tool_t *param, data_analysis_output_t *dao);
+int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval, 
+		  int std_error_flag, data_analysis_output_t *dao);
+int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
+		  int columns_flag, data_analysis_output_t *dao);
 
 GList *add_strings_to_glist (const char *strs[]);
 

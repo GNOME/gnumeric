@@ -1,3 +1,11 @@
+1999-07-09  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-analysis-tools.c, src/analysis-tools.c: Added an
+ 	option to all tools to print the results to a new workbook.
+	
+	* src/dialog-analysis-tools.c, src/analysis-tools.c: Added Moving
+ 	Average and Rank and Percentile tools.
+
 1999-07-09  Michael Meeks  <michael@edenproject.org>
 
 	* src/eval.c (add_value_deps): Add warning on default:

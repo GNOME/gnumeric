@@ -19,17 +19,19 @@ static void dialog_correlation_tool(Workbook *wb, Sheet *sheet);
 static void dialog_covariance_tool(Workbook *wb, Sheet *sheet);
 static void dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ztest_tool(Workbook *wb, Sheet *sheet);
+static void dialog_ranking_tool(Workbook *wb, Sheet *sheet);
 static void dialog_sampling_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet);
 static void dialog_ftest_tool(Workbook *wb, Sheet *sheet);
+static void dialog_average_tool(Workbook *wb, Sheet *sheet);
 static void dialog_random_tool(Workbook *wb, Sheet *sheet);
 static void dialog_regression_tool(Workbook *wb, Sheet *sheet);
 
 
 static descriptive_stat_tool_t ds;
-static int                     label_row_flag;
+static int                     label_row_flag, standard_errors_flag;
 static random_distribution_t   distribution = DiscreteDistribution;
 
 
@@ -71,8 +73,12 @@ tool_list_t tools[] = {
 	  dialog_descriptive_stat_tool },
         { { "F-Test: Two-Sample for Variances", NULL }, 
 	  dialog_ftest_tool },
+        { { "Moving Average", NULL },
+	  dialog_average_tool },
         { { "Random Number Generation", NULL },
 	  dialog_random_tool },
+        { { "Rank and Percentile", NULL },
+	  dialog_ranking_tool },
         { { "Regression", NULL },
 	  dialog_regression_tool },
         { { "Sampling", NULL },
@@ -126,6 +132,12 @@ first_row_label_signal_fun()
         label_row_flag = !label_row_flag;
 }
 
+static void
+standard_errors_signal_fun()
+{
+        standard_errors_flag = !standard_errors_flag;
+}
+
 static check_button_t desc_stat_buttons[] = {
         { N_("Summary Statistics"), summary_stat_signal_fun, FALSE,
 	  N_("") },
@@ -140,6 +152,12 @@ static check_button_t desc_stat_buttons[] = {
 
 static check_button_t first_row_label_button[] = {
         { N_("Labels in First Row"), first_row_label_signal_fun, FALSE,
+	  N_("") },
+        { NULL, NULL }
+};
+
+static check_button_t standard_errors_button[] = {
+        { N_("Standard Errors"), standard_errors_signal_fun, FALSE,
 	  N_("") },
         { NULL, NULL }
 };
@@ -273,7 +291,7 @@ parse_output(int output, Sheet *sheet,
 	Range range;
 
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	if (output == 1 && !parse_range (text, &range.start_col,
+	if (output == 2 && !parse_range (text, &range.start_col,
 			  &range.start_row,
 			  &range.end_col,
 			  &range.end_row)) {
@@ -288,6 +306,9 @@ parse_output(int output, Sheet *sheet,
 	        dao->type = NewSheetOutput;
 		break;
 	case 1:
+	        dao->type = NewWorkbookOutput;
+		break;
+	case 2:
 	        dao->type = RangeOutput;
 		dao->start_col = range.start_col;
 		dao->start_row = range.start_row;
@@ -308,6 +329,10 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
         box = new_frame("Output options:", box);
 	*output_ops = NULL;
 	r = gtk_radio_button_new_with_label(*output_ops, "New Sheet");
+	*output_ops = GTK_RADIO_BUTTON (r)->group;
+	gtk_box_pack_start_defaults (GTK_BOX (box), r);
+	hbox = gtk_hbox_new (FALSE, 0);
+	r = gtk_radio_button_new_with_label(*output_ops, "New Workbook");
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (box), r);
 	hbox = gtk_hbox_new (FALSE, 0);
@@ -1591,6 +1616,178 @@ dialog_loop:
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
 }
+
+static void
+dialog_average_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box, *vbox;
+	static GtkWidget *range_entry, *output_range_entry;
+	static GtkWidget *interval_entry;
+	static GSList    *output_ops;
+	static int       labels = 0;
+
+	data_analysis_output_t  dao;
+	int interval;
+
+	char  *text;
+	int   selection, output;
+	static Range range;
+
+	if (!dialog) {
+	        dialog = new_dialog("Moving Average", wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+		vbox = new_frame("Input:", box);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		range_entry = hbox_pack_label_and_entry
+		  ("Input Range:", "", 20, vbox);
+
+		interval_entry = hbox_pack_label_and_entry("Interval:", "3",
+							   20, vbox);
+
+		add_check_buttons(vbox, first_row_label_button);
+
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		add_check_buttons(box, standard_errors_button);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range_entry);
+
+dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	output = gtk_radio_group_get_selected (output_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, range_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Range Input:'");
+		goto dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (interval_entry));
+	interval = atoi(text);
+
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto dialog_loop;
+
+	labels = label_row_flag;
+	if (labels) {
+	        range.start_row++;
+	        range.start_row++;
+	}
+
+	if (average_tool (wb, sheet, &range, interval,
+			  standard_errors_flag, &dao))
+	        goto dialog_loop;
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+
+static void
+dialog_ranking_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box, *group_box, *groupped_label;
+	static GtkWidget *range_entry, *r, *output_range_entry;
+	static GSList    *group_ops, *output_ops;
+	static int       labels = 0;
+
+	data_analysis_output_t  dao;
+
+	char  *text;
+	int   selection;
+	static Range range;
+	int   i=0, output;
+
+	label_row_flag = labels;
+
+	if (!dialog) {
+	        dialog = new_dialog("Rank and Percentile", wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		box = new_frame("Input:", box);
+
+		range_entry = hbox_pack_label_and_entry
+		  ("Input Range:", "", 20, box);
+
+		group_ops = add_groupped_by(box);
+
+		add_check_buttons(box, first_row_label_button);
+
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range_entry);
+
+dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	i = gtk_radio_group_get_selected (group_ops);
+	output = gtk_radio_group_get_selected (output_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, range_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Range:'");
+		goto dialog_loop;
+	}
+
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto dialog_loop;
+
+	labels = label_row_flag;
+	if (labels)
+	        range.start_row++;
+
+	if (ranking_tool (wb, sheet, &range, !i, &dao))
+	        goto dialog_loop;
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
 
 static void
 selection_made(GtkWidget *clist, gint row, gint column,
