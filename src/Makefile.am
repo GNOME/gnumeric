@@ -32,6 +32,8 @@ GNUMERIC_BASE_SOURCES =		\
 	parser.y		\
 	sheet.c			\
 	sheet.h			\
+	str.c			\
+	str.h			\
 	style.c			\
 	style.h			\
 	symbol.h		\

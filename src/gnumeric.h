@@ -1,6 +1,7 @@
 #include "numbers.h"
 #include "style.h"
 #include "symbol.h"
+#include "str.h"
 #include "expr.h"
 #include "cell.h"
 #include "sheet.h"

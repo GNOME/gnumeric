@@ -51,6 +51,9 @@ eval_next_cell()
 #include "gnumeric-sheet.h"
 #include "utils.h"
 
+static void sheet_selection_col_extend_to (Sheet *sheet, int col);
+static void sheet_selection_row_extend_to (Sheet *sheet, int row);
+
 void
 sheet_redraw_all (Sheet *sheet)
 {
@@ -66,22 +69,26 @@ sheet_compute_cell (Sheet *sheet, Cell *cell)
 	Value *v;
 
 	if (cell->text)
-		g_free (cell->text);
+		string_unref_ptr (&cell->text);
 	
-	v = eval_node_value (sheet,
-			     cell->parsed_node,
-			     &error_msg);
+	v = eval_expr (sheet, cell->parsed_node,
+		       cell->col->pos,
+		       cell->row->pos,
+		       &error_msg);
 
 	if (cell->value)
-		eval_release_value (cell->value);
+		value_release (cell->value);
 	
 	if (v == NULL){
-		cell->text = g_strdup (error_msg);
+		cell->text = string_get (error_msg);
 		cell->value = NULL;
 	} else {
 		/* FIXME: Use the format stuff */
+		char *str = value_string (v);
+		
 		cell->value = v;
-		cell->text  = eval_value_string (v);
+		cell->text  = string_get (str);
+		g_free (str);
 	}
 }
 
@@ -104,7 +111,7 @@ sheet_brute_force_recompute (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	printf ("brute force!\n");
+	printf ("mental retarted recomputation in progress!\n");
 	sheet_cell_foreach_range (sheet, 1,
 				  0, 0,
 				  SHEET_MAX_COLS, SHEET_MAX_ROWS,
@@ -197,17 +204,17 @@ sheet_col_selection_changed (ItemBar *item_bar, int column, int reset, Sheet *sh
 	ColRowInfo *ci;
 
 	ci = sheet_col_get (sheet, column);
-	if (ci->selected)
-		return;
 	
-	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), column, 0);
-	if (reset)
-		sheet_selection_clear_only (sheet);
-	sheet_col_set_selection (sheet, ci, 1);
-	sheet_selection_append_range (sheet,
-				      column, 0,
-				      column, 0,
-				      column, SHEET_MAX_ROWS-1);
+	if (reset){
+		gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), column, 0);
+		sheet_selection_clear (sheet);
+		sheet_selection_append_range (sheet,
+					      column, 0,
+					      column, 0,
+					      column, SHEET_MAX_ROWS-1);
+		sheet_col_set_selection (sheet, ci, 1);
+	} else
+		sheet_selection_col_extend_to (sheet, column);
 }
 
 static void
@@ -223,19 +230,17 @@ sheet_row_selection_changed (ItemBar *item_bar, int row, int reset, Sheet *sheet
 	ColRowInfo *ri;
 
 	ri = sheet_row_get (sheet, row);
-	if (ri->selected)
-		return;
 
-	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), 0, row);
-	if (reset)
-		sheet_selection_clear_only (sheet);
-	sheet_row_set_selection (sheet, ri, 1);
-	sheet_selection_append_range (sheet,
-				      0, row,
-				      0, row,
-				      SHEET_MAX_COLS-1, row);
-	
-	
+	if (reset){
+		gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), 0, row);
+		sheet_selection_clear (sheet);
+		sheet_selection_append_range (sheet,
+					      0, row,
+					      0, row,
+					      SHEET_MAX_COLS-1, row);
+		sheet_row_set_selection (sheet, ri, 1);
+	} else
+		sheet_selection_row_extend_to (sheet, row);
 }
 
 static void
@@ -269,11 +274,18 @@ cell_compare (gconstpointer a, gconstpointer b)
 	return 1;
 }
 
+static void
+button_select_all (GtkWidget *the_button, Sheet *sheet)
+{
+	sheet_select_all (sheet);
+}
+
 Sheet *
 sheet_new (Workbook *wb, char *name)
 {
-	Sheet *sheet;
 	int rows_shown, cols_shown;
+	GtkWidget *select_all;
+	Sheet *sheet;
 
 	rows_shown = cols_shown = 40;
 	
@@ -316,7 +328,9 @@ sheet_new (Workbook *wb, char *name)
 			    sheet);
 
 	/* Create the gnumeric sheet and set the initial selection */
-	sheet->sheet_view = gnumeric_sheet_new (sheet);
+	sheet->sheet_view = gnumeric_sheet_new (sheet,
+						ITEM_BAR (sheet->col_item),
+						ITEM_BAR (sheet->row_item));
 	sheet_selection_append (sheet, 0, 0);
 	
 	gtk_widget_show (sheet->sheet_view);
@@ -326,6 +340,16 @@ sheet_new (Workbook *wb, char *name)
 			  1, 2, 1, 2,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 
+	/* The select-all button */
+	select_all = gtk_button_new ();
+	gtk_table_attach (GTK_TABLE (sheet->toplevel), select_all,
+			  0, 1, 0, 1,
+			  GTK_FILL | GTK_EXPAND,
+			  GTK_FILL | GTK_EXPAND,
+			  0, 0);
+	gtk_signal_connect (GTK_OBJECT (select_all), "clicked",
+			    GTK_SIGNAL_FUNC (button_select_all), sheet);
+	
 	/* Scroll bars and their adjustments */
 	sheet->va = gtk_adjustment_new (0.0, 0.0, sheet->max_row_used, 1.0, rows_shown, 1.0);
 	sheet->ha = gtk_adjustment_new (0.0, 0.0, sheet->max_col_used, 1.0, cols_shown, 1.0);
@@ -722,9 +746,106 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	sheet_redraw_selection (sheet, ss);
 }
 
+/*
+ * sheet_selection_col_extend_to
+ * @sheet: the sheet
+ * @col:   column that gets covered
+ *
+ * Special version of sheet_selection_extend_to that
+ * is used by the column marking to keep the
+ * ColRowInfo->selected flag in sync
+ */
+void
+sheet_selection_col_extend_to (Sheet *sheet, int col)
+{
+	SheetSelection *ss, old_selection;
+	GList *cols;
+	int max_col, min_col, state;
+		
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	g_assert (sheet->selections);
+
+	ss = (SheetSelection *) sheet->selections->data;
+	old_selection = *ss;
+
+	sheet_selection_extend_to (sheet, col, SHEET_MAX_ROWS-1);
+
+	min_col = MIN (old_selection.start_col, ss->start_col);
+	max_col = MAX (old_selection.end_col, ss->end_col);
+	
+	for (cols = sheet->cols_info; cols; cols = cols->next){
+		ColRowInfo *ci = cols->data;
+
+		if (ci->pos < min_col)
+			continue;
+		if (ci->pos > max_col)
+			break;
+
+		if ((ci->pos < ss->start_col) || 
+		    (ci->pos > ss->end_col))
+			state = 0;
+		else
+			state = 1;
+		sheet_col_set_selection (sheet, ci, state);
+	}
+}
+
+/*
+ * sheet_selection_row_extend_to
+ * @sheet: the sheet
+ * @row:   row that gets covered
+ *
+ * Special version of sheet_selection_extend_to that
+ * is used by the row marking to keep the ColRowInfo->selected
+ * flag in sync. 
+ */
+static void
+sheet_selection_row_extend_to (Sheet *sheet, int row)
+{
+	SheetSelection *ss, old_selection;
+	GList *rows;
+	int min_row, max_row, state;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	g_assert (sheet->selections);
+
+	ss = (SheetSelection *) sheet->selections->data;
+	old_selection = *ss;
+
+	sheet_selection_extend_to (sheet, SHEET_MAX_COLS-1, row);
+
+	min_row = MIN (old_selection.start_row, ss->start_row);
+	max_row = MAX (old_selection.end_row, ss->end_row);
+	
+	for (rows = sheet->rows_info; rows; rows = rows->next){
+		ColRowInfo *ri = rows->data;
+
+		if (ri->pos < min_row)
+			continue;
+		if (ri->pos > max_row)
+			break;
+
+		if ((ri->pos < ss->start_col) ||
+		    (ri->pos > ss->end_col))
+			state = 0;
+		else
+			state = 1;
+
+		sheet_row_set_selection (sheet, ri, state);
+	}
+}
+
 void
 sheet_row_set_selection (Sheet *sheet, ColRowInfo *ri, int value)
 {
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (ri != NULL);
+	
 	if (ri->selected == value)
 		return;
 	
@@ -736,12 +857,47 @@ sheet_row_set_selection (Sheet *sheet, ColRowInfo *ri, int value)
 void
 sheet_col_set_selection (Sheet *sheet, ColRowInfo *ci, int value)
 {
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (ci != NULL);
+	
 	if (ci->selected == value)
 		return;
 	
 	ci->selected = value;
 	gnome_canvas_request_redraw (GNOME_CANVAS (sheet->col_canvas),
 		0, 0, INT_MAX, INT_MAX);
+}
+
+/* sheet_select_all
+ * Sheet: The sheet
+ *
+ * Selects all of the cells in the sheet
+ */
+void
+sheet_select_all (Sheet *sheet)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet_selection_clear_only (sheet);
+	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), 0, 0);
+	sheet_selection_append_range (sheet, 0, 0, 0, 0,
+		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+
+	for (l = sheet->cols_info; l; l = l->next){
+		ColRowInfo *ci = (ColRowInfo *)l->data;
+
+		sheet_col_set_selection (sheet, ci, 1);
+	}
+
+	for (l = sheet->rows_info; l; l = l->next){
+		ColRowInfo *ri = (ColRowInfo *)l->data;
+
+		sheet_row_set_selection (sheet, ri, 1);
+	}
 }
 
 void
@@ -1197,20 +1353,21 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 void
 cell_set_formula (Sheet *sheet, Cell *cell, char *text)
 {
-	char *error_msg;
+	char *error_msg = NULL;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 	
-	if (cell->text)
-		g_free (cell->text);
-	
-	cell->parsed_node = eval_parse_string (&text [1],
+	cell->parsed_node = expr_parse_string (&text [1],
+					       cell->col->pos,
+					       cell->row->pos,
 					       &error_msg);
 	if (cell->parsed_node == NULL){
-		cell->text = g_strdup (error_msg);
+		if (cell->text)
+			string_unref_ptr (&cell->text);
+		cell->text = string_get (error_msg);
 		return;
 	}
 
@@ -1222,7 +1379,8 @@ void
 cell_set_text (Sheet *sheet, Cell *cell, char *text)
 {
 	GdkFont *font;
-
+	char    *rendered_text;
+	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
 	g_return_if_fail (cell != NULL);
@@ -1230,12 +1388,11 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 
 	/* The value entered */
 	if (cell->entered_text)
-		g_free (cell->entered_text);
-	cell->entered_text = g_strdup (text);
+		string_unref_ptr (&cell->entered_text);
+	cell->entered_text = string_get (text);
 	
-	if (cell->text)
-		g_free (cell->text);
-	cell->text = NULL;
+	if (cell->parsed_node)
+		expr_tree_unref (cell->parsed_node);
 	
 	if (text [0] == '='){
 		cell_set_formula (sheet, cell, text); 
@@ -1244,7 +1401,10 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 		int is_text = 0, is_float = 0;
 		char *p;
 		
-		cell->text = g_strdup (text);
+		if (cell->text)
+			string_unref_ptr (&cell->text);
+
+		cell->text = string_get (text);
 
 		for (p = text; *p && !is_text; p++){
 			switch (*p){
@@ -1261,7 +1421,7 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 		}
 		if (is_text){
 			v->type = VALUE_STRING;
-			v->v.str = symbol_ref_string (text);
+			v->v.str = string_get (text);
 		} else {
 			if (is_float){
 				v->type = VALUE_FLOAT;
@@ -1280,10 +1440,13 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 
 	/* No default color */
 	cell->flags = 0;
+
+	rendered_text = CELL_TEXT_GET (cell);
 	
 	font = cell->style->font->font;
 	cell->width = cell->col->margin_a + cell->col->margin_b + 
-		gdk_text_width (font, cell->text, strlen (cell->text));
+		gdk_text_width (font, rendered_text, strlen (rendered_text));
 	cell->height = font->ascent + font->descent;
 }
+
 

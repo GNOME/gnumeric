@@ -22,8 +22,10 @@ typedef struct {
 	GtkObject       *resize_guide;
 
 	int             dragging : 1;
-	int             emitting_selection : 1;
+	int             start_selection;
 } ItemBar;
+
+#define ITEM_BAR_IS_SELECTING(ib) ((ib)->start_selection != -1)
 
 GtkType item_bar_get_type (void);
 

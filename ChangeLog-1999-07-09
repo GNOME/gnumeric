@@ -1,3 +1,63 @@
+1998-07-30    <miguel@nuclecu.unam.mx>
+
+	* src/parser.y (alloc_clean): Free the record that tracks the
+	allocation records.
+	(alloc_clean): Handle Strings.
+	(alloc_list_free): New function: cleans up the allocation list.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_load_cell_val): Fix to use
+	the new Strings.
+
+	* src/cell.h: Use the new Strings instead of the Symbols.  That
+	was just a stupid idea.
+
+	* src/str.c (string_ref): New file:  Implements string sharing.
+
+	* src/symbol.c (symbol_install): Use our copy of the allocated key
+	when installing the symbol.
+
+1998-07-29    <miguel@nuclecu.unam.mx>
+
+	* src/symbol.c (symbol_unref_ptr): New function that does symbol
+	unreferencing and if the reference count reaches zero, it also
+	sets the value pointed to NULL.
+
+	* src/sheet.c (cell_set_text): Release evaluation tree after
+	entering new contents in a cell.
+
+	* src/sheet.h (Cell): We now keep all of the character information
+	as refcounted Symbols.
+
+	* src/expr.c (eval_node_release): Renamed and made static.  New
+	allocation strategy: EvalTree's top node are now refcounted to
+	simplify cell duplication.
+	(eval_expr): Now it takes column and row arguments for evaluating
+	the expression in that context.
+	(expr_parse_string): Same.
+
+	* src/parser.y: Renamed EvalNode to EvalTree.
+	(return_cellref): CellRefs now contain offsets relative to the
+	current column/row if the references are not absolute. 
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_make_cell_visible): Use new
+	helper routines for doing the scrolling.  Scroll vertically.
+	(gnumeric_sheet_set_top_row, gnumeric_sheet_set_top_col): New
+	routines for keeping the contents of the canvas and the bars in
+	sync. 
+	(gnumeric_sheet_new): Take the ItemBars for the columns and rows
+	as a parameter now.
+
+	* src/sheet.c (sheet_select_all): New routine: select the complete spreadsheet.
+
+	* src/item-bar.c (item_bar_class_init): Signal now takes an extra
+	argument which indicates the beginning of a column selection.
+
+	* src/sheet.c (sheet_selection_col_extend_to,
+	sheet_selection_row_extend_to): New methods for implementing the
+	extending column and row selection.
+	(sheet_row_selection_changed, sheet_col_selection_changed): Now
+	they use the new parameter to start the selection.
+
 1998-07-28    <miguel@nuclecu.unam.mx>
 
 	* src/sheet.c (sheet_cell_new): Insert the row, not the cell in

@@ -29,17 +29,17 @@ main ()
 	
 	for (i = 0; exp [i]; i++){
 		printf ("Expression: %s;  ", exp [i]);
-		node = eval_parse_string (exp [i], &error);
+		node = expr_parse_string (exp [i], 0, 0, &error);
 		if (node == NULL){
 			printf ("parse error: %s\n", error);
 			continue;
 		}
-		v = eval_node_value (NULL, node, &error);
+		v = eval_expr (NULL, node, &error);
 		if (v == NULL){
 			printf ("eval error: %s\n", error);
 			continue;
 		}
-		eval_dump_value (v);
+		value_dump (v);
 	}
 	
 	return 0;

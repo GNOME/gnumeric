@@ -332,7 +332,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	ColRowInfo *cri;
 	GnomeCanvas *canvas = item->canvas;
 	ItemBar *item_bar = ITEM_BAR (item);
-	int pos, start, ele, x, y;
+	int pos, start, element, x, y;
 	int resizing;
 
 	resizing = ITEM_BAR_RESIZING (item_bar);
@@ -365,14 +365,12 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 					GNOME_CANVAS_ITEM(item_bar)->canvas,
 					0, 0, INT_MAX, INT_MAX);
 			}
-		} else if (item_bar->emitting_selection){
-			ele = get_col_from_pos (item_bar, pos);
+		} else if (ITEM_BAR_IS_SELECTING (item_bar)){
+			element = get_col_from_pos (item_bar, pos);
 
-			if (cri && !cri->selected){
-				gtk_signal_emit (GTK_OBJECT (item),
-						 item_bar_signals [SELECTION_CHANGED],
-						 ele, FALSE);
-			}
+			gtk_signal_emit (GTK_OBJECT (item),
+					 item_bar_signals [SELECTION_CHANGED],
+					 element, FALSE);
 			set_cursor (item_bar, pos);
 		} else
 			set_cursor (item_bar, pos);
@@ -385,10 +383,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		else
 			pos = x;
 
-		cri = is_pointer_on_division (item_bar, pos, &start, &ele);
+		cri = is_pointer_on_division (item_bar, pos, &start, &element);
 		if (cri){
 			/* Record the important bits */
-			item_bar->resize_pos = ele;
+			item_bar->resize_pos = element;
 			item_bar->resize_start_pos = start - cri->pixels;
 			item_bar->resize_width = cri->pixels;
 
@@ -398,10 +396,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						item_bar->change_cursor,
 						e->button.time);
 		} else {
-			item_bar->emitting_selection = ele;
+			item_bar->start_selection = element;
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SELECTION_CHANGED],
-					 ele, TRUE);
+					 element, TRUE);
 		}
 		break;
 
@@ -415,7 +413,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gtk_object_destroy (item_bar->resize_guide);
 			gnome_canvas_item_ungrab (item, e->button.time);
 		}
-		item_bar->emitting_selection = -1;
+		item_bar->start_selection = -1;
 		break;
 		
 	default:
@@ -467,7 +465,6 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			g_warning ("ARG_FIRST_ELEMENT: do scroll\n");
 		}
 		break;
-	default:
 	}
 	item_bar_reconfigure (item);
 }

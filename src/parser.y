@@ -13,13 +13,16 @@
 #include <string.h>
 #include "numbers.h"
 #include "symbol.h"
+#include "str.h"
 #include "expr.h"
 #include "utils.h"
 
 /* Allocation with disposal-on-error */ 
 static void *alloc_buffer   (int size);
 static void register_symbol (Symbol *sym);
+static void register_string (String *sym);
 static void alloc_clean     (void);
+static void alloc_list_free (void); 
 static void *v_new (void);
 	
 #define ERROR -1
@@ -29,6 +32,7 @@ typedef enum {
 	ALLOC_SYMBOL,
 	ALLOC_VALUE,
 	ALLOC_BUFFER,
+	ALLOC_STRING
 } AllocType;
 
 /* How we keep track of them */ 
@@ -41,7 +45,7 @@ typedef struct {
 static GList *alloc_list;
  
 /* Debugging */ 
-static void dump_node (EvalNode *node);
+static void dump_tree (ExprTree *tree);
 
 /* Bison/Yacc internals */ 
 static int  yylex (void);
@@ -53,20 +57,23 @@ static int  yyerror (char *s);
 %}
 
 %union {
-	EvalNode *node;
+	ExprTree *tree;
 	CellRef  *cell;
 	GList    *list;
 }
-%type  <node>  exp
+%type  <tree>  exp
 %type  <list>  arg_list
-%token <node>  NUMBER STRING FUNCALL CELLREF
+%token <tree>  NUMBER STRING FUNCALL CELLREF
 %left '-' '+' '&'
 %left '*' '/'
 %left '!'
 %right '^'
 
 %%
-line:	  exp           { parser_result = $1; /* dump_node (parser_result);*/ }
+line:	  exp           { parser_result = $1;
+                          /* dump_tree (parser_result);*/
+                          alloc_list_free (); 
+                        }
 	| error 	{
 				alloc_clean ();
 				parser_error = PARSE_ERR_SYNTAX;
@@ -76,40 +83,40 @@ line:	  exp           { parser_result = $1; /* dump_node (parser_result);*/ }
 exp:	  NUMBER 	{ $$ = $1 }
         | CELLREF       { $$ = $1 }
 	| exp '+' exp	{
-		$$ = p_new (EvalNode);
+		$$ = p_new (ExprTree);
 		$$->oper = OP_ADD;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
 
 	| exp '-' exp {
-		$$ = p_new (EvalNode);
+		$$ = p_new (ExprTree);
 		$$->oper = OP_SUB;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
 
 	| exp '*' exp { 
-		$$ = p_new (EvalNode);
+		$$ = p_new (ExprTree);
 		$$->oper = OP_MULT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
 
 	| exp '/' exp {
-		$$ = p_new (EvalNode);
+		$$ = p_new (ExprTree);
 		$$->oper = OP_DIV;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
 	}
 
 	| '(' exp ')'  {
-		$$ = p_new (EvalNode);
+		$$ = p_new (ExprTree);
 		$$ = $2;
 	}
 
 	| exp '&' exp {
-		$$ = p_new (EvalNode);
+		$$ = p_new (ExprTree);
 		$$->oper = OP_CONCAT;
 		$$->u.binary.value_a = $1;
 		$$->u.binary.value_b = $3;
@@ -119,7 +126,7 @@ exp:	  NUMBER 	{ $$ = $1 }
         | CELLREF ':' CELLREF {}
 
 	| FUNCALL '(' arg_list ')' {
-		$$ = p_new (EvalNode);
+		$$ = p_new (ExprTree);
 		$$->oper = OP_FUNCALL;
 		$$->u.function.symbol = $1->u.function.symbol;
 		$$->u.function.arg_list = $3;
@@ -135,17 +142,17 @@ arg_list: {}
 static int
 return_cellref (char *p)
 {
-	int col_absolute = FALSE;
-	int row_absolute = FALSE;
+	int col_relative = TRUE;
+	int row_relative = TRUE;
 	int col = 0;
 	int row = 0;
-	EvalNode *e;
+	ExprTree *e;
 	Value    *v;
 	CellRef  *ref;
 	
 	/* Try to parse a column */
 	if (*p == '$'){
-		col_absolute = TRUE;
+		col_relative = FALSE;
 		p++;
 	}
 	if (!(toupper (*p) >= 'A' && toupper (*p) <= 'Z'))
@@ -158,7 +165,7 @@ return_cellref (char *p)
 
 	/* Try to parse a row */
 	if (*p == '$'){
-		row_absolute = TRUE;
+		row_relative = FALSE;
 		p++;
 	}
 	
@@ -170,49 +177,58 @@ return_cellref (char *p)
 		p++;
 	}
 	row--;
-	
-	e = p_new (EvalNode);
+
+	/*  Ok, parsed successfully, create the return value */
+	e = p_new (ExprTree);
 	v = v_new ();
 
 	e->oper = OP_VAR;
 
 	ref = &v->v.cell;
 
+	/* Setup the cell reference information */
+	if (row_relative)
+		ref->row = parser_row - row;
+
+	if (col_relative)
+		ref->col = parser_col - col;
+	
 	ref->col = col;
 	ref->row = row;
-	ref->col_abs = col_absolute;
-	ref->row_abs = row_absolute;
+	ref->col_relative = col_relative;
+	ref->row_relative = row_relative;
 	e->u.constant = v;
 	
-	yylval.node = e;
+	yylval.tree = e;
 	return CELLREF;
 }
 
 static int
 return_symbol (char *string)
 {
-	EvalNode *e = p_new (EvalNode);
+	ExprTree *e = p_new (ExprTree);
 	Value *v = v_new ();
 	Symbol *sym;
 	int type;
 	
 	sym = symbol_lookup (string);
 	type = STRING;
-	if (!sym)
-		v->v.str = symbol_install (string, SYMBOL_STRING, NULL);
-	else {
+	if (!sym){
+		v->v.str = string_get (string);
+		register_string (v->v.str);
+	} else {
 		symbol_ref (sym);
 		if (sym->type == SYMBOL_FUNCTION)
 			type = FUNCALL;
-		v->v.str = sym;
+		v->v.sym = sym;
+		register_symbol (v->v.sym);
 	}
-	register_symbol (v->v.str);
 	
 	v->type = VALUE_STRING;
 	e->oper = OP_CONSTANT;
 	e->u.constant = v;
 	
-	yylval.node = e;
+	yylval.tree = e;
 	return type;
 }
 
@@ -244,7 +260,7 @@ int yylex (void)
 	switch (c){
         case '0': case '1': case '2': case '3': case '4': case '5':
 	case '6': case '7': case '8': case '9': case '.': {
-		EvalNode *e = p_new (EvalNode);
+		ExprTree *e = p_new (ExprTree);
 		Value *v = v_new ();
 		
 		is_float = c == '.';
@@ -275,7 +291,7 @@ int yylex (void)
 		/* Return the value to the parser */
 		e->oper = OP_CONSTANT;
 		e->u.constant = v;
-		yylval.node = e;
+		yylval.tree = e;
 
 		parser_expr = tmp;
 		return NUMBER;
@@ -350,6 +366,16 @@ register_symbol (Symbol *sym)
 	alloc_list = g_list_prepend (alloc_list, a_info);
 }
 
+static void
+register_string (String *string)
+{
+	AllocRec *a_info = g_new (AllocRec, 1);
+
+	a_info->type = ALLOC_STRING;
+	a_info->data = string;
+	alloc_list = g_list_prepend (alloc_list, a_info);
+}
+
 void *
 alloc_buffer (int size)
 {
@@ -363,7 +389,7 @@ alloc_buffer (int size)
 	return res;
 }
 
-void *
+static void *
 v_new (void)
 {
 	AllocRec *a_info = g_new (AllocRec, 1);
@@ -412,10 +438,27 @@ alloc_clean (void)
 			symbol_unref ((Symbol *)rec->data);
 			break;
 
+		case ALLOC_STRING:
+			string_unref ((String *)rec->data);
+			break;
+			
 		case ALLOC_VALUE:
 			clean_value ((Value *)rec->data);
 		}
+		g_free (rec);
 	}
+
+	g_list_free (l);
+	alloc_list = NULL;
+}
+
+static void
+alloc_list_free (void)
+{
+	GList *l = alloc_list;
+	
+	for (; l; l = l->next)
+		g_free (l->data);
 
 	g_list_free (l);
 	alloc_list = NULL;
@@ -429,7 +472,7 @@ alloc_clean (void)
  * his new version
  */
 char *
-eval_value_string (Value *value)
+value_string (Value *value)
 {
 	char buffer [1024];
 		
@@ -452,7 +495,7 @@ eval_value_string (Value *value)
 }
 
 void
-eval_dump_value (Value *value)
+value_dump (Value *value)
 {
 	switch (value->type){
 	case VALUE_STRING:
@@ -473,27 +516,27 @@ eval_dump_value (Value *value)
 }
 
 void
-dump_node (EvalNode *node)
+dump_tree (ExprTree *tree)
 {
 	Symbol *s;
 	CellRef *cr;
 	
-	switch (node->oper){
+	switch (tree->oper){
 	case OP_VAR:
-		cr = &node->u.constant->v.cell;
+		cr = &tree->u.constant->v.cell;
 		printf ("Cell: %s%c%s%d\n",
-			cr->col_abs ? "$" : "",
+			cr->col_relative ? "" : "$",
 			cr->col + 'A',
-			cr->row_abs ? "$" : "",
+			cr->row_relative ? "" : "$",
 			cr->row + '1');
 		return;
 		
 	case OP_CONSTANT:
-		eval_dump_value (node->u.constant);
+		value_dump (tree->u.constant);
 		return;
 
 	case OP_FUNCALL:
-		s = symbol_lookup (node->u.function.symbol->str);
+		s = symbol_lookup (tree->u.function.symbol->str);
 		printf ("Function call: %s\n", s->str);
 		break;
 		
@@ -503,9 +546,9 @@ dump_node (EvalNode *node)
 	case OP_DIV:
 	case OP_EXP:
 	case OP_CONCAT:
-		dump_node (node->u.binary.value_a);
-		dump_node (node->u.binary.value_b);
-		switch (node->oper){
+		dump_tree (tree->u.binary.value_a);
+		dump_tree (tree->u.binary.value_b);
+		switch (tree->oper){
 		case OP_ADD: printf ("ADD\n"); break;
 		case OP_SUB: printf ("SUB\n"); break;
 		case OP_MULT: printf ("MULT\n"); break;
@@ -518,7 +561,7 @@ dump_node (EvalNode *node)
 		break;
 		
 	case OP_NEG:
-		dump_node (node->u.value);
+		dump_tree (tree->u.value);
 		printf ("NEGATIVE\n");
 		break;
 		

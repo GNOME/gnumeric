@@ -4,18 +4,22 @@
 
 char *parser_expr;
 ParseErr parser_error;
-EvalNode *parser_result;
+ExprTree *parser_result;
+int parser_col, parser_row;
 
-EvalNode *
-eval_parse_string (char *expr, char **error_msg)
+ExprTree *
+expr_parse_string (char *expr, int col, int row, char **error_msg)
 {
 	parser_expr = expr;
 	parser_error = PARSE_OK;
-	
+	parser_col = col;
+	parser_row = row;
+		
 	yyparse ();
 	switch (parser_error){
 	case PARSE_OK:
 		*error_msg = NULL;
+		parser_result->ref_count = 1;
 		return parser_result;
 
 	case PARSE_ERR_SYNTAX:
@@ -29,12 +33,76 @@ eval_parse_string (char *expr, char **error_msg)
 	return NULL;
 }
 
+/*
+ * eval_expr_release:
+ * @ExprTree:  The tree to be released
+ *
+ * This releases all of the resources used by a tree.  
+ * It is only used internally by eval_expr_unref
+ */
+static void
+eval_expr_release (ExprTree *tree)
+{
+	g_return_if_fail (tree != NULL);
+	
+	switch (tree->oper){
+	case OP_VAR:
+		break;
+		
+	case OP_CONSTANT:
+		value_release (tree->u.constant);
+		break;
+		
+	case OP_FUNCALL:
+		symbol_unref (tree->u.function.symbol);
+		break;
+
+	case OP_ADD:
+	case OP_SUB:
+	case OP_MULT:
+	case OP_DIV:
+	case OP_EXP:
+	case OP_CONCAT:
+		eval_expr_release (tree->u.binary.value_a);
+		eval_expr_release (tree->u.binary.value_b);
+		break;
+
+	case OP_NEG:
+		eval_expr_release (tree->u.value);
+		break;
+		
+	default:
+		g_warning ("Unknown ExprTree type passed to eval_expr_release\n");
+	}
+	g_free (tree);
+}
+
 void
-eval_release_value (Value *value)
+expr_tree_ref (ExprTree *tree)
+{
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (tree->ref_count > 0);
+
+	tree->ref_count++;
+}
+
+void
+expr_tree_unref (ExprTree *tree)
+{
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (tree->ref_count > 0);
+
+	tree->ref_count--;
+	if (tree->ref_count == 0)
+		eval_expr_release (tree);
+}
+
+void
+value_release (Value *value)
 {
 	switch (value->type){
 	case VALUE_STRING:
-		symbol_unref (value->v.str);
+		string_unref (value->v.str);
 		break;
 
 	case VALUE_INTEGER:
@@ -46,45 +114,8 @@ eval_release_value (Value *value)
 		break;
 
 	default:
-		g_warning ("Unknown value type passed to eval_release_value\n");
+		g_warning ("Unknown value type passed to value_release\n");
 	}
-}
-
-void
-eval_release_node (EvalNode *node)
-{
-	g_return_if_fail (node != NULL);
-	
-	switch (node->oper){
-	case OP_VAR:
-		break;
-		
-	case OP_CONSTANT:
-		eval_release_value (node->u.constant);
-		break;
-		
-	case OP_FUNCALL:
-		symbol_unref (node->u.function.symbol);
-		break;
-
-	case OP_ADD:
-	case OP_SUB:
-	case OP_MULT:
-	case OP_DIV:
-	case OP_EXP:
-	case OP_CONCAT:
-		eval_release_node (node->u.binary.value_a);
-		eval_release_node (node->u.binary.value_b);
-		break;
-
-	case OP_NEG:
-		eval_release_node (node->u.value);
-		break;
-		
-	default:
-		g_warning ("Unknown ExprNode type passed to eval_release_node\n");
-	}
-	g_free (node);
 }
 
 /*
@@ -92,7 +123,7 @@ eval_release_node (EvalNode *node)
  * a new Value * if required
  */
 Value *
-eval_cast_to_float (Value *v)
+value_cast_to_float (Value *v)
 {
 	Value *newv;
 	
@@ -104,7 +135,7 @@ eval_cast_to_float (Value *v)
 	newv = g_new (Value, 1);
 	newv->type = VALUE_FLOAT;
 	mpf_set_z (newv->v.v_float, v->v.v_int);
-	eval_release_value (v);
+	value_release (v);
 	
 	return newv;
 }
@@ -120,7 +151,7 @@ eval_cell_value (Sheet *sheet, Value *value)
 	switch (res->type){
 	case VALUE_STRING:
 		res->v.str = value->v.str;
-		symbol_ref (res->v.str);
+		string_ref (res->v.str);
 		break;
 		
 	case VALUE_INTEGER:
@@ -141,33 +172,33 @@ eval_cell_value (Sheet *sheet, Value *value)
 }
 
 Value *
-eval_node_value (void *asheet, EvalNode *node, char **error_string)
+eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **error_string)
 {
 	Value *a, *b, *res;
 	Sheet *sheet = asheet;
 	
-	switch (node->oper){
+	switch (tree->oper){
 	case OP_ADD:
 	case OP_SUB:
 	case OP_MULT:
 	case OP_DIV:
 	case OP_EXP:
-		a = eval_node_value (sheet, node->u.binary.value_a,
-				     error_string);
-		b = eval_node_value (sheet, node->u.binary.value_b,
-				     error_string);
+		a = eval_expr (sheet, tree->u.binary.value_a,
+			       eval_col, eval_row, error_string);
+		b = eval_expr (sheet, tree->u.binary.value_b,
+			       eval_col, eval_row, error_string);
 
 		if (!(a && b)){
 			if (a)
-				eval_release_value (a);
+				value_release (a);
 			if (b)
-				eval_release_value (b);
+				value_release (b);
 			return NULL;
 		}
 		
 		if (!VALUE_IS_NUMBER (a) || !VALUE_IS_NUMBER (b)){
-			eval_release_value (a);
-			eval_release_value (b);
+			value_release (a);
+			value_release (b);
 			*error_string = _("Type mismatch");
 			return NULL;
 		}
@@ -177,7 +208,7 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 			res->type = VALUE_INTEGER;
 			mpz_init (res->v.v_int);
 			
-			switch (node->oper){
+			switch (tree->oper){
 			case OP_ADD:
 				mpz_add (res->v.v_int, a->v.v_int, b->v.v_int);
 				break;
@@ -192,9 +223,9 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 				
 			case OP_DIV:
 				if (mpz_cmp_si (b->v.v_int, 0)){
-					eval_release_value (a);
-					eval_release_value (b);
-					eval_release_value (res);
+					value_release (a);
+					value_release (b);
+					value_release (res);
 					*error_string = _("Division by zero");
 					return NULL;
 				}
@@ -211,10 +242,10 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 		} else {
 			res->type = VALUE_FLOAT;
 			mpf_init (res->v.v_float);
-			a = eval_cast_to_float (a);
-			b = eval_cast_to_float (b);
+			a = value_cast_to_float (a);
+			b = value_cast_to_float (b);
 			
-			switch (node->oper){
+			switch (tree->oper){
 			case OP_ADD:
 				mpf_add (res->v.v_float,
 					 a->v.v_float, b->v.v_float);
@@ -232,9 +263,9 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 				
 			case OP_DIV:
 				if (mpf_cmp_si (b->v.v_int, 0)){
-					eval_release_value (a);
-					eval_release_value (b);
-					eval_release_value (res);
+					value_release (a);
+					value_release (b);
+					value_release (res);
 					*error_string = _("Division by zero");
 					return NULL;
 				}
@@ -250,8 +281,8 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 			default:
 			}
 		}
-		eval_release_value (a);
-		eval_release_value (b);
+		value_release (a);
+		value_release (b);
 		return res;
 		
 	case OP_CONCAT:
@@ -265,9 +296,10 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 		return NULL;
 
 	case OP_CONSTANT:
-		return eval_cell_value (sheet, node->u.constant);
+		return eval_cell_value (sheet, tree->u.constant);
 
 	case OP_VAR:{
+		CellRef *ref;
 		Cell *cell;
 		int col, row;
 		
@@ -281,9 +313,17 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 			return res;
 		}
 
-		col = node->u.constant->v.cell.col;
-		row = node->u.constant->v.cell.row;
+		ref = &tree->u.constant->v.cell;
+		if (ref->col_relative)
+			col = eval_col + ref->col;
+		else
+			col = ref->col;
 
+		if (ref->row_relative)
+			row = eval_row + ref->row;
+		else
+			row = ref->row;
+		
 		cell = sheet_cell_get (sheet, col, row);
 		if (!cell)
 			cell = sheet_cell_new (sheet, col, row);
@@ -299,13 +339,13 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 		return res;
 	}
 	case OP_NEG:
-		a = eval_node_value (sheet, node->u.value,
-				     error_string);
+		a = eval_expr (sheet, tree->u.value,
+			       eval_col, eval_row, error_string);
 		if (!a)
 			return NULL;
 		if (!VALUE_IS_NUMBER (a)){
 			*error_string = _("Type mismatch");
-			eval_release_value (a);
+			value_release (a);
 			return NULL;
 		}
 		res = g_new (Value, 1);
@@ -316,7 +356,7 @@ eval_node_value (void *asheet, EvalNode *node, char **error_string)
 			mpf_init_set (res->v.v_int, a->v.v_int);
 			mpf_neg (res->v.v_float, a->v.v_float);
 		}
-		eval_release_value (a);
+		value_release (a);
 		return res;
 	}
 	

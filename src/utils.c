@@ -1,9 +1,11 @@
 #include <config.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <glib.h>
 #include <string.h>
 #include "numbers.h"
 #include "symbol.h"
+#include "str.h"
 #include "expr.h"
 #include "utils.h"
 

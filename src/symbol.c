@@ -1,3 +1,11 @@
+/*
+ * Symbol management for the Gnumeric spreadsheet
+ *
+ * (C) 1998 the Free Software Foundation
+ *
+ * Author:
+ *   Miguel de Icaza (miguel@kernel.org)
+ */
 #include <config.h>
 #include <glib.h>
 #include <string.h>
@@ -32,6 +40,13 @@ symbol_lookup_substr (char *buffer, int len)
 	return sym;
 }
 
+/*
+ * symbol_install
+ *
+ * @str: the string name
+ * @SymbolType: in which hash table we perform the lookup
+ * @data: information attached to the symbol
+ */
 Symbol *
 symbol_install (char *str, SymbolType type, void *data)
 {
@@ -45,11 +60,17 @@ symbol_install (char *str, SymbolType type, void *data)
 	sym->data = data;
 	sym->str  = g_strdup (str);
 	
-	g_hash_table_insert (symbol_hash_table, str, sym);
+	g_hash_table_insert (symbol_hash_table, sym->str, sym);
 	
 	return sym;
 }
 
+/*
+ * symbol_ref:
+ * @Sym: The symbol to reference
+ *
+ * Increments the reference count for the symbol
+ */
 void
 symbol_ref (Symbol *sym)
 {
@@ -58,6 +79,14 @@ symbol_ref (Symbol *sym)
 	sym->ref_count++;
 }
 
+/*
+ * symbol_ref_string:
+ * @str:  string to be converted to a symbol
+ *
+ * This looks up the string on the symbol hash table,
+ * if it is found, it is references, otherwise a new
+ * symbol is created
+ */
 Symbol *
 symbol_ref_string (char *str)
 {
@@ -71,11 +100,18 @@ symbol_ref_string (char *str)
 	return symbol_install (str, SYMBOL_STRING, 0);
 }
 
+/*
+ * symbol_unref:
+ * @Sym:  The symbol to remove the reference from
+ *
+ * Unreferences a symbol.  If the count reaches zero, the symbol
+ * is deallocated
+ */
 void
 symbol_unref (Symbol *sym)
 {
 	g_return_if_fail (sym != NULL);
-	g_return_if_fail (sym->ref_count == 0);
+	g_return_if_fail (sym->ref_count > 0);
 	
 	if (--(sym->ref_count) == 0){
 		g_free (sym->str);

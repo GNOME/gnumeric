@@ -34,11 +34,13 @@ typedef struct {
 	int         sel_cursor_pos;
 	int         sel_text_len;
 	ItemCursor  *selection;
+	ItemBar     *colbar;
+	ItemBar     *rowbar;
 } GnumericSheet;
 
 GtkType    gnumeric_sheet_get_type               (void);
 
-GtkWidget *gnumeric_sheet_new            	 (Sheet *sheet);
+GtkWidget *gnumeric_sheet_new            	 (Sheet *sheet, ItemBar *colbar, ItemBar *rowbar);
 void       gnumeric_sheet_set_selection  	 (GnumericSheet *sheet, SheetSelection *ss);
 void       gnumeric_sheet_cursor_set     	 (GnumericSheet *sheet,
 					 	  int col, int row);

@@ -8,6 +8,7 @@ main (int argc, char *argv [])
 {
 	gnome_init ("Gnumeric", NULL, argc, argv, 0, NULL);
 
+	string_init ();
 	style_init ();
 	symbol_init ();
 	current_workbook = workbook_new_with_sheets (1);

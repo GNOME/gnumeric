@@ -76,6 +76,7 @@ void        sheet_set_zoom_factor     (Sheet *sheet, double factor);
 void        sheet_get_cell_bounds     (Sheet *sheet, ColType col, RowType row, int *x, int *y, int *w, int *h);
 
 /* Selection management */
+void        sheet_select_all             (Sheet *sheet);
 void        sheet_selection_append       (Sheet *sheet, int col, int row);
 void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
 void        sheet_selection_clear        (Sheet *sheet);

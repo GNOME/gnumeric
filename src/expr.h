@@ -35,8 +35,8 @@ typedef struct {
 typedef struct {
 	int col, row;
 
-	unsigned int col_abs:1;
-	unsigned int row_abs:1;
+	unsigned int col_relative:1;
+	unsigned int row_relative:1;
 } CellRef;
 
 typedef struct {
@@ -48,7 +48,8 @@ typedef struct {
 			CellRef cell_b;
 		} cell_range;
 
-		Symbol *str;
+		String *str;
+		Symbol *sym;
 		float_t v_float;	/* floating point */
 		int_t   v_int;
 	} v;
@@ -57,8 +58,13 @@ typedef struct {
 #define VALUE_IS_NUMBER(x) (((x)->type == VALUE_INTEGER) || \
 			    ((x)->type == VALUE_FLOAT))
 
-struct EvalNode {
+struct ExprTree {
 	Operation oper;
+
+	/*
+	 * The reference count is only used by the toplevel tree.
+	 */
+	int       ref_count;
 	union {
 		Value  *constant;
 
@@ -68,15 +74,15 @@ struct EvalNode {
 		} function;
 		
 		struct {
-			struct EvalNode *value_a;
-			struct EvalNode *value_b;
+			struct ExprTree *value_a;
+			struct ExprTree *value_b;
 		} binary;
 
-		struct EvalNode *value;
+		struct ExprTree *value;
 	} u;
 };
 
-typedef struct EvalNode EvalNode;
+typedef struct ExprTree ExprTree;
 
 typedef enum {
 	PARSE_OK,
@@ -84,22 +90,26 @@ typedef enum {
 	PARSE_ERR_SYNTAX
 } ParseErr;
 
-/* For talking to yyparse */
+/* For communication with yyparse */
 extern char     *parser_expr;
 extern ParseErr  parser_error;
-extern EvalNode *parser_result;
+extern ExprTree *parser_result;
+extern int       parser_col, parser_row;
 
-EvalNode   *eval_parse_string  (char *expr, char **error_msg);
-Value      *eval_node_value    (void *asheet, EvalNode *node,
-				char **error_string);
+ExprTree   *expr_parse_string   (char *expr, int col, int row, char **error_msg);
+void        expr_tree_ref       (ExprTree *tree);
+void        expr_tree_unref     (ExprTree *tree);
 
-void        eval_release_node  (EvalNode *node);
-void        eval_release_value (Value *value);
-Value      *eval_cast_to_float (Value *v);
+Value      *eval_expr           (void *asheet, ExprTree *tree,
+				 int  col, int row,
+				 char **error_string);
 
-void        eval_dump_value    (Value *value);
-char       *eval_value_string  (Value *value);
+void        value_release       (Value *value);
+Value      *value_cast_to_float (Value *v);
 
-int         yyparse            (void);
+void        value_dump          (Value *value);
+char       *value_string        (Value *value);
+
+int         yyparse             (void);
 
 #endif
