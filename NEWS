@@ -1,26 +1,27 @@
 Gnumeric 0.68
 
-Almer :
+Almer:
 	* Fix backspace key.
 	* Fix autosave dialog.
 	* Shine-up string functions.
 
-Jody :
+Jody:
 	* Even more missing files.
 	* Crash after exiting 1 of many shared views.
 	* Bug when printing wrapped text in merged cells.
 	* Enable frozen panes.
 
-Morten :
+Morten:
 	* Improve bsd support.
+	* Fix CONCATENATE.
 
-Rodrigo :
+Rodrigo:
 	* Update gda support.
 
-Nakai :
+Nakai:
 	* Over-the-Spot style support for XIM.
 
-Lutz :
+Lutz:
 	* Introduction of placeholders named "FileOperations" and
 	  "PrintOperations" that help components to put their own menus into
 	  the right place.
