@@ -18,8 +18,6 @@ INCLUDES = 								\
 	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"				\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/src						\
-	-I$(srcdir)							\
-	-I$(includedir)				 			\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libdialogs.a

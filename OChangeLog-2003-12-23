@@ -1,7 +1,6 @@
-2002-01-25  Michael Meeks  <michael@ximian.com>
+2002-01-25  Jody Goldberg <jody@gnome.org>
 
-	* src/Makefile.am: poke around trying to make
-	sure we build the marshallers before we use them.
+	* src/Makefile.am : register the marshaller as BUILT sources.
 
 2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

@@ -1,7 +1,7 @@
 INCLUDES = 						\
-	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-I$(includedir)				 	\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/src				\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libfunctions.a

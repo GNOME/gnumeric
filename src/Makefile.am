@@ -14,7 +14,6 @@ INCLUDES = 								\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
 	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)"\"			\
 	-DGNOME_ICONDIR=\""$(datadir)/pixmaps"\"			\
-	-I$(includedir)				 			\
 	-I$(top_srcdir)							\
 	-I$(srcdir)							\
 	-I$(srcdir)/widgets						\
@@ -22,9 +21,12 @@ INCLUDES = 								\
 	-I$(srcdir)/dialogs						\
 	$(GNUMERIC_CFLAGS)
 
-GNUMERIC_BASE =					\
+BUILT_SOURCES =					\
 	gui-gtkmarshalers.h			\
-	gui-gtkmarshalers.c			\
+	gui-gtkmarshalers.c
+
+GNUMERIC_BASE =					\
+	$(BUILT_SOURCES)			\
 	analysis-tools.c			\
 	analysis-tools.h			\
 	application.c				\
@@ -248,12 +250,6 @@ GNUMERIC_BASE =					\
 	xml-io-autoft.c				\
 	xml-io-autoft.h
 
-GNUMERIC_BUILT =				\
-	gui-gtkmarshalers.h			\
-	gui-gtkmarshalers.c
-
-$(GNUMERIC_BASE) : $(GNUMERIC_BUILT)
-
 # TODO : split the bonobo and corba tests one day
 GNUMERIC_CORBA = 				\
 	workbook-control-corba.c		\
@@ -277,7 +273,6 @@ GNUMERIC_BONOBO = 				\
 if WITH_BONOBO
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
-	$(GNUMERIC_BUILT)			\
 	$(GNUMERIC_BONOBO)			\
 	normal-args.c
 #	 corba-args.c (use normal for now)
@@ -290,7 +285,6 @@ gnumeric_LDADD =				\
 else
 gnumeric_SOURCES =				\
 	$(GNUMERIC_BASE)			\
-	$(GNUMERIC_BUILT)			\
 	normal-args.c
 
 gnumeric_LDADD = 				\
