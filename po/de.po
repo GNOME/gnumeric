@@ -47,8 +47,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-08-23 20:45+0200\n"
-"PO-Revision-Date: 2002-08-23 20:44+0100\n"
+"POT-Creation-Date: 2002-08-24 15:24+0200\n"
+"PO-Revision-Date: 2002-08-24 15:19+0100\n"
 "Last-Translator: Christian Neumair <christian-neumair@web.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4116,7 +4116,6 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/fn-financial/functions.c:2342
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -4148,7 +4147,6 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/fn-financial/functions.c:2449
-#, fuzzy
 msgid ""
 "@FUNCTION=EUROCONVERT\n"
 "@SYNTAX=EUROCONVERT(n,source,target)\n"
@@ -7842,9 +7840,8 @@ msgid "nu"
 msgstr ""
 
 #: plugins/fn-random/functions.c:1109
-#, fuzzy
 msgid "value_range,prob_range"
-msgstr "Wertebereich"
+msgstr ""
 
 #: plugins/fn-random/functions.c:1111
 msgid "b"
@@ -9770,21 +9767,17 @@ msgstr "Versuche,p,Alpha"
 msgid "ref,ref,"
 msgstr ""
 
-# or better: Einzug?
-# 2001-11-27 14:16:24 CET -ke-
 #: plugins/fn-stat/functions.c:5193 plugins/fn-stat/functions.c:5275
 msgid "x,a,b"
 msgstr "x,a,b"
 
 #: plugins/fn-stat/functions.c:5197
-#, fuzzy
 msgid "x,mean,cumulative"
-msgstr "Kumulative %"
+msgstr ""
 
 #: plugins/fn-stat/functions.c:5199
-#, fuzzy
 msgid "x,y,cumulative"
-msgstr "Kumulative %"
+msgstr ""
 
 #: plugins/fn-stat/functions.c:5201
 msgid "x,dof of num,dof of denom"
@@ -9895,9 +9888,8 @@ msgid "x,dof,tails"
 msgstr ""
 
 #: plugins/fn-stat/functions.c:5323
-#, fuzzy
 msgid "ref,fraction"
-msgstr "Operation"
+msgstr ""
 
 #: plugins/fn-stat/functions.c:5325
 msgid "array1,array2,tails,type"
@@ -11655,7 +11647,7 @@ msgstr "Wert einer Formel anzeigen oder die Formel selbst"
 
 #: src/GNOME_Gnumeric.xml.h:74
 msgid "Draw a rectangle"
-msgstr "Rechteck zeichnen"
+msgstr "Ein Rechteck zeichnen"
 
 #: src/GNOME_Gnumeric.xml.h:75
 msgid "Draw an ellipse"
@@ -12045,10 +12037,9 @@ msgstr "Umriss _Rechts"
 msgid "P_aste Special..."
 msgstr "Einfügen _spezial..."
 
-# CHECK
 #: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2905
 msgid "P_roperties..."
-msgstr "E_igenschaften..."
+msgstr "Ei_genschaften..."
 
 #: src/GNOME_Gnumeric.xml.h:166 src/GNOME_Gnumeric_Component.xml.h:5
 msgid "Page S_etup..."
@@ -12730,7 +12721,7 @@ msgstr "Alle _zeigen"
 
 #: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3387
 msgid "_Show Detail"
-msgstr "Details an_zeigen"
+msgstr "Details _anzeigen"
 
 # _A is gone.
 # What does this really mean?
@@ -13755,7 +13746,7 @@ msgstr "E_rster Buchstabe"
 
 #: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:109
 msgid "_General"
-msgstr "_Allgemein"
+msgstr "A_llgemein"
 
 #: src/dialogs/autocorrect.glade.h:11
 msgid "_INitial CApitals"
@@ -14173,7 +14164,7 @@ msgstr "Einfarbig"
 
 #: src/dialogs/cell-format.glade.h:74
 msgid "Sp_ecial"
-msgstr "Sp_ezial"
+msgstr "_Spezial"
 
 #: src/dialogs/cell-format.glade.h:75
 msgid "Stop           (never allow invalid input)"
@@ -14276,7 +14267,7 @@ msgstr "Arbeitsblatt ge_schützt"
 # 2001-02-13 07:01:41 CET -ke-
 #: src/dialogs/cell-format.glade.h:99
 msgid "_Accounting"
-msgstr "Bu_chhaltung"
+msgstr "B_uchhaltung"
 
 #: src/dialogs/cell-format.glade.h:100
 msgid "_Allow:"
@@ -14304,7 +14295,7 @@ msgstr "_Datum"
 
 #: src/dialogs/cell-format.glade.h:108
 msgid "_Fraction"
-msgstr "Br_uch"
+msgstr "B_ruch"
 
 #: src/dialogs/cell-format.glade.h:110
 msgid "_Hidden"
@@ -14340,7 +14331,7 @@ msgstr "_Prozent"
 
 #: src/dialogs/cell-format.glade.h:120
 msgid "_Scientific"
-msgstr "Wissensc_haftlich"
+msgstr "Wissenscha_ftlich"
 
 #: src/dialogs/cell-format.glade.h:121
 msgid "_Show input message when cell is selected"
@@ -14350,8 +14341,6 @@ msgstr "Eingabemeldung _anzeigen, sobald die Zelle markiert wird"
 msgid "_Style"
 msgstr "_Stil"
 
-# Shortcut _Z is already gone (_Zahl).
-# 2001-02-13 07:00:15 CET -ke-
 #: src/dialogs/cell-format.glade.h:123
 msgid "_Time"
 msgstr "Zei_t"
@@ -16579,7 +16568,7 @@ msgstr "_Standardfehler"
 
 #: src/dialogs/font-sel.glade.h:1
 msgid "Font style:"
-msgstr "Stil der Schrift:"
+msgstr "Schriftstil:"
 
 #: src/dialogs/font-sel.glade.h:2
 msgid "Font:"
@@ -16695,9 +16684,8 @@ msgid "_Right section:"
 msgstr "_Rechter Abschnitt:"
 
 #: src/dialogs/histogram.glade.h:2
-#, fuzzy
 msgid "Bin _Labels"
-msgstr "_Beschriftungen der Klassen"
+msgstr "_Klassen-Beschriftungen"
 
 #: src/dialogs/histogram.glade.h:4
 msgid "C_umulative Percentages"
@@ -16747,9 +16735,8 @@ msgstr "_Zeilen"
 # CHECK, = numerisch?
 # 2001-02-11 07:05:07 CET -ke-
 #: src/dialogs/histogram.glade.h:22
-#, fuzzy
 msgid "_Bins"
-msgstr "Num"
+msgstr "_Klassen"
 
 #: src/dialogs/histogram.glade.h:23
 msgid "_Calculated Bins"
@@ -17198,9 +17185,7 @@ msgstr "Fehler_verhalten"
 
 #: src/dialogs/search-replace.glade.h:7
 msgid "Fail without any changes actually being done to any cell"
-msgstr ""
-"Fehlschlag, ohne dass Änderungen tatsächlich an einer Zelle durchgeführt "
-"wurden"
+msgstr "Ohne Änderungen an irgendeiner Zelle abbrechen"
 
 #: src/dialogs/search-replace.glade.h:8
 msgid "Ma_ke string value"
@@ -17233,7 +17218,7 @@ msgstr "Änderungen innerhalb der Werte der Zeichenketten durchführen"
 
 #: src/dialogs/search-replace.glade.h:15
 msgid "Query for replacement"
-msgstr "Anfrage nach Ersetzung"
+msgstr "Vor dem Ersetzen rückfragen"
 
 #: src/dialogs/search-replace.glade.h:16
 msgid "Ra_nge"
@@ -17459,9 +17444,8 @@ msgstr "_Treffer"
 
 # Accelerator missing
 #: src/dialogs/search.glade.h:34
-#, fuzzy
 msgid "_Range"
-msgstr "Wertebereich"
+msgstr "_Bereich"
 
 # Accelerator missing
 #: src/dialogs/search.glade.h:35
@@ -20681,13 +20665,12 @@ msgid "%s is not true."
 msgstr "%s ist nicht wahr."
 
 #: src/validation.c:296
-#, fuzzy
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's contents."
 msgstr ""
 "Dieser Wert ist ungültig.\n"
-"Nur bestimmte Werte sind in dieser Zelle erlaubt."
+"In dieser Zelle sind nur bestimmte Werte erlaubt."
 
 # CHECK
 #: src/validation.c:303
@@ -20871,7 +20854,7 @@ msgstr "Es ist nicht möglich, ein Objekt des Typus' »%s« zu erzeugen"
 
 #: src/workbook-control-gui.c:2932
 msgid "_Contents"
-msgstr "_Inhalt"
+msgstr "I_nhalt"
 
 #: src/workbook-control-gui.c:2962
 msgid "Select all the cells that depend on the current edit cell."
