@@ -4,7 +4,7 @@ dnl Debian Autoconf 2.13 trips on this configure.in
 dnl AC_PREREQ(2.52)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.73)
+AM_INIT_AUTOMAKE(gnumeric,0.74)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 AM_PROG_XML_I18N_TOOLS
