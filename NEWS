@@ -26,6 +26,7 @@ Jukka:
 	* MPS plugin enhancements.
 
 Morten:
+	* Improve the Applix importer.
 	* Update mathfunc.c to R 1.5.1.
 
 --------------------------------------------------------------------------

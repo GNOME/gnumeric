@@ -1026,7 +1026,7 @@ applix_read_cells (ApplixReadState *state)
 
 				if (!applix_get_line (state) ||
 				    a_strncmp (state->buffer, "Formula: ")) {
-					(void) applix_parse_error (state, "Missing forumula ID");
+					(void) applix_parse_error (state, "Missing formula ID");
 					continue;
 				}
 
@@ -1036,10 +1036,13 @@ applix_read_cells (ApplixReadState *state)
 				g_hash_table_insert (state->exprs, g_strdup (ptr),
 						     (gpointer)expr);
 			} else {
+				const char *key = expr_string + strlen (expr_string);
+				while (key > expr_string && !isspace ((unsigned char)key[-1]))
+					key--;
 #if 0
-				printf ("shared '%s'\n", expr_string);
+				printf ("Shared '%s'\n", expr_string);
 #endif
-				expr = g_hash_table_lookup (state->exprs, expr_string);
+				expr = g_hash_table_lookup (state->exprs, key);
 				cell_set_expr_and_value (cell, expr, val, TRUE);
 			}
 			break;
@@ -1139,13 +1142,16 @@ applix_read_impl (ApplixReadState *state)
 {
 	Sheet *sheet;
 	int col, row;
-	int ext_links;
+	int ext_links = -1;
 	unsigned char *real_name = NULL;
-	char top_cell_addr[30], cur_cell_addr[30];
+	char top_cell_addr[30] = "";
+	char cur_cell_addr[30] = "";
 	unsigned char *buffer;
-	char default_text_format[128];
-	char default_number_format[128];
-	int def_col_width, win_width, win_height;
+	char default_text_format[128] = "";
+	char default_number_format[128] = "";
+	int def_col_width = -1;
+	int win_width = -1;
+	int win_height = -1;
 
 	while (NULL != (buffer = applix_get_line (state))) {
 		if (!a_strncmp (buffer, "*BEGIN SPREADSHEETS VERSION=")) {
@@ -1280,7 +1286,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.parse_error = NULL;
 	state.wb_view     = wb_view;
 	state.wb          = wb_view_workbook (wb_view);
-	state.exprs       = g_hash_table_new (&g_int_hash, &g_int_equal);
+	state.exprs       = g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.styles      = g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.colours     = g_ptr_array_new ();
 	state.attrs       = g_ptr_array_new ();

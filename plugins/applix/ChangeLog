@@ -1,3 +1,10 @@
+2002-06-20  Morten Welinder <terra@diku.dk>
+
+	* applix-read.c (applix_read_impl): Initialize vars.
+	(applix_read): the keys are strings, not ints.
+	(applix_read_cells): Isolate the key -- sometimes there seems to be
+	a formula there also.
+
 2002-06-14  Jody Goldberg <jody@gnome.org>
 
 	* applix-read.c (applix_read_view) : current views are magic, ignore
