@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="function_group" id="math">
-			<_category>Maths / Trig.</_category>
+			<_category>Mathematics</_category>
 			<functions>
 				<function name="abs"/>
 				<function name="acos"/>

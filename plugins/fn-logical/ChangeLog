@@ -1,3 +1,8 @@
+2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c: spelling fixes
+	* plugin.xml.in: all functions are logical, use `logic'
+	
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

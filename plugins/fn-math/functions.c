@@ -150,8 +150,8 @@ static char const *help_gcd = {
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "GCD(470,770) equals to 10.\n"
-	   "GCD(470,770,1495) equals to 5.\n"
+	   "GCD(470,770) equals 10.\n"
+	   "GCD(470,770,1495) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=LCM")
 };
@@ -433,7 +433,7 @@ static char const *help_atanh = {
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "ATANH(0.5) equals 0.549306.\n "
+	   "ATANH(0.5) equals 0.549306.\n"
 	   "ATANH(0.8) equals 1.098612.\n"
 	   "\n"
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
@@ -919,13 +919,14 @@ static char const *help_beta = {
 
 	   "@DESCRIPTION="
 	   "BETA function returns the value of the mathematic beta function "
-	   "extended to all real numbers, but non-negative integers.\n"
+	   "extended to all real numbers except 0 and negative integers.\n"
 	   "\n"
-	   "* If @a or @b are non-positive integers, BETA returns #NUM! error.\n"
+	   "* If @a or @b are 0 or negative integers, BETA returns #NUM! "
+	   "error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=BETA,GAMMALN")
+	   "@SEEALSO=BETALN,GAMMA")
 };
 
 static Value *
@@ -1220,7 +1221,7 @@ static char const *help_mod = {
 	   "MOD function returns the remainder when @divisor is divided "
 	   "into @number.\n"
 	   "\n"
-	   "* MOD returns #DIV/0! if divisor is zero.\n"
+	   "* MOD returns #DIV/0! if @divisor is zero.\n"
 	   "* This function is Excel compatible.\n "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -2695,11 +2696,11 @@ static char const *help_minverse = {
 	   "@SYNTAX=MINVERSE(matrix)\n"
 
 	   "@DESCRIPTION="
-	   "MINVERSE function returns the inverse matrix of a given matrix.\n"
+	   "MINVERSE function returns the inverse matrix of @matrix.\n"
 	   "\n"
-	   "* If the @matrix cannot be inverted, MINVERSE returns #NUM! "
+	   "* If @matrix cannot be inverted, MINVERSE returns #NUM! "
 	   "error.\n"
-	   "* If the @matrix does not contain equal number of columns and "
+	   "* If @matrix does not contain equal number of columns and "
 	   "rows, MINVERSE returns #VALUE! error.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"

@@ -1407,13 +1407,13 @@ gnumeric_iserr (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_error_type = {
 	N_("@FUNCTION=ERROR.TYPE\n"
-	   "@SYNTAX=ERROR(value)\n"
+	   "@SYNTAX=ERROR.TYPE(value)\n"
 
 	   "@DESCRIPTION="
 	   "ERROR.TYPE returns an error number corresponding to the given "
 	   "error value.  The error numbers for error values are:\n\n"
 	   "\t#DIV/0!  \t\t2\n"
-	   "\t#VALUE!  \t\t3\n"
+	   "\t#VALUE!  \t3\n"
 	   "\t#REF!    \t\t4\n"
 	   "\t#NAME?   \t5\n"
 	   "\t#NUM!    \t\t6\n"
@@ -1798,7 +1798,7 @@ static char const *help_getenv = {
 	   "@DESCRIPTION="
 	   "GETENV retrieves a value from the execution environment.\n"
 	   "\n"
-	   "* If the variable specified by @STRING does not exist, #N/A! will "
+	   "* If the variable specified by @string does not exist, #N/A! will "
 	   "be returned.  Note, that variable names are case sensitive.\n"
 	   "@EXAMPLES=\n"
 	   "\n"

@@ -429,7 +429,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 
 static char const *help_areas = {
 	N_("@FUNCTION=AREAS\n"
-	   "@SYNTAX=AREAS(references)\n"
+	   "@SYNTAX=AREAS(reference)\n"
 
 	   "@DESCRIPTION="
 	   "AREAS returns the number of areas in @reference. "
@@ -437,7 +437,7 @@ static char const *help_areas = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "AREAS((A1,B2,C3)) equals "
-	   "\3.\n"
+	   "3.\n"
 	   "\n"
 	   "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET")
 };
@@ -559,13 +559,13 @@ static char const *help_vlookup = {
 
 	   "@DESCRIPTION="
 	   "VLOOKUP function finds the row in range that has a first "
-	   "column similar to value.  If @approximate is not true it finds "
+	   "column similar to @value.  If @approximate is not true it finds "
 	   "the row with an exact equivilance.  If @approximate is true, "
 	   "then the values must be sorted in order of ascending value for "
 	   "correct function; in this case it finds the row with value less "
-	   "than @value.  It returns the value in the row found at a 1 based "
+	   "than @value.  It returns the value in the row found at a 1-based "
 	   "offset in @column columns into the @range.  @as_index returns the "
-	   "0 based offset that matched rather than the value.\n"
+	   "0-based offset that matched rather than the value.\n"
 	   "\n"
 	   "* VLOOKUP returns #NUM! if @column < 0.\n"
 	   "* VLOOKUP returns #REF! if @column falls outside @range.\n"
@@ -617,12 +617,13 @@ static char const *help_hlookup = {
 
 	   "@DESCRIPTION="
 	   "HLOOKUP function finds the col in range that has a first "
-	   "row cell similar to value.  If @approximate is not true it finds "
+	   "row cell similar to @value.  If @approximate is not true it finds "
 	   "the col with an exact equivilance.  If @approximate is true, "
 	   "then the values must be sorted in order of ascending value for "
 	   "correct function; in this case it finds the col with value less "
-	   "than @value it returns the value in the col found at a 1 based "
-	   "offset in @row rows into the @range.  @as_index returns the offset "
+	   "than @value it returns the value in the col found at a 1-based "
+	   "offset in @row rows into the @range.  @as_index returns the "
+	   "0-based offset "
 	   "that matched rather than the value.\n"
 	   "\n"
 	   "* HLOOKUP returns #NUM! if @row < 0.\n"
@@ -671,16 +672,17 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 
 static char const *help_lookup = {
 	N_("@FUNCTION=LOOKUP\n"
-	   "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
+	   "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
 
 	   "@DESCRIPTION="
-	   "LOOKUP function finds the row index of 'value' in @vector1 "
-	   "and returns the contents of value2 at that row index. "
+	   "LOOKUP function finds the row index of @value in @vector1 "
+	   "and returns the contents of @vector2 at that row index. "
+	   "Alternatively a single array can be used for @vector1. "
 	   "If the area is longer than it is wide then the sense of the "
-	   "search is rotated. Alternatively a single array can be used.\n"
+	   "search is rotated. \n"
 	   "\n"
-	   "* If LOOKUP can't find @value it uses the next largest value less "
-	   "than value.\n"
+	   "* If LOOKUP can't find @value it uses the largest value less "
+	   "than @value.\n"
 	   "* The data must be sorted.\n"
 	   "* If @value is smaller than the first value it returns #N/A.\n"
 	   "\n"
@@ -746,9 +748,10 @@ static char const *help_match = {
 	   "* If @type = 1, MATCH finds largest value <= @seek.\n"
 	   "* If @type = 0, MATCH finds first value == @seek.\n"
 	   "* If @type = -1, MATCH finds smallest value >= @seek.\n"
-	   "* For type 0, the data can be in any order.  For types -1 and +1, "
-	   "the data must be sorted.  (And in this case, MATCH uses a binary "
-	   "search to locate the index.)\n"
+	   "* For @type = 0, the data can be in any order.  "
+	   "* For @type = -1 and @type = +1, "
+	   "the data must be sorted.  (And in these cases, MATCH uses "
+	   "a binary search to locate the index.)\n"
 	   "* If @seek could not be found, #N/A is returned.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -796,9 +799,10 @@ static char const *help_indirect = {
 
 	   "@DESCRIPTION="
 	   "INDIRECT function returns the contents of the cell pointed to "
-	   "by the ref_text string. The string specifices a single cell "
+	   "by the @ref_text string. The string specifices a single cell "
 	   "reference the format of which is either A1 or R1C1 style. The "
-	   "style is set by the format boolean, which defaults to the former.\n"
+	   "style is set by the @format boolean, which defaults to the A1 "
+	   "style.\n"
 	   "\n"
 	   "* If @ref_text is not a valid reference returns #REF! "
 	   "\n"
@@ -904,8 +908,10 @@ static char const *help_column = {
 	   "@SYNTAX=COLUMN([reference])\n"
 
 	   "@DESCRIPTION="
-	   "COLUMN function returns an array of the column numbers "
-	   "taking a default argument of the containing cell position.\n"
+	   "COLUMN function returns the column number of the current cell "
+	   "unless @reference is given. "
+	   "In that case, it returns an array of the column numbers of all "
+	   "cells in @reference. "
 	   "\n"
 	   "* If @reference is neither an array nor a reference nor a range, "
 	   "COLUMN returns #VALUE! error.\n"
@@ -1011,15 +1017,16 @@ gnumeric_columns (FunctionEvalInfo *ei, Value **args)
 
 static char const *help_offset = {
 	N_("@FUNCTION=OFFSET\n"
-	   "@SYNTAX=OFFSET(range,row,col,height,width)\n"
+	   "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
 
 	   "@DESCRIPTION="
 	   "OFFSET function returns a cell range. "
-	   "The cell range starts at offset (@col,@row) from @range, "
+	   "The cell range starts at offset (@row,@col) from @range, "
 	   "and is of height @height and width @width.\n"
 	   "\n"
-	   "* If range is neither a reference nor a range returns #VALUE!.\n"
-	   "* If either height or width is omitted the height or width "
+	   "* If @range is neither a reference nor a range, OFFSET "
+	   "returns #VALUE!.\n"
+	   "* If either @height or @width is omitted, the height or width "
 	   "of the reference is used.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1133,7 +1140,7 @@ static char const *help_rows = {
 	   "@EXAMPLES=\n"
 	   "ROWS(H7:I13) equals 7.\n"
 	   "\n"
-	   "@SEEALSO=COLUMN,ROW,ROWS")
+	   "@SEEALSO=COLUMN,COLUMNS,ROW")
 };
 
 static Value *

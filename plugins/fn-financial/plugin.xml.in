@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="function_group" id="financial">
-			<_category>Financial</_category>
+			<_category>Finance</_category>
 			<functions>
 				<function name="accrint"/>
 				<function name="accrintm"/>

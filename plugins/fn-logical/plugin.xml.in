@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_fnlogical">
 	<information>
-		<_name>Logical Functions</_name>
+		<_name>Logic Functions</_name>
 		<_description>Functions for manipulating truth values</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="function_group" id="logical">
-			<_category>Logical</_category>
+			<_category>Logic</_category>
 			<functions>
 				<function name="and"/>
 				<function name="or"/>
