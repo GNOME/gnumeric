@@ -307,6 +307,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (range_valid (&range));
 
 	if (STYLE_DEBUG)
 		g_warning ("Optimize (%d, %d):(%d, %d)",

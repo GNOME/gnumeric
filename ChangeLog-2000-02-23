@@ -1,3 +1,13 @@
+1999-12-15  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/workbook.c (workbook_bonobo_setup): kill goadid.
+	(workbook_new): kill brainless bug.
+
+1999-12-13  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_style_optimize): add check for
+	valid range.
+
 1999-12-15  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (WITH_PYTHON): Disable python until someone fixes it.

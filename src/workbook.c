@@ -1981,7 +1981,6 @@ workbook_bonobo_setup (Workbook *wb)
 {
 	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
 	wb->persist_file = gnome_persist_file_new (
-		GNUMERIC_WORKBOOK_GOAD_ID,
 		workbook_persist_file_load,
 		workbook_persist_file_save,
 		wb);
@@ -2162,7 +2161,6 @@ workbook_new (void)
 
 		wb->bonobo_regions  = NULL;
 		wb->persist_file    = NULL;
-		wb->gnome_container = NULL;
 		wb->uih = gnome_ui_handler_new ();
 		gnome_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
 		gnome_ui_handler_create_menubar (wb->uih);
