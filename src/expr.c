@@ -423,185 +423,26 @@ expr_tree_unref (ExprTree *tree)
 	do_expr_tree_unref (tree);
 }
 
-static void
-cell_ref_make_absolute (CellRef *cell_ref, int eval_col, int eval_row)
-{
-	g_return_if_fail (cell_ref != NULL);
-
-	if (cell_ref->col_relative)
-		cell_ref->col = eval_col + cell_ref->col;
-
-	if (cell_ref->row_relative)
-		cell_ref->row = eval_row + cell_ref->row;
-
-	cell_ref->row_relative = 0;
-	cell_ref->col_relative = 0;
-}
-
-static void
-free_values (Value **values, int top)
-{
-	int i;
-
-	for (i = 0; i < top; i++)
-		if (values[i])
-			value_release (values [i]);
-	g_free (values);
-}
-
 static Value *
-eval_funcall (FunctionEvalInfo *s, ExprTree const *tree)
+eval_funcall (FunctionEvalInfo *ei, ExprTree const *tree)
 {
 	const Symbol *sym;
 	FunctionDefinition *fd;
-	GList *l;
-	int argc, arg;
-	Value *v = NULL;
-	Sheet *sheet;
-	int eval_col;
-	int eval_row;
+	GList *args;
 
-	g_return_val_if_fail (s, NULL);
-	g_return_val_if_fail (tree, NULL);
+	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (tree != NULL, NULL);
 
 	sym = tree->u.function.symbol;
 
-	sheet    = s->pos.sheet;
-	eval_col = s->pos.eval_col;
-	eval_row = s->pos.eval_row;
-
-	l = tree->u.function.arg_list;
-	argc = g_list_length (l);
-
 	if (sym->type != SYMBOL_FUNCTION)
-		return value_new_error (&s->pos, _("Internal error"));
+		return value_new_error (&ei->pos, _("Internal error"));
 
 	fd = (FunctionDefinition *)sym->data;
-	s->func_def = fd;
+	ei->func_def = fd;
+	args = tree->u.function.arg_list;
 
-	if (fd->fn_type == FUNCTION_NODES) {
-		/* Functions that deal with ExprNodes */		
-		v = fd->fn.fn_nodes (s, l);
-	} else {
-		/* Functions that take pre-computed Values */
-		Value **values;
-		int fn_argc_min = 0, fn_argc_max = 0, var_len = 0;
-		const char *arg_type = fd->args;
-		const char *argptr = fd->args;
-
-		/* Get variable limits */
-		while (*argptr){
-			if (*argptr++ == '|'){
-				var_len = 1;
-				continue;
-			}
-			if (!var_len)
-				fn_argc_min++;
-			fn_argc_max++;
-		}
-
-		if (argc > fn_argc_max || argc < fn_argc_min)
-			return value_new_error (&s->pos, _("Invalid number of arguments"));
-
-		values = g_new (Value *, fn_argc_max);
-
-		for (arg = 0; l; l = l->next, arg++, arg_type++){
-			ExprTree *t = (ExprTree *) l->data;
-			gboolean type_mismatch = FALSE;
-			Value *v;
-
-			if (*arg_type=='|')
-				arg_type++;
-
-			if ((*arg_type != 'A' &&          /* This is so a cell reference */
-			     *arg_type != 'r') ||         /* can be converted to a cell range */
-			    !t || (t->oper != OPER_VAR)) { /* without being evaluated */
-				if ((v = eval_expr_real (s, t)) == NULL)
-					goto free_list;
-			} else {
-				g_assert (t->oper == OPER_VAR);
-				v = value_new_cellrange (&t->u.ref,
-							 &t->u.ref);
-			}
-
-			switch (*arg_type){
-			case 'f':
-			case 'b':
-				/*
-				 * Handle the implicit union of a single row or
-				 * column with the eval position
-				 */
-				if (v->type == VALUE_CELLRANGE) {
-					CellRef a = v->v.cell_range.cell_a;
-					CellRef b = v->v.cell_range.cell_b;
-					cell_ref_make_absolute (&a, eval_col,
-								eval_row);
-					cell_ref_make_absolute (&b, eval_col,
-								eval_row);
-
-					if (a.sheet !=  b.sheet)
-						type_mismatch = TRUE;
-					else if (a.row == b.row) {
-						int const c = s->pos.eval_col;
-						if (a.col <= c && c <= b.col)
-							v = value_duplicate (value_area_get_x_y (&s->pos, v, c - a.col, 0));
-						else
-							type_mismatch = TRUE;
-					} else if (a.col == b.col) {
-						int const r = s->pos.eval_row;
-						if (a.row <= r && r <= b.row)
-							v = value_duplicate (value_area_get_x_y (&s->pos, v, 0, r - a.row));
-						else
-							type_mismatch = TRUE;
-					} else
-						type_mismatch = TRUE;
-				} else if (v->type != VALUE_INTEGER &&
-					 v->type != VALUE_FLOAT &&
-					 v->type != VALUE_BOOLEAN)
-					type_mismatch = TRUE;
-				break;
-			case 's':
-				if (v->type != VALUE_STRING)
-					type_mismatch = TRUE;
-				break;
-			case 'r':
-				if (v->type != VALUE_CELLRANGE)
-					type_mismatch = TRUE;
-				else {
-					cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row);
-					cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row);
-				}
-				break;
-			case 'a':
-				if (v->type != VALUE_ARRAY)
-					type_mismatch = TRUE;
-				break;
-			case 'A':
-				if (v->type != VALUE_ARRAY &&
-				    v->type != VALUE_CELLRANGE)
-					type_mismatch = TRUE;
-
-				if (v->type == VALUE_CELLRANGE) {
-					cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row);
-					cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row);
-				}
-				break;
-			}
-			values [arg] = v;
-			if (type_mismatch){
-				free_values (values, arg + 1);
-				return value_new_error (&s->pos,
-							gnumeric_err_VALUE);
-			}
-		}
-		while (arg < fn_argc_max)
-			values [arg++] = NULL;
-		v = fd->fn.fn_args (s, values);
-
-	free_list:
-		free_values (values, arg);
-	}
-	return v;
+	return function_call_with_list (ei, args);
 }
 
 typedef enum {
@@ -811,7 +652,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		if (b != NULL)
 			value_release (b);
 
-		if (comp == TYPE_MISMATCH){
+		if (comp == TYPE_MISMATCH) {
 			/* TODO TODO TODO : Make error more informative
 			 *    regarding what is comparing to what
 			 */
@@ -824,7 +665,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 			return value_new_error (&s->pos, gnumeric_err_VALUE);
 		}
 
-		switch (tree->oper){
+		switch (tree->oper) {
 		case OPER_EQUAL:
 			res = value_new_bool (comp == IS_EQUAL);
 			break;
@@ -1225,7 +1066,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 
 	op = tree->oper;
 
-	switch (op){
+	switch (op) {
 	case OPER_ANY_BINARY: {
 		char *a, *b, *res;
 		char const *opname;
@@ -1282,12 +1123,12 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		arg_list = tree->u.function.arg_list;
 		argc = g_list_length (arg_list);
 
-		if (argc){
+		if (argc) {
 			int i, len = 0;
 			args = g_malloc (sizeof (char *) * argc);
 
 			i = 0;
-			for (l = arg_list; l; l = l->next, i++){
+			for (l = arg_list; l; l = l->next, i++) {
 				ExprTree *t = l->data;
 
 				args [i] = do_expr_decode_tree (t, pp, 0);
@@ -1298,13 +1139,14 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 
 			i = 0;
 			sum [0] = 0;
-			for (l = arg_list; l; l = l->next, i++){
+			for (l = arg_list; l; l = l->next, i++) {
 				strcat (sum, args [i]);
 				if (l->next)
 					strcat (sum, ",");
 			}
 
-			res = g_strconcat (fd->name, "(", sum, ")", NULL);
+			res = g_strconcat (function_def_get_name (fd),
+					   "(", sum, ")", NULL);
 			g_free (sum);
 
 			for (i = 0; i < argc; i++)
@@ -1313,7 +1155,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 
 			return res;
 		} else
-			return g_strconcat (fd->name, "()", NULL);
+			return g_strconcat (function_def_get_name (fd),
+					    "()", NULL);
 	}
 
 	case OPER_NAME:

@@ -132,31 +132,6 @@ FunctionEvalInfo *func_eval_info_cell (FunctionEvalInfo *s, Cell *cell);
 FunctionEvalInfo *func_eval_info_pos  (FunctionEvalInfo *s, const EvalPosition *fp);
 
 /*
- * Functions come in two fashions:  Those that only deal with
- * very specific data types and a constant number of arguments,
- * and those who don't.
- *
- * The former kind of functions receives a precomputed array of
- * Value pointers.
- *
- * The latter sort of functions receives the plain ExprNodes and
- * it is up to that routine to do the value computations and range
- * processing.
- */
-
-struct _FunctionDefinition {
-	char  const *name;
-	char  const *args;
-	char  const *named_arguments;
-	char  **help;
-	FuncType fn_type;
-	union {
-		FunctionNodes *fn_nodes;
-		FunctionArgs  *fn_args;
-	} fn;
-};
-
-/*
  * Built in / definable sheet names.
  */
 struct _ExprName {

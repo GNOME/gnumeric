@@ -87,24 +87,26 @@ fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
 }
 
 static Value *
-marshal_func (FunctionEvalInfo *ei, Value *argv[])
+marshal_func (FunctionEvalInfo *ei, Value *argv [])
 {
 	PyObject *args, *result;
 	FunctionDefinition *fndef = ei->func_def;
 	Value *v;
 	GList *l;
-	int i, count = strlen(fndef->args);
+	int i, min, max;
+
+	function_def_count_args (fndef, &min, &max);
 	
 	/* Find the Python code object for this FunctionDefinition. */
-	l = g_list_find_custom(funclist, fndef, (GCompareFunc) fndef_compare);
+	l = g_list_find_custom (funclist, fndef, (GCompareFunc) fndef_compare);
 	if (!l)
 		return value_new_error (&ei->pos, _("Unable to lookup Python code object."));
 	
 	/* Build the argument list which is a Python tuple. */
-	args = PyTuple_New (count);
-	for (i = 0; i < count; i++){
+	args = PyTuple_New (min);
+	for (i = 0; i < min; i++) {
 		/* ref is stolen from us */
-		PyTuple_SetItem(args, i, convert_value_to_python (argv[i]));  
+		PyTuple_SetItem (args, i, convert_value_to_python (argv [i]));
 	}
 	
 	/* Call the Python object. */
@@ -138,12 +140,6 @@ __register_function (PyObject *m, PyObject *py_args)
 		return NULL;
 	}
 	
-	fndef = g_new0 (FunctionDefinition, 1);
-	if (!fndef){
-		PyErr_SetString (PyExc_MemoryError, _("could not alloc FuncDef"));
-		return NULL;
-	}
-
 	cat   = function_get_category (_("Perl"));
 	help  = g_new (char *, 1);
 	*help = g_strdup (help1);
@@ -151,7 +147,7 @@ __register_function (PyObject *m, PyObject *py_args)
 				   g_strdup (named_args), help, marshal_func);
 	
 	fdata = g_new (FuncData, 1);
-	fdata->fndef = fndef;
+	fdata->fndef   = fndef;
 	fdata->codeobj = codeobj;
 	Py_INCREF(codeobj);
 	funclist = g_list_append(funclist, fdata);

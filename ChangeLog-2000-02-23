@@ -1,3 +1,50 @@
+1999-12-06  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/eval.c (search_cell_deps): Cull dead 'draw' code.
+
+1999-12-05  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/expr.c (eval_funcall): Extract body to func.c
+	(cell_ref_make_absolute, free_values): move to func.c
+	(do_expr_decode_tree): Use function_def_get_name
+
+	* src/func.c (function_call_with_list): Clean to use new
+	helper functions + update style; use eval_expr not
+	eval_expr_real in 1 place; cleans flow;
+	(cell_ref_make_absolute): make args more convenient.
+
+	* Makefile.am: Kill dump.[ch]
+	
+	* src/dump.[ch]: kill + move to
+
+	* src/func.c: (function_dump_defs).
+
+	* src/main.c (gnumeric_main): Use function_dump_defs
+
+	* src/func.c (function_def_get_fn): implement.
+	(function_def_get_user_data, function_def_set_user_data),
+	(function_def_count_args, function_def_get_name): implement.
+	(function_def_get_arg_type): implement.
+	Hide FunctionDefinition here. Stylistic cleans.
+
+	* plugins/python/python.c (marshal_func): use function_def_count_args
+	(__register_function): kill ancient mem leak in duff code.
+
+	* src/dialogs/dialog-function-select.c (function_definition_update):
+	use function_def_get_name.
+
+	* src/dialogs/dialog-function-wizard.c (arg_data_list_new): rewrite to
+	use count_args + get_arg_type: much safer. (get_text_value): use get_name.
+
+	* src/expr.h: Add user_data to function definition + hack it out.
+
+	* src/sheet.c (sheet_cell_get, sheet_cell_fetch): move up & inline
+
+1999-12-04  Michael Meeks  <mmeeks@gnu.org>
+
+	* plugins/sample/plugin-sample.c (func_plusone): Make this a good
+	example ! ug + stylistic clean.
+
 1999-12-05  Ariel Rios <jarios@usa.net>
 
 	* plugins/guile/Makefile.am: Modified to include functions.scm

@@ -17,7 +17,7 @@ static void
 cell_eval_content (Cell *cell)
 {
 	Value *v;
-	FunctionEvalInfo s;
+	FunctionEvalInfo ei;
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -32,7 +32,8 @@ cell_eval_content (Cell *cell)
 	}
 #endif
 
-	v = eval_expr (func_eval_info_cell (&s, cell), cell->parsed_node);
+	v = eval_expr (func_eval_info_cell (&ei, cell),
+		       cell->parsed_node);
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -50,7 +51,7 @@ cell_eval_content (Cell *cell)
 		value_release (cell->value);
 
 	if (v == NULL)
-		v = value_new_error (&s.pos, "Internal error");
+		v = value_new_error (&ei.pos, "Internal error");
 	cell->value = v;
 	cell_render_value (cell);
 
@@ -71,13 +72,13 @@ cell_eval (Cell *cell)
 	
 	cell->generation = cell->sheet->workbook->generation;
 
-	if (cell->parsed_node){
+	if (cell->parsed_node) {
 		GList *deps, *l;
 
 		cell_eval_content (cell);
 		deps = cell_get_dependencies (cell);
 	
-		for (l = deps; l; l = l->next){
+		for (l = deps; l; l = l->next) {
 			Cell *one_cell;
 			
 			one_cell = l->data;
@@ -192,7 +193,7 @@ add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 static void
 add_value_deps (Cell *cell, const Value *value)
 {
-	switch (value->type){
+	switch (value->type) {
 	case VALUE_EMPTY:
 	case VALUE_STRING:
 	case VALUE_INTEGER:
@@ -203,6 +204,7 @@ add_value_deps (Cell *cell, const Value *value)
 		break;
 
 		/* Check every element of the array */
+		/* FIXME: currently array's only hold alphanumerics */
 	case VALUE_ARRAY:
 	{
 		int x, y;
@@ -234,7 +236,7 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 {
 	GList *l;
 
-	switch (tree->oper){
+	switch (tree->oper) {
 	case OPER_ANY_BINARY:
 		add_tree_deps (cell, tree->u.binary.value_a);
 		add_tree_deps (cell, tree->u.binary.value_b);
@@ -254,7 +256,11 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 	case OPER_CONSTANT:
 		add_value_deps (cell, tree->u.constant);
 		return;
-
+		
+	/*
+	 * FIXME: needs to be taught implicit intersection +
+	 * more cunning handling of argument type matching.
+	 */
 	case OPER_FUNCALL:
 		for (l = tree->u.function.arg_list; l; l = l->next)
 			add_tree_deps (cell, l->data);
@@ -268,7 +274,7 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 		return;
 
 	case OPER_ARRAY:
-		if (tree->u.array.x != 0 || tree->u.array.y != 0){
+		if (tree->u.array.x != 0 || tree->u.array.y != 0) {
 			/* Non-corner cells depend on the corner */
 			DependencyRange range;
 			range.ref_count = 0;
@@ -341,8 +347,8 @@ cell_drop_dependencies (Cell *cell)
 {
 	GHashTable *dependency_hash;
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->parsed_node != NULL);
 	g_return_if_fail (cell->sheet != NULL);
+	g_return_if_fail (cell->parsed_node != NULL);
 
 	dependency_hash = cell->sheet->dependency_hash;
 	if (!dependency_hash)
@@ -350,11 +356,14 @@ cell_drop_dependencies (Cell *cell)
 
 	g_hash_table_foreach (dependency_hash, dependency_remove_cell, cell);
 
-	/* Drop any unused DependencyRanges (because their ref_count reached zero) */
-	if (remove_list){
+	/*
+	 * Drop any unused DependencyRanges (because their
+	 * ref_count reached zero)
+	 */
+	if (remove_list) {
 		GList *l = remove_list;
 
-		for (; l; l = l->next){
+		for (; l; l = l->next) {
 			g_hash_table_remove (dependency_hash, l->data);
 			g_free (l->data);
 		}
@@ -373,9 +382,9 @@ typedef struct {
 static void
 search_range_deps (gpointer key, gpointer value, gpointer closure)
 {
-	DependencyRange *deprange = key;
-	Range *range = &(deprange->range);
-	get_range_dep_closure_t *c = closure;
+	DependencyRange *deprange  =  key;
+	Range           *range     = &(deprange->range);
+	get_range_dep_closure_t *c =  closure;
 	GList *l;
 
 	/* No intersection is the common case */
@@ -425,20 +434,18 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	Range *range = &(deprange->range);
 	get_cell_dep_closure_t *c = closure;
 	GList *l;
-	int draw;
+/*	int draw;*/
 	
 	if (deprange->sheet != c->sheet)
 		return;
 
-	draw = FALSE;
-	if (c->col == 1 && c->row == 1){
-		draw = TRUE;
-	}
+/*	draw = FALSE;
+	if (c->col == 1 && c->row == 1)
+	draw = TRUE;*/
 	
 	/* No intersection is the common case */
-	if (!range_contains (range, c->col, c->row)){
+	if (!range_contains (range, c->col, c->row))
 		return;
-	}
 
 	for (l = deprange->cell_list; l; l = l->next) {
 		Cell *cell = l->data;
@@ -450,7 +457,8 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	for (l = deprange->cell_list; l; l = l->next) {
 		Cell *cell = l->data;
 
-		printf (" %s(%d), ", cell_name (cell->col->pos, cell->row->pos), cell->generation);
+		printf (" %s(%d), ", cell_name (cell->col->pos, cell->row->pos),
+			cell->generation);
 	}
 	printf ("]\n");
 #endif
@@ -471,7 +479,7 @@ cell_get_dependencies (Cell *cell)
 	closure.list = NULL;
 
 	sheets = workbook_sheets (cell->sheet->workbook);
-	for (l = sheets; l; l = l->next){
+	for (l = sheets; l; l = l->next) {
 		Sheet *sheet = l->data;
 
 		if (!sheet->dependency_hash)
@@ -587,10 +595,10 @@ pick_next_cell_from_queue (Workbook *wb)
 void
 workbook_next_generation (Workbook *wb)
 {
-	if (wb->generation == 255){
+	if (wb->generation == 255) {
 		GList *cell_list = wb->formula_cell_list;
 
-		for (; cell_list; cell_list = cell_list->next){
+		for (; cell_list; cell_list = cell_list->next) {
 			Cell *cell = cell_list->data;
 
 			cell->generation = 0;
@@ -613,7 +621,7 @@ workbook_recalc (Workbook *wb)
 	workbook_next_generation (wb);
 	generation = wb->generation;
 
-	while ((cell = pick_next_cell_from_queue (wb))){
+	while ((cell = pick_next_cell_from_queue (wb))) {
 		if (cell->generation == generation)
 			continue;
 

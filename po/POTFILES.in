@@ -45,7 +45,6 @@ src/dialogs/summary.glade.h
 src/dialogs/cell-format.glade.h
 src/dialogs/cell-sort.glade.h
 src/dialogs/dialog-zoom.glade.h
-src/dump.c
 src/embeddable-grid.c
 src/eval.c
 src/expr-name.c

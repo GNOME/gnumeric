@@ -25,17 +25,17 @@ typedef struct {
 } item_t;
 
 const guint32	sum_fmtid[4] =  {
-				 0XF29F85E0,
-		           	 0X10684FF9,
-		           	 0X000891AB,
-		           	 0XD9B3272B
+				 0xF29F85E0,
+		           	 0x10684FF9,
+		           	 0x000891AB,
+		           	 0xD9B3272B
 				};
 
 const guint32	doc_fmtid[4] =  {	
-				 0XD5CDD502,
-		           	 0X101B2E9C,
-		           	 0X00089793,
-		           	 0XAEF92C2B
+				 0xD5CDD502,
+		           	 0x101B2E9C,
+		           	 0x00089793,
+		           	 0xAEF92C2B
 			        };
 
 

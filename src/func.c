@@ -3,6 +3,7 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
+ *  Michael Meeks   (mmeeks@gnu.org)
  *
  */
 #include <config.h>
@@ -162,6 +163,306 @@ function_iterate_argument_values (const EvalPosition      *fp,
 
 /* ------------------------------------------------------------------------- */
 
+struct _FunctionDefinition {
+	char  const *name;
+	char  const *args;
+	char  const *named_arguments;
+	char       **help;
+	FuncType     fn_type;
+	union {
+		FunctionNodes *fn_nodes;
+		FunctionArgs  *fn_args;
+	} fn;
+	gpointer     user_data;
+};
+
+/**
+ * function_def_get_fn:
+ * @fn_def: the function definition
+ * 
+ * This returns a pointer to the handler of this function
+ * this is so that the same C function can map to two 
+ * slightly different gnumeric functions.
+ * 
+ * Return value: function pointer.
+ **/
+gpointer
+function_def_get_fn (FunctionDefinition *fndef)
+{
+	g_return_val_if_fail (fndef != NULL, NULL);
+
+	if (fndef->fn_type == FUNCTION_NODES)
+		return fndef->fn.fn_nodes;
+	else if (fndef->fn_type == FUNCTION_ARGS)
+		return fndef->fn.fn_args;
+
+	g_warning ("Unknown function type");
+	return NULL;
+}
+
+gpointer
+function_def_get_user_data (FunctionDefinition *fndef)
+{
+	g_return_val_if_fail (fndef != NULL, NULL);
+
+	return fndef->user_data;
+}
+
+void
+function_def_set_user_data (FunctionDefinition *fndef,
+			    gpointer user_data)
+{
+	g_return_if_fail (fndef != NULL);
+	
+	fndef->user_data = user_data;
+}
+
+const char *
+function_def_get_name (FunctionDefinition *fndef)
+{
+	g_return_val_if_fail (fndef != NULL, NULL);
+
+	return fndef->name;
+}
+
+/**
+ * function_def_count_args:
+ * @fndef: pointer to function definition
+ * @min: pointer to min. args
+ * @max: pointer to max. args
+ * 
+ * This calculates the max and min args that
+ * can be passed; NB max can be G_MAXINT for
+ * a vararg function.
+ * NB. this data is not authoratitive for a
+ * 'nodes' function.
+ * 
+ **/
+inline void
+function_def_count_args (FunctionDefinition *fndef,
+			 int *min, int *max)
+{
+	const char *ptr;
+	int   i;
+	int   vararg;
+
+	g_return_if_fail (min != NULL);
+	g_return_if_fail (max != NULL);
+	g_return_if_fail (fndef != NULL);
+
+	/*
+	 * FIXME: clearly for 'nodes' functions many of
+	 * the type fields will need to be filled.
+	 */
+	if (fndef->args == NULL) {
+		*min = 1;
+		*max = G_MAXINT;
+	}
+
+	i = vararg = 0;
+	for (ptr = fndef->args; *ptr; ptr++) {
+		if (*ptr == '|') {
+			vararg = 1;
+			*min = i;
+		} else
+			i++;
+	}
+	*max = i;
+	if (!vararg)
+		*min = i;
+}
+
+/**
+ * function_def_get_arg_type:
+ * @fndef: the fn defintion
+ * @arg_idx: zero based argument offset
+ * 
+ * Return value: the type of the argument
+ **/
+inline char
+function_def_get_arg_type (FunctionDefinition *fndef,
+			   int arg_idx)
+{
+	const char *ptr;
+
+	g_return_val_if_fail (arg_idx >= 0, '?');
+	g_return_val_if_fail (fndef != NULL, '?');
+
+	for (ptr = fndef->args; *ptr; ptr++) {
+		if (*ptr == '|')
+			continue;
+		if (arg_idx-- == 0)
+			return *ptr;
+	}
+	return '?';
+}
+
+/* ------------------------------------------------------------------------- */
+
+inline static void
+free_values (Value **values, int top)
+{
+	int i;
+
+	for (i = 0; i < top; i++)
+		if (values [i])
+			value_release (values [i]);
+	g_free (values);
+}
+
+static void
+cell_ref_make_absolute (CellRef *cell_ref,
+			const EvalPosition *ep)
+{
+	g_return_if_fail (cell_ref != NULL);
+
+	if (cell_ref->col_relative)
+		cell_ref->col = ep->eval_col + cell_ref->col;
+
+	if (cell_ref->row_relative)
+		cell_ref->row = ep->eval_row + cell_ref->row;
+
+	cell_ref->row_relative = 0;
+	cell_ref->col_relative = 0;
+}
+
+/**
+ * function_call_with_list:
+ * @ei: EvalInfo containing valid fd!
+ * @args: GList of ExprTree args.
+ * 
+ * Do the guts of calling a function.
+ * 
+ * Return value: 
+ **/
+Value *
+function_call_with_list (FunctionEvalInfo        *ei,
+			 GList                   *l)
+{
+	FunctionDefinition *fd;
+	int argc, arg;
+	Value *v = NULL;
+	Value **values;
+	int fn_argc_min = 0, fn_argc_max = 0;
+
+	g_return_val_if_fail (ei != NULL, NULL);
+	g_return_val_if_fail (ei->func_def != NULL, NULL);
+
+	fd = ei->func_def;
+	if (fd->fn_type == FUNCTION_NODES)
+		/* Functions that deal with ExprNodes */		
+	        return fd->fn.fn_nodes (ei, l);
+	
+	/* Functions that take pre-computed Values */
+	argc = g_list_length (l);
+	function_def_count_args (fd, &fn_argc_min,
+				 &fn_argc_max);
+
+	if (argc > fn_argc_max || argc < fn_argc_min)
+		return value_new_error (&ei->pos,
+					_("Invalid number of arguments"));
+
+	values = g_new (Value *, fn_argc_max);
+
+	for (arg = 0; l; l = l->next, arg++) {
+		char      arg_type;
+		ExprTree *t = (ExprTree *) l->data;
+		gboolean type_mismatch = FALSE;
+		Value *v;
+		
+		arg_type = function_def_get_arg_type (fd, arg);
+
+		if ((arg_type != 'A' &&            /* This is so a cell reference */
+		     arg_type != 'r') ||           /* can be converted to a cell range */
+		    !t || (t->oper != OPER_VAR)) { /* without being evaluated */
+			v = eval_expr (ei, t);
+/*			if ((v = eval_expr_real (ei, t)) == NULL) this shouldn't have been neccessary
+			goto free_list;*/
+		} else {
+			g_assert (t->oper == OPER_VAR);
+			v = value_new_cellrange (&t->u.ref,
+						 &t->u.ref);
+		}
+		
+		switch (arg_type) {
+		case 'f':
+		case 'b':
+		        /*
+			 * Handle the implicit union of a single row or
+			 * column with the eval position
+			 */
+			if (v->type == VALUE_CELLRANGE) {
+				CellRef a = v->v.cell_range.cell_a;
+				CellRef b = v->v.cell_range.cell_b;
+				cell_ref_make_absolute (&a, &ei->pos);
+				cell_ref_make_absolute (&b, &ei->pos);
+				
+				if (a.sheet !=  b.sheet)
+					type_mismatch = TRUE;
+				else if (a.row == b.row) {
+					int const c = ei->pos.eval_col;
+					if (a.col <= c && c <= b.col)
+						v = value_duplicate (value_area_get_x_y (&ei->pos, v, c - a.col, 0));
+					else
+						type_mismatch = TRUE;
+				} else if (a.col == b.col) {
+					int const r = ei->pos.eval_row;
+					if (a.row <= r && r <= b.row)
+						v = value_duplicate (value_area_get_x_y (&ei->pos, v, 0, r - a.row));
+					else
+						type_mismatch = TRUE;
+				} else
+					type_mismatch = TRUE;
+			} else if (v->type != VALUE_INTEGER &&
+				   v->type != VALUE_FLOAT &&
+				   v->type != VALUE_BOOLEAN)
+				type_mismatch = TRUE;
+			break;
+		case 's':
+			if (v->type != VALUE_STRING)
+				type_mismatch = TRUE;
+			break;
+		case 'r':
+			if (v->type != VALUE_CELLRANGE)
+				type_mismatch = TRUE;
+			else {
+				cell_ref_make_absolute (&v->v.cell_range.cell_a, &ei->pos);
+				cell_ref_make_absolute (&v->v.cell_range.cell_b, &ei->pos);
+			}
+			break;
+		case 'a':
+			if (v->type != VALUE_ARRAY)
+				type_mismatch = TRUE;
+			break;
+		case 'A':
+			if (v->type != VALUE_ARRAY &&
+			    v->type != VALUE_CELLRANGE)
+				type_mismatch = TRUE;
+			
+			if (v->type == VALUE_CELLRANGE) {
+				cell_ref_make_absolute (&v->v.cell_range.cell_a, &ei->pos);
+				cell_ref_make_absolute (&v->v.cell_range.cell_b, &ei->pos);
+			}
+			break;
+		}
+		values [arg] = v;
+		if (type_mismatch) {
+			free_values (values, arg + 1);
+			return value_new_error (&ei->pos,
+						gnumeric_err_VALUE);
+		}
+	}
+	while (arg < fn_argc_max)
+		values [arg++] = NULL;
+	v = fd->fn.fn_args (ei, values);
+	
+/*free_list:*/
+	free_values (values, arg);
+	return v;	
+}
+
+/* ------------------------------------------------------------------------- */
+
 GList *
 function_categories_get (void)
 {
@@ -169,22 +470,22 @@ function_categories_get (void)
 }
 
 TokenizedHelp *
-tokenized_help_new (FunctionDefinition *fd)
+tokenized_help_new (FunctionDefinition *fndef)
 {
 	TokenizedHelp *tok;
 
-	g_return_val_if_fail (fd != NULL, NULL);
+	g_return_val_if_fail (fndef != NULL, NULL);
 
 	tok = g_new (TokenizedHelp, 1);
 
-	tok->fd = fd;
+	tok->fndef = fndef;
 
-	if (fd->help && fd->help [0]){
+	if (fndef->help && fndef->help [0]){
 		char *ptr;
 		int seek_att = 1;
 		int last_newline = 1;
 
-		tok->help_copy = g_strdup (fd->help [0]);
+		tok->help_copy = g_strdup (fndef->help [0]);
 		tok->sections = g_ptr_array_new ();
 		ptr = tok->help_copy;
 
@@ -224,7 +525,7 @@ tokenized_help_find (TokenizedHelp *tok, const char *token)
 	if (!tok || !tok->sections)
 		return "Incorrect Function Description.";
 
-	for (lp = 0; lp < tok->sections->len-1; lp++){
+	for (lp = 0; lp < tok->sections->len-1; lp++) {
 		const char *cmp = g_ptr_array_index (tok->sections, lp);
 
 		if (strcasecmp (cmp, token) == 0){
@@ -283,33 +584,35 @@ function_get_category (gchar const *description)
 }
 
 static void
-fn_def_init (FunctionDefinition *fd,
+fn_def_init (FunctionDefinition *fndef,
 	     char const *name, char const *args, char const *arg_names, char **help)
 {
 	int lp, lp2;
 	char valid_tokens[] = "fsbraA?|";
-	g_return_if_fail (fd);
+
+	g_return_if_fail (fndef != NULL);
 
 	/* Check those arguements */
 	if (args) {
 		int lena = strlen (args);
 		int lenb = strlen (valid_tokens);
-		for (lp=0;lp<lena;lp++) {
+		for (lp = 0; lp < lena; lp++) {
 			int ok = 0;
-			for (lp2=0;lp2<lenb;lp2++)
-				if (valid_tokens[lp2] == args[lp])
+			for (lp2 = 0; lp2 < lenb; lp2++)
+				if (valid_tokens [lp2] == args [lp])
 					ok = 1;
 			g_return_if_fail (ok);
 		}
 	}
 
-	fd->name      = name;
-	fd->args      = args;
-	fd->help      = help;
-	fd->named_arguments = arg_names;
+	fndef->name      = name;
+	fndef->args      = args;
+	fndef->help      = help;
+	fndef->named_arguments = arg_names;
+	fndef->user_data = NULL;
 
 	symbol_install (global_symbol_table, name,
-			SYMBOL_FUNCTION, fd);
+			SYMBOL_FUNCTION, fndef);
 }
 
 FunctionDefinition *
@@ -320,18 +623,18 @@ function_add_nodes (FunctionCategory *parent,
 		    char **help,
 		    FunctionNodes *fn)
 {
-	FunctionDefinition *fd;
+	FunctionDefinition *fndef;
 
-	g_return_val_if_fail (fn, NULL);
-	g_return_val_if_fail (parent, NULL);
+	g_return_val_if_fail (fn != NULL, NULL);
+	g_return_val_if_fail (parent != NULL, NULL);
 
-	fd = g_new (FunctionDefinition, 1);
-	fn_def_init (fd, name, args, arg_names, help);
+	fndef = g_new (FunctionDefinition, 1);
+	fn_def_init (fndef, name, args, arg_names, help);
 
-	fd->fn_type     = FUNCTION_NODES;
-	fd->fn.fn_nodes = fn;
-	parent->functions = g_list_append (parent->functions, fd);
-	return fd;
+	fndef->fn_type     = FUNCTION_NODES;
+	fndef->fn.fn_nodes = fn;
+	parent->functions = g_list_append (parent->functions, fndef);
+	return fndef;
 }
 
 FunctionDefinition *
@@ -342,23 +645,23 @@ function_add_args (FunctionCategory *parent,
 		   char **help,
 		   FunctionArgs *fn)
 {
-	FunctionDefinition *fd;
+	FunctionDefinition *fndef;
 
-	g_return_val_if_fail (fn, NULL);
-	g_return_val_if_fail (parent, NULL);
+	g_return_val_if_fail (fn != NULL, NULL);
+	g_return_val_if_fail (parent != NULL, NULL);
 
-	fd = g_new (FunctionDefinition, 1);
-	fn_def_init (fd, name, args, arg_names, help);
+	fndef = g_new (FunctionDefinition, 1);
+	fn_def_init (fndef, name, args, arg_names, help);
 
-	fd->fn_type    = FUNCTION_ARGS;
-	fd->fn.fn_args = fn;
-	parent->functions = g_list_append (parent->functions, fd);
-	return fd;
+	fndef->fn_type    = FUNCTION_ARGS;
+	fndef->fn.fn_args = fn;
+	parent->functions = g_list_append (parent->functions, fndef);
+	return fndef;
 }
 
 Value *
 function_def_call_with_values (const EvalPosition *ep,
-			       FunctionDefinition *fd,
+			       FunctionDefinition *fndef,
 			       int                 argc,
 			       Value              *values [])
 {
@@ -367,7 +670,7 @@ function_def_call_with_values (const EvalPosition *ep,
 
 	func_eval_info_pos (&s, ep);
 
-	if (fd->fn_type == FUNCTION_NODES) {
+	if (fndef->fn_type == FUNCTION_NODES) {
 		/*
 		 * If function deals with ExprNodes, create some
 		 * temporary ExprNodes with constants.
@@ -376,27 +679,27 @@ function_def_call_with_values (const EvalPosition *ep,
 		GList *l = NULL;
 		int i;
 
-		if (argc){
+		if (argc) {
 			tree = g_new (ExprTree, argc);
 
-			for (i = 0; i < argc; i++){
+			for (i = 0; i < argc; i++) {
 				tree [i].oper = OPER_CONSTANT;
 				tree [i].ref_count = 1;
 				tree [i].u.constant = values [i];
 
-				l = g_list_append (l, &(tree[i]));
+				l = g_list_append (l, &(tree [i]));
 			}
 		}
 
-		retval = fd->fn.fn_nodes (&s, l);
+		retval = fndef->fn.fn_nodes (&s, l);
 
-		if (tree){
+		if (tree) {
 			g_free (tree);
 			g_list_free (l);
 		}
 
 	} else
-		retval = fd->fn.fn_args (&s, values);
+		retval = fndef->fn.fn_args (&s, values);
 
 	return retval;
 }
@@ -407,15 +710,15 @@ function_def_call_with_values (const EvalPosition *ep,
  */
 Value *
 function_call_with_values (const EvalPosition *ep, const char *name,
-			   int argc, Value *values[])
+			   int argc, Value *values [])
 {
-	FunctionDefinition *fd;
+	FunctionDefinition *fndef;
 	Value *retval;
 	Symbol *sym;
 
-	g_return_val_if_fail (ep, NULL);
-	g_return_val_if_fail (ep->sheet != NULL, NULL);
+	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (ep->sheet != NULL, NULL);
 
 	sym = symbol_lookup (global_symbol_table, name);
 	if (sym == NULL)
@@ -423,10 +726,10 @@ function_call_with_values (const EvalPosition *ep, const char *name,
 	if (sym->type != SYMBOL_FUNCTION)
 		return value_new_error (ep, _("Calling non-function"));
 
-	fd = sym->data;
+	fndef = sym->data;
 
 	symbol_ref (sym);
-	retval = function_def_call_with_values (ep, fd, argc, values);
+	retval = function_def_call_with_values (ep, fndef, argc, values);
 	
 	symbol_unref (sym);
 
@@ -449,3 +752,35 @@ functions_init (void)
 	information_functions_init ();
 }
 
+/* ------------------------------------------------------------------------- */
+
+static FILE *output_file;
+
+static void
+dump_func_help (gpointer key, gpointer value, gpointer user_data)
+{
+	Symbol *sym = value;
+	FunctionDefinition *fd;
+	
+	if (sym->type != SYMBOL_FUNCTION)
+		return;
+	fd = sym->data;
+
+	if (fd->help)
+		fprintf (output_file, "%s\n\n", _( *(fd->help) ) );
+}
+
+void
+function_dump_defs (const char *filename)
+{
+	g_return_if_fail (filename != NULL);
+	
+	if ((output_file = fopen (filename, "w")) == NULL){
+		printf (_("Can not create file %s\n"), filename);
+		exit (1);
+	}
+
+	g_hash_table_foreach (global_symbol_table->hash, dump_func_help, NULL);
+
+	fclose (output_file);
+}

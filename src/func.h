@@ -58,15 +58,18 @@ Value      *function_call_with_values     (const EvalPosition *ep,
 					   Value              *values []);
 
 Value      *function_def_call_with_values (const EvalPosition *ep,
-					   FunctionDefinition *fd,
+					   FunctionDefinition *fndef,
 					   int                 argc,
 					   Value              *values []);
 
-Value      *function_iterate_do_value (const EvalPosition      *fp,
-				       FunctionIterateCallback callback,
-				       void                    *closure,
-				       Value                   *value,
-				       gboolean                strict);
+Value      *function_iterate_do_value     (const EvalPosition      *fp,
+					   FunctionIterateCallback callback,
+					   void                    *closure,
+					   Value                   *value,
+					   gboolean                strict);
+
+Value      *function_call_with_list       (FunctionEvalInfo        *ei,
+					   GList                   *args);
 
 /*
  * Gnumeric function defintion API.
@@ -77,6 +80,19 @@ struct _FunctionCategory {
 	GList *functions;
 };
 FunctionCategory   *function_get_category (gchar const *description);
+
+/*
+ * Functions come in two fashions:  Those that only deal with
+ * very specific data types and a constant number of arguments,
+ * and those who don't.
+ *
+ * The former kind of functions receives a precomputed array of
+ * Value pointers.
+ *
+ * The latter sort of functions receives the plain ExprNodes and
+ * it is up to that routine to do the value computations and range
+ * processing.
+ */
 
 /**
  *  Argument tokens passed in 'args'
@@ -105,12 +121,28 @@ FunctionDefinition *function_add_nodes (FunctionCategory *parent,
 					char **help,
 					FunctionNodes *fn);
 
+gpointer function_def_get_fn           (FunctionDefinition *fndef);
+void     function_def_set_user_data    (FunctionDefinition *fndef,
+					gpointer user_data);
+
+gpointer function_def_get_user_data    (FunctionDefinition *fndef);
+
+void     function_def_count_args       (FunctionDefinition *fndef,
+					int *min, int *max);
+/* 0 based arg_index */
+char     function_def_get_arg_type     (FunctionDefinition *fndef,
+					int arg_idx);
+const char *function_def_get_name      (FunctionDefinition *fndef);
+
+/* Used to build manual */
+void     function_dump_defs            (const char *filename);
+
 GList *function_categories_get (void);
 
 typedef struct {
 	GPtrArray *sections;
 	char      *help_copy;
-	FunctionDefinition *fd;
+	FunctionDefinition *fndef;
 } TokenizedHelp;
 
 typedef struct {
@@ -119,7 +151,7 @@ typedef struct {
         gboolean afun_flag;
 } stat_closure_t;
 
-TokenizedHelp *tokenized_help_new     (FunctionDefinition *fd);
+TokenizedHelp *tokenized_help_new     (FunctionDefinition *fndef);
 const char    *tokenized_help_find    (TokenizedHelp *tok, const char *token);
 void           tokenized_help_destroy (TokenizedHelp *tok);
 

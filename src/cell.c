@@ -630,7 +630,7 @@ cell_set_array_formula (Sheet *sheet,
 		for (y = 0; y < num_rows; ++y) {
 			if (x == 0 && y == 0)
 				continue;
-			cell = sheet_cell_fetch (sheet, col_a+x,row_a+y);
+			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
 			wrapper = expr_tree_array_formula (x, y,
 							   num_rows, num_cols);
 			wrapper->u.array.corner.cell = corner;

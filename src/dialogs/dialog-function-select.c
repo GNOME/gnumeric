@@ -72,7 +72,7 @@ function_definition_update (SelectorState *selector_state)
 		gchar *cols [1];
 		FunctionDefinition *fn = p->data;
 		
-		cols[0] = (gchar *)fn->name; /* Const cast */
+		cols[0] = (gchar *)function_def_get_name (fn); /* Const cast */
 		gtk_clist_append (cl, cols);
 		
 		if (i == selector_state->selected_func)

@@ -14,7 +14,6 @@
 #include "format.h"
 #include "cursors.h"
 #include "number-match.h"
-#include "dump.h"
 #include "main.h"
 #include "application.h"
 #include "global-gnome-font.h"
@@ -113,8 +112,8 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	if (startup_glade_file)
 		glade_xml_new (startup_glade_file, NULL);
 
-	if (dump_file_name){
-		dump_functions (dump_file_name);
+	if (dump_file_name) {
+		function_dump_defs (dump_file_name);
 		exit (0);
 	}
 

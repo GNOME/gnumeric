@@ -75,8 +75,8 @@ arg_data_list_new (State *state)
 	gchar *copy_args;
 	const gchar *syntax;
 	gchar *ptr, *start = NULL;
-	gchar const *type;
-	int optional = 0;
+	int i;
+	int arg_max, arg_min;
 
 	if (!state || !state->fd ||
 	    !state->tok)
@@ -84,18 +84,18 @@ arg_data_list_new (State *state)
 	
 	state->args = g_ptr_array_new ();
 
-	type = state->fd->args;
-	if (!type){
+	function_def_count_args (state->fd, &arg_min, &arg_max);
+	if (arg_max == G_MAXINT) {
 		int lp;
 		
-		for (lp = 0; lp < INPUTS_FOR_MULTI_ARG; lp++){
+		for (lp = 0; lp < INPUTS_FOR_MULTI_ARG; lp++) {
 			ARG_DATA *ad;
 
 			ad = g_new (ARG_DATA, 1);
 			ad->arg_name = g_strdup ("Value");
 			ad->wb = state->wb;
 			ad->type = '?';
-			ad->optional = (lp!=0);
+			ad->optional = (lp != 0);
 			ad->entry = NULL;
 			g_ptr_array_add (state->args, ad);
 		}
@@ -103,41 +103,37 @@ arg_data_list_new (State *state)
 	}
 
 	syntax = tokenized_help_find (state->tok, "SYNTAX");
-	if (!syntax){
+	if (!syntax) {
 		g_ptr_array_free (state->args, FALSE);
 		state->args = NULL;
 		return;
 	}
 	ptr = copy_args = g_strdup (syntax);
-
-	while (*ptr){
+	i   = 0;
+	while (*ptr) {
 		if (*ptr == '(' && !start)
-			start = ptr+1;
-		if (*ptr == '[' || *ptr == ']'){
+			start = ptr + 1;
+		if (*ptr == '[' || *ptr == ']') {
 			*ptr = '\0';
 			if (start == ptr)
 				start++;
 			ptr++;
 			continue;
 		}
-		if (*ptr == ',' || *ptr == ')'){
-			if (*type=='|'){
-				type++;
-				optional = 1;
-			}
-			if (ptr > start){
+		if (*ptr == ',' || *ptr == ')') {
+			if (ptr > start) {
 				ARG_DATA *ad;
 				ad = g_new (ARG_DATA, 1);
-				ad->arg_name = g_strndup (start, (int)(ptr-start));
+				ad->arg_name = g_strndup (start, (int)(ptr - start));
 				ad->wb = state->wb;
 				
-				ad->type = *type;
-				ad->optional = optional;
+				ad->type = function_def_get_arg_type (state->fd, i);
+				ad->optional = (i >= arg_min);
 				ad->entry = NULL;
 				g_ptr_array_add (state->args, ad);
+				i++;
 			}
-			type++;
-			start = ptr+1;
+			start = ptr + 1;
 		}
 		ptr++;
 	}
@@ -284,19 +280,21 @@ static char*
 get_text_value (State *state)
 {
 	gchar *txt, *txt2;
-	int lp;
+	const char *name;
+	int    lp;
 
-	g_return_val_if_fail (state, NULL);
-	g_return_val_if_fail (state->fd, NULL);
-	g_return_val_if_fail (state->args, NULL);
+	g_return_val_if_fail (state != NULL, NULL);
+	g_return_val_if_fail (state->fd != NULL, NULL);
+	g_return_val_if_fail (state->args != NULL, NULL);
 
-	txt = g_strconcat (state->fd->name, "(", NULL);
+	name = function_def_get_name (state->fd);
+	txt = g_strconcat (name, "(", NULL);
 
-	for (lp = 0; lp < state->args->len; lp++){
+	for (lp = 0; lp < state->args->len; lp++) {
 		ARG_DATA *ad = g_ptr_array_index (state->args, lp);
 		gchar *val = gtk_entry_get_text (ad->entry);
 
-		if (!ad->optional || strlen(val)){
+		if (!ad->optional || strlen (val)) {
 			txt2 = txt;
 			txt = g_strconcat (txt2, lp?",":"", val, NULL);
 			g_free (txt2);

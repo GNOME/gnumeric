@@ -246,6 +246,10 @@ Office 2000 and 'explorer' compatibility.
       2. Pre-parse formulas
       3. Pre-render contents.
 
+   struct _Cell should be optimized with a typed union; merge
+   text, entered_text. Think about width, height, render_color
+   merge flags + generation + move comments to a parallel hash.
+
 * Rendering
 
   * Sort out the cell span stuff
@@ -254,10 +258,13 @@ Office 2000 and 'explorer' compatibility.
 
 * Calculation
   * Rework dependencies to only supply one level of indirection.
+  * Rework 'Name' dependencies so we can re-express names.
   * Think about allowing a formula to specify that it does not depend on the
     contents of a reference, only the adress (ie the AREAS function)
   * Dependancies for - INDIRECT and CELL functions.
-		     - Sheet objects.
+		     - Sheet objects
+  * Teach dependencies about implicit intersections
+    ( big speedup (assesed2.xls))
 
 * Drawing
   * Rework borders to agregate the lines and draw them after backgrounds

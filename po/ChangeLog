@@ -1,3 +1,7 @@
+1999-12-05  Michael Meeks  <mmeeks@gnu.org>
+
+	* POTFILES.in: hack dump.c
+
 1999-12-01  Richard Hult  <rhult@hem2.passagen.se>
 
 	* sv.po: Updated Swedish translation.

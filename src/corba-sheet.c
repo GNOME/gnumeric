@@ -424,13 +424,13 @@ Sheet_cell_get_text (PortableServer_Servant servant,
 		     CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
+	Cell  *cell;
 
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
 	
 	cell = sheet_cell_get (sheet, col, row);
-	if (cell){
+	if (cell) {
 		char *str;
 
 		str = cell_get_text (cell);

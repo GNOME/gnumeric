@@ -66,7 +66,7 @@ item_grid_realize (GnomeCanvasItem *item)
 	 * This makes the redraws when the canvas scrolls flicker less.
 	 */
 	style = gtk_style_copy (GTK_WIDGET (item->canvas)->style);
-	style->bg[GTK_STATE_NORMAL] = gs_white;
+	style->bg [GTK_STATE_NORMAL] = gs_white;
 	gtk_widget_set_style (GTK_WIDGET (item->canvas), style);
 	gtk_style_unref (style);
 
@@ -90,7 +90,7 @@ item_grid_realize (GnomeCanvasItem *item)
 	/* Find out how we need to draw the selection with the current visual */
 	visual = gtk_widget_get_visual (GTK_WIDGET (canvas));
 
-	switch (visual->type){
+	switch (visual->type) {
 	case GDK_VISUAL_STATIC_GRAY:
 	case GDK_VISUAL_TRUE_COLOR:
 	case GDK_VISUAL_STATIC_COLOR:
@@ -153,7 +153,7 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 	do {
 		ColRowInfo *ci = sheet_col_get_info (item_grid->sheet, col);
 
-		if (x >= pixel && x <= pixel + ci->pixels){
+		if (x >= pixel && x <= pixel + ci->pixels) {
 			if (col_origin)
 				*col_origin = pixel;
 			return col;
@@ -184,7 +184,7 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	do {
 		ColRowInfo *ri = sheet_row_get_info (item_grid->sheet, row);
 
-		if (y >= pixel && y <= pixel + ri->pixels){
+		if (y >= pixel && y <= pixel + ri->pixels) {
 			if (row_origin)
 				*row_origin = pixel;
 			return row;
@@ -215,7 +215,7 @@ item_grid_invert_gc (ItemGrid *item_grid)
 	gc = item_grid->gc;
 	gdk_gc_set_clip_rectangle (gc, NULL);
 
-	if (item_grid->visual_is_paletted){
+	if (item_grid->visual_is_paletted) {
 		gdk_gc_set_function (gc, GDK_XOR);
 		gdk_gc_set_foreground (gc, &gs_white);
 	} else {
@@ -398,7 +398,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	gdk_gc_set_function (item_grid->gc, GDK_COPY);
 
 	row = paint_row;
-	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++){
+	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
 		ColRowInfo *ri;
 
 		ri = sheet_row_get_info (sheet, row);
@@ -412,7 +412,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			cell = sheet_cell_get (sheet, col, row);
 
 			/* If the cell does not exist paint it as an empty cell */
-			if (cell == NULL){
+			if (cell == NULL) {
 				item_grid_paint_empty_cell (
 					drawable, item_grid, ci, ri,
 					col, row, x_paint, y_paint,
@@ -423,7 +423,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					x_paint, y_paint);
 			}
 
-			if (cell_is_blank (cell) && (ri->pos != -1)){
+			if (cell_is_blank (cell) && (ri->pos != -1)) {
 				/*
 				 * If there was no cell, and the row has any cell allocated
 				 * (indicated by ri->pos != -1)
@@ -437,13 +437,13 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				 * cell, adjust x to point to the beginning
 				 * of that cell.
 				 */
-				if (cell){
+				if (cell) {
 					int i, count, end_col;
 
 					/*
 					 * Either adjust the left part
 					 */
-					for (i = cell->col->pos; i < col; i++){
+					for (i = cell->col->pos; i < col; i++) {
 						ColRowInfo *tci;
 
 						tci = sheet_col_get_info (sheet, i);
@@ -453,7 +453,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					/*
 					 * Or adjust the right part
 					 */
-					for (i = col; i < cell->col->pos; i++){
+					for (i = col; i < cell->col->pos; i++) {
 						ColRowInfo *tci;
 
 						tci = sheet_col_get_info (
@@ -475,7 +475,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					 */
 					end_col = cell->col->pos + count;
 
-					for (i = col+1; i < end_col; i++, col++){
+					for (i = col+1; i < end_col; i++, col++) {
 						ColRowInfo *tci;
 
 						tci = sheet_col_get_info (
@@ -494,7 +494,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	item_grid_invert_gc (item_grid);
 
 	row = paint_row;
-	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++){
+	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; row++) {
 		ColRowInfo *ri, *ci;
 
 		ri = sheet_row_get_info (sheet, row);
