@@ -448,7 +448,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 static inline gboolean
 workbook_is_dirty (Workbook *wb)
 {
-	gboolean dirty;
+	gboolean dirty = FALSE;
 	
 	g_return_val_if_fail (wb != NULL, FALSE);
 
@@ -488,7 +488,8 @@ workbook_is_pristine (Workbook *wb)
 		return FALSE;
 
 	if (wb->names || wb->formula_cell_list ||
-	    wb->eval_queue || !wb->needs_name)
+	    wb->eval_queue || !wb->needs_name ||
+	    wb->bonobo_regions)
 		return FALSE;
 
 	/* Check if we seem to contain anything */
@@ -1912,7 +1913,7 @@ workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
 		return CORBA_OBJECT_NIL;
 
 	p = strchr (item_name, '!');
-	if (p){
+	if (p) {
 		*p++ = 0;
 
 		if (!range_parse (sheet, p, &range))
@@ -1938,7 +1939,7 @@ workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
 	/*
 	 * Do we have further configuration information?
 	 */
-	if (range){
+	if (range) {
 		CellRef *a = &range->v.cell_range.cell_a;
 		CellRef *b = &range->v.cell_range.cell_b;
 
@@ -2156,7 +2157,10 @@ workbook_new (void)
 #else
 	{
 		GnomeUIHandlerMenuItem *list;
-		
+
+		wb->bonobo_regions  = NULL;
+		wb->persist_file    = NULL;
+		wb->gnome_container = NULL;
 		wb->uih = gnome_ui_handler_new ();
 		gnome_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
 		gnome_ui_handler_create_menubar (wb->uih);
