@@ -117,7 +117,8 @@ function_dump_defs (char const *filename, gboolean as_def)
 		       func_def_cmp);
 
 	if (!as_def)
-		fprintf (output_file, "<table>\n");
+		fprintf (output_file, "<table border=1>\n");
+
 	for (i = 0; i < ordered->len; i++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
 		if (as_def) {
@@ -148,7 +149,7 @@ function_dump_defs (char const *filename, gboolean as_def)
 			};
 			if (group != fd->fn_group) {
 				group = fd->fn_group;
-				fprintf (output_file, "<tr><td><h1>%s</h1></td></tr>\n", group->display_name->str);
+				fprintf (output_file, "<tr><td><h1>%s</h1></td><td><b>Function</b></td><td><b>Implementation</b></td><td><b>Testing</b></td></tr>\n", group->display_name->str);
 			}
 			fprintf (output_file, "<tr><td></td>\n");
 			fprintf (output_file,
