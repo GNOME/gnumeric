@@ -368,8 +368,8 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 	case GDK_KP_Tab:
 		if (scg->selected_objects != NULL) {
 			Sheet *sheet = sc_sheet (sc);
-			GList *ptr = sheet->sheet_objects;
-			for (; ptr != NULL ; ptr = ptr->next)
+			GSList *prev = NULL, *ptr = sheet->sheet_objects;
+			for (; ptr != NULL ; prev = ptr, ptr = ptr->next)
 				if (NULL != g_hash_table_lookup (scg->selected_objects, ptr->data)) {
 					SheetObject *target;
 					if ((ev->state & GDK_SHIFT_MASK)) {
@@ -378,11 +378,11 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 						else
 							target = ptr->next->data;
 					} else {
-						if (ptr->prev == NULL) {
-							GList *last = g_list_last (ptr);
+						if (NULL == prev) {
+							GSList *last = g_slist_last (ptr);
 							target = last->data;
 						} else
-							target = ptr->prev->data;
+							target = prev->data;
 					}
 					if (ptr->data != target) {
 						scg_object_unselect (scg, NULL);

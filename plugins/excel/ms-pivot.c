@@ -265,8 +265,7 @@ const sal_uInt16 EXC_SXFIELD_INDEX_STEP     = 2;        /// List index for step 
 			case 8:    "numeric"   break;
 			default:   "unknown"
 #endif
-			d (2, fprintf (stderr, "group with 0x%hx flag;\n",
-				       flags, type););
+			d (2, fprintf (stderr, "group with 0x%hx flag;\n", flags););
 		}
 		break;
 

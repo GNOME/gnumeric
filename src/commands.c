@@ -4751,7 +4751,7 @@ typedef struct {
 	GnmCellRegion *content;
 	ColRowStateList         *col_info;
 	ColRowStateList         *row_info;
-	GList                   *sheet_objects;
+	GSList                  *sheet_objects;
 } cmd_reorganize_sheets_delete_t;
 
 static cmd_reorganize_sheets_delete_t *
@@ -4760,7 +4760,7 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 	cmd_reorganize_sheets_delete_t *data;
 	Sheet *sheet;
 	GnmRange r;
-	GList *l;
+	GSList *l;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (pos < (guint)workbook_sheet_count (wb), NULL);
@@ -4777,16 +4777,14 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 			GObject *so = l->data;
 			g_object_unref (so);
 		}
-		g_list_free (data->sheet_objects);
+		g_slist_free (data->sheet_objects);
 		data->sheet_objects = NULL;
 	} 
 	data->sheet_objects = NULL;
-	for (l = sheet->sheet_objects; l != NULL; l = l->next) {
-		data->sheet_objects 
-			= g_list_prepend (data->sheet_objects,
-					  l->data);
-	}
-	data->sheet_objects = g_list_reverse (data->sheet_objects);
+	for (l = sheet->sheet_objects; l != NULL; l = l->next)
+		data->sheet_objects = g_slist_prepend (data->sheet_objects, l->data);
+
+	data->sheet_objects = g_slist_reverse (data->sheet_objects);
 	for (l = data->sheet_objects; l != NULL; l = l->next) {
 		SheetObject *so = l->data;
 		g_object_ref (G_OBJECT (so));
@@ -4863,7 +4861,7 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 {
 	Sheet *a_new_sheet;
 	guint pos = sheet->pos;
-	GList *l;
+	GSList *l;
 
 	a_new_sheet = sheet_new (wb, sheet->name);
 	if (pos != 0)
@@ -4897,7 +4895,7 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 			sheet_object_set_sheet (so, a_new_sheet);
 			g_object_unref (G_OBJECT (so));
 		}
-		g_list_free (sheet->sheet_objects);
+		g_slist_free (sheet->sheet_objects);
 		sheet->sheet_objects = NULL;
 	} 
 }
@@ -4905,7 +4903,7 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 static void
 cmd_reorganize_sheets_delete_free (cmd_reorganize_sheets_delete_t *sheet)
 {
-	GList *l;
+	GSList *l;
 
 	g_return_if_fail (sheet != NULL);
 	cellregion_unref (sheet->content);
@@ -4919,7 +4917,7 @@ cmd_reorganize_sheets_delete_free (cmd_reorganize_sheets_delete_t *sheet)
 			GObject *so = l->data;
 			g_object_unref (so);
 		}
-		g_list_free (sheet->sheet_objects);
+		g_slist_free (sheet->sheet_objects);
 		sheet->sheet_objects = NULL;
 	} 
 	g_free (sheet);

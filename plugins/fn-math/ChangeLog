@@ -1,3 +1,9 @@
+2005-04-04  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=171509
+	* functions.c (gnumeric_sumif) : relax the 3d-ref check
+	(gnumeric_countif) : ditto.
+
 2005-02-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	
 	* functions.c (help_rounddown): change documentation text

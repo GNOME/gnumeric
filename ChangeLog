@@ -1,3 +1,16 @@
+2005-04-04  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-read.c : moved into the core from a plugin
+	* src/xml-sax-write.c : ditto.
+	(gnm_cellregion_to_xml) : new.
+
+	* src/xml-io.c (xml_cellregion_write) : delete the DOM based version.
+	(xml_init) : register the sax in/out routines
+
+2005-04-04  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-clipboard.c (cellregion_to_string) : remove offset.
+
 2005-04-02  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (perl): Fix perl checks.  (I hope.)

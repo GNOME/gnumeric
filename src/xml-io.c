@@ -1593,8 +1593,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt,
 
 	/* As of version 0.53 we save the ID of shared expressions */
 	if (is_shared_expr) {
-		gconstpointer const expr = expr;
-		gpointer id = g_hash_table_lookup (ctxt->expr_map, expr);
+		gpointer id = g_hash_table_lookup (ctxt->expr_map, (gpointer) expr);
 
 		if (id == NULL) {
 			id = GINT_TO_POINTER (g_hash_table_size (ctxt->expr_map) + 1);
@@ -1607,18 +1606,6 @@ xml_write_cell_and_position (XmlParseContext *ctxt,
 
 	if (write_contents) {
 		GString *str = g_string_sized_new (1000);
-		if (expr) {
-			g_string_append_c (str, '=');
-			gnm_expr_as_gstring (str, expr, pp, ctxt->exprconv);
-		} else
-			value_get_as_gstring (val, str, ctxt->exprconv);
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (str->str));
-		g_string_free (str, TRUE);
-
-		xmlNodeSetContent (cellNode, CC2XML (tstr));
-		if (tstr)
-			xmlFree (tstr);
-
 		if (NULL == expr) {
 			g_return_val_if_fail (val != NULL, cellNode);
 
@@ -1629,7 +1616,16 @@ xml_write_cell_and_position (XmlParseContext *ctxt,
 				xmlSetProp (cellNode, CC2XML ("ValueFormat"), CC2XML (fmt));
 				g_free (fmt);
 			}
+			value_get_as_gstring (val, str, ctxt->exprconv);
+		} else {
+			g_string_append_c (str, '=');
+			gnm_expr_as_gstring (str, expr, pp, ctxt->exprconv);
 		}
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (str->str));
+		xmlNodeSetContent (cellNode, CC2XML (tstr));
+		if (tstr)
+			xmlFree (tstr);
+		g_string_free (str, TRUE);
 	}
 
 	/* As of version 0.53 we save the size of the array as attributes */
@@ -2783,12 +2779,11 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	if (sheet->sheet_objects != NULL) {
 		xmlNodePtr objects = xmlNewChild (sheetNode, ctxt->ns,
 						  CC2XML ("Objects"), NULL);
-		GList *l = sheet->sheet_objects;
-		while (l) {
-			child = xml_write_sheet_object (ctxt, l->data);
+		GSList *ptr;
+		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next) {
+			child = xml_write_sheet_object (ctxt, ptr->data);
 			if (child)
 				xmlAddChild (objects, child);
-			l = l->next;
 		}
 	}
 
@@ -3268,87 +3263,6 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 	xmlFreeDoc (doc);
 
 	return cr;
-}
-
-/**
- * xml_cellregion_write :
- * @wbc : where to report errors.
- * @cr  : the content to store.
- * @size: store the size of the buffer here.
- *
- * Caller is responsible for xmlFree-ing the result.
- * returns NULL on error
- **/
-xmlChar *
-xml_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr, int *size)
-{
-	XmlParseContext *ctxt;
-	xmlNode   *clipboard, *container = NULL;
-	GSList    *ptr;
-	GnmStyleList *s_ptr;
-	CellCopyList *c_ptr;
-	xmlChar	  *buffer;
-	GnmParsePos   pp;
-
-	g_return_val_if_fail (cr != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
-
-	/* Create the tree */
-	ctxt = xml_parse_ctx_new (xmlNewDoc (CC2XML ("1.0")), NULL, NULL), NULL;
-	clipboard = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("ClipboardRange"), NULL);
-	xml_node_set_int (clipboard, "Cols", cr->cols);
-	xml_node_set_int (clipboard, "Rows", cr->rows);
-	xml_node_set_int (clipboard, "BaseCol", cr->base.col);
-	xml_node_set_int (clipboard, "BaseRow", cr->base.row);
-	if (cr->not_as_content)
-		xml_node_set_int (clipboard, "NotAsContent", 1);
-
-	/* styles */
-	if (cr->styles != NULL)
-		container = xmlNewChild (clipboard, clipboard->ns, CC2XML ("Styles"), NULL);
-	for (s_ptr = cr->styles ; s_ptr != NULL ; s_ptr = s_ptr->next) {
-		GnmStyleRegion const *sr = s_ptr->data;
-		xmlAddChild (container, xml_write_style_region (ctxt, sr));
-	}
-
-	/* merges */
-	if (cr->merged != NULL)
-		container = xmlNewChild (clipboard, clipboard->ns, CC2XML ("MergedRegions"), NULL);
-	for (ptr = cr->merged ; ptr != NULL ; ptr = ptr->next) {
-		GnmRange const *m_range = ptr->data;
-		xmlNewChild (container, container->ns, CC2XML ("Merge"),
-			     CC2XML (range_name (m_range)));
-	}
-
-	/* NOTE SNEAKY : ensure that sheet names have explicit workbooks */
-	pp.wb = NULL;
-	pp.sheet = cr->origin_sheet;
-
-	/* cells */
-	if (cr->content != NULL)
-		container = xmlNewChild (clipboard, clipboard->ns, CC2XML ("Cells"), NULL);
-	for (c_ptr = cr->content; c_ptr != NULL ; c_ptr = c_ptr->next) {
-		GnmCellCopy const *cc = c_ptr->data;
-
-		pp.eval.col = cr->base.col + cc->col_offset,
-		pp.eval.row = cr->base.row + cc->row_offset;
-		xmlAddChild (container,
-			xml_write_cell_and_position (ctxt, cc->expr, cc->val, &pp));
-	}
-
-	if (cr->objects != NULL)
-		container = xmlNewChild (clipboard, clipboard->ns, CC2XML ("Objects"), NULL);
-	for (c_ptr = cr->objects; c_ptr != NULL ; c_ptr = c_ptr->next) 
-		xmlAddChild (container, 
-			xml_write_sheet_object (ctxt, c_ptr->data));
-
-	ctxt->doc->xmlRootNode = clipboard;
-	xmlIndentTreeOutput = TRUE;
-	xmlDocDumpFormatMemoryEnc (ctxt->doc, &buffer, size, "UTF-8", TRUE);
-	xmlFreeDoc (ctxt->doc);
-	xml_parse_ctx_destroy (ctxt);
-
-	return buffer;
 }
 
 /*****************************************************************************/
@@ -4060,4 +3974,14 @@ xml_init (void)
 		"Gnumeric_XmlIO:gnum_xml", "gnumeric",
 		_("Gnumeric XML (*.gnumeric) original slow exporter"),
 		FILE_FL_AUTO, gnumeric_xml_write_workbook), 30);
+
+	go_file_opener_register (go_file_opener_new (
+		"Gnumeric_XmlIO:xml_sax",
+		_("EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"),
+		suffixes, mimes,
+		xml_probe, gnm_xml_file_open), 1);
+	go_file_saver_register_as_default (go_file_saver_new (
+		"Gnumeric_XmlIO:xml_sax", "gnumeric",
+		_("Gnumeric XML (*.gnumeric)"),
+		FILE_FL_AUTO, gnm_xml_file_save), 50);
 }

@@ -1,14 +1,13 @@
 #ifndef GNUMERIC_XML_IO_H
 #define GNUMERIC_XML_IO_H
 
-#include <gdk/gdktypes.h>
-#include "gnumeric.h"
-#include "xml-io-version.h"
+#include <gnumeric.h>
+#include <xml-io-version.h>
+#include <goffice/utils/goffice-utils.h>
 #include <goffice/app/file.h>
 #include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
-#include <goffice/utils/goffice-utils.h>
 
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
@@ -40,8 +39,6 @@ void		 xml_parse_ctx_destroy (XmlParseContext *ctxt);
 
 xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, GnmStyle *style);
 
-xmlChar	   *xml_cellregion_write (WorkbookControl *context,
-				  GnmCellRegion *cr, int *size);
 GnmCellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
 				     guchar const *buffer, int length);
 

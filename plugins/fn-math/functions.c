@@ -577,8 +577,8 @@ gnumeric_countif (FunctionEvalInfo *ei, GnmValue **argv)
 	 * 1) @range must be a range, arrays are not supported
 	 * 2) @range can not be 3d */
 	if (r->type != VALUE_CELLRANGE ||
-	    (sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) !=
-		    eval_sheet (r->cell.b.sheet, ei->pos->sheet) ||
+	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
+	      r->cell.b.sheet != NULL) ||
 	    (!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING))
 	        return value_new_error_VALUE (ei->pos);
 
@@ -677,8 +677,8 @@ gnumeric_sumif (FunctionEvalInfo *ei, GnmValue **argv)
 	 * 1) @range must be a range, arrays are not supported
 	 * 2) @range can not be 3d */
 	if (r->type != VALUE_CELLRANGE ||
-	    (sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) !=
-		    eval_sheet (r->cell.b.sheet, ei->pos->sheet) ||
+	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
+	      r->cell.b.sheet != NULL) ||
 	    (!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING))
 	        return value_new_error_VALUE (ei->pos);
 

@@ -135,7 +135,7 @@ static void
 sheet_objects_max_extent (Sheet *sheet)
 {
 	GnmCellPos max_pos = { 0, 0 };
-	GList *ptr;
+	GSList *ptr;
 
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
@@ -323,7 +323,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (so->sheet == NULL, TRUE);
-	g_return_val_if_fail (g_list_find (sheet->sheet_objects, so) == NULL, TRUE);
+	g_return_val_if_fail (g_slist_find (sheet->sheet_objects, so) == NULL, TRUE);
 
 	so->sheet = sheet;
 	if (SO_CLASS (so)->assign_to_sheet &&
@@ -333,7 +333,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 	}
 
 	g_object_ref (G_OBJECT (so));
-	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
+	sheet->sheet_objects = g_slist_prepend (sheet->sheet_objects, so);
 	/* FIXME : add a flag to sheet to have sheet_update do this */
 	sheet_objects_max_extent (sheet);
 
@@ -357,13 +357,13 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 gboolean
 sheet_object_clear_sheet (SheetObject *so)
 {
-	GList *ptr;
+	GSList *ptr;
 	gpointer view_handler;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 	g_return_val_if_fail (IS_SHEET (so->sheet), TRUE);
 
-	ptr = g_list_find (so->sheet->sheet_objects, so);
+	ptr = g_slist_find (so->sheet->sheet_objects, so);
 	g_return_val_if_fail (ptr != NULL, TRUE);
 
 	/* clear any pending attempts to create views */
@@ -382,8 +382,8 @@ sheet_object_clear_sheet (SheetObject *so)
 	    SO_CLASS (so)->remove_from_sheet (so))
 		return TRUE;
 
-	so->sheet->sheet_objects = g_list_remove_link (so->sheet->sheet_objects, ptr);
-	g_list_free (ptr);
+	so->sheet->sheet_objects = g_slist_remove_link (so->sheet->sheet_objects, ptr);
+	g_slist_free (ptr);
 
 	if (so->anchor.cell_bound.end.col == so->sheet->max_object_extent.col &&
 	    so->anchor.cell_bound.end.row == so->sheet->max_object_extent.row)
@@ -579,7 +579,7 @@ void
 sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 			GnmRelocUndo *undo)
 {
-	GList   *ptr, *next;
+	GSList   *ptr, *next;
 	GnmRange	 dest;
 	gboolean clear, change_sheets;
 
@@ -593,7 +593,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 
 	/* Clear the destination range on the target sheet */
 	if (change_sheets) {
-		GList *copy = g_list_copy (rinfo->target_sheet->sheet_objects);
+		GSList *copy = g_slist_copy (rinfo->target_sheet->sheet_objects);
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
 			GnmRange const *r  = &so->anchor.cell_bound;
@@ -603,7 +603,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 				sheet_object_clear_sheet (so);
 			}
 		}
-		g_list_free (copy);
+		g_slist_free (copy);
 	}
 
 	ptr = rinfo->origin_sheet->sheet_objects;
@@ -660,7 +660,7 @@ GSList *
 sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 {
 	GSList *res = NULL;
-	GList *ptr;
+	GSList *ptr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
@@ -687,7 +687,7 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 void
 sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
 {
-	GList *ptr, *next;
+	GSList *ptr, *next;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -744,13 +744,12 @@ sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range)
 {
 	SheetObject *so;
 	SheetObject *new_so;
-	GList *list;
+	GSList *list;
 
 	g_return_if_fail (IS_SHEET (dst));
 	g_return_if_fail (dst->sheet_objects == NULL);
 
-	list = src->sheet_objects;
-	for (; list != NULL; list = list->next) {
+	for (list = src->sheet_objects; list != NULL; list = list->next) {
 		so = (SheetObject *) list->data;
 		if (range == NULL || range_overlap (range, &so->anchor.cell_bound)) {
 			new_so = sheet_object_dup (so);
@@ -761,7 +760,7 @@ sheet_object_clone_sheet (Sheet const *src, Sheet *dst, GnmRange *range)
 		}
 	}
 
-	dst->sheet_objects = g_list_reverse (dst->sheet_objects);
+	dst->sheet_objects = g_slist_reverse (dst->sheet_objects);
 }
 
 

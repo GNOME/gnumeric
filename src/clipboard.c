@@ -352,7 +352,6 @@ clipboard_paste_region (GnmCellRegion const *content,
 		for (j = 0; j < repeat_vertical ; j++) {
 			int const left = i * src_cols + pt->range.start.col;
 			int const top = j * src_rows + pt->range.start.row;
-			CellCopyList *c_ptr;
 			GnmExprRewriteInfo   rwinfo;
 			GnmExprRelocateInfo *rinfo;
 
@@ -401,8 +400,8 @@ clipboard_paste_region (GnmCellRegion const *content,
 			}
 
 			if (has_content)
-				for (c_ptr = content->content; c_ptr; c_ptr = c_ptr->next) {
-					GnmCellCopy const *src = c_ptr->data;
+				for (ptr = content->content; ptr; ptr = ptr->next) {
+					GnmCellCopy const *src = ptr->data;
 					int target_col = left;
 					int target_row = top;
 
@@ -613,7 +612,7 @@ cellregion_ref (GnmCellRegion *cr)
 void
 cellregion_unref (GnmCellRegion *cr)
 {
-	CellCopyList *ptr;
+	GSList	*ptr;
 	GnmCellCopy *cc;
 
 	g_return_if_fail (cr != NULL);

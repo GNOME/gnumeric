@@ -51,13 +51,11 @@ typedef struct {
 	GnmExpr  const *expr;
 } GnmCellCopy;
 
-typedef GSList CellCopyList;
-
 struct _GnmCellRegion {
 	Sheet		*origin_sheet; /* can be NULL */
 	GnmCellPos	 base;
 	int		 cols, rows;
-	CellCopyList	*content;
+	GSList		*content;
 	GnmStyleList	*styles;
 	GSList		*merged;
 	GSList		*objects;

@@ -51,7 +51,6 @@ plugins/sylk/sylk.c
 plugins/uihello/uihello.c
 plugins/xbase/boot.c
 plugins/xbase/xbase.c
-plugins/xml_sax/xml-sax-read.c
 src/dialogs/dao-gui-utils.c
 src/dialogs/dialog-about.c
 src/dialogs/dialog-advanced-filter.c
@@ -199,3 +198,5 @@ src/workbook-edit.c
 src/workbook-view.c
 src/xml-io-autoft.c
 src/xml-io.c
+src/xml-sax-read.c
+src/xml-sax-write.c

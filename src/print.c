@@ -129,7 +129,7 @@ static void
 print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 		     double base_x, double base_y)
 {
-	GList *l;
+	GSList *ptr;
 	double end_x, end_y, len;
 
 	g_return_if_fail (IS_SHEET (sheet));
@@ -164,8 +164,8 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range
 #endif
 	gnome_print_clip (pj->print_context);
 
-	for (l = sheet->sheet_objects; l; l = l->next) {
-		SheetObject *so = SHEET_OBJECT (l->data);
+	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next) {
+		SheetObject *so = SHEET_OBJECT (ptr->data);
 		double coords [4];
 
 		if (!sheet_object_can_print (so) ||
@@ -500,7 +500,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	double x, y, clip_y;
 	char *pagenotxt;
 	gboolean printed;
-	GList *l;
+	GSList *ptr;
 	double header = 0, footer = 0, left = 0, right = 0;
 
 	/* FIXME: Can col / row space calculation be factored out? */
@@ -550,8 +550,8 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 
 	/* Check for sheet objects if nothing has been found so far */
 	if (!printed)
-		for (l = sheet->sheet_objects; l && !printed; l = l->next) {
-			SheetObject *so = SHEET_OBJECT (l->data);
+		for (ptr = sheet->sheet_objects; ptr && !printed; ptr = ptr->next) {
+			SheetObject *so = SHEET_OBJECT (ptr->data);
 			printed = range_overlap (range, &so->anchor.cell_bound);
 		}
 

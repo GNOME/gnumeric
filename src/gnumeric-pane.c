@@ -373,7 +373,7 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	/* create views for the sheet objects */
 	sheet = sc_sheet (SHEET_CONTROL (scg));
 	if (sheet != NULL) {
-		GList *ptr;
+		GSList *ptr;
 		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
 			sheet_object_new_view (ptr->data,
 				(SheetObjectViewContainer *)pane);

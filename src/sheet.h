@@ -36,7 +36,7 @@ struct _Sheet {
 
 	double      last_zoom_factor_used;
 
-	GList       *sheet_objects;	/* List of objects in this sheet */
+	GSList      *sheet_objects;	/* List of objects in this sheet */
 	GnmCellPos   max_object_extent;
 
 	gboolean    pristine;

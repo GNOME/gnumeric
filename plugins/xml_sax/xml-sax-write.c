@@ -24,6 +24,8 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
+#include <xml-sax.h>
+
 #include <workbook-view.h>
 #include <goffice/app/file.h>
 #include <gnm-format.h>
@@ -69,9 +71,6 @@ typedef struct {
 
 	GsfXMLOut *output;
 } GnmOutputXML;
-
-void	xml_sax_file_save (GOFileSaver const *fs, IOContext *io_context,
-			   WorkbookView const *wb_view, GsfOutput *output);
 
 #define GMR "gmr:"
 
@@ -1136,7 +1135,7 @@ xml_io_conventions (void)
 }
 
 void
-xml_sax_file_save (GOFileSaver const *fs, IOContext *io_context,
+gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 		   WorkbookView const *wb_view, GsfOutput *output)
 {
 	GnmOutputXML state;

@@ -66,11 +66,11 @@ struct LIBENV
       /* user-defined hook routines */
       void *print_info;
       /* transit pointer passed to the routine print_hook */
-      int (*print_hook)(void *info, char *msg);
+      int (*print_hook)(void *info, const char *msg);
       /* user-defined print hook routine */
       void *fault_info;
       /* transit pointer passed to the routine fault_hook */
-      int (*fault_hook)(void *info, char *msg);
+      int (*fault_hook)(void *info, const char *msg);
       /* user-defined fault hook routine */
       /*--------------------------------------------------------------*/
       /* dynamic memory registration */

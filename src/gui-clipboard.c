@@ -23,7 +23,6 @@
 #include "sheet-object.h"
 #include "sheet-control-gui.h"
 #include "commands.h"
-#include "xml-io.h"
 #include "value.h"
 #include "number-match.h"
 #include "dialog-stf.h"
@@ -31,6 +30,8 @@
 #include "mstyle.h"
 #include "gnm-format.h"
 #include "gnumeric-gconf.h"
+#include "xml-sax.h"
+#include "xml-io.h"
 
 #include <goffice/app/io-context.h>
 #include <gsf/gsf-input-memory.h>
@@ -527,7 +528,7 @@ cellregion_to_string (GnmCellRegion const *cr,
 		      GODateConventions const *date_conv)
 {
 	GString *all, *line;
-	CellCopyList *ptr;
+	GSList	 *ptr;
 	GnmCellCopy const *src;
 	GnmStyle const	  *style;
 	char ***data;
@@ -546,8 +547,7 @@ cellregion_to_string (GnmCellRegion const *cr,
 	for (ptr = cr->content; ptr; ptr = ptr->next) {
 		src = ptr->data;
 		style = style_list_get_style (cr->styles,
-			src->col_offset + cr->base.col,
-			src->row_offset + cr->base.row);
+			src->col_offset, src->row_offset);
 		format_value_gstring (line, mstyle_get_format (style),
 			src->val, NULL, -1, date_conv);
 	}
@@ -620,17 +620,14 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	 * in fact we only have to check the 'info' variable, however
 	 * to be absolutely sure I check if the atom checks out too
 	 */
-	if (selection_data->target == gdk_atom_intern (GNUMERIC_ATOM_NAME,
-						       FALSE)) {
-		int buffer_size;
-
-		xmlChar *buffer = xml_cellregion_write (wbc, clipboard, &buffer_size);
+	if (selection_data->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
+		GsfOutputMemory *output  = gnm_cellregion_to_xml (clipboard);
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
-					(guchar *) buffer, buffer_size);
-		xmlFree (buffer);
+			gsf_output_memory_get_bytes (output),
+			gsf_output_size (GSF_OUTPUT (output)));
+		g_object_unref (output);
 		to_gnumeric = TRUE;
-	} else if (selection_data->target == gdk_atom_intern (HTML_ATOM_NAME,
-							      FALSE)) {
+	} else if (selection_data->target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
 		char *saver_id = (char *) "Gnumeric_html:xhtml_range";
 		int buffer_size;
 		guchar *buffer = table_cellregion_write (wbc, clipboard,

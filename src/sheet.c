@@ -655,7 +655,7 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 static void
 sheet_reposition_objects (Sheet const *sheet, GnmCellPos const *pos)
 {
-	GList *ptr;
+	GSList *ptr;
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
 		sheet_object_update_bounds (SHEET_OBJECT (ptr->data), pos);
 }
@@ -1089,7 +1089,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 {
 	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
 	struct sheet_extent_data closure;
-	GList *l;
+	GSList *ptr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), dummy);
 
@@ -1102,8 +1102,8 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 
 	g_hash_table_foreach (sheet->cell_hash, &cb_sheet_get_extent, &closure);
 
-	for (l = sheet->sheet_objects; l; l = l->next) {
-		SheetObject *so = SHEET_OBJECT (l->data);
+	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next) {
+		SheetObject *so = SHEET_OBJECT (ptr->data);
 
 		closure.range.start.col = MIN (so->anchor.cell_bound.start.col,
 					       closure.range.start.col);
@@ -2823,14 +2823,14 @@ sheet_destroy (Sheet *sheet)
 
 	if (sheet->sheet_objects) {
 		/* The list is changed as we remove */
-		GList *objs = g_list_copy (sheet->sheet_objects);
-		GList *ptr;
+		GSList *objs = g_slist_copy (sheet->sheet_objects);
+		GSList *ptr;
 		for (ptr = objs; ptr != NULL ; ptr = ptr->next) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
 			if (so != NULL)
 				sheet_object_clear_sheet (so);
 		}
-		g_list_free (objs);
+		g_slist_free (objs);
 		if (sheet->sheet_objects != NULL)
 			g_warning ("There is a problem with sheet objects");
 	}

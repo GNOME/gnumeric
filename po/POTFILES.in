@@ -99,8 +99,6 @@ plugins/uihello/uihello.c
 plugins/xbase/boot.c
 plugins/xbase/plugin.xml.in
 plugins/xbase/xbase.c
-plugins/xml_sax/plugin.xml.in
-plugins/xml_sax/xml-sax-read.c
 schemas/gnumeric-dialogs.schemas.in
 schemas/gnumeric-general.schemas.in
 schemas/gnumeric-plugins.schemas.in
@@ -315,6 +313,8 @@ src/workbook-edit.c
 src/workbook-view.c
 src/xml-io-autoft.c
 src/xml-io.c
+src/xml-sax-read.c
+src/xml-sax-write.c
 templates/autoformat/3D.category.in
 templates/autoformat/autoformat.3D.button.xml.in
 templates/autoformat/autoformat.3D.list.xml.in

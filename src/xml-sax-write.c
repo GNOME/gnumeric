@@ -1,9 +1,10 @@
 /* vim: set sw=8: */
 
 /*
- * xml-sax-write.c : a test harness for a sax like xml export routine.
+ * xml-sax-write.c : export .gnumeric and the clipboard subset using a the sax
+ * 			like wrappers in libgsf
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-20045Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -24,8 +25,8 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
+#include <xml-sax.h>
 #include <workbook-view.h>
-#include <goffice/app/file.h>
 #include <gnm-format.h>
 #include <workbook.h>
 #include <workbook-priv.h> /* Workbook::names */
@@ -51,16 +52,18 @@
 #include <print-info.h>
 #include <print-info.h>
 #include <xml-io.h>
+#include <clipboard.h>
 #include <tools/scenarios.h>
 #include <gnumeric-gconf.h>
 
+#include <goffice/app/file.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-gzip.h>
+#include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-utils.h>
 #include <locale.h>
 
 typedef struct {
-	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView const *wb_view;	/* View for the new workbook */
 	Workbook const	   *wb;		/* The new workbook */
 	Sheet const 	   *sheet;
@@ -69,9 +72,6 @@ typedef struct {
 
 	GsfXMLOut *output;
 } GnmOutputXML;
-
-void	xml_sax_file_save (GOFileSaver const *fs, IOContext *io_context,
-			   WorkbookView const *wb_view, GsfOutput *output);
 
 #define GMR "gmr:"
 
@@ -628,34 +628,18 @@ xml_write_selection_info (GnmOutputXML *state)
 	gsf_xml_out_end_element (state->output); /* </gmr:Selections> */
 }
 
-static int
-natural_order_cmp (void const *a, void const *b)
-{
-	GnmCell const *ca = *(GnmCell const **)a ;
-	GnmCell const *cb = *(GnmCell const **)b ;
-	int diff = (ca->pos.row - cb->pos.row);
-	if (diff != 0)
-		return diff;
-	return ca->pos.col - cb->pos.col;
-}
-
 static void
-copy_hash_table_to_ptr_array (gpointer key, GnmCell *cell, gpointer user_data)
-{
-	if (!cell_is_empty (cell) || cell->base.expression != NULL)
-		g_ptr_array_add (user_data, cell) ;
-}
-
-static void
-xml_write_cell (GnmOutputXML *state, GnmCell const *cell, GnmParsePos const *pp)
+xml_write_cell_and_position (GnmOutputXML *state,
+			     GnmExpr const *expr, GnmValue const *val,
+			     GnmParsePos const *pp)
 {
 	GnmExprArray const *ar;
 	gboolean write_contents = TRUE;
-	gboolean const is_shared_expr =
-	    (cell_has_expr (cell) && gnm_expr_is_shared (cell->base.expression));
+	gboolean const is_shared_expr = (expr != NULL) &&
+		gnm_expr_is_shared (expr);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
-	if (NULL != (ar = cell_is_array (cell)) && (ar->y != 0 || ar->x != 0))
+	if (NULL != (ar = gnm_expr_is_array (expr)) && (ar->y != 0 || ar->x != 0))
 		return; /* DOM version would write <Cell Col= Row=/> */
 
 	gsf_xml_out_start_element (state->output, GMR "Cell");
@@ -664,8 +648,7 @@ xml_write_cell (GnmOutputXML *state, GnmCell const *cell, GnmParsePos const *pp)
 
 	/* As of version 0.53 we save the ID of shared expressions */
 	if (is_shared_expr) {
-		gconstpointer const expr = cell->base.expression;
-		gpointer id = g_hash_table_lookup (state->expr_map, expr);
+		gpointer id = g_hash_table_lookup (state->expr_map, (gpointer) expr);
 
 		if (id == NULL) {
 			id = GINT_TO_POINTER (g_hash_table_size (state->expr_map) + 1);
@@ -684,29 +667,24 @@ xml_write_cell (GnmOutputXML *state, GnmCell const *cell, GnmParsePos const *pp)
 	}
 
 	if (write_contents) {
-		GString *str;
+		GString *str = g_string_sized_new (1000);
 
-		if (!cell_has_expr (cell)) {
-			if (cell->value == NULL) {
-				g_warning ("%s has no value ?", cellpos_as_string (&pp->eval));
-				gsf_xml_out_end_element (state->output); /* </gmr:Cell> */
-			}
-
-			gsf_xml_out_add_int (state->output, "ValueType", cell->value->type);
-
-			if (VALUE_FMT (cell->value) != NULL) {
-				char *fmt = style_format_as_XL (VALUE_FMT (cell->value), FALSE);
+		if (NULL == expr) {
+			if (val != NULL) {
+				gsf_xml_out_add_int (state->output, "ValueType", val->type);
+				if (VALUE_FMT (val) != NULL) {
+					char *fmt = style_format_as_XL (VALUE_FMT (val), FALSE);
 				gsf_xml_out_add_cstr (state->output, "ValueFormat", fmt);
 				g_free (fmt);
 			}
+				value_get_as_gstring (val, str, state->exprconv);
+			} else {
+				g_warning ("%s has no value ?", cellpos_as_string (&pp->eval));
 		}
-
-		str = g_string_sized_new (1000);
-		if (cell_has_expr (cell)) {
+		} else {
 			g_string_append_c (str, '=');
-			gnm_expr_as_gstring (str, cell->base.expression, pp, state->exprconv);
-		} else
-			value_get_as_gstring (cell->value, str, state->exprconv);
+			gnm_expr_as_gstring (str, expr, pp, state->exprconv);
+		}
 
 		gsf_xml_out_add_cstr (state->output, NULL, str->str);
 		g_string_free (str, TRUE);
@@ -714,30 +692,23 @@ xml_write_cell (GnmOutputXML *state, GnmCell const *cell, GnmParsePos const *pp)
 	gsf_xml_out_end_element (state->output); /* </gmr:Cell> */
 }
 
+static GnmValue *
+cb_write_cell (Sheet *sheet, int col, int row, GnmCell const *cell, GnmOutputXML *state)
+{
+	GnmParsePos pp;
+	xml_write_cell_and_position (state, cell->base.expression, cell->value,
+		parse_pos_init_cell (&pp, cell));
+	return NULL;
+	}
+
 static void
 xml_write_cells (GnmOutputXML *state)
 {
-	size_t i;
-	GPtrArray *natural = g_ptr_array_new ();
-	GnmParsePos pp;
-	GnmCell const *cell;
-
 	gsf_xml_out_start_element (state->output, GMR "Cells");
-
-	g_hash_table_foreach (state->sheet->cell_hash,
-		(GHFunc) copy_hash_table_to_ptr_array, natural);
-	qsort (&g_ptr_array_index (natural, 0), natural->len, sizeof (gpointer),
-		natural_order_cmp);
-
-	for (i = 0; i < natural->len; i++) {
-		cell = g_ptr_array_index (natural, i);
-		parse_pos_init_cell (&pp, cell);
-		xml_write_cell (state, cell, &pp);
-	}
-
+	sheet_foreach_cell_in_range ((Sheet *)state->sheet, CELL_ITER_IGNORE_NONEXISTENT,
+		0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
+		(CellIterFunc) cb_write_cell, state);
 	gsf_xml_out_end_element (state->output); /* </gmr:Cells> */
-
-	g_ptr_array_free (natural, TRUE);
 }
 
 static void
@@ -973,9 +944,8 @@ xml_write_scenarios (GnmOutputXML *state)
 }
 
 static void
-xml_write_objects (GnmOutputXML *state, Sheet const *sheet)
+xml_write_objects (GnmOutputXML *state, GSList *ptr)
 {
-	GList *ptr;
 	gboolean needs_container = TRUE;
 	SheetObject	 *so;
 	SheetObjectClass *klass;
@@ -983,7 +953,7 @@ xml_write_objects (GnmOutputXML *state, Sheet const *sheet)
 	char const *type_name;
 	char *tmp;
 
-	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next) {
+	for (;ptr != NULL ; ptr = ptr->next) {
 		so = ptr->data;
 		klass = SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (so));
 		if (klass == NULL || klass->write_xml_sax == NULL)
@@ -1069,7 +1039,7 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 	xml_write_styles (state);
 	xml_write_cols_rows (state);
 	xml_write_selection_info (state);
-	xml_write_objects (state, sheet);
+	xml_write_objects (state, sheet->sheet_objects);
 	xml_write_cells (state);
 
 	xml_write_merged_regions (state);
@@ -1136,7 +1106,7 @@ xml_io_conventions (void)
 }
 
 void
-xml_sax_file_save (GOFileSaver const *fs, IOContext *io_context,
+gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 		   WorkbookView const *wb_view, GsfOutput *output)
 {
 	GnmOutputXML state;
@@ -1152,7 +1122,6 @@ xml_sax_file_save (GOFileSaver const *fs, IOContext *io_context,
 		output = gzout;
 	}
 
-	state.context	= io_context;
 	state.wb_view	= wb_view;
 	state.wb	= wb_view_workbook (wb_view);
 	state.sheet	= NULL;
@@ -1201,4 +1170,98 @@ xml_sax_file_save (GOFileSaver const *fs, IOContext *io_context,
 		gsf_output_close (gzout);
 		g_object_unref (gzout);
 	}
+}
+
+/**************************************************************************/
+
+/**
+ * gnm_cellregion_to_xml :
+ * @cr  : the content to store.
+ * @size: store the size of the buffer here.
+ *
+ * Caller is responsible for free-ing the result.
+ * Returns NULL on error
+ **/
+GsfOutputMemory *
+gnm_cellregion_to_xml (GnmCellRegion const *cr)
+{
+	GnmOutputXML  state;
+	GnmStyleList *s_ptr;
+	GnmCellCopy const *cc;
+	GSList       *ptr;
+	GnmParsePos   pp;
+	char	     *old_num_locale, *old_monetary_locale;
+	GsfOutput    *buf = gsf_output_memory_new ();
+
+	g_return_val_if_fail (cr != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
+
+	state.wb_view	= NULL;
+	state.wb	= NULL;
+	state.sheet	= NULL;
+	state.output	= gsf_xml_out_new (buf);
+	state.exprconv	= xml_io_conventions ();
+	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
+	gnm_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnm_setlocale (LC_MONETARY, NULL));
+	gnm_setlocale (LC_MONETARY, "C");
+	gnm_set_untranslated_bools ();
+
+	gsf_xml_out_start_element (state.output, GMR "ClipboardRange");
+	gsf_xml_out_add_int (state.output, "Cols", cr->cols);
+	gsf_xml_out_add_int (state.output, "Rows", cr->rows);
+	gsf_xml_out_add_int (state.output, "BaseCol", cr->base.col);
+	gsf_xml_out_add_int (state.output, "BaseRow", cr->base.row);
+	if (cr->not_as_content)
+		gsf_xml_out_add_bool (state.output, "NotAsContent", TRUE);
+
+	if (cr->styles != NULL) {
+		gsf_xml_out_start_element (state.output, GMR "Styles");
+		for (s_ptr = cr->styles ; s_ptr != NULL ; s_ptr = s_ptr->next)
+			xml_write_style_region (&state, s_ptr->data);
+		gsf_xml_out_end_element (state.output); /* </Styles> */
+	}
+
+	if (cr->merged != NULL) {
+		gsf_xml_out_start_element (state.output, GMR "MergedRegions");
+		for (ptr = cr->merged ; ptr != NULL ; ptr = ptr->next) {
+			gsf_xml_out_start_element (state.output, GMR "Merge");
+			gsf_xml_out_add_cstr_unchecked (state.output, NULL,
+				range_name (ptr->data));
+			gsf_xml_out_end_element (state.output); /* </Merge> */
+		}
+	}
+
+	pp.wb = NULL; /* NOTE SNEAKY : ensure that sheet names have explicit workbooks */
+	pp.sheet = cr->origin_sheet;
+	if (cr->content != NULL) {
+		gsf_xml_out_start_element (state.output, GMR "Cells");
+		for (ptr = cr->content; ptr != NULL ; ptr = ptr->next) {
+			cc = ptr->data;
+			pp.eval.col = cr->base.col + cc->col_offset,
+			pp.eval.row = cr->base.row + cc->row_offset;
+			xml_write_cell_and_position (&state, cc->expr, cc->val, &pp);
+		}
+		gsf_xml_out_end_element (state.output); /* </Cells> */
+	}
+
+	xml_write_objects (&state, cr->objects);
+
+	gsf_xml_out_end_element (state.output); /* </ClipboardRange> */
+
+	/* gnm_setlocale restores bools to locale translation */
+	gnm_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
+	gnm_setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+
+	g_hash_table_destroy (state.expr_map);
+	gnm_expr_conventions_free (state.exprconv);
+	g_object_unref (G_OBJECT (state.output));
+
+	gsf_output_close (buf);
+
+	return GSF_OUTPUT_MEMORY (buf);
 }

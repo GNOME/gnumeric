@@ -819,14 +819,15 @@ static void wbcg_menu_state_sheet_count (WorkbookControl *wbc);
 static void
 wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 {
+	static GtkTargetEntry const drag_types[] = {
+		{ (char *) "GNUMERIC_SHEET", GTK_TARGET_SAME_APP, TARGET_SHEET }
+	};
+
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetControlGUI *scg;
 	SheetControl	*sc;
 	Sheet		*sheet;
-	GList *ptr;
-	static GtkTargetEntry const drag_types[] = {
-		{ (char *) "GNUMERIC_SHEET", GTK_TARGET_SAME_APP, TARGET_SHEET }
-	};
+	GSList		*ptr;
 
 	g_return_if_fail (wbcg != NULL);
 

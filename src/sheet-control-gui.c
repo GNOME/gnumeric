@@ -39,6 +39,7 @@
 #include "gui-file.h"
 #include "sheet-merge.h"
 #include "ranges.h"
+#include "xml-sax.h"
 #include "xml-io.h"
 
 #include "gnumeric-canvas.h"
@@ -1251,7 +1252,7 @@ scg_finalize (GObject *object)
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
 	SheetControl	*sc = (SheetControl *) scg;
 	Sheet		*sheet = sc_sheet (sc);
-	GList *ptr;
+	GSList *ptr;
 
 	/* remove the object view before we disappear */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
@@ -3230,22 +3231,17 @@ scg_drag_send_image (SheetControlGUI *scg,
 }
 
 static void
-scg_drag_send_clipboard_objects (SheetControlGUI *scg, 
+scg_drag_send_clipboard_objects (SheetControl *sc, 
 				 GtkSelectionData *selection_data,
 				 GSList *objects)
 {
-	GnmCellRegion *contents;
-	xmlChar *buffer;
-	int buffer_size;
-	
-	contents = clipboard_copy_obj (sc_sheet (SHEET_CONTROL (scg)),
-				       objects);
-	buffer = xml_cellregion_write (sc_wbc (SHEET_CONTROL (scg)), 
-				       contents, &buffer_size);
-	gtk_selection_data_set (selection_data, selection_data->target,
-				8, buffer, buffer_size);
-	xmlFree (buffer);
-	cellregion_unref (contents);
+	GnmCellRegion	*content = clipboard_copy_obj (sc_sheet (sc), objects);
+	GsfOutputMemory *output  = gnm_cellregion_to_xml (content);
+	gtk_selection_data_set (selection_data, selection_data->target, 8,
+		gsf_output_memory_get_bytes (output),
+		gsf_output_size (GSF_OUTPUT (output)));
+	g_object_unref (output);
+	cellregion_unref (content);
 }
 
 void
@@ -3259,7 +3255,8 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 		gtk_selection_data_set 
 			(selection_data, selection_data->target, 8, "", 1);
 	} else if (strcmp (target_name, "application/x-gnumeric") == 0) {
-		scg_drag_send_clipboard_objects (scg, selection_data, objects);
+		scg_drag_send_clipboard_objects (SHEET_CONTROL (scg),
+			selection_data, objects);
 	} else if (strncmp (target_name, "image/", 6) == 0) {
 		scg_drag_send_image (scg, selection_data, objects, target_name);
 	}

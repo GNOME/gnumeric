@@ -29,6 +29,7 @@
 #include <cell.h>
 #include <gnm-format.h>
 #include <str.h>
+#include <gutils.h>
 #include <sheet.h>
 #include <workbook.h>
 #include <value.h>
