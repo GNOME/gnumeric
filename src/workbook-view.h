@@ -18,8 +18,8 @@ void workbook_view_set_undo_redo_state (Workbook const * const wb,
 					char const * const redo_suffix);
 
 void workbook_view_set_size (Workbook const * const wb,
-			     int width_in_points,
-			     int height_in_points);
+			     int width_pixels,
+			     int height_pixels);
 
 void workbook_view_set_title (Workbook const * const wb,
 			      char const * const title);

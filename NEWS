@@ -20,8 +20,7 @@ Jukka:
 	  and RandBernoulli() functions.
 
 Jody:
-	* Row/Col header redraw improvements.
-	* Zoom enhancement/fixing.
+	* Redraw improvements.
 	* More work on undo.
 	* Parse interbook references.
 

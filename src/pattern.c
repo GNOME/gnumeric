@@ -108,7 +108,7 @@ gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 		g_return_val_if_fail (back_col != NULL, FALSE);
 
-		back = is_selected ? &back_col->color : &back_col->selected_color;
+		back = is_selected ? &back_col->selected_color : &back_col->color;
 
 		if (pattern > 1) {
 			StyleColor *pat_col =

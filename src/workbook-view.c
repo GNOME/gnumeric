@@ -85,22 +85,14 @@ workbook_view_set_undo_redo_state (Workbook const * const wb,
 
 void
 workbook_view_set_size (Workbook const * const wb,
-			int width_in_points,
-			int height_in_points)
+			int width_pixels,
+			int height_pixels)
 {
 	int const screen_width = gdk_screen_width ();
 	int const screen_height = gdk_screen_height ();
-
-#if 0
-	printf ("%dx%d mm, %dx%d pixels\n",
-		gdk_screen_width_mm (),
-		gdk_screen_height_mm (),
-		gdk_screen_width (),
-		gdk_screen_height ());
-#endif
 	gtk_window_set_default_size (GTK_WINDOW (wb->toplevel),
-				     MIN (screen_width - 64, width_in_points),
-				     MIN (screen_height - 64, height_in_points));
+				     MIN (screen_width - 64, width_pixels),
+				     MIN (screen_height - 64, height_pixels));
 }
 
 /**

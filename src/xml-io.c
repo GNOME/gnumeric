@@ -2158,7 +2158,6 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 		xml_get_value_int (child, "Width", &width);
 		xml_get_value_int (child, "Height", &height);
 		workbook_view_set_size (wb, width, height);
-/*      gtk_widget_set_usize(wb->toplevel, width, height); */
 	}
 
 /*	child = xml_search_child (tree, "Style");

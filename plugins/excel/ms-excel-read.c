@@ -22,6 +22,7 @@
 #include "utils.h"	/* for cell_name */
 #include "ranges.h"
 #include "style.h"
+#include "application.h"
 #include "workbook.h"
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
@@ -3902,8 +3903,10 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 				 * menus, and notbook tabs.  Excel does not.
 				 */
 				workbook_view_set_size (wb->gnum_wb,
-							width / 20.,
-							height / 20.);
+							.5 + width *
+							application_display_dpi_get (TRUE) / (72. * 20.),
+							.5 + height *
+							application_display_dpi_get (FALSE) / (72. * 20.));
 
 				if (options & 0x0001)
 					printf ("Unsupported : Hidden workbook\n");

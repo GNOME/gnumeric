@@ -1,6 +1,9 @@
 2000-02-13  Jody Goldberg <jgoldberg@home.com>
 
-	* ./src/sheet-view.c (sheet_view_redraw_cell_region) : redraw the
+	* src/workbook-view.c (workbook_view_set_size) : Clarify that the
+	  measurements are in pixels.
+
+	* src/sheet-view.c (sheet_view_redraw_cell_region) : redraw the
 	  bounding grid lines too.
 
 	* src/item-cursor.c (item_cursor_get_pixel_coords) : Clip the cursor
