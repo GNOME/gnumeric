@@ -1,5 +1,8 @@
 2003-05-13  Morten Welinder  <terra@gnome.org>
 
+	* src/stf.c (stf_read_workbook): Set an error message so cancels
+	won't cause blank books.
+
 	* src/mathfunc.c (random_binomial): Use qbinom for sane time
 	consumption.
 	(random_negbinom): Use qnbinom for sane time consumption.

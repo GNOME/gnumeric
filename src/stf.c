@@ -275,8 +275,16 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
-	} else
+	} else {
+		/*
+		 * FIXME: we have to set an error somehow so the caller notices
+		 * that we did nothing.  This makes it pop up an error message
+		 * which isn't quite right.
+		 */
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Cancelled"));
 		workbook_sheet_detach (book, sheet);
+	}
 
 	g_free (data);
 	if (dialogresult != NULL)
