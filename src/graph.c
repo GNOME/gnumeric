@@ -545,7 +545,7 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 		gnm_go_data_vector_load_len (dat);
 
 	eval_pos_init_dep (&ep, &vec->dep);
-	v = value_duplicate (vec->as_col
+	v = value_dup (vec->as_col
 		? value_area_get_x_y (vec->val, 0, i, &ep)
 		: value_area_get_x_y (vec->val, i, 0, &ep));
 	v = value_coerce_to_number (v, &valid, &ep);

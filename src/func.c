@@ -965,12 +965,12 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 						} else if (tmp->type != VALUE_STRING)
 							break;
 					}
-					args [iter_item[i]] = iter_args [i] = value_duplicate (elem);
+					args [iter_item[i]] = iter_args [i] = value_dup (elem);
 				}
 
 				res->v_array.vals[x][y] = (i == iter_count)
 					? fn_def->fn.args.func (ei, args)
-					: ((err != NULL) ? value_duplicate (err)
+					: ((err != NULL) ? value_dup (err)
 							 : value_new_error_VALUE (ei->pos));
 				free_values (iter_args, i);
 			}
@@ -1119,7 +1119,7 @@ function_iterate_do_value (EvalPos const *ep,
 	switch (value->type){
 	case VALUE_ERROR:
 		if (strict) {
-			res = value_duplicate (value);
+			res = value_dup (value);
 			break;
 		}
 		/* Fall through.  */

@@ -54,7 +54,6 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 	GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
 	GogStyle *style;
 	gboolean resize = FALSE;
-	GogStyledObjectClass *klass = GOG_STYLED_OBJECT_GET_CLASS (obj);
 
 	switch (param_id) {
 
@@ -64,9 +63,7 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 			return;
 
 		/* which fields are we interested in for this object */
-		style->interesting_fields =
-			(klass->interesting_fields) (GOG_STYLED_OBJECT (obj));
-
+		gog_styled_object_apply_theme (gso, style);
 		gog_styled_object_style_changed (GOG_STYLED_OBJECT (obj));
 		resize = gog_style_is_different_size (gso->style, style);
 		if (style != NULL)
@@ -112,28 +109,29 @@ gog_styled_object_finalize (GObject *obj)
 		(parent_klass->finalize) (obj);
 }
 
+static gpointer
+gog_styled_object_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+{
+	return gog_style_editor	(GOG_STYLED_OBJECT (gobj), cc, NULL);
+}
+
 static void
 gog_styled_object_parent_changed (GogObject *obj, gboolean was_set)
 {
 	GogObjectClass *gog_object_klass = GOG_OBJECT_CLASS (parent_klass);
 	if (was_set) {
-		GogGraph const *graph = gog_object_get_graph (obj);
-		if (graph != NULL) {
-			GogStyledObjectClass *klass = GOG_STYLED_OBJECT_GET_CLASS (obj);
-			GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
-			gog_theme_init_style (gog_graph_get_theme (graph),
-					      gso->style, obj, 0);
-			gso->style->interesting_fields = (klass->interesting_fields) (gso);
-		}
+		GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
+		gog_styled_object_apply_theme (gso, gso->style);
 	}
-
 	gog_object_klass->parent_changed (obj, was_set);
 }
 
-static unsigned
-gog_styled_object_interesting_fields (GogStyledObject *obj)
+static void
+gog_styled_object_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	return GOG_STYLE_OUTLINE | GOG_STYLE_FILL; /* default */
+	style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL; /* default */
+	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), 0);
 }
 
 static void
@@ -155,8 +153,9 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 	gobject_klass->set_property = gog_styled_object_set_property;
 	gobject_klass->get_property = gog_styled_object_get_property;
 	gobject_klass->finalize	    = gog_styled_object_finalize;
+	gog_klass->editor    	    = gog_styled_object_editor;
 	gog_klass->parent_changed   = gog_styled_object_parent_changed;
-	style_klass->interesting_fields = gog_styled_object_interesting_fields;
+	style_klass->init_style	    = gog_styled_object_init_style;
 
 	g_object_class_install_property (gobject_klass, STYLED_OBJECT_PROP_STYLE,
 		g_param_spec_object ("style", "style",
@@ -174,9 +173,40 @@ GSF_CLASS (GogStyledObject, gog_styled_object,
 	   gog_styled_object_class_init, gog_styled_object_init,
 	   GOG_OBJECT_TYPE)
 
+/**
+ * gog_styled_object_get_style :
+ * @gso : #GogStyledObject
+ *
+ * Returns a pointer to @gso's style but does not reference it.
+ **/
 GogStyle *
 gog_styled_object_get_style (GogStyledObject *gso)
 {
 	g_return_val_if_fail (GOG_STYLED_OBJECT (gso) != NULL, NULL);
 	return gso->style;
+}
+
+/**
+ * gog_styled_object_get_auto_style :
+ * @gso : #GogStyledObject
+ *
+ * Returns a new style that is initialized with the auto values for @gso.
+ * Caller is responsible for the result.
+ **/
+GogStyle *
+gog_styled_object_get_auto_style (GogStyledObject *gso)
+{
+	GogStyle *res = gog_style_new ();
+	gog_styled_object_apply_theme (gso, res);
+	return res;
+}
+
+void
+gog_styled_object_apply_theme (GogStyledObject *gso, GogStyle *style)
+{
+	GogGraph const *graph = gog_object_get_graph (GOG_OBJECT (gso));
+	if (graph != NULL) {
+		GogStyledObjectClass *klass = GOG_STYLED_OBJECT_GET_CLASS (gso);
+		(klass->init_style) (gso, style);
+	}
 }

@@ -33,6 +33,8 @@ typedef struct {
 	struct {
 		double minimum, maximum;
 	} x, y;
+	gboolean	default_style_has_markers;
+	gboolean	default_style_has_lines;
 } GogXYPlot;
 
 #define GOG_XY_PLOT_TYPE	(gog_xy_plot_get_type ())
@@ -48,8 +50,6 @@ typedef struct {
 #define GOG_XY_SERIES_TYPE	(gog_xy_series_get_type ())
 #define GOG_XY_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_SERIES_TYPE, GogXYSeries))
 #define GOG_IS_XY_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_SERIES_TYPE))
-
-GType gog_xy_series_get_type (void);
 
 G_END_DECLS
 

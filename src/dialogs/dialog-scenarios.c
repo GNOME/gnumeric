@@ -114,21 +114,23 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget               *entry, *comment_view;
 	GtkTextBuffer           *buf;
 	GtkTextIter             start, end;
-	GnmRangeRef            *rr;
+	GnmRangeRef            *rr = NULL;
 	gboolean                res;
 	scenario_t              *scenario;
 
 	cell_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
-	if (cell_range == NULL) {
+	if (cell_range != NULL)
+		rr = value_get_rangeref (cell_range);
+
+	if (rr == NULL) {
 		gnumeric_notice (state->base.wbcg, GTK_MESSAGE_ERROR,
 				 _("Invalid changing cells"));
 		gnm_expr_entry_grab_focus (state->base.input_entry, TRUE);
 		return;
 	}
 
-	rr = value_to_rangeref (cell_range, FALSE);
 	if (rr->a.sheet != state->base.sheet) {
 		gnumeric_notice (state->base.wbcg, GTK_MESSAGE_ERROR,
 				 _("Changing cells should be on the current "
@@ -183,7 +185,6 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	gtk_widget_destroy (state->base.dialog);
  out:
 	value_release (cell_range);
-	g_free (rr);
 	return;
 }
 

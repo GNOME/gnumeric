@@ -154,7 +154,7 @@ collect_cb (int col, int row, GnmValue *v, collect_cb_t *p)
 
 	p->expr_flag |= cell_has_expr (cell);
 
-	return value_duplicate (cell->value);
+	return value_dup (cell->value);
 }
 
 /*
@@ -220,7 +220,7 @@ copy_cb (int col, int row, GnmValue *v, copy_cb_t *p)
 {
 	p->dest->changing_cells [col - p->col_offset +
 				 (row - p->row_offset) * p->cols] = 
-		value_duplicate (v);
+		value_dup (v);
 
 	return v;
 }
@@ -338,7 +338,7 @@ scenario_delete (GList *scenarios, gchar *name)
 static GnmValue *
 show_cb (int col, int row, GnmValue *v, data_analysis_output_t *dao)
 {
-	dao_set_cell_value (dao, col, row, value_duplicate (v));
+	dao_set_cell_value (dao, col, row, value_dup (v));
 
 	return v;
 }
@@ -565,7 +565,7 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 	index = g_hash_table_lookup (p->names, tmp);
 	if (index != NULL) {
 		dao_set_cell_value (&p->dao, 2 + p->col, 3 + *index, 
-				    value_duplicate (v));
+				    value_dup (v));
 
 		/* Set the colors. */
 		dao_set_colors (&p->dao, 2 + p->col, 3 + *index,
@@ -586,12 +586,12 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 		
 		/* GnmValue of the cell in this scenario. */
 		dao_set_cell_value (&p->dao, 2 + p->col, 3 + p->row, 
-				    value_duplicate (v));
+				    value_dup (v));
 		
 		/* Current value of the cell. */
 		cell = sheet_cell_fetch (p->sheet, col, row);
 		dao_set_cell_value (&p->dao, 1, 3 + p->row,
-				    value_duplicate (cell->value));
+				    value_dup (cell->value));
 
 		/* Set the colors. */
 		dao_set_colors (&p->dao, 2 + p->col, 3 + p->row,
@@ -644,7 +644,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 				/* Current value. */
 				dao_set_cell_value
 					(&cb->dao, 1, 3 + cb->row,
-					 value_duplicate (cell->value));
+					 value_dup (cell->value));
 			
 				/* Evaluate and write the value of the cell
 				 * with all different scenario values. */
@@ -663,7 +663,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 					cell_eval (cell);
 					dao_set_cell_value (&cb->dao, col++,
 							    3 + cb->row,
-							    value_duplicate
+							    value_dup
 							    (cell->value));
 				}
 				cb->row++;

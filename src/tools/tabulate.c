@@ -59,7 +59,7 @@ tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
 	workbook_recalc (wb);
 
 	return ycell->value
-		? value_duplicate (ycell->value)
+		? value_dup (ycell->value)
 		: value_new_error_VALUE (NULL);
 }
 

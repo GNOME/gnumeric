@@ -282,7 +282,7 @@ gog_theme_get_name (GogTheme const *theme)
 /**************************************************************************/
 
 static void
-map_marker (GOMarker *marker, unsigned shape_index, unsigned palette_index,
+map_marker (GogStyleMark *mark, unsigned shape, unsigned palette_index,
 	    GOColor const *palette)
 {
 	static GOMarkerShape const shape_palette [] = {
@@ -300,16 +300,18 @@ map_marker (GOMarker *marker, unsigned shape_index, unsigned palette_index,
 		TRUE
 	};
 
-	if (shape_index >= G_N_ELEMENTS (shape_palette))
-		shape_index %= G_N_ELEMENTS (shape_palette);
+	if (shape >= G_N_ELEMENTS (shape_palette))
+		shape %= G_N_ELEMENTS (shape_palette);
 
-	marker->defaults.shape		= marker->shape =
-		shape_palette [shape_index];
-	marker->defaults.outline_color	= marker->outline_color =
-		palette [palette_index];
-
-	marker->defaults.fill_color = marker->fill_color =
-		(shape_is_fill_transparent [shape_index]) ? palette [palette_index] : 0;
+	if (mark->auto_shape)
+		go_marker_set_shape (mark->mark, shape_palette [shape]);
+	if (mark->auto_outline_color)
+		go_marker_set_outline_color (mark->mark,
+			palette [palette_index]);
+	if (mark->auto_fill_color)
+		go_marker_set_fill_color (mark->mark,
+			shape_is_fill_transparent [shape]
+			? palette [palette_index] : 0);
 }
 
 static void
@@ -340,8 +342,7 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 		palette_index -= G_N_ELEMENTS (palette);
 	if (style->line.auto_color)
 		style->line.color = palette [palette_index];
-	if (style->marker != NULL && go_marker_is_auto (style->marker))
-		map_marker (style->marker, ind, palette_index, palette);
+	map_marker (&style->marker, ind, palette_index, palette);
 }
 
 static void
@@ -361,10 +362,11 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 	unsigned palette_index = ind;
 	if (palette_index >= G_N_ELEMENTS (palette))
 		palette_index %= G_N_ELEMENTS (palette);
-	style->fill.u.pattern.pat.back = palette [palette_index];
-	style->line.color = palette [palette_index];
-	if (style->marker != NULL)
-		map_marker (style->marker, ind, palette_index, palette);
+	if (style->fill.is_auto)
+		style->fill.u.pattern.pat.back = palette [palette_index];
+	if (style->line.auto_color)
+		style->line.color = palette [palette_index];
+	map_marker (&style->marker, ind, palette_index, palette);
 }
 
 /**************************************************************************/

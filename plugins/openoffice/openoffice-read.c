@@ -553,7 +553,7 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			for (; i < state->col_inc ; i++) {
 				next = sheet_cell_fetch (state->pos.sheet,
 					state->pos.eval.col + i, state->pos.eval.row);
-				cell_set_value (next, value_duplicate (cell->value));
+				cell_set_value (next, value_dup (cell->value));
 			}
 		}
 	}

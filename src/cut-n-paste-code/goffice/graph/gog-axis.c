@@ -23,6 +23,7 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-view.h>
@@ -568,7 +569,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_table"),
 		gtk_label_new (_("Details")));
-	gog_style_editor (gobj, cc, notebook, GOG_STYLE_LINE | GOG_STYLE_FONT),
+	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, notebook),
 
 	w = glade_xml_get_widget (gui, "axis_low");
 	if (axis->pos == GOG_AXIS_AT_LOW)
@@ -595,10 +596,13 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_widget_show (GTK_WIDGET (notebook));
 	return notebook;
 }
-static unsigned
-gog_axis_interesting_fields (GogStyledObject *obj)
+
+static void
+gog_axis_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	return GOG_STYLE_LINE | GOG_STYLE_FONT;
+	style->interesting_fields = GOG_STYLE_LINE | GOG_STYLE_FONT;
+	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), 0);
 }
 
 static void
@@ -673,7 +677,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	gog_klass->update	= gog_axis_update;
 	gog_klass->editor	= gog_axis_editor;
 	gog_klass->view_type	= gog_axis_view_get_type ();
-	style_klass->interesting_fields = gog_axis_interesting_fields;
+	style_klass->init_style = gog_axis_init_style;
 }
 
 static void

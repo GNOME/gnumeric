@@ -177,7 +177,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 					break;
 				}
 			} else
-				res = value_duplicate (val);
+				res = value_dup (val);
 
 			if (v->type == VALIDATION_TYPE_AS_INT &&
 			    res != NULL && res->type == VALUE_FLOAT) {

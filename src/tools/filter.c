@@ -79,7 +79,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 			if (cell == NULL)
 				dao_set_cell (dao, i - input_col_b, r, NULL);
 			else {
-				GnmValue *value = value_duplicate (cell->value);
+				GnmValue *value = value_dup (cell->value);
 				dao_set_cell_value (dao, i - input_col_b, r,
 						    value);
 			}
@@ -95,7 +95,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 						      NULL);
 				else {
 					GnmValue *value =
-						value_duplicate (cell->value);
+						value_dup (cell->value);
 					dao_set_cell_value (dao,
 							    i - input_col_b, r,
 							    value);

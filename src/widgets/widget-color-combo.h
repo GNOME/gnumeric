@@ -71,8 +71,8 @@ typedef struct {
 
 GtkType    color_combo_get_type   (void);
 GtkWidget *color_combo_new        (GdkPixbuf   *icon,
-				   char  const *no_color_label,
-				   const GdkColor    *default_color,
+				   char const *no_color_label,
+				   GdkColor const *default_color,
 				   ColorGroup  *color_group);
 void       color_combo_set_color  (ColorCombo  *cc,
 				   GdkColor    *color);

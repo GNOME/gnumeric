@@ -186,7 +186,8 @@ go_pattern_set_solid (GOPattern *pat, GOColor fore)
 }
 
 gpointer
-go_pattern_selector (GOColor fore, GOColor back)
+go_pattern_selector (GOColor fore, GOColor back,
+		     GOPatternType default_pat)
 {
 	static PixmapComboElement elements[] = {
 		{ N_("Solid"),				NULL, 11},
@@ -212,7 +213,8 @@ go_pattern_selector (GOColor fore, GOColor back)
 		{ N_("Semi Circles"),			NULL, 43},
 		{ N_("Thatch"),				NULL, 44},
 		{ N_("Large Circles"),			NULL, 45},
-		{ N_("Bricks"),				NULL, 46}
+		{ N_("Bricks"),				NULL, 46},
+		{ NULL,				NULL, 50}
 	};
 	int const H = 20;
 	int const W = 20;
@@ -242,9 +244,9 @@ go_pattern_selector (GOColor fore, GOColor back)
 	path[0].y = path[3].y = path[4].y = 0;
 	path[1].y = path[2].y = H;
 	svp = art_svp_from_vpath (path);
-	for (i = 0; i < G_N_ELEMENTS (elements) ; i++) {
+	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
 		memset (buf, 0, rowstride * H);
-		pat.pattern = i;
+		pat.pattern = (i+1 == G_N_ELEMENTS (elements)) ? default_pat : i;
 		go_pattern_render_svp (&pat, svp, 0, 0, W, H, buf, rowstride);
 		data = gdk_pixdata_from_pixbuf (&pixdata, pixbuf, FALSE);
 		elements[i].inline_gdkpixbuf = gdk_pixdata_serialize (&pixdata, &length);

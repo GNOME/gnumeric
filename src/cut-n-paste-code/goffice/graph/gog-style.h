@@ -66,6 +66,12 @@ typedef struct {
 	gboolean auto_color;
 	unsigned pattern; /* TODO border type from gnumeric */
 } GogStyleLine;
+typedef struct {
+	GOMarker *mark;
+	gboolean auto_shape;
+	gboolean auto_outline_color;
+	gboolean auto_fill_color;
+} GogStyleMark;
 
 struct _GogStyle {
 	GObject	base;
@@ -96,7 +102,7 @@ struct _GogStyle {
 		gboolean pattern_fore_auto, pattern_back_auto; 
 		gboolean gradient_start_auto, gradient_end_auto;
 	} fill;
-	GOMarker *marker;
+	GogStyleMark marker;
 	struct {
 		GOColor	color;
 		GOFont const *font;
@@ -116,8 +122,8 @@ gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);
 
-GtkWidget *gog_style_editor		(GogObject *obj, GnmCmdContext *cc,
-					 GtkWidget *optional_notebook, guint32 enable);
+GtkWidget *gog_style_editor		(GogStyledObject *obj, GnmCmdContext *cc,
+					 GtkWidget *optional_notebook);
 
 typedef struct {
 	unsigned i;

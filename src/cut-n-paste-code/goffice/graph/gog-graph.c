@@ -134,13 +134,6 @@ role_chart_pre_remove (GogObject *parent, GogObject *child)
 	gog_graph_validate_chart_layout (graph);
 }
 
-
-static gpointer
-gog_graph_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
-{
-	return gog_style_editor	(gobj, cc, NULL, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
-}
-
 static void
 gog_graph_update (GogObject *obj)
 {
@@ -172,7 +165,6 @@ gog_graph_class_init (GogGraphClass *klass)
 	gobject_klass->finalize	    = gog_graph_finalize;
 
 	gog_klass->update	= gog_graph_update;
-	gog_klass->editor	= gog_graph_editor;
 	gog_klass->type_name	= gog_graph_type_name;
 	gog_klass->view_type	= gog_graph_view_get_type ();
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
@@ -208,6 +200,8 @@ gog_graph_class_init (GogGraphClass *klass)
 static void
 gog_graph_init (GogGraph *graph)
 {
+	GogStyledObject *gso = GOG_STYLED_OBJECT (graph);
+
 	graph->data = NULL;
 	graph->num_cols = graph->num_rows = 0;
 	graph->idle_handler = 0;
@@ -216,8 +210,7 @@ gog_graph_init (GogGraph *graph)
 	/* Cheat and assign a name here, graphs will not have parents until we
 	 * support graphs in graphs */
 	GOG_OBJECT (graph)->user_name = g_strdup (_("Graph"));
-	gog_theme_init_style (graph->theme,
-		GOG_STYLED_OBJECT (graph)->style, GOG_OBJECT (graph), 0);
+	gog_styled_object_apply_theme (gso, gso->style);
 }
 
 GSF_CLASS (GogGraph, gog_graph,

@@ -91,7 +91,7 @@ typedef struct {
 
 GtkType         color_palette_get_type (void);
 
-GtkWidget       *color_palette_new (const char *no_color_label,
+GtkWidget       *color_palette_new (char const *no_color_label,
 				    GdkColor *default_color,
 				    ColorGroup *color_group);
 void		 color_palette_set_group (ColorPalette *P,

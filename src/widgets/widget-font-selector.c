@@ -388,7 +388,7 @@ font_selector_set_value (FontSelector *fs, GnmValue const *v)
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
 	val = (v != NULL)
-		? value_duplicate (v)
+		? value_dup (v)
 		: value_new_string ("AaBbCcDdEe12345");
 	foo_canvas_item_set (fs->font_preview_grid,
 		"default-value",  val,

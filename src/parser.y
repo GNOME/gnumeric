@@ -317,7 +317,7 @@ build_array (GSList *cols)
 
 			g_assert (expr->any.oper == GNM_EXPR_OP_CONSTANT);
 
-			value_array_set (array, x, y, value_duplicate (v));
+			value_array_set (array, x, y, value_dup (v));
 
 			x++;
 			row = row->next;

@@ -50,8 +50,8 @@ enum {
 };
 
 struct _ColorNamePair {
-	const char *color;	/* rgb color or otherwise - eg. "#FFFFFF" */
-	const char *name;	/* english name - eg. "white" */
+	char const *color;	/* rgb color or otherwise - eg. "#FFFFFF" */
+	char const *name;	/* english name - eg. "white" */
 };
 
 static guint color_palette_signals [LAST_SIGNAL] = { 0, };
@@ -120,13 +120,13 @@ static void
 emit_color_changed (ColorPalette *P, GdkColor *color,
 		    gboolean custom, gboolean by_user, gboolean is_default)
 {
-	GdkColor *new = make_color (P, color);
+	GdkColor *new_col = make_color (P, color);
 
-	if (new != NULL)
-		new = gdk_color_copy (new);
+	if (new_col != NULL)
+		new_col = gdk_color_copy (new_col);
 	if (P->current_color)
 		gdk_color_free (P->current_color);
-	P->current_color = new;
+	P->current_color = new_col;
 	P->current_is_default = is_default;
 
 	/* Only add custom colors to the group */
@@ -308,7 +308,7 @@ color_palette_button_new(ColorPalette *P, GtkTable* table,
 }
 
 static void
-cb_custom_colors (GdkColor const * const color, gpointer data)
+cb_custom_colors (GdkColor const *color, gpointer data)
 {
 	ColorPalette *P = data;
 
@@ -317,24 +317,11 @@ cb_custom_colors (GdkColor const * const color, gpointer data)
 }
 
 /*
- * gets history information from the group
- */
-static void
-custom_color_history_setup(ColorPalette *P)
-{
-	g_return_if_fail (P != NULL);
-	g_return_if_fail (P->color_group != NULL);
-
-	/* Sync our own palette with all the custom colors in the group */
-	color_group_get_custom_colors (P->color_group, (CbCustomColors) cb_custom_colors, P);
-}
-
-/*
  * Creates the color table
  */
 static GtkWidget *
 color_palette_setup (ColorPalette *P,
-		     char const * const no_color_label,
+		     char const *no_color_label,
 		     int ncols, int nrows,
 		     ColorNamePair *color_names)
 {
@@ -475,37 +462,14 @@ color_palette_get_color_picker (ColorPalette *P)
 
 
 /*
- * Where the actual construction goes on
- */
-static void
-color_palette_construct (ColorPalette *P,
-			 char const * const no_color_label,
-			 int ncols, int nrows)
-{
-	GtkWidget * table;
-	g_return_if_fail (P != NULL);
-	g_return_if_fail (IS_COLOR_PALETTE (P));
-
-	P->swatches = g_malloc (sizeof (GtkWidget *) * ncols * nrows);
-
-	/*
-	 * Our table selector
-	 */
-	table = color_palette_setup (P, no_color_label, ncols,
-				     nrows, P->default_set);
-	gtk_container_add (GTK_CONTAINER(P), table);
-}
-
-/*
  * More verbose constructor. Allows for specifying the rows, columns, and
  * Colors this palette will contain
  *
  * Note that if after placing all of the color_names there remains an entire
  * row available then a row of custum colors (initialized to black) is added
- *
  */
-static GtkWidget*
-color_palette_new_with_vals (char const * const no_color_label,
+static GtkWidget *
+color_palette_new_with_vals (char const *no_color_label,
 			     int ncols, int nrows, ColorNamePair *color_names,
 			     GdkColor *default_color,
 			     ColorGroup *cg)
@@ -520,10 +484,15 @@ color_palette_new_with_vals (char const * const no_color_label,
 	P->default_color = default_color;
 	P->current_color = default_color ? gdk_color_copy (default_color) : NULL;
 	P->current_is_default = TRUE;
+	P->swatches = g_malloc (sizeof (GtkWidget *) * ncols * nrows);
 	color_palette_set_group (P, cg);
 
-	color_palette_construct (P, no_color_label, ncols, nrows);
-	custom_color_history_setup(P);
+	gtk_container_add (GTK_CONTAINER (P),
+		color_palette_setup (P, no_color_label, ncols, nrows,
+				     P->default_set));
+	/* Sync our own palette with all the custom colors in the group */
+	color_group_get_custom_colors (P->color_group,
+		(CbCustomColors) cb_custom_colors, P);
 
 	return GTK_WIDGET (P);
 }
@@ -633,11 +602,10 @@ static ColorNamePair default_color_set [] = {
 /*
  * Default constructor. Pass an optional label for
  * the no/auto color button.
- *
  */
 GtkWidget*
-color_palette_new (const char *no_color_label,
-		   GdkColor *default_color, ColorGroup *color_group)
+color_palette_new (char const *no_color_label, GdkColor *default_color,
+		   ColorGroup *color_group)
 {
 	/* specify 6 rows to allow for a row of custom colors */
 	return color_palette_new_with_vals (no_color_label,

@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-units.h>
 
@@ -150,16 +151,12 @@ gog_legend_update (GogObject *obj)
 	gog_object_emit_changed	(obj, TRUE);
 }
 
-static gpointer
-gog_legend_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+static void
+gog_legend_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	return gog_style_editor	(gobj, cc, NULL, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
-}
-
-static unsigned
-gog_legend_interesting_fields (GogStyledObject *obj)
-{
-	return GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT;
+	style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT;
+	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), 0);
 }
 
 static void
@@ -181,9 +178,8 @@ gog_legend_class_init (GogLegendClass *klass)
 
 	gog_klass->parent_changed = gog_legend_parent_changed;
 	gog_klass->update	  = gog_legend_update;
-	gog_klass->editor	  = gog_legend_editor;
 	gog_klass->view_type	  = gog_legend_view_get_type ();
-	style_klass->interesting_fields = gog_legend_interesting_fields;
+	style_klass->init_style	  = gog_legend_init_style;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_SIZE_PTS,

@@ -454,7 +454,7 @@ static void
 gog_renderer_gnome_print_draw_marker (GogRenderer *renderer, double x, double y)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
-	GOMarker *marker = renderer->cur_style->marker;
+	GOMarker *marker = renderer->cur_style->marker.mark;
 	ArtVpath const *outline_path_raw, *fill_path_raw;
 	ArtVpath *outline_path, *fill_path;
 	double scaling[6], translation[6], affine[6];

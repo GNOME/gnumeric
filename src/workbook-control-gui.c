@@ -2108,9 +2108,14 @@ cb_edit_select_array (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	sv_select_cur_array (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 static void
-cb_edit_select_depend (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_edit_select_depends (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	sv_select_cur_depends (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
+}
+static void
+cb_edit_select_inputs (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	sv_select_cur_inputs (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
@@ -3403,8 +3408,12 @@ static GnomeUIInfo workbook_menu_edit_select [] = {
 
 	{ GNOME_APP_UI_ITEM, N_("Select _Depends"),
 	  N_("Select all the cells that depend on the current edit cell"),
-	  cb_edit_select_depend, NULL,
-	  NULL, 0, 0, 0, 0 },
+	  cb_edit_select_depends, NULL,
+	  NULL, 0, 0, ']', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("Select _Inputs"),
+	  N_("Select all the cells are used by the current edit cell"),
+	  cb_edit_select_inputs, NULL,
+	  NULL, 0, 0, '[', GDK_CONTROL_MASK },
 	GNOMEUIINFO_END
 };
 
@@ -4069,7 +4078,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditSelectRow", cb_edit_select_row),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectColumn", cb_edit_select_col),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectArray", cb_edit_select_array),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectDepends", cb_edit_select_depend),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectDepends", cb_edit_select_depends),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectInputs", cb_edit_select_inputs),
 
 	BONOBO_UI_UNSAFE_VERB ("EditUndo", cb_edit_undo),
 	BONOBO_UI_UNSAFE_VERB ("EditRedo", cb_edit_redo),

@@ -271,7 +271,12 @@
 
 		<menuitem name="EditSelectDepends" verb=""
 		    _label="Select _Depends"
+		    accel="*Control*]"
 		    _tip="Select all the cells that depend on the current edit cell"/>
+		<menuitem name="EditSelectInputs" verb=""
+		    _label="Select _Inputs"
+		    accel="*Control*["
+		    _tip="Select all the cells are used by the current edit cell"/>
 
 	    </submenu>
 	    <submenu name="Fill" _label="_Fill">

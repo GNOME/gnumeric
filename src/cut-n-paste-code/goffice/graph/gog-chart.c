@@ -42,12 +42,6 @@ enum {
 static GType gog_chart_view_get_type (void);
 static GObjectClass *chart_parent_klass;
 
-static gpointer
-gog_chart_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
-{
-	return gog_style_editor	(gobj, cc, NULL, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
-}
-
 static void
 gog_chart_update (GogObject *chart)
 {
@@ -210,7 +204,6 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 			"Is the charts cardinality currently vaid",
 			FALSE, G_PARAM_READABLE));
 
-	gog_klass->editor    = gog_chart_editor;
 	gog_klass->view_type = gog_chart_view_get_type ();
 	gog_klass->update    = gog_chart_update;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));

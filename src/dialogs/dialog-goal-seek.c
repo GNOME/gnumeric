@@ -436,7 +436,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 	state->old_cell = state->change_cell;
 	state->old_value = state->change_cell->value ?
-		value_duplicate (state->change_cell->value) : NULL;
+		value_dup (state->change_cell->value) : NULL;
 
 	status = gnumeric_goal_seek (state);
 

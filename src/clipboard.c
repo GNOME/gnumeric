@@ -53,7 +53,7 @@ cell_get_contents_as_expr (GnmCell const * cell)
 		expr = cell->base.expression;
 		gnm_expr_ref (expr);
 	} else if (cell_is_number (cell))
-		expr = gnm_expr_new_constant (value_duplicate (cell->value));
+		expr = gnm_expr_new_constant (value_dup (cell->value));
 	else
 		g_assert_not_reached ();
 
@@ -230,14 +230,14 @@ paste_cell (Sheet *dest_sheet,
 
 		if (cell_has_expr (src_cell)) {
 			cell_set_expr_and_value (new_cell, src_cell->base.expression,
-						 value_duplicate (src_cell->value), FALSE);
+						 value_dup (src_cell->value), FALSE);
 
 			if (paste_flags & PASTE_CONTENT)
 				cell_relocate (new_cell, rwinfo);
 			else
 				cell_convert_expr_to_value (new_cell);
 		} else
-				cell_set_value (new_cell, value_duplicate (src_cell->value));
+				cell_set_value (new_cell, value_dup (src_cell->value));
 
 	} else if (c_copy->u.text)
 		cell_set_text (sheet_cell_fetch (dest_sheet, target_col, target_row),

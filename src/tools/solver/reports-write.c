@@ -119,7 +119,7 @@ solver_answer_report (WorkbookControl *wbc,
 
 		/* Set `Final Value' column */
 		dao_set_cell_value (&dao, 4, 12 + i,
-				value_duplicate (cell->value));
+				value_dup (cell->value));
 	}
 
 
@@ -252,7 +252,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 
 		/* Set `Final Value' column */
 		dao_set_cell_value (&dao, 3, 8 + i,
-				value_duplicate (cell->value));
+				value_dup (cell->value));
 
 		/* Set `Reduced Cost' column */
 		/* FIXME: Set this also?? */
@@ -302,7 +302,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 		/* Set `Final Value' column */
 		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 		dao_set_cell_value (&dao, 3, 12 + vars + i,
-				    value_duplicate (cell->value));
+				    value_dup (cell->value));
 
 		/* Set `Shadow Price' */
 		dao_set_cell_value (&dao, 4, 12 + vars + i,
@@ -446,7 +446,7 @@ solver_limits_report (WorkbookControl *wbc,
 
 		/* Set `Adjustable Value' column */
 		dao_set_cell_value (&dao, 3, 12 + i,
-				value_duplicate (cell->value));
+				value_dup (cell->value));
 
 
 		/* Set `Lower Limit' column */

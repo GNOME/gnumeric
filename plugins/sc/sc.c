@@ -290,7 +290,7 @@ sc_parse_let (Sheet *sheet, char const *cmd, char const *str, int col, int row)
 
 	v = gnm_expr_get_constant (tree);
 	if (v && VALUE_IS_NUMBER (v)) {
-		cell_set_value (cell, value_duplicate (v));
+		cell_set_value (cell, value_dup (v));
 	} else {
 		cell_set_expr (cell, tree);
 	}

@@ -28,12 +28,54 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-marker.h>
 
 #include <src/gnumeric-i18n.h>
 #include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
+struct _GogLinePlot {
+	GogPlot1_5d	base;
+	gboolean	default_style_has_markers;
+};
+
 static GType gog_line_view_get_type (void);
+
+enum {
+	GOG_LINE_PROP_0,
+	GOG_LINE_PROP_DEFAULT_STYLE_HAS_MARKERS
+};
+
+typedef GogSeries1_5d		GogLineSeries;
+typedef GogSeries1_5dClass	GogLineSeriesClass;
+
+static GogStyledObjectClass *series_parent_klass;
+
+static void
+gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
+{
+	GogSeries *series = GOG_SERIES (gso);
+
+	series_parent_klass->init_style (gso, style);
+	if (style->marker.auto_shape && series->plot != NULL) {
+		GogLinePlot const *line = GOG_LINE_PLOT (series->plot);
+		if (!line->default_style_has_markers) {
+			GOMarker *m = go_marker_new ();
+			go_marker_set_shape (m, GO_MARKER_NONE);
+			gog_style_set_marker (style, m);
+			style->marker.auto_shape = FALSE;
+		}
+	}
+}
+static void
+gog_line_series_class_init (GogStyledObjectClass *gso_klass)
+{
+	series_parent_klass = g_type_class_peek_parent (gso_klass);
+	gso_klass->init_style = gog_line_series_init_style;
+}
+static GSF_CLASS (GogLineSeries, gog_line_series,
+	   gog_line_series_class_init, NULL,
+	   GOG_SERIES1_5D_TYPE)
 
 static char const *
 gog_line_plot_type_name (G_GNUC_UNUSED GogObject const *item)
@@ -85,22 +127,65 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 }
 
 static void
+gog_line_set_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GogLinePlot *line = GOG_LINE_PLOT (obj);
+	switch (param_id) {
+	case GOG_LINE_PROP_DEFAULT_STYLE_HAS_MARKERS:
+		line->default_style_has_markers = g_value_get_boolean (value);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+static void
+gog_line_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GogLinePlot const *line = GOG_LINE_PLOT (obj);
+	switch (param_id) {
+	case GOG_LINE_PROP_DEFAULT_STYLE_HAS_MARKERS:
+		g_value_set_boolean (value, line->default_style_has_markers);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
 gog_line_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 {
+	GObjectClass *gobject_klass = (GObjectClass *) gog_plot_1_5d_klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) gog_plot_1_5d_klass;
 	GogPlotClass *plot_klass = (GogPlotClass *) gog_plot_1_5d_klass;
+
+	gobject_klass->set_property = gog_line_set_property;
+	gobject_klass->get_property = gog_line_get_property;
+
+	g_object_class_install_property (gobject_klass, GOG_LINE_PROP_DEFAULT_STYLE_HAS_MARKERS,
+		g_param_spec_boolean ("default-style-has-markers", NULL,
+			"Should the default style of a series include markers",
+			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->type_name	= gog_line_plot_type_name;
 	gog_klass->view_type	= gog_line_view_get_type ();
 
 	plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+	plot_klass->series_type = gog_line_series_get_type ();
 
 	gog_plot_1_5d_klass->update_stacked_and_percentage =
 		gog_line_update_stacked_and_percentage;
 }
 
+static void
+gog_line_plot_init (GogLinePlot *plot)
+{
+	plot->default_style_has_markers = TRUE;
+}
+
 GSF_CLASS (GogLinePlot, gog_line_plot,
-	   gog_line_plot_class_init, NULL /*gog_line_plot_init*/,
+	   gog_line_plot_class_init, gog_line_plot_init,
 	   GOG_PLOT1_5D_TYPE)
 
 /*****************************************************************************/
@@ -120,6 +205,7 @@ gog_area_plot_class_init (GogObjectClass *gog_klass)
 	GogPlotClass *plot_klass = (GogPlotClass *) gog_klass;
 
 	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->series_type = gog_series1_5d_get_type ();
 
 	gog_klass->type_name	= gog_area_plot_type_name;
 }

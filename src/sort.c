@@ -57,7 +57,7 @@ sort_compare_cells (GnmCell const *ca, GnmCell const *cb, GnmSortClause *clause)
 {
 	GnmValue *a, *b;
 	GnmValueType ta, tb;
-	ValueCompare comp = IS_EQUAL;
+	GnmValDiff comp = IS_EQUAL;
 	int ans = 0;
 
 	if (!ca)

@@ -1219,7 +1219,7 @@ cb_set_cell_content (Sheet *sheet, int col, int row, GnmCell *cell,
 		}
 		cell_set_expr (cell, expr);
 	} else
-		cell_set_value (cell, value_duplicate (info->val));
+		cell_set_value (cell, value_dup (info->val));
 	return NULL;
 }
 
@@ -3939,9 +3939,9 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	new_cell = sheet_cell_new (dst, cell->pos.col, cell->pos.row);
 	if (is_expr)
 		cell_set_expr_and_value (new_cell,
-			cell->base.expression, value_duplicate (cell->value), TRUE);
+			cell->base.expression, value_dup (cell->value), TRUE);
 	else
-		cell_set_value (new_cell, value_duplicate (cell->value));
+		cell_set_value (new_cell, value_dup (cell->value));
 }
 
 static void

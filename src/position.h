@@ -49,23 +49,26 @@ struct _GnmRangeRef {
 	GnmCellRef a, b;
 };
 
-GnmCellRef *cellref_set         (GnmCellRef *ref, Sheet *sheet, int col, int row,
+GnmCellRef *cellref_init        (GnmCellRef *ref, Sheet *sheet, int col, int row,
 				 gboolean rel);
-gboolean  cellref_equal		(GnmCellRef const *a, GnmCellRef const *b);
-void      cellref_make_abs	(GnmCellRef *dest,
+gboolean    cellref_equal	(GnmCellRef const *a, GnmCellRef const *b);
+guint       cellref_hash        (GnmCellRef const *cr);
+void        cellref_make_abs	(GnmCellRef *dest,
 				 GnmCellRef const *src,
 				 EvalPos const *ep);
-int       cellref_get_abs_col	(GnmCellRef const *ref,
+int         cellref_get_abs_col	(GnmCellRef const *ref,
 				 EvalPos const *pos);
-int       cellref_get_abs_row	(GnmCellRef const *cell_ref,
+int         cellref_get_abs_row	(GnmCellRef const *cell_ref,
 				 EvalPos const *src_fp);
-void      cellref_get_abs_pos	(GnmCellRef const *cell_ref,
+void        cellref_get_abs_pos	(GnmCellRef const *cell_ref,
 				 GnmCellPos const *pos,
 				 GnmCellPos *res);
-guint     cellref_hash          (GnmCellRef const *cr);
 
-GnmRangeRef *value_to_rangeref    (GnmValue *v, gboolean release);
-void         rangeref_normalize   (GnmRangeRef const *ref, EvalPos const *ep,
-				Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest);
+gboolean     rangeref_equal	(GnmRangeRef const *a, GnmRangeRef const *b);
+guint	     rangeref_hash	(GnmRangeRef const *cr);
+GnmRangeRef *rangeref_dup	(GnmRangeRef const *cr);
+void         rangeref_normalize (GnmRangeRef const *ref, EvalPos const *ep,
+				 Sheet **start_sheet, Sheet **end_sheet,
+				 GnmRange *dest);
 
 #endif /* GNUMERIC_POSITION_H */

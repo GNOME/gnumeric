@@ -254,7 +254,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		field_num = filter_field_index (field);
 		switch (type) {
 		case  0 : cond = gnm_filter_condition_new_single (
-				  GNM_FILTER_OP_EQUAL, value_duplicate (val));
+				  GNM_FILTER_OP_EQUAL, value_dup (val));
 			break;
 		case  1 : cond = NULL;	break; /* unfilter */
 		case  2 : /* Custom */
@@ -631,7 +631,7 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 		    gnumeric_regcomp_XL (fexpr->regexp + i,  str, REG_ICASE) == REG_OK)
 			return;
 	}
-	fexpr->val[i] = value_duplicate (tmp);
+	fexpr->val[i] = value_dup (tmp);
 }
 
 static void
@@ -647,7 +647,7 @@ static gboolean
 filter_expr_eval (GnmFilterOp op, GnmValue const *src, gnumeric_regex_t const *regexp,
 		  GnmValue *target)
 {
-	ValueCompare cmp;
+	GnmValDiff cmp;
 
 	if (src == NULL) {
 		char const *str = value_peek_string (target);
@@ -735,7 +735,7 @@ cb_filter_find_items (Sheet *sheet, int col, int row, GnmCell *cell,
 	GnmValue const *v = cell->value;
 	if (data->elements >= data->count) {
 		unsigned j, i = data->elements;
-		ValueCompare const cond = data->find_max ? IS_GREATER : IS_LESS;
+		GnmValDiff const cond = data->find_max ? IS_GREATER : IS_LESS;
 		while (i-- > 0)
 			if (value_compare (v, data->vals[i], TRUE) == cond) {
 				for (j = 0; j < i ; j++)

@@ -62,14 +62,15 @@ typedef enum {
 	GO_PATTERN_MAX
 } GOPatternType;
 
-GOPatternType go_pattern_from_str (const gchar *name);
-const gchar  *go_pattern_as_str (GOPatternType pattern);
-gboolean   go_pattern_is_solid   (GOPattern const *pat, GOColor *color);
-void	   go_pattern_set_solid  (GOPattern *pat, GOColor fore);
-void	   go_pattern_render_svp (GOPattern const *pat, ArtSVP const *svp,
-				  int x0, int y0, int x1, int y1,
-				  art_u8 *buf, int rowstride);
-gpointer   go_pattern_selector   (GOColor fore, GOColor back);
+GOPatternType	 go_pattern_from_str   (char const *name);
+char const	*go_pattern_as_str     (GOPatternType pattern);
+gboolean	 go_pattern_is_solid   (GOPattern const *pat, GOColor *color);
+void		 go_pattern_set_solid  (GOPattern *pat, GOColor fore);
+void		 go_pattern_render_svp (GOPattern const *pat, ArtSVP const *svp,
+					int x0, int y0, int x1, int y1,
+					art_u8 *buf, int rowstride);
+gpointer	 go_pattern_selector   (GOColor fore, GOColor back,
+					GOPatternType default_pat);
 
 G_END_DECLS
 

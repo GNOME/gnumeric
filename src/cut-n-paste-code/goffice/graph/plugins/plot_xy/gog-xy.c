@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-marker.h>
 
 #include <module-plugin-defs.h>
 #include <src/gnumeric-i18n.h>
@@ -39,13 +40,16 @@ typedef struct {
 } GogXYPlotClass;
 
 enum {
-	PLOT_PROP_0,
+	GOG_XY_PROP_0,
+	GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
+	GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES
 };
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GogObjectClass *xy_parent_klass;
 static GType gog_xy_view_get_type (void);
+static GType gog_xy_series_get_type (void);
 
 #define GOG_XY_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XY_PLOT_TYPE, GogXYPlotClass))
 
@@ -166,11 +170,56 @@ gog_xy_plot_axis_bounds (GogPlot *plot, GogAxisType axis,
 }
 
 static void
+gog_xy_set_property (GObject *obj, guint param_id,
+		     GValue const *value, GParamSpec *pspec)
+{
+	GogXYPlot *xy = GOG_XY_PLOT (obj);
+	switch (param_id) {
+	case GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS:
+		xy->default_style_has_markers = g_value_get_boolean (value);
+		break;
+	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
+		xy->default_style_has_lines = g_value_get_boolean (value);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+static void
+gog_xy_get_property (GObject *obj, guint param_id,
+		     GValue *value, GParamSpec *pspec)
+{
+	GogXYPlot const *xy = GOG_XY_PLOT (obj);
+	switch (param_id) {
+	case GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS:
+		g_value_set_boolean (value, xy->default_style_has_markers);
+		break;
+	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
+		g_value_set_boolean (value, xy->default_style_has_lines);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+static void
 gog_xy_plot_class_init (GogPlotClass *plot_klass)
 {
+	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
 
 	xy_parent_klass = g_type_class_peek_parent (plot_klass);
+
+	gobject_klass->set_property = gog_xy_set_property;
+	gobject_klass->get_property = gog_xy_get_property;
+
+	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
+		g_param_spec_boolean ("default-style-has-markers", NULL,
+			"Should the default style of a series include markers",
+			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
+		g_param_spec_boolean ("default-style-has-lines", NULL,
+			"Should the default style of a series include lines",
+			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->update	= gog_xy_plot_update;
 	gog_klass->type_name	= gog_xy_plot_type_name;
@@ -186,6 +235,7 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
 		plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+		plot_klass->series_type = gog_xy_series_get_type ();
 	}
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
@@ -200,6 +250,8 @@ static void
 gog_xy_plot_init (GogXYPlot *xy)
 {
 	xy->base.vary_style_by_element = FALSE;
+	xy->default_style_has_markers = TRUE;
+	xy->default_style_has_lines = TRUE;
 }
 
 GSF_CLASS (GogXYPlot, gog_xy_plot,
@@ -337,7 +389,7 @@ enum {
 	SERIES_PROP_0,
 };
 
-static GogObjectClass *series_parent_klass;
+static GogStyledObjectClass *series_parent_klass;
 
 static void
 gog_xy_series_update (GogObject *obj)
@@ -365,20 +417,44 @@ gog_xy_series_update (GogObject *obj)
 	if (old_num != series->base.num_elements)
 		gog_plot_request_cardinality_update (series->base.plot);
 
-	if (series_parent_klass->update)
-		series_parent_klass->update (obj);
+	if (series_parent_klass->base.update)
+		series_parent_klass->base.update (obj);
 }
 
 static void
-gog_xy_series_class_init (GObjectClass *gobject_klass)
+gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	GogObjectClass *gog_klass = (GogObjectClass *)gobject_klass;
+	GogSeries *series = GOG_SERIES (gso);
+	GogXYPlot const *xy;
 
-	series_parent_klass = g_type_class_peek_parent (gobject_klass);
-	gog_klass->update = gog_xy_series_update;
+	series_parent_klass->init_style (gso, style);
+	if (series->plot == NULL)
+		return;
+	xy = GOG_XY_PLOT (series->plot);
+
+	if (style->marker.auto_shape && !xy->default_style_has_markers) {
+		GOMarker *m = go_marker_new ();
+		go_marker_set_shape (m, GO_MARKER_NONE);
+		gog_style_set_marker (style, m);
+		style->marker.auto_shape = FALSE;
+	}
+	if (style->line.auto_color && !xy->default_style_has_lines) {
+		style->line.color = 0;
+		style->line.auto_color = FALSE;
+	}
 }
 
-GSF_CLASS (GogXYSeries, gog_xy_series,
+static void
+gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
+{
+	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
+
+	series_parent_klass = g_type_class_peek_parent (gso_klass);
+	gog_klass->update	= gog_xy_series_update;
+	gso_klass->init_style	= gog_xy_series_init_style;
+}
+
+static GSF_CLASS (GogXYSeries, gog_xy_series,
 	   gog_xy_series_class_init, NULL,
 	   GOG_SERIES_TYPE)
 

@@ -130,7 +130,7 @@ gog_series_editor (GogObject *gobj,
 	w = gtk_notebook_new ();
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (w), GTK_WIDGET (table),
 		gtk_label_new (_("Data")));
-	gog_style_editor (gobj, cc, w, desc->style_fields);
+	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, w);
 	return w;
 }
 
@@ -141,11 +141,13 @@ gog_series_update (GogObject *obj)
 	series->needs_recalc = FALSE;
 }
 
-static unsigned
-gog_series_interesting_fields (GogStyledObject *obj)
+static void
+gog_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	GogSeries const *series = (GogSeries const *)obj;
-	return series->plot->desc.series.style_fields;
+	GogSeries const *series = (GogSeries const *)gso;
+	style->interesting_fields = series->plot->desc.series.style_fields;
+	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), series->index);
 }
 
 static void
@@ -159,7 +161,7 @@ gog_series_class_init (GogSeriesClass *klass)
 	gobject_klass->finalize		= gog_series_finalize;
 	gog_klass->editor		= gog_series_editor;
 	gog_klass->update		= gog_series_update;
-	style_klass->interesting_fields = gog_series_interesting_fields;
+	style_klass->init_style 	= gog_series_init_style;
 }
 
 static void
@@ -337,8 +339,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 		return;
 
 	series->index = ind;
-	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (series)),
-		series->base.style, GOG_OBJECT (series), ind);
+	gog_styled_object_apply_theme (&series->base, series->base.style);
 	gog_styled_object_style_changed (GOG_STYLED_OBJECT (series));
 }
 

@@ -49,6 +49,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkframe.h>
+#include <gtk/gtkviewport.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcellrendererpixbuf.h>
@@ -79,7 +80,7 @@ struct _GraphGuruState {
 
 	FooCanvasItem	  *sample_graph_item;
 
-	GtkNotebook	  *prop_notebook;
+	GtkBin  	  *prop_viewport;
 	GtkTreeSelection  *prop_selection;
 	GtkTreeView	  *prop_view;
 	GtkTreeStore	  *prop_model;
@@ -138,7 +139,6 @@ enum {
 #define PLOT_TYPE_KEY		"plot_type"
 #define FIRST_MINOR_TYPE	"first_minor_type"
 #define ROLE_KEY		"role"
-#define GRAPH_OBJECT_KEY	"graph_obj"
 #define STATE_KEY		"plot_type"
 
 static GdkPixbuf *
@@ -530,31 +530,6 @@ cb_graph_guru_delete_item (GtkWidget *w, GraphGuruState *s)
 	}
 }
 
-static void
-prop_notebook_set_current_page (GtkNotebook *notebook, gint page_num)
-{
-	GtkWidget *w = gtk_notebook_get_nth_page (notebook, page_num);
-
-	gtk_notebook_set_show_border (notebook, !GTK_IS_NOTEBOOK (w));
-	gtk_notebook_set_current_page (notebook, page_num);
-}
-
-static void
-cb_select_prop_page (GtkWidget *page, GogObject **target)
-{
-	GogObject *obj;
-
-	if (*target == NULL)
-		return;
-	obj = g_object_get_data (G_OBJECT (page), GRAPH_OBJECT_KEY);
-	if (obj == *target) {
-		GtkWidget *notebook = gtk_widget_get_parent (page);
-		prop_notebook_set_current_page (GTK_NOTEBOOK (notebook),
-			gtk_notebook_page_num (GTK_NOTEBOOK (notebook), page));
-		*target = NULL;
-	}
-}
-
 struct type_menu_create {
 	GraphGuruState *state;
 	GtkWidget   *menu;
@@ -652,6 +627,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 	gboolean delete_ok = FALSE;
 	GtkTreeModel *model;
 	GogObject  *obj;
+	GtkWidget *w;
 
 	s->prop_object = NULL;
 	if (gtk_tree_selection_get_selected (s->prop_selection, &model, &s->prop_iter))
@@ -710,19 +686,22 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 
 		delete_ok = gog_object_is_deletable (s->prop_object);
 
-		/* open or create a prefs page for the graph obj */
-		gtk_container_foreach (GTK_CONTAINER (s->prop_notebook),
-			(GtkCallback) cb_select_prop_page, &obj);
+		/* create a prefs page for the graph obj */
+		w = gtk_bin_get_child (s->prop_viewport);
+		if (w != NULL)
+			gtk_container_remove (GTK_CONTAINER (s->prop_viewport), w);
+
 		if (obj != NULL) {
-			int item_page = 0;
 			GtkWidget *editor = gog_object_get_editor (obj, s->dalloc, s->cc);
+			GtkShadowType shadow = GTK_SHADOW_OUT;
 			if (editor != NULL) {
-				item_page = gtk_notebook_get_n_pages (s->prop_notebook);
-				gtk_notebook_append_page (s->prop_notebook, editor, NULL);
+				if (GTK_IS_NOTEBOOK (editor))
+					shadow = GTK_SHADOW_NONE;
+				gtk_container_add (GTK_CONTAINER (s->prop_viewport), editor);
 				gtk_widget_show (editor);
-				g_object_set_data (G_OBJECT (editor), GRAPH_OBJECT_KEY, obj);
 			}
-			prop_notebook_set_current_page (s->prop_notebook, item_page);
+			gtk_viewport_set_shadow_type (GTK_VIEWPORT (s->prop_viewport), shadow);
+			gtk_widget_show (GTK_WIDGET (s->prop_viewport));
 		}
 	}
 
@@ -782,28 +761,21 @@ cb_obj_child_added (GogObject *parent, GogObject *child, GraphGuruState *s)
 	s->new_child = NULL;
 }
 
-static void
-cb_remove_prop_page (GtkWidget *page, GogObject *target)
-{
-	if (target != g_object_get_data (G_OBJECT (page), GRAPH_OBJECT_KEY))
-		return;
-	gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (page)),
-			      page);
-}
-
 static gboolean
 cb_find_child_removed (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 		       GraphGuruState *s)
 {
 	GogObject *obj;
+	GtkWidget *w;
 
 	gtk_tree_model_get (model, iter, PLOT_ATTR_OBJECT, &obj, -1);
 	if (obj == s->search_target) {
 		s->search_target = NULL;
 		/* remove the tree element and the prop page */
 		gtk_tree_store_remove (s->prop_model, iter);
-		gtk_container_foreach (GTK_CONTAINER (s->prop_notebook),
-			(GtkCallback) cb_remove_prop_page, &obj);
+		w = gtk_bin_get_child (s->prop_viewport);
+		if (w != NULL)
+			gtk_container_remove (GTK_CONTAINER (s->prop_viewport), w);
 		return TRUE;
 	}
 
@@ -974,8 +946,8 @@ graph_guru_init_format_page (GraphGuruState *s)
 		G_CALLBACK (cb_canvas_select_item), s);
 	gtk_widget_show (w);
 
-	w = glade_xml_get_widget (s->gui, "prop_notebook");
-	s->prop_notebook = GTK_NOTEBOOK (w);
+	w = glade_xml_get_widget (s->gui, "prop_viewport");
+	s->prop_viewport = GTK_BIN (w);
 	s->prop_model = gtk_tree_store_new (PLOT_ATTR_NUM_COLUMNS,
 				    G_TYPE_STRING, G_TYPE_POINTER);
 	s->prop_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (

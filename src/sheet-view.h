@@ -49,9 +49,7 @@ struct _SheetView {
 	guint            auto_expr_timer;
 };
 
-typedef struct {
-	GObjectClass   g_object_class;
-} SheetViewClass;
+typedef GObjectClass SheetViewClass;
 
 #define SHEET_VIEW_TYPE     (sheet_view_get_type ())
 #define SHEET_VIEW(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_VIEW_TYPE, SheetView))
@@ -59,8 +57,8 @@ typedef struct {
 #define SHEET_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_VIEW_TYPE, SheetViewClass))
 
 /* Lifecycle */
-GType	   sheet_view_get_type	 (void);
-SheetView *sheet_view_new	 (Sheet *sheet, WorkbookView *wbv);
+GType	   sheet_view_get_type	(void);
+SheetView *sheet_view_new	(Sheet *sheet, WorkbookView *wbv);
 void	   sv_attach_control	(SheetView *sv, SheetControl *sc);
 void	   sv_detach_control	(SheetControl *sc);
 void	   sv_weak_ref		(SheetView *sv, SheetView **ptr);

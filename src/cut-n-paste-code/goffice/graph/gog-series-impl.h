@@ -53,7 +53,7 @@ struct _GogSeriesDesc {
 struct _GogSeries {
 	GogStyledObject base;
 
-	unsigned index;
+	int index;
 	unsigned manual_index : 1;
 	unsigned is_valid     : 1;
 	unsigned needs_recalc : 1;

@@ -983,10 +983,10 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmValueRange const *v)
 	cellref_get_abs_pos (&v->cell.b, pos, &range.range.end);
 	if (range_is_singleton (&range.range)) {
 		flags = link_single_dep (&dyn->base, pos, &v->cell.a);
-		dyn->singles = g_slist_prepend (dyn->singles, value_duplicate ((GnmValue *)v));
+		dyn->singles = g_slist_prepend (dyn->singles, value_dup ((GnmValue *)v));
 	} else {
 		flags = link_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
-		dyn->ranges = g_slist_prepend (dyn->ranges, value_duplicate ((GnmValue *)v));
+		dyn->ranges = g_slist_prepend (dyn->ranges, value_dup ((GnmValue *)v));
 	}
 	if (flags & DEPENDENT_HAS_3D)
 		workbook_link_3d_dep (dep);

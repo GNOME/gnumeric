@@ -58,6 +58,7 @@ GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 
 GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);
 GnmValue      *gnm_expr_get_range    (GnmExpr const *expr);
+GSList        *gnm_expr_get_ranges   (GnmExpr const *expr);
 GnmValue const*gnm_expr_get_constant (GnmExpr const *expr);
 GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
 
@@ -68,10 +69,10 @@ gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_err 	     (GnmExpr const *expr, GnmStdError e);
 gboolean  gnm_expr_equal	     (GnmExpr const *a, GnmExpr const *b);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, ParsePos const *pp,
-				      const GnmExprConventions *fmt);
+				      GnmExprConventions const *fmt);
 void      gnm_expr_as_gstring	     (GString *target,
 				      GnmExpr const *expr, ParsePos const *pp,
-				      const GnmExprConventions *fmt);
+				      GnmExprConventions const *fmt);
 void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, GnmRange *bound);
 GSList	 *gnm_expr_referenced_sheets (GnmExpr const *expr);
 gboolean  gnm_expr_containts_subtotal(GnmExpr const *expr);

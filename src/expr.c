@@ -592,7 +592,7 @@ value_intersection (GnmValue *v, EvalPos const *pos)
 	gboolean found = FALSE;
 
 	if (v->type == VALUE_ARRAY) {
-		res = value_duplicate (v->v_array.vals[0][0]);
+		res = value_dup (v->v_array.vals[0][0]);
 		value_release (v);
 		return res;
 	}
@@ -634,7 +634,7 @@ value_intersection (GnmValue *v, EvalPos const *pos)
 			if (cell == NULL)
 				return value_new_empty ();
 			cell_eval (cell);
-			return value_duplicate (cell->value);
+			return value_dup (cell->value);
 		}
 	}
 
@@ -650,7 +650,7 @@ cb_range_eval (Sheet *sheet, int col, int row, GnmCell *cell, void *ignore)
 #endif
 
 static GnmValue *
-bin_cmp (GnmExprOp op, ValueCompare comp, EvalPos const *pos)
+bin_cmp (GnmExprOp op, GnmValDiff comp, EvalPos const *pos)
 {
 	if (comp == TYPE_MISMATCH) {
 		/* TODO TODO TODO : Make error more informative
@@ -709,7 +709,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	       GnmExprEvalFlags flags)
 {
 	GnmValue *res = NULL, *a = NULL, *b = NULL;
-	ValueCompare comp;
+	GnmValDiff comp;
 
 	g_return_val_if_fail (expr != NULL, handle_empty (NULL, flags));
 	g_return_val_if_fail (pos != NULL, handle_empty (NULL, flags));
@@ -996,11 +996,11 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 		cell_eval (cell);
 
-		return handle_empty (value_duplicate (cell->value), flags);
+		return handle_empty (value_dup (cell->value), flags);
 	}
 
 	case GNM_EXPR_OP_CONSTANT:
-		res = value_duplicate (expr->constant.value);
+		res = value_dup (expr->constant.value);
 		if (res->type != VALUE_CELLRANGE)
 			return handle_empty (res, flags);
 
@@ -1064,7 +1064,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			a = (GnmValue *)value_area_get_x_y (a, x, y, &tmp_ep);
 		}
 
-		return handle_empty ((a != NULL) ? value_duplicate (a) : NULL, flags);
+		return handle_empty ((a != NULL) ? value_dup (a) : NULL, flags);
 	}
 	case GNM_EXPR_OP_SET:
 		return value_new_error_VALUE (pos);
@@ -1103,7 +1103,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 static void
 gnm_expr_list_as_string (GString *target,
 			 GnmExprList const *list, ParsePos const *pp,
-			 const GnmExprConventions *fmt);
+			 GnmExprConventions const *fmt);
 
 
 /*
@@ -1115,10 +1115,10 @@ gnm_expr_list_as_string (GString *target,
  */
 static void
 do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
-		   int paren_level, const GnmExprConventions *conv)
+		   int paren_level, GnmExprConventions const *conv)
 {
 	static struct {
-		const char name[4];
+		char const name[4];
 		guint8 prec;	                 /* Precedences -- should match parser.y  */
 		guint8 assoc_left, assoc_right;  /* 0: no, 1: yes.  */
 		guint8 is_prefix;                /* for unary operators */
@@ -1197,7 +1197,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList const * const arg_list = expr->func.arg_list;
-		const char *name = gnm_func_get_name (expr->func.func);
+		char const *name = gnm_func_get_name (expr->func.func);
 
 		g_string_append (target, name);
 		/* FIXME: possibly a space here.  */
@@ -1228,7 +1228,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 			return;
 		}
 
-		value_get_as_gstring (target, v, conv);
+		value_get_as_gstring (v, target, conv);
 
 		/* If the number has a sign, pretend that it is the result of
 		 * OPER_UNARY_{NEG,PLUS}.
@@ -1290,13 +1290,12 @@ gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 void
 gnm_expr_as_gstring (GString *target,
 		     GnmExpr const *expr, ParsePos const *pp,
-		     const GnmExprConventions *fmt)
+		     GnmExprConventions const *fmt)
 {
 	g_return_if_fail (expr != NULL);
 	g_return_if_fail (pp != NULL);
 	do_expr_as_string (target, expr, pp, 0, fmt);
 }
-
 
 typedef enum {
 	CELLREF_NO_RELOCATE,
@@ -2039,7 +2038,7 @@ gnm_expr_get_range (GnmExpr const *expr)
 
 	case GNM_EXPR_OP_CONSTANT:
 		if (expr->constant.value->type == VALUE_CELLRANGE)
-			return value_duplicate (expr->constant.value);
+			return value_dup (expr->constant.value);
 		return NULL;
 
 	case GNM_EXPR_OP_NAME:
@@ -2052,6 +2051,40 @@ gnm_expr_get_range (GnmExpr const *expr)
 	}
 }
 
+/**
+ * gnm_expr_get_ranges:
+ * @expr :
+ *
+ * A collect the set of rangerefs in @expr.
+ * Return a list of the unique references.
+ * Caller is responsible for releasing.
+ */
+GSList *
+gnm_expr_get_ranges (GnmExpr const *expr)
+{
+	GHashTable *singles, *ranges;
+
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	switch (expr->any.oper) {
+	case GNM_EXPR_OP_CELLREF :
+		return value_new_cellrange_unsafe (
+			&expr->cellref.ref, &expr->cellref.ref);
+
+	case GNM_EXPR_OP_CONSTANT:
+		if (expr->constant.value->type == VALUE_CELLRANGE)
+			return value_dup (expr->constant.value);
+		return NULL;
+
+	case GNM_EXPR_OP_NAME:
+		if (!expr->name.name->active)
+			return NULL;
+		return gnm_expr_get_range (expr->name.name->expr);
+
+	default:
+		return NULL;
+	}
+}
 /**
  * gnm_expr_get_constant:
  * @expr :
@@ -2154,9 +2187,9 @@ gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
 static void
 gnm_expr_list_as_string (GString *target,
 			 GnmExprList const *list, ParsePos const *pp,
-			 const GnmExprConventions *conv)
+			 GnmExprConventions const *conv)
 {
-	const char *sep;
+	char const *sep;
 	char arg_sep[2];
 	if (conv->output_argument_sep)
 		sep = conv->output_argument_sep;
@@ -2184,7 +2217,7 @@ gnm_expr_list_as_string (GString *target,
 static guint
 ets_hash (gconstpointer key)
 {
-	const GnmExpr *expr = (const GnmExpr *)key;
+	GnmExpr const *expr = (GnmExpr const *)key;
 	guint h = (guint)(expr->any.oper);
 
 	switch (expr->any.oper){
@@ -2238,8 +2271,8 @@ ets_hash (gconstpointer key)
 static gboolean
 ets_equal (gconstpointer _a, gconstpointer _b)
 {
-	const GnmExpr *ea = _a;
-	const GnmExpr *eb = _b;
+	GnmExpr const *ea = _a;
+	GnmExpr const *eb = _b;
 
 	if (ea->any.oper != eb->any.oper)
 		return FALSE;
@@ -2433,7 +2466,7 @@ expr_init (void)
 static void
 cb_expression_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 {
-	const GnmExpr *expr = data;
+	GnmExpr const *expr = data;
 	ParsePos pp;
 	char *s;
 

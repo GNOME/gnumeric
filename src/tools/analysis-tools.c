@@ -376,7 +376,7 @@ cb_cut_into_cols (gpointer data, gpointer user_data)
 	}
 
 	for (col = range->v_range.cell.a.col; col <= range->v_range.cell.b.col; col++) {
-		col_value = value_duplicate (range);
+		col_value = value_dup (range);
 		col_value->v_range.cell.a.col = col;
 		col_value->v_range.cell.b.col = col;
 		*list_of_units = g_slist_prepend (*list_of_units, col_value);
@@ -414,7 +414,7 @@ cb_cut_into_rows (gpointer data, gpointer user_data)
 	}
 
 	for (row = range->v_range.cell.a.row; row <= range->v_range.cell.b.row; row++) {
-		row_value = value_duplicate (range);
+		row_value = value_dup (range);
 		row_value->v_range.cell.a.row = row;
 		row_value->v_range.cell.b.row = row;
 		*list_of_units = g_slist_prepend (*list_of_units, row_value);
@@ -3041,7 +3041,7 @@ analysis_tool_anova_two_factor_prepare_input_range (
 		(info->labels ? 0 : 1);
 
 	if (info->replication == 1) {
-		info->row_input_range = g_slist_prepend (NULL, value_duplicate (info->input));
+		info->row_input_range = g_slist_prepend (NULL, value_dup (info->input));
 		prepare_input_range (&info->row_input_range, GROUPED_BY_ROW);
 		if (info->labels) {
 			GSList *list = info->row_input_range;
@@ -3295,7 +3295,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 			info->input->v_range.cell.a.row + i_r * info->replication,
 			_("Row %i"), i_r + 1, info->labels);
 
-	input_cp = value_duplicate (info->input);
+	input_cp = value_dup (info->input);
 	input_cp->v_range.cell.b.row = input_cp->v_range.cell.a.row +
 		info->replication - 1;
 	row_data = g_ptr_array_new ();
@@ -3303,7 +3303,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		GPtrArray *col_data = NULL;
 		GSList *col_input_range = NULL;
 
-		col_input_range = g_slist_prepend (NULL, value_duplicate (input_cp));
+		col_input_range = g_slist_prepend (NULL, value_dup (input_cp));
 		prepare_input_range (&col_input_range, GROUPED_BY_COL);
 		col_data = new_data_set_list (col_input_range, GROUPED_BY_COL,
 				  TRUE, FALSE, dao->sheet);

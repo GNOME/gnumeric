@@ -32,17 +32,6 @@
 #include "ranges.h"
 
 
-GnmCellRef *
-cellref_set (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
-{
-	ref->sheet = sheet;
-	ref->col   = col;
-	ref->row   = row;
-	ref->col_relative = ref->row_relative = relative;
-
-	return ref;
-}
-
 EvalPos *
 eval_pos_init (EvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 {
@@ -187,6 +176,17 @@ parse_pos_init_sheet (ParsePos *pp, Sheet *sheet)
 
 /********************************************************************************/
 
+GnmCellRef *
+cellref_init (GnmCellRef *ref, Sheet *sheet, int col, int row, gboolean relative)
+{
+	ref->sheet = sheet;
+	ref->col   = col;
+	ref->row   = row;
+	ref->col_relative = ref->row_relative = relative;
+
+	return ref;
+}
+
 gboolean
 cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
 {
@@ -195,6 +195,15 @@ cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
 	       (a->row == b->row) &&
 	       (a->row_relative == b->row_relative) &&
 	       (a->sheet == b->sheet);
+}
+
+guint
+cellref_hash (GnmCellRef const *cr)
+{
+	guint h = ((cr->row << 8) ^ cr->col) * 4;
+	if (cr->col_relative) h |= 1;
+	if (cr->row_relative) h |= 2;
+	return h;
 }
 
 int
@@ -273,33 +282,29 @@ cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, EvalPos const *ep)
 	dest->row_relative = dest->col_relative = FALSE;
 }
 
+gboolean
+rangeref_equal (GnmRangeRef const *a, GnmRangeRef const *b)
+{
+	return cellref_equal (&a->a, &b->a) && cellref_equal (&a->b, &b->b);
+}
 
 guint
-cellref_hash (GnmCellRef const *cr)
+rangeref_hash (GnmRangeRef const *rr)
 {
-	guint h = ((cr->row << 8) ^ cr->col) * 4;
-	if (cr->col_relative) h |= 1;
-	if (cr->row_relative) h |= 2;
-	return h;
+	return cellref_hash (&rr->a) << 16 | cellref_hash (&rr->b);
 }
 
 GnmRangeRef *
-value_to_rangeref (GnmValue *v, gboolean release)
+rangeref_dup (GnmRangeRef const *rr)
 {
-	GnmRangeRef *gr;
+	GnmRangeRef *res;
 
-	g_return_val_if_fail (v->type == VALUE_CELLRANGE, NULL);
+	g_return_val_if_fail (rr != NULL, NULL);
 
-	gr = g_new0 (GnmRangeRef, 1);
-	*gr = v->v_range.cell;
-
-	if (release)
-		value_release (v);
-
-	return gr;
-
+	res = g_new (GnmRangeRef, 1);
+	*res = *rr;
+	return res;
 }
-
 
 /**
  * range_ref_normalize :  Take a range_ref and normalize it

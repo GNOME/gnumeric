@@ -499,7 +499,7 @@ gog_renderer_pixbuf_draw_marker (GogRenderer *rend, double x, double y)
 	GdkRectangle r1, r2, dest; 
 	GogStyle const *style = rend->cur_style;
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
-	GdkPixbuf const *marker_pixbuf = go_marker_get_pixbuf (style->marker);
+	GdkPixbuf const *marker_pixbuf = go_marker_get_pixbuf (style->marker.mark);
 
 	if (marker_pixbuf == NULL)
 		return;

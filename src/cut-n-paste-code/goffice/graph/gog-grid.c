@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-renderer.h>
 
 #include <src/gui-util.h>
@@ -40,16 +41,12 @@ typedef GogStyledObjectClass GogGridClass;
 static GType gog_grid_view_get_type (void);
 static GogViewClass *gview_parent_klass;
 
-static gpointer
-gog_grid_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+static void
+gog_grid_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	return gog_style_editor (gobj, cc, NULL, GOG_STYLE_FILL | GOG_STYLE_LINE);
-}
-
-static unsigned
-gog_grid_interesting_fields (GogStyledObject *obj)
-{
-	return GOG_STYLE_FILL | GOG_STYLE_LINE;
+	style->interesting_fields = GOG_STYLE_FILL | GOG_STYLE_LINE;
+	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), 0);
 }
 
 static void
@@ -58,9 +55,8 @@ gog_grid_class_init (GogGridClass *klass)
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
 
-	gog_klass->editor	= gog_grid_editor;
 	gog_klass->view_type	= gog_grid_view_get_type ();
-	style_klass->interesting_fields = gog_grid_interesting_fields;
+	style_klass->init_style = gog_grid_init_style;
 }
 
 GSF_CLASS (GogGrid, gog_grid,

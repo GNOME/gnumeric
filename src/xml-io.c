@@ -380,7 +380,7 @@ xml_node_set_value (xmlNodePtr node, char const *name, GnmValue const *value)
 	g_string_append_printf (str, "%d:", value->type);
 
 	/* Set value. */
-        value_get_as_gstring (str, value, gnm_expr_conventions_default);
+        value_get_as_gstring (value, str, gnm_expr_conventions_default);
 	xml_node_set_cstr (node, name, str->str);
 	g_string_free (str, FALSE);
 }
@@ -1799,7 +1799,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, GnmCell const *cell, ParsePo
 			g_string_append_c (str, '=');
 			gnm_expr_as_gstring (str, cell->base.expression, pp, ctxt->exprconv);
 		} else
-			value_get_as_gstring (str, cell->value, ctxt->exprconv);
+			value_get_as_gstring (cell->value, str, ctxt->exprconv);
 		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (str->str));
 		g_string_free (str, TRUE);
 
@@ -2093,7 +2093,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 					g_warning ("XML-IO: Shared expression with no expession? id = %d\ncontent ='%s'",
 						   shared_expr_index, CXML2C (content));
 					cell_set_expr (cell,
-						gnm_expr_new_constant (value_duplicate (cell->value)));
+						gnm_expr_new_constant (value_dup (cell->value)));
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
 						 (gpointer) cell->base.expression);
@@ -2246,7 +2246,7 @@ xml_write_filter_expr (XmlParseContext *ctxt, xmlNode *field,
 	xml_node_set_int (field, filter_expr_attrs[i].valtype,
 			  cond->value[i]->type);
 
-	value_get_as_gstring (text, cond->value[i], ctxt->exprconv);
+	value_get_as_gstring (cond->value[i], text, ctxt->exprconv);
 	xml_node_set_cstr (field, filter_expr_attrs[i].val, CC2XML (text->str));
 	g_string_free (text, TRUE);
 }

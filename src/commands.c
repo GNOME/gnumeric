@@ -1693,6 +1693,7 @@ cmd_format_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		}
 		sheet_flag_format_update_range (me->cmd.sheet, l->data);
 	}
+	sheet_set_dirty (me->cmd.sheet, TRUE);
 
 	return FALSE;
 }
@@ -5300,7 +5301,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 				GnmCell *target_cell = sheet_cell_fetch ((Sheet *)target_sheet->data,
 								      col_target, row_target);
 				cell_assign_value (target_cell,
-						   value_duplicate (source_cell->value));
+						   value_dup (source_cell->value));
 			}
 			target_sheet = target_sheet->next;
 			row_source++;
@@ -6306,7 +6307,7 @@ MAKE_GNM_COMMAND (CmdGoalSeek, cmd_goal_seek);
 static gboolean
 cmd_goal_seek_impl (GnmCell *cell, GnmValue *value)
 {
-	sheet_cell_set_value (cell, value_duplicate(value));
+	sheet_cell_set_value (cell, value_dup(value));
 	workbook_recalc (cell->base.sheet->workbook);
 	return FALSE;
 }
@@ -6367,9 +6368,9 @@ cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 	me->nv = nv;
 
 	if (me->ov == NULL)
-		me->ov = value_duplicate (cell->value);
+		me->ov = value_dup (cell->value);
 	if (me->nv == NULL)
-		me->nv = value_duplicate (cell->value);
+		me->nv = value_dup (cell->value);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

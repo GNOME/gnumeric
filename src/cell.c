@@ -134,7 +134,7 @@ cell_copy (GnmCell const *cell)
 	new_cell->rendered_value = NULL;
 
 	new_cell->value = (new_cell->value)
-		? value_duplicate (new_cell->value)
+		? value_dup (new_cell->value)
 		: value_new_empty ();
 
 	return new_cell;

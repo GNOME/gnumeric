@@ -85,7 +85,7 @@ get_bounding_box (GSList const *granges, GnmRange *box)
 static int
 cb_value_compare (GnmValue const *a, GnmValue const *b)
 {
-	ValueCompare vc = value_compare (a, b, TRUE);
+	GnmValDiff vc = value_compare (a, b, TRUE);
 
 	switch (vc) {
 	case IS_EQUAL: return 0;
@@ -552,7 +552,7 @@ cb_row_tree (GnmValue const *key, TreeItem *ti, ConsolidateContext *cc)
 	GnmConsolidate *cs = cc->cs;
 
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
-		dao_set_cell_value (cc->dao, -1, 0, value_duplicate (key)); 
+		dao_set_cell_value (cc->dao, -1, 0, value_dup (key)); 
 
 	simple_consolidate (cs->fd, ti->val, FALSE, cc->dao);
 
@@ -600,7 +600,7 @@ cb_col_tree (GnmValue const *key, TreeItem *ti, ConsolidateContext *cc)
 	GnmConsolidate *cs = cc->cs;
 
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
-		dao_set_cell_value (cc->dao, 0, -1, value_duplicate (key)); 
+		dao_set_cell_value (cc->dao, 0, -1, value_dup (key)); 
 
 	simple_consolidate (cs->fd, ti->val, FALSE, cc->dao);
 
@@ -699,12 +699,12 @@ colrow_consolidate (GnmConsolidate *cs, data_analysis_output_t *dao)
 		for (l = rows, y = 1; l != NULL; l = l->next, y++) {
 			GnmValue const *row_name = l->data;
 			
-			dao_set_cell_value (dao, 0, y, value_duplicate (row_name));
+			dao_set_cell_value (dao, 0, y, value_dup (row_name));
 		}
 		for (m = cols, x = 1; m != NULL; m = m->next, x++) {
 			GnmValue const *col_name = m->data;
 			
-			dao_set_cell_value (dao, x, 0, value_duplicate (col_name));
+			dao_set_cell_value (dao, x, 0, value_dup (col_name));
 		}
 		dao->offset_col = 1;
 		dao->offset_row = 1;

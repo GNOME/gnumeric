@@ -36,7 +36,7 @@ typedef struct {
 	GogObjectClass base;
 
 	/* virtual */
-	unsigned (*interesting_fields) (GogStyledObject *obj);
+	void	  (*init_style)     	(GogStyledObject *obj, GogStyle *style);
 
 	/* signal */
 	void (*style_changed) (GogStyledObject *obj, GogStyle const *new_style);
@@ -48,8 +48,10 @@ typedef struct {
 #define GOG_STYLED_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_STYLED_OBJECT_TYPE, GogStyledObjectClass))
 
 GType     gog_styled_object_get_type (void);
-GogStyle *gog_styled_object_get_style	  (GogStyledObject *obj);
-void	  gog_styled_object_style_changed (GogStyledObject *obj);
+GogStyle *gog_styled_object_get_style	   (GogStyledObject *gso);
+GogStyle *gog_styled_object_get_auto_style (GogStyledObject *gso);
+void	  gog_styled_object_style_changed  (GogStyledObject *gso);
+void	  gog_styled_object_apply_theme	   (GogStyledObject *gso, GogStyle *style);
 
 G_END_DECLS
 

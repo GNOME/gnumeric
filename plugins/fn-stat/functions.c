@@ -3973,7 +3973,7 @@ gnumeric_linest (FunctionEvalInfo *ei, GnmValue *argv[])
 		}
 
 		dim = lastcol - firstcol + 1;
-		copy = value_duplicate (argv[1]);
+		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
@@ -4010,7 +4010,7 @@ gnumeric_linest (FunctionEvalInfo *ei, GnmValue *argv[])
 		}
 
 		dim = lastrow - firstrow + 1;
-		copy = value_duplicate (argv[1]);
+		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
@@ -4249,7 +4249,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, GnmValue *argv[])
 		}
 
 		dim = lastcol - firstcol + 1;
-		copy = value_duplicate (argv[1]);
+		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
@@ -4286,7 +4286,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, GnmValue *argv[])
 		}
 
 		dim = lastrow - firstrow + 1;
-		copy = value_duplicate (argv[1]);
+		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
@@ -4718,7 +4718,7 @@ gnumeric_logest (FunctionEvalInfo *ei, GnmValue *argv[])
 		}
 
 		dim = lastcol - firstcol + 1;
-		copy = value_duplicate (argv[1]);
+		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
@@ -4755,7 +4755,7 @@ gnumeric_logest (FunctionEvalInfo *ei, GnmValue *argv[])
 		}
 
 		dim = lastrow - firstrow + 1;
-		copy = value_duplicate (argv[1]);
+		copy = value_dup (argv[1]);
 		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;

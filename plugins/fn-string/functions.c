@@ -766,7 +766,7 @@ static GnmValue *
 gnumeric_t_ (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	if (argv[0]->type == VALUE_STRING)
-		return value_duplicate (argv[0]);
+		return value_dup (argv[0]);
 	else
 		return value_new_empty ();
 }
@@ -896,7 +896,7 @@ gnumeric_value (FunctionEvalInfo *ei, GnmValue **argv)
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	case VALUE_BOOLEAN:
-		return value_duplicate (argv[0]);
+		return value_dup (argv[0]);
 
 	default: {
 		GnmValue *v;

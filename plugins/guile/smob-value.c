@@ -52,7 +52,7 @@ make_new_smob (GnmValue *v)
 	SCM_Value *value;
 
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
-	value->v = value_duplicate (v);
+	value->v = value_dup (v);
 	value->update_func = SCM_BOOL_F;
 
 	SCM_RETURN_NEWSMOB (value_tag, value);
@@ -68,7 +68,7 @@ get_value_from_smob (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
-	return value_duplicate (v->v);
+	return value_dup (v->v);
 }
 
 int

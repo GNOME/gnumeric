@@ -360,12 +360,7 @@ color_combo_set_gocolor (GtkWidget *cc, GOColor c)
 {
 	if (UINT_RGBA_A (c) != 0) {
 		GdkColor gdk;
-		gdk.red    = UINT_RGBA_R (c);
-		gdk.red   |= (gdk.red << 8);
-		gdk.green  = UINT_RGBA_G (c);
-		gdk.green |= (gdk.green << 8);
-		gdk.blue   = UINT_RGBA_B (c);
-		gdk.blue  |= (gdk.blue << 8);
+		go_color_to_gdk	(c, &gdk);
 		/* should not be necessary.  The CC should do it for itself */
 		gdk_rgb_find_color (gtk_widget_get_colormap (cc), &gdk);
 		color_combo_set_color (COLOR_COMBO (cc), &gdk);
@@ -394,4 +389,15 @@ go_color_as_str (GOColor color)
 
 	UINT_TO_RGBA (color, &r, &g, &b, &a);
 	return g_strdup_printf ("%X:%X:%X:%X", r, g, b, a);
+}
+
+void
+go_color_to_gdk	(GOColor c, GdkColor *res)
+{
+	res->red    = UINT_RGBA_R (c);
+	res->red   |= (res->red << 8);
+	res->green  = UINT_RGBA_G (c);
+	res->green |= (res->green << 8);
+	res->blue   = UINT_RGBA_B (c);
+	res->blue  |= (res->blue << 8);
 }

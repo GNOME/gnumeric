@@ -23,6 +23,7 @@
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-outlined-object.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-data-set.h>
@@ -109,15 +110,16 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_widget_show_all (hbox);
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), hbox,
 		gtk_label_new (_("Data")));
-	gog_style_editor (gobj, cc, notebook,
-		GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT);
+	gog_style_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
 	return notebook;
 }
 
-static unsigned
-gog_label_interesting_fields (GogStyledObject *obj)
+static void
+gog_label_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	return GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT;
+	style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT;
+	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), 0);
 }
 
 static void
@@ -138,7 +140,7 @@ gog_label_class_init (GogLabelClass *klass)
 
 	gog_klass->editor	= gog_label_editor;
 	gog_klass->view_type	= gog_label_view_get_type ();
-	style_klass->interesting_fields = gog_label_interesting_fields;
+	style_klass->init_style = gog_label_init_style;
 }
 
 static void

@@ -1,3 +1,57 @@
+2003-11-11  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-pattern.c (go_pattern_selector) : add auto support.
+
+	* utils/go-marker.c : move the default handling where it belongs.
+
+	* utils/go-color.c (go_color_to_gdk) : new.
+
+	* graph/plugins/plot_barcol/plot-types.xml.in : include non-marker
+	  variants.
+	* graph/plugins/plot_xy/plot-types.xml.in : include non-marker, and
+	 barcol non-line variants.
+
+	* graph/gog-theme.c : respect the auto flags here.
+
+	* graph/gog-styled-object.c (gog_styled_object_apply_theme) : new.
+	(gog_styled_object_set_property) : Use it here.
+	(gog_styled_object_parent_changed) : and here.
+	(gog_styled_object_editor) : provide a default impl.
+	(gog_styled_object_get_auto_style) : new.
+
+	* graph/gog-style.c :
+	    - Add support for auto* flags for the marker here, not GoMarker.
+	    - Support restoring auto for shapes and colours
+
+	* graph/gog-series.c (gog_series_init_style) : new.  Gives us finer
+	  control of what is themable.
+
+	* graph/gog-guru.c : Simplify our lives and only have 1 prop sheet at
+	  any given time.  No need to worry about updating when something
+	  changes externally (styles or dimensions)
+
+	* graph/gog-chart.c : Use the default editor and init_style
+	* graph/gog-graph.c : ditto
+
+	* graph/gog-axis.c : convert from ::interesting_fields -> ::init_style
+	* graph/gog-grid.c : ditto.
+	* graph/gog-label.c : ditto.
+	* graph/gog-legend.c : ditto.
+
+2003-11-05  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-marker.h : I don't want GtkWidget in these headers
+
+2003-11-04  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=125986
+	* graph/gog-style.c (gog_style_merge) : A cheesy solution to the
+	  current lack of clarity on the theming.  We only have a
+	  colour.is_auto flag, so only assign the colour.  This means that
+	  lines and outlines can only theme the colour, not the width or the
+	  pattern.  Which seems reasonably until we have a plan for defining
+	  'autoness' for those attributes.
+
 2003-11-03  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=126056

@@ -545,7 +545,7 @@ value_release (GnmValue *value)
  * Makes a copy of a GnmValue
  */
 GnmValue *
-value_duplicate (GnmValue const *src)
+value_dup (GnmValue const *src)
 {
 	GnmValue *res;
 
@@ -591,14 +591,14 @@ value_duplicate (GnmValue const *src)
 		for (x = 0; x < array->x; x++) {
 			array->vals[x] = g_new (GnmValue *, array->y);
 			for (y = 0; y < array->y; y++)
-				array->vals[x][y] = value_duplicate (src->v_array.vals[x][y]);
+				array->vals[x][y] = value_dup (src->v_array.vals[x][y]);
 		}
 		res = (GnmValue *)array;
 		break;
 	}
 
 	default:
-		g_warning ("value_duplicate problem.");
+		g_warning ("value_dup problem.");
 		res = value_new_empty ();
 	}
 	value_set_fmt (res, VALUE_FMT (src));
@@ -798,7 +798,7 @@ value_get_as_checked_bool (GnmValue const *v)
 }
 
 void
-value_get_as_gstring (GString *target, GnmValue const *v,
+value_get_as_gstring (GnmValue const *v, GString *target,
 		      GnmExprConventions const *conv)
 {
 	if (v == NULL)
@@ -876,7 +876,7 @@ value_get_as_gstring (GString *target, GnmValue const *v,
 				if (val->type == VALUE_STRING)
 					gnm_strescape (target, val->v_str.val->str);
 				else
-					value_get_as_gstring (target, val, conv);
+					value_get_as_gstring (val, target, conv);
 			}
 		}
 		g_string_append_c (target, '}');
@@ -916,7 +916,7 @@ char *
 value_get_as_string (GnmValue const *v)
 {
 	GString *res = g_string_sized_new (10);
-	value_get_as_gstring (res, v, gnm_expr_conventions_default);
+	value_get_as_gstring (v, res, gnm_expr_conventions_default);
 	return g_string_free (res, FALSE);
 }
 
@@ -1028,6 +1028,14 @@ value_get_as_float (GnmValue const *v)
 	return 0.0;
 }
 
+GnmRangeRef const *
+value_get_rangeref (GnmValue const *v)
+{
+	g_return_val_if_fail (v->type == VALUE_CELLRANGE, NULL);
+	return &v->v_range.cell;
+}
+
+
 /**
  * value_coerce_to_number :
  * @v :
@@ -1109,7 +1117,7 @@ value_array_resize (GnmValue *v, int width, int height)
 	value_release (newval);
 }
 
-static ValueCompare
+static GnmValDiff
 compare_bool_bool (GnmValue const *va, GnmValue const *vb)
 {
 	gboolean err; /* Ignored */
@@ -1120,7 +1128,7 @@ compare_bool_bool (GnmValue const *va, GnmValue const *vb)
 	return b ? IS_LESS : IS_EQUAL;
 }
 
-static ValueCompare
+static GnmValDiff
 compare_int_int (GnmValue const *va, GnmValue const *vb)
 {
 	int const a = value_get_as_int (va);
@@ -1133,7 +1141,7 @@ compare_int_int (GnmValue const *va, GnmValue const *vb)
 		return IS_GREATER;
 }
 
-static ValueCompare
+static GnmValDiff
 compare_float_float (GnmValue const *va, GnmValue const *vb)
 {
 	gnm_float const a = value_get_as_float (va);
@@ -1240,7 +1248,7 @@ value_diff (GnmValue const *a, GnmValue const *b)
  *
  * IGNORES format.
  */
-ValueCompare
+GnmValDiff
 value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 {
 	GnmValueType ta, tb;
@@ -1521,7 +1529,7 @@ parse_criteria (GnmValue *crit_val, criteria_test_fun_t *fun, GnmValue **test_va
 		*iter_flags = CELL_ITER_IGNORE_BLANK;
 	if (VALUE_IS_NUMBER (crit_val)) {
 		*fun = criteria_test_equal;
-		*test_value = value_duplicate (crit_val);
+		*test_value = value_dup (crit_val);
 		return;
 	}
 

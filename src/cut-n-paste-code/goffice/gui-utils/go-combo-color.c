@@ -81,8 +81,7 @@ color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
 	if (cc->preview_is_icon) {
 		color_y = height - 4;
 		color_height = 4;
-	}
-	else {
+	} else {
 		color_y = 0;
 		color_height = height;
 	}
@@ -308,7 +307,6 @@ color_combo_set_color (ColorCombo *cc, GdkColor *color)
 {
 	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
-
 	
 	/* This will change the color on the palette than it will invoke
 	 * cb_palette_color_changed which will call emit_color_changed and
@@ -316,8 +314,10 @@ color_combo_set_color (ColorCombo *cc, GdkColor *color)
 	 * will let the users of the combo know that the current color has
 	 * changed
 	 */
-	if (color != NULL)
-		{ gdk_colormap_alloc_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color, FALSE, TRUE); gdk_colormap_query_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color->pixel, color); }
+	if (color != NULL) {
+		gdk_colormap_alloc_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color, FALSE, TRUE);
+		gdk_colormap_query_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color->pixel, color);
+	}
 	color_palette_set_current_color (cc->palette, color);
 }
 
@@ -364,7 +364,7 @@ color_combo_set_color_to_default (ColorCombo *cc)
  */
 GtkWidget *
 color_combo_new (GdkPixbuf *icon, char const *no_color_label,
-		 const GdkColor *default_color,
+		 GdkColor const *default_color,
 		 ColorGroup *color_group)
 {
 	ColorCombo *cc;

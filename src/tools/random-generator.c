@@ -132,7 +132,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 			goto random_tool_discrete_out;
 		}
 
-		data->values[j] = value_duplicate (cell->value);
+		data->values[j] = value_dup (cell->value);
 	}
 
 	if (cumprob != 0) {
@@ -169,7 +169,7 @@ tool_random_engine_run_discrete (data_analysis_output_t *dao,
 				;
 
 			dao_set_cell_value (dao, i, k,
-					    value_duplicate (data->values[j]));
+					    value_dup (data->values[j]));
 		}
 	}
 	tool_random_engine_run_discrete_clear_continuity (continuity);

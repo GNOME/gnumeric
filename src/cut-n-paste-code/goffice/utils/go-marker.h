@@ -27,7 +27,6 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libart_lgpl/art_vpath.h>
-#include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS
 
@@ -57,22 +56,11 @@ typedef enum {
 struct _GOMarker {
 	GObject 	base;
 
+	int		size;
 	GOMarkerShape	shape;
-
 	GOColor		outline_color;
 	GOColor		fill_color;
-
-	int		size;
-
-	gboolean	is_pixbuf_valid;
 	GdkPixbuf	*pixbuf;
-
-/* FIXME : Does not belong here */
-	struct {
-		GOMarkerShape	shape;
-		GOColor		outline_color;
-		GOColor		fill_color;
-	} defaults;
 };
 
 GType go_marker_get_type (void); 
@@ -80,7 +68,6 @@ GType go_marker_get_type (void);
 
 GOMarkerShape    go_marker_shape_from_str       (char const *name);
 char const      *go_marker_shape_as_str         (GOMarkerShape shape);
-gboolean         go_marker_is_auto              (GOMarker *m);
 void		 go_marker_get_paths		(GOMarker * marker,
 						 ArtVpath const **outline_path,
 						 ArtVpath const **fill_path);
@@ -100,8 +87,9 @@ void		 go_marker_assign 		(GOMarker *dst, GOMarker const *src);
 GOMarker *	 go_marker_dup 			(GOMarker *src);
 GOMarker * 	 go_marker_new 			(void);
 
-GtkWidget *	 go_marker_selector 		(GOColor outline_color, 
-						 GOColor fill_color);
+gpointer 	 go_marker_selector 		(GOColor outline_color, 
+						 GOColor fill_color,
+						 GOMarkerShape default_shape);
 	
 G_END_DECLS
 

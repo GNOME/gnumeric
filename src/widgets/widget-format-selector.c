@@ -1116,7 +1116,7 @@ number_format_selector_set_value (NumberFormatSelector *nfs,
 	if (nfs->value)	{
 	  	value_release (nfs->value);
 	}
-	nfs->value = value_duplicate (value);
+	nfs->value = value_dup (value);
 
 	gtk_widget_show (nfs->format.preview_box);
 

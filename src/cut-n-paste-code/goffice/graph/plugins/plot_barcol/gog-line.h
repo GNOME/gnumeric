@@ -26,7 +26,7 @@
 
 G_BEGIN_DECLS
 
-typedef GogPlot1_5d		GogLinePlot;
+typedef struct _GogLinePlot	GogLinePlot;
 typedef GogPlot1_5dClass	GogLinePlotClass;
 
 #define GOG_LINE_PLOT_TYPE	(gog_line_plot_get_type ())

@@ -336,7 +336,7 @@ static void
 gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
-	GOMarker *marker = rend->cur_style->marker;
+	GOMarker *marker = rend->cur_style->marker.mark;
 	ArtVpath const *outline_path_raw, *fill_path_raw;
 	ArtVpath *outline_path, *fill_path;
 	double scaling[6], translation[6], affine[6];
