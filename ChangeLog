@@ -1,5 +1,10 @@
 2004-09-23  Morten Welinder  <terra@gnome.org>
 
+	* src/rendered-value.c (rendered_value_recontext): Don't require
+	Pango 1.6, but use it if we have it.
+
+2004-09-23  Morten Welinder  <terra@gnome.org>
+
 	* src/rendered-value.c (rendered_value_recontext): Force
 	wrap==FALSE when the source layout has only one line.
 	(Mostly fixes #152265)

@@ -359,7 +359,9 @@ rendered_value_recontext (RenderedValue *rv, PangoContext *context)
 			       pango_layout_get_line_count (olayout) > 1);
 	pango_layout_set_indent (layout, pango_layout_get_indent (olayout));
 	pango_layout_set_auto_dir (layout, pango_layout_get_auto_dir (olayout));
+#ifdef HAVE_PANGO_LAYOUT_SET_ELLIPSIZE
 	pango_layout_set_ellipsize (layout, pango_layout_get_ellipsize (olayout));
+#endif
 	// pango_layout_set_font_description???
 	// ignore tabs
 

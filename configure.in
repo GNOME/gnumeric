@@ -500,6 +500,13 @@ AC_CHECK_FUNCS(gnome_print_pango_create_layout)
 LIBS="$SAVE_LIBS"
 unset SAVE_LIBS
 
+dnl We do not want to force pango 1.6 just yet.
+SAVE_LIBS="$LIBS"
+LIBS="$LIBS $GNUMERIC_LIBS"
+AC_CHECK_FUNCS(pango_layout_set_ellipsize)
+LIBS="$SAVE_LIBS"
+unset SAVE_LIBS
+
 dnl
 dnl On Solaris finite() needs ieeefp.h
 dnl Either of these seem to signal IEEE754 math, see mathfunc.c
