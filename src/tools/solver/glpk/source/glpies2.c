@@ -76,7 +76,7 @@ int ies_default_tagx(IESITEM *item)
                case LPX_UP:
                   tagx = LPX_NU; break;
                case LPX_DB:
-                  tagx = (gnumabs(item->lb) <= gnumabs(item->ub) ? LPX_NL :
+                  tagx = (gnm_abs(item->lb) <= gnm_abs(item->ub) ? LPX_NL :
                      LPX_NF);
                   break;
                case LPX_FX:

@@ -3550,7 +3550,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 		/* P values */
 		P = gnm_finite (this_tval)
-			? 2 * pt (gnumabs (this_tval), regression_stat->df_resid, FALSE, FALSE)
+			? 2 * pt (gnm_abs (this_tval), regression_stat->df_resid, FALSE, FALSE)
 			: 0;
 		dao_set_cell_float (dao, 4, 17 + i, P);
 

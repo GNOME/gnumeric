@@ -174,8 +174,8 @@ LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled,
 		int mov = -1;
 
 		for (j = i; j < n; j++)
-			if (gnumabs (LU[j][i]) > max) {
-				max = gnumabs (LU[j][i]);
+			if (gnm_abs (LU[j][i]) > max) {
+				max = gnm_abs (LU[j][i]);
 				mov = j;
 			}
 #ifdef DEBUG_NEAR_SINGULAR
@@ -1330,7 +1330,7 @@ non_linear_regression (RegressionFunction f,
 			r /= 10;
 			par = tmp_par;
 
-			if (gnumabs (chi_pos - chi_pre) < DELTA)
+			if (gnm_abs (chi_pos - chi_pre) < DELTA)
 				break;
 
 			chi_pre = chi_pos;

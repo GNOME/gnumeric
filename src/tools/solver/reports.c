@@ -123,7 +123,7 @@ is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnm_float value)
 			        goto out;
 			break;
 		case SolverEQ:
-		        if (gnumabs (c_value - rhs) < 0.000001 /* FIXME */)
+		        if (gnm_abs (c_value - rhs) < 0.000001 /* FIXME */)
 			        goto out;
 			break;
 		case SolverINT:
@@ -154,7 +154,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 		rhs   = value_get_as_float (cell->value);
 		cell  = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 		lhs   = value_get_as_float (cell->value);
-		slack = gnumabs (rhs - lhs);
+		slack = gnm_abs (rhs - lhs);
 		for (n = 0; n < param->n_variables; n++) {
 		        x = get_target_cell_value (res, cell, n, 0, &old_val);
 			x = rhs - x;
@@ -280,7 +280,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 		res->lhs[i] = value_get_as_float (cell->value);
 		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		res->rhs[i] = value_get_as_float (cell->value);
-		res->slack[i] = gnumabs (res->rhs[i] - res->lhs[i]);
+		res->slack[i] = gnm_abs (res->rhs[i] - res->lhs[i]);
 	}
 
 	if (param->options.limits_report && ! res->ilp_flag)

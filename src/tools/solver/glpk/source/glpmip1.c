@@ -147,13 +147,13 @@ MIPTREE *mip_create_tree(LPX *mip,
          {  lpx_get_col_bnds(mip, j, &typx, &lb, &ub);
             if (typx == LPX_LO || typx == LPX_DB || typx == LPX_FX)
             {  temp = gnm_floor(lb + 0.5);
-               if (!(gnumabs(lb - temp) <= 1e-12 * (1.0 + gnumabs(lb))))
+               if (!(gnm_abs(lb - temp) <= 1e-12 * (1.0 + gnm_abs(lb))))
                   fault("mip_create_tree: j = %d; lb = %g; integer vari"
                      "able has non-integer lower bound", j, lb);
             }
             if (typx == LPX_UP || typx == LPX_DB)
             {  temp = gnm_floor(ub + 0.5);
-               if (!(gnumabs(ub - temp) <= 1e-12 * (1.0 + gnumabs(ub))))
+               if (!(gnm_abs(ub - temp) <= 1e-12 * (1.0 + gnm_abs(ub))))
                   fault("mip_create_tree: j = %d; ub = %g; integer vari"
                      "able has non-integer upper bound", j, ub);
             }
@@ -182,7 +182,7 @@ MIPTREE *mip_create_tree(LPX *mip,
                tree->int_obj = 0;
                break;
             }
-            if (gnumabs(coef - gnm_floor(coef + 0.5)) > 1e-12)
+            if (gnm_abs(coef - gnm_floor(coef + 0.5)) > 1e-12)
             {  /* integer variable with non-integral coefficient */
                tree->int_obj = 0;
                break;
@@ -431,7 +431,7 @@ static void solve_subproblem(MIPTREE *tree)
 static int is_better(MIPTREE *tree, gnm_float obj)
 {     int better = 1;
       if (tree->found)
-      {  gnm_float eps = tree->tol_obj * (1.0 + gnumabs(tree->best[0]));
+      {  gnm_float eps = tree->tol_obj * (1.0 + gnm_abs(tree->best[0]));
          switch (tree->dir)
          {  case LPX_MIN:
 #if 1
@@ -439,7 +439,7 @@ static int is_better(MIPTREE *tree, gnm_float obj)
                   comparison */
                if (tree->int_obj)
                {  gnm_float temp = gnm_floor(obj + 0.5);
-                  if (gnumabs(obj - temp) <= tree->tol_int)
+                  if (gnm_abs(obj - temp) <= tree->tol_int)
                      obj = temp;
                   else
                      obj = gnm_ceil(obj);
@@ -453,7 +453,7 @@ static int is_better(MIPTREE *tree, gnm_float obj)
                   comparison */
                if (tree->int_obj)
                {  gnm_float temp = gnm_floor(obj + 0.5);
-                  if (gnumabs(obj - temp) <= tree->tol_int)
+                  if (gnm_abs(obj - temp) <= tree->tol_int)
                      obj = temp;
                   else
                      obj = gnm_floor(obj);
@@ -579,12 +579,12 @@ static void check_integrality(MIPTREE *tree)
          if (typx == LPX_LO || typx == LPX_DB)
          {  /* round off the bound to cancel the scaling effect */
             temp = gnm_floor(lb + 0.5);
-            insist(gnumabs(lb - temp) <= 1e-12 * (1.0 + gnumabs(lb)));
+            insist(gnm_abs(lb - temp) <= 1e-12 * (1.0 + gnm_abs(lb)));
             lb = temp;
             /* if the variable is close to its lower bound, its value
                can be considered as integer feasible */
 #if 0
-            if (vx <= lb + tree->tol_int * (1.0 + gnumabs(lb))) continue;
+            if (vx <= lb + tree->tol_int * (1.0 + gnm_abs(lb))) continue;
 #else
             if (vx <= lb + tree->tol_int) continue;
 #endif
@@ -593,12 +593,12 @@ static void check_integrality(MIPTREE *tree)
          if (typx == LPX_UP || typx == LPX_DB)
          {  /* round off the bound to cancel the scaling effect */
             temp = gnm_floor(ub + 0.5);
-            insist(gnumabs(ub - temp) <= 1e-12 * (1.0 + gnumabs(ub)));
+            insist(gnm_abs(ub - temp) <= 1e-12 * (1.0 + gnm_abs(ub)));
             ub = temp;
             /* if the variable is close to its upper bound, its value
                can be considered as integer feasible */
 #if 0
-            if (vx >= ub - tree->tol_int * (1.0 + gnumabs(ub))) continue;
+            if (vx >= ub - tree->tol_int * (1.0 + gnm_abs(ub))) continue;
 #else
             if (vx >= ub - tree->tol_int) continue;
 #endif
@@ -606,10 +606,10 @@ static void check_integrality(MIPTREE *tree)
          /* if the variable is close to the nearest integer point, its
             value can be considered as integer feasible */
 #if 0
-         temp = gnumabs(vx - gnm_floor(vx + 0.5));
-         if (temp <= tree->tol_int * (1.0 + gnumabs(vx))) continue;
+         temp = gnm_abs(vx - gnm_floor(vx + 0.5));
+         if (temp <= tree->tol_int * (1.0 + gnm_abs(vx))) continue;
 #else
-         if (gnumabs(vx - gnm_floor(vx + 0.5)) <= tree->tol_int) continue;
+         if (gnm_abs(vx - gnm_floor(vx + 0.5)) <= tree->tol_int) continue;
 #endif
          /* the j-th variable is integer infeasible */
          col->infeas = 1;
@@ -812,13 +812,13 @@ static void set_new_bound(MIPTREE *tree, MIPCOL *col, int which,
       /* round off the lower bound to cancel the scaling effect */
       if (typx == LPX_LO || typx == LPX_DB)
       {  temp = gnm_floor(lb + 0.5);
-         insist(gnumabs(lb - temp) <= 1e-12 * (1.0 + gnumabs(lb)));
+         insist(gnm_abs(lb - temp) <= 1e-12 * (1.0 + gnm_abs(lb)));
          lb = temp;
       }
       /* round off the upper bound to cancel the scaling effect */
       if (typx == LPX_UP || typx == LPX_DB)
       {  temp = gnm_floor(ub + 0.5);
-         insist(gnumabs(ub - temp) <= 1e-12 * (1.0 + gnumabs(ub)));
+         insist(gnm_abs(ub - temp) <= 1e-12 * (1.0 + gnm_abs(ub)));
          ub = temp;
       }
       /* the new bound must be integral */

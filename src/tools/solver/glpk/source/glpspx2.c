@@ -460,13 +460,13 @@ gnm_float spx_check_bbar(LPX *lp, gnm_float tol)
          if (typx_k == LPX_LO || typx_k == LPX_DB || typx_k == LPX_FX)
          {  /* xB[i] has lower bound */
             lb_k = lb[k];
-            if ((lb_k - bbar_i) / (1.0 + gnumabs(lb_k)) > tol)
+            if ((lb_k - bbar_i) / (1.0 + gnm_abs(lb_k)) > tol)
                sum += (lb_k - bbar_i);
          }
          if (typx_k == LPX_UP || typx_k == LPX_DB || typx_k == LPX_FX)
          {  /* xB[i] has upper bound */
             ub_k = ub[k];
-            if ((bbar_i - ub_k) / (1.0 + gnumabs(ub_k)) > tol)
+            if ((bbar_i - ub_k) / (1.0 + gnm_abs(ub_k)) > tol)
                sum += (bbar_i - ub_k);
          }
       }
@@ -638,7 +638,7 @@ loop: /* recompute basic solution components (if required) */
                   cbar_q += pi[sv_ndx[j_ptr]] * sv_val[j_ptr];
             }
             /* estimate an error in cbar[q] */
-            temp = gnumabs(cbar[q] - cbar_q) / (1.0 + gnumabs(cbar_q));
+            temp = gnm_abs(cbar[q] - cbar_q) / (1.0 + gnm_abs(cbar_q));
             if (temp <= 0.10 * tol)
             {  /* the error is not so big; replace cbar[q] by the new,
                   more accurate value */
@@ -1423,7 +1423,7 @@ gnm_float spx_err_in_bbar(SPX *spx)
       spx_eval_bbar(lp);
       dmax = 0.0;
       for (i = 1; i <= m; i++)
-      {  d = gnumabs(lp->bbar[i] - bbar[i]);
+      {  d = gnm_abs(lp->bbar[i] - bbar[i]);
          if (dmax < d) dmax = d;
       }
       ufree(lp->bbar);
@@ -1460,7 +1460,7 @@ gnm_float spx_err_in_pi(SPX *spx)
       spx_eval_pi(lp);
       dmax = 0.0;
       for (i = 1; i <= m; i++)
-      {  d = gnumabs(lp->pi[i] - pi[i]);
+      {  d = gnm_abs(lp->pi[i] - pi[i]);
          if (dmax < d) dmax = d;
       }
       ufree(lp->pi);
@@ -1505,7 +1505,7 @@ gnm_float spx_err_in_cbar(SPX *spx, int all)
          {  k = indx[m+j]; /* x[k] = xN[j] */
             if (tagx[k] == LPX_NS) continue;
          }
-         d = gnumabs(lp->cbar[j] - cbar[j]);
+         d = gnm_abs(lp->cbar[j] - cbar[j]);
          if (dmax < d) dmax = d;
       }
       ufree(lp->cbar);
@@ -1730,7 +1730,7 @@ gnm_float spx_err_in_gvec(SPX *spx)
          for (i = 1; i <= m; i++)
             if (refsp[indx[i]]) gvec_j += aj[i] * aj[i];
          /* compute absolute error in gvec[j] */
-         d = gnumabs(gvec_j - gvec[j]);
+         d = gnm_abs(gvec_j - gvec[j]);
          if (dmax < d) dmax = d;
       }
       return dmax;
@@ -1909,7 +1909,7 @@ gnm_float spx_err_in_dvec(SPX *spx)
          for (j = 1; j <= n; j++)
             if (refsp[indx[m+j]]) dvec_i += ai[j] * ai[j];
          /* compute absolute error in dvec[i] */
-         d = gnumabs(dvec_i - dvec[i]);
+         d = gnm_abs(dvec_i - dvec[i]);
          if (dmax < d) dmax = d;
       }
       return dmax;

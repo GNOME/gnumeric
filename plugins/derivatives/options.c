@@ -953,7 +953,7 @@ static gnm_float opt_rgw1 (gnm_float s, gnm_float x, gnm_float t1, gnm_float t2,
 	ci = opt_bs1 (OS_Call, i, x, t2 - t1, r, v,0.0);
 
 	/* search algorithm to find the critical stock price i */
-	while (gnumabs(ci - i - d + x) > epsilon && HighS - LowS > epsilon) {
+	while (gnm_abs(ci - i - d + x) > epsilon && HighS - LowS > epsilon) {
 		if ((ci - i - d + x) < 0)
 			HighS = i;
 		else
@@ -1128,7 +1128,7 @@ NRA_c (gnm_float x, gnm_float  t, gnm_float r, gnm_float v, gnm_float b)
 	e = 0.000001;
 
 	/* Newton Raphson algorithm for finding critical price si */
-	while ((gnumabs(LHS - RHS) / x) > e)
+	while ((gnm_abs(LHS - RHS) / x) > e)
 	{
 		si = (x + RHS - bi * si) / (1.0 - bi);
 		d1 = (gnm_log (si / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
@@ -1186,7 +1186,7 @@ NRA_p (gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 	e = 0.000001;
 
 	/* Newton Raphson algorithm for finding critical price si */
-	while(gnumabs(LHS - RHS) / x > e) {
+	while(gnm_abs(LHS - RHS) / x > e) {
 		si = (x - RHS + bi * si) / (1.0 + bi);
 		d1 = (gnm_log (si / x) + (b + (v * v) / 2.0) * t) / (v * gnm_sqrt (t));
 		LHS = x - si;
@@ -1589,7 +1589,7 @@ opt_crit_val_chooser (gnm_float s,gnm_float xc,gnm_float xp,gnm_float t,
 	di = dc - dp;
 	epsilon = 0.001;
 	/* Newton-Raphson */
-	while (gnumabs(yi) > epsilon)
+	while (gnm_abs(yi) > epsilon)
 	{
 		sv = sv - (yi) / di;
 		ci = opt_bs1 (OS_Call, sv, xc, tc - t, r, v, b);
@@ -1695,7 +1695,7 @@ CriticalValueOptionsOnOptions (OptionSide side, gnm_float x1, gnm_float x2, gnm_
 
 	/* Newton-Raphson algorithm */
 	epsilon = 0.0001;
-	while (gnumabs (ci - x2) > epsilon) {
+	while (gnm_abs (ci - x2) > epsilon) {
 		si = si - (ci - x2) / di;
 		ci = opt_bs1 (side, si, x1, t, r, v, b);
 		di = opt_bs_delta1 (side, si, x1, t, r, v, b);
@@ -2131,7 +2131,7 @@ opt_binomial(FunctionEvalInfo *ei, GnmValue *argv[])
 			if (OT_Euro == amer_euro_flag)
 				value_array[i] = (p * value_array[i + 1] + (1.0 - p) * value_array[i]) * Df;
 			else if (OT_Amer == amer_euro_flag){
-				temp1 = (z * (s * gnm_pow(u , i) * gnm_pow(d , (gnumabs(i - j))) - x));
+				temp1 = (z * (s * gnm_pow(u , i) * gnm_pow(d , (gnm_abs(i - j))) - x));
 				temp2 = (p * value_array[i + 1] + (1.0 - p) * value_array[i]) * Df;
 				value_array[i] = (temp1>temp2)?temp1:temp2;
 			}

@@ -1582,7 +1582,7 @@ gnumeric_tdist (FunctionEvalInfo *ei, GnmValue **argv)
 	if (dof < 1 || (tails != 1 && tails != 2))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (tails * pt ((tails == 1) ? x : gnumabs(x), 
+	return value_new_float (tails * pt ((tails == 1) ? x : gnm_abs(x), 
 					    dof, FALSE, FALSE));
 }
 
@@ -2850,7 +2850,7 @@ gnumeric_prob (FunctionEvalInfo *ei, GnmValue **argv)
 		        sum += prob;
 	}
 
-	if (gnumabs (total_sum - 1) > x_n * 2 * GNM_EPSILON) {
+	if (gnm_abs (total_sum - 1) > x_n * 2 * GNM_EPSILON) {
 	        res = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -3774,7 +3774,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, GnmValue *argv[])
 		x = (mean1 - mean2) / gnm_sqrt (var1 / n1 + var2 / n2);
 	}
 
-	return value_new_float (tails * pt (gnumabs (x), dof, FALSE, FALSE));
+	return value_new_float (tails * pt (gnm_abs (x), dof, FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -5432,9 +5432,9 @@ static char const *help_logistic = {
 static gnm_float
 random_logistic_pdf (gnm_float x, gnm_float a)
 {
-        gnm_float u = gnm_exp (-gnumabs (x) / a);
+        gnm_float u = gnm_exp (-gnm_abs (x) / a);
 
-	return u / (gnumabs (a) * (1 + u) * (1 + u));
+	return u / (gnm_abs (a) * (1 + u) * (1 + u));
 }
 
 static GnmValue *

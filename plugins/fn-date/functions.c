@@ -149,7 +149,7 @@ gnumeric_unix2date (FunctionEvalInfo *ei, GnmValue **argv)
 	time_t     utime  = (time_t)futime;
 
 	/* Check for overflow.  */
-	if (gnumabs (futime - utime) >= 1.0)
+	if (gnm_abs (futime - utime) >= 1.0)
 		return value_new_error_VALUE (ei->pos);
 
 	return make_date (value_new_float (datetime_timet_to_serial_raw (utime, DATE_CONV (ei->pos)) +
@@ -183,7 +183,7 @@ gnumeric_date2unix (FunctionEvalInfo *ei, GnmValue **argv)
 	time_t     utime   = datetime_serial_to_timet (serial, DATE_CONV (ei->pos));
 
 	/* Check for overflow.  */
-	if (gnumabs (fserial - serial) >= 1.0 || utime == (time_t)-1)
+	if (gnm_abs (fserial - serial) >= 1.0 || utime == (time_t)-1)
 		return value_new_error_VALUE (ei->pos);
 
 	return value_new_int (utime +

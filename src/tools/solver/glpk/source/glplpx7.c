@@ -1569,7 +1569,7 @@ void lpx_estim_obj_chg(LPX *lp, int k, gnm_float dn_val, gnm_float up_val,
          dual degenerative, the estimations may have wrong sign (due to
          wrong sign of the reduced cost of x[s], which in this case has
          to be close to zero) */
-      eps = 1e-6 * (1.0 + gnumabs(lpx_get_obj_val(lp)));
+      eps = 1e-6 * (1.0 + gnm_abs(lpx_get_obj_val(lp)));
       switch (dir)
       {  case LPX_MIN:
             /* in the case of minimization both estimations should be

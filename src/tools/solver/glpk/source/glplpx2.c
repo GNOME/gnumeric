@@ -111,8 +111,8 @@ int lpx_get_num_bin(LPX *lp)
       {  if (lp->kind[j] == LPX_IV)
          {  k = lp->m + j;
             if (lp->typx[k] == LPX_DB &&
-                gnumabs(lp->lb[k] * lp->rs[k])       <= trick &&
-                gnumabs(lp->ub[k] * lp->rs[k] - 1.0) <= trick) count++;
+                gnm_abs(lp->lb[k] * lp->rs[k])       <= trick &&
+                gnm_abs(lp->ub[k] * lp->rs[k] - 1.0) <= trick) count++;
          }
       }
       return count;
@@ -724,7 +724,7 @@ void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx, gnm_float *dx)
                insist(1 <= t && t <= m);
                vx_i = lp->bbar[t];
                /* round the primal value (if required) */
-               if (lp->round && gnumabs(vx_i) <= lp->tol_bnd) vx_i = 0.0;
+               if (lp->round && gnm_abs(vx_i) <= lp->tol_bnd) vx_i = 0.0;
             }
             else
             {  /* non-basic variable */
@@ -763,7 +763,7 @@ void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx, gnm_float *dx)
                insist(1 <= t && t <= n);
                dx_i = lp->cbar[t];
                /* round the dual value (if required) */
-               if (lp->round && gnumabs(dx_i) <= lp->tol_dj) dx_i = 0.0;
+               if (lp->round && gnm_abs(dx_i) <= lp->tol_dj) dx_i = 0.0;
             }
             /* unscale the dual value */
             dx_i *= lp->rs[i];
@@ -824,7 +824,7 @@ void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx, gnm_float *dx)
                insist(1 <= t && t <= m);
                vx_j = lp->bbar[t];
                /* round the primal value (if required) */
-               if (lp->round && gnumabs(vx_j) <= lp->tol_bnd) vx_j = 0.0;
+               if (lp->round && gnm_abs(vx_j) <= lp->tol_bnd) vx_j = 0.0;
             }
             else
             {  /* non-basic variable */
@@ -863,7 +863,7 @@ void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx, gnm_float *dx)
                insist(1 <= t && t <= n);
                dx_j = lp->cbar[t];
                /* round the dual value (if required) */
-               if (lp->round && gnumabs(dx_j) <= lp->tol_dj) dx_j = 0.0;
+               if (lp->round && gnm_abs(dx_j) <= lp->tol_dj) dx_j = 0.0;
             }
             /* unscale the dual value */
             dx_j /= lp->rs[j];
@@ -965,8 +965,8 @@ void lpx_get_ips_row(LPX *lp, int i, gnm_float *vx, gnm_float *dx)
 #if 1
             /* round them (if required) */
             if (lp->round)
-            {  if (gnumabs(vx_i) <= 1e-8) vx_i = 0.0;
-               if (gnumabs(dx_i) <= 1e-8) dx_i = 0.0;
+            {  if (gnm_abs(vx_i) <= 1e-8) vx_i = 0.0;
+               if (gnm_abs(dx_i) <= 1e-8) dx_i = 0.0;
             }
 #endif
             /* and unscale these values */
@@ -1013,8 +1013,8 @@ void lpx_get_ips_col(LPX *lp, int j, gnm_float *vx, gnm_float *dx)
 #if 1
             /* round them (if required) */
             if (lp->round)
-            {  if (gnumabs(vx_j) <= 1e-8) vx_j = 0.0;
-               if (gnumabs(dx_j) <= 1e-8) dx_j = 0.0;
+            {  if (gnm_abs(vx_j) <= 1e-8) vx_j = 0.0;
+               if (gnm_abs(dx_j) <= 1e-8) dx_j = 0.0;
             }
 #endif
             /* and unscale these values */
@@ -1123,7 +1123,7 @@ gnm_float lpx_get_mip_row(LPX *lp, int i)
       {  vx = lp->mipx[i];
          if (lp->round)
          {  gnm_float eps = lp->tol_bnd / lp->rs[i];
-            if (gnumabs(vx) <= eps) vx = 0.0;
+            if (gnm_abs(vx) <= eps) vx = 0.0;
          }
       }
       return vx;
@@ -1157,7 +1157,7 @@ gnm_float lpx_get_mip_col(LPX *lp, int j)
             insist(vx == gnm_floor(vx));
          else if (lp->round)
          {  gnm_float eps = lp->tol_bnd * lp->rs[lp->m+j];
-            if (gnumabs(vx) <= eps) vx = 0.0;
+            if (gnm_abs(vx) <= eps) vx = 0.0;
          }
       }
       return vx;

@@ -1050,12 +1050,12 @@ beg:  /* save the original objective function, because it is changed by
             case LPX_FX:
                /* xB[i] is gnm_float-bounded or fixed variable */
                if (lp->bbar[i] < lp->lb[k] - eps)
-               {  temp = 0.5 * gnumabs(lp->lb[k] - lp->ub[k]);
+               {  temp = 0.5 * gnm_abs(lp->lb[k] - lp->ub[k]);
                   if (temp > delta) temp = delta;
                   av_i = (lp->lb[k] - lp->bbar[i]) + temp;
                }
                if (lp->bbar[i] > lp->ub[k] + eps)
-               {  temp = 0.5 * gnumabs(lp->lb[k] - lp->ub[k]);
+               {  temp = 0.5 * gnm_abs(lp->lb[k] - lp->ub[k]);
                   if (temp > delta) temp = delta;
                   av_i = (lp->ub[k] - lp->bbar[i]) - temp;
                }
@@ -1274,8 +1274,8 @@ sing:       {  /* remove the artificial variable from the problem */
             value) influence coefficient */
          spx->q = 0, big = 0.0;
          for (j = 1; j <= n; j++)
-         {  if (big < gnumabs(spx->ap[j]))
-               spx->q = j, big = gnumabs(spx->ap[j]);
+         {  if (big < gnm_abs(spx->ap[j]))
+               spx->q = j, big = gnm_abs(spx->ap[j]);
          }
          insist(spx->q != 0);
          /* perform forward transformation of the column of xN[q] (to
@@ -2349,11 +2349,11 @@ void lpx_check_kkt(LPX *lp, int scaled, LPXKKT *kkt)
          if (!scaled)
             xR_i /= rs[i], g_i /= rs[i];
          /* determine absolute error */
-         temp = gnumabs(g_i);
+         temp = gnm_abs(g_i);
          if (kkt->pe_ae_max < temp)
             kkt->pe_ae_max = temp, kkt->pe_ae_row = i;
          /* determine relative error */
-         temp /= (1.0 + gnumabs(xR_i));
+         temp /= (1.0 + gnm_abs(xR_i));
          if (kkt->pe_re_max < temp)
             kkt->pe_re_max = temp, kkt->pe_re_row = i;
       }
@@ -2403,11 +2403,11 @@ void lpx_check_kkt(LPX *lp, int scaled, LPXKKT *kkt)
                x_k *= rs[k], h_k *= rs[k];
          }
          /* determine absolute error */
-         temp = gnumabs(h_k);
+         temp = gnm_abs(h_k);
          if (kkt->pb_ae_max < temp)
             kkt->pb_ae_max = temp, kkt->pb_ae_ind = k;
          /* determine relative error */
-         temp /= (1.0 + gnumabs(x_k));
+         temp /= (1.0 + gnm_abs(x_k));
          if (kkt->pb_re_max < temp)
             kkt->pb_re_max = temp, kkt->pb_re_ind = k;
       }
@@ -2454,11 +2454,11 @@ void lpx_check_kkt(LPX *lp, int scaled, LPXKKT *kkt)
          if (!scaled)
             cS_j /= rs[j], dS_j /= rs[j], u_j /= rs[j];
          /* determine absolute error */
-         temp = gnumabs(u_j);
+         temp = gnm_abs(u_j);
          if (kkt->de_ae_max < temp)
             kkt->de_ae_max = temp, kkt->de_ae_col = j - m;
          /* determine relative error */
-         temp /= (1.0 + gnumabs(dS_j - cS_j));
+         temp /= (1.0 + gnm_abs(dS_j - cS_j));
          if (kkt->de_re_max < temp)
             kkt->de_re_max = temp, kkt->de_re_col = j - m;
       }
@@ -2526,11 +2526,11 @@ void lpx_check_kkt(LPX *lp, int scaled, LPXKKT *kkt)
                c_k /= rs[k], d_k /= rs[k], v_k /= rs[k];
          }
          /* determine absolute error */
-         temp = gnumabs(v_k);
+         temp = gnm_abs(v_k);
          if (kkt->db_ae_max < temp)
             kkt->db_ae_max = temp, kkt->db_ae_ind = k;
          /* determine relative error */
-         temp /= (1.0 + gnumabs(d_k - c_k));
+         temp /= (1.0 + gnm_abs(d_k - c_k));
          if (kkt->db_re_max < temp)
             kkt->db_re_max = temp, kkt->db_re_ind = k;
       }

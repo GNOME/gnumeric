@@ -68,7 +68,7 @@ void lpx_std_basis(LPX *lp)
                   tagx[k] = LPX_NU; break;
                case LPX_DB:
                   tagx[k] =
-                     (gnumabs(lb[k]) <= gnumabs(ub[k]) ? LPX_NL : LPX_NU);
+                     (gnm_abs(lb[k]) <= gnm_abs(ub[k]) ? LPX_NL : LPX_NU);
                   break;
                case LPX_FX:
                   tagx[k] = LPX_NS; break;
@@ -563,7 +563,7 @@ void lpx_adv_basis(LPX *lp)
                   tagx[k] = LPX_NU; break;
                case LPX_DB:
                   tagx[k] =
-                     (gnumabs(lb[k]) <= gnumabs(ub[k]) ? LPX_NL : LPX_NU);
+                     (gnm_abs(lb[k]) <= gnm_abs(ub[k]) ? LPX_NL : LPX_NU);
                   break;
                case LPX_FX:
                   tagx[k] = LPX_NS; break;

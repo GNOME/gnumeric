@@ -499,7 +499,7 @@ void lpx_set_row_bnds(LPX *lp, int i, int typx, gnm_float lb, gnm_float ub)
          case LPX_DB:
             lp->lb[i] = lb * lp->rs[i], lp->ub[i] = ub * lp->rs[i];
             if (lp->tagx[i] != LPX_BS)
-               lp->tagx[i] = (gnumabs(lb) <= gnumabs(ub) ? LPX_NL : LPX_NU);
+               lp->tagx[i] = (gnm_abs(lb) <= gnm_abs(ub) ? LPX_NL : LPX_NU);
             break;
          case LPX_FX:
             lp->lb[i] = lp->ub[i] = lb * lp->rs[i];
@@ -571,7 +571,7 @@ void lpx_set_col_bnds(LPX *lp, int j, int typx, gnm_float lb, gnm_float ub)
          case LPX_DB:
             lp->lb[j] = lb / lp->rs[j], lp->ub[j] = ub / lp->rs[j];
             if (lp->tagx[j] != LPX_BS)
-               lp->tagx[j] = (gnumabs(lb) <= gnumabs(ub) ? LPX_NL : LPX_NU);
+               lp->tagx[j] = (gnm_abs(lb) <= gnm_abs(ub) ? LPX_NL : LPX_NU);
             break;
          case LPX_FX:
             lp->lb[j] = lp->ub[j] = lb / lp->rs[j];

@@ -156,7 +156,7 @@ up:   {  /* variable with upper bound */
       {  /* gnm_float bounded variable */
          if (col->c > 0.0) goto lo;
          if (col->c < 0.0) goto up;
-         if (gnumabs(col->lb) <= gnumabs(col->ub)) goto lo; else goto up;
+         if (gnm_abs(col->lb) <= gnm_abs(col->ub)) goto lo; else goto up;
       }
       else
       {  /* fixed variable */
@@ -442,11 +442,11 @@ static int process_row_sngton1(LPP *lpp, LPPROW *row)
       /* check for primal infeasibility */
       col = aij->col;
       if (col->lb != -DBL_MAX)
-      {  eps = 1e-5 * (1.0 + gnumabs(col->lb));
+      {  eps = 1e-5 * (1.0 + gnm_abs(col->lb));
          if (val < col->lb - eps) return 1;
       }
       if (col->ub != +DBL_MAX)
-      {  eps = 1e-5 * (1.0 + gnumabs(col->ub));
+      {  eps = 1e-5 * (1.0 + gnm_abs(col->ub));
          if (val > col->ub + eps) return 1;
       }
       /* create transformation queue entry */
@@ -584,11 +584,11 @@ static int process_row_sngton2(LPP *lpp, LPPROW *row)
       /* check for primal infeasibility */
       col = aij->col;
       if (col->lb != -DBL_MAX)
-      {  eps = 1e-5 * (1.0 + gnumabs(col->lb));
+      {  eps = 1e-5 * (1.0 + gnm_abs(col->lb));
          if (ub < col->lb - eps) return 1;
       }
       if (col->ub != +DBL_MAX)
-      {  eps = 1e-5 * (1.0 + gnumabs(col->ub));
+      {  eps = 1e-5 * (1.0 + gnm_abs(col->ub));
          if (lb > col->ub + eps) return 1;
       }
       /* if the column q is fixed, it can be substituted and removed,
@@ -619,9 +619,9 @@ static int process_row_sngton2(LPP *lpp, LPPROW *row)
       /* if modified bounds of the column are close to each other, the
          column can be fixed, substituted, and therefore removed */
       if (col->lb != -DBL_MAX && col->ub != +DBL_MAX)
-      {  eps = 1e-7 * (1.0 + gnumabs(col->lb));
-         if (gnumabs(col->lb - col->ub) <= eps)
-         {  if (gnumabs(col->lb) <= gnumabs(col->ub))
+      {  eps = 1e-7 * (1.0 + gnm_abs(col->lb));
+         if (gnm_abs(col->lb - col->ub) <= eps)
+         {  if (gnm_abs(col->lb) <= gnm_abs(col->ub))
                col->ub = col->lb;
             else
                col->lb = col->ub;
@@ -886,9 +886,9 @@ static void process_col_sngton1(LPP *lpp, LPPCOL *col)
       /* if new bounds of the row are close to each other, the row can
          be treated as equality constraint */
       if (row->lb != -DBL_MAX && row->ub != +DBL_MAX)
-      {  eps = 1e-7 * (1.0 + gnumabs(row->lb));
-         if (gnumabs(row->lb - row->ub) <= eps)
-         {  if (gnumabs(row->lb) <= gnumabs(row->ub))
+      {  eps = 1e-7 * (1.0 + gnm_abs(row->lb));
+         if (gnm_abs(row->lb - row->ub) <= eps)
+         {  if (gnm_abs(row->lb) <= gnm_abs(row->ub))
                row->ub = row->lb;
             else
                row->lb = row->ub;
@@ -1102,12 +1102,12 @@ static int process_col_sngton2(LPP *lpp, LPPCOL *col)
       }
       /* check if x[q] can reach its own lower bound */
       if (col->lb != -DBL_MAX)
-      {  eps = 1e-7 * (1.0 + gnumabs(col->lb));
+      {  eps = 1e-7 * (1.0 + gnm_abs(col->lb));
          if (lb < col->lb - eps) goto done; /* yes, it can */
       }
       /* check if x[q] can reach its own upper bound */
       if (col->ub != +DBL_MAX)
-      {  eps = 1e-7 * (1.0 * gnumabs(col->ub));
+      {  eps = 1e-7 * (1.0 * gnm_abs(col->ub));
          if (ub > col->ub + eps) goto done; /* yes, it can */
       }
       /* create transformation queue entry */
@@ -1372,7 +1372,7 @@ static void recover_forcing_row(LPP *lpp, FORCING_ROW *info)
       that = NULL, big = 0.0;
       for (lfx = info->ptr; lfx != NULL; lfx = lfx->next)
       {  lambda = lpp->col_dual[lfx->ref];
-         temp = gnumabs(lambda / lfx->val);
+         temp = gnm_abs(lambda / lfx->val);
          switch (lfx->flag)
          {  case LPX_NL:
                /* x[j] >= l[j], therefore lambda[j] >= 0 */
@@ -1509,16 +1509,16 @@ static int analyze_row(LPP *lpp, LPPROW *row)
       }
       /* check for primal infeasibility */
       if (row->lb != -DBL_MAX)
-      {  eps = 1e-5 * (1.0 + gnumabs(row->lb));
+      {  eps = 1e-5 * (1.0 + gnm_abs(row->lb));
          if (ub < row->lb - eps) return 1;
       }
       if (row->ub != +DBL_MAX)
-      {  eps = 1e-5 * (1.0 + gnumabs(row->ub));
+      {  eps = 1e-5 * (1.0 + gnm_abs(row->ub));
          if (lb > row->ub + eps) return 1;
       }
       /* check if the row is implicitly fixed on its lower bound */
       if (row->lb != -DBL_MAX)
-      {  eps = 1e-7 * (1.0 + gnumabs(row->lb));
+      {  eps = 1e-7 * (1.0 + gnm_abs(row->lb));
          if (ub <= row->lb + eps)
          {  process_forcing_row(lpp, row, 0);
             goto done;
@@ -1526,7 +1526,7 @@ static int analyze_row(LPP *lpp, LPPROW *row)
       }
       /* check if the row is implicitly fixed on its upper bound */
       if (row->ub != +DBL_MAX)
-      {  eps = 1e-7 * (1.0 + gnumabs(row->ub));
+      {  eps = 1e-7 * (1.0 + gnm_abs(row->ub));
          if (lb >= row->ub - eps)
          {  process_forcing_row(lpp, row, 1);
             goto done;
@@ -1534,7 +1534,7 @@ static int analyze_row(LPP *lpp, LPPROW *row)
       }
       /* check whether the row can reach its lower bound */
       if (row->lb != -DBL_MAX)
-      {  eps = 1.001e-7 * (1.0 + gnumabs(row->lb));
+      {  eps = 1.001e-7 * (1.0 + gnm_abs(row->lb));
          if (lb >= row->lb - eps)
          {  /* the row cannot reach its lower bound, so the lower bound
                is redundant and therefore can be removed (note that the
@@ -1547,7 +1547,7 @@ static int analyze_row(LPP *lpp, LPPROW *row)
       }
       /* check whether the row can reach its upper bound */
       if (row->ub != +DBL_MAX)
-      {  eps = 1.001e-7 * (1.0 + gnumabs(row->ub));
+      {  eps = 1.001e-7 * (1.0 + gnm_abs(row->ub));
          if (ub <= row->ub + eps)
          {  /* the row cannot reach its upper bound, so the upper bound
                is redundant and therefore can be removed (note that the

@@ -468,7 +468,7 @@ append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 
 	/* ick.  round assuming no more than 100th of a second, we really need
 	 * to know the precision earlier */
-	cs = (int)gnm_fake_round (gnumabs (frac_days) * secs_per_day * 100);
+	cs = (int)gnm_fake_round (gnm_abs (frac_days) * secs_per_day * 100);
 
 	/* FIXME: Why limit hours to int? */
 	cs /= 100;

@@ -97,7 +97,7 @@ gsl_complex_negative (const complex_t *a, complex_t *res)
 static void
 gsl_complex_arcsin_real (gnm_float a, complex_t *res)
 {                               /* z = arcsin(a) */
-         if (gnumabs (a) <= 1.0) {
+         if (gnm_abs (a) <= 1.0) {
 	         complex_init (res, gnm_asin (a), 0.0);
 	 } else {
 	         if (a < 0.0) {
@@ -116,7 +116,7 @@ gsl_complex_arcsin (const complex_t *a, complex_t *res)
 	if (I == 0) {
 	        gsl_complex_arcsin_real (R, res);
 	} else {
-	        gnm_float x = gnumabs (R), y = gnumabs (I);
+	        gnm_float x = gnm_abs (R), y = gnm_abs (I);
 		gnm_float r = gnm_hypot (x + 1, y);
 		gnm_float s = gnm_hypot (x - 1, y);
 		gnm_float A = 0.5 * (r + s);
@@ -166,7 +166,7 @@ gsl_complex_arcsin (const complex_t *a, complex_t *res)
 static void
 gsl_complex_arccos_real (gnm_float a, complex_t *res)
 {                               /* z = arccos(a) */
-        if (gnumabs (a) <= 1.0) {
+        if (gnm_abs (a) <= 1.0) {
 	        complex_init (res, gnm_acos (a), 0);
 	} else {
 	        if (a < 0.0) {
@@ -185,8 +185,8 @@ gsl_complex_arccos (const complex_t *a, complex_t *res)
 	if (I == 0) {
 	        gsl_complex_arccos_real (R, res);
 	} else {
-	        gnm_float x = gnumabs (R);
-		gnm_float y = gnumabs (I);
+	        gnm_float x = gnm_abs (R);
+		gnm_float y = gnm_abs (I);
 		gnm_float r = gnm_hypot (x + 1, y);
 		gnm_float s = gnm_hypot (x - 1, y);
 		gnm_float A = 0.5 * (r + s);
@@ -254,7 +254,7 @@ gsl_complex_arctan (const complex_t *a, complex_t *res)
 		/* FIXME: the following cross-over should be optimized but 0.1
 		 * seems to work ok */
 
-		if (gnumabs (u) < 0.1) {
+		if (gnm_abs (u) < 0.1) {
 		        imag = 0.25 * (gnm_log1p (u) - gnm_log1p (-u));
 		} else {
 		        gnm_float A = gnm_hypot (R, I + 1);
@@ -327,7 +327,7 @@ gsl_complex_tanh (const complex_t *a, complex_t *res)
 {                               /* z = tanh(a) */
         gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
-	if (gnumabs (R) < 1.0) {
+	if (gnm_abs (R) < 1.0) {
 	         gnm_float D =
 			 gnm_pow (gnm_cos (I), 2.0) +
 			 gnm_pow (gnm_sinh (R), 2.0);

@@ -90,7 +90,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_finite finitel
 #define gnm_floor floorl
 #define gnm_fmod fmodl
-#define gnumabs fabsl
+#define gnm_abs fabsl
 #define gnm_hypot hypotl
 #define gnm_isnan isnanl
 #define gnm_lgamma lgammal
@@ -140,7 +140,7 @@ typedef double gnm_float;
 #define gnm_floor floor
 #define gnm_fmod fmod
 #define gnm_frexp frexp
-#define gnumabs fabs
+#define gnm_abs fabs
 #define gnm_hypot hypot
 #define gnm_isnan isnan
 #define gnm_ldexp ldexp

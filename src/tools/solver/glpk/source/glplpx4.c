@@ -107,7 +107,7 @@ static void eq_scal(int m, int n, void *info,
                   if (!(1 <= j && j <= n))
                      fault("eq_scal: i = %d; j = %d; invalid column ind"
                         "ex", i, j);
-                  temp = R[i] * gnumabs(val[t]) * S[j];
+                  temp = R[i] * gnm_abs(val[t]) * S[j];
                   if (big < temp) big = temp;
                }
                /* scale the i-th row */
@@ -129,7 +129,7 @@ static void eq_scal(int m, int n, void *info,
                   if (!(1 <= i && i <= m))
                      fault("eq_scal: i = %d; j = %d; invalid row index",
                         i, j);
-                  temp = R[i] * gnumabs(val[t]) * S[j];
+                  temp = R[i] * gnm_abs(val[t]) * S[j];
                   if (big < temp) big = temp;
                }
                /* scale the j-th column */
@@ -238,7 +238,7 @@ static void gm_scal(int m, int n, void *info,
             for (t = 1; t <= len; t++)
             {  j = ndx[t];
                if (!(1 <= j && j <= n)) goto err2;
-               temp = R[i] * gnumabs(val[t]) * S[j];
+               temp = R[i] * gnm_abs(val[t]) * S[j];
                if (temp == 0.0) continue;
                if (alfa > temp) alfa = temp;
                if (beta < temp) beta = temp;
@@ -273,7 +273,7 @@ err1:                fault("gm_scal: i = %d; len = %d; invalid row leng"
                      if (!(1 <= j && j <= n))
 err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
                            "index", i, j);
-                     temp = R[i] * gnumabs(val[t]) * S[j];
+                     temp = R[i] * gnm_abs(val[t]) * S[j];
                      if (temp == 0.0) continue;
                      if (alfa > temp) alfa = temp;
                      if (beta < temp) beta = temp;
@@ -298,7 +298,7 @@ err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
                      if (!(1 <= i && i <= m))
                         fault("gm_scal: i = %d; j = %d; invalid row ind"
                            "ex", i, j);
-                     temp = R[i] * gnumabs(val[t]) * S[j];
+                     temp = R[i] * gnm_abs(val[t]) * S[j];
                      if (temp == 0.0) continue;
                      if (alfa > temp) alfa = temp;
                      if (beta < temp) beta = temp;

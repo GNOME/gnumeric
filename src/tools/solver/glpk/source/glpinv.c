@@ -303,7 +303,7 @@ void inv_ftran(INV *inv, gnm_float x[], int save)
       {  len = 0;
          for (i = 1; i <= m; i++)
          {  temp = x[i];
-            if (temp == 0.0 || gnumabs(temp) < eps_tol) continue;
+            if (temp == 0.0 || gnm_abs(temp) < eps_tol) continue;
             len++;
             cc_ndx[len] = i;
             cc_val[len] = temp;
@@ -658,7 +658,7 @@ int inv_update(INV *inv, int j)
       /* this naive check has been replaced by more appropriate check
          (see below) */
       /* check if u[k2,k2] is close to zero */
-      if (gnumabs(vr_piv[i]) < upd_tol)
+      if (gnm_abs(vr_piv[i]) < upd_tol)
       {  /* the factorization should be considered as inaccurate (this
             mainly happens due to excessive round-off errors) */
          inv->valid = luf->valid = 0;
@@ -676,7 +676,7 @@ int inv_update(INV *inv, int j)
          j = qq_col[k];
          temp = work[j];
          /* if v[i,j] is close to zero, skip it */
-         if (gnumabs(temp) < eps_tol) continue;
+         if (gnm_abs(temp) < eps_tol) continue;
          /* at least one unused location is needed in the j-th column */
          if (vc_len[j] + 1 > vc_cap[j])
          {  if (luf_enlarge_col(luf, j, vc_len[j] + 10))
@@ -725,15 +725,15 @@ int inv_update(INV *inv, int j)
       i_beg = vr_ptr[i];
       i_end = i_beg + vr_len[i] - 1;
       for (i_ptr = i_beg; i_ptr <= i_end; i_ptr++)
-         if (temp < gnumabs(sv_val[i_ptr])) temp = gnumabs(sv_val[i_ptr]);
+         if (temp < gnm_abs(sv_val[i_ptr])) temp = gnm_abs(sv_val[i_ptr]);
       /* walk through k2-th column of U which is j-th column of V */
       j = qq_col[k2];
       j_beg = vc_ptr[j];
       j_end = j_beg + vc_len[j] - 1;
       for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
-         if (temp < gnumabs(sv_val[j_ptr])) temp = gnumabs(sv_val[j_ptr]);
+         if (temp < gnm_abs(sv_val[j_ptr])) temp = gnm_abs(sv_val[j_ptr]);
       /* check that u[k2,k2] is not very small */
-      if (gnumabs(vr_piv[i]) < upd_tol * temp)
+      if (gnm_abs(vr_piv[i]) < upd_tol * temp)
       {  /* the factorization seems to be inaccurate and therefore must
             be recomputed */
          inv->valid = luf->valid = 0;

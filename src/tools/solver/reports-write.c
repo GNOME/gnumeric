@@ -792,9 +792,9 @@ solver_program_report (WorkbookControl *wbc,
 				        dao_set_cell (&dao, 1 + col*3, 6, "+");
 
 				/* Print the coefficent. */
-				if (gnumabs (res->obj_coeff[i]) != 1)
+				if (gnm_abs (res->obj_coeff[i]) != 1)
 				        dao_set_cell_float (&dao, 2 + col*3, 6,
-					        gnumabs (res->obj_coeff[i]));
+					        gnm_abs (res->obj_coeff[i]));
 
 				/* Print the name of the variable. */
 				dao_set_cell (&dao, 3 + col*3, 6,
@@ -835,10 +835,10 @@ solver_program_report (WorkbookControl *wbc,
 						      row, "+");
 
 				/* Print the coefficent. */
-				if (gnumabs (res->constr_coeff[i][n]) != 1)
+				if (gnm_abs (res->constr_coeff[i][n]) != 1)
 				        dao_set_cell_float (&dao, 2 + col*3,
 							    row,
-					     gnumabs (res->constr_coeff[i][n]));
+					     gnm_abs (res->constr_coeff[i][n]));
 
 				/* Print the name of the variable. */
 				dao_set_cell (&dao, 3 + col*3, row,

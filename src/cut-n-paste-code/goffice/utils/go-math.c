@@ -181,7 +181,7 @@ gnm_add_epsilon (gnm_float x)
 		return x;
 	else {
 		int exp;
-		gnm_float mant = gnm_frexp (gnumabs (x), &exp);
+		gnm_float mant = gnm_frexp (gnm_abs (x), &exp);
 		gnm_float absres = gnm_ldexp (mant + GNM_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
@@ -194,7 +194,7 @@ gnm_sub_epsilon (gnm_float x)
 		return x;
 	else {
 		int exp;
-		gnm_float mant = gnm_frexp (gnumabs (x), &exp);
+		gnm_float mant = gnm_frexp (gnm_abs (x), &exp);
 		gnm_float absres = gnm_ldexp (mant - GNM_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
@@ -213,7 +213,7 @@ gnm_fake_floor (gnm_float x)
 {
 	static const gnm_float cutoff = 0.5 / GNM_EPSILON;
 
-	if (gnumabs (x) < cutoff)
+	if (gnm_abs (x) < cutoff)
 		x = (x >= 0)
 			? gnm_add_epsilon (x)
 			: gnm_sub_epsilon (x);
@@ -234,7 +234,7 @@ gnm_fake_ceil (gnm_float x)
 {
 	static const gnm_float cutoff = 0.5 / GNM_EPSILON;
 
-	if (gnumabs (x) < cutoff)
+	if (gnm_abs (x) < cutoff)
 		x = (x >= 0)
 			? gnm_sub_epsilon (x)
 			: gnm_add_epsilon (x);
@@ -245,14 +245,14 @@ gnm_fake_ceil (gnm_float x)
 gnm_float
 gnm_fake_round (gnm_float x)
 {
-	gnm_float y = gnm_fake_floor (gnumabs (x) + 0.5);
+	gnm_float y = gnm_fake_floor (gnm_abs (x) + 0.5);
 	return (x < 0) ? -y : y;
 }
 
 gnm_float
 gnm_fake_trunc (gnm_float x)
 {
-	gnm_float y = gnm_fake_floor (gnumabs (x));
+	gnm_float y = gnm_fake_floor (gnm_abs (x));
 	return (x < 0) ? -y : y;
 }
 
@@ -366,7 +366,7 @@ gnm_continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_den
 	gnm_float x, y;
 
 	if (val < 0) {
-		gnm_continued_fraction (gnumabs (val), max_denom, res_num, res_denom);
+		gnm_continued_fraction (gnm_abs (val), max_denom, res_num, res_denom);
 		*res_num = -*res_num;
 		return;
 	}
@@ -429,7 +429,7 @@ go_stern_brocot (float val, int max_denom, int *res_num, int *res_denom)
 			return;
 		}
 	}
-	if (bd > max_denom || gnumabs (val * ad - an) < gnumabs (val * bd - bn)) {
+	if (bd > max_denom || gnm_abs (val * ad - an) < gnm_abs (val * bd - bn)) {
 		*res_num = an;
 		*res_denom = ad;
 	} else {

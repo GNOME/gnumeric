@@ -243,7 +243,7 @@ static char const *help_abs = {
 static GnmValue *
 gnumeric_abs (FunctionEvalInfo *ei, GnmValue **args)
 {
-	return value_new_float (gnumabs (value_get_as_float (args [0])));
+	return value_new_float (gnm_abs (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -1257,8 +1257,8 @@ gnumeric_mod (FunctionEvalInfo *ei, GnmValue **argv)
 	if (b == 0)
 		return value_new_error_DIV0 (ei->pos);
 
-	babs = gnumabs (b);
-	r = gnm_fmod (gnumabs (a), babs);
+	babs = gnm_abs (b);
+	r = gnm_fmod (gnm_abs (a), babs);
 	if (r > 0) {
 		if ((a < 0) != (b < 0))
 			r = babs - r;

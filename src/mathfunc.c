@@ -195,7 +195,7 @@ mathfunc_init (void)
 /* additions for density functions (C.Loader) */
 #define R_D_fexp(f,x)     (give_log ? -0.5*gnm_log(f)+(x) : gnm_exp(x)/gnm_sqrt(f))
 #define R_D_forceint(x)   gnm_floor((x) + 0.5)
-#define R_D_nonint(x) 	  (gnumabs((x) - gnm_floor((x)+0.5)) > 1e-7)
+#define R_D_nonint(x) 	  (gnm_abs((x) - gnm_floor((x)+0.5)) > 1e-7)
 /* [neg]ative or [non int]eger : */
 #define R_D_negInonint(x) (x < 0. || R_D_nonint(x))
 
@@ -460,7 +460,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
     lower = i_tail != 1;
     upper = i_tail != 0;
 
-    y = gnumabs(x);
+    y = gnm_abs(x);
     if (y <= 0.67448975) { /* qnorm(3/4) = .6744.... -- earlier had 0.66291 */
 	if (y > eps) {
 	    xsq = x * x;
@@ -666,7 +666,7 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
         (original fortran code used PARAMETER(..) for the coefficients
          and provided hash codes for checking them...)
 */
-    if (gnumabs(q) <= .425) {/* 0.075 <= p <= 0.925 */
+    if (gnm_abs(q) <= .425) {/* 0.075 <= p <= 0.925 */
         r = .180625 - q * q;
 	val =
             q * (((((((r * GNM_const(2509.0809287301226727) +
@@ -1114,7 +1114,7 @@ static gnm_float bd0(gnm_float x, gnm_float np)
     gnm_float ej, s, s1, v;
     int j;
 
-    if (gnumabs(x-np) < 0.1*(x+np)) {
+    if (gnm_abs(x-np) < 0.1*(x+np)) {
 	v = (x-np)/(x+np);
 	s = (x-np)*v;/* s using v -- change by MM */
 	ej = 2*x*v;
@@ -1326,7 +1326,7 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
 static gnm_float
 logspace_add (gnm_float logx, gnm_float logy)
 {
-     return fmax2 (logx, logy) + gnm_log1p (gnm_exp (-gnumabs (logx - logy)));
+     return fmax2 (logx, logy) + gnm_log1p (gnm_exp (-gnm_abs (logx - logy)));
 }
 
 
@@ -1384,7 +1384,7 @@ pgamma_smallx (gnm_float x, gnm_float alph, gboolean lower_tail, gboolean log_p)
 	  c *= -x / n;
 	  term = c / (alph + n);
 	  sum += term;
-     } while (gnumabs (term) > GNM_EPSILON * gnumabs (sum));
+     } while (gnm_abs (term) > GNM_EPSILON * gnm_abs (sum));
 
      if (lower_tail) {
 	  gnm_float f1 = log_p ? gnm_log1p (sum) : 1 + sum;
@@ -1468,7 +1468,7 @@ pd_lower_cf (gnm_float i, gnm_float d)
 	  if (b2 != 0) {
 	       of = f;
 	       f = a2 / b2;
-	       if (gnumabs (f - of) <= GNM_EPSILON * fmin2 (1.0, gnumabs (f)))
+	       if (gnm_abs (f - of) <= GNM_EPSILON * fmin2 (1.0, gnm_abs (f)))
 		    return f;
 	  }
      }
@@ -1571,8 +1571,8 @@ ppois_asymp (gnm_float x, gnm_float lambda,
 
      if (log_p)
 	  return (f >= 0)
-	       ? logspace_add (np, gnm_log (gnumabs (f)) + nd)
-	       : logspace_sub (np, gnm_log (gnumabs (f)) + nd);
+	       ? logspace_add (np, gnm_log (gnm_abs (f)) + nd)
+	       : logspace_sub (np, gnm_log (gnm_abs (f)) + nd);
      else
 	  return np + f * nd;
 }
@@ -1713,7 +1713,7 @@ static int chebyshev_init(gnm_float *dos, int nos, gnm_float eta)
     i = 0;			/* just to avoid compiler warnings */
     for (ii=1; ii<=nos; ii++) {
 	i = nos - ii;
-	err += gnumabs(dos[i]);
+	err += gnm_abs(dos[i]);
 	if (err > eta) {
 	    return i;
 	}
@@ -2127,7 +2127,7 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 	neg = TRUE;  P = 2 * R_D_Lval(p_);
     } /* 0 <= P <= 1 ; P = 2*min(p_, 1 - p_)  in all cases */
 
-    if (gnumabs(ndf - 2) < eps) {	/* df ~= 2 */
+    if (gnm_abs(ndf - 2) < eps) {	/* df ~= 2 */
 	if(P > 0)
 	    q = gnm_sqrt(2 / (P * (2 - P)) - 2);
 	else { /* P = 0, but maybe = gnm_exp(p) ! */
@@ -4127,7 +4127,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 	    }
 	    /* d2 := gnm_sinh(f1)/ nu = gnm_sinh(f1)/(f1/f0)
 	     *	   = f0 * gnm_sinh(f1)/f1 */
-	    if (gnumabs(f1) <= .5) {
+	    if (gnm_abs(f1) <= .5) {
 		f1 *= f1;
 		d2 = 0.;
 		for (i = 0; i < 6; ++i) {
@@ -4207,8 +4207,8 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		    t2 = c * (p0 - d2 * f0);
 		    bk1 += t1;
 		    bk2 += t2;
-		} while (gnumabs(t1 / (f1 + bk1)) > GNM_EPSILON ||
-			 gnumabs(t2 / (f2 + bk2)) > GNM_EPSILON);
+		} while (gnm_abs(t1 / (f1 + bk1)) > GNM_EPSILON ||
+			 gnm_abs(t2 / (f2 + bk2)) > GNM_EPSILON);
 		bk1 = f1 + bk1;
 		bk2 = 2. * (f2 + bk2) / ex;
 		if (*ize == 2) {
@@ -4255,7 +4255,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		   -----------------------------------------------------------*/
 		d2 = gnm_trunc(estm[2] * ex + estm[3]);
 		m = (long) d2;
-		c = gnumabs(nu);
+		c = gnm_abs(nu);
 		d3 = c + c;
 		d1 = d3 - 1.;
 		f1 = GNM_MIN;
@@ -4302,7 +4302,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		bk1 = 1. / ((M_SQRT_2dPI + M_SQRT_2dPI * blpha) * gnm_sqrt(ex));
 		if (*ize == 1)
 		    bk1 *= gnm_exp(-ex);
-		wminf = estf[4] * (ex - gnumabs(ex - estf[6])) + estf[5];
+		wminf = estf[4] * (ex - gnm_abs(ex - estf[6])) + estf[5];
 	    }
 	    /* ---------------------------------------------------------
 	       Calculation of K(ALPHA+1,X)
@@ -4412,7 +4412,7 @@ logcf (gnm_float x, gnm_float i, gnm_float d)
 
 	b2 = c4 * b1 - i * b2;
 
-	while (gnumabs (a2 * b1 - a1 * b2) > gnumabs (cfVSmall * b1 * b2)) {
+	while (gnm_abs (a2 * b1 - a1 * b2) > gnm_abs (cfVSmall * b1 * b2)) {
 		gnm_float c3 = c2*c2*x;
 		c2 += d;
 		c4 += d;
@@ -4425,12 +4425,12 @@ logcf (gnm_float x, gnm_float i, gnm_float d)
 		a2 = c4 * a1 - c3 * a2;
 		b2 = c4 * b1 - c3 * b2;
 
-		if (gnumabs (b2) > scalefactor) {
+		if (gnm_abs (b2) > scalefactor) {
 			a1 *= 1 / scalefactor;
 			b1 *= 1 / scalefactor;
 			a2 *= 1 / scalefactor;
 			b2 *= 1 / scalefactor;
-		} else if (gnumabs (b2) < 1 / scalefactor) {
+		} else if (gnm_abs (b2) < 1 / scalefactor) {
 			a1 *= scalefactor;
 			b1 *= scalefactor;
 			a2 *= scalefactor;
@@ -4449,7 +4449,7 @@ log1pmx (gnm_float x)
 	static const gnm_float minLog1Value = -0.79149064;
 	static const gnm_float two = 2;
 
-	if (gnumabs (x) < 1.0e-2) {
+	if (gnm_abs (x) < 1.0e-2) {
 		gnm_float term = x / (2 + x);
 		gnm_float y = term * term;
 		return term * ((((two / 9 * y + two / 7) * y + two / 5) * y + two / 3) * y - x);
@@ -4770,7 +4770,7 @@ lgamma1p (gnm_float a)
 	gnm_float lgam;
 	int i;
 
-	if (gnumabs (a) >= 0.5)
+	if (gnm_abs (a) >= 0.5)
 		return gnm_lgamma (a + 1);
 
 	/* Abramowitz & Stegun 6.1.33 */
@@ -4789,7 +4789,7 @@ compbfunc (gnm_float x, gnm_float a, gnm_float b)
 	gnm_float term = x;
 	gnm_float d = 2;
 	gnm_float sum = term / (a + 1);
-	while (gnumabs (term) > gnumabs (sum * sumAcc)) {
+	while (gnm_abs (term) > gnm_abs (sum * sumAcc)) {
 		term *= (d - b) * x / d;
 		sum += term / (a + d);
 		d++;
@@ -4890,7 +4890,7 @@ tdistexp (gnm_float p, gnm_float q, gnm_float logqk2, gnm_float k,
 		gnm_float cadd = -14 * q;
 		gnm_float c2 = b2 + q1;
 
-		while (gnumabs (a2 * b1 - a1 * b2) > gnumabs (cfVSmall * b1 * b2)) {
+		while (gnm_abs (a2 * b1 - a1 * b2) > gnm_abs (cfVSmall * b1 * b2)) {
 			a1 = c2 * a2 + c1 * a1;
 			b1 = c2 * b2 + c1 * b1;
 			c1 += cadd;
@@ -4902,12 +4902,12 @@ tdistexp (gnm_float p, gnm_float q, gnm_float logqk2, gnm_float k,
 			cadd -= q8;
 			c2 += q1;
 
-			if (gnumabs (b2) > scalefactor) {
+			if (gnm_abs (b2) > scalefactor) {
 				a1 *= 1 / scalefactor;
 				b1 *= 1 / scalefactor;
 				a2 *= 1 / scalefactor;
 				b2 *= 1 / scalefactor;
-			} else if (gnumabs (b2) < 1 / scalefactor) {
+			} else if (gnm_abs (b2) < 1 / scalefactor) {
 				a1 *= scalefactor;
 				b1 *= scalefactor;
 				a2 *= scalefactor;
@@ -5109,7 +5109,7 @@ binomialcf (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 	c2 = a2;
 	c4 = b2;
 
-	while (gnumabs (a2 * b1 - a1 * b2) > gnumabs (cfSmall * b1 * b2)) {
+	while (gnm_abs (a2 * b1 - a1 * b2) > gnm_abs (cfSmall * b1 * b2)) {
 		c1++;
 		c2 -= q;
 		c3 = c1 * c2;
@@ -5123,12 +5123,12 @@ binomialcf (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 		a2 = c4 * a1 + c3 * a2;
 		b2 = c4 * b1 + c3 * b2;
 
-		if (gnumabs (b2) > scalefactor) {
+		if (gnm_abs (b2) > scalefactor) {
 			a1 *= 1 / scalefactor;
 			b1 *= 1 / scalefactor;
 			a2 *= 1 / scalefactor;
 			b2 *= 1 / scalefactor;
-		} else if (gnumabs (b2) < 1 / scalefactor) {
+		} else if (gnm_abs (b2) < 1 / scalefactor) {
 			a1 *= scalefactor;
 			b1 *= scalefactor;
 			a2 *= scalefactor;
@@ -5168,7 +5168,7 @@ binomial (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 {
 	gnm_float mij = fmin2 (ii, jj);
 
-	if (mij > 500 && gnumabs (diffFromMean) < 0.01 * mij)
+	if (mij > 500 && gnm_abs (diffFromMean) < 0.01 * mij)
 		return binApprox (jj - 1, ii, diffFromMean, lower_tail, log_p);
 
 	return binomialcf (ii, jj, pp, qq, diffFromMean, lower_tail, log_p);
@@ -5296,7 +5296,7 @@ pcauchy (gnm_float x, gnm_float location, gnm_float scale,
     if (!lower_tail)
 	    x = -x;
 
-    if (gnumabs (x) > 1) {
+    if (gnm_abs (x) > 1) {
 	    gnm_float temp = gnm_atan (1 / x) / M_PIgnum;
 	    return (x > 0) ? R_D_Clog (temp) : R_D_val (-temp);
     } else
@@ -5431,7 +5431,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 
 		if (have_xlow && have_xhigh) {
 			gnm_float prec = (xhigh - xlow) /
-				(gnumabs (xlow) + gnumabs (xhigh));
+				(gnm_abs (xlow) + gnm_abs (xhigh));
 			if (prec < GNM_EPSILON * 4) {
 				x = (xhigh + xlow) / 2;
 				e = pfunc (x, shape, lower_tail, log_p) - p;
@@ -5464,9 +5464,9 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
  done:
 	/* Make sure to keep a lucky near-hit.  */
 
-	if (have_xhigh && gnumabs (e) > exhigh)
+	if (have_xhigh && gnm_abs (e) > exhigh)
 		e = exhigh, x = xhigh;
-	if (gnumabs (e) > -exlow)
+	if (gnm_abs (e) > -exlow)
 		e = exlow, x = xlow;
 
 #ifdef DEBUG_pfuncinverter
@@ -6044,7 +6044,7 @@ random_laplace (gnm_float a)
 gnm_float
 random_laplace_pdf (gnm_float x, gnm_float a)
 {
-	return (1 / (2 * a)) * gnm_exp (-gnumabs (x) / a);
+	return (1 / (2 * a)) * gnm_exp (-gnm_abs (x) / a);
 }
 
 /*
@@ -6550,7 +6550,7 @@ random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
 	gnm_float lngamma = lgamma1p (1 / b);
 
-	return (1 / (2 * a)) * gnm_exp (-gnm_pow (gnumabs (x / a), b) - lngamma);
+	return (1 / (2 * a)) * gnm_exp (-gnm_pow (gnm_abs (x / a), b) - lngamma);
 }
 
 /*
@@ -6620,7 +6620,7 @@ random_exppow (gnm_float a, gnm_float b)
 
 		do {
 			x     = random_gaussian (sigma) ;
-			y     = dnorm (x, 0.0, gnumabs (sigma), FALSE) ;
+			y     = dnorm (x, 0.0, gnm_abs (sigma), FALSE) ;
 			h     = random_exppow_pdf (x, a, b) ;
 			ratio = h / (s * y) ;
 			u     = random_01 ();
@@ -7042,7 +7042,7 @@ lbeta3 (gnm_float a, gnm_float b, int *sign)
 gnm_float
 pow1p (gnm_float x, gnm_float y)
 {
-	if (gnumabs (x) > 0.5)
+	if (gnm_abs (x) > 0.5)
 		return gnm_pow (1 + x, y);
 	else
 		return gnm_exp (y * gnm_log1p (x));
@@ -7189,7 +7189,7 @@ gnm_frexp (gnm_float x, int *exp)
 	if (x == 0)
 		return *exp = 0;
 
-	l2x = gnm_log (gnumabs (x)) / gnm_log (2);
+	l2x = gnm_log (gnm_abs (x)) / gnm_log (2);
 	*exp = (int)gnm_floor (l2x);
 
 	/*
@@ -7197,9 +7197,9 @@ gnm_frexp (gnm_float x, int *exp)
 	 * off-by-one due to rounding.
 	 */
 	res = x / gnm_pow2 (*exp);
-	if (gnumabs (res) >= 1.0)
+	if (gnm_abs (res) >= 1.0)
 		res /= 2, (*exp)++;
-	else if (gnumabs (res) < 0.5)
+	else if (gnm_abs (res) < 0.5)
 		res *= 2, (*exp)--;
 
 	return res;
@@ -7212,14 +7212,14 @@ gnm_frexp (gnm_float x, int *exp)
 gnm_float
 gnm_erf (gnm_float x)
 {
-	if (gnumabs (x) < 0.1) {
+	if (gnm_abs (x) < 0.1) {
 		/* For small x the pnorm formula loses precision.  */
 		gnm_float sum = 0;
 		gnm_float term = x * 2 / gnm_sqrt (M_PIgnum);
 		gnm_float n;
 		gnm_float x2 = x * x;
 
-		for (n = 0; gnumabs (term) >= gnumabs (sum) * GNM_EPSILON ; n++) {
+		for (n = 0; gnm_abs (term) >= gnm_abs (sum) * GNM_EPSILON ; n++) {
 			sum += term / (2 * n + 1);
 			term *= -x2 / (n + 1);
 		}
@@ -7280,7 +7280,7 @@ gnm_float
 gnm_expm1 (gnm_float x)
 {
 #ifdef HAVE_LOG1P
-	gnm_float y, a = gnumabs (x);
+	gnm_float y, a = gnm_abs (x);
 
 	if (a > 1e-8) {
 		y = gnm_exp (x) - 1;
@@ -7308,7 +7308,7 @@ gnm_expm1 (gnm_float x)
 gnm_float
 gnm_asinh (gnm_float x)
 {
-  gnm_float y = gnumabs (x);
+  gnm_float y = gnm_abs (x);
   gnm_float r = gnm_log1p (y * y / (gnm_hypot (y, 1.0) + 1.0) + y);
   return (x >= 0) ? r : -r;
 }
@@ -7331,7 +7331,7 @@ gnm_acosh (gnm_float x)
 gnm_float
 gnm_atanh (gnm_float x)
 {
-  gnm_float y = gnumabs (x);
+  gnm_float y = gnm_abs (x);
   gnm_float r = -0.5 * gnm_log1p (-(y + y) / (1.0 + y));
   return (x >= 0) ? r : -r;
 }

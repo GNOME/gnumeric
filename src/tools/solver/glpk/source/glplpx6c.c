@@ -222,7 +222,7 @@ static void branch_drtom(MIPTREE *tree)
                {  /* x[q] is of integer kind */
                   /* we should avoid rounding delta x[q] if it is close
                      to the nearest integer */
-                  if (gnumabs(delta_q - gnm_floor(delta_q + 0.5)) > 1e-3)
+                  if (gnm_abs(delta_q - gnm_floor(delta_q + 0.5)) > 1e-3)
                   {  if (delta_q > 0.0)
                         delta_q = gnm_ceil(delta_q);  /* +3.14 -> +4 */
                      else
@@ -266,9 +266,9 @@ skip:       /* new Z is never better than old Z, therefore the change
             /* save absolute value of delta_z for down and up branches
                respectively */
             if (how < 0)
-               dn_z = gnumabs(delta_z);
+               dn_z = gnm_abs(delta_z);
             else
-               up_z = gnumabs(delta_z);
+               up_z = gnm_abs(delta_z);
          }
          /* following Driebeek-Tomlin heuristic we choose a branching
             variable, which provides the largest degradation of the
@@ -585,7 +585,7 @@ int lpx_integer(LPX *mip)
          lpx_get_col_bnds(mip, j, &typx, &lb, &ub);
          if (typx == LPX_LO || typx == LPX_DB || typx == LPX_FX)
          {  temp = gnm_floor(lb + 0.5);
-            if (gnumabs(lb - temp) <= 1e-12 * (1.0 + gnumabs(lb))) lb = temp;
+            if (gnm_abs(lb - temp) <= 1e-12 * (1.0 + gnm_abs(lb))) lb = temp;
             if (lb != gnm_floor(lb))
             {  print(prefix "integer column %d has non-integer lower bo"
                   "und %g", j, lb);
@@ -595,7 +595,7 @@ int lpx_integer(LPX *mip)
          }
          if (typx == LPX_UP || typx == LPX_DB)
          {  temp = gnm_floor(ub + 0.5);
-            if (gnumabs(ub - temp) <= 1e-12 *(1.0 + gnumabs(ub))) ub = temp;
+            if (gnm_abs(ub - temp) <= 1e-12 *(1.0 + gnm_abs(ub))) ub = temp;
             if (ub != gnm_floor(ub))
             {  print(prefix "integer column %d has non-integer upper bo"
                   "und %g", j, ub);
