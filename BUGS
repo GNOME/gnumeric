@@ -8,6 +8,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - Side effects in g_return.*_fail inms_escher_read_ClientTextbox, line 1732.
+      There are several similar problems in the Excel plugin.
+
     - defining file patterns in plugin spec overrides 'has_probe' flag silently.
 
     - smarter support for unicode characters that do not convert to the
