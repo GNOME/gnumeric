@@ -10,17 +10,15 @@ GNU oleo">
 <!ENTITY toolbars	SYSTEM "toolbars.xml">
 <!ENTITY worksheet	SYSTEM "worksheet.xml">
 <!ENTITY editing	SYSTEM "editing.xml">
-<!--
-<!ENTITY numberformat	SYSTEM "number-format.sgml">
--->
-<!ENTITY formulas	SYSTEM "formulas.sgml">
+<!ENTITY numberformat	SYSTEM "number-format.xml">
+<!ENTITY formulas	SYSTEM "formulas.xml">
 <!ENTITY cellrefer	SYSTEM "cell_refer.xml">
 <!ENTITY selections	SYSTEM "selections.xml">
 <!ENTITY copying-moving	SYSTEM "copying-moving.xml">
 <!ENTITY printing	SYSTEM "printing.xml">
-<!--
-<!ENTITY autofill	SYSTEM "autofill.sgml">
-<!ENTITY introduction	SYSTEM "introduction.sgml">
+<!ENTITY autofill	SYSTEM "autofill.xml">
+<!-- This one isn't going to be added quite yet; redundant
+<!ENTITY introduction	SYSTEM "introduction.xml">
 -->
 <!ENTITY files		SYSTEM "files.xml">
 <!--
@@ -111,7 +109,7 @@ GNU oleo">
     <title>Copying and Moving</title>
     &copying-moving;
   </chapter>
-<!--
+
    <chapter id="autofill">
      <title>Autofill</title>
      &autofill;
@@ -121,7 +119,6 @@ GNU oleo">
      <title>Cell Formatting</title>
       &numberformat;
    </chapter>
--->
 
   <chapter id="files">
     <title>Working with files</title>

@@ -1,3 +1,11 @@
+2002-01-27  Kevin Breit  <mrproper@ximian.com>
+
+	* new/autofill.xml: This is good to go!  XMLized content, away
+
+	* new/number-format.xml: I fixed this.  This was kind of ugly.  I made it work nicely now!
+
+	* new/gnumeric.xml: Added autofill
+
 2002-01-26  Kevin Breit  <mrproper@ximian.com>
 
 	* formulas.sgml: Added, made XML compatible

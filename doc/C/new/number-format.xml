@@ -1,0 +1,983 @@
+<sect1 id="cell-formatting">
+  <title>Overview</title>
+  <para>Cell formats allow you to change the way cell data appears in
+    the spreadsheet. It is important to keep in mind that it only
+    alters the way the data is presented, and does not change the
+    value of the data. </para>
+  <para>The formatting options allows for monetary units, scientific
+    options, dates, times, fractions,and more. Positive and negative
+    values can have different colors and formats for aiding in
+    keeping track of values. There are also a large variety of date
+    and time formats for virtually any time and date format one can
+    think of. Formatting also allows you to set font, background color, and
+    borders for selected cells.  </para>
+  <para>
+    Finally, advanced formatting options allow you to lock some of
+    the cells so that their values can not be changed, or restrict
+    the range of values that can be entered in the selected cells. 
+  </para>
+  <para> 
+    To change the formatting of a cell or a selection, you can either
+    use the <guilabel>Format Cells</guilabel> dialog or use the
+    <guilabel>Format Toolbar</guilabel>. </para> 
+  
+    
+ 
+  <sect2 id="format-dialog">
+    <title>Format Cells Dialog</title>
+    <para>
+      This dialog, shown in <xref linkend="number-format-dialog" />,
+	gives you access to all formatting options. </para>
+
+
+
+    <figure id="number-format-dialog">
+      <title>Format Cells Dialog</title>
+      <screenshot>
+	<graphic fileref="figures/number-format-dialog.png" format="PNG"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+    <para>
+      To launch this dialog, select the cell or range of cells you want
+      to format (see <xref linkend="editing-selections" /> for details
+      on selecting cells) and then use one of the following methods:
+    </para>
+     <itemizedlist>
+      <listitem><para>
+          Use keyboard shortcut <keycombo><keycap>Ctrl</keycap>
+	    <keycap>1</keycap></keycombo> (this is number one, not
+          letter <keycap>l</keycap>). 
+	</para></listitem>
+      
+      <listitem><para>
+          Choose <menuchoice><guimenu>Format</guimenu>
+	    <guimenuitem>Cells...</guimenuitem>
+	  </menuchoice>
+          in the menubar.
+       </para></listitem>
+       
+       <listitem><para>
+	  Right-click on the selection and choose <guimenuitem>Format
+	    Cells...</guimenuitem>. 
+	</para></listitem>
+      
+    </itemizedlist>
+    <para>
+      The <guilabel>Format Cells</guilabel> dialog contains tabs 
+      <guilabel>Number</guilabel>, <guilabel>Alignment</guilabel>,
+      <guilabel>Font</guilabel>, <guilabel>Border</guilabel>, 
+      <guilabel>Background</guilabel>,           
+      <guilabel>Protection</guilabel>, and  
+      <guilabel>Validation</guilabel>. These tabs are described in
+      detail in the subsequent sections.
+    </para>
+    <para>
+      To set one of formatting options, select the corresponding tab,
+      choose the options you need, and click
+      <guibutton>OK</guibutton>. This will apply the options you
+      selected (in all tabs) and close <guilabel>Format
+      Cells</guilabel> dialog. You can also click on
+      <guibutton>Apply</guibutton> to apply the and keep the dialog
+      open, or on <guibutton>Close</guibutton> to close the dialog
+      without applying changes.
+    </para>
+  </sect2>
+  
+  <sect2 id="buttonbar">
+    <title>Formatting Using the Format Toolbar</title>
+    <para>
+        Some of the most commonly used formatting options, such as
+      font, background, and alignment, can also be accessed by using
+      the buttons in the <guilabel>Format Toolbar</guilabel>. This
+      toolbar is described in detail in <xref
+        linkend="fmt-toolbar" />, 
+    </para>
+  </sect2>
+</sect1>
+
+<!--       ******************************************* -->
+<sect1 id="number-formatting-overview">
+  <title>Number Formatting Tab</title>
+  <para>
+    This tab allows you to select the format for the cell's
+    contents. You can select one of the many preset formatting styles
+    which should be be more than adequate for the vast majority of cases. If none
+    of these meet the needs of the user, it is possible to create your own
+    formats. </para>
+  
+  <para>To use one of the preset formats, select the format category
+   (such as <guilabel>Number</guilabel> or <guilabel>Date</guilabel>) by
+    clicking on the corresponding radiobutton  in the left
+    side of the dialog. The right side of the dialog will show you how
+    the selected cell would look with this format and give more options
+    for the selected format. </para>
+   <para>
+    The following is a list of all available format categories:
+  </para>
+  <variablelist>
+    <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>General</guilabel></term>
+      <listitem><para>	A swiss army knife of a format.  It will attempt
+	  to display a value it the 'best' way possible.
+	  The choice of format depends on the size of the cell
+	  and <application>Gnumeric</application>
+	  guess of what 'type' of value is 
+	  being displayed (number, date, time ...).
+	</para></listitem>
+    </varlistentry>
+ <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Number</guilabel></term>
+      <listitem><para>Displays numbers with 0-30 digits after the decimal
+	  place.  Negatives can be displayed normally, within
+	  parentheses, or in  red color.  Optionally a delimiter
+	  can be added every third order of magnitude (thousand,
+	  million, ...). Both the decimal point and the
+	  thousands separator have internationalization support.
+	</para></listitem>
+    </varlistentry>
+    <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Currency</guilabel></term>
+      <listitem><para>Similar to <guilabel>Number</guilabel>, with the addition of a
+	  currency symbol.  Currently known symbols
+	  include <literal>$</literal>,
+	  <literal>&yen;</literal>,
+	  <literal>&pound;</literal>, 
+	  <literal>&curren;</literal> 
+	  and the three letter abbreviations of all major
+	  currencies. By default, <application>Gnumeric</application>
+	  will use currency symbol  and placement (before or after the
+	  number) appropriate for your locale. 
+	</para></listitem>
+    </varlistentry>
+ <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Accounting</guilabel></term>
+      <listitem><para>A specialization of
+	  <guilabel>Currency</guilabel> which pays more attention 
+	  to the alignment of negative numbers.  It ensures that
+	  a small amount of space is prepended to positive
+	  numbers so that they align with negatives.
+      </para></listitem>
+    </varlistentry>
+ <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Date</guilabel></term>
+      <listitem><para>This category contains various formats for
+	  presenting dates. By default,
+	  <application>Gnumeric</application> will use date format
+	  appropriate for your locale (country and language setting).  You
+	  can also choose one of many 
+	  possible date formats shown in the list in the right side of
+	  the dialog. The following is an explanation of codes used in
+	  these formats: 
+	  <itemizedlist>
+	    <listitem><para>
+		<guilabel>d</guilabel>: day of month (one or two
+		digits). Example: 9.
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>dd</guilabel>: day of month (two
+		digits). Example: 09.
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>ddd</guilabel>: day of week. Example: Wed. 
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>m</guilabel>: month (number, one or two
+		digits). Example: 3.
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>mm</guilabel>: month (number, two
+		digits). Example: 03. 
+	     </para></listitem>
+	    <listitem><para>
+		<guilabel>mmm</guilabel>: month (abbreviated
+		name). Example: Mar.
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>mmmm</guilabel>: month (full
+		name). Example: March.
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>yyyy</guilabel>: year (four digits).  Example: 1967.
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>yy</guilabel>: last two digits of year. Example: 67.
+	     </para></listitem>
+	  </itemizedlist>
+	  Some date formats also include time using the codes
+	  explained below. Examples of date formatting are shown in <xref
+	    linkend="number-format-date-examples" />.  
+      </para></listitem>
+    </varlistentry>
+    <!-- ************* -->
+    <varlistentry>
+      <term><guilabel> Time</guilabel></term>
+      <listitem><para>	This category contains various formats for
+	  presenting time of day. You can choose one of many
+	  possible time formats shown in the list in the right side of
+	  the dialog. The following is an explanation of codes used in
+	  these formats: 
+	  <itemizedlist>
+	    <listitem><para>
+		<guilabel>h</guilabel>: hours.
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>mm</guilabel>: minutes.
+	      </para></listitem>
+	    <listitem><para>
+		<guilabel>ss</guilabel>: seconds.
+	      </para></listitem>
+	  </itemizedlist>
+	  Sometimes it is necessary to display more than 24 hours, or
+	  more that 60 minutes/seconds without the values incrementing
+	  the display unit of the next larger measure (e.g., 25 hours
+	  instead of 1 day + 1 hour).  To achieve this, use codes 
+	  '[h]', '[mm]', and '[ss]'.  Examples of time formatting are shown in <xref
+	    linkend="number-format-time-examples" />.
+	</para></listitem>
+    </varlistentry>
+ <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Percentage</guilabel></term>
+      <listitem><para>Multiplies a value by 100 and appends a percent.
+			Can be used with 0-30 digits after the decimal place.
+	</para></listitem>
+    </varlistentry>
+    <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Fractions</guilabel></term>
+      <listitem><para>Approximate the value with a rational number with either
+	  a specific denominator or with a maximum number of digits
+	  in the denominator.
+      </para></listitem>
+    </varlistentry>
+    <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Scientific</guilabel></term>
+      <listitem><para>Formats the value using scientific notation,
+	  e.g. <literal>5.334 E 6</literal> for
+	  <literal>5,334,000</literal>. Allows up to 30
+	  digits after the decimal place.  No provision 
+	  for controlling the exponent are provided at this time.
+      </para></listitem>
+    </varlistentry>
+<!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Text</guilabel></term>
+      <listitem><para>Treats numeric values as text.  This will show a
+	  number with as much precision as available and will
+	  lose knowledge of whether it represented a date, or
+	  time.
+	</para>
+	<tip> 
+	  <title>TIP</title>
+	  <para>If your workbook contains serial numbers, ID numbers or
+	    other similar entries, choose
+	    <guilabel>Text</guilabel> format for them. If you choose
+	    <guilabel>General</guilabel> or <guilabel>Number</guilabel>
+	    format, <application>Gnumeric</application> will remove leading
+	    zeros, so that <literal>01124</literal> will be shown as
+	    <literal>1124</literal>. </para>
+	</tip>
+      </listitem>
+    </varlistentry>
+    <!-- ************* -->
+    <varlistentry>
+      <term><guilabel>Custom</guilabel></term>
+      <listitem><para>
+	  This category allows you to define your own
+	  format. This is only recommended for advanced users as
+	  it requires understanding of the codes internally used
+	  by <application>Gnumeric</application> for describing
+	  formats. To make it easier, this category provides a
+	  list of codes for all predefined formats so you can
+	  create our own format by modifying one of them rather
+	  than starting from scratch. 
+	</para></listitem>
+    </varlistentry>
+   </variablelist>
+
+<!-- ****************** Table: date examples ******************* -->
+  <table id="number-format-date-examples">
+    <title>Examples of Date Formats</title>
+    <tgroup cols="4" align="left" colsep="1" rowsep="1">
+      
+      
+      <colspec colname="Format1" />
+	<colspec colname="Format2" />
+	  <colspec colname="Sample1" />
+	    <colspec colname="Sample2" />
+	      <spanspec spanname="Format" namest="Format1"
+			nameend="Format2" />
+		<spanspec spanname="Sample" namest="Sample1"
+			  nameend="Sample2" />
+		  <thead>
+		    <row>
+		      <entry spanname="Format">Format</entry>
+		      <entry spanname="Sample">Sample</entry>
+		    </row>
+		  </thead>
+		  <tbody>
+		    <row>
+		      <entry spanname="Format">General</entry>
+		      <entry spanname="Sample">36068.755</entry>
+		    </row>
+		    
+		    <row>
+		      <entry>m/d/yy</entry>
+		      <entry>d/m/yy</entry>
+		      <entry>9/30/98</entry>
+		      <entry>30/9/98</entry>
+		    </row>
+		    <row>
+		      <entry>m/d/yyyy</entry>
+		      <entry>d/m/yyyy</entry>
+		      <entry>9/30/1998</entry>
+		      <entry>30/9/1998</entry>
+		    </row>
+		    <row>
+		      <entry>d-mmm-yy</entry>
+		      <entry>mmm-d-yy</entry>
+		      <entry>30-Sep-98</entry>
+		      <entry>Sep-30-98</entry>
+		    </row>
+		    <row>
+		      <entry>d-mmm-yyyy</entry>
+		      <entry>mmm-d-yyyy</entry>
+		      <entry>30-Sep-199</entry>
+		      <entry>Sep-30-9198</entry>
+		    </row>
+		    <row> 
+		      <entry>d-mmm</entry>
+		      <entry>mmm-d</entry>
+		      <entry>30-Sep</entry>
+		      <entry>Sep-30</entry>
+		    </row> 
+		    <row>
+		      <entry>d-mm</entry>
+		      <entry>mm-d</entry>
+		      <entry>30-09</entry>
+		      <entry>09-30</entry>
+		    </row>
+		    <row>
+		      <entry>mmm/d</entry>
+		      <entry>d/mmm</entry>
+		      <entry>Sep/30</entry>
+		      <entry>30/Sep</entry>
+		    </row>
+		    <row> 
+		      <entry>mm/d </entry>
+		      <entry>d/mm</entry>
+		      <entry>09/30</entry>
+		      <entry>30/09</entry>
+		    </row>
+		    <row> 
+		      <entry>mm/dd/yy</entry>
+		      <entry>dd/mm/yy</entry>
+		      <entry>09/30/98</entry>
+		      <entry>30/09/98</entry>
+		    </row>
+		    <row>
+		      <entry>mm/dd/yyyy</entry>
+		      <entry>dd/mm/yyyy</entry>
+		      <entry>09/30/1998</entry>
+		      <entry>30/09/1998</entry>
+		    </row>
+		    <row>
+		      <entry>mmm/dd/yy </entry>
+		      <entry>dd/mmm/yy</entry>
+		      <entry>Sep/30/98</entry>
+		      <entry>30/Sep/98</entry>
+		    </row>
+		    <row> 
+		      <entry>mmm/dd/yyyy</entry>
+		      <entry>dd/mmm/yyyy</entry>
+		      <entry>Sep/30/1998</entry>
+		      <entry>30/Sep/1998</entry>
+		    </row>
+		    <row> 
+		      <entry>mmm/ddd/yy</entry>
+		      <entry>ddd/mmm/yy</entry>
+		      <entry>Sep/Wed/98</entry>
+		      <entry>Wed/Sep/98</entry>
+		    </row>
+		    <row> 
+		      <entry>mmm/ddd/yyyy</entry>
+		      <entry>ddd/mmm/yyyy</entry>
+		      <entry>Sep/Wed/1998</entry>
+		      <entry>Wed/Sep/1998</entry>
+		    </row>
+		    <row>
+		      <entry>mm/ddd/yy</entry>
+		      <entry>ddd/mm/yy</entry>
+		      <entry>09/Wed/98</entry>
+		      <entry>Wed/09/98</entry>
+		    </row>
+		    <row>
+		      <entry>mm/ddd/yyyy</entry>
+		      <entry>ddd/mm/yyyy</entry>
+		      <entry>09/Wed/1998</entry>
+		      <entry>Wed/09/1998</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">mmm-yy</entry>
+		      <entry spanname="Sample">Sep-98</entry>
+		    </row>
+		    <row> 
+		      <entry spanname="Format">mmm-yyyy</entry>
+		      <entry spanname="Sample">Sep-1998</entry>
+		    </row>
+		    
+		    <row> 
+		      <entry  spanname="Format">mmmm-yy</entry>
+		      <entry spanname="Sample">September-98</entry>
+		    </row>
+		    <row> 
+		      <entry spanname="Format">mmmm-yyyy</entry>
+		      <entry  spanname="Sample">September-1998 </entry>
+		    </row>
+		    <row> 
+		      <entry>d/m/yy h:mm</entry>
+		      <entry>m/d/yy h:mm</entry>
+		      <entry>9/30/98 18:07</entry>
+		      <entry>30/9/98 187:07</entry>
+		    </row>
+		    <row> 
+		      <entry>d/m/yyyy h:mm</entry>
+		      <entry>m/d/yyyy h:mm</entry>
+		      <entry>9/30/1998 18:07</entry>
+		      <entry>30/9/1998 187:07</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">yyyy/mm/d</entry>
+		      <entry spanname="Sample">1998/09/30</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">yyyy/mmm/d</entry>
+		      <entry spanname="Sample">1998/Sep/30</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">yyyy/mm/dd</entry>
+		      <entry spanname="Sample">1998/09/30</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format"> yyyy/mmm/dd</entry>
+		      <entry spanname="Sample">1998/Sep/30</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">yyyy-mm-d</entry>
+		      <entry spanname="Sample">1998-09-30</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">yyyy-mmm-d</entry>
+		      <entry spanname="Sample">1998-Sep-3</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">yyyy-mm-dd</entry>
+		      <entry spanname="Sample">1998-09-30</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">yyyy-mmm-d</entry>
+		      <entry spanname="Sample">1998-Sep-30</entry>
+		    </row>
+		    <row>
+		      <entry spanname="Format">yy</entry>
+		      <entry spanname="Sample">98</entry>
+		    </row>
+		    <row>
+	    <entry spanname="Format">yyyy</entry>
+	    <entry spanname="Sample">1998</entry>
+	  </row>
+         </tbody>
+    </tgroup>
+  </table>
+
+ <!-- ****************** Table: date examples ******************* -->
+ <table id="number-format-time-examples">
+    <title>Examples of Time Formats</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+
+      
+      <colspec colname="Format1" />
+	<colspec colname="Sample1" />
+	  <thead>
+	    <row>
+	      <entry>Format</entry>
+	      <entry>Sample</entry>
+	    </row>
+	  </thead>
+	  <tbody>
+	    <row>
+   	      <entry>General</entry>
+	      <entry>36068.755</entry>
+	    </row>
+	    <row>
+	      <entry>h:mm AM/PM</entry>
+	<entry>6:07 PM</entry>
+      </row>
+	<row>
+	  <entry>h:mm:ss AM/PM</entry>
+      <entry>6:07:12 PM</entry>
+    </row>
+      <row>
+	<entry>h:mm</entry>
+	<entry>18:07</entry>
+      </row>
+      <row>
+	<entry> h:mm:ss</entry>
+	<entry>18:07:12</entry>
+      </row>
+      <row>
+	<entry>m/d/yy h:mm</entry>
+	<entry>9/30/98 18:07</entry>
+      </row>
+      <row>
+	<entry>d/m/yy h:mm</entry>
+	<entry>30/9/98 18:07</entry>
+      </row>
+      <row>
+	<entry> mm:ss</entry>
+	<entry>07:12</entry>
+      </row>
+      <row>
+	<entry>[h]:mm:ss</entry>
+	<entry>865650:07:12</entry>
+      </row>
+      <row>
+	<entry>[h]:mm</entry>
+	<entry>865650:07</entry>
+      </row>
+      <row>
+	<entry>[mm]:ss</entry>
+	<entry>51939007:12</entry>
+      </row>
+      <row>
+	<entry>[ss]</entry>
+	<entry>3116340432</entry>
+      </row>
+    </tbody>
+    </tgroup>
+  </table>	      
+</sect1>
+
+<!--       ******************************************* -->
+<sect1 id="alignmentandothertabs">
+  <title>Alignment, Font, Border, and Background Tabs</title>
+  <sect2 id="alignment">
+    <title>Alignment Tab</title>
+    <para>
+      This tab allows you to set horizontal and vertical alignment
+      and justification options. 
+    </para>
+    
+    <figure id="number-format-justification-dialog">
+      <title>Alignment Tab</title>
+      <screenshot>
+	<graphic
+	  fileref="figures/number-format-justification-dialog-2.png"
+	  format="PNG"></graphic> 
+   </screenshot>
+    </figure>
+    
+    <variablelist>
+      <title>Horizontal justification options.</title>
+      <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>General</guibutton></term>
+	<listitem>
+	  <para>The standard default justification. Use 
+	    right justification for numbers and formulas, and left
+	    justification for  text strings.</para>
+	</listitem>
+      </varlistentry>
+      <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>Left</guibutton></term>
+	  <listitem>
+	  <para>Left justify all cell contents.</para>
+	</listitem>
+      </varlistentry>
+       <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>Center</guibutton></term>
+	<listitem>
+	    <para>Center all cell contents.</para>
+	</listitem>
+      </varlistentry>
+      <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>Right</guibutton></term>
+	<listitem>
+	  <para>Right justify all cell contents.</para>
+	</listitem>
+      </varlistentry>
+      <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>Fill</guibutton></term>
+	<listitem>
+	  <para>Fill the cell with the contents. This will repeat
+	    the cell's contents as necessary to fill the width of
+	    the cell.</para>
+	</listitem>
+      </varlistentry>
+      <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>Justify</guibutton></term>
+	<listitem>
+	  <para>For text, wrap long lines of text and left
+	    justify. For other formats, same as 
+	    <guilabel>Left</guilabel>.  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term><guibutton>Center across selection</guibutton></term>
+	  <listitem>
+	  <para>
+	    Centers the cell's contents so the middle of each line is
+	    aligned with the middle of other lines.  This only works
+	    with multiple cells.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+    <para>
+      <guilabel>Left</guilabel> and <guilabel>Right</guilabel>
+      justification options also allow you to specify indent from left
+      (respectively, right) side of the cell. Indent is measured in
+      multiples of the current font size: for font size 10, indent 4
+      means 40 pts. 
+    </para>
+
+    <variablelist>
+      <title>Vertical Justification Options</title>
+       <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>Top</guibutton></term>
+	<listitem>
+	    <para>Align the top of the cells contents with the top of
+	    the cell.</para>
+	  </listitem>
+      </varlistentry>
+      <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>Center</guibutton></term>
+	  <listitem>
+	  <para>Center the cells contents vertically. Equally space
+	    between the top and bottom.</para>
+	  </listitem>
+	</varlistentry>
+      <!-- ********** -->
+	<varlistentry>
+	<term><guibutton>Bottom</guibutton></term>
+	<listitem>
+	  <para>Align the contents of the cell with the bottom of
+	    the cell.</para>
+	</listitem>
+      </varlistentry>
+      <!-- ********** -->
+      <varlistentry>
+	<term><guibutton>Justify</guibutton></term>
+	<listitem><para>For text, wrap long lines and spread lines
+	    of text evenly to fill the cell. For other formats (or if
+	    the text contains no long lines), same as
+	    <guilabel>Bottom</guilabel> justification.</para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </sect2> <!-- ****** alignment tab ******** -->
+
+ <!-- ************************************** -->
+  <sect2 id="font">
+    <title>Font Tab</title>
+    <para>This tab allows you to change the font used for cells
+      content. 
+      <figure id="number-format-font-dialog">
+	<title>The Font Tab</title>
+	<screenshot>
+	  <graphic fileref="figures/number-format-font-dialog.png"
+	  format="PNG"></graphic>  
+	</screenshot>
+      </figure>
+      To change cells font, select font family (such as
+      <guilabel>Times</guilabel>, <guilabel>Helvetica</guilabel>,
+      etc), style (<guilabel>Normal</guilabel>,
+      <guilabel>Bold</guilabel>, ...) and size in points.  You can
+      also select font color and special effects such as underlining
+      or strikethrough. 
+    </para>
+    <para>
+      <application>Gnumeric</application> allows you to use any of the
+      fonts known to GNOME printing system,
+      <application>gnome-print</application>. The same fonts are used
+      for screen display and for printing, assuring that the printed
+      document will look identical to the one you see on
+      screen. Advanced users can refer to documentation for
+      <application>gnome-print</application> package to find out more about
+      adding fonts and font management in GNOME. 
+    </para>
+    <tip>
+      <title>TIP</title> 
+      <para>
+	A quicker way to change the selected cells' font is to use
+	<link linkend="fmt-toolbar">Format Toolbar</link>.
+      </para>
+    </tip>
+  </sect2>
+ <!-- ************************************** -->
+  <sect2 id="border">
+    <title>Border Tab</title>
+    <para>
+      This tab allows you to choose the border for the selected
+      cells. You can select one of many border styles (none, single
+      line, double line,...) and colors. You can also have different
+      borders on different sides of the cell. 
+    <figure id="number-format-border-dialog">
+      <title>Border Tab</title>
+      <screenshot>
+	<graphic fileref="figures/number-format-border-dialog.png"
+	  format="PNG"></graphic> 
+      </screenshot>
+    </figure>
+      To choose a border for a cell or a selection, select border
+      style and color in the right side of the tab and click on the
+      buttons corresponding to the sides of the cells in the left side
+      of the tab. In addition to the buttons for left, right, top, and
+      bottom sides, you also have buttons for drawing diagonal and
+      reverse diagonal of the cell. (Strictly speaking, these can not
+      be called borders, but it is natural to put them in this tab.)
+      The lowest row of buttons contains buttons
+      <guibutton>None</guibutton> and
+      <guibutton>Outline</guibutton>. Clicking on 
+      <guibutton>None</guibutton> removes all borders from the cell;
+      clicking on <guibutton>Outline</guibutton> puts border on all
+      sides of the cell or selection. 
+    </para>
+    <para>
+      Please note that for a selection of cells, the buttons will put
+      borders on one of the sides of selection, not of individual
+      cells. For example, clicking on <guibutton>Bottom</guibutton>
+      button will put the border along the bottom of the selection, so
+      only the cells in the bottom row will be affected. In addition
+      for selections you have three more buttons in the bottom row:
+      <guibutton>Inside vertical</guibutton>,
+      <guibutton>Inside</guibutton>, and <guibutton>Inside
+      horizontal</guibutton>. <guibutton>Inside vertical</guibutton>
+      puts borders on all inside vertical borders in the selection;
+      <guibutton>Inside horizontal</guibutton> puts borders on all
+      inside horizontal borders in the selection, and
+      <guibutton>Inside</guibutton> puts borders on all inside
+      borders in the selection, both vertical and horizontal.
+    </para>
+    <para>
+      To remove an existing border from one of the sides of a cell or
+      selection, click on the corresponding button again. 
+    </para>
+  </sect2>
+ <!-- ************************************** -->
+  <sect2 id="background">
+    <title>Background Tab</title>
+    <para>
+      This tab allows you to change the background of selected
+      cells. You can choose solid color or patterned background. A
+      preview of the selected background will be shown in the right
+      part of the tab. 
+    </para>
+  
+    <figure id="number-format-color-dialog">
+      <title>Background Tab</title>
+      <screenshot>
+	<graphic fileref="figures/number-format-color-dialog.png"
+	  format="PNG"></graphic> 
+      </screenshot>
+    </figure>
+    <para>
+      To select a solid color background, select the color from
+      <guilabel>Background Color</guilabel> drop-down box. You can use
+      of the standard colors or define your own color by clicking on
+      <guibutton>Custom Color</guibutton> button.  
+    </para>
+    <para>
+      To select a patterned background, choose the background color in
+      <guilabel>Background Color</guilabel> section. After this,
+      choose the pattern color and type in
+      <guilabel>Pattern</guilabel> section. Please note that the
+      pattern type buttons use  black pattern on white background,
+      regardless of the colors you have chosen. 
+    </para>
+    <para>
+      To remove pattern, choose <guilabel>Solid</guilabel> pattern
+      type (top left button, looking like a white square). 
+    </para>
+  </sect2>
+
+
+
+
+
+
+</sect1>
+
+
+<!--       ******************************************* -->
+<sect1 id="protectionandvalidation">
+  <title>Protection and Validation Tabs</title>
+  <para>
+    These two tabs are used to control user's access to cells and
+    restrict values of data allowed in a cell. Unlike other
+    formatting options, these two tabs have no effect on a cells
+    appearance. These options are mostly used for writing templates
+    and forms to be filled by others. 
+  </para>
+  <sect2 id="protection">
+    <title>Protection Tab</title>
+    <para>
+
+    <figure id="format-protection">
+      <title>Protection Tab</title>
+      <screenshot>
+	<graphic fileref="figures/number-format-protection.png" format="PNG"></graphic>
+      </screenshot>
+    </figure>
+
+      This tab allows you to see and
+      change cell protection in imported Excel
+      workbooks. Cell protection has no effect in
+      <application>Gnumeric</application>: you can edit cells whether
+      or not they are marked as protected. However,
+      <application>Gnumeric</application> keeps the protection setting
+      of imported Excel workbooks. If you later save your workbook in
+      Excel format, <application>Gnumeric</application> will save the
+      protection information too. For more information about cell
+      protection in <application>Excel</application>, please refer to
+      <application>Excel</application> documentation. 
+    </para>
+ 
+ </sect2>
+
+  <sect2 id="validation">
+    <title>Validation Tab</title>
+    <para>This tab allows you to set restrictions on allowed values of
+      data in the cells. If you (or someone else) attempts to enter a
+      data that does not meet the set criteria, a warning (or an error
+      message, depending on the options set in this tab) will be shown. 
+    </para>
+
+    <figure id="format-validation">
+      <title>Validation Tab</title>
+      <screenshot>
+	<graphic fileref="figures/number-format-validation.png" format="PNG"></graphic>
+      </screenshot>
+    </figure>
+
+    <para>
+      This tab consists of two part. The first part,
+      <guilabel>Criteria</guilabel> is used to set the criteria for
+      the cell values. The second part, <guilabel>Error
+      Alert</guilabel>, is used to choose  the action when data
+      entered does not meet the criteria. 
+    </para>
+    <para>
+      To set the criteria for cell values, follow these steps:
+    </para>
+      <procedure>
+	<step>
+	  <para>
+	    Choose the type of data contained in the cells, using the
+	    <guilabel>Allow</guilabel> drop-down list. 
+	  </para>
+	</step>
+	<step>
+	  <para>
+	    Choose a condition that must be satisfied by the cells
+	    value, using <guilabel>Condition</guilabel> drop-down
+	    list. In these conditions, <literal>val</literal> stands
+	    for the cells value (for text, <literal>val</literal>
+	    stands for the length of text string) and
+	    <literal>min</literal>, <literal>max</literal>, and
+	    <literal>bound</literal> are constants that you need to
+	    specify. 
+	  </para>
+	</step>
+	<step>
+	  <para>
+	    Enter the values of constants used in condition. For
+	    example, if you chose condition
+	    <literal><![CDATA[ min<=val<=max ]]></literal>, you need to enter values
+	    of constants <literal>min</literal> and
+	    <literal>max</literal>.
+	  </para>
+	</step>
+      </procedure>
+
+    <para>
+      After specifying the criteria, you need to specify how
+      <application>Gnumeric</application> should respond to incorrect
+      cell value. You can choose one of four possible actions from
+      <guilabel>Action</guilabel> drop-down list:
+      <variablelist>
+         <!-- ********* -->  
+	<varlistentry>
+	  <term><guilabel>None</guilabel></term>
+	  <listitem><para>
+	      Accept invalid value without any warning. Equivalent to
+	      having no validation. 
+           </para></listitem>
+        </varlistentry>
+         <!-- ********* -->  
+	<varlistentry>
+	  <term><guilabel>Stop</guilabel></term>
+	  <listitem><para>
+	      Do not accept the invalid value. Show the user an error
+	      message which you need to specify (see below). 
+	    </para></listitem>
+        </varlistentry>
+         <!-- ********* -->  
+	<varlistentry>
+	  <term><guilabel>Warning</guilabel></term>
+	  <listitem><para>
+	      Show the user a warning dialog, giving him a choice
+	      whether to accept or reject the invalid value. You need
+	      to specify the message to use in the warning dialog (see
+	      below). 
+           </para></listitem>
+        </varlistentry>
+        <!-- ********* -->  
+	<varlistentry>
+	  <term><guilabel>Information</guilabel></term>
+	  <listitem><para>
+	      Accept invalid values but show the user a warning
+	      dialog. You need to specify the the message to use in
+	      the warning dialog (see below).  
+	    </para></listitem>
+        </varlistentry>
+      </variablelist> 
+    </para>
+    <para>
+      If you choose one of the options <guilabel>Stop</guilabel>,
+      <guilabel>Warning</guilabel>, or
+      <guilabel>Information</guilabel>, you must enter the message
+      that will be show to the user in the error or warning
+      dialog. Otherwise, the dialog will be empty so it will be
+      completely useless. You need to enter the title (which will be
+      used as the window title for the dialog window) and the message
+      itself. For example, the values shown in <xref
+      linkend="format-validation" /> will
+      produce the dialog shown in <xref
+      linkend="format-validation-warning" />. 
+    </para> 
+
+    <figure id="format-validation-warning">
+      <title>Warning dialog in response to invalid input</title>
+      <screenshot>
+	<graphic fileref="figures/number-format-validation-warning.png" format="PNG"></graphic>
+      </screenshot>
+    </figure>
+    
+  </sect2>
+</sect1>
