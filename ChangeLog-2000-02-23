@@ -1,3 +1,7 @@
+1999-09-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (print_preview_new): Removed warning/
+
 1999-09-26  Morten Welinder  <terra@diku.dk>
 
 	* src/cell.c (cell_relocate): Plug leak.
@@ -28,7 +32,7 @@
 1999-09-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet-object.c (sheet_set_mode_type): Protect Bonobo code
-	from being included if we dont have Bonobo.
+	from being included if we dont have Bonobo.  
 
 	* src/Makefile.am: reverted changes from the libole2 code.
 	

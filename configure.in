@@ -139,8 +139,8 @@ if $try_bonobo; then
 		vers=`gnome-config --modversion bonobo`
 		case $vers
 		in
-		    bonobo-0.2) bonobo_ok=true ;;
-		    *) bonobo_ok=false ;;
+		    bonobo-0.[01]) bonobo_ok=false ;;
+		    *) bonobo_ok=true ;;
 		esac
 	else
 		bonobo_ok=false
