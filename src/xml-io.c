@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "xml_tree.h"
-#include "xml_parser.h"
+#include "tree.h"
+#include "parser.h"
 
 #include "xml-io.h"
 
@@ -20,13 +20,12 @@
  */
 typedef struct parseXmlContext {
     xmlDocPtr  doc;        /* Xml document */
-    xmlDtdPtr  ns;         /* Main name space */
+    xmlNsPtr  ns;         /* Main name space */
     xmlNodePtr parent;     /* used only for g_hash_table_foreach callbacks */
     GHashTable *nameTable; /* to reproduce multiple refs with HREFs */
     int        fontIdx;    /* for Font refs names ... */
 } parseXmlContext, *parseXmlContextPtr;
 
-static xmlDtdPtr   xmlGetNamespace  (xmlDocPtr xml, const char *href);
 static Sheet      *readXmlSheet     (parseXmlContextPtr ctxt, xmlNodePtr tree);
 static xmlNodePtr  writeXmlSheet    (parseXmlContextPtr ctxt, Sheet *sheet);
 static Workbook   *readXmlWorkbook  (parseXmlContextPtr ctxt, xmlNodePtr tree);
@@ -51,7 +50,7 @@ static void        nameFree         (gpointer key, gpointer value, gpointer user
 Sheet *gnumericReadXmlSheet(const char *filename) {
     Sheet *sheet;
     xmlDocPtr res;
-    xmlDtdPtr gmr;
+    xmlNsPtr gmr;
     parseXmlContext ctxt;
 
     /*
@@ -68,7 +67,7 @@ Sheet *gnumericReadXmlSheet(const char *filename) {
     /*
      * Do a bit of checking, get the namespaces, and chech the top elem.
      */
-    gmr = xmlGetNamespace(res, "http://www.gnome.org/gnumeric/");
+    gmr = xmlSearchNs(res, res->root, "http://www.gnome.org/gnumeric/");
     if (strcmp(res->root->name, "Sheet") || (gmr == NULL)) {
         fprintf(stderr, "gnumericReadXmlSheet %s: not an Sheet file\n",
 	        filename);
@@ -97,7 +96,7 @@ Sheet *gnumericReadXmlSheet(const char *filename) {
 int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
     FILE *output;
     xmlDocPtr xml;
-    xmlDtdPtr gmr;
+    xmlNsPtr gmr;
     parseXmlContext ctxt;
 
     /*
@@ -119,7 +118,7 @@ int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
 	fclose(output);
 	return(-1);
     }
-    gmr = xmlNewDtd(xml, "http://www.gnome.org/gnumeric/", "gmr");
+    gmr = xmlNewGlobalNs(xml, "http://www.gnome.org/gnumeric/", "gmr");
     ctxt.doc = xml;
     ctxt.ns = gmr;
     ctxt.nameTable = g_hash_table_new(ptrHash, ptrCompare);
@@ -146,7 +145,7 @@ int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
 Workbook *gnumericReadXmlWorkbook(const char *filename) {
     Workbook *sheet;
     xmlDocPtr res;
-    xmlDtdPtr gmr;
+    xmlNsPtr gmr;
     parseXmlContext ctxt;
 
     /*
@@ -163,7 +162,7 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
     /*
      * Do a bit of checking, get the namespaces, and chech the top elem.
      */
-    gmr = xmlGetNamespace(res, "http://www.gnome.org/gnumeric/");
+    gmr = xmlSearchNs(res, res->root, "http://www.gnome.org/gnumeric/");
     if (strcmp(res->root->name, "Workbook") || (gmr == NULL)) {
         fprintf(stderr, "gnumericReadXmlWorkbook %s: not an Workbook file\n",
 	        filename);
@@ -192,7 +191,7 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
 int gnumericWriteXmlWorkbook(Workbook *sheet, const char *filename) {
     FILE *output;
     xmlDocPtr xml;
-    xmlDtdPtr gmr;
+    xmlNsPtr gmr;
     parseXmlContext ctxt;
 
     /*
@@ -214,7 +213,7 @@ int gnumericWriteXmlWorkbook(Workbook *sheet, const char *filename) {
 	fclose(output);
 	return(-1);
     }
-    gmr = xmlNewDtd(xml, "http://www.gnome.org/gnumeric/", "gmr");
+    gmr = xmlNewGlobalNs(xml, "http://www.gnome.org/gnumeric/", "gmr");
     ctxt.doc = xml;
     ctxt.ns = gmr;
     ctxt.nameTable = g_hash_table_new(ptrHash, ptrCompare);
@@ -271,22 +270,6 @@ static gint ptrCompare(gconstpointer a, gconstpointer b)
 	    return 0;
     
     return 1;
-}
-
-/*
- * Get a namespace associated to an XML name.
- * !!! This should be made public in the libxml lib actually ...
- */
-static xmlDtdPtr xmlGetNamespace(xmlDocPtr xml, const char *href) {
-    xmlDtdPtr dtd;
-   
-    dtd = xml->dtds;
-    while (dtd != NULL) {
-        if (!strcmp(dtd->href, href))
-	    return(dtd);
-	dtd = dtd->next;
-    }
-    return(NULL);
 }
 
 /*
