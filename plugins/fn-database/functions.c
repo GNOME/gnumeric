@@ -81,11 +81,10 @@ find_cells_that_match (Sheet *sheet, GnmValue *database,
 
 			for (;condition != NULL ; condition = condition->next) {
 				func_criteria_t const *cond = condition->data;
-				GnmCell const *tmp = sheet_cell_get (sheet,
+				GnmCell *tmp = sheet_cell_get (sheet,
 					cond->column, row);
-
-				if (cell != NULL)
-					cell_eval (cell);
+				if (tmp != NULL)
+					cell_eval (tmp);
 				if (cell_is_empty (tmp) ||
 				    !cond->fun (tmp->value, cond->x)) {
 					add_flag = FALSE;
