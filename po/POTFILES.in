@@ -20,11 +20,13 @@ plugins/gda/plugin.xml.in
 plugins/gnome-glossary/plugin.xml.in
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
+plugins/guile/smob-value.c
 plugins/html/plugin.xml.in
 plugins/html/roff.c
 plugins/lotus-123/lotus.c
 plugins/lotus-123/plugin.xml.in
 plugins/mps/mps.c
+plugins/mps/parser.c
 plugins/mps/plugin.xml.in
 plugins/numtheory/numtheory.c
 plugins/numtheory/plugin.xml.in
