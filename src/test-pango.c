@@ -19,6 +19,10 @@
 #include "gnumeric-paths.h"
 
 #include <gtk/gtkmain.h>
+#ifdef WITH_GNOME
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-ui-main.h>
+#endif
 
 int gnumeric_no_splash = TRUE;
 
@@ -75,15 +79,12 @@ main (int argc, char *argv [])
 	poptContext ctx;
 
 	gnm_pre_parse_init (argv[0]);
-
-	ctx = gnumeric_arg_parse (argc, argv);
+	gtk_init (&argc, (char ***)&argv);
+	gnm_common_init (FALSE);
 
 	cc  = cmd_context_stderr_new ();
 	ioc = gnumeric_io_context_new (cc);
 	g_object_unref (cc);
-
-	/* TODO: Use the ioc. */
-	gnm_common_init (FALSE);
 
  	plugins_init (GNM_CMD_CONTEXT (ioc));
 	g_object_unref (ioc);
@@ -94,7 +95,11 @@ main (int argc, char *argv [])
 
 	g_idle_add (cb_exercise_pango, wbc);
 
+#ifdef WITH_GNOME
+	bonobo_main ();
+#else
 	gtk_main ();
+#endif
 
 	gnm_shutdown ();
 

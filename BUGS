@@ -12,7 +12,6 @@ Release Critical
     : tie the custom ui into action sensitivity pools
     : kasal's popt patch
     : JHM's 2nd paper size patch
-    : enable contour plots
     : emmanuel's legend resize patch
     : emmanuel's disable theme patch for xy plots with only lines
     : support array evaluation for =LARGE and friends
@@ -43,7 +42,7 @@ Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
 
-    : F4 is not working {gtk bug}
+    : F4 is not working {gtk #151541, fixed 2004-11-28, 2.5.6)
 
     http://bugzilla.gnome.org/show_bug.cgi?id=151610
     : crash 	: fixed
@@ -483,9 +482,9 @@ Short Term Goals
 	1.32.2) area						(DONE)
 	1.32.3) axis labels			{partial}
 	1.32.4) fix xls import of marker vs no marker
-    1.33) Contour plots					{Jean}
-	1.33.1) Initial implementation
-	1.33.2) GOMatrix
+    1.33) Contour plots				{Jean}
+	1.33.1) Initial implementation				(DONE)
+	1.33.2) GOMatrix					(DONE)
 	1.33.3) Axis changes
 	1.33.4) XLS import
 	1.33.4) XLS export

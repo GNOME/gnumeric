@@ -91,6 +91,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 	if (rv->wrap_text) {
 		int wanted_width = MAX (0, width - indent);
 		if (wanted_width != pango_layout_get_width (layout)) {
+			pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
 			pango_layout_set_width (layout, wanted_width);
 			rendered_value_remeasure (rv);
 		}
@@ -218,9 +219,8 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		rect.width = width;
 		rect.height = height;
 
-		gdk_gc_set_clip_rectangle (gc, &rect);
-
 #if 0
+		gdk_gc_set_clip_rectangle (gc, &rect);
 		if (cell->pos.col == 3 && cell->pos.row == 10) {
 			GdkColor col = { 0, 0, 0xffff, 0 };
 			gdk_gc_set_rgb_fg_color (gc, &col);
@@ -229,7 +229,6 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 					    rect.width, rect.height);
 		}
 #endif
-
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */

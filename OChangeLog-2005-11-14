@@ -1,5 +1,10 @@
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
+	* src/cell-draw.c (cell_calc_layout) : set wrapmode to word-char
+	  rather than the default word so that long words will wrap
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
 	* src/gnumeric-pane.c (gnm_pane_object_start_resize) : Add an
 	  'is_creation' argument to avoid pretending we're creating an object
 	  when clicking and releasing on the lower right resize marker.

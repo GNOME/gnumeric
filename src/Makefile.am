@@ -6,8 +6,7 @@ SUBDIRS = tools cut-n-paste-code
 
 bin_PROGRAMS =
 
-check_PROGRAMS =
-# check_PROGRAMS += test-pango number-match
+check_PROGRAMS = test-pango number-match
 ## Don't put comment on an assignment line!  It can trigger an automake bug.
 
 if WITH_GTK
@@ -350,11 +349,11 @@ ssindex_SOURCES =				\
 	$(GNUMERIC_SOURCE)			\
 	ssindex.c
 
-#test_pango_LDADD   = $(gnumeric_LDADD)
-#test_pango_LDFLAGS = -export-dynamic
-#test_pango_SOURCES =				\
-#	$(GNUMERIC_SOURCE) 			\
-#	test-pango.c
+test_pango_LDADD   = $(gnumeric_LDADD)
+test_pango_LDFLAGS = -export-dynamic
+test_pango_SOURCES =				\
+	$(GNUMERIC_SOURCE) 			\
+	test-pango.c
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@

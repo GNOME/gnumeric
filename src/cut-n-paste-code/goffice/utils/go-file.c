@@ -492,8 +492,12 @@ go_url_show (gchar const *url)
 
 			for (i = 1 ; i < argc ; i++)
 				if (NULL != (tmp = strstr (argv[i], "%1"))) {
+					*tmp = '\0';
+					tmp = g_strconcat = (argv[i],
+						(clean_url != NULL) ? (char const *)clean_url : url,
+						tmp+2, NULL);
 					g_free (argv[i]);
-					argv[i] = g_strdup (clean_url ? (char const *)clean_url : url);
+					argv[i] = tmp;
 					break;
 				}
 

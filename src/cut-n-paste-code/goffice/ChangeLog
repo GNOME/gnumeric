@@ -1,3 +1,8 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-file.c (go_url_show) : patch the problems morten pointed
+	  out and finish the '%1' subsitution.
+
 2004-12-08  Jody Goldberg <jody@gnome.org>
 
 	* utils/go-file.c (go_url_show) : new with a win32 and non-gnome wrapper

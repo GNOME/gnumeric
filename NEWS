@@ -6,6 +6,7 @@ Jody:
 	* Fix sax export for Validation [Debian #283999]
 	* Fix unintended object resize when clicking on the lower right resize
 	  handle of existing object
+	* Break long words when wrapping text
 
 Morten:
 	* Add bugzilla version number to desktop file.  [#159371]

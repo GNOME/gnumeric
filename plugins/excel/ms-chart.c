@@ -1663,6 +1663,17 @@ static gboolean
 BC_R(surf)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
+	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
+
+	g_return_val_if_fail (s->plot == NULL, TRUE);
+#if 0
+	s->plot = gog_plot_new_by_name ("GogContourPlot");
+	g_object_set (G_OBJECT (s->plot),
+		"use_color",		(flags & 0x01) != 0,
+		"in_3d",		(s->container.ver >= MS_BIFF_V8 && (flags & 0x02)),
+		NULL);
+#endif
+
 	return FALSE;
 }
 
