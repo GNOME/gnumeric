@@ -1,3 +1,7 @@
+2002-05-29  Jon Kåre Hellan  <hellan@acm.org>
+
+	* configure.in (try_python): Fix typo
+
 2002-05-22  Jody Goldberg <jody@gnome.org>
 
 	* src/clipboard.c (clipboard_paste_region) : remove
