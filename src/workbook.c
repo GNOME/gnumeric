@@ -1106,7 +1106,7 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
 		create_graphic_cmd, NULL, graphic_xpm),
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Bobobo Item"), N_("Creates a Bonobo shaped item"),
+		N_("Bonobo Item"), N_("Creates a Bonobo shaped item"),
 		create_embedded_item_cmd, NULL, graphic_xpm),
 #endif
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
