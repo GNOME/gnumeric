@@ -2552,31 +2552,31 @@ msgstr "Válassz egy minta színt"
 
 #: src/dialogs/cell-format.glade.h:91 src/dialogs/cell-format.glade.h:126
 #: src/dialogs/cell-format.glade.h:229
-#, no-c-format
+#, c-format
 msgid "75% Grey"
 msgstr "75% Szürke"
 
 #: src/dialogs/cell-format.glade.h:92 src/dialogs/cell-format.glade.h:124
 #: src/dialogs/cell-format.glade.h:227
-#, no-c-format
+#, c-format
 msgid "50% Grey"
 msgstr "50% Szürke"
 
 #: src/dialogs/cell-format.glade.h:93 src/dialogs/cell-format.glade.h:123
 #: src/dialogs/cell-format.glade.h:226
-#, no-c-format
+#, c-format
 msgid "25% Grey"
 msgstr "25% Szürke"
 
 #: src/dialogs/cell-format.glade.h:94 src/dialogs/cell-format.glade.h:122
 #: src/dialogs/cell-format.glade.h:225
-#, no-c-format
+#, c-format
 msgid "12.5% Grey"
 msgstr "12.5% Szürke"
 
 #: src/dialogs/cell-format.glade.h:95 src/dialogs/cell-format.glade.h:125
 #: src/dialogs/cell-format.glade.h:228
-#, no-c-format
+#, c-format
 msgid "6.25% Grey"
 msgstr "6.25% Szürke"
 
@@ -2859,8 +2859,8 @@ msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
 msgstr ""
-"A `Listatartomány' és a `Feltételtartomány' mezõkben "
-"ugyanannyi oszlopot kellene megadni."
+"A `Listatartomány' és a `Feltételtartomány' mezõkben ugyanannyi oszlopot "
+"kellene megadni."
 
 #: src/dialogs/dialog-analysis-tools.c:89
 #: src/dialogs/dialog-analysis-tools.c:914
@@ -12910,31 +12910,44 @@ msgstr "Bekapcsol néhány nyomtatási hibakeresõ funkciót"
 
 #: src/main.c:101
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr "A kiválasztott munkafüzet betöltése után azonnal kilép (hasznos a teszteléshez)."
+msgstr ""
+"A kiválasztott munkafüzet betöltése után azonnal kilép (hasznos a "
+"teszteléshez)."
 
 #: src/main.c:105 src/main.c:125
 msgid "Enables debugging mesgs while reading excel workbooks"
-msgstr "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel munkafüzetek olvasása közben"
+msgstr ""
+"Engedélyezi a hibakeresõ üzenetek megjelenítését Excel munkafüzetek olvasása "
+"közben"
 
 #: src/main.c:109
 msgid "Enables debugging mesgs while reading excel functions"
-msgstr "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel függvények olvasása közben"
+msgstr ""
+"Engedélyezi a hibakeresõ üzenetek megjelenítését Excel függvények olvasása "
+"közben"
 
 #: src/main.c:113
 msgid "Enables debugging mesgs while reading excel colours & patterns"
-msgstr "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel színek és minták olvasása közben"
+msgstr ""
+"Engedélyezi a hibakeresõ üzenetek megjelenítését Excel színek és minták "
+"olvasása közben"
 
 #: src/main.c:117
 msgid "Enables debugging mesgs while reading excel objects"
-msgstr "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel objektumok olvasása közben"
+msgstr ""
+"Engedélyezi a hibakeresõ üzenetek megjelenítését Excel objektumok olvasása "
+"közben"
 
 #: src/main.c:121
 msgid "Enables debugging mesgs while reading excel charts"
-msgstr "Engedélyezi a hibakeresõ üzenetek megjelenítését Excel diagramok olvasása közben"
+msgstr ""
+"Engedélyezi a hibakeresõ üzenetek megjelenítését Excel diagramok olvasása "
+"közben"
 
 #: src/main.c:129
 msgid "Enables extra consistancy checking while reading ole files"
-msgstr "Engedélyezi a különleges konzisztencia-ellenõrzést OLE fájlok olvasása közben"
+msgstr ""
+"Engedélyezi a különleges konzisztencia-ellenõrzést OLE fájlok olvasása közben"
 
 #: src/main.c:158
 #, c-format
@@ -14125,7 +14138,9 @@ msgstr "_Megoldó..."
 #: src/gnumeric.xml.h:153 src/gnumeric.xml.h:348 src/gnumeric.xml.h:589
 #: src/workbook.c:1563
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Iterációs módszerrel keresi meg a célértéket a kényszerfeltételek figyelembe vételével"
+msgstr ""
+"Iterációs módszerrel keresi meg a célértéket a kényszerfeltételek figyelembe "
+"vételével"
 
 #: src/gnumeric.xml.h:154 src/gnumeric.xml.h:443 src/gnumeric.xml.h:684
 #: src/workbook.c:1568
@@ -14837,4 +14852,3 @@ msgstr "Nyomtatás beállítása"
 #: src/gnumeric.xml.h:395 src/gnumeric.xml.h:636
 msgid "Save As"
 msgstr "Mentés másként..."
-
