@@ -47,6 +47,7 @@ Morten:
 	* Partially clean up regression code.
 	* Fix regression's singularity test.
 	* Fix validation's use of abs to be fabs.
+	* Improve random number generation using /dev/urandom device.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3

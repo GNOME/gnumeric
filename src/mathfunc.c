@@ -24,9 +24,11 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <float.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
-/* Make sure we have this symbol defined, since the existance of wither
+/* Make sure we have this symbol defined, since the existance of either
    header file implies it.  */
 #ifndef IEEE_754
 #define IEEE_754
@@ -3555,6 +3557,11 @@ double bessel_k(double x, double alpha, double expo)
 }
 
 
+/* FIXME: we need something that catches partials and EAGAIN.  */
+#define fullread read
+
+#define RANDOM_DEVICE "dev/urandom"
+
 /*
  * Conservative random number generator.  The result is (supposedly) uniform
  * and between 0 and 1.  (0 possible, 1 not.)  The result should have about
@@ -3563,28 +3570,57 @@ double bessel_k(double x, double alpha, double expo)
 double
 random_01 (void)
 {
+	static int device_fd = -2;
+
+	if (device_fd == -2)
+		device_fd = open (RANDOM_DEVICE, O_RDONLY);
+
+	if (device_fd >= 0) {
+		int r1, r2;
+
+		if (fullread (device_fd, &r1, sizeof (r1)) == sizeof (r1) &&
+		    fullread (device_fd, &r2, sizeof (r2)) == sizeof (r2)) {
+			r1 &= 2147483647;
+			r2 &= 2147483647;
+			return (r1 + (r2 / 2147483648.0)) / 2147483648.0;
+		}
+
+		/* It failed when it shouldn't.  Disable.  */
+		g_warning ("Reading from %s failed; reverting to pseudo-random.",
+			   RANDOM_DEVICE);
+		close (device_fd);
+		device_fd = -1;
+	}
+
 #ifdef HAVE_RANDOM
-	int r1, r2;
+	{
+		int r1, r2;
 
-	r1 = random () & 2147483647;
-	r2 = random () & 2147483647;
+		r1 = random () & 2147483647;
+		r2 = random () & 2147483647;
 
-	return (r1 + (r2 / 2147483648.0)) / 2147483648.0;
+		return (r1 + (r2 / 2147483648.0)) / 2147483648.0;
+	}
 #elif defined (HAVE_DRAND48)
 	return drand48 ();
 #else
-	/* We try to work around lack of randomness in rand's lower bits.  */
-	int prime = 65537;
-	int r1, r2, r3, r4;
+	{
+		/*
+		 * We try to work around lack of randomness in rand's
+		 * lower bits.
+		 */
+		const int prime = 65537;
+		int r1, r2, r3, r4;
 
-	g_assert (RAND_MAX > ((1 << 12) - 1));
+		g_assert (RAND_MAX > ((1 << 12) - 1));
 
-	r1 = (rand () ^ (rand () << 12)) % prime;
-	r2 = (rand () ^ (rand () << 12)) % prime;
-	r3 = (rand () ^ (rand () << 12)) % prime;
-	r4 = (rand () ^ (rand () << 12)) % prime;
+		r1 = (rand () ^ (rand () << 12)) % prime;
+		r2 = (rand () ^ (rand () << 12)) % prime;
+		r3 = (rand () ^ (rand () << 12)) % prime;
+		r4 = (rand () ^ (rand () << 12)) % prime;
 
-	return (r1 + (r2 + (r3 + r4 / (double)prime) / prime) / prime) / prime;
+		return (r1 + (r2 + (r3 + r4 / (double)prime) / prime) / prime) / prime;
+	}
 #endif
 }
 
