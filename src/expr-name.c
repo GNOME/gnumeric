@@ -489,11 +489,9 @@ expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
 		expr_tree_unref (nexpr->t.expr_tree);
 	}
 	nexpr->t.expr_tree = new_expr;
-
-	if (new_expr != NULL) {
-		expr_name_link_deps (deps);
+	expr_name_link_deps (deps);
+	if (new_expr != NULL)
 		expr_name_handle_references (nexpr, TRUE);
-	}
 }
 
 void

@@ -198,8 +198,8 @@ gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
 	text = gtk_entry_get_text (GTK_ENTRY (ee));
 	cursor = gtk_editable_get_position (GTK_EDITABLE (ee));
 	last = (text == NULL) ? 0 : strlen (text);
-	rs->abs_col = FALSE;
-	rs->abs_row = FALSE;
+	rs->abs_col = (ee->flags & GNUM_EE_ABS_COL) != 0;
+	rs->abs_row = (ee->flags & GNUM_EE_ABS_ROW) != 0;
 	rs->sheet = ee->target_sheet;
 	if (text == NULL)
 		return;
@@ -252,7 +252,6 @@ gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
 		}
 		rs->text_end = (cursor < end) ? end : cursor;
 	}
-	return;
 }
 
 /**

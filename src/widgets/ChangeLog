@@ -1,3 +1,8 @@
+2002-02-28  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_rangesel_start) :
+	  initialize abs/rel state to the flags, not FALSE.
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.4

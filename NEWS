@@ -13,6 +13,8 @@ Jody:
 	* Fix multi-line text entry.
 	* Package the help menu translations.
 	* enable/disable transposition of ins col/row menu for non-bonobo.
+	* Misc fixes for named expressions.
+	* Improve initial state for expr-entry.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=72459
 	* Fix the swaped export of unary plus and minus.

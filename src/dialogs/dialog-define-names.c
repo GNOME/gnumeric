@@ -514,6 +514,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
+	gnumeric_expr_entry_set_absolute (state->expr_text);
 	gtk_widget_show (GTK_WIDGET (state->expr_text));
 	state->sheet_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "sheet_scope"));
 	state->wb_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "workbook_scope"));
