@@ -11,6 +11,10 @@
 
 2005-03-23  Morten Welinder  <terra@gnome.org>
 
+	* src/io-context-gtk.c (icg_processing_file): Fix for Win32.
+	* src/main-application.c (warn_about_ancient_gnumerics): Fix for
+	Win32.
+
 	* src/workbook-view.c (wb_view_sendto): Use g_mkdir, not mkdir.
 	(cb_cleanup_sendto): Use g_unlink and g_rmdir, not unlink and
 	rmdir.

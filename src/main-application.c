@@ -110,9 +110,17 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 	struct stat buf;
 	time_t now = time (NULL);
 	int days = 180;
+	const char *sep;
+
+	if (!binary)
+		return;
+
+	for (sep = binary; *sep; sep++)
+		if (G_IS_DIR_SEPARATOR (*sep))
+			break;
 
 	if (binary &&
-	    strchr (binary, '/') != NULL &&
+	    *sep &&
 	    g_stat (binary, &buf) != -1 &&
 	    buf.st_mtime != -1 &&
 	    now - buf.st_mtime > days * 24 * 60 * 60) {

@@ -289,7 +289,7 @@ icg_processing_file (IOContext *ioc, char const *file)
 
 			while (1) {
 				char *last_p = p;
-				while (p > shown_text && p[-1] != '/')
+				while (p > shown_text && G_IS_DIR_SEPARATOR (p[-1]))
 					p--;
 				if (p > shown_text && shown_text + len - p < maxlen) {
 					p--;
