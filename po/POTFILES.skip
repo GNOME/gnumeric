@@ -1,14 +1,9 @@
 GNOME_Gnumeric.server.in
-src/cut-n-paste-code/egg/menu/egg-action.c
-src/cut-n-paste-code/egg/menu/egg-markup.c
-src/cut-n-paste-code/egg/menu/egg-menu-merge.c
-src/cut-n-paste-code/egg/toolbar/eggtoolbar.c
-src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c
-src/cut-n-paste-code/egg/toolbar/eggtoolitem.c
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-text.c
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml
+src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml
 src/parser.c
 src/test-pango.c
 schemas/plot-types.xml.in
