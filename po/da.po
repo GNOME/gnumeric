@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.36\n"
-"POT-Creation-Date: 1999-09-25 01:36+0200\n"
+"POT-Creation-Date: 1999-10-19 08:21-0500\n"
 "PO-Revision-Date: 1999-09-22 01:22+02:00\n"
 "Last-Translator: Birger langkjer <birger.langkjer@image.dk>\n"
 "Language-Team: Dansk/Danish <sslug-locale@sslug.dk>\n"
@@ -15,39 +15,39 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/excel/boot.c:76
+#: plugins/excel/boot.c:80
 msgid "Saving over old files disabled for safety"
 msgstr "Overskrivning af gamle filer er af sikkerhedsgrunde slået fra"
 
-#: plugins/excel/boot.c:84
+#: plugins/excel/boot.c:88
 msgid "Can't open"
 msgstr "Kan ikke åbne"
 
-#: plugins/excel/boot.c:122
+#: plugins/excel/boot.c:126
 msgid "Microsoft(R) Excel file format"
 msgstr "Microsoft(R) Excel-filformat"
 
-#: plugins/excel/boot.c:123
+#: plugins/excel/boot.c:127
 msgid "Excel(R) 97 file format"
 msgstr "Excel(R) 97-filformat"
 
-#: plugins/excel/boot.c:124
+#: plugins/excel/boot.c:128
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95-filformat"
 
-#: plugins/excel/ms-excel-read.c:266
+#: plugins/excel/ms-excel-read.c:269
 msgid "#UNKNOWN!"
 msgstr "#UKENDT!"
 
-#: plugins/excel/ms-formula-read.c:645
+#: plugins/excel/ms-formula-read.c:648
 msgid "Unknown Function"
 msgstr "Ukendt funktion"
 
-#: plugins/excel/ms-formula-read.c:697
+#: plugins/excel/ms-formula-read.c:700
 msgid "Broken function"
 msgstr "Brudt funktion"
 
-#: plugins/excel/ms-formula-read.c:1391
+#: plugins/excel/ms-formula-read.c:1396
 msgid " Unknown formula"
 msgstr " Ukendt formel"
 
@@ -68,7 +68,7 @@ msgstr "Komma Separeret værdi (CSV) modul"
 msgid "Argument must be a Guile expression"
 msgstr "Argumentet skal være et Guile-udtryk"
 
-#: plugins/guile/plugin.c:237 src/expr.c:504
+#: plugins/guile/plugin.c:237 src/expr.c:491
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:643
 #: src/functions/fn-information.c:670 src/functions/fn-information.c:696
 #: src/functions/fn-information.c:745 src/functions/fn-information.c:774
@@ -313,7 +313,7 @@ msgid "ERROR"
 msgstr "FEJL"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:754
+#: src/cell.c:125 src/cell.c:752
 msgid "Circular reference"
 msgstr "Cirkulær reference"
 
@@ -473,359 +473,359 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: src/dialogs/dialog-analysis-tools.c:71
-#: src/dialogs/dialog-analysis-tools.c:1832
+#: src/dialogs/dialog-analysis-tools.c:72
+#: src/dialogs/dialog-analysis-tools.c:1799
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:73
-#: src/dialogs/dialog-analysis-tools.c:1920
+#: src/dialogs/dialog-analysis-tools.c:74
+#: src/dialogs/dialog-analysis-tools.c:1887
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:75
-#: src/dialogs/dialog-analysis-tools.c:408
+#: src/dialogs/dialog-analysis-tools.c:76
+#: src/dialogs/dialog-analysis-tools.c:394
 msgid "Correlation"
 msgstr "Orientering"
 
-#: src/dialogs/dialog-analysis-tools.c:77
-#: src/dialogs/dialog-analysis-tools.c:489
+#: src/dialogs/dialog-analysis-tools.c:78
+#: src/dialogs/dialog-analysis-tools.c:475
 msgid "Covariance"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:79
-#: src/dialogs/dialog-analysis-tools.c:677
+#: src/dialogs/dialog-analysis-tools.c:80
+#: src/dialogs/dialog-analysis-tools.c:663
 msgid "Descriptive Statistics"
 msgstr "Beskrivende statistikker"
 
-#: src/dialogs/dialog-analysis-tools.c:81
-#: src/dialogs/dialog-analysis-tools.c:1204
+#: src/dialogs/dialog-analysis-tools.c:82
+#: src/dialogs/dialog-analysis-tools.c:1190
 msgid "F-Test: Two-Sample for Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:83
-#: src/dialogs/dialog-analysis-tools.c:1659
+#: src/dialogs/dialog-analysis-tools.c:84
+#: src/dialogs/dialog-analysis-tools.c:1626
 msgid "Moving Average"
 msgstr "Flytter gennemsnit"
 
-#: src/dialogs/dialog-analysis-tools.c:85
-#: src/dialogs/dialog-analysis-tools.c:1368
+#: src/dialogs/dialog-analysis-tools.c:86
+#: src/dialogs/dialog-analysis-tools.c:1335
 msgid "Random Number Generation"
 msgstr "Tilfældig nummergeneration"
 
-#: src/dialogs/dialog-analysis-tools.c:87
-#: src/dialogs/dialog-analysis-tools.c:1749
+#: src/dialogs/dialog-analysis-tools.c:88
+#: src/dialogs/dialog-analysis-tools.c:1716
 msgid "Rank and Percentile"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:89
-#: src/dialogs/dialog-analysis-tools.c:1559
+#: src/dialogs/dialog-analysis-tools.c:90
+#: src/dialogs/dialog-analysis-tools.c:1526
 msgid "Regression"
 msgstr "Regression"
 
-#: src/dialogs/dialog-analysis-tools.c:91
-#: src/dialogs/dialog-analysis-tools.c:566
+#: src/dialogs/dialog-analysis-tools.c:92
+#: src/dialogs/dialog-analysis-tools.c:552
 msgid "Sampling"
 msgstr "Eksempel"
 
-#: src/dialogs/dialog-analysis-tools.c:93
-#: src/dialogs/dialog-analysis-tools.c:890
+#: src/dialogs/dialog-analysis-tools.c:94
+#: src/dialogs/dialog-analysis-tools.c:876
 msgid "t-Test: Paired Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:95
-#: src/dialogs/dialog-analysis-tools.c:995
+#: src/dialogs/dialog-analysis-tools.c:96
+#: src/dialogs/dialog-analysis-tools.c:981
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:97
-#: src/dialogs/dialog-analysis-tools.c:1100
+#: src/dialogs/dialog-analysis-tools.c:98
+#: src/dialogs/dialog-analysis-tools.c:1086
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:773
+#: src/dialogs/dialog-analysis-tools.c:100
+#: src/dialogs/dialog-analysis-tools.c:759
 msgid "z-Test: Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:106
-#: src/dialogs/dialog-analysis-tools.c:1337
-#: src/dialogs/dialog-analysis-tools.c:1516
+#: src/dialogs/dialog-analysis-tools.c:107
+#: src/dialogs/dialog-analysis-tools.c:1304
+#: src/dialogs/dialog-analysis-tools.c:1483
 msgid "Discrete"
 msgstr "Diskret"
 
-#: src/dialogs/dialog-analysis-tools.c:107
-#: src/dialogs/dialog-analysis-tools.c:1334
-#: src/dialogs/dialog-analysis-tools.c:1506
+#: src/dialogs/dialog-analysis-tools.c:108
+#: src/dialogs/dialog-analysis-tools.c:1301
+#: src/dialogs/dialog-analysis-tools.c:1473
 #: src/widgets/widget-font-selector.c:110
 msgid "Normal"
 msgstr "Normal"
 
-#: src/dialogs/dialog-analysis-tools.c:108
-#: src/dialogs/dialog-analysis-tools.c:1331
-#: src/dialogs/dialog-analysis-tools.c:1512
+#: src/dialogs/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:1298
+#: src/dialogs/dialog-analysis-tools.c:1479
 msgid "Bernoulli"
 msgstr "Bernoulli"
 
-#: src/dialogs/dialog-analysis-tools.c:109
-#: src/dialogs/dialog-analysis-tools.c:1328
-#: src/dialogs/dialog-analysis-tools.c:1500
+#: src/dialogs/dialog-analysis-tools.c:110
+#: src/dialogs/dialog-analysis-tools.c:1295
+#: src/dialogs/dialog-analysis-tools.c:1467
 msgid "Uniform"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:150
+#: src/dialogs/dialog-analysis-tools.c:151
 msgid "Summary Statistics"
 msgstr "Resumé statistikker"
 
-#: src/dialogs/dialog-analysis-tools.c:152
+#: src/dialogs/dialog-analysis-tools.c:153
 msgid "Confidence Level for Mean"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:153
+#: src/dialogs/dialog-analysis-tools.c:154
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/dialog-analysis-tools.c:154
+#: src/dialogs/dialog-analysis-tools.c:155
 msgid "Kth Largest:"
 msgstr "K. størst:"
 
-#: src/dialogs/dialog-analysis-tools.c:155
-#: src/dialogs/dialog-analysis-tools.c:157
+#: src/dialogs/dialog-analysis-tools.c:156
+#: src/dialogs/dialog-analysis-tools.c:158
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/dialog-analysis-tools.c:156
+#: src/dialogs/dialog-analysis-tools.c:157
 msgid "Kth Smallest:"
 msgstr "K. mindste:"
 
-#: src/dialogs/dialog-analysis-tools.c:162
+#: src/dialogs/dialog-analysis-tools.c:163
 msgid "Labels in First Row"
 msgstr "Etiketter i første række"
 
-#: src/dialogs/dialog-analysis-tools.c:168
+#: src/dialogs/dialog-analysis-tools.c:169
 msgid "Labels"
 msgstr "Etiketter"
 
-#: src/dialogs/dialog-analysis-tools.c:174
+#: src/dialogs/dialog-analysis-tools.c:175
 msgid "Standard Errors"
 msgstr "Standard fejl"
 
-#: src/dialogs/dialog-analysis-tools.c:201
+#: src/dialogs/dialog-analysis-tools.c:202
 msgid "Columns"
 msgstr "Kolonner"
 
-#: src/dialogs/dialog-analysis-tools.c:202
+#: src/dialogs/dialog-analysis-tools.c:203
 msgid "Rows"
 msgstr "Rækker"
 
-#: src/dialogs/dialog-analysis-tools.c:207
+#: src/dialogs/dialog-analysis-tools.c:208
 msgid "Periodic"
 msgstr "Periodisk"
 
-#: src/dialogs/dialog-analysis-tools.c:208
+#: src/dialogs/dialog-analysis-tools.c:209
 msgid "Random"
 msgstr "Tilfældig"
 
-#: src/dialogs/dialog-analysis-tools.c:237
-#: src/dialogs/dialog-analysis-tools.c:2009
+#: src/dialogs/dialog-analysis-tools.c:219
+#: src/dialogs/dialog-analysis-tools.c:1976
 msgid "OK"
 msgstr "OK"
 
-#: src/dialogs/dialog-analysis-tools.c:345
+#: src/dialogs/dialog-analysis-tools.c:330
 msgid "New Sheet"
 msgstr "Nyt ark"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:349
+#: src/dialogs/dialog-analysis-tools.c:334
 msgid "New Workbook"
 msgstr "Ny arbejdsbog"
 
-#: src/dialogs/dialog-analysis-tools.c:354
+#: src/dialogs/dialog-analysis-tools.c:339
 msgid "Output Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:373
+#: src/dialogs/dialog-analysis-tools.c:359
 msgid "Grouped By:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:418
-#: src/dialogs/dialog-analysis-tools.c:499
-#: src/dialogs/dialog-analysis-tools.c:576
-#: src/dialogs/dialog-analysis-tools.c:687
-#: src/dialogs/dialog-analysis-tools.c:1668
-#: src/dialogs/dialog-analysis-tools.c:1759
-#: src/dialogs/dialog-analysis-tools.c:1842
-#: src/dialogs/dialog-analysis-tools.c:1931
+#: src/dialogs/dialog-analysis-tools.c:404
+#: src/dialogs/dialog-analysis-tools.c:485
+#: src/dialogs/dialog-analysis-tools.c:562
+#: src/dialogs/dialog-analysis-tools.c:673
+#: src/dialogs/dialog-analysis-tools.c:1635
+#: src/dialogs/dialog-analysis-tools.c:1726
+#: src/dialogs/dialog-analysis-tools.c:1809
+#: src/dialogs/dialog-analysis-tools.c:1898
 msgid "Input Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:453
-#: src/dialogs/dialog-analysis-tools.c:533
-#: src/dialogs/dialog-analysis-tools.c:637
-#: src/dialogs/dialog-analysis-tools.c:727
-#: src/dialogs/dialog-analysis-tools.c:1794
-#: src/dialogs/dialog-analysis-tools.c:1879
-#: src/dialogs/dialog-analysis-tools.c:1965
+#: src/dialogs/dialog-analysis-tools.c:439
+#: src/dialogs/dialog-analysis-tools.c:519
+#: src/dialogs/dialog-analysis-tools.c:623
+#: src/dialogs/dialog-analysis-tools.c:713
+#: src/dialogs/dialog-analysis-tools.c:1761
+#: src/dialogs/dialog-analysis-tools.c:1846
+#: src/dialogs/dialog-analysis-tools.c:1932
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:496
-#: src/dialogs/dialog-analysis-tools.c:573
-#: src/dialogs/dialog-analysis-tools.c:684
-#: src/dialogs/dialog-analysis-tools.c:781
-#: src/dialogs/dialog-analysis-tools.c:898
-#: src/dialogs/dialog-analysis-tools.c:1003
-#: src/dialogs/dialog-analysis-tools.c:1109
-#: src/dialogs/dialog-analysis-tools.c:1562
-#: src/dialogs/dialog-analysis-tools.c:1662
-#: src/dialogs/dialog-analysis-tools.c:1756
-#: src/dialogs/dialog-analysis-tools.c:1839
-#: src/dialogs/dialog-analysis-tools.c:1928
+#: src/dialogs/dialog-analysis-tools.c:482
+#: src/dialogs/dialog-analysis-tools.c:559
+#: src/dialogs/dialog-analysis-tools.c:670
+#: src/dialogs/dialog-analysis-tools.c:767
+#: src/dialogs/dialog-analysis-tools.c:884
+#: src/dialogs/dialog-analysis-tools.c:989
+#: src/dialogs/dialog-analysis-tools.c:1095
+#: src/dialogs/dialog-analysis-tools.c:1529
+#: src/dialogs/dialog-analysis-tools.c:1629
+#: src/dialogs/dialog-analysis-tools.c:1723
+#: src/dialogs/dialog-analysis-tools.c:1806
+#: src/dialogs/dialog-analysis-tools.c:1895
 msgid "Input:"
 msgstr "Inddata:"
 
-#: src/dialogs/dialog-analysis-tools.c:578
+#: src/dialogs/dialog-analysis-tools.c:564
 msgid "Sampling Method:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:590
+#: src/dialogs/dialog-analysis-tools.c:576
 msgid "Period:"
 msgstr "Periode:"
 
-#: src/dialogs/dialog-analysis-tools.c:593
+#: src/dialogs/dialog-analysis-tools.c:579
 msgid "Number of Samples:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:784
-#: src/dialogs/dialog-analysis-tools.c:901
-#: src/dialogs/dialog-analysis-tools.c:1006
-#: src/dialogs/dialog-analysis-tools.c:1112
-#: src/dialogs/dialog-analysis-tools.c:1214
+#: src/dialogs/dialog-analysis-tools.c:770
+#: src/dialogs/dialog-analysis-tools.c:887
+#: src/dialogs/dialog-analysis-tools.c:992
+#: src/dialogs/dialog-analysis-tools.c:1098
+#: src/dialogs/dialog-analysis-tools.c:1200
 msgid "Variable 1 Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:787
-#: src/dialogs/dialog-analysis-tools.c:904
-#: src/dialogs/dialog-analysis-tools.c:1009
-#: src/dialogs/dialog-analysis-tools.c:1115
-#: src/dialogs/dialog-analysis-tools.c:1217
+#: src/dialogs/dialog-analysis-tools.c:773
+#: src/dialogs/dialog-analysis-tools.c:890
+#: src/dialogs/dialog-analysis-tools.c:995
+#: src/dialogs/dialog-analysis-tools.c:1101
+#: src/dialogs/dialog-analysis-tools.c:1203
 msgid "Variable 2 Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:790
-#: src/dialogs/dialog-analysis-tools.c:907
-#: src/dialogs/dialog-analysis-tools.c:1012
-#: src/dialogs/dialog-analysis-tools.c:1118
+#: src/dialogs/dialog-analysis-tools.c:776
+#: src/dialogs/dialog-analysis-tools.c:893
+#: src/dialogs/dialog-analysis-tools.c:998
+#: src/dialogs/dialog-analysis-tools.c:1104
 msgid "Hypothesized Mean Difference:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:793
+#: src/dialogs/dialog-analysis-tools.c:779
 msgid "Variable 1 Variance (known):"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:796
+#: src/dialogs/dialog-analysis-tools.c:782
 msgid "Variable 2 Variance (known):"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:798
-#: src/dialogs/dialog-analysis-tools.c:909
-#: src/dialogs/dialog-analysis-tools.c:1014
-#: src/dialogs/dialog-analysis-tools.c:1120
-#: src/dialogs/dialog-analysis-tools.c:1219
-#: src/dialogs/dialog-analysis-tools.c:1846
-#: src/dialogs/dialog-analysis-tools.c:1933
+#: src/dialogs/dialog-analysis-tools.c:784
+#: src/dialogs/dialog-analysis-tools.c:895
+#: src/dialogs/dialog-analysis-tools.c:1000
+#: src/dialogs/dialog-analysis-tools.c:1106
+#: src/dialogs/dialog-analysis-tools.c:1205
+#: src/dialogs/dialog-analysis-tools.c:1813
+#: src/dialogs/dialog-analysis-tools.c:1900
 msgid "Alpha:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:830
-#: src/dialogs/dialog-analysis-tools.c:941
-#: src/dialogs/dialog-analysis-tools.c:1046
-#: src/dialogs/dialog-analysis-tools.c:1152
-#: src/dialogs/dialog-analysis-tools.c:1252
-#: src/dialogs/dialog-analysis-tools.c:1606
+#: src/dialogs/dialog-analysis-tools.c:816
+#: src/dialogs/dialog-analysis-tools.c:927
+#: src/dialogs/dialog-analysis-tools.c:1032
+#: src/dialogs/dialog-analysis-tools.c:1138
+#: src/dialogs/dialog-analysis-tools.c:1238
+#: src/dialogs/dialog-analysis-tools.c:1573
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:841
-#: src/dialogs/dialog-analysis-tools.c:952
-#: src/dialogs/dialog-analysis-tools.c:1057
-#: src/dialogs/dialog-analysis-tools.c:1163
-#: src/dialogs/dialog-analysis-tools.c:1263
-#: src/dialogs/dialog-analysis-tools.c:1617
+#: src/dialogs/dialog-analysis-tools.c:827
+#: src/dialogs/dialog-analysis-tools.c:938
+#: src/dialogs/dialog-analysis-tools.c:1043
+#: src/dialogs/dialog-analysis-tools.c:1149
+#: src/dialogs/dialog-analysis-tools.c:1249
+#: src/dialogs/dialog-analysis-tools.c:1584
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1379
+#: src/dialogs/dialog-analysis-tools.c:1346
 msgid "Number of Variables:"
 msgstr "Antal variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:1382
+#: src/dialogs/dialog-analysis-tools.c:1349
 msgid "Number of Random Numbers:"
 msgstr "Antal tilfældige tal:"
 
-#: src/dialogs/dialog-analysis-tools.c:1393
+#: src/dialogs/dialog-analysis-tools.c:1360
 msgid "Parameters:"
 msgstr "Parametere"
 
-#: src/dialogs/dialog-analysis-tools.c:1406
+#: src/dialogs/dialog-analysis-tools.c:1373
 msgid "Value and Probability Input Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1411
+#: src/dialogs/dialog-analysis-tools.c:1378
 msgid "Between:"
 msgstr "Imellem:"
 
-#: src/dialogs/dialog-analysis-tools.c:1414
+#: src/dialogs/dialog-analysis-tools.c:1381
 msgid "And:"
 msgstr "Og:"
 
-#: src/dialogs/dialog-analysis-tools.c:1419
+#: src/dialogs/dialog-analysis-tools.c:1386
 msgid "Mean = "
 msgstr "Betyder ="
 
-#: src/dialogs/dialog-analysis-tools.c:1421
+#: src/dialogs/dialog-analysis-tools.c:1388
 msgid "Standard Deviation = "
 msgstr "Standard afvigelse = "
 
-#: src/dialogs/dialog-analysis-tools.c:1425
+#: src/dialogs/dialog-analysis-tools.c:1392
 msgid "Lambda"
 msgstr "Lambda"
 
-#: src/dialogs/dialog-analysis-tools.c:1429
+#: src/dialogs/dialog-analysis-tools.c:1396
 msgid "p Value"
 msgstr "p værdi"
 
-#: src/dialogs/dialog-analysis-tools.c:1524
+#: src/dialogs/dialog-analysis-tools.c:1491
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1568
+#: src/dialogs/dialog-analysis-tools.c:1535
 msgid "Input Y Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1571
+#: src/dialogs/dialog-analysis-tools.c:1538
 msgid "Input X Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1573
+#: src/dialogs/dialog-analysis-tools.c:1540
 msgid "Confidence Level:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1670
+#: src/dialogs/dialog-analysis-tools.c:1637
 msgid "Interval:"
 msgstr "Interval:"
 
-#: src/dialogs/dialog-analysis-tools.c:1705
+#: src/dialogs/dialog-analysis-tools.c:1672
 msgid "You should introduce a valid cell range in 'Range Input:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2008
+#: src/dialogs/dialog-analysis-tools.c:1975
 msgid "Data Analysis"
 msgstr "Dataanalyse"
 
-#: src/dialogs/dialog-analysis-tools.c:2015
+#: src/dialogs/dialog-analysis-tools.c:1983
 msgid "Analysis Tools"
 msgstr "Analyseværktøjer"
 
@@ -849,7 +849,7 @@ msgstr "Dato"
 msgid "Time"
 msgstr "Tid"
 
-#: src/dialogs/dialog-cell-format.c:73 src/workbook-format-toolbar.c:425
+#: src/dialogs/dialog-cell-format.c:73 src/workbook-format-toolbar.c:430
 msgid "Percent"
 msgstr "Procent"
 
@@ -898,7 +898,7 @@ msgid "Left"
 msgstr "Venstre"
 
 #: src/dialogs/dialog-cell-format.c:363 src/dialogs/dialog-cell-format.c:372
-#: src/workbook-format-toolbar.c:413
+#: src/workbook-format-toolbar.c:418
 msgid "Center"
 msgstr "Centrer"
 
@@ -936,133 +936,108 @@ msgstr "Vandret"
 msgid "Auto return"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:621
+#: src/dialogs/dialog-cell-format.c:620
 msgid "Text color"
 msgstr "Tekstfarve"
 
 #. The radio buttons
-#: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
+#: src/dialogs/dialog-cell-format.c:624 src/dialogs/dialog-cell-format.c:660
 #: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:111
 msgid "None"
 msgstr "Ingen"
 
-#: src/dialogs/dialog-cell-format.c:627
+#: src/dialogs/dialog-cell-format.c:626
 msgid "Use this color"
 msgstr "Brug denne farve"
 
-#: src/dialogs/dialog-cell-format.c:629 src/dialogs/dialog-cell-format.c:667
+#: src/dialogs/dialog-cell-format.c:628 src/dialogs/dialog-cell-format.c:666
 msgid "No change"
 msgstr "Ingen ændring"
 
-#: src/dialogs/dialog-cell-format.c:655
+#: src/dialogs/dialog-cell-format.c:654
 msgid "Background configuration"
 msgstr "Konfiguration af baggrund"
 
-#: src/dialogs/dialog-cell-format.c:663
+#: src/dialogs/dialog-cell-format.c:662
 msgid "Use solid color"
 msgstr "Brug udfyldsfarve"
 
-#: src/dialogs/dialog-cell-format.c:665
+#: src/dialogs/dialog-cell-format.c:664
 msgid "Use a pattern"
 msgstr "Brug mønster"
 
-#: src/dialogs/dialog-cell-format.c:938
+#: src/dialogs/dialog-cell-format.c:937
 #: src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "Tal"
 
-#: src/dialogs/dialog-cell-format.c:939
+#: src/dialogs/dialog-cell-format.c:938
 msgid "Alignment"
 msgstr "Justering"
 
-#: src/dialogs/dialog-cell-format.c:940
+#: src/dialogs/dialog-cell-format.c:939
 msgid "Font"
 msgstr "Skrifttype"
 
-#: src/dialogs/dialog-cell-format.c:941
+#: src/dialogs/dialog-cell-format.c:940
 msgid "Coloring"
 msgstr "Farver"
 
-#: src/dialogs/dialog-cell-sort.c:41
+#: src/dialogs/dialog-cell-sort.c:42
 msgid "Column:"
 msgstr "Kolonne:"
 
-#: src/dialogs/dialog-cell-sort.c:56
+#: src/dialogs/dialog-cell-sort.c:58
 msgid "Asc"
 msgstr "Opst"
 
-#: src/dialogs/dialog-cell-sort.c:59
+#: src/dialogs/dialog-cell-sort.c:61
 msgid "Desc"
 msgstr "Nedst"
 
-#: src/dialogs/dialog-cell-sort.c:272
+#: src/dialogs/dialog-cell-sort.c:274
 msgid "more clauses than rows ?"
 msgstr "flere klausuler end rækker ?"
 
-#: src/dialogs/dialog-cell-sort.c:275
+#: src/dialogs/dialog-cell-sort.c:277
 msgid "too many clauses"
 msgstr "for mange klausuler"
 
-#: src/dialogs/dialog-cell-sort.c:295
+#: src/dialogs/dialog-cell-sort.c:297
 msgid "Need at least one clause"
 msgstr "Behøver mindst en klausul"
 
-#: src/dialogs/dialog-cell-sort.c:315 src/workbook.c:1422
+#: src/dialogs/dialog-cell-sort.c:317 src/workbook.c:1438
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:327
+#: src/dialogs/dialog-cell-sort.c:329
 msgid "Selection must be a finite range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:339
+#: src/dialogs/dialog-cell-sort.c:341
 msgid "Sort Cells"
 msgstr "Sorter celler"
 
-#: src/dialogs/dialog-cell-sort.c:354
+#: src/dialogs/dialog-cell-sort.c:356
 msgid "then by"
 msgstr "så efter"
 
-#: src/dialogs/dialog-cell-sort.c:354
+#: src/dialogs/dialog-cell-sort.c:356
 msgid "sort by"
 msgstr "sorter efter"
 
-#: src/dialogs/dialog-cell-sort.c:392
+#: src/dialogs/dialog-cell-sort.c:394
 msgid "Column must be within range"
 msgstr "Kolonne skal være indenfor rammen"
 
-#: src/dialogs/dialog-cell-sort.c:398
+#: src/dialogs/dialog-cell-sort.c:400
 msgid "First column must be valid"
 msgstr "Første kolonne skal være gyldig"
 
-#: src/dialogs/dialog-delete-cells.c:26
+#: src/dialogs/dialog-delete-cells.c:79
 msgid "delete cells"
 msgstr "slet celler"
-
-#: src/dialogs/dialog-delete-cells.c:46
-msgid "Delete cells"
-msgstr "Slet celler"
-
-#: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:649
-msgid "Delete"
-msgstr "Slet"
-
-#: src/dialogs/dialog-delete-cells.c:50
-msgid "Shift cells left"
-msgstr "Ryk celler til venstre"
-
-#: src/dialogs/dialog-delete-cells.c:51
-msgid "Shift cells up"
-msgstr "Ryk celler opad"
-
-#: src/dialogs/dialog-delete-cells.c:52
-msgid "Delete row(s)"
-msgstr "Slet række(r)"
-
-#: src/dialogs/dialog-delete-cells.c:53
-msgid "Delete column(s)"
-msgstr "Slet kolonne(r)"
 
 #: src/dialogs/dialog-function-select.c:188
 msgid "Formula Selection"
@@ -1100,127 +1075,103 @@ msgstr "Ukendt"
 msgid "Formula Wizard"
 msgstr "Formelhjælper"
 
-#: src/dialogs/dialog-goal-seek.c:191
+#: src/dialogs/dialog-goal-seek.c:192
 #, c-format
 msgid "Goal seeking with cell %s found a solution"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:195
+#: src/dialogs/dialog-goal-seek.c:196
 #, c-format
 msgid "Target value:   %12.2f"
 msgstr "Målværdi:       %12.2f"
 
-#: src/dialogs/dialog-goal-seek.c:198
+#: src/dialogs/dialog-goal-seek.c:199
 #, c-format
 msgid "Current value:  %12.2f"
 msgstr "Nuværende værdi: %12.2f"
 
-#: src/dialogs/dialog-goal-seek.c:201
+#: src/dialogs/dialog-goal-seek.c:202
 #, c-format
 msgid "Solution:       %12.2f"
 msgstr "Løsning:        %12.2f"
 
-#: src/dialogs/dialog-goal-seek.c:204
+#: src/dialogs/dialog-goal-seek.c:205
 msgid "Goal Seek Report"
 msgstr "Målsøgningsrapport"
 
-#: src/dialogs/dialog-goal-seek.c:266
+#: src/dialogs/dialog-goal-seek.c:267
 msgid "Goal Seek..."
 msgstr "Opnå mål..."
 
-#: src/dialogs/dialog-goal-seek.c:280
+#: src/dialogs/dialog-goal-seek.c:287
 msgid "Set cell:"
 msgstr "Sæt celle:"
 
-#: src/dialogs/dialog-goal-seek.c:281
+#: src/dialogs/dialog-goal-seek.c:288
 msgid "To value:"
 msgstr "Til værdi:"
 
-#: src/dialogs/dialog-goal-seek.c:282
+#: src/dialogs/dialog-goal-seek.c:289
 msgid "By changing cell:"
 msgstr "ved at ændre celle:"
 
-#: src/dialogs/dialog-goal-seek.c:283
+#: src/dialogs/dialog-goal-seek.c:290
 msgid "To a value of at least [optional]:"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:284
+#: src/dialogs/dialog-goal-seek.c:291
 msgid "But no bigger than [optional]:"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:343
+#: src/dialogs/dialog-goal-seek.c:350
 msgid "You should introduce a valid cell name in 'Set cell'"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:351
+#: src/dialogs/dialog-goal-seek.c:358
 msgid "The cell named in 'Set cell' must contain a formula"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:364
+#: src/dialogs/dialog-goal-seek.c:371
 msgid "You should introduce a valid cell name in 'By changing cell'"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:373
+#: src/dialogs/dialog-goal-seek.c:380
 msgid "The cell named in 'By changing cell' must not contain a formula"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:420
+#: src/dialogs/dialog-goal-seek.c:427
 msgid "Goal seek did not find a solution!"
 msgstr ""
 
-#: src/dialogs/dialog-goto-cell.c:42
+#: src/dialogs/dialog-goto-cell.c:37
 msgid "Cell"
 msgstr "Celle"
 
-#: src/dialogs/dialog-goto-cell.c:45
+#: src/dialogs/dialog-goto-cell.c:40
 msgid "Go to..."
 msgstr "Gå til..."
 
-#: src/dialogs/dialog-goto-cell.c:47
+#: src/dialogs/dialog-goto-cell.c:43
 msgid "Special..."
 msgstr "Speciel..."
 
-#: src/dialogs/dialog-insert-cells.c:27
+#: src/dialogs/dialog-insert-cells.c:79
 msgid "insert cells"
 msgstr "indsæt celler"
 
-#: src/dialogs/dialog-insert-cells.c:47
-msgid "Insert cells"
-msgstr "Indsæt celler"
-
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
-msgid "Insert"
-msgstr "Indsæt"
-
-#: src/dialogs/dialog-insert-cells.c:51
-msgid "Shift cells right"
-msgstr "Ryk celler til højre"
-
-#: src/dialogs/dialog-insert-cells.c:52
-msgid "Shift cells down"
-msgstr "Ryk celler nedad"
-
-#: src/dialogs/dialog-insert-cells.c:53
-msgid "Insert row(s)"
-msgstr "Indsæt række(r)"
-
-#: src/dialogs/dialog-insert-cells.c:54
-msgid "Insert column(s)"
-msgstr "Indsæt kolonne(r)"
-
-#: src/dialogs/dialog-paste-special.c:20 src/dialogs/dialog-solver.c:36
+#: src/dialogs/dialog-paste-special.c:20 src/dialogs/dialog-solver.c:34
 msgid "All"
 msgstr "Alt"
 
-#: src/dialogs/dialog-paste-special.c:21 src/dialogs/dialog-solver.c:37
+#: src/dialogs/dialog-paste-special.c:21 src/dialogs/dialog-solver.c:35
 msgid "Formulas"
 msgstr "Formler"
 
-#: src/dialogs/dialog-paste-special.c:22 src/dialogs/dialog-solver.c:38
+#: src/dialogs/dialog-paste-special.c:22 src/dialogs/dialog-solver.c:36
 msgid "Values"
 msgstr "Værdier"
 
-#: src/dialogs/dialog-paste-special.c:23 src/dialogs/dialog-solver.c:39
+#: src/dialogs/dialog-paste-special.c:23 src/dialogs/dialog-solver.c:37
 msgid "Formats"
 msgstr "Formater"
 
@@ -1240,7 +1191,7 @@ msgstr "Multiplicér"
 msgid "Divide"
 msgstr "Dividér"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:653
 msgid "Paste special"
 msgstr "Indsæt speciel"
 
@@ -1252,7 +1203,7 @@ msgstr "Indsæt type"
 msgid "Operation"
 msgstr "Operation"
 
-#: src/dialogs/dialog-paste-special.c:104
+#: src/dialogs/dialog-paste-special.c:105
 msgid "Transpose"
 msgstr "Transponer"
 
@@ -1268,92 +1219,127 @@ msgstr "Konfiguration af personlig sidefod"
 msgid "Print setup"
 msgstr "Printeropsætning"
 
-#: src/dialogs/dialog-solver.c:23
+#: src/dialogs/dialog-solver.c:21
 msgid "<="
 msgstr "<="
 
 #. N_("="),
-#: src/dialogs/dialog-solver.c:25
+#: src/dialogs/dialog-solver.c:23
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1532
+#: src/dialogs/dialog-solver.c:43 src/workbook.c:1548
 msgid "Max"
 msgstr "Maks"
 
-#: src/dialogs/dialog-solver.c:46 src/workbook.c:1531
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1547
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-solver.c:51
+#: src/dialogs/dialog-solver.c:49
 msgid "Tangent"
 msgstr "Tangent"
 
-#: src/dialogs/dialog-solver.c:52
+#: src/dialogs/dialog-solver.c:50
 msgid "Quadratic"
 msgstr "Kvadratisk"
 
-#: src/dialogs/dialog-solver.c:57
+#: src/dialogs/dialog-solver.c:55
 msgid "Forward"
 msgstr "Fremad"
 
-#: src/dialogs/dialog-solver.c:58
+#: src/dialogs/dialog-solver.c:56
 msgid "Central"
 msgstr "Central"
 
-#: src/dialogs/dialog-solver.c:63
+#: src/dialogs/dialog-solver.c:61
 msgid "Newton"
 msgstr "Newton"
 
-#: src/dialogs/dialog-solver.c:64
+#: src/dialogs/dialog-solver.c:62
 msgid "Conjugate"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:69
+#: src/dialogs/dialog-solver.c:67
 msgid "Assume Linear Model"
 msgstr "Forvent lineær model"
 
-#: src/dialogs/dialog-solver.c:70
+#: src/dialogs/dialog-solver.c:68
 msgid "Assume Non-Negative"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:75
+#: src/dialogs/dialog-solver.c:73
 msgid "Use Automatic Scaling"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:76
+#: src/dialogs/dialog-solver.c:74
 msgid "Show Iteration Results"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:147
+#: src/dialogs/dialog-solver.c:132
 msgid "Gnumeric Solver Options"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:246
+#: src/dialogs/dialog-solver.c:148
+#, fuzzy
+msgid "Estimates"
+msgstr "tid"
+
+#: src/dialogs/dialog-solver.c:150
+#, fuzzy
+msgid "Derivatives"
+msgstr "Afslut nu"
+
+#: src/dialogs/dialog-solver.c:153
+#, fuzzy
+msgid "Search"
+msgstr "Marts"
+
+#: src/dialogs/dialog-solver.c:232
 msgid "Add Constraint"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:249 src/dialogs/names.glade.h:9
+#. Constraint buttons
+#: src/dialogs/dialog-solver.c:235 src/dialogs/dialog-solver.c:407
+#: src/dialogs/names.glade.h:9
 msgid "Add"
 msgstr "Tilføj"
 
-#: src/dialogs/dialog-solver.c:366
+#: src/dialogs/dialog-solver.c:352
 msgid "Gnumeric Solver Parameters"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:367
+#: src/dialogs/dialog-solver.c:353
 msgid "Solve"
 msgstr "Løs"
 
-#: src/dialogs/dialog-solver.c:369
+#: src/dialogs/dialog-solver.c:355
 msgid "Options..."
 msgstr "Alternativer..."
 
-#: src/dialogs/dialog-solver.c:496
+#: src/dialogs/dialog-solver.c:375
+msgid "Equal to:"
+msgstr ""
+
+#: src/dialogs/dialog-solver.c:401
+msgid "Subject to the Constraints:"
+msgstr ""
+
+#: src/dialogs/dialog-solver.c:408
+#, fuzzy
+msgid "Change"
+msgstr "Ramme"
+
+#: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:10
+#: src/item-grid.c:656
+msgid "Delete"
+msgstr "Slet"
+
+#: src/dialogs/dialog-solver.c:482
 msgid "You should introduce a valid cell name for 'Target cell'"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:517
+#: src/dialogs/dialog-solver.c:503
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr ""
 
@@ -1594,7 +1580,7 @@ msgstr ""
 msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1053
+#: src/dialogs/print.glade.h:50 src/workbook.c:1066
 msgid "Print"
 msgstr "Udskriv"
 
@@ -1602,7 +1588,7 @@ msgstr "Udskriv"
 msgid "Row and co_lumn headings"
 msgstr "Række og kolonne hoveder"
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:886
+#: src/dialogs/print.glade.h:52 src/workbook.c:897
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
@@ -1703,61 +1689,53 @@ msgstr "Kan ikke oprette filen %s\n"
 msgid "Embedded Sheet"
 msgstr ""
 
-#: src/expr-name.c:131
+#: src/expr-name.c:175
 msgid "already defined"
 msgstr "allerede defineret"
 
-#: src/expr-name.c:134
-msgid "no workbook"
-msgstr "ingen arbejdsbog"
+#: src/expr-name.c:178
+msgid "no scope"
+msgstr ""
 
-#: src/expr-name.c:139
+#: src/expr-name.c:183
 msgid "circular reference"
 msgstr "cirkulær henvisning"
 
-#: src/expr-name.c:248
+#: src/expr-name.c:336
 msgid "Builtin"
 msgstr "Indbygget"
 
-#: src/expr-name.c:279
+#: src/expr-name.c:367
 msgid "Error: no sheet"
 msgstr "Fejl: intet ark"
 
-#: src/expr.c:218
+#: src/expr.c:219
 msgid "Syntax error"
 msgstr "Syntaksfejl"
 
-#: src/expr.c:222
+#: src/expr.c:223
 msgid "Missing quote"
 msgstr "Manglende citat"
 
-#: src/expr.c:226
+#: src/expr.c:227
 msgid "Impossible!"
 msgstr "Umuligt!"
 
-#: src/expr.c:477
+#: src/expr.c:464
 msgid "Internal error"
 msgstr "Intern fejl"
 
-#: src/expr.c:860
+#: src/expr.c:847
 msgid "Internal type error"
 msgstr "Intern typefejl"
 
-#: src/expr.c:998
+#: src/expr.c:985
 msgid "Unknown operator"
 msgstr "Ukendt operator"
 
-#: src/expr.c:1137
+#: src/expr.c:1124
 msgid "Unknown evaluation error"
 msgstr "Ukendt evalueringsfejl"
-
-#: src/expr.c:1542
-msgid "#Reference to deleted cell!"
-msgstr "#Refernce til slettet celle!"
-
-#: src/expr.c:1571
-msgid "#Reference to deleted range!"
-msgstr ""
 
 #: src/file.c:222
 #, c-format
@@ -5730,7 +5708,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1848 src/value.c:895
+#: src/functions/fn-stat.c:1848
 msgid "#DIV/0!"
 msgstr ""
 
@@ -6288,7 +6266,8 @@ msgid ""
 "the y-values where y=mx+b and @known_x's contains the corresponding "
 "x-values.  @new_x's contains the x-values for which you want to estimate the "
 "y-values. \n"
-"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @known_y's and "
+"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
+"omitted, it is assumed to be the same as @known_x's. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -6299,7 +6278,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:3987
+#: src/functions/fn-stat.c:3999
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -6318,15 +6297,17 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4093
+#: src/functions/fn-stat.c:4105
 msgid ""
 "@FUNCTION=GROWTH\n"
-"@SYNTAX=GROWTH(known_y's[,known_x's],new_x's[,const])\n"
+"@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
 "@DESCRIPTION=GROWTH function applies the ``least squares'' method to fit an "
 "exponential curve to your data and predicts the exponential growth by using "
 "this curve. \n"
-"If @known_x's is omitted, an array {1, 2, 3, ...} is used. GROWTH returns an "
-"array having one column and a row for each data point in @new_x.\n"
+"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
+"omitted, it is assumed to be the same as @known_x's. \n"
+"GROWTH returns an array having one column and a row for each data point in "
+"@new_x.\n"
 "If @known_y's and @known_x's have unequal number of data points, GROWTH "
 "returns #NUM! error.\n"
 "If @const is FALSE, the line will be forced to go through the origin, i.e., "
@@ -6336,7 +6317,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4125
+#: src/functions/fn-stat.c:4208
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -6355,7 +6336,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4196
+#: src/functions/fn-stat.c:4279
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -6373,7 +6354,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4245
+#: src/functions/fn-stat.c:4328
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -6388,7 +6369,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4290
+#: src/functions/fn-stat.c:4373
 msgid "Statistics"
 msgstr "Statistikker"
 
@@ -6681,56 +6662,56 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: src/format.c:399
+#: src/format.c:429
 msgid "black"
 msgstr "sort"
 
-#: src/format.c:400
+#: src/format.c:430
 msgid "blue"
 msgstr "blå"
 
-#: src/format.c:401
+#: src/format.c:431
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:402
+#: src/format.c:432
 msgid "green"
 msgstr "grøn"
 
-#: src/format.c:403
+#: src/format.c:433
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:404
+#: src/format.c:434
 msgid "red"
 msgstr "rød"
 
-#: src/format.c:405
+#: src/format.c:435
 msgid "white"
 msgstr "hvid"
 
-#: src/format.c:406
+#: src/format.c:436
 msgid "yellow"
 msgstr "gul"
 
-#: src/format.c:1238
+#: src/format.c:1326
 msgid "0.0########"
 msgstr "0.0########"
 
-#: src/format.c:1252 src/value.c:204 src/value.c:387
+#: src/format.c:1340 src/value.c:321
 msgid "TRUE"
 msgstr "SANDT"
 
-#: src/format.c:1252 src/value.c:204 src/value.c:387
+#: src/format.c:1340 src/value.c:321
 msgid "FALSE"
 msgstr "FORKERT"
 
-#: src/format.c:1261
+#: src/format.c:1349
 msgid "CELLRANGE"
 msgstr ""
 
 #. Array of arrays ??
-#: src/format.c:1265
+#: src/format.c:1353
 msgid "ARRAY"
 msgstr "ARRAY"
 
@@ -6926,45 +6907,59 @@ msgstr "mm:ss.0"
 msgid "[h]:mm:ss"
 msgstr "[t]:mm:ss"
 
-#: src/formats.c:82
+#: src/formats.c:78
+#, fuzzy
+msgid "[h]:mm"
+msgstr "t:mm"
+
+#: src/formats.c:79
+#, fuzzy
+msgid "[mm]:ss"
+msgstr "mm:ss"
+
+#: src/formats.c:80
+msgid "[ss]"
+msgstr ""
+
+#: src/formats.c:85
 #, c-format
 msgid "0%"
 msgstr "0%"
 
-#: src/formats.c:83
+#: src/formats.c:86
 #, c-format
 msgid "0.00%"
 msgstr "0.00%"
 
-#: src/formats.c:88
+#: src/formats.c:91
 msgid "# ?/?"
 msgstr "# ?/?"
 
-#: src/formats.c:89
+#: src/formats.c:92
 msgid "# ??/??"
 msgstr "# ??/??"
 
-#: src/formats.c:94
+#: src/formats.c:97
 msgid "0.00E+00"
 msgstr "0.00E+00"
 
-#: src/formats.c:95
+#: src/formats.c:98
 msgid "##0.0E+0"
 msgstr "##0.0E+0"
 
-#: src/formats.c:105
+#: src/formats.c:108
 msgid "$#,##0_);($#,##0)"
 msgstr "$#,##0_);($#,##0)"
 
-#: src/formats.c:106
+#: src/formats.c:109
 msgid "$#,##0_);[Red]($#,##0)"
 msgstr "$#,##0_);[Red]($#,##0"
 
-#: src/formats.c:107
+#: src/formats.c:110
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#,##0.00_);($#,##0.00)"
 
-#: src/formats.c:108
+#: src/formats.c:111
 msgid "$#,##0.00_);[Red]($#,##0.00)"
 msgstr "$#,##0.00_);[Rød]($#,##0.00)"
 
@@ -6976,84 +6971,84 @@ msgstr "Funktion findes ikke"
 msgid "Calling non-function"
 msgstr "Ikke-funktion kaldes"
 
-#: src/gnumeric-sheet.c:1013
+#: src/gnumeric-sheet.c:1014
 msgid "Solid"
 msgstr "Solid"
 
-#: src/gnumeric-sheet.c:1017
+#: src/gnumeric-sheet.c:1018
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:1021
+#: src/gnumeric-sheet.c:1022
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:1025
+#: src/gnumeric-sheet.c:1026
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1029
+#: src/gnumeric-sheet.c:1030
 #, no-c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:1033
+#: src/gnumeric-sheet.c:1034
 #, no-c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:1036
+#: src/gnumeric-sheet.c:1037
 msgid "Horizontal Stripe"
 msgstr "Vandret stribe"
 
-#: src/gnumeric-sheet.c:1039
+#: src/gnumeric-sheet.c:1040
 msgid "Vertical Stripe"
 msgstr "Lodret stribe"
 
-#: src/gnumeric-sheet.c:1042
+#: src/gnumeric-sheet.c:1043
 msgid "Reverse Diagonal Stripe"
 msgstr "omvendt diagonal stribe"
 
-#: src/gnumeric-sheet.c:1045
+#: src/gnumeric-sheet.c:1046
 msgid "Diagonal Stripe"
 msgstr "Diagonal stribe"
 
-#: src/gnumeric-sheet.c:1048
+#: src/gnumeric-sheet.c:1049
 msgid "Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1051
+#: src/gnumeric-sheet.c:1052
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1054
+#: src/gnumeric-sheet.c:1055
 msgid "Thin Horizontal Stripe"
 msgstr "Tynd vandret stribe"
 
-#: src/gnumeric-sheet.c:1057
+#: src/gnumeric-sheet.c:1058
 msgid "Thin Vertical Stripe"
 msgstr "Tynd lodret stribe"
 
-#: src/gnumeric-sheet.c:1060
+#: src/gnumeric-sheet.c:1061
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tynd omvendt diagonal stribe"
 
-#: src/gnumeric-sheet.c:1063
+#: src/gnumeric-sheet.c:1064
 msgid "Thin Diagonal Stripe"
 msgstr "Tynd diagonal stribe"
 
-#: src/gnumeric-sheet.c:1066
+#: src/gnumeric-sheet.c:1067
 msgid "Thin Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1069
+#: src/gnumeric-sheet.c:1070
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-util.c:19
+#: src/gnumeric-util.c:20
 msgid "You cannot change part of an array."
 msgstr "Du kan ikke ændre en del af en tabel."
 
@@ -7064,7 +7059,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:651 src/workbook.c:1078
 msgid "Copy"
 msgstr "Kopiér"
 
@@ -7096,91 +7091,100 @@ msgstr "Ryk celler nedad og flyt"
 msgid "Shift cells right and move"
 msgstr "Ryk celler til højre og flyt"
 
-#: src/item-grid.c:643 src/workbook.c:1062
+#: src/item-grid.c:650 src/workbook.c:1075
 msgid "Cut"
 msgstr "Klip"
 
-#: src/item-grid.c:645 src/workbook.c:1068
+#: src/item-grid.c:652 src/workbook.c:1081
 msgid "Paste"
 msgstr "Indsæt"
 
-#: src/item-grid.c:650
+#: src/item-grid.c:655
+msgid "Insert"
+msgstr "Indsæt"
+
+#: src/item-grid.c:657
 msgid "Erase content"
 msgstr "Slet indhold"
 
-#: src/item-grid.c:652
+#: src/item-grid.c:659
 msgid "Cell format"
 msgstr "Celleformat"
 
-#: src/main.c:44
+#: src/main.c:45
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:44
+#: src/main.c:45
 msgid "FILE"
 msgstr "FILE"
 
-#: src/main.c:46
+#: src/main.c:47
 msgid "Enables some debugging functions"
 msgstr "Slår nogle aflusningsfunktioner til"
 
-#: src/main.c:46 src/main.c:51 src/main.c:55 src/main.c:59 src/main.c:63
+#: src/main.c:47 src/main.c:52 src/main.c:56 src/main.c:60 src/main.c:64
+#: src/main.c:68
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: src/main.c:50
+#: src/main.c:51
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 
-#: src/main.c:54
+#: src/main.c:55
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr ""
 
-#: src/main.c:58
+#: src/main.c:59
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 
-#: src/main.c:62
+#: src/main.c:63
 msgid "Enables debugging mesgs while reading excel charts"
+msgstr ""
+
+#: src/main.c:67
+msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
 #: src/number-match.c:150
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
-#: src/plugin-manager.c:95 src/plugin-manager.c:96
+#: src/plugin-manager.c:105 src/plugin-manager.c:106
 msgid "Name"
 msgstr "Navn"
 
-#: src/plugin-manager.c:95 src/plugin-manager.c:96
+#: src/plugin-manager.c:105 src/plugin-manager.c:106
 msgid "File"
 msgstr "Filer"
 
-#: src/plugin-manager.c:126
+#: src/plugin-manager.c:137
 msgid "Close"
 msgstr "Luk"
 
-#: src/plugin-manager.c:129
+#: src/plugin-manager.c:140
 msgid "Add..."
 msgstr "Tilføj..."
 
-#: src/plugin-manager.c:132
+#: src/plugin-manager.c:143
 msgid "Remove"
 msgstr "Fjern"
 
-#: src/plugin.c:40
+#: src/plugin.c:41
 msgid "unable to open module file: "
 msgstr "kan ikke åbne modulfil: "
 
-#: src/plugin.c:51
+#: src/plugin.c:52
 msgid "Plugin must contain init_plugin function."
 msgstr "Tillæg skal indholde funktionen init_plugin"
 
-#: src/plugin.c:57
+#: src/plugin.c:58
 msgid "init_plugin returned error"
 msgstr "init_plugin returnerede fejl"
 
-#: src/plugin.c:77
+#: src/plugin.c:78
 msgid "Plugin is still in use.\n"
 msgstr "Tillæg er stadig i brug.\n"
 
@@ -7335,7 +7339,7 @@ msgstr "Næste"
 msgid "Last"
 msgstr "Sidste"
 
-#: src/print-preview.c:455 src/workbook.c:2063
+#: src/print-preview.c:455 src/workbook.c:2080
 msgid "Zoom in"
 msgstr "Zoom ind"
 
@@ -7343,7 +7347,7 @@ msgstr "Zoom ind"
 msgid "Zooms the page in"
 msgstr "Zoom ind på siden"
 
-#: src/print-preview.c:456 src/workbook.c:2056
+#: src/print-preview.c:456 src/workbook.c:2073
 msgid "Zoom out"
 msgstr "Zoom ud"
 
@@ -7364,78 +7368,36 @@ msgstr "arket"
 msgid "the workbook"
 msgstr "arbejdsbogen"
 
-#: src/print-preview.c:555
-msgid ""
-"The Print Preview feature is being developed.\n"
-"The results of the preview is not correct currently,\n"
-"it might include a buggy rendering (like black\n"
-"blocks or an incorrect text placement).\n"
-"\n"
-"We apologize for the inconvenience"
-msgstr ""
-
-#: src/sheet-object-container.c:207 src/workbook.c:834
-msgid "Select an object"
-msgstr "Vælg et objekt"
-
-#: src/sheet-object-container.c:428
-msgid "Object server"
-msgstr "Objektserver"
-
-#: src/sheet-view.c:357 src/sheet-view.c:429
+#: src/sheet-view.c:351
 #, c-format
 msgid "Row: %d"
 msgstr "Række: %d"
 
-#: src/sheet-view.c:364 src/sheet-view.c:403
+#: src/sheet-view.c:361
 #, c-format
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:995
+#: src/sheet.c:1020
 msgid "Internal ERROR"
 msgstr "Intern FEJL"
 
-#: src/sheet.c:3765
+#: src/sheet.c:3166
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kan ikke aktivere objektet %s"
 
-#: src/sheet.c:3777
+#: src/sheet.c:3178
 msgid "I was unable to the bind object"
 msgstr "Kan ikke binde objektet"
 
-#: src/value.c:603
+#: src/value.c:483
 msgid "Terminate"
 msgstr "Afslut nu"
 
-#: src/value.c:894
-msgid "#NULL!"
-msgstr "#NUL!"
-
-#: src/value.c:896
-msgid "#VALUE!"
-msgstr "#VÆRDI!"
-
-#: src/value.c:897
-msgid "#REF!"
-msgstr "#REF!"
-
-#: src/value.c:898
-msgid "#NAME?"
-msgstr "#NAVN?"
-
-#: src/value.c:899
-msgid "#NUM!"
-msgstr "#NUM!"
-
-#: src/value.c:900
-msgid "#N/A"
-msgstr "#I/T"
-
 #. Placeholder: font selector
 #. Placeholder: size selector
-#: src/widgets/widget-font-selector.c:111 src/workbook-format-toolbar.c:401
+#: src/widgets/widget-font-selector.c:111 src/workbook-format-toolbar.c:406
 msgid "Bold"
 msgstr "Fed"
 
@@ -7443,514 +7405,528 @@ msgstr "Fed"
 msgid "Bold italic"
 msgstr "Fed kursiv"
 
-#: src/widgets/widget-font-selector.c:113 src/workbook-format-toolbar.c:404
+#: src/widgets/widget-font-selector.c:113 src/workbook-format-toolbar.c:409
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/workbook.c:404
+#: src/workbook.c:413
 msgid "Warning"
 msgstr "Advarsel"
 
-#: src/workbook.c:413
+#: src/workbook.c:422
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbejdsbog %s har ugemte ændringer, gem dem?"
 
-#: src/workbook.c:416
+#: src/workbook.c:425
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbejdsbogen har ugemte ændringer, gem dem?"
 
-#: src/workbook.c:616
+#: src/workbook.c:625
 msgid "Insert cols"
 msgstr "Indsæt kolonner"
 
-#: src/workbook.c:636
+#: src/workbook.c:645
 msgid "Insert rows"
 msgstr "Indsæt rækker"
 
-#: src/workbook.c:731
+#: src/workbook.c:740
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/åååå"
 
-#: src/workbook.c:750
+#: src/workbook.c:759
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
-#: src/workbook.c:843
+#: src/workbook.c:845
+msgid "Select an object"
+msgstr "Vælg et objekt"
+
+#: src/workbook.c:854
 msgid "_New"
 msgstr "_Ny"
 
-#: src/workbook.c:843
+#: src/workbook.c:854
 msgid "Create a new spreadsheet"
 msgstr "Opret nyt regneark"
 
-#: src/workbook.c:847
+#: src/workbook.c:858
 msgid "_Import..."
 msgstr "_Importer..."
 
-#: src/workbook.c:847
+#: src/workbook.c:858
 msgid "Imports a file"
 msgstr "Importerer en fil"
 
-#: src/workbook.c:853
+#: src/workbook.c:864
 msgid "Su_mmary..."
 msgstr "Resu_mé..."
 
-#: src/workbook.c:853
+#: src/workbook.c:864
 msgid "Summary information"
 msgstr "Resumé information"
 
-#: src/workbook.c:858
+#: src/workbook.c:869
 msgid "Plu_g-ins..."
 msgstr "Tillæ_g..."
 
-#: src/workbook.c:858
+#: src/workbook.c:869
 msgid "Gnumeric plugins"
 msgstr "Gnumeric tillæg"
 
-#: src/workbook.c:865 src/workbook.c:1056
+#: src/workbook.c:876 src/workbook.c:1069
 msgid "Print pre_view"
 msgstr "_Vis udskrift"
 
-#: src/workbook.c:865 src/workbook.c:1056
+#: src/workbook.c:876 src/workbook.c:1069
 msgid "Print preview"
 msgstr "Vis udskrift"
 
-#: src/workbook.c:881
+#: src/workbook.c:892
 msgid "_All"
 msgstr "_Alt"
 
-#: src/workbook.c:882
+#: src/workbook.c:893
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Sletter de valgte cellers formater, kommentarer og indhold"
 
-#: src/workbook.c:884
+#: src/workbook.c:895
 msgid "_Formats"
 msgstr "_Formater"
 
-#: src/workbook.c:885
+#: src/workbook.c:896
 msgid "Clear the selected cells' formats"
 msgstr "Slet de valgte cellers formater"
 
-#: src/workbook.c:887
+#: src/workbook.c:898
 msgid "Clear the selected cells' comments"
 msgstr "Slet de valgte cellers kommentarer"
 
-#: src/workbook.c:888
+#: src/workbook.c:899
 msgid "_Content"
 msgstr "_Indhold"
 
-#: src/workbook.c:889
+#: src/workbook.c:900
 msgid "Clear the selected cells' contents"
 msgstr "Slet de valgte cellers indhold"
 
-#: src/workbook.c:897
+#: src/workbook.c:908
 msgid "P_aste special..."
 msgstr "_Indsæt speciel..."
 
-#: src/workbook.c:899
+#: src/workbook.c:910
 msgid "_Delete..."
 msgstr "S_let..."
 
-#: src/workbook.c:901
+#: src/workbook.c:912
 msgid "C_lear"
 msgstr "R_yd"
 
-#: src/workbook.c:902
+#: src/workbook.c:913
 msgid "Clear the selected cell(s)"
 msgstr "Slet de valgte celler"
 
-#: src/workbook.c:906
+#: src/workbook.c:917
 msgid "_Select All"
 msgstr "_Vælg alle"
 
-#: src/workbook.c:907
+#: src/workbook.c:918
 msgid "Select all cells in the spreadsheet"
 msgstr "Vælger alle cellerne i regnearket"
 
-#: src/workbook.c:909
+#: src/workbook.c:920
 msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
-#: src/workbook.c:910
+#: src/workbook.c:921
 msgid "Jump to a specified cell"
 msgstr "Hop til en bestemt celle"
 
-#: src/workbook.c:916
+#: src/workbook.c:927
 msgid "Insert object..."
 msgstr "Indsæt objekt..."
 
-#: src/workbook.c:917
+#: src/workbook.c:928
 msgid "Inserts a Bonobo object"
 msgstr "Indsæt et Bonobo-objekt"
 
-#: src/workbook.c:921
+#: src/workbook.c:932
 msgid "_Define cell names"
 msgstr "_Definer cellenavne"
 
-#: src/workbook.c:924
+#: src/workbook.c:935
 msgid "_Recalculate"
 msgstr "_Gennemregn igen"
 
-#: src/workbook.c:925
+#: src/workbook.c:936
 msgid "Recalculate the spreadsheet"
 msgstr "Gennemregner regnearket"
 
-#: src/workbook.c:933
+#: src/workbook.c:944
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/workbook.c:934
+#: src/workbook.c:945
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom ind eller ud i regnearket"
 
-#: src/workbook.c:941
+#: src/workbook.c:952
 msgid "Current _date"
 msgstr "Dags _dato"
 
-#: src/workbook.c:942
+#: src/workbook.c:953
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Indsæt dags dato i de(n) valgte celle(r)"
 
-#: src/workbook.c:945
+#: src/workbook.c:956
 msgid "Current _time"
 msgstr "Nuværende _tid"
 
-#: src/workbook.c:946
+#: src/workbook.c:957
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Indsæt den nuværende tid i de(n) valgte celle(r)"
 
-#: src/workbook.c:953 src/workbook.c:1001
+#: src/workbook.c:964 src/workbook.c:1012
 msgid "_Sheet"
 msgstr "_Ark"
 
-#: src/workbook.c:953
+#: src/workbook.c:964
 msgid "Insert a new spreadsheet"
 msgstr "Indsæt et nyt regneark"
 
-#: src/workbook.c:955 src/workbook.c:996
+#: src/workbook.c:966 src/workbook.c:1007
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:955
+#: src/workbook.c:966
 msgid "Insert new cells"
 msgstr "Indsæt nye celler"
 
-#: src/workbook.c:957
+#: src/workbook.c:968
 msgid "_Rows"
 msgstr "_Rækker"
 
-#: src/workbook.c:957
+#: src/workbook.c:968
 msgid "Insert new rows"
 msgstr "Indsæt nye rækker"
 
-#: src/workbook.c:959
+#: src/workbook.c:970
 msgid "C_olumns"
 msgstr "K_olonner"
 
-#: src/workbook.c:959
+#: src/workbook.c:970
 msgid "Insert new columns"
 msgstr "Indsæt nye kolonner"
 
-#: src/workbook.c:964
+#: src/workbook.c:975
 msgid "_Add/modify comment..."
 msgstr "_Tilføj/ret kommentar..."
 
-#: src/workbook.c:965
+#: src/workbook.c:976
 msgid "Edit the selected cell's comment"
 msgstr "Rediger den valgte celles kommentar"
 
-#: src/workbook.c:966
-msgid "_Special"
+#: src/workbook.c:977
+#, fuzzy
+msgid "S_pecial"
 msgstr "_Speciel"
 
-#: src/workbook.c:974 src/workbook.c:982
+#: src/workbook.c:985 src/workbook.c:993
 msgid "_Auto fit selection"
 msgstr "_Autotilpas markering:"
 
-#: src/workbook.c:976
+#: src/workbook.c:987
 msgid "_Width"
 msgstr "_Bredde"
 
-#: src/workbook.c:984
+#: src/workbook.c:995
 msgid "_Height"
 msgstr "_Højde"
 
-#: src/workbook.c:990
+#: src/workbook.c:1001
 msgid "_Change name"
 msgstr "_Skift navn"
 
-#: src/workbook.c:997
+#: src/workbook.c:1008
 msgid "Modify the formatting of the selected cells"
 msgstr "Ændr formatering af de valgte celler"
 
-#: src/workbook.c:999
+#: src/workbook.c:1010
 msgid "C_olumn"
 msgstr "K_olonne"
 
-#: src/workbook.c:1000
+#: src/workbook.c:1011
 msgid "_Row"
 msgstr "_Række"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1019
 msgid "_Sort..."
 msgstr "_Sorter..."
 
-#: src/workbook.c:1009
+#: src/workbook.c:1020
 msgid "Sort the selected cells"
 msgstr "Sorter de valgte celler"
 
-#: src/workbook.c:1010
+#: src/workbook.c:1021
 msgid "_Goal Seek..."
 msgstr "_Opnå mål..."
 
-#: src/workbook.c:1012
+#: src/workbook.c:1023
 msgid "_Solver..."
 msgstr "Lø_ser..."
 
-#: src/workbook.c:1014
+#: src/workbook.c:1025
 msgid "_Data Analysis..."
 msgstr "_Dataanalyse..."
 
-#: src/workbook.c:1028
+#: src/workbook.c:1041
 msgid "_Insert"
 msgstr "_Indsæt"
 
-#: src/workbook.c:1029
+#: src/workbook.c:1042
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1043
 msgid "_Tools"
 msgstr "Værk_tøjer"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1054
 msgid "New"
 msgstr "Ny"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1054
 msgid "Creates a new sheet"
 msgstr "Opretter et nyt ark"
 
-#: src/workbook.c:1044
+#: src/workbook.c:1057
 msgid "Open"
 msgstr "Åbn"
 
-#: src/workbook.c:1044
+#: src/workbook.c:1057
 msgid "Opens an existing workbook"
 msgstr "Åbner en eksisterende arbejdsbog"
 
-#: src/workbook.c:1047
+#: src/workbook.c:1060
 msgid "Save"
 msgstr "Gem"
 
-#: src/workbook.c:1047
+#: src/workbook.c:1060
 msgid "Saves the workbook"
 msgstr "Gemmer arbejdsbogen"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1066
 msgid "Prints the workbook"
 msgstr "Udskriver arbejdsbogen"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1075
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper det valgte til klippebordet"
 
-#: src/workbook.c:1065
+#: src/workbook.c:1078
 msgid "Copies the selection to the clipboard"
 msgstr "Kopier det valgte til klippebordet"
 
-#: src/workbook.c:1068
+#: src/workbook.c:1081
 msgid "Pastes the clipboard"
 msgstr "Indsætter klippebordet"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1088
 msgid "Graphic"
 msgstr "Grafik"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1088
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Opretter grafik i regnearket"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1091
+msgid "Bobobo Item"
+msgstr ""
+
+#: src/workbook.c:1091
+#, fuzzy
+msgid "Creates a Bonobo shaped item"
+msgstr "Opretter et nyt ark"
+
+#: src/workbook.c:1096
 msgid "Button"
 msgstr "Knap"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1096
 msgid "Creates a button"
 msgstr "Opretter en knap"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1099
 msgid "Checkbox"
 msgstr "Flueben"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1099
 msgid "Creates a checkbox"
 msgstr "Opretter en fluebenboks"
 
-#: src/workbook.c:1090
+#: src/workbook.c:1106
 msgid "Line"
 msgstr "Linie"
 
-#: src/workbook.c:1090
+#: src/workbook.c:1106
 msgid "Creates a line object"
 msgstr "Opretter et linie-objekt"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1109
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1109
 msgid "Creates an arrow object"
 msgstr "Opretter en pil"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1112
 msgid "Rectangle"
 msgstr "Rektangel"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1112
 msgid "Creates a rectangle object"
 msgstr "Opretter et rektangel"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1115
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1115
 msgid "Creates an ellipse object"
 msgstr "Opretter en ellipse"
 
-#: src/workbook.c:1317
+#: src/workbook.c:1333
 msgid "You should introduce a valid cell name"
 msgstr "Du bør introducere et gyldigt cellenavn"
 
-#: src/workbook.c:1326
+#: src/workbook.c:1342
 msgid "Column out of range"
 msgstr "Ugyldig kolonne"
 
-#: src/workbook.c:1332
+#: src/workbook.c:1348
 msgid "Row number out of range"
 msgstr "Ugyldig række"
 
-#: src/workbook.c:1530
+#: src/workbook.c:1546
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1533
+#: src/workbook.c:1549
 msgid "Average"
 msgstr "Gennemsnit"
 
-#: src/workbook.c:1534
+#: src/workbook.c:1550
 msgid "Count"
 msgstr "Tæl"
 
-#: src/workbook.c:1964
+#: src/workbook.c:1981
 msgid "Untitled.gnumeric"
 msgstr "Unavngivet.gnumeric"
 
-#: src/workbook.c:2164
+#: src/workbook.c:2202
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på du vil fjerne arket kaldet '%s'?"
 
-#: src/workbook.c:2183
+#: src/workbook.c:2221
 msgid "Other sheets depend on the values on this sheet; I cannot remove it."
 msgstr "Andre ark afhænger af værdierne i dette ark. Det kan ikke fjernes."
 
-#: src/workbook.c:2203
+#: src/workbook.c:2259
 msgid "Add another sheet"
 msgstr "Tilføj et nyt ark"
 
-#: src/workbook.c:2204
+#: src/workbook.c:2260
 msgid "Remove this sheet"
 msgstr "Fjern dette ark"
 
-#: src/workbook.c:2470 src/workbook.c:2505
+#: src/workbook.c:2526 src/workbook.c:2561
 #, c-format
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: src/workbook.c:2540
+#: src/workbook.c:2596
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/workbook-format-toolbar.c:401
+#: src/workbook-format-toolbar.c:406
 msgid "Sets the bold font"
 msgstr "Gør skriften fed"
 
-#: src/workbook-format-toolbar.c:404
+#: src/workbook-format-toolbar.c:409
 msgid "Makes the font italic"
 msgstr "Gør skriften kursiv"
 
-#: src/workbook-format-toolbar.c:410
+#: src/workbook-format-toolbar.c:415
 msgid "Left align"
 msgstr "Venstrejustér"
 
-#: src/workbook-format-toolbar.c:410
+#: src/workbook-format-toolbar.c:415
 msgid "Left justifies the cell contents"
 msgstr "Venstrejustérer indholdet af cellerne"
 
-#: src/workbook-format-toolbar.c:413
+#: src/workbook-format-toolbar.c:418
 msgid "Centers the cell contents"
 msgstr "Centrerer cellernes indhold"
 
-#: src/workbook-format-toolbar.c:416
+#: src/workbook-format-toolbar.c:421
 msgid "Right align"
 msgstr "Højrejustér"
 
-#: src/workbook-format-toolbar.c:416
+#: src/workbook-format-toolbar.c:421
 msgid "Right justifies the cell contents"
 msgstr "Højrejustérer cellernes indhold"
 
-#: src/workbook-format-toolbar.c:422
+#: src/workbook-format-toolbar.c:427
 msgid "Money format"
 msgstr "Valuta format"
 
-#: src/workbook-format-toolbar.c:422
+#: src/workbook-format-toolbar.c:427
 msgid "Sets the format of the selected cells to monetary"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:425
+#: src/workbook-format-toolbar.c:430
 msgid "Sets the format of the selected cells to percentage"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:428
+#: src/workbook-format-toolbar.c:433
 msgid "Thousand separator"
 msgstr "Tusind skillelinier"
 
-#: src/workbook-format-toolbar.c:428
+#: src/workbook-format-toolbar.c:433
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:431
+#: src/workbook-format-toolbar.c:436
 msgid "Add decimals"
 msgstr "Tilføj decimaler"
 
-#: src/workbook-format-toolbar.c:431
+#: src/workbook-format-toolbar.c:436
 msgid "Increases the number of decimal numbers displayed"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:434
+#: src/workbook-format-toolbar.c:439
 msgid "Remove decimals"
 msgstr "Fjern decimaler"
 
-#: src/workbook-format-toolbar.c:434
+#: src/workbook-format-toolbar.c:439
 msgid "Decreases the number of decimal numbers displayed"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:542
+#: src/workbook-format-toolbar.c:547
 msgid "Font selector"
 msgstr "Skriftvælger:"
 
-#: src/workbook-format-toolbar.c:558
+#: src/workbook-format-toolbar.c:563
 msgid "Size"
 msgstr "Størrelse"
 
-#: src/workbook-format-toolbar.c:580
+#: src/workbook-format-toolbar.c:585
 msgid "Foreground"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:584
+#: src/workbook-format-toolbar.c:589
 msgid "Background"
 msgstr ""
 
@@ -7962,9 +7938,66 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2277
+#: src/xml-io.c:2305
 msgid "Old Gnumeric XML file format"
 msgstr "Gammelt Gnumeric XML-filformat"
+
+#~ msgid "Delete cells"
+#~ msgstr "Slet celler"
+
+#~ msgid "Shift cells left"
+#~ msgstr "Ryk celler til venstre"
+
+#~ msgid "Shift cells up"
+#~ msgstr "Ryk celler opad"
+
+#~ msgid "Delete row(s)"
+#~ msgstr "Slet række(r)"
+
+#~ msgid "Delete column(s)"
+#~ msgstr "Slet kolonne(r)"
+
+#~ msgid "Insert cells"
+#~ msgstr "Indsæt celler"
+
+#~ msgid "Shift cells right"
+#~ msgstr "Ryk celler til højre"
+
+#~ msgid "Shift cells down"
+#~ msgstr "Ryk celler nedad"
+
+#~ msgid "Insert row(s)"
+#~ msgstr "Indsæt række(r)"
+
+#~ msgid "Insert column(s)"
+#~ msgstr "Indsæt kolonne(r)"
+
+#~ msgid "no workbook"
+#~ msgstr "ingen arbejdsbog"
+
+#~ msgid "#Reference to deleted cell!"
+#~ msgstr "#Refernce til slettet celle!"
+
+#~ msgid "Object server"
+#~ msgstr "Objektserver"
+
+#~ msgid "#NULL!"
+#~ msgstr "#NUL!"
+
+#~ msgid "#VALUE!"
+#~ msgstr "#VÆRDI!"
+
+#~ msgid "#REF!"
+#~ msgstr "#REF!"
+
+#~ msgid "#NAME?"
+#~ msgstr "#NAVN?"
+
+#~ msgid "#NUM!"
+#~ msgstr "#NUM!"
+
+#~ msgid "#N/A"
+#~ msgstr "#I/T"
 
 #~ msgid "Zoom"
 #~ msgstr "Zoom"

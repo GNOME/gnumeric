@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 1999-09-23 17:49-0500\n"
+"POT-Creation-Date: 1999-10-19 08:21-0500\n"
 "PO-Revision-Date: 1999-06-01 11:20+0100\n"
 "Last-Translator: Vladimir Vuksan <vuksan@veus.hr>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -12,39 +12,39 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/excel/boot.c:76
+#: plugins/excel/boot.c:80
 msgid "Saving over old files disabled for safety"
 msgstr ""
 
-#: plugins/excel/boot.c:84
+#: plugins/excel/boot.c:88
 msgid "Can't open"
 msgstr "Ne mogu otvoriti"
 
-#: plugins/excel/boot.c:122
+#: plugins/excel/boot.c:126
 msgid "Microsoft(R) Excel file format"
 msgstr ""
 
-#: plugins/excel/boot.c:123
+#: plugins/excel/boot.c:127
 msgid "Excel(R) 97 file format"
 msgstr ""
 
-#: plugins/excel/boot.c:124
+#: plugins/excel/boot.c:128
 msgid "Excel(R) 95 file format"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:266
+#: plugins/excel/ms-excel-read.c:269
 msgid "#UNKNOWN!"
 msgstr ""
 
-#: plugins/excel/ms-formula-read.c:645
+#: plugins/excel/ms-formula-read.c:648
 msgid "Unknown Function"
 msgstr ""
 
-#: plugins/excel/ms-formula-read.c:697
+#: plugins/excel/ms-formula-read.c:700
 msgid "Broken function"
 msgstr ""
 
-#: plugins/excel/ms-formula-read.c:1391
+#: plugins/excel/ms-formula-read.c:1396
 msgid " Unknown formula"
 msgstr ""
 
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:237 src/expr.c:504
+#: plugins/guile/plugin.c:237 src/expr.c:491
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:643
 #: src/functions/fn-information.c:670 src/functions/fn-information.c:696
 #: src/functions/fn-information.c:745 src/functions/fn-information.c:774
@@ -320,7 +320,7 @@ msgid "ERROR"
 msgstr "GRE©KA"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:754
+#: src/cell.c:125 src/cell.c:752
 msgid "Circular reference"
 msgstr ""
 
@@ -480,369 +480,369 @@ msgstr "Studeni"
 msgid "December"
 msgstr "Prosinac"
 
-#: src/dialogs/dialog-analysis-tools.c:71
-#: src/dialogs/dialog-analysis-tools.c:1832
+#: src/dialogs/dialog-analysis-tools.c:72
+#: src/dialogs/dialog-analysis-tools.c:1799
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:73
-#: src/dialogs/dialog-analysis-tools.c:1920
+#: src/dialogs/dialog-analysis-tools.c:74
+#: src/dialogs/dialog-analysis-tools.c:1887
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:75
-#: src/dialogs/dialog-analysis-tools.c:408
+#: src/dialogs/dialog-analysis-tools.c:76
+#: src/dialogs/dialog-analysis-tools.c:394
 #, fuzzy
 msgid "Correlation"
 msgstr "Operacija"
 
-#: src/dialogs/dialog-analysis-tools.c:77
-#: src/dialogs/dialog-analysis-tools.c:489
+#: src/dialogs/dialog-analysis-tools.c:78
+#: src/dialogs/dialog-analysis-tools.c:475
 msgid "Covariance"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:79
-#: src/dialogs/dialog-analysis-tools.c:677
+#: src/dialogs/dialog-analysis-tools.c:80
+#: src/dialogs/dialog-analysis-tools.c:663
 msgid "Descriptive Statistics"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:81
-#: src/dialogs/dialog-analysis-tools.c:1204
+#: src/dialogs/dialog-analysis-tools.c:82
+#: src/dialogs/dialog-analysis-tools.c:1190
 msgid "F-Test: Two-Sample for Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:83
-#: src/dialogs/dialog-analysis-tools.c:1659
+#: src/dialogs/dialog-analysis-tools.c:84
+#: src/dialogs/dialog-analysis-tools.c:1626
 msgid "Moving Average"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:85
-#: src/dialogs/dialog-analysis-tools.c:1368
+#: src/dialogs/dialog-analysis-tools.c:86
+#: src/dialogs/dialog-analysis-tools.c:1335
 msgid "Random Number Generation"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:87
-#: src/dialogs/dialog-analysis-tools.c:1749
+#: src/dialogs/dialog-analysis-tools.c:88
+#: src/dialogs/dialog-analysis-tools.c:1716
 msgid "Rank and Percentile"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:89
-#: src/dialogs/dialog-analysis-tools.c:1559
+#: src/dialogs/dialog-analysis-tools.c:90
+#: src/dialogs/dialog-analysis-tools.c:1526
 msgid "Regression"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:91
-#: src/dialogs/dialog-analysis-tools.c:566
+#: src/dialogs/dialog-analysis-tools.c:92
+#: src/dialogs/dialog-analysis-tools.c:552
 #, fuzzy
 msgid "Sampling"
 msgstr "Guile Dodatak"
 
-#: src/dialogs/dialog-analysis-tools.c:93
-#: src/dialogs/dialog-analysis-tools.c:890
+#: src/dialogs/dialog-analysis-tools.c:94
+#: src/dialogs/dialog-analysis-tools.c:876
 msgid "t-Test: Paired Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:95
-#: src/dialogs/dialog-analysis-tools.c:995
+#: src/dialogs/dialog-analysis-tools.c:96
+#: src/dialogs/dialog-analysis-tools.c:981
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:97
-#: src/dialogs/dialog-analysis-tools.c:1100
+#: src/dialogs/dialog-analysis-tools.c:98
+#: src/dialogs/dialog-analysis-tools.c:1086
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:773
+#: src/dialogs/dialog-analysis-tools.c:100
+#: src/dialogs/dialog-analysis-tools.c:759
 msgid "z-Test: Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:106
-#: src/dialogs/dialog-analysis-tools.c:1337
-#: src/dialogs/dialog-analysis-tools.c:1516
+#: src/dialogs/dialog-analysis-tools.c:107
+#: src/dialogs/dialog-analysis-tools.c:1304
+#: src/dialogs/dialog-analysis-tools.c:1483
 msgid "Discrete"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:107
-#: src/dialogs/dialog-analysis-tools.c:1334
-#: src/dialogs/dialog-analysis-tools.c:1506
+#: src/dialogs/dialog-analysis-tools.c:108
+#: src/dialogs/dialog-analysis-tools.c:1301
+#: src/dialogs/dialog-analysis-tools.c:1473
 #: src/widgets/widget-font-selector.c:110
 #, fuzzy
 msgid "Normal"
 msgstr "Formate"
 
-#: src/dialogs/dialog-analysis-tools.c:108
-#: src/dialogs/dialog-analysis-tools.c:1331
-#: src/dialogs/dialog-analysis-tools.c:1512
+#: src/dialogs/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:1298
+#: src/dialogs/dialog-analysis-tools.c:1479
 msgid "Bernoulli"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:109
-#: src/dialogs/dialog-analysis-tools.c:1328
-#: src/dialogs/dialog-analysis-tools.c:1500
+#: src/dialogs/dialog-analysis-tools.c:110
+#: src/dialogs/dialog-analysis-tools.c:1295
+#: src/dialogs/dialog-analysis-tools.c:1467
 msgid "Uniform"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:150
+#: src/dialogs/dialog-analysis-tools.c:151
 msgid "Summary Statistics"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:152
+#: src/dialogs/dialog-analysis-tools.c:153
 msgid "Confidence Level for Mean"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:153
+#: src/dialogs/dialog-analysis-tools.c:154
 msgid "0.95"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:154
+#: src/dialogs/dialog-analysis-tools.c:155
 msgid "Kth Largest:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:155
-#: src/dialogs/dialog-analysis-tools.c:157
+#: src/dialogs/dialog-analysis-tools.c:156
+#: src/dialogs/dialog-analysis-tools.c:158
 msgid "1"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:156
+#: src/dialogs/dialog-analysis-tools.c:157
 msgid "Kth Smallest:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:162
+#: src/dialogs/dialog-analysis-tools.c:163
 msgid "Labels in First Row"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:168
+#: src/dialogs/dialog-analysis-tools.c:169
 msgid "Labels"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:174
+#: src/dialogs/dialog-analysis-tools.c:175
 msgid "Standard Errors"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:201
+#: src/dialogs/dialog-analysis-tools.c:202
 #, fuzzy
 msgid "Columns"
 msgstr "_Stupce"
 
-#: src/dialogs/dialog-analysis-tools.c:202
+#: src/dialogs/dialog-analysis-tools.c:203
 #, fuzzy
 msgid "Rows"
 msgstr "_Redove"
 
-#: src/dialogs/dialog-analysis-tools.c:207
+#: src/dialogs/dialog-analysis-tools.c:208
 msgid "Periodic"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:208
+#: src/dialogs/dialog-analysis-tools.c:209
 msgid "Random"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:237
-#: src/dialogs/dialog-analysis-tools.c:2009
+#: src/dialogs/dialog-analysis-tools.c:219
+#: src/dialogs/dialog-analysis-tools.c:1976
 msgid "OK"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:345
+#: src/dialogs/dialog-analysis-tools.c:330
 #, fuzzy
 msgid "New Sheet"
 msgstr "_List"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:349
+#: src/dialogs/dialog-analysis-tools.c:334
 #, fuzzy
 msgid "New Workbook"
 msgstr "Sprema bilje¾nicu"
 
-#: src/dialogs/dialog-analysis-tools.c:354
+#: src/dialogs/dialog-analysis-tools.c:339
 msgid "Output Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:373
+#: src/dialogs/dialog-analysis-tools.c:359
 msgid "Grouped By:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:418
-#: src/dialogs/dialog-analysis-tools.c:499
-#: src/dialogs/dialog-analysis-tools.c:576
-#: src/dialogs/dialog-analysis-tools.c:687
-#: src/dialogs/dialog-analysis-tools.c:1668
-#: src/dialogs/dialog-analysis-tools.c:1759
-#: src/dialogs/dialog-analysis-tools.c:1842
-#: src/dialogs/dialog-analysis-tools.c:1931
+#: src/dialogs/dialog-analysis-tools.c:404
+#: src/dialogs/dialog-analysis-tools.c:485
+#: src/dialogs/dialog-analysis-tools.c:562
+#: src/dialogs/dialog-analysis-tools.c:673
+#: src/dialogs/dialog-analysis-tools.c:1635
+#: src/dialogs/dialog-analysis-tools.c:1726
+#: src/dialogs/dialog-analysis-tools.c:1809
+#: src/dialogs/dialog-analysis-tools.c:1898
 msgid "Input Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:453
-#: src/dialogs/dialog-analysis-tools.c:533
-#: src/dialogs/dialog-analysis-tools.c:637
-#: src/dialogs/dialog-analysis-tools.c:727
-#: src/dialogs/dialog-analysis-tools.c:1794
-#: src/dialogs/dialog-analysis-tools.c:1879
-#: src/dialogs/dialog-analysis-tools.c:1965
+#: src/dialogs/dialog-analysis-tools.c:439
+#: src/dialogs/dialog-analysis-tools.c:519
+#: src/dialogs/dialog-analysis-tools.c:623
+#: src/dialogs/dialog-analysis-tools.c:713
+#: src/dialogs/dialog-analysis-tools.c:1761
+#: src/dialogs/dialog-analysis-tools.c:1846
+#: src/dialogs/dialog-analysis-tools.c:1932
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:496
-#: src/dialogs/dialog-analysis-tools.c:573
-#: src/dialogs/dialog-analysis-tools.c:684
-#: src/dialogs/dialog-analysis-tools.c:781
-#: src/dialogs/dialog-analysis-tools.c:898
-#: src/dialogs/dialog-analysis-tools.c:1003
-#: src/dialogs/dialog-analysis-tools.c:1109
-#: src/dialogs/dialog-analysis-tools.c:1562
-#: src/dialogs/dialog-analysis-tools.c:1662
-#: src/dialogs/dialog-analysis-tools.c:1756
-#: src/dialogs/dialog-analysis-tools.c:1839
-#: src/dialogs/dialog-analysis-tools.c:1928
+#: src/dialogs/dialog-analysis-tools.c:482
+#: src/dialogs/dialog-analysis-tools.c:559
+#: src/dialogs/dialog-analysis-tools.c:670
+#: src/dialogs/dialog-analysis-tools.c:767
+#: src/dialogs/dialog-analysis-tools.c:884
+#: src/dialogs/dialog-analysis-tools.c:989
+#: src/dialogs/dialog-analysis-tools.c:1095
+#: src/dialogs/dialog-analysis-tools.c:1529
+#: src/dialogs/dialog-analysis-tools.c:1629
+#: src/dialogs/dialog-analysis-tools.c:1723
+#: src/dialogs/dialog-analysis-tools.c:1806
+#: src/dialogs/dialog-analysis-tools.c:1895
 msgid "Input:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:578
+#: src/dialogs/dialog-analysis-tools.c:564
 #, fuzzy
 msgid "Sampling Method:"
 msgstr "Uzorak:"
 
-#: src/dialogs/dialog-analysis-tools.c:590
+#: src/dialogs/dialog-analysis-tools.c:576
 msgid "Period:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:593
+#: src/dialogs/dialog-analysis-tools.c:579
 msgid "Number of Samples:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:784
-#: src/dialogs/dialog-analysis-tools.c:901
-#: src/dialogs/dialog-analysis-tools.c:1006
-#: src/dialogs/dialog-analysis-tools.c:1112
-#: src/dialogs/dialog-analysis-tools.c:1214
+#: src/dialogs/dialog-analysis-tools.c:770
+#: src/dialogs/dialog-analysis-tools.c:887
+#: src/dialogs/dialog-analysis-tools.c:992
+#: src/dialogs/dialog-analysis-tools.c:1098
+#: src/dialogs/dialog-analysis-tools.c:1200
 msgid "Variable 1 Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:787
-#: src/dialogs/dialog-analysis-tools.c:904
-#: src/dialogs/dialog-analysis-tools.c:1009
-#: src/dialogs/dialog-analysis-tools.c:1115
-#: src/dialogs/dialog-analysis-tools.c:1217
+#: src/dialogs/dialog-analysis-tools.c:773
+#: src/dialogs/dialog-analysis-tools.c:890
+#: src/dialogs/dialog-analysis-tools.c:995
+#: src/dialogs/dialog-analysis-tools.c:1101
+#: src/dialogs/dialog-analysis-tools.c:1203
 msgid "Variable 2 Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:790
-#: src/dialogs/dialog-analysis-tools.c:907
-#: src/dialogs/dialog-analysis-tools.c:1012
-#: src/dialogs/dialog-analysis-tools.c:1118
+#: src/dialogs/dialog-analysis-tools.c:776
+#: src/dialogs/dialog-analysis-tools.c:893
+#: src/dialogs/dialog-analysis-tools.c:998
+#: src/dialogs/dialog-analysis-tools.c:1104
 msgid "Hypothesized Mean Difference:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:793
+#: src/dialogs/dialog-analysis-tools.c:779
 msgid "Variable 1 Variance (known):"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:796
+#: src/dialogs/dialog-analysis-tools.c:782
 msgid "Variable 2 Variance (known):"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:798
-#: src/dialogs/dialog-analysis-tools.c:909
-#: src/dialogs/dialog-analysis-tools.c:1014
-#: src/dialogs/dialog-analysis-tools.c:1120
-#: src/dialogs/dialog-analysis-tools.c:1219
-#: src/dialogs/dialog-analysis-tools.c:1846
-#: src/dialogs/dialog-analysis-tools.c:1933
+#: src/dialogs/dialog-analysis-tools.c:784
+#: src/dialogs/dialog-analysis-tools.c:895
+#: src/dialogs/dialog-analysis-tools.c:1000
+#: src/dialogs/dialog-analysis-tools.c:1106
+#: src/dialogs/dialog-analysis-tools.c:1205
+#: src/dialogs/dialog-analysis-tools.c:1813
+#: src/dialogs/dialog-analysis-tools.c:1900
 msgid "Alpha:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:830
-#: src/dialogs/dialog-analysis-tools.c:941
-#: src/dialogs/dialog-analysis-tools.c:1046
-#: src/dialogs/dialog-analysis-tools.c:1152
-#: src/dialogs/dialog-analysis-tools.c:1252
-#: src/dialogs/dialog-analysis-tools.c:1606
+#: src/dialogs/dialog-analysis-tools.c:816
+#: src/dialogs/dialog-analysis-tools.c:927
+#: src/dialogs/dialog-analysis-tools.c:1032
+#: src/dialogs/dialog-analysis-tools.c:1138
+#: src/dialogs/dialog-analysis-tools.c:1238
+#: src/dialogs/dialog-analysis-tools.c:1573
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:841
-#: src/dialogs/dialog-analysis-tools.c:952
-#: src/dialogs/dialog-analysis-tools.c:1057
-#: src/dialogs/dialog-analysis-tools.c:1163
-#: src/dialogs/dialog-analysis-tools.c:1263
-#: src/dialogs/dialog-analysis-tools.c:1617
+#: src/dialogs/dialog-analysis-tools.c:827
+#: src/dialogs/dialog-analysis-tools.c:938
+#: src/dialogs/dialog-analysis-tools.c:1043
+#: src/dialogs/dialog-analysis-tools.c:1149
+#: src/dialogs/dialog-analysis-tools.c:1249
+#: src/dialogs/dialog-analysis-tools.c:1584
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1379
+#: src/dialogs/dialog-analysis-tools.c:1346
 msgid "Number of Variables:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1382
+#: src/dialogs/dialog-analysis-tools.c:1349
 msgid "Number of Random Numbers:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1393
+#: src/dialogs/dialog-analysis-tools.c:1360
 msgid "Parameters:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1406
+#: src/dialogs/dialog-analysis-tools.c:1373
 msgid "Value and Probability Input Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1411
+#: src/dialogs/dialog-analysis-tools.c:1378
 msgid "Between:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1414
+#: src/dialogs/dialog-analysis-tools.c:1381
 msgid "And:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1419
+#: src/dialogs/dialog-analysis-tools.c:1386
 msgid "Mean = "
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1421
+#: src/dialogs/dialog-analysis-tools.c:1388
 msgid "Standard Deviation = "
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1425
+#: src/dialogs/dialog-analysis-tools.c:1392
 msgid "Lambda"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1429
+#: src/dialogs/dialog-analysis-tools.c:1396
 #, fuzzy
 msgid "p Value"
 msgstr "Vrijednosti"
 
-#: src/dialogs/dialog-analysis-tools.c:1524
+#: src/dialogs/dialog-analysis-tools.c:1491
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1568
+#: src/dialogs/dialog-analysis-tools.c:1535
 msgid "Input Y Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1571
+#: src/dialogs/dialog-analysis-tools.c:1538
 msgid "Input X Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1573
+#: src/dialogs/dialog-analysis-tools.c:1540
 msgid "Confidence Level:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1670
+#: src/dialogs/dialog-analysis-tools.c:1637
 #, fuzzy
 msgid "Interval:"
 msgstr "Opæenito"
 
-#: src/dialogs/dialog-analysis-tools.c:1705
+#: src/dialogs/dialog-analysis-tools.c:1672
 msgid "You should introduce a valid cell range in 'Range Input:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2008
+#: src/dialogs/dialog-analysis-tools.c:1975
 msgid "Data Analysis"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2015
+#: src/dialogs/dialog-analysis-tools.c:1983
 msgid "Analysis Tools"
 msgstr ""
 
@@ -867,7 +867,7 @@ msgstr "Datum"
 msgid "Time"
 msgstr "Vrijeme"
 
-#: src/dialogs/dialog-cell-format.c:73 src/workbook-format-toolbar.c:425
+#: src/dialogs/dialog-cell-format.c:73 src/workbook-format-toolbar.c:430
 msgid "Percent"
 msgstr "Postotak"
 
@@ -916,7 +916,7 @@ msgid "Left"
 msgstr "Lijevo"
 
 #: src/dialogs/dialog-cell-format.c:363 src/dialogs/dialog-cell-format.c:372
-#: src/workbook-format-toolbar.c:413
+#: src/workbook-format-toolbar.c:418
 msgid "Center"
 msgstr "Centrirano"
 
@@ -954,138 +954,113 @@ msgstr "Vodoravno"
 msgid "Auto return"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:621
+#: src/dialogs/dialog-cell-format.c:620
 msgid "Text color"
 msgstr "Boja teksta"
 
 #. The radio buttons
-#: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:110
+#: src/dialogs/dialog-cell-format.c:624 src/dialogs/dialog-cell-format.c:660
+#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:111
 msgid "None"
 msgstr "Nikakva"
 
-#: src/dialogs/dialog-cell-format.c:627
+#: src/dialogs/dialog-cell-format.c:626
 msgid "Use this color"
 msgstr "Koristi ovu boju"
 
-#: src/dialogs/dialog-cell-format.c:629 src/dialogs/dialog-cell-format.c:667
+#: src/dialogs/dialog-cell-format.c:628 src/dialogs/dialog-cell-format.c:666
 msgid "No change"
 msgstr "Bez promjene"
 
-#: src/dialogs/dialog-cell-format.c:655
+#: src/dialogs/dialog-cell-format.c:654
 msgid "Background configuration"
 msgstr "Postava pozadine"
 
-#: src/dialogs/dialog-cell-format.c:663
+#: src/dialogs/dialog-cell-format.c:662
 msgid "Use solid color"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:665
+#: src/dialogs/dialog-cell-format.c:664
 msgid "Use a pattern"
 msgstr "Koristi uzorak"
 
-#: src/dialogs/dialog-cell-format.c:938
+#: src/dialogs/dialog-cell-format.c:937
 #: src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "Broj"
 
-#: src/dialogs/dialog-cell-format.c:939
+#: src/dialogs/dialog-cell-format.c:938
 msgid "Alignment"
 msgstr "Poravnanje"
 
-#: src/dialogs/dialog-cell-format.c:940
+#: src/dialogs/dialog-cell-format.c:939
 #, fuzzy
 msgid "Font"
 msgstr "Pismo"
 
-#: src/dialogs/dialog-cell-format.c:941
+#: src/dialogs/dialog-cell-format.c:940
 msgid "Coloring"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:41
+#: src/dialogs/dialog-cell-sort.c:42
 #, fuzzy
 msgid "Column:"
 msgstr "S_tupac"
 
-#: src/dialogs/dialog-cell-sort.c:56
+#: src/dialogs/dialog-cell-sort.c:58
 msgid "Asc"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:59
+#: src/dialogs/dialog-cell-sort.c:61
 #, fuzzy
 msgid "Desc"
 msgstr "*Pro"
 
-#: src/dialogs/dialog-cell-sort.c:272
+#: src/dialogs/dialog-cell-sort.c:274
 msgid "more clauses than rows ?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:275
+#: src/dialogs/dialog-cell-sort.c:277
 msgid "too many clauses"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:295
+#: src/dialogs/dialog-cell-sort.c:297
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:315 src/workbook.c:1422
+#: src/dialogs/dialog-cell-sort.c:317 src/workbook.c:1438
 msgid "Selection must be a single range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:327
+#: src/dialogs/dialog-cell-sort.c:329
 msgid "Selection must be a finite range"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:339
+#: src/dialogs/dialog-cell-sort.c:341
 #, fuzzy
 msgid "Sort Cells"
 msgstr "umetni æelije"
 
-#: src/dialogs/dialog-cell-sort.c:354
+#: src/dialogs/dialog-cell-sort.c:356
 msgid "then by"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:354
+#: src/dialogs/dialog-cell-sort.c:356
 msgid "sort by"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:392
+#: src/dialogs/dialog-cell-sort.c:394
 #, fuzzy
 msgid "Column must be within range"
 msgstr "Broj stupca je izvan raspona"
 
-#: src/dialogs/dialog-cell-sort.c:398
+#: src/dialogs/dialog-cell-sort.c:400
 msgid "First column must be valid"
 msgstr ""
 
-#: src/dialogs/dialog-delete-cells.c:26
+#: src/dialogs/dialog-delete-cells.c:79
 msgid "delete cells"
 msgstr "obri¹i æelije"
-
-#: src/dialogs/dialog-delete-cells.c:46
-msgid "Delete cells"
-msgstr "Obri¹i æelije"
-
-#: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:649
-msgid "Delete"
-msgstr "Obri¹i"
-
-#: src/dialogs/dialog-delete-cells.c:50
-msgid "Shift cells left"
-msgstr "Premjesti æelije lijevo"
-
-#: src/dialogs/dialog-delete-cells.c:51
-msgid "Shift cells up"
-msgstr "Premjesti æelije gore"
-
-#: src/dialogs/dialog-delete-cells.c:52
-msgid "Delete row(s)"
-msgstr "Obri¹i red(ove)"
-
-#: src/dialogs/dialog-delete-cells.c:53
-msgid "Delete column(s)"
-msgstr "Obri¹i stupac(ce)"
 
 #: src/dialogs/dialog-function-select.c:188
 #, fuzzy
@@ -1128,130 +1103,106 @@ msgstr ""
 msgid "Formula Wizard"
 msgstr "Formule"
 
-#: src/dialogs/dialog-goal-seek.c:191
+#: src/dialogs/dialog-goal-seek.c:192
 #, c-format
 msgid "Goal seeking with cell %s found a solution"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:195
+#: src/dialogs/dialog-goal-seek.c:196
 #, c-format
 msgid "Target value:   %12.2f"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:198
+#: src/dialogs/dialog-goal-seek.c:199
 #, c-format
 msgid "Current value:  %12.2f"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:201
+#: src/dialogs/dialog-goal-seek.c:202
 #, c-format
 msgid "Solution:       %12.2f"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:204
+#: src/dialogs/dialog-goal-seek.c:205
 msgid "Goal Seek Report"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:266
+#: src/dialogs/dialog-goal-seek.c:267
 #, fuzzy
 msgid "Goal Seek..."
 msgstr "Idi na..."
 
-#: src/dialogs/dialog-goal-seek.c:280
+#: src/dialogs/dialog-goal-seek.c:287
 #, fuzzy
 msgid "Set cell:"
 msgstr "obri¹i æelije"
 
-#: src/dialogs/dialog-goal-seek.c:281
+#: src/dialogs/dialog-goal-seek.c:288
 #, fuzzy
 msgid "To value:"
 msgstr "Kopiraj vrijednosti"
 
-#: src/dialogs/dialog-goal-seek.c:282
+#: src/dialogs/dialog-goal-seek.c:289
 msgid "By changing cell:"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:283
+#: src/dialogs/dialog-goal-seek.c:290
 msgid "To a value of at least [optional]:"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:284
+#: src/dialogs/dialog-goal-seek.c:291
 msgid "But no bigger than [optional]:"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:343
+#: src/dialogs/dialog-goal-seek.c:350
 msgid "You should introduce a valid cell name in 'Set cell'"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:351
+#: src/dialogs/dialog-goal-seek.c:358
 msgid "The cell named in 'Set cell' must contain a formula"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:364
+#: src/dialogs/dialog-goal-seek.c:371
 msgid "You should introduce a valid cell name in 'By changing cell'"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:373
+#: src/dialogs/dialog-goal-seek.c:380
 msgid "The cell named in 'By changing cell' must not contain a formula"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:420
+#: src/dialogs/dialog-goal-seek.c:427
 msgid "Goal seek did not find a solution!"
 msgstr ""
 
-#: src/dialogs/dialog-goto-cell.c:42
+#: src/dialogs/dialog-goto-cell.c:37
 msgid "Cell"
 msgstr ""
 
-#: src/dialogs/dialog-goto-cell.c:45
+#: src/dialogs/dialog-goto-cell.c:40
 msgid "Go to..."
 msgstr "Idi na..."
 
-#: src/dialogs/dialog-goto-cell.c:47
+#: src/dialogs/dialog-goto-cell.c:43
 msgid "Special..."
 msgstr "Posebno..."
 
-#: src/dialogs/dialog-insert-cells.c:27
+#: src/dialogs/dialog-insert-cells.c:79
 msgid "insert cells"
 msgstr "umetni æelije"
 
-#: src/dialogs/dialog-insert-cells.c:47
-msgid "Insert cells"
-msgstr "Umetni æelije"
-
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
-msgid "Insert"
-msgstr "Umetni"
-
-#: src/dialogs/dialog-insert-cells.c:51
-msgid "Shift cells right"
-msgstr "Premjesti æelije desno"
-
-#: src/dialogs/dialog-insert-cells.c:52
-msgid "Shift cells down"
-msgstr "Premjesti æelije dolje"
-
-#: src/dialogs/dialog-insert-cells.c:53
-msgid "Insert row(s)"
-msgstr "Umetni red(ove)"
-
-#: src/dialogs/dialog-insert-cells.c:54
-msgid "Insert column(s)"
-msgstr "Umetni stupac(ce)"
-
-#: src/dialogs/dialog-paste-special.c:20 src/dialogs/dialog-solver.c:36
+#: src/dialogs/dialog-paste-special.c:20 src/dialogs/dialog-solver.c:34
 msgid "All"
 msgstr "Svi"
 
-#: src/dialogs/dialog-paste-special.c:21 src/dialogs/dialog-solver.c:37
+#: src/dialogs/dialog-paste-special.c:21 src/dialogs/dialog-solver.c:35
 msgid "Formulas"
 msgstr "Formule"
 
-#: src/dialogs/dialog-paste-special.c:22 src/dialogs/dialog-solver.c:38
+#: src/dialogs/dialog-paste-special.c:22 src/dialogs/dialog-solver.c:36
 msgid "Values"
 msgstr "Vrijednosti"
 
-#: src/dialogs/dialog-paste-special.c:23 src/dialogs/dialog-solver.c:39
+#: src/dialogs/dialog-paste-special.c:23 src/dialogs/dialog-solver.c:37
 msgid "Formats"
 msgstr "Formate"
 
@@ -1273,7 +1224,7 @@ msgstr "Pomno¾i"
 msgid "Divide"
 msgstr "Podijeli"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:653
 msgid "Paste special"
 msgstr "Nalijepi na poseban naèin"
 
@@ -1285,7 +1236,7 @@ msgstr ""
 msgid "Operation"
 msgstr "Operacija"
 
-#: src/dialogs/dialog-paste-special.c:104
+#: src/dialogs/dialog-paste-special.c:105
 msgid "Transpose"
 msgstr ""
 
@@ -1303,98 +1254,132 @@ msgstr ""
 msgid "Print setup"
 msgstr "Postotak"
 
-#: src/dialogs/dialog-solver.c:23
+#: src/dialogs/dialog-solver.c:21
 msgid "<="
 msgstr ""
 
 #. N_("="),
-#: src/dialogs/dialog-solver.c:25
+#: src/dialogs/dialog-solver.c:23
 msgid ">="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1532
+#: src/dialogs/dialog-solver.c:43 src/workbook.c:1548
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-solver.c:46 src/workbook.c:1531
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1547
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-solver.c:51
+#: src/dialogs/dialog-solver.c:49
 #, fuzzy
 msgid "Tangent"
 msgstr "ljubièasta"
 
-#: src/dialogs/dialog-solver.c:52
+#: src/dialogs/dialog-solver.c:50
 msgid "Quadratic"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:57
+#: src/dialogs/dialog-solver.c:55
 msgid "Forward"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:58
+#: src/dialogs/dialog-solver.c:56
 #, fuzzy
 msgid "Central"
 msgstr "Centrirano"
 
-#: src/dialogs/dialog-solver.c:63
+#: src/dialogs/dialog-solver.c:61
 #, fuzzy
 msgid "Newton"
 msgstr "Nova bilje¾nica"
 
-#: src/dialogs/dialog-solver.c:64
+#: src/dialogs/dialog-solver.c:62
 msgid "Conjugate"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:69
+#: src/dialogs/dialog-solver.c:67
 msgid "Assume Linear Model"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:70
+#: src/dialogs/dialog-solver.c:68
 msgid "Assume Non-Negative"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:75
+#: src/dialogs/dialog-solver.c:73
 msgid "Use Automatic Scaling"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:76
+#: src/dialogs/dialog-solver.c:74
 msgid "Show Iteration Results"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:147
+#: src/dialogs/dialog-solver.c:132
 msgid "Gnumeric Solver Options"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:246
+#: src/dialogs/dialog-solver.c:148
+#, fuzzy
+msgid "Estimates"
+msgstr "Vrijeme"
+
+#: src/dialogs/dialog-solver.c:150
+msgid "Derivatives"
+msgstr ""
+
+#: src/dialogs/dialog-solver.c:153
+#, fuzzy
+msgid "Search"
+msgstr "O¾ujak"
+
+#: src/dialogs/dialog-solver.c:232
 msgid "Add Constraint"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:249 src/dialogs/names.glade.h:9
+#. Constraint buttons
+#: src/dialogs/dialog-solver.c:235 src/dialogs/dialog-solver.c:407
+#: src/dialogs/names.glade.h:9
 msgid "Add"
 msgstr "Dodaj"
 
-#: src/dialogs/dialog-solver.c:366
+#: src/dialogs/dialog-solver.c:352
 #, fuzzy
 msgid "Gnumeric Solver Parameters"
 msgstr "Gnumeric: "
 
-#: src/dialogs/dialog-solver.c:367
+#: src/dialogs/dialog-solver.c:353
 #, fuzzy
 msgid "Solve"
 msgstr "Premjesti"
 
-#: src/dialogs/dialog-solver.c:369
+#: src/dialogs/dialog-solver.c:355
 #, fuzzy
 msgid "Options..."
 msgstr "Operacija"
 
-#: src/dialogs/dialog-solver.c:496
+#: src/dialogs/dialog-solver.c:375
+msgid "Equal to:"
+msgstr ""
+
+#: src/dialogs/dialog-solver.c:401
+msgid "Subject to the Constraints:"
+msgstr ""
+
+#: src/dialogs/dialog-solver.c:408
+#, fuzzy
+msgid "Change"
+msgstr "Èetverokut"
+
+#: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:10
+#: src/item-grid.c:656
+msgid "Delete"
+msgstr "Obri¹i"
+
+#: src/dialogs/dialog-solver.c:482
 msgid "You should introduce a valid cell name for 'Target cell'"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:517
+#: src/dialogs/dialog-solver.c:503
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr ""
 
@@ -1657,7 +1642,7 @@ msgstr ""
 msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1053
+#: src/dialogs/print.glade.h:50 src/workbook.c:1066
 #, fuzzy
 msgid "Print"
 msgstr "Postotak"
@@ -1666,7 +1651,7 @@ msgstr "Postotak"
 msgid "Row and co_lumn headings"
 msgstr ""
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:886
+#: src/dialogs/print.glade.h:52 src/workbook.c:897
 #, fuzzy
 msgid "Co_mments"
 msgstr " Komentare"
@@ -1777,63 +1762,53 @@ msgstr "Ne mogu stvoriti datoteku %s\n"
 msgid "Embedded Sheet"
 msgstr ""
 
-#: src/expr-name.c:131
+#: src/expr-name.c:175
 msgid "already defined"
 msgstr ""
 
-#: src/expr-name.c:134
-#, fuzzy
-msgid "no workbook"
-msgstr "Spremi bilje¾nicu pod drugim imenom"
+#: src/expr-name.c:178
+msgid "no scope"
+msgstr ""
 
-#: src/expr-name.c:139
+#: src/expr-name.c:183
 msgid "circular reference"
 msgstr ""
 
-#: src/expr-name.c:248
+#: src/expr-name.c:336
 msgid "Builtin"
 msgstr ""
 
-#: src/expr-name.c:279
+#: src/expr-name.c:367
 msgid "Error: no sheet"
 msgstr ""
 
-#: src/expr.c:218
+#: src/expr.c:219
 msgid "Syntax error"
 msgstr "Gre¹ka u sintaksi"
 
-#: src/expr.c:222
+#: src/expr.c:223
 msgid "Missing quote"
 msgstr "Nedostaje navodnik"
 
-#: src/expr.c:226
+#: src/expr.c:227
 msgid "Impossible!"
 msgstr "Nemoguæe!"
 
-#: src/expr.c:477
+#: src/expr.c:464
 #, fuzzy
 msgid "Internal error"
 msgstr "Gre¹ka u sintaksi"
 
-#: src/expr.c:860
+#: src/expr.c:847
 msgid "Internal type error"
 msgstr ""
 
-#: src/expr.c:998
+#: src/expr.c:985
 msgid "Unknown operator"
 msgstr ""
 
-#: src/expr.c:1137
+#: src/expr.c:1124
 msgid "Unknown evaluation error"
-msgstr ""
-
-#: src/expr.c:1539
-#, fuzzy
-msgid "#Reference to deleted cell!"
-msgstr "Obri¹i sve iz izabrane æelije(a)"
-
-#: src/expr.c:1568
-msgid "#Reference to deleted range!"
 msgstr ""
 
 #: src/file.c:222
@@ -5711,7 +5686,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1848 src/value.c:895
+#: src/functions/fn-stat.c:1848
 msgid "#DIV/0!"
 msgstr ""
 
@@ -6260,7 +6235,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3897
+#: src/functions/fn-stat.c:3898
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -6269,7 +6244,8 @@ msgid ""
 "the y-values where y=mx+b and @known_x's contains the corresponding "
 "x-values.  @new_x's contains the x-values for which you want to estimate the "
 "y-values. \n"
-"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @known_y's and "
+"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
+"omitted, it is assumed to be the same as @known_x's. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -6280,7 +6256,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:3984
+#: src/functions/fn-stat.c:3999
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -6299,15 +6275,17 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4089
+#: src/functions/fn-stat.c:4105
 msgid ""
 "@FUNCTION=GROWTH\n"
-"@SYNTAX=GROWTH(known_y's[,known_x's],new_x's[,const])\n"
+"@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
 "@DESCRIPTION=GROWTH function applies the ``least squares'' method to fit an "
 "exponential curve to your data and predicts the exponential growth by using "
 "this curve. \n"
-"If @known_x's is omitted, an array {1, 2, 3, ...} is used. GROWTH returns an "
-"array having one column and a row for each data point in @new_x.\n"
+"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
+"omitted, it is assumed to be the same as @known_x's. \n"
+"GROWTH returns an array having one column and a row for each data point in "
+"@new_x.\n"
 "If @known_y's and @known_x's have unequal number of data points, GROWTH "
 "returns #NUM! error.\n"
 "If @const is FALSE, the line will be forced to go through the origin, i.e., "
@@ -6317,7 +6295,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4121
+#: src/functions/fn-stat.c:4208
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -6336,7 +6314,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4190
+#: src/functions/fn-stat.c:4279
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -6354,7 +6332,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4238
+#: src/functions/fn-stat.c:4328
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -6369,7 +6347,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4282
+#: src/functions/fn-stat.c:4373
 msgid "Statistics"
 msgstr ""
 
@@ -6662,57 +6640,57 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: src/format.c:399
+#: src/format.c:429
 msgid "black"
 msgstr "crna"
 
-#: src/format.c:400
+#: src/format.c:430
 msgid "blue"
 msgstr "plava"
 
-#: src/format.c:401
+#: src/format.c:431
 msgid "cyan"
 msgstr "svijetlo plava"
 
-#: src/format.c:402
+#: src/format.c:432
 msgid "green"
 msgstr "zelena"
 
-#: src/format.c:403
+#: src/format.c:433
 msgid "magenta"
 msgstr "ljubièasta"
 
-#: src/format.c:404
+#: src/format.c:434
 msgid "red"
 msgstr "crvena"
 
-#: src/format.c:405
+#: src/format.c:435
 msgid "white"
 msgstr "bijela"
 
-#: src/format.c:406
+#: src/format.c:436
 msgid "yellow"
 msgstr "¾uta"
 
-#: src/format.c:1238
+#: src/format.c:1326
 msgid "0.0########"
 msgstr ""
 
-#: src/format.c:1252 src/value.c:204 src/value.c:387
+#: src/format.c:1340 src/value.c:321
 msgid "TRUE"
 msgstr ""
 
-#: src/format.c:1252 src/value.c:204 src/value.c:387
+#: src/format.c:1340 src/value.c:321
 #, fuzzy
 msgid "FALSE"
 msgstr "DATOTEKA"
 
-#: src/format.c:1261
+#: src/format.c:1349
 msgid "CELLRANGE"
 msgstr ""
 
 #. Array of arrays ??
-#: src/format.c:1265
+#: src/format.c:1353
 msgid "ARRAY"
 msgstr ""
 
@@ -6913,46 +6891,60 @@ msgstr "mm:ss.0"
 msgid "[h]:mm:ss"
 msgstr "[s]:mm:ss"
 
-#: src/formats.c:82
+#: src/formats.c:78
+#, fuzzy
+msgid "[h]:mm"
+msgstr "s:mm"
+
+#: src/formats.c:79
+#, fuzzy
+msgid "[mm]:ss"
+msgstr "mm:ss"
+
+#: src/formats.c:80
+msgid "[ss]"
+msgstr ""
+
+#: src/formats.c:85
 #, c-format
 msgid "0%"
 msgstr "0%"
 
-#: src/formats.c:83
+#: src/formats.c:86
 #, c-format
 msgid "0.00%"
 msgstr "0.00%"
 
-#: src/formats.c:88
+#: src/formats.c:91
 msgid "# ?/?"
 msgstr "# ?/?"
 
-#: src/formats.c:89
+#: src/formats.c:92
 msgid "# ??/??"
 msgstr "# ??/??"
 
-#: src/formats.c:94
+#: src/formats.c:97
 msgid "0.00E+00"
 msgstr "0.00E+00"
 
-#: src/formats.c:95
+#: src/formats.c:98
 msgid "##0.0E+0"
 msgstr "##0.0E+0"
 
-#: src/formats.c:105
+#: src/formats.c:108
 msgid "$#,##0_);($#,##0)"
 msgstr "$#,##0_);($#,##0)"
 
-#: src/formats.c:106
+#: src/formats.c:109
 #, fuzzy
 msgid "$#,##0_);[Red]($#,##0)"
 msgstr "$#,##0_);[crveno]($#,##0)"
 
-#: src/formats.c:107
+#: src/formats.c:110
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#,##0.00_);($#,##0.00)"
 
-#: src/formats.c:108
+#: src/formats.c:111
 #, fuzzy
 msgid "$#,##0.00_);[Red]($#,##0.00)"
 msgstr "$#,##0.00_);[crveno]($#,##0.00)"
@@ -6965,92 +6957,92 @@ msgstr "Funkcija ne postoji"
 msgid "Calling non-function"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1013
+#: src/gnumeric-sheet.c:1014
 #, fuzzy
 msgid "Solid"
 msgstr "Zadebljano"
 
-#: src/gnumeric-sheet.c:1017
+#: src/gnumeric-sheet.c:1018
 #, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:1021
+#: src/gnumeric-sheet.c:1022
 #, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:1025
+#: src/gnumeric-sheet.c:1026
 #, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1029
+#: src/gnumeric-sheet.c:1030
 #, fuzzy, no-c-format
 msgid "12.5%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1033
+#: src/gnumeric-sheet.c:1034
 #, fuzzy, no-c-format
 msgid "6.25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:1036
+#: src/gnumeric-sheet.c:1037
 #, fuzzy
 msgid "Horizontal Stripe"
 msgstr "Vodoravne linije"
 
-#: src/gnumeric-sheet.c:1039
+#: src/gnumeric-sheet.c:1040
 #, fuzzy
 msgid "Vertical Stripe"
 msgstr "Okomite linije"
 
-#: src/gnumeric-sheet.c:1042
+#: src/gnumeric-sheet.c:1043
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1045
+#: src/gnumeric-sheet.c:1046
 #, fuzzy
 msgid "Diagonal Stripe"
 msgstr "Dijagonalne linije"
 
-#: src/gnumeric-sheet.c:1048
+#: src/gnumeric-sheet.c:1049
 #, fuzzy
 msgid "Diagonal Crosshatch"
 msgstr "Dijagonalne linije"
 
-#: src/gnumeric-sheet.c:1051
+#: src/gnumeric-sheet.c:1052
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1054
+#: src/gnumeric-sheet.c:1055
 #, fuzzy
 msgid "Thin Horizontal Stripe"
 msgstr "Vodoravne linije"
 
-#: src/gnumeric-sheet.c:1057
+#: src/gnumeric-sheet.c:1058
 #, fuzzy
 msgid "Thin Vertical Stripe"
 msgstr "Okomite linije"
 
-#: src/gnumeric-sheet.c:1060
+#: src/gnumeric-sheet.c:1061
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1063
+#: src/gnumeric-sheet.c:1064
 #, fuzzy
 msgid "Thin Diagonal Stripe"
 msgstr "Dijagonalne linije"
 
-#: src/gnumeric-sheet.c:1066
+#: src/gnumeric-sheet.c:1067
 msgid "Thin Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1069
+#: src/gnumeric-sheet.c:1070
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-util.c:19
+#: src/gnumeric-util.c:20
 msgid "You cannot change part of an array."
 msgstr ""
 
@@ -7061,7 +7053,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:651 src/workbook.c:1078
 msgid "Copy"
 msgstr "Kopiraj"
 
@@ -7093,52 +7085,61 @@ msgstr ""
 msgid "Shift cells right and move"
 msgstr ""
 
-#: src/item-grid.c:643 src/workbook.c:1062
+#: src/item-grid.c:650 src/workbook.c:1075
 msgid "Cut"
 msgstr "Izre¾i"
 
-#: src/item-grid.c:645 src/workbook.c:1068
+#: src/item-grid.c:652 src/workbook.c:1081
 msgid "Paste"
 msgstr "Umetni"
 
-#: src/item-grid.c:650
+#: src/item-grid.c:655
+msgid "Insert"
+msgstr "Umetni"
+
+#: src/item-grid.c:657
 msgid "Erase content"
 msgstr "Obri¹i sadr¾aj"
 
-#: src/item-grid.c:652
+#: src/item-grid.c:659
 msgid "Cell format"
 msgstr ""
 
-#: src/main.c:44
+#: src/main.c:45
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:44
+#: src/main.c:45
 msgid "FILE"
 msgstr "DATOTEKA"
 
-#: src/main.c:46
+#: src/main.c:47
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:46 src/main.c:51 src/main.c:55 src/main.c:59 src/main.c:63
+#: src/main.c:47 src/main.c:52 src/main.c:56 src/main.c:60 src/main.c:64
+#: src/main.c:68
 msgid "LEVEL"
 msgstr ""
 
-#: src/main.c:50
+#: src/main.c:51
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 
-#: src/main.c:54
+#: src/main.c:55
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr ""
 
-#: src/main.c:58
+#: src/main.c:59
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 
-#: src/main.c:62
+#: src/main.c:63
 msgid "Enables debugging mesgs while reading excel charts"
+msgstr ""
+
+#: src/main.c:67
+msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
 #: src/number-match.c:150
@@ -7146,39 +7147,39 @@ msgstr ""
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
-#: src/plugin-manager.c:95 src/plugin-manager.c:96
+#: src/plugin-manager.c:105 src/plugin-manager.c:106
 msgid "Name"
 msgstr "Ime"
 
-#: src/plugin-manager.c:95 src/plugin-manager.c:96
+#: src/plugin-manager.c:105 src/plugin-manager.c:106
 msgid "File"
 msgstr "Datoteka"
 
-#: src/plugin-manager.c:126
+#: src/plugin-manager.c:137
 msgid "Close"
 msgstr "Zatvori"
 
-#: src/plugin-manager.c:129
+#: src/plugin-manager.c:140
 msgid "Add..."
 msgstr "Dodavanje..."
 
-#: src/plugin-manager.c:132
+#: src/plugin-manager.c:143
 msgid "Remove"
 msgstr "Ukloni"
 
-#: src/plugin.c:40
+#: src/plugin.c:41
 msgid "unable to open module file: "
 msgstr ""
 
-#: src/plugin.c:51
+#: src/plugin.c:52
 msgid "Plugin must contain init_plugin function."
 msgstr ""
 
-#: src/plugin.c:57
+#: src/plugin.c:58
 msgid "init_plugin returned error"
 msgstr ""
 
-#: src/plugin.c:77
+#: src/plugin.c:78
 msgid "Plugin is still in use.\n"
 msgstr ""
 
@@ -7351,7 +7352,7 @@ msgstr "Tekst"
 msgid "Last"
 msgstr "Umetni"
 
-#: src/print-preview.c:455 src/workbook.c:2063
+#: src/print-preview.c:455 src/workbook.c:2080
 msgid "Zoom in"
 msgstr "Uveæaj"
 
@@ -7360,7 +7361,7 @@ msgstr "Uveæaj"
 msgid "Zooms the page in"
 msgstr "Uveæaj"
 
-#: src/print-preview.c:456 src/workbook.c:2056
+#: src/print-preview.c:456 src/workbook.c:2073
 msgid "Zoom out"
 msgstr "Umanji"
 
@@ -7384,81 +7385,37 @@ msgstr "Dodaj novi list"
 msgid "the workbook"
 msgstr "Sprema bilje¾nicu"
 
-#: src/print-preview.c:555
-msgid ""
-"The Print Preview feature is being developed.\n"
-"The results of the preview is not correct currently,\n"
-"it might include a buggy rendering (like black\n"
-"blocks or an incorrect text placement).\n"
-"\n"
-"We apologize for the inconvenience"
-msgstr ""
-
-#: src/sheet-object-container.c:207 src/workbook.c:834
-#, fuzzy
-msgid "Select an object"
-msgstr "Umeæe Bonobo objekt"
-
-#: src/sheet-object-container.c:428
-msgid "Object server"
-msgstr ""
-
-#: src/sheet-view.c:357 src/sheet-view.c:429
+#: src/sheet-view.c:351
 #, c-format
 msgid "Row: %d"
 msgstr "Red: %d"
 
-#: src/sheet-view.c:364 src/sheet-view.c:403
+#: src/sheet-view.c:361
 #, c-format
 msgid "Column: %s"
 msgstr "Stupac: %s"
 
-#: src/sheet.c:995
+#: src/sheet.c:1020
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "Gre¹ka u sintaksi"
 
-#: src/sheet.c:3765
+#: src/sheet.c:3166
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Ne mogu aktivirati objekt %s"
 
-#: src/sheet.c:3777
+#: src/sheet.c:3178
 msgid "I was unable to the bind object"
 msgstr ""
 
-#: src/value.c:603
+#: src/value.c:483
 msgid "Terminate"
-msgstr ""
-
-#: src/value.c:894
-#, fuzzy
-msgid "#NULL!"
-msgstr "#BROJ!"
-
-#: src/value.c:896
-msgid "#VALUE!"
-msgstr "#VRIJEDNOST!"
-
-#: src/value.c:897
-msgid "#REF!"
-msgstr ""
-
-#: src/value.c:898
-msgid "#NAME?"
-msgstr ""
-
-#: src/value.c:899
-msgid "#NUM!"
-msgstr "#BROJ!"
-
-#: src/value.c:900
-msgid "#N/A"
 msgstr ""
 
 #. Placeholder: font selector
 #. Placeholder: size selector
-#: src/widgets/widget-font-selector.c:111 src/workbook-format-toolbar.c:401
+#: src/widgets/widget-font-selector.c:111 src/workbook-format-toolbar.c:406
 msgid "Bold"
 msgstr "Zadebljano"
 
@@ -7466,531 +7423,546 @@ msgstr "Zadebljano"
 msgid "Bold italic"
 msgstr ""
 
-#: src/widgets/widget-font-selector.c:113 src/workbook-format-toolbar.c:404
+#: src/widgets/widget-font-selector.c:113 src/workbook-format-toolbar.c:409
 msgid "Italic"
 msgstr "Nako¹eno"
 
-#: src/workbook.c:404
+#: src/workbook.c:413
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/workbook.c:413
+#: src/workbook.c:422
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:416
+#: src/workbook.c:425
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
 
-#: src/workbook.c:616
+#: src/workbook.c:625
 msgid "Insert cols"
 msgstr "Umetni stupce"
 
-#: src/workbook.c:636
+#: src/workbook.c:645
 msgid "Insert rows"
 msgstr "Umetni redove"
 
-#: src/workbook.c:731
+#: src/workbook.c:740
 msgid ">mm/dd/yyyy"
 msgstr ""
 
-#: src/workbook.c:750
+#: src/workbook.c:759
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:843
+#: src/workbook.c:845
+#, fuzzy
+msgid "Select an object"
+msgstr "Umeæe Bonobo objekt"
+
+#: src/workbook.c:854
 msgid "_New"
 msgstr " Nova"
 
-#: src/workbook.c:843
+#: src/workbook.c:854
 msgid "Create a new spreadsheet"
 msgstr "Stvori novu tablicu"
 
-#: src/workbook.c:847
+#: src/workbook.c:858
 #, fuzzy
 msgid "_Import..."
 msgstr "_Sortiraj"
 
-#: src/workbook.c:847
+#: src/workbook.c:858
 #, fuzzy
 msgid "Imports a file"
 msgstr "Nemoguæe!"
 
-#: src/workbook.c:853
+#: src/workbook.c:864
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:853
+#: src/workbook.c:864
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:858
+#: src/workbook.c:869
 msgid "Plu_g-ins..."
 msgstr ""
 
-#: src/workbook.c:858
+#: src/workbook.c:869
 msgid "Gnumeric plugins"
 msgstr ""
 
-#: src/workbook.c:865 src/workbook.c:1056
+#: src/workbook.c:876 src/workbook.c:1069
 msgid "Print pre_view"
 msgstr ""
 
-#: src/workbook.c:865 src/workbook.c:1056
+#: src/workbook.c:876 src/workbook.c:1069
 msgid "Print preview"
 msgstr ""
 
-#: src/workbook.c:881
+#: src/workbook.c:892
 msgid "_All"
 msgstr "_Sve"
 
-#: src/workbook.c:882
+#: src/workbook.c:893
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Obri¹i formate, komentare i sadr¾aj izabranih æelija"
 
-#: src/workbook.c:884
+#: src/workbook.c:895
 msgid "_Formats"
 msgstr " Formati"
 
-#: src/workbook.c:885
+#: src/workbook.c:896
 msgid "Clear the selected cells' formats"
 msgstr "Obri¹i formate izabranih æelija"
 
-#: src/workbook.c:887
+#: src/workbook.c:898
 msgid "Clear the selected cells' comments"
 msgstr "Obri¹i"
 
-#: src/workbook.c:888
+#: src/workbook.c:899
 msgid "_Content"
 msgstr " Sadr¾aj"
 
-#: src/workbook.c:889
+#: src/workbook.c:900
 msgid "Clear the selected cells' contents"
 msgstr "Obri¹i komentare izabranih æelija"
 
-#: src/workbook.c:897
+#: src/workbook.c:908
 msgid "P_aste special..."
 msgstr ""
 
-#: src/workbook.c:899
+#: src/workbook.c:910
 #, fuzzy
 msgid "_Delete..."
 msgstr "Obri¹i"
 
-#: src/workbook.c:901
+#: src/workbook.c:912
 msgid "C_lear"
 msgstr "O_bri¹i"
 
-#: src/workbook.c:902
+#: src/workbook.c:913
 msgid "Clear the selected cell(s)"
 msgstr "Obri¹i sve iz izabrane æelije(a)"
 
-#: src/workbook.c:906
+#: src/workbook.c:917
 msgid "_Select All"
 msgstr "_Izaberi Sve"
 
-#: src/workbook.c:907
+#: src/workbook.c:918
 msgid "Select all cells in the spreadsheet"
 msgstr "Izaberi sve æelije u proraèunskoj tablici"
 
-#: src/workbook.c:909
+#: src/workbook.c:920
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "_Idi u æeliju.."
 
-#: src/workbook.c:910
+#: src/workbook.c:921
 msgid "Jump to a specified cell"
 msgstr "Skoèi do izabrane æelije"
 
-#: src/workbook.c:916
+#: src/workbook.c:927
 msgid "Insert object..."
 msgstr "Umetni objekt..."
 
-#: src/workbook.c:917
+#: src/workbook.c:928
 msgid "Inserts a Bonobo object"
 msgstr "Umeæe Bonobo objekt"
 
-#: src/workbook.c:921
+#: src/workbook.c:932
 msgid "_Define cell names"
 msgstr ""
 
-#: src/workbook.c:924
+#: src/workbook.c:935
 msgid "_Recalculate"
 msgstr ""
 
-#: src/workbook.c:925
+#: src/workbook.c:936
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:933
+#: src/workbook.c:944
 msgid "_Zoom..."
 msgstr "_Uveæaj/Umanji..."
 
-#: src/workbook.c:934
+#: src/workbook.c:945
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/workbook.c:941
+#: src/workbook.c:952
 msgid "Current _date"
 msgstr "Trenutni _datum"
 
-#: src/workbook.c:942
+#: src/workbook.c:953
 #, fuzzy
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Promijeni format izabranih æelija"
 
-#: src/workbook.c:945
+#: src/workbook.c:956
 msgid "Current _time"
 msgstr "Trenutno _vrijeme"
 
-#: src/workbook.c:946
+#: src/workbook.c:957
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:953 src/workbook.c:1001
+#: src/workbook.c:964 src/workbook.c:1012
 msgid "_Sheet"
 msgstr "_List"
 
-#: src/workbook.c:953
+#: src/workbook.c:964
 msgid "Insert a new spreadsheet"
 msgstr ""
 
-#: src/workbook.c:955 src/workbook.c:996
+#: src/workbook.c:966 src/workbook.c:1007
 msgid "_Cells..."
 msgstr ""
 
-#: src/workbook.c:955
+#: src/workbook.c:966
 msgid "Insert new cells"
 msgstr "Umetni nove æelije"
 
-#: src/workbook.c:957
+#: src/workbook.c:968
 msgid "_Rows"
 msgstr "_Redove"
 
-#: src/workbook.c:957
+#: src/workbook.c:968
 msgid "Insert new rows"
 msgstr "Umetni nove redove"
 
-#: src/workbook.c:959
+#: src/workbook.c:970
 msgid "C_olumns"
 msgstr "_Stupce"
 
-#: src/workbook.c:959
+#: src/workbook.c:970
 msgid "Insert new columns"
 msgstr "Umetni nove stupce"
 
-#: src/workbook.c:964
+#: src/workbook.c:975
 #, fuzzy
 msgid "_Add/modify comment..."
 msgstr "_Dodaj/promijeni komentar"
 
-#: src/workbook.c:965
+#: src/workbook.c:976
 msgid "Edit the selected cell's comment"
 msgstr "Promijeni komentar u izabranoj æeliji"
 
-#: src/workbook.c:966
-msgid "_Special"
+#: src/workbook.c:977
+#, fuzzy
+msgid "S_pecial"
 msgstr "_Posebno"
 
-#: src/workbook.c:974 src/workbook.c:982
+#: src/workbook.c:985 src/workbook.c:993
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "Lijevo poravnano"
 
-#: src/workbook.c:976
+#: src/workbook.c:987
 msgid "_Width"
 msgstr "©_irina"
 
-#: src/workbook.c:984
+#: src/workbook.c:995
 msgid "_Height"
 msgstr "_Visina"
 
-#: src/workbook.c:990
+#: src/workbook.c:1001
 msgid "_Change name"
 msgstr "Promijeni _ime"
 
-#: src/workbook.c:997
+#: src/workbook.c:1008
 msgid "Modify the formatting of the selected cells"
 msgstr "Promijeni format izabranih æelija"
 
-#: src/workbook.c:999
+#: src/workbook.c:1010
 msgid "C_olumn"
 msgstr "S_tupac"
 
-#: src/workbook.c:1000
+#: src/workbook.c:1011
 msgid "_Row"
 msgstr "_Red"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1019
 #, fuzzy
 msgid "_Sort..."
 msgstr "_Sortiraj"
 
-#: src/workbook.c:1009
+#: src/workbook.c:1020
 msgid "Sort the selected cells"
 msgstr "Sortiraj izabrane æelije"
 
-#: src/workbook.c:1010
+#: src/workbook.c:1021
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/workbook.c:1012
+#: src/workbook.c:1023
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:1014
+#: src/workbook.c:1025
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1028
+#: src/workbook.c:1041
 msgid "_Insert"
 msgstr "_Umetni"
 
-#: src/workbook.c:1029
+#: src/workbook.c:1042
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1043
 msgid "_Tools"
 msgstr "_Alati"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1054
 msgid "New"
 msgstr "Nova bilje¾nica"
 
-#: src/workbook.c:1041
+#: src/workbook.c:1054
 msgid "Creates a new sheet"
 msgstr "Stvara novi list"
 
-#: src/workbook.c:1044
+#: src/workbook.c:1057
 msgid "Open"
 msgstr "Otvori"
 
-#: src/workbook.c:1044
+#: src/workbook.c:1057
 msgid "Opens an existing workbook"
 msgstr "Otvora postojeæu bilje¾nicu"
 
-#: src/workbook.c:1047
+#: src/workbook.c:1060
 msgid "Save"
 msgstr "Spremi"
 
-#: src/workbook.c:1047
+#: src/workbook.c:1060
 msgid "Saves the workbook"
 msgstr "Sprema bilje¾nicu"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1066
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Sprema bilje¾nicu"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1075
 msgid "Cuts the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:1065
+#: src/workbook.c:1078
 msgid "Copies the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:1068
+#: src/workbook.c:1081
 msgid "Pastes the clipboard"
 msgstr ""
 
-#: src/workbook.c:1075
+#: src/workbook.c:1088
 msgid "Graphic"
 msgstr "Slika"
 
-#: src/workbook.c:1075
+#: src/workbook.c:1088
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Stvara grafiku u tablici"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1091
+msgid "Bobobo Item"
+msgstr ""
+
+#: src/workbook.c:1091
+#, fuzzy
+msgid "Creates a Bonobo shaped item"
+msgstr "Stvara novi list"
+
+#: src/workbook.c:1096
 #, fuzzy
 msgid "Button"
 msgstr "Dno"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1096
 #, fuzzy
 msgid "Creates a button"
 msgstr "Stvara novi list"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1099
 msgid "Checkbox"
 msgstr ""
 
-#: src/workbook.c:1083
+#: src/workbook.c:1099
 #, fuzzy
 msgid "Creates a checkbox"
 msgstr "Stvara novi list"
 
-#: src/workbook.c:1090
+#: src/workbook.c:1106
 msgid "Line"
 msgstr "Linija"
 
-#: src/workbook.c:1090
+#: src/workbook.c:1106
 msgid "Creates a line object"
 msgstr ""
 
-#: src/workbook.c:1093
+#: src/workbook.c:1109
 msgid "Arrow"
 msgstr "Strelica"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1109
 msgid "Creates an arrow object"
 msgstr ""
 
-#: src/workbook.c:1096
+#: src/workbook.c:1112
 msgid "Rectangle"
 msgstr "Èetverokut"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1112
 msgid "Creates a rectangle object"
 msgstr ""
 
-#: src/workbook.c:1099
+#: src/workbook.c:1115
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/workbook.c:1099
+#: src/workbook.c:1115
 msgid "Creates an ellipse object"
 msgstr ""
 
-#: src/workbook.c:1317
+#: src/workbook.c:1333
 msgid "You should introduce a valid cell name"
 msgstr ""
 
-#: src/workbook.c:1326
+#: src/workbook.c:1342
 msgid "Column out of range"
 msgstr "Broj stupca je izvan raspona"
 
-#: src/workbook.c:1332
+#: src/workbook.c:1348
 msgid "Row number out of range"
 msgstr "Broj reda je izvan raspona"
 
-#: src/workbook.c:1530
+#: src/workbook.c:1546
 msgid "Sum"
 msgstr "Zbroj"
 
-#: src/workbook.c:1533
+#: src/workbook.c:1549
 msgid "Average"
 msgstr ""
 
-#: src/workbook.c:1534
+#: src/workbook.c:1550
 msgid "Count"
 msgstr ""
 
-#: src/workbook.c:1964
+#: src/workbook.c:1981
 msgid "Untitled.gnumeric"
 msgstr "Bezimen.gnumeric"
 
-#: src/workbook.c:2164
+#: src/workbook.c:2202
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Da li ste sigurni da ¾elite ukloniti list pod `%s' "
 
-#: src/workbook.c:2183
+#: src/workbook.c:2221
 #, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it."
 msgstr "Drugi listovi ovise o vrijednostima na ovom listu, ne mogu ga ukloniti"
 
-#: src/workbook.c:2203
+#: src/workbook.c:2259
 msgid "Add another sheet"
 msgstr "Dodaj novi list"
 
-#: src/workbook.c:2204
+#: src/workbook.c:2260
 msgid "Remove this sheet"
 msgstr "Ukloni ovaj list"
 
-#: src/workbook.c:2470 src/workbook.c:2505
+#: src/workbook.c:2526 src/workbook.c:2561
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: src/workbook.c:2540
+#: src/workbook.c:2596
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/workbook-format-toolbar.c:401
+#: src/workbook-format-toolbar.c:406
 msgid "Sets the bold font"
 msgstr "Namje¹ta zadebljano pismo"
 
-#: src/workbook-format-toolbar.c:404
+#: src/workbook-format-toolbar.c:409
 msgid "Makes the font italic"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:410
+#: src/workbook-format-toolbar.c:415
 msgid "Left align"
 msgstr "Lijevo poravnano"
 
-#: src/workbook-format-toolbar.c:410
+#: src/workbook-format-toolbar.c:415
 msgid "Left justifies the cell contents"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:413
+#: src/workbook-format-toolbar.c:418
 msgid "Centers the cell contents"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:416
+#: src/workbook-format-toolbar.c:421
 msgid "Right align"
 msgstr "Desno poravnano"
 
-#: src/workbook-format-toolbar.c:416
+#: src/workbook-format-toolbar.c:421
 msgid "Right justifies the cell contents"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:422
+#: src/workbook-format-toolbar.c:427
 #, fuzzy
 msgid "Money format"
 msgstr "Kopiraj formate"
 
-#: src/workbook-format-toolbar.c:422
+#: src/workbook-format-toolbar.c:427
 #, fuzzy
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Promijeni format izabranih æelija"
 
-#: src/workbook-format-toolbar.c:425
+#: src/workbook-format-toolbar.c:430
 #, fuzzy
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Promijeni format izabranih æelija"
 
-#: src/workbook-format-toolbar.c:428
+#: src/workbook-format-toolbar.c:433
 msgid "Thousand separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:428
+#: src/workbook-format-toolbar.c:433
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:431
+#: src/workbook-format-toolbar.c:436
 msgid "Add decimals"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:431
+#: src/workbook-format-toolbar.c:436
 msgid "Increases the number of decimal numbers displayed"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:434
+#: src/workbook-format-toolbar.c:439
 msgid "Remove decimals"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:434
+#: src/workbook-format-toolbar.c:439
 msgid "Decreases the number of decimal numbers displayed"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:542
+#: src/workbook-format-toolbar.c:547
 #, fuzzy
 msgid "Font selector"
 msgstr "Razlomak"
 
-#: src/workbook-format-toolbar.c:558
+#: src/workbook-format-toolbar.c:563
 msgid "Size"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:580
+#: src/workbook-format-toolbar.c:585
 msgid "Foreground"
 msgstr ""
 
-#: src/workbook-format-toolbar.c:583
+#: src/workbook-format-toolbar.c:589
 msgid "Background"
 msgstr ""
 
@@ -8002,9 +7974,57 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2277
+#: src/xml-io.c:2305
 msgid "Old Gnumeric XML file format"
 msgstr ""
+
+#~ msgid "Delete cells"
+#~ msgstr "Obri¹i æelije"
+
+#~ msgid "Shift cells left"
+#~ msgstr "Premjesti æelije lijevo"
+
+#~ msgid "Shift cells up"
+#~ msgstr "Premjesti æelije gore"
+
+#~ msgid "Delete row(s)"
+#~ msgstr "Obri¹i red(ove)"
+
+#~ msgid "Delete column(s)"
+#~ msgstr "Obri¹i stupac(ce)"
+
+#~ msgid "Insert cells"
+#~ msgstr "Umetni æelije"
+
+#~ msgid "Shift cells right"
+#~ msgstr "Premjesti æelije desno"
+
+#~ msgid "Shift cells down"
+#~ msgstr "Premjesti æelije dolje"
+
+#~ msgid "Insert row(s)"
+#~ msgstr "Umetni red(ove)"
+
+#~ msgid "Insert column(s)"
+#~ msgstr "Umetni stupac(ce)"
+
+#, fuzzy
+#~ msgid "no workbook"
+#~ msgstr "Spremi bilje¾nicu pod drugim imenom"
+
+#, fuzzy
+#~ msgid "#Reference to deleted cell!"
+#~ msgstr "Obri¹i sve iz izabrane æelije(a)"
+
+#, fuzzy
+#~ msgid "#NULL!"
+#~ msgstr "#BROJ!"
+
+#~ msgid "#VALUE!"
+#~ msgstr "#VRIJEDNOST!"
+
+#~ msgid "#NUM!"
+#~ msgstr "#BROJ!"
 
 #~ msgid "Zoom"
 #~ msgstr "Uveæaj/Umanji"

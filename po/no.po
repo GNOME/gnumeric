@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.36\n"
-"POT-Creation-Date: 1999-10-13 22:59+0200\n"
+"POT-Creation-Date: 1999-10-19 08:21-0500\n"
 "PO-Revision-Date: 1999-10-14 00:17+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -311,7 +311,7 @@ msgid "ERROR"
 msgstr "FEIL"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:754
+#: src/cell.c:125 src/cell.c:752
 msgid "Circular reference"
 msgstr "Sirkulær referanse"
 
@@ -5340,7 +5340,9 @@ msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=Beregner antall kombinasjoner.\n"
-"Bruk av denne funksjonen på et ikke-heltall eller et negativt tall returnerer en feil. I tillegg returneres en feil hvis @n er mindre enn @k. Denne funksjonen er Excel kompatibel. \n"
+"Bruk av denne funksjonen på et ikke-heltall eller et negativt tall "
+"returnerer en feil. I tillegg returneres en feil hvis @n er mindre enn @k. "
+"Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "COMBIN(8,6) er lik 28.\n"
 "COMBIN(6.2) er lik 15.\n"
@@ -5363,7 +5365,8 @@ msgstr ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=CEIL(x,signifikans)\n"
 "@DESCRIPTION=FLOOR-funksjonen runder @x ned til nærmeste multippel.\n"
-"av @signifikans.  @signifikans er forvalgt til 1. Denne funksjonen er Excel kompatible. \n"
+"av @signifikans.  @signifikans er forvalgt til 1. Denne funksjonen er Excel "
+"kompatible. \n"
 "@EXAMPLES=\n"
 "FLOOR(0.5) er lik 0.\n"
 "FLOOR(5,2) er lik 4.\n"
@@ -5385,7 +5388,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT-funksjonen runder @a av til nærmeste heltall, der 'nærmeste' betyr nærmere null. INT er ekvivalent til FLOOR(a) for @a >= 0, og CEIL(a) for @a < 0. Denne funksjonen er Excel kompatibel.  \n"
+"@DESCRIPTION=INT-funksjonen runder @a av til nærmeste heltall, der "
+"'nærmeste' betyr nærmere null. INT er ekvivalent til FLOOR(a) for @a >= 0, "
+"og CEIL(a) for @a < 0. Denne funksjonen er Excel kompatibel.  \n"
 "@EXAMPLES=\n"
 "INT(7.2) er lik 7.\n"
 "INT(-5.5) er lik -5.\n"
@@ -5407,7 +5412,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
-"@DESCRIPTION=Beregner logaritmen til @x med gitt base @base.  Hvis ingen @base er gitt, returnerer LOG logaritmen i base 10. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=Beregner logaritmen til @x med gitt base @base.  Hvis ingen "
+"@base er gitt, returnerer LOG logaritmen i base 10. Denne funksjonen er "
+"Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "LOG(2) er lik 0.30103.\n"
 "LOG(8192,2) er lik 13.\n"
@@ -5427,7 +5434,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
-"@DESCRIPTION=LN returnerer den naturlige logaritmen til @x. Hvis @x <= 0 returnerer LN en #NUM!-feil. Denne funksjonen er Excel kompatible. \n"
+"@DESCRIPTION=LN returnerer den naturlige logaritmen til @x. Hvis @x <= 0 "
+"returnerer LN en #NUM!-feil. Denne funksjonen er Excel kompatible. \n"
 "@EXAMPLES=\n"
 "LN(7) er lik 1.04591.\n"
 "\n"
@@ -5447,7 +5455,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER (x,y)\n"
-"@DESCRIPTION=POWER returnerer verdien av @x opphøyd til @y'te potens. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=POWER returnerer verdien av @x opphøyd til @y'te potens. Denne "
+"funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "POWER(2,7) er lik 128.\n"
 "POWER(3,3.141) er lik 31.523749.\n"
@@ -5467,7 +5476,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
-"@DESCRIPTION=LOG2 beregner base-2 logaritmen til @x. Hvis @x <= 0 returnerer LOG2 en #NUM!-feil. \n"
+"@DESCRIPTION=LOG2 beregner base-2 logaritmen til @x. Hvis @x <= 0 returnerer "
+"LOG2 en #NUM!-feil. \n"
 "@EXAMPLES=\n"
 "LOG2(1024) er lik 10.\n"
 "\n"
@@ -5486,7 +5496,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
-"@DESCRIPTION=Beregner base-10 logaritmen til @x. Hvis @x <= 0 returnerer LOG10 en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=Beregner base-10 logaritmen til @x. Hvis @x <= 0 returnerer "
+"LOG10 en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "LOG10(7) er lik 0.845098.\n"
 "\n"
@@ -5507,7 +5518,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(tall,dividend)\n"
-"@DESCRIPTION=MOD-funksjonen returnerer resten når @dividend er dividert med @tall. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=MOD-funksjonen returnerer resten når @dividend er dividert med "
+"@tall. Denne funksjonen er Excel kompatibel. \n"
 "MOD returnerer #DIV/0! hvis dividenden er null.\n"
 "@EXAMPLES=\n"
 "MOD(23,7) er lik 2.\n"
@@ -5527,7 +5539,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=RADIANS beregner antallet radianer som tilsvarer @x grader. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=RADIANS beregner antallet radianer som tilsvarer @x grader. "
+"Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "RADIANS(180) er lik 3.14159.\n"
 "\n"
@@ -5558,7 +5571,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=SIN-funksjonen returnerer sinus til @x, hvor @x er gitt i radianer. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=SIN-funksjonen returnerer sinus til @x, hvor @x er gitt i "
+"radianer. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "SIN(0.5) er lik 0.479426.\n"
 "\n"
@@ -5578,7 +5592,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
-"@DESCRIPTION=SINH-funksjonen returnerer det hyperbolske sinus til @x, som er definert matematisk som  (exp(@x) - exp(-@x)) / 2. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=SINH-funksjonen returnerer det hyperbolske sinus til @x, som er "
+"definert matematisk som  (exp(@x) - exp(-@x)) / 2. Denne funksjonen er Excel "
+"kompatibel. \n"
 "@EXAMPLES=\n"
 "SINH(0.5) er lik 0.521095.\n"
 "\n"
@@ -5598,7 +5614,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=SQRT-funksjonen returnerer kvadratroten av @x. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=SQRT-funksjonen returnerer kvadratroten av @x. Denne funksjonen "
+"er Excel kompatibel. \n"
 "Hvis @x er negativ returnerer den #NUM!.\n"
 "@EXAMPLES=\n"
 "SQRT(2) er lik 1.4142136.\n"
@@ -5620,9 +5637,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=SUM beregner summen av alle verdier og celler som refereres i argumentlisten. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=SUM beregner summen av alle verdier og celler som refereres i "
+"argumentlisten. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21 og 43. Da får vi at\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21 og "
+"43. Da får vi at\n"
 "SUM(A1:A5) er lik 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
@@ -5645,9 +5664,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=SUMA beregner summen av alle verdier og celler som er referert i argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN så telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). \n"
+"@DESCRIPTION=SUMA beregner summen av alle verdier og celler som er referert "
+"i argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
+"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN så "
+"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
+"som en (1). \n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43. Da får vi at\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43. Da får vi at\n"
 "SUMA(A1:A5) er lik 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
@@ -5667,9 +5691,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=SUMSQ returnerer summen av kvadratene til alle verdier og celler som refereres i argumentlisten. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=SUMSQ returnerer summen av kvadratene til alle verdier og "
+"celler som refereres i argumentlisten. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43. Da får vi at\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43. Da får vi at\n"
 "SUMSQ(A1:A5) er lik 2925.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -5687,7 +5714,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=MULTINOMIAL returnerer raten til faktor av en sum av verdiene til produktet av faktorene. Denne funksjonen er Excel kompatibel.  \n"
+"@DESCRIPTION=MULTINOMIAL returnerer raten til faktor av en sum av verdiene "
+"til produktet av faktorene. Denne funksjonen er Excel kompatibel.  \n"
 "@EXAMPLES=\n"
 "MULTINOMIAL(2,3,4) er lik 1260.\n"
 "\n"
@@ -5706,7 +5734,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=PRODUCT returnerer produktet av alle verdier og celler som er referert i argumentlisten. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=PRODUCT returnerer produktet av alle verdier og celler som er "
+"referert i argumentlisten. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "PRODUCT(2,5,9) er lik 90.\n"
 "\n"
@@ -5725,7 +5754,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
-"@DESCRIPTION=TAN-funksjonen returnerer tangenten til @x, hvor @x er gitt i radianer. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=TAN-funksjonen returnerer tangenten til @x, hvor @x er gitt i "
+"radianer. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "TAN(3) er lik -0.1425465.\n"
 "\n"
@@ -5745,7 +5775,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION=TANH-funksjonen returnerer den hyperbolske tangenten til @x, som er definert matematisk som sinh(@x) / cosh(@x). Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=TANH-funksjonen returnerer den hyperbolske tangenten til @x, "
+"som er definert matematisk som sinh(@x) / cosh(@x). Denne funksjonen er "
+"Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "TANH(2) er lik 0.96402758.\n"
 "\n"
@@ -5766,7 +5798,8 @@ msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
 "@DESCRIPTION=PI-funksjonen returnerer verdien til Pi som definert av M_PI.\n"
-"Denne funksjonen kalles uten argumenter. Denne funksjonen er Excel kompatibel.\n"
+"Denne funksjonen kalles uten argumenter. Denne funksjonen er Excel "
+"kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
 "PI() er lik 3.141593\n"
@@ -5810,7 +5843,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(tall)\n"
-"@DESCRIPTION=EVEN-funksjonen returnerer tallet rundet opp til nærmeste like heltall. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=EVEN-funksjonen returnerer tallet rundet opp til nærmeste like "
+"heltall. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "EVEN(5.4) er lik 6.\n"
 "\n"
@@ -5829,7 +5863,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(tall)\n"
-"@DESCRIPTION=ODD-funksjonen returnerer @tall rundet opp til nærmeste odde heltall. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=ODD-funksjonen returnerer @tall rundet opp til nærmeste odde "
+"heltall. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ODD(4.4) er lik 5.\n"
 "\n"
@@ -5850,8 +5885,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(tall)\n"
-"@DESCRIPTION=FACTDOUBLE-funksjonen returnerer den doble faktoren av et @tall. \n"
-"Hvis @tall ikke er et heltall, blir det avkortet. Hvis @tall er negativt returnerer FACTDOUBLE en #NUM! feil. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=FACTDOUBLE-funksjonen returnerer den doble faktoren av et "
+"@tall. \n"
+"Hvis @tall ikke er et heltall, blir det avkortet. Hvis @tall er negativt "
+"returnerer FACTDOUBLE en #NUM! feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "FACTDOUBLE(5) er lik 15.\n"
 "\n"
@@ -5871,7 +5908,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
-"@DESCRIPTION=QUOTIENT-funksjonen returnerer heltallsdelen av en divisjon. @num er dividenden og @den er divisor. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=QUOTIENT-funksjonen returnerer heltallsdelen av en divisjon. "
+"@num er dividenden og @den er divisor. Denne funksjonen er Excel kompatibel. "
+"\n"
 "@EXAMPLES=\n"
 "QUOTIENT(23,5) er lik 4.\n"
 "\n"
@@ -5893,7 +5932,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(tall)\n"
-"@DESCRIPTION=SIGN-funksjonen returnerer 1 hvis @tall er positivt, null hvis @tall er 0, og -1 hvis @tall er negativt. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=SIGN-funksjonen returnerer 1 hvis @tall er positivt, null hvis "
+"@tall er 0, og -1 hvis @tall er negativt. Denne funksjonen er Excel "
+"kompatibel. \n"
 "@EXAMPLES=\n"
 "SIGN(3) er lik 1.\n"
 "SIGN(-3) er lik -1.\n"
@@ -5914,7 +5955,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(tall)\n"
-"@DESCRIPTION=SQRTPI-funksjonen returnerer kvadratroten av @tall ganget med pi. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=SQRTPI-funksjonen returnerer kvadratroten av @tall ganget med "
+"pi. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "SQRTPI(2) er lik 2.506628275.\n"
 "\n"
@@ -5936,8 +5978,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bunn,topp)\n"
-"@DESCRIPTION=RANDBETWEEN-funksjonen returnerer et tilfeldig heltall  mellom @bunn og  @topp.\n"
-"Hvis @bunn eller @topp ikke er heltall, blir de avkortet. Hvis @bunn > @topp, returnerer RANDBETWEEN en #NUM! feil.\n"
+"@DESCRIPTION=RANDBETWEEN-funksjonen returnerer et tilfeldig heltall  mellom "
+"@bunn og  @topp.\n"
+"Hvis @bunn eller @topp ikke er heltall, blir de avkortet. Hvis @bunn > "
+"@topp, returnerer RANDBETWEEN en #NUM! feil.\n"
 "Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "RANDBETWEEN(3,7).\n"
@@ -8162,7 +8206,8 @@ msgid ""
 "the y-values where y=mx+b and @known_x's contains the corresponding "
 "x-values.  @new_x's contains the x-values for which you want to estimate the "
 "y-values. \n"
-"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @known_y's and "
+"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
+"omitted, it is assumed to be the same as @known_x's. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -8173,7 +8218,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:3987
+#: src/functions/fn-stat.c:3999
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -8192,15 +8237,17 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4093
+#: src/functions/fn-stat.c:4105
 msgid ""
 "@FUNCTION=GROWTH\n"
-"@SYNTAX=GROWTH(known_y's[,known_x's],new_x's[,const])\n"
+"@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
 "@DESCRIPTION=GROWTH function applies the ``least squares'' method to fit an "
 "exponential curve to your data and predicts the exponential growth by using "
 "this curve. \n"
-"If @known_x's is omitted, an array {1, 2, 3, ...} is used. GROWTH returns an "
-"array having one column and a row for each data point in @new_x.\n"
+"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
+"omitted, it is assumed to be the same as @known_x's. \n"
+"GROWTH returns an array having one column and a row for each data point in "
+"@new_x.\n"
 "If @known_y's and @known_x's have unequal number of data points, GROWTH "
 "returns #NUM! error.\n"
 "If @const is FALSE, the line will be forced to go through the origin, i.e., "
@@ -8210,7 +8257,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4125
+#: src/functions/fn-stat.c:4208
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -8229,7 +8276,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4196
+#: src/functions/fn-stat.c:4279
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -8247,7 +8294,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4245
+#: src/functions/fn-stat.c:4328
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -8262,7 +8309,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4290
+#: src/functions/fn-stat.c:4373
 msgid "Statistics"
 msgstr "Statistikk"
 
@@ -8691,56 +8738,56 @@ msgstr ""
 "SEARCH en #VALUE! feil. \n"
 "@SEEALSO=FIND"
 
-#: src/format.c:399
+#: src/format.c:429
 msgid "black"
 msgstr "sort"
 
-#: src/format.c:400
+#: src/format.c:430
 msgid "blue"
 msgstr "blå"
 
-#: src/format.c:401
+#: src/format.c:431
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:402
+#: src/format.c:432
 msgid "green"
 msgstr "grønn"
 
-#: src/format.c:403
+#: src/format.c:433
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:404
+#: src/format.c:434
 msgid "red"
 msgstr "rød"
 
-#: src/format.c:405
+#: src/format.c:435
 msgid "white"
 msgstr "hvit"
 
-#: src/format.c:406
+#: src/format.c:436
 msgid "yellow"
 msgstr "gul"
 
-#: src/format.c:1238
+#: src/format.c:1326
 msgid "0.0########"
 msgstr "0.0########"
 
-#: src/format.c:1252 src/value.c:321
+#: src/format.c:1340 src/value.c:321
 msgid "TRUE"
 msgstr "SANN"
 
-#: src/format.c:1252 src/value.c:321
+#: src/format.c:1340 src/value.c:321
 msgid "FALSE"
 msgstr "USANN"
 
-#: src/format.c:1261
+#: src/format.c:1349
 msgid "CELLRANGE"
 msgstr "CELLEOMRÅDE"
 
 #. Array of arrays ??
-#: src/format.c:1265
+#: src/format.c:1353
 msgid "ARRAY"
 msgstr "TABELL"
 
@@ -8936,45 +8983,59 @@ msgstr "mm:ss.0"
 msgid "[h]:mm:ss"
 msgstr "[h]:mm:ss"
 
-#: src/formats.c:82
+#: src/formats.c:78
+#, fuzzy
+msgid "[h]:mm"
+msgstr "h:mm"
+
+#: src/formats.c:79
+#, fuzzy
+msgid "[mm]:ss"
+msgstr "mm:ss"
+
+#: src/formats.c:80
+msgid "[ss]"
+msgstr ""
+
+#: src/formats.c:85
 #, c-format
 msgid "0%"
 msgstr "0%"
 
-#: src/formats.c:83
+#: src/formats.c:86
 #, c-format
 msgid "0.00%"
 msgstr "0.00%"
 
-#: src/formats.c:88
+#: src/formats.c:91
 msgid "# ?/?"
 msgstr "# ?/?"
 
-#: src/formats.c:89
+#: src/formats.c:92
 msgid "# ??/??"
 msgstr "# ??/??"
 
-#: src/formats.c:94
+#: src/formats.c:97
 msgid "0.00E+00"
 msgstr "0.00E+00"
 
-#: src/formats.c:95
+#: src/formats.c:98
 msgid "##0.0E+0"
 msgstr "##0.0E+0"
 
-#: src/formats.c:105
+#: src/formats.c:108
 msgid "$#,##0_);($#,##0)"
 msgstr "$#,##0_);($#,##0)"
 
-#: src/formats.c:106
+#: src/formats.c:109
 msgid "$#,##0_);[Red]($#,##0)"
 msgstr "$#,##0_);[Red]($#,##0)"
 
-#: src/formats.c:107
+#: src/formats.c:110
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#,##0.00_);($#,##0.00)"
 
-#: src/formats.c:108
+#: src/formats.c:111
 msgid "$#,##0.00_);[Red]($#,##0.00)"
 msgstr "$#,##0.00_);[Red]($#,##0.00)"
 
@@ -9401,12 +9462,12 @@ msgstr "Kolonne: %s"
 msgid "Internal ERROR"
 msgstr "Intern FEIL"
 
-#: src/sheet.c:3165
+#: src/sheet.c:3166
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunne ikke aktivere objekt %s"
 
-#: src/sheet.c:3177
+#: src/sheet.c:3178
 msgid "I was unable to the bind object"
 msgstr "Kunne ikke binde objektet"
 
@@ -9646,7 +9707,8 @@ msgid "Edit the selected cell's comment"
 msgstr "Rediger valgte celles kommentar"
 
 #: src/workbook.c:977
-msgid "_Special"
+#, fuzzy
+msgid "S_pecial"
 msgstr "_Spesial"
 
 #: src/workbook.c:985 src/workbook.c:993
@@ -9958,7 +10020,7 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2291
+#: src/xml-io.c:2305
 msgid "Old Gnumeric XML file format"
 msgstr "Gammelt Gnumeric XML filformat"
 

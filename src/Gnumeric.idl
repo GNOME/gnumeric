@@ -239,7 +239,7 @@ module GNOME {
 		// Mainly used for graphics.
 		//
 		interface VectorNotify : GNOME::Unknown {
-			void changed (in short low, in show high);
+			void changed (in short low, in short high);
 		};
 
 		interface Vector : GNOME::Unknown {
