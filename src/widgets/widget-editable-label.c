@@ -232,20 +232,20 @@ static void
 el_size_request (GtkWidget *widget, GtkRequisition *requisition)
 {
 	EditableLabel *el = EDITABLE_LABEL (widget);
-	GdkFont *font;
-	char *text;
+	double width, height;
 
 	if (!el->text_item || !GTK_WIDGET_REALIZED (widget)){
 		requisition->width = 1;
 		requisition->height = 1;
 	}
 
-	/* The widget is realized, and we have a text item inside */
-	font = gtk_style_get_font (widget->style);
-	text = GNOME_CANVAS_TEXT (el->text_item)->text;
+	g_object_get (G_OBJECT (el->text_item),
+		"text_width",  &width,
+		"text_height", &height,
+		NULL);
 
-	requisition->width = gdk_string_measure (font, text) + MARGIN * 2;
-	requisition->height = font->ascent + font->descent + MARGIN * 2;
+	requisition->width = width + MARGIN * 2;
+	requisition->height = height + MARGIN * 2;
 }
 
 /*
@@ -379,7 +379,7 @@ editable_label_set_text (EditableLabel *el, char const *text)
 		el->text = g_strdup (text);
 	}
 
-	if (!el->text_item) {
+	if (el->text_item == NULL) {
 		GnomeCanvasGroup *root_group;
 		GtkWidget* text_color_widget;
 
@@ -392,8 +392,8 @@ editable_label_set_text (EditableLabel *el, char const *text)
 			root_group, gnome_canvas_text_get_type (),
 			"anchor",   GTK_ANCHOR_NORTH_WEST,
 			"text",     text,
-			"x",        (double) 1,
-			"y",        (double) 1,
+			"x",        (double) MARGIN,
+			"y",        (double) MARGIN,
 			"fill_color_gdk",
 				&text_color_widget->style->text[GTK_STATE_NORMAL],
 			NULL);
@@ -421,7 +421,7 @@ editable_label_set_color (EditableLabel *el, StyleColor *color)
 	el->color = color;
 	if (el->color != NULL) {
 		int contrast = el->color->color.red + el->color->color.green + el->color->color.blue;
-		GtkStyle  *style = gtk_style_copy (GTK_WIDGET (el)->style);
+		GtkStyle *style = gtk_style_copy (GTK_WIDGET (el)->style);
 		style->bg [GTK_STATE_NORMAL] = el->color->color;
 		gtk_widget_set_style (GTK_WIDGET (el), style);
 		gtk_style_unref (style);

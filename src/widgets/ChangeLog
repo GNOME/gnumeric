@@ -1,3 +1,8 @@
+2002-02-26  Jody Goldberg <jody@gnome.org>
+
+	* widget-editable-label.c (el_size_request) : start using pango to
+	  size things.  Still lots of breakage.
+
 2002-02-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (gee_focus_in_event, gee_focus_out_event) :
