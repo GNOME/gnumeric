@@ -3532,6 +3532,9 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 		int const c = sheet->cursor.edit_pos.col;
 		int const r = sheet->cursor.edit_pos.row;
 		sheet_redraw_cell_region (sheet, c, r, c, r);
+
+		/* Reload the entry widget with the original contents */
+		sheet_load_cell_val (sheet);
 	}
 
 	/* restore focus to original sheet in case things were being selected

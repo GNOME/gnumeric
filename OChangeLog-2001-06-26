@@ -1,3 +1,8 @@
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_finish_editing) : Restore the edit area
+	  manually for now.  We may need to make the update flags finer grain.
+
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/stf-parse.c (stf_parse_options_new) : Init oldsplitpositions.
