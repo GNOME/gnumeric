@@ -277,7 +277,8 @@ setup_stat_closure (stat_closure_t *cl)
 }
 
 static int
-callback_function_stat (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_stat (Sheet *sheet, Value *value, char **error_string,
+			void *closure)
 {
 	stat_closure_t *mm = closure;
 	float_t x, dx, dm;
@@ -322,7 +323,8 @@ static char *help_varp = {
 };
 
 static Value *
-gnumeric_varp (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_varp (void *tsheet, GList *expr_node_list, int eval_col,
+	       int eval_row, char **error_string)
 {
 	stat_closure_t cl;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -356,7 +358,8 @@ static char *help_var = {
 };
 
 static Value *
-gnumeric_var (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_var (void *tsheet, GList *expr_node_list, int eval_col,
+	      int eval_row, char **error_string)
 {
 	stat_closure_t cl;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -386,7 +389,8 @@ static char *help_stdev = {
 };
 
 static Value *
-gnumeric_stdev (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_stdev (void *tsheet, GList *expr_node_list, int eval_col,
+		int eval_row, char **error_string)
 {
 	Value *ans = gnumeric_var (tsheet, expr_node_list, eval_col, eval_row, error_string);
 
@@ -409,7 +413,8 @@ static char *help_stdevp = {
 };
 
 static Value *
-gnumeric_stdevp (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_stdevp (void *tsheet, GList *expr_node_list, int eval_col,
+		 int eval_row, char **error_string)
 {
 	Value *ans = gnumeric_varp (tsheet, expr_node_list, eval_col, eval_row, error_string);
 
@@ -438,7 +443,8 @@ typedef struct {
 } stat_inv_sum_t;
 
 static int
-callback_function_stat_inv_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_stat_inv_sum (Sheet *sheet, Value *value,
+				char **error_string, void *closure)
 {
 	stat_inv_sum_t *mm = closure;
 	
@@ -490,7 +496,8 @@ typedef struct {
 } stat_rank_t;
 
 static int
-callback_function_rank (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_rank (Sheet *sheet, Value *value,
+			char **error_string, void *closure)
 {
 	stat_rank_t *mm = closure;
 	gpointer     p;
@@ -533,7 +540,8 @@ callback_function_rank (Sheet *sheet, Value *value, char **error_string, void *c
 }
 
 static Value *
-gnumeric_rank (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_rank (void *tsheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string)
 {
 	stat_rank_t p;
 	Sheet       *sheet = (Sheet *) tsheet;
@@ -593,7 +601,8 @@ typedef struct {
 } stat_trimmean_t;
 
 static int
-callback_function_trimmean (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_trimmean (Sheet *sheet, Value *value,
+			    char **error_string, void *closure)
 {
 	stat_trimmean_t *mm = closure;
 	gpointer        p;
@@ -630,7 +639,8 @@ callback_function_trimmean (Sheet *sheet, Value *value, char **error_string, voi
 }
 
 static Value *
-gnumeric_trimmean (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_trimmean (void *tsheet, GList *expr_node_list,
+		   int eval_col, int eval_row, char **error_string)
 {
 	stat_trimmean_t p;
 	Sheet       *sheet = (Sheet *) tsheet;
@@ -702,7 +712,8 @@ typedef struct {
 } stat_covar_t;
 
 static int
-callback_function_covar (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_covar (Sheet *sheet, Value *value,
+			 char **error_string, void *closure)
 {
 	stat_covar_t *mm = closure;
 	gpointer     p;
@@ -747,7 +758,8 @@ callback_function_covar (Sheet *sheet, Value *value, char **error_string, void *
 }
 
 static Value *
-gnumeric_covar (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_covar (void *tsheet, GList *expr_node_list,
+		int eval_col, int eval_row, char **error_string)
 {
 	stat_covar_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -823,7 +835,8 @@ typedef struct {
 } stat_correl_t;
 
 static int
-callback_function_correl (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_correl (Sheet *sheet, Value *value,
+			  char **error_string, void *closure)
 {
 	stat_correl_t *mm = closure;
 	gpointer     p;
@@ -871,7 +884,8 @@ callback_function_correl (Sheet *sheet, Value *value, char **error_string, void 
 }
 
 static Value *
-gnumeric_correl (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_correl (void *tsheet, GList *expr_node_list,
+		 int eval_col, int eval_row, char **error_string)
 {
 	stat_correl_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -944,7 +958,8 @@ static char *help_negbinomdist = {
 };
 
 static Value *
-gnumeric_negbinomdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_negbinomdist (struct FunctionDefinition *i,
+		       Value *argv [], char **error_string)
 {
 	int x, r;
 	float_t p;
@@ -982,7 +997,8 @@ static char *help_normsdist = {
 };
 
 static Value *
-gnumeric_normsdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_normsdist (struct FunctionDefinition *i,
+		    Value *argv [], char **error_string)
 {
         float_t x;
 
@@ -1009,7 +1025,8 @@ static char *help_normsinv = {
 };
 
 static Value *
-gnumeric_normsinv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_normsinv (struct FunctionDefinition *i,
+		   Value *argv [], char **error_string)
 {
         const int left = 1;
 	const int right = 2;
@@ -1061,7 +1078,8 @@ static char *help_lognormdist = {
 };
 
 static Value *
-gnumeric_lognormdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_lognormdist (struct FunctionDefinition *i,
+		      Value *argv [], char **error_string)
 {
         float_t x, mean, stdev;
 
@@ -1102,7 +1120,8 @@ static char *help_loginv = {
 };
 
 static Value *
-gnumeric_loginv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_loginv (struct FunctionDefinition *i,
+		 Value *argv [], char **error_string)
 {
         const int left = 1;
 	const int right = 2;
@@ -1155,7 +1174,8 @@ static char *help_fisherinv = {
 };
 
 static Value *
-gnumeric_fisherinv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_fisherinv (struct FunctionDefinition *i,
+		    Value *argv [], char **error_string)
 {
        float_t y;
 
@@ -1191,7 +1211,8 @@ typedef struct {
 } stat_mode_t;
 
 static int
-callback_function_mode (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_mode (Sheet *sheet, Value *value,
+			char **error_string, void *closure)
 {
        stat_mode_t *mm = closure;
        gpointer p;
@@ -1232,7 +1253,8 @@ callback_function_mode (Sheet *sheet, Value *value, char **error_string, void *c
 }
 
 static Value *
-gnumeric_mode (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_mode (void *tsheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string)
 {
        GSList *tmp;
        stat_mode_t pr;
@@ -1265,7 +1287,8 @@ gnumeric_mode (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, 
 }
 
 static Value *
-gnumeric_harmean (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_harmean (void *tsheet, GList *expr_node_list,
+		  int eval_col, int eval_row, char **error_string)
 {
 	stat_inv_sum_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -1303,7 +1326,8 @@ typedef struct {
 } stat_prod_t;
 
 static int
-callback_function_stat_prod (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_stat_prod (Sheet *sheet, Value *value,
+			     char **error_string, void *closure)
 {
 	stat_prod_t *mm = closure;
 	
@@ -1326,7 +1350,8 @@ callback_function_stat_prod (Sheet *sheet, Value *value, char **error_string, vo
 }
 
 static Value *
-gnumeric_geomean (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_geomean (void *tsheet, GList *expr_node_list,
+		  int eval_col, int eval_row, char **error_string)
 {
 	stat_prod_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -1366,7 +1391,8 @@ typedef struct {
 } stat_skew_sum_t;
 
 static int
-callback_function_skew_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_skew_sum (Sheet *sheet, Value *value,
+			    char **error_string, void *closure)
 {
 	stat_skew_sum_t *mm = closure;
 	float tmp;
@@ -1392,7 +1418,8 @@ callback_function_skew_sum (Sheet *sheet, Value *value, char **error_string, voi
 }
 
 static Value *
-gnumeric_skew (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_skew (void *tsheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string)
 {
 	stat_skew_sum_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -1436,7 +1463,8 @@ static char *help_expondist = {
 };
 
 static Value *
-gnumeric_expondist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_expondist (struct FunctionDefinition *i,
+		    Value *argv [], char **error_string)
 {
 	float_t x, y;
 	int cuml, err=0;
@@ -1473,7 +1501,8 @@ static char *help_gammaln = {
 };
 
 static Value *
-gnumeric_gammaln (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_gammaln (struct FunctionDefinition *i, 
+		  Value *argv [], char **error_string)
 {
 	float_t x;
 
@@ -1529,6 +1558,157 @@ gnumeric_gammadist (struct FunctionDefinition *i, Value *argv [],
 				    (pow(beta, alpha) * exp(lgamma(alpha))));
 }
 
+static char *help_gammainv = {
+       N_("@FUNCTION=GAMMAINV\n"
+          "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
+
+          "@DESCRIPTION="
+          "The GAMMAINV function returns the inverse of the cumulative "
+	  "gamma distribution. If GAMMAINV does not converge (accuracy "
+	  "within +/- 3x10^7) after 100 iterations, the function returns "
+	  "#N/A! error. "
+          "\n"
+	  "If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. "
+	  "If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error. "
+	  "\n"
+          "@SEEALSO=GAMMADIST")
+};
+
+static Value *
+gnumeric_gammainv (struct FunctionDefinition *i, Value *argv [],
+		   char **error_string)
+{
+        const int left = 1;
+	const int right = 2;
+        const int iterations = 200;
+	const float_t accuracy_limit = 0.000003;
+        float_t p, p_test, x, step;
+	int     alpha, beta, n, dir = 0;
+
+        p = value_get_as_double (argv [0]);
+	alpha = value_get_as_double (argv [1]);
+	beta = value_get_as_double (argv [2]);
+
+	if (p<0 || p>1 || alpha<=0 || beta<=0) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	x = 10;
+	step = 1;
+	for (n=0; n<iterations; n++) {
+	        if (x < 0)
+		        p_test = 0.0;
+		else
+		        p_test = pgamma(x, alpha, beta);
+		if (fabs(p - p_test) < accuracy_limit)
+		        return value_float (x);
+		if (p < p_test) {
+		        if (dir == right)
+			        step /= 2;
+		        x += step;
+			dir = left;
+		} else {
+		        if (dir == left)
+			        step /= 2;
+		        x -= step;
+			dir = right;
+		}
+	}
+	*error_string = _("#N/A!");
+	return NULL;
+}
+
+static char *help_chidist = {
+	N_("@FUNCTION=CHIDIST\n"
+	   "@SYNTAX=CHIDIST(x,dof)\n"
+
+	   "@DESCRIPTION="
+	   "CHIDIST function returns the one-tailed probability of the "
+	   "chi-squared distribution. @dof is the number of degrees of "
+	   "freedom."
+	   "\n"
+	   "If @dof is non-integer it is truncated. "
+	   "If @dof < 1 CHIDIST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=CHIINV,CHITEST")
+};
+
+static Value *
+gnumeric_chidist (struct FunctionDefinition *i, Value *argv [],
+		  char **error_string)
+{
+	float_t x;
+	int     dof;
+
+	x = value_get_as_double (argv [0]);
+	dof = value_get_as_int (argv [1]);
+
+	if (dof<1) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	return value_float (1.0 - pgamma(x, dof / 2.0, 2.0));
+}
+
+static char *help_chiinv = {
+       N_("@FUNCTION=CHIINV\n"
+          "@SYNTAX=CHIINV(p,dof)\n"
+
+          "@DESCRIPTION="
+          "The CHIINV function returns the inverse of the one-tailed "
+	  "probability of the chi-squared distribution. CHIINV uses an "
+	  "iterative algorithm for calculating the result. If CHIINV "
+	  "does not converge (accuracy within +/- 3x10^7) after 100 "
+	  "iterations, the function returns #N/A! error. "
+          "\n"
+	  "If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. "
+	  "\n"
+          "@SEEALSO=CHIDIST,CHITEST")
+};
+
+static Value *
+gnumeric_chiinv (struct FunctionDefinition *i, Value *argv [],
+		 char **error_string)
+{
+        const int left = 1;
+	const int right = 2;
+        const int iterations = 200;
+	const float_t accuracy_limit = 0.00000003;
+        float_t p, p_test, x, step;
+	int     dof, n, dir = 0;
+
+        p = value_get_as_double (argv [0]);
+	dof = value_get_as_int (argv [1]);
+
+	if (p<0 || p>1 || dof<1) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	x = 10;
+	step = 1;
+	for (n=0; n<iterations; n++) {
+	        if (x < 0)
+		        p_test = 1.0;
+		else
+		        p_test = 1.0 - pgamma(x, dof / 2.0, 2.0);
+		if (fabs(p - p_test) < accuracy_limit)
+		        return value_float (x);
+		if (p < p_test) {
+		        if (dir == right)
+			        step /= 2;
+		        x += step;
+			dir = left;
+		} else {
+		        if (dir == left)
+			        step /= 2;
+		        x -= step;
+			dir = right;
+		}
+	}
+	*error_string = _("#N/A!");
+	return NULL;
+}
+
 static char *help_binomdist = {
 	N_("@FUNCTION=BINOMDIST\n"
 	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -1550,7 +1730,8 @@ static char *help_binomdist = {
 };
 
 static Value *
-gnumeric_binomdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_binomdist (struct FunctionDefinition *i,
+		    Value *argv [], char **error_string)
 {
 	int n, trials;
 	float_t p;
@@ -1603,7 +1784,8 @@ static char *help_critbinom = {
 };
 
 static Value *
-gnumeric_critbinom (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_critbinom (struct FunctionDefinition *i,
+		    Value *argv [], char **error_string)
 {
         int trials;
         float_t p, alpha, sum;
@@ -1648,7 +1830,8 @@ static char *help_permut = {
 };
 
 static Value *
-gnumeric_permut (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_permut (struct FunctionDefinition *i,
+		 Value *argv [], char **error_string)
 {
 	int n, k;
 
@@ -1687,7 +1870,8 @@ static char *help_hypgeomdist = {
 };
 
 static Value *
-gnumeric_hypgeomdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_hypgeomdist (struct FunctionDefinition *i,
+		      Value *argv [], char **error_string)
 {
 	int x, n, M, N;
 
@@ -1728,7 +1912,8 @@ static char *help_confidence = {
 };
 
 static Value *
-gnumeric_confidence (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_confidence (struct FunctionDefinition *i,
+		     Value *argv [], char **error_string)
 {
 	float_t x, stddev;
 	int size;
@@ -1770,7 +1955,8 @@ static char *help_standardize = {
 };
 
 static Value *
-gnumeric_standardize (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_standardize (struct FunctionDefinition *i,
+		      Value *argv [], char **error_string)
 {
 	float_t x, mean, stddev;
 
@@ -1809,7 +1995,8 @@ static char *help_weibull = {
 };
 
 static Value *
-gnumeric_weibull (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_weibull (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
         float_t x, alpha, beta;
         int cuml, err=0;
@@ -1851,7 +2038,8 @@ static char *help_normdist = {
 
 
 static Value *
-gnumeric_normdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_normdist (struct FunctionDefinition *i,
+		   Value *argv [], char **error_string)
 {
         float_t x, mean, stdev;
         int cuml, err=0;
@@ -1898,7 +2086,8 @@ static char *help_norminv = {
 };
 
 static Value *
-gnumeric_norminv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_norminv (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
         const int left = 1;
 	const int right = 2;
@@ -1960,7 +2149,8 @@ typedef struct {
 } stat_kurt_sum_t;
 
 static int
-callback_function_kurt_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_kurt_sum (Sheet *sheet, Value *value,
+			    char **error_string, void *closure)
 {
         stat_kurt_sum_t *mm = closure;
         float_t tmp;
@@ -1988,7 +2178,8 @@ callback_function_kurt_sum (Sheet *sheet, Value *value, char **error_string, voi
 }
 
 static Value *
-gnumeric_kurt (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_kurt (void *tsheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string)
 {
         stat_kurt_sum_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -2044,7 +2235,8 @@ typedef struct {
 } stat_avedev_sum_t;
 
 static int
-callback_function_stat_avedev_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_stat_avedev_sum (Sheet *sheet, Value *value,
+				   char **error_string, void *closure)
 {
         stat_avedev_sum_t *mm = closure;
 
@@ -2066,7 +2258,8 @@ callback_function_stat_avedev_sum (Sheet *sheet, Value *value, char **error_stri
 }
 
 static Value *
-gnumeric_avedev (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_avedev (void *tsheet, GList *expr_node_list,
+		 int eval_col, int eval_row, char **error_string)
 {
         stat_avedev_sum_t pr;
         Sheet *sheet = (Sheet *) tsheet;
@@ -2108,7 +2301,8 @@ typedef struct {
 } stat_devsq_sum_t;
 
 static int
-callback_function_devsq_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_devsq_sum (Sheet *sheet, Value *value, 
+			     char **error_string, void *closure)
 {
         stat_devsq_sum_t *mm = closure;
         float_t tmp;
@@ -2133,7 +2327,8 @@ callback_function_devsq_sum (Sheet *sheet, Value *value, char **error_string, vo
 }
 
 static Value *
-gnumeric_devsq (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_devsq (void *tsheet, GList *expr_node_list,
+		int eval_col, int eval_row, char **error_string)
 {
         stat_devsq_sum_t pr;
         Sheet *sheet = (Sheet *) tsheet;
@@ -2166,7 +2361,8 @@ static char *help_fisher = {
 };
 
 static Value *
-gnumeric_fisher (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_fisher (struct FunctionDefinition *i,
+		 Value *argv [], char **error_string)
 {
         float_t x;
 
@@ -2200,7 +2396,8 @@ static char *help_poisson = {
 };
 
 static Value *
-gnumeric_poisson (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_poisson (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	float_t x, mean;
 	int cuml, err;
@@ -2242,7 +2439,8 @@ static char *help_pearson = {
 };
 
 static Value *
-gnumeric_pearson (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_pearson (void *tsheet, GList *expr_node_list,
+		  int eval_col, int eval_row, char **error_string)
 {
 	stat_correl_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -2307,7 +2505,8 @@ static char *help_rsq = {
 };
 
 static Value *
-gnumeric_rsq (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_rsq (void *tsheet, GList *expr_node_list,
+	      int eval_col, int eval_row, char **error_string)
 {
 	stat_correl_t pr;
 	Sheet *sheet = (Sheet *) tsheet;
@@ -2379,7 +2578,8 @@ typedef struct {
 } stat_median_t;
 
 static int
-callback_function_median (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_median (Sheet *sheet, Value *value,
+			  char **error_string, void *closure)
 {
 	stat_median_t *mm = closure;
 	gpointer        p;
@@ -2406,7 +2606,8 @@ callback_function_median (Sheet *sheet, Value *value, char **error_string, void 
 }
 
 static Value *
-gnumeric_median (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_median (void *tsheet, GList *expr_node_list,
+		 int eval_col, int eval_row, char **error_string)
 {
 	stat_median_t   p;
 	Sheet           *sheet = (Sheet *) tsheet;
@@ -2463,7 +2664,8 @@ static char *help_large = {
 };
 
 static Value *
-gnumeric_large (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_large (void *tsheet, GList *expr_node_list,
+		int eval_col, int eval_row, char **error_string)
 {
 	stat_trimmean_t p;
 	Sheet           *sheet = (Sheet *) tsheet;
@@ -2529,7 +2731,8 @@ static char *help_small = {
 };
 
 static Value *
-gnumeric_small (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_small (void *tsheet, GList *expr_node_list, 
+		int eval_col, int eval_row, char **error_string)
 {
 	stat_trimmean_t p;
 	Sheet           *sheet = (Sheet *) tsheet;
@@ -2604,7 +2807,8 @@ typedef struct {
 } stat_ztest_t;
 
 static int
-callback_function_ztest (Sheet *sheet, Value *value, char **error_string, void *closure)
+callback_function_ztest (Sheet *sheet, Value *value,
+			 char **error_string, void *closure)
 {
 	stat_ztest_t *mm = closure;
 	float_t last;
@@ -2631,7 +2835,8 @@ callback_function_ztest (Sheet *sheet, Value *value, char **error_string, void *
 }
 
 static Value *
-gnumeric_ztest (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_ztest (void *tsheet, GList *expr_node_list,
+		int eval_col, int eval_row, char **error_string)
 {
 	stat_ztest_t p;
 	Sheet        *sheet = (Sheet *) tsheet;
@@ -2671,6 +2876,8 @@ gnumeric_ztest (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 FunctionDefinition stat_functions [] = {
         { "avedev",    0,      "",          &help_avedev,    gnumeric_avedev, NULL },
 	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist, NULL, gnumeric_binomdist },
+	{ "chidist",   "ff",  "",           &help_chidist, NULL, gnumeric_chidist },
+	{ "chiinv",    "ff",  "",           &help_chiinv, NULL, gnumeric_chiinv },
 	{ "confidence", "fff",  "x,stddev,size", &help_confidence, NULL, gnumeric_confidence },
 	{ "critbinom",  "fff",  "trials,p,alpha", &help_critbinom, NULL, gnumeric_critbinom },
         { "correl",     0,      "",         &help_correl,    gnumeric_correl, NULL },
@@ -2682,7 +2889,8 @@ FunctionDefinition stat_functions [] = {
         { "fisher",    "f",    "",          &help_fisher,    NULL, gnumeric_fisher },
         { "fisherinv", "f",    "",          &help_fisherinv, NULL, gnumeric_fisherinv },
 	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
-	{ "gammadist", "fffb", "number,alpha,gamma,cum",    &help_gammadist,   NULL, gnumeric_gammadist },
+	{ "gammadist", "fffb", "number,alpha,beta,cum",    &help_gammadist,   NULL, gnumeric_gammadist },
+	{ "gammainv", "fff",   "number,alpha,beta",        &help_gammainv,   NULL, gnumeric_gammainv },
 	{ "geomean",   0,      "",          &help_geomean,   gnumeric_geomean, NULL },
 	{ "harmean",   0,      "",          &help_harmean,   gnumeric_harmean, NULL },
 	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist, NULL, gnumeric_hypgeomdist },
