@@ -1,3 +1,8 @@
+2002-11-20  Morten Welinder  <terra@diku.dk>
+
+	* oleo.c (astol): Rewrite in terms of strtol.  Eliminate ctype.h
+	usage.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12

@@ -27,7 +27,6 @@
 
 #include <gsf/gsf-input-textline.h>
 
-#include <ctype.h>
 #include <string.h>
 
 #define OLEO_DEBUG 0
@@ -72,35 +71,13 @@ oleo_set_style (Sheet *sheet, int col, int row, MStyle *mstyle)
 static long
 astol (char **ptr)
 {
-	long i = 0;
-	int sign = 1;
-	unsigned char *s, c;
+	char *end;
+	long res;
 
-	s = (unsigned char *)*ptr;
+	res = strtol (*ptr, &end, 10);
+	*ptr = end;
 
-	/* Skip whitespace */
-	while (isspace (*s))
-		if (*s++ == '\0') {
-			*ptr = (char *)s;
-			return (0);
-		}
-	/* Check for - or + */
-	if (*s == '-') {
-		s++;
-		sign = -1;
-	} else if (*s == '+')
-		s++;
-
-	/* FIXME -- this is silly and assumed 32 bit ints.  */
-	/* Read in the digits */
-	for (; (c = *s); s++) {
-		if (!isdigit (c) || i > 214748364 ||
-		    (i == 214748364 && c > (sign > 0 ? '7' : '8')))
-			break;
-		i = i * 10 + c - '0';
-	}
-	*ptr = (char *)s;
-	return i * sign;
+	return res;
 }
 
 static void
@@ -115,7 +92,7 @@ oleo_get_ref_value (int *start, unsigned char *start_relative,
 		s++;
 		*start = astol (&s);
 		s++;			/* Skip ']' */
-	} else if (isdigit ((unsigned char)*s) || *s == '-') {
+	} else if (g_ascii_isdigit (*s) || *s == '-') {
 		*start_relative = FALSE;
 		*start = OLEO_TO_GNUMERIC (astol (&s));
 	} else {
@@ -329,7 +306,7 @@ oleo_deal_with_format (guint8 *str, Sheet *sheet, int *ccol, int *crow,
 			c=*ptr++;
 
 			strcpy (fmt_string, "0");
-			if (isdigit ((unsigned char)*ptr))
+			if (g_ascii_isdigit (*ptr))
 				append_zeros (fmt_string, astol (&ptr));
 			switch (c) {
 			case 'F':
