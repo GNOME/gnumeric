@@ -14,6 +14,7 @@
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
 #include "ms-container.h"
+#include <expr.h>
 
 typedef struct _ExcelSheet
 {
@@ -99,8 +100,10 @@ typedef struct _ExcelWorkbook
 	char		**global_strings;
 	guint32		  global_string_max;
 
-	gboolean warn_unsupported_graphs : 1;
+	gboolean          warn_unsupported_graphs;
 	GSList		 *delayed_names;
+
+	ExprTreeSharer   *expr_sharer;
 
 	/**
 	 * Gnumeric parallel workbook

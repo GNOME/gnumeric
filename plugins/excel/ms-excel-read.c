@@ -35,6 +35,7 @@
 #include <validation.h>
 #include <parse-util.h>	/* for cell_name */
 #include <ranges.h>
+#include <expr.h>
 #include <expr-name.h>
 #include <value.h>
 #include <gutils.h>
@@ -2349,6 +2350,8 @@ ms_excel_workbook_new (MsBiffVersion ver, IOContext *context)
 
 	ExcelWorkbook *ans = g_new (ExcelWorkbook, 1);
 
+	ans->expr_sharer = expr_tree_sharer_new ();
+
 	ms_container_init (&ans->container, &vtbl, NULL);
 	ans->container.ver = ver;
 
@@ -2391,6 +2394,8 @@ static void
 ms_excel_workbook_destroy (ExcelWorkbook *ewb)
 {
 	unsigned lp;
+
+	expr_tree_sharer_destroy (ewb->expr_sharer);
 
 	g_hash_table_foreach_remove (ewb->boundsheet_data_by_stream,
 		(GHRFunc)biff_boundsheet_data_destroy, ewb);

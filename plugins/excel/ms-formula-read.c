@@ -1444,5 +1444,5 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		return expr_tree_string ("Too much data on stack - probable cause: "
 					 "fixed args function is var-arg, put '-1' in the table above");
 	}
-	return parse_list_pop (&stack);
+	return expr_tree_sharer_share (ewb->expr_sharer, parse_list_pop (&stack));
 }
