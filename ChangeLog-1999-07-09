@@ -1,3 +1,12 @@
+999-06-22  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+        * samples/statfuns.xls: Added MMULT and MINVERSE tests.
+
+        * samples/lookfuns.xls: Added a new file for testing lookup and
+ 	reference functions.
+
+        * samples/logfuns.xls: Added a new file for testing logical
+        functions.
+
 1999-06-22  Nat Friedman  <nat@gnome-support.com>
 
 	* src/sheet-object-container.c (sheet_object_container_land): Use
