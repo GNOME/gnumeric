@@ -344,10 +344,13 @@ exp:	  NUMBER 	{ $$ = $1; }
 
         | exp '%' { $$ = build_unary_op (OPER_PERCENT, $1); }
         | '-' exp %prec NEG { $$ = build_unary_op (OPER_NEG, $2); }
-        | '+' exp %prec PLUS { $$ = $2; }
-
         | '+' exp %prec PLUS {
-		$$ = $2;
+		/* count(+a1) is 1, if a1 is blank.  Treat +a1 as 0+a1.  */
+		unregister_allocation ($2);
+		$$ = register_expr_allocation (
+			expr_tree_new_binary (expr_tree_new_constant (value_new_int (0)),
+					      OPER_ADD,
+					      $2));
 	}
 
         | '{' array_cols '}' {

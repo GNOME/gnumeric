@@ -1,5 +1,10 @@
 2000-01-18  Morten Welinder  <terra@diku.dk>
 
+	* src/parser.y (exp -> + exp): treat as 0+exp.  Remove duplicate
+ 	production.
+
+2000-01-18  Morten Welinder  <terra@diku.dk>
+
 	* plugins/Makefile.am (SUBDIRS): Delete the superseded stat
  	plugin.
 
