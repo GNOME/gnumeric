@@ -46,7 +46,7 @@ AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 dnl
 dnl On Solaris finite() needs ieeefp.h
 dnl
-AC_CHECK_HEADER(ieeefp.h)
+AC_CHECK_HEADERS(ieeefp.h)
 
 dnl **************************************************
 dnl * ORBit support
