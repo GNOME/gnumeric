@@ -418,6 +418,8 @@ wbcg_set_entry (WorkbookControlGUI *wbcg, GnumericExprEntry *entry)
 void
 wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	
 	g_return_if_fail (guru != NULL);
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_return_if_fail (wbcg->edit_line.guru == NULL);
@@ -430,11 +432,13 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	wbcg->edit_line.guru = guru;
 	gtk_entry_set_editable (GTK_ENTRY (wbcg->edit_line.entry), FALSE);
 	workbook_edit_set_sensitive (wbcg, FALSE, FALSE);
+	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
 }
 
 void
 wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	if (wbcg->edit_line.guru == NULL)
@@ -444,6 +448,7 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 	wbcg->edit_line.guru = NULL;
 	gtk_entry_set_editable (GTK_ENTRY (wbcg->edit_line.entry), TRUE);
 	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
+	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
 }
 
 gboolean

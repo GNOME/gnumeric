@@ -1,3 +1,19 @@
+2001-06-07  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-control.h: Add MS_CONSOLIDATE.
+
+	* src/workbook-edit.c (wbcg_edit_attach_guru): Call
+	wb_control_menu_state_update
+	(wbcg_edit_detach_guru): Idem.
+
+	* src/workbook-control-gui-priv.h: Add consolidation
+	menu item.
+	
+	* src/workbook-control-gui.c (wbcg_menu_state_update): Add
+	consolidation menu item.
+	(workbook_control_gui_init): Initialize consolidation
+	menu item.
+
 2001-06-06  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/stf.c (stf_read_workbook): Fix warning.

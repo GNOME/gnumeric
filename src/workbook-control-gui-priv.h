@@ -40,6 +40,7 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_print_setup;
 	GtkWidget  *menu_item_search_replace;
 	GtkWidget  *menu_item_define_name;
+	GtkWidget  *menu_item_consolidate;
 	
 	/* Menu items that get toggled */
 	GtkWidget  *menu_item_sheet_display_formulas;

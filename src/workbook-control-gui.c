@@ -830,6 +830,9 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 	if (all || MS_DEFINE_NAME & flags)
 		change_menu_sensitivity (wbcg->menu_item_define_name,
 					 !wbcg_edit_has_guru (wbcg));
+	if (all || MS_CONSOLIDATE & flags)
+		change_menu_sensitivity (wbcg->menu_item_consolidate,
+					 !wbcg_edit_has_guru (wbcg));
 #else
 	if (all || MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
@@ -857,6 +860,9 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 					 !wbcg_edit_has_guru (wbcg));
 	if (all || MS_DEFINE_NAME & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditNames",
+					 !wbcg_edit_has_guru (wbcg));
+	if (all || MS_CONSOLIDATE & flags)
+		change_menu_sensitivity (wbcg, "/commands/DataConsolidate",
 					 !wbcg_edit_has_guru (wbcg));
 #endif
 }
@@ -3501,6 +3507,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_insert [3].widget;
 	wbcg->menu_item_define_name =
 		workbook_menu_names [0].widget;
+	/* FIXME: Once input validation is enabled change the [3] */
+	wbcg->menu_item_consolidate =
+		workbook_menu_data [3].widget;
 	
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;
