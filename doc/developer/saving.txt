@@ -72,7 +72,7 @@ ColRowInfo
    int margin_b
    int pixels
 
-Cell
+GnmCell
    GnmCellPos pos
    StyleFormat *parse_format	// The format used to parse the input text
 

@@ -144,7 +144,7 @@ cworkbook_sheets (PortableServer_Servant servant,
 }
 
 static void
-wbcc_error (CommandContext *ctxt, GError *gerr)
+wbcc_error (GnmCmdContext *ctxt, GError *gerr)
 {
 	WorkbookControlCORBA *wbcc = WORKBOOK_CONTROL_CORBA (ctxt);
 
@@ -177,13 +177,13 @@ wbcc_error (CommandContext *ctxt, GError *gerr)
 }
 
 static char *
-wbcc_get_password (CommandContext *cc, char const* msg)
+wbcc_get_password (GnmCmdContext *cc, char const* msg)
 {
 	return NULL;
 }
 
 static void
-wbcc_set_sensitive (CommandContext *cc, gboolean sensitive)
+wbcc_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 {
 }
 
@@ -246,7 +246,7 @@ wbcc_finalize (GObject *obj)
 static void
 wbcc_class_init (GObjectClass *object_class)
 {
-	CommandContextClass *cc_class = COMMAND_CONTEXT_CLASS (object_class);
+	GnmCmdContextClass *cc_class = GNM_CMD_CONTEXT_CLASS (object_class);
 	WorkbookControlClass *wbc_class = WORKBOOK_CONTROL_CLASS (object_class);
 
 	object_class->finalize	    = &wbcc_finalize;

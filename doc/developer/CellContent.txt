@@ -1,10 +1,10 @@
 /* $Id$/
 
-Cell Content		Jody Goldberg <jgoldberg@home.com>
+Cell Content		Jody Goldberg <jody@gnome.org>
 
 
 Overview
-    Cell is one of the most widely used aspects of Gnumeric.  This document
+    GnmCell is one of the most widely used aspects of Gnumeric.  This document
     describes the operations and state changes that are available.
 
 Content

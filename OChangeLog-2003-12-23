@@ -1,3 +1,17 @@
+2003-10-10  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (stf_write_csv) : new to write csv files without
+	  intervention.
+	(stf_init) : Use it.
+
+2003-10-09  Jody Goldberg <jody@gnome.org>
+
+	* src/libgnumeric.c : pull the ancient if BONOBO checks
+
+	* src/io-context-gtk.c (icg_show_gui) : mark the window as a splash.
+
+	* schemas/Makefile.am : make friendlier for rpm builders
+
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump 

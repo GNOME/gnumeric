@@ -156,12 +156,11 @@ dif_parse_data (DifInputContext *ctxt)
 
 	while (1) {
 		gint val_type;
-		Cell *cell;
+		GnmCell *cell;
 		gchar *msg;
 
-		if (!dif_get_line (ctxt)) {
+		if (!dif_get_line (ctxt))
 			return FALSE;
-		}
 
 		val_type = atoi (ctxt->line);
 		if (val_type == 0) {
@@ -303,9 +302,7 @@ dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	for (row = r.start.row; res && row <= r.end.row; row++) {
 		gsf_output_puts (output, "-1,0\n" "BOT\n");
 		for (col = r.start.col; col <= r.end.col; col++) {
-			Cell *cell;
-
-			cell = sheet_cell_get (sheet, col, row);
+			GnmCell *cell = sheet_cell_get (sheet, col, row);
 			if (cell_is_empty (cell)) {
 				gsf_output_puts(output, "1,0\n" "\"\"\n");
 			} else {

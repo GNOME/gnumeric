@@ -97,7 +97,7 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 static void
-excel_read_metadata (GsfInfileMSOle *ole, char const *name, CommandContext *context)
+excel_read_metadata (GsfInfileMSOle *ole, char const *name, GnmCmdContext *context)
 {
 	GError   *err = NULL;
 	GsfInput *stream = gsf_infile_child_by_name (GSF_INFILE (ole), name);
@@ -153,7 +153,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 
 		/* OK, it really isn't an Excel file */
 		g_return_if_fail (err != NULL);
-		gnumeric_error_read (COMMAND_CONTEXT (context),
+		gnumeric_error_read (GNM_CMD_CONTEXT (context),
 			err->message);
 		g_error_free (err);
 		return;
@@ -163,7 +163,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 		stream = gsf_infile_child_by_name (GSF_INFILE (ole), content[i++]);
 	} while (stream == NULL && i < G_N_ELEMENTS (content));
 	if (stream == NULL) {
-		gnumeric_error_read (COMMAND_CONTEXT (context),
+		gnumeric_error_read (GNM_CMD_CONTEXT (context),
 			 _("No Workbook or Book streams found."));
 		g_object_unref (G_OBJECT (ole));
 		return;
@@ -172,8 +172,8 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	excel_read_workbook (context, wbv, stream, &is_double_stream_file);
 	g_object_unref (G_OBJECT (stream));
 
-	excel_read_metadata (ole, "\05SummaryInformation", COMMAND_CONTEXT (context));
-	excel_read_metadata (ole, "\05DocumentSummaryInformation", COMMAND_CONTEXT (context));
+	excel_read_metadata (ole, "\05SummaryInformation", GNM_CMD_CONTEXT (context));
+	excel_read_metadata (ole, "\05DocumentSummaryInformation", GNM_CMD_CONTEXT (context));
 
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (GSF_INFILE (ole), "_VBA_PROJECT_CUR");

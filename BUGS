@@ -8,6 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=124244	[unable to open group]
+    http://bugzilla.gnome.org/show_bug.cgi?id=122546	[col labels]
     http://bugzilla.gnome.org/show_bug.cgi?id=123342	[gda borkage]
     - Verify histogram tool.  Feels fubar.
     : text in boxes for text-xls/pivot.xls is white ??
@@ -328,7 +330,7 @@ Short Term Goals
 	1.31.8) Text alignment
 	1.31.9) Text clipping
     1.32) Radar plots
-	1.31.1) Basic (looks trivial)
+	1.31.1) Basic (looks trivial)			{SamuriaMike}
 
     questions
 	- how to select a single point for formating ?
@@ -505,6 +507,13 @@ Short Term Goals
     	  the use of gconf.
     29.5) update the preference structure on local changes 
           (this is an automatic consequence of 29.2)	
+
+30) Cleanup importers/exporters
+    30.1) multiple extensions for exporters, with a default
+    30.2) flag/virtual for an imp/exp to flag viability with current context
+    30.3) support command line flags via popt
+    30.4) remove bogosity of function pointers that are unused
+    	in the base instance.
 
 Misc stuff that should be fixed
 -------------------------------

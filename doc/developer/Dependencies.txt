@@ -31,7 +31,7 @@ cell.  We can find that quickly via the hash.
 contained by several regions.  Finding which regions requires traversing the
 list of regions looking for intersections.  See below.
 
-2.     Dependent Evaluation
+2.     GnmDependent Evaluation
 
        The routine dependent_eval will evaluate a dependent and if its value
 changes it will queue cells that depend on it, these are obtained via
@@ -150,14 +150,14 @@ collection tracks that.
 
 	Functions like INDEX, INDIRECT and some of the range operators produce
 new ranges at run time.  As a result these are not registered when an dependent
-is linked.  The DynamicDep structure is a special form of Dependent that is
+is linked.  The DynamicDep structure is a special form of GnmDependent that is
 used to collect and remove the dependencies as they get generated.  When a
 dependent with dynamic depends is evaluated or unlinked the list is cleared.
 The process of evaluation then repopulates the set.
 
 4.     The life cycle of dependency records
 
-	A Dependent is 'linked' if its dependencies on other things have been
+	A GnmDependent is 'linked' if its dependencies on other things have been
 registered with its container,  and 'unlinked' if not.  Linking takes place by
 traversing the expression tree and registering the single, range, and 3d
 references.  

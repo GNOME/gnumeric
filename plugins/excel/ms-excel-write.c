@@ -2092,7 +2092,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		if (xfd->hidden)
 			tmp16 |= (1 << 1);
 
-		tmp16 |= (0 << 2);	/* Cell style */
+		tmp16 |= (0 << 2);	/* GnmCell style */
 		/* tmp16 |= (0 << 3);	lotus123 transition */
 		/* tmp16 |= (0 << 4);	style 0 == parent */
 		GSF_LE_SET_GUINT16(data+4, tmp16);
@@ -2495,7 +2495,7 @@ excel_write_value (ExcelWriteState *ewb, GnmValue *v, guint32 col, guint32 row, 
 }
 
 static void
-excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, Cell const *cell, gint16 xf)
+excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell const *cell, gint16 xf)
 {
 	guint8   data[22];
 	guint8   lendat[2];
@@ -2611,7 +2611,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 				      CELL_COMMENT_TYPE);
 
 	for (l = comments; l; l = l->next) {
-		CellComment const *cc = l->data;
+		GnmComment const *cc = l->data;
 		GnmRange const *pos     = sheet_object_range_get (SHEET_OBJECT (cc));
 		char const  *in = cell_comment_text_get (cc);
 		unsigned in_bytes, out_bytes;
@@ -2658,7 +2658,7 @@ repeat:
  * Write cell to file
  **/
 static void
-write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet, Cell const *cell, unsigned xf)
+write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell const *cell, unsigned xf)
 {
 	d (2, {
 		ParsePos tmp;
@@ -3589,7 +3589,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	unsigned  ri_start [2]; /* Row info start */
 	unsigned *rc_start;	/* Row cells start */
 	guint16   xf_list [SHEET_MAX_COLS];
-	Cell const *cell;
+	GnmCell const *cell;
 	Sheet	   *sheet = esheet->gnum_sheet;
 	int	    xf;
 	TwoWayTable *twt = esheet->ewb->xf.two_way_table;
@@ -4205,7 +4205,7 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
-		gnumeric_error_save (COMMAND_CONTEXT (ewb->io_context),
+		gnumeric_error_save (GNM_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Book' for writing\n"));
 }
 
@@ -4225,14 +4225,14 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
-		gnumeric_error_save (COMMAND_CONTEXT (ewb->io_context),
+		gnumeric_error_save (GNM_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Workbook' for writing\n"));
 }
 
 /****************************************************************************/
 
 static void
-sst_collect_str (gpointer ignored, Cell const *cell, ExcelWriteState *ewb)
+sst_collect_str (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 {
 	int index;
 	GnmString *str;

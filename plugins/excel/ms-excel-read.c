@@ -2121,7 +2121,7 @@ static void
 excel_sheet_insert (ExcelReadSheet *esheet, int xfidx,
 		    int col, int row, char const *text)
 {
-	Cell *cell;
+	GnmCell *cell;
 
 	excel_set_xf (esheet, col, row, xfidx);
 
@@ -2132,7 +2132,7 @@ excel_sheet_insert (ExcelReadSheet *esheet, int xfidx,
 }
 
 static GnmExpr const *
-excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, Cell *cell)
+excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 {
 	guint16 opcode, data_len;
 	GnmRange   r;
@@ -2218,7 +2218,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	guint16 expr_length;
 	guint offset, val_offset;
 	GnmExpr const *expr;
-	Cell	 *cell;
+	GnmCell	 *cell;
 	GnmValue	 *val = NULL;
 
 	excel_set_xf (esheet, col, row, xf_index);
@@ -2905,7 +2905,7 @@ excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 	if (nexpr->pos.sheet != NULL) {
 		GnmValue *v = gnm_expr_get_range (nexpr->expr);
 		if (v != NULL) {
-			GnmGlobalRange r;
+			GnmSheetRange r;
 			gboolean valid = value_to_global_range (v, &r);
 			value_release (v);
 
@@ -3084,7 +3084,7 @@ excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 	unsigned len;
 	int count;
 	Sheet *sheet = NULL;
-	Cell  *cell;
+	GnmCell  *cell;
 	GnmValue *v;
 	EvalPos ep;
 
@@ -3680,7 +3680,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 	while (num_merged-- > 0) {
 		data = excel_read_range (&r, data);
 		sheet_merge_add (esheet->sheet, &r, FALSE,
-			COMMAND_CONTEXT (esheet->container.ewb->context));
+			GNM_CMD_CONTEXT (esheet->container.ewb->context));
 	}
 }
 
@@ -5413,7 +5413,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 				break;
 			do {
 				char const *filename = workbook_get_filename (ewb->gnum_wb);
-				char *passwd = cmd_context_get_password (COMMAND_CONTEXT (ewb->context), filename);
+				char *passwd = cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context), filename);
 				if (passwd == NULL) {
 					problem_loading = _("No password supplied");
 					break;
@@ -5515,11 +5515,11 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		/* If we were forced to stop then the load failed */
 		if (problem_loading != NULL)
-			gnumeric_error_read (COMMAND_CONTEXT (context), problem_loading);
+			gnumeric_error_read (GNM_CMD_CONTEXT (context), problem_loading);
 		return;
 	}
 
-	gnumeric_error_read (COMMAND_CONTEXT (context),
+	gnumeric_error_read (GNM_CMD_CONTEXT (context),
 		_("Unable to locate valid MS Excel workbook"));
 }
 

@@ -1,3 +1,11 @@
+Gnumeric 1.2.2
+
+Jody:
+	* More renaming
+	* Don't install schemas when building an rpm.
+	* Support non-assisted CSV export for ssconvert
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.1
 
 Adrian Custer:
