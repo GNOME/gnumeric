@@ -18545,15 +18545,15 @@ msgstr "Ошибка при попытке записи csv файла"
 
 #: src/stf.c:438
 msgid "Text File import (customizable)"
-msgstr "Импорт тестового файла (настраиваемый)"
+msgstr "Импорт текстового файла (настраиваемый)"
 
 #: src/stf.c:441
 msgid "Text File import (default csv)"
-msgstr "Импорт тестового файла (по умолчанию csv)"
+msgstr "Импорт текстового файла (по умолчанию csv)"
 
 #: src/stf.c:446
 msgid "Text File Export (*.csv)"
-msgstr "Экспорт тестового файла (*.csv)"
+msgstr "Экспорт текстового файла (*.csv)"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
