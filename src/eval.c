@@ -23,9 +23,6 @@ cell_eval (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 
-	if (cell->text)
-		string_unref (cell->text);
-	
 	v = eval_expr (cell->sheet, cell->parsed_node,
 		       cell->col->pos,
 		       cell->row->pos,

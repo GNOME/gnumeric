@@ -182,7 +182,7 @@ style_new (void)
 	style->font    = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
 	style->border  = style_border_new_plain ();
 
-	style->halign = HALIGN_LEFT;
+	style->halign = HALIGN_GENERAL;
 	style->valign = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
 	

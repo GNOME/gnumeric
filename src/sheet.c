@@ -1572,7 +1572,6 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 
 	cell = g_new0 (Cell, 1);
-	cell->flags |= 	CELL_DEFAULT_STYLE;
 
 	sheet_cell_add (sheet, cell, col, row);
 	return cell;

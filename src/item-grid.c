@@ -161,6 +161,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	Style         *style;
 	int           x_offset, y_offset, text_base, pixels;
 	GdkRectangle  rect;
+	int           halign;
 	
 #if 0
 	item_debug_cross (drawable, gc, x1, y1, x1+width, y1+height);
@@ -209,14 +210,17 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		break;
 	}
 #endif
-	
-	switch (style->halign){
-	case HALIGN_GENERAL:
-		if (col < SHEET_MAX_COLS-1)
-			clip_right = sheet_cell_get (sheet, col+1, row);
-		x_offset = cell->col->margin_a;
-		break;
 
+	halign = style->halign;
+		
+	if (halign == HALIGN_GENERAL && cell->value){
+		if (cell->value->type == VALUE_FLOAT || cell->value->type == VALUE_INTEGER)
+			halign = HALIGN_RIGHT;
+		else
+			halign = HALIGN_LEFT;
+	}
+	
+	switch (halign){
 	case HALIGN_LEFT:
 		if (col < SHEET_MAX_COLS-1)
 			clip_right = sheet_cell_get (sheet, col+1, row);

@@ -51,8 +51,6 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->style != NULL);
 
-	cell->flags &= ~CELL_DEFAULT_STYLE;
-
 	if ((cell->style->halign == halign) &&
 	    (cell->style->halign == valign) &&
 	    (cell->style->orientation == orient))
@@ -62,41 +60,6 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient)
 	cell->style->valign = valign;
 	cell->style->orientation = orient;
 
-	cell_queue_redraw (cell);
-}
-
-/*
- * cell_auto_align:
- * @cell:  The cell to configure the alignment to
- *
- * This routine sets the alignemnt of a cell depending on the data
- * represented in the cell.  This routine does nothing if a style
- * has been explicitly set
- */
-static void
-cell_auto_align (Cell *cell)
-{
-	int align;
-
-	if (!(cell->flags & CELL_DEFAULT_STYLE))
-		return;
-	
-	if (!cell->value)
-		align = HALIGN_LEFT;
-	else 
-		switch (cell->value->type){
-		case VALUE_STRING:
-			align = HALIGN_LEFT;
-			break;
-		case VALUE_INTEGER:
-		case VALUE_FLOAT:
-			align = HALIGN_RIGHT;
-			break;
-		default:
-			return;
-		}
-
-	cell->style->halign = align;
 	cell_queue_redraw (cell);
 }
 
@@ -158,7 +121,6 @@ cell_render_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
-	cell_auto_align (cell);
 	str = format_value (cell->style->format, cell->value, NULL);
 	cell_set_rendered_text (cell, str);
 	g_free (str);
@@ -209,8 +171,6 @@ cell_set_text (Cell *cell, char *text)
 		if (is_text){
 			v->type = VALUE_STRING;
 			v->v.str = string_get (text);
-
-			cell_set_rendered_text (cell, text);
 		} else {
 			if (is_float){
 				v->type = VALUE_FLOAT;
