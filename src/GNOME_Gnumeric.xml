@@ -383,7 +383,7 @@
 		_label="_Add / Modify comment..."
 		_tip="Edit the selected cell's comment"/>
 
-	    <menuitem name="InsertHyperLink" verb=""
+	    <menuitem name="InsertHyperlink" verb=""
 		pixtype="stock" pixname="Gnumeric_Link_Add"
 		_label="Hyper_link..."
 		_tip="Insert a Hyperlink"/>
