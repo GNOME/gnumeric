@@ -90,9 +90,15 @@ activate_column (StfDialogData *pagedata, int i)
 	/* FIXME: warp focus away from the header.  */
 
 	colformat = g_ptr_array_index (pagedata->format.formats, pagedata->format.index);
-	if (colformat)
-		number_format_selector_set_style_format (pagedata->format.format_selector,
-							 colformat);
+	if (colformat) {
+	     g_signal_handler_block(pagedata->format.format_selector,
+				    pagedata->format.format_changed_handler_id);
+	     number_format_selector_set_style_format 
+		  (pagedata->format.format_selector, colformat);
+	     g_signal_handler_unblock(pagedata->format.format_selector,
+				      pagedata->format.format_changed_handler_id);
+	}
+	
 }
 
 
@@ -354,10 +360,11 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.manual_change = FALSE;
 
 	/* Connect signals */
-	g_signal_connect (G_OBJECT (pagedata->format.format_selector),
-			  "number_format_changed",
-			  G_CALLBACK (cb_number_format_changed),
-			  pagedata);
+	pagedata->format.format_changed_handler_id = 
+	     g_signal_connect (G_OBJECT (pagedata->format.format_selector),
+			       "number_format_changed",
+			       G_CALLBACK (cb_number_format_changed),
+			       pagedata);
 	g_signal_connect (G_OBJECT (pagedata->format.locale_selector),
 			  "locale_changed",
 			  G_CALLBACK (locale_changed_cb), pagedata);

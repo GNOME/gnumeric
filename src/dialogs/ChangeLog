@@ -1,3 +1,10 @@
+2003-07-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=116300
+	* dialog-stf.h: added format.format_changed_handler_id
+	* dialog-stf-format-page.c (activate_column): block
+	  format_changed signal handler
+
 2003-07-02  Jody Goldberg <jody@gnome.org>
 
 	* dialog-tabulate.c (dialog_tabulate) : Use GObject properties in
