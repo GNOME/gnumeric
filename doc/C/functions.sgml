@@ -10,6 +10,8 @@
 <listitem><para><link linkend="gnumeric-ACOS">ACOS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ACOSH">ACOSH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ADDRESS">ADDRESS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-AMORDEGRC">AMORDEGRC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-AMORLINC">AMORLINC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-AND">AND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ASIN">ASIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ASINH">ASINH</link></para></listitem>
@@ -53,8 +55,16 @@
 <listitem><para><link linkend="gnumeric-COUNTA">COUNTA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COUNTBLANK">COUNTBLANK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COUNTIF">COUNTIF</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUPDAYBS">COUPDAYBS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUPDAYS">COUPDAYS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUPDAYSNC">COUPDAYSNC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUPNCD">COUPNCD</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUPNUM">COUPNUM</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUPPCD">COUPPCD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COVAR">COVAR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CRITBINOM">CRITBINOM</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CUMIPMT">CUMIPMT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CUMPRINC">CUMPRINC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DATE">DATE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DATEVALUE">DATEVALUE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DAVERAGE">DAVERAGE</link></para></listitem>
@@ -187,6 +197,7 @@
 <listitem><para><link linkend="gnumeric-MAX">MAX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MAXA">MAXA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MDETERM">MDETERM</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MDURATION">MDURATION</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MEDIAN">MEDIAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MID">MID</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MIN">MIN</link></para></listitem>
@@ -318,6 +329,7 @@
 <listitem><para><link linkend="gnumeric-VARA">VARA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-VARP">VARP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-VARPA">VARPA</link></para></listitem>
+<listitem><para><link linkend="gnumeric-VDB">VDB</link></para></listitem>
 <listitem><para><link linkend="gnumeric-VLOOKUP">VLOOKUP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-WEEKDAY">WEEKDAY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-WEIBULL">WEIBULL</link></para></listitem>
@@ -461,7 +473,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>COSH(0.5) equals 1.127626. COSH(1) equals 1.543081.</para>
+        <para>COSH(0.5) equals 1.127626.</para>        <para>COSH(1) equals 1.543081.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COS">COS</link>
@@ -1491,7 +1503,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>ASINH(0.5) equals 0.481212. ASINH(1.0) equals 0.881374.</para>
+        <para>ASINH(0.5) equals 0.481212.</para>        <para>ASINH(1.0) equals 0.881374.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ASIN">ASIN</link>
@@ -1529,6 +1541,33 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-POISSON">POISSON</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUPDAYBS">COUPDAYBS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUPDAYBS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUPDAYBS(settlement,maturity,frequency[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the number of days from the beginning of the coupon period to the settlement date.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -2119,6 +2158,33 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUPDAYSNC">COUPDAYSNC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUPDAYSNC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUPDAYSNC(settlement,maturity,frequency[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the number of days from the settlement date to the next coupon date.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-INTERCEPT">INTERCEPT</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -2345,6 +2411,33 @@
       <para>        <link linkend="gnumeric-RAND">RAND</link>
 ,         <link linkend="gnumeric-RANDBETWEEN">RANDBETWEEN</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUPDAYS">COUPDAYS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUPDAYS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUPDAYS(settlement,maturity,frequency[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the number of days in the coupon period of the settlement date.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -2989,6 +3082,33 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-CUMIPMT">CUMIPMT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CUMIPMT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CUMIPMT(rate,nper,pv,start_period,end_period,type)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the cumulative interest paid on a loan between @start_period and @end_period.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-SUMSQ">SUMSQ</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3348,7 +3468,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>ATAN2(0.5,1.0) equals 1.107149. ATAN2(-0.5,2.0) equals 1.815775.</para>
+        <para>ATAN2(0.5,1.0) equals 1.107149.</para>        <para>ATAN2(-0.5,2.0) equals 1.815775.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ATAN">ATAN</link>
@@ -3439,7 +3559,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>CEIL(0.4) equals 1. CEIL(-1.1) equals -1. CEIL(-2.9) equals -2.</para>
+        <para>CEIL(0.4) equals 1.</para>        <para>CEIL(-1.1) equals -1.</para>        <para>CEIL(-2.9) equals -2.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ABS">ABS</link>
@@ -3460,12 +3580,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>MDETERM(array)</synopsis>
+      <synopsis>MDETERM(matrix)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para>MDETERM function returns the determinant of a given matrix. </para>
-        <para>If the matrix does not contain equal number of columns and rows, MDETERM returns #VALUE! error. This function is Excel compatible. </para>
+        <para>If the @matrix does not contain equal number of columns and rows, MDETERM returns #VALUE! error. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3475,6 +3595,60 @@
       <para>        <link linkend="gnumeric-MMULT">MMULT</link>
 ,         <link linkend="gnumeric-MINVERSE">MINVERSE</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUPNCD">COUPNCD</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUPNCD</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUPNCD(settlement,maturity,frequency[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the coupon date following settlement.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MDURATION">MDURATION</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MDURATION</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MDURATION(settlement,maturity,coupon,yield,frequency[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the Macauley duration for a security with par value 100.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -4093,6 +4267,33 @@
 ,         <link linkend="gnumeric-STDEV">STDEV</link>
 ,         <link linkend="gnumeric-VAR">VAR</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-AMORLINC">AMORLINC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>AMORLINC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the depreciation for each accounting period.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -4889,12 +5090,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>MINVERSE(array)</synopsis>
+      <synopsis>MINVERSE(matrix)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para>MINVERSE function returns the inverse matrix of a given matrix. </para>
-        <para>If the matrix cannot be inverted, MINVERSE returns #NUM! error. If the matrix does not contain equal number of columns and rows, MINVERSE returns #VALUE! error. This function is Excel compatible. </para>
+        <para>If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the @matrix does not contain equal number of columns and rows, MINVERSE returns #VALUE! error. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5049,6 +5250,33 @@
 ,         <link linkend="gnumeric-BESSELK">BESSELK</link>
 ,         <link linkend="gnumeric-BESSELY">BESSELY</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUPPCD">COUPPCD</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUPPCD</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUPPCD(settlement,maturity,frequency[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the coupon date preceeding settlement.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -6720,7 +6948,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>ATANH(0.5) equals 0.549306. ATANH(0.8) equals 1.098612.</para>
+        <para>ATANH(0.5) equals 0.549306.</para>        <para> ATANH(0.8) equals 1.098612.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ATAN">ATAN</link>
@@ -7417,12 +7645,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>MATCH(seek,vector1[,type])</synopsis>
+      <synopsis>MATCH(seek,vector[,type])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The MATCH function finds the row index of 'value' in @vector1 and returns it. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used. if type = 1,  finds largest value <= seek,if type = 0,  finds first value == seek,if type = -1, finds smallest value >= seek,</para>
-        <para>If LOOKUP can't find @value it uses the next largest value less than value. The data must be sorted. </para>        <para>If @value is smaller than the first value it returns #N/A</para>
+        <para>The MATCH function finds the row index of @seek in @vector and returns it. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.</para>
+        <para>The @type parameter, which defaults to +1, controls the search:</para>        <para>If @type = 1,  finds largest value <= @seek.</para>        <para>If @type = 0,  finds first value == @seek.</para>        <para>If @type = -1, finds smallest value >= @seek.</para>        <para></para>        <para>For type 0, the data can be in any order.  For types -1 and +1, the data must be sorted.  (And in this case, MATCH uses a binary search to locate the index.)</para>        <para>If @seek could not be found, #N/A is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7556,6 +7784,34 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-VDB">VDB</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>VDB</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>VDB(cost,salvage,life,start_period,end_period[,factor,switch])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>VDB calculates the depreciation of an asset for a given period or partial period using the double-declining balance method.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DB">DB</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-PROPER">PROPER</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -7625,12 +7881,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>CEILING function rounds @x up to the nearest multiple of significance. </para>
+        <para>CEILING function rounds @x up to the nearest multiple of @significance. </para>
         <para>If @x or @significance is non-numeric CEILING returns #VALUE! error. If @x and @significance have different signs CEILING returns #NUM! error. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>CEILING(2.43,1) equals 3. CEILING(123.123,3) equals 126.</para>
+        <para>CEILING(2.43,1) equals 3.</para>        <para>CEILING(123.123,3) equals 126.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-CEIL">CEIL</link>
@@ -8068,6 +8324,33 @@
 ,         <link linkend="gnumeric-DEC2OCT">DEC2OCT</link>
 ,         <link linkend="gnumeric-DEC2HEX">DEC2HEX</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUPNUM">COUPNUM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUPNUM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUPNUM(settlement,maturity,frequency[,basis])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -8893,7 +9176,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>ATAN(0.5) equals 0,463648.</para>        <para>ATAN(1) equals 0,785398.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-TAN">TAN</link>
@@ -9453,6 +9736,33 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-CUMPRINC">CUMPRINC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CUMPRINC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CUMPRINC(rate,nper,pv,start_period,end_period,type)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the cumulative principal paid on a loan between @start_period and @end_period.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-ACOSH">ACOSH</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -9698,6 +10008,33 @@
       <refsect1>
         <title>Description</title>
         <para>INFO returns information about the current operating environment. This function is Excel compatible. </para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-AMORDEGRC">AMORDEGRC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>AMORDEGRC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the depreciation for each accounting period.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>

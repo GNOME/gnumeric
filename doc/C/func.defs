@@ -45,7 +45,9 @@ RANDBETWEEN(3,7).
 @SYNTAX=COSH(x)
 @DESCRIPTION=COSH function returns the hyperbolic cosine of @x, which is defined mathematically as (exp(@x) + exp(-@x)) / 2.   @x is in radians. This function is Excel compatible. 
 @EXAMPLES=
-COSH(0.5) equals 1.127626. COSH(1) equals 1.543081.
+COSH(0.5) equals 1.127626.
+COSH(1) equals 1.543081.
+
 @SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP
 
 @FUNCTION=YIELDDISC
@@ -376,7 +378,9 @@ MID("testing",2,3) equals "est".
 @SYNTAX=ASINH(x)
 @DESCRIPTION=ASINH function calculates the inverse hyperbolic sine of @x; that is the value whose hyperbolic sine is @x. This function is Excel compatible. 
 @EXAMPLES=
-ASINH(0.5) equals 0.481212. ASINH(1.0) equals 0.881374.
+ASINH(0.5) equals 0.481212.
+ASINH(1.0) equals 0.881374.
+
 @SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS
 
 @FUNCTION=EXPONDIST
@@ -387,6 +391,13 @@ If @x < 0 or @y <= 0 this will return an error.  This function is Excel compatib
 EXPONDIST(2,4,0) equals 0.001341851.
 
 @SEEALSO=POISSON
+
+@FUNCTION=COUPDAYBS
+@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])
+@DESCRIPTION=Returns the number of days from the beginning of the coupon period to the settlement date.
+@EXAMPLES=
+
+@SEEALSO=
 
 @FUNCTION=UPPER
 @SYNTAX=UPPER(text)
@@ -646,6 +657,13 @@ SQRT(2) equals 1.4142136.
 
 @SEEALSO=POWER
 
+@FUNCTION=COUPDAYSNC
+@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])
+@DESCRIPTION=Returns the number of days from the settlement date to the next coupon date.
+@EXAMPLES=
+
+@SEEALSO=
+
 @FUNCTION=INTERCEPT
 @SYNTAX=INTERCEPT(known_y's,known_x's)
 @DESCRIPTION=INTERCEPT function calculates the point where the linear regression line intersects the y-axis.  
@@ -714,6 +732,13 @@ If @p < 0 or @p > 1 RandNegBinom returns #NUM! error. If @failures RandNegBinom 
 RandNegBinom(0.5,2).
 
 @SEEALSO=RAND,RANDBETWEEN
+
+@FUNCTION=COUPDAYS
+@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])
+@DESCRIPTION=Returns the number of days in the coupon period of the settlement date.
+@EXAMPLES=
+
+@SEEALSO=
 
 @FUNCTION=DATE
 @SYNTAX=DATE (year,month,day)
@@ -932,6 +957,13 @@ CORREL(A1:A5,B1:B5) equals 0.996124788.
 
 @SEEALSO=COVAR,FISHER,FISHERINV
 
+@FUNCTION=CUMIPMT
+@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)
+@DESCRIPTION=Returns the cumulative interest paid on a loan between @start_period and @end_period.
+@EXAMPLES=
+
+@SEEALSO=
+
 @FUNCTION=SUMSQ
 @SYNTAX=SUMSQ(value1, value2, ...)
 @DESCRIPTION=SUMSQ returns the sum of the squares of all the values and cells referenced in the argument list. This function is Excel compatible. 
@@ -1055,7 +1087,9 @@ DMAX(A1:C7, "Age", A9:B11) equals 43.
 @SYNTAX=ATAN2(b1,b2)
 @DESCRIPTION=ATAN2 function calculates the arc tangent of the two variables @b1 and @b2.  It is similar to calculating the arc tangent of @b2 / @b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in radians. This function is Excel compatible. 
 @EXAMPLES=
-ATAN2(0.5,1.0) equals 1.107149. ATAN2(-0.5,2.0) equals 1.815775.
+ATAN2(0.5,1.0) equals 1.107149.
+ATAN2(-0.5,2.0) equals 1.815775.
+
 @SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS
 
 @FUNCTION=MINA
@@ -1081,18 +1115,35 @@ If @value is smaller than the first value it returns #N/A
 @DESCRIPTION=CEIL function rounds @x up to the next nearest integer.
 This function is Excel compatible. 
 @EXAMPLES=
-CEIL(0.4) equals 1. CEIL(-1.1) equals -1. CEIL(-2.9) equals -2.
+CEIL(0.4) equals 1.
+CEIL(-1.1) equals -1.
+CEIL(-2.9) equals -2.
+
 @SEEALSO=ABS, FLOOR, INT
 
 @FUNCTION=MDETERM
-@SYNTAX=MDETERM(array)
+@SYNTAX=MDETERM(matrix)
 @DESCRIPTION=MDETERM function returns the determinant of a given matrix. 
-If the matrix does not contain equal number of columns and rows, MDETERM returns #VALUE! error. This function is Excel compatible. 
+If the @matrix does not contain equal number of columns and rows, MDETERM returns #VALUE! error. This function is Excel compatible. 
 @EXAMPLES=
 Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5.  Then.
 MDETERM(A1:D4) equals 148.
 
 @SEEALSO=MMULT, MINVERSE
+
+@FUNCTION=COUPNCD
+@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])
+@DESCRIPTION=Returns the coupon date following settlement.
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=MDURATION
+@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])
+@DESCRIPTION=Returns the Macauley duration for a security with par value 100.
+@EXAMPLES=
+
+@SEEALSO=
 
 @FUNCTION=HEX2DEC
 @SYNTAX=HEX2DEC(x)
@@ -1293,6 +1344,13 @@ Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 2
 VARP(A1:A5) equals 94.112.
 
 @SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR
+
+@FUNCTION=AMORLINC
+@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)
+@DESCRIPTION=Returns the depreciation for each accounting period.
+@EXAMPLES=
+
+@SEEALSO=
 
 @FUNCTION=EXACT
 @SYNTAX=EXACT(string1, string2)
@@ -1565,9 +1623,9 @@ DAVERAGE(A1:C7, "Age", A9:B11) equals 36.
 @SEEALSO=DCOUNT
 
 @FUNCTION=MINVERSE
-@SYNTAX=MINVERSE(array)
+@SYNTAX=MINVERSE(matrix)
 @DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. 
-If the matrix cannot be inverted, MINVERSE returns #NUM! error. If the matrix does not contain equal number of columns and rows, MINVERSE returns #VALUE! error. This function is Excel compatible. 
+If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the @matrix does not contain equal number of columns and rows, MINVERSE returns #VALUE! error. This function is Excel compatible. 
 @EXAMPLES=
 
 @SEEALSO=MMULT, MDETERM
@@ -1622,6 +1680,13 @@ If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! erro
 BESSELJ(0.89,3) equals 0.013974004.
 
 @SEEALSO=BESSELJ,BESSELK,BESSELY
+
+@FUNCTION=COUPPCD
+@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])
+@DESCRIPTION=Returns the coupon date preceeding settlement.
+@EXAMPLES=
+
+@SEEALSO=
 
 @FUNCTION=TBILLEQ
 @SYNTAX=TBILLEQ(settlement,maturity,discount)
@@ -2186,7 +2251,9 @@ If @reference is neither an array nor a reference nor a range returns #VALUE!.
 @SYNTAX=ATANH(x)
 @DESCRIPTION=ATANH function calculates the inverse hyperbolic tangent of @x; that is the value whose hyperbolic tangent is @x. If the absolute value of @x is greater than 1.0, ATANH returns NUM! error. This function is Excel compatible. 
 @EXAMPLES=
-ATANH(0.5) equals 0.549306. ATANH(0.8) equals 1.098612.
+ATANH(0.5) equals 0.549306.
+ ATANH(0.8) equals 1.098612.
+
 @SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
 
 @FUNCTION=ERFC
@@ -2411,10 +2478,15 @@ TANH(2) equals 0.96402758.
 @SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
 
 @FUNCTION=MATCH
-@SYNTAX=MATCH(seek,vector1[,type])
-@DESCRIPTION=The MATCH function finds the row index of 'value' in @vector1 and returns it. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used. if type = 1,  finds largest value <= seek,if type = 0,  finds first value == seek,if type = -1, finds smallest value >= seek,
-If LOOKUP can't find @value it uses the next largest value less than value. The data must be sorted. 
-If @value is smaller than the first value it returns #N/A
+@SYNTAX=MATCH(seek,vector[,type])
+@DESCRIPTION=The MATCH function finds the row index of @seek in @vector and returns it. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.
+The @type parameter, which defaults to +1, controls the search:
+If @type = 1,  finds largest value <= @seek.
+If @type = 0,  finds first value == @seek.
+If @type = -1, finds smallest value >= @seek.
+
+For type 0, the data can be in any order.  For types -1 and +1, the data must be sorted.  (And in this case, MATCH uses a binary search to locate the index.)
+If @seek could not be found, #N/A is returned.
 @EXAMPLES=
 
 @SEEALSO=LOOKUP
@@ -2453,6 +2525,13 @@ IPMT(per) = amount of interest for period per
 
 @SEEALSO=IPMT,PV,FV
 
+@FUNCTION=VDB
+@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])
+@DESCRIPTION=VDB calculates the depreciation of an asset for a given period or partial period using the double-declining balance method.
+@EXAMPLES=
+
+@SEEALSO=DB
+
 @FUNCTION=PROPER
 @SYNTAX=PROPER(string)
 @DESCRIPTION=PROPER returns @string with initial of each word capitalised.
@@ -2472,10 +2551,12 @@ DELTA(42.99,43) equals 0.
 
 @FUNCTION=CEILING
 @SYNTAX=CEILING(x,significance)
-@DESCRIPTION=CEILING function rounds @x up to the nearest multiple of significance. 
+@DESCRIPTION=CEILING function rounds @x up to the nearest multiple of @significance. 
 If @x or @significance is non-numeric CEILING returns #VALUE! error. If @x and @significance have different signs CEILING returns #NUM! error. This function is Excel compatible. 
 @EXAMPLES=
-CEILING(2.43,1) equals 3. CEILING(123.123,3) equals 126.
+CEILING(2.43,1) equals 3.
+CEILING(123.123,3) equals 126.
+
 @SEEALSO=CEIL
 
 @FUNCTION=KURTP
@@ -2616,6 +2697,13 @@ If @places is too small or negative #NUM! error is returned. This function is Ex
 DEC2BIN(42) equals 101010.
 
 @SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX
+
+@FUNCTION=COUPNUM
+@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])
+@DESCRIPTION=Returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.
+@EXAMPLES=
+
+@SEEALSO=
 
 @FUNCTION=YIELD
 @SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)
@@ -2940,6 +3028,8 @@ FISHERINV(2) equals 0.96402758.
 @SYNTAX=ATAN(x)
 @DESCRIPTION=ATAN function calculates the arc tangent of @x; that is the value whose tangent is @x. Return value is in radians. This function is Excel compatible. 
 @EXAMPLES=
+ATAN(0.5) equals 0,463648.
+ATAN(1) equals 0,785398.
 
 @SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
 
@@ -3123,6 +3213,13 @@ COUNTIF(A1:A5,">28") equals 2.
 
 @SEEALSO=COUNT,SUMIF
 
+@FUNCTION=CUMPRINC
+@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)
+@DESCRIPTION=Returns the cumulative principal paid on a loan between @start_period and @end_period.
+@EXAMPLES=
+
+@SEEALSO=
+
 @FUNCTION=ACOSH
 @SYNTAX=ACOSH(x)
 @DESCRIPTION=ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, acosh() returns the NUM! error. This function is Excel compatible. 
@@ -3194,6 +3291,13 @@ This function is Excel compatible.
 @FUNCTION=INFO
 @SYNTAX=INFO()
 @DESCRIPTION=INFO returns information about the current operating environment. This function is Excel compatible. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=AMORDEGRC
+@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)
+@DESCRIPTION=Returns the depreciation for each accounting period.
 @EXAMPLES=
 
 @SEEALSO=
