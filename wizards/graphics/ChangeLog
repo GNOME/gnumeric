@@ -1,3 +1,7 @@
+2000-05-02  Michael Meeks  <michael@helixcode.com>
+
+	* graphic-context.c (get_graphics_component): update for oaf.
+
 2000-04-27  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : Install glade files in properly versioned directory.

@@ -1,3 +1,7 @@
+2000-05-01  Michael Meeks  <michael@helixcode.com>
+
+	* src/corba-args.c (gnumeric_arg_parse): fixup popt for oaf.
+
 2000-05-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (expr_tree_shared) : New function.

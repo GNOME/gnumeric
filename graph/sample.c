@@ -261,11 +261,10 @@ create_test (BonoboUIHandler *uih)
 	{
 		CORBA_Object o;
 		CORBA_exception_init (&ev);
-		/* FIXME: what a mighty hack */
-		o = oaf_activate ("description == 'Graph component'",
+		o = oaf_activate ("repo_ids.has('IDL:GNOME/Graph/Layout:1.0')",
 				  NULL, 0, NULL, &ev);
 		CORBA_exception_free (&ev);
-		if (!o)
+		if (o == CORBA_OBJECT_NIL)
 			object = NULL;
 		else
 			object = bonobo_object_client_from_corba ((Bonobo_Unknown)o);

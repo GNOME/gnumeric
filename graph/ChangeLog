@@ -1,3 +1,9 @@
+2000-05-02  Michael Meeks  <michael@helixcode.com>
+
+	* main.c (layout_factory_init): update for oaf.
+
+	* sample.c (create_test): nicer activation.
+
 2000-05-01  Jody Goldberg <jgoldberg@home.com>
 
 	* main.c : include popt-gnome.h to define POPT_AUTOHELP so that

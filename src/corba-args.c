@@ -30,9 +30,9 @@ gnumeric_arg_parse (int argc, char *argv [])
 	ctx = NULL;
 
 #if USING_OAF
-	gnome_init_with_popt_table ("container", VERSION,
-				    argc, argv,
-				    oaf_popt_options, 0, NULL);
+	gnomelib_register_popt_table (oaf_popt_options, _("Oaf options"));
+	gnome_init_with_popt_table ("gnumeric", VERSION,
+				    argc, argv, gnumeric_popt_options, 0, &ctx);
 	
 	orb = oaf_init (argc, argv);
 #else

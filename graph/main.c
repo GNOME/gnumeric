@@ -80,9 +80,13 @@ layout_factory (BonoboEmbeddableFactory *this, void *data)
 static void
 layout_factory_init (void)
 {
-	
+#if USING_OAF
+	factory = bonobo_embeddable_factory_new (
+		"OAFIID:graph-factory:1.0", layout_factory, NULL);
+#else
 	factory = bonobo_embeddable_factory_new (
 		"GOADID:embeddable-factory:Graph:Layout", layout_factory, NULL);
+#endif
 
 	if (factory == NULL)
 		g_error ("It was not possible to register a new layout factory");

@@ -14,6 +14,9 @@
 #include "gnumeric.h"
 #include "workbook.h"
 #include <glade/glade.h>
+#ifdef USING_OAF
+#	include <liboaf/liboaf.h>
+#endif
 #include <bonobo.h>
 #include "graphic-context.h"
 #include "graphic-type.h"
@@ -23,13 +26,31 @@
 #include "value.h"
 
 #define GRAPH_GOADID "GOADID:embeddable:Graph:Layout"
+#define OAF_QUERY    "repo_ids.has('IDL:GNOME/Graph/Layout:1.0')"
 
 static BonoboObjectClient *
 get_graphics_component (void)
 {
 	BonoboObjectClient *object_server;
 
+#if USING_OAF
+	{
+		Bonobo_Unknown    o;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		o = (Bonobo_Unknown)oaf_activate ("repo_ids.has('IDL:GNOME/Graph/Layout:1.0')",
+						  NULL, 0, NULL, &ev);
+		CORBA_exception_free (&ev);
+
+		if (o == CORBA_OBJECT_NIL)
+			object_server = NULL;
+		else
+			object_server = bonobo_object_client_from_corba (o);
+	}
+#else	
 	object_server = bonobo_object_activate (GRAPH_GOADID, 0);
+#endif
 
 	return object_server;
 }
