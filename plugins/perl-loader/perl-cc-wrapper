@@ -1,0 +1,25 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+# This program changes "... -o foo.lo ..." into "... -o foo.o ...", runs the
+# compiler proper and then renames foo.o onto foo.lo
+
+my @cmd = ();
+my $target;
+my $tmptarget;
+
+while (@ARGV) {
+    my $arg = shift @ARGV;
+    push @cmd, $arg;
+    if ($arg eq '-o' && $ARGV[0] =~ /\.lo$/) {
+	$target = $tmptarget = shift @ARGV;
+	$tmptarget =~ s/\.lo$/.o/;
+	push @cmd, $tmptarget;
+    }
+}
+
+system (@cmd);
+my $code = $?;
+if (defined $tmptarget) {
+    rename $tmptarget, $target;
+}
+exit $code;

@@ -1,10 +1,10 @@
+AUTOMAKE_OPTIONS=no-dependencies
+
 AM_CPPFLAGS = \
-    -I../.. $(PERL_CCCDLFLAGS) \
+    -I../.. \
     -DPLUGIN_ID=\"Gnumeric_PerlLoader\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
-    $(PERL_CCOPTS)				\
-    $(GNUMERIC_CFLAGS)
+    -I$(top_srcdir)/src	-I$(top_builddir)/src
 
 gnumeric_plugin_perl_loaderdir = $(gnumeric_plugindir)/perl-loader
 xmldir = $(gnumeric_plugin_perl_loaderdir)
@@ -21,15 +21,15 @@ perl_loader_la_SOURCES = \
 nodist_perl_loader_la_SOURCES = \
 	xsinit.c
 
-perl_loader.so(EXEEXT): perl-loader.o boot.o
-	$(PERL_LD) $(PERL_LDDLFLAGS) -o perl_loader.so boot.o xsinit.o $(PERL_LDOPTS)
+# Use the right compiler.  This is not 100% correct: we use GNUMERIC_CFLAGS
+# here which might contain stuff we don't like.  It looks good enough,
+# though.
+COMPILE=$(PERL) perl-cc-wrapper $(PERL_CC) $(PERL_CCOPTS) $(PERL_CCCDLFLAGS) $(GNUMERIC_CFLAGS) $(AM_CPPFLAGS)
+LTCOMPILE=$(COMPILE)
 
-#.c.o:
-#	$(PERL_CC) $(AM_CPPFLAGS) -o $@ -c $<
-#
-#.c.lo:
-#	$(PERL_CC) $(AM_CPPFLAGS) $@.o -c $<
-#	mv $@.o $@
+# This doesn't actually work.  Someone who needs it will have to figure
+# things out.
+# LINK=$(LIBTOOL) --mode=link $(PERL_LD) $(PERL_LDDLFLAGS) $(PERL_LDOPTS) -o $@
 
 xsinit.c:
 	$(PERL) -MExtUtils::Embed -e xsinit -- -o xsinit.c
