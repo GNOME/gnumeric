@@ -37,7 +37,6 @@
 
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtknotebook.h>
-#include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkbox.h>
 
