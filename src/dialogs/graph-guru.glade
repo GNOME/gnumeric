@@ -149,12 +149,14 @@
 	  <class>GtkFrame</class>
 	  <name>sample_frame</name>
 	  <border_width>4</border_width>
+	  <width>200</width>
+	  <height>200</height>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_IN</shadow_type>
 	  <child>
 	    <padding>4</padding>
 	    <expand>False</expand>
-	    <fill>True</fill>
+	    <fill>False</fill>
 	  </child>
 
 	  <widget>
