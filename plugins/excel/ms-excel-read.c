@@ -3344,11 +3344,10 @@ ms_excel_read_guts (BiffQuery *q, ExcelSheet *sheet)
 {
 	g_return_if_fail (q->length == 8);
 
-	sheet_col_row_gutter_pts (sheet->gnum_sheet,
-				  MS_OLE_GET_GUINT16 (q->data+2),
-				  MS_OLE_GET_GUINT16 (q->data+6),
-				  MS_OLE_GET_GUINT16 (q->data),
-				  MS_OLE_GET_GUINT16 (q->data+4));
+	/* ignore the specification of how wide/tall the gutters are */
+	sheet_col_row_gutter (sheet->gnum_sheet,
+			      MS_OLE_GET_GUINT16 (q->data+6),
+			      MS_OLE_GET_GUINT16 (q->data+4));
 }
 
 /*

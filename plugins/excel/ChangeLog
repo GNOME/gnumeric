@@ -1,3 +1,7 @@
+2001-04-12  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (pre_pass) : Don't unref here.
+
 2001-04-12  Morten Welinder  <terra@diku.dk>
 
 	* ms-summary.c (ms_summary_write): Plug leaks.

@@ -3394,7 +3394,6 @@ pre_pass (IOContext *context, ExcelWorkbook *wb)
 
 	/* The default style first */
 	put_mstyle (wb, wb->xf->default_style);
-	mstyle_unref (wb->xf->default_style); /* remove extra ref to style */
 
 	/* Its font and format */
 	put_font (wb->xf->default_style, NULL, wb);

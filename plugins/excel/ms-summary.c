@@ -268,7 +268,6 @@ set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 		}
 
 	}
-
 }
 
 void
