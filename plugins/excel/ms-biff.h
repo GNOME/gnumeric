@@ -24,11 +24,14 @@
                                (*((guint8 *)(p)+2)=((n)>>16)&0xff), \
                                (*((guint8 *)(p)+3)=((n)>>24)&0xff))
 
-extern double biff_getdouble (guint8 *p);
+extern double biff_getdouble (const guint8 *p);
 extern void   biff_setdouble (guint8 *p, double d);
 	
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
-#     define BIFF_GETDOUBLE(p)   (*((double*)(p)))
+/* MW: I have reservations about this.  We are assuming not only little
+ * endian, but also arbitrary alignment for doubles as well as a certain
+ * layout (IEEE) of doubles.  */
+#     define BIFF_GETDOUBLE(p)   (*((const double*)(p)))
 #     define BIFF_SETDOUBLE(p,q) (*((double*)(p))=(q))
 #else
 #     define BIFF_GETDOUBLE(p)   (biff_getdouble(p))

@@ -16,8 +16,11 @@
 
 static descriptive_stat_tool_t ds;
 
-void dummy_fun (Workbook *wb, Sheet *sheet)
-{}
+static void
+dummy_fun (Workbook *wb, Sheet *sheet)
+{
+	/* Nothing.  */
+}
 
 typedef void (*tool_fun_ptr_t)(Workbook *wb, Sheet *sheet);
 
@@ -46,22 +49,26 @@ tool_list_t tools[] = {
 	{ { NULL, NULL }, NULL }
 };
 
-void summary_stat_signal_fun()
+static void
+summary_stat_signal_fun()
 {
         ds.summary_statistics = !ds.summary_statistics;
 }
 
-void confidence_signal_fun()
+static void
+confidence_signal_fun()
 {
         ds.confidence_level = !ds.confidence_level;
 }
 
-void kth_largest_signal_fun()
+static void
+kth_largest_signal_fun()
 {
         ds.kth_largest = !ds.kth_largest;
 }
 
-void kth_smallest_signal_fun()
+static void
+kth_smallest_signal_fun()
 {
         ds.kth_smallest = !ds.kth_smallest;
 }
@@ -134,7 +141,8 @@ add_check_buttons (GtkWidget *box, check_button_t *cbs)
 	}
 }
 
-void tool_dialog_range(Workbook *wb, Sheet *sheet, int ti)
+static void
+tool_dialog_range(Workbook *wb, Sheet *sheet, int ti)
 {
         static GtkWidget *dialog[8];
 	static GtkWidget *box, *hbox_x, *group_box;
@@ -257,7 +265,7 @@ tool_dialog_loop:
 }
 
 
-void
+static void
 selection_made(GtkWidget *clist, gint row, gint column,
 	       GdkEventButton *event, gpointer data)
 {
@@ -307,8 +315,6 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 	} else
 		gtk_widget_show (dialog);
 
-main_dialog:
-	
 	/* Run the dialog */
 	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
 	gnome_dialog_close (GNOME_DIALOG (dialog));

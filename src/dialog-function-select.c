@@ -58,8 +58,7 @@ function_definition_update (SelectorState *selector_state)
 	FunctionCategory *cat; 
 	GList *p;
 	GtkCList *cl;
-	FunctionDefinition *fd = NULL;
-	int i, max;
+	int i;
 
 	i = 0;
 	cl = selector_state->cl_funcs;

@@ -121,32 +121,34 @@ style_font_new_simple (const char *font_name, double size, double scale, int bol
 	
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (!font){
-		const GnomeDisplayFont *display_font;
-		GnomeFont *gnome_font;
+		if (g_hash_table_lookup (style_font_negative_hash, &key))
+			return NULL;
 
-		display_font = gnome_get_display_font (
+		font = g_new0 (StyleFont, 1);
+		font->font_name = g_strdup (font_name);
+		font->size      = size;
+		font->scale     = scale;
+		font->is_bold   = bold;
+		font->is_italic = italic;
+
+		font->dfont = gnome_get_display_font (
 			font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
 			italic,
 			size, scale);
 
-		if (!display_font)
+		if (!font->dfont) {
+			g_hash_table_insert (style_font_negative_hash,
+					     font, font);
 			return NULL;
+		}
 
-		gnome_font = gnome_font_new_closest (
+		font->font = gnome_font_new_closest (
 			font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
 			italic,
 			size);
-			
-		font = g_new0 (StyleFont, 1);
-		font->font_name = g_strdup (font_name);
-		font->size      = size;
-		font->scale     = scale;
-		font->dfont     = display_font;
-		font->font      = gnome_font;
-		font->is_bold   = bold;
-		font->is_italic = italic;
+
 		g_hash_table_insert (style_font_hash, font, font);
 	}
 

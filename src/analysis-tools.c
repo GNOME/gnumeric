@@ -690,10 +690,7 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 		       data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
-        Sheet      *sheet;
-        Cell       *cell;
-        int        vars, cols, rows, col, row, i;
-        int        error;
+        int        vars, cols, rows, i;
 
 	cols = input_range->end_col - input_range->start_col + 1;
 	rows = input_range->end_row - input_range->start_row + 1;

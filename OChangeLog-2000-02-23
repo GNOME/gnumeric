@@ -1,3 +1,24 @@
+1999-07-05  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_font_new_simple): Reinstate negative caching.
+
+	* src/xml-io.c (xml_set_gnome_canvas_points): Handle zero point
+ 	case.  Don't rely on return value from sprintf.
+
+	* src/dialog-function-select.c (function_definition_update): Kill
+ 	warnings.
+
+	* src/dialog-analysis-tools.c (dummy_fun): Make static.
+	(summary_stat_signal_fun): Ditto.
+	(confidence_signal_fun): Ditto.
+	(kth_largest_signal_fun): Ditto.
+	(kth_smallest_signal_fun): Ditto.
+	(tool_dialog_range): Ditto.
+	(selection_made): Ditto.
+	(dialog_data_analysis): Kill warning.
+
+	* src/analysis-tools.c (descriptive_stat_tool): Kill warnings.
+
 1999-07-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/analysis-tools.c, src/dialog-analysis-tools.c,

@@ -246,7 +246,7 @@ xml_get_gnome_canvas_points (xmlNodePtr node, const char *name)
  */
 static void
 xml_set_gnome_canvas_points (xmlNodePtr node, const char *name,
-			 GnomeCanvasPoints *val)
+			     GnomeCanvasPoints *val)
 {
 	xmlNodePtr child;
 	char *str, *base;
@@ -256,13 +256,15 @@ xml_set_gnome_canvas_points (xmlNodePtr node, const char *name,
 		return;
 	if ((val->num_points < 0) || (val->num_points > 5000))
 		return;
-	base = str = g_malloc (val->num_points * 30 * sizeof (char));
+	base = str = g_malloc (val->num_points * 30 * sizeof (char) + 1);
 	if (str == NULL)
 		return;
 	for (i = 0; i < val->num_points; i++){
-		str += sprintf (str, "(%f %f)", val->coords[2 * i],
-				val->coords[2 * i + 1]);
+		sprintf (str, "(%f %f)", val->coords[2 * i],
+			 val->coords[2 * i + 1]);
+		str += strlen (str);
 	}
+	*str = 0;
 
 	child = node->childs;
 	while (child != NULL){

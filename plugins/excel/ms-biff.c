@@ -35,8 +35,8 @@
 /*                             Helper Functions                                */
 /*******************************************************************************/
 
-#if G_guint8_ORDER == G_BIG_ENDIAN
-double biff_getdouble (guint8 *p)
+#if G_BYTE_ORDER == G_BIG_ENDIAN
+double biff_getdouble (const guint8 *p)
 {
     double d;
     int i;

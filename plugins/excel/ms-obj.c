@@ -93,11 +93,15 @@ object_type_names[] =
         "MS Drawing"	/* 0x1E */
 };
 
+#if 0
 /* HACK HACK HACK
  * Use this temporarily to get a handle on nesting behaviour.
  * Replace it with a thread safe state structure when we fill in the guts.
  */
+
+/* MW: It ain't used.  */
 static int ms_chart_chart_depth = 0;
+#endif
 
 void
 ms_obj_read_obj (BiffQuery *q, ExcelWorkbook * wb)

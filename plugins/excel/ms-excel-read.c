@@ -1718,12 +1718,16 @@ ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb)
 {
 	guint16 flags = BIFF_GET_GUINT16(q->data);
 	guint16 fn_grp_idx;
+#if 0
 	guint8  kb_shortcut = BIFF_GET_GUINT8(q->data+2);
+#endif
 	guint8  name_len = BIFF_GET_GUINT8(q->data+3);
 	guint16 name_def_len  = BIFF_GET_GUINT16(q->data+4);
 	guint8 *name_def_data = q->data+14+name_def_len;
+#if 0
 	guint16 sheet_idx = BIFF_GET_GUINT16(q->data+6);
 	guint16 ixals = BIFF_GET_GUINT16(q->data+8); /* dup */
+#endif
 	guint8  menu_txt_len = BIFF_GET_GUINT8(q->data+10);
 	guint8  descr_txt_len = BIFF_GET_GUINT8(q->data+11);
 	guint8  help_txt_len = BIFF_GET_GUINT8(q->data+12);
@@ -1837,8 +1841,6 @@ ms_excel_externname(BiffQuery *q,
 static void
 ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 {
-	Cell *cell;
-
 	switch (q->ls_op) {
 	case BIFF_BLANK:	/*
 				 * FIXME: Not a good way of doing blanks ?
@@ -2047,7 +2049,6 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	{
 		int array_col_first, array_col_last;
 		int array_row_first, array_row_last;
-		int xlp, ylp;
 		guint8 *data;
  		int data_len, options;
  		ExprTree *expr = NULL;
@@ -2057,10 +2058,9 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		array_col_first = BIFF_GET_GUINT8(q->data + 4);
 		array_col_last  = BIFF_GET_GUINT8(q->data + 5);
 
-#if 0
 		/* Not handled yet */
 		options  = BIFF_GET_GUINT16(q->data + 6);
-#endif
+
 		data = q->data + 14;
 		data_len = BIFF_GET_GUINT16(q->data + 12);
  		expr = ms_excel_parse_formula (sheet, data,
@@ -2426,11 +2426,8 @@ find_workbook (MsOle *ptr)
 static void
 ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 {
-	char *	name;
 	guint8 *  data;
-	guint32 byte_length, slen = 0;
 	guint16	numTabs = BIFF_GET_GUINT16 (q->data);
-	int i;
 
 	printf("Supporting workbook with %d Tabs\n", numTabs);
 	data = q->data + 2;
@@ -2446,8 +2443,11 @@ ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 		case 0x01 : /* chEncode */
 			puts("chEncode");
 #if 0
-			for (i = 0; i < 50; ++i)
-				printf("%3d (%c)(%x)\n", i, data[i], data[i]);
+			{
+				int i;
+				for (i = 0; i < 50; ++i)
+					printf("%3d (%c)(%x)\n", i, data[i], data[i]);
+			}
 #endif
 			break;
 		case 0x02 : /* chSelf */
@@ -2461,6 +2461,8 @@ ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 
 #if 0
 	for (data = q->data + 2; numTabs-- > 0; ) {
+		char *	name;
+		guint32 byte_length, slen;
 		if (ver->version == eBiffV8) {
 			slen = (guint32) BIFF_GET_GUINT16 (data);
 			name = biff_get_text (data += 2, slen, &byte_length);
@@ -2477,7 +2479,6 @@ Workbook *
 ms_excel_read_workbook (MsOle *file)
 {
 	ExcelWorkbook *wb = NULL;
-	xmlNodePtr child;
 
 	cell_deep_freeze_redraws ();
 
@@ -2617,7 +2618,7 @@ ms_excel_read_workbook (MsOle *file)
 				break;
 			case BIFF_FONT:	        /* see S59D8C.HTM */
 				{
-					BiffFontData *ptr;
+					/* BiffFontData *ptr; */
 
 /*					printf ("Read Font\n");
 					dump (q->data, q->length); */
@@ -2751,13 +2752,18 @@ ms_excel_read_workbook (MsOle *file)
 			case BIFF_CODEPAGE : /* DUPLICATE 42 */
 			{
 				/* This seems to appear within a workbook */
-				char * page = NULL;
+				/* MW: And on Excel seems to drive the display
+				   of currency amounts.  */
 				guint16 codepage = BIFF_GET_GUINT16 (q->data);
 
 				switch(codepage)
 				{
-				case 0x01b5 :
-					puts("CodePage = IBM PC (Multiplan)");
+				case 437 :
+					/* US.  */
+					puts("CodePage = IBM PC (US)");
+					break;
+				case 865 :
+					puts("CodePage = IBM PC (Denmark/Norway)");
 					break;
 				case 0x8000 :
 					puts("CodePage = Apple Macintosh");

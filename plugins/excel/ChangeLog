@@ -1,3 +1,13 @@
+1999-07-05  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_read_supporting_wb): Warning killer.
+	(ms_excel_read_workbook): Ditto.  Fill in some code page info.
+	(ms_excel_read_cell): Ditto.
+
+	* ms-biff.c (biff_getdouble): Re-instate the "BYTE" in
+ 	G_BYTE_ORDER...
+	(biff_getdouble): Constify.
+
 1999-07-04  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (formula_func_data): Fixed ISREF, ISPMT.
