@@ -48,12 +48,11 @@ typedef struct {
 	int       height;	/* Height of text */
 
 	int       flags;
-	int       iteration;
+	char      generation;
 } Cell;
 
 #define CELL_TEXT_GET(cell) ((cell)->text ? cell->text->str : cell->entered_text->str)
 #define CELL_IS_FORMULA(cell) (cell->entered_text->str [0] == '=')
-#define MAX_ITERATIONS(cell) 1
 
 void        cell_set_text             (Cell *cell, char *text);
 void        cell_set_formula          (Cell *cell, char *text);

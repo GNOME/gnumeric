@@ -33,6 +33,7 @@ typedef struct {
 	/* A queue with the cells to be evaluated */
 	GList      *eval_queue;
 	int        max_iterations;
+	guchar     generation;
 } Workbook;
 
 typedef struct {
@@ -168,6 +169,7 @@ void        workbook_attach_sheet        (Workbook *, Sheet *);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
 void        workbook_auto_expr_label_set (Workbook *wb, char *text);
+void        workbook_next_generation     (Workbook *wb);
 
 /*
  * Does any pending recalculations

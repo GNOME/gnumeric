@@ -23,11 +23,6 @@ cell_eval (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 
-	if (cell->iteration == MAX_ITERATIONS(cell))
-		return;
-	
-	cell->iteration++;
-
 	if (cell->text)
 		string_unref (cell->text);
 	
@@ -56,7 +51,6 @@ cell_eval (Cell *cell)
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
-	cell->iteration--;
 }
 
 /*
@@ -322,7 +316,6 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	for (l = range->cell_list; l; l = l->next){
 		Cell *cell = l->data;
 
-		printf ("Found dependenat: %d, %d\n", cell->col->pos, cell->row->pos);
 		c->list = g_list_prepend (c->list, cell);
 	}
 }
@@ -384,16 +377,48 @@ pick_next_cell_from_queue (Workbook *wb)
 	return cell;
 }
 
+/*
+ * Increments the generation.  Every time the generation is
+ * about to wrap around, we reset all of the cell counters to zero
+ */
+void
+workbook_next_generation (Workbook *wb)
+{
+	if (wb->generation == 255){
+		GList *cell_list = wb->formula_cell_list;
+		
+		for (; cell_list; cell_list = cell_list->next){
+			Cell *cell = cell_list->data;
+
+			cell->generation = 0;
+		}
+		wb->generation = 1;
+	} else
+		wb->generation++;
+}
+
 void
 workbook_recalc (Workbook *wb)
 {
+	int generation;
 	Cell *cell;
-	GList *deps;
+	GList *deps, *l;
+
+	workbook_next_generation (wb);
+	generation = wb->generation;
 	
 	while ((cell = pick_next_cell_from_queue (wb))){
+		cell->generation = generation;
 		cell_eval (cell);
 		deps = cell_get_dependencies (cell->sheet, cell->col->pos, cell->row->pos);
-		if (deps)
-			cell_queue_recalc_list (deps);
+
+		for (l = deps ; l; l = l->next){
+			Cell *one_cell;
+
+			one_cell = l->data;
+			if (one_cell->generation != generation)
+				cell_queue_recalc (one_cell);
+		}
+		g_list_free (deps);
 	}
 }

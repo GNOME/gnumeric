@@ -240,7 +240,7 @@ static Value *
 eval_cell_value (Sheet *sheet, Value *value)
 {
 	Value *res;
-	
+
 	res = g_new (Value, 1);
 	res->type = value->type;
 	
@@ -251,13 +251,11 @@ eval_cell_value (Sheet *sheet, Value *value)
 		break;
 		
 	case VALUE_INTEGER:
-		mpz_init (res->v.v_int);
-		mpz_set  (res->v.v_int, value->v.v_int);
+		res->v.v_int = value->v.v_int;
 		break;
 		
 	case VALUE_FLOAT:
-		mpf_init (res->v.v_float);
-		mpf_set (res->v.v_float, value->v.v_float);
+		res->v.v_float = value->v.v_float;
 		break;
 
 	case VALUE_ARRAY:
@@ -646,15 +644,20 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		cell_get_abs_col_row (&tree->u.constant->v.cell, eval_col, eval_row, &col, &row);
 		
 		cell = sheet_cell_get (sheet, col, row);
-		
-		if (!cell || !cell->value){
-			res = g_new (Value, 1);
+
+		if (cell && cell->value){
+			if (cell->parsed_node && cell->generation != sheet->workbook->generation){
+				cell->generation = sheet->workbook->generation;
+				cell_eval (cell);
+			} 
 			
-			res->type = VALUE_INTEGER;
-			res->v.v_int = 0;
-		} else {
-			return eval_cell_value (sheet, cell->value);
+			if (cell->value)
+				return eval_cell_value (sheet, cell->value);
 		}
+		res = g_new (Value, 1);
+			
+		res->type = VALUE_INTEGER;
+		res->v.v_int = 0;
 		return res;
 	}
 	case OP_NEG:
@@ -668,6 +671,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			return NULL;
 		}
 		res = g_new (Value, 1);
+		res->type = a->type;
 		if (a->type == VALUE_INTEGER){
 			res->v.v_int = -a->v.v_int;
 		} else {
