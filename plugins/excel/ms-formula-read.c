@@ -1,10 +1,11 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * ms-formula-read.c: MS Excel -> Gnumeric formula conversion
  *
  * Author:
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2001 Michael Meeks
+ * (C) 1998-2002 Michael Meeks
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -416,7 +417,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 };
 
 static ExprTree *
-expr_tree_string (const char *str)
+expr_tree_string (char const *str)
 {
 	return expr_tree_new_constant (value_new_string (str));
 }
@@ -425,11 +426,11 @@ expr_tree_string (const char *str)
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *
-getRefV7 (guint8 col, guint16 gbitrw, int curcol, int currow,
+static void
+getRefV7 (CellRef *cr,
+	  guint8 col, guint16 gbitrw, int curcol, int currow,
 	  gboolean const shared)
 {
-	CellRef *cr = g_new (CellRef, 1);
 	guint16 const row = (guint16)(gbitrw & 0x3fff);
 
 #ifndef NO_DEBUG_EXCEL
@@ -467,18 +468,17 @@ getRefV7 (guint8 col, guint16 gbitrw, int curcol, int currow,
 			cr->col = col - curcol;
 	} else
 		cr->col = col;
-
-	return cr;
 }
+
 /**
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
-static CellRef *
-getRefV8 (guint16 row, guint16 gbitcl, int curcol, int currow,
+static void
+getRefV8 (CellRef *cr,
+	  guint16 row, guint16 gbitcl, int curcol, int currow,
 	  gboolean const shared)
 {
-	CellRef *cr = g_new (CellRef, 1);
 	guint8 const col = (guint8)(gbitcl & 0xff);
 
 #ifndef NO_DEBUG_EXCEL
@@ -507,17 +507,15 @@ getRefV8 (guint16 row, guint16 gbitcl, int curcol, int currow,
 			cr->col = col - curcol;
 	} else
 		cr->col = col;
-
-	return cr;
 }
 
 static void
 parse_list_push (ExprList **list, ExprTree *pd)
 {
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 5) {
-			printf ("Push 0x%x\n", (int)pd);
-		}
+	if (ms_excel_formula_debug > 5) {
+		printf ("Push 0x%x\n", (int)pd);
+	}
 #endif
 	if (!pd)
 		printf ("FIXME: Pushing nothing onto excel function stack\n");
@@ -568,46 +566,6 @@ parse_list_free (ExprList **list)
 {
 	while (*list)
 		expr_tree_unref (parse_list_pop(list));
-}
-
-static void
-make_inter_sheet_ref (ExcelWorkbook *wb, guint16 extn_idx, CellRef *a, CellRef *b)
-{
-	g_return_if_fail (wb);
-	g_return_if_fail (a);
-
-	a->sheet = biff_get_externsheet_name (wb, extn_idx, 1);
-	if (b)
-		b->sheet = biff_get_externsheet_name (wb, extn_idx, 0);
-}
-
-static void
-make_inter_sheet_ref_v7 (ExcelWorkbook *wb, guint16 extn_idx,
-			 guint16 first, guint16 second, CellRef *a, CellRef *b)
-{
-	ExcelSheet *sheet;
-
-	g_return_if_fail (wb);
-	g_return_if_fail (a);
-
-	if ((gint16)extn_idx > 0) {
-		printf ("FIXME: BIFF 7 ExternSheet 3D ref\n");
-		return;
-	}
-
-	g_return_if_fail (wb->excel_sheets);
-	g_return_if_fail (first<wb->excel_sheets->len);
-
-	sheet = g_ptr_array_index (wb->excel_sheets, first);
-	g_return_if_fail (sheet);
-	a->sheet = sheet->gnum_sheet;
-
-	if (b) {
-		g_return_if_fail (second < wb->excel_sheets->len);
-		sheet = g_ptr_array_index (wb->excel_sheets, second);
-		g_return_if_fail (sheet);
-		b->sheet = sheet->gnum_sheet;
-	}
 }
 
 static gboolean
@@ -1118,26 +1076,26 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			 */
 			if (eptg_type == 0x06 || /* eptgElfRwV,	 No,  Value */
 			    eptg_type == 0x07) { /* eptgElfColV, No,  Value */
-				CellRef *ref = getRefV8 (MS_OLE_GET_GUINT16(cur + 1),
-							 MS_OLE_GET_GUINT16(cur + 3),
-							 fn_col, fn_row, shared);
+				CellRef ref;
 
-				if (ref) {
-					if (eptg_type == 0x07) { /* Column */
-						if (ref->row_relative)
-							ref->row = 0;
-						else
-							ref->row = fn_row;
-					} else { 		 /* Row */
-						if (ref->col_relative)
-							ref->col = 0;
-						else
-							ref->col = fn_col;
-					}
+				getRefV8 (&ref,
+					  MS_OLE_GET_GUINT16(cur + 1),
+					  MS_OLE_GET_GUINT16(cur + 3),
+					  fn_col, fn_row, shared);
 
-					parse_list_push (&stack, expr_tree_new_var (ref));
-					g_free (ref);
+				if (eptg_type == 0x07) { /* Column */
+					if (ref.row_relative)
+						ref.row = 0;
+					else
+						ref.row = fn_row;
+				} else { 		 /* Row */
+					if (ref.col_relative)
+						ref.col = 0;
+					else
+						ref.col = fn_col;
 				}
+
+				parse_list_push (&stack, expr_tree_new_var (&ref));
 			} else {
 				printf ("-------------------\n");
 				printf ("XL : Extended ptg %x\n", eptg_type);
@@ -1284,42 +1242,49 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			break;
 
 		case FORMULA_PTG_REF: case FORMULA_PTG_REFN: {
-			CellRef *ref=0;
+			CellRef ref;
 			if (ver >= MS_BIFF_V8) {
-				ref = getRefV8 (MS_OLE_GET_GUINT16(cur),
-						MS_OLE_GET_GUINT16(cur + 2),
-						fn_col, fn_row, shared);
+				getRefV8 (&ref,
+					  MS_OLE_GET_GUINT16(cur),
+					  MS_OLE_GET_GUINT16(cur + 2),
+					  fn_col, fn_row, shared);
 				ptg_length = 4;
 			} else {
-				ref = getRefV7 (MS_OLE_GET_GUINT8(cur+2), MS_OLE_GET_GUINT16(cur),
-						fn_col, fn_row, shared);
+				getRefV7 (&ref,
+					  MS_OLE_GET_GUINT8(cur+2),
+					  MS_OLE_GET_GUINT16(cur),
+					  fn_col, fn_row, shared);
 				ptg_length = 3;
 			}
-			parse_list_push (&stack, expr_tree_new_var (ref));
-			if (ref) g_free (ref);
+			parse_list_push (&stack, expr_tree_new_var (&ref));
 			break;
 		}
 
 		case FORMULA_PTG_AREA: case FORMULA_PTG_AREAN: {
-			CellRef *first=0, *last=0;
+			CellRef first, last;
 			if (ver >= MS_BIFF_V8) {
-				first = getRefV8 (MS_OLE_GET_GUINT16(cur+0),
-						  MS_OLE_GET_GUINT16(cur+4),
-						  fn_col, fn_row, shared);
-				last  = getRefV8 (MS_OLE_GET_GUINT16(cur+2),
-						  MS_OLE_GET_GUINT16(cur+6),
-						  fn_col, fn_row, shared);
+				getRefV8 (&first,
+					  MS_OLE_GET_GUINT16(cur+0),
+					  MS_OLE_GET_GUINT16(cur+4),
+					  fn_col, fn_row, shared);
+				getRefV8 (&last,
+					  MS_OLE_GET_GUINT16(cur+2),
+					  MS_OLE_GET_GUINT16(cur+6),
+					  fn_col, fn_row, shared);
 				ptg_length = 8;
 			} else {
-				first = getRefV7(MS_OLE_GET_GUINT8(cur+4), MS_OLE_GET_GUINT16(cur+0), fn_col, fn_row, shared);
-				last  = getRefV7(MS_OLE_GET_GUINT8(cur+5), MS_OLE_GET_GUINT16(cur+2), fn_col, fn_row, shared);
+				getRefV7 (&first,
+					  MS_OLE_GET_GUINT8(cur+4),
+					  MS_OLE_GET_GUINT16(cur+0),
+					  fn_col, fn_row, shared);
+				getRefV7 (&last,
+					  MS_OLE_GET_GUINT8(cur+5),
+					  MS_OLE_GET_GUINT16(cur+2),
+					  fn_col, fn_row, shared);
 				ptg_length = 6;
 			}
 
-			parse_list_push_raw (&stack, value_new_cellrange (first, last, fn_col, fn_row));
-
-			if (first) g_free (first);
-			if (last)  g_free (last);
+			parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			break;
 		}
 
@@ -1345,64 +1310,109 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 		break;
 
 		case FORMULA_PTG_REF_3D : { /* see S59E2B.HTM */
-			CellRef *ref=0;
+			CellRef first, last;
+			int last_index;
+			ExcelSheet *first_sheet;
+			ExcelWorkbook *wb = sheet->wb;
+
 			if (ver >= MS_BIFF_V8) {
-				guint16 extn_idx = MS_OLE_GET_GUINT16 (cur);
-				ref = getRefV8 (MS_OLE_GET_GUINT16 (cur + 2),
-						MS_OLE_GET_GUINT16 (cur + 4),
-						fn_col, fn_row, 0);
-				make_inter_sheet_ref (sheet->wb, extn_idx, ref, 0);
-				parse_list_push (&stack, expr_tree_new_var (ref));
+				XLExternSheet const *es = ms_excel_workboot_get_externsheets (sheet->wb, 
+					MS_OLE_GET_GUINT16 (cur));
+
+				g_return_val_if_fail (es != NULL, NULL);
+
+				/* TODO : init wb from es record in case of
+				 * external 3d references.
+				 */
+				first_sheet = ms_excel_workbook_get_sheet (wb, es->first_sheet);
+				last_index = es->last_sheet;
+				getRefV8 (&first,
+					  MS_OLE_GET_GUINT16 (cur + 2),
+					  MS_OLE_GET_GUINT16 (cur + 4),
+					  fn_col, fn_row, 0);
 				ptg_length = 6;
 			} else {
-				guint16 extn_idx, first_idx, second_idx;
+				/* TODO : init wb from from the extn_idx in
+				 * case of external 3d references.
+				 */
+				gint16 ixals = (gint16)MS_OLE_GET_GUINT16 (cur);
+				if (ixals > 0) {
+					g_warning ("EXCEL : external 3d references not supported.");
+					/* first_sheet will fall back to 0 */
+				}
+				first_sheet = ms_excel_workbook_get_sheet (sheet->wb,
+					MS_OLE_GET_GUINT16 (cur + 10));
+				last_index  = MS_OLE_GET_GUINT16 (cur + 12);
 
-				ref = getRefV7 (MS_OLE_GET_GUINT8  (cur + 16),
-						MS_OLE_GET_GUINT16 (cur + 14),
-						fn_col, fn_row, 0);
-				extn_idx   = MS_OLE_GET_GUINT16 (cur);
-				first_idx  = MS_OLE_GET_GUINT16 (cur + 10);
-				second_idx = MS_OLE_GET_GUINT16 (cur + 12);
-				make_inter_sheet_ref_v7 (sheet->wb, extn_idx, first_idx, second_idx, ref, 0);
-				parse_list_push (&stack, expr_tree_new_var (ref));
+				getRefV7 (&first,
+					  MS_OLE_GET_GUINT8  (cur + 16),
+					  MS_OLE_GET_GUINT16 (cur + 14),
+					  fn_col, fn_row, 0);
 				ptg_length = 17;
 			}
-			if (ref) g_free (ref);
+			last = first;
+			first.sheet = first_sheet->gnum_sheet;
+			first_sheet = ms_excel_workbook_get_sheet (first_sheet->wb, last_index);
+			last.sheet  = first_sheet->gnum_sheet;
+
+			/* There does not appear to be a way to express a ref
+			 * to another sheet without using a 3d ref.  lets be smarter
+			 */
+			if (first.sheet != last.sheet)
+				parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
+			else
+				parse_list_push (&stack, expr_tree_new_var (&first));
 			break;
 		}
+
 		case FORMULA_PTG_AREA_3D : { /* see S59E2B.HTM */
-			CellRef *first=0, *last=0;
+			/* See comments in FORMULA_PTG_REF_3D for correct handling of external references */
+			CellRef first, last;
+			int last_index;
+			ExcelSheet *first_sheet;
+			ExcelWorkbook *wb = sheet->wb;
 
 			if (ver >= MS_BIFF_V8) {
-				guint16 extn_idx = MS_OLE_GET_GUINT16(cur);
+				XLExternSheet const *es = ms_excel_workboot_get_externsheets (sheet->wb, 
+					MS_OLE_GET_GUINT16 (cur));
 
-				first = getRefV8 (MS_OLE_GET_GUINT16(cur+2),
-						  MS_OLE_GET_GUINT16(cur+6),
-						  fn_col, fn_row, 0);
-				last  = getRefV8 (MS_OLE_GET_GUINT16(cur+4),
-						  MS_OLE_GET_GUINT16(cur+8),
-						  fn_col, fn_row, 0);
+				g_return_val_if_fail (es != NULL, NULL);
 
-				make_inter_sheet_ref (sheet->wb, extn_idx, first, last);
-				parse_list_push_raw (&stack, value_new_cellrange (first, last, fn_col, fn_row));
+				first_sheet = ms_excel_workbook_get_sheet (wb, es->first_sheet);
+				last_index = es->last_sheet;
+				getRefV8 (&first,
+					  MS_OLE_GET_GUINT16(cur+2),
+					  MS_OLE_GET_GUINT16(cur+6),
+					  fn_col, fn_row, 0);
+				getRefV8 (&last,
+					  MS_OLE_GET_GUINT16(cur+4),
+					  MS_OLE_GET_GUINT16(cur+8),
+					  fn_col, fn_row, 0);
 				ptg_length = 10;
 			} else {
-				guint16 extn_idx, first_idx, second_idx;
+				gint16 ixals = (gint16)MS_OLE_GET_GUINT16 (cur);
+				if (ixals > 0) {
+					g_warning ("EXCEL : external 3d references not supported.");
+					/* first_sheet will fall back to 0 */
+				}
+				first_sheet = ms_excel_workbook_get_sheet (sheet->wb,
+					MS_OLE_GET_GUINT16 (cur + 10));
+				last_index  = MS_OLE_GET_GUINT16 (cur + 12);
 
-				first = getRefV7 (MS_OLE_GET_GUINT8(cur+18), MS_OLE_GET_GUINT16(cur+14),
-						  fn_col, fn_row, 0);
-				last  = getRefV7 (MS_OLE_GET_GUINT8(cur+19), MS_OLE_GET_GUINT16(cur+16),
-						  fn_col, fn_row, 0);
-				extn_idx   = MS_OLE_GET_GUINT16(cur);
-				first_idx  = MS_OLE_GET_GUINT16(cur + 10);
-				second_idx = MS_OLE_GET_GUINT16(cur + 12);
-				make_inter_sheet_ref_v7 (sheet->wb, extn_idx, first_idx,
-							 second_idx, first, last);
-				parse_list_push_raw (&stack, value_new_cellrange (first, last, fn_col, fn_row));
+				getRefV7 (&first,
+					  MS_OLE_GET_GUINT8(cur+18),
+					  MS_OLE_GET_GUINT16(cur+14),
+					  fn_col, fn_row, 0);
+				getRefV7 (&last,
+					  MS_OLE_GET_GUINT8(cur+19),
+					  MS_OLE_GET_GUINT16(cur+16),
+					  fn_col, fn_row, 0);
 				ptg_length = 20;
 			}
-			if (first) g_free (first);
-			if (last)  g_free (last);
+			first.sheet = first_sheet->gnum_sheet;
+			first_sheet = ms_excel_workbook_get_sheet (first_sheet->wb, last_index);
+			last.sheet  = first_sheet->gnum_sheet;
+			parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			break;
 		}
 

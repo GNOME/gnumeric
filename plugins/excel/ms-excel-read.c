@@ -2121,6 +2121,15 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 					 &anchor);
 		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
 					esheet->gnum_sheet);
+
+		/* can not be done until we have set the sheet */
+		if (obj->excel_type == 0x0B) {
+			MSObjAttr *link = ms_object_attr_bag_lookup (obj->attrs, 
+				MS_OBJ_ATTR_CHECKBOX_LINK);
+			if (link != NULL)
+				sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
+					link->v.v_expr);
+		}
 	}
 
 	return FALSE;
@@ -4243,25 +4252,11 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 	return FALSE;
 }
 
-Sheet *
-biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first)
+XLExternSheet const *
+ms_excel_workboot_get_externsheets (ExcelWorkbook *wb, guint idx)
 {
-	BiffExternSheetData *bed;
-	BiffBoundsheetData *bsd;
-	guint16 index;
-
-	if (idx>=wb->num_extern_sheets)
-		return NULL;
-
-	bed = &wb->extern_sheets[idx];
-	index = get_first ? bed->first_tab : bed->last_tab;
-
-	bsd = g_hash_table_lookup (wb->boundsheet_data_by_index, &index);
-	if (!bsd || !bsd->sheet) {
-		g_warning ("Duff sheet index %d\n", index);
-		return NULL;
-	}
-	return bsd->sheet->gnum_sheet;
+	g_return_val_if_fail (idx < wb->num_extern_sheets, NULL);
+	return &wb->extern_sheets [idx];
 }
 
 /*
@@ -4374,12 +4369,12 @@ ms_excel_externsheet (BiffQuery const *q, ExcelWorkbook *wb, MsBiffBofData *ver)
 		ms_ole_dump (q->data, q->length);
 #endif
 
-		wb->extern_sheets = g_new (BiffExternSheetData, numXTI + 1);
+		wb->extern_sheets = g_new (XLExternSheet, numXTI + 1);
 
 		for (cnt = 0; cnt < numXTI; cnt++) {
-			wb->extern_sheets[cnt].sup_idx   =  MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 0);
-			wb->extern_sheets[cnt].first_tab =  MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 2);
-			wb->extern_sheets[cnt].last_tab  =  MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 4);
+			wb->extern_sheets[cnt].sup_idx = MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 0);
+			wb->extern_sheets[cnt].first_sheet = MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 2);
+			wb->extern_sheets[cnt].last_sheet  = MS_OLE_GET_GUINT16 (q->data + 2 + cnt * 6 + 4);
 #if 0
 			printf ("SupBook: %d First sheet %d, Last sheet %d\n",
 				wb->extern_sheets[cnt].sup_idx,

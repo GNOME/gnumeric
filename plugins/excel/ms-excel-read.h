@@ -71,9 +71,9 @@ typedef struct _BiffFontData
 
 typedef struct _BiffExternSheetData {
 	guint16 sup_idx;
-	guint16 first_tab;
-	guint16 last_tab;
-} BiffExternSheetData;
+	guint16 first_sheet;
+	guint16 last_sheet;
+} XLExternSheet;
 
 typedef struct _BiffFormatData {
 	guint16 idx;
@@ -92,7 +92,7 @@ typedef struct _ExcelWorkbook
 	GHashTable          *format_data; /* leave as a hash */
 	GPtrArray           *name_data;
 	int                  read_drawing_group;
-	BiffExternSheetData *extern_sheets;
+	XLExternSheet	    *extern_sheets;
 	guint16              num_extern_sheets;
 	ExcelPalette        *palette;
 	char               **global_strings;
@@ -107,11 +107,11 @@ typedef struct _ExcelWorkbook
 	Workbook            *gnum_wb;
 } ExcelWorkbook;
 
-ExcelSheet * ms_excel_workbook_get_sheet (ExcelWorkbook *wb, guint idx);
-Sheet* biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first);
-char* biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
-char const* biff_get_error_text (guint8 err);
-ExprTree* biff_name_data_get_name (ExcelSheet const *sheet, int idx);
+char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
+char const *biff_get_error_text (guint8 err);
+ExprTree   *biff_name_data_get_name (ExcelSheet const *sheet, int idx);
+ExcelSheet *ms_excel_workbook_get_sheet 		(ExcelWorkbook *wb, guint idx);
+XLExternSheet const *ms_excel_workboot_get_externsheets (ExcelWorkbook *wb, guint idx);
 
 MsBiffBofData * ms_biff_bof_data_new (BiffQuery * q);
 void ms_biff_bof_data_destroy (MsBiffBofData * data);

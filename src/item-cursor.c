@@ -258,7 +258,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int dx0, dy0, dx1, dy1;
-	GdkPoint points [40];
+	GdkPoint points [5];
 	int draw_thick, draw_handle;
 	int premove = 0;
 	GdkColor *fore = NULL, *back = NULL;
@@ -364,7 +364,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	dy1 = MIN (dy1, height + CLIP_SAFETY_MARGIN);
 
 	gdk_gc_set_line_attributes (ic->gc, 1,
-				    GDK_LINE_SOLID, -1, -1);
+		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
 	gdk_gc_set_foreground (ic->gc, &gs_black);
 	gdk_gc_set_background (ic->gc, &gs_white);
 
@@ -473,10 +473,10 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			gdk_gc_set_fill (ic->gc, GDK_STIPPLED);
 			gdk_gc_set_stipple (ic->gc, ic->stipple);
 			gdk_gc_set_line_attributes (ic->gc, draw_thick,
-						    GDK_LINE_SOLID, -1, -1);
+				GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
 		} else
 			gdk_gc_set_line_attributes (ic->gc, draw_thick,
-						    GDK_LINE_DOUBLE_DASH, -1, -1);
+				GDK_LINE_DOUBLE_DASH, GDK_CAP_BUTT, GDK_JOIN_MITER);
 
 		/* Stay in the boundary */
 		if ((draw_thick % 2) == 0) {

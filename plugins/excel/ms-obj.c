@@ -25,6 +25,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
+#include <expr.h>
 
 #include "boot.h"
 #include "ms-obj.h"
@@ -70,7 +71,7 @@ ms_object_attr_new_uint (MSObjAttrID id, guint32 val)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
-	g_return_val_if_fail (!(id & MS_OBJ_ATTR_NEEDS_FREE_MASK), NULL);
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_IS_INT_MASK, NULL);
 
 	/* be anal about constness */
 	*((MSObjAttrID *)&(res->id)) = id;
@@ -82,11 +83,24 @@ ms_object_attr_new_ptr (MSObjAttrID id, gpointer val)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
-	g_return_val_if_fail ((id & MS_OBJ_ATTR_NEEDS_FREE_MASK), NULL);
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_NEEDS_FREE_MASK, NULL);
 
 	/* be anal about constness */
 	*((MSObjAttrID *)&(res->id)) = id;
 	res->v.v_ptr = val;
+	return res;
+}
+
+MSObjAttr *
+ms_object_attr_new_expr (MSObjAttrID id, ExprTree *expr)
+{
+	MSObjAttr *res = g_new (MSObjAttr, 1);
+
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_NEEDS_EXPR_UNREF, NULL);
+
+	/* be anal about constness */
+	*((MSObjAttrID *)&(res->id)) = id;
+	res->v.v_expr = expr;
 	return res;
 }
 
@@ -97,6 +111,9 @@ ms_object_attr_destroy (MSObjAttr *attr)
 		if ((attr->id & MS_OBJ_ATTR_NEEDS_FREE_MASK) &&
 		    attr->v.v_ptr != NULL) {
 			g_free (attr->v.v_ptr);
+		} else if ((attr->id & MS_OBJ_ATTR_NEEDS_EXPR_UNREF) &&
+		    attr->v.v_expr != NULL) {
+			expr_tree_unref (attr->v.v_expr);
 		}
 		g_free (attr);
 	}
@@ -425,15 +442,13 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 		}
 
-		case GR_CHECKBOX_FORMULA :
-		{
-			guint16 const row = MS_OLE_GET_GUINT16(data+11);
-			guint16 const col = MS_OLE_GET_GUINT16(data+13) &0x3fff;
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_object_debug > 0)
-				printf ("Checkbox linked to : %s%d\n", col_name(col), row+1);
+		case GR_CHECKBOX_FORMULA : {
+			guint16 const expr_len = MS_OLE_GET_GUINT16 (data+4);
+			ExprTree *ref = ms_container_parse_expr (container, data+10, expr_len);
+			if (ref != NULL)
+				ms_object_attr_bag_insert (obj->attrs,
+					ms_object_attr_new_expr (MS_OBJ_ATTR_CHECKBOX_LINK, ref));
 			ms_obj_dump (data, len, data_len_left, "CheckBoxFmla");
-#endif
 			break;
 		}
 

@@ -1,3 +1,19 @@
+2002-01-17  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_get_ref) : handle
+	  references without an explicit sheet.
+	(sheet_widget_checkbox_set_link) : new.
+
+2002-01-16  Jody Goldberg <jody@gnome.org>
+
+	* src/item-cursor.c (item_cursor_draw) : fix some ancient Miggy
+	  bugginess that was borking the gnome2 port.
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_tools_tabulate) : Pass the sheet in
+	  directly.
+
 2002-01-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/datetime.c : change oem to eom

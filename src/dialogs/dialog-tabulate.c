@@ -491,7 +491,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 }
 
 void
-dialog_tabulate (WorkbookControlGUI *wbcg)
+dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GladeXML *gui;
 	GnomeDialog *dialog;
@@ -517,7 +517,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg)
 	dd->wbcg = wbcg;
 	dd->gui = gui;
 	dd->dialog = dialog;
-	dd->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	dd->sheet = sheet;
 
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 

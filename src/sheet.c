@@ -28,6 +28,7 @@
 #include "ranges.h"
 #include "print-info.h"
 #include "mstyle.h"
+#include "style-color.h"
 #include "application.h"
 #include "commands.h"
 #include "cellspan.h"

@@ -34,21 +34,29 @@ typedef enum {
 
     /* Ptrs */
 	MS_OBJ_ATTR_NEEDS_FREE_MASK = 0x2000,
-	MS_OBJ_ATTR_ANCHOR
+	MS_OBJ_ATTR_ANCHOR,
+
+    /* Expressions */
+	MS_OBJ_ATTR_NEEDS_EXPR_UNREF = 0x4000,
+	MS_OBJ_ATTR_CHECKBOX_LINK,
+
+	MS_OBJ_ATTR_MASK = 0x7000
 } MSObjAttrID;
 
 typedef struct {
 	MSObjAttrID const id;
 	union {
-		gboolean v_boolean;
-		guint32	 v_uint;
-		gpointer v_ptr;
+		gboolean  v_boolean;
+		guint32	  v_uint;
+		gpointer  v_ptr;
+		ExprTree *v_expr;
 	} v;
 } MSObjAttr;
 
 MSObjAttr    *ms_object_attr_new_flag    (MSObjAttrID id);
 MSObjAttr    *ms_object_attr_new_uint    (MSObjAttrID id, guint32 val);
 MSObjAttr    *ms_object_attr_new_ptr     (MSObjAttrID id, gpointer val);
+MSObjAttr    *ms_object_attr_new_expr    (MSObjAttrID id, ExprTree *expr);
 void	      ms_object_attr_destroy     (MSObjAttr *attr);
 
 typedef GHashTable MSObjAttrBag;

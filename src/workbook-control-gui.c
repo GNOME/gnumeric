@@ -2185,7 +2185,7 @@ static void
 cb_tools_tabulate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_tabulate (wbcg);
+	dialog_tabulate (wbcg, wb_control_cur_sheet (wbc));
 }
 
 static void

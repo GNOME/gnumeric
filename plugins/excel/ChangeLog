@@ -1,3 +1,26 @@
+2002-01-17  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_object_attr_new_expr) : new.
+	(ms_object_attr_destroy) : handle expressions.
+	(ms_obj_read_biff8_obj) : use the expression parser for
+	  GR_CHECKBOX_FORMULA.
+
+	* ms-formula-read.c (getRefV7) : remove the pointless malloc/free.
+	(getRefV8) : ditto.
+	(make_inter_sheet_ref) : delete.
+	(make_inter_sheet_ref_v7) : ditto.
+
+	* ms-excel-read.c (ms_sheet_realize_obj) : add support for a
+	  checkbox's link.  Needs to be done here, AFTER being assigned to a
+	  sheet.
+	(ms_excel_workboot_get_externsheets) : renamed from
+	  biff_get_externsheet_name, and simplified.
+
+2002-01-14  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : fix support for
+	  importing local 3d references, external 3d is still not supported.
+
 2002-01-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.2

@@ -1,5 +1,9 @@
 Gnumeric 1.0.3
 
+Jody:
+	* More work on XL import for 3d references.
+	* Import checkbox links from XL.
+
 Morten:
 	* New tabulation tool.
 
