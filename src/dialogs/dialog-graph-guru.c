@@ -48,7 +48,7 @@ typedef struct _GraphGuruState GraphGuruState;
 typedef struct
 {
 	GraphGuruState	*state;
-	xmlChar	  	*element;
+	xmlChar	  	*dim_name;
 	int	   	 dim_index, series_index;
 	gboolean   	 is_optional, is_shared;
 	gboolean   	 changed;
@@ -273,7 +273,7 @@ vector_state_series_set_dimension (VectorState *vs, ExprTree *expr)
 	 */
 	CORBA_exception_init (&ev);
 	DATA_GURU1 (seriesSetDimension) (vs->state->data_guru,
-		vs->series_index, vs->element, vector_id, &ev);
+		vs->series_index, vs->dim_name, vector_id, &ev);
 	if (ev._major == CORBA_NO_EXCEPTION)
 		graph_guru_get_spec (vs->state);
 	else {
@@ -301,7 +301,7 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 	vs->state->updating = FALSE;
 
 	vs->vector = NULL;
-	dim = gnm_graph_series_get_dimension (series, vs->element);
+	dim = gnm_graph_series_get_dimension (series, vs->dim_name);
 	if (dim != NULL) {
 		id = e_xml_get_integer_prop_by_name_with_default (dim, "ID", -1);
 		if (id >= 0) {
@@ -357,9 +357,9 @@ vector_state_init (VectorState *vs, xmlNode *descriptor)
 	char *name;
 	gboolean required;
 
-	if (vs->element != NULL)
-		xmlFree (vs->element);
-	vs->element = xmlGetProp (descriptor, "element");
+	if (vs->dim_name != NULL)
+		xmlFree (vs->dim_name);
+	vs->dim_name = xmlGetProp (descriptor, "dim_name");
 
 	required = e_xml_get_bool_prop_by_name_with_default (descriptor,
 		"required", FALSE);
@@ -392,7 +392,7 @@ vector_state_new (GraphGuruState *state, gboolean shared, int dim_indx)
 	vs->state = state;
 	vs->dim_index = dim_indx;
 	vs->series_index = -1;
-	vs->element  = NULL;
+	vs->dim_name  = NULL;
 	vs->is_shared = shared;
 	vs->changed = FALSE;
 	vs->vector  = NULL;
@@ -426,9 +426,9 @@ static void
 vector_state_destroy (VectorState *vs, gboolean destroywidgets)
 {
 	vs->vector = NULL;
-	if (vs->element) {
-		xmlFree (vs->element);
-		vs->element = NULL;
+	if (vs->dim_name) {
+		xmlFree (vs->dim_name);
+		vs->dim_name = NULL;
 	}
 
 	if (destroywidgets) {
@@ -790,9 +790,18 @@ graph_guru_init_button  (GraphGuruState *state, const char *widget_name)
 static gboolean
 cb_series_entry_changed (GtkWidget *ct, char *new_text, GraphGuruState *s)
 {
+	/* If the entry is not found then rename the current series */
 	if (!gnm_combo_text_set_text (GNM_COMBO_TEXT (ct), new_text,
 		GNM_COMBO_TEXT_NEXT)) {
-		g_warning ("renaming a series is not yet supported");
+		int i = s->unshared->len; /*label is always unshared */
+		while (i-- > 0) {
+			VectorState *vs = g_ptr_array_index (s->unshared, i);
+			if (!strcmp (vs->dim_name, "labels")) {
+				gtk_entry_set_text (GTK_ENTRY (vs->entry), new_text);
+				vector_state_apply_changes (vs);
+				break;
+			}
+		}
 	}
 
 	return FALSE;

@@ -1,3 +1,16 @@
+2001-10-16  Jody Goldberg <jgoldberg@home.com>
+
+	* rc/gnumeric-graph.c (gnm_graph_vector_eval) : patch leak.
+	(gnm_graph_series_get_dimension) : s/element/dim_name/
+	(gnm_graph_series_add_dimension) : ditto.
+
+2001-10-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_type_selector) : delete.
+	(gnm_graph_get_config_control) : ORBit returns garbage if the remote
+	  call fails.
+	(gnm_graph_subscribe_vector) : ditto.
+
 2001-10-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
        * src/analysis-tools.c (sampling_tool) : Fixed small bug.

@@ -1,5 +1,10 @@
 2001-10-16  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-graph-guru.c (cb_series_entry_changed) : allow renaming of
+	  series from the series combo.
+
+2001-10-16  Jody Goldberg <jgoldberg@home.com>
+
 	* dialog-graph-guru.c (graph_guru_init_data_page) : handle component
 	  death.  Only init if we need to.
 	(graph_guru_apply_changes) : check the right guru.

@@ -238,23 +238,32 @@ gnm_graph_vector_eval (Dependent *dep)
 
 	CORBA_exception_init (&ev);
 	switch (vector->type) {
-	case GNM_VECTOR_SCALAR :
+	case GNM_VECTOR_SCALAR : {
+		GNOME_Gnumeric_Scalar_Seq *seq =
+			gnm_graph_vector_seq_scalar (vector);
 		GNOME_Gnumeric_Scalar_Vector_changed (
-			vector->subscriber.scalar,
-			0, gnm_graph_vector_seq_scalar (vector), &ev);
+			vector->subscriber.scalar, 0, seq, &ev);
+		GNOME_Gnumeric_Scalar_Seq__free (seq, 0, TRUE);
 		break;
+	}
 
-	case GNM_VECTOR_DATE :
+	case GNM_VECTOR_DATE : {
+		GNOME_Gnumeric_Date_Seq *seq =
+			gnm_graph_vector_seq_date (vector);
 		GNOME_Gnumeric_Date_Vector_changed (
-			vector->subscriber.date,
-			0, gnm_graph_vector_seq_date (vector), &ev);
+			vector->subscriber.date, 0, seq, &ev);
+		GNOME_Gnumeric_Date_Seq__free (seq, 0, TRUE);
 		break;
+	}
 
-	case GNM_VECTOR_STRING :
+	case GNM_VECTOR_STRING : {
+		GNOME_Gnumeric_String_Seq *seq =
+			gnm_graph_vector_seq_string (vector);
 		GNOME_Gnumeric_String_Vector_changed (
-			vector->subscriber.string,
-			0, gnm_graph_vector_seq_string (vector), &ev);
+			vector->subscriber.string, 0, seq, &ev);
+		GNOME_Gnumeric_String_Seq__free (seq, 0, TRUE);
 		break;
+	}
 
 	default :
 		g_assert_not_reached ();
@@ -1221,30 +1230,30 @@ E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,
 /**
  * gnm_graph_series_get_dimension :
  * @series : the xml node holding series info.
- * @element : The name of the dimension we're looking for.
+ * @target : The name of the dimension we're looking for.
  *
- * A utility routine to find the child Dimension of @series with the correct @element.
+ * A utility routine to find the child Dimension of @series named @target.
  */
 xmlNode *
 gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *target)
 {
 	xmlNode *dim;
-	xmlChar *element;
+	xmlChar *dim_name;
 
 	/* attempt to find the matching dimension */
 	for (dim = series->xmlChildrenNode; dim; dim = dim->next) {
 		if (strcmp (dim->name, "Dimension"))
 			continue;
-		element = xmlGetProp (dim, "element");
-		if (element == NULL) {
-			g_warning ("Missing element name in series dimension");
+		dim_name = xmlGetProp (dim, "dim_name");
+		if (dim_name == NULL) {
+			g_warning ("Missing dim_name in series dimension");
 			continue;
 		}
-		if (strcmp (element, target)) {
-			xmlFree (element);
+		if (strcmp (dim_name, target)) {
+			xmlFree (dim_name);
 			continue;
 		}
-		xmlFree (element);
+		xmlFree (dim_name);
 		return dim;
 	}
 	return NULL;
@@ -1256,10 +1265,10 @@ gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *target)
  * If we want to get fancy we could even check for duplicated here.
  */
 xmlNode *
-gnm_graph_series_add_dimension (xmlNode *series, char const *element)
+gnm_graph_series_add_dimension (xmlNode *series, char const *dim_name)
 {
 	xmlNode *res = xmlNewChild (series, series->ns, "Dimension", NULL);
-	xmlSetProp (res, "element", element);
+	xmlSetProp (res, "dim_name", dim_name);
 	return res;
 }
 
