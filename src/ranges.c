@@ -1142,8 +1142,6 @@ range_is_sane (Range const *range)
 	return TRUE;
 }
 
-gboolean
-range_is_sane	(Range const *range);
 /**
  * range_transpose:
  * @range: The range.
@@ -1214,48 +1212,3 @@ range_transpose (Range *range, CellPos const *origin)
 
 	return clipped;
 }
-
-/**
- * range_expand:
- * @range: the range to expand
- * @d_tlx: top left column delta
- * @d_tly: top left row delta
- * @d_brx: bottom right column delta
- * @d_bry: bottom right row delta
- *
- * Attempts to expand a ranges area
- *
- * Return value: TRUE if we can expand, FALSE if not enough room.
- **/
-gboolean
-range_expand (Range *range, int d_tlx, int d_tly, int d_brx, int d_bry)
-{
-	int t;
-
-	t = range->start.col + d_tlx;
-	if (t < 0 ||
-	    t >= SHEET_MAX_COLS)
-		return FALSE;
-	range->start.col = t;
-
-	t = range->start.row + d_tly;
-	if (t < 0 ||
-	    t >= SHEET_MAX_ROWS)
-		return FALSE;
-	range->start.row = t;
-
-	t = range->end.col + d_brx;
-	if (t < 0 ||
-	    t >= SHEET_MAX_COLS)
-		return FALSE;
-	range->end.col = t;
-
-	t = range->end.row + d_bry;
-	if (t < 0 ||
-	    t >= SHEET_MAX_ROWS)
-		return FALSE;
-	range->end.row = t;
-
-	return TRUE;
-}
-

@@ -97,9 +97,6 @@ void        range_ensure_sanity (Range *range);
 gboolean    range_is_sane	(Range const *range);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, CellPos const *origin);
-gboolean    range_expand        (Range *range,
-				 int d_tlx, int d_tly,
-				 int d_brx, int d_bry);
 
 gboolean    range_has_header    (Sheet const *sheet, Range const *src,
 				 gboolean top);

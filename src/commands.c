@@ -2356,11 +2356,9 @@ cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
 
 	r = info->origin;
 	if (range_translate (&r, info->col_offset, info->row_offset)) {
-		char *msg = g_strdup_printf (_("to %s is beyond the sheet boundaries"),
-					     range_name (&r));
 
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), descriptor, msg);
-		g_free (msg);
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), descriptor,
+					_("is beyond sheet boundaries"));
 		g_free (descriptor);
 		return TRUE;
 	}
@@ -2505,6 +2503,10 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me = CMD_PASTE_COPY (obj);
 
 	/* Store the specs for the object */
+	me->parent.sheet = pt->sheet;
+	me->parent.size = 1;  /* FIXME?  */
+	me->parent.cmd_descriptor = g_strdup_printf (_("Pasting into %s"),
+						     range_name (&pt->range));
 	me->dst = *pt;
 	me->content = content;
 	me->has_been_through_cycle = FALSE;
@@ -2528,10 +2530,14 @@ cmd_paste_copy (WorkbookControl *wbc,
 		}
 	}
 
-	me->parent.sheet = pt->sheet;
-	me->parent.size = 1;  /* FIXME?  */
-	me->parent.cmd_descriptor = g_strdup_printf (_("Pasting into %s"),
-						     range_name (&pt->range));
+	/* Use translate to do a quiet sanity check */
+	if (range_translate (&me->dst.range, 0, 0)) {
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+					me->parent.cmd_descriptor,
+					_("is beyond sheet boundaries"));
+		gtk_object_destroy (GTK_OBJECT (me));
+		return TRUE;
+	}
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

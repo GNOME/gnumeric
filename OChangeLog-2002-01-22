@@ -2,6 +2,9 @@
 
 	* src/commands.c (cmd_clear_selection) : only print warning once.
 	(cmd_clear_undo) : There is no undo for pasting comments.
+	(cmd_paste_copy) : doh! We can not print the name of the target range,
+	  it is out of bounds!
+	(cmd_paste_cut) : ditto.
 
 	* src/item-grid.c (item_grid_draw) : If everything is hidden we can
 	  get into odd states.
