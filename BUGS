@@ -50,6 +50,8 @@ Long term breakage
 - AutoFormat should probably be returning a StyleFormat instead of a text
   string so we can kill a few leaks.
 
+- Underline should scale with font size.  (Say, min (1, pixel_height_of("O")/20).)
+
 Dialogs
 -------
 - Finish function wizard
