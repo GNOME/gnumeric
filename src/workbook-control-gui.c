@@ -2395,6 +2395,13 @@ cb_tools_solver (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_tools_simulation (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_simulation (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
 cb_tools_anova_one_factor (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -3343,9 +3350,15 @@ static GnomeUIInfo workbook_menu_tools [] = {
 		N_("Iteratively recalculate with constraints to approach a target value"),
 		cb_tools_solver),
 
+	GNOMEUIINFO_ITEM_NONE (N_("_Risk Simulation..."),
+		N_("Test decision alternatives by using monte carlo simulation "
+		   "to find out probable outputs and risks related to them"),
+		cb_tools_simulation),
+
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_SUBTREE(N_("Statistical Anal_ysis"), workbook_menu_tools_analysis),
+	GNOMEUIINFO_SUBTREE(N_("Statistical Anal_ysis"),
+			    workbook_menu_tools_analysis),
 
 	GNOMEUIINFO_END
 };
@@ -3600,6 +3613,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsTabulate", cb_tools_tabulate),
 	BONOBO_UI_UNSAFE_VERB ("ToolsMERGE", cb_tools_merge),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSolver", cb_tools_solver),
+	BONOBO_UI_UNSAFE_VERB ("ToolsSimulation", cb_tools_simulation),
 
 	BONOBO_UI_UNSAFE_VERB ("ToolsANOVAoneFactor", cb_tools_anova_one_factor),
 	BONOBO_UI_UNSAFE_VERB ("ToolsANOVAtwoFactor", cb_tools_anova_two_factor),
