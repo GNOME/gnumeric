@@ -36,8 +36,7 @@ Description                                             Difficulty  Integration
   eg when mousing over the colour combo toolbar
      we should be told what colour is selected.
 
-- gtk-combo-text : list should auto scroll when the	Medium	    Low
-  mouse moves outside.  A prettier mouse over for the
+- gtk-combo-text : A prettier mouse over for the	Medium	    Low
   text entry would be nice.
 
 -------------------------------------------------------------------------------

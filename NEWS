@@ -11,6 +11,8 @@ Jody:
 
 JonKare:
 	* Lots of dialog polishing.
+	* Autoscrolling combo boxes.
+	* Make tearoff combo boxes behave more like tearoff menus.
 
 Michael:
 	* Get embedded gnumeric working again.
