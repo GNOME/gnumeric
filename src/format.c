@@ -17,13 +17,22 @@
  */
 
 #include <config.h>
-#include <glib.h>
-#include <stdio.h>
-#include <math.h>
-#include <string.h>
 #include <gnome.h>
+#include <stdio.h>
+#include <string.h>
 #include <time.h>
-gchar *format_number( gdouble number, gchar *format );
+#include <math.h>
+#include "format.h"
+
+static int append_year( GString *string, gchar *format, struct tm *time_split );
+static int append_month( GString *string, gchar *format, struct tm *time_split );
+static int append_hour( GString *string, gchar *format, struct tm *time_split, int timeformat );
+static int append_day( GString *string, gchar *format, struct tm *time_split );
+static int append_minute( GString *string, gchar *format, struct tm *time_split );
+static int append_second( GString *string, gchar *format, struct tm *time_split );
+static int append_half( GString *string, gchar *format, struct tm *time_split );
+
+
 /*
    The returned string is newly allocated.
 
@@ -117,6 +126,7 @@ static void do_roundup( GString *string )
 
 /* Parses the year field at the beginning of the format.  Returns the
    number of characters used. */
+static
 int append_year( GString *string, gchar *format, struct tm *time_split )
 {
   gchar temp[5];
@@ -138,7 +148,7 @@ int append_year( GString *string, gchar *format, struct tm *time_split )
 
 /* Parses the month field at the beginning of the format.  Returns the
    number of characters used. */
-int append_month( GString *string, gchar *format, struct tm *time_split )
+static int append_month( GString *string, gchar *format, struct tm *time_split )
 {
   gchar temp[3];
   if ( format[ 1 ] != 'm' )
@@ -164,7 +174,7 @@ int append_month( GString *string, gchar *format, struct tm *time_split )
 
 /* Parses the hour field at the beginning of the format.  Returns the
    number of characters used. */
-int append_hour( GString *string, gchar *format, struct tm *time_split, int timeformat )
+static int append_hour( GString *string, gchar *format, struct tm *time_split, int timeformat )
 {
   gchar temp[3];
   if ( format[ 1 ] != 'h' )
@@ -180,7 +190,7 @@ int append_hour( GString *string, gchar *format, struct tm *time_split, int time
 
 /* Parses the day field at the beginning of the format.  Returns the
    number of characters used. */
-int append_day( GString *string, gchar *format, struct tm *time_split )
+static int append_day( GString *string, gchar *format, struct tm *time_split )
 {
   gchar temp[3];
   if ( format[ 1 ] != 'd' )
@@ -206,7 +216,7 @@ int append_day( GString *string, gchar *format, struct tm *time_split )
 
 /* Parses the minute field at the beginning of the format.  Returns the
    number of characters used. */
-int append_minute( GString *string, gchar *format, struct tm *time_split )
+static int append_minute( GString *string, gchar *format, struct tm *time_split )
 {
   gchar temp[3];
   if ( format[ 1 ] != 'm' )
@@ -222,7 +232,7 @@ int append_minute( GString *string, gchar *format, struct tm *time_split )
 
 /* Parses the second field at the beginning of the format.  Returns the
    number of characters used. */
-int append_second( GString *string, gchar *format, struct tm *time_split )
+static int append_second( GString *string, gchar *format, struct tm *time_split )
 {
   gchar temp[3];
   if ( format[ 1 ] != 's' )
@@ -238,7 +248,7 @@ int append_second( GString *string, gchar *format, struct tm *time_split )
 
 /* Parses the day part field at the beginning of the format.  Returns
    the number of characters used. */
-int append_half( GString *string, gchar *format, struct tm *time_split )
+static int append_half( GString *string, gchar *format, struct tm *time_split )
 {
   if ( time_split->tm_hour <= 11 )
     {
@@ -271,7 +281,7 @@ typedef struct
 } format_info;
 
 gchar *
-format_number( gdouble number, gchar *format )
+format_number( gdouble number, gchar *format, char **color_name )
 {
   gint left_req = 0, right_req = 0;
   gint left_spaces = 0, right_spaces = 0;
@@ -293,6 +303,8 @@ format_number( gdouble number, gchar *format )
   time_t timec;
   struct tm *time_split;
 
+  *color_name = NULL;
+  
   date = number;
   date -= 25569.0;
   date *= 86400.0;

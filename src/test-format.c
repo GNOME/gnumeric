@@ -1,10 +1,10 @@
 #include <config.h>
-#include <glib.h>
-#include <stdio.h>
-#include <math.h>
-#include <string.h>
 #include <gnome.h>
+#include <stdio.h>
+#include <string.h>
 #include <time.h>
+#include <math.h>
+#include "format.h"
 
 void
 test()
