@@ -104,6 +104,7 @@ typedef struct _FormatState
 	GtkDialog	*dialog;
 	GtkNotebook	*notebook;
 	GtkWidget	*apply_button;
+	GtkWidget	*ok_button;
 
 	Sheet		*sheet;
 	Value		*value;
@@ -2310,29 +2311,34 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 
 /* button handlers */
 static void
-cb_fmt_dialog_dialog_apply (GtkWidget *ignore, FormatState *state)
+cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 {
-	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
-	int i;
+	if (btn == state->apply_button || btn == state->ok_button) {
+		StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+		int i;
 
-	if (state->validation.changed)
-		validation_rebuild_validation (state);
+		if (state->validation.changed)
+			validation_rebuild_validation (state);
 
-	mstyle_ref (state->result);
+		mstyle_ref (state->result);
 
-	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
-		borders[i] = border_get_mstyle (state, i);
+		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+			borders[i] = border_get_mstyle (state, i);
 
-	cmd_format (WORKBOOK_CONTROL (state->wbcg),
-		    state->sheet, state->result, borders, NULL);
+		cmd_format (WORKBOOK_CONTROL (state->wbcg),
+			    state->sheet, state->result, borders, NULL);
 
-	mstyle_unref (state->result);
-	sheet_update (state->sheet);
+		mstyle_unref (state->result);
+		sheet_update (state->sheet);
 
-	/* Get a fresh style to accumulate results in */
-	state->result = mstyle_new ();
+		/* Get a fresh style to accumulate results in */
+		state->result = mstyle_new ();
 
-	gtk_widget_set_sensitive (state->apply_button, FALSE);
+		gtk_widget_set_sensitive (state->apply_button, FALSE);
+	}
+
+	if (btn != state->apply_button)
+		gtk_object_destroy (GTK_OBJECT (state->dialog));
 }
 
 /* Handler for destroy */
@@ -2640,19 +2646,19 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		glade_xml_get_widget (state->gui, "helpbutton"),
 		"formatting.html");
 
-	tmp = glade_xml_get_widget (state->gui, "okbutton");
-	g_signal_connect (G_OBJECT (tmp),
+	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
+	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
-		G_CALLBACK (cb_fmt_dialog_dialog_), state);
+		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);
 	state->apply_button = glade_xml_get_widget (state->gui, "applybutton");
 	gtk_widget_set_sensitive (state->apply_button, FALSE);
 	g_signal_connect (G_OBJECT (state->apply_button),
 		"clicked",
-		G_CALLBACK (cb_fmt_dialog_dialog_apply), state);
+		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);
 	tmp = glade_xml_get_widget (state->gui, "closebutton");
 	g_signal_connect (G_OBJECT (tmp),
 		"clicked",
-		G_CALLBACK (cb_fmt_dialog_dialog_apply), state);
+		G_CALLBACK (cb_fmt_dialog_dialog_buttons), state);
 
 	g_signal_connect (G_OBJECT (dialog),
 		"set-focus",

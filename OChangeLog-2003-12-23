@@ -1,7 +1,6 @@
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
-	* src/dialogs/dialog-cell-format.c (fmt_dialog_impl) : fix signature
-	  on apply button.
+	* configure.in  : post release bump.
 
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
