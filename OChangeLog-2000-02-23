@@ -1,3 +1,19 @@
+2000-02-21  Jon K Hellan  <hellan@acm.org>
+
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Deflickerize.
+
+	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment): Ditto.
+
+	* src/gnumeric-util.c (gnumeric_dialog_show): New function. Pop up
+	a dialog without recursive main loop, with a handler to take care
+	of parent shell closing.
+	(on_parent_close, on_close): New callback functions.
+	(connect_to_parent_close): New helper function - connect handler
+	for parent shell closing.
+
+	* src/print.c (sheet_print): Use gnumeric_dialog_run.
+
 2000-02-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c (cb_back_preview_color) : Hard code

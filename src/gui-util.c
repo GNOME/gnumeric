@@ -67,8 +67,12 @@ gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
 }
 
 /**
- * gnumeric_dialog_run : A utility routine to handle the application being closed by
- * the window manager while a modal dialog is being displayed.
+ * gnumeric_dialog_run
+ *
+ * Pop up a dialog as child of a workbook.
+ *
+ * The number_of_dialogs_displayed counter is maintained to make sure
+ * that the window manager doesn't close the app underneath us.
  */
 gint
 gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
@@ -77,6 +81,100 @@ gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
 		return gnumeric_wb_dialog_run (wb, dialog);
 	else 
 		return gnome_dialog_run (dialog);
+}
+
+/**
+ * Data structure and callbacks for dialogs which do not use recursive
+ * mainloop.  */
+typedef struct {
+	GtkWidget *parent_toplevel;
+	gint       parent_close_id;
+} DialogRunInfo;
+
+static gboolean
+on_parent_close (GnomeDialog *parent, GnomeDialog *dialog)
+{
+	gnome_dialog_close (dialog);
+	return FALSE;
+}
+
+static gboolean
+on_parent_delete (GnomeDialog *parent, GdkEvent *event, GnomeDialog *dialog)
+{
+	return on_parent_close (parent, dialog);
+}
+
+static gboolean
+on_close (GnomeDialog *dialog,
+	  DialogRunInfo *run_info)
+{
+	gtk_signal_disconnect(GTK_OBJECT (run_info->parent_toplevel),
+			      run_info->parent_close_id);
+	g_free (run_info);
+	return FALSE;
+}
+
+/**
+ * connect_to_parent_close
+ * 
+ * Attach a handler to close if the parent closes.
+ */
+static void
+connect_to_parent_close (GnomeDialog *dialog, DialogRunInfo *run_info)
+{
+	if (GNOME_IS_DIALOG(run_info->parent_toplevel)) {
+		run_info->parent_close_id =
+			gtk_signal_connect
+			(GTK_OBJECT (run_info->parent_toplevel),
+			 "close", (GtkSignalFunc) on_parent_close,
+			 dialog);
+	} else {
+		run_info->parent_close_id =
+			gtk_signal_connect
+			(GTK_OBJECT (run_info->parent_toplevel),
+			 "delete_event",
+			 (GtkSignalFunc) on_parent_delete,
+			 dialog);
+	}
+	gtk_signal_connect (GTK_OBJECT (dialog), "close",
+			    (GtkSignalFunc) on_close, run_info);
+}
+
+/**
+ * gnumeric_dialog_show
+ * @parent             parent widget
+ * @dialog             dialog
+ * @click_closes       close on click
+ * @closw_with_parent  close when parent closes
+ *
+ * Pop up a dialog without a recursive main loop
+ *
+ * Attach a handler to close if the parent closes.
+ * The parent widget does not have to be a toplevel shell - we look it
+ * up here.
+ */
+void
+gnumeric_dialog_show (GtkWidget *parent, GnomeDialog *dialog,
+		      gboolean click_closes, gboolean close_with_parent)
+{
+	DialogRunInfo *run_info = NULL;
+	
+	g_return_if_fail(GNOME_IS_DIALOG(dialog));
+	if (parent) {
+		run_info = g_new0 (DialogRunInfo, 1);
+		run_info->parent_toplevel
+			= gtk_widget_get_toplevel (GTK_WIDGET (parent));
+		gnome_dialog_set_parent
+			(GNOME_DIALOG (dialog),
+			 GTK_WINDOW (run_info->parent_toplevel));
+		if (close_with_parent) 
+			connect_to_parent_close (dialog, run_info);
+	}
+
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), click_closes);
+
+	if ( ! GTK_WIDGET_VISIBLE(GTK_WIDGET(dialog)) )	/* Pop up the dialog */
+		gtk_widget_show(GTK_WIDGET(dialog));
 }
 
 int

@@ -40,8 +40,7 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 	}
 	
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), text, TRUE, TRUE, 0);
-	gtk_widget_show_all (dialog);
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_widget_show (text);
 	gtk_widget_grab_focus (text);
 
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));

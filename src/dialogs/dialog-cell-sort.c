@@ -609,7 +609,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_cols_toggled),
 			    &sort_flow);
 
-	gtk_widget_show_all (sort_flow.dialog);
+	gtk_widget_show_all (sort_flow.clause_box);
 	
 	/* Run the dialog */
 	cont = TRUE;
