@@ -1927,7 +1927,7 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 	state.depth = 0;
 	state.prev_opcode = 0xdead; /* Invalid */
 	state.wb = wb;
-	state.chart = gnumeric_chart_new();
+	state.chart = gnumeric_chart_new ();
 
 	if (ms_excel_chart_debug > 0)
 		puts ("{ CHART");
@@ -1936,29 +1936,25 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 		int const lsb = q->opcode & 0xff;
 
 		/* Use registered jump table for chart records */
-		if ((q->opcode&0xff00) == 0x1000)
-		{
+		if ((q->opcode & 0xff00) == 0x1000) {
 			int const begin_end =
 				(q->opcode == BIFF_CHART_begin ||
 				 q->opcode == BIFF_CHART_end);
 
 			if (lsb >= num_handler ||
-			    !chart_biff_handler[lsb] ||
-			    chart_biff_handler[lsb]->opcode !=q->opcode)
-			{
+			    !chart_biff_handler [lsb] ||
+			    chart_biff_handler  [lsb]->opcode != q->opcode) {
 				printf ("Unknown BIFF_CHART record\n");
 				dump_biff (q);
-			} else
-			{
+			} else {
 				ExcelChartHandler const *const h =
-					chart_biff_handler[lsb];
+					chart_biff_handler [lsb];
 
 				/*
 				 *All chart handling is debug for now, so just
 				 *lobotomize it here if user isnt interested.
 				 */
-				if (ms_excel_chart_debug > 0)
-				{
+				if (ms_excel_chart_debug > 0) {
 					if (!begin_end)
 						printf ("%s(\n", h->name);
 					(void)(*h->read_fn)(h, &state, q);
@@ -1966,8 +1962,7 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 						printf (");\n");
 				}
 			}
-		} else
-		{
+		} else {
 			switch (lsb)
 			{
 			case BIFF_EOF:
@@ -2020,6 +2015,7 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 		}
 		state.prev_opcode = q->opcode;
 	}
+	gnumeric_chart_destroy (state.chart);
 }
 
 void

@@ -727,7 +727,7 @@ biff_name_data_destroy (BiffNameData *bnd)
 	if (bnd->type == BNDStore) {
 		if (bnd->v.store.data)
 			g_free (bnd->v.store.data);
-	}
+	} /* else: bnd->v.name is held in the sheet */
 	g_free (bnd);
 }
 

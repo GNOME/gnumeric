@@ -1,3 +1,13 @@
+1999-11-28  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/workbook.c (wb_edit_key_pressed): Fix bug #2110
+
+	* src/mstyle.c: re-organise elements type to save memory.
+	make several globals static.
+	(mstyle_hash): constify. (mstyle_new): remove alloc + gnew0
+	(mstyle_copy): update. (mstyle_elements_copy): update.
+	(mstyle_destroy): update.
+
 1999-11-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c : Add some menu items and experiment with disabling

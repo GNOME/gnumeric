@@ -377,7 +377,7 @@ range_overlap (Range const *a, Range const *b)
  * @a: 
  * @b: 
  * 
- * Is a totaly contained by b
+ * Is @a totaly contained by @b
  * 
  * Return value: 
  **/

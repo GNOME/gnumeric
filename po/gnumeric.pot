@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-11-27 15:48+0000\n"
+"POT-Creation-Date: 1999-11-28 15:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -857,7 +857,7 @@ msgstr ""
 msgid "Maximum number of clauses has been reached."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:520 src/print.c:508 src/workbook.c:1457
+#: src/dialogs/dialog-cell-sort.c:520 src/print.c:508 src/workbook.c:1458
 msgid "Selection must be a single range"
 msgstr ""
 
@@ -1108,11 +1108,11 @@ msgstr ""
 msgid ">="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1573
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1574
 msgid "Max"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1572
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1573
 msgid "Min"
 msgstr ""
 
@@ -7473,7 +7473,7 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: src/print-preview.c:539 src/workbook.c:2113
+#: src/print-preview.c:539 src/workbook.c:2114
 msgid "Zoom in"
 msgstr ""
 
@@ -7481,7 +7481,7 @@ msgstr ""
 msgid "Zooms the page in"
 msgstr ""
 
-#: src/print-preview.c:540 src/workbook.c:2106
+#: src/print-preview.c:540 src/workbook.c:2107
 msgid "Zoom out"
 msgstr ""
 
@@ -7557,12 +7557,12 @@ msgstr ""
 msgid "Internal ERROR"
 msgstr ""
 
-#: src/sheet.c:2994
+#: src/sheet.c:3000
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3006
+#: src/sheet.c:3012
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -8094,54 +8094,54 @@ msgstr ""
 msgid "Creates an ellipse object"
 msgstr ""
 
-#: src/workbook.c:1351
+#: src/workbook.c:1352
 msgid "You should introduce a valid cell name"
 msgstr ""
 
-#: src/workbook.c:1360
+#: src/workbook.c:1361
 msgid "Column out of range"
 msgstr ""
 
-#: src/workbook.c:1366
+#: src/workbook.c:1367
 msgid "Row number out of range"
 msgstr ""
 
-#: src/workbook.c:1571
+#: src/workbook.c:1572
 msgid "Sum"
 msgstr ""
 
-#: src/workbook.c:1574
+#: src/workbook.c:1575
 msgid "Average"
 msgstr ""
 
-#: src/workbook.c:1575
+#: src/workbook.c:1576
 msgid "Count"
 msgstr ""
 
-#: src/workbook.c:2010
+#: src/workbook.c:2011
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr ""
 
-#: src/workbook.c:2237
+#: src/workbook.c:2238
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
 
-#: src/workbook.c:2286
+#: src/workbook.c:2287
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:2287
+#: src/workbook.c:2288
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:2555 src/workbook.c:2588
+#: src/workbook.c:2556 src/workbook.c:2589
 #, c-format
 msgid "Sheet%d"
 msgstr ""
 
-#: src/workbook.c:2624
+#: src/workbook.c:2625
 msgid "Gnumeric: "
 msgstr ""
 

@@ -1359,6 +1359,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 		return TRUE;
 
 	default:
+		workbook_set_dirty (wb, TRUE);
 		return FALSE;
 	}
 }

@@ -15,29 +15,8 @@
 
 #define STYLE_DEBUG (style_debugging > 2)
 
-typedef struct _MStyleElement     MStyleElement;
-
-struct _MStyle {
-	guint32        ref_count;
-	gchar         *name;
-	MStyleElement *elements;
-};
-
-#define MSTYLE_ANY_COLOR             MSTYLE_COLOR_FORE: \
-				case MSTYLE_COLOR_BACK: \
-				case MSTYLE_COLOR_PATTERN
-#define MSTYLE_ANY_BORDER            MSTYLE_BORDER_TOP: \
-				case MSTYLE_BORDER_BOTTOM: \
-				case MSTYLE_BORDER_LEFT: \
-				case MSTYLE_BORDER_RIGHT: \
-				case MSTYLE_BORDER_DIAGONAL: \
-				case MSTYLE_BORDER_REV_DIAGONAL
-
-extern const char *mstyle_names [MSTYLE_ELEMENT_MAX];
-
-struct _MStyleElement {
-/*	MStyleElementType type; - memory efficiency */
-	guint8 type;
+typedef struct {
+	MStyleElementType type;
 	union {
 		union {
 			StyleColor *any;
@@ -72,14 +51,25 @@ struct _MStyleElement {
 		StyleOrientation orientation;
 		gboolean         fit_in_cell;
 	} u;
+} MStyleElement;
+
+struct _MStyle {
+	guint32        ref_count;
+	gchar         *name;
+	MStyleElement  elements [MSTYLE_ELEMENT_MAX];
 };
 
-MStyleElement  mstyle_element_ref      (MStyleElement e);
-void           mstyle_element_unref    (MStyleElement e);
-gboolean       mstyle_elements_equal   (const MStyleElement *a, const MStyleElement *b);
-void           mstyle_elements_compare (MStyleElement *a, const MStyleElement *b);
-void           mstyle_elements_unref   (MStyleElement *e);
-MStyleElement *mstyle_elements_copy    (const MStyleElement *e);
+#define MSTYLE_ANY_COLOR             MSTYLE_COLOR_FORE: \
+				case MSTYLE_COLOR_BACK: \
+				case MSTYLE_COLOR_PATTERN
+#define MSTYLE_ANY_BORDER            MSTYLE_BORDER_TOP: \
+				case MSTYLE_BORDER_BOTTOM: \
+				case MSTYLE_BORDER_LEFT: \
+				case MSTYLE_BORDER_RIGHT: \
+				case MSTYLE_BORDER_DIAGONAL: \
+				case MSTYLE_BORDER_REV_DIAGONAL
+
+extern const char *mstyle_names [MSTYLE_ELEMENT_MAX];
 
 const char *mstyle_names [MSTYLE_ELEMENT_MAX] = {
 	"--UnSet--",
@@ -114,7 +104,7 @@ mstyle_hash (gconstpointer st)
 	guint32 hash;
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		MStyleElement *e = &mstyle->elements [i];
+		const MStyleElement *e = &mstyle->elements [i];
 		hash = hash << 8;
 		switch (i) {
 		case MSTYLE_ANY_COLOR:
@@ -275,7 +265,7 @@ mstyle_element_equal (const MStyleElement a,
  * 
  * Return value: TRUE if equal.
  **/
-gboolean
+static gboolean
 mstyle_elements_equal (const MStyleElement *a,
 		       const MStyleElement *b)
 {
@@ -302,7 +292,7 @@ mstyle_elements_equal (const MStyleElement *a,
 	return TRUE;
 }
 
-inline MStyleElement
+static inline MStyleElement
 mstyle_element_ref (MStyleElement e)
 {
 	switch (e.type) {
@@ -324,7 +314,7 @@ mstyle_element_ref (MStyleElement e)
 	return e;
 }
 
-inline void
+static inline void
 mstyle_element_unref (MStyleElement e)
 {
 	switch (e.type) {
@@ -352,7 +342,7 @@ mstyle_element_unref (MStyleElement e)
  * 
  * Compares styles and tags conflicts into a.
  **/
-void
+static inline void
 mstyle_elements_compare (MStyleElement *a,
 			 const MStyleElement *b)
 {
@@ -384,7 +374,7 @@ mstyle_compare (MStyle *a, const MStyle *b)
 				 b->elements);
 }
 
-void
+static void
 mstyle_elements_unref (MStyleElement *e)
 {
 	int i;
@@ -395,32 +385,29 @@ mstyle_elements_unref (MStyleElement *e)
 		}
 }
 
-MStyleElement *
-mstyle_elements_copy (const MStyleElement *e)
+static void
+mstyle_elements_copy (MStyle *new_style, const MStyle *old_style)
 {
-	int i;
-	MStyleElement *ans;
+	int                  i;
+	MStyleElement       *ans;
+	const MStyleElement *e;
 
-	g_return_val_if_fail (e != NULL, NULL);
-
-	ans = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
+	e   = old_style->elements;
+	ans = new_style->elements;
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
 		mstyle_element_ref (e [i]);
 		ans [i] = e [i];
 	}
-
-	return ans;
 }
 
 MStyle *
 mstyle_new (void)
 {
-	MStyle *style = g_new (MStyle, 1);
+	MStyle *style = g_new0 (MStyle, 1);
 
 	style->ref_count = 1;
 	style->name = NULL;
-	style->elements  = g_new0 (MStyleElement, MSTYLE_ELEMENT_MAX);
 
 	return style;
 }
@@ -435,7 +422,7 @@ mstyle_copy (const MStyle *style)
 		new_style->name = g_strdup (style->name);
 	else
 		new_style->name = NULL;
-	new_style->elements  = mstyle_elements_copy (style->elements);
+	mstyle_elements_copy (new_style, style);
 
 	return new_style;
 }
@@ -647,11 +634,8 @@ mstyle_destroy (MStyle *style)
 		g_free (style->name);
 	style->name = NULL;
 
-	if (style->elements) {
+	if (style->elements)
 		mstyle_elements_unref (style->elements);
-		g_free (style->elements);
-	}
-	style->elements = NULL;
 		
 	g_free (style);
 }
