@@ -2190,6 +2190,8 @@ ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 			SO_ANCHOR_PTS_FROM_COLROW_START,
 			SO_ANCHOR_PTS_FROM_COLROW_START
 		};
+		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
+					sheet->gnum_sheet);
 		sheet_object_range_set (SHEET_OBJECT (obj->gnum_obj), &range,
 					offsets, anchor_types);
 	}
