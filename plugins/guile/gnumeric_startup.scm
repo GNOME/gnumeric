@@ -212,7 +212,7 @@
 	 expr)))
 
 ; load user init-file if present
-(let ((home-gnumericrc (string-append (getenv "HOME") "/.gnumerc/guile.scm")))
+(let ((home-gnumericrc (string-append (getenv "HOME") "/.gnumeric/guile.scm")))
   (if (access? home-gnumericrc R_OK)
       (load home-gnumericrc)))
 
