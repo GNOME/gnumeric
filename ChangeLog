@@ -1,5 +1,8 @@
 2003-06-23  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.h (GnmCursorType): Eliminate unused zoom and hand
+	cursors.
+
 	* src/number-match.c (format_create_regexp): Simplify using
 	gnumeric_regexp_quote1.
 	(char_to_re): Delete.
