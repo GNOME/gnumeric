@@ -218,7 +218,7 @@ attr_dialog_init_entry (AttrState *state, char const *name, char const *val)
 static void
 attr_dialog_init_view_page (AttrState *state)
 {
-	char buf[128];
+	char *buf;
 
 	state->view.show_hsb     = attr_dialog_init_toggle (state,
 		"WorkbookView::show_horizontal_scrollbar",
@@ -253,14 +253,17 @@ attr_dialog_init_view_page (AttrState *state)
 		state->wb->iteration.enabled,
 		&state->old.iteration_enabled);
 
-	g_snprintf (buf, sizeof(buf), "%d", state->wb->iteration.max_number);
+	buf = g_strdup_printf ("%d", state->wb->iteration.max_number);
 	state->old.max_iterations = state->wb->iteration.max_number;
 	state->view.max_iterations =
 		attr_dialog_init_entry (state, "max_iterations", buf);
-	g_snprintf (buf, sizeof(buf), "%g", state->wb->iteration.tolerance);
+	g_free (buf);
+
+	buf = g_strdup_printf ("%g", state->wb->iteration.tolerance);
 	state->old.iteration_tolerance = state->wb->iteration.tolerance;
 	state->view.iteration_tolerance =
 		attr_dialog_init_entry (state, "iteration_tolerance", buf);
+	g_free (buf);
 }
 
 /*****************************************************************************/

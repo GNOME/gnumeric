@@ -1,3 +1,9 @@
+2003-01-10  Morten Welinder  <terra@diku.dk>
+
+	* dialog-workbook-attr.c (attr_dialog_init_view_page): buffer size
+	paranoia.
+	* dialog-cell-format.c (fillin_negative_samples): Ditto.
+
 2003-01-04  Jon K Hellan  <hellan@acm.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=84791

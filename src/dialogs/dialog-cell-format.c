@@ -550,7 +550,6 @@ fillin_negative_samples (FormatState *state)
 	char const *space_a = "", *currency_a;
 	char decimal[2] = { '\0', '\0' } ;
 	char thousand_sep[2] = { '\0', '\0' } ;
-	char buf[50];
 	int i;
 	GtkTreeIter  iter;
 	GtkTreePath *path;
@@ -594,13 +593,16 @@ fillin_negative_samples (FormatState *state)
 	gtk_list_store_clear (state->format.negative_types.model);
 
 	for (i = 0 ; i < 4; i++) {
+		char *buf = g_strdup_printf (formats[i],
+					     currency_b, space_b, thousand_sep, decimal,
+					     decimals + n, space_a, currency_a);
 		gtk_list_store_append (state->format.negative_types.model, &iter);
-		sprintf (buf, formats[i], currency_b, space_b, thousand_sep, decimal, decimals + n, space_a, currency_a);
 		gtk_list_store_set (state->format.negative_types.model, &iter,
-			0,	i,
-			1,  buf,
+			0, i,
+			1, buf,
 			2, (i % 2) ? "red" : NULL,
 			-1);
+		g_free (buf);
 	}
 
 	/* If non empty then free the string */

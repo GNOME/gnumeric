@@ -111,7 +111,6 @@ gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 	SCM res;
 	char *guilestr = NULL;
 	char *msg;
-	char buf[256];
 	Value *v;
 
 	func = scm_c_eval_string ("gnm:error->string");
@@ -123,14 +122,14 @@ gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 	}
 
 	if (guilestr != NULL) {
-		snprintf (buf, sizeof buf, "%s: %s", header, guilestr);
+		char *buf = g_strdup_printf ("%s: %s", header, guilestr);
 		free (guilestr);
-		msg = buf;
+		v = value_new_error (NULL, buf);
+		g_free (buf);
 	} else {
-		msg = (char *) header;
+		v = value_new_error (NULL, header);
 	}
 
-	v = value_new_error (NULL, msg);
 	smob = make_new_smob (v);
 	value_release (v);
 	return smob;

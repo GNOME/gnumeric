@@ -53,7 +53,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 {
 	Value *value;
 	int max, places;
-	char *err, buffer[40];
+	char *err, buffer[80];
 	char const *str;
 	gnm_float v, b10;
 	int digit;

@@ -42,7 +42,6 @@ compare_family_pointers_by_name (gconstpointer a, gconstpointer b)
 void
 global_gnome_font_init (void)
 {
-	char buffer [6]; 
 	int n_families, i;
 	PangoContext *context = gdk_pango_context_get ();
 
@@ -61,6 +60,7 @@ global_gnome_font_init (void)
 	gnumeric_font_family_list = g_list_reverse (gnumeric_font_family_list);
 
 	for (i = 0; gnumeric_point_sizes [i] != 0; i++){
+		char buffer[4 * sizeof (int)];
 		sprintf (buffer, "%d", gnumeric_point_sizes [i]);
 		gnumeric_point_size_list = g_list_prepend (
 			gnumeric_point_size_list,

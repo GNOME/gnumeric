@@ -181,6 +181,19 @@ Misc stuff that should be fixed
 
 - Audit all fixed-length buffers.  Most non-time-critical can be replaced
   by proper usage of g_strdup_printf.
+  - src/*.[ch]: Done 20030110 MW.
+    plugins/fn-*: Done 20030110 MW.
+    plugins/gb: Done 20030110 MW.
+    plugins/gda: Done 20030110 MW.
+    plugins/guile: Done 20030110 MW.
+    plugins/html: Done 20030110 MW.
+    plugins/lotus: Done 20030110 MW.
+    plugins/numtheory: Done 20030110 MW.
+    plugins/oleo: oleo_deal_with_format NOT SAFE.
+    plugins/perl: Done 20030110 MW.
+    plugins/qpro: Done 20030110 MW.
+    plugins/sample_datasource: Done 20030110 MW.
+    plugins/sylk: Done 20030110 MW.
 
 - The autocalc label should use a more readable format and should not get
   clipped.

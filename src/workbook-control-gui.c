@@ -381,18 +381,16 @@ wbcg_format_feedback (WorkbookControl *wbc)
 static void
 zoom_changed (WorkbookControlGUI *wbcg, Sheet* sheet)
 {
-	gchar buffer [25];
-
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (wbcg->zoom_entry != NULL);
 
-	snprintf (buffer, sizeof (buffer), "%d%%",
-		  (int) (sheet->last_zoom_factor_used * 100 + .5));
-
 	if (wbcg_ui_update_begin (wbcg)) {
+		int pct = sheet->last_zoom_factor_used * 100 + .5;
+		char *buffer = g_strdup_printf ("%d%%", pct);
 		gnm_combo_text_set_text (GNM_COMBO_TEXT (wbcg->zoom_entry),
 			buffer, GNM_COMBO_TEXT_CURRENT);
 		wbcg_ui_update_end (wbcg);
+		g_free (buffer);
 	}
 
 	scg_object_update_bbox (wbcg_cur_scg (wbcg),

@@ -52,49 +52,6 @@
 /* ------------------------------------------------------------------------- */
 
 /*
- * Fetches the CPU model and the speed of it.  Returns TRUE if succeeded,
- * FALSE otherwise.  FIXME: Currently Linux only.
- */
-static gboolean
-get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size)
-{
-        FILE     *in;
-	gchar    buf[256], *p;
-	gboolean model = FALSE, cpu = FALSE;
-	unsigned len;
-
-	in = fopen ("/proc/cpuinfo", "r");
-	if (in == NULL)
-	        return FALSE;
-	while (fgets (buf, 255, in) != NULL) {
-	        if (strncmp (buf, "model name", 10) == 0) {
-		        p = g_strrstr (buf, ":");
-			len = strlen (p);
-			if (p != NULL && p[1] != '\0' && p[len - 1] == '\n') {
-			        p[len - 1] = '\0';
-				strncpy (model_name, p + 2,
-					 MIN (size, len - 2));
-				model_name [len - 2] = '\0';
-				model = TRUE;
-			}
-		}
-	        if (strncmp (buf, "cpu MHz", 7) == 0) {
-		        p = g_strrstr (buf, ":");
-			len = strlen (p);
-			if (p != NULL && p[1] != '\0' && p[len - 1] == '\n') {
-			        p[len - 1] = '\0';
-				strncpy (cpu_mhz, p + 2, MIN (size, len - 2));
-				cpu_mhz [len - 2] = '\0';
-				cpu = TRUE;
-			}
-		}
-	}
-
-	return model & cpu;
-}
-
-
-/*
  * Generates the Solver's answer report.
  */
 void
@@ -543,7 +500,6 @@ solver_performance_report (WorkbookControl *wbc,
 	int                    mat_size, i;
 	struct                 utsname unamedata;
 	Value                  *v;
-	gchar                  model_name [256], cpu_mhz [256];
 
 	dao_init (&dao, NewSheetOutput);
         dao_prepare_output (wbc, &dao, _("Performance Report"));
@@ -716,19 +672,11 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_bold (&dao, 0, 29, 4, 29);
 	dao_set_bold (&dao, 1, 30, 1, 30);
 
-	if (get_cpu_info (model_name, cpu_mhz, 255)) {
-	        /* Set the `CPU Model'. */
-	        dao_set_cell (&dao, 2, 30, model_name);
+	/* Set the `CPU Model'. */
+	dao_set_cell (&dao, 2, 30, _("Unknown"));
 
-	        /* Set the `CPU Mhz'. */
-	        dao_set_cell (&dao, 3, 30, cpu_mhz);
-	} else {
-	        /* Set the `CPU Model'. */
-	        dao_set_cell (&dao, 2, 30, _("Unknown"));
-
-	        /* Set the `CPU Mhz'. */
-	        dao_set_cell (&dao, 3, 30, _("Unknown"));
-	}
+	/* Set the `CPU Mhz'. */
+	dao_set_cell (&dao, 3, 30, _("Unknown"));
 
 	/* Set the `OS Name'. */
 	if (uname (&unamedata) == -1) {

@@ -241,7 +241,7 @@ change_font_in_selection_cmd (GtkWidget *caller, WorkbookControlGUI *wbcg)
 		return;
 
 	if (sheet != NULL) {
-		const char *font_name = gtk_entry_get_text (GTK_ENTRY(caller));
+		const char *font_name = gtk_entry_get_text (GTK_ENTRY (caller));
 		MStyle *mstyle;
 
 		mstyle = mstyle_new ();
@@ -299,7 +299,7 @@ apply_number_format (WorkbookControlGUI *wbcg,
 static void
 cb_format_as_money (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	apply_number_format (wbcg, cell_formats [FMT_ACCOUNT] [2],
+	apply_number_format (wbcg, cell_formats[FMT_ACCOUNT][2],
 			     _("Format as Money"));
 }
 
@@ -312,7 +312,7 @@ cb_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 static void
 cb_format_with_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	apply_number_format (wbcg, cell_formats [FMT_ACCOUNT][3],
+	apply_number_format (wbcg, cell_formats[FMT_ACCOUNT][3],
 			     _("Format with thousands separator"));
 }
 
@@ -395,7 +395,7 @@ cb_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 }
 
 #ifndef WITH_BONOBO
-static GnomeUIInfo workbook_format_toolbar [] = {
+static GnomeUIInfo workbook_format_toolbar[] = {
 	/* Placeholder: font selector */
         /* Placeholder: size selector */
 
@@ -481,7 +481,7 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	GNOMEUIINFO_END
 };
 #else
-static BonoboUIVerb verbs [] = {
+static BonoboUIVerb verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("FontSelect",              &cb_font_name),
 	BONOBO_UI_UNSAFE_VERB ("FontBold",		  &cb_font_bold),
 	BONOBO_UI_UNSAFE_VERB ("FontItalic",		  &cb_font_italic),
@@ -642,16 +642,16 @@ static void
 cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	StyleBorder *borders [STYLE_BORDER_EDGE_MAX];
+	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 	int i;
 
 	/* Init the list */
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
-		borders [i] = NULL;
+		borders[i] = NULL;
 
 	switch (index) {
 	case 11 : /* left */
-		borders [STYLE_BORDER_LEFT] =
+		borders[STYLE_BORDER_LEFT] =
 		    style_border_fetch
 			(STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
@@ -660,11 +660,11 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 
 	case 12 : /* none */
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
-			borders [i] = style_border_ref (style_border_none ());
+			borders[i] = style_border_ref (style_border_none ());
 		break;
 
 	case 13 : /* right */
-		borders [STYLE_BORDER_RIGHT] =
+		borders[STYLE_BORDER_RIGHT] =
 		    style_border_fetch
 			(STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
@@ -673,7 +673,7 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 
 	case 21 : /* all */
 		for (i = STYLE_BORDER_HORIZ; i <= STYLE_BORDER_VERT; ++i)
-			borders [i] =
+			borders[i] =
 				style_border_fetch
 				(STYLE_BORDER_THIN,
 				 sheet_style_get_auto_pattern_color (sheet),
@@ -682,7 +682,7 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 
 	case 22 : /* outside */
 		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
-			borders [i] =
+			borders[i] =
 				style_border_fetch
 				(STYLE_BORDER_THIN,
 				 sheet_style_get_auto_pattern_color (sheet),
@@ -691,7 +691,7 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 
 	case 23 : /* thick_outside */
 		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
-			borders [i] =
+			borders[i] =
 				style_border_fetch
 				(STYLE_BORDER_THICK,
 				 sheet_style_get_auto_pattern_color (sheet),
@@ -701,7 +701,7 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 	case 41 : /* top_n_bottom */
 	case 42 : /* top_n_double_bottom */
 	case 43 : /* top_n_thick_bottom */
-		borders [STYLE_BORDER_TOP] =
+		borders[STYLE_BORDER_TOP] =
 			style_border_fetch
 			(STYLE_BORDER_THIN,
 			 sheet_style_get_auto_pattern_color (sheet),
@@ -718,7 +718,7 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 		    (tmp == 2) ? STYLE_BORDER_DOUBLE
 		    : STYLE_BORDER_THICK;
 
-		borders [STYLE_BORDER_BOTTOM] =
+		borders[STYLE_BORDER_BOTTOM] =
 			style_border_fetch
 			(t, sheet_style_get_auto_pattern_color (sheet),
 			 style_border_get_orientation (STYLE_BORDER_BOTTOM));
@@ -769,8 +769,8 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 						      l->data);
 			if (tmp > len)
 				len = tmp;
-			gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsel),
-						l->data, l->data);
+			gtk_combo_text_add_item (GTK_COMBO_TEXT (fontsel),
+						 l->data, l->data);
 		}
 	}
 	gtk_widget_set_usize (entry, len, 0);
@@ -782,11 +782,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		"activate",
 		G_CALLBACK (change_font_size_in_selection_cmd), wbcg);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fontsize), _("Size"));
-	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
-		char buffer [12];
-		g_snprintf (buffer, sizeof(buffer),
-			    "%d", gnumeric_point_sizes [i]);
-		gtk_combo_text_add_item(GTK_COMBO_TEXT (fontsize), buffer, buffer);
+	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
+		char *buffer = g_strdup_printf ("%d", gnumeric_point_sizes[i]);
+		gtk_combo_text_add_item (GTK_COMBO_TEXT (fontsize), buffer, buffer);
+		g_free (buffer);
 	}
 	gtk_widget_set_usize (entry,
 		gdk_string_measure (gtk_style_get_font (entry->style), "888"), 0);
@@ -884,7 +883,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	gtk_widget_hide (font_button);
 
 	/* Handle orientation changes so that we can hide wide widgets */
-	g_signal_connect (G_OBJECT(toolbar),
+	g_signal_connect (G_OBJECT (toolbar),
 		"orientation-changed",
 		G_CALLBACK (&workbook_format_toolbar_orient), wbcg);
 
@@ -977,7 +976,6 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 	MStyle 		*style;
 	GtkComboText    *fontsel;
 	GtkComboText    *fontsize;
-	char             size_str [40];
 	WorkbookView	*wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
@@ -1018,10 +1016,11 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 	workbook_format_halign_feedback_set (wbcg, mstyle_get_align_h (style));
 
 	fontsize = GTK_COMBO_TEXT (wbcg->font_size_selector);
-	g_snprintf (size_str, sizeof(size_str), "%d", (int)mstyle_get_font_size (style));
 	if (wbcg_ui_update_begin (wbcg)) {
+		char *size_str = g_strdup_printf ("%d", (int)mstyle_get_font_size (style));
 		gtk_combo_text_set_text (fontsize, size_str);
 		wbcg_ui_update_end (wbcg);
+		g_free (size_str);
 	}
 
 	fontsel = GTK_COMBO_TEXT (wbcg->font_name_selector);

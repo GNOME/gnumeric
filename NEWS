@@ -17,6 +17,7 @@ Morten:
 	  one.
 	* Add function renaming support for file formats that use function
 	  names different from our.
+	* Partial buffer overrun audit.
 
 Theppitak Karoonboonyanan:
 	* Improve XIM support.

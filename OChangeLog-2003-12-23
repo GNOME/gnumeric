@@ -1,3 +1,11 @@
+2003-01-10  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (zoom_changed): buffer size paranoia.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Ditto.
+	(workbook_feedback_set): Ditto.
+
 2003-01-08  Jody Goldberg <jody@gnome.org>
 
 	Patch from Theppitak Karoonboonyanan for
