@@ -27,6 +27,7 @@
 #include "workbook-private.h"
 
 #ifdef ENABLE_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 #define WORKBOOK_PRIVATE_TYPE        (workbook_private_get_type ())
 #define WORKBOOK_PRIVATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), WORKBOOK_PRIVATE_TYPE, WorkbookPrivate))
 #define WORKBOOK_PRIVATE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), WORKBOOK_PRIVATE_TYPE, WorkbookPrivateClass))
@@ -74,11 +75,12 @@ workbook_private_get_type (void)
 	return type;
 }
 #endif
+#endif
 
 WorkbookPrivate *
 workbook_private_new (void)
 {
-#ifdef ENABLE_BONOBO
+#if defined(GNOME2_CONVERSION_COMPLETE) && defined(ENABLE_BONOBO)
 	WorkbookPrivate *wbp = g_object_new (workbook_private_get_type (), NULL);
 #else
 	WorkbookPrivate *wbp = g_new0 (WorkbookPrivate, 1);
@@ -90,7 +92,7 @@ workbook_private_new (void)
 void
 workbook_private_delete (WorkbookPrivate *wbp)
 {
-#ifdef ENABLE_BONOBO
+#if defined(GNOME2_CONVERSION_COMPLETE) && defined(ENABLE_BONOBO)
 	bonobo_object_unref (BONOBO_OBJECT (wbp));
 #else
 	g_free (wbp);

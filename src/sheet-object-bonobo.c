@@ -33,6 +33,7 @@
 
 #include <gal/util/e-util.h>
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 static SheetObjectClass *sheet_object_bonobo_parent_class;
 
 #define SOB_CLASS(o) SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (o))
@@ -408,3 +409,4 @@ sheet_object_bonobo_set_server (SheetObjectBonobo *sob,
 
 	return TRUE;
 }
+#endif

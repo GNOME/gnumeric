@@ -31,6 +31,7 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/xmlIO.h>
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 static GnumFileOpener *gnumeric_bonobo_opener;
 static GnumFileSaver *gnumeric_bonobo_saver;
 
@@ -540,3 +541,4 @@ gnumeric_bonobo_io_init (void)
 	register_file_opener (gnumeric_bonobo_opener, 100);
 	register_file_saver (gnumeric_bonobo_saver);
 }
+#endif

@@ -34,10 +34,6 @@
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-printer-dialog.h>
 
-#ifdef ENABLE_BONOBO
-#	include <bonobo/bonobo-print-client.h>
-#endif
-
 extern int print_debugging;
 
 /*

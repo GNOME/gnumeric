@@ -21,7 +21,7 @@
 #   include <bonobo.h>
 #endif
 struct _WorkbookPrivate {
-#ifdef ENABLE_BONOBO
+#if defined(GNOME2_CONVERSION_COMPLETE) && defined(ENABLE_BONOBO)
 	/* The base object for the Workbook */
 	BonoboObject bonobo_object;
 

@@ -108,6 +108,7 @@ struct _GraphGuruState
 
 static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID);
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 static void
 graph_guru_clear_xml (GraphGuruState *state)
 {
@@ -1131,3 +1132,4 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	}
 	graph_guru_set_page (state, page);
 }
+#endif

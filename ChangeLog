@@ -1,3 +1,46 @@
+2002-04-12  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in (bonobo_msg): (re)introduce ENABLE_BONOBO variable
+	and bonobo_suffix.
+
+	* src/Makefile.am (uidir): Update to gnome-2 conventions.
+
+	* idl/GNOME_Gnumeric.idl
+	(GNOME::Gnumeric::Application.new_workbook): Fix syntax error.
+
+	* src/bonobo-io.c: #ifdef out the lot for now.
+
+	* src/gnumeric-graph.c: ditto.
+
+	* src/sheet-object-bonobo.c: ditto.
+	
+	* src/sheet-object-container.c: ditto.
+
+	* src/sheet-object-item.c: ditto.
+
+	* src/main.c (main): #ifdef out gnumeric_bonobo_io_init for now.
+	(main): #ifdef out EmbeddableGridFactory_init.
+
+	* src/print.c: Remove bonobo-print-client.h include.
+
+	* src/sheet-object.c (sheet_object_register): #ifdef out bonobo
+	object registration.
+
+	* src/workbook.c (workbook_is_pristine, workbook_init,
+	workbook_new): #ifdef bonobo case to be the same as non bonobo for
+	now.
+	(workbook_persist_file_load, workbook_persist_file_save,
+	workbook_bonobo_setup): #ifdef out for now.
+
+	* src/workbook-control-gui.c (cb_launch_graph_guru,
+	insert_bonobo_object, cb_insert_component,
+	cb_insert_shaped_component): #ifdef out for now.
+	(verbs): #ifdef out GraphGuru, InsertComponent and
+	InsertShapedComponent for now.
+
+	* src/workbook-private.[ch]: #ifdef bonobo case to be the same as non
+	bonobo for now.
+
 2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/dependent.c (dependent_set_expr) : fix leak

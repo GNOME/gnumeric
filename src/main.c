@@ -226,7 +226,9 @@ main (int argc, char *argv [])
 	xml_init ();
 	stf_init ();
 #ifdef ENABLE_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 	gnumeric_bonobo_io_init ();
+#endif
 #endif
 
 	global_gnome_font_init ();
@@ -266,10 +268,10 @@ main (int argc, char *argv [])
 	/* Activate object factories and init connections to POA */
 	if (!WorkbookFactory_init ())
 		g_warning (_("Could not initialize Workbook factory"));
-#endif
 
 	if (!EmbeddableGridFactory_init ())
 		g_warning (_("Could not initialize EmbeddableGrid factory"));
+#endif
 #endif
 
 	/* Load selected files */

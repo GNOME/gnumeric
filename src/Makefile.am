@@ -323,7 +323,7 @@ EXTRA_DIST = GNOME_Gnumeric.xml gnm-marshalers.list	\
 #	$(INTLLIBS)
 
 # Bonobo requires things to be in a subdir of this form
-uidir=$(gnumeric_datadir)/gnome/ui
+uidir=$(gnumeric_datadir)/gnome-2.0/ui
 ui_DATA = GNOME_Gnumeric.xml
 
 CLEANFILES  = $(GNUMERIC_GENERATED)

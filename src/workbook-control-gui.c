@@ -2617,6 +2617,7 @@ cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 #ifdef ENABLE_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -2667,6 +2668,7 @@ cb_insert_shaped_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	};
 	insert_bonobo_object (wbcg, required_interfaces);
 }
+#endif
 #endif
 
 #ifndef ENABLE_BONOBO
@@ -3460,9 +3462,11 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),
 	BONOBO_UI_UNSAFE_VERB ("SortAscending", cb_sort_ascending),
 	BONOBO_UI_UNSAFE_VERB ("SortDescending", cb_sort_descending),
+#ifdef GNOME2_CONVERSION_COMPLETE
 	BONOBO_UI_UNSAFE_VERB ("GraphGuru", cb_launch_graph_guru),
 	BONOBO_UI_UNSAFE_VERB ("InsertComponent", cb_insert_component),
 	BONOBO_UI_UNSAFE_VERB ("InsertShapedComponent", cb_insert_shaped_component),
+#endif
 
 	BONOBO_UI_UNSAFE_VERB ("HelpAbout", cb_help_about),
 

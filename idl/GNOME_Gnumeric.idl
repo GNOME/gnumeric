@@ -17,7 +17,7 @@ module GNOME {
 			attribute string name;
 		};
 		interface Application {
-			Workbook new_workbook (void);
+			Workbook new_workbook ();
 			Workbook open_workbook (in string file);
 		};
 	};

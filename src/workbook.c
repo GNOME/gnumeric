@@ -312,7 +312,9 @@ workbook_is_pristine (Workbook const *wb)
 
 	if (wb->names ||
 #ifdef ENABLE_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 	    wb->priv->workbook_views ||
+#endif
 #endif
 	    (wb->file_format_level > FILE_FL_NEW))
 		return FALSE;
@@ -325,6 +327,7 @@ workbook_is_pristine (Workbook const *wb)
 }
 
 #ifdef ENABLE_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 
 static int
 workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename,
@@ -375,6 +378,7 @@ workbook_bonobo_setup (Workbook *wb)
 		G_CALLBACK (workbook_container_get_object), wb);
 }
 #endif
+#endif
 
 static void
 workbook_init (GObject *object)
@@ -406,7 +410,9 @@ workbook_init (GObject *object)
 	workbook_corba_setup (wb);
 #endif
 #ifdef ENABLE_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 	workbook_bonobo_setup (wb);
+#endif
 #endif
 }
 
@@ -470,8 +476,10 @@ workbook_new (void)
 	wb->priv->during_destruction = FALSE;
 
 #ifdef ENABLE_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 	wb->priv->workbook_views  = NULL;
 	wb->priv->persist_file    = NULL;
+#endif
 #endif
 	return wb;
 }

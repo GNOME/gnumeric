@@ -821,8 +821,10 @@ sheet_object_register (void)
 	SHEET_OBJECT_FILLED_TYPE;
 	CELL_COMMENT_TYPE;
 #ifdef ENABLE_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 	sheet_object_bonobo_get_type ();
 	gnm_graph_get_type ();
+#endif
 #endif
 	sheet_object_widget_register ();
 }

@@ -18,6 +18,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <gal/util/e-util.h>
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 static SheetObject *sheet_object_item_parent_class;
 
 static GtkObject *
@@ -63,3 +64,4 @@ sheet_object_item_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE (sheet_object_item, "SheetObjectItem", SheetObjectItem,
 	     sheet_object_item_class_init, NULL,
 	     SHEET_OBJECT_BONOBO_TYPE);
+#endif

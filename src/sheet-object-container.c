@@ -26,6 +26,7 @@
 #include <bonobo/bonobo-item-container.h>
 #include <bonobo/bonobo-exception.h>
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 static void
 cb_user_activation_request (BonoboViewFrame *view_frame, GtkObject *so_view)
 {
@@ -199,3 +200,4 @@ sheet_object_container_new_file (Workbook *wb, char const *fname)
 
 E_MAKE_TYPE (sheet_object_container, "SheetObjectContainer", SheetObjectContainer,
 	sheet_object_container_class_init, NULL, SHEET_OBJECT_BONOBO_TYPE);
+#endif

@@ -112,6 +112,7 @@ typedef struct {
 #define SERVANT_TO_GRAPH_VECTOR(ptr)	\
 	(GnmGraphVector *)(((char *)ptr) - GTK_STRUCT_OFFSET(GnmGraphVector, servant))
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 char const *const gnm_graph_vector_type_name [] =
 {
     "Unknown", "scalars", "dates (unimplemented)", "strings",
@@ -1227,3 +1228,4 @@ gnm_graph_exception (CORBA_Environment *ev)
         } else
                 return CORBA_exception_id (ev);
 }
+#endif

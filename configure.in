@@ -501,6 +501,8 @@ AC_ARG_WITH(bonobo,
 	if test "x$withval" = xyes; then
 		enable_bonobo=true
 		bonobo_msg=yes
+		bonobo_suffix=-bonobo
+		AC_DEFINE(ENABLE_BONOBO)
 	fi
 )
 dnl gnumeric_bonobo_enabled=$enable_bonobo
