@@ -578,7 +578,8 @@ cellref:  CELLREF {
 		unregister_allocation ($1);
 
 		if (state->force_explicit_sheet_references &&
-		    force_explicit_sheet_references (state, &$1->var.ref)) {
+		    (force_explicit_sheet_references (state, &$1->var.ref) ||
+		     force_explicit_sheet_references (state, &$3->var.ref))) {
 			expr_tree_unref ($3);
 			expr_tree_unref ($1);
 			return ERROR;

@@ -1,3 +1,8 @@
+2001-11-23  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y (CELLREF RANGE_SEP CELL_REF) : init the sheet for both
+	  ranges when force_explicit_sheet_references is in effect.
+
 2001-11-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/search.h : add curr_sheet to _SearchReplace
