@@ -839,7 +839,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Select All"),
 	  N_("Select all cells in the spreadsheet"), select_all_cmd, NULL,
 	  NULL, 0, 0, 'a', GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Goto cell.."),
+	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 	  N_("Jump to a specified cell"), goto_cell_cmd, NULL, NULL,
 	  0, 0, 'i', GDK_CONTROL_MASK },
 
@@ -898,7 +898,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("_Add/modify comment"),
+	{ GNOME_APP_UI_ITEM, N_("_Add/modify comment..."),
 	  N_("Edit the selected cell's comment"), workbook_edit_comment },
 	{ GNOME_APP_UI_SUBTREE, N_("_Special"), NULL, workbook_menu_insert_special },
 
@@ -940,7 +940,7 @@ static GnomeUIInfo workbook_menu_format [] = {
 
 /* Tools menu */
 static GnomeUIInfo workbook_menu_tools [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Sort"),
+	{ GNOME_APP_UI_ITEM, N_("_Sort..."),
 	  N_("Sort the selected cells"), sort_cells_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Goal Seek..."), NULL, goal_seek_cmd },
 #if 0
