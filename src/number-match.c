@@ -33,7 +33,7 @@
 #include "format.h"
 #include "value.h"
 
-#define DEBUG_NUMBER_MATCH
+#undef DEBUG_NUMBER_MATCH
 
 /*
  * Takes a list of strings (optionally include an * at the beginning
