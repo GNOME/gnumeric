@@ -45,14 +45,12 @@ typedef struct {
 
 /* for the fixed_page */
 typedef struct {
-	/*GtkCList*/void      *fixed_collist;
-	GtkSpinButton *fixed_colend;
-	GtkButton     *fixed_add, *fixed_remove, *fixed_clear, *fixed_auto;
+	GtkButton     *fixed_clear, *fixed_auto;
 	GtkWidget     *fixed_data_container;
 
 	/* Page members that are created at run-time */
-	RenderData_t      *renderdata;
-	int                index;
+	RenderData_t  *renderdata;
+	int            context_col, context_dx;  
 } FixedInfo_t;
 
 /* for the format_page */
@@ -108,6 +106,8 @@ typedef struct {
 	const char            *cur_end;      /* Pointer pointing to position in utf8_data to stop parsing */
 
 	const char            *source;       /* Where we are reading from (UTF-8) */
+
+	size_t                longest_line;  /* #characters in longest line.  */
 
 	MainInfo_t            main;
 	CsvInfo_t             csv;

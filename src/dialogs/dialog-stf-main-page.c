@@ -71,10 +71,18 @@ static void
 main_page_update_preview (StfDialogData *pagedata)
 {
 	RenderData_t *renderdata = pagedata->main.renderdata;
+	GPtrArray *lines = stf_parse_lines (pagedata->parseoptions,
+					    pagedata->utf8_data, TRUE);
+        unsigned int ui;
 
-	stf_preview_set_lines (renderdata,
-			       stf_parse_lines (pagedata->parseoptions,
-						pagedata->utf8_data, TRUE));
+	pagedata->longest_line = 0;
+	for (ui = 0; ui < lines->len; ui++) {
+		GPtrArray *line = g_ptr_array_index (lines, ui);
+		size_t thislen = g_utf8_strlen (g_ptr_array_index (line, 1), -1);
+		pagedata->longest_line = MAX (pagedata->longest_line, thislen);
+	}
+
+	stf_preview_set_lines (renderdata, lines);
 }
 
 

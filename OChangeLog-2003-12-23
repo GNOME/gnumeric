@@ -1,3 +1,12 @@
+2003-07-25  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_options_fixed_splitpositions_clear):
+	Add terminator here.
+	(stf_parse_options_fixed_splitpositions_add): Insert sorted.
+	(stf_parse_options_fixed_splitpositions_remove,
+	stf_parse_options_fixed_splitpositions_count,
+	stf_parse_options_fixed_splitpositions_nth): New functions.
+
 2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_goal_seek*): new

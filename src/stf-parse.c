@@ -9,7 +9,7 @@
  * EMail: almer1@dds.nl or almer-t@bigfoot.com
  *
  * Copyright (C) 2003 Andreas J. Guelzow <aguelzow@taliesin.ca>
- *
+ * Copyright (C) 2003 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -153,7 +153,8 @@ stf_parse_options_new (void)
 	parseoptions->trim_spaces = (TRIM_TYPE_RIGHT | TRIM_TYPE_LEFT);
 	parseoptions->locale = NULL;
 
-	parseoptions->splitpositions    = g_array_new (FALSE, FALSE, sizeof (int));
+	parseoptions->splitpositions = NULL;
+	stf_parse_options_fixed_splitpositions_clear (parseoptions);
 
 	parseoptions->stringindicator        = '"';
 	parseoptions->indicator_2x_is_single = TRUE;
@@ -380,25 +381,67 @@ stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean 
 void
 stf_parse_options_fixed_splitpositions_clear (StfParseOptions_t *parseoptions)
 {
+	int minus_one = -1;
 	g_return_if_fail (parseoptions != NULL);
 
-	g_array_free (parseoptions->splitpositions, TRUE);
+	if (parseoptions->splitpositions)
+		g_array_free (parseoptions->splitpositions, TRUE);
 	parseoptions->splitpositions = g_array_new (FALSE, FALSE, sizeof (int));
+
+	g_array_append_val (parseoptions->splitpositions, minus_one);
 }
 
 /**
  * stf_parse_options_fixed_splitpositions_add:
  *
- * @position will be added to the splitpositions, @position must be equal to
- * or greater than zero or -1 which means as much as "parse to end of line"
+ * @position will be added to the splitpositions.
  **/
 void
-stf_parse_options_fixed_splitpositions_add (StfParseOptions_t *parseoptions, int const position)
+stf_parse_options_fixed_splitpositions_add (StfParseOptions_t *parseoptions, int position)
 {
-	g_return_if_fail (parseoptions != NULL);
-	g_return_if_fail (position >= 0 || position == -1);
+	unsigned int ui;
 
-	g_array_append_val (parseoptions->splitpositions, position);
+	g_return_if_fail (parseoptions != NULL);
+	g_return_if_fail (position >= 0);
+
+	for (ui = 0; ui < parseoptions->splitpositions->len - 1; ui++) {
+		int here = g_array_index (parseoptions->splitpositions, int, ui);
+		if (position == here)
+			return;
+		if (position < here)
+			break;
+	}
+
+	g_array_insert_val (parseoptions->splitpositions, ui, position);
+}
+
+void
+stf_parse_options_fixed_splitpositions_remove (StfParseOptions_t *parseoptions, int position)
+{
+	unsigned int ui;
+
+	g_return_if_fail (parseoptions != NULL);
+	g_return_if_fail (position >= 0);
+
+	for (ui = 0; ui < parseoptions->splitpositions->len - 1; ui++) {
+		int here = g_array_index (parseoptions->splitpositions, int, ui);
+		if (position == here)
+			g_array_remove_index (parseoptions->splitpositions, ui);
+		if (position <= here)
+			return;
+	}
+}
+
+int
+stf_parse_options_fixed_splitpositions_count (StfParseOptions_t *parseoptions)
+{
+	return parseoptions->splitpositions->len;
+}
+
+int
+stf_parse_options_fixed_splitpositions_nth (StfParseOptions_t *parseoptions, int n)
+{
+	return g_array_index (parseoptions->splitpositions, int, n);
 }
 
 
@@ -810,40 +853,6 @@ stf_parse_find_line (StfParseOptions_t *parseoptions,
 		}
 	}
 	return data;
-}
-
-
-/**
- * stf_parse_get_longest_row_width:
- *
- * Returns the largest number of characters found in a line/row
- **/
-int
-stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions,
-				 char const *data, char const *data_end)
-{
-	char const *s;
-	int len = 0;
-	int longest = 0;
-
-	g_return_val_if_fail (parseoptions != NULL, 0);
-	g_return_val_if_fail (data != NULL, 0);
-	g_return_val_if_fail (data_end != NULL, 0);
-
-	for (s = data; *s && s < data_end; ) {
-		int termlen = compare_terminator (s, parseoptions);
-		if (termlen > 0) {
-			longest = MAX (len, longest);
-			len = 0;
-			s += termlen;
-		} else {
-			len++;
-			s = g_utf8_next_char (s);
-		}
-	}
-	longest = MAX (len, longest);
-
-	return longest;
 }
 
 

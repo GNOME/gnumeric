@@ -1,3 +1,7 @@
+2003-07-25  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-fixed-page.c: Overhaul all navigation.
+
 2003-07-24  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-fixed-page.c (make_new_column): New function, largely

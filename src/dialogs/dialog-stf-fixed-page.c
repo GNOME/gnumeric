@@ -26,6 +26,7 @@
 #include <gnumeric.h>
 #include "dialog-stf.h"
 #include <gui-util.h>
+#include <gdk/gdkkeysyms.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
@@ -41,40 +42,10 @@
 static void
 fixed_page_autodiscover (StfDialogData *pagedata)
 {
-	guint i = 1;
-	char *tset[2];
-
 	stf_parse_options_fixed_autodiscover (pagedata->parseoptions,
 					      pagedata->cur, pagedata->cur_end);
 
-	gtk_clist_clear (pagedata->fixed.fixed_collist);
-	while (i < pagedata->parseoptions->splitpositions->len) {
-		tset[0] = g_strdup_printf ("%d", i - 1);
-		tset[1] = g_strdup_printf ("%d", g_array_index (pagedata->parseoptions->splitpositions,
-								int,
-								i));
-		gtk_clist_append (pagedata->fixed.fixed_collist, tset);
-
-		g_free (tset[0]);
-		g_free (tset[1]);
-
-		i++;
-	}
-
-	tset[0] = g_strdup_printf ("%d", i - 1);
-	tset[1] = g_strdup_printf ("%d", -1);
-
-	gtk_clist_append (pagedata->fixed.fixed_collist, tset);
-
-	g_free (tset[0]);
-	g_free (tset[1]);
-
-	/*
-	 * If there are no splitpositions than apparantly
-	 * no columns where found
-	 */
-
-	if (pagedata->parseoptions->splitpositions->len < 1) {
+	if (pagedata->parseoptions->splitpositions->len <= 1) {
 		GtkWidget *dialog = gtk_message_dialog_new (NULL,
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_INFO,
@@ -86,27 +57,48 @@ fixed_page_autodiscover (StfDialogData *pagedata)
 
 static void fixed_page_update_preview (StfDialogData *pagedata);
 
-static void
-make_new_column (StfDialogData *pagedata, int col, int dx, GtkWidget *w)
+enum {
+	CONTEXT_STF_IMPORT_MERGE_LEFT = 1,
+	CONTEXT_STF_IMPORT_MERGE_RIGHT = 2,
+	CONTEXT_STF_IMPORT_SPLIT = 3,
+	CONTEXT_STF_IMPORT_WIDEN = 4,
+	CONTEXT_STF_IMPORT_NARROW = 5
+};
+
+static GnumericPopupMenuElement const popup_elements[] = {
+	{ N_("Delete and Merge _Left"), GTK_STOCK_REMOVE,
+	  0, 1 << CONTEXT_STF_IMPORT_MERGE_LEFT, CONTEXT_STF_IMPORT_MERGE_LEFT },
+	{ N_("Delete and Merge _Right"), GTK_STOCK_REMOVE,
+	  0, 1 << CONTEXT_STF_IMPORT_MERGE_RIGHT, CONTEXT_STF_IMPORT_MERGE_RIGHT },
+	{ "", NULL, 0, 0, 0 },
+	{ N_("_Split"), 0,
+	  0, 1 << CONTEXT_STF_IMPORT_SPLIT, CONTEXT_STF_IMPORT_SPLIT },
+	{ "", NULL, 0, 0, 0 },
+	{ N_("_Widen"), GTK_STOCK_GO_FORWARD,
+	  0, 1 << CONTEXT_STF_IMPORT_WIDEN, CONTEXT_STF_IMPORT_WIDEN },
+	{ N_("_Narrow"), GTK_STOCK_GO_BACK,
+	  0, 1 << CONTEXT_STF_IMPORT_NARROW, CONTEXT_STF_IMPORT_NARROW },
+	{ NULL, NULL, 0, 0, 0 },
+};
+
+
+static gboolean
+make_new_column (StfDialogData *pagedata, int col, int dx, gboolean test_only)
 {
 	PangoLayout *layout;
 	PangoFontDescription *font_desc;
 	int charindex, width;
-	GtkCellRenderer *cell =	stf_preview_get_cell_renderer (pagedata->fixed.renderdata, col);
-	int i, colstart, colend;
-	char *row[2];
+	RenderData_t *renderdata = pagedata->fixed.renderdata;
+	GtkCellRenderer *cell =	stf_preview_get_cell_renderer (renderdata, col);
+	int colstart, colend;
 
-	if (col == 0)
-		colstart = 0;
-	else {
-		gtk_clist_get_text (pagedata->fixed.fixed_collist, col - 1, 1, row);
-		colstart = atoi (row[0]);
-	}
-	gtk_clist_get_text (pagedata->fixed.fixed_collist, col, 1, row);
-	colend = atoi (row[0]);
+	colstart = (col == 0)
+		? 0
+		: stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col - 1);
+	colend = stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col);
 
 	g_object_get (G_OBJECT (cell), "font_desc", &font_desc, NULL);
-	layout = gtk_widget_create_pango_layout (w, "x");
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (renderdata->tree_view), "x");
 	pango_layout_set_font_description (layout, font_desc);
 	pango_layout_get_pixel_size (layout, &width, NULL);
 	if (width < 1) width = 1;
@@ -115,94 +107,256 @@ make_new_column (StfDialogData *pagedata, int col, int dx, GtkWidget *w)
 	pango_font_description_free (font_desc);
 
 	if (charindex <= colstart || (colend != -1 && charindex >= colend))
+		return FALSE;
+
+	if (!test_only) {
+		stf_parse_options_fixed_splitpositions_add (pagedata->parseoptions, charindex);
+		fixed_page_update_preview (pagedata);
+	}
+
+	return TRUE;
+}
+
+
+static gboolean
+widen_column (StfDialogData *pagedata, int col, gboolean test_only)
+{
+	int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
+	int nextstart;
+
+	if (col >= colcount - 1)
+		return FALSE;
+
+	nextstart = stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col);
+
+	if (col != colcount - 2) {
+		int nextnextstart =
+			stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col + 1);
+
+		if (nextstart + 1 >= nextnextstart)
+			return FALSE;
+	}
+
+	if (!test_only) {
+		stf_parse_options_fixed_splitpositions_remove (pagedata->parseoptions, nextstart);
+		stf_parse_options_fixed_splitpositions_add (pagedata->parseoptions, nextstart + 1);
+		fixed_page_update_preview (pagedata);
+	}
+	return TRUE;
+}
+
+static gboolean
+narrow_column (StfDialogData *pagedata, int col, gboolean test_only)
+{
+	int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
+	int thisstart, nextstart;
+
+	if (col >= colcount - 1)
+		return FALSE;
+
+	thisstart = (col == 0)
+		? 0
+		: stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col - 1);
+	nextstart = stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col);
+
+	if (nextstart - 1 <= thisstart)
+		return FALSE;
+
+	if (!test_only) {
+		stf_parse_options_fixed_splitpositions_remove (pagedata->parseoptions, nextstart);
+		stf_parse_options_fixed_splitpositions_add (pagedata->parseoptions, nextstart - 1);
+		fixed_page_update_preview (pagedata);
+	}
+	return TRUE;
+}
+
+static gboolean
+delete_column (StfDialogData *pagedata, int col, gboolean test_only)
+{
+	int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
+	if (col < 0 || col >= colcount - 1)
+		return FALSE;
+
+	if (!test_only) {
+		int nextstart = stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col);
+		stf_parse_options_fixed_splitpositions_remove (pagedata->parseoptions, nextstart);
+		fixed_page_update_preview (pagedata);
+	}
+	return TRUE;
+}
+
+static void
+select_column (StfDialogData *pagedata, int col)
+{
+	int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
+	GtkTreeViewColumn *column;
+
+	if (col < 0 || col >= colcount)
 		return;
 
-	row[0] = g_strdup_printf ("%d", col + 1);
-	row[1] = g_strdup_printf ("%d", charindex);
-	gtk_clist_insert (pagedata->fixed.fixed_collist, col, row);
-	g_free (row[0]);
-	g_free (row[1]);
+	column = stf_preview_get_column (pagedata->fixed.renderdata, col);
+	gtk_widget_grab_focus (column->button);
+}
 
-	/* Patch the following column numbers in the list.  */
-	for (i = col; i < GTK_CLIST (pagedata->fixed.fixed_collist)->rows; i++) {
-		char *text = g_strdup_printf ("%d", i);
-		gtk_clist_set_text (pagedata->fixed.fixed_collist, i, 0, text);
-		g_free (text);
-	}
+static gboolean
+fixed_context_menu_handler (GnumericPopupMenuElement const *element,
+			    gpointer user_data)
+{
+	StfDialogData *pagedata = user_data;
+	int col = pagedata->fixed.context_col;
 
-	fixed_page_update_preview (pagedata);
+	switch (element->index) {
+	case CONTEXT_STF_IMPORT_MERGE_LEFT:
+		delete_column (pagedata, col - 1, FALSE);
+		break;
+	case CONTEXT_STF_IMPORT_MERGE_RIGHT:
+		delete_column (pagedata, col, FALSE);
+		break;
+	case CONTEXT_STF_IMPORT_SPLIT:
+		make_new_column (pagedata, col, pagedata->fixed.context_dx, FALSE);
+		break;
+	case CONTEXT_STF_IMPORT_WIDEN:
+		widen_column (pagedata, col, FALSE);
+		break;
+	case CONTEXT_STF_IMPORT_NARROW:
+		narrow_column (pagedata, col, FALSE);
+		break;
+	default:
+		; /* Nothing */
+	};
+	return TRUE;
 }
 
 
 static gint
-cb_treeview_event (GtkWidget *treeview,
-		   GdkEvent *event,
-		   StfDialogData *pagedata)
+cb_treeview_button_press (GtkWidget *treeview,
+			  GdkEventButton *event,
+			  StfDialogData *pagedata)
 {
-	if (event->type == GDK_BUTTON_PRESS) {
-		GdkEventButton *bevent = (GdkEventButton *)event;
+	if (event->type == GDK_2BUTTON_PRESS && event->button == 1) {
+		/* Split column.  */
+		int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
+		int dx = (int)event->x;
+		int col;
 
-		if (bevent->button == 1) {
-			/* Split column.  */
-			int dx = (int)bevent->x;
-			int col;
-
-			/* Figure out what column we pressed in.  */
-			for (col = 0; col < GTK_CLIST (pagedata->fixed.fixed_collist)->rows; col++) {
-				GtkTreeViewColumn *column =
-					stf_preview_get_column (pagedata->fixed.renderdata, col);
-				GtkWidget *w = GTK_BIN (column->button)->child;
-				if (dx < w->allocation.x + w->allocation.width) {
-					dx -= w->allocation.x;
-					break;
-				}
+		/* Figure out what column we pressed in.  */
+		for (col = 0; col < colcount; col++) {
+			GtkTreeViewColumn *column =
+				stf_preview_get_column (pagedata->fixed.renderdata, col);
+			GtkWidget *w = GTK_BIN (column->button)->child;
+			if (dx < w->allocation.x + w->allocation.width) {
+				dx -= w->allocation.x;
+				break;
 			}
-
-			make_new_column (pagedata, col, dx, treeview);
-			return TRUE;
 		}
 
+		make_new_column (pagedata, col, dx, FALSE);
+		return TRUE;
 	}
+
 	return FALSE;
 }
 
 
 static gint
-cb_col_event (GtkWidget *button,
-	      GdkEvent  *event,
-	      gpointer   _col)
+cb_col_button_press (GtkWidget *button,
+		     GdkEventButton *event,
+		     gpointer   _col)
 {
 	int col = GPOINTER_TO_INT (_col);
+	StfDialogData *data = g_object_get_data (G_OBJECT (button), "fixed-data");
 
-	if (event->type == GDK_BUTTON_PRESS) {
-		StfDialogData *data = g_object_get_data (G_OBJECT (button), "fixed-data");
-		GdkEventButton *bevent = (GdkEventButton *)event;
+	if (event->type == GDK_2BUTTON_PRESS && event->button == 1) {
+		/* Split column.  */
 
-		if (bevent->button == 1) {
-			/* Split column.  */
-			int dx;
+		/* Correct for indentation of button.  */
+		int offset = GTK_BIN (button)->child->allocation.x - button->allocation.x;
+		make_new_column (data, col, (int)event->x - offset, FALSE);
 
-			dx = (int)bevent->x - (GTK_BIN (button)->child->allocation.x - button->allocation.x);
-			make_new_column (data, col, dx, button);
-
-			return TRUE;
-		}
-
-		if (bevent->button == 3) {
-			/* Remove column.  */
-			gtk_clist_select_row (data->fixed.fixed_collist, col, 0);
-			gnumeric_clist_moveto (data->fixed.fixed_collist, col);
-
-			gtk_signal_emit_by_name (GTK_OBJECT (data->fixed.fixed_remove),
-						 "clicked",
-						 data);
-			return TRUE;
-		}
+		return TRUE;
 	}
-	    
+
+	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+		int sensitivity_filter = 0;
+		/* Correct for indentation of button.  */
+		int offset = GTK_BIN (button)->child->allocation.x - button->allocation.x;
+
+		data->fixed.context_col = col;
+		data->fixed.context_dx = (int)event->x - offset;
+
+		if (!delete_column (data, col - 1, TRUE))
+			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_MERGE_LEFT);
+		if (!delete_column (data, col, TRUE))
+			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_MERGE_RIGHT);
+		if (!make_new_column (data, col, data->fixed.context_dx, TRUE))
+			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_SPLIT);
+		if (!widen_column (data, col, TRUE))
+			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_WIDEN);
+		if (!narrow_column (data, col, TRUE))
+			sensitivity_filter |= (1 << CONTEXT_STF_IMPORT_NARROW);
+
+		select_column (data, col);
+		gnumeric_create_popup_menu (popup_elements, &fixed_context_menu_handler,
+					    data, 0,
+					    sensitivity_filter, event);
+		return TRUE;
+	}
+
+#if 0
+	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
+		/* Remove column.  */
+		gtk_clist_select_row (data->fixed.fixed_collist, col, 0);
+		gnumeric_clist_moveto (data->fixed.fixed_collist, col);
+
+		gtk_signal_emit_by_name (GTK_OBJECT (data->fixed.fixed_remove),
+					 "clicked",
+					 data);
+		return TRUE;
+	}
+#endif
+
 	return FALSE;
 }
 
+static gint
+cb_col_key_press (GtkWidget *button,
+		  GdkEventKey *event,
+		  gpointer   _col)
+{
+	int col = GPOINTER_TO_INT (_col);
+	StfDialogData *data = g_object_get_data (G_OBJECT (button), "fixed-data");
+
+	if (event->type == GDK_KEY_PRESS) {
+		switch (event->keyval) {
+		case GDK_plus:
+		case GDK_KP_Add:
+		case GDK_greater:
+			widen_column (data, col, FALSE);
+			return TRUE;
+
+		case GDK_minus:
+		case GDK_KP_Subtract:
+		case GDK_less:
+			narrow_column (data, col, FALSE);
+			return TRUE;
+
+		case GDK_Left:
+		case GDK_Up:
+			select_column (data, col - 1);
+			return TRUE;
+
+		case GDK_Right:
+		case GDK_Down:
+			select_column (data, col + 1);
+			return TRUE;
+
+		default:
+			; /*  Nothing.  */
+		}
+	}
+
+	return FALSE;
+}
 
 /**
  * fixed_page_update_preview
@@ -221,16 +375,8 @@ fixed_page_update_preview (StfDialogData *pagedata)
 	GPtrArray *lines;
 	StfTrimType_t trim;
 
-	stf_parse_options_fixed_splitpositions_clear (parseoptions);
-	for (i = 0; i < GTK_CLIST (pagedata->fixed.fixed_collist)->rows; i++) {
-		char *t[2];
-
-		gtk_clist_get_text (pagedata->fixed.fixed_collist, i, 1, t);
-		stf_parse_options_fixed_splitpositions_add (parseoptions, atoi (t[0]));
-	}
-
 	/* Don't trim on this page.  */
-	trim = parseoptions->trim_spaces;	
+	trim = parseoptions->trim_spaces;
 	stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
 	lines = stf_parse_general (parseoptions,
 				   pagedata->cur, pagedata->cur_end);
@@ -244,14 +390,19 @@ fixed_page_update_preview (StfDialogData *pagedata)
 		GtkCellRenderer *cell =
 			stf_preview_get_cell_renderer (renderdata, i);
 
+		gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+
 		g_object_set (G_OBJECT (cell),
 			      "family", "monospace",
 			      NULL);
 
 		g_object_set_data (G_OBJECT (column->button), "fixed-data", pagedata);
 		g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
-		g_signal_connect (column->button, "event",
-				  G_CALLBACK (cb_col_event),
+		g_signal_connect (column->button, "button_press_event",
+				  G_CALLBACK (cb_col_button_press),
+				  GINT_TO_POINTER (i));
+		g_signal_connect (column->button, "key_press_event",
+				  G_CALLBACK (cb_col_key_press),
 				  GINT_TO_POINTER (i));
 	}
 }
@@ -259,132 +410,6 @@ fixed_page_update_preview (StfDialogData *pagedata)
 /*************************************************************************************************
  * SIGNAL HANDLERS
  *************************************************************************************************/
-
-/**
- * fixed_page_collist_select_row
- * @clist : the GtkClist that emitted the signal
- * @row : row the user clicked on
- * @column : column the user clicked on
- * @event : information on the buttons that were pressed
- * @data : mother struct
- *
- * This will update the widgets on the right side of the dialog to
- * reflect the new column selection
- *
- * returns : nothing
- **/
-static void
-fixed_page_collist_select_row (GtkCList *clist, int row,
-			       G_GNUC_UNUSED int column,
-			       G_GNUC_UNUSED GdkEventButton *event,
-			       StfDialogData *data)
-{
-	char *t[2];
-
-	data->fixed.index = row;
-
-	gtk_clist_get_text (clist, row, 1, t);
-	gtk_spin_button_set_value (data->fixed.fixed_colend, atoi (t[0]));
-
-	gtk_widget_set_sensitive (GTK_WIDGET (data->fixed.fixed_colend), !(row == clist->rows - 1));
-}
-
-/**
- * fixed_page_colend_changed
- * @button : the gtkspinbutton that emitted the signal
- * @data : a mother struct
- *
- * if the user changes the end of the current column the preview will be redrawn
- * and the @data->fixed_data->fixed.fixed_collist will be updated
- *
- * returns : nothing
- **/
-static void
-fixed_page_colend_changed (GtkSpinButton *button, StfDialogData *data)
-{
-	char *text;
-
-	if (data->fixed.index < 0 || (data->fixed.index == GTK_CLIST (data->fixed.fixed_collist)->rows - 1))
-		return;
-
-	text = gtk_editable_get_chars (GTK_EDITABLE (button), 0, -1);
-	gtk_clist_set_text (data->fixed.fixed_collist, data->fixed.index, 1, text);
-	g_free (text);
-
-	fixed_page_update_preview (data);
-}
-
-/**
- * fixed_page_add_clicked
- * @button : the GtkButton that emitted the signal
- * @data : the mother struct
- *
- * This will add a new column to the @data->fixed_data->fixed.fixed_collist
- *
- * returns : nothing
- **/
-static void
-fixed_page_add_clicked (G_GNUC_UNUSED GtkButton *button,
-			StfDialogData *data)
-{
-	char *tget[1], *tset[2];
-	int colindex = GTK_CLIST (data->fixed.fixed_collist)->rows;
-
-	if (colindex > 1) {
-		gtk_clist_get_text (data->fixed.fixed_collist, colindex - 2, 1, tget);
-		tget[0] = g_strdup_printf ("%d", atoi (tget[0]) + 1);
-		gtk_clist_set_text (data->fixed.fixed_collist, colindex - 1, 1, tget[0]);
-		g_free (tget[0]);
-	} else {
-		tget[0] = g_strdup ("1");
-		gtk_clist_set_text (data->fixed.fixed_collist, colindex - 1, 1, tget[0]);
-		g_free (tget[0]);
-	}
-
-	tset[0] = g_strdup_printf ("%d", colindex);
-	tset[1] = g_strdup_printf ("%d", -1);
-	gtk_clist_append (data->fixed.fixed_collist, tset);
-	g_free (tset[0]);
-	g_free (tset[1]);
-
-	gtk_clist_select_row (data->fixed.fixed_collist, GTK_CLIST (data->fixed.fixed_collist)->rows - 2, 0);
-	gnumeric_clist_moveto (data->fixed.fixed_collist, GTK_CLIST (data->fixed.fixed_collist)->rows - 2);
-
-	fixed_page_update_preview (data);
-}
-
-/**
- * fixed_page_remove_clicked
- * @button : the GtkButton that emitted the signal
- * @data : the mother struct
- *
- * This will remove the selected item from the @data->fixed_data->fixed.fixed_collist
- *
- * returns : nothing
- **/
-static void
-fixed_page_remove_clicked (G_GNUC_UNUSED GtkButton *button,
-			   StfDialogData *data)
-{
-	int i;
-
-	if (data->fixed.index < 0 || (data->fixed.index == GTK_CLIST (data->fixed.fixed_collist)->rows - 1))
-		data->fixed.index--;
-
-	gtk_clist_remove (data->fixed.fixed_collist, data->fixed.index);
-
-	for (i = data->fixed.index; i < GTK_CLIST (data->fixed.fixed_collist)->rows; i++) {
-		char *text = g_strdup_printf ("%d", i);
-
-		gtk_clist_set_text (data->fixed.fixed_collist, i, 0, text);
-		g_free (text);
-	}
-
-	gtk_clist_select_row (data->fixed.fixed_collist, data->fixed.index, 0);
-	gnumeric_clist_moveto (data->fixed.fixed_collist, data->fixed.index);
-
-	fixed_page_update_preview (data);
-}
 
 /**
  * fixed_page_clear_clicked:
@@ -397,18 +422,7 @@ static void
 fixed_page_clear_clicked (G_GNUC_UNUSED GtkButton *button,
 			  StfDialogData *data)
 {
-	char *tset[2];
-
-	gtk_clist_clear (data->fixed.fixed_collist);
-
-	tset[0] = g_strdup ("0");
-	tset[1] = g_strdup ("-1");
-
-	gtk_clist_append (data->fixed.fixed_collist, tset);
-
-	g_free (tset[0]);
-	g_free (tset[1]);
-
+	stf_parse_options_fixed_splitpositions_clear (data->parseoptions);
 	fixed_page_update_preview (data);
 }
 
@@ -440,17 +454,7 @@ fixed_page_auto_clicked (G_GNUC_UNUSED GtkButton *button,
 void
 stf_dialog_fixed_page_prepare (StfDialogData *pagedata)
 {
-	GtkAdjustment *spinadjust;
-
 	stf_parse_options_set_trim_spaces (pagedata->parseoptions, TRIM_TYPE_NEVER);
-
-	spinadjust = gtk_spin_button_get_adjustment (pagedata->fixed.fixed_colend);
-	spinadjust->lower = 1;
-	spinadjust->upper = stf_parse_get_longest_row_width (pagedata->parseoptions,
-							     pagedata->cur,
-							     pagedata->cur_end);
-	gtk_spin_button_set_adjustment (pagedata->fixed.fixed_colend, spinadjust);
-
 	fixed_page_update_preview (pagedata);
 }
 
@@ -475,16 +479,11 @@ stf_dialog_fixed_page_cleanup (StfDialogData *pagedata)
 void
 stf_dialog_fixed_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
-	char *t[2];
 
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (pagedata != NULL);
 
         /* Create/get object and fill information struct */
-	pagedata->fixed.fixed_collist = GTK_CLIST       (glade_xml_get_widget (gui, "fixed_collist"));
-	pagedata->fixed.fixed_colend  = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "fixed_colend"));
-	pagedata->fixed.fixed_add     = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_add"));
-	pagedata->fixed.fixed_remove  = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_remove"));
 	pagedata->fixed.fixed_clear   = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_clear"));
 	pagedata->fixed.fixed_auto    = GTK_BUTTON      (glade_xml_get_widget (gui, "fixed_auto"));
 	pagedata->fixed.fixed_data_container =          (glade_xml_get_widget (gui, "fixed_data_container"));
@@ -493,29 +492,8 @@ stf_dialog_fixed_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->fixed.renderdata    =
 		stf_preview_new (pagedata->fixed.fixed_data_container,
 				 NULL);
-	pagedata->fixed.index         = -1;
-
-	gtk_clist_column_titles_passive (pagedata->fixed.fixed_collist);
-
-	t[0] = g_strdup ("0");
-	t[1] = g_strdup ("-1");
-	gtk_clist_append (pagedata->fixed.fixed_collist, t);
-	g_free (t[0]);
-	g_free (t[1]);
 
 	/* Connect signals */
-	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_collist),
-		"select_row",
-		G_CALLBACK (fixed_page_collist_select_row), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_colend),
-		"changed",
-		G_CALLBACK (fixed_page_colend_changed), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_add),
-		"clicked",
-		G_CALLBACK (fixed_page_add_clicked), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_remove),
-		"clicked",
-		G_CALLBACK (fixed_page_remove_clicked), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_clear),
 		"clicked",
 		G_CALLBACK (fixed_page_clear_clicked), pagedata);
@@ -523,6 +501,6 @@ stf_dialog_fixed_page_init (GladeXML *gui, StfDialogData *pagedata)
 		"clicked",
 		G_CALLBACK (fixed_page_auto_clicked), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->fixed.renderdata->tree_view),
-		"event",
-		 G_CALLBACK (cb_treeview_event), pagedata);
+		"button_press_event",
+		 G_CALLBACK (cb_treeview_button_press), pagedata);
 }

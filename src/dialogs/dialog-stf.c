@@ -51,17 +51,14 @@ stf_dialog_set_initial_keyboard_focus (StfDialogData *pagedata)
 
 	switch (gtk_notebook_get_current_page (pagedata->notebook)) {
 	case DPG_MAIN:
-		focus_widget =
-			GTK_WIDGET (pagedata->main.main_separated);
+		focus_widget = GTK_WIDGET (pagedata->main.main_separated);
 		break;
 	case DPG_CSV:
-		focus_widget =
-			GTK_WIDGET (pagedata->csv.csv_space);
+		focus_widget = GTK_WIDGET (pagedata->csv.csv_space);
 		break;
 	case DPG_FIXED:
-		focus_widget = GTK_WIDGET
-			(&pagedata->fixed.fixed_colend->entry);
-		break; /* ?? */
+		focus_widget = GTK_WIDGET (pagedata->fixed.fixed_auto);
+		break;
 	case DPG_FORMAT:
 		number_format_selector_set_focus (pagedata->format.format_selector);
 		break;

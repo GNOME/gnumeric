@@ -2,7 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="stf_dialog">
   <property name="title" translatable="yes">Text Import Configuration</property>
@@ -1309,66 +1308,33 @@
 		      <property name="spacing">4</property>
 
 		      <child>
-			<widget class="GtkVBox" id="vbox11">
+			<widget class="GtkHButtonBox" id="hbuttonbox3">
 			  <property name="visible">True</property>
-			  <property name="homogeneous">False</property>
+			  <property name="layout_style">GTK_BUTTONBOX_SPREAD</property>
 			  <property name="spacing">0</property>
 
 			  <child>
-			    <widget class="GtkScrolledWindow" id="scrolledwindow7">
+			    <widget class="GtkButton" id="fixed_auto">
 			      <property name="visible">True</property>
-			      <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-			      <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-			      <property name="shadow_type">GTK_SHADOW_NONE</property>
-			      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
-
-			      <child>
-				<widget class="GtkCList" id="fixed_collist">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="n_columns">2</property>
-				  <property name="column_widths">80,80</property>
-				  <property name="selection_mode">GTK_SELECTION_SINGLE</property>
-				  <property name="show_titles">True</property>
-				  <property name="shadow_type">GTK_SHADOW_IN</property>
-
-				  <child>
-				    <widget class="GtkLabel" id="label14">
-				      <property name="label" translatable="yes">Column</property>
-				      <property name="use_underline">False</property>
-				      <property name="use_markup">False</property>
-				      <property name="justify">GTK_JUSTIFY_LEFT</property>
-				      <property name="wrap">False</property>
-				      <property name="selectable">False</property>
-				      <property name="xalign">0</property>
-				      <property name="yalign">0.5</property>
-				      <property name="xpad">0</property>
-				      <property name="ypad">0</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkLabel" id="label15">
-				      <property name="label" translatable="yes">End</property>
-				      <property name="use_underline">False</property>
-				      <property name="use_markup">False</property>
-				      <property name="justify">GTK_JUSTIFY_LEFT</property>
-				      <property name="wrap">False</property>
-				      <property name="selectable">False</property>
-				      <property name="xalign">0</property>
-				      <property name="yalign">0.5</property>
-				      <property name="xpad">0</property>
-				      <property name="ypad">0</property>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
+			      <property name="tooltip" translatable="yes">Attempt to recognize columns in the text automatically.</property>
+			      <property name="can_default">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="label" translatable="yes">_Auto Column Discovery</property>
+			      <property name="use_underline">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">True</property>
-			      <property name="fill">True</property>
-			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkButton" id="fixed_clear">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Clear list of columns</property>
+			      <property name="can_default">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="label" translatable="yes">_Clear</property>
+			      <property name="use_underline">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			    </widget>
 			  </child>
 			</widget>
 			<packing>
@@ -1379,171 +1345,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkVBox" id="vbox12">
-			  <property name="visible">True</property>
-			  <property name="homogeneous">False</property>
-			  <property name="spacing">4</property>
-
-			  <child>
-			    <widget class="GtkHBox" id="hbox10">
-			      <property name="visible">True</property>
-			      <property name="homogeneous">False</property>
-			      <property name="spacing">4</property>
-
-			      <child>
-				<widget class="GtkHBox" id="hbox11">
-				  <property name="visible">True</property>
-				  <property name="homogeneous">False</property>
-				  <property name="spacing">0</property>
-
-				  <child>
-				    <widget class="GtkLabel" id="label17">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Co_lumn end: </property>
-				      <property name="use_underline">True</property>
-				      <property name="use_markup">False</property>
-				      <property name="justify">GTK_JUSTIFY_CENTER</property>
-				      <property name="wrap">False</property>
-				      <property name="selectable">False</property>
-				      <property name="xalign">0.5</property>
-				      <property name="yalign">0.5</property>
-				      <property name="xpad">0</property>
-				      <property name="ypad">0</property>
-				      <property name="mnemonic_widget">fixed_colend</property>
-				    </widget>
-				    <packing>
-				      <property name="padding">0</property>
-				      <property name="expand">False</property>
-				      <property name="fill">False</property>
-				    </packing>
-				  </child>
-
-				  <child>
-				    <widget class="GtkSpinButton" id="fixed_colend">
-				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">Set the end of this column</property>
-				      <property name="can_focus">True</property>
-				      <property name="climb_rate">1</property>
-				      <property name="digits">0</property>
-				      <property name="numeric">True</property>
-				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
-				      <property name="snap_to_ticks">False</property>
-				      <property name="wrap">False</property>
-				      <property name="adjustment">0 0 100 1 10 10</property>
-				    </widget>
-				    <packing>
-				      <property name="padding">0</property>
-				      <property name="expand">True</property>
-				      <property name="fill">True</property>
-				    </packing>
-				  </child>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">False</property>
-				</packing>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">True</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkHBox" id="hbox12">
-			      <property name="visible">True</property>
-			      <property name="homogeneous">False</property>
-			      <property name="spacing">0</property>
-
-			      <child>
-				<widget class="GtkHButtonBox" id="hbuttonbox1">
-				  <property name="visible">True</property>
-				  <property name="layout_style">GTK_BUTTONBOX_START</property>
-				  <property name="spacing">0</property>
-
-				  <child>
-				    <widget class="GtkButton" id="fixed_add">
-				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">Add a new column</property>
-				      <property name="can_default">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">_Add</property>
-				      <property name="use_underline">True</property>
-				      <property name="relief">GTK_RELIEF_NORMAL</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkButton" id="fixed_remove">
-				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">Remove selected column</property>
-				      <property name="can_default">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">_Remove</property>
-				      <property name="use_underline">True</property>
-				      <property name="relief">GTK_RELIEF_NORMAL</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkButton" id="fixed_clear">
-				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">Clear list of columns</property>
-				      <property name="can_default">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">_Clear</property>
-				      <property name="use_underline">True</property>
-				      <property name="relief">GTK_RELIEF_NORMAL</property>
-				    </widget>
-				  </child>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">True</property>
-				</packing>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">False</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkHButtonBox" id="hbuttonbox2">
-			      <property name="visible">True</property>
-			      <property name="layout_style">GTK_BUTTONBOX_START</property>
-			      <property name="spacing">30</property>
-
-			      <child>
-				<widget class="GtkButton" id="fixed_auto">
-				  <property name="visible">True</property>
-				  <property name="tooltip" translatable="yes">Attempt to recognize columns in the text automatically.</property>
-				  <property name="can_default">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="label" translatable="yes">Auto Column _Discovery</property>
-				  <property name="use_underline">True</property>
-				  <property name="relief">GTK_RELIEF_NORMAL</property>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">True</property>
-			    </packing>
-			  </child>
-			</widget>
-			<packing>
-			  <property name="padding">0</property>
-			  <property name="expand">False</property>
-			  <property name="fill">True</property>
-			</packing>
+			<placeholder/>
 		      </child>
 		    </widget>
 		  </child>

@@ -56,7 +56,7 @@ typedef struct {
 	int                  colcount;              /* Number of columns parsed */
         gboolean             *col_import_array;     /* 0/1 array indicating  */
 	                                            /* which cols to import  */
-	GPtrArray         *formats;       /* Contains StyleFormat *s */
+	GPtrArray            *formats       ;       /* Contains StyleFormat *s */
 } StfParseOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */
@@ -87,7 +87,11 @@ void stf_parse_options_csv_set_duplicates              (StfParseOptions_t *parse
 							gboolean const duplicates);
 void stf_parse_options_fixed_splitpositions_clear      (StfParseOptions_t *parseoptions);
 void stf_parse_options_fixed_splitpositions_add        (StfParseOptions_t *parseoptions,
-							int const position);
+							int position);
+void stf_parse_options_fixed_splitpositions_remove     (StfParseOptions_t *parseoptions,
+							int position);
+int stf_parse_options_fixed_splitpositions_count       (StfParseOptions_t *parseoptions);
+int stf_parse_options_fixed_splitpositions_nth         (StfParseOptions_t *parseoptions, int n);
 
 /* USING the stf structs to actually do some parsing, these are the lower-level functions and utility functions */
 
@@ -98,10 +102,6 @@ void                stf_parse_general_free                            (GPtrArray
 GPtrArray          *stf_parse_lines                                   (StfParseOptions_t *parseoptions,
 								       const char *data,
 								       gboolean with_lineno);
-
-int                 stf_parse_get_longest_row_width                   (StfParseOptions_t *parseoptions,
-								       const char *data,
-								       char const *data_end);
 
 void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions,
 								       char const *data,
