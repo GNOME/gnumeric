@@ -493,7 +493,7 @@ draw_format_preview (FormatState *state)
 
 	if (state->sample_rendered_text) {
 		preview = format_value (sf, state->value, &preview_color,
-					state->sample_rendered_text);
+					state->sample_rendered_text, -1);
 
 		if (strlen (preview) > FORMAT_PREVIEW_MAX)
 			strcpy (&preview [FORMAT_PREVIEW_MAX - 5], " ...");

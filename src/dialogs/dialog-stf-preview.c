@@ -493,7 +493,7 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 
 		sf = g_ptr_array_index (renderdata->colformats, col);
 
-		celltext = format_value (sf, value, &color, iterator->data);
+		celltext = format_value (sf, value, &color, iterator->data, -1);
 
 		value_release (value);
 

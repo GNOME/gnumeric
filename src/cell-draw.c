@@ -36,7 +36,13 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,
 	       int const * const line_offset, int num_lines)
 {
 	int const len = gdk_string_width (font, "#");
-	int count = (len != 0) ? (width / len) : 0;
+	int count = 0;
+
+	if (len != 0)  {
+		count = width / len;
+		if (count == 0)
+			count = 1;
+	}
 
 	/* Center */
 	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )

@@ -701,7 +701,16 @@ sheet_update (Sheet const *sheet)
 
 	if (p->recompute_spans) {
 		p->recompute_spans = FALSE;
-		sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RENDER |
+		/* FIXME : I would prefer to use SPANCALC_RENDER rather than
+		 * RE_RENDER.  It only renders those cells which are not
+		 * rendered.  The trouble is that when a col changes size we
+		 * need to rerender, but currently nothing marks that.
+		 *
+		 * hmm, that suggests an approach.  maybe I can install a per
+		 * col flag.  Then add a flag clearing loop after the
+		 * sheet_calc_span.
+		 */
+		sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RE_RENDER |
 				  (p->recompute_visibility ?
 				   SPANCALC_NO_DRAW : SPANCALC_SIMPLE));
 	}

@@ -179,7 +179,13 @@ print_overflow (GnomePrintContext *context, GnomeFont *font,
 		double const * const line_offset, int num_lines)
 {
 	double const len = gnome_font_get_width_string_n (font, "#", 1);
-	int count = (len != 0) ? (width / len) : 0;
+	int count = 0;
+
+	if (len != 0)  {
+		count = width / len;
+		if (count == 0)
+			count = 1;
+	}
 
 	/* Center */
 	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )

@@ -766,7 +766,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 	if (ok) {
 		char *str = format_value (format,
 					  (tmp != NULL) ? tmp : arg,
-					  NULL, NULL);
+					  NULL, NULL, -1);
 		res = value_new_string (str);
 		g_free (str);
 	} else

@@ -26,6 +26,7 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
+#include <float.h>
 #include <langinfo.h>
 #include <limits.h>
 #include <ctype.h>
@@ -149,10 +150,10 @@ format_get_col_sep (void)
 static GHashTable *style_format_hash = NULL;
 
 typedef struct {
-        char     *format;
-	gboolean  want_am_pm;
-        char      restriction_type;
-        int       restriction_value;
+        char const *format;
+	gboolean    want_am_pm;
+        char        restriction_type;
+        int         restriction_value;
 } StyleFormatEntry;
 
 struct _StyleFormat {
@@ -456,13 +457,11 @@ format_compile (StyleFormat *format)
 	for (i = 0; i < length; i++){
 
 		switch (format->format[i]){
-
 		case ';':
-			if (which < 4){
-				standard_entries [which].format = g_malloc0 (string->len + 1);
-				strncpy (standard_entries[which].format, string->str, string->len);
-				standard_entries [which].format[string->len] = 0;
+			if (which < 4) {
 				standard_entries [which].restriction_type = '*';
+				standard_entries [which].format = 
+					g_strndup (string->str, string->len + 1);
 				which++;
 			}
 			string = g_string_truncate (string, 0);
@@ -473,11 +472,10 @@ format_compile (StyleFormat *format)
 		}
 	}
 
-	if (which < 4){
-		standard_entries[which].format = g_malloc0 (string->len + 1);
-		strncpy (standard_entries[which].format, string->str, string->len);
-		standard_entries[which].format[string->len] = 0;
+	if (which < 4) {
 		standard_entries[which].restriction_type = '*';
+		standard_entries[which].format =
+			g_strndup (string->str, string->len + 1);
 		which++;
 	}
 
@@ -511,11 +509,17 @@ format_compile (StyleFormat *format)
 	g_string_free (string, TRUE);
 }
 
+/**
+ * format_entry_dtor :
+ *
+ * WARNING : do not call this for temporary formats generated for
+ * 'General'.
+ */
 static void
-format_entry_dtor (gpointer data, gpointer	user_data)
+format_entry_dtor (gpointer data, gpointer user_data)
 {
 	StyleFormatEntry *entry = data;
-	g_free (entry->format);
+	g_free ((char *)entry->format);
 	g_free (entry);
 }
 
@@ -1121,7 +1125,8 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			}
 			/* FIXME: this is a gross hack */
 			{
-				char *buffer = g_alloca (40 + info.right_req + 2);
+				int prec = info.right_optional + info.right_req;
+				char *buffer = g_alloca (40 + prec + 2);
 
 				sprintf (buffer, (info.scientific == 'e')
 					 ? "%s%.*e"
@@ -1130,7 +1135,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 					 ? "-" :
 					 info.scientific_shows_plus
 					 ? "+" : "",
-					 info.right_req, number);
+					 prec, number);
 
 				g_string_append (result, buffer);
 				goto finish;
@@ -1425,12 +1430,80 @@ check_valid (const StyleFormatEntry *entry, const Value *value)
 	}
 }
 
+/**
+ * fmt_general_float:
+ *
+ * @val : the integer value being formated.
+ * @col_width : the approximate width in characters.
+ */
+static char *
+fmt_general_float (float_t val, int col_width)
+{
+	double log_val, abs_val;
+	int prec;
+
+	if (val < 0) {
+		/* leave space for minus sign */
+		col_width--;
+		abs_val = -val;
+	} else
+		abs_val = val;
+
+	log_val = log10 (abs_val);
+
+	if (col_width < 0)
+		prec = DBL_DIG;
+	else
+		prec = col_width - 1;
+
+	/* Display 0 for cols that are too narrow for scientific notation with
+	 * 1 > abs (value) >= 0 */
+	if (log_val < 0 && col_width < 4)
+		return g_strdup ("0");
+
+	if (log_val > col_width || log_val < -4.)
+		prec -= 4;
+	else if (log_val < 0.)
+		prec += (int)log_val - 1;
+
+	/* FIXME : glib bug.  it does not handle G, use g */
+	return g_strdup_printf ("%.*g", prec, val);
+}
+
+/**
+ * fmt_general_int :
+ *
+ * @val : the integer value being formated.
+ * @col_width : the approximate width in characters.
+ */
+static char *
+fmt_general_int (int val, int col_width)
+{
+	if (col_width > 0) {
+		double abs_val;
+
+		if (val < 0) {
+			/* leave space for minus sign */
+			abs_val = -val;
+			col_width--;
+		} else
+			abs_val = val;
+
+		/* Switch to scientific notation if things are too wide */
+		if (ceil (log10 (abs_val)) > col_width)
+			/* FIXME : glib bug.  it does not handle G, use g */
+			/* Decrease available width by 5 to account for .+E00 */
+			return g_strdup_printf ("%.*g", col_width - 5, (double)val);
+	}
+	return g_strdup_printf ("%d", val);
+}
+
 /*
  * Returns NULL when the value should be formated as text
  */
 gchar *
 format_value (StyleFormat *format, const Value *value, StyleColor **color,
-	      char const * entered_text)
+	      char const *entered_text, int col_width)
 {
 	char *v = NULL;
 	StyleFormatEntry entry;
@@ -1494,7 +1567,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 
 	/* No need to translate we always store in C locale */
 	if (strcmp (entry.format, "General") == 0)
-	    is_general = TRUE;
+		is_general = TRUE;
 
 	/*
 	 * Use top left corner of an array result.
@@ -1505,26 +1578,23 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 
 	switch (value->type){
 	case VALUE_FLOAT:
-		if (finite (value->v_float.val)) {
-			if (is_general) {
-				/* FIXME FIXME FIXME : This is pathetic
-				 * rendering for General should be done
-				 * with knowledge of the cell width to
-				 * compute the optimal format
-				 */
-				if (floor (value->v_float.val) == value->v_float.val)
-					entry.format = "0";
-				else
-					entry.format = "0.0########";
-			}
-			v = format_number (value->v_float.val, &entry);
-		} else
+		if (!finite (value->v_float.val))
 			return g_strdup (gnumeric_err_VALUE);
+
+		if (is_general) {
+			float_t val = value->v_float.val;
+			double int_val = floor (value->v_float.val);
+
+			return (int_val == value->v_float.val)
+				? fmt_general_int (int_val, col_width)
+				: fmt_general_float (val, col_width);
+		}
+		v = format_number (value->v_float.val, &entry);
 		break;
 
 	case VALUE_INTEGER:
 		if (is_general)
-			entry.format = "0";
+			return fmt_general_int (value->v_int.val, col_width);
 		v = format_number (value->v_int.val, &entry);
 		break;
 

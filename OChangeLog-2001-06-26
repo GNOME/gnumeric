@@ -1,9 +1,47 @@
+2000-10-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_update) : RE_RENDER when a span clac is forced.
+	  This is a bit brute force for now, but is necessary to force the
+	  re-rendering of values that may have width dependent formats.
+	  I've noted a possible future enhancement that would remove this req
+	  at the cost of some complexity.
+
+	* src/format.c (fmt_general_float) : new function.
+	(fmt_general_int) : new function.
+	(format_value) : Use the new routines.
+
+2000-10-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_set_value) : Re-render the entered text to handle
+	  width dependent formats.
+
+2000-10-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_overflow) : improve drawing of hash marks.
+	* src/cell-draw.c (draw_overflow) : to always draw at least one hash.
+
+	* src/rendered-value.c (rendered_value_new_ext) : pass in approx
+	  column width in characters for use by general.
+
 2000-10-14  Chema Celorio  <chema@celorio.com>
 
 	* src/workbook.c (workbook_sheet_get_free_name): remove g_assert not
 	reached, as it was reached when duplicating sheets with names like :
 	"Sales (1995)". If we have a sheet with a number in parenthesis and
 	the number is > 1000. Duplicate it with the name "Name (numer) (2)".
+
+2000-10-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/rendered-value.c (rendered_value_new) : Handle the unrefing of
+	  the local style here.
+	(rendered_value_new_ext) : rather than here.
+	(rendered_value_calc_size) : handke the unrefing of the local style
+	  here.
+	(rendered_value_calc_size_ext) : rather than here.
+
+	* src/preview-grid-controller.c (cb_grid_get_cell) : Adjust the
+	  semantics of the rendered_value_*_ext methods so that they don't
+	  unref the styles.
 
 2000-10-13  Jody Goldberg <jgoldberg@home.com>
 

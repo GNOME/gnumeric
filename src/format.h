@@ -17,7 +17,7 @@ gboolean       style_format_is_general	(StyleFormat const *sf);
 				      
 void   format_destroy (StyleFormat *format);
 char  *format_value   (StyleFormat *format, const Value *value, StyleColor **color,
-		       char const * entered_text);
+		       char const * entered_text, int col_width);
 
 void   format_color_init     (void);
 void   format_color_shutdown (void);

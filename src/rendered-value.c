@@ -33,15 +33,15 @@
 #include "sheet-view.h"
 #include "application.h"
 
-/*
+/**
  * rendered_value_new
- * @cell: The cell whose value needs to be rendered
+ * @cell: The cell whose value needs to be rendered.
+ * @styles : An optional collection of styles.
  *
  * Returns a RenderedValue displaying the value of the cell formated according
  * to the format style. If formulas are being displayed the text of the a
  * formula instead of its value.
  */
-
 RenderedValue *
 rendered_value_new (Cell *cell, GList *styles)
 {
@@ -49,7 +49,10 @@ rendered_value_new (Cell *cell, GList *styles)
 		? sheet_style_compute_from_list (styles, cell->pos.col, cell->pos.row)
 		: cell_get_mstyle (cell);
 		
-	return rendered_value_new_ext (cell, mstyle);
+	RenderedValue *res = rendered_value_new_ext (cell, mstyle);
+
+	mstyle_unref (mstyle);
+	return res;
 }
 
 /**
@@ -58,47 +61,61 @@ rendered_value_new (Cell *cell, GList *styles)
  * @mstyle: The mstyle associated with the cell
  * 
  * Formats the value of the cell according to the format style given in @mstyle
- * 
+ *
  * Return value: a new RenderedValue
  **/
 RenderedValue *
 rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 {
 	RenderedValue	*res;
+	Sheet		*sheet;
 	StyleColor	*color;
+	int		 col_width = 0;
 	char *str;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
 
-	if (cell_has_expr (cell) &&
-	    cell->base.sheet != NULL && cell->base.sheet->display_formulas) {
+	sheet = cell->base.sheet;
+
+	if (cell_has_expr (cell) && sheet != NULL && sheet->display_formulas) {
 		ParsePos pp;
 		char *tmpstr = expr_tree_as_string (cell->base.expression,
-			parse_pos_init_cell (&pp, cell));
+						    parse_pos_init_cell (&pp, cell));
 		str = g_strconcat ("=", tmpstr, NULL);
 		g_free (tmpstr);
 		color = NULL;
-	} else {
+	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
+		/* entered text CAN be null if called by set_value */
+		char const *entered =
+			(!cell_has_expr (cell) && cell->entered_text != NULL)
+			? cell->entered_text->str : NULL;
+		StyleFormat *format = mstyle_get_format (mstyle);
 
+		/* For format general approximate the cell width in characters */
+		if (style_format_is_general(format)) {
+			if (cell->format == NULL) {
+				StyleFont *style_font =
+					sheet_view_get_style_font (sheet, mstyle);
+				GdkFont *gdk_font =
+					style_font_gdk_font (style_font);
 
-		if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
-			/* entered text CAN be null if called by
-			 * set_value
-			 */
-			char const *entered =
-				(!cell_has_expr (cell) && cell->entered_text != NULL)
-				? cell->entered_text->str : NULL;
-			StyleFormat *format = mstyle_get_format (mstyle);
-
-			if  (style_format_is_general(format) && cell->format)
+				/* FIXME : how does one get the width of the
+				 * widest character used to display numbers.
+				 * Use 4 as the max width for now, and
+				 * intentionally round DOWN to measue the max
+				 * full characters that will fit */
+				double const font_width = gdk_string_measure
+					(gdk_font, "4");
+				if (font_width > 0)
+					col_width = COL_INTERNAL_WIDTH (cell->col_info) / font_width;
+			} else
 				format = cell->format;
-			str = format_value (format, cell->value, &color, entered);
-		} else {
-			g_warning ("No format: serious error");
-			str = g_strdup ("Error");
 		}
-		mstyle_unref (mstyle);
+		str = format_value (format, cell->value, &color, entered, col_width);
+	} else {
+		g_warning ("No format: serious error");
+		str = g_strdup ("Error");
 	}
 
 	g_return_val_if_fail (str != NULL, NULL);
@@ -140,6 +157,7 @@ rendered_value_calc_size (Cell const *cell)
 	MStyle *mstyle = cell_get_mstyle (cell);
 
 	rendered_value_calc_size_ext (cell, mstyle);
+	mstyle_unref (mstyle);
 }
 
 /*
@@ -239,7 +257,6 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 		rv->height_pixel = font_height;
 	}
 	style_font_unref (style_font);
-	mstyle_unref (mstyle);
 }
 
 /* Return the value as a single string without format infomation.

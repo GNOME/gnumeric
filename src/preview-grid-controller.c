@@ -200,11 +200,6 @@ cb_grid_get_cell (int row, int col, gpointer data)
 	else
 		cell->value = controller->get_cell_content_cb (row, col, controller->cb_data);
 	
-	/*
-	 * rendered_value_new_ext will unref the mstyle, that's why we
-	 * ref it here
-	 */
-	mstyle_ref (mstyle);
 	res = rendered_value_new_ext (cell, mstyle);
 
 	cell->rendered_value = res;
@@ -212,11 +207,7 @@ cb_grid_get_cell (int row, int col, gpointer data)
 	/*
 	 * Rendered value needs to know text width and height to handle
 	 * alignment properly
-	 * We ref the mstyle here yet another time, because
-	 * render_value_calc_size_ext will unref it, and we don't want to
-	 * destroy it just yet.
 	 */
-	mstyle_ref (mstyle);
 	rendered_value_calc_size_ext (cell, mstyle);
 	
 	controller->last_cell = cell;
