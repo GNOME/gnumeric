@@ -1,5 +1,16 @@
 2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
+	* src/commands.[c,h]: (cmd_insert_object), (cmd_delete_object): New.
+	cmd_insert_object is not hooked up yet.
+	* src/sheet-control-gui.c: (cb_control_point_event): Pass the sheet
+	object to cmd_move_object, that makes more sense than the so_view.
+	* src/sheet-object.c: (sheet_object_remove_cb): Call cmd_delete_object
+	instead of just gtk_object_destroy which can't be undone.
+	(sheet_object_clear_sheet): If so->sheet == NULL, just return instead
+	of printing a warning.
+	
+2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
 	* src/commands.[c,h]: (cmd_move_object): New. Will also handle 
 	resizing of objects
 	* src/sheet-control-gui-priv.h: Remember the initial_coords before

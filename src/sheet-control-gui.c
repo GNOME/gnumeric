@@ -1663,7 +1663,8 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		if (scg->drag_object != so)
 			return FALSE;
 
-		cmd_move_object (wbc, so->sheet, GTK_OBJECT (so_view),
+		cmd_move_object (wbc, so->sheet, 
+				 sheet_object_view_obj (GTK_OBJECT (so_view)),
 				 scg->initial_coords, scg->object_coords);
 		gnm_canvas_slide_stop (gcanvas);
 		scg->drag_object = NULL;

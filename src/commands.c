@@ -52,6 +52,7 @@
 #include "mstyle.h"
 #include "search.h"
 #include "sheet-object-cell-comment.h"
+#include "sheet-object.h"
 #include "sheet-control-gui.h"
 
 #include <gal/util/e-util.h>
@@ -3966,6 +3967,82 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 
 /******************************************************************/
 
+#define CMD_INSERT_OBJECT_TYPE (cmd_insert_object_get_type ())
+#define CMD_INSERT_OBJECT(o)   (GTK_CHECK_CAST ((o), CMD_INSERT_OBJECT_TYPE, CmdInsertObject))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	SheetObject *so;
+
+	double coords [4];
+} CmdInsertObject;
+
+GNUMERIC_MAKE_COMMAND (CmdInsertObject, cmd_insert_object);
+
+static gboolean
+cmd_insert_object_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdInsertObject *me = CMD_INSERT_OBJECT (cmd);
+	SheetControlGUI *scg;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbc), TRUE);
+
+	scg = wb_control_gui_cur_sheet (WORKBOOK_CONTROL_GUI (wbc));
+	sheet_object_set_sheet (me->so, me->parent.sheet);
+	scg_object_calc_position (scg, me->so, me->coords);
+
+	return (FALSE);
+}
+
+static gboolean
+cmd_insert_object_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdInsertObject *me = CMD_INSERT_OBJECT (cmd);
+
+	sheet_object_clear_sheet (me->so);
+
+	return (FALSE);
+}
+
+static void
+cmd_insert_object_destroy (GtkObject *cmd)
+{
+	CmdInsertObject *me = CMD_INSERT_OBJECT (cmd);
+
+	gtk_object_unref (GTK_OBJECT (me->so));
+
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_insert_object (WorkbookControl *wbc, Sheet *sheet, SheetObject *so)
+{
+	GtkObject *object;
+	CmdInsertObject *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+
+	object = gtk_type_new (CMD_INSERT_OBJECT_TYPE);
+	me = CMD_INSERT_OBJECT (object);
+
+	me->so = so;
+	gtk_object_ref (GTK_OBJECT (so));
+
+	sheet_object_position_pts (so, me->coords);
+
+	me->parent.sheet = sheet;
+	me->parent.size = 1;
+	me->parent.cmd_descriptor = g_strdup (_("Insert object"));
+	
+	return command_push_undo (wbc, object);
+}
+
+/******************************************************************/
+
 #define CMD_MOVE_OBJECT_TYPE (cmd_move_object_get_type ())
 #define CMD_MOVE_OBJECT(o)   (GTK_CHECK_CAST ((o), CMD_MOVE_OBJECT_TYPE, CmdMoveObject))
 
@@ -4020,7 +4097,7 @@ cmd_move_object_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_move_object (WorkbookControl *wbc, Sheet *sheet, GtkObject *so_view,
+cmd_move_object (WorkbookControl *wbc, Sheet *sheet, SheetObject *so,
 		 double old_coords [4], double new_coords [4])
 {
 	GtkObject *object;
@@ -4029,7 +4106,7 @@ cmd_move_object (WorkbookControl *wbc, Sheet *sheet, GtkObject *so_view,
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (GTK_IS_OBJECT (so_view), TRUE);
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
 
 	/*
 	 * There is no need to move the object around, because this has
@@ -4039,8 +4116,8 @@ cmd_move_object (WorkbookControl *wbc, Sheet *sheet, GtkObject *so_view,
 	object = gtk_type_new (CMD_MOVE_OBJECT_TYPE);
 	me = CMD_MOVE_OBJECT (object);
 
-	me->so = sheet_object_view_obj (so_view);
-	gtk_object_ref (GTK_OBJECT (me->so));
+	me->so = so;
+	gtk_object_ref (GTK_OBJECT (so));
 
 	for (i = 0; i < 4; i++) {
 		me->old_coords [i] = old_coords [i];
@@ -4053,4 +4130,81 @@ cmd_move_object (WorkbookControl *wbc, Sheet *sheet, GtkObject *so_view,
 
 	return command_push_undo (wbc, object);
 }
+
+/******************************************************************/
+
+#define CMD_DELETE_OBJECT_TYPE (cmd_delete_object_get_type ())
+#define CMD_DELETE_OBJECT(o)   (GTK_CHECK_CAST ((o), CMD_DELETE_OBJECT_TYPE, CmdDeleteObject))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	SheetObject *so;
+
+	double coords [4];
+} CmdDeleteObject;
+
+GNUMERIC_MAKE_COMMAND (CmdDeleteObject, cmd_delete_object);
+
+static gboolean
+cmd_delete_object_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdDeleteObject *me = CMD_DELETE_OBJECT (cmd);
+
+	sheet_object_clear_sheet (me->so);
 	
+	return (FALSE);
+}
+
+static gboolean
+cmd_delete_object_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdDeleteObject *me = CMD_DELETE_OBJECT (cmd);
+	SheetControlGUI *scg;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbc), TRUE);
+
+	scg = wb_control_gui_cur_sheet (WORKBOOK_CONTROL_GUI (wbc));
+	sheet_object_set_sheet (me->so, me->parent.sheet);
+	scg_object_calc_position (scg, me->so, me->coords);
+
+	return (FALSE);
+}
+
+static void
+cmd_delete_object_destroy (GtkObject *cmd)
+{
+	CmdDeleteObject *me = CMD_DELETE_OBJECT (cmd);
+
+	gtk_object_unref (GTK_OBJECT (me->so));
+
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_delete_object (WorkbookControl *wbc, Sheet *sheet, SheetObject *so)
+{
+	GtkObject *object;
+	CmdDeleteObject *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+
+	object = gtk_type_new (CMD_DELETE_OBJECT_TYPE);
+	me = CMD_DELETE_OBJECT (object);
+
+	me->so = so;
+	gtk_object_ref (GTK_OBJECT (so));
+
+	sheet_object_position_pts (so, me->coords);
+
+	me->parent.sheet = sheet;
+	me->parent.size = 1;
+	me->parent.cmd_descriptor = g_strdup (_("Delete object"));
+
+	sheet_object_clear_sheet (so);
+
+	return command_push_undo (wbc, object);
+}

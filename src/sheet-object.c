@@ -19,6 +19,7 @@
 #include "sheet-private.h"
 #include "expr.h"
 #include "ranges.h"
+#include "commands.h"
 
 #include "sheet-object-graphic.h"
 #include "sheet-object-cell-comment.h"
@@ -39,9 +40,19 @@ GtkType    sheet_object_get_type  (void);
 static GtkObjectClass *sheet_object_parent_class;
 
 static void
-sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
+sheet_object_remove_cb (GtkWidget *widget, GtkObject *so_view)
 {
-	gtk_object_destroy (GTK_OBJECT (so));
+	Sheet *sheet;
+	SheetObject *so;
+	SheetControlGUI *scg;
+	WorkbookControlGUI *wbcg;
+
+	so = sheet_object_view_obj (so_view);
+	scg = sheet_object_view_control (so_view);
+	wbcg = scg_get_wbcg (scg);
+	sheet = sc_sheet (SHEET_CONTROL (scg));
+
+	cmd_delete_object (WORKBOOK_CONTROL (wbcg), sheet, so);
 }
 
 static void
@@ -75,7 +86,7 @@ sheet_object_populate_menu (SheetObject *so,
 
 	gtk_menu_append (menu, item);
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (sheet_object_remove_cb), so);
+			    GTK_SIGNAL_FUNC (sheet_object_remove_cb), obj_view);
 
 	if (SO_CLASS(so)->user_config != NULL) {
 		item = gnome_stock_menu_item (GNOME_STOCK_MENU_PROP,
@@ -285,7 +296,9 @@ sheet_object_clear_sheet (SheetObject *so)
 	GList *ptr;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
-	g_return_val_if_fail (IS_SHEET (so->sheet), TRUE);
+
+	if (!IS_SHEET (so->sheet))
+		return (FALSE);
 
 	ptr = g_list_find (so->sheet->sheet_objects, so);
 	g_return_val_if_fail (ptr != NULL, TRUE);
