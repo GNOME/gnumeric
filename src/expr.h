@@ -99,6 +99,7 @@ Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 /*****************************************************************************/
 
+#define gnm_expr_list_nth(l,n)	   (GnmExpr const *)g_slist_nth_data ((l), n)
 #define gnm_expr_list_append(l,e)  g_slist_append ((l), (gpointer)(e))
 #define gnm_expr_list_prepend(l,e) g_slist_prepend ((l), (gpointer)(e))
 #define gnm_expr_list_length	   g_slist_length
