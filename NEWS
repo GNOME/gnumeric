@@ -48,6 +48,9 @@ Morten:
 	* Fix the python and python-loader modules.  (Work around mind-
 	  boggling bug in python.  Again.)
 
+Toralf Lund:
+	* improve the oleo importer.
+
 Wayne Schuller:
 	* Support gray scale patterns when printing.
 	* Improve Header/Footer page for printer setup.

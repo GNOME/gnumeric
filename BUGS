@@ -14,14 +14,8 @@ Release Critical
 Pending Patches
 ---------------
 
-    - http://bugzilla.gnome.org/show_bug.cgi?id=60468
-
 Long term breakage
 ------------------
-
-- The mps plugin has some fixed-length arrays that can be overrun.
-
-- The dif plugin uses g_alloca inside function calls.  This does not work.
 
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
@@ -41,7 +35,7 @@ Long term breakage
 - clean up the range_list codes to differentiate a list of ranges from a list
   of cellranges.
 
-Names :
+- Names
     : Fix XL named expr import for sheet local names
       * externsheet for biff7 type=3
       * test for unicode
@@ -105,17 +99,14 @@ Names :
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
 - Styles
-    - improve uniform_get to handle full sheet more quickly.
-    - Borders
-	- use new border code for cell format dialog (possibly preview-grid)
-    - Underline
-	- should scale with font size.  (Say, max (1, font->descent/4?)
+    : improve uniform_get to handle full sheet more quickly.
+    : Borders
+	* use new border code for cell format dialog (possibly preview-grid)
+    : Underline
+	* should scale with font size.  (Say, max (1, font->descent/4?)
 	  gnome-print has a function we could use for printing which returns the
 	  underline thickness.
-	- Should be visible in the edit-item (should edit item use cell_draw ?)
-
-- latex : multiline rows not handled properly.
-        : nor are spans
+	* Should be visible in the edit-item (should edit item use cell_draw ?)
 
 - SheetObjects
     : Add acetate_create virtual to handle shaped objects.
@@ -164,3 +155,10 @@ Plugins
 - Plugin manager: add GUI for adding extra directories with plugins.
 - Beautify ErrorInfo dialog (it's ugly).
 - Mark plugin as "broken" if deactivation failed.
+- mps
+    : has some fixed-length arrays that can be overrun.
+- dif 
+    : uses g_alloca inside function calls.  This does not work.
+- latex
+    : multiline rows not handled properly.
+    : nor are spans
