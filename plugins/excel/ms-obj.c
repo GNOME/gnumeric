@@ -5,7 +5,7 @@
  *    Jody Goldberg (jgoldberg@home.com)
  *    Michael Meeks (mmeeks@gnu.org)
  *
- * (C) 1998, 1999 Jody Goldberg, Michael Meeks
+ * (C) 1998, 1999, 2000 Jody Goldberg, Michael Meeks
  **/
 
 #include <config.h>
@@ -14,7 +14,7 @@
 #include "ms-escher.h"
 #include "utils.h"
 
-extern int ms_excel_read_debug;
+int ms_excel_object_debug;
 
 #define GR_END                0x00
 #define GR_MACRO              0x04
@@ -62,7 +62,7 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 	g_return_val_if_fail (obj->anchor_set, TRUE);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0)
+	if (ms_excel_object_debug > 0)
 		printf ("%s\n", sheet->name);
 #endif
 	for (i = 0; i < 4; i++) {
@@ -81,7 +81,7 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			pixels[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
 
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 0)
+			if (ms_excel_object_debug > 0)
 				printf ("%d + %d\n", pos+1, nths);
 #endif
 		} else {
@@ -96,14 +96,14 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			pixels[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
 
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 0)
+			if (ms_excel_object_debug > 0)
 				printf ("%s + %d\n", col_name(pos), nths);
 #endif
 		}
 	}
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0)
+	if (ms_excel_object_debug > 0)
 		printf ("Anchor position in pixels"
 			" left = %g, top = %g, right = %g, bottom = %g;\n",
 			pixels[0], pixels[1], pixels[2], pixels[3]);
@@ -251,7 +251,7 @@ ms_parse_object_anchor (anchor_point anchor[4],
 		anchor[i].nths = MS_OLE_GET_GUINT16 (data + 4 * i + 2);
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1) {
+		if (ms_excel_object_debug > 1) {
 			int pos  = anchor[i].pos;
 			printf ("%d/%d cell %s from ",
 				anchor[i].nths, (i & 1) ? 256 : 1024,
@@ -335,7 +335,7 @@ ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 	}
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
+	if (ms_excel_object_debug > 0) {
 		printf ("{ TextObject\n");
 		printf ("Text '%s'\n", text);
 		printf ("is %s, %s & %s;\n",
@@ -350,7 +350,7 @@ static void
 ms_obj_dump (guint8 const * const data, int const len, char const * const name)
 {
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug < 2)
+	if (ms_excel_object_debug < 2)
 		return;
 
 	printf ("{ %s \n", name);
@@ -388,7 +388,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 	guint8 *data;
 	gint32 data_len_left;
 	gboolean hit_end = FALSE;
-	gboolean next_biff_record_is_imdata = FALSE;
+	gboolean next_biff_record_maybe_imdata = FALSE;
 
 	g_return_val_if_fail (q, TRUE);
 	g_return_val_if_fail (q->ls_op == BIFF_OBJ, TRUE);
@@ -439,15 +439,14 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 			pict_opt = MS_OLE_GET_GUINT16(data+4);
 
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug >= 1) {
+			if (ms_excel_object_debug >= 1) {
 				printf ("{ /* PictOpt */\n");
 				printf ("value = %d;\n", pict_opt);
 				printf ("}; /* PictOpt */\n");
 			}
 #endif
 
-			/* A value of 2 seems to indicate an IMDATA follows */
-			next_biff_record_is_imdata = (pict_opt == 2);
+			next_biff_record_maybe_imdata = TRUE;
 			break;
 		}
 
@@ -500,7 +499,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 			guint16 const row = MS_OLE_GET_GUINT16(data+11);
 			guint16 const col = MS_OLE_GET_GUINT16(data+13) &0x3fff;
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 0)
+			if (ms_excel_object_debug > 0)
 				printf ("Checkbox linked to : %s%d\n", col_name(col), row+1);
 			ms_obj_dump (data, len, "CheckBoxFmla");
 #endif
@@ -518,7 +517,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 			obj->id = MS_OLE_GET_GUINT16(data+6);
 
 			/* only print when debug is enabled */
-			if (ms_excel_read_debug == 0)
+			if (ms_excel_object_debug == 0)
 				break;
 
 #ifndef NO_DEBUG_EXCEL
@@ -548,20 +547,23 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 
 	/* The ftEnd record should have been the last */
 	if (data_len_left != 0) {
-	    printf("OBJ : unexpected extra data (%d) at the end of the object;\n", data_len_left);
-	    return TRUE;
-	}
+		printf("OBJ : unexpected extra data after Object End record;\n");
+		ms_ole_dump (data, data_len_left);
+		return TRUE;
+	}       
 	g_return_val_if_fail (data_len_left == 0, TRUE);
 
-	if (next_biff_record_is_imdata) {
+	/* FIXME : Throw away the IMDATA that may follow.
+	 * I am not sure when the IMDATA does follow, or how to display it,
+	 * but very careful in case it is not there.
+	 */
+	if (next_biff_record_maybe_imdata) {
 		guint16 opcode;
 
-		/* Read the IMDATA. I am not sure that this record must follow
-		 * a PictOpt.  For now be very careful
-		 */
-		g_return_val_if_fail (ms_biff_query_peek_next (q, &opcode), TRUE);
-		g_return_val_if_fail (opcode == BIFF_IMDATA, TRUE);
-		g_return_val_if_fail (ms_biff_query_next (q), TRUE);
+		if (ms_biff_query_peek_next (q, &opcode) &&
+		    opcode == BIFF_IMDATA) {
+			g_return_val_if_fail (ms_biff_query_next (q), TRUE);
+		}
 	}
 
 	return FALSE;
@@ -607,12 +609,20 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 	obj->id = -1;
 	obj->anchor_set = FALSE;
 
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_object_debug > 0)
+		printf ("{ /* OBJ start */\n");
+#endif
 	errors = (wb->ver >= eBiffV8)
 		? ms_obj_read_biff8_obj (q, wb, sheet, obj)
 		: ms_obj_read_pre_biff8_obj (q, wb, sheet, obj);
 
 	if (errors) {
 		g_free (obj);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_object_debug > 0)
+			printf ("}; /* OBJ error 1 */\n");
+#endif
 		return NULL;
 	}
 
@@ -668,14 +678,17 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 		printf ("EXCEL : unhandled excel object of type %s (0x%x) id = %d\n",
 			type_name, obj->excel_type, obj->id);
 		g_free(obj);
+		printf ("}; /* OBJ error 2 */\n");
 		return NULL;
 	}
 
 	obj->gnumeric_type = type;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0)
+	if (ms_excel_object_debug > 0) {
 		printf ("Object (%d) is a '%s'\n", obj->id, type_name);
+		printf ("}; /* OBJ end */\n");
+	}
 #endif
 
 	return obj;

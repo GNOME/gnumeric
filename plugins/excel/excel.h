@@ -4,7 +4,7 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  *
- * (C) 1998, 1999 Michael Meeks
+ * (C) 1998, 1999, 2000 Michael Meeks
  **/
 #ifndef GNUMERIC_EXCEL_H
 #define GNUMERIC_EXCEL_H

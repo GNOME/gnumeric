@@ -6,7 +6,7 @@
  * Author:
  *    Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 1999 Jody Goldberg
+ * (C) 1999, 2000 Jody Goldberg
  **/
 
 #include <config.h>

@@ -8,7 +8,7 @@
  *    Michael Meeks (michael@imaginator.com)
  *    Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 1998, 1999 Michael Meeks, Jody Goldberg
+ * (C) 1998, 1999, 2000 Michael Meeks, Jody Goldberg
  **/
 
 #include "config.h"

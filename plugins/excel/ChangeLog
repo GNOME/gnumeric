@@ -1,3 +1,10 @@
+2000-03-24  Jody Goldberg <jgoldberg@home.com>
+
+	* *.[ch] : Update copywrite years.
+
+	* ms-obj.c (ms_read_OBJ) : improve debug output.
+	(ms_obj_read_biff8_obj) : Try a new heuristic for dealing with trailing IMDATA.
+
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (biff_xf_data_new) : Support horizontal alignment

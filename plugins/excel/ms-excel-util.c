@@ -4,7 +4,7 @@
  * Author:
  *    Jon K Hellan (hellan@acm.org)
  *
- * (C) 1999 Jon K Hellan
+ * (C) 1999, 2000 Jon K Hellan
  **/
 
 #include "config.h"

@@ -8,7 +8,7 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  *
- * (C) 1998, 1999 Michael Meeks
+ * (C) 1998, 1999, 2000 Michael Meeks
  **/
 
 #include "excel.h"

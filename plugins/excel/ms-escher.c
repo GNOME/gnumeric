@@ -5,7 +5,7 @@
  *    Jody Goldberg (jgoldberg@home.com)
  *    Michael Meeks (michael@nuclecu.unam.mx)
  *
- * (C) 1998, 1999 Jody Goldberg, Michael Meeks
+ * (C) 1998, 1999, 2000 Jody Goldberg, Michael Meeks
  *
  * See S59FD6.HTM for an overview...
  **/

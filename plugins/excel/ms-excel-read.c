@@ -5,7 +5,7 @@
  *    Michael Meeks (michael@imaginator.com)
  *    Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 1998, 1999 Michael Meeks, Jody Goldberg
+ * (C) 1998, 1999, 2000 Michael Meeks, Jody Goldberg
  **/
 
 #include <config.h>
@@ -1290,7 +1290,9 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 static void
 ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
+#if UNDERSTAND_DUAL_BORDERS
 	MStyleBorder const * b;
+#endif
 	Range   range;
 	MStyle * const * const mstyle  =
 	    ms_excel_get_style_from_xf (sheet, xfidx);
@@ -1308,7 +1310,7 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	range.end       = range.start;
 
 	sheet_style_attach (sheet->gnum_sheet, range, mstyle[0]);
-#if 0
+#if UNDERSTAND_DUAL_BORDERS
 	printf ("%s%d == %hd\n", col_name(col), row+1, xfidx);
 	b = mstyle_get_border (mstyle[0], MSTYLE_BORDER_LEFT);
 	printf ("Left = %d\n", b->line_type);
@@ -1320,7 +1322,7 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 		sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
 	}
 	if (mstyle[2] != NULL) {
-#if 0
+#if UNDERSTAND_DUAL_BORDERS
 		b = mstyle_get_border (mstyle[2], MSTYLE_BORDER_LEFT);
 		printf ("Right = %d\n", b->line_type);
 #endif
@@ -2847,6 +2849,8 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			from_name, format_name);
 	}
 #endif
+	    break;
+
 	case BIFF_STANDARDWIDTH :
 		/* What the heck is the 'standard width dialog' ? */
 		break;

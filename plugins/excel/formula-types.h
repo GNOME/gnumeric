@@ -4,7 +4,7 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  *
- * (C) 1998, 1999 Michael Meeks
+ * (C) 1998, 1999, 2000 Michael Meeks
  **/
 /**
  * See S59E2B.HTM for the spec.
