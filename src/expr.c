@@ -313,6 +313,16 @@ value_str (char *str)
 	return v;
 }
 
+Value *
+value_cellrange (CellRef *a, CellRef *b)
+{
+	Value *v = g_new (Value, 1);
+	v->type = VALUE_CELLRANGE;
+	memcpy (&v->v.cell_range.cell_a, a, sizeof(CellRef));
+	memcpy (&v->v.cell_range.cell_b, b, sizeof(CellRef));
+	return v;
+}
+
 /*
  * Casts a value to float if it is integer, and returns
  * a new Value * if required
@@ -656,15 +666,28 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 			ExprTree *t = (ExprTree *) l->data;
 			int type_mismatch = 0;
 			
-			v = eval_expr (sheet, t, eval_col, eval_row, error_string);
-			if (v == NULL)
-				goto free_list;
-			
 			if (*arg_type=='|')
 				arg_type++;
+
+			if ((*arg_type != 'A' &&          /* This is so a cell reference */
+			     *arg_type != 'r') ||         /* can be converted to a cell range */
+			    !t || (t->oper != OPER_VAR)) { /* without being evaluated */
+				if ((v = eval_expr (sheet, t, eval_col,
+						    eval_row, error_string))==NULL)
+					goto free_list;
+			} else {
+				g_assert (t->oper == OPER_VAR);
+				v = value_cellrange (&t->u.ref,
+						     &t->u.ref);
+				if (!v->v.cell_range.cell_a.sheet)
+					v->v.cell_range.cell_a.sheet = sheet;
+				if (!v->v.cell_range.cell_b.sheet)
+					v->v.cell_range.cell_b.sheet = sheet;
+			}
 			
 			switch (*arg_type){
 			case 'f':
+			
 				if (v->type != VALUE_INTEGER &&
 				    v->type != VALUE_FLOAT)
 					type_mismatch = 1;

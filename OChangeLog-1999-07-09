@@ -1,5 +1,20 @@
 1999-04-15  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
+	* src/parser.y (value_dump): Added CellRange support
+	include expr.h
+
+1999-04-15  Michael Meeks  <michael@edenproject.org>
+
+	* src/fn-lookup.c (gnumeric_offset): Implemented OFFSET.
+
+	* src/expr.c (value_cellrange): Created.
+	(eval_funcall): Major hack to allow auto-conversion
+	of cell references to cell ranges on the fly.
+
+	* src/expr.h: Added value_cellrange.
+
+1999-04-15  Michael Meeks  <michael@edenproject.org>
+	
 	(gnumeric_choose): CHOOSE function implemented.
 
 1999-04-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>

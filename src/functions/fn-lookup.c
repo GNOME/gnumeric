@@ -349,6 +349,47 @@ gnumeric_columns (struct FunctionDefinition *i, Value *argv [], char **error_str
 	return value_int (value_area_get_width (argv [0]));
 }
 
+static char *help_offset = {
+	N_("@FUNCTION=OFFSET\n"
+	   "@SYNTAX=OFFSET(range,row,col,height,width)\n"
+
+	   "@DESCRIPTION="
+	   "The OFFSET function returns a cell range."
+	   "The cell range starts at offset (col,row) from range, "
+	   "and is of height @height and width @width."
+	   "\n"
+	   "If range is neither a reference nor a range returns #VALUE!."
+	   "\n"
+	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
+};
+
+static Value *
+gnumeric_offset (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	CellRef a;
+	CellRef b;
+	int tw, th;
+
+	g_return_val_if_fail (argv[0]->type == VALUE_CELLRANGE, NULL);
+	memcpy (&a, &argv[0]->v.cell_range.cell_a, sizeof(CellRef));
+	a.row+=value_get_as_int(argv[1]);
+	a.col+=value_get_as_int(argv[2]);
+	memcpy (&b, &a, sizeof(CellRef));
+	tw = value_get_as_int(argv[3]);
+	th = value_get_as_int(argv[4]);
+	if (tw < 0 || th < 0) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (a.row<0 || a.col < 0) {
+		*error_string = _("#REF!");
+		return NULL;
+	}
+
+	b.row+=tw;
+	b.col+=th;
+	return value_cellrange (&a, &b);
+}
+
 static char *help_row = {
 	N_("@FUNCTION=ROW\n"
 	   "@SYNTAX=ROW([reference])\n"
@@ -412,6 +453,7 @@ FunctionDefinition lookup_functions [] = {
 	{ "column",    "?",    "ref",                      &help_column,   gnumeric_column, NULL },
 	{ "columns",   "A",    "ref",                      &help_column,   NULL, gnumeric_columns },
 	{ "hlookup",   "?Af|b","val,range,col_idx,approx", &help_hlookup,  NULL, gnumeric_hlookup },
+	{ "offset",    "rffff","ref,row,col,hight,width",  &help_offset,   NULL, gnumeric_offset },
 	{ "row",       "?",    "ref",                      &help_row,      gnumeric_row, NULL },
 	{ "rows",      "A",    "ref",                      &help_rows,     NULL, gnumeric_rows },
 	{ "vlookup",   "?Af|b","val,range,col_idx,approx", &help_vlookup,  NULL, gnumeric_vlookup },

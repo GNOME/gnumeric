@@ -173,6 +173,8 @@ const Value *value_area_get_at_x_y (Value *v, guint x, guint y);
 Value       *value_array_new       (guint width, guint height);
 void         value_array_resize    (Value *v, guint width, guint height);
 void         value_array_copy_to   (Value *dest, const Value *src);
+
+Value       *value_cellrange       (CellRef *a, CellRef *b);
 			 
 void        value_dump           (Value *value);
 char       *value_string         (const Value *value);

@@ -650,6 +650,17 @@ value_dump (Value *value)
 			for (y = 0; y < value->v.array.y; y++)
 				value_dump (&value->v.array.vals [x][y]);
 		printf ("}\n");
+		break;
+	}
+	case VALUE_CELLRANGE: {
+		CellRef *c = &value->v.cell_range.cell_a;
+		printf ("CellRange\n");
+		printf ("%p: %d,%d rel? %d,%d\n", c->sheet, c->col, c->row,
+			c->col_relative, c->row_relative);
+		c = &value->v.cell_range.cell_b;
+		printf ("%p: %d,%d rel? %d,%d\n", c->sheet, c->col, c->row,
+			c->col_relative, c->row_relative);
+		break;
 	}
 	default:
 		printf ("Unhandled item type\n");
