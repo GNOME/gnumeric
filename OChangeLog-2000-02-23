@@ -1,3 +1,10 @@
+2000-01-27  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-object.c (sheet_object_drop_file): fix typo.
+
+	* src/sheet-style.c (sheet_style_delete_colrow): Fix bug in style
+	shifting.
+
 2000-01-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-util.c (gnumeric_dialog_run) : Handle the setting of
@@ -131,7 +138,6 @@
 	the proper separator.
 
 2000-01-23  Michael Meeks  <michael@edenproject.org>
-
 
 	* src/ranges.c (range_translate): fix glaring bugs + make
 	semantics saner.

@@ -725,7 +725,7 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 			if (sr->range.start.col      >  del_range.end.col)
 				sr->range.start.col  -= count;
 			else if (sr->range.start.col >= del_range.start.col)
-				sr->range.start.col  =  pos + 1;
+				sr->range.start.col  =  pos;
 
 			if (sr->range.end.col        >  del_range.end.col)
 				sr->range.end.col    -= count;
@@ -740,7 +740,7 @@ sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
 			if (sr->range.start.row      >  del_range.end.row)
 				sr->range.start.row  -= count;
 			else if (sr->range.start.row >= del_range.start.row)
-				sr->range.start.row  =  pos + 1;
+				sr->range.start.row  =  pos;
 
 			if (sr->range.end.row        >  del_range.end.row)
 				sr->range.end.row    -= count;
