@@ -4106,7 +4106,7 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 		gtk_widget_get_pango_context (entry),
 		entry->style->font_desc,
 		"%10000");
-	gtk_widget_set_usize (entry, len, 0);
+	gtk_widget_set_size_request (entry, len, -1);
 
 	/* Preset values */
 	for (i = 0; preset_zoom[i] != NULL ; ++i)
@@ -4286,6 +4286,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *box, *box2;
 	GtkEntry *entry;
+	int len;
 
 	wbcg->selection_descriptor     = gtk_entry_new ();
 
@@ -4295,7 +4296,17 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
 
-	gtk_widget_set_usize (wbcg->selection_descriptor, 100, 0);
+	/* Set a reasonable width for the selection box. */
+	len = gnm_measure_string (
+		gtk_widget_get_pango_context (GTK_WIDGET (entry)),
+		GTK_WIDGET (entry)->style->font_desc,
+		cell_coord_name (SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1));
+	/*
+	 * Add a little extra since font might be proportional and since
+	 * we also put user defined names there.
+	 */
+	len = len * 3 / 2;
+	gtk_widget_set_size_request (wbcg->selection_descriptor, len, -1);
 
 	wbcg->cancel_button = edit_area_button (wbcg, FALSE,
 		G_CALLBACK (cb_cancel_input), GTK_STOCK_CANCEL);
@@ -4710,10 +4721,10 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	wbcg->auto_expr_label = tmp = gtk_button_new_with_label ("");
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_usize (tmp, gnm_measure_string (
-				      gtk_widget_get_pango_context (tmp),
-				      tmp->style->font_desc,
-				      "W") * 15, -1);
+	gtk_widget_set_size_request (tmp, gnm_measure_string (
+					     gtk_widget_get_pango_context (tmp),
+					     tmp->style->font_desc,
+					     "W") * 15, -1);
 	g_signal_connect (G_OBJECT (tmp),
 		"button_press_event",
 		G_CALLBACK (cb_select_auto_expr), wbcg);
@@ -4723,10 +4734,10 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 
 	wbcg->status_text = tmp = gtk_label_new ("");
 	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_usize (tmp, gnm_measure_string (
-				      gtk_widget_get_pango_context (tmp),
-				      tmp->style->font_desc,
-				      "W") * 15, -1);
+	gtk_widget_set_size_request (tmp, gnm_measure_string (
+					     gtk_widget_get_pango_context (tmp),
+					     tmp->style->font_desc,
+					     "W") * 15, -1);
 	frame2 = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame2), tmp);
@@ -4800,8 +4811,8 @@ show_gui (WorkbookControlGUI *wbcg)
 
 		pwidth = pwidth > 0 ? pwidth : -2;
 		pheight = pheight > 0 ? pheight : -2;
-		gtk_widget_set_usize (GTK_WIDGET (wbcg->notebook),
-				      pwidth, pheight);
+		gtk_widget_set_size_request (GTK_WIDGET (wbcg->notebook),
+					     pwidth, pheight);
 	} else {
 		/* Use default */
 		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);

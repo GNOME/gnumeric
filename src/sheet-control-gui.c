@@ -238,7 +238,7 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 	for (i = 0 ; i < btns->len ; i++) {
 		GtkWidget *btn = g_ptr_array_index (btns, i);
 		GtkWidget *label = GTK_BIN (GTK_BIN (btn)->child)->child;
-		gtk_widget_set_usize (GTK_WIDGET (btn), w, h);
+		gtk_widget_set_size_request (GTK_WIDGET (btn), w, h);
 		gtk_widget_set_style (label, style);
 	}
 
@@ -270,12 +270,12 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 	/* resize Pane[0] headers */
 	h = item_bar_calc_size (scg->pane[0].col.item);
 	btn_h = h - item_bar_indent (scg->pane[0].col.item);
-	gtk_widget_set_usize (GTK_WIDGET (scg->pane[0].col.canvas), -1, h);
+	gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0].col.canvas), -1, h);
 	w = item_bar_calc_size (scg->pane[0].row.item);
 	btn_w = w - item_bar_indent (scg->pane[0].row.item);
-	gtk_widget_set_usize (GTK_WIDGET (scg->pane[0].row.canvas), w, -1);
+	gtk_widget_set_size_request (GTK_WIDGET (scg->pane[0].row.canvas), w, -1);
 
-	gtk_widget_set_usize (scg->select_all_btn, btn_w, btn_h);
+	gtk_widget_set_size_request (scg->select_all_btn, btn_w, btn_h);
 
 	tmp = item_bar_group_size (scg->pane[0].col.item,
 		sheet->cols.max_outline_level);
@@ -316,7 +316,7 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		}
 
 		if (scg->pane[1].is_active) {
-			gtk_widget_set_usize (GTK_WIDGET (scg->pane[1].gcanvas), r - l, -1);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1].gcanvas), r - l, -1);
 			/* The item_bar_calcs should be equal */
 			/* FIXME : The canvas gets confused when the initial scroll
 			 * region is set too early in its life cycle.
@@ -324,24 +324,24 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 			 * However, we really should track the bug eventually.
 			 */
 			h = item_bar_calc_size (scg->pane[1].col.item);
-			gtk_widget_set_usize (GTK_WIDGET (scg->pane[1].col.canvas), r - l, h+1);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[1].col.canvas), r - l, h+1);
 			foo_canvas_set_scroll_region (scg->pane[1].col.canvas,
 				0, 0, GNUMERIC_CANVAS_FACTOR_X / zoom, h / zoom);
 				/* l / zoom, 0, r / zoom, h / zoom); */
 		}
 
 		if (scg->pane[3].is_active) {
-			gtk_widget_set_usize (GTK_WIDGET (scg->pane[3].gcanvas), -1,    b - t);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3].gcanvas), -1,    b - t);
 			/* The item_bar_calcs should be equal */
 			w = item_bar_calc_size (scg->pane[3].row.item);
-			gtk_widget_set_usize (GTK_WIDGET (scg->pane[3].row.canvas), w+1, b - t);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[3].row.canvas), w+1, b - t);
 			foo_canvas_set_scroll_region (scg->pane[3].row.canvas,
 				0, 0, w / zoom, GNUMERIC_CANVAS_FACTOR_Y / zoom);
 				/* 0, t / zoom, w / zoom, b / zoom); */
 		}
 
 		if (scg->pane[2].is_active)
-			gtk_widget_set_usize (GTK_WIDGET (scg->pane[2].gcanvas), r - l, b - t);
+			gtk_widget_set_size_request (GTK_WIDGET (scg->pane[2].gcanvas), r - l, b - t);
 
 		foo_canvas_set_scroll_region (scg->pane[0].col.canvas,
 			0, 0, GNUMERIC_CANVAS_FACTOR_X / zoom, h / zoom);

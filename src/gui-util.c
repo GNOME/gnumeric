@@ -296,6 +296,7 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
 	gchar *message;
 	gint bf_lim = 1;
 	gint i;
+	GdkScreen *screen;
 
 	g_return_val_if_fail (error != NULL, NULL);
 
@@ -308,7 +309,10 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
 		mtype = GTK_MESSAGE_WARNING;
 	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
 					 mtype, GTK_BUTTONS_CLOSE, " ");
-	gtk_widget_set_usize (dialog, 450, 250);
+	screen = gtk_widget_get_screen (dialog);
+	gtk_widget_set_size_request (dialog,
+				     gdk_screen_get_width (screen) / 3,
+				     gdk_screen_get_width (screen) / 4);
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 					GTK_POLICY_AUTOMATIC,

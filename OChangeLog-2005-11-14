@@ -1,5 +1,23 @@
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (workbook_create_standard_toolbar):
+	Use gtk_widget_set_size_request, not gtk_widget_set_usize.
+	(workbook_setup_auto_calc): Ditto.
+	(show_gui): Ditto.
+	(workbook_setup_edit_area): Ditto.  Also don't use an arbitrary
+	pixel count.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Use gtk_widget_set_size_request, not gtk_widget_set_usize.
+
+	* src/gui-util.c (gnumeric_error_info_dialog_new): Use
+	gtk_widget_set_size_request, not gtk_widget_set_usize.  Also base
+	size of window on screen size, not arbitrary pixel counts.
+
+	* src/sheet-control-gui.c (scg_setup_group_buttons, scg_resize,
+	scg_resize): Use gtk_widget_set_size_request, not
+	gtk_widget_set_usize.
+
 	* src/workbook-format-toolbar.c: Avoid GNOME deprecated pixmaps.
 
 	* src/libgnumeric.c (gnm_common_init): Use glade_init, not

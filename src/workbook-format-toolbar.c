@@ -775,7 +775,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 						 l->data, l->data);
 		}
 	}
-	gtk_widget_set_usize (entry, len, 0);
+	gtk_widget_set_size_request (entry, len, -1);
 
 	/* font size selector */
 	fontsize = wbcg->font_size_selector = gtk_combo_text_new (TRUE);
@@ -789,12 +789,12 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		gtk_combo_text_add_item (GTK_COMBO_TEXT (fontsize), buffer, buffer);
 		g_free (buffer);
 	}
-	gtk_widget_set_usize (entry,
-			      gnm_measure_string (
-				      gtk_widget_get_pango_context (entry),
-				      entry->style->font_desc,
-				      "888"),
-			      0);
+	gtk_widget_set_size_request (entry,
+				     gnm_measure_string (
+					     gtk_widget_get_pango_context (entry),
+					     entry->style->font_desc,
+					     "888"),
+				     -1);
 
 	/* Border combo box */
 	border_combo = pixmap_combo_new (border_combo_info, 3, 4);
