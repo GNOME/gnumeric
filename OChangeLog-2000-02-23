@@ -1,3 +1,10 @@
+1999-09-17  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c (create_format_toolbar): Make the size of the
+	entry line onloy fit four zeros.
+	(workbook_feedback_set): set the font even if no cached value
+	exists. 
+
 1999-09-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/workbook.c: Added ``Delete...'' entry to ``Edit'' menu.

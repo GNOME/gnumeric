@@ -29,6 +29,7 @@ src/dialogs/dialog-paste-special.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-zoom.c
+src/dialogs/col-width.glade.h
 src/dialogs/hf-config.glade.h
 src/dialogs/font-sel.glade.h
 src/dialogs/import.glade.h
@@ -36,6 +37,8 @@ src/dialogs/print.glade.h
 src/dialogs/font-sel.glade.h
 src/dialogs/import.glade.h
 src/dialogs/names.glade.h
+src/dialogs/row-height.glade.h
+src/dialogs/sheet-rename.glade.h
 src/dialogs/summary.glade.h
 src/dump.c
 src/embeddable-grid.c
@@ -75,4 +78,5 @@ src/sheet.c
 src/value.c
 src/widgets/widget-font-selector.c
 src/workbook.c
+src/workbook-cmd-format.c
 src/xml-io.c

@@ -84,6 +84,24 @@ Gnumeric Spread Sheet task list
 
 * Sheet
 
+** Column sizes
+
+   Columns should be smaller by default, and have an
+   "auto-grow-up-to-this-point" feature.  Beyond that size, it would
+   truncate as it does now.
+
+** Display
+
+   Provide a CanvasAA version of Gnumeric.  
+
+   Nice side effect is that the selection would just be a transparent
+   color layered on top of whatever is selected.  So we can do the
+   Excel2000 trick of using a light blue to show the selection, rather
+   than black.
+
+   This has the effect of letting users "see" the color they are
+   filling/coloring things with when the selection is turned on
+
 ** Cell data entry:
    double click on cell allows editing as in main editing box.
 
@@ -239,3 +257,12 @@ Office 2000 and 'explorer' compatibility.
 Selection
  - Move selection code into a new file
  - Handle multiple overlapping selections without double counting.
+
+* Internals
+
+   Our current setup is *slow*.  In many areas, but still *slow*.
+
+   When filling large regions (ie, select, enter data, control-enter),
+   we are taking ages.  In those cases, we could probably:
+
+      1. Preallocate all cells.
