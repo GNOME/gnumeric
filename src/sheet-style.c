@@ -651,6 +651,9 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 	else {
 		calc_grown_range (sd, col, row);
 
+		if (sd->cached_list)
+			g_slist_free (sd->cached_list);
+
 		sd->cached_list = sheet_style_list_overlap (sd->style_list, &sd->cached_range);
 
 		style_cache_misses++;
@@ -716,6 +719,9 @@ sheet_destroy_styles (Sheet *sheet)
 	g_return_if_fail (sd != NULL);
 
 	sheet_style_cache_flush (sd, TRUE);
+
+	if (sheet->style_cache)
+		g_hash_table_destroy (sheet->style_cache);
 
 	for (l = sd->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;

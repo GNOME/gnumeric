@@ -159,10 +159,13 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
  */
 gboolean
 sheet_object_bonobo_load (SheetObjectBonobo *sob,
-			  BonoboStream *stream)
+			  BonoboStream      *stream)
 {
 	CORBA_Environment   ev;
 	Bonobo_PersistStream ret;
+	
+	if (!stream)
+		return TRUE;
 	
 	g_return_val_if_fail (sob != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
@@ -183,6 +186,7 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 		Bonobo_Unknown_unref ((Bonobo_Unknown) ret, &ev);
 		CORBA_Object_release (ret, &ev);
 	} else {
+		g_warning ("Component has data to load but no PersistStream interface");
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}
@@ -237,13 +241,13 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
 	g_return_val_if_fail (BONOBO_IS_OBJECT_CLIENT (object_server), NULL);
 
-	sheet_object_construct (SHEET_OBJECT (sob), sheet);
+	sheet_object_construct  (SHEET_OBJECT (sob), sheet);
 	sheet_object_set_bounds (SHEET_OBJECT (sob), x1, y1, x2, y2);
 
 	sob->object_server = object_server;
-	sob->client_site = bonobo_client_site_new (sheet->workbook->bonobo_container);
+	sob->client_site   = bonobo_client_site_new (sheet->workbook->bonobo_container);
 	
-	if (!bonobo_client_site_bind_embeddable (sob->client_site, sob->object_server)){
+	if (!bonobo_client_site_bind_embeddable (sob->client_site, sob->object_server)) {
 		gtk_object_destroy (GTK_OBJECT (sob));
 		return NULL;
 	}

@@ -1,3 +1,13 @@
+2000-04-05  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-style.c (sheet_style_compute): kill leak.
+	(sheet_destroy_styles): destroy hash.
+
+2000-03-25  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_load): Add
+	warnings and fixup.
+
 2000-04-05  Morten Welinder  <terra@diku.dk>
 
 	* src/about.c (dialog_about): Re-establish sorting (except Sir
