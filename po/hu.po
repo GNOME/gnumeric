@@ -1,155 +1,159 @@
+# , fuzzy
 msgid ""
 msgstr ""
-"Date: 1998-09-27 00:31:23+0200\n"
-"From:  <qgenpete@gold.uni-miskolc.hu>\n"
-"Content-Type: text/plain; charset=\n"
-"Xgettext-Options: --default-domain=gnumeric --directory=.. --add-comments --keyword=_ --keyword=N_ --files-from=./POTFILES.in\n"
-"Files: src/about.c src/dialog-cell-format.c src/dialog-delete-cells.c src/dialog-goto-cell.c src/dialog-insert-cells.c src/dialog-paste-special.c src/dialog-zoom.c src/expr.c src/file.c src/fn-date.c src/fn-math.c src/fn-misc.c src/fn-sheet.c src/format.c src/gnumeric-sheet.c src/gnumeric-util.c src/item-cursor.c src/item-grid.c src/main.c src/plugin.c src/plugin-manager.c src/sheet-view.c src/sheet-autofill.c src/sheet.c src/workbook.c src/xml-io.c\n"
+"Project-Id-Version: gnumeric VERSION\n"
+"POT-Creation-Date: 1998-09-05 21:19+0200\n"
+"PO-Revision-Date: 1998-08-01 13:46+0202\n"
+"Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
+"Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: src/about.c:32
 msgid "Gnumeric"
 msgstr ""
 
 #: src/about.c:35
-msgid "The GNOME spreadsheet."
+msgid ""
+"The GNOME spreadsheet.\n"
+"http://www.gnome.org/gnumeric"
 msgstr ""
 "A GNOME táblázatkezelõ\n"
 "Magyar fordítás: Németh Péter <qgenpete@gold.uni-miskolc.hu>"
 
-#: src/dialog-cell-format.c:141
+#: src/dialog-cell-format.c:66
 msgid "Numbers"
 msgstr "Szám"
 
-#: src/dialog-cell-format.c:63 src/dialog-cell-format.c:419
-msgid "General"
-msgstr "Általános"
-
-#: src/dialog-cell-format.c:142
+#: src/dialog-cell-format.c:67
 msgid "Accounting"
 msgstr "Könyvelõi"
 
-#: src/dialog-cell-format.c:143
+#: src/dialog-cell-format.c:68
 msgid "Date"
 msgstr "Dátum"
 
-#: src/dialog-cell-format.c:144
+#: src/dialog-cell-format.c:69
 msgid "Time"
 msgstr "Idõ"
 
-#: src/dialog-cell-format.c:145
+#: src/dialog-cell-format.c:70
 msgid "Percent"
 msgstr "Százalék"
 
-#: src/dialog-cell-format.c:146
+#: src/dialog-cell-format.c:71
 msgid "Fraction"
 msgstr "Tört"
 
-#: src/dialog-cell-format.c:147
+#: src/dialog-cell-format.c:72
 msgid "Scientific"
 msgstr "Tudományos"
 
-#: src/dialog-cell-format.c:148
+#: src/dialog-cell-format.c:73
 msgid "Text"
 msgstr "Szöveg"
 
-#: src/dialog-cell-format.c:149
+#: src/dialog-cell-format.c:74
 msgid "Money"
 msgstr "Pénznem"
 
-#: src/dialog-cell-format.c:327
+#. 1. Categories
+#: src/dialog-cell-format.c:254
 msgid "Categories"
 msgstr "Kategória:"
 
-#. 2.1 Input line
-#: src/dialog-cell-format.c:353
+#: src/dialog-cell-format.c:280
 msgid "Code:"
 msgstr "Formátumkód:"
 
-#. 2.2 Sample
-#: src/dialog-cell-format.c:362
+#: src/dialog-cell-format.c:289
 msgid "Sample:"
 msgstr "Minta:"
 
-#: src/dialog-cell-format.c:372
+#: src/dialog-cell-format.c:299
 msgid "Format codes"
 msgstr "Formátumkódok:"
 
-#: src/dialog-cell-format.c:420
+#: src/dialog-cell-format.c:346 src/formats.c:16
+msgid "General"
+msgstr "Általános"
+
+#: src/dialog-cell-format.c:347
 msgid "Left"
 msgstr "Balra"
 
-#: src/dialog-cell-format.c:421 src/dialog-cell-format.c:430 src/workbook.c:510
+#: src/dialog-cell-format.c:348 src/dialog-cell-format.c:357 src/workbook.c:575
 msgid "Center"
 msgstr "Középre"
 
-#: src/dialog-cell-format.c:422
+#: src/dialog-cell-format.c:349
 msgid "Right"
 msgstr "Jobbra"
 
-#: src/dialog-cell-format.c:423
+#: src/dialog-cell-format.c:350
 msgid "Fill"
 msgstr "Kitöltve"
 
-#: src/dialog-cell-format.c:424 src/dialog-cell-format.c:432
+#: src/dialog-cell-format.c:351 src/dialog-cell-format.c:359
 msgid "Justify"
 msgstr "Sorkizárt"
 
-#: src/dialog-cell-format.c:429
+#: src/dialog-cell-format.c:356
 msgid "Top"
 msgstr "Fent"
 
-#: src/dialog-cell-format.c:431
+#: src/dialog-cell-format.c:358
 msgid "Bottom"
 msgstr "Lent"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:487
+#: src/dialog-cell-format.c:414
 msgid "Vertical"
 msgstr "Függõlegesen:"
 
-#. Horizontal alignment
-#: src/dialog-cell-format.c:491
+#: src/dialog-cell-format.c:418
 msgid "Horizontal"
 msgstr "Vízszintesen:"
 
-#: src/dialog-cell-format.c:494
+#: src/dialog-cell-format.c:421
 msgid "Auto return"
 msgstr ""
 
-#: src/dialog-cell-format.c:663
+#: src/dialog-cell-format.c:590
 msgid "Text color"
 msgstr "Szín:"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:667 src/dialog-cell-format.c:697 src/dialog-paste-special.c:28
+#: src/dialog-cell-format.c:594 src/dialog-cell-format.c:624 src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Nincs"
 
-#: src/dialog-cell-format.c:669
+#: src/dialog-cell-format.c:596
 msgid "Use this color"
 msgstr ""
 
-#: src/dialog-cell-format.c:691
+#: src/dialog-cell-format.c:618
 msgid "Background configuration"
 msgstr "Háttér beállítása"
 
-#: src/dialog-cell-format.c:699
+#: src/dialog-cell-format.c:626
 msgid "Use solid color"
 msgstr ""
 
-#: src/dialog-cell-format.c:701
+#: src/dialog-cell-format.c:628
 msgid "Use a pattern"
 msgstr ""
 
-#: src/dialog-cell-format.c:790
+#: src/dialog-cell-format.c:717
 msgid "Number"
 msgstr "Szám"
 
-#: src/dialog-cell-format.c:791
+#: src/dialog-cell-format.c:718
 msgid "Alignment"
 msgstr "Igazítás"
 
-#: src/dialog-cell-format.c:792
+#: src/dialog-cell-format.c:719
 msgid "Font"
 msgstr "Betûtípus"
 
@@ -161,7 +165,7 @@ msgstr ""
 msgid "Delete cells"
 msgstr "Törlés"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:503
+#: src/dialog-delete-cells.c:32 src/item-grid.c:509
 msgid "Delete"
 msgstr "Törlés"
 
@@ -201,7 +205,7 @@ msgstr "Beszúrás"
 msgid "Insert cells"
 msgstr "Beszúrás"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:502
+#: src/dialog-insert-cells.c:32 src/item-grid.c:508
 msgid "Insert"
 msgstr "Beszúrás"
 
@@ -253,7 +257,7 @@ msgstr "Szorzás"
 msgid "Divide"
 msgstr "Osztás"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:500
+#: src/dialog-paste-special.c:56 src/item-grid.c:506
 msgid "Paste special"
 msgstr "Irányított beillesztés"
 
@@ -281,40 +285,392 @@ msgstr "A szám 50 és 900 között lehet. Próbálkozzon újra ebbe a tartományba esõ 
 msgid "Zoom factor should be at most 900%"
 msgstr "A szám 50 és 900 között lehet. Próbálkozzon újra ebbe a tartományba esõ szám beírásával."
 
-#: src/expr.c:32
+#: src/formats.c:17
+msgid "0"
+msgstr ""
+
+#: src/formats.c:18
+msgid "0.00"
+msgstr ""
+
+#: src/formats.c:19
+msgid "#,##0"
+msgstr ""
+
+#: src/formats.c:20
+msgid "#,##0.00"
+msgstr ""
+
+#: src/formats.c:21
+msgid "#,##0_);(#,##0)"
+msgstr ""
+
+#: src/formats.c:22
+msgid "#,##0_);[red](#,##0)"
+msgstr "#,##0_);[Piros](#,##0)"
+
+#: src/formats.c:23
+msgid "#,##0.00_);(#,##0.00)"
+msgstr ""
+
+#: src/formats.c:24
+msgid "#,##0.00_);[red](#,##0.00)"
+msgstr "#,##0.00_);[Piros](#,##0.00)"
+
+#: src/formats.c:25
+msgid "0.0"
+msgstr ""
+
+#: src/formats.c:30
+msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:31
+msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:32
+msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:33
+msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:38
+msgid "m/d/yy"
+msgstr "yy/m/d"
+
+#: src/formats.c:39
+msgid "m/d/yyyy"
+msgstr "yyyy/m/d"
+
+#: src/formats.c:40
+msgid "d-mmm-yy"
+msgstr "yy-mmm-d"
+
+#: src/formats.c:41
+msgid "d-mmm-yyyy"
+msgstr "yyyy-mmm-d"
+
+#: src/formats.c:42
+msgid "d-mmm"
+msgstr "mmm-d"
+
+#: src/formats.c:43
+msgid "d-mm"
+msgstr "mm-d"
+
+#: src/formats.c:44
+msgid "mmm/d"
+msgstr ""
+
+#: src/formats.c:45
+msgid "mm/d"
+msgstr ""
+
+#: src/formats.c:46
+msgid "mm/dd/yy"
+msgstr "yy/mm/dd"
+
+#: src/formats.c:47
+msgid "mm/dd/yyyy"
+msgstr "yyyy/mm/dd"
+
+#: src/formats.c:48
+msgid "mmm/dd/yy"
+msgstr "yyyy/mmm/dd"
+
+#: src/formats.c:49
+msgid "mmm/dd/yyyy"
+msgstr "yyyy/mmm/dd"
+
+#: src/formats.c:50
+msgid "mmm/ddd/yy"
+msgstr "yy/mmm/ddd"
+
+#: src/formats.c:51
+msgid "mmm/ddd/yyyy"
+msgstr "yyyy/mmm/ddd"
+
+#: src/formats.c:52
+msgid "mm/ddd/yy"
+msgstr "yy/mm/ddd"
+
+#: src/formats.c:53
+msgid "mm/ddd/yyyy"
+msgstr "yyyy/mm/ddd"
+
+#: src/formats.c:54
+msgid "mmm-yy"
+msgstr "yy-mmm"
+
+#: src/formats.c:55
+msgid "mmm-yyyy"
+msgstr "yyyy-mmm"
+
+#: src/formats.c:56 src/formats.c:66
+msgid "m/d/yy h:mm"
+msgstr "yy/m/d h:mm"
+
+#: src/formats.c:57
+msgid "m/d/yyyy h:mm"
+msgstr "yyyy/m/d h:mm"
+
+#: src/formats.c:62
+msgid "h:mm AM/PM"
+msgstr ""
+
+#: src/formats.c:63
+msgid "h:mm:ss AM/PM"
+msgstr ""
+
+#: src/formats.c:64
+msgid "h:mm"
+msgstr ""
+
+#: src/formats.c:65
+msgid "h:mm:ss"
+msgstr ""
+
+#: src/formats.c:67
+msgid "mm:ss"
+msgstr ""
+
+#: src/formats.c:68
+msgid "mm:ss.0"
+msgstr ""
+
+#: src/formats.c:69
+msgid "[h]:mm:ss"
+msgstr ""
+
+#: src/formats.c:74
+msgid "0%"
+msgstr ""
+
+#: src/formats.c:75
+msgid "0.00%"
+msgstr ""
+
+#: src/formats.c:80
+msgid "# ?/?"
+msgstr ""
+
+#: src/formats.c:81
+msgid "# ??/??"
+msgstr ""
+
+#: src/formats.c:86
+msgid "0.00E+00"
+msgstr ""
+
+#: src/formats.c:87
+msgid "##0.0E+0"
+msgstr ""
+
+#: src/formats.c:97
+msgid "$#,##0_);($#,##0)"
+msgstr ""
+
+#: src/formats.c:98
+msgid "$#,##0_);[red]($#,##0)"
+msgstr "$#,##0_);[Piros]($#,##0)"
+
+#: src/formats.c:99
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr ""
+
+#: src/formats.c:100
+msgid "$#,##0.00_);[red]($#,##0.00)"
+msgstr "$#,##0.00_);[Piros]($#,##0.00)"
+
+#: src/dates.c:14
+msgid "*Sun"
+msgstr "*V"
+
+#: src/dates.c:15
+msgid "*Mon"
+msgstr "*H"
+
+#: src/dates.c:16
+msgid "*Tue"
+msgstr "*K"
+
+#: src/dates.c:17
+msgid "*Wed"
+msgstr "*Sze"
+
+#: src/dates.c:18
+msgid "*Thu"
+msgstr "*Cs"
+
+#: src/dates.c:19
+msgid "*Fri"
+msgstr "*P"
+
+#: src/dates.c:20
+msgid "*Sat"
+msgstr "*Szo"
+
+#: src/dates.c:26
+msgid "Sunday"
+msgstr "Vasárnap"
+
+#: src/dates.c:27
+msgid "Monday"
+msgstr "Hétfõ"
+
+#: src/dates.c:28
+msgid "Tuesday"
+msgstr "Kedd"
+
+#: src/dates.c:29
+msgid "Wednesday"
+msgstr "Szerda"
+
+#: src/dates.c:30
+msgid "Thursday"
+msgstr "Csütörtök"
+
+#: src/dates.c:31
+msgid "Friday"
+msgstr "Péntek"
+
+#: src/dates.c:32
+msgid "Saturday"
+msgstr "Szombat"
+
+#: src/dates.c:38
+msgid "*Jan"
+msgstr "*jan."
+
+#: src/dates.c:39
+msgid "*Feb"
+msgstr "*febr."
+
+#: src/dates.c:40
+msgid "*Mar"
+msgstr "*márc."
+
+#: src/dates.c:41
+msgid "*Apr"
+msgstr "*ápr."
+
+#: src/dates.c:42
+msgid "*May"
+msgstr "*máj."
+
+#: src/dates.c:43
+msgid "*Jun"
+msgstr "*jún."
+
+#: src/dates.c:44
+msgid "*Jul"
+msgstr "*júl."
+
+#: src/dates.c:45
+msgid "*Aug"
+msgstr "*aug."
+
+#: src/dates.c:46
+msgid "*Sep"
+msgstr "*szept."
+
+#: src/dates.c:47
+msgid "*Oct"
+msgstr "*okt."
+
+#: src/dates.c:48
+msgid "*Nov"
+msgstr "*nov."
+
+#: src/dates.c:49
+msgid "*Dec"
+msgstr "*dec."
+
+#: src/dates.c:55
+msgid "January"
+msgstr "január"
+
+#: src/dates.c:56
+msgid "February"
+msgstr "február"
+
+#: src/dates.c:57
+msgid "March"
+msgstr "március"
+
+#: src/dates.c:58
+msgid "April"
+msgstr "április"
+
+#: src/dates.c:59
+msgid "May"
+msgstr "május"
+
+#: src/dates.c:60
+msgid "June"
+msgstr "június"
+
+#: src/dates.c:61
+msgid "July"
+msgstr "július"
+
+#: src/dates.c:62
+msgid "August"
+msgstr "augusztus"
+
+#: src/dates.c:63
+msgid "September"
+msgstr "szeptember"
+
+#: src/dates.c:64
+msgid "October"
+msgstr "október"
+
+#: src/dates.c:65
+msgid "November"
+msgstr "november"
+
+#: src/dates.c:66
+msgid "December"
+msgstr "december"
+
+#: src/expr.c:53
 msgid "Syntax error"
 msgstr "Szintaktikai hiba"
 
-#: src/expr.c:36
+#: src/expr.c:57
 msgid "Missing quote"
 msgstr ""
 
 #. Type checking
-#: src/expr.c:397 src/fn-sheet.c:25 src/fn-sheet.c:59
+#: src/expr.c:440 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
-msgstr ""
+msgstr "Az argumentumok száma nem megfelelõ"
 
-#: src/expr.c:621
+#: src/expr.c:668
 msgid "Type error"
 msgstr ""
 
-#: src/expr.c:679 src/expr.c:837 src/fn-misc.c:39 src/fn-misc.c:66
+#: src/expr.c:726 src/expr.c:884 src/fn-misc.c:39 src/fn-misc.c:66
 msgid "Type mismatch"
 msgstr ""
 
-#: src/expr.c:705 src/expr.c:741
+#: src/expr.c:752 src/expr.c:788
 msgid "Division by zero"
 msgstr "Osztás nullával"
 
-#: src/expr.c:852
+#: src/expr.c:899
 msgid "Unknown evaluation error"
 msgstr ""
 
 #: src/file.c:28
 msgid "Save workbook as"
-msgstr ""
+msgstr "Munkafüzet mentése másként"
 
-#: src/file.c:78
+#: src/file.c:75
 msgid "Load file"
 msgstr ""
 
@@ -322,35 +678,40 @@ msgstr ""
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=Computes the number of days since the 1st of jannuary of 1900(the date serial number) for the given year, month and day.\n"
-"The day might be negative (to count backwards) and it is relativeto the previous month\n"
+"@DESCRIPTION=Computes the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.\n"
+"The day might be negative (to count backwards) and it is relative to the previous month.  The years should be at least 1900\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
-"@FUNCTION=DATE\n"
-"@SYNTAX=DATE (év, hónap, nap)\n"
-"@DESCRIPTION=Computes the number of days since the 1st of jannuary of 1900(the date serial number) for the given year, month and day.\n"
-"The day might be negative (to count backwards) and it is relativeto the previous month\n"
-"@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:60
+#: src/fn-date.c:61
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=Returns the serial number for today (the number of daystrasncurred since the 1st of Jannuary of 1990\n"
+"@DESCRIPTION=Returns the serial number for today (the number of days elapsed since the 1st of January of 1900)\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. január 1.-tõl eltelt napokat jelzi.\n"
+"@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:88
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Returns the serial number for the date and time at the timeit is evaluated.\n"
-"Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of Jannuary of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds\n"
+"@DESCRIPTION=Returns the serial number for the date and time at the time it is evaluated.\n"
+"Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds\n"
 "For example: .0 represents the beginning of the day, and 0.5 represents noon\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=A mai datum dátumértékét és a pontos idõ idõértékét adja eredményül.\n"
+"A Gnumeric a dátumot sorszámként, míg az idõt tizedes törtként tárolja. A sorszám az 1900. január 1.-tõl eltelt napok számát jelenti, a törtszám meg az óra, perc és másodperc értékekbõl adódik.\n"
+"Például: ,0 jelenti a nap kezdetét, a 0,5 pedig pontosan a delet szimbolizálja.\n"
+"@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:125
+#: src/fn-date.c:124
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -359,10 +720,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Returns a fraction representing the hour\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-date.c:153
+#: src/fn-date.c:151
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -370,7 +731,7 @@ msgid ""
 "Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:168
+#: src/fn-date.c:166
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -378,7 +739,7 @@ msgid ""
 "Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:183
+#: src/fn-date.c:181
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -386,7 +747,7 @@ msgid ""
 "Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/fn-date.c:221
+#: src/fn-date.c:219
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -394,7 +755,7 @@ msgid ""
 "Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/fn-date.c:235
+#: src/fn-date.c:233
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -402,23 +763,15 @@ msgid ""
 "Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:249
+#: src/fn-date.c:247
 msgid ""
 "@FUNCTION=DAY\n"
-"@SYNTAX=DARY (serial_number)\n"
+"@SYNTAX=DAY (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a day.\n"
 "Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-math.c:43
-msgid "acos - domain error"
-msgstr "acos: nincs értelmezve"
-
-#: src/fn-math.c:61
-msgid "acosh - domain error"
-msgstr "acosh: nincs értelmezve"
-
-#: src/fn-math.c:102
+#: src/fn-math.c:27
 msgid ""
 "@FUNCTION=NAME\n"
 "@SYNTAX=(b1, b2, ...)\n"
@@ -427,279 +780,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:123
-msgid ""
-"@FUNCTION=ATAN2@SYNTAX=ATAN2(b1,b2)\n"
-"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 / b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in Radians.\n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
-msgstr ""
-
-#: src/fn-math.c:142
-msgid ""
-"@FUNCTION=ATANH\n"
-"@SYNTAX=ATANH(b1)\n"
-"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic tangent of b1; that is the value whose  hyperbolic  tangent is  b1.   If  the  absolute value of b1 is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
-msgstr ""
-
-#: src/fn-math.c:159
-msgid ""
-"@FUNCTION=ATAN\n"
-"@SYNTAX=ATAN(b1)\n"
-"@DESCRIPTION=The ATAN function calculates the arc tangent of b1; that  is the value whose tangent is b1.Return value is in radians.\n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
-msgstr ""
-
-#: src/fn-math.c:176
-msgid ""
-"@FUNCTION=ASINH\n"
-"@SYNTAX=ASINH(b1)\n"
-"@DESCRIPTION=The ASIN  function  calculates  the inverse hyperbolic  sine of b1; that is the value whose hyperbolic sine is b1. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
-msgstr ""
-
-#: src/fn-math.c:192
-msgid ""
-"@FUNCTION=ASIN\n"
-"@SYNTAX=ASIN(b1)\n"
-"@DESCRIPTION=The ASIN function calculates the arc sine of b1; that is the value whose sine is b1.  If b1 falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
-msgstr ""
-
-#: src/fn-math.c:208
-msgid ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(b1)\n"
-"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine of b1; that is the value whose hyperbolic cosine  is b1.   If  b1  is less than 1.0, acosh() returns the error      'acosh - domain error'\n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
-msgstr ""
-
-#: src/fn-math.c:224
-msgid ""
-"@FUNCTION=ACOS\n"
-"@SYNTAX=ACOS(b1)\n"
-"@DESCRIPTION=The ACOS function calculates the arc cosine of b1; that  is the value whose cosine is b1.  If b1  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=COS, SIN, DEGREES, RADIANS"
-msgstr ""
-
-#: src/fn-math.c:240
-msgid ""
-"@FUNCTION=AVERAGE\n"
-"@SYNTAX=AVERAGE(value1, value2,...)@DESCRIPTION=Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.\n"
-"@SEEALSO=SUM, COUNT"
-msgstr ""
-
-#: src/fn-math.c:252
-msgid ""
-"@FUNCTION=TANH\n"
-"@SYNTAX=TANH(b1)\n"
-"@DESCRIPTION= The TANH function returns the hyperbolic tangent of b1,  which is defined mathematically as sinh(b1) / cosh(b1). \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
-msgstr ""
-
-#: src/fn-math.c:266
-msgid ""
-"@FUNCTION=TAN\n"
-"@SYNTAX=TAN(b1)\n"
-"@DESCRIPTION=The TAN function  returns the tangent of b1, where b1 is given in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
-msgstr ""
-
-#: src/fn-math.c:281
-msgid ""
-"@FUNCTION=SINH\n"
-"@SYNTAX=SINH(b1)\n"
-"@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of b1, which is defined mathematically as (exp(b1) - exp(-b1)) / 2.  b1 is in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
-msgstr ""
-
-#: src/fn-math.c:296
-msgid ""
-"@FUNCTION=COSH\n"
-"@SYNTAX=COSH(b1)\n"
-"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of b1,  which is defined mathematically as (exp(b1) + exp(-b1)) / 2.    b1 is in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
-msgstr ""
-
-#: src/fn-math.c:312
-msgid ""
-"@FUNCTION=SIN\n"
-"@SYNTAX=SIN(b1)\n"
-"@DESCRIPTION=The SIN function returns the sine of b1, where b1 is given  in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
-msgstr ""
-
-#: src/fn-math.c:326
-msgid ""
-"@FUNCTION=COS\n"
-"@SYNTAX=COS(b1)\n"
-"@DESCRIPTION=The  COS  function  returns  the cosine of b1, where b1 is given in radians.  \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
-"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
-msgstr ""
-
-#: src/fn-math.c:342
-msgid ""
-"@FUNCTION=INT\n"
-"@SYNTAX=INT(b1, b2, ...)\n"
-"@DESCRIPTION=The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Eqilivent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. \n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=FLOOR, CEIL, ABS"
-msgstr ""
-
-#: src/fn-math.c:358
-msgid ""
-"@FUNCTION=COUNT\n"
-"@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=Returns the total number of arguments passed.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=AVERAGE"
-msgstr ""
-
-#: src/fn-math.c:371
-msgid ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(b1)\n"
-"@DESCRIPTION=Computes the factorial of b1. ie, b1!\n"
-"Performing this function on a string or empty cell returns an error\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-
-#: src/fn-math.c:385
-msgid ""
-"@FUNCTION=EXP\n"
-"@SYNTAX=EXP(b1)\n"
-"@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised to the power of b1. \n"
-"Performing this function on a string or empty cell returns an error.\n"
-"@SEEALSO=LOG, LOG2, LOG10"
-msgstr ""
-
-#: src/fn-math.c:398
-msgid ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(b1)\n"
-"@DESCRIPTION=Computes the natural logarithm  of b1. \n"
-"Performing this function on a string or empty cell returns an error. \n"
-"@SEEALSO=EXP, LOG2, LOG10"
-msgstr ""
-
-#: src/fn-math.c:410
-msgid ""
-"@FUNCTION=LOG10@SYNTAX=LOG10(b1)\n"
-"@DESCRIPTION=Computes the base-10 logarithm  of b1. \n"
-"Performing this function on a string or empty cell returns an error. \n"
-"@SEEALSO=EXP, LOG2, LOG"
-msgstr ""
-
-#: src/fn-math.c:423
-msgid ""
-"@FUNCTION=LOG2@SYNTAX=LOG2(b1)\n"
-"@DESCRIPTION=Computes the base-2 logarithm  of b1. \n"
-"Performing this function on a string or empty cell returns an error. \n"
-"@SEEALSO=EXP, LOG10, LOG"
-msgstr ""
-
-#: src/fn-math.c:436
-msgid ""
-"@FUNCTION=MIN\n"
-"@SYNTAX=MIN(b1, b2, ...)\n"
-"@DESCRIPTION=MIN returns the value of the element of the values passed that has the smallest value. With negative numbers considered smaller than positive numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=MAX,ABS"
-msgstr ""
-
-#: src/fn-math.c:450
-msgid ""
-"@FUNCTION=MAX\n"
-"@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=MAX returns the value of the element of the values passed that has the largest value. With negative numbers considered smaller than positive numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=MIN,ABS"
-msgstr ""
-
-#: src/fn-math.c:465
-msgid ""
-"@FUNCTION=OR\n"
-"@SYNTAX=OR(b1, b2, ...)@DESCRIPTION=Implements the logical OR function: the result is TRUE if any of thevalues evaluated to TRUE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is consideredFALSE and anything else is TRUE.\n"
-"If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.\n"
-"@SEEALSO=AND"
-msgstr ""
-
-#: src/fn-math.c:483
-msgid ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(b1)\n"
-"@DESCRIPTION=Computes the number of radians equilivent to  b1 degrees. \n"
-"Performing this function on a string or empty cell simply does nothing. \n"
-"@SEEALSO=PI,DEGREES"
-msgstr ""
-
-#: src/fn-math.c:498
-msgid ""
-"@FUNCTION=DEGREES\n"
-"@SYNTAX=DEGREES(b1)\n"
-"@DESCRIPTION=Computes the number of degrees equilivent to  b1 radians.\n"
-"Performing this function on a string or empty cell simply does nothing. \n"
-"@SEEALSO=RADIANS, PI"
-msgstr ""
-
-#: src/fn-math.c:513
-msgid ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(value1, value2, ...)\n"
-"@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. \n"
-"@SEEALSO=AVERAGE, COUNT"
-msgstr ""
-
-#: src/fn-math.c:526
-msgid ""
-"@FUNCTION=BIN2DEC(@SYNTAX=BIN2DEC(b1)\n"
-"@DESCRIPTION=The BIN2DEC function coverts a binary number in string or number to its decimal equilivent.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=DEC2BIN"
-msgstr ""
-
-#: src/fn-math.c:541
-msgid ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
-"Performing this function on a string or empty cellreturns an error. This function is called with no arguments.\n"
-"@SEEALSO="
-msgstr ""
-
-#: src/fn-math.c:556
-msgid ""
-"@FUNCTION=FLOOR\n"
-"@SYNTAX=FLOOR(b1)\n"
-"@DESCRIPTION=The FLOOR function rounds b1 down to the next nearestinteger.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=CEIL, ABS, INT"
-msgstr ""
-
-#: src/fn-math.c:569
-msgid ""
-"@FUNCTION=CEIL\n"
-"@SYNTAX=CEIL(b1)\n"
-"@DESCRIPTION=The CEIL function rounds b1 up to the next nearestinteger.Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=ABS, FLOOR, INT"
-msgstr ""
-
-#: src/fn-math.c:582
+#: src/fn-math.c:48
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -708,7 +789,33 @@ msgid ""
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
 
-#: src/fn-math.c:595
+#: src/fn-math.c:67
+msgid ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(b1)\n"
+"@DESCRIPTION=The ACOS function calculates the arc cosine of b1; that  is the value whose cosine is b1.  If b1  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:89
+msgid "acos - domain error"
+msgstr "acos: nincs értelmezve"
+
+#: src/fn-math.c:96
+msgid ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(b1)\n"
+"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine of b1; that is the value whose hyperbolic cosine  is b1.   If  b1  is less than 1.0, acosh() returns the error      'acosh - domain error'\n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
+msgstr ""
+
+#: src/fn-math.c:118
+msgid "acosh - domain error"
+msgstr "acosh: nincs értelmezve"
+
+#: src/fn-math.c:125
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -718,247 +825,396 @@ msgid ""
 "@SEEALSO=OR"
 msgstr ""
 
-#: src/fn-math.c:630 src/fn-math.c:1118
+#: src/fn-math.c:188 src/fn-math.c:911
 msgid "#VALUE"
 msgstr "#ÉRTÉK!"
 
-#: src/fn-math.c:644
+#: src/fn-math.c:195
+msgid ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(b1)\n"
+"@DESCRIPTION=The ASIN function calculates the arc sine of b1; that is the value whose sine is b1.  If b1 falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:216
 msgid "asin - domain error"
 msgstr "asin: nincs értelmezve"
 
-#: src/fn-math.c:685
+#: src/fn-math.c:223
+msgid ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(b1)\n"
+"@DESCRIPTION=The ASIN  function  calculates  the inverse hyperbolic  sine of b1; that is the value whose hyperbolic sine is b1. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:244
+msgid ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(b1)\n"
+"@DESCRIPTION=The ATAN function calculates the arc tangent of b1; that  is the value whose tangent is b1.Return value is in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:267
+msgid ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(b1)\n"
+"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic tangent of b1; that is the value whose  hyperbolic  tangent is  b1.   If  the  absolute value of b1 is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:290
 msgid "atanh: domain error"
 msgstr "log: nincs értelmezve"
 
-#: src/fn-math.c:937
+#: src/fn-math.c:297
+msgid ""
+"@FUNCTION=ATAN2@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 / b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in Radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:322
+msgid ""
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(value1, value2,...)@DESCRIPTION=Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.\n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:358
+msgid ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(b1)\n"
+"@DESCRIPTION=The CEIL function rounds b1 up to the next nearestinteger.Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=ABS, FLOOR, INT"
+msgstr ""
+
+#: src/fn-math.c:377
+msgid ""
+"@FUNCTION=BIN2DEC(@SYNTAX=BIN2DEC(b1)\n"
+"@DESCRIPTION=The BIN2DEC function coverts a binary number in string or number to its decimal equilivent.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=DEC2BIN"
+msgstr ""
+
+#: src/fn-math.c:427
+msgid ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(b1)\n"
+"@DESCRIPTION=The  COS  function  returns  the cosine of b1, where b1 is given in radians.  \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+
+#: src/fn-math.c:447
+msgid ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(b1)\n"
+"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of b1,  which is defined mathematically as (exp(b1) + exp(-b1)) / 2.    b1 is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+msgstr ""
+
+#: src/fn-math.c:488
+msgid ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=Returns the total number of arguments passed.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+
+#: src/fn-math.c:516
+msgid ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(b1)\n"
+"@DESCRIPTION=Computes the number of degrees equilivent to  b1 radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=RADIANS, PI"
+msgstr ""
+
+#: src/fn-math.c:537
+msgid ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(b1)\n"
+"@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised to the power of b1. \n"
+"Performing this function on a string or empty cell returns an error.\n"
+"@SEEALSO=LOG, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:564
+msgid ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(b1)\n"
+"@DESCRIPTION=Computes the factorial of b1. ie, b1!\n"
+"Performing this function on a string or empty cell returns an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:611
+msgid ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(b1)\n"
+"@DESCRIPTION=The FLOOR function rounds b1 down to the next nearestinteger.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, ABS, INT"
+msgstr ""
+
+#: src/fn-math.c:630
+msgid ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Eqilivent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. \n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
+msgstr ""
+
+#: src/fn-math.c:656
+msgid ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(b1)\n"
+"@DESCRIPTION=Computes the natural logarithm  of b1. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG10"
+msgstr ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(szám)\n"
+"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@SEEALSO=EXP, LOG2, LOG10"
+
+#: src/fn-math.c:674
 msgid "log: domain error"
 msgstr "log: nincs értelmezve"
 
-#: src/fn-math.c:955
+#: src/fn-math.c:681
+msgid ""
+"@FUNCTION=LOG2@SYNTAX=LOG2(b1)\n"
+"@DESCRIPTION=Computes the base-2 logarithm  of b1. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG10, LOG"
+msgstr ""
+"@FUNCTION=LOG2@SYNTAX=LOG2(szám)\n"
+"@DESCRIPTION=Egy szám 2-es alapú logaritmusát számítja ki.\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@SEEALSO=EXP, LOG10, LOG"
+
+#: src/fn-math.c:699
 msgid "log2: domain error"
 msgstr "log2: nincs értelmezve"
 
-#: src/fn-math.c:973
+#: src/fn-math.c:706
+msgid ""
+"@FUNCTION=LOG10@SYNTAX=LOG10(b1)\n"
+"@DESCRIPTION=Computes the base-10 logarithm  of b1. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG"
+msgstr ""
+"@FUNCTION=LOG10@SYNTAX=LOG10(szám)\n"
+"@DESCRIPTION=Egy szám 10-es alapú logaritmusát számítja ki.\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@SEEALSO=EXP, LOG2, LOG"
+
+#: src/fn-math.c:725
 msgid "log10: domain error"
 msgstr "log10: nincs értelmezve"
 
-#: src/format.c:62 src/sheet-autofill.c:615
-msgid "Sun"
-msgstr "V"
-
-#: src/format.c:63 src/sheet-autofill.c:614
-msgid "Mon"
-msgstr "H"
-
-#: src/format.c:64 src/sheet-autofill.c:614
-msgid "Tue"
-msgstr "K"
-
-#: src/format.c:65 src/sheet-autofill.c:614
-msgid "Wed"
-msgstr "Sze"
-
-#: src/format.c:66 src/sheet-autofill.c:614
-msgid "Thu"
-msgstr "Cs"
-
-#: src/format.c:67 src/sheet-autofill.c:615
-msgid "P"
+#: src/fn-math.c:732
+msgid ""
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN returns the value of the element of the values passed that has the smallest value. With negative numbers considered smaller than positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/format.c:68 src/sheet-autofill.c:615
-msgid "Sat"
-msgstr "Szo"
+#: src/fn-math.c:746
+msgid ""
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX returns the value of the element of the values passed that has the largest value. With negative numbers considered smaller than positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MIN,ABS"
+msgstr ""
 
-#: src/format.c:73 src/sheet-autofill.c:609
-msgid "Sunday"
-msgstr "Vasárnap"
+#: src/fn-math.c:850
+msgid ""
+"@FUNCTION=OR\n"
+"@SYNTAX=OR(b1, b2, ...)@DESCRIPTION=Implements the logical OR function: the result is TRUE if any of thevalues evaluated to TRUE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is consideredFALSE and anything else is TRUE.\n"
+"If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.\n"
+"@SEEALSO=AND"
+msgstr ""
 
-#: src/format.c:74 src/sheet-autofill.c:603
-msgid "Monday"
-msgstr "Hétfõ"
+#: src/fn-math.c:918
+msgid ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(b1)\n"
+"@DESCRIPTION=Computes the number of radians equilivent to  b1 degrees. \n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=PI,DEGREES"
+msgstr ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(szög)\n"
+"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
+"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A függvénynek csak egy argumentuma lehet.\n"
+"@SEEALSO=PI,DEGREES"
 
-#: src/format.c:75 src/sheet-autofill.c:604
-msgid "Tuesday"
-msgstr "Kedd"
+#: src/fn-math.c:939
+msgid ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(b1)\n"
+"@DESCRIPTION=The SIN function returns the sine of b1, where b1 is given  in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(szám)\n"
+"@DESCRIPTION=A radiánban megadott szög szinuszát adja eredményül.\n"
+"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A függvénynek csak egy argumentuma lehet.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/format.c:76 src/sheet-autofill.c:605
-msgid "Wednesday"
-msgstr "Szerda"
+#: src/fn-math.c:959
+msgid ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(b1)\n"
+"@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of b1, which is defined mathematically as (exp(b1) - exp(-b1)) / 2.  b1 is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+msgstr ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(szám)\n"
+"@DESCRIPTION=A megadott szám szinusz hiperbolikusát adja eredményül.\n"
+"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A függvénynek csak egy argumentuma lehet.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/format.c:77 src/sheet-autofill.c:606
-msgid "Thursday"
-msgstr "Csütörtök"
+#: src/fn-math.c:980
+msgid ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. \n"
+"@SEEALSO=AVERAGE, COUNT"
+msgstr ""
 
-#: src/format.c:78 src/sheet-autofill.c:607
-msgid "Friday"
-msgstr "Péntek"
+#: src/fn-math.c:1033
+msgid ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(b1)\n"
+"@DESCRIPTION=The TAN function  returns the tangent of b1, where b1 is given in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(szám)\n"
+"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
+"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A függvénynek csak egy argumentuma lehet.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/format.c:79 src/sheet-autofill.c:608
-msgid "Saturday"
-msgstr "Szombat"
+#: src/fn-math.c:1053
+msgid ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(b1)\n"
+"@DESCRIPTION=The TANH function returns the hyperbolic tangent of b1,  which is defined mathematically as sinh(b1) / cosh(b1). \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(szám)\n"
+"@DESCRIPTION=A megadott szám tangens hiperbolikusát adja eredményül.\n"
+"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A függvénynek csak egy argumentuma lehet.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/format.c:84 src/sheet-autofill.c:596
-msgid "Jan"
-msgstr "jan."
+#: src/fn-math.c:1073
+msgid ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
+"Performing this function on a string or empty cellreturns an error. This function is called with no arguments.\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal (3.14159265358979323846)\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A függvénynek nem lehet argumentuma.\n"
+"@SEEALSO="
 
-#: src/format.c:85 src/sheet-autofill.c:596
-msgid "Feb"
-msgstr "febr."
-
-#: src/format.c:86 src/sheet-autofill.c:596
-msgid "Mar"
-msgstr "márc."
-
-#: src/format.c:87 src/sheet-autofill.c:596
-msgid "Apr"
-msgstr "ápr."
-
-#: src/format.c:88 src/format.c:104 src/sheet-autofill.c:584 src/sheet-autofill.c:597
-msgid "May"
-msgstr "máj."
-
-#: src/format.c:89 src/sheet-autofill.c:597
-msgid "Jun"
-msgstr "jún."
-
-#: src/format.c:90 src/sheet-autofill.c:597
-msgid "Jul"
-msgstr "júl."
-
-#: src/format.c:91 src/sheet-autofill.c:597
-msgid "Aug"
-msgstr "aug."
-
-#: src/format.c:92 src/sheet-autofill.c:598
-msgid "Sep"
-msgstr "szept."
-
-#: src/format.c:93 src/sheet-autofill.c:598
-msgid "Oct"
-msgstr "okt."
-
-#: src/format.c:94 src/sheet-autofill.c:598
-msgid "Nov"
-msgstr "nov."
-
-#: src/format.c:95 src/sheet-autofill.c:598
-msgid "Dec"
-msgstr "dec."
-
-#: src/format.c:100 src/sheet-autofill.c:580
-msgid "January"
-msgstr "január"
-
-#: src/format.c:101
-msgid "Februrary"
-msgstr "február"
-
-#: src/format.c:102 src/sheet-autofill.c:582
-msgid "March"
-msgstr "március"
-
-#: src/format.c:103 src/sheet-autofill.c:583
-msgid "April"
-msgstr "április"
-
-#: src/format.c:105 src/sheet-autofill.c:585
-msgid "June"
-msgstr "június"
-
-#: src/format.c:106 src/sheet-autofill.c:586
-msgid "July"
-msgstr "július"
-
-#: src/format.c:107 src/sheet-autofill.c:587
-msgid "August"
-msgstr "augusztus"
-
-#: src/format.c:108 src/sheet-autofill.c:588
-msgid "September"
-msgstr "szeptember"
-
-#: src/format.c:109 src/sheet-autofill.c:589
-msgid "October"
-msgstr "október"
-
-#: src/format.c:110 src/sheet-autofill.c:590
-msgid "November"
-msgstr "november"
-
-#: src/format.c:111 src/sheet-autofill.c:591
-msgid "December"
-msgstr "december"
-
-#: src/format.c:457
+#: src/format.c:403
 msgid "black"
 msgstr "Fekete"
 
-#: src/format.c:458
+#: src/format.c:404
 msgid "blue"
 msgstr "Kék"
 
-#: src/format.c:459
+#: src/format.c:405
 msgid "cyan"
 msgstr "Cián"
 
-#: src/format.c:460
+#: src/format.c:406
 msgid "green"
 msgstr "Zöld"
 
-#: src/format.c:461
+#: src/format.c:407
 msgid "magenta"
 msgstr "Bíbor"
 
-#: src/format.c:462
+#: src/format.c:408
 msgid "red"
 msgstr "Piros"
 
-#: src/format.c:463
+#: src/format.c:409
 msgid "white"
 msgstr "Fehér"
 
-#: src/format.c:464
+#: src/format.c:410
 msgid "yellow"
 msgstr "Sárga"
 
-#: src/gnumeric-sheet.c:800
+#: src/gnumeric-sheet.c:868
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:803
+#: src/gnumeric-sheet.c:871
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:806
+#: src/gnumeric-sheet.c:874
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:809
+#: src/gnumeric-sheet.c:877
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:812
+#: src/gnumeric-sheet.c:880
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:815
+#: src/gnumeric-sheet.c:883
 msgid "Horizontal lines"
 msgstr "Vízszintes vonalas"
 
-#: src/gnumeric-sheet.c:818
+#: src/gnumeric-sheet.c:886
 msgid "Vertical lines"
 msgstr "Függõleges vonalas"
 
-#: src/gnumeric-sheet.c:821 src/gnumeric-sheet.c:824 src/gnumeric-sheet.c:827 src/gnumeric-sheet.c:830
+#: src/gnumeric-sheet.c:889 src/gnumeric-sheet.c:892 src/gnumeric-sheet.c:895 src/gnumeric-sheet.c:898
 msgid "Diagonal lines"
 msgstr "Átlós vonalas"
 
-#: src/gnumeric-sheet.c:833
+#: src/gnumeric-sheet.c:901
 msgid "Crossed diagonals"
 msgstr "Keresztmintás vonalas"
 
-#: src/gnumeric-sheet.c:836
+#: src/gnumeric-sheet.c:904
 msgid "Bricks"
 msgstr "Téglamintás"
 
@@ -966,59 +1222,59 @@ msgstr "Téglamintás"
 msgid "Notice"
 msgstr "Megjegyzés"
 
-#: src/item-cursor.c:552 src/item-grid.c:498 src/workbook.c:498
+#: src/item-cursor.c:554 src/item-grid.c:504 src/workbook.c:563
 msgid "Copy"
 msgstr "Másolás"
 
-#: src/item-cursor.c:553
+#: src/item-cursor.c:555
 msgid "Move"
 msgstr "Áthelyezés"
 
-#: src/item-cursor.c:554
+#: src/item-cursor.c:556
 msgid "Copy formats"
 msgstr "Csak formátum másolása ide"
 
-#: src/item-cursor.c:555
+#: src/item-cursor.c:557
 msgid "Copy values"
 msgstr "Csak érték másolása ide"
 
-#: src/item-cursor.c:556
+#: src/item-cursor.c:558
 msgid "Shift cells down and copy"
 msgstr "Lefelé tolás és másolás"
 
-#: src/item-cursor.c:557
+#: src/item-cursor.c:559
 msgid "Shift cells right and copy"
 msgstr "Jobbra tolás és másolás"
 
-#: src/item-cursor.c:558
+#: src/item-cursor.c:560
 msgid "Shift cells down and move"
 msgstr "Lefelé tolás és áthelyezés"
 
-#: src/item-cursor.c:559
+#: src/item-cursor.c:561
 msgid "Shift cells right and move"
 msgstr "Jobbra tolás és áthelyezés"
 
-#: src/item-grid.c:497 src/workbook.c:495
+#: src/item-grid.c:503 src/workbook.c:560
 msgid "Cut"
 msgstr "Kivágás"
 
-#: src/item-grid.c:499 src/sheet.c:2213 src/workbook.c:501
+#: src/item-grid.c:505 src/sheet.c:2278 src/workbook.c:566
 msgid "Paste"
 msgstr "Beillesztés"
 
-#: src/item-grid.c:504
+#: src/item-grid.c:510
 msgid "Erase content"
 msgstr "Tartalom törlése"
 
-#: src/item-grid.c:506
+#: src/item-grid.c:512
 msgid "Cell format"
 msgstr "Cellaformázás..."
 
-#: src/main.c:20
+#: src/main.c:21
 msgid "FILE"
 msgstr "FÁJL"
 
-#: src/main.c:20
+#: src/main.c:21
 msgid "Dumps the functions definitions"
 msgstr ""
 
@@ -1066,306 +1322,330 @@ msgstr "Sor: %d"
 msgid "Column: %s"
 msgstr "Oszlop: %s"
 
-#: src/sheet-autofill.c:581
-msgid "February"
-msgstr "Február"
-
-#: src/workbook.c:302 src/workbook.c:318
+#: src/workbook.c:305 src/workbook.c:321
 msgid "Insert rows"
+msgstr "Sorok beszúrása"
+
+#: src/workbook.c:401
+msgid ">mm/dd/yyyy"
+msgstr ">yyyy/mm/dd"
+
+#: src/workbook.c:416
+msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:378
+#: src/workbook.c:430
 msgid "_New"
 msgstr "Új dok_umentum"
 
-#: src/workbook.c:380
+#: src/workbook.c:432
 msgid "_Open"
 msgstr "Meg_nyitás..."
 
-#: src/workbook.c:382
+#: src/workbook.c:434
 msgid "_Save"
 msgstr "_Mentés"
 
-#: src/workbook.c:384
+#: src/workbook.c:436
 msgid "S_ave as..."
 msgstr "Menté_s másként..."
 
-#: src/workbook.c:386
+#: src/workbook.c:438
 msgid "_Plugins..."
 msgstr ""
 
-#: src/workbook.c:387
+#: src/workbook.c:439
 msgid "_Close"
 msgstr "Be_zárás"
 
-#: src/workbook.c:389
+#: src/workbook.c:441
 msgid "_Quit"
 msgstr "_Kilépés"
 
-#: src/workbook.c:395
+#: src/workbook.c:447
 msgid "_All"
 msgstr "Min_dent"
 
-#: src/workbook.c:396
+#: src/workbook.c:448
 msgid "_Formats"
 msgstr "_Formátumot"
 
-#: src/workbook.c:397
+#: src/workbook.c:449
 msgid "_Content"
 msgstr "_Képletet"
 
-#: src/workbook.c:402
+#: src/workbook.c:454
 msgid "_Cut"
 msgstr "_Kivágás"
 
-#: src/workbook.c:404
+#: src/workbook.c:456
 msgid "C_opy"
 msgstr "_Másolás"
 
-#: src/workbook.c:406
+#: src/workbook.c:458
 msgid "_Paste"
 msgstr "_Beillesztés"
 
-#: src/workbook.c:408
+#: src/workbook.c:460
 msgid "P_aste special"
 msgstr "Irányított beillesztés..."
 
-#: src/workbook.c:410
+#: src/workbook.c:462
 msgid "_Select All"
 msgstr "Mindent kijelöl"
 
-#: src/workbook.c:413
+#: src/workbook.c:465
 msgid "C_lear"
 msgstr "_Törlés"
 
-#: src/workbook.c:415
+#: src/workbook.c:467
 msgid "_Goto cell.."
 msgstr "_Ugrás..."
 
-#: src/workbook.c:421
+#: src/workbook.c:470
+msgid "Recalc"
+msgstr "Újraszámolás"
+
+#: src/workbook.c:476
 msgid "_Zoom..."
 msgstr "_Nagyítás..."
 
-#: src/workbook.c:426
+#: src/workbook.c:481
+msgid "Current date"
+msgstr "Jelenlegi dátum"
+
+#: src/workbook.c:483
+msgid "Current time"
+msgstr "Jelenlegi idõ"
+
+#: src/workbook.c:489
 msgid "_Cells..."
 msgstr "_Cellák..."
 
-#: src/workbook.c:427
+#: src/workbook.c:490
 msgid "_Rows"
 msgstr "_Sorok"
 
-#: src/workbook.c:428
+#: src/workbook.c:491
 msgid "C_olumns"
 msgstr "Os_zlopok"
 
-#: src/workbook.c:435 src/workbook.c:441
+#: src/workbook.c:493
+msgid "Special"
+msgstr "Speciális"
+
+#: src/workbook.c:500 src/workbook.c:506
 msgid "_Autoadjust"
 msgstr ""
 
-#: src/workbook.c:436
+#: src/workbook.c:501
 msgid "_Width"
 msgstr ""
 
-#: src/workbook.c:442
+#: src/workbook.c:507
 msgid "_Height"
 msgstr ""
 
-#: src/workbook.c:447
+#: src/workbook.c:512
 msgid "_Change name"
 msgstr ""
 
-#: src/workbook.c:453
+#: src/workbook.c:518
 msgid "_Cells.."
 msgstr "C_ellák..."
 
-#: src/workbook.c:456
+#: src/workbook.c:521
 msgid "C_olumn"
 msgstr "_Oszlop"
 
-#: src/workbook.c:457
+#: src/workbook.c:522
 msgid "_Row"
 msgstr "So_r"
 
-#: src/workbook.c:458
+#: src/workbook.c:523
 msgid "_Sheet"
 msgstr "M_unkalap"
 
-#: src/workbook.c:464
+#: src/workbook.c:529
 msgid "_About Gnumeric"
 msgstr "Gnumeric _névjegye"
 
-#: src/workbook.c:470
+#: src/workbook.c:535
 msgid "_File"
 msgstr "_Fájl"
 
-#: src/workbook.c:471
+#: src/workbook.c:536
 msgid "_Edit"
 msgstr "S_zerkesztés"
 
-#: src/workbook.c:472
+#: src/workbook.c:537
 msgid "_View"
 msgstr "_Nézet"
 
-#: src/workbook.c:473
+#: src/workbook.c:538
 msgid "_Insert"
 msgstr "_Beszúrás"
 
-#: src/workbook.c:474
+#: src/workbook.c:539
 msgid "F_ormat"
 msgstr "Formá_tum"
 
-#: src/workbook.c:475
+#: src/workbook.c:540
 msgid "_Help"
 msgstr "_Súgó"
 
-#: src/workbook.c:483
+#: src/workbook.c:548
 msgid "New"
 msgstr "Új"
 
-#: src/workbook.c:483
+#: src/workbook.c:548
 msgid "Create a new sheet"
-msgstr "Új dokumentum"
+msgstr "Új munkalap"
 
-#: src/workbook.c:486
+#: src/workbook.c:551
 msgid "Open"
-msgstr ""
-
-#: src/workbook.c:486
-msgid "Opens an existing workbook"
 msgstr "Megnyitás"
 
-#: src/workbook.c:489
-msgid "Save"
-msgstr ""
+#: src/workbook.c:551
+msgid "Opens an existing workbook"
+msgstr "Egy létezõ munkafüzet megnyitása"
 
-#: src/workbook.c:489
-msgid "Saves the workbook"
+#: src/workbook.c:554
+msgid "Save"
 msgstr "Mentés"
 
-#: src/workbook.c:495
+#: src/workbook.c:554
+msgid "Saves the workbook"
+msgstr "Munkafüzet mentése"
+
+#: src/workbook.c:560
 msgid "Cuts the selection to the clipboard"
 msgstr "Kivágás"
 
-#: src/workbook.c:498
+#: src/workbook.c:563
 msgid "Copies the selection to the clipboard"
 msgstr "Másolás"
 
-#: src/workbook.c:501
+#: src/workbook.c:566
 msgid "Pastes the clipboard"
 msgstr "Beillesztés"
 
-#: src/workbook.c:507
+#: src/workbook.c:572
 msgid "Left align"
 msgstr "Balra zárás"
 
-#: src/workbook.c:507
+#: src/workbook.c:572
 msgid "Sets the cell alignment to the left"
 msgstr "Balra igazítja a cella tartalmát"
 
-#: src/workbook.c:510
+#: src/workbook.c:575
 msgid "Centers the cell contents"
 msgstr "Középre zárás"
 
-#: src/workbook.c:513
+#: src/workbook.c:578
 msgid "Right align"
 msgstr "Jobbra zárás"
 
-#: src/workbook.c:513
+#: src/workbook.c:578
 msgid "Sets the cell alignment to the right"
 msgstr "Jobbra igazítja a cella tartalmát"
 
-#: src/workbook.c:519
+#: src/workbook.c:584
 msgid "Bold"
 msgstr "Félkövér"
 
-#: src/workbook.c:519
+#: src/workbook.c:584
 msgid "Sets the bold attribute on the cell"
 msgstr "A kijelölt cella formázása félkövér lesz"
 
-#: src/workbook.c:523
+#: src/workbook.c:588
 msgid "Italic"
 msgstr "Dõlt"
 
-#: src/workbook.c:523
+#: src/workbook.c:588
 msgid "Sets the italic attribute on the cell"
 msgstr "Dõlt stílusura formázza a kijelölt cellát"
 
-#: src/workbook.c:529
+#: src/workbook.c:594
 msgid "Line"
 msgstr "Vonal"
 
-#: src/workbook.c:529
+#: src/workbook.c:594
 msgid "Creates a line object"
 msgstr "Vonalrajzolás"
 
-#: src/workbook.c:532
+#: src/workbook.c:597
 msgid "Arrow"
 msgstr "Nyíl"
 
-#: src/workbook.c:532
+#: src/workbook.c:597
 msgid "Creates an arrow object"
 msgstr "Nyílrajzolás"
 
-#: src/workbook.c:535
+#: src/workbook.c:600
 msgid "Rectangle"
 msgstr "Téglalap"
 
-#: src/workbook.c:535
+#: src/workbook.c:600
 msgid "Creates a rectangle object"
 msgstr "Téglalaprajzolás"
 
-#: src/workbook.c:538
+#: src/workbook.c:603
 msgid "Ellipse"
 msgstr "Ellipszis"
 
-#: src/workbook.c:538
+#: src/workbook.c:603
 msgid "Creates an ellipse object"
 msgstr "Ellipszisrajzolás"
 
-#: src/workbook.c:617
+#: src/workbook.c:682
 msgid "You should introduce a valid cell name"
 msgstr "A beírt szöveg nem érvényes hivatkozás vagy létezõ név"
 
-#: src/workbook.c:623
+#: src/workbook.c:688
 msgid "Column out of range"
 msgstr "Tartományon kívüli oszlophivatkozás"
 
-#: src/workbook.c:628
+#: src/workbook.c:693
 msgid "Row number out of range"
 msgstr "Tartományon kívüli sorhivatkozás"
 
-#: src/workbook.c:733
+#: src/workbook.c:798
 msgid "Sum"
 msgstr "Összeg"
 
-#: src/workbook.c:734
+#: src/workbook.c:799
 msgid "Min"
 msgstr "Minimum"
 
-#: src/workbook.c:735
+#: src/workbook.c:800
 msgid "Max"
 msgstr "Maximum"
 
-#: src/workbook.c:736
+#: src/workbook.c:801
 msgid "Average"
 msgstr "Átlag"
 
-#: src/workbook.c:737
+#: src/workbook.c:802
 msgid "Count"
 msgstr "Darabszám"
 
-#: src/workbook.c:962
+#: src/workbook.c:971
+msgid "Untitled.gnumeric"
+msgstr "Névtelen.gnumeric"
+
+#: src/workbook.c:1029
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
-#: src/workbook.c:969
+#: src/workbook.c:1036
 msgid "Zoom in"
 msgstr "Nagyítás"
 
-#: src/workbook.c:1009
+#: src/workbook.c:1076
 msgid "Sheet %d"
 msgstr "Munka%d"
 
-#: src/xml-io.c:1317
+#: src/xml-io.c:1416
 msgid "NoName"
 msgstr "Névtelen"
