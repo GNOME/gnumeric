@@ -1,5 +1,10 @@
 1999-01-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/workbook.c (wb_input_finished): Use
+	sheet_accept_pending_input instead of sheet_set_current_value.
+	(workbook_setup_auto_calc): Stick the information display inside
+	the status bar.
+
 	* src/eval.c (add_value_deps): Reorganization.  Hanlde
 	VALUE_CELLREF here and make OPER_VAR and OPER_CONSTANT call
 	add_value_deps. 

@@ -939,7 +939,7 @@ wb_input_finished (GtkEntry *entry, Workbook *wb)
 	
 	sheet = workbook_get_current_sheet (wb);
 
-	sheet_set_current_value (sheet);
+	sheet_accept_pending_input (sheet);
 	workbook_focus_current_sheet (wb);
 }
 
@@ -1156,11 +1156,7 @@ workbook_setup_auto_calc (Workbook *wb)
 {
 	GtkWidget *canvas;
 	GnomeCanvasGroup *root;
-	GtkWidget *t, *l;
-	
-	t = gtk_table_new (0, 0, 0);
-	gtk_table_attach (GTK_TABLE (wb->table), t,
-			  0, WB_COLS, WB_EA_STATUS, WB_EA_STATUS+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	GtkWidget *l;
 
 	canvas = gnome_canvas_new ();
 
@@ -1177,21 +1173,15 @@ workbook_setup_auto_calc (Workbook *wb)
 		"anchor",   GTK_ANCHOR_NW,
 		"fill_color", "black",
 		NULL));
-	
-	gtk_table_attach (GTK_TABLE (t), canvas, 1, 2, 0, 1,
-			  GTK_FILL, GTK_FILL, 0, 0);
-	/* The following is just a trick to get the canvas to "adjust" his
-	 * size to the proper value (as we created it with 1,1 and
-	 * GTK_FILL options for X and Y
-	 */
-	gtk_table_attach (GTK_TABLE (t), gtk_label_new ("WWWWWWWWW"), 1, 2, 0, 1,
-			  GTK_FILL, GTK_FILL, 0, 0);
+	gtk_widget_set_usize (
+		GTK_WIDGET (canvas),
+		gdk_text_measure (l->style->font, "W", 1) * 15, -1);
+	gtk_box_pack_start (GTK_BOX (wb->appbar), canvas, FALSE, TRUE, 0);
 	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
-	
-	gtk_table_attach (GTK_TABLE (t), l, 0, 1, 0, 1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_widget_show_all (t);
+
+	gtk_object_destroy (GTK_OBJECT (l));
+	gtk_widget_show (canvas);
 }
 
 /*
@@ -1200,8 +1190,6 @@ workbook_setup_auto_calc (Workbook *wb)
 static void
 workbook_setup_status_area (Workbook *wb)
 {
-	workbook_setup_auto_calc (wb);
-
 	/*
 	 * Create the GnomeAppBar
 	 */
@@ -1209,6 +1197,11 @@ workbook_setup_status_area (Workbook *wb)
 						    GNOME_PREFERENCES_USER));
 	gnome_app_set_statusbar (GNOME_APP (wb->toplevel),
 				 GTK_WIDGET (wb->appbar));
+
+	/*
+	 * Add the auto calc widgets.
+	 */
+	workbook_setup_auto_calc (wb);
 }
 
 void
