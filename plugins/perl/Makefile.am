@@ -28,7 +28,7 @@ INCLUDES = 						\
 	$(PERL_CCOPTS)					\
 	$(GNOME_INCLUDEDIR)
 
-libperl_la_LIBADD = $(PERL_LDOPTS)
+libperl_la_LDADD = $(PERL_LDOPTS)
 
 Perlscriptsdir = $(datadir)/gnumeric/perl
 
