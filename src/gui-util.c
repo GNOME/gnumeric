@@ -1062,7 +1062,7 @@ gnm_fat_cross_cursor (GdkDisplay *display)
  * 
  * dialog : dialog you want to add a button
  * text : button label
- * sotck_id : stock icon id
+ * stock_id : stock icon id
  * response_id : respond id when button clicked
  *
  * return : newly created button

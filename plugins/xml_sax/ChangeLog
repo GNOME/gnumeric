@@ -2,6 +2,7 @@
 
 	* xml-sax-write.c (xml_write_solver): Don't conditionalize on
 	  ENABLE_SOLVER; we can export the data in any case.
+	* xml-sax-read.c (xml_sax_object_start): Use attrs[1], not tmp.
 
 2005-02-08  Jody Goldberg <jody@gnome.org>
 

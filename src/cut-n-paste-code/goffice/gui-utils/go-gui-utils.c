@@ -50,7 +50,7 @@
  * Creates a new GtkButton with custom label and stock image.
  * 
  * text : button label
- * sotck_id : id for stock icon
+ * stock_id : id for stock icon
  *
  * return : newly created button
  *
