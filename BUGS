@@ -12,6 +12,12 @@ Release Critical
 - check the implementation of seriessum returning NULL seems bad
 - Don't write empty cells.
 
+- sheet_regen_adjacent_spans, line 2783 reads...
+    test[1] = (end_col < SHEET_MAX_ROWS-1);
+  Check and fix row/col confusion.
+
+- In excel_read_DV, free input_msg, error_msg, input_title, error_title.
+
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
