@@ -2428,14 +2428,14 @@ typedef struct
 	CellRegion        *content;
 	PasteTarget        dst;
 	gboolean           has_been_through_cycle;
-	gboolean           is_undo;
 	ColRowRLESizeList *saved_sizes;
 } CmdPasteCopy;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
 
 static gboolean
-cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_paste_copy_impl (GnumericCommand *cmd, WorkbookControl *wbc,
+		     gboolean is_undo)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 	CellRegion *content;
@@ -2458,7 +2458,7 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			(me->dst.paste_flags & PASTE_FORMATS);
 	}
 	
-	if (me->is_undo) {
+	if (is_undo) {
 		colrow_restore_sizes (me->dst.sheet, FALSE, me->dst.range.start.row,
 				      me->dst.range.end.row, me->saved_sizes);
 		me->saved_sizes = NULL;
@@ -2470,7 +2470,6 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	me->content = content;
 	me->has_been_through_cycle = TRUE;
-	me->is_undo = TRUE;
 
 	/* Make the newly pasted content the selection (this queues a redraw) */
 	sheet_selection_reset (me->dst.sheet);
@@ -2485,12 +2484,15 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
+cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	return cmd_paste_copy_impl (cmd, wbc, TRUE);
+}
+
+static gboolean
 cmd_paste_copy_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
-	
-	me->is_undo = FALSE;
-	return cmd_paste_copy_undo (cmd, wbc);
+	return cmd_paste_copy_impl (cmd, wbc, FALSE);
 }
 
 static void
@@ -2531,7 +2533,6 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->dst = *pt;
 	me->content = content;
 	me->has_been_through_cycle = FALSE;
-	me->is_undo = TRUE;
 	me->saved_sizes = NULL;
 	
 	/* If the destination is a singleton paste the entire content */

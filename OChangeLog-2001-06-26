@@ -1,5 +1,14 @@
 2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/commands.c (cmd_paste_copy_impl): New, contains
+	what was previously in cmd_paste_copy_undo.
+	(cmd_paste_copy_undo): Call upon cmd_paste_copy_impl.
+	(cmd_paste_copy_redo): Idem.
+	(cmd_paste_copy): Remove initialization of me->is_undo flag,
+	the flag has been burned.
+
+2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
+
 	* configure.in: Bump GAL version requirement to 0.7.99.5
 	
   	* src/workbook-format-toolbar.c (cb_back_color_changed): Add

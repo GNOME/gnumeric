@@ -1,11 +1,13 @@
 Gnumeric 0.65
 
 Almer:
-	* Fix a variety of bugs.
+	* Fix a variety of bugs and other issues.
 	* Improve parser error messages.
 	* Implement undo/redo for Zoom.
 	* Make undo/redo descriptors more descriptive.
 	* Complete the CELL function.
+	* Drastically revise and fix-up the color combo's.
+	* Architectural improvements for preview-grid, menu state, etc.
 
 Chema:
 	* GNUMERIC_ENABLE_XL_OVERWRITE
