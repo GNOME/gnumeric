@@ -515,7 +515,7 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 			      value_int (0));
 
 	if (v->type == VALUE_ARRAY){
-		g_return_val_if_fail (v->v.array.x < x ||
+		g_return_val_if_fail (v->v.array.x < x &&
 				      v->v.array.y < y,
 				      value_int (0));
 		return &v->v.array.vals [x][y];

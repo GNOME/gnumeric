@@ -682,6 +682,17 @@ filenames_dropped (GtkWidget * widget,
 	}
 }
 
+#ifdef ENABLE_BONOBO
+static void
+insert_object_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	char *repoid = "IDL:Sample/server:1.0";
+
+	sheet_insert_object (sheet, repoid);
+}
+#endif
+
 /* File menu */
 
 static GnomeUIInfo workbook_menu_file [] = {
@@ -738,6 +749,14 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell.."),
 	  N_("Jump to a specified cell"), goto_cell_cmd, NULL, NULL,
 	  0, 0, 'i', GDK_CONTROL_MASK },
+
+	GNOMEUIINFO_SEPARATOR,
+
+#ifdef ENABLE_BONOBO
+	GNOMEUIINFO_ITEM_NONE(N_("Insert object..."),
+			      N_("Inserts a Bonobo object"),
+			      insert_object_cmd),
+#endif
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1407,6 +1426,10 @@ workbook_new (void)
 	workbook_list = g_list_prepend (workbook_list, wb);
 	
 	gtk_widget_show_all (wb->table);
+
+#ifdef ENABLE_BONOBO
+	wb->container = GNOME_CONTAINER (gnome_container_new ());
+#endif
 	return wb;
 }
 

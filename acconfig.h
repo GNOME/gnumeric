@@ -9,3 +9,7 @@
 #undef HAVE_ORBIT
 #undef HAVE_GTK_SELECTION_ADD_TARGET
 #undef HAVE_GUILE
+
+#ifdef HAVE_BONOBO
+#    define ENABLE_BONOBO
+#endif

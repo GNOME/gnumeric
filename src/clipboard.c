@@ -223,9 +223,9 @@ x_selection_to_cell_region (char *data, int len)
 				rows++;
 				cur_col = 0;
 			} else {
+				cur_col++;
 				if (cur_col > cols)
 					cols = cur_col;
-				cur_col++;
 			}
 
 			data = p+1;
@@ -233,9 +233,13 @@ x_selection_to_cell_region (char *data, int len)
 	}
 
 	/* Handle the remainings */
-	if (p != data)
+	if (p != data){
 		list = new_node (list, data, p, cur_col, rows);
-
+		cur_col++;
+		if (cur_col > cols)
+			cols = cur_col;
+	}
+	
 	/* Return the CellRegion */
 	cr = g_new (CellRegion, 1);	
 	cr->list = list;

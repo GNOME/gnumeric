@@ -71,6 +71,10 @@ typedef struct {
 	void       *clipboard_paste_callback_data;
 
 	void       *toolbar;
+
+#ifdef HAVE_BONOBO
+	GnomeContainer *gnome_container;
+#endif
 } Workbook;
 
 typedef struct {
@@ -87,6 +91,9 @@ typedef enum {
 	SHEET_MODE_CREATE_ARROW,
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
+
+/* A list of GnomeClientSites */
+typedef GList GListClientSite;
 
 typedef struct {
 	int         signature;
@@ -141,6 +148,10 @@ typedef struct {
 
         /* Solver parameters */
         SolverParameters solver_parameters;
+
+#ifdef HAVE_BONOBO
+	GListClientSite *client_site_list;
+#endif
 } Sheet;
 
 #define SHEET_SIGNATURE 0x12349876

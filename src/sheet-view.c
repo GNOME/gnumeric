@@ -687,4 +687,13 @@ sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanva
 	gnome_canvas_item_set (o, "points", points, NULL);
 }
 
-
+#ifdef ENABLE_BONOBO
+void
+sheet_view_insert_object (SheetView *sheet_view, GnomeObject *object)
+{
+	GtkWidget *view;
+	
+	view = gnome_component_new_view (object);
+	g_warning ("Stick this into the SheetView");
+}
+#endif

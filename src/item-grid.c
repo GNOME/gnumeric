@@ -14,7 +14,7 @@
 #include "color.h"
 #include "dialogs.h"
 #include "cursors.h"
-#include "gnome-util.h"
+#include "gnumeric-util.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 

@@ -116,6 +116,12 @@ GNOME Spread Sheet task list
 * Sheets
 
 When adding a sheet or renaming a sheet, should we reparse everything?
+<<<<<<< TODO
+
+* Clipboard
+
+Perhaps make a global clipboard and remove all the hacks in the
+current clipboard code to find the clipboard.=======
 
 
 
@@ -126,3 +132,4 @@ When adding a sheet or renaming a sheet, should we reparse everything?
 
 
 
+>>>>>>> 1.45
