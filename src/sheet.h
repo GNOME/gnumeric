@@ -77,6 +77,11 @@ typedef struct {
 
 	/* The list of formulas */
 	GList      *formula_cell_list;
+
+	/* For walking trough a selection */
+	struct {
+		SheetSelection *current;
+	} walk_info;
 } Sheet;
 
 #define SHEET_SIGNATURE 0x12349876
@@ -120,7 +125,10 @@ void        sheet_selection_cut          (Sheet *sheet);
 void        sheet_selection_paste        (Sheet *sheet,
 					  int dest_col, int dest_row,
 					  int paste_flags);
-
+int         sheet_selection_walk_step    (Sheet *sheet,
+					  int   forward,     int horizontal,
+					  int   current_col, int current_row,
+					  int   *new_col,    int *new_row);
 void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);

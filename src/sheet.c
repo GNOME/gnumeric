@@ -1059,7 +1059,8 @@ sheet_selection_clear_only (Sheet *sheet)
 	}
 	g_list_free (sheet->selections);
 	sheet->selections = NULL;
-
+	sheet->walk_info.current = NULL;
+		
 	/* Unselect the column bar */
 	if (clean_bar_selection (sheet->cols_info) > 0)
 		gnome_canvas_request_redraw (GNOME_CANVAS (sheet->col_canvas),
@@ -1106,6 +1107,93 @@ sheet_selection_is_cell_selected (Sheet *sheet, int col, int row)
 			return 1;
 	}
 	return 0;
+}
+
+/*
+ * walk_boundaries: implements the decitions for walking a region
+ * returns TRUE if the cursor left the boundary region
+ */
+static int
+walk_boundaries (int lower_col,   int lower_row,
+		 int upper_col,   int upper_row,
+		 int inc_x,       int inc_y,
+		 int current_col, int current_row,
+		 int *new_col,    int *new_row,
+		 int wrap)
+{
+	if (current_row + inc_y == upper_row ||
+	    current_col + inc_x == upper_col){
+		*new_row = current_row;
+		*new_col = current_col;
+		return TRUE;
+	} else {
+		if (current_row + inc_y < lower_row ||
+		    current_col + inc_x < lower_col){
+			*new_row = current_row;
+			*new_col = current_col;
+			return TRUE;
+		} else {
+			*new_row = current_row + inc_y;
+			*new_col = current_col + inc_x;
+		}
+	}
+	return FALSE;
+}
+
+int
+sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
+			   int current_col, int current_row,
+			   int *new_col, int *new_row)
+{
+	int inc_x = 0, inc_y = 0, diff, overflow;
+
+	diff = forward ? 1 : -1;
+
+	if (horizontal)
+		inc_x = diff;
+	else
+		inc_y = diff;
+				 
+	if (g_list_length (sheet->selections) == 1){
+		SheetSelection *ss = sheet->selections->data;
+
+		/* If there is no selection besides the cursor, plain movement */
+		if (ss->start_col == ss->end_col && ss->start_row == ss->end_row){
+			walk_boundaries (0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
+					 inc_x, inc_y, current_col, current_row,
+					 new_col, new_row, FALSE);
+			return FALSE;
+		}
+	}
+
+	if (!sheet->walk_info.current)
+		sheet->walk_info.current = sheet->selections->data;
+
+	do {
+		SheetSelection *ss = sheet->walk_info.current;
+
+		overflow = walk_boundaries (ss->start_col, ss->start_row,
+					    ss->end_col,   ss->end_row,
+					    inc_x, inc_y, current_col, current_row,
+					    new_col, new_row, TRUE);
+		if (overflow){
+			GList *l = sheet->selections;
+
+			for (; l; l = l->next){
+				if (l->data != sheet->walk_info.current)
+					continue;
+				
+				l = l->next;
+				sheet->walk_info.current =
+					l ? l->data : sheet->selections->data;
+
+				*new_col = ss->start_col;
+				*new_row = ss->start_row;
+				return TRUE;
+			}
+		}
+	} while (overflow);
+	return TRUE;
 }
 
 /*

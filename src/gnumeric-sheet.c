@@ -557,10 +557,25 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		(*movefn_vertical)(gsheet, 1);
 		break;
 
+	case GDK_Tab:
 	case GDK_Return:
-		g_warning ("FIXME: Should move to next cell in selection\n");
-		move_cursor (gsheet, gsheet->cursor_col, gsheet->cursor_row, 0);
+	{
+		int col, row;
+		int walking_selection;
+		int direction, horizontal;
+
+		/* Figure out the direction */
+		direction = (event->state & GDK_SHIFT_MASK) ? 0 : 1;
+		horizontal = (event->keyval == GDK_Tab) ? 1 : 0;
+		
+		selection_remove_selection_string (gsheet);
+		walking_selection = sheet_selection_walk_step (
+			gsheet->sheet, direction, horizontal,
+			gsheet->cursor_col, gsheet->cursor_row,
+			&col, &row);
+		move_cursor (gsheet, col, row, walking_selection == 0);
 		break;
+	}
 
 	case GDK_Escape:
 		cancel_pending_input (gsheet);

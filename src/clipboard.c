@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "clipboard.h"
+#include "eval.h"
 
 typedef struct {
 	int        base_col, base_row;
@@ -83,7 +84,11 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int
 	for (l = region->list; l; l = l->next){
 		CellCopy *c_copy = l->data;
 		Cell *new_cell;
+		int target_col, target_row;
 
+		target_col = dest_col + c_copy->col_offset;
+		target_row = dest_row + c_copy->row_offset;
+		
 		/* FIXME: create a cell_copy_flags that uses
 		 * the bits more or less like paste_flags.
 		 *
@@ -94,9 +99,7 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int
 		 */
 		new_cell = cell_copy (c_copy->cell);
 		
-		sheet_cell_add (dest_sheet, new_cell,
-				dest_col + c_copy->col_offset,
-				dest_row + c_copy->row_offset);
+		sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
 		if (new_cell->parsed_node)
 			cell_queue_recalc (new_cell);
 	}
