@@ -28004,7 +28004,7 @@ msgstr "内容(_C)"
 
 #: src/wbcg-actions.c:1355
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr ""
+msgstr "Gnumericドキュメンテーションのビューアを開く"
 
 #: src/wbcg-actions.c:1357
 msgid "Gnumeric on the _Web"
@@ -28028,7 +28028,7 @@ msgstr "問題の報告(_P)"
 
 #: src/wbcg-actions.c:1364
 msgid "Report problem "
-msgstr "問題を奉告します "
+msgstr "問題を報告します "
 
 #: src/wbcg-actions.c:1366
 msgid "_About"
@@ -28051,9 +28051,8 @@ msgid "Save the current workbook"
 msgstr "編集中のワークブックを保存します"
 
 #: src/wbcg-actions.c:1384
-#, fuzzy
 msgid "Save the current workbook with a different name"
-msgstr "編集中のファイルを別の名前で保存します"
+msgstr "編集中のワークブックを別の名前で保存します"
 
 #: src/wbcg-actions.c:1386
 msgid "Sen_d To..."
@@ -28129,14 +28128,12 @@ msgid "Clear the selected cells' contents"
 msgstr "選択されたセルの内容を消去します"
 
 #: src/wbcg-actions.c:1427
-#, fuzzy
 msgid "Delete the row(s) containing the selected cells"
-msgstr "選択されたセルに現在の時刻を挿入します"
+msgstr "選択されたセルを含む行を削除します"
 
 #: src/wbcg-actions.c:1430
-#, fuzzy
 msgid "Delete the column(s) containing the selected cells"
-msgstr "選択されたセルに現在の時刻を挿入します"
+msgstr "選択されたセルを含む列を削除します"
 
 #. Insert
 #: src/wbcg-actions.c:1432 src/wbcg-actions.c:1540
