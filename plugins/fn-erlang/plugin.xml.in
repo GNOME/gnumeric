@@ -5,7 +5,7 @@
 		<_description>Functions to help Erlang Analysis</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="erlang.la"/>
+		<attribute name="module_file" value="erlang"/>
 	</loader>
 	<services>
 		<service type="function_group" id="erlang">
