@@ -1,4 +1,4 @@
-Mon Jun 21 20:50:13 1999  Morten Welinder  <welinder@rentec.com>
+1999-06-21  Morten Welinder  <terra@diku.dk>
 
 	* src/dialog-function-wizard.c (arg_data_list_new): Fix case of
  	missing SYNTAX section.
