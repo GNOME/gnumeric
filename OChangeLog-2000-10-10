@@ -1,3 +1,8 @@
+2000-05-05  Tuomas Kuosmanen  <tigert@tigert.gimp.org>
+
+	* src/pixmaps/function_selector.xpm: Made the ()'s a bit higher
+	to make the f(x) more clear.
+
 2000-05-05  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object-container.c (sheet_object_container_realize): fix
