@@ -29,7 +29,8 @@ Jody:
 
 Jukka:
 	* Improved MPS plugin.
-	* Extended the data analysis documentation.
+	* Extended the data analysis tools documentation.
+	* Improved COUPDAYS().
 
 Morten:
 	* Improve goal seek.

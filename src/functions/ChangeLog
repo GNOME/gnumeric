@@ -1,3 +1,8 @@
+2001-10-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* fn-functions (coupdays): Implemented the frequency 2 for basis 1
+	(actual/actual).
+
 2001-10-21  Jody Goldberg <jgoldberg@home.com>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=62762

@@ -272,7 +272,226 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 			} else
 			        return 365.0;
 		} else if (freq == 2) {
-		        return -1.0;
+		  switch (mm) {
+		  case 1:
+		          if (sm >= 8 || (sm == 7 && sd >= md)
+			      || (sm == 1 && sd < md))
+			          return 184.0;
+			  else if (g_date_is_leap_year (sy))
+			          return 182.0;
+			  else
+			          return 181.0;
+		  case 2:
+		          if (sm >= 9 || (sm == 8 && sd >= md) || sm == 1
+			      || (sm == 2 && sd < md))
+			          if (md < 28)
+				          return 184.0;
+				  else if (sm >= 9)
+				          if (g_date_is_leap_year (sy+1))
+					          return 182.0 + 2*(md == 28);
+					  else
+				                  return 181.0;
+				  else if (sm <= 2)
+				          if (g_date_is_leap_year (sy) )
+					          if (md == 28)
+						          return 184.0;
+						  else if (g_date_is_leap_year
+							   (md))
+						          return 184.0;
+						  else
+						          return 182.0;
+					  else
+				                  return 181.0;
+				  else if (sm <= 7)
+				          if (md == 28)
+					          if (g_date_is_leap_year (sy))
+						          return 182.0;
+						  else
+						          return 181.0;
+					  else
+				                  if (g_date_is_leap_year (sy)
+						      || 
+						      g_date_is_leap_year(sy+1))
+						          return 182.0;
+						  else
+						          return 181.0;
+				  else if (md == 28) /* sm == 8 */
+				          if (sm < 28)
+					          if (g_date_is_leap_year (sy))
+						          return 182.0;
+						  else
+						          return 181.0;
+					  else
+				                  return 184.0;
+				  else
+				          if (g_date_is_leap_year (sy) || 
+					      g_date_is_leap_year (sy+1))
+					          return 182.0;
+					  else
+				                  return 181.0;
+			  else if (g_date_is_leap_year (sy))
+			          return 182.0;
+			  else
+			          return 181.0;
+		  case 3:
+		          if ((sm >= 4 && sm <= 8) || (sm == 9 && sd < md)
+			      || (sm == 3 && sd >= md))
+			          return 183.0 + (md < 30);
+			  else if (sm <= 3)
+			          if (g_date_is_leap_year (sy))
+				          return 182.0;
+				  else
+				          return 181.0;
+			  else
+			          if (g_date_is_leap_year (sy+1))
+				          return 182.0;
+				  else
+				          return 181.0;
+		  case 4:
+		          if ((sm >= 5 && sm <= 9) || (sm == 10 && sd < md)
+			      || (sm == 4 && sd >= md))
+			          return 183.0;
+			  else if (sm <= 4)
+			          if (g_date_is_leap_year (sy))
+				          return 183.0 - (md == 30);
+				  else
+				          return 182.0 - (md == 30);
+			  else if (g_date_is_leap_year (sy+1))
+			          return 183.0 - (md == 30);
+			  else
+			          return 182.0 - (md == 30);
+		  case 5:
+		          if ((sm >= 6 && sm <= 10) || (sm == 11 && sd < md)
+			      || (sm == 5 && sd >= md))
+			          return 183.0 + (md < 30);
+			  else
+			          if (sm <= 5)
+				          if (g_date_is_leap_year (sy))
+					          return 182.0;
+					  else
+				                  return 181.0;
+				  else
+				          if (g_date_is_leap_year (sy+1))
+					          return 182.0;
+					  else
+				                  return 181.0;
+		  case 6:
+		          if ((sm >= 7 && sm <= 11) || (sm == 12 && sd < md)
+			      || (sm == 6 && sd >= md))
+			          return 183.0;
+			  else
+			          if (sm <= 6)
+				          if (g_date_is_leap_year (sy))
+					          return 183.0 - (md == 30);
+					  else
+				                  return 182.0 - (md == 30);
+				  else
+				          if (g_date_is_leap_year (sy+1))
+					          return 183.0 - (md == 30);
+					  else
+				                  return 182.0 - (md == 30);
+		  case 7:
+		          if ((sm >= 8 && sm <= 12) || (sm == 7 && sd >= md)
+			      || (sm == 1 && sd < md))
+			          return 184.0;
+			  else
+			          if (g_date_is_leap_year (sy))
+				          return 182.0;
+				  else
+				          return 181.0;
+		  case 8:
+		          if (sm == 1 || sm >= 9 || (sm == 2 && sd < md)
+			      || (sm == 8 && sd >= md))
+			          if (md < 28)
+				          return 184.0;
+				  else if (sm <= 2)
+				          if (g_date_is_leap_year (sy))
+					          return 184.0 -
+						    2*(sm == 2 && sy == my);
+					  else
+				                  return 181.0;
+				  else
+				          if (g_date_is_leap_year (sy+1))
+					          if (md == 28 || 
+						      !g_date_is_leap_year(my))
+						          return 184.0;
+						  else
+						          return 182.0;
+					  else
+				                  return 181.0;
+			  else
+			          if (g_date_is_leap_year (sy)
+				      || (md >= 29 && 
+					  ((g_date_is_leap_year (sy+1)
+					    && g_date_is_leap_year (my)
+					    && sy+1 == my)
+					   || my == sy)))
+				          return 182.0;
+				  else 
+				          return 181.0;
+		  case 9:
+		          if ((sm >= 4 && sm <= 8) || (sm == 9 && sd < md)
+			      || (sm == 3 && sd >= md))
+			          return 183.0 + (md < 30);
+			  else
+			          if (sm <= 3)
+				          if (g_date_is_leap_year (sy))
+					          return 182.0;
+					  else
+				                  return 181.0;
+				  else
+				          if (g_date_is_leap_year (sy+1))
+					          return 182.0;
+					  else
+				                  return 181.0;
+		  case 10:
+		          if ((sm >= 5 && sm <= 9) || (sm == 10 && sd < md)
+			      || (sm == 4 && sd >= md))
+			          return 183.0;
+			  else
+			          if (sm <= 4)
+				          if (g_date_is_leap_year (sy))
+					          return 183.0 - (md >= 30);
+					  else
+				                  return 182.0 - (md >= 30);
+				  else
+				          if (g_date_is_leap_year (sy+1))
+					          return 183.0 - (md >= 30);
+					  else
+				                  return 182.0 - (md >= 30);
+		  case 11:
+		          if ((sm >= 6 && sm <= 10) || (sm == 11 && sd < md)
+			      || (sm == 5 && sd >= md))
+			          return 183.0 + (md < 30);
+			  else
+			          if (sm <= 5)
+				          if (g_date_is_leap_year (sy))
+					          return 182.0;
+					  else
+				                  return 181.0;
+				  else
+				          if (g_date_is_leap_year (sy+1))
+					          return 182.0;
+					  else
+				                  return 181.0;
+		  case 12:
+		          if ((sm >= 7 && sm <= 11) || (sm == 12 && sd < md)
+			      || (sm == 6 && sd >= md))
+			          return 183.0;
+			  else
+			          if (sm <= 6)
+				          if (g_date_is_leap_year (sy))
+					          return 183.0 - (md >= 30);
+					  else
+				                  return 182.0 - (md >= 30);
+				  else
+				          if (g_date_is_leap_year (sy+1))
+					          return 183.0 - (md >= 30);
+					  else
+				                  return 182.0 - (md >= 30);
+		  default:
+		          return -1.0;  /* Should never occur */
+		  }
 		} else {
 		        /* Frequency 4 */
 
