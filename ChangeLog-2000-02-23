@@ -1,3 +1,23 @@
+Sun Jul 26 17:39:53 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* configure.in: added GNOME_XML_CHECK
+
+	* src/Makefile.am: added xml-io.c to GNUMERIC_BASE_SOURCES and
+	  GNOME_XML_LIB to gnumeric_LDADD and test_parser_LDADD
+
+	* src/xml-io.[ch]: Added, provides saving to XML format
+
+	* src/main.c: added currentWorkbook global variable
+
+	* sheet.h: added currentWorkbook global variable
+
+	* workbook.c: added currentWorkbook global variable, a Save menu with
+	  save_cmd callback.
+
+	* src/sheet.c: cell_set_text, initialized is_float to zero
+
+	* doc/saving.txt: Added, what to be saved and first example.
+
 1998-07-25  Miguel de Icaza  <miguel@redhat.com>
 
 	* src/item-cursor.c (item_cursor_draw): Minimal code to support

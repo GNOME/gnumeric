@@ -1160,7 +1160,7 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 		cell_set_formula (sheet, cell, text); 
 	} else {
 		Value *v = g_new (Value, 1);
-		int is_text = 0, is_float;
+		int is_text = 0, is_float = 0;
 		char *p;
 		
 		cell->text = g_strdup (text);

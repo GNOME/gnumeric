@@ -151,4 +151,5 @@ Sheet      *workbook_get_current_sheet   (Workbook *wb);
  */
 void     workbook_realized            (Workbook *, GdkWindow *);
 
+extern   Workbook *currentWorkbook;
 #endif

@@ -3,6 +3,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "xml-io.h"
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -10,13 +11,23 @@
 
 #define WB_COLS      1
 
+Workbook *currentWorkbook;
+
 static void
 quit_cmd (void)
 {
 	gtk_main_quit ();
 }
 
+static void
+save_cmd (void)
+{
+        gnumericWriteXmlWorkbook(currentWorkbook, "default.wb");
+}
+
 static GnomeUIInfo workbook_menu_file [] = {
+	{ GNOME_APP_UI_ITEM, N_("Save"), NULL, save_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
 	{ GNOME_APP_UI_ITEM, N_("Exit"), NULL, quit_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
 	GNOMEUIINFO_END

@@ -37,7 +37,8 @@ GNUMERIC_BASE_SOURCES =		\
 	symbol.c		\
 	utils.c			\
 	utils.h			\
-	workbook.c
+	workbook.c		\
+	xml-io.c
 
 gnumeric_SOURCES =		\
 	main.c			\
@@ -47,6 +48,7 @@ gnumeric_SOURCES =		\
 gnumeric_LDADD = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEUI_LIBS)	\
+	$(GNOME_XML_LIB) \
 	$(INTLLIBS)
 
 test_format_SOURCES = format.c
@@ -61,7 +63,8 @@ test_parser_SOURCES = 		\
 	$(GNUMERIC_BASE_SOURCES)
 
 test_parser_LDADD =		\
-	$(GNOME_LIBDIR)	\
+	$(GNOME_LIBDIR)		\
+	$(GNOME_XML_LIB)	 \
 	$(GNOMEUI_LIBS) $(INTLLIBS) -lgmp
 
 #test_token_SOURCES = 		\
