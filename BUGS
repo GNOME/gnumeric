@@ -7,6 +7,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    Crash and/or warnings: Data->Filter->Advanced.  a1:c5143, c1:c5143, "ok",
+    "ok" to error dialog, *boom*.
+
 Pending Patches
 ---------------
 
