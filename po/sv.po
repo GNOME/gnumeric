@@ -21,8 +21,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.59\n"
-"POT-Creation-Date: 2000-11-18 13:14-0500\n"
-"PO-Revision-Date: 2000-11-17 03:30+0100\n"
+"POT-Creation-Date: 2000-11-19 11:23+0100\n"
+"PO-Revision-Date: 2000-11-19 13:43+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -808,7 +808,7 @@ msgstr "K:te minsta"
 msgid "Smallest (%d)"
 msgstr "Minsta (%d)"
 
-#: po/tmp/cell-format.glade.h:63 src/analysis-tools.c:978
+#: po/tmp/cell-format.glade.h:61 src/analysis-tools.c:978
 #: src/analysis-tools.c:2763
 msgid "Sample"
 msgstr "Exempel"
@@ -1099,7 +1099,7 @@ msgstr "Anova: Två faktorer utan upprepning"
 msgid "Rows"
 msgstr "Rader"
 
-#: po/tmp/dialog-stf.glade.h:28 src/analysis-tools.c:2604
+#: po/tmp/dialog-stf.glade.h:23 src/analysis-tools.c:2604
 #: src/analysis-tools.c:2764 src/dialogs/dialog-analysis-tools.c:404
 msgid "Columns"
 msgstr "Kolumner"
@@ -1747,7 +1747,7 @@ msgstr "Autorätta undantag"
 msgid "Do _not correct:"
 msgstr "_Rätta inte:"
 
-#: po/tmp/autocorrect-exceptions.glade.h:9 po/tmp/dialog-stf.glade.h:69
+#: po/tmp/autocorrect-exceptions.glade.h:9 po/tmp/dialog-stf.glade.h:67
 #: po/tmp/solver.glade.h:19
 msgid "_Add"
 msgstr "_Lägg till"
@@ -1764,7 +1764,7 @@ msgstr "_Första bokstaven"
 msgid "_INitial CApitals"
 msgstr "_STora BOkstäver i början"
 
-#: po/tmp/autocorrect-exceptions.glade.h:13 po/tmp/dialog-stf.glade.h:74
+#: po/tmp/autocorrect-exceptions.glade.h:13 po/tmp/dialog-stf.glade.h:72
 msgid "_Remove"
 msgstr "_Ta bort"
 
@@ -2030,20 +2030,25 @@ msgstr "Diagonala ränder"
 msgid "Display the value exactly as it was entered"
 msgstr "Visa värdet exakt som det matades in"
 
-#: po/tmp/cell-format.glade.h:30
+#: po/tmp/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1206
+#: src/dialogs/dialog-cell-format.c:1272
+msgid "Double"
+msgstr "Dubbel"
+
+#: po/tmp/cell-format.glade.h:31
 msgid "Effects"
 msgstr "Effekter"
 
-#: po/tmp/cell-format.glade.h:31 po/tmp/gnumeric.xml.h:75
+#: po/tmp/cell-format.glade.h:32 po/tmp/gnumeric.xml.h:75
 #: src/workbook-format-toolbar.c:679
 msgid "Font"
 msgstr "Typsnitt"
 
-#: po/tmp/cell-format.glade.h:32
+#: po/tmp/cell-format.glade.h:33
 msgid "Foreground Solid"
 msgstr "Förgrund massiv"
 
-#: po/tmp/cell-format.glade.h:33
+#: po/tmp/cell-format.glade.h:34
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
@@ -2051,322 +2056,313 @@ msgstr ""
 "Allmänt-formaterade celler försöker välja ett lämpligt format beroende på "
 "värdet i cellen."
 
-#: po/tmp/cell-format.glade.h:34
+#: po/tmp/cell-format.glade.h:35
 msgid "Horizontal"
 msgstr "Vågrätt"
 
-#: po/tmp/cell-format.glade.h:35
+#: po/tmp/cell-format.glade.h:36
 msgid "Horizontal Stripe"
 msgstr "Vågräta ränder"
 
-#: po/tmp/cell-format.glade.h:36
+#: po/tmp/cell-format.glade.h:37
 msgid "Inside"
 msgstr "Inuti"
 
-#: po/tmp/cell-format.glade.h:37
+#: po/tmp/cell-format.glade.h:38
 msgid "Inside Horizontal"
 msgstr "Inuti, vågrätt"
 
-#: po/tmp/cell-format.glade.h:38
+#: po/tmp/cell-format.glade.h:39
 msgid "Inside Vertical"
 msgstr "Inuti, lodrätt"
 
-#: po/tmp/cell-format.glade.h:39
+#: po/tmp/cell-format.glade.h:40
 msgid "J_ustify"
 msgstr "J_ustera"
 
-#: po/tmp/cell-format.glade.h:40
+#: po/tmp/cell-format.glade.h:41
 msgid "Large Circles"
 msgstr "Stora cirklar"
 
-#: po/tmp/cell-format.glade.h:41 po/tmp/gnumeric.xml.h:114
+#: po/tmp/cell-format.glade.h:42 po/tmp/gnumeric.xml.h:114
 #: src/workbook-format-toolbar.c:532
 msgid "Left"
 msgstr "Vänster"
 
-#: po/tmp/cell-format.glade.h:42
+#: po/tmp/cell-format.glade.h:43
 msgid "Left _Indent"
 msgstr "Vänster_indrag"
 
-#: po/tmp/cell-format.glade.h:43 po/tmp/gnumeric.xml.h:116
+#: po/tmp/cell-format.glade.h:44 po/tmp/gnumeric.xml.h:116
 #: src/workbook-object-toolbar.c:151
 msgid "Line"
 msgstr "Linje"
 
-#: po/tmp/cell-format.glade.h:44
+#: po/tmp/cell-format.glade.h:45
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Att låsa celler eller gömma formler påverkar endast skyddade blad."
 
-#: po/tmp/cell-format.glade.h:45
+#: po/tmp/cell-format.glade.h:46
 msgid "Negat_ive number:"
 msgstr "_Negativt tal:"
 
-#: po/tmp/cell-format.glade.h:46 src/dialogs/dialog-cell-format.c:1208
+#: po/tmp/cell-format.glade.h:47 src/dialogs/dialog-cell-format.c:1208
 #: src/dialogs/dialog-cell-format.c:1270 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Ingen"
 
-#: po/tmp/cell-format.glade.h:47
-#, fuzzy
-msgid "None\n"
-msgstr "Ingen"
-
-#: po/tmp/cell-format.glade.h:48
-#, fuzzy
-msgid "Single\n"
-msgstr "Enkel"
-
-#: po/tmp/cell-format.glade.h:49 src/dialogs/dialog-cell-format.c:1206
-#: src/dialogs/dialog-cell-format.c:1272
-msgid "Double"
-msgstr "Dubbel"
-
-#: po/tmp/cell-format.glade.h:50 src/dialogs/dialog-function-wizard.c:406
+#: po/tmp/cell-format.glade.h:48 src/dialogs/dialog-function-wizard.c:406
 msgid "Number"
 msgstr "Tal"
 
-#: po/tmp/cell-format.glade.h:51 po/tmp/print.glade.h:19
+#: po/tmp/cell-format.glade.h:49 po/tmp/print.glade.h:20
 msgid "Orientation"
 msgstr "Orientering"
 
-#: po/tmp/cell-format.glade.h:52
+#: po/tmp/cell-format.glade.h:50
 msgid "Outline"
 msgstr "Ram"
 
-#: po/tmp/cell-format.glade.h:53
+#: po/tmp/cell-format.glade.h:51
 msgid "Pattern"
 msgstr "Mönster"
 
-#: po/tmp/cell-format.glade.h:54
+#: po/tmp/cell-format.glade.h:52
 msgid "Pick a Background color"
 msgstr "Välj bakgrundsfärg"
 
-#: po/tmp/cell-format.glade.h:55
+#: po/tmp/cell-format.glade.h:53
 msgid "Pick a Pattern color"
 msgstr "Välj mönsterfärg"
 
-#: po/tmp/cell-format.glade.h:56
+#: po/tmp/cell-format.glade.h:54
 msgid "Pick a border color"
 msgstr "Välj en färg för kanten"
 
-#: po/tmp/cell-format.glade.h:57
+#: po/tmp/cell-format.glade.h:55
 msgid "Pick a font color"
 msgstr "Välj en typsnittsfärg"
 
-#: po/tmp/cell-format.glade.h:58
+#: po/tmp/cell-format.glade.h:56
 msgid "Protection"
 msgstr "Skydd"
 
-#: po/tmp/cell-format.glade.h:59
+#: po/tmp/cell-format.glade.h:57
 msgid "Reverse Diagonal"
 msgstr "Omvänd diagonal"
 
-#: po/tmp/cell-format.glade.h:60
+#: po/tmp/cell-format.glade.h:58
 msgid "Reverse Diagonal Stripe"
 msgstr "Omvända diagonala ränder"
 
-#: po/tmp/cell-format.glade.h:61 po/tmp/gnumeric.xml.h:153
+#: po/tmp/cell-format.glade.h:59 po/tmp/gnumeric.xml.h:153
 #: src/workbook-format-toolbar.c:534
 msgid "Right"
 msgstr "Höger"
 
-#: po/tmp/cell-format.glade.h:62
+#: po/tmp/cell-format.glade.h:60
 msgid "S_ymbol:"
 msgstr "S_ymbol:"
 
-#: po/tmp/cell-format.glade.h:64
+#: po/tmp/cell-format.glade.h:62
 msgid "Semi Circles"
 msgstr "Halvcirklar"
 
-#: po/tmp/cell-format.glade.h:65
+#: po/tmp/cell-format.glade.h:63
 msgid "Shrin_k to fit"
 msgstr "_Krymp till det passar"
 
-#: po/tmp/cell-format.glade.h:66
+#. There must be a better way than this
+#: po/tmp/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1204
+#: src/dialogs/dialog-cell-format.c:1271
+msgid "Single"
+msgstr "Enkel"
+
+#: po/tmp/cell-format.glade.h:65
 msgid "Small Circles"
 msgstr "Små cirklar"
 
-#: po/tmp/cell-format.glade.h:67
+#: po/tmp/cell-format.glade.h:66
 msgid "Solid"
 msgstr "Helfylld"
 
-#: po/tmp/cell-format.glade.h:68
+#: po/tmp/cell-format.glade.h:67
 msgid "Sp_ecial"
 msgstr "Sp_ecial"
 
-#: po/tmp/cell-format.glade.h:69
+#: po/tmp/cell-format.glade.h:68
 msgid "Stri_kethrough"
 msgstr "Genomstry_kning"
 
-#: po/tmp/cell-format.glade.h:70
+#: po/tmp/cell-format.glade.h:69
 msgid "Su_bscript"
 msgstr "U_pphöjd"
 
-#: po/tmp/cell-format.glade.h:71
+#: po/tmp/cell-format.glade.h:70
 msgid "Sup_erscript"
 msgstr "N_edsänkt"
 
-#: po/tmp/cell-format.glade.h:72
+#: po/tmp/cell-format.glade.h:71
 msgid "Te_xt"
 msgstr "Te_xt"
 
-#: po/tmp/cell-format.glade.h:73
+#: po/tmp/cell-format.glade.h:72
 msgid "Thatch"
 msgstr ""
 
-#: po/tmp/cell-format.glade.h:74
+#: po/tmp/cell-format.glade.h:73
 msgid "Thick Diagonal Crosshatch"
 msgstr "Tjocka diagonala rutor"
 
-#: po/tmp/cell-format.glade.h:75
+#: po/tmp/cell-format.glade.h:74
 msgid "Thin Diagonal Crosshatch"
 msgstr "Tunna diagonala rutor"
 
-#: po/tmp/cell-format.glade.h:76
+#: po/tmp/cell-format.glade.h:75
 msgid "Thin Diagonal Stripe"
 msgstr "Tunna diagonala ränder"
 
-#: po/tmp/cell-format.glade.h:77
+#: po/tmp/cell-format.glade.h:76
 msgid "Thin Horizontal Crosshatch"
 msgstr "Tunna diagonala rutor"
 
-#: po/tmp/cell-format.glade.h:78
+#: po/tmp/cell-format.glade.h:77
 msgid "Thin Horizontal Stripe"
 msgstr "Tunna vågräta ränder"
 
-#: po/tmp/cell-format.glade.h:79
+#: po/tmp/cell-format.glade.h:78
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tunna omvända diagonala ränder"
 
-#: po/tmp/cell-format.glade.h:80
+#: po/tmp/cell-format.glade.h:79
 msgid "Thin Vertical Stripe"
 msgstr "Tunna lodräta ränder"
 
-#: po/tmp/cell-format.glade.h:81
+#: po/tmp/cell-format.glade.h:80
 msgid "Top"
 msgstr "Överkant"
 
-#: po/tmp/cell-format.glade.h:82
+#: po/tmp/cell-format.glade.h:81
 msgid "Unfinished"
 msgstr "Inte klar"
 
-#: po/tmp/cell-format.glade.h:83
+#: po/tmp/cell-format.glade.h:82
 msgid "Vertical Alignment"
 msgstr "Lodrät justering"
 
-#: po/tmp/cell-format.glade.h:84
+#: po/tmp/cell-format.glade.h:83
 msgid "Vertical Stripe"
 msgstr "Lodräta ränder"
 
-#: po/tmp/cell-format.glade.h:85
+#: po/tmp/cell-format.glade.h:84
 msgid "Worksheet _protected"
 msgstr "Blad _skyddat"
 
-#: po/tmp/cell-format.glade.h:86
+#: po/tmp/cell-format.glade.h:85
 msgid "_Accounting"
 msgstr "_Redovisning"
 
-#: po/tmp/cell-format.glade.h:87
+#: po/tmp/cell-format.glade.h:86
 msgid "_Automatic"
 msgstr "_Automatisk"
 
-#: po/tmp/cell-format.glade.h:88
+#: po/tmp/cell-format.glade.h:87
 msgid "_Bottom"
 msgstr "_Underkant"
 
-#: po/tmp/cell-format.glade.h:89
+#: po/tmp/cell-format.glade.h:88
 msgid "_Center"
 msgstr "_Centrera"
 
-#: po/tmp/cell-format.glade.h:90
+#: po/tmp/cell-format.glade.h:89
 msgid "_Currency"
 msgstr "_Valuta"
 
-#: po/tmp/cell-format.glade.h:91 po/tmp/dialog-zoom.glade.h:15
+#: po/tmp/cell-format.glade.h:90 po/tmp/dialog-zoom.glade.h:15
 msgid "_Custom"
 msgstr "_Anpassad"
 
-#: po/tmp/cell-format.glade.h:92
+#: po/tmp/cell-format.glade.h:91
 msgid "_Date"
 msgstr "_Datum"
 
-#: po/tmp/cell-format.glade.h:93
+#: po/tmp/cell-format.glade.h:92
 msgid "_Fill"
 msgstr "_Fyll"
 
-#: po/tmp/cell-format.glade.h:94
+#: po/tmp/cell-format.glade.h:93
 msgid "_Fraction"
 msgstr "_Bråk"
 
-#: po/tmp/cell-format.glade.h:95
+#: po/tmp/cell-format.glade.h:94
 msgid "_General"
 msgstr "_Allmänt"
 
-#: po/tmp/cell-format.glade.h:96
+#: po/tmp/cell-format.glade.h:95
 msgid "_Hidden"
 msgstr "_Gömd"
 
-#: po/tmp/cell-format.glade.h:97
+#: po/tmp/cell-format.glade.h:96
 msgid "_Justify"
 msgstr "_Justera"
 
-#: po/tmp/cell-format.glade.h:98
+#: po/tmp/cell-format.glade.h:97
 msgid "_Left"
 msgstr "_Vänster"
 
-#: po/tmp/cell-format.glade.h:99
+#: po/tmp/cell-format.glade.h:98
 msgid "_Locked"
 msgstr "_Låst"
 
-#: po/tmp/cell-format.glade.h:100
+#: po/tmp/cell-format.glade.h:99
 msgid "_Merge Cells"
 msgstr "_Slå ihop celler"
 
-#: po/tmp/cell-format.glade.h:101
+#: po/tmp/cell-format.glade.h:100
 msgid "_No Color"
 msgstr "_Ingen färg"
 
-#: po/tmp/cell-format.glade.h:102
+#: po/tmp/cell-format.glade.h:101
 msgid "_Number"
 msgstr "Ta_l"
 
-#: po/tmp/cell-format.glade.h:103
+#: po/tmp/cell-format.glade.h:102
 msgid "_Percentage"
 msgstr "_Procent"
 
-#: po/tmp/cell-format.glade.h:104
+#: po/tmp/cell-format.glade.h:103
 msgid "_Right"
 msgstr "_Höger"
 
-#: po/tmp/cell-format.glade.h:105
+#: po/tmp/cell-format.glade.h:104
 msgid "_Scientific"
 msgstr "_Matematik"
 
-#: po/tmp/cell-format.glade.h:106
+#: po/tmp/cell-format.glade.h:105
 msgid "_Style"
 msgstr "_Stil"
 
-#: po/tmp/cell-format.glade.h:107
+#: po/tmp/cell-format.glade.h:106
 msgid "_Time"
 msgstr "_Tid"
 
-#: po/tmp/cell-format.glade.h:108
+#: po/tmp/cell-format.glade.h:107
 msgid "_Top"
 msgstr "_Överkant"
 
-#: po/tmp/cell-format.glade.h:109
+#: po/tmp/cell-format.glade.h:108
 msgid "_Type"
 msgstr "_Typ"
 
-#: po/tmp/cell-format.glade.h:110
+#: po/tmp/cell-format.glade.h:109
 msgid "_Underline:"
 msgstr "_Understrykning:"
 
-#: po/tmp/cell-format.glade.h:111
+#: po/tmp/cell-format.glade.h:110
 msgid "_Use Separator for 1000's"
 msgstr "_Använd tusentalsseparator"
 
-#: po/tmp/cell-format.glade.h:112
+#: po/tmp/cell-format.glade.h:111
 msgid "_Wrap text"
 msgstr "_Radbryt text"
 
@@ -2852,11 +2848,6 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1204 src/dialogs/dialog-cell-format.c:1271
-msgid "Single"
-msgstr "Enkel"
-
 #: src/dialogs/dialog-cell-format.c:2072
 msgid "Format Cells"
 msgstr "Formatera celler"
@@ -3201,67 +3192,90 @@ msgid "\""
 msgstr "\""
 
 #: po/tmp/dialog-stf-export.glade.h:10 po/tmp/dialog-stf.glade.h:8
-#, fuzzy
-msgid "\"\n"
+msgid "\""
 msgstr "\""
 
-#: po/tmp/dialog-stf-export.glade.h:11 po/tmp/dialog-stf.glade.h:9
-#, fuzzy
-msgid "'\n"
-msgstr "\""
-
-#: po/tmp/dialog-stf-export.glade.h:12 po/tmp/dialog-stf.glade.h:10
-msgid "`"
-msgstr "\""
-
-#: po/tmp/dialog-stf-export.glade.h:13
+#: po/tmp/dialog-stf-export.glade.h:11
 msgid "Add ->"
 msgstr "Lägg till ->"
 
-#: po/tmp/dialog-stf-export.glade.h:14
+#: po/tmp/dialog-stf-export.glade.h:12
 msgid "Add all ->"
 msgstr "Lägg till alla ->"
 
+#: po/tmp/dialog-stf-export.glade.h:13
+msgid "Always"
+msgstr "Alltid"
+
+#: po/tmp/dialog-stf-export.glade.h:14
+msgid "Automatic (puts quotes where needed)"
+msgstr "Automatisk (infogar citattecken där det behövs)"
+
 #: po/tmp/dialog-stf-export.glade.h:15
-msgid "Automatic (puts quotes where needed)\n"
-msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:16
-msgid "Always\n"
-msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:17
-msgid "Never"
-msgstr "Aldrig"
-
-#: po/tmp/dialog-stf-export.glade.h:18
 msgid "Available sheets"
 msgstr "Tillgängliga blad"
 
-#: po/tmp/dialog-stf-export.glade.h:19
+#: po/tmp/dialog-stf-export.glade.h:16
+msgid "Bang (!)"
+msgstr "Utropstecken (!)"
+
+#: po/tmp/dialog-stf-export.glade.h:17
 msgid "Choose export formatting"
 msgstr "Välj exportformatering"
 
-#: po/tmp/dialog-stf-export.glade.h:20
+#: po/tmp/dialog-stf-export.glade.h:18
 msgid "Choose sheets to export"
 msgstr "Välj blad att exportera"
 
+#: po/tmp/dialog-stf-export.glade.h:19
+msgid "Colon (:)"
+msgstr "Kolon (:)"
+
+#: po/tmp/dialog-stf-export.glade.h:20
+msgid "Comma (,)"
+msgstr "Komma (,)"
+
 #: po/tmp/dialog-stf-export.glade.h:21
+#: src/dialogs/dialog-stf-format-page.c:174
+#: src/dialogs/dialog-stf-format-page.c:390
+msgid "Custom"
+msgstr "Anpassad"
+
+#: po/tmp/dialog-stf-export.glade.h:22
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
 "used for terminating a line in the text file. Wether the quote character is "
 "placed around cells depends on the value choosen for quoting."
 msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:22
-msgid "Gnumeric : Exporting structured text"
-msgstr ""
+"Anpassa exportformatet. Radslutet är den teckensekvens som används för att "
+"avsluta en rad i textfilen. Huruvida citattecknet är placerat runt om celler "
+"beror på det värde som angetts för citering."
 
 #: po/tmp/dialog-stf-export.glade.h:23
+msgid "Gnumeric : Exporting structured text"
+msgstr "Gnumeric: Export av strukturerad text"
+
+#: po/tmp/dialog-stf-export.glade.h:24
+msgid "Hyphen (-)"
+msgstr "Bindestreck (-)"
+
+#: po/tmp/dialog-stf-export.glade.h:25
 msgid "Line termination :"
 msgstr "Radslut:"
 
-#: po/tmp/dialog-stf-export.glade.h:24
+#: po/tmp/dialog-stf-export.glade.h:26
+msgid "Macintosh (carriage return)"
+msgstr "Macintosh (vagnretur)"
+
+#: po/tmp/dialog-stf-export.glade.h:27 po/tmp/dialog-stf.glade.h:42
+msgid "Never"
+msgstr "Aldrig"
+
+#: po/tmp/dialog-stf-export.glade.h:28
+msgid "Pipe (|)"
+msgstr "Rör (|)"
+
+#: po/tmp/dialog-stf-export.glade.h:29
 msgid ""
 "Please select which sheets you want to export from the current workbook. "
 "They will be exported in the same order as in the export list."
@@ -3269,88 +3283,54 @@ msgstr ""
 "Var vänlig välj vilka blad du vill exportera från den aktuella arbetsboken. "
 "De kommer att exporteras i samma ordning som i exportlistan."
 
-#: po/tmp/dialog-stf-export.glade.h:25
+#: po/tmp/dialog-stf-export.glade.h:30
 msgid "Quote character :"
 msgstr "Citattecken:"
 
-#: po/tmp/dialog-stf-export.glade.h:26
+#: po/tmp/dialog-stf-export.glade.h:31
 msgid "Quoting :"
 msgstr "Citerar:"
 
-#: po/tmp/dialog-stf-export.glade.h:27
+#: po/tmp/dialog-stf-export.glade.h:32
+msgid "Semicolon (;)"
+msgstr "Semikolon (;)"
+
+#: po/tmp/dialog-stf-export.glade.h:33
 msgid "Separator :"
 msgstr "Avskiljare:"
 
-#: po/tmp/dialog-stf-export.glade.h:28
+#: po/tmp/dialog-stf-export.glade.h:34
 msgid "Sheets to export"
 msgstr "Blad att exportera"
 
-#: po/tmp/dialog-stf-export.glade.h:29
-#, fuzzy
-msgid "Space\n"
-msgstr "Mellansla_g"
-
-#: po/tmp/dialog-stf-export.glade.h:30
-#, fuzzy
-msgid "Tab\n"
-msgstr "Ta_bb"
-
-#: po/tmp/dialog-stf-export.glade.h:31
-#, fuzzy
-msgid "Bang (!)\n"
-msgstr "_Utropstecken (!)"
-
-#: po/tmp/dialog-stf-export.glade.h:32
-#, fuzzy
-msgid "Colon (:)\n"
-msgstr "_Kolon (:)"
-
-#: po/tmp/dialog-stf-export.glade.h:33
-#, fuzzy
-msgid "Comma (,)\n"
-msgstr "Ko_mma (,)"
-
-#: po/tmp/dialog-stf-export.glade.h:34
-#, fuzzy
-msgid "Hyphen (-)\n"
-msgstr "B_indestreck (-)"
-
 #: po/tmp/dialog-stf-export.glade.h:35
-#, fuzzy
-msgid "Pipe (|)\n"
-msgstr "R_ör (|)"
+msgid "Slash (/)"
+msgstr "Snedstreck (/)"
 
 #: po/tmp/dialog-stf-export.glade.h:36
-#, fuzzy
-msgid "Semicolon (;)\n"
-msgstr "Semikolo_n (;)"
+msgid "Space"
+msgstr "Mellanslag"
 
 #: po/tmp/dialog-stf-export.glade.h:37
-#, fuzzy
-msgid "Slash (/)\n"
-msgstr "Sne_dstreck (/)"
+msgid "Tab"
+msgstr "Tabb"
 
 #: po/tmp/dialog-stf-export.glade.h:38
-#: src/dialogs/dialog-stf-format-page.c:174
-#: src/dialogs/dialog-stf-format-page.c:390
-msgid "Custom"
-msgstr "Anpassad"
+msgid "Unix (linefeed)"
+msgstr "Unix (radmatning)"
 
 #: po/tmp/dialog-stf-export.glade.h:39
-msgid "Unix (linefeed)\n"
-msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:40
-msgid "Macintosh (carriage return)\n"
-msgstr ""
-
-#: po/tmp/dialog-stf-export.glade.h:41
 msgid "Windows (carriage return + linefeed)"
-msgstr ""
+msgstr "Windows (vagnretur + radmatning)"
+
+#: po/tmp/dialog-stf-export.glade.h:40 po/tmp/dialog-stf.glade.h:75
+msgid "`"
+msgstr "\""
 
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
+"Automatisk upptäckt hittade inte några kolumner i texten. Försök manuellt"
 
 #: src/dialogs/dialog-stf-main-page.c:85
 #, c-format
@@ -3362,275 +3342,290 @@ msgstr "%d rader att importera"
 msgid "Data (from %s)"
 msgstr "Data (från %s)"
 
-#: po/tmp/dialog-stf.glade.h:11
+#: po/tmp/dialog-stf.glade.h:9
 msgid ""
 "Actual processing will start at this line, any previous lines will be ignored"
 msgstr ""
+"Verklig bearbetning kommer att börja med denna rad, alla tidigare rader "
+"kommer att ignoreras"
 
-#: po/tmp/dialog-stf.glade.h:12
+#: po/tmp/dialog-stf.glade.h:10
 msgid "Add a new column"
 msgstr "Infoga en ny kolumn"
 
+#: po/tmp/dialog-stf.glade.h:11
+msgid "Always (Both sides)"
+msgstr "Alltid (båda sidor)"
+
+#: po/tmp/dialog-stf.glade.h:12
+msgid "Attempt to recognize columns in the text automatically"
+msgstr "Försök att känna igen kolumner i texten automatiskt"
+
 #: po/tmp/dialog-stf.glade.h:13
-msgid "Always (Both sides)\n"
-msgstr ""
+msgid "Auto Column _Discovery"
+msgstr "Automatisk kolumnupptäckt"
 
 #: po/tmp/dialog-stf.glade.h:14
-#, fuzzy
-msgid "Never\n"
-msgstr "Aldrig"
-
-#: po/tmp/dialog-stf.glade.h:15
-#, fuzzy
-msgid "On left side only\n"
-msgstr "Endast på vänster sida"
-
-#: po/tmp/dialog-stf.glade.h:16
-msgid "On right side only"
-msgstr "Endast på höger sida"
-
-#: po/tmp/dialog-stf.glade.h:17
-msgid "Attempt to recognize columns in the text automatically"
-msgstr ""
-
-#: po/tmp/dialog-stf.glade.h:18
-msgid "Auto Column _Discovery"
-msgstr ""
-
-#: po/tmp/dialog-stf.glade.h:19
 msgid "Ban_g (!)"
 msgstr "_Utropstecken (!)"
 
-#: po/tmp/dialog-stf.glade.h:20
+#: po/tmp/dialog-stf.glade.h:15
 msgid "C_ustom"
 msgstr "An_passad"
 
-#: po/tmp/dialog-stf.glade.h:21
+#: po/tmp/dialog-stf.glade.h:16
 msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored"
 msgstr ""
+"Tecken som tolkas som citattecken. Om skiljetecknet finns mellan citattecken "
+"kommer det att ignoreras"
 
-#: po/tmp/dialog-stf.glade.h:22
+#: po/tmp/dialog-stf.glade.h:17
 msgid "Clear list of columns"
 msgstr "Töm listan med kolumner"
 
-#: po/tmp/dialog-stf.glade.h:23
+#: po/tmp/dialog-stf.glade.h:18
 msgid "Click to select a column"
 msgstr "Klicka för att markera en kolumn"
 
-#: po/tmp/dialog-stf.glade.h:24
+#: po/tmp/dialog-stf.glade.h:19
 msgid "Co_lumn end : "
 msgstr "Ko_lumnslut: "
 
-#: po/tmp/dialog-stf.glade.h:25
+#: po/tmp/dialog-stf.glade.h:20
 msgid "Co_mma (,)"
 msgstr "Ko_mma (,)"
 
-#: po/tmp/dialog-stf.glade.h:26
+#: po/tmp/dialog-stf.glade.h:21
 msgid "Column"
 msgstr "Kolumn"
 
-#: po/tmp/dialog-stf.glade.h:27
+#: po/tmp/dialog-stf.glade.h:22
 msgid "Column formatting"
 msgstr "Kolumnformatering"
 
-#: po/tmp/dialog-stf.glade.h:29
+#: po/tmp/dialog-stf.glade.h:24
 msgid "Custom separator, this can be any character"
 msgstr "Anpassad avskiljare, det här kan vara vilket tecken som helst"
 
-#: po/tmp/dialog-stf.glade.h:30
+#: po/tmp/dialog-stf.glade.h:25
 msgid ""
 "Customize the columns using the buttons or the mouse (hover mouse above "
 "example for instructions)"
 msgstr ""
+"Anpassa kolumnerna som använder knapparna eller musen (låt muspekaren vila "
+"över exemplet för instruktioner)"
 
-#: po/tmp/dialog-stf.glade.h:31
+#: po/tmp/dialog-stf.glade.h:26
 msgid "Data type and number of lines"
 msgstr "Datatyp och antal rader"
 
-#: po/tmp/dialog-stf.glade.h:32
+#: po/tmp/dialog-stf.glade.h:27
 msgid "Define the width of each column manually"
-msgstr ""
+msgstr "Ange bredden på varje kolumn manuellt"
 
-#: po/tmp/dialog-stf.glade.h:33
+#: po/tmp/dialog-stf.glade.h:28
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon"
 msgstr ""
+"Varje kolumn i texten är åtskiljd med ett \"skiljetecken\", t.ex. ett "
+"semikolon"
 
-#: po/tmp/dialog-stf.glade.h:34
+#: po/tmp/dialog-stf.glade.h:29
 msgid "End"
 msgstr "Slut"
 
-#: po/tmp/dialog-stf.glade.h:35
+#: po/tmp/dialog-stf.glade.h:30
 msgid "Example"
 msgstr "Exempel"
 
-#: po/tmp/dialog-stf.glade.h:36
+#: po/tmp/dialog-stf.glade.h:31
 msgid "Fixed wi_dth"
 msgstr "Fast _bredd"
 
-#: po/tmp/dialog-stf.glade.h:37
+#: po/tmp/dialog-stf.glade.h:32
 msgid "Fixed width customization"
-msgstr ""
+msgstr "Anpassning av fast bredd"
 
-#: po/tmp/dialog-stf.glade.h:38
+#: po/tmp/dialog-stf.glade.h:33
 msgid "Format"
 msgstr "Format"
 
-#: po/tmp/dialog-stf.glade.h:39
+#: po/tmp/dialog-stf.glade.h:34
 msgid "Formatting for the selected column"
 msgstr "Formateringen på den markerade cellen"
 
-#: po/tmp/dialog-stf.glade.h:40
+#: po/tmp/dialog-stf.glade.h:35
 msgid "Formatting options"
 msgstr "Alternativ för formatering"
 
-#: po/tmp/dialog-stf.glade.h:41
+#: po/tmp/dialog-stf.glade.h:36
 msgid "Fr_om line :"
 msgstr "_Från rad:"
 
-#: po/tmp/dialog-stf.glade.h:42
+#: po/tmp/dialog-stf.glade.h:37
 msgid "Gnumeric : Importing structured text"
-msgstr ""
+msgstr "Gnumeric: Import av strukturerad text"
 
-#: po/tmp/dialog-stf.glade.h:43
+#: po/tmp/dialog-stf.glade.h:38
 msgid "H_yphen (-)"
 msgstr "B_indestreck (-)"
 
-#: po/tmp/dialog-stf.glade.h:44
+#: po/tmp/dialog-stf.glade.h:39
 msgid ""
 "Left click to create a new column, right click on a column border to delete "
 "an existing column or hold the left mouse button on a column border and drag "
 "to resize a column"
 msgstr ""
+"Vänsterklicka för att skapa en ny kolumn, högerklicka på en kolumnkant för "
+"att ta bort en existerande kolumn eller håll vänster musknapp på en "
+"kolumnkant och dra för att ändra storlek på en kolumn"
 
-#: po/tmp/dialog-stf.glade.h:45
+#: po/tmp/dialog-stf.glade.h:40
 msgid "Lines to import"
 msgstr "Rader att importera"
 
-#: po/tmp/dialog-stf.glade.h:46
+#: po/tmp/dialog-stf.glade.h:41
 msgid "Misc"
 msgstr "Övrigt"
 
-#: po/tmp/dialog-stf.glade.h:47
+#: po/tmp/dialog-stf.glade.h:43
 msgid "Number of lines to import"
 msgstr "Antal rader att importera"
 
-#: po/tmp/dialog-stf.glade.h:48
+#: po/tmp/dialog-stf.glade.h:44
+msgid "On left side only"
+msgstr "Endast på vänster sida"
+
+#: po/tmp/dialog-stf.glade.h:45
+msgid "On right side only"
+msgstr "Endast på höger sida"
+
+#: po/tmp/dialog-stf.glade.h:46
 msgid "Original data type :"
 msgstr "Ursprunglig datatyp:"
 
-#: po/tmp/dialog-stf.glade.h:49
+#: po/tmp/dialog-stf.glade.h:47
 msgid "P_ipe (|)"
 msgstr "R_ör (|)"
 
-#: po/tmp/dialog-stf.glade.h:50
+#: po/tmp/dialog-stf.glade.h:48
 msgid "Per column formatting"
 msgstr "Formatering per kolumn"
 
-#: po/tmp/dialog-stf.glade.h:51
+#: po/tmp/dialog-stf.glade.h:49
 msgid "Processing ends at this line, any subsequent lines will be ignored"
 msgstr ""
+"Bearbetning slutar vid denna rad, alla efterföljande rader kommer att "
+"ignoreras"
 
-#: po/tmp/dialog-stf.glade.h:52
+#: po/tmp/dialog-stf.glade.h:50
 msgid "Remove selected column"
 msgstr "Ta bort markerade kolumn"
 
-#: po/tmp/dialog-stf.glade.h:53
+#: po/tmp/dialog-stf.glade.h:51
 msgid "S_ee two separators as one"
-msgstr ""
+msgstr "B_etrakta två avskiljare som en"
 
-#: po/tmp/dialog-stf.glade.h:54
+#: po/tmp/dialog-stf.glade.h:52
 msgid "S_pace"
 msgstr "Mellansla_g"
 
-#: po/tmp/dialog-stf.glade.h:55
+#: po/tmp/dialog-stf.glade.h:53
 msgid "See two successive separators as one"
-msgstr ""
+msgstr "Betrakta två efterföljande avskiljare som en"
 
-#: po/tmp/dialog-stf.glade.h:56
+#: po/tmp/dialog-stf.glade.h:54
 msgid ""
 "See two successive text indicators as one that does not terminate the cell"
 msgstr ""
+"Betrakta två efterföljande textindikatorer som en som inte avslutar cellen"
 
-#: po/tmp/dialog-stf.glade.h:57
+#: po/tmp/dialog-stf.glade.h:55
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
+"Välj formatet för varje kolumn. Du kan klicka i listan över kolumner till "
+"vänster eller i exemplet för att välja en kolumn. Du kan sedan ange ett "
+"anpassat format eller välja ett från listan till höger."
 
-#: po/tmp/dialog-stf.glade.h:58
+#: po/tmp/dialog-stf.glade.h:56
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
 msgstr ""
+"Välj de avskiljare som finns i texten (du kan välja flera avskiljare om så "
+"önskas och också ange en anpassad)"
 
-#: po/tmp/dialog-stf.glade.h:59
+#: po/tmp/dialog-stf.glade.h:57
 msgid "Select the structure of the text that most closely matches the data."
-msgstr ""
+msgstr "Välj strukturen på texten som bäst överensstämmer med datan."
 
-#: po/tmp/dialog-stf.glade.h:60
+#: po/tmp/dialog-stf.glade.h:58
 msgid "Semicolo_n (;)"
 msgstr "Semikolo_n (;)"
 
-#: po/tmp/dialog-stf.glade.h:61
+#: po/tmp/dialog-stf.glade.h:59
 msgid "Separation customization"
 msgstr "Anpassning av avskiljare"
 
-#: po/tmp/dialog-stf.glade.h:62
+#: po/tmp/dialog-stf.glade.h:60
 msgid "Separators"
 msgstr "Avskiljare"
 
-#: po/tmp/dialog-stf.glade.h:63
+#: po/tmp/dialog-stf.glade.h:61
 msgid "Set the end of this column"
 msgstr "Ställ in slutet på denna kolumn"
 
-#: po/tmp/dialog-stf.glade.h:64
+#: po/tmp/dialog-stf.glade.h:62
 msgid "Slas_h (/)"
 msgstr "Sne_dstreck (/)"
 
-#: po/tmp/dialog-stf.glade.h:65
+#: po/tmp/dialog-stf.glade.h:63
 msgid "Ta_b"
 msgstr "Ta_bb"
 
-#: po/tmp/dialog-stf.glade.h:66
+#: po/tmp/dialog-stf.glade.h:64
 msgid "Te_xt indicator : "
 msgstr "Te_xtindikator: "
 
-#: po/tmp/dialog-stf.glade.h:67
+#: po/tmp/dialog-stf.glade.h:65
 msgid "Trim :"
-msgstr ""
+msgstr "Plocka bort:"
 
-#: po/tmp/dialog-stf.glade.h:68
+#: po/tmp/dialog-stf.glade.h:66
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting"
 msgstr ""
+"Plocka bort inledande och avslutande blanksteg från varje kolumn, om du är "
+"osäker bör du låta detta alternativ vara kvar vid sin standardinställning"
 
-#: po/tmp/dialog-stf.glade.h:70
+#: po/tmp/dialog-stf.glade.h:68
 msgid "_Adjacent text indicators escaped"
-msgstr ""
+msgstr "_Intilliggande textindikatorer med escape-tecken"
 
-#: po/tmp/dialog-stf.glade.h:71
+#: po/tmp/dialog-stf.glade.h:69
 msgid "_Clear"
 msgstr "_Töm"
 
-#: po/tmp/dialog-stf.glade.h:72
+#: po/tmp/dialog-stf.glade.h:70
 msgid "_Colon (:)"
 msgstr "_Kolon (:)"
 
-#: po/tmp/dialog-stf.glade.h:73
+#: po/tmp/dialog-stf.glade.h:71
 msgid "_Format :"
 msgstr "_Formatering:"
 
-#: po/tmp/dialog-stf.glade.h:75
+#: po/tmp/dialog-stf.glade.h:73
 msgid "_Separated"
 msgstr "_Åtskiljda"
 
-#: po/tmp/dialog-stf.glade.h:76
+#: po/tmp/dialog-stf.glade.h:74
 msgid "_To line : "
 msgstr "_Till rad: "
 
@@ -3744,7 +3739,7 @@ msgstr "place holder no need to translate"
 #.
 #: po/tmp/hf-config.glade.h:7
 msgid "Center section:"
-msgstr "Mittensektion:"
+msgstr "Mittsektion:"
 
 #: po/tmp/hf-config.glade.h:8
 msgid "Enter the format strings for each section:"
@@ -3752,7 +3747,7 @@ msgstr "Ange formatsträngar för varje sektion:"
 
 #: po/tmp/hf-config.glade.h:9
 msgid "Left section:"
-msgstr "Vänster:"
+msgstr "Vänstersektion:"
 
 #: po/tmp/hf-config.glade.h:10
 msgid "Right section:"
@@ -3875,154 +3870,152 @@ msgstr "Sidhuvud"
 msgid "Headers and footers"
 msgstr "Sidhuvud/sidfot"
 
-#: po/tmp/print.glade.h:17
+#: po/tmp/print.glade.h:17 src/print-info.c:443
+msgid "In"
+msgstr "Tum"
+
+#: po/tmp/print.glade.h:18
 msgid "Margins"
 msgstr "Marginaler"
 
-#: po/tmp/print.glade.h:18
+#: po/tmp/print.glade.h:19
 msgid "Options"
 msgstr "_Alternativ"
 
-#: po/tmp/print.glade.h:20
+#: po/tmp/print.glade.h:21
 msgid "Page"
 msgstr "Sida"
 
-#: po/tmp/print.glade.h:21
+#: po/tmp/print.glade.h:22
 msgid "Page order"
 msgstr "Utskriftsordning"
 
-#: po/tmp/print.glade.h:22
+#: po/tmp/print.glade.h:23
 msgid "Paper _size:"
 msgstr "Pappers_storlek:"
 
-#: po/tmp/print.glade.h:23
+#: po/tmp/print.glade.h:24
 msgid "Por_trait"
 msgstr "S_tående"
 
-#: po/tmp/gnumeric.xml.h:140 po/tmp/print.glade.h:24
+#: po/tmp/gnumeric.xml.h:140 po/tmp/print.glade.h:25
 #: src/workbook-control-gui.c:2035
 msgid "Print"
 msgstr "Skriv ut"
 
-#: po/tmp/print.glade.h:25
+#: po/tmp/print.glade.h:26
 msgid "Print _area:"
 msgstr "Utskrifts_område:"
 
-#: po/tmp/gnumeric.xml.h:144 po/tmp/print.glade.h:26 src/print.c:1191
+#: po/tmp/gnumeric.xml.h:144 po/tmp/print.glade.h:27 src/print.c:1191
 #: src/workbook-control-gui.c:1678 src/workbook-control-gui.c:2038
 msgid "Print preview"
 msgstr "Förhandsgranskning"
 
-#: po/tmp/print.glade.h:27
+#: po/tmp/print.glade.h:28
 msgid "Print setup"
 msgstr "Utskriftsformat"
 
-#: po/tmp/print.glade.h:28
+#: po/tmp/print.glade.h:29
 msgid "R_ight, then down"
 msgstr "_Höger, sedan nedåt"
 
-#: po/tmp/print.glade.h:29
+#: po/tmp/print.glade.h:30
 msgid "Row and co_lumn headings"
 msgstr "Rad- och kolumnrubriker"
 
-#: po/tmp/print.glade.h:30
+#: po/tmp/print.glade.h:31
 msgid "Scale"
 msgstr "Skala"
 
-#: po/tmp/print.glade.h:31 src/functions/fn-sheet.c:135 src/workbook.c:1028
+#: po/tmp/print.glade.h:32 src/functions/fn-sheet.c:135 src/workbook.c:1028
 msgid "Sheet"
 msgstr "Blad"
 
-#: po/tmp/print.glade.h:32
+#: po/tmp/print.glade.h:33
 msgid "Titles to print"
 msgstr "Utskriftsrubriker"
 
-#: po/tmp/print.glade.h:33
+#: po/tmp/print.glade.h:34
 msgid "_Adjust to:"
 msgstr "_Justera till:"
 
-#: po/tmp/print.glade.h:34
+#: po/tmp/print.glade.h:35
 msgid "_Black and white"
 msgstr "S_vartvitt"
 
-#: po/tmp/print.glade.h:35
+#: po/tmp/print.glade.h:36
 msgid "_Bottom:"
 msgstr "_Underkant:"
 
-#: po/tmp/print.glade.h:36
+#: po/tmp/print.glade.h:37
 msgid "_Columns to repeat on the left side:"
 msgstr "_Rader att upprepa till vänster:"
 
-#: po/tmp/print.glade.h:37
+#: po/tmp/print.glade.h:38
 msgid "_Down, then right"
 msgstr "_Nedåt, sedan höger"
 
-#: po/tmp/print.glade.h:38
+#: po/tmp/print.glade.h:39
 msgid "_Fit to:"
 msgstr "_Anpassa till:"
 
-#: po/tmp/print.glade.h:39
+#: po/tmp/print.glade.h:40
 msgid "_Footer:"
 msgstr "Sid_fot:"
 
-#: po/tmp/print.glade.h:40
+#: po/tmp/print.glade.h:41
 msgid "_Grid lines"
 msgstr "R_utnät"
 
-#: po/tmp/print.glade.h:41
+#: po/tmp/print.glade.h:42
 msgid "_Horizontally"
 msgstr "_Vågrätt"
 
-#: po/tmp/print.glade.h:42
+#: po/tmp/print.glade.h:43
 msgid "_Landscape"
 msgstr "_Liggande"
 
-#: po/tmp/print.glade.h:43
+#: po/tmp/print.glade.h:44
 msgid "_Left:"
 msgstr "_Vänster:"
 
-#: po/tmp/print.glade.h:44
+#: po/tmp/print.glade.h:45
 msgid "_Right:"
 msgstr "_Höger:"
 
-#: po/tmp/print.glade.h:45
+#: po/tmp/print.glade.h:46
 msgid "_Rows to repeat on the upper region:"
 msgstr "Ra_der att upprepa överst:"
 
-#: po/tmp/print.glade.h:46
+#: po/tmp/print.glade.h:47
 msgid "_Top:"
 msgstr "_Överkant:"
 
-#: po/tmp/print.glade.h:47
+#: po/tmp/print.glade.h:48
 msgid "_Units:"
 msgstr "_Enheter:"
 
-#: po/tmp/print.glade.h:48
+#: po/tmp/print.glade.h:49
 msgid "_Vertically"
 msgstr "_Lodrätt"
 
-#: po/tmp/print.glade.h:49
-msgid "page(s) wide by"
-msgstr "sidor på bredden och"
+#. 1in = 25.4mm, exact
+#: po/tmp/print.glade.h:50 src/print-info.c:442
+msgid "cm"
+msgstr "cm"
 
-#: po/tmp/print.glade.h:50
-#, fuzzy
-msgid "pts\n"
-msgstr "pkter"
-
-#: po/tmp/print.glade.h:51
-#, fuzzy
-msgid "mm\n"
+#: po/tmp/print.glade.h:51 src/print-info.c:441
+msgid "mm"
 msgstr "mm"
 
 #: po/tmp/print.glade.h:52
-#, fuzzy
-msgid "cm\n"
-msgstr "cm"
+msgid "page(s) wide by"
+msgstr "sidor på bredden och"
 
-#: po/tmp/print.glade.h:53 src/print-info.c:443
-msgid "In"
-msgstr "Tum"
+#: po/tmp/print.glade.h:53 src/print-info.c:440
+msgid "pts"
+msgstr "pkter"
 
 #: po/tmp/print.glade.h:54
 msgid "sample goes here"
@@ -4060,11 +4053,11 @@ msgstr "Ta bort det aktuella markerade bladet"
 
 #: po/tmp/sheet-order.glade.h:10
 msgid "Move the currently selected sheet down one position"
-msgstr ""
+msgstr "Flytta det för tillfället valda bladet ner en position"
 
 #: po/tmp/sheet-order.glade.h:11
 msgid "Move the currently selected sheet up one position"
-msgstr ""
+msgstr "Flytta det för tillfället valda bladet upp en position"
 
 #: po/tmp/sheet-order.glade.h:12
 msgid "Order Sheets"
@@ -4155,7 +4148,7 @@ msgstr "Lös"
 
 #: po/tmp/solver.glade.h:18
 msgid "Subject to the Constraints:"
-msgstr ""
+msgstr "Föremål för restriktionerna:"
 
 #: po/tmp/solver.glade.h:20
 msgid "_Answer"
@@ -4175,7 +4168,7 @@ msgstr "_Behåll lösningen"
 
 #: po/tmp/solver.glade.h:24
 msgid "_Left Hand Side:"
-msgstr ""
+msgstr "_Vänstersida:"
 
 #: po/tmp/solver.glade.h:25
 msgid "_Limits"
@@ -4199,7 +4192,7 @@ msgstr "_Känslighet"
 
 #: po/tmp/solver.glade.h:30
 msgid "_Set Target Cell:       "
-msgstr ""
+msgstr "_Ställ in målcell:      "
 
 #: po/tmp/solver.glade.h:31
 msgid "_Type:"
@@ -4469,7 +4462,7 @@ msgstr "[$ADP]"
 
 #: src/formats.c:225
 msgid "Andorran peseta"
-msgstr ""
+msgstr "Andorranska pesetas"
 
 #: src/formats.c:226
 msgid "[$AED]"
@@ -4485,7 +4478,7 @@ msgstr "[$AFA]"
 
 #: src/formats.c:227
 msgid "Afghanistan afghani"
-msgstr "Afghanistan afghani"
+msgstr "Afghanistanska afghani"
 
 #: src/formats.c:228
 msgid "[$ALL]"
@@ -4493,7 +4486,7 @@ msgstr "[$ALL]"
 
 #: src/formats.c:228
 msgid "Albanian lek"
-msgstr "Albanian lek"
+msgstr "Albanska lek"
 
 #: src/formats.c:229
 msgid "[$ANG]"
@@ -4501,7 +4494,7 @@ msgstr "[$ANG]"
 
 #: src/formats.c:229
 msgid "Netherlands Antillian guilder"
-msgstr ""
+msgstr "Nederländska Antillernas-guilder"
 
 #: src/formats.c:230
 msgid "[$AON]"
@@ -4509,7 +4502,7 @@ msgstr "[$AON]"
 
 #: src/formats.c:230
 msgid "Angolan new kwanza"
-msgstr ""
+msgstr "Angolska new kwanza"
 
 #: src/formats.c:231
 msgid "[$ARA]"
@@ -4517,7 +4510,7 @@ msgstr "[$ARA]"
 
 #: src/formats.c:231
 msgid "Argentine austral"
-msgstr ""
+msgstr "Argentinska austral"
 
 #: src/formats.c:232
 msgid "[$ATS]"
@@ -4525,7 +4518,7 @@ msgstr "[$ATS]"
 
 #: src/formats.c:232
 msgid "Austrian schilling"
-msgstr ""
+msgstr "Österrikiska schilling"
 
 #: src/formats.c:233
 msgid "[$AUD]"
@@ -4533,7 +4526,7 @@ msgstr "[$AUD]"
 
 #: src/formats.c:233
 msgid "Australian dollar"
-msgstr ""
+msgstr "Australiska dollar"
 
 #: src/formats.c:234
 msgid "[$AWG]"
@@ -4541,7 +4534,7 @@ msgstr "[$AWG]"
 
 #: src/formats.c:234
 msgid "Aruban guilder"
-msgstr ""
+msgstr "Arubiska guilder"
 
 #: src/formats.c:235
 msgid "[$BBD]"
@@ -4549,7 +4542,7 @@ msgstr "[$BBD]"
 
 #: src/formats.c:235
 msgid "Barbados dollar"
-msgstr ""
+msgstr "Barbadosdollar"
 
 #: src/formats.c:236
 msgid "[$BDT]"
@@ -4557,7 +4550,7 @@ msgstr "[$BDT]"
 
 #: src/formats.c:236
 msgid "Bangladeshi taka"
-msgstr ""
+msgstr "Bangladeshiska taka"
 
 #: src/formats.c:237
 msgid "[$BEF]"
@@ -4565,7 +4558,7 @@ msgstr "[$BEF]"
 
 #: src/formats.c:237
 msgid "Belgian franc"
-msgstr ""
+msgstr "Belgiska franc"
 
 #: src/formats.c:238
 msgid "[$BGL]"
@@ -4573,7 +4566,7 @@ msgstr "[$BGL]"
 
 #: src/formats.c:238
 msgid "Bulgarian lev"
-msgstr ""
+msgstr "Bulgariska lev"
 
 #: src/formats.c:239
 msgid "[$BHD]"
@@ -4581,7 +4574,7 @@ msgstr "[$BHD]"
 
 #: src/formats.c:239
 msgid "Bahraini dinar"
-msgstr ""
+msgstr "Bahrainska dinarer"
 
 #: src/formats.c:240
 msgid "[$BIF]"
@@ -4589,7 +4582,7 @@ msgstr "[$BIF]"
 
 #: src/formats.c:240
 msgid "Burundi franc"
-msgstr ""
+msgstr "Burundiska franc"
 
 #: src/formats.c:241
 msgid "[$BMD]"
@@ -4597,7 +4590,7 @@ msgstr "[$BMD]"
 
 #: src/formats.c:241
 msgid "Bermudian dollar"
-msgstr ""
+msgstr "Bermudiska dollar"
 
 #: src/formats.c:242
 msgid "[$BND]"
@@ -4605,7 +4598,7 @@ msgstr "[$BND]"
 
 #: src/formats.c:242
 msgid "Brunei dollar"
-msgstr ""
+msgstr "Bruneiska dollar"
 
 #: src/formats.c:243
 msgid "[$BOB]"
@@ -4621,7 +4614,7 @@ msgstr "[$BRE]"
 
 #: src/formats.c:244
 msgid "Brazilian cruzeiro"
-msgstr ""
+msgstr "Brasilianska cruzeiro"
 
 #: src/formats.c:245
 msgid "[$BSD]"
@@ -4637,7 +4630,7 @@ msgstr "[$BTN]"
 
 #: src/formats.c:246
 msgid "Bhutan ngultrum"
-msgstr ""
+msgstr "Bhutanesiska ngultrum"
 
 #: src/formats.c:247
 msgid "[$BWP]"
@@ -4653,7 +4646,7 @@ msgstr "[$BYD]"
 
 #: src/formats.c:248
 msgid "Belarussian ruble"
-msgstr ""
+msgstr "Vitryska rubler"
 
 #: src/formats.c:249
 msgid "[$BZD]"
@@ -4709,7 +4702,7 @@ msgstr "[$CRC]"
 
 #: src/formats.c:255
 msgid "Costa Rican colon"
-msgstr ""
+msgstr "Costaricanska colon"
 
 #: src/formats.c:256
 msgid "[$CSK]"
@@ -4733,7 +4726,7 @@ msgstr "[$CVE]"
 
 #: src/formats.c:258
 msgid "Cape Verde escudo"
-msgstr ""
+msgstr "Cape Verde-escudo"
 
 #: src/formats.c:259
 msgid "[$CYP]"
@@ -4757,7 +4750,7 @@ msgstr "[$DJF]"
 
 #: src/formats.c:261
 msgid "Djibouti franc"
-msgstr ""
+msgstr "Djiboutiska franc"
 
 #: src/formats.c:262
 msgid "[$DKK]"
@@ -4789,7 +4782,7 @@ msgstr "[$ECS]"
 
 #: src/formats.c:265
 msgid "Ecuador sucre"
-msgstr ""
+msgstr "Ecuadorianska sucre"
 
 #: src/formats.c:266
 msgid "[$EGP]"
@@ -4813,7 +4806,7 @@ msgstr "[$ETB]"
 
 #: src/formats.c:268
 msgid "Ethiopian birr"
-msgstr ""
+msgstr "Etiopiska birr"
 
 #: src/formats.c:269
 msgid "[$EUR]"
@@ -4869,7 +4862,7 @@ msgstr "[$GHC]"
 
 #: src/formats.c:275
 msgid "Ghanaian cedi"
-msgstr ""
+msgstr "Ghananska cedi"
 
 #: src/formats.c:276
 msgid "[$GIP]"
@@ -4885,7 +4878,7 @@ msgstr "[$GMD]"
 
 #: src/formats.c:277
 msgid "Gambian dalasi"
-msgstr ""
+msgstr "Gambiska dalasi"
 
 #: src/formats.c:278
 msgid "[$GNF]"
@@ -4893,7 +4886,7 @@ msgstr "[$GNF]"
 
 #: src/formats.c:278
 msgid "Guinea franc"
-msgstr ""
+msgstr "Guineanska franc"
 
 #: src/formats.c:279
 msgid "[$GRD]"
@@ -4909,7 +4902,7 @@ msgstr "[$GTQ]"
 
 #: src/formats.c:280
 msgid "Guatemalan quetzal"
-msgstr ""
+msgstr "Guatemalanska quetzal"
 
 #: src/formats.c:281
 msgid "[$GWP]"
@@ -4917,7 +4910,7 @@ msgstr "[$GWP]"
 
 #: src/formats.c:281
 msgid "Guinea-Bissau peso"
-msgstr ""
+msgstr "Guinea-Bissau-peso"
 
 #: src/formats.c:282
 msgid "[$GYD]"
@@ -4925,7 +4918,7 @@ msgstr "[$GYD]"
 
 #: src/formats.c:282
 msgid "Guyanan dollar"
-msgstr ""
+msgstr "Guyanska dollar"
 
 #: src/formats.c:283
 msgid "[$HKD]"
@@ -4941,7 +4934,7 @@ msgstr "[$HNL]"
 
 #: src/formats.c:284
 msgid "Honduran lempira"
-msgstr ""
+msgstr "Honduranska lempira"
 
 #: src/formats.c:285
 msgid "[$HRK]"
@@ -5792,33 +5785,12 @@ msgid ""
 "or database that match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:500
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a "
 "database that match conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:569
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
 msgstr ""
 
 #: src/functions/fn-database.c:622
@@ -5829,33 +5801,12 @@ msgid ""
 "database that match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:630
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:688
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
 msgstr ""
 
 #: src/functions/fn-database.c:748
@@ -5866,16 +5817,6 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:756
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:819
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5884,29 +5825,12 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:827
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:889
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=DPRODUCT function returns the product of numbers in a column "
 "that match conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:897
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
 msgstr ""
 
 #: src/functions/fn-database.c:956
@@ -5918,15 +5842,6 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:965
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1022
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5936,30 +5851,12 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1031
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1090
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM function returns the sum of numbers in a column that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1098
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
 msgstr ""
 
 #: src/functions/fn-database.c:1157
@@ -5971,15 +5868,6 @@ msgid ""
 "specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1166
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1225
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5987,15 +5875,6 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1234
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1294
@@ -13606,25 +13485,12 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:440
-msgid "pts"
-msgstr "pkter"
-
-#: src/print-info.c:440
 msgid "points"
 msgstr "punkter"
 
 #: src/print-info.c:441
-msgid "mm"
-msgstr "mm"
-
-#: src/print-info.c:441
 msgid "millimeter"
 msgstr "millimeter"
-
-#. 1in = 25.4mm, exact
-#: src/print-info.c:442
-msgid "cm"
-msgstr "cm"
 
 #: src/print-info.c:442
 msgid "centimeter"
@@ -15246,6 +15112,34 @@ msgstr "_Ångra"
 #: po/tmp/gnumeric.xml.h:235
 msgid "_View"
 msgstr "_Visa"
+
+#, fuzzy
+#~ msgid "None\n"
+#~ msgstr "Ingen"
+
+#, fuzzy
+#~ msgid "Single\n"
+#~ msgstr "Enkel"
+
+#, fuzzy
+#~ msgid "\"\n"
+#~ msgstr "\""
+
+#, fuzzy
+#~ msgid "Never\n"
+#~ msgstr "Aldrig"
+
+#, fuzzy
+#~ msgid "pts\n"
+#~ msgstr "pkter"
+
+#, fuzzy
+#~ msgid "mm\n"
+#~ msgstr "mm"
+
+#, fuzzy
+#~ msgid "cm\n"
+#~ msgstr "cm"
 
 #~ msgid "Row: %d"
 #~ msgstr "Rad: %d"
