@@ -112,7 +112,7 @@ typedef struct _FormatState
 		GtkBox		*box;
 		GtkWidget	*widget[F_MAX_WIDGET];
 
-		gchar const	*spec;	/* in internal (not localized) form */
+		gchar		*spec;	/* in internal (not localized) form */
 		gint		 current_type;
 		int		 num_decimals;
 		int		 negative_format;
@@ -728,7 +728,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			 *      the std formats and the custom formats in the StyleFormat hash.
 			 */
 			if  (page == 11 && select == -1) {
-				char *tmp = style_format_str_as_XL ((gchar *)state->format.spec, TRUE);
+				char *tmp = style_format_str_as_XL (state->format.spec, TRUE);
 				gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), tmp);
 				g_free (tmp);
 			} else if (select < 0)
@@ -769,7 +769,7 @@ cb_format_entry (GtkEditable *w, FormatState *state)
 	}
 
 	if (state->enable_edit) {
-		g_free ((char *)state->format.spec);
+		g_free (state->format.spec);
 		state->format.spec = fmt;
 		mstyle_set_format_text (state->result, fmt);
 		fmt_dialog_changed (state);
@@ -869,15 +869,17 @@ fmt_dialog_init_format_page (FormatState *state)
 	FormatCharacteristics info;
 
 	/* Get the current format */
-	char const * format;
+	char *format;
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT)) {
 		StyleFormat const *fmt = mstyle_get_format (state->style);
 		format = style_format_as_XL (fmt, FALSE);
 	} else
 		format = g_strdup (cell_formats [0][0]);
 
-	if (!strcmp (format, "General") && state->parse_format != NULL)
+	if (!strcmp (format, "General") && state->parse_format != NULL) {
+		g_free (format);
 		format = g_strdup (state->parse_format->format);
+	}
 
 	state->format.preview = NULL;
 	state->format.spec = format;
@@ -2433,7 +2435,7 @@ static gboolean
 cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	g_free ((char *)state->format.spec);
+	g_free (state->format.spec);
 	mstyle_unref (state->back.style);
 	mstyle_unref (state->style);
 	mstyle_unref (state->result);

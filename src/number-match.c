@@ -33,6 +33,7 @@
 #include "format.h"
 #include "value.h"
 #include "mathfunc.h"
+#include "str.h"
 
 #undef DEBUG_NUMBER_MATCH
 
@@ -94,6 +95,24 @@ typedef enum {
 	MATCH_STRING_CONSTANT	= 16,
 } MatchType;
 
+static void
+char_to_re (char dst[3], char c)
+{
+	switch (c) {
+	case '^': case '$': case '.': case '[':
+	case '+': case '*': case '?':
+	case '\\':
+		dst[0] = '\\';
+		dst[1] = c;
+		dst[2] = 0;
+		break;
+
+	default:
+		dst[0] = c;
+		dst[1] = 0;
+	}
+}
+
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
 
 static char *
@@ -102,12 +121,13 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 	GString *regexp;
 	GByteArray *match_types;
 	char *str;
-	int hour_seen = FALSE;
-
-	char const thousands_sep = format_get_thousand ();
-	char const decimal = format_get_decimal ();
+	gboolean hour_seen = FALSE;
+	char re_thousands_sep[3], re_decimal[3];
 
 	g_return_val_if_fail (format != NULL, NULL);
+
+	char_to_re (re_thousands_sep, format_get_thousand ());
+	char_to_re (re_decimal, format_get_decimal ());
 
 	regexp = g_string_new ("");
 	match_types = g_byte_array_new ();
@@ -197,7 +217,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				 * as a result $1000 would not be recognized.
 				 */
 				g_string_append (regexp, "([-+]?[0-9]+(\\");
-				g_string_append_c (regexp, thousands_sep);
+				g_string_append (regexp, re_thousands_sep);
 				g_string_append (regexp, "[0-9]{3})*)");
 				append_type (MATCH_SKIP);
 			} else
@@ -205,8 +225,8 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 
 			if (include_decimal) {
 				g_string_append (regexp, "?(\\");
-				g_string_append_c (regexp, decimal);
-				g_string_append (regexp, "[0-9]+([Ee][-+][0-9]+)?)");
+				g_string_append (regexp, re_decimal);
+				g_string_append (regexp, "[0-9]+([Ee][-+]?[0-9]+)?)");
 				append_type (MATCH_NUMBER_DECIMALS);
 			}
 			break;
@@ -733,6 +753,7 @@ compute_value (char const *s, const regmatch_t *mp,
 	gboolean is_number  = FALSE;
 	gboolean is_pm      = FALSE;
 	gboolean is_explicit_am = FALSE;
+	gboolean is_neg = FALSE;
 	int i;
 	int month, day, year, year_short;
 	int hours, minutes;
@@ -789,30 +810,40 @@ compute_value (char const *s, const regmatch_t *mp,
 			if (*str != '\0') {
 				char *ptr = str;
 
+				switch (*ptr) {
+				case '-':
+					is_neg = TRUE;
+					ptr++;
+					break;
+				case '+':
+					ptr++;
+					/* Fall through.  */
+				default:
+					is_neg = FALSE;
+				}
+
 				number = 0.;
 				/* FIXME: this loop is bogus.  */
 				do {
 					int thisnumber;
-					if (fabs (number) > DBL_MAX/1000.) {
+					if (number > DBL_MAX / 1000.0) {
 						g_free (str);
 						return NULL;
 					}
 
-					number *= 1000.;
+					number *= 1000.0;
 
 					errno = 0; /* strtol sets errno, but does not clear it.  */
-					thisnumber = strtol (ptr, &ptr, 10);
+					thisnumber = strtoul (ptr, &ptr, 10);
 					if (errno == ERANGE) {
 						g_free (str);
 						return NULL;
 					}
-					if (number >= 0)
-						number += thisnumber;
-					else
-						number -= thisnumber;
 
+					number += thisnumber;
 				} while (*(ptr++) == thousands_sep);
 				is_number = TRUE;
+				if (is_neg) number = -number;
 			}
 			break;
 
@@ -832,10 +863,10 @@ compute_value (char const *s, const regmatch_t *mp,
 					}
 
 					fraction = strtod (str, &end);
-					if (number >= 0)
-						number += fraction;
-					else
+					if (is_neg)
 						number -= fraction;
+					else
+						number += fraction;
 					is_number = TRUE;
 				} else
 					seconds += strtod (str, &end);

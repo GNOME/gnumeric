@@ -1,3 +1,12 @@
+2001-10-25  Morten Welinder  <terra@diku.dk>
+
+	* src/number-match.c (format_create_regexp): Sign after "E" is
+ 	optional.
+	(char_to_re): New function.
+	(format_create_regexp): Use char_to_re to quote thousand and
+ 	decimal separators.
+	(compute_value): Fix sign handling.
+
 2001-10-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/number-match.c (compute_value) : fix leaks.

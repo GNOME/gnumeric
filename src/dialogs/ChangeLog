@@ -1,3 +1,7 @@
+2001-10-25  Morten Welinder  <terra@diku.dk>
+
+	* dialog-cell-format.c (fmt_dialog_init_format_page): Plug leak.
+
 2001-10-25  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-define-names.c (cb_scope_changed) : rework scope handler.

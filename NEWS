@@ -26,7 +26,8 @@ Jukka:
 
 Morten:
 	* Improve goal seek.
-	* Fixed parsing of numbers is scientific context.
+	* Fixed parsing of numbers in scientific, monetary, and number
+	  contexts.
 	* Find and fix leaks.
 
 Wayne Schuller:
