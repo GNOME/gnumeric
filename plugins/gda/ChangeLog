@@ -1,3 +1,7 @@
+2000-04-24  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* plugin-gda.c : sync up with CVS gda.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64

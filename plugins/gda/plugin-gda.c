@@ -31,10 +31,10 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static Gda_ConnectionPool* connection_pool = NULL;
+static GdaConnectionPool* connection_pool = NULL;
 
 static Value *
-display_recordset (Gda_Recordset *recset)
+display_recordset (GdaRecordset *recset)
 {
 	gint       position;
 	Value*     array = NULL;
@@ -54,7 +54,7 @@ display_recordset (Gda_Recordset *recset)
 
 		fieldcount = gda_recordset_rowsize(recset);
 		for (col = 0; col < fieldcount; col++) {
-			Gda_Field* field = gda_recordset_field_idx(recset, col);
+			GdaField* field = gda_recordset_field_idx(recset, col);
 			if (field) {
 				gchar* value;
 				
@@ -126,8 +126,8 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	gchar*          user_name;
 	gchar*          password;
 	gchar*          sql;
-	Gda_Connection* cnc;
-	Gda_Recordset*  recset;
+	GdaConnection* cnc;
+	GdaRecordset*  recset;
 	glong           reccount;
 	
 	dsn_name = value_get_as_string(args[0]);
