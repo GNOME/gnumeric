@@ -139,7 +139,8 @@ SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
 void             solver_lp_reports     (WorkbookControl *wbc, Sheet *sheet,
 					SolverResults *res,
 					gboolean answer, gboolean sensitivity, 
-					gboolean limits, gboolean program);
+					gboolean limits, gboolean performance,
+					gboolean program, gboolean dual);
 char             *write_constraint_str (int lhs_col, int lhs_row,
 					int rhs_col, int rhs_row,
 					SolverConstraintType type,

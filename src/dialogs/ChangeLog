@@ -1,5 +1,9 @@
 2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.glade, dialog-solver.c: Renamed `Program Report' as
+	`Performance Report'.  Added check buttons for `Program Report'
+	and `Dual Program Report'.
+
 	* dialog-solver.c (cb_dialog_solve_clicked): Plug a leak.
 	(grab_cells): Use append instead of prepend.  The order matters.
 	(convert_constraint_format): Ditto.

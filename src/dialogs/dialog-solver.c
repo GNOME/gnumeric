@@ -659,7 +659,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	Value              *result;
 	EvalPos            pos;
 	gint               i;
-	gboolean           answer, sensitivity, limits, program;
+	gboolean           answer, sensitivity, limits, performance;
+	gboolean           program, dual_program;
 	gchar              *errmsg;
 
 	if (state->warning_dialog != NULL)
@@ -708,8 +709,12 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		glade_xml_get_widget (state->gui, "sensitivity")));
 	limits = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (state->gui, "limits")));
+	performance = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget (state->gui, "performance")));
 	program = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (state->gui, "program")));
+	dual_program = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
+		glade_xml_get_widget (state->gui, "dual_program")));
 
 	i = check_int_constraints (input_range, state->constraint_list);
 
@@ -768,7 +773,8 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
 						   state->sheet, res,
 						   answer, sensitivity, limits,
-						   program);
+						   performance, program,
+						   dual_program);
 			} else {
 				char *str;
 				if (res->status == SOLVER_LP_UNBOUNDED) {
@@ -778,7 +784,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 				} else {
 					str = g_strdup_printf
 						(_("Solver was not successful:"
-						   " %i"), res);
+						   " %s"), errmsg);
 				}
 			        gnumeric_notice_nonmodal
 					((GtkWindow *) state->dialog,
@@ -787,7 +793,9 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 				g_free (str);
 				solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
 						   state->sheet, res,
-						   FALSE, FALSE, FALSE, program);
+						   FALSE, FALSE, FALSE,
+						   performance, program,
+						   dual_program);
 
 			}
 			solver_results_free (res);
