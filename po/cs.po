@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric cs.po\n"
-"POT-Creation-Date: 2002-12-22 00:37-0500\n"
+"POT-Creation-Date: 2002-12-22 14:00-0500\n"
 "PO-Revision-Date: 2002-12-09 22:49GMT\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -17355,19 +17355,19 @@ msgid "About this application"
 msgstr "O této aplikaci"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1358
-#: src/workbook-control-gui.c:3736
+#: src/workbook-control-gui.c:3737
 msgid "Add _Auto Filter"
 msgstr "Přidat _AutoFiltr"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3699
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3700
 msgid "Add an outline group"
 msgstr "Přidá skupinu přehledu"
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3737
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3738
 msgid "Add or remove a filter"
 msgstr "Přidá nebo odebere filtr"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3742
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3743
 msgid "Advanced _Filter..."
 msgstr "Pokročilý _filtr..."
 
@@ -17383,23 +17383,23 @@ msgstr "Zarovná obsah doleva a zvětší odsazení"
 msgid "Arrow"
 msgstr "Šipka"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3661
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3662
 msgid "Auto _Correct..."
 msgstr "Automatické _opravy..."
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3267
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3268
 msgid "Auto_fill"
 msgstr "Automatické _vyplňování"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3268
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3269
 msgid "Automatically fill the current selection"
 msgstr "Automaticky vyplní aktuální výběr"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3662
+#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3663
 msgid "Automatically perform simple spell checking"
 msgstr "Automaticky vykonává jednoduchou kontrolu pravopisu"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3665
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3666
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automaticky ukládá aktuální dokument v pravidelných intervalech"
 
@@ -17424,15 +17424,15 @@ msgstr "Okraje"
 msgid "Button"
 msgstr "Tlačítko"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3415
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3416
 msgid "C_ells..."
 msgstr "_Buňky..."
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3324
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3325
 msgid "C_lear"
 msgstr "_Vymazat"
 
-#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3545
+#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3546
 msgid "C_olumn"
 msgstr "_Sloupec"
 
@@ -17448,23 +17448,23 @@ msgstr "Na střed výběru"
 msgid "Center across the selected cells"
 msgstr "Zarovná na střed vybraných buněk"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3209
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3210
 msgid "Change Gnumeric Preferences"
 msgstr "Změnit nastavení aplikace Gnumeric"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3479
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3480
 msgid "Change height of the selected rows"
 msgstr "Změní výšku vybraných řádků"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3472
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3473
 msgid "Change the default column width"
 msgstr "Změní výchozí šířku sloupce"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3491
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3492
 msgid "Change the default row height"
 msgstr "Změní výchozí výšku řádku"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3460
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3461
 msgid "Change width of the selected columns"
 msgstr "Změní šířku vybraných sloupců"
 
@@ -17472,19 +17472,19 @@ msgstr "Změní šířku vybraných sloupců"
 msgid "Checkbox"
 msgstr "Zaškrtávací okénko"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3228
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3229
 msgid "Clear the selected cells' comments"
 msgstr "Vymaže komentáře vybraných buněk"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3231
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3232
 msgid "Clear the selected cells' contents"
 msgstr "Vymaže obsah vybraných buněk"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3225
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3226
 msgid "Clear the selected cells' formats"
 msgstr "Vymaže formátování vybraných buněk"
 
-#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3222
+#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3223
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Vymaže formáty, komentáře a obsah vybraných buněk"
 
@@ -17493,15 +17493,15 @@ msgid "Close the current file"
 msgstr "Zavře aktuální soubor"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:6
-#: src/workbook-control-gui.c:3227
+#: src/workbook-control-gui.c:3228
 msgid "Co_mments"
 msgstr "Ko_mentáře"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3620
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3621
 msgid "Co_variance"
 msgstr "Ko_variance"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3693
+#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3694
 msgid "Collapse an outline group"
 msgstr "Sbalí skupinu přehledu"
 
@@ -17509,12 +17509,12 @@ msgstr "Sbalí skupinu přehledu"
 msgid "Combo Box"
 msgstr "Combo Box"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3592
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3593
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 "Porovnání průměrů dvou statistických souborů pro dva párové výběry.: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3596
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3597
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
@@ -17522,7 +17522,7 @@ msgstr ""
 "Porovnání průměrů dvou statistických souborů pro dva nepárové výběry ze "
 "statistického souboru se stejným rozptylem.: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3601
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3602
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
@@ -17530,7 +17530,7 @@ msgstr ""
 "Porovnání průměrů dvou statistických souborů pro dva nepárové výběry ze "
 "statistického souboru s různým rozptylem.: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3606
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3607
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
@@ -17538,7 +17538,7 @@ msgstr ""
 "Porovnání průměrů dvou statistických souborů se známými rozptyly nebo pomocí "
 "velkého výběru.: z-test"
 
-#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3648
+#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3649
 msgid "Comparing two population variances"
 msgstr "Porovnání rozptylu dvou statistických souborů"
 
@@ -17546,12 +17546,12 @@ msgstr "Porovnání rozptylu dvou statistických souborů"
 msgid "Configure toolbars"
 msgstr "Nastavení nástrojových lišt"
 
-#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3765
+#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3766
 msgid "Consolidate regions using a function"
 msgstr "Konsolidovat oblasti pomocí funkce"
 
 #: src/GNOME_Gnumeric.xml.h:46 src/sheet-view.c:309
-#: src/workbook-control-gui.c:3821
+#: src/workbook-control-gui.c:3822
 msgid "Copy"
 msgstr "Kopírovat"
 
@@ -17559,13 +17559,13 @@ msgstr "Kopírovat"
 msgid "Copy the selection"
 msgstr "Kopíruje výběr"
 
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3821
+#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3822
 msgid "Copy the selection to the clipboard"
 msgstr "Zkopíruje výběr do schránky"
 
 #: src/GNOME_Gnumeric.xml.h:49 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:892 src/tools/analysis-tools.c:895
-#: src/workbook-control-gui.c:3621
+#: src/workbook-control-gui.c:3622
 msgid "Covariance"
 msgstr "Kovariance"
 
@@ -17597,19 +17597,19 @@ msgstr "Vytvoří objekt čára"
 msgid "Create a list"
 msgstr "Vytvoří seznam"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3367
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3368
 msgid "Create a new shared view of the workbook"
 msgstr "Vytvoří nový sdílený pohled na sešit"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3182
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3183
 msgid "Create a new spreadsheet"
 msgstr "Vytvoří nový sešit"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3370
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3371
 msgid "Create a new unshared view of the workbook"
 msgstr "Vytvoří nový nesdílený pohled na sešit"
 
-#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3797
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3798
 msgid "Create a new workbook"
 msgstr "Vytvoří nový sešit"
 
@@ -17642,17 +17642,17 @@ msgid "Cu_t"
 msgstr "Vyjmou_t"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3388
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3389
 msgid "Current _date"
 msgstr "Aktuální _datum"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3394
+#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3395
 msgid "Current _time"
 msgstr "Ak_tuální čas"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/sheet-view.c:334 src/sheet-view.c:337
-#: src/workbook-control-gui.c:3818
+#: src/workbook-control-gui.c:3819
 msgid "Cut"
 msgstr "Vyjmout"
 
@@ -17660,7 +17660,7 @@ msgstr "Vyjmout"
 msgid "Cut the selection"
 msgstr "Vyjme výběr"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3818
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3819
 msgid "Cut the selection to the clipboard"
 msgstr "Vyjme výběr do schránky"
 
@@ -17677,35 +17677,35 @@ msgstr "Snížit přesnost"
 msgid "Decrease the number of decimals displayed"
 msgstr "Sníží počet zobrazovaných desetinných míst"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3506
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3507
 msgid "Display _Formulas"
 msgstr "Zobrazit _vzorce"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3708
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3709
 msgid "Display _Outlines"
 msgstr "Zobrazit _přehledy"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3507
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3508
 msgid "Display the value of a formula or the formula itself"
 msgstr "Zobrazí hodnotu vzorce nebo vzorec samotný"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3852
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3853
 msgid "Edit a function in the current cell"
 msgstr "Upraví funkci v aktuální buňce"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3205
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3206
 msgid "Edit descriptive information"
 msgstr "Upraví podrobnou informaci"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3403
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3404
 msgid "Edit sheet and workbook names"
 msgstr "Upraví název listu a sešitu"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3553
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3554
 msgid "Edit the Gnumeric Preferences"
 msgstr "Upraví nastavení aplikace Gnumeric"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3445
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3446
 msgid "Edit the selected cell's comment"
 msgstr "Upraví komentář vybrané buňky"
 
@@ -17713,27 +17713,27 @@ msgstr "Upraví komentář vybrané buňky"
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3463
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3464
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Zajistí, že sloupce jsou dost široké pro zobrazení svého obsahu"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3482
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3483
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Zajistí, že řádky jsou dost vysoké pro zobrazení svého obsahu"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3579
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3580
 msgid "Exponential smoothing"
 msgstr "Exponenciální vyhlazení"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3627
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3628
 msgid "F_orecasting"
 msgstr "Předp_ovídání"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3788
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3789
 msgid "F_ormat"
 msgstr "F_ormát"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3743
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3744
 msgid "Filter data with given criteria"
 msgstr "Filtruje data podle zadaných kritérií"
 
@@ -17756,12 +17756,12 @@ msgstr "Velikost písma"
 msgid "Foreground"
 msgstr "Popředí"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3557
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3558
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formátuje oblast buněk podle předdefinované šablony"
 
 #: src/GNOME_Gnumeric.xml.h:96 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3630
+#: src/workbook-control-gui.c:3631
 msgid "Fourier Analysis"
 msgstr "Fourierova analýza"
 
@@ -17771,69 +17771,69 @@ msgid "Frame"
 msgstr "Rámec"
 
 #: src/GNOME_Gnumeric.xml.h:98 src/workbook-control-gui.c:1343
-#: src/workbook-control-gui.c:3379
+#: src/workbook-control-gui.c:3380
 msgid "Freeze the top left of the sheet"
 msgstr "Zmrazí levý horní roh listu"
 
 #: src/GNOME_Gnumeric.xml.h:99 src/dialogs/function-select.glade.h:3
-#: src/workbook-control-gui.c:3851
+#: src/workbook-control-gui.c:3852
 msgid "Function"
 msgstr "Funkce"
 
-#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3277
+#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3278
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Generuje náhodné počty výběrů rozdělení"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3772
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3773
 msgid "Get _External Data"
 msgstr "Získat _externí data"
 
 #: src/GNOME_Gnumeric.xml.h:102 src/dialogs/graph-guru.glade.h:2
-#: src/workbook-control-gui.c:3864
+#: src/workbook-control-gui.c:3865
 msgid "Graph Guru"
 msgstr "Guru grafů"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3478
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3479
 msgid "H_eight..."
 msgstr "_Výška..."
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3524
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3525
 msgid "Hide _Column Headers"
 msgstr "Skrýt hlavičky sloup_ců"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3518
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3519
 msgid "Hide _Gridlines"
 msgstr "Skrýt _mřížku"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3530
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3531
 msgid "Hide _Row Headers"
 msgstr "Sk_rýt hlavičky řádků"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3512
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3513
 msgid "Hide _Zeros"
 msgstr "Skrýt _nuly"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3466
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3467
 msgid "Hide the selected columns"
 msgstr "Skryje vybrané sloupce"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3485
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3486
 msgid "Hide the selected rows"
 msgstr "Skryje vybrané řádky"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3448
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3449
 msgid "Hyper_link..."
 msgstr "_Hypertextový odkaz..."
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3843
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3844
 msgid "Hyperlink"
 msgstr "Hypertextový odkaz"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3729
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3730
 msgid "Import _Text File..."
 msgstr "Importovat _textový soubor..."
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3730
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3731
 msgid "Import the text from a file"
 msgstr "Importuje text ze souboru"
 
@@ -17858,21 +17858,21 @@ msgstr "Vložit komponentu"
 msgid "Insert Shaped Component"
 msgstr "Vložit tvarovanou komponentu"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3449
-#: src/workbook-control-gui.c:3844
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3450
+#: src/workbook-control-gui.c:3845
 msgid "Insert a Hyperlink"
 msgstr "Vložit hypertextový odkaz"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3439
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3440
 msgid "Insert a function into the selected cell"
 msgstr "Vloží funkci do vybrané buňky"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:611
-#: src/workbook-control-gui.c:3289
+#: src/workbook-control-gui.c:3290
 msgid "Insert a new sheet"
 msgstr "Vloží nový list"
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3425
+#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3426
 msgid "Insert a new spreadsheet"
 msgstr "Vloží nový sešit"
 
@@ -17880,7 +17880,7 @@ msgstr "Vloží nový sešit"
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Vloží tvarovanou komponentu do sešitu"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3435
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3436
 msgid "Insert an image"
 msgstr "Vloží obrázek"
 
@@ -17888,23 +17888,23 @@ msgstr "Vloží obrázek"
 msgid "Insert an object into the spreadsheet"
 msgstr "Vloží objekt do sešitu"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3416
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3417
 msgid "Insert new cells"
 msgstr "Vloží nové buňky"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3419
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3420
 msgid "Insert new columns"
 msgstr "Vloží nové sloupce"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3422
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3423
 msgid "Insert new rows"
 msgstr "Vloží nové řádky"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3389
+#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3390
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Vloží aktuální datum do vybraných buněk"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3395
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3396
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Vloží aktuální čas do vybraných buněk"
 
@@ -17916,7 +17916,7 @@ msgstr "Vloží Bonobo objekt"
 msgid "Inserts a Shaped Bonobo object"
 msgstr "Vloží tvarovaný Bonobo objekt"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3301
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3302
 msgid "Irrevocably remove an entire sheet"
 msgstr "Nenávratně odstraní celý list"
 
@@ -17925,15 +17925,15 @@ msgstr "Nenávratně odstraní celý list"
 msgid "Italic"
 msgstr "Skloněné"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3671
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3672
 msgid "Iteratively recalculate to find a target value"
 msgstr "Opakovaně přepočítává pro nalezení cílové hodnoty"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3675
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3676
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Opakovaně přepočítává s omezeními, dokud nedosáhne cílové hodnoty"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3350
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3351
 msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
@@ -17943,8 +17943,8 @@ msgstr "Přejde na zadanou buňku"
 msgid "Label"
 msgstr "Titulek"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3431
-#: src/workbook-control-gui.c:3865
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3432
+#: src/workbook-control-gui.c:3866
 msgid "Launch the Graph Guru"
 msgstr "Spustit Guru grafů"
 
@@ -17965,28 +17965,28 @@ msgstr "Čára"
 msgid "List"
 msgstr "Seznam"
 
-#: src/GNOME_Gnumeric.xml.h:144 src/workbook-control-gui.c:3285
+#: src/GNOME_Gnumeric.xml.h:144 src/workbook-control-gui.c:3286
 msgid "Make a copy of the current sheet"
 msgstr "Vytvoří kopii aktuálního listu"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3274
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3275
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Vytvoří tabulku hodnot buněk jako funkci ostatních buněk"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3469
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3470
 msgid "Make any hidden columns in the selection visible"
 msgstr "Zviditelní všechny skryté sloupce ve výběru"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3488
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3489
 msgid "Make any hidden rows in the selection visible"
 msgstr "Zviditelní všechny skryté řádky ve výběru"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3656
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3657
 msgid "Manage available plugin modules"
 msgstr "Správa dostupných modulů"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3297
-#: src/workbook-control-gui.c:3501
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3298
+#: src/workbook-control-gui.c:3502
 msgid "Manage the sheets in this workbook"
 msgstr "Správa listů v tomto sešitě"
 
@@ -18000,21 +18000,21 @@ msgid "Merge a range of cells"
 msgstr "Spojí oblast buněk"
 
 #: src/GNOME_Gnumeric.xml.h:152 src/dialogs/merge.glade.h:2
-#: src/workbook-control-gui.c:3270
+#: src/workbook-control-gui.c:3271
 msgid "Merge..."
 msgstr "Sloučit..."
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3271
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3272
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Spojí sloupcová data do listu vytvořením duplicitních listů pro každý řádek."
 
-#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3542
+#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3543
 msgid "Modify the formatting of the selected cells"
 msgstr "Upraví formát vybraných buněk"
 
-#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3550
+#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3551
 msgid "Modify the workbook attributes"
 msgstr "Změní vlastnosti sešitu"
 
@@ -18022,27 +18022,27 @@ msgstr "Změní vlastnosti sešitu"
 msgid "Money"
 msgstr "Peníze"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3583
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3584
 msgid "Moving average"
 msgstr "Klouzavý průměr"
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3797
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3798
 msgid "New"
 msgstr "Nový"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3366
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3367
 msgid "New _Shared"
 msgstr "Nový _sdílený"
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3369
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3370
 msgid "New _Unshared"
 msgstr "Nový _nesdílený"
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3567
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3568
 msgid "One Factor Analysis of Variance"
 msgstr "Jednofaktorová analýza rozptylu"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3800
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3801
 msgid "Open"
 msgstr "Otevřít"
 
@@ -18050,15 +18050,15 @@ msgstr "Otevřít"
 msgid "Open a spreadsheet"
 msgstr "Otevře sešit"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3800
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3801
 msgid "Open an existing workbook"
 msgstr "Otevření existujícího sešitu"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3714
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3715
 msgid "Outlines _Below"
 msgstr "Přehled _dole"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3720
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3721
 msgid "Outlines _Right"
 msgstr "Přehled vp_ravo"
 
@@ -18067,16 +18067,16 @@ msgid "P_aste Special..."
 msgstr "Vložit jin_ak..."
 
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
-#: src/workbook-control-gui.c:3191
+#: src/workbook-control-gui.c:3192
 msgid "Page Set_up..."
 msgstr "Nastavení s_tránky..."
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3762
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3763
 msgid "Parse the text in the selection into data"
 msgstr "Zpracuje text z výběru do dat"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3824
+#: src/workbook-control-gui.c:3825
 msgid "Paste"
 msgstr "Vložit"
 
@@ -18084,15 +18084,15 @@ msgstr "Vložit"
 msgid "Paste the clipboard"
 msgstr "Vloží obsah schránky"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3824
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3825
 msgid "Paste the contents of the clipboard"
 msgstr "Vloží obsah schránky"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3319
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3320
 msgid "Paste with optional filters and transformations"
 msgstr "Vloží s volitelnými filtry a úpravami"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3618
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3619
 msgid "Pearson Correlation"
 msgstr "Pearsonova korelace"
 
@@ -18100,30 +18100,30 @@ msgstr "Pearsonova korelace"
 msgid "Percent"
 msgstr "Procento"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3642
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3643
 msgid "Periodic and random samples"
 msgstr "Periodické a náhodné výběry"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3208
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3209
 msgid "Preferen_ces..."
 msgstr "Nas_tavení..."
 
 #: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:13
-#: src/workbook-control-gui.c:3809
+#: src/workbook-control-gui.c:3810
 msgid "Print"
 msgstr "Tisknout"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3194
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3195
 msgid "Print Pre_view..."
 msgstr "Ná_hled tisku..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3812
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3813
 msgid "Print Preview"
 msgstr "Náhled před tiskem"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/dialogs/print.glade.h:15 src/print.c:1212
-#: src/workbook-control-gui.c:3195 src/workbook-control-gui.c:3812
+#: src/workbook-control-gui.c:3196 src/workbook-control-gui.c:3813
 msgid "Print preview"
 msgstr "Náhled před tiskem"
 
@@ -18131,12 +18131,12 @@ msgstr "Náhled před tiskem"
 msgid "Print the current file"
 msgstr "Vytiskne aktuální soubor"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3809
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3810
 msgid "Print the workbook"
 msgstr "Vytiskne sešit"
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
-#: src/workbook-control-gui.c:3204
+#: src/workbook-control-gui.c:3205
 msgid "Proper_ties..."
 msgstr "Vlas_tnosti..."
 
@@ -18152,20 +18152,20 @@ msgstr "Rádiový přepínač"
 msgid "Ranks and _Percentiles"
 msgstr "Rozložení a _percentily"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3636
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3637
 msgid "Ranks, placements and percentiles"
 msgstr "Rozložení, umístění a percentily"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3292
-#: src/workbook-control-gui.c:3497
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3293
+#: src/workbook-control-gui.c:3498
 msgid "Re_name..."
 msgstr "Přejme_novat..."
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3355
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3356
 msgid "Recalculate"
 msgstr "Přepočíst"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3356
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3357
 msgid "Recalculate the spreadsheet"
 msgstr "Přepočítá sešit"
 
@@ -18173,15 +18173,15 @@ msgstr "Přepočítá sešit"
 msgid "Rectangle"
 msgstr "Obdélník"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4077
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4078
 msgid "Redo the undone action"
 msgstr "Znovu vykoná vrácenou akci"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3639
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3640
 msgid "Regression Analysis"
 msgstr "Regresní analýza"
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3702
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3703
 msgid "Remove an outline group"
 msgstr "Odstraní skupinu přehledu"
 
@@ -18189,8 +18189,8 @@ msgstr "Odstraní skupinu přehledu"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Odstraní vybrané buňky, ostatní posune na jejich místo"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3293
-#: src/workbook-control-gui.c:3498
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3294
+#: src/workbook-control-gui.c:3499
 msgid "Rename the current sheet"
 msgstr "Přejmenuje aktuální list"
 
@@ -18202,15 +18202,15 @@ msgstr "Zarovnat doprava"
 msgid "Right align"
 msgstr "Zarovnat doprava"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3331
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3332
 msgid "S_heet"
 msgstr "_List"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3453
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3454
 msgid "S_pecial"
 msgstr "S_peciální"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3803
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3804
 msgid "Save"
 msgstr "Uložit"
 
@@ -18226,7 +18226,7 @@ msgstr "Uloží aktuální soubor"
 msgid "Save the current file with a different name"
 msgstr "Uloží aktuální soubor pod jiným názvem"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3803
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3804
 msgid "Save the current workbook"
 msgstr "Uloží aktuální sešit"
 
@@ -18234,60 +18234,60 @@ msgstr "Uloží aktuální sešit"
 msgid "Scrollbar"
 msgstr "Posuvník"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3343
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3344
 msgid "Search and Replace..."
 msgstr "Hledat a nahradit..."
 
 #: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3338
+#: src/workbook-control-gui.c:3339
 msgid "Search for some text"
 msgstr "Hledá nějaký text"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3344
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3345
 msgid "Search for some text and replace it with something else"
 msgstr "Hledá nějaký text a nahrazuje jej jiným"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3337
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3338
 msgid "Search..."
 msgstr "Najít..."
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3254
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3255
 msgid "Select Arra_y"
 msgstr "Vybrat _pole"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3239
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3240
 msgid "Select _All"
 msgstr "Vybr_at vše"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3244
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3245
 msgid "Select _Column"
 msgstr "Vybrat sloupe_c"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3259
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3260
 msgid "Select _Depends"
 msgstr "Vybrat _závislé"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3249
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3250
 msgid "Select _Row"
 msgstr "Vyb_rat řádek"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3240
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3241
 msgid "Select all cells in the spreadsheet"
 msgstr "Vybere všechny buňky v sešitě"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3260
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3261
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Vybere všechny buňky, které závisí na aktuálně vybrané buňce"
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3255
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3256
 msgid "Select an array of cells"
 msgstr "Vybere pole buněk"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3245
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3246
 msgid "Select an entire column"
 msgstr "Vybere celý sloupec"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3250
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3251
 msgid "Select an entire row"
 msgstr "Vybere celý řádek"
 
@@ -18304,34 +18304,34 @@ msgid "Set the format of the selected cells to percentage"
 msgstr "Nastaví formát vybraných buněk na procenta"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/GNOME_Gnumeric_Component.xml.h:11
-#: src/workbook-control-gui.c:3192
+#: src/workbook-control-gui.c:3193
 msgid "Setup the page settings for your current printer"
 msgstr "Nastaví stránku pro vaši aktuální tiskárnu"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3740
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3741
 msgid "Show all filtered and hidden rows"
 msgstr "Zobrazí všechny filtrované a skryté řádky"
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3855
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3856
 #: schemas/gnumeric-general.schemas.in.h:28
 msgid "Sort Ascending"
 msgstr "Setřídit vzestupně"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3858
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3859
 msgid "Sort Descending"
 msgstr "Setřídit sestupně"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3752
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3753
 msgid "Sort the selected region"
 msgstr "Setřídí vybranou oblast"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3856
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3857
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr "Utriedi vybranú oblasť vzostupne podľa prvého vybraného stĺpca"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3859
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3860
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -18345,21 +18345,21 @@ msgstr "Rozdělit"
 msgid "Split merged ranges of cells"
 msgstr "Rozdělí spojené oblasti buněk"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3685
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3686
 msgid "Statistical Anal_ysis"
 msgstr "Statistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3848 src/workbook-control-gui.c:4598
+#: src/workbook-control-gui.c:3849 src/workbook-control-gui.c:4599
 #: src/workbook-view.c:511
 msgid "Sum"
 msgstr "Součet"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3849
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3850
 msgid "Sum into the current cell"
 msgstr "Součet do aktuální buňky"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3679
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3680
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -18371,43 +18371,43 @@ msgstr ""
 msgid "Thousands Separator"
 msgstr "Oddělovač tisíců"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3525
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3526
 msgid "Toggle whether or not to display column headers"
 msgstr "Přepne zobrazení hlaviček sloupců"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3519
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3520
 msgid "Toggle whether or not to display gridlines"
 msgstr "Přepne zobrazení mřížky"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3709
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3710
 msgid "Toggle whether or not to display outline groups"
 msgstr "Přepne zobrazení skupin přehledů"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3531
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3532
 msgid "Toggle whether or not to display row headers"
 msgstr "Přepne zobrazení hlaviček řádků"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3513
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3514
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Přepne zobrazení nuly jako prázdného místa"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3721
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3722
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Přepne zobrazení přehledů sloupců vlevo nebo vpravo"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3715
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3716
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Přepne zobrazení přehledy řádků nahoře nebo dole"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3570
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3571
 msgid "Two Factor Analysis of Variance"
 msgstr "Dvoufaktorová analýza rozptylu"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3645
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3646
 msgid "Two _Means"
 msgstr "Dva prů_měry"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3696
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3697
 msgid "Uncollapse an outline group"
 msgstr "Rozbalí skupinu přehledu"
 
@@ -18415,36 +18415,36 @@ msgstr "Rozbalí skupinu přehledu"
 msgid "Underline"
 msgstr "Podtrhnutí"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4074
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4075
 msgid "Undo the last action"
 msgstr "Vrátí zpět poslední akci"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3595
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3596
 msgid "Unpaired Samples, _Equal Var.: T-Test"
 msgstr "Nepárové výběry, st_ejné rozptyly: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3600
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3601
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr "Nepárové výběry, rů_zné rozptyly: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3756
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3757
 msgid "Validate input with preset criteria"
 msgstr "Ověří vstup podle přednastavených kritérií"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3633
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3634
 msgid "Various frequency tables"
 msgstr "Různé frekvenční tabulky"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3624
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3625
 msgid "Various summary statistics"
 msgstr "Různé celkové statistiky"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3376
-#: src/workbook-control-gui.c:4080
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3377
+#: src/workbook-control-gui.c:4081
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zvětší nebo zmenší zobrazení tabulky"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3615
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3616
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
@@ -18453,29 +18453,29 @@ msgid "_About"
 msgstr "O _aplikaci"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/sheet-control-gui.c:1477
-#: src/workbook-control-gui.c:3444
+#: src/workbook-control-gui.c:3445
 msgid "_Add / Modify comment..."
 msgstr "Přid_at / upravit komentář..."
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3221
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3222
 msgid "_All"
 msgstr "_Vše"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3664
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3665
 msgid "_Auto Save..."
 msgstr "_Automatické ukládání..."
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3462
-#: src/workbook-control-gui.c:3481
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3463
+#: src/workbook-control-gui.c:3482
 msgid "_Auto fit selection"
 msgstr "_Automaticky upravit rozměry"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3556
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3557
 msgid "_Autoformat..."
 msgstr "_Automatický formát..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3541
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3542
 msgid "_Cells..."
 msgstr "_Buňky..."
 
@@ -18490,15 +18490,15 @@ msgstr "_Zavřít"
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:24
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:13
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:16
-#: src/workbook-control-gui.c:3418
+#: src/workbook-control-gui.c:3419
 msgid "_Columns"
 msgstr "Sloup_ce"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3764
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3765
 msgid "_Consolidate..."
 msgstr "_Konsolidovat..."
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3230
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3231
 msgid "_Contents"
 msgstr "O_bsah"
 
@@ -18507,30 +18507,30 @@ msgstr "O_bsah"
 msgid "_Copy"
 msgstr "_Kopírovat"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3617
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3618
 msgid "_Correlation"
 msgstr "Korela_ce"
 
 #: src/GNOME_Gnumeric.xml.h:271 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:3790
+#: src/workbook-control-gui.c:3791
 msgid "_Data"
 msgstr "_Data"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3402
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3403
 msgid "_Define..."
 msgstr "_Definovat..."
 
 #: src/GNOME_Gnumeric.xml.h:273 src/sheet-control-gui.c:1464
-#: src/workbook-control-gui.c:3326
+#: src/workbook-control-gui.c:3327
 msgid "_Delete..."
 msgstr "_Smazat..."
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3623
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3624
 msgid "_Descriptive Statistics"
 msgstr "_Popisná statistika"
 
 #: src/GNOME_Gnumeric.xml.h:275 src/dialogs/sheet-order.glade.h:2
-#: src/workbook-control-gui.c:3284
+#: src/workbook-control-gui.c:3285
 msgid "_Duplicate"
 msgstr "_Duplikovat"
 
@@ -18538,7 +18538,7 @@ msgstr "_Duplikovat"
 msgid "_Edit"
 msgstr "Ú_pravy"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3578
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3579
 msgid "_Exponential Smoothing"
 msgstr "_Exponenciální vyhlazení"
 
@@ -18547,52 +18547,52 @@ msgid "_File"
 msgstr "_Soubor"
 
 #: src/GNOME_Gnumeric.xml.h:279 src/dialogs/cell-format.glade.h:107
-#: src/workbook-control-gui.c:3335
+#: src/workbook-control-gui.c:3336
 msgid "_Fill"
 msgstr "Vy_plnit"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3754
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3755
 msgid "_Filter"
 msgstr "_Filtr"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3224
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3225
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3629
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3630
 msgid "_Fourier Analysis"
 msgstr "_Fourierova analýza"
 
 #: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:1340
-#: src/workbook-control-gui.c:3378
+#: src/workbook-control-gui.c:3379
 msgid "_Freeze Panes"
 msgstr "_Zmrazit rozdělení okna"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3438
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3439
 msgid "_Function..."
 msgstr "_Funkce..."
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3552
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3553
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3670
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3671
 msgid "_Goal Seek..."
 msgstr "_Hledání cíle..."
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3349
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3350
 msgid "_Goto cell..."
 msgstr "Pře_jít na buňku..."
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3430
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3431
 msgid "_Graph..."
 msgstr "_Graf..."
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3768
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3769
 msgid "_Group and Outline"
 msgstr "_Skupiny a přehledy"
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3698
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3699
 msgid "_Group..."
 msgstr "_Seskupit..."
 
@@ -18601,46 +18601,46 @@ msgid "_Help"
 msgstr "Nápo_věda"
 
 #: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1489
-#: src/sheet-control-gui.c:1497 src/workbook-control-gui.c:3465
-#: src/workbook-control-gui.c:3484
+#: src/sheet-control-gui.c:1497 src/workbook-control-gui.c:3466
+#: src/workbook-control-gui.c:3485
 msgid "_Hide"
 msgstr "_Skrýt"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3692
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3693
 msgid "_Hide Detail"
 msgstr "_Skrýt podrobnosti"
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3632
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3633
 msgid "_Histogram"
 msgstr "_Histogram"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3434
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3435
 msgid "_Image..."
 msgstr "_Obrázek..."
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3288
-#: src/workbook-control-gui.c:3787
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3289
+#: src/workbook-control-gui.c:3788
 msgid "_Insert"
 msgstr "Vlož_it"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3605
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3606
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr "Známé rozptyly nebo vel_ký vzorek: Z-Test"
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3296
-#: src/workbook-control-gui.c:3500
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3297
+#: src/workbook-control-gui.c:3501
 msgid "_Manage Sheets..."
 msgstr "_Správa listů..."
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3582
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3583
 msgid "_Moving Average"
 msgstr "Klouzavé prů_měry"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3442
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3443
 msgid "_Name"
 msgstr "_Název"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3182
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3183
 msgid "_New"
 msgstr "_Nový"
 
@@ -18648,7 +18648,7 @@ msgstr "_Nový"
 msgid "_Object..."
 msgstr "_Objekt..."
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3566
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3567
 msgid "_One Factor"
 msgstr "Jeden fakt_or"
 
@@ -18656,7 +18656,7 @@ msgstr "Jeden fakt_or"
 msgid "_Open..."
 msgstr "_Otevřít..."
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3591
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3592
 msgid "_Paired Samples: T-Test"
 msgstr "_Párové výběry: T-Test"
 
@@ -18664,11 +18664,11 @@ msgstr "_Párové výběry: T-Test"
 msgid "_Paste"
 msgstr "V_ložit"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3769
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3770
 msgid "_PivotTable..."
 msgstr "_Otočná tabulka..."
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3655
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3656
 msgid "_Plug-ins..."
 msgstr "_Zásuvné moduly..."
 
@@ -18680,7 +18680,7 @@ msgstr "_Tisknout..."
 msgid "_Quit"
 msgstr "U_končit"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3276
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3277
 msgid "_Random Generator..."
 msgstr "Gene_rátor náhodných čísel..."
 
@@ -18688,22 +18688,22 @@ msgstr "Gene_rátor náhodných čísel..."
 msgid "_Redo"
 msgstr "Zn_ovu"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3638
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3639
 msgid "_Regression"
 msgstr "_Regrese"
 
 #: src/GNOME_Gnumeric.xml.h:314 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3300
+#: src/workbook-control-gui.c:3301
 msgid "_Remove"
 msgstr "Odst_ranit"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3678
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3679
 msgid "_Risk Simulation..."
 msgstr "Simulace _rizika..."
 
 #: src/GNOME_Gnumeric.xml.h:316 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3546
+#: src/workbook-control-gui.c:3547
 msgid "_Row"
 msgstr "Řá_dek"
 
@@ -18714,11 +18714,11 @@ msgstr "Řá_dek"
 #: src/dialogs/fourier-analysis.glade.h:16
 #: src/dialogs/moving-averages.glade.h:17 src/dialogs/rank.glade.h:18
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:23
-#: src/workbook-control-gui.c:3421
+#: src/workbook-control-gui.c:3422
 msgid "_Rows"
 msgstr "Řá_dky"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3641
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3642
 msgid "_Sampling"
 msgstr "_Vzorkování"
 
@@ -18726,7 +18726,7 @@ msgstr "_Vzorkování"
 msgid "_Save"
 msgstr "_Uložit"
 
-#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3333
+#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3334
 msgid "_Select"
 msgstr "_Vybrat"
 
@@ -18734,40 +18734,40 @@ msgstr "_Vybrat"
 msgid "_Shaped Object"
 msgstr "_Tvarovaný objekt"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3424
-#: src/workbook-control-gui.c:3547
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3425
+#: src/workbook-control-gui.c:3548
 msgid "_Sheet"
 msgstr "Li_st"
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3739
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3740
 msgid "_Show All"
 msgstr "_Zobrazit vše"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3695
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3696
 msgid "_Show Detail"
 msgstr "Zobrazit podrobno_sti"
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3674
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3675
 msgid "_Solver..."
 msgstr "Řešite_l..."
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3751
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3752
 msgid "_Sort..."
 msgstr "_Setřídit..."
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3490
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3491
 msgid "_Standard Height"
 msgstr "_Standardní výška"
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3471
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3472
 msgid "_Standard Width"
 msgstr "_Standardní šířka"
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3273
+#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3274
 msgid "_Tabulate Dependency..."
 msgstr "_Tabelovat závislosti..."
 
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3761
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3762
 msgid "_Text to Columns..."
 msgstr "_Text do sloupců..."
 
@@ -18775,15 +18775,15 @@ msgstr "_Text do sloupců..."
 msgid "_Toolbars..."
 msgstr "Nás_trojové lišty..."
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3789
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3790
 msgid "_Tools"
 msgstr "Nás_troje"
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3569
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3570
 msgid "_Two Factor"
 msgstr "Dva fak_tory"
 
-#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3647
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3648
 msgid "_Two Variances: FTest"
 msgstr "Dva rozp_tyly: FTest"
 
@@ -18791,17 +18791,17 @@ msgstr "Dva rozp_tyly: FTest"
 msgid "_Undo"
 msgstr "_Zpět"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3701
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3702
 msgid "_Ungroup..."
 msgstr "Rozesk_upit..."
 
 #: src/GNOME_Gnumeric.xml.h:337 src/sheet-control-gui.c:1491
-#: src/sheet-control-gui.c:1499 src/workbook-control-gui.c:3468
-#: src/workbook-control-gui.c:3487
+#: src/sheet-control-gui.c:1499 src/workbook-control-gui.c:3469
+#: src/workbook-control-gui.c:3488
 msgid "_Unhide"
 msgstr "_Zviditelnit"
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3755
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3756
 msgid "_Validate..."
 msgstr "O_věřit..."
 
@@ -18809,15 +18809,15 @@ msgstr "O_věřit..."
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3459
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3460
 msgid "_Width..."
 msgstr "_Šířka..."
 
-#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3549
+#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3550
 msgid "_Workbook..."
 msgstr "_Sešit..."
 
-#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3375
+#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3376
 msgid "_Zoom..."
 msgstr "_Zvětšení..."
 
@@ -20672,7 +20672,7 @@ msgstr "Možnosti"
 msgid "Selection has"
 msgstr "Výběr má"
 
-#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3058
+#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3059
 msgid "Sort"
 msgstr "Třídění"
 
@@ -20721,7 +20721,7 @@ msgid "Add the entered area to the list of source areas"
 msgstr "Přidá zadanou oblast do seznamu zdrojových oblastí"
 
 #: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:204
-#: src/workbook-control-gui.c:4601
+#: src/workbook-control-gui.c:4602
 msgid "Average"
 msgstr "Průměr"
 
@@ -20734,7 +20734,7 @@ msgid "Clear the list of source areas"
 msgstr "Vymaže seznam zdrojových oblastí"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4602
+#: src/workbook-control-gui.c:4603
 msgid "Count"
 msgstr "Počet"
 
@@ -20767,12 +20767,12 @@ msgid "Labels"
 msgstr "Titulky"
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4600
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4601
 msgid "Max"
 msgstr "Max"
 
 #: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4599
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4600
 msgid "Min"
 msgstr "Min"
 
@@ -22838,7 +22838,7 @@ msgstr "Zvětšení"
 msgid "Sheets"
 msgstr "Listy"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4040
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4041
 msgid "Zoom"
 msgstr "Zvětšení"
 
@@ -25245,7 +25245,7 @@ msgid "File format:"
 msgstr "Formát souboru:"
 
 #. Pack it into file selector
-#: src/gui-file.c:143 src/workbook-control-gui.c:3009
+#: src/gui-file.c:143 src/workbook-control-gui.c:3010
 msgid "Load file"
 msgstr "Načíst soubor"
 
@@ -27334,13 +27334,13 @@ msgstr "Odstraní filtr"
 msgid "Add a filter"
 msgstr "Přidá filtr"
 
-#: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3831
-#: src/workbook-control-gui.c:4052
+#: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3832
+#: src/workbook-control-gui.c:4053
 msgid "Undo"
 msgstr "Zpět"
 
-#: src/workbook-control-gui.c:1381 src/workbook-control-gui.c:3834
-#: src/workbook-control-gui.c:4059
+#: src/workbook-control-gui.c:1381 src/workbook-control-gui.c:3835
+#: src/workbook-control-gui.c:4060
 msgid "Redo"
 msgstr "Znovu"
 
@@ -27366,8 +27366,8 @@ msgid "Discard All"
 msgstr "Zahodit vše"
 
 #: src/workbook-control-gui.c:1617 src/workbook-control-gui.c:1624
-#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5174
-#: src/workbook-control-gui.c:5179
+#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5175
+#: src/workbook-control-gui.c:5180
 msgid "Discard"
 msgstr "Zahodit"
 
@@ -27428,85 +27428,85 @@ msgstr "Přidat _AutoFiltr"
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: src/workbook-control-gui.c:2867 src/workbook-control-gui.c:2886
+#: src/workbook-control-gui.c:2868 src/workbook-control-gui.c:2887
 msgid "Show Detail"
 msgstr "Zobrazit podrobnosti"
 
-#: src/workbook-control-gui.c:2867 src/workbook-control-gui.c:2886
+#: src/workbook-control-gui.c:2868 src/workbook-control-gui.c:2887
 msgid "Hide Detail"
 msgstr "Skrýt podrobnosti"
 
-#: src/workbook-control-gui.c:2874
+#: src/workbook-control-gui.c:2875
 msgid "can only be performed on an existing group"
 msgstr "lze použít pouze na existující skupinu"
 
-#: src/workbook-control-gui.c:2932
+#: src/workbook-control-gui.c:2933
 msgid "Group"
 msgstr "Seskupit"
 
-#: src/workbook-control-gui.c:2932
+#: src/workbook-control-gui.c:2933
 msgid "Ungroup"
 msgstr "Rozeskupit"
 
-#: src/workbook-control-gui.c:3123
+#: src/workbook-control-gui.c:3124
 msgid "Select an object to add"
 msgstr "Vyberte přidávaný objekt"
 
-#: src/workbook-control-gui.c:3134
+#: src/workbook-control-gui.c:3135
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Nelze vytvořit objekt typu '%s'"
 
-#: src/workbook-control-gui.c:3318
+#: src/workbook-control-gui.c:3319
 msgid "P_aste special..."
 msgstr "Vložit jin_ak..."
 
-#: src/workbook-control-gui.c:3327
+#: src/workbook-control-gui.c:3328
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Odstraní vybrané buňky, ostatní posune na jejich místo"
 
-#: src/workbook-control-gui.c:3407
+#: src/workbook-control-gui.c:3408
 msgid "_Auto generate names..."
 msgstr "_Automaticky generovat názvy..."
 
-#: src/workbook-control-gui.c:3408
+#: src/workbook-control-gui.c:3409
 msgid "Use the current selection to create names"
 msgstr "Použije aktuální výběr pro vytvoření názvů"
 
-#: src/workbook-control-gui.c:3635
+#: src/workbook-control-gui.c:3636
 msgid "Ranks And _Percentiles"
 msgstr "Rozložení a _percentily"
 
-#: src/workbook-control-gui.c:3770
+#: src/workbook-control-gui.c:3771
 msgid "Create a pivot table."
 msgstr "Vytvoří otočnou tabulku."
 
-#: src/workbook-control-gui.c:3831
+#: src/workbook-control-gui.c:3832
 msgid "Undo the operation"
 msgstr "Vrátí poslední operaci"
 
-#: src/workbook-control-gui.c:3834
+#: src/workbook-control-gui.c:3835
 msgid "Redo the operation"
 msgstr "Opakuje vrácenou operaci"
 
-#: src/workbook-control-gui.c:4890
+#: src/workbook-control-gui.c:4891
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Soubor \"%s\" má neznámý formát."
 
-#: src/workbook-control-gui.c:4941
+#: src/workbook-control-gui.c:4942
 msgid "Send"
 msgstr "Poslat"
 
-#: src/workbook-control-gui.c:4941
+#: src/workbook-control-gui.c:4942
 msgid "Send the current file in email"
 msgstr "Pošle aktuální soubor elektronickou poštou"
 
-#: src/workbook-control-gui.c:5173 src/workbook-control-gui.c:5188
+#: src/workbook-control-gui.c:5174 src/workbook-control-gui.c:5189
 msgid "Re-Edit"
 msgstr "Znovu upravit"
 
-#: src/workbook-control-gui.c:5178 src/workbook-control-gui.c:5189
+#: src/workbook-control-gui.c:5179 src/workbook-control-gui.c:5190
 msgid "Accept"
 msgstr "Přijmout"
 

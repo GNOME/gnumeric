@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-12-22 00:37-0500\n"
+"POT-Creation-Date: 2002-12-22 14:00-0500\n"
 "PO-Revision-Date: 2001-12-31 08:21+0200\n"
 "Last-Translator: Dan Damian <dand@softhome.net>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
@@ -10587,20 +10587,20 @@ msgid "About this application"
 msgstr "Despre aceastã aplicaþie"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1358
-#: src/workbook-control-gui.c:3736
+#: src/workbook-control-gui.c:3737
 #, fuzzy
 msgid "Add _Auto Filter"
 msgstr "Filtru avansat"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3699
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3700
 msgid "Add an outline group"
 msgstr "Adaugã un grup schematic"
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3737
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3738
 msgid "Add or remove a filter"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3742
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3743
 msgid "Advanced _Filter..."
 msgstr "_Filtrare avansatã..."
 
@@ -10618,23 +10618,23 @@ msgstr "Aliniazã conþinutul la stânga ºi creºte indentarea"
 msgid "Arrow"
 msgstr "Sãgeatã"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3661
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3662
 msgid "Auto _Correct..."
 msgstr "Auto_Corecþie..."
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3267
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3268
 msgid "Auto_fill"
 msgstr "Auto_Umplere"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3268
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3269
 msgid "Automatically fill the current selection"
 msgstr "Umple automat selecþia curentã"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3662
+#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3663
 msgid "Automatically perform simple spell checking"
 msgstr "Efectueazã automat o verificare ortograficã simplã"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3665
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3666
 msgid "Automatically save the current document at regular intervals"
 msgstr "Salveazã automat documentul curent la intervale regulate"
 
@@ -10659,15 +10659,15 @@ msgstr "Borduri"
 msgid "Button"
 msgstr "Buton"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3415
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3416
 msgid "C_ells..."
 msgstr "C_elule..."
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3324
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3325
 msgid "C_lear"
 msgstr "_Golire"
 
-#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3545
+#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3546
 msgid "C_olumn"
 msgstr "C_oloanã"
 
@@ -10685,23 +10685,23 @@ msgstr "CentratPesteSelecþie"
 msgid "Center across the selected cells"
 msgstr "Centreazã peste celulele selectate"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3209
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3210
 msgid "Change Gnumeric Preferences"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3479
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3480
 msgid "Change height of the selected rows"
 msgstr "Modificã înãlþimea rândurilor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3472
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3473
 msgid "Change the default column width"
 msgstr "Modificã lãþimea implicitã a coloanelor"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3491
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3492
 msgid "Change the default row height"
 msgstr "Modificã înãlþimea implicitã a rândurilor"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3460
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3461
 msgid "Change width of the selected columns"
 msgstr "Modificã lãþimea coloanelor selectate"
 
@@ -10709,19 +10709,19 @@ msgstr "Modificã lãþimea coloanelor selectate"
 msgid "Checkbox"
 msgstr "Casetã de selecþie"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3228
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3229
 msgid "Clear the selected cells' comments"
 msgstr "ªterge comentariile celulelor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3231
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3232
 msgid "Clear the selected cells' contents"
 msgstr "ªterge conþinutul celulelor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3225
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3226
 msgid "Clear the selected cells' formats"
 msgstr "ªterge formatarea celulelor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3222
+#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3223
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "ªterge formatarea, comentariile ºi conþinutul celulelor selectate"
 
@@ -10730,16 +10730,16 @@ msgid "Close the current file"
 msgstr "Închide fiºierul curent"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:6
-#: src/workbook-control-gui.c:3227
+#: src/workbook-control-gui.c:3228
 msgid "Co_mments"
 msgstr "Co_mentarii"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3620
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3621
 #, fuzzy
 msgid "Co_variance"
 msgstr "Covariaþie"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3693
+#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3694
 msgid "Collapse an outline group"
 msgstr "Pliazã un grup schematic"
 
@@ -10747,29 +10747,29 @@ msgstr "Pliazã un grup schematic"
 msgid "Combo Box"
 msgstr "Casetã combo"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3592
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3593
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3596
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3597
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3601
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3602
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3606
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3607
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3648
+#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3649
 msgid "Comparing two population variances"
 msgstr ""
 
@@ -10777,12 +10777,12 @@ msgstr ""
 msgid "Configure toolbars"
 msgstr "Configureazã bãrile de unelte"
 
-#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3765
+#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3766
 msgid "Consolidate regions using a function"
 msgstr "Centralizeazã regiunile utilizând o funcþie"
 
 #: src/GNOME_Gnumeric.xml.h:46 src/sheet-view.c:309
-#: src/workbook-control-gui.c:3821
+#: src/workbook-control-gui.c:3822
 msgid "Copy"
 msgstr "Copiazã"
 
@@ -10790,14 +10790,14 @@ msgstr "Copiazã"
 msgid "Copy the selection"
 msgstr "Copiazã selecþia"
 
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3821
+#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3822
 #, fuzzy
 msgid "Copy the selection to the clipboard"
 msgstr "Copiazã selecþia în clipboard"
 
 #: src/GNOME_Gnumeric.xml.h:49 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:892 src/tools/analysis-tools.c:895
-#: src/workbook-control-gui.c:3621
+#: src/workbook-control-gui.c:3622
 msgid "Covariance"
 msgstr "Covariaþie"
 
@@ -10830,19 +10830,19 @@ msgstr "Creeazã un obiect linie"
 msgid "Create a list"
 msgstr "Creeazã o listã"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3367
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3368
 msgid "Create a new shared view of the workbook"
 msgstr "Creeazã o nouã vizualizare partajatã a registrului"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3182
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3183
 msgid "Create a new spreadsheet"
 msgstr "Creeazã o nouã foaie de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3370
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3371
 msgid "Create a new unshared view of the workbook"
 msgstr "Creeazã o nouã vizualizare nepartajatã a registrului"
 
-#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3797
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3798
 msgid "Create a new workbook"
 msgstr "Creeazã un nou registru"
 
@@ -10880,17 +10880,17 @@ msgid "Cu_t"
 msgstr "_Decupeazã"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3388
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3389
 msgid "Current _date"
 msgstr "_Data curentã"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3394
+#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3395
 msgid "Current _time"
 msgstr "_Timpul curent"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/sheet-view.c:334 src/sheet-view.c:337
-#: src/workbook-control-gui.c:3818
+#: src/workbook-control-gui.c:3819
 msgid "Cut"
 msgstr "Decupeazã"
 
@@ -10898,7 +10898,7 @@ msgstr "Decupeazã"
 msgid "Cut the selection"
 msgstr "Decupeazã selecþia"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3818
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3819
 #, fuzzy
 msgid "Cut the selection to the clipboard"
 msgstr "Decupeazã selecþia în clipboard"
@@ -10917,37 +10917,37 @@ msgstr "Micºoreazã precizia"
 msgid "Decrease the number of decimals displayed"
 msgstr "Micºoreazã numãrul de zecimale afiºate"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3506
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3507
 msgid "Display _Formulas"
 msgstr "Afiºeazã _formulele"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3708
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3709
 msgid "Display _Outlines"
 msgstr "Afiºeazã _schemele"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3507
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3508
 msgid "Display the value of a formula or the formula itself"
 msgstr "Afiºeazã valoarea unei formule sau formula însãºi"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3852
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3853
 #, fuzzy
 msgid "Edit a function in the current cell"
 msgstr "Editeazã o funcþie în celula curentã."
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3205
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3206
 #, fuzzy
 msgid "Edit descriptive information"
 msgstr "Informaþii suplimentare"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3403
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3404
 msgid "Edit sheet and workbook names"
 msgstr "Editeazã numele de foi ºi registre"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3553
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3554
 msgid "Edit the Gnumeric Preferences"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3445
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3446
 msgid "Edit the selected cell's comment"
 msgstr "Editeazã comentariul celulei selectate"
 
@@ -10955,30 +10955,30 @@ msgstr "Editeazã comentariul celulei selectate"
 msgid "Ellipse"
 msgstr "Elipsã"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3463
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3464
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 "Ajusteazã lãþimea coloanelor la minumul necesar pentru a afiºa conþinutul"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3482
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3483
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 "Ajusteazã înãlþimea rândurilor la minumul necesar pentru a afiºa conþinutul"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3579
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3580
 msgid "Exponential smoothing"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3627
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3628
 #, fuzzy
 msgid "F_orecasting"
 msgstr "F_ormatare"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3788
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3789
 msgid "F_ormat"
 msgstr "F_ormatare"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3743
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3744
 msgid "Filter data with given criteria"
 msgstr "Filtreazã datele dupã criteriile date"
 
@@ -11002,12 +11002,12 @@ msgstr "Dimensiune font"
 msgid "Foreground"
 msgstr "Prim-plan"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3557
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3558
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formateazã o regiune de celule dupã un ºablon predefinit"
 
 #: src/GNOME_Gnumeric.xml.h:96 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3630
+#: src/workbook-control-gui.c:3631
 msgid "Fourier Analysis"
 msgstr "Analizã Fourier"
 
@@ -11017,73 +11017,73 @@ msgid "Frame"
 msgstr "Cadru"
 
 #: src/GNOME_Gnumeric.xml.h:98 src/workbook-control-gui.c:1343
-#: src/workbook-control-gui.c:3379
+#: src/workbook-control-gui.c:3380
 msgid "Freeze the top left of the sheet"
 msgstr "Fixeazã partea din stânga sus a foii"
 
 #: src/GNOME_Gnumeric.xml.h:99 src/dialogs/function-select.glade.h:3
-#: src/workbook-control-gui.c:3851
+#: src/workbook-control-gui.c:3852
 msgid "Function"
 msgstr "Funþie"
 
-#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3277
+#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3278
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3772
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3773
 #, fuzzy
 msgid "Get _External Data"
 msgstr "EROARE internã"
 
 #: src/GNOME_Gnumeric.xml.h:102 src/dialogs/graph-guru.glade.h:2
-#: src/workbook-control-gui.c:3864
+#: src/workbook-control-gui.c:3865
 msgid "Graph Guru"
 msgstr "Ghid diagrame"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3478
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3479
 msgid "H_eight..."
 msgstr "Î_nãlþime..."
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3524
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3525
 msgid "Hide _Column Headers"
 msgstr "Ascunde antetele de _coloanã"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3518
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3519
 msgid "Hide _Gridlines"
 msgstr "Ascunde _grilajul"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3530
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3531
 msgid "Hide _Row Headers"
 msgstr "Ascunde antetele de _rânduri"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3512
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3513
 msgid "Hide _Zeros"
 msgstr "Ascunde _zerourile"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3466
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3467
 msgid "Hide the selected columns"
 msgstr "Ascunde coloanele selectate"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3485
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3486
 msgid "Hide the selected rows"
 msgstr "Ascunde rândurile selectate"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3448
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3449
 #, fuzzy
 msgid "Hyper_link..."
 msgstr "Editeazã expresia"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3843
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3844
 #, fuzzy
 msgid "Hyperlink"
 msgstr "Editeazã expresia"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3729
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3730
 #, fuzzy
 msgid "Import _Text File..."
 msgstr "Importã un fiºier"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3730
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3731
 #, fuzzy
 msgid "Import the text from a file"
 msgstr "Importã un fiºier"
@@ -11110,23 +11110,23 @@ msgstr "Insereazã componentã"
 msgid "Insert Shaped Component"
 msgstr "Insereazã componentã conturatã"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3449
-#: src/workbook-control-gui.c:3844
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3450
+#: src/workbook-control-gui.c:3845
 #, fuzzy
 msgid "Insert a Hyperlink"
 msgstr "Editeazã expresia"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3439
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3440
 #, fuzzy
 msgid "Insert a function into the selected cell"
 msgstr "Insereazã timpul curent în celulele selectate"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:611
-#: src/workbook-control-gui.c:3289
+#: src/workbook-control-gui.c:3290
 msgid "Insert a new sheet"
 msgstr "Insereazã o nouã foaie"
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3425
+#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3426
 msgid "Insert a new spreadsheet"
 msgstr "Insereazã o nouã foaie de calcul"
 
@@ -11134,7 +11134,7 @@ msgstr "Insereazã o nouã foaie de calcul"
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Insereazã o componentã conturatã în foaia de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3435
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3436
 #, fuzzy
 msgid "Insert an image"
 msgstr "_Insereazã nouã"
@@ -11143,23 +11143,23 @@ msgstr "_Insereazã nouã"
 msgid "Insert an object into the spreadsheet"
 msgstr "Insereazã un obiect în foaia de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3416
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3417
 msgid "Insert new cells"
 msgstr "Insereazã celule noi"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3419
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3420
 msgid "Insert new columns"
 msgstr "Insereazã coloane noi"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3422
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3423
 msgid "Insert new rows"
 msgstr "Insereazã rânduri noi"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3389
+#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3390
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insereazã data curentã în celulele selectate"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3395
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3396
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insereazã timpul curent în celulele selectate"
 
@@ -11172,7 +11172,7 @@ msgstr "Insereazã un obiect Bonobo"
 msgid "Inserts a Shaped Bonobo object"
 msgstr "Insereazã un obiect Bonobo"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3301
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3302
 msgid "Irrevocably remove an entire sheet"
 msgstr "ªterge irevocabil o foaie întreagã"
 
@@ -11181,16 +11181,16 @@ msgstr "ªterge irevocabil o foaie întreagã"
 msgid "Italic"
 msgstr "Cursiv"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3671
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3672
 msgid "Iteratively recalculate to find a target value"
 msgstr "Recalculeazã iterativ pentru a gãsi o valoare þintã"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3675
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3676
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Recalculeazã iterativ folosind constrângeri pentru a atinge o valoare þintã"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3350
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3351
 msgid "Jump to a specified cell"
 msgstr "Salt la o celulã specificã"
 
@@ -11200,8 +11200,8 @@ msgstr "Salt la o celulã specificã"
 msgid "Label"
 msgstr "Etichetã"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3431
-#: src/workbook-control-gui.c:3865
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3432
+#: src/workbook-control-gui.c:3866
 #, fuzzy
 msgid "Launch the Graph Guru"
 msgstr "Ghid diagrame"
@@ -11224,28 +11224,28 @@ msgstr "Linie"
 msgid "List"
 msgstr "Listã"
 
-#: src/GNOME_Gnumeric.xml.h:144 src/workbook-control-gui.c:3285
+#: src/GNOME_Gnumeric.xml.h:144 src/workbook-control-gui.c:3286
 msgid "Make a copy of the current sheet"
 msgstr "Creeazã o copie a foii curente"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3274
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3275
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3469
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3470
 msgid "Make any hidden columns in the selection visible"
 msgstr "Afiºeazã orice coloane din selecþie ascunse"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3488
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3489
 msgid "Make any hidden rows in the selection visible"
 msgstr "Afiºeazã orice rânduri din selecþie ascunse"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3656
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3657
 msgid "Manage available plugin modules"
 msgstr "Gestioneazã modulele extensie disponibile"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3297
-#: src/workbook-control-gui.c:3501
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3298
+#: src/workbook-control-gui.c:3502
 #, fuzzy
 msgid "Manage the sheets in this workbook"
 msgstr "Nici o foaie în registru."
@@ -11260,21 +11260,21 @@ msgid "Merge a range of cells"
 msgstr "Combinã o zonã de celule"
 
 #: src/GNOME_Gnumeric.xml.h:152 src/dialogs/merge.glade.h:2
-#: src/workbook-control-gui.c:3270
+#: src/workbook-control-gui.c:3271
 #, fuzzy
 msgid "Merge..."
 msgstr "Combinã"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3271
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3272
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3542
+#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3543
 msgid "Modify the formatting of the selected cells"
 msgstr "Modificã formatarea celulelor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3550
+#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3551
 msgid "Modify the workbook attributes"
 msgstr "Modificã atributele registrului"
 
@@ -11282,28 +11282,28 @@ msgstr "Modificã atributele registrului"
 msgid "Money"
 msgstr "Monetar"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3583
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3584
 #, fuzzy
 msgid "Moving average"
 msgstr "mutarea %s"
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3797
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3798
 msgid "New"
 msgstr "Nou"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3366
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3367
 msgid "New _Shared"
 msgstr "Nouã _partajatã"
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3369
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3370
 msgid "New _Unshared"
 msgstr "Nouã _nepartajatã"
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3567
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3568
 msgid "One Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3800
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3801
 msgid "Open"
 msgstr "Deschide"
 
@@ -11311,15 +11311,15 @@ msgstr "Deschide"
 msgid "Open a spreadsheet"
 msgstr "Deschide o foaie de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3800
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3801
 msgid "Open an existing workbook"
 msgstr "Deschide un registru existent"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3714
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3715
 msgid "Outlines _Below"
 msgstr "Schemele _dedesubt"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3720
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3721
 msgid "Outlines _Right"
 msgstr "Schemele la d_reapta"
 
@@ -11328,18 +11328,18 @@ msgid "P_aste Special..."
 msgstr "Lip_eºte special..."
 
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
-#: src/workbook-control-gui.c:3191
+#: src/workbook-control-gui.c:3192
 #, fuzzy
 msgid "Page Set_up..."
 msgstr "S_eteazã tipãrirea"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3762
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3763
 #, fuzzy
 msgid "Parse the text in the selection into data"
 msgstr "Centreazã textul în fiecare selecþie"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3824
+#: src/workbook-control-gui.c:3825
 msgid "Paste"
 msgstr "Lipeºte"
 
@@ -11347,16 +11347,16 @@ msgstr "Lipeºte"
 msgid "Paste the clipboard"
 msgstr "Lipeºte clipboard-ul"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3824
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3825
 #, fuzzy
 msgid "Paste the contents of the clipboard"
 msgstr "Lipeºte conþinutul clipboard-ului sau a zonei decupate"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3319
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3320
 msgid "Paste with optional filters and transformations"
 msgstr "Lipeºte cu filtre ºi transformãri opþionale"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3618
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3619
 #, fuzzy
 msgid "Pearson Correlation"
 msgstr "Corelare"
@@ -11365,31 +11365,31 @@ msgstr "Corelare"
 msgid "Percent"
 msgstr "Procent"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3642
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3643
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3208
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3209
 #, fuzzy
 msgid "Preferen_ces..."
 msgstr "Proprietãþi..."
 
 #: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:13
-#: src/workbook-control-gui.c:3809
+#: src/workbook-control-gui.c:3810
 msgid "Print"
 msgstr "Tipãreºte"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3194
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3195
 msgid "Print Pre_view..."
 msgstr "Pre_vizualizeazã"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3812
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3813
 msgid "Print Preview"
 msgstr "Previzualizeazã"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/dialogs/print.glade.h:15 src/print.c:1212
-#: src/workbook-control-gui.c:3195 src/workbook-control-gui.c:3812
+#: src/workbook-control-gui.c:3196 src/workbook-control-gui.c:3813
 msgid "Print preview"
 msgstr "Previzualizeazã"
 
@@ -11397,12 +11397,12 @@ msgstr "Previzualizeazã"
 msgid "Print the current file"
 msgstr "Tipãreºte fiºierul curent"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3809
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3810
 msgid "Print the workbook"
 msgstr "Tipãreºte registrul"
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
-#: src/workbook-control-gui.c:3204
+#: src/workbook-control-gui.c:3205
 #, fuzzy
 msgid "Proper_ties..."
 msgstr "Proprietãþi..."
@@ -11420,20 +11420,20 @@ msgstr "Buton radio"
 msgid "Ranks and _Percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3636
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3637
 msgid "Ranks, placements and percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3292
-#: src/workbook-control-gui.c:3497
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3293
+#: src/workbook-control-gui.c:3498
 msgid "Re_name..."
 msgstr "Re_denumeºte..."
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3355
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3356
 msgid "Recalculate"
 msgstr "Recalculeazã"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3356
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3357
 msgid "Recalculate the spreadsheet"
 msgstr "Recalculeazã foaia"
 
@@ -11441,16 +11441,16 @@ msgstr "Recalculeazã foaia"
 msgid "Rectangle"
 msgstr "Dreptunghi"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4077
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4078
 msgid "Redo the undone action"
 msgstr "Refã acþiunea anulatã"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3639
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3640
 #, fuzzy
 msgid "Regression Analysis"
 msgstr "Analizã Fourier"
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3702
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3703
 msgid "Remove an outline group"
 msgstr "Eliminã un grup schematic"
 
@@ -11458,8 +11458,8 @@ msgstr "Eliminã un grup schematic"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Eliminã celulele selectate, deplasând altele în locul lor"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3293
-#: src/workbook-control-gui.c:3498
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3294
+#: src/workbook-control-gui.c:3499
 msgid "Rename the current sheet"
 msgstr "Redenumeºte foaia curentã"
 
@@ -11472,15 +11472,15 @@ msgstr "Aliniazã la dreapta"
 msgid "Right align"
 msgstr "Aliniazã la dreapta"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3331
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3332
 msgid "S_heet"
 msgstr "_Foaie"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3453
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3454
 msgid "S_pecial"
 msgstr "S_pecialã"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3803
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3804
 msgid "Save"
 msgstr "Salveazã"
 
@@ -11496,7 +11496,7 @@ msgstr "Salveazã fiºierul curent"
 msgid "Save the current file with a different name"
 msgstr "Salveazã fiºierul curent cu un nume diferit"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3803
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3804
 msgid "Save the current workbook"
 msgstr "Salveazã registrul curent"
 
@@ -11505,60 +11505,60 @@ msgstr "Salveazã registrul curent"
 msgid "Scrollbar"
 msgstr "Scalar"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3343
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3344
 msgid "Search and Replace..."
 msgstr "Cautã ºi înlocuieºte..."
 
 #: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3338
+#: src/workbook-control-gui.c:3339
 msgid "Search for some text"
 msgstr "Cautã un anumit text"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3344
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3345
 msgid "Search for some text and replace it with something else"
 msgstr "Cautã un anumit text ºi înlocuieºte-l cu altul"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3337
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3338
 msgid "Search..."
 msgstr "Cautã..."
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3254
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3255
 msgid "Select Arra_y"
 msgstr "Selecteazã º_irul"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3239
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3240
 msgid "Select _All"
 msgstr "Selecteazã _totul"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3244
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3245
 msgid "Select _Column"
 msgstr "Selecteazã _coloana"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3259
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3260
 msgid "Select _Depends"
 msgstr "Selecteazã _dependinþele"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3249
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3250
 msgid "Select _Row"
 msgstr "Selecteazã _rândul"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3240
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3241
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecteazã toate celulele din foaia de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3260
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3261
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Selecteazã toate celulele care depind de celula editatã în mod curent"
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3255
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3256
 msgid "Select an array of cells"
 msgstr "Selecteazã un ºir de celule"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3245
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3246
 msgid "Select an entire column"
 msgstr "Selecteazã o coloanã întreagã"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3250
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3251
 msgid "Select an entire row"
 msgstr "Selecteazã un rând întreg"
 
@@ -11579,29 +11579,29 @@ msgid "Set the format of the selected cells to percentage"
 msgstr "Seteazã formatul celulelor selectate la procent"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/GNOME_Gnumeric_Component.xml.h:11
-#: src/workbook-control-gui.c:3192
+#: src/workbook-control-gui.c:3193
 msgid "Setup the page settings for your current printer"
 msgstr "Seteazã opþiunile de paginare pentru imprimanta curentã"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3740
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3741
 msgid "Show all filtered and hidden rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3855
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3856
 #: schemas/gnumeric-general.schemas.in.h:28
 msgid "Sort Ascending"
 msgstr "Sorteazã ascendent"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3858
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3859
 msgid "Sort Descending"
 msgstr "Sorteazã descendent"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3752
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3753
 #, fuzzy
 msgid "Sort the selected region"
 msgstr "Sorteazã regiunea selectatã."
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3856
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3857
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -11609,7 +11609,7 @@ msgstr ""
 "Sorteazã regiunea selectatã în ordine ascendentã în funcþie de prima coloanã "
 "selectatã"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3859
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3860
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -11625,22 +11625,22 @@ msgstr "Scindeazã"
 msgid "Split merged ranges of cells"
 msgstr "Scindeazã zone de celule combinate"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3685
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3686
 #, fuzzy
 msgid "Statistical Anal_ysis"
 msgstr "Metode statistice"
 
 #: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3848 src/workbook-control-gui.c:4598
+#: src/workbook-control-gui.c:3849 src/workbook-control-gui.c:4599
 #: src/workbook-view.c:511
 msgid "Sum"
 msgstr "Sum"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3849
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3850
 msgid "Sum into the current cell"
 msgstr "Sum în celula curentã"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3679
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3680
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -11651,44 +11651,44 @@ msgstr ""
 msgid "Thousands Separator"
 msgstr "Separator de mii"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3525
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3526
 msgid "Toggle whether or not to display column headers"
 msgstr "Comutã între a afiºa sau nu antetele de coloanã"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3519
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3520
 msgid "Toggle whether or not to display gridlines"
 msgstr "Comutã între a afiºa sau nu grilajul"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3709
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3710
 msgid "Toggle whether or not to display outline groups"
 msgstr "Comutã între a afiºa sau nu grupurile schematice"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3531
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3532
 msgid "Toggle whether or not to display row headers"
 msgstr "Comutã între a afiºa sau nu antetele de rând"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3513
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3514
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Comutã între a afiºa sau nu zerourile ca spaþii"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3721
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3722
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 "Comutã între a afiºa sau nu schemele pe coloanã de la stânga la dreapta"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3715
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3716
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Comutã între a afiºa sau nu schemele pe rând de sus în jos"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3570
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3571
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3645
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3646
 msgid "Two _Means"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3696
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3697
 msgid "Uncollapse an outline group"
 msgstr "Expandeazã un grup schematic"
 
@@ -11696,37 +11696,37 @@ msgstr "Expandeazã un grup schematic"
 msgid "Underline"
 msgstr "Subliniazã"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4074
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4075
 msgid "Undo the last action"
 msgstr "Anuleazã ultima acþiune"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3595
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3596
 msgid "Unpaired Samples, _Equal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3600
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3601
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3756
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3757
 msgid "Validate input with preset criteria"
 msgstr "Valideazã introducerea pe baza criteriilor prestabilite"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3633
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3634
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3624
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3625
 #, fuzzy
 msgid "Various summary statistics"
 msgstr "Statistici sumare"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3376
-#: src/workbook-control-gui.c:4080
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3377
+#: src/workbook-control-gui.c:4081
 msgid "Zoom the spreadsheet in or out"
 msgstr "Schimbã între diverse nivele de zoom"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3615
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3616
 msgid "_ANOVA"
 msgstr ""
 
@@ -11736,29 +11736,29 @@ msgid "_About"
 msgstr "_Despre..."
 
 #: src/GNOME_Gnumeric.xml.h:259 src/sheet-control-gui.c:1477
-#: src/workbook-control-gui.c:3444
+#: src/workbook-control-gui.c:3445
 msgid "_Add / Modify comment..."
 msgstr "_Adaugã / Modificã comentariu..."
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3221
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3222
 msgid "_All"
 msgstr "_Totul"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3664
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3665
 msgid "_Auto Save..."
 msgstr "_AutoSalvare..."
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3462
-#: src/workbook-control-gui.c:3481
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3463
+#: src/workbook-control-gui.c:3482
 msgid "_Auto fit selection"
 msgstr "_Potriveºte automat  selecþia"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3556
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3557
 msgid "_Autoformat..."
 msgstr "_AutoFormatare..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3541
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3542
 msgid "_Cells..."
 msgstr "_Celule..."
 
@@ -11773,15 +11773,15 @@ msgstr "Î_nchide"
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:24
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:13
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:16
-#: src/workbook-control-gui.c:3418
+#: src/workbook-control-gui.c:3419
 msgid "_Columns"
 msgstr "_Coloane"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3764
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3765
 msgid "_Consolidate..."
 msgstr "_Centralizeazã..."
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3230
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3231
 #, fuzzy
 msgid "_Contents"
 msgstr "_Conþinut"
@@ -11791,32 +11791,32 @@ msgstr "_Conþinut"
 msgid "_Copy"
 msgstr "_Copiazã"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3617
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3618
 #, fuzzy
 msgid "_Correlation"
 msgstr "Corelare"
 
 #: src/GNOME_Gnumeric.xml.h:271 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:3790
+#: src/workbook-control-gui.c:3791
 msgid "_Data"
 msgstr "_Date"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3402
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3403
 msgid "_Define..."
 msgstr "_Defineºte..."
 
 #: src/GNOME_Gnumeric.xml.h:273 src/sheet-control-gui.c:1464
-#: src/workbook-control-gui.c:3326
+#: src/workbook-control-gui.c:3327
 msgid "_Delete..."
 msgstr "ª_terge..."
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3623
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3624
 #, fuzzy
 msgid "_Descriptive Statistics"
 msgstr "Statistici descriptive"
 
 #: src/GNOME_Gnumeric.xml.h:275 src/dialogs/sheet-order.glade.h:2
-#: src/workbook-control-gui.c:3284
+#: src/workbook-control-gui.c:3285
 msgid "_Duplicate"
 msgstr "_Duplicã"
 
@@ -11824,7 +11824,7 @@ msgstr "_Duplicã"
 msgid "_Edit"
 msgstr "_Editare"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3578
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3579
 msgid "_Exponential Smoothing"
 msgstr ""
 
@@ -11833,56 +11833,56 @@ msgid "_File"
 msgstr "_Fiºier"
 
 #: src/GNOME_Gnumeric.xml.h:279 src/dialogs/cell-format.glade.h:107
-#: src/workbook-control-gui.c:3335
+#: src/workbook-control-gui.c:3336
 msgid "_Fill"
 msgstr "_Umplere"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3754
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3755
 msgid "_Filter"
 msgstr "_Filtrare"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3224
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3225
 msgid "_Formats"
 msgstr "_Formatãri"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3629
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3630
 #, fuzzy
 msgid "_Fourier Analysis"
 msgstr "Analizã Fourier"
 
 #: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:1340
-#: src/workbook-control-gui.c:3378
+#: src/workbook-control-gui.c:3379
 msgid "_Freeze Panes"
 msgstr "_Fixeazã panouri"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3438
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3439
 #, fuzzy
 msgid "_Function..."
 msgstr "_Funcþie:"
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3552
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3553
 #, fuzzy
 msgid "_Gnumeric..."
 msgstr "Gnumeric"
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3670
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3671
 msgid "_Goal Seek..."
 msgstr "_Cãutare rezultat..."
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3349
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3350
 msgid "_Goto cell..."
 msgstr "_Sari la celula..."
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3430
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3431
 #, fuzzy
 msgid "_Graph..."
 msgstr "_Diagramã"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3768
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3769
 msgid "_Group and Outline"
 msgstr "_Grupuri ºi scheme"
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3698
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3699
 msgid "_Group..."
 msgstr "_Groupeazã..."
 
@@ -11891,49 +11891,49 @@ msgid "_Help"
 msgstr "_Ajutor"
 
 #: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1489
-#: src/sheet-control-gui.c:1497 src/workbook-control-gui.c:3465
-#: src/workbook-control-gui.c:3484
+#: src/sheet-control-gui.c:1497 src/workbook-control-gui.c:3466
+#: src/workbook-control-gui.c:3485
 msgid "_Hide"
 msgstr "_Ascunde"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3692
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3693
 msgid "_Hide Detail"
 msgstr "A_scunde detaliile"
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3632
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3633
 msgid "_Histogram"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3434
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3435
 #, fuzzy
 msgid "_Image..."
 msgstr "_Salveazã..."
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3288
-#: src/workbook-control-gui.c:3787
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3289
+#: src/workbook-control-gui.c:3788
 msgid "_Insert"
 msgstr "_Inserare"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3605
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3606
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3296
-#: src/workbook-control-gui.c:3500
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3297
+#: src/workbook-control-gui.c:3501
 #, fuzzy
 msgid "_Manage Sheets..."
 msgstr "Re-_aranjeazã foile..."
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3582
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3583
 #, fuzzy
 msgid "_Moving Average"
 msgstr "Medie"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3442
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3443
 msgid "_Name"
 msgstr "_Nume"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3182
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3183
 msgid "_New"
 msgstr "_Nou"
 
@@ -11942,7 +11942,7 @@ msgstr "_Nou"
 msgid "_Object..."
 msgstr "_Obiect"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3566
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3567
 #, fuzzy
 msgid "_One Factor"
 msgstr "_Fracþie"
@@ -11951,7 +11951,7 @@ msgstr "_Fracþie"
 msgid "_Open..."
 msgstr "_Deschide..."
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3591
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3592
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
@@ -11959,12 +11959,12 @@ msgstr ""
 msgid "_Paste"
 msgstr "_Lipeºte"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3769
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3770
 #, fuzzy
 msgid "_PivotTable..."
 msgstr "_Tipãreºte..."
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3655
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3656
 msgid "_Plug-ins..."
 msgstr "_Extensii..."
 
@@ -11977,7 +11977,7 @@ msgstr "_Tipãreºte..."
 msgid "_Quit"
 msgstr "_Plaseazã:"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3276
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3277
 #, fuzzy
 msgid "_Random Generator..."
 msgstr "Generare de numere aleatoare"
@@ -11986,23 +11986,23 @@ msgstr "Generare de numere aleatoare"
 msgid "_Redo"
 msgstr "_Refã"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3638
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3639
 #, fuzzy
 msgid "_Regression"
 msgstr "Expresie _regulatã"
 
 #: src/GNOME_Gnumeric.xml.h:314 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3300
+#: src/workbook-control-gui.c:3301
 msgid "_Remove"
 msgstr "_Eliminã"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3678
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3679
 msgid "_Risk Simulation..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:316 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3546
+#: src/workbook-control-gui.c:3547
 msgid "_Row"
 msgstr "_Rând"
 
@@ -12013,11 +12013,11 @@ msgstr "_Rând"
 #: src/dialogs/fourier-analysis.glade.h:16
 #: src/dialogs/moving-averages.glade.h:17 src/dialogs/rank.glade.h:18
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:23
-#: src/workbook-control-gui.c:3421
+#: src/workbook-control-gui.c:3422
 msgid "_Rows"
 msgstr "_Rânduri"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3641
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3642
 #, fuzzy
 msgid "_Sampling"
 msgstr "Exemplu"
@@ -12026,7 +12026,7 @@ msgstr "Exemplu"
 msgid "_Save"
 msgstr "_Salveazã"
 
-#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3333
+#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3334
 msgid "_Select"
 msgstr "_Selectare"
 
@@ -12035,41 +12035,41 @@ msgstr "_Selectare"
 msgid "_Shaped Object"
 msgstr "_Obiect"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3424
-#: src/workbook-control-gui.c:3547
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3425
+#: src/workbook-control-gui.c:3548
 msgid "_Sheet"
 msgstr "_Foaie"
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3739
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3740
 #, fuzzy
 msgid "_Show All"
 msgstr "_Afiºeazã detaliile"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3695
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3696
 msgid "_Show Detail"
 msgstr "_Afiºeazã detaliile"
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3674
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3675
 msgid "_Solver..."
 msgstr "_Soluþionar..."
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3751
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3752
 msgid "_Sort..."
 msgstr "_Sorteazã..."
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3490
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3491
 msgid "_Standard Height"
 msgstr "Înãlþime stan_dard"
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3471
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3472
 msgid "_Standard Width"
 msgstr "Lãþime _standard"
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3273
+#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3274
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3761
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3762
 #, fuzzy
 msgid "_Text to Columns..."
 msgstr "potrivirea automatã a coloanei %s"
@@ -12078,16 +12078,16 @@ msgstr "potrivirea automatã a coloanei %s"
 msgid "_Toolbars..."
 msgstr "_Bare de unelte..."
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3789
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3790
 msgid "_Tools"
 msgstr "_Unelte"
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3569
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3570
 #, fuzzy
 msgid "_Two Factor"
 msgstr "_Fracþie"
 
-#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3647
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3648
 msgid "_Two Variances: FTest"
 msgstr ""
 
@@ -12095,17 +12095,17 @@ msgstr ""
 msgid "_Undo"
 msgstr "_Anuleazã"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3701
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3702
 msgid "_Ungroup..."
 msgstr "_Degrupeazã..."
 
 #: src/GNOME_Gnumeric.xml.h:337 src/sheet-control-gui.c:1491
-#: src/sheet-control-gui.c:1499 src/workbook-control-gui.c:3468
-#: src/workbook-control-gui.c:3487
+#: src/sheet-control-gui.c:1499 src/workbook-control-gui.c:3469
+#: src/workbook-control-gui.c:3488
 msgid "_Unhide"
 msgstr "_Reafiºeazã"
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3755
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3756
 msgid "_Validate..."
 msgstr "_Valideazã..."
 
@@ -12113,15 +12113,15 @@ msgstr "_Valideazã..."
 msgid "_View"
 msgstr "_Vizualizare"
 
-#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3459
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3460
 msgid "_Width..."
 msgstr "_Lãþime..."
 
-#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3549
+#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3550
 msgid "_Workbook..."
 msgstr "R_egistru..."
 
-#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3375
+#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3376
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -14077,7 +14077,7 @@ msgstr "Opþiuni"
 msgid "Selection has"
 msgstr "Selecþia are"
 
-#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3058
+#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3059
 msgid "Sort"
 msgstr "Sorteazã"
 
@@ -14133,7 +14133,7 @@ msgid "Add the entered area to the list of source areas"
 msgstr "Adaugã zona introdusã la lista zonelor sursã"
 
 #: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:204
-#: src/workbook-control-gui.c:4601
+#: src/workbook-control-gui.c:4602
 msgid "Average"
 msgstr "Medie"
 
@@ -14146,7 +14146,7 @@ msgid "Clear the list of source areas"
 msgstr "ªterge lista zonelor sursã"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4602
+#: src/workbook-control-gui.c:4603
 msgid "Count"
 msgstr "Contor"
 
@@ -14179,12 +14179,12 @@ msgid "Labels"
 msgstr "Etichete"
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4600
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4601
 msgid "Max"
 msgstr "Max"
 
 #: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4599
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4600
 msgid "Min"
 msgstr "Min"
 
@@ -16338,7 +16338,7 @@ msgstr "Zoom"
 msgid "Sheets"
 msgstr "Foi"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4040
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4041
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -18888,7 +18888,7 @@ msgid "File format:"
 msgstr "Format fiºier:"
 
 #. Pack it into file selector
-#: src/gui-file.c:143 src/workbook-control-gui.c:3009
+#: src/gui-file.c:143 src/workbook-control-gui.c:3010
 msgid "Load file"
 msgstr "Încarcã fiºier"
 
@@ -20989,13 +20989,13 @@ msgstr "<- Eliminã tot"
 msgid "Add a filter"
 msgstr "Filtru avansat"
 
-#: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3831
-#: src/workbook-control-gui.c:4052
+#: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3832
+#: src/workbook-control-gui.c:4053
 msgid "Undo"
 msgstr "Anuleazã"
 
-#: src/workbook-control-gui.c:1381 src/workbook-control-gui.c:3834
-#: src/workbook-control-gui.c:4059
+#: src/workbook-control-gui.c:1381 src/workbook-control-gui.c:3835
+#: src/workbook-control-gui.c:4060
 msgid "Redo"
 msgstr "Refã"
 
@@ -21023,8 +21023,8 @@ msgid "Discard All"
 msgstr "Anuleazã"
 
 #: src/workbook-control-gui.c:1617 src/workbook-control-gui.c:1624
-#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5174
-#: src/workbook-control-gui.c:5179
+#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5175
+#: src/workbook-control-gui.c:5180
 msgid "Discard"
 msgstr "Anuleazã"
 
@@ -21087,88 +21087,88 @@ msgstr "Filtru avansat"
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: src/workbook-control-gui.c:2867 src/workbook-control-gui.c:2886
+#: src/workbook-control-gui.c:2868 src/workbook-control-gui.c:2887
 #, fuzzy
 msgid "Show Detail"
 msgstr "_Afiºeazã detaliile"
 
-#: src/workbook-control-gui.c:2867 src/workbook-control-gui.c:2886
+#: src/workbook-control-gui.c:2868 src/workbook-control-gui.c:2887
 #, fuzzy
 msgid "Hide Detail"
 msgstr "A_scunde detaliile"
 
-#: src/workbook-control-gui.c:2874
+#: src/workbook-control-gui.c:2875
 msgid "can only be performed on an existing group"
 msgstr "poate fi efectuatã doar pe un grup existent"
 
-#: src/workbook-control-gui.c:2932
+#: src/workbook-control-gui.c:2933
 msgid "Group"
 msgstr "Grupeazã"
 
-#: src/workbook-control-gui.c:2932
+#: src/workbook-control-gui.c:2933
 msgid "Ungroup"
 msgstr "Degrupeazã"
 
-#: src/workbook-control-gui.c:3123
+#: src/workbook-control-gui.c:3124
 msgid "Select an object to add"
 msgstr "Selecteazã un obiect de adãugat"
 
-#: src/workbook-control-gui.c:3134
+#: src/workbook-control-gui.c:3135
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Nu am putut crea un obiect de tipul '%s'"
 
-#: src/workbook-control-gui.c:3318
+#: src/workbook-control-gui.c:3319
 msgid "P_aste special..."
 msgstr "_Lipire specialã..."
 
-#: src/workbook-control-gui.c:3327
+#: src/workbook-control-gui.c:3328
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Eliminã celulele selectate, deplasând altele în locul lor"
 
-#: src/workbook-control-gui.c:3407
+#: src/workbook-control-gui.c:3408
 msgid "_Auto generate names..."
 msgstr "Genereazã nume _automat..."
 
-#: src/workbook-control-gui.c:3408
+#: src/workbook-control-gui.c:3409
 msgid "Use the current selection to create names"
 msgstr "Utilizeazã selecþia curentã pentru a crea nume"
 
-#: src/workbook-control-gui.c:3635
+#: src/workbook-control-gui.c:3636
 msgid "Ranks And _Percentiles"
 msgstr ""
 
-#: src/workbook-control-gui.c:3770
+#: src/workbook-control-gui.c:3771
 #, fuzzy
 msgid "Create a pivot table."
 msgstr "Creeazã o etichetã"
 
-#: src/workbook-control-gui.c:3831
+#: src/workbook-control-gui.c:3832
 msgid "Undo the operation"
 msgstr "Anuleazã operaþia"
 
-#: src/workbook-control-gui.c:3834
+#: src/workbook-control-gui.c:3835
 msgid "Redo the operation"
 msgstr "Reface operaþia"
 
-#: src/workbook-control-gui.c:4890
+#: src/workbook-control-gui.c:4891
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Fiºierul \"%s\" are format necunoscut."
 
-#: src/workbook-control-gui.c:4941
+#: src/workbook-control-gui.c:4942
 msgid "Send"
 msgstr "Trimite"
 
-#: src/workbook-control-gui.c:4941
+#: src/workbook-control-gui.c:4942
 msgid "Send the current file in email"
 msgstr "Trimite fiºierul curent prin email"
 
-#: src/workbook-control-gui.c:5173 src/workbook-control-gui.c:5188
+#: src/workbook-control-gui.c:5174 src/workbook-control-gui.c:5189
 msgid "Re-Edit"
 msgstr "Re-editare"
 
-#: src/workbook-control-gui.c:5178 src/workbook-control-gui.c:5189
+#: src/workbook-control-gui.c:5179 src/workbook-control-gui.c:5190
 msgid "Accept"
 msgstr "Acceptã"
 
