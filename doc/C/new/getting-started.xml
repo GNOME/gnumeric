@@ -14,7 +14,7 @@
   <figure id="worksheet-all-1.png">
     <title>An example of the entire worksheet.</title>
     <screenshot>
-      <graphic fileref="images/worksheet-all-1" format="png"></graphic>
+      <graphic fileref="images/worksheet-all-1" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -34,7 +34,7 @@
   <figure id="worksheet-all-notes.png">
     <title>A example of the entire worksheet with notes.</title>
     <screenshot>
-      <graphic fileref="images/worksheet-all-notes" format="png"></graphic>
+      <graphic fileref="images/worksheet-all-notes" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -54,10 +54,12 @@
 	about changes in the format and look of the book.  When you have already 
 	saved the book you just need to click on the
 	<inlinemediaobject>
-	  <imagedata fileref="images/stock-save.png"/>
-		<textobject>
-		  <phrase>Save button</phrase>
-		</textobject>
+	  <imageobject>
+		<imagedata fileref="images/stock-save.png"/>
+	  </imageobject>
+	  <textobject>
+		<phrase>Save button</phrase>
+	  </textobject>
 	</inlinemediaobject>
 	in the tool bar or click on <menuchoice><shortcut><keysym>C-s
 	</keysym></shortcut><guimenu>File</guimenu><guimenuitem>Save
@@ -72,7 +74,7 @@
 	<figure id="auto-save.png">
 	  <title>Auto Save dialog</title>
 	  <screenshot>
-		<graphic fileref="images/auto-save" format="png"></graphic>
+		<graphic fileref="images/auto-save" format="PNG"></graphic>
 	  </screenshot>
 	</figure>
 	Click on the <guibutton>Automatic Save Every</guibutton> button and enter 
@@ -88,10 +90,12 @@
 	Open an book by clicking on <menuchoice><shortcut><keysym>F3</keysym></shortcut>
 	<guimenu>File</guimenu><guimenuitem>Open</guimenuitem></menuchoice> or the 
 	<inlinemediaobject>
-	  <imagedata fileref="images/stock-open.png"/>
-		<textobject>
-		  <phrase>Open button</phrase>
-		</textobject>
+	  <imageobject>
+		<imagedata fileref="images/stock-open.png"/>
+	  </imageobject>
+	  <textobject>
+		<phrase>Open button</phrase>
+	  </textobject>
 	</inlinemediaobject>	
 	in the tool bar.  The <interface>Open</interface> dialog will appear.  You can 
 	then select the spreadsheet file you wish to open.  
@@ -117,7 +121,7 @@
 	<figure id="cells-2.png">
 	  <title>Single Cell being Highlighted</title>
 	  <screenshot>
-		<graphic fileref="images/cells-2" format="png"></graphic>
+		<graphic fileref="images/cells-2" format="PNG"></graphic>
 	  </screenshot>
 	</figure>
   </para>
@@ -130,7 +134,7 @@
 	<figure id="selection-3.png">
 	  <title>Multiple Cells being Highlighted</title>
 	  <screenshot>
-		<graphic fileref="images/selection-3" format="png"></graphic>
+		<graphic fileref="images/selection-3" format="PNG"></graphic>
 	  </screenshot>
 	</figure>
   </para>
@@ -182,10 +186,12 @@
 	is highlighted type your data.  You will notice that the data is being 
 	displayed in the entry area.  When you are done click the 
 	<inlinemediaobject>
-	  <imagedata fileref="images/worksheet-data-3.png"/>
-		<textobject>
-		  <phrase>enter button</phrase>
-		</textobject>
+	  <imageobject>
+		<imagedata fileref="images/worksheet-data-3.png"/>
+	  </imageobject>
+	  <textobject>
+		<phrase>enter button</phrase>
+	  </textobject>
 	</inlinemediaobject>
 	or press the Enter key.  The data is then stored into the highlighted 
 	cell.
@@ -202,10 +208,12 @@
 	If you accidentally entered data into the wrong cell you can revert 
 	the cell to its previous data.  Click on the 
 	<inlinemediaobject>
-	  <imagedata fileref="images/worksheet-data-4.png"/>
-		<textobject>
-		  <phrase>cancel button</phrase>
-		</textobject>
+	  <imageobject>
+		<imagedata fileref="images/worksheet-data-4.png"/>
+	  </imageobject>
+	  <textobject>
+		<phrase>cancel button</phrase>
+	  </textobject>
 	</inlinemediaobject>
 	in the entry area.  The data you entered into the cell is erased 
 	and the cell goes back to its previous state.
@@ -226,4 +234,41 @@
   <title>Sheets</title>
 
   <para>
+
+  </para>
+</sect1>	
+
+<sect1 id="functions">
+  <title>Functions</title>
+
+  <para>
+
+  </para>
+</sect1>
+
+<sect1 id="graphing">
+  <title>Graphing</title>
+
+  <para>
 	
+  </para>
+</sect1>
+
+<sect1 id="formatting">
+  <title>Formatting</title>
+
+  <para>
+
+  </para>
+</sect1>
+
+<sect1 id="printing">
+  <title>Printing</title>
+
+  <para>
+
+  </para>
+</sect1>
+
+
+

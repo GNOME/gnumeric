@@ -1,5 +1,11 @@
 2001-10-18  Eric Baudais <baudais@okstate.edu>
 
+	* gnumeric.xml : Validated to DocBook XML.
+	* getting-started : Validated to DocBook XML and added remaining 
+	  sub-sections.
+
+2001-10-18  Eric Baudais <baudais@okstate.edu>
+
 	* gnumeric.xml : Added.
 	* introduction.xml : Added.
 	* getting-started.xml : Added.

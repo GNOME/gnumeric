@@ -7,6 +7,7 @@
 GNU oleo">
 <!ENTITY introduction SYSTEM "introduction.xml">
 <!ENTITY getting-started SYSTEM "getting-started.xml">
+<!--
 <!ENTITY advanced-features SYSTEM "advanced-features.xml">
 <!ENTITY data-analysis SYSTEM "data-analysis.xml">
 <!ENTITY menus SYSTEM "menus.xml">
@@ -15,6 +16,7 @@ GNU oleo">
 <!ENTITY bugs SYSTEM "bugs.xml">
 <!ENTITY author SYSTEM "author.xml">
 <!ENTITY license SYSTEM "license.xml">
+-->
 ]>
 
 <!--
@@ -90,6 +92,8 @@ should be written in this voice.
 
   </chapter>
 
+<!--
+
   <chapter id="advanced-features">
     <title>Advanced Features</title>
 
@@ -147,6 +151,7 @@ should be written in this voice.
         &license;
 
   </chapter>
+-->
 </book>
 	
 
