@@ -1,5 +1,8 @@
 2000-04-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook.c (autosum_cmd) : Add a quick and simple auto-sum
+	  routine.
+
 	* src/functions/fn-math.c (gnumeric_lcm) : Use value_new_int.
 	(gnumeric_minverse) : Use value_new_array_non_init.
 	(gnumeric_mmult) : Ditto.

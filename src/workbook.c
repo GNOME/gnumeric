@@ -1033,6 +1033,26 @@ sort_cmd (Workbook *wb, int asc)
 }
 
 static void
+autosum_cmd (GtkWidget *widget, Workbook *wb)
+{
+	GtkEntry *entry = GTK_ENTRY (wb->ea_input);
+	gchar *txt = gtk_entry_get_text (entry);
+
+	if (strncmp (txt, "=sum(", 5)) {
+		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
+		gtk_entry_set_text (entry, "=sum()");
+		gtk_entry_set_position (entry, 5);
+	} else {
+		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
+
+		/* FIXME : This is crap!
+		 * When the function wizard is more complete use that.
+		 */
+		gtk_entry_set_position (entry, entry->text_length-1);
+	}
+}
+
+static void
 sort_ascend_cmd (GtkWidget *widget, Workbook *wb)
 {
 	sort_cmd (wb, 0);
@@ -1461,6 +1481,10 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		create_ellipse_cmd, NULL, oval_xpm),
 
 	GNOMEUIINFO_SEPARATOR, 
+
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Sum"), N_("Sum into the current cell."),
+		autosum_cmd, NULL, auto_sum_xpm),
 
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),

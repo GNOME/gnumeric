@@ -7,6 +7,7 @@
 #include "pixmaps/oval.xpm"
 #include "pixmaps/sort-ascending.xpm"
 #include "pixmaps/sort-descending.xpm"
+#include "pixmaps/auto-sum.xpm"
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 #include "pixmaps/button.xpm"
 #include "pixmaps/checkbox.xpm"
