@@ -1,3 +1,10 @@
+1999-10-5  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c: Add a comment regarding check_stream performance issue
+	  and fixed English typo.
+	  (read_bb): Fixed bug: tried to mark an inexistent block as
+	  unused.
+
 1999-10-03  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-ole.c (ms_ole_destroy) : Quick and dirty test to

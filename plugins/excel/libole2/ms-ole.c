@@ -292,7 +292,7 @@ get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
    FAT "f". */
 #define TRY_MARK_UNUSED_BLOCK(f,block,mark) {                               \
         if (g_array_index ((f), BLP, (block)) != (mark)) {                  \
-        g_warning ("Tried to mark as unused the block %d which have %d\n",  \
+        g_warning ("Tried to mark as unused the block %d which has %d\n",  \
                    (block), g_array_index ((f), BLP, (block)));             \
         } else { g_array_index ((f), BLP, (block)) = UNUSED_BLOCK; } }
 
@@ -539,9 +539,6 @@ read_bb (MsOle *f)
 		TRY_MARK_UNUSED_BLOCK (f->bb, visited_add_bbd_list,
 				      ADD_BBD_LIST_BLOCK);
 		missing_bbds = numbbd - MAX_SIZE_BBD_LIST;
-		if (missing_lps % (MAX_SIZE_ADD_BBD_LIST*BB_BLOCK_SIZE/4)) {
-			missing_bbds++;
-		}
 		for (lp = 0; lp < missing_bbds; lp++) {
 			if ((lp!=0) && !(lp % (MAX_SIZE_ADD_BBD_LIST))) {
 				/* This lp lives in the next add bbd list */
@@ -1578,6 +1575,14 @@ dump (guint8 const *ptr, guint32 len)
 static void
 check_stream (MsOleStream *s)
 {
+       /* FIXME tenix
+          jody told me (1/oct/99) check_stream causes a performance issue:
+          "it is accounting for between 25 and 50 % of load ties."
+          "Its not an immediate issue.  The code has been this way for a while.
+          The only reason I noticed is that I just finished donig some
+          streamlining of the engine and this pops up as the most expensive
+          operatiion (by a good margin) now." */
+
 	BLP blk;
 	guint32 idx;
 	PPS *p;
