@@ -23,9 +23,7 @@
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-renderer-pixbuf.h>
 
-#include <libfoocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <math.h>
@@ -39,18 +37,6 @@ enum {
 	CTRL_FOO_PROP_LOGICAL_WIDTH_PTS,
 	CTRL_FOO_PROP_LOGICAL_HEIGHT_PTS
 };
-
-static GObjectClass *parent_klass;
-
-struct _GogControlFooCanvas {
-	FooCanvasGroup	base;
-
-	double new_h, new_w;
-
-	GogGraph *model;
-	GogRendererPixbuf *renderer;
-};
-typedef FooCanvasGroupClass GogControlFooCanvasClass;
 
 static GObjectClass *parent_klass;
 

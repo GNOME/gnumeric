@@ -1,3 +1,9 @@
+2004-10-03  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-control-foocanvas.c :  Make the class definition public to
+	  make it easier to graft on an additional interface in the app.  We
+	  may not need this later if SheetObject moves down into goffice
+
 2004-10-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152672

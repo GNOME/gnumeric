@@ -474,7 +474,7 @@ cb_plot_families_init (char const *id, GogPlotFamily *family,
 
 	/* Init the list and the canvas group for each family */
 	g_hash_table_foreach (family->types,
-		(GHFunc )cb_plot_types_init, &closure);
+		(GHFunc) cb_plot_types_init, &closure);
 	g_object_set_data (G_OBJECT (group), FIRST_MINOR_TYPE,
 		closure.current_item);
 }
@@ -640,7 +640,7 @@ cb_plot_family_menu_create (char const *id, GogPlotFamily *family,
 
 	menu = w;
 	g_hash_table_foreach (family->types,
-		(GHFunc )cb_plot_type_list, &types);
+		(GHFunc) cb_plot_type_list, &types);
 	for (ptr = types ; ptr != NULL ; ptr = ptr->next) {
 		type = ptr->data;
 		w = gtk_image_menu_item_new_with_label (_(type->name));
