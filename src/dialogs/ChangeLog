@@ -1,3 +1,8 @@
+2001-05-27  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-cell-format.c (setup_color_pickers) : Correctly
+	initialize color combo depending on the style element.
+
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.65

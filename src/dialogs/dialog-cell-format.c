@@ -280,11 +280,24 @@ setup_color_pickers (ColorPicker *picker,
 
 	picker->combo          = combo;
 	picker->preview_update = preview_update;
-
-	if (e != MSTYLE_ELEMENT_UNSET
-	    && !mstyle_is_element_conflict (mstyle, e)
-	    && mstyle_get_pattern (mstyle) != 0)
-		mcolor = mstyle_get_color (mstyle, e);
+	
+	switch (e) {
+	case MSTYLE_COLOR_PATTERN: /* Fall through */
+	case MSTYLE_COLOR_FORE:
+		if (!mstyle_is_element_conflict (mstyle, e))
+			mcolor = mstyle_get_color (mstyle, e);
+		break;
+	case MSTYLE_COLOR_BACK:
+		if (!mstyle_is_element_conflict (mstyle, e)
+		    && mstyle_is_element_set (mstyle, MSTYLE_PATTERN)
+		    && mstyle_get_pattern (mstyle) != 0)
+			mcolor = mstyle_get_color (mstyle, e);
+		break;
+	case MSTYLE_ELEMENT_UNSET:
+		mcolor = NULL;
+		break;
+	default: mcolor = NULL; g_warning ("Unhandled mstyle element!");
+	}
 
 	if (mcolor != NULL)
 		color_combo_set_color (COLOR_COMBO (combo), &mcolor->color);
