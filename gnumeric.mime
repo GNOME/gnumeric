@@ -1,5 +1,0 @@
-application/x-gnumeric
-	ext: gnumeric
-
-application/vnd.ms-excel
-	ext: xls xlw 

@@ -1,9 +1,0 @@
-*.lo
-*.la
-*.o
-*~
-Makefile.in
-Makefile
-graphics-wizard
-.libs
-.deps
