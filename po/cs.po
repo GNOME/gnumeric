@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2001-12-16 02:50-0500\n"
+"POT-Creation-Date: 2001-12-21 01:11-0500\n"
 "PO-Revision-Date: 1999-10-22 21:20+02:00\n"
 "Last-Translator: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
 "Language-Team: \n"
@@ -46,7 +46,7 @@ msgid "Functions related to financial derivatives"
 msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:571 src/xml-io.c:3425
+#: plugins/mps/mps.c:571 src/xml-io.c:3446
 msgid "Reading file..."
 msgstr ""
 
@@ -191,7 +191,7 @@ msgstr ""
 msgid "Broken function"
 msgstr "Chybná funkce"
 
-#: plugins/excel/ms-formula-read.c:1411
+#: plugins/excel/ms-formula-read.c:1421
 msgid " Unknown formula"
 msgstr " Chybný vzorec"
 
@@ -288,7 +288,7 @@ msgstr "XML formát star¹ích verzí Gnumericu"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 
-#: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:695
+#: plugins/guile/plugin.c:67 src/func.c:777 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:766 src/functions/fn-information.c:794
 #: src/functions/fn-information.c:821 src/functions/fn-information.c:872
 #: src/functions/fn-information.c:902 src/functions/fn-information.c:969
@@ -942,11 +942,11 @@ msgstr ""
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:2230
+#: plugins/xml_sax/xml-sax-read.c:2228
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:2239
+#: plugins/xml_sax/xml-sax-read.c:2237
 msgid "XML document not well formed!"
 msgstr ""
 
@@ -954,12 +954,12 @@ msgstr ""
 msgid "About this application"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2861
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2866
 #, fuzzy
 msgid "Add an outline group"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2891
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2896
 #, fuzzy
 msgid "Advanced _Filter..."
 msgstr "Pøidat.."
@@ -976,30 +976,30 @@ msgstr ""
 msgid "Arrow"
 msgstr "©ipka"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2828
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2833
 msgid "Auto _Correct..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2539
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2544
 #, fuzzy
 msgid "Auto_fill"
 msgstr "vlo¾ buòky"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2540
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2545
 #, fuzzy
 msgid "Automatically fill the current selection"
 msgstr "Zarovnání doleva"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2829
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2834
 msgid "Automatically perform simple spell checking"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2832
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2837
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "Pozadí"
@@ -1021,16 +1021,16 @@ msgstr "Poøadí stránek"
 msgid "Button"
 msgstr "Dolu"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2702
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2707
 #, fuzzy
 msgid "C_ells..."
 msgstr "Buòky..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2603
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2608
 msgid "C_lear"
 msgstr "Vymazat"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2806
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2811
 msgid "C_olumn"
 msgstr "Sloupec"
 
@@ -1053,24 +1053,24 @@ msgstr "Støedová sekce:"
 msgid "Centers the text in each selection"
 msgstr "Pro ka¾dou sekci zadejte formátovací øetìzec:"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2740
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2745
 msgid "Change height of the selected rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2733
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2738
 msgid "Change the default column width"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2752
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2757
 msgid "Change the default row height"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2561
-#: src/workbook-control-gui.c:2762
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2566
+#: src/workbook-control-gui.c:2767
 msgid "Change the order the sheets are displayed"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2721
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2726
 #, fuzzy
 msgid "Change width of the selected columns"
 msgstr "Vlo¾ sloupec(e)"
@@ -1079,21 +1079,21 @@ msgstr "Vlo¾ sloupec(e)"
 msgid "Checkbox"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2500
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2505
 #, fuzzy
 msgid "Clear the selected cells' comments"
 msgstr "Vycentruje buòku"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2503
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2508
 #, fuzzy
 msgid "Clear the selected cells' contents"
 msgstr "Vycentruje buòku"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2497
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2502
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2494
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2499
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
@@ -1102,11 +1102,11 @@ msgid "Close the current file"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2499
+#: src/workbook-control-gui.c:2504
 msgid "Co_mments"
 msgstr "Komentáøe"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2855
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2860
 msgid "Collapse an outline group"
 msgstr ""
 
@@ -1119,12 +1119,12 @@ msgstr "Barvy"
 msgid "Configure toolbars"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2914
 msgid "Consolidate regions using a function"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:39 src/selection.c:540
-#: src/workbook-control-gui.c:2963
+#: src/workbook-control-gui.c:2968
 msgid "Copy"
 msgstr "Kopie"
 
@@ -1133,7 +1133,7 @@ msgstr "Kopie"
 msgid "Copy the current selection to the clipboard"
 msgstr "Zkopíruje oznaèené do schránky"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2589
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2594
 #, fuzzy
 msgid "Copy the selection"
 msgstr "Zarovnání doleva"
@@ -1173,17 +1173,17 @@ msgstr "Vytvoøí èáru"
 msgid "Create a list"
 msgstr "Vytvoøí èáru"
 
-#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2645
+#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2650
 #, fuzzy
 msgid "Create a new shared view of the workbook"
 msgstr "Jména v se¹itì:"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2456
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2461
 #, fuzzy
 msgid "Create a new spreadsheet"
 msgstr "Vytvoø nový list"
 
-#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2648
+#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2653
 #, fuzzy
 msgid "Create a new unshared view of the workbook"
 msgstr "Jména v se¹itì:"
@@ -1203,30 +1203,30 @@ msgstr "Vytvoøí èáru"
 msgid "Create an arrow"
 msgstr "Vytvoøí ¹ipku"
 
-#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1390
-#: src/workbook-control-gui.c:2584
+#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1391
+#: src/workbook-control-gui.c:2589
 #, fuzzy
 msgid "Cu_t"
 msgstr "Vyjmout"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2671
 #, fuzzy
 msgid "Current _date"
 msgstr "Dne¹ní datum"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2672
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2677
 #, fuzzy
 msgid "Current _time"
 msgstr "Souèasný èas"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/selection.c:566 src/selection.c:569
-#: src/workbook-control-gui.c:2960
+#: src/workbook-control-gui.c:2965
 msgid "Cut"
 msgstr "Vyjmout"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2585
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2590
 #, fuzzy
 msgid "Cut the selection"
 msgstr "Zarovnání doleva"
@@ -1247,17 +1247,17 @@ msgstr "Prosinec"
 msgid "Decrease the precision of the selected cells"
 msgstr "Vycentruje buòku"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2767
+#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2772
 #, fuzzy
 msgid "Display _Formulas"
 msgstr "Vzorce"
 
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2870
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2875
 #, fuzzy
 msgid "Display _Outlines"
 msgstr "Vzorce"
 
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2768
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2773
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
@@ -1279,23 +1279,23 @@ msgstr "Text"
 msgid "Edit a formula in the current cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2681
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2686
 msgid "Edit sheet and workbook names"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2759
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2764
 msgid "Edit the name of the current sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2711
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2716
 msgid "Edit the selected cell's comment"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2724
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2729
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2743
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2748
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
@@ -1303,11 +1303,11 @@ msgstr ""
 msgid "Exit the program"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2930
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2935
 msgid "F_ormat"
 msgstr "F_ormát"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2892
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2897
 msgid "Filter data with given criteria"
 msgstr ""
 
@@ -1326,12 +1326,12 @@ msgstr "Font"
 msgid "Font selector"
 msgstr "Výbìr zlomku"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2690
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "Popøedí"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2811
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2816
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
@@ -1361,7 +1361,7 @@ msgstr "Zlomek"
 msgid "Graph Guru"
 msgstr "Vzorce"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2739
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2744
 #, fuzzy
 msgid "H_eight..."
 msgstr "Délka"
@@ -1371,7 +1371,7 @@ msgstr "Délka"
 msgid "Hide _Column Headers"
 msgstr "Sloupce"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2779
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2784
 msgid "Hide _Gridlines"
 msgstr ""
 
@@ -1380,21 +1380,21 @@ msgstr ""
 msgid "Hide _Row Headers"
 msgstr "Vlo¾ øádky"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2773
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2778
 msgid "Hide _Zeros"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2727
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2732
 #, fuzzy
 msgid "Hide the selected columns"
 msgstr "Vycentruje buòku"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2746
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2751
 #, fuzzy
 msgid "Hide the selected rows"
 msgstr "Vycentruje buòku"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:2460
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:2465
 #, fuzzy
 msgid "Imports a file"
 msgstr "Otevøít soubor"
@@ -1429,12 +1429,12 @@ msgstr "Vlo¾ sloupec(e)"
 msgid "Insert Shaped Component"
 msgstr "Vytvoøí èáru"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2553
+#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2558
 #, fuzzy
 msgid "Insert a new sheet"
 msgstr "Vytvoø nový list"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2694
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2699
 #, fuzzy
 msgid "Insert a new spreadsheet"
 msgstr "Vytvoø nový list"
@@ -1449,26 +1449,26 @@ msgstr "Vytvoø nový list"
 msgid "Insert an object into the spreadsheet"
 msgstr "Vytvoø nový list"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2703
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2708
 #, fuzzy
 msgid "Insert new cells"
 msgstr "Vlo¾ buòky"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2700
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2705
 #, fuzzy
 msgid "Insert new columns"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2697
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2702
 #, fuzzy
 msgid "Insert new rows"
 msgstr "Vlo¾ øádky"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2672
 msgid "Insert the current date into the selected cell(s)"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:2673
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:2678
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
@@ -1481,7 +1481,7 @@ msgstr "Vytvoøí èáru"
 msgid "Invoke the graph guru to create a graph"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2565
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2570
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
@@ -1490,15 +1490,15 @@ msgstr ""
 msgid "Italicize"
 msgstr "Kurzíva"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2838
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2843
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2841
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2846
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2629
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2634
 msgid "Jump to a specified cell"
 msgstr ""
 
@@ -1532,15 +1532,15 @@ msgstr "Poslední"
 msgid "Lock or unlock the top left cols/rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2549
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2554
 msgid "Make a copy of the current sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2730
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2735
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2749
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2754
 msgid "Make any hidden rows in the selection visible"
 msgstr ""
 
@@ -1571,11 +1571,11 @@ msgstr "Prumìr"
 msgid "Merge a range of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2808
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2815
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2820
 msgid "Modify the workbook attributes"
 msgstr ""
 
@@ -1583,21 +1583,21 @@ msgstr ""
 msgid "Money"
 msgstr "Mìna"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2939
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2944
 msgid "New"
 msgstr "Nový"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2644
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2649
 #, fuzzy
 msgid "New _Shared"
 msgstr "Nový list"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2647
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2652
 #, fuzzy
 msgid "New _Unshared"
 msgstr "Nový list"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2942
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2947
 msgid "Open"
 msgstr "Otevøi"
 
@@ -1611,12 +1611,12 @@ msgstr "Vytvoø nový list"
 msgid "Open an existing workbook"
 msgstr "Otevøe existující se¹it"
 
-#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2881
 #, fuzzy
 msgid "Outlines _Below"
 msgstr "V_pravo"
 
-#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:2882
+#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:2887
 #, fuzzy
 msgid "Outlines _Right"
 msgstr "V_pravo"
@@ -1631,11 +1631,11 @@ msgid "P_aste Special..."
 msgstr "Vlo¾it jinak"
 
 #: src/GNOME_Gnumeric.xml.h:146 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:2966
+#: src/workbook-control-gui.c:2971
 msgid "Paste"
 msgstr "Vlo¾it"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2593
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2598
 #, fuzzy
 msgid "Paste the clipboard"
 msgstr "Vlo¾í schránky"
@@ -1644,7 +1644,7 @@ msgstr "Vlo¾í schránky"
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2598
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2603
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
@@ -1654,17 +1654,17 @@ msgid "Percent"
 msgstr "Procenta"
 
 #: src/GNOME_Gnumeric.xml.h:151 src/dialogs/print.glade.h:18
-#: src/workbook-control-gui.c:2951
+#: src/workbook-control-gui.c:2956
 msgid "Print"
 msgstr "Tisk"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2473
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2478
 #, fuzzy
 msgid "Print Pre_view..."
 msgstr "_Náhled tisku"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2473
-#: src/workbook-control-gui.c:2954
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2478
+#: src/workbook-control-gui.c:2959
 #, fuzzy
 msgid "Print Preview"
 msgstr "_Náhled tisku"
@@ -1692,8 +1692,8 @@ msgstr "Ulo¾í se¹it"
 msgid "Radio Button"
 msgstr "Dolu"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2560
-#: src/workbook-control-gui.c:2761
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2565
+#: src/workbook-control-gui.c:2766
 #, fuzzy
 msgid "Re-_Order Sheets..."
 msgstr "Formát buòky"
@@ -1703,17 +1703,17 @@ msgstr "Formát buòky"
 msgid "Re-_Order..."
 msgstr "Formát buòky"
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2556
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2561
 #, fuzzy
 msgid "Re_name..."
 msgstr "Buòky..."
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2633
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2638
 #, fuzzy
 msgid "Recalculate"
 msgstr "Pøepoèítat"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2634
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2639
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
@@ -1721,12 +1721,12 @@ msgstr ""
 msgid "Rectangle"
 msgstr "Obdélník"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2578
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2583
 #, fuzzy
 msgid "Redo the undone action"
 msgstr "Neznámý oprátor"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2864
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2869
 msgid "Remove an outline group"
 msgstr ""
 
@@ -1734,7 +1734,7 @@ msgstr ""
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2557
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2562
 #, fuzzy
 msgid "Rename the current sheet"
 msgstr "list"
@@ -1749,22 +1749,22 @@ msgstr "Vpravo"
 msgid "Right justifies the contents of each cell"
 msgstr "Vycentruje buòku"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2610
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2615
 #, fuzzy
 msgid "S_heet"
 msgstr "List"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2714
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2719
 #, fuzzy
 msgid "S_pecial"
 msgstr "Zvlá¹tnosti"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2462
-#: src/workbook-control-gui.c:2945
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2467
+#: src/workbook-control-gui.c:2950
 msgid "Save"
 msgstr "Ulo¾"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2465
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2470
 #, fuzzy
 msgid "Save _As..."
 msgstr "Ulo¾"
@@ -1783,49 +1783,49 @@ msgstr "Vyjme oznaèené do schránky"
 msgid "Save the current workbook"
 msgstr "Ulo¾í se¹it"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2622
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2627
 msgid "Search and Replace..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2617
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2622
 #, fuzzy
 msgid "Search for some text"
 msgstr "Hledat"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2623
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2628
 msgid "Search for some text and replace it with something else"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2616
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2621
 #, fuzzy
 msgid "Search..."
 msgstr "Hledat"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2526
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2531
 #, fuzzy
 msgid "Select Arra_y"
 msgstr "Vybrat v¹e"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2511
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2516
 #, fuzzy
 msgid "Select _All"
 msgstr "Vybrat v¹e"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2521
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2526
 #, fuzzy
 msgid "Select _Column"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2531
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2536
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2516
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2521
 #, fuzzy
 msgid "Select _Row"
 msgstr "Mazání"
 
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2512
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2517
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
@@ -1833,16 +1833,16 @@ msgstr ""
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2527
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2532
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2522
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2527
 #, fuzzy
 msgid "Select an entire column"
 msgstr "Vytvoøí èáru"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2517
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2522
 #, fuzzy
 msgid "Select an entire row"
 msgstr "Vytvoøí èáru"
@@ -1851,11 +1851,11 @@ msgstr "Vytvoøí èáru"
 msgid "Setup the page settings for your current printer"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2993
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2998
 msgid "Sort Ascending"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2996
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3001
 msgid "Sort Descending"
 msgstr ""
 
@@ -1890,12 +1890,12 @@ msgstr ""
 msgid "Statistical methods"
 msgstr "Statistické"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2479
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2484
 msgid "Su_mmary..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:202 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:2986 src/workbook-control-gui.c:3610
+#: src/workbook-control-gui.c:2991 src/workbook-control-gui.c:3615
 #: src/workbook-view.c:517
 msgid "Sum"
 msgstr "Suma"
@@ -1904,39 +1904,39 @@ msgstr "Suma"
 msgid "Sum into the current cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2480
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2485
 msgid "Summary information"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2786
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2791
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2780
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2785
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2876
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2792
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2797
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2774
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2779
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2883
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2888
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2877
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2882
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2858
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2863
 msgid "Uncollapse an outline group"
 msgstr ""
 
@@ -1948,16 +1948,16 @@ msgstr ""
 msgid "Underlines the text"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2574
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2579
 #, fuzzy
 msgid "Undo the last action"
 msgstr "Neznámý oprátor"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2906
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2911
 msgid "Validate input with preset criteria"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2654
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2659
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
@@ -1966,32 +1966,32 @@ msgstr ""
 msgid "_About..."
 msgstr "F_ormát"
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2710
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2715
 msgid "_Add / Modify comment..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2493
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2498
 msgid "_All"
 msgstr "V¹e"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2831
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2836
 #, fuzzy
 msgid "_Auto Save..."
 msgstr "Jdi na buòku.."
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2723
-#: src/workbook-control-gui.c:2742
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2728
+#: src/workbook-control-gui.c:2747
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "Zarovnání doleva"
 
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2810
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2815
 #, fuzzy
 msgid "_Autoformat..."
 msgstr "Jdi na buòku.."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2802
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2807
 msgid "_Cells..."
 msgstr "Buòky..."
 
@@ -2011,32 +2011,32 @@ msgstr "Zavøít"
 #: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:12
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2699
+#: src/workbook-control-gui.c:2704
 #, fuzzy
 msgid "_Columns"
 msgstr "Sloupce"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2908
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2913
 #, fuzzy
 msgid "_Consolidate..."
 msgstr "©íøka"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2502
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2507
 msgid "_Content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1016
-#: src/sheet-control-gui.c:1392 src/workbook-control-gui.c:2588
+#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1012
+#: src/sheet-control-gui.c:1393 src/workbook-control-gui.c:2593
 #, fuzzy
 msgid "_Copy"
 msgstr "Kopie"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2932
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2937
 #, fuzzy
 msgid "_Data"
 msgstr "Datum"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2846
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2851
 msgid "_Data Analysis..."
 msgstr ""
 
@@ -2045,13 +2045,13 @@ msgstr ""
 msgid "_Define"
 msgstr "Definovat jméno"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1410
-#: src/workbook-control-gui.c:2605
+#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1411
+#: src/workbook-control-gui.c:2610
 #, fuzzy
 msgid "_Delete..."
 msgstr "Mazání"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2548
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2553
 #, fuzzy
 msgid "_Duplicate"
 msgstr "Datum"
@@ -2067,31 +2067,31 @@ msgid "_File"
 msgstr "Vyplnit"
 
 #: src/GNOME_Gnumeric.xml.h:238 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2614
+#: src/workbook-control-gui.c:2619
 #, fuzzy
 msgid "_Fill"
 msgstr "Vyplnit"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2904
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2909
 #, fuzzy
 msgid "_Filter"
 msgstr "Vyplnit"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2496
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2501
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:962
-#: src/workbook-control-gui.c:2656
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:967
+#: src/workbook-control-gui.c:2661
 #, fuzzy
 msgid "_Freeze Panes"
 msgstr "Mazání"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2837
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2842
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2628
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2633
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "Jdi na buòku.."
@@ -2106,7 +2106,7 @@ msgstr "Na_hoøe:"
 msgid "_Group"
 msgstr "Na_hoøe:"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2914
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2919
 msgid "_Group and Outline"
 msgstr ""
 
@@ -2115,24 +2115,24 @@ msgstr ""
 msgid "_Help"
 msgstr "_Náhled"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/sheet-control-gui.c:1433
-#: src/sheet-control-gui.c:1441 src/workbook-control-gui.c:2726
-#: src/workbook-control-gui.c:2745
+#: src/GNOME_Gnumeric.xml.h:248 src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1442 src/workbook-control-gui.c:2731
+#: src/workbook-control-gui.c:2750
 #, fuzzy
 msgid "_Hide"
 msgstr "_Náhled"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2854
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2859
 msgid "_Hide Detail"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2460
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2465
 #, fuzzy
 msgid "_Import..."
 msgstr "F_ormát"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2552
-#: src/workbook-control-gui.c:2929
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2557
+#: src/workbook-control-gui.c:2934
 msgid "_Insert"
 msgstr "Vlo¾it"
 
@@ -2141,12 +2141,12 @@ msgstr "Vlo¾it"
 msgid "_Insert new"
 msgstr "Vlo¾it"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2708
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2713
 #, fuzzy
 msgid "_Name"
 msgstr "Jméno"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2456
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2461
 msgid "_New"
 msgstr "_Nový"
 
@@ -2160,13 +2160,13 @@ msgstr "Vlo¾it"
 msgid "_Open..."
 msgstr "Otevøi"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/sheet-control-gui.c:1394
-#: src/workbook-control-gui.c:2592
+#: src/GNOME_Gnumeric.xml.h:257 src/sheet-control-gui.c:1395
+#: src/workbook-control-gui.c:2597
 #, fuzzy
 msgid "_Paste"
 msgstr "Vlo¾it"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2822
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2827
 msgid "_Plug-ins..."
 msgstr ""
 
@@ -2175,19 +2175,19 @@ msgstr ""
 msgid "_Print..."
 msgstr "_Tisk"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:1029
-#: src/workbook-control-gui.c:2577
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:1034
+#: src/workbook-control-gui.c:2582
 #, fuzzy
 msgid "_Redo"
 msgstr "Odstranit"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2564
+#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2569
 #, fuzzy
 msgid "_Remove"
 msgstr "Odstranit"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2807
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2812
 msgid "_Row"
 msgstr "Øádek"
 
@@ -2197,7 +2197,7 @@ msgstr "Øádek"
 #: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:19
-#: src/workbook-control-gui.c:2696
+#: src/workbook-control-gui.c:2701
 msgid "_Rows"
 msgstr "Øádky"
 
@@ -2206,21 +2206,21 @@ msgstr "Øádky"
 msgid "_Save"
 msgstr "Ulo¾"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2612
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2617
 #, fuzzy
 msgid "_Select"
 msgstr "Mazání"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2693
-#: src/workbook-control-gui.c:2808
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2698
+#: src/workbook-control-gui.c:2813
 msgid "_Sheet"
 msgstr "List"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2857
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2862
 msgid "_Show Detail"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2845
 msgid "_Solver..."
 msgstr ""
 
@@ -2229,12 +2229,12 @@ msgstr ""
 msgid "_Sort..."
 msgstr "F_ormát"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2751
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2756
 #, fuzzy
 msgid "_Standard Height"
 msgstr "Standardné odchylka = "
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2732
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2737
 #, fuzzy
 msgid "_Standard Width"
 msgstr "Standardné odchylka = "
@@ -2244,12 +2244,12 @@ msgstr "Standardné odchylka = "
 msgid "_Toolbars..."
 msgstr "Vymazat"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2931
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2936
 msgid "_Tools"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:1028
-#: src/workbook-control-gui.c:2573
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:1033
+#: src/workbook-control-gui.c:2578
 msgid "_Undo"
 msgstr ""
 
@@ -2257,13 +2257,13 @@ msgstr ""
 msgid "_Ungroup"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:276 src/sheet-control-gui.c:1435
-#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2729
-#: src/workbook-control-gui.c:2748
+#: src/GNOME_Gnumeric.xml.h:276 src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2734
+#: src/workbook-control-gui.c:2753
 msgid "_Unhide"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2905
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2910
 #, fuzzy
 msgid "_Validate..."
 msgstr "©íøka"
@@ -2273,17 +2273,17 @@ msgstr "©íøka"
 msgid "_View"
 msgstr "_Náhled"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2720
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2725
 #, fuzzy
 msgid "_Width..."
 msgstr "©íøka"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2814
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2819
 #, fuzzy
 msgid "_Workbook..."
 msgstr "Nový se¹it"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2653
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2658
 msgid "_Zoom..."
 msgstr "Mìøítko..."
 
@@ -2598,7 +2598,7 @@ msgstr ""
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3448
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3469
 msgid "Invalid xml file. Tree is empty ?"
 msgstr ""
 
@@ -2913,74 +2913,74 @@ msgstr ""
 msgid "Pasting into %s"
 msgstr ""
 
-#. Check arrays or merged regions
-#: src/commands.c:2757 src/workbook-control-gui.c:1831
+#. Check arrays or merged regions in src or target regions
+#: src/commands.c:2766 src/commands.c:2767 src/workbook-control-gui.c:1836
 msgid "Autofill"
 msgstr ""
 
 #. Changed in initial redo.
-#: src/commands.c:2780
+#: src/commands.c:2790
 #, fuzzy, c-format
 msgid "Autofilling %s"
 msgstr "vlo¾ buòky"
 
-#: src/commands.c:2933
+#: src/commands.c:2943
 #, fuzzy, c-format
 msgid "Autoformatting %s"
 msgstr "Jdi na buòku.."
 
-#: src/commands.c:3043
+#: src/commands.c:3053
 #, fuzzy, c-format
 msgid "Unmerging %s"
 msgstr "vlo¾ buòky"
 
-#: src/commands.c:3181
+#: src/commands.c:3191
 #, fuzzy, c-format
 msgid "Merging %s"
 msgstr "vlo¾ buòky"
 
 #. Corrected below.
-#: src/commands.c:3559 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3569 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr ""
 
-#: src/commands.c:3655
+#: src/commands.c:3665
 #, fuzzy, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/commands.c:3656
+#: src/commands.c:3666
 #, fuzzy, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Vlo¾ sloupec(e)"
 
 #. Changed in initial redo.
-#: src/commands.c:3741
+#: src/commands.c:3751
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr ""
 
-#: src/commands.c:3856
+#: src/commands.c:3866
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr ""
 
-#: src/commands.c:3925
+#: src/commands.c:3935
 #, fuzzy
 msgid "Insert object"
 msgstr "Vlo¾ sloupce"
 
-#: src/commands.c:3983
+#: src/commands.c:3993
 #, fuzzy
 msgid "Delete object"
 msgstr "Formát buòky"
 
-#: src/commands.c:4064
+#: src/commands.c:4074
 #, fuzzy
 msgid "Resize object"
 msgstr "Vytvoøí èáru"
 
-#: src/commands.c:4064
+#: src/commands.c:4074
 msgid "Move object"
 msgstr ""
 
@@ -3332,47 +3332,43 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr ""
 
 #: src/dialogs/autocorrect.glade.h:5
-msgid "Correct accidental use of _cAPS LOCK key"
-msgstr ""
-
-#: src/dialogs/autocorrect.glade.h:6
 msgid "Do _not correct:"
 msgstr ""
 
-#: src/dialogs/autocorrect.glade.h:7
+#: src/dialogs/autocorrect.glade.h:6
 msgid "Re_place:"
 msgstr ""
 
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/consolidate.glade.h:26
+#: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:16
 #, fuzzy
 msgid "_Add"
 msgstr "Pøièíst"
 
-#: src/dialogs/autocorrect.glade.h:9
+#: src/dialogs/autocorrect.glade.h:8
 msgid "_Do not capitalize after:"
 msgstr ""
 
-#: src/dialogs/autocorrect.glade.h:10
+#: src/dialogs/autocorrect.glade.h:9
 #, fuzzy
 msgid "_First Letter"
 msgstr "_První stránka"
 
-#: src/dialogs/autocorrect.glade.h:11 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
 #, fuzzy
 msgid "_General"
 msgstr "Obecný"
 
-#: src/dialogs/autocorrect.glade.h:12
+#: src/dialogs/autocorrect.glade.h:11
 msgid "_INitial CApitals"
 msgstr ""
 
-#: src/dialogs/autocorrect.glade.h:14
+#: src/dialogs/autocorrect.glade.h:13
 msgid "_Replace text when typed"
 msgstr ""
 
-#: src/dialogs/autocorrect.glade.h:15
+#: src/dialogs/autocorrect.glade.h:14
 #, fuzzy
 msgid "_With:"
 msgstr "©íøka"
@@ -3555,7 +3551,7 @@ msgstr ""
 msgid "Background Color"
 msgstr "Pozadí"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2685
 #, fuzzy
 msgid "Border"
 msgstr "Poøadí stránek"
@@ -3766,7 +3762,7 @@ msgstr "Orientace"
 msgid "Outline"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2700
 #, fuzzy
 msgid "Pattern"
 msgstr "Vlo¾it"
@@ -4097,7 +4093,7 @@ msgid "Selection has"
 msgstr "Zarovnání doleva"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:503
-#: src/workbook-control-gui.c:2359
+#: src/workbook-control-gui.c:2364
 #, fuzzy
 msgid "Sort"
 msgstr "seøadit podle"
@@ -4136,7 +4132,7 @@ msgstr "©íøka _sloupce:"
 msgid "Add the entered area to the list of source areas"
 msgstr ""
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3613
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3618
 msgid "Average"
 msgstr "Prumìr"
 
@@ -4150,7 +4146,7 @@ msgstr "Kopie hodnot"
 msgid "Clear the list of source areas"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3614
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3619
 msgid "Count"
 msgstr "Souèet"
 
@@ -4186,11 +4182,11 @@ msgstr "Vlo¾ øádky"
 msgid "Labels"
 msgstr ""
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3612
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3617
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3611
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3616
 msgid "Min"
 msgstr "Min"
 
@@ -4479,22 +4475,22 @@ msgstr "Domácí stránka programu Gnumeric"
 msgid "Contract Support"
 msgstr ""
 
-#: src/dialogs/dialog-advanced-filter.c:256
+#: src/dialogs/dialog-advanced-filter.c:253
 #, fuzzy
 msgid "You should introduce a valid cell names in 'List Range:'"
 msgstr "V Rozsahu by jste mìl(a) zadat správný rozsah bunìk"
 
-#: src/dialogs/dialog-advanced-filter.c:270
+#: src/dialogs/dialog-advanced-filter.c:266
 #, fuzzy
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
 msgstr "V Rozsahu by jste mìl(a) zadat správný rozsah bunìk"
 
-#: src/dialogs/dialog-advanced-filter.c:289
+#: src/dialogs/dialog-advanced-filter.c:280
 #, fuzzy
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "V Rozsahu by jste mìl(a) zadat správný rozsah bunìk"
 
-#: src/dialogs/dialog-advanced-filter.c:331
+#: src/dialogs/dialog-advanced-filter.c:327
 #, fuzzy
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
@@ -4838,7 +4834,7 @@ msgstr ""
 msgid "z-Test: Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-autocorrect.c:293
+#: src/dialogs/dialog-autocorrect.c:292
 #, fuzzy
 msgid "Could not create the AutoCorrect dialog."
 msgstr "©patný poèet argumentu"
@@ -4996,34 +4992,34 @@ msgstr ""
 msgid "_);[Red]("
 msgstr "#,##0_);[red](#,##0)"
 
-#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
+#: src/dialogs/dialog-cell-format.c:2149 src/dialogs/dialog-cell-format.c:2158
 #, fuzzy
 msgid "Minimum :"
 msgstr "Min"
 
-#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
+#: src/dialogs/dialog-cell-format.c:2150 src/dialogs/dialog-cell-format.c:2162
 #, fuzzy
 msgid "Maximum :"
 msgstr "Max"
 
-#: src/dialogs/dialog-cell-format.c:2158
+#: src/dialogs/dialog-cell-format.c:2154
 #, fuzzy
 msgid "Value :"
 msgstr "Hodnoty"
 
-#: src/dialogs/dialog-cell-format.c:2623
+#: src/dialogs/dialog-cell-format.c:2619
 #, fuzzy
 msgid "Format Cells"
 msgstr "Seøadit buòky"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
-#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2685 src/dialogs/dialog-cell-format.c:2690
+#: src/dialogs/dialog-cell-format.c:2700 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:833
 #, fuzzy
 msgid "Clear Background"
 msgstr "Pozadí"
@@ -5402,11 +5398,11 @@ msgstr "Na hodnotu:"
 msgid "Comment"
 msgstr "Komentáøe"
 
-#: src/dialogs/dialog-search-replace.c:131 src/dialogs/dialog-search.c:368
+#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:369
 msgid "You must select some cell types to search."
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:410
+#: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:415
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
@@ -5939,8 +5935,8 @@ msgstr ""
 msgid "Sheets"
 msgstr "List"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3144
-#: src/workbook-control-gui.c:3200
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3149
+#: src/workbook-control-gui.c:3205
 #, fuzzy
 msgid "Zoom"
 msgstr "Zvìt¹ení"
@@ -6373,7 +6369,7 @@ msgstr "_Hlavièka"
 msgid "Headers and footers"
 msgstr "Hlavièky a patky"
 
-#: src/dialogs/print.glade.h:10 src/print-info.c:430
+#: src/dialogs/print.glade.h:10 src/print-info.c:427
 msgid "In"
 msgstr ""
 
@@ -6423,7 +6419,7 @@ msgid "Scale"
 msgstr "Mìøítko"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:139
-#: src/workbook.c:1060 src/xml-io.c:3058
+#: src/workbook.c:1060 src/xml-io.c:3154
 msgid "Sheet"
 msgstr "List"
 
@@ -6504,11 +6500,11 @@ msgid "_Vertically"
 msgstr "_Vertikálnì"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:44 src/print-info.c:429
+#: src/dialogs/print.glade.h:44 src/print-info.c:426
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:45 src/print-info.c:428
+#: src/dialogs/print.glade.h:45 src/print-info.c:425
 msgid "mm"
 msgstr "mm"
 
@@ -6516,7 +6512,7 @@ msgstr "mm"
 msgid "page(s) wide by"
 msgstr ""
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:427
+#: src/dialogs/print.glade.h:47 src/print-info.c:424
 msgid "pts"
 msgstr "bodù"
 
@@ -7169,31 +7165,31 @@ msgstr "Horizontální èára"
 msgid "_Vertical Scrollbar"
 msgstr "Vertikální èára"
 
-#: src/expr-name.c:225
+#: src/expr-name.c:221
 #, fuzzy
 msgid "already defined in sheet"
 msgstr "ji¾ definován"
 
-#: src/expr-name.c:229
+#: src/expr-name.c:225
 #, fuzzy
 msgid "already defined in workbook"
 msgstr "ji¾ definován"
 
-#: src/expr-name.c:233
+#: src/expr-name.c:229
 #, fuzzy
 msgid "already globally defined "
 msgstr "ji¾ definován"
 
-#: src/expr-name.c:239
+#: src/expr-name.c:235
 #, fuzzy, c-format
 msgid "'%s' has a circular reference"
 msgstr "Reference v kruhu"
 
-#: src/expr-name.c:402
+#: src/expr-name.c:398
 msgid "Builtin"
 msgstr ""
 
-#: src/expr-name.c:494 src/expr-name.c:506
+#: src/expr-name.c:490 src/expr-name.c:502
 msgid "Error: no sheet"
 msgstr ""
 
@@ -7329,1344 +7325,1344 @@ msgstr "POLE"
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:260
+#: src/formats.c:261
 msgid "[$ADP]"
 msgstr ""
 
-#: src/formats.c:260
+#: src/formats.c:261
 msgid "Andorran peseta"
 msgstr ""
 
-#: src/formats.c:261
+#: src/formats.c:262
 #, fuzzy
 msgid "[$AED]"
 msgstr "&[DATUM]"
 
-#: src/formats.c:261
+#: src/formats.c:262
 msgid "UAE dirham"
 msgstr ""
 
-#: src/formats.c:262
+#: src/formats.c:263
 msgid "[$AFA]"
 msgstr ""
 
-#: src/formats.c:262
+#: src/formats.c:263
 msgid "Afghanistan afghani"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:264
 msgid "[$ALL]"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:264
 msgid "Albanian lek"
 msgstr ""
 
-#: src/formats.c:264
+#: src/formats.c:265
 msgid "[$ANG]"
 msgstr ""
 
-#: src/formats.c:264
+#: src/formats.c:265
 msgid "Netherlands Antillian guilder"
 msgstr ""
 
-#: src/formats.c:265
+#: src/formats.c:266
 msgid "[$AON]"
 msgstr ""
 
-#: src/formats.c:265
+#: src/formats.c:266
 msgid "Angolan new kwanza"
 msgstr ""
 
-#: src/formats.c:266
+#: src/formats.c:267
 msgid "[$ARA]"
 msgstr ""
 
-#: src/formats.c:266
+#: src/formats.c:267
 msgid "Argentine peso"
 msgstr ""
 
-#: src/formats.c:267
+#: src/formats.c:268
 #, fuzzy
 msgid "[$ATS]"
 msgstr "&[DATUM]"
 
-#: src/formats.c:267
+#: src/formats.c:268
 msgid "Austrian schilling"
 msgstr ""
 
-#: src/formats.c:268
+#: src/formats.c:269
 msgid "[$AUD]"
 msgstr ""
 
-#: src/formats.c:268
+#: src/formats.c:269
 msgid "Australian dollar"
 msgstr ""
 
-#: src/formats.c:269
+#: src/formats.c:270
 msgid "[$AWG]"
 msgstr ""
 
-#: src/formats.c:269
+#: src/formats.c:270
 msgid "Aruban guilder"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:271
 msgid "[$BBD]"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:271
 msgid "Barbados dollar"
 msgstr ""
 
-#: src/formats.c:271
+#: src/formats.c:272
 #, fuzzy
 msgid "[$BDT]"
 msgstr "&[DATUM]"
 
-#: src/formats.c:271
+#: src/formats.c:272
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: src/formats.c:272
+#: src/formats.c:273
 msgid "[$BEF]"
 msgstr ""
 
-#: src/formats.c:272
+#: src/formats.c:273
 msgid "Belgian franc"
 msgstr ""
 
-#: src/formats.c:273
+#: src/formats.c:274
 msgid "[$BGL]"
 msgstr ""
 
-#: src/formats.c:273
+#: src/formats.c:274
 msgid "Bulgarian lev"
 msgstr ""
 
-#: src/formats.c:274
+#: src/formats.c:275
 msgid "[$BHD]"
 msgstr ""
 
-#: src/formats.c:274
+#: src/formats.c:275
 msgid "Bahraini dinar"
 msgstr ""
 
-#: src/formats.c:275
+#: src/formats.c:276
 msgid "[$BIF]"
 msgstr ""
 
-#: src/formats.c:275
+#: src/formats.c:276
 msgid "Burundi franc"
 msgstr ""
 
-#: src/formats.c:276
+#: src/formats.c:277
 msgid "[$BMD]"
 msgstr ""
 
-#: src/formats.c:276
+#: src/formats.c:277
 msgid "Bermudian dollar"
 msgstr ""
 
-#: src/formats.c:277
+#: src/formats.c:278
 msgid "[$BND]"
 msgstr ""
 
-#: src/formats.c:277
+#: src/formats.c:278
 msgid "Brunei dollar"
 msgstr ""
 
-#: src/formats.c:278
+#: src/formats.c:279
 msgid "[$BOB]"
 msgstr ""
 
-#: src/formats.c:278
+#: src/formats.c:279
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: src/formats.c:279
+#: src/formats.c:280
 msgid "[$BRE]"
 msgstr ""
 
-#: src/formats.c:279
+#: src/formats.c:280
 msgid "Brazilian real"
 msgstr ""
 
-#: src/formats.c:280
+#: src/formats.c:281
 msgid "[$BSD]"
 msgstr ""
 
-#: src/formats.c:280
+#: src/formats.c:281
 msgid "Bahamian dollar"
 msgstr ""
 
-#: src/formats.c:281
+#: src/formats.c:282
 msgid "[$BTN]"
 msgstr ""
 
-#: src/formats.c:281
+#: src/formats.c:282
 msgid "Bhutan ngultrum"
 msgstr ""
 
-#: src/formats.c:282
+#: src/formats.c:283
 msgid "[$BWP]"
 msgstr ""
 
-#: src/formats.c:282
+#: src/formats.c:283
 msgid "Botswanian pula"
 msgstr ""
 
-#: src/formats.c:283
+#: src/formats.c:284
 msgid "[$BYB]"
 msgstr ""
 
-#: src/formats.c:283
+#: src/formats.c:284
 msgid "Belarussian ruble"
 msgstr ""
 
-#: src/formats.c:284
+#: src/formats.c:285
 msgid "[$BZD]"
 msgstr ""
 
-#: src/formats.c:284
+#: src/formats.c:285
 msgid "Belize dollar"
 msgstr ""
 
-#: src/formats.c:285
+#: src/formats.c:286
 msgid "[$CAD]"
 msgstr ""
 
-#: src/formats.c:285
+#: src/formats.c:286
 msgid "Canadian dollar"
 msgstr ""
 
-#: src/formats.c:286
+#: src/formats.c:287
 msgid "[$CHF]"
 msgstr ""
 
-#: src/formats.c:286
+#: src/formats.c:287
 msgid "Swiss franc"
 msgstr ""
 
-#: src/formats.c:287
+#: src/formats.c:288
 msgid "[$CLP]"
 msgstr ""
 
-#: src/formats.c:287
+#: src/formats.c:288
 msgid "Chilean peso"
 msgstr ""
 
-#: src/formats.c:288
+#: src/formats.c:289
 msgid "[$CNY]"
 msgstr ""
 
-#: src/formats.c:288
+#: src/formats.c:289
 msgid "Chinese yuan renminbi"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:290
 msgid "[$COP]"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:290
 msgid "Colombian peso"
 msgstr ""
 
-#: src/formats.c:290
+#: src/formats.c:291
 msgid "[$CRC]"
 msgstr ""
 
-#: src/formats.c:290
+#: src/formats.c:291
 msgid "Costa Rican colon"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:292
 msgid "[$CSK]"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:292
 msgid "Czech Koruna"
 msgstr ""
 
-#: src/formats.c:292
+#: src/formats.c:293
 msgid "[$CUP]"
 msgstr ""
 
-#: src/formats.c:292
+#: src/formats.c:293
 #, fuzzy
 msgid "Cuban peso"
 msgstr "Nelze otevøít"
 
-#: src/formats.c:293
+#: src/formats.c:294
 msgid "[$CVE]"
 msgstr ""
 
-#: src/formats.c:293
+#: src/formats.c:294
 msgid "Cape Verde escudo"
 msgstr ""
 
-#: src/formats.c:294
+#: src/formats.c:295
 msgid "[$CYP]"
 msgstr ""
 
-#: src/formats.c:294
+#: src/formats.c:295
 msgid "Cyprus pound"
 msgstr ""
 
-#: src/formats.c:295
+#: src/formats.c:296
 #, fuzzy
 msgid "[$DEM]"
 msgstr "&[DATUM]"
 
-#: src/formats.c:295
+#: src/formats.c:296
 msgid "Deutsche mark"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:297
 msgid "[$DJF]"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:297
 msgid "Djibouti franc"
 msgstr ""
 
-#: src/formats.c:297
+#: src/formats.c:298
 msgid "[$DKK]"
 msgstr ""
 
-#: src/formats.c:297
+#: src/formats.c:298
 msgid "Danish krone"
 msgstr ""
 
-#: src/formats.c:298
+#: src/formats.c:299
 msgid "[$DOP]"
 msgstr ""
 
-#: src/formats.c:298
+#: src/formats.c:299
 msgid "Dominican peso"
 msgstr ""
 
-#: src/formats.c:299
+#: src/formats.c:300
 msgid "[$DZD]"
 msgstr ""
 
-#: src/formats.c:299
+#: src/formats.c:300
 msgid "Algerian dinar"
 msgstr ""
 
-#: src/formats.c:300
+#: src/formats.c:301
 msgid "[$ECS]"
 msgstr ""
 
-#: src/formats.c:300
+#: src/formats.c:301
 msgid "Ecuador sucre"
 msgstr ""
 
-#: src/formats.c:301
+#: src/formats.c:302
 msgid "[$EGP]"
 msgstr ""
 
-#: src/formats.c:301
+#: src/formats.c:302
 msgid "Egyptian pound"
 msgstr ""
 
-#: src/formats.c:302
+#: src/formats.c:303
 msgid "[$ESP]"
 msgstr ""
 
-#: src/formats.c:302
+#: src/formats.c:303
 msgid "Spanish peseta"
 msgstr ""
 
-#: src/formats.c:303
+#: src/formats.c:304
 msgid "[$ETB]"
 msgstr ""
 
-#: src/formats.c:303
+#: src/formats.c:304
 msgid "Ethiopian birr"
 msgstr ""
 
-#: src/formats.c:304
+#: src/formats.c:305
 msgid "[$EUR]"
 msgstr ""
 
-#: src/formats.c:304
+#: src/formats.c:305
 msgid "Euro"
 msgstr ""
 
-#: src/formats.c:305
+#: src/formats.c:306
 msgid "[$FIM]"
 msgstr ""
 
-#: src/formats.c:305
+#: src/formats.c:306
 msgid "Finnish markka"
 msgstr ""
 
-#: src/formats.c:306
+#: src/formats.c:307
 msgid "[$FJD]"
 msgstr ""
 
-#: src/formats.c:306
+#: src/formats.c:307
 msgid "Fiji dollar"
 msgstr ""
 
-#: src/formats.c:307
+#: src/formats.c:308
 msgid "[$FKP]"
 msgstr ""
 
-#: src/formats.c:307
+#: src/formats.c:308
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: src/formats.c:308
+#: src/formats.c:309
 msgid "[$FRF]"
 msgstr ""
 
-#: src/formats.c:308
+#: src/formats.c:309
 msgid "French franc"
 msgstr ""
 
-#: src/formats.c:309
+#: src/formats.c:310
 msgid "[$GBP]"
 msgstr ""
 
-#: src/formats.c:309
+#: src/formats.c:310
 msgid "UK pound sterling"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:311
 msgid "[$GHC]"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:311
 msgid "Ghanaian cedi"
 msgstr ""
 
-#: src/formats.c:311
+#: src/formats.c:312
 msgid "[$GIP]"
 msgstr ""
 
-#: src/formats.c:311
+#: src/formats.c:312
 msgid "Gibraltar pound"
 msgstr ""
 
-#: src/formats.c:312
+#: src/formats.c:313
 msgid "[$GMD]"
 msgstr ""
 
-#: src/formats.c:312
+#: src/formats.c:313
 msgid "Gambian dalasi"
 msgstr ""
 
-#: src/formats.c:313
+#: src/formats.c:314
 msgid "[$GNF]"
 msgstr ""
 
-#: src/formats.c:313
+#: src/formats.c:314
 msgid "Guinea franc"
 msgstr ""
 
-#: src/formats.c:314
+#: src/formats.c:315
 msgid "[$GRD]"
 msgstr ""
 
-#: src/formats.c:314
+#: src/formats.c:315
 msgid "Greek drachma"
 msgstr ""
 
-#: src/formats.c:315
+#: src/formats.c:316
 msgid "[$GTQ]"
 msgstr ""
 
-#: src/formats.c:315
+#: src/formats.c:316
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: src/formats.c:316
+#: src/formats.c:317
 msgid "[$GWP]"
 msgstr ""
 
-#: src/formats.c:316
+#: src/formats.c:317
 msgid "Guinea-Bissau peso"
 msgstr ""
 
-#: src/formats.c:317
+#: src/formats.c:318
 msgid "[$GYD]"
 msgstr ""
 
-#: src/formats.c:317
+#: src/formats.c:318
 msgid "Guyanan dollar"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:319
 msgid "[$HKD]"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:319
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:320
 msgid "[$HNL]"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:320
 msgid "Honduran lempira"
 msgstr ""
 
-#: src/formats.c:320
+#: src/formats.c:321
 msgid "[$HRK]"
 msgstr ""
 
-#: src/formats.c:320
+#: src/formats.c:321
 msgid "Croatian kuna"
 msgstr ""
 
-#: src/formats.c:321
+#: src/formats.c:322
 msgid "[$HTG]"
 msgstr ""
 
-#: src/formats.c:321
+#: src/formats.c:322
 msgid "Haitian gourde"
 msgstr ""
 
-#: src/formats.c:322
+#: src/formats.c:323
 msgid "[$HUF]"
 msgstr ""
 
-#: src/formats.c:322
+#: src/formats.c:323
 msgid "Hungarian forint"
 msgstr ""
 
-#: src/formats.c:323
+#: src/formats.c:324
 msgid "[$IDR]"
 msgstr ""
 
-#: src/formats.c:323
+#: src/formats.c:324
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: src/formats.c:324
+#: src/formats.c:325
 msgid "[$IEP]"
 msgstr ""
 
-#: src/formats.c:324
+#: src/formats.c:325
 msgid "Irish punt"
 msgstr ""
 
-#: src/formats.c:325
+#: src/formats.c:326
 msgid "[$IEX]"
 msgstr ""
 
-#: src/formats.c:325
+#: src/formats.c:326
 msgid "Irish pence ***"
 msgstr ""
 
-#: src/formats.c:326
+#: src/formats.c:327
 msgid "[$ILS]"
 msgstr ""
 
-#: src/formats.c:326
+#: src/formats.c:327
 msgid "Israeli shekel"
 msgstr ""
 
-#: src/formats.c:327
+#: src/formats.c:328
 msgid "[$INR]"
 msgstr ""
 
-#: src/formats.c:327
+#: src/formats.c:328
 msgid "Indian rupee"
 msgstr ""
 
-#: src/formats.c:328
+#: src/formats.c:329
 msgid "[$IQD]"
 msgstr ""
 
-#: src/formats.c:328
+#: src/formats.c:329
 msgid "Iraqi dinar"
 msgstr ""
 
-#: src/formats.c:329
+#: src/formats.c:330
 msgid "[$IRR]"
 msgstr ""
 
-#: src/formats.c:329
+#: src/formats.c:330
 msgid "Iranian rial"
 msgstr ""
 
-#: src/formats.c:330
+#: src/formats.c:331
 msgid "[$ISK]"
 msgstr ""
 
-#: src/formats.c:330
+#: src/formats.c:331
 msgid "Iceland krona"
 msgstr ""
 
-#: src/formats.c:331
+#: src/formats.c:332
 msgid "[$ITL]"
 msgstr ""
 
-#: src/formats.c:331
+#: src/formats.c:332
 msgid "Italian lira"
 msgstr ""
 
-#: src/formats.c:332
+#: src/formats.c:333
 msgid "[$JMD]"
 msgstr ""
 
-#: src/formats.c:332
+#: src/formats.c:333
 msgid "Jamaican dollar"
 msgstr ""
 
-#: src/formats.c:333
+#: src/formats.c:334
 msgid "[$JOD]"
 msgstr ""
 
-#: src/formats.c:333
+#: src/formats.c:334
 msgid "Jordanian dinar"
 msgstr ""
 
-#: src/formats.c:334
+#: src/formats.c:335
 msgid "[$JPY]"
 msgstr ""
 
-#: src/formats.c:334
+#: src/formats.c:335
 msgid "Japanese yen"
 msgstr ""
 
-#: src/formats.c:335
+#: src/formats.c:336
 msgid "[$KES]"
 msgstr ""
 
-#: src/formats.c:335
+#: src/formats.c:336
 msgid "Kenyan shilling"
 msgstr ""
 
-#: src/formats.c:336
+#: src/formats.c:337
 msgid "[$KHR]"
 msgstr ""
 
-#: src/formats.c:336
+#: src/formats.c:337
 msgid "Kampuchean riel"
 msgstr ""
 
-#: src/formats.c:337
+#: src/formats.c:338
 msgid "[$KMF]"
 msgstr ""
 
-#: src/formats.c:337
+#: src/formats.c:338
 msgid "Comoros franc"
 msgstr ""
 
-#: src/formats.c:338
+#: src/formats.c:339
 msgid "[$KPW]"
 msgstr ""
 
-#: src/formats.c:338
+#: src/formats.c:339
 msgid "North Korean won"
 msgstr ""
 
-#: src/formats.c:339
+#: src/formats.c:340
 msgid "[$KRW]"
 msgstr ""
 
-#: src/formats.c:339
+#: src/formats.c:340
 msgid "Republic of Korea won"
 msgstr ""
 
-#: src/formats.c:340
+#: src/formats.c:341
 msgid "[$KWD]"
 msgstr ""
 
-#: src/formats.c:340
+#: src/formats.c:341
 msgid "Kuwaiti dinar"
 msgstr ""
 
-#: src/formats.c:341
+#: src/formats.c:342
 msgid "[$KYD]"
 msgstr ""
 
-#: src/formats.c:341
+#: src/formats.c:342
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: src/formats.c:342
+#: src/formats.c:343
 msgid "[$LAK]"
 msgstr ""
 
-#: src/formats.c:342
+#: src/formats.c:343
 msgid "Lao kip"
 msgstr ""
 
-#: src/formats.c:343
+#: src/formats.c:344
 msgid "[$LBP]"
 msgstr ""
 
-#: src/formats.c:343
+#: src/formats.c:344
 msgid "Lebanese pound"
 msgstr ""
 
-#: src/formats.c:344
+#: src/formats.c:345
 msgid "[$LKR]"
 msgstr ""
 
-#: src/formats.c:344
+#: src/formats.c:345
 msgid "Sri Lanka rupee"
 msgstr ""
 
-#: src/formats.c:345
+#: src/formats.c:346
 msgid "[$LRD]"
 msgstr ""
 
-#: src/formats.c:345
+#: src/formats.c:346
 msgid "Liberian dollar"
 msgstr ""
 
-#: src/formats.c:346
+#: src/formats.c:347
 msgid "[$LSL]"
 msgstr ""
 
-#: src/formats.c:346
+#: src/formats.c:347
 msgid "Lesotho loti"
 msgstr ""
 
-#: src/formats.c:347
+#: src/formats.c:348
 msgid "[$LUF]"
 msgstr ""
 
-#: src/formats.c:347
+#: src/formats.c:348
 msgid "Luxembourg franc"
 msgstr ""
 
-#: src/formats.c:348
+#: src/formats.c:349
 msgid "[$LYD]"
 msgstr ""
 
-#: src/formats.c:348
+#: src/formats.c:349
 msgid "Libyan dinar"
 msgstr ""
 
-#: src/formats.c:349
+#: src/formats.c:350
 msgid "[$MAD]"
 msgstr ""
 
-#: src/formats.c:349
+#: src/formats.c:350
 msgid "Moroccan dirham"
 msgstr ""
 
-#: src/formats.c:350
+#: src/formats.c:351
 msgid "[$MDL]"
 msgstr ""
 
-#: src/formats.c:350
+#: src/formats.c:351
 msgid "Moldovan leu"
 msgstr ""
 
-#: src/formats.c:351
+#: src/formats.c:352
 msgid "[$MGF]"
 msgstr ""
 
-#: src/formats.c:351
+#: src/formats.c:352
 msgid "Malagasy franc"
 msgstr ""
 
-#: src/formats.c:352
+#: src/formats.c:353
 msgid "[$MLF]"
 msgstr ""
 
-#: src/formats.c:352
+#: src/formats.c:353
 msgid "Mali franc"
 msgstr ""
 
-#: src/formats.c:353
+#: src/formats.c:354
 msgid "[$MMK]"
 msgstr ""
 
-#: src/formats.c:353
+#: src/formats.c:354
 msgid "Myanmar kyat"
 msgstr ""
 
-#: src/formats.c:354
+#: src/formats.c:355
 msgid "[$MNT]"
 msgstr ""
 
-#: src/formats.c:354
+#: src/formats.c:355
 msgid "Mongolian tugrik"
 msgstr ""
 
-#: src/formats.c:355
+#: src/formats.c:356
 msgid "[$MOP]"
 msgstr ""
 
-#: src/formats.c:355
+#: src/formats.c:356
 msgid "Macau pataca"
 msgstr ""
 
-#: src/formats.c:356
+#: src/formats.c:357
 msgid "[$MRO]"
 msgstr ""
 
-#: src/formats.c:356
+#: src/formats.c:357
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: src/formats.c:357
+#: src/formats.c:358
 msgid "[$MTL]"
 msgstr ""
 
-#: src/formats.c:357
+#: src/formats.c:358
 msgid "Maltese lira"
 msgstr ""
 
-#: src/formats.c:358
+#: src/formats.c:359
 msgid "[$MUR]"
 msgstr ""
 
-#: src/formats.c:358
+#: src/formats.c:359
 msgid "Mauritius rupee"
 msgstr ""
 
-#: src/formats.c:359
+#: src/formats.c:360
 msgid "[$MVR]"
 msgstr ""
 
-#: src/formats.c:359
+#: src/formats.c:360
 msgid "Maldive rupee"
 msgstr ""
 
-#: src/formats.c:360
+#: src/formats.c:361
 msgid "[$MWK]"
 msgstr ""
 
-#: src/formats.c:360
+#: src/formats.c:361
 msgid "Malawi kwacha"
 msgstr ""
 
-#: src/formats.c:361
+#: src/formats.c:362
 msgid "[$MXP]"
 msgstr ""
 
-#: src/formats.c:361
+#: src/formats.c:362
 msgid "Mexican peso"
 msgstr ""
 
-#: src/formats.c:362
+#: src/formats.c:363
 msgid "[$MYR]"
 msgstr ""
 
-#: src/formats.c:362
+#: src/formats.c:363
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: src/formats.c:363
+#: src/formats.c:364
 msgid "[$MZM]"
 msgstr ""
 
-#: src/formats.c:363
+#: src/formats.c:364
 msgid "Mozambique metical"
 msgstr ""
 
-#: src/formats.c:364
+#: src/formats.c:365
 msgid "[$NGN]"
 msgstr ""
 
-#: src/formats.c:364
+#: src/formats.c:365
 msgid "Nigerian naira"
 msgstr ""
 
-#: src/formats.c:365
+#: src/formats.c:366
 msgid "[$NIO]"
 msgstr ""
 
-#: src/formats.c:365
+#: src/formats.c:366
 msgid "Nicaraguan cordoba oro"
 msgstr ""
 
-#: src/formats.c:366
+#: src/formats.c:367
 msgid "[$NLG]"
 msgstr ""
 
-#: src/formats.c:366
+#: src/formats.c:367
 msgid "Netherlands guilder"
 msgstr ""
 
-#: src/formats.c:367
+#: src/formats.c:368
 msgid "[$NOK]"
 msgstr ""
 
-#: src/formats.c:367
+#: src/formats.c:368
 msgid "Norwegian krone"
 msgstr ""
 
-#: src/formats.c:368
+#: src/formats.c:369
 msgid "[$NPR]"
 msgstr ""
 
-#: src/formats.c:368
+#: src/formats.c:369
 msgid "Nepalese rupee"
 msgstr ""
 
-#: src/formats.c:369
+#: src/formats.c:370
 msgid "[$NZD]"
 msgstr ""
 
-#: src/formats.c:369
+#: src/formats.c:370
 msgid "New Zealand dollar"
 msgstr ""
 
-#: src/formats.c:370
+#: src/formats.c:371
 msgid "[$OMR]"
 msgstr ""
 
-#: src/formats.c:370
+#: src/formats.c:371
 msgid "Rial Omani"
 msgstr ""
 
-#: src/formats.c:371
+#: src/formats.c:372
 msgid "[$PAB]"
 msgstr ""
 
-#: src/formats.c:371
+#: src/formats.c:372
 msgid "Panamanian balboa"
 msgstr ""
 
-#: src/formats.c:372
+#: src/formats.c:373
 msgid "[$PEI]"
 msgstr ""
 
-#: src/formats.c:372
+#: src/formats.c:373
 msgid "Peruvian inti"
 msgstr ""
 
-#: src/formats.c:373
+#: src/formats.c:374
 msgid "[$PGK]"
 msgstr ""
 
-#: src/formats.c:373
+#: src/formats.c:374
 msgid "Papua New Guinea kina"
 msgstr ""
 
-#: src/formats.c:374
+#: src/formats.c:375
 msgid "[$PHP]"
 msgstr ""
 
-#: src/formats.c:374
+#: src/formats.c:375
 msgid "Philippino peso"
 msgstr ""
 
-#: src/formats.c:375
+#: src/formats.c:376
 msgid "[$PKR]"
 msgstr ""
 
-#: src/formats.c:375
+#: src/formats.c:376
 msgid "Pakistan rupee"
 msgstr ""
 
-#: src/formats.c:376
+#: src/formats.c:377
 msgid "[$PLZ]"
 msgstr ""
 
-#: src/formats.c:376
+#: src/formats.c:377
 msgid "Polish zloty"
 msgstr ""
 
-#: src/formats.c:377
+#: src/formats.c:378
 #, fuzzy
 msgid "[$PTE]"
 msgstr "&[DATUM]"
 
-#: src/formats.c:377
+#: src/formats.c:378
 msgid "Portuguese escudo"
 msgstr ""
 
-#: src/formats.c:378
+#: src/formats.c:379
 msgid "[$PYG]"
 msgstr ""
 
-#: src/formats.c:378
+#: src/formats.c:379
 msgid "Paraguay guarani"
 msgstr ""
 
-#: src/formats.c:379
+#: src/formats.c:380
 msgid "[$QAR]"
 msgstr ""
 
-#: src/formats.c:379
+#: src/formats.c:380
 msgid "Qatari rial"
 msgstr ""
 
-#: src/formats.c:380
+#: src/formats.c:381
 msgid "[$ROL]"
 msgstr ""
 
-#: src/formats.c:380
+#: src/formats.c:381
 msgid "Romanian leu"
 msgstr ""
 
-#: src/formats.c:381
+#: src/formats.c:382
 msgid "[$RWF]"
 msgstr ""
 
-#: src/formats.c:381
+#: src/formats.c:382
 msgid "Rwanda franc"
 msgstr ""
 
-#: src/formats.c:382
+#: src/formats.c:383
 msgid "[$SAR]"
 msgstr ""
 
-#: src/formats.c:382
+#: src/formats.c:383
 msgid "Saudi Arabian riyal"
 msgstr ""
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "[$SBD]"
 msgstr ""
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "[$SCR]"
 msgstr ""
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "Seychelles rupee"
 msgstr ""
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "[$SDP]"
 msgstr ""
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "Sudanese pound"
 msgstr ""
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "[$SEK]"
 msgstr ""
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "Swedish krona"
 msgstr ""
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "[$SGD]"
 msgstr ""
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "Singapore dollar"
 msgstr ""
 
-#: src/formats.c:388
+#: src/formats.c:389
 msgid "[$SHP]"
 msgstr ""
 
-#: src/formats.c:388
+#: src/formats.c:389
 msgid "St.Helena pound"
 msgstr ""
 
-#: src/formats.c:389
+#: src/formats.c:390
 #, fuzzy
 msgid "[$SIT]"
 msgstr "&[DATUM]"
 
-#: src/formats.c:389
+#: src/formats.c:390
 msgid "Slovenia tolar"
 msgstr ""
 
-#: src/formats.c:390
+#: src/formats.c:391
 msgid "[$SLL]"
 msgstr ""
 
-#: src/formats.c:390
+#: src/formats.c:391
 msgid "Sierra Leone leone"
 msgstr ""
 
-#: src/formats.c:391
+#: src/formats.c:392
 msgid "[$SOS]"
 msgstr ""
 
-#: src/formats.c:391
+#: src/formats.c:392
 msgid "Somali shilling"
 msgstr ""
 
-#: src/formats.c:392
+#: src/formats.c:393
 msgid "[$SRG]"
 msgstr ""
 
-#: src/formats.c:392
+#: src/formats.c:393
 msgid "Suriname guilder"
 msgstr ""
 
-#: src/formats.c:393
+#: src/formats.c:394
 msgid "[$STD]"
 msgstr ""
 
-#: src/formats.c:393
+#: src/formats.c:394
 msgid "Sao Tome and Principe dobra"
 msgstr ""
 
-#: src/formats.c:394
+#: src/formats.c:395
 msgid "[$SUR]"
 msgstr ""
 
-#: src/formats.c:394
+#: src/formats.c:395
 msgid "USSR rouble"
 msgstr ""
 
-#: src/formats.c:395
+#: src/formats.c:396
 msgid "[$SVC]"
 msgstr ""
 
-#: src/formats.c:395
+#: src/formats.c:396
 msgid "El Salvador colon"
 msgstr ""
 
-#: src/formats.c:396
+#: src/formats.c:397
 msgid "[$SYP]"
 msgstr ""
 
-#: src/formats.c:396
+#: src/formats.c:397
 msgid "Syrian pound"
 msgstr ""
 
-#: src/formats.c:397
+#: src/formats.c:398
 msgid "[$SZL]"
 msgstr ""
 
-#: src/formats.c:397
+#: src/formats.c:398
 msgid "Swaziland lilangeni"
 msgstr ""
 
-#: src/formats.c:398
+#: src/formats.c:399
 msgid "[$THB]"
 msgstr ""
 
-#: src/formats.c:398
+#: src/formats.c:399
 msgid "Thai baht"
 msgstr ""
 
-#: src/formats.c:399
+#: src/formats.c:400
 msgid "[$TND]"
 msgstr ""
 
-#: src/formats.c:399
+#: src/formats.c:400
 msgid "Tunisian dinar"
 msgstr ""
 
-#: src/formats.c:400
+#: src/formats.c:401
 msgid "[$TOP]"
 msgstr ""
 
-#: src/formats.c:400
+#: src/formats.c:401
 msgid "Tongan pa'anga"
 msgstr ""
 
-#: src/formats.c:401
+#: src/formats.c:402
 #, fuzzy
 msgid "[$TPE]"
 msgstr "&[DATUM]"
 
-#: src/formats.c:401
+#: src/formats.c:402
 msgid "East Timor escudo"
 msgstr ""
 
-#: src/formats.c:402
+#: src/formats.c:403
 msgid "[$TRL]"
 msgstr ""
 
-#: src/formats.c:402
+#: src/formats.c:403
 msgid "Turkish lira"
 msgstr ""
 
-#: src/formats.c:403
+#: src/formats.c:404
 msgid "[$TTD]"
 msgstr ""
 
-#: src/formats.c:403
+#: src/formats.c:404
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: src/formats.c:404
+#: src/formats.c:405
 msgid "[$TWD]"
 msgstr ""
 
-#: src/formats.c:404
+#: src/formats.c:405
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: src/formats.c:405
+#: src/formats.c:406
 msgid "[$TZS]"
 msgstr ""
 
-#: src/formats.c:405
+#: src/formats.c:406
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: src/formats.c:406
+#: src/formats.c:407
 msgid "[$UAH]"
 msgstr ""
 
-#: src/formats.c:406
+#: src/formats.c:407
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: src/formats.c:407
+#: src/formats.c:408
 msgid "[$UGX]"
 msgstr ""
 
-#: src/formats.c:407
+#: src/formats.c:408
 msgid "Ugandan shilling"
 msgstr ""
 
-#: src/formats.c:408
+#: src/formats.c:409
 msgid "[$USD]"
 msgstr ""
 
-#: src/formats.c:408
+#: src/formats.c:409
 msgid "US dollar"
 msgstr ""
 
-#: src/formats.c:409
+#: src/formats.c:410
 msgid "[$UYP]"
 msgstr ""
 
-#: src/formats.c:409
+#: src/formats.c:410
 msgid "Uruguayan peso"
 msgstr ""
 
-#: src/formats.c:410
+#: src/formats.c:411
 msgid "[$VEB]"
 msgstr ""
 
-#: src/formats.c:410
+#: src/formats.c:411
 msgid "Venezuelan bolivar"
 msgstr ""
 
-#: src/formats.c:411
+#: src/formats.c:412
 msgid "[$VND]"
 msgstr ""
 
-#: src/formats.c:411
+#: src/formats.c:412
 msgid "Vietnamese dong"
 msgstr ""
 
-#: src/formats.c:412
+#: src/formats.c:413
 msgid "[$VUV]"
 msgstr ""
 
-#: src/formats.c:412
+#: src/formats.c:413
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: src/formats.c:413
+#: src/formats.c:414
 msgid "[$WST]"
 msgstr ""
 
-#: src/formats.c:413
+#: src/formats.c:414
 msgid "Samoan tala"
 msgstr ""
 
-#: src/formats.c:414
+#: src/formats.c:415
 msgid "[$XCD]"
 msgstr ""
 
-#: src/formats.c:414
+#: src/formats.c:415
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: src/formats.c:415
+#: src/formats.c:416
 msgid "[$XEU]"
 msgstr ""
 
-#: src/formats.c:415
+#: src/formats.c:416
 msgid "European currency unit"
 msgstr ""
 
-#: src/formats.c:416
+#: src/formats.c:417
 msgid "[$YDD]"
 msgstr ""
 
-#: src/formats.c:416
+#: src/formats.c:417
 msgid "Democratic Yemeni dinar"
 msgstr ""
 
-#: src/formats.c:417
+#: src/formats.c:418
 msgid "[$YER]"
 msgstr ""
 
-#: src/formats.c:417
+#: src/formats.c:418
 msgid "Yemeni rial"
 msgstr ""
 
-#: src/formats.c:418
+#: src/formats.c:419
 msgid "[$YUN]"
 msgstr ""
 
-#: src/formats.c:418
+#: src/formats.c:419
 msgid "New Yugoslavia dinar"
 msgstr ""
 
-#: src/formats.c:419
+#: src/formats.c:420
 msgid "[$ZAL]"
 msgstr ""
 
-#: src/formats.c:419
+#: src/formats.c:420
 msgid "South African rand funds code"
 msgstr ""
 
-#: src/formats.c:420
+#: src/formats.c:421
 msgid "[$ZAR]"
 msgstr ""
 
-#: src/formats.c:420
+#: src/formats.c:421
 msgid "South African rand"
 msgstr ""
 
-#: src/formats.c:421
+#: src/formats.c:422
 msgid "[$ZMK]"
 msgstr ""
 
-#: src/formats.c:421
+#: src/formats.c:422
 msgid "Zambian kwacha"
 msgstr ""
 
-#: src/formats.c:422
+#: src/formats.c:423
 msgid "[$ZRZ]"
 msgstr ""
 
-#: src/formats.c:422
+#: src/formats.c:423
 msgid "Zaire Zaire"
 msgstr ""
 
-#: src/formats.c:423
+#: src/formats.c:424
 msgid "[$ZWD]"
 msgstr ""
 
-#: src/formats.c:423
+#: src/formats.c:424
 msgid "Zimbabwe dollar"
 msgstr ""
 
-#: src/formats.c:555
+#: src/formats.c:556
 msgid "[Red]"
 msgstr ""
 
-#: src/func.c:124
+#: src/func.c:125
 #, fuzzy, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nelze zapsat soubor %s\n"
 
-#: src/func.c:281
+#: src/func.c:282
 msgid "Function implementation not available."
 msgstr ""
 
-#: src/func.c:497
+#: src/func.c:498
 msgid "Unknown Function"
 msgstr "Neznámá funkce"
 
-#: src/func.c:820
+#: src/func.c:821
 msgid "Function does not exist"
 msgstr ""
 
@@ -8916,23 +8912,22 @@ msgid ""
 "@SYNTAX=DATE (year,month,day)\n"
 "@DESCRIPTION=DATE returns the number of days since the 1st of january of 1900"
 "(the date serial number) for the given year, month and day.\n"
-"The @day might be negative (to count backwards) and it is relative to the "
-"previous @month.  The @years should be at least 1900.  If @years <= 30, it "
-"is assumed to be 2000 + @years.  If 30 < @years < 100, it is assumed to be "
-"1900 + @years. \n"
-"If the given date is not valid, DATE returns #VALUE! error.\n"
-"This function is Excel compatible. \n"
+"\n"
+"If @month < 1 or @month > 12, the year will be corrected.  A similar "
+"correction takes place for days.\n"
+"\n"
+"The @years should be at least 1900.  If @years < 1900, it is assumed to be "
+"1900 + @years.\n"
+"\n"
+"If the given date is not valid, DATE returns #NUM! error.\n"
+"This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "DATE(2001, 3, 30) returns 'Mar 30, 2001'.\n"
 " \n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:76
-msgid "Invalid day"
-msgstr "Chybný den"
-
-#: src/functions/fn-date.c:86
+#: src/functions/fn-date.c:95
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -8940,11 +8935,11 @@ msgid ""
 "the string that contains the date.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"DATEVALUE(\"1/1/1999\") equals 36160. \n"
+"DATEVALUE(\"1/1/1999\") equals 36161.\n"
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:111
+#: src/functions/fn-date.c:120
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -8967,7 +8962,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:278
+#: src/functions/fn-date.c:287
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -8983,7 +8978,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:332
+#: src/functions/fn-date.c:341
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -8996,7 +8991,7 @@ msgid ""
 "@SEEALSO=NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:355
+#: src/functions/fn-date.c:364
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -9015,7 +9010,7 @@ msgid ""
 "@SEEALSO=TODAY"
 msgstr ""
 
-#: src/functions/fn-date.c:386
+#: src/functions/fn-date.c:395
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -9027,7 +9022,7 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: src/functions/fn-date.c:415
+#: src/functions/fn-date.c:424
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -9041,7 +9036,7 @@ msgid ""
 "@SEEALSO=HOUR,MINUTE"
 msgstr ""
 
-#: src/functions/fn-date.c:444
+#: src/functions/fn-date.c:453
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -9056,7 +9051,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/functions/fn-date.c:473
+#: src/functions/fn-date.c:482
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -9071,7 +9066,7 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/functions/fn-date.c:503
+#: src/functions/fn-date.c:512
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -9086,7 +9081,7 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/functions/fn-date.c:533
+#: src/functions/fn-date.c:542
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -9100,7 +9095,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:570
+#: src/functions/fn-date.c:579
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -9114,7 +9109,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:607
+#: src/functions/fn-date.c:616
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -9128,7 +9123,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:644
+#: src/functions/fn-date.c:653
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -9146,7 +9141,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:684
+#: src/functions/fn-date.c:693
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -9166,11 +9161,11 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:722
+#: src/functions/fn-date.c:731
 msgid "Unsupported method"
 msgstr "Nepodporovaná metoda"
 
-#: src/functions/fn-date.c:787
+#: src/functions/fn-date.c:796
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -9185,7 +9180,7 @@ msgid ""
 "@SEEALSO=MONTH"
 msgstr ""
 
-#: src/functions/fn-date.c:837
+#: src/functions/fn-date.c:846
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -9201,12 +9196,12 @@ msgid ""
 msgstr ""
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:873 src/functions/fn-eng.c:75
+#: src/functions/fn-date.c:882 src/functions/fn-eng.c:75
 #: src/functions/fn-information.c:393 src/functions/fn-information.c:409
 msgid "Unimplemented"
 msgstr "Neimplementováno"
 
-#: src/functions/fn-date.c:908
+#: src/functions/fn-date.c:917
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9221,7 +9216,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/functions/fn-date.c:1035
+#: src/functions/fn-date.c:1044
 msgid "Date / Time"
 msgstr "Datim / Èas"
 
@@ -9909,7 +9904,7 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 
-#: src/functions/fn-financial.c:1068
+#: src/functions/fn-financial.c:1082
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -9936,7 +9931,7 @@ msgid ""
 "@SEEALSO=ACCRINT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1120
+#: src/functions/fn-financial.c:1134
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -9966,7 +9961,7 @@ msgid ""
 "@SEEALSO=RECEIVED, DATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1181
+#: src/functions/fn-financial.c:1195
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -9991,7 +9986,7 @@ msgid ""
 "@SEEALSO=INTRATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1236
+#: src/functions/fn-financial.c:1250
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -10017,7 +10012,7 @@ msgid ""
 "@SEEALSO=PRICEMAT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1288
+#: src/functions/fn-financial.c:1302
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -10043,7 +10038,7 @@ msgid ""
 "@SEEALSO=PRICEDISC"
 msgstr ""
 
-#: src/functions/fn-financial.c:1347
+#: src/functions/fn-financial.c:1361
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -10068,15 +10063,16 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:1398
+#: src/functions/fn-financial.c:1412
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
 "@DESCRIPTION=EFFECT calculates the effective interest rate from a given "
 "nominal rate.\n"
-"Effective interest rate is calculated using this formulae:\n"
+"Effective interest rate is calculated using this formula:\n"
 "\n"
-"         @r( 1 + ------ ) ^ @nper - 1       @nper\n"
+"    (1 + @r / @nper) ^ @nper - 1\n"
+"\n"
 "where:\n"
 "\n"
 "@r = nominal interest rate (stated in yearly terms)\n"
@@ -10092,11 +10088,11 @@ msgid ""
 "@SEEALSO=NOMINAL"
 msgstr ""
 
-#: src/functions/fn-financial.c:1439
+#: src/functions/fn-financial.c:1451
 msgid "effect - domain error"
 msgstr ""
 
-#: src/functions/fn-financial.c:1447
+#: src/functions/fn-financial.c:1459
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -10114,12 +10110,12 @@ msgid ""
 "@SEEALSO=EFFECT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1477
+#: src/functions/fn-financial.c:1489
 #, fuzzy
 msgid "nominal - domain error"
 msgstr "Neznámá chyba pøi výpoètu"
 
-#: src/functions/fn-financial.c:1486
+#: src/functions/fn-financial.c:1498
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -10130,7 +10126,7 @@ msgid ""
 "@SEEALSO=PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1520
+#: src/functions/fn-financial.c:1532
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -10145,7 +10141,7 @@ msgid ""
 "@SEEALSO=DDB,SLN,SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1576
+#: src/functions/fn-financial.c:1588
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -10161,7 +10157,7 @@ msgid ""
 "@SEEALSO=SLN,SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1624
+#: src/functions/fn-financial.c:1636
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -10184,11 +10180,11 @@ msgid ""
 "@SEEALSO=SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1668
+#: src/functions/fn-financial.c:1680
 msgid "sln - domain error"
 msgstr "sln - chyba domény èísla"
 
-#: src/functions/fn-financial.c:1676
+#: src/functions/fn-financial.c:1688
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -10214,11 +10210,11 @@ msgid ""
 "@SEEALSO=SLN"
 msgstr ""
 
-#: src/functions/fn-financial.c:1722
+#: src/functions/fn-financial.c:1734
 msgid "syd - domain error"
 msgstr ""
 
-#: src/functions/fn-financial.c:1732
+#: src/functions/fn-financial.c:1744
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -10233,7 +10229,7 @@ msgid ""
 "@SEEALSO=DOLLARFR"
 msgstr ""
 
-#: src/functions/fn-financial.c:1776
+#: src/functions/fn-financial.c:1788
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -10246,7 +10242,7 @@ msgid ""
 "@SEEALSO=DOLLARDE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1818
+#: src/functions/fn-financial.c:1830
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -10257,7 +10253,7 @@ msgid ""
 "@SEEALSO=NPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1878
+#: src/functions/fn-financial.c:1890
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -10272,7 +10268,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1923
+#: src/functions/fn-financial.c:1935
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -10288,7 +10284,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1964
+#: src/functions/fn-financial.c:1976
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -10303,7 +10299,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:2005
+#: src/functions/fn-financial.c:2017
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -10313,7 +10309,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2113
+#: src/functions/fn-financial.c:2125
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -10333,7 +10329,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2236
+#: src/functions/fn-financial.c:2248
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -10347,7 +10343,7 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2283
+#: src/functions/fn-financial.c:2295
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -10361,7 +10357,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2337
+#: src/functions/fn-financial.c:2349
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -10376,7 +10372,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2397
+#: src/functions/fn-financial.c:2409
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -10399,7 +10395,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2501
+#: src/functions/fn-financial.c:2513
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -10414,7 +10410,7 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/functions/fn-financial.c:2540
+#: src/functions/fn-financial.c:2552
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -10431,7 +10427,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2578
+#: src/functions/fn-financial.c:2590
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -10447,7 +10443,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2625
+#: src/functions/fn-financial.c:2637
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -10463,7 +10459,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2674
+#: src/functions/fn-financial.c:2686
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -10482,7 +10478,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2723
+#: src/functions/fn-financial.c:2735
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -10495,7 +10491,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2760
+#: src/functions/fn-financial.c:2772
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -10510,7 +10506,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2804
+#: src/functions/fn-financial.c:2816
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -10535,7 +10531,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2886
+#: src/functions/fn-financial.c:2898
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -10559,7 +10555,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2961
+#: src/functions/fn-financial.c:2987
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -10582,7 +10578,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3037
+#: src/functions/fn-financial.c:3076
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -10606,7 +10602,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3073
+#: src/functions/fn-financial.c:3112
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -10631,7 +10627,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3110
+#: src/functions/fn-financial.c:3149
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -10657,7 +10653,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3198
+#: src/functions/fn-financial.c:3251
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -10682,7 +10678,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3235
+#: src/functions/fn-financial.c:3288
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -10708,7 +10704,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3272
+#: src/functions/fn-financial.c:3325
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -10733,7 +10729,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3309
+#: src/functions/fn-financial.c:3362
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -10757,7 +10753,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3343
+#: src/functions/fn-financial.c:3396
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -10781,7 +10777,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3377
+#: src/functions/fn-financial.c:3430
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -10806,7 +10802,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3435
+#: src/functions/fn-financial.c:3499
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -10830,7 +10826,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3493
+#: src/functions/fn-financial.c:3570
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -10854,7 +10850,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3551
+#: src/functions/fn-financial.c:3639
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -10878,7 +10874,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3608
+#: src/functions/fn-financial.c:3704
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -10902,7 +10898,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3643
+#: src/functions/fn-financial.c:3739
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -10927,7 +10923,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3698
+#: src/functions/fn-financial.c:3805
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -10938,7 +10934,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3718
+#: src/functions/fn-financial.c:3825
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -10949,7 +10945,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3738
+#: src/functions/fn-financial.c:3845
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -10960,7 +10956,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3759
+#: src/functions/fn-financial.c:3866
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -10971,7 +10967,7 @@ msgid ""
 "@SEEALSO=DB"
 msgstr ""
 
-#: src/functions/fn-financial.c:3785
+#: src/functions/fn-financial.c:3892
 msgid "Financial"
 msgstr ""
 
@@ -14418,7 +14414,7 @@ msgstr "Formátovací kódy"
 msgid "Format as alternative Number"
 msgstr "Procenta"
 
-#: src/gnumeric-canvas.c:497
+#: src/gnumeric-canvas.c:503
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr ""
@@ -14647,49 +14643,49 @@ msgstr "Délka"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Délka"
 
-#: src/item-cursor.c:903
+#: src/item-cursor.c:899
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:1013
+#: src/item-cursor.c:1009
 #, fuzzy
 msgid "_Move"
 msgstr "Pøesun"
 
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1015
 #, fuzzy
 msgid "Copy _Formats"
 msgstr "Kopie formátu"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1017
 #, fuzzy
 msgid "Copy _Values"
 msgstr "Kopie hodnot"
 
-#: src/item-cursor.c:1026
+#: src/item-cursor.c:1022
 #, fuzzy
 msgid "Shift _Down and Copy"
 msgstr "Posuò buòky dolu a kopíruj"
 
-#: src/item-cursor.c:1028
+#: src/item-cursor.c:1024
 #, fuzzy
 msgid "Shift _Right and Copy"
 msgstr "Posuò buòky doprava a kopíruj"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1026
 #, fuzzy
 msgid "Shift Dow_n and Move"
 msgstr "Posuò buòky dolu a pøesuò"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1028
 #, fuzzy
 msgid "Shift Righ_t and Move"
 msgstr "Posuò buòky doprava a pøesuò"
 
-#: src/item-cursor.c:1037
+#: src/item-cursor.c:1033
 #, fuzzy
 msgid "C_ancel"
 msgstr "Kovariance"
@@ -14761,11 +14757,11 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: src/main.c:242
+#: src/main.c:243
 msgid "Could not initialize Workbook factory"
 msgstr ""
 
-#: src/main.c:246
+#: src/main.c:247
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 
@@ -15037,7 +15033,7 @@ msgstr ""
 msgid "Unable to mmap the file."
 msgstr "nemohu otevøít soubor modulu:"
 
-#: src/plugin-util.c:311 src/xml-io.c:3414
+#: src/plugin-util.c:311 src/xml-io.c:3435
 #, fuzzy
 msgid "Cannot get file size."
 msgstr "Nelze zapsat soubor %s\n"
@@ -15178,7 +15174,7 @@ msgid "Errors while initializing plugin system."
 msgstr ""
 
 #: src/print-info.c:24 src/print-info.c:27 src/print-info.c:28
-#: src/print-info.c:279
+#: src/print-info.c:276
 msgid "Page &[PAGE]"
 msgstr "Stránka &[STRÁNKA]"
 
@@ -15187,7 +15183,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Stránka &[STRÁNKA] z &[STRÁNEK]"
 
 #: src/print-info.c:26 src/print-info.c:27 src/print-info.c:28
-#: src/print-info.c:30 src/print-info.c:278
+#: src/print-info.c:30 src/print-info.c:275
 msgid "&[TAB]"
 msgstr ""
 
@@ -15195,43 +15191,43 @@ msgstr ""
 msgid "&[DATE]"
 msgstr "&[DATUM]"
 
-#: src/print-info.c:427
+#: src/print-info.c:424
 msgid "points"
 msgstr "bodù"
 
-#: src/print-info.c:428
+#: src/print-info.c:425
 msgid "millimeter"
 msgstr "milimetrù"
 
-#: src/print-info.c:429
+#: src/print-info.c:426
 msgid "centimeter"
 msgstr "centimetrù"
 
-#: src/print-info.c:430
+#: src/print-info.c:427
 msgid "inch"
 msgstr ""
 
-#: src/print-info.c:520
+#: src/print-info.c:517
 msgid "Sheet 1"
 msgstr "List 1"
 
-#: src/print-info.c:583
+#: src/print-info.c:580
 msgid "tab"
 msgstr ""
 
-#: src/print-info.c:584
+#: src/print-info.c:581
 msgid "page"
 msgstr "stránka"
 
-#: src/print-info.c:585
+#: src/print-info.c:582
 msgid "pages"
 msgstr "stránek"
 
-#: src/print-info.c:586
+#: src/print-info.c:583
 msgid "date"
 msgstr "datum"
 
-#: src/print-info.c:587
+#: src/print-info.c:584
 msgid "time"
 msgstr "èas"
 
@@ -15309,7 +15305,7 @@ msgstr "Øádek: %d"
 msgid "Column: %s"
 msgstr "Sloupec: %s"
 
-#: src/sheet-control-gui.c:1396
+#: src/sheet-control-gui.c:1397
 #, fuzzy
 msgid "Paste _Special"
 msgstr "Vlo¾it jinak"
@@ -15321,48 +15317,48 @@ msgstr "Vlo¾it jinak"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1408
+#: src/sheet-control-gui.c:1409
 #, fuzzy
 msgid "_Insert..."
 msgstr "Vlo¾it"
 
-#: src/sheet-control-gui.c:1412
+#: src/sheet-control-gui.c:1413
 #, fuzzy
 msgid "_Insert Column(s)"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/sheet-control-gui.c:1414
+#: src/sheet-control-gui.c:1415
 #, fuzzy
 msgid "_Delete Column(s)"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1417
 #, fuzzy
 msgid "_Insert Row(s)"
 msgstr "Vlo¾ øádky"
 
-#: src/sheet-control-gui.c:1418
+#: src/sheet-control-gui.c:1419
 #, fuzzy
 msgid "_Delete Row(s)"
 msgstr "Mazání"
 
-#: src/sheet-control-gui.c:1421
+#: src/sheet-control-gui.c:1422
 msgid "Clear Co_ntents"
 msgstr ""
 
-#: src/sheet-control-gui.c:1427
+#: src/sheet-control-gui.c:1428
 #, fuzzy
 msgid "_Format Cells..."
 msgstr "Buòky..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1431
+#: src/sheet-control-gui.c:1432
 #, fuzzy
 msgid "Column _Width..."
 msgstr "©íøka _sloupce:"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1439
+#: src/sheet-control-gui.c:1440
 #, fuzzy
 msgid "_Row Height..."
 msgstr "Délka"
@@ -15410,12 +15406,6 @@ msgstr "©ipka"
 msgid "Arrow width"
 msgstr "Poøadí stránek"
 
-#: src/sheet-object-graphic.c:482 src/sheet-object-graphic.c:863
-#: src/sheet-object-graphic.c:869
-#, fuzzy
-msgid "Transparent"
-msgstr "Transpozice"
-
 #: src/sheet-object-graphic.c:503
 msgid "Distance from tip of arrowhead to the center point"
 msgstr ""
@@ -15446,16 +15436,21 @@ msgstr ""
 msgid "Border width"
 msgstr "Poøadí stránek"
 
-#: src/sheet-object-widget.c:824
+#: src/sheet-object-graphic.c:863 src/sheet-object-graphic.c:869
+#, fuzzy
+msgid "Transparent"
+msgstr "Transpozice"
+
+#: src/sheet-object-widget.c:826
 msgid "Checkbox Configure"
 msgstr ""
 
-#: src/sheet-object-widget.c:837
+#: src/sheet-object-widget.c:839
 #, fuzzy
 msgid "Cell :"
 msgstr "Buòka"
 
-#: src/sheet-object-widget.c:840
+#: src/sheet-object-widget.c:842
 #, fuzzy
 msgid "Label :"
 msgstr "Jméno"
@@ -15483,22 +15478,22 @@ msgstr "Nelze zapsat soubor %s\n"
 msgid "Clear"
 msgstr "Vymazat"
 
-#: src/sheet.c:3450
+#: src/sheet.c:3454
 #, fuzzy
 msgid "Insert Columns"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/sheet.c:3507
+#: src/sheet.c:3511
 #, fuzzy
 msgid "Delete Columns"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/sheet.c:3560
+#: src/sheet.c:3565
 #, fuzzy
 msgid "Insert Rows"
 msgstr "Vlo¾ øádky"
 
-#: src/sheet.c:3617
+#: src/sheet.c:3622
 #, fuzzy
 msgid "Delete Rows"
 msgstr "Mazání"
@@ -15724,20 +15719,22 @@ msgstr "Poøadí stránek"
 msgid "Remove borders"
 msgstr "Poøadí stránek"
 
-#: src/workbook-cmd-format.c:129
-msgid "You entered an invalid column width value.  It must be bigger than 0"
+#: src/workbook-cmd-format.c:131
+#, c-format
+msgid "You entered an invalid column width value.  It must be bigger than %d"
 msgstr ""
 
-#: src/workbook-cmd-format.c:187
-msgid "You entered an invalid row height value.  It must be bigger than 0"
+#: src/workbook-cmd-format.c:194
+#, c-format
+msgid "You entered an invalid row height value.  It must be bigger than %d"
 msgstr ""
 
-#: src/workbook-cmd-format.c:234
+#: src/workbook-cmd-format.c:245
 msgid ""
 "You entered an invalid default column width value.  It must be bigger than 0"
 msgstr ""
 
-#: src/workbook-cmd-format.c:262
+#: src/workbook-cmd-format.c:274
 msgid ""
 "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr ""
@@ -15747,64 +15744,64 @@ msgstr ""
 msgid " : Gnumeric"
 msgstr "Gnumeric"
 
-#: src/workbook-control-gui.c:476
+#: src/workbook-control-gui.c:481
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:477
+#: src/workbook-control-gui.c:482
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:478
+#: src/workbook-control-gui.c:483
 #, fuzzy
 msgid "Rename this sheet"
 msgstr "list"
 
-#: src/workbook-control-gui.c:479
+#: src/workbook-control-gui.c:484
 #, fuzzy
 msgid "Duplicate this sheet"
 msgstr "list"
 
-#: src/workbook-control-gui.c:480
+#: src/workbook-control-gui.c:485
 msgid "Re-order sheets"
 msgstr ""
 
-#: src/workbook-control-gui.c:812 src/workbook-control-gui.c:870
+#: src/workbook-control-gui.c:817 src/workbook-control-gui.c:875
 #, fuzzy
 msgid "Nothing"
 msgstr "Beze zmìny"
 
-#: src/workbook-control-gui.c:962
+#: src/workbook-control-gui.c:967
 #, fuzzy
 msgid "Un_freeze Panes"
 msgstr "Mazání"
 
-#: src/workbook-control-gui.c:1025 src/workbook-control-gui.c:2973
-#: src/workbook-control-gui.c:3156 src/workbook-control-gui.c:3196
+#: src/workbook-control-gui.c:1030 src/workbook-control-gui.c:2978
+#: src/workbook-control-gui.c:3161 src/workbook-control-gui.c:3201
 msgid "Undo"
 msgstr ""
 
-#: src/workbook-control-gui.c:1026 src/workbook-control-gui.c:2976
-#: src/workbook-control-gui.c:3164 src/workbook-control-gui.c:3198
+#: src/workbook-control-gui.c:1031 src/workbook-control-gui.c:2981
+#: src/workbook-control-gui.c:3169 src/workbook-control-gui.c:3203
 #, fuzzy
 msgid "Redo"
 msgstr "Odstranit"
 
-#: src/workbook-control-gui.c:1180
+#: src/workbook-control-gui.c:1185
 #, c-format
 msgid "Would split array %s"
 msgstr ""
 
-#: src/workbook-control-gui.c:1241
+#: src/workbook-control-gui.c:1246
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Se¹it %s byl zmìnìn, ulo¾it?"
 
-#: src/workbook-control-gui.c:1244
+#: src/workbook-control-gui.c:1249
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Se¹it obsahuje neulo¾ené zmìny, ulo¾it je?"
 
-#: src/workbook-control-gui.c:1743
+#: src/workbook-control-gui.c:1748
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -15816,7 +15813,7 @@ msgid ""
 "The replace has been aborted and nothing has been changed."
 msgstr ""
 
-#: src/workbook-control-gui.c:1781
+#: src/workbook-control-gui.c:1786
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr ""
@@ -15825,7 +15822,7 @@ msgstr ""
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1964
+#: src/workbook-control-gui.c:1969
 msgid "Insert rows"
 msgstr "Vlo¾ øádky"
 
@@ -15833,196 +15830,196 @@ msgstr "Vlo¾ øádky"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1982
+#: src/workbook-control-gui.c:1987
 #, fuzzy
 msgid "Insert columns"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/workbook-control-gui.c:2003
+#: src/workbook-control-gui.c:2008
 #, fuzzy
 msgid "Select an object to add"
 msgstr "Vytvoøí èáru"
 
-#: src/workbook-control-gui.c:2014
+#: src/workbook-control-gui.c:2019
 #, fuzzy, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Nelze zapsat soubor %s\n"
 
-#: src/workbook-control-gui.c:2235
+#: src/workbook-control-gui.c:2240
 msgid "Show"
 msgstr ""
 
-#: src/workbook-control-gui.c:2235
+#: src/workbook-control-gui.c:2240
 #, fuzzy
 msgid "Hide"
 msgstr "_Náhled"
 
-#: src/workbook-control-gui.c:2252
+#: src/workbook-control-gui.c:2257
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/workbook-control-gui.c:2276
+#: src/workbook-control-gui.c:2281
 #, fuzzy
 msgid "Group"
 msgstr "Na_hoøe:"
 
-#: src/workbook-control-gui.c:2276
+#: src/workbook-control-gui.c:2281
 #, fuzzy
 msgid "Ungroup"
 msgstr "F_ormát"
 
-#: src/workbook-control-gui.c:2462
+#: src/workbook-control-gui.c:2467
 #, fuzzy
 msgid "_Save..."
 msgstr "Ulo¾"
 
-#: src/workbook-control-gui.c:2465
+#: src/workbook-control-gui.c:2470
 msgid "Save with a new name or format"
 msgstr ""
 
-#: src/workbook-control-gui.c:2532
+#: src/workbook-control-gui.c:2537
 msgid "Select all the cells that depend on the current edit cell."
 msgstr ""
 
-#: src/workbook-control-gui.c:2597
+#: src/workbook-control-gui.c:2602
 #, fuzzy
 msgid "P_aste special..."
 msgstr "Vlo¾it jinak"
 
-#: src/workbook-control-gui.c:2606
+#: src/workbook-control-gui.c:2611
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
-#: src/workbook-control-gui.c:2657
+#: src/workbook-control-gui.c:2662
 msgid "Freeze the top left of the sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:2680
+#: src/workbook-control-gui.c:2685
 #, fuzzy
 msgid "_Define..."
 msgstr "Mazání"
 
-#: src/workbook-control-gui.c:2685
+#: src/workbook-control-gui.c:2690
 #, fuzzy
 msgid "_Auto generate names..."
 msgstr "Jdi na buòku.."
 
-#: src/workbook-control-gui.c:2686
+#: src/workbook-control-gui.c:2691
 #, fuzzy
 msgid "Use the current selection to create names"
 msgstr "Vyjme oznaèené do schránky"
 
-#: src/workbook-control-gui.c:2758
+#: src/workbook-control-gui.c:2763
 msgid "_Change name"
 msgstr "Zmìò jméno"
 
-#: src/workbook-control-gui.c:2785
+#: src/workbook-control-gui.c:2790
 msgid "Hide _Column Header"
 msgstr ""
 
-#: src/workbook-control-gui.c:2791
+#: src/workbook-control-gui.c:2796
 msgid "Hide _Row Header"
 msgstr ""
 
-#: src/workbook-control-gui.c:2823
+#: src/workbook-control-gui.c:2828
 msgid "Manage available plugin modules."
 msgstr ""
 
-#: src/workbook-control-gui.c:2847
+#: src/workbook-control-gui.c:2852
 #, fuzzy
 msgid "Statistical methods."
 msgstr "Statistické"
 
-#: src/workbook-control-gui.c:2860
+#: src/workbook-control-gui.c:2865
 #, fuzzy
 msgid "_Group..."
 msgstr "F_ormát"
 
-#: src/workbook-control-gui.c:2863
+#: src/workbook-control-gui.c:2868
 #, fuzzy
 msgid "_Ungroup..."
 msgstr "F_ormát"
 
-#: src/workbook-control-gui.c:2901
+#: src/workbook-control-gui.c:2906
 #, fuzzy
 msgid "_Sort"
 msgstr "seøadit podle"
 
-#: src/workbook-control-gui.c:2902
+#: src/workbook-control-gui.c:2907
 #, fuzzy
 msgid "Sorts the selected region."
 msgstr "Vycentruje buòku"
 
-#: src/workbook-control-gui.c:2939
+#: src/workbook-control-gui.c:2944
 #, fuzzy
 msgid "Creates a new workbook"
 msgstr "Jména v se¹itì:"
 
-#: src/workbook-control-gui.c:2942
+#: src/workbook-control-gui.c:2947
 msgid "Opens an existing workbook"
 msgstr "Otevøe existující se¹it"
 
-#: src/workbook-control-gui.c:2945
+#: src/workbook-control-gui.c:2950
 msgid "Saves the workbook"
 msgstr "Ulo¾í se¹it"
 
-#: src/workbook-control-gui.c:2951
+#: src/workbook-control-gui.c:2956
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Ulo¾í se¹it"
 
-#: src/workbook-control-gui.c:2960
+#: src/workbook-control-gui.c:2965
 msgid "Cuts the selection to the clipboard"
 msgstr "Vyjme oznaèené do schránky"
 
-#: src/workbook-control-gui.c:2963
+#: src/workbook-control-gui.c:2968
 msgid "Copies the selection to the clipboard"
 msgstr "Zkopíruje oznaèené do schránky"
 
-#: src/workbook-control-gui.c:2966
+#: src/workbook-control-gui.c:2971
 msgid "Pastes the clipboard"
 msgstr "Vlo¾í schránky"
 
-#: src/workbook-control-gui.c:2973
+#: src/workbook-control-gui.c:2978
 #, fuzzy
 msgid "Undo the operation"
 msgstr "Neznámý oprátor"
 
-#: src/workbook-control-gui.c:2976
+#: src/workbook-control-gui.c:2981
 msgid "Redo the operation"
 msgstr ""
 
-#: src/workbook-control-gui.c:2986
+#: src/workbook-control-gui.c:2991
 msgid "Sum into the current cell."
 msgstr ""
 
-#: src/workbook-control-gui.c:2989
+#: src/workbook-control-gui.c:2994
 #, fuzzy
 msgid "Function"
 msgstr "Zlomek"
 
-#: src/workbook-control-gui.c:2989
+#: src/workbook-control-gui.c:2994
 msgid "Edit a function in the current cell."
 msgstr ""
 
-#: src/workbook-control-gui.c:2993
+#: src/workbook-control-gui.c:2998
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
 
-#: src/workbook-control-gui.c:2996
+#: src/workbook-control-gui.c:3001
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
 
-#: src/workbook-control-gui.c:3940
+#: src/workbook-control-gui.c:3945
 #, fuzzy
 msgid "Send"
 msgstr "Nedìle"
 
-#: src/workbook-control-gui.c:3940
+#: src/workbook-control-gui.c:3945
 #, fuzzy
 msgid "Send the current file in email"
 msgstr "Vyjme oznaèené do schránky"
@@ -16317,16 +16314,16 @@ msgstr "Nepodporovaná metoda"
 msgid "Book%d.%s"
 msgstr "Tuènì"
 
-#: src/workbook.c:1214
+#: src/workbook.c:1216
 #, fuzzy
 msgid "Sheet name"
 msgstr "List 1"
 
-#: src/workbook.c:1215
+#: src/workbook.c:1217
 msgid "must have at least 1 letter"
 msgstr ""
 
-#: src/workbook.c:1228
+#: src/workbook.c:1230
 msgid "There is already a sheet named"
 msgstr ""
 
@@ -16342,27 +16339,32 @@ msgstr ""
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
+#: src/xml-io.c:2869
+#, fuzzy
+msgid "Unparsable xml in clipboard"
+msgstr "Vlo¾í schránky"
+
+#: src/xml-io.c:2876
+msgid "Clipboard is in unknown format"
+msgstr ""
+
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3184
+#: src/xml-io.c:3280
 #, fuzzy
 msgid "Processing file..."
 msgstr "Øetìz"
 
-#: src/xml-io.c:3362
-msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr ""
-
-#: src/xml-io.c:3422
+#: src/xml-io.c:3443
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3457
+#: src/xml-io.c:3478
 msgid "Is not an Gnumeric Workbook file"
 msgstr ""
 
-#: src/xml-io.c:3514
+#: src/xml-io.c:3535
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "XML formát star¹ích verzí Gnumericu"
@@ -16371,6 +16373,9 @@ msgstr "XML formát star¹ích verzí Gnumericu"
 #, fuzzy
 msgid "The GNOME Spreadsheet"
 msgstr "Vytvoø nový list"
+
+#~ msgid "Invalid day"
+#~ msgstr "Chybný den"
 
 #, fuzzy
 #~ msgid "LaTeX 2.09 (*.tex)"
