@@ -97,7 +97,8 @@ my_gdk_actual_font_name (GdkFont *font)
 #endif
 
 StyleFont *
-style_font_new_simple (const char *font_name, double size, double scale, int bold, int italic)
+style_font_new_simple (const char *font_name, double size, double scale,
+		       gboolean bold, gboolean italic)
 {
 	StyleFont *font;
 	StyleFont key;
@@ -164,7 +165,8 @@ style_font_new_simple (const char *font_name, double size, double scale, int bol
 }
 
 StyleFont *
-style_font_new (const char *font_name, double size, double scale, int bold, int italic)
+style_font_new (const char *font_name, double size, double scale,
+		gboolean bold, gboolean italic)
 {
 	StyleFont *font;
 
@@ -197,7 +199,8 @@ style_font_new_from (StyleFont *sf, double scale)
 	g_return_val_if_fail (sf != NULL, NULL);
 	g_return_val_if_fail (scale != 0.0, NULL);
 
-	new_sf = style_font_new_simple (sf->font_name, sf->size, scale, sf->is_bold, sf->is_italic);
+	new_sf = style_font_new_simple (sf->font_name, sf->size, scale,
+					sf->is_bold, sf->is_italic);
 	if (!new_sf){
 	        new_sf = gnumeric_default_font;
 		style_font_ref (new_sf);

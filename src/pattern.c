@@ -146,7 +146,6 @@ gnumeric_background_set_pc (MStyle *mstyle, GnomePrintContext *context)
 		return FALSE;
 	pattern = mstyle_get_pattern (mstyle);
 	if (pattern > 0) {
-		GdkColor   *back;
 		StyleColor *back_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 
@@ -157,6 +156,7 @@ gnumeric_background_set_pc (MStyle *mstyle, GnomePrintContext *context)
 					 back_col->green / (double) 0xffff,
 					 back_col->blue  / (double) 0xffff);
 
+#if 0
 		/* Support grey scale patterns.  FIXME how to do the rest ? */
 		if (pattern >= 1 && pattern <= 5) {
 			static double const gray[] = { 1., .75, .50, .25, .125, .0625 };
@@ -164,7 +164,6 @@ gnumeric_background_set_pc (MStyle *mstyle, GnomePrintContext *context)
 			/* FIXME : why no support for setgray in gnome-print ? */
 		}
 
-#if 0
 		if (pattern > 1) {
 			StyleColor *pat_col =
 				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);

@@ -30,6 +30,7 @@ enum _MStyleElementType {
 		MSTYLE_FONT_NAME,
 		MSTYLE_FONT_BOLD,
 		MSTYLE_FONT_ITALIC,
+		MSTYLE_FONT_UNDERLINE,
 	        MSTYLE_FONT_SIZE,
 
 		MSTYLE_FORMAT,
@@ -82,6 +83,8 @@ void                mstyle_set_font_bold   (MStyle *st, gboolean bold);
 gboolean            mstyle_get_font_bold   (const MStyle *st);
 void                mstyle_set_font_italic (MStyle *st, gboolean italic);
 gboolean            mstyle_get_font_italic (const MStyle *st);
+void                mstyle_set_font_uline  (MStyle *st, StyleUnderlineType const t);
+StyleUnderlineType  mstyle_get_font_uline  (const MStyle *st);
 void                mstyle_set_font_size   (MStyle *st, double size);
 double              mstyle_get_font_size   (const MStyle *st);
 /* this font must be unrefd after use */

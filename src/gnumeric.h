@@ -52,6 +52,7 @@ typedef enum _StyleHAlignFlags StyleHAlignFlags;
 typedef enum _StyleVAlignFlags StyleVAlignFlags;
 typedef enum _StyleOrientation StyleOrientation;
 typedef enum _StyleBorderLocation StyleBorderLocation;
+typedef enum _StyleUnderlineType StyleUnderlineType;
 
 typedef struct _StyleFormat		StyleFormat;
 typedef struct _StyleFormatEntry	StyleFormatEntry;

@@ -25,6 +25,12 @@ enum _StyleVAlignFlags {
 	VALIGN_JUSTIFY = 8
 };
 
+enum _StyleUnderlineType {
+	UNDERLINE_NONE   = 0,
+	UNDERLINE_SINGLE = 1,
+	UNDERLINE_DOUBLE = 2,
+};
+
 enum _StyleOrientation {
 	ORIENT_HORIZ           = 1,
 	ORIENT_VERT_HORIZ_TEXT = 2,
@@ -92,11 +98,11 @@ void           style_format_unref     (StyleFormat *sf);
 				      
 StyleFont     *style_font_new         (const char *font_name,
 				       double size, double scale,
-				       int bold, int italic);
+				       gboolean bold, gboolean italic);
 StyleFont     *style_font_new_from    (StyleFont *sf, double scale);
 StyleFont     *style_font_new_simple  (const char *font_name,
 				       double size, double scale,
-				       int bold, int italic);
+				       gboolean bold, gboolean italic);
 GdkFont       *style_font_gdk_font    (StyleFont *sf);
 GnomeFont     *style_font_gnome_font  (StyleFont *sf);
 int            style_font_get_height  (StyleFont *sf);

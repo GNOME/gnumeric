@@ -15,8 +15,8 @@ BuildRoot:	/var/tmp/gnumeric-%{PACKAGE_VERSION}-root
 Docdir: 	%{prefix}/doc
 
 Requires: gtk+ >= 1.2.2
-Requires: gnome-libs >= 1.0.0
-Requires: gnome-print >= 0.10
+Requires: gnome-libs >= 1.0.56
+Requires: gnome-print >= 0.12
 Requires: libglade >= 0.11
 Requires: libxml >= 1.8.5
 
@@ -94,6 +94,9 @@ fi
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Mon Feb 29 2000 Jody Goldberg <jgolbderg@home.com>
+- Updated version requirements for gnome-print, and gnome-libs.
+
 * Sun Jan 30 2000 Gregory McLean <gregm@comstar.net>
 - Added in some auto-detect the language files logic (rpm 3.0.xx only)
 

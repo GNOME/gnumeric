@@ -1085,6 +1085,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	/* Font */
 	fd = ms_excel_get_font (sheet, xf->font_idx);
 	if (fd != NULL) {
+		StyleUnderlineType underline = UNDERLINE_NONE;
 		subs_fontname = get_substitute_font (fd->fontname);
 		if (subs_fontname)
 			mstyle_set_font_name   (mstyle, subs_fontname);
@@ -1093,6 +1094,23 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		mstyle_set_font_size   (mstyle, fd->height / 20.0);
 		mstyle_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
 		mstyle_set_font_italic (mstyle, fd->italic);
+		switch (fd->underline) {
+		case eBiffFUSingle :
+		case eBiffFUSingleAcc :
+			underline = UNDERLINE_SINGLE;
+			break;
+
+		case eBiffFUDouble :
+		case eBiffFUDoubleAcc :
+			underline = UNDERLINE_DOUBLE;
+			break;
+
+		case eBiffFUNone :
+			default :
+			underline = UNDERLINE_NONE;
+		}
+		mstyle_set_font_uline  (mstyle, underline);
+
 		font_index = fd->color_idx;
 	} else
 		font_index = 127; /* Default to White */

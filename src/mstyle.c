@@ -41,6 +41,7 @@ typedef struct {
 			String   *name;
 			gboolean  bold;
 			gboolean  italic;
+			StyleUnderlineType  underline;
 			float     size;
 		}                font;
 		StyleFormat     *format;
@@ -109,6 +110,7 @@ const char *mstyle_names [MSTYLE_ELEMENT_MAX] = {
 	"Font.Name",
 	"Font.Bold",
 	"Font.Italic",
+	"Font.Underline",
 	"Font.Size",
 	"Format",
 	"Align.v",
@@ -155,6 +157,9 @@ mstyle_hash (gconstpointer st)
 		case MSTYLE_ORIENTATION:
 			hash = hash ^ e->u.orientation;
 			break;
+		case MSTYLE_FONT_UNDERLINE:
+			hash = hash ^ e->u.font.underline;
+			break;
 		default:
 			g_warning ("Unimplemented hash item");
 			break;
@@ -199,6 +204,17 @@ mstyle_element_dump (const MStyleElement *e)
 			g_string_sprintf (ans, "italic");
 		else
 			g_string_sprintf (ans, "not italic");
+		break;
+	case MSTYLE_FONT_UNDERLINE:
+		switch (e->u.font.underline) {
+		default :
+		case UNDERLINE_NONE :
+			g_string_sprintf (ans, "not underline");
+		case UNDERLINE_SINGLE :
+			g_string_sprintf (ans, "single underline");
+		case UNDERLINE_DOUBLE :
+			g_string_sprintf (ans, "double underline");
+		};
 		break;
 	case MSTYLE_FONT_SIZE:
 		g_string_sprintf (ans, "size %f", e->u.font.size);
@@ -264,6 +280,10 @@ mstyle_element_equal (const MStyleElement a,
 		break;
 	case MSTYLE_FONT_ITALIC:
 		if (a.u.font.italic == b.u.font.italic)
+			return TRUE;
+		break;
+	case MSTYLE_FONT_UNDERLINE:
+		if (a.u.font.underline == b.u.font.underline)
 			return TRUE;
 		break;
 	case MSTYLE_FONT_SIZE:
@@ -509,10 +529,11 @@ mstyle_new_default (void)
 	mstyle_set_align_v     (mstyle, VALIGN_BOTTOM);
 	mstyle_set_align_h     (mstyle, HALIGN_GENERAL);
 	mstyle_set_orientation (mstyle, ORIENT_HORIZ);
-	mstyle_set_fit_in_cell (mstyle, 0);
+	mstyle_set_fit_in_cell (mstyle, FALSE);
 	mstyle_set_font_name   (mstyle, DEFAULT_FONT);
-	mstyle_set_font_bold   (mstyle, 0);
-	mstyle_set_font_italic (mstyle, 0);
+	mstyle_set_font_bold   (mstyle, FALSE);
+	mstyle_set_font_italic (mstyle, FALSE);
+	mstyle_set_font_uline  (mstyle, UNDERLINE_NONE);
 	mstyle_set_font_size   (mstyle, DEFAULT_SIZE);
 
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_FORE,
@@ -856,7 +877,7 @@ mstyle_get_font (const MStyle *style, double zoom)
 {
 	StyleFont *font;
 	const gchar *name;
-	int    bold, italic;
+	gboolean bold, italic;
 	double size;
 
 	g_return_val_if_fail (style != NULL, NULL);
@@ -868,11 +889,11 @@ mstyle_get_font (const MStyle *style, double zoom)
 	if (mstyle_is_element_set (style, MSTYLE_FONT_BOLD))
 		bold = mstyle_get_font_bold (style);
 	else
-		bold = 0;
+		bold = FALSE;
 	if (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC))
 		italic = mstyle_get_font_italic (style);
 	else
-		italic = 0;
+		italic = FALSE;
 	if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
 		size = mstyle_get_font_size (style);
 	else
@@ -938,6 +959,24 @@ mstyle_get_font_italic (const MStyle *style)
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC), FALSE);
 
 	return style->elements [MSTYLE_FONT_ITALIC].u.font.italic;
+}
+
+void
+mstyle_set_font_uline (MStyle *style, StyleUnderlineType const underline)
+{
+	g_return_if_fail (style != NULL);
+
+	style->elements [MSTYLE_FONT_UNDERLINE].type = MSTYLE_FONT_UNDERLINE;
+	style->elements [MSTYLE_FONT_UNDERLINE].u.font.underline = underline;
+}
+
+StyleUnderlineType
+mstyle_get_font_uline (const MStyle *style)
+{
+	g_return_val_if_fail (style != NULL, FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE), FALSE);
+
+	return style->elements [MSTYLE_FONT_UNDERLINE].u.font.underline;
 }
 
 void

@@ -18,7 +18,23 @@
 #include "cell-draw.h"
 
 static void
-draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,
+draw_text (GdkDrawable *drawable, GdkFont *font, StyleUnderlineType const uline,
+	   GdkGC *gc, int x1, int text_base, char const * text, int n, int len_pixels)
+{
+	gdk_draw_text (drawable, font, gc, x1, text_base, text, n);
+
+	/* FIXME how to handle small fonts ?
+	 * the text_base should be at least 4 pixels above the bottom */
+	if (uline != UNDERLINE_NONE) {
+		gdk_draw_line (drawable, gc, x1, text_base+1, x1+len_pixels, text_base+1);
+		if (uline == UNDERLINE_DOUBLE)
+			gdk_draw_line (drawable, gc, x1, text_base+3, x1+len_pixels, text_base+3);
+	}
+}
+
+static void
+draw_overflow (GdkDrawable *drawable, GdkGC *gc,
+	       GdkFont *font, StyleUnderlineType const uline,
 	       int x1, int text_base, int width)
 {
 	int const len = gdk_string_width (font, "#");
@@ -26,7 +42,7 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,
 
 	/* Center */
 	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )
-		gdk_draw_text (drawable, font, gc, x1, text_base, "#", 1);
+		draw_text (drawable, font, uline, gc, x1, text_base, "#", 1, len);
 }
 
 /*
@@ -122,6 +138,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	   SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable,
 	   int x1, int y1)
 {
+	StyleUnderlineType const uline = mstyle_get_font_uline (mstyle);
 	StyleFont    *style_font = sheet_view_get_style_font (cell->sheet, mstyle);
 	GdkFont      *font = style_font_gdk_font (style_font);
 	GdkRectangle  rect;
@@ -244,7 +261,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 
 	/* if a number overflows, do special drawing */
 	if (width < cell->width_pixel && cell_is_number (cell)) {
-		draw_overflow (drawable, gc, font,
+		draw_overflow (drawable, gc, font, uline,
 			       x1 + cell->col->margin_a + 1,
 			       text_base, width);
 		style_font_unref (style_font);
@@ -254,11 +271,12 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	if (is_single_line) {
 		int total, len;
 
-		len = 0;
+		len = (uline != UNDERLINE_NONE || halign == HALIGN_FILL)
+		    ? gdk_string_width (font, text) : 0;
+
 		switch (halign) {
 		case HALIGN_FILL:
 			printf ("FILL!\n");
-			len = gdk_string_width (font, text);
 			/* fall through */
 			
 		case HALIGN_LEFT:
@@ -280,8 +298,8 @@ cell_draw (Cell *cell, MStyle *mstyle,
 
 		total = 0;
 		do {
-			gdk_draw_text (drawable, font, gc, x1,
-				       text_base, text, strlen (text));
+			draw_text (drawable, font, uline, gc, x1,
+				   text_base, text, strlen (text), len);
 			x1 += len;
 			total += len;
 		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
@@ -326,30 +344,34 @@ cell_draw (Cell *cell, MStyle *mstyle,
 		y_offset += font_height - 1;
 		for (l = lines; l; l = l->next) {
 			char const * const str = l->data;
+			int len = 0;
 
 			switch (halign){
+			default:
+				g_warning ("Multi-line justification style not supported\n");
+				/* fall through */
+
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
 				x_offset = cell->col->margin_a;
+				if (uline != UNDERLINE_NONE)
+					len = gdk_string_width (font, text);
 				break;
 				
 			case HALIGN_RIGHT:
-				x_offset = cell->col->size_pixels - cell->col->margin_b -
-					gdk_string_width (font, str);
+				len = gdk_string_width (font, str);
+				x_offset = cell->col->size_pixels - cell->col->margin_b - len;
 				break;
 
 			case HALIGN_CENTER:
-				x_offset = (cell->col->size_pixels -
-					    gdk_string_width (font, str)) / 2;
-				break;
-			default:
-				g_warning ("Multi-line justification style not supported\n");
-				x_offset = cell->col->margin_a;
+				len = gdk_string_width (font, str);
+				x_offset = (cell->col->size_pixels - len) / 2;
 			}
+
 			/* Advance one pixel for the border */
 			x_offset++;
-			gdk_draw_text (drawable, font, gc, x1 + x_offset,
-				       y1 + y_offset, str, strlen (str));
+			draw_text (drawable, font, uline, gc, x1 + x_offset,
+				   y1 + y_offset, str, strlen (str), len);
 			y_offset += inter_space;
 			
 			g_free (l->data);

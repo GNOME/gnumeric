@@ -1,3 +1,27 @@
+2000-02-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (change_selection_font) : Add underline.
+	(underline_cmd) : New function.
+	(workbook_format_toolbar) : Add underline.
+	(workbook_feedback_set) : Ditto.
+
+	* src/xml-io.c (xml_read_style) : Restore underline style.
+	(xml_write_style) : Save the underline style.
+
+	* src/pattern.c (gnumeric_background_set_pc) : suppress warning.
+	
+	* src/mstyle.[ch] : Add MSTYLE_FONT_UNDERLINE.
+	(mstyle_get_font_uline) : New function.
+	(mstyle_set_font_uline) : New function.
+
+	* src/cell-draw.c (draw_text) : new function to add underlines.
+	(draw_overflow) : Use draw_text.
+	(cell_draw) : Ditto.
+
+	* src/gnumeric.h : Add StyleUnderlineType.
+
+	* gnumeric.spec.in : Update the requirements.
+
 2000-03-01  Jon K Hellan  <hellan@acm.org>
 
 	* doc/python-gnumeric.txt: Clarified mapping of arrays.

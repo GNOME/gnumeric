@@ -1,3 +1,8 @@
+2000-02-29  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf) : Add support for
+	  importing underlines.
+
 2000-02-18  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_get_style_from_xf) : Hard code 'auto'

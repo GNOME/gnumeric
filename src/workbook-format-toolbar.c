@@ -82,10 +82,11 @@ center_cmd (GtkWidget *widget, Workbook *wb)
  * @wb:  The workbook to operate on
  * @bold: -1 to leave unchanged, 0 to clear, 1 to set
  * @italic: -1 to leave unchanged, 0 to clear, 1 to set
+ * @underline: -1 to leave unchanged, 0 to clear, 1 to set
  *
  */
 static void
-change_selection_font (Workbook *wb, int bold, int italic)
+change_selection_font (Workbook *wb, int bold, int italic, int underline)
 {
 	MStyle *mstyle;
 	Sheet  *sheet;
@@ -100,8 +101,13 @@ change_selection_font (Workbook *wb, int bold, int italic)
 	if (italic >= 0)
 		mstyle_set_font_italic (mstyle, italic);
 
+	if (underline >= 0)
+		mstyle_set_font_uline (mstyle,
+				       underline ? UNDERLINE_SINGLE : UNDERLINE_NONE);
+
 	if (bold >= 0 ||
-	    italic >= 0)
+	    italic >= 0 ||
+	    underline >= 0)
 		cmd_format (workbook_command_context_gui (wb), 
 			    sheet, mstyle, NULL);
 	else
@@ -111,13 +117,19 @@ change_selection_font (Workbook *wb, int bold, int italic)
 static void
 bold_cmd (GtkToggleButton *t, Workbook *wb)
 {
-	change_selection_font (wb, t->active, -1);
+	change_selection_font (wb, t->active, -1, -1);
 }
 
 static void
 italic_cmd (GtkToggleButton *t, Workbook *wb)
 {
-	change_selection_font (wb, -1, t->active);
+	change_selection_font (wb, -1, t->active, -1);
+}
+
+static void
+underline_cmd (GtkToggleButton *t, Workbook *wb)
+{
+	change_selection_font (wb, -1, -1, t->active);
 }
 
 static void
@@ -275,6 +287,9 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 
 	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Makes the font italic"),
 	  italic_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC },
+
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Underline"), N_("Underlines the font"),
+	  underline_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_UNDERLINE },
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -666,6 +681,13 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 					   TOOLBAR_ITALIC_BUTTON_INDEX,
 					   (GtkSignalFunc)&italic_cmd,
 					   mstyle_get_font_italic (style));
+
+	/* Handle font underlining */
+	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE));
+	workbook_format_toolbutton_update (workbook, toolbar,
+					   TOOLBAR_UNDERLINE_BUTTON_INDEX,
+					   (GtkSignalFunc)&underline_cmd,
+					   mstyle_get_font_uline (style) != UNDERLINE_NONE);
 
 	/* horizontal alignment */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H));
