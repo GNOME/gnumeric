@@ -52,6 +52,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-input.h>
+#include <glib/gstdio.h>
 #include <locale.h>
 #include <string.h>
 #include <unistd.h>
