@@ -1,3 +1,20 @@
+2001-10-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * goalseek.glade : New glade dialog
+	* Makefile.am : Added goalseek.glade
+	* dialog-goal-seek.c (gnumeric_goal_seek) : changes in the argument list
+	(dialog_help_cb) : new callback supporting a help button
+	(dialog_destroy) : new callback to change dialog into non-modal form 
+	  using expr-entry widget
+	(cb_dialog_cancel_clicked) : ditto
+	(cb_dialog_close_clicked) : ditto
+	(cb_dialog_apply_clicked) : ditto
+	(dialog_set_focus) : ditto
+	(dialog_realized) : ditto
+	(dialog_goal_seek) : changed to support same goal
+	(dialog_init) : new function creating dialog
+	(dialog_found_solution) : deleted
+
 2001-10-16  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (graph_guru_apply_changes) : add the format guru.

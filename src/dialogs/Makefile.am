@@ -101,6 +101,7 @@ glade_DATA = 				\
 	fourier-analysis.glade		\
 	function-select.glade 		\
 	graph-guru.glade		\
+	goalseek.glade			\
 	hf-config.glade			\
 	histogram.glade			\
 	insert-cells.glade		\

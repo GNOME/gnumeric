@@ -110,6 +110,7 @@ src/dialogs/formula-guru.glade
 src/dialogs/fourier-analysis.glade
 src/dialogs/function-select.glade
 src/dialogs/graph-guru.glade
+src/dialogs/goalseek.glade
 src/dialogs/hf-config.glade
 src/dialogs/histogram.glade
 src/dialogs/insert-cells.glade
