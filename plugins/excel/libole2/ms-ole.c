@@ -1520,7 +1520,9 @@ ms_ole_destroy (MsOle **ptr)
 		if (f->dirty)
 			ms_ole_cleanup (f);
 
-		if (f->ole_mmap) {
+		if (f->mem == (void *)0xdeadbeef)
+		    f->mem = NULL;
+		else if (f->ole_mmap) {
 			munmap (f->mem, f->length);
 		} else {
 			guint32 i;

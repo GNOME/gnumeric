@@ -8,13 +8,14 @@
  * (C) 1998, 1999 Michael Meeks, Jody Goldberg
  **/
 
+#include <config.h>
+
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 #include "ms-chart.h"
 #include "gnumeric-chart.h"
 #include "ms-escher.h"
-
 #include "print-info.h"
 #include "selection.h"
 #include "utils.h"	/* for cell_name */

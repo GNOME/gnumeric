@@ -7,6 +7,9 @@
  * (C) 1999 Jody Goldberg
  **/
 
+#include <stdio.h>
+
+#include <config.h>
 #include "excel.h"
 #include "ms-chart.h"
 #include "ms-formula-read.h"
@@ -14,8 +17,6 @@
 #include "ms-escher.h"
 #include "utils.h"
 #include "gnumeric-chart.h"
-
-#include <stdio.h>
 
 /* #define NO_DEBUG_EXCEL */
 extern int ms_excel_chart_debug;

@@ -10,9 +10,11 @@
 
 #include <fcntl.h>
 #include <assert.h>
-#include <config.h>
 #include <stdio.h>
+
+#include <config.h>
 #include <gnome.h>
+
 #include "gnumeric.h"
 #include "func.h"
 

@@ -8,6 +8,7 @@
  * (C) 1998, 1999 Jody Goldberg, Michael Meeks
  **/
 
+#include <config.h>
 #include "ms-obj.h"
 #include "ms-chart.h"
 #include "ms-escher.h"

@@ -1,3 +1,14 @@
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (excel_probe) : Only free the MsOle object if it
+	  was created successfully.
+
+1999-10-02  Jody Goldberg <jgoldberg@home.com>
+
+	* *.c : Ensure that we include config.h first.
+
+	* *.[ch] : Update and add Copyright notices.
+
 1999-09-29  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_cell:MULBLANK) : Insert blanks in

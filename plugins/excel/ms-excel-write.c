@@ -13,11 +13,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <config.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <math.h>
 
+#include <config.h>
 #include <gnome.h>
 
 #include "gnumeric.h"

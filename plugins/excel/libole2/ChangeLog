@@ -1,3 +1,9 @@
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-ole.c (ms_ole_destroy) : Quick and dirty test to
+	  avoid freeing the magic ptr on exit when we have a
+	  failure during intialization.
+
 1999-09-30  Arturo Tena <arturo@directmail.org>
 
 	* ms-ole.c: Cleanup the code.
