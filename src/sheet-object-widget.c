@@ -1249,6 +1249,54 @@ typedef struct {
 } SheetWidgetCheckbox;
 typedef SheetObjectWidgetClass SheetWidgetCheckboxClass;
 
+enum {
+	SOC_PROP_0 = 0,
+	SOC_PROP_TEXT,
+	SOC_PROP_MARKUP
+};
+
+static void
+sheet_widget_checkbox_get_property (GObject *obj, guint param_id,
+				    GValue  *value, GParamSpec *pspec)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (obj);
+
+	switch (param_id) {
+	case SOC_PROP_TEXT:
+		g_value_set_string (value, swc->label);
+		break;
+	case SOC_PROP_MARKUP:
+		g_value_set_boxed (value, NULL); /* swc->markup */
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
+}
+
+static void
+sheet_widget_checkbox_set_property (GObject *obj, guint param_id,
+				    GValue const *value, GParamSpec *pspec)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (obj);
+
+	switch (param_id) {
+	case SOC_PROP_TEXT:
+		sheet_widget_checkbox_set_label (SHEET_OBJECT (swc),
+					       g_value_get_string (value));
+		break;
+	case SOC_PROP_MARKUP:
+#if 0
+		sheet_widget_checkbox_set_markup (SHEET_OBJECT (swc),
+						g_value_peek_pointer (value));
+#endif
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
+}
+
 static void
 sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 {
@@ -1669,9 +1717,18 @@ SOW_MAKE_TYPE (checkbox, Checkbox,
 	       &sheet_widget_checkbox_write_xml_dom,
 	       &sheet_widget_checkbox_read_xml_dom,
 	       &sheet_widget_checkbox_write_xml_sax,
-	       NULL,
-	       NULL,
-	       {})
+	       &sheet_widget_checkbox_get_property,
+	       &sheet_widget_checkbox_set_property,
+	       {
+		       g_object_class_install_property
+			       (object_class, SOC_PROP_TEXT,
+				g_param_spec_string ("text", NULL, NULL, NULL,
+						     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+		       g_object_class_install_property
+			       (object_class, SOC_PROP_MARKUP,
+				g_param_spec_boxed ("markup", NULL, NULL, PANGO_TYPE_ATTR_LIST,
+						    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	       })
 
 /****************************************************************************/
 typedef SheetWidgetCheckbox		SheetWidgetToggleButton;

@@ -1,3 +1,13 @@
+2004-11-15  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c : Add text and markup properties to
+	  checkbox/toggle button
+
+2004-11-14  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_display_obj_size_tip) : tweak the
+	  pixel distances.  The far coordinates are excluded.
+
 2004-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=151609
