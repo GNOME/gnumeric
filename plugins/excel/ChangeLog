@@ -1,3 +1,8 @@
+2001-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (excel_chart_series_write_xml) : fix this for non bonobno
+	  builds.
+
 2001-09-30  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (excel_chart_series_write_xml) : Use
