@@ -10,7 +10,7 @@
 #include <gnome.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "func.h"
 #include "eval.h"
 #include "cell.h"
@@ -50,7 +50,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
 		return res;
 
 	/* All other cases -- including error -- just call the handler.  */
-	return (*data->callback)(eval_pos_init (&ep, sheet, col, row),
+	return (*data->callback)(eval_pos_cell (&ep, cell),
 				 cell->value, data->closure);
 }
 

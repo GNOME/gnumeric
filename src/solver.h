@@ -34,11 +34,11 @@ struct _SolverOptions {
 };
 
 struct _SolverConstraint {
-        gint               lhs_col, lhs_row;  /* left hand side */
-        gint               rhs_col, rhs_row;  /* right hand side */
-        gint               rows, cols;        /* number of rows and columns */
-        gchar              *type;             /* <=, =, >=, int, bool */
-        char               *str;              /* the same in string form */
+        CellPos             lhs;		/* left hand side */
+        CellPos             rhs;  		/* right hand side */
+        gint                rows, cols;		/* number of rows and columns */
+        gchar              *type;		/* <=, =, >=, int, bool */
+        char               *str;		/* the same in string form */
 };
 
 struct _SolverParameters {

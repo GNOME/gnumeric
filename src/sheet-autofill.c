@@ -31,7 +31,7 @@ typedef enum {
 	 * FILL_INVALID: Should never happen, used only as a flag
 	 */
 	FILL_INVALID,
-	
+
 	/*
 	 * FILL_EMPTY: Cell is empty
 	 */
@@ -74,7 +74,7 @@ typedef struct {
 struct FillItem {
 	FillType  type;
 	Cell      *reference;
-	
+
 	union {
 		ExprTree *formula;
 		Value    *value;
@@ -108,7 +108,7 @@ autofill_register_list (const char *const *list)
 {
 	AutoFillList *afl;
 	const char *const *p = list;
-	
+
 	while (*p)
 		p++;
 
@@ -128,14 +128,14 @@ matches_list (const String *str, int *n, int *is_i18n)
 	for (l = autofill_lists; l; l = l->next){
 		AutoFillList *afl = l->data;
 		int i;
-		
+
 		for (i = 0; i < afl->count; i++){
 			const char *english_text, *translated_text;
 
 			english_text = afl->items [i];
 			if (*english_text == '*')
 				english_text++;
-			
+
 			if ((strcasecmp (english_text, s) == 0)){
 				*is_i18n = FALSE;
 				*n = i;
@@ -145,7 +145,7 @@ matches_list (const String *str, int *n, int *is_i18n)
 			translated_text = _(afl->items [i]);
 			if (*translated_text == '*')
 				translated_text++;
-			
+
 			if (strcasecmp (translated_text, s) == 0){
 				*is_i18n = TRUE;
 				*n = i;
@@ -162,7 +162,7 @@ string_has_number (String *str, int *num, int *pos)
 	char *s = str->str, *p;
 	int l = strlen (s);
 	gboolean found_number = FALSE;
-	
+
 	if (isdigit ((unsigned char)*s)){
 		*num = atoi (s);
 		*pos = 0;
@@ -170,13 +170,13 @@ string_has_number (String *str, int *num, int *pos)
 	}
 	if (l <= 1)
 		return FALSE;
-	
+
 	for (p = s + l - 1; p > str->str && isdigit ((unsigned char)*p); p--)
 		found_number = TRUE;
 
 	if (!found_number)
 		return FALSE;
-	
+
 	p++;
 	*num = atoi (p);
 	*pos = p - str->str;
@@ -190,7 +190,7 @@ fill_item_destroy (FillItem *fi)
 	switch (fi->type){
 	case FILL_STRING_LIST:
 		break;
-		
+
 	case FILL_STRING_CONSTANT:
 		string_unref (fi->v.str);
 		break;
@@ -198,7 +198,7 @@ fill_item_destroy (FillItem *fi)
 	case FILL_STRING_WITH_NUMBER:
 		string_unref (fi->v.numstr.str);
 		break;
-		
+
 	default:
 		break;
 	}
@@ -219,10 +219,10 @@ fill_item_new (Cell *cell)
 	if (!cell)
 		return fi;
 
-	if (cell->parsed_node){
+	if (cell_has_expr (cell)) {
 		fi->type = FILL_FORMULA;
-		fi->v.formula = cell->parsed_node;
-		
+		fi->v.formula = cell->u.expression;
+
 		return fi;
 	}
 
@@ -231,7 +231,7 @@ fill_item_new (Cell *cell)
 		return fi;
 
 	value_type = value->type;
-	
+
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT){
 		fi->type    = FILL_NUMBER;
 		fi->v.value = value;
@@ -242,10 +242,10 @@ fill_item_new (Cell *cell)
 	if (value_type == VALUE_STRING){
 		AutoFillList *list;
 		int  num, pos, i18;
-		
+
 		fi->type = FILL_STRING_CONSTANT;
 		fi->v.str = string_ref (value->v.str);
-		
+
 		list = matches_list (value->v.str, &num, &i18);
 		if (list){
 			fi->type = FILL_STRING_LIST;
@@ -275,11 +275,11 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 {
 	FillItem *fi = list_last->data;
 	FillItem *lfi;
-	
+
 	switch (fi->type){
 	case FILL_NUMBER: {
 		double a, b;
-		
+
 		if (!list_last->prev){
 			if (fi->v.value->type == VALUE_INTEGER){
 				fi->delta_is_float = FALSE;
@@ -306,27 +306,27 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 		return;
 	}
 
-	case FILL_STRING_WITH_NUMBER: 
+	case FILL_STRING_WITH_NUMBER:
 		fi->delta_is_float = FALSE;
 		fi->delta.d_int = 1;
 
 		if (list_last->prev){
 			lfi = list_last->prev->data;
-				
+
 			fi->delta.d_int = fi->v.numstr.num - lfi->v.numstr.num;
 		}
 		return;
-		
+
 	case FILL_STRING_LIST:
 		fi->delta_is_float = FALSE;
 		if (list_last->prev){
 			lfi = list_last->prev->data;
-			
+
 			fi->delta.d_int = fi->v.list.num - lfi->v.list.num;
 		} else
 			fi->delta.d_int = 1;
 		return;
-		
+
 	case FILL_EMPTY:
 	case FILL_STRING_CONSTANT:
 	case FILL_FORMULA:
@@ -364,14 +364,14 @@ autofill_create_fill_items (Sheet *sheet, int x, int y, int region_count, int co
 	FillItem *last;
 	GList *item_list, *all_items, *l;
 	int i;
-	
+
 	last = NULL;
 	item_list = all_items = NULL;
 
 	for (i = 0; i < region_count; i++){
 		FillItem *fi;
 		Cell *cell;
-		
+
 		cell = sheet_cell_get (sheet, x, y);
 		fi = fill_item_new (cell);
 
@@ -383,9 +383,9 @@ autofill_create_fill_items (Sheet *sheet, int x, int y, int region_count, int co
 
 			last = fi;
 		}
-		
+
 		item_list = g_list_append (item_list, fi);
-		
+
 		x += col_inc;
 		y += row_inc;
 	}
@@ -425,7 +425,7 @@ autofill_destroy_fill_items (GList *all_items)
 
 		for (ll = sub; ll; ll = ll->next){
 			FillItem *fi = ll->data;
-			
+
 			fill_item_destroy (fi);
 		}
 		g_list_free (sub);
@@ -436,14 +436,11 @@ autofill_destroy_fill_items (GList *all_items)
 static void
 autofill_cell (Cell *cell, int idx, FillItem *fi)
 {
-	MStyle *mstyle = sheet_style_compute (fi->reference->sheet,
-					      fi->reference->col->pos,
-					      fi->reference->row->pos);
-
+	MStyle *mstyle = cell_get_mstyle (fi->reference);
 	sheet_style_attach_single (cell->sheet,
-				   cell->col->pos,
-				   cell->row->pos, mstyle);
-	
+				   cell->col_info->pos,
+				   cell->row_info->pos, mstyle);
+
 	switch (fi->type) {
 	case FILL_EMPTY:
 	case FILL_INVALID:
@@ -451,23 +448,23 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		return;
 
 	case FILL_STRING_CONSTANT:
-		cell_set_text (cell, fi->v.str->str);
+		sheet_cell_set_value (cell, value_new_string (fi->v.str->str), NULL);
 		return;
 
 	case FILL_STRING_WITH_NUMBER: {
 		FillItem *last = fi->group_last;
 		char buffer [sizeof (int) * 4], *v;
 		int i;
-		
+
 		i = last->v.numstr.num + idx * last->delta.d_int;
 		snprintf (buffer, sizeof (buffer)-1, "%d", i);
-		
+
 		if (last->v.numstr.pos == 0){
 			char *p = last->v.numstr.str->str;
 
 			while (*p && isdigit ((unsigned char)*p))
 			       p++;
-			
+
 			v = g_strconcat (buffer, p, NULL);
 		} else {
 			char *n = g_strdup (last->v.numstr.str->str);
@@ -476,36 +473,32 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 			v = g_strconcat (n, buffer, NULL);
 			g_free (n);
 		}
-		cell_set_text (cell, v);
+		/* FIXME : Can we set this as a value ? */
+		sheet_cell_set_text (cell, v);
 		g_free (v);
 		return;
 	}
 
 	case FILL_NUMBER: {
 		FillItem *last = fi->group_last;
-		char buffer [50];
-		
+
 		if (last->delta_is_float){
-			double d;
-			
-			d = last->v.value->v.v_float + idx * last->delta.d_float;
-			snprintf (buffer, sizeof (buffer)-1, "%g", d);
-			cell_set_text (cell, buffer);
+			double const d =
+			    last->v.value->v.v_float + idx * last->delta.d_float;
+			sheet_cell_set_value (cell, value_new_float (d), NULL);
 		} else {
-			int i;
-			
-			i = last->v.value->v.v_int + idx * last->delta.d_int;
-			snprintf (buffer, sizeof (buffer)-1, "%d", i);
-			cell_set_text (cell, buffer);
+			int const i =
+			    last->v.value->v.v_int + idx * last->delta.d_int;
+			sheet_cell_set_value (cell, value_new_int (i), NULL);
 		}
 		return;
 	}
-	
+
 	case FILL_STRING_LIST: {
 		FillItem *last = fi->group_last;
 		const char *text;
 		int n;
-		
+
 		n = last->v.list.num + idx * last->delta.d_int;
 
 		n %= last->v.list.list->count;
@@ -519,12 +512,12 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 
 		if (*text == '*')
 			text++;
-		
-		cell_set_text (cell, text);
-			       
+
+		sheet_cell_set_value (cell, value_new_string(text), NULL);
+
 		return;
 	}
-		
+
 	case FILL_FORMULA:
 	{
 		ExprTree * func;
@@ -534,8 +527,8 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		/* FIXME : Find out how to handle this */
 		rinfo.target_sheet = rinfo.origin_sheet = 0;
 		rinfo.col_offset = rinfo.row_offset = 0;
-		rinfo.origin.start.col = rinfo.origin.end.col = cell->col->pos;
-		rinfo.origin.start.row = rinfo.origin.end.row = cell->row->pos;
+		rinfo.origin.start.col = rinfo.origin.end.col = cell->col_info->pos;
+		rinfo.origin.start.row = rinfo.origin.end.row = cell->row_info->pos;
 
 		/* FIXME : I presume this is needed to invalidate
 		 * relative references that will fall off the
@@ -543,8 +536,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		func = expr_relocate (fi->v.formula,
 				      eval_pos_cell (&pos, cell),
 				      &rinfo);
-		cell_set_formula_tree (cell,
-				       (func == NULL) ? fi->v.formula : func);
+		sheet_cell_set_expr (cell, (func == NULL) ? fi->v.formula : func);
 		return;
 	}
 	}
@@ -561,17 +553,17 @@ sheet_autofill_dir (Sheet *sheet,
 	int x = base_col;
 	int y = base_row;
 	int pos, sub_index, loops, group_count;
-	
+
 	/*
-	 * Create the fill items 
+	 * Create the fill items
 	 */
 	all_items = autofill_create_fill_items (
 		sheet, base_col, base_row,
 		region_count, col_inc, row_inc);
-	
+
 	x = base_col + region_count * col_inc;
 	y = base_row + region_count * row_inc;
-	
+
 	/* Do the autofill */
 	l = all_items;
 	m = NULL;
@@ -598,17 +590,15 @@ sheet_autofill_dir (Sheet *sheet,
 		cell = sheet_cell_get (sheet, x, y);
 
 		if (fi->type == FILL_EMPTY){
-			if (cell){
-				sheet_cell_remove (sheet, cell);
-				cell_destroy (cell);
-			}
+			if (cell)
+				sheet_cell_remove (sheet, cell, TRUE);
 		} else {
 			if (!cell)
 				cell = sheet_cell_new (sheet, x, y);
 
 			autofill_cell (cell, loops * group_count + sub_index, fi);
 		}
-		
+
 		x += col_inc;
 		y += row_inc;
 	}
@@ -633,7 +623,7 @@ sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_
 {
 	int range;
 	static int autofill_inited;
-	
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -641,7 +631,7 @@ sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_
 		autofill_init ();
 		autofill_inited = TRUE;
 	}
-	
+
 	if (end_col != base_col + w - 1){
 		for (range = 0; range < h; range++)
 			sheet_autofill_dir (sheet, base_col, base_row+range, w, base_col, end_col+1, 1, 0);
@@ -649,6 +639,6 @@ sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_
 		for (range = 0; range < w; range++)
 			sheet_autofill_dir (sheet, base_col+range, base_row, h, base_row, end_row+1, 0, 1);
 	}
-	
+
 	workbook_recalc (sheet->workbook);
 }

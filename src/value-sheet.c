@@ -8,7 +8,7 @@
 #include <locale.h>
 #include <gnome.h>
 #include "value.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "symbol.h"
 #include "eval.h"
 #include "expr.h"
@@ -344,12 +344,13 @@ char const *gnumeric_err_REF   = "#REF!";
 char const *gnumeric_err_NAME  = "#NAME?";
 char const *gnumeric_err_NUM   = "#NUM!";
 char const *gnumeric_err_NA    = "#N/A";
+char const *gnumeric_err_RECALC= "#RECALC!";
 
 static struct gnumeric_error_info
 {
 	char const *str;
 	int len;
-} gnumeric_error_data[7];
+} gnumeric_error_data[8];
 
 static char const *
 gnumeric_error_init (int const indx, char const * str)
@@ -408,4 +409,5 @@ constants_init (void)
 	gnumeric_err_NAME	= gnumeric_error_init (i++, _("#NAME?"));
 	gnumeric_err_NUM	= gnumeric_error_init (i++, _("#NUM!"));
 	gnumeric_err_NA		= gnumeric_error_init (i++, _("#N/A"));
+	gnumeric_err_RECALC	= gnumeric_error_init (i++, _("#RECALC!"));
 }

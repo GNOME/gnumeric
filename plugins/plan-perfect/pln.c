@@ -312,6 +312,7 @@ pln_parse_formula(const char* ch, int row, int col)
 	int row1, col1;
 	int i;
 
+	/* FIXME : Why no generate an expression directly ?? */
 	result1 = g_strdup("=");
 
 	flength = PLN_WORD(ch);
@@ -818,20 +819,18 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 		{
 		case 0:		/* Empty Cell */
 		case 6:		/* format only, no data in cell */
-			cell = sheet_cell_new(src->sheet, ccol, crow);
-			cell_set_value (cell, value_new_empty ());
 			break;
 
 		case 1:		/* Floating Point */
 			dvalue = pln_get_number(src->cur + 4);
-			cell = sheet_cell_new(src->sheet, ccol, crow);
-			cell_set_value (cell, value_new_float (dvalue));
+			cell = sheet_cell_fetch (src->sheet, ccol, crow);
+			cell_set_value (cell, value_new_float (dvalue), NULL);
 			break;
 
 		case 2:		/* Short Text */
 			svalue = g_strndup(src->cur + 5, PLN_BYTE(src->cur + 4));
-			cell = sheet_cell_new(src->sheet, ccol, crow);
-			cell_set_text_simple(cell, svalue);
+			cell = sheet_cell_fetch (src->sheet, ccol, crow);
+			cell_set_text (cell, svalue);
 			g_free(svalue);
 			break;
 
@@ -839,21 +838,21 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 			cextra = PLN_WORD(src->cur + 4);
 			svalue = g_strndup(src->cur + 22,
 				PLN_WORD(src->cur + 20));
-			cell = sheet_cell_new(src->sheet, ccol, crow);
-			cell_set_text_simple(cell, svalue);
+			cell = sheet_cell_fetch (src->sheet, ccol, crow);
+			cell_set_text (cell, svalue);
 			g_free(svalue);
 			break;
 
 		case 4:		/* Error Cell */
-			cell = sheet_cell_new(src->sheet, ccol, crow);
+			cell = sheet_cell_fetch (src->sheet, ccol, crow);
 			/* TODO : What to use as the eval position */
-			cell_set_value (cell, value_new_error (NULL, gnumeric_err_VALUE));
+			cell_set_value (cell, value_new_error (NULL, gnumeric_err_VALUE), NULL);
 			break;
 
 		case 5:		/* na Cell */
-			cell = sheet_cell_new(src->sheet, ccol, crow);
+			cell = sheet_cell_fetch (src->sheet, ccol, crow);
 			/* TODO : What to use as the eval position */
-			cell_set_value (cell, value_new_error (NULL, gnumeric_err_NA));
+			cell_set_value (cell, value_new_error (NULL, gnumeric_err_NA), NULL);
 			break;
 		}
 
@@ -861,7 +860,7 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 		{
 			svalue = pln_parse_formula(src->cur + 20 + cextra,
 				crow, ccol);
-			cell_set_formula(cell, svalue);
+			cell_set_text (cell, svalue);
 			g_free(svalue);
 		}
 

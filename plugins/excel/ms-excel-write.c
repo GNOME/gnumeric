@@ -37,7 +37,7 @@
 #include "sheet-object.h"
 #include "style.h"
 #include "main.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "print-info.h"
 #include "command-context.h"
 #include "workbook.h"
@@ -1429,17 +1429,17 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (sheet != NULL);
 
-	col = cell->col->pos;
-	row = cell->row->pos;
+	col = cell->col_info->pos;
+	row = cell->row_info->pos;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 3) {
-		printf ("Pre cell %s\n", cell_name (col, row));
+		printf ("Pre cell %s\n", cell_coord_name (col, row));
 	}
 #endif
 	cell_mark_used (sheet, col, row);
-	if (cell->parsed_node)
-		ms_formula_build_pre_data (sheet, cell->parsed_node);
+	if (cell_has_expr (cell))
+		ms_formula_build_pre_data (sheet, cell->u.expression);
 
 	/* Save cell pointer */
 	c = excel_cell_get (sheet, col, row);
@@ -1460,7 +1460,7 @@ pre_blank (ExcelSheet *sheet, int col, int row)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 3) {
-		printf ("Pre blank %s\n", cell_name (col, row));
+		printf ("Pre blank %s\n", cell_coord_name (col, row));
 	}
 #endif
 	c->gnum_cell = NULL;
@@ -2331,11 +2331,11 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 	g_return_if_fail (bp);
 	g_return_if_fail (cell);
 	g_return_if_fail (sheet);
-	g_return_if_fail (cell->parsed_node);
+	g_return_if_fail (cell_has_expr (cell));
 	g_return_if_fail (cell->value);
 
-	col = cell->col->pos;
-	row = cell->row->pos;
+	col = cell->col_info->pos;
+	row = cell->row_info->pos;
 	v = cell->value;
 
 	/* See: S59D8F.HTM */
@@ -2380,7 +2380,7 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 	MS_OLE_SET_GUINT32 (data + 16, 0x0);
 	MS_OLE_SET_GUINT16 (data + 20, 0x0);
 	ms_biff_put_var_write (bp, data, 22);
-	len = ms_excel_write_formula (bp, sheet, cell->parsed_node,
+	len = ms_excel_write_formula (bp, sheet, cell->u.expression,
 				      col, row);
 	g_assert (len <= 0xffff);
 	ms_biff_put_var_seekto (bp, 20);
@@ -2420,16 +2420,16 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 	g_return_if_fail (sheet);
 
 	gnum_cell = cell->gnum_cell;
-	col = gnum_cell->col->pos;
-	row = gnum_cell->row->pos;
+	col = gnum_cell->col_info->pos;
+	row = gnum_cell->row_info->pos;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 2) {
 		ParsePosition tmp;
 		printf ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
-			cell_name (col, row),
-			(gnum_cell->parsed_node ?
-			 expr_decode_tree (gnum_cell->parsed_node,
+			cell_name (gnum_cell),
+			(cell_has_expr (gnum_cell) ?
+			 expr_decode_tree (gnum_cell->u.expression,
 					   parse_pos_init (&tmp,
 							   NULL,
 							   sheet->gnum_sheet,
@@ -2440,7 +2440,7 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 			cell->xf);
 	}
 #endif
-	if (gnum_cell->parsed_node)
+	if (cell_has_expr (gnum_cell))
 		write_formula (bp, sheet, gnum_cell, cell->xf);
 	else if (gnum_cell->value)
 		write_value (bp, gnum_cell->value, sheet->wb->ver,
@@ -2475,7 +2475,7 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row,
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_write_debug > 2) {
 			printf ("Writing blank at %s, xf = 0x%x\n",
-				cell_name (end_col, row), xf);
+				cell_coord_name (end_col, row), xf);
 		}
 #endif
 
@@ -2492,11 +2492,11 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row,
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_write_debug > 2) {
 			/* Strange looking code because the second
-			 * cell_name call overwrites the result of the
+			 * cell_coord_name call overwrites the result of the
 			 * first */
 			printf ("Writing multiple blanks %s",
-				cell_name (end_col + 1 - run, row));
-			printf (":%s\n", cell_name (end_col, row));
+				cell_coord_name (end_col + 1 - run, row));
+			printf (":%s\n", cell_coord_name (end_col, row));
 		}
 #endif
 		data = ms_biff_put_len_next (bp, BIFF_MULBLANK, len);
@@ -2509,7 +2509,7 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row,
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_write_debug > 3) {
 				printf (" xf(%s) = 0x%x",
-					cell_name (end_col + 1 - run, row),
+					cell_coord_name (end_col + 1 - run, row),
 					xf);
 			}
 #endif

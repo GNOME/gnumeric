@@ -28,7 +28,7 @@
 #include "sheet.h"
 #include "value.h"
 #include "file.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "command-context.h"
 
 #include "oleo.h"
@@ -64,7 +64,7 @@ oleo_insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
 				        OLEO_TO_GNUMERIC (row));
 
 	g_return_val_if_fail (cell != NULL, NULL);
-	cell_set_value (cell, val);
+	cell_set_value (cell, val, NULL);
 	return cell;
 }
 
@@ -192,7 +192,6 @@ oleo_read (CommandContext *context, Workbook *wb, const char *filename)
 		return -1;
 	}
 	
-	cell_deep_freeze_redraws ();
 	sheet = attach_sheet (wb, sheetidx++);
 
 	while (1) {

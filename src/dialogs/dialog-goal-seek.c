@@ -17,7 +17,7 @@
 #include "expr.h"
 #include "eval.h"
 #include "value.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "workbook.h"
 #include "utils-dialog.h"
 #include "goal-seek.h"
@@ -48,7 +48,7 @@ goal_seek_eval (float_t x, float_t *y, void *vevaldata)
 {
 	GoalEvalData *evaldata = vevaldata;
 
-	cell_set_value_simple (evaldata->xcell, value_new_float (x));
+	cell_set_value (evaldata->xcell, value_new_float (x), NULL);
 	cell_content_changed (evaldata->xcell);
 	workbook_recalc (evaldata->xcell->sheet->workbook);
 
@@ -181,7 +181,7 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 		(void) goal_seek_eval (oldx, &ydummy, &evaldata);
 	}
 
-	cell_queue_redraw (change_cell);
+	sheet_redraw_cell (change_cell);
 	return status;
 }
 
@@ -199,8 +199,7 @@ dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 
 	status_str =
 		g_strdup_printf (_("Goal seeking with cell %s found a solution"),
-				 cell_name (set_cell->col->pos,
-					    set_cell->row->pos));
+				 cell_name (set_cell));
 	target_str =
 		g_strdup_printf (_("Target value:   %12.2f"),
 				 (double)target_value);
@@ -268,8 +267,7 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	set_entry_str = cell_name (sheet->cursor.edit_pos.col,
-				   sheet->cursor.edit_pos.row);
+	set_entry_str = cell_pos_name (&sheet->cursor.edit_pos);
 
 	if (!dialog) {
 		GtkWidget *set_label, *target_label, *change_label;
@@ -363,7 +361,7 @@ dialog_loop:
 		}
 
 		set_cell = sheet_cell_get (sheet, set_cell_col, set_cell_row);
-		if (set_cell == NULL || set_cell->parsed_node == NULL) {
+		if (set_cell == NULL || !cell_has_expr (set_cell)) {
 	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("The cell named in 'Set cell' must contain a formula"));
 			focus_on_entry (set_entry);
@@ -385,7 +383,7 @@ dialog_loop:
 		}
 
 		change_cell = sheet_cell_get (sheet, change_cell_col, change_cell_row);
-		if (change_cell && change_cell->parsed_node) {
+		if (change_cell != NULL && cell_has_expr (change_cell)) {
 	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("The cell named in 'By changing cell' "
 					   "must not contain a formula"));
@@ -395,7 +393,8 @@ dialog_loop:
 
 		if (change_cell == NULL) {
 		        change_cell = sheet_cell_new (sheet, change_cell_col, change_cell_row);
-			cell_set_text (change_cell, "");
+			/* FIXME : Why do we need to assign a value ?? */
+			sheet_cell_set_value (change_cell, value_new_empty(), NULL);
 		}
 
 		text = gtk_entry_get_text (GTK_ENTRY (xmin_entry));
@@ -426,7 +425,7 @@ dialog_loop:
 			if (dialog_found_solution (set_cell, change_cell, target_value)) {
 			        /* Goal seek cancelled */
 				if (old_value) {
-					cell_set_value (change_cell, old_value);
+					sheet_cell_set_value (change_cell, old_value, NULL);
 					workbook_recalc (set_cell->sheet->workbook);
 				}
 				return;

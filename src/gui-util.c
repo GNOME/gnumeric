@@ -10,6 +10,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "parse-util.h"
 #include "command-context-gui.h"
 #include "style.h"
 #include "color.h"
@@ -471,12 +472,6 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 	gtk_widget_set_uposition (gtk_widget_get_toplevel (tip), x, y);
 }
 
-gboolean
-gnumeric_char_start_expr_p (char const c)
-{
-	return (c == '=') || (c == '@') || (c == '+');
-}
-
 /*
  * Returns TRUE if the GtkEntry supplied is editing an expression
  *    and the current position is at an expression boundary.
@@ -494,7 +489,7 @@ gnumeric_entry_at_subexpr_boundary_p (GtkWidget const * const w)
 
 	cursor_pos = GTK_EDITABLE (entry)->current_pos;
 
-	if (!gnumeric_char_start_expr_p (entry->text[0]) || cursor_pos <= 0)
+	if (NULL == gnumeric_char_start_expr_p (entry->text_mb) || cursor_pos <= 0)
 		return FALSE;
 
 	switch (entry->text [cursor_pos-1]){
@@ -507,3 +502,4 @@ gnumeric_entry_at_subexpr_boundary_p (GtkWidget const * const w)
 		return FALSE;
 	};
 }
+

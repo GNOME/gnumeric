@@ -3,11 +3,6 @@
  *
  * Author:
  *  Michael Meeks <mmeeks@gnu.org>
- *
- */
-
-/*
- * This module make look small, but its going to become pretty clever.
  */
 
 #include <config.h>
@@ -15,7 +10,7 @@
 #include <gnome.h>
 #include <string.h>
 #include "gnumeric.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "gnumeric-util.h"
 #include "eval.h"
 #include "number-match.h"
@@ -471,6 +466,8 @@ sheet_style_optimize (Sheet *sheet, Range range)
  *  This routine applies a set of style elements in 'style' to
  * a range in a sheet. This function needs some clever optimization
  * the current code is grossly simplistic.
+ *
+ * NOTE : DOES NOT REDRAW.
  **/
 void
 sheet_style_attach (Sheet  *sheet, Range range,
@@ -509,8 +506,6 @@ sheet_style_attach (Sheet  *sheet, Range range,
 		printf ("\n");
 	}
 	sheet_style_cache_flush (sd, TRUE);
-
-	sheet_redraw_range (sheet, &range);
 }
 
 static inline MStyle *
@@ -674,18 +669,34 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
  * @style: the style
  *
  *   This routine attaches @style to the range, it swallows
- * the style reference.
- *
+ * the style reference.  Respans and redraws as necessary.
  */
 void
 sheet_range_apply_style (Sheet       *sheet,
 			 const Range *range,
 			 MStyle      *style)
 {
+	gboolean const size_change =
+	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_UNDERLINE) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE));
+	gboolean const format_change =
+	    mstyle_is_element_set (style, MSTYLE_FORMAT)
+
+	SpanCalcFlags spanflags =
+	format_change ? SPANCALC_RENDER|SPANCALC_RESIZE
+		      : font_change ? SPANCALC_RESIZE
+		                    : SPANCALC_SIMPLE;
+
 	sheet_style_attach   (sheet, *range, style);
 	sheet_style_optimize (sheet, *range);
-	sheet_cells_update   (sheet, *range,
-			      mstyle_is_element_set (style, MSTYLE_FORMAT));
+	sheet_range_calc_spans (sheet, *range, spanflags);
+
+	if (format_change || font_change)
+		rows_height_update (me->sheet, l->data);
+
 	sheet_redraw_range (sheet, range);
 }
 
@@ -762,52 +773,6 @@ sheet_styles_dump (Sheet *sheet)
 		i++;
 	}
 	printf ("There were %d styles\n", i);
-}
-
-static Value *
-re_dimension_cells_cb (Sheet *sheet, int col, int row, Cell *cell,
-		       gpointer re_render)
-{
-	if (GPOINTER_TO_INT (re_render))
-		cell_render_value (cell);
-
-	cell_calc_dimensions (cell, TRUE);
-
-	return NULL;
-}
-
-
-/**
- * sheet_cells_update:
- * @sheet: The sheet,
- * @r:     the region to update.
- * @render_text: whether to re-render the text in cells
- * 
- * This is used to re-calculate cell dimensions and re-render
- * a cell's text. eg. if a format has changed we need to re-render
- * the cached version of the rendered text in the cell.
- **/
-void
-sheet_cells_update (Sheet *sheet, Range r,
-		    gboolean render_text)
-{
-	sheet->modified = TRUE;
-
-	/* Redraw the original region in case the span changes */
-	sheet_redraw_cell_region (sheet,
-				  r.start.col, r.start.row,
-				  r.end.col, r.end.row);
-
-	sheet_cell_foreach_range (sheet, TRUE,
-				  r.start.col, r.start.row,
-				  r.end.col, r.end.row,
-				  re_dimension_cells_cb,
-				  GINT_TO_POINTER (render_text));
-
-	/* Redraw the new region in case the span changes */
-	sheet_redraw_cell_region (sheet,
-				  r.start.col, r.start.row,
-				  r.end.col, r.end.row);
 }
 
 Range

@@ -9,10 +9,11 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "ranges.h"
 #include "eval.h"
 #include "value.h"
+#include "rendered-value.h"
 #include "main.h"
 #include "workbook.h"
 
@@ -158,9 +159,9 @@ invalidate_refs (DependencyRange *deprange, Sheet *invalid_sheet)
 		ExprTree *newtree;
 
 		g_return_if_fail (cell != NULL);
-		g_return_if_fail (cell->parsed_node);
+		g_return_if_fail (cell_has_expr (cell));
 
-		newtree = expr_relocate (cell->parsed_node,
+		newtree = expr_relocate (cell->u.expression,
 					 eval_pos_cell (&pos, cell),
 					 &info);
 
@@ -170,7 +171,7 @@ invalidate_refs (DependencyRange *deprange, Sheet *invalid_sheet)
 		 */
 		g_return_if_fail (newtree != NULL);
 
-		cell_set_formula_tree (cell, newtree);
+		sheet_cell_set_expr (cell, newtree);
 
 		cell_list = g_list_remove (cell_list, cell);
 	}
@@ -180,7 +181,7 @@ void
 dependency_data_destroy (Sheet *sheet)
 {
 	DependencyData *deps;
-	
+
 	g_return_if_fail (sheet != NULL);
 
 	deps = sheet->deps;
@@ -229,9 +230,9 @@ dependency_data_destroy (Sheet *sheet)
 /**
  * cell_eval_content:
  * @cell: the cell to evaluate.
- * 
+ *
  * This function evaluates the contents of the cell.
- * 
+ *
  **/
 void
 cell_eval_content (Cell *cell)
@@ -239,33 +240,29 @@ cell_eval_content (Cell *cell)
 	Value           *v;
 	EvalPosition	 pos;
 
-	if (NULL == cell->parsed_node)
+	if (!cell_has_expr (cell))
 		return;
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
 		ParsePosition pp;
-		
+
 		char *exprtxt = expr_decode_tree
-			(cell->parsed_node, parse_pos_cell (&pp, cell));
-		printf ("Evaluating %s: %s ->\n",
-			cell_name (cell->col->pos, cell->row->pos),
-			exprtxt);
+			(cell->u.expression, parse_pos_cell (&pp, cell));
+		printf ("Evaluating %s: %s ->\n", cell_name (cell), exprtxt);
 		g_free (exprtxt);
 	}
 #endif
 
 	v = eval_expr (eval_pos_cell (&pos, cell),
-		       cell->parsed_node, EVAL_STRICT);
+		       cell->u.expression, EVAL_STRICT);
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
 		char *valtxt = v
 			? value_get_as_string (v)
 			: g_strdup ("NULL");
-		printf ("Evaluating %s: -> %s\n",
-			cell_name (cell->col->pos, cell->row->pos),
-			valtxt);
+		printf ("Evaluating %s: -> %s\n", cell_name (cell), valtxt);
 		g_free (valtxt);
 	}
 #endif
@@ -275,14 +272,9 @@ cell_eval_content (Cell *cell)
 
 	if (cell->value)
 		value_release (cell->value);
-	cell->value = v;
-	cell_render_value (cell);
-
-	cell_calc_dimensions (cell, TRUE);
-
-	sheet_redraw_cell_region (cell->sheet,
-				  cell->col->pos, cell->row->pos,
-				  cell->col->pos, cell->row->pos);
+	cell_assign_value (cell, v, NULL);
+	rendered_value_calc_size (cell);
+	sheet_redraw_cell (cell);
 }
 
 void
@@ -295,16 +287,16 @@ cell_eval (Cell *cell)
 
 	cell->generation = cell->sheet->workbook->generation;
 
-	if (cell->parsed_node) {
+	if (cell_has_expr (cell)) {
 		GList *deps, *l;
-		
+
 		cell_eval_content (cell);
 
 		deps = cell_get_dependencies (cell);
 
 		for (l = deps; l; l = l->next) {
 			Cell *one_cell = l->data;
-			
+
 			if (one_cell->generation != cell->sheet->workbook->generation)
 				cell_queue_recalc (one_cell);
 		}
@@ -349,8 +341,7 @@ drop_cell_range_dep (DependencyData *deps, Cell *cell,
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 0) {
 		Range const * const r = &(range->range);
-		printf ("Dropping range deps of %s ",
-			cell_name (cell->col->pos, cell->row->pos));
+		printf ("Dropping range deps of %s ", cell_name (cell));
 		printf ("on range %s%d:",
 			col_name (r->start.col),
 			r->start.row + 1);
@@ -385,8 +376,8 @@ dependency_range_ctor (DependencyRange * const range, Cell const * const cell,
 {
 	CellPos pos;
 
-	pos.col = cell->col->pos;
-	pos.row = cell->row->pos;
+	pos.col = cell->col_info->pos;
+	pos.row = cell->row_info->pos;
 
 	/* Convert to absolute cordinates */
 	cell_get_abs_col_row (a, &pos, &range->range.start.col, &range->range.start.row);
@@ -408,9 +399,9 @@ handle_cell_single_dep (Cell *cell, const CellRef *a,
 
 	g_return_if_fail (deps != NULL);
 	g_return_if_fail (a->sheet == NULL || a->sheet == cell->sheet);
-	
-	pos.col = cell->col->pos;
-	pos.row = cell->row->pos;
+
+	pos.col = cell->col_info->pos;
+	pos.row = cell->row_info->pos;
 	/* Convert to absolute cordinates */
 	cell_get_abs_col_row (a, &pos, &lookup.pos.col, &lookup.pos.row);
 
@@ -452,7 +443,7 @@ handle_cell_single_dep (Cell *cell, const CellRef *a,
  * We add the dependency of Cell a in the ranges
  * enclose by CellRef a and CellRef b
  *
- * We compute the location from cell->row->pos and cell->col->pos
+ * We compute the location from cell->row_info->pos and cell->col_info->pos
  */
 static void
 handle_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b,
@@ -472,7 +463,7 @@ handle_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b,
 
 	else {                   /* Large / inter-sheet range */
 		DependencyData *deps;
-		
+
 		dependency_range_ctor (&range, cell, a, b);
 		deps = eval_sheet (a->sheet, cell->sheet)->deps;
 		if (operation)
@@ -578,8 +569,8 @@ handle_tree_deps (Cell *cell, ExprTree *tree, DepOperation operation)
 
 			a.col_relative = a.row_relative = 0;
 			a.sheet = cell->sheet;
-			a.col   = cell->col->pos - tree->u.array.x;
-			a.row   = cell->row->pos - tree->u.array.y;
+			a.col   = cell->col_info->pos - tree->u.array.x;
+			a.row   = cell->row_info->pos - tree->u.array.y;
 
 			handle_cell_range_deps (cell, &a, &a, operation);
 		} else
@@ -605,8 +596,8 @@ cell_add_dependencies (Cell *cell)
 	g_return_if_fail (cell->sheet != NULL);
 	g_return_if_fail (cell->sheet->deps != NULL);
 
-	if (cell->parsed_node)
-		handle_tree_deps (cell, cell->parsed_node, ADD_DEPS);
+	if (cell_has_expr (cell))
+		handle_tree_deps (cell, cell->u.expression, ADD_DEPS);
 }
 
 /*
@@ -636,8 +627,8 @@ cell_drop_dependencies (Cell *cell)
 	g_return_if_fail (cell->sheet != NULL);
 	g_return_if_fail (cell->sheet->deps != NULL);
 
-	if (cell->parsed_node)
-		handle_tree_deps (cell, cell->parsed_node, REMOVE_DEPS);
+	if (cell_has_expr (cell))
+		handle_tree_deps (cell, cell->u.expression, REMOVE_DEPS);
 }
 
 typedef struct {
@@ -653,7 +644,7 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	Range *range = &(deprange->range);
 	get_cell_dep_closure_t *c = closure;
 	GList *l;
-	
+
 	/* No intersection is the common case */
 	if (!range_contains (range, c->col, c->row))
 		return;
@@ -668,8 +659,8 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 		printf ("Adding list: [\n");
 		for (l = deprange->cell_list; l; l = l->next) {
 			Cell *cell = l->data;
-			
-			printf (" %s(%d), ", cell_name (cell->col->pos, cell->row->pos),
+
+			printf (" %s(%d), ", cell_name (cell),
 				cell->generation);
 		}
 		printf ("]\n");
@@ -678,15 +669,15 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 }
 
 static GList *
-cell_get_range_dependencies (Cell *cell)
+cell_get_range_dependencies (Cell const * const cell)
 {
 	get_cell_dep_closure_t closure;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->sheet->deps != NULL, NULL);
 
-	closure.col   = cell->col->pos;
-	closure.row   = cell->row->pos;
+	closure.col   = cell->col_info->pos;
+	closure.row   = cell->row_info->pos;
 	closure.sheet = cell->sheet;
 	closure.list  = NULL;
 
@@ -714,13 +705,11 @@ get_single_dependencies (Sheet *sheet, int col, int row)
 		GList *l = single->cell_list;
 
 		printf ("Single dependencies on %s %d\n",
-			cell_name (col, row), g_list_length (l));
+			cell_coord_name (col, row), g_list_length (l));
 
 		while (l) {
 			Cell *dep_cell = l->data;
-			printf ("%s\n",
-				cell_name (dep_cell->col->pos,
-					   dep_cell->row->pos));
+			printf ("%s\n", cell_name (dep_cell));
 			l = g_list_next (l);
 		}
 	}
@@ -733,19 +722,19 @@ get_single_dependencies (Sheet *sheet, int col, int row)
 }
 
 GList *
-cell_get_dependencies (Cell *cell)
+cell_get_dependencies (Cell const * const cell)
 {
 	GList *deps;
 
 	deps = g_list_concat (cell_get_range_dependencies (cell),
 			      get_single_dependencies (cell->sheet,
-						       cell->col->pos,
-						       cell->row->pos));
+						       cell->col_info->pos,
+						       cell->row_info->pos));
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
 		printf ("There are %d dependencies for %s!%s\n",
 			g_list_length (deps), cell->sheet->name,
-			cell_name (cell->col->pos, cell->row->pos));
+			cell_name (cell));
 	}
 #endif
 
@@ -765,17 +754,16 @@ cell_queue_recalc (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 
-	if (cell->flags & CELL_QUEUED_FOR_RECALC)
+	if (cell->cell_flags & CELL_QUEUED_FOR_RECALC)
 		return;
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 2)
-		printf ("Queuing: %s\n", cell_name (cell->col->pos,
-						    cell->row->pos));
+		printf ("Queuing: %s\n", cell_name (cell));
 #endif
 	wb = cell->sheet->workbook;
 	wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
-	cell->flags |= CELL_QUEUED_FOR_RECALC;
+	cell->cell_flags |= CELL_QUEUED_FOR_RECALC;
 }
 
 /*
@@ -793,12 +781,12 @@ cell_unqueue_from_recalc (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 
-	if (!(cell->flags & CELL_QUEUED_FOR_RECALC))
+	if (!(cell->cell_flags & CELL_QUEUED_FOR_RECALC))
 		return;
 
 	wb = cell->sheet->workbook;
 	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
-	cell->flags &= ~CELL_QUEUED_FOR_RECALC;
+	cell->cell_flags &= ~CELL_QUEUED_FOR_RECALC;
 }
 
 void
@@ -811,12 +799,12 @@ cell_queue_recalc_list (GList *list, gboolean freelist)
 		Cell *cell = list->data;
 		list = list->next;
 
-		if (cell->flags & CELL_QUEUED_FOR_RECALC)
+		if (cell->cell_flags & CELL_QUEUED_FOR_RECALC)
 			continue;
 
 #ifdef DEBUG_EVALUATION
 		if (dependency_debugging > 2)
-			printf ("Queuing: %s\n", cell_name (cell->col->pos, cell->row->pos));
+			printf ("Queuing: %s\n", cell_name (cell));
 #endif
 		/* Use the wb associated with the current cell in case we have
 		 * cross workbook depends
@@ -824,7 +812,7 @@ cell_queue_recalc_list (GList *list, gboolean freelist)
 		wb = cell->sheet->workbook;
 		wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
 
-		cell->flags |= CELL_QUEUED_FOR_RECALC;
+		cell->cell_flags |= CELL_QUEUED_FOR_RECALC;
 	}
 
 	if (freelist)
@@ -841,9 +829,9 @@ pick_next_cell_from_queue (Workbook *wb)
 
 	cell = wb->eval_queue->data;
 	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
-	if (!(cell->flags & CELL_QUEUED_FOR_RECALC))
+	if (!(cell->cell_flags & CELL_QUEUED_FOR_RECALC))
 		printf ("De-queued cell here\n");
-	cell->flags &= ~CELL_QUEUED_FOR_RECALC;
+	cell->cell_flags &= ~CELL_QUEUED_FOR_RECALC;
 	return cell;
 }
 
@@ -905,7 +893,7 @@ dump_cell_list (GList *l)
 	for (; l; l = l->next) {
 		Cell *cell = l->data;
 		printf ("%s!%s, ", cell->sheet->name_unquoted,
-			cell_name (cell->col->pos, cell->row->pos));
+			cell_name (cell));
 	}
 	printf (")\n");
 }
@@ -931,7 +919,7 @@ dump_single_dep (gpointer key, gpointer value, gpointer closure)
 	DependencySingle *dep = key;
 
 	/* 2 calls to col_name.  It uses a static buffer */
-	printf ("\t%s -> ", cell_name (dep->pos.col, dep->pos.row));
+	printf ("\t%s -> ", cell_pos_name (&dep->pos));
 
 	dump_cell_list (dep->cell_list);
 }
@@ -974,7 +962,7 @@ sheet_dump_dependencies (const Sheet *sheet)
 		while (l) {
 			Cell *cell = l->data;
 			printf ("%s!%s\n", cell->sheet->name_unquoted,
-				cell_name (cell->col->pos, cell->row->pos));
+				cell_name (cell));
 			l = l->next;
 		}
 	}

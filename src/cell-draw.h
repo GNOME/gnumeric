@@ -5,7 +5,7 @@
 #include "gnumeric.h"
 #include "cellspan.h"
 
-void cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
+void cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 		GdkGC *gc, GdkDrawable *drawable, int x, int y);
 
 #endif /* GNUMERIC_CELL_DRAW_H */

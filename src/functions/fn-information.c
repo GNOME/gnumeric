@@ -8,7 +8,7 @@
  */
 #include <config.h>
 #include "gnumeric.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "func.h"
 #include "cell.h"
 #include "number-match.h"
@@ -148,7 +148,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 
 	if (!g_strcasecmp(info_type, "address")) {
 		/* Reference of the first cell in reference, as text. */
-		return value_new_string (cell_name (ref.col, ref.row));
+		return value_new_string (cell_coord_name (ref.col, ref.row));
 	} else if (!g_strcasecmp (info_type, "col")) {
 		return value_new_int (ref.col + 1);
 	} else if (!g_strcasecmp (info_type, "color")) {
@@ -796,8 +796,8 @@ static Value *
 gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 {
 	const char *str;
-	double v;
 	char *format;
+	Value *v;
 
 	if (argv[0]->type == VALUE_BOOLEAN)
 		return value_new_int (value_get_as_int(argv[0]));
@@ -809,10 +809,9 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	str = argv[0]->v.str->str;
-	if (format_match (str, &v, &format))
-		return value_new_float (v);
-	else
-		return value_new_float (0);
+	if (NULL != (v = format_match (str, &format)))
+		return v;
+	return value_new_float (0);
 }
 
 /***************************************************************************/

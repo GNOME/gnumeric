@@ -12,7 +12,7 @@
 #include "gnumeric.h"
 #include "workbook.h"
 #include "gnumeric-sheet.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "gnumeric-util.h"
 #include "eval.h"
 #include "number-match.h"
@@ -26,8 +26,10 @@
 #include "command-context.h"
 #include "commands.h"
 #include "cellspan.h"
+#include "cell-comment.h"
 #include "sheet-private.h"
 #include "expr-name.h"
+#include "rendered-value.h"
 
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
@@ -45,6 +47,8 @@
 	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
 
 static void sheet_update_zoom_controls (Sheet *sheet);
+static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
+				      int const start_col, int const end_col);
 
 void
 sheet_adjust_preferences (Sheet const *sheet)
@@ -174,6 +178,7 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->priv->edit_pos_changed = TRUE;
 	sheet->priv->selection_content_changed = TRUE;
 	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
 	sheet->priv->reposition_row_comment = 0;
 	sheet->priv->reposition_col_comment = 0;
 
@@ -299,12 +304,114 @@ colrow_compute_pts_from_pixels (Sheet *sheet, ColRowInfo *info, gboolean const h
 	info->size_pts = info->size_pixels / scale;
 }
 
+/****************************************************************************/
+
 static void
-cb_cell_recalc_dimension (gpointer key, gpointer value, gpointer data)
+cb_recalc_span0 (gpointer key, gpointer value, gpointer flags)
 {
-	Cell *cell = (Cell *) value;
-	cell_calc_dimensions (cell, FALSE);
+	sheet_cell_calc_span (value, GPOINTER_TO_INT (flags));
 }
+
+void
+sheet_calc_spans (Sheet const *sheet, SpanCalcFlags const flags)
+{
+	g_hash_table_foreach (sheet->cell_hash, cb_recalc_span0, GINT_TO_POINTER (flags));
+}
+
+static Value *
+cb_recalc_span1 (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
+{
+	sheet_cell_calc_span (cell, GPOINTER_TO_INT (flags));
+	return NULL;
+}
+
+/**
+ * sheet_range_calc_spans:
+ * @sheet: The sheet,
+ * @r:     the region to update.
+ * @render_text: whether to re-render the text in cells
+ * 
+ * This is used to re-calculate cell dimensions and re-render
+ * a cell's text. eg. if a format has changed we need to re-render
+ * the cached version of the rendered text in the cell.
+ **/
+void
+sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags const flags)
+{
+	sheet->modified = TRUE;
+
+	/* Redraw the original region in case the span changes */
+	sheet_redraw_cell_region (sheet,
+				  r.start.col, r.start.row,
+				  r.end.col, r.end.row);
+
+	sheet_cell_foreach_range (sheet, TRUE,
+				  r.start.col, r.start.row,
+				  r.end.col, r.end.row,
+				  cb_recalc_span1,
+				  GINT_TO_POINTER (flags));
+
+	/* Redraw the new region in case the span changes */
+	sheet_redraw_cell_region (sheet,
+				  r.start.col, r.start.row,
+				  r.end.col, r.end.row);
+}
+
+void
+sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags)
+{
+	CellSpanInfo const * span;
+	int left, right;
+	int other_left, other_right;
+
+	g_return_if_fail (cell != NULL);
+
+	if ((flags & SPANCALC_RENDER))
+		cell_render_value ((Cell *)cell);
+	if ((flags & SPANCALC_RESIZE))
+		rendered_value_calc_size (cell);
+
+	/* Calculate the span of the cell */
+	cell_calc_span (cell, &left, &right);
+
+	/* Is there an existing span ? */
+	span = row_span_get (cell->row_info, cell->col_info->pos);
+	if (span != NULL) {
+		Cell const *other = span->cell;
+
+		if (cell == other) {
+			/* The existing span belonged to this cell */
+			if (left != span->left || right != span->right) {
+				cell_unregister_span (cell);
+				cell_register_span (cell, left, right);
+			}
+			sheet_redraw_partial_row (cell->sheet, cell->row_info->pos,
+						  left, right);
+			return;
+		}
+
+		/* A different cell used to span into this cell, respan that */
+		cell_calc_span (other, &other_left, &other_right);
+		cell_unregister_span (other);
+		if (other_left != other_right)
+			cell_register_span (other, other_left, other_right);
+	}
+
+	if (left != right)
+		cell_register_span (cell, left, right);
+
+	if (span != NULL) {
+		if (left < other_left)
+			left = other_left;
+		if (right > other_right)
+			right = other_right;
+	}
+
+	sheet_redraw_partial_row (cell->sheet, cell->row_info->pos,
+				  left, right);
+}
+
+/****************************************************************************/
 
 void
 sheet_set_zoom_factor (Sheet *sheet, double const f)
@@ -346,8 +453,7 @@ sheet_set_zoom_factor (Sheet *sheet, double const f)
 	 * The font size does not scale linearly with the zoom factor
 	 * we will need to recalculate the pixel sizes of all cells.
 	 */
-	g_hash_table_foreach (sheet->cell_hash,
-			      cb_cell_recalc_dimension, NULL);
+	sheet_calc_spans (sheet, SPANCALC_SIMPLE);
 
 	sheet_update_zoom_controls (sheet);
 }
@@ -474,8 +580,8 @@ sheet_reposition_comments (Sheet const * const sheet,
 	for (l = sheet->comment_list; l; l = l->next){
 		Cell *cell = l->data;
 
-		if (cell->col->pos >= start_col ||
-		    cell->row->pos >= start_row)
+		if (cell->col_info->pos >= start_col ||
+		    cell->row_info->pos >= start_row)
 			cell_comment_reposition (cell);
 	}
 }
@@ -560,6 +666,11 @@ sheet_update (Sheet const *sheet)
 
 	p = sheet->priv;
 
+	if (p->recompute_spans) {
+		p->recompute_spans = FALSE;
+		sheet_calc_spans (sheet, SPANCALC_RESIZE);
+	}
+
 	if (p->reposition_row_comment < SHEET_MAX_ROWS ||
 	    p->reposition_col_comment < SHEET_MAX_COLS) {
 		sheet_reposition_comments (sheet,
@@ -589,6 +700,8 @@ sheet_update (Sheet const *sheet)
 		sheet->priv->edit_pos_changed = FALSE;
 		sheet_load_cell_val (sheet);
 		sheet_update_controls (sheet);
+		workbook_set_region_status (sheet->workbook,
+					    cell_pos_name (&sheet->cursor.edit_pos));
 	}
 
 	if (sheet->priv->selection_content_changed) {
@@ -673,23 +786,23 @@ sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 {
 	Cell *cell = (Cell *) value;
 	
-	if (cell && !cell_is_blank (cell)) {
+	if (!cell_is_blank (cell)) {
 		Range *range = (Range *)data;
 		CellSpanInfo const *span = NULL;
 		int tmp;
 
-		if (cell->row->pos < range->start.row)
-			range->start.row = cell->row->pos;
+		if (cell->row_info->pos < range->start.row)
+			range->start.row = cell->row_info->pos;
 
-		if (cell->row->pos > range->end.row)
-			range->end.row = cell->row->pos;
+		if (cell->row_info->pos > range->end.row)
+			range->end.row = cell->row_info->pos;
 
-		span = row_span_get (cell->row, cell->row->pos);
-		tmp = (span != NULL) ? span->left : cell->col->pos;
+		span = row_span_get (cell->row_info, cell->row_info->pos);
+		tmp = (span != NULL) ? span->left : cell->col_info->pos;
 		if (tmp < range->start.col)
 			range->start.col = tmp;
 
-		tmp = (span != NULL) ? span->right : cell->col->pos;
+		tmp = (span != NULL) ? span->right : cell->col_info->pos;
 		if (tmp > range->end.col)
 			range->end.col = tmp;
 	}
@@ -757,7 +870,7 @@ static Value *
 cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
 		   int *max)
 {
-	int const width = cell->width_pixel;
+	int const width = cell_rendered_width (cell);
 	if (width > *max)
 		*max = width;
 	return NULL;
@@ -814,7 +927,7 @@ static Value *
 cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
 		   int *max)
 {
-	int const height = cell->height_pixel;
+	int const height = cell_rendered_height (cell);
 	if (height > *max)
 		*max = height;
 	return NULL;
@@ -865,17 +978,31 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 	return max;
 }
 
-typedef struct {
-	int col;
-	GList * cells;
-} closure_cells_in_col;
-
 static gboolean
-cb_collect_cells_in_col (Sheet *sheet, ColRowInfo *ri, closure_cells_in_col *dat)
+cb_recalc_spans_in_col (Sheet *sheet, ColRowInfo *ri, gpointer user)
 {
-	Cell * cell = row_cell_get_displayed_at (ri, dat->col);
-	if (cell)
-		dat->cells = g_list_prepend (dat->cells, cell);
+	int const col = GPOINTER_TO_INT(user);
+	int left, right;
+	CellSpanInfo const * span = row_span_get (ri, col);
+
+	if (span) {
+		/* If there is an existing span see if it changed */
+		Cell const * const cell = span->cell;
+		cell_calc_span (cell, &left, &right);
+		if (left != span->left || right != span->right) {
+			cell_unregister_span (cell);
+			cell_register_span (cell, left, right);
+		}
+	} else {
+		/* If there is a cell see if it started to span */
+		Cell const * const cell = sheet_cell_get (sheet, col, ri->pos);
+		if (cell) {
+			cell_calc_span (cell, &left, &right);
+			if (left != right)
+				cell_register_span (cell, left, right);
+		}
+	}
+
 	return FALSE;
 }
 
@@ -890,32 +1017,10 @@ cb_collect_cells_in_col (Sheet *sheet, ColRowInfo *ri, closure_cells_in_col *dat
 void
 sheet_recompute_spans_for_col (Sheet *sheet, int col)
 {
-	GList *l;
-	closure_cells_in_col dat;
-	dat.col = col;
-	dat.cells = NULL;
-
 	sheet_foreach_colrow (sheet, &sheet->rows,
 			      0, SHEET_MAX_ROWS-1,
-			      (sheet_col_row_callback) &cb_collect_cells_in_col,
-			      &dat);
-
-	/* No spans, just return */
-	if (!dat.cells)
-		return;
-
-	/* Unregister those cells that touched this column */
-	for (l = dat.cells; l; l = l->next){
-		Cell * cell = l->data;
-		int left, right;
-
-		cell_unregister_span (cell);
-		cell_calculate_span (cell, &left, &right);
-		if (left != right)
-			cell_register_span (cell, left, right);
-	}
-
-	g_list_free (dat.cells);
+			      (sheet_col_row_callback) &cb_recalc_spans_in_col,
+			      GINT_TO_POINTER(col));
 }
 
 void
@@ -931,10 +1036,10 @@ sheet_update_auto_expr (Sheet const *sheet)
 	v = NULL;
 
 	if (wb->auto_expr) {
-		EvalPosition pos;
-		/* const_cast */
-		eval_pos_init (&pos, (Sheet *)sheet, 0, 0);
-		v = eval_expr (&pos, wb->auto_expr, EVAL_STRICT);
+		static CellPos const cp = {0,0};
+		EvalPosition ep;
+		v = eval_expr (eval_pos_init (&ep, (Sheet *)sheet, &cp),
+			       wb->auto_expr, EVAL_STRICT);
 		if (v) {
 			char *s;
 
@@ -947,84 +1052,109 @@ sheet_update_auto_expr (Sheet const *sheet)
 	}
 }
 
+/****************************************************************************/
+
 /*
  * Callback for sheet_cell_foreach_range to assign some text
  * to a range.
  */
-static Value *
-cb_set_cell_text (Sheet *sheet, int col, int row, Cell *cell,
-		  void *user_data)
-{
-	if (cell == NULL)
-		cell = sheet_cell_new (sheet, col, row);
-	cell_set_text (cell, user_data);
-	return NULL;
-}
-
 typedef struct {
-	char * format;
-	float_t val;
+	char const *format;
+	String     *entered_text;
+	Value      *val;
+	ExprTree   *expr;
 } closure_set_cell_value;
 
 static Value *
-cb_set_cell_value (Sheet *sheet, int col, int row, Cell *cell,
-		  void *user_data)
+cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
+		     closure_set_cell_value *info)
 {
-	MStyle                 *mstyle;
-	MStyle                 *old_mstyle;
-	closure_set_cell_value *info = user_data;
-
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
-
-	old_mstyle = sheet_style_compute (sheet, col, row);
-
-	/*
-	 * FIXME: what if they want it to be General ?
-	 */
-	if (!strcmp (mstyle_get_format (old_mstyle)->format,
-		     "General")) {
-		mstyle = mstyle_new ();
-		mstyle_set_format (mstyle, info->format);
-		sheet_style_attach_single (sheet, col, row, mstyle);
-	}
-
-	cell_set_value (cell, value_new_float (info->val));
+	if (info->expr != NULL)
+		cell_set_expr (cell, info->expr, info->format);
+	else
+		cell_set_text_and_value (cell, info->entered_text,
+					 value_duplicate (info->val),
+					 info->format);
 	return NULL;
 }
 
+/**
+ * sheet_range_set_text :
+ *
+ * Does NOT check for array division.
+ */
 void
-sheet_set_text (Sheet *sheet, char const *text, Range const * r)
+sheet_range_set_text  (EvalPosition const * const pos,
+		       Range const *r, char const *str)
 {
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
+	closure_set_cell_value	closure;
 
-	sheet_flag_status_update_range (sheet, r);
+	g_return_if_fail (pos != NULL);
+	g_return_if_fail (r != NULL);
+	g_return_if_fail (str != NULL);
 
-	/* If its not a formula see if there is a prefered format. */
-	if (!gnumeric_char_start_expr_p (*text) || text[1] == '\0' || text[0] == '\'') {
-		closure_set_cell_value	closure;
-		char *end;
+	closure.format =
+		parse_text_value_or_expr (pos, str, &closure.val, &closure.expr);
 
-		strtod (text, &end);
-		if (end != text && *end == 0) {
-			/*
-			 * It is a number -- remain in General format.  Note
-			 * that we would otherwise actually set a "0" format
-			 * for integers and that it would stick.
-			 */
-		} else if (format_match (text, &closure.val, &closure.format)) {
-			sheet_cell_foreach_range (sheet, FALSE,
-						  r->start.col, r->start.row,
-						  r->end.col, r->end.row,
-						  &cb_set_cell_value, &closure);
-			return;
-		}
-	}
-	sheet_cell_foreach_range (sheet, FALSE,
+	/* Remember the entered text for values */
+	closure.entered_text = (closure.val != NULL) ? string_get (str) : NULL;
+
+	/* Store the parsed result creating any cells necessary */
+	sheet_cell_foreach_range (pos->sheet, FALSE,
 				  r->start.col, r->start.row,
 				  r->end.col, r->end.row,
-				  &cb_set_cell_text, (void *)text);
+				  (sheet_cell_foreach_callback)&cb_set_cell_content,
+				  &closure);
+
+	if (closure.val) {
+		value_release (closure.val);
+		string_unref (closure.entered_text);
+	} else
+		expr_tree_unref (closure.expr);
+
+	sheet_flag_status_update_range (pos->sheet, r);
+}
+
+void
+sheet_cell_set_text (Cell *cell, char const *str)
+{
+	char const * format;
+	Value *val;
+	ExprTree *expr;
+	EvalPosition pos;
+
+	g_return_if_fail (str != NULL);
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (!cell_is_partial_array (cell));
+
+	format = parse_text_value_or_expr (eval_pos_cell (&pos, cell), str, &val, &expr);
+	if (expr != NULL) {
+		cell_set_expr (cell, expr, format);
+		expr_tree_unref (expr);
+	} else {
+		String *string = string_get (str);
+		cell_set_text_and_value (cell, string, val, format);
+		string_unref (string);
+		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
+		cell_content_changed (cell);
+	}
+}
+
+void
+sheet_cell_set_expr (Cell *cell, ExprTree *expr)
+{
+	/* No need to do anything until recalc */
+	cell_set_expr (cell, expr, NULL);
+}
+
+void
+sheet_cell_set_value (Cell *cell, Value *v, char const *optional_format)
+{
+	cell_set_value (cell, v, optional_format);
+	sheet_cell_calc_span (cell, SPANCALC_RESIZE);
+	cell_content_changed (cell);
 }
 
 /**
@@ -1041,6 +1171,7 @@ sheet_load_cell_val (Sheet const *sheet)
 	GtkEntry *entry;
 	Cell     *cell;
 	char     *text;
+	ArrayRef const * ar;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1051,17 +1182,34 @@ sheet_load_cell_val (Sheet const *sheet)
 			       sheet->cursor.edit_pos.row);
 
 	if (cell)
-		text = cell_get_text (cell);
+		text = cell_get_entered_text (cell);
 	else
 		text = g_strdup ("");
-
-	gtk_entry_set_text (entry, text);
 
 	/* This is intended for screen reading software etc. */
 	gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
 				 sheet, text,
 				 sheet->cursor.edit_pos.col,
 				 sheet->cursor.edit_pos.row);
+
+	gtk_entry_set_text (entry, text);
+
+	/* If this is part of an array we add '{' '}' and size information
+	 * to the display.  That is not actually part of the parsable
+	 * expression, but it is a useful extension to the simple '{' '}' that
+	 * MS excel(tm) uses.
+	 */
+	if (NULL != (ar = cell_is_array(cell))) {
+		/* No need to worry about locale for the comma
+		 * this syntax is not parsed
+		 */
+		char * tmp = g_strdup_printf ("}(%d,%d)[%d][%d]",
+					      ar->rows, ar->cols,
+					      ar->y, ar->x);
+		gtk_entry_prepend_text  (entry, "{");
+		gtk_entry_append_text (entry, tmp);
+		g_free (tmp);
+	}
 
 	g_free (text);
 }
@@ -1165,6 +1313,8 @@ sheet_row_selection_type (Sheet const *sheet, int row)
 	return ret;
 }
 
+/****************************************************************************/
+
 /*
  * This routine is used to queue the redraw regions for the
  * cell region specified.
@@ -1179,9 +1329,39 @@ sheet_redraw_cell_region (Sheet const *sheet,
 			  int end_col,   int end_row)
 {
 	GList *l;
+	int row, min_col = start_col, max_col = end_col;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
+
+	/*
+	 * Check the first and last columns for spans
+	 * and extend the region to include the maximum extent.
+	 */
+	for (row = start_row; row <= end_row; row++){
+		ColRowInfo const * const ri = sheet_row_get (sheet, row);
+
+		if (ri != NULL) {
+			CellSpanInfo const * span0 =
+			    row_span_get (ri, start_col);
+
+			if (span0 != NULL) {
+				min_col = MIN (span0->left, min_col);
+				max_col = MAX (span0->right, max_col);
+			}
+			if (start_col != end_col) {
+				CellSpanInfo const * span1 =
+					row_span_get (ri, end_col);
+
+				if (span1 != NULL) {
+					min_col = MIN (span1->left, min_col);
+					max_col = MAX (span1->right, max_col);
+				}
+			}
+		}
+	}
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
@@ -1204,6 +1384,38 @@ sheet_redraw_range (Sheet const *sheet, Range const *range)
 				  range->start.col, range->start.row,
 				  range->end.col, range->end.row);
 }
+
+static void
+sheet_redraw_partial_row (Sheet const *sheet, int const row,
+			  int const start_col, int const end_col)
+{
+	GList *l;
+	for (l = sheet->sheet_views; l; l = l->next)
+		sheet_view_redraw_cell_region (l->data,
+					       start_col, row, end_col, row);
+}
+
+void
+sheet_redraw_cell (Cell const *cell)
+{
+	CellSpanInfo const * span;
+	int start_col, end_col;
+
+	g_return_if_fail (cell != NULL);
+
+	start_col = end_col = cell->col_info->pos;
+	span = row_span_get (cell->row_info, start_col);
+
+	if (span) {
+		start_col = span->left;
+		end_col = span->right;
+	}
+
+	sheet_redraw_partial_row (cell->sheet, cell->row_info->pos,
+				  start_col, end_col);
+}
+
+/****************************************************************************/
 
 int
 sheet_row_check_bound (int row, int diff)
@@ -1356,32 +1568,25 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 	return new_row;
 }
 
-static ArrayRef *
-sheet_is_cell_array (Sheet *sheet, int const col, int const row)
+static ArrayRef const *
+sheet_is_cell_array (Sheet const *sheet, int const col, int const row)
 {
-	Cell * const cell = sheet_cell_get (sheet, col, row);
-
-	if (cell != NULL &&
-	    cell->parsed_node != NULL &&
-	    cell->parsed_node->oper == OPER_ARRAY)
-		return &cell->parsed_node->u.array;
-
-	return NULL;
+	return cell_is_array (sheet_cell_get (sheet, col, row));
 }
 
-/*
- * Check the outer edges of range to ensure that if an
- * array is within it then the entire array is within the range.
+/**
+ * sheet_range_splits_array : * Check the outer edges of range to ensure that
+ *         if an array is within it then the entire array is within the range.
  *
- * returns FALSE is an array would be divided.
+ * returns TRUE is an array would be split.
  */
 gboolean
-sheet_check_for_partial_array (Sheet *sheet,
-			       int const start_row, int const start_col,
-			       int end_row, int end_col)
+sheet_range_splits_array (Sheet const *sheet,
+			  int const start_col, int const start_row,
+			  int end_col, int end_row)
 {
-	ArrayRef *a;
-	gboolean valid = TRUE;
+	ArrayRef const *a;
+	gboolean nosplit = TRUE;
 	gboolean single;
 	int r, c;
 
@@ -1394,29 +1599,29 @@ sheet_check_for_partial_array (Sheet *sheet,
 	{
 		/* Check top & bottom */
 		single = (start_row == end_row);
-		for (c = start_col; c <= end_col && valid; ++c){
+		for (c = start_col; c <= end_col && nosplit; ++c){
 			if ((a = sheet_is_cell_array (sheet, c, start_row)) != NULL)
-				valid &= (a->y == 0);		/* Top */
+				nosplit &= (a->y == 0);		/* Top */
 			if (!single)
 				a = sheet_is_cell_array (sheet, c, end_row);
 			if (a != NULL)
-				valid &= (a->y == (a->rows-1));	/* Bottom */
+				nosplit &= (a->y == (a->rows-1));	/* Bottom */
 		}
 	}
 
 	if (start_col <= 0 && end_col >= SHEET_MAX_COLS-1)
-		return valid; /* No need to check */
+		return !nosplit; /* No need to check */
 
 	/* Check left & right */
 	single = (start_col == end_col);
-	for (r = start_row; r <= end_row && valid; ++r){
+	for (r = start_row; r <= end_row && nosplit; ++r){
 		if ((a = sheet_is_cell_array (sheet, start_col, r)) != NULL)
-			valid &= (a->x == 0);		/* Left */
+			nosplit &= (a->x == 0);		/* Left */
 		if ((a=sheet_is_cell_array (sheet, end_col, r)))
-			valid &= (a->x == (a->cols-1)); /* Right */
+			nosplit &= (a->x == (a->cols-1)); /* Right */
 	}
 
-	return valid;
+	return !nosplit;
 }
 
 /**
@@ -1510,7 +1715,7 @@ sheet_row_fetch (Sheet *sheet, int pos)
  *    to stop (by returning non-NULL).
  */
 Value *
-sheet_cell_foreach_range (Sheet *sheet, int only_existing,
+sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
 			  sheet_cell_foreach_callback callback,
@@ -1614,51 +1819,32 @@ static void
 sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 {
 	CellPos *cellpos;
-	Cell *cell_on_spot;
-	int left, right;
 
-	g_return_if_fail (cell->col != NULL);
-	g_return_if_fail (cell->col->pos < SHEET_MAX_COLS);
-	g_return_if_fail (cell->row != NULL);
-	g_return_if_fail (cell->row->pos < SHEET_MAX_ROWS);
-
-	/* See if another cell was displaying in our spot */
-	cell_on_spot = row_cell_get_displayed_at (cell->row, cell->col->pos);
-	if (cell_on_spot)
-		cell_unregister_span (cell_on_spot);
+	g_return_if_fail (cell->col_info != NULL);
+	g_return_if_fail (cell->col_info->pos < SHEET_MAX_COLS);
+	g_return_if_fail (cell->row_info != NULL);
+	g_return_if_fail (cell->row_info->pos < SHEET_MAX_ROWS);
 
 	cellpos = g_new (CellPos, 1);
-	cellpos->col = cell->col->pos;
-	cellpos->row = cell->row->pos;
+	cellpos->col = cell->col_info->pos;
+	cellpos->row = cell->row_info->pos;
 
 	g_hash_table_insert (sheet->cell_hash, cellpos, cell);
-
-	/*
-	 * Now register the sizes of our cells
-	 */
-	if (cell_on_spot){
-		cell_calculate_span (cell_on_spot, &left, &right);
-		if (left != right)
-			cell_register_span (cell_on_spot, left, right);
-	}
-	cell_calculate_span (cell, &left, &right);
-	if (left != right)
-		cell_register_span (cell, left, right);
 }
 
 void
-sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
+sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row)
 {
 	cell->sheet = sheet;
-	cell->col   = sheet_col_fetch (sheet, col);
-	cell->row   = sheet_row_fetch (sheet, row);
-
-	cell_realize (cell);
-	cell_calc_dimensions  (cell, TRUE);
+	cell->col_info   = sheet_col_fetch (sheet, col);
+	cell->row_info   = sheet_row_fetch (sheet, row);
 
 	sheet_cell_add_to_hash (sheet, cell);
-
 	cell_add_dependencies (cell);
+	cell_realize (cell);
+
+	if (!cell_needs_recalc(cell))
+		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 }
 
 Cell *
@@ -1671,7 +1857,11 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 
 	cell = g_new0 (Cell, 1);
 
-	sheet_cell_add (sheet, cell, col, row);
+	cell->sheet = sheet;
+	cell->col_info   = sheet_col_fetch (sheet, col);
+	cell->row_info   = sheet_row_fetch (sheet, row);
+
+	sheet_cell_add_to_hash (sheet, cell);
 	return cell;
 }
 
@@ -1681,8 +1871,8 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 	CellPos  cellpos;
 	gpointer original_key;
 
-	cellpos.col = cell->col->pos;
-	cellpos.row = cell->row->pos;
+	cellpos.col = cell->col_info->pos;
+	cellpos.row = cell->row_info->pos;
 
 	cell_unregister_span   (cell);
 	cell_drop_dependencies (cell);
@@ -1700,7 +1890,7 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 {
 	GList *deps;
 
-	if (cell->parsed_node)
+	if (cell_has_expr (cell))
 		sheet_cell_formula_unlink (cell);
 
 	deps = cell_get_dependencies (cell);
@@ -1712,22 +1902,20 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 }
 
 void
-sheet_cell_remove (Sheet *sheet, Cell *cell)
+sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Queue a redraw on the region used by the cell being removed */
-	sheet_redraw_cell_region (sheet,
-				  cell->col->pos, cell->row->pos,
-				  cell->col->pos, cell->row->pos);
+	if (redraw)
+		sheet_redraw_cell_region (sheet,
+					  cell->col_info->pos, cell->row_info->pos,
+					  cell->col_info->pos, cell->row_info->pos);
 
 	sheet_cell_remove_internal (sheet, cell);
-
-	sheet_redraw_cell_region (sheet,
-				  cell->col->pos, cell->row->pos,
-				  cell->col->pos, cell->row->pos);
+	cell_destroy (cell);
 }
 
 void
@@ -1762,16 +1950,14 @@ sheet_cell_formula_link (Cell *cell)
 	Sheet *sheet;
 
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->parsed_node != NULL);
+	g_return_if_fail (cell_has_expr (cell));
 
 	sheet = cell->sheet;
 
 #ifdef DEBUG_CELL_FORMULA_LIST
 	if (g_list_find (sheet->workbook->formula_cell_list, cell)) {
 		/* Anything that shows here is a bug.  */
-		g_warning ("Cell %s %p re-linked\n",
-			   cell_name (cell->col->pos, cell->row->pos),
-			   cell);
+		g_warning ("Cell %s %p re-linked\n", cell_name (cell), cell);
 		return;
 	}
 #endif
@@ -1787,7 +1973,7 @@ sheet_cell_formula_unlink (Cell *cell)
 	Sheet *sheet;
 
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->parsed_node != NULL);
+	g_return_if_fail (cell_has_expr (cell));
 
 	sheet = cell->sheet;
 	g_return_if_fail (sheet != NULL); /* Catch use of deleted cell */
@@ -1796,7 +1982,7 @@ sheet_cell_formula_unlink (Cell *cell)
 	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
 
 	/* Just an optimization to avoid an expensive list lookup */
-	if (cell->flags & CELL_QUEUED_FOR_RECALC)
+	if (cell->cell_flags & CELL_QUEUED_FOR_RECALC)
 		cell_unqueue_from_recalc (cell);
 }
 
@@ -1986,51 +2172,33 @@ sheet_destroy (Sheet *sheet)
 
 /*****************************************************************************/
 
-struct sheet_clear_region_callback_data
-{
-	Range	 r;
-	GList	*l;
-};
-
 /*
- * assemble_cell_list: A callback for sheet_cell_foreach_range
- * intented to assemble a list of cells in a region to be cleared.
- *
- * The closure parameter should be a pointer to a
- * sheet_clear_region_callback_data.
+ * cb_empty_cell: A callback for sheet_cell_foreach_range
+ *     removes/clear all of the cells in the specified region.
+ *     Does NOT queue a redraw.
  */
 static Value *
-assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
-			  void *user_data)
+cb_empty_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer flag)
 {
-	struct sheet_clear_region_callback_data * cb =
-	    (struct sheet_clear_region_callback_data *) user_data;
-
-	/* TODO TODO TODO : Where to deal with a user creating
-	 * several adjacent regions to clear ??
-	 */
-
-	/* Flag an attempt to delete a subset of an array */
-	if (cell->parsed_node && cell->parsed_node->oper == OPER_ARRAY){
-		ArrayRef * ref = &cell->parsed_node->u.array;
-		if ((col - ref->x) < cb->r.start.col)
-			return value_terminate ();
-		if ((row - ref->y) < cb->r.start.row)
-			return value_terminate ();
-		if ((col - ref->x + ref->cols -1) > cb->r.end.col)
-			return value_terminate ();
-		if ((row - ref->y + ref->rows -1) > cb->r.end.row)
-			return value_terminate ();
-	}
-
-	cb->l = g_list_prepend (cb->l, cell);
+	/* If there is a comment keep the cell */
+	if (cell_has_comment(cell) && GPOINTER_TO_INT(flag))
+		cell_set_value (cell, value_new_empty (), NULL);
+	else
+		sheet_cell_remove (sheet, cell, FALSE /* no redraw */);
 	return NULL;
 }
 
 static Value *
-cb_clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+cb_clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell,
+			void *user_data)
 {
 	cell_comment_destroy (cell);
+	/* If the value is empty remove the cell.  It was only here to
+	 * place hold for the cell
+	 */
+	if (!cell_has_expr(cell) && cell_is_blank (cell))
+		sheet_cell_remove (sheet, cell, FALSE /* no redraw */);
+
 	return NULL;
 }
 
@@ -2050,17 +2218,17 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 		    int const end_col, int const end_row,
 		    int const clear_flags)
 {
-	struct sheet_clear_region_callback_data cb;
+	Range r;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 
-	cb.r.start.col = start_col;
-	cb.r.start.row = start_row;
-	cb.r.end.col = end_col;
-	cb.r.end.row = end_row;
+	r.start.col = start_col;
+	r.start.row = start_row;
+	r.end.col = end_col;
+	r.end.row = end_row;
 
 	/* Queue a redraw for cells being modified */
 	if (clear_flags & (CLEAR_VALUES|CLEAR_FORMATS))
@@ -2070,7 +2238,7 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 
 	/* Clear the style in the region (new_default will ref the style for us). */
 	if (clear_flags & CLEAR_FORMATS)
-		sheet_style_attach (sheet, cb.r, mstyle_new_default ());
+		sheet_style_attach (sheet, r, mstyle_new_default ());
 
 	if (clear_flags & CLEAR_COMMENTS)
 		sheet_cell_foreach_range (sheet, TRUE,
@@ -2079,27 +2247,31 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 					  cb_clear_cell_comments, NULL);
 
 	if (clear_flags & CLEAR_VALUES) {
-		GList *l;
-		cb.l = NULL;
+		if (clear_flags & CLEAR_NOCHECKARRAY ||
+		    !sheet_range_splits_array (sheet,
+					       start_col, start_row,
+					       end_col,   end_row)) {
 
-		if (sheet_cell_foreach_range (sheet, TRUE,
-					      start_col, start_row, end_col, end_row,
-					      assemble_clear_cell_list, &cb) == NULL) {
-			cb.l = g_list_reverse (cb.l);
-			cell_freeze_redraws ();
+			/* Remove or empty the cells depending on
+			 * whether or not there are comments
+			 */
+			sheet_cell_foreach_range (sheet, TRUE,
+				start_col, start_row, end_col, end_row,
+				&cb_empty_cell,
+				GINT_TO_POINTER(!(clear_flags & CLEAR_COMMENTS)));
 
-			for (l = cb.l; l; l = l->next){
-				Cell *cell = l->data;
-
-				sheet_cell_remove (sheet, cell);
-				cell_destroy (cell);
-			}
-			cell_thaw_redraws ();
-		} else 
-		    gnumeric_error_splits_array (context);
-
-		g_list_free (cb.l);
+			/* FIXME : Add something to regen the spans
+			 * from adjacent cells that may now be able to
+			 * continue.
+			 */
+			sheet_flag_status_update_range (sheet, &r);
+		} else
+			gnumeric_error_splits_array (context);
 	}
+
+	/* Always redraw */
+	sheet_redraw_cell_region (sheet, start_col, start_row,
+				  end_col, end_row);
 }
 
 /*****************************************************************************/
@@ -2268,202 +2440,6 @@ sheet_name_quote (const char *name_unquoted)
 		return g_strdup (name_unquoted);
 }
 
-/* Can remove sheet since local references have NULL sheet */
-char *
-cellref_name (CellRef *cell_ref, ParsePosition const *pp)
-{
-	static char buffer [sizeof (long) * 4 + 4];
-	char *p = buffer;
-	int col, row;
-	Sheet *sheet = cell_ref->sheet;
-
-	if (cell_ref->col_relative)
-		col = pp->col + cell_ref->col;
-	else {
-		*p++ = '$';
-		col = cell_ref->col;
-	}
-
-	if (col <= 'Z'-'A'){
-		*p++ = col + 'A';
-	} else {
-		int a = col / ('Z'-'A'+1);
-		int b = col % ('Z'-'A'+1);
-
-		*p++ = a + 'A' - 1;
-		*p++ = b + 'A';
-	}
-	if (cell_ref->row_relative)
-		row = pp->row + cell_ref->row;
-	else {
-		*p++ = '$';
-		row = cell_ref->row;
-	}
-
-	sprintf (p, "%d", row+1);
-
-	/* If it is a non-local reference, add the path to the external sheet */
-	if (sheet != NULL) {
-		char *s;
-	        
-		s = g_strconcat (sheet->name_quoted, "!", buffer, NULL);
-
-		if (sheet->workbook != pp->wb) {
-			char * n = g_strconcat ("[", sheet->workbook->filename, "]", s, NULL);
-			g_free (s);
-			s = n;
-		}
-		return s;
-	} else
-		return g_strdup (buffer);
-}
-
-gboolean
-cellref_a1_get (CellRef *out, const char *in, int parse_col, int parse_row)
-{
-	int col = 0;
-	int row = 0;
-
-	g_return_val_if_fail (in != NULL, FALSE);
-	g_return_val_if_fail (out != NULL, FALSE);
-
-	/* Try to parse a column */
-	if (*in == '$'){
-		out->col_relative = FALSE;
-		in++;
-	} else
-		out->col_relative = TRUE;
-
-	if (!(toupper (*in) >= 'A' && toupper (*in) <= 'Z'))
-		return FALSE;
-
-	col = toupper (*in++) - 'A';
-	
-	if (toupper (*in) >= 'A' && toupper (*in) <= 'Z')
-		col = (col+1) * ('Z'-'A'+1) + toupper (*in++) - 'A';
-
-	/* Try to parse a row */
-	if (*in == '$'){
-		out->row_relative = FALSE;
-		in++;
-	} else
-		out->row_relative = TRUE;
-	
-	if (!(*in >= '1' && *in <= '9'))
-		return FALSE;
-
-	while (isdigit ((unsigned char)*in)){
-		row = row * 10 + *in - '0';
-		in++;
-	}
-	if (row > SHEET_MAX_ROWS)
-		return FALSE;
-	row--;
-
-	if (*in) /* We havn't hit the end yet */
-		return FALSE;
-
-	/* Setup the cell reference information */
-	if (out->row_relative)
-		out->row = row - parse_row;
-	else
-		out->row = row;
-
-	if (out->col_relative)
-		out->col = col - parse_col;
-	else
-		out->col = col;
-
-	out->sheet = NULL;
-
-	return TRUE;
-}
-
-static gboolean
-r1c1_get_item (int *num, unsigned char *rel, const char * *const in)
-{
-	gboolean neg = FALSE;
-
-	if (**in == '[') {
-		(*in)++;
-		*rel = TRUE;
-		if (!**in)
-			return FALSE;
-
-		if (**in == '+')
-			(*in)++;
-		else if (**in == '-') {
-			neg = TRUE;
-			(*in)++;
-		}
-	}
-	*num = 0;
-
-	while (**in && isdigit ((unsigned char)**in)) {
-		*num = *num * 10 + **in - '0';
-		(*in)++;
-	}
-
-	if (neg)
-		*num = -*num;
-
-	if (**in == ']')
-		(*in)++;
-
-	return TRUE;
-}
-
-gboolean
-cellref_r1c1_get (CellRef *out, const char *in, int parse_col, int parse_row)
-{
-	g_return_val_if_fail (in != NULL, FALSE);
-	g_return_val_if_fail (out != NULL, FALSE);
-
-	out->row_relative = FALSE;
-	out->col_relative = FALSE;
-	out->col = parse_col;
-	out->row = parse_row;
-	out->sheet = NULL;
-
-	if (!*in)
-		return FALSE;
-
-	while (*in) {
-		if (*in == 'R') {
-			in++;
-			if (!r1c1_get_item (&out->row, &out->row_relative, &in))
-				return FALSE;
-		} else if (*in == 'C') {
-			in++;
-			if (!r1c1_get_item (&out->col, &out->col_relative, &in))
-				return FALSE;
-		} else
-			return FALSE;
-	}
-
-	out->col--;
-	out->row--;
-	return TRUE;
-}
-
-/**
- * cellref_get:
- * @out: destination CellRef
- * @in: reference description text, no leading or trailing
- *      whitespace allowed.
- * 
- * Converts the char * representation of a Cell reference into
- * an internal representation.
- * 
- * Return value: TRUE if no format errors found.
- **/
-gboolean
-cellref_get (CellRef *out, const char *in, int parse_col, int parse_row)
-{
-	return (cellref_a1_get (out, in, parse_col, parse_row)) ||
-		cellref_r1c1_get (out, in, parse_col, parse_row);
-}
-
 
 void
 sheet_mark_clean (Sheet *sheet)
@@ -2603,9 +2579,9 @@ avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
 				 void *user_data)
 {
 	if (cell == NULL ||
-	    cell->parsed_node == NULL ||
-	    cell->parsed_node->oper != OPER_ARRAY ||
-	    cell->parsed_node->u.array.x <= 0)
+	    !cell_has_expr (cell) ||
+	    cell->u.expression->oper != OPER_ARRAY ||
+	    cell->u.expression->u.array.x <= 0)
 		return NULL;
 	return value_terminate ();
 }
@@ -2619,9 +2595,9 @@ avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
 			       void *user_data)
 {
 	if (cell == NULL ||
-	    cell->parsed_node == NULL ||
-	    cell->parsed_node->oper != OPER_ARRAY ||
-	    cell->parsed_node->u.array.y <= 0)
+	    !cell_has_expr (cell) ||
+	    cell->u.expression->oper != OPER_ARRAY ||
+	    cell->u.expression->u.array.y <= 0)
 		return NULL;
 	return value_terminate ();
 }
@@ -2776,8 +2752,8 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	g_return_val_if_fail (count != 0, TRUE);
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
-	if (!sheet_check_for_partial_array (sheet, 0, col, 
-					    SHEET_MAX_ROWS-1, col+count-1))
+	if (sheet_range_splits_array (sheet, col, 0,
+				      col+count-1, SHEET_MAX_ROWS-1))
 	{
 		gnumeric_error_splits_array (context);
 		return TRUE;
@@ -2921,8 +2897,8 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	g_return_val_if_fail (count != 0, TRUE);
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
-	if (!sheet_check_for_partial_array (sheet, row, 0, 
-					    row+count-1, SHEET_MAX_COLS-1))
+	if (sheet_range_splits_array (sheet, 0, row,
+				      SHEET_MAX_COLS-1, row+count-1))
 	{
 		gnumeric_error_splits_array (context);
 		return TRUE;
@@ -3030,9 +3006,9 @@ sheet_move_range (CommandContext *context,
 		cell = cells->data;
 
 		/* check for out of bounds and delete if necessary */
-		if ((cell->col->pos + rinfo->col_offset) >= SHEET_MAX_COLS ||
-		    (cell->row->pos + rinfo->row_offset) >= SHEET_MAX_ROWS) {
-			if (cell->parsed_node)
+		if ((cell->col_info->pos + rinfo->col_offset) >= SHEET_MAX_COLS ||
+		    (cell->row_info->pos + rinfo->row_offset) >= SHEET_MAX_ROWS) {
+			if (cell_has_expr (cell))
 				sheet_cell_formula_unlink (cell);
 			cell_unrealize (cell);
 			cell_destroy (cell);
@@ -3040,15 +3016,15 @@ sheet_move_range (CommandContext *context,
 		}
 
 		/* Inter sheet movement requires the moving the formula too */
-		inter_sheet_formula  = (cell->sheet != rinfo->target_sheet
-					&& cell->parsed_node);
+		inter_sheet_formula  = (cell->sheet != rinfo->target_sheet &&
+					cell_has_expr (cell));
 		if (inter_sheet_formula)
 			sheet_cell_formula_unlink (cell);
 
 		/* Update the location */
-		sheet_cell_add (rinfo->target_sheet, cell,
-				cell->col->pos + rinfo->col_offset,
-				cell->row->pos + rinfo->row_offset);
+		sheet_cell_insert (rinfo->target_sheet, cell,
+				   cell->col_info->pos + rinfo->col_offset,
+				   cell->row_info->pos + rinfo->row_offset);
 
 		if (inter_sheet_formula)
 			sheet_cell_formula_link (cell);

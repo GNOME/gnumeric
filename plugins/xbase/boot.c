@@ -164,7 +164,7 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 	field = 0;
 	while (field < file->fields) {
 		cell = sheet_cell_fetch (sheet, field, 0);
-		cell_set_text_simple (cell, file->format[field++]->name);
+		cell_set_text (cell, file->format[field++]->name);
 		/* FIXME: apply StyleFont gnumeric-default_bold_font */
 	}
 
@@ -173,9 +173,8 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 		field = 0;
 		while (field < file->fields) {
 			cell = sheet_cell_fetch (sheet, field, row);
-			cell_set_value_simple (cell, val =
-					       xbase_field_as_value
-					       (rec, ++field));
+			val = xbase_field_as_value (rec, ++field);
+			cell_set_value (cell, val, NULL);
 		}
 		row++;
 	} while (record_seek (rec, SEEK_CUR, 1));

@@ -432,8 +432,8 @@ void
 sheet_vectors_cell_changed (Cell *cell)
 {
 	GSList *l;
-	const int col = cell->col->pos;
-	const int row = cell->col->pos;
+	const int col = cell->col_info->pos;
+	const int row = cell->col_info->pos;
 	int i;
 	
 	for (l = cell->sheet->priv->sheet_vectors; l; l = l->next){

@@ -25,6 +25,7 @@
 #include <ctype.h>
 
 #include "stf-parse.h"
+#include "clipboard.h"
 
 /* Some nice warning messages */
 #define WARN_TOO_MANY_ROWS "Too many rows in data to parse : %d"
@@ -1402,7 +1403,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, const char *data, Sheet *sheet
 					sublist->data = tmp;
 				}
 
-				cell_set_text_simple (newcell, sublist->data);
+				cell_set_text (newcell, sublist->data);
 
 				g_free (sublist->data);
 			}

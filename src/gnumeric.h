@@ -11,6 +11,7 @@ typedef struct _Sheet		Sheet;
 typedef struct _Cell		Cell;
 
 typedef struct _Value		Value;
+typedef struct _RenderedValue	RenderedValue;
 typedef struct _ErrorMessage	ErrorMessage;
 
 typedef struct _ExprTree	   ExprTree;

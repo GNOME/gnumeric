@@ -1,6 +1,6 @@
 /*
  * stf.c : reads sheets using CSV/Fixed encoding while allowing
- *         fine-tuning of the import process 
+ *         fine-tuning of the import process
  *
  * Copyright (C) Almer. S. Tigelaar.
  * EMail: almer1@dds.nl or almer-t@bigfoot.com
@@ -75,8 +75,8 @@ stf_is_valid_input (FileSource_t *src)
 			break;
 		}
 		iterator++;
-	} 
-	
+	}
+
 	return valid;
 }
 
@@ -88,7 +88,7 @@ stf_is_valid_input (FileSource_t *src)
  * unix line-terminated format. this means that CRLF (windows) will be converted to LF
  * and CR (Macintosh) to LF
  * NOTE : This will not resize the buffer
- * 
+ *
  * returns : TRUE on success, FALSE otherwise.
  **/
 static gboolean
@@ -100,9 +100,9 @@ stf_convert_to_unix (FileSource_t *src)
 
 	if (iterator == STF_NO_DATA)
 		return FALSE;
-	
+
 	while (*iterator) {
-	
+
 		if (*iterator == '\r') {
 			const char *temp = iterator;
 			temp++;
@@ -116,23 +116,23 @@ stf_convert_to_unix (FileSource_t *src)
 		}
 
 		*dest = *iterator;
-		
+
 		iterator++;
 		dest++;
 		len++;
 	}
 	*dest = '\0';
-	
+
 	return TRUE;
 }
 
 /**
  * get_lines_count
  * @text : a multi-line string
- * 
+ *
  * returns : the number of lines the string consists of
  **/
-static unsigned long 
+static unsigned long
 stf_get_lines_count (const char *text)
 {
 	const char *cur = text-1;
@@ -177,7 +177,7 @@ stf_close_and_free (FileSource_t *src)
  * stf_open_and_read
  * @filename : name of the file to open&read
  * @src : struct to store the file information/memory locations in
- * 
+ *
  * Will open filename, read the file into a g_alloced memory buffer
  * and fill a FileSource_t structure accordingly
  *
@@ -200,10 +200,10 @@ stf_open_and_read (FileSource_t *src)
 
 
 	data = g_malloc0 (sbuf.st_size + 1);
-	
+
 	if (read (fd, (char *) data, sbuf.st_size) != sbuf.st_size)
 		return FALSE;
-		
+
 	src->len  = sbuf.st_size;
 	src->data = data;
 	src->cur  = data;
@@ -224,7 +224,7 @@ stf_open_and_read (FileSource_t *src)
 static int
 stf_read_workbook (CommandContext *context, Workbook *book,
 		   char const *filename)
-{        
+{
 	FileSource_t src;
 	int result = 0;
 	char *name = g_strdup_printf (_("Imported %s"), g_basename (filename));
@@ -258,26 +258,24 @@ stf_read_workbook (CommandContext *context, Workbook *book,
 			_("This file does not seem to be a valid text file"));
 		return -1;
 	}
-		
+
 	src.totallines = stf_get_lines_count (src.data);
 	src.lines      = src.totallines;
-	
+
 	workbook_attach_sheet (book, src.sheet);
-	
+
 	result = dialog_stf (context, &src);
 
 	if (result == 0) {
 		Range range = sheet_get_extent (src.sheet);
 
 		sheet_style_optimize (src.sheet, range);
-		sheet_cells_update (src.sheet, range, TRUE);
-	}
-	else {
+		sheet_range_calc_spans (src.sheet, range, TRUE);
+	} else
 		workbook_detach_sheet (book, src.sheet, TRUE);
-	}
 
 	stf_close_and_free (&src);
-	
+
 	return (result);
 }
 
@@ -286,7 +284,7 @@ stf_read_workbook (CommandContext *context, Workbook *book,
  * @pd: a plugin data struct
  *
  * returns weather the plugin can unload, something which can be always
- * done currently as this plug-in does not keep dynamically allocated 
+ * done currently as this plug-in does not keep dynamically allocated
  * stuff in memory all the time.
  *
  * returns : always TRUE
@@ -301,7 +299,7 @@ stf_can_unload (PluginData *pd)
 /**
  * stf_cleanup_plugin
  * @pd: a plugin data struct
- * 
+ *
  * returns : nothing
  **/
 static void
@@ -331,7 +329,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
-	
+
 	desc = _("Text File import");
 	file_format_register_open (1, desc, NULL, stf_read_workbook);
 

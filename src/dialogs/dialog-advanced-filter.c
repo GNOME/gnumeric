@@ -57,7 +57,7 @@ filter (data_analysis_output_t *dao,
 			        set_cell (dao, i-input_col_b, r, "");
 			else
 			        set_cell (dao, i-input_col_b, r,
-					  cell_get_text (cell));
+					  cell_get_entered_text (cell));
 		}
 		++r;
 	        rows = rows->next;

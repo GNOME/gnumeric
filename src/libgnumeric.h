@@ -8,6 +8,7 @@ extern poptContext ctx;
 extern int gnumeric_debugging;
 extern int style_debugging;
 extern int dependency_debugging;
+extern gboolean initial_worbook_open_complete;
 
 void   gnumeric_arg_parse (int argc, char *argv []);
 

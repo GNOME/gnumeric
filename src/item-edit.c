@@ -16,6 +16,7 @@
 #include "application.h"
 #include "value.h"
 #include "ranges.h"
+#include "parse-util.h"
 #include "sheet.h"
 #include "workbook.h"
 #include "gnumeric-util.h"
@@ -76,7 +77,7 @@ point_is_inside_range (ItemEdit *item_edit, Range *range)
 
 	text = gtk_entry_get_text (GTK_ENTRY (item_edit->entry));
 
-	if (!gnumeric_char_start_expr_p (text [0]))
+	if (NULL == gnumeric_char_start_expr_p (text))
 		return FALSE;
 
 	text++;

@@ -4,12 +4,13 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Changing the size of a selected column by dragging does not redraw properly.
-- Changing the size of a selected column by dragging when there are several selected
-  does not work properly.
+- Row height auto resize has been disabled temporarily.
+- If there are no problems with the new array formula xml format then
+  we should convert expressions to use the same scheme.
 
 Long term breakage
 ------------------
+- Clearing a cell that stopped a span does not regenerate the span.
 - changing col/row sizes does not have undo support.
 - The implication of mixed mode references ($B$2:C3)
   is large.  We need to validate references when pasting a

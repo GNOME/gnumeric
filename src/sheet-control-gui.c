@@ -19,7 +19,7 @@
 #include "sheet-object.h"
 #include "item-cursor.h"
 #include "gnumeric-util.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "selection.h"
 #include "application.h"
 #include "cellspan.h"
@@ -44,12 +44,7 @@ sheet_view_redraw_all (SheetView *sheet_view)
 }
 
 /*
- * redraw a range and all of the associated spans.
- * TODO : this should have TWO cases.
- *     1) redraw just the selected region
- *         This is useful for cursor movement and the like.
- *     2) redraw including the spans.
- *         This is useful for changes to cell contents.
+ * Redraw selected range, do not honour spans
  */
 void
 sheet_view_redraw_cell_region (SheetView *sheet_view,
@@ -59,8 +54,6 @@ sheet_view_redraw_cell_region (SheetView *sheet_view,
 	GnumericSheet *gsheet;
 	GnomeCanvas *canvas;
 	Sheet *sheet = sheet_view->sheet;
-	int first_col, first_row, last_col, last_row;
-	int row, min_col, max_col;
 	int x, y, w, h;
 
 	g_return_if_fail (sheet_view != NULL);
@@ -76,51 +69,16 @@ sheet_view_redraw_cell_region (SheetView *sheet_view,
 	    (start_row > gsheet->row.last_visible))
 		return;
 
-	/* The region on which we care to redraw */
-	first_col = MAX (gsheet->col.first, start_col);
-	first_row = MAX (gsheet->row.first, start_row);
-	last_col =  MIN (gsheet->col.last_visible, end_col);
-	last_row =  MIN (gsheet->row.last_visible, end_row);
-
-	/* Initial values for min/max column computation */
-	min_col = first_col;
-	max_col = last_col;
-
-	/*
-	 * Check the first and last columns for spans
-	 * and extend the region to include the maximum extent.
-	 */
-	for (row = first_row; row <= last_row; row++){
-		ColRowInfo const * const ri = sheet_row_get (sheet, row);
-
-		if (ri != NULL) {
-			CellSpanInfo const * span0 =
-			    row_span_get (ri, first_col);
-
-			if (span0 != NULL) {
-				min_col = MIN (span0->left, min_col);
-				max_col = MAX (span0->right, max_col);
-			}
-			if (first_col != last_col) {
-				CellSpanInfo const * span1 =
-					row_span_get (ri, last_col);
-
-				if (span1 != NULL) {
-					min_col = MIN (span1->left, min_col);
-					max_col = MAX (span1->right, max_col);
-				}
-			}
-		}
-	}
-
 	/* Only draw those regions that are visible */
-	min_col = MAX (MIN (first_col, min_col), gsheet->col.first);
-	max_col = MIN (MAX (last_col, max_col), gsheet->col.last_visible);
+	start_col = MAX (gsheet->col.first, start_col);
+	start_row = MAX (gsheet->row.first, start_row);
+	end_col =  MIN (gsheet->col.last_visible, end_col);
+	end_row =  MIN (gsheet->row.last_visible, end_row);
 
-	x = sheet_col_get_distance_pixels (sheet, gsheet->col.first, min_col);
-	y = sheet_row_get_distance_pixels (sheet, gsheet->row.first, first_row);
-	w = sheet_col_get_distance_pixels (sheet, min_col, max_col+1);
-	h = sheet_row_get_distance_pixels (sheet, first_row, last_row+1);
+	x = sheet_col_get_distance_pixels (sheet, gsheet->col.first, start_col);
+	y = sheet_row_get_distance_pixels (sheet, gsheet->row.first, start_row);
+	w = sheet_col_get_distance_pixels (sheet, start_col, end_col+1);
+	h = sheet_row_get_distance_pixels (sheet, start_row, end_row+1);
 
 	x += canvas->layout.xoffset - canvas->zoom_xofs;
 	y += canvas->layout.yoffset - canvas->zoom_yofs;
@@ -383,27 +341,47 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 	}
 }
 
+struct closure_colrow_resize {
+	int size_pixels;
+	gboolean is_cols;
+};
+
+static gboolean
+cb_colrow_resize (Sheet *sheet, Range const *r, gpointer user_data)
+{
+	struct closure_colrow_resize const *info = user_data;
+	int tmp;
+
+	if (info->is_cols) {
+		if (r->start.row == 0 && r->end.row   >= SHEET_MAX_ROWS - 1)
+			for (tmp = r->start.col; tmp <= r->end.col ; ++tmp) {
+				sheet_col_set_size_pixels (sheet, tmp, info->size_pixels, TRUE);
+				/* FIXME should be done later */
+				sheet_recompute_spans_for_col (sheet, tmp);
+			}
+	} else if (r->start.col == 0 && r->end.col >= SHEET_MAX_COLS - 1)
+		for (tmp = r->start.row; tmp <= r->end.row ; ++tmp)
+			sheet_row_set_size_pixels (sheet, tmp, info->size_pixels, TRUE);
+
+	return TRUE;
+}
+
 static void
-sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *sheet_view)
+sheet_view_col_size_changed (ItemBar *item_bar, int col, int width,
+			     SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
-	ItemBarSelectionType type;
+	ItemBarSelectionType const type = sheet_col_selection_type (sheet, col);
 
-	type = sheet_col_selection_type (sheet, col);
-
+	/*
+	 * If the column that changed size is completely selected (top to
+	 * bottom) then resize all other columns which are fully selected too.
+	 */
  	if (type == ITEM_BAR_FULL_SELECTION) {
-		int i = sheet->cols.max_used;
-		for (;i >= 0 ; --i) {
- 			ColRowInfo const * const ci = sheet_col_get (sheet, i);
-			if (ci == NULL)
-				continue;
-
- 			if (sheet_col_selection_type (sheet, ci->pos) == ITEM_BAR_FULL_SELECTION) {
- 				sheet_col_set_size_pixels (sheet, i, width, TRUE);
-				/* FIXME should be done later */
-				sheet_recompute_spans_for_col (sheet, i);
-			}
- 		}
+		struct closure_colrow_resize	closure;
+		closure.size_pixels = width;
+		closure.is_cols = TRUE;
+		selection_foreach_range (sheet, &cb_colrow_resize, &closure);
 	} else {
  		sheet_col_set_size_pixels (sheet, col, width, TRUE);
 		/* FIXME should be done later */
@@ -451,20 +429,17 @@ static void
 sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
-	ItemBarSelectionType type;
+	ItemBarSelectionType const type = sheet_row_selection_type (sheet, row);
 
-	type = sheet_row_selection_type (sheet, row);
-
-	if (type == ITEM_BAR_FULL_SELECTION) {
-		int i;
-		for (i = sheet->rows.max_used; i >= 0 ; --i) {
- 			ColRowInfo const * const ri = sheet_row_get (sheet, i);
-			if (ri == NULL)
-				continue;
-
-			if (sheet_row_selection_type (sheet, ri->pos) == ITEM_BAR_FULL_SELECTION)
-				sheet_row_set_size_pixels (sheet, ri->pos, height, TRUE);
-		}
+	/*
+	 * If the row that changed size is completely selected (left to
+	 * right) then resize all other rows which are fully selected too.
+	 */
+ 	if (type == ITEM_BAR_FULL_SELECTION) {
+		struct closure_colrow_resize	closure;
+		closure.size_pixels = height;
+		closure.is_cols = FALSE;
+		selection_foreach_range (sheet, &cb_colrow_resize, &closure);
 	} else
 		sheet_row_set_size_pixels (sheet, row, height, TRUE);
 

@@ -9,7 +9,7 @@
 #include <config.h>
 #include <glib.h>
 #include "numbers.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "func.h"
 #include "eval.h"
 #include "cell.h"

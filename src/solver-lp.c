@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include "numbers.h"
 #include "gnumeric.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "solver.h"
 #include "func.h"
 #include "cell.h"
@@ -92,7 +92,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 	for (i=2; inputs != NULL; inputs = inputs->next) {
 	        cell = (Cell *) inputs->data;
 
-		cell_set_value (cell, value_new_float (0.0));
+		sheet_cell_set_value (cell, value_new_float (0.0), NULL);
 		cell_eval_content(target);
 		init_value = value_get_as_float(target->value);
 
@@ -100,7 +100,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 		n = 1;
 		while (current != NULL) {
 		        c = (SolverConstraint *) current->data;
-			lhs = sheet_cell_fetch(sheet, c->lhs_col, c->lhs_row);
+			lhs = sheet_cell_fetch(sheet, c->lhs.col, c->lhs.row);
 			cell_eval_content(lhs);
 			table[i + n**table_cols] =
 			        -value_get_as_float(lhs->value);
@@ -108,14 +108,14 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 			++n;
 		}
 
-		cell_set_value (cell, value_new_float (1.0));
+		sheet_cell_set_value (cell, value_new_float (1.0), NULL);
 		cell_eval_content(target);
 		value = value_get_as_float(target->value);
 		current = constraints;
 		n = 1;
 		while (current != NULL) {
 		        c = (SolverConstraint *) current->data;
-			lhs = sheet_cell_fetch(sheet, c->lhs_col, c->lhs_row);
+			lhs = sheet_cell_fetch(sheet, c->lhs.col, c->lhs.row);
 			cell_eval_content(lhs);
 			table[i + n * *table_cols] +=
 			        value_get_as_float(lhs->value);
@@ -123,7 +123,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 			++n;
 		}
 
-		cell_set_value (cell, value_new_float (0.0));
+		sheet_cell_set_value (cell, value_new_float (0.0), NULL);
 
 		if (max_flag)
 		        table[i] = value - init_value;
@@ -137,7 +137,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 	while (constraints != NULL) {
 	        c = (SolverConstraint *) constraints->data;
 	        table[i * *table_cols] = i-1 + n_vars;
-		rhs = sheet_cell_fetch(sheet, c->rhs_col, c->rhs_row);
+		rhs = sheet_cell_fetch(sheet, c->rhs.col, c->rhs.row);
 		table[1 + i * *table_cols] = value_get_as_float(rhs->value);
 		if (strcmp(c->type, "<=") == 0) {
 		        table[1 + n_vars + n + i* *table_cols] = 1;
@@ -147,8 +147,8 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 			++n;
 		}
 	        printf ("%-30s (col=%d, row=%d  %s  col=%d, row=%d\n",
-		       c->str, c->lhs_col, c->lhs_row,
-		       c->type, c->rhs_col, c->rhs_row);
+		       c->str, c->lhs.col, c->lhs.row,
+		       c->type, c->rhs.col, c->rhs.row);
 		constraints = constraints->next;
 		i++;
 	}
@@ -284,8 +284,8 @@ int solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
 	status = SIMPLEX_OK;
 
 	table = simplex_step_one(sheet, 
-				 param->target_cell->col->pos,
-				 param->target_cell->row->pos,
+				 param->target_cell->col_info->pos,
+				 param->target_cell->row_info->pos,
 				 cell_list, constraints, 
 				 &tbl_cols, &tbl_rows, max_flag);
 
@@ -322,12 +322,12 @@ int solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
 			        goto skip;
 		        c = (Cell *) cell_list->data;
 		}
-		cell = sheet_cell_fetch(sheet, c->col->pos, c->row->pos);
-		cell_set_value (cell, value_new_float (table[1+i*tbl_cols]));
+		cell = sheet_cell_fetch(sheet, c->col_info->pos, c->row_info->pos);
+		sheet_cell_set_value (cell, value_new_float (table[1+i*tbl_cols]), NULL);
 	skip:
 	}
-	cell = sheet_cell_fetch(sheet, param->target_cell->col->pos, 
-				param->target_cell->row->pos);
+	cell = sheet_cell_fetch(sheet, param->target_cell->col_info->pos, 
+				param->target_cell->row_info->pos);
 	cell_eval_content(cell);
 
 	/* FIXME: Do not do the following loop.  Instead recalculate 
@@ -338,7 +338,7 @@ int solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
 	while (constraints != NULL) {
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 
-		cell = sheet_cell_fetch(sheet, c->lhs_col, c->lhs_row);
+		cell = sheet_cell_fetch(sheet, c->lhs.col, c->lhs.row);
 		cell_eval_content(cell);
 		constraints = constraints->next;
 	}
@@ -355,11 +355,11 @@ get_lp_coeff (Cell *target, Cell *change)
 {
         float_t x0, x1;
 
-	cell_set_value (change, value_new_float (0.0));
+	sheet_cell_set_value (change, value_new_float (0.0), NULL);
 	cell_eval_content(target);
 	x0 = value_get_as_float(target->value);
 
-	cell_set_value (change, value_new_float (1.0));
+	sheet_cell_set_value (change, value_new_float (1.0), NULL);
 	cell_eval_content(target);
 	x1 = value_get_as_float(target->value);
 
@@ -448,8 +448,8 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 
 	inputs = param->input_cells;
 	var = 0;
-	target = sheet_cell_get (sheet, param->target_cell->col->pos,
-				 param->target_cell->row->pos);
+	target = sheet_cell_get (sheet, param->target_cell->col_info->pos,
+				 param->target_cell->row_info->pos);
 	if (target == NULL)
 	        return SOLVER_LP_INVALID_RHS; /* FIXME */
 
@@ -478,11 +478,11 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 		/* Set the constraint coefficients */
 		for (n=0; n<MAX(c->cols, c->rows); n++) {
 		        if (c->cols > 1)
-			        target = sheet_cell_get (sheet, c->lhs_col+n,
-							 c->lhs_row);
+			        target = sheet_cell_get (sheet, c->lhs.col+n,
+							 c->lhs.row);
 			else
-			        target = sheet_cell_get (sheet, c->lhs_col,
-							 c->lhs_row+n);
+			        target = sheet_cell_get (sheet, c->lhs.col,
+							 c->lhs.row+n);
 			if (target == NULL)
 			        return SOLVER_LP_INVALID_LHS;
 
@@ -515,11 +515,11 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 
 			/* Fetch RHS for b */
 			if (c->cols > 1)
-			        cell = sheet_cell_get (sheet, c->rhs_col+n,
-						       c->rhs_row);
+			        cell = sheet_cell_get (sheet, c->rhs.col+n,
+						       c->rhs.row);
 			else
-			        cell = sheet_cell_get (sheet, c->rhs_col,
-						       c->rhs_row+n);
+			        cell = sheet_cell_get (sheet, c->rhs.col,
+						       c->rhs.row+n);
 
 			if (cell == NULL)
 			        return SOLVER_LP_INVALID_RHS;
@@ -585,20 +585,18 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 	i = 0;
 	if (param->options.assume_non_negative)
 	        while (inputs != NULL) {
-		        char buf[256];
+			Value * v = value_new_float ((*x)[i++]);
+
 			cell = (Cell *) inputs->data;
-		
-			sprintf(buf, "%f", (*x)[i++]);
-			cell_set_text (cell, buf);
+			sheet_cell_set_value (cell, v, NULL);
 			inputs = inputs->next;
 		}
 	else
 	        while (inputs != NULL) {
-		        char buf[256];
+			Value * v = value_new_float ((*x)[i] - (*x)[i+1]);
+
 			cell = (Cell *) inputs->data;
-		
-			sprintf(buf, "%f", (*x)[i] - (*x)[i+1]);
-			cell_set_text (cell, buf);
+			sheet_cell_set_value (cell, v, NULL);
 			i += 2;
 			inputs = inputs->next;
 		}
@@ -612,13 +610,13 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 	while (constraints != NULL) {
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 
-		cell = sheet_cell_fetch(sheet, c->lhs_col, c->lhs_row);
+		cell = sheet_cell_fetch(sheet, c->lhs.col, c->lhs.row);
 		cell_eval_content(cell);
 		constraints = constraints->next;
 	}
 
-	cell = sheet_cell_get (sheet, param->target_cell->col->pos,
-			       param->target_cell->row->pos);
+	cell = sheet_cell_get (sheet, param->target_cell->col_info->pos,
+			       param->target_cell->row_info->pos);
 	cell_eval_content(cell);
 
 	g_free (A);
@@ -633,11 +631,11 @@ write_constraint_str (char *buf, int lhs_col, int lhs_row, int rhs_col,
 		      int rhs_row, char *type_str, int cols, int rows)
 {
 	if (cols == 1 && rows == 1)
-	        sprintf(buf, "%s %s ", cell_name (lhs_col, lhs_row), type_str);
+	        sprintf(buf, "%s %s ", cell_coord_name (lhs_col, lhs_row), type_str);
 	else {
-	        sprintf(buf, "%s", cell_name (lhs_col, lhs_row));
+	        sprintf(buf, "%s", cell_coord_name (lhs_col, lhs_row));
 		strcat (buf, ":");
-		strcat (buf, cell_name (lhs_col+cols-1, lhs_row+rows-1));
+		strcat (buf, cell_coord_name (lhs_col+cols-1, lhs_row+rows-1));
 		strcat (buf, " ");
 		strcat (buf, type_str);
 		strcat (buf, " ");
@@ -645,11 +643,11 @@ write_constraint_str (char *buf, int lhs_col, int lhs_row, int rhs_col,
 
 	if (strcmp (type_str, "Int") != 0 && strcmp (type_str, "Bool") != 0) {
 	        if (cols == 1 && rows == 1)
-		        strcat(buf, cell_name(rhs_col, rhs_row));
+		        strcat(buf, cell_coord_name(rhs_col, rhs_row));
 		else {
-		        strcat(buf, cell_name(rhs_col, rhs_row));
+		        strcat(buf, cell_coord_name(rhs_col, rhs_row));
 			strcat(buf, ":");
-		        strcat(buf, cell_name(rhs_col+cols-1, rhs_row+rows-1));
+		        strcat(buf, cell_coord_name(rhs_col+cols-1, rhs_row+rows-1));
 		}
 	}
 }
@@ -676,18 +674,18 @@ make_int_array (SolverParameters *param, CellList *inputs, gboolean int_r[],
 				     list = list->next) {
 				        Cell *cell = list->data;
 					if (c->cols > 1) {
-					        if (cell->col->pos ==
-						    c->lhs_col+n &&
-						    cell->row->pos ==
-						    c->lhs_row) {
+					        if (cell->col_info->pos ==
+						    c->lhs.col+n &&
+						    cell->row_info->pos ==
+						    c->lhs.row) {
 						        int_r [i] = TRUE;
 							break;
 						}
 					} else {
-					        if (cell->col->pos ==
-						    c->lhs_col &&
-						    cell->row->pos ==
-						    c->lhs_row+n) {
+					        if (cell->col_info->pos ==
+						    c->lhs.col &&
+						    cell->row_info->pos ==
+						    c->lhs.row+n) {
 						        int_r [i] = TRUE;
 							break;
 						}
@@ -752,20 +750,17 @@ solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
 	i = 0;
 	if (param->options.assume_non_negative)
 	        while (inputs != NULL) {
-		        char buf[256];
+			Value *v = value_new_float((*opt_x)[i++]);
+
 			cell = (Cell *) inputs->data;
-		
-			sprintf(buf, "%f", (*opt_x)[i++]);
-			cell_set_text (cell, buf);
+			sheet_cell_set_value (cell, v, NULL);
 			inputs = inputs->next;
 		}
 	else
 	        while (inputs != NULL) {
-		        char buf[256];
+			Value *v = value_new_float((*opt_x)[i] - (*opt_x)[i+1]);
 			cell = (Cell *) inputs->data;
-		
-			sprintf(buf, "%f", (*opt_x)[i] - (*opt_x)[i+1]);
-			cell_set_text (cell, buf);
+			sheet_cell_set_value (cell, v, NULL);
 			i += 2;
 			inputs = inputs->next;
 		}
@@ -785,19 +780,19 @@ solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
 		  
 		for (i=0; i<MAX(c->cols, c->rows); i++) {
 		        if (c->cols > 1)
-			        cell = sheet_cell_fetch (sheet, c->lhs_col+i,
-							 c->lhs_row);
+			        cell = sheet_cell_fetch (sheet, c->lhs.col+i,
+							 c->lhs.row);
 			else
-			        cell = sheet_cell_fetch (sheet, c->lhs_col,
-							 c->lhs_row+i);
+			        cell = sheet_cell_fetch (sheet, c->lhs.col,
+							 c->lhs.row+i);
 			cell_eval_content(cell);
 		}
 	skip:
 		constraints = constraints->next;
 	}
 
-	cell = sheet_cell_get (sheet, param->target_cell->col->pos,
-			       param->target_cell->row->pos);
+	cell = sheet_cell_get (sheet, param->target_cell->col_info->pos,
+			       param->target_cell->row_info->pos);
 	cell_eval_content(cell);
 
 	g_free (A);
@@ -907,20 +902,19 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	set_bold (dao.sheet, 0, 2, 3, 2);
 
 	/* Set `Cell' field */
-	set_cell (&dao, 0, 3, (char*) cell_name(param->target_cell->col->pos,
-						param->target_cell->row->pos));
+	set_cell (&dao, 0, 3, (char*) cell_name(param->target_cell));
 
 	/* Set `Name' field */
-	set_cell (&dao, 1, 3, find_name (sheet, param->target_cell->col->pos,
-					 param->target_cell->row->pos));
+	set_cell (&dao, 1, 3, find_name (sheet, param->target_cell->col_info->pos,
+					 param->target_cell->row_info->pos));
 
 	/* Set `Original Value' field */
 	sprintf (buf, "%f", ov_target);
 	set_cell (&dao, 2, 3, buf);
 
 	/* Set `Final Value' field */
-	cell = sheet_cell_fetch (sheet, param->target_cell->col->pos,
-				 param->target_cell->row->pos);
+	cell = sheet_cell_fetch (sheet, param->target_cell->col_info->pos,
+				 param->target_cell->row_info->pos);
 	str = value_get_as_string (cell->value);
 	set_cell (&dao, 3, 3, str);
 	g_free (str);
@@ -939,19 +933,18 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	        cell = (Cell *) cell_list->data;
 
 		/* Set `Cell' column */
-		set_cell (&dao, 0, row, (char *) cell_name(cell->col->pos,
-							   cell->row->pos));
+		set_cell (&dao, 0, row, (char *) cell_name(cell));
 
 		/* Set `Name' column */
-		set_cell (&dao, 1, row, find_name (sheet, cell->col->pos,
-						   cell->row->pos));
+		set_cell (&dao, 1, row, find_name (sheet, cell->col_info->pos,
+						   cell->row_info->pos));
 
 		/* Set `Original Value' column */
 		set_cell (&dao, 2, row, str);
 
 		/* Set `Final Value' column */
-		cell = sheet_cell_fetch (sheet, cell->col->pos,
-					 cell->row->pos);
+		cell = sheet_cell_fetch (sheet, cell->col_info->pos,
+					 cell->row_info->pos);
 		str = value_get_as_string (cell->value);
 		set_cell (&dao, 3, row, str);
 		g_free (str);
@@ -984,19 +977,19 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 
 		for (i=0; i<MAX(c->cols, c->rows); i++) {
 		        if (c->cols > 1) {
-			        tc = c->lhs_col + i;
-				tr = c->lhs_row;
-			        sc = c->rhs_col + i;
-				sr = c->rhs_row;
+			        tc = c->lhs.col + i;
+				tr = c->lhs.row;
+			        sc = c->rhs.col + i;
+				sr = c->rhs.row;
 			} else {
-			        tc = c->lhs_col;
-				tr = c->lhs_row + i;
-			        sc = c->rhs_col;
-				sr = c->rhs_row + i;
+			        tc = c->lhs.col;
+				tr = c->lhs.row + i;
+			        sc = c->rhs.col;
+				sr = c->rhs.row + i;
 			}
 
 		        /* Set `Cell' column */
-			set_cell (&dao, 0, row, (char *) cell_name (tc, tr));
+			set_cell (&dao, 0, row, (char *) cell_coord_name (tc, tr));
 
 			/* Set `Name' column */
 			set_cell (&dao, 1, row, find_name (sheet, tc, tr));
@@ -1037,7 +1030,6 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	autofit_column (&dao, 3);
 	autofit_column (&dao, 4);
 	autofit_column (&dao, 5);
-
 }
 
 static void
@@ -1075,16 +1067,15 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 	        cell = (Cell *) cell_list->data;
 
 		/* Set `Cell' column */
-		set_cell (&dao, 0, row, (char *) cell_name(cell->col->pos,
-							   cell->row->pos));
+		set_cell (&dao, 0, row, (char *) cell_name(cell));
 
 		/* Set `Name' column */
-		set_cell (&dao, 1, row, find_name (sheet, cell->col->pos,
-						   cell->row->pos));
+		set_cell (&dao, 1, row, find_name (sheet, cell->col_info->pos,
+						   cell->row_info->pos));
 
 		/* Set `Final Value' column */
-		cell = sheet_cell_fetch (sheet, cell->col->pos,
-					 cell->row->pos);
+		cell = sheet_cell_fetch (sheet, cell->col_info->pos,
+					 cell->row_info->pos);
 		str = value_get_as_string (cell->value);
 		set_cell (&dao, 2, row, str);
 		g_free (str);
@@ -1128,15 +1119,14 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 
 		/* Set `Cell' column */
-		set_cell (&dao, 0, row,
-			  (char *) cell_name (c->lhs_col, c->lhs_row));
+		set_cell (&dao, 0, row, (char *) cell_pos_name (&c->lhs));
 
 		/* Set `Name' column */
-		set_cell (&dao, 1, row, find_name (sheet, c->lhs_col,
-						   c->lhs_row));
+		set_cell (&dao, 1, row, find_name (sheet, c->lhs.col,
+						   c->lhs.row));
 
 		/* Set `Final Value' column */
-		cell = sheet_cell_fetch (sheet, c->lhs_col, c->lhs_row);
+		cell = sheet_cell_fetch (sheet, c->lhs.col, c->lhs.row);
 		str = value_get_as_string (cell->value);
 		set_cell (&dao, 2, row, str);
 		g_free (str);
@@ -1148,7 +1138,7 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 #endif
 
 		/* Set `R.H. Side Value' column */
-		cell = sheet_cell_fetch (sheet, c->rhs_col, c->rhs_row);
+		cell = sheet_cell_fetch (sheet, c->rhs.col, c->rhs.row);
 		str = value_get_as_string (cell->value);
 		set_cell (&dao, 4, row, str);
 		g_free (str);

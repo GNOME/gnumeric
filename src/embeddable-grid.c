@@ -331,9 +331,10 @@ grid_view_new (EmbeddableGrid *eg)
 	grid_view->sheet_view = sheet_new_sheet_view (eg->sheet);
 	gtk_widget_show (GTK_WIDGET (grid_view->sheet_view));
 	g_warning ("FIXME: view_construct API changed");
-/*	bonobo_view_construct (
-		BONOBO_VIEW (grid_view), corba_grid_view,
-		GTK_WIDGET (grid_view->sheet_view));*/
+	bonobo_view_construct (
+		BONOBO_VIEW (grid_view),
+		corba_grid_view,
+		GTK_WIDGET (grid_view->sheet_view));
 
 	eg->views = g_list_prepend (eg->views, grid_view);
 

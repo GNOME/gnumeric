@@ -52,6 +52,8 @@ GNUMERIC_BASE_SOURCES =				\
 	cell.c					\
 	cell-draw.c				\
 	cell-draw.h				\
+	cell-comment.c				\
+	cell-comment.h				\
 	cellspan.c				\
 	cellspan.h				\
 	clipboard.c				\
@@ -126,6 +128,8 @@ GNUMERIC_BASE_SOURCES =				\
 	number-match.h				\
 	numbers.h				\
 	parser.y				\
+	parse-util.c				\
+	parse-util.h				\
 	pattern.h				\
 	pattern.c				\
 	pixmaps.h				\
@@ -146,6 +150,8 @@ GNUMERIC_BASE_SOURCES =				\
 	regression.h				\
 	render-ascii.c				\
 	render-ascii.h				\
+	rendered-value.c			\
+	rendered-value.h			\
 	selection.c				\
 	selection.h				\
 	sheet.c					\

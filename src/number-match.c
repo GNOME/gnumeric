@@ -715,7 +715,7 @@ compute_value (const char *s, const regmatch_t *mp,
 						= (tm->tm_year * 12 +
 						   tm->tm_mon - 6);
 					year = earliest_yyymm / 12;
-					/* First estimate of yyy (i.e. years 
+					/* First estimate of yyy (i.e. years
 					 * since 1900) is the yyy part of
 					 * earliest_yyymm.  year*12+month-1 is
 					 * guaranteed to be in [earliest_yyymm
@@ -790,42 +790,77 @@ compute_value (const char *s, const regmatch_t *mp,
 
 #define NM 40
 
-gboolean
-format_match (const char *s, float_t *v, char **format)
+Value *
+format_match (const char *text, char **format)
 {
 	GList *l;
 	regmatch_t mp [NM+1];
 
-	for (l = format_match_list; l; l = l->next){
-		format_parse_t *fp = l->data;
-		int b;
+	if (format)
+		*format = NULL;
 
-		if (regexec (&fp->regexp, s, NM, mp, 0) == REG_NOMATCH)
+	/* TODO : We should check the format associated with the region first,
+	 *        but we're not passing that information in yet
+	 */
+
+	/* If it begins with a '\'' it is a string */
+	if (text[0] == '\'')
+		return value_new_string (text+1);
+
+	/* Is it an integer */
+	{
+		char *end;
+		long l = strtol (text, &end, 10);
+		/* ignore spaces at the end . */
+		while (*end == ' ')
+			end++;
+		if (text != end && *end == '\0' && l == (int)l)
+			return value_new_int ((int)l);
+	}
+
+	/* Is it a double */
+	{
+		char *end;
+		double d = strtod (text, &end);
+		/* Allow and ignore spaces at the end . */
+		while (*end == ' ')
+			end++;
+		if (text != end && *end == '\0' && d == (float_t)d)
+			return value_new_float ((float_t)d);
+	}
+
+	/* Fall back to checking the set of canned formats */
+	for (l = format_match_list; l; l = l->next){
+		float_t result;
+		gboolean b;
+		format_parse_t *fp = l->data;
+
+		if (regexec (&fp->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;
 
 #if 0
 		{
-		    int i;
-		printf ("matches expression: %s %s\n", fp->format, fp->regexp_str);
-		for (i = 0; i < NM; i++){
-			char *p;
+			int i;
+			printf ("matches expression: %s %s\n", fp->format, fp->regexp_str);
+			for (i = 0; i < NM; i++){
+				char *p;
 
-			if (mp [i].rm_so == -1)
-				break;
+				if (mp [i].rm_so == -1)
+					break;
 
-			p = extract_text (s, &mp [i]);
-			printf ("%d %d->%s\n", mp [i].rm_so, mp [i].rm_eo, p);
-		}
+				p = extract_text (text, &mp [i]);
+				printf ("%d %d->%s\n", mp [i].rm_so, mp [i].rm_eo, p);
+			}
 		}
 #endif
 
-		b = compute_value (s, mp, fp->match_tags, v);
-		if (b){
-			*format = fp->format;
-			return TRUE;
+		b = compute_value (text, mp, fp->match_tags, &result);
+		if (b) {
+			if (format)
+				*format = fp->format;
+			return value_new_float (result);
 		}
 	}
 
-	return FALSE;
+	return NULL;
 }
-

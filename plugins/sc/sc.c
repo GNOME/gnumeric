@@ -14,7 +14,7 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "workbook.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "value.h"
 #include "file.h"
 #include "cell.h"
@@ -157,7 +157,7 @@ sc_parse_label (sc_file_state_t *src, const char *cmd, const char *str, int col,
 	if (!cell)
 		goto err_out;
 
-	cell_set_text_simple (cell, s);
+	cell_set_text (cell, s);
 
 	if (strcmp (cmd, "leftstring") == 0)
 		cmdtype = LEFTSTRING;
@@ -259,7 +259,7 @@ sc_parse_let_expr (sc_file_state_t *src, const char *cmd, const char *str, int c
 	if (!cell)
 		return FALSE;
 
-	cell_set_formula_tree_simple (cell, tree);
+	cell_set_expr (cell, tree, NULL);
 
 	/* fall through */
 
@@ -301,7 +301,7 @@ sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, i
 	if (!v)
 		return FALSE;
 
-	cell_set_value_simple (cell, v);
+	cell_set_value (cell, v, NULL);
 
 	return TRUE;
 }

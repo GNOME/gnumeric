@@ -130,20 +130,11 @@ struct _Sheet {
 #define SHEET_SIGNATURE 0x12349876
 #define IS_SHEET(x) ((x)->signature == SHEET_SIGNATURE)
 
-typedef  gboolean (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *info,
-					    void *user_data);
-
-typedef  Value * (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
-						Cell *cell, void *user_data);
-
 Sheet      *sheet_new                  	 (Workbook *wb, const char *name);
-void        sheet_rename                 (Sheet *sheet, const char *new_name);
 void        sheet_destroy              	 (Sheet *sheet);
 void        sheet_destroy_contents       (Sheet *sheet);
-void        sheet_foreach_colrow	 (Sheet *sheet, ColRowCollection *infos,
-					  int start_col, int end_col,
-					  sheet_col_row_callback callback,
-					  void *user_data);
+void        sheet_rename                 (Sheet *sheet, const char *new_name);
+
 void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor);
 void        sheet_cursor_set             (Sheet *sheet,
 					  int edit_col, int edit_row,
@@ -153,19 +144,29 @@ void        sheet_set_edit_pos           (Sheet *sheet, int col, int row);
 void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
 
 /* Cell management */
+Cell       *sheet_cell_get                (Sheet const *sheet, int col, int row);
+Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
 Cell       *sheet_cell_new                (Sheet *sheet, int col, int row);
-void        sheet_cell_add                (Sheet *sheet, Cell *cell,
+void        sheet_cell_insert             (Sheet *sheet, Cell *cell,
 				           int col, int row);
-void        sheet_cell_remove             (Sheet *sheet, Cell *cell);
+void        sheet_cell_remove             (Sheet *sheet, Cell *cell, gboolean redraw);
+
+/* Iteration utilities */
+typedef  gboolean (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *info,
+					    void *user_data);
+typedef  Value * (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
+						Cell *cell, void *user_data);
+
+void        sheet_foreach_colrow	 (Sheet *sheet, ColRowCollection *infos,
+					  int start_col, int end_col,
+					  sheet_col_row_callback callback,
+					  void *user_data);
 Value      *sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
 				           int start_col, int start_row,
 				           int end_col, int end_row,
 				           sheet_cell_foreach_callback callback,
 				           void *closure);
- /* Returns NULL if doesn't exist */
-Cell       *sheet_cell_get                (Sheet const *sheet, int col, int row);
- /* Returns new Cell if doesn't exist */
-Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
+
 void        sheet_cell_comment_link       (Cell *cell);
 void        sheet_cell_comment_unlink     (Cell *cell);
 
@@ -278,8 +279,6 @@ void           sheet_create_styles              (Sheet *sheet);
 void           sheet_destroy_styles             (Sheet *sheet);
 GList         *sheet_get_style_list             (Sheet *sheet);
 void           sheet_styles_dump                (Sheet *sheet);
-void           sheet_cells_update               (Sheet *sheet, Range r,
-						 gboolean render_text);
 Range          sheet_get_full_range             (void);
 void           sheet_style_get_extent           (Range *r, const Sheet *sheet);
 Range          sheet_get_extent                 (const Sheet *sheet);
@@ -289,23 +288,25 @@ void           sheet_style_list_destroy         (GList *l);
 void           sheet_style_attach_list          (Sheet *sheet, const GList *l,
 						 const CellPos *corner, gboolean transpose);
 
-gboolean       sheet_check_for_partial_array (Sheet *sheet,
-					      int const start_row, int const start_col,
-					      int end_row, int end_col);
+gboolean       sheet_range_splits_array   (Sheet const *sheet,
+					   int const start_col, int const start_row,
+					   int end_col, int end_row);
 
 /* Redraw */
-void	    sheet_flag_status_update_cell (Sheet const *sheet, int const col, int const row);
-void	    sheet_flag_status_update_range(Sheet const *sheet, Range const * const range);
-void        sheet_update                  (Sheet const *sheet);
-void        sheet_compute_visible_ranges  (Sheet const *sheet);
+void        sheet_redraw_all              (Sheet const *sheet);
+void        sheet_redraw_cell             (Cell const *r);
+void        sheet_redraw_range            (Sheet const *sheet, Range const *r);
 void        sheet_redraw_cell_region      (Sheet const *sheet,
 				           int start_col, int start_row,
 				           int end_col,   int end_row);
 void	    sheet_redraw_headers          (Sheet const *sheet,
 					   gboolean const col, gboolean const row,
 					   Range const * r /* optional == NULL */);
-void        sheet_redraw_range            (Sheet const *sheet, Range const *sheet_selection);
-void        sheet_redraw_all              (Sheet const *sheet);
+
+void	    sheet_flag_status_update_cell (Sheet const *sheet, int const col, int const row);
+void	    sheet_flag_status_update_range(Sheet const *sheet, Range const * const range);
+void        sheet_update                  (Sheet const *sheet);
+void        sheet_compute_visible_ranges  (Sheet const *sheet);
 
 void        sheet_update_auto_expr        (Sheet const *sheet);
 
@@ -322,7 +323,6 @@ Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 void        sheet_update_controls         (Sheet const *sheet);
 void        sheet_load_cell_val           (Sheet const *sheet);
-void        sheet_set_text                (Sheet *sheet, char const *text, Range const * r);
 
 int         sheet_col_selection_type      (Sheet const *sheet, int col);
 int         sheet_row_selection_type      (Sheet const *sheet, int row);
@@ -339,15 +339,26 @@ void        sheet_create_edit_cursor         (Sheet *sheet);
 void        sheet_stop_editing               (Sheet *sheet);
 void        sheet_destroy_cell_select_cursor (Sheet *sheet);
 
-char        *cellref_name                 (CellRef *cell_ref,
-					   ParsePosition const *pp);
-gboolean     cellref_get                  (CellRef *out, const char *in,
-					   int parse_col, int parse_row);
-gboolean     cellref_a1_get               (CellRef *out, const char *in,
-					   int parse_col, int parse_row);
-gboolean     cellref_r1c1_get             (CellRef *out, const char *in,
-					   int parse_col, int parse_row);
+/*
+ * Utilities to set cell contents, queueing recalcs,
+ * redraws and rendering as required.  Does NOT check for
+ * division of arrays.
+ */
+void sheet_cell_set_expr   (Cell *cell, ExprTree *expr);
+void sheet_cell_set_value  (Cell *cell, Value *v, char const *optional_format);
+void sheet_cell_set_text   (Cell *cell, char const *str);
+void sheet_range_set_text  (EvalPosition const * const pos,
+			    Range const *r, char const *string);
 
+typedef enum {
+    SPANCALC_SIMPLE 	= 0x0,
+    SPANCALC_RENDER	= 0x1,
+    SPANCALC_RESIZE	= 0x2,
+    SPANCALC_CHECKHEIGHT= 0x4
+} SpanCalcFlags;
+void sheet_calc_spans (Sheet const *sheet, SpanCalcFlags const flags);
+void sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags const flags);
+void sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags);
 /*
  * Sheet, Bobobo objects
  */
@@ -386,6 +397,7 @@ typedef enum
 	CLEAR_VALUES   = 0x1,
 	CLEAR_FORMATS  = 0x2,
 	CLEAR_COMMENTS = 0x4,
+	CLEAR_NOCHECKARRAY = 0x8,
 } SheetClearFlags;
 
 void  sheet_clear_region (CommandContext *context,

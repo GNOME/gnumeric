@@ -7,143 +7,87 @@
 #include "style.h"
 #include "str.h"
 
-/* Cell has been queued for recalc */
 typedef enum {
-    CELL_QUEUED_FOR_RECALC = 1,
-    CELL_NEEDS_RENDER 	   = 2
+    /* Cell has an expression rather than entered_text */
+    CELL_HAS_EXPRESSION	   = 1,
+
+    /* Cell has been queued for recalc */
+    CELL_QUEUED_FOR_RECALC = 2
 } CellFlags;
 
-/**
- * CellComment:
- *
- * Holds the comment string as well as the GnomeCanvasItem marker
- * that appears on the spreadsheet
- */
-typedef struct {
-	String          *comment;
-	int             timer_tag;
-	void            *window;
-	
-	/* A list of GnomeCanvasItems, one per SheetView */
-	GList           *realized_list;
-} CellComment;
+typedef struct _CellComment CellComment;
 
-/**
- * Cell:
- *
- * Definition of a Gnumeric Cell
- */
+/* Definition of a Gnumeric Cell */
 struct _Cell {
+	/* Mandatory state information */
+	CellFlags    cell_flags;
 	Sheet       *sheet;
-	ColRowInfo  *col;
-	ColRowInfo  *row;
+	ColRowInfo  *col_info;
+	ColRowInfo  *row_info;
 
-	String      *text;		/* Text rendered and displayed */
-	String      *entered_text;	/* Text as entered by the user. */
-	
-	ExprTree    *parsed_node;	/* Parse tree with the expression */
-	Value       *value;		/* Last value computed */
+	Value         *value;	/* computed or entered (Must be non NULL) */
+	RenderedValue *rendered_value;
 
-	/* Colour supplied by the formater eg [Red]0.00 */
-	StyleColor  *render_color;
+	/*  Only applies if the region has format general */
+	StyleFormat *format;	/* Prefered format to render value */
 
-	/*
-	 * Computed sizes of rendered text.
-	 * In pixels EXCLUSIVE of margins and grid lines
-	 */
-	int         width_pixel, height_pixel;
+	union {
+		ExprTree    *expression;	/* Parse tree with the expression */
+		String      *entered_text;	/* Text as entered by the user. */
+	} u; /* TODO : find a better naming scheme */
 
 	CellComment *comment;
-	CellFlags    flags;
 	guint8       generation;
 };
 
-typedef enum {
-	CELL_COPY_TYPE_CELL,
-	CELL_COPY_TYPE_TEXT,
-	CELL_COPY_TYPE_TEXT_AND_COMMENT,
-} CellCopyType;
-
-typedef struct {
-	int col_offset, row_offset; /* Position of the cell */
-	guint8 type;
-	char *comment;
-	union {
-		Cell   *cell;
-		char *text;
-	} u;
-} CellCopy;
-
-typedef GList CellCopyList;
-
-struct _CellRegion {
-	int          cols, rows;
-	CellCopyList *list;
-	GList        *styles;
-};
-
-char       *value_format                 (Value *value, StyleFormat *format, char **color);
-
-void        cell_set_text                (Cell *cell, const char *text);
-void        cell_set_text_simple         (Cell *cell, const char *text);
-void        cell_set_value               (Cell *cell, Value *v);
-void        cell_set_value_simple        (Cell *cell, Value *v);
-void        cell_content_changed         (Cell *cell);
-void        cell_set_formula             (Cell *cell, const char *text);
-void        cell_set_formula_tree        (Cell *cell, ExprTree *formula);
-void        cell_set_formula_tree_simple (Cell *cell, ExprTree *formula);
-void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
-					  int rowb, int colb,
-					  ExprTree *formula);
-void        cell_set_format              (Cell *cell, const char *format);
-void        cell_set_format_simple       (Cell *cell, const char *format);
-void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);
-
-void        cell_set_comment             (Cell *cell, const char *str);
-void        cell_comment_destroy         (Cell *cell);
-void        cell_comment_reposition      (Cell *cell);
-char       *cell_get_comment             (Cell *cell);
-
-char *      cell_get_formatted_val       (Cell *cell, StyleColor **col);
-MStyle     *cell_get_mstyle              (const Cell *cell);
-void        cell_set_mstyle              (const Cell *cell, MStyle *mstyle);
-void        cell_relocate                (Cell *cell, gboolean const check_bounds);
-
-void        cell_calculate_span          (Cell const * const cell,
-					  int * const col1, int * const col2);
-char       *cell_get_text                (Cell *cell);
-char       *cell_get_content             (Cell *cell);
-char       *cell_get_value_as_text       (Cell *cell);
-void        cell_make_value              (Cell *cell);
-void        cell_render_value            (Cell *cell);
-void        cell_calc_dimensions         (Cell *cell, gboolean const auto_resize_height);
+/**
+ * Manage cells
+ */
 Cell       *cell_copy                    (const Cell *cell);
 void        cell_destroy                 (Cell *cell);
-void        cell_queue_redraw            (Cell *cell);
-int         cell_get_horizontal_align    (const Cell *cell, int align);
-gboolean    cell_is_number  		 (const Cell *cell);
-gboolean    cell_is_zero		 (const Cell *cell);
+void        cell_content_changed         (Cell *cell);
+void        cell_relocate                (Cell *cell, gboolean const check_bounds);
 
-void        cell_realize                 (Cell *cell);
-void        cell_unrealize               (Cell *cell);
-
-/*
- * Optimizations to stop cell_queue_redraw to be invoked
+/**
+ * Cell state checking
  */
-void        cell_thaw_redraws            (void);
-void        cell_freeze_redraws          (void);
+gboolean    cell_is_blank		(Cell const * const cell);
+Value *     cell_is_error               (Cell const * const cell);
+gboolean    cell_is_number  		(Cell const * const cell);
+gboolean    cell_is_zero		(Cell const * const cell);
+ArrayRef const * cell_is_array          (Cell const * const cell);
+gboolean    cell_is_partial_array       (Cell const * const cell);
+#define	    cell_needs_recalc(cell)	((cell)->cell_flags & CELL_QUEUED_FOR_RECALC)
+#define	    cell_has_expr(cell)		((cell)->cell_flags & CELL_HAS_EXPRESSION)
+#define	    cell_has_comment(cell)	((cell)->comment != NULL)
 
-/*
- * Optimizations to stop any queueing of redraws.
+/**
+ * Utilities to assign the contents of a cell
  */
-void        cell_deep_thaw_redraws            (void);
-void        cell_deep_freeze_redraws          (void);
+void        cell_set_text                (Cell *cell, const char *text);
+void        cell_set_text_and_value      (Cell *cell, String *text,
+					  Value *v, char const * optional_format);
+void        cell_assign_value            (Cell *cell, Value *v, char const * optional_format);
+void        cell_set_value               (Cell *cell,
+					  Value *v, char const * optional_format);
+void        cell_set_expr_and_value      (Cell *cell, ExprTree *expr, Value *v);
+void        cell_set_expr                (Cell *cell, ExprTree *formula,
+					  char const * optional_format);
+void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
+					  int rowb, int colb,
+					  ExprTree *formula,
+					  gboolean const queue_recalc);
 
-/* Cell state checking */
-gboolean    cell_is_blank		 (Cell const * const cell);
-Value *     cell_is_error                (Cell const * const cell);
+/**
+ * Manipulate Cell attributes
+ */
+MStyle     *cell_get_mstyle              (const Cell *cell);
+void        cell_set_mstyle              (const Cell *cell, MStyle *mstyle);
 
 char *      cell_get_format              (const Cell *cell);
-gboolean    cell_has_assigned_format     (const Cell *cell);
+void        cell_set_format              (Cell *cell, const char *format);
+
+void        cell_make_value              (Cell *cell);	/* FIXME : This is crap ?! */
+void        cell_render_value            (Cell *cell);
 
 #endif /* GNUMERIC_CELL_H */

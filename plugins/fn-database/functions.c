@@ -7,7 +7,7 @@
 #include <config.h>
 #include <math.h>
 #include <glib.h>
-#include "gutils.h"
+#include "parse-util.h"
 #include "func.h"
 #include "cell.h"
 
@@ -137,7 +137,7 @@ find_column_of_field (const EvalPosition *ep, Value *database, Value *field)
 		if (cell == NULL)
 		        continue;
 
-		txt = cell_get_text (cell);
+		txt = cell_get_entered_text (cell);
 		match = (g_strcasecmp (field_name, txt) == 0);
 		g_free (txt);
 		if (match) {
@@ -250,7 +250,7 @@ parse_criteria_range(Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			}
 
 			/* Other conditions (in string format) */
-			cell_str = cell_get_text(cell);
+			cell_str = cell_get_entered_text(cell);
 			parse_criteria(cell_str, &cond->fun, &cond->x);
 			if (field_ind != NULL)
 			        cond->column = field_ind[j-b_col];
@@ -425,8 +425,8 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 						sheet_cell_get(sheet, i, trow);
 					      cell =
 						sheet_cell_get(sheet, i, row);
-					      t1 = cell_get_text (cell);
-					      t2 = cell_get_text (test_cell);
+					      t1 = cell_get_entered_text (cell);
+					      t2 = cell_get_entered_text (test_cell);
 					      if (strcmp (t1, t2) != 0)
 						      goto row_ok;
 				       }

@@ -27,22 +27,23 @@
 #include "font.h"
 #include "cell.h"
 #include "command-context.h"
-
+#include "rendered-value.h"
 
 /*
  * escape special characters .. needs work
  */
 static int
-roff_fprintf (FILE *fp, const char *s)
+roff_fprintf (FILE *fp, const Cell *cell)
 {
 	int len, i;
 	const char *p;
+	char * s;
 
-	if (!s)
+	if (cell_is_blank (cell))
 		return 0;
+
+	s = cell_get_rendered_text (cell);
 	len = strlen (s);
-	if (!len)
-		return 0;
 	p = s;
 	for (i = 0; i < len; i++) {
 		switch (*p) {
@@ -58,6 +59,7 @@ roff_fprintf (FILE *fp, const char *s)
 		}
 		p++;
 	}
+	g_free (s);
 	return len;
 }
 
@@ -159,7 +161,7 @@ write_wb_roff (CommandContext *context, Workbook *wb, FILE *fp)
 				if (!cell) {	/* empty cell */
 					fprintf (fp, " ");
 				} else {
-					roff_fprintf (fp, cell->text->str);
+					roff_fprintf (fp, cell);
 				}
 			}
 			fprintf (fp, "\n");

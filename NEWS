@@ -4,6 +4,10 @@ Morten:
 	* Fixed QUARTILE.
 	* Fixed MATCH for types -1 and +1.
 
+Jody:
+	* Overhaul cell structure to cleanup temp formats, improve spans.
+	* Improve array formula entry, editing, and xml-io.
+
 Translations:
 	* Updated: de (Karl), en_GB (Robert),  ru (Valek), and more.
 

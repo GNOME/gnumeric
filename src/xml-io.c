@@ -27,9 +27,11 @@
 #include "expr.h"
 #include "expr-name.h"
 #include "cell.h"
+#include "cell-comment.h"
 #include "workbook.h"
 #include "workbook-view.h"
 #include "selection.h"
+#include "clipboard.h"
 #include "command-context.h"
 
 /*
@@ -179,7 +181,7 @@ xml_get_value_string (xmlNodePtr node, const char *name)
  * Get an integer value for a node either carried as an attibute or as
  * the content of a child.
  */
-static int
+static gboolean
 xml_get_value_int (xmlNodePtr node, const char *name, int *val)
 {
 	char *ret;
@@ -193,9 +195,9 @@ xml_get_value_int (xmlNodePtr node, const char *name, int *val)
 
 	if (res == 1) {
 	        *val = i;
-		return 1;
+		return TRUE;
 	}
-	return 0;
+	return FALSE;
 }
 
 #if 0
@@ -1811,21 +1813,14 @@ xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
 static xmlNodePtr
 xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int row)
 {
-	xmlNodePtr cur;
-	char *text;
-	char *tstr;
+	xmlNodePtr cur, child;
+	char *text, *tstr;
+	ArrayRef const * ar;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", col);
 	xml_set_value_int (cur, "Row", row);
 	xml_set_value_int (cur, "Style", 0); /* Backwards compatible */
-
-	text = cell_get_content (cell);
-	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
-	xmlNewChild (cur, ctxt->ns, "Content", tstr);
-	if (tstr)
-		xmlFree (tstr);
-	g_free (text);
 
  	text = cell_get_comment(cell);
  	if (text) {
@@ -1834,6 +1829,23 @@ xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int
 		if (tstr) xmlFree (tstr);
 		g_free(text);
  	}
+
+	/* Only the top left corner of an array needs to be saved (>= 0.53) */
+	if (NULL != (ar = cell_is_array (cell)) && (ar->y != 0 || ar->x != 0))
+		return cur;
+
+	text = cell_get_entered_text (cell);
+	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
+	child = xmlNewChild (cur, ctxt->ns, "Content", tstr);
+	if (tstr)
+		xmlFree (tstr);
+	g_free (text);
+
+	/* As of version 0.53 we save the size of the array as attributes */
+	if (ar != NULL) {
+	        xml_set_value_int (child, "Rows", ar->rows);
+	        xml_set_value_int (child, "Cols", ar->cols);
+	}
 
 	return cur;
 }
@@ -1844,8 +1856,81 @@ xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int
 static xmlNodePtr
 xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 {
+	return xml_write_cell_and_position (ctxt, cell, cell->col_info->pos, cell->row_info->pos);
+}
 
-	return xml_write_cell_and_position (ctxt, cell, cell->col->pos, cell->row->pos);
+/**
+ * xml_cell_set_array_expr : Utility routine to parse an expression
+ *     and store it as an array.
+ *
+ * @cell : The upper left hand corner of the array.
+ * @text : The text to parse.
+ * @rows : The number of rows.
+ * @cols : The number of columns.
+ */
+static void
+xml_cell_set_array_expr (Cell *cell, char const *text,
+			 int const rows, int const cols)
+{
+	char *error_string = NULL;
+	ParsePosition pp;
+	ExprTree * expr;
+
+	expr = expr_parse_string (text,
+				  parse_pos_cell (&pp, cell),
+				  NULL, &error_string);
+
+	g_return_if_fail (expr != NULL);
+	cell_set_array_formula (cell->sheet,
+				cell->row_info->pos,
+				cell->col_info->pos,
+				cell->row_info->pos + rows-1,
+				cell->col_info->pos + cols-1,
+				expr, TRUE);
+}
+
+/**
+ * xml_not_used_old_array_spec : See if the string corresponds to
+ *     a pre-0.53 style array expression.
+ *     If it is the upper left corner	 - assign it.
+ *     If it is a member of the an array - ignore it the corner will assign it.
+ *     If it is not a member of an array return TRUE.
+ */
+static gboolean
+xml_not_used_old_array_spec (Cell *cell, char *content)
+{
+	int rows, cols, row, col;
+
+#if 0
+	/* This is the syntax we are trying to parse */
+	g_string_sprintfa (str, "{%s}(%d,%d)[%d][%d]", expr_text,
+			   array.rows, array.cols, array.y, array.x);
+#endif
+	char *end;
+	char *last = strrchr (content, '}');
+	char *ptr = last;
+	if (ptr == NULL || ptr[1] != '(')
+		return TRUE;
+
+	rows = strtol (ptr += 2, &end, 10);
+	if (end == ptr || *end != ',')
+		return TRUE;
+	cols = strtol (ptr = ++end, &end, 10);
+	if (end == ptr || end[0] != ')' || end[1] != '[')
+		return TRUE;
+	row = strtol (ptr = (end += 2), &end, 10);
+	if (end == ptr || end[0] != ']' || end[1] != '[')
+		return TRUE;
+	col = strtol (ptr = (end += 2), &end, 10);
+	if (end == ptr || end[0] != ']' || end[1] != '\0')
+		return TRUE;
+
+	if (row == 0 && col == 0) {
+		*last = '\0';
+		xml_cell_set_array_expr (cell, content+2, rows, cols);
+	}
+
+	return FALSE;
 }
 
 /*
@@ -1857,10 +1942,13 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	Cell *ret;
 	xmlNodePtr childs;
 	int col, row;
+	int array_cols, array_rows;
 	char *content = NULL;
 	char *comment = NULL;
 	int  style_idx;
 	gboolean style_read = FALSE;
+	gboolean is_post_52_array = FALSE;
+	gboolean is_new_cell;
 
 	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,
@@ -1872,7 +1960,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xml_get_value_int (tree, "Row", &row);
 
 	ret = sheet_cell_get (ctxt->sheet, col, row);
-	if (ret == NULL)
+	if ((is_new_cell = (ret == NULL)))
 		ret = sheet_cell_new (ctxt->sheet, col, row);
 
 	if (ret == NULL)
@@ -1915,8 +2003,14 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 								   mstyle);
 			}
 		}
-		if (!strcmp (childs->name, "Content"))
+		if (!strcmp (childs->name, "Content")) {
 			content = xmlNodeGetContent (childs);
+
+			/* Is this a post 0.52 array */
+			is_post_52_array = 
+			    xml_get_value_int (childs, "Rows", &array_rows) &&
+			    xml_get_value_int (childs, "Cols", &array_cols);
+		}
 		if (!strcmp (childs->name, "Comment")) {
 			comment = xmlNodeGetContent (childs);
  			if (comment) {
@@ -1930,16 +2024,20 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		content = xmlNodeGetContent (tree);
 
 	if (content != NULL) {
-		/*
-		 * Handle special case of a non corner element of an array
-		 * that has already been created.
-		 */
-		if (ret->parsed_node == NULL ||
-		    OPER_ARRAY != ret->parsed_node->oper)
-			cell_set_text_simple (ret, content);
+		if (is_post_52_array) {
+			g_return_val_if_fail (content[0] == '=', NULL);
+			xml_cell_set_array_expr (ret, content+1,
+						 array_rows, array_cols);
+		} else if (content[0] != '=' || content[1] != '{' ||
+		    xml_not_used_old_array_spec (ret, content))
+			cell_set_text (ret, content);
 		xmlFree (content);
-	} else
-		cell_set_value (ret, value_new_empty ());
+	} else if (is_new_cell)
+		/* Only set to empty if this is a new cell.
+		 * If it was created by a previous array
+		 * we do not want to erase it.
+		 */
+		cell_set_value (ret, value_new_empty (), NULL);
 
 	return ret;
 }
@@ -2070,10 +2168,10 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 	        int type;
 
 	        c = g_new (SolverConstraint, 1);
-		xml_get_value_int (child, "Lcol", &c->lhs_col);
-		xml_get_value_int (child, "Lrow", &c->lhs_row);
-		xml_get_value_int (child, "Rcol", &c->rhs_col);
-		xml_get_value_int (child, "Rrow", &c->rhs_row);
+		xml_get_value_int (child, "Lcol", &c->lhs.col);
+		xml_get_value_int (child, "Lrow", &c->lhs.row);
+		xml_get_value_int (child, "Rcol", &c->rhs.col);
+		xml_get_value_int (child, "Rrow", &c->rhs.row);
 		xml_get_value_int (child, "Cols", &c->cols);
 		xml_get_value_int (child, "Rows", &c->rows);
 		xml_get_value_int (child, "Type", &type);
@@ -2097,8 +2195,8 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 		        c->type = "<=";
 			break;
 		}
-		write_constraint_str (buf, c->lhs_col, c->lhs_row, c->rhs_col,
-				      c->rhs_row, c->type, c->cols, c->rows);
+		write_constraint_str (buf, c->lhs.col, c->lhs.row, c->rhs.col,
+				      c->rhs.row, c->type, c->cols, c->rows);
 		c->str = g_new (char, strlen (buf)+1);
 		strcpy (c->str, buf);
 
@@ -2121,9 +2219,9 @@ xml_write_solver (parse_xml_context_t *ctxt, SolverParameters *param)
 
 	if (param->target_cell != NULL) {
 	        xml_set_value_int (cur, "TargetCol",
-				   param->target_cell->col->pos);
+				   param->target_cell->col_info->pos);
 	        xml_set_value_int (cur, "TargetRow",
-				   param->target_cell->row->pos);
+				   param->target_cell->row_info->pos);
 	} else {
 	        xml_set_value_int (cur, "TargetCol", -1);
 	        xml_set_value_int (cur, "TargetRow", -1);
@@ -2140,10 +2238,10 @@ xml_write_solver (parse_xml_context_t *ctxt, SolverParameters *param)
 	        c = (SolverConstraint *) constraints->data;
 
 		constr = xmlNewDocNode (ctxt->doc, ctxt->ns, "Constr", NULL);
-		xml_set_value_int (constr, "Lcol", c->lhs_col);
-		xml_set_value_int (constr, "Lrow", c->lhs_row);
-		xml_set_value_int (constr, "Rcol", c->rhs_col);
-		xml_set_value_int (constr, "Rrow", c->rhs_row);
+		xml_set_value_int (constr, "Lcol", c->lhs.col);
+		xml_set_value_int (constr, "Lrow", c->lhs.row);
+		xml_set_value_int (constr, "Rcol", c->rhs.col);
+		xml_set_value_int (constr, "Rrow", c->rhs.row);
 		xml_set_value_int (constr, "Cols", c->cols);
 		xml_set_value_int (constr, "Rows", c->rows);
 
@@ -2556,8 +2654,6 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		}
 	}
 
-	cell_deep_freeze_redraws ();
-
 	child = xml_search_child (tree, "Cells");
 	if (child != NULL){
 		cells = child->childs;
@@ -2573,8 +2669,6 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	child = xml_search_child (tree, "Solver");
 	if (child != NULL)
 	        xml_read_solver (ret, ctxt, child, &(ret->solver_parameters));
-
-	cell_deep_thaw_redraws ();
 
 	xml_dispose_read_cell_styles (ctxt);
 

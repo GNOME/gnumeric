@@ -27,6 +27,7 @@
 #include "cell-draw.h"
 #include "cellspan.h"
 #include "commands.h"
+#include "parse-util.h"
 
 #undef PAINT_DEBUG
 
@@ -391,8 +392,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				x_paint += ci->size_pixels;
 				++col;
 			} else {
-				Cell *cell = span->cell;
-				int const real_col = cell->col->pos;
+				Cell const *cell = span->cell;
+				int const real_col = cell->col_info->pos;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				int real_x = -1;
@@ -421,8 +422,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				 */
 				if (real_style == NULL) {
 					real_style = sheet_style_compute (sheet, real_col, ri->pos);
-					real_x = x_paint + sheet_col_get_distance_pixels (cell->sheet,
-											  col, cell->col->pos);
+					real_x = x_paint +
+					    sheet_col_get_distance_pixels (cell->sheet,
+									   col, cell->col_info->pos);
 				}
 
 				cell_draw (cell, real_style, span,
@@ -762,10 +764,10 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	}
 
 	/*
-	 * If the user is editing a formula (gnumeric_sheet_can_move_cursor)
+	 * If the user is editing a formula (gnumeric_sheet_can_select_expr_range)
 	 * then we enable the dynamic cell selection mode.
 	 */
-	if (gnumeric_sheet_can_move_cursor (gsheet)){
+	if (gnumeric_sheet_can_select_expr_range (gsheet)){
 		gnumeric_sheet_start_cell_selection (gsheet, col, row);
 		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnumeric_sheet_selection_cursor_place (gsheet, col, row);
@@ -966,6 +968,9 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (sheet, sheet->cursor.edit_pos.col,
 							 sheet->cursor.edit_pos.row);
+
+			workbook_set_region_status (sheet->workbook,
+						    cell_pos_name (&sheet->cursor.edit_pos));
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);

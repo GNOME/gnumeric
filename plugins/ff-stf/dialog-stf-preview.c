@@ -77,9 +77,9 @@ stf_preview_render_col (RenderData_t *renderdata, unsigned long col, double cols
 			cell = sheet_cell_get (renderdata->src->sheet, col, i - 1);
 			if (cell) {
 				if (renderdata->formatted) 
-					celltext = cell_get_formatted_val (cell, NULL);
+					celltext = cell_get_rendered_text (cell);
 				else
-					celltext = cell_get_content (cell);
+					celltext = cell_get_entered_text (cell);
 			}
 			else
 				celltext = " ";

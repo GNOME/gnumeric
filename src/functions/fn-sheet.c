@@ -7,7 +7,7 @@
  */
 #include <config.h>
 #include "gnumeric.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "func.h"
 #include "cell.h"
 #include "selection.h"

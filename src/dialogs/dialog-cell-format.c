@@ -25,6 +25,7 @@
 #include "application.h"
 #include "workbook.h"
 #include "commands.h"
+#include "rendered-value.h"
 
 #define GLADE_FILE "cell-format.glade"
 
@@ -93,7 +94,7 @@ typedef struct _FormatState
 	Sheet		*sheet;
 	MStyle		*style, *result;
 	Value		*value;
-	char const	*entered_text;
+	char const	*sample_rendered_text;
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
@@ -502,7 +503,7 @@ draw_format_preview (FormatState *state)
 		return;
 
 	preview = format_value (sf, state->value, &preview_color,
-				state->entered_text);
+				state->sample_rendered_text);
 
 	if (strlen (preview) > FORMAT_PREVIEW_MAX)
 		strcpy (&preview [FORMAT_PREVIEW_MAX - 5], " ...");
@@ -1162,7 +1163,7 @@ cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state
 	if (!gnome_display_font)
 		return;
 
-	if (state->enable_edit) {
+	if (state->enable_edit && font_sel->size >= 1.) {
 		GnomeFont const * const gnome_font = gnome_display_font->gnome_font;
 		char const * const family_name = gnome_font->fontmap_entry->familyname;
 
@@ -1907,8 +1908,6 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	if (page != -1)
 		return;
 
-	cell_freeze_redraws ();
-	
 	mstyle_ref (state->result);
 
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
@@ -1917,7 +1916,6 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	cmd_format (workbook_command_context_gui (state->sheet->workbook),
 		    state->sheet, state->result, borders);
 
-	cell_thaw_redraws ();
 	mstyle_unref (state->result);
 	sheet_update_controls (state->sheet);
 
@@ -1930,6 +1928,10 @@ static gboolean
 cb_fmt_dialog_dialog_destroy (GtkObject *w, FormatState *state)
 {
 	g_free ((char *)state->format.spec);
+	if (state->sample_rendered_text != NULL) {
+		g_free ((char *)state->sample_rendered_text);
+		state->sample_rendered_text = NULL;
+	}
 	mstyle_unref (state->style);
 	mstyle_unref (state->result);
 	gtk_object_unref (GTK_OBJECT (state->gui));
@@ -2239,8 +2241,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	GladeXML     *gui;
 	MStyle       *mstyle;
 	Value	     *sample_val;
-	Cell	     *first_upper_left;
-	Range const  *selection;
+	Cell	     *edit_cell;
 	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 	FormatState  *state = g_new (FormatState, 1);
 
@@ -2254,20 +2255,18 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 		return;
 	}
 
-	selection = selection_first_range (sheet, TRUE);
-	first_upper_left = sheet_cell_get (sheet, selection->start.col,
-					   selection->start.row);
+	edit_cell = sheet_cell_get (sheet,
+				    sheet->cursor.edit_pos.col,
+				    sheet->cursor.edit_pos.row);
 
-	sample_val = (first_upper_left) ? first_upper_left->value : NULL;
+	sample_val = (edit_cell) ? edit_cell->value : NULL;
 	mstyle = sheet_selection_get_unique_style (sheet, borders);
 
 	/* Initialize */
 	state->gui		= gui;
 	state->sheet		= sheet;
 	state->value		= sample_val;
-	state->entered_text	=
-		(first_upper_left && first_upper_left->entered_text)
-		? first_upper_left->entered_text->str : NULL;
+	state->sample_rendered_text = cell_get_rendered_text (edit_cell);
 	state->style		= mstyle;
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;

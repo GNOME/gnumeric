@@ -18,7 +18,7 @@
 #include "graphic-context.h"
 #include "graphic-type.h"
 #include "sheet.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "expr.h"
 #include "value.h"
 

@@ -19,7 +19,7 @@
 #include "func.h"
 #include "value.h"
 
-#include "gutils.h"
+#include "parse-util.h"
 
 #include "excel.h"
 #include "ms-biff.h"

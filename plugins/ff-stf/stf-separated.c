@@ -148,13 +148,12 @@ stf_separated_parse_sheet_partial (FileSource_t *src, SeparatedInfo_t *sepinfo, 
 				
 				field = stf_separated_parse_column (src, sepinfo);
 				
-				if (!field)
-					field = g_strdup ("");
-				
-				newcell = sheet_cell_new (src->sheet, col, row);
-				cell_set_text_simple (newcell, field);
-				g_free(field);
-				
+				if (field) {
+					newcell = sheet_cell_fetch (src->sheet, col, row);
+					cell_set_text (newcell, field);
+					g_free(field);
+				}
+					
 				if (++col >= SHEET_MAX_COLS) {
 					g_warning (WARN_COLS_MSG, SHEET_MAX_COLS);
 					src->cur = cur;

@@ -8,7 +8,7 @@
 #include <config.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "cell.h"
 #include "func.h"
 #include "datetime.h"

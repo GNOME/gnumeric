@@ -77,11 +77,15 @@ datetime_value_to_serial_raw (const Value *v)
 		serial = value_get_as_float (v);
 	else {
 		char *str, *format;
-		double dserial;
+		Value *conversion;
 
 		str = value_get_as_string (v);
-		if (format_match (str, &dserial, &format)) {
-			serial = dserial;
+		if (NULL != (conversion = format_match (str, &format))) {
+			if (VALUE_IS_NUMBER (conversion))
+				serial = value_get_as_float (conversion);
+			else
+				serial =  0;
+			value_release (conversion);
 		} else
 			serial = 0;
 		g_free (str);

@@ -30,7 +30,7 @@
  * until someone who actually uses this thing takes
  * over maintaing it.
  */
-static EvalPosition *eval_pos = NULL;
+static EvalPosition const *eval_pos = NULL;
 
 static SCM
 scm_symbolfrom0str (char *name)
@@ -77,7 +77,7 @@ scm_to_cell_ref (SCM scm)
 }
 
 static SCM
-value_to_scm (Value *val, CellRef cell_ref)
+value_to_scm (Value const *val, CellRef cell_ref)
 {
 	if (val == NULL)
 		return SCM_EOL;
@@ -119,9 +119,10 @@ value_to_scm (Value *val, CellRef cell_ref)
 
 				ls = gh_eval_str("'()");
 
+				/* FIXME : I added the value_to_scm wrapper. This seems more correct */
 				for(i = 0; i < y; i++)
 					for (ii = 0; i < x; i++)
-						ls = scm_cons(val->v.array.vals[ii][i], ls);
+						ls = scm_cons(value_to_scm(val->v.array.vals[ii][i], cell_ref), ls);
 				return ls;
 			}
 	}
@@ -353,10 +354,10 @@ scm_cell_expr (SCM scm)
 
 	cell = sheet_cell_get(eval_pos->sheet, cell_ref.col, cell_ref.row);
 
-	if (cell == NULL || cell->parsed_node == NULL)
+	if (cell == NULL || cell_has_expr (cell))
 		return SCM_EOL;
 
-	return expr_to_scm (cell->parsed_node, cell_ref);
+	return expr_to_scm (cell->u.expression, cell_ref);
 }
 
 static SCM
@@ -409,7 +410,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	FunctionDefinition const *fndef = ei->func_def;
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
-	EvalPosition *old_eval_pos;
+	EvalPosition const *old_eval_pos;
 	int i, min, max;
 
 	function_def_count_args (fndef, &min, &max);

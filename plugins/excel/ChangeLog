@@ -1,3 +1,16 @@
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_sheet_insert) : formats are no longer
+	  associated with individual cells.  Only create a cell if it has
+	  content.
+	(ms_excel_formula_shared) : Rework to return the expression.  Only set
+	  it if it is an array.
+	(ms_excel_read_formula) : Use error values for problems not strings.
+	  Use cell_set_expr_and_value when possible.
+	(ms_excel_read_workbook) : Disable optimization that was culling blank
+	  sheets.  It was causing a complete recalc of all loaded books for
+	  eavy deleted sheet.
+
 2000-04-20  Dan Winship  <danw@helixcode.com>
 
 	* ms-escher.c (ms_escher_blip_new): update for changes to bonobo

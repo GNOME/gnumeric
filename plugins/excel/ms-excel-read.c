@@ -19,10 +19,11 @@
 #include "ms-escher.h"
 #include "print-info.h"
 #include "selection.h"
-#include "gutils.h"	/* for cell_name */
+#include "parse-util.h"	/* for cell_name */
 #include "ranges.h"
 #include "expr-name.h"
 #include "style.h"
+#include "cell-comment.h"
 #include "application.h"
 #include "workbook.h"
 #include "ms-excel-util.h"
@@ -1727,13 +1728,11 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 
 	ms_excel_set_xf (sheet, col, row, xfidx);
 
-	cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-
 	/* NB. cell_set_text _certainly_ strdups *text */
-	if (text)
-		cell_set_text_simple (cell, text);
-	else
-		cell_set_value (cell, value_new_empty ());
+	if (text) {
+		cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+		cell_set_text (cell, text);
+	}
 }
 
 /* Shared formula support functions */
@@ -1760,15 +1759,12 @@ biff_shared_formula_destroy (gpointer key, BiffSharedFormula *sf,
 	return TRUE;
 }
 
-static gboolean
+static ExprTree *
 ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 {
-	g_return_val_if_fail (ms_biff_query_next (q), FALSE);
-	if (q->ls_op != BIFF_SHRFMLA && q->ls_op != BIFF_ARRAY) {
-		printf ("EXCEL : unexpected record after a formula 0x%x in '%s'\n",
-			q->opcode, cell_name (cell->col->pos, cell->row->pos));
-		return FALSE;
-	} else {
+	g_return_val_if_fail (ms_biff_query_next (q), NULL);
+
+	if (q->ls_op == BIFF_SHRFMLA || q->ls_op == BIFF_ARRAY) {
 		gboolean const is_array = (q->ls_op == BIFF_ARRAY);
 		guint16 const array_row_first = MS_OLE_GET_GUINT16(q->data + 0);
 		guint16 const array_row_last = MS_OLE_GET_GUINT16(q->data + 2);
@@ -1791,8 +1787,8 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 		 *     flag the formula as shared until later.
 		 *  Use the location of the cell we are reading as the key.
 		 */
-		sf->key.col = cell->col->pos; /* array_col_first; */
-		sf->key.row = cell->row->pos; /* array_row_first; */
+		sf->key.col = cell->col_info->pos; /* array_col_first; */
+		sf->key.row = cell->row_info->pos; /* array_row_first; */
 		sf->is_array = is_array;
 		if (data_len > 0) {
 			sf->data = g_new (guint8, data_len);
@@ -1803,9 +1799,10 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
-			printf ("Shared formula, extent %s:%s\n",
-				cell_name(array_col_first, array_row_first),
-				cell_name(array_col_last, array_row_last));
+			printf ("Shared formula, extent %s:",
+				cell_coord_name(array_col_first, array_row_first));
+			printf ("%s\n",
+				cell_coord_name(array_col_last, array_row_last));
 		}
 #endif
 
@@ -1819,13 +1816,13 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 						array_row_first,
 						array_col_first,
 						array_row_last,
-						array_col_last, expr);
-		else
-		    cell_set_formula_tree_simple (cell, expr);
-
-		expr_tree_unref (expr);
+						array_col_last, expr, FALSE);
+		return expr;
 	}
-	return TRUE;
+
+	printf ("EXCEL : unexpected record after a formula 0x%x in '%s'\n",
+		q->opcode, cell_name (cell));
+	return NULL;
 }
 
 /* FORMULA */
@@ -1865,14 +1862,14 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		printf ("FIXME: serious formula error: "
 			"invalid FORMULA (0x%x) record with length %d (should >= 22)\n",
 			q->opcode, q->length);
-		cell_set_text (cell, "Formula error");
+		cell_set_value (cell, value_new_error (NULL, "Formula Error"), NULL);
 		return;
 	}
 	if (q->length < (22 + MS_OLE_GET_GUINT16 (q->data+20))) {
 		printf ("FIXME: serious formula error: "
 			"supposed length 0x%x, real len 0x%x\n",
 			MS_OLE_GET_GUINT16 (q->data+20), q->length);
-		cell_set_text (cell, "Formula error");
+		cell_set_value (cell, value_new_error (NULL, "Formula Error"), NULL);
 		return;
 	}
 
@@ -1920,8 +1917,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 				printf ("%s:%s : has type 3 contents.  "
 					"Is it an empty cell ?\n",
 					sheet->gnum_sheet->name_unquoted,
-					cell_name (cell->col->pos,
-						   cell->row->pos));
+					cell_name (cell));
 				if (ms_excel_read_debug > 5)
 					ms_ole_dump (q->data+6, 8);
 			}
@@ -1935,31 +1931,17 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		};
 	}
 
-	/* Now try to parse the formula */
+	/* Now try to parse the formula
+	 * Flag any errors that arise
+	 */
 	expr = ms_excel_parse_formula (sheet->wb, sheet, (q->data + 22),
 				       col, row,
 				       FALSE, MS_OLE_GET_GUINT16 (q->data+20),
 				       &array_elem);
 
 	/* Error was flaged by parse_formula */
-	if (expr != NULL) {
-		/*
-		 * FIXME FIXME FIXME : cell_set_formula_tree_simple queues
-		 *                     things for recalc !!  and puts them in
-		 *                     the WRONG order !!  This is doubly
-		 *                     wrong, We should only recalc on load
-		 *                     when the flag is set.
-		 */
-		cell_set_formula_tree_simple (cell, expr);
-		expr_tree_unref (expr);
-	} else if (!array_elem && !ms_excel_formula_shared (q, sheet, cell))
-	{
-		/*
-		 * NOTE : Only the expression is screwed.
-		 * The value and format can still be set.
-		 */
-		g_warning ("EXCEL : Shared formula problems");
-	}
+	if (expr == NULL && !array_elem)
+		expr = ms_excel_formula_shared (q, sheet, cell);
 
 	if (is_string) {
 		guint16 code;
@@ -1984,28 +1966,57 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 				val = value_new_string (v);
 				g_free (v);
 			} else {
+				EvalPosition pos;
+				val = value_new_error (eval_pos_cell (&pos, cell), "INVALID STRING");
 				g_warning ("EXCEL : invalid STRING record");
-				val = value_new_string ("INVALID STRING");
 			}
 		} else {
 			/*
 			 * Docs say that there should be a STRING
 			 * record here
 			 */
+			EvalPosition pos;
+			val = value_new_error (eval_pos_cell (&pos, cell), "MISSING STRING");
 			g_warning ("EXCEL : missing STRING record");
-			val = value_new_string ("MISSING STRING");
 		}
 	}
 
-	if (val == NULL) {
-		g_warning ("EXCEL : Invalid state.  Missing Value?");
-		val = value_new_string ("MISSING Value");
-	}
-	if (cell->value != NULL)
+	/* Some cells (array formulas) will have a value */
+	if (cell->value != NULL) {
 		value_release (cell->value);
+		cell->value = NULL;
+	}
 
-	/* Set value */
-	cell->value = val;
+	/* We MUST have a value */
+	if (val == NULL) {
+		EvalPosition pos;
+		val = value_new_error (eval_pos_cell (&pos, cell), "MISSING Value");
+		g_warning ("EXCEL : Invalid state.  Missing Value?");
+	}
+
+	if (cell_is_array (cell)) {
+		/*
+		 * Array expressions were already stored in the
+		 * cells (without recalc) handle either the first instance
+		 * or the followers.
+		 */
+		if (expr == NULL && !array_elem) {
+			g_warning ("EXCEL : How does cell %s%d have an array expression ?",
+				   col_name(cell->col_info->pos), cell->row_info->pos);
+			cell_set_value (cell, val, NULL);
+		} else
+			cell_assign_value (cell, val, NULL);
+	} else if (!cell_has_expr(cell)) {
+		cell_set_expr_and_value (cell, expr, val);
+		expr_tree_unref (expr);
+	} else {
+		/*
+		 * NOTE : Only the expression is screwed.
+		 * The value and format can still be set.
+		 */
+		g_warning ("EXCEL : Shared formula problems");
+		cell_set_value (cell, val, NULL);
+	}
 }
 
 BiffSharedFormula *
@@ -2057,7 +2068,7 @@ ms_excel_sheet_insert_val (ExcelSheet *sheet, int xfidx,
 
 	ms_excel_set_xf (sheet, col, row, xfidx);
 	cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-	cell_set_value_simple (cell, v);
+	cell_set_value (cell, v, NULL);
 }
 
 static void
@@ -2076,7 +2087,7 @@ ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, const char *tex
 		Cell *cell = sheet_cell_get (sheet->gnum_sheet, col, row);
 		if (!cell) {
 			cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-			cell_set_value (cell, value_new_empty ());
+			cell_set_value (cell, value_new_empty (), NULL);
 		}
 		cell_set_comment (cell, text);
 	}
@@ -2088,7 +2099,7 @@ ms_excel_sheet_append_comment (ExcelSheet *sheet, int col, int row, const char *
 	if (text) {
 		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 		if (!cell->value)
-			cell_set_text (cell, "");
+			cell_set_value (cell, value_new_empty(), NULL);
 		if (cell->comment && cell->comment->comment &&
 		    cell->comment->comment->str) {
 			char *txt = g_strconcat (cell->comment->comment->str, text, NULL);
@@ -3613,9 +3624,16 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 					if (ms_excel_read_sheet (sheet, q, wb)) {
 						ms_excel_sheet_realize_objs (sheet);
 
+#if 0
+						/* DO NOT DO THIS.
+						 * this looks good in principle but is a nightmare for
+						 * performance.  It causes the entire book to be recalculated
+						 * for everysheet that is removed.
+						 */
 						if (sheet_is_pristine (sheet->gnum_sheet) &&
 						    current_sheet > 0)
 							kill = TRUE;
+#endif
 					} else
 						kill = TRUE;
 

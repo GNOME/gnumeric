@@ -17,7 +17,7 @@
 #include "color.h"
 #include "cursors.h"
 #include "selection.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "ranges.h"
 #include "application.h"
 #include "workbook-view.h"
@@ -180,7 +180,7 @@ move_vertical_selection (GnumericSheet *gsheet,
 }
 
 /*
- * gnumeric_sheet_can_move_cursor
+ * gnumeric_sheet_can_select_expr_range
  *  @gsheet:   the object
  *
  * Returns true if the cursor keys should be used to select
@@ -188,7 +188,7 @@ move_vertical_selection (GnumericSheet *gsheet,
  * where it makes sense to have a cell reference), false if not.
  */
 gboolean
-gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
+gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 {
 	g_return_val_if_fail (gsheet != NULL, FALSE);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
@@ -588,11 +588,11 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	Workbook *wb = sheet->workbook;
 	void (*movefn_horizontal) (GnumericSheet *, int, gboolean);
 	void (*movefn_vertical)   (GnumericSheet *, int, gboolean);
-	gboolean const cursor_move = gnumeric_sheet_can_move_cursor (gsheet);
+	gboolean const select_expr_range = gnumeric_sheet_can_select_expr_range (gsheet);
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 
 	if (event->state & GDK_SHIFT_MASK) {
-		if (cursor_move){
+		if (select_expr_range){
 			movefn_horizontal = selection_expand_horizontal;
 			movefn_vertical = selection_expand_vertical;
 		} else {
@@ -600,7 +600,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			movefn_vertical   = move_vertical_selection;
 		}
 	} else {
-		if (cursor_move){
+		if (select_expr_range){
 			movefn_horizontal = selection_cursor_move_horizontal;
 			movefn_vertical   = selection_cursor_move_vertical;
 		} else {
@@ -612,7 +612,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	/* Ignore a few keys (to avoid the selection cursor to be killed
 	 * in some cases
 	 */
-	if (cursor_move){
+	if (select_expr_range){
 		switch (event->keyval){
 		case GDK_Shift_L:   case GDK_Shift_R:
 		case GDK_Alt_L:     case GDK_Alt_R:
@@ -709,30 +709,13 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 */
 	case GDK_KP_Enter:
 	case GDK_Return:
-		if (wb->editing) {
-			if (event->state == GDK_CONTROL_MASK) {
-				gboolean const is_array =
-					(event->state & GDK_SHIFT_MASK);
-				char * const text =
-					gtk_entry_get_text (GTK_ENTRY (gsheet->controling_entry));
-
-				/* Be careful to use the editing sheet */
-				gboolean const trouble =
-					cmd_area_set_text (workbook_command_context_gui (wb),
-							   wb->editing_sheet, text, is_array);
-
-				/* If the assignment was successful finish
-				 * editing but do NOT store the results
-				 */
-				if (!trouble)
-					workbook_finish_editing (wb, FALSE);
-				return 1;
-			}
-			if (event->state == GDK_MOD1_MASK)
-				/* Forward the keystroke to the input line */
-				return gtk_widget_event (gsheet->controling_entry,
-							 (GdkEvent *) event);
-		}
+		if (wb->editing &&
+		    (event->state == GDK_CONTROL_MASK ||
+		     event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
+		     event->state == GDK_MOD1_MASK))
+			/* Forward the keystroke to the input line */
+			return gtk_widget_event (gsheet->controling_entry,
+						 (GdkEvent *) event);
 		/* fall down */
 
 	case GDK_Tab:
@@ -834,6 +817,27 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 	default:
 		return FALSE;
 	}
+}
+
+static gint
+gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
+	Sheet *sheet = gsheet->sheet_view->sheet;
+
+	/*
+	 * The status_region normally displays the current edit_pos
+	 * When we extend the selection it changes to displaying the size of
+	 * the selected region while we are selecting.  When the shift key
+	 * is released, or the mouse button is release we need to reset
+	 * to displaying the edit pos.
+	 */
+	if (sheet->mode == SHEET_MODE_SHEET &&
+	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
+		workbook_set_region_status (sheet->workbook,
+					    cell_pos_name (&sheet->cursor.edit_pos));
+
+	return FALSE;
 }
 
 static void
@@ -1332,6 +1336,7 @@ gnumeric_sheet_class_init (GnumericSheetClass *Class)
 	widget_class->realize              = gnumeric_sheet_realize;
  	widget_class->size_allocate        = gnumeric_size_allocate;
 	widget_class->key_press_event      = gnumeric_sheet_key;
+	widget_class->key_release_event    = gnumeric_sheet_key_release;
 }
 
 static void

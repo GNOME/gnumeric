@@ -89,6 +89,7 @@ void	       style_shutdown         (void);
 StyleFormat   *style_format_new       (const char *name);
 void           style_format_ref       (StyleFormat *sf);
 void           style_format_unref     (StyleFormat *sf);
+gboolean       style_format_is_general(StyleFormat const *sf);
 				      
 StyleFont     *style_font_new         (const char *font_name,
 				       double size, double scale,

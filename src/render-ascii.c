@@ -8,6 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "clipboard.h"
 #include "gnumeric-util.h"
 #include "render-ascii.h"
 
@@ -39,7 +40,7 @@ cell_region_render_ascii (CellRegion *cr)
 			v = g_strdup (c_copy->u.text);
 		else
 /* FIXME: We need to use the style's format information here */
-			v = cell_get_text (c_copy->u.cell);
+			v = cell_get_entered_text (c_copy->u.cell);
 		
 		data [c_copy->row_offset][c_copy->col_offset] = v;
 	}

@@ -11,7 +11,7 @@
 #include "mathfunc.h"
 #include "regression.h"
 #include "numbers.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "func.h"
 #include "cell.h"
 #include "collect.h"
@@ -2543,9 +2543,8 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(ei->pos->sheet, ei->pos->sheet),
-			   ei->pos->eval.col, ei->pos->eval.row),
-	     callback_function_make_list, &x_cl, expr_node_list,
+	    (eval_pos_init(&ep, ei->pos->sheet, &ei->pos->eval),
+	     &callback_function_make_list, &x_cl, expr_node_list,
 	     TRUE);
 
 	if (err != NULL)
@@ -2560,10 +2559,8 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(ei->pos->sheet,
-					   ei->pos->sheet),
-			   ei->pos->eval.col, ei->pos->eval.row),
-	     callback_function_make_list, &prob_cl, expr_node_list,
+	    (eval_pos_init(&ep, ei->pos->sheet, &ei->pos->eval),
+	     &callback_function_make_list, &prob_cl, expr_node_list,
 	     TRUE);
 
 	if (err != NULL)
@@ -3394,14 +3391,8 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init (&ep,
-			    eval_sheet (argv[0]->v.cell_range.cell_a.sheet,
-					ei->pos->sheet),
-			    argv[0]->v.cell_range.cell_a.col,
-			    argv[0]->v.cell_range.cell_a.row),
-	     callback_function_stat,
-	     &cl, expr_node_list,
-	     TRUE);
+	    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v.cell_range.cell_a),
+	     &callback_function_stat, &cl, expr_node_list, TRUE);
 
 	if (err != NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3423,13 +3414,8 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	        (eval_pos_init (&ep,
-				eval_sheet (argv[1]->v.cell_range.cell_a.sheet,
-					    ei->pos->sheet),
-				argv[1]->v.cell_range.cell_a.col,
-				argv[1]->v.cell_range.cell_a.row),
-		 callback_function_stat,
-		 &cl, expr_node_list, TRUE);
+		(eval_pos_cellref (&ep, ei->pos, &argv[1]->v.cell_range.cell_a),
+		 &callback_function_stat, &cl, expr_node_list, TRUE);
 	if (err != NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
@@ -3556,15 +3542,8 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_init (&ep,
-				    eval_sheet
-				    (argv[0]->v.cell_range.cell_a.sheet,
-				     ei->pos->sheet),
-				    argv[0]->v.cell_range.cell_a.col,
-				    argv[0]->v.cell_range.cell_a.row),
-		     callback_function_ttest,
-		     &t_cl, expr_node_list,
-		     TRUE);
+		    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v.cell_range.cell_a),
+		     &callback_function_ttest, &t_cl, expr_node_list, TRUE);
 		if (err != NULL)
 		        return value_new_error (&ep, gnumeric_err_VALUE);
 
@@ -3580,15 +3559,8 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_init (&ep,
-				    eval_sheet
-				    (argv[1]->v.cell_range.cell_a.sheet,
-				     ei->pos->sheet),
-				    argv[1]->v.cell_range.cell_a.col,
-				    argv[1]->v.cell_range.cell_a.row),
-		     callback_function_ttest,
-		     &t_cl, expr_node_list,
-		     TRUE);
+		    (eval_pos_cellref (&ep, ei->pos, &argv[1]->v.cell_range.cell_a),
+		     &callback_function_ttest, &t_cl, expr_node_list, TRUE);
 
 		if (err != NULL)
 		        return value_new_error (&ep, gnumeric_err_VALUE);
@@ -3637,15 +3609,8 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_init (&ep,
-				    eval_sheet
-				    (argv[0]->v.cell_range.cell_a.sheet,
-				     ei->pos->sheet),
-				    argv[0]->v.cell_range.cell_a.col,
-				    argv[0]->v.cell_range.cell_a.row),
-		     callback_function_stat,
-		     &cl, expr_node_list,
-		     TRUE);
+		    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v.cell_range.cell_a),
+		     &callback_function_stat, &cl, expr_node_list, TRUE);
 
 		if (err != NULL)
 			return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3668,13 +3633,8 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_init (&ep,
-				    eval_sheet
-				    (argv[1]->v.cell_range.cell_a.sheet,
-				     ei->pos->sheet),
-				    argv[1]->v.cell_range.cell_a.col,
-				    argv[1]->v.cell_range.cell_a.row),
-		     callback_function_stat,
+		    (eval_pos_cellref (&ep, ei->pos, &argv[1]->v.cell_range.cell_a),
+		     &callback_function_stat,
 		     &cl, expr_node_list,
 		     TRUE);
 
@@ -3754,10 +3714,8 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(ei->pos->sheet, ei->pos->sheet),
-			   ei->pos->eval.col, ei->pos->eval.row),
-	     callback_function_make_list, &data_cl, expr_node_list,
-	     TRUE);
+	    (eval_pos_init(&ep, ei->pos->sheet, &ei->pos->eval),
+	     &callback_function_make_list, &data_cl, expr_node_list, TRUE);
 
 	if (err != NULL)
 	        return value_new_error (ei->pos, gnumeric_err_NA);
@@ -3771,10 +3729,8 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(ei->pos->sheet, ei->pos->sheet),
-			   ei->pos->eval.col, ei->pos->eval.row),
-	     callback_function_make_list, &bin_cl, expr_node_list,
-	     TRUE);
+	    (eval_pos_init(&ep, ei->pos->sheet, &ei->pos->eval),
+	     &callback_function_make_list, &bin_cl, expr_node_list, TRUE);
 
 	if (err != NULL)
 	        return value_new_error (ei->pos, gnumeric_err_NA);

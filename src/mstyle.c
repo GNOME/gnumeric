@@ -1018,6 +1018,7 @@ void
 mstyle_set_font_size (MStyle *style, double size)
 {
 	g_return_if_fail (style != NULL);
+	g_return_if_fail (size >= 1.);
 
 	style->elements [MSTYLE_FONT_SIZE].type = MSTYLE_FONT_SIZE;
 	style->elements [MSTYLE_FONT_SIZE].u.font.size = size;

@@ -15,7 +15,7 @@
 #include "workbook-view.h"
 #include "ranges.h"
 #include "sort.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "clipboard.h"
 #include "selection.h"
 #include "datetime.h"
@@ -218,7 +218,7 @@ command_redo (CommandContext *context, Workbook *wb)
 	klass = GNUMERIC_COMMAND_CLASS(cmd->parent.klass);
 	g_return_if_fail (klass != NULL);
 
-	/* TRUE indicates a failure to undo.  Leave the command where it is */
+	/* TRUE indicates a failure to redo.  Leave the command where it is */
 	if (klass->redo_cmd (cmd, context))
 		return;
 
@@ -252,24 +252,31 @@ command_list_release (GSList *cmd_list)
  * command_push_undo : An internal utility to tack a new command
  *    onto the undo list.
  *
+ * @context : The context that issued the command.
  * @wb : The workbook the command operated on.
  * @cmd : The new command to add.
- * @trouble : A flag indicating whether there was a problem with the
- *            command.
  *
  * returns : TRUE if there was an error.
  */
 static gboolean
-command_push_undo (Workbook *wb, GtkObject *cmd, gboolean const trouble)
+command_push_undo (CommandContext *context, Workbook *wb, GtkObject *obj)
 {
-	/* TODO : trouble should be a variable not an argument.
-	 * We should call redo on the command object and use
-	 * the result as the value for trouble.
-	 */
-	if  (!trouble) {
-		g_return_val_if_fail (wb != NULL, TRUE);
-		g_return_val_if_fail (cmd != NULL, TRUE);
+	gboolean trouble;
+	GnumericCommand *cmd;
+	GnumericCommandClass *klass;
 
+	g_return_val_if_fail (wb, TRUE);
+
+	cmd = GNUMERIC_COMMAND (obj);
+	g_return_val_if_fail (cmd != NULL, TRUE);
+
+	klass = GNUMERIC_COMMAND_CLASS(cmd->parent.klass);
+	g_return_val_if_fail (klass != NULL, TRUE);
+
+	/* TRUE indicates a failure to do the command */
+	trouble = klass->redo_cmd (cmd, context);
+
+	if  (!trouble) {
 		command_list_release (wb->redo_commands);
 		wb->redo_commands = NULL;
 
@@ -277,7 +284,7 @@ command_push_undo (Workbook *wb, GtkObject *cmd, gboolean const trouble)
 
 		undo_redo_menu_labels (wb);
 	} else
-		gtk_object_unref (cmd);
+		gtk_object_unref (obj);
 
 	return trouble;
 }
@@ -306,26 +313,30 @@ cmd_set_text_undo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* Save the new value so we can redo */
+	/* Get the cell */
 	cell = sheet_cell_get (me->pos.sheet,
 			       me->pos.eval.col,
 			       me->pos.eval.row);
 
+	/* Save the new value so we can redo */
 	new_text = (cell == NULL || cell->value == NULL || cell->value->type == VALUE_EMPTY)
-	    ? NULL : cell_get_text (cell);
+	    ? NULL : cell_get_entered_text (cell);
 
-	/* Restore the old value (possibly empty) */
+	/* Restore the old value if it was not empty */
 	if (me->text != NULL) {
-		Range r;
-		r.start = me->pos.eval;
-		r.end = me->pos.eval;
-		sheet_set_text (me->pos.sheet, me->text, &r);
+		if (cell == NULL)
+			cell = sheet_cell_new (me->pos.sheet,
+					       me->pos.eval.col,
+					       me->pos.eval.row);
+		sheet_cell_set_text (cell, me->text);
 		g_free (me->text);
 	} else if (cell != NULL)
-		cell_set_value (cell, value_new_empty ());
+		sheet_cell_remove (me->pos.sheet, cell, TRUE);
 
 	me->text = new_text;
 
+	sheet_set_dirty (me->pos.sheet, TRUE);
+	workbook_recalc (me->pos.sheet->workbook);
 	sheet_update (me->pos.sheet);
 
 	return FALSE;
@@ -352,7 +363,7 @@ cmd_set_text_destroy (GtkObject *cmd)
 gboolean
 cmd_set_text (CommandContext *context,
 	      Sheet *sheet, CellPos const * const pos,
-	      char * new_text)
+	      char *new_text)
 {
 	static int const max_descriptor_width = 15;
 
@@ -360,13 +371,21 @@ cmd_set_text (CommandContext *context,
 	CmdSetText *me;
 	gchar *pad = "";
 	gchar *text;
-	gboolean trouble;
+	Cell const *cell;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
 
+	/* Ensure that we are not splitting up an array */
+	cell = sheet_cell_get (sheet, pos->col, pos->row);
+	if (cell_is_partial_array (cell)) {
+		gnumeric_error_splits_array (context);
+		return TRUE;
+	}
+
 	/* From src/dialogs/dialog-autocorrect.c */
 	autocorrect_tool (new_text);
+
 	obj = gtk_type_new (CMD_SET_TEXT_TYPE);
 	me = CMD_SET_TEXT (obj);
 
@@ -385,15 +404,13 @@ cmd_set_text (CommandContext *context,
 
 	me->parent.cmd_descriptor =
 	    g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad,
-			     cell_name(pos->col, pos->row));
+			     cell_pos_name(pos));
 
 	if (*pad)
 		g_free (text);
 
-	trouble = cmd_set_text_redo (GNUMERIC_COMMAND (me), context);
-
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, trouble);
+	return command_push_undo (context, sheet->workbook, obj);
 }
 
 /******************************************************************/
@@ -405,7 +422,7 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	Sheet	*sheet;
+	EvalPosition	 pos;
 	char 	*text; 
 	gboolean as_array;
 	GSList	*old_content;
@@ -431,7 +448,7 @@ cmd_area_set_text_undo (GnumericCommand *cmd, CommandContext *context)
 		g_return_val_if_fail (me->old_content != NULL, TRUE);
 
 		c = me->old_content->data;
-		clipboard_paste_region (context, c, me->sheet,
+		clipboard_paste_region (context, c, me->pos.sheet,
 					r->start.col, r->start.row,
 					PASTE_VALUES, GDK_CURRENT_TIME);
 		clipboard_release (c);
@@ -439,9 +456,9 @@ cmd_area_set_text_undo (GnumericCommand *cmd, CommandContext *context)
 	}
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
 
-	sheet_set_dirty (me->sheet, TRUE);
-	workbook_recalc (me->sheet->workbook);
-	sheet_update (me->sheet);
+	sheet_set_dirty (me->pos.sheet, TRUE);
+	workbook_recalc (me->pos.sheet->workbook);
+	sheet_update (me->pos.sheet);
 
 	return FALSE;
 }
@@ -452,19 +469,14 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
 	ExprTree *expr = NULL;
 	GSList *l;
+	char const *start;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	/* Check for array subdivision */
-	for (l = me->selection; l != NULL; l = l->next)
-	{
-		Range const *r = l->data;
-		if (!sheet_check_for_partial_array (me->sheet,
-						    r->start.row, r->start.col,
-						    r->end.row, r->end.col)) {
-			gnumeric_error_splits_array (context);
-			return TRUE;
-		}
+	if (selection_check_for_array (me->pos.sheet, me->selection)) {
+		gnumeric_error_splits_array (context);
+		return TRUE;
 	}
 
 	/*
@@ -474,15 +486,13 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 	 *   3) There is only one 1 selection
 	 */
 	l = me->selection;
-	if (gnumeric_char_start_expr_p (*me->text) && me->text[1] != '\0' &&
-	    me->as_array && l != NULL && l->next == NULL) {
-		Range const * const r = l->data;
+	start = gnumeric_char_start_expr_p (me->text);
+	if (start != NULL && me->as_array && l != NULL && l->next == NULL) {
 		char *error_string = NULL;
 		ParsePosition pp;
-		expr = expr_parse_string (me->text + 1,
-			    parse_pos_init (&pp, NULL, me->sheet,
-					    r->start.col, r->start.row),
-			    NULL, &error_string);
+		expr = expr_parse_string (start,
+					  parse_pos_evalpos (&pp, &me->pos),
+					  NULL, &error_string);
 
 		if (expr == NULL)
 			return TRUE;
@@ -491,28 +501,26 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 	/* If everything is ok then store previous contents 
 	 * and perform the operation
 	 */
-	cell_freeze_redraws ();
 	for (l = me->selection ; l != NULL ; l = l->next) {
 		Range const * const r = l->data;
 		me->old_content = g_slist_prepend (me->old_content,
-			clipboard_copy_cell_range (me->sheet,
+			clipboard_copy_cell_range (me->pos.sheet,
 						   r->start.col, r->start.row,
 						   r->end.col, r->end.row));
 
 		/* If there is a is an expression then this was an array */
 		if (expr != NULL) 
-			cell_set_array_formula (me->sheet,
+			cell_set_array_formula (me->pos.sheet,
 						r->start.row, r->start.col,
 						r->end.row, r->end.col,
-						expr);
+						expr, TRUE);
 		else
-			sheet_set_text (me->sheet, me->text, r);
+			sheet_range_set_text (&me->pos, r, me->text);
 	}
-	cell_thaw_redraws ();
 
-	sheet_set_dirty (me->sheet, TRUE);
-	workbook_recalc (me->sheet->workbook);
-	sheet_update (me->sheet);
+	sheet_set_dirty (me->pos.sheet, TRUE);
+	workbook_recalc (me->pos.sheet->workbook);
+	sheet_update (me->pos.sheet);
 
 	return FALSE;
 }
@@ -540,24 +548,23 @@ cmd_area_set_text_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_area_set_text (CommandContext *context, Sheet *sheet,
+cmd_area_set_text (CommandContext *context, EvalPosition const *pos,
 		   char const * const new_text, gboolean const as_array)
 {
 	static int const max_descriptor_width = 15;
 
 	GtkObject *obj;
 	CmdAreaSetText *me;
-	gboolean trouble;
 	gchar *text, *pad = "";
 
 	obj = gtk_type_new (CMD_AREA_SET_TEXT_TYPE);
 	me = CMD_AREA_SET_TEXT (obj);
 
 	/* Store the specs for the object */
-	me->sheet    = sheet;
-	me->text     = g_strdup (new_text);
+	me->pos         = *pos;
+	me->text        = g_strdup (new_text);
 	me->as_array    = as_array;
-	me->selection   = selection_get_ranges (sheet, FALSE /* No intersection */);
+	me->selection   = selection_get_ranges (pos->sheet, FALSE /* No intersection */);
 	me->old_content = NULL;
 
 	if (strlen(new_text) > max_descriptor_width) {
@@ -573,10 +580,8 @@ cmd_area_set_text (CommandContext *context, Sheet *sheet,
 	if (*pad)
 		g_free (text);
 
-	trouble = cmd_area_set_text_redo (GNUMERIC_COMMAND (me), context);
-
 	/* Register the command object */
-	return command_push_undo (me->sheet->workbook, obj, trouble);
+	return command_push_undo (context, pos->sheet->workbook, obj);
 }
 
 /******************************************************************/
@@ -730,7 +735,6 @@ cmd_ins_del_row_col (CommandContext *context,
 {
 	GtkObject *obj;
 	CmdInsDelRowCol *me;
-	gboolean trouble;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -748,10 +752,8 @@ cmd_ins_del_row_col (CommandContext *context,
 
 	me->parent.cmd_descriptor = descriptor;
 
-	trouble = cmd_ins_del_row_col_redo (GNUMERIC_COMMAND (me), context);
-
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, trouble);
+	return command_push_undo (context, sheet->workbook, obj);
 }
 
 gboolean
@@ -785,9 +787,9 @@ cmd_delete_cols (CommandContext *context,
 	char *mesg;
 	if (count > 1) {
 		/* col_name uses a static buffer */
-		char *temp = g_strdup_printf (_("Deleting %d columns (%s:"),
+		char *temp = g_strdup_printf (_("Deleting %d columns %s:"),
 					      count, col_name(start_col));
-		mesg = g_strconcat (temp, col_name(start_col+count-1), ")", NULL);
+		mesg = g_strconcat (temp, col_name(start_col+count-1), NULL);
 		g_free (temp);
 	} else
 		mesg = g_strdup_printf (_("Deleting column %s"), col_name(start_col));
@@ -800,7 +802,7 @@ cmd_delete_rows (CommandContext *context,
 		 Sheet *sheet, int start_row, int count)
 {
 	char *mesg = (count > 1)
-	    ? g_strdup_printf (_("Deleting %d rows (%d:%d"), count, start_row,
+	    ? g_strdup_printf (_("Deleting %d rows %d:%d"), count, start_row,
 			       start_row+count-1)
 	    : g_strdup_printf (_("Deleting row %d"), start_row);
 
@@ -868,6 +870,12 @@ cmd_clear_redo (GnumericCommand *cmd, CommandContext *context)
 	g_return_val_if_fail (me->selection != NULL, TRUE);
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
 
+	/* Check for array subdivision */
+	if (selection_check_for_array (me->sheet, me->selection)) {
+		gnumeric_error_splits_array (context);
+		return TRUE;
+	}
+
 	for (l = me->selection ; l != NULL ; l = l->next) {
 		Range const * const r = l->data;
 		me->old_content =
@@ -876,10 +884,11 @@ cmd_clear_redo (GnumericCommand *cmd, CommandContext *context)
 							   r->start.col, r->start.row,
 							   r->end.col, r->end.row));
 
+		/* We have already checked the arrays */
 		sheet_clear_region (context, me->sheet,
 				    r->start.col, r->start.row,
 				    r->end.col, r->end.row,
-				    me->clear_flags);
+				    me->clear_flags|CLEAR_NOCHECKARRAY);
 	}
 
 	sheet_set_dirty (me->sheet, TRUE);
@@ -915,7 +924,6 @@ cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flag
 {
 	GtkObject *obj;
 	CmdClear *me;
-	gboolean trouble;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -939,10 +947,8 @@ cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flag
 	/* TODO : Something more descriptive ? maybe the range name */
 	me->parent.cmd_descriptor = g_strdup (_("Clear"));
 
-	trouble = cmd_clear_redo (GNUMERIC_COMMAND (me), context);
-
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, trouble);
+	return command_push_undo (context, sheet->workbook, obj);
 }
 
 /******************************************************************/
@@ -999,16 +1005,8 @@ cmd_format_redo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdFormat *me = CMD_FORMAT (cmd);
 	GSList    *l;
-	gboolean   font_change;
 
 	g_return_val_if_fail (me != NULL, TRUE);
-
-	font_change =
-	    (mstyle_is_element_set  (me->new_style, MSTYLE_FONT_NAME) ||
-	     mstyle_is_element_set  (me->new_style, MSTYLE_FONT_BOLD) ||
-	     mstyle_is_element_set  (me->new_style, MSTYLE_FONT_ITALIC) ||
-	     mstyle_is_element_set  (me->new_style, MSTYLE_FONT_UNDERLINE) ||
-	     mstyle_is_element_set  (me->new_style, MSTYLE_FONT_SIZE));
 
 	for (l = me->selection; l; l = l->next) {
 		if (me->borders)
@@ -1018,8 +1016,6 @@ cmd_format_redo (GnumericCommand *cmd, CommandContext *context)
 			mstyle_ref (me->new_style);
 			sheet_range_apply_style (me->sheet, l->data,
 						 me->new_style);
-			if (font_change)
-				rows_height_update (me->sheet, l->data);
 		}
 	}
 
@@ -1081,7 +1077,7 @@ cmd_format_destroy (GtkObject *cmd)
  *  If borders is non NULL, then the MStyleBorder references are passed,
  * the MStyle reference is also passed.
  * 
- * Return value: trouble ?
+ * Return value: TRUE if there was a problem
  **/
 gboolean
 cmd_format (CommandContext *context, Sheet *sheet,
@@ -1090,7 +1086,6 @@ cmd_format (CommandContext *context, Sheet *sheet,
 	GtkObject *obj;
 	CmdFormat *me;
 	GSList    *l;
-	gboolean   trouble;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -1131,10 +1126,8 @@ cmd_format (CommandContext *context, Sheet *sheet,
 
 	me->parent.cmd_descriptor = g_strdup (_("Format cells"));
 
-	trouble = cmd_format_redo (GNUMERIC_COMMAND (me), context);
-
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, trouble);
+	return command_push_undo (context, sheet->workbook, obj);
 }
 
 /******************************************************************/
@@ -1188,7 +1181,6 @@ cmd_rename_sheet (CommandContext *context,
 {
 	GtkObject *obj;
 	CmdRenameSheet *me;
-	gboolean trouble;
 
 	g_return_val_if_fail (wb != NULL, TRUE);
 
@@ -1203,10 +1195,8 @@ cmd_rename_sheet (CommandContext *context,
 	me->parent.cmd_descriptor = 
 	    g_strdup_printf (_("Rename sheet '%s' '%s'"), old_name, new_name);
 
-	trouble = cmd_rename_sheet_redo (GNUMERIC_COMMAND (me), context);
-
 	/* Register the command object */
-	return command_push_undo (wb, obj, trouble);
+	return command_push_undo (context, wb, obj);
 }
 
 /******************************************************************/
@@ -1229,26 +1219,30 @@ static gboolean
 cmd_set_date_time_undo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
-	Cell *cell;
+	Cell  *cell;
+	Sheet *sheet;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* Get the cell */
-	cell = sheet_cell_fetch (me->pos.sheet, me->pos.eval.col, me->pos.eval.row);
+	sheet = me->pos.sheet;
 
+	/* Get the cell */
+	cell = sheet_cell_get (sheet, me->pos.eval.col, me->pos.eval.row);
+
+	/* The cell MUST exist or something is very confused */
 	g_return_val_if_fail (cell != NULL, TRUE);
 
 	/* Restore the old value (possibly empty) */
 	if (me->contents != NULL) {
-		cell_set_text (cell, me->contents);
+		sheet_cell_set_text (cell, me->contents);
 		g_free (me->contents);
 		me->contents = NULL;
 	} else
-		cell_set_value (cell, value_new_empty ());
+		sheet_cell_remove (sheet, cell, TRUE);
 
-	sheet_set_dirty (me->pos.sheet, TRUE);
-	workbook_recalc (me->pos.sheet->workbook);
-	sheet_update (me->pos.sheet);
+	sheet_set_dirty (sheet, TRUE);
+	workbook_recalc (sheet->workbook);
+	sheet_update (sheet);
 
 	return FALSE;
 }
@@ -1285,19 +1279,10 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 	/* Get the cell (creating it if needed) */
 	cell = sheet_cell_fetch (me->pos.sheet, me->pos.eval.col, me->pos.eval.row);
 
-	/* Ensure that we are not breaking part of an array */
-	if (cell->parsed_node != NULL && cell->parsed_node->oper == OPER_ARRAY &&
-	    (cell->parsed_node->u.array.rows != 1 ||
-	     cell->parsed_node->u.array.cols != 1)) {
-		gnumeric_error_splits_array (context);
-		return TRUE;
-	}
-
 	/* Save contents */
-	me->contents = (cell->value) ? cell_get_text (cell) : NULL;
+	me->contents = (cell->value) ? cell_get_entered_text (cell) : NULL;
 
-	cell_set_value (cell, v);
-	cell_set_format (cell, prefered_format+1);
+	sheet_cell_set_value (cell, v, prefered_format+1);
 
 	sheet_set_dirty (me->pos.sheet, TRUE);
 	workbook_recalc (me->pos.sheet->workbook);
@@ -1319,21 +1304,27 @@ cmd_set_date_time_destroy (GtkObject *cmd)
 
 gboolean
 cmd_set_date_time (CommandContext *context, gboolean is_date,
-		   Sheet *sheet, int col, int row)
+		   Sheet *sheet, CellPos const * const pos)
 {
 	GtkObject *obj;
 	CmdSetDateTime *me;
-	gboolean trouble;
+	Cell const *cell;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	/* Ensure that we are not splitting up an array */
+	cell = sheet_cell_get (sheet, pos->col, pos->row);
+	if (cell_is_partial_array (cell)) {
+		gnumeric_error_splits_array (context);
+		return TRUE;
+	}
 
 	obj = gtk_type_new (CMD_SET_DATE_TIME_TYPE);
 	me = CMD_SET_DATE_TIME (obj);
 
 	/* Store the specs for the object */
 	me->pos.sheet = sheet;
-	me->pos.eval.col = col;
-	me->pos.eval.row = row;
+	me->pos.eval = *pos;
 	me->is_date = is_date;
 	me->contents = NULL;
 
@@ -1341,12 +1332,10 @@ cmd_set_date_time (CommandContext *context, gboolean is_date,
 	    g_strdup_printf (is_date
 			     ? _("Setting current date in %s")
 			     : _("Setting current time in %s"),
-			     cell_name(col, row));
-
-	trouble = cmd_set_date_time_redo (GNUMERIC_COMMAND (me), context);
+			     cell_coord_name(pos->col, pos->row));
 
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, trouble);
+	return command_push_undo (context, sheet->workbook, obj);
 }
 
 /******************************************************************/
@@ -1412,7 +1401,6 @@ cmd_resize_row_col (CommandContext *context, gboolean is_col,
 {
 	GtkObject *obj;
 	CmdResizeRowCol *me;
-	gboolean trouble;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
@@ -1429,8 +1417,6 @@ cmd_resize_row_col (CommandContext *context, gboolean is_col,
 	    ? g_strdup_printf (_("Setting width of column %s"), col_name(index))
 	    : g_strdup_printf (_("Setting height of row %d"), index+1);
 
-	trouble = cmd_resize_row_col_redo (GNUMERIC_COMMAND (me), context);
-
 	/* TODO :
 	 * - Patch into manual and auto resizing 
 	 * - store the selected sized,
@@ -1441,7 +1427,7 @@ cmd_resize_row_col (CommandContext *context, gboolean is_col,
 	 */
 
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, trouble);
+	return command_push_undo (context, sheet->workbook, obj);
 }
 
 /******************************************************************/
@@ -1546,10 +1532,8 @@ cmd_sort (CommandContext *context, Sheet *sheet,
 	me->parent.cmd_descriptor =
 		g_strdup_printf (_("Sorting %s"), range_name(me->range));
 
-	cmd_sort_redo (GNUMERIC_COMMAND (me), context);
-	
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, FALSE);
+	return command_push_undo (context, sheet->workbook, obj);
 }
 
 /******************************************************************/
@@ -1630,10 +1614,8 @@ cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
 		? (visible ? _("Unhide columns") : _("Hide columns"))
 		: (visible ? _("Unhide rows") : _("Hide rows")));
 
-	cmd_hide_row_col_redo (GNUMERIC_COMMAND (me), context);
-	
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, FALSE);
+	return command_push_undo (context, sheet->workbook, obj);
 }
 /******************************************************************/
 
@@ -1736,7 +1718,6 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 {
 	GtkObject *obj;
 	CmdPasteCut *me;
-	gboolean trouble;
 
 	/* FIXME : improve on this */
 	char *descriptor = g_strdup_printf (_("Moving cells") );
@@ -1752,10 +1733,6 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 
 	me->parent.cmd_descriptor = descriptor;
 
-	trouble = cmd_paste_cut_redo (GNUMERIC_COMMAND (me), context);
-
-	/* Register the command object */
-
 	/* NOTE : if the destination workbook is different from the source workbook
 	 * should we have undo elements in both menus ??  It seems poor form to
 	 * hit undo in 1 window and effect another ...
@@ -1767,7 +1744,9 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 	 *
 	 * Probably when the clear in the original is undone.
 	 */
-	return command_push_undo (info->target_sheet->workbook, obj, trouble);
+
+	/* Register the command object */
+	return command_push_undo (context, info->target_sheet->workbook, obj);
 }
 
 /******************************************************************/

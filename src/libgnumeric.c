@@ -41,6 +41,7 @@ int gnumeric_debugging = 0;
 int style_debugging = 0;
 int dependency_debugging = 0;
 int immediate_exit_flag = 0;
+gboolean initial_worbook_open_complete = FALSE;
 extern int ms_excel_read_debug;
 extern int ms_excel_formula_debug;
 extern int ms_excel_color_debug;
@@ -155,19 +156,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		exit (0);
 	}
 
-	/*
-	 * Create an empty workbook, just in case we end up loading no files.
-	 * NOTE: we need to create it here because workbook_do_destroy does
-	 * special things if the number of workbooks reaches zero.  (And this
-	 * would happen if loading the first file specified failed.)
-	 */
-	
-	new_book = workbook_new_with_sheets (1);
-
-	/* Now we've got a real gui context (but see FIXME above) */
-	gtk_object_unref (GTK_OBJECT (context));
-	context = workbook_command_context_gui (new_book);
-
 	startup_files = poptGetArgs (ctx);
 	if (startup_files)
 		for (i = 0; startup_files [i]; i++) {
@@ -185,15 +173,11 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		}
 	poptFreeContext (ctx);
 
-	if (opened_workbook) {
-#ifdef ENABLE_BONOBO
-		bonobo_object_unref (BONOBO_OBJECT (new_book));
-#else
-		gtk_object_unref (GTK_OBJECT (new_book));
-#endif
-	} else {
+	if (!opened_workbook) {
+		new_book = workbook_new_with_sheets (1);
 		gtk_widget_show (new_book->toplevel);
 	}
+	initial_worbook_open_complete = TRUE;
 
 #ifdef ENABLE_BONOBO
 	bonobo_activate ();

@@ -11,7 +11,7 @@
 #include "commands.h"
 #include "cell.h"
 #include "workbook-view.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "sort.h"
 #include "value.h"
 
@@ -101,11 +101,11 @@ sort_compare_values (const SortData * ain,
 	} else {
 		char *sa, *sb;
 		if (ca)
-			sa = cell_get_text (ca);
+			sa = cell_get_entered_text (ca);
 		else
 			sa = g_strdup ("0");
 		if (cb)
-			sb = cell_get_text (cb);
+			sb = cell_get_entered_text (cb);
 		else
 			sb = g_strdup ("0");
 
@@ -193,9 +193,11 @@ sort_range (Sheet *sheet, Range *range,
 						       start_row + lp2);
 			data [lp].cells[lp2] = cell;
 			if (cell)
-				sheet_cell_remove(sheet, cell);
+				sheet_cell_remove(sheet, cell, FALSE);
 		}
 	}
+	sheet_redraw_cell_region (sheet, start_col, start_row,
+				  end_col, end_row);
 
 	qsort (data, length, sizeof(SortData), func);
 
@@ -204,15 +206,15 @@ sort_range (Sheet *sheet, Range *range,
 			cell = data [lp].cells [lp2];
 			if (cell) {
 				if (columns)
-					sheet_cell_add (sheet,
-							cell,
-							start_col+lp2,
-							start_row+lp);
+					sheet_cell_insert (sheet,
+							   cell,
+							   start_col+lp2,
+							   start_row+lp);
 				else
-					sheet_cell_add (sheet,
-							cell,
-							start_col+lp,
-							start_row+lp2);
+					sheet_cell_insert (sheet,
+							   cell,
+							   start_col+lp,
+							   start_row+lp2);
 			}
 		}
 		g_free (data [lp].cells);

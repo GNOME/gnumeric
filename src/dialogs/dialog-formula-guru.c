@@ -8,6 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "parse-util.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "workbook.h"
@@ -348,7 +349,9 @@ dialog_function_wizard (Workbook *wb)
 	entry = GTK_ENTRY (wb->ea_input);
 	txt   = gtk_entry_get_text (entry);
 	sheet = wb->current_sheet;
-	if (!gnumeric_char_start_expr_p (txt[0])) {
+
+	/* If the current cell is not an expression clear cell, and start one */
+	if (gnumeric_char_start_expr_p (txt) == NULL) {
 		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
 		gtk_entry_set_text (entry, "=");
 	} else

@@ -1,3 +1,8 @@
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* csv-io.c (csv_write_cell) : Use cell_get_rendered_text instead of
+	  accessing it directly.
+
 2000-04-02  Jody Goldberg <jgoldberg@home.com>
 
 	* csv-io.c : Disable the CSV parse code because it has been deprecated

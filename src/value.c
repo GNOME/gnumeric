@@ -12,7 +12,8 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "value.h"
-#include "gutils.h"
+#include "parse-util.h"
+#include "style.h"
 #include <stdlib.h>
 
 Value *
@@ -669,4 +670,19 @@ value_equal (const Value *a, const Value *b)
 	}
 	}
 	return FALSE;
+}
+
+StyleHAlignFlags
+value_get_default_halign (Value const *v, MStyle const *mstyle)
+{
+	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
+	g_return_val_if_fail (v != NULL, HALIGN_RIGHT);
+
+	if (align == HALIGN_GENERAL) {
+		if (v->type == VALUE_FLOAT || v->type == VALUE_INTEGER)
+			return HALIGN_RIGHT;
+		return HALIGN_LEFT;
+	}
+
+	return align;
 }

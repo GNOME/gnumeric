@@ -105,12 +105,11 @@ stf_fixed_parse_sheet_partial (FileSource_t *src, ParseFixedInfo_t *fixinfo, int
 
 				/* This may look stupid but was done for
 				   consistency with the stf_separated stuff */
-				if (!field)
-					field = g_strdup ("");
-					
-				newcell = sheet_cell_new (src->sheet, col, row);
-				cell_set_text_simple (newcell, field);
-				g_free(field);
+				if (field) {
+					newcell = sheet_cell_fetch (src->sheet, col, row);
+					cell_set_text (newcell, field);
+					g_free(field);
+				}
 
 				col++;
 				fixinfo->rulepos++;

@@ -17,7 +17,7 @@
 #include "func.h"
 #include "value.h"
 
-#include "gutils.h"
+#include "parse-util.h"
 
 #include "excel.h"
 #include "ms-biff.h"
@@ -463,7 +463,7 @@ getRefV7 (guint8 col, guint16 gbitrw, int curcol, int currow,
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 2) {
 		printf ("7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
-			cell_name (curcol, currow), (shared?" (shared)":"")) ;
+			cell_coord_name (curcol, currow), (shared?" (shared)":"")) ;
 	}
 #endif
 	if (shared && cr->row_relative) {
@@ -499,7 +499,7 @@ getRefV8 (guint16 row, guint16 gbitcl, int curcol, int currow,
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 2) {
 		printf ("8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
-			cell_name (curcol, currow), (shared?" (shared)":""));
+			cell_coord_name (curcol, currow), (shared?" (shared)":""));
 	}
 #endif
 
@@ -802,7 +802,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		printf ("\n\n%s:%s%s\n", (sheet->gnum_sheet
 					  ? sheet->gnum_sheet->name_unquoted
 					  : ""),
-			cell_name (fn_col,fn_row), (shared?" (shared)":""));
+			cell_coord_name (fn_col,fn_row), (shared?" (shared)":""));
 	}
 #endif
 
@@ -1090,7 +1090,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 					       (sheet->gnum_sheet
 						? sheet->gnum_sheet->name_unquoted
 						: ""),
-					       cell_name (fn_col, fn_row)) ;
+					       cell_coord_name (fn_col, fn_row)) ;
 				}
 #endif
 				parse_list_free (&stack);
@@ -1436,7 +1436,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			printf ("Unknown Formula/Array at %s:%s%s\n",
 				(sheet->gnum_sheet)?
 				sheet->gnum_sheet->name_unquoted : "",
-				cell_name (fn_col,fn_row),
+				cell_coord_name (fn_col,fn_row),
 				(shared?" (shared)":""));
 			printf ("formula data : \n") ;
 			ms_ole_dump (mem, length) ;

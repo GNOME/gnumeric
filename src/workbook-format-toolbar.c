@@ -163,8 +163,9 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 	MStyle *mstyle;
 	double size;
 
+	/* Make 1pt a minimum size for fonts */
 	size = atof (gtk_entry_get_text (entry));
-	if (size < 0.0) {
+	if (size < 1.0) {
 		gtk_entry_set_text (entry, "10");
 		return;
 	}

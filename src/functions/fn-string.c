@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "func.h"
 #include "cell.h"
 #include "format.h"
@@ -756,9 +756,10 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 
 	if (arg->type == VALUE_STRING) {
 		char *format = NULL;
-		float_t num = 0.;
-		if ((ok = format_match (arg->v.str->str, &num, &format)))
-			tmp = value_new_float (num);
+		Value *match = format_match (arg->v.str->str, &format);
+		ok = (match != NULL);
+		if (ok)
+			tmp = match;
 	} else
 		ok = VALUE_IS_NUMBER(arg);
 
@@ -811,10 +812,10 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 		cell = sheet_cell_get (eval_sheet (a.sheet, ei->pos->sheet),
 				       a.col, a.row);
 
-		if (cell->parsed_node) {
+		if (cell_has_expr (cell)) {
 			ParsePosition pos;
 			char * expr_string =
-			    expr_decode_tree (cell->parsed_node,
+			    expr_decode_tree (cell->u.expression,
 					      parse_pos_init (&pos,
 							      NULL,
 							      ei->pos->sheet,
@@ -898,9 +899,8 @@ static Value *
 gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 {
 	char *arg, *p, *q;
-	double v;
+	Value *v;
 	char *format;
-	gboolean ok;
 
 	switch (argv[0]->type) {
 	case VALUE_EMPTY:
@@ -917,13 +917,12 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 		}
 		*q = 0;
 
-		ok = format_match (arg, &v, &format);
+		v = format_match (arg, &format);
 		free (arg);
 
-		if (ok)
-			return value_new_float (v);
-		else
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
+		if (v)
+			return v;
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 }
 

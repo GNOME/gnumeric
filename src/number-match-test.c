@@ -28,8 +28,8 @@ main ()
 		if (s [strlen (s)-1] == '\n')
 			s [strlen (s)-1] = 0;
 
-		if (format_match (s, &v, &format))
-			printf ("Format matched: %s, value=%g\n", format, v);
+		if (format_match (s, &format))
+			printf ("Format matched: %s\n", format);
 		else
 			printf ("No match found\n");
 	}

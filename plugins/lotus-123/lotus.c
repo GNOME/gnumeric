@@ -23,7 +23,7 @@
 #include "main.h"
 #include "sheet.h"
 #include "file.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "value.h"
 #include "cell.h"
 #include "command-context.h"
@@ -205,12 +205,11 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
 
 	cell = sheet_cell_fetch (sheet, col, row);
 
-	g_return_val_if_fail (cell != NULL, NULL);
-	cell_set_value (cell, val);
+	cell_set_value (cell, val, NULL);
 
 #if LOTUS_DEBUG > 0
 	printf ("Inserting value at %s:\n",
-		cell_name (cell->col->pos, cell->row->pos));
+		cell_name (cell));
 	value_dump (val);
 #endif
 	return cell;
@@ -310,7 +309,7 @@ read_workbook (CommandContext *context, Workbook *wb, FILE *f)
 			v = value_new_float (LOTUS_GETDOUBLE (r->data + 5));
 			cell = insert_value (sheet, i, j, v);
 			if (cell) {
-				cell_set_formula_tree (cell, f);
+				cell_set_expr (cell, f, NULL);
 				cell_set_format_from_lotus_format (cell, fmt);
 			}
 			break;

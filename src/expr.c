@@ -15,22 +15,43 @@
 #include "eval.h"
 #include "format.h"
 #include "func.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "ranges.h"
 #include "workbook.h"
 
-EvalPosition *
-eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)
+inline EvalPosition *
+eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, CellPos const *pos)
 {
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (eval_pos != NULL, NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	eval_pos->sheet = sheet;
-	eval_pos->eval.col = col;
-	eval_pos->eval.row = row;
+	eval_pos->eval  = *pos;
 
 	return eval_pos;
+}
+
+EvalPosition *
+eval_pos_cell (EvalPosition *eval_pos, Cell *cell)
+{
+	CellPos pos;
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	pos.col = cell->col_info->pos;
+	pos.row = cell->row_info->pos;
+	return eval_pos_init (eval_pos, cell->sheet, &pos);
+}
+
+EvalPosition *
+eval_pos_cellref (EvalPosition *dest, EvalPosition const *src, 
+		  CellRef const *ref)
+{
+	/* FIXME : This is a place to catch all of the strange
+	 * usages.  Please figure out what they were trying to do.
+	 */
+	*dest = *src;
+	return dest;
 }
 
 /*
@@ -51,21 +72,6 @@ parse_pos_init (ParsePosition *pp, Workbook *wb, Sheet *sheet, int col, int row)
 	return pp;
 }
 
-EvalPosition *
-eval_pos_cell (EvalPosition *eval_pos, Cell *cell)
-{
-	g_return_val_if_fail (eval_pos != NULL, NULL);
-	g_return_val_if_fail (cell != NULL, NULL);
-	g_return_val_if_fail (cell->sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (cell->sheet), NULL);
-
-	return eval_pos_init (
-		eval_pos,
-		cell->sheet,
-		cell->col->pos,
-		cell->row->pos);
-}
-
 ParsePosition *
 parse_pos_cell (ParsePosition *pp, Cell *cell)
 {
@@ -79,9 +85,20 @@ parse_pos_cell (ParsePosition *pp, Cell *cell)
 		pp,
 		NULL,
 		cell->sheet,
-		cell->col->pos,
-		cell->row->pos);
+		cell->col_info->pos,
+		cell->row_info->pos);
 }
+
+ParsePosition *
+parse_pos_evalpos (ParsePosition *pp, EvalPosition const *ep)
+{
+	g_return_val_if_fail (pp != NULL, NULL);
+	g_return_val_if_fail (ep != NULL, NULL);
+
+	return parse_pos_init (pp, NULL, ep->sheet, ep->eval.col, ep->eval.row);
+}
+
+/***************************************************************************/
 
 ExprTree *
 expr_tree_new_constant (Value *v)
@@ -304,15 +321,15 @@ expr_tree_array_formula_corner (ExprTree const *expr, EvalPosition const *pos)
 	}
 
 	g_return_val_if_fail (corner != NULL, NULL);
-	g_return_val_if_fail (corner->parsed_node != NULL, NULL);
+	g_return_val_if_fail (cell_has_expr (corner), NULL);
 
 	/* Sanity check incase the corner gets removed for some reason */
-	g_return_val_if_fail (corner->parsed_node != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (corner->parsed_node->oper == OPER_ARRAY, NULL);
-	g_return_val_if_fail (corner->parsed_node->u.array.x == 0, NULL);
-	g_return_val_if_fail (corner->parsed_node->u.array.y == 0, NULL);
+	g_return_val_if_fail (corner->u.expression != (void *)0xdeadbeef, NULL);
+	g_return_val_if_fail (corner->u.expression->oper == OPER_ARRAY, NULL);
+	g_return_val_if_fail (corner->u.expression->u.array.x == 0, NULL);
+	g_return_val_if_fail (corner->u.expression->u.array.y == 0, NULL);
 
-	return corner->parsed_node;
+	return corner->u.expression;
 }
 
 /*
@@ -1429,19 +1446,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 			    tree->u.array.corner.func.expr, pp, 0);
 		}
 
-		/* Not exactly Excel format but more useful */
-		{
-			GString *str = g_string_new ("{");
-			g_string_sprintfa (str, "%s}(%d,%d)[%d][%d]", res,
-					   tree->u.array.rows,
-					   tree->u.array.cols,
-					   tree->u.array.y,
-					   tree->u.array.x);
-			g_free (res);
-			res = str->str;
-			g_string_free (str, FALSE);
-			return res;
-		}
+		return res;
         }
 	}
 

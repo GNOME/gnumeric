@@ -28,8 +28,10 @@
 #include "workbook.h"
 #include "html.h"
 #include "cell.h"
+#include "value.h"
 #include "font.h"
 #include "command-context.h"
+#include "rendered-value.h"
 
 /*
  * escape special characters
@@ -73,9 +75,11 @@ html_write_cell_str (FILE *fp, Cell *cell, MStyle *mstyle)
 	if (mstyle_get_font_italic (mstyle))
 		fprintf (fp, "<I>");
 
-	if (cell) 
-		html_fprintf (fp, cell->text->str);
-	else
+	if (!cell_is_blank (cell)) {
+		char * text = cell_get_rendered_text (cell);
+		html_fprintf (fp, text);
+		g_free (text);
+	} else
 		fprintf (fp, "<BR>");
 
 	if (mstyle_get_font_italic (mstyle))
@@ -107,8 +111,7 @@ html_write_cell32 (FILE *fp, Cell *cell, MStyle *style)
 	fprintf (fp, "\t<TD");
 
 	if (cell) {
-		switch (cell_get_horizontal_align (cell,
-						   mstyle_get_align_h (style))) {
+		switch (value_get_default_halign (cell->value, style)) {
 		case HALIGN_RIGHT :
 			fprintf (fp, " align=right");
 			break;
@@ -153,8 +156,7 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 	fprintf (fp, "\t<TD");
 
 	if (cell) {
-		switch (cell_get_horizontal_align (cell,
-						   mstyle_get_align_h (style))) {
+		switch (value_get_default_halign (cell->value, style)) {
 		case HALIGN_RIGHT :
 			fprintf (fp, " halign=right");
 			break;
@@ -467,11 +469,11 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 								mstyle_set_align_h (mstyle, HALIGN_CENTER);
 
 							sheet_style_attach_single (cell->sheet,
-										   cell->col->pos,
-										   cell->row->pos, mstyle);
+										   cell->col_info->pos,
+										   cell->row_info->pos, mstyle);
 						}
 						/* set the content of the cell */
-						cell_set_text_simple (cell, str);
+						cell_set_text (cell, str);
 					}
 				}
 				col++;

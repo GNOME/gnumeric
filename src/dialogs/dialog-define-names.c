@@ -30,6 +30,8 @@ typedef struct {
 static void
 update_edit (state_t *state)
 {
+	/* ICK!  parse names as if we are in A1 ?? Why ? */
+	static CellPos const pos = {0,0};
 	gint          i = state->selected;
 	ExprName     *expr_name;
 	Sheet        *sheet;
@@ -39,7 +41,7 @@ update_edit (state_t *state)
 	sheet = state->wb->current_sheet;
 	g_return_if_fail (sheet != NULL);
 
-	eval_pos_init (&ep, sheet, 0, 0);
+	eval_pos_init (&ep, sheet, &pos);
 
 	expr_name = g_list_nth (state->expr_names, i)->data;
 	if (expr_name->name && expr_name->name->str)

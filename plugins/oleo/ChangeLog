@@ -1,3 +1,7 @@
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* oleo.c : remove cell_deep_freeze_redraws.
+
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* oleo.c (attach_sheet): Remove \n from sheet name. Gettextize

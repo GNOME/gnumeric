@@ -21,7 +21,7 @@ void    cell_drop_dependencies   (Cell *cell);
  * Returns a newly allocated list with Cells inside that
  * depend on the value at Sheet, col, row
  */
-GList   *cell_get_dependencies     (Cell *cell);
+GList   *cell_get_dependencies     (Cell const * const cell);
 
 GList   *sheet_region_get_deps     (Sheet *sheet, int start_col, int start_row,
 				    int end_col, int end_row);

@@ -99,6 +99,7 @@ icons_DATA = \
 	bottom_border diag_border left_border \
 	rev_diag_border right_border top_border \
 	inside_horiz_border inside_vert_border \
-	inside_border outline_border no_border
+	inside_border outline_border no_border \
+	stf-druid.png
 
 EXTRA_DIST = $(icons_DATA)

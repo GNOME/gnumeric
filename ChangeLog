@@ -1,3 +1,175 @@
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c : Use the edit_pos as the example
+	  not the top left corner.
+
+	* src/functions/fn-stat.c (gnumeric_ftest) : Use eval_pos_cellref
+	  to help localize the strangeness.
+	(gnumeric_ttest) : Ditto.
+
+	* src/xml-io.c (xml_write_cell_and_position) : If this is an array
+	  expression and we are the top left then add attributes to indicate
+	  size of array.  Ignore the rest of the array.
+	(xml_not_used_old_array_spec) : New routinr to handle the old array format.
+	(xml_cell_set_array_expr) : store an array.
+	(xml_read_cell) : Handle the old and the new array formats.
+
+	* src/workbook.c (workbook_close_if_user_permits) : Accept input
+	  first.
+	(wb_edit_key_pressed) : Handle array formulas here.
+	(workbook_detach_sheet) : Do not recalc all if we are exiting.
+	(workbook_start_editing_at_cursor) : When we start editing an
+	  array formula display just the formula not all the extra {}()[][] crap.
+
+	* src/sheet.c (SheetPrivate) : Add a recompute_spans flag.
+	(sheet_calc_spans) : New routine.
+	(sheet_cell_calc_span) : New routine.
+	(sheet_range_calc_spans) : Renamed and extended from
+	  sheet_cells_update.
+	(sheet_update) : Use sheet_calc_spans when necessary.
+	  Update the location region when the edit_pos changes.
+	(cb_recalc_spans_in_col) : Renamed from cb_collect_cells_in_col.
+	  Recalcs spans directly, no need to collect first.
+	(cb_set_cell_content) : New routine to set expr, or expr_and_value.
+	(sheet_range_set_text) : Use cb_set_cell_content, and remember
+	  chosen format with the cell rather than overriding the assigned
+	  format.
+	(sheet_cell_set_text) : Renamed from sheet_set_text.  Be more specific
+	  about how spans, rendering and the rest are handled.
+	(sheet_cell_set_expr) : New routine.
+	(sheet_cell_set_value) : Ditto.
+	(sheet_load_cell_val) : When displaying an array formula add {%s}()[][].
+	(sheet_redraw_cell_region) : Honour spans when redrawing.
+	(sheet_redraw_partial_row) : New routine.
+	(sheet_redraw_cell) : Ditto.
+	(sheet_is_cell_array) : Use cell_is_array.
+	(sheet_range_splits_array) : Renamed from sheet_check_for_partial_array.
+	(sheet_cell_add_to_hash) :  Do not touch spans at this point.
+	(sheet_cell_insert) : Rename from sheet_cell_add made recalc span
+	  optional.
+	(sheet_cell_new) : New routine that does not touch spans.
+	(sheet_cell_remove) : Made redraw optional.
+	(cb_clear_cell_comments) : Remove the cell if there is no comment.
+	(sheet_clear_region) : Remove the cell if there are no comments or
+	  contents.  Flag an update of the status region.
+
+	* src/sheet-view.c (cb_colrow_resize) : New function.
+	(sheet_view_col_size_changed) : Resize all rows, irrespective of
+	(sheet_view_row_size_changed) : existing cells.
+	(sheet_view_redraw_cell_region) : This no longer honours spans.
+
+	* src/sheet-style.c (sheet_style_attach) : Removed call to redraw.
+	sheet_cells_update : rename to sheet_range_calc_spans and move to
+	  sheet.c.
+
+	* src/sheet-autofill.c (autofill_cell) : Use sheet_cell_set_value
+	  rather than set_text.
+
+	* src/selection.c (sheet_selection_changed_hook) : Delete.
+	(sheet_selection_extend_to) : Update the status region to display the
+	  new size.
+	(sheet_selection_cut) : Use sheet_range_splits_array.
+	(selection_check_for_array) : New routine.
+
+	* src/parser.y : Remove icky array formula parsing that conflicted
+	  with array entries.
+
+	* src/number-match.c (format_match) : Return a Value * rather than a
+	  double.
+
+	* src/mstyle.c (mstyle_set_font_size) : Do not allow font sizes < 1.
+
+	* src/main.c (gnumeric_main) : Do NOT create an empty workbook
+	  then delete it if things are successfully loaded.  This causes
+	  a global recalc.  Instead add a flag to disable exit when the
+	  number of workbooks go to zero.  Then only enable the flag AFTER
+	  we have attempted to load the initial workbooks.
+
+	* src/item-grid.c (item_grid_event) : Update the status_region when
+	  button-1 is release.  It should display the edit_pos.
+
+	* src/gutils.c : Move cell_name, col_name, col_from_name,
+	  parse_cell_name, parse_cell_name_or_range and parse_cell_name_list,
+	  to parse-util.c.
+
+	* src/gnumeric.h  : Add RenderedValue.
+
+	* src/gnumeric-util.c (gnumeric_char_start_expr_p) : Move
+	  to parse-util.c
+
+	* src/file.c (workbook_read) : Remove freese thaw usage.
+	  Move call to update AFTER mark clean.
+
+	* src/expr.c (eval_pos_init) : Take a cellpos.
+	(parse_pos_evalpos) : New routine.
+	(eval_pos_cellref) : There is some questionable code scattered in the
+	  functions.  This routing localizes the odd bits for correction.
+
+	* src/eval.c (cell_eval_content) : Use sheet_redraw_cell,
+	  and rendered_value_calc_size.
+	(cell_get_dependencies) : Improve constness.
+
+	* src/corba-sheet.c : Remove the freeze thaw operations.
+	(Sheet_cell_set_formula) : Deleted.
+	(Sheet_range_set_formula) : Delete.
+
+	* src/commands.c : Adjust so that registration of command auto
+	  calls redo.  Add misc checks for splitting arrays.
+
+	* src/clipboard.h : Move the CellCopy types here from cell.h
+
+	* src/clipboard.c (paste_cell) : Use cell_has_expr.
+	  Don't insert the new cell till after its contents are assigned.
+
+	* src/cellspan.c (cell_register_span) : Improve constness.
+	(cell_unregister_span) : Ditto.
+	(row_cell_get_displayed_at) : Delete.
+	(cell_calc_span) : Moved here from cell.c
+
+	* src/dialogs/dialog-stf.glade : Adjust the header background colour
+	  to match the purdy new icon.  Add the icon.
+
+	* src/cell-draw.c : Use the rendered_value routines.
+	  Improve constness.
+
+	* src/analysis-tools.c (set_cell) : Use sheet_cell_fetch.
+
+	*.*
+	    cell_set_* -> sheet_cell_set_
+	    cell_set_*_simple -> cell_set_
+	    Cell::{row,col} -> Cell::{row,col}_info
+	    cell_get_text -> cell_get_entered_text
+	    cell_get_content -> cell_get_entered_text
+	    cell_name -> cell_coord_name 
+	    cell_get_formatted_val -> cell_get_rendered_text
+	    cell_get_content -> cell_get_entered_text
+
+	* src/cell.c :
+	(cell_dirty) : Renamed from cell_modified.  Use
+	  sheet_set_dirty.
+	(cell_formula_changed) : Make the queuing of the recalc optional.
+	(cell_cleanout) : Handle union of expression and entered_text,
+	  and remove the rendered value.
+	(cell_copy) : Ditto.
+	(cell_destroy) : handle cell_modified -> cell_dirty.
+	(cell_set_text) : Use parse_text_value_or_expr and store the prefered
+	  format.
+	(cell_set_text_and_value) : New routine.
+	(cell_assign_value) : New routine.
+	(cell_set_value) : Support formats.
+	(cell_set_expr_and_value) : New routine.
+	(cell_set_expr_internal) : Split from cell_set_expr.
+	(cell_set_expr) : Divide to allow for not queuing a recalc.
+	(cell_set_array_formula) : Use cell_set_expr_internal.
+	(cell_is_array) : New utility.
+	(cell_is_partial_array) : New utility.
+	(cell_has_expr) : New utility.
+	(cell_render_value) : Use rendered_value_*.
+	Move all comment routines into cell-comment.[ch].
+
+	* idl/Gnumeric.idl : Remove cell_set_formula, and range_set_formula.
+	  These were identical to set_text.  Made Workbook embeddable.
+
 2000-04-18  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf-format-page.c

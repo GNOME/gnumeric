@@ -17,7 +17,7 @@
 #include "gnumeric.h"
 #include "idl/Gnumeric.h"
 #include "corba.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "ranges.h"
 #include "selection.h"
 #include "commands.h"
@@ -346,7 +346,7 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 		return;
 	}
 
-	cell_set_value (cell, v);
+	sheet_cell_set_value (cell, v);
 }
 
 static void
@@ -445,7 +445,7 @@ Sheet_cell_set_text (PortableServer_Servant servant,
 	verify_row (row);
 	
 	cell = sheet_cell_fetch (sheet, col, row);
-	cell_set_text (cell, text);
+	sheet_cell_set_text (cell, text);
 }
 
 static CORBA_char *
@@ -464,28 +464,11 @@ Sheet_cell_get_text (PortableServer_Servant servant,
 	if (cell) {
 		char *str;
 
-		str = cell_get_text (cell);
+		str = cell_get_entered_text (cell);
 		return CORBA_string_dup (str);
 	} else {
 		return CORBA_string_dup ("");
 	}
-}
-
-static void
-Sheet_cell_set_formula (PortableServer_Servant servant,
-			const CORBA_long col,
-			const CORBA_long row,
-			const CORBA_char * formula,
-			CORBA_Environment *ev)
-{
-	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
-
-	verify_col (col);
-	verify_row (row);
-	
-	cell = sheet_cell_fetch (sheet, col, row);
-	cell_set_formula (cell, formula);
 }
 
 static void
@@ -533,7 +516,13 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 		     const CORBA_double points,
 		     CORBA_Environment *ev)
 {
-	MStyle *mstyle = mstyle_new ();
+	MStyle *mstyle;
+
+	verify(points >= 1.);
+	verify_col(col);
+	verify_row(row);
+
+	mstyle = mstyle_new ();
 	mstyle_set_font_name (mstyle, font);
 	mstyle_set_font_size (mstyle, points);
 	sheet_style_attach_single (sheet_from_servant (servant),
@@ -981,7 +970,7 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 static void
 cb_range_set_text (Cell *cell, void *data)
 {
-	cell_set_text (cell, data);
+	sheet_cell_set_text (cell, data);
 }
 
 static void
@@ -1001,28 +990,6 @@ Sheet_range_set_text (PortableServer_Servant servant,
 }
 
 static void
-cb_range_set_formula (Cell *cell, void *data)
-{
-	cell_set_formula (cell, data);
-}
-
-static void
-Sheet_range_set_formula (PortableServer_Servant servant,
-			 const CORBA_char *range,
-			 const CORBA_char *formula,
-			 CORBA_Environment *ev)
-{
-	Sheet *sheet = sheet_from_servant (servant);
-	GSList *ranges;
-
-	verify_range (sheet, range, &ranges);
-
-	range_list_foreach_all (ranges, cb_range_set_formula, (char *)formula);
-	
-	range_list_destroy (ranges);
-}
-
-static void
 Sheet_range_set_format (PortableServer_Servant servant,
 			const CORBA_char *range,
 			const CORBA_char *format,
@@ -1034,14 +1001,10 @@ Sheet_range_set_format (PortableServer_Servant servant,
 
 	verify_range (sheet, range, &ranges);
 
-	cell_freeze_redraws ();
-
 	mstyle = mstyle_new ();
 	mstyle_set_format (mstyle, format);
 	ranges_set_style (sheet, ranges, mstyle);
 
-	cell_thaw_redraws ();
-	
 	range_list_destroy (ranges);
 }
 
@@ -1058,15 +1021,11 @@ Sheet_range_set_font (PortableServer_Servant servant,
 
 	verify_range (sheet, range, &ranges);
 
-	cell_freeze_redraws ();
-
 	mstyle = mstyle_new ();
 	mstyle_set_font_name (mstyle, font);
 	mstyle_set_font_size (mstyle, points);
 	ranges_set_style (sheet, ranges, mstyle);
 
-	cell_thaw_redraws ();
-	
 	range_list_destroy (ranges);
 }
 
@@ -1084,15 +1043,12 @@ Sheet_range_set_foreground (PortableServer_Servant servant,
 	verify_range (sheet, range, &ranges);
 	
 	gdk_color_parse (color, &c);
-	cell_freeze_redraws ();
 
 	mstyle = mstyle_new ();
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
 			  style_color_new (c.red, c.green, c.blue));
 	ranges_set_style (sheet, ranges, mstyle);
 
-	cell_thaw_redraws ();
-	
 	range_list_destroy (ranges);
 }
 
@@ -1110,15 +1066,12 @@ Sheet_range_set_background (PortableServer_Servant servant,
 	verify_range (sheet, range, &ranges);
 	
 	gdk_color_parse (color, &c);
-	cell_freeze_redraws ();
 
 	mstyle = mstyle_new ();
 	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK,
 			  style_color_new (c.red, c.green, c.blue));
 	ranges_set_style (sheet, ranges, mstyle);
 
-	cell_thaw_redraws ();
-	
 	range_list_destroy (ranges);
 }
 
@@ -1134,14 +1087,10 @@ Sheet_range_set_pattern (PortableServer_Servant servant,
 
 	verify_range (sheet, range, &ranges);
 	
-	cell_freeze_redraws ();
-
 	mstyle = mstyle_new ();
 	mstyle_set_pattern (mstyle, pattern);
 	ranges_set_style (sheet, ranges, mstyle);
 
-	cell_thaw_redraws ();
-	
 	range_list_destroy (ranges);
 }
 
@@ -1167,8 +1116,6 @@ Sheet_range_set_alignment (PortableServer_Servant servant,
 	mstyle_set_fit_in_cell (mstyle, (gboolean) auto_return);
 	ranges_set_style (sheet, ranges, mstyle);
 
-	cell_thaw_redraws ();
-	
 	range_list_destroy (ranges);
 }
 
@@ -1249,7 +1196,6 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.cell_get_value = Sheet_cell_get_value;
 	gnome_gnumeric_sheet_epv.cell_set_text = Sheet_cell_set_text;
 	gnome_gnumeric_sheet_epv.cell_get_text = Sheet_cell_get_text;
-	gnome_gnumeric_sheet_epv.cell_set_formula = Sheet_cell_set_formula;
 	gnome_gnumeric_sheet_epv.cell_set_format = Sheet_cell_set_format;
 	gnome_gnumeric_sheet_epv.cell_get_format = Sheet_cell_get_format;
 	gnome_gnumeric_sheet_epv.cell_set_font = Sheet_cell_set_font;
@@ -1280,7 +1226,6 @@ Sheet_corba_class_init (void)
 	 */
 	gnome_gnumeric_sheet_epv.range_get_values  = Sheet_range_get_values;
 	gnome_gnumeric_sheet_epv.range_set_text    = Sheet_range_set_text;
-	gnome_gnumeric_sheet_epv.range_set_formula = Sheet_range_set_formula;
 	gnome_gnumeric_sheet_epv.range_set_format  = Sheet_range_set_format;
 	gnome_gnumeric_sheet_epv.range_set_font    = Sheet_range_set_font;
 	gnome_gnumeric_sheet_epv.range_set_foreground = Sheet_range_set_foreground;

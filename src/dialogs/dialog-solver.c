@@ -19,7 +19,7 @@
 #include "tools.h"
 #include "value.h"
 #include "workbook.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "utils-dialog.h"
 
 /* Different constraint types */
@@ -128,10 +128,10 @@ add_constraint(constraint_dialog_t *constraint_dialog,
 			      rhs_row, type_str, cols, rows);
 
 	constraint = g_new (SolverConstraint, 1);
-	constraint->lhs_col = lhs_col;
-	constraint->lhs_row = lhs_row;
-	constraint->rhs_col = rhs_col;
-	constraint->rhs_row = rhs_row;
+	constraint->lhs.col = lhs_col;
+	constraint->lhs.row = lhs_row;
+	constraint->rhs.col = rhs_col;
+	constraint->rhs.row = rhs_row;
 	constraint->cols = cols;
 	constraint->rows = rows;
 
@@ -346,15 +346,13 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 
 	if (constraint->cols == 1 && constraint->rows == 1)
 	        gtk_entry_set_text (GTK_ENTRY (lhs_entry), 
-				    cell_name (constraint->lhs_col, 
-					       constraint->lhs_row));
+				    cell_pos_name (&constraint->lhs));
 	else {
-	        sprintf(buf, "%s:", cell_name (constraint->lhs_col, 
-					       constraint->lhs_row));
-		strcat (buf, cell_name (constraint->lhs_col+
-					constraint->cols-1,
-					constraint->lhs_row+
-					constraint->rows-1));
+	        sprintf(buf, "%s:", cell_pos_name (&constraint->lhs));
+		strcat (buf, cell_coord_name (constraint->lhs.col+
+					      constraint->cols-1,
+					      constraint->lhs.row+
+					      constraint->rows-1));
 		gtk_entry_set_text (GTK_ENTRY (lhs_entry), buf);
 	}
 
@@ -362,15 +360,13 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	    strcmp (constraint->type, "Bool") != 0) {
 	        if (constraint->cols == 1 && constraint->rows == 1)
 		        gtk_entry_set_text (GTK_ENTRY (rhs_entry), 
-					    cell_name (constraint->rhs_col, 
-						       constraint->rhs_row));
+					    cell_pos_name (&constraint->rhs));
 		else {
-		        sprintf(buf, "%s:", cell_name (constraint->rhs_col, 
-						       constraint->rhs_row));
-			strcat (buf, cell_name (constraint->rhs_col+
-						constraint->cols-1,
-						constraint->rhs_row+
-						constraint->rows-1));
+		        sprintf(buf, "%s:", cell_pos_name (&constraint->rhs));
+			strcat (buf, cell_coord_name (constraint->rhs.col+
+						      constraint->cols-1,
+						      constraint->rhs.row+
+						      constraint->rows-1));
 			gtk_entry_set_text (GTK_ENTRY (rhs_entry), buf);
 		}
 	}
@@ -391,8 +387,7 @@ loop:
 	        gchar buf[512];
 	        gchar *constraint_str[2] = { buf, NULL };
 	        entry = gtk_entry_get_text (GTK_ENTRY (lhs_entry));
-		txt = (gchar *) cell_name (constraint->lhs_col,
-					   constraint->lhs_row);
+		txt = (gchar *) cell_pos_name (&constraint->lhs);
 		if (strcmp (entry, txt) != 0) {
 		        if (!parse_cell_name_or_range (entry, &col, &row,
 						       &lhs_cols, &lhs_rows, TRUE)) {
@@ -405,8 +400,8 @@ loop:
 							  text_length);
 				goto loop;
 			}
-			constraint->lhs_col = col;
-			constraint->lhs_row = row;
+			constraint->lhs.col = col;
+			constraint->lhs.row = row;
 		}
 
 		entry = gtk_entry_get_text (GTK_ENTRY (combo_entry));
@@ -418,8 +413,7 @@ loop:
 		        goto skip_rhs;
 
 		entry = gtk_entry_get_text (GTK_ENTRY (rhs_entry));
-		txt = (gchar *) cell_name (constraint->rhs_col,
-					   constraint->rhs_row);
+		txt = (gchar *) cell_pos_name (&constraint->rhs);
 		if (strcmp (entry, txt) != 0) {
 		        if (!parse_cell_name_or_range (entry, &col, &row, 
 						       &rhs_cols, &rhs_rows, TRUE)) {
@@ -432,8 +426,8 @@ loop:
 							  text_length);
 				goto loop;
 			}
-			constraint->rhs_col = col;
-			constraint->rhs_row = row;
+			constraint->rhs.col = col;
+			constraint->rhs.row = row;
 		}
 
 		if (lhs_cols != rhs_cols || lhs_rows != rhs_rows) {
@@ -459,9 +453,9 @@ loop:
 		constraint->cols = lhs_cols;
 		constraint->rows = lhs_rows;
 
-		write_constraint_str (buf, constraint->lhs_col,
-				      constraint->lhs_row, constraint->rhs_col,
-				      constraint->rhs_row, constraint->type,
+		write_constraint_str (buf, constraint->lhs.col,
+				      constraint->lhs.row, constraint->rhs.col,
+				      constraint->rhs.row, constraint->type,
 				      constraint->cols, constraint->rows);
 
 		constraint->str = g_malloc (strlen (buf)+1);
@@ -655,7 +649,7 @@ restore_original_values (CellList *input_cells, GSList *ov)
 	        const char *str = (char *) ov->data;
 	        Cell *cell = (Cell *) input_cells->data;
 
-		cell_set_text (cell, str);
+		sheet_cell_set_text (cell, str);
 		ov = ov->next;
 		input_cells = input_cells->next;
 	}
@@ -674,8 +668,8 @@ check_int_constraints (CellList *input_cells, GSList *constraints, char **s)
 		    strcmp (c->type, "Bool") == 0) {
 		        for (cells = input_cells; cells; cells = cells->next) {
 			  cell = (Cell *) cells->data;
-			  if (cell->col->pos == c->lhs_col &&
-			      cell->row->pos == c->lhs_row)
+			  if (cell->col_info->pos == c->lhs.col &&
+			      cell->row_info->pos == c->lhs.row)
 			          goto ok;
 			}
 			*s = c->str;
@@ -690,7 +684,6 @@ check_int_constraints (CellList *input_cells, GSList *constraints, char **s)
 
 void
 dialog_solver (Workbook *wb, Sheet *sheet)
-
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/solver.glade",
 					NULL);
@@ -728,12 +721,10 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 
 	if (param->target_cell == NULL)
 	        target_entry_str =
-		  (gchar *) cell_name (sheet->cursor.edit_pos.col,
-				       sheet->cursor.edit_pos.row);
+		  (gchar *) cell_pos_name (&sheet->cursor.edit_pos);
 	else
 	        target_entry_str =
-		  (gchar *) cell_name (param->target_cell->col->pos,
-				       param->target_cell->row->pos);
+		  (gchar *) cell_name (param->target_cell);
 		  
 	dialog = glade_xml_get_widget (gui, "Solver");
 	target_entry = glade_xml_get_widget (gui, "target-cell");
@@ -808,8 +799,8 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 		gchar buf[256];
 	        gchar *tmp[] = { buf, NULL };
 
-		write_constraint_str (buf, c->lhs_col, c->lhs_row, c->rhs_col,
-				      c->rhs_row, c->type, c->cols, c->rows);
+		write_constraint_str (buf, c->lhs.col, c->lhs.row, c->rhs.col,
+				      c->rhs.row, c->type, c->cols, c->rows);
 
 	        gtk_clist_append (GTK_CLIST (constraint_list), tmp);
 		gtk_clist_set_row_data (GTK_CLIST (constraint_list), row++, 
@@ -870,7 +861,7 @@ main_dialog:
 	if (target_cell == NULL) {
 	        target_cell = sheet_cell_new (sheet, target_cell_col,
 					      target_cell_row);
-		cell_set_text (target_cell, "");
+		sheet_cell_set_value (target_cell, value_new_empty(), NULL);
 	}
 	ov_target = value_get_as_float (target_cell->value);
 

@@ -21,6 +21,7 @@
 #include "expr-name.h"
 #include "sheet.h"
 #include "application.h"
+#include "parse-util.h"
 #include "gutils.h"
 #include "auto-format.h"
 
@@ -224,20 +225,6 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 }
 
 static ExprTree *
-build_array_formula (ExprTree *func, int cols, int rows, int x, int y)
-{
-	ExprTree *res = expr_tree_array_formula (x, y, rows, cols);
-
-	/*
-	 * Note: for a non-corner cell, caller must arrange to have the
-	 * inner expression ("func") unref'ed.  This happens in
-	 * cell_set_formula.
-	 */
-	res->u.array.corner.func.expr = func;
-	return res;
-}
-
-static ExprTree *
 build_array (GList *cols)
 {
 	Value *array;
@@ -316,29 +303,6 @@ int yyparse(void);
 line:	  exp {
 		unregister_allocation ($1);
 		*parser_result = $1;
-	}
-
-        | '{' exp '}' '(' NUMBER SEPARATOR NUMBER ')' '[' NUMBER ']' '[' NUMBER ']' {
-		const int num_cols = expr_tree_get_const_int ($7);
-		const int num_rows = expr_tree_get_const_int ($5);
-		const int x = expr_tree_get_const_int ($13);
-		const int y = expr_tree_get_const_int ($10);
-
-		/*
-		 * Notice that we have no use for the ExprTrees for the NUMBERS,
-		 * so we deallocate them.
-		 */
-		unregister_allocation ($13);
-		expr_tree_unref ($13);
-		unregister_allocation ($10);
-		expr_tree_unref ($10);
-		unregister_allocation ($7);
-		expr_tree_unref ($7);
-		unregister_allocation ($5);
-		expr_tree_unref ($5);
-
-		unregister_allocation ($2);
-		*parser_result = build_array_formula ($2, num_cols, num_rows, x, y);
 	}
 
 	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
@@ -530,7 +494,6 @@ static int
 make_string_return (char const *string, gboolean const possible_number)
 {
 	Value *v;
-	double fv;
 	char *format;
 
 	/*
@@ -542,8 +505,7 @@ make_string_return (char const *string, gboolean const possible_number)
 	 * match some formats ....
 	 */
 	if (possible_number && string[0] != '\0' &&
-	    format_match (string, &fv, &format)){
-		v = value_new_float (fv);
+	    NULL != (v = format_match (string, &format))){
 		if (parser_desired_format && *parser_desired_format == NULL)
 			*parser_desired_format = g_strdup (format);
 	} else

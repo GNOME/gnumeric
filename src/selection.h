@@ -28,8 +28,6 @@ CellList   *sheet_selection_to_list      (Sheet *sheet);
 void        sheet_cell_list_free         (CellList *cell_list);
 char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
-void        sheet_selection_changed_hook (Sheet const *sheet);
-
 /* Cut/Copy/Paste on the workbook selection */
 gboolean    sheet_selection_copy              (CommandContext *context, Sheet *sheet);
 gboolean    sheet_selection_cut               (CommandContext *context, Sheet *sheet);
@@ -56,6 +54,7 @@ void selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		      gboolean allow_intersection,
 		      void *closure);
 GSList * selection_get_ranges (Sheet * sheet, gboolean const allow_intersection);
+gboolean selection_check_for_array (Sheet const * sheet, GSList const *selection);
 
 /* export the selection */
 CellList   *selection_to_list      (Sheet *sheet, gboolean allow_intersection);

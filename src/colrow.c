@@ -148,6 +148,9 @@ cb_set_row_height (Sheet *sheet, ColRowInfo *info, void *dummy)
 void
 rows_height_update (Sheet *sheet, Range const * range)
 {
+	/* FIXME : this needs to check font sizes and contents rather than
+	 * just contents.  Empty cells will cause resize also
+	 */
 	sheet_foreach_colrow (sheet, &sheet->rows,
 			      range->start.row, range->end.row,
 			      &cb_set_row_height, NULL);

@@ -35,7 +35,7 @@
 #include "gnumeric.h"
 #include "format.h"
 #include "dates.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "portability.h"
 #include "datetime.h"
 #include "mathfunc.h"

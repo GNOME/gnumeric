@@ -1,3 +1,10 @@
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_write_cell_str) : Use cell_is_blank.
+	  value_get_default_halign.
+	* latex.c (latex_fprintf) : Ditto.
+	* roff.c (roff_fprintf) : Ditto.
+
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* html.c (html_write_wb_html32, html_write_wb_html40): Output

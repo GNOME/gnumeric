@@ -20,6 +20,30 @@ enum {
 #define PASTE_DEFAULT   PASTE_ALL_TYPES
 #define PASTE_OPER_MASK (PASTE_OPER_ADD | PASTE_OPER_SUB | PASTE_OPER_MULT | PASTE_OPER_DIV)
 
+typedef enum {
+	CELL_COPY_TYPE_CELL,
+	CELL_COPY_TYPE_TEXT,
+	CELL_COPY_TYPE_TEXT_AND_COMMENT,
+} CellCopyType;
+
+typedef struct {
+	int col_offset, row_offset; /* Position of the cell */
+	guint8 type;
+	char *comment;
+	union {
+		Cell   *cell;
+		char *text;
+	} u;
+} CellCopy;
+
+typedef GList CellCopyList;
+
+struct _CellRegion {
+	int          cols, rows;
+	CellCopyList *list;
+	GList        *styles;
+};
+
 CellRegion *clipboard_copy_cell_range    (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);

@@ -23,6 +23,7 @@
 #include "workbook.h"
 #include "file.h"
 #include "command-context.h"
+#include "rendered-value.h"
 
 static int
 dif_write_workbook (CommandContext *context,
@@ -157,11 +158,10 @@ g_warning("DIF cell %d : '%s', '%s'", type, line1, line2);
 				return FALSE;
 			}
 			comma = strchr(line1, ',');
-			if (comma)
-			{
+			if (comma) {
 				comma++;
-				cell = sheet_cell_new(src->sheet, col, row);
-				cell_set_text_simple(cell, comma);
+				cell = sheet_cell_fetch (src->sheet, col, row);
+				cell_set_text (cell, comma);
 				col++;
 			}
 			break;
@@ -172,16 +172,14 @@ g_warning("DIF cell %d : '%s', '%s'", type, line1, line2);
 					SHEET_MAX_COLS);
 				return FALSE;
 			}
-			cell = sheet_cell_new(src->sheet, col, row);
+			cell = sheet_cell_fetch (src->sheet, col, row);
 			chln = strlen(line2);
-			if (*line2 == '"' && *(line2 + chln - 1) == '"')
-			{
+			if (*line2 == '"' && *(line2 + chln - 1) == '"') {
 				ch = g_strndup(line2 + 1, chln - 2);
-				cell_set_text_simple(cell, ch);
+				cell_set_text (cell, ch);
 				g_free(ch);
-			}
-			else
-				cell_set_text_simple(cell, line2);
+			} else
+				cell_set_text (cell, line2);
 			col++;
 			break;
 
@@ -300,65 +298,21 @@ dif_read_workbook (CommandContext *context,
 
 
 static int
-dif_write_cell (FILE *f, Cell *cell, int col, int row)
+dif_write_cell (FILE *f, Cell const *cell)
 {
-	char* ch;
-	int negative;
+	if (!cell_is_blank (cell)) {
+		char * text = cell_get_rendered_text (cell);
 
-	if (cell) {
-
-		switch (cell->value->type)
-		{
-		case VALUE_EMPTY:	/* Empty Cell */
-			fputs("1,0\n\"\"\n", f);
-			break;
-
-		case VALUE_STRING:	/* Text Value */
-			fputs("1,0\n\"", f);
-			fputs(cell->text->str, f);
-			fputs("\"\n", f);
-			break;
-
-		default:		/* Assumed Numeric */
-			fputs("0,", f);
-			negative = 0;
-			for (ch = cell->text->str; *ch != '\0'; ch++)
-			{
-				/*
-				 * We want to retain all the significant digits
-				 * and as much formatting as is meaningful in a
-				 * numeric constant, so I'm using the string
-				 * format instead of monkeying around with the
-				 * raw value (and I don't have to worry about
-				 * what formulas do either).
-				 */
-				switch(*ch)
-				{
-				case '(':
-				case '-':
-					if (negative == 0)
-						fputc('-', f);
-					negative = -1;
-					break;
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case '.':
-					fputc(*ch, f);
-					break;
-				}
-			}
-			fputs("\n\"\"\n", f);
-			break;
-
-		}
+		/* FIXME : I have no idea the original code was trying to
+		 * do but it was definitely wrong.  This is only marginally
+		 * better.  It will dump the rendered string as a single line.
+		 * with the magic prefix and quotes from the original.  At 
+		 * least it will not completely disregard negatives.
+		 */
+		fputs("1,0\n\"", f);
+		fputs(text, f);
+		fputs("\"\n", f);
+		g_free (text);
 	}
 
 	if (ferror (f))
@@ -366,11 +320,6 @@ dif_write_cell (FILE *f, Cell *cell, int col, int row)
 
 	return 0;
 }
-
-
-#ifndef PAGE_SIZE
-#define PAGE_SIZE (BUFSIZ*8)
-#endif
 
 /*
  * write every sheet of the workbook to a DIF format file
@@ -404,7 +353,6 @@ dif_write_workbook (CommandContext *context,
 		 * Write out the standard headers
 		 */
 		fputs ("TABLE\n0,1\n\"GNUMERIC\"\nVECTORS\n0,", f);
-		setvbuf (f, NULL, _IOFBF, PAGE_SIZE);
 		workstring = g_strdup_printf("%d", sheet->rows.max_used);
 		fputs (workstring, f);
 		g_free(workstring);
@@ -423,7 +371,7 @@ dif_write_workbook (CommandContext *context,
 
 			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
-				rc = dif_write_cell (f, cell, col, row);
+				rc = dif_write_cell (f, cell);
 				if (rc)
 					goto out;
 			}

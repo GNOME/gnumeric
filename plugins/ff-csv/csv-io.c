@@ -23,6 +23,7 @@
 #include "cell.h"
 #include "file.h"
 #include "command-context.h"
+#include "rendered-value.h"
 
 static int
 csv_write_workbook (CommandContext *context, Workbook *wb,
@@ -99,7 +100,7 @@ csv_parse_field (CommandContext *context, FileSource_t *src, Cell *cell)
 	} else
 		field = g_strndup (start, cur-start);
 
-	cell_set_text_simple (cell, field);
+	cell_set_text (cell, field);
 	g_free (field);
 
 	return 0;
@@ -197,17 +198,15 @@ csv_write_cell (FILE *f, Cell *cell, int col, int row)
 		fputc (',', f);
 	if (cell) {
 		gboolean quoting = FALSE;
-		const char *s;
+		char * text = cell_get_rendered_text (cell);
+		char const *s = text;
 
-		if (strchr (cell->text->str, ',') ||
-		    strchr (cell->text->str, '"') ||
-		    strchr (cell->text->str, ' ') ||
-		    strchr (cell->text->str, '\t')) {
+		if (strchr (s, ',') || strchr (s, '"') ||
+		    strchr (s, ' ') || strchr (s, '\t')) {
 			quoting = TRUE;
 			fputc ('"', f);
 		}
 
-		s = cell->text->str;
 		while (*s) {
 			if (*s == '"')
 				fputs ("\"\"", f);
@@ -219,6 +218,7 @@ csv_write_cell (FILE *f, Cell *cell, int col, int row)
 
 		if (quoting)
 			fputc ('"', f);
+		g_free (text);
 	}
 
 	if (ferror (f))

@@ -19,6 +19,7 @@
 #include "workbook.h"
 #include "workbook-view.h"
 #include "ranges.h"
+#include "cell-comment.h"
 
 #include "xml-io.h"
 #include "value.h"
@@ -64,16 +65,15 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell,
 	g_return_if_fail (target_col < SHEET_MAX_COLS);
 	g_return_if_fail (target_row < SHEET_MAX_ROWS);
 
-	sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
-
 	if (!(paste_flags & PASTE_FORMULAS)) {
-		if (new_cell->parsed_node) {
-			expr_tree_unref (new_cell->parsed_node);
-			new_cell->parsed_node = NULL;
+		if (cell_has_expr (new_cell)) {
+			expr_tree_unref (new_cell->u.expression);
+			new_cell->u.expression = NULL;
+			new_cell->cell_flags &= ~CELL_HAS_EXPRESSION;
 		}
 	}
 
-	if (new_cell->parsed_node) {
+	if (cell_has_expr (new_cell)) {
 		if (paste_flags & PASTE_FORMULAS) {
 			cell_relocate (new_cell, TRUE);
 			cell_content_changed (new_cell);
@@ -83,6 +83,9 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell,
 
 	if (new_cell->value)
 		cell_render_value (new_cell);
+
+	/* Once we have set the content then insert */
+	sheet_cell_insert (dest_sheet, new_cell, target_col, target_row);
 
 	sheet_redraw_cell_region (dest_sheet,
 				  target_col, target_row,
@@ -122,7 +125,7 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 
 			if (c_copy->u.text) {
 
-				cell_set_text (new_cell, c_copy->u.text);
+				sheet_cell_set_text (new_cell, c_copy->u.text);
 			}
 
 			if (c_copy->type == CELL_COPY_TYPE_TEXT_AND_COMMENT && c_copy->comment)
@@ -775,8 +778,8 @@ clipboard_release (CellRegion *region)
 		if (this_cell->type == CELL_COPY_TYPE_CELL) {
 			/* The cell is not really in the rows or columns */
 			this_cell->u.cell->sheet = NULL;
-			this_cell->u.cell->row = NULL;
-			this_cell->u.cell->col = NULL;
+			this_cell->u.cell->row_info = NULL;
+			this_cell->u.cell->col_info = NULL;
 			cell_destroy (this_cell->u.cell);
 		} else {
 

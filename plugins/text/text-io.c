@@ -22,8 +22,9 @@
 #include "workbook.h"
 #include "cell.h"
 #include "command-context.h"
-#include "text-io.h"
 #include "file.h"
+#include "plugin.h"
+#include "rendered-value.h"
 
 typedef struct {
 	gint     status;
@@ -34,17 +35,13 @@ typedef struct {
 	Sheet   *sheet;
 } TextData;
 
-/* these seems not necessary
-static Sheet    *text_read_sheet     (const char *filename);
-static int       text_write_sheet    (Sheet *sheet, const char *filename);
-*/
-
 static int       text_write_workbook (CommandContext *context, Workbook *wb,
 				      const char *filename);
 
 static void      writeTextSheet      (TextData *data, Sheet *sheet);
 static void      writeTextWorkbook   (TextData *data, Workbook *wb);
 
+/* FIXME : Delete this.  The core should provide appropriate utils */
 static void
 get_cell_pos (gpointer key, gpointer value, gpointer d)
 {
@@ -52,15 +49,15 @@ get_cell_pos (gpointer key, gpointer value, gpointer d)
 	gint *data = (gint *) d;
 	Cell *cell = (Cell *) value;
 
-	if (cell && cell->col)
-		col = cell->col->pos;
-	if (cell && cell->row)
-		row = cell->row->pos;
-
-	if (col < 0 && row < 0)
+	if (cell_is_blank(cell))
 		return;
 
-	if (!cell->text || !cell->text->str || cell->text->str[0] == '\0')
+	if (cell->col_info)
+		col = cell->col_info->pos;
+	if (cell->row_info)
+		row = cell->row_info->pos;
+
+	if (col < 0 && row < 0)
 		return;
 
 	if (data[0] == -1 || col < data[0])
@@ -132,8 +129,11 @@ writeTextSheet (TextData *data, Sheet *sheet)
 					fputc ('\t', data->file);
 
 				cell = sheet_cell_get (sheet, j, i);
-				if (cell && cell->text && cell->text->str)
-					fputs (cell->text->str, data->file);
+				if (cell != NULL) {
+					char * text = cell_get_rendered_text (cell);
+					fputs (text, data->file);
+					g_free (text);
+				}
 			}
 			fputc ('\n', data->file);
 		}
@@ -203,12 +203,10 @@ insert_cell (Sheet* sheet, char *string, int start, int end, int col, int row)
 
 	/*fprintf(stderr,"'%s' at col:%d, row:%d.\n", p, col, row);*/
 
-	if ((cell = sheet_cell_get (sheet, row, col)) == NULL){
-		if ((cell = sheet_cell_new (sheet, row, col)) == 0){
-			return -1;
-		}
-	}
-	cell_set_text_simple (cell, p);
+	if ((cell = sheet_cell_fetch (sheet, row, col)) == NULL)
+		return -1;
+
+	cell_set_text (cell, p);
 	free (p);
 
 	return 0;
@@ -371,34 +369,6 @@ text_read_workbook (CommandContext *context, Workbook *wb,
 	return ret;
 }
 
-#if 0
-int
-text_write_sheet (Sheet * sheet, const char *filename)
-{
-	TextData data = { 0, 0, 0, 0, NULL };
-
-	g_return_val_if_fail (sheet != NULL, -1);
-	g_return_val_if_fail (IS_SHEET (sheet), -1);
-	g_return_val_if_fail (filename != NULL, -1);
-
-	/*
-	* Open output file
-	*/
-	data.file = fopen (filename, "w");
-	if (data.file == NULL)
-		return -1;
-
-	writeTextSheet (&data, sheet);
-
-	fclose (data.file);
-
-	if (data.status == 0)
-		sheet->modified = FALSE;
-
-	return data.status;
-}
-#endif
-
 /*
 * Save a Workbook in a simple text formatted file
 * returns 0 in case of success, -1 otherwise.
@@ -432,10 +402,9 @@ text_write_workbook (CommandContext *context, Workbook *wb,
 static void
 text_init (void)
 {
-	char *desc = _("Simple Text Format");
+	char const * const desc = _("Simple Text");
 
-	file_format_register_open (0, desc,
-				   NULL,
+	file_format_register_open (0, desc, NULL,
 				   text_read_workbook);
 
 	file_format_register_save (".txt", desc, FILE_FL_MANUAL,
@@ -455,9 +424,6 @@ text_can_unload (PluginData *pd)
 	return TRUE;
 }
 
-#define TEXT_TITLE _("TXT (simple text import/export plugin)")
-#define TEXT_DESCR _("This plugin can save/read Gnumeric Sheets using an simple text encoding.")
-
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -467,7 +433,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 	text_init ();
 
 	if (plugin_data_init (pd, text_can_unload, text_cleanup_plugin,
-			      TEXT_TITLE, TEXT_DESCR))
+			      _("Basic Text I/O"),
+			      _("Read/Write workbooks using a simple text format.")))
 	        return PLUGIN_OK;
 	else
 	        return PLUGIN_ERROR;

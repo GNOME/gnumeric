@@ -12,12 +12,15 @@
 #include "eval.h"
 #include "format.h"
 #include "color.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "cell.h"
+#include "value.h"
 #include "border.h"
 #include "pattern.h"
 #include "cellspan.h"
+#include "sheet.h"
 #include "print-cell.h"
+#include "rendered-value.h"
 
 static void
 print_vline (GnomePrintContext *context,
@@ -149,7 +152,7 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
  *      \------/
  */
 static void
-print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
+print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	    GnomePrintContext *context, double x1, double y1)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
@@ -172,31 +175,31 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	StyleColor *fore;
 
 	g_return_if_fail (cell);
-	g_return_if_fail (cell->text);
+	g_return_if_fail (cell->rendered_value);
+	g_return_if_fail (cell->rendered_value->rendered_text);
 
 	/* Don't print zeros if they should be ignored. */
 	if (/* No need to check for the edit cell */
 	    !sheet->display_zero && cell_is_zero (cell))
 		return;
 
-	if (cell->text->str == NULL) {
-		g_warning ("Serious cell error at '%s'\n",
-			   cell_name (cell->col->pos, cell->row->pos));
+	if (cell->rendered_value->rendered_text->str == NULL) {
+		g_warning ("Serious cell error at '%s'\n", cell_name (cell));
 		/* This can occur when eg. a plugin function fires up a dialog */
 		text = "Pending";
 	} else
-		text = cell->text->str;
+		text = cell->rendered_value->rendered_text->str;
 
 	if (spaninfo != NULL) {
 		start_col = spaninfo->left;
 		end_col = spaninfo->right;
 	} else
-		start_col = end_col = cell->col->pos;
+		start_col = end_col = cell->col_info->pos;
 
 
 	/* Get the sizes exclusive of margins and grids */
-	width  = cell->col->size_pts - cell->col->margin_a - cell->col->margin_b - 1;
-	height = cell->row->size_pts - cell->row->margin_a - cell->row->margin_b - 1;
+	width  = cell->col_info->size_pts - cell->col_info->margin_a - cell->col_info->margin_b - 1;
+	height = cell->row_info->size_pts - cell->row_info->margin_a - cell->row_info->margin_b - 1;
 
 	font_height = style_font->size;
 
@@ -211,11 +214,11 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 		 * add top margin
 		 * add font ascent
 		 */
-		text_base = y1 - font_ascent - cell->row->margin_a;
+		text_base = y1 - font_ascent - cell->row_info->margin_a;
 		break;
 		
 	case VALIGN_CENTER:
-		text_base = y1 - font_ascent - cell->row->margin_a -
+		text_base = y1 - font_ascent - cell->row_info->margin_a -
 		    (height - font_height) / 2;
 		break;
 		
@@ -226,13 +229,13 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 		 * subtract font descent
 		 * subtract bottom grid
 		 */
-		text_base = y1 - cell->row->size_pts + font_descent + cell->row->margin_b + 1;
+		text_base = y1 - cell->row_info->size_pts + font_descent + cell->row_info->margin_b + 1;
 		break;
 	}
 	
 	text_width = gnome_font_get_width_string (print_font, text);
 
-	halign = cell_get_horizontal_align (cell, mstyle_get_align_h (mstyle));
+	halign = value_get_default_halign (cell->value, mstyle);
 	is_single_line = (halign != HALIGN_JUSTIFY &&
 			  mstyle_get_align_v (mstyle) != VALIGN_JUSTIFY &&
 			  !mstyle_get_fit_in_cell (mstyle));
@@ -241,23 +244,23 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	 * including the surrounding grid lines */
 	clip_x = x1;
 	clip_y = y1;
-	clip_width  = cell->col->size_pts + 1;
-	clip_height = cell->row->size_pts + 1;
+	clip_width  = cell->col_info->size_pts + 1;
+	clip_height = cell->row_info->size_pts + 1;
 
 	/*
 	 * x1, y1 are relative to this cell origin, but the cell might be using
 	 * columns to the left (if it is set to right justify or center justify)
 	 * compute the difference in pts.
 	 */
-	if (start_col != cell->col->pos) {
+	if (start_col != cell->col_info->pos) {
 		int const offset =
-		    sheet_col_get_distance_pts (sheet, start_col, cell->col->pos);
+		    sheet_col_get_distance_pts (sheet, start_col, cell->col_info->pos);
 		clip_x     -= offset;
 		clip_width += offset;
 	}
-	if (end_col != cell->col->pos) {
+	if (end_col != cell->col_info->pos) {
 		int const offset =
-		    sheet_col_get_distance_pts (sheet, cell->col->pos+1, end_col+1);
+		    sheet_col_get_distance_pts (sheet, cell->col_info->pos+1, end_col+1);
 		clip_width += offset;
 	}
 
@@ -266,10 +269,10 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	 *
 	 * NOTE : postscript clip paths exclude the border, gdk includes it.
 	 */
-	clip_x += cell->col->margin_a;
-	clip_y -= cell->row->margin_a;
-	clip_width -= cell->col->margin_a + cell->col->margin_b;
-	clip_height -= cell->row->margin_a + cell->row->margin_b;
+	clip_x += cell->col_info->margin_a;
+	clip_y -= cell->row_info->margin_a;
+	clip_width -= cell->col_info->margin_a + cell->col_info->margin_b;
+	clip_height -= cell->row_info->margin_a + cell->row_info->margin_b;
 	gnome_print_gsave (context);
 	gnome_print_newpath (context);
 	gnome_print_moveto (context, clip_x, clip_y);
@@ -280,7 +283,7 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	gnome_print_clip (context);
 
 	/* Set the font colour */
-	fore = cell->render_color;
+	fore = cell->rendered_value->render_color;
 	if (fore == NULL)
 		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 	g_return_if_fail (fore != NULL); /* Be extra careful */
@@ -307,7 +310,7 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 
 	if (text_width > width && cell_is_number (cell)) {
 		print_overflow (context, print_font,
-				x1 + cell->col->margin_a + 1,
+				x1 + cell->col_info->margin_a + 1,
 				text_base, width, line_offset, num_lines);
 		style_font_unref (style_font);
 		gnome_print_grestore (context);
@@ -323,15 +326,15 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 			/* fall down */
 
 		case HALIGN_LEFT:
-			x1 += 1 + cell->col->margin_a;
+			x1 += 1 + cell->col_info->margin_a;
 			break;
 
 		case HALIGN_RIGHT:
-			x1 += cell->col->size_pts - cell->col->margin_b - text_width;
+			x1 += cell->col_info->size_pts - cell->col_info->margin_b - text_width;
 			break;
 
 		case HALIGN_CENTER:
-			x1 += 1 + cell->col->margin_a + (width - text_width) / 2; 
+			x1 += 1 + cell->col_info->margin_a + (width - text_width) / 2; 
 			break;
 
 		case HALIGN_CENTER_ACROSS_SELECTION:
@@ -340,7 +343,7 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 
 		default:
 			g_warning ("Single-line justitfication style not supported\n");
-			x1 += 1 + cell->col->margin_a;
+			x1 += 1 + cell->col_info->margin_a;
 			break;
 		}
 
@@ -353,13 +356,13 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 
 			x += len;
 			total += len;
-		} while (halign == HALIGN_FILL && total < cell->col->size_pts && len > 0);
+		} while (halign == HALIGN_FILL && total < cell->col_info->size_pts && len > 0);
 	} else {
 		GList *lines, *l;
 		int line_count, x_offset, y_offset;
 		double inter_space;
 
-		lines = cell_split_text (print_font, text, cell->col->size_pts);
+		lines = cell_split_text (print_font, text, cell->col_info->size_pts);
 		line_count = g_list_length (lines);
 
 		{
@@ -378,7 +381,7 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 			break;
 
 		case VALIGN_CENTER:
-			y_offset = - ((cell->row->size_pts -
+			y_offset = - ((cell->row_info->size_pts -
 				       (line_count * font_height)) / 2);
 			inter_space = font_height;
 			break;
@@ -387,14 +390,14 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 			if (line_count > 1) {
 				y_offset = 0;
 				inter_space = font_height +
-					(cell->row->size_pts - (line_count * font_height))
+					(cell->row_info->size_pts - (line_count * font_height))
 					/ (line_count - 1);
 				break;
 			}
 			/* Else, we become a VALIGN_BOTTOM line */
 
 		case VALIGN_BOTTOM:
-			y_offset = - (cell->row->size_pts - (line_count * font_height));
+			y_offset = - (cell->row_info->size_pts - (line_count * font_height));
 			inter_space = font_height;
 			break;
 
@@ -418,20 +421,20 @@ print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
-				x_offset = cell->col->margin_a;
+				x_offset = cell->col_info->margin_a;
 				if (num_lines > 0)
 					len = gnome_font_get_width_string (print_font, str);
 				break;
 
 			case HALIGN_RIGHT:
 				len = gnome_font_get_width_string (print_font, str);
-				x_offset = cell->col->size_pts - cell->col->margin_b - len;
+				x_offset = cell->col_info->size_pts - cell->col_info->margin_b - len;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gnome_font_get_width_string (print_font, str);
-				x_offset = (cell->col->size_pts - len) / 2;
+				x_offset = (cell->col_info->size_pts - len) / 2;
 			}
 
 			print_text (context,
@@ -617,8 +620,8 @@ print_cell_range (GnomePrintContext *context,
 				x += ci->size_pts;
 				++col;
 			} else {
-				Cell *cell = span->cell;
-				int const real_col = cell->col->pos;
+				Cell const *cell = span->cell;
+				int const real_col = cell->col_info->pos;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				int real_x = -1;
@@ -652,7 +655,7 @@ print_cell_range (GnomePrintContext *context,
 				if (real_style == NULL) {
 					real_style = sheet_style_compute (sheet, real_col, ri->pos);
 					real_x = x + sheet_col_get_distance_pts (cell->sheet,
-										 col, cell->col->pos);
+										 col, cell->col_info->pos);
 				}
 
 				if (output){

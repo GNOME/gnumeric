@@ -16,7 +16,7 @@
 #include "cell.h"
 #include "expr.h"
 #include "selection.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "utils-dialog.h"
 #include "ranges.h"
 #include "commands.h"
@@ -73,7 +73,7 @@ column_name (Sheet *sheet, int row, int col, gboolean header)
 	if (header) {
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell)
-			str = cell_get_text (cell);
+			str = cell_get_entered_text (cell);
 		else
 			str = strdup (col_name (col));
 	} else
@@ -90,7 +90,7 @@ row_name (Sheet *sheet, int row, int col, gboolean header)
 	if (header) {
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell)
-			str = cell_get_text (cell);
+			str = cell_get_entered_text (cell);
 		else
 			str = g_strdup_printf ("%d", row + 1);
 	} else

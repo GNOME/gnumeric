@@ -16,7 +16,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "tools.h"
 #include "value.h"
 #include "regression.h"
@@ -81,12 +81,9 @@ set_cell (data_analysis_output_t *dao, int col, int row, char *text)
 	if (dao->type == RangeOutput && (col >= dao->cols || row >= dao->rows))
 	        return NULL;
 
-	cell = sheet_cell_get (dao->sheet, dao->start_col+col, 
-			       dao->start_row+row);
-	if (cell == NULL)
-	        cell = sheet_cell_new (dao->sheet, dao->start_col+col,
-				       dao->start_row+row);
-	cell_set_text (cell, text);
+	cell = sheet_cell_fetch (dao->sheet, dao->start_col+col, 
+				 dao->start_row+row);
+	sheet_cell_set_text (cell, text);
 
 	return cell;
 }

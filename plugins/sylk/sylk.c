@@ -222,7 +222,7 @@ sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 		g_assert (cell);
 
 		if (src->val_type == VALUE_STRING)
-			cell_set_text_simple (cell, src->val_s);
+			cell_set_text (cell, src->val_s);
 
 		else {
 			Value *v;
@@ -235,7 +235,7 @@ sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 				v = value_new_int (src->val_l);
 
 			g_assert (v);
-			cell_set_value_simple (cell, v);
+			cell_set_value (cell, v, NULL);
 		}
 
 	}

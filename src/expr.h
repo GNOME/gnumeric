@@ -112,10 +112,13 @@ struct _FunctionEvalInfo {
 #define eval_sheet(a,b)     (a?a:b)
 
 /* Transition functions */
-EvalPosition     *eval_pos_init       (EvalPosition *, Sheet *s, int col, int row);
-EvalPosition     *eval_pos_cell       (EvalPosition *, Cell *);
-ParsePosition    *parse_pos_init      (ParsePosition *, Workbook *wb, Sheet *sheet, int col, int row);
-ParsePosition    *parse_pos_cell      (ParsePosition *, Cell *);
+EvalPosition     *eval_pos_init       (EvalPosition *pp, Sheet *s, CellPos const *pos);
+EvalPosition     *eval_pos_cell       (EvalPosition *pp, Cell *);
+EvalPosition     *eval_pos_cellref    (EvalPosition *dest,
+				       EvalPosition const *src, CellRef const *);
+ParsePosition    *parse_pos_init      (ParsePosition *pp, Workbook *wb, Sheet *sheet, int col, int row);
+ParsePosition    *parse_pos_cell      (ParsePosition *pp, Cell *);
+ParsePosition    *parse_pos_evalpos   (ParsePosition *pp, EvalPosition const *pos);
 
 /*
  * Built in / definable sheet names.

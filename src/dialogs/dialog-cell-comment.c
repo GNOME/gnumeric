@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "cell-comment.h"
 
 void
 dialog_cell_comment (Workbook *wb, Cell *cell)
@@ -57,6 +58,7 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 		if (comment){
 			cell_set_comment (cell, comment);
 			g_free (comment);
+			sheet_set_dirty (cell->sheet, TRUE);
 		}
 	}
 

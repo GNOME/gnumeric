@@ -9,7 +9,7 @@
  */
 #include <config.h>
 #include "selection.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "clipboard.h"
 #include "ranges.h"
 #include "application.h"
@@ -54,24 +54,11 @@ sheet_get_selection_name (Sheet const *sheet)
 	static char buffer [10 + 2 * 4 * sizeof (int)];
 
 	if (range_is_singleton (&ss->user))
-		return cell_name (ss->user.start.col, ss->user.start.row);
+		return cell_pos_name (&ss->user.start);
 	snprintf (buffer, sizeof (buffer), "%dLx%dC",
 		  ss->user.end.row - ss->user.start.row + 1,
 		  ss->user.end.col - ss->user.start.col + 1);
 	return buffer;
-}
-
-/*
- * FIXME : I am not thrilled with the name or location
- * of this routine.  Fix it as the cursor vs selection
- * seperation progresses.
- */
-void
-sheet_selection_changed_hook (Sheet const *sheet)
-{
-	sheet_update_auto_expr (sheet);
-	sheet_update_controls  (sheet);
-	workbook_set_region_status (sheet->workbook, sheet_get_selection_name (sheet));
 }
 
 /**
@@ -191,12 +178,16 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	/* If nothing was going to change dont redraw */
 	if (sheet->cursor.move_corner.col == col && sheet->cursor.move_corner.row == row)
 		return;
+
 	sheet_selection_set (sheet,
 			     sheet->cursor.edit_pos.col,
 			     sheet->cursor.edit_pos.row,
 			     sheet->cursor.base_corner.col,
 			     sheet->cursor.base_corner.row,
 			     col, row);
+
+	workbook_set_region_status (sheet->workbook,
+				    sheet_get_selection_name (sheet));
 }
 
 /*
@@ -332,8 +323,6 @@ sheet_selection_set (Sheet *sheet,
 			  edit_col, edit_row,
 			  base_col, base_row,
 			  move_col, move_row);
-
-	sheet_selection_changed_hook (sheet);
 
 	if (range_overlap (&old_sel, &new_sel)) {
 		GList *ranges, *l;
@@ -662,9 +651,9 @@ sheet_selection_cut (CommandContext *context, Sheet *sheet)
 		return FALSE;
 
 	ss = sheet->selections->data;
-	if (!sheet_check_for_partial_array (sheet,
-					    ss->user.start.row,ss->user.start.col,
-					    ss->user.end.row, ss->user.end.col)) {
+	if (sheet_range_splits_array (sheet,
+				      ss->user.start.col,ss->user.start.row,
+				      ss->user.end.col, ss->user.end.row)) {
 		gnumeric_no_modify_array_notice (sheet->workbook);
 		return FALSE;
 	}
@@ -1020,6 +1009,31 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 	}
 
 	return proposed;
+}
+
+/**
+ * selection_check_for_array:
+ * @sheet: the sheet.
+ * @selection : A list of ranges to check.
+ *
+ * Checks to see if any of the ranges are partial arrays.
+ */
+gboolean
+selection_check_for_array (Sheet const * sheet, GSList const *selection)
+{
+	GSList const *l;
+
+	/* Check for array subdivision */
+	for (l = selection; l != NULL; l = l->next)
+	{
+		Range const *r = l->data;
+		if (sheet_range_splits_array (sheet,
+					      r->start.col, r->start.row,
+					      r->end.col, r->end.row)) {
+			return TRUE;
+		}
+	}
+	return FALSE;
 }
 
 /**

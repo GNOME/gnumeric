@@ -27,21 +27,23 @@
 #include "font.h"
 #include "cell.h"
 #include "command-context.h"
+#include "rendered-value.h"
 
 /*
  * escape special characters
  */
 static int
-latex_fprintf (FILE *fp, const char *s)
+latex_fprintf (FILE *fp, const Cell *cell)
 {
 	int len, i;
 	const char *p;
+	char * s;
 
-	if (!s)
+	if (cell_is_blank (cell))
 		return 0;
+
+	s = cell_get_rendered_text (cell);
 	len = strlen (s);
-	if (!len)
-		return 0;
 	p = s;
 	for (i = 0; i < len; i++) {
 		switch (*p) {
@@ -63,6 +65,7 @@ latex_fprintf (FILE *fp, const char *s)
 		}
 		p++;
 	}
+	g_free (s);
 	return len;
 }
 
@@ -138,7 +141,7 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 						fprintf (fp, "{\\bf ");
 					if (mstyle_get_font_italic (mstyle))
 						fprintf (fp, "{\\em ");
-					latex_fprintf (fp, cell->text->str);
+					latex_fprintf (fp, cell);
 					if (mstyle_get_font_italic (mstyle))
 						fprintf (fp, "}");
 					if (mstyle_get_font_bold (mstyle))
@@ -240,7 +243,7 @@ html_write_wb_latex2e (CommandContext *context, Workbook *wb,
 						fprintf (fp, "\\textbf{");
 					if (mstyle_get_font_italic (mstyle))
 						fprintf (fp, "{\\em ");
-					latex_fprintf (fp, cell->text->str);
+					latex_fprintf (fp, cell);
 					if (mstyle_get_font_italic (mstyle))
 						fprintf (fp, "}");
 					if (mstyle_get_font_bold (mstyle))

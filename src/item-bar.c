@@ -12,7 +12,7 @@
 #include "gnumeric-sheet.h"
 #include "item-bar.h"
 #include "item-debug.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "gnumeric-util.h"
 #include "selection.h"
 #include "workbook-cmd-format.h"

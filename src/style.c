@@ -70,6 +70,17 @@ style_format_unref (StyleFormat *sf)
 	g_free (sf);
 }
 
+gboolean
+style_format_is_general(StyleFormat const *sf)
+{
+	/* FIXME : Seems like some internal lists are hard coding the non
+	 * translated form.  Check for both until that is fixed.
+	 */
+	return
+	    0 == strcmp (sf->format, _("General")) ||
+	    0 == strcmp (sf->format, "General");
+}
+
 #ifdef DEBUG_FONTS
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>

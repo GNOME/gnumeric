@@ -112,6 +112,7 @@ void value_array_resize    (Value *v, guint width, guint height);
 void value_array_copy_to   (Value *dest, const Value *src);
 
 Value * value_is_error (char const * const str, int *offset);
+StyleHAlignFlags value_get_default_halign (Value const *v, MStyle const *mstyle);
 
 /* Some utility constants to make sure we all spell correctly */
 extern char const *gnumeric_err_NULL;
@@ -121,5 +122,6 @@ extern char const *gnumeric_err_REF;
 extern char const *gnumeric_err_NAME;
 extern char const *gnumeric_err_NUM;
 extern char const *gnumeric_err_NA;
+extern char const *gnumeric_err_RECALC;
 
 #endif /* GNUMERIC_VALUE_H */

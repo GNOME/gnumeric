@@ -11,6 +11,7 @@ struct _SheetPrivate {
 	gboolean	 edit_pos_changed; /* either location or content */
 	gboolean	 selection_content_changed;
 	gboolean	 recompute_visibility;
+	gboolean	 recompute_spans;
 	int		 reposition_row_comment;
 	int		 reposition_col_comment;
 };

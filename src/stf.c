@@ -51,7 +51,7 @@
 /**
  * stf_open_and_read
  * @filename : name of the file to open&read
- * 
+ *
  * Will open filename, read the file into a g_alloced memory buffer
  *
  * NOTE : The returned buffer has to be freed by the calling routine.
@@ -69,7 +69,7 @@ stf_open_and_read (const char *filename)
 		return NULL;
 
 	if (fstat(fd, &sbuf) < 0) {
-	
+
 		close (fd);
 		return NULL;
 	}
@@ -86,12 +86,12 @@ stf_open_and_read (const char *filename)
 
 		free (data);
 		close (fd);
-		
+
 		return NULL;
 	}
 
 	close (fd);
-	
+
 	return data;
 }
 
@@ -107,7 +107,7 @@ stf_open_and_read (const char *filename)
  **/
 static int
 stf_read_workbook (CommandContext *context, Workbook *book, char const *filename)
-{        
+{
 	DialogStfResult_t *dialogresult;
 	char *name;
 	char *data;
@@ -115,7 +115,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 
 	data = stf_open_and_read (filename);
 	if (!data) {
-	
+
 		gnumeric_error_read (context,
 				     _("Error while trying to memory map file"));
 		return -1;
@@ -125,7 +125,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		/*
 		 * Note this buffer was allocated with malloc, not g_malloc
 		 */
-		free (data);	
+		free (data);
 		gnumeric_error_read (context,
 				     _("Error while trying to pre-convert file"));
 		return -1;
@@ -135,7 +135,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		/*
 		 * Note this buffer was allocated with malloc, not g_malloc
 		 */
-		
+
 		free (data);
 		gnumeric_error_read (context,
 				     _("This file does not seem to be a valid text file"));
@@ -150,7 +150,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 	g_free (name);
 
 	workbook_attach_sheet (book, sheet);
-	
+
 	dialogresult = stf_dialog (context, filename, data);
 
 	if (dialogresult != NULL) {
@@ -182,18 +182,18 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 			range.start.row = 0;
 			range.end.col   = col;
 			range.end.row   = rowcount;
-		
+
 			sheet_style_attach (sheet, range, style);
 
 			iterator = g_slist_next (iterator);
 
 			col++;
 		}
-		
+
 		range = sheet_get_extent (sheet);
-		
+
 		sheet_style_optimize (sheet, range);
-		sheet_cells_update (sheet, range, TRUE);
+		sheet_range_calc_spans (sheet, range, TRUE);
 		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
 				       gnumeric_xml_write_workbook);
 	} else {
@@ -207,9 +207,8 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 	free (data);
 
 	if (dialogresult != NULL) {
-
 		stf_dialog_result_free (dialogresult);
-	
+
 		return 0;
 	} else
 		return -1;

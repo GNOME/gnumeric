@@ -35,8 +35,9 @@
       <name>main_page</name>
       <title>Data type and number of lines</title>
       <title_color>255,255,255</title_color>
-      <background_color>25,25,112</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <background_color>93,52,103</background_color>
+      <logo_background_color>93,52,103</logo_background_color>
+      <logo_image>../../pixmaps/gnumeric/stf-druid.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -298,8 +299,9 @@
       <name>csv_page</name>
       <title>Separation customization</title>
       <title_color>255,255,255</title_color>
-      <background_color>25,25,112</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <background_color>93,52,103</background_color>
+      <logo_background_color>93,52,103</logo_background_color>
+      <logo_image>../../pixmaps/gnumeric/stf-druid.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -831,8 +833,9 @@
       <name>fixed_page</name>
       <title>Fixed width customization</title>
       <title_color>255,255,255</title_color>
-      <background_color>25,25,112</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <background_color>93,52,103</background_color>
+      <logo_background_color>93,52,103</logo_background_color>
+      <logo_image>../../pixmaps/gnumeric/stf-druid.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -1183,8 +1186,9 @@
       <name>format_page</name>
       <title>Column formatting</title>
       <title_color>255,255,255</title_color>
-      <background_color>25,25,112</background_color>
-      <logo_background_color>255,255,255</logo_background_color>
+      <background_color>93,52,103</background_color>
+      <logo_background_color>93,52,103</logo_background_color>
+      <logo_image>../../pixmaps/gnumeric/stf-druid.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>

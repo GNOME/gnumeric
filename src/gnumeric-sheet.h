@@ -52,7 +52,7 @@ void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new
 void       gnumeric_sheet_set_left_col           (GnumericSheet *gsheet, int new_first_col);
 void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,
 						  int col, int row);
-gboolean   gnumeric_sheet_can_move_cursor        (GnumericSheet *gsheet);
+gboolean   gnumeric_sheet_can_select_expr_range  (GnumericSheet *gsheet);
 void       gnumeric_sheet_set_cursor_bounds      (GnumericSheet *gsheet,
 						  int start_col, int start_row,
 						  int end_col,   int end_row);

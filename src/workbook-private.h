@@ -11,6 +11,7 @@
  * recompilation, we put the code hre
  */
 struct _WorkbookPrivate {
+	gboolean during_destruction;
 
 	GtkWidget  *table;
 	GnomeCanvasItem  *auto_expr_label;

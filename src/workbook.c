@@ -22,7 +22,7 @@
 #include "xml-io.h"
 #include "pixmaps.h"
 #include "clipboard.h"
-#include "gutils.h"
+#include "parse-util.h"
 #include "widgets/widget-editable-label.h"
 #include "ranges.h"
 #include "selection.h"
@@ -37,6 +37,7 @@
 #include "commands.h"
 #include "widgets/gtk-combo-text.h"
 #include "wizard.h"
+#include "gutils.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -82,7 +83,7 @@ static gint workbook_signals [LAST_SIGNAL] = {
 static void workbook_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void workbook_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb);
-static int  workbook_can_close (Workbook *wb);
+static int  workbook_close_if_user_permits (Workbook *wb);
 
 static void
 new_cmd (void)
@@ -288,6 +289,7 @@ workbook_do_destroy (Workbook *wb)
 		GTK_OBJECT (wb->toplevel),
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
 
+	wb->priv->during_destruction = TRUE;
 	workbook_autosave_cancel (wb);
 
 	if (wb->file_format_level > FILE_FL_NEW)
@@ -392,7 +394,7 @@ workbook_do_destroy (Workbook *wb)
 	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
 		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
 	
-	if (workbook_count == 0) {
+	if (initial_worbook_open_complete && workbook_count == 0) {
 		application_history_write_config ();
 		gtk_main_quit ();
 	}
@@ -410,19 +412,7 @@ workbook_destroy (GtkObject *wb_object)
 static int
 workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 {
-	if (workbook_can_close (wb)) {
-#ifdef ENABLE_BONOBO
-		if (wb->workbook_views) {
-			gtk_widget_hide (GTK_WIDGET (wb->toplevel));
-			return FALSE;
-		}
-		bonobo_object_unref (BONOBO_OBJECT (wb));
-#else
-		gtk_object_unref   (GTK_OBJECT   (wb));
-#endif
-		return FALSE;
-	} else
-		return TRUE;
+	return !workbook_close_if_user_permits (wb);
 }
 
 static void
@@ -461,30 +451,6 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 
 	if (!sheet->modified)
 		return;
-/*	{
-		GtkEntry   *entry;
-		const char *txt;
-		Cell       *cell;
-
-		if (sheet != sheet->workbook->current_sheet)
-			return;
-
-		entry = GTK_ENTRY (sheet->workbook->ea_input);
-		txt   = gtk_entry_get_text (entry);
-		cell = sheet_cell_get (sheet, sheet->cursor.edit_pos.col,
-				       sheet->cursor.edit_pos.row);
-		if (!cell) {
-			if (!strlen (txt))
-				return;
-		} else {
-			char *cell_txt = cell_get_text (cell);
-			gboolean same  = !strcmp (txt, cell_txt);
-			g_free (cell_txt);
-			if (same)
-				return;
-		}
-		return;
-		}*/
 
 	*dirty = TRUE;
 }
@@ -546,7 +512,7 @@ workbook_is_pristine (Workbook *wb)
 }
 
 static int
-workbook_can_close (Workbook *wb)
+workbook_close_if_user_permits (Workbook *wb)
 {
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;
@@ -555,8 +521,11 @@ workbook_can_close (Workbook *wb)
 
 	if (in_can_close)
 		return FALSE;
-	
 	in_can_close = TRUE;
+	
+	/* If we were editing when the quit request came in save the edit. */
+	workbook_finish_editing (wb, TRUE);
+
 	while (workbook_is_dirty (wb) && !done) {
 
 		GtkWidget *d, *l, *cancel_button;
@@ -615,19 +584,25 @@ workbook_can_close (Workbook *wb)
 	
 	in_can_close = FALSE;
 	
-	return can_close;
+	if (can_close) {
+#ifdef ENABLE_BONOBO
+		if (wb->workbook_views) {
+			gtk_widget_hide (GTK_WIDGET (wb->toplevel));
+			return FALSE;
+		}
+		bonobo_object_unref (BONOBO_OBJECT (wb));
+#else
+		gtk_object_unref   (GTK_OBJECT   (wb));
+#endif
+		return FALSE;
+	} else
+		return TRUE;
 }
 
 static void
 close_cmd (GtkWidget *widget, Workbook *wb)
 {
-	if (workbook_can_close (wb)){
-#ifdef ENABLE_BONOBO
-		bonobo_object_unref (BONOBO_OBJECT (wb));
-#else
-		gtk_object_unref (GTK_OBJECT (wb));
-#endif
-	}
+	workbook_close_if_user_permits (wb);
 }
 
 static void
@@ -645,14 +620,7 @@ quit_cmd (void)
 
 	for (l = n; l; l = l->next){
 		Workbook *wb = l->data;
-
-		if (workbook_can_close (wb)){
-#ifdef ENABLE_BONOBO
-			bonobo_object_unref (BONOBO_OBJECT (wb));
-#else
-			gtk_object_unref (GTK_OBJECT (wb));
-#endif
-		}
+		workbook_close_if_user_permits (wb);
 	}
 
 	g_list_free (n);
@@ -890,7 +858,7 @@ static void
 cb_cell_rerender (gpointer cell, gpointer data)
 {
         cell_render_value (cell);
-        cell_queue_redraw (cell);
+        sheet_redraw_cell (cell);
 }
 
 /***********************************************************************/
@@ -964,7 +932,7 @@ insert_current_date_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
-			   sheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
+			   sheet, &sheet->cursor.edit_pos);
 }
 
 static void
@@ -972,7 +940,7 @@ insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
-			   sheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
+			   sheet, &sheet->cursor.edit_pos);
 }
 
 static void
@@ -989,7 +957,7 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 		cell = sheet_cell_new (sheet,
 				       sheet->cursor.edit_pos.col,
 				       sheet->cursor.edit_pos.row);
-		cell_set_value (cell, value_new_empty ());
+		sheet_cell_set_value (cell, value_new_empty (), NULL);
 	}
 
 	dialog_cell_comment (wb, cell);
@@ -1531,10 +1499,11 @@ do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Wo
 		if (accept)
 			workbook_finish_editing (wb, TRUE);
 	}
-	if (accept && wb->current_sheet != NULL)
-		sheet_load_cell_val (wb->current_sheet);
-
-	sheet_selection_changed_hook (sheet);
+	if (accept && wb->current_sheet != NULL) {
+		sheet_load_cell_val (sheet);
+		workbook_set_region_status (sheet->workbook,
+					    cell_pos_name (&sheet->cursor.edit_pos));
+	}
 }
 
 static void
@@ -1658,8 +1627,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 			return TRUE;
 
 		/* Only apply do this for formulas */
-		if (!gnumeric_char_start_expr_p (entry->text[0]) ||
-		    entry->text_length < 1)
+		if (NULL == gnumeric_char_start_expr_p (entry->text_mb))
 			return TRUE;
 
 		/*
@@ -1740,6 +1708,35 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 		event->keyval = GDK_VoidSymbol;
 		return TRUE;
 
+	case GDK_KP_Enter:
+	case GDK_Return:
+		if (wb->editing) {
+			if (event->state == GDK_CONTROL_MASK ||
+			    event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
+				gboolean const is_array =
+					(event->state & GDK_SHIFT_MASK);
+				char * const text =
+					gtk_entry_get_text (GTK_ENTRY (wb->ea_input));
+				Sheet * sheet = wb->editing_sheet;
+				EvalPosition pos;
+				/* Be careful to use the editing sheet */
+				gboolean const trouble =
+					cmd_area_set_text (workbook_command_context_gui (wb),
+							   eval_pos_init (&pos, sheet, &sheet->cursor.edit_pos),
+							   text, is_array);
+
+				/* If the assignment was successful finish
+				 * editing but do NOT store the results
+				 */
+				if (!trouble)
+					workbook_finish_editing (wb, FALSE);
+				return TRUE;
+			}
+
+			/* Is this the right way to append a newline ?? */
+			if (event->state == GDK_MOD1_MASK)
+				gtk_entry_append_text (GTK_ENTRY (wb->ea_input), "\n");
+		}
 	default:
 		return FALSE;
 	}
@@ -2494,6 +2491,7 @@ workbook_new (void)
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->priv->table);
 
 	wb->priv->gui_context = command_context_gui_new (wb);
+	wb->priv->during_destruction = FALSE;
 	
 #ifndef ENABLE_BONOBO
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
@@ -2996,10 +2994,9 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 
 	sheet_destroy (sheet);
 
-	/*
-	 * Queue a recalc
-	 */
-	workbook_recalc_all (wb);
+	/* No need to recalc if we are exiting */
+	if (!wb->priv->during_destruction)
+		workbook_recalc_all (wb);
 
 	/*
 	 * GUI-adjustments
@@ -3209,7 +3206,7 @@ workbook_expr_unrelocate (Workbook *wb, GSList *info)
 
 		g_return_if_fail (cell != NULL);
 
-		cell_set_formula_tree (cell, tmp->oldtree);
+		sheet_cell_set_expr (cell, tmp->oldtree);
 		expr_tree_unref (tmp->oldtree);
 
 		info = info->next;
@@ -3246,7 +3243,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
 		EvalPosition pos;
-		ExprTree *newtree = expr_relocate (cell->parsed_node,
+		ExprTree *newtree = expr_relocate (cell->u.expression,
 						   eval_pos_cell (&pos, cell),
 						   info);
 
@@ -3258,12 +3255,12 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 				struct expr_relocate_storage *tmp =
 				    g_new (struct expr_relocate_storage, 1);
 				tmp->pos = pos;
-				tmp->oldtree = cell->parsed_node;
+				tmp->oldtree = cell->u.expression;
 				expr_tree_ref (tmp->oldtree);
 				undo_info = g_slist_prepend (undo_info, tmp);
 			}
 
-			cell_set_formula_tree (cell, newtree);
+			sheet_cell_set_expr (cell, newtree);
 			expr_tree_unref (newtree);
 		}
 	}
@@ -3458,6 +3455,12 @@ workbook_delete_sheet (Sheet *sheet)
 
 	wb = sheet->workbook;
 
+	/* FIXME : Deleting a sheet plays havoc with our data structures.
+	 * Be safe for now and empty the undo/redo queues
+	 */
+	command_list_release (wb->undo_commands);
+	command_list_release (wb->redo_commands);
+
 	/*
 	 * Invalidate references to the deleted sheet from other sheets in the
 	 * workbook by pretending to move the contents of the deleted sheet
@@ -3506,15 +3509,33 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 				  gboolean cursorp)
 {
 	Sheet *sheet;
+	Cell *cell;
 
 	g_return_if_fail (wb != NULL);
 
+	sheet = wb->current_sheet;
+	g_return_if_fail (sheet != NULL);
+
 	application_clipboard_unant ();
 	
+	cell = sheet_cell_get (sheet,
+			       sheet->cursor.edit_pos.col,
+			       sheet->cursor.edit_pos.row);
+
 	if (blankp)
 		gtk_entry_set_text (GTK_ENTRY (wb->ea_input), "");
+	else {
+		/* If this is part of an array we need to remove the
+		 * '{' '}' and the size information from the display.
+		 * That is not actually part of the parsable expression.
+		 */
+		if (NULL != cell_is_array (cell)) {
+			char * text = cell_get_entered_text (cell);
+			gtk_entry_set_text (GTK_ENTRY (wb->ea_input), text);
+			g_free (text);
+		}
+	}
 
-	sheet = wb->current_sheet;
 	if (cursorp) {
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->cursor.edit_pos.col;
@@ -3528,9 +3549,7 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 
 	wb->editing = TRUE;
 	wb->editing_sheet = sheet;
-	wb->editing_cell = sheet_cell_get (sheet,
-					   sheet->cursor.edit_pos.col,
-					   sheet->cursor.edit_pos.row);
+	wb->editing_cell = cell;
 
 	/* These are only sensitive while editing */
 	gtk_widget_set_sensitive (wb->priv->ok_button, TRUE);
@@ -3545,7 +3564,6 @@ void
 workbook_finish_editing (Workbook *wb, gboolean const accept)
 {
 	Sheet *sheet;
-	Range r;
 
 	g_return_if_fail (wb != NULL);
 
@@ -3573,11 +3591,11 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 		/* TODO : Get a context */
 		GtkEntry * const entry = GTK_ENTRY (sheet->workbook->ea_input);
 		char     * const txt = gtk_entry_get_text (entry);
-		r.start = r.end = sheet->cursor.edit_pos;
 		/* Store the old value for undo */
 		/* TODO : What should we do in case of failure ?
 		 * maybe another parameter that will force an end ? */
-		(void )cmd_set_text (NULL, sheet, &r.start, txt);
+		(void )cmd_set_text (workbook_command_context_gui (wb),
+				     sheet, &sheet->cursor.edit_pos, txt);
 	} else {
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->cursor.edit_pos.col;
