@@ -13,7 +13,6 @@
 	* Add `in range' option for target cell.
 	* Improve the usability of the dialog (e.g. focus issues).
 	* Add frames and improve grupping of the dialog.
-	* lpkit: remove/#if0 code that is not used.
 	* Performance reporting:
 	  - Add status.
 	  - Add options used (Max/min, non-neg, int, scaling, max it/t).
@@ -61,7 +60,6 @@
 
 2.1 For Gnumeric 1.2
 
-	* Make QP unsensitive.
 
 2.2 Later versions
 

@@ -1,5 +1,8 @@
 2002-03-23  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.glade: Removed dual program report button.  Will be done
+	later, not for 1.2.
+
 	* solver.glade: Added `Assume Integer (Discrete)' button.
 
 	* dialog-solver.c: Related changes.
