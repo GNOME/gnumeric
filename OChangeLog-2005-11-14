@@ -1,3 +1,8 @@
+2002-11-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/sheet-control-gui.c (cb_sheet_object_canvas_event) : Fixed build
+	  problem.
+
 2002-10-23  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=96617

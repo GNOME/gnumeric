@@ -2169,7 +2169,7 @@ cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 			scg->object_was_resized = FALSE;
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
-			gnm_canvas_slide_init (gcanvas);
+			gnm_canvas_slide_init (GNUMERIC_CANVAS (item->canvas));
 		} else
 			display_object_menu (so, item, event);
 		break;
