@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-graph-impl.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
+#include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-renderer.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -118,14 +119,23 @@ axis_can_add (GogObject const *parent, GogAxisType t)
 }
 
 static void
-axis_pre_remove (GogObject const *child, GogAxisType t)
+axis_post_add (GogObject *child, GogAxisType t)
+{
+	g_object_set (G_OBJECT (child), "type", (int)t, NULL);
+}
+
+static void
+axis_pre_remove (GogObject *child, GogAxisType t)
 {
 }
 static gboolean x_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_X); }
+static void x_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_X); }
 static void x_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_X); }
 static gboolean y_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Y); }
+static void y_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Y); }
 static void y_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_Y); }
 static gboolean z_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Z); }
+static void z_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Z); }
 static void z_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_Z); }
 
 static void
@@ -144,13 +154,13 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 		{ N_("X-Axis"), "GogAxis",
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
-		  x_axis_can_add, NULL, NULL, NULL, x_axis_pre_remove, NULL },
+		  x_axis_can_add, NULL, NULL, x_axis_post_add, x_axis_pre_remove, NULL },
 		{ N_("Y-Axis"), "GogAxis",
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
-		  y_axis_can_add, NULL, NULL, NULL, y_axis_pre_remove, NULL },
+		  y_axis_can_add, NULL, NULL, y_axis_post_add, y_axis_pre_remove, NULL },
 		{ N_("Z-Axis"), "GogAxis",
 		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
-		  z_axis_can_add, NULL, NULL, NULL, z_axis_pre_remove, NULL },
+		  z_axis_can_add, NULL, NULL, z_axis_post_add, z_axis_pre_remove, NULL },
 	};
 	GObjectClass *gobject_klass = (GObjectClass *)gog_klass;
 
@@ -294,19 +304,33 @@ gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type)
 }
 
 gboolean
-gog_chart_axis_set_assign (GogChart *chart, GogAxisSet type)
+gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 {
+	GogAxis	*axis[GOG_AXIS_TYPES];
 	GSList *ptr;
+	int type;
 
 	g_return_val_if_fail (GOG_CHART (chart) != NULL, FALSE);
 
 	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
-		if (!gog_plot_axis_set_assign (ptr->data, type))
+		if (!gog_plot_axis_set_assign (ptr->data, axis_set))
 			return FALSE;
-	chart->axis_set = type;
+	chart->axis_set = axis_set;
 
 	/* remove any existing axis that do not fit this scheme */
-	for (ptr = chart->plots ; ptr != NULL ; ptr = ptr->next)
+	for (ptr = GOG_OBJECT (chart)->children ; ptr != NULL ; ptr = ptr->next)
+		if (IS_GOG_AXIS (ptr->data)) {
+			type = -1;
+			g_object_get (G_OBJECT (ptr->data), "type", &type, NULL);
+			if (type < 0 || type >= GOG_AXIS_TYPES) {
+				g_warning ("Invalid axis");
+				continue;
+			}
+
+			if (0 == (axis_set & (1 << type))) {
+			}
+		}
+
 	/* Add at least 1 instance of any required axis */
 	return TRUE;
 }

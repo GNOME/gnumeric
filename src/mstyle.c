@@ -181,14 +181,13 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 #define d(arg)	do { } while (0)
 #endif
 
-guint
-mstyle_hash (gconstpointer st)
+static guint
+mstyle_hash_internal (gconstpointer st, int i)
 {
 	const MStyle *mstyle = (const MStyle *)st;
-	int     i;
 	guint32 hash = 0;
 
-	for (i = MSTYLE_ELEMENT_CONFLICT + 1; i < MSTYLE_ELEMENT_MAX; i++) {
+	while (i-- > (MSTYLE_ELEMENT_CONFLICT + 1)) {
 		const MStyleElement *e = &mstyle->elements[i];
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 		switch (i) {
@@ -240,6 +239,19 @@ mstyle_hash (gconstpointer st)
 
 	return hash;
 }
+
+guint
+mstyle_hash_XL (gconstpointer st)
+{
+	return mstyle_hash_internal (st, MSTYLE_VALIDATION);
+}
+
+guint
+mstyle_hash (gconstpointer st)
+{
+	return mstyle_hash_internal (st, MSTYLE_ELEMENT_MAX);
+}
+
 
 static char *
 mstyle_element_dump (const MStyleElement *e)
@@ -1028,7 +1040,6 @@ mstyle_equal_XL (const MStyle *a, const MStyle *b)
 
 	return TRUE;
 }
-
 
 gboolean
 mstyle_empty (const MStyle *style)

@@ -1,3 +1,10 @@
+2003-07-17  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-barcol.c : Request XY axis set.
+
+	* graph/gog-data-set.c (gog_dataset_set_dim_internal) : always fire an
+	  update.
+
 2003-07-09  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-object-xml.h : fix guards

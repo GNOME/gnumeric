@@ -1234,6 +1234,7 @@ scg_finalize (GObject *object)
 		g_source_remove (scg->delayedMovement.timer);
 		scg->delayedMovement.timer = -1;
 	}
+	scg_comment_unselect (scg, scg->comment.selected);
 
 	if (sc->view)
 		sv_detach_control (sc);

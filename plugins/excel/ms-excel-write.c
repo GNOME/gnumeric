@@ -1674,7 +1674,7 @@ static void
 xf_init (ExcelWriteState *ewb)
 {
 	/* Excel starts at XF_RESERVED for user defined xf */
-	ewb->xf.two_way_table = two_way_table_new (mstyle_hash,
+	ewb->xf.two_way_table = two_way_table_new (mstyle_hash_XL,
 						   (GCompareFunc) mstyle_equal_XL,
 						   XF_RESERVED,
 						   NULL);
@@ -3616,7 +3616,9 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			mstyle = sheet_style_get (sheet, col, row);
 			xf = two_way_table_key_to_idx (twt, mstyle);
 			if (xf < 0) {
-				g_warning ("Can't find %p", mstyle);
+				g_warning ("Can't find style %p for cell %s!%s",
+					   mstyle, sheet->name_unquoted, cell_name (cell));
+				xf = 0;
 			}
 			if (cell == NULL) {
 				if (xf != esheet->col_xf [col])
@@ -3819,7 +3821,7 @@ gather_style_info (ExcelWriteState *ewb)
 typedef struct {
 	guint32 streampos;
 	guint16 record_pos;
-} ISSTINF;
+} SSTInf;
 
 static void
 excel_write_SST (ExcelWriteState *ewb)
@@ -3827,14 +3829,15 @@ excel_write_SST (ExcelWriteState *ewb)
 	/* According to MSDN max SST sisze is 8224 */
 	GPtrArray const *strings = ewb->sst.indicies;
 	BiffPut		*bp = ewb->bp;
-	ISSTINF *extsst;
+	SSTInf		*extsst;
 	guint8 *ptr, data [8224];
-	unsigned i, tmp;
+	guint8 const * const last = data + sizeof (data);
+	unsigned i, tmp, out_bytes;
 
 	if (strings->len == 0)
 		return;
 
-	extsst = g_alloca (sizeof (ISSTINF) * (1 + ((strings->len - 1) / 8)));
+	extsst = g_alloca (sizeof (SSTInf) * (1 + ((strings->len - 1) / 8)));
 
 	ms_biff_put_var_next (bp, BIFF_SST);
 	GSF_LE_SET_GUINT32 (data + 0, strings->len);
@@ -3853,33 +3856,48 @@ excel_write_SST (ExcelWriteState *ewb)
 		}
 
 		char_len = excel_write_string_len (str, &byte_len);
+
+		/* get the size, the marker, and at least 1 character out */
+		if ((ptr + 5) >= last) {
+			ms_biff_put_var_write (bp, data, ptr-data);
+			ms_biff_put_commit (bp);
+			ms_biff_put_var_next (bp, BIFF_CONTINUE);
+			ptr = data;
+		}
+		GSF_LE_SET_GUINT16 (ptr, char_len);
+		ptr += 2;
+
 		if (char_len == byte_len) {
-			if ((ptr-data + char_len + 3) >= (int)sizeof (data)) {
-				ms_biff_put_var_write (bp, data, ptr-data);
-				ms_biff_put_commit (bp);
-
-				ms_biff_put_var_next (bp, BIFF_CONTINUE);
+			while ((ptr + 1 + char_len) >= last) {
+				*ptr++ = 0;	/* unicode header == 0 */
+				strncpy (ptr, str, last - ptr);
+				str += (last - ptr);
+				char_len -= (last - ptr);
 				ptr = data;
+
+				ms_biff_put_var_write (bp, data, sizeof (data));
+				ms_biff_put_commit (bp);
+				ms_biff_put_var_next (bp, BIFF_CONTINUE);
 			}
-			GSF_LE_SET_GUINT16 (ptr, char_len);
-			ptr[2] = 0;	/* unicode header == 0 */
-			strncpy (ptr + 3, str, char_len);
-			ptr += char_len + 3;
+
+			if (char_len > 0) {
+				*ptr = 0;	/* unicode header == 0 */
+				strncpy (ptr + 1, str, char_len);
+				ptr += char_len + 1;
+			}
 		} else {
-			unsigned out_bytes = sizeof (data) - 3;
+unicode_loop :
+			*ptr++ = 1;	/* unicode header == 1 */
+			out_bytes = last - ptr;
+			g_iconv (bp->convert, (char **)&str, &byte_len, (char **)&ptr, &out_bytes);
 
-			if ((ptr-data + 2*char_len + 3) >= (int)sizeof (data)) {
-				ms_biff_put_var_write (bp, data, ptr-data);
+			if (byte_len > 0) {
+				ms_biff_put_var_write (bp, data, ptr - data);
 				ms_biff_put_commit (bp);
-
 				ms_biff_put_var_next (bp, BIFF_CONTINUE);
 				ptr = data;
+				goto unicode_loop;
 			}
-			GSF_LE_SET_GUINT16 (ptr, char_len);
-			ptr[2] = 1;	/* unicode header == 1 */
-
-			ptr += 3;
-			g_iconv (bp->convert, (char **)&str, &byte_len, (char **)&ptr, &out_bytes);
 		}
 	}
 

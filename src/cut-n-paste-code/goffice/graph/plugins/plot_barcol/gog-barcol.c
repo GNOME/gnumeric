@@ -221,6 +221,24 @@ gog_barcol_plot_update (GogObject *obj)
 		parent_klass->update (obj);
 }
 
+static GogAxisSet
+gog_barcol_plot_axis_set_pref (GogPlot const *plot)
+{
+	return GOG_AXIS_SET_XY; /* do some magic later for 3d */
+}
+
+static gboolean
+gog_barcol_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
+{
+	return type == GOG_AXIS_SET_XY; /* do some magic later for 3d */
+}
+
+static gboolean
+gog_barcol_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
+{
+	return type == GOG_AXIS_SET_XY; /* do some magic later for 3d */
+}
+
 static gboolean
 gog_barcol_supports_vary_style_by_element (GogPlot const *plot)
 {
@@ -273,7 +291,10 @@ gog_barcol_plot_class_init (GogPlotClass *plot_klass)
 	}
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
-	plot_klass->series_type = gog_barcol_series_get_type ();
+	plot_klass->series_type	      = gog_barcol_series_get_type ();
+	plot_klass->axis_set_pref     = gog_barcol_plot_axis_set_pref;
+	plot_klass->axis_set_is_valid = gog_barcol_plot_axis_set_is_valid;
+	plot_klass->axis_set_assign   = gog_barcol_plot_axis_set_assign;
 	plot_klass->supports_vary_style_by_element = gog_barcol_supports_vary_style_by_element;
 }
 

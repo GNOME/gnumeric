@@ -48,11 +48,44 @@ struct _GogAxis {
 	GogAxisTickLevel  tick_level;
 };
 
-typedef struct {
-	GogObjectClass	base;
-} GogAxisClass;
+typedef GogObjectClass GogAxisClass;
 
 static GObjectClass *parent_klass;
+
+enum {
+	AXIS_PROP_0,
+	AXIS_PROP_TYPE
+};
+
+static void
+gog_axis_set_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
+{
+	GogAxis *axis = GOG_AXIS (obj);
+
+	switch (param_id) {
+	case AXIS_PROP_TYPE:
+		axis->type = g_value_get_int (value);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+}
+
+static void
+gog_axis_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+	GogAxis *axis = GOG_AXIS (obj);
+
+	switch (param_id) {
+	case AXIS_PROP_TYPE:
+		g_value_set_int (value, axis->type);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
 
 static void
 gog_axis_finalize (GObject *obj)
@@ -85,7 +118,15 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
 
 	parent_klass = g_type_class_peek_parent (gobject_klass);
+	gobject_klass->set_property = gog_axis_set_property;
+	gobject_klass->get_property = gog_axis_get_property;
 	gobject_klass->finalize	    = gog_axis_finalize;
+
+	/* no need to persist, the role handles that */
+	g_object_class_install_property (gobject_klass, AXIS_PROP_TYPE,
+		g_param_spec_int ("type", "Type",
+			"GogAxisType",
+			GOG_AXIS_X, GOG_AXIS_TYPES, GOG_AXIS_TYPES, G_PARAM_READWRITE));
 
 	gog_klass->type_name = gog_axis_type_name;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));

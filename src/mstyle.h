@@ -71,6 +71,7 @@ gboolean    mstyle_equal         (MStyle const *a, MStyle const *b);
 gboolean    mstyle_equal_XL	 (MStyle const *a, MStyle const *b);
 gboolean    mstyle_verify        (MStyle const *st);
 guint       mstyle_hash          (gconstpointer st);
+guint       mstyle_hash_XL	 (gconstpointer st);
 gboolean    mstyle_empty         (const MStyle *st);
 
 /*

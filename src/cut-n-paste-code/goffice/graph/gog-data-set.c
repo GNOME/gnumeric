@@ -159,11 +159,11 @@ gog_dataset_set_dim_internal (GogDataset *set, int dim_i,
 			g_object_ref (val);
 		if (elem->data != NULL)
 			g_object_unref (elem->data);
-		gog_object_request_update (GOG_OBJECT (set));
 	}
 	elem->data  = val;
 	elem->set   = set;
 	elem->dim_i = dim_i;
+	gog_object_request_update (GOG_OBJECT (set));
 }
 
 void

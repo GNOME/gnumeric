@@ -1,3 +1,9 @@
+2003-07-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_SST) : handle strings > 8224 bytes.
+	(excel_sheet_write_block) : improve warning message and fallback to
+	  the default style when there is a problem.
+
 2003-07-17  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-util.c (init_xl_font_widths) : add Bitstream Vera, and its

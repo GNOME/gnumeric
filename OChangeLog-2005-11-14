@@ -1,3 +1,18 @@
+2003-07-18  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c (mstyle_hash_internal) : renamed from mstyle_hash,
+	  internalized and generalized.
+	(mstyle_hash_XL) : new.
+	(mstyle_hash) : new.
+
+2003-07-17  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_add) : no need to set the
+	  zoom again  sheet_control_gui_new already did.
+
+	* src/sheet-control-gui.c (scg_finalize) : remove the comment window
+	  if it is displayed.
+
 2003-07-17  Morten Welinder  <terra@gnome.org>
 
 	* src/io-context-gtk.c (icg_user_is_impatient): Improve
