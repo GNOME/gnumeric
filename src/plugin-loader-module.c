@@ -530,8 +530,10 @@ gnumeric_plugin_loader_module_func_get_full_function_info (PluginService *servic
                                                            const gchar **args_ptr,
                                                            const gchar **arg_names_ptr,
                                                            const gchar ***help_ptr,
-                                                           FunctionArgs **fn_args_ptr,
-                                                           FunctionNodes **fn_nodes_ptr)
+                                                           FunctionArgs	    *fn_args_ptr,
+                                                           FunctionNodes    *fn_nodes_ptr,
+							   FuncLinkHandle   *fn_link,
+							   FuncUnlinkHandle *fn_unlink)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 	gpointer func_index_ptr;
@@ -550,6 +552,8 @@ gnumeric_plugin_loader_module_func_get_full_function_info (PluginService *servic
 		*help_ptr = fn_info->help;
 		*fn_args_ptr = fn_info->fn_args;
 		*fn_nodes_ptr = fn_info->fn_nodes;
+		*fn_link   = fn_info->link;
+		*fn_unlink = fn_info->unlink;
 		return TRUE;
 	} else {
 		return FALSE;

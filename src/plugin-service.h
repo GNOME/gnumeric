@@ -76,8 +76,10 @@ struct _PluginServiceFunctionGroup {
 							const gchar **args_ptr,
 	                                                const gchar **arg_names_ptr,
 	                                                const gchar ***help_ptr,
-	                                                FunctionArgs **fn_args_ptr,
-	                                                FunctionNodes **fn_nodes_ptr);
+	                                                FunctionArgs     *fn_args_ptr,
+	                                                FunctionNodes    *fn_nodes_ptr,
+							FuncLinkHandle   *link,
+							FuncUnlinkHandle *unlink);
 };
 
 struct _PluginServicePluginLoader {

@@ -260,13 +260,16 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 		gchar const *args;
 		gchar const *arg_names;
 		gchar const **help;
-		FunctionArgs *fn_args;
-		FunctionNodes *fn_nodes;
+		FunctionArgs	 fn_args;
+		FunctionNodes	 fn_nodes;
+		FuncLinkHandle	 fn_link;
+		FuncUnlinkHandle fn_unlink;
 		gboolean success;
 
 		success = fn_def->get_full_info_callback (
 		          fn_def, &args, &arg_names, &help,
-		          &fn_args, &fn_nodes);
+		          &fn_args, &fn_nodes, &fn_link, &fn_unlink);
+
 		if (success) {
 			fn_def->named_arguments = arg_names;
 			fn_def->help = help;
@@ -281,10 +284,14 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 			} else {
 				g_assert_not_reached ();
 			}
+			fn_def->link = fn_link;
+			fn_def->unlink = fn_unlink;
 		} else {
 			fn_def->named_arguments = "";
 			fn_def->fn_type = FUNCTION_NODES;
 			fn_def->fn.fn_nodes = &error_function_no_full_info;
+			fn_def->link = NULL;
+			fn_def->unlink = NULL;
 		}
 	}
 }
@@ -384,7 +391,7 @@ function_add_args (FunctionCategory *category,
 		   char const *args,
 		   char const *arg_names,
 		   char const **help,
-		   FunctionArgs *fn)
+		   FunctionArgs fn)
 {
 	static char const valid_tokens[] = "fsbraAS?|";
 	FunctionDefinition *fn_def;
@@ -414,7 +421,7 @@ function_add_nodes (FunctionCategory *category,
 		    char const *args,
 		    char const *arg_names,
 		    char const **help,
-		    FunctionNodes *fn)
+		    FunctionNodes fn)
 {
 	FunctionDefinition *fn_def;
 

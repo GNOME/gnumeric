@@ -58,11 +58,17 @@ Jody:
 	* improve xl import of images.
 	* start moving to utf8 internals.
 	* fix pango context leak.
-	* improve xl export.
-	* Implement hooks to support per instanace depends
+	* improve xl95 export.
+	* Implement hooks to support per instance depends
 	  (eg data sources or INDIRECT)
 	* Fix formula guru.
 	* Initial pass at dumping the translated function docs into a manual.
+	* Cleanup name import from xls, and handling of fwd sheet decls in xl95.
+	* Move the font mapping into the core rather than at XL import.
+	* Cleanup the sheet's use of dependents.
+	* Improve dependent management.
+	* Prep for importing external references from XL.
+	* Better support for 3d references.
 
 Jon Kåre:
 	* More correct import of "automatic" colors from Excel.

@@ -907,8 +907,10 @@ plugin_service_function_group_get_full_info_callback (FunctionDefinition *fn_def
                                                       const gchar **args_ptr,
                                                       const gchar **arg_names_ptr,
                                                       const gchar ***help_ptr,
-                                                      FunctionArgs **fn_args_ptr,
-                                                      FunctionNodes **fn_nodes_ptr)
+                                                      FunctionArgs	*fn_args_ptr,
+                                                      FunctionNodes	*fn_nodes_ptr,
+						      FuncLinkHandle	*fn_link_ptr,
+						      FuncUnlinkHandle	*fn_unlink_ptr)
 {
 	PluginService *service;
 	PluginServiceFunctionGroup *service_function_group;
@@ -920,20 +922,24 @@ plugin_service_function_group_get_full_info_callback (FunctionDefinition *fn_def
 	service_function_group = &service->t.function_group;
 	plugin_service_load (service, &error);
 	if (error == NULL) {
-		const gchar *args;
-		const gchar *arg_names;
-		const gchar **help;
-		FunctionArgs *fn_args;
-		FunctionNodes *fn_nodes;
+		const gchar	 *args;
+		const gchar	 *arg_names;
+		const gchar	**help;
+		FunctionArgs	 fn_args;
+		FunctionNodes	 fn_nodes;
+		FuncLinkHandle   fn_link;
+		FuncUnlinkHandle fn_unlink;
 
 		if (service_function_group->plugin_func_get_full_function_info (
 		    service, function_def_get_name (fn_def),
-		    &args, &arg_names, &help, &fn_args, &fn_nodes)) {
+		    &args, &arg_names, &help, &fn_args, &fn_nodes, &fn_link, &fn_unlink)) {
 			*args_ptr = args;
 			*arg_names_ptr = arg_names;
 			*help_ptr = help;
-			*fn_args_ptr = fn_args;
-			*fn_nodes_ptr = fn_nodes;
+			*fn_args_ptr	= fn_args;
+			*fn_nodes_ptr	= fn_nodes;
+			*fn_link_ptr	= fn_link;
+			*fn_unlink_ptr	= fn_unlink;
 			return TRUE;
 		} else {
 			return FALSE;

@@ -34,8 +34,10 @@ typedef struct {
 	gchar const *args;
 	gchar const *arg_names;
 	gchar const **help;
-	FunctionArgs *fn_args;
-	FunctionNodes *fn_nodes;
+	FunctionArgs	 fn_args;
+	FunctionNodes	 fn_nodes;
+	FuncLinkHandle	 link;
+	FuncUnlinkHandle unlink;
 } ModulePluginFunctionInfo;
 
 #endif /* GNUMERIC_PLUGIN_LOADER_MODULE_H */

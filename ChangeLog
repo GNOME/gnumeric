@@ -1,3 +1,42 @@
+2002-03-08  Jody Goldberg <jody@gnome.org>
+
+	* src/validation.c (validation_eval) : cleanup handling of 'int'
+	and fix handling of between.
+
+2002-03-08  Jody Goldberg <jody@gnome.org>
+
+	* src/eval.h : Add DEPENDENT_ALWAYS_UNLINK.
+	  and the as yet unused DEPENDENT_HAS_3D.
+
+	* src/io-context.c (gnm_io_warning) : new stub.
+	(gnm_io_warning_unknown_font) : ditto.
+	(gnm_io_warning_unknown_function) : ditto.
+	(gnm_io_warning_unsupported_feature) : ditto.
+
+	* src/func.c (function_def_get_full_info_if_needed) :  add
+	  link/unlink.
+
+	* src/plugin-service.c
+	(plugin_service_function_group_get_full_info_callback) : add
+	  link/unlink.  This is a terrible interface.  Why not just make the
+	  thing into the FunctionDescriptor.
+	* src/plugin-loader-module.c
+	(gnumeric_plugin_loader_module_func_get_full_function_info) : ditto.
+
+2002-03-08  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_write_print_info) : handle missing paper so that
+	  we can save again.
+
+	* templates/autoformat/autoformat.3D.button.xml : fix.
+
+	* plugins/Makefile.am (SUBDIRS) : add sample_datasource.
+
+2002-03-07  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-loader-module.h (ModulePluginFunctionInfo) : add
+	  'link' and 'unlink'.
+
 2002-03-07  Jody Goldberg <jody@gnome.org>
 
 	* src/position.c (eval_pos_init*) : handle the optional dependent.

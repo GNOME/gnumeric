@@ -76,8 +76,8 @@ typedef enum {
 
 typedef enum { FUNCTION_ARGS, FUNCTION_NODES, FUNCTION_NAMEONLY } FuncType;
 
-typedef Value *(FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
-typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, ExprList *nodes);
+typedef Value *(*FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
+typedef Value *(*FunctionNodes) (FunctionEvalInfo *ei, ExprList *nodes);
 
 struct _FunctionEvalInfo {
 	EvalPos const *pos;
@@ -90,8 +90,10 @@ typedef gboolean (*FunctionGetFullInfoCallback) (FunctionDefinition *fn_def,
                                                  gchar const **args_ptr,
                                                  gchar const **arg_names_ptr,
                                                  gchar const ***help_ptr,
-                                                 FunctionArgs **fn_args_ptr,
-                                                 FunctionNodes **fn_nodes_ptr);
+                                                 FunctionArgs	  *fn_args_ptr,
+                                                 FunctionNodes	  *fn_nodes_ptr,
+						 FuncLinkHandle	  *link,
+						 FuncUnlinkHandle *unlink);
 
 struct _FunctionDefinition {
 	FunctionGetFullInfoCallback get_full_info_callback;
@@ -101,10 +103,10 @@ struct _FunctionDefinition {
 	gchar   const **help;
 	FuncType       fn_type;
 	union {
-		FunctionNodes *fn_nodes;
+		FunctionNodes fn_nodes;
 		struct {
 			char const *arg_spec;
-			FunctionArgs  *func;
+			FunctionArgs  func;
 			int min_args, max_args;
 			char *arg_types;
 		} args;
@@ -127,13 +129,13 @@ FunctionDefinition *function_add_args	(FunctionCategory *category,
                                          gchar const *args,
                                          gchar const *arg_names,
                                          gchar const **help,
-                                         FunctionArgs *fn);
+                                         FunctionArgs fn);
 FunctionDefinition *function_add_nodes	(FunctionCategory *category,
                                          gchar const *name,
                                          gchar const *args,
                                          gchar const *arg_names,
                                          gchar const **help,
-                                         FunctionNodes *fn);
+                                         FunctionNodes fn);
 FunctionDefinition *function_add_name_only (FunctionCategory *category,
                                             gchar const *name,
                                             FunctionGetFullInfoCallback callback);

@@ -149,13 +149,15 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 
 		case VALIDATION_TYPE_AS_INT :
 		case VALIDATION_TYPE_AS_NUMBER :
-		case VALIDATION_TYPE_AS_DATE :	/* What the hell does this do */
+		case VALIDATION_TYPE_AS_DATE :		/* What the hell does this do */
 		case VALIDATION_TYPE_AS_TIME : {	/* What the hell does this do */
 			Value *res = NULL;
-			if (val->type == VALUE_ERROR)
+			/* we know it is not empty */
+			if (val->type == VALUE_ERROR) {
 				msg = g_strdup_printf (_("'%s' is an error"),
 						       val->v_err.mesg->str);
-			else if (val->type == VALUE_STRING) {
+				break;
+			} else if (val->type == VALUE_STRING) {
 				res = format_match_number (val->v_str.val->str, NULL);
 				if (res == NULL) {
 					char const *fmt;
@@ -167,25 +169,25 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 					} else
 						fmt = N_("'%s' is not a number");
 					msg = g_strdup_printf (_(fmt), val->v_str.val->str);
-				} else
-					val_expr = expr_tree_new_constant (res);
+					break;
+				}
 			} else
-				val_expr = expr_tree_new_constant (
-					value_duplicate (val));
-			if (val->type == VALUE_FLOAT) {
+				res = value_duplicate (val);
+
+			if (v->type == VALIDATION_TYPE_AS_INT &&
+			    res != NULL && res->type == VALUE_FLOAT) {
 				gnum_float f = value_get_as_float (val);
 				gboolean isint = gnumabs (f - gnumeric_fake_round (f)) < 1e-10;
 				if (!isint) {
-					const char *valstr = value_peek_string (val);
+					char const *valstr = value_peek_string (val);
 					msg = g_strdup_printf (_("'%s' is not an integer"), valstr);
 					break;
 				}
 			}
-			/* FIXME: break or comment. */
-#warning "Jody, why do we fall through here?"
-		}
 
+			val_expr = expr_tree_new_constant (res);
 			break;
+		}
 
 		case VALIDATION_TYPE_IN_LIST :
 #warning TODO
@@ -252,7 +254,8 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				return VALIDATION_STATUS_VALID;
 			}
 
-			if (v->op == VALIDATION_OP_BETWEEN || v->op == VALIDATION_OP_NOT_BETWEEN) {
+			if ((v->op == VALIDATION_OP_BETWEEN && valid) ||
+			    v->op == VALIDATION_OP_NOT_BETWEEN) {
 				g_return_val_if_fail (v->expr[1] != NULL, VALIDATION_STATUS_VALID);
 
 				expr_tree_ref (v->expr[1]);

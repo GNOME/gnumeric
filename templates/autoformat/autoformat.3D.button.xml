@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Button" description="A button like template" category="3D"/>
+  <gmr:Members>
     <gmr:Member>
       <gmr:Row>
         <gmr:Placement offset="0" offset_gravity="1"/>

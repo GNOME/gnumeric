@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * io-context.c : Place holder for an io error context.
  *   It is intended to become a place to handle errors
@@ -7,7 +9,7 @@
  * 	Jody Goldberg <jody@gnome.org>
  *	Zbigniew Chyla <cyba@gnome.pl>
  *
- * (C) 2000, 2001 Jody Goldberg
+ * (C) 2000-2002 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -451,4 +453,26 @@ io_progress_unset (IOContext *io_context)
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_NONE;
+}
+
+#warning Good Project implement these
+void
+gnm_io_warning (IOContext *context, char const *msg)
+{
+
+}
+
+void
+gnm_io_warning_unknown_font (IOContext *context, char const *font_name)
+{
+}
+
+void
+gnm_io_warning_unknown_function	(IOContext *context, char const *funct_name)
+{
+}
+
+void
+gnm_io_warning_unsupported_feature (IOContext *context, char const *feature)
+{
 }

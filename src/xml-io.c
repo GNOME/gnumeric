@@ -983,7 +983,8 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xml_node_set_print_hf (cur, "Header", pi->header);
 	xml_node_set_print_hf (cur, "Footer", pi->footer);
 
-	xmlNewChild (cur, ctxt->ns, (xmlChar const *)"paper", (xmlChar const *)pi->paper->name);
+	if (pi->paper != NULL)
+		xmlNewChild (cur, ctxt->ns, (xmlChar const *)"paper", (xmlChar const *)pi->paper->name);
 
 	return cur;
 }
