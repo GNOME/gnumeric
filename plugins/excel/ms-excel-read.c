@@ -3567,23 +3567,89 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 				       firstcol, lastcol);
 }
 
+/* Add a bmp header so that gdk-pixbuf can do the work */
+static GdkPixbuf *
+excel_read_os2bmp (BiffQuery *q, guint32 image_len)
+{
+	guint16 op;
+	GError *err = NULL;
+	GdkPixbufLoader *loader = NULL;
+	GdkPixbuf	*pixbuf = NULL;
+	gboolean ret = FALSE;
+	guint8 bmphdr[14];
+	guint bpp; 
+	guint offset;
+
+	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
+	if (!loader)
+		return NULL;
+	strcpy (bmphdr, "BM");
+	GSF_LE_SET_GUINT32 (bmphdr + 2, 
+			    image_len + sizeof bmphdr);
+	GSF_LE_SET_GUINT16 (bmphdr + 6, 0);
+	GSF_LE_SET_GUINT16 (bmphdr + 8, 0);
+	bpp = GSF_LE_GET_GUINT16 (q->data + 18);
+	switch (bpp) {
+	case 24: offset = 0;       break;
+	case 8:  offset = 256 * 3; break;
+	case 4:  offset = 16 * 3;  break;
+	default: offset = 2 * 3;   break;
+	}
+	offset += sizeof bmphdr + 12;
+	GSF_LE_SET_GUINT32 (bmphdr + 10, offset);
+	ret = gdk_pixbuf_loader_write (loader, bmphdr, sizeof bmphdr, &err);
+	if (ret)
+		ret = gdk_pixbuf_loader_write (loader, q->data+8,
+					       q->length-8, &err);
+	image_len += 8;
+	while (ret &&  image_len > q->length &&
+	       ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
+		image_len -= q->length;
+		ms_biff_query_next (q);
+		ret = gdk_pixbuf_loader_write (loader, q->data, q->length,
+					       &err);
+	}
+	gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
+	if (ret) {
+		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+		g_object_ref (pixbuf);
+	} else {
+		g_message ("Unable to read OS/2 BMP image: %s\n",
+			   err->message);
+		g_error_free (err);
+	}
+	g_object_unref (G_OBJECT (loader));
+	return pixbuf;
+}
+
 /* When IMDATA or BG_PIC is bitmap, the format is OS/2 BMP, but the
  * 14 bytes header is missing.
  */
 GdkPixbuf *
 excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 {
-	static int count = 0;
-	FILE *f = NULL;
 	guint16 op;
 	guint32 image_len = GSF_LE_GET_GUINT32 (q->data + 4);
 
-	GError *err = NULL;
-	GdkPixbufLoader *loader = NULL;
 	GdkPixbuf	*pixbuf = NULL;
-	gboolean ret = FALSE;
 
-	d (1,{
+	guint16 const format   = GSF_LE_GET_GUINT16 (q->data);
+
+	switch (format) {
+	case 0x2: break;	/* Windows metafile/Mac pict */
+	case 0x9:		/* OS/2 BMP sans header */
+	{
+		pixbuf = excel_read_os2bmp (q, image_len);
+	}
+	break;
+	case 0xe: break;	/* Native format */
+	default: break;		/* Unknown format */
+	}
+
+	/* Dump formats which weren't handled above to file */
+	d (1, if (format != 0x9) {
+		static int count = 0;
+		FILE *f = NULL;
 		char *file_name;
 		char const *from_name;
 		char const *format_name;
@@ -3600,7 +3666,6 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 		format_name = (from_env == 1) ? "windows metafile" : "mac pict";
 		break;
 
-		case 0x9: format_name = "windows native bitmap"; break;
 		case 0xe: format_name = "'native format'"; break;
 		default: format_name = "Unknown format?"; break;
 		}
@@ -3612,36 +3677,22 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 		f = fopen (file_name, "w");
 		fwrite (q->data+8, 1, q->length-8, f);
 		g_free (file_name);
+		image_len += 8;
+		while (image_len > q->length &&
+		       ms_biff_query_peek_next (q, &op) &&
+		       op == BIFF_CONTINUE) {
+			image_len -= q->length;
+			ms_biff_query_next (q);
+			fwrite (q->data, 1, q->length, f);
+		}
+		fclose (f);
 	});
 
-	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
-	if (loader != NULL)
-		ret = gdk_pixbuf_loader_write (loader, q->data+8, q->length-8, &err);
-
-	image_len += 8;
-	while (image_len > q->length &&
-	       ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
-		image_len -= q->length;
-		ms_biff_query_next (q);
-		d(1, fwrite (q->data, 1, q->length, f););
-		if (ret)
-			ret = gdk_pixbuf_loader_write (loader, q->data, q->length, &err);
+	if (pixbuf) {
+		g_message ("pixbuf : %dx%d",
+			   gdk_pixbuf_get_width (pixbuf),
+			   gdk_pixbuf_get_height (pixbuf));
 	}
-
-	d(1, fclose (f););
-	gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
-	if (ret)
-		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-	g_object_unref (G_OBJECT (loader));
-
-	g_return_val_if_fail (image_len == q->length, pixbuf);
-
-	if (err != NULL) {
-		g_warning (err-> message);
-		g_error_free (err);
-		err = NULL;
-	}
-
 	return pixbuf;
 }
 
