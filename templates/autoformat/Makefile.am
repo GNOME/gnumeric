@@ -48,7 +48,7 @@ install-data-local:
 				-e 's/ _name *=/ name=/' 		\
 				-e 's/ _description *=/ description=/'	\
 			    < $$f 					\
-			    > $dst ;					\
+			    > $$dst ;					\
 		done							\
 	done
 
