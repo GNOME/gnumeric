@@ -867,6 +867,8 @@ xml_write_wbv_attributes (XmlParseContext *ctxt, WorkbookView *wbv)
 		wbv->show_notebook_tabs ? "TRUE" : "FALSE");
 	xml_write_attribute (attributes, "WorkbookView::do_auto_completion",
 		wbv->do_auto_completion ? "TRUE" : "FALSE");
+	xml_write_attribute (attributes, "WorkbookView::is_protected",
+		wbv->is_protected ? "TRUE" : "FALSE");
 	return attributes;
 }
 

@@ -254,6 +254,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->hide_grid = FALSE;
 	sheet->hide_col_header = FALSE;
 	sheet->hide_row_header = FALSE;
+	sheet->is_protected = FALSE;
 	sheet->display_outlines = TRUE;
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;

@@ -125,7 +125,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		return VALIDATION_STATUS_VALID;
 
 	v = mstyle_get_validation (mstyle);
-	g_return_val_if_fail (v != NULL, 1);
+	g_return_val_if_fail (v != NULL, VALIDATION_STATUS_VALID);
 
 	if (v->style == VALIDATION_TYPE_ANY)
 		return VALIDATION_STATUS_VALID;

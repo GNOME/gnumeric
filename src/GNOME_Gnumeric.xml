@@ -449,13 +449,13 @@
 		<menuitem name="SheetHideRowHeader"	verb="" />
 	    </submenu>
 
-	    <menuitem name="FormatAuto" verb=""
-		_label="_Autoformat..."
-		_tip="Format a region of cells according to a pre-defined template"/>
-
 	    <menuitem name="FormatWorkbook" verb=""
 		_label="_Workbook..."
 		_tip="Modify the workbook attributes"/>
+
+	    <menuitem name="FormatAuto" verb=""
+		_label="_Autoformat..."
+		_tip="Format a region of cells according to a pre-defined template"/>
 
 	</submenu>
 

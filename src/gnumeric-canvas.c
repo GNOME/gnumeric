@@ -302,7 +302,8 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		if (gnm_canvas_guru_key (wbcg, event))
 			break;
 
-		wbcg_edit_start (wbcg, FALSE, FALSE);
+		if (!wbcg_edit_start (wbcg, FALSE, FALSE))
+			return FALSE; /* attempt to edit failed */
 		/* fall down */
 
 	case GDK_BackSpace:
@@ -322,7 +323,8 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			if (event->length == 0)
 				return FALSE;
 
-			wbcg_edit_start (wbcg, TRUE, TRUE);
+			if (!wbcg_edit_start (wbcg, TRUE, TRUE))
+				return FALSE; /* attempt to edit failed */
 		}
 		scg_rangesel_stop (gcanvas->simple.scg, FALSE);
 

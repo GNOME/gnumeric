@@ -63,6 +63,7 @@ struct _Sheet {
 	gboolean    hide_grid;
 	gboolean    hide_col_header;
 	gboolean    hide_row_header;
+	gboolean    is_protected;
 
 	gboolean    display_outlines;
 	gboolean    outline_symbols_below;

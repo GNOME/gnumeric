@@ -1,3 +1,47 @@
+2002-03-08  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric.xml : switch Format->Workbook with
+	  Format->AutoFormat
+	* src/workbook-control-gui.c (workbook_menu_format) : ditto.
+
+	* src/workbook-view.c (wb_view_is_protected) : new.
+
+	* src/workbook-edit.c (wbcg_edit_start) : load style directly
+	  don't use cell_get_style.  This enables support for protection of
+	  blank cells.  Use wb_view_is_protected, and command_context_invalid.
+
+2002-03-08  C. Scott Ananian <cananian@lesser-magoo.lcs.mit.edu>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet): don't put us in
+	  edit mode if wbcg_edit_start indicates the cell is locked.
+	* src/workbook-control-gui.c (cb_autosum, cb_autofunction): handle
+	  case where wbcg_edit_start returns FALSE indicating that cell is
+	  locked.
+	* src/workbook-edit.c (wbcg_edit_start): this function now returns a
+	   boolean which indicates whether the 'edit_start' attempt succeeded.
+	   Check cell properties to return FALSE if the cell is locked.
+	* src/workbook-edit.h (wbcg_edit_start): modify the prototype as per above.
+	* src/workbook-view.c (wb_view_set_attribute, workbook_view_init):
+	  Remove ARG_VIEW_* enumeration, which isn't used after Gnome2 port.
+	  Add WorkbookView::is_protected attribute, and initialize it to
+	  FALSE.  The update to wb_view_set_attribute is enough to get
+	  xml_sax import working properly (yay, modular code!).
+	* src/workbook-view.h: add 'is_protected' field to WorkbookView struct.
+	  This is TRUE iff the workbook is locked.
+	* src/xml-io.c (xml_write_wbv_attributes):
+	  Write the new 'protected' workbook view attribute.  Two lines are
+	  enough to get read/write from xml_io working.  Score one for
+	  xml_sax: zero should have been sufficient.
+	* src/dialogs/cell-format.glade: The 'worksheet protected' checkbox
+	  shouldn't be greyed-out anymore.
+	* src/dialogs/dialog-cell-format.c (cb_protection_sheet_protected_toggle,
+	fmt_dialog_init_protection_page, cb_fmt_dialog_dialog_buttons):
+	  connect up the 'worksheet protected' button in the
+	  Format->Cells->Protection dialog.  Update worksheet object when
+	  toggled and mark that the dialog's changed.
+	* src/dialogs/dialog-workbook-attr.c src/dialogs/workbook-attr.glade:
+	  Add Format->Worksheet->Protection dialog.
+
 2002-03-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/command-context-stderr.c (ccs_class_init): Make gmorten happy.
