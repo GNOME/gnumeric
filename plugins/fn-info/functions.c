@@ -70,6 +70,8 @@ static char *help_cell = {
 	   "@DESCRIPTION="
 	   "CELL Returns information about the formatting, location, or contents of a cell. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=")
 };
 
@@ -214,6 +216,8 @@ static char *help_countblank = {
            "@DESCRIPTION="
            "COUNTBLANK returns the number of blank cells in a @range. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=COUNT")
 };
 
@@ -248,6 +252,8 @@ static char *help_info = {
 
 	   "@DESCRIPTION="
 	   "INFO returns information about the current operating environment. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -322,6 +328,8 @@ static char *help_isblank = {
 	   "@DESCRIPTION="
 	   "ISBLANK returns TRUE if the value is blank. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=")
 };
 
@@ -365,6 +373,8 @@ static char *help_iseven = {
 	   "@DESCRIPTION="
 	   "ISEVEN returns TRUE if the number is even. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=ISODD")
 };
 
@@ -381,6 +391,8 @@ static char *help_islogical = {
 
 	   "@DESCRIPTION="
 	   "ISLOGICAL returns TRUE if the value is a logical value. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -406,6 +418,8 @@ static char *help_isnontext = {
 	   "@DESCRIPTION="
 	   "ISNONTEXT Returns TRUE if the value is not text. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=ISTEXT")
 };
 
@@ -426,6 +440,8 @@ static char *help_isnumber = {
 
 	   "@DESCRIPTION="
 	   "ISNUMBER returns TRUE if the value is a number. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -448,6 +464,8 @@ static char *help_isodd = {
 	   "@DESCRIPTION="
 	   "ISODD returns TRUE if the number is odd. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=ISEVEN")
 };
 
@@ -464,6 +482,8 @@ static char *help_isref = {
 
 	   "@DESCRIPTION="
 	   "ISREF returns TRUE if the value is a reference. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -491,6 +511,8 @@ static char *help_istext = {
 	   "@DESCRIPTION="
 	   "ISTEXT returns TRUE if the value is text. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=ISNONTEXT")
 };
 
@@ -512,6 +534,8 @@ static char *help_n = {
 	   "@DESCRIPTION="
 	   "N returns a value converted to a number.  Strings containing "
 	   "text are converted to the zero value. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -546,6 +570,8 @@ static char *help_type = {
 
 	   "@DESCRIPTION="
 	   "TYPE returns a number indicating the data type of a value. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };

@@ -103,6 +103,8 @@ init_make_list_closure(make_list_t *p)
 	p->entries = NULL;
 }
 
+/***************************************************************************/
+
 static char *help_varp = {
 	N_("@FUNCTION=VARP\n"
 	   "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -130,6 +132,8 @@ gnumeric_varp (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_var = {
 	N_("@FUNCTION=VAR\n"
 	   "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -145,6 +149,8 @@ static char *help_var = {
 	   "Performing this function on a string or empty cell simply does "
 	   "nothing."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=VARP,STDEV")
 };
 
@@ -158,6 +164,8 @@ gnumeric_var (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_stdev = {
 	N_("@FUNCTION=STDEV\n"
 	   "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -167,6 +175,8 @@ static char *help_stdev = {
 	   "treating these numbers as members of a population"
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=VAR,MEAN")
 };
@@ -181,6 +191,8 @@ gnumeric_stdev (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_stdevp = {
 	N_("@FUNCTION=STDEVP\n"
 	   "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -191,6 +203,8 @@ static char *help_stdevp = {
 	   "\n"
 	   "Performing this function on a string or empty cell simply does "
 	   "nothing."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=STDEV,VAR,MEAN")
 };
@@ -205,6 +219,7 @@ gnumeric_stdevp (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
 
 static char *help_rank = {
 	N_("@FUNCTION=RANK\n"
@@ -216,6 +231,8 @@ static char *help_rank = {
 	   "and @order specifies how to rank numbers.  If @order is 0, numbers "
 	   "are ranked in descending order, otherwise numbers are ranked in "
 	   "ascending order."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PERCENTRANK")
 };
@@ -290,6 +307,8 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 	return value_new_int (p.rank);
 }
 
+/***************************************************************************/
+
 static char *help_trimmean = {
 	N_("@FUNCTION=TRIMMEAN\n"
 	   "@SYNTAX=TRIMMEAN(ref,percent)\n"
@@ -301,6 +320,8 @@ static char *help_trimmean = {
 	   "For example, if @percent=0.2 and the data set contains 40 numbers, "
 	   "8 numbers are trimmed from the data set (40 x 0.2), 4 from the "
 	   "top and 4 from the bottom of the set."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")
 };
@@ -343,6 +364,8 @@ gnumeric_trimmean (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_covar = {
 	N_("@FUNCTION=COVAR\n"
 	   "@SYNTAX=COVAR(array1,array2)\n"
@@ -351,6 +374,8 @@ static char *help_covar = {
 	   "COVAR returns the covariance of two data sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=CORREL,FISHER,FISHERINV")
 };
@@ -366,6 +391,8 @@ gnumeric_covar (FunctionEvalInfo *ei, Value **argv)
 				      gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_correl = {
 	N_("@FUNCTION=CORREL\n"
 	   "@SYNTAX=CORREL(array1,array2)\n"
@@ -374,6 +401,8 @@ static char *help_correl = {
 	   "CORREL returns the correllation coefficient of two data sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COVAR,FISHER,FISHERINV")
 };
@@ -389,6 +418,8 @@ gnumeric_correl (FunctionEvalInfo *ei, Value **argv)
 				      gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_negbinomdist = {
 	N_("@FUNCTION=NEGBINOMDIST\n"
 	   "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -401,6 +432,8 @@ static char *help_negbinomdist = {
 	   "If @f or @t is a non-integer it is truncated. "
 	   "If (@f + @t -1) <= 0 NEGBINOMDIST returns #NUM! error. "
 	   "If @p < 0 or @p > 1 NEGBINOMDIST returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT")
 };
@@ -422,6 +455,8 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 				pow (p, r) * pow (1-p, x));
 }
 
+/***************************************************************************/
+
 static char *help_normsdist = {
        N_("@FUNCTION=NORMSDIST\n"
           "@SYNTAX=NORMSDIST(x)\n"
@@ -433,6 +468,8 @@ static char *help_normsdist = {
           "Performing this function on a string or empty cell simply does "
 	  "nothing."
           "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=NOMRDIST")
 };
 
@@ -446,6 +483,8 @@ gnumeric_normsdist (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (pnorm (x, 0, 1));
 }
 
+/***************************************************************************/
+
 static char *help_normsinv = {
        N_("@FUNCTION=NORMSINV\n"
           "@SYNTAX=NORMSINV(p)\n"
@@ -457,6 +496,8 @@ static char *help_normsinv = {
           "\n"
 	  "If @p < 0 or @p > 1 NORMSINV returns #NUM! error. "
 	  "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST")
 };
 
@@ -472,6 +513,8 @@ gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
 
 	return value_new_float (qnorm (p, 0, 1));
 }
+
+/***************************************************************************/
 
 static char *help_lognormdist = {
        N_("@FUNCTION=LOGNORMDIST\n"
@@ -489,6 +532,8 @@ static char *help_lognormdist = {
 	  "If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! "
 	  "error. "
           "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=NORMDIST")
 };
 
@@ -510,6 +555,8 @@ gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (plnorm (x, mean, stdev));
 }
 
+/***************************************************************************/
+
 static char *help_loginv = {
        N_("@FUNCTION=LOGINV\n"
           "@SYNTAX=LOGINV(p,mean,stdev)\n"
@@ -523,6 +570,8 @@ static char *help_loginv = {
           "\n"
 	  "If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. "
 	  "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST")
 };
 
@@ -541,6 +590,8 @@ gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (qlnorm (p, mean, stdev));
 }
 
+/***************************************************************************/
+
 static char *help_fisherinv = {
        N_("@FUNCTION=FISHERINV\n"
           "@SYNTAX=FISHERINV(x)\n"
@@ -551,6 +602,8 @@ static char *help_fisherinv = {
           "\n"
           "If @x is non-number FISHERINV returns #VALUE! error."
           "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=FISHER")
 };
 
@@ -562,6 +615,8 @@ gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
        y = value_get_as_float (argv [0]);
        return value_new_float ((exp (2*y)-1.0) / (exp (2*y)+1.0));
 }
+
+/***************************************************************************/
 
 static char *help_mode = {
        N_("@FUNCTION=MODE\n"
@@ -576,6 +631,8 @@ static char *help_mode = {
 	  "If the data set does not contain any duplicates MODE returns "
           "#N/A! error."
           "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=AVERAGE,MEDIAN")
 };
 
@@ -649,6 +706,8 @@ gnumeric_mode (FunctionEvalInfo *ei, GList *expr_node_list)
        return value_new_float (pr.mode);
 }
 
+/***************************************************************************/
+
 static char *help_harmean = {
 	N_("@FUNCTION=HARMEAN\n"
 	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -658,6 +717,8 @@ static char *help_harmean = {
 	   "\n"
 	   "Performing this function on a string or empty cell simply does "
 	   "nothing."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE")
 };
@@ -673,6 +734,8 @@ gnumeric_harmean (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_geomean = {
 	N_("@FUNCTION=GEOMEAN\n"
 	   "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -683,6 +746,8 @@ static char *help_geomean = {
 	   "\n"
 	   "Performing this function on a string or empty cell simply "
 	   "does nothing."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE")
 };
@@ -698,6 +763,8 @@ gnumeric_geomean (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_count = {
 	N_("@FUNCTION=COUNT\n"
 	   "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -708,6 +775,8 @@ static char *help_count = {
 	   "\n"
 	   "Performing this function on a string or empty cell simply does "
 	   "nothing."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -734,6 +803,8 @@ gnumeric_count (FunctionEvalInfo *ei, GList *expr_node_list)
 	return result;
 }
 
+/***************************************************************************/
+
 static char *help_counta = {
         N_("@FUNCTION=COUNTA\n"
            "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -741,6 +812,8 @@ static char *help_counta = {
            "@DESCRIPTION="
            "Returns the number of arguments passed not including empty cells."
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM")
 };
 
@@ -766,6 +839,8 @@ gnumeric_counta (FunctionEvalInfo *ei, GList *expr_node_list)
         return result;
 }
 
+/***************************************************************************/
+
 static char *help_average = {
 	N_("@FUNCTION=AVERAGE\n"
 	   "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -774,6 +849,8 @@ static char *help_average = {
 	   "Computes the average of all the values and cells referenced in "
 	   "the argument list.  This is equivalent to the sum of the "
 	   "arguments divided by the count of the arguments."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=SUM, COUNT")
 };
@@ -789,6 +866,8 @@ gnumeric_average (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_min = {
 	N_("@FUNCTION=MIN\n"
 	   "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -800,6 +879,8 @@ static char *help_min = {
 	   "\n"
 	   "Performing this function on a string or empty cell simply does "
 	   "nothing."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MAX,ABS")
 };
@@ -815,6 +896,8 @@ gnumeric_min (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_max = {
 	N_("@FUNCTION=MAX\n"
 	   "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -826,6 +909,8 @@ static char *help_max = {
 	   "\n"
 	   "Performing this function on a string or empty cell simply does "
 	   "nothing."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MIN,ABS")
 };
@@ -840,6 +925,8 @@ gnumeric_max (FunctionEvalInfo *ei, GList *expr_node_list)
 				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
+
+/***************************************************************************/
 
 static char *help_skew = {
 	N_("@FUNCTION=SKEW\n"
@@ -856,6 +943,8 @@ static char *help_skew = {
 	   "\n"
 	   "If less than three numbers are given, SKEW returns #DIV/0! error."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=AVERAGE,VAR,SKEWP,KURT")
 };
 
@@ -870,6 +959,8 @@ gnumeric_skew (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_DIV0);
 }
 
+/***************************************************************************/
+
 static char *help_skewp = {
 	N_("@FUNCTION=SKEWP\n"
 	   "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -880,6 +971,8 @@ static char *help_skewp = {
 	   "Strings and empty cells are simply ignored."
 	   "\n"
 	   "If less than two numbers are given, SKEWP returns #DIV/0! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,VARP,SKEW,KURTP")
 };
@@ -895,6 +988,8 @@ gnumeric_skewp (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_DIV0);
 }
 
+/***************************************************************************/
+
 static char *help_expondist = {
 	N_("@FUNCTION=EXPONDIST\n"
 	   "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -907,6 +1002,8 @@ static char *help_expondist = {
 	   "If @x < 0 or @y <= 0 this will return an error.  "
 	   "Performing this function on a string or empty cell simply "
 	   "does nothing."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -934,6 +1031,8 @@ gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (dexp (x, 1 / y));
 }
 
+/***************************************************************************/
+
 static char *help_gammaln = {
 	N_("@FUNCTION=GAMMALN\n"
 	   "@SYNTAX=GAMMALN(x)\n"
@@ -944,6 +1043,8 @@ static char *help_gammaln = {
 	   "\n"
 	   "If @x is non-number then GAMMALN returns #VALUE! error. "
 	   "If @x <= 0 then GAMMALN returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -965,6 +1066,8 @@ gnumeric_gammaln (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (lgamma(x));
 }
 
+/***************************************************************************/
+
 static char *help_gammadist = {
 	N_("@FUNCTION=GAMMADIST\n"
 	   "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -976,6 +1079,8 @@ static char *help_gammadist = {
 	   "\n"
 	   "If @x < 0 GAMMADIST returns #NUM! error. "
 	   "If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=GAMMAINV")
 };
@@ -1000,6 +1105,8 @@ gnumeric_gammadist (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_float (dgamma(x, alpha, beta));
 }
 
+/***************************************************************************/
+
 static char *help_gammainv = {
        N_("@FUNCTION=GAMMAINV\n"
           "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -1011,6 +1118,8 @@ static char *help_gammainv = {
 	  "If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. "
 	  "If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error. "
 	  "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=GAMMADIST")
 };
 
@@ -1030,6 +1139,8 @@ gnumeric_gammainv (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (qgamma (p, alpha, beta));
 }
 
+/***************************************************************************/
+
 static char *help_chidist = {
 	N_("@FUNCTION=CHIDIST\n"
 	   "@SYNTAX=CHIDIST(x,dof)\n"
@@ -1041,6 +1152,8 @@ static char *help_chidist = {
 	   "\n"
 	   "If @dof is non-integer it is truncated. "
 	   "If @dof < 1 CHIDIST returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=CHIINV,CHITEST")
 };
@@ -1060,6 +1173,8 @@ gnumeric_chidist (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (1.0 - pchisq (x, dof));
 }
 
+/***************************************************************************/
+
 static char *help_chiinv = {
        N_("@FUNCTION=CHIINV\n"
           "@SYNTAX=CHIINV(p,dof)\n"
@@ -1070,6 +1185,8 @@ static char *help_chiinv = {
           "\n"
 	  "If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. "
 	  "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=CHIDIST,CHITEST")
 };
 
@@ -1088,6 +1205,8 @@ gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (qchisq (1.0 - p, dof));
 }
 
+/***************************************************************************/
+
 static char *help_chitest = {
        N_("@FUNCTION=CHITEST\n"
           "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -1100,6 +1219,8 @@ static char *help_chitest = {
 	  "@theoretical_range is a range that contains the expected values "
 	  "of the data points. "
 	  "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=CHIDIST,CHIINV")
 };
 
@@ -1227,6 +1348,8 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (1.0 - pchisq (p2.sum, dof));
 }
 
+/***************************************************************************/
+
 static char *help_betadist = {
 	N_("@FUNCTION=BETADIST\n"
 	   "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -1240,6 +1363,8 @@ static char *help_betadist = {
 	   "If @x < @a or @x > @b BETADIST returns #NUM! error. "
 	   "If @alpha <= 0 or @beta <= 0, BETADIST returns #NUM! error. "
 	   "If @a >= @b BETADIST returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BETAINV")
 };
@@ -1267,6 +1392,8 @@ gnumeric_betadist (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (pbeta((x-a) / (b-a), alpha, beta));
 }
 
+/***************************************************************************/
+
 static char *help_betainv = {
 	N_("@FUNCTION=BETAINV\n"
 	   "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -1280,6 +1407,8 @@ static char *help_betainv = {
 	   "If @p < 0 or @p > 1 BETAINV returns #NUM! error. "
 	   "If @alpha <= 0 or @beta <= 0, BETAINV returns #NUM! error. "
 	   "If @a >= @b BETAINV returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BETADIST")
 };
@@ -1307,6 +1436,8 @@ gnumeric_betainv (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float ((b-a) * qbeta(p, alpha, beta) + a);
 }
 
+/***************************************************************************/
+
 static char *help_tdist = {
 	N_("@FUNCTION=TDIST\n"
 	   "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -1318,6 +1449,8 @@ static char *help_tdist = {
 	   "\n"
 	   "If @dof < 1 TDIST returns #NUM! error. "
 	   "If @tails is neither 1 or 2 TDIST returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=TINV,TTEST")
 };
@@ -1341,6 +1474,8 @@ gnumeric_tdist (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_float ((1.0 - pt(x, dof))*2);
 }
 
+/***************************************************************************/
+
 static char *help_tinv = {
        N_("@FUNCTION=TINV\n"
           "@SYNTAX=TINV(p,dof)\n"
@@ -1351,6 +1486,8 @@ static char *help_tinv = {
           "\n"
 	  "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. "
 	  "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=TDIST,TTEST")
 };
 
@@ -1369,6 +1506,8 @@ gnumeric_tinv (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (qt (1 - p / 2, dof));
 }
 
+/***************************************************************************/
+
 static char *help_fdist = {
 	N_("@FUNCTION=FDIST\n"
 	   "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -1380,6 +1519,8 @@ static char *help_fdist = {
 	   "\n"
 	   "If @x < 0 FDIST returns #NUM! error. "
 	   "If @dof1 < 1 or @dof2 < 1, FDIST returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=FINV")
 };
@@ -1400,6 +1541,8 @@ gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (1.0 - pf(x, dof1, dof2));
 }
 
+/***************************************************************************/
+
 static char *help_finv = {
        N_("@FUNCTION=FINV\n"
           "@SYNTAX=TINV(p,dof)\n"
@@ -1411,6 +1554,8 @@ static char *help_finv = {
 	  "If @p < 0 or @p > 1 FINV returns #NUM! error. "
 	  "If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error."
 	  "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=FDIST")
 };
 
@@ -1430,6 +1575,8 @@ gnumeric_finv (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (qf (1.0 - p, dof1, dof2));
 }
 
+/***************************************************************************/
+
 static char *help_binomdist = {
 	N_("@FUNCTION=BINOMDIST\n"
 	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -1447,6 +1594,8 @@ static char *help_binomdist = {
 	   "If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. "
 	   "If @n > trials BINOMDIST returns #NUM! error. "
 	   "If @p < 0 or @p > 1 BINOMDIST returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -1472,6 +1621,8 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (dbinom (n, trials, p));
 }
 
+/***************************************************************************/
+
 static char *help_critbinom = {
        N_("@FUNCTION=CRITBINOM\n"
           "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -1487,6 +1638,8 @@ static char *help_critbinom = {
           "If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. "
           "If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. "
           "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=BINOMDIST")
 };
 
@@ -1506,6 +1659,8 @@ gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (qbinom (alpha, trials, p));
 }
 
+/***************************************************************************/
+
 static char *help_permut = {
 	N_("@FUNCTION=PERMUT\n"
 	   "@SYNTAX=PERMUT(n,k)\n"
@@ -1517,6 +1672,8 @@ static char *help_permut = {
 	   "\n"
 	   "If @n = 0 PERMUT returns #NUM! error. "
 	   "If @n < @k PERMUT returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COMBIN")
 };
@@ -1535,6 +1692,8 @@ gnumeric_permut (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 }
 
+/***************************************************************************/
+
 static char *help_hypgeomdist = {
 	N_("@FUNCTION=HYPGEOMDIST\n"
 	   "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -1548,6 +1707,8 @@ static char *help_hypgeomdist = {
 	   "If @x,@n,@M or @N is a non-integer it is truncated. "
 	   "If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error. "
 	   "If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BINOMDIST,POISSON")
 };
@@ -1569,6 +1730,8 @@ gnumeric_hypgeomdist (FunctionEvalInfo *ei, Value **argv)
 				combin(N,n));
 }
 
+/***************************************************************************/
+
 static char *help_confidence = {
 	N_("@FUNCTION=CONFIDENCE\n"
 	   "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -1581,6 +1744,8 @@ static char *help_confidence = {
 	   "If @size is non-integer it is truncated. "
 	   "If @size < 0 CONFIDENCE returns #NUM! error. "
 	   "If @size is 0 CONFIDENCE returns #DIV/0! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -1604,6 +1769,8 @@ gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (-qnorm (x/2, 0, 1) * (stddev/sqrt(size)));
 }
 
+/***************************************************************************/
+
 static char *help_standardize = {
 	N_("@FUNCTION=STANDARDIZE\n"
 	   "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -1614,6 +1781,8 @@ static char *help_standardize = {
 	   "distribution, @stdev is the standard deviation of the distribution."
 	   "\n"
 	   "If stddev is 0 STANDARDIZE returns #DIV/0! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -1635,6 +1804,8 @@ gnumeric_standardize (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float ((x-mean) / stddev);
 }
 
+/***************************************************************************/
+
 static char *help_weibull = {
         N_("@FUNCTION=WEIBULL\n"
            "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -1648,6 +1819,8 @@ static char *help_weibull = {
            "If @x < 0 WEIBULL returns #NUM! error. "
            "If @alpha <= 0 or @beta <= 0 WEIBULL returns #NUM! error. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=POISSON")
 };
 
@@ -1675,6 +1848,8 @@ gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (dweibull (x, alpha, beta));
 }
 
+/***************************************************************************/
+
 static char *help_normdist = {
         N_("@FUNCTION=NORMDIST\n"
            "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -1686,6 +1861,8 @@ static char *help_normdist = {
            "\n"
            "If @stdev is 0 NORMDIST returns #DIV/0! error. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=POISSON")
 };
 
@@ -1714,6 +1891,8 @@ gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (dnorm (x, mean, stdev));
 }
 
+/***************************************************************************/
+
 static char *help_norminv = {
        N_("@FUNCTION=NORMINV\n"
           "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -1727,6 +1906,8 @@ static char *help_norminv = {
           "\n"
 	  "If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. "
 	  "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST")
 };
 
@@ -1746,6 +1927,8 @@ gnumeric_norminv (FunctionEvalInfo *ei, Value **argv)
 }
 
 
+/***************************************************************************/
+
 static char *help_kurt = {
         N_("@FUNCTION=KURT\n"
            "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -1763,6 +1946,8 @@ static char *help_kurt = {
            "If fewer than four numbers are given or all of them are equal "
            "KURT returns #DIV/0! error."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=AVERAGE,VAR,SKEW,KURTP")
 };
 
@@ -1777,6 +1962,8 @@ gnumeric_kurt (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_kurtp = {
         N_("@FUNCTION=KURTP\n"
            "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -1788,6 +1975,8 @@ static char *help_kurtp = {
            "\n"
            "If fewer than two numbers are given or all of them are equal "
            "KURTP returns #DIV/0! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
            "@SEEALSO=AVERAGE,VARP,SKEWP,KURT")
 };
@@ -1803,6 +1992,8 @@ gnumeric_kurtp (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_avedev = {
         N_("@FUNCTION=AVEDEV\n"
            "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -1814,6 +2005,8 @@ static char *help_avedev = {
            "Performing this function on a string or empty cell simply does "
 	   "nothing."
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=STDEV")
 };
 
@@ -1828,6 +2021,8 @@ gnumeric_avedev (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_devsq = {
         N_("@FUNCTION=DEVSQ\n"
            "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -1838,6 +2033,8 @@ static char *help_devsq = {
            "\n"
            "Strings and empty cells are simply ignored."
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=STDEV")
 };
 
@@ -1852,6 +2049,8 @@ gnumeric_devsq (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_fisher = {
         N_("@FUNCTION=FISHER\n"
            "@SYNTAX=FISHER(x)\n"
@@ -1862,6 +2061,8 @@ static char *help_fisher = {
            "If @x is not-number FISHER returns #VALUE! error."
            "If @x <= -1 or @x >= 1 FISHER returns #NUM! error"
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=SKEW")
 };
 
@@ -1881,6 +2082,8 @@ gnumeric_fisher (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (0.5 * log((1.0+x) / (1.0-x)));
 }
 
+/***************************************************************************/
+
 static char *help_poisson = {
 	N_("@FUNCTION=POISSON\n"
 	   "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -1894,6 +2097,8 @@ static char *help_poisson = {
 	   "If @x is a non-integer it is truncated. "
 	   "If @x <= 0 POISSON returns #NUM! error. "
 	   "If @mean <= 0 POISSON returns the #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=NORMDIST, WEIBULL")
 };
@@ -1918,6 +2123,8 @@ gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (dpois (x, mean));
 }
 
+/***************************************************************************/
+
 static char *help_pearson = {
 	N_("@FUNCTION=PEARSON\n"
 	   "@SYNTAX=PEARSON(array1,array2)\n"
@@ -1927,6 +2134,8 @@ static char *help_pearson = {
 	   "sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX")
 };
@@ -1938,6 +2147,8 @@ gnumeric_pearson (FunctionEvalInfo *ei, Value **argv)
 }
 
 
+/***************************************************************************/
+
 static char *help_rsq = {
 	N_("@FUNCTION=RSQ\n"
 	   "@SYNTAX=RSQ(array1,array2)\n"
@@ -1947,6 +2158,8 @@ static char *help_rsq = {
 	   "of two data sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,"
 	   "STEYX,TREND")
@@ -1963,6 +2176,7 @@ gnumeric_rsq (FunctionEvalInfo *ei, Value **argv)
 				      gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
 
 static char *help_median = {
        N_("@FUNCTION=MEDIAN\n"
@@ -1975,6 +2189,8 @@ static char *help_median = {
 	  "If even numbers are given MEDIAN returns the average of the two "
 	  "numbers in the middle."
           "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
           "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM")
 };
 
@@ -2006,6 +2222,8 @@ gnumeric_median (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_large = {
 	N_("@FUNCTION=LARGE\n"
 	   "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -2016,6 +2234,8 @@ static char *help_large = {
 	   "If data set is empty LARGE returns #NUM! error. "
 	   "If @k <= 0 or @k is greater than the number of data items given "
 	   "LARGE returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL")
 };
@@ -2049,6 +2269,8 @@ gnumeric_large (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_NUM);
 }
 
+/***************************************************************************/
+
 static char *help_small = {
 	N_("@FUNCTION=SMALL\n"
 	   "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -2059,6 +2281,8 @@ static char *help_small = {
 	   "If data set is empty SMALL returns #NUM! error. "
 	   "If @k <= 0 or @k is greater than the number of data items given "
 	   "SMALL returns #NUM! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE")
 };
@@ -2116,6 +2340,8 @@ callback_function_list (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
+/***************************************************************************/
+
 static char *help_prob = {
 	N_("@FUNCTION=PROB\n"
 	   "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -2132,6 +2358,8 @@ static char *help_prob = {
 	   "error. "
 	   "If @x_range and @prob_range contain a different number of data "
 	   "entries, PROB returns #N/A! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BINOMDIST,CRITBINOM")
 };
@@ -2242,6 +2470,8 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sum);
 }
 
+/***************************************************************************/
+
 static char *help_steyx = {
 	N_("@FUNCTION=STEYX\n"
 	   "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -2252,6 +2482,8 @@ static char *help_steyx = {
 	   "\n"
 	   "If @known_y's and @known_x's are empty or have a different number "
 	   "of arguments then STEYX returns #N/A! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PEARSON,RSQ,SLOPE")
 };
@@ -2388,6 +2620,8 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sqrt(k * (n*sqrsum_y-sum_y*sum_y - num/den)));
 }
 
+/***************************************************************************/
+
 static char *help_ztest = {
 	N_("@FUNCTION=ZTEST\n"
 	   "@SYNTAX=ZTEST(ref,x)\n"
@@ -2399,6 +2633,8 @@ static char *help_ztest = {
 	   "\n"
 	   "If @ref contains less than two data items ZTEST "
 	   "returns #DIV/0! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,"
 	   "STANDARDIZE")
@@ -2461,6 +2697,8 @@ gnumeric_ztest (FunctionEvalInfo *ei, GList *expr_node_list)
 					   0, 1));
 }
 
+/***************************************************************************/
+
 static char *help_averagea = {
 	N_("@FUNCTION=AVERAGEA\n"
 	   "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -2472,6 +2710,8 @@ static char *help_averagea = {
 	   "it is counted as value zero (0).  If the argument evaluates to "
 	   "TRUE, it is counted as one (1).  Note that empty cells are not "
 	   "counted."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -2487,6 +2727,8 @@ gnumeric_averagea (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_DIV0);
 }
 
+/***************************************************************************/
+
 static char *help_maxa = {
 	N_("@FUNCTION=MAXA\n"
 	   "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -2498,6 +2740,8 @@ static char *help_maxa = {
 	   "it is counted as value zero (0).  If the argument evaluates to "
 	   "TRUE, it is counted as one (1).  Note that empty cells are not "
 	   "counted."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MAX,MINA")
 };
@@ -2513,6 +2757,8 @@ gnumeric_maxa (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_mina = {
 	N_("@FUNCTION=MINA\n"
 	   "@SYNTAX=MINA(number1,number2,...)\n"
@@ -2524,6 +2770,8 @@ static char *help_mina = {
 	   "it is counted as value zero (0).  If the argument evaluates to "
 	   "TRUE, it is counted as one (1).  Note that empty cells are not "
 	   "counted."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MIN,MAXA")
 };
@@ -2539,6 +2787,8 @@ gnumeric_mina (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_vara = {
 	N_("@FUNCTION=VARA\n"
 	   "@SYNTAX=VARA(number1,number2,...)\n"
@@ -2550,6 +2800,8 @@ static char *help_vara = {
 	   "to FALSE, it is counted as value zero (0).  If the "
 	   "argument evaluates to TRUE, it is counted as one (1).  Note "
 	   "that empty cells are not counted."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=VAR,VARPA")
 };
@@ -2565,6 +2817,8 @@ gnumeric_vara (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_varpa = {
 	N_("@FUNCTION=VARPA\n"
 	   "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -2576,6 +2830,8 @@ static char *help_varpa = {
 	   "evaluates to FALSE, it is counted as value zero (0).  If the "
 	   "argument evaluates to TRUE, it is counted as one (1).  Note "
 	   "that empty cells are not counted."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=VARP,VARP")
 };
@@ -2591,6 +2847,8 @@ gnumeric_varpa (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_stdeva = {
 	N_("@FUNCTION=STDEVA\n"
 	   "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -2602,6 +2860,8 @@ static char *help_stdeva = {
 	   "FALSE, it is counted as value zero (0).  If the argument "
 	   "evaluates to TRUE, it is counted as one (1).  Note that empty "
 	   "cells are not counted."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVPA")
 };
@@ -2617,6 +2877,8 @@ gnumeric_stdeva (FunctionEvalInfo *ei, GList *expr_node_list)
 				     gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_stdevpa = {
 	N_("@FUNCTION=STDEVPA\n"
 	   "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -2628,6 +2890,8 @@ static char *help_stdevpa = {
 	   "evaluates to FALSE, it is counted as value zero (0).  If the "
 	   "argument evaluates to TRUE, it is counted as one (1).  Note "
 	   "that empty cells are not counted."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=STDEVA,STDEVP")
 };
@@ -2642,6 +2906,8 @@ gnumeric_stdevpa (FunctionEvalInfo *ei, GList *expr_node_list)
 				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_VALUE);
 }
+
+/***************************************************************************/
 
 static char *help_percentrank = {
 	N_("@FUNCTION=PERCENTRANK\n"
@@ -2661,6 +2927,8 @@ static char *help_percentrank = {
 	   "error. "
 	   "If @x does not match any of the values in @array or @x matches "
 	   "more than once, PERCENTRANK interpolates the returned value."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL")
 };
@@ -2751,6 +3019,8 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (pr);
 }
 
+/***************************************************************************/
+
 static char *help_quartile = {
 	N_("@FUNCTION=QUARTILE\n"
 	   "@SYNTAX=QUARTILE(array,quart)\n"
@@ -2769,6 +3039,8 @@ static char *help_quartile = {
 	   "If @array is empty, QUARTILE returns #NUM! error. "
 	   "If @quart < 0 or @quart > 4, QUARTILE returns #NUM! error. "
 	   "If @quart is not an integer, it is truncated. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL")
 };
@@ -2806,6 +3078,8 @@ out:
 	return result;
 }
 
+/***************************************************************************/
+
 static char *help_ftest = {
 	N_("@FUNCTION=FTEST\n"
 	   "@SYNTAX=FTEST(array1,array2)\n"
@@ -2814,6 +3088,8 @@ static char *help_ftest = {
 	   "FTEST function returns the one-tailed probability that the "
 	   "variances in the given two data sets are not significantly "
 	   "different. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=FDIST,FINV")
 };
@@ -2893,6 +3169,8 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv [])
 	return value_new_float (p);
 }
 
+/***************************************************************************/
+
 static char *help_ttest = {
 	N_("@FUNCTION=TTEST\n"
 	   "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -2914,6 +3192,8 @@ static char *help_ttest = {
 	   "If @tails is not one or two, TTEST returns #NUM! error. "
 	   "If @type is any other than one, two, or three, TTEST returns "
 	   "#NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=FDIST,FINV")
 };
@@ -3136,6 +3416,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 	}
 }
 
+/***************************************************************************/
 
 static char *help_frequency = {
 	N_("@FUNCTION=FREQUENCY\n"
@@ -3150,6 +3431,8 @@ static char *help_frequency = {
 	   "into which you want to group the values in data_array.  If the "
 	   "@bin_array is empty, FREQUENCY returns the number of data points "
 	   "in @data_array. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -3247,6 +3530,8 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv [])
 	return res;
 }
 
+/***************************************************************************/
+
 static char *help_linest = {
 	N_("@FUNCTION=LINEST\n"
 	   "@SYNTAX=LINEST(known_y's[,known_x's])\n"
@@ -3263,6 +3548,8 @@ static char *help_linest = {
 	   "\n"
 	   "If @known_y's and @known_x's have unequal number of data points, "
 	   "LINEST returns #NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOGEST,TREND")
 };
@@ -3316,6 +3603,8 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 	return result;
 }
 
+/***************************************************************************/
+
 static char *help_trend = {
 	N_("@FUNCTION=TREND\n"
 	   "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -3330,6 +3619,8 @@ static char *help_trend = {
 	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
 	   "If @known_y's and @known_x's have unequal number of data points, "
 	   "TREND returns #NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LINEST")
 };
@@ -3395,6 +3686,8 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 	return result;
 }
 
+/***************************************************************************/
+
 static char *help_forecast = {
 	N_("@FUNCTION=FORECAST\n"
 	   "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -3408,6 +3701,8 @@ static char *help_forecast = {
 	   "number of data entries, FORECAST returns #N/A! error. "
 	   "If the variance of the @known_x is zero, FORECAST returns #DIV/0 "
 	   "error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=INTERCEPT,TREND")
 };
@@ -3455,6 +3750,7 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 	return result;
 }
 
+/***************************************************************************/
 
 static char *help_intercept = {
 	N_("@FUNCTION=INTERCEPT\n"
@@ -3468,6 +3764,8 @@ static char *help_intercept = {
 	   "number of data entries, INTERCEPT returns #N/A! error. "
 	   "If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 "
 	   "error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=FORECAST,TREND")
 };
@@ -3495,12 +3793,16 @@ gnumeric_intercept (FunctionEvalInfo *ei, Value **argv)
 				      gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_slope = {
 	N_("@FUNCTION=SLOPE\n"
 	   "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
 	   "SLOPE returns the slope of the linear regression line."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVPA")
 };
@@ -3528,6 +3830,7 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 				      gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
 
 void stat_functions_init()
 {

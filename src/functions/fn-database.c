@@ -335,6 +335,7 @@ find_cells_that_match (const EvalPosition *ep, Value *database, int field, GSLis
 	return cells;
 }
 
+/***************************************************************************/
 
 static char *help_daverage = {
         N_("@FUNCTION=DAVERAGE\n"
@@ -357,6 +358,8 @@ static char *help_daverage = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DCOUNT")
 };
 
@@ -403,6 +406,8 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (sum / count);
 }
 
+/***************************************************************************/
+
 static char *help_dcount = {
         N_("@FUNCTION=DCOUNT\n"
            "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -424,6 +429,8 @@ static char *help_dcount = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DAVERAGE")
 };
 
@@ -466,6 +473,8 @@ gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
         return value_new_int (count);
 }
 
+/***************************************************************************/
+
 static char *help_dcounta = {
         N_("@FUNCTION=DCOUNTA\n"
            "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -487,6 +496,8 @@ static char *help_dcounta = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DCOUNT")
 };
 
@@ -526,6 +537,8 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
         return value_new_int (count);
 }
 
+/***************************************************************************/
+
 static char *help_dget = {
         N_("@FUNCTION=DGET\n"
            "@SYNTAX=DGET(database,field,criteria)\n"
@@ -551,6 +564,8 @@ static char *help_dget = {
 	   "error. "
 	   "If more than one items match the conditions, DGET returns #NUM! "
 	   "error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
            "@SEEALSO=DCOUNT")
 };
@@ -622,8 +637,12 @@ static char *help_dmax = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DMIN")
 };
+
+/***************************************************************************/
 
 static Value *
 gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
@@ -672,6 +691,8 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (max);
 }
 
+/***************************************************************************/
+
 static char *help_dmin = {
         N_("@FUNCTION=DMIN\n"
            "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -693,6 +714,8 @@ static char *help_dmin = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DMAX")
 };
 
@@ -745,6 +768,8 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (min);
 }
 
+/***************************************************************************/
+
 static char *help_dproduct = {
         N_("@FUNCTION=DPRODUCT\n"
            "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -766,6 +791,8 @@ static char *help_dproduct = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DSUM")
 };
 
@@ -817,6 +844,8 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (product);
 }
 
+/***************************************************************************/
+
 static char *help_dstdev = {
         N_("@FUNCTION=DSTDEV\n"
            "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -839,6 +868,8 @@ static char *help_dstdev = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DSTDEVP")
 };
 
@@ -886,6 +917,8 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (sqrt(p.Q / (p.N - 1)));
 }
 
+/***************************************************************************/
+
 static char *help_dstdevp = {
         N_("@FUNCTION=DSTDEVP\n"
            "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -908,6 +941,8 @@ static char *help_dstdevp = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DSTDEV")
 };
 
@@ -957,6 +992,8 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (sqrt(p.Q / p.N));
 }
 
+/***************************************************************************/
+
 static char *help_dsum = {
         N_("@FUNCTION=DSUM\n"
            "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -978,6 +1015,8 @@ static char *help_dsum = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DPRODUCT")
 };
 
@@ -1027,6 +1066,8 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (sum);
 }
 
+/***************************************************************************/
+
 static char *help_dvar = {
         N_("@FUNCTION=DVAR\n"
            "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -1049,6 +1090,8 @@ static char *help_dvar = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DVARP")
 };
 
@@ -1098,6 +1141,8 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
         return value_new_float (p.Q / (p.N - 1));
 }
 
+/***************************************************************************/
+
 static char *help_dvarp = {
         N_("@FUNCTION=DVARP\n"
            "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -1120,6 +1165,8 @@ static char *help_dvarp = {
 	   "of the fields for which the criterias are for. Cells below the "
 	   "label specify coditions, for example, ``>3'' or ``<9''. "
            "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
            "@SEEALSO=DVAR")
 };
 
@@ -1171,33 +1218,47 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
         return  value_new_float (p.Q / p.N);
 }
 
+/***************************************************************************/
+
 void
 database_functions_init(void)
 {
 	FunctionCategory *cat = function_get_category (_("Database"));
 	
-	function_add_args (cat,  "daverage", "r?r", "database,field,criteria", &help_daverage,
-			   gnumeric_daverage );
-	function_add_args (cat,  "dcount",   "r?r", "database,field,criteria", &help_dcount,
-			   gnumeric_dcount );
-	function_add_args (cat,  "dcounta",  "r?r", "database,field,criteria", &help_dcounta,
-			   gnumeric_dcounta );
-	function_add_args (cat,  "dget",     "r?r", "database,field,criteria", &help_dget,
-			   gnumeric_dget );
-	function_add_args (cat,  "dmax",     "r?r", "database,field,criteria", &help_dmax,
-			   gnumeric_dmax );
-	function_add_args (cat,  "dmin",     "r?r", "database,field,criteria", &help_dmin,
-			   gnumeric_dmin );
-	function_add_args (cat,  "dproduct", "r?r", "database,field,criteria", &help_dproduct,
-			   gnumeric_dproduct );
-	function_add_args (cat,  "dstdev",   "r?r", "database,field,criteria", &help_dstdev,
-			   gnumeric_dstdev );
-	function_add_args (cat,  "dstdevp",  "r?r", "database,field,criteria", &help_dstdevp,
-			   gnumeric_dstdevp );
-	function_add_args (cat,  "dsum",     "r?r", "database,field,criteria", &help_dsum,
-			   gnumeric_dsum );
-	function_add_args (cat,  "dvar",     "r?r", "database,field,criteria", &help_dvar,
-			   gnumeric_dvar );
-	function_add_args (cat,  "dvarp",    "r?r", "database,field,criteria", &help_dvarp,
-			   gnumeric_dvarp );
+	function_add_args (cat,  "daverage", "r?r",
+			   "database,field,criteria",
+			   &help_daverage,   gnumeric_daverage );
+	function_add_args (cat,  "dcount",   "r?r",
+			   "database,field,criteria",
+			   &help_dcount,     gnumeric_dcount );
+	function_add_args (cat,  "dcounta",  "r?r",
+			   "database,field,criteria",
+			   &help_dcounta,    gnumeric_dcounta );
+	function_add_args (cat,  "dget",     "r?r",
+			   "database,field,criteria",
+			   &help_dget,       gnumeric_dget );
+	function_add_args (cat,  "dmax",     "r?r",
+			   "database,field,criteria",
+			   &help_dmax,       gnumeric_dmax );
+	function_add_args (cat,  "dmin",     "r?r",
+			   "database,field,criteria",
+			   &help_dmin,       gnumeric_dmin );
+	function_add_args (cat,  "dproduct", "r?r",
+			   "database,field,criteria",
+			   &help_dproduct,   gnumeric_dproduct );
+	function_add_args (cat,  "dstdev",   "r?r",
+			   "database,field,criteria",
+			   &help_dstdev,     gnumeric_dstdev );
+	function_add_args (cat,  "dstdevp",  "r?r",
+			   "database,field,criteria",
+			   &help_dstdevp,    gnumeric_dstdevp );
+	function_add_args (cat,  "dsum",     "r?r",
+			   "database,field,criteria",
+			   &help_dsum,       gnumeric_dsum );
+	function_add_args (cat,  "dvar",     "r?r",
+			   "database,field,criteria",
+			   &help_dvar,       gnumeric_dvar );
+	function_add_args (cat,  "dvarp",    "r?r",
+			   "database,field,criteria",
+			   &help_dvarp,      gnumeric_dvarp );
 }

@@ -37,6 +37,8 @@ static char *help_address = {
 	   "If @row_num or @col_num is less than one, ADDRESS returns #NUM! "
 	   "error. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=")
 };
 
@@ -134,6 +136,8 @@ static char *help_choose = {
 	   "\n"
 	   "If @index < 1 or @index > number of values: returns #VAL!."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=IF")
 };
 
@@ -186,6 +190,8 @@ static char *help_vlookup = {
 	   "\n"
 	   "Returns #NUM! if @column < 0."
 	   "Returns #REF! if @column falls outside @range."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=HLOOKUP")
 };
@@ -338,6 +344,8 @@ static char *help_hlookup = {
 	   "Returns #NUM! if @row < 0."
 	   "Returns #REF! if @row falls outside @range."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=VLOOKUP")
 };
 
@@ -418,6 +426,8 @@ static char *help_lookup = {
 	   "The data must be sorted. "
 	   "\n"
 	   "If @value is smaller than the first value it returns #N/A"
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=VLOOKUP,HLOOKUP")
 };
@@ -508,6 +518,8 @@ static char *help_indirect = {
 	   "\n"
 	   "If ref_text is not a valid reference returns #REF! "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=")
 };
 
@@ -562,6 +574,8 @@ static char *help_column = {
 	   "If @reference is neither an array nor a reference nor a range "
 	   "returns #VALUE!."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=COLUMNS,ROW,ROWS")
 };
 
@@ -611,6 +625,8 @@ static char *help_columns = {
 	   "If @reference is neither an array nor a reference nor a range "
 	   "returns #VALUE!."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=COLUMN,ROW,ROWS")
 };
 
@@ -633,6 +649,8 @@ static char *help_offset = {
 	   "If range is neither a reference nor a range returns #VALUE!.  "
 	   "If either height or width is omitted the height or width"
 	   " of the reference is used."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
 };
@@ -691,6 +709,8 @@ static char *help_row = {
 	   "If @reference is neither an array nor a reference nor a range "
 	   "returns #VALUE!."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
 };
 
@@ -740,6 +760,8 @@ static char *help_rows = {
 	   "If @reference is neither an array nor a reference nor a range "
 	   "returns #VALUE!."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=COLUMN,ROW,ROWS")
 };
 
@@ -760,6 +782,8 @@ static char *help_hyperlink = {
 	   "The HYPERLINK function currently returns its 2nd argument, "
 	   "or if that is omitted the 1st argument."
 	   "\n"
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };

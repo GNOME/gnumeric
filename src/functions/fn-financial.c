@@ -201,6 +201,7 @@ days_monthly_basis(Value *issue_date, Value *maturity_date, int basis)
 	}
 }
 
+/***************************************************************************/
 
 static char *help_accrint = {
 	N_("@FUNCTION=ACCRINT\n"
@@ -225,6 +226,8 @@ static char *help_accrint = {
 	   "If @basis < 0 or @basis > 4, ACCRINT returns NUM! error. "
 	   "If issue date is after maturity date or they are the same, "
 	   "ACCRINT returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ACCRINTM")
 };
@@ -255,6 +258,8 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (coefficient * freq * x);
 }
 
+/***************************************************************************/
+
 static char *help_accrintm = {
 	N_("@FUNCTION=ACCRINTM\n"
 	   "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -278,6 +283,8 @@ static char *help_accrintm = {
 	   "If @basis < 0 or @basis > 4, ACCRINTM returns NUM! error. "
 	   "If issue date is after maturity date or they are the same, "
 	   "ACCRINTM returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ACCRINT")
 };
@@ -307,6 +314,8 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (par * rate * a/d);
 }
 
+/***************************************************************************/
+
 static char *help_intrate = {
 	N_("@FUNCTION=INTRATE\n"
 	   "@SYNTAX=INTRATE(settlement,maturity,investment,redemption"
@@ -330,6 +339,8 @@ static char *help_intrate = {
 	   "If @basis < 0 or @basis > 4, INTRATE returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "INTRATE returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=RECEIVED")
 };
@@ -357,6 +368,8 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 				(d / a));
 }
 
+/***************************************************************************/
+
 static char *help_received = {
 	N_("@FUNCTION=RECEIVED\n"
 	   "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis]"
@@ -378,6 +391,8 @@ static char *help_received = {
 	   "If @basis < 0 or @basis > 4, RECEIVED returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "RECEIVED returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=INTRATE")
 };
@@ -404,6 +419,8 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (investment / (1.0 - (discount * a/d)));
 }
 
+/***************************************************************************/
+
 static char *help_pricedisc = {
 	N_("@FUNCTION=PRICEDISC\n"
 	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis]"
@@ -427,6 +444,8 @@ static char *help_pricedisc = {
 	   "If @basis < 0 or @basis > 4, PRICEDISC returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "PRICEDISC returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PRICEMAT")
 };
@@ -453,6 +472,8 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (redemption - discount * redemption * a/d);
 }
 
+/***************************************************************************/
+
 static char *help_pricemat = {
 	N_("@FUNCTION=PRICEMAT\n"
 	   "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis]"
@@ -473,6 +494,8 @@ static char *help_pricemat = {
 	   "If @basis < 0 or @basis > 4, PRICEMAT returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "PRICEMAT returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PRICEDISC")
 };
@@ -504,6 +527,8 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 				(a/b * discount * 100));
 }
 
+/***************************************************************************/
+
 static char *help_disc = {
 	N_("@FUNCTION=DISC\n"
 	   "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis]"
@@ -523,6 +548,8 @@ static char *help_disc = {
 	   "If @basis < 0 or @basis > 4, DISC returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "DISC returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -548,6 +575,8 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 
 	return value_new_float ((redemption - par) / redemption * (b / dsm));
 }
+
+/***************************************************************************/
 
 static char *help_effect = {
 	N_("@FUNCTION=EFFECT\n"
@@ -575,6 +604,8 @@ static char *help_effect = {
 	   "=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the "
 	   "effective percentage you will pay on your loan."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=NOMINAL")
 };
 
@@ -595,6 +626,8 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 
 }
 
+/***************************************************************************/
+
 static char *help_nominal = {
 	N_("@FUNCTION=NOMINAL\n"
 	   "@SYNTAX=NOMINAL(r,nper)\n"
@@ -608,6 +641,8 @@ static char *help_nominal = {
 	   "\n"
 	   "r = effective interest rate\n"
 	   "nper = number of periods used for compounding"
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=EFFECT")
 };
@@ -629,6 +664,8 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 }
 
+/***************************************************************************/
+
 static char *help_ispmt = {
 	N_("@FUNCTION=ISPMT\n"
 	   "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -636,6 +673,8 @@ static char *help_ispmt = {
 	   "ISPMT function returns the interest payed on a given period. "
 	   "\n"
 	   "If @per < 1 or @per > @nper, ISPMT returns #NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PV")
 };
@@ -659,6 +698,8 @@ gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (tmp - (tmp / nper * per));
 }
 
+/***************************************************************************/
+
 static char *help_db = {
 	N_("@FUNCTION=DB\n"
 	   "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -670,6 +711,8 @@ static char *help_db = {
 	   "for which you want the depreciation to be calculated.  @month "
 	   "is the number of months in the first year of depreciation. "
 	   "If @month is omitted, it is assumed to be 12. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DDB,SLN,SYD,VDB")
 };
@@ -709,6 +752,8 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (((cost - total) * rate * (12 - month)) / 12);
 }
 
+/***************************************************************************/
+
 static char *help_ddb = {
 	N_("@FUNCTION=DDB\n"
 	   "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -721,6 +766,8 @@ static char *help_ddb = {
 	   "depreciation to be calculated, and @factor is the factor at "
 	   "which the balance declines.  If @factor is omitted, it is "
 	   "assumed to be two (double-declining balance method). "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=SLN,SYD,VDB")
 };
@@ -753,6 +800,8 @@ gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (cost - total - salvage);
 }
 
+/***************************************************************************/
+
 static char *help_sln = {
 	N_("@FUNCTION=SLN\n"
 	   "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -768,6 +817,8 @@ static char *help_sln = {
 	   "\t@salvage_value = amount you get when asset sold at the end "
 	   "of life"
 	   "\t@life = anticipated life of an asset"
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=SYD")
 };
@@ -789,6 +840,8 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
         return value_new_float ((cost - salvage_value) / life);
 }
 
+/***************************************************************************/
+
 static char *help_syd = {
 	N_("@FUNCTION=SYD\n"
 	   "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -808,6 +861,8 @@ static char *help_syd = {
 	   "life"
 	   "\t@life = anticipated life of an asset"
 	   "\t@period = period for which we need the expense"
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=SLN")
 };
@@ -831,6 +886,8 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 				(life * (life + 1.0)));
 }
 
+/***************************************************************************/
+
 static char *help_dollarde = {
 	N_("@FUNCTION=DOLLARDE\n"
 	   "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -839,6 +896,8 @@ static char *help_dollarde = {
 	   "\n"
 	   "If @fraction is non-integer it is truncated. "
 	   "If @fraction<=0 DOLLARDE returns #NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DOLLARFR")
 };
@@ -868,6 +927,8 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 					   fraction));
 }
 
+/***************************************************************************/
+
 static char *help_dollarfr = {
 	N_("@FUNCTION=DOLLARFR\n"
 	   "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -876,6 +937,8 @@ static char *help_dollarfr = {
 	   "\n"
 	   "If @fraction is non-integer it is truncated. "
 	   "If @fraction <= 0 DOLLARDE returns #NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DOLLARDE")
 };
@@ -905,12 +968,16 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 					   pow(10, n)));
 }
 
+/***************************************************************************/
+
 static char *help_mirr = {
 	N_("@FUNCTION=MIRR\n"
 	   "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
 	   "@DESCRIPTION="
 	   "MIRR function returns the modified internal rate of return "
 	   "for a given periodic cash flow. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=NPV")
 };
@@ -953,6 +1020,8 @@ out:
 	return result;
 }
 
+/***************************************************************************/
+
 static char *help_tbilleq = {
 	N_("@FUNCTION=TBILLEQ\n"
 	   "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -966,6 +1035,8 @@ static char *help_tbilleq = {
 	   "over one year later than the @settlement, TBILLEQ returns "
 	   "NUM! error. "
 	   "If @discount is negative, TBILLEQ returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=TBILLPRICE,TBILLYIELD")
 };
@@ -990,6 +1061,8 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (res);
 }
 
+/***************************************************************************/
+
 static char *help_tbillprice = {
 	N_("@FUNCTION=TBILLPRICE\n"
 	   "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -1003,6 +1076,8 @@ static char *help_tbillprice = {
 	   "over one year later than the @settlement, TBILLPRICE returns "
 	   "NUM! error. "
 	   "If @discount is negative, TBILLPRICE returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=TBILLEQ,TBILLYIELD")
 };
@@ -1027,6 +1102,8 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (res);
 }
 
+/***************************************************************************/
+
 static char *help_tbillyield = {
 	N_("@FUNCTION=TBILLYIELD\n"
 	   "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -1040,6 +1117,8 @@ static char *help_tbillyield = {
 	   "over one year later than the @settlement, TBILLYIELD returns "
 	   "NUM! error. "
 	   "If @pr is negative, TBILLYIELD returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=TBILLEQ,TBILLPRICE")
 };
@@ -1068,6 +1147,8 @@ static char *help_rate = {
 	N_("@FUNCTION=RATE\n"
 	   "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
 	   "@DESCRIPTION=Calculates rate of an investment."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PV,FV")
 };
@@ -1168,6 +1249,8 @@ static char *help_pv = {
 	   "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
 	   "@DESCRIPTION=Calculates the present value of an investment."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=FV")
 };
 
@@ -1203,6 +1286,8 @@ static char *help_npv = {
 	   "peridic payments.  @rate is the periodic interest rate and "
 	   "@v1, @v2, ... are the periodic payments. If the schedule of the "
 	   "cash flows are not periodic use the XNPV function. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PV,XNPV")
 };
@@ -1256,6 +1341,8 @@ static char *help_xnpv = {
 	   "If @values and @dates contain unequal number of values, XNPV "
 	   "returns the #NUM error. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=NPV,PV")
 };
 
@@ -1302,6 +1389,8 @@ static char *help_fv = {
 	   "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
 	   "@DESCRIPTION=Calculates the future value of an investment."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=PV,PMT,PPMT")
 };
 
@@ -1329,6 +1418,8 @@ static char *help_pmt = {
 	N_("@FUNCTION=PMT\n"
 	   "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 	   "@DESCRIPTION=Calculates the present value of an investment."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
 };
@@ -1370,6 +1461,8 @@ static char *help_ipmt = {
 	   "PMT = Payment received on annuity\n"
 	   "PRINCIPA(per-1) = amount of the remaining principal from last "
 	   "period"
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
 };
@@ -1420,6 +1513,8 @@ static char *help_ppmt = {
 	   "PMT = Payment received on annuity\n"
 	   "IPMT(per) = amount of interest for period per"
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=IPMT,PV,FV")
 };
 
@@ -1460,6 +1555,8 @@ static char *help_nper = {
 	   "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 	   "@DESCRIPTION=Calculates number of periods of an investment."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
 };
 
@@ -1496,6 +1593,8 @@ static char *help_duration = {
 	   "cash flows e.g. -100 for a cash outflow and +100 for a cash "
 	   "inflow."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
 };
 
@@ -1525,6 +1624,8 @@ static char *help_fvschedule = {
 	   "@DESCRIPTION="
 	   "FVSCHEDULE returns the future value of given initial value @pv "
 	   "after applying a series of compound periodic interest rates. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PV,FV")
 };

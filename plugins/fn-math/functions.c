@@ -13,28 +13,6 @@
 #include "mathfunc.h"
 #include "collect.h"
 
-#if 0
-/* help template */
-static char *help_ = {
-	N_("@FUNCTION=NAME\n"
-	   "@SYNTAX=(b1, b2, ...)\n"
-
-	   "@DESCRIPTION"
-	   ""
-	   "\n"
-
-	   ""
-	   ""
-	   "\n"
-
-	   ""
-	   ""
-	   ""
-	   ""
-	   "@SEEALSO=")
-};
-
-#endif
 
 static int
 gcd (int a, int b)
@@ -152,6 +130,8 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
+/***************************************************************************/
+
 static char *help_gcd = {
 	N_("@FUNCTION=GCD\n"
 	   "@SYNTAX=GCD(number1,number2,...)\n"
@@ -161,6 +141,11 @@ static char *help_gcd = {
 	   "\n"
 	   "If any of the arguments is less than zero, GCD returns #NUM! "
 	   "error. "
+	   "If any of the arguments is non-integer, it is truncated. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "GCD(470,770) equals to 10.\n"
+	   "GCD(470,770,1495) equals to 5.\n"
 	   "\n"
 	   "@SEEALSO=LCM")
 };
@@ -176,7 +161,8 @@ range_gcd (const float_t *xs, int n, float_t *res)
 			if (xs[i] <= 0)
 				return 1;
 			else
-				gcd_so_far = gcd ((int)(floor (xs[i])), gcd_so_far);
+				gcd_so_far = gcd ((int)(floor (xs[i])),
+						  gcd_so_far);
 		}
 		*res = gcd_so_far;
 		return 0;
@@ -189,9 +175,12 @@ gnumeric_gcd (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_gcd,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_NUM);
 }
+
+/***************************************************************************/
 
 static char *help_lcm = {
 	N_("@FUNCTION=LCM\n"
@@ -204,6 +193,10 @@ static char *help_lcm = {
 	   "\n"
 	   "If any of the arguments is less than one, LCM returns #NUM! "
 	   "error. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "LCM(2,13) equlas to 26.\n"
+	   "LCM(4,7,5) equals to 140.\n"
 	   "\n"
 	   "@SEEALSO=GCD")
 };
@@ -244,15 +237,20 @@ gnumeric_lcm (FunctionEvalInfo *ei, GList *nodes)
 	return result;
 }
 
+/***************************************************************************/
+
 static char *help_abs = {
 	N_("@FUNCTION=ABS\n"
 	   "@SYNTAX=ABS(b1)\n"
 
-	   "@DESCRIPTION=Implements the Absolute Value function:  the result is "
+	   "@DESCRIPTION="
+	   "Implements the Absolute Value function:  the result is "
 	   "to drop the negative sign (if present).  This can be done for "
 	   "integers and floating point numbers."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
+	   "@EXAMPLES=\n"
+	   "ABS(7) equals 7.\n"
+	   "ABS(-3.14) equals 3.14.\n"
 	   "\n"
 	   "@SEEALSO=CEIL, FLOOR")
 };
@@ -263,18 +261,21 @@ gnumeric_abs (FunctionEvalInfo *ei, Value **args)
 	return value_new_float (fabs (value_get_as_float (args [0])));
 }
 
+/***************************************************************************/
+
 static char *help_acos = {
 	N_("@FUNCTION=ACOS\n"
 	   "@SYNTAX=ACOS(x)\n"
 
 	   "@DESCRIPTION="
 	   "The ACOS function calculates the arc cosine of @x; that "
-	   " is the value whose cosine is @x.  If @x  falls  outside  the "
-	   " range -1 to 1, ACOS fails and returns the error 'acos - domain error'. "
-	   " The value it returns is in radians. "
+	   "is the value whose cosine is @x.  If @x  falls  outside  the "
+	   "range -1 to 1, ACOS fails and returns the NUM! error. "
+	   "The value it returns is in radians. "
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
+	   "ACOS(0.1) equals 1.470629.\n"
+	   "ACOS(-0.1) equals 1.670964.\n"
 	   "\n"
 	   "@SEEALSO=COS, SIN, DEGREES, RADIANS")
 };
@@ -286,10 +287,12 @@ gnumeric_acos (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t < -1.0) || (t > 1.0))
-		return value_new_error (&ei->pos, _("acos - domain error"));
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (acos (t));
 }
+
+/***************************************************************************/
 
 static char *help_acosh = {
 	N_("@FUNCTION=ACOSH\n"
@@ -298,11 +301,11 @@ static char *help_acosh = {
 	   "@DESCRIPTION="
 	   "The ACOSH  function  calculates  the inverse hyperbolic "
 	   "cosine of @x; that is the value whose hyperbolic cosine is "
-	   "@x. If @x is less than 1.0, acosh() returns the error "
-	   " 'acosh - domain error'"
+	   "@x. If @x is less than 1.0, acosh() returns the NUM! error. "
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
+	   "ACOSH(2) equals 1.31696.\n"
+	   "ACOSH(5.3) equals 2.35183.\n"
 	   "\n"
 	   "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS ")
 };
@@ -314,10 +317,12 @@ gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if (t < 1.0)
-		return value_new_error (&ei->pos, _("acosh - domain error"));
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (acosh (t));
 }
+
+/***************************************************************************/
 
 static char *help_asin = {
 	N_("@FUNCTION=ASIN\n"
@@ -326,10 +331,11 @@ static char *help_asin = {
 	   "@DESCRIPTION="
 	   "The ASIN function calculates the arc sine of @x; that is "
 	   "the value whose sine is @x. If @x falls outside  the  range "
-	   "-1 to 1, ASIN fails and returns the error 'asin - domain error'. "
+	   "-1 to 1, ASIN fails and returns the NUM! error. "
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
+	   "ASIN(0.5) equals 0.523599.\n"
+	   "ASIN(1) equals 1.570797.\n"
 	   "\n"
 	   "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS")
 };
@@ -341,10 +347,12 @@ gnumeric_asin (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t < -1.0) || (t > 1.0))
-		return value_new_error (&ei->pos, _("asin - domain error"));
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (asin (t));
 }
+
+/***************************************************************************/
 
 static char *help_asinh = {
 	N_("@FUNCTION=ASINH\n"
@@ -354,9 +362,7 @@ static char *help_asinh = {
 	   "The ASINH  function  calculates  the inverse hyperbolic "
 	   " sine of @x; that is the value whose hyperbolic sine is @x. "
 	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS")
 };
@@ -367,6 +373,8 @@ gnumeric_asinh (FunctionEvalInfo *ei, Value **args)
 	return value_new_float (asinh (value_get_as_float (args [0])));
 }
 
+/***************************************************************************/
+
 static char *help_atan = {
 	N_("@FUNCTION=ATAN\n"
 	   "@SYNTAX=ATAN(x)\n"
@@ -376,11 +384,8 @@ static char *help_atan = {
 	   " is the value whose tangent is @x."
 	   "Return value is in radians."
 	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
 	   "\n"
-
 	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
 };
 
@@ -389,6 +394,8 @@ gnumeric_atan (FunctionEvalInfo *ei, Value **args)
 {
 	return value_new_float (atan (value_get_as_float (args [0])));
 }
+
+/***************************************************************************/
 
 static char *help_atanh = {
 	N_("@FUNCTION=ATANH\n"
@@ -400,9 +407,7 @@ static char *help_atanh = {
 	   "is  @x.   If  the  absolute value of @x is greater than 1.0, "
 	   " ATANH returns an error of 'atanh: domain error'      "
 	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
 };
@@ -414,10 +419,12 @@ gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t <= -1.0) || (t >= 1.0))
-		return value_new_error (&ei->pos, _("atanh: domain error"));
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (atanh (value_get_as_float (args [0])));
 }
+
+/***************************************************************************/
 
 static char *help_atan2 = {
 	N_("@FUNCTION=ATAN2\n"
@@ -430,8 +437,7 @@ static char *help_atan2 = {
 	   "are used to determine the quadrant of the result. "
 	   "The result is in radians."
 	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
 };
@@ -443,16 +449,17 @@ gnumeric_atan2 (FunctionEvalInfo *ei, Value **args)
 				       value_get_as_float (args [0])));
 }
 
+/***************************************************************************/
+
 static char *help_ceil = {
 	N_("@FUNCTION=CEIL\n"
 	   "@SYNTAX=CEIL(x)\n"
 
 	   "@DESCRIPTION=The CEIL function rounds @x up to the next nearest "
 	   "integer.\n"
-
-	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=ABS, FLOOR, INT")
 };
 
@@ -462,6 +469,8 @@ gnumeric_ceil (FunctionEvalInfo *ei, Value **args)
 	return value_new_float (ceil (value_get_as_float (args [0])));
 }
 
+/***************************************************************************/
+
 static char *help_countif = {
 	N_("@FUNCTION=COUNTIF\n"
 	   "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -469,9 +478,9 @@ static char *help_countif = {
 	   "@DESCRIPTION="
 	   "COUNTIF function counts the number of cells in the given @range "
 	   "that meet the given @criteria. "
-
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=COUNT,SUMIF")
 };
 
@@ -531,6 +540,8 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	return value_new_int (items.num);
 }
 
+/***************************************************************************/
+
 static char *help_sumif = {
 	N_("@FUNCTION=SUMIF\n"
 	   "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -540,6 +551,8 @@ static char *help_sumif = {
 	   "the given @criteria.  If @actual_range is given, SUMIF sums "
 	   "the values in the @actual_range whose corresponding components "
 	   "in @range meet the given @criteria. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COUNTIF, SUM")
 };
@@ -629,7 +642,8 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	        items.actual_range = FALSE;
 
 	ret = sheet_cell_foreach_range (
-		eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+		eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos.sheet),
+		TRUE,
 		range->v.cell_range.cell_a.col,
 		range->v.cell_range.cell_a.row,
 		range->v.cell_range.cell_b.col,
@@ -675,6 +689,8 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sum);
 }
 
+/***************************************************************************/
+
 static char *help_ceiling = {
 	N_("@FUNCTION=CEILING\n"
 	   "@SYNTAX=CEILING(x,significance)\n"
@@ -686,7 +702,8 @@ static char *help_ceiling = {
 	   "If @x or @significance is non-numeric CEILING returns #VALUE! error. "
 	   "If @x and @significance have different signs CEILING returns #NUM! error. "
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=CEIL")
 };
 
@@ -708,6 +725,8 @@ gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (ceil (number / s) * s);
 }
 
+/***************************************************************************/
+
 static char *help_cos = {
 	N_("@FUNCTION=COS\n"
 	   "@SYNTAX=COS(x)\n"
@@ -716,8 +735,8 @@ static char *help_cos = {
 	   "The  COS  function  returns  the cosine of @x, where @x is "
            "given in radians.  "
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
 };
@@ -728,6 +747,8 @@ gnumeric_cos (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (cos (value_get_as_float (argv [0])));
 }
 
+/***************************************************************************/
+
 static char *help_cosh = {
 	N_("@FUNCTION=COSH\n"
 	   "@SYNTAX=COSH(x)\n"
@@ -737,8 +758,7 @@ static char *help_cosh = {
 	   " which is defined mathematically as (exp(@x) + exp(-@x)) / 2.   "
 	   " @x is in radians. "
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
 };
@@ -749,6 +769,8 @@ gnumeric_cosh (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (cosh (value_get_as_float (argv [0])));
 }
 
+/***************************************************************************/
+
 static char *help_degrees = {
 	N_("@FUNCTION=DEGREES\n"
 	   "@SYNTAX=DEGREES(x)\n"
@@ -757,10 +779,8 @@ static char *help_degrees = {
 	   "Computes the number of degrees equivalent to "
 	   "@x radians."
 	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
+	   "@EXAMPLES=\n"
 	   "\n"
-
 	   "@SEEALSO=RADIANS, PI")
 };
 
@@ -770,6 +790,8 @@ gnumeric_degrees (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float ((value_get_as_float (argv [0]) * 180.0) / M_PI);
 }
 
+/***************************************************************************/
+
 static char *help_exp = {
 	N_("@FUNCTION=EXP\n"
 	   "@SYNTAX=EXP(x)\n"
@@ -778,7 +800,7 @@ static char *help_exp = {
 	   "Computes the value of e (the base of natural logarithmns) raised "
 	   "to the power of @x. "
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOG, LOG2, LOG10")
 };
@@ -797,6 +819,8 @@ fact (int n)
 	return (n * fact (n - 1));
 }
 
+/***************************************************************************/
+
 static char *help_fact = {
 	N_("@FUNCTION=FACT\n"
 	   "@SYNTAX=FACT(x)\n"
@@ -804,8 +828,7 @@ static char *help_fact = {
 	   "@DESCRIPTION="
 	   "Computes the factorial of @x. ie, @x!"
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
-	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -834,6 +857,8 @@ gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 		return value_new_int (fact (x));
 }
 
+/***************************************************************************/
+
 static char *help_combin = {
 	N_("@FUNCTION=COMBIN\n"
 	   "@SYNTAX=COMBIN(n,k)\n"
@@ -844,6 +869,7 @@ static char *help_combin = {
 	   "Performing this function on a non-integer or a negative number "
            "returns an error. Also if @n is less than @k returns an error."
 	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -878,6 +904,8 @@ gnumeric_combin (FunctionEvalInfo *ei, Value **argv)
 	return value_new_error (&ei->pos, gnumeric_err_NUM);
 }
 
+/***************************************************************************/
+
 static char *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
 	   "@SYNTAX=FLOOR(x,significance)\n"
@@ -885,7 +913,7 @@ static char *help_floor = {
 	   "@DESCRIPTION=The FLOOR function rounds @x down to the next nearest "
 	   "multiple of @significance.  @significance defaults to 1."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=CEIL, ABS, INT")
 };
@@ -908,6 +936,8 @@ gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (floor (number / s) * s);
 }
 
+/***************************************************************************/
+
 static char *help_int = {
 	N_("@FUNCTION=INT\n"
 	   "@SYNTAX=INT(b1, b2, ...)\n"
@@ -918,8 +948,7 @@ static char *help_int = {
 	   "Equivalent to FLOOR(b1) for @b1 >= 0, and CEIL(b1) "
 	   "for @b1 < 0. "
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   ""
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=FLOOR, CEIL, ABS")
 };
@@ -935,6 +964,8 @@ gnumeric_int (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (floor (value_get_as_float (argv [0])));
 }
 
+/***************************************************************************/
+
 static char *help_log = {
 	N_("@FUNCTION=LOG\n"
 	   "@SYNTAX=LOG(x[,base])\n"
@@ -942,6 +973,8 @@ static char *help_log = {
 	   "@DESCRIPTION="
 	   "Computes the logarithm of @x in the given base @base.  If no @base is "
 	   "given LOG returns the logarithm in base 10. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LN, LOG2, LOG10")
 };
@@ -964,12 +997,16 @@ gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (log (t) / log (base));
 }
 
+/***************************************************************************/
+
 static char *help_ln = {
 	N_("@FUNCTION=LN\n"
 	   "@SYNTAX=LN(x)\n"
 
 	   "@DESCRIPTION="
 	   "LN returns the natural logarithm of @x. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG2, LOG10")
 };
@@ -987,6 +1024,8 @@ gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (log (t));
 }
 
+/***************************************************************************/
+
 static char *help_power = {
 	N_("@FUNCTION=POWER\n"
 	   "@SYNTAX=POWER(x,y)\n"
@@ -994,7 +1033,7 @@ static char *help_power = {
 	   "@DESCRIPTION="
 	   "Returns the value of @x raised to the power @y."
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=EXP")
 };
@@ -1014,6 +1053,8 @@ gnumeric_power (FunctionEvalInfo *ei, Value **argv)
 	return value_new_error (&ei->pos, gnumeric_err_VALUE);
 }
 
+/***************************************************************************/
+
 static char *help_log2 = {
 	N_("@FUNCTION=LOG2\n"
 	   "@SYNTAX=LOG2(x)\n"
@@ -1021,7 +1062,7 @@ static char *help_log2 = {
 	   "@DESCRIPTION="
 	   "Computes the base-2 logarithm  of @x. "
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error. "
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG10, LOG")
 };
@@ -1038,6 +1079,8 @@ gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (log (t) / M_LN2);
 }
 
+/***************************************************************************/
+
 static char *help_log10 = {
 	N_("@FUNCTION=LOG10\n"
 	   "@SYNTAX=LOG10(x)\n"
@@ -1045,8 +1088,7 @@ static char *help_log10 = {
 	   "@DESCRIPTION="
 	   "Computes the base-10 logarithm  of @x. "
 	   "\n"
-
-	   "Performing this function on a string or empty cell returns an error. "
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=EXP, LOG2, LOG")
 };
@@ -1063,6 +1105,8 @@ gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (log10 (t));
 }
 
+/***************************************************************************/
+
 static char *help_mod = {
 	N_("@FUNCTION=MOD\n"
 	   "@SYNTAX=MOD(number,divisor)\n"
@@ -1072,6 +1116,9 @@ static char *help_mod = {
 	   "Returns the remainder when @divisor is divided into @number."
 	   "\n"
 	   "Returns #DIV/0! if divisor is zero.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=INT,FLOOR,CEIL")
 };
 
@@ -1100,6 +1147,8 @@ gnumeric_mod (FunctionEvalInfo *ei, Value **argv)
 	}
 }
 
+/***************************************************************************/
+
 static char *help_radians = {
 	N_("@FUNCTION=RADIANS\n"
 	   "@SYNTAX=RADIANS(x)\n"
@@ -1108,10 +1157,8 @@ static char *help_radians = {
 	   "Computes the number of radians equivalent to  "
 	   "@x degrees. "
 	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
+	   "@EXAMPLES=\n"
 	   "\n"
-
 	   "@SEEALSO=PI,DEGREES")
 };
 
@@ -1121,6 +1168,8 @@ gnumeric_radians (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float ((value_get_as_float (argv [0]) * M_PI) / 180);
 }
 
+/***************************************************************************/
+
 static char *help_rand = {
 	N_("@FUNCTION=RAND\n"
 	   "@SYNTAX=RAND()\n"
@@ -1128,8 +1177,8 @@ static char *help_rand = {
 	   "@DESCRIPTION="
 	   "Returns a random number greater than or equal to 0 and less than 1."
 	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
-
 	   "@SEEALSO=")
 };
 
@@ -1139,6 +1188,8 @@ gnumeric_rand (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (random_01 ());
 }
 
+/***************************************************************************/
+
 static char *help_sin = {
 	N_("@FUNCTION=SIN\n"
 	   "@SYNTAX=SIN(x)\n"
@@ -1147,8 +1198,7 @@ static char *help_sin = {
 	   "The SIN function returns the sine of @x, where @x is given "
            "in radians."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
 };
@@ -1159,6 +1209,8 @@ gnumeric_sin (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sin (value_get_as_float (argv [0])));
 }
 
+/***************************************************************************/
+
 static char *help_sinh = {
 	N_("@FUNCTION=SINH\n"
 	   "@SYNTAX=SINH(x)\n"
@@ -1167,8 +1219,7 @@ static char *help_sinh = {
 	   "The SINH function returns the hyperbolic sine of @x, "
 	   "which is defined mathematically as (exp(@x) - exp(-@x)) / 2."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
 };
@@ -1179,6 +1230,8 @@ gnumeric_sinh (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sinh (value_get_as_float (argv [0])));
 }
 
+/***************************************************************************/
+
 static char *help_sqrt = {
 	N_("@FUNCTION=SQRT\n"
 	   "@SYNTAX=SQRT(x)\n"
@@ -1187,7 +1240,8 @@ static char *help_sqrt = {
 	   "The SQRT function returns the square root of @x."
 	   "\n"
 	   "If @x is negative returns #NUM!. "
-	   "This function only takes one argument."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=POW")
 };
@@ -1202,6 +1256,8 @@ gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sqrt(x));
 }
 
+/***************************************************************************/
+
 static char *help_sum = {
 	N_("@FUNCTION=SUM\n"
 	   "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1210,7 +1266,8 @@ static char *help_sum = {
 	   "Computes the sum of all the values and cells referenced in the "
 	   "argument list. "
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=AVERAGE, COUNT")
 };
 
@@ -1219,9 +1276,12 @@ gnumeric_sum (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_sum,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
+
+/***************************************************************************/
 
 static char *help_suma = {
 	N_("@FUNCTION=SUMA\n"
@@ -1235,7 +1295,8 @@ static char *help_suma = {
 	   "If the argument evaluates to TRUE, it is counted as one (1). "
 	   "Note that empty cells are not counted."
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=AVERAGE, SUM, COUNT")
 };
 
@@ -1244,9 +1305,12 @@ gnumeric_suma (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_sum,
-				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_VALUE);
 }
+
+/***************************************************************************/
 
 static char *help_sumsq = {
 	N_("@FUNCTION=SUMSQ\n"
@@ -1256,7 +1320,8 @@ static char *help_sumsq = {
 	   "SUMSQ returns the sum of the squares of all the values and "
 	   "cells referenced in the argument list. "
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=SUM, COUNT")
 };
 
@@ -1266,9 +1331,12 @@ gnumeric_sumsq (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_sumsq,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
+
+/***************************************************************************/
 
 static char *help_multinomial = {
 	N_("@FUNCTION=MULTINOMIAL\n"
@@ -1278,7 +1346,8 @@ static char *help_multinomial = {
 	   "MULTINOMIAL returns the ratio of the factorial of a sum of "
 	   "values to the product of factorials. "
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=SUM")
 };
 
@@ -1325,6 +1394,8 @@ gnumeric_multinomial (FunctionEvalInfo *ei, GList *nodes)
 	return value_new_float (fact(p.sum) / p.product);
 }
 
+/***************************************************************************/
+
 static char *help_product = {
 	N_("@FUNCTION=PRODUCT\n"
 	   "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -1333,7 +1404,8 @@ static char *help_product = {
 	   "PRODUCT returns the product of all the values and cells "
 	   "referenced in the argument list. "
 	   "\n"
-
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=SUM, COUNT")
 };
 
@@ -1342,9 +1414,12 @@ gnumeric_product (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_product,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
+
+/***************************************************************************/
 
 static char *help_tan = {
 	N_("@FUNCTION=TAN\n"
@@ -1354,8 +1429,7 @@ static char *help_tan = {
 	   "The TAN function  returns the tangent of @x, where @x is "
 	   "given in radians."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
 };
@@ -1366,6 +1440,8 @@ gnumeric_tan (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (tan (value_get_as_float (argv [0])));
 }
 
+/***************************************************************************/
+
 static char *help_tanh = {
 	N_("@FUNCTION=TANH\n"
 	   "@SYNTAX=TANH(x)\n"
@@ -1374,8 +1450,7 @@ static char *help_tanh = {
 	   " The TANH function returns the hyperbolic tangent of @x, "
 	   " which is defined mathematically as sinh(@x) / cosh(@x). "
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
 };
@@ -1386,6 +1461,8 @@ gnumeric_tanh (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (tanh (value_get_as_float (argv [0])));
 }
 
+/***************************************************************************/
+
 static char *help_pi = {
 	N_("@FUNCTION=PI\n"
 	   "@SYNTAX=PI()\n"
@@ -1393,8 +1470,9 @@ static char *help_pi = {
 	   "@DESCRIPTION=The PI functions returns the value of Pi "
 	   "as defined by M_PI."
 	   "\n"
-
 	   "This function is called with no arguments."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -1405,6 +1483,8 @@ gnumeric_pi (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (M_PI);
 }
 
+/***************************************************************************/
+
 static char *help_trunc = {
 	N_("@FUNCTION=TRUNC\n"
 	   "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1413,7 +1493,7 @@ static char *help_trunc = {
 	   "truncated to the number of digits specified.  If @digits is omitted "
 	   "then @digits defaults to zero."
 	   "\n"
-
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -1437,6 +1517,7 @@ gnumeric_trunc (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (floor (number * p10) / p10);
 }
 
+/***************************************************************************/
 
 static char *help_even = {
 	N_("@FUNCTION=EVEN\n"
@@ -1444,6 +1525,8 @@ static char *help_even = {
 
 	   "@DESCRIPTION=EVEN function returns the number rounded up to the "
 	   "nearest even integer. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ODD")
 };
@@ -1469,12 +1552,16 @@ gnumeric_even (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_int ((int) (sign * (ceiled + 1)));
 }
 
+/***************************************************************************/
+
 static char *help_odd = {
 	N_("@FUNCTION=ODD\n"
 	   "@SYNTAX=ODD(number)\n"
 
 	   "@DESCRIPTION=ODD function returns the @number rounded up to the "
 	   "nearest odd integer. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=EVEN")
 };
@@ -1500,6 +1587,8 @@ gnumeric_odd (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_int ((int) (sign * (ceiled + 1)));
 }
 
+/***************************************************************************/
+
 static char *help_factdouble = {
 	N_("@FUNCTION=FACTDOUBLE\n"
 	   "@SYNTAX=FACTDOUBLE(number)\n"
@@ -1509,6 +1598,8 @@ static char *help_factdouble = {
 	   "\n"
 	   "If @number is not an integer, it is truncated. "
 	   "If @number is negative FACTDOUBLE returns #NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=FACT")
 };
@@ -1531,12 +1622,16 @@ gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (product);
 }
 
+/***************************************************************************/
+
 static char *help_quotient = {
 	N_("@FUNCTION=QUOTIENT\n"
 	   "@SYNTAX=QUOTIENT(num,den)\n"
 
 	   "@DESCRIPTION=QUOTIENT function returns the integer portion "
 	   "of a division. @num is the divided and @den is the divisor. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MOD")
 };
@@ -1552,12 +1647,16 @@ gnumeric_quotient (FunctionEvalInfo *ei, Value **argv)
 	return value_new_int ((int) (num / den));
 }
 
+/***************************************************************************/
+
 static char *help_sign = {
 	N_("@FUNCTION=SIGN\n"
 	   "@SYNTAX=SIGN(number)\n"
 
 	   "@DESCRIPTION=SIGN function returns 1 if the @number is positive, "
 	   "zero if the @number is 0, and -1 if the @number is negative. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -1577,12 +1676,16 @@ gnumeric_sign (FunctionEvalInfo *ei, Value **argv)
 	      return value_new_int (-1);
 }
 
+/***************************************************************************/
+
 static char *help_sqrtpi = {
 	N_("@FUNCTION=SQRTPI\n"
 	   "@SYNTAX=SQRTPI(number)\n"
 
 	   "@DESCRIPTION=SQRTPI function returns the square root of a @number "
 	   "multiplied by pi. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PI")
 };
@@ -1599,6 +1702,8 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sqrt (M_PI * n));
 }
 
+/***************************************************************************/
+
 static char *help_randbetween = {
 	N_("@FUNCTION=RANDBETWEEN\n"
 	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -1607,6 +1712,9 @@ static char *help_randbetween = {
 	   "between @bottom and @top.\n"
 	   "If @bottom or @top is non-integer, they are truncated. "
 	   "If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=RAND")
 };
 
@@ -1625,6 +1733,8 @@ gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 	return value_new_int ((int)r);
 }
 
+/***************************************************************************/
+
 static char *help_rounddown = {
 	N_("@FUNCTION=ROUNDDOWN\n"
 	   "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -1640,6 +1750,8 @@ static char *help_rounddown = {
 	   "nearest integer. "
 	   "If @digits is less than zero, @number is rounded down to the left "
 	   "of the decimal point. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ROUNDUP")
 };
@@ -1663,6 +1775,8 @@ gnumeric_rounddown (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (floor (number * p10) / p10);
 }
 
+/***************************************************************************/
+
 static char *help_round = {
 	N_("@FUNCTION=ROUND\n"
 	   "@SYNTAX=ROUND(number[,digits])\n"
@@ -1678,6 +1792,8 @@ static char *help_round = {
 	   "nearest integer. "
 	   "If @digits is less than zero, @number is rounded to the left "
 	   "of the decimal point. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN,ROUNDUP")
 };
@@ -1698,6 +1814,8 @@ gnumeric_round (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (rint (number * p10) / p10);
 }
 
+/***************************************************************************/
+
 static char *help_roundup = {
 	N_("@FUNCTION=ROUNDUP\n"
 	   "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -1713,6 +1831,8 @@ static char *help_roundup = {
 	   "nearest integer. "
 	   "If @digits is less than zero, @number is rounded up to the left "
 	   "of the decimal point. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN")
 };
@@ -1736,6 +1856,8 @@ gnumeric_roundup (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (ceil (number * p10) / p10);
 }
 
+/***************************************************************************/
+
 static char *help_mround = {
 	N_("@FUNCTION=MROUND\n"
 	   "@SYNTAX=MROUND(number,multiple)\n"
@@ -1748,6 +1870,8 @@ static char *help_mround = {
 	   "\n"
 	   "If @number and @multiple have different sign, MROUND "
 	   "returns #NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP")
 };
@@ -1780,6 +1904,8 @@ gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 		div + ((mod + accuracy_limit >= multiple/2) ? multiple : 0)));
 }
 
+/***************************************************************************/
+
 static char *help_roman = {
 	N_("@FUNCTION=ROMAN\n"
 	   "@SYNTAX=ROMAN(number[,type])\n"
@@ -1797,6 +1923,8 @@ static char *help_roman = {
 	   "\n"
 	   "If @number is negative or greater than 3999, ROMAN returns "
 	   "#VALUE! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -2039,6 +2167,8 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	return value_new_string (buf);
 }
 
+/***************************************************************************/
+
 static char *help_sumx2my2 = {
 	N_("@FUNCTION=SUMX2MY2\n"
 	   "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -2054,6 +2184,8 @@ static char *help_sumx2my2 = {
            "\n"
 	   "If @array1 and @array2 have different number of data points, "
 	   "SUMX2MY2 returns #N/A! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=SUMSQ")
 };
@@ -2127,6 +2259,8 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sum);
 }
 
+/***************************************************************************/
+
 static char *help_sumx2py2 = {
 	N_("@FUNCTION=SUMX2PY2\n"
 	   "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -2142,6 +2276,8 @@ static char *help_sumx2py2 = {
            "\n"
 	   "If @array1 and @array2 have different number of data points, "
 	   "SUMX2PY2 returns #N/A! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=SUMSQ")
 };
@@ -2230,6 +2366,8 @@ static char *help_sumxmy2 = {
 	   "If @array1 and @array2 have different number of data points, "
 	   "SUMXMY2 returns #N/A! error. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=SUMSQ")
 };
 
@@ -2300,6 +2438,8 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (sum);
 }
 
+/***************************************************************************/
+
 static char *help_subtotal = {
 	N_("@FUNCTION=SUBTOTAL\n"
 	   "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -2320,6 +2460,8 @@ static char *help_subtotal = {
 	   "9   SUM\n"
 	   "10   VAR\n"
 	   "11   VARP\n"
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=COUNT,SUM")
 };
@@ -2381,6 +2523,8 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GList *expr_node_list)
 	return NULL;
 }
 
+/***************************************************************************/
+
 static char *help_seriessum = {
 	N_("@FUNCTION=SERIESSUM\n"
 	   "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -2392,9 +2536,10 @@ static char *help_seriessum = {
 	   "@coefficients is the coefficents by which each successive power "
 	   "of @x is multiplied. "
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=COUNT,SUM")
 };
-
 
 typedef struct {
         float_t sum;
@@ -2497,6 +2642,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	return value_new_float (p.sum);
 }
 
+/***************************************************************************/
 
 static char *help_transpose = {
 	N_("@FUNCTION=TRANSPOSE\n"
@@ -2504,7 +2650,10 @@ static char *help_transpose = {
 
 	   "@DESCRIPTION="
 	   "TRANSPOSE function returns the transpose of the input "
-	   "@matrix.\n"
+	   "@matrix."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=MMULT")
 };
 
@@ -2540,6 +2689,7 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 	return res;
 }
 
+/***************************************************************************/
 
 static char *help_minverse = {
 	N_("@FUNCTION=MINVERSE\n"
@@ -2551,6 +2701,8 @@ static char *help_minverse = {
 	   "If the matrix cannot be inverted, MINVERSE returns #NUM! error. "
 	   "If the matrix does not contain equal number of columns and "
 	   "rows, MINVERSE returns #VALUE! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MMULT, MDETERM")
 };
@@ -2722,6 +2874,8 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	return res;
 }
 
+/***************************************************************************/
+
 static char *help_mmult = {
 	N_("@FUNCTION=MMULT\n"
 	   "@SYNTAX=MMULT(array1,array2)\n"
@@ -2730,6 +2884,8 @@ static char *help_mmult = {
 	   "MMULT function returns the matrix product of two arrays. The "
 	   "result is an array with the same number of rows as @array1 and the "
 	   "same number of columns as @array2."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=TRANSPOSE,MINVERSE")
 };
@@ -2783,6 +2939,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	return res;
 }
 
+/***************************************************************************/
 
 static char *help_mdeterm = {
 	N_("@FUNCTION=MDETERM\n"
@@ -2793,6 +2950,8 @@ static char *help_mdeterm = {
 	   "\n"
 	   "If the matrix does not contain equal number of columns and "
 	   "rows, MDETERM returns #VALUE! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=MMULT, MINVERSE")
 };
@@ -2901,6 +3060,8 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float(res);
 }
 
+/***************************************************************************/
+
 static char *help_sumproduct = {
 	N_("@FUNCTION=SUMPRODUCT\n"
 	   "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -2912,6 +3073,8 @@ static char *help_sumproduct = {
 	   "\n"
 	   "If array or range arguments do not have the same dimentions, "
 	   "SUMPRODUCT returns #VALUE! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=SUM,PRODUCT")
 };
@@ -2997,106 +3160,167 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 	return value_new_float (sum);
 }
 
+/***************************************************************************/
+
 void math_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Maths / Trig."));
 
-	function_add_args  (cat, "abs",     "f",    "number",    &help_abs,   gnumeric_abs);
-	function_add_args  (cat, "acos",    "f",    "number",    &help_acos,  gnumeric_acos);
-	function_add_args  (cat, "acosh",   "f",    "number",    &help_acosh, gnumeric_acosh);
-	function_add_args  (cat, "asin",    "f",    "number",    &help_asin,  gnumeric_asin);
-	function_add_args  (cat, "asinh",   "f",    "number",    &help_asinh, gnumeric_asinh);
-	function_add_args  (cat, "atan",    "f",    "number",    &help_atan,  gnumeric_atan);
-	function_add_args  (cat, "atanh",   "f",    "number",    &help_atanh, gnumeric_atanh);
-	function_add_args  (cat, "atan2",   "ff",   "xnum,ynum", &help_atan2, gnumeric_atan2);
-	function_add_args  (cat, "cos",     "f",    "number",    &help_cos,     gnumeric_cos);
-	function_add_args  (cat, "cosh",    "f",    "number",    &help_cosh,    gnumeric_cosh);
-	function_add_args  (cat, "countif", "r?",   "range,criteria", &help_countif,
-			    gnumeric_countif);
-	function_add_args  (cat, "ceil",    "f",    "number",    &help_ceil,    gnumeric_ceil);
-	function_add_args  (cat, "ceiling", "ff",   "number,significance",    &help_ceiling,
-			    gnumeric_ceiling);
-	function_add_args  (cat, "degrees", "f",    "number",    &help_degrees,
-			    gnumeric_degrees);
-	function_add_args  (cat, "even",    "f",    "number",    &help_even,    gnumeric_even);
-	function_add_args  (cat, "exp",     "f",    "number",    &help_exp,     gnumeric_exp);
-	function_add_args  (cat, "fact",    "f",    "number",    &help_fact,    gnumeric_fact);
-	function_add_args  (cat, "factdouble", "f", "number",    &help_factdouble,
-			    gnumeric_factdouble);
-	function_add_args  (cat, "combin",  "ff",   "n,k",       &help_combin,
-			    gnumeric_combin);
-	function_add_args  (cat, "floor",   "f|f",  "number",    &help_floor,
-			    gnumeric_floor);
-	function_add_nodes (cat, "gcd",     "ff",   "number1,number2", &help_gcd,
-			    gnumeric_gcd);
-	function_add_args  (cat, "int",     "f",    "number",    &help_int,      gnumeric_int);
-	function_add_nodes (cat, "lcm",     0,      "",          &help_lcm,      gnumeric_lcm);
-	function_add_args  (cat, "ln",      "f",    "number",    &help_ln,       gnumeric_ln);
-	function_add_args  (cat, "log",     "f|f",  "number[,base]", &help_log,  gnumeric_log);
-	function_add_args  (cat, "log2",    "f",    "number",    &help_log2,     gnumeric_log2);
-	function_add_args  (cat, "log10",   "f",    "number",    &help_log10,
-			    gnumeric_log10);
-	function_add_args  (cat, "mod",     "ff",   "num,denom", &help_mod,
-			    gnumeric_mod);
-	function_add_args  (cat, "mround",  "ff", "number,multiple", &help_mround,
-			    gnumeric_mround);
-	function_add_nodes (cat, "multinomial", 0,  "",          &help_multinomial,
-			    gnumeric_multinomial);
-	function_add_args  (cat, "odd" ,    "f",    "number",    &help_odd,     gnumeric_odd);
-	function_add_args  (cat, "power",   "ff",   "x,y",       &help_power,
-			    gnumeric_power);
-	function_add_nodes (cat, "product", 0,      "number",    &help_product,
-			    gnumeric_product);
-	function_add_args  (cat, "quotient" , "ff",  "num,den",  &help_quotient,
-			    gnumeric_quotient);
-	function_add_args  (cat, "radians", "f",    "number",    &help_radians,
+	function_add_args  (cat, "abs",     "f",
+			    "number",    &help_abs,      gnumeric_abs);
+	function_add_args  (cat, "acos",    "f",
+			    "number",    &help_acos,     gnumeric_acos);
+	function_add_args  (cat, "acosh",   "f",
+			    "number",    &help_acosh,    gnumeric_acosh);
+	function_add_args  (cat, "asin",    "f",
+			    "number",    &help_asin,     gnumeric_asin);
+	function_add_args  (cat, "asinh",   "f",
+			    "number",    &help_asinh,    gnumeric_asinh);
+	function_add_args  (cat, "atan",    "f",
+			    "number",    &help_atan,     gnumeric_atan);
+	function_add_args  (cat, "atanh",   "f",
+			    "number",    &help_atanh,    gnumeric_atanh);
+	function_add_args  (cat, "atan2",   "ff",
+			    "xnum,ynum", &help_atan2,    gnumeric_atan2);
+	function_add_args  (cat, "cos",     "f",
+			    "number",    &help_cos,      gnumeric_cos);
+	function_add_args  (cat, "cosh",    "f",
+			    "number",    &help_cosh,     gnumeric_cosh);
+	function_add_args  (cat, "countif", "r?",
+			    "range,criteria",
+			    &help_countif,     gnumeric_countif);
+	function_add_args  (cat, "ceil",    "f",
+			    "number",    &help_ceil,     gnumeric_ceil);
+	function_add_args  (cat, "ceiling", "ff",
+			    "number,significance",
+			    &help_ceiling,     gnumeric_ceiling);
+	function_add_args  (cat, "degrees", "f",
+			    "number",    &help_degrees,  gnumeric_degrees);
+	function_add_args  (cat, "even",    "f",
+			    "number",    &help_even,     gnumeric_even);
+	function_add_args  (cat, "exp",     "f",
+			    "number",    &help_exp,      gnumeric_exp);
+	function_add_args  (cat, "fact",    "f",
+			    "number",    &help_fact,     gnumeric_fact);
+	function_add_args  (cat, "factdouble", "f",
+			    "number",
+			    &help_factdouble,  gnumeric_factdouble);
+	function_add_args  (cat, "combin",  "ff",
+			    "n,k",       &help_combin,   gnumeric_combin);
+	function_add_args  (cat, "floor",   "f|f",
+			    "number",    &help_floor,    gnumeric_floor);
+	function_add_nodes (cat, "gcd",     "ff",
+			    "number1,number2",
+			    &help_gcd,         gnumeric_gcd);
+	function_add_args  (cat, "int",     "f",
+			    "number",    &help_int,      gnumeric_int);
+	function_add_nodes (cat, "lcm",     0,
+			    "",          &help_lcm,      gnumeric_lcm);
+	function_add_args  (cat, "ln",      "f",
+			    "number",    &help_ln,       gnumeric_ln);
+	function_add_args  (cat, "log",     "f|f",
+			    "number[,base]",
+			    &help_log,         gnumeric_log);
+	function_add_args  (cat, "log2",    "f",
+			    "number",    &help_log2,     gnumeric_log2);
+	function_add_args  (cat, "log10",   "f",
+			    "number",    &help_log10,    gnumeric_log10);
+	function_add_args  (cat, "mod",     "ff",
+			    "num,denom", &help_mod,      gnumeric_mod);
+	function_add_args  (cat, "mround",  "ff",
+			    "number,multiple",
+			    &help_mround,      gnumeric_mround);
+	function_add_nodes (cat, "multinomial", 0,
+			    "",          
+			    &help_multinomial, gnumeric_multinomial);
+	function_add_args  (cat, "odd" ,    "f",
+			    "number",    &help_odd,      gnumeric_odd);
+	function_add_args  (cat, "power",   "ff",
+			    "x,y",       &help_power,    gnumeric_power);
+	function_add_nodes (cat, "product", 0,
+			    "number",    &help_product,  gnumeric_product);
+	function_add_args  (cat, "quotient" , "ff",
+			    "num,den",   &help_quotient, gnumeric_quotient);
+	function_add_args  (cat, "radians", "f",
+			    "number",    &help_radians,
 			    gnumeric_radians);
-	function_add_args  (cat, "rand",    "",     "",          &help_rand,    gnumeric_rand);
-	function_add_args  (cat, "randbetween", "ff", "bottom,top", &help_randbetween,
-			    gnumeric_randbetween);
-	function_add_args  (cat, "roman",      "f|f", "number[,type]", &help_roman,
-			    gnumeric_roman);
-	function_add_args  (cat, "round",      "f|f", "number[,digits]", &help_round,
-			    gnumeric_round);
-	function_add_args  (cat, "rounddown",  "f|f", "number,digits", &help_rounddown,
-			    gnumeric_rounddown);
-	function_add_args  (cat, "roundup",    "f|f", "number,digits", &help_roundup,
-			    gnumeric_roundup);
-	function_add_nodes (cat, "seriessum", 0,    "x,n,m,coefficients",   &help_seriessum,
-			    gnumeric_seriessum);
-	function_add_args  (cat, "sign",    "f",    "number",    &help_sign,    gnumeric_sign);
-	function_add_args  (cat, "sin",     "f",    "number",    &help_sin,     gnumeric_sin);
-	function_add_args  (cat, "sinh",    "f",    "number",    &help_sinh,    gnumeric_sinh);
-	function_add_args  (cat, "sqrt",    "f",    "number",    &help_sqrt,    gnumeric_sqrt);
-	function_add_args  (cat, "sqrtpi",  "f",    "number",    &help_sqrtpi,  gnumeric_sqrtpi);
-	function_add_nodes (cat, "subtotal", 0,     "function_nbr,ref1,ref2,...",  &help_subtotal,
-			    gnumeric_subtotal);
-	function_add_nodes (cat, "sum",     0,      "number1,number2,...",    &help_sum,
-			    gnumeric_sum);
-	function_add_nodes (cat, "suma",    0,      "number1,number2,...",    &help_suma,
-			    gnumeric_suma);
-	function_add_args  (cat, "sumif",   "r?|r", "range,criteria[,actual_range]", &help_sumif, gnumeric_sumif);
-	function_add_nodes (cat, "sumproduct",   0, "range1,range2,...",
-			    &help_sumproduct, gnumeric_sumproduct);
-	function_add_nodes (cat, "sumsq",   0,      "number",    &help_sumsq,
-			    gnumeric_sumsq);
-	function_add_args  (cat, "sumx2my2", "AA", "array1,array2", &help_sumx2my2, gnumeric_sumx2my2);
-	function_add_args  (cat, "sumx2py2", "AA", "array1,array2", &help_sumx2py2, gnumeric_sumx2py2);
-	function_add_args  (cat, "sumxmy2",  "AA", "array1,array2", &help_sumxmy2,  gnumeric_sumxmy2);
-	function_add_args  (cat, "tan",     "f",    "number",    &help_tan,     gnumeric_tan);
-	function_add_args  (cat, "tanh",    "f",    "number",    &help_tanh,    gnumeric_tanh);
-	function_add_args  (cat, "trunc",   "f|f",  "number,digits",    &help_trunc,   gnumeric_trunc);
-	function_add_args  (cat, "pi",      "",     "",          &help_pi,      gnumeric_pi);
-	function_add_args  (cat, "mmult",   "AA",   "array1,array2",
-
-			    &help_mmult, gnumeric_mmult);
-	function_add_args  (cat, "transpose","A",   "array",
-			    &help_transpose, gnumeric_transpose);
+	function_add_args  (cat, "rand",    "",
+			    "",          &help_rand,     gnumeric_rand);
+	function_add_args  (cat, "randbetween", "ff",
+			    "bottom,top", 
+			    &help_randbetween, gnumeric_randbetween);
+	function_add_args  (cat, "roman",      "f|f",
+			    "number[,type]",
+			    &help_roman,       gnumeric_roman);
+	function_add_args  (cat, "round",      "f|f",
+			    "number[,digits]",
+			    &help_round,       gnumeric_round);
+	function_add_args  (cat, "rounddown",  "f|f",
+			    "number,digits",
+			    &help_rounddown,   gnumeric_rounddown);
+	function_add_args  (cat, "roundup",    "f|f",
+			    "number,digits",
+			    &help_roundup,     gnumeric_roundup);
+	function_add_nodes (cat, "seriessum", 0,
+			    "x,n,m,coefficients",
+			    &help_seriessum,   gnumeric_seriessum);
+	function_add_args  (cat, "sign",    "f",
+			    "number",    &help_sign,     gnumeric_sign);
+	function_add_args  (cat, "sin",     "f",
+			    "number",    &help_sin,      gnumeric_sin);
+	function_add_args  (cat, "sinh",    "f",
+			    "number",    &help_sinh,     gnumeric_sinh);
+	function_add_args  (cat, "sqrt",    "f",
+			    "number",    &help_sqrt,     gnumeric_sqrt);
+	function_add_args  (cat, "sqrtpi",  "f",
+			    "number",    &help_sqrtpi,   gnumeric_sqrtpi);
+	function_add_nodes (cat, "subtotal", 0,
+			    "function_nbr,ref1,ref2,...",
+			    &help_subtotal,    gnumeric_subtotal);
+	function_add_nodes (cat, "sum",     0,
+			    "number1,number2,...",
+			    &help_sum,	       gnumeric_sum);
+	function_add_nodes (cat, "suma",    0,
+			    "number1,number2,...",
+			    &help_suma,	       gnumeric_suma);
+	function_add_args  (cat, "sumif",   "r?|r",
+			    "range,criteria[,actual_range]",
+			    &help_sumif,       gnumeric_sumif);
+	function_add_nodes (cat, "sumproduct",   0,
+			    "range1,range2,...",
+			    &help_sumproduct,  gnumeric_sumproduct);
+	function_add_nodes (cat, "sumsq",   0,
+			    "number",    &help_sumsq,    gnumeric_sumsq);
+	function_add_args  (cat, "sumx2my2", "AA",
+			    "array1,array2",
+			    &help_sumx2my2,    gnumeric_sumx2my2);
+	function_add_args  (cat, "sumx2py2", "AA",
+			    "array1,array2",
+			    &help_sumx2py2,    gnumeric_sumx2py2);
+	function_add_args  (cat, "sumxmy2",  "AA",
+			    "array1,array2",
+			    &help_sumxmy2,     gnumeric_sumxmy2);
+	function_add_args  (cat, "tan",     "f",
+			    "number",    &help_tan,      gnumeric_tan);
+	function_add_args  (cat, "tanh",    "f",
+			    "number",    &help_tanh,     gnumeric_tanh);
+	function_add_args  (cat, "trunc",   "f|f",
+			    "number,digits",
+			    &help_trunc,       gnumeric_trunc);
+	function_add_args  (cat, "pi",      "",
+			    "",          &help_pi,       gnumeric_pi);
+	function_add_args  (cat, "mmult",   "AA",
+			    "array1,array2",
+			    &help_mmult,       gnumeric_mmult);
+	function_add_args  (cat, "transpose","A",
+			    "array",
+			    &help_transpose,   gnumeric_transpose);
 	function_add_args  (cat, "minverse","A",
-			    "array", &help_minverse, gnumeric_minverse);
+			    "array",
+			    &help_minverse,    gnumeric_minverse);
 	function_add_args  (cat, "mdeterm", "A",
 			    "array[,matrix_type[,bandsize]]",
-			    &help_mdeterm, gnumeric_mdeterm);
+			    &help_mdeterm,     gnumeric_mdeterm);
 #if 0
 	function_add_args  (cat, "logmdeterm", "A|si",
 			    "array[,matrix_type[,bandsize]]",

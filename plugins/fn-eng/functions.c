@@ -129,6 +129,8 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	return value_new_string (buffer);
 }
 
+/***************************************************************************/
+
 static char *help_bin2dec = {
 	N_("@FUNCTION=BIN2DEC\n"
 	   "@SYNTAX=BIN2DEC(x)\n"
@@ -137,6 +139,7 @@ static char *help_bin2dec = {
 	   "The BIN2DEC function converts a binary number "
 	   "in string or number to its decimal equivalent."
 	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX")
 };
@@ -146,6 +149,8 @@ gnumeric_bin2dec (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 1, 2, 10);
 }
+
+/***************************************************************************/
 
 static char *help_bin2oct = {
 	N_("@FUNCTION=BIN2OCT\n"
@@ -158,6 +163,8 @@ static char *help_bin2oct = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX")
 };
 
@@ -166,6 +173,8 @@ gnumeric_bin2oct (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 2, 2, 8);
 }
+
+/***************************************************************************/
 
 static char *help_bin2hex = {
 	N_("@FUNCTION=BIN2HEX\n"
@@ -178,6 +187,8 @@ static char *help_bin2hex = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC")
 };
 
@@ -186,6 +197,8 @@ gnumeric_bin2hex (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 2, 2, 16);
 }
+
+/***************************************************************************/
 
 static char *help_dec2bin = {
 	N_("@FUNCTION=DEC2BIN\n"
@@ -198,6 +211,8 @@ static char *help_dec2bin = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX")
 };
 
@@ -206,6 +221,8 @@ gnumeric_dec2bin (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 2, 10, 2);
 }
+
+/***************************************************************************/
 
 static char *help_dec2oct = {
 	N_("@FUNCTION=DEC2OCT\n"
@@ -218,6 +235,8 @@ static char *help_dec2oct = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX")
 };
 
@@ -226,6 +245,8 @@ gnumeric_dec2oct (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 2, 10, 8);
 }
+
+/***************************************************************************/
 
 static char *help_dec2hex = {
 	N_("@FUNCTION=DEC2HEX\n"
@@ -238,6 +259,8 @@ static char *help_dec2hex = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT")
 };
 
@@ -247,6 +270,8 @@ gnumeric_dec2hex (FunctionEvalInfo *ei, Value **argv)
 	return val_to_base (ei, argv, 2, 10, 16);
 }
 
+/***************************************************************************/
+
 static char *help_oct2dec = {
 	N_("@FUNCTION=OCT2DEC\n"
 	   "@SYNTAX=OCT2DEC(x)\n"
@@ -255,6 +280,7 @@ static char *help_oct2dec = {
 	   "The OCT2DEC function converts an octal number "
 	   "in a string or number to its decimal equivalent."
 	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX")
 };
@@ -264,6 +290,8 @@ gnumeric_oct2dec (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 1, 8, 10);
 }
+
+/***************************************************************************/
 
 static char *help_oct2bin = {
 	N_("@FUNCTION=OCT2BIN\n"
@@ -276,6 +304,8 @@ static char *help_oct2bin = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX")
 };
 
@@ -284,6 +314,8 @@ gnumeric_oct2bin (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 2, 8, 2);
 }
+
+/***************************************************************************/
 
 static char *help_oct2hex = {
 	N_("@FUNCTION=OCT2HEX\n"
@@ -296,6 +328,8 @@ static char *help_oct2hex = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC")
 };
 
@@ -304,6 +338,8 @@ gnumeric_oct2hex (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 2, 8, 16);
 }
+
+/***************************************************************************/
 
 static char *help_hex2bin = {
 	N_("@FUNCTION=HEX2BIN\n"
@@ -316,6 +352,8 @@ static char *help_hex2bin = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC")
 };
 
@@ -324,6 +362,8 @@ gnumeric_hex2bin (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 2, 16, 2);
 }
+
+/***************************************************************************/
 
 static char *help_hex2oct = {
 	N_("@FUNCTION=HEX2OCT\n"
@@ -336,6 +376,8 @@ static char *help_hex2oct = {
 	   "\n"
 	   "If @places is too small or negative #NUM! error is returned."
 	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC")
 };
 
@@ -345,6 +387,8 @@ gnumeric_hex2oct (FunctionEvalInfo *ei, Value **argv)
 	return val_to_base (ei, argv, 2, 16, 8);
 }
 
+/***************************************************************************/
+
 static char *help_hex2dec = {
 	N_("@FUNCTION=HEX2DEC\n"
 	   "@SYNTAX=HEX2DEC(x)\n"
@@ -353,6 +397,7 @@ static char *help_hex2dec = {
 	   "The HEX2DEC function converts a hexadecimal number "
 	   "to its decimal equivalent."
 	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT")
 };
@@ -362,6 +407,8 @@ gnumeric_hex2dec (FunctionEvalInfo *ei, Value **argv)
 {
 	return val_to_base (ei, argv, 1, 16, 10);
 }
+
+/***************************************************************************/
 
 static char *help_besseli = {
 	N_("@FUNCTION=BESSELI\n"
@@ -377,6 +424,8 @@ static char *help_besseli = {
 
 	   "If @x or @y are not numeric a #VALUE! error is returned. "
 	   "If @y < 0 a #NUM! error is returned." 
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
 };
@@ -399,6 +448,7 @@ gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (result);
 }
 
+/***************************************************************************/
 
 static char *help_besselk = {
 	N_("@FUNCTION=BESSELK\n"
@@ -414,6 +464,8 @@ static char *help_besselk = {
 
 	   "if x or n are not numeric a #VALUE! error is returned."
 	   "if y < 0 a #NUM! error is returned." 
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BESSELI,BESSELJ,BESSELY")
 };
@@ -435,6 +487,7 @@ gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (result);
 }
 
+/***************************************************************************/
 
 static char *help_besselj = {
 	N_("@FUNCTION=BESSELJ\n"
@@ -449,6 +502,8 @@ static char *help_besselj = {
 
 	   "If @x or @y are not numeric a #VALUE! error is returned.  "
 	   "If @y < 0 a #NUM! error is returned." 
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
 };
@@ -467,6 +522,8 @@ gnumeric_besselj (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (jn (y, value_get_as_float (argv [0])));
 }
 
+/***************************************************************************/
+
 static char *help_bessely = {
 	N_("@FUNCTION=BESSELY\n"
 	   "@SYNTAX=BESSELY(x,y)\n"
@@ -481,6 +538,8 @@ static char *help_bessely = {
 
 	   "if x or n are not numeric a #VALUE! error is returned."
 	   "if n < 0 a #NUM! error is returned." 
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
 };
@@ -538,6 +597,8 @@ value_new_complex (const complex_t *c, char imunit)
 	}
 }
 
+/***************************************************************************/
+
 static char *help_complex = {
 	N_("@FUNCTION=COMPLEX\n"
 	   "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -550,6 +611,9 @@ static char *help_complex = {
 	   "\n"
 	   "If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! "
 	   "error. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
 	   "@SEEALSO=")
 };
 
@@ -575,12 +639,16 @@ gnumeric_complex (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&c, *suffix);
 }
 
+/***************************************************************************/
+
 static char *help_imaginary = {
 	N_("@FUNCTION=IMAGINARY\n"
 	   "@SYNTAX=IMAGINARY(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMAGINARY returns the imaginary coefficient of a complex "
 	   "number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMREAL")
 };
@@ -600,11 +668,15 @@ gnumeric_imaginary (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (c.im);
 }
 
+/***************************************************************************/
+
 static char *help_imreal = {
 	N_("@FUNCTION=IMREAL\n"
 	   "@SYNTAX=IMREAL(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMREAL returns the real coefficient of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY")
 };
@@ -625,11 +697,15 @@ gnumeric_imreal (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (c.re);
 }
 
+/***************************************************************************/
+
 static char *help_imabs = {
 	N_("@FUNCTION=IMABS\n"
 	   "@SYNTAX=IMABS(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMABS returns the absolute value of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY,IMREAL")
 };
@@ -650,11 +726,15 @@ gnumeric_imabs (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (complex_mod (&c));
 }
 
+/***************************************************************************/
+
 static char *help_imconjugate = {
 	N_("@FUNCTION=IMCONJUGATE\n"
 	   "@SYNTAX=IMCONJUGATE(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCONJUGATE returns the complex conjugate of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMAGINARY,IMREAL")
 };
@@ -675,11 +755,15 @@ gnumeric_imconjugate (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imcos = {
 	N_("@FUNCTION=IMCOS\n"
 	   "@SYNTAX=IMCOS(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMCOS returns the cosine of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMSIN,IMTAN")
 };
@@ -697,11 +781,15 @@ gnumeric_imcos (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imtan = {
 	N_("@FUNCTION=IMTAN\n"
 	   "@SYNTAX=IMTAN(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMTAN returns the tangent of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMSIN,IMCOS")
 };
@@ -719,11 +807,15 @@ gnumeric_imtan (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imexp = {
 	N_("@FUNCTION=IMEXP\n"
 	   "@SYNTAX=IMEXP(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMEXP returns the exponential of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMLN")
 };
@@ -741,11 +833,15 @@ gnumeric_imexp (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imargument = {
 	N_("@FUNCTION=IMARGUMENT\n"
 	   "@SYNTAX=IMARGUMENT(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARGUMENT returns the argument theta of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -762,6 +858,8 @@ gnumeric_imargument (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (complex_angle (&c));
 }
 
+/***************************************************************************/
+
 static char *help_imln = {
 	N_("@FUNCTION=IMLN\n"
 	   "@SYNTAX=IMLN(inumber)\n"
@@ -770,6 +868,8 @@ static char *help_imln = {
 	   "will have an imaginary part between -pi an +pi.  The natural "
 	   "logarithm is not uniquely defined on complex numbers.  You may need "
 	   "to add or subtract an even multiple of pi to the imaginary part.)"
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMEXP,IMLOG2,IMLOG10")
 };
@@ -787,11 +887,15 @@ gnumeric_imln (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imlog2 = {
 	N_("@FUNCTION=IMLOG2\n"
 	   "@SYNTAX=IMLOG2(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMLOG2 returns the logarithm of a complex number in base 2."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMLN,IMLOG10")
 };
@@ -811,11 +915,15 @@ gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imlog10 = {
 	N_("@FUNCTION=IMLOG10\n"
 	   "@SYNTAX=IMLOG10(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMLOG10 returns the logarithm of a complex number in base 10."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMLN,IMLOG2")
 };
@@ -835,6 +943,8 @@ gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_impower = {
 	N_("@FUNCTION=IMPOWER\n"
 	   "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -842,6 +952,8 @@ static char *help_impower = {
 	   "IMPOWER returns a complex number raised to a power.  @inumber is "
 	   "the complex number to be raised to a power and @number is the "
 	   "power to which you want to raise the complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMSQRT")
 };
@@ -865,11 +977,15 @@ gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imdiv = {
 	N_("@FUNCTION=IMDIV\n"
 	   "@SYNTAX=IMDIV(inumber,inumber)\n"
 	   "@DESCRIPTION="
 	   "IMDIV returns the quotient of two complex numbers."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMPRODUCT")
 };
@@ -893,11 +1009,15 @@ gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imsin = {
 	N_("@FUNCTION=IMSIN\n"
 	   "@SYNTAX=IMSIN(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSIN returns the sine of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMCOS,IMTAN")
 };
@@ -915,11 +1035,15 @@ gnumeric_imsin (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imsqrt = {
 	N_("@FUNCTION=IMSQRT\n"
 	   "@SYNTAX=IMSQRT(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSQRT returns the square root of a complex number."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMPOWER")
 };
@@ -937,11 +1061,15 @@ gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imsub = {
 	N_("@FUNCTION=IMSUB\n"
 	   "@SYNTAX=IMSUB(inumber,inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSUB returns the difference of two complex numbers."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMSUM")
 };
@@ -962,11 +1090,15 @@ gnumeric_imsub (FunctionEvalInfo *ei, Value **argv)
 	return value_new_complex (&res, imunit);
 }
 
+/***************************************************************************/
+
 static char *help_improduct = {
 	N_("@FUNCTION=IMPRODUCT\n"
 	   "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 	   "@DESCRIPTION="
 	   "IMPRODUCT returns the product of given complex numbers."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMDIV")
 };
@@ -1026,11 +1158,15 @@ gnumeric_improduct (FunctionEvalInfo *ei, GList *expr_node_list)
 	return value_new_complex (&p.res, p.imunit);
 }
 
+/***************************************************************************/
+
 static char *help_imsum = {
 	N_("@FUNCTION=IMSUM\n"
 	   "@SYNTAX=IMSUM(inumber,inumber)\n"
 	   "@DESCRIPTION="
 	   "IMSUM returns the sum of two complex numbers."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=IMSUB")
 };
@@ -1053,6 +1189,8 @@ gnumeric_imsum (FunctionEvalInfo *ei, GList *expr_node_list)
 
 	return value_new_complex (&p.res, p.imunit);
 }
+
+/***************************************************************************/
 
 static char *help_convert = {
 	N_("@FUNCTION=CONVERT\n"
@@ -1143,6 +1281,8 @@ static char *help_convert = {
 	   "\n"
 	   "If @from_unit and @to_unit are different types, CONVERT returns "
 	   "#NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -1441,6 +1581,8 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	return value_new_error (&ei->pos, gnumeric_err_NUM);
 }
 
+/***************************************************************************/
+
 static char *help_erf = {
 	N_("@FUNCTION=ERF\n"
 	   "@SYNTAX=ERF(lower limit[,upper_limit])\n"
@@ -1453,6 +1595,8 @@ static char *help_erf = {
 	   "If either @lower_limit or @upper_limit are not numeric a #VALUE! error is "
 	   "returned.  "
 	   "If either @lower_limit or @upper_limit are < 0 a #NUM! error is returned."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ERFC")
 };
@@ -1478,6 +1622,8 @@ gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (ans);
 }
 
+/***************************************************************************/
+
 static char *help_erfc = {
 	N_("@FUNCTION=ERFC\n"
 	   "@SYNTAX=ERFC(x)\n"
@@ -1489,6 +1635,8 @@ static char *help_erfc = {
 
 	   "If @x is not numeric a #VALUE! error is returned.  "
 	   "If @x < 0 a #NUM! error is returned."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=ERF")
 };
@@ -1504,6 +1652,8 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (erfc (x));
 }
 
+/***************************************************************************/
+
 static char *help_delta = {
 	N_("@FUNCTION=DELTA\n"
 	   "@SYNTAX=DELTA(x[,y])\n"
@@ -1515,6 +1665,8 @@ static char *help_delta = {
 	   "\n"
 
 	   "If either argument is non-numeric returns a #VALUE! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=EXACT,GESTEP")
 };
@@ -1556,6 +1708,8 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
 }
 
+/***************************************************************************/
+
 static char *help_gestep = {
 	N_("@FUNCTION=GESTEP\n"
 	   "@SYNTAX=GESTEP(x[,y])\n"
@@ -1566,6 +1720,8 @@ static char *help_gestep = {
 	   "\n"
 
 	   "If either argument is non-numeric returns a #VALUE! error."
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=DELTA")
 };
@@ -1606,6 +1762,8 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 		value_release (vy);
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
 }
+
+/***************************************************************************/
 
 void eng_functions_init()
 {

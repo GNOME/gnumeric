@@ -1,3 +1,7 @@
+1999-09-09  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-*: Started adding examples to all functions.
+
 1999-09-08  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/sheet-object.c (control_point_handle_event): substantialy
