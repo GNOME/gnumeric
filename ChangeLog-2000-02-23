@@ -1,3 +1,8 @@
+1999-10-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):
+	Fix typo here.
+
 1999-10-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-grid.c (item_grid_find_row,

@@ -1154,7 +1154,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		row++;
 	} while (pixels < height && row < SHEET_MAX_ROWS);
 
-	if (col >= SHEET_MAX_ROWS) {
+	if (row >= SHEET_MAX_ROWS) {
 		gsheet->last_visible_row = SHEET_MAX_ROWS-1;
 		gsheet->last_full_row = SHEET_MAX_ROWS-1;
 	}
