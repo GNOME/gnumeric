@@ -278,7 +278,7 @@ gog_error_bar_prefs (GogSeries *series,
 	gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Percent"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (w), (editor->bar)? (int) editor->bar->type: 0);
 	gtk_table_attach (table, w, 0, 2, 1, 2, 0, 0, 5, 3);
-	g_object_set_data (G_OBJECT (w), "gui", gui);
+	g_object_set_data_full (G_OBJECT (w), "gui", gui, (GDestroyNotify)g_object_unref);
 	g_object_set_data (G_OBJECT (w), "allocator", dalloc);
 	g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_type_changed), editor);
 	gtk_widget_show_all (GTK_WIDGET(table));

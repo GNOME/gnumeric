@@ -1,3 +1,8 @@
+2004-08-20  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-error-bar.c (gog_error_bar_prefs): Arrange for gui to
+	be unref'd.
+
 2004-08-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis.c (map_linear_calc_ticks): fix tick number
