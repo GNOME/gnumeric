@@ -159,7 +159,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
 
 	/* load style from corner which may not be visible */
-	MStyle const *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
+	MStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
 	gboolean const is_selected = (sheet->edit_pos.col != range->start.col ||
 				      sheet->edit_pos.row != range->start.row) &&
 				     sheet_is_full_range_selected (sheet, range);
@@ -181,36 +181,37 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	b += scg_colrow_distance_get (ig->scg, FALSE, view->start.row, last+1);
 
 	/* Check for background THEN selection */
-	if (gnumeric_background_set_gc (mstyle, gc,
+	if (gnumeric_background_set_gc (style, gc,
 					ig->canvas_item.canvas,
 					is_selected) ||
 	    is_selected)
 		/* Remember X excludes the far pixels */
 		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
 
+	if (range->start.col < view->start.col)
+		l -= scg_colrow_distance_get (ig->scg, TRUE,
+			range->start.col, view->start.col);
+	if (view->end.col < range->end.col)
+		r += scg_colrow_distance_get (ig->scg, TRUE,
+			view->end.col+1, range->end.col+1);
+	if (range->start.row < view->start.row)
+		t -= scg_colrow_distance_get (ig->scg, FALSE,
+			range->start.row, view->start.row);
+	if (view->end.row < range->end.row)
+		b += scg_colrow_distance_get (ig->scg, FALSE,
+			view->end.row+1, range->end.row+1);
+
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
 
-		if (range->start.col < view->start.col)
-			l -= scg_colrow_distance_get (ig->scg, TRUE,
-				range->start.col, view->start.col);
-		if (view->end.col < range->end.col)
-			r += scg_colrow_distance_get (ig->scg, TRUE,
-				view->end.col+1, range->end.col+1);
-		if (range->start.row < view->start.row)
-			t -= scg_colrow_distance_get (ig->scg, FALSE,
-				range->start.row, view->start.row);
-		if (view->end.row < range->end.row)
-			b += scg_colrow_distance_get (ig->scg, FALSE,
-				view->end.row+1, range->end.row+1);
-
 		/* FIXME : get the margins from the far col/row too */
-		cell_draw (cell, mstyle, ig->gc.cell, drawable,
+		cell_draw (cell, style, ig->gc.cell, drawable,
 			   l, t,
 			   r - l - (ci->margin_b + ci->margin_a + 1),
 			   b - t - (ri->margin_b + ri->margin_a + 1), -1);
 	}
+	style_border_draw_diag (style, drawable, l, t, r, b);
 }
 
 static void
@@ -233,6 +234,8 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 	if (has_back || is_selected)
 		/* Fill the entire cell (API excludes far pixel) */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
+
+	style_border_draw_diag (style, drawable, x, y, x+w, y+h);
 }
 
 static gint

@@ -224,10 +224,10 @@ update_after_action (Sheet *sheet)
  * @ranges : GSList containing Range *'s
  */
 static GString *
-range_list_to_string (GSList *ranges)
+range_list_to_string (GSList const *ranges)
 {
 	GString *names;
-	GSList *l;
+	GSList const *l;
 
 	g_return_val_if_fail (ranges != NULL, NULL);
 	

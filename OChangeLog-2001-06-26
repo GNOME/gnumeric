@@ -1,5 +1,13 @@
 2001-05-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/style-border.c (style_borders_row_draw) : don't draw the
+	  diagonals here.
+	(style_border_draw_diag) : split the diag drawing code into here.
+
+	* src/item-grid.c (item_grid_draw_merged_range) : call
+	  style_border_draw_diag here.
+	(item_grid_draw_background) : and here.
+
 	* src/workbook-format-toolbar.c (cb_merge_cells) : fragment the
 	  selection just in case.
 	(cb_unmerge_cells) : ditto.  Thanks Juan Pablo.

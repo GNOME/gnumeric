@@ -594,7 +594,6 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 	int o[2][2];
 	int col, next_x = x;
 	GdkGC *gc;
-	StyleBorder const *diag;
 
 	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
 
@@ -631,30 +630,6 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
 				       x1, y2 + o[0][1] + 1);
 		}
-
-		/* FIXME : I am tired.  Do proper margins for these later */
-		diag = mstyle_get_border (sr->styles [col], MSTYLE_BORDER_REV_DIAGONAL);
-		if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
-			int a = 0;
-			gc = style_border_get_gc (diag, drawable);
-			if (diag->line_type == STYLE_BORDER_DOUBLE) {
-				gdk_draw_line (drawable, gc, x, y1+2, next_x-2, y2);
-				a = 2;
-			}
-			gdk_draw_line (drawable, gc, x+a, y1, next_x, y2-a);
-		}
-
-		diag = mstyle_get_border (sr->styles [col], MSTYLE_BORDER_DIAGONAL);
-		if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
-			int a = 0;
-			gc = style_border_get_gc (diag, drawable);
-			if (diag->line_type == STYLE_BORDER_DOUBLE) {
-				gdk_draw_line (drawable, gc, x, y2-2, next_x-2, y1);
-				a = 2;
-			}
-			gdk_draw_line (drawable, gc, x+a, y2, next_x, y1+a);
-		}
-
 	}
 	if (draw_vertical) {
 		gc = style_border_get_gc (sr->vertical [col], drawable);
@@ -669,6 +644,37 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 			gdk_draw_line (drawable, gc, x, y1 + o[0][0],
 				       x1, y2 + o[0][1] + 1);
 		}
+	}
+}
+
+void
+style_border_draw_diag (MStyle const *style,
+			GdkDrawable *drawable,
+			int x1, int y1, int x2, int y2)
+{
+	StyleBorder const *diag;
+	GdkGC *gc;
+
+	diag = mstyle_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
+	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+		int a = 0;
+		gc = style_border_get_gc (diag, drawable);
+		if (diag->line_type == STYLE_BORDER_DOUBLE) {
+			gdk_draw_line (drawable, gc, x1, y1+2, x2-2, y2);
+			a = 2;
+		}
+		gdk_draw_line (drawable, gc, x1+a, y1, x2, y2-a);
+	}
+
+	diag = mstyle_get_border (style, MSTYLE_BORDER_DIAGONAL);
+	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+		int a = 0;
+		gc = style_border_get_gc (diag, drawable);
+		if (diag->line_type == STYLE_BORDER_DOUBLE) {
+			gdk_draw_line (drawable, gc, x1, y2-2, x2-2, y1);
+			a = 2;
+		}
+		gdk_draw_line (drawable, gc, x1+a, y2, x2, y1+a);
 	}
 }
 

@@ -79,10 +79,17 @@ void style_borders_row_draw  (StyleBorder const * const * prev_vert,
 			      GdkDrawable *drawable,
 			      int x, int y1, int y2,
 			      int *colwidths, gboolean draw_vertical);
+void style_border_draw_diag  (MStyle const *style,
+			      GdkDrawable *drawable,
+			      int x1, int y1, int x2, int y2);
+
 void style_borders_row_print (StyleBorder const * const * prev_vert,
 			      StyleRow const *sr,
 			      GnomePrintContext *context,
 			      float x, float y1, float y2,
 			      Sheet const *sheet, gboolean draw_vertical);
+void style_border_print_diag (MStyle const *style,
+			      GnomePrintContext *context,
+			      float x1, float y1, float x2, float y2);
 
 #endif /* GNUMERIC_STYLE_BORDER_H */
