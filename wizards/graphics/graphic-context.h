@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_WIZARD_GRAPHICS_CONTEXT_H
 #define GNUMERIC_WIZARD_GRAPHICS_CONTEXT_H
 
+#include "str.h"
+#include "expr.h"
+
 typedef enum {
 	SERIES_COLUMNS,
 	SERIES_ROWS
