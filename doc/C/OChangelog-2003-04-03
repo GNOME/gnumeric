@@ -1,3 +1,9 @@
+2001-11-01  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* autocorrect.sgml: Added figures.
+
+	* autosave.sgml: Added a figure.
+
 2001-10-31  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* gnumeric.sgml, Makefile.am: Integrated auto correct tool and

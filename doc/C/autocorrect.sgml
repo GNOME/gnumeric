@@ -7,6 +7,13 @@
   gives you a dialog to choose autocorrection rules to be
   activated.</para>
 
+  <figure id="autocorrect-figure">
+    <title>The Auto Correct Tool dialog.</title>
+    <screenshot>
+      <graphic fileref="images/auto-correct.png"></graphic>
+    </screenshot>
+  </figure>
+
   <para>If this tool is activated and it detects an error in the text
   you typed, it replaces the text with correct one.  The replacements
   are done accoring to the following rules.  Each rule can be
