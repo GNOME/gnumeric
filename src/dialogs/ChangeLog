@@ -1,3 +1,8 @@
+2005-03-17  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-search.c (dialog_search): Use
+	go_gtk_nonmodal_dialog. Makes Esc close dialog.
+
 2005-03-15  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (search_get_value): Reload cell and comment on

@@ -603,7 +603,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 	wbcg_edit_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
 #endif
 
-	wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
+	go_gtk_nonmodal_dialog (wbcg_toplevel (wbcg), GTK_WINDOW (dialog));
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
