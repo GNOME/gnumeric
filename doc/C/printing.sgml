@@ -1,52 +1,134 @@
 <sect1 id="print">
-  <title>Printing to a Printer or a File.</title>
+  <title>Printing to a Printer or a File</title>
   <para>
-  The <interface>Print dialog</interface> includes some options 
-   related to printing. More detailed options related to printing are in the <interface>
-  Print Setup dialog</interface>, detailed in <xref linkend="print-setup"> 
-  Press the <guibutton>Print</guibutton>
-  to print out the workbook. Press the <guibutton>Preview</guibutton> 
-  button to display the <interface>Print Preview dialog</interface>. 
-
+    To print the workbook, click on the <guibutton>Print</guibutton>
+    button on the toolbar or select
+    <menuchoice><guimenu>File</guimenu><guisubmenu>Print...</guisubmenu>
+    </menuchoice>. This will open <guilabel>Print Sheets</guilabel>
+    dialog shown in <xref linkend="print-workbook-fig">.  This
+    dialog allows you to set basic printing options.  More detailed
+    printing options can be set using the <guilabel>Print
+    Setup</guilabel>, discussed in <xref linkend="print-setup">.
   </para>
-    <figure id="print-workbook-fig">
-     <title><interface>Print Dialog</interface></title>
+  <figure id="print-workbook-fig">
+    <title><interface>Print Dialog</interface></title>
      <screenshot>
       <screeninfo><interface>Print Dialog</interface></screeninfo>
       <graphic fileref="figures/print-worksheet.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
-    </figure>
-
+   </figure>
+  <para>
+    To send the file to the printer, select
+    <guibutton>Printer</guibutton> radiobutton, enter the printing
+    command (by default, <command>lpr</command>), and click
+    <guibutton>Print</guibutton>. You can also enter any options
+    accepted by <command>lpr</command> command (see
+    <command>lpr</command> manual page for complete list of options).
+    For example, to print to a printer named
+    <replaceable>MyPrinter</replaceable>, enter <command>lpr
+    -P<replaceable>MyPrinter</replaceable></command>. 
+  </para>
+  <para>
+    To print to a file, select <guibutton>File</guibutton>, enter
+    filename and press  <guibutton>Print</guibutton>. The output will
+    be saved in this file in PostScript format.  
+  </para>
+  <para>To preview the output, click on <guibutton>Preview</guibutton>
+    at the bottom of the screen.
+  </para>
+  <para>
+    This dialog also allows you to select whether you want to print
+    the whole workbook or only part of it. Possible choices are:
+  </para>
+  <itemizedlist>
+    <listitem><para><guilabel>Active sheet</guilabel>: prints only  current
+    sheet. If your workbook has only one sheet, this is the same as
+    printing the whole wokrbook. 
+      </para>
+    </listitem>
+    <listitem><para><guilabel>All</guilabel>: prints the whole workbook
+      </para>
+    </listitem>
+    <listitem><para><guilabel>Sheets from ... to ...</guilabel>:
+    prints only sheets in the specified range. This option is only useful
+     for multi-sheet  workbooks. 
+      </para>
+    </listitem>
+    <listitem><para><guilabel>Selection</guilabel>: prints only
+    currently active selection (for example, the range of cell you
+    have selected using the mouse)
+      </para>
+    </listitem>
+  </itemizedlist>
     <para>
-    Click on the <guimenuitem>Printer</guimenuitem> radiobutton and click on <interface>Print</interface> to send the document to your printer. You can also send the printed document to a <keycap>postscript</keycap> file. 
-    </para>
-    <para>
-    You may also select a multiple number of copies, or print a subset of the pages of the document.
-    </para>
-    <para>
-    If you are not sure which pages you need, click on the preview button to see the layout of the printed document.
-    </para>
-    <para>
-    If you need to change your page size or scale the output to fit properly onto your page, see the <xref linkend="print-setup">
+    If you need to change your paper size, scale the output to fit
+    the page, or change other settings, see the <xref
+    linkend="print-setup">.
     </para>
 </sect1>
 
 <sect1 id="print-setup">
-  <title>Print Setup.</title>
-    <para>
-    The <interface>Print Setup Dialog</interface> can be used to configure
-    various options related to printing out a workbook. Click on <menuchoice> <guimenu>File Menu</guimenu> <guimenuitem>Print Setup</guimenuitem> </menuchoice> to activate the <interface>Print Setup</interface>.
-    </para>
-    <tip>
-    <title>TIP</title>
-    <para>
-    Remember that at any time you can click on the <interface>Print preview</interface> button to see what your document looks like with your selected options. See the <xref linkend="print-preview">
-     </para>
-     </tip> 
+  <title>Print Setup Dialog</title>
+  <para>
+    The <guilabel>Print Setup</guilabel> dialog can be used to
+    configure various printing options. Click on <menuchoice>
+    <guimenu>File</guimenu> <guimenuitem>Print Setup</guimenuitem>
+    </menuchoice> to open the <guilabel>Print Setup</guilabel> dialog.
+  </para>
+  <para>
+    This dialog consists of four tabs, described in detail
+    below. At the bottom of the dialog you will find the following
+    buttons:
+  </para>
+  <itemizedlist>
+    <listitem><para>
+	<guibutton>OK</guibutton>: saves the settings and closes the
+	dialog. 
+      </para>
+    </listitem>
+    <listitem><para>
+	<guibutton>Print</guibutton>: saves the settings and prints the
+	current workbook using these settings. 
+      </para>
+    </listitem>
+    <listitem><para>
+	<guibutton>Print preview</guibutton>: opens <link
+	linkend="print-preview"><guilabel>Print 
+	preview</guilabel></link> window which shows how this document would
+	look if printed using currently selected options. This button
+	keeps the <guilabel>Print Setup</guilabel> dialog open, so
+	if you are not satisfied with the results, you can change
+	the settings again. 
+      </para>
+    </listitem>
+    <listitem><para>
+	<guibutton>Cancel</guibutton>: closes the dialog discarding
+	the  changes you made. 
+      </para>
+    </listitem>
+  </itemizedlist>
+  <para>
+    It is important to understand that <guilabel>Print
+      Setup</guilabel> dialog sets the options for printing the
+      current workbook.  These options are part of the workbook; 
+      they are saved when you save the workbook and loaded when you
+      open a workbook.
+      For example, assume that you are currently working with workbook
+      <filename>Workbook1</filename> and set in <guilabel>Print
+      Setup</guilabel> dialog <guilabel>Orientation:
+      landscape</guilabel>, then save the workbook. If you open
+      <filename>Workbook1</filename> later and print it, it will be
+      printed using landscape orientation. However, if you open
+      another workbook (say, <filename>Workbook2</filename>) and print
+      it, it will be printed using orientation which was set for
+      Workbook2 (most probably, portrait). 
+      </para>
+
+
     <sect2 id="print-setup-page">
-    <title>Print Setup Dialog - Page</title>
+    <title>Page Tab</title>
     <figure id="print-setup-page-fig">
      <title><interface>Print Setup Dialog - Page</interface></title>
      <screenshot>
@@ -57,17 +139,18 @@
      </screenshot>
     </figure>
     <para>
-    Select portrait or landscape to suit the best layout for your document.
+      This tab allows you to select printing orientation (portrait or
+      landscape) and scale. Values of scale greater than 100 percent
+      produce image larger than natural size; values smaller than 100
+      percent produce image smaller than natural size (this can be
+      used to make the printout fit on a page).
     </para>
     <para>
-    Change the scale your image to fit it to your page size suitably. The scaling can both enlarge and diminish the size of your printed document. 
+      The <guilabel>Fit to</guilabel> option is not available yet.
     </para>
-    <para>
-    The <interface>Fit to</interface> option is not available yet.
-    </para>
-    </sect2>
-    <sect2 id="print-setup-margins">
-    <title>Print Setup Dialog - Margins</title>
+  </sect2>
+  <sect2 id="print-setup-margins">
+    <title>Margins Tab</title>
     <figure id="print-setup-margins-fig">
      <title><interface>Print Setup Dialog - Margins</interface></title>
      <screenshot>
@@ -76,16 +159,27 @@
        srccredit="Wayne Schuller">
       </graphic>
      </screenshot>
-    </figure>
+     </figure>
     <para>
-    Adjust the margins by clicking on the arrow buttons for each margin. You will see the <interface>preview pane</interface> follow your changes.
+      In this tab, you can select paper size (A4, US Letter, etc) and
+      margins. To adjust the margins, enter the new value in the
+      appropriate field or click on the arrow buttons next to a
+      value. You will see the <guilabel>preview pane</guilabel>
+      follow your changes. <guilabel>Header</guilabel> and
+      <guilabel>Footer</guilabel> fields show how much space is left
+      for page headers and footers (see <xref
+      linkend="print-setup-header">).  Be sure
+      to leave enough space or the headers and footers will not be
+      printed.  
     </para>
     <para>
-    You may set the margin to be measured in centimetres, millimetres, points or inches.
+      Units of measurement used for margins (cm, mm, points, inches)
+      are shown in the upper left corner of the dialog. You can select
+      the units from the drop-down list. 
     </para>
-    </sect2>
-    <sect2 id="print-setup-header">
-    <title>Print Setup Dialog - Headers and Footers</title>
+  </sect2>
+  <sect2 id="print-setup-header">
+    <title>Headers and Footers Tab</title>
     <figure id="print-setup-header-fig">
      <title><interface>Print Dialog - Headers and Footers</interface></title>
      <screenshot>
@@ -96,18 +190,36 @@
      </screenshot>
     </figure>
     <para>
-    Click on the option menu to choose from a range of different header and footer styles.  Customize the header or footer by choosing the last option on the menu. 
+      This tab allows you to set headers (text printed on top of the
+      page) and footers (text printed at the bottom of the page). You
+      can use the drop-down lists to select from one of standard
+      styles or select <guilabel>Customize.. </guilabel> to create
+      your own style. The preview area under the drop-down list
+      automatically shows you the selected style. Please note that
+      <guilabel>Sheet 1</guilabel> will be replaced by the actual
+      sheet name. 
     </para>
-
+    <note>
+      <title>NOTE</title>
+      <para>
+	Sheet name is not the same as the filename: a workbook can
+	contain many sheets, with different names. Sheet names are
+	shown  on the tabs at the bottom of the main
+	<application>Gnumeric</application>  window and  can be
+	changed by right-clicking on these tabs. 
+      </para>
+    </note>
+     
     <tip>
-    <title>TIP</title>
-    <para>
-    Double clicking on the header or footer preview will quickly allow you to customize that header or footer.
-     </para>
+      <title>TIP</title>
+      <para>
+	Double clicking on the header or footer preview will quickly
+	allow you to customize that header or footer.
+      </para>
      </tip> 
-
-    </sect2>
-    <sect2 id="print-setup-header-config">
+    
+  </sect2>
+  <sect2 id="print-setup-header-config">
     <title>Customizing Headers and Footers</title>
     <figure id="print-setup-header-config-fig">
      <title><interface>Print Dialog - Customize Header/Footer</interface></title>
@@ -119,57 +231,57 @@
      </screenshot>
     </figure>
     <para>
-    Enter what text you would like to appear in the header or footer. There are a number of special <keycap>opcodes</keycap> for common options. These are:
+    Enter what text you would like to appear in the header or
+    footer. You can include sheet name, date and other information using
+    the following special  <quote>codes</quote>:
     </para>
-     <variablelist>
-     <varlistentry>
-     <term>&amp[TAB]</term>
-     <listitem>
-     <para>
-     Name of the workbook.
-        </para>
-       </listitem>
-       </varlistentry>
-     <varlistentry>
-     <term>&amp[PAGE]</term>
-     <listitem>
-     <para>
-     Page number in the printing.
-        </para>
-       </listitem>
-       </varlistentry>
-     <varlistentry>
-     <term>&amp[PAGES]</term>
-     <listitem>
-     <para>
-     Total number of pages in the printout.
-        </para>
-       </listitem>
-       </varlistentry>
-     <varlistentry>
-     <term>&amp[DATE]</term>
-     <listitem>
-     <para>
-     Current date.
-        </para>
-       </listitem>
-       </varlistentry>
-     <varlistentry>
-     <term>&amp[TIME]</term>
-     <listitem>
-     <para>
-     Current time.
-        </para>
-       </listitem>
-       </varlistentry>
-     </variablelist>
-
-
-    </sect2>
-
-    <sect2 id="print-setup-sheet">
+    <variablelist>
+      <varlistentry>
+	<term>&amp;[TAB]</term>
+	<listitem>
+	  <para>
+	     Sheet name.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[PAGE]</term>
+	<listitem>
+	  <para>
+	    Page number in the printing.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[PAGES]</term>
+	<listitem>
+	  <para>
+	    Total number of pages in the printout.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[DATE]</term>
+	<listitem>
+	  <para>
+	    Current date.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[TIME]</term>
+	<listitem>
+	  <para>
+	    Current time.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </sect2>
+  
+  <sect2 id="print-setup-sheet">
     <title>Print Setup Dialog - Sheet</title>
-    <figure id="print-setup-sheet-fig">
+      <figure id="print-setup-sheet-fig">
      <title><interface>Print Setup Dialog - Sheet</interface></title>
      <screenshot>
       <screeninfo><interface>Print Setup Dialog - Sheet</interface></screeninfo>
@@ -177,114 +289,120 @@
        srccredit="Wayne Schuller">
       </graphic>
      </screenshot>
-    </figure>
+      </figure>
     <para>
-    You can select row or column titles to print by clicking in the <interface>expr-entry widget</interface> and selecting the rows or columns with the mouse.
+      You can select rows or columns to be printed on every page of
+      the output. This is commonly used for printing column or row
+      names. To enable this, enter the range of cells to be
+      repeated in <guilabel>Rows to repeat...</guilabel> or
+      <guilabel>Columns to repeat..</guilabel> field. Instead of
+      entering them manually, you can also select columns or rows to
+      be repeated using the mouse. 
+      </para>
+    <warning>
+      <title>Warning</title>
+       <para>Note that the rows and columns must be entered as ranges
+       of cells. That is, if you want to have first row repeated, you
+       must enter <literal>A1:IV1</literal>, not just
+       <literal>1</literal>. Similarly, to have column
+       <literal>A</literal> repeated, you must enter
+       <literal>A1:A65536</literal>. The Gnumeric developers are
+       working on  this shortcoming. 
+      </para>
+    </warning>
+    <para>
+      Select <guilabel>Grid lines</guilabel> to print the cell
+      grid lines with your document. Unselect the button to hide
+      the grid lines from your print output.
     </para>
     <para>
-    Select <interface>Grid lines</interface> to print the cell grid lines with your document. Unselect the button to hide the grid lines from your print output.
+      Select <guilabel>Black and white</guilabel> to convert the
+      colors in your document to a greyscale. This is recommended if
+      you have a monochrome printer. 
     </para>
     <para>
-    Select <interface>Black and white</interface> to convert the colours in your document to a greyscale range.
+      Select <guilabel>Styles with no content</guilabel> to
+      print cells with non-trivial style (background, borders, etc.)
+      even if they are empty. For example, if you have a number of cells
+      with the background color changed but no data in them, you
+      can select this option to ensure they are in the printed
+      output.
+
     </para>
-    <para>
-    Select <interface>Styles with no content</interface> to ensure cells with style changes will be printed, even if they are empty. For example, if you have a number of cells with the background color changed but no data in them, you can select this option to ensure they are in the printed output.
-    </para>
-    </sect2>
+  </sect2>
 </sect1>
 
 <sect1 id="print-preview">
-  <title>Print Preview.</title>
+  <title>Print Preview</title>
   <para>
-  The <interface>Print Preview Dialog</interface> is used to display what the printed output
-  will look like. The Print Preview dialog can be used to check whether you have the desired formating 
-  and layout before you print out the workbook. 
+    The <guilabel>Print Preview</guilabel> dialog is used to display
+    what the printed output will look like. The <guilabel>Print
+    Preview</guilabel> dialog can be used to check whether you have
+    the desired formatting and layout before you print out the
+    workbook.
   </para>
 
   <figure id="print-preview-fig">
-     <title><interface>Print Preview Dialog</interface></title>
+      <title><interface>Print Preview Dialog</interface></title>
      <screenshot>
       <screeninfo><interface>Print Preview Dialog</interface></screeninfo>
       <graphic fileref="figures/printing-preview.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
-  </figure>
- 
-  <sect2>
-    <title>Menu Bar</title> 
-  <variablelist>
-   <varlistentry>
-     <term><guimenu>File</guimenu></term>
-     <listitem>
-      <para>
-       This menu contains:
-       <itemizedlist>
-        <listitem>
-         <para>
-          <guimenuitem>Print</guimenuitem>
-           &mdash; Prints the current workbook shown in the Print Preview dialog.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Close</guimenuitem>
-          &mdash; Closes the <interface>Print Preview dialog</interface>.
-         </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-     </listitem>
+ </figure>
+
+  <sect2 id="menu-bar">
+    <title>Menu Bar</title>
+    <variablelist>
+      <varlistentry>
+      <term><guimenu>View</guimenu></term>
+      <listitem>
+	<para>
+	  This menu contains:
+	  <itemizedlist>
+	    <listitem>
+	      <para>
+		<guimenuitem>First Page</guimenuitem>
+		&mdash;Shows the first page in the workbook.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Previous Page</guimenuitem>
+		&mdash;Shows the previous page in the workbook.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Next Page</guimenuitem>
+		&mdash;Shows the next page in the workbook.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Last Page</guimenuitem>
+		&mdash;Shows the last page in the workbook.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Zoom in</guimenuitem>
+		&mdash;Zooms the current page in, showing more detail.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		<guimenuitem>Zoom out</guimenuitem>
+		&mdash;Zooms the current page out, showing less detail.
+	      </para>
+	    </listitem>
+	  </itemizedlist>
+	</para>
+      </listitem>
     </varlistentry>
-  
-  <varlistentry>
-     <term><guimenu>View</guimenu></term>
-     <listitem>
-      <para>
-       This menu contains:
-       <itemizedlist>
-        <listitem>
-         <para>
-          <guimenuitem>First Page</guimenuitem>
-           &mdash;Shows the first page in the workbook.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Previous Page</guimenuitem>
-          &mdash;Shows the previous page in the workbook.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Next Page</guimenuitem>
-          &mdash;Shows the next page in the workbook.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Last Page</guimenuitem>
-          &mdash;Shows the last page in the workbook.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Zoom in</guimenuitem>
-          &mdash;Zooms the current page in, showing more detail.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Zoom out</guimenuitem>
-          &mdash;Zooms the current page out, showing less detail.
-         </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-     </listitem>
-    </varlistentry>
-   </variablelist>
- </sect2>
+  </variablelist>
+</sect2>
  
  <sect2>
    <title>Toolbar</title>
@@ -373,7 +491,8 @@
           </guiicon>
         </term>
         <listitem>
-          <para>Fits the whole page into the screen space.</para>
+          <para>Rescales the image to fit the whole page on  screen.
+	  </para>
         </listitem>
       </varlistentry>
 
@@ -384,7 +503,7 @@
           </guiicon>
         </term>
         <listitem>
-          <para>Fits the whole width of the page into the screen space.</para>
+          <para>Rescales the image so that it width fits the screen.</para>
         </listitem>
       </varlistentry>
 
@@ -395,7 +514,7 @@
           </guiicon>
         </term>
         <listitem>
-          <para>Fits the whole height of the page into the screen space.</para>
+          <para>Rescales the image so that it height fits the screen.</para>
         </listitem>
       </varlistentry>
    </variablelist>
