@@ -485,7 +485,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 	scm_make_gsubr ("cell-expr", 1, 0, 0, scm_cell_expr);
 	scm_make_gsubr ("set-cell-string!", 2, 0, 0, scm_set_cell_string);
 	scm_make_gsubr ("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
-	scm_make_gsubr ("register-function", 4, 0, 0, scm_register_function);
+	scm_make_gsubr ("register-function", 5, 0, 0, scm_register_function);
 
 	init_file_name = gnome_unconditional_datadir_file ("gnumeric/guile/gnumeric_startup.scm");
 	scm_apply (scm_eval_0str ("(lambda (filename)"

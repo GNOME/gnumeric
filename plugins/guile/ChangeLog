@@ -1,3 +1,8 @@
+2000-03-08  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (init_plugin): Corrected the number of arguments
+        in the registration of register-function.
+
 2000-03-06  Ariel Rios  <ariel@arcavia.com>
 
 	* functions.scm: All the functions now use the scm_category argument.
