@@ -307,7 +307,7 @@
 	</submenu>
 
 	<submenu name="View" _label="_View">
-	    <menuitem name="ViewNewShared" verb=""
+	    <menuitem name="ViewNew" verb=""
 		_label="_New View..."
 		_tip="Create a new shared view of the workbook"/>
 
