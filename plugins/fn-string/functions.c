@@ -819,9 +819,13 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	Value *v, *ag [3];
 	guint len, neg;
 	gchar *s;
+	static int barfed = 0;
 
-	g_warning ("GNUMERIC_DOLLAR is broken, it should use the "
-		   "format_value routine");
+	if (!barfed) {
+		g_warning ("GNUMERIC_DOLLAR is broken, it should use the "
+			   "format_value routine");
+		barfed = 1;
+	}
 	ag[0] = argv [0];
 	ag[1] = argv [1];
 	ag[2] = NULL;

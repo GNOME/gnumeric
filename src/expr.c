@@ -1947,32 +1947,6 @@ expr_decode_tree (ExprTree *tree, const EvalPosition *fp)
 }
 
 
-static ExprTree *
-build_error_string (const char *txt)
-{
-	ExprTree *val, *call;
-	Symbol *func;
-
-	val = g_new (ExprTree, 1);
-	val->oper = OPER_CONSTANT;
-	val->ref_count = 1;
-	val->u.constant = value_new_string (txt);
-
-	func = symbol_lookup (global_symbol_table, "ERROR");
-	if (func == NULL) {
-		g_assert_not_reached ();
-		return val;
-	}
-
-	call = g_new (ExprTree, 1);
-	call->oper = OPER_FUNCALL;
-	call->ref_count = 1;
-	symbol_ref ((call->u.function.symbol = func));
-	call->u.function.arg_list = g_list_prepend (NULL, val);
-
-	return call;
-}
-
 struct expr_tree_frob_references {
 	Sheet *src_sheet;
 	int src_col, src_row;

@@ -51,6 +51,7 @@ calculate_pvif (float_t rate, float_t nper)
 	return (pow (1+rate, nper));
 }
 
+#if 0
 static float_t
 calculate_fvif (float_t rate, float_t nper)
 {
@@ -62,6 +63,7 @@ calculate_pvifa (float_t rate, float_t nper)
 {
 	return ((1.0 / rate) - (1.0 / (rate * pow (1+rate, nper))));
 }
+#endif
 
 static float_t
 calculate_fvifa (float_t rate, float_t nper)
@@ -354,6 +356,21 @@ gnumeric_rate_f (float_t rate, float_t *y, void *user_data)
 		return GOAL_SEEK_ERROR;
 }
 
+/* The derivative of the above function with respect to rate.  */
+static GoalSeekStatus
+gnumeric_rate_df (float_t rate, float_t *y, void *user_data)
+{
+	if (rate > -1.0 && rate != 0.0) {
+		gnumeric_rate_t *data = user_data;
+
+		*y = -data->pmt * calculate_fvifa (rate, data->nper) / rate +
+			calculate_pvif (rate, data->nper - 1) * data->nper *
+			(data->pv + data->pmt * (data->type + 1 / rate));
+		return GOAL_SEEK_OK;
+	} else
+		return GOAL_SEEK_ERROR;
+}
+
 
 static Value *
 gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
@@ -397,7 +414,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	printf ("Guess = %.15g\n", rate0);
 #endif
 	goal_seek_initialise (&data);
-	status = goal_seek_newton (&gnumeric_rate_f, NULL,
+	status = goal_seek_newton (&gnumeric_rate_f, &gnumeric_rate_df,
 				   &data, &udata, rate0);
 	if (status == GOAL_SEEK_OK) {
 #if 0

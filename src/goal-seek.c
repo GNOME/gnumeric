@@ -189,7 +189,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 /*
  * Seek a goal (root) using bisection methods.
  *
- * The supplied function must (should) be continously over the interval.
+ * The supplied function must (should) be continous over the interval.
  *
  * Caller must have located a positive and a negative point.
  *

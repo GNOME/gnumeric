@@ -1,4 +1,9 @@
+1999-07-01  Morten Welinder  <terra@diku.dk>
+
+	* boot.c: Clean out an incredible accumulation of #includes.
+
 1999-07-01  Jody Goldberg  <jgoldberg@home.com>
+
 	* formula-types.h : Add some missing ptg types.
 
 	* ms-excel-read.c : ms_excel_read_debug, ms_excel_formula_debug,

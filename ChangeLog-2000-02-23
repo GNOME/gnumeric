@@ -1,3 +1,17 @@
+1999-06-26  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-string.c (gnumeric_dollar): Avoid warning overflows.
+
+	* src/print-info.c (print_unit_new):  Warning killer.
+
+	* src/fn-financial.c (calculate_fvif): Warning killer.
+
+	* src/expr.c (build_error_string): Re-remove.
+
+	* src/dialog-printer-setup.c (unit_into_to_points): Warning killer.
+
+	* src/mathfunc.c (MATHLIB_WARNING2, MATHLIB_WARNING4): Warning killer.
+
 1999-07-01  Michael Meeks  <michael@edenproject.org>
 
 	* src/main.c (gnumeric_main): Added excel_shutdown.

@@ -64,13 +64,17 @@ typedef struct {
 	GtkWidget *icon_dr;
 } dialog_print_info_t;
 
+
 static void fetch_settings (dialog_print_info_t *dpi);
 
+#if 0
 static double
 unit_into_to_points (UnitInfo *ui)
 {
 	return unit_convert (ui->value, ui->unit, UNIT_POINTS);
 }
+#endif
+
 
 static GtkWidget *
 load_image (const char *name)

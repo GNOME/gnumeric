@@ -51,8 +51,8 @@
 #define ML_UNDERFLOW (DBL_EPSILON * DBL_EPSILON)
 #define ML_VALID(_x) (!ISNAN (_x))
 #define ML_ERROR(cause) /* Nothing */
-#define MATHLIB_WARNING2 (void)
-#define MATHLIB_WARNING4 (void)
+#define MATHLIB_WARNING2(_f,_a,_b) do { (void)(_f); (void)(_a); (void)(_b); } while (0)
+#define MATHLIB_WARNING4(_f,_a,_b,_c,_d) do { (void)(_f); (void)(_a); (void)(_b); (void)(_c); (void)(_c); } while (0)
 
 #define fmin2(_x,_y) MIN(_x, _y)
 #define imin2(_x,_y) MIN(_x, _y)

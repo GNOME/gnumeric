@@ -51,6 +51,7 @@ print_info_free (PrintInformation *pi)
 	g_free (pi);
 }
 
+#if 0
 static PrintUnit
 print_unit_new (UnitName unit, double value)
 {
@@ -61,6 +62,7 @@ print_unit_new (UnitName unit, double value)
 
 	return u;
 }
+#endif
 
 static void
 load_margin (const char *str, PrintUnit *p, char *def)
