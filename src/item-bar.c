@@ -7,9 +7,6 @@
  *     Jody Goldberg   (jody@gnome.org)
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for gtk_draw_shadow"
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
@@ -290,8 +287,9 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 
 	gdk_draw_rectangle (drawable, gc, TRUE,
 			    rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
-	gtk_draw_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-			 rect->x, rect->y, rect->width, rect->height);
+	gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
+			  NULL, NULL, "button",
+			  rect->x, rect->y, rect->width, rect->height);
 	gdk_gc_set_clip_rectangle (text_gc, rect);
 
 	g_object_unref (ib->pango.item->analysis.font);
@@ -416,10 +414,12 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								safety = 6 - size;
 
 							top += 2; /* inside cell's shadow */
-							gtk_draw_shadow (canvas->style, drawable,
-									 GTK_STATE_NORMAL,
-									 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-									 left, top+safety, size, size);
+							gtk_paint_shadow
+								(canvas->style, drawable,
+								 GTK_STATE_NORMAL,
+								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
+								 NULL, NULL, "button",
+								 left, top+safety, size, size);
 							if (size > 9) {
 								if (!prev_visible) {
 									top++;
@@ -450,10 +450,12 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 
 							right = total - size;
 							top += 2; /* inside cell's shadow */
-							gtk_draw_shadow (canvas->style, drawable,
-									 GTK_STATE_NORMAL,
-									 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-									 right, top+safety, size, size);
+							gtk_paint_shadow
+								(canvas->style, drawable,
+								 GTK_STATE_NORMAL,
+								 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
+								 NULL, NULL, "button",
+								 right, top+safety, size, size);
 							if (size > 9) {
 								if (!next->visible) {
 									top++;
@@ -574,10 +576,12 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								safety = 6 - size;
 
 							top += 2; /* inside cell's shadow */
-							gtk_draw_shadow (canvas->style, drawable,
-									 GTK_STATE_NORMAL,
-									 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-									 left+safety, top, size, size);
+							gtk_paint_shadow
+								(canvas->style, drawable,
+								 GTK_STATE_NORMAL,
+								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
+								 NULL, NULL, "button",
+								 left+safety, top, size, size);
 							if (size > 9) {
 								if (!prev_visible) {
 									left++;
@@ -608,10 +612,12 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 
 							bottom = total - size;
 							top += 2; /* inside cell's shadow */
-							gtk_draw_shadow (canvas->style, drawable,
-									 GTK_STATE_NORMAL,
-									 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-									 left+safety, bottom, size, size);
+							gtk_paint_shadow
+								(canvas->style, drawable,
+								 GTK_STATE_NORMAL,
+								 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
+								 NULL, NULL, "button",
+								 left+safety, bottom, size, size);
 							if (size > 9) {
 								if (!next->visible) {
 									left++;
