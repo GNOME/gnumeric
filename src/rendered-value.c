@@ -45,6 +45,7 @@
 #include <string.h>
 
 #define BUG_105322
+#undef DEBUG_BOUNDING_BOX
 
 #ifndef USE_RV_POOLS
 #define USE_RV_POOLS 1
@@ -174,26 +175,68 @@ cb_dump (PangoAttribute *a)
 				(PangoAttrFilterFunc) cb_dump, NULL);
 #endif
 
+/* Gets the bounds of a layout in pango units.  Mostly copied from gtklabel.c */
+static void
+get_rotated_layout_bounds (PangoLayout *layout, int *width, int *height)
+{
+	PangoContext *context = pango_layout_get_context (layout);
+	const PangoMatrix *matrix = pango_context_get_matrix (context);
+	gdouble x_min = 0, x_max = 0, y_min = 0, y_max = 0; /* quiet gcc */
+	PangoRectangle logical_rect;
+	gint i, j;
+
+	pango_layout_get_extents (layout, NULL, &logical_rect);
+
+	for (i = 0; i < 2; i++)
+	{
+		gdouble x = (i == 0) ? logical_rect.x : logical_rect.x + logical_rect.width;
+		for (j = 0; j < 2; j++)
+		{
+			gdouble y = (j == 0) ? logical_rect.y : logical_rect.y + logical_rect.height;
+
+			gdouble xt = (x * matrix->xx + y * matrix->xy) + matrix->x0 * PANGO_SCALE;
+			gdouble yt = (x * matrix->yx + y * matrix->yy) + matrix->y0 * PANGO_SCALE;
+
+			if (i == 0 && j == 0)
+			{
+				x_min = x_max = xt;
+				y_min = y_max = yt;
+			}
+			else
+			{
+				if (xt < x_min)
+					x_min = xt;
+				if (yt < y_min)
+					y_min = yt;
+				if (xt > x_max)
+					x_max = xt;
+				if (yt > y_max)
+					y_max = yt;
+			}
+		}
+	}
+
+	*width = ceil (x_max) - floor (x_min);
+	*height = ceil (y_max) - floor (y_min);
+}
+
 void
 rendered_value_remeasure (RenderedValue *rv)
 {
-	pango_layout_get_size (rv->layout,
-			       &rv->layout_natural_width,
-			       &rv->layout_natural_height);
 	if (rv->rotation) {
-		double rads = rv->rotation * (M_PI / 180);
-		int width =
-			rv->layout_natural_width * fabs (cos (rads)) +
-			rv->layout_natural_height * fabs (sin (rads));
-		int height = 
-			rv->layout_natural_width * fabs (sin (rads)) +
-			rv->layout_natural_height * fabs (cos (rads));
-		rv->layout_natural_width = width;
-		rv->layout_natural_height = height;
-#if 0
-		g_print ("n_width=%d, n_height=%d\n",
-			 rv->layout_natural_width, rv->layout_natural_height);
-#endif
+		PangoMatrix rotmat = PANGO_MATRIX_INIT;
+		PangoContext *context = pango_layout_get_context (rv->layout);
+
+		pango_matrix_rotate (&rotmat, rv->rotation);
+		pango_context_set_matrix (context, &rotmat);
+		pango_layout_context_changed (rv->layout);
+		get_rotated_layout_bounds (rv->layout, &rv->layout_natural_width, &rv->layout_natural_height);
+		pango_context_set_matrix (context, NULL);
+		pango_layout_context_changed (rv->layout);
+	} else {
+		pango_layout_get_size (rv->layout,
+				       &rv->layout_natural_width,
+				       &rv->layout_natural_height);
 	}
 }
 
@@ -280,6 +323,21 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		pango_attr_list_unref (attrs);
 		attrs = new_attrs;
 		attr = pango_attr_foreground_new (color->red, color->green, color->blue);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+		style_color_unref (color);
+	}
+#endif
+
+#ifdef DEBUG_BOUNDING_BOX
+	{
+		PangoAttrList *new_attrs = pango_attr_list_copy (attrs);
+		PangoAttribute *attr;
+
+		pango_attr_list_unref (attrs);
+		attrs = new_attrs;
+		attr = pango_attr_background_new (0xffff, 0, 0);
 		attr->start_index = 0;
 		attr->end_index = -1;
 		pango_attr_list_insert (attrs, attr);
@@ -495,19 +553,35 @@ cell_get_entered_text (GnmCell const *cell)
 	return g_strdup ("<ERROR>");
 }
 
+/*
+ * Return the height of the rendered layout after rotation.
+ */
 int
 cell_rendered_height (GnmCell const *cell)
 {
-	if (!cell || !cell->rendered_value)
+	const RenderedValue *rv;
+
+	g_return_val_if_fail (cell != NULL, 0);
+
+	rv = cell->rendered_value;
+	if (!rv)
 		return 0;
 
 	return PANGO_PIXELS (cell->rendered_value->layout_natural_height);
 }
 
+/*
+ * Return the width of the rendered layout after rotation.
+ */
 int
 cell_rendered_width (GnmCell const *cell)
 {
-	if (!cell || !cell->rendered_value)
+	const RenderedValue *rv;
+
+	g_return_val_if_fail (cell != NULL, 0);
+
+	rv = cell->rendered_value;
+	if (!rv)
 		return 0;
 
 	return PANGO_PIXELS (cell->rendered_value->layout_natural_width);

@@ -596,10 +596,6 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 
 	if (align != HALIGN_GENERAL)
 		return align;
-
-	if (mstyle_get_rotation (mstyle) != 0)
-		return HALIGN_LEFT;
-
 	g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
 
 	if (c->base.sheet && c->base.sheet->display_formulas &&
@@ -608,22 +604,26 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 
 	for (v = c->value; v != NULL ; )
 		switch (v->type) {
-		case VALUE_BOOLEAN :
-		case VALUE_ERROR :
+		case VALUE_BOOLEAN:
+		case VALUE_ERROR:
 			return HALIGN_CENTER;
 
-		case VALUE_INTEGER :
-		case VALUE_FLOAT :
+		case VALUE_INTEGER:
+		case VALUE_FLOAT:
+			if (mstyle_get_rotation (mstyle) > 0)
+				return HALIGN_LEFT;
 			return HALIGN_RIGHT;
 
-		case VALUE_ARRAY :
+		case VALUE_ARRAY:
 			/* Tail recurse into the array */
 			if (v->v_array.x > 0 && v->v_array.y > 0) {
 				v = v->v_array.vals [0][0];
 				continue;
 			}
 
-		default :
+		default:
+			if (mstyle_get_rotation (mstyle) < 0)
+				return HALIGN_RIGHT;
 			return HALIGN_LEFT;
 		}
 	return HALIGN_RIGHT;

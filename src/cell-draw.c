@@ -151,13 +151,21 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 		text_base = rect_y;
 		break;
 
-	case VALIGN_BOTTOM:
-		text_base = rect_y + y_direction * MAX (0, height - rv->layout_natural_height);
+	case VALIGN_BOTTOM: {
+		int dh = height - rv->layout_natural_height;
+		if (rv->rotation == 0 && dh < 0)
+			dh = 0;
+		text_base = rect_y + y_direction * dh;
 		break;
+	}
 
-	case VALIGN_CENTER:
-		text_base = rect_y + y_direction * MAX (0, (height - rv->layout_natural_height) / 2);
+	case VALIGN_CENTER: {
+		int dh = (height - rv->layout_natural_height) / 2;
+		if (rv->rotation == 0 && dh < 0)
+                        dh = 0;
+		text_base = rect_y + y_direction * dh;
 		break;
+	}
 
 	case VALIGN_JUSTIFY:
 		text_base = rect_y;
@@ -176,10 +184,9 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 
 #if 0
 	if (rv->rotation)
-		g_print ("width=%d, n_width=%d, n_height=%d, h_center=%d\n",
-			 width,
-			 rv->layout_natural_width, rv->layout_natural_height,
-			 h_center);
+		g_print ("hoffset=%d,  text_base=%d,  n_width=%d, n_height=%d\n",
+			 hoffset, text_base,
+			 rv->layout_natural_width, rv->layout_natural_height);
 #endif
 
 	*res_color = &rv->color;
@@ -241,6 +248,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		if (rv->rotation) {
 #ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
 			PangoMatrix rotmat = PANGO_MATRIX_INIT;
+
 			context = pango_layout_get_context (rv->layout);
 			pango_matrix_rotate (&rotmat, rv->rotation);
 			pango_context_set_matrix (context, &rotmat);

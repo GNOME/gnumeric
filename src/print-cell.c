@@ -263,6 +263,8 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 			      &color, &x, &y)) {
 		double x0 = x1 + 1 + ci->margin_a;
 		double y0 = y1 - (1 + ri->margin_a);
+		double px = x1 + x / (double)PANGO_SCALE;
+		double py = y1 + y / (double)PANGO_SCALE;
 
 		/* Clip the printed rectangle */
 		gnome_print_gsave (context);
@@ -277,18 +279,23 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 					 color->green / (double)0xffff,
 					 color->blue  / (double)0xffff);
 
-		if (rv->rotation != 0)
-			y1 -= rv->layout_natural_width *
-				sin (rv->rotation * (M_PI / 180)) /
-				PANGO_SCALE;
+		if (rv->rotation) {
+			int width, height;
+			pango_layout_get_size (rv->layout, &width, &height);
 
-		gnome_print_moveto (context,
-				    x1 + x / (double)PANGO_SCALE,
-				    y1 + y / (double)PANGO_SCALE);
+			if (rv->rotation > 0)
+				py -= width * sin (rv->rotation * (M_PI / 180)) / PANGO_SCALE;
+			else if (rv->rotation < 0)
+				px -= height * sin (rv->rotation * (M_PI / 180)) / PANGO_SCALE;
+		}
+
+		gnome_print_moveto (context, px, py);
+
 		if (rv->rotation != 0)
 			gnome_print_rotate (context, rv->rotation);
 
 		gnome_print_pango_layout (context, rv->layout);
+
 		gnome_print_grestore (context);
 	}
 

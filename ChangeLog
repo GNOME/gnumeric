@@ -1,3 +1,14 @@
+2004-12-17  Morten Welinder  <terra@gnome.org>
+
+	* src/print-cell.c (print_cell_NEW): Fix origin correction.
+
+	* src/rendered-value.c (rendered_value_remeasure): Render while
+	rotated as pango turns off hinting in the font.
+
+	* src/style.c (style_default_halign): Errors and booleans remain
+	centered when rotated.  Numbers and text are left-aligned when
+	rotated up and right-aligned when rotated down.
+
 2004-12-15  Morten Welinder  <terra@gnome.org>
 
 	* src/print-cell.c (print_cell_NEW): Print rotated.
