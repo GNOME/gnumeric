@@ -1,3 +1,15 @@
+Gnumeric 1.2.12
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127411
+	* Render background for charts (not just graphs)
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=135949
+	* Import chart outlines properly
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=100372
+	* Honor col/row visibility when exporting borders to latex
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.11
 
 Jody:
