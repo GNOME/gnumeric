@@ -9,7 +9,7 @@
    width="64.000000mm"
    height="60.000000mm"
    sodipodi:docbase="/home/manu/Desktop/Chart-icons"
-   sodipodi:docname="chart_area_1_1.svg"
+   sodipodi:docname="chart_bar_1_1.svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:cc="http://web.resource.org/cc/"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -172,10 +172,38 @@
      y="31.699234"
      rx="17.594519"
      ry="14.164467" />
-  <path
-     style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
-     d="M 74.062500 53.937500 L 69.343750 59.000000 L 30.000000 101.37500 L 30.093750 173.09375 C 30.584987 179.48170 36.229908 184.69793 43.781250 186.03125 L 186.59375 186.03125 C 194.09417 184.70692 199.69238 179.54778 200.25000 173.21875 L 200.37500 149.96875 L 160.18750 122.15625 L 157.28125 120.12500 L 154.68750 122.53125 L 116.87500 157.21875 L 76.687500 60.312500 L 74.062500 53.937500 z "
-     id="path5302" />
+  <g
+     id="g6989"
+     transform="matrix(8.538092e-18,1.000000,-1.000000,8.538092e-18,217.0166,-10.76789)">
+    <rect
+       style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7825561;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
+       id="rect6928"
+       width="21.259842"
+       height="71.741028"
+       x="51.377953"
+       y="115.15747" />
+    <rect
+       style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
+       id="rect6929"
+       width="21.259842"
+       height="111.23093"
+       x="79.724411"
+       y="75.678513" />
+    <rect
+       style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
+       id="rect6930"
+       width="21.259842"
+       height="49.606297"
+       x="129.46867"
+       y="136.41731" />
+    <rect
+       style="fill:#d1940c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
+       id="rect6931"
+       width="21.259842"
+       height="141.73228"
+       x="157.81512"
+       y="44.291332" />
+  </g>
   <rect
      style="fill:none;fill-opacity:0.74901998;fill-rule:evenodd;stroke:#000000;stroke-width:3.5262673;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
      id="rect5928"
@@ -185,8 +213,4 @@
      y="26.574797"
      rx="17.594519"
      ry="14.164467" />
-  <path
-     style="fill:#83a67f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.7716535;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
-     d="M 114.09375 31.125000 L 111.06250 39.187500 L 69.187500 150.62500 L 30.000000 164.31250 L 30.000000 172.21875 C 30.000000 180.06587 37.846387 186.37500 47.593750 186.37500 L 182.78125 186.37500 C 191.94000 186.37500 199.34862 180.77699 200.21875 173.59375 L 200.37500 40.750000 C 200.37500 40.408602 200.27922 40.085212 200.25000 39.750000 L 200.18750 39.687500 L 158.00000 96.812500 L 118.90625 38.281250 L 114.09375 31.125000 z "
-     id="path4680" />
 </svg>

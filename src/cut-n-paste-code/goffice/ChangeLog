@@ -1,3 +1,8 @@
+2004-09-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152615
+	* pixmaps: new consistent charting icon set (based on a Jimmac work).
+
 2004-09-16  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-error-bar.c (gog_error_bar_get_min_max): get values from
