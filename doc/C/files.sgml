@@ -207,7 +207,7 @@
   independently. See the content of the created file for various customization options. </para>
   </sect2>
   <sect2 id="file-format-csv">
-  <title>Test Format</title>
+  <title>Text Format</title>
   <para>This format exports gnumeric spreadsheets as straight text, e. g. 
   in the form of comma separated fields.</para>
   </sect2>
