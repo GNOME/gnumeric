@@ -1,3 +1,10 @@
+gnumeric (1.4.0-2) UNRELEASED; urgency=low
+
+  * [debian/gnumeric-doc.doc-base] Removed as the documentation is now in
+    DocBook XML only, and doc-base doesn't know how to deal with XML formats.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 29 Nov 2004 18:06:16 +0100
+
 gnumeric (1.4.0-1) unstable; urgency=medium
 
   * New upstream release.
