@@ -32,8 +32,7 @@ typedef enum {
 } random_distribution_t;
 
 typedef struct {
-        int start_col, start_row;
-        int end_col, end_row;
+	Value *range;
 } discrete_random_tool_t;
 
 typedef struct {

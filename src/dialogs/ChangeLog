@@ -1,4 +1,21 @@
-2001-11-20  Andreas J. Guelzow  <guelzow@kirkman.taliesin.ca>
+2001-11-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (random_tool_update_sensitivity_cb) : Check for
+	  valid values in the netry fields
+	(random_tool_ok_clicked) : use gnumeric_expr_entry_parse_to_value rather 
+	  than parse_range (support references to other sheets), set-up checks for 
+	  errors in random_tool
+	(dialog_random_tool_init) : hook random_tool_update_sensitivity_cb to the 
+	  `changed' signal of the other entry fields 
+
+2001-11-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-search.c (search_clicked) : initialize sr->curr_sheet
+	(dialog_search) : change flags for expr-entry widget
+	* dialog-search-replace.c (ok_clicked) : initialize sr->curr_sheet
+	(dialog_search_replace) : change flags for expr-entry widget
+
+2001-11-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (random_tool_ok_clicked_cb) : Don't use 
 	  non-existing entry field.

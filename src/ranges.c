@@ -1004,9 +1004,12 @@ global_range_parse (Sheet *sheet, char const *str)
 	Value    *value = NULL;
 	ExprTree *expr = NULL;
 	ParsePos  pp;
+	ParseError errrec;
 
 	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
-	expr = expr_parse_string (str, &pp, NULL, NULL);
+	expr = gnumeric_expr_parser (str, &pp,
+		GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES, NULL, parse_error_init (&errrec));
+	parse_error_free (&errrec);
 	if (expr != NULL)  {
 		value = expr_tree_get_range (expr);
 		expr_tree_unref (expr);

@@ -2,6 +2,11 @@ Gnumeric 0.77
 
 Andreas:
 	* Fix problem in search & search/replace tool #64989
+	* Permit input from other sheets in Random Number Generator tool 
+	  (discrete distribution)
+	* Check for valid input in Random Number Generator tool
+	* Fix parsing error in analysis tools expecting sheet references
+          when none is given
 
 Jody:
 	* Tricky corner cases for style applications.

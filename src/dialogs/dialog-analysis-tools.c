@@ -701,13 +701,11 @@ cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
  **/
 static void
 tool_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-#include "format.h"
 			GenericToolState *state)
 {
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		wbcg_set_entry (state->wbcg,
 				GNUMERIC_EXPR_ENTRY (focus_widget));
-		gnumeric_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
 	} else
 		wbcg_set_entry (state->wbcg, NULL);
 }
@@ -1167,7 +1165,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init (state, "correlation.glade", "Correlation",
 			      GTK_SIGNAL_FUNC (corr_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (tool_update_sensitivity_multiple_areas_cb),
-			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      0)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Could not create the Correlation Tool dialog."));
 		g_free (state);
@@ -1282,7 +1280,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init (state, "covariance.glade", "Covariance",
 			      GTK_SIGNAL_FUNC (cov_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (tool_update_sensitivity_multiple_areas_cb),
-			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      0)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Could not create the Covariance Tool dialog."));
 		g_free (state);
@@ -1434,7 +1432,7 @@ dialog_desc_stat_tool_init (DescriptiveStatState *state)
 	if (dialog_tool_init ((GenericToolState *)state, "descriptive-stats.glade", "DescStats",
 			      GTK_SIGNAL_FUNC (cb_desc_stat_tool_ok_clicked),
 			      GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb),
-			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      0)) {
 		return TRUE;
 	}
 
@@ -1926,7 +1924,7 @@ dialog_ttest_tool_init (TTestState *state)
 	if (dialog_tool_init ((GenericToolState *)state, "mean-tests.glade", "MeanTests",
 			      GTK_SIGNAL_FUNC (ttest_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (ttest_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE | GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      GNUM_EE_SINGLE_RANGE)) {
 		return TRUE;
 	}
 
@@ -2209,7 +2207,7 @@ dialog_ftest_tool_init (FTestToolState *state)
 	if (dialog_tool_init ((GenericToolState *)state, "variance-tests.glade", "VarianceTests", 
 			      GTK_SIGNAL_FUNC (ftest_tool_ok_clicked_cb), 
 			      GTK_SIGNAL_FUNC (ftest_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE | GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      GNUM_EE_SINGLE_RANGE)) {
 		return TRUE;
 	}
 
@@ -2438,7 +2436,7 @@ dialog_sampling_tool_init (SamplingState *state)
 	if (dialog_tool_init ((GenericToolState *)state, "sampling.glade", "Sampling",
 			      GTK_SIGNAL_FUNC (sampling_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb),
-			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW )) {
+			      0)) {
 		return TRUE;
 	}
 
@@ -2589,6 +2587,27 @@ distribution_strs_find (random_distribution_t dist)
 	return &distribution_strs[0];
 }
 
+/*
+ * combo_get_distribution
+ * @combo  combo widget with distribution list
+ *
+ * Find from combo the distribution the user selected
+ */
+static random_distribution_t
+combo_get_distribution (GtkWidget *combo)
+{
+        char *text;
+	int i;
+
+        text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combo)->entry));
+
+	for (i = 0; distribution_strs[i].name != NULL; i++)
+		if (strcmp (text, _(distribution_strs[i].name)) == 0)
+			return distribution_strs[i].dist;
+
+	return UniformDistribution;
+}
+
 /**
  * random_tool_update_sensitivity:
  * @dummy:
@@ -2601,21 +2620,74 @@ static void
 random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 {
 	gboolean ready  = FALSE;
-	gint i, vars, count, err_vars, err_count;
+	gint count, vars;
+	gnum_float a_float, from_val, to_val, p_val;
         Value *output_range;
+	Value *disc_prob_range;
+	random_distribution_t the_dist;
 
         output_range = gnumeric_expr_entry_parse_to_value 
 		(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
+	the_dist = combo_get_distribution (state->distribution_combo);
 
-	i = gnumeric_glade_group_value (state->gui, output_group);
-	err_vars = entry_to_int (GTK_ENTRY (state->vars_entry), &vars, FALSE);
-	err_count = entry_to_int (GTK_ENTRY (state->count_entry), &count, FALSE);
-
-	ready = ((err_vars == 0 && vars > 0) &&
-		 (err_count == 0 && count > 0) &&
-                 ((i != 2) || (output_range != NULL)));
-
+	ready = ((entry_to_int (GTK_ENTRY (state->vars_entry), &vars, FALSE) == 0 && 
+		  vars > 0) &&
+		 (entry_to_int (GTK_ENTRY (state->count_entry), &count, FALSE) == 0 &&
+		  count > 0) &&
+                 ((gnumeric_glade_group_value (state->gui, output_group) != 2) || 
+		  (output_range != NULL)));
         if (output_range != NULL) value_release (output_range);
+
+	switch (the_dist) {
+	case NormalDistribution:
+		ready = ready && entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, 
+						 FALSE) == 0 &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &a_float, 
+					FALSE) == 0;
+		break;
+	case BernoulliDistribution:
+		ready = ready && 
+			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
+			p_val <= 1.0 && p_val > 0.0;
+		break;
+	case PoissonDistribution:
+		ready = ready && 
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		break;
+	case ExponentialDistribution:
+		ready = ready && 
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		break;
+	case BinomialDistribution:
+		ready = ready && 
+			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
+			entry_to_int (GTK_ENTRY (state->par2_entry), &count, FALSE) == 0 && 
+			p_val <= 1.0 && p_val > 0.0 &&
+			count > 0;
+		break;
+	case NegativeBinomialDistribution:
+		ready = ready && 
+			entry_to_float (GTK_ENTRY (state->par1_entry), &p_val, FALSE) == 0 &&
+			entry_to_int (GTK_ENTRY (state->par2_entry), &count, FALSE) == 0 && 
+			p_val <= 1.0 && p_val > 0.0 &&
+			count > 0;
+		break;
+	case DiscreteDistribution:
+		disc_prob_range = gnumeric_expr_entry_parse_to_value 
+			(GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->sheet);
+		ready = ready && disc_prob_range != NULL;
+		if (disc_prob_range != NULL) value_release (disc_prob_range);
+		break;
+	case UniformDistribution:
+	default:
+		ready = ready && 
+			entry_to_float (GTK_ENTRY (state->par1_entry), &from_val, FALSE) == 0 &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &to_val, FALSE) == 0 && 
+			from_val <= to_val;
+		break;		
+	}
 
 	gtk_widget_set_sensitive (state->apply_button, ready);
 	gtk_widget_set_sensitive (state->ok_button, ready);
@@ -2676,27 +2748,6 @@ distribution_parbox_config (RandomToolState *state,
 	}
 	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),
 				    state->distribution_accel);
-}
-
-/*
- * combo_get_distribution
- * @combo  combo widget with distribution list
- *
- * Find from combo the distribution the user selected
- */
-static random_distribution_t
-combo_get_distribution (GtkWidget *combo)
-{
-        char *text;
-	int i;
-
-        text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combo)->entry));
-
-	for (i = 0; distribution_strs[i].name != NULL; i++)
-		if (strcmp (text, _(distribution_strs[i].name)) == 0)
-			return distribution_strs[i].dist;
-
-	return UniformDistribution;
 }
 
 /*
@@ -2791,17 +2842,8 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		err = entry_to_int (GTK_ENTRY (state->par2_entry), &param.negbinom.f, TRUE);
 		break;
 	case DiscreteDistribution:
-		text = gtk_entry_get_text (GTK_ENTRY (state->par1_expr_entry));
-		if (!parse_range (text, &param.discrete.start_col,
-				  &param.discrete.start_row,
-				  &param.discrete.end_col,
-				  &param.discrete.end_row)) {
-		        error_in_entry (state->wbcg, state->par1_expr_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Value and probability input "
-					  "Range:'"));
-			return;
-		}
+		param.discrete.range = gnumeric_expr_entry_parse_to_value (
+			GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->sheet);
 		break;
 	case UniformDistribution:
 	default:
@@ -2823,6 +2865,26 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 			}
 			gtk_widget_destroy (state->dialog);
 		}
+		break;
+	case 1: /* non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX */
+		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
+		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), text);
+		g_free (text);		
+		break;
+        case 2: /* probabilities are all zero  (DiscreteDistribution) POST-RELEASE-FIX */
+		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
+		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), text);
+		g_free (text);		
+		break;
+        case 3: /* negative probability  (DiscreteDistribution) POST-RELEASE-FIX */
+		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
+		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), text);
+		g_free (text);		
+		break;
+        case 4: /* value is empty  (DiscreteDistribution) POST-RELEASE-FIX */
+		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
+		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), text);
+		g_free (text);		
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
@@ -2906,12 +2968,14 @@ dialog_random_tool_init (RandomToolState *state)
   	gtk_signal_connect (GTK_OBJECT (GTK_COMBO (state->distribution_combo)->entry),
 			    "changed", GTK_SIGNAL_FUNC (distribution_callback),
 			    state);
+  	gtk_signal_connect (GTK_OBJECT (GTK_COMBO (state->distribution_combo)->entry),
+			    "changed", GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb),
+			    state);
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "distribution_table"));
 	state->par1_expr_entry = GTK_WIDGET (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
-				       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
-				       GNUM_EE_MASK);
+				       GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
         gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
 				     wb_control_gui_cur_sheet (state->wbcg));
 	gtk_table_attach (table, state->par1_expr_entry,
@@ -2934,6 +2998,12 @@ dialog_random_tool_init (RandomToolState *state)
 	gtk_signal_connect_after (GTK_OBJECT (state->vars_entry), "changed",
 				  GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->count_entry), "changed",
+				  GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->par1_entry), "changed",
+				  GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->par2_entry), "changed",
+				  GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->par1_expr_entry), "changed",
 				  GTK_SIGNAL_FUNC (random_tool_update_sensitivity_cb), state);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
@@ -3141,9 +3211,7 @@ dialog_regression_tool_init (RegressionToolState *state)
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
 	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (state->input_entry, 
-				       GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW, 
-				       GNUM_EE_MASK);
+	gnumeric_expr_entry_set_flags (state->input_entry, 0, GNUM_EE_MASK);
         gnumeric_expr_entry_set_scg (state->input_entry, wb_control_gui_cur_sheet (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 			  1, 2, 0, 1,
@@ -3166,8 +3234,7 @@ dialog_regression_tool_init (RegressionToolState *state)
 	gtk_widget_show (GTK_WIDGET (state->input_entry));
 
 	state->input_entry_2 = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (state->input_entry_2, 
-				       GNUM_EE_SINGLE_RANGE | GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW, 
+	gnumeric_expr_entry_set_flags (state->input_entry_2, GNUM_EE_SINGLE_RANGE, 
 				       GNUM_EE_MASK);
 	gnumeric_expr_entry_set_scg (state->input_entry_2,
 				     wb_control_gui_cur_sheet (state->wbcg));
@@ -3365,7 +3432,7 @@ dialog_exp_smoothing_tool_init (ExpSmoothToolState *state)
 			      "ExpSmoothing",
 			      GTK_SIGNAL_FUNC (exp_smoothing_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (exp_smoothing_tool_update_sensitivity_cb),
-			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      0)) {
 		return TRUE;
 	}
 
@@ -3537,7 +3604,7 @@ dialog_average_tool_init (AverageToolState *state)
 			      "MovAverages",
 			      GTK_SIGNAL_FUNC (average_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (average_tool_update_sensitivity_cb),
-			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      0)) {
 		return TRUE;
 	}
 
@@ -3681,7 +3748,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init (state, "fourier-analysis.glade", "FourierAnalysis",
 			      GTK_SIGNAL_FUNC (fourier_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (tool_update_sensitivity_global_cb),
-			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      0)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Could not create the Fourier Analyis Tool dialog."));
 		g_free (state);
@@ -3796,9 +3863,7 @@ dialog_histogram_tool_init (GenericToolState *state)
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
 	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (state->input_entry, 
-				       GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW, 
-				       GNUM_EE_MASK);
+	gnumeric_expr_entry_set_flags (state->input_entry, 0, GNUM_EE_MASK);
         gnumeric_expr_entry_set_scg (state->input_entry, wb_control_gui_cur_sheet (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 			  1, 2, 0, 1,
@@ -3822,9 +3887,7 @@ dialog_histogram_tool_init (GenericToolState *state)
 	gtk_widget_show (GTK_WIDGET (state->input_entry));
 
 	state->input_entry_2 = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (state->input_entry_2, 
-				       GNUM_EE_SINGLE_RANGE | GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW, 
-				       GNUM_EE_MASK);
+	gnumeric_expr_entry_set_flags (state->input_entry_2, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
 	gnumeric_expr_entry_set_scg (state->input_entry_2,
 				     wb_control_gui_cur_sheet (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
@@ -4017,8 +4080,8 @@ dialog_anova_single_tool_init (AnovaSingleToolState *state)
 {
 	if (dialog_tool_init ((GenericToolState *)state, "anova-one.glade", "ANOVA",
 			      GTK_SIGNAL_FUNC (anova_single_tool_ok_clicked_cb),
-			      GTK_SIGNAL_FUNC (anova_single_tool_update_sensitivity_cb),
-			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
+			      GTK_SIGNAL_FUNC (anova_single_tool_update_sensitivity_cb), 
+			      0)) {
 		return TRUE;
 	}
 

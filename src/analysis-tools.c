@@ -2093,60 +2093,66 @@ random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	     random_distribution_t distribution,
 	     random_tool_t *param, data_analysis_output_t *dao)
 {
-	prepare_output (wbc, dao, _("Random"));
+	if (distribution != DiscreteDistribution)
+		prepare_output (wbc, dao, _("Random"));
 
 	switch (distribution) {
 	case DiscreteDistribution: {
-	        int n = param->discrete.end_row-param->discrete.start_row + 1;
+		Value *range = param->discrete.range;
+	        int n = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
 	        gnum_float *prob = g_new (gnum_float, n);
 		gnum_float *cumul_p = g_new (gnum_float, n);
 		Value **values = g_new0 (Value *, n);
                 gnum_float cumprob = 0;
 		int j = 0;
 		int i;
-		int result = 0;
+		int err = 0;
 
-	        for (i = param->discrete.start_row;
-		     i <= param->discrete.end_row;
+	        for (i = range->v_range.cell.a.row;
+		     i <= range->v_range.cell.b.row;
 		     i++, j++) {
 			Value *v;
 			gnum_float thisprob;
-		        Cell *cell = sheet_cell_get (sheet,
-						     param->discrete.start_col + 1, i);
-			if (cell != NULL &&
-			    (v = cell->value) != NULL &&
-			    VALUE_IS_NUMBER (v) &&
-			    (thisprob = value_get_as_float (v)) >= 0) {
-				prob[j] = thisprob;
-			} else {
-				result = 1;
-				goto out;
+		        Cell *cell = sheet_cell_get (range->v_range.cell.a.sheet,
+						     range->v_range.cell.a.col + 1, i);
+
+			if (cell == NULL || 
+			    (v = cell->value) == NULL ||
+			    !VALUE_IS_NUMBER (v)) {
+				err = 1;
+				goto random_tool_discrete_out;				
+			}
+			if ((thisprob = value_get_as_float (v)) < 0) {
+				err = 3;
+				goto random_tool_discrete_out;				
 			}
 
+			prob[j] = thisprob;
 			cumprob += thisprob;
 			cumul_p[j] = cumprob;
 
-		        cell = sheet_cell_get (sheet,
-					       param->discrete.start_col, i);
-			if (cell != NULL && cell->value != NULL)
-			        values[j] = value_duplicate (cell->value);
-			else {
-				result = 1;
-				goto out;
+		        cell = sheet_cell_get (range->v_range.cell.a.sheet,
+					       range->v_range.cell.a.col, i);
+
+			if (cell == NULL || cell->value == NULL) {
+				err = 4;
+				goto random_tool_discrete_out;
 			}
+
+			values[j] = value_duplicate (cell->value);
 		}
 
 		if (cumprob == 0) {
-			result = 2;
-			goto out;
-		} else {
-			/* Rescale... */
-			for (i = 0; i < n; i++) {
-				prob[i] /= cumprob;
-				cumul_p[i] /= cumprob;
-			}
+			err = 2;
+			goto random_tool_discrete_out;
+		}
+		/* Rescale... */
+		for (i = 0; i < n; i++) {
+			prob[i] /= cumprob;
+			cumul_p[i] /= cumprob;
 		}
 
+		prepare_output (wbc, dao, _("Random"));
 	        for (i = 0; i < vars; i++) {
 			int k;
 		        for (k = 0; k < count; k++) {
@@ -2160,16 +2166,17 @@ random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 			}
 		}
 
-	out:
+	random_tool_discrete_out:
 		for (i = 0; i < n; i++)
 			if (values[i])
 				value_release (values[i]);
 		g_free (prob);
 		g_free (cumul_p);
 		g_free (values);
+		value_release (range);
 
-		if (result)
-			return result;
+		if (err)
+			return err;
 
 	        break;
 	}
@@ -2266,7 +2273,7 @@ random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 	}
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
+	sheet_update (dao->sheet);
 
 	return 0;
 }

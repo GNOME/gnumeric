@@ -1,3 +1,13 @@
+2001-11-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.h : change discrete_random_tool_t to use Value rather than 
+	  explicit row/column numbers
+	* src/analysis-tools.c (random_tool) : use Value rather than explicit row/column 
+	  numbers support input from other sheets, differentiate between various errors 
+	  by returning more specifc error codes
+	* ranges.c (global_range_parse) : use default sheet if string does not contain
+	  specific sheet reference
+
 2001-11-23  Jody Goldberg <jody@gnome.org>
 
 	* src/parser.y (CELLREF RANGE_SEP CELL_REF) : init the sheet for both
