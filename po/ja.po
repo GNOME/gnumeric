@@ -1467,14 +1467,12 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP 及び 5.0/95 ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:7
-#, fuzzy
 msgid "MS Excel (tm) SpreadsheetML"
-msgstr "MS Excel (tm) XML"
+msgstr "MS Excel (tm) スプレッドシートXML"
 
 #: plugins/fn-complex/functions.c:80
 msgid ""
@@ -17812,9 +17810,8 @@ msgid "Unmerging %s"
 msgstr "%s の結合解除"
 
 #: src/commands.c:3767
-#, fuzzy, c-format
 msgid "Merge and Center %s"
-msgstr "%s へのデータの結合"
+msgstr "%sの結合と中央揃え"
 
 #: src/commands.c:3767
 #, c-format
@@ -22330,11 +22327,11 @@ msgstr "自動探索はテキストに列を検出できませんでした。手
 
 #: src/dialogs/dialog-stf-fixed-page.c:69
 msgid "Delete and Merge _Left"
-msgstr "削除して左にマージ(_L)"
+msgstr "削除して左に結合(_L)"
 
 #: src/dialogs/dialog-stf-fixed-page.c:71
 msgid "Delete and Merge _Right"
-msgstr "削除して右にマージ(_R)"
+msgstr "削除して右に結合(_R)"
 
 #: src/dialogs/dialog-stf-fixed-page.c:74
 msgid "_Split"
@@ -27703,24 +27700,20 @@ msgid "Borders"
 msgstr "罫線"
 
 #: src/wbc-gtk.c:323 src/wbcg-actions.c:2038
-#, fuzzy
 msgid "Align left"
-msgstr "配置"
+msgstr "左揃え"
 
 #: src/wbc-gtk.c:324 src/wbcg-actions.c:2041
-#, fuzzy
 msgid "Center horizontally"
-msgstr "水平(_H)"
+msgstr "水平方向に中央揃え"
 
 #: src/wbc-gtk.c:325 src/wbcg-actions.c:2044
-#, fuzzy
 msgid "Align right"
-msgstr "右のアウトライン(_R)"
+msgstr "右揃え"
 
 #: src/wbc-gtk.c:326
-#, fuzzy
 msgid "Fill Horizontally"
-msgstr "水平(_H)"
+msgstr "水平方向に均等割り付け"
 
 #: src/wbc-gtk.c:327
 #, fuzzy
@@ -27734,31 +27727,27 @@ msgstr "選択範囲をまたがる中央(_S)"
 
 #: src/wbc-gtk.c:330
 msgid "Align numbers right, and text left"
-msgstr ""
+msgstr "数字を右に、テキストを左に揃えます"
 
 #: src/wbc-gtk.c:335 src/wbcg-actions.c:2059
 msgid "Align Top"
-msgstr "上に揃えます"
+msgstr "上揃え"
 
 #: src/wbc-gtk.c:336
-#, fuzzy
 msgid "Center Vertically"
-msgstr "垂直(_V)"
+msgstr "垂直方向に中央揃え"
 
 #: src/wbc-gtk.c:337 src/wbcg-actions.c:2065
-#, fuzzy
 msgid "Align Bottom"
-msgstr "下に揃えます"
+msgstr "下揃え"
 
 #: src/wbc-gtk.c:359 src/wbc-gtk.c:360 src/wbc-gtk.c:363 src/wbc-gtk.c:378
-#, fuzzy
 msgid "Horzontal Alignment"
-msgstr "水平余白のセット"
+msgstr "水平方向のアラインメント"
 
 #: src/wbc-gtk.c:374 src/wbc-gtk.c:375
-#, fuzzy
 msgid "Vertical Alignment"
-msgstr "垂直余白のセット"
+msgstr "垂直方向のアラインメント"
 
 #: src/wbc-gtk.c:471
 msgid "Undo the last action"
@@ -28296,7 +28285,7 @@ msgstr "結合(_M)..."
 #, fuzzy
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
-msgstr "各列に対する重複したシートに円柱データをマージします。"
+msgstr "各列に対する重複したシートに円柱データを結合します。"
 
 #: src/wbcg-actions.c:1560
 msgid "_Tabulate Dependency..."
@@ -28742,9 +28731,8 @@ msgstr ""
 "等分散を仮定した2つの母平均を2つの対応しないサンプルで比較します: t検定..."
 
 #: src/wbcg-actions.c:1776
-#, fuzzy
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
-msgstr "対でないサンプル、変化量は等しい: T-検定(_U)"
+msgstr "対でないサンプル、等しくない変化量: T-検定(_U)..."
 
 #: src/wbcg-actions.c:1777
 msgid ""
@@ -28753,16 +28741,14 @@ msgid ""
 msgstr "等分散ではない2つの母平均を2つの対応しない標本で比較します: t検定..."
 
 #: src/wbcg-actions.c:1780
-#, fuzzy
 msgid "_Known Variances: Z-Test..."
-msgstr "等検定: F-検定(_T)..."
+msgstr "分散既知: Z-検定(_K)..."
 
 #: src/wbcg-actions.c:1781
-#, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
-msgstr "分散が既知または大きな標本をもつ2つの母平均の比較: z検定..."
+msgstr "分散が既知の2つの母平均の比較: z検定..."
 
 #. Tools -> Analysis
 #: src/wbcg-actions.c:1785
@@ -29253,23 +29239,21 @@ msgid "_Center"
 msgstr "中央(_C)"
 
 #: src/wbcg-actions.c:2043
-#, fuzzy
 msgid "_Right Align"
-msgstr "右寄せ"
+msgstr "右寄せ(_R)"
 
 #: src/wbcg-actions.c:2046
 #, fuzzy
 msgid "_Center Across Selection"
-msgstr "選択範囲の中央揃え"
+msgstr "選択範囲の中央揃え(_C)"
 
 #: src/wbcg-actions.c:2050
-#, fuzzy
 msgid "_Merge and Center"
-msgstr "垂直方向の中央(_V)"
+msgstr "結合と中央揃え(_M)"
 
 #: src/wbcg-actions.c:2051
 msgid "Merge the selection into 1 cell, and center horizontaly."
-msgstr ""
+msgstr "選択範囲を1つのセルに結合して、水平方向に中央位置に移動します。"
 
 #: src/wbcg-actions.c:2058
 msgid "Align _Top"
