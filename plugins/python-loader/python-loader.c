@@ -134,7 +134,8 @@ static void
 gnumeric_plugin_loader_python_load (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderPython *loader_python;
-	gchar *python_file_extensions[] = {"py", "pyc", "pyo", NULL}, **file_ext;
+	const gchar *python_file_extensions[]
+		= {"py", "pyc", "pyo", NULL}, **file_ext;
 	InterpreterInfo *py_interpreter_info;
 	gchar *full_module_file_name = NULL;
 	FILE *f;
@@ -185,7 +186,8 @@ gnumeric_plugin_loader_python_load (GnumericPluginLoader *loader, ErrorInfo **re
 
 		modules = PyImport_GetModuleDict ();
 		g_return_if_fail (modules != NULL);
-		main_module = PyDict_GetItemString (modules, "__main__");
+		main_module = PyDict_GetItemString (modules,
+						    (char *) "__main__");
 		g_return_if_fail (main_module != NULL);
 		main_module_dict = PyModule_GetDict (main_module);
 		g_return_if_fail (main_module_dict != NULL);
@@ -304,7 +306,8 @@ gnumeric_plugin_loader_python_func_file_probe (GnumFileOpener const *fo, PluginS
 
 	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
 	switch_python_interpreter_if_needed (GNUMERIC_PLUGIN_LOADER_PYTHON (plugin_info_get_loader (service->plugin))->py_interpreter_info);
-	probe_result = PyObject_CallFunction (loader_data->python_func_file_probe, "s", file_name);
+	probe_result = PyObject_CallFunction
+		(loader_data->python_func_file_probe, (char *) "s", file_name);
 	if (probe_result != NULL) {
 		result = PyObject_IsTrue (probe_result);
 		Py_DECREF (probe_result);
@@ -331,8 +334,9 @@ gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo, PluginSe
 	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
 	switch_python_interpreter_if_needed (GNUMERIC_PLUGIN_LOADER_PYTHON (plugin_info_get_loader (service->plugin))->py_interpreter_info);
 	sheet = sheet_new (wb_view_workbook (wb_view), _("Some name"));
-	open_result = PyObject_CallFunction (loader_data->python_func_file_open,
-	                                     "Ns", py_new_Sheet_object (sheet), file_name);
+	open_result = PyObject_CallFunction
+		(loader_data->python_func_file_open,
+		 (char *) "Ns", py_new_Sheet_object (sheet), file_name);
 	if (open_result != NULL) {
 		Py_DECREF (open_result);
 		workbook_sheet_attach (wb_view_workbook (wb_view), sheet, NULL);
@@ -433,8 +437,9 @@ gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginSer
 	saver_data = (ServiceLoaderDataFileSaver *) plugin_service_get_loader_data (service);
 	switch_python_interpreter_if_needed (GNUMERIC_PLUGIN_LOADER_PYTHON (plugin_info_get_loader (service->plugin))->py_interpreter_info);
 	py_workbook = py_new_Workbook_object (wb_view_workbook (wb_view));
-	save_result = PyObject_CallFunction (saver_data->python_func_file_save,
-	                                     "Ns", py_workbook, file_name);
+	save_result = PyObject_CallFunction
+		(saver_data->python_func_file_save,
+		 (char *) "Ns", py_workbook, file_name);
 	if (save_result != NULL) {
 		Py_DECREF (save_result);
 	} else {
@@ -562,7 +567,7 @@ call_python_function_nodes (FunctionEvalInfo *ei, ExprList *expr_tree_list)
 	return ret_value;
 }
 
-static gchar **
+static const gchar **
 python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *python_fn,
                                    const gchar *fn_name)
 {
@@ -589,17 +594,17 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 	}
 	g_free (help_attr_name);
 
-	return (gchar **) PyCObject_AsVoidPtr (cobject_help_value);
+	return (const gchar **) PyCObject_AsVoidPtr (cobject_help_value);
 }
 
 static gboolean
 gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *service,
-                                                           gchar const *fn_name,
-                                                           gchar **args_ptr,
-                                                           gchar **arg_names_ptr,
-                                                           gchar ***help_ptr,
-                                                           FunctionArgs	 *fn_args_ptr,
-                                                           FunctionNodes *fn_nodes_ptr,
+							   const gchar *fn_name,
+							   const gchar **args_ptr,
+							   const gchar **arg_names_ptr,
+							   const gchar ***help_ptr,
+							   FunctionArgs	 *fn_args_ptr,
+							   FunctionNodes *fn_nodes_ptr,
 							   FuncLinkHandle   *link,
 							   FuncUnlinkHandle *unlink)
 {
@@ -640,8 +645,8 @@ gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *servic
 			return FALSE;
 		}
 	} else if (PyFunction_Check (fn_info_obj)) {
-		*args_ptr = "";
-		*arg_names_ptr = "";
+		*args_ptr = (char *) "";
+		*arg_names_ptr = (char *) "";
 		*help_ptr = python_function_get_gnumeric_help (loader_data->python_fn_info_dict,
 		                                               fn_info_obj, fn_name);
 		*fn_args_ptr = NULL;
@@ -678,7 +683,8 @@ gnumeric_plugin_loader_python_load_service_function_group (GnumericPluginLoader 
 	if (python_fn_info_dict != NULL && PyDict_Check (python_fn_info_dict)) {
 		ServiceLoaderDataFunctionGroup *loader_data;
 
-		service_function_group->plugin_func_get_full_function_info = &gnumeric_plugin_loader_python_func_get_full_function_info;
+		service_function_group->plugin_func_get_full_function_info =
+			&gnumeric_plugin_loader_python_func_get_full_function_info;
 
 		loader_data = g_new (ServiceLoaderDataFunctionGroup, 1);
 		loader_data->python_fn_info_dict = (PyObject *) python_fn_info_dict;

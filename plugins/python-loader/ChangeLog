@@ -1,3 +1,42 @@
+2002-03-11  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (create_python_interpreter,
+	py_CellPos_get_tuple_method, py_CellPos_object_getattr,
+	py_Range_get_tuple_method, py_mstyle_set_font_bold_method,
+	py_mstyle_get_font_bold_method, py_mstyle_set_font_italic_method,
+	py_mstyle_get_font_italic_method,
+	py_mstyle_set_font_strike_method,
+	py_mstyle_get_font_strike_method, py_mstyle_set_font_size_method,
+	py_mstyle_get_font_size_method, py_mstyle_set_wrap_text_method,
+	py_mstyle_get_wrap_text_method, py_Cell_set_text_method,
+	py_Cell_get_mstyle_method, py_Cell_get_value_method,
+	py_Cell_get_value_as_string_method,
+	py_Cell_get_rendered_text_method, py_Cell_get_entered_text_method,
+	py_sheet_cell_fetch_method, py_sheet_style_get_method,
+	py_sheet_style_apply_range_method,
+	py_sheet_style_set_range_method, py_sheet_style_set_pos_method,
+	py_sheet_get_extent_method, py_sheet_rename_method,
+	py_sheet_get_name_unquoted_method, py_sheet_subscript,
+	py_Workbook_get_sheets_method, py_GnumericFuncDict_subscript,
+	py_PluginInfo_get_dir_name_method, py_PluginInfo_get_id_method,
+	py_PluginInfo_get_name_method,
+	py_PluginInfo_get_description_method, py_gnumeric_Boolean_method,
+	py_gnumeric_CellPos_method, py_gnumeric_Range_method,
+	py_gnumeric_MStyle_method, py_initgnumeric):
+
+	* python-loader.c (gnumeric_plugin_loader_python_load,
+	gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_func_file_save,
+	(gnumeric_plugin_loader_python_func_get_full_function_info):
+	Python API doesn't expect arguments to be declared const. So cast
+	constants to non-const to silence warning.
+	(python_function_get_gnumeric_help) Return const gchar **.
+	(gnumeric_plugin_loader_python_func_get_full_function_info):
+	Change signature to match
+	PluginServiceFunctionGroup::plugin_func_get_full_function_info
+	prototype
+
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.1

@@ -1,3 +1,12 @@
+2002-03-11  Jon K Hellan  <hellan@acm.org>
+
+	* python.c (cell_ref_to_python, range_to_python,
+	boolean_to_python, boolean_check, boolean_from_python,
+	range_check, cell_ref_from_python, range_from_python, apply,
+	register_function, initgnumeric, plugin_init_general): Python API
+	doesn't expect arguments to be declared const. So cast constants
+	to non-const to silence warning.
+
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.1

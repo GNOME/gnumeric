@@ -130,13 +130,16 @@ cell_ref_to_python (CellRef *cell)
 {
 	PyObject *mod, *klass, *ret;
 
-	if ((mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE)) == NULL)
+	mod = PyImport_ImportModule ((char *) GNUMERIC_DEFS_MODULE);
+	if (mod == NULL)
 		return NULL;
 
-	if ((klass  = PyObject_GetAttrString (mod, CELL_REF_CLASS)) == NULL)
+	klass  = PyObject_GetAttrString (mod, (char *) CELL_REF_CLASS);
+	if (klass == NULL)
 		return NULL;
 
-	ret = PyObject_CallFunction (klass, "iiii", cell->col, cell->row,
+	ret = PyObject_CallFunction (klass, (char *) "iiii",
+				     cell->col, cell->row,
 				     cell->col_relative, cell->row_relative
 				     /*, sheet */);
 	Py_DECREF (klass);
@@ -153,15 +156,17 @@ range_to_python (Value *v)
 {
 	PyObject *mod, *klass = NULL, *ret = NULL;
 
-	if ((mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE)) == NULL)
+	mod = PyImport_ImportModule ((char *) GNUMERIC_DEFS_MODULE);
+	if (mod == NULL)
 		return NULL;
 
-	if ((klass  = PyObject_GetAttrString (mod, CELL_RANGE_CLASS)) == NULL)
+	klass  = PyObject_GetAttrString (mod, (char *) CELL_RANGE_CLASS);
+	if (klass == NULL)
 		return NULL;
 
 	/* FIXME : Support inverted ranges */
 	ret = PyObject_CallFunction
-		(klass, "O&O&",
+		(klass, (char *) "O&O&",
 		 cell_ref_to_python, &v->v_range.cell.a,
 		 cell_ref_to_python, &v->v_range.cell.b);
 
@@ -182,10 +187,12 @@ boolean_to_python (Value *v)
 {
 	PyObject *mod;
 
-	if ((mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE)) == NULL)
+	mod = PyImport_ImportModule ((char *) GNUMERIC_DEFS_MODULE);
+	if (mod == NULL)
 		return NULL;
 
-	return PyObject_GetAttrString (mod, v->v_bool.val ? "TRUE" : "FALSE");
+	return PyObject_GetAttrString
+		(mod, (char *) (v->v_bool.val ? "TRUE" : "FALSE"));
 }
 
 /**
@@ -315,10 +322,10 @@ boolean_check (PyObject *o)
 	PyObject *klass;
 	gchar *s;
 
-	if (!PyObject_HasAttrString (o, "__class__"))
+	if (!PyObject_HasAttrString (o, (char *) "__class__"))
 		return FALSE;
 
-	klass = PyObject_GetAttrString (o, "__class__");
+	klass = PyObject_GetAttrString (o, (char *) "__class__");
 	s = PyString_AsString (PyObject_Str (klass));
 	Py_XDECREF (klass);
 	return (s != NULL &&
@@ -338,7 +345,7 @@ boolean_from_python (PyObject *o)
 	PyObject *ret;
 	Value *v;
 
-	if (!(ret = PyObject_CallMethod (o, "__nonzero__", NULL)))
+	if (!(ret = PyObject_CallMethod (o, (char *) "__nonzero__", NULL)))
 		return NULL;
 
 	v = value_new_bool (PyInt_AsLong (ret) ? TRUE : FALSE);
@@ -363,10 +370,10 @@ range_check (PyObject *o)
 	PyObject *klass;
 	gchar *s;
 
-	if (!PyObject_HasAttrString (o, "__class__"))
+	if (!PyObject_HasAttrString (o, (char *) "__class__"))
 		return FALSE;
 
-	klass = PyObject_GetAttrString  (o, "__class__");
+	klass = PyObject_GetAttrString  (o, (char *) "__class__");
 	s = PyString_AsString (PyObject_Str (klass));
 	Py_XDECREF (klass);
 	return (s != NULL &&
@@ -389,23 +396,23 @@ cell_ref_from_python (PyObject *o, CellRef *c)
 	PyObject *column = NULL, *row = NULL;
 	PyObject *col_relative = NULL, *row_relative = NULL/*, *sheet = NULL */;
 
-	column = PyObject_GetAttrString (o, "column");
+	column = PyObject_GetAttrString (o, (char *) "column");
 	if (!column || !PyInt_Check (column))
 		goto cleanup;
 
-	row = PyObject_GetAttrString (o, "row");
+	row = PyObject_GetAttrString (o, (char *) "row");
 	if (!row || !PyInt_Check (row))
 		goto cleanup;
 
-	col_relative = PyObject_GetAttrString (o, "col_relative");
+	col_relative = PyObject_GetAttrString (o, (char *) "col_relative");
 	if (!col_relative || !PyInt_Check (col_relative))
 		goto cleanup;
 
-	row_relative = PyObject_GetAttrString (o, "row_relative");
+	row_relative = PyObject_GetAttrString (o, (char *) "row_relative");
 	if (!row_relative || !PyInt_Check (row_relative))
 		goto cleanup;
 
-	/* sheet        = PyObject_GetAttrString (o, "sheet"); */
+	/* sheet        = PyObject_GetAttrString (o, (char *) "sheet"); */
 	/* if (!sheet || !PyString_Check (sheet) */
 	/*         goto cleanup; */
 
@@ -440,10 +447,10 @@ range_from_python (PyObject *o, EvalPos const *pos)
 	CellRef a, b;
 	Value *ret = NULL;
 
-	if ((range = PyObject_GetAttrString  (o, "range")) == NULL)
+	if ((range = PyObject_GetAttrString  (o, (char *) "range")) == NULL)
 		return NULL;
 
-	if (!PyArg_ParseTuple (range, "O&O&",
+	if (!PyArg_ParseTuple (range, (char *) "O&O&",
 			       cell_ref_from_python, &a,
 			       cell_ref_from_python, &b))
 		goto cleanup;
@@ -741,7 +748,8 @@ apply (PyObject *m, PyObject *py_args)
 	Value *v = NULL;
 
 
-	if (!PyArg_ParseTuple (py_args, "OsO", &context, &funcname, &seq))
+	if (!PyArg_ParseTuple (py_args, (char *) "OsO",
+			       &context, &funcname, &seq))
 		return NULL;
 
 	if ((ei = (FunctionEvalInfo *) PyCObject_AsVoidPtr (context)) == NULL)
@@ -814,10 +822,12 @@ register_function (PyObject *m, PyObject *py_args)
 	FunctionCategory *cat;
 	FunctionDefinition *fndef;
 	FuncData *fdata;
-	char *name, *category_name, *args, *named_args, *help1, **help;
+	char *name, *category_name, *args, *named_args, *help1;
+	char const **help;
 	PyObject *codeobj;
 
-	if (!PyArg_ParseTuple (py_args, "sssssO", &name, &category_name,
+	if (!PyArg_ParseTuple (py_args, (char *) "sssssO",
+			       &name, &category_name,
 			       &args, &named_args, &help1, &codeobj))
 		return NULL;
 
@@ -827,7 +837,7 @@ register_function (PyObject *m, PyObject *py_args)
 	}
 
 	cat   = function_get_category (category_name);
-	help  = g_new (char *, 1);
+	help = g_new (char const *, 1);
 	*help = g_strdup (help1);
 	if (*args)
 		fndef = function_add_args (cat, g_strdup (name),
@@ -855,8 +865,8 @@ register_function (PyObject *m, PyObject *py_args)
  * Method table.
  */
 static const PyMethodDef gnumeric_funcs[] = {
-	{ "apply",             apply,             METH_VARARGS },
-	{ "register_function", register_function, METH_VARARGS },
+	{ (char *) "apply",             apply,             METH_VARARGS },
+	{ (char *) "register_function", register_function, METH_VARARGS },
 	{ NULL, NULL },
 };
 
@@ -871,14 +881,16 @@ initgnumeric (void)
 {
 	PyObject *m, *d;
 
-	PyImport_AddModule ("gnumeric");
-	m = Py_InitModule ("gnumeric", gnumeric_funcs);
+	PyImport_AddModule ((char *) "gnumeric");
+	m = Py_InitModule ((char *) "gnumeric",
+			   (PyMethodDef *) gnumeric_funcs);
 
 	/* Add our own exception class. */
 	d = PyModule_GetDict (m);
-	GnumericError = PyErr_NewException ("gnumeric.error", NULL, NULL);
+	GnumericError = PyErr_NewException ((char *) "gnumeric.error",
+					    NULL, NULL);
 	if (GnumericError != NULL)
-		PyDict_SetItemString (d, "error", GnumericError);
+		PyDict_SetItemString (d, (char *) "error", GnumericError);
 }
 
 gboolean
@@ -915,7 +927,7 @@ plugin_init_general (ErrorInfo **ret_error)
 
 	*ret_error = NULL;
 	/* initialize the python interpreter */
-	Py_SetProgramName ("gnumeric");
+	Py_SetProgramName ((char *) "gnumeric");
 	Py_Initialize ();
 
 	/* setup standard functions */
@@ -942,7 +954,7 @@ plugin_init_general (ErrorInfo **ret_error)
 		dir = gnumeric_sys_data_dir ("python");
 		name = g_concat_dir_and_file (dir, "gnumeric_startup.py");
 
-		ret = PyRun_SimpleString ("import sys");
+		ret = PyRun_SimpleString ((char *) "import sys");
 		if (ret == 0) {
 			g_snprintf (buf, sizeof buf,
 				    "sys.path.append(\"%s\")", dir);

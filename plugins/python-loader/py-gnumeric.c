@@ -114,7 +114,7 @@ static InterpreterInfo *current_interpreter_info;
 
 static PyObject *py_initgnumeric (PluginInfo *pinfo);
 
-static gchar *plugin_argv[] = {"gnumeric", NULL};
+static const gchar *plugin_argv[] = {"gnumeric", NULL};
 
 
 InterpreterInfo *
@@ -128,7 +128,8 @@ create_python_interpreter (PluginInfo *pinfo)
 	if (py_thread_state == NULL) {
 		return NULL;
 	}
-	PySys_SetArgv (sizeof plugin_argv / sizeof plugin_argv[0] - 1, plugin_argv);
+	PySys_SetArgv (sizeof plugin_argv / sizeof plugin_argv[0] - 1,
+		       (char **) plugin_argv);
 	Gnumeric_module = py_initgnumeric (pinfo);
 
 	interpreter_info = g_new (InterpreterInfo, 1);
@@ -137,7 +138,7 @@ create_python_interpreter (PluginInfo *pinfo)
 	interpreter_info->Gnumeric_module_dict = PyModule_GetDict (Gnumeric_module);
 	interpreter_info->GnumericError = PyDict_GetItemString (
 	                                  interpreter_info->Gnumeric_module_dict,
-	                                  "GnumericError");
+	                                  (char *) "GnumericError");
 	interpreter_info->eval_pos = NULL;
 
 	current_interpreter_info = interpreter_info;
@@ -516,7 +517,7 @@ py_new_Boolean_object (gboolean value)
 PyTypeObject py_Boolean_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"Boolean",                                /* tp_name */
+	(char *) "Boolean",                       /* tp_name */
 	sizeof (py_Boolean_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_Boolean_object_dealloc,  /* tp_dealloc */
@@ -551,7 +552,8 @@ static PyObject *
 py_CellPos_get_tuple_method (py_CellPos_object *self, PyObject *args);
 
 static struct PyMethodDef py_CellPos_object_methods[] = {
-	{"get_tuple", (PyCFunction) py_CellPos_get_tuple_method,   METH_VARARGS},
+	{(char *) "get_tuple", (PyCFunction) py_CellPos_get_tuple_method,
+	 METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -564,20 +566,20 @@ py_CellPos_as_CellPos (py_CellPos_object *self)
 static PyObject *
 py_CellPos_get_tuple_method (py_CellPos_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_tuple")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_tuple")) {
 		return NULL;
 	}
 
-	return Py_BuildValue ("(ii)", self->cell_pos.col, self->cell_pos.row);
+	return Py_BuildValue ((char *) "(ii)", self->cell_pos.col, self->cell_pos.row);
 }
 
 static PyObject *
 py_CellPos_object_getattr (py_CellPos_object *self, gchar *name)
 {
 	if (strcmp (name, "col") == 0) {
-		return Py_BuildValue ("i", self->cell_pos.col);
+		return Py_BuildValue ((char *) "i", self->cell_pos.col);
 	} else if (strcmp (name, "row") == 0) {
-		return Py_BuildValue ("i", self->cell_pos.row);
+		return Py_BuildValue ((char *) "i", self->cell_pos.row);
 	} else {
 		return Py_FindMethod (py_CellPos_object_methods, (PyObject *) self, name);
 	}
@@ -617,7 +619,7 @@ py_new_CellPos_object_from_col_row (gint col, gint row)
 PyTypeObject py_CellPos_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"CellPos",                                /* tp_name */
+	(char * ) "CellPos",                      /* tp_name */
 	sizeof (py_CellPos_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_CellPos_object_dealloc,  /* tp_dealloc */
@@ -652,7 +654,8 @@ static PyObject *
 py_Range_get_tuple_method (py_Range_object *self, PyObject *args);
 
 static struct PyMethodDef py_Range_object_methods[] = {
-	{"get_tuple", (PyCFunction) py_Range_get_tuple_method,   METH_VARARGS},
+	{(char *) "get_tuple", (PyCFunction) py_Range_get_tuple_method,
+	 METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -665,11 +668,11 @@ py_Range_as_Range (py_Range_object *self)
 static PyObject *
 py_Range_get_tuple_method (py_Range_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_tuple")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_tuple")) {
 		return NULL;
 	}
 
-	return Py_BuildValue ("(iiii)",
+	return Py_BuildValue ((char *) "(iiii)",
 	                      self->range.start.col, self->range.start.row,
 	                      self->range.end.col, self->range.end.row);
 }
@@ -720,7 +723,7 @@ py_new_Range_object_from_start_end (const CellPos *start, const CellPos *end)
 PyTypeObject py_Range_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"Range",                                  /* tp_name */
+	(char *) "Range",                         /* tp_name */
 	sizeof (py_Range_object),                 /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_Range_object_dealloc,    /* tp_dealloc */
@@ -791,7 +794,7 @@ py_new_CellRef_object (const CellRef *cell_ref)
 PyTypeObject py_CellRef_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"CellRef",                                /* tp_name */
+	(char *) "CellRef",                       /* tp_name */
 	sizeof (py_CellRef_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_CellRef_object_dealloc,  /* tp_dealloc */
@@ -862,7 +865,7 @@ py_new_RangeRef_object (const RangeRef *range_ref)
 PyTypeObject py_RangeRef_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"RangeRef",                                /* tp_name */
+	(char *) "RangeRef",                       /* tp_name */
 	sizeof (py_RangeRef_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_RangeRef_object_dealloc,  /* tp_dealloc */
@@ -915,16 +918,26 @@ static PyObject *
 py_mstyle_get_wrap_text_method (py_MStyle_object *self, PyObject *args);
 
 static struct PyMethodDef py_MStyle_object_methods[] = {
-	{"set_font_bold",   (PyCFunction) py_mstyle_set_font_bold_method,   METH_VARARGS},
-	{"get_font_bold",   (PyCFunction) py_mstyle_get_font_bold_method,   METH_VARARGS},
-	{"set_font_italic", (PyCFunction) py_mstyle_set_font_italic_method, METH_VARARGS},
-	{"get_font_italic", (PyCFunction) py_mstyle_get_font_italic_method, METH_VARARGS},
-	{"set_font_strike", (PyCFunction) py_mstyle_set_font_strike_method, METH_VARARGS},
-	{"get_font_strike", (PyCFunction) py_mstyle_get_font_strike_method, METH_VARARGS},
-	{"set_font_size",   (PyCFunction) py_mstyle_set_font_size_method,   METH_VARARGS},
-	{"get_font_size",   (PyCFunction) py_mstyle_get_font_size_method,   METH_VARARGS},
-	{"set_wrap_text",   (PyCFunction) py_mstyle_set_wrap_text_method,   METH_VARARGS},
-	{"get_wrap_text",   (PyCFunction) py_mstyle_get_wrap_text_method,   METH_VARARGS},
+	{(char *) "set_font_bold",
+	 (PyCFunction) py_mstyle_set_font_bold_method,   METH_VARARGS},
+	{(char *) "get_font_bold",
+	 (PyCFunction) py_mstyle_get_font_bold_method,   METH_VARARGS},
+	{(char *) "set_font_italic",
+	 (PyCFunction) py_mstyle_set_font_italic_method, METH_VARARGS},
+	{(char *) "get_font_italic",
+	 (PyCFunction) py_mstyle_get_font_italic_method, METH_VARARGS},
+	{(char *) "set_font_strike",
+	 (PyCFunction) py_mstyle_set_font_strike_method, METH_VARARGS},
+	{(char *) "get_font_strike",
+	 (PyCFunction) py_mstyle_get_font_strike_method, METH_VARARGS},
+	{(char *) "set_font_size",
+	 (PyCFunction) py_mstyle_set_font_size_method,   METH_VARARGS},
+	{(char *) "get_font_size",
+	 (PyCFunction) py_mstyle_get_font_size_method,   METH_VARARGS},
+	{(char *) "set_wrap_text",
+	 (PyCFunction) py_mstyle_set_wrap_text_method,   METH_VARARGS},
+	{(char *) "get_wrap_text",
+	 (PyCFunction) py_mstyle_get_wrap_text_method,   METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -939,7 +952,7 @@ py_mstyle_set_font_bold_method (py_MStyle_object *self, PyObject *args)
 {
 	gint bold;
 
-	if (!PyArg_ParseTuple (args, "i:set_font_bold", &bold)) {
+	if (!PyArg_ParseTuple (args, (char *) "i:set_font_bold", &bold)) {
 		return NULL;
 	}
 
@@ -952,11 +965,12 @@ py_mstyle_set_font_bold_method (py_MStyle_object *self, PyObject *args)
 static PyObject *
 py_mstyle_get_font_bold_method (py_MStyle_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_font_bold")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_font_bold")) {
 		return NULL;
 	}
 
-	return Py_BuildValue ("i", mstyle_get_font_bold (self->mstyle));
+	return Py_BuildValue ((char *) "i",
+			      mstyle_get_font_bold (self->mstyle));
 }
 
 static PyObject *
@@ -964,7 +978,7 @@ py_mstyle_set_font_italic_method (py_MStyle_object *self, PyObject *args)
 {
 	gint italic;
 
-	if (!PyArg_ParseTuple (args, "i:set_font_italic", &italic)) {
+	if (!PyArg_ParseTuple (args, (char *) "i:set_font_italic", &italic)) {
 		return NULL;
 	}
 
@@ -977,11 +991,12 @@ py_mstyle_set_font_italic_method (py_MStyle_object *self, PyObject *args)
 static PyObject *
 py_mstyle_get_font_italic_method (py_MStyle_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_font_italic")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_font_italic")) {
 		return NULL;
 	}
 
-	return Py_BuildValue ("i", mstyle_get_font_italic (self->mstyle));
+	return Py_BuildValue ((char *) "i",
+			      mstyle_get_font_italic (self->mstyle));
 }
 
 static PyObject *
@@ -989,7 +1004,7 @@ py_mstyle_set_font_strike_method (py_MStyle_object *self, PyObject *args)
 {
 	gint strike;
 
-	if (!PyArg_ParseTuple (args, "i:set_font_strike", &strike)) {
+	if (!PyArg_ParseTuple (args, (char *) "i:set_font_strike", &strike)) {
 		return NULL;
 	}
 
@@ -1002,11 +1017,12 @@ py_mstyle_set_font_strike_method (py_MStyle_object *self, PyObject *args)
 static PyObject *
 py_mstyle_get_font_strike_method (py_MStyle_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_font_strike")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_font_strike")) {
 		return NULL;
 	}
 
-	return Py_BuildValue ("i", mstyle_get_font_strike (self->mstyle));
+	return Py_BuildValue ((char *) "i",
+			      mstyle_get_font_strike (self->mstyle));
 }
 
 static PyObject *
@@ -1014,7 +1030,7 @@ py_mstyle_set_font_size_method (py_MStyle_object *self, PyObject *args)
 {
 	gdouble size;
 
-	if (!PyArg_ParseTuple (args, "d:set_font_size", &size)) {
+	if (!PyArg_ParseTuple (args, (char *) "d:set_font_size", &size)) {
 		return NULL;
 	}
 
@@ -1027,11 +1043,12 @@ py_mstyle_set_font_size_method (py_MStyle_object *self, PyObject *args)
 static PyObject *
 py_mstyle_get_font_size_method (py_MStyle_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":set_font_size")) {
+	if (!PyArg_ParseTuple (args, (char *) ":set_font_size")) {
 		return NULL;
 	}
 
-	return Py_BuildValue ("d", mstyle_get_font_size (self->mstyle));
+	return Py_BuildValue ((char *) "d",
+			      mstyle_get_font_size (self->mstyle));
 }
 
 static PyObject *
@@ -1039,7 +1056,8 @@ py_mstyle_set_wrap_text_method (py_MStyle_object *self, PyObject *args)
 {
 	gint wrap_text;
 
-	if (!PyArg_ParseTuple (args, "i:set_wrap_text", &wrap_text)) {
+	if (!PyArg_ParseTuple (args, (char * )"i:set_wrap_text",
+			       &wrap_text)) {
 		return NULL;
 	}
 
@@ -1052,11 +1070,12 @@ py_mstyle_set_wrap_text_method (py_MStyle_object *self, PyObject *args)
 static PyObject *
 py_mstyle_get_wrap_text_method (py_MStyle_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_wrap_text")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_wrap_text")) {
 		return NULL;
 	}
 
-	return Py_BuildValue ("i", mstyle_get_wrap_text (self->mstyle));
+	return Py_BuildValue ((char *) "i",
+			      mstyle_get_wrap_text (self->mstyle));
 }
 
 static PyObject *
@@ -1090,7 +1109,7 @@ py_new_MStyle_object (MStyle *mstyle)
 PyTypeObject py_MStyle_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"MStyle",  /* tp_name */
+	(char *) "MStyle",  /* tp_name */
 	sizeof (py_MStyle_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_MStyle_object_dealloc,  /* tp_dealloc */
@@ -1135,12 +1154,18 @@ static PyObject *
 py_Cell_get_entered_text_method (py_Cell_object *self, PyObject *args);
 
 static struct PyMethodDef py_Cell_object_methods[] = {
-	{"set_text",            (PyCFunction) py_Cell_set_text_method,            METH_VARARGS},
-	{"get_mstyle",          (PyCFunction) py_Cell_get_mstyle_method,          METH_VARARGS},
-	{"get_value",           (PyCFunction) py_Cell_get_value_method,           METH_VARARGS},
-	{"get_value_as_string", (PyCFunction) py_Cell_get_value_as_string_method, METH_VARARGS},
-	{"get_rendered_text",   (PyCFunction) py_Cell_get_rendered_text_method,   METH_VARARGS},
-	{"get_entered_text",    (PyCFunction) py_Cell_get_entered_text_method,    METH_VARARGS},
+	{(char *) "set_text",
+	 (PyCFunction) py_Cell_set_text_method,            METH_VARARGS},
+	{(char *) "get_mstyle",
+	 (PyCFunction) py_Cell_get_mstyle_method,          METH_VARARGS},
+	{(char *) "get_value",
+	 (PyCFunction) py_Cell_get_value_method,           METH_VARARGS},
+	{(char *) "get_value_as_string",
+	 (PyCFunction) py_Cell_get_value_as_string_method, METH_VARARGS},
+	{(char *) "get_rendered_text",
+	 (PyCFunction) py_Cell_get_rendered_text_method,   METH_VARARGS},
+	{(char *) "get_entered_text",
+	 (PyCFunction) py_Cell_get_entered_text_method,    METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -1155,7 +1180,7 @@ py_Cell_set_text_method (py_Cell_object *self, PyObject *args)
 {
 	gchar *text;
 
-	if (!PyArg_ParseTuple (args, "s:set_text", &text)) {
+	if (!PyArg_ParseTuple (args, (char *) "s:set_text", &text)) {
 		return NULL;
 	}
 
@@ -1170,7 +1195,7 @@ py_Cell_get_mstyle_method (py_Cell_object *self, PyObject *args)
 {
 	MStyle *mstyle;
 
-	if (!PyArg_ParseTuple (args, ":get_mstyle")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_mstyle")) {
 		return NULL;
 	}
 
@@ -1184,7 +1209,7 @@ py_Cell_get_value_method (py_Cell_object *self, PyObject *args)
 {
 	EvalPos eval_pos;
 
-	if (!PyArg_ParseTuple (args, ":get_value")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_value")) {
 		return NULL;
 	}
 
@@ -1198,7 +1223,7 @@ py_Cell_get_value_as_string_method (py_Cell_object *self, PyObject *args)
 	PyObject *py_ret_val;
 	gchar *str;
 
-	if (!PyArg_ParseTuple (args, ":get_value_as_string")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_value_as_string")) {
 		return NULL;
 	}
 
@@ -1215,7 +1240,7 @@ py_Cell_get_rendered_text_method (py_Cell_object *self, PyObject *args)
 	gchar *text;
 	PyObject *py_text;
 
-	if (!PyArg_ParseTuple (args, ":get_rendered_text")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_rendered_text")) {
 		return NULL;
 	}
 
@@ -1232,7 +1257,7 @@ py_Cell_get_entered_text_method (py_Cell_object *self, PyObject *args)
 	gchar *text;
 	PyObject *py_text;
 
-	if (!PyArg_ParseTuple (args, ":get_entered_text")) {
+	if (!PyArg_ParseTuple (args, (char *)" :get_entered_text")) {
 		return NULL;
 	}
 
@@ -1272,7 +1297,7 @@ py_new_Cell_object (Cell *cell)
 PyTypeObject py_Cell_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"Cell",  /* tp_name */
+	(char *) "Cell",  /* tp_name */
 	sizeof (py_Cell_object),                /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_Cell_object_dealloc,   /* tp_dealloc */
@@ -1321,14 +1346,22 @@ static PyObject *
 py_sheet_get_name_unquoted_method (py_Sheet_object *self, PyObject *args);
 
 static struct PyMethodDef py_Sheet_object_methods[] = {
-	{"cell_fetch",         (PyCFunction) py_sheet_cell_fetch_method,        METH_VARARGS},
-	{"style_get",          (PyCFunction) py_sheet_style_get_method,         METH_VARARGS},
-	{"style_apply_range",  (PyCFunction) py_sheet_style_apply_range_method, METH_VARARGS},
-	{"style_set_range",    (PyCFunction) py_sheet_style_set_range_method,   METH_VARARGS},
-	{"style_set_pos",      (PyCFunction) py_sheet_style_set_pos_method,     METH_VARARGS},
-	{"get_extent",         (PyCFunction) py_sheet_get_extent_method,        METH_VARARGS},
-	{"rename",             (PyCFunction) py_sheet_rename_method,            METH_VARARGS},
-	{"get_name_unquoted",  (PyCFunction) py_sheet_get_name_unquoted_method, METH_VARARGS},
+	{(char *) "cell_fetch",
+	 (PyCFunction) py_sheet_cell_fetch_method,        METH_VARARGS},
+	{(char *) "style_get",
+	 (PyCFunction) py_sheet_style_get_method,         METH_VARARGS},
+	{(char *) "style_apply_range",
+	 (PyCFunction) py_sheet_style_apply_range_method, METH_VARARGS},
+	{(char *) "style_set_range",
+	 (PyCFunction) py_sheet_style_set_range_method,   METH_VARARGS},
+	{(char *) "style_set_pos",
+	 (PyCFunction) py_sheet_style_set_pos_method,     METH_VARARGS},
+	{(char *) "get_extent",
+         (PyCFunction) py_sheet_get_extent_method,        METH_VARARGS},
+	{(char *) "rename",
+	 (PyCFunction) py_sheet_rename_method,            METH_VARARGS},
+	{(char *) "get_name_unquoted",
+	 (PyCFunction) py_sheet_get_name_unquoted_method, METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -1344,7 +1377,7 @@ py_sheet_cell_fetch_method (py_Sheet_object *self, PyObject *args)
 	gint col, row;
 	Cell *cell;
 
-	if (!PyArg_ParseTuple (args, "ii:cell_fetch", &col, &row)) {
+	if (!PyArg_ParseTuple (args, (char *) "ii:cell_fetch", &col, &row)) {
 		return NULL;
 	}
 
@@ -1360,11 +1393,11 @@ py_sheet_style_get_method (py_Sheet_object *self, PyObject *args)
 	py_CellPos_object *py_cell_pos;
 	MStyle *mstyle;
 
-	if (PyArg_ParseTuple (args, "ii:style_get", &col, &row)) {
+	if (PyArg_ParseTuple (args, (char *) "ii:style_get", &col, &row)) {
 		;
 	} else {
 		PyErr_Clear ();
-		if (PyArg_ParseTuple (args, "O!:style_get",
+		if (PyArg_ParseTuple (args, (char *) "O!:style_get",
 		                      &py_CellPos_object_type, &py_cell_pos)) {
 			col = py_cell_pos->cell_pos.col;
 			row = py_cell_pos->cell_pos.row;
@@ -1384,7 +1417,7 @@ py_sheet_style_apply_range_method (py_Sheet_object *self, PyObject *args)
 	py_Range_object *py_range;
 	py_MStyle_object *py_mstyle;
 
-	if (!PyArg_ParseTuple (args, "O!O!:style_apply_range",
+	if (!PyArg_ParseTuple (args, (char *) "O!O!:style_apply_range",
 	                       &py_Range_object_type, &py_range,
 	                       &py_MStyle_object_type, &py_mstyle)) {
 		return NULL;
@@ -1402,7 +1435,7 @@ py_sheet_style_set_range_method (py_Sheet_object *self, PyObject *args)
 	py_Range_object *py_range;
 	py_MStyle_object *py_mstyle;
 
-	if (!PyArg_ParseTuple (args, "O!O!:style_set_range",
+	if (!PyArg_ParseTuple (args, (char *) "O!O!:style_set_range",
 	                       &py_Range_object_type, &py_range,
 	                       &py_MStyle_object_type, &py_mstyle)) {
 		return NULL;
@@ -1421,12 +1454,12 @@ py_sheet_style_set_pos_method (py_Sheet_object *self, PyObject *args)
 	py_CellPos_object *py_cell_pos;
 	py_MStyle_object *py_mstyle;
 
-	if (PyArg_ParseTuple (args, "iiO!:style_set_pos",
+	if (PyArg_ParseTuple (args, (char *) "iiO!:style_set_pos",
 	                      &col, &row, &py_MStyle_object_type, &py_mstyle)) {
 		;
 	} else {
 		PyErr_Clear ();
-		if (!PyArg_ParseTuple (args, "O!O!:style_set_pos",
+		if (!PyArg_ParseTuple (args, (char *) "O!O!:style_set_pos",
 		                       &py_CellPos_object_type, &py_cell_pos,
 		                       &py_MStyle_object_type, &py_mstyle)) {
 			return NULL;
@@ -1443,7 +1476,7 @@ py_sheet_get_extent_method (py_Sheet_object *self, PyObject *args)
 {
 	Range range;
 
-	if (!PyArg_ParseTuple (args, ":get_extent")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_extent")) {
 		return NULL;
 	}
 
@@ -1456,7 +1489,7 @@ py_sheet_rename_method (py_Sheet_object *self, PyObject *args)
 {
 	gchar *new_name;
 
-	if (!PyArg_ParseTuple (args, "s:rename", &new_name)) {
+	if (!PyArg_ParseTuple (args, (char *) "s:rename", &new_name)) {
 		return NULL;
 	}
 
@@ -1469,7 +1502,7 @@ py_sheet_rename_method (py_Sheet_object *self, PyObject *args)
 static PyObject *
 py_sheet_get_name_unquoted_method (py_Sheet_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_name_unquoted")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_name_unquoted")) {
 		return NULL;
 	}
 
@@ -1482,7 +1515,7 @@ py_sheet_subscript (py_Sheet_object *self, PyObject *key)
 	gint col, row;
 	Cell *cell;
 
-	if (!PyArg_ParseTuple (key, "ii", &col, &row)) {
+	if (!PyArg_ParseTuple (key, (char *) "ii", &col, &row)) {
 		return NULL;
 	}
 
@@ -1526,7 +1559,7 @@ static PyMappingMethods py_sheet_as_mapping = {
 PyTypeObject py_Sheet_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"Sheet",  /* tp_name */
+	(char *) "Sheet",  /* tp_name */
 	sizeof (py_Sheet_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_Sheet_object_dealloc,  /* tp_dealloc */
@@ -1561,7 +1594,8 @@ static PyObject *
 py_Workbook_get_sheets_method (py_Workbook_object *self, PyObject *args);
 
 static struct PyMethodDef py_Workbook_object_methods[] = {
-	{"get_sheets", (PyCFunction) py_Workbook_get_sheets_method, METH_VARARGS},
+	{(char *) "get_sheets", (PyCFunction) py_Workbook_get_sheets_method,
+	 METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -1578,7 +1612,7 @@ py_Workbook_get_sheets_method (py_Workbook_object *self, PyObject *args)
 	gint i;
 	PyObject *py_sheets;
 
-	if (!PyArg_ParseTuple (args, ":get_sheets")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_sheets")) {
 		return NULL;
 	}
 
@@ -1628,7 +1662,7 @@ py_new_Workbook_object (Workbook *wb)
 PyTypeObject py_Workbook_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"Workbook",  /* tp_name */
+	(char *) "Workbook",  /* tp_name */
 	sizeof (py_Workbook_object),                /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_Workbook_object_dealloc,   /* tp_dealloc */
@@ -1702,7 +1736,7 @@ py_new_GnumericFunc_object (FunctionDefinition *fn_def, const EvalPos *opt_eval_
 PyTypeObject py_GnumericFunc_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"GnumericFunc",  /* tp_name */
+	(char *) "GnumericFunc",  /* tp_name */
 	sizeof (py_GnumericFunc_object),      /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_GnumericFunc_object_dealloc, /* tp_dealloc */
@@ -1742,7 +1776,7 @@ py_GnumericFuncDict_subscript (py_GnumericFuncDict_object *self, PyObject *key)
 	gchar *fn_name;
 	FunctionDefinition *fn_def;
 
-	if (!PyArg_Parse(key, "s", &fn_name)) {
+	if (!PyArg_Parse(key, (char *) "s", &fn_name)) {
 		return NULL;
 	}
 
@@ -1786,7 +1820,7 @@ PyMappingMethods py_GnumericFuncDict_mapping_methods = {
 PyTypeObject py_GnumericFuncDict_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"GnumericFuncDict",  /* tp_name */
+	(char *) "GnumericFuncDict",  /* tp_name */
 	sizeof (py_GnumericFuncDict_object),      /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_GnumericFuncDict_object_dealloc, /* tp_dealloc */
@@ -1827,17 +1861,21 @@ static PyObject *
 py_PluginInfo_get_description_method (py_PluginInfo_object *self, PyObject *args);
 
 static struct PyMethodDef py_PluginInfo_object_methods[] = {
-	{"get_dir_name",    (PyCFunction) py_PluginInfo_get_dir_name_method,    METH_VARARGS},
-	{"get_id",          (PyCFunction) py_PluginInfo_get_id_method,          METH_VARARGS},
-	{"get_name",        (PyCFunction) py_PluginInfo_get_name_method,        METH_VARARGS},
-	{"get_description", (PyCFunction) py_PluginInfo_get_description_method, METH_VARARGS},
+	{(char *) "get_dir_name",
+	 (PyCFunction) py_PluginInfo_get_dir_name_method,    METH_VARARGS},
+	{(char *) "get_id",
+	 (PyCFunction) py_PluginInfo_get_id_method,          METH_VARARGS},
+	{(char *) "get_name",
+	 (PyCFunction) py_PluginInfo_get_name_method,        METH_VARARGS},
+	{(char *) "get_description",
+	 (PyCFunction) py_PluginInfo_get_description_method, METH_VARARGS},
 	{NULL, NULL}
 };
 
 static PyObject *
 py_PluginInfo_get_dir_name_method (py_PluginInfo_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_dir_name")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_dir_name")) {
 		return NULL;
 	}
 
@@ -1847,7 +1885,7 @@ py_PluginInfo_get_dir_name_method (py_PluginInfo_object *self, PyObject *args)
 static PyObject *
 py_PluginInfo_get_id_method (py_PluginInfo_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_id")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_id")) {
 		return NULL;
 	}
 
@@ -1857,7 +1895,7 @@ py_PluginInfo_get_id_method (py_PluginInfo_object *self, PyObject *args)
 static PyObject *
 py_PluginInfo_get_name_method (py_PluginInfo_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_name")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_name")) {
 		return NULL;
 	}
 
@@ -1867,7 +1905,7 @@ py_PluginInfo_get_name_method (py_PluginInfo_object *self, PyObject *args)
 static PyObject *
 py_PluginInfo_get_description_method (py_PluginInfo_object *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple (args, ":get_description")) {
+	if (!PyArg_ParseTuple (args, (char *) ":get_description")) {
 		return NULL;
 	}
 
@@ -1909,7 +1947,7 @@ py_new_PluginInfo_object (PluginInfo *pinfo)
 PyTypeObject py_PluginInfo_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	"PluginInfo",                                /* tp_name */
+	(char *) "PluginInfo",                                /* tp_name */
 	sizeof (py_PluginInfo_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_PluginInfo_object_dealloc,  /* tp_dealloc */
@@ -1941,7 +1979,7 @@ py_gnumeric_Boolean_method (PyObject *self, PyObject *args)
 {
 	PyObject *src_obj;
 
-	if (!PyArg_ParseTuple (args, "O:Boolean", &src_obj)) {
+	if (!PyArg_ParseTuple (args, (char *) "O:Boolean", &src_obj)) {
 		return NULL;
 	}
 
@@ -1953,7 +1991,7 @@ py_gnumeric_CellPos_method (PyObject *self, PyObject *args)
 {
 	gint col, row;
 
-	if (!PyArg_ParseTuple (args, "ii:CellPos", &col, &row)) {
+	if (!PyArg_ParseTuple (args, (char *) "ii:CellPos", &col, &row)) {
 		return NULL;
 	}
 
@@ -1967,7 +2005,7 @@ py_gnumeric_Range_method (PyObject *self, PyObject *args)
 	gint start_col, start_row, end_col, end_row;
 	py_CellPos_object *py_start, *py_end;
 
-	if (PyArg_ParseTuple (args, "iiii:Range",
+	if (PyArg_ParseTuple (args, (char *) "iiii:Range",
 	                      &start_col, &start_row, &end_col, &end_row)) {
 		CellPos start, end;
 		start.col = start_col; start.row = start_row;
@@ -1975,7 +2013,7 @@ py_gnumeric_Range_method (PyObject *self, PyObject *args)
 		result = py_new_Range_object_from_start_end (&start, &end);
 	} else {
 		PyErr_Clear ();
-		if (PyArg_ParseTuple (args, "O!O!:Range",
+		if (PyArg_ParseTuple (args, (char *) "O!O!:Range",
 		                      &py_CellPos_object_type, &py_start,
 		                      &py_CellPos_object_type, &py_end)) {
 			result = py_new_Range_object_from_start_end (&py_start->cell_pos,
@@ -1994,7 +2032,7 @@ py_gnumeric_MStyle_method (PyObject *self, PyObject *args)
 	MStyle *mstyle;
 	PyObject *result;
 
-	if (!PyArg_ParseTuple (args, ":MStyle")) {
+	if (!PyArg_ParseTuple (args, (char *) ":MStyle")) {
 		return NULL;
 	}
 
@@ -2006,10 +2044,10 @@ py_gnumeric_MStyle_method (PyObject *self, PyObject *args)
 }
 
 static PyMethodDef GnumericMethods[] = {
-	{ "Boolean", py_gnumeric_Boolean_method, METH_VARARGS },
-	{ "CellPos", py_gnumeric_CellPos_method, METH_VARARGS },
-	{ "Range",   py_gnumeric_Range_method,   METH_VARARGS },
-	{ "MStyle",  py_gnumeric_MStyle_method,  METH_VARARGS },
+	{ (char *) "Boolean", py_gnumeric_Boolean_method, METH_VARARGS },
+	{ (char *) "CellPos", py_gnumeric_CellPos_method, METH_VARARGS },
+	{ (char *) "Range",   py_gnumeric_Range_method,   METH_VARARGS },
+	{ (char *) "MStyle",  py_gnumeric_MStyle_method,  METH_VARARGS },
 	{ NULL, NULL },
 };
 
@@ -2019,38 +2057,52 @@ py_initgnumeric (PluginInfo *pinfo)
 {
 	PyObject *module, *module_dict;
 
-	PyImport_AddModule ("Gnumeric");
-	module = Py_InitModule ("Gnumeric", GnumericMethods);
+	PyImport_AddModule ((char *) "Gnumeric");
+	module = Py_InitModule ((char *) "Gnumeric", GnumericMethods);
 	module_dict = PyModule_GetDict (module);
 	g_assert (module_dict != NULL);
 
-	(void) PyDict_SetItemString (module_dict, "TRUE", py_new_Boolean_object (TRUE));
-	(void) PyDict_SetItemString (module_dict, "FALSE", py_new_Boolean_object (FALSE));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "TRUE", py_new_Boolean_object (TRUE));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "FALSE", py_new_Boolean_object (FALSE));
 
-	(void) PyDict_SetItemString (module_dict, "GnumericError",
-	                             PyErr_NewException("Gnumeric.GnumericError", NULL, NULL));
-	(void) PyDict_SetItemString (module_dict, "GnumericErrorNULL",
-	                             PyString_FromString (gnumeric_err_NULL));
-	(void) PyDict_SetItemString (module_dict, "GnumericErrorDIV0",
-	                             PyString_FromString (gnumeric_err_DIV0));
-	(void) PyDict_SetItemString (module_dict, "GnumericErrorVALUE",
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "GnumericError",
+		 PyErr_NewException ((char *) "Gnumeric.GnumericError",
+				     NULL, NULL));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "GnumericErrorNULL",
+		 PyString_FromString (gnumeric_err_NULL));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "GnumericErrorDIV0",
+		 PyString_FromString (gnumeric_err_DIV0));
+	(void) PyDict_SetItemString (module_dict,
+				     (char *) "GnumericErrorVALUE",
 	                             PyString_FromString (gnumeric_err_VALUE));
-	(void) PyDict_SetItemString (module_dict, "GnumericErrorREF",
-	                             PyString_FromString (gnumeric_err_REF));
-	(void) PyDict_SetItemString (module_dict, "GnumericErrorNAME",
-	                             PyString_FromString (gnumeric_err_NAME));
-	(void) PyDict_SetItemString (module_dict, "GnumericErrorNUM",
-	                             PyString_FromString (gnumeric_err_NUM));
-	(void) PyDict_SetItemString (module_dict, "GnumericErrorNA",
-	                             PyString_FromString (gnumeric_err_NA));
-	(void) PyDict_SetItemString (module_dict, "GnumericErrorRECALC",
-	                             PyString_FromString (gnumeric_err_RECALC));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "GnumericErrorREF",
+		 PyString_FromString (gnumeric_err_REF));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "GnumericErrorNAME",
+		 PyString_FromString (gnumeric_err_NAME));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "GnumericErrorNUM",
+		 PyString_FromString (gnumeric_err_NUM));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "GnumericErrorNA",
+		 PyString_FromString (gnumeric_err_NA));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "GnumericErrorRECALC",
+		 PyString_FromString (gnumeric_err_RECALC));
 
-	(void) PyDict_SetItemString (module_dict, "functions",
-	                             py_new_GnumericFuncDict_object (module_dict));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "functions",
+		 py_new_GnumericFuncDict_object (module_dict));
 
-	(void) PyDict_SetItemString (module_dict, "plugin_info",
-	                             py_new_PluginInfo_object (pinfo));
+	(void) PyDict_SetItemString
+		(module_dict, (char *) "plugin_info",
+		 py_new_PluginInfo_object (pinfo));
 
 	return module;
 }
